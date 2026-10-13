@@ -1,0 +1,39 @@
+{
+  "gate": "METHOD_C_GATE_C1_SINGLE_CYCLE_VERIFICATION",
+  "solver_telemetry": {
+    "status": "PARSED",
+    "total_increments": 5058,
+    "step1_increments": 10,
+    "step2_increments": 5048,
+    "cutbacks": 14,
+    "severe_discontinuities": 0,
+    "final_step": 2,
+    "final_time": 2.0
+  },
+  "metrics": {
+    "step1_reload": {
+      "num_points": 10,
+      "handoff_displacement_mm": 0.005,
+      "handoff_reaction_force_kn": 0.65246675,
+      "effective_reload_stiffness_k0_kn_per_mm": 130.49335
+    },
+    "step_boundary": {
+      "delta_rf_boundary_kn": 9.250000000005087e-05,
+      "boundary_continuous": true,
+      "criterion_max_delta_rf_kn": 0.005
+    },
+    "step2_continuation": {
+      "num_points": 5048,
+      "peak_force_fmax_kn": 1.086839,
+      "displacement_at_peak_mm": 0.009234,
+      "final_force_kn": 0.027694544
+    },
+    "energy_balance": {
+      "num_records": 5058,
+      "initial_fracture_energy_knmm": 4.5239177e-06,
+      "final_fracture_energy_knmm": 0.0047767204,
+      "final_elastic_energy_knmm": 0.00013847272,
+      "final_total_energy_knmm": 0.0049151931
+    }
+  }
+}

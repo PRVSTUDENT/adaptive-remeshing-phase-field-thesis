@@ -29,20 +29,22 @@ def parse_sta_file(sta_path: Path) -> Dict[str, Any]:
             parts = line.split()
             # Standard Abaqus .sta format without DOF monitor has 9 columns:
             # STEP, INC, ATT, SEVERE DISCON, EQUIL ITERS, TOTAL ITERS, TOTAL TIME, STEP TIME, INC TIME
-            if len(parts) >= 9 and parts[0].isdigit() and parts[1].isdigit():
+            if len(parts) >= 9 and parts[0].isdigit() and (parts[1].isdigit() or parts[1][:-1].isdigit()):
                 step = int(parts[0])
-                inc = int(parts[1])
-                att = int(parts[2])
+                inc = int(parts[1]) if parts[1].isdigit() else int(parts[1][:-1])
+                att_str = parts[2]
+                is_cutback = "U" in att_str or att_str.endswith("U")
                 sd = int(parts[3])
                 tot_time = float(parts[6])
 
-                total_incs += 1
-                if step == 1:
-                    step1_incs += 1
-                elif step == 2:
-                    step2_incs += 1
-                if att > 1:
-                    cutbacks += (att - 1)
+                if is_cutback:
+                    cutbacks += 1
+                else:
+                    total_incs += 1
+                    if step == 1:
+                        step1_incs += 1
+                    elif step == 2:
+                        step2_incs += 1
                 severe_discon += sd
                 last_step = step
                 last_time = tot_time

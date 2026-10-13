@@ -1,9 +1,16 @@
 {
   "active": false,
-  "agent": null,
-  "task_id": null,
-  "claimed_at": null,
-  "heartbeat_at": null,
-  "starting_commit": null,
-  "allowed_write_scope": []
+  "agent": "gemini-antigravity",
+  "task_id": "F1436-MODE1-SOLVER-MONITORING-AND-EVALUATION",
+  "claimed_at": "2026-10-13T17:05:00+02:00",
+  "heartbeat_at": "2026-10-13T17:30:00+02:00",
+  "starting_commit": "cc23712b0f1c06f1ca459894d19dafc83bce9107",
+  "allowed_write_scope": [
+    "project_coordination/*",
+    "scripts/*",
+    "models/*",
+    "tests/*",
+    "docs/*",
+    "results/*"
+  ]
 }
