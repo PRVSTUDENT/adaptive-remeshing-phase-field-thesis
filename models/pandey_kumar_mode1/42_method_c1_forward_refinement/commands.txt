@@ -1,0 +1,8 @@
+# Mode-I Method C1 Forward Refinement Preflight Commands
+# Working Directory: /scratch9/pr21vyci/runs/mode1_method_c1_forward_refinement
+
+# 1. Run Cluster Preflight Datacheck on mlogin01:
+bash run_datacheck_forward.sh
+
+# 2. Submit Guarded Production Continuation Job (after 22 October 2026 authorization):
+bash submit_c1_forward_refinement_job.sh
