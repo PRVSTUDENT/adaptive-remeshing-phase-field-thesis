@@ -237,3 +237,22 @@ For supervisor consideration regarding Option B (or any future continuation inve
    A single remeshing cycle must be proven robust, deterministic, and repeatable before extending the workflow to two or more sequential remeshing cycles.
 
 *Epistemic Guard:* Developing an experimental UEL modification or alternative initialization architecture is treated strictly as an engineering hypothesis requiring separate empirical verification; it must not be assumed or claimed that an experimental UEL modification will necessarily resolve these commercial solver constraints.
+
+### 4.5 Technical Note: Defensible Progressive Progression from Gate C1 to Gate C2
+
+To ensure scientific rigor, a two-stage sequential validation gate structure is established (detailed in `docs/reports/MODE1_METHOD_C_CONTINUATION_ARCHITECTURE_VALIDATION.md`):
+
+1. **Gate C1 (Forward-Refinement Continuation Validation):**
+   - Must demonstrate one genuine forward continuation ($2,906 \to 14,677$ FEs at $u = 0.0050\,\mathrm{mm}$).
+   - Mandatory criteria: reaction-force continuity ($|\Delta RF| \le 5.0\,\mathrm{N}$), transfer energy error ($\le 5.0\%$), global balance residual ($\le 10.0\%$), damage irreversibility ($\Delta d \ge -10^{-6}$), reference fracture response parity ($|F_{\max} - F_{\max}^{\mathrm{ref}}| \le 3.0\%$, no crack pinning), and 0 pre-peak cutbacks.
+   - Staged re-equilibration is treated as a provisional reload surrogate requiring proof of state equivalence at handoff, while kinematic-offset UEL is an experimental candidate.
+
+2. **Gate C2 (Selective Crack-Wake Coarsening Validation):**
+   - Activated **only after Gate C1 achieves PASS**.
+   - Distinguishes coarsening in intact far-field material ($d = 0$, safe to coarsen to $20-50\,\mu\mathrm{m}$), active FPZ ($0 < d < 1$, strictly forbidden to coarsen), and fully fractured wake ($d \approx 1$, where coarsening risks altering arm compliance, COD, and fracture energy quadrature).
+   - Applies the candidate mesh-resolution guideline $h_{\mathrm{wake}} \le l_0/2 = 3.75\,\mu\mathrm{m}$ across damaged zones ($d \ge 0.05$) as an engineering heuristic awaiting numerical validation, without hardcoding crack trajectories.
+   - Requires demonstrating net computational efficiency ($\ge 15\%$ walltime reduction vs C1) without corrupting global fracture physics.
+
+3. **Governance & Authorization Status:**
+   - Gate 6B is ready for supervisor sign-off on 22 October 2026.
+   - **Gate 6C remains ON HOLD PENDING SUPERVISOR REVIEW.** Passing unit tests or general PBS script presence do NOT constitute scientific gate clearance. Zero new solver jobs are submitted without explicit supervisor/user release.

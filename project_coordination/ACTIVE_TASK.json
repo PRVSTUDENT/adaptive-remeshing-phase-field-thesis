@@ -1,10 +1,10 @@
 {
-    "task_id": "F1457-VALIDATE-METHOD-C-CONTINUATION-ARCHITECTURE",
+    "task_id": "F1458-CORRECT-METHOD-C-CLAIMS-AND-C1-C2-GATE",
     "status": "COMPLETED",
     "agent": "gemini-antigravity",
-    "phase": "Independently Validate Proposed Method C Continuation Architecture & Refocus on Method C2",
-    "gate_status": "METHOD_C_CONTINUATION_ARCHITECTURE_VALIDATED_AND_METHOD_C2_AUDITED",
-    "last_updated": "2026-10-14T13:00:00+02:00",
+    "phase": "Correct Method C Scientific Claims and Establish a Defensible C1-to-C2 Validation Gate",
+    "gate_status": "METHOD_C_SCIENTIFIC_CLAIMS_CORRECTED_AND_C1_C2_GATES_ESTABLISHED",
+    "last_updated": "2026-10-14T13:30:00+02:00",
     "active_pbs_job_ids": [],
     "dependent_pbs_job_ids": [],
     "deferred_candidate_jobs": [
@@ -33,9 +33,9 @@
         "Zero new PBS submissions or authorization changes before supervisor Gate 6B/6C review on 22 October 2026",
         "Preserve user's actual Method C objective: genuine sequential adaptive remeshing during crack propagation",
         "Explicitly distinguish Method B load-partitioned pre-refinement from Method C sequential adaptive remeshing",
-        "Maintain strict epistemic separation between [VERIFIED EMPIRICAL CHECKS] and [PLANNED ANALYTICAL PROPOSALS]",
-        "Enforce Method C2 wake coarsening resolution bound: h_wake <= l0/2 = 3.75 um for all d >= 0.05",
+        "Maintain strict 5-tier epistemic separation across all evidence and claims",
+        "Enforce Method C2 candidate wake coarsening resolution bound: h_wake <= l0/2 = 3.75 um for all d >= 0.05",
         "Preserve frozen UEL CE8D5EDC... and official university LaTeX template preambel.tex and abbrvnat_custom.bst"
     ],
-    "notes": "Task F1457 COMPLETED: (1) reviewed F1456 feasibility report and conducted independent mathematical validation of kinematic-offset continuation (u = u0 + Delta u), deriving strains, degraded stresses, internal force vector, and tangent stiffness (proving identical structural form to standard elasticity); (2) resolved the central equilibrium question: proved that nonmatching discretization projection (2,906 -> 14,677 FEs) creates an unavoidable discrete residual rho_trans != 0 on internal nodes that triggers an instantaneous elastic relaxation step at Increment 1; (3) audited production UEL f42_mixed_uel.for (CE8D5EDC...), verifying LOP=0 array zeroing in UEXTERNALDB, history ingestion from SVARS(8+KPT), Layer 1 to Layer 2 COMMON /CB_STATE_TRANS/ staggered coupling, and confirming *INITIAL CONDITIONS, TYPE=SOLUTION is fully qualified and sufficient without SDVINI; (4) audited alternative architectures: proved Reference-Configuration update (X* = X + u0) is physically invalid (F = I sets strains/stresses to zero and blunts notch), and Residual-Correction via balancing body forces introduces spurious work; (5) formulated comprehensive Decision Matrix recommending Path 1 (staged re-equilibration) for immediate frozen-code C1 qualification and Path 2 (kinematic offset) for Option B experimental branch; (6) refocused on Method C2 wake coarsening and multi-cycle remeshing: audited Job 1412809 coarsening failure (+5.05% damage integral error, F_max = 1085.41 N crack pinning), proved analytical chordal distortion formula (xi*coth(xi)-1 = +53.25% for h/l0 = 2.67), and established the Method C2 Resolution Theorem: h_wake <= l0/2 = 3.75 um for all d >= 0.05; (7) authored epistemic classification table strictly separating verified empirical checks from planned analytical proposals; (8) authored report docs/reports/MODE1_METHOD_C_CONTINUATION_ARCHITECTURE_VALIDATION.md and unit tests test_mode1_f1457_continuation_architecture.py (6/6 PASS, 394/394 Mode-I PASS cleanly); zero PBS submissions."
+    "notes": "Task F1458 COMPLETED: (1) reviewed completed F1457 report and corrected unsupported conclusions before any Method C implementation or PBS submission; (2) clarified continuation assessment: staged re-equilibration from u=0 is a quasi-static reload, not automatically genuine continuation without proof of state equivalence; retained kinematic offset as un-run experimental candidate; (3) reassessed mathematical derivation: removed unsupported assertion of tangent positive definiteness under softening; distinguished zero prescribed displacement from non-zero internal projection residual and boundary force discontinuity; (4) demoted C2 resolution theorem to candidate engineering resolution guideline (h <= l0/2 = 3.75 um); clarified 1D surrogate vs 2D domain scaling; (5) analyzed three material regimes in Method C2 (intact far field, active FPZ, fully fractured wake) and detailed hazards of wake coarsening (compliance, COD, spurious bridging, quadrature, irreversibility); required trajectory-agnostic controller; (6) structured epistemic hierarchy into 5 distinct tiers; (7) defined operational validation gates for C1 (6 criteria) and C2 (5 criteria) with standardized evidence reporting template; (8) reconciled project governance: Gate 6B ready for sign-off on 22 October 2026, Gate 6C strictly on hold pending supervisor review; (9) authored unit tests test_mode1_f1458_c1_c2_validation_gate.py (7/7 PASS, 401/401 Mode-I suite PASS); zero PBS submissions."
 }

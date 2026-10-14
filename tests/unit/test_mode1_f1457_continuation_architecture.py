@@ -1,5 +1,6 @@
 """Unit test suite for Task F1457: Independently Validate Proposed Method C
 Continuation Architectures and Refocus on Method C2 Wake Coarsening.
+Updated in Task F1458 with corrected scientific claims and 5-tier epistemic hierarchy.
 
 Verifies:
 1. Existence and comprehensive structural integrity of
@@ -7,10 +8,9 @@ Verifies:
 2. Exact mathematical formulation of the kinematic-offset decomposition,
    tangent stiffness, and discrete projection residual.
 3. Decision matrix comparing Path 1, Path 2, and Path 3 (Reference Update / Residual Correction).
-4. Method C2 wake coarsening resolution bound (h <= l0/2 = 3.75 um) and analytical
+4. Method C2 wake coarsening resolution guideline (h <= l0/2 = 3.75 um) and analytical
    chordal distortion formula (xi * coth(xi) - 1).
-5. Explicit epistemic separation between [VERIFIED EMPIRICAL CHECK] and
-   [PLANNED ANALYTICAL PROPOSAL].
+5. Explicit epistemic separation across the 5-tier evidence hierarchy.
 6. Production UEL (CE8D5EDC...), donor state (3F9198CD...), and recipient deck
    provenance hash integrity.
 7. Fortran UEL source code audit regarding UEXTERNALDB, SVARS, and COMMON /CB_STATE_TRANS/.
@@ -54,7 +54,7 @@ def compute_sha256(filepath):
 
 
 def test_f1457_validation_report_exists_and_content():
-    """Verify that the validation report exists, is comprehensive, and contains all 9 required sections."""
+    """Verify that the validation report exists, is comprehensive, and contains all required sections."""
     assert os.path.isfile(VALIDATION_REPORT_PATH), f"Missing: {VALIDATION_REPORT_PATH}"
 
     with open(VALIDATION_REPORT_PATH, "r", encoding="utf-8") as f:
@@ -62,19 +62,19 @@ def test_f1457_validation_report_exists_and_content():
 
     assert len(text) > 12000, "Validation report is too brief."
 
-    required_sections = [
-        "1. Executive Summary & Purpose of Audit",
-        "2. Mathematical Derivation & Audit of Kinematic-Offset Continuation",
-        "3. Fortran Source Code & Abaqus 2023 Implementation Audit",
-        "4. Alternative Candidate Architecture: Reference-Configuration Update & Residual-Correction",
-        "5. Comprehensive Decision Matrix of Continuation Architectures",
-        "6. Refocus on Method C2: Wake Coarsening and Multi-Cycle Remeshing",
-        "7. Epistemic Separation: Verified Empirical Checks vs Planned Analytical Work",
-        "8. Implementation Specification & Candidate Branch Protocol",
-        "9. Conclusions & Recommendations for 22 October 2026 Supervisor Meeting"
+    required_keywords = [
+        "Executive Summary",
+        "Kinematic-Offset Continuation",
+        "Fortran Source Code",
+        "Reference-Configuration Update",
+        "Decision Matrix",
+        "Method C2",
+        "Epistemic",
+        "Operational Validation Gates",
+        "Reconciliation of Project Authorization"
     ]
-    for section in required_sections:
-        assert section in text, f"Missing required section in validation report: {section}"
+    for kw in required_keywords:
+        assert kw in text, f"Missing required section keyword in validation report: {kw}"
 
     # Verify mathematical and technical keywords
     assert "u_0" in text or "\\mathbf{u}_0" in text
@@ -95,9 +95,8 @@ def test_f1457_decision_matrix_content():
     assert "PATH 1: Staged Re-Equilibration" in text
     assert "PATH 2: Kinematic-Offset UEL" in text
     assert "PATH 3: Reference Update" in text or "Residual Correction" in text
-    assert "RECOMMENDED FOR C1 QUALIFICATION" in text
-    assert "RECOMMENDED AS OPTION B R&D" in text
     assert "STRICTLY DISQUALIFIED" in text
+    assert "SURROGATE CANDIDATE" in text or "EXPERIMENTAL R&D CANDIDATE" in text
 
 
 def test_f1457_method_c2_wake_coarsening_and_chordal_bias():
@@ -131,20 +130,21 @@ def test_f1457_method_c2_wake_coarsening_and_chordal_bias():
 
 
 def test_f1457_epistemic_separation_table():
-    """Verify that the report strictly separates verified empirical checks from planned analytical work."""
+    """Verify that the report strictly separates evidence across the epistemic hierarchy."""
     with open(VALIDATION_REPORT_PATH, "r", encoding="utf-8") as f:
         text = f.read()
 
     assert "EPISTEMIC EVIDENCE CLASSIFICATION TABLE" in text
-    assert "[VERIFIED EMPIRICAL CHECK]" in text
-    assert "[PLANNED ANALYTICAL PROPOSAL]" in text
+    assert "[SOLVER RUNTIME" in text
+    assert "[SOURCE CODE AUDIT]" in text
+    assert "[MATHEMATICAL DERIVATION" in text
+    assert "[OFFLINE NUMERICAL" in text
 
     # Check key classified items
     assert "Abaqus Error 144" in text
-    assert "Forward State Transfer Metrics (2,906 -> 14,677 FEs)" in text
-    assert "Reverse Coarsening Chordal Damage Failure (+5.0465%)" in text
-    assert "Kinematic-Offset UEL Formulation" in text
-    assert "Method C2 Wake Coarsening Resolution Bound" in text
+    assert "Forward State Transfer Metrics" in text
+    assert "Reverse Coarsening Damage Integral Failure (+5.0465%)" in text
+    assert "Kinematic-Offset UEL Continuation Formulation" in text
 
 
 def test_f1457_provenance_and_frozen_hashes():

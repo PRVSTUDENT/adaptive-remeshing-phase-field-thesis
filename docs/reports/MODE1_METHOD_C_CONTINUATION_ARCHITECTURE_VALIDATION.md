@@ -1,4 +1,4 @@
-# Independent Validation and Feasibility Audit of Method C Continuation Architectures with Focus on Method C2 Wake Coarsening and Sequential Remeshing
+# Independent Validation and Feasibility Audit of Method C Continuation Architectures: Corrected Scientific Claims and Operational C1/C2 Validation Gates
 
 **Document Identifier:** `MODE1_METHOD_C_CONTINUATION_ARCHITECTURE_VALIDATION.md`  
 **Governing Gate:** Method C / Gate 6C (Nonmatching State Transfer and Adaptive Fracture Continuation)  
@@ -6,135 +6,142 @@
 **Active Phase:** `METHOD_C_GATE6C_THESIS_INTEGRATION_AND_SUPERVISOR_BRIEFING_COMPLETE_READY_FOR_SUPERVISOR_REVIEW`  
 **Date:** 2026-10-14  
 **Author:** Gemini Antigravity (Governed Execution Agent)  
-**Task Association:** Task F1457 (Independently Validate Proposed Method C Continuation Architecture & Refocus on Method C2)  
+**Task Association:** Task F1458 (Correct Method C Scientific Claims and Establish a Defensible C1-to-C2 Validation Gate)  
 
 ---
 
-## 1. Executive Summary & Purpose of Audit
+## 1. Executive Summary & Scope of Independent Audit
 
-Following the completion of the preliminary feasibility assessment in Task F1456 (`MODE1_METHOD_C1_CONTINUATION_FEASIBILITY_AND_PLAN.md`), this technical report provides the **authoritative, independent mathematical and software-architecture validation** of continuation mechanisms for commercial Abaqus/Standard 2023.
+This report provides the authoritative, scientifically qualified reassessment of continuation architectures for commercial Abaqus/Standard 2023 under Method C. It critically reviews and corrects prior assertions from Tasks F1456 and F1457, establishing a rigorous, evidence-backed framework for progressive evaluation.
 
-### Core Objectives
-1. **Mathematical Consistency Audit of Kinematic-Offset Continuation (Option B):**
-   Rigorously evaluate whether the proposed kinematic-offset UEL formulation ($\mathbf{u}_{\text{total}} = \mathbf{u}_0 + \Delta \mathbf{u}$) can represent a consistent, state-preserving continuation on the 14,677-finite-element mesh at $u = 0.0050\,\text{mm}$, auditing weak forms, residual vectors, and tangent operators.
-2. **Fortran COMMON Blocks and State Variable Initialization Audit:**
-   Audit the production user subroutine `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`), inspecting `COMMON /CB_STATE_TRANS/`, `UEXTERNALDB(LOP=0)`, element layer sequencing, and evaluating `*INITIAL CONDITIONS, TYPE=SOLUTION` versus `SDVINI`.
-3. **Audit of Reference-Configuration / Residual-Correction Alternatives:**
-   Analyze whether updating reference coordinates ($\mathbf{X}^* = \mathbf{X} + \mathbf{u}_0$) or applying balancing body forces can establish continuation without UEL kinematics modification.
-4. **Comprehensive Decision Matrix:**
-   Systematically compare Path 1 (Staged Re-Equilibration), Path 2 (Kinematic-Offset UEL), and Path 3 (Reference Configuration / Residual Correction).
-5. **Refocus on Method C2 (Wake Coarsening and Cycle 2 Sequential Remeshing):**
-   Investigate the physics and numerical challenges of **Method C2**, evaluating the empirical coarsening failure in Job 1412809 ($14,677 \to 2,906$ FEs), proving the analytical origin of chordal damage error and crack pinning, and establishing the **governing spatial resolution bound** ($h_{\text{wake}} \le l_0/2 = 3.75\,\mu\text{m}$) for de-refinement behind the propagating crack tip.
-6. **Strict Epistemic Separation:**
-   Enforce a rigorous boundary between **[VERIFIED EMPIRICAL CHECKS]** (demonstrated in completed cluster jobs, offline audits, or source inspections) and **[PLANNED ANALYTICAL PROPOSALS]** (theoretical derivations and candidate plans awaiting execution).
+### Core Reassessments & Reconciliations
+1. **Reassessment of Method C1 Continuation:**
+   - Staged re-equilibration from zero displacement is **not automatically genuine continuation**. It represents a *quasi-static reload through a pre-damaged state*. It cannot be declared qualified continuation without proving that the stress, displacement, damage, history, and internal energy at handoff match the donor state identically without premature damage evolution or artificial work dissipation.
+   - Kinematic-offset continuation remains an **un-run experimental candidate**, not a verified solution.
+2. **Mathematical Reassessment of Tangent Definiteness & Residuals:**
+   - The structural tangent stiffness matrix $\mathbf{K}_{\text{tan}}$ is **not necessarily positive definite** in phase-field fracture mechanics. As material softening and strain localization develop, $\mathbf{K}_{\text{tan}}$ can admit zero or negative eigenvalues, reflecting macroscopic load drop and potential bifurcation.
+   - A zero prescribed incremental displacement ($\Delta \mathbf{U}_{\text{prescribed}} = \mathbf{0}$) must be strictly distinguished from a zero transfer-induced residual ($\mathbf{R}_{\text{internal}, 0} \ne \mathbf{0}$) and zero boundary reaction-force discontinuity ($\Delta RF \ne 0$).
+3. **Re-Evaluation of Method C2 Wake Coarsening:**
+   - The condition $h \le l_0/2 = 3.75\,\mu\text{m}$ across damaged zones is a **conservative candidate mesh-resolution guideline**, not a universal mathematical theorem.
+   - The $d \ge 0.05$ threshold, the $5l_0$ protection zone, and the chordal error formula are 1D surrogate models that require independent numerical validation in 2D multi-axial stress states.
+   - Coarsening a fully fractured wake ($d \approx 1$) is **not trivial**: it can distort crack compliance, alter crack opening displacement (COD), artificially transfer traction across the crack flanks, alter fracture surface energy, and violate damage irreversibility.
+   - The adaptive mesh generator must remain **trajectory-agnostic**: it must not hardcode a horizontal crack path ($y = 0.5\,\text{mm}$), but evaluate objective local field indicators ($d, |\nabla d|, \mathcal{H}, \dot{\mathcal{H}}$).
+4. **Epistemic Classification Audit:**
+   - All claims are strictly separated into a 5-tier evidence hierarchy: `[SOURCE CODE AUDIT]`, `[MATHEMATICAL DERIVATION]`, `[OFFLINE NUMERICAL PROJECTION]`, `[ABAQUS DATACHECK]`, and `[SOLVER RUNTIME VERIFICATION]`.
+   - Forward recipient continuation ($2,906 \to 14,677$ FEs) is explicitly designated as `[OFFLINE NUMERICAL PROJECTION]` with `[SOLVER RUNTIME VERIFICATION: NOT YET EXECUTED]`.
+5. **Project Authorization Reconciliation:**
+   - **Gate 6B** evaluation is complete and prepared for supervisor sign-off on 22 October 2026.
+   - **Gate 6C remains ON HOLD PENDING SUPERVISOR REVIEW.** Offline transfer results, unit tests, and general PBS script presence do not constitute authorization to execute solver continuation runs.
+   - Execution restriction: Zero new Abaqus solver runs, zero PBS submissions, and zero modifications to production `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`).
 
 ---
 
-## 2. Mathematical Derivation & Audit of Kinematic-Offset Continuation
+## 2. Mathematical Derivation & Reassessment of Kinematic-Offset Continuation
 
-### 2.1 Continuous Kinematics and Decomposition
+### 2.1 Kinematic Decomposition & Strain Formulation
 
-Let $\Omega \subset \mathbb{R}^2$ represent the reference domain of the compact tension specimen. At handoff displacement $u_{\text{handoff}} = 0.0050\,\text{mm}$ (corresponding to pseudo-time $t = t_{\text{handoff}}$), the donor simulation provides a converged solution state:
+Let $\Omega \subset \mathbb{R}^2$ represent the reference domain of the specimen. At handoff displacement $u_{\text{handoff}} = 0.0050\,\text{mm}$ ($t = t_{\text{handoff}}$), the donor simulation provides a converged solution state:
 - Transferred donor displacement field: $\mathbf{u}_0(\mathbf{x}) \in [H^1(\Omega)]^2$
 - Transferred donor phase field: $d_0(\mathbf{x}) \in H^1(\Omega)$
 - Transferred donor strain-history field: $\mathcal{H}_0(\mathbf{x}) \in L^2(\Omega)$
 - External reaction force: $RF_y = 653.088\,\text{N}$
 
-In the continuation analysis on recipient discretization $\Omega_h = \bigcup_{e=1}^{N_e} \Omega_e$, the total displacement $\mathbf{u}(\mathbf{x}, t)$ is decomposed additively into the frozen initial offset $\mathbf{u}_0(\mathbf{x})$ and an incremental continuation displacement $\Delta \mathbf{u}(\mathbf{x}, t)$:
+In the continuation analysis on recipient discretization $\Omega_h = \bigcup_{e=1}^{N_e} \Omega_e$, the total displacement $\mathbf{u}(\mathbf{x}, t)$ is decomposed additively into the transferred offset $\mathbf{u}_0(\mathbf{x})$ and an incremental continuation displacement $\Delta \mathbf{u}(\mathbf{x}, t)$:
 $$\mathbf{u}(\mathbf{x}, t) = \mathbf{u}_0(\mathbf{x}) + \Delta \mathbf{u}(\mathbf{x}, t)$$
 
-The continuation analysis is initialized with homogeneous displacement conditions for the incremental field:
+At the continuation entry instant ($t = t_{\text{handoff}}$):
 $$\Delta \mathbf{u}(\mathbf{x}, t_{\text{handoff}}) = \mathbf{0} \quad \forall \mathbf{x} \in \Omega$$
 
-### 2.2 Discrete Strain Formulation
+Under infinitesimal strain kinematics, the total symmetric strain tensor is:
+$$\boldsymbol{\varepsilon}(\mathbf{x}, t) = \nabla_{\text{sym}} \mathbf{u}_{\text{total}} = \nabla_{\text{sym}} \mathbf{u}_0(\mathbf{x}) + \nabla_{\text{sym}} \Delta \mathbf{u}(\mathbf{x}, t) = \boldsymbol{\varepsilon}_0(\mathbf{x}) + \Delta \boldsymbol{\varepsilon}(\mathbf{x}, t)$$
 
-Under infinitesimal strain kinematics, the symmetric strain tensor is linear in displacement:
-$$\boldsymbol{\varepsilon}(\mathbf{u}) = \nabla_{\text{sym}} \mathbf{u} = \frac{1}{2} \left( \nabla \mathbf{u} + (\nabla \mathbf{u})^T \right)$$
-
-Substituting the additive decomposition:
-$$\boldsymbol{\varepsilon}(\mathbf{x}, t) = \nabla_{\text{sym}} \mathbf{u}_0(\mathbf{x}) + \nabla_{\text{sym}} \Delta \mathbf{u}(\mathbf{x}, t) = \boldsymbol{\varepsilon}_0(\mathbf{x}) + \Delta \boldsymbol{\varepsilon}(\mathbf{x}, t)$$
-
-Within element $e$ having $n_{\text{en}}$ nodes, the continuous fields are discretized using standard shape functions $N_a(\mathbf{x})$:
-$$\mathbf{u}_0^e(\mathbf{x}) = \sum_{a=1}^{n_{\text{en}}} N_a(\mathbf{x}) \mathbf{U}_{0, a}^e, \quad \Delta \mathbf{u}^e(\mathbf{x}, t) = \sum_{a=1}^{n_{\text{en}}} N_a(\mathbf{x}) \Delta \mathbf{U}_a^e(t)$$
-
-In matrix-vector notation:
-$$\boldsymbol{\varepsilon}^e(\mathbf{x}, t) = \mathbf{B}(\mathbf{x}) \mathbf{U}_{\text{total}}^e(t) = \mathbf{B}(\mathbf{x}) \left( \mathbf{U}_0^e + \Delta \mathbf{U}^e(t) \right) = \boldsymbol{\varepsilon}_0^e(\mathbf{x}) + \mathbf{B}(\mathbf{x}) \Delta \mathbf{U}^e(t)$$
+Within element $e$ having $n_{\text{en}}$ nodes:
+$$\boldsymbol{\varepsilon}^e(\mathbf{x}, t) = \mathbf{B}(\mathbf{x}) \left( \mathbf{U}_0^e + \Delta \mathbf{U}^e(t) \right) = \boldsymbol{\varepsilon}_0^e(\mathbf{x}) + \mathbf{B}(\mathbf{x}) \Delta \mathbf{U}^e(t)$$
 where $\mathbf{B}(\mathbf{x})$ is the standard strain-displacement matrix and $\mathbf{U}_0^e$ is the vector of transferred nodal coordinates/displacements.
 
-### 2.3 Constitutive Law and Phase-Field Degradation
+### 2.2 Constitutive Degradation & History Evolution
 
 The Cauchy stress tensor $\boldsymbol{\sigma}$ is governed by the degraded isotropic elasticity tensor:
-$$\boldsymbol{\sigma}(\mathbf{x}, t) = g(d) \mathbf{C}_0 : \boldsymbol{\varepsilon}(\mathbf{x}, t) = \left[ (1 - d(\mathbf{x}, t))^2 + k_{\text{stab}} \right] \mathbf{C}_0 : \left( \boldsymbol{\varepsilon}_0(\mathbf{x}) + \Delta \boldsymbol{\varepsilon}(\mathbf{x}, t) \right)$$
-where $\mathbf{C}_0$ is the fourth-order plane-strain elasticity tensor:
-$$C_{ijkl}^0 = \lambda_0 \delta_{ij} \delta_{kl} + \mu_0 (\delta_{ik} \delta_{jl} + \delta_{il} \delta_{jk})$$
-with Lamé constants $\lambda_0 = \frac{E \nu}{(1+\nu)(1-2\nu)}$ and $\mu_0 = \frac{E}{2(1+\nu)}$, and residual stiffness parameter $k_{\text{stab}} = 1.0 \times 10^{-7}$.
+$$\boldsymbol{\sigma}(\mathbf{x}, t) = g(d) \mathbf{C}_0 : \boldsymbol{\varepsilon}(\mathbf{x}, t) = \left[ (1 - d(\mathbf{x}, t))^2 + k_{\text{stab}} \right] \mathbf{C}_0 : \left( \boldsymbol{\varepsilon}_0(\mathbf{x}) + \mathbf{B} \Delta \mathbf{U}^e(t) \right)$$
+where $k_{\text{stab}} = 1.0 \times 10^{-7}$ is the residual stiffness parameter preventing complete singularity at $d = 1$.
 
 The undegraded crack-driving energy density $\psi_0^+(\boldsymbol{\varepsilon})$ is evaluated from the total strain:
 $$\psi_0^+(\boldsymbol{\varepsilon}) = \frac{1}{2} K_0 \langle \operatorname{tr} \boldsymbol{\varepsilon} \rangle_+^2 + \mu_0 \left( \varepsilon_{11}^2 + \varepsilon_{22}^2 + 2\varepsilon_{12}^2 \right)$$
 
-The history variable update enforces irreversibility:
+History variable irreversibility is enforced pointwise:
 $$\mathcal{H}(\mathbf{x}, t) = \max \left( \mathcal{H}_0(\mathbf{x}), \max_{\tau \in [t_{\text{handoff}}, t]} \psi_0^+(\boldsymbol{\varepsilon}(\mathbf{x}, \tau)) \right)$$
 
-### 2.4 Weak Forms, Residuals, and Tangent Operators
+### 2.3 Residual Vectors & Tangent Operator Reassessment
 
-#### Mechanical Field (Layer 2, Active DOFs 1, 2)
-The virtual work principle for arbitrary test functions $\delta \mathbf{u} \in [H_0^1(\Omega)]^2$ yields:
-$$\delta W_{\text{int}} = \int_{\Omega} \delta \boldsymbol{\varepsilon} : \boldsymbol{\sigma} \, d\Omega = \sum_{e=1}^{N_e} \delta (\Delta \mathbf{U}^e)^T \mathbf{F}_{\text{int}}^e$$
-
-The element internal resisting force vector is:
+The internal virtual work vector for element $e$ is:
 $$\mathbf{F}_{\text{int}}^e(\Delta \mathbf{U}^e, d) = \int_{\Omega_e} \mathbf{B}^T g(d) \mathbf{C}_0 \mathbf{B} (\mathbf{U}_0^e + \Delta \mathbf{U}^e) \, d\Omega$$
 
-The element tangent stiffness matrix is the directional derivative with respect to $\Delta \mathbf{U}^e$:
+The mechanical tangent stiffness matrix is the directional derivative with respect to $\Delta \mathbf{U}^e$:
 $$\mathbf{K}_{\text{tan}}^e = \frac{\partial \mathbf{F}_{\text{int}}^e}{\partial \Delta \mathbf{U}^e} = \int_{\Omega_e} \mathbf{B}^T g(d) \mathbf{C}_0 \mathbf{B} \, d\Omega$$
-**Mathematical Verification:** Because $\frac{\partial \mathbf{U}_{\text{total}}^e}{\partial \Delta \mathbf{U}^e} = \mathbf{I}$, the tangent operator $\mathbf{K}_{\text{tan}}^e$ is **identical in mathematical structure** to the standard formulation. Symmetry and positive-definiteness (for $d < 1$) are strictly preserved.
 
-#### Phase Field (Layer 1, Active DOF 3)
-The phase-field weak form is:
-$$\delta W_d = \int_{\Omega} \left[ \left( \frac{G_c}{l_0} d - 2(1-d)\mathcal{H} \right) \delta d + G_c l_0 \nabla d \cdot \nabla \delta d \right] d\Omega = 0$$
+#### Scientific Correction: Reassessment of Tangent Definiteness
+- **Prior Incorrect Assertion:** "Symmetry and positive-definiteness are strictly preserved."
+- **Corrected Mathematical Fact:** 
+  For fixed damage $d < 1$, the linear elastic operator with spatial degradation factor $g(d) > 0$ is symmetric and positive-definite on the subspace orthogonal to rigid-body modes.
+  However, **in a coupled fracture simulation**, the true Jacobian of the mechanical residual includes the coupling to phase-field evolution:
+  $$\mathbf{J}_{\text{mech}} = \frac{\partial \mathbf{F}_{\text{int}}}{\partial \Delta \mathbf{U}} + \frac{\partial \mathbf{F}_{\text{int}}}{\partial d} \frac{\partial d}{\partial \Delta \mathbf{U}}$$
+  During macroscopic softening ($\dot{d} > 0$), material degradation introduces negative eigenvalues into the tangent operator. When crack propagation initiates, the structural tangent stiffness matrix $\mathbf{K}_{\text{tan}}$ **loses positive definiteness**, which can lead to bifurcation, snap-back, or localized convergence failure. Therefore, the tangent stiffness operator in phase-field continuation cannot be assumed to remain positive definite throughout the analysis.
 
-**Audit of Phase Field DOF 3:**
-Should degree of freedom 3 also use a kinematic offset ($d = d_0 + \Delta d$)?
-- **Finding:** **No.** Phase field $d$ is a bounded scalar scalar field ($0 \le d \le 1$). If an offset $d = d_0 + \Delta d$ were introduced, unconstrained Newton iterations on $\Delta d$ could easily violate the physical bounds ($d < 0$ or $d > 1$), corrupting the degradation factor $g(d)$.
-- Instead, the nodal phase field $d$ is solved directly on the recipient mesh using the transferred history field $\mathcal{H}_0$. At $t = t_{\text{handoff}}$, solving the phase-field equation with $\mathcal{H}_0$ yields the exact discrete minimizer $d \in V_h^{\text{recip}}$ that balances crack surface energy against stored history.
+### 2.4 Strict Distinction Between the Three Zero Quantities
 
-### 2.5 The Critical Discrete Equilibrium Residual Discontinuity
+A rigorous analysis requires keeping three distinct quantities strictly separated:
 
-At the exact entry instant of continuation ($t = t_{\text{handoff}}$, $\Delta \mathbf{U} = \mathbf{0}$):
-The internal force vector evaluates to:
-$$\mathbf{F}_{\text{int}, 0} = \sum_{e=1}^{N_e} \mathbf{L}_e^T \int_{\Omega_e} \mathbf{B}^T g(d_0) \mathbf{C}_0 \mathbf{B} \mathbf{U}_0^e \, d\Omega$$
+1. **Zero Prescribed Incremental Displacement ($\Delta \mathbf{U}_{\text{prescribed}} = \mathbf{0}$):**
+   At the start of the continuation step, the boundary condition prescribes zero incremental displacement relative to the handoff state. This is an input boundary condition specification.
+2. **Non-Zero Transfer-Induced Internal Residual ($\mathbf{R}_{\text{internal}, 0} \ne \mathbf{0}$):**
+   Because the recipient discretization $\Omega_h^{\text{recip}}$ ($14,677$ FEs) constitutes a different approximation subspace than the donor discretization $\Omega_h^{\text{donor}}$ ($2,906$ FEs), the transferred stress state $\boldsymbol{\sigma}_0 = g(d_0)\mathbf{C}_0 : \boldsymbol{\varepsilon}_0$ is **not in discrete equilibrium** on the recipient mesh:
+   $$\mathbf{R}_{\text{internal}, 0} = -\mathbf{F}_{\text{int}, 0} = -\sum_{e=1}^{N_e} \mathbf{L}_e^T \int_{\Omega_e} \mathbf{B}^T \boldsymbol{\sigma}_0 \, d\Omega \ne \mathbf{0} \quad \text{at unconstrained internal nodes}$$
+   There is an unavoidable discretization projection residual $\boldsymbol{\rho}_{\text{transfer}} = \mathbf{R}_{\text{internal}, 0}$.
+   When Increment 1 begins, Abaqus evaluates this non-zero residual norm and solves for an initial Newton relaxation step:
+   $$\delta (\Delta \mathbf{U}) = \mathbf{K}_{\text{tan}, 0}^{-1} \mathbf{R}_{\text{internal}, 0}$$
+   If this projection residual is large, it can trigger an immediate time-step cutback before convergence.
+3. **Boundary Reaction-Force Discontinuity ($\Delta RF \ne 0$):**
+   The reaction force at the prescribed boundary evaluates to $RF = \sum_{i \in \Gamma_{\text{top}}} F_{\text{int}, y, i}$.
+   The difference between recipient entry force and donor exit force $|\Delta RF| = |RF_{\text{recip}} - RF_{\text{donor}}|$ reflects both domain compliance differences and boundary integration errors.
 
-In Abaqus/Standard, the out-of-balance residual vector is:
-$$\mathbf{R}_0 = \mathbf{F}_{\text{ext}, 0} - \mathbf{F}_{\text{int}, 0}$$
-
-At external boundary nodes on the loaded surface ($y = 1.0\,\text{mm}$), the reaction force balances $\mathbf{F}_{\text{int}, 0}$:
-$$RF_{y, 0} = \sum_{i \in \Gamma_{\text{top}}} F_{\text{int}, y, i, 0} \approx 653.09\,\text{N}$$
-
-However, at unconstrained **internal nodes** $i \in \Omega_{\text{int}}$, the external load is zero ($\mathbf{F}_{\text{ext}, i} = \mathbf{0}$). Therefore:
-$$\mathbf{R}_{i, 0} = -\mathbf{F}_{\text{int}, i, 0} = -\sum_{e \in \mathcal{E}_i} \int_{\Omega_e} \mathbf{B}_i^T \boldsymbol{\sigma}_0 \, d\Omega$$
-
-**Key Scientific Finding:**
-Because the recipient discretization $\Omega_h^{\text{recip}}$ ($14,677$ FEs) constitutes a different approximation subspace than the donor discretization $\Omega_h^{\text{donor}}$ ($2,906$ FEs):
-$$\mathbf{R}_{\text{internal}, 0} \ne \mathbf{0}$$
-
-There exists an **unavoidable discretization projection residual**:
-$$\boldsymbol{\rho}_{\text{transfer}} = -\mathbf{F}_{\text{int}}(\mathbf{U}_0, d_0) \ne \mathbf{0} \quad \text{on internal nodes}$$
-
-When Abaqus begins Increment 1 of the continuation step:
-1. The solver evaluates the out-of-balance norm $\|\mathbf{R}_0\|$.
-2. The first Newton correction is:
-   $$\delta (\Delta \mathbf{U}) = \mathbf{K}_{\text{tan}, 0}^{-1} \mathbf{R}_0 = -\mathbf{K}_{\text{tan}, 0}^{-1} \mathbf{F}_{\text{int}, 0}$$
-3. This triggers an **instantaneous elastic relaxation step** to equilibrate the projection residual $\boldsymbol{\rho}_{\text{transfer}}$.
-4. If the projection residual is small ($\|\boldsymbol{\rho}_{\text{transfer}}\| / RF \le 0.5\%$), the Newton-Raphson iteration converges cleanly in 2–3 iterations.
-5. However, if the initial out-of-balance force exceeds Abaqus's default initial force residual tolerance, Abaqus may attempt an immediate time-step cutback before even attempting an iteration!
-6. **Conclusion:** Kinematic-offset continuation **does not completely eliminate the need for discrete equilibration**; rather, it shifts the equilibration from a multi-increment reload path into the initial iteration of Increment 1.
+Conflating $\Delta \mathbf{U}_{\text{prescribed}} = \mathbf{0}$ with $\mathbf{R}_{\text{internal}, 0} = \mathbf{0}$ or $\Delta RF = 0$ is a severe epistemic error: applying zero displacement increment does **not** ensure discrete equilibrium or force continuity.
 
 ---
 
-## 3. Fortran Source Code & Abaqus 2023 Implementation Audit
+## 3. Re-Evaluation of Staged Static Re-Equilibration (Path 1) vs Kinematic Offset (Path 2)
 
-### 3.1 Audit of Authoritative Production UEL (`f42_mixed_uel.for`)
+### 3.1 Critique of Staged Static Re-Equilibration (Path 1)
 
-The production user subroutine `f42_mixed_uel.for` (SHA-256: `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`, 908 lines) was audited line-by-line:
+In Task F1456, staged static re-equilibration (ramping displacement from $u = 0$ to $u = 0.0050\,\text{mm}$ in 20–50 increments) was presented as a practical continuation method that keeps production UEL `f42_mixed_uel.for` frozen.
+
+#### Critical Scientific Reassessment:
+- Staged re-equilibration from $u = 0$ is a **quasi-static reload through a pre-damaged state**, **NOT genuine state continuation**.
+- Ramping the boundary displacement from zero forces the structure to re-traverse an elastic loading path under pre-existing damage.
+- To claim that staged re-equilibration is a valid surrogate for continuation, it must satisfy **five mandatory equivalence criteria** at $u = u_{\text{handoff}}$:
+  1. **Displacement Equivalence:** $\mathbf{u}_{\text{recip}}(u_{\text{handoff}}) \approx \mathbf{u}_{\text{donor}}(u_{\text{handoff}})$;
+  2. **Stress Equivalence:** $\boldsymbol{\sigma}_{\text{recip}}(u_{\text{handoff}}) \approx \boldsymbol{\sigma}_{\text{donor}}(u_{\text{handoff}})$;
+  3. **Damage Preservation:** $\dot{d} = 0$ for all $u < u_{\text{handoff}}$ (no premature damage growth during reload);
+  4. **History Preservation:** $\mathcal{H}_{\text{recip}}(u_{\text{handoff}}) = \mathcal{H}_0$ (no spurious driving energy accumulation during reload);
+  5. **Energy Equivalence:** $E_{\text{elas}}(u_{\text{handoff}}) \approx E_{\text{elas}}^{\text{donor}}$ with zero artificial hysteresis work.
+- In Job 1412464, a 1,000-increment reload was required to reach $u = 0.0050\,\text{mm}$ with $\Delta RF = 0.09\,\text{N}$, but the computational cost of reloading was 1,000 increments. In Job 1412809, a single-increment jump caused a $21.55\,\text{N}$ force jump.
+- **Classification:** Staged re-equilibration remains a *provisional numerical surrogate*, not a verified continuation method.
+
+### 3.2 Status of Kinematic-Offset UEL (Path 2)
+
+- Kinematic-offset continuation incorporates the transferred displacement field into the element kinematics ($\mathbf{u} = \mathbf{u}_0 + \Delta \mathbf{u}$).
+- While mathematically consistent under infinitesimal elasticity, it remains an **un-run experimental proposal**:
+  * No recipient-mesh continuation simulation has been implemented or executed;
+  * The ingestion of 8 nodal displacement values per element requires expanding `NSVARS` from 18 to 26 or implementing table lookups in Fortran;
+  * The initial projection residual $\boldsymbol{\rho}_{\text{transfer}}$ has not been tested against Abaqus convergence tolerances in a running solver.
+- **Classification:** An experimental R&D candidate requiring isolated branch investigation, not a qualified solution.
+
+---
+
+## 4. Fortran Source Code & Abaqus 2023 Implementation Audit
+
+### 4.1 Audit of Authoritative Production UEL (`f42_mixed_uel.for`)
+
+The production user subroutine `f42_mixed_uel.for` (SHA-256: `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`, 908 lines) was audited:
 
 ```fortran
 C Common block coupling in f42_mixed_uel.for:
@@ -153,127 +160,180 @@ C Common block coupling in f42_mixed_uel.for:
      3                        SV_PSI_F, SV_PSI_E
 ```
 
-#### Detailed Findings from Fortran Source Audit:
-1. **`UEXTERNALDB(LOP=0)` Zeroing Mechanism (Lines 88–101):**
-   At the start of the analysis (`LOP=0`), `UEXTERNALDB` loops over `1..N_CAPACITY` ($150,000$) and explicitly zeroes all arrays:
-   `SV_PHASE_COMMITTED`, `SV_PHASE_TRIAL`, `SV_E_FRAC`, `SV_E_ELAS`, `SV_PSI_F`, `SV_PSI_E`, and `SV_H_COMMITTED`, `SV_H_TRIAL`.
-   This guarantees that uninitialized memory garbage cannot corrupt the simulation, but it also means that Fortran common blocks **cannot retain pre-existing state across an Abaqus process boundary**.
-2. **History Ingestion from `SVARS` (Lines 248–262):**
-   ```fortran
-         IF (JTYPE .EQ. 1 .OR. JTYPE .EQ. 3) THEN
-           IF (KSTEP .EQ. 1 .AND. KINC .LE. 1) THEN
-             IF (JTYPE .EQ. 1) THEN
-               DO KPT=1, 4
-                 SV_H_COMMITTED(PHYSIDX, KPT) = SVARS(8+KPT)
-                 SV_H_TRIAL(PHYSIDX, KPT)     = SVARS(8+KPT)
-               ENDDO
-             ELSE
-               DO KPT=1, 3
-                 SV_H_COMMITTED(PHYSIDX, KPT) = SVARS(6+KPT)
-                 SV_H_TRIAL(PHYSIDX, KPT)     = SVARS(6+KPT)
-               ENDDO
-             ENDIF
-           ENDIF
-         ENDIF
-   ```
-   **Verified Fact:** The production UEL is already coded to read initial history from `SVARS(9..12)` (for quads) and `SVARS(7..9)` (for triangles) during Step 1 Increment 1!
-   This proves that `*INITIAL CONDITIONS, TYPE=SOLUTION` cards in the input deck successfully populate `SVARS`, and the UEL transfers them into `SV_H_COMMITTED` at $t=0$.
-3. **Phase-Field Coupling Lag Mechanism (Lines 281–282 & 408–409):**
-   In Layer 1 (JTYPE 1), `D_AVG` is evaluated from nodal phase DOFs: `D_AVG = 0.25*(U(1)+U(2)+U(3)+U(4))`, and written to `SV_PHASE_TRIAL(PHYSIDX)`.
-   In Layer 2 (JTYPE 2), mechanical stiffness reads `D_VAL = SV_PHASE_TRIAL(PHYSIDX)`.
-   Because Abaqus executes elements sequentially, Layer 1 runs before Layer 2 within each iteration. However, in the very first iteration of Step 1 Increment 1, nodal $U$ starts at 0, so Layer 1 evaluates $D = 0$ until the phase-field residual is solved. This produces a **1-iteration coupling lag** at the step entry.
-
-### 3.2 Evaluation of `*INITIAL CONDITIONS, TYPE=SOLUTION` vs `SDVINI`
-
-A technical uncertainty raised in Task F1456 was whether `SDVINI` is needed in addition to or instead of `*INITIAL CONDITIONS, TYPE=SOLUTION`:
-
-| Feature / Mechanism | `*INITIAL CONDITIONS, TYPE=SOLUTION` | User Subroutine `SDVINI` |
-| :--- | :--- | :--- |
-| **Input Delivery** | Plaintext cards in Abaqus `.inp` deck | Compiled Fortran code linked with solver |
-| **Data Format** | Comma-delimited lines: `element_id, sdv1, sdv2, ...` | Programmatic assignment inside `SDVINI(STATEV, ...)` |
-| **Abaqus 2023 Support for UEL** | **Fully supported and verified** (Jobs 1412158, 1412464, 1412809) | Supported, but requires element ID mapping in Fortran |
-| **Deck File Size Impact** | Adds ~44,000 lines (~3.5 MB) for 14,677 elements | Zero addition to input deck |
-| **Mesh-Specific Dependency** | Deck contains explicit element-by-element values | Subroutine must read external binary/ASCII file |
-| **Epistemic Classification** | **[VERIFIED EMPIRICAL CHECK]** | **[PLANNED ANALYTICAL PROPOSAL]** |
-
-**Conclusion on State Initialization:**
-`*INITIAL CONDITIONS, TYPE=SOLUTION` is **fully verified and sufficient**. Introducing `SDVINI` would require adding file I/O inside Fortran to read thousands of element records, introducing file-locking and path risks on cluster nodes with zero functional advantage over `.inp` cards.
-
-### 3.3 Required Fortran Modifications for Kinematic Offset
-
-To implement Path 2 (Kinematic Offset), `f42_mixed_uel.for` would require:
-1. **Nodal Displacement Storage:**
-   The UEL must receive the 8 transferred nodal displacement components $\mathbf{U}_0^e = (u_{x1}, u_{y1}, \dots, u_{x4}, u_{y4})$ for each element.
-   Because Abaqus does not pass initial nodal coordinates offset by $\mathbf{u}_0$, $\mathbf{U}_0^e$ must either:
-   - Be stored in 8 additional `SVARS` (e.g. `SVARS(19..26)`), requiring expanding `NSVARS` from 18 to 26; or
-   - Be stored in a global Fortran array `U0_NODES(2, N_NODES)` read from an external file via `UEXTERNALDB(LOP=0)`.
-2. **Kinematic Addition in Mechanical Loop:**
-   Replace Line 488:
-   ```fortran
-   C Standard:
-         DO J=1, 8
-           STRAIN(I) = STRAIN(I) + B(I,J)*U(J)
-         ENDDO
-   C Kinematic Offset:
-         DO J=1, 8
-           STRAIN(I) = STRAIN(I) + B(I,J)*(U(J) + U0_ELEM(J))
-         ENDDO
-   ```
-3. **Branch Isolation Guard:**
-   Such modifications would alter the binary interface and numerical behavior, strictly requiring isolation on an experimental branch (`experimental/method-c1-continuation-uel`).
+#### Key Technical Findings:
+1. **`UEXTERNALDB(LOP=0)` Zeroing Loop (Lines 88–101):**
+   At the start of analysis (`LOP=0`), `UEXTERNALDB` zeroes all committed/trial arrays across $150,000$ element slots. This guarantees memory hygiene, but also means that Fortran common blocks **cannot retain state across Abaqus process executions**.
+2. **History Variable Ingestion via `SVARS` (Lines 248–262):**
+   In Step 1 Increment 1, Layer 1 (JTYPE 1/3) reads `SV_H_COMMITTED(PHYSIDX, KPT) = SVARS(8+KPT)`. This proves that `*INITIAL CONDITIONS, TYPE=SOLUTION` cards in `.inp` decks successfully populate `SVARS`, and the UEL transfers them into `SV_H_COMMITTED` at $t=0$.
+3. **`*INITIAL CONDITIONS, TYPE=SOLUTION` vs `SDVINI`:**
+   `*INITIAL CONDITIONS, TYPE=SOLUTION` delivers state variables directly from the input deck and is fully supported in Abaqus 2023. Implementing user subroutine `SDVINI` would require reading external binary/ASCII files inside Fortran, introducing path and file-locking vulnerabilities with zero technical benefit.
+4. **Staggered Coupling Lag:**
+   Layer 1 (Phase) and Layer 2 (Mechanical) communicate across `COMMON /CB_STATE_TRANS/`. Because Abaqus executes element loops sequentially, Layer 2 evaluates degraded stiffness using the phase state from the preceding iteration/increment, creating a 1-iteration staggered coupling lag across step boundaries.
 
 ---
 
-## 4. Alternative Candidate Architecture: Reference-Configuration Update & Residual-Correction
+## 5. Alternative Candidate Architectures: Reference Configuration & Residual Correction
 
-### 4.1 Candidate 3A: Reference-Configuration Update ($\mathbf{X}^* = \mathbf{X} + \mathbf{u}_0$)
+### 5.1 Candidate 3A: Reference-Configuration Update ($\mathbf{X}^* = \mathbf{X} + \mathbf{u}_0$)
 
-A proposed alternative to UEL modification is to update the reference mesh nodal coordinates directly:
-$$\mathbf{X}_{\text{new}}(\text{node } i) = \mathbf{X}_{\text{original}}(\text{node } i) + \mathbf{u}_0(\text{node } i)$$
+A proposed alternative is to update the reference mesh nodal coordinates directly:
+$$\mathbf{X}^*(\text{node } i) = \mathbf{X}_{\text{original}}(\text{node } i) + \mathbf{u}_0(\text{node } i)$$
 
-#### Mathematical and Physical Audit:
-1. **Obliteration of Pre-Existing Stress and Strain:**
-   In continuum mechanics, the reference configuration $\mathbf{X}$ is by definition the **stress-free, undeformed state**. If the mesh coordinates are defined as $\mathbf{X}^*$, then when Abaqus initializes with displacement $\Delta \mathbf{u} = \mathbf{0}$, the deformation gradient is:
-   $$\mathbf{F} = \frac{\partial \mathbf{x}}{\partial \mathbf{X}^*} = \mathbf{I}$$
-   The strain evaluates to $\boldsymbol{\varepsilon} = \mathbf{0}$, and the internal stress evaluates to $\boldsymbol{\sigma} = \mathbf{0}$!
-   The entire pre-accumulated elastic strain energy ($E_{\text{elas}} \approx 1.66\,\text{mJ}$) and boundary reaction force ($RF = 653.09\,\text{N}$) are **completely wiped out**.
-2. **Distortion of Metric Tensor and Element Jacobians:**
-   Updating reference coordinates by non-uniform displacement $\mathbf{u}_0$ distorts element shapes. At the crack tip, where displacement gradients are singular ($\nabla \mathbf{u} \sim r^{-1/2}$), updating coordinates blunts and deforms the slit notch geometry before fracture even begins.
-3. **Verdict on Candidate 3A:** **PHYSICALLY AND MATHEMATICALLY INVALID.** Updating reference coordinates cannot achieve state continuation in solid mechanics.
+#### Mathematical and Physical Disqualification:
+1. **Obliteration of Stored Elastic Stress and Strain:**
+   In continuum mechanics, the reference configuration $\mathbf{X}^*$ is the stress-free undeformed state. Initializing continuation with displacement $\Delta \mathbf{u} = \mathbf{0}$ yields:
+   $$\mathbf{F} = \frac{\partial \mathbf{x}}{\partial \mathbf{X}^*} = \mathbf{I} \implies \boldsymbol{\varepsilon} = \mathbf{0} \implies \boldsymbol{\sigma} = \mathbf{0}$$
+   The pre-accumulated elastic strain energy ($E_{\text{elas}} \approx 1.66\,\text{mJ}$) and boundary reaction force ($RF = 653.09\,\text{N}$) are **completely obliterated**.
+2. **Geometric Distortion of Crack Seam:**
+   Displacement gradients near the crack tip are singular ($\nabla \mathbf{u} \sim r^{-1/2}$). Updating reference coordinates blunts and deforms the zero-thickness crack seam into an artificial notch.
+3. **Verdict:** **PHYSICALLY AND MATHEMATICALLY INVALID.**
 
-### 4.2 Candidate 3B: Residual-Correction Continuation (Balancing Body Force)
+### 5.2 Candidate 3B: Residual-Correction Continuation (Balancing Body Force)
 
-A second alternative is to apply an initial balancing body force field $\mathbf{b}_{\text{corr}}(\mathbf{x}) = -\nabla \cdot \boldsymbol{\sigma}_0$ via Abaqus distributed loads (`*DLOAD`):
-$$\mathbf{F}_{\text{ext}, \text{corr}} = \mathbf{F}_{\text{int}, 0}$$
-
-#### Technical and Software Audit:
-1. **Abaqus UEL Load Limitations:**
-   Abaqus user elements do not automatically support standard continuum `*DLOAD` body forces (e.g., `BX`, `BY`) unless the user explicitly codes distributed load integration inside UEL using `NDLOAD`, `JDLTYP`, and `ADLMAG`.
-2. **Artificial Stiffening and Work Corruption:**
-   If a body force $\mathbf{b}_{\text{corr}}$ is applied, it does external work $\Delta W_{\text{ext}} = \int \mathbf{b}_{\text{corr}} \cdot \Delta \mathbf{u} \, d\Omega$ during subsequent crack propagation, corrupting the global energy balance $W_{\text{ext}} = E_{\text{elas}} + E_{\text{frac}}$.
-3. **Verdict on Candidate 3B:** **SOFTWARE BARRIER AND ENERGY CORRUPTION.** Impractical and introduces spurious work terms.
+Applying an initial balancing body force field $\mathbf{b}_{\text{corr}}(\mathbf{x}) = -\nabla \cdot \boldsymbol{\sigma}_0$ via Abaqus distributed loads (`*DLOAD`):
+1. **Abaqus UEL Limitation:** Abaqus user elements do not automatically support standard continuum `*DLOAD` body forces without extensive custom coding of `NDLOAD`, `JDLTYP`, and `ADLMAG` inside the UEL.
+2. **External Work Corruption:** The balancing body force performs work during subsequent crack propagation ($\Delta W = \int \mathbf{b}_{\text{corr}} \cdot \Delta \mathbf{u} \, d\Omega$), corrupting the global energy balance $W_{\text{ext}} = E_{\text{elas}} + E_{\text{frac}}$.
+3. **Verdict:** **SOFTWARE BARRIER AND WORK CORRUPTION.**
 
 ---
 
-## 5. Comprehensive Decision Matrix of Continuation Architectures
+## 6. Re-Evaluation of Method C2 Wake Coarsening: Physics, Pitfalls & Mesh Guidelines
 
-The following decision matrix evaluates the candidate continuation architectures against scientific, software, and governance criteria:
+### 6.1 The Physical Necessity of Coarsening in Method C2
+
+In progressive crack propagation, adaptive remeshing must satisfy two competing demands:
+- **Refinement in Active Zones:** Maintain fine resolution ($h \le l_0/2 = 3.75\,\mu\text{m}$) in the active fracture process zone (FPZ) to resolve damage gradients.
+- **De-Refinement in Inactive Zones:** Coarsen inactive regions to prevent monotonic element inflation ($N_e^{(k+1)} > N_e^{(k)}$), which would otherwise cause the fine mesh to cover the entire domain and defeat adaptive efficiency.
+
+### 6.2 Three Material Regimes & Pitfalls of Coarsening Fully Fractured Wakes
+
+Coarsening cannot be treated uniformly across the domain. Three distinct regimes must be separated:
+
+```
++----------------------------------------------------------------------------------------------------+
+|                               THREE MATERIAL REGIMES IN METHOD C2                                  |
++--------------------------+------------------------------+------------------------------------------+
+| Material Regime          | Physical & Damage State      | Coarsening Feasibility & Governing Rules |
++--------------------------+------------------------------+------------------------------------------+
+| 1. Intact Far Field      | d = 0, grad(d) = 0           | SAFE TO COARSEN: Elements can coarsen    |
+|                          | Fully elastic bulk           | to coarse sizes (h = 20-50 um) without   |
+|                          |                              | phase-field distortion or energy loss.   |
++--------------------------+------------------------------+------------------------------------------+
+| 2. Active FPZ            | 0 < d < 1, d_dot > 0         | STRICTLY FORBIDDEN TO COARSEN: Must      |
+|                          | Active damage dissipation    | maintain fine mesh (h <= l0/4 to l0/2)   |
+|                          |                              | to resolve grad(d) and energy release.   |
++--------------------------+------------------------------+------------------------------------------+
+| 3. Fully Fractured Wake  | d ~ 1, d_dot = 0             | FRAUGHT WITH SEVERE NUMERICAL PITFALLS:  |
+|                          | Stress relaxed (sigma ~ 0)   | Coarsening across crack seam alters arm  |
+|                          |                              | compliance, distorts COD, risks bridging,|
+|                          |                              | and alters fracture energy quadrature.   |
++--------------------------+------------------------------+------------------------------------------+
+```
+
+#### Detailed Pitfalls in the Fully Fractured Wake ($d \approx 1$):
+1. **Crack Opening Displacement (COD) & Arm Compliance:**
+   Even though the material in the wake is de-stressed, the broken arms of the specimen undergo finite bending and rotation. If elements along the crack faces are coarsened, the discrete representation of the crack boundary becomes coarse, altering the bending compliance of the broken arms and distorting the global reaction force.
+2. **Spurious Crack Bridging / Flank Penetration:**
+   Coarse elements spanning the crack line can average the phase field across the slit, leading to artificial traction transfer or locking between upper and lower crack flanks.
+3. **Fracture Surface Energy Quadrature Distortion:**
+   The integrated fracture surface energy $\int_{\text{wake}} \frac{G_c}{2} (\frac{d^2}{l_0} + l_0 |\nabla d|^2) d\Omega \approx G_c \cdot a$ must be preserved. Coarsening changes the numerical quadrature of this term, potentially causing artificial energy jumps or drops.
+4. **Irreversibility Violation upon Interpolation:**
+   Projecting a sharp wake profile $d \approx 1$ onto coarse linear elements can cause local undershoot ($d < d_{\text{donor}}$), violating the thermodynamic irreversibility condition $\dot{d} \ge 0$.
+
+### 6.3 Reassessment of the C2 Resolution Guideline (Not a "Theorem")
+
+- **Prior Assertion Corrected:** The condition $h \le l_0/2 = 3.75\,\mu\text{m}$ was previously called "The Method C2 Resolution Theorem".
+- **Corrected Formulation:** This condition is a **candidate engineering resolution guideline**, derived from a 1D surrogate profile:
+  $$h(\mathbf{x}) \le \frac{l_0}{2} = 3.75\,\mu\text{m} \quad \text{for regions with active or localized damage}$$
+- **Limitations of the 1D Surrogate Model:**
+  The analytical chordal error formula $\varepsilon_{\text{chordal}}(\xi) = \xi \coth(\xi) - 1$ ($\xi = \frac{h}{2l_0}$) assumes a 1D exponential profile $d(y) = d_0 \exp(-|y|/l_0)$.
+  * In 2D, the phase-field equation involves the 2D Laplacian $\nabla^2 d$, producing curved contours around the crack tip;
+  * The elements are 2D quadrilaterals/triangles with bilinear/linear interpolation;
+  * The 1D surrogate predicts $+53.25\%$ element-level error for $h = 20\,\mu\text{m}$, whereas the evaluated 2D whole-domain damage error in Job 1412809 was $+5.0465\%$ (because the damaged band occupies only a fraction of the domain);
+  * On the fine mesh ($h = 1.875\,\mu\text{m}$), the 1D surrogate predicts $+0.5208\%$, whereas the evaluated 2D domain error was $0.1322\%$.
+  Therefore, the chordal error formula is an illustrative analytical surrogate that explains the mechanism of over-estimation, but cannot substitute for 2D numerical evaluation.
+- **Provisional Thresholds:** The proposed damage threshold $d \ge 0.05$ and the $5l_0$ protection zone are provisional heuristics that require systematic numerical validation.
+
+### 6.4 Trajectory-Agnostic Adaptive Formulation
+
+The general-purpose controller must **never hardcode a geometric crack path** (such as assuming horizontal extension along $y = 0.5\,\text{mm}$).
+The adaptive sizing field $h(\mathbf{x})$ must be formulated strictly as a function of objective local field variables:
+$$h(\mathbf{x}) = \mathcal{F}\left( d(\mathbf{x}), |\nabla d(\mathbf{x})|, \mathcal{H}(\mathbf{x}), \dot{\mathcal{H}}(\mathbf{x}), \eta_{\text{error}}(\mathbf{x}) \right)$$
+This ensures that the mesh refinement and coarsening algorithms naturally generalize to arbitrary crack paths, curved trajectories, Mode-II, or mixed-mode problems without manual intervention.
+
+---
+
+## 7. Comprehensive 5-Tier Epistemic Evidence Classification
+
+To maintain rigorous scientific discipline, all technical statements and findings are classified according to the 5-tier evidence hierarchy:
 
 ```
 +==================================================================================================================================+
-|                                    DECISION MATRIX: METHOD C CONTINUATION ARCHITECTURES                                          |
+|                                    5-TIER EPISTEMIC EVIDENCE CLASSIFICATION TABLE                                                |
++==========================================================+============================+==========================================+
+| Feature / Claim / Result                                 | Epistemic Classification   | Exact Provenance / Evidence Basis        |
++==========================================================+============================+==========================================+
+| Abaqus Error 144: *INITIAL CONDITIONS, TYPE=DISPLACEMENT | [SOLVER RUNTIME            | Preflight Abaqus/Standard runs on cluster|
+| is fatal in *STATIC procedures                           |  VERIFICATION]             | (Task F1447, Exit 1 with Error 144)      |
++----------------------------------------------------------+----------------------------+------------------------------------------+
+| *INITIAL CONDITIONS, TYPE=SOLUTION successfully loads    | [SOLVER RUNTIME            | Cluster jobs 1412158, 1412464, 1412809   |
+| SVARS 1..18 for 44,031 element records                   |  VERIFICATION]             | (M1_MC_GEN_CONT, Exit 0)                 |
++----------------------------------------------------------+----------------------------+------------------------------------------+
+| Coarse Donor Handoff State at u = 0.0050 mm:             | [SOLVER RUNTIME            | Job 1411891 (M1_PRE_1S) extracted to     |
+| RF = 653.088 N, E_int = 1.6634 mJ, d_max = 0.094910      |  VERIFICATION]             | coarse_donor_state_u0050.json (3F9198CD..|
++----------------------------------------------------------+----------------------------+------------------------------------------+
+| Reverse Coarsening Damage Integral Failure (+5.0465%):   | [SOLVER RUNTIME            | Job 1412809 & genuine_continuation_      |
+| caused by coarse element chordal over-estimation         |  VERIFICATION]             | evaluation.json (Task F1450)             |
++----------------------------------------------------------+----------------------------+------------------------------------------+
+| Reverse Coarsening Severe Crack Pinning:                 | [SOLVER RUNTIME            | Job 1412809 load-displacement CSV:       |
+| F_max = 1085.41 N (+43.2%), u_peak = 0.009219 mm (+57.4%) | VERIFICATION]             | coarse mesh pins crack initiation        |
++----------------------------------------------------------+----------------------------+------------------------------------------+
+| Single-Increment Secant Step-Boundary Jump:              | [SOLVER RUNTIME            | Job 1412809: |653.17 - 674.72| = 21.55 N |
+| Delta RF = 21.55 N > 5.0 N (Criterion 1 FAIL)           |  VERIFICATION]             | evaluated across Step 1 -> Step 2 boundary|
++----------------------------------------------------------+----------------------------+------------------------------------------+
+| Fortran UEXTERNALDB(LOP=0) zeroing and CB_STATE_TRANS    | [SOURCE CODE AUDIT]        | Line-by-line inspection of production UEL|
+| staggered coupling lag in f42_mixed_uel.for              |                            | CE8D5EDCD2911DCB018BB15275271F874E7EA62B8|
++----------------------------------------------------------+----------------------------+------------------------------------------+
+| Reference-Configuration Update (X* = X + u0) Invalidity  | [MATHEMATICAL DERIVATION]  | Proof that F = I, strain = 0, stress = 0,|
+|                                                          |                            | and crack-tip blunting geometry occurs   |
++----------------------------------------------------------+----------------------------+------------------------------------------+
+| Analytical 1D Chordal Error Formula:                     | [MATHEMATICAL DERIVATION]  | Analytical integration: xi*coth(xi) - 1, |
+| xi*coth(xi) - 1 produces +53.25% for h/l0 = 2.67         |                            | derived for 1D exponential surrogate     |
++----------------------------------------------------------+----------------------------+------------------------------------------+
+| Forward State Transfer Metrics (2,906 -> 14,677 FEs):    | [OFFLINE NUMERICAL         | audit_forward_transfer_summary.json:     |
+| L2 = 0.1347%, Delta d = 0.000, Delta I = 0.1322%, min(H)>=0 | PROJECTION]              | evaluated in Python; UN-RUN IN SOLVER    |
++----------------------------------------------------------+----------------------------+------------------------------------------+
+| Forward Recipient Solver Continuation (14,677 FEs):      | [SOLVER RUNTIME            | Un-run candidate input deck              |
+| Reaction force continuity, F-u curve, post-peak softening|  VERIFICATION: NOT YET RUN]| (M1_MC_C1_FORWARD_14K.inp); zero solver runs|
++----------------------------------------------------------+----------------------------+------------------------------------------+
+| Kinematic-Offset UEL Continuation Formulation:           | [MATHEMATICAL DERIVATION / | Derived on paper; requires experimental  |
+| u = u0 + Delta u, F_int, and K_tan operators             |  UNIMPLEMENTED PROPOSAL]   | UEL implementation and verification      |
++----------------------------------------------------------+----------------------------+------------------------------------------+
+| Candidate C2 Wake Coarsening Resolution Guideline:       | [MATHEMATICAL DERIVATION / | Heuristic engineering guideline; awaits  |
+| h_wake <= l0/2 = 3.75 um for d >= 0.05                   |  UNIMPLEMENTED PROPOSAL]   | candidate C2 mesh synthesis & solve      |
++==================================================================================================================================+
+```
+
+---
+
+## 8. Corrected Decision Matrix: C1 Continuation & C2 Coarsening
+
+```
++==================================================================================================================================+
+|                                    CORRECTED DECISION MATRIX: METHOD C CONTINUATION ARCHITECTURES                                |
 +================================+================================+================================+===============================+
 | Evaluation Criterion           | PATH 1: Staged Re-Equilibration| PATH 2: Kinematic-Offset UEL   | PATH 3: Reference Update /    |
 |                                | (Input-Deck / Frozen UEL)      | (Option B / Branch UEL)        | Residual Correction           |
 +================================+================================+================================+===============================+
-| 1. Mathematical Consistency    | Quasi-static reload with       | Rigorous additive displacement | Candidate 3A: Invalid (F=I)   |
-|                                | transferred history & state    | kinematics u = u0 + Delta u    | Candidate 3B: Spurious work   |
+| 1. Mathematical Consistency    | Quasi-static reload through    | Additive displacement          | Candidate 3A: Invalid (F=I)   |
+|                                | existing damage; NOT genuine   | kinematics u = u0 + Delta u;   | Candidate 3B: Spurious body   |
+|                                | state continuation             | subject to softening tangent   | force work corrupts balance   |
 +--------------------------------+--------------------------------+--------------------------------+-------------------------------+
-| 2. Discrete Equilibrium at     | Solved iteratively across      | Preserved; subject to discrete | 3A: Zero stress at entry      |
+| 2. Discrete Equilibrium at     | Solved iteratively across      | Subject to nonmatching discrete| 3A: Zero stress at entry      |
 |    Continuation Entry          | 20-50 sub-stepping increments  | projection residual rho_trans  | 3B: Distorted equilibrium     |
 +--------------------------------+--------------------------------+--------------------------------+-------------------------------+
-| 3. Step-Boundary Force Jump    | Controllable to |Delta RF| < 5N| Analytically 0; relaxed in     | 3A: Total force drop (-653 N) |
-|                                | via fine sub-stepping delta_u  | Increment 1 Iteration 1        | 3B: Load balance corrupted    |
+| 3. Step-Boundary Force Jump    | Controllable via fine sub-     | Analytically 0 prescribed inc; | 3A: Total force drop (-653 N) |
+|                                | stepping delta_u <= 1e-5 mm    | relaxed in Increment 1 Iter 1  | 3B: Load balance corrupted    |
 +--------------------------------+--------------------------------+--------------------------------+-------------------------------+
 | 4. Production UEL Freeze       | 100% FROZEN & UNCHANGED        | MODIFIES UEL SOURCE; requires  | Requires UEL *DLOAD rewrite   |
 |    (CE8D5EDC... Integrity)     | (Preserved on canonical main)  | isolated experimental branch   | or deck distortions           |
@@ -284,163 +344,125 @@ The following decision matrix evaluates the candidate continuation architectures
 | 6. Computational Cost          | +20-50 increments in Step 1    | Starts directly at Inc 1;      | N/A (Disqualified)            |
 |                                | (~3-5% additional walltime)    | zero reload steps              |                               |
 +--------------------------------+--------------------------------+--------------------------------+-------------------------------+
-| 7. Multi-Cycle Feasibility     | Viable for Cycle 1; reload     | Ideal multi-cycle architecture | Disqualified                  |
-|    (Method C2 Extension)       | cost scales linearly per cycle | for arbitrary sequential cycles|                               |
+| 7. Multi-Cycle Feasibility     | Inefficient for multiple cycles| Ideal multi-cycle architecture | Disqualified                  |
+|    (Method C2 Extension)       | (reloads scale per cycle)      | for arbitrary sequential cycles|                               |
 +--------------------------------+--------------------------------+--------------------------------+-------------------------------+
-| 8. Governance & Risk           | ZERO RISK TO FROZEN CODEBASE;  | Medium risk; branch isolation  | Severe risk of unphysical     |
-|                                | fully verifiable offline       | and re-qualification required  | results                       |
+| 8. Governance & Risk           | Zero risk to frozen codebase;  | Medium risk; branch isolation  | Severe risk of unphysical     |
+|                                | reload equivalence unproven    | and re-qualification required  | results                       |
 +================================+================================+================================+===============================+
-| OVERALL RECOMMENDATION         | RECOMMENDED FOR C1 QUALIFICATION| RECOMMENDED AS OPTION B R&D   | STRICTLY DISQUALIFIED         |
-|                                | (Immediate, robust, frozen)    | (Supervisor decision 22 Oct)   |                               |
+| SCIENTIFIC VERDICT             | PROVISIONAL SURROGATE CANDIDATE| EXPERIMENTAL R&D CANDIDATE     | STRICTLY DISQUALIFIED         |
+|                                | (Requires reload equivalence)  | (Requires branch R&D)          |                               |
 +================================+================================+================================+===============================+
 ```
 
----
+### Explicit List of Unresolved Technical Barriers
+1. **Commercial Abaqus Displacement Rejection:** Abaqus/Standard rejects `*INITIAL CONDITIONS, TYPE=DISPLACEMENT` in general static steps (Error 144).
+2. **Transfer-Induced Projection Residual:** Mesh-to-mesh interpolation creates internal out-of-balance forces $\boldsymbol{\rho}_{\text{transfer}} \ne \mathbf{0}$ that trigger initial Newton relaxation cutbacks.
+3. **Staggered Dual-Layer COMMON Coupling Lag:** Layer 1 (Phase) and Layer 2 (Mechanical) have a 1-iteration lag at step entry across `COMMON /CB_STATE_TRANS/`.
+4. **Wake Coarsening Distortion:** Coarsening the phase-field wake risks altering specimen bending compliance, violating damage irreversibility, and distorting fracture surface energy.
+5. **Multi-Cycle Compounding Error:** State transfer across multiple sequential cycles risks progressive numerical diffusion of damage gradients.
 
-## 6. Refocus on Method C2: Wake Coarsening and Multi-Cycle Remeshing
-
-### 6.1 The Physical Necessity of Coarsening in Method C2
-
-In adaptive remeshing for fracture mechanics, progressive crack propagation presents two distinct spatial regimes:
-1. **The Active Fracture Process Zone (FPZ):**
-   Located at and immediately ahead of the crack tip ($x \in [x_{\text{tip}} - l_0, x_{\text{tip}} + 3l_0]$), characterized by intense strain gradients, non-zero dissipation rate ($\dot{d} > 0$), and active stress degradation. This zone requires fine spatial resolution ($h \le l_0/2 = 3.75\,\mu\text{m}$).
-2. **The De-Stressed Crack Wake:**
-   Located well behind the crack tip ($x \le x_{\text{tip}} - 3l_0$), where the material is fully severed ($d \approx 1.0$), stress has relaxed to near-zero ($\boldsymbol{\sigma} \approx \mathbf{0}$), and no further damage dissipation occurs ($\dot{d} = 0$).
-3. **The Far-Field Bulk:**
-   Located far from the fracture plane ($|y - 0.5\,\text{mm}| \ge 5l_0$), where the material remains purely elastic ($d = 0$, $\nabla d = 0$).
-
-**Why Coarsening is Indispensable for Genuine Adaptivity:**
-If an adaptive remeshing scheme only refines ahead of the crack tip without coarsening behind it, the mesh element count grows monotonically with every cycle ($N_e^{(k+1)} > N_e^{(k)}$). By the time the crack traverses the full $0.5\,\text{mm}$ ligament, the fine mesh corridor would span the entire domain, degenerating into an expensive globally refined mesh and defeating the primary purpose of adaptive remeshing!
-
-### 6.2 Forensic Analysis of the Coarsening Failure in Job 1412809
-
-Task F1447 and F1450 executed cluster Job `1412809.mmaster02` (`M1_MC_GEN_CONT`), which attempted a coarsening transfer from the fine 14,677-element mesh to the coarse 2,906-element mesh.
-
-#### Empirically Verified Failure Metrics of Job 1412809:
-- **Criterion 3 Domain Damage Integral Error:** $+5.0465\% > 5.0\%$ (**STRICT FAIL**).
-- **Severe Numerical Crack Pinning:** Peak initiation force spiked to $F_{\max} = 1085.41\,\text{N}$ ($+43.2\%$ above canonical reference $757.8\,\text{N}$).
-- **Delayed Localization:** Peak displacement delayed to $u_{\text{peak}} = 0.009219\,\text{mm}$ ($+57.4\%$ above reference $0.005857\,\text{mm}$).
-- **Step-Boundary Force Jump:** $|RF_{\text{step2\_inc1}} - RF_{\text{step1\_end}}| = |653.17 - 674.72| = 21.55\,\text{N} > 5.0\,\text{N}$ (**STRICT FAIL**).
-
-#### Mathematical Origin of Chordal Damage Distortion:
-The analytical 1D phase-field profile along the transverse coordinate $y$ across the crack seam is:
-$$d(y) = d_{\max} \exp\left( -\frac{|y - y_0|}{l_0} \right)$$
-When this convex profile is projected onto a coarse finite element of size $h$, piecewise linear shape functions interpolate between nodal values along straight chords. Because the exponential function is strictly convex ($\frac{d^2 d}{dy^2} > 0$), the linear chord sits **strictly above** the true continuum profile everywhere inside the element!
-
-The relative integration error for an element of size $h$ centered on the profile is given analytically by:
-$$\varepsilon_{\text{chordal}}(\xi) = \xi \coth(\xi) - 1, \quad \text{where } \xi = \frac{h}{2l_0}$$
-
-Evaluating this analytical formula across mesh resolutions:
-- For the coarse mesh ($h = 20\,\mu\text{m}$, $l_0 = 7.5\,\mu\text{m}$): $\xi = \frac{20}{15} = 1.3333$.
-  $$\varepsilon_{\text{chordal}} = 1.3333 \coth(1.3333) - 1 = 1.3333(1.1493) - 1 = +53.25\% \text{ element chordal over-estimation!}$$
-  This $+53.25\%$ element-level over-estimation caused the $+5.0465\%$ domain-level error in Job 1412809!
-- For the fine recipient mesh ($h = 1.875\,\mu\text{m}$, $l_0 = 7.5\,\mu\text{m}$): $\xi = \frac{1.875}{15} = 0.125$.
-  $$\varepsilon_{\text{chordal}} = 0.125 \coth(0.125) - 1 \approx \frac{1}{3} \xi^2 = \frac{1}{3} (0.125)^2 = +0.5208\% \text{ element-level error!}$$
-  In 2D integrated domain space, this drops to **$0.1322\%$** (verified in `audit_forward_transfer_summary.json`).
-
-### 6.3 The Governing Spatial Resolution Bound for Method C2 Wake Coarsening
-
-The fundamental lesson from Job 1412809 is that **phase-field fracture wakes cannot be coarsened like standard fluid-dynamics or thermal wakes**.
-
-In standard continuum mechanics, an unloaded elastic zone can be coarsened to arbitrary element size. In phase-field fracture, however:
-- The phase-field equation contains the gradient penalty term $\frac{1}{2} G_c l_0 |\nabla d|^2$.
-- Even when the crack is fully broken ($d \approx 1.0$), the transition zone from $d = 1.0$ at the crack center to $d = 0.0$ in the bulk possesses a permanent gradient width of order $2l_0 = 15\,\mu\text{m}$.
-- If an element in this transition zone has $h > l_0$, the discrete Laplacian $\nabla_h^2 d$ cannot resolve the gradient, causing spurious residual traction, artificial crack healing, and numerical pinning.
-
-#### THE METHOD C2 RESOLUTION THEOREM:
-$$\boxed{h(\mathbf{x}) \le \frac{l_0}{2} = 3.75\,\mu\text{m} \quad \forall \mathbf{x} \text{ where } d(\mathbf{x}) \ge 0.05}$$
-
-**Operational Rules for Method C2 Mesh Generation:**
-1. **Rule 1 (Active FPZ):** In the active zone ahead of the crack tip ($x_{\text{tip}} \le x \le x_{\text{tip}} + 3l_0$), mesh resolution must be fine: $h \le l_0/4 = 1.875\,\mu\text{m}$.
-2. **Rule 2 (Wake Zone):** In the severed crack wake ($x < x_{\text{tip}}$), coarsening is permitted only up to the upper regularization bound: $h_{\text{wake}} \le l_0/2 = 3.75\,\mu\text{m}$. **Coarsening to $h = 20\,\mu\text{m}$ across the crack seam is strictly prohibited.**
-3. **Rule 3 (Far-Field Bulk):** In regions where $d < 0.01$ and $\nabla d \approx 0$ ($|y - 0.5\,\text{mm}| \ge 5l_0$), coarsening to $h = 20-50\,\mu\text{m}$ is fully permissible and numerically stable.
+### Smallest Justified Next Experimental Step
+The smallest justified next experimental step (pending formal supervisor release of Gate 6C) is:
+**Generate and datacheck (without solver execution) the single-cycle forward-refinement input deck (`M1_MC_C1_FORWARD_14K.inp`) using staged re-equilibration, verifying deck syntax, card wrapping, and memory requirements on the cluster login node.**
 
 ---
 
-## 7. Epistemic Separation: Verified Empirical Checks vs Planned Analytical Work
+## 9. Operational Validation Gates for Method C1 and Method C2
 
-To maintain absolute scientific discipline, every technical finding and architectural component is categorized below:
+To replace ad-hoc assessments with rigorous, falsifiable criteria, independent validation gates are established for C1 and C2:
+
+### 9.1 Gate C1: Forward-Refinement Continuation Validation Gate
+
+Before any coarsening or multi-cycle work can be undertaken, Method C1 must achieve **PASS** across all six operational criteria on the forward refinement experiment ($2,906 \to 14,677$ FEs at $u_{\text{handoff}} = 0.0050\,\text{mm}$):
 
 ```
 +==================================================================================================================================+
-|                                    EPISTEMIC EVIDENCE CLASSIFICATION TABLE                                                       |
-+==========================================================+============================+==========================================+
-| Feature / Claim / Result                                 | Epistemic Classification   | Provenance / Evidence Basis              |
-+==========================================================+============================+==========================================+
-| Abaqus Error 144: *INITIAL CONDITIONS, TYPE=DISPLACEMENT | [VERIFIED EMPIRICAL CHECK] | Empirically verified in Abaqus/Standard  |
-| is fatal in *STATIC procedures                           |                            | 2023 preflight runs (Task F1447)         |
-+----------------------------------------------------------+----------------------------+------------------------------------------+
-| *INITIAL CONDITIONS, TYPE=SOLUTION successfully loads    | [VERIFIED EMPIRICAL CHECK] | Cluster jobs 1412158, 1412464, 1412809   |
-| SVARS 1..18 for 44,031 element records                   |                            | (M1_MC_GEN_CONT, Exit 0)                 |
-+----------------------------------------------------------+----------------------------+------------------------------------------+
-| Coarse Donor Handoff State at u = 0.0050 mm:             | [VERIFIED EMPIRICAL CHECK] | Job 1411891 (M1_PRE_1S) extracted to     |
-| RF = 653.088 N, E_int = 1.6634 mJ, d_max = 0.094910      |                            | coarse_donor_state_u0050.json (3F9198CD..|
-+----------------------------------------------------------+----------------------------+------------------------------------------+
-| Forward State Transfer Metrics (2,906 -> 14,677 FEs):    | [VERIFIED EMPIRICAL CHECK] | audit_forward_transfer_summary.json:     |
-| L2 = 0.1347%, Delta d = 0.000, Delta I = 0.1322%, min(H)>=0 |                         | offline Python state transfer engine     |
-+----------------------------------------------------------+----------------------------+------------------------------------------+
-| Reverse Coarsening Chordal Damage Failure (+5.0465%):    | [VERIFIED EMPIRICAL CHECK] | Job 1412809 & genuine_continuation_      |
-| caused by convex chordal bias on h/l0 = 2.67 mesh        |                            | evaluation.json (Task F1450)             |
-+----------------------------------------------------------+----------------------------+------------------------------------------+
-| Reverse Coarsening Severe Crack Pinning:                 | [VERIFIED EMPIRICAL CHECK] | Job 1412809 load-displacement CSV:       |
-| F_max = 1085.41 N (+43.2%), u_peak = 0.009219 mm (+57.4%) |                           | coarse mesh pins crack initiation        |
-+----------------------------------------------------------+----------------------------+------------------------------------------+
-| Single-Increment Secant Step-Boundary Jump:              | [VERIFIED EMPIRICAL CHECK] | Job 1412809: |653.17 - 674.72| = 21.55 N |
-| Delta RF = 21.55 N > 5.0 N (Criterion 1 FAIL)           |                            | evaluated across Step 1 -> Step 2 boundary|
-+----------------------------------------------------------+----------------------------+------------------------------------------+
-| Fortran UEXTERNALDB(LOP=0) zeroing and CB_STATE_TRANS    | [VERIFIED EMPIRICAL CHECK] | Source code inspection of production UEL |
-| staggered coupling lag in f42_mixed_uel.for              |                            | CE8D5EDCD2911DCB018BB15275271F874E7EA62B8|
-+----------------------------------------------------------+----------------------------+------------------------------------------+
-| Reference-Configuration Update (X* = X + u0) Invalidity  | [VERIFIED EMPIRICAL CHECK] | Mathematical proof of F = I, strain = 0, |
-|                                                          |                            | and crack-tip blunting distortion        |
-+----------------------------------------------------------+----------------------------+------------------------------------------+
-| Kinematic-Offset UEL Formulation (u = u0 + Delta u):     | [PLANNED ANALYTICAL        | Derived on paper; requires experimental  |
-| weak form, F_int, K_tan, and residual relaxation         |  PROPOSAL]                 | UEL implementation and verification      |
-+----------------------------------------------------------+----------------------------+------------------------------------------+
-| Staged Multi-Increment Re-Equilibration Step 1:          | [PLANNED ANALYTICAL        | Designed on paper; un-run on recipient   |
-| 20-50 sub-steps with smooth amplitude curve              |  PROPOSAL]                 | 14,677 FE forward mesh                   |
-+----------------------------------------------------------+----------------------------+------------------------------------------+
-| Method C2 Wake Coarsening Resolution Bound:             | [PLANNED ANALYTICAL        | Derived from chordal error analysis;     |
-| h_wake <= l0/2 = 3.75 um for all d >= 0.05               |  PROPOSAL]                 | awaiting candidate C2 mesh synthesis     |
-+----------------------------------------------------------+----------------------------+------------------------------------------+
-| Method C2 Multi-Cycle Remeshing Pipeline:                | [PLANNED ANALYTICAL        | Formulated architecture; awaiting single-|
-| Cycle 1 (u=0.0050 mm) -> Cycle 2 (u=0.0065 mm)           |  PROPOSAL]                 | cycle C1 demonstration and qualification |
+|                                    GATE C1: OPERATIONAL ACCEPTANCE CRITERIA                                                      |
++----+--------------------------------+---------------------------------------+------------------+---------------------------------+
+| #  | Criterion Name                 | Governing Metric Formula              | Pass Threshold   | Falsification / Failure Condition|
++----+--------------------------------+---------------------------------------+------------------+---------------------------------+
+| C1-1| Boundary Reaction Continuity   | |RF_entry - RF_donor|                 | <= 5.0 N         | > 5.0 N force jump at handoff   |
+|    |                                | |RF_step2_inc1 - RF_step1_end|        |                  |                                 |
++----+--------------------------------+---------------------------------------+------------------+---------------------------------+
+| C1-2| Transfer Energy Error          | Delta E_trans / W_ext(u_handoff)      | <= 5.0%          | > 5.0% energy gain/loss         |
++----+--------------------------------+---------------------------------------+------------------+---------------------------------+
+| C1-3| Global Energy Balance Residual | |W_ext - (E_elas + E_frac)| / W_ext   | <= 10.0%         | > 10.0% un-conserved work       |
++----+--------------------------------+---------------------------------------+------------------+---------------------------------+
+| C1-4| Damage Irreversibility         | min(d_{n+1} - d_n)                    | >= -1.0e-6       | Artificial damage healing       |
+|    |                                | min(H_{n+1} - H_n)                    | >= 0.0           | Negative history variable       |
++----+--------------------------------+---------------------------------------+------------------+---------------------------------+
+| C1-5| Fracture Response Parity       | |K_0 - K_0^ref| / K_0^ref             | <= 1.0%          | Initial stiffness mismatch      |
+|    | vs Fixed Reference             | |F_max - F_max^ref| / F_max^ref       | <= 3.0%          | Crack pinning (F_max > 0.78 kN) |
+|    |                                | RF_final / F_max                      | <= 0.02          | Incomplete softening tail       |
++----+--------------------------------+---------------------------------------+------------------+---------------------------------+
+| C1-6| Repeatability & Determinism    | Pre-peak cutbacks                     | 0 cutbacks       | Pre-peak cutback or solver hang |
+|    |                                | Parity across identical hardware      | 100% hash parity | Non-deterministic divergence    |
++----+--------------------------------+---------------------------------------+------------------+---------------------------------+
+```
+
+### 9.2 Gate C2: Selective Wake Coarsening & Cycle 2 Validation Gate
+
+Gate C2 may be activated **only after Gate C1 achieves formal PASS**. It governs the investigation of selective coarsening in the de-stressed wake and the second sequential remeshing cycle:
+
+```
 +==================================================================================================================================+
+|                                    GATE C2: OPERATIONAL ACCEPTANCE CRITERIA                                                      |
++----+--------------------------------+---------------------------------------+------------------+---------------------------------+
+| #  | Criterion Name                 | Governing Metric Formula              | Pass Threshold   | Falsification / Failure Condition|
++----+--------------------------------+---------------------------------------+------------------+---------------------------------+
+| C2-1| Coarsening Energy Discrepancy  | |E_int^C2 - E_int^C1| / W_ext         | <= 5.0%          | > 5.0% energy loss upon coarsen |
++----+--------------------------------+---------------------------------------+------------------+---------------------------------+
+| C2-2| Crack Opening Compliance (COD) | |COD_C2 - COD_C1| / COD_C1            | <= 3.0%          | Coarse elements alter arm bend  |
++----+--------------------------------+---------------------------------------+------------------+---------------------------------+
+| C2-3| Wake Surface Energy Quadrature | |E_frac^wake_C2 - E_frac^wake_C1|/E_fr| <= 5.0%          | Coarsening distorts crack area  |
++----+--------------------------------+---------------------------------------+------------------+---------------------------------+
+| C2-4| Wake Flank Non-Penetration     | Interface contact traction            | 0 spurious shear | Spurious crack bridging/locking |
+|    | and Irreversibility            | min(d_C2 - d_C1)                      | >= -1.0e-6       | Damage healing in wake          |
++----+--------------------------------+---------------------------------------+------------------+---------------------------------+
+| C2-5| Net Computational Efficiency   | Walltime_C2 / Walltime_C1             | <= 0.85          | Coarsening fails to reduce CPU  |
+|    |                                | Element count N_e^C2 / N_e^C1         | <= 0.70          | time by at least 15%            |
++----+--------------------------------+---------------------------------------+------------------+---------------------------------+
+```
+
+### 9.3 Standardized Evidence-Reporting Template
+
+Every future Method C continuation solver evaluation must report results using the following standardized template:
+
+```markdown
+### Method C Solver Execution Telemetry & Evidence Summary
+- **Job ID & Queue:** `<job_id>.mmaster02` in `<queue>` on `<node>`
+- **Model Decks & Lineage:** Donor `<donor_deck.inp>` -> Recipient `<recipient_deck.inp>`
+- **Finite Element Count:** Donor `<N_donor>` FEs -> Recipient `<N_recip>` FEs
+- **Step Architecture:** Step 1 (`<N_inc1>` incs, `<time1>`) -> Step 2 (`<N_inc2>` incs, `<time2>`)
+- **Cutback Diagnostics:** `<total_cutbacks>` cutbacks (pre-peak: `<pre_cutbacks>`, post-peak: `<post_cutbacks>`)
+- **Boundary Reaction Continuity:**
+  * Donor handoff force: $RF_{\text{donor}} = \dots\,\text{N}$
+  * Recipient entry force: $RF_{\text{recip}} = \dots\,\text{N}$
+  * Step boundary jump: $|\Delta RF| = \dots\,\text{N}$ (Verdict: PASS / FAIL)
+- **UEL Energy Balance Tracking:**
+  * External work: $W_{\text{ext}} = \dots\,\text{mJ}$
+  * Elastic strain energy: $E_{\text{elas}} = \dots\,\text{mJ}$
+  * Fracture surface energy: $E_{\text{frac}} = \dots\,\text{mJ}$
+  * Bookkeeping residual: $\Delta E = \dots\,\text{mJ}$ ($\dots\%$ relative error)
+- **Damage Profile & Irreversibility:**
+  * Maximum phase field: $d_{\max} = \dots$
+  * Irreversibility check: $\min(\Delta d) = \dots \ge -10^{-6}$
+  * Crack-tip location & path: $x_{\text{tip}} = \dots\,\text{mm}$, $y = \dots\,\text{mm}$
+- **Fracture Response Comparison:**
+  * Initial stiffness: $K_0 = \dots\,\text{kN/mm}$ ($\dots\%$ vs canonical reference)
+  * Peak load: $F_{\max} = \dots\,\text{kN}$ at $u = \dots\,\text{mm}$ ($\dots\%$ vs reference)
+  * Post-peak load drop: $RF_{\text{final}} = \dots\,\text{N}$ ($\dots\%$ softened)
+- **Gate Evaluation Verdict:** Gate C1 [PASS / FAIL] | Gate C2 [NOT ACTIVATED / PASS / FAIL]
 ```
 
 ---
 
-## 8. Implementation Specification & Candidate Branch Protocol
+## 10. Reconciliation of Project Authorization & Supervisor Review Status
 
-### 8.1 Dual Implementation Strategy for Supervisor Review
-
-When presenting to the supervisor on 22 October 2026, the project provides two concrete, non-conflicting options:
-
-#### Option A: Baseline Completion & Commercial Software Barrier Reporting
-- Report Method B load-partitioned pre-refinement as the fully completed scientific contribution ($K_0$ within $-0.026\%$, plateau eliminated, work reduced by $31.49\%$, global energy balance within $1.10\%$).
-- Report Method C state transfer as mathematically qualified offline ($L_2 = 0.13\%$, $\Delta d = 0.000$, $\Delta I = 0.13\%$), while documenting the commercial Abaqus displacement initialization barrier (Error 144) and coarsening chordal distortion ($+5.05\%$) as foundational software limitations.
-- Preserves the authoritative production UEL and concludes thesis scope cleanly.
-
-#### Option B: Controlled Method C1 & C2 Experimental Investigation
-- If the supervisor desires active demonstration of in-analysis continuation:
-  1. **Phase 1 (C1 Forward Continuation via Path 1):** Execute the single-cycle forward refinement experiment ($2,906 \to 14,677$ FEs) using input-deck staged re-equilibration, keeping production `f42_mixed_uel.for` 100% frozen.
-  2. **Phase 2 (C1 Option B UEL via Isolated Branch):** If staged re-equilibration exhibits excess work or step discontinuity, implement kinematic-offset UEL on branch `experimental/method-c1-continuation-uel`.
-  3. **Phase 3 (Method C2 Wake Coarsening Investigation):** Synthesize a 3-zone adapted mesh respecting the $h_{\text{wake}} \le l_0/2$ bound, testing whether wake coarsening can be achieved without the $+5.05\%$ chordal error or crack pinning seen in Job 1412809.
-
-### 8.2 Candidate Branch Protocol
-- **Canonical `main` Branch:** Production UEL `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) remains strictly frozen and untouched.
-- **Experimental Branch (`experimental/method-c1-continuation-uel`):**
-  - Created by branching off `main` at commit `74b7cbce`.
-  - Holds `f42_mixed_uel_continuation.for` with kinematic offset kinematics.
-  - Zero merges into `main` without explicit human and supervisor authorization.
-
----
-
-## 9. Conclusions & Recommendations for 22 October 2026 Supervisor Meeting
-
-1. **Kinematic-offset continuation is mathematically consistent**, with tangent stiffness identical in structure to standard elasticity, but it does **not** eliminate initial discrete out-of-balance residuals arising from nonmatching mesh projection.
-2. **Reference-configuration coordinate shifting is physically invalid**, setting strain and stress to zero and distorting crack-tip geometry.
-3. **`*INITIAL CONDITIONS, TYPE=SOLUTION` is fully qualified and verified**, rendering `SDVINI` unnecessary for input-deck driven state initialization.
-4. **Method C2 wake coarsening is governed by a strict spatial bound**: $h_{\text{wake}} \le l_0/2 = 3.75\,\mu\text{m}$. Coarsening across the damaged crack wake to $h > l_0$ causes massive chordal damage distortion ($+53.25\%$ element-level error) and triggers severe crack pinning ($F_{\max} = 1085.41\,\text{N}$), as empirically proven in Job 1412809.
-5. **Path 1 (Staged Re-Equilibration)** is recommended as the immediate, zero-risk pathway for the first forward continuation experiment because it keeps production code 100% frozen, while **Path 2 (Kinematic Offset)** is fully derived and ready as Option B on an isolated branch.
-6. **Zero PBS cluster jobs** were submitted during this task, preserving full governance integrity for the supervisor meeting.
+1. **Gate 6B Status:** Formally `GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF`. Method B is completely evaluated across 14,483 elements, eliminating the artificial force plateau and reducing external work by $31.49\%$. It is ready for formal sign-off during the meeting on **Thursday, 22 October 2026 at 10:00 CEST**.
+2. **Gate 6C Status:** Formally **ON HOLD PENDING SUPERVISOR REVIEW**. Milestone 1 (mesh refinement) and Milestone 2 (offline mathematical state transfer) are verified offline, but Milestone 3 (solver continuation) has not been achieved. Gate 6C must NOT auto-promote.
+3. **Execution Safety Boundary:**
+   - Zero Abaqus solver runs or PBS job submissions are permitted.
+   - Production UEL `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) remains strictly frozen and unmodified.
+   - All research recommendations and candidate paths are submitted for supervisor review and determination.
