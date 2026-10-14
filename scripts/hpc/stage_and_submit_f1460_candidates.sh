@@ -63,17 +63,17 @@ fi
 echo "[PASS] Candidate 1 Datacheck qualified successfully (Exit 0)."
 
 # Submit Candidate 1
-echo ">>> Submitting Candidate 1 via qsub..."
+echo ">>> Submitting Candidate 1 via qsub (entry_imfdfkmq -> normal_imfdfkmq)..."
 JOB_ID1=$(qsub submit_M1_MB_NATIVE_8T_B.pbs)
 echo "=== SUBMITTED CANDIDATE 1 JOB ID: ${JOB_ID1} ==="
 echo "${JOB_ID1}" > "${DIR1}/SUBMITTED_JOB_ID.txt"
-echo "[$(date -Iseconds)] Submitted PBS Job ID: ${JOB_ID1} (8 CPUs, 24 GB RAM, walltime 24:00:00, queue normal_imfdfkmq)" >> "${DIR1}/SUBMISSION_HISTORY.log"
+echo "[$(date -Iseconds)] Submitted PBS Job ID: ${JOB_ID1} (8 CPUs, 24 GB RAM, walltime 24:00:00, queue entry_imfdfkmq -> normal_imfdfkmq)" >> "${DIR1}/SUBMISSION_HISTORY.log"
 
 if [ -f "${DIR1}/job_notifications.sh" ]; then
     source "${DIR1}/job_notifications.sh"
     notification_load_config || true
     if type notify_submitted >/dev/null 2>&1; then
-        notify_submitted "${JOB_ID1}" "M1_MB_NAT_8TB" "normal_imfdfkmq" "8" "24gb" "24:00:00" || true
+        notify_submitted "${JOB_ID1}" "M1_MB_NAT_8TB" "entry_imfdfkmq" "8" "24gb" "24:00:00" || true
     fi
 fi
 
@@ -123,17 +123,17 @@ fi
 echo "[PASS] Candidate 2 Datacheck qualified successfully (Exit 0)."
 
 # Submit Candidate 2
-echo ">>> Submitting Candidate 2 via qsub..."
+echo ">>> Submitting Candidate 2 via qsub (entry_imfdfkmq -> normal_imfdfkmq)..."
 JOB_ID2=$(qsub submit_M1_MB_CORR_8TA.pbs)
 echo "=== SUBMITTED CANDIDATE 2 JOB ID: ${JOB_ID2} ==="
 echo "${JOB_ID2}" > "${DIR2}/SUBMITTED_JOB_ID.txt"
-echo "[$(date -Iseconds)] Submitted PBS Job ID: ${JOB_ID2} (8 CPUs, 24 GB RAM, walltime 24:00:00, queue normal_imfdfkmq)" >> "${DIR2}/SUBMISSION_HISTORY.log"
+echo "[$(date -Iseconds)] Submitted PBS Job ID: ${JOB_ID2} (8 CPUs, 24 GB RAM, walltime 24:00:00, queue entry_imfdfkmq -> normal_imfdfkmq)" >> "${DIR2}/SUBMISSION_HISTORY.log"
 
 if [ -f "${DIR2}/job_notifications.sh" ]; then
     source "${DIR2}/job_notifications.sh"
     notification_load_config || true
     if type notify_submitted >/dev/null 2>&1; then
-        notify_submitted "${JOB_ID2}" "M1_MB_CORR_8TA" "normal_imfdfkmq" "8" "24gb" "24:00:00" || true
+        notify_submitted "${JOB_ID2}" "M1_MB_CORR_8TA" "entry_imfdfkmq" "8" "24gb" "24:00:00" || true
     fi
 fi
 
