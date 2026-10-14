@@ -174,10 +174,11 @@ To maintain strict methodological discipline and prevent conflation in reporting
    - *Operational Definition:* True automated adaptive fracture simulation: $\text{Solve} \to \text{Evaluate Error} \to \text{Remesh} \to \text{Transfer State} \to \text{Continue}$, repeated sequentially during active crack propagation.
    - *Documented Milestone Status:* One authentic coarse-to-fine refinement candidate ($2{,}906 \to 14{,}677$ FEs) and offline state transfer have been verified, but **zero complete sequential remeshing-and-continuation cycles have been qualified in the solver**. Two-cycle and four-cycle Method C experiments remain un-demonstrated. Commercial Abaqus/Standard barriers (rejection of displacement ICs in `*STATIC`, zero DOFs in solution ICs, lack of UEL mapping) fundamentally block native in-analysis continuation.
 
-The state-transfer comparison across the three canonical physical fields at $u = 0.0050\,\text{mm}$ established:
-- **Field 1 (Coarse Donor Solution, 2.9k FEs):** $d_{\max} = 0.094910$. Coarse mesh ($h = 20\,\mu\mathrm{m} > 2.6\,l_0$) pinned damage evolution, retarding crack initiation.
-- **Field 2 (Coarse Solution Interpolated on Fine Mesh):** $d_{\max} = 0.094910$. Exact identity with Field 1 ($\Delta d = 0.000000$) at coincident notch tip node 129. Proves **mathematical transfer fidelity**.
+The state-transfer comparison across the three canonical physical fields at $u = 0.0050\,\text{mm}$ (donor deck `M1-MB-1S.inp` / `M1_MB_INF_1S.inp`, $2,906$ FEs, $2,988$ physical nodes) established:
+- **Field 1 (Coarse Donor Solution, 2.9k FEs):** $d_{\max} = 0.094910$ evaluated at true notch-tip **Node 97** ($x=0.500\,\text{mm}, y=0.500\,\text{mm}$). Coarse mesh ($h = 20\,\mu\mathrm{m} > 2.6\,l_0$) pinned damage evolution, retarding crack initiation. (Note: 2,142 nodes in `coarse_donor_state_u0050.json` reflects nodes with active damage $d \ge 1.3 \times 10^{-7}$, while 846 intact far-field nodes receive $d = 0.0$).
+- **Field 2 (Coarse Solution Interpolated on Fine Mesh):** $d_{\max} = 0.094910$. Exact identity with Field 1 ($\Delta d = 0.000000$) at the coincident notch tip node ($x=0.5, y=0.5\,\text{mm}$). Proves **mathematical transfer fidelity**.
 - **Field 3 (Independently Solved Fine Reference, 14.7k FEs):** $d_{\max} = 0.319455$. Fine mesh ($h = 1.875\,\mu\mathrm{m} \le l_0/4$) resolved steep damage gradient from $t = 0$.
+- **Spatial Separation of $H_{\max}$ and $d_{\max}$:** Global maximum strain energy history $H_{\max} = 53.6499\,\text{MPa}$ is located inside Element 1208 at its crack-tip Gauss points ($x \approx 0.501, y \approx 0.500$), separated from the continuous nodal field $d_{\max} = 0.094910$ at Node 97. Pointwise 0D algebraic equivalence must never be claimed between them.
 
 ### 3.2 Offline State Transfer Evaluation (Gate 6C Criteria)
 
@@ -191,7 +192,7 @@ The state-transfer comparison across the three canonical physical fields at $u =
 | **Criterion 6** | Offline Mesh Compliance Disparity | $\le 5.0\%$ | $\mathbf{1.6662\%}^\ddagger$ | **PASS** |
 | **Criterion 7** | Continuation Energy Residual | $\le 10.0\%$ | \emph{Not Yet Evaluated}$^\dagger$ | **UN-RUN IN SOLVER** |
 
-$^*$Evaluated at coincident notch tip node 129 ($x=0.5, y=0.5\,\text{mm}$).  
+$^*$Evaluated at coincident notch tip node 97 ($x=0.5, y=0.5\,\text{mm}$). (Prior reports referenced node 129 from the 15k reference mesh).  
 $^\dagger$Forward recipient mesh has never been solved in Abaqus. Reverse coarsening metrics (Job 1412809: $21.55\,\text{N}$ and $22.22\%$) are kept strictly decoupled.  
 $^\ddagger$Criterion 6 evaluates the static compliance disparity between the independently solved coarse donor ($1.6634\,\text{mJ}$) and fine reference ($1.6911\,\text{mJ}$) equilibrium states at $u = 0.0050\,\text{mm}$.
 
@@ -208,6 +209,12 @@ $^\ddagger$Criterion 6 evaluates the static compliance disparity between the ind
    - $\mathbf{R}_{\text{internal}, 0} = \mathbf{0}$ (discrete internal equilibrium residual, which is strictly non-zero: $\boldsymbol{\rho}_{\text{transfer}} \ne \mathbf{0}$)
    - $\Delta RF = 0$ (boundary reaction force discontinuity)
    Prescribing zero incremental displacement does NOT ensure internal equilibrium or force continuity.
+
+5. **Four-Stage Thermodynamic State-Transfer Energy Balance:**
+   - *Stage 1 (Donor State):* $W_{\text{ext}, D} = E_{\text{elas}, D} + E_{\text{frac}, D} + \mathcal{D}_{\text{num}, D} + \Delta E_{\text{book}, D}$ ($W_{\text{ext}} = 1.6327\,\text{mJ}, E_{\text{elas}} = 1.6327\,\text{mJ}, E_{\text{frac}} = 0.0307\,\text{mJ}, E_{\text{tot}} = 1.6634\,\text{mJ}$).
+   - *Stage 2 (Post-Projection State):* $E_{\text{elas}, R}^{(0)} = E_{\text{elas}, D} + \Delta E_{\text{proj, elas}}$, with out-of-balance residual norm $\|\mathbf{R}_R^{(0)}\| \approx \mathcal{O}(10\,\text{N})$.
+   - *Stage 3 (Fixed-$u$ Equilibration, $\Delta u_{\text{boundary}} = 0$, $d$ frozen):* $\Delta W_{\text{ext}} = 0 = \Delta E_{\text{elas, relax}} + \mathcal{D}_{\text{num, relax}} \iff \Delta E_{\text{elas, relax}} = -\mathcal{D}_{\text{num, relax}} \le 0$, where numerical dissipation $\mathcal{D}_{\text{num, relax}} \ge 0$ absorbs the discrete projection residual. With damage frozen, $\Delta E_{\text{frac, relax}} = 0$.
+   - *Stage 4 (Forward Propagation, $u > u_D$):* $\Delta W_{\text{ext}} = \int_{u_D}^u F \, \mathrm{d}\tilde{u} = \Delta E_{\text{elas}} + \Delta E_{\text{frac}} + \Delta \mathcal{D}_{\text{visc}} + \Delta \mathcal{D}_{\text{num}}$.
 
 ---
 
@@ -240,7 +247,7 @@ During the upcoming meeting on Thursday, 22 October 2026 at 10:00 CEST, the foll
 ### 4.3 Decision 3: Strategic Thesis Path Forward
 - **Submitted for Supervisor Consideration & Determination:** The strategic research direction for the thesis remains for determination between the user and supervisor. Two scientifically defensible options are submitted:
   - **Option A (Preserve & Report Baseline Methods):** Preserve and report Methods A and B as verified offline pre-refinement engineering workflows, alongside a rigorous documentation of the current commercial Abaqus/Standard Method C feasibility limitations and architectural software barriers, without further solver modifications.
-  - **Option B (Investigate Leading Proposed Experimental Continuation Architecture):** Authorize implementing and evaluating the smallest isolated experimental C1 continuation prototype on a dedicated development branch (`f42_experimental_offset_uel.for`), keeping the authoritative, frozen baseline `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) strictly unchanged and protected (critiquing tangent positive definiteness, removing unconditional solvability guarantees, and enforcing a 5-stage qualification progression with strict rollback boundaries) (technical feasibility and controlled single-cycle validation plan detailed in `docs/reports/MODE1_METHOD_C1_CONTINUATION_FEASIBILITY_AND_PLAN.md` and independent architectural validation and Method C2 wake coarsening audit in `docs/reports/MODE1_METHOD_C_CONTINUATION_ARCHITECTURE_VALIDATION.md`).
+  - **Option B (Investigate Separate Experimental Continuation Architecture):** Authorize implementing and evaluating the smallest isolated experimental C1 continuation prototype on a dedicated development branch (`f42_experimental_offset_uel.for`), keeping the authoritative, frozen baseline `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) strictly unchanged and protected (critiquing tangent positive definiteness, removing unconditional solvability guarantees, and enforcing a 5-stage qualification progression with strict rollback boundaries) (technical feasibility and controlled single-cycle validation plan detailed in `docs/reports/MODE1_METHOD_C1_CONTINUATION_FEASIBILITY_AND_PLAN.md` and independent architectural validation and Method C2 wake coarsening audit in `docs/reports/MODE1_METHOD_C_CONTINUATION_ARCHITECTURE_VALIDATION.md`).
 - **Epistemic Discipline:** The choice between Option A and Option B belongs strictly to the user and the supervisor. The controller/agent does not independently terminate Method C or resume Mode-II. General PBS permission does NOT authorize C1 solver execution without explicit supervisor review.
 
 ### 4.4 Technical Note: Mandatory Qualification Criteria for a Single Genuine Method C Remeshing Cycle
@@ -349,17 +356,28 @@ The complete evidence base is classified under the formal schema (`Evidence_ID`,
 
 ---
 
-## 6. Smallest C1 Experiment Specification & Execution Sequence
+## 6. Smallest C1 Experiment Specification & Four-Stage Progression
 
-To establish an actionable, controlled experimental roadmap (pending explicit supervisor authorization), the smallest C1 experiment is specified:
-- **Donor State:** Existing Mode-I donor state at $u = 0.0050\,\text{mm}$ (Job 1411891 / 1411924, $2,906$ FEs, $2,988$ nodes, $RF = 653.09\,\text{N}$, $E_{\text{elas}} = 1.6634\,\text{mJ}$).
-- **Recipient Mesh:** Native $14,677$ FE recipient mesh (`M1_MB_NATIVE_14K` / `Job-2_UEL.inp`, $14,834$ nodes, corridor $h = 1.875\,\mu\text{m} = l_0/4$).
-- **Comparison of Approaches:**
-  * *Path 1 (Staged Reload):* Kept with production UEL frozen; reloads from $u=0$ over 500 increments; evaluates whether state equivalence holds at $u = 0.0050\,\text{mm}$.
-  * *Path 2 (Experimental Kinematic Offset):* Modifies UEL on an isolated branch (`f42_experimental_offset_uel.for`); ingests $\mathbf{u}_0$; evaluates direct continuation without reload.
-- **Controlled 4-Step Verification Sequence:**
-  1. *Step 1: Offline Transfer Verification:* Run Python mapping script, verifying coordinate alignment, field interpolation, and computing the exact discrete residual norm $\|\mathbf{R}_{\text{internal}, 0}\|$.
-  2. *Step 2: Abaqus Datacheck:* Execute `abaqus datacheck` on recipient deck (`M1_MC_C1_FORWARD_14K.inp`) to verify keyword syntax, card wrapping, and memory allocation.
-  3. *Step 3: Single-Increment Equilibrium Solve:* Execute 1 increment at $\Delta u = 0$ to measure initial Newton convergence iterations, relaxation displacement $\|\delta \mathbf{u}\|$, and entry reaction force $RF_{\text{recip}}$.
-  4. *Step 4: Short Forward Solve:* Advance 50 increments ($u \in [0.0050, 0.0055]\,\text{mm}$) to verify numerical stability before any full fracture solve.
-- **Governance Guard:** None of these solver steps are executed without explicit supervisor authorization. General PBS permission does NOT authorize C1 solver execution.
+To establish an actionable, controlled experimental roadmap (pending explicit supervisor authorization), a disciplined four-stage progression is specified, anchored to authentic coarse donor Job 1411891 (`M1_PRE_1S`, $2,906$ FEs, $2,988$ physical nodes, $u = 0.0050\,\text{mm}$, $RF = 653.0886\,\text{N}$, $E_{\text{elas}} = 1.6327\,\text{mJ}$, $E_{\text{frac}} = 0.0307\,\text{mJ}$, $E_{\text{tot}} = 1.6634\,\text{mJ}$, $d_{\max} = 0.094910$ at Node 97, $H_{\max} = 53.6499\,\text{MPa}$ at Element 1208):
+
+### 6.1 Four-Stage Gate 6C Qualification Sequence
+1. **Stage C1-0: Same-Mesh Offset Reproduction ($2,906 \to 2,906$ FEs):**
+   - *Objective:* Validate kinematic-offset continuation on the identical donor mesh with zero spatial interpolation error ($\|\mathbf{R}_R^{(0)}\| \approx 0$).
+   - *Displacement BC:* Held fixed at $u = 0.0050\,\text{mm}$ ($\Delta u_{\text{boundary}} = 0$).
+   - *Phase-Field DOF:* Nodal DOF 3 must be initialized to donor values ($d = d_0$), avoiding uninitialized zero-compliance shock.
+   - *Acceptance:* $|\Delta RF| = |RF_{\text{equil}} - 653.0886\,\text{N}| \le 0.5\,\text{N}$ ($< 0.1\%$); $|\Delta E_{\text{elas}}| \le 0.05\%$; $|\Delta d_{\max}| \le 10^{-5}$.
+   - *Discipline:* Retract unsupported guarantees of "exactly 1 Newton iteration" or "unconditional positive definiteness". Standard Abaqus convergence criteria apply.
+   - *Rollback:* If $|\Delta RF| > 2.0\,\text{N}$ or solver fails to converge at fixed boundary, halt immediately.
+2. **Stage C1-1: Nonmatching Fixed-Displacement Equilibration ($2,906 \to 14,677$ FEs):**
+   - *Objective:* Measure discrete projection residual norm $\|\mathbf{R}_R^{(0)}\|$ and verify that relaxation dissipation $\mathcal{D}_{\text{num, relax}} \ge 0$ equilibrates the state.
+   - *Acceptance:* Reaction force continuity $|\Delta RF| \le 5.0\,\text{N}$; relaxation energy $|\Delta E_{\text{elas, relax}}| / W_{\text{ext}} \le 2.0\%$; zero negative history ($\min(H) \ge 0$); no crack healing ($\Delta d \ge 0$).
+   - *Rollback:* If cutbacks occur or $|\Delta RF| > 15.0\,\text{N}$, halt solver and preserve evidence.
+3. **Stage C1-2: Small Forward Continuation ($u \in [0.0050, 0.0055]\,\text{mm}$):**
+   - *Objective:* Advance displacement by $\Delta u = 0.0005\,\text{mm}$ to verify tangent stiffness and physical phase-field evolution prior to peak load.
+   - *Acceptance:* Monotonic post-handoff load increase ($K_0 \approx 138\,\text{kN/mm}$); zero force plateau; smooth transition across handoff point without numerical snap.
+   - *Rollback:* If crack pinning occurs ($RF$ hangs at $0.50 - 0.60\,\text{kN}$) or non-convergence triggers cutbacks, rollback to offline analysis.
+4. **Stage C1-3: Prospective Native Remeshing and Continuation:**
+   - *Objective:* Complete single genuine sequential cycle ($\text{Solve} \to \text{Remesh} \to \text{Transfer} \to \text{Continue}$) to full fracture.
+   - *Scope Constraint:* Method C2 selective wake coarsening is strictly excluded from active scope. Only forward refinement is investigated.
+
+- **Governance Guard:** None of these solver steps are executed without explicit supervisor authorization. Production UEL `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) remains 100% frozen; experimental offset logic is isolated on a dedicated branch.

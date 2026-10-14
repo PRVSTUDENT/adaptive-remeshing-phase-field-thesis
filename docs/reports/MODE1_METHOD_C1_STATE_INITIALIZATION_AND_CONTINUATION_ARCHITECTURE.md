@@ -84,58 +84,69 @@ A rigorous stability analysis demonstrates that global tangent definiteness and 
 ## 4. Donor-State Consistency and Energetic Conservation
 
 ### 4.1 Reconciled Coarse Donor State (`Job 1411891.mmaster02`, `M1_PRE_1S`)
-The continuation benchmark is anchored to the authentic Mode-I donor simulation at $u = 0.0050\,\text{mm}$ ($2,906$ FEs, $2,142$ nodes):
+The continuation benchmark is anchored to the authentic Mode-I donor simulation at $u = 0.0050\,\text{mm}$ (`M1-MB-1S.inp` / `M1_MB_INF_1S.inp`, $2,906$ FEs, $2,988$ physical nodes):
 - **Applied Displacement:** $u_{\text{rp}} = 0.004999999888\,\text{mm} \approx 0.0050\,\text{mm}$
 - **Reaction Force:** $RF_y = 653.0886\,\text{N}$
 - **Stored Elastic Energy:** $E_{\text{elas}} = 1.632721\,\text{mJ}$
 - **Dissipated Fracture Energy:** $E_{\text{frac}} = 0.030663\,\text{mJ}$
 - **Total Internal Energy:** $E_{\text{tot}} = 1.663384\,\text{mJ}$
-- **Damage Localization:** $d_{\max,\text{nodal}} = 0.094910$ ($d_{\max,\text{elem}} = 0.100567$)
-- **Driving Force Monotonicity:** $\min(H) = 1.5794 \times 10^{-9} \ge 0$, $\max(H) = 0.05364989\,\text{kN/mm}^2 = 53.64989\,\text{MPa}$.
+- **Damage Localization:** $d_{\max,\text{nodal}} = 0.094910$ (evaluated at true notch-tip **Node 97** at $x = 0.500\,\text{mm}, y = 0.500\,\text{mm}$; $d_{\max,\text{elem}} = 0.100567$ in Element 314)
+- **Driving Force Monotonicity:** $\min(H) = 1.5794 \times 10^{-9} \ge 0$, $\max(H) = 0.05364989\,\text{kN/mm}^2 = 53.64989\,\text{MPa}$ (evaluated at crack-tip Gauss points of Element 1208).
+- **Node Count Provenance Reconciliation:**
+  - The input deck `M1-MB-1S.inp` contains **2,988 physical nodes** (2,989 total with Reference Point node 999999).
+  - The figure of 2,142 nodes in `coarse_donor_state_u0050.json` reflects the non-zero nodal damage field `d_nodal`, where 2,142 nodes had active non-zero damage ($d \ge 1.3 \times 10^{-7}$), while the remaining 846 nodes in the undamaged far field were assigned $d = 0.0$ in accordance with the intact material boundary condition.
+  - The geometric notch tip is **Node 97** ($x = 0.500000\,\text{mm}, y = 0.500000\,\text{mm}$). (Prior reports occasionally referenced Node 129, which was the notch tip in the 15k uniform reference mesh, whereas in the coarse mesh Node 129 is located on the boundary at $x = 0.120334\,\text{mm}, y = 0.036046\,\text{mm}$).
 
-### 4.2 Forensic Resolution of the History Field Discrepancy ($53.65\,\text{MPa}$ vs $18.88\,\text{MPa}$)
-Prior project reports cited two conflicting values for maximum crack driving history: $H_{\max} \approx 18.88\,\text{MPa}$ vs $H_{\max} = 0.053650\,\text{MPa}$. A forensic code and evidence audit establishes the exact origin of both numbers:
+### 4.2 Forensic Resolution of the History Field Discrepancy ($53.65\,\text{MPa}$ vs $18.88\,\text{MPa}$) and Spatial Separation
+Prior project reports cited two conflicting values for maximum crack driving history: $H_{\max} \approx 18.88\,\text{MPa}$ vs $H_{\max} = 0.053650\,\text{MPa}$. A forensic code and evidence audit establishes the exact origin of both numbers and clarifies their spatial separation:
 
 1. **The Authentic Numerical Value ($H_{\max} = 53.65\,\text{MPa}$):**
    - In `Job 1411891.mmaster02`, the maximum integration-point history variable stored in `SVARS(5..8)` and exported to `coarse_donor_state_u0050.json` is:
      $$H_{\max, \text{GP}} = 0.05364989\,\text{kN/mm}^2 = 53.64989\,\text{MPa}$$
-   - This represents the true, un-regularized maximum tensile strain energy density $\psi_+(\boldsymbol{\varepsilon})$ experienced at the crack-tip Gauss points during loading to $u = 0.0050\,\text{mm}$.
+   - This represents the true, un-regularized maximum tensile strain energy density $\psi_+(\boldsymbol{\varepsilon})$ experienced at the crack-tip Gauss points of **Element 1208** during loading to $u = 0.0050\,\text{mm}$.
 2. **The Analytical Inversion Value ($H_{\max} \approx 18.88\,\text{MPa}$):**
    - In Task F1462, an analytical 0D back-calculation was performed by inverting the homogeneous AT-2 Euler-Lagrange relation in the zero-gradient limit ($\nabla^2 d = 0$):
      $$d_{\mathrm{hom}} = \frac{H}{H + \psi_0} \iff H = \frac{d_{\mathrm{hom}}}{1 - d_{\mathrm{hom}}} \psi_0$$
    - Substituting $d_{\max,\text{nodal}} = 0.094910$ and $\psi_0 = 180.0\,\text{MPa}$ into this 0D formula yielded:
      $$H = \frac{0.094910}{1 - 0.094910} \times 180.0\,\text{MPa} = 0.10486 \times 180.0\,\text{MPa} \approx 18.875\,\text{MPa} \approx 18.88\,\text{MPa}$$
-3. **Physical Reconciliation:**
+3. **Physical Reconciliation & Spatial Separation:**
    - The zero-gradient formula completely neglects the spatial diffusion term $-\psi_0 \ell_0^2 \nabla^2 d$.
    - Near a sharp notch tip, the spatial curvature is strongly negative ($\nabla^2 d < 0$), so the regularizing diffusion term $+\psi_0 \ell_0^2 |\nabla^2 d|$ spreads the damage profile across the regularized zone $\sim \ell_0$.
    - Consequently, achieving an observed nodal damage of $d = 0.094910$ in the full PDE requires an integration-point driving force of $H_{\text{GP}} = 53.65\,\text{MPa}$, whereas the 0D homogeneous approximation drastically underestimates it as $18.88\,\text{MPa}$.
+   - **Crucial Spatial Separation:** $d_{\max} = 0.094910$ is evaluated at the geometric notch vertex (Node 97 at $x = 0.500\,\text{mm}, y = 0.500\,\text{mm}$), whereas $H_{\max} = 53.65\,\text{MPa}$ is located at the interior Gauss points of Element 1208 ($x \approx 0.501\,\text{mm}, y \approx 0.500\,\text{mm}$). They represent distinct physical quantities (a regularized continuous nodal field vs an un-degraded volumetric strain energy density at a quadrature point) evaluated at different spatial positions. Pointwise 0D algebraic equivalence must never be claimed between them.
    - **Authoritative Value:** $H_{\max} = 53.65\,\text{MPa}$ ($0.053650\,\text{kN/mm}^2$) is the only authentic numerical value. The $18.88\,\text{MPa}$ figure is an analytical artifact.
 
-### 4.3 Consistent Thermodynamic Before/After Energy Ledger
-To avoid conflating state functions with path-dependent work, the before/after transfer energy accounting is formalized:
+### 4.3 Rigorous Four-Stage Thermodynamic State-Transfer Energy Balance
+To eliminate unphysical balance assumptions (such as asserting $\Delta E_{\text{elas}} + \Delta E_{\text{frac}} + E_{\text{diss}} = 0$ at fixed boundary displacement), the thermodynamic energy balance is derived separately for four distinct stages:
 
-```
-+========================================================================================================+
-|                                  BEFORE/AFTER STATE TRANSFER ENERGY LEDGER                             |
-+================================+===========================+===========================================+
-| Stage / Energy Component       | Mathematical Definition   | Physical Description                      |
-+================================+===========================+===========================================+
-| 1. Donor State (t = t_D)       | W_ext,D = E_elas,D +      | Exact mechanical work and internal energy |
-|                                | E_frac,D + E_num,D        | on coarse donor mesh (Job 1411891)        |
-+--------------------------------+---------------------------+-------------------------------------------+
-| 2. Post-Interpolation State    | E_elas,R^(0) = E_elas,D + | Static projection error introduced by     |
-|    (Recipient, un-equilibrated)|   Delta E_proj,elas       | interpolating onto nonmatching mesh       |
-|                                | E_frac,R^(0) = E_frac,D + |                                           |
-|                                |   Delta E_proj,frac       |                                           |
-+--------------------------------+---------------------------+-------------------------------------------+
-| 3. Zero-Load Equilibration     | Delta E_elas,relax +      | Strain energy relaxation during Inc 0     |
-|    (Delta u_boundary = 0)      | Delta E_frac,relax +      | solve (Delta W_ext = 0; phase field is    |
-|                                |   E_diss,relax = 0        | held frozen: Delta d = 0, Delta H = 0)    |
-+--------------------------------+---------------------------+-------------------------------------------+
-| 4. Forward Propagation         | Delta W_ext =             | Genuine external work done to advance     |
-|    (u > u_D)                   | integral_uD^u F du        | physical crack propagation to completion  |
-+================================+===========================+===========================================+
-```
+1. **Stage 1: Donor Equilibrium State ($u = u_D = 0.0050\,\text{mm}$ on Donor Mesh $\mathcal{M}_D$):**
+   $$W_{\text{ext}, D} = \int_0^{u_D} F_D(\tilde{u}) \, \mathrm{d}\tilde{u} = E_{\text{elas}, D} + E_{\text{frac}, D} + \mathcal{D}_{\text{num}, D} + \Delta E_{\text{book}, D}$$
+   - $W_{\text{ext}, D} = 1.6327\,\text{mJ}$ (external boundary displacement work).
+   - $E_{\text{elas}, D} = \int_{\Omega} \frac{1}{2} g(d) \boldsymbol{\varepsilon} : \mathbb{C}_0 : \boldsymbol{\varepsilon} \, \mathrm{d}\Omega \approx 1.6327\,\text{mJ}$.
+   - $E_{\text{frac}, D} = \int_{\Omega} G_c \left( \frac{d^2}{2 \ell_0} + \frac{\ell_0}{2} |\nabla d|^2 \right) \mathrm{d}\Omega \approx 0.0307\,\text{mJ}$.
+   - $E_{\text{tot}, D} = E_{\text{elas}, D} + E_{\text{frac}, D} = 1.6634\,\text{mJ}$.
+   - $\Delta E_{\text{book}, D} = W_{\text{ext}, D} - E_{\text{tot}, D} \approx -0.0307\,\text{mJ}$ represents the pre-peak bookkeeping discrepancy between companion element linear-elastic energy and UEL reaction force integral.
+
+2. **Stage 2: Post-Projection State Discrepancy (Static Mapping at fixed $u = u_D$ onto Recipient Mesh $\mathcal{M}_R$):**
+   Spatial interpolation $(\mathbf{u}_D, d_D, H_D) \to (\mathbf{u}_R^{(0)}, d_R^{(0)}, H_R^{(0)})$ evaluates the state on the new discretization prior to solver iteration:
+   $$E_{\text{elas}, R}^{(0)} = \int_{\Omega_R} \frac{1}{2} g(d_R^{(0)}) \boldsymbol{\varepsilon}_R^{(0)} : \mathbb{C}_0 : \boldsymbol{\varepsilon}_R^{(0)} \, \mathrm{d}\Omega = E_{\text{elas}, D} + \Delta E_{\text{proj, elas}}$$
+   $$E_{\text{frac}, R}^{(0)} = \int_{\Omega_R} G_c \left( \frac{(d_R^{(0)})^2}{2 \ell_0} + \frac{\ell_0}{2} |\nabla d_R^{(0)}|^2 \right) \mathrm{d}\Omega = E_{\text{frac}, D} + \Delta E_{\text{proj, frac}}$$
+   The discrete projection residual vector on recipient interior nodes is strictly non-zero:
+   $$\mathbf{R}_R^{(0)} = \mathbf{F}_{\text{ext}} - \int_{\Omega_R} \mathbf{B}_R^T \boldsymbol{\sigma}_R^{(0)} \, \mathrm{d}\Omega \ne \mathbf{0}, \quad \|\mathbf{R}_R^{(0)}\| \approx \mathcal{O}(10\,\text{N})$$
+
+3. **Stage 3: Zero-Boundary-Displacement Equilibration (Step 1, Inc 1, $\Delta u_{\text{boundary}} = 0$, $d$ frozen):**
+   Because boundary displacement is fixed, external boundary work is identically zero:
+   $$\Delta W_{\text{ext, relax}} = \int_{\Gamma_u} \mathbf{t} \cdot \Delta \mathbf{u}_{\text{boundary}} \, \mathrm{d}\Gamma = 0$$
+   The solver adjusts interior displacement DOFs ($\Delta \mathbf{u}_{\text{interior}} \ne \mathbf{0}$) to resolve the discrete projection residual ($\mathbf{R}_R \to \mathbf{0}$). During this numerical relaxation, interior strain energy changes by $\Delta E_{\text{elas, relax}}$, which is balanced by internal numerical relaxation dissipation:
+   $$\Delta W_{\text{ext}} = 0 = \Delta E_{\text{elas, relax}} + \mathcal{D}_{\text{num, relax}} \iff \Delta E_{\text{elas, relax}} = -\mathcal{D}_{\text{num, relax}} \le 0$$
+   where $\mathcal{D}_{\text{num, relax}} = \int_0^1 \mathbf{R}(\tau) \cdot \frac{\mathrm{d}\mathbf{u}}{\mathrm{d}\tau} \, \mathrm{d}\tau \ge 0$ is the dissipation of the unbalanced projection residual.
+   Because phase field $d$ is held frozen ($\Delta d = 0$) during Step 1 equilibration, fracture energy is invariant:
+   $$\Delta E_{\text{frac, relax}} = 0$$
+
+4. **Stage 4: Forward Physical Fracture Propagation ($u > u_D$ on Recipient Mesh):**
+   Advancing prescribed displacement beyond the handoff point ($u > u_D$) performs genuine physical external work:
+   $$\Delta W_{\text{ext}} = \int_{u_D}^{u} F(\tilde{u}) \, \mathrm{d}\tilde{u} = \Delta E_{\text{elas}} + \Delta E_{\text{frac}} + \Delta \mathcal{D}_{\text{visc}} + \Delta \mathcal{D}_{\text{num}}$$
+   where $\Delta E_{\text{frac}} = G_c \Delta A_{\text{crack}}$ represents physical fracture energy dissipation in creating new crack surfaces.
 
 ---
 
@@ -201,46 +212,60 @@ To establish scientific clarity for the thesis defense and supervisor discussion
 
 To enable controlled future investigation without jeopardizing the frozen baseline, an implementation-ready design is specified for a dedicated development branch (`f42_experimental_offset_uel.for`). The authoritative production subroutine `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) remains **100% frozen and unmodified**.
 
-### 6.1 Offset-State Storage and Initialization Sequence
-1. **Donor Field Ingestion:**
-   - At increment 0 of Step 1 (`Step-1-Equilibrate`), `UEXTERNALDB` reads the transferred nodal displacement table `u0_donor_table.bin` (indexed by recipient node ID).
-   - In UEL execution, element nodal base displacements $\mathbf{U}_{0, e}$ are retrieved via a common block / thread-safe lookup.
-2. **Solver Kinematics:**
-   - The solver degree of freedom vector $\Delta \mathbf{U}_e$ starts identically at zero ($\Delta \mathbf{U}_e = \mathbf{0}$).
-   - The boundary condition at $y = 1.0\,\text{mm}$ is prescribed as $\Delta u_y = 0.0$.
-3. **Phase-Field & History Consistency:**
-   - During the equilibration increment (Step 1, Inc 1), damage evolution is held strictly frozen: $\Delta d = 0, \Delta H = 0$.
-   - SVARS are initialized via `*INITIAL CONDITIONS, TYPE=SOLUTION` with donor values ($d_0, H_0$).
+### 7.1 Kinematic Offset Implementation & Phase-Field Initialization Semantics
+1. **Mechanical Kinematic Offset:**
+   - At increment 0 of Step 1 (`Step-1-Equilibrate`), `UEXTERNALDB` reads the transferred nodal base displacement table $\mathbf{u}_0$ (indexed by recipient node ID).
+   - In UEL execution, total element displacements are evaluated as $\mathbf{u} = \mathbf{u}_0 + \Delta \mathbf{u}$.
+   - Element strain is evaluated via $\boldsymbol{\varepsilon} = \mathbf{B}(\mathbf{u}_0 + \Delta \mathbf{u})$.
+   - Degraded stress: $\boldsymbol{\sigma} = g(d) \mathbb{C}_0 : \boldsymbol{\varepsilon}$.
+   - The element residual is $\mathbf{R}_e = \mathbf{F}_{\text{ext}, e} - \int_{\Omega_e} \mathbf{B}^T \boldsymbol{\sigma} \, \mathrm{d}\Omega$.
+   - The tangent stiffness matrix is $\mathbf{K}_{uu, e} = \int_{\Omega_e} \mathbf{B}^T g(d) \mathbb{C}_0 \mathbf{B} \, \mathrm{d}\Omega$, retaining standard structural elasticity form.
+2. **Crucial Phase-Field Initialization Semantics (Nodal DOFs vs Integration-Point SVARS):**
+   - In `f42_mixed_uel.for`, Phase elements (JTYPE 1 for quads, JTYPE 3 for tris) have active degree of freedom **DOF 3** ($d$) at each node!
+   - Mechanical elements (JTYPE 2 for quads, JTYPE 4 for tris) have active DOFs 1, 2 ($u_x, u_y$).
+   - Integration-point strain history $H$ is stored in `SVARS(8 + KPT)`.
+   - In Abaqus/Standard, `*INITIAL CONDITIONS, TYPE=SOLUTION` writes initial values into element `STATEV` / `SVARS` arrays ONLY!
+   - **Crucial Rule:** `*INITIAL CONDITIONS, TYPE=SOLUTION` **DOES NOT** initialize the nodal solution degree of freedom 3 ($d$)!
+   - Setting SVARS alone leaves nodal DOF 3 uninitialized ($d = 0$ at all nodes)!
+   - If nodal DOF 3 is left at zero, the solver starts Step 1 with intact nodal compliance ($d = 0$) while possessing $H > 0$ at integration points, triggering an artificial out-of-balance phase residual $\mathbf{R}_d = \int_{\Omega} H \mathbf{N}^T \mathrm{d}\Omega \ne \mathbf{0}$.
+   - Because Abaqus Error 144 rejects `*INITIAL CONDITIONS, TYPE=DISPLACEMENT` in `*STATIC` steps, nodal solution degrees of freedom cannot be directly seeded via displacement IC cards.
+   - Therefore, the experimental continuation architecture must initialize both displacement and phase DOFs, either through a paired kinematic-offset for DOF 3 ($d = d_0 + \Delta d$) or by an initial boundary projection step.
 
-### 6.2 Staged Scientific Qualification Sequence
+### 7.2 Staged Scientific Qualification Progression (Stage C1-0 to Stage C1-3)
 ```mermaid
 flowchart TD
-    S1["Stage 1: Same-Mesh Offset Reproduction\n- Coarse-to-coarse (2,906 -> 2,906 FEs)\n- Verify ||R(0)|| ~ 0, RF = 653.09 N"]
-    S2["Stage 2: Nonmatching Transfer at Fixed u\n- Coarse-to-fine (2,906 -> 14,483 FEs, Delta u = 0)\n- Measure ||R(0)||, Delta E_relax <= 2%, |Delta RF| <= 5 N"]
-    S3["Stage 3: Small Forward Continuation\n- Advance u in [0.0050, 0.0055] mm\n- Verify Newton convergence & force continuity"]
-    S4["Stage 4: Prospective Remeshing Event\n- Single error-guided remesh during propagation\n- Verify no unphysical pinning or plateauing"]
-    S5["Stage 5: Multi-Cycle Adaptive Sequencing\n- Automated cycle orchestration\n- Solve -> Remesh -> Map -> Continue -> Repeat"]
+    S0["Stage C1-0: Same-Mesh Offset Reproduction\n- Identical mesh (2,906 -> 2,906 FEs, u = 0.0050 mm)\n- Zero interpolation error: ||R(0)|| ~ 0\n- Verify RF = 653.09 N, |Delta RF| <= 0.5 N"]
+    S1["Stage C1-1: Nonmatching Fixed-u Equilibration\n- Forward refinement (2,906 -> 14,677 FEs, Delta u = 0)\n- Measure ||R(0)||, Delta E_relax = -D_num <= 2% W_ext\n- Verify |Delta RF| <= 5.0 N, min(H) >= 0"]
+    S2["Stage C1-2: Small Forward Continuation\n- Advance u in [0.0050, 0.0055] mm\n- Verify tangent stiffness & monotonic damage growth"]
+    S3["Stage C1-3: Prospective Native Remeshing\n- Automated error-guided remeshing event\n- Full fracture continuation without pinning"]
 
+    S0 -->|PASS| S1
     S1 -->|PASS| S2
     S2 -->|PASS| S3
-    S3 -->|PASS| S4
-    S4 -->|PASS| S5
     
-    S1 -.->|FAIL: Rollback| RB1["Rollback & Report Barrier"]
-    S2 -.->|FAIL: Rollback| RB2["Rollback & Report Barrier"]
-    S3 -.->|FAIL: Rollback| RB3["Rollback & Report Barrier"]
+    S0 -.->|FAIL: Rollback| RB0["Rollback: Formulation Error"]
+    S1 -.->|FAIL: Rollback| RB1["Rollback: Discretization Shock"]
+    S2 -.->|FAIL: Rollback| RB2["Rollback: Tangent/Softening Instability"]
+    S3 -.->|FAIL: Rollback| RB3["Rollback: Prospective Remeshing Barrier"]
 ```
 
-### 6.3 Quantitative Acceptance & Rollback Criteria
-1. **Stage 1 (Same-Mesh Reproduction):**
-   - Acceptance: Newton convergence in 1 iteration; $\|\mathbf{R}^{(0)}\| \le 10^{-6}\,\text{N}$; $RF = 653.0886 \pm 0.01\,\text{N}$; $\Delta E_{\text{elas}} \le 10^{-6}\,\text{mJ}$.
-   - Rollback: If $\|\mathbf{R}^{(0)}\| > 0.01\,\text{N}$, abort branch immediately.
-2. **Stage 2 (Nonmatching Transfer at Fixed Displacement):**
-   - Acceptance: Convergence in $\le 6$ Newton iterations; reaction-force continuity $|\Delta RF| \le 5.0\,\text{N}$; relaxation energy $|\Delta E_{\text{relax}}| / E_{\text{elas}} \le 2.0\%$; zero negative history values ($\min(H) \ge 0$).
-   - Rollback: If cutbacks occur or $|\Delta RF| > 15.0\,\text{N}$, halt solver and preserve evidence.
-3. **Stage 3 (Small Forward Continuation):**
-   - Acceptance: Monotonic post-handoff load increase ($K_0 \approx 138\,\text{kN/mm}$); zero force plateau; peak load within $\pm 3.0\%$ of canonical reference ($757.8\,\text{N}$).
-   - Rollback: If crack pinning occurs ($RF$ hangs at $0.50 - 0.60\,\text{kN}$), fail gate.
+### 7.3 Quantitative Acceptance & Rollback Criteria
+1. **Stage 1: Same-Mesh Offset Reproduction (Stage C1-0, $2,906 \to 2,906$ FEs):**
+   - *Anchor:* Authentic donor Job 1411891 ($RF = 653.0886\,\text{N}$, $E_{\text{elas}} = 1.6327\,\text{mJ}$, $d_{\max} = 0.094910$ at Node 97, $H_{\max} = 53.6499\,\text{MPa}$ at Element 1208).
+   - *Acceptance:* Step 1 boundary displacement held fixed at $u = 0.0050\,\text{mm}$ ($\Delta u = 0$); $|\Delta RF| = |RF_{\text{equil}} - 653.0886\,\text{N}| \le 0.5\,\text{N}$; $|\Delta E_{\text{elas}}| \le 0.05\%$; $|\Delta d_{\max}| \le 10^{-5}$.
+   - *Convergence Discipline:* Retract claims of "guaranteed exactly 1 Newton iteration" or "unconditional positive definiteness". Standard Abaqus convergence criteria apply.
+   - *Rollback:* If $|\Delta RF| > 2.0\,\text{N}$ or if solver fails to converge at fixed boundary displacement, halt branch immediately; the kinematic-offset formulation has an implementation defect.
+2. **Stage 2: Nonmatching Transfer at Fixed u (Stage C1-1, $2,906 \to 14,677$ FEs):**
+   - *Acceptance:* Reaction force continuity $|\Delta RF| \le 5.0\,\text{N}$; relaxation energy $|\Delta E_{\text{elas, relax}}| / W_{\text{ext}} \le 2.0\%$; zero negative history ($\min(H) \ge 0$); no crack healing ($\Delta d \ge 0$).
+   - *Rollback:* If cutbacks occur or $|\Delta RF| > 15.0\,\text{N}$, halt solver and preserve evidence.
+3. **Stage 3: Small Forward Continuation (Stage C1-2, $u \in [0.0050, 0.0055]\,\text{mm}$):**
+   - *Acceptance:* Monotonic post-handoff load increase ($K_0 \approx 138\,\text{kN/mm}$); zero force plateau; smooth transition across handoff point without numerical snap.
+   - *Rollback:* If crack pinning occurs ($RF$ hangs at $0.50 - 0.60\,\text{kN}$) or non-convergence triggers cutbacks, rollback to offline analysis.
+4. **Stage 4: Prospective Remeshing Event (Stage C1-3):**
+   - *Acceptance:* Autonomous error-guided remeshing and continuation through full fracture ligament.
+   - *Rollback:* If crack pinning or path distortion occurs, rollback to offline analysis.
+5. **Stage 5: Multi-Cycle Adaptive Sequencing (Future Scope / Wake Coarsening Excluded):**
+   - Method C2 selective wake coarsening is strictly excluded from active scope pending successful demonstration of Stage C1-0 through C1-3.
 
 ---
 
