@@ -1,0 +1,46 @@
+{
+    "inputs": {
+        "coarse_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\method_b_inf_companion_decks\\M1_MB_INF_1S.inp",
+        "fine_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\38_method_b_native_final_14k\\M1_MB_NATIVE_FINAL_1S.inp",
+        "donor_json": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\41_method_c_genuine_continuation\\evidence_forward_audit\\coarse_donor_state_u0050.json",
+        "sha256_coarse_inp": 0.02,
+        "sha256_fine_inp": 0.001875,
+        "sha256_donor_json": "3F9198CDE71F44DEFFEBD0E90CB1CD7D21F170FB09AAC472484B69C4E2C965E7"
+    },
+    "reproduced_offline_metrics": {
+        "displacement_l2_rel_error_pct": 0.13465649215638698,
+        "integral_d_donor": 0.006601721820557857,
+        "integral_d_recipient": 0.006592992794645851,
+        "relative_error_integral_d_pct": 0.13222347365235018,
+        "min_H": 1.5794299201843387e-09,
+        "negative_H_count": 0,
+        "e_tot_donor_mJ": 1.6633838895357917,
+        "e_tot_recip_reference_mJ": 1.6911,
+        "delta_e_int_pct": 1.6662485814951091
+    },
+    "three_damage_fields": {
+        "field_1_coarse_donor_d_max": 0.09491037204861641,
+        "field_2_coarse_interpolated_on_fine_d_max": 0.09491037204861641,
+        "field_3_independently_solved_fine_mesh_d_max": 0.319455,
+        "delta_field_2_minus_field_1": 0.0,
+        "delta_field_2_minus_field_3": 0.22454462795138358,
+        "ratio_field_3_to_field_1": 3.3658597380312023
+    },
+    "analytical_interpolation_audit": {
+        "xi_coarse": 1.3333333333333335,
+        "xi_fine": 0.125,
+        "rel_err_coarse_1d_pct": 53.24584359489661,
+        "rel_err_fine_1d_pct": 0.5202916046949557,
+        "taylor_fine_1d_pct": 0.5208333333333333,
+        "ratio_1d_exact": 102.33846388145044,
+        "asymptotic_ratio_h_squared": 113.7777777777778,
+        "empirical_2d_error_pct": 0.13222347365235018
+    },
+    "solver_separation": {
+        "forward_continuation_solver_executed": false,
+        "forward_criterion_5_force_continuity": "NOT_YET_EVALUATED",
+        "forward_criterion_7_energy_residual": "NOT_YET_EVALUATED",
+        "historical_reverse_job_1412809_step_boundary_jump_n": 21.5473,
+        "historical_reverse_job_1412809_full_step_residual_pct": 22.22
+    }
+}

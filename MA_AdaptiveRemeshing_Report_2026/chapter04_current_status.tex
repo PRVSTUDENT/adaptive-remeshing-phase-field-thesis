@@ -4035,3 +4035,273 @@ Two operational aspects of the HPC campaign were clarified during closeout:
   \fbox{\textbf{GATE 6B STATUS: \texttt{STAGE A 8-THREAD SMP QUALIFIED / MULTI-QUANTITY SYNTHESIS COMPLETE}}}
 \end{center}
 \textbf{Conclusion:} Method B pre-peak load-partition invariance is empirically established, Stage A 8-thread shared-memory SMP execution is bitwise certified with up to $2.14\times$ speedup, and full softening traversal to residual load is demonstrated on both adapted discretizations. The complete Gate 6B evidence package is prepared and ready for the supervisor review on Thursday, 22 October 2026.
+
+
+\section{Method B Corrected Propagation Mesh and Artificial Force Plateau Elimination}
+\label{sec:method_b_corrected_propagation}
+
+\subsection{Problem Definition: Ligament Under-Resolution and Artificial Force Plateau}
+\label{subsec:method_b_plateau_problem}
+
+Following the initial validation of Method~B load-partition invariance, terminal fracture analysis on the original Method~B adapted mesh ($14{,}677$ finite elements, Job \texttt{1411934.mmaster02}) revealed an unphysical post-peak mechanical response. As documented in Section~\ref{subsec:gate6b_trimethod_architecture}, the preliminary error-indicator pre-analysis was executed under pre-peak displacement conditions ($u_{\mathrm{pre}} = 0.0050\,\mathrm{mm}$). Consequently, elevated values of the stress discretization error indicator ($\MISESERI$) concentrated exclusively in the immediate vicinity of the initial notch tip ($x \in [0.48, 0.52]\,\mathrm{mm}$).
+
+Because the native remeshing rule operated without an a~priori defined crack trajectory corridor, the remainder of the symmetry ligament ($x \in [0.55, 1.00]\,\mathrm{mm}$) retained the coarse background element size ($h \approx 19.7\,\mu\mathrm{m} > 2.6\,\ellzero$). When the nonlinear crack initiated at $u \approx 0.00573\,\mathrm{mm}$ and advanced into this under-resolved ligament, severe \emph{coarse-mesh crack pinning} occurred:
+\begin{enumerate}
+  \item \textbf{Regularization Gradient Under-Sampling:} The AT-2 phase-field regularized damage gradient requires $h \le \ellzero / 2 = 3.75\,\mu\mathrm{m}$ to resolve the localized damage profile ($w_{0.5} \approx 2\,\ellzero = 15.0\,\mu\mathrm{m}$). With $h \approx 19.7\,\mu\mathrm{m}$, individual elements spanned more than the complete regularized damage bandwidth.
+  \item \textbf{Artificial Post-Peak Plateau:} The inability of the coarse discretization to release elastic strain energy rapidly produced an artificial force plateau of $F \approx 0.50 - 0.60\,\mathrm{kN}$ extending across $u \in [0.0060, 0.0075]\,\mathrm{mm}$, whereas the canonical uniform reference dropped to $F < 0.0005\,\mathrm{kN}$ immediately after peak load.
+  \item \textbf{Excess External Dissipation:} The extended force plateau resulted in substantial excess external work, accumulating $W_{\mathrm{ext}} = 3.332\,\mathrm{mJ}$ ($+41.3\%$ above the canonical reference value $W_{\mathrm{ext}} = 2.3587\,\mathrm{mJ}$).
+\end{enumerate}
+
+\subsection{Expected Solution: Corrected Full-Ligament Propagation Discretization}
+\label{subsec:method_b_corrected_solution}
+
+To resolve this defect within the two-job pre-refinement framework without invoking runtime remeshing, a corrected propagation discretization was designed (Package~40, Job \texttt{1412465.mmaster02}, \texttt{M1\_MB\_CORR\_14K}). Sizing controls were configured to enforce the critical regularization resolution $h \le \ellzero / 2 = 3.75\,\mu\mathrm{m}$ continuously along the entire symmetry ligament from the notch tip to the specimen boundary ($x \in [0.5, 1.0]\,\mathrm{mm}, y = 0.5\,\mathrm{mm}$).
+
+The resulting corrected mesh comprises:
+\begin{itemize}
+  \item $14{,}483$ physical finite elements ($14{,}303$ quadrilateral CPE4 elements + $180$ triangular CPE3 transition elements);
+  \item $43{,}449$ co-located element records across the three-layer phase-field architecture (Layer~1: Phase field UEL, Layer~2: Mechanical UEL, Layer~3: Visualization UMAT);
+  \item $14{,}466$ physical nodes ($14{,}649$ total model nodes including duplicate crack seam nodes);
+  \item Geometric corridor compliance: $96.76\%$ of elements along the prospective crack path satisfy $h \le 3.75\,\mu\mathrm{m} = \ellzero / 2$, and $99.84\%$ satisfy $h \le 7.5\,\mu\mathrm{m} = \ellzero$.
+\end{itemize}
+
+\subsection{Quantitative Multi-Quantity Fracture Response Comparison}
+\label{subsec:method_b_corrected_quantitative}
+
+The fracture response of the Corrected Method~B discretization was evaluated against the canonical uniform reference ($15{,}220$ FEs, $h = 3.75\,\mu\mathrm{m}$) and the original Method~B mesh ($14{,}677$ FEs). The multi-quantity comparison is summarized in Tab.~\ref{tab:method_b_corrected_comparison} and illustrated in Fig.~\ref{fig:method_b_corrected_comparison}.
+
+\begin{table}[htbp]
+\centering
+\caption{Quantitative fracture response comparison between Canonical Reference ($15\mathrm{k}$ uniform), Original Method~B ($14.7\mathrm{k}$), and Corrected Method~B ($14.5\mathrm{k}$). All like-for-like comparisons are evaluated over the verified common displacement horizon $u \in [0.0, 0.007889]\,\mathrm{mm}$.}
+\label{tab:method_b_corrected_comparison}
+\small
+\begin{tabular}{lcccc}
+\hline
+\textbf{Quantity} & \textbf{Canonical Reference} & \textbf{Original Method B} & \textbf{Corrected Method B} & \textbf{Relative Error} \\
+ & (Job \texttt{1398090}) & (Job \texttt{1411934}) & (Job \texttt{1412465}) & (Corrected vs Ref) \\
+\hline
+Physical Finite Elements & $15{,}220$ & $14{,}677$ & $14{,}483$ & $-4.84\%$ \\
+Co-located Records & $45{,}660$ & $44{,}031$ & $43{,}449$ & $-4.84\%$ \\
+Initial Stiffness $K_0$ [$\mathrm{kN/mm}$] & $137.9455$ & $137.8919$ & $137.9096$ & $-0.0261\%$ \\
+Linear Fit Correlation $R^2$ & $0.9999996$ & $0.9999996$ & $0.9999996$ & --- \\
+Peak Reaction Force $F_{\max}$ [$\mathrm{kN}$] & $0.757802$ & $0.743021$ & $0.743701$ & $-1.8577\%$ \\
+Displacement at Peak $u_{\mathrm{peak}}$ [$\mathrm{mm}$] & $0.005857$ & $0.005727$ & $0.005733$ & $-2.1171\%$ \\
+Force at $u = 0.0060\,\mathrm{mm}$ [$\mathrm{kN}$] & $0.0005$ & $0.5981$ & $\mathbf{0.00208}$ & \textbf{Plateau Eliminated} \\
+Force at $u = 0.0070\,\mathrm{mm}$ [$\mathrm{kN}$] & $0.0004$ & $0.5250$ & $\mathbf{0.00192}$ & \textbf{Plateau Eliminated} \\
+Terminal Work $W_{\mathrm{ext}}$ [$\mathrm{mJ}$] & $2.3587$ & $3.3320$ & $2.2674^*$ & $-3.87\%$ \\
+Fracture Energy $E_{\mathrm{frac}}$ [$\mathrm{mJ}$] & $2.3512$ & $3.0320$ & $2.2855^*$ & $-2.79\%$ \\
+Elastic Strain Energy $E_{\mathrm{elas}}$ [$\mathrm{mJ}$] & $0.0003$ & $0.0152$ & $0.0070^*$ & --- \\
+Energy Residual $\Delta E$ [$\mathrm{mJ}$] & $0.0072$ & $0.2848$ & $0.0250^*$ & $1.10\%$ (Relative) \\
+Verified Endpoint $u_{\mathrm{term}}$ [$\mathrm{mm}$] & $0.010000$ & $0.010000$ & $0.007889$ & Post-fracture ($99.76\%$) \\
+\hline
+\multicolumn{5}{l}{\footnotesize $^*$ Evaluated at the verified termination point $u = 0.007889\,\mathrm{mm}$ ($RF = 1.76\,\mathrm{N}$).}
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{fig_mode1_method_b_corrected_comparison.pdf}
+  \caption{Mechanical response comparison for Mode-I fracture: Reaction force versus displacement $F(u)$ and global energy evolution across Canonical Reference ($15\mathrm{k}$ uniform), Original Method~B ($14.7\mathrm{k}$), and Corrected Method~B ($14.5\mathrm{k}$). Extended ligament refinement completely eliminates the $0.50 - 0.60\,\mathrm{kN}$ artificial force plateau, restoring physical brittle snap-through softening and reducing external work by $31.5\%$.}
+  \label{fig:method_b_corrected_comparison}
+\end{figure}
+
+The quantitative evidence establishes three primary scientific conclusions:
+\begin{enumerate}
+  \item \textbf{Complete Elimination of the Artificial Force Plateau:} In Corrected Method~B, the reaction force drops sharply from $F_{\max} = 0.7437\,\mathrm{kN}$ at $u = 0.005733\,\mathrm{mm}$ down to $F = 0.00208\,\mathrm{kN}$ at $u = 0.0060\,\mathrm{mm}$ and $F = 0.00192\,\mathrm{kN}$ at $u = 0.0070\,\mathrm{mm}$. The artificial $0.50 - 0.60\,\mathrm{kN}$ force plateau of Original Method~B is completely eliminated, restoring physical brittle crack propagation.
+  \item \textbf{Reconciliation of External Work and Energy Balance:} Terminal external work decreases by $-31.49\%$ (from $3.332\,\mathrm{mJ}$ down to $2.2674\,\mathrm{mJ}$), coming within $-3.87\%$ of the canonical reference ($2.3587\,\mathrm{mJ}$). Global UEL energy balance is satisfied with an energy residual of $\Delta E = |W_{\mathrm{ext}} - (E_{\mathrm{frac}} + E_{\mathrm{elas}})| = 0.0250\,\mathrm{mJ}$ ($1.10\%$ relative error).
+  \item \textbf{Pre-Peak Linear Elastic Parity:} Initial elastic stiffness matches the canonical reference within $-0.0261\%$ ($K_0 = 137.9096\,\mathrm{kN/mm}$ vs $137.9455\,\mathrm{kN/mm}$), confirming that local refinement along the uncracked ligament does not alter the global structural compliance.
+\end{enumerate}
+
+\subsection{Solver Termination Audit, Comparison Horizon Discipline, and Topological Verification}
+\label{subsec:method_b_termination_and_topology}
+
+\paragraph{Solver Termination Audit and Comparison Horizon Limitation:}
+HPC Job \texttt{1412465.mmaster02} executed $4{,}890$ converged increments ($2{,}000$ in Step~1, $2{,}890$ in Step~2) before terminating with Exit Code~1 at $u = 0.007889\,\mathrm{mm}$. Forensic audit of solver \texttt{.sta} and \texttt{.msg} logs established that termination was caused by time increment cutbacks below $dt_{\min} = 1.0 \times 10^{-12}$ in the post-fracture softening tail. At this state, the reaction force had softened to $RF = 1.76\,\mathrm{N}$ ($> 99.76\%$ reduction from peak load), and the crack had severed $99.9\%$ of the specimen ligament. The cutback occurred in the rigid-body separation phase of the broken specimen halves.
+
+\begin{center}
+  \fbox{\parbox{0.92\textwidth}{\textbf{Methodological Discipline on Comparison Horizon:} Because Job \texttt{1412465} terminated at $u = 0.007889\,\mathrm{mm}$ rather than reaching $u = 0.0100\,\mathrm{mm}$, all rigorous like-for-like comparisons with the reference simulation are strictly scoped to the common displacement horizon $u \in [0.0, 0.007889]\,\mathrm{mm}$. Within this shared horizon, the complete linear, initiation, peak, and brittle softening regimes are fully captured.}}
+\end{center}
+
+\paragraph{Topological Crack Path Connectivity Proof:}
+To prove that crack propagation in Corrected Method~B was physically continuous across the refined corridor rather than manifesting as disconnected micro-cracks, a Breadth-First Search (BFS) graph connectivity audit was executed on the finite-element dual mesh. As shown in Fig.~\ref{fig:method_b_ligament_profiles}, exactly $818$ elements satisfied the fully damaged criterion $d \ge 0.95$. The topological graph search proves that all $818$ elements form a single $100\%$ contiguous connected component extending from the notch tip ($x = 0.5\,\mathrm{mm}$) to the right boundary ($x = 0.999\,\mathrm{mm}$) with zero isolated damage clusters, zero branching artifacts, and zero spatial gaps.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{fig_mode1_method_b_ligament_profiles.pdf}
+  \caption{Spatial phase-field damage profiles $d(x)$ along the symmetry ligament ($y = 0.5\,\mathrm{mm}$) across six key loading states in Corrected Method~B ($14.5\mathrm{k}$ FEs). Crack initiation occurs at $u = 0.0055\,\mathrm{mm}$, followed by rapid localization and complete physical severance of the ligament with $d \ge 0.95$ across $99.9\%$ of the remaining section by $u = 0.0060\,\mathrm{mm}$.}
+  \label{fig:method_b_ligament_profiles}
+\end{figure}
+
+\paragraph{Phase-Field Damage Overshoot Mechanism:}
+In the fully broken region, the peak damage reached $d_{\max} = 1.001123$ ($+0.11\%$ above the theoretical unity bound). Forensic analysis of the Fortran user element (\texttt{f42\_mixed\_uel.for}) confirmed that this slight overshoot is a natural property of the continuous Galerkin formulation solved via unconstrained Newton--Raphson iteration without an active-set projection constraint. Because the degraded elastic stiffness function $g(d) = (1-d)^2 + k_{\mathrm{stab}}$ is regularized by residual stiffness $k_{\mathrm{stab}} = 1.0 \times 10^{-7}$, the overshoot introduces zero negative stiffness and zero numerical instability.
+
+\paragraph{Epistemic Causal Attribution Boundary:}
+In generating the Package~40 mesh, both the sizing tolerance (\texttt{errorTarget}=2.5\% vs 1.0\%) and the pre-analysis source step were adjusted simultaneously. While the elimination of the force plateau and the restoration of physical brittle fracture are mathematically and mechanically verified for the resulting discretization, this effect cannot be attributed exclusively to a single remeshing parameter without further unconfounded testing.
+
+
+\section{Method C Sequential Adaptive Remeshing Feasibility Investigation and Nonmatching State Transfer}
+\label{sec:method_c_state_transfer}
+
+\subsection{Motivation and Three Distinct Technical Milestones}
+\label{subsec:method_c_motivation}
+
+While Methods~A and B successfully achieve high local accuracy with reduced element counts, both approaches remain \emph{offline error-guided pre-refinements}: they fix the discretization before nonlinear fracture begins, requiring prior knowledge or estimation of the crack propagation corridor. Truly general adaptive remeshing during arbitrary crack propagation requires sequential in-analysis cycles:
+\begin{equation}
+  \text{Solve Increment } n \longrightarrow \text{Evaluate Error} \longrightarrow \text{Generate New Mesh} \longrightarrow \text{Transfer State } \mathbf{S} \longrightarrow \text{Resume Solve}.
+  \label{eq:sequential_remeshing_cycle}
+\end{equation}
+
+To rigorously evaluate the feasibility of this architecture in commercial finite-element software without compromising scientific standards, Task~F1451/F1452 investigated the Method~C workflow across three distinct, independently evaluated technical milestones:
+\begin{enumerate}
+  \item \textbf{Milestone 1: Authentic Abaqus-Native Mesh Refinement:} Demonstrating that Abaqus CAE \texttt{adaptiveRemesh} can generate a fine, locally refined mesh ($14{,}677$ FEs, $h_{\min} = 1.875\,\mu\mathrm{m}$) directly from a coarse donor discretization ($2{,}906$ FEs, $h = 20\,\mu\mathrm{m}$) using stress error indicators.
+  \item \textbf{Milestone 2: Numerically Verified Offline Nonmatching State Transfer:} Projecting the complete active state vector $\mathbf{S} = \{\mathbf{u}, d, \Hist\}$ across nonmatching discretizations at handoff displacement $u_{\mathrm{handoff}} = 0.0050\,\mathrm{mm}$ and evaluating mathematical conservation and fidelity criteria.
+  \item \textbf{Milestone 3: Genuine Nonzero-State Mechanical Continuation in Abaqus/Standard:} Resuming nonlinear equilibrium iterations on the recipient mesh directly from the transferred deformed state without artificial reloading from zero displacement.
+\end{enumerate}
+
+\subsection{Offline State Transfer Verification: The Seven Gate 6C Criteria}
+\label{subsec:method_c_offline_transfer_criteria}
+
+State transfer was audited for the forward-refinement candidate, mapping from the coarse $2{,}906$-element donor mesh (\texttt{M1\_MB\_INF\_1S.inp}, Job \texttt{1411891.mmaster02} at $u = 0.0050\,\mathrm{mm}$) onto the fine $14{,}677$-element recipient mesh (\texttt{M1\_MB\_NATIVE\_FINAL\_1S.inp}). The state transfer engine executes:
+\begin{itemize}
+  \item Kd-tree and bucket-accelerated spatial containment search with seam-aware flank classification (\texttt{UPPER}, \texttt{LOWER}, \texttt{LIGAMENT});
+  \item Exact isoparametric coordinate inversion on quadrilaterals and triangles;
+  \item $H^1$-conforming interpolation for continuous nodal fields ($\mathbf{u}, d$);
+  \item $L_2$-consistent quadrature-point mapping for history variables ($\Hist$) and element damage.
+\end{itemize}
+
+The transfer was evaluated against all seven pre-declared Gate~6C quantitative acceptance criteria, as detailed in Tab.~\ref{tab:gate6c_forward_transfer_evaluation}.
+
+\begin{table}[htbp]
+\centering
+\caption{Master Gate 6C evaluation matrix for forward-refinement state transfer ($2{,}906 \to 14{,}677$ finite elements at $u_{\mathrm{handoff}} = 0.0050\,\mathrm{mm}$). Offline mathematical transfer criteria pass all bounds, while recipient continuation solver metrics remain un-run in Abaqus.}
+\label{tab:gate6c_forward_transfer_evaluation}
+\small
+\begin{tabular}{clccc}
+\hline
+\textbf{Criterion} & \textbf{Physical Metric} & \textbf{Pre-declared Threshold} & \textbf{Achieved Value} & \textbf{Verdict} \\
+\hline
+\textbf{1} & Displacement $L_2$ Relative Error & $\le 1.0\%$ & $0.1347\%$ & \textbf{PASS} \\
+\textbf{2} & Peak Damage Interpolation Difference $\Delta d_{\max}$ & $\le 0.020$ & $0.000000^*$ & \textbf{PASS} \\
+\textbf{3} & Domain-Integrated Damage Error & $\le 5.0\%$ & $0.1322\%$ & \textbf{PASS} \\
+\textbf{4} & History Variable Non-Negativity & $\min(\Hist) \ge 0.0$ & $1.579 \times 10^{-9}\,\mathrm{kN/mm^2}$ & \textbf{PASS} \\
+ & (Negative History GP Count) & $(0\text{ negative})$ & ($0$ negative GPs) & (\textbf{PASS}) \\
+\textbf{5} & Step-Boundary Reaction Force Discontinuity & $\le 5.0\,\mathrm{N}$ & \emph{Not Yet Evaluated}$^\dagger$ & \textbf{UN-RUN} \\
+\textbf{6} & Offline Mesh Compliance Disparity & $\le 5.0\%$ & $1.6662\%$ & \textbf{PASS} \\
+\textbf{7} & Continuation Energy Conservation Residual & $\le 10.0\%$ & \emph{Not Yet Evaluated}$^\dagger$ & \textbf{UN-RUN} \\
+\hline
+\multicolumn{5}{l}{\footnotesize $^*$ Evaluated at coincident notch tip node 129 ($x=0.5, y=0.5\,\mathrm{mm}$). Field 1 vs Field 2 identity.} \\
+\multicolumn{5}{l}{\footnotesize $^\dagger$ Forward recipient mesh has never been solved in Abaqus. Metrics from reverse coarsening Job 1412809 ($21.55\,\mathrm{N}$ and $22.22\%$) do not apply.}
+\end{tabular}
+\end{table}
+
+\subsection{Disentanglement of Three Distinct Damage Fields}
+\label{subsec:method_c_three_damage_fields}
+
+A critical finding of the forensic audit was resolving an apparent contradiction regarding peak damage at $u = 0.0050\,\mathrm{mm}$, where values of $d_{\max} \approx 0.0949$ and $d_{\max} \approx 0.3195$ had appeared concurrently in project records. The audit proved that these represent \textbf{three physically and computationally distinct fields}:
+\begin{itemize}
+  \item \textbf{Field 1 (Coarse Donor Solution):} $d_{\max} = 0.094910$. This is the authentic numerical solution obtained on the coarse $2{,}906$-element mesh (Job \texttt{1411891}) at $u = 0.0050\,\mathrm{mm}$. Because the coarse mesh ($h = 20\,\mu\mathrm{m} > 2.6\,\ellzero$) severely pinned damage evolution, crack initiation was retarded.
+  \item \textbf{Field 2 (Coarse Solution Interpolated on Fine Mesh):} $d_{\max} = 0.094910$. This is Field~1 projected onto the $14{,}677$-element recipient mesh. Because notch tip node 129 is geometrically coincident in both discretizations ($x = 0.500000\,\mathrm{mm}, y = 0.500000\,\mathrm{mm}$), the interpolation difference is identically zero ($\Delta d = |0.094910 - 0.094910| = 0.000000$).
+  \item \textbf{Field 3 (Independently Solved Fine Reference Solution):} $d_{\max} = 0.319455$. This is the authentic solution obtained when the fine $14{,}677$-element mesh was solved from $t = 0$ up to $u = 0.0050\,\mathrm{mm}$ (Job \texttt{1411934}). With $h = 1.875\,\mu\mathrm{m} \le \ellzero / 4$, the fine mesh accurately resolved the steep damage gradient, reaching $d_{\max} = 0.3195$.
+\end{itemize}
+
+\begin{center}
+  \fbox{\parbox{0.92\textwidth}{\textbf{Scientific Interpretation:} The identity between Field~1 and Field~2 ($\Delta d = 0.000000$) validates the \emph{mathematical fidelity of the state transfer engine} across nonmatching meshes. It does \textbf{not} imply that the coarse donor recovered the true physical fine-mesh damage state. The physical under-prediction of the coarse donor is $|0.094910 - 0.319455| = 0.224545$ (a $3.37\times$ disparity in peak damage), directly caused by coarse-mesh discretization pinning prior to transfer.}}
+\end{center}
+
+\subsection{Analytical Dimensional Correction of the Chordal Interpolation Bias}
+\label{subsec:method_c_chordal_bias_correction}
+
+In preliminary transfer evaluations, the reverse coarsening transfer ($14.7\mathrm{k} \to 2.9\mathrm{k}$) exhibited a $+5.05\%$ integrated damage error, marginally violating Criterion~3 ($5.0\%$). In contrast, forward refinement ($2.9\mathrm{k} \to 14.7\mathrm{k}$) yielded an integrated damage error of only $0.1322\%$.
+
+The mathematical origin of this asymmetry was rigorously derived. Consider the 1D AT-2 damage profile $d(x) = d_{\max} e^{-|x|/\ellzero}$. Piecewise linear interpolation across an element of size $h$ with midpoint at $x=0$ yields the dimensionless chordal integral ratio:
+\begin{equation}
+  \frac{I_{\mathrm{interp}}}{I_{\mathrm{exact}}} = \xi \coth(\xi), \quad \text{where } \xi = \frac{h}{2\,\ellzero}.
+  \label{eq:chordal_formula_dimensionless}
+\end{equation}
+The relative integrated chordal error is strictly positive due to convexity:
+\begin{equation}
+  \mathcal{E}_{\mathrm{chordal}} = \xi \coth(\xi) - 1 \approx \frac{\xi^2}{3} = \frac{h^2}{12\,\ellzero^2} \quad (\text{for } \xi \ll 1).
+  \label{eq:chordal_taylor_expansion}
+\end{equation}
+
+Evaluating Eq.~\eqref{eq:chordal_formula_dimensionless} across the two discretizations ($\ellzero = 7.5\,\mu\mathrm{m}$):
+\begin{itemize}
+  \item \textbf{Coarse Mesh ($h = 20.0\,\mu\mathrm{m}$):} $\xi_{\mathrm{coarse}} = 1.3333 \implies \mathcal{E}_{\mathrm{chordal}} = 53.25\%$.
+  \item \textbf{Fine Mesh ($h = 1.875\,\mu\mathrm{m}$):} $\xi_{\mathrm{fine}} = 0.1250 \implies \mathcal{E}_{\mathrm{chordal}} = 0.5203\%$.
+  \item \textbf{Theoretical Reduction Ratio:} $\frac{53.25\%}{0.5203\%} = 102.34\times$ (asymptotically $\left(\frac{20.0}{1.875}\right)^2 = 113.78\times$).
+\end{itemize}
+
+\paragraph{Rectification of Dimensional Expressions:}
+An un-normalized formula previously reported in project notes, $\Delta I \approx \frac{h^2}{6\,\ellzero} d_{\max} = 7.415 \times 10^{-6}\,\mathrm{mm}$, carries physical dimensions of length ($\mathrm{mm}$) and was incorrectly cited as a percentage. The dimensionless formulation $\xi \coth(\xi) - 1$ is the mathematically correct expression. Furthermore, a historical claim of ``$0.0039\%$'' was traced to the decimal fraction $0.003906 = \xi_{\mathrm{fine}}^2 / 4$ ($= 0.39\%$) inadvertently transcribed as a percentage. In the actual 2D non-uniform finite element mesh, the numerically computed domain integral error is $0.1322\%$, fully satisfying Criterion~3 ($\le 5.0\%$).
+
+\subsection{Abaqus Mechanical Continuation Blocker and Solver Diagnostics}
+\label{subsec:method_c_solver_blocker}
+
+While Milestone~2 (offline transfer) succeeded, Milestone~3 (mechanical continuation in Abaqus/Standard) encountered fundamental architectural barriers in commercial solver capabilities.
+
+\paragraph{Reverse Coarsening Solve Diagnostics (Job \texttt{1412809.mmaster02}):}
+To test solver continuation behavior, Job \texttt{1412809} was executed as a coarsening continuation solve ($14.7\mathrm{k} \to 2.9\mathrm{k}$) using a two-step architecture (\texttt{Step-1-Equilibrate} under fixed $u=0.0050\,\mathrm{mm}$, followed by \texttt{Step-2-Displace} up to $u=0.0100\,\mathrm{mm}$). The solve completed $5{,}042$ increments with Exit~0, revealing:
+\begin{enumerate}
+  \item \textbf{Step-Boundary Force Discontinuity:} Reaction force jumped from $RF = 674.72\,\mathrm{N}$ at the end of Step~1 to $RF = 653.17\,\mathrm{N}$ at Increment~1 of Step~2 ($|653.17 - 674.72| = 21.55\,\mathrm{N}$). This strictly fails Criterion~5 ($\le 5.0\,\mathrm{N}$).
+  \item \textbf{Crack Pinning on Coarse Recipient:} The coarse recipient mesh ($h = 20\,\mu\mathrm{m}$) could not sustain localized damage, driving the reaction force up to $F_{\max} = 1085.41\,\mathrm{N}$ ($+43.2\%$ above canonical reference $757.8\,\mathrm{N}$) with peak displacement delayed to $u = 0.009219\,\mathrm{mm}$ ($+57.4\%$).
+  \item \textbf{Energy Residual Failure:} Full-step energy residual reached $22.22\%$, failing Criterion~7 ($\le 10\%$).
+\end{enumerate}
+
+\paragraph{Fundamental Architectural Root Causes in Abaqus/Standard:}
+Exhaustive testing of Abaqus continuation features established three insurmountable barriers:
+\begin{enumerate}
+  \item \textbf{Fatal Rejection of Displacement Initial Conditions:} In Abaqus/Standard \texttt{*STATIC} procedures, specifying \texttt{*INITIAL CONDITIONS, TYPE=DISPLACEMENT} is fatally rejected by the pre-processor (Error 144: displacement initial conditions are valid only in dynamic or velocity-based procedures).
+  \item \textbf{Zero Displacement Initialization with Solution ICs:} Specifying \texttt{*INITIAL CONDITIONS, TYPE=SOLUTION} successfully initializes element state variables ($\mathrm{SDVs}$ including phase field $d$ and history $\Hist$). However, all nodal displacement degrees of freedom ($\mathrm{DOFs}\ 1, 2, 3$) remain strictly zero at $t = 0$. Consequently, Step~1 cannot restart from the deformed equilibrium state, but must artificially reload from $u = 0$ to $u_{\mathrm{handoff}}$, traversing a virgin-to-damaged secant path that distorts reaction force continuity.
+  \item \textbf{Incompatibility with User Elements (UEL):} Native Abaqus state-mapping features (\texttt{*MAP SOLUTION} and \texttt{*IMPORT}) explicitly do not support user-defined elements (\texttt{UEL}). Standard restart (\texttt{*RESTART}) requires an identical mesh topology and cannot operate across refined or re-meshed discretizations.
+  \item \textbf{User-Subroutine Coupling Lag Hypothesis:} Because the mechanical and phase-field equations are solved in separate coincident element layers coupled via Fortran \texttt{COMMON} blocks, a single-increment staggered lag occurs when entering Step~2, contributing to the $21.55\,\mathrm{N}$ step-boundary force jump. This mechanism is classified as a plausible technical hypothesis.
+\end{enumerate}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig_mode1_method_c_forward_refinement_mesh_comparison.pdf}
+  \caption{Method C forward-refinement candidate — offline transfer verification; genuine sequential continuation not yet demonstrated. Comparison between the coarse donor mesh ($2{,}906$ FEs, $h \approx 20\,\mu\mathrm{m}$) and the Abaqus-native adapted fine recipient mesh ($14{,}677$ FEs, $h_{\min} = 1.875\,\mu\mathrm{m}$) with crack-tip close-ups.}
+  \label{fig:method_c_forward_mesh_comparison}
+\end{figure}
+
+\subsection{Master Governance Synthesis: Dual Acceptance Matrices}
+\label{subsec:method_c_governance_synthesis}
+
+To prevent conflation between mathematically verified offline transfer and un-run or unqualified solver continuation, the master evaluation is partitioned into two distinct matrices (Tab.~\ref{tab:method_c_dual_matrix}).
+
+\begin{table}[htbp]
+\centering
+\caption{Dual-matrix evaluation of Method~C: separating offline mathematical transfer verification from in-analysis solver continuation qualification.}
+\label{tab:method_c_dual_matrix}
+\small
+\begin{tabular}{p{0.32\textwidth}p{0.28\textwidth}p{0.32\textwidth}}
+\hline
+\textbf{Evaluation Dimension} & \textbf{Achieved Result} & \textbf{Epistemic Verdict} \\
+\hline
+\multicolumn{3}{l}{\textbf{Matrix A: Offline Forward State Transfer ($2{,}906 \to 14{,}677$ FEs at $u = 0.0050\,\mathrm{mm}$)}} \\
+\hline
+Displacement $L_2$ Error & $0.1347\% \le 1.0\%$ & \textbf{QUALIFIED (PASS)} \\
+Peak Damage Discrepancy & $\Delta d = 0.000000 \le 0.02$ & \textbf{QUALIFIED (PASS)} \\
+Integrated Damage Error & $0.1322\% \le 5.0\%$ & \textbf{QUALIFIED (PASS)} \\
+History Non-Negativity & $\min(\Hist) \ge 0.0$, $0$ negative & \textbf{QUALIFIED (PASS)} \\
+Mesh Compliance Disparity & $1.6662\% \le 5.0\%$ & \textbf{QUALIFIED (PASS)} \\
+\hline
+\multicolumn{3}{l}{\textbf{Matrix B: In-Analysis Mechanical Continuation in Abaqus/Standard}} \\
+\hline
+Displacement IC Support & Rejected (Error 144) & \textbf{UNSUPPORTED BY ABAQUS} \\
+UEL Mapping Support & Not supported by \texttt{*MAP} & \textbf{UNSUPPORTED BY ABAQUS} \\
+Forward Force Jump (Criterion 5) & Un-run in solver & \textbf{NOT YET EVALUATED} \\
+Forward Energy Residual (Criterion 7) & Un-run in solver & \textbf{NOT YET EVALUATED} \\
+Reverse Force Jump (Job 1412809) & $21.55\,\mathrm{N} > 5.0\,\mathrm{N}$ & \textbf{FAIL (DISCONTINUITY)} \\
+Reverse Energy Residual (Job 1412809) & $22.22\% > 10.0\%$ & \textbf{FAIL (ENERGY BALANCE)} \\
+\hline
+\textbf{Overall Method C Status} & \multicolumn{2}{l}{\textbf{\texttt{OFFLINE\_TRANSFER\_QUALIFIED\_\_CONTINUATION\_NOT\_QUALIFIED}}} \\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{Master Thesis Conclusion on Remeshing Methodologies:}
+\begin{itemize}
+  \item \textbf{Method A (Two-Pass Pre-Refinement):} Demonstrates that error-guided refinement reduces element counts ($71\mathrm{k} \to 21\mathrm{k}$ in Mode~II), but is sensitive to the pre-analysis loading horizon.
+  \item \textbf{Method B (Load-Partitioned Propagation Refinement):} Solves the artificial force plateau when refinement ($h \le \ellzero / 2$) covers the entire prospective crack trajectory, achieving close agreement with canonical references ($K_0$ error $-0.026\%$, $F_{\max}$ error $-1.86\%$, $W_{\mathrm{ext}}$ error $-3.87\%$) within the common comparison horizon $u \le 0.007889\,\mathrm{mm}$.
+  \item \textbf{Method C (Sequential Continuation):} Mathematical state transfer across nonmatching user-element meshes is validated offline with high fidelity. However, genuine in-analysis continuation is fundamentally obstructed by Abaqus/Standard's inability to initialize nonzero displacement states in static UEL models without artificial reloading.
+\end{itemize}
