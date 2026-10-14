@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 test_mode1_f1453_thesis_and_briefing.py
-Unit test suite verifying Task F1453 thesis integration, permanent evidence audit,
-numerical recomputations, and supervisor briefing preparation.
+Unit test suite verifying Task F1453/F1454/F1455 thesis integration, permanent evidence audit,
+numerical recomputations, Method C roadmap corrections, and supervisor briefing preparation.
 """
 
 import os
@@ -83,11 +83,15 @@ def test_thesis_latex_sections_and_captions():
     assert "137.9096" in content
     assert "0.743701" in content
     assert "2.2674" in content
+    assert "31.4896" in content
     assert "fig_mode1_method_b_corrected_comparison.pdf" in content
     assert "fig_mode1_method_b_ligament_profiles.pdf" in content
 
     # Section 4.23 checks
     assert "\\section{Method C Sequential Adaptive Remeshing Feasibility Investigation and Nonmatching State Transfer}" in content
+    assert "Method B (Load-Partitioned Pre-Refinement)" in content
+    assert "Method C (Sequential Adaptive Remeshing)" in content
+    assert "zero complete sequential remeshing-and-continuation cycles have been qualified in the solver" in content
     assert "Field 1 (Coarse Donor Solution)" in content
     assert "Field 2 (Coarse Solution Interpolated on Fine Mesh)" in content
     assert "Field 3 (Independently Solved Fine Reference Solution)" in content
@@ -130,6 +134,12 @@ def test_supervisor_briefing_document():
     assert "21.55" in text
     assert "0.094910" in text
     assert "0.319455" in text
+    assert "31.4896%" in text
+    assert "Option A (Preserve & Report Baseline Methods)" in text
+    assert "Option B (Investigate Separate Experimental Continuation Architecture)" in text
+    assert "4.4 Technical Note: Mandatory Qualification Criteria for a Single Genuine Method C Remeshing Cycle" in text
+    assert "State-Preserving Nonzero-Displacement Initialization" in text
+    assert "zero complete sequential remeshing-and-continuation cycles have been qualified" in text
 
 def test_thesis_compiled_pdf_exists_and_pagecount():
     """Verify main.pdf exists and has at least 180 pages."""

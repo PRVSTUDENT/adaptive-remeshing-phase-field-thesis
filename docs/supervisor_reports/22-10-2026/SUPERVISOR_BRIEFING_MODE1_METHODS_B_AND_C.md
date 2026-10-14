@@ -24,19 +24,30 @@ MASTER STATUS DASHBOARD FOR 22 OCTOBER 2026 REVIEW:
 * Method A (Two-Pass Pre-Refinement):
     - Status: COMPLETE & VALIDATED (ET2 6k FE; Mode-II ET3 21k FE)
     - Characteristic: Fixed mesh from t=0; sensitive to pre-analysis horizon.
-* Method B (Load-Partitioned Full-Ligament Pre-Refinement):
-    - Status: COMPLETED WITH PARTIAL HORIZON LIMITATION (Job 1412465, 14,483 FE)
+* Method B (Load-Partitioned Pre-Refinement):
+    - Definition & Scope: Configurable 1-, 2-, or 4-step loading partitions, followed by ONE
+      remeshing operation and a fresh simulation from t = 0. The number of loading steps (1, 2, or 4)
+      is NOT the number of adaptive remeshing cycles.
+    - Status: COMPLETED WITH PARTIAL HORIZON LIMITATION (Job 1412465, 14,483 FE).
     - Achievement: Completely eliminated artificial 0.50-0.60 kN force plateau; restored brittle
-      snap-through softening; reduced external work by -31.5% (W_ext = 2.2674 mJ, -3.87% vs ref).
+      snap-through softening; reduced external work by 31.4896% (from 3.309642 mJ to 2.267448 mJ
+      over matched horizon u <= 0.007889 mm, within -3.87% of canonical reference 2.3586 mJ).
     - Limitation: Terminal cutback at u = 0.007889 mm in deep softening tail (RF = 1.76 N, 99.76% softened).
       All like-for-like comparisons with reference are strictly scoped to u in [0.0, 0.007889] mm.
-* Method C (Sequential Adaptive Remeshing with Nonmatching State Transfer):
-    - Status: OFFLINE_TRANSFER_QUALIFIED__CONTINUATION_NOT_QUALIFIED
-    - Achievement: Milestone 1 (native 2.9k -> 14.7k remeshing) and Milestone 2 (offline state transfer
-      passing all 7 Gate 6C criteria: L2 disp 0.13%, integrated damage 0.13%, min(H) >= 0) validated.
-    - Software Barrier: Milestone 3 (mechanical continuation in Abaqus/Standard) fundamentally blocked
-      by Abaqus *STATIC rejection of displacement ICs, zero-displacement solution initialization,
-      lack of UEL support in *MAP SOLUTION, and UEL COMMON-block coupling lag.
+* Method C (Sequential Adaptive Remeshing during Crack Propagation):
+    - Intended Research Objective: The user's intended research objective remains genuine sequential
+      adaptive remeshing during Mode-I crack propagation (Solve -> evaluate error -> remesh ->
+      transfer state -> continue, repeated when scientifically justified), rather than merely
+      successful offline pre-refinement.
+    - Status: OFFLINE_TRANSFER_QUALIFIED__CONTINUATION_NOT_QUALIFIED.
+    - Actual Documented Milestone Status: One authentic coarse-to-fine refinement candidate
+      (2,906 -> 14,677 FEs) and offline transfer have been verified (Milestone 1 and Milestone 2).
+      However, ZERO complete sequential remeshing-and-continuation cycles have been qualified in the
+      solver. Two-cycle and four-cycle Method C experiments have NOT been demonstrated.
+    - Commercial Software Barrier: In-analysis continuation (Milestone 3) is fundamentally blocked
+      by commercial Abaqus/Standard limitations: fatal rejection of displacement ICs in *STATIC,
+      zero displacement DOFs under *INITIAL CONDITIONS, TYPE=SOLUTION, lack of UEL support in
+      *MAP SOLUTION, and staggered UEL COMMON-block coupling lag.
 ====================================================================================================
 ```
 
@@ -88,12 +99,12 @@ To resolve this defect, **Corrected Method B** (Package 40, Job `1412465.mmaster
 | **Force at $u=0.0060\,\text{mm}$** | $0.0005\,\text{kN}$ | $0.5981\,\text{kN}$ | $\mathbf{0.00208\,\text{kN}}$ | **Plateau Completely Eliminated** |
 | **Force at $u=0.0070\,\text{mm}$** | $0.0004\,\text{kN}$ | $0.5250\,\text{kN}$ | $\mathbf{0.00192\,\text{kN}}$ | **Plateau Completely Eliminated** |
 | **Work $W_{\text{ext}}$ (matched $u \le 0.0079\,\text{mm}$)** | $2.3586\,\text{mJ}$ | $3.3096\,\text{mJ}$ | $\mathbf{2.2674\,\text{mJ}}^*$ | $\mathbf{-3.87\%}$ ($-31.49\%$ vs Orig B matched) |
-| **Terminal Work $W_{\text{ext}}$ ($u = 0.0100\,\text{mm}$)** | $2.3587\,\text{mJ}$ | $3.3320\,\text{mJ}$ | \emph{N/A}$^\dagger$ | --- ($-31.95\%$ vs Orig B full) |
+| **Terminal Work $W_{\text{ext}}$ ($u = 0.0100\,\text{mm}$)** | $2.3587\,\text{mJ}$ | $3.3320\,\text{mJ}$ | \emph{N/A}$^\dagger$ | --- (Full-horizon baseline; cross-horizon comparison invalid) |
 | **Fracture Energy $E_{\text{frac}}$**| $2.3512\,\text{mJ}$ | $3.0320\,\text{mJ}$ | $2.2855\,\text{mJ}^*$ | $-2.79\%$ |
 | **Energy Residual $\Delta E$** | $0.0072\,\text{mJ}$ | $0.2848\,\text{mJ}$ | $0.0250\,\text{mJ}^*$ | $\mathbf{1.10\%}$ (Relative Error) |
-| **Verified Endpoint** | $u = 0.0100\,\text{mm}$ | $u = 0.0100\,\text{mm}$ | $u = 0.007889\,\text{mm}$ | Post-fracture ($99.76\%$ softened) |
+| **Verified Endpoint** | $u = 0.0100\,\text{mm}$ | $u = 0.0100\,\text{mm}$ | $u = 0.007889\,\text{mm}$ | Post-fracture ($99.76\%$) |
 
-$^*$Evaluated at terminal state $u = 0.007889\,\text{mm}$ ($RF = 1.76\,\text{N}$, $99.76\%$ softened).
+$^*$Evaluated at terminal state $u = 0.007889\,\text{mm}$ ($RF = 1.76\,\text{N}$, $99.76\%$ softened).  
 $^\dagger$Solver cutback at $u = 0.007889\,\text{mm}$; nominal $0.0100\,\text{mm}$ horizon was not reached.
 
 ### 2.4 Solver Termination Audit & Comparison Horizon Discipline
@@ -108,7 +119,15 @@ $^\dagger$Solver cutback at $u = 0.007889\,\text{mm}$; nominal $0.0100\,\text{mm
 
 ## 3. Method C: Sequential Adaptive Remeshing Feasibility & State Transfer
 
-### 3.1 Three Distinct Technical Milestones
+### 3.1 User Objective and Method B vs. Method C Architectural Distinction
+The user's intended research objective remains **genuine sequential adaptive remeshing during Mode-I crack propagation**, rather than merely successful offline pre-refinement.
+
+It is essential to maintain clear architectural boundaries:
+- **Method B:** Configurable 1-, 2-, or 4-step loading partitions, followed by **one** remeshing operation and a fresh simulation from $t = 0$. The number of loading steps is not the number of adaptive remeshing cycles.
+- **Method C:** Solve $\to$ evaluate error $\to$ remesh $\to$ transfer state $\to$ continue, repeated sequentially during crack propagation when scientifically justified.
+
+**Documented Status:** One authentic coarse-to-fine refinement candidate ($2{,}906 \to 14{,}677$ FEs) and offline transfer have been verified, but **zero complete sequential remeshing-and-continuation cycles have been qualified**. Two-cycle and four-cycle Method C experiments have not been demonstrated.
+
 To evaluate sequential adaptivity without conflating mathematical mapping from solver limitations, Method C was investigated across three distinct milestones:
 1. **Milestone 1 (Abaqus-Native Mesh Refinement):** Demonstrated that Abaqus CAE \texttt{adaptiveRemesh} refines a $2{,}906$-element coarse donor ($h = 20\,\mu\mathrm{m}$) into a $14{,}677$-element fine recipient ($h_{\min} = 1.875\,\mu\mathrm{m}$).
 2. **Milestone 2 (Offline Nonmatching State Transfer):** Projected active state vector $\mathbf{S} = \{\mathbf{u}, d, \Hist\}$ across nonmatching meshes at handoff $u_{\text{handoff}} = 0.0050\,\text{mm}$ and evaluated mathematical transfer fidelity.
@@ -123,11 +142,11 @@ To evaluate sequential adaptivity without conflating mathematical mapping from s
 | **Criterion 3** | Domain-Integrated Damage Error | $\le 5.0\%$ | $\mathbf{0.1322\%}$ | **PASS** |
 | **Criterion 4** | Strain-History Non-Negativity | $\min(\Hist) \ge 0.0$ | $\mathbf{1.579 \times 10^{-9}\,\text{kN/mm}^2}$ | **PASS** (0 negative GPs) |
 | **Criterion 5** | Step-Boundary Force Discontinuity | $\le 5.0\,\mathrm{N}$ | \emph{Not Yet Evaluated}$^\dagger$ | **UN-RUN IN SOLVER** |
-| **Criterion 6** | Offline Mesh Compliance Disparity | $\le 5.0\%$ | $\mathbf{1.6662\%}$ | **PASS** |
+| **Criterion 6** | Offline Mesh Compliance Disparity | $\le 5.0\%$ | $\mathbf{1.6662\%}^\ddagger$ | **PASS** |
 | **Criterion 7** | Continuation Energy Residual | $\le 10.0\%$ | \emph{Not Yet Evaluated}$^\dagger$ | **UN-RUN IN SOLVER** |
 
-$^*$Evaluated at coincident notch tip node 129 ($x=0.5, y=0.5\,\text{mm}$).
-$^\dagger$Forward recipient mesh has never been solved in Abaqus. Reverse coarsening metrics (Job 1412809: $21.55\,\text{N}$ and $22.22\%$) are kept strictly decoupled.
+$^*$Evaluated at coincident notch tip node 129 ($x=0.5, y=0.5\,\text{mm}$).  
+$^\dagger$Forward recipient mesh has never been solved in Abaqus. Reverse coarsening metrics (Job 1412809: $21.55\,\text{N}$ and $22.22\%$) are kept strictly decoupled.  
 $^\ddagger$Criterion 6 evaluates the static compliance disparity between the independently solved coarse donor ($1.6634\,\text{mJ}$) and fine reference ($1.6911\,\text{mJ}$) equilibrium states at $u = 0.0050\,\text{mm}$; it reflects discretization compliance disparity and is not directly measured projection-induced energy loss.
 
 ### 3.3 Disentanglement of Three Distinct Damage Fields
@@ -182,20 +201,39 @@ Matrix B: In-Analysis Mechanical Continuation in Abaqus/Standard
 
 ## 4. Formal Decisions Submitted for Supervisor Consideration & Determination (22 October 2026)
 
-During the upcoming meeting on Thursday, 22 October 2026 at 10:00 CEST, the following three formal decisions are submitted for the supervisor's review, consideration, and formal determination:
+During the upcoming meeting on Thursday, 22 October 2026 at 10:00 CEST, the following formal decisions and technical notes are submitted for the supervisor's review, consideration, and formal determination:
 
 ### Decision 1: Formal Closure of Gate 6B (Method B)
 - **Submitted for Supervisor Determination:** Formal closure and sign-off of Gate 6B with the classification:
   `METHOD_B_SCIENTIFIC_OBJECTIVE_COMPLETED_WITH_PARTIAL_HORIZON_LIMITATION`
-- **Technical Basis:** Corrected Method B completely resolved the central research question by eliminating the $0.50-0.60\,\text{kN}$ force plateau, restoring brittle snap-through softening, and reducing external work by $31.49\%$ (from $3.3096\,\text{mJ}$ to $2.2674\,\text{mJ}$, within $-3.87\%$ of reference). All scientific claims are strictly scoped to the verified common displacement horizon $u \in [0.0, 0.007889]\,\text{mm}$ (capturing $>99.76\%$ softening).
+- **Technical Basis:** Corrected Method B completely resolved the central research question by eliminating the $0.50-0.60\,\text{kN}$ force plateau, restoring brittle snap-through softening, and reducing external work by $31.4896\%$ (from $3.309642\,\text{mJ}$ to $2.267448\,\text{mJ}$ over the matched horizon $u \le 0.007889\,\text{mm}$, within $-3.87\%$ of canonical reference $2.3586\,\text{mJ}$). All scientific claims are strictly scoped to the verified common displacement horizon $u \in [0.0, 0.007889]\,\text{mm}$ (capturing $>99.76\%$ softening).
 
 ### Decision 2: Formal Evaluation of Gate 6C (Method C)
 - **Submitted for Supervisor Determination:** Formal classification of Gate 6C under the dual-matrix evaluation:
   `OFFLINE_TRANSFER_QUALIFIED__CONTINUATION_NOT_QUALIFIED`
-- **Technical Basis:** Milestone 1 (native mesh refinement) and Milestone 2 (offline mathematical state transfer) are fully verified and meet all Gate 6C criteria ($L_2 = 0.13\%$, $\Delta d = 0.000000$, $\min(\Hist) \ge 0.0$, compliance disparity $1.67\%$). Milestone 3 (in-analysis mechanical continuation in Abaqus/Standard) cannot be achieved natively due to commercial Abaqus displacement initialization limitations (rejection of displacement ICs in `*STATIC`, zero DOFs in solution ICs) and lack of UEL support in `*MAP SOLUTION`.
+- **Technical Basis:** Milestone 1 (native mesh refinement) and Milestone 2 (offline mathematical state transfer) are fully verified and meet all Gate 6C criteria ($L_2 = 0.13\%$, $\Delta d = 0.000000$, $\min(\Hist) \ge 0.0$, compliance disparity $1.67\%$). Milestone 3 (in-analysis mechanical continuation in Abaqus/Standard) cannot be achieved natively due to commercial Abaqus displacement initialization limitations (rejection of displacement ICs in `*STATIC`, zero DOFs in solution ICs) and lack of UEL support in `*MAP SOLUTION`. Zero complete sequential remeshing-and-continuation cycles have been qualified in the solver; multi-cycle experiments remain un-demonstrated.
 
 ### Decision 3: Strategic Thesis Path Forward
-- **Submitted for Supervisor Determination:** Whether future development of a separate state-preserving UEL architecture is justified, or whether to conclude numerical simulation campaigns for Mode-I and focus remaining thesis effort on:
-  1. Authoring final synthesis chapters consolidating Methods A and B as verified pre-refinement engineering workflows.
-  2. Documenting Method C as a rigorous feasibility and software-limitation case study, articulating the exact commercial FE architectural barriers.
-  3. Recommending future research directions (monolithic UEL formulation with internal displacement mapping or external Python orchestration) without undertaking high-risk UEL redesign that would breach the frozen baseline Fortran contract (`CE8D5EDC...`).
+- **Submitted for Supervisor Consideration & Determination:** The strategic research direction for the thesis remains for determination between the user and supervisor. Two scientifically defensible options are submitted:
+  - **Option A (Preserve & Report Baseline Methods):** Preserve and report Methods A and B as verified offline pre-refinement engineering workflows, alongside a rigorous documentation of the current commercial Abaqus/Standard Method C feasibility limitations and architectural software barriers, without further solver modifications.
+  - **Option B (Investigate Separate Experimental Continuation Architecture):** Investigate a separate experimental, state-preserving UEL continuation architecture (e.g. exploring alternative state-initialization mechanisms or monolithic formulation) developed in an isolated development branch, keeping the authoritative, frozen baseline `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) strictly unchanged and protected.
+- **Epistemic Discipline:** The choice between Option A and Option B belongs strictly to the user and the supervisor. The controller/agent does not independently terminate Method C or resume Mode-II.
+
+### 4.4 Technical Note: Mandatory Qualification Criteria for a Single Genuine Method C Remeshing Cycle
+
+For supervisor consideration regarding Option B (or any future continuation investigation), a future single genuine Method C remeshing-and-continuation cycle ($\text{Solve} \to \text{Evaluate Error} \to \text{Remesh} \to \text{Transfer State} \to \text{Continue}$) must rigorously demonstrate the following six pre-declared verification criteria before multi-cycle execution can be considered:
+
+1. **State-Preserving Nonzero-Displacement Initialization:**
+   The solver must initialize directly at the transferred deformed equilibrium state ($\mathbf{u} = \mathbf{u}_{\text{handoff}} \ne \mathbf{0}$) on the recipient mesh without requiring an artificial quasi-static reload from $u = 0$, thereby preserving the active stress state and kinematic history.
+2. **Phase-Field and Strain-History Preservation:**
+   Nodal damage values ($0 \le d \le 1$) and element history variables ($\Hist \ge 0$) must be transferred with high spatial fidelity without unphysical diffusion, negative values, or loss of localization ($L_2 \le 1.0\%$, $\Delta d_{\max} \le 0.02$).
+3. **Reaction-Force Continuity Within Declared Tolerance:**
+   The initial reaction force upon continuation on the recipient mesh must match the donor handoff reaction force within the declared tolerance of $|\Delta RF| \le 5.0\,\text{N}$, eliminating step-boundary discontinuities.
+4. **Quantified Transfer-Induced Energy Discrepancy:**
+   The energy discrepancy introduced purely by mesh-to-mesh state transfer must be rigorously bounded and tracked ($\Delta E_{\text{transfer}} / W_{\text{ext}} \le 5.0\%$), and global energy balance must be satisfied throughout subsequent continuation ($\Delta E \le 10.0\%$).
+5. **Actual Forward-Recipient Fracture Response Against Fixed Reference:**
+   Continuation must demonstrate physical crack propagation on the fine recipient mesh matching the canonical fixed-mesh reference in stiffness $K_0$, peak load $F_{\max}$, and brittle post-peak softening without crack pinning.
+6. **Repeatability Before Extending to Multi-Cycle Execution:**
+   A single remeshing cycle must be proven robust, deterministic, and repeatable before extending the workflow to two or more sequential remeshing cycles.
+
+*Epistemic Guard:* Developing an experimental UEL modification or alternative initialization architecture is treated strictly as an engineering hypothesis requiring separate empirical verification; it must not be assumed or claimed that an experimental UEL modification will necessarily resolve these commercial solver constraints.

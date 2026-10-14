@@ -4110,7 +4110,7 @@ Verified Endpoint $u_{\mathrm{term}}$ [$\mathrm{mm}$] & $0.010000$ & $0.010000$ 
 The quantitative evidence establishes three primary scientific conclusions:
 \begin{enumerate}
   \item \textbf{Complete Elimination of the Artificial Force Plateau:} In Corrected Method~B, the reaction force drops sharply from $F_{\max} = 0.7437\,\mathrm{kN}$ at $u = 0.005733\,\mathrm{mm}$ down to $F = 0.00208\,\mathrm{kN}$ at $u = 0.0060\,\mathrm{mm}$ and $F = 0.00192\,\mathrm{kN}$ at $u = 0.0070\,\mathrm{mm}$. The artificial $0.50 - 0.60\,\mathrm{kN}$ force plateau of Original Method~B is completely eliminated, restoring physical brittle crack propagation.
-  \item \textbf{Reconciliation of External Work and Energy Balance:} Over the verified matched displacement horizon ($u \le 0.007889\,\mathrm{mm}$), cumulative external work decreases by $-31.49\%$ (from $3.309642\,\mathrm{mJ}$ in Original Method~B down to $2.267448\,\mathrm{mJ}$ in Corrected Method~B; or $-31.95\%$ when compared against the full-horizon Original Method~B value of $3.3320\,\mathrm{mJ}$), coming within $-3.87\%$ of the canonical reference ($2.3586\,\mathrm{mJ}$ matched, $2.3587\,\mathrm{mJ}$ full). Global UEL energy balance is satisfied with an energy residual of $\Delta E = |W_{\mathrm{ext}} - (E_{\mathrm{frac}} + E_{\mathrm{elas}})| = 0.0250\,\mathrm{mJ}$ ($1.10\%$ relative error).
+  \item \textbf{Reconciliation of External Work and Energy Balance:} Over the verified matched displacement horizon ($u \le 0.007889\,\mathrm{mm}$), cumulative external work decreases by $-31.49\%$ (from $3.309642\,\mathrm{mJ}$ in Original Method~B down to $2.267448\,\mathrm{mJ}$ in Corrected Method~B, a reduction of $31.4896\%$), coming within $-3.87\%$ of the canonical reference ($2.3586\,\mathrm{mJ}$ matched, $2.3587\,\mathrm{mJ}$ full). For historical completeness, the original Method~B simulation accumulated $3.332000\,\mathrm{mJ}$ across its full horizon ($u = 0.010000\,\mathrm{mm}$); however, because Corrected Method~B cut back at $u = 0.007889\,\mathrm{mm}$, comparing cross-horizon values does not constitute a valid matched comparison and is not cited as a reduction attributable to the mesh correction. Global UEL energy balance is satisfied with an energy residual of $\Delta E = |W_{\mathrm{ext}} - (E_{\mathrm{frac}} + E_{\mathrm{elas}})| = 0.0250\,\mathrm{mJ}$ ($1.10\%$ relative error).
   \item \textbf{Pre-Peak Linear Elastic Parity:} Initial elastic stiffness matches the canonical reference within $-0.0261\%$ ($K_0 = 137.9096\,\mathrm{kN/mm}$ vs $137.9455\,\mathrm{kN/mm}$), confirming that local refinement along the uncracked ligament does not alter the global structural compliance.
 \end{enumerate}
 
@@ -4144,14 +4144,22 @@ In generating the Package~40 mesh, both the sizing tolerance (\texttt{errorTarge
 \section{Method C Sequential Adaptive Remeshing Feasibility Investigation and Nonmatching State Transfer}
 \label{sec:method_c_state_transfer}
 
-\subsection{Motivation and Three Distinct Technical Milestones}
+\subsection{Motivation, Methodological Distinction, and Technical Milestones}
 \label{subsec:method_c_motivation}
 
-While Methods~A and B successfully achieve high local accuracy with reduced element counts, both approaches remain \emph{offline error-guided pre-refinements}: they fix the discretization before nonlinear fracture begins, requiring prior knowledge or estimation of the crack propagation corridor. Truly general adaptive remeshing during arbitrary crack propagation requires sequential in-analysis cycles:
+While Methods~A and B successfully achieve high local accuracy with reduced element counts, both approaches operate as \emph{offline error-guided pre-refinements}: they fix the discretization before nonlinear fracture begins, requiring prior knowledge or estimation of the crack propagation corridor. It is critical to maintain clear architectural boundaries between Method~B and Method~C:
+\begin{itemize}
+  \item \textbf{Method B (Load-Partitioned Pre-Refinement):} Configurable 1-, 2-, or 4-step loading partitions, followed by a single remeshing operation and a fresh simulation from $t = 0$. The number of loading steps (1, 2, or 4) is not the number of adaptive remeshing cycles.
+  \item \textbf{Method C (Sequential Adaptive Remeshing):} A cyclical in-analysis process: $\text{Solve} \to \text{Evaluate Error} \to \text{Remesh} \to \text{Transfer State} \to \text{Continue}$, repeated when scientifically justified during crack propagation.
+\end{itemize}
+
+The intended research objective remains genuine sequential adaptive remeshing during Mode-I crack propagation, rather than merely successful offline pre-refinement:
 \begin{equation}
   \text{Solve Increment } n \longrightarrow \text{Evaluate Error} \longrightarrow \text{Generate New Mesh} \longrightarrow \text{Transfer State } \mathbf{S} \longrightarrow \text{Resume Solve}.
   \label{eq:sequential_remeshing_cycle}
 \end{equation}
+
+Regarding current status, one authentic coarse-to-fine refinement candidate ($2{,}906 \to 14{,}677$ FEs) and offline state transfer have been verified, but \textbf{zero complete sequential remeshing-and-continuation cycles have been qualified in the solver}. Two-cycle and four-cycle Method~C experiments have not been demonstrated.
 
 To rigorously evaluate the feasibility of this architecture in commercial finite-element software without compromising scientific standards, Task~F1451/F1452 investigated the Method~C workflow across three distinct, independently evaluated technical milestones:
 \begin{enumerate}
@@ -4307,6 +4315,6 @@ Reverse Energy Residual (Job 1412809) & $22.22\% > 10.0\%$ & \textbf{FAIL (ENERG
 \paragraph{Master Thesis Conclusion on Remeshing Methodologies:}
 \begin{itemize}
   \item \textbf{Method A (Two-Pass Pre-Refinement):} Demonstrates that error-guided refinement reduces element counts ($71\mathrm{k} \to 21\mathrm{k}$ in Mode~II), but is sensitive to the pre-analysis loading horizon.
-  \item \textbf{Method B (Load-Partitioned Propagation Refinement):} Solves the artificial force plateau when refinement ($h \le \ellzero / 2$) covers the entire prospective crack trajectory, achieving close agreement with canonical references ($K_0$ error $-0.026\%$, $F_{\max}$ error $-1.86\%$, $W_{\mathrm{ext}}$ error $-3.87\%$) within the common comparison horizon $u \le 0.007889\,\mathrm{mm}$.
-  \item \textbf{Method C (Sequential Continuation):} Mathematical state transfer across nonmatching user-element meshes is validated offline with high fidelity. However, genuine in-analysis continuation is fundamentally obstructed by Abaqus/Standard's inability to initialize nonzero displacement states in static UEL models without artificial reloading.
+  \item \textbf{Method B (Load-Partitioned Propagation Refinement):} Solves the artificial force plateau when refinement ($h \le \ellzero / 2$) covers the entire prospective crack trajectory, achieving close agreement with canonical references ($K_0$ error $-0.026\%$, $F_{\max}$ error $-1.86\%$, $W_{\mathrm{ext}}$ error $-3.87\%$) within the common comparison horizon $u \le 0.007889\,\mathrm{mm}$. Note that Method~B loading partitions (1, 2, or 4 steps) represent loading subdivision before a single remesh, not sequential remeshing cycles.
+  \item \textbf{Method C (Sequential Continuation):} The intended research objective remains sequential adaptive remeshing during crack propagation. Mathematical state transfer across nonmatching user-element meshes is validated offline with high fidelity (Milestones 1 and 2). However, genuine in-analysis continuation (Milestone 3) is fundamentally obstructed by Abaqus/Standard's inability to initialize nonzero displacement states in static UEL models without artificial reloading. To date, zero complete sequential remeshing-and-continuation cycles have been qualified, and multi-cycle experiments remain un-demonstrated. Future research evaluating state-preserving continuation architectures must satisfy six strict criteria: (1) state-preserving nonzero-displacement initialization, (2) phase-field and strain-history preservation, (3) reaction-force continuity ($|\Delta RF| \le 5\,\mathrm{N}$), (4) quantified transfer-induced energy discrepancy ($\le 5\%$), (5) verified recipient fracture response against the fixed reference, and (6) single-cycle repeatability before multi-cycle extension.
 \end{itemize}
