@@ -309,3 +309,47 @@ To enable exact scientific reproduction without multi-gigabyte binary transfers,
    - **Recipient Mesh:** 14,677 FE native refined mesh ($h_{\min} = 1.875\,\mu\text{m}$, $h/l_0 = 0.25 \le 0.5$).
    - **Objective:** Eliminate coarse crack pinning and achieve physical fracture propagation (~0.743–0.758 kN).
    - **Governance:** Staged offline only. Zero PBS submissions authorized without separate explicit human approval.
+
+---
+
+## 12. Task F1451 Forward Adaptive Refinement ($2,906 \to 14,677$ FEs) Offline Validation & Feasibility Verdict
+
+### 12.1 Quantitative Forward Transfer Evaluation Matrix (Gate 6C)
+The authentic offline forward-refinement state transfer was executed from the 2,906-element coarse donor mesh (`M1_MB_INF_1S.inp`, Job 1411891 / Job 1411924, $u = 0.0050\,\text{mm}$) onto the 14,677-element native adapted recipient mesh (`M1_MB_NATIVE_FINAL_1S.inp`, Package 38):
+
+| Metric / Dimension | Evaluated Forward Value | Pre-Declared Threshold | Gate 6C Verdict | Technical Interpretation |
+| :--- | :---: | :---: | :---: | :--- |
+| **Criterion 1: Displacement $L_2$ Rel Error** | **0.1347%** | $\le 1.0\%$ | **PASS** | Continuous quadrature integration over all 14,677 elements against donor field. |
+| **Criterion 2: Peak Damage Difference** | **0.000000** | $\le 0.020$ | **PASS** | Exact peak damage $d_{\max} = 0.094910$ preserved bitwise at crack tip node 129. |
+| **Criterion 3: Domain-Integrated Damage Error** | **0.1322%** | $\le 5.0\%$ | **PASS** | Donor: $6.602\times 10^{-3}$, Recipient: $6.593\times 10^{-3}$. Proves that forward refinement eliminates chordal coarsening bias ($+5.05\% \to 0.13\%$). |
+| **Criterion 4: History Non-Negativity** | $\min(H) = 1.579\times 10^{-9}$ | $\ge 0.0\,\text{kN/mm}^2$ | **PASS** | 0 negative values across all 14,677 recipient elements (58,708 Gauss points). |
+| **Criterion 5: Reaction Force Continuity** | **21.55 N** (strict jump) / **0.0794 N** (tangent) | $\le 5.0\,\text{N}$ | **STRICT FAIL** / TANGENT PASS | Jump across 1-increment Step 1 reload fails 5.0 N threshold; tangent agreement with donor (653.09 N) is 0.0794 N. |
+| **Criterion 6: Internal Energy Preservation** | **1.6662%** | $\le 5.0\%$ | **PASS** | Donor: $1.6634\,\text{mJ}$; Recipient: $1.6911\,\text{mJ}$ ($\Delta = 0.0277\,\text{mJ}$, reflecting mesh compliance difference). |
+| **Criterion 7: Global Energy Residual** | Pre-peak: **0.11%** / Full step: **22.22%** | $\le 10.0\%$ | **FULL STEP FAIL** / PRE-PEAK PASS | Full step residual ($22.2\%$) fails due to under-resolved coarse-mesh post-peak snap-through discretization and cutbacks. |
+
+### 12.2 Forensic Root-Cause Resolution of the 21.55 N Step-Boundary Jump
+1. **Abaqus Static Displacement Rejection:** In Abaqus/Standard static analyses (`*STATIC`), `*INITIAL CONDITIONS, TYPE=DISPLACEMENT` is rejected with fatal error: `***ERROR: Illegal value "DISPLACEMENT" for parameter "type"`. Consequently, nodal DOFs 1 ($u_x$), 2 ($u_y$), and 3 ($d$) are uninitialized and set to $0.0$ at $t=0$.
+2. **Artificial 1-Increment Reload:** In `Step-1-Equilibrate`, the full handoff displacement $u_y = 0.0050\,\text{mm}$ is applied in a single increment ($\Delta t = 1.0$), converging in only 2 Newton iterations.
+3. **Staggered UEL Coupling Lag:** Co-located mechanical and phase-field elements communicate via `COMMON /CB_STATE_TRANS/`. In iteration 1, mechanical elements evaluate with un-relaxed trial phase fields. Iteration 2 establishes equilibrium on the unrelaxed state, converging to $RF = 674.72\,\text{N}$ and $E_{\text{frac}} = 3.06\times 10^{-6}\,\text{mJ}$.
+4. **Step 2 Entry Relaxation:** Upon entering `Step-2-Continue` (Increment 1, $\Delta t = 0.0002$), mechanical elements evaluate with the committed crack-tip phase field ($d \approx 0.3195$), causing $E_{\text{frac}}$ to jump to $3.09\times 10^{-5}\,\text{mJ}$ and reaction force to drop to $653.17\,\text{N}$ (matching the donor $653.09\,\text{N}$ within $0.079\,\text{N}$).
+5. **Verdict:** The $21.55\,\text{N}$ jump is an artifact of uninitialized nodal DOFs and staggered UEL coupling lag across an artificial 1-increment reload step, proving the process is an unphysical reload rather than a continuous deformation trajectory.
+
+### 12.3 Energy Balance Reconciliation Across Matched Horizons
+- **Pre-Peak Matched Window ($u \in [0.0050, 0.007889]\,\text{mm}$):** $W_{\text{ext}} = 2.3637\,\text{mJ}$, $\Delta E_{\text{tot}} = 2.3662\,\text{mJ}$, residual is $-0.0025\,\text{mJ}$ ($-0.11\%$, PASS).
+- **Full Step 2 Window ($u \in [0.0050, 0.0100]\,\text{mm}$):** $W_{\text{ext}} = 4.1845\,\text{mJ}$, $\Delta E_{\text{tot}} = 3.2548\,\text{mJ}$, residual is $0.9297\,\text{mJ}$ ($22.22\%$, FAIL).
+- **Prohibition of Kinetic Dissipation Claims:** In quasi-static Abaqus analyses (`*STATIC`), kinetic energy is identically zero ($E_{\text{kin}} \equiv 0$). Attributing the $22.2\%$ residual to "kinetic energy dissipation during dynamic snap-through" is physically and mathematically unsupportable under `*STATIC`. The true source is coarse-mesh crack pinning ($h/l_0 = 2.67$), excessive cutbacks, and numerical path-integration errors across severe post-peak snap-through softening.
+
+### 12.4 Reconciliation of $d_{\max} = 0.0039$ vs $d_{\max} \approx 0.3195$
+- **Authentic Peak Damage:** At handoff displacement $u = 0.0050\,\text{mm}$, the authentic peak phase-field damage at the crack tip is $d_{\max} = 0.319455$ on the refined adapted mesh and $d_{\max} = 0.094910$ on the coarse mesh.
+- **Source of 0.0039%:** $0.0039\%$ was the theoretical 1D analytical convex chordal interpolation error prediction for forward refinement ($\Delta I / I \approx \frac{h^2}{6 l_0} d_{\max}$ on $h = 1.88\,\mu\text{m}$). It was inadvertently transcribed into a table as $d_{\max}$ in prior documentation. The actual peak damage is $d_{\max} = 0.319455$.
+
+### 12.5 Abaqus Continuation Feasibility Verdict
+- **Engineering Verdict:** Without modifying the frozen user subroutine `f42_mixed_uel.for` (SHA-256 `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`), **no native Abaqus mechanism exists to initialize a nonzero deformed state on a different UEL mesh**.
+- **Classification:** `NO_NATIVE_NONZERO_DISPLACEMENT_CONTINUATION_WITHOUT_UEL_MODIFICATION`.
+- **Master Adaptivity Verdict:** `NOT_QUALIFIED_AS_ADAPTIVE_CONTINUATION`. Genuine adaptive remeshing continuation requires solver-level support for nonzero state continuation or internal incremental displacement formulation $\Delta \mathbf{u} = \mathbf{u} - \mathbf{u}_0$.
+
+### 12.6 Authentic Mesh Comparison Figure Reference
+The authentic 4-panel mesh visualization comparing the 2,906-element coarse donor and 14,677-element fine recipient meshes with crack-tip close-ups is preserved in:
+- PNG: `results/figures/mode1_method_c_forward_refinement/fig_mode1_method_c_forward_refinement_mesh_comparison.png`
+- PDF: `results/figures/mode1_method_c_forward_refinement/fig_mode1_method_c_forward_refinement_mesh_comparison.pdf`
+

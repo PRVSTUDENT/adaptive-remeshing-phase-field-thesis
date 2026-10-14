@@ -1,0 +1,69 @@
+{
+    "direction": "FORWARD_ADAPTIVE_REFINEMENT",
+    "donor_mesh": "M1_MB_INF_1S.inp (2,906 elements, 2,988 nodes, coarse)",
+    "recipient_mesh": "M1_MB_NATIVE_FINAL_1S.inp (14,677 elements, 14,646 nodes, fine adapted)",
+    "handoff_displacement_u_mm": 0.005,
+    "criterion_1_displacement_l2": {
+        "value": 0.13465649215638698,
+        "unit": "%",
+        "threshold": 1.0,
+        "verdict": "PASS"
+    },
+    "criterion_2_peak_damage": {
+        "donor_d_max": 0.09491037204861641,
+        "recipient_d_max": 0.09491037204861641,
+        "delta_d_max": 0.0,
+        "value": 0.0,
+        "unit": "dimensionless",
+        "threshold": 0.02,
+        "verdict": "PASS"
+    },
+    "criterion_3_integrated_damage": {
+        "integral_d_donor": 0.006601721820557857,
+        "integral_d_recipient": 0.006592992794645851,
+        "delta_integral_d": -8.72902591200677e-06,
+        "value": 0.13222347365235018,
+        "unit": "%",
+        "threshold": 5.0,
+        "verdict": "PASS"
+    },
+    "criterion_4_history_non_negativity": {
+        "min_H": 1.5794299201843387e-09,
+        "negative_H_count": 0,
+        "value": 1.5794299201843387e-09,
+        "unit": "kN/mm^2",
+        "threshold": 0.0,
+        "verdict": "PASS"
+    },
+    "criterion_5_boundary_force_continuity": {
+        "tangent_delta_rf_n": 0.0794,
+        "step_boundary_jump_n": 21.5473,
+        "value_strict": 21.5473,
+        "value_tangent": 0.0794,
+        "unit": "N",
+        "threshold": 5.0,
+        "strict_verdict": "FAIL",
+        "tangent_verdict": "PASS",
+        "root_cause": "Abaqus *STATIC displacement IC constraint and 1-increment staggered UEL coupling lag"
+    },
+    "criterion_6_internal_energy": {
+        "e_tot_donor_mj": 1.6633838895357917,
+        "e_tot_recip_mj": 1.6911,
+        "delta_e_int_pct": 1.6662485814951091,
+        "value": 1.6662485814951091,
+        "unit": "%",
+        "threshold": 5.0,
+        "verdict": "PASS"
+    },
+    "criterion_7_global_energy_residual": {
+        "prepeak_horizon_u0050_to_u007889_pct": 0.105,
+        "prepeak_verdict": "PASS",
+        "full_step_horizon_u0050_to_u0100_pct": 22.22,
+        "full_step_verdict": "FAIL",
+        "threshold": 10.0,
+        "governing_verdict": "FAIL_ON_FULL_STEP",
+        "explanation": "Quasi-static *STATIC has zero kinetic dissipation; 22.2% full-step residual reflects under-resolved coarse-mesh post-peak snap-through discretization and integration errors"
+    },
+    "overall_continuation_feasibility_verdict": "NOT_QUALIFIED_AS_ADAPTIVE_CONTINUATION",
+    "abaqus_continuation_constraint_verdict": "NO_NATIVE_NONZERO_DISPLACEMENT_CONTINUATION_WITHOUT_UEL_MODIFICATION"
+}
