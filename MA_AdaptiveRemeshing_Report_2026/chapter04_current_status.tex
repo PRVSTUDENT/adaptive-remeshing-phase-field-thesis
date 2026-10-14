@@ -3602,7 +3602,7 @@ The terminal pre-analysis database is ingested into Abaqus/CAE via automated Pyt
     \label{eq:remeshing_rule_config}
   \end{equation}
   with $h_{\min} = 0.001\,\mathrm{mm}$, $h_{\max} = 0.020\,\mathrm{mm}$, refinement factor $10$, and coarsening disabled.
-  \item The native Abaqus \texttt{adaptiveRemesh} kernel generates the adapted mesh in $230\,\mathrm{s}$, producing the \textbf{Adaptive ET3 mesh} with strictly \textbf{$21{,}063$ physical finite elements} ($20{,}487$ CPE4 quads + $576$ CPE3 triangles) and $21{,}043$ unique nodes.
+  \item The native Abaqus \texttt{adaptiveRemesh} kernel generates the adapted mesh in $230\,\mathrm{s}$, producing the \textbf{Adaptive ET3 mesh} with strictly \textbf{$21{,}063$ finite elements} ($20{,}487$ CPE4 quads + $576$ CPE3 triangles) and $21{,}043$ unique nodes.
   \item The generated refinement corridor exhibits a chord angle of $\theta = -48.30^\circ$, exiting the bottom edge at $x = 0.892\,\mathrm{mm}$, with $77.80\%$ of fine elements concentrated in the active shear corridor and zero spurious branching in unphysical domains.
 \end{itemize}
 
@@ -3660,7 +3660,7 @@ Table~\ref{tab:mode2_adaptive_vs_fixed_mechanics} presents the mechanical and ge
 \toprule
 \textbf{Mechanical Quantity} & \textbf{\shortstack{Fine Ref.\\(72k)}} & \textbf{\shortstack{Adaptive\\ET3}} & \textbf{\shortstack{Difference\\($\Delta$)}} & \textbf{Scientific Assessment} \\
 \midrule
-Physical Finite Elements & $71{,}824$ CPE4 & \shortstack{$21{,}063$\\(CPE4+CPE3)} & \shortstack{$-50{,}761$\\(\textbf{$-70.67\%$})} & Substantial mesh economy \\
+Finite Elements & $71{,}824$ CPE4 & \shortstack{$21{,}063$\\(CPE4+CPE3)} & \shortstack{$-50{,}761$\\(\textbf{$-70.67\%$})} & Substantial mesh economy \\
 \addlinespace[2pt]
 Unique Mesh Nodes & $72{,}496$ & $21{,}043$ & \shortstack{$-51{,}453$\\($-70.97\%$)} & Consistent nodal reduction \\
 \addlinespace[2pt]
@@ -4059,7 +4059,7 @@ To resolve this defect within the two-job pre-refinement framework without invok
 
 The resulting corrected mesh comprises:
 \begin{itemize}
-  \item $14{,}483$ physical finite elements ($14{,}303$ quadrilateral CPE4 elements + $180$ triangular CPE3 transition elements);
+  \item $14{,}483$ finite elements ($14{,}303$ quadrilateral CPE4 elements + $180$ triangular CPE3 transition elements);
   \item $43{,}449$ co-located element records across the three-layer phase-field architecture (Layer~1: Phase field UEL, Layer~2: Mechanical UEL, Layer~3: Visualization UMAT);
   \item $14{,}466$ physical nodes ($14{,}649$ total model nodes including duplicate crack seam nodes);
   \item Geometric corridor compliance: $96.76\%$ of elements along the prospective crack path satisfy $h \le 3.75\,\mu\mathrm{m} = \ellzero / 2$, and $99.84\%$ satisfy $h \le 7.5\,\mu\mathrm{m} = \ellzero$.
@@ -4068,7 +4068,7 @@ The resulting corrected mesh comprises:
 \subsection{Quantitative Multi-Quantity Fracture Response Comparison}
 \label{subsec:method_b_corrected_quantitative}
 
-The fracture response of the Corrected Method~B discretization was evaluated against the canonical uniform reference ($15{,}220$ FEs, $h = 3.75\,\mu\mathrm{m}$) and the original Method~B mesh ($14{,}677$ FEs). The multi-quantity comparison is summarized in Tab.~\ref{tab:method_b_corrected_comparison} and illustrated in Fig.~\ref{fig:method_b_corrected_comparison}.
+The fracture response of the Corrected Method~B discretization was evaluated against the canonical uniform reference ($15{,}192$ finite elements, $h = 3.75\,\mu\mathrm{m}$, Job \texttt{1398090}) and the original Method~B mesh ($14{,}677$ finite elements). The multi-quantity comparison is summarized in Tab.~\ref{tab:method_b_corrected_comparison} and illustrated in Fig.~\ref{fig:method_b_corrected_comparison}.
 
 \begin{table}[htbp]
 \centering
@@ -4080,8 +4080,8 @@ The fracture response of the Corrected Method~B discretization was evaluated aga
 \textbf{Quantity} & \textbf{Canonical Reference} & \textbf{Original Method B} & \textbf{Corrected Method B} & \textbf{Relative Error} \\
  & (Job \texttt{1398090}) & (Job \texttt{1411934}) & (Job \texttt{1412465}) & (Corrected vs Ref) \\
 \hline
-Physical Finite Elements & $15{,}220$ & $14{,}677$ & $14{,}483$ & $-4.84\%$ \\
-Co-located Records & $45{,}660$ & $44{,}031$ & $43{,}449$ & $-4.84\%$ \\
+Finite Elements & $15{,}192$ & $14{,}677$ & $14{,}483$ & $-4.67\%$ \\
+Co-located Element Records & $45{,}576$ & $44{,}031$ & $43{,}449$ & $-4.67\%$ \\
 Initial Stiffness $K_0$ [$\mathrm{kN/mm}$] & $137.9455$ & $137.8919$ & $137.9096$ & $-0.0261\%$ \\
 Linear Fit Correlation $R^2$ & $0.9999996$ & $0.9999996$ & $0.9999996$ & --- \\
 Peak Reaction Force $F_{\max}$ [$\mathrm{kN}$] & $0.757802$ & $0.743021$ & $0.743701$ & $-1.8577\%$ \\
@@ -4092,7 +4092,7 @@ Work $W_{\mathrm{ext}}$ (matched $u \le 0.0079\,\mathrm{mm}$) [$\mathrm{mJ}$] & 
 Terminal Work $W_{\mathrm{ext}}$ ($u = 0.0100\,\mathrm{mm}$) [$\mathrm{mJ}$] & $2.3587$ & $3.3320$ & \emph{N/A}$^\dagger$ & --- \\
 Fracture Energy $E_{\mathrm{frac}}$ [$\mathrm{mJ}$] & $2.3512$ & $3.0320$ & $2.2855^*$ & $-2.79\%$ \\
 Elastic Strain Energy $E_{\mathrm{elas}}$ [$\mathrm{mJ}$] & $0.0003$ & $0.0152$ & $0.0070^*$ & --- \\
-Energy Residual $\Delta E$ [$\mathrm{mJ}$] & $0.0072$ & $0.2848$ & $0.0250^*$ & $1.10\%$ (Relative) \\
+Bookkeeping Residual $\Delta E_{\mathrm{book}}$ [$\mathrm{mJ}$] & $0.0072$ & $0.2848$ & $0.0250^*$ & $1.105\%$ (Bookkeeping) \\
 Verified Endpoint $u_{\mathrm{term}}$ [$\mathrm{mm}$] & $0.010000$ & $0.010000$ & $0.007889$ & Post-fracture ($99.76\%$) \\
 \hline
 \multicolumn{5}{l}{\footnotesize $^*$ Evaluated at the verified termination point $u = 0.007889\,\mathrm{mm}$ ($RF = 1.76\,\mathrm{N}$, $99.76\%$ softened).} \\
@@ -4110,8 +4110,26 @@ Verified Endpoint $u_{\mathrm{term}}$ [$\mathrm{mm}$] & $0.010000$ & $0.010000$ 
 The quantitative evidence establishes three primary scientific conclusions:
 \begin{enumerate}
   \item \textbf{Complete Elimination of the Artificial Force Plateau:} In Corrected Method~B, the reaction force drops sharply from $F_{\max} = 0.7437\,\mathrm{kN}$ at $u = 0.005733\,\mathrm{mm}$ down to $F = 0.00208\,\mathrm{kN}$ at $u = 0.0060\,\mathrm{mm}$ and $F = 0.00192\,\mathrm{kN}$ at $u = 0.0070\,\mathrm{mm}$. The artificial $0.50 - 0.60\,\mathrm{kN}$ force plateau of Original Method~B is completely eliminated, restoring physical brittle crack propagation.
-  \item \textbf{Reconciliation of External Work and Energy Balance:} Over the verified matched displacement horizon ($u \le 0.007889\,\mathrm{mm}$), cumulative external work decreases by $-31.49\%$ (from $3.309642\,\mathrm{mJ}$ in Original Method~B down to $2.267448\,\mathrm{mJ}$ in Corrected Method~B, a reduction of $31.4896\%$), coming within $-3.87\%$ of the canonical reference ($2.3586\,\mathrm{mJ}$ matched, $2.3587\,\mathrm{mJ}$ full). For historical completeness, the original Method~B simulation accumulated $3.332000\,\mathrm{mJ}$ across its full horizon ($u = 0.010000\,\mathrm{mm}$); however, because Corrected Method~B cut back at $u = 0.007889\,\mathrm{mm}$, comparing cross-horizon values does not constitute a valid matched comparison and is not cited as a reduction attributable to the mesh correction. Global UEL energy balance is satisfied with an energy residual of $\Delta E = |W_{\mathrm{ext}} - (E_{\mathrm{frac}} + E_{\mathrm{elas}})| = 0.0250\,\mathrm{mJ}$ ($1.10\%$ relative error).
+  \item \textbf{Reconciliation of External Work and Energy Balance:} Over the verified matched displacement horizon ($u \le 0.007889\,\mathrm{mm}$), cumulative external work decreases by $-31.49\%$ (from $3.309642\,\mathrm{mJ}$ in Original Method~B down to $2.267448\,\mathrm{mJ}$ in Corrected Method~B, a reduction of $31.4896\%$), coming within $-3.87\%$ of the canonical reference ($2.3586\,\mathrm{mJ}$ matched, $2.3587\,\mathrm{mJ}$ full). For historical completeness, the original Method~B simulation accumulated $3.332000\,\mathrm{mJ}$ across its full horizon ($u = 0.010000\,\mathrm{mm}$); however, because Corrected Method~B cut back at $u = 0.007889\,\mathrm{mm}$, comparing cross-horizon values does not constitute a valid matched comparison and is not cited as a reduction attributable to the mesh correction. A defined UEL energy bookkeeping residual of $\Delta E_{\mathrm{book}} = |W_{\mathrm{ext}} - (E_{\mathrm{frac}} + E_{\mathrm{elas}})| = 0.025050\,\mathrm{mJ}$ ($1.105\%$ relative to $W_{\mathrm{ext}}$) is verified over the matched displacement horizon. This term represents a defined numerical bookkeeping residual across the computed elastic and regularized fracture energy terms rather than an unreserved mathematical proof of total thermodynamic energy balance, as non-equilibrium dynamic kinetic release or uncaptured cutback dissipation are not independently accounted for.
   \item \textbf{Pre-Peak Linear Elastic Parity:} Initial elastic stiffness matches the canonical reference within $-0.0261\%$ ($K_0 = 137.9096\,\mathrm{kN/mm}$ vs $137.9455\,\mathrm{kN/mm}$), confirming that local refinement along the uncracked ligament does not alter the global structural compliance.
+\end{enumerate}
+
+
+\subsection{Shared-Memory 8-Thread SMP Multi-Threading Parity and Determinism}
+\label{subsec:method_b_8t_smp_parity}
+
+Pursuant to the multi-threaded shared-memory execution qualification protocol, two independent 8-thread shared-memory SMP simulations were executed on compute node \texttt{mnode097} in queue \texttt{normal\_imfdfkmq} and compared against their serial 1-CPU baselines:
+\begin{enumerate}
+  \item \textbf{Native Method B ($14{,}677$ FE) Stage B Determinism Repeat (Job \texttt{1412872.mmaster02}):} Executed as an independent repeat of Job \texttt{1411949.mmaster02} (Stage~A) and serial Job \texttt{1411934.mmaster02}. The simulation converged all $5{,}000$ increments in Step~2 ($u = 0.010000\,\mathrm{mm}$, Exit~0) with zero cutbacks. Wallclock runtime was $05:12:04$ ($18{,}709\,\mathrm{s}$), achieving a $1.87\times$ speedup over the 1-CPU serial run ($09:43:48$, $35{,}028\,\mathrm{s}$). Full-precision SHA-256 hash comparison of the generated UEL energy balance output (\texttt{uel\_energy\_balance.csv}) demonstrated \textbf{bitwise identity} across all $7{,}000$ increments:
+  \begin{center}
+    \texttt{SHA-256: 792be67db9ac2ca2e51b9811ca0fb6f374bf28d0ba160f725f2d071b3c38d99d}
+  \end{center}
+  Terminal reaction force matched to 8 significant digits ($F = 8.262311\,\mathrm{N}$ at $u = 0.0100\,\mathrm{mm}$). Because both Stage~A (serial vs 8T) and Stage~B (8T repeat 1 vs repeat 2) achieved bitwise identity, this discretization is certified with \texttt{THREAD\_PARITY\_PASS} and \texttt{THREAD\_DETERMINISM\_PASS}.
+  \item \textbf{Corrected Method B ($14{,}483$ FE) Stage A Scaling/Parity (Job \texttt{1412873.mmaster02}):} Executed as an 8-thread SMP counterpart to serial Job \texttt{1412465.mmaster02}. The simulation completed all $2{,}000$ increments of Step~1 and advanced to Step~2 Increment 2890 ($u = 0.007889\,\mathrm{mm}$), encountering the identical time increment cutback below $dt_{\min} = 1.0\times 10^{-12}$ in the post-fracture softening tail ($RF = 1.7645\,\mathrm{N}$, $99.76\%$ softened, Exit~1). Wallclock runtime was $03:35:22$ ($12{,}909\,\mathrm{s}$), achieving a $1.82\times$ speedup over the 1-CPU serial solve ($06:31:34$, $23{,}481\,\mathrm{s}$). Full-precision SHA-256 hash comparison of \texttt{uel\_energy\_balance.csv} confirmed \textbf{bitwise identity} across all $4{,}890$ increments:
+  \begin{center}
+    \texttt{SHA-256: 82f2963d4399f7929db6df019a2d7fd34abd3deb570571c04ad489b723561333}
+  \end{center}
+  Reaction force and terminal energies ($E_{\mathrm{frac}} = 2.285469\,\mathrm{mJ}$, $E_{\mathrm{elas}} = 0.006960\,\mathrm{mJ}$) matched to 7 significant digits, certifying \texttt{THREAD\_PARITY\_PASS}.
 \end{enumerate}
 
 \subsection{Solver Termination Audit, Comparison Horizon Discipline, and Topological Verification}
@@ -4141,10 +4159,12 @@ In the fully broken region, the peak damage reached $d_{\max} = 1.001123$ ($+0.1
 In generating the Package~40 mesh, both the sizing tolerance (\texttt{errorTarget}=2.5\% vs 1.0\%) and the pre-analysis source step were adjusted simultaneously. While the elimination of the force plateau and the restoration of physical brittle fracture are mathematically and mechanically verified for the resulting discretization, this effect cannot be attributed exclusively to a single remeshing parameter without further unconfounded testing.
 
 \paragraph{Reconciliation of Pre-Analysis Damage and Companion Layer Linear Elasticity:}
-A subtle distinction arises between the physical phase-field state and the error-indicator evaluation in Method~B. In the physical UEL layer, the severe stress concentration at the notch tip ($x=0.5\,\mathrm{mm}, y=0.5\,\mathrm{mm}$) causes local tensile strain energy density to exceed the initiation threshold $\psi_0 = G_c / (2\,\ellzero) = 0.180\,\mathrm{MPa}$ even at pre-peak displacement $u = 0.0050\,\mathrm{mm}$, producing a localized peak damage of $d_{\max} = 0.094910$ (Job \texttt{1411891}). Across $99.8\%$ of the specimen, however, damage remains negligible ($d < 0.01$). Crucially, Abaqus native \texttt{RemeshingRule} cannot read user elements; it evaluates $\MISESERI$ exclusively on Layer~3 (an infinitesimal-modulus companion continuum overlay, $E_{\mathrm{comp}} = 1.0\times 10^{-11}\,\mathrm{GPa}$), which has zero phase-field coupling ($d \equiv 0$). Therefore, the stress error field is governed strictly by linear isotropic elasticity, explaining both why pre-analysis step partitioning ($1\mathrm{S}$ vs $2\mathrm{S}$ vs $4\mathrm{S}$) is scale-invariant ($\Delta \eta_{\max} = 0.0$) and why the physical donor state exhibits localized notch degradation.
+A subtle distinction arises between the physical phase-field state and the error-indicator evaluation in Method~B. In the physical UEL formulation, the weak form of the AT-2 phase field implies $d \approx H / (H + G_c/(2\ellzero))$ in the absence of strong gradient constraints; standard AT-2 damage evolves continuously for any positive strain energy history $H > 0$ and does not possess a non-zero initiation threshold below which damage is strictly zero (unlike the AT-1 model). The characteristic fracture energy density scale is $\psi_0 = G_c / (2\,\ellzero) = 0.0027 / (2 \times 0.0075) = 0.180\,\mathrm{kN/mm^2} = 180.0\,\mathrm{MPa}$ (correcting a historical unit transcription error of $0.18\,\mathrm{MPa}$). At pre-peak displacement $u = 0.0050\,\mathrm{mm}$, the maximum tensile strain energy density at the notch tip reaches $H_{\max} \approx 0.0189\,\mathrm{kN/mm^2} = 18.88\,\mathrm{MPa} \ll \psi_0$, which induces a localized sub-initiation notch damage of $d_{\max} = 0.094910$ (Job \texttt{1411891}). Across $99.66\%$ of the specimen, damage remains below $d < 0.05$. Crucially, Abaqus native \texttt{RemeshingRule} cannot evaluate user elements directly; it extracts $\MISESERI$ exclusively from Layer~3 (an infinitesimal-modulus companion continuum overlay, $E_{\mathrm{comp}} = 1.0\times 10^{-11}\,\mathrm{GPa}$), which operates with zero phase-field degradation ($d \equiv 0$). Because the companion stress field is governed strictly by linear isotropic continuum elasticity, pre-analysis step partitioning ($1\mathrm{S}$ vs $2\mathrm{S}$ vs $4\mathrm{S}$) is scale-invariant ($\Delta \eta_{\max} = 0.0$ to double precision), even while the physical donor state exhibits localized sub-initiation notch degradation.
 
 \paragraph{Manual Corridor Extension vs.\ General Automated Adaptive Remeshing:}
-While manually enforcing $h \le \ellzero / 2 = 3.75\,\mu\mathrm{m}$ along the symmetry line $y = 0.5\,\mathrm{mm}$ in Corrected Method~B successfully eliminated crack pinning and excess dissipation for this Mode-I benchmark, this intervention represents an \emph{offline engineering heuristic} rather than an autonomous adaptive remeshing algorithm. In general fracture problems where crack trajectories are curved, branched, or unknown a~priori, a single pre-fracture elastic error indicator evaluated on the stationary notch cannot anticipate the path of subsequent crack propagation. Consequently, genuine autonomous adaptivity for propagating fractures requires \emph{Method~C}: sequential, in-analysis remeshing cycles driven by the evolving crack front.
+Forensic provenance audit revealed that the Package~40 mesh ($14{,}483$ finite elements) was generated by evaluating native Abaqus remeshing on a Step-2 localized damage state ($u = 0.0100\,\mathrm{mm}$, companion frame 1022) where the crack had already traversed the ligament, rather than from the stationary elastic pre-analysis. In a true pre-fracture elastic state ($u \le 0.0050\,\mathrm{mm}$), the stress concentration decays as $1/\sqrt{r}$ away from the stationary notch tip; consequently, native `adaptiveRemesh` inherently leaves the far ligament coarse ($h \approx 20\,\mu\mathrm{m} > 2.6\,\ellzero$). Manually enforcing or borrowing a fine corridor along $y = 0.5\,\mathrm{mm}$ eliminated crack pinning in Corrected Method~B, but this is an \emph{offline engineering heuristic} possible only because mirror symmetry fixes the Mode-I crack path a~priori. For general fracture problems with unknown, curved, or branching paths, a single stationary pre-analysis cannot anticipate the downstream trajectory.
+
+Importantly, the manually corrected $14{,}483$-element mesh must not be construed as proof of crack-path-independent adaptivity. Nor can Method~C be assumed to resolve this limitation automatically until genuine multi-cycle in-analysis remeshing, state transfer, and equilibrium continuation have been demonstrated without unacceptable numerical diffusion or step-boundary force discontinuities.
 
 
 \section{Method C Sequential Adaptive Remeshing Feasibility Investigation and Nonmatching State Transfer}
