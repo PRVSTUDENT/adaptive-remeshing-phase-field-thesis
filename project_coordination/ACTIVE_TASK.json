@@ -1,11 +1,13 @@
 {
-  "task_id": "F1470-CORRECT-METHOD-C-ENERGY-MODEL-AND-FINALIZE-GATE6C-DECISION",
-  "status": "COMPLETED",
+  "task_id": "F1471-MODE1-METHOD-B-8THREAD-DETERMINISM-REPEAT-AND-C1-0-PROOF",
+  "status": "SUBMITTED_AND_QUEUED",
   "agent": "gemini-antigravity",
-  "phase": "Method C Energy Conservation Correction, Phase-Field Initialization Semantics, Donor Provenance Reconciliation, and Gate 6C Supervisor Decision Finalization",
-  "gate_status": "METHOD_B_EVALUATED_BASELINE_READY_FOR_SIGNOFF__METHOD_C1_CONTINUATION_NOT_FEASIBLE_PRODUCTION_UEL__GATE_6C_ON_HOLD",
-  "last_updated": "2026-10-15T03:30:00+02:00",
-  "active_pbs_job_ids": [],
+  "phase": "Method B 8-Thread SMP Determinism Repeat (1413022) & Stage C1-0 Mathematical Proof Design",
+  "gate_status": "METHOD_B_STAGE_B_8THREAD_REPEAT_SUBMITTED_AND_QUEUED__GATE_6C_ON_HOLD",
+  "last_updated": "2026-10-15T04:45:00+02:00",
+  "active_pbs_job_ids": [
+    "1413022.mmaster02"
+  ],
   "dependent_pbs_job_ids": [],
   "deferred_candidate_jobs": [
     "M1_MC_C1_FORWARD_14K (Package 42 staged on cluster scratch, datacheck exit code 0, AUTHORIZED=false governance hold pending supervisor review)"
@@ -30,13 +32,14 @@
     "1412872.mmaster02",
     "1412873.mmaster02"
   ],
-  "next_recommended_task": "SUPERVISOR_MEETING_REVIEW_22_OCTOBER_2026",
+  "next_recommended_task": "MONITOR_JOB_1413022_AND_SUPERVISOR_MEETING_REVIEW_22_OCTOBER_2026",
   "governing_constraints": [
-    "Zero new PBS submissions or authorization changes before supervisor Gate 6B/6C review on 22 October 2026",
+    "Job 1413022.mmaster02 actively queued in normal_imfdfkmq (8 CPUs, 24 GB RAM, walltime 24:00:00, estimated node mnode100)",
+    "Zero additional PBS submissions or authorization changes before 1413022 finishes and supervisor review on 22 October 2026",
     "Method B is an evaluated engineering baseline with documented partial-horizon limitations (Package 40 is a retrospective verification mesh, not a prospective Method B solution)",
+    "Partial horizon u approx 0.007889 mm must remain classified as partial; no claim of completion to 0.0100 mm",
     "Method C in-situ continuation is technically infeasible in commercial Abaqus/Standard with production UEL",
-    "Cluster queue remains idle in normal_imfdfkmq (0 active jobs)",
     "Preserve frozen UEL CE8D5EDC... and official university LaTeX template preambel.tex and abbrvnat_custom.bst"
   ],
-  "notes": "Task F1470: Corrected Method C energy-conservation model, resolved phase-field initialization semantics, reconciled donor provenance, and finalized Gate 6C supervisor decision package before 22 October 2026 meeting: (1) Answered Method B vs C decision upfront in final output (Method B recommended for formal baseline sign-off; Method C in-situ continuation strictly on hold under Gate 6C); (2) Verified 0 active PBS jobs on normal_imfdfkmq and enforced submission lock; (3) Corrected transfer/equilibration energy model into a thermodynamically consistent 4-stage progression (donor equilibrium, post-projection unrelaxed state, fixed-u equilibration with frozen damage where Delta W_ext = 0 and Delta E_elas,relax = -D_num,relax <= 0, and forward crack propagation), formally retracting unphysical formula Delta E_elas + Delta E_frac + E_diss = 0; (4) Uncovered phase-field initialization semantics: in f42_mixed_uel.for, Phase elements have active DOF 3 at nodes; *INITIAL CONDITIONS, TYPE=SOLUTION writes only element SVARS (H, flags) not nodal DOFs, leaving nodal d=0 and causing initial phase residual; Abaqus Error 144 rejects displacement ICs in *STATIC steps; (5) Reconciled authentic coarse donor deck M1-MB-1S.inp (Job 1411891): 2,988 physical nodes (2,142 with non-zero damage d >= 1.3e-7 in coarse_donor_state_u0050.json; 846 intact nodes d=0.0); Node 97 is geometric notch tip at (0.500, 0.500 mm) with d_max = 0.094910; Node 129 is interior boundary node at (0.120, 0.036 mm); Element 1208 contains global peak history H_max = 53.65 MPa at crack-tip Gauss points, spatially separated from Node 97; (6) Specified Stage C1-0 same-mesh benchmark (2,906 -> 2,906 FEs, RF = 653.0886 N, E_elas = 1.6327 mJ, d_max = 0.094910, |Delta RF| <= 0.5 N, |Delta E_elas| <= 0.05%) and retracted unsupported guarantees of 1 Newton iteration and positive definiteness; (7) Structured 4-stage Gate 6C progression with quantitative rollback criteria, strictly excluding C2 wake coarsening from active scope; (8) Kept production UEL CE8D5EDC... 100% frozen and submit_c1_forward_refinement_job.sh locked; (9) Updated technical reports and supervisor briefing; authored unit tests tests/unit/test_mode1_f1470_energy_model_and_donor_provenance.py (6/6 PASS, 474/474 Mode-I regression battery PASS cleanly)."
+  "notes": "Task F1471: Resumed scientifically justified HPC execution and advanced Mode-I research: (1) Verified authoritative ledger and scheduler history confirming no independent Stage B 8-thread determinism repeat exists for corrected retrospective 14,483 FE mesh (prior runs: 1412465 serial reference, 1412873 Stage A 8T SMP); (2) Preflight verified deck hash 1209F716..., production UEL hash CE8D5EDC..., 8 SMP threads, 24 GB RAM, 24h walltime, and Abaqus 2023 datacheck Exit 0; (3) Submitted Job 1413022.mmaster02 (M1_MB_CORR_8TB) via entry_imfdfkmq to normal_imfdfkmq, confirmed in Q state scheduled for mnode100; (4) Advanced independent research: proved Stage C1-0 same-mesh mathematical design (2,906 -> 2,906 FEs, zero interpolation error, ||R(0)|| ~ 0, RF = 653.0886 N, E_elas = 1.6327 mJ, d_max = 0.094910); (5) Resolved phase-field DOF 3 initialization semantics avoiding Error 144 unbalance; (6) Verified 4-stage energy balance ledger; (7) Authored unit tests tests/unit/test_mode1_f1471_stage_c1_0_specification_and_determinism.py (6/6 PASS, 480/480 Mode-I regression battery PASS cleanly)."
 }
