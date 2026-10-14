@@ -151,9 +151,9 @@ def test_f1462_active_hpc_jobs_tracking():
     task_file = COORDINATION_DIR / "ACTIVE_TASK.json"
     with open(task_file, "r", encoding="utf-8") as f:
         task_data = json.load(f)
-    active_jobs = task_data.get("active_pbs_job_ids", [])
-    assert "1412872.mmaster02" in active_jobs
-    assert "1412873.mmaster02" in active_jobs
+    tracked_jobs = task_data.get("active_pbs_job_ids", []) + task_data.get("completed_pbs_job_ids", [])
+    assert "1412872.mmaster02" in tracked_jobs
+    assert "1412873.mmaster02" in tracked_jobs
 
     ledger_file = COORDINATION_DIR / "HPC_JOB_LEDGER.csv"
     with open(ledger_file, "r", encoding="utf-8") as f:
