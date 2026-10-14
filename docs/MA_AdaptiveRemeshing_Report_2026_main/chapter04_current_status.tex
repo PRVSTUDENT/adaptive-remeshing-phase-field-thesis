@@ -4049,7 +4049,7 @@ Because the native remeshing rule operated without an a~priori defined crack tra
 \begin{enumerate}
   \item \textbf{Regularization Gradient Under-Sampling:} The AT-2 phase-field regularized damage gradient requires $h \le \ellzero / 2 = 3.75\,\mu\mathrm{m}$ to resolve the localized damage profile ($w_{0.5} \approx 2\,\ellzero = 15.0\,\mu\mathrm{m}$). With $h \approx 19.7\,\mu\mathrm{m}$, individual elements spanned more than the complete regularized damage bandwidth.
   \item \textbf{Artificial Post-Peak Plateau:} The inability of the coarse discretization to release elastic strain energy rapidly produced an artificial force plateau of $F \approx 0.50 - 0.60\,\mathrm{kN}$ extending across $u \in [0.0060, 0.0075]\,\mathrm{mm}$, whereas the canonical uniform reference dropped to $F < 0.0005\,\mathrm{kN}$ immediately after peak load.
-  \item \textbf{Excess External Dissipation:} The extended force plateau resulted in substantial excess external work, accumulating $W_{\mathrm{ext}} = 3.332\,\mathrm{mJ}$ ($+41.3\%$ above the canonical reference value $W_{\mathrm{ext}} = 2.3587\,\mathrm{mJ}$).
+  \item \textbf{Excess External Dissipation:} The extended force plateau resulted in substantial excess external work, accumulating $W_{\mathrm{ext}} = 3.3320\,\mathrm{mJ}$ across the full displacement horizon $u \in [0.0, 0.0100]\,\mathrm{mm}$ ($+41.3\%$ above the canonical reference value $W_{\mathrm{ext}} = 2.3587\,\mathrm{mJ}$; and $W_{\mathrm{ext}} = 3.3096\,\mathrm{mJ}$ over the common matched horizon $u \le 0.007889\,\mathrm{mm}$).
 \end{enumerate}
 
 \subsection{Expected Solution: Corrected Full-Ligament Propagation Discretization}
@@ -4088,13 +4088,15 @@ Peak Reaction Force $F_{\max}$ [$\mathrm{kN}$] & $0.757802$ & $0.743021$ & $0.74
 Displacement at Peak $u_{\mathrm{peak}}$ [$\mathrm{mm}$] & $0.005857$ & $0.005727$ & $0.005733$ & $-2.1171\%$ \\
 Force at $u = 0.0060\,\mathrm{mm}$ [$\mathrm{kN}$] & $0.0005$ & $0.5981$ & $\mathbf{0.00208}$ & \textbf{Plateau Eliminated} \\
 Force at $u = 0.0070\,\mathrm{mm}$ [$\mathrm{kN}$] & $0.0004$ & $0.5250$ & $\mathbf{0.00192}$ & \textbf{Plateau Eliminated} \\
-Terminal Work $W_{\mathrm{ext}}$ [$\mathrm{mJ}$] & $2.3587$ & $3.3320$ & $2.2674^*$ & $-3.87\%$ \\
+Work $W_{\mathrm{ext}}$ (matched $u \le 0.0079\,\mathrm{mm}$) [$\mathrm{mJ}$] & $2.3586$ & $3.3096$ & $\mathbf{2.2674}^*$ & $-3.87\%$ \\
+Terminal Work $W_{\mathrm{ext}}$ ($u = 0.0100\,\mathrm{mm}$) [$\mathrm{mJ}$] & $2.3587$ & $3.3320$ & \emph{N/A}$^\dagger$ & --- \\
 Fracture Energy $E_{\mathrm{frac}}$ [$\mathrm{mJ}$] & $2.3512$ & $3.0320$ & $2.2855^*$ & $-2.79\%$ \\
 Elastic Strain Energy $E_{\mathrm{elas}}$ [$\mathrm{mJ}$] & $0.0003$ & $0.0152$ & $0.0070^*$ & --- \\
 Energy Residual $\Delta E$ [$\mathrm{mJ}$] & $0.0072$ & $0.2848$ & $0.0250^*$ & $1.10\%$ (Relative) \\
 Verified Endpoint $u_{\mathrm{term}}$ [$\mathrm{mm}$] & $0.010000$ & $0.010000$ & $0.007889$ & Post-fracture ($99.76\%$) \\
 \hline
-\multicolumn{5}{l}{\footnotesize $^*$ Evaluated at the verified termination point $u = 0.007889\,\mathrm{mm}$ ($RF = 1.76\,\mathrm{N}$).}
+\multicolumn{5}{l}{\footnotesize $^*$ Evaluated at the verified termination point $u = 0.007889\,\mathrm{mm}$ ($RF = 1.76\,\mathrm{N}$, $99.76\%$ softened).} \\
+\multicolumn{5}{l}{\footnotesize $^\dagger$ Solver encountered $dt < dt_{\min}$ cutback at $u = 0.007889\,\mathrm{mm}$; nominal $0.0100\,\mathrm{mm}$ horizon was not reached.}
 \end{tabular}
 \end{table}
 
@@ -4108,7 +4110,7 @@ Verified Endpoint $u_{\mathrm{term}}$ [$\mathrm{mm}$] & $0.010000$ & $0.010000$ 
 The quantitative evidence establishes three primary scientific conclusions:
 \begin{enumerate}
   \item \textbf{Complete Elimination of the Artificial Force Plateau:} In Corrected Method~B, the reaction force drops sharply from $F_{\max} = 0.7437\,\mathrm{kN}$ at $u = 0.005733\,\mathrm{mm}$ down to $F = 0.00208\,\mathrm{kN}$ at $u = 0.0060\,\mathrm{mm}$ and $F = 0.00192\,\mathrm{kN}$ at $u = 0.0070\,\mathrm{mm}$. The artificial $0.50 - 0.60\,\mathrm{kN}$ force plateau of Original Method~B is completely eliminated, restoring physical brittle crack propagation.
-  \item \textbf{Reconciliation of External Work and Energy Balance:} Terminal external work decreases by $-31.49\%$ (from $3.332\,\mathrm{mJ}$ down to $2.2674\,\mathrm{mJ}$), coming within $-3.87\%$ of the canonical reference ($2.3587\,\mathrm{mJ}$). Global UEL energy balance is satisfied with an energy residual of $\Delta E = |W_{\mathrm{ext}} - (E_{\mathrm{frac}} + E_{\mathrm{elas}})| = 0.0250\,\mathrm{mJ}$ ($1.10\%$ relative error).
+  \item \textbf{Reconciliation of External Work and Energy Balance:} Over the verified matched displacement horizon ($u \le 0.007889\,\mathrm{mm}$), cumulative external work decreases by $-31.49\%$ (from $3.309642\,\mathrm{mJ}$ in Original Method~B down to $2.267448\,\mathrm{mJ}$ in Corrected Method~B; or $-31.95\%$ when compared against the full-horizon Original Method~B value of $3.3320\,\mathrm{mJ}$), coming within $-3.87\%$ of the canonical reference ($2.3586\,\mathrm{mJ}$ matched, $2.3587\,\mathrm{mJ}$ full). Global UEL energy balance is satisfied with an energy residual of $\Delta E = |W_{\mathrm{ext}} - (E_{\mathrm{frac}} + E_{\mathrm{elas}})| = 0.0250\,\mathrm{mJ}$ ($1.10\%$ relative error).
   \item \textbf{Pre-Peak Linear Elastic Parity:} Initial elastic stiffness matches the canonical reference within $-0.0261\%$ ($K_0 = 137.9096\,\mathrm{kN/mm}$ vs $137.9455\,\mathrm{kN/mm}$), confirming that local refinement along the uncracked ligament does not alter the global structural compliance.
 \end{enumerate}
 
@@ -4122,13 +4124,13 @@ HPC Job \texttt{1412465.mmaster02} executed $4{,}890$ converged increments ($2{,
   \fbox{\parbox{0.92\textwidth}{\textbf{Methodological Discipline on Comparison Horizon:} Because Job \texttt{1412465} terminated at $u = 0.007889\,\mathrm{mm}$ rather than reaching $u = 0.0100\,\mathrm{mm}$, all rigorous like-for-like comparisons with the reference simulation are strictly scoped to the common displacement horizon $u \in [0.0, 0.007889]\,\mathrm{mm}$. Within this shared horizon, the complete linear, initiation, peak, and brittle softening regimes are fully captured.}}
 \end{center}
 
-\paragraph{Topological Crack Path Connectivity Proof:}
-To prove that crack propagation in Corrected Method~B was physically continuous across the refined corridor rather than manifesting as disconnected micro-cracks, a Breadth-First Search (BFS) graph connectivity audit was executed on the finite-element dual mesh. As shown in Fig.~\ref{fig:method_b_ligament_profiles}, exactly $818$ elements satisfied the fully damaged criterion $d \ge 0.95$. The topological graph search proves that all $818$ elements form a single $100\%$ contiguous connected component extending from the notch tip ($x = 0.5\,\mathrm{mm}$) to the right boundary ($x = 0.999\,\mathrm{mm}$) with zero isolated damage clusters, zero branching artifacts, and zero spatial gaps.
+\paragraph{Topological Crack Path Connectivity Analysis:}
+To evaluate whether crack propagation in Corrected Method~B formed a continuous damage localization corridor rather than manifesting as disconnected numerical micro-cracks, a Breadth-First Search (BFS) graph connectivity audit was executed on the finite-element dual mesh. As shown in Fig.~\ref{fig:method_b_ligament_profiles}, exactly $818$ elements satisfied the high-damage threshold $d \ge 0.95$. The topological graph search demonstrates that all $818$ elements form a single $100\%$ connected component extending from the notch tip ($x = 0.5\,\mathrm{mm}$) to the right specimen boundary ($x = 0.999\,\mathrm{mm}$) with zero isolated damage clusters, zero branching artifacts, and zero spatial gaps. While this verifies continuous localized phase-field damage along the symmetry ligament, this topological element connectivity is characterized as damage band continuity rather than a formal mathematical proof of discrete physical displacement severance (which in continuum phase-field models is regularized across length scale $\ellzero$ without discrete kinematic discontinuity).
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.92\textwidth]{fig_mode1_method_b_ligament_profiles.pdf}
-  \caption{Spatial phase-field damage profiles $d(x)$ along the symmetry ligament ($y = 0.5\,\mathrm{mm}$) across six key loading states in Corrected Method~B ($14.5\mathrm{k}$ FEs). Crack initiation occurs at $u = 0.0055\,\mathrm{mm}$, followed by rapid localization and complete physical severance of the ligament with $d \ge 0.95$ across $99.9\%$ of the remaining section by $u = 0.0060\,\mathrm{mm}$.}
+  \caption{Spatial phase-field damage profiles $d(x)$ along the symmetry ligament ($y = 0.5\,\mathrm{mm}$) across six key loading states in Corrected Method~B ($14.5\mathrm{k}$ FEs). Crack initiation occurs at $u = 0.0055\,\mathrm{mm}$, followed by rapid localization across $99.9\%$ of the ligament with $d \ge 0.95$ by $u = 0.0060\,\mathrm{mm}$, demonstrating continuous high-damage band formation without isolated gaps.}
   \label{fig:method_b_ligament_profiles}
 \end{figure}
 
@@ -4194,6 +4196,9 @@ The transfer was evaluated against all seven pre-declared Gate~6C quantitative a
 \end{tabular}
 \end{table}
 
+\paragraph{Offline Mesh Compliance Disparity (Criterion 6):}
+The evaluated $1.6662\%$ disparity in internal stored elastic energy between the coarse donor ($E_{\mathrm{elas}} = 1.663384\,\mathrm{mJ}$) and fine reference ($E_{\mathrm{elas}} = 1.691100\,\mathrm{mJ}$) represents the intrinsic static compliance difference between the two independently solved equilibrium discretizations at $u = 0.0050\,\mathrm{mm}$. It satisfies Criterion~6 ($\le 5.0\%$), and must not be equated with directly measured projection-induced energy loss during state transfer.
+
 \subsection{Disentanglement of Three Distinct Damage Fields}
 \label{subsec:method_c_three_damage_fields}
 
@@ -4237,7 +4242,7 @@ An un-normalized formula previously reported in project notes, $\Delta I \approx
 \subsection{Abaqus Mechanical Continuation Blocker and Solver Diagnostics}
 \label{subsec:method_c_solver_blocker}
 
-While Milestone~2 (offline transfer) succeeded, Milestone~3 (mechanical continuation in Abaqus/Standard) encountered fundamental architectural barriers in commercial solver capabilities.
+While Milestone~2 (offline transfer) succeeded, Milestone~3 (mechanical continuation in Abaqus/Standard) encountered fundamental architectural barriers in commercial solver capabilities. Crucially, the forward-refinement candidate ($2{,}906 \to 14{,}677$ FEs) was evaluated strictly as an offline transfer audit and has not undergone an in-analysis continuation solve in Abaqus/Standard, because commercial solver limitations preclude seamless restart on a different user-element discretization.
 
 \paragraph{Reverse Coarsening Solve Diagnostics (Job \texttt{1412809.mmaster02}):}
 To test solver continuation behavior, Job \texttt{1412809} was executed as a coarsening continuation solve ($14.7\mathrm{k} \to 2.9\mathrm{k}$) using a two-step architecture (\texttt{Step-1-Equilibrate} under fixed $u=0.0050\,\mathrm{mm}$, followed by \texttt{Step-2-Displace} up to $u=0.0100\,\mathrm{mm}$). The solve completed $5{,}042$ increments with Exit~0, revealing:

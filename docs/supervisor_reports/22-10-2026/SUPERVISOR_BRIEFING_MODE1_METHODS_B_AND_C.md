@@ -68,7 +68,7 @@ Original Method B ($14{,}677$ FEs, Job `1411934.mmaster02`) was adapted based on
 When the crack initiated and entered this coarse zone:
 - Elements could not resolve the regularized damage gradient ($w_{0.5} \approx 2\,l_0 = 15.0\,\mu\mathrm{m}$).
 - An unphysical force plateau of $F \approx 0.50 - 0.60\,\mathrm{kN}$ persisted across $u \in [0.0060, 0.0075]\,\mathrm{mm}$.
-- Terminal external work reached $W_{\text{ext}} = 3.332\,\text{mJ}$ ($+41.3\%$ excess work).
+- Terminal external work reached $W_{\text{ext}} = 3.3320\,\text{mJ}$ over the full displacement horizon $u = 0.0100\,\text{mm}$ ($+41.3\%$ excess work; and $W_{\text{ext}} = 3.3096\,\text{mJ}$ over the matched horizon $u \le 0.007889\,\text{mm}$).
 
 ### 2.2 Expected Solution & Corrected Propagation Discretization
 To resolve this defect, **Corrected Method B** (Package 40, Job `1412465.mmaster02`, \texttt{M1\_MB\_CORR\_14K}) enforced the critical sizing threshold $h \le l_0 / 2 = 3.75\,\mu\mathrm{m}$ continuously along the entire symmetry ligament from notch tip to specimen boundary.
@@ -87,18 +87,20 @@ To resolve this defect, **Corrected Method B** (Package 40, Job `1412465.mmaster
 | **Displacement at Peak** | $0.005857\,\text{mm}$ | $0.005727\,\text{mm}$ | $0.005733\,\text{mm}$ | $-2.1171\%$ |
 | **Force at $u=0.0060\,\text{mm}$** | $0.0005\,\text{kN}$ | $0.5981\,\text{kN}$ | $\mathbf{0.00208\,\text{kN}}$ | **Plateau Completely Eliminated** |
 | **Force at $u=0.0070\,\text{mm}$** | $0.0004\,\text{kN}$ | $0.5250\,\text{kN}$ | $\mathbf{0.00192\,\text{kN}}$ | **Plateau Completely Eliminated** |
-| **Terminal Work $W_{\text{ext}}$** | $2.3587\,\text{mJ}$ | $3.3320\,\text{mJ}$ | $\mathbf{2.2674\,\text{mJ}}^*$ | $\mathbf{-3.87\%}$ ($-31.5\%$ vs Orig B) |
+| **Work $W_{\text{ext}}$ (matched $u \le 0.0079\,\text{mm}$)** | $2.3586\,\text{mJ}$ | $3.3096\,\text{mJ}$ | $\mathbf{2.2674\,\text{mJ}}^*$ | $\mathbf{-3.87\%}$ ($-31.49\%$ vs Orig B matched) |
+| **Terminal Work $W_{\text{ext}}$ ($u = 0.0100\,\text{mm}$)** | $2.3587\,\text{mJ}$ | $3.3320\,\text{mJ}$ | \emph{N/A}$^\dagger$ | --- ($-31.95\%$ vs Orig B full) |
 | **Fracture Energy $E_{\text{frac}}$**| $2.3512\,\text{mJ}$ | $3.0320\,\text{mJ}$ | $2.2855\,\text{mJ}^*$ | $-2.79\%$ |
 | **Energy Residual $\Delta E$** | $0.0072\,\text{mJ}$ | $0.2848\,\text{mJ}$ | $0.0250\,\text{mJ}^*$ | $\mathbf{1.10\%}$ (Relative Error) |
 | **Verified Endpoint** | $u = 0.0100\,\text{mm}$ | $u = 0.0100\,\text{mm}$ | $u = 0.007889\,\text{mm}$ | Post-fracture ($99.76\%$ softened) |
 
-$^*$Evaluated at terminal state $u = 0.007889\,\text{mm}$ ($RF = 1.76\,\text{N}$).
+$^*$Evaluated at terminal state $u = 0.007889\,\text{mm}$ ($RF = 1.76\,\text{N}$, $99.76\%$ softened).
+$^\dagger$Solver cutback at $u = 0.007889\,\text{mm}$; nominal $0.0100\,\text{mm}$ horizon was not reached.
 
 ### 2.4 Solver Termination Audit & Comparison Horizon Discipline
 - **Termination Root Cause:** Job `1412465` executed $4{,}890$ increments and encountered Exit Code 1 at $u = 0.007889\,\text{mm}$ due to increment cutbacks below $dt_{\min} = 1.0 \times 10^{-12}$ in the post-fracture softening tail.
 - **Physical State at Termination:** Reaction force had dropped to $RF = 1.76\,\text{N}$ ($99.76\%$ load reduction from peak). The specimen halves were macroscopically severed and undergoing rigid-body separation.
 - **Strict Comparison Horizon:** All like-for-like comparisons with reference are strictly valid over $u \in [0.0, 0.007889]\,\text{mm}$. Within this window, the complete linear elastic, initiation, peak, and brittle softening regimes are fully captured.
-- **Topological Crack Continuity:** BFS dual-graph search proves that all $818$ elements with $d \ge 0.95$ form a single $100\%$ connected component traversing $99.9\%$ of the ligament with zero isolated clusters or spatial gaps.
+- **Topological Crack Continuity:** BFS dual-graph search confirms that all $818$ elements with $d \ge 0.95$ form a single $100\%$ connected component traversing $99.9\%$ of the ligament with zero isolated clusters or spatial gaps, demonstrating continuous phase-field damage localization along the prospective path (characterized as damage band continuity rather than mathematical proof of discrete topological separation).
 - **Damage Overshoot:** Peak damage reached $d_{\max} = 1.001123$ ($+0.11\%$). This is confirmed as an unconstrained continuous Galerkin Newton formulation property without active-set projection, fully stabilized by residual stiffness $k_{\text{stab}}$.
 - **Epistemic Attribution:** Sizing parameters (\texttt{errorTarget}=2.5\% vs 1.0\%) and pre-analysis source step were adjusted simultaneously; plateau elimination is verified for the corrected mesh, but cannot be uniquely isolated to one parameter without further unconfounded testing.
 
@@ -126,6 +128,7 @@ To evaluate sequential adaptivity without conflating mathematical mapping from s
 
 $^*$Evaluated at coincident notch tip node 129 ($x=0.5, y=0.5\,\text{mm}$).
 $^\dagger$Forward recipient mesh has never been solved in Abaqus. Reverse coarsening metrics (Job 1412809: $21.55\,\text{N}$ and $22.22\%$) are kept strictly decoupled.
+$^\ddagger$Criterion 6 evaluates the static compliance disparity between the independently solved coarse donor ($1.6634\,\text{mJ}$) and fine reference ($1.6911\,\text{mJ}$) equilibrium states at $u = 0.0050\,\text{mm}$; it reflects discretization compliance disparity and is not directly measured projection-induced energy loss.
 
 ### 3.3 Disentanglement of Three Distinct Damage Fields
 A major breakthrough of the independent audit was resolving the apparent contradiction regarding peak damage at $u = 0.0050\,\text{mm}$:
@@ -177,22 +180,22 @@ Matrix B: In-Analysis Mechanical Continuation in Abaqus/Standard
 
 ---
 
-## 4. Formal Decisions Requiring Supervisor Approval (22 October 2026)
+## 4. Formal Decisions Submitted for Supervisor Consideration & Determination (22 October 2026)
 
-During the upcoming meeting on Thursday, 22 October 2026 at 10:00 CEST, the following three formal decisions are submitted for supervisor endorsement:
+During the upcoming meeting on Thursday, 22 October 2026 at 10:00 CEST, the following three formal decisions are submitted for the supervisor's review, consideration, and formal determination:
 
 ### Decision 1: Formal Closure of Gate 6B (Method B)
-- **Recommendation:** Formally close Gate 6B with classification:
+- **Submitted for Supervisor Determination:** Formal closure and sign-off of Gate 6B with the classification:
   `METHOD_B_SCIENTIFIC_OBJECTIVE_COMPLETED_WITH_PARTIAL_HORIZON_LIMITATION`
-- **Justification:** Corrected Method B completely resolved the central research question by eliminating the $0.50-0.60\,\text{kN}$ force plateau, restoring brittle snap-through softening, and reducing external work by $31.5\%$ (within $-3.87\%$ of reference). All scientific claims are strictly scoped to the verified common displacement horizon $u \in [0.0, 0.007889]\,\text{mm}$ (capturing $>99.76\%$ softening).
+- **Technical Basis:** Corrected Method B completely resolved the central research question by eliminating the $0.50-0.60\,\text{kN}$ force plateau, restoring brittle snap-through softening, and reducing external work by $31.49\%$ (from $3.3096\,\text{mJ}$ to $2.2674\,\text{mJ}$, within $-3.87\%$ of reference). All scientific claims are strictly scoped to the verified common displacement horizon $u \in [0.0, 0.007889]\,\text{mm}$ (capturing $>99.76\%$ softening).
 
 ### Decision 2: Formal Evaluation of Gate 6C (Method C)
-- **Recommendation:** Formally classify Gate 6C with classification:
+- **Submitted for Supervisor Determination:** Formal classification of Gate 6C under the dual-matrix evaluation:
   `OFFLINE_TRANSFER_QUALIFIED__CONTINUATION_NOT_QUALIFIED`
-- **Justification:** Milestone 1 (native mesh refinement) and Milestone 2 (offline mathematical state transfer) are fully verified and meet all Gate 6C criteria. Milestone 3 (mechanical continuation in Abaqus/Standard) cannot be achieved natively due to Abaqus displacement initialization limitations and lack of UEL support in `*MAP SOLUTION`.
+- **Technical Basis:** Milestone 1 (native mesh refinement) and Milestone 2 (offline mathematical state transfer) are fully verified and meet all Gate 6C criteria ($L_2 = 0.13\%$, $\Delta d = 0.000000$, $\min(\Hist) \ge 0.0$, compliance disparity $1.67\%$). Milestone 3 (in-analysis mechanical continuation in Abaqus/Standard) cannot be achieved natively due to commercial Abaqus displacement initialization limitations (rejection of displacement ICs in `*STATIC`, zero DOFs in solution ICs) and lack of UEL support in `*MAP SOLUTION`.
 
 ### Decision 3: Strategic Thesis Path Forward
-- **Recommendation:** Conclude numerical simulation campaigns for Mode-I and focus remaining thesis effort on:
+- **Submitted for Supervisor Determination:** Whether future development of a separate state-preserving UEL architecture is justified, or whether to conclude numerical simulation campaigns for Mode-I and focus remaining thesis effort on:
   1. Authoring final synthesis chapters consolidating Methods A and B as verified pre-refinement engineering workflows.
   2. Documenting Method C as a rigorous feasibility and software-limitation case study, articulating the exact commercial FE architectural barriers.
   3. Recommending future research directions (monolithic UEL formulation with internal displacement mapping or external Python orchestration) without undertaking high-risk UEL redesign that would breach the frozen baseline Fortran contract (`CE8D5EDC...`).
