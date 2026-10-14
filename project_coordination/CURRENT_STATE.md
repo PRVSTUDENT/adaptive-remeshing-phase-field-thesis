@@ -59,7 +59,7 @@ All solver runs executed strictly under `/scratch9/pr21vyci/` with zero heavy bi
 ## 3. Scope Holds & Governance Matrix
 
 * **Scope Holds Active:**
-  - Gate 6C (Nonmatching State Transfer / Restart Energy Balance): `HUMAN_AUTHORIZED_EARLY_PROGRESSION_ACTIVE` (Explicit human authorization of 14 October 2026; supervisor formal Gate 6B review remains pending for 22 October 2026).
+  - Gate 6C (Nonmatching State Transfer / Restart Energy Balance): `HUMAN_AUTHORIZED_EARLY_PROGRESSION_ACTIVE` (Explicit human authorization of 14 October 2026 to proceed with Method C; formally `ON_HOLD_PENDING_GATE6B_CLOSURE` under supervisor governance with no auto-promotion until supervisor Gate 6B sign-off on 22 October 2026).
   - Gate 7 (Post-Processing & ParaView Bridge / ABAQUSER): `ON_HOLD_PENDING_SUPERVISOR_SIGNOFF` (remains in thesis scope under Proposal Task 6).
   - Mode-II Reproduction: `ON_HOLD_PENDING_MODE1_GATE6C_COMPLETION`.
   - Distributed Multi-Rank MPI Integration: `STRICTLY_DISQUALIFIED` (`f42_mixed_uel.for` single-rank shared-memory SMP only).

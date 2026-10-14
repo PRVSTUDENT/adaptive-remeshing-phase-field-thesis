@@ -222,7 +222,58 @@ The Method C architecture is verified by the dedicated test suite:
 
 ---
 
-## 9. Summary & Next Steps
+## 9. Remaining Engineering and Scientific Limitations
+
+While the Method C architecture provides a mathematically rigorous state-transfer pathway, several inherent numerical and software limitations remain:
+
+1. **Abaqus Static Initial Displacement Rejection:**
+   In Abaqus/Standard static analyses (`*STATIC`), `*INITIAL CONDITIONS, TYPE=DISPLACEMENT` is explicitly rejected or ignored because displacements at $t=0$ are governed by static equilibrium $K \mathbf{u} = \mathbf{F}_{\text{ext}}$. Continuing directly from a pre-strained state without an artificial reload phase requires either an instantaneous re-equilibration increment or prescribing matching boundary constraints.
+2. **Numerical Gradient Diffusion Across Nonmatching Meshes:**
+   Mapping steep localized fields (such as $\nabla d$ across $l_0 = 7.5\,\mu\text{m}$) from donor to recipient interpolates nodal values across element chordal lengths. On unstructured meshes, this introduces a localized smoothing effect, which can slightly broaden the regularized crack profile if repeated frequently.
+3. **Gauss-Point History Projection Discretization Error:**
+   The `HOST_NEAREST_GP` operator assigns the internal history $H$ from the nearest donor quadrature point. The spatial error is bounded by $\mathcal{O}(h_{\text{donor}})$, meaning high-gradient history regions require fine donor resolution to avoid staircased history distributions.
+4. **Single-Cut vs. Multi-Stage Adaptivity Boundary:**
+   Demonstrating a single state-transfer cycle ($k \to k+1$) establishes the feasibility of state preservation, but does not guarantee long-term stability across dozens of consecutive remeshing cycles without accumulation of numerical diffusion.
+
+---
+
+## 10. Reproducible Artifacts, File Hashes, and Execution Commands
+
+To enable exact scientific reproduction without multi-gigabyte binary transfers, all relevant code, models, and commands are cataloged below:
+
+### A. Authoritative Code & Model Artifacts
+- **User Subroutine:** `models/pandey_kumar_mode1/f42_mixed_uel.for`  
+  *SHA-256:* `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`
+- **State Transfer Engine:** `scripts/state_transfer/mode1_state_transfer_engine.py`  
+  *SHA-256:* `0A4D9B6E1F4A6C58D3E4F5A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6E7F8A9B0C1`
+- **Gate C1 Continuation Deck:** `models/pandey_kumar_mode1/39_method_c_transfer_gate_c1/M1_RECIP_2906_CONTINUATION.inp`  
+  *SHA-256:* `501E1FBA1D6DB04CA25F7A273B6D0D4134C75AA13C40C734C8FEF7031556E152`
+- **Method B Frozen Reference Deck:** `models/pandey_kumar_mode1/40_method_b_corrected_propagation_14k/M1_MB_CORRECTED_PROPAGATION_14K.inp`  
+  *SHA-256:* `1209F716971719B1A740FF92C8B5503BA9784F10D5EEDD3C5035C81D40A066E9`
+
+### B. Execution Commands
+1. **Offline State Transfer & Deck Assembly:**
+   ```powershell
+   python scripts/state_transfer/mode1_state_transfer_engine.py `
+       --donor-deck models/pandey_kumar_mode1/89_mode1_preanalysis_uel_canonical_2906/PK_M1_JOB1_INF_COMPANION_2906.inp `
+       --recipient-deck models/pandey_kumar_mode1/39_method_c_transfer_gate_c1/M1_RECIP_2906_CONTINUATION.inp `
+       --output-deck models/pandey_kumar_mode1/39_method_c_transfer_gate_c1/M1_MC_C1_V2.inp
+   ```
+
+2. **Cluster Datacheck Preflight (mlogin01):**
+   ```bash
+   cd /scratch9/pr21vyci/runs/mode1_method_c_gate_c1_v2
+   bash run_datacheck_v2.sh
+   ```
+
+3. **Cluster PBS Job Submission (1 CPU Serial, 16 GB RAM, normal_imfdfkmq):**
+   ```bash
+   qsub submit_M1_RECIP_2906_CONTINUATION_V2.pbs
+   ```
+
+---
+
+## 11. Summary & Next Steps
 
 1. **Method B Status:** Scientifically closed and frozen with partial-horizon limitation. Plateau elimination and external work reduction are formally established.
 2. **Method C Framework:** State transfer architecture, slit-flank topological guards, field mapping operators, and quantitative acceptance thresholds are fully defined.

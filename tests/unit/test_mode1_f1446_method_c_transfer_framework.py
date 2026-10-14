@@ -22,6 +22,8 @@ Verifies:
    - Authoritative UEL f42_mixed_uel.for hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6 preserved.
 6. Quantitative acceptance thresholds:
    - Defined mathematically across 7 distinct physical and numerical criteria.
+7. Limitations and reproducible execution commands:
+   - Remaining limitations and exact reproduction commands documented.
 """
 
 import os
@@ -87,6 +89,9 @@ def test_f1446_method_c_gate6c_framework_document():
         "## 6. Quantitative Acceptance Criteria for Method C (Gate 6C)",
         "## 7. Distinguishing Genuine Continuation from Quasi-Static Reload",
         "## 8. Implementation Verification & Unit Test Coverage",
+        "## 9. Remaining Engineering and Scientific Limitations",
+        "## 10. Reproducible Artifacts, File Hashes, and Execution Commands",
+        "## 11. Summary & Next Steps",
     ]
     for sec in required_sections:
         assert sec in content, f"Missing required section: {sec}"
@@ -137,3 +142,15 @@ def test_f1446_quantitative_acceptance_criteria_definition():
     assert ">= 0.0" in content                         # history non-negativity
     assert "0.005 kN" in content or "5.0 N" in content # step boundary force jump
     assert "<= 5.0 %" in content                       # global energy difference
+
+
+def test_f1446_limitations_and_reproducible_commands():
+    """Verify limitations and reproducible execution commands are documented."""
+    report_path = REPORTS_DIR / "MODE1_METHOD_C_GATE6C_RESEARCH_AND_TRANSFER_FRAMEWORK.md"
+    content = report_path.read_text(encoding="utf-8")
+    
+    assert "Abaqus Static Initial Displacement Rejection" in content
+    assert "Numerical Gradient Diffusion Across Nonmatching Meshes" in content
+    assert "HOST_NEAREST_GP" in content
+    assert "python scripts/state_transfer/mode1_state_transfer_engine.py" in content
+    assert "qsub submit_M1_RECIP_2906_CONTINUATION_V2.pbs" in content
