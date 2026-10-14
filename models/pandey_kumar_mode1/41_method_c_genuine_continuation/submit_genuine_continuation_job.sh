@@ -12,7 +12,7 @@ fi
 # 1. Cryptographic hash preflight
 EXPECTED_INP_SHA="2F2C76B21979DC71EFB9D5D9175AD1522D49E187DEB4931293C4E9A84AE4AE33"
 EXPECTED_SUB_SHA="CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
-EXPECTED_PBS_SHA="9BEAEFA9102AF91BD0EB9AE48B9923F9F12682713E9CB0972CB647A4C8D7D5C7"
+EXPECTED_PBS_SHA="4986B6807C5987ECD51A4FC29FB4BAAF3418212DE928CE47D83DF96C410ED456"
 
 ACTUAL_INP_SHA=$(sha256sum M1_MC_GENUINE_CONTINUATION.inp | awk '{print toupper($1)}')
 ACTUAL_SUB_SHA=$(sha256sum f42_mixed_uel.for | awk '{print toupper($1)}')
@@ -55,7 +55,7 @@ if [ -n "${EXISTING_JOB}" ]; then
 fi
 echo "[GUARD PASS] Zero duplicate PBS jobs or prior submission records detected."
 
-echo "Submitting Method C Genuine Continuation Job to normal_imfdfkmq..."
+echo "Submitting Method C Genuine Continuation Job to entry_imfdfkmq -> normal_imfdfkmq..."
 JOB_ID=$(qsub submit_M1_MC_GENUINE_CONTINUATION.pbs)
 echo "Submitted Job ID: ${JOB_ID}"
 echo "${JOB_ID}" > "${RUN_DIR}/SUBMITTED_JOB_ID.txt"
