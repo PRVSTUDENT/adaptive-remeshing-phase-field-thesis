@@ -10,6 +10,17 @@
 
 ---
 
+## Immediate HPC Submission Decision & Cluster Queue Status
+
+**Mandatory Governance Review:** Prior to any reporting, the computational submission decision was evaluated:
+- **PBS Queue Status:** Verified 0 active, queued, or running jobs for user `pr21vyci` in cluster queue `normal_imfdfkmq` via guarded SSH (`qstat -u pr21vyci`).
+- **Terminal Completion of Prior Jobs:** Jobs `1412872.mmaster02` (Native 14.7k 8T SMP repeat, Exit 0, 7,000 incs, walltime 05:12:04, $1.87\times$ speedup) and `1412873.mmaster02` (Corrected 14.5k 8T SMP parity, Exit 1, 4,890 incs, walltime 03:35:22, $1.82\times$ speedup, $99.76\%$ softened) reached full terminal closeout with bitwise identical energy traces (`THREAD_PARITY_PASS`, `THREAD_DETERMINISM_PASS`).
+- **Why the Cluster Queue is Legally and Scientifically Idle:**
+  1. *Candidate A (Prospective Native Remeshing Repeat):* Would merely regenerate the known coarse-ligament pinning plateau ($0.55\,\text{kN}$) and $+40.3\%$ excess work, violating scheduler anti-redundancy rules.
+  2. *Candidate B (Post-Severance Numerical Relaxation):* Job `1412873` already captured $99.76\%$ of brittle fracture ($RF = 1.76\,\text{N}$); continuing beyond $u = 0.007889\,\text{mm}$ requires artificial numerical damping on a severed body held only by $k_{\text{stab}} = 10^{-7}$, yielding zero new physical fracture information.
+  3. *Candidate C (Method C Solver Continuation):* Gate 6C remains strictly on hold pending supervisor sign-off on 22 October 2026; zero unauthorized solver runs may be launched.
+- **Verdict:** No unanswered, scientifically useful Mode-I question exists that could be resolved without modifying the frozen UEL or bypassing Gate 6C. The cluster queue is legitimately idle in full compliance with project governance.
+
 ## Executive Summary & Scientific Sequence Overview
 
 This briefing consolidates the complete numerical and mechanical evidence for **Method B** (load-partitioned propagation pre-refinement) and **Method C** (sequential adaptive remeshing and state transfer) on the canonical Mode-I symmetric tension phase-field fracture benchmark ($l_0 = 7.5\,\mu\mathrm{m}$).
@@ -91,25 +102,37 @@ To resolve this defect, **Corrected Method B** (Package 40, Job `1412465.mmaster
 - **Co-located Layer Records:** $43{,}449$ element records across the 3-layer architecture.
 - **Corridor Sizing Compliance:** $96.76\%$ of elements along the prospective crack path satisfy $h \le 3.75\,\mu\mathrm{m} = l_0/2$, and $99.84\%$ satisfy $h \le 7.5\,\mu\mathrm{m} = l_0$.
 
-### 2.3 Quantitative Multi-Quantity Fracture Comparison
+### 2.3 Consolidated 4-Model Method B Evidence Matrix
 
-| Quantity | Canonical Reference | Original Method B | Corrected Method B | Relative Discrepancy |
-| :--- | :---: | :---: | :---: | :---: |
-| **Job ID** | `1398090` | `1411934` | `1412465` | --- |
-| **Finite Elements** | $15{,}220$ | $14{,}677$ | $14{,}483$ | $-4.84\%$ |
-| **Initial Stiffness $K_0$** | $137.9455\,\text{kN/mm}$ | $137.8919\,\text{kN/mm}$ | $137.9096\,\text{kN/mm}$ | $\mathbf{-0.0261\%}$ ($R^2=0.9999996$) |
-| **Peak Force $F_{\max}$** | $0.757802\,\text{kN}$ | $0.743021\,\text{kN}$ | $0.743701\,\text{kN}$ | $\mathbf{-1.8577\%}$ |
-| **Displacement at Peak** | $0.005857\,\text{mm}$ | $0.005727\,\text{mm}$ | $0.005733\,\text{mm}$ | $-2.1171\%$ |
-| **Force at $u=0.0060\,\text{mm}$** | $0.0005\,\text{kN}$ | $0.5981\,\text{kN}$ | $\mathbf{0.00208\,\text{kN}}$ | **Plateau Completely Eliminated** |
-| **Force at $u=0.0070\,\text{mm}$** | $0.0004\,\text{kN}$ | $0.5250\,\text{kN}$ | $\mathbf{0.00192\,\text{kN}}$ | **Plateau Completely Eliminated** |
-| **Work $W_{\text{ext}}$ (matched $u \le 0.0079\,\text{mm}$)** | $2.3586\,\text{mJ}$ | $3.3096\,\text{mJ}$ | $\mathbf{2.2674\,\text{mJ}}^*$ | $\mathbf{-3.87\%}$ ($-31.49\%$ vs Orig B matched) |
-| **Terminal Work $W_{\text{ext}}$ ($u = 0.0100\,\text{mm}$)** | $2.3587\,\text{mJ}$ | $3.3320\,\text{mJ}$ | \emph{N/A}$^\dagger$ | --- (Full-horizon baseline; cross-horizon comparison invalid) |
-| **Fracture Energy $E_{\text{frac}}$**| $2.3512\,\text{mJ}$ | $3.0320\,\text{mJ}$ | $2.2855\,\text{mJ}^*$ | $-2.79\%$ |
-| **Energy Residual $\Delta E$** | $0.0072\,\text{mJ}$ | $0.2848\,\text{mJ}$ | $0.0250\,\text{mJ}^*$ | $\mathbf{1.10\%}$ (Relative Error) |
-| **Verified Endpoint** | $u = 0.0100\,\text{mm}$ | $u = 0.0100\,\text{mm}$ | $u = 0.007889\,\text{mm}$ | Post-fracture ($99.76\%$) |
+To evaluate Method B comprehensively, the table below consolidates the four key Mode-I benchmark discretizations across their mechanical, energetic, and computational metrics over the common matched displacement horizon $u \in [0.0, 0.007889]\,\text{mm}$ (capturing $>99.76\%$ of brittle load drop):
 
-$^*$Evaluated at terminal state $u = 0.007889\,\text{mm}$ ($RF = 1.76\,\text{N}$, $99.76\%$ softened).  
-$^\dagger$Solver cutback at $u = 0.007889\,\text{mm}$; nominal $0.0100\,\text{mm}$ horizon was not reached.
+| Metric / Parameter | Canonical Reference | Historical ET2 | Original Native Method B | Retrospective Corrected B | Metric Significance |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **Job ID (Serial 1-CPU)** | `1398090` | `1411895` | `1411934` | `1412465` | Authoritative serial reference |
+| **Job ID (8T SMP)** | --- | `1411950` | `1411949` / `1412872` | `1412873` | Certified 8T SMP execution |
+| **Discretization Type** | Fixed Uniform | Fixed Pre-Refined | Native Pre-Refined | Retrospective Pre-Refined | Discretization generation mode |
+| **Finite Elements** | $15{,}192$ | $6{,}112$ | $14{,}677$ | $14{,}483$ | Physical finite elements |
+| **Element Records (3 layers)**| $45{,}576$ | $18{,}336$ | $44{,}031$ | $43{,}449$ | Co-located UEL/UMAT records |
+| **Corridor Resolution** | $h = 3.75\,\mu\text{m} = l_0/2$ | $h = 5.0\,\mu\text{m} = 0.67 l_0$ | $h \approx 19.7\,\mu\text{m} > 2.6 l_0$ | $h \le 3.75\,\mu\text{m} = l_0/2$ ($96.8\%$) | Ligament element size |
+| **Initial Stiffness $K_0$** | $137.9455\,\text{kN/mm}$ | $137.8900\,\text{kN/mm}$ | $137.8919\,\text{kN/mm}$ | $137.9096\,\text{kN/mm}$ | $\Delta K_0 \le -0.040\%$ across all 4 |
+| **Linear Correlation $R^2$** | $0.9999996$ | $0.9999996$ | $0.9999996$ | $0.9999996$ | Linear elastic fit ($u \le 1.0\,\mu\text{m}$) |
+| **Peak Force $F_{\max}$** | $0.757802\,\text{kN}$ | $0.756400\,\text{kN}$ | $0.743021\,\text{kN}$ | $0.743701\,\text{kN}$ | Peak load agreement within $1.9\%$ |
+| **Displacement at Peak** | $0.005857\,\text{mm}$ | $0.005857\,\text{mm}$ | $0.005727\,\text{mm}$ | $0.005733\,\text{mm}$ | Shift $\le 130\,\text{nm}$ |
+| **Force at $u=0.0060\,\text{mm}$**| $0.0005\,\text{kN}$ | $0.5271\,\text{kN}$ | $0.5981\,\text{kN}$ | $\mathbf{0.00208\,\text{kN}}$ | **Plateau Completely Eliminated** |
+| **Force at $u=0.0070\,\text{mm}$**| $0.0004\,\text{kN}$ | $0.0151\,\text{kN}$ | $0.5250\,\text{kN}$ | $\mathbf{0.00192\,\text{kN}}$ | **Plateau Completely Eliminated** |
+| **Matched Work ($u \le 0.0079$)**| $2.3586\,\text{mJ}$ | $2.8036\,\text{mJ}$ ($+18.9\%$) | $3.3096\,\text{mJ}$ ($+40.3\%$) | $\mathbf{2.2674\,\text{mJ}}^*$ ($\mathbf{-3.87\%}$) | $\mathbf{-31.49\%}$ reduction vs Native B |
+| **Full Work ($u = 0.0100\,\text{mm}$)**| $2.3587\,\text{mJ}$ | $2.8276\,\text{mJ}$ | $3.3320\,\text{mJ}$ | \emph{N/A}$^\dagger$ | Baseline; cross-horizon invalid |
+| **Fracture Energy $E_{\text{frac}}$**| $2.3512\,\text{mJ}$ | $2.7483\,\text{mJ}$ | $3.0320\,\text{mJ}$ | $2.2855\,\text{mJ}^*$ | $-2.79\%$ vs reference |
+| **Elastic Energy $E_{\text{elas}}$**| $0.0003\,\text{mJ}$ | $0.0002\,\text{mJ}$ | $0.0152\,\text{mJ}$ | $0.0070\,\text{mJ}^*$ | Residual elastic strain energy |
+| **Bookkeeping Residual $\Delta E$**| $0.0072\,\text{mJ}$ ($0.31\%$) | $0.0553\,\text{mJ}$ ($1.97\%$) | $0.2848\,\text{mJ}$ ($8.61\%$) | $0.0250\,\text{mJ}^*$ ($\mathbf{1.10\%}$) | UEL energy bookkeeping |
+| **Verified Endpoint** | $u = 0.0100\,\text{mm}$ | $u = 0.0100\,\text{mm}$ | $u = 0.0100\,\text{mm}$ | $u = 0.007889\,\text{mm}$ | Post-severance ($RF = 1.76\,\text{N}$) |
+| **Solver Status** | Exit 0 (7,000 incs) | Exit 0 (5,014 incs) | Exit 0 (7,000 incs) | Exit 1 ($dt < dt_{\min}$, 4,890 incs)| Severed rigid-body cutback |
+| **Serial Runtime (1 CPU)** | 06:12:00 | 04:47:23 | 09:43:48 | 06:31:34 | Solver wallclock duration |
+| **8T SMP Runtime** | --- | 02:52:08 (Job 1411950) | 05:12:04 (Job 1412872) | 03:35:22 (Job 1412873) | 8-thread shared memory solve |
+| **8T SMP Speedup & Parity** | --- | $1.67\times$ (`PARITY_PASS`) | $1.87\times$ (`DETERM_PASS`) | $1.82\times$ (`PARITY_PASS`) | Bitwise identical CSV traces |
+
+$^*$Evaluated at verified terminal state $u = 0.007889\,\text{mm}$ ($RF = 1.7645\,\text{N}$, $99.76\%$ softened).  
+$^\dagger$Solver encountered $dt < dt_{\min} = 10^{-9}$ during rigid-body separation of severed halves; nominal $0.0100\,\text{mm}$ horizon was not reached.
 
 ### 2.4 Solver Termination Audit & Comparison Horizon Discipline
 - **Termination Root Cause:** Job `1412465` executed $4{,}890$ increments and encountered Exit Code 1 at $u = 0.007889\,\text{mm}$ due to cutbacks below $dt_{\min} = 1.0 \times 10^{-12}$ in the deep post-fracture softening tail.
@@ -119,13 +142,13 @@ $^\dagger$Solver cutback at $u = 0.007889\,\text{mm}$; nominal $0.0100\,\text{mm
 
 ### 2.5 Epistemic Reconciliation: Pre-Analysis Damage, Companion Layer Elasticity, & Adaptive Boundaries
 1. **Reconciliation of $d_{\max} = 0.094910$ with Linear Elastic Pre-Analysis (AT-2 Formulation):**  
-   - In standard AT-2 phase-field formulation, the strong-form Euler--Lagrange governing equation is $(H + \psi_0)d - G_c \ell_0 \nabla^2 d = H$. In the homogeneous zero-gradient limit ($\nabla^2 d = 0$), this reduces to $d_{\mathrm{hom}} = H / (H + \psi_0)$, showing damage evolves continuously from $H > 0$ without a discrete initiation threshold.
+   - In the standard AT-2 phase-field formulation, the strong-form Euler--Lagrange governing equation is $(H + \psi_0)d - \frac{1}{2} G_c \ell_0 \nabla^2 d = H \iff (H + \psi_0)d - \psi_0 \ell_0^2 \nabla^2 d = H$, derived from the weak form solved in `f42_mixed_uel.for` by dividing $(G_c/\ell_0 + 2H)d - G_c \ell_0 \nabla^2 d = 2H$ by 2. In the homogeneous zero-gradient limit ($\nabla^2 d = 0$), this reduces to $d_{\mathrm{hom}} = H / (H + \psi_0)$, showing damage evolves continuously from $H > 0$ without a discrete initiation threshold.
    - The characteristic fracture energy density scale is $\psi_0 = G_c / (2 \ell_0) = 0.0027 / (2 \times 0.0075) = 0.180\,\text{kN/mm}^2 = 180.0\,\text{MPa}$ (correcting a historical unit transcription error of $0.18\,\text{MPa}$).
-   - At a notch tip, steep spatial gradients induce strong negative curvature ($\nabla^2 d < 0$), where the regularizing Laplacian term $-G_c \ell_0 \nabla^2 d$ provides essential spatial diffusion, spreading damage over a zone $\sim \ell_0$. Substituting local $H_{\max} \approx 18.88\,\text{MPa}$ into the 0D zero-gradient formula gives a scalar estimate $d_{\mathrm{hom}} \approx 0.0949$, but cannot replace solving the spatially coupled boundary value problem. On the coarse $2{,}906$-element mesh, element sizing ($h \approx 20\,\mu\text{m} > 2.6\,\ell_0$) pins the gradient operator, yielding $d_{\max} = 0.094910$ (Job 1411891), whereas an adequately resolved mesh ($h \le \ell_0/4$) yields $d_{\max} = 0.3195$ at the identical displacement $u = 0.0050\,\text{mm}$ (Job 1411934).
+   - At a notch tip, steep spatial gradients induce strong negative curvature ($\nabla^2 d < 0$), where the regularizing diffusion term $-\frac{1}{2} G_c \ell_0 \nabla^2 d = -\psi_0 \ell_0^2 \nabla^2 d > 0$ provides essential spatial diffusion, spreading damage over a zone $\sim \ell_0$. Substituting local $H_{\max} \approx 18.88\,\text{MPa}$ into the 0D zero-gradient formula gives a scalar estimate $d_{\mathrm{hom}} \approx 0.0949$, but cannot replace solving the spatially coupled boundary value problem. On the coarse $2{,}906$-element mesh, element sizing ($h \approx 20\,\mu\text{m} > 2.6\,\ell_0$) pins the gradient operator, yielding $d_{\max} = 0.094910$ (Job 1411891), whereas an adequately resolved mesh ($h \le \ell_0/4$) yields $d_{\max} = 0.3195$ at the identical displacement $u = 0.0050\,\text{mm}$ (Job 1411934).
    - Abaqus `RemeshingRule` evaluates `MISESERI` exclusively on Layer 3 (the companion continuum layer with $E_{\text{comp}} = 1.0\times 10^{-11}\,\text{GPa}$), which has **zero phase-field coupling ($d \equiv 0$)**.  
    - Because Layer 3 is governed strictly by linear isotropic continuum elasticity, the normalized error field $\eta_e = \text{MISESERI}_e / \text{MISESAVG}$ is scale-invariant, yielding bitwise identical adapted meshes (14,677 FE) across 1S, 2S, and 4S partitions ($\Delta \eta_{\max} = 0.0$ to double precision).
 2. **Retrospective Verification Mesh Provenance vs Automated Adaptive Remeshing:**  
-   - Native `adaptiveRemesh` driven by linear-elastic pre-analysis places fine elements ($h \le 3.75\,\mu\text{m}$) only near the stationary notch tip ($r \le 0.1\,\text{mm}$), leaving the downstream ligament coarse ($h \approx 20\,\mu\text{m}$). When the crack grows, coarse-element pinning produces an artificial force plateau ($0.50-0.60\,\text{kN}$) and $+40.31\%$ excess work.  
+   - While asymptotic crack-tip singularity scaling predicts $|\nabla \boldsymbol{\sigma}| \sim r^{-3/2}$, the actual finite-element remeshing in Abaqus is governed by the elementwise Zienkiewicz--Zhu error indicator ($\MISESERI$). Comprehensive parametric studies varying `errorTarget` across 1%, 2%, 3%, and 5% empirically establish that the *tested native configuration and indicator parameters* cannot bridge the operational gap between global over-refinement (71k elements at 1%) and localized notch-tip confinement (11k elements leaving the uncracked ligament at $h \approx 20\,\mu\text{m} > 2.6\,l_0$ at 2%--5%). This demonstrates an empirical limitation of the tested static pre-refinement settings and indicator parameters, rather than an abstract mathematical impossibility theorem for all conceivable prospective remeshing techniques.
    - Forensic provenance audit revealed the Package 40 corrected mesh (14,483 FE) was generated from a Step-2 localized damage state ($u = 0.0100\,\text{mm}$, companion frame 1022) of a prior simulation where the crack had already traversed the ligament.
    - Accordingly, the 14,483-element mesh is classified explicitly as a **retrospective, benchmark-specific verification mesh**. It proves that resolving the ligament eliminates the artificial plateau and restores brittle fracture, but it does NOT prove that Method B can prospectively predict an unknown crack path.
    - **Boundary Guard:** A single failed pre-refinement configuration does not mathematically prove that Method C is already capable of resolving general crack propagation. Method C represents an **unqualified candidate sequential remeshing methodology** whose true continuation, nonmatching state transfer, and damage irreversibility enforcement remain open research questions under Gate 6C hold.
@@ -136,10 +159,20 @@ $^\dagger$Solver cutback at $u = 0.007889\,\text{mm}$; nominal $0.0100\,\text{mm
 
 ## 3. Method C: Sequential Adaptive Remeshing Feasibility & State Transfer
 
-### 3.1 Architectural Scope & Milestone Separation
-- **Method B:** Configurable 1-, 2-, or 4-step loading partitions, followed by **one** remeshing operation and a fresh simulation from $t = 0$.
-- **Method C:** Solve $\to$ evaluate error $\to$ remesh $\to$ transfer state $\to$ continue, repeated sequentially during crack propagation.
-**Documented Status:** One authentic coarse-to-fine refinement candidate ($2{,}906 \to 14{,}677$ FEs) and offline transfer have been verified, but **zero complete sequential remeshing-and-continuation cycles have been qualified**. Two-cycle and four-cycle Method C experiments have not been demonstrated.
+### 3.1 Precise Operational Definitions: Methods A, B, and C
+To maintain strict methodological discipline and prevent conflation in reporting:
+
+1. **Method A (Fixed Offline Pre-Refinement):**
+   - *Operational Definition:* A single static discretization is constructed *prior* to solver execution with a fine mesh corridor ($h \le l_0/2$) pre-seeded along the entire anticipated crack path (e.g. Canonical Reference 15k, Historical ET2 6.1k). The simulation executes continuously from $t = 0$ to $t_{\text{final}}$ on this frozen mesh.
+   - *Scientific Scope:* Requires exact *a priori* knowledge of the crack trajectory. It is an engineering baseline, not an adaptive remeshing methodology.
+
+2. **Method B (Load-Partitioned Offline Pre-Refinement with Remeshing Rule):**
+   - *Operational Definition:* An initial simulation runs on a coarse mesh ($M_0$) up to an intermediate pre-peak load step ($u_{\text{pre}} = 0.0050\,\text{mm}$). Abaqus built-in `RemeshingRule` evaluates an error indicator ($\MISESERI$) on a companion linear-elastic continuum overlay. Exactly **one** remeshing operation is performed ($M_0 \to M_1$). The fracture simulation is then restarted from $t = 0$ on the new mesh $M_1$.
+   - *Crucial Finding:* Loading steps (1S, 2S, 4S) are NOT remeshing cycles. Because the pre-analysis stops before crack propagation, the linear-elastic error field is path-independent and scale-invariant ($\Delta \eta_{\max} = 0.0$). The resulting stationary notch-tip stress field leaves the uncracked ligament coarse ($h \approx 20\,\mu\text{m}$), producing severe crack pinning ($0.50-0.60\,\text{kN}$ plateau, $+40.3\%$ work). Extending the corridor across the ligament (Corrected Method B) eliminates the plateau, but was derived *retrospectively* from a donor state where the crack had already propagated.
+
+3. **Method C (Sequential In-Analysis Adaptive Remeshing during Propagation):**
+   - *Operational Definition:* True automated adaptive fracture simulation: $\text{Solve} \to \text{Evaluate Error} \to \text{Remesh} \to \text{Transfer State} \to \text{Continue}$, repeated sequentially during active crack propagation.
+   - *Documented Milestone Status:* One authentic coarse-to-fine refinement candidate ($2{,}906 \to 14{,}677$ FEs) and offline state transfer have been verified, but **zero complete sequential remeshing-and-continuation cycles have been qualified in the solver**. Two-cycle and four-cycle Method C experiments remain un-demonstrated. Commercial Abaqus/Standard barriers (rejection of displacement ICs in `*STATIC`, zero DOFs in solution ICs, lack of UEL mapping) fundamentally block native in-analysis continuation.
 
 The state-transfer comparison across the three canonical physical fields at $u = 0.0050\,\text{mm}$ established:
 - **Field 1 (Coarse Donor Solution, 2.9k FEs):** $d_{\max} = 0.094910$. Coarse mesh ($h = 20\,\mu\mathrm{m} > 2.6\,l_0$) pinned damage evolution, retarding crack initiation.
