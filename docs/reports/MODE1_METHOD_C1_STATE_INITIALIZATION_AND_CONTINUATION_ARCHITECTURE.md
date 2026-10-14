@@ -149,6 +149,7 @@ To eliminate unphysical balance assumptions (such as asserting $\Delta E_{\text{
    > In a quasi-static nonlinear analysis (`*STATIC`), Newton iterations do NOT advance physical time. The iteration counter $k = 1, 2, \dots$ is purely an algorithmic progression toward the stationary point $\nabla_{\mathbf{u}}\Pi = \mathbf{0}$.
    > In a conservative elastic medium with frozen damage ($\Delta d = 0$), **zero physical thermodynamic dissipation occurs** ($\Delta \mathcal{D}_{\text{phys}} \equiv 0$).
    > It is physically and mathematically incorrect to equate this algorithmic energy change $\Delta E_{\text{elas, relax}}$ with physical dissipation without an explicit rate-dependent or viscous dissipative operator.
+   > Furthermore, standard quasi-static Newton-Raphson iterations represent an iterative root-finding procedure seeking the stationary equilibrium point ($\nabla_{\mathbf{u}}\Pi = \mathbf{0}$ or $\mathbf{R} = \mathbf{0}$), rather than an optimization algorithm that guarantees monotonic potential energy reduction at every single intermediate iteration (for example, non-monotonic iterates or overshoot can occur prior to asymptotic quadratic convergence). Once converged to equilibrium, the discrete stationary state satisfies $\nabla_{\mathbf{u}}\Pi = \mathbf{0}$.
    > 
    > **Formal Four-Way Distinction:**
    > 1. **Potential Energy Minimization ($\Delta \Pi \le 0$):** Purely algorithmic reduction of the discrete total potential energy during quasi-static Newton iterations seeking static equilibrium.
@@ -279,7 +280,9 @@ However, in a finite element continuation solver, the discrete residual vector e
 $$\mathbf{R}^{(0)} = \begin{bmatrix} \mathbf{R}_u^{(0)} \\ \mathbf{R}_d^{(0)} \end{bmatrix}$$
 where:
 $$\mathbf{R}_u^{(0)} = \mathbf{F}_{\text{ext}} - \sum_{e=1}^{N_{\text{elem}}} \int_{\Omega_e} \mathbf{B}_u^T \boldsymbol{\sigma}\left(\mathbf{B}_u \mathbf{u}_0, d_0\right) \mathrm{d}\Omega$$
-$$\mathbf{R}_d^{(0)} = - \sum_{e=1}^{N_{\text{elem}}} \int_{\Omega_e} \left[ \left(2(1 - d_0) H_0 + \psi_0\right) \mathbf{N}_d^T + G_c \ell_0 \mathbf{B}_d^T \nabla d_0 - 2 H_0 \mathbf{N}_d^T \right] \mathrm{d}\Omega$$
+$$\mathbf{R}_d^{(0)} = \sum_{e=1}^{N_{\text{elem}}} \int_{\Omega_e} \left[ \mathbf{N}_d^T \left(2(H_0 + \psi_0)d_0 - 2H_0\right) + G_c \ell_0 \mathbf{B}_d^T \nabla d_0 \right] \mathrm{d}\Omega = \sum_{e=1}^{N_{\text{elem}}} \int_{\Omega_e} \left[ \mathbf{N}_d^T \left(2\psi_0 d_0 - 2H_0(1 - d_0)\right) + G_c \ell_0 \mathbf{B}_d^T \nabla d_0 \right] \mathrm{d}\Omega$$
+where $\psi_0 = \frac{G_c}{2\ell_0} = 180.0\,\text{MPa}$ ($0.180\,\text{kN/mm}^2$). In the Abaqus UEL right-hand-side convention ($\mathbf{RHS} = -\mathbf{R}$), the phase-field residual vector returned to the solver is:
+$$\mathbf{RHS}_d^{(0)} = -\mathbf{R}_d^{(0)} = \sum_{e=1}^{N_{\text{elem}}} \int_{\Omega_e} \left[ \mathbf{N}_d^T \left(2H_0(1 - d_0) - 2\psi_0 d_0\right) - G_c \ell_0 \mathbf{B}_d^T \nabla d_0 \right] \mathrm{d}\Omega$$
 
 In an actual finite element solver implementation, achieving $\|\mathbf{R}^{(0)}\| \equiv 0$ requires that five independent subsystems be simultaneously and identically restored:
 1. **Kinematic Boundary Conditions on $\Gamma_u$:**
@@ -288,8 +291,17 @@ In an actual finite element solver implementation, achieving $\|\mathbf{R}^{(0)}
    The base displacement field $\mathbf{u}_0 = (u_x, u_y)$ must be explicitly restored at all 2,988 physical nodes. If nodal displacement loading is incomplete, index-permuted, or truncated, the resulting element strain $\boldsymbol{\varepsilon} = \mathbf{B}_u \mathbf{u}_0$ will differ from the donor equilibrium strain, generating non-zero internal mechanical out-of-balance forces $\mathbf{R}_u^{(0)} \ne \mathbf{0}$.
 3. **Phase-Field Nodal Degrees of Freedom (DOF 3):**
    In the production UEL `f42_mixed_uel.for`, Phase elements (JTYPE 1/3) represent the phase field $d$ as an active nodal degree of freedom (**DOF 3**). In Abaqus/Standard, the built-in card `*INITIAL CONDITIONS, TYPE=SOLUTION` writes ONLY to element internal state variables (`STATEV` / `SVARS`) and **does NOT initialize nodal solution degrees of freedom**. Consequently, without a dedicated nodal initialization mechanism, nodal DOF 3 defaults to zero ($d = 0$) at all nodes. When the element residual is evaluated with $d = 0$ at nodes while quadrature points possess non-zero driving history $H_0 > 0$, the assembled phase-field residual becomes:
-   $$\mathbf{R}_d^{(0)} = \sum_{e=1}^{N_{\text{elem}}} \int_{\Omega_e} 2 H_0 \mathbf{N}_d^T \, \mathrm{d}\Omega \ne \mathbf{0}$$
-   Because $H_{\max} = 53.65\,\text{MPa}$, this generates a massive artificial out-of-balance phase residual force of hundreds of Newtons on the identical mesh!
+   $$\mathbf{R}_d^{(0)} = -\sum_{e=1}^{N_{\text{elem}}} \int_{\Omega_e} 2 H_0 \mathbf{N}_d^T \, \mathrm{d}\Omega \ne \mathbf{0}, \quad \mathbf{RHS}_d^{(0)} = +\sum_{e=1}^{N_{\text{elem}}} \int_{\Omega_e} 2 H_0 \mathbf{N}_d^T \, \mathrm{d}\Omega \ne \mathbf{0}$$
+   Because $H_{\max} = 53.65\,\text{MPa}$, this generates a massive artificial out-of-balance phase residual driving force of $\sim 107.3\,\text{MPa}$ peak density on the identical mesh!
+   
+   > [!NOTE] Dimensional Verification & Distinction from Mechanical Boundary Forces
+   > Because the damage phase field $d$ is a dimensionless scalar field ($0 \le d \le 1$), the generalized phase-field residual $\mathbf{R}_d = \frac{\partial \Pi}{\partial \mathbf{d}}$ has units of **Energy** ($\text{kN}\cdot\text{mm} = \text{J}$ in 2D with unit thickness, or $\text{mJ}$). It represents the energetic crack driving force conjugate to damage variation $\delta d$, and must **NOT** be reported or confused with a mechanical boundary traction reaction force ($RF$ in Newtons at displacement degrees of freedom).
+   > 
+   > **Mathematical Consistency Verification of Corrected Residual:**
+   > - *Intact virgin state ($H_0 = 0, d_0 = 0, \nabla d_0 = \mathbf{0}$):* $2(0 + \psi_0)(0) - 2(0) = 0 \implies \mathbf{R}_d^{(0)} \equiv \mathbf{0}$ and $\mathbf{RHS}_d^{(0)} \equiv \mathbf{0}$. (Corrects the F1472 formula error where omission of $d$ in the local term produced an unphysical residual $+\psi_0 \ne 0$).
+   > - *Homogeneous equilibrium state ($H_0 > 0, d_{\mathrm{hom}} = \frac{H_0}{H_0 + \psi_0}, \nabla d_0 = \mathbf{0}$):* $2(H_0 + \psi_0)\left(\frac{H_0}{H_0 + \psi_0}\right) - 2H_0 = 2H_0 - 2H_0 = 0 \implies \mathbf{R}_d^{(0)} \equiv \mathbf{0}$.
+   > - *Uninitialized damage shock ($H_0 > 0, d_0 = 0, \nabla d_0 = \mathbf{0}$):* $2(H_0 + \psi_0)(0) - 2H_0 = -2H_0 \implies \mathbf{RHS}_d^{(0)} = +2H_0 > 0$, driving positive damage growth.
+   > - *Jacobian Tangent Positivity ($J_{dd} = \frac{\partial R_d}{\partial d}$):* $\frac{\partial}{\partial d}\left[ 2(H + \psi_0)d - 2H \right] = 2(H + \psi_0) > 0$ for all $H \ge 0$, guaranteeing positive definite tangent stiffness $\mathbf{K}_{dd, e} = \int_{\Omega_e} \left[ 2(H + \psi_0)\mathbf{N}_d^T \mathbf{N}_d + G_c \ell_0 \mathbf{B}_d^T \mathbf{B}_d \right] \mathrm{d}\Omega$ in the phase subsystem.
 4. **Internal State Variables at Quadrature Points (`SVARS`):**
    The strain history variable $H(\mathbf{x}_{\text{GP}})$ must be restored at all integration points across all elements (e.g. $H_{\max} = 53.65\,\text{MPa}$ at Element 1208). Any mismatch in integration-point ordering, Gauss-point coordinates, or array indexing will cause $H$ to become inconsistent with the nodal damage field $d_0$.
 5. **Dual-Layer Common Block Synchronization (`COMMON /CB_STATE_TRANS/`):**
