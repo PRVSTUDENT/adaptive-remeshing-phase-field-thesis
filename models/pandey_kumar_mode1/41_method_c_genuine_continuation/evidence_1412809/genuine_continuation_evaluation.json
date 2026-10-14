@@ -1,0 +1,47 @@
+{
+    "task_id": "F1450",
+    "job_id": "1412809.mmaster02",
+    "job_name": "M1_MC_GEN_CONT",
+    "target_mesh": "M1_MB_INF_1S.inp (2,906 FE coarse recipient)",
+    "donor_mesh": "M1_MB_NATIVE_FINAL_1S.inp (14,677 FE native adapted donor)",
+    "sta_summary": {
+        "total_increments": 5042,
+        "step1_increments": 1,
+        "step2_increments": 5041,
+        "cutbacks": 12,
+        "severe_discontinuities": 0,
+        "final_step": 2,
+        "final_time": 2.0
+    },
+    "handoff_evaluation": {
+        "donor_rf_handoff_n": 653.09,
+        "donor_energy_handoff_mj": 1.6911,
+        "step1_rf_end_n": 674.71669,
+        "step1_delta_rf_n": 21.62668999999994,
+        "step1_internal_energy_mj": 1.6898556999999998,
+        "step1_energy_error_pct": 0.07357932706523553,
+        "step2_entry_rf_n": 653.1693899999999,
+        "step2_entry_delta_rf_n": 0.07938999999987573,
+        "step2_entry_delta_rf_rel_pct": 0.012156058123669896,
+        "step_boundary_force_jump_n": 21.547300000000064,
+        "criterion_5_strict_step_boundary_verdict": "FAIL",
+        "criterion_5_selective_tangent_verdict": "PASS"
+    },
+    "continuation_fracture_metrics": {
+        "step2_increments": 5041,
+        "peak_reaction_force_n": 1085.4105,
+        "peak_reaction_force_kn": 1.0854105,
+        "displacement_at_peak_mm": 0.009219,
+        "terminal_reaction_force_n": 27.259909,
+        "terminal_displacement_mm": 0.01,
+        "post_peak_load_drop_pct": 97.488516188115,
+        "work_ext_step1_mj": 1.6867917250000002,
+        "work_ext_step2_mj": 4.184504665935672,
+        "work_ext_total_mj": 5.871296390935672,
+        "final_fracture_energy_mj": 4.7826732000000005,
+        "final_elastic_energy_mj": 0.13629955,
+        "final_total_energy_mj": 4.9189727,
+        "step2_energy_residual_mj": 0.9553876659356719,
+        "step2_energy_residual_rel_pct": 22.831559341135144
+    }
+}
