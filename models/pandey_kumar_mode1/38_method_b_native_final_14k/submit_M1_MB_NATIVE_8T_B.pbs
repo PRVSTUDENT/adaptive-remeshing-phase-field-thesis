@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -N M1_MB_NAT_8TB
-#PBS -q entry_imfdfkmq
+#PBS -q normal_imfdfkmq
 #PBS -l nodes=1:ppn=8
 #PBS -l mem=24gb
 #PBS -l walltime=24:00:00
