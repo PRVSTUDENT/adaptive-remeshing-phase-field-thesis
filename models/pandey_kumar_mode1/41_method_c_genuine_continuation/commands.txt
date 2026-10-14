@@ -1,0 +1,8 @@
+# Method C Genuine Continuation Package Reproduction Commands
+# Target Directory: /scratch9/pr21vyci/runs/mode1_method_c_genuine_continuation
+
+# 1. Run Cluster Preflight Datacheck on mlogin01:
+bash run_datacheck_genuine.sh
+
+# 2. Submit Guarded Production Continuation Job to normal_imfdfkmq:
+bash submit_genuine_continuation_job.sh

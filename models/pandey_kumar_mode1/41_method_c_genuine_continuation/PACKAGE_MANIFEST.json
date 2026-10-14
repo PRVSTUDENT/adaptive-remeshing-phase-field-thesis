@@ -1,0 +1,62 @@
+{
+  "package_name": "mode1_method_c_genuine_continuation",
+  "package_version": "1.0",
+  "created_at": "2026-10-14T07:35:00+02:00",
+  "benchmark": "Pandey-Kumar Mode-I (1.0 mm x 1.0 mm, sharp slit a0=0.5 mm)",
+  "scientific_purpose": "Method C smallest 1-CPU serial genuine continuation solve establishing instantaneous static equilibrium at u_handoff = 0.0050 mm without reload from zero",
+  "cluster_target": "normal_imfdfkmq",
+  "resource_request": {
+    "nodes": 1,
+    "cpus_per_node": 1,
+    "memory_gb": 16,
+    "walltime_hours": 4,
+    "execution_mode": "single_rank_serial_shared_memory_anchor"
+  },
+  "physical_mesh": {
+    "num_elements": 2906,
+    "num_nodes": 2988,
+    "num_layered_elements": 8718,
+    "layer_1_phase_uel": "1..2906 (DOFs: 3)",
+    "layer_2_mech_uel": "2907..5812 (DOFs: 1, 2)",
+    "layer_3_companion_cpe": "5813..8718 (DOFs: 1, 2)"
+  },
+  "solution_state_transfer": {
+    "donor_mesh": "models/pandey_kumar_mode1/38_method_b_native_final_14k/M1_MB_NATIVE_FINAL_1S.inp (14,677 FEs)",
+    "handoff_displacement_mm": 0.0050,
+    "target_displacement_mm": 0.0100,
+    "step_1_architecture": "Step-1-Equilibrate (1 increment, dt=1.0, u_rp=0.0050 mm, resolves compatible u and d with transferred SVARS H)",
+    "step_2_architecture": "Step-2-Continue (5000 increments, dt=2.0e-4, u_rp=0.0100 mm, fracture continuation)"
+  },
+  "files": {
+    "M1_MC_GENUINE_CONTINUATION.inp": {
+      "sha256": "2F2C76B21979DC71EFB9D5D9175AD1522D49E187DEB4931293C4E9A84AE4AE33",
+      "type": "input_deck",
+      "size_bytes": 1453427
+    },
+    "f42_mixed_uel.for": {
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "type": "user_subroutine",
+      "size_bytes": 29722
+    },
+    "submit_M1_MC_GENUINE_CONTINUATION.pbs": {
+      "sha256": "9BEAEFA9102AF91BD0EB9AE48B9923F9F12682713E9CB0972CB647A4C8D7D5C7",
+      "type": "pbs_script",
+      "size_bytes": 1768
+    },
+    "run_datacheck_genuine.sh": {
+      "sha256": "A874871C9035E90084D62B67405AF73D709B11498A68B10FCADD07F9E563FFD1",
+      "type": "datacheck_wrapper",
+      "size_bytes": 596
+    },
+    "submit_genuine_continuation_job.sh": {
+      "sha256": "1B599405B7E74718882856AEAAA7CEC5A2A3E6CCEA694946FAF359CA70930C11",
+      "type": "guarded_submission_wrapper",
+      "size_bytes": 1987
+    },
+    "job_notifications.sh": {
+      "sha256": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+      "type": "notification_library",
+      "size_bytes": 11258
+    }
+  }
+}
