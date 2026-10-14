@@ -362,14 +362,14 @@ To establish an actionable, controlled experimental roadmap (pending explicit su
 
 ### 6.1 Four-Stage Gate 6C Qualification Sequence
 1. **Stage C1-0: Same-Mesh Offset Reproduction ($2,906 \to 2,906$ FEs):**
-   - *Objective:* Validate kinematic-offset continuation on the identical donor mesh with zero spatial interpolation error ($\|\mathbf{R}_R^{(0)}\| \approx 0$).
+   - *Objective:* Validate kinematic-offset continuation on the identical donor mesh. Analytical derivation demonstrates that zero geometric interpolation error does NOT independently guarantee an assembled zero residual ($\|\mathbf{R}_R^{(0)}\| \approx 0$) in an unimplemented continuation solver; simultaneous exact restoration of boundary conditions, mechanical DOFs 1 and 2, phase-field nodal DOF 3, quadrature SVARS, and dual-layer Fortran common block synchronization is mandatory.
    - *Displacement BC:* Held fixed at $u = 0.0050\,\text{mm}$ ($\Delta u_{\text{boundary}} = 0$).
    - *Phase-Field DOF:* Nodal DOF 3 must be initialized to donor values ($d = d_0$), avoiding uninitialized zero-compliance shock.
    - *Acceptance:* $|\Delta RF| = |RF_{\text{equil}} - 653.0886\,\text{N}| \le 0.5\,\text{N}$ ($< 0.1\%$); $|\Delta E_{\text{elas}}| \le 0.05\%$; $|\Delta d_{\max}| \le 10^{-5}$.
    - *Discipline:* Retract unsupported guarantees of "exactly 1 Newton iteration" or "unconditional positive definiteness". Standard Abaqus convergence criteria apply.
    - *Rollback:* If $|\Delta RF| > 2.0\,\text{N}$ or solver fails to converge at fixed boundary, halt immediately.
 2. **Stage C1-1: Nonmatching Fixed-Displacement Equilibration ($2,906 \to 14,677$ FEs):**
-   - *Objective:* Measure discrete projection residual norm $\|\mathbf{R}_R^{(0)}\|$ and verify that relaxation dissipation $\mathcal{D}_{\text{num, relax}} \ge 0$ equilibrates the state.
+   - *Objective:* Measure discrete projection residual norm $\|\mathbf{R}_R^{(0)}\|$ and verify static potential energy minimization ($\Delta \Pi \le 0$, with $\Delta E_{\text{elas, relax}} = -\mathcal{D}_{\text{num, relax}} \le 0$, rigorously distinguishing algorithmic energy minimization from physical thermodynamic dissipation with frozen damage $\Delta d = 0$).
    - *Acceptance:* Reaction force continuity $|\Delta RF| \le 5.0\,\text{N}$; relaxation energy $|\Delta E_{\text{elas, relax}}| / W_{\text{ext}} \le 2.0\%$; zero negative history ($\min(H) \ge 0$); no crack healing ($\Delta d \ge 0$).
    - *Rollback:* If cutbacks occur or $|\Delta RF| > 15.0\,\text{N}$, halt solver and preserve evidence.
 3. **Stage C1-2: Small Forward Continuation ($u \in [0.0050, 0.0055]\,\text{mm}$):**

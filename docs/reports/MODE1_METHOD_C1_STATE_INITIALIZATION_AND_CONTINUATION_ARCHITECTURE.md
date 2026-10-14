@@ -134,14 +134,27 @@ To eliminate unphysical balance assumptions (such as asserting $\Delta E_{\text{
    The discrete projection residual vector on recipient interior nodes is strictly non-zero:
    $$\mathbf{R}_R^{(0)} = \mathbf{F}_{\text{ext}} - \int_{\Omega_R} \mathbf{B}_R^T \boldsymbol{\sigma}_R^{(0)} \, \mathrm{d}\Omega \ne \mathbf{0}, \quad \|\mathbf{R}_R^{(0)}\| \approx \mathcal{O}(10\,\text{N})$$
 
-3. **Stage 3: Zero-Boundary-Displacement Equilibration (Step 1, Inc 1, $\Delta u_{\text{boundary}} = 0$, $d$ frozen):**
-   Because boundary displacement is fixed, external boundary work is identically zero:
+3. **Stage 3: Zero-Boundary-Displacement Static Equilibration (Step 1, Inc 1, $\Delta u_{\text{boundary}} = 0$, $d$ frozen):**
+   Because prescribed boundary displacement is fixed, external boundary work is identically zero:
    $$\Delta W_{\text{ext, relax}} = \int_{\Gamma_u} \mathbf{t} \cdot \Delta \mathbf{u}_{\text{boundary}} \, \mathrm{d}\Gamma = 0$$
-   The solver adjusts interior displacement DOFs ($\Delta \mathbf{u}_{\text{interior}} \ne \mathbf{0}$) to resolve the discrete projection residual ($\mathbf{R}_R \to \mathbf{0}$). During this numerical relaxation, interior strain energy changes by $\Delta E_{\text{elas, relax}}$, which is balanced by internal numerical relaxation dissipation:
-   $$\Delta W_{\text{ext}} = 0 = \Delta E_{\text{elas, relax}} + \mathcal{D}_{\text{num, relax}} \iff \Delta E_{\text{elas, relax}} = -\mathcal{D}_{\text{num, relax}} \le 0$$
-   where $\mathcal{D}_{\text{num, relax}} = \int_0^1 \mathbf{R}(\tau) \cdot \frac{\mathrm{d}\mathbf{u}}{\mathrm{d}\tau} \, \mathrm{d}\tau \ge 0$ is the dissipation of the unbalanced projection residual.
-   Because phase field $d$ is held frozen ($\Delta d = 0$) during Step 1 equilibration, fracture energy is invariant:
+   Because the phase field $d$ is held frozen ($\Delta d = 0$) during Step 1 static re-equilibration, no physical crack surface is created and fracture energy is invariant:
    $$\Delta E_{\text{frac, relax}} = 0$$
+   During Newton–Raphson iterations at fixed boundary displacement, the solver solves for the stationary point of the total potential energy functional:
+   $$\Pi(\mathbf{u}) = \int_{\Omega} \psi(\boldsymbol{\varepsilon}(\mathbf{u}), d_0) \, \mathrm{d}\Omega - \int_{\Gamma_t} \mathbf{t} \cdot \mathbf{u} \, \mathrm{d}\Gamma$$
+   The solver adjusts interior displacement DOFs ($\Delta \mathbf{u}_{\text{interior}} \ne \mathbf{0}$) to resolve the discrete projection residual ($\mathbf{R}_R \to \mathbf{0}$). During this static relaxation, interior strain energy changes by $\Delta E_{\text{elas, relax}}$, which in discrete residual accounting is represented as:
+   $$\Delta W_{\text{ext}} = 0 = \Delta E_{\text{elas, relax}} + \mathcal{D}_{\text{num, relax}} \iff \Delta E_{\text{elas, relax}} = -\mathcal{D}_{\text{num, relax}} \le 0$$
+   where $\mathcal{D}_{\text{num, relax}} = \int_0^1 \mathbf{R}(\tau) \cdot \frac{\mathrm{d}\mathbf{u}}{\mathrm{d}\tau} \, \mathrm{d}\tau \ge 0$ represents the discrete algorithmic residual dissipation (work done by the out-of-balance residual as interior nodes relax to static equilibrium).
+
+   > [!IMPORTANT] Crucial Physical & Epistemic Correction: Energy Minimization vs Physical Dissipation
+   > In a quasi-static nonlinear analysis (`*STATIC`), Newton iterations do NOT advance physical time. The iteration counter $k = 1, 2, \dots$ is purely an algorithmic progression toward the stationary point $\nabla_{\mathbf{u}}\Pi = \mathbf{0}$.
+   > In a conservative elastic medium with frozen damage ($\Delta d = 0$), **zero physical thermodynamic dissipation occurs** ($\Delta \mathcal{D}_{\text{phys}} \equiv 0$).
+   > It is physically and mathematically incorrect to equate this algorithmic energy change $\Delta E_{\text{elas, relax}}$ with physical dissipation without an explicit rate-dependent or viscous dissipative operator.
+   > 
+   > **Formal Four-Way Distinction:**
+   > 1. **Potential Energy Minimization ($\Delta \Pi \le 0$):** Purely algorithmic reduction of the discrete total potential energy during quasi-static Newton iterations seeking static equilibrium.
+   > 2. **Projection Discrepancy ($\Delta E_{\text{proj}}$):** Discrete integration error $\Delta E_{\text{proj}} = E_{\text{elas}}(\mathbf{u}_R^{(0)}) - E_{\text{elas}}(\mathbf{u}_D)$ introduced purely by interpolating continuous fields across different spatial discretizations.
+   > 3. **Physical Fracture Energy Dissipation ($\Delta E_{\text{frac}}$):** Rate-independent physical dissipation $\Delta E_{\text{frac}} = \int_{\Omega} G_c \dot{\gamma}(d, \nabla d) \mathrm{d}\Omega \ge 0$ associated with irreversible crack surface creation. When damage is frozen ($\dot{d} = 0$), $\Delta E_{\text{frac}} \equiv 0$.
+   > 4. **Numerical Viscous Regularization ($\mathcal{D}_{\text{visc}}$ / $\mathcal{D}_{\text{damp}}$):** Explicit dissipative terms (e.g. $\int_{\Omega} \eta \dot{d}^2 \mathrm{d}\Omega \ge 0$ or artificial damping $\int \dot{\mathbf{u}}^T \mathbf{C} \dot{\mathbf{u}} \mathrm{d}t \ge 0$) that exist *only* when viscous regularization or numerical damping is explicitly enabled. In an un-damped static step with frozen damage, this term is identically zero.
 
 4. **Stage 4: Forward Physical Fracture Propagation ($u > u_D$ on Recipient Mesh):**
    Advancing prescribed displacement beyond the handoff point ($u > u_D$) performs genuine physical external work:
@@ -234,7 +247,7 @@ To enable controlled future investigation without jeopardizing the frozen baseli
 ### 7.2 Staged Scientific Qualification Progression (Stage C1-0 to Stage C1-3)
 ```mermaid
 flowchart TD
-    S0["Stage C1-0: Same-Mesh Offset Reproduction\n- Identical mesh (2,906 -> 2,906 FEs, u = 0.0050 mm)\n- Zero interpolation error: ||R(0)|| ~ 0\n- Verify RF = 653.09 N, |Delta RF| <= 0.5 N"]
+    S0["Stage C1-0: Same-Mesh Offset Reproduction\n- Identical mesh (2,906 -> 2,906 FEs, u = 0.0050 mm)\n- Zero geom interpolation error (analytical limit ||R(0)|| -> 0)\n- Full subsystem restoration (DOFs 1, 2, 3, SVARS, BCs)\n- Verify RF = 653.09 N, |Delta RF| <= 0.5 N"]
     S1["Stage C1-1: Nonmatching Fixed-u Equilibration\n- Forward refinement (2,906 -> 14,677 FEs, Delta u = 0)\n- Measure ||R(0)||, Delta E_relax = -D_num <= 2% W_ext\n- Verify |Delta RF| <= 5.0 N, min(H) >= 0"]
     S2["Stage C1-2: Small Forward Continuation\n- Advance u in [0.0050, 0.0055] mm\n- Verify tangent stiffness & monotonic damage growth"]
     S3["Stage C1-3: Prospective Native Remeshing\n- Automated error-guided remeshing event\n- Full fracture continuation without pinning"]
@@ -255,6 +268,34 @@ flowchart TD
    - *Acceptance:* Step 1 boundary displacement held fixed at $u = 0.0050\,\text{mm}$ ($\Delta u = 0$); $|\Delta RF| = |RF_{\text{equil}} - 653.0886\,\text{N}| \le 0.5\,\text{N}$; $|\Delta E_{\text{elas}}| \le 0.05\%$; $|\Delta d_{\max}| \le 10^{-5}$.
    - *Convergence Discipline:* Retract claims of "guaranteed exactly 1 Newton iteration" or "unconditional positive definiteness". Standard Abaqus convergence criteria apply.
    - *Rollback:* If $|\Delta RF| > 2.0\,\text{N}$ or if solver fails to converge at fixed boundary displacement, halt branch immediately; the kinematic-offset formulation has an implementation defect.
+
+### 7.3.1 Rigorous Mathematical Derivation: Why Identity Mesh Mapping Does NOT Independently Guarantee Assembled Zero Residual in an Unimplemented Continuation Solver
+> [!WARNING] Retraction of Unconditional Zero-Residual Guarantee on Identical Meshes
+> The assertion that an identical mesh mapping ($M_0 = M_1$, $2,906 \to 2,906$ FEs) mathematically guarantees a zero equilibrium residual ($\|\mathbf{R}^{(0)}\| = 0$) in an unimplemented continuation solver is **formally qualified and corrected**. Zero geometric interpolation error is a necessary, but strictly insufficient, condition for zero assembled residual.
+
+**Analytical Formulation of Continuation Residual:**
+For an identical mesh discretization ($\mathcal{M}_R \equiv \mathcal{M}_D$), spatial interpolation between nodes is identity: $\mathbf{x}_i^{(R)} = \mathbf{x}_i^{(D)}$, yielding zero geometric mapping error.
+However, in a finite element continuation solver, the discrete residual vector evaluated at the onset of continuation ($\Delta \mathbf{u} = \mathbf{0}$, $\Delta d = 0$) is assembled elementwise across all active degrees of freedom:
+$$\mathbf{R}^{(0)} = \begin{bmatrix} \mathbf{R}_u^{(0)} \\ \mathbf{R}_d^{(0)} \end{bmatrix}$$
+where:
+$$\mathbf{R}_u^{(0)} = \mathbf{F}_{\text{ext}} - \sum_{e=1}^{N_{\text{elem}}} \int_{\Omega_e} \mathbf{B}_u^T \boldsymbol{\sigma}\left(\mathbf{B}_u \mathbf{u}_0, d_0\right) \mathrm{d}\Omega$$
+$$\mathbf{R}_d^{(0)} = - \sum_{e=1}^{N_{\text{elem}}} \int_{\Omega_e} \left[ \left(2(1 - d_0) H_0 + \psi_0\right) \mathbf{N}_d^T + G_c \ell_0 \mathbf{B}_d^T \nabla d_0 - 2 H_0 \mathbf{N}_d^T \right] \mathrm{d}\Omega$$
+
+In an actual finite element solver implementation, achieving $\|\mathbf{R}^{(0)}\| \equiv 0$ requires that five independent subsystems be simultaneously and identically restored:
+1. **Kinematic Boundary Conditions on $\Gamma_u$:**
+   Prescribed boundary displacements must be initialized to the exact donor value ($u_y = u_D = 0.0050\,\text{mm}$ at RP 999999). If continuation boundary conditions are specified as $\Delta u_y = 0$ without preserving the non-zero base offset $u_0 = 0.0050\,\text{mm}$ on the boundary node set, the solver interprets the boundary condition as $u = 0$, producing an immediate boundary reaction shock ($|RF| \approx 653\,\text{N}$).
+2. **Mechanical Nodal Displacement Vector (DOFs 1, 2):**
+   The base displacement field $\mathbf{u}_0 = (u_x, u_y)$ must be explicitly restored at all 2,988 physical nodes. If nodal displacement loading is incomplete, index-permuted, or truncated, the resulting element strain $\boldsymbol{\varepsilon} = \mathbf{B}_u \mathbf{u}_0$ will differ from the donor equilibrium strain, generating non-zero internal mechanical out-of-balance forces $\mathbf{R}_u^{(0)} \ne \mathbf{0}$.
+3. **Phase-Field Nodal Degrees of Freedom (DOF 3):**
+   In the production UEL `f42_mixed_uel.for`, Phase elements (JTYPE 1/3) represent the phase field $d$ as an active nodal degree of freedom (**DOF 3**). In Abaqus/Standard, the built-in card `*INITIAL CONDITIONS, TYPE=SOLUTION` writes ONLY to element internal state variables (`STATEV` / `SVARS`) and **does NOT initialize nodal solution degrees of freedom**. Consequently, without a dedicated nodal initialization mechanism, nodal DOF 3 defaults to zero ($d = 0$) at all nodes. When the element residual is evaluated with $d = 0$ at nodes while quadrature points possess non-zero driving history $H_0 > 0$, the assembled phase-field residual becomes:
+   $$\mathbf{R}_d^{(0)} = \sum_{e=1}^{N_{\text{elem}}} \int_{\Omega_e} 2 H_0 \mathbf{N}_d^T \, \mathrm{d}\Omega \ne \mathbf{0}$$
+   Because $H_{\max} = 53.65\,\text{MPa}$, this generates a massive artificial out-of-balance phase residual force of hundreds of Newtons on the identical mesh!
+4. **Internal State Variables at Quadrature Points (`SVARS`):**
+   The strain history variable $H(\mathbf{x}_{\text{GP}})$ must be restored at all integration points across all elements (e.g. $H_{\max} = 53.65\,\text{MPa}$ at Element 1208). Any mismatch in integration-point ordering, Gauss-point coordinates, or array indexing will cause $H$ to become inconsistent with the nodal damage field $d_0$.
+5. **Dual-Layer Common Block Synchronization (`COMMON /CB_STATE_TRANS/`):**
+   In `f42_mixed_uel.for`, Phase (Layer 1) and Mechanical (Layer 2) elements communicate through shared common blocks. At the start of an Abaqus analysis (`LOP = 0`), common blocks are cleared. Unless the transferred damage state is explicitly seeded into the common block prior to Layer 2 execution, Layer 2 evaluates un-degraded virgin elasticity ($g(d) = 1.0$) on Increment 1, causing an immediate force jump from $653\,\text{N}$ to $>950\,\text{N}$.
+
+**Conclusion:** The assertion that identity mesh mapping guarantees zero equilibrium residual is an **analytical limit assuming complete, error-free state reconstruction across all five subsystems**, rather than an empirical proof of an unbuilt or partially implemented solver.
 2. **Stage 2: Nonmatching Transfer at Fixed u (Stage C1-1, $2,906 \to 14,677$ FEs):**
    - *Acceptance:* Reaction force continuity $|\Delta RF| \le 5.0\,\text{N}$; relaxation energy $|\Delta E_{\text{elas, relax}}| / W_{\text{ext}} \le 2.0\%$; zero negative history ($\min(H) \ge 0$); no crack healing ($\Delta d \ge 0$).
    - *Rollback:* If cutbacks occur or $|\Delta RF| > 15.0\,\text{N}$, halt solver and preserve evidence.

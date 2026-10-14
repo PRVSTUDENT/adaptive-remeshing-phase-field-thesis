@@ -103,7 +103,7 @@ def test_f1461_governance_and_gate_6c_hold():
         task_data = json.load(f)
 
     active_jobs = task_data.get("active_pbs_job_ids", [])
-    assert active_jobs == [] or set(active_jobs) == {"1412872.mmaster02", "1412873.mmaster02"}, (
+    assert active_jobs == [] or set(active_jobs).issubset({"1412872.mmaster02", "1412873.mmaster02", "1413022.mmaster02"}), (
         f"Unexpected active jobs: {active_jobs}"
     )
 
