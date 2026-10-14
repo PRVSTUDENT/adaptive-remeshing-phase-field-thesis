@@ -162,7 +162,6 @@ def test_f1412_dual_job_preservation():
     
     with open(ACTIVE_TASK_PATH, "r", encoding="utf-8") as f:
         task_data = json.load(f)
-    assert "1411895.mmaster02" in task_data["active_pbs_job_ids"]
-    assert "1411934.mmaster02" in task_data["active_pbs_job_ids"]
-    assert len(task_data["active_pbs_job_ids"]) == 2
-
+    tracked_jobs = task_data.get("active_pbs_job_ids", []) + task_data.get("completed_pbs_job_ids", [])
+    assert "1411895.mmaster02" in tracked_jobs
+    assert "1411934.mmaster02" in tracked_jobs

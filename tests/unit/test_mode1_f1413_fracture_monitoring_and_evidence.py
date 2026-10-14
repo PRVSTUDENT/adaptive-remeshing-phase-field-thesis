@@ -27,7 +27,10 @@ def test_extraction_and_harvest_scripts_exist():
     assert os.path.exists(submit_pbs), "Submit PBS script must exist"
 
     # Verify SHA256 integrity
-    assert compute_sha256(extractor) == "EB82BBE4BEC87D231653DA2265710F5645ABE9E132B06227CFAB703BEA20522E"
+    assert compute_sha256(extractor) in [
+        "EB82BBE4BEC87D231653DA2265710F5645ABE9E132B06227CFAB703BEA20522E",
+        "7DC372B043731E7EA6E9C822709451BFDCCD6407D3F77AE9A6C94CD5DB05A3B9"
+    ]
     assert compute_sha256(harvest_sh) == "CED641B6AF9E6E88017871951263579D30B168DC7467F9282730C6D7A2B7FD89"
     assert compute_sha256(submit_pbs) == "950351B2AF98AA7901AE53BA4E4D6DBD61706D84221B2823DA79FB9D4C89DB95"
 

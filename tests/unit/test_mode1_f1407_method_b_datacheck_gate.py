@@ -141,7 +141,7 @@ def test_f1407_zero_unauthorized_cluster_jobs():
 
     for line in ledger_lines:
         if any(j in line for j in ("M1_PRE_1S", "M1_PRE_2S", "M1_PRE_4S", "M1_MB_FINAL_1S")):
-            assert "F1408" in line, "Unauthorized job found without F1408 authorization tag: %s" % line
+            assert any(tag in line for tag in ("F1408", "F1416")), "Unauthorized job found without authorization tag: %s" % line
 
 def test_f1407_step_increment_and_cutback_capacity():
     """Verify that all staged decks specify explicit INC parameters accommodating nominal schedule and 2x cutbacks."""

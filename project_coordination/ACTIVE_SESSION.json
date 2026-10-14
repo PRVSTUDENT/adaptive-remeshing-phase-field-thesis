@@ -1,10 +1,15 @@
 {
   "active": false,
-  "agent": null,
-  "task_id": null,
-  "claimed_at": null,
-  "heartbeat_at": null,
-  "starting_commit": null,
-  "allowed_write_scope": [],
-  "session_report": null
+  "agent": "gemini-antigravity",
+  "task_id": "F1445-RESOLVE-REGRESSION-FAILURES-AND-FINALIZE-METHOD-B-REPORT",
+  "claimed_at": "2026-10-14T02:00:00+02:00",
+  "heartbeat_at": "2026-10-14T02:25:00+02:00",
+  "starting_commit": "eca538ac449a54025b766bb29fd691a4058e2013",
+  "allowed_write_scope": [
+    "docs/reports/MODE1_CORRECTED_METHOD_B_STEP2_FRACTURE_EVALUATION.md",
+    "tests/unit/",
+    "models/pandey_kumar_mode1/MODE1_REPRODUCTION_MANIFEST.json",
+    "project_coordination/"
+  ],
+  "session_report": "project_coordination/sessions/2026-10-14_0215_gemini-antigravity_F1445-RESOLVE-REGRESSION-FAILURES-AND-FINALIZE-METHOD-B-REPORT.md"
 }

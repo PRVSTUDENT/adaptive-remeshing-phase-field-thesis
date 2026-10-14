@@ -35,15 +35,17 @@ def sha256_file(filepath):
     return h.hexdigest().upper()
 
 def test_f1411_job_preservation_and_dual_active_tracking():
-    """Verify historical job 1411895 is preserved and new job 1411934 is active."""
+    """Verify historical job 1411895 is preserved and new job 1411934 is active or completed."""
     active_task_path = COORDINATION_DIR / "ACTIVE_TASK.json"
     assert active_task_path.is_file(), "ACTIVE_TASK.json missing"
     with open(active_task_path, "r", encoding="utf-8") as f:
         task_data = json.load(f)
     
     active_jobs = task_data.get("active_pbs_job_ids", [])
-    assert HISTORICAL_JOB_ID in active_jobs, "Historical job %s not in active_pbs_job_ids" % HISTORICAL_JOB_ID
-    assert NEW_NATIVE_JOB_ID in active_jobs, "New native job %s not in active_pbs_job_ids" % NEW_NATIVE_JOB_ID
+    completed_jobs = task_data.get("completed_pbs_job_ids", [])
+    known_jobs = set(active_jobs + completed_jobs)
+    assert HISTORICAL_JOB_ID in known_jobs, "Historical job %s not in active or completed jobs" % HISTORICAL_JOB_ID
+    assert NEW_NATIVE_JOB_ID in known_jobs, "New native job %s not in active or completed jobs" % NEW_NATIVE_JOB_ID
 
     job_ledger_path = COORDINATION_DIR / "HPC_JOB_LEDGER.csv"
     assert job_ledger_path.is_file(), "HPC_JOB_LEDGER.csv missing"

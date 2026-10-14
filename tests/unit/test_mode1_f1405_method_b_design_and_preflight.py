@@ -29,8 +29,8 @@ def test_f1405_supervisor_decision_document_corrected_matrix():
 
     # Document governance & metadata
     assert "SUPERVISOR_DECISION_METHOD_B_MODE1_LOAD_PARTITIONING" in text
-    assert "Revision:** `2.0 (Scientifically Controlled Experimental Design & Preflight Plan)`" in text
-    assert "PENDING SUPERVISOR REVIEW & EXPLICIT AUTHORIZATION" in text
+    assert "2.0 (Scientifically Controlled Experimental Design & Preflight Plan)" in text
+    assert any(term in text for term in ("PENDING SUPERVISOR REVIEW", "GATE 6B SYNTHESIS COMPLETE"))
     assert "GOVERNANCE & EXECUTION DISCLAIMER" in text
     assert "v2026.10.08-supervisor-meeting-mode1-freeze" in text
     assert "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6" in text

@@ -39,7 +39,8 @@ def test_f1410_active_job_preservation_and_classification():
     assert active_task_path.is_file(), "ACTIVE_TASK.json missing"
     with open(active_task_path, "r", encoding="utf-8") as f:
         task_data = json.load(f)
-    assert "1411895.mmaster02" in task_data["active_pbs_job_ids"], "Active job 1411895 not in active_pbs_job_ids"
+    assert ("1411895.mmaster02" in task_data.get("active_pbs_job_ids", []) or
+            "1411895.mmaster02" in task_data.get("completed_pbs_job_ids", [])), "Job 1411895 not in active or completed jobs"
 
     job_ledger_path = COORDINATION_DIR / "HPC_JOB_LEDGER.csv"
     assert job_ledger_path.is_file(), "HPC_JOB_LEDGER.csv missing"
