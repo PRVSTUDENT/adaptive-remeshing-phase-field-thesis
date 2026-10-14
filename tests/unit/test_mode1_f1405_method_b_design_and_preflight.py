@@ -152,7 +152,7 @@ def test_f1405_research_governance_and_zero_unauthorized_jobs():
     # Active task check
     active_task_path = COORDINATION_DIR / "ACTIVE_TASK.json"
     active_task = json.loads(active_task_path.read_text(encoding="utf-8"))
-    assert active_task["active_pbs_job_ids"] == [] or any(tid in active_task["task_id"] for tid in ("F1408", "F1416", "F1440", "F1448", "F1449", "F1450"))
+    assert active_task["active_pbs_job_ids"] == [] or any(tid in active_task["task_id"] for tid in ("F1408", "F1416", "F1440", "F1448", "F1449", "F1450", "F1460", "F1461"))
 
     # UEL source hash check (authoritative frozen energy-instrumented UEL)
     uel_path = MODELS_DIR / "pandey_kumar_mode1" / "reproduction_package_gate6b_energy" / "f42_mixed_uel.for"

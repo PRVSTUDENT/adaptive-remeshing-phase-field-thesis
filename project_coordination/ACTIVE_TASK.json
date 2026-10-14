@@ -1,10 +1,10 @@
 {
-    "task_id": "F1460-RESUME-COMPUTATIONAL-RESEARCH-AND-SUBMIT-PBS-JOBS",
+    "task_id": "F1461-VERIFY-HPC-JOBS-AND-ADVANCE-METHOD-B",
     "status": "COMPLETED",
     "agent": "gemini-antigravity",
-    "phase": "Resume Mode-I Computational Research, Validate Candidates, and Submit PBS Jobs Before Further Report Work",
-    "gate_status": "MODE1_COMPUTATIONAL_RESEARCH_RESUMED_AND_8THREAD_SMP_JOBS_ACTIVE_RUNNING",
-    "last_updated": "2026-10-14T14:00:00+02:00",
+    "phase": "Verify Active HPC Jobs, Prepare the Next Method B Experiment, and Continue Independent Research",
+    "gate_status": "ACTIVE_HPC_JOBS_VERIFIED_STEP_PARTITIONING_AUDITED_AND_MATCHED_METRICS_EVALUATED",
+    "last_updated": "2026-10-14T14:30:00+02:00",
     "active_pbs_job_ids": [
         "1412872.mmaster02",
         "1412873.mmaster02"
@@ -38,5 +38,5 @@
         "Enforce Method C2 candidate wake coarsening resolution bound: h_wake <= l0/2 = 3.75 um for all d >= 0.05",
         "Preserve frozen UEL CE8D5EDC... and official university LaTeX template preambel.tex and abbrvnat_custom.bst"
     ],
-    "notes": "Task F1460 completed: Qualified, datachecked, and submitted 8-thread SMP candidates 1412872.mmaster02 (M1_MB_NAT_8TB) and 1412873.mmaster02 (M1_MB_CORR_8TA) to normal_imfdfkmq via entry_imfdfkmq; both actively running in R state."
+    "notes": "Task F1461 completed: Jobs 1412872 and 1412873 verified actively running; Method B step-partition invariance audited (1S, 2S, 4S produce identical 14,677 FE mesh); duplicate runs non-redundancy justified; matched-displacement metrics evaluated across 4 models; Gate 6C hold maintained."
 }
