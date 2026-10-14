@@ -117,6 +117,17 @@ $^\dagger$Solver cutback at $u = 0.007889\,\text{mm}$; nominal $0.0100\,\text{mm
 - **Strict Comparison Horizon:** All like-for-like comparisons with reference are strictly valid over $u \in [0.0, 0.007889]\,\text{mm}$. Within this window, the complete linear elastic, initiation, peak, and brittle softening regimes are fully captured.
 - **Topological Crack Continuity:** BFS dual-graph search confirms that all $818$ elements with $d \ge 0.95$ form a single $100\%$ connected component traversing $99.9\%$ of the ligament with zero isolated clusters or spatial gaps.
 
+### 2.5 Epistemic Reconciliation: Pre-Analysis Damage vs Linear Companion Layer & Adaptive Limitation
+1. **Reconciliation of $d_{\max} = 0.094910$ with Linear Elastic Pre-Analysis:**  
+   - In the physical phase-field layer, the singular stress concentration at the notch tip exceeds critical initiation energy $\psi_0 = G_c / (2 l_0) = 0.18\,\text{MPa}$ at $u = 0.0050\,\text{mm}$, generating localized notch degradation ($d_{\max} = 0.094910$, Job 1411891).  
+   - Across $99.8\%$ of the specimen, damage is negligible ($d < 0.01$).  
+   - Abaqus `RemeshingRule` evaluates `MISESERI` on Layer 3 (the companion continuum layer with $E_{\text{comp}} = 1.0\times 10^{-11}\,\text{GPa}$), which has **zero phase-field coupling ($d \equiv 0$)**.  
+   - Because Layer 3 is governed strictly by linear isotropic elasticity, the normalized error field $\eta_e = \text{MISESERI}_e / \text{MISESAVG}$ is scale-invariant, yielding bitwise identical adapted meshes (14,677 FE) across 1S, 2S, and 4S partitions ($\Delta \eta_{\max} = 0.0$).
+2. **Manual Corridor Extension vs Automated Adaptive Remeshing:**  
+   - Native `adaptiveRemesh` places fine elements ($h \le 3.75\,\mu\text{m}$) only near the stationary notch tip ($x \le 0.85\,\text{mm}$), leaving the remaining ligament coarse ($h \approx 20\,\mu\text{m}$). This causes severe crack pinning, an artificial force plateau ($0.50-0.60\,\text{kN}$), and $31.5\%$ excess external work.  
+   - While Corrected Method B completely eliminated this plateau by enforcing $h \le 3.75\,\mu\text{m}$ across the entire ligament, **manually extending a corridor is a benchmark-specific verification tool, NOT an automated general adaptive remeshing method**.  
+   - For general crack propagation with curved, branched, or unknown trajectories, a stationary pre-analysis cannot anticipate the crack path. True general fracture adaptivity requires **Method C** (sequential in-analysis remeshing and state transfer).
+
 ---
 
 ## 3. Method C: Sequential Adaptive Remeshing Feasibility & State Transfer
