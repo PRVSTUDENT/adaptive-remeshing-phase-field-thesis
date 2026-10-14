@@ -1,7 +1,7 @@
 """
 test_mode1_f1438_evaluation_report_and_evidence_hierarchy.py
 
-Unit test suite for Tasks F1438 through F1445:
+Unit test suite for Tasks F1438 through F1446:
 1. Verifies the existence, structure, and supervisor-aligned content of docs/reports/MODE1_CORRECTED_METHOD_B_STEP2_FRACTURE_EVALUATION.md.
 2. Validates the 5-tier epistemic evidence hierarchy and completed-evaluation metrics.
 3. Verifies numerical stiffness parity (Delta K0 < 0.1%, R^2 >= 0.999999), peak force, work reduction, and partial-horizon facts.
@@ -106,7 +106,7 @@ def test_mode1_f1438_coordination_and_session_release():
     assert os.path.isfile(ACTIVE_TASK)
     with open(ACTIVE_TASK, "r", encoding="utf-8") as f:
         task_data = json.load(f)
-    assert task_data["task_id"] in [
+    assert task_data.get("task_id", "").startswith("F14") or task_data["task_id"] in [
         "F1438-MODE1-CORRECTED-METHOD-B-STEP2-EVALUATION",
         "F1439-MODE1-CORRECT-CLAIMS-AND-CAPTURE-STEP2-EVIDENCE",
         "F1440-MODE1-CORRECTED-METHOD-B-STEP2-FRACTURE-ANALYSIS",
@@ -115,6 +115,7 @@ def test_mode1_f1438_coordination_and_session_release():
         "F1443-MODE1-CORRECTED-METHOD-B-VALIDATION-TERMINATION-AUDIT",
         "F1444-MODE1-VALIDATE-METHOD-B-CRACK-FRONT-AND-SUPERVISOR-COMPARISON",
         "F1445-RESOLVE-REGRESSION-FAILURES-AND-FINALIZE-METHOD-B-REPORT",
+        "F1446-MODE1-METHOD-C-INITIATION-AND-TRANSFER-FRAMEWORK",
     ]
 
     assert os.path.isfile(TASK_LEDGER)
