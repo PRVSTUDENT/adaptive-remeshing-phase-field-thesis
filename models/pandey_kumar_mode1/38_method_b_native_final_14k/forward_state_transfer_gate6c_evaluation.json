@@ -1,69 +1,119 @@
 {
     "direction": "FORWARD_ADAPTIVE_REFINEMENT",
-    "donor_mesh": "M1_MB_INF_1S.inp (2,906 elements, 2,988 nodes, coarse)",
-    "recipient_mesh": "M1_MB_NATIVE_FINAL_1S.inp (14,677 elements, 14,646 nodes, fine adapted)",
-    "handoff_displacement_u_mm": 0.005,
-    "criterion_1_displacement_l2": {
-        "value": 0.13465649215638698,
-        "unit": "%",
-        "threshold": 1.0,
-        "verdict": "PASS"
+    "donor_mesh": "M1_MB_INF_1S.inp (2,906 elements, 2,988 nodes, coarse donor)",
+    "recipient_mesh": "M1_MB_NATIVE_FINAL_1S.inp (14,677 elements, 14,646 nodes, fine adapted recipient)",
+    "handoff_displacement_u_mm": 0.0050,
+    "audit_task": "F1452",
+    "offline_forward_transfer_matrix": {
+        "criterion_1_displacement_l2": {
+            "value": 0.13465649215638698,
+            "unit": "%",
+            "threshold": 1.0,
+            "verdict": "PASS",
+            "method": "Continuous 2D quad Gauss integration over 14,677 elements"
+        },
+        "criterion_2_peak_damage_preservation": {
+            "field_1_donor_coarse_d_max": 0.09491037204861641,
+            "field_2_interp_coarse_on_fine_d_max": 0.09491037204861641,
+            "field_3_indep_solved_fine_reference_d_max": 0.319455,
+            "delta_field_2_minus_field_1": 0.0,
+            "delta_field_2_minus_field_3": 0.2245446279513836,
+            "value": 0.0,
+            "unit": "dimensionless",
+            "threshold": 0.020,
+            "verdict": "PASS",
+            "scientific_interpretation": "Interpolation fidelity PASS (Field 2 matches Field 1 bitwise at coincident tip node 129). Physical solution disparity vs independently solved fine mesh is 0.2245 (22.45%), reflecting severe coarse-mesh crack pinning and under-prediction of damage localization at u=0.0050 mm."
+        },
+        "criterion_3_integrated_damage": {
+            "integral_d_donor_mm2": 0.006601721820557857,
+            "integral_d_recipient_mm2": 0.006592992794645851,
+            "delta_integral_d_mm2": -8.72902591200677e-06,
+            "value": 0.13222347365235018,
+            "unit": "%",
+            "threshold": 5.0,
+            "verdict": "PASS",
+            "scientific_interpretation": "Evaluated via 2D non-uniform FE area-weighted quadrature. Forward refinement into h=1.875 um reduces convex chordal overestimation error to 0.1322%, passing the 5.0% Gate 6C threshold."
+        },
+        "criterion_4_history_non_negativity": {
+            "min_H_kN_per_mm2": 1.5794299201843387e-09,
+            "negative_H_count": 0,
+            "max_H_kN_per_mm2": 0.053649891167879105,
+            "value": 1.5794299201843387e-09,
+            "unit": "kN/mm^2",
+            "threshold": 0.0,
+            "verdict": "PASS"
+        },
+        "criterion_6_internal_energy_disparity": {
+            "e_tot_donor_mj": 1.6633838895357917,
+            "e_tot_recip_reference_mj": 1.6911,
+            "delta_e_int_pct": 1.6662485814951091,
+            "value": 1.6662485814951091,
+            "unit": "%",
+            "threshold": 5.0,
+            "verdict": "PASS",
+            "scientific_interpretation": "Reflects offline discretization compliance disparity between 2,906-element coarse mesh and 14,677-element fine mesh."
+        }
     },
-    "criterion_2_peak_damage": {
-        "donor_d_max": 0.09491037204861641,
-        "recipient_d_max": 0.09491037204861641,
-        "delta_d_max": 0.0,
-        "value": 0.0,
-        "unit": "dimensionless",
-        "threshold": 0.02,
-        "verdict": "PASS"
+    "dynamic_continuation_solver_matrix": {
+        "status": "NOT_QUALIFIED_AS_ADAPTIVE_CONTINUATION",
+        "forward_continuation_solver_executed": false,
+        "step_1_equilibration_convergence": {
+            "forward_candidate_status": "NOT_YET_EVALUATED",
+            "historical_reverse_job_1412809": "PASS (1 inc, 2 Newton iters, Delta E_int = 0.07%)"
+        },
+        "criterion_5_boundary_force_continuity": {
+            "forward_candidate_status": "NOT_YET_EVALUATED",
+            "threshold": 5.0,
+            "unit": "N",
+            "historical_reverse_job_1412809": {
+                "step_boundary_jump_n": 21.5473,
+                "tangent_agreement_n": 0.0794,
+                "strict_verdict": "FAIL",
+                "tangent_verdict": "PASS",
+                "probable_mechanism": "Abaqus *STATIC displacement IC constraint and 1-increment reload; staggered COMMON coupling lag is a plausible hypothesis requiring iteration-level proof."
+            }
+        },
+        "criterion_7_global_energy_residual": {
+            "forward_candidate_status": "NOT_YET_EVALUATED",
+            "threshold": 10.0,
+            "unit": "%",
+            "historical_reverse_job_1412809": {
+                "prepeak_horizon_pct": 0.105,
+                "prepeak_verdict": "PASS",
+                "full_step_horizon_pct": 22.22,
+                "full_step_verdict": "FAIL",
+                "explanation": "Quasi-static *STATIC has zero kinetic dissipation; 22.22% full-step residual reflects under-resolved coarse-mesh post-peak snap-through discretization and integration errors."
+            }
+        },
+        "post_handoff_fracture_propagation": {
+            "forward_candidate_status": "NOT_YET_EVALUATED",
+            "historical_reverse_job_1412809": "FAIL (Coarse crack pinning, F_max = 1085.4 N at u=0.00922 mm, +43.2% peak force)"
+        }
     },
-    "criterion_3_integrated_damage": {
-        "integral_d_donor": 0.006601721820557857,
-        "integral_d_recipient": 0.006592992794645851,
-        "delta_integral_d": -8.72902591200677e-06,
-        "value": 0.13222347365235018,
-        "unit": "%",
-        "threshold": 5.0,
-        "verdict": "PASS"
-    },
-    "criterion_4_history_non_negativity": {
-        "min_H": 1.5794299201843387e-09,
-        "negative_H_count": 0,
-        "value": 1.5794299201843387e-09,
-        "unit": "kN/mm^2",
-        "threshold": 0.0,
-        "verdict": "PASS"
-    },
-    "criterion_5_boundary_force_continuity": {
-        "tangent_delta_rf_n": 0.0794,
-        "step_boundary_jump_n": 21.5473,
-        "value_strict": 21.5473,
-        "value_tangent": 0.0794,
-        "unit": "N",
-        "threshold": 5.0,
-        "strict_verdict": "FAIL",
-        "tangent_verdict": "PASS",
-        "root_cause": "Abaqus *STATIC displacement IC constraint and 1-increment staggered UEL coupling lag"
-    },
-    "criterion_6_internal_energy": {
-        "e_tot_donor_mj": 1.6633838895357917,
-        "e_tot_recip_mj": 1.6911,
-        "delta_e_int_pct": 1.6662485814951091,
-        "value": 1.6662485814951091,
-        "unit": "%",
-        "threshold": 5.0,
-        "verdict": "PASS"
-    },
-    "criterion_7_global_energy_residual": {
-        "prepeak_horizon_u0050_to_u007889_pct": 0.105,
-        "prepeak_verdict": "PASS",
-        "full_step_horizon_u0050_to_u0100_pct": 22.22,
-        "full_step_verdict": "FAIL",
-        "threshold": 10.0,
-        "governing_verdict": "FAIL_ON_FULL_STEP",
-        "explanation": "Quasi-static *STATIC has zero kinetic dissipation; 22.2% full-step residual reflects under-resolved coarse-mesh post-peak snap-through discretization and integration errors"
+    "analytical_chordal_interpolation_audit": {
+        "formula_dimensionless": "xi * coth(xi) - 1, where xi = h / (2 * l0)",
+        "coarse_mesh_h_um": 20.0,
+        "coarse_mesh_xi": 1.3333333333333333,
+        "coarse_mesh_1d_relative_error_pct": 53.24583908868662,
+        "fine_mesh_h_um": 1.875,
+        "fine_mesh_xi": 0.125,
+        "fine_mesh_1d_relative_error_pct": 0.5202923577784033,
+        "fine_mesh_taylor_approx_pct": 0.5208333333333334,
+        "ratio_1d_chordal_errors": 102.33830722393392,
+        "asymptotic_scaling_ratio_h_squared": 113.77777777777779,
+        "dimensional_formula_warning": "Delta I approx h^2/(6*l0)*d_max evaluates to 7.41e-6 mm (length dimension), NOT a dimensionless percentage. Dividing by I_0 = 2*l0*d_max gives h^2/(12*l0^2) = 0.5208%, NOT 0.0039%. The value 0.0039% was an un-normalized transcription error.",
+        "empirical_2d_quadrature_error_pct": 0.13222347365235018,
+        "note": "1D model explains qualitative reduction in convex chordal bias, but 0.1322% is an empirical 2D non-uniform FE quadrature result, not an analytical 1D prediction."
     },
     "overall_continuation_feasibility_verdict": "NOT_QUALIFIED_AS_ADAPTIVE_CONTINUATION",
-    "abaqus_continuation_constraint_verdict": "NO_NATIVE_NONZERO_DISPLACEMENT_CONTINUATION_WITHOUT_UEL_MODIFICATION"
+    "abaqus_continuation_constraint_verdict": "NO_NATIVE_NONZERO_DISPLACEMENT_CONTINUATION_WITHOUT_UEL_MODIFICATION",
+    "abaqus_mechanisms_investigated": {
+        "initial_conditions_type_displacement": "EXPERIMENTALLY_REJECTED (Abaqus/Standard *STATIC rejects TYPE=DISPLACEMENT with fatal error)",
+        "initial_conditions_type_field": "INSUFFICIENT (Cannot initialize UEL displacement DOFs 1, 2 or phase DOF 3)",
+        "map_solution": "UNSUPPORTED_FOR_UEL (Abaqus *MAP SOLUTION supports standard continuum elements only, not UEL)",
+        "restart": "TOPOLOGY_LOCKED (Abaqus native *RESTART requires identical mesh topology; cannot restart on nonmatching mesh)",
+        "import": "UNSUPPORTED_FOR_UEL (Abaqus *IMPORT supports library elements only, not UEL user subroutines)",
+        "user_subroutines_sdvini_disp": "PARTIAL (SDVINI initializes element STATEV, but cannot initialize interior nodal displacement fields; DISP prescribes boundary nodes only)",
+        "internal_incremental_uel_formulation": "UNTESTED_WITHIN_FROZEN_UEL (Requires modifying Fortran source f42_mixed_uel.for, which is strictly frozen under SHA-256 CE8D5EDC...)"
+    }
 }
