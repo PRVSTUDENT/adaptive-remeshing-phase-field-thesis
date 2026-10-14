@@ -1,31 +1,36 @@
 # Mode-I Method C Experimental Preflight, State-Transfer Validation, and Gate 6C Readiness Package
 
 **Document ID:** `MODE1_METHOD_C_EXPERIMENTAL_PREFLIGHT_AND_GATE_6C_READINESS.md`  
-**Milestone:** Task F1466 — Prepare Method C Experimental Preflight and Gate 6C Readiness Package  
-**Date:** 2026-10-14T22:30:00+02:00  
+**Milestone:** Task F1467 — Independent Validation of Method C1 Package 42 & Continuation-Physics Resolution  
+**Date:** 2026-10-14T23:55:00+02:00  
 **Author:** Gemini Antigravity (Autonomous Execution Agent)  
 **Institution:** Institute of Mechanics and Fluid Dynamics (IMFD), TU Bergakademie Freiberg  
 **Authoritative Fortran Source:** `models/pandey_kumar_mode1/f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`)  
 **Target Package:** `models/pandey_kumar_mode1/42_method_c1_forward_refinement/`  
 **HPC Cluster Scratch Path:** `/scratch9/pr21vyci/runs/mode1_method_c1_forward_refinement/`  
 **Governing Directive:** *"We need to have understood everything related to the first model before we increase complexity."*  
-**Classification:** `EXPERIMENTAL_PREFLIGHT_AND_GOVERNANCE_PACKAGE_STAGED`
+**Classification:** `EXPERIMENTAL_PREFLIGHT_AND_GOVERNANCE_PACKAGE_STAGED`  
+**Three-Tier Qualification Status:**
+- **Datacheck:** `DATACHECK_PASSED` (Abaqus 2023 preflight Exit 0, 0 syntax defects, 0 unreferenced sets)
+- **Offline Mathematical Transfer:** `OFFLINE_TRANSFER_VERIFIED` ($L_2 = 0.1347\%$, $\Delta d_{\max} = 0.000$, $\min(H) \ge 0$)
+- **Solver Continuation:** `SOLVER_CONTINUATION_NOT_YET_QUALIFIED` (Reload ramp defect & ligament coarsening beyond $x \approx 0.85\,\text{mm}$)
 
 ---
 
 ## Executive Summary
 
-Task F1466 transitions project focus from repeated retrospective auditing of Method B to concrete, verified experimental readiness for **Method C** (sequential adaptive remeshing during crack propagation), while strictly maintaining project governance and holding all PBS job submissions for formal supervisor sign-off on **Thursday, 22 October 2026**.
+Task F1467 performs an exhaustive, independent scientific audit of **Method C1 Package 42** (`models/pandey_kumar_mode1/42_method_c1_forward_refinement/`) before the 22 October 2026 supervisor meeting, diagnosing critical continuation-physics defects, auditing recipient mesh resolution across the ligament, reconciling authentic donor source data, and formulating the true C1 continuation acceptance test.
 
-Method B (1-/2-/4-step load partitioning with a single stationary pre-refinement remesh) has been rigorously audited, verified with 8-thread SMP bitwise thread parity across all increments, and incorporated into the supervisor decision briefing. While Method B provides up to $1.87\times$ computational acceleration, its fundamental limitation is that linear-elastic error indicators before crack initiation decay rapidly into the ligament ($|\nabla\boldsymbol{\sigma}| \sim r^{-3/2}$), leaving the prospective crack path coarse ($h \approx 20\,\mu\text{m} \gg \ell_0/2 = 3.75\,\mu\text{m}$) and producing artificial crack pinning unless retrospective post-initiation damage states are provided.
+While Method B provides up to $1.87\times$ computational acceleration, its fundamental limitation is that linear-elastic error indicators before crack initiation decay rapidly into the ligament ($|\nabla\boldsymbol{\sigma}| \sim r^{-3/2}$), leaving the prospective crack path coarse ($h \approx 13-20\,\mu\text{m} \gg \ell_0/2 = 3.75\,\mu\text{m}$) and producing artificial crack pinning unless retrospective post-initiation damage states are provided.
 
 To overcome this limitation without unphysical hindsight, **Method C** performs sequential, in-analysis adaptive remeshing: solving to an evaluation state, detecting active crack propagation, refining the mesh along the actual damage trajectory, transferring displacement and internal history variables, and continuing the solve.
 
-This document establishes the experimental preflight for the first verified forward state-transfer case (**Package 42: Method C1 Forward Refinement**):
-1. **Mathematical State Transfer:** Demonstrated offline transfer from a coarse donor mesh (2,906 FEs) to a fine recipient mesh (14,677 FEs, $h = 1.88\,\mu\text{m} = \ell_0/4 \le \ell_0/2$) at $u = 0.0050\,\text{mm}$ ($d_{\max} = 0.094910$), achieving $L_2$ relative displacement error of $0.1347\%$, peak damage difference $\Delta d_{\max} = 0.000$, integrated damage error of $0.1322\%$, and strict history non-negativity ($\min(H) \ge 0$).
-2. **Displacement Initialization & Secant Force Jump Mitigation:** Identified the commercial Abaqus/Standard constraint rejecting `*INITIAL CONDITIONS, TYPE=DISPLACEMENT` in `*STATIC` steps (Error 144); implemented internal state restoration via `*INITIAL CONDITIONS, TYPE=SOLUTION` (SVARS 1..18 for all elements) combined with a sub-stepped static equilibration step (20 increments, $\Delta u = 0.00025\,\text{mm}$/inc) to eliminate the numerical secant force discontinuity observed in prior single-increment attempts.
-3. **Cluster Datacheck Verification:** Successfully compiled `f42_mixed_uel.for` with Intel Fortran 2024.2.0 (`ifort 2021.13.0`) and completed full Abaqus 2023 Datacheck on cluster `mlogin01` (`ANALYSIS DATACHECK COMPLETE`, Exit Code 0) with zero syntax errors, zero illegal cards, and zero unreferenced sets across 102,830 lines and 44,031 elements.
-4. **Governance & Anti-Speculation Hold:** Enforced a strict submission lock (`AUTHORIZED=false` in `submit_c1_forward_refinement_job.sh`) and confirmed 0 active cluster jobs, preserving complete supervisor authority for the 22 October review.
+This document establishes the verified experimental preflight and forensic evaluation for **Package 42**:
+1. **Three-Tier Status Disambiguation:** Strictly separates `DATACHECK PASSED` (Abaqus/Standard input processor and Intel Fortran compilation validity), `OFFLINE TRANSFER VERIFIED` (mathematical field mapping on static discretizations), and `SOLVER CONTINUATION NOT YET QUALIFIED` (solver runtime physical continuation across step boundary).
+2. **Continuation-Physics Defect Discovered:** Step 1 (`Step-1-Equilibrate`) in `M1_MC_C1_FORWARD_14K.inp` ramps top boundary displacement from $u = 0$ to $u = 0.0050\,\text{mm}$ across 20 increments ($\Delta t = 0.05$). Because commercial Abaqus/Standard rejects `*INITIAL CONDITIONS, TYPE=DISPLACEMENT` in `*STATIC` steps (Error 144), nodal displacements at $t=0$ are zero ($\mathbf{u} = \mathbf{0}$). This performs an unphysical **quasi-static reload of a pre-damaged specimen** from zero displacement rather than in-situ equilibrium continuation.
+3. **Forensic Ligament Resolution Audit:** Audited all 14,244 quad and 433 tri elements of the 14,677-element recipient mesh. Elements satisfying $h \le \ell_0/2 = 3.75\,\mu\text{m}$ exist **ONLY up to $x \approx 0.85\,\text{mm}$** ($x_{\max} < 0.86\,\text{mm}$). Beyond $x = 0.85\,\text{mm}$, the ligament coarsens to $h \approx 13 - 20\,\mu\text{m}$. Package 42 does NOT resolve the entire ligament; running Step 2 would re-encounter coarse crack-pinning ($0.50-0.60\,\text{kN}$) once the crack advances past $x = 0.85\,\text{mm}$.
+4. **Donor Source Data Reconciled:** Reconciled authentic coarse donor state from Job 1411891 (`M1_PRE_1S`, coarse 2,906 FEs at $u = 0.0050\,\text{mm}$): exact reaction force is $RF = 653.0886\,\text{N}$ (reconciling conflation with 15k reference $724.81\,\text{N}$), elastic strain energy is $E_{\text{elas}} = 1.6327\,\text{mJ}$ (reconciling conflation with $2.0531\,\text{mJ}$), fracture energy is $E_{\text{frac}} = 0.0307\,\text{mJ}$, total internal energy is $E_{\text{tot}} = 1.6634\,\text{mJ}$, and $d_{\max} = 0.094910$.
+5. **Governance Hold:** Enforced a strict submission lock (`AUTHORIZED=false` in `submit_c1_forward_refinement_job.sh`) and confirmed 0 active cluster jobs, preserving complete supervisor authority for the 22 October review.
 
 ---
 
@@ -39,10 +44,10 @@ In strict accordance with the mandatory operational governance rules:
    - **Job `1412872.mmaster02` (Native Method B 14,677 FE, 8-Thread SMP Repeat):** Completed all 5,000 increments in Step 2 (7,000 increments total, $u = 0.0100\,\text{mm}$, Exit 0, walltime 05:12:04, $1.87\times$ speedup vs serial). Certified with `THREAD_PARITY_PASS` and `THREAD_DETERMINISM_PASS` via bitwise identical SHA-256 hash (`792be67d...`) of `uel_energy_balance.csv` against both serial baseline `1411934` and initial 8T solve `1411949`.
    - **Job `1412873.mmaster02` (Corrected Method B 14,483 FE, 8-Thread SMP Parity):** Completed Step 1 (2,000 incs) and advanced to Step 2 Increment 2890 (4,890 increments total, $u = 0.007889\,\text{mm}$, Exit 1 terminal cutback, walltime 03:35:22, $1.82\times$ speedup vs serial). Certified with `THREAD_PARITY_PASS` via bitwise identical SHA-256 hash (`82f2963d...`) against serial baseline `1412465`.
 3. **Scientific Justification for Idle Queue Status:**
-   - *Candidate A (Prospective Native Remeshing Repeat):* Sizing controls in native `RemeshingRule` leave the uncracked ligament coarse ($h \approx 20\,\mu\text{m} \gg \ell_0/2$). Re-running prospective pre-refinement would merely regenerate the known coarse-ligament crack-pinning plateau ($0.50-0.60\,\text{kN}$) and $+40.3\%$ excess work, violating scheduler anti-redundancy rules.
+   - *Candidate A (Prospective Native Remeshing Repeat):* Sizing controls in native `RemeshingRule` leave the uncracked ligament coarse ($h \approx 13-20\,\mu\text{m} \gg \ell_0/2$). Re-running prospective pre-refinement would merely regenerate the known coarse-ligament crack-pinning plateau ($0.50-0.60\,\text{kN}$) and $+40.3\%$ excess work, violating scheduler anti-redundancy rules.
    - *Candidate B (Post-Severance Artificial Relaxation):* Job `1412873` already captured $99.76\%$ of physical brittle fracture ($RF = 1.76\,\text{N}$ vs peak $743.7\,\text{N}$) with contiguous crack front formation across $99.9\%$ of the ligament. Continuing numerical relaxation on two completely severed halves held only by residual artificial stiffness $k_{\text{stab}} = 10^{-7}$ provides zero new physical fracture information.
    - *Candidate C (Method C In-Analysis Continuation):* Gate 6C remains on strict hold pending formal supervisor review and sign-off on 22 October 2026. Submitting unauthorized Method C solver runs is strictly prohibited by governance.
-4. **Conclusion:** Zero PBS jobs were submitted during Task F1466. The cluster queue is legitimately idle in full compliance with project governance.
+4. **Conclusion:** Zero PBS jobs were submitted during Task F1467. The cluster queue is legitimately idle in full compliance with project governance.
 
 ---
 
@@ -60,32 +65,59 @@ To avoid terminological confusion in thesis documentation and supervisor briefin
 ### 2.2 Method C1 vs Method C2 Roles
 1. **Method C1 (Forward Refinement Benchmark):**
    - *Donor Discretization:* Coarse mesh (2,906 FEs, $h_{\text{notch}} \approx 7.5\,\mu\text{m} = \ell_0$) solved under Step 1 displacement to $u = 0.0050\,\text{mm}$.
-   - *Recipient Discretization:* Fine mesh (14,677 FEs, $h_{\text{ligament}} \approx 1.88\,\mu\text{m} = \ell_0/4 \le \ell_0/2$) resolving the entire ligament.
-   - *Scientific Purpose:* Isolates and validates state-transfer accuracy, damage preservation, and displacement continuity under mesh refinement where the recipient discretization is strictly superior to the donor.
+   - *Recipient Discretization:* Fine mesh (14,677 FEs, $h_{\text{notch}} \approx 1.88\,\mu\text{m} = \ell_0/4 \le \ell_0/2$).
+   - *Scientific Purpose:* Isolates and validates state-transfer accuracy, damage preservation, and displacement continuity under mesh refinement where the recipient discretization is locally superior to the donor.
 2. **Method C2 (Dynamic Refinement with Wake Coarsening):**
-   - *Candidate Mesh Bounds:* In accordance with the project governing constraints, any coarsening in the wake of the crack must respect:
+   - *Candidate Mesh Bounds:* In accordance with project governing constraints, any coarsening in the wake of the crack must respect:
      $$h_{\text{wake}} \le \frac{\ell_0}{2} = 3.75\,\mu\text{m} \quad \text{for all } d \ge 0.05$$
      Coarsening elements in the crack wake beyond $\ell_0/2$ causes spurious crack healing, loss of dissipated fracture energy, and artificial crack closure.
 
 ---
 
-## 3. Mathematical State-Transfer Evaluation & Results
+## 3. Forensic Ligament Resolution Audit of Package 42
 
-### 3.1 Donor Simulation State
-The state transfer originates from the certified donor run `Job 1411891.mmaster02` (coarse 2,906-element mesh) at Step 1 Increment 500 ($u = 0.0050\,\text{mm}$):
-- Reaction force: $RF = 724.81\,\text{N}$
-- Maximum notch history: $H_{\max} = 18.8837\,\text{MPa}$
-- Maximum localized damage: $d_{\max} = 0.094910$
-- Stored strain energy: $E_{\text{elas}} = 2.0531\,\text{mJ}$
-- External work: $W_{\text{ext}} = 2.0531\,\text{mJ}$
+A rigorous element-by-element audit of `M1_MC_C1_FORWARD_14K.inp` was conducted to determine whether the 14,677-element recipient resolves the entire ligament ($x \in [0.50, 1.00]\,\text{mm}$, $y = 0.50\,\text{mm}$) or uses the native mesh with a coarse ligament beyond $x \approx 0.85\,\text{mm}$.
 
-### 3.2 Interpolation Architecture
-State transfer from donor mesh $\Omega_D$ to recipient mesh $\Omega_R$ is executed via KD-tree spatial interpolation with non-matching quad element shape-function projection:
-- **Displacement Field $\mathbf{u}(\mathbf{x})$:** Continuous nodal interpolation preserving prescribed Dirichlet boundary conditions on $\Gamma_{\text{top}}$ and $\Gamma_{\text{bottom}}$.
-- **Internal State Variables (SVARS 1..18):** Element integration-point mapping using centroid nearest-neighbor query with coordinate distance verification ($|\Delta \mathbf{x}| \le h_D$).
-- **Damage Monotonicity Safeguard:** Enforces $H_R(\mathbf{x}) \ge 0$ and $d_R(\mathbf{x}) = \frac{H_R}{H_R + \psi_0} \ge 0$ unconditionally.
+### 3.1 Spatial Mesh Discretization along Ligament
+Along the crack plane corridor ($|y - 0.50| \le 0.02\,\text{mm}$, $0.50 \le x \le 1.00\,\text{mm}$), the element size $h = \sqrt{\text{Area}}$ varies as follows:
 
-### 3.3 Quantitative Transfer Metrics
+| Longitudinal Range $x$ [mm] | Element Count | Minimum $h$ [$\mu\text{m}$] | Average $h$ [$\mu\text{m}$] | Maximum $h$ [$\mu\text{m}$] | Status vs $\ell_0/2 = 3.75\,\mu\text{m}$ |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **$0.50 \le x < 0.55$** | 498 | $1.88\,\mu\text{m}$ | $10.4\,\mu\text{m}$ | $18.5\,\mu\text{m}$ | **RESOLVED** ($h_{\min} \le \ell_0/4$) |
+| **$0.55 \le x < 0.65$** | 249 | $1.92\,\mu\text{m}$ | $11.2\,\mu\text{m}$ | $19.1\,\mu\text{m}$ | **RESOLVED** ($h_{\min} \le \ell_0/4$) |
+| **$0.65 \le x < 0.75$** | 185 | $2.15\,\mu\text{m}$ | $12.8\,\mu\text{m}$ | $19.5\,\mu\text{m}$ | **RESOLVED** ($h_{\min} \le \ell_0/4$) |
+| **$0.75 \le x < 0.85$** | 120 | $2.84\,\mu\text{m}$ | $14.1\,\mu\text{m}$ | $19.6\,\mu\text{m}$ | **MARGINALLY RESOLVED** ($h \le 3.75\,\mu\text{m}$) |
+| **$0.85 \le x \le 1.00$** | 82 | **$12.98\,\mu\text{m}$** | **$16.82\,\mu\text{m}$** | **$19.66\,\mu\text{m}$** | **UNRESOLVED / COARSE** ($h > 3.4\,\ell_0/2$) |
+
+### 3.2 Proven Mesh Truncation
+1. **Truncation Horizon:** Elements with $h \le \ell_0/2 = 3.75\,\mu\text{m}$ exist **ONLY up to $x \approx 0.85\,\text{mm}$** ($x_{\max} = 0.849\,\text{mm}$).
+2. **Coarsening in Outer Ligament:** Beyond $x = 0.85\,\text{mm}$, all elements along the symmetry plane have $h \in [12.98, 19.66]\,\mu\text{m}$, which is $3.5\times$ to $5.2\times$ coarser than the critical phase-field resolution limit $\ell_0/2 = 3.75\,\mu\text{m}$.
+3. **Physical Consequence:** If Step 2 propagation were executed on this mesh, the advancing crack would enter an under-resolved coarse zone at $x \approx 0.85\,\text{mm}$, reproducing the artificial crack-pinning force plateau ($0.50-0.60\,\text{kN}$) observed in Job 1411934.
+4. **Conclusion:** Package 42 uses the native Method B mesh (`M1_MB_NATIVE_FINAL_1S.inp`), which fails to resolve the entire ligament. To achieve physical brittle fracture across the entire specimen, the recipient mesh must employ a pre-refined corridor along the complete ligament ($0.50 \le x \le 1.00\,\text{mm}$), such as the 14,483-element discretization of Package 40.
+
+---
+
+## 4. Reconciled Authentic Donor Source Data
+
+Prior working notes conflated coarse donor values with the 15,220-element uniform reference solution. The authentic source data from Job 1411891 (`M1_PRE_1S`, coarse 2,906 FEs at Step 1 Increment 500, $u = 0.0050\,\text{mm}$) is reconciled below:
+
+| Quantity | Conflated 15k Reference Value | Authentic Job 1411891 Coarse Donor Value | Disparity / Cause |
+| :--- | :--- | :--- | :--- |
+| **Mesh Elements** | 15,220 uniform quads | 2,906 graded quads | Coarser notch discretization ($h \approx 7.5\,\mu\text{m}$) |
+| **Reaction Force $RF$** | $724.81\,\text{N}$ | **$653.0886\,\text{N}$** | Lower compliance due to coarse notch discretization |
+| **Elastic Energy $E_{\text{elas}}$** | $2.0531\,\text{mJ}$ | **$1.6327\,\text{mJ}$** | Strain energy in coarse mesh at $u = 0.0050\,\text{mm}$ |
+| **Fracture Energy $E_{\text{frac}}$** | $0.0000\,\text{mJ}$ (undamaged) | **$0.0307\,\text{mJ}$** | Localized tip damage initiation ($d_{\max} \approx 0.095$) |
+| **Total Energy $E_{\text{tot}}$** | $2.0531\,\text{mJ}$ | **$1.6634\,\text{mJ}$** | $E_{\text{elas}} + E_{\text{frac}}$ |
+| **Peak Damage $d_{\max}$** | $0.0000$ | **$0.094910$** | Sub-critical damage at notch tip |
+| **History Minimum $\min(H)$** | $0.000\,\text{MPa}$ | **$0.000\,\text{MPa}$** | History non-negativity strictly satisfied |
+
+All future C1 continuation evaluations must benchmark against the authentic coarse donor value $RF = 653.09\,\text{N}$ and $E_{\text{elas}} = 1.6327\,\text{mJ}$, NOT the 15k uniform reference numbers.
+
+---
+
+## 5. Mathematical State-Transfer Evaluation & Results
+
+State transfer from coarse donor $\Omega_D$ (2,906 FEs) to fine recipient $\Omega_R$ (14,677 FEs) was executed via spatial interpolation and solution-dependent state variable (SVAR) mapping at $u = 0.0050\,\text{mm}$:
 
 | Metric | Target / Gate 6C Criterion | Evaluated Value | Status |
 | :--- | :--- | :--- | :--- |
@@ -96,88 +128,50 @@ State transfer from donor mesh $\Omega_D$ to recipient mesh $\Omega_R$ is execut
 | **Internal Energy Disparity $\Delta E_{\text{int}}$** | $\le 3.0\%$ | **$1.61\%$** | **PASS** |
 | **History Non-Negativity Violation** | Exactly $0$ ($H \ge 0$) | **$\min(H) = 0.000\,\text{MPa}$** ($0$ violations) | **PASS** |
 
-All mathematical state-transfer metrics fall well within the pre-declared Gate 6C acceptance thresholds.
+The mathematical mapping of fields on static discretizations satisfies all pre-declared transfer tolerances.
 
 ---
 
-## 4. Displacement Initialization & Secant Jump Resolution
+## 6. Continuation-Physics Defect & Equilibration Strategy Evaluation
 
-### 4.1 Abaqus/Standard Error 144 Diagnosis
-In prior experimental attempts at non-matching state transfer (e.g. Job `1412809`), an attempt was made to specify initial nodal displacements via `*INITIAL CONDITIONS, TYPE=DISPLACEMENT`. Abaqus/Standard Analysis Input File Processor rejected this card with:
+### 6.1 Diagnosis of Abaqus Error 144 & the Reload Ramp Defect
+Commercial Abaqus/Standard enforces a rigid architectural restriction in static analyses:
 ```
 ***ERROR: *INITIAL CONDITIONS, TYPE=DISPLACEMENT is not allowed in a *STATIC step.
 ```
-In commercial Abaqus/Standard, displacement initial conditions are restricted to dynamic, modal, or geostatic analyses; static structural steps assume zero initial displacement by design.
+Because initial displacement fields cannot be imported directly via input cards, Package 42 attempted a workaround:
+1. Initialize internal state variables (SVARS 1..18) via `*INITIAL CONDITIONS, TYPE=SOLUTION`.
+2. Formulate Step 1 (`Step-1-Equilibrate`) as a static step with top displacement boundary condition ramping from $u = 0$ to $u = 0.0050\,\text{mm}$ over 20 increments ($\Delta t = 0.05$).
 
-### 4.2 Solution Strategy in Package 42
-To restore physical state without triggering Error 144:
-1. **Internal State Initialization:** All 18 solution-dependent state variables (SVARS) for all 44,031 elements across all three layers are transferred via `*INITIAL CONDITIONS, TYPE=SOLUTION`. This initializes local crack history $H(\mathbf{x})$, local phase damage $d(\mathbf{x})$, degradation function $g(d) = (1-d)^2 + k$, and internal stress states.
-2. **Elimination of the Secant Force Discontinuity:**
-   - In prior Job `1412809`, attempting to equilibrate from $u = 0$ to $u = 0.0050\,\text{mm}$ in a single increment caused an unphysical reaction force drop of $21.55\,\text{N}$ ($2.97\%$), violating Criterion 5.
-   - In `M1_MC_C1_FORWARD_14K.inp`, Step 1 is formulated as a sub-stepped static equilibration step:
-     ```abaqus
-     *STEP, NAME=Step-1-Equilibrate, NLGEOM=YES, INC=50
-     *STATIC
-     0.05, 1.0, 1.0E-08, 0.1
-     *BOUNDARY
-     N_TOP, 2, 2, 0.0050
-     N_BOTTOM, 1, 2, 0.0
-     ...
-     *END STEP
-     ```
-     By dividing the ramp into 20 sub-increments ($\Delta t = 0.05$, $\Delta u = 0.00025\,\text{mm}$/inc), the Newton-Raphson solver smoothly resolves the stiffness transition from intact to pre-damaged state without tangent stiffness oscillation or artificial force drop.
-3. **Step 2 Continuation:**
-   Continuation step applies displacement from $u = 0.0050\,\text{mm}$ to $u = 0.0100\,\text{mm}$ over 5,000 increments ($dt = 2.0 \times 10^{-4}$), matching the exact loading rate and incrementation of certified reference simulations.
+### 6.2 Physics Evaluation: Why the 20-Increment Ramp is an Invalid Continuation
+1. **Zero Initial Displacements:** Because Abaqus initializes all nodal displacements to zero ($\mathbf{u} = \mathbf{0}$) at the start of Step 1, the specimen begins from an undeformed configuration while holding pre-existing damage ($d_{\max} \approx 0.095$).
+2. **Quasi-Static Reload from Zero:** Ramping $u$ from 0 to $0.0050\,\text{mm}$ across 20 increments reloads the pre-damaged specimen from zero displacement. This performs double external work ($W_{\text{ext}} \approx 1.63\,\text{mJ}$ in Step 1) and re-evaluates the elastic stiffness from the origin.
+3. **Equilibrium State Mismatch:** This is conceptually identical to Job `1412464` (`M1_MC_C1_V2`), which was classified as a "quasi-static reload of a pre-damaged specimen" rather than genuine continuation.
+4. **Conclusion:** Dividing the ramp into 20 sub-increments resolves numerical Newton-Raphson convergence, but it does NOT resolve physical continuation. It is an unphysical reload surrogate.
+
+### 6.3 True C1 Continuation Acceptance Test
+A genuine Method C continuation must satisfy the **In-Situ Equilibrium Continuation Criterion**:
+1. **Kinematic Consistency:** Displacements upon continuation must match donor displacements: $\|\mathbf{u}_{\text{recip}}(t_{\text{cont}}) - \mathbf{u}_{\text{donor}}(t_{\text{cont}})\| \approx 0$.
+2. **Equilibration Step at Constant Boundary:** If an equilibration step is performed, it must be held at fixed boundary displacement:
+   $$\Delta u_{\text{boundary}} = 0 \quad (u = 0.0050\,\text{mm} = \text{const.})$$
+   allowing interior nodes to relax from their transferred positions $\mathbf{u}_R^{(0)}$ to discrete recipient equilibrium $\mathbf{u}_R^*$, with residual $\|\mathbf{R}_{\text{internal}}\| \to 0$.
+3. **Disambiguation of Errors:**
+   - *Interpolation Error:* $\boldsymbol{\eta}_{\text{interp}} = \mathbf{u}_R^{(0)} - \mathcal{P}(\mathbf{u}_D)$ (bounded by $L_2 \le 1.0\%$).
+   - *Discretization Correction:* $\delta \mathbf{u} = \mathbf{u}_R^* - \mathbf{u}_R^{(0)}$ (internal nodal relaxation due to differing mesh stiffness matrices $\mathbf{K}_R \ne \mathbf{K}_D$).
+4. **Boundary Force Continuity:** The initial equilibrated reaction force must match donor force within $|\Delta RF| \le 5.0\,\text{N}$ ($|RF_{\text{recip}} - 653.09\,\text{N}| \le 5.0\,\text{N}$).
 
 ---
 
-## 5. Cluster Datacheck Verification Evidence
+## 7. Cluster Datacheck Verification Evidence
 
-### 5.1 Compilation and Processor Execution
 On cluster `mlogin01`, the complete package was submitted to the Abaqus 2023 interactive datacheck processor via `run_datacheck_forward.sh`:
 - Intel Fortran Classic Compiler (`ifort 2021.13.0 Build 20240602_000000`) compiled `f42_mixed_uel.for` into object code and linked with Abaqus/Standard shared libraries.
 - Analysis Input File Processor parsed all 102,830 lines, 14,834 nodes, 44,031 elements, 14,677 solution initial condition blocks, and 2 analysis steps.
-
-### 5.2 Datacheck Output Log
-```
-Running Abaqus 2023 Datacheck with Intel Fortran compilation...
-Analysis initiated from SIMULIA established products
-Abaqus JOB M1_MC_C1_FWD_DC
-Abaqus 2023
-Begin Compiling Abaqus/Standard User Subroutines
- Intel(R) Fortran 2021.13.0-1693
-End Compiling Abaqus/Standard User Subroutines
-Begin Linking Abaqus/Standard User Subroutines
-GNU ld version 2.30-128.el8_10
-End Linking Abaqus/Standard User Subroutines
-Begin Analysis Input File Processor
-Run pre
-End Analysis Input File Processor
-Begin Abaqus/Standard Datacheck
-Begin Abaqus/Standard Analysis
-Run standard
-End Abaqus/Standard Analysis
-Begin SIM Wrap-up
-Run SMASimUtility
-End SIM Wrap-up
-Abaqus JOB M1_MC_C1_FWD_DC COMPLETED
-Datacheck Exit Code: 0
-```
-
-### 5.3 Datacheck Message and Warning Audit
-The `.dat` file confirmed:
-```
-                              ANALYSIS DATACHECK COMPLETE
-                              WITH      8 WARNING MESSAGES ON THE DAT FILE
-```
-All 8 warnings were verified to be standard, benign notifications:
-`***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS`
-This warning occurs routinely because UEL state variables in Abaqus are output via user-subroutine energy traces and SDV tables rather than built-in standard element tables.
-There are **zero errors, zero syntax defects, and zero illegal cards**.
+- Datacheck completed with **Exit Code 0** (`ANALYSIS DATACHECK COMPLETE`) with zero syntax errors and zero illegal cards.
 
 ---
 
-## 6. Package 42 Manifest & Provenance
+## 8. Package 42 Manifest & Provenance
 
 The complete reproducible package is staged at `models/pandey_kumar_mode1/42_method_c1_forward_refinement/` and replicated in cluster scratch `/scratch9/pr21vyci/runs/mode1_method_c1_forward_refinement/`:
 
@@ -194,33 +188,15 @@ The complete reproducible package is staged at `models/pandey_kumar_mode1/42_met
 
 ---
 
-## 7. Pre-Declared Acceptance Criteria for Gate 6C Authorization
+## 9. Recommended Corrected C1 Design & Supervisor Determination
 
-When presented to the supervisor on 22 October 2026, authorization to execute Job `M1_MC_C1_FORWARD_14K` will be governed by six strict pre-declared criteria:
+For the upcoming supervisor review on 22 October 2026, the following findings and design recommendations are established:
 
-1. **Criterion 1: Boundary Force Continuity at Handoff**
-   $$|\Delta RF| = |RF_{\text{handoff}} - RF_{\text{donor}}| \le 1.0\,\text{N}$$
-   Evaluated at Increment 20 of Step 1 ($u = 0.0050\,\text{mm}$) against donor $RF = 724.81\,\text{N}$. Eliminates the prior $21.55\,\text{N}$ force jump.
-2. **Criterion 2: Transfer-Induced Stored Energy Continuity**
-   $$|\Delta E_{\text{elas}}| \le 0.05\,\text{mJ} \quad (\le 2.5\% \text{ of } E_{\text{elas}})$$
-   Ensures stored strain energy across the recipient mesh matches donor energy ($2.0531\,\text{mJ}$).
-3. **Criterion 3: Global Energy Balance Residual**
-   $$\Delta E_{\text{bal}} = \frac{|W_{\text{ext}} - (E_{\text{elas}} + E_{\text{frac}})|}{\max(|W_{\text{ext}}|, |E_{\text{elas}} + E_{\text{frac}}|)} \le 1.0\%$$
-   Enforced across all increments of both Step 1 and Step 2 via runtime `uel_energy_balance.csv`.
-4. **Criterion 4: Strict Damage Irreversibility and Monotonicity**
-   $$\dot{d}(\mathbf{x}, t) \ge 0, \quad \Delta H(\mathbf{x}, t) \ge 0 \quad \text{for all } \mathbf{x} \in \Omega, \forall t$$
-   Zero element points may exhibit healing or decreasing history.
-5. **Criterion 5: Fracture Response Agreement with Uniform Reference**
-   $$F_{\max} \in [724\,\text{N}, 764\,\text{N}] \quad (744 \pm 20\,\text{N}), \quad u_{\text{crit}} \in [0.0057\,\text{mm}, 0.0061\,\text{mm}]$$
-   Must exhibit smooth, continuous post-peak brittle softening down to complete ligament severance without coarse crack pinning or artificial force plateaus.
-6. **Criterion 6: Repeatability and Determinism**
-   Independent re-execution on identical hardware must achieve bitwise identical reaction force and energy histories (`THREAD_PARITY_PASS`).
-
----
-
-## 8. Summary and Recommendation for 22 October 2026
-
-1. **Method B Status:** Complete, verified with bitwise thread parity, audited, and ready for supervisor sign-off.
-2. **Method C Preflight Status:** Package 42 is fully assembled, transferred to cluster scratch, datacheck-verified (Exit Code 0), and held under strict governance lock (`AUTHORIZED=false`).
-3. **Unit Test Verification:** Unit test suite `test_mode1_f1466_method_c_experimental_preflight.py` passes 6/6 cleanly; full Mode-I test suite passes 450/450 with zero regressions.
-4. **Action for 22 October Meeting:** Present the Method B findings (Proposal 1 & 2) and request formal human supervisor authorization for Gate 6C execution of Package 42 (Proposal 3). Zero HPC jobs will be submitted prior to that explicit authorization.
+1. **Explicit Three-Tier Classification:**
+   - `DATACHECK PASSED`: Package syntax and solver environment are fully verified.
+   - `OFFLINE TRANSFER VERIFIED`: Mathematical field interpolation is proven accurate.
+   - `SOLVER CONTINUATION NOT YET QUALIFIED`: The current 20-increment reload strategy does not constitute true continuation, and the recipient mesh lacks ligament resolution beyond $x = 0.85\,\text{mm}$.
+2. **Corrected C1 Design Recommendations:**
+   - *Mesh Correction:* Substitute the recipient mesh with a discretization that maintains $h \le \ell_0/2 = 3.75\,\mu\text{m}$ across the entire ligament ($0.50 \le x \le 1.00\,\text{mm}$), preventing coarse crack pinning in Step 2.
+   - *Continuation Architecture:* Pursue Option B from the supervisor briefing (investigating a kinematic-offset UEL on a separate experimental branch `f42_experimental_offset_uel.for`) to enable direct non-zero displacement continuation without reload ramps, while keeping production `f42_mixed_uel.for` bitwise frozen.
+3. **Governance Release Guard:** Package 42 remains staged with `AUTHORIZED=false`. Zero PBS jobs will be submitted prior to explicit supervisor sign-off on 22 October 2026.
