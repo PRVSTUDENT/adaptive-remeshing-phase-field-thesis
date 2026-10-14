@@ -1,24 +1,29 @@
 {
-    "task_id": "F1448",
-    "title": "Method C State Transfer Audit and Continuation Post-Processing",
-    "analytical_chordal_bias": {
+    "task_id": "F1449",
+    "title": "Method C State Transfer Audit, Force Discontinuity, and Coarse Pinning Forensic Report",
+    "analytical_coarsening_formula": {
+        "formula": "xi * coth(xi) - 1, where xi = h / (2 * l0)",
         "coarse_recipient_h_20um": {
             "h_mm": 0.02,
             "l0_mm": 0.0075,
             "h_over_l0": 2.666666666666667,
-            "I_exact": 0.0022294362306721494,
-            "I_linear": 0.0034165183591038004,
-            "bias_pct": 53.24584359489661
+            "xi": 1.3333333333333335,
+            "coth_xi": 1.1493438269617244,
+            "rel_error_exact": 0.5324584359489661,
+            "bias_pct": 53.24584359489661,
+            "taylor_approx_pct": 59.25925925925927
         },
         "fine_donor_h_1p9um": {
             "h_mm": 0.001875,
             "l0_mm": 0.0075,
             "h_over_l0": 0.25,
-            "I_exact": 0.0005299739688294326,
-            "I_linear": 0.0005327313788963209,
-            "bias_pct": 0.5202916046949869
+            "xi": 0.125,
+            "coth_xi": 8.041623328375596,
+            "rel_error_exact": 0.005202916046949557,
+            "bias_pct": 0.5202916046949557,
+            "taylor_approx_pct": 0.5208333333333333
         },
-        "theoretical_coarsening_integral_ratio": 6.413210286546151
+        "reconciliation_note": "The 1D analytical formula xi*coth(xi)-1 yields +53.25% locally on h=20 um elements. In the 2D finite element model, the total integrated damage error is +5.0465% because damage is localized (over 97% of the domain d ~ 0) and 2D bilinear quad Gauss quadrature differs from 1D linear chords. Criterion 3 strictly fails the 5.0% threshold."
     },
     "gate_6c_criteria_audit": {
         "criterion_1_displacement_l2": {
@@ -43,7 +48,7 @@
             "unit": "%",
             "strict_verdict": "FAIL_AGAINST_STRICT_5PCT_THRESHOLD",
             "passed_strict": false,
-            "qualification": "Exceeds strict 5.0% threshold by +0.0465% (evaluated 5.0465%). Classified as FAIL under strict threshold governance. The discrepancy is proven to be an analytical convex chordal interpolation over-estimate (+5.2% theoretical) inherent to coarsening onto h=20 um elements (h/l0 = 2.67), not transfer engine failure. For forward adaptive refinement (2.9k -> 14.7k), the error is 0.0039%."
+            "qualification": "Exceeds strict 5.0% threshold by +0.0465% (evaluated 5.0465%). Classified as FAIL under strict threshold governance. The discrepancy is a 2D domain-integrated numerical quadrature difference over nonmatching elements. While the 1D infinite-domain analytical formula xi*coth(xi)-1 yields +53.25% locally on h=20 um elements, the 2D domain-integrated error is damped to +5.05% because >97% of the specimen has d ~ 0 and 2D bilinear quad quadrature differs from 1D linear chords. The 1D formula does not prove 2D domain compliance, so Criterion 3 remains strictly FAIL."
         },
         "criterion_4_history_non_negativity": {
             "evaluated_value": 3.876e-32,
@@ -54,12 +59,12 @@
             "qualification": "Satisfies predeclared threshold."
         },
         "criterion_5_boundary_force_continuity": {
-            "evaluated_value": 0.0925,
+            "evaluated_value": 21.5473,
             "threshold": 5.0,
             "unit": "N",
-            "strict_verdict": "PASS",
-            "passed_strict": true,
-            "qualification": "Satisfies predeclared threshold."
+            "strict_verdict": "FAIL_AGAINST_STRICT_5N_THRESHOLD",
+            "passed_strict": false,
+            "qualification": "Evaluated across the actual Abaqus step boundary: |RF_step2_inc1 - RF_step1_end| = |653.1694 - 674.7167| = 21.55 N (exceeds 5.0 N threshold by +16.55 N). Classified as FAIL under strict threshold governance. Step 1 functions mechanically as a one-increment reload from zero displacement; coarse-mesh secant stiffness over Delta u = 0.0050 mm yields RF = 674.72 N, whereas the true tangent at Step 2 entry drops to 653.17 N. Comparing donor (653.09 N) to Step 2 entry (653.17 N) yields Delta RF = 0.0794 N, but cherry-picking this subset comparison obscures the physical 21.55 N handoff discontinuity in the executed solver trajectory."
         },
         "criterion_6_internal_energy": {
             "evaluated_value": 1.637987,
@@ -108,9 +113,9 @@
             "converged_increments": 1,
             "newton_iterations": 2,
             "u_applied_mm": 0.005,
-            "rf_evaluated_N": 674.72,
-            "delta_rf_vs_donor_N": 21.629999999999995,
-            "delta_rf_vs_donor_pct": 3.3119478172992998,
+            "rf_evaluated_N": 674.7167,
+            "delta_rf_vs_donor_N": 21.626699999999914,
+            "delta_rf_vs_donor_pct": 3.3114425270636376,
             "internal_energy_mJ": 1.689856,
             "energy_discrepancy_pct": 0.07356158713263691,
             "analysis": "Step 1 converges in 1 increment (2 iters) resolving compatible displacement and phase fields with 99.93% internal energy preservation (0.07% error). The end-of-step reaction force is 674.72 N (+21.63 N vs donor) due to coarse-mesh stiffness over the single large handoff increment."
@@ -120,8 +125,39 @@
             "inc_1_rf_N": 653.1694,
             "delta_rf_vs_donor_N": 0.07939999999996417,
             "delta_rf_vs_donor_pct": 0.012157589306215707,
-            "force_continuity_verdict": "PASS",
-            "analysis": "Upon entering Step 2 fracture continuation at u = 0.0050010 mm, the reaction force immediately settles to 653.1694 N, matching the donor handoff force (653.09 N) within 0.0794 N (0.012% relative error). This authenticates near-perfect force continuity at the start of fracture continuation."
+            "step_boundary_jump_N": 21.54729999999995,
+            "step_boundary_jump_pct": 3.193532930191287,
+            "step_boundary_verdict": "FAIL_AGAINST_STRICT_5N_THRESHOLD",
+            "donor_subset_comparison_N": 0.07939999999996417,
+            "analysis": "Across the actual step boundary, RF drops from 674.72 N to 653.17 N (Delta RF = 21.55 N), strictly FAILING the 5.0 N threshold. The entry tangent agrees with the donor (653.09 N vs 653.17 N, Delta RF = 0.0794 N), but this tangent relaxation occurs across the boundary discontinuity."
         }
+    },
+    "coarse_mesh_crack_pinning_audit": {
+        "recipient_mesh_element_size_h_mm": 0.02,
+        "phase_field_length_scale_l0_mm": 0.0075,
+        "mesh_resolution_ratio_h_over_l0": 2.666666666666667,
+        "physical_resolution_criterion": "h <= l0 / 2 (or h <= 0.00375 mm)",
+        "pinning_mechanism": "Because h/l0 = 2.67 > 1, the element size exceeds the regularization length scale l0 = 7.5 um. The regularized damage band (width ~ 2*l0 = 15 um) cannot localize within a single element column. Consequently, the discrete damage profile is artificially broadened, causing severe crack pinning, elevated initiation resistance, delayed post-peak softening, and peak reaction force climbing past 880 N towards F_max ~ 1.08 kN (matching Gate C1 V2 Job 1412464 at 1.0868 kN vs reference 0.7578 kN).",
+        "scientific_conclusion": "Successful convergence of Step 1 re-equilibration verifies state-transfer data structures and initial static equilibrium, but does NOT demonstrate sequential adaptive fracture propagation. The 14.7k -> 2.9k coarsening run is an offline data-structure qualification, not an accurate fracture mechanics simulation."
+    },
+    "forward_refinement_design": {
+        "status": "OFFLINE_DESIGN_ONLY_ZERO_PBS_SUBMISSIONS_AUTHORIZED",
+        "donor": {
+            "name": "M1_MB_INF_1S.inp (Coarse Pre-Analysis)",
+            "elements": 2906,
+            "h_corridor_mm": 0.02,
+            "handoff_displacement_mm": 0.005,
+            "expected_rf_N": 653.1,
+            "expected_d_max": 0.3195
+        },
+        "recipient": {
+            "name": "M1_MB_NATIVE_FINAL_1S.inp (Native Refined Adaptive Mesh)",
+            "elements": 14677,
+            "h_corridor_mm": 0.001875,
+            "h_over_l0": 0.25,
+            "meets_resolution_criterion": true
+        },
+        "expected_theoretical_chordal_bias_pct": 0.0039,
+        "scientific_objective": "Evaluate true adaptive refinement (coarse donor 2.9k -> fine recipient 14.7k) to eliminate coarse-mesh crack pinning and achieve reference-level peak load (~0.743-0.758 kN)."
     }
 }
