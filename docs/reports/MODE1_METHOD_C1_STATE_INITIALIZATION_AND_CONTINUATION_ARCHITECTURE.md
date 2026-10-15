@@ -302,11 +302,55 @@ The contiguous resolved reach demonstrates that in all prospective native meshes
 
 Retrospective Package 40 (14,483 FEs) achieves 100.00% contiguous coverage and eliminates the plateau ($RF \to 1.76\,\text{N}$, $99.76\%$ drop), but its fine corridor was constructed with prior knowledge of the crack path. This confirms that resolving the fracture corridor is necessary and sufficient to eliminate pinning, but does not prove that stationary pre-refinement can predict arbitrary unknown crack paths.
 
-Importantly, negative findings on tested static pre-refinements establish an empirical boundary for the tested configurations and indicator formulations, rather than an abstract impossibility theorem for all prospective remeshing techniques. This distinction motivates exploring sequential adaptive remeshing (Method C) as an active research candidate under Gate 6C hold, while recognizing that Method C remains an unqualified candidate awaiting independent validation of state transfer and irreversibility.
+### 5.8 Mathematical Reconciliation of Spatial Resolution Metrics: Binned Median Corridor vs. Strict Centerline Chain
 
+A key audit discrepancy identified between the Task F1468 and Task F1476 reports involves the reported spatial resolution for retrospective Package 40 (`M1_MB_CORRECTED_PROPAGATION_14K.inp`, 14,483 FEs):
+- **Task F1476 Reported:** Contiguous ligament coverage = **100.00%** ($x_{\max} = 1.0000\,\text{mm}$), with 96.81% of corridor elements resolved ($h_A \le 3.75\,\mu\text{m}$).
+- **Task F1468 Reported:** Contiguous ligament coverage = **78.21%** ($x_{\max} = 0.8911\,\text{mm}$ under $h_A$), **76.45%** ($x_{\max} = 0.8823\,\text{mm}$ under $h_{\text{edge}}$), and **69.39%** ($x_{\max} = 0.8469\,\text{mm}$ under $\Delta y$).
 
+A rigorous re-evaluation of the raw mesh geometry reveals that this difference is purely definitional and mathematical, rather than a computational discrepancy:
+
+```
++==========================================================================================================================+
+|                                  SPATIAL RESOLUTION METRIC RECONCILIATION FOR PACKAGE 40 (14,483 FEs)                    |
++======================================+==========================================+========================================+
+| Characteristic / Parameter           | Metric A: Binned Median Corridor (F1476) | Metric B: Strict Centerline Chain (F1468)|
++======================================+==========================================+========================================+
+| Domain / Sampling Region             | Transverse corridor |y - 0.50| <= 20 um  | Centerline elements |y - 0.50| <= 10 um|
+| Spatial Discretization               | 100 uniform 5 um bins along x in [0.5, 1]| Elements sorted strictly by x-centroid |
+| Acceptance Criterion                 | Bin median h_A <= l_0/2 = 3.75 um        | Continuous sequence of individual FEs  |
+| Termination / Stop Condition         | First bin where median h_A > 3.75 um     | Very first single FE where h > 3.75 um |
++--------------------------------------+------------------------------------------+----------------------------------------+
+| Contiguous Reach (x_max)             | x_max = 1.0000 mm                        | x_max = 0.8911 mm (h_A)                |
+|                                      |                                          | x_max = 0.8823 mm (h_edge)             |
+|                                      |                                          | x_max = 0.8469 mm (dy)                 |
++--------------------------------------+------------------------------------------+----------------------------------------+
+| Contiguous Ligament Coverage         | 100.00% COVERAGE                         | 78.21% (h_A) / 76.45% / 69.39%         |
++--------------------------------------+------------------------------------------+----------------------------------------+
+| Resolved Element Ratio in Sampling   | 4,070 / 4,204 elements (96.81%)          | 2,018 / 2,091 elements (96.51%)        |
+| Ligament Corridor Median Size        | 1.96 um (tip) to 2.14 um (outer edge)    | 1.96 um median throughout [0.5, 0.85]  |
++======================================+==========================================+========================================+
+```
+
+#### Detailed Physical and Geometric Analysis:
+1. **Metric A (Binned Median Corridor):**
+   - The fracture process zone has a finite transverse width of $w \approx 2\ell_0 = 15.0\,\mu\text{m}$.
+   - Evaluating 5 µm spatial bins across $|y - 0.500| \le 0.020\,\text{mm}$ demonstrates that every single bin from $x = 0.500\,\text{mm}$ to $x = 1.000\,\text{mm}$ contains a dense core of refined elements with median size $\approx 1.96 - 2.86\,\mu\text{m}$ (well below $3.75\,\mu\text{m}$).
+   - Even in the final bins near the right boundary ($x \in [0.95, 1.00]\,\text{mm}$), 64.3% to 89.3% of elements satisfy $h_A \le 3.75\,\mu\text{m}$.
+   - Consequently, an uninterrupted corridor of fine elements traverses the complete specimen from notch root to outer boundary. This explains why Package 40 completely eliminates the artificial force plateau, achieving complete post-peak softening ($F \to 1.76\,\text{N}$, 99.76% drop).
+2. **Metric B (Strict Centerline Chain):**
+   - Evaluates the unbroken topological chain of individual finite elements along the mathematical seam ($y = 0.500\,\text{mm}$).
+   - In unstructured/graded meshing, transition elements near the lateral boundaries can have slight aspect ratio distortions or locally enlarged edge lengths.
+   - The very first individual transition element that exceeds $3.75\,\mu\text{m}$ occurs at $x = 0.8911\,\text{mm}$ for $h_A$ ($h_A = 3.86\,\mu\text{m}$, just $2.9\%$ above $h_{\text{crit}}$), at $x = 0.8823\,\text{mm}$ for $h_{\text{edge}}$ ($h_{\text{edge}} = 4.52\,\mu\text{m}$), and at $x = 0.8469\,\text{mm}$ for $\Delta y$ ($\Delta y = 3.90\,\mu\text{m}$).
+   - This metric demonstrates that while 96.5% of centerline elements are fully resolved, isolated transition elements exceeding $3.75\,\mu\text{m}$ appear in the final $\sim 20\%$ of the ligament.
+3. **Synthesis & Scientific Consensus:**
+   - Both metrics are valid when explicitly qualified.
+   - For fracture path continuity and energy dissipation, the **Binned Corridor Metric (100.00%)** is the physically operative measure because the crack band has finite transverse width and does not require every single boundary transition element to be sub-$3.75\,\mu\text{m}$.
+   - For worst-case local discretization error, the **Strict Centerline Metric (78.21%)** rigorously identifies where boundary coarsening begins.
 
 ---
+
+
 
 ## 6. Methodological Decoupling of the Four Research Objectives
 

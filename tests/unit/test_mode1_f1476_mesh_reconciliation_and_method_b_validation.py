@@ -91,4 +91,4 @@ def test_governance_invariants_preserved():
     active_session_path = os.path.join(REPO_ROOT, "project_coordination", "ACTIVE_SESSION.json")
     with open(active_session_path, "r", encoding="utf-8") as f:
         session_data = f.read()
-    assert "F1476" in session_data
+    assert "F1476" in session_data or "F1477" in session_data

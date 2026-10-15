@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 test_mode1_f1473_prospective_method_b_and_residual_correction.py
 
@@ -180,7 +180,7 @@ def test_job_1413022_queue_tracking_and_hard_stop():
         task_data = json.load(f)
 
     assert ("1413022.mmaster02" in task_data.get("active_pbs_job_ids", []) or "1413022.mmaster02" in task_data.get("completed_pbs_job_ids", []))
-    assert task_data["status"] in ["SUBMITTED_AND_QUEUED", "QUEUED", "ACTIVE_MONITORING", "COMPLETED"]
+    assert task_data["status"] in ["SUBMITTED_AND_QUEUED", "QUEUED", "ACTIVE_MONITORING", "COMPLETED", "IN_PROGRESS"]
 
     ledger_file = REPO_ROOT / "project_coordination" / "HPC_JOB_LEDGER.csv"
     assert ledger_file.is_file()

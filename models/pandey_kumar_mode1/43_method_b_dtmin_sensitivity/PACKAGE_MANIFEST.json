@@ -1,0 +1,44 @@
+{
+  "package_id": "43_method_b_dtmin_sensitivity",
+  "name": "M1_MB_CORR_14K_DTMIN_SENSITIVITY",
+  "created_at": "2026-10-15T12:38:00+02:00",
+  "parent_package": "40_method_b_corrected_propagation_14k",
+  "single_intended_change": "dt_min changed from 1.0E-9 to 1.0E-15 in Step 2 *STATIC line",
+  "mesh": {
+    "finite_elements": 14483,
+    "element_breakdown": "14,357 CPE4 + 126 CPE3",
+    "total_records_3layers": 43449,
+    "h_min_um": 1.88,
+    "h_max_um": 20.0,
+    "contiguous_ligament_coverage_pct": 100.0
+  },
+  "artifacts": {
+    "input_deck": {
+      "path": "M1_MB_CORRECTED_DTMIN_14K.inp",
+      "sha256": "E154264600B381BA9DFD23CAAD0635088A7B4075367E27F6B85B2951DAB03B40"
+    },
+    "user_subroutine": {
+      "path": "f42_mixed_uel.for",
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+    },
+    "pbs_script": {
+      "path": "submit_M1_MB_DTMIN_8T.pbs",
+      "sha256": "4CEE7F124DDACB1E7A5FB9415E260127EFC7149EBF22FC904300C6A7581F0137"
+    }
+  },
+  "execution": {
+    "mode": "8-thread shared-memory SMP (mp_mode=threads)",
+    "cpus": 8,
+    "memory": "24gb",
+    "walltime": "24:00:00",
+    "queue": "entry_imfdfkmq -> normal_imfdfkmq",
+    "run_dir": "/scratch9/pr21vyci/runs/mode1_method_b_dtmin_sensitivity"
+  },
+  "acceptance_criteria": {
+    "elastic_stiffness_kN_per_mm": "137.9096 +/- 0.05",
+    "peak_force_kN": "0.743701 +/- 0.0005",
+    "displacement_at_peak_mm": "0.005733 +/- 0.00005",
+    "matched_energy_at_u007889_mJ": "W_ext ~ 2.2674, E_frac ~ 2.2855",
+    "post_peak_question": "Does dt_min=1e-15 allow cutback traversal past increment 2890 toward u=0.0100 mm, or confirm physical equilibrium instability?"
+  }
+}
