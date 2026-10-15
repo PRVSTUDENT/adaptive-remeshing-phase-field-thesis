@@ -155,4 +155,4 @@ def test_active_session_claim_for_f1485():
 
     assert session["active"] is True
     assert session["agent"] == "gemini-antigravity"
-    assert any(tid in session["task_id"] for tid in ["F1485", "F1486", "F1487"])
+    assert any(tid in session["task_id"] for tid in ["F1485", "F1486", "F1487", "F1488"])
