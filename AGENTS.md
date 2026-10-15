@@ -68,18 +68,27 @@ Canonical dynamic state:
 
 # Batch-Oriented HPC Execution
 
-## Package 48 donor authorization clarification
+## Method C bounded batch authorization
 
-The human authorizes exactly one validated Package 48 donor PBS submission.
+The default Method C approval unit is a predefined batch, not one approval
+conversation per job. `MODE1_METHOD_C_BATCH1` covers exactly three submissions:
+the corrected Package 48 donor, production-UEL restart, and diagnostic-UEL
+restart (each at most once; total at most three; expiry at most 24 hours).
+Package 47 remains a deferred candidate outside this permit until independent
+qualification is verified. No blanket project-wide or automatic retry authority.
 Agents may investigate and repair genuine issuer/preflight verification defects,
 and run `Set-ControllerAuthorization.ps1 -VerifyOnly`. Agents must not execute
 the human approval/credential-issuance mode, fabricate notification evidence,
 reset existing permit counters, or bypass the safety gate. The human must run
-the repaired approval procedure. Once a valid human-issued, command-bound,
-manifest-bound, unexpired permit exists, submit the donor immediately once
-through the guarded procedure and record its actual PBS ID and Q/R state.
+the repaired approval procedure once for the exact batch manifest. Once a
+valid human-issued, command-bound, manifest-bound, unexpired permit exists,
+submit each eligible named job through the guarded procedure without asking
+for equivalent approval again. Record actual PBS IDs and scheduler states.
 Preserve Method B job 1413296. Restart recipients require an authentic donor
-checkpoint and separate submission authorization. Do not replace execution
+checkpoint and recorded scientific review, but no further human approval when
+already covered by the active batch. Changed packages, expired/exhausted
+permits, jobs outside the list, or retries require new explicit authority.
+Never reset consumed permits or manufacture a checkpoint review. Do not replace execution
 with repetitive research/documentation loops; report the exact remaining
 human action when credential activation is the blocker.
 

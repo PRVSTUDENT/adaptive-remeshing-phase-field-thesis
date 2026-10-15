@@ -5,9 +5,10 @@
 #PBS -l mem=16gb
 #PBS -l walltime=04:00:00
 #PBS -m abe
+#PBS -r n
 #PBS -M pr21vyci@mailserver.tu-freiberg.de
 #PBS -j oe
-#PBS -o /scratch9/pr21vyci/runs/mode1_package48_restart_control/pbs_execution_donor.log
+#PBS -o /scratch9/pr21vyci/runs/mode1_package48_restart_control/pbs_execution_donor_compiler1.log
 
 set -euo pipefail
 

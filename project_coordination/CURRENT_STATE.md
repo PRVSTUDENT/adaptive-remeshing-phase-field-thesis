@@ -1,3 +1,5 @@
+MethodC batch update: MODE1_METHOD_C_BATCH1 ready for one human activation, max3/24h, donor plus two checkpoint-dependent restarts; no per-job renewal within batch. Routed-command hook bypass fixed; old ROUTE1 counter readback0 requires explicit preserved-history supersession.1413808 failed compilation;1413296 verifiedR07:54; no new jobs. Report: project_coordination/sessions/2026-10-15_codex_METHOD-C-BOUNDED-BATCH-AUTHORIZATION.md
+
 Latest execution update F1496: Package48 donor1413808.mmaster02 was accepted via entry route, then failed compilation in3s (ifort missing), Exit1. No MethodC numerical result. Compiler-module PBS repair staged and verification-only passed; fresh human MODE1_PACKAGE48_DONOR_COMPILER1 approval required; no retry. MethodB1413296 remainsR07:38. See project_coordination/sessions/2026-10-15_codex_F1496-PACKAGE48-ROUTE1-SUBMISSION.md
 
 Operational tooling update (2026-10-15 codex): diagnosed greedy binary OAuth client-secret extraction (70 instead of 35 characters). Scoped worker fix passes forced expired-token refresh and quota query on all five accounts. Report: project_coordination/sessions/2026-10-15_codex_AGY-REFRESH-ROOT-CAUSE.md

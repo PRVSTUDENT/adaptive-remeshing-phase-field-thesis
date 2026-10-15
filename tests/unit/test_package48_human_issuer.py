@@ -44,7 +44,7 @@ class IssuerTests(unittest.TestCase):
                     module.check({'submission_queue': 'normal_imfdfkmq', 'files': {}})
                 notifications.assert_not_called()
 
-    def exercise(self, state, stale=False):
+    def exercise(self, state, stale=False, request_override=None):
         source = ISSUER.read_text(encoding='utf-8-sig')
         code = re.search(r"\$issue=@'\n(.*?)\n'@", source, re.S).group(1)
         with tempfile.TemporaryDirectory() as directory:
@@ -54,6 +54,7 @@ class IssuerTests(unittest.TestCase):
             request = dict(batch='MODE1_PACKAGE48_DONOR', command='fixture',
                            command_hash='fixture-hash', manifest='fixture-manifest', hours=24,
                            evidence={'checked_at': (datetime.now(timezone.utc)-timedelta(minutes=10 if stale else 0)).isoformat()})
+            request.update(request_override or {})
             fake = types.SimpleNamespace(LOCK_EX=1, flock=lambda *args: None)
             encoded = base64.b64encode(json.dumps(request).encode()).decode()
             try:
@@ -85,6 +86,25 @@ class IssuerTests(unittest.TestCase):
         state, failure = self.exercise(original)
         self.assertIsNotNone(failure)
         self.assertEqual(state, original)
+
+    def test_batch_issues_three_once_only_commands_without_touching_old_counters(self):
+        old = {'active': False, 'consumed': 1, 'batch_name': 'OLDER'}
+        spec = {'max_submissions': 3, 'jobs': [{'command': str(i), 'command_sha256': str(i)} for i in range(3)]}
+        state, failure = self.exercise({'submission_authorization': old}, request_override={
+            'batch': 'MODE1_METHOD_C_BATCH1', 'batch_spec': spec, 'max_submissions': 3})
+        self.assertIsNone(failure)
+        self.assertEqual(state['submission_authorization']['max_submissions'], 3)
+        self.assertEqual(len(state['submission_authorization']['authorized_commands']), 3)
+        self.assertEqual(state['submission_authorization_history'][0]['consumed'], 1)
+
+    def test_explicit_human_supersession_archives_active_permit_without_reset(self):
+        old={'active':True,'consumed':2,'max_submissions':3,'batch_name':'OLD_ACTIVE'}
+        state,failure=self.exercise({'submission_authorization':old},request_override={'supersede_active':True})
+        self.assertIsNone(failure)
+        archived=state['submission_authorization_history'][0]
+        self.assertEqual(archived['consumed'],2)
+        self.assertFalse(archived['active'])
+        self.assertIn('revoked_by',archived)
 
 
 if __name__ == '__main__':

@@ -1,10 +1,10 @@
 {
-    "task_id":  "F1496-PACKAGE48-ROUTE1-SUBMISSION",
-    "status":  "PBS_ACCEPTED_THEN_COMPILATION_FAILED_REPAIR_PREPARED",
+    "task_id":  "METHOD-C-BOUNDED-BATCH-AUTHORIZATION",
+    "status":  "BOUNDED_BATCH_READY_AWAITING_ONE_HUMAN_ACTIVATION",
     "agent":  "codex",
-    "phase":  "Job1413808 accepted and terminated exit1 in3s because ifort absent; exact compiler modules repaired; no resubmission",
+    "phase":  "Exact three-job max3/24h batch; repaired routed-command detection, per-command atomic counters and dependency review; no new submission",
     "gate_status":  "GATE_6B_ACTIVE_EVALUATION_PASS__GATE_6C_STAGE_C1_0_DATACHECK_PASS",
-    "last_updated":  "2026-10-15T22:17:11.2111328+02:00",
+    "last_updated":  "2026-10-15T22:34:41.1611339+02:00",
     "active_pbs_job_ids":  [
                                "1413296.mmaster02"
                            ],
@@ -43,7 +43,7 @@
                                   "1413278.mmaster02",
                                   "1413808.mmaster02"
                               ],
-    "next_recommended_task":  "HUMAN_ACTIVATES_MODE1_PACKAGE48_DONOR_COMPILER1_THEN_ONE_GUARDED_SUBMISSION",
+    "next_recommended_task":  "HUMAN_ACTIVATES_MODE1_METHOD_C_BATCH1_MAX3_SUPERSEDE_ONCE_THEN_SUBMIT_DONOR_AND_REVIEW_CHECKPOINT_BEFORE_RECIPIENTS",
     "governing_constraints":  [
                                   "Active PBS job 1413296.mmaster02 (M1_MB_DTMAX_1C, Step 2 Inc \u003e3170) running as authorized 1-CPU serial parity control in normal_imfdfkmq",
                                   "Enforce Continuous HPC Research Execution Policy across all controller turns",
@@ -52,5 +52,5 @@
                                   "Do not tamper with or bypass .agents/qsub-safety-gate.ps1",
                                   "Outcome B active: human execution of Set-ControllerAuthorization.ps1 is required before qsub submission"
                               ],
-    "notes":  "No MethodC numerical progress. Failed job1413808 compilation error; fresh one-job human permit required. Corrected PBS staged; deck/source/resources unchanged; environment-only preflight and5tests PASS."
+    "notes":  "1413808 F Exit1 compiler missing; no new numerical results.1413296 verifiedR07:54. Package47 deferred. Batch live preflight and gate tests pass; no real permit issued."
 }

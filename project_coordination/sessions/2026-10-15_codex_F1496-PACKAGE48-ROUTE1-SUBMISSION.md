@@ -24,3 +24,5 @@ Canonical authorization preflight now also checks compiler module load, ifort pa
 
 Next human command:
 & "$env:USERPROFILE\OpenClawPAD\Set-ControllerAuthorization.ps1" -BatchName MODE1_PACKAGE48_DONOR_COMPILER1 -MaxSubmissions 1
+
+Counter reconciliation: later full-hook testing found qsub-with-options bypassed the old detection regex. Independent live readback shows ROUTE1 consumed0/1, active, despite job1413808 having been submitted. Prior consumed1 statement was incorrect; actual scheduler outcome remains F Exit1. Detection fixed and explicit human batch supersession prepared; original recorded counters not reset.

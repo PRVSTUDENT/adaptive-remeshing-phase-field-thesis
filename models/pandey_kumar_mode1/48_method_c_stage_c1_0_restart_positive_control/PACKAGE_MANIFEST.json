@@ -3,6 +3,7 @@
   "scientific_phase": "MODE1_GATE6C_METHOD_C_STAGE_C1_0_RESTART_AUDIT",
   "protocol_version": 2,
   "created_at": "2026-10-15T19:45:00+02:00",
+  "last_updated": "2026-10-15T20:20:00+02:00",
   "mesh_donor": {
     "nodes": 2989,
     "elements_physical": 2906,
@@ -27,10 +28,22 @@
     "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "status": "FROZEN_UNCHANGED"
   },
+  "diagnostic_uel": {
+    "source": "f42_mixed_uel_restart_diagnostic.for",
+    "sha256": "8C6D873037367665C01C305D50C5B148339DC38C6E581BF4A9E19C2B5E2AC978",
+    "status": "DIAGNOSTIC_VARIANT_INGESTS_RESTORED_SVARS_INTO_COMMON"
+  },
+  "execution_scripts": {
+    "donor_pbs": "submit_M1_MB_DONOR.pbs",
+    "restart_prod_pbs": "submit_M1_MB_RESTART_PROD.pbs",
+    "restart_diag_pbs": "submit_M1_MB_RESTART_DIAG.pbs",
+    "instructions": "commands.txt"
+  },
   "scientific_purpose": "Investigate native Abaqus *RESTART on identical 2,906-element mesh as a positive control to experimentally determine whether Abaqus preserves UEL SVARS and whether Fortran COMMON /CB_STATE_TRANS/ is wiped or restored across restart boundaries.",
   "hypotheses_and_predictions": {
     "hypothesis_1_svars_restoration": "Abaqus serializes and restores UEL SVARS into the recipient elements from the .res file.",
-    "hypothesis_2_common_block_loss": "Abaqus does NOT serialize Fortran COMMON /CB_STATE_TRANS/. In the restart process, static memory starts zeroed, and because UEXTERNALDB does not implement LOP=4 and UEL lines 248-261 check KSTEP.EQ.1 (which is FALSE for restarted Step 2), COMMON state is NOT restored, causing Layer 1/2 state decoupling unless re-equilibrated as in Package 47."
+    "hypothesis_2_common_block_loss": "Abaqus does NOT serialize Fortran COMMON /CB_STATE_TRANS/. In the restart process, static memory starts zeroed, and because UEXTERNALDB does not implement LOP=4 and UEL lines 248-261 check KSTEP.EQ.1 (which is FALSE for restarted Step 2), COMMON state is NOT restored, causing Layer 1/2 state decoupling unless re-equilibrated as in Package 47.",
+    "hypothesis_3_diagnostic_uel_restoration": "Diagnostic UEL restores SVARS into COMMON /CB_STATE_TRANS/ upon first increment entry via SV_INGESTED flag, enabling authentic continuation without modifying constitutive relations."
   },
   "acceptance_criteria": {
     "criterion_1_donor_datacheck": "Donor deck passes Abaqus datacheck Exit 0.",

@@ -1,0 +1,88 @@
+{
+  "batch_name": "MODE1_METHOD_C_BATCH1",
+  "max_submissions": 3,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "M1_MB_DONOR_WITH_RESTART.inp": "f737357af6069a4017885e38ef249dc1ba7fd4b7e3c91ec1fb55f1d89824484d",
+    "M1_MB_NATIVE_RESTART.inp": "c617d83165cbaed7d6e6c1494af9c65b8b9a763e1a67ca40fcf0ca51cd356d6d",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "f42_mixed_uel_restart_diagnostic.for": "8c6d873037367665c01c305d50c5b148339dc38c6e581bf4a9e19c2b5e2ac978",
+    "submit_M1_MB_DONOR.pbs": "fbd64c6ed624e91bd70ab66d7d4ba29a0664fa0e07c161c0e37a0beff92b8e36",
+    "submit_M1_MB_RESTART_PROD.pbs": "747919506cf53b011227fb4bc229019a7fde40406404a9a56bedd77cbf454517",
+    "submit_M1_MB_RESTART_DIAG.pbs": "222a2619a2de553c7d4678f345278059e97225d41778a23f198898d1c8425a7b",
+    "PACKAGE_MANIFEST.json": "35b818bc08652c11d0f0b689878239e5ff81d9563eaf42ab5083bfc3bda02887"
+  },
+  "jobs": [
+    {
+      "id": "donor",
+      "pbs": "submit_M1_MB_DONOR.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_package48_restart_control/submit_M1_MB_DONOR.pbs\"",
+      "command_sha256": "31dd46aad2bcfc4cc8757603a6933de3bb3bc46b97af0c07d209f9110d2df947",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Authentic native restart checkpoint positive control",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 4,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial"
+    },
+    {
+      "id": "restart_prod",
+      "pbs": "submit_M1_MB_RESTART_PROD.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_package48_restart_control/submit_M1_MB_RESTART_PROD.pbs\"",
+      "command_sha256": "a95f17b3ebe98e930c4d9f5caa28be5f8c982614e4b1d4f4c661246b0fcd2fb2",
+      "max_submissions": 1,
+      "depends_on": [
+        "donor_checkpoint_review"
+      ],
+      "purpose": "Test frozen production UEL restart COMMON-state loss",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial"
+    },
+    {
+      "id": "restart_diag",
+      "pbs": "submit_M1_MB_RESTART_DIAG.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_package48_restart_control/submit_M1_MB_RESTART_DIAG.pbs\"",
+      "command_sha256": "4b8e89d4e078babeb19ca47e21b2053387059e7388ccbfa504a78d7ff25b1842",
+      "max_submissions": 1,
+      "depends_on": [
+        "donor_checkpoint_review"
+      ],
+      "purpose": "Test diagnostic restored-SVARS ingestion into COMMON",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial"
+    }
+  ],
+  "dependency_review_path": "project_coordination/METHOD_C_DONOR_CHECKPOINT_REVIEW.json",
+  "deferred_candidates": [
+    {
+      "package": 47,
+      "enabled": false,
+      "reason": "Independent re-equilibration qualification must be reviewed before inclusion; not authorized by this three-job permit"
+    }
+  ],
+  "acceptance": {
+    "donor": "Terminal Exit0; nonempty authentic native restart checkpoint and verified end-of-Step1 displacement/state; scientific review required",
+    "recipients": "Actual restored DOFs/SVARS, force-displacement continuity, damage/history irreversibility, energy and post-restart comparison; do not equate PBS acceptance with validation"
+  },
+  "dependency_review_required_fields": [
+    "batch_manifest_sha256",
+    "donor_pbs_job_id",
+    "donor_terminal_exit_status=0",
+    "checkpoint_verified=true",
+    "scientific_review=PASS",
+    "handoff_displacement_mm=0.005",
+    "checkpoint_hashes",
+    "reviewed_by",
+    "evidence_report"
+  ],
+  "execution_policy": "Donor first. No afterok prequeueing. Scientist/controller verifies authentic successful donor checkpoint before creating review; production and diagnostic recipients may then be submitted together under the same permit. No review file is pre-created."
+}

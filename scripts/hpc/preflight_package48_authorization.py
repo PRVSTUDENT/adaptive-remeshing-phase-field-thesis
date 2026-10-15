@@ -57,6 +57,24 @@ def check(payload):
                       'command -v ifort',
                       'notification_install_terminal_trap', 'notify_start']:
         require(directive in pbs, 'Missing PBS contract: ' + directive)
+    if payload.get('batch'):
+        batch = payload['batch']
+        require(batch['max_submissions'] == 3 and len(batch['jobs']) == 3,
+                'Invalid batch budget')
+        for job in batch['jobs']:
+            text = (RUN / job['pbs']).read_text()
+            for directive in ['#PBS -q entry_imfdfkmq', '#PBS -m abe', '#PBS -r n',
+                              '#PBS -M pr21vyci@mailserver.tu-freiberg.de',
+                              '#PBS -l nodes=1:ppn=1', '#PBS -l mem=16gb',
+                              'module load gcc/11.4.0 intel/2024.2.0 abaqus/2023',
+                              'command -v ifort', 'notification_install_terminal_trap', 'notify_start']:
+                require(directive in text, 'Batch PBS contract missing: ' + job['pbs'])
+            require(subprocess.call(['bash', '-n', str(RUN / job['pbs'])]) == 0,
+                    'Batch PBS syntax failure')
+            if job['id'] != 'donor':
+                require('oldjob=M1_MB_DONOR_WITH_RESTART' in text and
+                        'test -s M1_MB_DONOR_WITH_RESTART.res' in text,
+                        'Missing restart/checkpoint contract')
     helper = RUN / 'job_notifications.sh'
     require(helper.is_file(), 'Missing staged notification helper')
     cfg = Path.home() / '.config/adaptive-remeshing/notifications.env'
@@ -129,9 +147,11 @@ notification_send_email_once 'Package 48 authorization PREFLIGHT TEST' 'No PBS j
 
 if __name__ == '__main__':
     import base64
+    import gzip
     import sys
     try:
-        payload = json.loads(base64.b64decode(sys.argv[1]))
+        data = base64.b64decode(sys.argv[1], validate=True)
+        payload = json.loads(gzip.decompress(data) if data.startswith(b'\x1f\x8b') else data)
         print(json.dumps(check(payload)))
     except Exception as error:
         print(json.dumps({'passed': False, 'reason': str(error)}))

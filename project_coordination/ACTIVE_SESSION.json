@@ -1,16 +1,18 @@
 {
     "active":  false,
     "agent":  "codex",
-    "task_id":  "F1496-PACKAGE48-ROUTE1-SUBMISSION",
-    "claimed_at":  "2026-10-15T22:13:13.5002993+02:00",
-    "released_at":  "2026-10-15T22:17:11.2672053+02:00",
-    "starting_commit":  "899a9c2a969ce4e78fcbadeb8e6b69b481c84d65",
+    "task_id":  "METHOD-C-BOUNDED-BATCH-AUTHORIZATION",
+    "claimed_at":  "2026-10-15T22:21:11.7061543+02:00",
+    "released_at":  "2026-10-15T22:34:41.2128779+02:00",
+    "starting_commit":  "96f0ce17348909df6590f537b7419b482cd75865",
     "allowed_write_scope":  [
+                                "AGENTS.md",
+                                ".agents/qsub-safety-gate.ps1",
                                 "project_coordination/",
-                                "models/pandey_kumar_mode1/48_method_c_stage_c1_0_restart_positive_control/submit_M1_MB_DONOR.pbs",
-                                "scripts/hpc/preflight_package48_authorization.py",
-                                "C:/Users/pruth/OpenClawPAD/Set-ControllerAuthorization.ps1",
-                                "tests/unit/test_package48_human_issuer.py"
+                                "models/pandey_kumar_mode1/48_method_c_stage_c1_0_restart_positive_control/",
+                                "scripts/hpc/",
+                                "tests/unit/",
+                                "C:/Users/pruth/OpenClawPAD/Set-ControllerAuthorization.ps1"
                             ],
-    "session_report":  "project_coordination/sessions/2026-10-15_codex_F1496-PACKAGE48-ROUTE1-SUBMISSION.md"
+    "session_report":  "project_coordination/sessions/2026-10-15_codex_METHOD-C-BOUNDED-BATCH-AUTHORIZATION.md"
 }
