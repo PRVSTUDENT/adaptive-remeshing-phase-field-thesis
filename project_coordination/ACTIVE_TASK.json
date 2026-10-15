@@ -1,12 +1,13 @@
 {
-  "task_id": "F1478-CONTINUOUS-HPC-RESEARCH-EXECUTION-POLICY-AND-PIPELINE",
+  "task_id": "F1479-MODE1-TEMPORAL-REFINEMENT-EXPERIMENT-AND-PARALLEL-RESEARCH",
   "status": "COMPLETED",
   "agent": "gemini-antigravity",
-  "phase": "Continuous HPC Research Execution Policy Enforced, Bridge Rules Synchronized, Job 1413217 Running, Research Pipeline Active, Gate 6C on Hold",
-  "gate_status": "GATE_6B_ACTIVE_HPC_POST_PEAK_SENSITIVITY_RUNNING__JOB_1413217__GATE_6C_ON_HOLD",
+  "phase": "Mode-I Temporal Refinement Experiment Submitted and Running, Dual-Job Concurrency Active, Briefing Epistemically Qualified, Regression Clean, Gate 6C on Hold",
+  "gate_status": "GATE_6B_ACTIVE_HPC_DUAL_CONCURRENCY__JOBS_1413217_AND_1413278__GATE_6C_ON_HOLD",
   "last_updated": "2026-10-15T14:15:00+02:00",
   "active_pbs_job_ids": [
-    "1413217.mmaster02"
+    "1413217.mmaster02",
+    "1413278.mmaster02"
   ],
   "dependent_pbs_job_ids": [],
   "deferred_candidate_jobs": [
@@ -33,12 +34,12 @@
     "1412873.mmaster02",
     "1413022.mmaster02"
   ],
-  "next_recommended_task": "MONITOR_JOB_1413217_AND_EVALUATE_POST_PEAK_DTMIN_SENSITIVITY",
+  "next_recommended_task": "MONITOR_JOBS_1413217_AND_1413278_AND_SYNTHESIZE_TEMPORAL_SENSITIVITIES",
   "governing_constraints": [
-    "Active PBS job 1413217.mmaster02 (M1_MB_DTMIN_8T) running on mnode097 with 8 CPUs and 24 GB RAM",
+    "Active PBS jobs 1413217.mmaster02 (M1_MB_DTMIN_8T) and 1413278.mmaster02 (M1_MB_DTMAX_8T) running concurrently on mnode097 with 16 CPUs and 48 GB RAM total",
     "Enforce Continuous HPC Research Execution Policy across all controller turns",
     "Preserve production Fortran UEL SHA-256 CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "Gate 6C strictly ON HOLD pending formal supervisor review on Thursday, 22 October 2026 (10:00 CEST)"
   ],
-  "notes": "Task F1478: (1) Permanently updated .agents/scripts/bridge_rules.txt with 10-rule Continuous HPC Research Execution Policy, submission deadlines, and safe bridge edits; (2) Updated .agents/scripts/project_alignment_guard.txt and Invoke-ChatGPTBridge.ps1 with 22 October 2026 supervisor meeting date and continuous research execution policy; (3) Authored unit test suite tests/unit/test_mode1_f1478_bridge_rules_and_hpc_policy.py (4/4 PASS); (4) Monitored live simulation Job 1413217.mmaster02, confirming smooth progress past Increment 1626 in Step 1 (u = 0.00813 mm, 0 cutbacks, 3.0 iters/inc); (5) Maintained Gate 6C strictly on hold and production UEL frozen."
+  "notes": "Task F1479: (1) Formulated Package 44 temporal refinement experiment (M1_MB_CORRECTED_DTMAX_14K.inp) with dt_max=1.0E-4 (du=1.0 um) in Step 2 *STATIC on 14,483 FE mesh with INC=12000, under frozen UEL (CE8D5EDC...), completed datacheck (Exit 0), and submitted Job 1413278.mmaster02 (M1_MB_DTMAX_8T) on 8 CPUs SMP / 24 GB RAM in normal_imfdfkmq; (2) Achieved dual-job HPC concurrency floor compliance (Job 1413217 cores 0-7, Job 1413278 cores 8-15) running concurrently on mnode097 with 16 CPUs total and 48 GB RAM; (3) Updated supervisor briefing (SUPERVISOR_BRIEFING_MODE1_METHODS_B_AND_C.md) with 7 epistemic qualifications and active HPC status; (4) Authored unit test tests/unit/test_mode1_f1479_temporal_refinement_and_briefing.py (4/4 PASS) and verified zero regressions across 22 tests; (5) Maintained Gate 6C solver jobs strictly on hold (AUTHORIZED=false)."
 }

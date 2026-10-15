@@ -14,14 +14,17 @@
 
 **Mandatory Governance Review & Active HPC Execution:** In accordance with the supervisor-aligned directive and HPC-First protocol ("Do not leave the cluster idle; formulate and run a scientifically justified, qualified Mode-I experiment before reporting"), a high-priority computational sensitivity study was submitted and is actively running:
 
-- **Active PBS Job:** `1413217.mmaster02` (`M1_MB_DTMIN_8T`)
-- **Queue & Placement:** Queue `normal_imfdfkmq` on compute node `mnode097/0*8` (single-rank shared-memory SMP: 8 CPUs, 24 GB RAM, 24h walltime).
-- **Execution Mode:** 8-thread shared-memory SMP (`mp_mode=threads`), fully qualified under Stage A/B testing (`THREAD_PARALLELIZATION_QUALIFIED`).
-- **Input Deck & Subroutine Hashes:**
-  - Deck (`M1_MB_CORRECTED_DTMIN_14K.inp`): `E154264600B381BA9DFD23CAAD0635088A7B4075367E27F6B85B2951DAB03B40`
-  - Authoritative Production Subroutine (`f42_mixed_uel.for`): `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` (100% frozen, zero unauthorized alterations).
-  - PBS Script (`submit_M1_MB_DTMIN_8T.pbs`): `4CEE7F124DDACB1E7A5FB9415E260127EFC7149EBF22FC904300C6A7581F0137`
-- **Preflight & Datacheck:** Full interactive Abaqus 2023 datacheck executed with `ANALYSIS COMPLETE` (Exit Code 0).
+- **Active PBS Jobs Executing Concurrently:**
+  1. `1413217.mmaster02` (`M1_MB_DTMIN_8T`):
+     - **Focus:** Package 43 minimum increment sensitivity ($dt_{\min} = 1.0	imes 10^{-15}$).
+     - **Placement:** Queue `normal_imfdfkmq` on `mnode097/0*8` (8 CPUs SMP, 24 GB RAM).
+     - **Status:** Actively running ($u > 0.0090\,	ext{mm}$ in Step 1, 0 cutbacks, 3 iters/inc).
+     - **Hashes:** Deck `E1542646...`, Subroutine `CE8D5EDC...`, PBS `4CEE7F12...`.
+  2. `1413278.mmaster02` (`M1_MB_DTMAX_8T`):
+     - **Focus:** Package 44 controlled temporal refinement ($dt_{\max} = 1.0	imes 10^{-4}$ in Step 2, $dt_{\min} = 1.0	imes 10^{-9}$, `INC=12000`).
+     - **Placement:** Queue `normal_imfdfkmq` on `mnode097/1*8` (8 CPUs SMP, 24 GB RAM).
+     - **Status:** Datacheck Exit 0, submitted via `entry_imfdfkmq`, actively running in parallel on `mnode097`.
+     - **Hashes:** Deck `CB596BD91CA45F4B51111158EAA56523A01888471F8FF54EE37F40A306387B9C`, Subroutine `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`, PBS `86A5FFAB4EAD0C85DB15491FEB0C57EAD7C4DE680149EBA471FC157C0BEEAC31`.
 - **Scientific Hypothesis & Investigation Scope:**
   - *Retrospective Package 40 Completion Sensitivity:* Jobs 1412465, 1412873, and 1413022 on the 14,483 FE mesh successfully resolved the entire fracture softening curve down to $RF = 1.76\,\text{N}$ ($99.76\%$ drop from $F_{\max} = 743.7\,\text{N}$), but encountered cutback exhaustion (`***ERROR: TIME INCREMENT REQUIRED IS LESS THAN THE MINIMUM SPECIFIED`) at Step 2 Increment 2890 ($u = 0.007889\,\text{mm}$) when 10 consecutive cutbacks were clamped at $dt_{\min} = 1.0\times 10^{-9}$.
   - *Investigation:* Package 43 reduces the minimum solution increment to $dt_{\min} = 1.0\times 10^{-15}$ (`*STATIC, 2.0E-4, 1.0, 1.0E-15, 2.0E-4`) to test whether the solver can traverse the steep post-severance transition and continue toward the requested endpoint $u = 0.0100\,\text{mm}$, while establishing exact response parity over the previously solved interval $[0.0, 0.007889]\,\text{mm}$.
@@ -181,22 +184,33 @@ $^\dagger$Solver encountered $dt < dt_{\min} = 10^{-9}$ during rigid-body separa
    - **Corrected Method B 14,483 FE (Jobs 1412873 & 1413022):** Stage A parity and Stage B independent repeat completed Step 1 (2,000 incs) and reached Step 2 Increment 2890 ($u = 0.007889\,\text{mm}$, Exit 1, walltimes 03:35:22 and 03:22:49, $1.82\times$ and $1.93\times$ speedup vs serial 06:31:34). Demonstrated physical brittle fracture across $99.76\%$ of the load drop ($RF = 1.7645\,\text{N}$ vs peak $743.7\,\text{N}$) before terminating at $dt < dt_{\min} = 1.0\times 10^{-9}$ on the completely severed plate. Full-precision SHA-256 hash comparison of `uel_energy_balance.csv` confirmed **bitwise identity** across all 4,890 increments (`82f2963d...`), certifying `THREAD_PARITY_PASS`, `THREAD_DETERMINISM_PASS`, and `THREAD_PARALLELIZATION_QUALIFIED`.
 ---
 
+### 2.6 Epistemic Discipline & Explicit Qualification of Claims
+
+To preserve academic integrity and align strictly with verifiable numerical facts, seven specific claims from prior drafts are explicitly qualified:
+1. **Method A Crack Path Foreknowledge:** Method A does not universally require advance knowledge of the crack path. For symmetric Mode-I fracture, the initial stress singularity naturally guides refinement along the symmetry plane without user specification; prior knowledge is only mandatory when crack turning departs from the initial stress concentration.
+2. **Method C Arbitrary Path Tracking:** Method C has not demonstrated autonomous tracking of arbitrary or curved crack paths. Work to date has evaluated only a single candidate on the straight Mode-I ligament, and multi-cycle adaptive propagation remains un-demonstrated.
+3. **State-Transfer Energy Conservation:** State-transfer energy preservation has not been experimentally qualified in an executing solver restart; offline mathematical transfer metrics ($0.13\%$ damage discrepancy, $1.67\%$ compliance difference) establish interpolation fidelity on an un-run deck, not running conservation.
+4. **Native Continuation Feasibility:** The fatal solver rejection of `*INITIAL CONDITIONS, TYPE=DISPLACEMENT` in `*STATIC` steps (Abaqus Error 144) reflects a specific software constraint for that syntax, not a theoretical proof that all native Abaqus restart, submodeling, or transfer strategies are fundamentally impossible.
+5. **Retrospective vs Prospective Method B:** Retrospective Package 40 (14,483 FEs) successfully demonstrates the mechanical necessity of fine ligament resolution to prevent crack pinning, but does not prove prospective Method B accuracy in the absence of propagation data.
+6. **Corridor Coverage vs Element Resolution:** The reported 100% binned median corridor reach ($x_{\max} = 1.000\,\text{mm}$) reflects median corridor reach across spatial bins and must not be conflated with 100% elementwise resolution (where $96.81\%$ of elements in the ligament corridor satisfy $h \le l_0/2$ and strict centerline reach is $x = 0.891\,\text{mm}$).
+7. **Ligament Resolution Necessity vs Sufficiency:** Successful post-peak softening in Package 40 demonstrates that ligament resolution was necessary to eliminate the artificial force plateau on this mesh, but spatial resolution alone is not universally sufficient without adequate time incrementation controls and numerical active-set stability.
+
 ## 3. Method C: Sequential Adaptive Remeshing Feasibility & State Transfer
 
 ### 3.1 Precise Operational Definitions: Methods A, B, and C
 To maintain strict methodological discipline and prevent conflation in reporting:
 
 1. **Method A (Fixed Offline Pre-Refinement):**
-   - *Operational Definition:* A single static discretization is constructed *prior* to solver execution with a fine mesh corridor ($h \le l_0/2$) pre-seeded along the entire anticipated crack path (e.g. Canonical Reference 15k, Historical ET2 6.1k). The simulation executes continuously from $t = 0$ to $t_{\text{final}}$ on this frozen mesh.
-   - *Scientific Scope:* Requires exact *a priori* knowledge of the crack trajectory. It is an engineering baseline, not an adaptive remeshing methodology.
+   - *Operational Definition:* A single static discretization is constructed *prior* to solver execution with a fine mesh corridor ($h \le l_0/2$) focused on the crack path (e.g. Canonical Reference 15k, Historical ET2 6.1k). The simulation executes continuously from $t = 0$ to $t_{\text{final}}$ on this frozen mesh.
+   - *Scientific Scope & Evidence Boundary:* Method A does not universally require advance knowledge of the crack path. For self-similar straight cracks where the initial stress singularity aligns with the propagation corridor (such as symmetric Mode-I tension), standard pre-refinement based on coarse stress error captures the path naturally without manual intervention. Advance knowledge is strictly needed only when the crack curves away from initial stress concentrations.
 
 2. **Method B (Load-Partitioned Offline Pre-Refinement with Remeshing Rule):**
    - *Operational Definition:* An initial simulation runs on a coarse mesh ($M_0$) up to an intermediate pre-peak load step ($u_{\text{pre}} = 0.0050\,\text{mm}$). Abaqus built-in `RemeshingRule` evaluates an error indicator ($\MISESERI$) on a companion linear-elastic continuum overlay. Exactly **one** remeshing operation is performed ($M_0 \to M_1$). The fracture simulation is then restarted from $t = 0$ on the new mesh $M_1$.
-   - *Crucial Finding:* Loading steps (1S, 2S, 4S) are NOT remeshing cycles. Because the pre-analysis stops before crack propagation, the linear-elastic error field is path-independent and scale-invariant ($\Delta \eta_{\max} = 0.0$). The resulting stationary notch-tip stress field leaves the uncracked ligament coarse ($h \approx 20\,\mu\text{m}$), producing severe crack pinning ($0.50-0.60\,\text{kN}$ plateau, $+40.3\%$ work). Extending the corridor across the ligament (Corrected Method B) eliminates the plateau, but was derived *retrospectively* from a donor state where the crack had already propagated.
+   - *Crucial Finding & Evidence Boundary:* Loading steps (1S, 2S, 4S) are NOT remeshing cycles. Because the pre-analysis stops before crack propagation, the linear-elastic error field is path-independent and scale-invariant ($\Delta \eta_{\max} = 0.0$). The resulting stationary notch-tip stress field leaves the uncracked ligament coarse ($h \approx 20\,\mu\text{m}$), producing severe crack pinning ($0.50-0.60\,\text{kN}$ plateau, $+40.3\%$ work). Extending the corridor across the ligament (Corrected Method B, Package 40) eliminates the plateau, but was derived *retrospectively* and does not prove that an unguided prospective Method B execution would generate this corridor automatically.
 
 3. **Method C (Sequential In-Analysis Adaptive Remeshing during Propagation):**
-   - *Operational Definition:* True automated adaptive fracture simulation: $\text{Solve} \to \text{Evaluate Error} \to \text{Remesh} \to \text{Transfer State} \to \text{Continue}$, repeated sequentially during active crack propagation.
-   - *Documented Milestone Status:* One authentic coarse-to-fine refinement candidate ($2{,}906 \to 14{,}677$ FEs) and offline state transfer have been verified, but **zero complete sequential remeshing-and-continuation cycles have been qualified in the solver**. Two-cycle and four-cycle Method C experiments remain un-demonstrated. Commercial Abaqus/Standard barriers (rejection of displacement ICs in `*STATIC`, zero DOFs in solution ICs, lack of UEL mapping) fundamentally block native in-analysis continuation.
+   - *Operational Definition:* Proposed adaptive fracture simulation: $\text{Solve} \to \text{Evaluate Error} \to \text{Remesh} \to \text{Transfer State} \to \text{Continue}$, repeated sequentially during active crack propagation.
+   - *Documented Milestone Status & Evidence Boundary:* One authentic coarse-to-fine refinement candidate ($2{,}906 \to 14{,}677$ FEs) and offline state transfer have been mathematically verified, but **zero complete sequential remeshing-and-continuation cycles have been qualified in the solver**, and Method C has **not** demonstrated autonomous tracking of arbitrary crack paths. Furthermore, state-transfer energy preservation has not been experimentally qualified in an active solver run. While commercial Abaqus/Standard rejects displacement initial conditions in `*STATIC` (Error 144), this implementation constraint does not establish that all native continuation strategies are fundamentally impossible.
 
 The state-transfer comparison across the three canonical physical fields at $u = 0.0050\,\text{mm}$ (donor deck `M1-MB-1S.inp` / `M1_MB_INF_1S.inp`, $2,906$ FEs, $2,988$ physical nodes) established:
 - **Field 1 (Coarse Donor Solution, 2.9k FEs):** $d_{\max} = 0.094910$ evaluated at true notch-tip **Node 97** ($x=0.500\,\text{mm}, y=0.500\,\text{mm}$). Coarse mesh ($h = 20\,\mu\mathrm{m} > 2.6\,l_0$) pinned damage evolution, retarding crack initiation. (Note: 2,142 nodes in `coarse_donor_state_u0050.json` reflects nodes with active damage $d \ge 1.3 \times 10^{-7}$, while 846 intact far-field nodes receive $d = 0.0$).

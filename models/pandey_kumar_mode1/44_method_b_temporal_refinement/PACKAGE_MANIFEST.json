@@ -1,0 +1,44 @@
+{
+  "package_id": "44_method_b_temporal_refinement",
+  "name": "M1_MB_CORR_14K_DTMAX_REFINEMENT",
+  "created_at": "2026-10-15T14:00:00+02:00",
+  "parent_package": "40_method_b_corrected_propagation_14k",
+  "single_intended_change": "Step 2 maximum increment dt_max reduced from 2.0E-4 to 1.0E-4 (initial 1.0E-4, max 1.0E-4, min 1.0E-9, INC=12000) under identical 14,483 FE mesh and boundary conditions",
+  "mesh": {
+    "finite_elements": 14483,
+    "element_breakdown": "14,357 CPE4 + 126 CPE3",
+    "total_records_3layers": 43449,
+    "h_min_um": 1.88,
+    "h_max_um": 20.0,
+    "contiguous_ligament_coverage_pct": 100.0
+  },
+  "artifacts": {
+    "input_deck": {
+      "path": "M1_MB_CORRECTED_DTMAX_14K.inp",
+      "sha256": "CB596BD91CA45F4B51111158EAA56523A01888471F8FF54EE37F40A306387B9C"
+    },
+    "user_subroutine": {
+      "path": "f42_mixed_uel.for",
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+    },
+    "pbs_script": {
+      "path": "submit_M1_MB_DTMAX_8T.pbs",
+      "sha256": "86A5FFAB4EAD0C85DB15491FEB0C57EAD7C4DE680149EBA471FC157C0BEEAC31"
+    }
+  },
+  "execution": {
+    "mode": "8-thread shared-memory SMP (mp_mode=threads)",
+    "cpus": 8,
+    "memory": "24gb",
+    "walltime": "24:00:00",
+    "queue": "entry_imfdfkmq -> normal_imfdfkmq",
+    "run_dir": "/scratch9/pr21vyci/runs/mode1_method_b_temporal_refinement"
+  },
+  "acceptance_criteria": {
+    "elastic_stiffness_kN_per_mm": "137.9096 +/- 0.05",
+    "peak_force_kN": "0.743701 +/- 0.0005",
+    "displacement_at_peak_mm": "0.005733 +/- 0.00005",
+    "matched_energy_at_u007889_mJ": "W_ext within 0.5% of 2.2674 mJ, E_frac within 0.5% of 2.2855 mJ",
+    "post_peak_question": "Does halving the maximum time increment from 2e-4 to 1e-4 alter crack localization, post-peak softening trajectory, or minimum-increment cutback at u=0.007889 mm?"
+  }
+}
