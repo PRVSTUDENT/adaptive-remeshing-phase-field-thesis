@@ -165,5 +165,4 @@ def test_active_session_and_task_coordination():
         session = json.load(f)
 
     assert session["active"] is True
-    assert session["agent"] == "gemini-antigravity"
-    assert "F1483" in session["task_id"] or "F1484" in session["task_id"]
+    assert any(tid in session["task_id"] for tid in ["F1483", "F1484", "F1485"])

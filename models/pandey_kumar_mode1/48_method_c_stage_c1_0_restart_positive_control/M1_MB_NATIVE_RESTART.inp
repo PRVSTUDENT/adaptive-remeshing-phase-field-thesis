@@ -1,0 +1,22 @@
+*HEADING
+Mode-I Native Same-Mesh Restart Positive Control (2,906 FEs)
+*RESTART, READ, STEP=1
+** ==========================================================
+** STEP: Step-2-Continue (Cumulative U = 0.005000 -> 0.010000 mm)
+** ==========================================================
+*STEP, NAME=Step-2-Continue, NLGEOM=NO, INC=10000
+*STATIC
+0.000200, 1.000000, 1.0E-12, 0.000200
+*BOUNDARY
+N_RP, 2, 2, 0.010000
+*RESTART, WRITE, FREQUENCY=0
+*OUTPUT, FIELD, FREQUENCY=10
+*NODE OUTPUT, NSET=N_RP
+U, RF
+*ELEMENT OUTPUT, ELSET=All_elem, DIRECTIONS=YES
+MISESERI, MISESAVG, S, E, EVOL
+*ELEMENT OUTPUT, ELSET=umatelem
+SDV
+*NODE PRINT, FREQ=1, NSET=N_RP
+U2, RF2
+*END STEP

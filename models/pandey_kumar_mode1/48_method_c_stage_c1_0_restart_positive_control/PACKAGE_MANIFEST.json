@@ -1,0 +1,40 @@
+{
+  "package_id": "PACKAGE_48_MODE1_NATIVE_RESTART_POSITIVE_CONTROL",
+  "scientific_phase": "MODE1_GATE6C_METHOD_C_STAGE_C1_0_RESTART_AUDIT",
+  "protocol_version": 2,
+  "created_at": "2026-10-15T19:45:00+02:00",
+  "mesh_donor": {
+    "nodes": 2989,
+    "elements_physical": 2906,
+    "co_located_layers": [
+      "Phase U1/U3",
+      "Mechanical U2/U4",
+      "Visualizer CPE4/CPE3"
+    ],
+    "donor_deck": "M1_MB_DONOR_WITH_RESTART.inp",
+    "sha256": "F737357AF6069A4017885E38EF249DC1BA7FD4B7E3C91EC1FB55F1D89824484D"
+  },
+  "mesh_recipient": {
+    "nodes": 2989,
+    "elements_physical": 2906,
+    "recipient_deck": "M1_MB_NATIVE_RESTART.inp",
+    "restart_from_step": 1,
+    "restart_mode": "Native Abaqus *RESTART, READ",
+    "sha256": "C617D83165CBAED7D6E6C1494AF9C65B8B9A763E1A67CA40FCF0CA51CD356D6D"
+  },
+  "production_uel": {
+    "source": "f42_mixed_uel.for",
+    "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "status": "FROZEN_UNCHANGED"
+  },
+  "scientific_purpose": "Investigate native Abaqus *RESTART on identical 2,906-element mesh as a positive control to experimentally determine whether Abaqus preserves UEL SVARS and whether Fortran COMMON /CB_STATE_TRANS/ is wiped or restored across restart boundaries.",
+  "hypotheses_and_predictions": {
+    "hypothesis_1_svars_restoration": "Abaqus serializes and restores UEL SVARS into the recipient elements from the .res file.",
+    "hypothesis_2_common_block_loss": "Abaqus does NOT serialize Fortran COMMON /CB_STATE_TRANS/. In the restart process, static memory starts zeroed, and because UEXTERNALDB does not implement LOP=4 and UEL lines 248-261 check KSTEP.EQ.1 (which is FALSE for restarted Step 2), COMMON state is NOT restored, causing Layer 1/2 state decoupling unless re-equilibrated as in Package 47."
+  },
+  "acceptance_criteria": {
+    "criterion_1_donor_datacheck": "Donor deck passes Abaqus datacheck Exit 0.",
+    "criterion_2_restart_datacheck": "Restart recipient deck passes Abaqus restart datacheck Exit 0.",
+    "criterion_3_experimental_distinction": "Defines an exact experimental test distinguishing native restart from history-initialized static re-equilibration (Package 47)."
+  }
+}
