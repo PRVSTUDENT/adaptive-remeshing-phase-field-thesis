@@ -68,6 +68,21 @@ Canonical dynamic state:
 
 # Batch-Oriented HPC Execution
 
+## Package 48 donor authorization clarification
+
+The human authorizes exactly one validated Package 48 donor PBS submission.
+Agents may investigate and repair genuine issuer/preflight verification defects,
+and run `Set-ControllerAuthorization.ps1 -VerifyOnly`. Agents must not execute
+the human approval/credential-issuance mode, fabricate notification evidence,
+reset existing permit counters, or bypass the safety gate. The human must run
+the repaired approval procedure. Once a valid human-issued, command-bound,
+manifest-bound, unexpired permit exists, submit the donor immediately once
+through the guarded procedure and record its actual PBS ID and Q/R state.
+Preserve Method B job 1413296. Restart recipients require an authentic donor
+checkpoint and separate submission authorization. Do not replace execution
+with repetitive research/documentation loops; report the exact remaining
+human action when credential activation is the blocker.
+
 Batch execution is the default for this project unless the user explicitly
 requests a one-job-at-a-time process.
 

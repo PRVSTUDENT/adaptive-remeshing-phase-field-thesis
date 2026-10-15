@@ -1,0 +1,113 @@
+"""Read-only Package 48 qualification; never issues permits or invokes qsub."""
+import hashlib
+import json
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import tempfile
+from datetime import datetime, timezone
+
+RUN = Path('/scratch9/pr21vyci/runs/mode1_package48_restart_control')
+
+
+def require(condition, message):
+    if not condition:
+        raise RuntimeError(message)
+
+
+def run_shell(body, expected_status=0):
+    with tempfile.TemporaryDirectory(prefix='p48-preflight-') as directory:
+        script = Path(directory) / 'check.sh'
+        script.write_text('set -euo pipefail\n' + body)
+        result = subprocess.run(['bash', str(script)], stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE, universal_newlines=True, timeout=75)
+        # Never echo shell output/errors: configuration may contain credentials.
+        require(result.returncode == expected_status, 'Notification transport/lifecycle check failed')
+        return result.stdout.strip()
+
+
+def check(payload):
+    facts = {}
+    for name, digest in payload['files'].items():
+        require(Path(name).name == name, 'Invalid package filename')
+        path = RUN / name
+        require(path.is_file(), 'Missing staged file: ' + name)
+        actual = hashlib.sha256(path.read_bytes()).hexdigest()
+        require(actual == digest.lower(), 'Staged hash mismatch: ' + name)
+        facts[name] = actual
+    pbs = (RUN / 'submit_M1_MB_DONOR.pbs').read_text()
+    for directive in ['#PBS -m abe', '#PBS -M pr21vyci@mailserver.tu-freiberg.de',
+                      '#PBS -l nodes=1:ppn=1', '#PBS -l mem=16gb',
+                      '#PBS -l walltime=04:00:00', '#PBS -q normal_imfdfkmq',
+                      'notification_install_terminal_trap', 'notify_start']:
+        require(directive in pbs, 'Missing PBS contract: ' + directive)
+    helper = RUN / 'job_notifications.sh'
+    require(helper.is_file(), 'Missing staged notification helper')
+    cfg = Path.home() / '.config/adaptive-remeshing/notifications.env'
+    require(cfg.is_file() and cfg.stat().st_mode & 0o777 == 0o600,
+            'Notification configuration must exist with mode 600')
+    require(shutil.which('sendmail'), 'sendmail unavailable; email acceptance unverified')
+    # Lifecycle tests use the real helper with local transport capture, not messages
+    # pretending that an actual PBS experiment started or finished.
+    prefix = 'export NOTIFICATION_CONFIG=' + str(cfg) + '\nsource ' + str(helper) + '\n'
+    lifecycle = prefix + '''
+notification_send_telegram() { printf '%s\\n' "$1" >> "$CAPTURE"; }
+notification_send_email() { :; }
+export PBS_JOBID=PREFLIGHT_TEST PBS_JOBNAME=P48_PREFLIGHT_TEST
+notify_submitted PREFLIGHT_TEST P48_PREFLIGHT_TEST Synthetic
+notify_start
+notify_completed P48_PREFLIGHT_TEST PREFLIGHT_TEST 0
+notify_failed P48_PREFLIGHT_TEST PREFLIGHT_TEST 1 0
+notify_terminated P48_PREFLIGHT_TEST PREFLIGHT_TEST TERM 0
+NOTIFICATION_TERMINAL_SENT=0
+notification_terminal_trap 0
+notification_terminal_trap 0
+'''
+    with tempfile.TemporaryDirectory(prefix='p48-events-') as directory:
+        capture = Path(directory) / 'events'
+        run_shell('export CAPTURE=' + str(capture) + '\n' + lifecycle)
+        text = capture.read_text()
+        for event, count in [('SUBMITTED', 1), ('STARTED', 1), ('COMPLETED', 2),
+                             ('FAILED', 1), ('TERMINATED', 1)]:
+            require(text.count(' - ' + event + ']') == count,
+                    'Lifecycle/exactly-once contract failed: ' + event)
+        for ending, rc, event in [('exit 0', 0, 'COMPLETED'),
+                                 ('exit 1', 1, 'FAILED'),
+                                 ('kill -TERM $$', 143, 'TERMINATED')]:
+            capture.write_text('')
+            run_shell('export CAPTURE=' + str(capture) + '\n' + prefix + '''
+notification_send_telegram() { printf '%s\\n' "$1" >> "$CAPTURE"; }
+notification_send_email() { :; }
+export PBS_JOBID=PREFLIGHT_TEST PBS_JOBNAME=P48_PREFLIGHT_TEST
+notification_install_terminal_trap
+''' + ending + '\n', expected_status=rc)
+            require(capture.read_text().count(' - ' + event + ']') == 1,
+                    'Installed terminal trap failed: ' + event)
+    # Real transport tests: helper requires Telegram HTTP 200 and JSON ok=true.
+    run_shell(prefix + '''
+unset NOTIFICATION_MOCK_TELEGRAM NOTIFICATION_MOCK_FAIL
+notification_load_config
+notification_send_telegram_once 'Package 48 authorization PREFLIGHT TEST; no PBS job submitted.'
+notification_send_email_once 'Package 48 authorization PREFLIGHT TEST' 'No PBS job submitted. Mail transport verification.'
+''')
+    return dict(passed=True, pbs_email_verified=True, telegram_verified=True,
+                candidate_manifest_sha256=payload['manifest_sha256'],
+                authorized_command_sha256=payload['command_sha256'],
+                checked_at=datetime.now(timezone.utc).isoformat(),
+                config_path=str(cfg), config_mode='600', file_hashes=facts,
+                helper_sha256=hashlib.sha256(helper.read_bytes()).hexdigest(),
+                email_evidence='sendmail accepted test message; PBS abe directives verified',
+                telegram_notification_contract='PASS_LOGIN_NODE',
+                compute_node_delivery='UNRESOLVED', lifecycle_tests='PASS')
+
+
+if __name__ == '__main__':
+    import base64
+    import sys
+    try:
+        payload = json.loads(base64.b64decode(sys.argv[1]))
+        print(json.dumps(check(payload)))
+    except Exception as error:
+        print(json.dumps({'passed': False, 'reason': str(error)}))
+        sys.exit(1)
