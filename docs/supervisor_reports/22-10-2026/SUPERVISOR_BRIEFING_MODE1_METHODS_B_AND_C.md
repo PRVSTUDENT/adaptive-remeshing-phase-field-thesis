@@ -14,17 +14,29 @@
 
 **Mandatory Governance Review & Active HPC Execution:** In accordance with the supervisor-aligned directive and HPC-First protocol ("Do not leave the cluster idle; formulate and run a scientifically justified, qualified Mode-I experiment before reporting"), a high-priority computational sensitivity study was submitted and is actively running:
 
-- **Active PBS Jobs Executing Concurrently:**
+- **Active PBS Jobs Executing Concurrently (3 Jobs, 17 CPUs, 72 GB RAM in state R):**
   1. `1413217.mmaster02` (`M1_MB_DTMIN_8T`):
-     - **Focus:** Package 43 minimum increment sensitivity ($dt_{\min} = 1.0	imes 10^{-15}$).
+     - **Focus:** Package 43 minimum increment sensitivity ($dt_{\min} = 1.0\times 10^{-15}$ vs reference $10^{-9}$).
      - **Placement:** Queue `normal_imfdfkmq` on `mnode097/0*8` (8 CPUs SMP, 24 GB RAM).
-     - **Status:** Actively running ($u > 0.0090\,	ext{mm}$ in Step 1, 0 cutbacks, 3 iters/inc).
+     - **Status:** Actively running in Step 2 post-peak ($u > 0.0056\,\text{mm}$, >2,670 total increments, 0 cutbacks, 3.0 iters/inc). Step 1 (2,000 incs, $u = 0.0050\,\text{mm}$) completed cleanly.
      - **Hashes:** Deck `E1542646...`, Subroutine `CE8D5EDC...`, PBS `4CEE7F12...`.
   2. `1413278.mmaster02` (`M1_MB_DTMAX_8T`):
-     - **Focus:** Package 44 controlled temporal refinement ($dt_{\max} = 1.0	imes 10^{-4}$ in Step 2, $dt_{\min} = 1.0	imes 10^{-9}$, `INC=12000`).
+     - **Focus:** Package 44 controlled temporal refinement ($dt_{\max} = 1.0\times 10^{-4}$ in Step 2, $dt_{\min} = 1.0\times 10^{-9}$, `INC=12000`, 8-thread SMP).
      - **Placement:** Queue `normal_imfdfkmq` on `mnode097/1*8` (8 CPUs SMP, 24 GB RAM).
-     - **Status:** Datacheck Exit 0, submitted via `entry_imfdfkmq`, actively running in parallel on `mnode097`.
+     - **Status:** Actively running in Step 1 (>840 increments, $u > 0.0021\,\text{mm}$, 0 cutbacks, 3.0 iters/inc).
      - **Hashes:** Deck `CB596BD91CA45F4B51111158EAA56523A01888471F8FF54EE37F40A306387B9C`, Subroutine `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`, PBS `86A5FFAB4EAD0C85DB15491FEB0C57EAD7C4DE680149EBA471FC157C0BEEAC31`.
+  3. `1413296.mmaster02` (`M1_MB_DTMAX_1C`):
+     - **Focus:** Package 45 Stage-A serial parity control for Package 44 ($dt_{\max} = 1.0\times 10^{-4}$ in Step 2, 1 CPU serial).
+     - **Placement:** Queue `normal_imfdfkmq` on `mnode100/0` (1 CPU serial, 24 GB RAM).
+     - **Status:** Datacheck Exit 0, submitted via `entry_imfdfkmq`, actively running in state `R`.
+     - **Hashes:** Deck `CB596BD91CA45F4B51111158EAA56523A01888471F8FF54EE37F40A306387B9C`, Subroutine `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`, PBS `EAF0BB76EE21E8B4E331FA0B277F89DFFDF7CCFC6C7A17CCFFC30B61F278FF38`.
+- **Temporal Increment Physics & Dimensional Audit:**
+  - *Dimensional Verification:* In Step 2, prescribed boundary displacement advances from $u_y = 0.0050\,\text{mm}$ to $0.0100\,\text{mm}$ ($\Delta u_{\text{step2}} = 0.0050\,\text{mm} = 5.0\,\mu\text{m} = 5000\,\text{nm}$) over unit step time $T_2 = 1.0$.
+  - *Increment Scales:*
+    * Reference increment $\Delta t_{\max} = 2.0\times 10^{-4}$ corresponds to a physical displacement increment of $\Delta u_{\max} = (2.0\times 10^{-4}) \times 0.0050\,\text{mm} = 1.0\times 10^{-6}\,\text{mm} = 0.0010\,\mu\text{m} = 1.0\,\text{nm}$.
+    * Refined increment $\Delta t_{\max} = 1.0\times 10^{-4}$ corresponds to a physical displacement increment of $\Delta u_{\max} = (1.0\times 10^{-4}) \times 0.0050\,\text{mm} = 5.0\times 10^{-7}\,\text{mm} = 0.00050\,\mu\text{m} = 0.50\,\text{nm}$.
+    * The refinement represents an exact $2\times$ temporal refinement at the nanometer scale ($1.0\,\text{nm} \to 0.5\,\text{nm}$), not at the micrometer scale.
+  - *Headroom Role of `INC=12000`:* At $\Delta t_{\max} = 1.0\times 10^{-4}$, the nominal increment count required to traverse the step is $1.0 / (1.0\times 10^{-4}) = 10,000$ increments. Setting `INC=12000` (up from reference 5000) provides the necessary increment headroom to complete the step and handle cutbacks without triggering Abaqus error `***ERROR: TOO MANY INCREMENTS NEEDED TO COMPLETE THE STEP`. It does not alter physical equilibrium, stiffness, or convergence tolerances.
 - **Scientific Hypothesis & Investigation Scope:**
   - *Retrospective Package 40 Completion Sensitivity:* Jobs 1412465, 1412873, and 1413022 on the 14,483 FE mesh successfully resolved the entire fracture softening curve down to $RF = 1.76\,\text{N}$ ($99.76\%$ drop from $F_{\max} = 743.7\,\text{N}$), but encountered cutback exhaustion (`***ERROR: TIME INCREMENT REQUIRED IS LESS THAN THE MINIMUM SPECIFIED`) at Step 2 Increment 2890 ($u = 0.007889\,\text{mm}$) when 10 consecutive cutbacks were clamped at $dt_{\min} = 1.0\times 10^{-9}$.
   - *Investigation:* Package 43 reduces the minimum solution increment to $dt_{\min} = 1.0\times 10^{-15}$ (`*STATIC, 2.0E-4, 1.0, 1.0E-15, 2.0E-4`) to test whether the solver can traverse the steep post-severance transition and continue toward the requested endpoint $u = 0.0100\,\text{mm}$, while establishing exact response parity over the previously solved interval $[0.0, 0.007889]\,\text{mm}$.

@@ -1,0 +1,47 @@
+{
+  "package_id": "45_method_b_temporal_refinement_serial_parity",
+  "name": "Method B Corrected 14k Temporal Refinement Serial Parity Control",
+  "created_at": "2026-10-15T14:20:00+02:00",
+  "author": "gemini-antigravity",
+  "gate": "GATE_6B_TEMPORAL_CONVERGENCE_AND_SERIAL_PARITY",
+  "scientific_hypothesis": "The Package 44 8-thread SMP execution (Job 1413278) reproduces an otherwise identical 1-CPU serial solution (Job M1_MB_DTMAX_1C) over the common attained loading horizon, certifying that temporal refinement effects (dt_max = 1.0E-4, du = 0.5 nm) are genuine continuum-mechanics phenomena free of multi-threading race conditions or mutable COMMON state corruption.",
+  "single_intended_change": "Execution architecture changed from 8-thread SMP (Package 44, Job 1413278) to 1-CPU serial, preserving identical input deck M1_MB_CORRECTED_DTMAX_14K.inp (SHA-256 CB596BD91CA45F4B51111158EAA56523A01888471F8FF54EE37F40A306387B9C) and frozen production UEL f42_mixed_uel.for (SHA-256 CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6).",
+  "predeclared_parity_metrics": [
+    "Initial linear-elastic stiffness K_0 matching within 0.05%",
+    "Peak reaction force F_max and displacement u(F_max) matching within 0.1%",
+    "Full force-displacement F-u post-peak softening trajectory agreement",
+    "Incrementation history, Newton iteration counts, and cutback positions",
+    "Final attained displacement u_final and termination reason",
+    "Maximum damage d_max and crack-tip spatial localization",
+    "Global UEL energy quantities: E_elas, E_frac, W_ext, and energy balance residual"
+  ],
+  "model_parameters": {
+    "mesh_elements": 14483,
+    "mesh_nodes": 14757,
+    "phase_field_length_scale_mm": 0.0075,
+    "step1_dt_initial": 0.0005,
+    "step1_dt_max": 0.0005,
+    "step1_displacement_mm": 0.0050,
+    "step2_dt_initial": 0.0001,
+    "step2_dt_max": 0.0001,
+    "step2_dt_min": 1.0e-9,
+    "step2_inc_max": 12000,
+    "step2_displacement_delta_mm": 0.0050,
+    "step2_nominal_du_per_increment_mm": 5.0e-7,
+    "step2_nominal_du_per_increment_nm": 0.5,
+    "step2_final_displacement_mm": 0.0100
+  },
+  "execution_resources": {
+    "cpus": 1,
+    "mode": "serial",
+    "memory_gb": 24,
+    "walltime": "24:00:00",
+    "queue": "normal_imfdfkmq",
+    "cluster_scratch_dir": "/scratch9/pr21vyci/runs/mode1_method_b_temporal_refinement_serial"
+  },
+  "provenance_hashes": {
+    "input_deck_sha256": "CB596BD91CA45F4B51111158EAA56523A01888471F8FF54EE37F40A306387B9C",
+    "uel_subroutine_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "pbs_script_sha256": "EAF0BB76EE21E8B4E331FA0B277F89DFFDF7CCFC6C7A17CCFFC30B61F278FF38"
+  }
+}
