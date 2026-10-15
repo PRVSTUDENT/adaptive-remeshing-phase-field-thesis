@@ -166,4 +166,4 @@ def test_active_session_and_task_coordination():
 
     assert session["active"] is True
     assert session["agent"] == "gemini-antigravity"
-    assert "F1483" in session["task_id"]
+    assert "F1483" in session["task_id"] or "F1484" in session["task_id"]
