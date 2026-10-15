@@ -2,6 +2,7 @@
 import base64
 from datetime import datetime, timezone, timedelta
 import json
+import importlib.util
 from pathlib import Path
 import re
 import sys
@@ -14,6 +15,18 @@ ISSUER = Path.home() / 'OpenClawPAD/Set-ControllerAuthorization.ps1'
 
 
 class IssuerTests(unittest.TestCase):
+    def test_route_only_or_disabled_queue_refuses_before_notifications(self):
+        path = Path(__file__).resolve().parents[2] / 'scripts/hpc/preflight_package48_authorization.py'
+        spec = importlib.util.spec_from_file_location('package48_preflight', path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        for output in ('from_route_only = True\nenabled = True\nstarted = True',
+                       'enabled = False\nstarted = True'):
+            with patch.object(module.subprocess, 'run', return_value=types.SimpleNamespace(returncode=0, stdout=output)), patch.object(module, 'run_shell') as notifications:
+                with self.assertRaises(RuntimeError):
+                    module.check({'submission_queue': 'normal_imfdfkmq', 'files': {}})
+                notifications.assert_not_called()
+
     def exercise(self, state, stale=False):
         source = ISSUER.read_text(encoding='utf-8-sig')
         code = re.search(r"\$issue=@'\n(.*?)\n'@", source, re.S).group(1)

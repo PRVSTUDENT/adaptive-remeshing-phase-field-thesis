@@ -2,6 +2,7 @@
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -29,6 +30,18 @@ def run_shell(body, expected_status=0):
 
 def check(payload):
     facts = {}
+    queue = payload.get('submission_queue', 'normal_imfdfkmq')
+    require(queue in ('normal_imfdfkmq', 'entry_imfdfkmq'), 'Unapproved queue')
+    query = subprocess.run(['qstat', '-Qf', queue], stdout=subprocess.PIPE,
+                           stderr=subprocess.PIPE, universal_newlines=True, timeout=20)
+    require(query.returncode == 0, 'Queue query failed')
+    require('from_route_only = True' not in query.stdout,
+            'Direct submission prohibited: use authorized entry_imfdfkmq routing queue')
+    for key in ('enabled', 'started'):
+        require(re.search(r'\b' + key + r'\s*=\s*True', query.stdout), 'Queue not ' + key)
+    if queue == 'entry_imfdfkmq':
+        require('queue_type = Route' in query.stdout and
+                'normal_imfdfkmq' in query.stdout, 'Routing destination mismatch')
     for name, digest in payload['files'].items():
         require(Path(name).name == name, 'Invalid package filename')
         path = RUN / name
@@ -92,6 +105,7 @@ notification_send_telegram_once 'Package 48 authorization PREFLIGHT TEST; no PBS
 notification_send_email_once 'Package 48 authorization PREFLIGHT TEST' 'No PBS job submitted. Mail transport verification.'
 ''')
     return dict(passed=True, pbs_email_verified=True, telegram_verified=True,
+                submission_queue=queue, queue_access_preflight='PASS',
                 candidate_manifest_sha256=payload['manifest_sha256'],
                 authorized_command_sha256=payload['command_sha256'],
                 checked_at=datetime.now(timezone.utc).isoformat(),

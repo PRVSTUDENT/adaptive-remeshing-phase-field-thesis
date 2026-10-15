@@ -1,10 +1,10 @@
 {
-    "task_id":  "F1490-FIX-AUTHORIZATION-WORKFLOW-AND-SUBMIT",
-    "status":  "COMPLETED",
-    "agent":  "gemini-antigravity",
-    "phase":  "Resolve authorization system mismatch between legacy Set-ControllerAuthorization.ps1 and hardened qsub-safety-gate.ps1; repair issuance script to issue daily_chatgpt_delegation (+24h) and command-bound submission_authorization; verify Package 48 donor qualifications and in-flight solver 1413296 (Step 2 Inc \u003e3170); report Outcome B awaiting human execution of repaired command",
+    "task_id":  "F1494-PACKAGE48-DONOR-SUBMISSION",
+    "status":  "SCHEDULER_REJECTED_AWAITING_FRESH_HUMAN_ROUTE_PERMIT",
+    "agent":  "codex",
+    "phase":  "One authorized qsub rejected because normal queue is route-only; no job ID; corrected routing preflight passed; original permit consumed1/1",
     "gate_status":  "GATE_6B_ACTIVE_EVALUATION_PASS__GATE_6C_STAGE_C1_0_DATACHECK_PASS",
-    "last_updated":  "2026-10-15T22:03:42.2576950+02:00",
+    "last_updated":  "2026-10-15T22:09:06.0280558+02:00",
     "active_pbs_job_ids":  [
                                "1413296.mmaster02"
                            ],
@@ -42,7 +42,7 @@
                                   "1413217.mmaster02",
                                   "1413278.mmaster02"
                               ],
-    "next_recommended_task":  "HUMAN_ACTIVATES_VERIFIED_PACKAGE48_DONOR_PERMIT_THEN_GUARDED_SINGLE_SUBMISSION",
+    "next_recommended_task":  "HUMAN_ACTIVATES_MODE1_PACKAGE48_DONOR_ROUTE1_THEN_SINGLE_GUARDED_SUBMISSION",
     "governing_constraints":  [
                                   "Active PBS job 1413296.mmaster02 (M1_MB_DTMAX_1C, Step 2 Inc \u003e3170) running as authorized 1-CPU serial parity control in normal_imfdfkmq",
                                   "Enforce Continuous HPC Research Execution Policy across all controller turns",
