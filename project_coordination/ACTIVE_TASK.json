@@ -1,12 +1,13 @@
 {
-    "task_id":  "METHOD-C-BOUNDED-BATCH-AUTHORIZATION",
-    "status":  "BOUNDED_BATCH_READY_AWAITING_ONE_HUMAN_ACTIVATION",
+    "task_id":  "METHOD-C-BATCH1-EXECUTION",
+    "status":  "DONOR_RUNNING_NUMERICAL_INCREMENTS_CONFIRMED",
     "agent":  "codex",
-    "phase":  "Exact three-job max3/24h batch; repaired routed-command detection, per-command atomic counters and dependency review; no new submission",
+    "phase":  "Accepted1413814 running solver; actual97 converged increments; compiler repaired; two approved recipient slots await checkpoint review",
     "gate_status":  "GATE_6B_ACTIVE_EVALUATION_PASS__GATE_6C_STAGE_C1_0_DATACHECK_PASS",
-    "last_updated":  "2026-10-15T22:34:41.1611339+02:00",
+    "last_updated":  "2026-10-15T22:43:49.6827413+02:00",
     "active_pbs_job_ids":  [
-                               "1413296.mmaster02"
+                               "1413296.mmaster02",
+                               "1413814.mmaster02"
                            ],
     "dependent_pbs_job_ids":  [
 
@@ -43,7 +44,7 @@
                                   "1413278.mmaster02",
                                   "1413808.mmaster02"
                               ],
-    "next_recommended_task":  "HUMAN_ACTIVATES_MODE1_METHOD_C_BATCH1_MAX3_SUPERSEDE_ONCE_THEN_SUBMIT_DONOR_AND_REVIEW_CHECKPOINT_BEFORE_RECIPIENTS",
+    "next_recommended_task":  "VERIFY_DONOR_TERMINAL_CHECKPOINT_THEN_SUBMIT_BOTH_RESTARTS_UNDER_SAME_BATCH",
     "governing_constraints":  [
                                   "Active PBS job 1413296.mmaster02 (M1_MB_DTMAX_1C, Step 2 Inc \u003e3170) running as authorized 1-CPU serial parity control in normal_imfdfkmq",
                                   "Enforce Continuous HPC Research Execution Policy across all controller turns",

@@ -1,18 +1,14 @@
 {
-    "active":  false,
+    "active":  true,
     "agent":  "codex",
-    "task_id":  "METHOD-C-BOUNDED-BATCH-AUTHORIZATION",
-    "claimed_at":  "2026-10-15T22:21:11.7061543+02:00",
+    "task_id":  "METHOD-C-BATCH1-EXECUTION",
+    "claimed_at":  "2026-10-15T22:39:18.8045669+02:00",
     "released_at":  "2026-10-15T22:34:41.2128779+02:00",
-    "starting_commit":  "96f0ce17348909df6590f537b7419b482cd75865",
+    "starting_commit":  "066751c76766f8bedbb329cd55ebe3a13b7ef504",
     "allowed_write_scope":  [
-                                "AGENTS.md",
-                                ".agents/qsub-safety-gate.ps1",
                                 "project_coordination/",
-                                "models/pandey_kumar_mode1/48_method_c_stage_c1_0_restart_positive_control/",
-                                "scripts/hpc/",
-                                "tests/unit/",
-                                "C:/Users/pruth/OpenClawPAD/Set-ControllerAuthorization.ps1"
+                                "scripts/postprocessing/inspect_mode1_native_restart_checkpoint.py",
+                                "tests/unit/test_mode1_native_restart_checkpoint.py"
                             ],
     "session_report":  "project_coordination/sessions/2026-10-15_codex_METHOD-C-BOUNDED-BATCH-AUTHORIZATION.md"
 }
