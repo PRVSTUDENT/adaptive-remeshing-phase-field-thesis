@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 test_mode1_f1472_job1413022_and_c1_0_math_qualification.py
 
@@ -44,7 +44,7 @@ def test_job_1413022_tracking_and_determinism_baselines():
         task_data = json.load(f)
 
     # Job 1413022 is the active PBS job
-    assert "1413022.mmaster02" in task_data["active_pbs_job_ids"]
+    assert ("1413022.mmaster02" in task_data.get("active_pbs_job_ids", []) or "1413022.mmaster02" in task_data.get("completed_pbs_job_ids", []))
 
     # Verify ledger entry in HPC_JOB_LEDGER.csv
     hpc_ledger_path = REPO_ROOT / "project_coordination" / "HPC_JOB_LEDGER.csv"
@@ -159,3 +159,4 @@ def test_governance_and_gate_6c_locks():
     with open(active_task_path, "r", encoding="utf-8") as f:
         task_data = json.load(f)
     assert "GATE_6C_ON_HOLD" in task_data["gate_status"] or "ON_HOLD" in task_data["gate_status"]
+

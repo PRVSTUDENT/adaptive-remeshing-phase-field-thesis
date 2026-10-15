@@ -1,10 +1,19 @@
 {
   "active": false,
-  "agent": null,
-  "task_id": null,
-  "claimed_at": null,
-  "released_at": "2026-10-15T06:30:00+02:00",
-  "starting_commit": "1f7994a580defa38e3d5d1791e91928f7f05a762",
-  "allowed_write_scope": [],
-  "session_report": "project_coordination/sessions/2026-10-15_0630_gemini-antigravity_F1473-ADVANCE-PROSPECTIVE-METHOD-B-AND-RESIDUAL-CORRECTION.md"
+  "agent": "gemini-antigravity",
+  "task_id": "F1475-RETRIEVE-1413022-METHOD-B-STAGE-B-DETERMINISM-AND-PROSPECTIVE-SYNTHESIS",
+  "claimed_at": "2026-10-15T09:35:00+02:00",
+  "released_at": "2026-10-15T10:30:00+02:00",
+  "starting_commit": "b11186a9f231aae409f45150a3422001e15b2379",
+  "allowed_write_scope": [
+    "models/pandey_kumar_mode1/",
+    "runs/hpc/",
+    "runs/mode1/",
+    "docs/",
+    "project_coordination/",
+    "tests/unit/",
+    "scripts/",
+    "MA_AdaptiveRemeshing_Report_2026/"
+  ],
+  "session_report": "project_coordination/sessions/2026-10-15_1030_gemini-antigravity_F1475-RETRIEVE-1413022-METHOD-B-STAGE-B-DETERMINISM-AND-PROSPECTIVE-SYNTHESIS.md"
 }

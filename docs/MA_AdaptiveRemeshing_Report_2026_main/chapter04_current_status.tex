@@ -1,4 +1,4 @@
-\chapter{Current Status: Mode-I Verification, UEL Energy Audit, and Multifaceted Convergence}
+﻿\chapter{Current Status: Mode-I Verification, UEL Energy Audit, and Multifaceted Convergence}
 \label{cha:current_status}
 \label{ch:current_status}
 
@@ -2419,7 +2419,7 @@ Following the completion run of Job \texttt{1409982.mmaster02} (Stage 14U-AF), w
 \subsection{Abaqus 2023 Nonlinear Solution Controls Formulation}
 \label{subsec:stage14uah_abaqus_formulation}
 
-In the default Abaqus/Standard solver formulation (\textit{Abaqus 2023 Primary Documentation §7.2.2: Convergence Criteria for Nonlinear Problems}), global equilibrium iterations for each active degree-of-freedom field $\alpha$ are governed by two independent criteria:
+In the default Abaqus/Standard solver formulation (\textit{Abaqus 2023 Primary Documentation Â§7.2.2: Convergence Criteria for Nonlinear Problems}), global equilibrium iterations for each active degree-of-freedom field $\alpha$ are governed by two independent criteria:
 \begin{enumerate}
   \item \textbf{Residual Force Equilibrium Test:}
   \begin{equation}
@@ -4125,12 +4125,11 @@ Pursuant to the multi-threaded shared-memory execution qualification protocol, t
     \texttt{SHA-256: 792be67db9ac2ca2e51b9811ca0fb6f374bf28d0ba160f725f2d071b3c38d99d}
   \end{center}
   Terminal reaction force matched to 8 significant digits ($F = 8.262311\,\mathrm{N}$ at $u = 0.0100\,\mathrm{mm}$). Because both Stage~A (serial vs 8T) and Stage~B (8T repeat 1 vs repeat 2) achieved bitwise identity, this discretization is certified with \texttt{THREAD\_PARITY\_PASS} and \texttt{THREAD\_DETERMINISM\_PASS}.
-  \item \textbf{Corrected Method B ($14{,}483$ FE) Stage A Scaling/Parity (Job \texttt{1412873.mmaster02}):} Executed as an 8-thread SMP counterpart to serial Job \texttt{1412465.mmaster02}. The simulation completed all $2{,}000$ increments of Step~1 and advanced to Step~2 Increment 2890 ($u = 0.007889\,\mathrm{mm}$), demonstrating physical brittle fracture and ligament separation across $99.76\%$ of the load drop ($RF = 1.7645\,\mathrm{N}$ vs peak $743.7\,\mathrm{N}$). At this point, the plate was completely severed, and Abaqus automatic time incrementation terminated upon reaching the minimum specified increment $dt_{\min} = 1.0\times 10^{-9}$ (Exit~1), rather than advancing through the remaining uncoupled rigid separation to $u = 0.0100\,\mathrm{mm}$. Wallclock runtime was $03:35:22$ ($12{,}909\,\mathrm{s}$), achieving a $1.82\times$ speedup over the 1-CPU serial solve ($06:31:34$, $23{,}481\,\mathrm{s}$). Full-precision SHA-256 hash comparison of \texttt{uel\_energy\_balance.csv} confirmed \textbf{bitwise identity} across all $4{,}890$ increments:
+  \item \textbf{Corrected Method B ($14{,}483$ FE) Stage A Scaling/Parity and Stage B Determinism Repeat (Jobs \texttt{1412873.mmaster02} and \texttt{1413022.mmaster02}):} Executed as two independent 8-thread SMP counterparts to serial Job \texttt{1412465.mmaster02} on compute nodes \texttt{mnode097} and \texttt{mnode105}. Both simulations completed all $2{,}000$ increments of Step~1 and advanced to Step~2 Increment 2890 ($u = 0.007889\,\mathrm{mm}$), demonstrating physical brittle fracture and ligament separation across $99.76\%$ of the load drop ($RF = 1.7645\,\mathrm{N}$ vs peak $743.7\,\mathrm{N}$). At this point, the plate was completely severed, and Abaqus automatic time incrementation terminated upon reaching the minimum specified increment $dt_{\min} = 1.0\times 10^{-9}$ (Exit~1), rather than advancing through the remaining uncoupled rigid separation to $u = 0.0100\,\mathrm{mm}$. Wallclock runtimes were $03:35:22$ ($12{,}909\,\mathrm{s}$, $1.82\times$ speedup) for Job \texttt{1412873} and $03:22:49$ ($12{,}169\,\mathrm{s}$, $1.93\times$ speedup) for Job \texttt{1413022} over the 1-CPU serial solve ($06:31:34$, $23{,}481\,\mathrm{s}$). Full-precision SHA-256 hash comparison of \texttt{uel\_energy_balance.csv} confirmed \textbf{bitwise identity} across all $4{,}890$ increments for both runs:
   \begin{center}
     \texttt{SHA-256: 82f2963d4399f7929db6df019a2d7fd34abd3deb570571c04ad489b723561333}
   \end{center}
-  Reaction force and terminal energies ($E_{\mathrm{frac}} = 2.285469\,\mathrm{mJ}$, $E_{\mathrm{elas}} = 0.006960\,\mathrm{mJ}$) matched to 7 significant digits, certifying \texttt{THREAD\_PARITY\_PASS}.
-\end{enumerate}
+  Reaction force and terminal energies ($E_{\mathrm{frac}} = 2.285469\,\mathrm{mJ}$, $E_{\mathrm{elas}} = 0.006960\,\mathrm{mJ}$) matched to 7 significant digits, certifying \texttt{THREAD\_PARITY\_PASS}, \texttt{THREAD\_DETERMINISM\_PASS}, and \texttt{THREAD\_PARALLELIZATION\_QUALIFIED}.
 
 \subsection{Solver Termination Audit, Comparison Horizon Discipline, and Topological Verification}
 \label{subsec:method_b_termination_and_topology}
@@ -4364,3 +4363,4 @@ Reverse Energy Residual (Job 1412809) & $22.22\% > 10.0\%$ & \textbf{FAIL (ENERG
   \item \textbf{Method B (Load-Partitioned Propagation Refinement):} Solves the artificial force plateau when refinement ($h \le \ellzero / 2$) covers the entire prospective crack trajectory, achieving close agreement with canonical references ($K_0$ error $-0.026\%$, $F_{\max}$ error $-1.86\%$, $W_{\mathrm{ext}}$ error $-3.87\%$) within the common comparison horizon $u \le 0.007889\,\mathrm{mm}$. Note that Method~B loading partitions (1, 2, or 4 steps) represent loading subdivision before a single remesh, not sequential remeshing cycles.
   \item \textbf{Method C (Sequential Continuation):} The intended research objective remains sequential adaptive remeshing during crack propagation. Mathematical state transfer across nonmatching user-element meshes is validated offline with high fidelity (Milestones 1 and 2). However, genuine in-analysis continuation (Milestone 3) is fundamentally obstructed by Abaqus/Standard's inability to initialize nonzero displacement states in static UEL models without artificial reloading. To date, zero complete sequential remeshing-and-continuation cycles have been qualified, and multi-cycle experiments remain un-demonstrated. Future research evaluating state-preserving continuation architectures must satisfy six strict criteria: (1) state-preserving nonzero-displacement initialization, (2) phase-field and strain-history preservation, (3) reaction-force continuity ($|\Delta RF| \le 5\,\mathrm{N}$), (4) quantified transfer-induced energy discrepancy ($\le 5\%$), (5) verified recipient fracture response against the fixed reference, and (6) single-cycle repeatability before multi-cycle extension.
 \end{itemize}
+

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 test_mode1_f1473_prospective_method_b_and_residual_correction.py
 
@@ -179,8 +179,8 @@ def test_job_1413022_queue_tracking_and_hard_stop():
     with open(task_file, "r", encoding="utf-8") as f:
         task_data = json.load(f)
 
-    assert "1413022.mmaster02" in task_data["active_pbs_job_ids"]
-    assert task_data["status"] in ["SUBMITTED_AND_QUEUED", "QUEUED", "ACTIVE_MONITORING"]
+    assert ("1413022.mmaster02" in task_data.get("active_pbs_job_ids", []) or "1413022.mmaster02" in task_data.get("completed_pbs_job_ids", []))
+    assert task_data["status"] in ["SUBMITTED_AND_QUEUED", "QUEUED", "ACTIVE_MONITORING", "COMPLETED"]
 
     ledger_file = REPO_ROOT / "project_coordination" / "HPC_JOB_LEDGER.csv"
     assert ledger_file.is_file()
@@ -195,3 +195,4 @@ def test_production_uel_hash_preservation():
     assert uel_path.is_file()
     actual_hash = compute_sha256(uel_path)
     assert actual_hash == PROD_UEL_HASH, f"UEL hash mismatch: {actual_hash}"
+
