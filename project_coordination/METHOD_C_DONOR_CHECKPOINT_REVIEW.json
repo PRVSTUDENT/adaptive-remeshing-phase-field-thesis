@@ -1,0 +1,73 @@
+{
+    "reviewed_by":  "codex",
+    "handoff_displacement_mm":  0.005,
+    "energy_sha256":  "40d345e701d37e22a10cdafca944bad48d4a16cdeb81e41ffe4cda67fe05ac96",
+    "checkpoint_hashes":  {
+                              "/scratch9/pr21vyci/runs/mode1_package48_restart_control/M1_MB_DONOR_WITH_RESTART.stt":  "496e9d3744bc733afc6abf30feab123a6f54bfd2bca0fe192286d73f5a668376",
+                              "/scratch9/pr21vyci/runs/mode1_package48_restart_control/M1_MB_DONOR_WITH_RESTART.mdl":  "b968c1ef07c6ef2a6a54497c62dba5e285d1724c491c1eb9a014c8f2ae2a6d02",
+                              "/scratch9/pr21vyci/runs/mode1_package48_restart_control/M1_MB_DONOR_WITH_RESTART.res":  "ef0af2a2e8e8c5f466e61a161738647d749f83149d8c6407d3085a4a733ad602",
+                              "/scratch9/pr21vyci/runs/mode1_package48_restart_control/M1_MB_DONOR_WITH_RESTART.prt":  "3e79779b3403974abb9d290b1caedf631c5fde9ea3a5813fb00cb6056026c9c7"
+                          },
+    "donor_energy_archive":  "/scratch9/pr21vyci/runs/mode1_package48_restart_control/evidence_1413814/uel_energy_balance.csv",
+    "batch_manifest_sha256":  "2aa157754a16c5807f78106c1d9a5820171543568889fa7d2476a2747d4d2031",
+    "reviewed_at":  "2026-10-15T22:50:59.3878478+02:00",
+    "donor_terminal_exit_status":  0,
+    "scientific_review":  "PASS",
+    "evidence_report":  "project_coordination/sessions/2026-10-15_codex_METHOD-C-BATCH1-EXECUTION.md",
+    "checkpoint_files":  {
+                             "/scratch9/pr21vyci/runs/mode1_package48_restart_control/M1_MB_DONOR_WITH_RESTART.mdl":  {
+                                                                                                                          "bytes":  2279524,
+                                                                                                                          "sha256":  "b968c1ef07c6ef2a6a54497c62dba5e285d1724c491c1eb9a014c8f2ae2a6d02"
+                                                                                                                      },
+                             "/scratch9/pr21vyci/runs/mode1_package48_restart_control/M1_MB_DONOR_WITH_RESTART.prt":  {
+                                                                                                                          "bytes":  2470,
+                                                                                                                          "sha256":  "3e79779b3403974abb9d290b1caedf631c5fde9ea3a5813fb00cb6056026c9c7"
+                                                                                                                      },
+                             "/scratch9/pr21vyci/runs/mode1_package48_restart_control/M1_MB_DONOR_WITH_RESTART.res":  {
+                                                                                                                          "bytes":  163840,
+                                                                                                                          "sha256":  "ef0af2a2e8e8c5f466e61a161738647d749f83149d8c6407d3085a4a733ad602"
+                                                                                                                      },
+                             "/scratch9/pr21vyci/runs/mode1_package48_restart_control/M1_MB_DONOR_WITH_RESTART.stt":  {
+                                                                                                                          "bytes":  3189840960,
+                                                                                                                          "sha256":  "496e9d3744bc733afc6abf30feab123a6f54bfd2bca0fe192286d73f5a668376"
+                                                                                                                      }
+                         },
+    "scope":  "Donor readiness for native restart experiments only; recipient state restoration not yet tested",
+    "checkpoint_verified":  true,
+    "donor_pbs_job_id":  "1413814.mmaster02",
+    "actual_donor_state":  {
+                               "RF_rp":  [
+                                             0.0,
+                                             0.6530885696411133
+                                         ],
+                               "SDV14":  {
+                                             "count":  11360,
+                                             "maximum":  0.10056711733341217,
+                                             "minimum":  1.29745117760649E-07
+                                         },
+                               "SDV17":  {
+                                             "count":  11360,
+                                             "maximum":  9.43667316732899E-07,
+                                             "minimum":  2.3611945031581305E-18
+                                         },
+                               "SDV18":  {
+                                             "count":  11360,
+                                             "maximum":  8.9983950601890683E-06,
+                                             "minimum":  1.0025180555497948E-12
+                                         },
+                               "SDV2":  {
+                                            "count":  11360,
+                                            "maximum":  0.053649891167879105,
+                                            "minimum":  1.5794299201843387E-09
+                                        },
+                               "U_rp":  [
+                                            0.0,
+                                            0.004999999888241291
+                                        ],
+                               "checkpoint_readiness":  "END_STATE_OUTPUT_VERIFIED",
+                               "increment":  500,
+                               "recipient_restoration":  "NOT_YET_TESTED",
+                               "rp_reaction_N":  653.0885696411133,
+                               "step_time":  1.0
+                           }
+}

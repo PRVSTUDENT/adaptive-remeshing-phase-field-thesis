@@ -1,13 +1,12 @@
 {
     "task_id":  "METHOD-C-BATCH1-EXECUTION",
-    "status":  "DONOR_RUNNING_NUMERICAL_INCREMENTS_CONFIRMED",
+    "status":  "BATCH_EXECUTED_DONOR_PASSED_RECIPIENT_PREPROCESSING_FAILED",
     "agent":  "codex",
-    "phase":  "Accepted1413814 running solver; actual97 converged increments; compiler repaired; two approved recipient slots await checkpoint review",
+    "phase":  "All3 jobs submitted: donor1413814 Exit0 500increments u0.005 RF653.089N checkpoint verified;1413817/1413818 compiled then rejected unsupported restart error-indicator output",
     "gate_status":  "GATE_6B_ACTIVE_EVALUATION_PASS__GATE_6C_STAGE_C1_0_DATACHECK_PASS",
-    "last_updated":  "2026-10-15T22:43:49.6827413+02:00",
+    "last_updated":  "2026-10-15T22:57:10.6967192+02:00",
     "active_pbs_job_ids":  [
-                               "1413296.mmaster02",
-                               "1413814.mmaster02"
+                               "1413296.mmaster02"
                            ],
     "dependent_pbs_job_ids":  [
 
@@ -42,9 +41,12 @@
                                   "1413022.mmaster02",
                                   "1413217.mmaster02",
                                   "1413278.mmaster02",
-                                  "1413808.mmaster02"
+                                  "1413808.mmaster02",
+                                  "1413814.mmaster02",
+                                  "1413817.mmaster02",
+                                  "1413818.mmaster02"
                               ],
-    "next_recommended_task":  "VERIFY_DONOR_TERMINAL_CHECKPOINT_THEN_SUBMIT_BOTH_RESTARTS_UNDER_SAME_BATCH",
+    "next_recommended_task":  "CORRECT_RESTART_OUTPUT_ONLY_AND_QUALIFY_AGAINST_EXISTING1413814_CHECKPOINT_THEN_FRESH_BOUNDED_RESTART_AUTHORITY",
     "governing_constraints":  [
                                   "Active PBS job 1413296.mmaster02 (M1_MB_DTMAX_1C, Step 2 Inc \u003e3170) running as authorized 1-CPU serial parity control in normal_imfdfkmq",
                                   "Enforce Continuous HPC Research Execution Policy across all controller turns",
@@ -53,5 +55,5 @@
                                   "Do not tamper with or bypass .agents/qsub-safety-gate.ps1",
                                   "Outcome B active: human execution of Set-ControllerAuthorization.ps1 is required before qsub submission"
                               ],
-    "notes":  "1413808 F Exit1 compiler missing; no new numerical results.1413296 verifiedR07:54. Package47 deferred. Batch live preflight and gate tests pass; no real permit issued."
+    "notes":  "Full approved batch submitted; permit3/3 exhausted. No fourth submission authorized. Native recipient continuation not validated. Donor checkpoint review metadata committed; old binaries remainHPC; MethodB R08:18 preserved."
 }
