@@ -4125,11 +4125,12 @@ Pursuant to the multi-threaded shared-memory execution qualification protocol, t
     \texttt{SHA-256: 792be67db9ac2ca2e51b9811ca0fb6f374bf28d0ba160f725f2d071b3c38d99d}
   \end{center}
   Terminal reaction force matched to 8 significant digits ($F = 8.262311\,\mathrm{N}$ at $u = 0.0100\,\mathrm{mm}$). Because both Stage~A (serial vs 8T) and Stage~B (8T repeat 1 vs repeat 2) achieved bitwise identity, this discretization is certified with \texttt{THREAD\_PARITY\_PASS} and \texttt{THREAD\_DETERMINISM\_PASS}.
-  \item \textbf{Corrected Method B ($14{,}483$ FE) Stage A Scaling/Parity and Stage B Determinism Repeat (Jobs \texttt{1412873.mmaster02} and \texttt{1413022.mmaster02}):} Executed as two independent 8-thread SMP counterparts to serial Job \texttt{1412465.mmaster02} on compute nodes \texttt{mnode097} and \texttt{mnode105}. Both simulations completed all $2{,}000$ increments of Step~1 and advanced to Step~2 Increment 2890 ($u = 0.007889\,\mathrm{mm}$), demonstrating physical brittle fracture and ligament separation across $99.76\%$ of the load drop ($RF = 1.7645\,\mathrm{N}$ vs peak $743.7\,\mathrm{N}$). At this point, the plate was completely severed, and Abaqus automatic time incrementation terminated upon reaching the minimum specified increment $dt_{\min} = 1.0\times 10^{-9}$ (Exit~1), rather than advancing through the remaining uncoupled rigid separation to $u = 0.0100\,\mathrm{mm}$. Wallclock runtimes were $03:35:22$ ($12{,}909\,\mathrm{s}$, $1.82\times$ speedup) for Job \texttt{1412873} and $03:22:49$ ($12{,}169\,\mathrm{s}$, $1.93\times$ speedup) for Job \texttt{1413022} over the 1-CPU serial solve ($06:31:34$, $23{,}481\,\mathrm{s}$). Full-precision SHA-256 hash comparison of \texttt{uel\_energy_balance.csv} confirmed \textbf{bitwise identity} across all $4{,}890$ increments for both runs:
+  \item \textbf{Corrected Method B ($14{,}483$ FE) Stage A Scaling/Parity and Stage B Determinism Repeat (Jobs \texttt{1412873.mmaster02} and \texttt{1413022.mmaster02}):} Executed as two independent 8-thread SMP counterparts to serial Job \texttt{1412465.mmaster02} on compute nodes \texttt{mnode097} and \texttt{mnode105}. Both simulations completed all $2{,}000$ increments of Step~1 and advanced to Step~2 Increment 2890 ($u = 0.007889\,\mathrm{mm}$), demonstrating physical brittle fracture and ligament separation across $99.76\%$ of the load drop ($RF = 1.7645\,\mathrm{N}$ vs peak $743.7\,\mathrm{N}$). At this point, the plate was completely severed, and Abaqus automatic time incrementation terminated upon reaching the minimum specified increment $dt_{\min} = 1.0\times 10^{-9}$ (Exit~1), rather than advancing through the remaining uncoupled rigid separation to $u = 0.0100\,\mathrm{mm}$. Wallclock runtimes were $03:35:22$ ($12{,}909\,\mathrm{s}$, $1.82\times$ speedup) for Job \texttt{1412873} and $03:22:49$ ($12{,}169\,\mathrm{s}$, $1.93\times$ speedup) for Job \texttt{1413022} over the 1-CPU serial solve ($06:31:34$, $23{,}481\,\mathrm{s}$). Full-precision SHA-256 hash comparison of \texttt{uel\_energy\_balance.csv} confirmed \textbf{bitwise identity} across all $4{,}890$ increments for both runs:
   \begin{center}
     \texttt{SHA-256: 82f2963d4399f7929db6df019a2d7fd34abd3deb570571c04ad489b723561333}
   \end{center}
   Reaction force and terminal energies ($E_{\mathrm{frac}} = 2.285469\,\mathrm{mJ}$, $E_{\mathrm{elas}} = 0.006960\,\mathrm{mJ}$) matched to 7 significant digits, certifying \texttt{THREAD\_PARITY\_PASS}, \texttt{THREAD\_DETERMINISM\_PASS}, and \texttt{THREAD\_PARALLELIZATION\_QUALIFIED}.
+\end{enumerate}
 
 \subsection{Solver Termination Audit, Comparison Horizon Discipline, and Topological Verification}
 \label{subsec:method_b_termination_and_topology}
@@ -4184,6 +4185,35 @@ In a prospective linear-elastic pre-analysis ($u \le 0.0050\,\mathrm{mm}$), asym
 Accordingly, the $14{,}483$-element discretization is classified explicitly as an \emph{offline engineering heuristic} and \textbf{retrospective, benchmark-specific verification mesh}. It rigorously demonstrates that when the fracture corridor is adequately refined ($h \le 3.75\,\mu\mathrm{m}$), artificial crack pinning and the unphysical force plateau are eliminated, restoring physical brittle fracture. However, because its fine corridor was informed by a previously traversed crack path, it does not demonstrate that Method~B can predict an unknown crack path prospectively. 
 
 Furthermore, this limitation of stationary pre-refinement does not mathematically prove that Method~C is already capable of resolving general crack propagation. Method~C represents an \textbf{unqualified candidate sequential remeshing methodology} whose true continuation, nonmatching mesh-to-mesh state transfer, gradient preservation ($|\nabla d|$), and damage irreversibility enforcement remain open research questions subject to supervisor review under Gate~6C hold.
+
+\paragraph{Direct Solver Deck Coordinate Parser Validation and Spatial Resolution:}
+To establish conclusive empirical verification of the prospective ligament starvation mechanism, an exact element-level coordinate and area parser was executed across the five primary Abaqus input decks (\texttt{calculate\_spatial\_percentages\_fast.py}). For each discretization, the equivalent finite element size $h = \sqrt{A}$ was evaluated across the crack-tip neighborhood ($x \in [0.500, 0.525]\,\mathrm{mm}$) and within the ligament corridor ($x \in [0.500, 1.000]\,\mathrm{mm}, |y - 0.500| \le 0.020\,\mathrm{mm}$), testing against the critical resolution threshold $h \le \ell_0/2 = 3.75\,\mu\mathrm{m}$.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Direct element-level coordinate and spatial resolution audit across Mode-I prospective and retrospective discretizations ($\ell_0 = 7.5\,\mu\mathrm{m}, h_{\mathrm{crit}} = 3.75\,\mu\mathrm{m}$). Ligament length is $L_{\mathrm{lig}} = 0.500\,\mathrm{mm}$ ($x \in [0.500, 1.000]\,\mathrm{mm}$).}
+\label{tab:mode1_spatial_resolution_audit}
+\begin{tabular}{llccccccc}
+\toprule
+\textbf{Discretization Tier} & \textbf{Deck Filename} & \textbf{Elements} & \textbf{Nodes} & \textbf{Tip $h_{\mathrm{med}}$} & \textbf{Lig. $h_{\mathrm{med}}$} & \textbf{$x_{\max}$} & \textbf{Contig. Cov.} & \textbf{Resolved FEs} \\
+ & & & & [$\mu$m] & [$\mu$m] & [mm] & [\%] & [\%] \\
+\midrule
+Tier 1 ($1.0\%$) & \texttt{PK\_M1\_NOM1\_STRICT\_0062.inp} & $71{,}320$ & $70{,}846$ & $1.83$ & $2.00$ & $0.6648$ & $32.96\%$ & $78.26\%$ \\
+Tier 2 ($2.0\%$ Native) & \texttt{M1\_MB\_NATIVE\_FINAL\_1S.inp} & $14{,}677$ & $14{,}647$ & $1.98$ & $2.15$ & $0.5940$ & $18.80\%$ & $78.91\%$ \\
+Tier 3 ($3.0\%$) & \texttt{PK\_M1\_A3\_ADAPT3PCT.inp} & $7{,}633$ & $7{,}695$ & $2.04$ & $2.58$ & $0.5556$ & $11.11\%$ & $69.87\%$ \\
+Tier 4 ($5.0\%$) & \texttt{PK\_M1\_A4\_ADAPT5PCT.inp} & $4{,}194$ & $4{,}275$ & $4.89$ & $11.46$ & $0.5010$ & $0.21\%$ & $4.41\%$ \\
+Package 40 (Retrospective) & \texttt{M1\_MB\_CORRECTED\_PROPAGATION\_14K.inp} & $14{,}483$ & $14{,}457$ & $1.97$ & $1.96$ & $1.0000$ & $100.00\%$ & $96.81\%$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{fig_mode1_method_b_spatial_resolution_validation.pdf}
+\caption{Mode-I phase-field spatial resolution and ligament coverage validation across prospective native remeshing tiers ($1.0\%, 2.0\%, 3.0\%, 5.0\%$) and the retrospective Package 40 verification mesh. (a) Contiguous ligament coverage and resolved element fractions; (b) contiguous reach $x_{\max}$ along the uncracked symmetry ligament; (c) median element size at the crack tip and corridor compared against $\ell_0/2 = 3.75\,\mu\mathrm{m}$; (d) total element count highlighting the $4.92\times$ efficiency of targeted ligament resolution over unconstrained global refinement.}
+\label{fig:mode1_spatial_resolution_validation}
+\end{figure}
 
 
 \section{Method C Sequential Adaptive Remeshing Feasibility Investigation and Nonmatching State Transfer}
