@@ -1,10 +1,10 @@
 {
-    "task_id":  "F1494-PACKAGE48-DONOR-SUBMISSION",
-    "status":  "SCHEDULER_REJECTED_AWAITING_FRESH_HUMAN_ROUTE_PERMIT",
+    "task_id":  "F1496-PACKAGE48-ROUTE1-SUBMISSION",
+    "status":  "PBS_ACCEPTED_THEN_COMPILATION_FAILED_REPAIR_PREPARED",
     "agent":  "codex",
-    "phase":  "One authorized qsub rejected because normal queue is route-only; no job ID; corrected routing preflight passed; original permit consumed1/1",
+    "phase":  "Job1413808 accepted and terminated exit1 in3s because ifort absent; exact compiler modules repaired; no resubmission",
     "gate_status":  "GATE_6B_ACTIVE_EVALUATION_PASS__GATE_6C_STAGE_C1_0_DATACHECK_PASS",
-    "last_updated":  "2026-10-15T22:09:06.0280558+02:00",
+    "last_updated":  "2026-10-15T22:17:11.2111328+02:00",
     "active_pbs_job_ids":  [
                                "1413296.mmaster02"
                            ],
@@ -40,9 +40,10 @@
                                   "1412873.mmaster02",
                                   "1413022.mmaster02",
                                   "1413217.mmaster02",
-                                  "1413278.mmaster02"
+                                  "1413278.mmaster02",
+                                  "1413808.mmaster02"
                               ],
-    "next_recommended_task":  "HUMAN_ACTIVATES_MODE1_PACKAGE48_DONOR_ROUTE1_THEN_SINGLE_GUARDED_SUBMISSION",
+    "next_recommended_task":  "HUMAN_ACTIVATES_MODE1_PACKAGE48_DONOR_COMPILER1_THEN_ONE_GUARDED_SUBMISSION",
     "governing_constraints":  [
                                   "Active PBS job 1413296.mmaster02 (M1_MB_DTMAX_1C, Step 2 Inc \u003e3170) running as authorized 1-CPU serial parity control in normal_imfdfkmq",
                                   "Enforce Continuous HPC Research Execution Policy across all controller turns",
@@ -51,5 +52,5 @@
                                   "Do not tamper with or bypass .agents/qsub-safety-gate.ps1",
                                   "Outcome B active: human execution of Set-ControllerAuthorization.ps1 is required before qsub submission"
                               ],
-    "notes":  "Task F1490: (1) Diagnosed and resolved authorization mismatch between Set-ControllerAuthorization.ps1 (legacy August schema) and qsub-safety-gate.ps1 (hardened October schema requiring daily_chatgpt_delegation and submission_authorization); (2) Repaired C:/Users/pruth/OpenClawPAD/Set-ControllerAuthorization.ps1 to issue valid daily delegation (+24h) and cryptographically bound submission permit; (3) Verified and preserved active 1-CPU serial parity solver 1413296 (Step 2 Inc 3179, cumulative 5,179 incs, 0 cutbacks, walltime \u003e07:07:00); (4) Staged Package 48 donor on scratch with datacheck Exit 0 ready for immediate launch; (5) Reported Outcome B (HUMAN ACTION REQUIRED): documented exact human command to execute."
+    "notes":  "No MethodC numerical progress. Failed job1413808 compilation error; fresh one-job human permit required. Corrected PBS staged; deck/source/resources unchanged; environment-only preflight and5tests PASS."
 }

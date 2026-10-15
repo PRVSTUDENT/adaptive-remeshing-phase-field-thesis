@@ -1,12 +1,16 @@
 {
-    "active":  true,
+    "active":  false,
     "agent":  "codex",
     "task_id":  "F1496-PACKAGE48-ROUTE1-SUBMISSION",
     "claimed_at":  "2026-10-15T22:13:13.5002993+02:00",
-    "released_at":  "2026-10-15T22:11:51.8364246+02:00",
+    "released_at":  "2026-10-15T22:17:11.2672053+02:00",
     "starting_commit":  "899a9c2a969ce4e78fcbadeb8e6b69b481c84d65",
     "allowed_write_scope":  [
-                                "project_coordination/"
+                                "project_coordination/",
+                                "models/pandey_kumar_mode1/48_method_c_stage_c1_0_restart_positive_control/submit_M1_MB_DONOR.pbs",
+                                "scripts/hpc/preflight_package48_authorization.py",
+                                "C:/Users/pruth/OpenClawPAD/Set-ControllerAuthorization.ps1",
+                                "tests/unit/test_package48_human_issuer.py"
                             ],
-    "session_report":  "project_coordination/sessions/2026-10-15_codex_F1495-REPAIR-PREFLIGHT-TRANSPORT.md"
+    "session_report":  "project_coordination/sessions/2026-10-15_codex_F1496-PACKAGE48-ROUTE1-SUBMISSION.md"
 }

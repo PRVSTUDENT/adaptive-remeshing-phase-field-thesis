@@ -1,0 +1,41 @@
+#!/bin/bash
+#PBS -N M1_MB_DONOR
+#PBS -q entry_imfdfkmq
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=16gb
+#PBS -l walltime=04:00:00
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -j oe
+#PBS -o /scratch9/pr21vyci/runs/mode1_package48_restart_control/pbs_execution_donor.log
+
+set -euo pipefail
+
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_package48_restart_control"
+cd "${RUN_DIR}"
+
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "ERROR: Running under /home is strictly prohibited by HPC storage policy." >&2
+    exit 2
+fi
+
+export JOB_NAME="M1_MB_DONOR"
+if [ -f "./job_notifications.sh" ]; then
+    source ./job_notifications.sh
+    notification_install_terminal_trap
+    notify_start
+fi
+
+if ! type module >/dev/null 2>&1; then
+    source /etc/profile.d/lmod.sh
+fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+
+# Execute donor solve: Step 1 (u = 0.0050 mm) with RESTART WRITE OVERLAY enabled
+abaqus job=M1_MB_DONOR_WITH_RESTART input=M1_MB_DONOR_WITH_RESTART.inp user=f42_mixed_uel.for cpus=1 interactive
+SOLVER_EXIT=$?
+
+echo "Abaqus donor solver completed with exit code: ${SOLVER_EXIT}"
+exit ${SOLVER_EXIT}

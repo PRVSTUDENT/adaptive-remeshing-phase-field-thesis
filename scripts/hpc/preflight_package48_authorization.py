@@ -52,7 +52,9 @@ def check(payload):
     pbs = (RUN / 'submit_M1_MB_DONOR.pbs').read_text()
     for directive in ['#PBS -m abe', '#PBS -M pr21vyci@mailserver.tu-freiberg.de',
                       '#PBS -l nodes=1:ppn=1', '#PBS -l mem=16gb',
-                      '#PBS -l walltime=04:00:00', '#PBS -q normal_imfdfkmq',
+                      '#PBS -l walltime=04:00:00', '#PBS -q entry_imfdfkmq',
+                      'module load gcc/11.4.0 intel/2024.2.0 abaqus/2023',
+                      'command -v ifort',
                       'notification_install_terminal_trap', 'notify_start']:
         require(directive in pbs, 'Missing PBS contract: ' + directive)
     helper = RUN / 'job_notifications.sh'
@@ -64,6 +66,14 @@ def check(payload):
     # Lifecycle tests use the real helper with local transport capture, not messages
     # pretending that an actual PBS experiment started or finished.
     prefix = 'export NOTIFICATION_CONFIG=' + str(cfg) + '\nsource ' + str(helper) + '\n'
+    run_shell('''if ! type module >/dev/null 2>&1; then
+    source /etc/profile.d/lmod.sh
+fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+ifort --version
+''')
     lifecycle = prefix + '''
 notification_send_telegram() { printf '%s\\n' "$1" >> "$CAPTURE"; }
 notification_send_email() { :; }
@@ -106,6 +116,7 @@ notification_send_email_once 'Package 48 authorization PREFLIGHT TEST' 'No PBS j
 ''')
     return dict(passed=True, pbs_email_verified=True, telegram_verified=True,
                 submission_queue=queue, queue_access_preflight='PASS',
+                compiler_environment='PASS_LOGIN_NODE',
                 candidate_manifest_sha256=payload['manifest_sha256'],
                 authorized_command_sha256=payload['command_sha256'],
                 checked_at=datetime.now(timezone.utc).isoformat(),
