@@ -24,19 +24,101 @@ Workflow requirements:
 10. If the supplied information is insufficient for a safe next instruction, reply exactly:
 ESCALATION_UNRESOLVED
 
+---------------- CONTINUOUS HPC RESEARCH EXECUTION POLICY (MANDATORY) ----------------
+1. Numerical research takes operational priority over documentation.
+   Report writing must proceed concurrently with numerical research rather than instead of it.
+   Documentation must never become an excuse to pause, delay, or throttle active simulations,
+   experiment preparation, or cluster queue utilization.
+
+2. Submit validated experiments without unnecessary delays.
+   As soon as an experiment or batch candidate passes technical validation (preflight checks,
+   syntax verification, input/subroutine hash verification, datacheck), it MUST be submitted
+   to the HPC queue immediately. Do not hold validated jobs for cosmetic documentation updates,
+   excessive preamble writing, or unnecessary turn transitions.
+
+3. Work concurrently while PBS jobs execute.
+   While simulations are running on the cluster (state 'R' or 'Q'):
+   - Perform data analysis on completed jobs;
+   - Prepare and validate the NEXT experimental configuration in the research pipeline;
+   - Update report drafts, plots, and documentation;
+   - Conduct offline verification, code cleanup, or test authoring.
+   NEVER sit idle or reply 'stop' solely because a job is running when independent work remains.
+
+4. Maintain a scientific experiment pipeline.
+   Always maintain at least one validated, ready-to-submit experiment in the pipeline.
+   When a running job completes, the next experiment should be ready for immediate submission
+   without a multi-turn planning gap.
+
+5. Documentation must not monopolize execution.
+   When writing reports, papers, or documentation:
+   - Limit purely administrative/documentation turns;
+   - Every controller session must check PBS queue status and advance active numerical work
+     before or alongside writing;
+   - If cluster capacity is available and validated candidates exist, submission takes
+     precedence over report polishing.
+
+6. Empty queue requires an active research decision.
+   If the PBS queue is empty (0 active project jobs) during an active research session:
+   - The agent MUST either submit the next pipeline candidate, or
+   - Explicitly document why no submission is scientifically justified at this exact point
+     (e.g. awaiting human decision, gate dependency, or prerequisite analysis in progress).
+   An empty queue must NEVER be silently accepted or glossed over.
+
+7. No artificial HPC usage (scientific usefulness is the sole criterion).
+   This policy is NOT a mandate to keep the cluster busy with trivial, redundant, or
+   uninformative jobs. Every job submitted MUST have:
+   - A clear, falsifiable scientific hypothesis or qualification purpose;
+   - Pre-declared acceptance criteria;
+   - Distinct parameter values, mesh configurations, loading schedules, or algorithmic
+     variants that advance the research plan;
+   - Full compliance with existing gate sequences (Gate 6B closure recommendation, Gate 6C hold, etc.).
+
+8. Respect research gates.
+   Continuous execution operates WITHIN the established research gate framework:
+   - Gate 6B: closure recommendation pending supervisor sign-off on Thursday, 22 October 2026;
+   - Gate 6C: strictly on hold until Gate 6B is formally reviewed and closed by supervisor;
+   - Mode-II, MPI, 16-thread, and complex benchmark extensions remain on hold until authorized;
+   - Independent Mode-I sensitivity, convergence, loading schedule (Method B), and
+     formulation diagnostics are the active research space.
+
+9. Reporting follows execution.
+   Controller and agent responses must strictly follow this 5-part structure:
+   (1) HPC STATUS: Current queue, running/queued/completed jobs, resource usage.
+   (2) NEW EXPERIMENT: What was submitted, validated, or queued this turn (or explicit
+       scientific reason why no submission occurred).
+   (3) SCIENTIFIC PROGRESS: Findings, data analysis, comparisons, physical insights from
+       completed simulations.
+   (4) DOCUMENTATION: Report sections written, figures generated, tables updated.
+   (5) NEXT ACTION: Concrete next step for both numerical and documentation tracks.
+
+10. Do not choose scheduler polling interval.
+    The bridge controller / human decides polling cadence. Never suggest sleep durations
+    or polling frequencies.
+
+---------------- SUBMISSION DECISION DEADLINES & SAFE BRIDGE EDITS ----------------
+- Submission Decision Deadline:
+  When an experiment candidate is technically validated and authorized, submission must
+  occur within the same turn or immediately upon authorization. Do not defer submission
+  across multiple review turns unless blocked by an unresolved technical defect.
+- Make Bridge Edits Safer:
+  All bridge prompt modifications, rule additions, and guard adjustments must be made in
+  authoritative persistent script files (.agents/scripts/bridge_rules.txt,
+  .agents/scripts/project_alignment_guard.txt, .agents/scripts/Invoke-ChatGPTBridge.ps1),
+  tested with regression test suites, and verified via -DryRun before release.
+
 ---------------- MASTER SCIENTIFIC GOVERNANCE & ROADMAP ----------------
 - Supervisor Meeting Milestones:
   * Meeting of Thursday, 08 October 2026, 10:00 CEST has concluded.
-  * Next Supervisor Meeting: Thursday, 22 October 2026 — 10:00 AM.
-  * Active Phase: PLANNING_STAGE_SUPERVISOR_MEETING_ALIGNMENT (No direct solver implementation changes before Gate M2-4 evaluation and planning finalization).
+  * Next Supervisor Meeting: Thursday, 22 October 2026 — 10:00 AM CEST.
+  * Active Phase: GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF (Planning stage and supervisor meeting alignment for 22 October 2026).
 
 - Mode-I Fundamentals Baseline Governance:
   * Baseline Status: Frozen for supervisor review (tag v2026.10.08-supervisor-meeting-mode1-freeze, source hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6).
   * 71,320-mesh stiffness defect is RESOLVED_AND_CLOSED. Do NOT reopen.
   * 13,941 vs 71,320 element-count reproduction is CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION. Do NOT reopen.
   * Priority 1 is UEL Energy Formulation and Output: Status is UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE (source hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6, verified non-invasive with bitwise parity across all 7,000 increments in Job 1409734).
-  * Gate 6B Status: GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF (Gate 6B evaluation is complete across all 9 governed jobs, including serial Job 1410179.mmaster02 partial diagnostic and 8-thread SMP Job 1410504.mmaster02 completed full-horizon solve; queue idle / 0 jobs in queue; ready for supervisor review and sign-off on Thursday, 08 October 2026, 10:00 CEST).
-  * Gate 6C Status: ON_HOLD_PENDING_GATE6B_CLOSURE (strictly paused on hold until Gate 6B is formally reviewed and closed by supervisor; no automatic promotion merely because energy baseline is qualified).
+  * Gate 6B Status: GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF (Gate 6B evaluation is complete across all governed jobs, including serial Job 1410179.mmaster02 partial diagnostic, 8-thread SMP Job 1410504.mmaster02 completed full-horizon solve, and Method B jobs 1412465, 1412872, 1412873, 1413022; ready for supervisor review and sign-off on Thursday, 22 October 2026, 10:00 CEST).
+  * Gate 6C Status: ON_HOLD_PENDING_GATE6B_CLOSURE (strictly paused on hold until Gate 6B is formally reviewed and closed by supervisor; zero unauthorized solver runs).
   * Parallel Execution Policy:
     - 8-thread shared-memory SMP execution is empirically qualified for the tested Mode-I formulation/controls (S8 = 3.62x speedup, 100% bitwise parity across 4,890 increments);
     - 16-thread shared-memory execution is UNQUALIFIED pending independent Stage-A/B verification;
@@ -45,10 +127,12 @@ ESCALATION_UNRESOLVED
 - Mode-II Benchmark Governance:
   * Gate M2-0: CLOSED_PASSED.
   * Gate M2-1: QUALIFIED_DATACHECK_PASSED.
-  * Gate M2-2: COMPLETED_EVALUATED_PASSED (Job 1410790.mmaster02 Exit 0).
-  * Gate M2-3: PROVISIONAL_REQUIRES_DIAGNOSIS (22,530 FE native mesh verified).
-  * Gate M2-4: REPAIRED_SOLVER_SUBMITTED_AND_QUEUED (PBS Job 1410807.mmaster02, 1 CPU serial, 16 GB, normal_imfdfkmq, repaired dynamic N_PHYS indexing, d in [0, 1]).
-  * Execution priority: Await completion of Job 1410807.mmaster02; validate physical damage field and force response. Do NOT submit speculative jobs.
+  * Gate M2-2: COMPLETED_EVALUATED_PASSED (Job 1411104.mmaster02 Exit 0).
+  * Gate M2-3: CLOSED_PASSED_CORRECTED_CORRIDOR_QUALIFIED.
+  * Gate M2-1B: QUALIFIED_WITH_LIMITATIONS.
+  * Gate M2-4: QUALIFIED_WITH_LIMITATIONS (Adaptive ET3 Job 1411267 Exit 0).
+  * Gate M2-5: CLOSED_PASSED_SUPERVISOR_READY.
+  * Execution priority: Mode-II benchmark is ready for supervisor review on 22 October 2026. Do NOT submit speculative jobs.
 
 ---------------- UPDATED THESIS RULES (POST-08 OCTOBER 2026 SUPERVISOR MEETING) ----------------
 1. Primary Research Goal:
@@ -73,7 +157,7 @@ ESCALATION_UNRESOLVED
 
 4. Thesis Research Progression:
    1. Verified Pandey–Kumar reproduction (Mode-I baseline frozen).
-   2. Mode-II validation (Job 1410807 closeout and diagnosis).
+   2. Mode-II validation (Job 1411267 closeout and diagnosis).
    3. Controlled load-partition study (1, 2, 4 steps on Mode-I benchmark).
    4. Sequential-remeshing feasibility and state-transfer verification.
    5. Automated comparative convergence and computational efficiency study (T_total = T_solver + T_remesh + T_transfer + T_pre/post).

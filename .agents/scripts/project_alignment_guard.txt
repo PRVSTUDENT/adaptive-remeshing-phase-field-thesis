@@ -6,7 +6,7 @@ SUPERVISOR GOVERNING DIRECTIVE & ACTIVE SCIENTIFIC PHASE
 "We need to have understood everything related to the first model before we increase complexity."
 
 ACTIVE SCIENTIFIC PHASE:
-  GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF
+  METHOD_A_B_C_CLASSIFICATION_RECONCILED_AND_METHOD_C_FEASIBILITY_VERIFIED_READY_FOR_SUPERVISOR_REVIEW
 
 NEW SCIENTIFIC ROADMAP:
   Qualified Mode-I benchmark
@@ -18,11 +18,12 @@ NEW SCIENTIFIC ROADMAP:
     -> PHASE-FIELD / CRACK-PATH CONVERGENCE
     -> MODE-I STATE-TRANSFER ENERGY PRESERVATION (GATE 6C ON HOLD)
     -> complete Mode-I report
-    -> supervisor review (Thursday, 08 October 2026, 10:00 CEST)
+    -> supervisor review (Thursday, 22 October 2026, 10:00 CEST)
     -> only then visualization integration / higher-complexity example
 
 NEXT SUPERVISOR MEETING:
-  Thursday, 08 October 2026, 10:00 CEST
+  Thursday, 22 October 2026, 10:00 CEST
+  (Meeting of Thursday, 08 October 2026, 10:00 CEST has concluded)
   All Mode-I work completed before that meeting must be incorporated directly into
   the growing report, including theory, methods, results, unresolved issues, and figures.
 
@@ -773,16 +774,16 @@ Additional submissions within the 15â€“20 job guideline must satisfy:
 BRIDGE RESPONSE RULE
 ================================================================================
 
-MODE-I FUNDAMENTALS GOVERNANCE (POST-17-SEPTEMBER-2026 SUPERVISOR MEETING):
-- Active scientific phase: GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF.
+MODE-I FUNDAMENTALS GOVERNANCE (POST-08-OCTOBER-2026 SUPERVISOR MEETING):
+- Active scientific phase: METHOD_A_B_C_CLASSIFICATION_RECONCILED_AND_METHOD_C_FEASIBILITY_VERIFIED_READY_FOR_SUPERVISOR_REVIEW.
 - 71,320-mesh stiffness defect is RESOLVED_AND_CLOSED.
 - 13,941 vs 71,320 element-count reproduction is CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION.
 - UEL Energy formulation & output status: UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE.
-- Active Gate: Gate 6B evaluation is complete across all 9 governed jobs (including serial Job 1410179 terminal partial diagnostic evidence and 8T SMP Job 1410504 completed full-horizon solve); ready for supervisor review and sign-off on 08 October 2026.
-- Gate 6C / State Transfer: Strictly on hold until Gate 6B is formally closed; no auto-promotion.
+- Active Gate: Gate 6B evaluation is complete across all governed jobs; closure recommendation pending supervisor review and sign-off on Thursday, 22 October 2026, 10:00 CEST.
+- Gate 6C / State Transfer: Strictly on hold until Gate 6B is formally closed by supervisor; zero unauthorized solver runs.
 - Parallel execution: 8-thread shared-memory SMP qualified; 16-thread shared-memory unqualified;
   multi-rank MPI strictly disqualified.
-- Next supervisor meeting: Thursday, 08 October 2026, 10:00 CEST.
+- Next supervisor meeting: Thursday, 22 October 2026, 10:00 CEST.
 - STOP / RESUME RULES:
   * Do NOT assume zero Q/R jobs means stop or park. If Mode-I fundamentals tasks (energy audit, derivation, offline analysis, report updates) are actionable, CONTINUE that work!
   * With Q/R jobs running: leave them untouched. If independent offline analysis, derivations, or report work remain, continue that work!
@@ -790,7 +791,73 @@ MODE-I FUNDAMENTALS GOVERNANCE (POST-17-SEPTEMBER-2026 SUPERVISOR MEETING):
   * When a job becomes terminal: retrieve actual scheduler/solver evidence; evaluate scientifically against predeclared criteria; update report/provenance; do NOT return stop just because Exit_status=0.
   * Do NOT reopen 13,941 target matching, author inquiries, Mode-II, or visualization integration (Gate 7).
 
-Do not choose the scheduler polling interval.
+---------------- CONTINUOUS HPC RESEARCH EXECUTION POLICY (MANDATORY) ----------------
+1. Numerical research takes operational priority over documentation.
+   Report writing must proceed concurrently with numerical research rather than instead of it.
+   Documentation must never become an excuse to pause, delay, or throttle active simulations,
+   experiment preparation, or cluster queue utilization.
+2. Submit validated experiments without unnecessary delays.
+   As soon as an experiment or batch candidate passes technical validation (preflight checks,
+   syntax verification, input/subroutine hash verification, datacheck), it MUST be submitted
+   to the HPC queue immediately. Do not hold validated jobs for cosmetic documentation updates.
+3. Work concurrently while PBS jobs execute.
+   While simulations are running on the cluster (state 'R' or 'Q'):
+   - Perform data analysis on completed jobs;
+   - Prepare and validate the NEXT experimental configuration in the research pipeline;
+   - Update report drafts, plots, and documentation;
+   - Conduct offline verification, code cleanup, or test authoring.
+   NEVER sit idle or reply 'stop' solely because a job is running when independent work remains.
+4. Maintain a scientific experiment pipeline.
+   Always maintain at least one validated, ready-to-submit experiment in the pipeline.
+   When a running job completes, the next experiment should be ready for immediate submission
+   without a multi-turn planning gap.
+5. Documentation must not monopolize execution.
+   When writing reports, papers, or documentation:
+   - Limit purely administrative/documentation turns;
+   - Every controller session must check PBS queue status and advance active numerical work
+     before or alongside writing;
+   - If cluster capacity is available and validated candidates exist, submission takes
+     precedence over report polishing.
+6. Empty queue requires an active research decision.
+   If the PBS queue is empty (0 active project jobs) during an active research session:
+   - The agent MUST either submit the next pipeline candidate, or
+   - Explicitly document why no submission is scientifically justified at this exact point.
+   An empty queue must NEVER be silently accepted or glossed over.
+7. No artificial HPC usage (scientific usefulness is the sole criterion).
+   Every job submitted MUST have:
+   - A clear, falsifiable scientific hypothesis or qualification purpose;
+   - Pre-declared acceptance criteria;
+   - Distinct parameter values, mesh configurations, loading schedules, or algorithmic
+     variants that advance the research plan;
+   - Full compliance with existing gate sequences (Gate 6B closure recommendation, Gate 6C hold).
+8. Respect research gates.
+   Continuous execution operates WITHIN the established research gate framework:
+   - Gate 6B: closure recommendation pending supervisor sign-off on Thursday, 22 October 2026;
+   - Gate 6C: strictly on hold until Gate 6B is formally reviewed and closed by supervisor;
+   - Mode-II, MPI, 16-thread, and complex benchmark extensions remain on hold until authorized;
+   - Independent Mode-I sensitivity, convergence, loading schedule (Method B), and
+     formulation diagnostics are the active research space.
+9. Reporting follows execution.
+   Controller and agent responses must strictly follow this 5-part structure:
+   (1) HPC STATUS: Current queue, running/queued/completed jobs, resource usage.
+   (2) NEW EXPERIMENT: What was submitted, validated, or queued this turn (or explicit
+       scientific reason why no submission occurred).
+   (3) SCIENTIFIC PROGRESS: Findings, data analysis, comparisons, physical insights from
+       completed simulations.
+   (4) DOCUMENTATION: Report sections written, figures generated, tables updated.
+   (5) NEXT ACTION: Concrete next step for both numerical and documentation tracks.
+10. Do not choose scheduler polling interval.
+    The bridge controller / human decides polling cadence. Never suggest sleep durations
+    or polling frequencies.
+
+---------------- SUBMISSION DECISION DEADLINES & SAFE BRIDGE EDITS ----------------
+- Submission Decision Deadline:
+  When an experiment candidate is technically validated and authorized, submission must
+  occur within the same turn or immediately upon authorization.
+- Make Bridge Edits Safer:
+  All bridge prompt modifications, rule additions, and guard adjustments must be made in
+  authoritative persistent script files (.agents/scripts/bridge_rules.txt,
+  .agents/scripts/project_alignment_guard.txt, .agents/scripts/Invoke-ChatGPTBridge.ps1),
+  tested with regression test suites, and verified via -DryRun before release.
 
 ================================================================================
-"@
