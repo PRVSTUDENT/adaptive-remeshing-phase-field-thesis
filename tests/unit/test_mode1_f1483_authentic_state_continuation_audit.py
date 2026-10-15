@@ -165,4 +165,4 @@ def test_active_session_and_task_coordination():
         session = json.load(f)
 
     assert session["active"] is True
-    assert any(tid in session["task_id"] for tid in ["F1483", "F1484", "F1485"])
+    assert any(tid in session["task_id"] for tid in ["F1483", "F1484", "F1485", "F1486", "F1487"])

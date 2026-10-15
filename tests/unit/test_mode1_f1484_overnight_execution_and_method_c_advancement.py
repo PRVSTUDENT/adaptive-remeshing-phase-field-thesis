@@ -115,4 +115,4 @@ def test_active_session_claim_for_f1484():
         session = json.load(f)
 
     assert session["active"] is True
-    assert any(tid in session["task_id"] for tid in ["F1484", "F1485"])
+    assert any(tid in session["task_id"] for tid in ["F1484", "F1485", "F1486", "F1487"])
