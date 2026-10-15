@@ -1,15 +1,12 @@
 {
-    "active":  false,
+    "active":  true,
     "agent":  "codex",
-    "task_id":  "F1495-REPAIR-PREFLIGHT-TRANSPORT",
-    "claimed_at":  "2026-10-15T22:10:07.4611317+02:00",
+    "task_id":  "F1496-PACKAGE48-ROUTE1-SUBMISSION",
+    "claimed_at":  "2026-10-15T22:13:13.5002993+02:00",
     "released_at":  "2026-10-15T22:11:51.8364246+02:00",
-    "starting_commit":  "c5c2cd366d577f99a13586b1331f545b3c7c69ed",
+    "starting_commit":  "899a9c2a969ce4e78fcbadeb8e6b69b481c84d65",
     "allowed_write_scope":  [
-                                "project_coordination/",
-                                "C:/Users/pruth/OpenClawPAD/Set-ControllerAuthorization.ps1",
-                                "scripts/hpc/",
-                                "tests/unit/"
+                                "project_coordination/"
                             ],
     "session_report":  "project_coordination/sessions/2026-10-15_codex_F1495-REPAIR-PREFLIGHT-TRANSPORT.md"
 }
