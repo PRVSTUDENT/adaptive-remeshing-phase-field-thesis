@@ -7,7 +7,7 @@
 - **Active Phase**: GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF
 - **Next Supervisor Meeting**: Thursday, 08 October 2026, 10:00
 - **Active Gate**: **GATE 6B: MODE-I ENERGETIC & CONVERGENCE QUALIFICATION & STEP-2 ADAPTIVE MECHANICAL QUALIFICATION (GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF)**
-- **Gate 6C Status**: NOT_YET_PERFORMED_PENDING_GATE_6B
+- **Gate 6C Status**: ACTIVE_STAGE_C1_METHOD_C_RESEARCH_AUTHORIZED (human directive 15 October 2026 supersedes calendar hold; Stage C1-0 active)
 - **Scope Restriction**: Mode-II, Mixed Mode, Higher-Complexity Benchmarks, and Gate 7 (ABAQUSER) are strictly **ON HOLD**.
 
 ---
@@ -24,7 +24,7 @@
 | **Gate 5** | Native-Remesh Reproduction (71k vs 14k) | **SUPERVISOR_ACCEPTED_LIMITATION_CLOSED** | Supervisor accepted missing publication information boundary; sensitivity trends documented. |
 | **Gate 6A** | Mechanical Mode-I Implementation | **RESOLVED_AND_CLOSED** | N_BOTTOM 16-entry card limit defect identified and resolved with wrapped cards (Jobs 1405044, 1404933). |
 | **Gate 6B** | Mode-I Energetic & Convergence Qualification | **GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF** | UEL energy formulation and mechanical parity qualified (source `CE8D5EDC...`, Job 1409734); spatial convergence and localization evidence complete, including Job 1410504 full-horizon 58k confirmation; the focused 10-page October 8 supervisor report is finalized for the formal decision. |
-| **Gate 6C** | Mode-I State-Transfer Energy Preservation | **NOT_YET_PERFORMED_PENDING_GATE_6B** | Blocked until supervisor review and decision on Gate 6B. |
+| **Gate 6C** | Mode-I State-Transfer Energy Preservation (Method C) | **ACTIVE_STAGE_C1_METHOD_C_RESEARCH_AUTHORIZED** | Method B -> Method C Automatic Research Progression Rule active. Stage C1-0 identical-mesh state preservation authorized. |
 | **Gate 7** | ABAQUSER Integration / Visualization | **ON_HOLD** | Blocked on external ABAQUSER dependency until Mode-I fundamentals qualified. |
 | **Gate 8** | Higher-Complexity Benchmarks | **ON_HOLD** | Mode-II, mixed mode, and complex geometries held until Mode-I qualified. |
 | **Gate 9** | Parameter Recommendations | **ACTIVE_CONTINUOUSLY** | Sensitivity trends and mesh sizing guidance continuously maintained. |
@@ -135,11 +135,11 @@
 
 ---
 
-## GATE 6C: MODE-I STATE-TRANSFER CONSERVATION -- NOT_YET_PERFORMED_PENDING_GATE_6B
+## GATE 6C: MODE-I STATE-TRANSFER CONSERVATION (METHOD C) -- ACTIVE_STAGE_C1_METHOD_C_RESEARCH_AUTHORIZED
 
 | Item ID | Verification Requirement | Governed Status | Exact Evidence Path / Provenance Basis |
 | :--- | :--- | :---: | :--- |
-| **G6C-01** | **State-Transfer Energy Preservation** | **HOLD** | On hold until supervisor review and formal closure of Gate 6B. State transfer remains paused and must NOT auto-promote merely because the energy baseline is qualified. |
+| **G6C-01** | **State-Transfer Energy Preservation** | **IN_PROGRESS** | Active under Method B -> Method C progression rule. Stage C1-0A (identical-mesh state reconstruction) and C1-0B (continuation) in progress. |
 
 ---
 

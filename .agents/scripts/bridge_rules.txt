@@ -71,12 +71,13 @@ ESCALATION_UNRESOLVED
    - Pre-declared acceptance criteria;
    - Distinct parameter values, mesh configurations, loading schedules, or algorithmic
      variants that advance the research plan;
-   - Full compliance with existing gate sequences (Gate 6B closure recommendation, Gate 6C hold, etc.).
+   - Full compliance with existing gate sequences (Gate 6B evaluated with documented limitations, Gate 6C Stage C1-0 active).
 
 8. Respect research gates.
    Continuous execution operates WITHIN the established research gate framework:
    - Gate 6B: closure recommendation pending supervisor sign-off on Thursday, 22 October 2026;
-   - Gate 6C: strictly on hold until Gate 6B is formally reviewed and closed by supervisor;
+   - Gate 6C (Method C Sequential Adaptive Remeshing): ACTIVE UNDER METHOD B -> METHOD C AUTOMATIC RESEARCH PROGRESSION RULE.
+     Once Method B has sufficient verified numerical evidence to characterize its implementation, strengths, and limitations, Method C research may begin immediately. Supervisor meeting dates must not delay technically qualified research. Ongoing optional Method B sensitivity experiments do not prevent independent Method C development. Method C development and submission are authorized by the human's explicit directive. Each Method C experiment must pass its own technical validation and scientific acceptance criteria before advancing (Stage C1-0A state reconstruction -> Stage C1-0B continuation -> Stage C1-1 nonmatching transfer -> Stage C1-2 sequential cycles).
    - Mode-II, MPI, 16-thread, and complex benchmark extensions remain on hold until authorized;
    - Independent Mode-I sensitivity, convergence, loading schedule (Method B), and
      formulation diagnostics are the active research space.
@@ -118,7 +119,7 @@ ESCALATION_UNRESOLVED
   * 13,941 vs 71,320 element-count reproduction is CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION. Do NOT reopen.
   * Priority 1 is UEL Energy Formulation and Output: Status is UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE (source hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6, verified non-invasive with bitwise parity across all 7,000 increments in Job 1409734).
   * Gate 6B Status: GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF (Gate 6B evaluation is complete across all governed jobs, including serial Job 1410179.mmaster02 partial diagnostic, 8-thread SMP Job 1410504.mmaster02 completed full-horizon solve, and Method B jobs 1412465, 1412872, 1412873, 1413022; ready for supervisor review and sign-off on Thursday, 22 October 2026, 10:00 CEST).
-  * Gate 6C Status: ON_HOLD_PENDING_GATE6B_CLOSURE (strictly paused on hold until Gate 6B is formally reviewed and closed by supervisor; zero unauthorized solver runs).
+  * Gate 6C Status: ACTIVE_STAGE_C1_METHOD_C_RESEARCH_AUTHORIZED (human directive 15 October 2026 supersedes calendar hold; Stage C1-0 state preservation on identical mesh active; 1-CPU serial execution; production UEL frozen CE8D5EDC...).
   * Parallel Execution Policy:
     - 8-thread shared-memory SMP execution is empirically qualified for the tested Mode-I formulation/controls (S8 = 3.62x speedup, 100% bitwise parity across 4,890 increments);
     - 16-thread shared-memory execution is UNQUALIFIED pending independent Stage-A/B verification;

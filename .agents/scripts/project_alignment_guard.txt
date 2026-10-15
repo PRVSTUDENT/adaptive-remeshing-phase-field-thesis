@@ -16,7 +16,7 @@ NEW SCIENTIFIC ROADMAP:
     -> GLOBAL ENERGY BALANCE
     -> SPATIAL + TEMPORAL MODE-I CONVERGENCE (GATE 6B EVALUATION COMPLETE)
     -> PHASE-FIELD / CRACK-PATH CONVERGENCE
-    -> MODE-I STATE-TRANSFER ENERGY PRESERVATION (GATE 6C ON HOLD)
+    -> MODE-I STATE-TRANSFER ENERGY PRESERVATION (STAGE C1-0 ACTIVE UNDER PROGRESSION RULE)
     -> complete Mode-I report
     -> supervisor review (Thursday, 22 October 2026, 10:00 CEST)
     -> only then visualization integration / higher-complexity example
@@ -127,11 +127,17 @@ Required convergence evidence:
 Report exactly whether each quantity is: CONVERGED / STABLE, MESH-SENSITIVE, TEMPORALLY SENSITIVE,
 or NOT YET QUALIFIED. Use global integral measures.
 
-PRIORITY 3 -- MODE-I STATE-TRANSFER CONSERVATION (GATE 6C):
-Status: PAUSED_PENDING_GATE_6B_CLOSURE.
-Gate 6C / state transfer remains strictly paused on hold until Gate 6B is actually closed
-and formally reviewed by the supervisor; it must NOT auto-promote merely because the
-energy baseline is qualified.
+PRIORITY 3 -- MODE-I STATE-TRANSFER CONSERVATION (GATE 6C / METHOD C):
+Status: ACTIVE_STAGE_C1_METHOD_C_RESEARCH_AUTHORIZED
+Under the Method B -> Method C Automatic Research Progression Rule (human directive, 15 October 2026),
+Method C research is authorized to proceed immediately without awaiting calendar milestones.
+Supervisor meeting dates are progress-reporting milestones, not automatic research barriers.
+Ongoing optional Method B sensitivity experiments proceed concurrently and do not delay Method C.
+Research progresses through technical qualification gates:
+- Stage C1-0A: State reconstruction on identical mesh; test equilibrium without external displacement increment.
+- Stage C1-0B: Actual continuation on identical mesh; verify complete force response, damage irreversibility, and energy continuity.
+- Stage C1-1: Nonmatching mesh transfer; evaluate mapping error in u, d, H, grad(d), and qualified energy.
+- Stage C1-2: Sequential adaptive cycles (solve -> estimate -> remesh -> transfer -> continue).
 Assess transfer between nonmatching meshes using the SAME simple Mode-I benchmark:
 compare before/after mapping: d-field; history/state variables; spatial localization;
 ||d_mapped - d_donor||; ||grad(d_mapped) - grad(d_donor)||; every qualified global energy
@@ -418,10 +424,11 @@ evidence is complete and can be defended without AI-generated speculation:
   temporal convergence; relevant length-scale convergence. Evaluation complete across all 15 matrix items and 9 jobs
   including 57,929-FE spatial-fine candidate (serial Job 1410179 terminal partial diagnostic evidence and 8T SMP Job 1410504 completed full-horizon solve); ready for supervisor review and sign-off.
 
-- Gate 6C -- Mode-I State-Transfer Conservation:
-  Status: NOT_YET_PERFORMED_PENDING_GATE_6B
-  Gate 6C / state transfer remains strictly paused on hold until Gate 6B is formally evaluated and closed;
-  it must NOT auto-promote merely because the energy baseline is qualified.
+- Gate 6C -- Mode-I State-Transfer Conservation (Method C):
+  Status: ACTIVE_STAGE_C1_METHOD_C_RESEARCH_AUTHORIZED
+  Method B -> Method C Automatic Research Progression Rule active.
+  Technical qualification stages: Stage C1-0A (state reconstruction) -> Stage C1-0B (continuation on identical mesh) -> Stage C1-1 (nonmatching mesh transfer) -> Stage C1-2 (sequential cycles).
+  Authoritative production UEL remains frozen (CE8D5EDC...). Execution mode: 1-CPU serial.
 
 - Gate 7 -- ABAQUSER Integration / Visualization (Proposal Task 6):
   Status: HOLD (until Mode-I fundamentals are qualified).
@@ -780,7 +787,7 @@ MODE-I FUNDAMENTALS GOVERNANCE (POST-08-OCTOBER-2026 SUPERVISOR MEETING):
 - 13,941 vs 71,320 element-count reproduction is CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION.
 - UEL Energy formulation & output status: UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE.
 - Active Gate: Gate 6B evaluation is complete across all governed jobs; closure recommendation pending supervisor review and sign-off on Thursday, 22 October 2026, 10:00 CEST.
-- Gate 6C / State Transfer: Strictly on hold until Gate 6B is formally closed by supervisor; zero unauthorized solver runs.
+- Gate 6C / State Transfer: ACTIVE under Method B -> Method C Automatic Research Progression Rule (Stage C1-0 active; 1-CPU serial).
 - Parallel execution: 8-thread shared-memory SMP qualified; 16-thread shared-memory unqualified;
   multi-rank MPI strictly disqualified.
 - Next supervisor meeting: Thursday, 22 October 2026, 10:00 CEST.
@@ -829,11 +836,11 @@ MODE-I FUNDAMENTALS GOVERNANCE (POST-08-OCTOBER-2026 SUPERVISOR MEETING):
    - Pre-declared acceptance criteria;
    - Distinct parameter values, mesh configurations, loading schedules, or algorithmic
      variants that advance the research plan;
-   - Full compliance with existing gate sequences (Gate 6B closure recommendation, Gate 6C hold).
+   - Full compliance with existing gate sequences (Gate 6B evaluated with documented limitations, Gate 6C Stage C1-0 active).
 8. Respect research gates.
    Continuous execution operates WITHIN the established research gate framework:
    - Gate 6B: closure recommendation pending supervisor sign-off on Thursday, 22 October 2026;
-   - Gate 6C: strictly on hold until Gate 6B is formally reviewed and closed by supervisor;
+   - Gate 6C: active under Method B -> Method C progression rule (Stage C1-0 technical qualification);
    - Mode-II, MPI, 16-thread, and complex benchmark extensions remain on hold until authorized;
    - Independent Mode-I sensitivity, convergence, loading schedule (Method B), and
      formulation diagnostics are the active research space.

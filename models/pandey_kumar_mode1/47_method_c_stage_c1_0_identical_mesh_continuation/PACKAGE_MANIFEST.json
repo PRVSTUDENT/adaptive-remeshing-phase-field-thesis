@@ -1,0 +1,78 @@
+{
+  "package_name": "47_method_c_stage_c1_0_identical_mesh_continuation",
+  "task_id": "F1482",
+  "scientific_objective": "Stage C1-0: Mode-I Method C Identical-Mesh State Transfer & Continuation (Stage C1-0A State Reconstruction & Stage C1-0B Continuation)",
+  "mesh_type": "canonical_2906_cpe4_cpe3_hybrid",
+  "donor_source": {
+    "job_name": "M1_PRE_1S",
+    "job_id": "1411891.mmaster02",
+    "u_handoff_mm": 0.005,
+    "rf_donor_n": 653.0885696411133,
+    "e_tot_donor_mj": 1.6633838895357917,
+    "donor_json": "models/pandey_kumar_mode1/41_method_c_genuine_continuation/evidence_forward_audit/coarse_donor_state_u0050.json"
+  },
+  "recipient_mesh": {
+    "deck_path": "models/pandey_kumar_mode1/method_b_inf_companion_decks/M1_MB_INF_1S.inp",
+    "elements_physical": 2906,
+    "nodes_total": 2988,
+    "identical_mesh": true
+  },
+  "files": {
+    "input_deck": {
+      "name": "M1_MC_STAGE_C1_0_RECONSTRUCT.inp",
+      "sha256": "8B417E7FC5F5612DD6C8E128036CC5799E074BCA5E7191E9324789A91D700A67",
+      "lines": 20546,
+      "size_bytes": 1453427
+    },
+    "user_subroutine": {
+      "name": "f42_mixed_uel.for",
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "production_invariant_verified": true
+    },
+    "job_notifications": {
+      "name": "job_notifications.sh",
+      "sha256": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11"
+    },
+    "solver_pbs": {
+      "name": "submit_M1_MC_STAGE_C1_0.pbs",
+      "sha256": "03EF55970B75B5553693E119F92EEBD0933F4E8F82E7FA6920251E1A9016592E"
+    },
+    "datacheck_pbs": {
+      "name": "submit_datacheck.pbs",
+      "sha256": "4E9EA9732D6F4A6E9C74FF5BCFF934107F7B4394F2F1EE24AC7AE7EBEFB05E0A"
+    }
+  },
+  "execution_parameters": {
+    "solver": "Abaqus/Standard 2023",
+    "user_subroutine": "f42_mixed_uel.for",
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime_hours": 12,
+    "queue": "normal_imfdfkmq",
+    "scratch_directory": "/scratch9/pr21vyci/runs/mode1_stage_c1_0_continuation"
+  },
+  "stage_c1_0_acceptance_criteria": {
+    "criterion_1_rf_continuity": {
+      "metric": "|RF_step1 - RF_donor|",
+      "target_n": "<= 0.1 N",
+      "donor_n": 653.0885696411133
+    },
+    "criterion_2_energy_preservation": {
+      "metric": "|E_int,step1 - E_int,donor| / E_int,donor",
+      "target_pct": "<= 0.1%",
+      "donor_mj": 1.6633838895357917
+    },
+    "criterion_3_history_non_negativity": {
+      "metric": "min(H)",
+      "target": ">= 0.0"
+    },
+    "criterion_4_equilibrium_convergence": {
+      "metric": "Step 1 Newton iterations",
+      "target": "1 iteration (exact static equilibrium)"
+    },
+    "criterion_5_fracture_continuation": {
+      "metric": "Step 2 completion to complete softening",
+      "target": "Continuous monotonic crack propagation without divergence"
+    }
+  }
+}

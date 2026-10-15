@@ -1,0 +1,30 @@
+#!/bin/bash
+#PBS -N M1_MC_C1_0_DC
+#PBS -q entry_imfdfkmq
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -j oe
+#PBS -o /scratch9/pr21vyci/runs/mode1_stage_c1_0_continuation/pbs_datacheck.log
+
+set -euo pipefail
+
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_stage_c1_0_continuation"
+cd "${RUN_DIR}"
+
+# Storage compliance guard
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "ERROR: Running under /home is strictly prohibited by HPC storage policy." >&2
+    exit 2
+fi
+
+module purge
+module load abaqus/2023
+
+abaqus job=M1_MC_STAGE_C1_0_DC input=M1_MC_STAGE_C1_0_RECONSTRUCT.inp user=f42_mixed_uel.for datacheck interactive
+DC_EXIT=$?
+
+echo "Datacheck completed with exit code: ${DC_EXIT}"
+exit ${DC_EXIT}

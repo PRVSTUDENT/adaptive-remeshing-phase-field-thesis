@@ -1,0 +1,40 @@
+#!/bin/bash
+#PBS -N M1_MC_STAGE_C1_0
+#PBS -q normal_imfdfkmq
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=16gb
+#PBS -l walltime=12:00:00
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -j oe
+#PBS -o /scratch9/pr21vyci/runs/mode1_stage_c1_0_continuation/pbs_execution.log
+
+set -euo pipefail
+
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_stage_c1_0_continuation"
+cd "${RUN_DIR}"
+
+# Storage compliance guard
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "ERROR: Running under /home is strictly prohibited by HPC storage policy." >&2
+    exit 2
+fi
+
+# Dual-channel notification trap installation
+export JOB_NAME="M1_MC_STAGE_C1_0"
+if [ -f "./job_notifications.sh" ]; then
+    source ./job_notifications.sh
+    notification_install_terminal_trap
+    notify_start
+fi
+
+# Load Abaqus 2023 environment
+module purge
+module load abaqus/2023
+
+# Execute solver in single-rank shared-memory mode
+abaqus job=M1_MC_STAGE_C1_0_RECONSTRUCT input=M1_MC_STAGE_C1_0_RECONSTRUCT.inp user=f42_mixed_uel.for cpus=1 interactive
+SOLVER_EXIT=$?
+
+echo "Abaqus solver completed with exit code: ${SOLVER_EXIT}"
+exit ${SOLVER_EXIT}
