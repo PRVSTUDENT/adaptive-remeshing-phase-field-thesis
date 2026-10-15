@@ -1,0 +1,6 @@
+# F1494 single Package 48 donor execution
+Human reported successful AUTHORIZATION_RECORDED. Independently verified live human-issued permit 6507e274-e260-489c-bd8a-622e7e81c647, active, consumed0/max1, expires2026-10-16T20:05:25.158491+00:00. Exact guarded command SHA256 c7312501f77c7fa099ccb882014cdf31bc6ca828599c12f4f88efd4b4039d5ed. Manifest35b818bc08652c11d0f0b689878239e5ff81d9563eaf42ab5083bfc3bda02887.
+
+Authorized batch: exactly one M1_MB_DONOR, Package48 native restart positive control, deck F737357AF6069A4017885E38EF249DC1BA7FD4B7E3C91EC1FB55F1D89824484D; UEL CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6; PBS2888b7f0da80679b20f72769231eacd3419ece7a60d27bda7d314b138286084e. Resources1CPU serial,16GB,04h,normal_imfdfkmq. Purpose: authentic Step1 restart checkpoint on2906-element donor. Acceptance: solver status and usable restart checkpoint; donor acceptance precedes separately authorized recipient runs. automatic_retry=false; no recipients or replacements authorized.
+
+Pre-submission qstat: only Method B1413296 R elapsed07:26. No duplicate donor in queue or ledger. Prior datacheck qualification preserved. Human preflight evidence: actual login Telegram acknowledgement, mail transport acceptance, lifecycle checks pass; compute-node delivery UNRESOLVED. Submission pending final hash check and safety-gate consumption; no attempt yet.
