@@ -1,12 +1,15 @@
 {
     "active":  false,
     "agent":  "codex",
-    "task_id":  "F1494-PACKAGE48-DONOR-SUBMISSION",
-    "claimed_at":  "2026-10-15T22:06:15.8926066+02:00",
-    "released_at":  "2026-10-15T22:09:06.0699428+02:00",
-    "starting_commit":  "3b02031a6d8c8a50f2fcb67de61d7721d57bc374",
+    "task_id":  "F1495-REPAIR-PREFLIGHT-TRANSPORT",
+    "claimed_at":  "2026-10-15T22:10:07.4611317+02:00",
+    "released_at":  "2026-10-15T22:11:51.8364246+02:00",
+    "starting_commit":  "c5c2cd366d577f99a13586b1331f545b3c7c69ed",
     "allowed_write_scope":  [
-                                "project_coordination/"
+                                "project_coordination/",
+                                "C:/Users/pruth/OpenClawPAD/Set-ControllerAuthorization.ps1",
+                                "scripts/hpc/",
+                                "tests/unit/"
                             ],
-    "session_report":  "project_coordination/sessions/2026-10-15_codex_F1494-PACKAGE48-DONOR-SUBMISSION.md"
+    "session_report":  "project_coordination/sessions/2026-10-15_codex_F1495-REPAIR-PREFLIGHT-TRANSPORT.md"
 }

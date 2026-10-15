@@ -3,6 +3,9 @@ import base64
 from datetime import datetime, timezone, timedelta
 import json
 import importlib.util
+import gzip
+import hashlib
+import subprocess
 from pathlib import Path
 import re
 import sys
@@ -15,6 +18,20 @@ ISSUER = Path.home() / 'OpenClawPAD/Set-ControllerAuthorization.ps1'
 
 
 class IssuerTests(unittest.TestCase):
+    def test_transport_executes_only_intact_source(self):
+        issuer = ISSUER.read_text(encoding='utf-8-sig')
+        transport = re.search(r'\$remote="python3 -c \'(.*?)\'', issuer).group(1)
+        body = b"print('VERIFIED_BODY')"
+        encoded = base64.b64encode(gzip.compress(body)).decode()
+        digest = hashlib.sha256(body).hexdigest()
+        for data, expected, accepted in [(encoded, digest, True),
+                                         (encoded[:-1], digest, False),
+                                         (encoded, '0'*64, False)]:
+            result = subprocess.run([sys.executable, '-c', transport, data, expected, 'e30='],
+                                    capture_output=True, text=True)
+            self.assertEqual(result.returncode == 0, accepted)
+            self.assertEqual('VERIFIED_BODY' in result.stdout, accepted)
+
     def test_route_only_or_disabled_queue_refuses_before_notifications(self):
         path = Path(__file__).resolve().parents[2] / 'scripts/hpc/preflight_package48_authorization.py'
         spec = importlib.util.spec_from_file_location('package48_preflight', path)
