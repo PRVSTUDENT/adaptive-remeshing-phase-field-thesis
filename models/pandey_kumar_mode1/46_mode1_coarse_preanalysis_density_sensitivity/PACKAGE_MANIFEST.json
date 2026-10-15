@@ -1,0 +1,47 @@
+{
+  "package_id": "46_mode1_coarse_preanalysis_density_sensitivity",
+  "task_id": "F1481-ADVANCE-PROSPECTIVE-REMESHING-AND-MONITOR-TRIPLE-HPC",
+  "governing_gate": "GATE_6B_ACTIVE_EVALUATION_AND_CONTINUATION",
+  "scientific_objective": "Evaluate whether increasing spatial resolution of coarse linear-elastic pre-analysis mesh (4,900 CPE4 quads, h=14.3 um vs canonical 2,906 quads/tris, h=33 um) sharpens MISESERI localization or extends prospective adaptive refinement beyond the crack tip",
+  "benchmark": "Mode-I 1.0x1.0 mm square with sharp slit a0=0.5 mm at y=0.5 mm",
+  "mesh_spec": {
+    "num_elements": 4900,
+    "element_type": "CPE4",
+    "num_nodes": 5076,
+    "nominal_h_mm": 0.0142857,
+    "crack_tip_coord": [0.5, 0.5],
+    "seam_representation": "zero-gap duplicated nodes along y=0.5, x in [0, 0.5]"
+  },
+  "material_spec": {
+    "type": "linear_elastic",
+    "E_MPa": 210000.0,
+    "nu": 0.3
+  },
+  "loading_spec": {
+    "step_name": "Step-1",
+    "prescribed_u_mm": 0.0050,
+    "time_period": 1.0,
+    "dt_initial": 0.01,
+    "nlgeom": false
+  },
+  "field_outputs": [
+    "MISESERI",
+    "MISESAVG",
+    "S",
+    "E",
+    "EVOL"
+  ],
+  "hpc_resources": {
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime": "00:30:00",
+    "queue": "entry_imfdfkmq"
+  },
+  "files": {
+    "input_deck": "PK_M1_COARSE_FINE_CONT.inp",
+    "input_deck_sha256": "219ACDF263F4F4096943B1AC976063722F927934C26458D593F7F714B84B8C56",
+    "submit_solver_pbs": "submit_solver.pbs",
+    "submit_datacheck_pbs": "submit_datacheck.pbs",
+    "job_notifications": "job_notifications.sh"
+  }
+}

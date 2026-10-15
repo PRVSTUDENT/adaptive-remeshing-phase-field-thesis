@@ -1,10 +1,11 @@
-"""Mode-I Temporal Refinement and Minimum Increment Sensitivity Synthesis Framework.
+"""Mode-I Temporal Refinement, Minimum Increment Sensitivity, and Coarse Mesh Resolution Suite.
 
-Task: F1480-SUBMIT-PACKAGE44-SERIAL-PARITY-AND-VALIDATE-TEMPORAL-PHYSICS
-Author: gemini-antigravity
+Tasks: F1480 / F1481
+Authors: gemini-antigravity
 Protocol: Version 2
+Governance Gate: GATE_6B_ACTIVE_EVALUATION_AND_CONTINUATION
 
-Compares across 5 governed models:
+Models Evaluated:
 1. Canonical Fixed-Mesh 15k Reference Anchor (Job 1398090, 15,192 FE):
    - F_max = 0.757778 kN, u_peak = 0.005857 mm, K_0 = 137.945520 kN/mm
    - W_ext = 2.3587 mJ (canonical reference work across full [0.0, 0.0100] mm horizon)
@@ -19,6 +20,8 @@ Compares across 5 governed models:
    - Evaluates temporal discretization sensitivity with du = 0.5 nm (nominal 10,000 increments)
 5. Package 45 Serial Parity Control (Job 1413296, 14,483 FE, dt_max=1E-4, 1-CPU serial):
    - Certifies Stage-A serial/thread parity against multi-threading race conditions
+6. Package 46 Coarse Pre-Analysis Resolution Sensitivity (PK_M1_COARSE_FINE_CONT, 4,900 CPE4):
+   - Evaluates effect of preliminary coarse mesh density (h=14.3 um vs 33 um) on MISESERI localization
 """
 
 import json
@@ -37,6 +40,7 @@ FIXED_MESH_REFERENCE = {
     "K_0_kN_per_mm": 137.945520,
     "F_max_kN": 0.757778,
     "u_peak_mm": 0.005857,
+    "W_ext_mJ": 2.3587,
     "W_ext_full_mJ": 2.3587,
     "attained_u_mm": 0.0100,
     "exit_status": 0
@@ -55,6 +59,31 @@ PACKAGE_40_BASELINE = {
     "exit_status": 1,
     "termination_reason": "CUTBACK_EXHAUSTION_AT_DTMIN_1E9"
 }
+
+PACKAGE_90_COARSE_BASELINE = {
+    "job_id": "1409914.mmaster02",
+    "name": "Package 90 Continuum Control Baseline (2,906 elements)",
+    "elements": 2906,
+    "nodes": 2988,
+    "nominal_h_mm": 0.033,
+    "crack_tip_coord": [0.5, 0.5],
+    "miseseri_peak_MPa": 0.950009,
+    "miseseri_mean_MPa": 0.009878,
+    "misesavg_MPa": 35.459,
+    "far_field_error_share_pct": 65.57,
+    "crack_tip_error_share_pct": 22.13,
+    "ligament_error_share_pct": 12.30
+}
+
+# Predeclared Matched Evaluation Points
+MATCHED_EVALUATION_POINTS = [
+    {"point_id": "P1_LINEAR_LIMIT", "u_mm": 0.005000, "description": "End of Step 1 linear elastic regime"},
+    {"point_id": "P2_PKG40_PEAK", "u_mm": 0.005733, "description": "Package 40 baseline peak load state"},
+    {"point_id": "P3_REF15K_PEAK", "u_mm": 0.005857, "description": "Canonical 15k reference peak load state"},
+    {"point_id": "P4_POST_PEAK_EARLY", "u_mm": 0.006000, "description": "Early softening post-peak transition"},
+    {"point_id": "P5_PKG40_HORIZON", "u_mm": 0.007889, "description": "Package 40 baseline severance termination limit"}
+]
+
 
 def compute_parity_metrics(ref_dict, candidate_dict):
     """Compute relative differences for multi-quantity parity evaluation."""
@@ -79,19 +108,34 @@ def compute_parity_metrics(ref_dict, candidate_dict):
         metrics["delta_u_peak_pct"] = (u_cand - u_ref) / u_ref * 100.0
 
     # W_ext difference
-    if "W_ext_mJ" in ref_dict and "W_ext_mJ" in candidate_dict:
-        w_ref = ref_dict["W_ext_mJ"]
-        w_cand = candidate_dict["W_ext_mJ"]
+    w_ref = ref_dict.get("W_ext_mJ") or ref_dict.get("W_ext_full_mJ")
+    w_cand = candidate_dict.get("W_ext_mJ") or candidate_dict.get("W_ext_full_mJ")
+    if w_ref is not None and w_cand is not None:
         metrics["delta_W_ext_pct"] = (w_cand - w_ref) / w_ref * 100.0
 
     return metrics
 
 
+def evaluate_coarse_resolution_scaling(h_baseline, h_candidate, p_rate=2.0):
+    """
+    Theoretical discretization error scaling for smooth far-field linear elasticity.
+    e_far ~ O(h^p), singular tip error e_tip ~ O(h^(p/2) or diverges in point stress).
+    """
+    ratio_h = h_candidate / h_baseline
+    predicted_far_field_ratio = math.pow(ratio_h, p_rate)
+    return {
+        "h_ratio": ratio_h,
+        "predicted_far_field_error_ratio": predicted_far_field_ratio,
+        "theoretical_scaling": f"Far-field error scales as O(h^{p_rate}), reducing far-field noise by factor {1.0/predicted_far_field_ratio:.2f}x"
+    }
+
+
 def evaluate_temporal_suite_manifest():
-    """Produce the synthesis metadata manifest across the active temporal suite."""
+    """Produce the synthesis metadata manifest across the active temporal and spatial suite."""
     manifest = {
-        "suite_name": "Mode-I Temporal Refinement and Sensitivity Suite",
-        "governing_gate": "GATE_6B_TEMPORAL_CONVERGENCE_AND_PARITY",
+        "suite_name": "Mode-I Temporal Refinement, Minimum Increment, and Coarse Resolution Suite",
+        "governing_gate": "GATE_6B_ACTIVE_EVALUATION_AND_CONTINUATION",
+        "matched_evaluation_points": MATCHED_EVALUATION_POINTS,
         "cases": {
             "canonical_reference": FIXED_MESH_REFERENCE,
             "package_40_baseline": PACKAGE_40_BASELINE,
@@ -109,10 +153,16 @@ def evaluate_temporal_suite_manifest():
                 "job_id": "1413296.mmaster02",
                 "name": "M1_MB_DTMAX_1C",
                 "parameters": {"dt_min": 1.0e-9, "dt_max": 1.0e-4, "cpus": 1, "mode": "serial", "inc_max": 12000}
+            },
+            "package_46_coarse_preanalysis_resolution": {
+                "job_id": "PENDING_OR_LOCAL",
+                "name": "PK_M1_COARSE_FINE_CONT",
+                "parameters": {"elements": 4900, "nominal_h_mm": 0.0142857, "cpus": 1, "mode": "serial"}
             }
         }
     }
     return manifest
+
 
 if __name__ == "__main__":
     m = evaluate_temporal_suite_manifest()
