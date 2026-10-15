@@ -1,19 +1,19 @@
 {
-    "task_id": "F1489-VERIFY-PACKAGE48-AUTHORIZATION-AND-EXECUTION-STATUS",
+    "task_id": "F1490-FIX-AUTHORIZATION-WORKFLOW-AND-SUBMIT",
     "status": "COMPLETED",
     "agent": "gemini-antigravity",
-    "phase": "Audit execution authorization credentials and verify Package 48 donor preflight qualifications; confirm active 1-CPU serial parity solver 1413296 running smoothly at Step 2 Inc 2945 (walltime >06:49:00, 0 cutbacks, 3.0 iters/inc); verify Package 48 donor deck (F737357A...) and frozen UEL (CE8D5EDC...) hashes on cluster scratch with datacheck Exit 0; test safety gate confirming intercept on expired delegation (2026-10-12) and document human renewal requirement",
+    "phase": "Resolve authorization system mismatch between legacy Set-ControllerAuthorization.ps1 and hardened qsub-safety-gate.ps1; repair issuance script to issue daily_chatgpt_delegation (+24h) and command-bound submission_authorization; verify Package 48 donor qualifications and in-flight solver 1413296 (Step 2 Inc >3170); report Outcome B awaiting human execution of repaired command",
     "gate_status": "GATE_6B_ACTIVE_EVALUATION_PASS__GATE_6C_STAGE_C1_0_DATACHECK_PASS",
-    "last_updated": "2026-10-15T21:35:00+02:00",
+    "last_updated": "2026-10-15T21:45:00+02:00",
     "active_pbs_job_ids": [
         "1413296.mmaster02"
     ],
     "dependent_pbs_job_ids": [],
     "deferred_candidate_jobs": [
-        "M1_MB_DONOR_WITH_RESTART (Package 48, 2,906 elements, input deck F737357A..., RESTART WRITE enabled positive control, datacheck Exit 0, ready for execution upon human safety gate delegation renewal via OpenClawGateway)",
+        "M1_MB_DONOR_WITH_RESTART (Package 48, 2,906 elements, input deck F737357A..., RESTART WRITE enabled positive control, datacheck Exit 0, ready for execution upon human execution of repaired Set-ControllerAuthorization.ps1)",
         "M1_MB_RESTART_PROD (Package 48 recipient restart under frozen UEL CE8D5EDC..., input deck C617D831..., blocked on donor completion)",
         "M1_MB_RESTART_DIAG (Package 48 recipient restart under diagnostic UEL 8C6D8730..., input deck C617D831..., blocked on donor completion)",
-        "M1_MC_STAGE_C1_0 (Package 47, 2,906 elements, input deck 8B417E7F..., Abaqus 2023 datacheck Exit 0, staged on /scratch9/pr21vyci/runs/mode1_stage_c1_0_continuation, ready for execution upon daily delegation token renewal in .agents/qsub-safety-gate.ps1)",
+        "M1_MC_STAGE_C1_0 (Package 47, 2,906 elements, input deck 8B417E7F..., Abaqus 2023 datacheck Exit 0, staged on /scratch9/pr21vyci/runs/mode1_stage_c1_0_continuation)",
         "PK_M1_COARSE_FINE_CONT (Package 46, 4,900 CPE4 quads, h=14.3 um, input deck 219ACDF2..., Abaqus 2023 datacheck Exit 0, staged on /scratch9/pr21vyci/runs/mode1_package46_coarse_fine_preanalysis)",
         "M1_MC_C1_FORWARD_14K (Package 42 staged on cluster scratch, datacheck exit code 0, nonmatching forward refinement candidate)"
     ],
@@ -40,13 +40,14 @@
         "1413217.mmaster02",
         "1413278.mmaster02"
     ],
-    "next_recommended_task": "AWAIT_HUMAN_DELEGATION_RENEWAL_AND_MONITOR_1413296",
+    "next_recommended_task": "EXECUTE_PACKAGE48_DONOR_UPON_HUMAN_AUTHORIZATION_ACTIVATION",
     "governing_constraints": [
-        "Active PBS job 1413296.mmaster02 (M1_MB_DTMAX_1C, Step 2 Inc >2940) running as authorized 1-CPU serial parity control in normal_imfdfkmq",
+        "Active PBS job 1413296.mmaster02 (M1_MB_DTMAX_1C, Step 2 Inc >3170) running as authorized 1-CPU serial parity control in normal_imfdfkmq",
         "Enforce Continuous HPC Research Execution Policy across all controller turns",
         "Preserve production Fortran UEL SHA-256 CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
         "Method B evaluated with documented physical limitations; automatic progression rule active for Method C Stage C1-0",
-        "Do not tamper with or bypass .agents/qsub-safety-gate.ps1"
+        "Do not tamper with or bypass .agents/qsub-safety-gate.ps1",
+        "Outcome B active: human execution of Set-ControllerAuthorization.ps1 is required before qsub submission"
     ],
-    "notes": "Task F1489: (1) Verified and preserved active 1-CPU serial parity Job 1413296 (M1_MB_DTMAX_1C): running steadily in state R on mnode100/0 at Step 2 Inc 2945 (walltime >06:49:00, 0 cutbacks, exactly 3.0 iters/inc, total 4,945 converged increments solved); (2) Verified Package 48 donor deck M1_MB_DONOR_WITH_RESTART.inp (SHA-256 F737357A...) and production UEL f42_mixed_uel.for (SHA-256 CE8D5EDC...) hashes on cluster scratch with Abaqus 2023 Datacheck Exit Code 0; (3) Audited execution authorization in controller-state.json: Set-ControllerAuthorization.ps1 has not been executed (authorization.approved: false), daily_chatgpt_delegation expired on 2026-10-12, and submission_authorization.active is false; (4) Tested .agents/qsub-safety-gate.ps1: intercepted fail-closed with 'SAFETY GATE DENIAL: DENY: Daily ChatGPT delegation has expired.'; (5) Identified schema divergence between Set-ControllerAuthorization.ps1 and qsub-safety-gate.ps1; (6) Authored test_mode1_f1489_package48_authorization_verification.py (6/6 PASS, full regression suite 52/52 PASS)."
+    "notes": "Task F1490: (1) Diagnosed and resolved authorization mismatch between Set-ControllerAuthorization.ps1 (legacy August schema) and qsub-safety-gate.ps1 (hardened October schema requiring daily_chatgpt_delegation and submission_authorization); (2) Repaired C:/Users/pruth/OpenClawPAD/Set-ControllerAuthorization.ps1 to issue valid daily delegation (+24h) and cryptographically bound submission permit; (3) Verified and preserved active 1-CPU serial parity solver 1413296 (Step 2 Inc 3179, cumulative 5,179 incs, 0 cutbacks, walltime >07:07:00); (4) Staged Package 48 donor on scratch with datacheck Exit 0 ready for immediate launch; (5) Reported Outcome B (HUMAN ACTION REQUIRED): documented exact human command to execute."
 }
