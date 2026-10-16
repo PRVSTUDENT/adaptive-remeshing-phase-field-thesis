@@ -1,0 +1,102 @@
+{
+    "batch_manifest_sha256":  "269f44c9e2156633ea4acdaf64bdf2a72d912e7868f8ef2e76fc880d9a2bc119",
+    "predecessor_pbs_job_id":  "1414235.mmaster02",
+    "terminal_exit_status":  0,
+    "scientific_review":  "FAIL",
+    "reviewed_by":  "codex",
+    "evidence_report":  "project_coordination/sessions/2026-10-16_codex_PACKAGE49-EXISTING-PERMIT-EXECUTION.md",
+    "metrics":  {
+                    "delta_rf_n":  5.631238778686566,
+                    "delta_e_elas_pct":  0.8622171209900541,
+                    "delta_e_frac_pct":  1.5736033656198019,
+                    "delta_e_tot_pct":  0.8173157851704768,
+                    "delta_d_max":  null,
+                    "global_energy_residual_pct":  null,
+                    "cutbacks":  0
+                },
+    "state_checks":  {
+                         "nodal_displacement_verified":  false,
+                         "damage_irreversibility_verified":  false,
+                         "committed_history_verified":  false,
+                         "state_restoration_verified":  false
+                     },
+    "actual_rf_n":  647.4573612213135,
+    "actual_energies_mj":  {
+                               "elastic":  1.6186434,
+                               "fracture":  0.031145514,
+                               "total":  1.6497889
+                           },
+    "actual_state_output":  {
+                                "SDV18":  {
+                                              "count":  56729,
+                                              "max":  0.0,
+                                              "min":  0.0
+                                          },
+                                "SDV17":  {
+                                              "count":  56729,
+                                              "max":  0.0,
+                                              "min":  0.0
+                                          },
+                                "SDV14":  {
+                                              "count":  56729,
+                                              "max":  0.0,
+                                              "min":  0.0
+                                          },
+                                "fields":  [
+                                               "RF",
+                                               "SDV1",
+                                               "SDV2",
+                                               "SDV3",
+                                               "SDV4",
+                                               "SDV5",
+                                               "SDV6",
+                                               "SDV7",
+                                               "SDV8",
+                                               "SDV9",
+                                               "SDV10",
+                                               "SDV11",
+                                               "SDV12",
+                                               "SDV13",
+                                               "SDV14",
+                                               "SDV15",
+                                               "SDV16",
+                                               "SDV17",
+                                               "SDV18",
+                                               "U"
+                                           ],
+                                "step_time":  1.0,
+                                "RF":  {
+                                           "count":  1,
+                                           "rp":  [
+                                                      0.0,
+                                                      0.6474573612213135
+                                                  ]
+                                       },
+                                "U":  {
+                                          "count":  1,
+                                          "rp":  [
+                                                     0.0,
+                                                     0.004999999888241291
+                                                 ]
+                                      },
+                                "SDV2":  {
+                                             "count":  56729,
+                                             "max":  0.0,
+                                             "min":  0.0
+                                         },
+                                "increment":  1,
+                                "full_nodal_displacement_available":  false
+                            },
+    "evidence_hashes":  {
+                            "equilibrium_actual_1414235.json":  "45ad0c4730ab70d3d09d6c49342f04e8ac7b67132902e6f44cdbeb96e9c8695b",
+                            "uel_energy_balance.csv":  "921fbed5a340353adaae468f118abba32686cb704f6b2b4f3a220fd42ae2e8c9",
+                            "M1_MC_STAGE_C1_1_EQUIL.sta":  "3f5c661771aa42c9a1609bd22043cef20b0a5591058338aa86f493dd43b4f56e",
+                            "M1_MC_STAGE_C1_1_EQUIL.dat":  "71c54a6536e27854be13f041f28c01ac5164586c88fccef80d31faeaf368aeb1",
+                            "pbs_execution_equil.log":  "7e5f0f50ed5e9c13daf07e436bfc7ef04ffc7e51b1b0e19f4996e7014e64d126"
+                        },
+    "reasons":  [
+                    "Actual RF and energy thresholds failed",
+                    "State outputs all zero and full nodal fields absent",
+                    "External work unavailable; residual not invented"
+                ]
+}

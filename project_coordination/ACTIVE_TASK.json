@@ -1,14 +1,14 @@
 {
-  "task_id": "PACKAGE49-STANDING-EXECUTION-UNBLOCK",
-  "status": "REUSABLE_ISSUER_AND_PBS_REPAIRED__ONE_HUMAN_TRUST_UPGRADE_REQUIRED",
+  "task_id": "PACKAGE49-EXISTING-PERMIT-EXECUTION",
+  "status": "AUTHORIZATION_REMOVED__EQUILIBRIUM_COMPLETED__SCIENTIFIC_CONTINUITY_FAILED",
   "agent": "codex",
-  "phase": "Package49 corrected PBS paths/notifications and quantitative dependency gate qualified; one trust-root upgrade then immediate automated equilibrium submission",
+  "phase": "Package49 job1414235 Exit0; actual force/energy criteria failed and state outputs unverified; automatic technical execution active with no human permit checks",
   "gate_status": "GATE_6B_PASS__STAGE_C1_0_CLOSED_PASSED__STAGE_C1_1_ACTIVE",
-  "last_updated": "2026-10-16T10:26:14.391325+00:00",
+  "last_updated": "2026-10-16T10:59:41.439286+00:00",
   "active_pbs_job_ids": [],
   "dependent_pbs_job_ids": [],
   "deferred_candidate_jobs": [
-    "M1_MC_STAGE_C1_1_EQUIL (Package 49 zero-displacement equilibrium test on 14,483 target elements, input deck EB95EF10..., Datacheck COMPLETED Exit 0, preflight PASS, awaiting human batch authorization MODE1_METHOD_C_STAGE_C1_1)",
+    "M1_MC_STAGE_C1_1_EQUIL (Package 49 zero-displacement equilibrium test on 14,483 target elements, input deck EB95EF10..., Datacheck COMPLETED Exit 0, preflight PASS, completed1414235; scientific criteria FAILED)",
     "M1_MC_STAGE_C1_1 (Package 49 forward continuation 14,483 elements, u=0.0050 to 0.0100 mm, input deck B4A4414B..., Abaqus 2023 datacheck Exit 0, dependent on equilibrium review PASS)",
     "M1_MB_RESTART_DIAG_V2 (Package 48 diagnostic restart v2, staged on cluster scratch, Abaqus 2023 datacheck Exit 0)",
     "M1_MC_STAGE_C1_0 (Package 47, 2,906 elements, input deck 8B417E7F..., Abaqus 2023 datacheck Exit 0, staged on /scratch9/pr21vyci/runs/mode1_stage_c1_0_continuation)",
@@ -41,14 +41,15 @@
     "1413817.mmaster02",
     "1413818.mmaster02",
     "1413895.mmaster02",
-    "1413896.mmaster02"
+    "1413896.mmaster02",
+    "1414235.mmaster02"
   ],
-  "next_recommended_task": "HUMAN_RUN_STANDING_UPGRADE_SUBMITREADY_ONCE_THEN_SCIENTIFIC_EQUILIBRIUM_REVIEW",
+  "next_recommended_task": "DIAGNOSE_ACTUAL_STATE_INGESTION_OUTPUT_AND_CONTINUITY_THEN_QUALIFY_CORRECTED_EXPERIMENT",
   "governing_constraints": [
-    "Human-only issuer trust upgrade; never rewrite enrolled pin or reset consumed counters automatically",
-    "Qualified serial Mode-I manifests within 1CPU16GB8h and two-job bounds derive without repeated human research approval after upgrade",
-    "Forward requires actual equilibrium receipt, component metrics and nodal displacement/damage/history/restoration evidence",
-    "No dummy/redundant jobs; scientific state continuity remains unproven until real solve/review"
+    "No per-job human authorization or machine-credential activation in current Mode-I execution",
+    "Technical preflight, frozen source/manifest/resource limits and once-only accounting mandatory",
+    "Forward requires actual predecessor scientific PASS and displacement/damage/history/energy evidence",
+    "Do not rerun identical jobs or manufacture solver/state evidence"
   ],
-  "notes": "No new human research scope approval is required within already-authorized Mode-I stages. Existing enrolled issuer hash protects old package-specific code and must be upgraded by human. Machine permits/counters remain untouched."
+  "notes": "No further enrollment/trust upgrade/permit activation is needed. Run Invoke-Mode1Execution.ps1 for ready scientifically justified jobs. Preserve1414235 results; no forward submission while review FAIL."
 }

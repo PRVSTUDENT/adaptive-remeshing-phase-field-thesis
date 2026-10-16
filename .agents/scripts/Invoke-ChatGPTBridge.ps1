@@ -151,8 +151,8 @@ function Invoke-ChatGPTBridge {
     $assembledPrompt = $PromptText
     if ($RulesPath -and (Test-Path -LiteralPath $RulesPath)) {
         $rulesContent = [System.IO.File]::ReadAllText($RulesPath, [System.Text.UTF8Encoding]::new($false)).Trim()
-        if ($rulesContent -notmatch 'Standing research authorization and JOB-FIRST / REPORT-AFTER POLICY') {
-            throw 'Standing authorization/job-first policy missing; refusing stale bridge prompt.'
+        if ($rulesContent -notmatch 'JOB-FIRST / REPORT-AFTER POLICY') {
+            throw 'Job-first execution policy missing; refusing stale bridge prompt.'
         }
         if (-not [string]::IsNullOrWhiteSpace($rulesContent)) {
             $rHeader = "---------------- BRIDGE CONTROLLER RULES ----------------"

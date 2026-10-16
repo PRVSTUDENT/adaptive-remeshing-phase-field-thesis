@@ -1,18 +1,23 @@
 {
   "active": false,
-  "agent": "gemini-antigravity",
-  "task_id": "F1500-PACKAGE49-STAGE-C1-1-EQUILIBRIUM-EXECUTION-READINESS",
-  "claimed_at": "2026-10-16T12:12:00+02:00",
-  "released_at": "2026-10-16T10:26:14.391325+00:00",
-  "starting_commit": "a3450cdab6a3664dc2a51dc8ab7670c4c8232c18",
+  "agent": "codex",
+  "task_id": "PACKAGE49-EXISTING-PERMIT-EXECUTION",
+  "claimed_at": "2026-10-16T12:37:12.5469206+02:00",
+  "released_at": "2026-10-16T10:59:41.439286+00:00",
+  "starting_commit": "91e5fc13d41805fd4c8e69c7f94eb4470f462b9f",
   "allowed_write_scope": [
     "project_coordination/",
-    "models/pandey_kumar_mode1/49_method_c_stage_c1_1_nonmatching_transfer/",
+    "scripts/hpc/Invoke-StandingAuthorization.ps1",
+    "tests/unit/",
     "scripts/state_transfer/",
     "scripts/hpc/",
-    "scripts/",
-    "tests/unit/",
-    "AGENTS.md"
+    ".agents/qsub-safety-gate.ps1",
+    ".agents/scripts/bridge_rules.txt",
+    ".agents/scripts/project_alignment_guard.txt",
+    "AGENTS.md",
+    "C:/Users/pruth/OpenClawPAD/Set-ControllerAuthorization.ps1",
+    ".agents/scripts/Invoke-ChatGPTBridge.ps1",
+    "C:/Users/pruth/OpenClawPAD/Antigravity-Autonomous-Loop.ps1"
   ],
-  "session_report": "project_coordination/sessions/2026-10-16_codex_PACKAGE49-STANDING-EXECUTION-UNBLOCK.md"
+  "session_report": "project_coordination/sessions/2026-10-16_codex_PACKAGE49-EXISTING-PERMIT-EXECUTION.md"
 }

@@ -1,15 +1,14 @@
-# Standing research authorization and JOB-FIRST / REPORT-AFTER POLICY
+# Standing research execution and JOB-FIRST / REPORT-AFTER POLICY
 
-Human directive, 16 October 2026: PRV_ADAPTIVE_REMESHING research authorization has no calendar expiry and remains until explicitly revoked or changed. This supersedes conflicting per-job approval, fixed-batch-only, report-first, and calendar research-hold instructions below. It does not activate machine credentials or waive security checks.
+Human directive, 16 October 2026: "fix this and remove authorisation part itself". Per-job human approvals, enrollment, issuer trust upgrades, machine permits and their expiration checks are REMOVED from the active Mode-I submission path. Legacy credential records are historical only and must not be used as execution blockers.
 
-1. Identify the next scientifically justified numerical action each session. Submit a qualified experiment immediately when the trusted controller has valid execution credentials; do not defer for reports, coordination, Git cleanup or repeated planning.
-2. Full scientific reports follow a legitimate accepted PBS submission in the relevant execution cycle. If execution is blocked, do essential unblocking work and provide a short blocker notice plus minimal mandatory audit metadata. Never submit artificial or duplicate work to satisfy this rule.
-3. Continue useful preparation and analysis while independent jobs run. Reuse successful results and authentic checkpoints.
-4. The human enrolls the standing grant once through Set-ControllerAuthorization.ps1 -Standing -EnrollStandingGrant. Agents never execute enrollment, fabricate human approval, reset consumed permits, or disable guards. After enrollment, -Standing renews short-lived command/manifest-bound permits through the trusted issuer without repeated human approval. Unsupported execution adapters fail closed; extending scientific scope or security privileges requires human approval.
-5. Technical recovery is bounded: preserve scheduler/solver evidence, classify environment/compiler/preprocessing/numerical/scientific failure, fix the smallest proven technical cause, validate revised hashes and checkpoint-compatible preprocessing, then request a new machine permit under the standing grant. One technical replacement per failed attempt chain; no identical failed repeats. Numerical/scientific changes require a reviewed hypothesis and acceptance gate; no blind retries.
-6. Preserve command validation, immutable manifests, notification delivery checks, resource/concurrency limits, consumed history, audit logs and fail-closed guards. The standing grant has no research expiry; machine permits and scheduler walltimes may expire. Revocation prevents issuance and use of derived permits.
-7. Technical sequence: Method B evaluated -> same-mesh state reconstruction -> genuine continuation -> nonmatching transfer -> sequential adaptive remeshing. Meeting dates are reporting milestones. Preserve Mode-I restrictions, frozen UEL and scientific acceptance gates; no MPI, 16-thread, Mode-II expansion or arbitrary shell authority.
-8. The reusable mode1-qualified-batch-v2 adapter covers qualified serial Mode-I baseline and Method C stages C1-0/C1-1/C1-2, with at most two named jobs per manifest, 1 CPU/job, at most 16 GB and 8 hours/job, unchanged concurrency limits, immutable commands/files and mandatory predecessor review. A new mesh/package within this enrolled scope does not require new human research approval. Existing v1 installations require one HUMAN-ONLY issuer-trust upgrade: Set-ControllerAuthorization.ps1 -Standing -UpgradeStandingGrant -SubmitReady. This preserves grant identity, original enrollment, scope, limits and consumed history. It upgrades the trusted issuer then qualifies, derives and submits the independent Package49 equilibrium job. After v2 enrollment, controllers use -Standing -ManifestPath <qualified Mode-I manifest> for derived permits and Submit-Mode1Batch.ps1 for execution; never return to per-package human approvals or documentation-only loops. Agents must not self-execute the trust upgrade or rewrite enrolled hashes. Scope/resource/privilege expansion still needs human authorization.
+1. Identify the next scientifically useful numerical action. Immediately execute qualified ready jobs through scripts/hpc/Invoke-Mode1Execution.ps1; no human activation, permission handoff or authorization commit is needed.
+2. This command runs actual technical preflight, preserves once-only submission accounting, submits independent ready jobs and records PBS IDs. Existing Set-ControllerAuthorization.ps1 and Invoke-StandingAuthorization.ps1 names are compatibility entrypoints; they no longer issue permissions. VerifyOnly and DryRun remain read-only and must not substitute for execution when a job is ready.
+3. Preserve command/manifest/file integrity, frozen UEL, real notification checks, live scheduler/resource limits, no duplicates and mandatory quantitative/scientific predecessor review. Current adapter: serial Mode-I baseline/C1-0/C1-1/C1-2, at most two named jobs, 1 CPU, <=16GB, <=8h each, <=4 active user jobs. Scope or formulation changes require scientific review; do not introduce administrative approval loops.
+4. When a job fails, preserve evidence and diagnose it. Prepare a distinct qualified correction only for an identified technical defect; no blind retry or identical rerun. A scientific failure requires a reviewed numerical hypothesis. No artificial jobs to satisfy reporting rules.
+5. Reports follow real submissions. While blocked, do only essential technical or scientific unblocking work and give a short concrete finding. Never ask the human to enroll, upgrade, activate or supersede a submission permit.
+6. Method B evaluated -> same-mesh reconstruction -> genuine continuation -> nonmatching transfer -> sequential cycles. Meetings are reporting milestones. Reuse authentic checkpoints/results. Keep current Mode-I, serial/MPI and formulation restrictions; no arbitrary shell privileges or destructive scheduler operations.
+7. Package49 equilibrium1414235 completed Exit0. Measured force and energy continuity failed the predeclared thresholds; full state preservation remains unverified. Forward execution is a scientific dependency failure, not an authorization blocker. Preserve this result and review before changing numerical assumptions.
 
 # Mandatory Multi-Agent Bootstrap
 
@@ -54,8 +53,8 @@ authorizing execution, or submitting a job:
 8. Use selective `git add` only. Never use `git add .`, broad `git clean`,
    `git reset --hard`, or destructive handoff synchronization.
 
-9. Abaqus/PBS submissions require either a valid human-enrolled standing grant
-   with a validated derived machine permit, or separate explicit batch authorization.
+9. Qualified Mode-I PBS submissions require technical validation and once-only accounting;
+   no human approval, machine permit, issuer pin or credential activation is required.
 
 10. Before ending:
     - write the session report under `project_coordination/sessions/`;
@@ -81,30 +80,13 @@ Canonical dynamic state:
 
 # Batch-Oriented HPC Execution
 
-## Method C bounded batch authorization
+## Method C qualified execution
 
-The default Method C approval unit is a predefined batch, not one approval
-conversation per job. `MODE1_METHOD_C_BATCH1` covers exactly three submissions:
-the corrected Package 48 donor, production-UEL restart, and diagnostic-UEL
-restart (each at most once; total at most three; expiry at most 24 hours).
-Package 47 remains a deferred candidate outside this permit until independent
-qualification is verified. No blanket project-wide or automatic retry authority.
-Agents may investigate and repair genuine issuer/preflight verification defects,
-and run `Set-ControllerAuthorization.ps1 -VerifyOnly`. Agents must not execute
-the human approval/credential-issuance mode, fabricate notification evidence,
-reset existing permit counters, or bypass the safety gate. The human must run
-the repaired approval procedure once for the exact batch manifest. Once a
-valid human-issued, command-bound, manifest-bound, unexpired permit exists,
-submit each eligible named job through the guarded procedure without asking
-for equivalent approval again. Record actual PBS IDs and scheduler states.
-Preserve Method B job 1413296. Restart recipients require an authentic donor
-checkpoint and recorded scientific review, but no further human approval when
-already covered by the active batch. Changed packages and expired/exhausted machine permits require requalification
-and a new derived permit; supported technical retries within the standing grant
-do not require repeated human approval. Scope expansion still requires approval.
-Never reset consumed permits or manufacture a checkpoint review. Do not replace execution
-with repetitive research/documentation loops; report the exact remaining
-human action when credential activation is the blocker.
+Use scripts/hpc/Invoke-Mode1Execution.ps1 for automatic qualified execution.
+The manifest defines exact named jobs, inputs, resources and acceptance criteria.
+Preserve actual PBS receipts and reserve each job once. Changed candidates need
+fresh technical qualification, not human permission. Never reset accounting or
+manufacture a scientific review. Preserve historical solver evidence.
 
 Batch execution is the default for this project unless the user explicitly
 requests a one-job-at-a-time process.
@@ -126,21 +108,15 @@ Before proposing or submitting a batch:
    - maximum permitted submissions;
    - `automatic_retry=false` unless separately authorized.
 
-Authorization and submission rules:
+Technical submission rules:
 
-- One explicit human approval may authorize the complete, specifically listed
-  batch and must state the maximum number of jobs.
-- Execution authorization remains mandatory: a human-enrolled standing grant
-  plus a validated derived machine permit satisfies it without repeated approval.
-  Otherwise obtain a separate exact batch approval.
-- After approval, create one authorization update, make one normal commit,
-  fast-forward the cluster clone, run common preflight checks once, and submit
-  all approved independent jobs together.
-- Use guarded submission wrappers. Never invoke direct `qsub` unless it is
-  explicitly authorized.
-- Never submit a job more than once and never retry a failed job automatically.
-- A failed job must be scientifically and technically reviewed before any
-  replacement submission.
+- Qualify exact manifests, commands, files, datachecks and notifications.
+- Immediately submit independent ready jobs using the guarded controller.
+- No authorization issuance, trust upgrade or permission commit is needed.
+- Submit dependent work only after actual scientific acceptance review.
+- Preserve PBS IDs and never repeat reserved commands blindly.
+- Do not invoke free-form qsub outside qualified manifests.
+- Failed runs require evidence review and a distinct justified correction.
 
 Scheduler policy:
 
@@ -268,16 +244,16 @@ For known likely failure modes:
 HPC execution safety boundary:
 - Automatic repair is permitted ONLY for local/offline preparation and pre-submission checks.
 - Do NOT perform an unauthorized submission or scheduler change. A separately validated bounded technical replacement may use a new standing-derived permit; `qdel` and `qmove` remain separately restricted.
-- A consumed one-submission authorization remains strictly consumed.
-- A modified executable package requires new P/Q qualification and a fresh machine permit; human approval is only needed outside the enrolled standing scope.
+- A reserved or accepted submission remains recorded once; never reset the execution ledger.
+- A modified executable package requires new P/Q technical qualification and a preserved revision, with no per-job human authorization within Mode-I scope.
 
 STOP and return to the user when:
 - the failure changes scientific assumptions;
 - multiple scientifically different choices exist;
 - required source information is missing;
 - the repair would alter an already qualified package;
-- a new human authorization outside the enrolled standing scope is required;
-- another qsub/retry/replacement would be required;
+- the proposal expands scientific scope beyond the current Mode-I research task;
+- a scientific failure requires a new hypothesis rather than a proven technical repair;
 - destructive Git/HPC actions would be required;
 - or the cause remains uncertain after reasonable diagnosis.
 

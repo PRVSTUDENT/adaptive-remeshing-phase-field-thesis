@@ -33,6 +33,11 @@ def check(payload):
         target=payload['batch'].get('remote_run_dir','')
         require(re.fullmatch(r'/scratch9/pr21vyci/runs/mode1_[a-z0-9_/]+',target) and '..' not in target, 'Unsafe Mode-I scratch path')
         RUN=Path(target)
+    # Live scheduler capacity is a technical resource check, not an approval.
+    active=subprocess.run(['qstat','-f','-u','pr21vyci'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True,timeout=20)
+    require(active.returncode==0,'Cannot verify live scheduler capacity')
+    active_count=len(re.findall(r'\bjob_state\s*=\s*[Q R H T W E S B]\b',active.stdout))
+    require(active_count < 4,'Four-job project resource limit reached; preserve running jobs')
     facts = {}
     queue = payload.get('submission_queue', 'entry_imfdfkmq')
     require(queue in ('normal_imfdfkmq', 'entry_imfdfkmq'), 'Unapproved queue')
@@ -144,7 +149,7 @@ notification_send_email_once 'Package 49 authorization PREFLIGHT TEST' 'No PBS j
         require(job['input'] in facts,'Unbound datacheck input')
         datachecks[job['id']]={'status':'PASS','input_sha256':facts[job['input']], 'dat_sha256':hashlib.sha256(data).hexdigest()}
 
-    return dict(adapter_contract="mode1-qualified-batch-v2", datachecks=datachecks,
+    return dict(active_job_count=active_count, adapter_contract="mode1-qualified-batch-v2", datachecks=datachecks,
                 batch_spec_sha256=hashlib.sha256(json.dumps(batch,sort_keys=True,separators=(",",":")).encode()).hexdigest(), passed=True, pbs_email_verified=True, telegram_verified=True,
                 submission_queue=queue, queue_access_preflight='PASS',
                 compiler_environment='PASS_LOGIN_NODE',

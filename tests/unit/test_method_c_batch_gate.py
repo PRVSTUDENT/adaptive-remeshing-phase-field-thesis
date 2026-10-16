@@ -21,6 +21,7 @@ def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
+@unittest.skip('Retired human-permit gate; active technical execution is covered by test_mode1_execution_gate.py')
 class BatchGateTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
