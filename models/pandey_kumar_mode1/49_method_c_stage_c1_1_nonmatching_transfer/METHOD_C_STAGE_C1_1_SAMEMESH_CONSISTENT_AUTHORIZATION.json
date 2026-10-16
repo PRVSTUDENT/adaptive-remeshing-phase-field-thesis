@@ -1,0 +1,66 @@
+{
+  "batch_name": "MODE1_METHOD_C_STAGE_C1_1",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "M1_MC_STAGE_C1_1_SAMEMESH_CONSISTENT_RELHOLD.inp": "95001de57c6adb30077c2125f30ac44b0f788d77ceecae23ae7f6e28eab7f439",
+    "submit_M1_MC_STAGE_C1_1_SAMEMESH_CONSISTENT_RELHOLD.pbs": "d7e36ea265dc5f775a2d166d50f2914cea3dfcde9a0f96f9be5a2cf848bfd303",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11"
+  },
+  "jobs": [
+    {
+      "id": "samemesh_consistent_relhold_diagnostic",
+      "pbs": "submit_M1_MC_STAGE_C1_1_SAMEMESH_CONSISTENT_RELHOLD.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_stage_c1_1_nonmatching_transfer/submit_M1_MC_STAGE_C1_1_SAMEMESH_CONSISTENT_RELHOLD.pbs\"",
+      "command_sha256": "0524f9aa170c786ebfe70227ff2e208be7ca3e3e2232609311876d0de3f6192d",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Stage C1-1 consistent same-mesh self-transfer release-and-hold diagnostic on 14,483 target elements (Step 1 constrained equil with consistent inverse nodal damage d_max=0.342331 at u=0.0050 mm, Step 2 release DOF 3 and hold displacement constant at u=0.0050 mm)",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 1,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_MC_STAGE_C1_1_SAMEMESH_CONSISTENT_RELHOLD.inp",
+      "datacheck": "M1_MC_STAGE_C1_1_SAMEMESH_CONSISTENT_RELHOLD_DC.dat"
+    }
+  ],
+  "dependency_review_path": "project_coordination/STAGE_C1_1_EQUIL_REVIEW.json",
+  "acceptance": {
+    "samemesh_consistent_relhold_diagnostic": "Reaction force continuity |Delta RF| <= 5.0 N (donor baseline RF = 661.745 N); damage stability in Step 2: no artificial damage runaway (d_max retained near 0.318-0.342), Newton convergence Exit 0, 0 cutbacks."
+  },
+  "dependency_review_required_fields": [
+    "batch_manifest_sha256",
+    "equil_pbs_job_id",
+    "terminal_exit_status=0",
+    "delta_rf_n",
+    "delta_d_max",
+    "delta_e_tot_pct",
+    "global_energy_residual_pct",
+    "scientific_review=PASS",
+    "reviewed_by",
+    "evidence_report"
+  ],
+  "execution_policy": "Single-rank serial consistent same-mesh self-transfer release-and-hold diagnostic. Ready for immediate execution.",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_stage_c1_1_nonmatching_transfer",
+  "dependency_thresholds": {
+    "delta_rf_n": 5.0,
+    "delta_d_max": 0.02,
+    "delta_e_elas_pct": 0.5,
+    "delta_e_frac_pct": 0.5,
+    "delta_e_tot_pct": 0.1,
+    "global_energy_residual_pct": 2.0,
+    "cutbacks": 0
+  },
+  "required_state_checks": [
+    "nodal_displacement_verified",
+    "damage_irreversibility_verified",
+    "committed_history_verified",
+    "state_restoration_verified"
+  ]
+}
