@@ -1,3 +1,30 @@
+## Task F1512 Evaluate Same-Mesh Controls & Resolve Reference Data Inconsistencies (16 October 2026)
+Completed the rigorous scientific reconciliation of reference data inconsistencies, audited the physical validity of the clipped least-squares inverse reconstruction, codified the strict original Gate 6C evaluation criteria, and confirmed scheduler status for the active same-mesh control experiments:
+1. Reaction Force Baseline Discrepancy Resolved:
+   - Proved authentic fine-mesh continuous baseline (Job 1412465, 14,483 FEs) reaction force at u = 0.005000 mm is RF_2 = 661.7254 N (0.661725 kN) with external work W_ext = 1.691029 mJ (traced bitwise to corrected_method_b_load_displacement.csv line 2005).
+   - Retracted errant value F = 0.559648 kN from previous narrative as an unverified intermediate artifact (coincident with intermediate state u = 0.004170 mm where F = 0.559533 kN).
+2. Fracture Energy Reference Discrepancy Resolved:
+   - Reconciled all four figures from primary CSVs: authentic continuous fine baseline 1412465 has E_frac = 0.036786 mJ (uel_energy_balance.csv Step 1 Inc 2000), while nonmatching release-and-hold Job 1414550 has E_frac = 0.036947 mJ (Step 2 Inc 10), matching within +0.438% (+0.000161 mJ).
+   - Explained narrative figures 0.036701 mJ vs 0.036541 mJ: 0.036541 mJ is the authentic fracture energy of the 15,192-element UNIFORM reference (Job 1409734); multiplying 0.036541 by (1 + 0.00438) produced 0.036701 mJ. Corrected this cross-model reference conflation.
+3. Mesh Topology Discrepancy Resolved:
+   - Directly parsed and verified all 4 candidate input decks (14K.inp, RELHOLD.inp, SAMEMESH_RELHOLD.inp, SAMEMESH_CONSISTENT_RELHOLD.inp).
+   - Proved 100% identical topology across all 4 decks: exactly 14,082 quadrilaterals (97.23%) and 401 triangles (2.77%), totaling 14,483 elements and 14,456 nodes.
+   - Refuted earlier unverified mention of "14,373 quads and 110 tris" as an accidental reporting typo.
+4. Physical Validity of Clipped Least-Squares Reconstruction Audited:
+   - Proved unconstrained LSQR was clipped via np.clip(res[0], 0.0, 1.0) in submitted deck M1_MC_STAGE_C1_1_SAMEMESH_CONSISTENT_RELHOLD.inp (Job 1414563).
+   - Verified exactly 265 nodes (1.83%) had negative unconstrained values (minimum: -5.794e-4).
+   - Proved all 265 clipped nodes reside strictly in the far field (> 10.5 l_0 away from crack tip (0.5, 0.5), mean distance 56.6 l_0).
+   - Proved zero crack-tip distortion: apex node 129 (d = 0.34233145) and node 1384 (d = 0.31903716) are bitwise identical between unconstrained and clipped fields.
+   - Recomputed clipped relative L2 residual as 4.259e-4 (0.0426%), with maximum absolute residual 2.694e-4 restricted to far-field elements.
+   - Proved clipping enforces physical admissibility (d >= 0) without introducing artificial crack-tip gradients.
+5. Strict Gate 6C Acceptance Thresholds Maintained:
+   - Codified original Gate 6C thresholds: |Delta RF| <= 5.0 N, |Delta d_max| <= 0.020, |Delta E_elas| <= 0.50%, |Delta E_frac| <= 0.50%, |Delta E_tot| <= 0.10%. Rejected exploratory 5% relaxation.
+6. Scheduler Status:
+   - Active jobs 1414558.mmaster02 (M1_MC_C1_1_SM) and 1414563.mmaster02 (M1_MC_C1_1_SMC) actively queued in normal_imfdfkmq.
+   - Forward continuation and Stage C1-2 remain strictly BLOCKED at Gate 6C pending completion of same-mesh diagnostic bracket.
+7. Unit Tests (5/5 PASS):
+   - Authored tests/unit/test_mode1_f1512_reconcile_data_and_audit_clipped_reconstruction.py (5/5 PASS). Combined with F1507-F1511, full 27/27 regression battery verified.
+
 ## Task F1511 Complete Same-Mesh Control & Validate Inverse State Reconstruction (16 October 2026)
 Completed the rigorous mathematical and numerical validation of the least-squares inverse state reconstruction, proved linear operator fidelity against Fortran source, qualified and submitted the consistent same-mesh diagnostic Job 1414563.mmaster02, and generated the authentic 4-panel mesh/phase comparison figure:
 1. Active HPC Job Reconciliation:
