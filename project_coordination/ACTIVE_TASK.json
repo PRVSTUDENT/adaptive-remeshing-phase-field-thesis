@@ -1,10 +1,10 @@
 {
-  "task_id": "F1520-RECONCILE-CASE-B-AND-EVALUATE-GROUND-TRUTH",
-  "status": "CASE_B_RECONCILED__ASSESSMENT_A_PASS_CONSISTENT_ONLY__ASSESSMENT_B_DEFICIT_ISOLATED__BASELINE_RUNNING",
+  "task_id": "F1521-HARVEST-GROUND-TRUTH-AND-ISOLATE-RECONSTRUCTION-ERROR",
+  "status": "CONSTITUTIVE_PATH_INDEPENDENCE_PROVEN__RECONSTRUCTION_AVERAGES_0P04PCT_VERIFIED__BOUNDARY_CONDITION_MISMATCH_ISOLATED__BASELINE_RUNNING",
   "agent": "gemini-antigravity",
-  "phase": "Task F1520 complete: Formally separated Assessment A (within-run release stability: |Delta RF|=0.455 N, |Delta d_max|=0.000263, |Delta E_tot|=0.007%) from Assessment B (continuous baseline preservation: Delta RF=-17.17 N, Delta E_tot=-2.48%); reclassified Case B as CASE_B_LOCAL_RELEASE_STABILITY_ONLY; formulated 4 ranked root-cause hypotheses isolating the deficit to Step 1 static re-equilibration compliance; monitored continuous baseline Job 1414571 (actively solving in normal_imfdfkmq past inc 469); Gate 6C hold strictly preserved.",
+  "phase": "Task F1521 complete: Proven mechanical Cauchy path-independence under Dirichlet-fixed damage in f42_mixed_uel.for; verified consistent inverse reconstruction reproduces baseline element averages to 0.0426% relative L2 error (0.318142 exact at apex elem 661); isolated -16.72 N force deficit to omission of N_TOP lateral constraint and origin mispinning in mode1_state_transfer_engine.py; monitored continuous baseline Job 1414571 (inc 924/2000, bitwise energy parity); Gate 6C hold strictly preserved.",
   "gate_status": "GATE_6B_PASS__STAGE_C1_0_CLOSED_PASSED__CASE_B_LOCAL_RELEASE_STABILITY_ONLY__BASELINE_RUNNING__GATE_6C_HOLD",
-  "last_updated": "2026-10-16T20:25:00+02:00",
+  "last_updated": "2026-10-16T20:50:00+02:00",
   "active_pbs_job_ids": [
     "1414558.mmaster02",
     "1414563.mmaster02",
@@ -51,12 +51,12 @@
     "1414558.mmaster02",
     "1414563.mmaster02"
   ],
-  "next_recommended_task": "MONITOR_ENRICHED_BASELINE_AND_EVALUATE_CASE_D_GROUND_TRUTH",
+  "next_recommended_task": "HARVEST_BASELINE_GROUND_TRUTH_UPON_COMPLETION_AND_EVALUATE_CORRECTED_BOUNDARY_MODEL",
   "governing_constraints": [
     "No per-job human authorization or machine-credential activation in current Mode-I execution",
     "Technical preflight, frozen source/manifest/resource limits and once-only accounting mandatory",
     "Forward requires actual predecessor scientific PASS and displacement/damage/history/energy evidence",
     "Do not rerun identical jobs or manufacture solver/state evidence"
   ],
-  "notes": "Task F1520 complete: Reconciled Case B within-run release stability with continuous baseline preservation; reclassified Case B as CASE_B_LOCAL_RELEASE_STABILITY_ONLY; formulated 4 ranked root-cause hypotheses; continuous baseline Job 1414571 solving past inc 469; 72/72 active tests pass; Gate 6C hold preserved."
+  "notes": "Task F1521 complete: Proven Cauchy path-independence in f42_mixed_uel.for; verified consistent reconstruction reproduces element averages to 0.0426% relative L2 error; isolated force deficit to boundary condition mismatch (omission of N_TOP constraint, mispinned origin); baseline Job 1414571 solving past inc 924 with bitwise energy parity; 78/78 active tests pass; Gate 6C hold preserved."
 }

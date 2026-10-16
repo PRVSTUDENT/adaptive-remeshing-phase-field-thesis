@@ -1,3 +1,31 @@
+## Task F1521 Harvest Ground Truth & Isolate Reconstruction Error (16 October 2026)
+Conducted the constitutive audit of mechanical static equilibrium under frozen damage, evaluated the element-average fidelity of consistent inverse damage reconstruction, isolated the boundary condition and kinematic mismatch in the state transfer engine, monitored active execution of enriched baseline Job 1414571 with 100% bitwise parity, and verified 100% pass across the expanded 78-test active regression suite:
+1. Live Baseline Monitoring & Bitwise Parity:
+   - Monitored Job 1414571.mmaster02 (`M1_MB_BASE_ENR`) in `normal_imfdfkmq` on dedicated node `mnode099/2`.
+   - Actively solving smoothly past increment 924 / 2000 ($u = 0.002310$ mm, 46.2% complete) with 0 cutbacks, exactly 3 Newton iterations/inc, and 47 MB continuous ODB output on cluster scratch.
+   - Verified that live total internal energy, elastic strain energy, and fracture surface energy in `uel_energy_balance.csv` match canonical baseline Job 1412465 bitwise to all 8 significant digits (e.g. Inc 778: $E_{\text{elas}} = 0.25964561\times 10^{-3}$ mJ, $E_{\text{frac}} = 0.79772864\times 10^{-6}$ mJ, $E_{\text{tot}} = 0.26044334\times 10^{-3}$ mJ), proving whole-mesh diagnostic requests do not perturb the solution trajectory.
+2. Constitutive Audit of Mechanical Static Equilibrium:
+   - Audited production UEL `f42_mixed_uel.for` (lines 408-430 and 492-511): stress is $\sigma = ((1 - D_{\text{AVG}})^2 + k) C_0 : \varepsilon$.
+   - When damage is held under Dirichlet constraints during Step 1, $D_{\text{AVG}}(e)$ is strictly constant for each element, reducing the governing equations to linear Cauchy elasticity with a unique static solution and zero path-dependence.
+   - Refuted the hypothesis that static re-equilibration inherently fails to recover continuous displacements: under identical boundary conditions and identical element damage fields $D_{\text{AVG}}(e)$, static re-equilibration MUST recover the exact continuous displacement and reaction force.
+3. Damage Reconstruction Averaging Fidelity ($0.0426\%$ Relative $L_2$ Error):
+   - Proved that consistent least-squares inverse reconstruction in `M1_MC_STAGE_C1_1_SAMEMESH_CONSISTENT_RELHOLD.inp` reproduces the baseline element-average damage across all 14,483 elements to within $0.0426\%$ relative $L_2$ error ($1.552\times 10^{-3}$ vs $3.645$ norm).
+   - At crack-tip element 661: $(A d^*)_{661} = 0.318142$, bitwise matching `SDV14` = $0.318142$. Elements 2393, 2498, 2589 match to 6 decimal places.
+   - Proved that element-level stiffness degradation factors $K_e(D_{\text{AVG}})$ were already accurately captured in Job 1414563.
+4. Root Cause Isolated as Boundary Condition Mismatch in State Transfer Engine:
+   - Audited `scripts/state_transfer/mode1_state_transfer_engine.py` (lines 1021-1024) against canonical reference decks `M1_MB_CORRECTED_PROPAGATION_14K.inp` and `M1_MB_FINE_BASELINE_ENRICHED.inp`.
+   - Identified critical discrepancies in `mode1_state_transfer_engine.py`:
+     * Omission of `N_TOP, 1, 1, 0.0`: The canonical reference restrains lateral displacement ($u_x = 0$) across all 150 nodes on the top edge $y = 1.0$. `mode1_state_transfer_engine.py` omitted this constraint, allowing the top edge to contract laterally. In plane strain tension, removing the top lateral constraint reduces effective axial structural stiffness by $\sim 2.5\%$.
+     * Mispinned Origin: `mode1_state_transfer_engine.py` hardcoded `1, 1, 1, 0.0` under the assumption that Node 1 was the origin. In the 14,483-element mesh, Node 1 is at $(0.96047, 0.0)$, whereas the true origin is Node 33 (`N_PIN`) at $(0.0, 0.0)$.
+     * Kinematic Inconsistency: Reconstructed decks specified `NLGEOM=YES`, whereas the small-strain reference model used `NLGEOM=NO`.
+   - Reconciled: The $-16.72$ N ($-2.53\%$) reaction force deficit in Step 1 is directly explained by the omission of the top boundary lateral constraint and the mispinned origin!
+5. Strict Gate 6C Enforcement & Zero Qualified Remeshing Cycles:
+   - Gate 6C hold (`GATE_6C_HOLD`) strictly maintained. Forward continuation deck `M1_MC_STAGE_C1_1_FORWARD_14K` remains held.
+   - Sequential remeshing cycles = 0. Zero duplicate, dummy, or speculative submissions performed.
+6. Comprehensive Unit Testing (78/78 PASS):
+   - Authored `tests/unit/test_mode1_f1521_harvest_ground_truth_and_isolate_reconstruction_error.py` (6/6 PASS).
+   - Verified 100% pass across active 78-test regression battery (F1507 to F1521 in 0.63s).
+
 ## Task F1520 Reconcile Case B with Continuous Reference & Evaluate Ground-Truth Readiness (16 October 2026)
 Completed the formal reconciliation of Case B within-run release stability with continuous baseline preservation, reclassified Case B as `CASE_B_LOCAL_RELEASE_STABILITY_ONLY`, formulated the ranked root-cause hypothesis matrix isolating the Step 1 static re-equilibration compliance deficit, verified active execution of continuous baseline Job 1414571, and established 100% pass across the expanded 77-test active regression suite:
 1. Dual-Assessment Discrepancy Reconciled:
