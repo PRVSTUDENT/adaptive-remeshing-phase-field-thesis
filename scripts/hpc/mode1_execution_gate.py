@@ -201,7 +201,7 @@ def main():
     args=parser.parse_args()
     try:
         if args.prepare:
-            incoming=sys.stdin.read()
+            incoming=sys.stdin.read().lstrip('\ufeffï»¿')
             require(bool(incoming.strip()),'Empty technical preflight transport')
             try:
                 if not incoming.lstrip().startswith('{'):incoming=base64.b64decode(incoming.strip(),validate=True).decode('utf-8')

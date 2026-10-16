@@ -1,0 +1,93 @@
+{
+  "status": "FAIL",
+  "all_criteria_passed": false,
+  "checks": {
+    "criterion_2_peak_damage": {
+      "target_d_max": 0.092105,
+      "donor_d_max": 0.092105,
+      "delta_d_max": 0.0,
+      "threshold": 0.02,
+      "passed": true
+    },
+    "criterion_3_elastic_energy": {
+      "target_e_elas_mJ": 0.0,
+      "donor_e_elas_mJ": 1.632721,
+      "relative_error_pct": 100.0,
+      "threshold_pct": 0.5,
+      "passed": false
+    },
+    "criterion_4_fracture_energy": {
+      "target_e_frac_mJ": 0.0,
+      "donor_e_frac_mJ": 0.030663,
+      "relative_error_pct": 100.0,
+      "threshold_pct": 0.5,
+      "passed": false
+    },
+    "criterion_5_total_energy": {
+      "target_e_tot_mJ": 0.0,
+      "donor_e_tot_mJ": 1.663384,
+      "relative_error_pct": 100.0,
+      "threshold_pct": 0.1,
+      "passed": false
+    },
+    "criterion_6_energy_residual": {
+      "delta_book_mJ": 0.0,
+      "w_ext_mJ": 0.0,
+      "residual_ratio_pct": 0.0,
+      "threshold_pct": 2.0,
+      "passed": true
+    },
+    "criterion_7_convergence": {
+      "total_cutbacks": 0,
+      "max_cutbacks_allowed": 0,
+      "analysis_completed": true,
+      "passed": true
+    }
+  },
+  "metrics": {
+    "target_d_max": 0.092105,
+    "delta_d_max": 0.0,
+    "e_elas_mJ": 0.0,
+    "e_frac_mJ": 0.0,
+    "e_tot_mJ": 0.0,
+    "rel_tot_err_pct": 100.0,
+    "book_residual_pct": 0.0,
+    "total_cutbacks": 0,
+    "analysis_completed": true
+  },
+  "donor_comparison": {
+    "pbs_job_id": "1413814.mmaster02",
+    "job_name": "M1_MB_DONOR",
+    "num_elements": 2906,
+    "num_nodes": 2989,
+    "u_rp_mm": 0.005,
+    "rf_rp_N": 653.0886,
+    "e_elas_mJ": 1.632721,
+    "e_frac_mJ": 0.030663,
+    "e_tot_mJ": 1.663384,
+    "d_max": 0.092105,
+    "h_max_MPa": 53.65
+  },
+  "sta_summary": {
+    "exists": true,
+    "total_increments": 1,
+    "total_cutbacks": 0,
+    "step1_completed": true,
+    "last_increment": {
+      "step": 1,
+      "increment": 1,
+      "attempt": 1,
+      "equil_iters": 2,
+      "total_iters": 2,
+      "step_time": 1.0,
+      "inc_time": 1.0
+    }
+  },
+  "dat_summary": {
+    "exists": true,
+    "analysis_complete": false,
+    "datacheck_complete": false,
+    "cpu_time_s": 1.1,
+    "wallclock_time_s": 1.0
+  }
+}

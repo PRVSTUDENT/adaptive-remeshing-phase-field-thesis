@@ -126,6 +126,22 @@ deck_size = os.path.getsize(out_deck_path)
 sys.stdout.write(f"   Continuation deck size: {deck_size:,} bytes.\n")
 sys.stdout.flush()
 
+equil_deck_path = pkg49_dir / "M1_MC_STAGE_C1_1_EQUIL.inp"
+sys.stdout.write(f"STEP 10b: Assembling equilibrium deck at {equil_deck_path.name}...\n")
+sys.stdout.flush()
+engine.assemble_continuation_deck(
+    recipient_mesh=target_mesh,
+    target_state=target_state,
+    output_inp_path=str(equil_deck_path),
+    u_handoff=0.0050,
+    u_final=0.0100,
+    num_increments=5000,
+    continuation_mode="equil_only"
+)
+equil_deck_size = os.path.getsize(equil_deck_path)
+sys.stdout.write(f"   Equilibrium deck size: {equil_deck_size:,} bytes.\n")
+sys.stdout.flush()
+
 with open(out_metrics_path, "w", encoding="utf-8") as fp:
     json.dump(metrics, fp, indent=2)
 sys.stdout.write(f"STEP 11: Metrics saved to {out_metrics_path.name}!\n")

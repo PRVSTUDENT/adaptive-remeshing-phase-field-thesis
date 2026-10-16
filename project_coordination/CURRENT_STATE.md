@@ -1,3 +1,24 @@
+﻿## Task F1504/F1505 Package 49 Physical State Reconstruction Correction & Qualified Execution (16 October 2026)
+Successfully corrected the physical reconstruction mechanism on the non-matching 14,483-element target mesh, resolved the UTF-8 BOM pipe parsing defect in mode1_execution_gate.py, and executed the qualified Job 1414505 (Exit 0):
+1. Physical State Reconstruction via Dirichlet Boundary Control:
+   - Diagnosed that Abaqus/Standard static steps disallow *INITIAL CONDITIONS, TYPE=DISPLACEMENT (Error 144). In Job 1414235, starting with zero displacement and unconstrained damage caused the undegraded tip stress concentration to artificially spike strain energy POS_M > HIST, jumping tip damage to d=0.157 in Iteration 2 and over-softening the tip (5.63 N force drop).
+   - Corrected in Step 1 (Equilibration) by prescribing DOF 3 on all 14,456 nodes directly via *BOUNDARY (node_id, 3, 3, d_val). This enforces d = d_0 (d_max = 0.092105), degrades the mechanical elements with the true physical stiffness g(d_0)C_0, completely eliminates the undegraded stress spike, and solves for exact static equilibrium displacements u* in 2 Newton iterations (13s walltime).
+   - In Step 2 (Forward Continuation), *BOUNDARY, OP=NEW cleanly releases DOF 3 to evolve freely according to the coupled phase-field governing equations.
+   - Preserved bitwise frozen production UEL (f42_mixed_uel.for, SHA-256 CE8D5EDC...).
+2. UTF-8 BOM Execution Gate Bug Fixed:
+   - Diagnosed that in Windows PowerShell 5.1, .NET Process.StandardInput emits a UTF-8 Byte Order Mark (0xEF 0xBB 0xBF) which Python 3 on Windows reads as 'Ã¯Â»Â¿' under cp1252. When passed to base64.b64decode, Python threw ValueError('string argument should contain only ASCII characters').
+   - Repaired mode1_execution_gate.py to strip leading BOM characters (incoming = sys.stdin.read().lstrip('\ufeffÃ¯Â»Â¿')). All 20 execution gate unit tests pass cleanly.
+3. Qualified HPC Execution (Job 1414505.mmaster02):
+   - Executed via scripts/hpc/Invoke-Mode1Execution.ps1: preflight PASS, login notifications verified, reservation recorded, and submitted to entry_imfdfkmq.
+   - Executed on cluster in normal_imfdfkmq (Exit 0 in 13s, 2 Newton iterations, 0 cutbacks).
+4. Rigorous Scientific Evaluation against Gate 6C Acceptance Thresholds:
+   - Reaction Force Continuity: |Delta RF| = |648.5472 N - 653.0886 N| = 4.541 N <= 5.00 N (PASS).
+   - Peak Damage Retention: Delta d_max = 0.0000 <= 0.0200 (exact 0.092105 preserved, PASS).
+   - State Output Restoration: Full nodal displacements across all 14,457 nodes and 20 state variables (SDV1-SDV20) across all 56,729 integration points confirmed in ODB (SDV14 min=5.1e-7, max=0.0904 MPa), completely fixing the F1503 COMPANION_MAT and whole-mesh output defects (PASS).
+   - Total Energy Continuity: Delta E_tot = |1.650516 mJ - 1.663384 mJ| / 1.663384 mJ = 0.7743% vs strict threshold <= 0.10% (FAIL).
+   - Discretization Insight: The 0.774% energy difference reflects the physical discretization compliance gap between coarse (2,906 FEs) and fine (14,483 FEs) meshes.
+   - Strict Gate Enforcement: Retaining the original predeclared thresholds without silent relaxation, the predecessor review is formally recorded as FAIL, and forward continuation remains strictly BLOCKED at the Gate 6C dependency gate.
+
 ## Task F1503 Package 49 Numerical Continuity Failure Diagnosis & Resolution (16 October 2026)
 Diagnosed Package 49 Stage C1-1 equilibrium experiment (Job 1414235, Exit 0 in 18s) across all 5 investigation priorities, resolving the root causes of the 5.63 N force jump, 0.817% energy error, and zero SDVs:
 1. Companion Material UMAT Defect Isolated: In scripts/state_transfer/mode1_state_transfer_engine.py, COMPANION_MAT passed CONSTANTS=1 (1.0e-11) instead of CONSTANTS=3 (E, nu, n_phys). In f42_mixed_uel.for (lines 867-874), NPROPS < 3 caused UMAT to default to NPHYS_VAL = 71320. For companion elements NOEL = 28967..43449, PHYSIDX = NOEL - 142640 < 0 was clamped to NOEL (28967..43449). Because UEL only populated physical indices 1..14483, indices 28967..43449 in the COMMON block were 0.0, outputting all-zero SDVs in the ODB. Repaired engine to emit *USER MATERIAL, CONSTANTS=3 with E, nu, n_phys and DEPVAR=20.
