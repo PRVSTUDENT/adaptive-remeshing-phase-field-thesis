@@ -1,3 +1,27 @@
+## Task F1514 Diagnose PBS Queue Placement & Unblock Method C Experiments (16 October 2026)
+Completed the thorough empirical diagnosis of PBS queue architecture, node placement constraints, and Abaqus licensing to conclusively establish why same-mesh diagnostic jobs 1414558 and 1414563 remain queued:
+1. Decoding the Scheduler Comment:
+   - Diagnosed comment "Not Running: Placement set is too small: Insufficient amount of resource: Qlist (normal_imfdfkmq != ...)" as an eligible-node saturation indicator rather than a user hold or syntax error.
+   - Nodes mnode001..096 (nodetype = main) have Qlists for general queues (adminq, gpuq, longq, etc.) and cannot run normal_imfdfkmq jobs.
+   - Dedicated extension2 hardware pool consists of exactly 10 nodes (mnode097..106, 16 CPUs each = 160 CPUs total, 748 GB RAM each).
+   - All 10 nodes are 100% occupied (16/16 CPUs on all 10 nodes assigned to running jobs 1410506, 1414506..1414515), leaving exactly 0 idle CPUs in normal_imfdfkmq.
+2. Root Cause Distinctions Conclusively Established:
+   - Insufficient eligible node resources: YES, primary cause (160/160 CPUs full).
+   - Queue placement restrictions: YES, bound to extension2 node pool.
+   - Per-user / per-queue limits: NO (user pr21vyci has 0 running CPUs vs 640 limit; queue has no max_run).
+   - Scheduler priority: NO (jobs are top 2 queued in normal_imfdfkmq).
+   - Abaqus licensing: NO. Directly queried license manager; exactly 226 of 300 Abaqus Standard tokens are free and available.
+3. Queue Alternatives & Node Pool Analysis:
+   - entry_imfdfkmq is a route queue with destinations normal_imfdfkmq,short_imfdfkmq. It has no compute nodes.
+   - short_imfdfkmq shares the identical 10 nodes (mnode097..106) which are 100% full, but has 20x lower priority (50 vs 1000). Moving to it would offer 0 extra nodes and degrade priority.
+   - General queues (entryq -> shortq, mediumq, longq) map to mnode001..096 but suffer massive backlogs (83 queued in shortq, 402 in longq).
+4. Preservation of Existing Jobs:
+   - Jobs 1414558 and 1414563 are preserved at the top of the normal_imfdfkmq queue without requeueing, migration, or cancellation.
+5. Clarification of PBS Default Queue Handling:
+   - Server default is entryq; all project scripts deliberately pass -q entry_imfdfkmq to target the dedicated IMFD-FKM extension2 hardware.
+6. Unit Tests (5/5 PASS):
+   - Authored tests/unit/test_mode1_f1514_diagnose_pbs_queue_and_placement_architecture.py (5/5 PASS). Full 36-test regression suite verified.
+
 ## Task F1513 Complete Same-Mesh Diagnostics & Next Numerical Decision (16 October 2026)
 Completed the investigation into mechanical displacement and history initialization, established the formal 4-case evaluation decision matrix, confirmed active scheduler status, and clarified remesh cycle accounting toward genuine nonmatching-mesh continuation:
 1. Mechanical Initialization vs Fresh Loading Isolated:

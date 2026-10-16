@@ -1,10 +1,10 @@
 {
-  "task_id": "F1513-COMPLETE-SAMEMESH-DIAGNOSTICS-AND-NEXT-DECISION",
-  "status": "SAMEMESH_DIAGNOSTICS_EVALUATION_MATRIX_CODIFIED__MECHANICAL_DISPLACEMENT_RE_EQUILIBRATION_ISOLATED__JOBS_1414558_AND_1414563_QUEUED",
+  "task_id": "F1514-DIAGNOSE-PBS-QUEUE-PLACEMENT-AND-UNBLOCK-METHOD-C",
+  "status": "PBS_QUEUE_PLACEMENT_DIAGNOSED__DEDICATED_NODES_100PCT_SATURATED__ABAQUS_LICENSES_226_FREE__JOBS_1414558_AND_1414563_PRESERVED_QUEUED",
   "agent": "gemini-antigravity",
-  "phase": "Task F1513 complete: Isolated mechanical displacement initialization as Step 1 quasi-static re-equilibration (interior displacements not stored in baseline 1412465 ODB); confirmed history ingestion from SVARS(9..12) and Dirichlet phase-field constraint with Step 2 release; established formal 4-case evaluation decision matrix (Case A: both stable -> singularity sharpening; Case B: only inverse stable -> lumped smoothing defect; Case C: both fail -> Step 1 re-equilibration defect; Case D: inconclusive -> 14k baseline nodal rerun); confirmed active PBS jobs 1414558 and 1414563 queued in normal_imfdfkmq; clarified remesh cycle as Stage C1-1 (2,906 -> 14,483 FEs, 0 sequential cycles qualified, 4 cycles not yet performed); Gate 6C hold preserved.",
+  "phase": "Task F1514 complete: Conclusively diagnosed PBS scheduler comment 'Placement set is too small: Qlist mismatch' as eligible-node saturation rather than an error or hold; mapped all 10 extension2 dedicated hardware nodes (mnode097..106, 160 CPUs total) proving 100% saturation (16/16 CPUs on all 10 nodes occupied by running jobs 1410506, 1414506..1414515); proved Abaqus licensing is unconstrained (226 standard tokens free out of 300); proved short_imfdfkmq shares identical 10 nodes (also 100% full) with 20x lower priority (50 vs 1000) and general queues have 83+ backlog; preserved jobs 1414558 and 1414563 as top 2 queued jobs in normal_imfdfkmq; clarified PBS default queue handling; 5/5 unit tests pass (36/36 full suite); Gate 6C hold preserved.",
   "gate_status": "GATE_6B_PASS__STAGE_C1_0_CLOSED_PASSED__STAGE_C1_1_SAMEMESH_DIAGNOSTIC_BRACKET_QUEUED__GATE_6C_HOLD",
-  "last_updated": "2026-10-16T17:48:00+02:00",
+  "last_updated": "2026-10-16T18:05:00+02:00",
   "active_pbs_job_ids": [
     "1414558.mmaster02",
     "1414563.mmaster02"
@@ -55,5 +55,5 @@
     "Forward requires actual predecessor scientific PASS and displacement/damage/history/energy evidence",
     "Do not rerun identical jobs or manufacture solver/state evidence"
   ],
-  "notes": "Task F1513 completed: Reconciled mechanical re-equilibration semantics, codified 4-case evaluation matrix, confirmed scheduler status for jobs 1414558 and 1414563, and preserved Gate 6C dependency hold."
+  "notes": "Task F1514 completed: Diagnosed PBS queue placement architecture, proved extension2 node pool saturation (160/160 CPUs occupied), verified 226 free Abaqus standard licenses, preserved jobs 1414558 and 1414563 at top of normal_imfdfkmq queue, and clarified PBS default queue handling."
 }
