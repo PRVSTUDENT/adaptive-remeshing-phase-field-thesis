@@ -1,0 +1,18 @@
+# Package 49: Mode-I Method C Stage C1-1 Nonmatching-Mesh State Transfer
+# Model: 14,483 finite elements (refined corridor target mesh, Package 40 geometry)
+# Donor: Job 1413814 authentic checkpoint at u = 0.0050 mm (2,906 elements)
+# Subroutine: f42_mixed_uel.for (SHA-256 CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6)
+
+1. Local Syntax & Datacheck Preflight:
+   bash run_datacheck.sh
+
+2. HPC Scratch Staging Directory:
+   /scratch9/pr21vyci/runs/mode1_stage_c1_1_nonmatching_transfer/
+
+3. Guarded HPC Submission (Serial 1-CPU Anchor):
+   qsub submit_M1_MC_STAGE_C1_1.pbs
+
+4. Real-time Monitoring:
+   qstat -u pr21vyci
+   tail -f M1_MC_STAGE_C1_1.sta
+   tail -f pbs_execution.log

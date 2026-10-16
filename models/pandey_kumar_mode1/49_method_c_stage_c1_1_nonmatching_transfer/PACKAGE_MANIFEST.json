@@ -1,0 +1,58 @@
+{
+  "package_id": "49",
+  "package_name": "49_method_c_stage_c1_1_nonmatching_transfer",
+  "task_id": "F1496-NONMATCHING-MESH-STATE-TRANSFER",
+  "gate": "GATE_6C_STAGE_C1_1",
+  "model_type": "PANDEY_KUMAR_MODE1_NONMATCHING_STATE_TRANSFER_14K",
+  "authoritative_uel": "f42_mixed_uel.for",
+  "frozen_production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "element_count": 14483,
+  "node_count": 14456,
+  "donor_provenance": {
+    "donor_job_id": "1413814.mmaster02",
+    "donor_model": "Package 48 M1_MB_DONOR_WITH_RESTART (2,906 FEs)",
+    "donor_displacement_mm": 0.0050,
+    "donor_peak_damage": 0.092105,
+    "donor_peak_history_kN_mm2": 0.053650
+  },
+  "transfer_metrics": {
+    "criterion_1_displacement_l2_pct": 0.0237,
+    "criterion_2_peak_damage_delta": 0.0,
+    "criterion_3_integrated_damage_error_pct": 0.0221,
+    "criterion_4_history_non_negativity_min_H": 1.5794e-09,
+    "criterion_5_boundary_force_continuity_N": 0.0925,
+    "criterion_6_internal_energy_preservation_pct": 1.638,
+    "criterion_7_global_energy_residual_pct": 1.10,
+    "gate_6c_verdict": "PASS"
+  },
+  "files": {
+    "M1_MC_STAGE_C1_1_FORWARD_14K.inp": {
+      "sha256": "B4A4414B768FE58E28E33377D8165793C886EDDEA90A2470C13DF12AB7F21FF7",
+      "description": "Forward continuation input deck on 14,483 target elements with transferred UEL solution state"
+    },
+    "f42_mixed_uel.for": {
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "description": "Authoritative frozen production UEL subroutine"
+    },
+    "submit_M1_MC_STAGE_C1_1.pbs": {
+      "sha256": "A8EAC8170E914F5D61121DC27BE0DA81BA92A4E4F59D5FB8FC6642D4573AA28F",
+      "description": "PBS batch submission script (1-CPU serial reference anchor, dual-channel notification integration)"
+    },
+    "run_datacheck.sh": {
+      "sha256": "D1B565BC068AF673A0B8CB86604E85B512421EF9C02D15F1E8408374BF5C37FA",
+      "description": "Abaqus 2023 interactive datacheck preflight script"
+    },
+    "job_notifications.sh": {
+      "sha256": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+      "description": "Dual-channel (Email + Telegram) notification integration library"
+    },
+    "STAGE_C1_1_TRANSFER_METRICS.json": {
+      "sha256": "E94A5C8070517D7E74407D2E808AF7792C7E35CA52FFF479A0C194515AA3E64D",
+      "description": "Quantitative projection error metrics and Gate 6C evaluation"
+    },
+    "commands.txt": {
+      "sha256": "D84A4A2EF0D3513A1CE62EFD5CC7E49E433C2B52A08D175E19F72E35E0B4F5CA",
+      "description": "Step-by-step reproduction and verification commands"
+    }
+  }
+}
