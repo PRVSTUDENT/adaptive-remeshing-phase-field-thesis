@@ -1,3 +1,16 @@
+# Standing research authorization and JOB-FIRST / REPORT-AFTER POLICY
+
+Human directive, 16 October 2026: PRV_ADAPTIVE_REMESHING research authorization has no calendar expiry and remains until explicitly revoked or changed. This supersedes conflicting per-job approval, fixed-batch-only, report-first, and calendar research-hold instructions below. It does not activate machine credentials or waive security checks.
+
+1. Identify the next scientifically justified numerical action each session. Submit a qualified experiment immediately when the trusted controller has valid execution credentials; do not defer for reports, coordination, Git cleanup or repeated planning.
+2. Full scientific reports follow a legitimate accepted PBS submission in the relevant execution cycle. If execution is blocked, do essential unblocking work and provide a short blocker notice plus minimal mandatory audit metadata. Never submit artificial or duplicate work to satisfy this rule.
+3. Continue useful preparation and analysis while independent jobs run. Reuse successful results and authentic checkpoints.
+4. The human enrolls the standing grant once through Set-ControllerAuthorization.ps1 -Standing -EnrollStandingGrant. Agents never execute enrollment, fabricate human approval, reset consumed permits, or disable guards. After enrollment, -Standing renews short-lived command/manifest-bound permits through the trusted issuer without repeated human approval. Unsupported execution adapters fail closed; extending scientific scope or security privileges requires human approval.
+5. Technical recovery is bounded: preserve scheduler/solver evidence, classify environment/compiler/preprocessing/numerical/scientific failure, fix the smallest proven technical cause, validate revised hashes and checkpoint-compatible preprocessing, then request a new machine permit under the standing grant. One technical replacement per failed attempt chain; no identical failed repeats. Numerical/scientific changes require a reviewed hypothesis and acceptance gate; no blind retries.
+6. Preserve command validation, immutable manifests, notification delivery checks, resource/concurrency limits, consumed history, audit logs and fail-closed guards. The standing grant has no research expiry; machine permits and scheduler walltimes may expire. Revocation prevents issuance and use of derived permits.
+7. Technical sequence: Method B evaluated -> same-mesh state reconstruction -> genuine continuation -> nonmatching transfer -> sequential adaptive remeshing. Meeting dates are reporting milestones. Preserve Mode-I restrictions, frozen UEL and scientific acceptance gates; no MPI, 16-thread, Mode-II expansion or arbitrary shell authority.
+8. Current supported execution adapter is Package 48 same-mesh native restart technical recovery, two separately validated recipients reusing donor 1413814. Preserve failed 1413817/1413818 evidence and successful donor. Broader research remains authorized scientifically but requires a security-preserving adapter before execution.
+
 # Mandatory Multi-Agent Bootstrap
 
 Protocol version: 1
@@ -41,8 +54,8 @@ authorizing execution, or submitting a job:
 8. Use selective `git add` only. Never use `git add .`, broad `git clean`,
    `git reset --hard`, or destructive handoff synchronization.
 
-9. No Abaqus/PBS submission or authorization change without a separately
-   recorded explicit authorization.
+9. Abaqus/PBS submissions require either a valid human-enrolled standing grant
+   with a validated derived machine permit, or separate explicit batch authorization.
 
 10. Before ending:
     - write the session report under `project_coordination/sessions/`;
@@ -86,8 +99,9 @@ submit each eligible named job through the guarded procedure without asking
 for equivalent approval again. Record actual PBS IDs and scheduler states.
 Preserve Method B job 1413296. Restart recipients require an authentic donor
 checkpoint and recorded scientific review, but no further human approval when
-already covered by the active batch. Changed packages, expired/exhausted
-permits, jobs outside the list, or retries require new explicit authority.
+already covered by the active batch. Changed packages and expired/exhausted machine permits require requalification
+and a new derived permit; supported technical retries within the standing grant
+do not require repeated human approval. Scope expansion still requires approval.
 Never reset consumed permits or manufacture a checkpoint review. Do not replace execution
 with repetitive research/documentation loops; report the exact remaining
 human action when credential activation is the blocker.
@@ -116,9 +130,9 @@ Authorization and submission rules:
 
 - One explicit human approval may authorize the complete, specifically listed
   batch and must state the maximum number of jobs.
-- Explicit approval remains mandatory before any Abaqus/PBS submission. This
-  rule controls if another instruction appears to permit direct submission
-  without approval.
+- Execution authorization remains mandatory: a human-enrolled standing grant
+  plus a validated derived machine permit satisfies it without repeated approval.
+  Otherwise obtain a separate exact batch approval.
 - After approval, create one authorization update, make one normal commit,
   fast-forward the cluster clone, run common preflight checks once, and submit
   all approved independent jobs together.
@@ -131,7 +145,7 @@ Authorization and submission rules:
 Scheduler policy:
 
 - **Holiday-Window Concurrency Policy (Active until September 9, 2026)**:
-  - **Empirical Demonstration**: 10 simultaneous running jobs using 97 CPUs (Jobs 1403368–1403377) actively demonstrated in `normal_imfdfkmq`.
+  - **Empirical Demonstration**: 10 simultaneous running jobs using 97 CPUs (Jobs 1403368Ã¢â‚¬â€œ1403377) actively demonstrated in `normal_imfdfkmq`.
   - **Queue Limits Established**:
     - No explicit per-user `max_run` job-count limit on `normal_imfdfkmq`.
     - Per-user running CPU limit: **640 CPUs**.
@@ -253,16 +267,16 @@ For known likely failure modes:
 
 HPC execution safety boundary:
 - Automatic repair is permitted ONLY for local/offline preparation and pre-submission checks.
-- Do NOT perform an unauthorized second `qsub`, replacement job, retry job, downstream job, `qdel`, or `qmove`.
+- Do NOT perform an unauthorized submission or scheduler change. A separately validated bounded technical replacement may use a new standing-derived permit; `qdel` and `qmove` remain separately restricted.
 - A consumed one-submission authorization remains strictly consumed.
-- A modified executable package still requires a new P/Q qualification and fresh human authorization.
+- A modified executable package requires new P/Q qualification and a fresh machine permit; human approval is only needed outside the enrolled standing scope.
 
 STOP and return to the user when:
 - the failure changes scientific assumptions;
 - multiple scientifically different choices exist;
 - required source information is missing;
 - the repair would alter an already qualified package;
-- new HPC authorization is required;
+- a new human authorization outside the enrolled standing scope is required;
 - another qsub/retry/replacement would be required;
 - destructive Git/HPC actions would be required;
 - or the cause remains uncertain after reasonable diagnosis.

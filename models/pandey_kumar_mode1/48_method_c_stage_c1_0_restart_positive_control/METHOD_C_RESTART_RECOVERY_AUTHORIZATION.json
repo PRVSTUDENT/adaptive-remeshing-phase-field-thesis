@@ -1,0 +1,87 @@
+{
+  "batch_name": "MODE1_METHOD_C_RESTART_RECOVERY1",
+  "max_submissions": 2,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "M1_MB_DONOR_WITH_RESTART.inp": "f737357af6069a4017885e38ef249dc1ba7fd4b7e3c91ec1fb55f1d89824484d",
+    "M1_MB_NATIVE_RESTART.inp": "4a50753ac17e565dadcdf320d864ba0c6ff88834866cef06e5f46e1bbb5cd761",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "f42_mixed_uel_restart_diagnostic.for": "8c6d873037367665c01c305d50c5b148339dc38c6e581bf4a9e19c2b5e2ac978",
+    "submit_M1_MB_DONOR.pbs": "fbd64c6ed624e91bd70ab66d7d4ba29a0664fa0e07c161c0e37a0beff92b8e36",
+    "submit_M1_MB_RESTART_PROD.pbs": "7ae223e11d548fdf08371282bdb65a1ec3b2b36813f21a11cb8a0d30e9733293",
+    "submit_M1_MB_RESTART_DIAG.pbs": "4eaf39e915a963bfdcc697e4af5b813c80c745a69138321a0ceb54983887e594",
+    "PACKAGE_MANIFEST.json": "5f615cdcdb64437a7e3546e7e009e91a199eb5f33fde6380c8da065395c1dacd"
+  },
+  "jobs": [
+    {
+      "id": "restart_prod",
+      "pbs": "submit_M1_MB_RESTART_PROD.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_package48_restart_control/submit_M1_MB_RESTART_PROD.pbs\"",
+      "command_sha256": "a95f17b3ebe98e930c4d9f5caa28be5f8c982614e4b1d4f4c661246b0fcd2fb2",
+      "max_submissions": 1,
+      "depends_on": [
+        "donor_checkpoint_review"
+      ],
+      "purpose": "Test frozen production UEL restart COMMON-state loss",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "replaces_job": "1413817.mmaster02"
+    },
+    {
+      "id": "restart_diag",
+      "pbs": "submit_M1_MB_RESTART_DIAG.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_package48_restart_control/submit_M1_MB_RESTART_DIAG.pbs\"",
+      "command_sha256": "4b8e89d4e078babeb19ca47e21b2053387059e7388ccbfa504a78d7ff25b1842",
+      "max_submissions": 1,
+      "depends_on": [
+        "donor_checkpoint_review"
+      ],
+      "purpose": "Test diagnostic restored-SVARS ingestion into COMMON",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "replaces_job": "1413818.mmaster02"
+    }
+  ],
+  "dependency_review_path": "project_coordination/METHOD_C_DONOR_CHECKPOINT_REVIEW.json",
+  "deferred_candidates": [
+    {
+      "package": 47,
+      "enabled": false,
+      "reason": "Independent re-equilibration qualification must be reviewed before inclusion; not authorized by this three-job permit"
+    }
+  ],
+  "acceptance": {
+    "donor": "Terminal Exit0; nonempty authentic native restart checkpoint and verified end-of-Step1 displacement/state; scientific review required",
+    "recipients": "Actual restored DOFs/SVARS, force-displacement continuity, damage/history irreversibility, energy and post-restart comparison; do not equate PBS acceptance with validation"
+  },
+  "dependency_review_required_fields": [
+    "batch_manifest_sha256",
+    "donor_pbs_job_id",
+    "donor_terminal_exit_status=0",
+    "checkpoint_verified=true",
+    "scientific_review=PASS",
+    "handoff_displacement_mm=0.005",
+    "checkpoint_hashes",
+    "reviewed_by",
+    "evidence_report"
+  ],
+  "execution_policy": "Reuse authentic reviewed donor1413814; checkpoint-compatible datacheck both corrected recipients before issuance; each replacement once; no blind retry.",
+  "adapter": "package48-native-restart-technical-recovery-v1",
+  "donor_pbs_job_id": "1413814.mmaster02",
+  "scientific_review": "PASS",
+  "failure_class": "preprocessing",
+  "correction": "remove_unsupported_restart_error_indicator_output",
+  "checkpoint_hashes": {
+    "/scratch9/pr21vyci/runs/mode1_package48_restart_control/M1_MB_DONOR_WITH_RESTART.stt": "496e9d3744bc733afc6abf30feab123a6f54bfd2bca0fe192286d73f5a668376",
+    "/scratch9/pr21vyci/runs/mode1_package48_restart_control/M1_MB_DONOR_WITH_RESTART.mdl": "b968c1ef07c6ef2a6a54497c62dba5e285d1724c491c1eb9a014c8f2ae2a6d02",
+    "/scratch9/pr21vyci/runs/mode1_package48_restart_control/M1_MB_DONOR_WITH_RESTART.res": "ef0af2a2e8e8c5f466e61a161738647d749f83149d8c6407d3085a4a733ad602",
+    "/scratch9/pr21vyci/runs/mode1_package48_restart_control/M1_MB_DONOR_WITH_RESTART.prt": "3e79779b3403974abb9d290b1caedf631c5fde9ea3a5813fb00cb6056026c9c7"
+  }
+}

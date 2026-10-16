@@ -8,7 +8,7 @@
 #PBS -r n
 #PBS -M pr21vyci@mailserver.tu-freiberg.de
 #PBS -j oe
-#PBS -o /scratch9/pr21vyci/runs/mode1_package48_restart_control/pbs_execution_restart_diag.log
+#PBS -o /scratch9/pr21vyci/runs/mode1_package48_restart_control/pbs_execution_restart_diag_recovery1.log
 
 set -euo pipefail
 
@@ -20,6 +20,15 @@ if [[ "$(pwd -P)" =~ ^/home/ ]]; then
     exit 2
 fi
 
+WORK_DIR="${RUN_DIR}/recovery1_diag"
+mkdir -p "${WORK_DIR}"
+for suffix in res mdl stt prt odb sim; do
+    if [ -f "${RUN_DIR}/M1_MB_DONOR_WITH_RESTART.${suffix}" ]; then
+        ln -s "${RUN_DIR}/M1_MB_DONOR_WITH_RESTART.${suffix}" "${WORK_DIR}/M1_MB_DONOR_WITH_RESTART.${suffix}"
+    fi
+done
+cp "${RUN_DIR}/M1_MB_NATIVE_RESTART.inp" "${RUN_DIR}/f42_mixed_uel_restart_diagnostic.for" "${RUN_DIR}/job_notifications.sh" "${WORK_DIR}/"
+cd "${WORK_DIR}"
 export JOB_NAME="M1_MB_RST_DIAG"
 if [ -f "./job_notifications.sh" ]; then
     source ./job_notifications.sh

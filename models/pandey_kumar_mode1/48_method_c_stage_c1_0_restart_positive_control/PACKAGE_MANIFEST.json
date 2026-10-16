@@ -3,7 +3,7 @@
   "scientific_phase": "MODE1_GATE6C_METHOD_C_STAGE_C1_0_RESTART_AUDIT",
   "protocol_version": 2,
   "created_at": "2026-10-15T19:45:00+02:00",
-  "last_updated": "2026-10-15T20:20:00+02:00",
+  "last_updated": "2026-10-16",
   "mesh_donor": {
     "nodes": 2989,
     "elements_physical": 2906,
@@ -21,7 +21,7 @@
     "recipient_deck": "M1_MB_NATIVE_RESTART.inp",
     "restart_from_step": 1,
     "restart_mode": "Native Abaqus *RESTART, READ",
-    "sha256": "C617D83165CBAED7D6E6C1494AF9C65B8B9A763E1A67CA40FCF0CA51CD356D6D"
+    "sha256": "4a50753ac17e565dadcdf320d864ba0c6ff88834866cef06e5f46e1bbb5cd761"
   },
   "production_uel": {
     "source": "f42_mixed_uel.for",

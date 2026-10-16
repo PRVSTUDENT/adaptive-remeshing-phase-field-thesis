@@ -59,7 +59,8 @@ def check(payload):
         require(directive in pbs, 'Missing PBS contract: ' + directive)
     if payload.get('batch'):
         batch = payload['batch']
-        require(batch['max_submissions'] == 3 and len(batch['jobs']) == 3,
+        require((batch['max_submissions'] == 3 and len(batch['jobs']) == 3) or
+                (batch.get('adapter') == 'package48-native-restart-technical-recovery-v1' and batch['max_submissions'] == 2 and len(batch['jobs']) == 2),
                 'Invalid batch budget')
         for job in batch['jobs']:
             text = (RUN / job['pbs']).read_text()
@@ -132,7 +133,32 @@ notification_load_config
 notification_send_telegram_once 'Package 48 authorization PREFLIGHT TEST; no PBS job submitted.'
 notification_send_email_once 'Package 48 authorization PREFLIGHT TEST' 'No PBS job submitted. Mail transport verification.'
 ''')
-    return dict(passed=True, pbs_email_verified=True, telegram_verified=True,
+    restart_facts = {}
+    if payload.get('batch', {}).get('adapter') == 'package48-native-restart-technical-recovery-v1':
+        for name, expected in payload['batch']['checkpoint_hashes'].items():
+            checkpoint = Path(name)
+            require(checkpoint.parent == RUN and checkpoint.name.startswith('M1_MB_DONOR_WITH_RESTART.'), 'Unsafe checkpoint path')
+            require(checkpoint.is_file(), 'Checkpoint missing')
+            digest = hashlib.sha256()
+            with checkpoint.open('rb') as stream:
+                for block in iter(lambda: stream.read(8 * 1024 * 1024), b''):
+                    digest.update(block)
+            require(digest.hexdigest() == expected, 'Checkpoint digest mismatch')
+        # Datacheck actual corrected deck against authentic donor; distinct output names.
+        deck = (RUN / 'M1_MB_NATIVE_RESTART.inp').read_text()
+        require('MISESERI' not in deck and 'MISESAVG' not in deck, 'Restart error-indicator request remains')
+        for lane, source in [('PROD', 'f42_mixed_uel.for'), ('DIAG', 'f42_mixed_uel_restart_diagnostic.for')]:
+            result = RUN / ('M1_MB_RECOVERY_DC_' + lane + '.dat')
+            require(result.is_file(), 'Actual restart datacheck missing: ' + lane)
+            content = result.read_text(errors='replace')
+            require('ANALYSIS DATACHECK COMPLETE' in content and '***ERROR' not in content,
+                    'Actual restart datacheck not successful: ' + lane)
+            meta = json.loads((RUN / ('M1_MB_RECOVERY_DC_' + lane + '.json')).read_text())
+            require(meta.get('exit_status') == 0 and meta.get('input_sha256') == facts['M1_MB_NATIVE_RESTART.inp'] and
+                    meta.get('source_sha256') == facts[source] and meta.get('dat_sha256') == hashlib.sha256(result.read_bytes()).hexdigest(),
+                    'Datacheck evidence hashes mismatch')
+        restart_facts = dict(restart_datacheck='PASS_BOTH', checkpoint_hashes=payload['batch']['checkpoint_hashes'])
+    return dict(**restart_facts, passed=True, pbs_email_verified=True, telegram_verified=True,
                 submission_queue=queue, queue_access_preflight='PASS',
                 compiler_environment='PASS_LOGIN_NODE',
                 candidate_manifest_sha256=payload['manifest_sha256'],

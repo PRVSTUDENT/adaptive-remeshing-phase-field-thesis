@@ -161,6 +161,13 @@ with open(lock_file, 'w') as lf:
         auth = state.get('submission_authorization', {})
         jobs = state.get('jobs', {})
 
+        # Standing-derived permits are invalid immediately on revocation.
+        if auth.get('standing_grant_id'):
+            grant = state.get('standing_project_authorization', {})
+            if not (grant.get('active') is True and grant.get('grant_id') == auth['standing_grant_id']):
+                print('DENY: Standing project grant revoked or mismatched.')
+                sys.exit(1)
+
         # A. Validate Daily Delegation & Expiry
         if not delegation.get('active', False):
             print('DENY: Daily ChatGPT delegation is inactive.')
@@ -238,7 +245,7 @@ with open(lock_file, 'w') as lf:
                 if hashlib.sha256(batch_bytes).hexdigest() != permit_manifest:
                     raise ValueError('Batch manifest changed')
                 batch = json.loads(batch_bytes)
-                if batch['max_submissions'] != auth['max_submissions'] or batch['max_submissions'] != 3:
+                if batch['max_submissions'] != auth['max_submissions'] or batch['max_submissions'] != (2 if auth.get('standing_grant_id') else 3):
                     raise ValueError('Batch submission budget mismatch')
                 for name, expected in batch['files'].items():
                     if os.path.basename(name) != name:
@@ -256,11 +263,13 @@ with open(lock_file, 'w') as lf:
                 if counts.get(incoming_hash, 0) >= batch_job['max_submissions']:
                     raise ValueError('This exact batch command is already consumed')
                 if batch_job.get('depends_on'):
-                    donor = next(j for j in batch['jobs'] if j['id'] == 'donor')
-                    if counts.get(donor['command_sha256'], 0) != 1:
+                    donor = next((j for j in batch['jobs'] if j['id'] == 'donor'), None)
+                    if donor is not None and counts.get(donor['command_sha256'], 0) != 1:
                         raise ValueError('Donor has not been submitted under this batch')
+                    if donor is None and not (auth.get('standing_grant_id') and batch.get('donor_pbs_job_id') == '1413814.mmaster02'):
+                        raise ValueError('Reviewed external donor not authorized')
                     review = context.get('dependency_review', {})
-                    if not (review.get('batch_manifest_sha256') == permit_manifest and
+                    if not ((review.get('batch_manifest_sha256') == permit_manifest or (auth.get('standing_grant_id') and review.get('checkpoint_hashes') == batch.get('checkpoint_hashes') and review.get('donor_pbs_job_id') == batch.get('donor_pbs_job_id'))) and
                             review.get('donor_terminal_exit_status') == 0 and
                             review.get('checkpoint_verified') is True and
                             review.get('scientific_review') == 'PASS' and
@@ -325,6 +334,8 @@ with open(lock_file, 'w') as lf:
     $repoRoot = Split-Path -Parent $PSScriptRoot
     $packageRoot = Join-Path $repoRoot 'models/pandey_kumar_mode1/48_method_c_stage_c1_0_restart_positive_control'
     $batchPath = Join-Path $packageRoot 'METHOD_C_BATCH_AUTHORIZATION.json'
+    $recoveryPath = Join-Path $packageRoot 'METHOD_C_RESTART_RECOVERY_AUTHORIZATION.json'
+    if(Test-Path -LiteralPath $recoveryPath){$batchPath=$recoveryPath}
     $context = @{}
     if(Test-Path -LiteralPath $batchPath){
         $batchBytes=[IO.File]::ReadAllBytes($batchPath)

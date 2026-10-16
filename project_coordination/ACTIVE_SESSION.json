@@ -1,14 +1,21 @@
 {
-    "active":  false,
-    "agent":  "codex",
-    "task_id":  "METHOD-C-BATCH1-EXECUTION",
-    "claimed_at":  "2026-10-15T22:39:18.8045669+02:00",
-    "released_at":  "2026-10-15T22:57:10.7405616+02:00",
-    "starting_commit":  "066751c76766f8bedbb329cd55ebe3a13b7ef504",
-    "allowed_write_scope":  [
-                                "project_coordination/",
-                                "scripts/postprocessing/inspect_mode1_native_restart_checkpoint.py",
-                                "tests/unit/test_mode1_native_restart_checkpoint.py"
-                            ],
-    "session_report":  "project_coordination/sessions/2026-10-15_codex_METHOD-C-BATCH1-EXECUTION.md"
+  "active": false,
+  "agent": "codex",
+  "task_id": "STANDING-AUTHORIZATION-METHOD-C",
+  "claimed_at": "2026-10-16T06:20:41.7936016+02:00",
+  "released_at": "2026-10-16T04:29:33.893976+00:00",
+  "starting_commit": "42fe5979ed8ff49b3a48133a3834c7ded67fe9c3",
+  "allowed_write_scope": [
+    "AGENTS.md",
+    ".agents/scripts/bridge_rules.txt",
+    ".agents/scripts/project_alignment_guard.txt",
+    ".agents/scripts/Invoke-ChatGPTBridge.ps1",
+    ".agents/qsub-safety-gate.ps1",
+    "scripts/hpc/",
+    "tests/unit/",
+    "models/pandey_kumar_mode1/48_method_c_stage_c1_0_restart_positive_control/",
+    "project_coordination/",
+    "C:/Users/pruth/OpenClawPAD/Set-ControllerAuthorization.ps1"
+  ],
+  "session_report": "project_coordination/sessions/2026-10-16_codex_STANDING-AUTHORIZATION-METHOD-C.md"
 }
