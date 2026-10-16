@@ -1,3 +1,23 @@
+## Task F1510 Audit Same-Mesh Transfer State & Damage Discrepancy Resolution (16 October 2026)
+Completed the forensic audit of the same-mesh transfer state, mathematically and numerically isolated the origin of the 0.318142 vs 0.304553 damage discrepancy, formulated and solved the consistent least-squares inverse problem, and qualified the consistent same-mesh model:
+1. Discrepancy Cause Isolated as Lumped Area-Weighted Averaging:
+   - Proved both 0.318142 and 0.304553 refer to the exact same Step 1 Frame 2000 state (u = 0.005000 mm) of continuous fine baseline Job 1412465 on the 14,483-element mesh.
+   - In f42_mixed_uel.for, companion UMAT STATEV(14) stores D_AVG, which is the 4-node arithmetic mean damage across each element (d_avg = 1/4 sum d_i). 0.318142 is the element-average damage d_avg of crack-tip element 661.
+   - Because the ODB lacked interior nodal displacement output (*NODE OUTPUT, NSET=N_RP), extraction script compute_14k_nodal_state.py performed an area-weighted lumped projection to nodes (d_n = sum A_e d_avg / sum A_e).
+   - Crack-tip node 1384 is shared by 4 elements: 661 (d_avg = 0.318142), 2393 (d_avg = 0.314119), 2498 (d_avg = 0.290654), and 2589 (d_avg = 0.294495). Area-weighted mean evaluates to exactly 0.304553.
+2. Consistent Least-Squares Inverse Problem Formulated & Solved:
+   - Assembled sparse averaging operator A (14483 x 14456) where (Ad)_e = 1/N_e sum_{i in nodes(e)} d_i.
+   - Solved min_d ||Ad - d_avg||_2^2 via LSQR, achieving relative L2 residual 5.118e-6.
+   - True un-smoothed crack-tip nodal values: apex node 129 has d_max = 0.342331, node 1384 has d = 0.319037. Averaged back over element 661, d_avg = 0.318142 is reproduced to 6 decimal places.
+   - Physical insight: in Job 1414550, unconstrained Step 2 release relaxed tip damage to d_max = 0.325563 (between node 1384 and apex node 129), confirming continuum physical relaxation.
+3. Consistent Same-Mesh Model Built & Datacheck Verified Exit 0:
+   - Generated M1_MC_STAGE_C1_1_SAMEMESH_CONSISTENT_RELHOLD.inp (7,551,159 bytes, SHA-256 95001de5...) with un-attenuated nodal Dirichlet damage in Step 1 and unconstrained release in Step 2.
+   - Created PBS wrapper submit_M1_MC_STAGE_C1_1_SAMEMESH_CONSISTENT_RELHOLD.pbs (SHA-256 d7e36ea2...). Staged on cluster scratch and verified Abaqus 2023 Datacheck completed Exit 0 with zero fatal errors.
+4. Active PBS Job 1414558 Preserved:
+   - Job 1414558.mmaster02 (M1_MC_C1_1_SM) preserved in scheduler queue normal_imfdfkmq without duplicate submissions or polling loops.
+5. Unit Tests (5/5 PASS):
+   - Authored tests/unit/test_mode1_f1510_audit_same_mesh_transfer_state.py (5/5 PASS). Combined with F1507 (5/5 PASS) and F1508 (6/6 PASS), full 16/16 test battery verified.
+
 ## Task F1508/F1509 Fine Baseline Ground Truth Discovery, Reaction Force Reconciliation & Same-Mesh Diagnostic (16 October 2026)
 Completed the quantitative reference audit of fine baseline Job 1412465 at u = 0.005000 mm, reconciled the reaction-force discrepancy, and deployed same-mesh control Job 1414558 to isolate whether the crack-tip damage jump (d_max = 0.0904 -> 0.3256) in Job 1414550 is physical singularity sharpening or an algorithmic artifact:
 1. Continuous Fine Baseline Ground-Truth Discovery:
