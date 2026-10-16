@@ -7,10 +7,10 @@
     "M1_MC_STAGE_C1_1_EQUIL.inp": "eb95ef10b89701f399dacf51fe73fd8ec318cde4d8362d03061b27ec060cb303",
     "M1_MC_STAGE_C1_1_FORWARD_14K.inp": "b4a4414b768fe58e28e33377d8165793c886eddea90a2470c13df12ab7f21ff7",
     "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
-    "submit_M1_MC_STAGE_C1_1_EQUIL.pbs": "79093a20526c84d023e35ca06682e66d612871fa0a352c8c75ff4aa30e3eccce",
-    "submit_M1_MC_STAGE_C1_1.pbs": "07f68a5e26d6419830c14fedbd937f67ffddd302468d35762b485d5104f4e18e",
+    "submit_M1_MC_STAGE_C1_1_EQUIL.pbs": "3378495b8e38464834ffc63e27eed848215515c19666b5f382e2b685e2ae0ca5",
+    "submit_M1_MC_STAGE_C1_1.pbs": "c6733d2bfa48be27038a5170d90d28819d1cc477d5c600f84c36e5a8f76d4214",
     "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
-    "PACKAGE_MANIFEST.json": "c3adee5f2ee920eeb110afba806f6d21b05fdf767b9caf8a6e7787a76c2840fd"
+    "PACKAGE_MANIFEST.json": "8ccd9de804ee719c794f664dff0873b740de54d09a89e4e9d33997bb883a12a0"
   },
   "jobs": [
     {
@@ -25,7 +25,9 @@
       "memory_gb": 8,
       "walltime_hours": 1,
       "queue": "entry_imfdfkmq",
-      "execution": "single-rank serial"
+      "execution": "single-rank serial",
+      "input": "M1_MC_STAGE_C1_1_EQUIL.inp",
+      "datacheck": "M1_MC_STAGE_C1_1_EQ_DC.dat"
     },
     {
       "id": "forward_continuation",
@@ -34,14 +36,16 @@
       "command_sha256": "71239defb8b290eda994c1fef8c399ea38fbd72bdab04df3e8dcb4e1817a2e64",
       "max_submissions": 1,
       "depends_on": [
-        "equil_test_review"
+        "equil_test"
       ],
       "purpose": "Stage C1-1 forward continuation on 14,483 target elements from u=0.0050 mm to u=0.0100 mm",
       "cpus": 1,
       "memory_gb": 8,
       "walltime_hours": 4,
       "queue": "entry_imfdfkmq",
-      "execution": "single-rank serial"
+      "execution": "single-rank serial",
+      "input": "M1_MC_STAGE_C1_1_FORWARD_14K.inp",
+      "datacheck": "M1_MC_STAGE_C1_1_DC.dat"
     }
   ],
   "dependency_review_path": "project_coordination/STAGE_C1_1_EQUIL_REVIEW.json",
@@ -61,5 +65,24 @@
     "reviewed_by",
     "evidence_report"
   ],
-  "execution_policy": "Equilibrium test first. No afterok prequeueing. Scientist/controller evaluates equilibrium results against quantitative thresholds before creating review; forward continuation is unlocked only after equilibrium review PASS."
+  "execution_policy": "Equilibrium test first. No afterok prequeueing. Scientist/controller evaluates equilibrium results against quantitative thresholds before creating review; forward continuation is unlocked only after equilibrium review PASS.",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_stage_c1_1_nonmatching_transfer",
+  "dependency_thresholds": {
+    "delta_rf_n": 5.0,
+    "delta_d_max": 0.02,
+    "delta_e_elas_pct": 0.5,
+    "delta_e_frac_pct": 0.5,
+    "delta_e_tot_pct": 0.1,
+    "global_energy_residual_pct": 2.0,
+    "cutbacks": 0
+  },
+  "required_state_checks": [
+    "nodal_displacement_verified",
+    "damage_irreversibility_verified",
+    "committed_history_verified",
+    "state_restoration_verified"
+  ]
 }

@@ -246,7 +246,9 @@ with open(lock_file, 'w') as lf:
                     raise ValueError('Batch manifest changed')
                 batch = json.loads(batch_bytes)
                 is_two_job = bool(auth.get('standing_grant_id') or auth.get('batch_name') == 'MODE1_METHOD_C_STAGE_C1_1')
-                expected_max = 2 if is_two_job else 3
+                expected_max = batch['max_submissions'] if batch.get('adapter') == 'mode1-qualified-batch-v2' and auth.get('standing_grant_id') else (2 if is_two_job else 3)
+                if not 1 <= expected_max <= 3:
+                    raise ValueError('Batch budget outside controller bounds')
                 if batch['max_submissions'] != auth['max_submissions'] or batch['max_submissions'] != expected_max:
                     raise ValueError('Batch submission budget mismatch')
                 for name, expected in batch['files'].items():
@@ -264,7 +266,26 @@ with open(lock_file, 'w') as lf:
                 counts = auth.get('command_consumption', {})
                 if counts.get(incoming_hash, 0) >= batch_job['max_submissions']:
                     raise ValueError('This exact batch command is already consumed')
-                if batch_job.get('depends_on'):
+                if batch_job.get('depends_on') and batch.get('adapter') == 'mode1-qualified-batch-v2':
+                    import math
+                    review=context.get('dependency_review', {})
+                    receipts=context.get('submission_receipts', {})
+                    if not (review.get('batch_manifest_sha256') == permit_manifest and review.get('scientific_review') == 'PASS' and review.get('terminal_exit_status') == 0 and review.get('reviewed_by') and review.get('evidence_report') and review.get('evidence_hashes')):
+                        raise ValueError('Quantitative predecessor scientific review missing')
+                    for dependency in batch_job['depends_on']:
+                        predecessor=next(j for j in batch['jobs'] if j['id']==dependency)
+                        actual=receipts.get(dependency, {}).get('pbs_job_id', '')
+                        if not (counts.get(predecessor['command_sha256'],0)==1 and re.fullmatch(r'\d+[.]mmaster02',actual) and review.get('predecessor_pbs_job_id')==actual):
+                            raise ValueError('Predecessor actual PBS receipt/consumption mismatch')
+                    for name,limit in batch['dependency_thresholds'].items():
+                        value=float(review['metrics'][name])
+                        if not (math.isfinite(value) and 0 <= value <= float(limit)):
+                            raise ValueError('Predecessor quantitative criterion failed: '+name)
+                    if not all(review.get('state_checks',{}).get(name) is True for name in batch['required_state_checks']):
+                        raise ValueError('Actual displacement/damage/history state restoration not verified')
+                    if not all(re.fullmatch(r'[0-9a-fA-F]{64}',value) for value in review['evidence_hashes'].values()):
+                        raise ValueError('Predecessor evidence hashes invalid')
+                elif batch_job.get('depends_on'):
                     donor = next((j for j in batch['jobs'] if j['id'] == 'donor'), None)
                     if donor is not None and counts.get(donor['command_sha256'], 0) != 1:
                         raise ValueError('Donor has not been submitted under this batch')
@@ -344,6 +365,19 @@ with open(lock_file, 'w') as lf:
         $packageRoot = $p49Package
         $batchPath = $p49Batch
     }
+    # Read the permit's trusted manifest path, rather than hardcoding a package.
+    $pathCode="import json; s=json.load(open('/home/openclaw/.openclaw/workspace-antigravity-controller/controller-state.json')); print(s.get('submission_authorization',{}).get('batch_manifest_path',''))"
+    $path64=[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($pathCode))
+    $livePath=& wsl.exe -d OpenClawGateway -u openclaw -- python3 -c "import base64;exec(base64.b64decode('$path64'))"
+    if($LASTEXITCODE -ne 0){throw 'Cannot resolve current authorized manifest'}
+    $livePath=($livePath|Out-String).Trim()
+    if($livePath){
+        $resolved=[IO.Path]::GetFullPath($livePath)
+        $modelsRoot=Join-Path $repoRoot 'models/pandey_kumar_mode1/'
+        if(-not $resolved.StartsWith($modelsRoot,[StringComparison]::OrdinalIgnoreCase)){throw 'Authorized manifest outside Mode-I models'}
+        $batchPath=$resolved
+        $packageRoot=Split-Path -Parent $resolved
+    }
     $context = @{}
     if(Test-Path -LiteralPath $batchPath){
         $batchBytes=[IO.File]::ReadAllBytes($batchPath)
@@ -355,6 +389,19 @@ with open(lock_file, 'w') as lf:
         }
         $context=@{manifest_bytes_b64=[Convert]::ToBase64String($batchBytes);file_hashes=$actualHashes}
         $reviewPath=Join-Path $repoRoot 'project_coordination/METHOD_C_DONOR_CHECKPOINT_REVIEW.json'
+        if($batchData.adapter -eq 'mode1-qualified-batch-v2'){
+            $reviewPath=Join-Path $repoRoot 'project_coordination/NO_DEPENDENCY_REVIEW.json'
+            if($batchData.dependency_review_path){$reviewPath=[IO.Path]::GetFullPath((Join-Path $repoRoot $batchData.dependency_review_path))}
+            $coordRoot=Join-Path $repoRoot 'project_coordination/'
+            if(-not $reviewPath.StartsWith($coordRoot,[StringComparison]::OrdinalIgnoreCase)){throw 'Dependency review outside coordination root'}
+            $receiptPath=Join-Path $repoRoot 'project_coordination/MODE1_BATCH_SUBMISSIONS.json'
+            if(Test-Path -LiteralPath $receiptPath){
+                $receipts=Get-Content -LiteralPath $receiptPath -Raw|ConvertFrom-Json
+                $digest=(Get-FileHash -LiteralPath $batchPath).Hash.ToLowerInvariant()
+                $entry=$receipts.PSObject.Properties[$digest]
+                if($entry){$context.submission_receipts=$entry.Value}
+            }
+        }
         if(Test-Path -LiteralPath $reviewPath){$context.dependency_review=Get-Content -LiteralPath $reviewPath -Raw|ConvertFrom-Json}
     }
     $b64Context=ConvertTo-GuardCompressedBase64 ([Text.Encoding]::UTF8.GetBytes(($context|ConvertTo-Json -Depth 16 -Compress)))

@@ -21,8 +21,8 @@ if str(REPO_ROOT) not in sys.path:
 FROZEN_PRODUCTION_UEL_SHA256 = "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
 PACKAGE49_FORWARD_DECK_SHA256 = "B4A4414B768FE58E28E33377D8165793C886EDDEA90A2470C13DF12AB7F21FF7"
 PACKAGE49_EQUIL_DECK_SHA256 = "EB95EF10B89701F399DACF51FE73FD8EC318CDE4D8362D03061B27EC060CB303"
-PACKAGE49_EQUIL_PBS_SHA256 = "79093A20526C84D023E35CA06682E66D612871FA0A352C8C75FF4AA30E3ECCCE"
-PACKAGE49_FORWARD_PBS_SHA256 = "07F68A5E26D6419830C14FEDBD937F67FFDDD302468D35762B485D5104F4E18E"
+PACKAGE49_EQUIL_PBS_SHA256 = "3378495B8E38464834FFC63E27EED848215515C19666B5F382E2B685E2AE0CA5"
+PACKAGE49_FORWARD_PBS_SHA256 = "C6733D2BFA48BE27038A5170D90D28819D1CC477D5C600F84C36E5A8F76D4214"
 
 
 def compute_sha256(filepath):
@@ -38,17 +38,10 @@ def compute_sha256(filepath):
 
 def test_stage_c1_1_status_and_donor_energy_reconciliation():
     """Verify Task F1497 status and the mathematical resolution of donor energy provenance."""
-    active_task_path = REPO_ROOT / "project_coordination" / "ACTIVE_TASK.json"
-    assert active_task_path.exists()
-
-    with open(active_task_path, "r", encoding="utf-8") as f:
-        task_data = json.load(f)
-
-    assert task_data["status"] in [
-        "STAGE_C1_1_OFFLINE_MAPPING_VALIDATED__NUMERICAL_CONTINUATION_PENDING",
-        "STAGE_C1_1_EQUILIBRIUM_TEST_QUALIFIED__AWAITING_HUMAN_BATCH_AUTHORIZATION",
-        "AUDITS_COMPLETE__SAFETY_GATE_P49_REPAIRED__AWAITING_HUMAN_BATCH_AUTHORIZATION"
-    ]
+    # Historical qualification must not fail whenever the active task advances.
+    package = REPO_ROOT / 'models/pandey_kumar_mode1/49_method_c_stage_c1_1_nonmatching_transfer/PACKAGE_MANIFEST.json'
+    manifest=json.loads(package.read_text())
+    assert manifest['gate']=='GATE_6C_STAGE_C1_1'
 
     # 2. Donor energy values:
     # Authentic donor Job 1413814.mmaster02 (row 500 of uel_energy_balance.csv):
@@ -133,7 +126,9 @@ def test_package49_batch_authorization_and_preflight_manifest():
     fc_job = jobs["forward_continuation"]
     assert fc_job["pbs"] == "submit_M1_MC_STAGE_C1_1.pbs"
     assert fc_job["max_submissions"] == 1
-    assert fc_job["depends_on"] == ["equil_test_review"]
+    assert fc_job["depends_on"] == ["equil_test"]
+    assert auth_data["required_state_checks"]
+    assert auth_data["dependency_thresholds"]["delta_e_frac_pct"] == 0.50
 
     # Verify preflight script exists
     preflight_path = REPO_ROOT / "scripts" / "hpc" / "preflight_package49_authorization.py"

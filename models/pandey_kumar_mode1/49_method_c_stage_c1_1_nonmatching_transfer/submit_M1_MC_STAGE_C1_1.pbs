@@ -4,30 +4,33 @@
 #PBS -l walltime=04:00:00
 #PBS -q entry_imfdfkmq
 #PBS -j oe
-#PBS -o pbs_execution.log
+#PBS -r n
+#PBS -o /scratch9/pr21vyci/runs/mode1_stage_c1_1_nonmatching_transfer/pbs_execution_forward.log
 #PBS -m abe
 #PBS -M pr21vyci@mailserver.tu-freiberg.de
 
 set -euo pipefail
-cd "${PBS_O_WORKDIR}"
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_stage_c1_1_nonmatching_transfer"
+cd "${RUN_DIR}"
 
-# Dual-channel notification integration
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-if [ -f "${SCRIPT_DIR}/job_notifications.sh" ]; then
-    source "${SCRIPT_DIR}/job_notifications.sh"
-    notify_start "M1_MC_STAGE_C1_1 (Stage C1-1 Nonmatching Transfer Forward 14K Solve)"
-    notification_install_terminal_trap "M1_MC_STAGE_C1_1"
-fi
+# Notifications are required; PBS spool location is not the package directory.
+export JOB_NAME="M1_MC_STAGE_C1_1"
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+source "${RUN_DIR}/job_notifications.sh"
+notification_load_config
+notification_install_terminal_trap
+notify_start
 
-source /etc/profile.d/modules.sh 2>/dev/null || source /usr/share/Modules/init/bash 2>/dev/null || true
-module purge || true
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
 module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
 
 JOB_NAME="M1_MC_STAGE_C1_1"
 INP_NAME="M1_MC_STAGE_C1_1_FORWARD_14K.inp"
 USER_SUB="f42_mixed_uel.for"
 
-rm -f "${JOB_NAME}.lck" 2>/dev/null || true
+test ! -e "${JOB_NAME}.lck"
 
 echo "Starting Abaqus/Standard 2023 Stage C1-1 Continuation Solve..."
 abaqus job="${JOB_NAME}" input="${INP_NAME}" user="${USER_SUB}" cpus=1 interactive

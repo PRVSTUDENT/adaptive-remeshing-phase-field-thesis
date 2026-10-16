@@ -125,7 +125,7 @@ class BatchGateTests(unittest.TestCase):
         script+="; $cmd='powershell -File .agents/qsub-safety-gate.ps1'; if("+expression+"){throw 'Hook filename mistaken for executable'}"
         path=self.root/'detection.ps1'
         path.write_text(script)
-        result=subprocess.run(['powershell.exe','-NoProfile','-File',str(path)],capture_output=True,text=True)
+        result=subprocess.run(['powershell.exe','-NoProfile','-File',str(path)],stdin=subprocess.DEVNULL,capture_output=True,text=True)
         self.assertEqual(result.returncode,0,result.stderr)
 
 

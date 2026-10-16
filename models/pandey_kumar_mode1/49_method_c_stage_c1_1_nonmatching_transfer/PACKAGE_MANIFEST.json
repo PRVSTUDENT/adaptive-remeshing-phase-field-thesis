@@ -11,15 +11,15 @@
   "donor_provenance": {
     "donor_job_id": "1413814.mmaster02",
     "donor_model": "Package 48 M1_MB_DONOR_WITH_RESTART (2,906 FEs)",
-    "donor_displacement_mm": 0.0050,
+    "donor_displacement_mm": 0.005,
     "donor_peak_damage": 0.092105,
-    "donor_peak_history_kN_mm2": 0.053650,
+    "donor_peak_history_kN_mm2": 0.05365,
     "donor_reaction_force_N": 653.089,
     "donor_energy_elas_mJ": 1.632721,
     "donor_energy_frac_mJ": 0.030663,
     "donor_energy_total_mJ": 1.663384,
     "fine_reference_job_id": "1398090.mmaster02",
-    "fine_reference_total_energy_mJ": 1.691100,
+    "fine_reference_total_energy_mJ": 1.6911,
     "mesh_discretization_delta_pct": 1.639
   },
   "transfer_metrics": {
@@ -28,8 +28,8 @@
     "criterion_3_integrated_damage_error_pct": 0.0221,
     "criterion_4_history_non_negativity_min_H": 1.5794e-09,
     "criterion_5_boundary_force_continuity_N": 0.0925,
-    "criterion_6_internal_energy_preservation_pct": 0.0010,
-    "criterion_7_global_energy_residual_pct": 1.10,
+    "criterion_6_internal_energy_preservation_pct": 0.001,
+    "criterion_7_global_energy_residual_pct": 1.1,
     "gate_6c_verdict": "PASS"
   },
   "files": {
@@ -46,11 +46,11 @@
       "description": "Authoritative frozen production UEL subroutine"
     },
     "submit_M1_MC_STAGE_C1_1_EQUIL.pbs": {
-      "sha256": "79093A20526C84D023E35CA06682E66D612871FA0A352C8C75FF4AA30E3ECCCE",
+      "sha256": "3378495B8E38464834FFC63E27EED848215515C19666B5F382E2B685E2AE0CA5",
       "description": "PBS batch submission script for equilibrium test (1-CPU serial, 8GB, 1h, entry_imfdfkmq, dual-channel notification integration)"
     },
     "submit_M1_MC_STAGE_C1_1.pbs": {
-      "sha256": "07F68A5E26D6419830C14FEDBD937F67FFDDD302468D35762B485D5104F4E18E",
+      "sha256": "C6733D2BFA48BE27038A5170D90D28819D1CC477D5C600F84C36E5A8F76D4214",
       "description": "PBS batch submission script for forward continuation (1-CPU serial reference anchor, 8GB, 4h, entry_imfdfkmq, dual-channel notification integration)"
     },
     "run_equil_datacheck.sh": {

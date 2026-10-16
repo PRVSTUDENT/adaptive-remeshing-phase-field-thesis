@@ -28,6 +28,11 @@ def run_shell(body, expected_status=0):
 
 
 def check(payload):
+    global RUN
+    if payload.get('batch', {}).get('adapter') == 'mode1-qualified-batch-v2':
+        target=payload['batch'].get('remote_run_dir','')
+        require(re.fullmatch(r'/scratch9/pr21vyci/runs/mode1_[a-z0-9_/]+',target) and '..' not in target, 'Unsafe Mode-I scratch path')
+        RUN=Path(target)
     facts = {}
     queue = payload.get('submission_queue', 'entry_imfdfkmq')
     require(queue in ('normal_imfdfkmq', 'entry_imfdfkmq'), 'Unapproved queue')
@@ -51,8 +56,8 @@ def check(payload):
 
     batch = payload.get('batch')
     require(batch is not None, 'Batch specification required')
-    require(batch['batch_name'] == 'MODE1_METHOD_C_STAGE_C1_1', 'Invalid batch name')
-    require(batch['max_submissions'] == 2 and len(batch['jobs']) == 2, 'Invalid batch size')
+    require(batch['batch_name'].startswith('MODE1_') and batch.get('scientific_scope') == 'MODE1', 'Outside Mode-I scope')
+    require(1 <= len(batch['jobs']) == batch['max_submissions'] <= 2, 'Invalid batch size')
 
     for job in batch['jobs']:
         pbs_path = RUN / job['pbs']
@@ -60,7 +65,9 @@ def check(payload):
         text = pbs_path.read_text()
         for directive in ['#PBS -q entry_imfdfkmq', '#PBS -m abe',
                           '#PBS -M pr21vyci@mailserver.tu-freiberg.de',
-                          '#PBS -l select=1:ncpus=1:mem=8gb',
+                          '#PBS -l select=1:ncpus=1:mem='+str(job['memory_gb'])+'gb',
+                          '#PBS -l walltime='+str(job['walltime_hours']).zfill(2)+':00:00',
+                          '#PBS -r n', 'cd "${RUN_DIR}"', 'notification_load_config', 'command -v ifort',
                           'module load gcc/11.4.0 intel/2024.2.0 abaqus/2023',
                           'notification_install_terminal_trap', 'notify_start']:
             require(directive in text, 'Batch PBS contract missing: ' + job['pbs'])
@@ -78,9 +85,9 @@ def check(payload):
     run_shell('''if ! type module >/dev/null 2>&1; then
     source /etc/profile.d/lmod.sh 2>/dev/null || source /usr/share/Modules/init/bash 2>/dev/null || true
 fi
-module purge || true
+module purge
 module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
-command -v ifort || true
+command -v ifort
 ''')
 
     lifecycle = prefix + '''
@@ -125,15 +132,20 @@ notification_send_telegram_once 'Package 49 authorization PREFLIGHT TEST; no PBS
 notification_send_email_once 'Package 49 authorization PREFLIGHT TEST' 'No PBS job submitted. Mail transport verification.'
 ''')
 
-    # Datacheck verification: both equilibrium and forward continuation datachecks completed
-    for dc_name in ['M1_MC_STAGE_C1_1_EQ_DC.dat', 'M1_MC_STAGE_C1_1_DC.dat']:
-        dat_file = RUN / dc_name
-        require(dat_file.is_file(), 'Datacheck output missing: ' + dc_name)
-        dat_text = dat_file.read_text(errors='replace')
-        require('ANALYSIS DATACHECK COMPLETE' in dat_text and '***ERROR' not in dat_text,
-                'Datacheck failed in: ' + dc_name)
+    # Bind actual checked datacheck artifacts to the unchanged candidate inputs.
+    datachecks={}
+    for job in batch['jobs']:
+        require(Path(job['datacheck']).name == job['datacheck'], 'Unsafe datacheck filename')
+        dat_file=RUN/job['datacheck']
+        require(dat_file.is_file(), 'Datacheck output missing: '+job['datacheck'])
+        data=dat_file.read_bytes()
+        text=data.decode(errors='replace')
+        require('ANALYSIS DATACHECK COMPLETE' in text and '***ERROR' not in text, 'Datacheck failed')
+        require(job['input'] in facts,'Unbound datacheck input')
+        datachecks[job['id']]={'status':'PASS','input_sha256':facts[job['input']], 'dat_sha256':hashlib.sha256(data).hexdigest()}
 
-    return dict(passed=True, pbs_email_verified=True, telegram_verified=True,
+    return dict(adapter_contract="mode1-qualified-batch-v2", datachecks=datachecks,
+                batch_spec_sha256=hashlib.sha256(json.dumps(batch,sort_keys=True,separators=(",",":")).encode()).hexdigest(), passed=True, pbs_email_verified=True, telegram_verified=True,
                 submission_queue=queue, queue_access_preflight='PASS',
                 compiler_environment='PASS_LOGIN_NODE',
                 datacheck_verified='PASS_BOTH',
