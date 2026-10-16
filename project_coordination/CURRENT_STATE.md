@@ -1,3 +1,6 @@
+## Gemini autonomous-loop quota recovery (16 October 2026)
+Restored actual Gemini grouped quota via standard-endpoint fallback only when daily endpoint omits Gemini. Live canonical startup selection and post-turn checks PASS; account1 active/selected87.7%weekly100%5h, account5weekly0 excluded. Six new regressions and existing tooling tests PASS; loop code/thresholds unchanged. Argon absent from actual agy models on account1/account5; retained gemini-3.8-flash-high. Original launch command now passes quota checks; no agent turns started. See project_coordination/sessions/2026-10-16_codex_AGY-GEMINI-QUOTA-ARGON.md.
+
 ## Latest tooling and execution update (16 October 2026)
 Quota display fixed: all5 OK for actual Claude/GPT groups; Gemini not reported. account1 selected; loop and worker unchanged; live scan credential isolation and regression tests PASS. Standing grant verified active/no expiry. Corrected recipients submitted once:1413895 production R Step2inc83;1413896 diagnostic R Step2inc17; permit2/2 consumed. SUBMITTED builtin/timeout defect repaired without resubmission; both notifications delivered. Donor1413814 reused. Continuation scientific validation pending. See project_coordination/sessions/2026-10-16_codex_AGY-QUOTA-PROFILE-REPAIR.md.
 
