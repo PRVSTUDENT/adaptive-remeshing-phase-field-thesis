@@ -1,19 +1,16 @@
 {
   "active": false,
-  "agent": "codex",
-  "task_id": "AGY-GEMINI-QUOTA-ARGON",
-  "claimed_at": "2026-10-16T06:43:00.0513811+02:00",
-  "released_at": "2026-10-16T04:45:50.928560+00:00",
-  "starting_commit": "a2c2e26ef3f6fc9e80a9dd166516fb2490c32fbc",
+  "agent": "gemini-antigravity",
+  "task_id": "F1492-METHOD-C-RESTART-RECOVERY",
+  "claimed_at": "2026-10-16T06:50:00+02:00",
+  "released_at": "2026-10-16T07:05:00+02:00",
+  "starting_commit": "a75eb1a3013535d446f49cca611e7d92172267d9",
   "allowed_write_scope": [
-    "C:/Users/pruth/OpenClawPAD/Antigravity-Autonomous-Loop.ps1",
-    "C:/Users/pruth/OpenClawPAD/agy_profile_quota.py",
-    "C:/Users/pruth/OpenClawPAD/Refresh-AgyAccounts.ps1",
-    "C:/Users/pruth/OpenClawPAD/Test-AgyAccountRefresh.ps1",
     "project_coordination/",
+    "models/pandey_kumar_mode1/48_method_c_stage_c1_0_restart_positive_control/",
+    "scripts/",
     "tests/unit/",
-    "Windows Credential Manager:gemini:antigravity",
-    "C:/Users/pruth/.gemini/agy-profiles/_active.txt"
+    "runs/hpc/"
   ],
-  "session_report": "project_coordination/sessions/2026-10-16_codex_AGY-GEMINI-QUOTA-ARGON.md"
+  "session_report": "project_coordination/sessions/2026-10-16_gemini-antigravity_F1492-METHOD-C-RESTART-RECOVERY.md"
 }
