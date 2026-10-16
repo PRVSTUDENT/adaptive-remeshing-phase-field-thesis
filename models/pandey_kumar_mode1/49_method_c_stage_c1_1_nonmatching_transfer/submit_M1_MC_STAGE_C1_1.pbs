@@ -2,7 +2,7 @@
 #PBS -N M1_MC_C1_1
 #PBS -l select=1:ncpus=1:mem=8gb
 #PBS -l walltime=04:00:00
-#PBS -q normal_imfdfkmq
+#PBS -q entry_imfdfkmq
 #PBS -j oe
 #PBS -o pbs_execution.log
 #PBS -m abe

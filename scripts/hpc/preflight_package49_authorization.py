@@ -1,0 +1,160 @@
+"""Read-only Package 49 qualification; never issues permits or invokes qsub."""
+import hashlib
+import json
+import os
+import re
+from pathlib import Path
+import shutil
+import subprocess
+import tempfile
+from datetime import datetime, timezone
+
+RUN = Path('/scratch9/pr21vyci/runs/mode1_stage_c1_1_nonmatching_transfer')
+
+
+def require(condition, message):
+    if not condition:
+        raise RuntimeError(message)
+
+
+def run_shell(body, expected_status=0):
+    with tempfile.TemporaryDirectory(prefix='p49-preflight-') as directory:
+        script = Path(directory) / 'check.sh'
+        script.write_text('set -euo pipefail\n' + body)
+        result = subprocess.run(['bash', str(script)], stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE, universal_newlines=True, timeout=75)
+        require(result.returncode == expected_status, 'Notification transport/lifecycle check failed')
+        return result.stdout.strip()
+
+
+def check(payload):
+    facts = {}
+    queue = payload.get('submission_queue', 'entry_imfdfkmq')
+    require(queue in ('normal_imfdfkmq', 'entry_imfdfkmq'), 'Unapproved queue')
+    query = subprocess.run(['qstat', '-Qf', queue], stdout=subprocess.PIPE,
+                           stderr=subprocess.PIPE, universal_newlines=True, timeout=20)
+    require(query.returncode == 0, 'Queue query failed')
+    require('from_route_only = True' not in query.stdout,
+            'Direct submission prohibited: use authorized entry_imfdfkmq routing queue')
+    for key in ('enabled', 'started'):
+        require(re.search(r'\b' + key + r'\s*=\s*True', query.stdout), 'Queue not ' + key)
+    if queue == 'entry_imfdfkmq':
+        require('queue_type = Route' in query.stdout and
+                'normal_imfdfkmq' in query.stdout, 'Routing destination mismatch')
+    for name, digest in payload['files'].items():
+        require(Path(name).name == name, 'Invalid package filename')
+        path = RUN / name
+        require(path.is_file(), 'Missing staged file: ' + name)
+        actual = hashlib.sha256(path.read_bytes()).hexdigest()
+        require(actual == digest.lower(), 'Staged hash mismatch: ' + name)
+        facts[name] = actual
+
+    batch = payload.get('batch')
+    require(batch is not None, 'Batch specification required')
+    require(batch['batch_name'] == 'MODE1_METHOD_C_STAGE_C1_1', 'Invalid batch name')
+    require(batch['max_submissions'] == 2 and len(batch['jobs']) == 2, 'Invalid batch size')
+
+    for job in batch['jobs']:
+        pbs_path = RUN / job['pbs']
+        require(pbs_path.is_file(), 'Missing PBS script: ' + job['pbs'])
+        text = pbs_path.read_text()
+        for directive in ['#PBS -q entry_imfdfkmq', '#PBS -m abe',
+                          '#PBS -M pr21vyci@mailserver.tu-freiberg.de',
+                          '#PBS -l select=1:ncpus=1:mem=8gb',
+                          'module load gcc/11.4.0 intel/2024.2.0 abaqus/2023',
+                          'notification_install_terminal_trap', 'notify_start']:
+            require(directive in text, 'Batch PBS contract missing: ' + job['pbs'])
+        require(subprocess.call(['bash', '-n', str(pbs_path)]) == 0,
+                'Batch PBS syntax failure: ' + job['pbs'])
+
+    helper = RUN / 'job_notifications.sh'
+    require(helper.is_file(), 'Missing staged notification helper')
+    cfg = Path.home() / '.config/adaptive-remeshing/notifications.env'
+    require(cfg.is_file() and cfg.stat().st_mode & 0o777 == 0o600,
+            'Notification configuration must exist with mode 600')
+    require(shutil.which('sendmail'), 'sendmail unavailable; email acceptance unverified')
+
+    prefix = 'export NOTIFICATION_CONFIG=' + str(cfg) + '\nsource ' + str(helper) + '\n'
+    run_shell('''if ! type module >/dev/null 2>&1; then
+    source /etc/profile.d/lmod.sh 2>/dev/null || source /usr/share/Modules/init/bash 2>/dev/null || true
+fi
+module purge || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort || true
+''')
+
+    lifecycle = prefix + '''
+notification_send_telegram() { printf '%s\\n' "$1" >> "$CAPTURE"; }
+notification_send_email() { :; }
+export PBS_JOBID=PREFLIGHT_TEST PBS_JOBNAME=P49_PREFLIGHT_TEST
+notify_submitted PREFLIGHT_TEST P49_PREFLIGHT_TEST Synthetic
+notify_start
+notify_completed P49_PREFLIGHT_TEST PREFLIGHT_TEST 0
+notify_failed P49_PREFLIGHT_TEST PREFLIGHT_TEST 1 0
+notify_terminated P49_PREFLIGHT_TEST PREFLIGHT_TEST TERM 0
+NOTIFICATION_TERMINAL_SENT=0
+notification_terminal_trap 0
+notification_terminal_trap 0
+'''
+    with tempfile.TemporaryDirectory(prefix='p49-events-') as directory:
+        capture = Path(directory) / 'events'
+        run_shell('export CAPTURE=' + str(capture) + '\n' + lifecycle)
+        text = capture.read_text()
+        for event, count in [('SUBMITTED', 1), ('STARTED', 1), ('COMPLETED', 2),
+                             ('FAILED', 1), ('TERMINATED', 1)]:
+            require(text.count(' - ' + event + ']') == count,
+                    'Lifecycle/exactly-once contract failed: ' + event)
+        for ending, rc, event in [('exit 0', 0, 'COMPLETED'),
+                                 ('exit 1', 1, 'FAILED'),
+                                 ('kill -TERM $$', 143, 'TERMINATED')]:
+            capture.write_text('')
+            run_shell('export CAPTURE=' + str(capture) + '\n' + prefix + '''
+notification_send_telegram() { printf '%s\\n' "$1" >> "$CAPTURE"; }
+notification_send_email() { :; }
+export PBS_JOBID=PREFLIGHT_TEST PBS_JOBNAME=P49_PREFLIGHT_TEST
+notification_install_terminal_trap
+''' + ending + '\n', expected_status=rc)
+            require(capture.read_text().count(' - ' + event + ']') == 1,
+                    'Installed terminal trap failed: ' + event)
+
+    # Real transport tests: helper requires Telegram HTTP 200 and JSON ok=true.
+    run_shell(prefix + '''
+unset NOTIFICATION_MOCK_TELEGRAM NOTIFICATION_MOCK_FAIL
+notification_load_config
+notification_send_telegram_once 'Package 49 authorization PREFLIGHT TEST; no PBS job submitted.'
+notification_send_email_once 'Package 49 authorization PREFLIGHT TEST' 'No PBS job submitted. Mail transport verification.'
+''')
+
+    # Datacheck verification: both equilibrium and forward continuation datachecks completed
+    for dc_name in ['M1_MC_STAGE_C1_1_EQ_DC.dat', 'M1_MC_STAGE_C1_1_DC.dat']:
+        dat_file = RUN / dc_name
+        require(dat_file.is_file(), 'Datacheck output missing: ' + dc_name)
+        dat_text = dat_file.read_text(errors='replace')
+        require('ANALYSIS DATACHECK COMPLETE' in dat_text and '***ERROR' not in dat_text,
+                'Datacheck failed in: ' + dc_name)
+
+    return dict(passed=True, pbs_email_verified=True, telegram_verified=True,
+                submission_queue=queue, queue_access_preflight='PASS',
+                compiler_environment='PASS_LOGIN_NODE',
+                datacheck_verified='PASS_BOTH',
+                candidate_manifest_sha256=payload['manifest_sha256'],
+                authorized_command_sha256=payload['command_sha256'],
+                checked_at=datetime.now(timezone.utc).isoformat(),
+                config_path=str(cfg), config_mode='600', file_hashes=facts,
+                helper_sha256=hashlib.sha256(helper.read_bytes()).hexdigest(),
+                email_evidence='sendmail accepted test message; PBS abe directives verified',
+                telegram_notification_contract='PASS_LOGIN_NODE',
+                compute_node_delivery='UNRESOLVED', lifecycle_tests='PASS')
+
+
+if __name__ == '__main__':
+    import base64
+    import gzip
+    import sys
+    try:
+        data = base64.b64decode(sys.argv[1], validate=True)
+        payload = json.loads(gzip.decompress(data) if data.startswith(b'\x1f\x8b') else data)
+        print(json.dumps(check(payload)))
+    except Exception as error:
+        print(json.dumps({'passed': False, 'reason': str(error)}))
+        sys.exit(1)

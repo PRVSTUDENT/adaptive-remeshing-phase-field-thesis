@@ -1,0 +1,37 @@
+#!/bin/bash
+#PBS -N M1_MC_C1_1_EQ
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -o pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+cd "${PBS_O_WORKDIR}"
+
+# Dual-channel notification integration
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "${SCRIPT_DIR}/job_notifications.sh" ]; then
+    source "${SCRIPT_DIR}/job_notifications.sh"
+    notify_start "M1_MC_STAGE_C1_1_EQUIL (Stage C1-1 Zero-Displacement Equilibrium 14K Test)"
+    notification_install_terminal_trap "M1_MC_STAGE_C1_1_EQUIL"
+fi
+
+source /etc/profile.d/modules.sh 2>/dev/null || source /usr/share/Modules/init/bash 2>/dev/null || true
+module purge || true
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+JOB_NAME="M1_MC_STAGE_C1_1_EQUIL"
+INP_NAME="M1_MC_STAGE_C1_1_EQUIL.inp"
+USER_SUB="f42_mixed_uel.for"
+
+rm -f "${JOB_NAME}.lck" 2>/dev/null || true
+
+echo "Starting Abaqus/Standard 2023 Stage C1-1 Zero-Displacement Equilibrium Test..."
+abaqus job="${JOB_NAME}" input="${INP_NAME}" user="${USER_SUB}" cpus=1 interactive
+EXIT_CODE=$?
+
+echo "Abaqus Finished with Exit Code: ${EXIT_CODE}"
+exit ${EXIT_CODE}

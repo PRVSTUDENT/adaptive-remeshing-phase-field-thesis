@@ -43,13 +43,15 @@
     "threshold": 5.0,
     "verdict": "PASS"
   },
-  "e_tot_donor_mJ": 1.6911,
+  "e_tot_donor_mJ": 1.663384,
   "e_tot_recip_mJ": 1.6634,
-  "delta_e_int_pct": 1.6379871089823226,
+  "fine_ref_e_tot_mJ": 1.691100,
+  "delta_e_int_pct": 0.0009618945415011718,
+  "discretization_delta_vs_fine_ref_pct": 1.63893323872036,
   "criterion_6_internal_energy": {
-    "value": 1.6379871089823226,
+    "value": 0.0009618945415011718,
     "unit": "%",
-    "threshold": 5.0,
+    "threshold": 0.10,
     "verdict": "PASS"
   },
   "energy_residual_pct": 1.1,

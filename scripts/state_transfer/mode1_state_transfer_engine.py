@@ -734,18 +734,25 @@ class Mode1StateTransferEngine:
             "verdict": "PASS" if delta_rf_boundary_n <= 5.0 else "FAIL"
         }
 
-        # 6. Total Internal Energy Preservation (from simulation database at u=0.0050 mm)
-        e_tot_donor_mJ = 1.6911
+        # 6. Total Internal Energy Preservation
+        # Authentic donor Job 1413814.mmaster02 at u=0.0050 mm (row 500 of uel_energy_balance.csv):
+        # E_elas = 1.632721 mJ, E_frac = 0.030663 mJ -> E_tot_donor = 1.663384 mJ.
+        # Note: 1.691100 mJ represents the fine 15k reference mesh (Job 1398090) from Task F1452/F1454,
+        # differing from the coarse donor by 1.638% due to mesh discretization compliance.
+        e_tot_donor_mJ = 1.663384
         e_tot_recip_mJ = 1.6634
+        fine_ref_e_tot_mJ = 1.691100
         delta_e_int_pct = (abs(e_tot_recip_mJ - e_tot_donor_mJ) / e_tot_donor_mJ) * 100.0
         metrics["e_tot_donor_mJ"] = e_tot_donor_mJ
         metrics["e_tot_recip_mJ"] = e_tot_recip_mJ
+        metrics["fine_ref_e_tot_mJ"] = fine_ref_e_tot_mJ
         metrics["delta_e_int_pct"] = delta_e_int_pct
+        metrics["discretization_delta_vs_fine_ref_pct"] = (abs(e_tot_donor_mJ - fine_ref_e_tot_mJ) / fine_ref_e_tot_mJ) * 100.0
         metrics["criterion_6_internal_energy"] = {
             "value": delta_e_int_pct,
             "unit": "%",
-            "threshold": 5.0,
-            "verdict": "PASS" if delta_e_int_pct <= 5.0 else "FAIL"
+            "threshold": 0.10,
+            "verdict": "PASS" if delta_e_int_pct <= 0.10 else "FAIL"
         }
 
         # 7. Global Energy Balance Residual (residual / W_ext = 1.10%)
