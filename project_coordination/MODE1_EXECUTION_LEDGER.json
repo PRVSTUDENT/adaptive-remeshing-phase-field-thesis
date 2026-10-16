@@ -260,6 +260,56 @@
         "lifecycle_tests": "PASS"
       },
       "qualified_at": "2026-10-16T15:02:04.133269+00:00"
+    },
+    "891be14db593c717f5a74eb4156260aa549c4433ea2bff6cb41dcf359695589d": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\50_method_b_fine_baseline_enriched\\METHOD_B_FINE_BASELINE_ENRICHED_AUTHORIZATION.json",
+      "attempts": {
+        "M1_MB_FINE_BASELINE_ENRICHED": 1
+      },
+      "audit": [
+        {
+          "job": "M1_MB_FINE_BASELINE_ENRICHED",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-10-16T16:56:50.408816+00:00",
+          "command_sha256": "e38c97e4b5c4f81576c445dac8ac8042587e2c4974a09bcad6c590ffce6693e1"
+        }
+      ],
+      "preflight": {
+        "active_job_count": 0,
+        "adapter_contract": "mode1-qualified-batch-v2",
+        "datachecks": {
+          "M1_MB_FINE_BASELINE_ENRICHED": {
+            "status": "PASS",
+            "input_sha256": "e867081fe4e485b743ab772207ca0890a471b4c4f56daf4e75b47f6d2c528173",
+            "dat_sha256": "660a3175df084c3604bff70a7e5b02fe1d527386f11bb9fb1a49eca2e8f58357"
+          }
+        },
+        "batch_spec_sha256": "bfd114d5bc7855d6cd3eca9e867b8fbe1f0168dacdf0b0ba99980fe0a2d70bbf",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "891be14db593c717f5a74eb4156260aa549c4433ea2bff6cb41dcf359695589d",
+        "authorized_command_sha256": "e38c97e4b5c4f81576c445dac8ac8042587e2c4974a09bcad6c590ffce6693e1",
+        "checked_at": "2026-10-16T16:56:44.307669+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+          "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+          "M1_MB_FINE_BASELINE_ENRICHED.inp": "e867081fe4e485b743ab772207ca0890a471b4c4f56daf4e75b47f6d2c528173",
+          "submit_M1_MB_FINE_BASELINE_ENRICHED.pbs": "b1a9e220f069a1ace3fb4897daba7425bfd236d475ed841954745a3a16a33c78"
+        },
+        "helper_sha256": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-10-16T16:56:44.947513+00:00"
     }
   }
 }

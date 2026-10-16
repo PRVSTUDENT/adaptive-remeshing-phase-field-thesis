@@ -1,8 +1,20 @@
 """Intelligent PBS Queue Selection & Congestion Scoring for Mode-I HPC Experiments.
 
+Classification: HEURISTIC_RECOMMENDATION_ONLY
+Status: HEURISTIC_RECOMMENDATION_ONLY until production execution is verified.
+
 Evaluates dedicated IMFD hardware queues vs general cluster queues using
 empirical queue priority, queue depth, node pool availability, and requested
 resources (walltime, CPUs, memory).
+
+Note on Scheduler Privacy Boundary:
+PBS Pro on mmaster02 enforces 'query_other_jobs = False', which prevents
+standard users from inspecting start times or remaining walltimes of other users'
+jobs. Therefore, earliest-start forecasting without dummy probe submissions is
+bounded to heuristic scoring:
+    Score = Priority - (10.0 * queued_jobs) + (1.5 * idle_cpus) + Bonus(dedicated)
+This score provides a comparative ranking metric and is formally classified as
+HEURISTIC_RECOMMENDATION_ONLY.
 
 Supports offline simulation for testing as well as live cluster evaluation.
 """
@@ -13,6 +25,8 @@ import json
 import re
 import sys
 from typing import Any, Dict, List, Optional, Tuple
+
+CLASSIFICATION = "HEURISTIC_RECOMMENDATION_ONLY"
 
 # Static configuration of known queues on TU Freiberg HPC (mmaster02)
 KNOWN_QUEUES = {
@@ -111,7 +125,7 @@ def score_queue(
 ) -> Tuple[float, str, str]:
     """Compute heuristic dispatch score for a candidate queue.
 
-    Score formulation:
+    Score formulation (HEURISTIC_RECOMMENDATION_ONLY):
         Score = Priority - (10.0 * queued_jobs) + (1.5 * idle_cpus)
 
     Returns:
@@ -169,7 +183,11 @@ def select_best_queue(
     allow_general_pool: bool = True,
     prefer_dedicated_hardware: bool = True,
 ) -> Dict[str, Any]:
-    """Select the optimal submission queue across all candidate queues."""
+    """Select the optimal submission queue across all candidate queues.
+
+    Returns dictionary with selected queue, ranking list, and
+    classification marked as HEURISTIC_RECOMMENDATION_ONLY.
+    """
     if queue_telemetry is None:
         # Default snapshot matching current live observation
         queue_telemetry = {
@@ -198,6 +216,7 @@ def select_best_queue(
             node_idle_cpus=node_idle_cpus,
             allow_general_pool=allow_general_pool,
         )
+
         # Dedicated hardware preference bonus
         effective_score = score
         if prefer_dedicated_hardware and KNOWN_QUEUES[qname]['dedicated_to'] == 'IMFD-FKM':
@@ -217,6 +236,7 @@ def select_best_queue(
     winner = rankings[0]
 
     return {
+        'classification': CLASSIFICATION,
         'selected_submission_queue': winner['submission_queue'],
         'selected_execution_queue': winner['execution_queue'],
         'effective_score': winner['effective_score'],
@@ -226,7 +246,7 @@ def select_best_queue(
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Mode-I Intelligent PBS Queue Selector')
+    parser = argparse.ArgumentParser(description='Mode-I Intelligent PBS Queue Selector (HEURISTIC_RECOMMENDATION_ONLY)')
     parser.add_argument('--walltime', type=float, default=1.0, help='Requested walltime in hours')
     parser.add_argument('--cpus', type=int, default=1, help='Requested CPUs')
     parser.add_argument('--disallow-general', action='store_true', help='Disallow general pool queues')
@@ -242,6 +262,7 @@ def main():
     if args.json:
         print(json.dumps(result, indent=2))
     else:
+        print(f"Classification:           {result['classification']}")
         print(f"Optimal Submission Queue: {result['selected_submission_queue']}")
         print(f"Target Execution Queue:   {result['selected_execution_queue']}")
         print(f"Effective Score:          {result['effective_score']:.1f}")

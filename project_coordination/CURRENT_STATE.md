@@ -1,3 +1,42 @@
+## Task F1516 AutoQueue Engineering Audit, Reference State Discovery & Enriched Baseline Execution (16 October 2026)
+Completed the engineering audit of the AutoQueue engine, verified queue priorities and routing semantics against the live cluster, formally reclassified the congestion scoring formula as `HEURISTIC_RECOMMENDATION_ONLY` due to the PBS Pro privacy boundary (`query_other_jobs = False`), discovered that the continuous fine baseline ODB (Job 1412465) omitted interior nodal displacements and phase field, resolved the Abaqus 2023 UEL nodal DOF 3 output mechanism, designed and qualified the enriched baseline diagnostic deck (Package 50), and submitted it as Job 1414571.mmaster02 alongside preserved same-mesh control jobs 1414558 and 1414563:
+1. AutoQueue Engineering Audit & Reclassification:
+   - Formally classified `scripts/hpc/mode1_queue_selector.py` scoring formula as `HEURISTIC_RECOMMENDATION_ONLY`.
+   - Audited the PBS Pro privacy boundary: `query_other_jobs = False` restricts non-privileged users from inspecting other users' remaining walltimes or earliest start times, bounding dispatch scoring to heuristic ranking rather than guaranteed queue depth simulation.
+   - Verified static queue priorities against live server: `normal_imfdfkmq` (1000), `short_imfdfkmq` (50), `shortq` (75), `mediumq` (40), and `longq` (10).
+   - Confirmed node pool eligibility: dedicated `extension2` pool (10 nodes `mnode097`..`106`, 160 CPUs, 748 GB RAM) vs general `main` pool (96 nodes `mnode001`..`096`, 3,840 CPUs).
+   - Confirmed routing semantics: `from_route_only = True` enforced on all production execution queues; jobs must be submitted to `entry_imfdfkmq` (for IMFD dedicated hardware) or `entryq` (for general hardware).
+   - Integrated `[HEURISTIC_RECOMMENDATION_ONLY]` classification logging into `scripts/hpc/Invoke-Mode1Execution.ps1`.
+2. Missing Continuous Baseline Reference State Discovery:
+   - Forensically audited `models/pandey_kumar_mode1/40_method_b_corrected_propagation_14k/evidence_1412465/fine_baseline_14k_u0050_state.json` and `M1_MB_CORRECTED_PROPAGATION_14K.inp`.
+   - Discovered that Job 1412465 restricted `*NODE OUTPUT` exclusively to `NSET=N_RP` (node 999999).
+   - The 21 GB baseline ODB contains zero interior mechanical displacements $u_x(n), u_y(n)$ and zero UEL nodal phase-field damage DOF 3 $d(n)$.
+   - Companion UMAT elements stored only element-average damage `D_AVG` (SDV14) and integration-point history $H$ (SDV2).
+   - All existing same-mesh and nonmatching-mesh continuation decks performed Step 1 static re-equilibration ($K(d^*) u^* = f_{\text{ext}}$) rather than direct state continuation from true continuous displacement fields.
+3. Abaqus 2023 UEL Nodal DOF 3 Output Mechanics:
+   - Audited `f42_mixed_uel.for` element architecture: phase elements (JTYPE 1, 3) define active DOF 3; mechanical elements (JTYPE 2, 4) define active DOFs 1, 2.
+   - Both element layers share the exact same physical node set $1 \dots 14456$, giving every node active DOFs 1, 2, and 3.
+   - Verified that Abaqus/Standard `*NODE OUTPUT\nU, RF` writes all active degrees of freedom to the ODB vector `U`: $U_1 = u_x$, $U_2 = u_y$, $U_3 = d$.
+   - Verified that `*ELEMENT OUTPUT, ELSET=All_elem\nSDV` writes companion element state variables: `SDV2` (committed history $H$) and `SDV14` (element-average damage $d_{\text{avg}}$) across all 56,729 Gauss points.
+4. Package 50 Enriched Baseline Diagnostic Model & Execution:
+   - Built `models/pandey_kumar_mode1/50_method_b_fine_baseline_enriched/M1_MB_FINE_BASELINE_ENRICHED.inp` (14,483 elements, 14,456 nodes, 1 step up to $u = 0.005000$ mm, 2000 increments, $\Delta t = 5\times 10^{-4}$).
+   - Configured enriched whole-mesh `*NODE OUTPUT\nU, RF` and `*ELEMENT OUTPUT\nSDV`.
+   - Configured `*RESTART, WRITE, FREQUENCY=2000` to preserve native binary restart checkpoints.
+   - Built PBS script `submit_M1_MB_FINE_BASELINE_ENRICHED.pbs` (1 CPU, 8 GB, 4h walltime, serial execution).
+   - Staged on `/scratch9/pr21vyci/runs/mode1_fine_baseline_enriched/` with 100% bitwise hash parity.
+   - Verified Abaqus 2023 interactive Datacheck completed Exit 0 with zero fatal errors.
+   - Qualified manifest `METHOD_B_FINE_BASELINE_ENRICHED_AUTHORIZATION.json` under `mode1_execution_gate.py` and submitted via `Invoke-Mode1Execution.ps1`:
+     * Accepted by PBS as Job ID `1414571.mmaster02` (Jobname `M1_MB_BASE_ENR`) in `normal_imfdfkmq`.
+5. Scheduler State & Job Preservation:
+   - Preserved active same-mesh control jobs `1414558.mmaster02` and `1414563.mmaster02` at the top of `normal_imfdfkmq` without migration, cancellation, or duplicate submission.
+   - Current queue status:
+     * `1414558.mmaster02`: `M1_MC_C1_1_SM` (lumped projection control), 8 GB, 1h, state `Q` (Queue pos #1).
+     * `1414563.mmaster02`: `M1_MC_C1_1_SMC` (consistent inverse control), 8 GB, 1h, state `Q` (Queue pos #2).
+     * `1414571.mmaster02`: `M1_MB_FINE_BASELINE_ENRICHED` (enriched baseline), 8 GB, 4h, state `Q` (Queue pos #3).
+   - Total user jobs = 3 <= 4 limit. Gate 6C hold preserved.
+6. Unit Tests (5/5 PASS, 47 Active Suite):
+   - Authored `tests/unit/test_mode1_f1516_autoqueue_audit_and_ground_truth_deck.py` (5/5 PASS). Combined with F1507-F1515, full 47-test active battery verified.
+
 ## Task F1515 Investigate & Implement Intelligent PBS Queue Selection (16 October 2026)
 Completed the architectural investigation of PBS Pro scheduling mechanics, evaluated earliest-start prediction feasibility, implemented the intelligent queue selection engine, added the `-AutoQueue` policy to `Invoke-Mode1Execution.ps1`, and clarified the PBS scheduler decision hierarchy:
 1. Native PBS Routing vs User-Level Routing:

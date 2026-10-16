@@ -1,13 +1,14 @@
 {
-  "task_id": "F1515-INVESTIGATE-AND-IMPLEMENT-INTELLIGENT-PBS-QUEUE-SELECTION",
-  "status": "PBS_INTELLIGENT_QUEUE_SELECTION_IMPLEMENTED__SCHEDULER_HIERARCHY_CLARIFIED__AUTOQUEUE_QUALIFIED__JOBS_1414558_AND_1414563_PRESERVED_QUEUED",
+  "task_id": "F1516-VALIDATE-AUTOQUEUE-AND-OBTAIN-GROUND-TRUTH",
+  "status": "AUTOQUEUE_AUDITED_HEURISTIC_RECOMMENDATION_ONLY__GROUND_TRUTH_BASELINE_SUBMITTED_JOB_1414571__SAME_MESH_JOBS_1414558_AND_1414563_PRESERVED",
   "agent": "gemini-antigravity",
-  "phase": "Task F1515 complete: Investigated native PBS routing vs user-level routing; proved PBS Pro routing queues evaluate static criteria without dynamic queue depth/backfill inspection and execution queues never dynamically migrate jobs across pools; compiled empirical comparison between dedicated IMFD extension2 pool (10 nodes, 160 CPUs, priority 1000, 2 queued) vs general main pool (96 nodes, 3840 CPUs, shortq priority 75, 83 queued); designed and implemented mode1_queue_selector.py and optional -AutoQueue switch in Invoke-Mode1Execution.ps1; verified 6/6 unit tests pass (42/42 active suite); clarified 5-layer PBS scheduler decision hierarchy; preserved jobs 1414558 and 1414563 at top of normal_imfdfkmq queue; Gate 6C hold preserved.",
-  "gate_status": "GATE_6B_PASS__STAGE_C1_0_CLOSED_PASSED__STAGE_C1_1_SAMEMESH_DIAGNOSTIC_BRACKET_QUEUED__GATE_6C_HOLD",
-  "last_updated": "2026-10-16T18:30:00+02:00",
+  "phase": "Task F1516 complete: Conducted engineering audit of AutoQueue engine (mode1_queue_selector.py, Invoke-Mode1Execution.ps1), reclassifying score formula as HEURISTIC_RECOMMENDATION_ONLY due to PBS Pro privacy boundary (query_other_jobs = False); verified queue priorities (normal_imfdfkmq 1000, short_imfdfkmq 50, shortq 75, mediumq 40) and routing semantics against live cluster; forensically audited missing continuous fine baseline ground truth (confirming interior nodal displacement and nodal phase field were omitted from 1412465 ODB); designed, staged, and verified Abaqus 2023 Datacheck Exit 0 for Package 50 enriched baseline deck (M1_MB_FINE_BASELINE_ENRICHED.inp) requesting full *NODE OUTPUT (U, RF) and *ELEMENT OUTPUT (SDV); qualified and submitted Job 1414571.mmaster02 (1 CPU, 8 GB, 4h, serial) in normal_imfdfkmq alongside preserved active jobs 1414558.mmaster02 and 1414563.mmaster02; 5/5 unit tests pass (47 active battery); Gate 6C hold preserved.",
+  "gate_status": "GATE_6B_PASS__STAGE_C1_0_CLOSED_PASSED__STAGE_C1_1_DIAGNOSTICS_QUEUED__GATE_6C_HOLD",
+  "last_updated": "2026-10-16T18:57:00+02:00",
   "active_pbs_job_ids": [
     "1414558.mmaster02",
-    "1414563.mmaster02"
+    "1414563.mmaster02",
+    "1414571.mmaster02"
   ],
   "dependent_pbs_job_ids": [],
   "deferred_candidate_jobs": [
@@ -48,12 +49,12 @@
     "1414505.mmaster02",
     "1414550.mmaster02"
   ],
-  "next_recommended_task": "MONITOR_AND_HARVEST_SAME_MESH_DIAGNOSTIC_BRACKET_JOBS_1414558_AND_1414563",
+  "next_recommended_task": "MONITOR_AND_HARVEST_DIAGNOSTIC_TRIO_JOBS_1414558_1414563_AND_1414571",
   "governing_constraints": [
     "No per-job human authorization or machine-credential activation in current Mode-I execution",
     "Technical preflight, frozen source/manifest/resource limits and once-only accounting mandatory",
     "Forward requires actual predecessor scientific PASS and displacement/damage/history/energy evidence",
     "Do not rerun identical jobs or manufacture solver/state evidence"
   ],
-  "notes": "Task F1515 completed: Implemented intelligent PBS queue selector (mode1_queue_selector.py), added -AutoQueue switch to Invoke-Mode1Execution.ps1, proved dedicated IMFD queue entry_imfdfkmq is empirically optimal (score 1030.0 vs -395.0 for shortq due to 83-job backlog), verified 6/6 unit tests (42/42 active suite), clarified PBS scheduler decision hierarchy, and preserved queued jobs 1414558 and 1414563."
+  "notes": "Task F1516 completed: Reclassified AutoQueue as HEURISTIC_RECOMMENDATION_ONLY in mode1_queue_selector.py and Invoke-Mode1Execution.ps1; audited missing continuous baseline nodal state; built, datachecked Exit 0, and submitted Package 50 enriched baseline job 1414571.mmaster02 in normal_imfdfkmq alongside preserved jobs 1414558 and 1414563; 5/5 unit tests pass (47 active battery)."
 }

@@ -1,0 +1,46 @@
+{
+  "adapter": "mode1-qualified-batch-v2",
+  "batch_name": "MODE1_METHOD_B_FINE_BASELINE_ENRICHED",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_fine_baseline_enriched",
+  "max_submissions": 1,
+  "automatic_retry": false,
+  "files": {
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_MB_FINE_BASELINE_ENRICHED.inp": "e867081fe4e485b743ab772207ca0890a471b4c4f56daf4e75b47f6d2c528173",
+    "submit_M1_MB_FINE_BASELINE_ENRICHED.pbs": "b1a9e220f069a1ace3fb4897daba7425bfd236d475ed841954745a3a16a33c78"
+  },
+  "jobs": [
+    {
+      "id": "M1_MB_FINE_BASELINE_ENRICHED",
+      "purpose": "Continuous uninterrupted loading on 14,483-element fine mesh to u=0.0050 mm with whole-mesh node output (U, RF) and element SDV output to establish authentic reference ground truth",
+      "input": "M1_MB_FINE_BASELINE_ENRICHED.inp",
+      "pbs": "submit_M1_MB_FINE_BASELINE_ENRICHED.pbs",
+      "datacheck": "M1_MB_FINE_BASELINE_ENRICHED_DC.dat",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 4,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_fine_baseline_enriched/submit_M1_MB_FINE_BASELINE_ENRICHED.pbs\"",
+      "command_sha256": "e38c97e4b5c4f81576c445dac8ac8042587e2c4974a09bcad6c590ffce6693e1"
+    }
+  ],
+  "acceptance": {
+    "terminal_exit_status": 0,
+    "step1_increments": 2000,
+    "max_cutbacks": 0,
+    "reaction_force_target_kN": 0.661725,
+    "total_energy_target_mJ": 1.691099,
+    "fracture_energy_target_mJ": 0.036786,
+    "peak_damage_range": [
+      0.3,
+      0.36
+    ],
+    "full_nodal_output_required": true,
+    "full_sdv_output_required": true
+  }
+}
