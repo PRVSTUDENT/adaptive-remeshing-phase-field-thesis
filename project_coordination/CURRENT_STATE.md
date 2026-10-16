@@ -1,3 +1,23 @@
+## Task F1515 Investigate & Implement Intelligent PBS Queue Selection (16 October 2026)
+Completed the architectural investigation of PBS Pro scheduling mechanics, evaluated earliest-start prediction feasibility, implemented the intelligent queue selection engine, added the `-AutoQueue` policy to `Invoke-Mode1Execution.ps1`, and clarified the PBS scheduler decision hierarchy:
+1. Native PBS Routing vs User-Level Routing:
+   - Proved PBS Pro routing queues (`entry_imfdfkmq`, `entryq`) evaluate static destination criteria in fixed declaration order; they do not simulate future reservations or check dynamic queue depth.
+   - Proved execution queues are stationary: PBS never migrates jobs across execution queues or hardware pools once routed.
+   - Proved earliest-feasible queue selection across distinct hardware pools must occur at the user/orchestration layer prior to submission.
+2. Empirical Queue & Hardware Pool Comparison:
+   - Dedicated IMFD Pool (`extension2`): 10 nodes (`mnode097`..`106`), 160 CPUs, 748 GB RAM. `normal_imfdfkmq` has Priority 1000, 10 running (160/160 CPUs full), and exactly 2 queued jobs (our jobs `1414558` and `1414563` at top of queue).
+   - General University Pool (`main`): 96 nodes (`mnode001`..`096`), 3,840 CPUs, 181 GB RAM. `shortq` has Priority 75, max walltime 12h, but suffers an 83-job backlog (+20 held; 103 total in short queues). `longq` has 402 queued jobs.
+   - Heuristic Dispatch Score: For a 1h Method C job, `normal_imfdfkmq` scores 1030.0 vs -395.0 for `shortq`. `entry_imfdfkmq` is empirically superior.
+3. Intelligent Queue Selector Engine (`mode1_queue_selector.py`):
+   - Implemented `scripts/hpc/mode1_queue_selector.py` with walltime filtering, queue priority modeling, congestion penalties, idle hardware bonuses, and JSON CLI output.
+   - Integrated optional `-AutoQueue` switch in `scripts/hpc/Invoke-Mode1Execution.ps1`, verified under `-DryRun` and `-VerifyOnly`.
+4. PBS Scheduler Decision Hierarchy Clarified:
+   - Documented 5-layer hierarchy: Submission Layer -> Routing Layer -> Node Placement Set (Qlist matching) -> Priority Sorting (`job_sort_formula = priority + eligible_time/3600`) -> Dispatch & Backfill.
+5. Preservation of Existing Jobs:
+   - Preserved active same-mesh diagnostic jobs `1414558.mmaster02` and `1414563.mmaster02` at top of `normal_imfdfkmq` queue without disruption.
+6. Unit & Regression Tests (6/6 PASS, 42/42 Active Battery):
+   - Authored `tests/unit/test_mode1_f1515_intelligent_queue_selection.py` (6/6 PASS). Full active regression suite (F1507-F1515, 42 tests) passes cleanly in 1.61s.
+
 ## Task F1514 Diagnose PBS Queue Placement & Unblock Method C Experiments (16 October 2026)
 Completed the thorough empirical diagnosis of PBS queue architecture, node placement constraints, and Abaqus licensing to conclusively establish why same-mesh diagnostic jobs 1414558 and 1414563 remain queued:
 1. Decoding the Scheduler Comment:
