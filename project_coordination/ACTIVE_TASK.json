@@ -1,16 +1,16 @@
 {
-  "task_id": "STANDING-AUTHORIZATION-METHOD-C",
-  "status": "PREPARED_VALIDATED_AWAITING_ONE_TIME_STANDING_ENROLLMENT",
+  "task_id": "METHOD-C-RESTART-RECOVERY1-EXECUTION",
+  "status": "BOTH_CORRECTED_RECIPIENTS_RUNNING_NUMERICAL_INCREMENTS",
   "agent": "codex",
-  "phase": "Persistent workflow corrected; both corrected recipient restart datachecks passed; no new submissions",
+  "phase": "Standing grant enrolled; corrected production1413895 and diagnostic1413896 genuinely solving; quota tooling repaired independently",
   "gate_status": "GATE_6B_ACTIVE_EVALUATION_PASS__GATE_6C_STAGE_C1_0_DATACHECK_PASS",
-  "last_updated": "2026-10-16T04:29:33.893976+00:00",
-  "active_pbs_job_ids": [],
+  "last_updated": "2026-10-16T04:39:45.680307+00:00",
+  "active_pbs_job_ids": [
+    "1413895.mmaster02",
+    "1413896.mmaster02"
+  ],
   "dependent_pbs_job_ids": [],
   "deferred_candidate_jobs": [
-    "M1_MB_DONOR_WITH_RESTART (Package 48, 2,906 elements, input deck F737357A..., RESTART WRITE enabled positive control, datacheck Exit 0, ready for execution upon human execution of repaired Set-ControllerAuthorization.ps1)",
-    "M1_MB_RESTART_PROD (Package 48 recipient restart under frozen UEL CE8D5EDC..., input deck C617D831..., blocked on donor completion)",
-    "M1_MB_RESTART_DIAG (Package 48 recipient restart under diagnostic UEL 8C6D8730..., input deck C617D831..., blocked on donor completion)",
     "M1_MC_STAGE_C1_0 (Package 47, 2,906 elements, input deck 8B417E7F..., Abaqus 2023 datacheck Exit 0, staged on /scratch9/pr21vyci/runs/mode1_stage_c1_0_continuation)",
     "PK_M1_COARSE_FINE_CONT (Package 46, 4,900 CPE4 quads, h=14.3 um, input deck 219ACDF2..., Abaqus 2023 datacheck Exit 0, staged on /scratch9/pr21vyci/runs/mode1_package46_coarse_fine_preanalysis)",
     "M1_MC_C1_FORWARD_14K (Package 42 staged on cluster scratch, datacheck exit code 0, nonmatching forward refinement candidate)"
@@ -42,12 +42,12 @@
     "1413817.mmaster02",
     "1413818.mmaster02"
   ],
-  "next_recommended_task": "HUMAN_ENROLL_ONCE_THEN_CONTROLLER_ISSUE_AND_SUBMIT_TWO_CORRECTED_RESTARTS",
+  "next_recommended_task": "COLLECT_TERMINAL_RESULTS_AND_REVIEW_RESTORED_STATE_CONTINUITY_IRREVERSIBILITY_ENERGY",
   "governing_constraints": [
     "Standing research authorization no calendar expiry; machine permit required",
     "Package48 recovery adapter currently supported; scope expansions separately approved",
     "Preserve donor1413814 and all failed-job evidence",
     "No consumed permit resets; one qualified technical replacement per failed chain"
   ],
-  "notes": "Actual standing issuance denied absent enrolled grant; full batch1 remains3/3 consumed; MethodB1413296 terminal F Exit1; recipient numerical increments not yet obtained."
+  "notes": "Standing grant active no calendar expiry; derived permit2/2 consumed with exact commands once each. No further technical replacement under this recovery chain. Account1 selected; no loop/worker change; missing Gemini quota is unavailable."
 }

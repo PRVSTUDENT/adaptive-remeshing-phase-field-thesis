@@ -1,4 +1,4 @@
-﻿[CmdletBinding()]
+[CmdletBinding()]
 param([Parameter(Mandatory)][ValidateSet('restart_prod','restart_diag')][string]$Job,[switch]$DryRun)
 $ErrorActionPreference='Stop'
 $repo='D:\Master thesis\Adaptive remeshing'
@@ -26,7 +26,7 @@ try{
  if($id -notmatch '^\d+\.mmaster02$'){throw 'Unrecognized scheduler response; reconcile scheduler before any further action; no retry'}
  $name=if($Job -eq 'restart_prod'){'M1_MB_RST_PROD'}else{'M1_MB_RST_DIAG'}
  # Source real helper, which resolves NOTIFICATION_CONFIG (mode600); both transports.
- $notification='source /scratch9/pr21vyci/runs/mode1_package48_restart_control/job_notifications.sh; notification_load_config; notify_submitted '+$id+' '+$name+' entry_imfdfkmq'
+ $notification='bash /scratch9/pr21vyci/runs/mode1_package48_restart_control/notify_package48_submitted.sh '+$id+' '+$name
  & powershell -NoProfile -ExecutionPolicy Bypass -File .\.agents\scripts\Invoke-GuardedSsh.ps1 -RemoteCommand $notification
  if($LASTEXITCODE -ne 0){throw "PBS accepted $id; SUBMITTED notification failed; preserve job and do not resubmit"}
 }finally{Pop-Location}

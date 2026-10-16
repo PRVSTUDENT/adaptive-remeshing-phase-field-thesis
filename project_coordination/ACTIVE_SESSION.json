@@ -1,21 +1,19 @@
 {
   "active": false,
   "agent": "codex",
-  "task_id": "STANDING-AUTHORIZATION-METHOD-C",
-  "claimed_at": "2026-10-16T06:20:41.7936016+02:00",
-  "released_at": "2026-10-16T04:29:33.893976+00:00",
-  "starting_commit": "42fe5979ed8ff49b3a48133a3834c7ded67fe9c3",
+  "task_id": "AGY-QUOTA-PROFILE-REPAIR",
+  "claimed_at": "2026-10-16T06:34:07.3361510+02:00",
+  "released_at": "2026-10-16T04:39:45.680307+00:00",
+  "starting_commit": "22946a77a84478397db86670dc5f34f6d644c148",
   "allowed_write_scope": [
-    "AGENTS.md",
-    ".agents/scripts/bridge_rules.txt",
-    ".agents/scripts/project_alignment_guard.txt",
-    ".agents/scripts/Invoke-ChatGPTBridge.ps1",
-    ".agents/qsub-safety-gate.ps1",
-    "scripts/hpc/",
+    "C:/Users/pruth/OpenClawPAD/Refresh-AgyAccounts.ps1",
+    "C:/Users/pruth/OpenClawPAD/agy_profile_quota.py",
+    "C:/Users/pruth/OpenClawPAD/Test-AgyAccountRefresh.ps1",
+    "C:/Users/pruth/AppData/Local/agy-profile/agy-profile.ps1",
     "tests/unit/",
-    "models/pandey_kumar_mode1/48_method_c_stage_c1_0_restart_positive_control/",
     "project_coordination/",
-    "C:/Users/pruth/OpenClawPAD/Set-ControllerAuthorization.ps1"
+    "scripts/hpc/Submit-Package48Recovery.ps1",
+    "scripts/hpc/notify_package48_submitted.sh"
   ],
-  "session_report": "project_coordination/sessions/2026-10-16_codex_STANDING-AUTHORIZATION-METHOD-C.md"
+  "session_report": "project_coordination/sessions/2026-10-16_codex_AGY-QUOTA-PROFILE-REPAIR.md"
 }
