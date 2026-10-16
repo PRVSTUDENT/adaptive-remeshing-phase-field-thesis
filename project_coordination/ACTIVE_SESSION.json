@@ -1,23 +1,15 @@
 {
   "active": false,
-  "agent": "codex",
-  "task_id": "PACKAGE49-EXISTING-PERMIT-EXECUTION",
-  "claimed_at": "2026-10-16T12:37:12.5469206+02:00",
-  "released_at": "2026-10-16T10:59:41.439286+00:00",
-  "starting_commit": "91e5fc13d41805fd4c8e69c7f94eb4470f462b9f",
+  "agent": "gemini-antigravity",
+  "task_id": "F1503-DIAGNOSE-PACKAGE49-CONTINUITY-FAILURE",
+  "claimed_at": "2026-10-16T13:14:00+02:00",
+  "released_at": "2026-10-16T13:32:00+02:00",
+  "starting_commit": "b10fdc4cd520bf786563678f344ca16bdee0283a",
   "allowed_write_scope": [
     "project_coordination/",
-    "scripts/hpc/Invoke-StandingAuthorization.ps1",
+    "scripts/",
     "tests/unit/",
-    "scripts/state_transfer/",
-    "scripts/hpc/",
-    ".agents/qsub-safety-gate.ps1",
-    ".agents/scripts/bridge_rules.txt",
-    ".agents/scripts/project_alignment_guard.txt",
-    "AGENTS.md",
-    "C:/Users/pruth/OpenClawPAD/Set-ControllerAuthorization.ps1",
-    ".agents/scripts/Invoke-ChatGPTBridge.ps1",
-    "C:/Users/pruth/OpenClawPAD/Antigravity-Autonomous-Loop.ps1"
+    "models/pandey_kumar_mode1/49_method_c_stage_c1_1_nonmatching_transfer/"
   ],
-  "session_report": "project_coordination/sessions/2026-10-16_codex_PACKAGE49-EXISTING-PERMIT-EXECUTION.md"
+  "session_report": "project_coordination/sessions/2026-10-16_gemini-antigravity_F1503-DIAGNOSE-PACKAGE49-CONTINUITY-FAILURE.md"
 }
