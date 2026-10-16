@@ -1,13 +1,11 @@
 {
-  "task_id": "F1518-VALIDATE-GROUND-TRUTH-EXTRACTION-AND-ADVANCE-GATE-6C",
-  "status": "HARDENED_PIPELINE_VALIDATED__EMPIRICAL_AUDIT_CODIFIED__60_OF_60_TESTS_PASS__GATE_6C_HOLD",
+  "task_id": "F1519-VERIFY-ALTERNATIVE-PBS-QUEUES-AND-PREPARE-TRIO-EVALUATION",
+  "status": "ALTERNATIVE_QUEUES_AUDITED__AUTOQUEUE_DEBIASED__DIAGNOSTIC_CONTROLS_EVALUATED_CASE_B__BASELINE_RUNNING",
   "agent": "gemini-antigravity",
-  "phase": "Task F1518 complete: Validated and hardened ground-truth extraction (extract_enriched_baseline_ground_truth.py) and evaluation pipeline (evaluate_mode1_diagnostic_trio.py); audited empirical UEL nodal DOF-3 (U3=d) hypothesis with physical cross-validation bounds; corrected 4-case decision matrix interpretation by eliminating unsupported continuum singularity assertions; preserved 3 queued diagnostic jobs (1414558, 1414563, 1414571) in normal_imfdfkmq with zero additional submissions; verified 60/60 active regression tests (F1507-F1518) pass; Gate 6C hold preserved.",
-  "gate_status": "GATE_6B_PASS__STAGE_C1_0_CLOSED_PASSED__STAGE_C1_1_DIAGNOSTICS_QUEUED__GATE_6C_HOLD",
-  "last_updated": "2026-10-16T19:40:00+02:00",
+  "phase": "Task F1519 complete: Audited alternative PBS queues (shortq, mediumq, longq, short_imfdfkmq, normal_imfdfkmq) and classified cross-pool saturated dispatch latency as EARLIEST_START_UNDETERMINED; de-biased mode1_queue_selector.py against raw static priority bias; observed simultaneous dispatch and Exit 0 completion of same-mesh diagnostic controls 1414558 and 1414563; evaluated results with evaluate_mode1_diagnostic_trio.py formally establishing Case B (lumped projection smoothing defect isolated, consistent inverse qualified); continuous baseline Job 1414571 actively solving past inc 135; 66/66 active tests pass; Gate 6C hold preserved pending baseline completion.",
+  "gate_status": "GATE_6B_PASS__STAGE_C1_0_CLOSED_PASSED__CASE_B_ESTABLISHED__BASELINE_RUNNING__GATE_6C_HOLD",
+  "last_updated": "2026-10-16T20:05:00+02:00",
   "active_pbs_job_ids": [
-    "1414558.mmaster02",
-    "1414563.mmaster02",
     "1414571.mmaster02"
   ],
   "dependent_pbs_job_ids": [],
@@ -47,14 +45,16 @@
     "1413896.mmaster02",
     "1414235.mmaster02",
     "1414505.mmaster02",
-    "1414550.mmaster02"
+    "1414550.mmaster02",
+    "1414558.mmaster02",
+    "1414563.mmaster02"
   ],
-  "next_recommended_task": "MONITOR_DIAGNOSTIC_TRIO_AND_EVALUATE_UPON_COMPLETION",
+  "next_recommended_task": "MONITOR_ENRICHED_BASELINE_AND_EVALUATE_CASE_D_GROUND_TRUTH",
   "governing_constraints": [
     "No per-job human authorization or machine-credential activation in current Mode-I execution",
     "Technical preflight, frozen source/manifest/resource limits and once-only accounting mandatory",
     "Forward requires actual predecessor scientific PASS and displacement/damage/history/energy evidence",
     "Do not rerun identical jobs or manufacture solver/state evidence"
   ],
-  "notes": "Task F1518 completed: Validated ground truth extraction and evaluation pipeline; audited empirical UEL nodal DOF-3 (U3=d) hypothesis with physical cross-validation bounds; corrected 4-case decision matrix interpretation; preserved 3 queued diagnostic jobs (1414558, 1414563, 1414571) in normal_imfdfkmq; 7/7 unit tests pass (60 active battery); Gate 6C hold preserved."
+  "notes": "Task F1519 complete: Audited alternative PBS queues; classified cross-pool saturated dispatch latency as EARLIEST_START_UNDETERMINED; de-biased mode1_queue_selector.py; observed simultaneous dispatch and Exit 0 completion of same-mesh diagnostic controls 1414558 and 1414563; evaluated results with evaluate_mode1_diagnostic_trio.py formally establishing Case B (lumped projection smoothing defect isolated, consistent inverse qualified); continuous baseline Job 1414571 actively solving past inc 135; 66/66 active tests pass; Gate 6C hold preserved pending baseline completion."
 }

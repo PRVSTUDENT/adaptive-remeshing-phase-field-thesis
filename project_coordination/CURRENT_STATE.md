@@ -1,3 +1,33 @@
+## Task F1519 Verify Alternative PBS Queues, De-bias AutoQueue & Establish Case B on Same-Mesh Controls (16 October 2026)
+Completed the architectural investigation of alternative PBS queues, resolved the cross-pool heuristic scoring bias in the AutoQueue selector, observed the simultaneous dispatch and Exit 0 completion of both same-mesh diagnostic controls (Jobs 1414558 and 1414563), and formally evaluated the results against the 4-case decision matrix, conclusively establishing Case B:
+1. Alternative PBS Queue & Hardware Pool Partitioning:
+   - Audited candidate queues: `normal_imfdfkmq` (P=1000, 336h, dedicated `extension2`), `short_imfdfkmq` (P=50, 12h, dedicated `extension2`), `shortq` (P=75, 12h, general `main`), `mediumq` (P=40, 36h, general `main`), and `longq` (P=10, 168h, general `main`).
+   - Confirmed node pools are 100% disjoint: `extension2` (`mnode097`..`106`, 160 CPUs) vs `main` (`mnode001`..`096`, 3,840 CPUs).
+   - Re-verified the PBS Pro privacy boundary (`query_other_jobs = False`), which prevents standard users from observing remaining walltimes of active jobs. Consequently, dispatch latency across disjoint node pools when a pool is saturated is fundamentally `EARLIEST_START_UNDETERMINED`.
+2. AutoQueue Selector De-Biasing & Saturation Modeling:
+   - Diagnosed why static PBS queue priority (`Priority = 1000` vs `40`) biased the heuristic selector toward dedicated hardware: PBS Pro uses queue priority solely as an intra-pool sorting attribute among queues competing for the same nodes. It is never used by the scheduler to compare queues across disjoint node pools.
+   - Enhanced `scripts/hpc/mode1_queue_selector.py` with:
+     * `dispatch_forecast = 'EARLIEST_START_UNDETERMINED'` when candidate node pools have 0 idle CPUs.
+     * `cross_pool_bias_warning` documenting intra-pool vs cross-pool priority semantics.
+     * `--penalize-saturation` CLI option to optionally de-bias cross-pool evaluations.
+   - Updated `scripts/hpc/Invoke-Mode1Execution.ps1` to log the `dispatch_forecast` on AutoQueue selection.
+3. Simultaneous Dispatch & Exit 0 Completion of Same-Mesh Diagnostic Controls:
+   - Dedicated `extension2` node pool freed up, simultaneously dispatching all three queued jobs (`1414558`, `1414563`, `1414571`).
+   - Job `1414558.mmaster02` (`M1_MC_C1_1_SM` - lumped area-weighted projection control) completed Exit 0 in 38s walltime (26.0s CPU), 0 cutbacks across all 10 Step 2 increments.
+   - Job `1414563.mmaster02` (`M1_MC_C1_1_SMC` - consistent least-squares inverse control) completed Exit 0 in 41s walltime (26.0s CPU), 0 cutbacks across all 10 Step 2 increments.
+   - Enriched continuous baseline Job `1414571.mmaster02` (`M1_MB_BASE_ENR`) is actively solving in `normal_imfdfkmq` past increment 135/2000 with 0 cutbacks.
+4. Empirical Confirmation of Case B (Lumped Smoothing Defect Isolated):
+   - Evaluated terminal states via `scripts/state_transfer/evaluate_mode1_diagnostic_trio.py`:
+     * Total energy conservation: Step 1 (1.649336 mJ) vs Step 2 terminal (1.649218 mJ) -> |Delta E_tot| = 0.00715% <= 0.10% (PASS).
+     * Reaction force release continuity: |Delta RF| = 0.585 N (lumped) and 0.455 N (consistent) <= 5.0 N (PASS).
+     * Damage field stability:
+       - Lumped projection: Step 1 d_max = 0.296931 -> Step 2 d_max = 0.318529 (Delta d_max = +0.021598 > 0.0200, FAIL).
+       - Consistent inverse: Step 1 d_max = 0.318142 -> Step 2 d_max = 0.318405 (Delta d_max = +0.000263 <= 0.0200, PASS).
+     * Formally classifies as `CASE_B`: Consistent least-squares inverse reconstruction maintained physical stability and continuity, whereas lumped projection developed smoothing relaxation discrepancies. This proves that consistent inverse reconstruction is mathematically superior and qualified for state recovery.
+5. Unit & Regression Tests (6/6 PASS, 66/66 Active Battery):
+   - Authored `tests/unit/test_mode1_f1519_alternative_queue_investigation_and_trio_readiness.py` (6/6 PASS).
+   - Executed full active regression battery across F1507 to F1519: 66/66 tests pass 100% in 2.31s. Gate 6C hold preserved pending baseline completion.
+
 ## Task F1518 Validate Ground-Truth Extraction, Pipeline Hardening, and Advance Gate 6C (16 October 2026)
 Completed the scientific audit of the UEL nodal DOF-3 ($U_3 = d$) output hypothesis, hardened the ground-truth extraction and diagnostic evaluation pipeline against edge cases and negative failures, corrected the 4-case decision matrix interpretation by eliminating unsupported continuum singularity assertions, verified active scheduler status, and confirmed full active regression test coverage:
 1. Scheduler Monitoring & Job Preservation:

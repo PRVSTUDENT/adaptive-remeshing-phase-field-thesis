@@ -21,8 +21,9 @@ if($AutoQueue){
     $selectedQueue = $evalOutput.selected_submission_queue
     $targetExecQueue = $evalOutput.selected_execution_queue
     $score = $evalOutput.effective_score
+    $forecast = if($evalOutput.dispatch_forecast){$evalOutput.dispatch_forecast}else{'EARLIEST_START_UNDETERMINED'}
     $class = if($evalOutput.classification){$evalOutput.classification}else{'HEURISTIC_RECOMMENDATION_ONLY'}
-    Write-Output "AUTO_QUEUE_SELECTION [$class]: selected '$selectedQueue' (target: $targetExecQueue, score: $score, details: $($evalOutput.explanation))"
+    Write-Output "AUTO_QUEUE_SELECTION [$class]: selected '$selectedQueue' (target: $targetExecQueue, score: $score, forecast: $forecast, details: $($evalOutput.explanation))"
     if($firstJob.queue -and $firstJob.queue -ne $selectedQueue){
         Write-Output "AUTO_QUEUE_NOTICE: manifest declares queue '$($firstJob.queue)', auto-selected queue is '$selectedQueue'"
     }

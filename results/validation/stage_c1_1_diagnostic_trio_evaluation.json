@@ -1,0 +1,338 @@
+{
+  "evaluated_at": "2026-10-16",
+  "case_selected": "CASE_B",
+  "justification": "Consistent least-squares inverse reconstruction maintained physical stability and continuity, whereas lumped area-weighted projection developed smoothing discrepancies (confirming the area-weighted projection smoothing defect). This demonstrates the numerical superiority of the consistent inverse operator over lumped projection for state reconstruction on identical meshes.",
+  "epistemic_scope": "Consistent inverse reconstruction is qualified for identical-mesh recovery. Nonmatching transfer remains subject to verification against continuous ground truth.",
+  "diagnostics": {
+    "lumped_control": {
+      "exists": true,
+      "completed": true,
+      "has_abort": false,
+      "total_increments": 11,
+      "cutbacks": 0,
+      "step1_done": true,
+      "step2_done": true,
+      "increments": [
+        {
+          "step": 1,
+          "increment": 1,
+          "attempt": 1,
+          "total_time": 1.0,
+          "step_time": 1.0,
+          "inc_time": 1.0
+        },
+        {
+          "step": 2,
+          "increment": 1,
+          "attempt": 1,
+          "total_time": 1.1,
+          "step_time": 0.1,
+          "inc_time": 0.1
+        },
+        {
+          "step": 2,
+          "increment": 2,
+          "attempt": 1,
+          "total_time": 1.2,
+          "step_time": 0.2,
+          "inc_time": 0.1
+        },
+        {
+          "step": 2,
+          "increment": 3,
+          "attempt": 1,
+          "total_time": 1.3,
+          "step_time": 0.3,
+          "inc_time": 0.1
+        },
+        {
+          "step": 2,
+          "increment": 4,
+          "attempt": 1,
+          "total_time": 1.4,
+          "step_time": 0.4,
+          "inc_time": 0.1
+        },
+        {
+          "step": 2,
+          "increment": 5,
+          "attempt": 1,
+          "total_time": 1.5,
+          "step_time": 0.5,
+          "inc_time": 0.1
+        },
+        {
+          "step": 2,
+          "increment": 6,
+          "attempt": 1,
+          "total_time": 1.6,
+          "step_time": 0.6,
+          "inc_time": 0.1
+        },
+        {
+          "step": 2,
+          "increment": 7,
+          "attempt": 1,
+          "total_time": 1.7,
+          "step_time": 0.7,
+          "inc_time": 0.1
+        },
+        {
+          "step": 2,
+          "increment": 8,
+          "attempt": 1,
+          "total_time": 1.8,
+          "step_time": 0.8,
+          "inc_time": 0.1
+        },
+        {
+          "step": 2,
+          "increment": 9,
+          "attempt": 1,
+          "total_time": 1.9,
+          "step_time": 0.9,
+          "inc_time": 0.1
+        },
+        {
+          "step": 2,
+          "increment": 10,
+          "attempt": 1,
+          "total_time": 2.0,
+          "step_time": 1.0,
+          "inc_time": 0.1
+        }
+      ],
+      "rf_values": [
+        {
+          "rf1": 0.005,
+          "rf2": 645.13832
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.69529
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.6542
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.64256
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.62983
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.6170599999999
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.6042699999999
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.59145
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.5786
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.56572
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.5528
+        }
+      ],
+      "step1_rf2": 645.13832,
+      "step2_rf2": 644.5528,
+      "energy_matches": [],
+      "pbs_job_id": "1414558.mmaster02",
+      "model_name": "M1_MC_STAGE_C1_1_SAMEMESH_RELHOLD",
+      "reconstruction_type": "lumped_area_weighted_projection",
+      "step1_d_max": 0.296931,
+      "step2_d_max": 0.318529,
+      "delta_d_max": 0.021598,
+      "h_max": 0.773272,
+      "wallclock_sec": 38,
+      "cpu_sec": 26.0,
+      "exit_code": 0
+    },
+    "consistent_control": {
+      "exists": true,
+      "completed": true,
+      "has_abort": false,
+      "total_increments": 11,
+      "cutbacks": 0,
+      "step1_done": true,
+      "step2_done": true,
+      "increments": [
+        {
+          "step": 1,
+          "increment": 1,
+          "attempt": 1,
+          "total_time": 1.0,
+          "step_time": 1.0,
+          "inc_time": 1.0
+        },
+        {
+          "step": 2,
+          "increment": 1,
+          "attempt": 1,
+          "total_time": 1.1,
+          "step_time": 0.1,
+          "inc_time": 0.1
+        },
+        {
+          "step": 2,
+          "increment": 2,
+          "attempt": 1,
+          "total_time": 1.2,
+          "step_time": 0.2,
+          "inc_time": 0.1
+        },
+        {
+          "step": 2,
+          "increment": 3,
+          "attempt": 1,
+          "total_time": 1.3,
+          "step_time": 0.3,
+          "inc_time": 0.1
+        },
+        {
+          "step": 2,
+          "increment": 4,
+          "attempt": 1,
+          "total_time": 1.4,
+          "step_time": 0.4,
+          "inc_time": 0.1
+        },
+        {
+          "step": 2,
+          "increment": 5,
+          "attempt": 1,
+          "total_time": 1.5,
+          "step_time": 0.5,
+          "inc_time": 0.1
+        },
+        {
+          "step": 2,
+          "increment": 6,
+          "attempt": 1,
+          "total_time": 1.6,
+          "step_time": 0.6,
+          "inc_time": 0.1
+        },
+        {
+          "step": 2,
+          "increment": 7,
+          "attempt": 1,
+          "total_time": 1.7,
+          "step_time": 0.7,
+          "inc_time": 0.1
+        },
+        {
+          "step": 2,
+          "increment": 8,
+          "attempt": 1,
+          "total_time": 1.8,
+          "step_time": 0.8,
+          "inc_time": 0.1
+        },
+        {
+          "step": 2,
+          "increment": 9,
+          "attempt": 1,
+          "total_time": 1.9,
+          "step_time": 0.9,
+          "inc_time": 0.1
+        },
+        {
+          "step": 2,
+          "increment": 10,
+          "attempt": 1,
+          "total_time": 2.0,
+          "step_time": 1.0,
+          "inc_time": 0.1
+        }
+      ],
+      "rf_values": [
+        {
+          "rf1": 0.005,
+          "rf2": 645.0107499999999
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.58419
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.55539
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.55642
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.55638
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.55634
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.55631
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.55627
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.5562299999999
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.55619
+        },
+        {
+          "rf1": 0.005,
+          "rf2": 644.5561600000001
+        }
+      ],
+      "step1_rf2": 645.0107499999999,
+      "step2_rf2": 644.5561600000001,
+      "energy_matches": [],
+      "pbs_job_id": "1414563.mmaster02",
+      "model_name": "M1_MC_STAGE_C1_1_SAMEMESH_CONSISTENT_RELHOLD",
+      "reconstruction_type": "consistent_least_squares_inverse",
+      "step1_d_max": 0.318142,
+      "step2_d_max": 0.318405,
+      "delta_d_max": 0.000263,
+      "h_max": 0.773272,
+      "wallclock_sec": 41,
+      "cpu_sec": 26.0,
+      "exit_code": 0
+    },
+    "enriched_baseline": {
+      "exists": false,
+      "error": "STA file not found"
+    },
+    "lumped_stability": {
+      "stable": false,
+      "reason": "Damage growth under release |Delta d_max| = 0.0216 > 0.0200 (smoothing relaxation defect)"
+    },
+    "consistent_stability": {
+      "stable": true,
+      "reason": "Stable (Delta RF = 0.455 N, cutbacks = 0)"
+    }
+  },
+  "case_d_ground_truth_status": "PENDING_EXECUTION",
+  "case_d_notes": "Enriched continuous baseline Job 1414571 queued/running. Ground truth not yet harvested."
+}

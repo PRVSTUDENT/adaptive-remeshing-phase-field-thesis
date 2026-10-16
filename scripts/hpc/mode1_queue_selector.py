@@ -16,6 +16,20 @@ bounded to heuristic scoring:
 This score provides a comparative ranking metric and is formally classified as
 HEURISTIC_RECOMMENDATION_ONLY.
 
+Note on Intra-Pool vs Inter-Pool Queue Priority Bias:
+In PBS Pro, queue priority (e.g. 1000 for normal_imfdfkmq vs 50 for short_imfdfkmq
+vs 40 for mediumq vs 75 for shortq) is an INTRA-POOL ranking attribute used by the
+scheduler to resolve contention among jobs competing for the SAME node pool.
+The scheduler never compares normal_imfdfkmq against mediumq because their node sets
+(extension2 vs main) are 100% disjoint (disjoint Qlists).
+When a node pool is 100% saturated (e.g. extension2 with 0 idle CPUs), comparing raw
+static priorities across disjoint pools creates an artificial mathematical bias
+favoring normal_imfdfkmq despite dispatch delays.
+Because PBS Pro enforces 'query_other_jobs = False', remaining walltimes of active jobs
+are unobservable. Thus, any cross-pool dispatch forecast during pool saturation is
+formally:
+    EARLIEST_START_UNDETERMINED
+
 Supports offline simulation for testing as well as live cluster evaluation.
 """
 from __future__ import annotations
@@ -27,6 +41,9 @@ import sys
 from typing import Any, Dict, List, Optional, Tuple
 
 CLASSIFICATION = "HEURISTIC_RECOMMENDATION_ONLY"
+DISPATCH_FORECAST_UNDETERMINED = "EARLIEST_START_UNDETERMINED"
+DISPATCH_FORECAST_IMMEDIATE = "IMMEDIATE_DISPATCH_CAPACITY_AVAILABLE"
+DISPATCH_FORECAST_QUEUED = "QUEUED_PENDING_DISPATCH"
 
 # Static configuration of known queues on TU Freiberg HPC (mmaster02)
 KNOWN_QUEUES = {
@@ -122,11 +139,12 @@ def score_queue(
     queue_telemetry: Dict[str, Dict[str, int]],
     node_idle_cpus: Dict[str, int] | None = None,
     allow_general_pool: bool = True,
+    penalize_pool_saturation: bool = False,
 ) -> Tuple[float, str, str]:
     """Compute heuristic dispatch score for a candidate queue.
 
     Score formulation (HEURISTIC_RECOMMENDATION_ONLY):
-        Score = Priority - (10.0 * queued_jobs) + (1.5 * idle_cpus)
+        Score = Priority - (10.0 * queued_jobs) + (1.5 * idle_cpus) - (saturation_penalty if enabled)
 
     Returns:
         (score, recommended_submission_queue, explanation)
@@ -165,13 +183,20 @@ def score_queue(
     penalty_per_queued = 10.0
     bonus_per_idle_cpu = 1.5
 
-    score = priority - (penalty_per_queued * queued) + (bonus_per_idle_cpu * idle_cpus)
+    # Optional saturation penalty for cross-pool de-biasing
+    saturation_penalty = 0.0
+    if penalize_pool_saturation and idle_cpus == 0 and queued > 0:
+        saturation_penalty = 500.0
+
+    score = priority - (penalty_per_queued * queued) + (bonus_per_idle_cpu * idle_cpus) - saturation_penalty
 
     explanation = (
         f"Priority={priority}, Queued={queued} (penalty -{penalty_per_queued*queued:.0f}), "
         f"Running={running}, IdlePoolCPUs={idle_cpus} (bonus +{bonus_per_idle_cpu*idle_cpus:.0f}), "
         f"Dedicated={qinfo['dedicated_to']}"
     )
+    if saturation_penalty > 0:
+        explanation += f" (saturation penalty -{saturation_penalty:.0f})"
     return score, sub_queue, explanation
 
 
@@ -182,11 +207,12 @@ def select_best_queue(
     node_idle_cpus: Dict[str, int] | None = None,
     allow_general_pool: bool = True,
     prefer_dedicated_hardware: bool = True,
+    penalize_pool_saturation: bool = False,
 ) -> Dict[str, Any]:
     """Select the optimal submission queue across all candidate queues.
 
-    Returns dictionary with selected queue, ranking list, and
-    classification marked as HEURISTIC_RECOMMENDATION_ONLY.
+    Returns dictionary with selected queue, ranking list, dispatch forecast,
+    and classification marked as HEURISTIC_RECOMMENDATION_ONLY.
     """
     if queue_telemetry is None:
         # Default snapshot matching current live observation
@@ -215,12 +241,24 @@ def select_best_queue(
             queue_telemetry=queue_telemetry,
             node_idle_cpus=node_idle_cpus,
             allow_general_pool=allow_general_pool,
+            penalize_pool_saturation=penalize_pool_saturation,
         )
 
         # Dedicated hardware preference bonus
         effective_score = score
         if prefer_dedicated_hardware and KNOWN_QUEUES[qname]['dedicated_to'] == 'IMFD-FKM':
             effective_score += 50.0  # Stable IMFD environment bonus
+
+        qinfo = KNOWN_QUEUES[qname]
+        pool_idle = node_idle_cpus.get(qinfo['node_pool'], 0) if node_idle_cpus else 0
+        pool_sat = (pool_idle == 0)
+        q_telem = queue_telemetry.get(qname, {'running': 0, 'queued': 0})
+        if pool_sat and q_telem['queued'] > 0:
+            dispatch_f = DISPATCH_FORECAST_UNDETERMINED
+        elif pool_idle >= requested_cpus and q_telem['queued'] == 0:
+            dispatch_f = DISPATCH_FORECAST_IMMEDIATE
+        else:
+            dispatch_f = DISPATCH_FORECAST_QUEUED
 
         rankings.append({
             'execution_queue': qname,
@@ -230,16 +268,37 @@ def select_best_queue(
             'feasible': score > -1e8,
             'explanation': expl,
             'dedicated_to': KNOWN_QUEUES[qname]['dedicated_to'],
+            'node_pool': qinfo['node_pool'],
+            'pool_idle_cpus': pool_idle,
+            'pool_saturated': pool_sat,
+            'dispatch_forecast': dispatch_f,
         })
 
     rankings.sort(key=lambda x: x['effective_score'], reverse=True)
     winner = rankings[0]
+
+    winner_qinfo = KNOWN_QUEUES[winner['execution_queue']]
+    winner_pool_idle = node_idle_cpus.get(winner_qinfo['node_pool'], 0) if node_idle_cpus else 0
+    winner_telem = queue_telemetry.get(winner['execution_queue'], {'running': 0, 'queued': 0})
+    if winner_pool_idle == 0 and winner_telem['queued'] > 0:
+        overall_forecast = DISPATCH_FORECAST_UNDETERMINED
+    elif winner_pool_idle >= requested_cpus and winner_telem['queued'] == 0:
+        overall_forecast = DISPATCH_FORECAST_IMMEDIATE
+    else:
+        overall_forecast = DISPATCH_FORECAST_QUEUED
 
     return {
         'classification': CLASSIFICATION,
         'selected_submission_queue': winner['submission_queue'],
         'selected_execution_queue': winner['execution_queue'],
         'effective_score': winner['effective_score'],
+        'dispatch_forecast': overall_forecast,
+        'cross_pool_bias_warning': (
+            'Static PBS queue priority is an intra-pool ranking metric. '
+            'Across disjoint node pools (extension2 vs main), dispatch latency depends on unobservable '
+            'remaining walltimes of running jobs (query_other_jobs=False) and is EARLIEST_START_UNDETERMINED '
+            'when the pool is saturated.'
+        ),
         'explanation': winner['explanation'],
         'rankings': rankings,
     }
@@ -250,6 +309,7 @@ def main():
     parser.add_argument('--walltime', type=float, default=1.0, help='Requested walltime in hours')
     parser.add_argument('--cpus', type=int, default=1, help='Requested CPUs')
     parser.add_argument('--disallow-general', action='store_true', help='Disallow general pool queues')
+    parser.add_argument('--penalize-saturation', action='store_true', help='Apply pool saturation penalty for cross-pool de-biasing')
     parser.add_argument('--json', action='store_true', help='Output JSON format')
     args = parser.parse_args()
 
@@ -257,6 +317,7 @@ def main():
         requested_walltime_hours=args.walltime,
         requested_cpus=args.cpus,
         allow_general_pool=not args.disallow_general,
+        penalize_pool_saturation=args.penalize_saturation,
     )
 
     if args.json:
@@ -266,11 +327,13 @@ def main():
         print(f"Optimal Submission Queue: {result['selected_submission_queue']}")
         print(f"Target Execution Queue:   {result['selected_execution_queue']}")
         print(f"Effective Score:          {result['effective_score']:.1f}")
+        print(f"Dispatch Forecast:        {result['dispatch_forecast']}")
         print(f"Details:                  {result['explanation']}")
+        print(f"Cross-Pool Note:          {result['cross_pool_bias_warning']}")
         print("\nQueue Ranking Hierarchy:")
         for i, r in enumerate(result['rankings'], 1):
             status = 'FEASIBLE' if r['feasible'] else 'DISQUALIFIED'
-            print(f"  {i}. {r['execution_queue']:<16} -> {r['submission_queue']:<16} [Score: {r['effective_score']:>7.1f}] ({status})")
+            print(f"  {i}. {r['execution_queue']:<16} -> {r['submission_queue']:<16} [Score: {r['effective_score']:>7.1f}] ({status}, forecast: {r['dispatch_forecast']})")
 
 
 if __name__ == '__main__':

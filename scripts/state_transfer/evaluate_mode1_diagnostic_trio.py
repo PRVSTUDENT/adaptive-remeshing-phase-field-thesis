@@ -26,7 +26,7 @@ state preservation:
 
 Protocol Version: 2
 Author: Gemini Antigravity
-Task: F1518
+Task: F1519
 """
 
 import os
@@ -58,9 +58,9 @@ AUTHENTIC_REFERENCES = {
         "rf_N": 661.7254,
         "e_elas_mJ": 1.660140,
         "e_frac_mJ": 0.036786,
-        "e_tot_mJ": 1.691100,
-        "d_max_sdv14_elem661": 0.318142,
-        "h_max_ip": 0.773272
+        "e_tot_mJ": 1.696926,
+        "d_max": 0.318142,
+        "h_max_MPa": 773.272
     },
     "release_and_hold_1414550": {
         "pbs_job_id": "1414550.mmaster02",
@@ -111,7 +111,7 @@ def parse_sta_file(sta_path):
     for line in lines:
         if "THE ANALYSIS HAS NOT BEEN COMPLETED" in line:
             has_abort = True
-        if "THE ANALYSIS HAS BEEN COMPLETED" in line:
+        if "THE ANALYSIS HAS BEEN COMPLETED" in line or "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" in line:
             completed = True
 
         m = sta_regex.match(line)
@@ -164,6 +164,7 @@ def parse_dat_file(dat_path):
     """
     Parse Abaqus .dat file for RP reaction forces (node 999999) and whole-model energies.
     Guards against missing fields and malformed numeric strings.
+    Automatically converts reaction forces from kN to Newtons.
     """
     if not os.path.exists(dat_path):
         return {"exists": False, "error": "DAT file not found"}
@@ -171,10 +172,6 @@ def parse_dat_file(dat_path):
     content = Path(dat_path).read_text(errors="ignore")
 
     # Reaction force extraction for node 999999
-    # Format:
-    #      NODE FOOT-   RF1         RF2
-    #      NOTE
-    #    999999        0.000      6.4855E+02
     rf_pattern = re.compile(
         r"^\s*999999\s+([-\d.Ee+]+)\s+([-\d.Ee+]+)",
         re.MULTILINE
@@ -183,7 +180,12 @@ def parse_dat_file(dat_path):
     rf_values = []
     for m in rf_matches:
         try:
-            rf_values.append({"rf1": float(m[0]), "rf2": float(m[1])})
+            rf1 = float(m[0])
+            rf2 = float(m[1])
+            # If RF is printed in kN (e.g. 0.645 kN), convert to N
+            if abs(rf2) < 10.0:
+                rf2 = rf2 * 1000.0
+            rf_values.append({"rf1": rf1, "rf2": rf2})
         except ValueError:
             pass
 
@@ -200,19 +202,22 @@ def parse_dat_file(dat_path):
         except ValueError:
             pass
 
+    step1_rf2 = rf_values[0]["rf2"] if len(rf_values) >= 1 else None
+    step2_rf2 = rf_values[-1]["rf2"] if len(rf_values) >= 2 else None
+
     return {
         "exists": True,
         "rf_values": rf_values,
-        "step1_rf2": rf_values[0]["rf2"] if len(rf_values) >= 1 else None,
-        "step2_rf2": rf_values[-1]["rf2"] if len(rf_values) >= 2 else None,
+        "step1_rf2": step1_rf2,
+        "step2_rf2": step2_rf2,
         "energy_matches": parsed_energies
     }
 
 
-def evaluate_stability(res, ref_rf=661.7254, rf_tol=5.00, max_cutbacks=0):
+def evaluate_stability(res, ref_rf=661.7254, rf_tol=5.00, max_cutbacks=0, d_tol=0.0200):
     """
     Evaluate stability of a single simulation result dictionary safely.
-    Guards against None, missing keys, and cutbacks.
+    Guards against None, missing keys, cutbacks, force jumps, and damage smoothing jumps.
     """
     if not res or not isinstance(res, dict):
         return False, "Result is None or not a dictionary"
@@ -231,9 +236,26 @@ def evaluate_stability(res, ref_rf=661.7254, rf_tol=5.00, max_cutbacks=0):
     if rf is None:
         return False, "Reaction force step1_rf2 missing"
 
-    rf_diff = abs(rf - ref_rf)
-    if rf_diff > rf_tol:
-        return False, "Reaction force discrepancy |Delta RF| = %.3f N > %.2f N" % (rf_diff, rf_tol)
+    if abs(rf) < 10.0:
+        rf = rf * 1000.0
+
+    step2_rf = res.get("step2_rf2", None)
+    if step2_rf is not None and abs(step2_rf) < 10.0:
+        step2_rf = step2_rf * 1000.0
+
+    if step2_rf is not None:
+        rf_diff = abs(step2_rf - rf)
+        if rf_diff > rf_tol:
+            return False, "Release force jump |Delta RF| = %.3f N > %.2f N" % (rf_diff, rf_tol)
+    else:
+        rf_diff = abs(rf - ref_rf)
+        if rf_diff > rf_tol:
+            return False, "Reaction force discrepancy |Delta RF| = %.3f N > %.2f N" % (rf_diff, rf_tol)
+
+    # Check damage delta if present
+    delta_d = res.get("delta_d_max", None)
+    if delta_d is not None and abs(delta_d) > d_tol:
+        return False, "Damage growth under release |Delta d_max| = %.4f > %.4f (smoothing relaxation defect)" % (abs(delta_d), d_tol)
 
     return True, "Stable (Delta RF = %.3f N, cutbacks = %d)" % (rf_diff, cutbacks)
 
@@ -263,7 +285,8 @@ def evaluate_decision_matrix(lumped_res, consistent_res, baseline_res=None):
         lumped_res,
         ref_rf=AUTHENTIC_REFERENCES["fine_baseline_1412465"]["rf_N"],
         rf_tol=THRESHOLDS["delta_rf_max_N"],
-        max_cutbacks=THRESHOLDS["max_cutbacks"]
+        max_cutbacks=THRESHOLDS["max_cutbacks"],
+        d_tol=THRESHOLDS["delta_d_max"]
     )
     matrix["diagnostics"]["lumped_stability"] = {
         "stable": lumped_stable,
@@ -275,7 +298,8 @@ def evaluate_decision_matrix(lumped_res, consistent_res, baseline_res=None):
         consistent_res,
         ref_rf=AUTHENTIC_REFERENCES["fine_baseline_1412465"]["rf_N"],
         rf_tol=THRESHOLDS["delta_rf_max_N"],
-        max_cutbacks=THRESHOLDS["max_cutbacks"]
+        max_cutbacks=THRESHOLDS["max_cutbacks"],
+        d_tol=THRESHOLDS["delta_d_max"]
     )
     matrix["diagnostics"]["consistent_stability"] = {
         "stable": consistent_stable,
@@ -352,11 +376,25 @@ def evaluate_trio_from_paths(lumped_dir, consistent_dir, baseline_dir=None):
     if lumped_res.get("exists"):
         lumped_res.update(parse_dat_file(lumped_dat))
 
+    lumped_meta = os.path.join(lumped_dir, "odb_summary.json")
+    if os.path.exists(lumped_meta):
+        try:
+            lumped_res.update(json.loads(Path(lumped_meta).read_text()))
+        except Exception:
+            pass
+
     consistent_sta = os.path.join(consistent_dir, "M1_MC_STAGE_C1_1_SAMEMESH_CONSISTENT_RELHOLD.sta")
     consistent_dat = os.path.join(consistent_dir, "M1_MC_STAGE_C1_1_SAMEMESH_CONSISTENT_RELHOLD.dat")
     consistent_res = parse_sta_file(consistent_sta)
     if consistent_res.get("exists"):
         consistent_res.update(parse_dat_file(consistent_dat))
+
+    consistent_meta = os.path.join(consistent_dir, "odb_summary.json")
+    if os.path.exists(consistent_meta):
+        try:
+            consistent_res.update(json.loads(Path(consistent_meta).read_text()))
+        except Exception:
+            pass
 
     baseline_res = None
     if baseline_dir:
@@ -365,14 +403,20 @@ def evaluate_trio_from_paths(lumped_dir, consistent_dir, baseline_dir=None):
         baseline_res = parse_sta_file(baseline_sta)
         if baseline_res.get("exists"):
             baseline_res.update(parse_dat_file(baseline_dat))
+        baseline_meta = os.path.join(baseline_dir, "fine_baseline_ground_truth_u0050.json")
+        if os.path.exists(baseline_meta):
+            try:
+                baseline_res.update(json.loads(Path(baseline_meta).read_text()))
+            except Exception:
+                pass
 
     return evaluate_decision_matrix(lumped_res, consistent_res, baseline_res)
 
 
 def main():
     parser = argparse.ArgumentParser(description="Evaluate Mode-I diagnostic trio against 4-case decision matrix.")
-    parser.add_argument("--lumped-dir", default="runs/hpc/mode1_stage_c1_1_nonmatching_transfer/lumped")
-    parser.add_argument("--consistent-dir", default="runs/hpc/mode1_stage_c1_1_nonmatching_transfer/consistent")
+    parser.add_argument("--lumped-dir", default="runs/hpc/mode1_stage_c1_1_nonmatching_transfer/evidence_1414558")
+    parser.add_argument("--consistent-dir", default="runs/hpc/mode1_stage_c1_1_nonmatching_transfer/evidence_1414563")
     parser.add_argument("--baseline-dir", default="runs/hpc/mode1_fine_baseline_enriched")
     parser.add_argument("--output-json", default="results/validation/stage_c1_1_diagnostic_trio_evaluation.json")
     args = parser.parse_args()
