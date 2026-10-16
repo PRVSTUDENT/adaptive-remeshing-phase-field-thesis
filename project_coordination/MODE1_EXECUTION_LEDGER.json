@@ -160,6 +160,56 @@
         "lifecycle_tests": "PASS"
       },
       "qualified_at": "2026-10-16T12:59:26.969913+00:00"
+    },
+    "33a35306c8f7b7af966956b571383e84345cfd8baa0f617dc838c1f15210442d": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\49_method_c_stage_c1_1_nonmatching_transfer\\METHOD_C_STAGE_C1_1_SAMEMESH_AUTHORIZATION.json",
+      "attempts": {
+        "samemesh_relhold_diagnostic": 1
+      },
+      "audit": [
+        {
+          "job": "samemesh_relhold_diagnostic",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-10-16T13:59:37.899215+00:00",
+          "command_sha256": "dd130c41ddc7fd1396b5abd32a84e38098348b3261dc78bb20c1dbddab51d9ae"
+        }
+      ],
+      "preflight": {
+        "active_job_count": 0,
+        "adapter_contract": "mode1-qualified-batch-v2",
+        "datachecks": {
+          "samemesh_relhold_diagnostic": {
+            "status": "PASS",
+            "input_sha256": "83a1a7bc2b4014f14787b3c6d1fa56c069d9562f3bda27834847d6fcc78e66e8",
+            "dat_sha256": "f5822cf6bb2e3583232dadd2c0377a505c21eea2dde891dcd7548a4bc8d0900c"
+          }
+        },
+        "batch_spec_sha256": "679cba6572666d4c3c8ff2d044cb1a71ec7362128c749c3d98d195659cfa0cfd",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "33a35306c8f7b7af966956b571383e84345cfd8baa0f617dc838c1f15210442d",
+        "authorized_command_sha256": "dd130c41ddc7fd1396b5abd32a84e38098348b3261dc78bb20c1dbddab51d9ae",
+        "checked_at": "2026-10-16T13:59:33.257922+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "M1_MC_STAGE_C1_1_SAMEMESH_RELHOLD.inp": "83a1a7bc2b4014f14787b3c6d1fa56c069d9562f3bda27834847d6fcc78e66e8",
+          "submit_M1_MC_STAGE_C1_1_SAMEMESH_RELHOLD.pbs": "cb54c6622722f13d59547df0c71d409ede072ad27e8d86017164ecf41308b60c",
+          "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+          "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11"
+        },
+        "helper_sha256": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-10-16T13:59:33.716319+00:00"
     }
   }
 }
