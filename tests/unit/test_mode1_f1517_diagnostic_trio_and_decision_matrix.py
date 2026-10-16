@@ -3,7 +3,7 @@
 """
 test_mode1_f1517_diagnostic_trio_and_decision_matrix.py
 ======================================================
-Unit tests for Task F1517:
+Unit tests for Task F1517 / F1518:
 - Evaluation engine for diagnostic trio (1414558, 1414563, 1414571)
 - Rigorous verification of the 4-case evaluation decision matrix
 - STA and DAT parsing mechanisms
@@ -12,7 +12,7 @@ Unit tests for Task F1517:
 
 Protocol Version: 2
 Author: Gemini Antigravity
-Task: F1517
+Task: F1518
 """
 
 import os
@@ -55,7 +55,10 @@ class TestMode1F1517DiagnosticTrio(unittest.TestCase):
         }
         matrix = evaluate_decision_matrix(lumped_mock, consistent_mock)
         self.assertEqual(matrix["case_selected"], "CASE_A")
-        self.assertIn("physical continuum localization", matrix["justification"])
+        self.assertIn("numerically stable", matrix["justification"])
+        self.assertIn("mathematically consistent", matrix["justification"])
+        self.assertIn("epistemic_scope", matrix)
+        self.assertIn("does NOT by itself prove", matrix["epistemic_scope"])
 
     def test_02_decision_matrix_case_b(self):
         """Case B: Lumped control fails, consistent inverse passes."""
@@ -89,7 +92,7 @@ class TestMode1F1517DiagnosticTrio(unittest.TestCase):
         }
         matrix = evaluate_decision_matrix(lumped_mock, consistent_mock)
         self.assertEqual(matrix["case_selected"], "CASE_C")
-        self.assertIn("reformulation", matrix["justification"])
+        self.assertIn("underlying mathematical or numerical defect", matrix["justification"])
 
     def test_04_case_d_ground_truth_flag(self):
         """Case D: Baseline ground truth integration."""

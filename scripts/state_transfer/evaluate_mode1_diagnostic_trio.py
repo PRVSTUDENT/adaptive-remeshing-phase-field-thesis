@@ -13,18 +13,20 @@ Evaluates the physical and numerical state of same-mesh and baseline diagnostics
 against the formal 4-case evaluation decision matrix to resolve Gate 6C
 state preservation:
 - Case A: Both controls stable (|Delta d| <= 0.020, |Delta RF| <= 5 N, |Delta E_tot| <= 0.10%)
-          -> Same-mesh release-and-hold validated; Job 1414550 damage increase proven
-             to be physical singularity sharpening.
+          -> Numerically stable & mathematically consistent same-mesh release-and-hold;
+             rules out algorithmic instability in the release mechanism.
+             (Does NOT by itself prove physical crack-tip singularity sharpening on nonmatching meshes).
 - Case B: Only consistent inverse reconstruction stable
-          -> Lumped projection smoothing defect proven; consistent inverse reconstruction qualified.
+          -> Lumped projection smoothing defect proven; consistent inverse reconstruction qualified
+             for identical-mesh state recovery.
 - Case C: Both controls develop discrepancies
-          -> Step 1 static re-equilibration or release mechanism defective.
+          -> Step 1 static re-equilibration or release mechanism defective; requires reformulation.
 - Case D: Enriched continuous baseline ground truth provides full (u_x, u_y, d, H) fields
           -> Exact pointwise field comparison against transferred states.
 
 Protocol Version: 2
 Author: Gemini Antigravity
-Task: F1517
+Task: F1518
 """
 
 import os
@@ -84,7 +86,11 @@ THRESHOLDS = {
 
 
 def parse_sta_file(sta_path):
-    """Parse Abaqus .sta file for step, increment count, and cutbacks."""
+    """
+    Parse Abaqus .sta file for step, increment count, cutbacks, and completion status.
+    Robust against malformed lines, premature stops, and cutback counting.
+    Supports both 6-integer column and 3-integer column .sta line formats.
+    """
     if not os.path.exists(sta_path):
         return {"exists": False, "error": "STA file not found"}
 
@@ -95,45 +101,57 @@ def parse_sta_file(sta_path):
     cutbacks = 0
     step1_done = False
     step2_done = False
+    completed = False
+    has_abort = False
 
     sta_regex = re.compile(
-        r"^\s*(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+([\d.Ee+-]+)\s+([\d.Ee+-]+)\s+([\d.Ee+-]+)"
+        r"^\s*(\d+)\s+(\d+)\s+(\d+)(?:\s+\d+\s+\d+\s+\d+)?\s+([\d.Ee+-]+)\s+([\d.Ee+-]+)\s+([\d.Ee+-]+)"
     )
 
     for line in lines:
         if "THE ANALYSIS HAS NOT BEEN COMPLETED" in line:
-            return {"exists": True, "completed": False, "error": "Analysis not completed"}
+            has_abort = True
         if "THE ANALYSIS HAS BEEN COMPLETED" in line:
-            pass
+            completed = True
 
         m = sta_regex.match(line)
         if m:
-            step_id = int(m.group(1))
-            inc_id = int(m.group(2))
-            att_id = int(m.group(3))
-            total_time = float(m.group(7))
-            step_time = float(m.group(8))
-            inc_time = float(m.group(9))
+            try:
+                step_id = int(m.group(1))
+                inc_id = int(m.group(2))
+                att_id = int(m.group(3))
+                total_time = float(m.group(4))
+                step_time = float(m.group(5))
+                inc_time = float(m.group(6))
 
-            if att_id > 1:
-                cutbacks += (att_id - 1)
+                if att_id > 1:
+                    cutbacks += (att_id - 1)
 
-            increments.append({
-                "step": step_id,
-                "increment": inc_id,
-                "attempt": att_id,
-                "total_time": total_time,
-                "step_time": step_time,
-                "inc_time": inc_time
-            })
-            if step_id == 1 and abs(step_time - 1.0) < 1e-4:
-                step1_done = True
-            if step_id == 2 and abs(step_time - 1.0) < 1e-4:
-                step2_done = True
+                increments.append({
+                    "step": step_id,
+                    "increment": inc_id,
+                    "attempt": att_id,
+                    "total_time": total_time,
+                    "step_time": step_time,
+                    "inc_time": inc_time
+                })
+                if step_id == 1 and abs(step_time - 1.0) < 1e-4:
+                    step1_done = True
+                if step_id == 2 and abs(step_time - 1.0) < 1e-4:
+                    step2_done = True
+            except (ValueError, IndexError):
+                continue
+
+    # If completed banner missing but steps completed
+    if not completed and (step1_done or (step1_done and step2_done)) and not has_abort:
+        completed = True
+    if has_abort:
+        completed = False
 
     return {
         "exists": True,
-        "completed": True,
+        "completed": completed,
+        "has_abort": has_abort,
         "total_increments": len(increments),
         "cutbacks": cutbacks,
         "step1_done": step1_done,
@@ -143,7 +161,10 @@ def parse_sta_file(sta_path):
 
 
 def parse_dat_file(dat_path):
-    """Parse Abaqus .dat file for RF2 and energies."""
+    """
+    Parse Abaqus .dat file for RP reaction forces (node 999999) and whole-model energies.
+    Guards against missing fields and malformed numeric strings.
+    """
     if not os.path.exists(dat_path):
         return {"exists": False, "error": "DAT file not found"}
 
@@ -167,34 +188,69 @@ def parse_dat_file(dat_path):
             pass
 
     # Whole model energy extraction
-    # ALLIE, ALLSE, ALLWK, ALLFD
     energy_pattern = re.compile(
         r"TOTAL ENERGY OF THE SYSTEM EQUALS\s+([-\d.Ee+]+)",
         re.IGNORECASE
     )
     e_matches = energy_pattern.findall(content)
+    parsed_energies = []
+    for x in e_matches:
+        try:
+            parsed_energies.append(float(x))
+        except ValueError:
+            pass
 
     return {
         "exists": True,
         "rf_values": rf_values,
         "step1_rf2": rf_values[0]["rf2"] if len(rf_values) >= 1 else None,
         "step2_rf2": rf_values[-1]["rf2"] if len(rf_values) >= 2 else None,
-        "energy_matches": [float(x) for x in e_matches] if e_matches else []
+        "energy_matches": parsed_energies
     }
+
+
+def evaluate_stability(res, ref_rf=661.7254, rf_tol=5.00, max_cutbacks=0):
+    """
+    Evaluate stability of a single simulation result dictionary safely.
+    Guards against None, missing keys, and cutbacks.
+    """
+    if not res or not isinstance(res, dict):
+        return False, "Result is None or not a dictionary"
+
+    if not res.get("exists", False):
+        return False, res.get("error", "File does not exist")
+
+    if not res.get("completed", False):
+        return False, "Analysis did not complete successfully"
+
+    cutbacks = res.get("cutbacks", None)
+    if cutbacks is None or cutbacks > max_cutbacks:
+        return False, "Cutbacks exceeded threshold (%s > %s)" % (str(cutbacks), str(max_cutbacks))
+
+    rf = res.get("step1_rf2", None)
+    if rf is None:
+        return False, "Reaction force step1_rf2 missing"
+
+    rf_diff = abs(rf - ref_rf)
+    if rf_diff > rf_tol:
+        return False, "Reaction force discrepancy |Delta RF| = %.3f N > %.2f N" % (rf_diff, rf_tol)
+
+    return True, "Stable (Delta RF = %.3f N, cutbacks = %d)" % (rf_diff, cutbacks)
 
 
 def evaluate_decision_matrix(lumped_res, consistent_res, baseline_res=None):
     """
-    Evaluates the 4-case decision matrix:
+    Evaluates the formal 4-case decision matrix with strict scientific epistemology:
     Case A: Both lumped and consistent controls stable
     Case B: Only consistent inverse reconstruction stable
-    Case C: Both controls develop discrepancies
+    Case C: Both controls develop discrepancies or abort
     Case D: Enriched continuous baseline ground-truth comparison
     """
     matrix = {
         "evaluated_at": "2026-10-16",
         "case_selected": None,
         "justification": "",
+        "epistemic_scope": "",
         "diagnostics": {
             "lumped_control": lumped_res,
             "consistent_control": consistent_res,
@@ -202,59 +258,88 @@ def evaluate_decision_matrix(lumped_res, consistent_res, baseline_res=None):
         }
     }
 
-    # Evaluate lumped control stability
-    lumped_stable = False
-    if lumped_res and lumped_res.get("completed"):
-        rf_diff = abs(lumped_res.get("step1_rf2", 0.0) - AUTHENTIC_REFERENCES["fine_baseline_1412465"]["rf_N"])
-        cutbacks = lumped_res.get("cutbacks", 999)
-        # Check if Step 2 damage growth was bounded or sharpened
-        lumped_stable = (rf_diff <= THRESHOLDS["delta_rf_max_N"] and cutbacks == 0)
+    # Evaluate lumped control stability defensively
+    lumped_stable, lumped_reason = evaluate_stability(
+        lumped_res,
+        ref_rf=AUTHENTIC_REFERENCES["fine_baseline_1412465"]["rf_N"],
+        rf_tol=THRESHOLDS["delta_rf_max_N"],
+        max_cutbacks=THRESHOLDS["max_cutbacks"]
+    )
+    matrix["diagnostics"]["lumped_stability"] = {
+        "stable": lumped_stable,
+        "reason": lumped_reason
+    }
 
-    # Evaluate consistent control stability
-    consistent_stable = False
-    if consistent_res and consistent_res.get("completed"):
-        rf_diff = abs(consistent_res.get("step1_rf2", 0.0) - AUTHENTIC_REFERENCES["fine_baseline_1412465"]["rf_N"])
-        cutbacks = consistent_res.get("cutbacks", 999)
-        consistent_stable = (rf_diff <= THRESHOLDS["delta_rf_max_N"] and cutbacks == 0)
+    # Evaluate consistent control stability defensively
+    consistent_stable, consistent_reason = evaluate_stability(
+        consistent_res,
+        ref_rf=AUTHENTIC_REFERENCES["fine_baseline_1412465"]["rf_N"],
+        rf_tol=THRESHOLDS["delta_rf_max_N"],
+        max_cutbacks=THRESHOLDS["max_cutbacks"]
+    )
+    matrix["diagnostics"]["consistent_stability"] = {
+        "stable": consistent_stable,
+        "reason": consistent_reason
+    }
 
     if lumped_stable and consistent_stable:
         matrix["case_selected"] = "CASE_A"
         matrix["justification"] = (
             "Both lumped and consistent same-mesh controls executed Exit 0 with 0 cutbacks and "
             "maintained reaction force and energy continuity within pre-declared thresholds. "
-            "This proves Step 1 static re-equilibration and Step 2 damage release are mathematically "
-            "and physically sound, confirming Job 1414550 damage sharpening is physical continuum localization."
+            "This demonstrates that Step 1 static re-equilibration and Step 2 damage release boundary "
+            "conditions are numerically stable and mathematically consistent on identical meshes."
+        )
+        matrix["epistemic_scope"] = (
+            "Passing same-mesh controls rules out an inherent mathematical instability in the release "
+            "mechanism itself. It proves the numerical stability of the reconstruction and release procedure. "
+            "However, it does NOT by itself prove physical crack-tip singularity sharpening or continuum "
+            "accuracy across nonmatching meshes, as nonmatching mesh transfer introduces distinct geometric "
+            "interpolation and gradient smoothing errors that require independent verification against "
+            "continuous ground truth."
         )
     elif (not lumped_stable) and consistent_stable:
         matrix["case_selected"] = "CASE_B"
         matrix["justification"] = (
             "Consistent least-squares inverse reconstruction maintained physical stability and continuity, "
-            "whereas lumped area-weighted projection developed smoothing discrepancies. "
-            "This confirms the area-weighted projection smoothing defect and qualifies the consistent "
-            "inverse reconstruction operator for nonmatching state transfer."
+            "whereas lumped area-weighted projection developed smoothing discrepancies (confirming the "
+            "area-weighted projection smoothing defect). This demonstrates the numerical superiority of "
+            "the consistent inverse operator over lumped projection for state reconstruction on identical meshes."
+        )
+        matrix["epistemic_scope"] = (
+            "Consistent inverse reconstruction is qualified for identical-mesh recovery. Nonmatching transfer "
+            "remains subject to verification against continuous ground truth."
         )
     elif (not lumped_stable) and (not consistent_stable):
         matrix["case_selected"] = "CASE_C"
         matrix["justification"] = (
             "Both same-mesh controls developed discrepancies or convergence defects under release-and-hold. "
-            "This indicates Step 1 static re-equilibration or Step 2 boundary release semantics require "
-            "reformulation before nonmatching mesh transfer can proceed."
+            "This indicates that the Step 1 static re-equilibration formulation, UEL history initialization, "
+            "or Step 2 boundary release semantics suffer from an underlying mathematical or numerical defect."
+        )
+        matrix["epistemic_scope"] = (
+            "Transfer pipeline requires reformulation prior to nonmatching mesh execution."
         )
     else:
         matrix["case_selected"] = "CASE_A_PARTIAL"
         matrix["justification"] = (
-            "Lumped control stable, consistent control evaluation pending or mixed. "
+            "Lumped control stable, consistent control evaluation pending, mixed, or anomalous. "
             "Awaiting full terminal data."
         )
+        matrix["epistemic_scope"] = "Evaluation incomplete pending terminal diagnostics."
 
     if baseline_res and baseline_res.get("completed"):
         matrix["case_d_ground_truth_status"] = "AVAILABLE"
         matrix["case_d_notes"] = (
             "Enriched continuous baseline Job 1414571 provides authentic interior (ux, uy, d, H) fields. "
-            "Enables exact pointwise L2 norm and nodal contour comparisons against transferred states."
+            "This establishes the authoritative physical reference for pointwise evaluation of "
+            "reconstructed and transferred states."
         )
     else:
         matrix["case_d_ground_truth_status"] = "PENDING_EXECUTION"
+        matrix["case_d_notes"] = (
+            "Enriched continuous baseline Job 1414571 queued/running. Ground truth not yet harvested."
+        )
 
     return matrix
 
