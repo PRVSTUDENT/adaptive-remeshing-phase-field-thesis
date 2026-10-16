@@ -1,8 +1,12 @@
 {
   "evaluated_at": "2026-10-16",
-  "case_selected": "CASE_B",
-  "justification": "Consistent least-squares inverse reconstruction maintained physical stability and continuity, whereas lumped area-weighted projection developed smoothing discrepancies (confirming the area-weighted projection smoothing defect). This demonstrates the numerical superiority of the consistent inverse operator over lumped projection for state reconstruction on identical meshes.",
-  "epistemic_scope": "Consistent inverse reconstruction is qualified for identical-mesh recovery. Nonmatching transfer remains subject to verification against continuous ground truth.",
+  "case_selected": "CASE_B_LOCAL_RELEASE_STABILITY_ONLY",
+  "legacy_case_alias": "CASE_B",
+  "assessment_a_status": "PASS_CONSISTENT_ONLY",
+  "assessment_b_status": "FAIL_ALL",
+  "gate_6c_verdict": "GATE_6C_HOLD",
+  "justification": "Consistent least-squares inverse reconstruction maintained physical stability and continuity during within-run release (Assessment A: |Delta RF| = 0.455 N <= 5.0 N, |Delta d_max| = 0.000263 <= 0.0200, |Delta E_tot| = 0.007% <= 0.10%), whereas lumped area-weighted projection developed a significant smoothing relaxation defect (|Delta d_max| = 0.0216 > 0.0200). However, against the authentic continuous baseline 1412465 (Assessment B), both controls exhibit an unresolved compliance deficit (Delta RF = -17.17 N vs 5 N threshold, Delta E_tot = -2.48% vs 0.10% threshold). This proves that while consistent inverse reconstruction eliminates lumped projection smoothing artifacts during release on identical discretizations, Step 1 static re-equilibration does not restore the full continuum state.",
+  "epistemic_scope": "Case B strictly establishes local mathematical and numerical stability of consistent inverse damage reconstruction under release on identical discretizations. It does NOT establish full continuum state restoration, mechanical displacement recovery, energy conservation against continuous loading, or validity on nonmatching meshes.",
   "diagnostics": {
     "lumped_control": {
       "exists": true,
@@ -151,6 +155,9 @@
       "step1_rf2": 645.13832,
       "step2_rf2": 644.5528,
       "energy_matches": [],
+      "energy_csv": {
+        "exists": false
+      },
       "pbs_job_id": "1414558.mmaster02",
       "model_name": "M1_MC_STAGE_C1_1_SAMEMESH_RELHOLD",
       "reconstruction_type": "lumped_area_weighted_projection",
@@ -309,6 +316,24 @@
       "step1_rf2": 645.0107499999999,
       "step2_rf2": 644.5561600000001,
       "energy_matches": [],
+      "energy_csv": {
+        "exists": true,
+        "records_count": 11,
+        "step1_final": {
+          "step": 1,
+          "increment": 1,
+          "e_elas_mJ": 1.6125269,
+          "e_frac_mJ": 0.036808657,
+          "e_tot_mJ": 1.6493355
+        },
+        "step2_final": {
+          "step": 2,
+          "increment": 10,
+          "e_elas_mJ": 1.6113904000000001,
+          "e_frac_mJ": 0.037827272,
+          "e_tot_mJ": 1.6492177
+        }
+      },
       "pbs_job_id": "1414563.mmaster02",
       "model_name": "M1_MC_STAGE_C1_1_SAMEMESH_CONSISTENT_RELHOLD",
       "reconstruction_type": "consistent_least_squares_inverse",
@@ -324,15 +349,91 @@
       "exists": false,
       "error": "STA file not found"
     },
+    "lumped_assessment_a": {
+      "passed": false,
+      "reason": "Damage relaxation |Delta d_max| = 0.0216 > 0.0200 (smoothing defect)",
+      "delta_rf_within_N": 0.5855199999999741,
+      "delta_d_max_within": 0.021598,
+      "delta_e_tot_within_pct": null
+    },
+    "consistent_assessment_a": {
+      "passed": true,
+      "reason": "Within-run release stable",
+      "delta_rf_within_N": 0.4545899999998255,
+      "delta_d_max_within": 0.000263,
+      "delta_e_tot_within_pct": 0.007142270326453761
+    },
     "lumped_stability": {
       "stable": false,
-      "reason": "Damage growth under release |Delta d_max| = 0.0216 > 0.0200 (smoothing relaxation defect)"
+      "reason": "Damage relaxation |Delta d_max| = 0.0216 > 0.0200 (smoothing defect)"
     },
     "consistent_stability": {
       "stable": true,
-      "reason": "Stable (Delta RF = 0.455 N, cutbacks = 0)"
+      "reason": "Within-run release stable"
+    },
+    "lumped_assessment_b": {
+      "passed": false,
+      "reason": "RF deficit vs baseline: Delta RF = -17.173 N (-2.60%) > 5.00 N",
+      "ref_rf_N": 661.7254,
+      "terminal_rf_N": 644.5528,
+      "delta_rf_ref_N": -17.17259999999999,
+      "delta_rf_ref_pct": -2.5951248055462264,
+      "ref_e_tot_mJ": 1.691099,
+      "terminal_e_tot_mJ": null,
+      "delta_e_tot_ref_pct": null,
+      "ref_e_frac_mJ": 0.036786,
+      "terminal_e_frac_mJ": null,
+      "delta_e_frac_ref_pct": null
+    },
+    "consistent_assessment_b": {
+      "passed": false,
+      "reason": "RF deficit vs baseline: Delta RF = -17.169 N (-2.59%) > 5.00 N; Total energy deficit vs baseline: Delta E_tot = -2.477% > 0.10%; Fracture energy difference vs baseline: Delta E_frac = 2.831% > 0.50%",
+      "ref_rf_N": 661.7254,
+      "terminal_rf_N": 644.5561600000001,
+      "delta_rf_ref_N": -17.169239999999945,
+      "delta_rf_ref_pct": -2.594617042053992,
+      "ref_e_tot_mJ": 1.691099,
+      "terminal_e_tot_mJ": 1.6492177,
+      "delta_e_tot_ref_pct": -2.476572926836336,
+      "ref_e_frac_mJ": 0.036786,
+      "terminal_e_frac_mJ": 0.037827272,
+      "delta_e_frac_ref_pct": 2.8306203446963596
     }
   },
+  "root_cause_hypotheses": [
+    {
+      "rank": 1,
+      "hypothesis_id": "H1_MISSING_MECHANICAL_DISPLACEMENTS",
+      "title": "Missing Mechanical Nodal Displacements & Non-Equivalence of Static Re-Equilibration",
+      "description": "Abaqus/Standard static steps disallow *INITIAL CONDITIONS, TYPE=DISPLACEMENT. In reconstructed models, simulation starts from zero interior displacements and ramps the boundary in a single increment with Dirichlet-constrained damage. The static solution u* of K(d*) u* = f_ext finds the minimum potential energy for the frozen damage field, which does not replicate the path-dependent internal stress distribution accumulated continuously over 2000 increments.",
+      "falsification_test": "Compare u* from Step 1 of Job 1414563 against authentic continuous displacement field u_cont from Job 1414571 once harvested.",
+      "status": "PRIMARY_CANDIDATE"
+    },
+    {
+      "rank": 2,
+      "hypothesis_id": "H2_INVERSE_DAMAGE_DISTORTION",
+      "title": "Damage Inversion Profile Distortion in High-Gradient Crack-Tip Singular Zone",
+      "description": "Consistent least-squares inversion of element-average damage d_avg produced a peak apex nodal damage of d_max = 0.3423. Any subtle broadening or over-degradation of the damage process zone relative to the authentic continuum field lowers effective specimen stiffness, directly reducing the reaction force.",
+      "falsification_test": "Compare reconstructed nodal damage d* directly against continuous U3 nodal damage from Job 1414571.",
+      "status": "PLAUSIBLE_CONTRIBUTOR"
+    },
+    {
+      "rank": 3,
+      "hypothesis_id": "H3_COARSE_DONOR_PROVENANCE",
+      "title": "Discretization Gap Inherent to Coarse Donor Mesh Provenance",
+      "description": "In nonmatching transfer (Job 1414550), the transferred state originated from the coarse donor (2,906 elements, RF = 653.09 N), carrying an intrinsic discretization gap of +8.64 N relative to the fine baseline (661.73 N). However, in same-mesh controls (1414558 and 1414563), the donor was the fine baseline itself yet yielded RF = 644.56 N, proving that the -17.17 N deficit is NOT caused by coarse mesh interpolation but by the static re-equilibration procedure.",
+      "falsification_test": "Confirmed by comparing coarse donor RF (653.09 N) with same-mesh RF (644.56 N).",
+      "status": "PROVEN_INDEPENDENT_MECHANISM"
+    },
+    {
+      "rank": 4,
+      "hypothesis_id": "H4_UNRESTORED_HISTORY_STRAIN_ENERGY",
+      "title": "Un-restored Inelastic Strain Energy History & Inconsistent Crack-Tip Driving Force",
+      "description": "Initializing integration-point history H without restoring the continuous strain tensor can leave integration points in an artificial elastic unloading or over-stressed state during the initial load ramp, altering effective tangent stiffness.",
+      "falsification_test": "Examine integration-point strain energy and SDV2 evolution in Step 1.",
+      "status": "SECONDARY_CANDIDATE"
+    }
+  ],
   "case_d_ground_truth_status": "PENDING_EXECUTION",
-  "case_d_notes": "Enriched continuous baseline Job 1414571 queued/running. Ground truth not yet harvested."
+  "case_d_notes": "Enriched continuous baseline Job 1414571 actively running. Ground truth not yet harvested."
 }

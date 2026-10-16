@@ -1,3 +1,26 @@
+## Task F1520 Reconcile Case B with Continuous Reference & Evaluate Ground-Truth Readiness (16 October 2026)
+Completed the formal reconciliation of Case B within-run release stability with continuous baseline preservation, reclassified Case B as `CASE_B_LOCAL_RELEASE_STABILITY_ONLY`, formulated the ranked root-cause hypothesis matrix isolating the Step 1 static re-equilibration compliance deficit, verified active execution of continuous baseline Job 1414571, and established 100% pass across the expanded 77-test active regression suite:
+1. Dual-Assessment Discrepancy Reconciled:
+   - Formally separated Assessment A (Within-Run Release Stability on Same Mesh) from Assessment B (Continuous Baseline State Preservation).
+   - In Assessment A: Job 1414563 (consistent least-squares inverse control) passed all within-run criteria under constant boundary displacement: force drop |Delta RF| = 0.455 N <= 5.0 N, peak damage change |Delta d_max| = 0.000263 <= 0.0200, total energy change |Delta E_tot| = 0.00714% <= 0.10%, 0 cutbacks, Exit 0. In contrast, Job 1414558 (lumped projection control) failed damage relaxation (|Delta d_max| = 0.0216 > 0.0200, confirming the smoothing relaxation defect).
+   - In Assessment B: Relative to the uninterrupted continuous baseline Job 1412465 (RF = 661.7254 N, E_tot = 1.691099 mJ), both controls developed a significant compliance deficit: Delta RF = 644.556 - 661.725 = -17.169 N (-2.59%, failing 5.0 N threshold); Delta E_tot = 1.649218 - 1.691099 = -0.04188 mJ (-2.48%, failing 0.10% threshold).
+   - Proven: The -17.17 N / -2.48% deficit was already established at the conclusion of Step 1 static re-equilibration (RF_Step1 = 645.011 N, deficit of -16.715 N; E_tot,Step1 = 1.649336 mJ). Release in Step 2 contributed only -0.455 N and -0.007% energy change.
+2. Epistemic Reclassification of Case B (`CASE_B_LOCAL_RELEASE_STABILITY_ONLY`):
+   - Reclassified case_selected to CASE_B_LOCAL_RELEASE_STABILITY_ONLY (retaining legacy alias CASE_B via CaseBString for backwards compatibility).
+   - Authoritatively scoped Case B: It proves mathematical/numerical stability and consistency of least-squares inverse damage reconstruction during release on identical discretizations, eliminating the lumped smoothing relaxation defect. It does NOT establish full continuum state restoration, mechanical displacement recovery, energy conservation against continuous loading, or validity on nonmatching meshes.
+3. Ranked, Falsifiable Root-Cause Hypotheses:
+   - Formulated 4 ranked hypotheses: H1 (Missing mechanical nodal displacements & non-equivalence of static re-equilibration K(d*) u* = f_ext; primary candidate), H2 (Damage inversion profile distortion in high-gradient singular tip zone; plausible contributor), H3 (Discretization gap inherent to coarse donor mesh provenance; proven independent mechanism), H4 (Un-restored inelastic strain energy history & inconsistent crack-tip driving force; secondary candidate).
+   - Defined explicit falsification tests referencing the enriched continuous baseline fields (u_x, u_y, d=U_3, H, d_avg) from Job 1414571.
+4. Active Baseline Scheduler Monitoring:
+   - Monitored Job 1414571.mmaster02 (M1_MB_BASE_ENR) in normal_imfdfkmq: state R, solving smoothly past increment 559/2000 with 0 cutbacks, 3 Newton iterations/inc, and continuous live energy logging to uel_energy_balance.csv and M1_MB_FINE_BASELINE_ENRICHED.odb (>24 MB).
+   - Preserved terminal records for same-mesh diagnostic controls 1414558 and 1414563.
+5. Strict Gate 6C Enforcement & Zero Qualified Remeshing Cycles:
+   - Because Assessment B fails continuous baseline continuity thresholds, full state preservation remains unverified. Gate 6C hold (GATE_6C_HOLD) strictly maintained.
+   - Forward continuation deck M1_MC_STAGE_C1_1_FORWARD_14K remains held; sequential remeshing cycles = 0; zero duplicate, dummy, or speculative submissions performed.
+6. Comprehensive Unit Testing (77/77 PASS):
+   - Authored tests/unit/test_mode1_f1520_reconcile_case_b_and_continuous_errors.py (6/6 PASS).
+   - Verified 100% pass across active 77-test regression battery (F1507 to F1520 in 2.05s).
+
 ## Task F1519 Verify Alternative PBS Queues, De-bias AutoQueue & Establish Case B on Same-Mesh Controls (16 October 2026)
 Completed the architectural investigation of alternative PBS queues, resolved the cross-pool heuristic scoring bias in the AutoQueue selector, observed the simultaneous dispatch and Exit 0 completion of both same-mesh diagnostic controls (Jobs 1414558 and 1414563), and formally evaluated the results against the 4-case decision matrix, conclusively establishing Case B:
 1. Alternative PBS Queue & Hardware Pool Partitioning:

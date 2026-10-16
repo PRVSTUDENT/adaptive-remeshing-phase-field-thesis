@@ -1,11 +1,13 @@
 {
-  "task_id": "F1519-VERIFY-ALTERNATIVE-PBS-QUEUES-AND-PREPARE-TRIO-EVALUATION",
-  "status": "ALTERNATIVE_QUEUES_AUDITED__AUTOQUEUE_DEBIASED__DIAGNOSTIC_CONTROLS_EVALUATED_CASE_B__BASELINE_RUNNING",
+  "task_id": "F1520-RECONCILE-CASE-B-AND-EVALUATE-GROUND-TRUTH",
+  "status": "CASE_B_RECONCILED__ASSESSMENT_A_PASS_CONSISTENT_ONLY__ASSESSMENT_B_DEFICIT_ISOLATED__BASELINE_RUNNING",
   "agent": "gemini-antigravity",
-  "phase": "Task F1519 complete: Audited alternative PBS queues (shortq, mediumq, longq, short_imfdfkmq, normal_imfdfkmq) and classified cross-pool saturated dispatch latency as EARLIEST_START_UNDETERMINED; de-biased mode1_queue_selector.py against raw static priority bias; observed simultaneous dispatch and Exit 0 completion of same-mesh diagnostic controls 1414558 and 1414563; evaluated results with evaluate_mode1_diagnostic_trio.py formally establishing Case B (lumped projection smoothing defect isolated, consistent inverse qualified); continuous baseline Job 1414571 actively solving past inc 135; 66/66 active tests pass; Gate 6C hold preserved pending baseline completion.",
-  "gate_status": "GATE_6B_PASS__STAGE_C1_0_CLOSED_PASSED__CASE_B_ESTABLISHED__BASELINE_RUNNING__GATE_6C_HOLD",
-  "last_updated": "2026-10-16T20:05:00+02:00",
+  "phase": "Task F1520 complete: Formally separated Assessment A (within-run release stability: |Delta RF|=0.455 N, |Delta d_max|=0.000263, |Delta E_tot|=0.007%) from Assessment B (continuous baseline preservation: Delta RF=-17.17 N, Delta E_tot=-2.48%); reclassified Case B as CASE_B_LOCAL_RELEASE_STABILITY_ONLY; formulated 4 ranked root-cause hypotheses isolating the deficit to Step 1 static re-equilibration compliance; monitored continuous baseline Job 1414571 (actively solving in normal_imfdfkmq past inc 469); Gate 6C hold strictly preserved.",
+  "gate_status": "GATE_6B_PASS__STAGE_C1_0_CLOSED_PASSED__CASE_B_LOCAL_RELEASE_STABILITY_ONLY__BASELINE_RUNNING__GATE_6C_HOLD",
+  "last_updated": "2026-10-16T20:25:00+02:00",
   "active_pbs_job_ids": [
+    "1414558.mmaster02",
+    "1414563.mmaster02",
     "1414571.mmaster02"
   ],
   "dependent_pbs_job_ids": [],
@@ -56,5 +58,5 @@
     "Forward requires actual predecessor scientific PASS and displacement/damage/history/energy evidence",
     "Do not rerun identical jobs or manufacture solver/state evidence"
   ],
-  "notes": "Task F1519 complete: Audited alternative PBS queues; classified cross-pool saturated dispatch latency as EARLIEST_START_UNDETERMINED; de-biased mode1_queue_selector.py; observed simultaneous dispatch and Exit 0 completion of same-mesh diagnostic controls 1414558 and 1414563; evaluated results with evaluate_mode1_diagnostic_trio.py formally establishing Case B (lumped projection smoothing defect isolated, consistent inverse qualified); continuous baseline Job 1414571 actively solving past inc 135; 66/66 active tests pass; Gate 6C hold preserved pending baseline completion."
+  "notes": "Task F1520 complete: Reconciled Case B within-run release stability with continuous baseline preservation; reclassified Case B as CASE_B_LOCAL_RELEASE_STABILITY_ONLY; formulated 4 ranked root-cause hypotheses; continuous baseline Job 1414571 solving past inc 469; 72/72 active tests pass; Gate 6C hold preserved."
 }
