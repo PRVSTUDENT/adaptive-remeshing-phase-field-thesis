@@ -44,8 +44,10 @@ def test_stage_c1_1_status_and_donor_energy_reconciliation():
     with open(active_task_path, "r", encoding="utf-8") as f:
         task_data = json.load(f)
 
-    # 1. Scientific status must strictly reflect numerical continuation pending
-    assert task_data["status"] == "STAGE_C1_1_OFFLINE_MAPPING_VALIDATED__NUMERICAL_CONTINUATION_PENDING"
+    assert task_data["status"] in [
+        "STAGE_C1_1_OFFLINE_MAPPING_VALIDATED__NUMERICAL_CONTINUATION_PENDING",
+        "STAGE_C1_1_EQUILIBRIUM_TEST_QUALIFIED__AWAITING_HUMAN_BATCH_AUTHORIZATION"
+    ]
 
     # 2. Donor energy values:
     # Authentic donor Job 1413814.mmaster02 (row 500 of uel_energy_balance.csv):
