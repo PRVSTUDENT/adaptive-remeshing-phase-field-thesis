@@ -1,3 +1,28 @@
+## Task F1517 Monitor Diagnostic Trio, Deploy Harvesting Pipeline & Ground-Truth Extraction Tooling (16 October 2026)
+Monitored the active Mode-I diagnostic trio on the HPC cluster, constructed the complete automated evaluation and decision-matrix pipeline, developed and staged the Abaqus Python continuous ground-truth extraction script on cluster scratch, and verified comprehensive unit test coverage across the active project test battery:
+1. Scheduler Monitoring & Job Preservation:
+   - Monitored the 3 active jobs in `normal_imfdfkmq` via guarded non-interactive SSH:
+     * `1414558.mmaster02`: `M1_MC_C1_1_SM` (lumped projection same-mesh control, 1 CPU, 8 GB, 1h, queue position #1)
+     * `1414563.mmaster02`: `M1_MC_C1_1_SMC` (consistent inverse same-mesh control, 1 CPU, 8 GB, 1h, queue position #2)
+     * `1414571.mmaster02`: `M1_MB_BASE_ENR` (enriched baseline ground truth, 1 CPU, 8 GB, 4h, queue position #3)
+   - Confirmed dedicated `extension2` hardware pool (10 nodes `mnode097`..`106`, 160 CPUs) remains 100% occupied by running user jobs (`1414506`..`1414515`).
+   - Confirmed the PBS Pro privacy boundary (`query_other_jobs = False`) prevents standard users from querying active jobs' remaining walltimes; scheduler placement comment reflects node resource saturation without user holds or configuration errors.
+   - Strictly preserved all three jobs in their top queue positions without cancellation, queue migration, or duplicate submission.
+2. Automated Diagnostic Evaluation Engine:
+   - Implemented `scripts/state_transfer/evaluate_mode1_diagnostic_trio.py` with automated `.sta` increment/cutback parsing, `.dat` reaction force and whole-system energy parsing, and pre-declared Gate 6C thresholds.
+   - Codified the formal 4-case evaluation decision matrix:
+     * Case A: Both controls stable ($|\Delta d_{\max}| \le 0.020$, $|\Delta RF| \le 5.0$ N, $|\Delta E_{\text{tot}}| \le 0.10\%$) -> Same-mesh release-and-hold validated; Job 1414550 damage increase proven to be physical continuum singularity sharpening.
+     * Case B: Only consistent inverse stable -> Lumped projection smoothing defect proven; consistent inverse reconstruction qualified for Stage C1-1 transfer.
+     * Case C: Both controls fail -> Step 1 static re-equilibration or release mechanism defective; requires reformulation before nonmatching mesh transfer.
+     * Case D: Enriched continuous baseline -> Authentic continuous $(u_x, u_y, d, H)$ fields harvested for pointwise ground-truth comparison against transferred states.
+3. Cluster Ground-Truth ODB Extractor:
+   - Developed `scripts/state_transfer/extract_enriched_baseline_ground_truth.py` for Abaqus Python.
+   - Staged on cluster scratch `/scratch9/pr21vyci/runs/mode1_fine_baseline_enriched/extract_enriched_baseline_ground_truth.py`.
+   - Targets the terminal frame (increment 2000, $u = 0.005000$ mm) of `M1_MB_FINE_BASELINE_ENRICHED.odb` to extract whole-mesh nodal $(X, Y, u_x, u_y, d=U_3)$ across 14,456 nodes, RP reaction forces, integration-point committed history $H$ (SDV2) and element-average damage $d_{\text{avg}}$ (SDV14) across 14,483 elements, and whole-model energy histories into structured JSON.
+4. Verification & Regression Testing:
+   - Authored `tests/unit/test_mode1_f1517_diagnostic_trio_and_decision_matrix.py` (6/6 PASS).
+   - Executed full active regression battery across F1507 to F1517: 53 tests pass 100% in 1.38s. Gate 6C hold preserved.
+
 ## Task F1516 AutoQueue Engineering Audit, Reference State Discovery & Enriched Baseline Execution (16 October 2026)
 Completed the engineering audit of the AutoQueue engine, verified queue priorities and routing semantics against the live cluster, formally reclassified the congestion scoring formula as `HEURISTIC_RECOMMENDATION_ONLY` due to the PBS Pro privacy boundary (`query_other_jobs = False`), discovered that the continuous fine baseline ODB (Job 1412465) omitted interior nodal displacements and phase field, resolved the Abaqus 2023 UEL nodal DOF 3 output mechanism, designed and qualified the enriched baseline diagnostic deck (Package 50), and submitted it as Job 1414571.mmaster02 alongside preserved same-mesh control jobs 1414558 and 1414563:
 1. AutoQueue Engineering Audit & Reclassification:
