@@ -1,3 +1,29 @@
+## Task F1513 Complete Same-Mesh Diagnostics & Next Numerical Decision (16 October 2026)
+Completed the investigation into mechanical displacement and history initialization, established the formal 4-case evaluation decision matrix, confirmed active scheduler status, and clarified remesh cycle accounting toward genuine nonmatching-mesh continuation:
+1. Mechanical Initialization vs Fresh Loading Isolated:
+   - Proved continuous fine baseline Job 1412465 requested nodal output strictly on RP (*NODE OUTPUT, NSET=N_RP); interior mechanical displacements u_x(n), u_y(n) and user-element damage DOF 3 were omitted from the baseline ODB.
+   - Same-mesh and nonmatching-mesh decks contain zero *INITIAL CONDITIONS, TYPE=DISPLACEMENT cards.
+   - Step 1 performs a quasi-static re-equilibration: solving K(d*) u* = f_ext under prescribed displacement u = 0.0050 mm and Dirichlet-fixed damage.
+   - Epistemic classification: Interior mechanical displacement preservation is NOT VERIFIED (RE-EQUILIBRATED IN STEP 1).
+2. Phase-Field & History Initialization Mechanism:
+   - Element-level committed history H_e = SDV2 is initialized via *INITIAL CONDITIONS, TYPE=SOLUTION (SVARS 9..12 for quads, 7..9 for tris).
+   - In Step 1, as displacement ramps, UEL computes strain energy density psi_0^+(eps); wherever psi_0^+ > H_init, H grows; otherwise it remains frozen.
+   - Damage field d* is held under Dirichlet constraints during Step 1, then released to evolve freely in Step 2 via *BOUNDARY, OP=NEW.
+3. Formal 4-Case Evaluation Decision Matrix:
+   - Case A (Both controls stable: |Delta d| <= 0.020, |Delta RF| <= 5 N, |Delta E_tot| <= 0.10%): Same-mesh release-and-hold validated; Job 1414550 damage increase proven to be continuum singularity sharpening.
+   - Case B (Only inverse reconstruction stable): Lumped area-weighted projection smoothing defect proven; inverse reconstruction qualified.
+   - Case C (Both controls develop discrepancies): Step 1 static re-equilibration or release mechanism defective; must be isolated before mesh transfer.
+   - Case D (Inconclusive due to missing reference ground-truth): Requires single rerun of 14K baseline with *NODE OUTPUT, NSET=All_nodes.
+4. Remesh Cycle Accounting Clarified:
+   - Current stage: Stage C1-1, single coarse-to-refined transition (2,906 -> 14,483 FEs).
+   - Qualified sequential remeshing cycles: 0.
+   - 4-cycle Method C: NOT YET PERFORMED.
+   - Forward continuation and Stage C1-2 remain strictly BLOCKED at Gate 6C.
+5. Scheduler Status:
+   - Active jobs 1414558.mmaster02 (M1_MC_C1_1_SM) and 1414563.mmaster02 (M1_MC_C1_1_SMC) actively queued in normal_imfdfkmq.
+6. Unit Tests (4/4 PASS):
+   - Authored tests/unit/test_mode1_f1513_offline_investigation_and_decision_rules.py (4/4 PASS). Full 31-test regression battery verified.
+
 ## Task F1512 Evaluate Same-Mesh Controls & Resolve Reference Data Inconsistencies (16 October 2026)
 Completed the rigorous scientific reconciliation of reference data inconsistencies, audited the physical validity of the clipped least-squares inverse reconstruction, codified the strict original Gate 6C evaluation criteria, and confirmed scheduler status for the active same-mesh control experiments:
 1. Reaction Force Baseline Discrepancy Resolved:
