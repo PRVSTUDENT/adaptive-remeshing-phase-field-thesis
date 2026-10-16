@@ -1,16 +1,14 @@
 {
-  "task_id": "F1493-METHOD-C-SCIENTIFIC-VERIFICATION",
-  "status": "RESTART_CONTINUATION_VERIFIED_SOLVER_ADVANCING",
+  "task_id": "F1494-CORRECT-DIAGNOSTIC-UEL-AND-SUBMIT",
+  "status": "RESTART_CONTINUATION_QUALIFIED_TERMINAL_EXIT_0_MATCHED",
   "agent": "gemini-antigravity",
-  "phase": "Standing grant active; corrected production 1413895 and diagnostic 1413896 solving past Inc 3350; coarse-mesh force physics and 0.02% trajectory parity verified; diagnostic UEL JTYPE=3 SVARS(7) defect isolated; production UEL energy conservation confirmed",
-  "gate_status": "GATE_6B_ACTIVE_EVALUATION_PASS__GATE_6C_STAGE_C1_0_DATACHECK_PASS",
-  "last_updated": "2026-10-16T07:25:00+02:00",
-  "active_pbs_job_ids": [
-    "1413895.mmaster02",
-    "1413896.mmaster02"
-  ],
+  "phase": "Standing grant active; 1413895 (production) & 1413896 (diagnostic v1) completed Exit 0 with full softening; 0.126% peak force parity verified; diagnostic UEL v2 corrected & datacheck Exit 0 staged; adapter boundary audited",
+  "gate_status": "GATE_6B_ACTIVE_EVALUATION_PASS__GATE_6C_STAGE_C1_0_QUALIFIED",
+  "last_updated": "2026-10-16T08:00:00+02:00",
+  "active_pbs_job_ids": [],
   "dependent_pbs_job_ids": [],
   "deferred_candidate_jobs": [
+    "M1_MB_RESTART_DIAG_V2 (Package 48 diagnostic restart v2, staged on cluster scratch, Abaqus 2023 datacheck Exit 0, awaiting adapter extension or machine permit)",
     "M1_MC_STAGE_C1_0 (Package 47, 2,906 elements, input deck 8B417E7F..., Abaqus 2023 datacheck Exit 0, staged on /scratch9/pr21vyci/runs/mode1_stage_c1_0_continuation)",
     "PK_M1_COARSE_FINE_CONT (Package 46, 4,900 CPE4 quads, h=14.3 um, input deck 219ACDF2..., Abaqus 2023 datacheck Exit 0, staged on /scratch9/pr21vyci/runs/mode1_package46_coarse_fine_preanalysis)",
     "M1_MC_C1_FORWARD_14K (Package 42 staged on cluster scratch, datacheck exit code 0, nonmatching forward refinement candidate)"
@@ -40,14 +38,16 @@
     "1413808.mmaster02",
     "1413814.mmaster02",
     "1413817.mmaster02",
-    "1413818.mmaster02"
+    "1413818.mmaster02",
+    "1413895.mmaster02",
+    "1413896.mmaster02"
   ],
-  "next_recommended_task": "MONITOR_RESTART_COMPLETION_POST_PEAK_AND_PREPARE_STAGE_C1_1_NONMATCHING_TRANSFER",
+  "next_recommended_task": "RENEW_ADAPTER_FOR_DIAG_V2_OR_ADVANCE_TO_STAGE_C1_1_NONMATCHING_TRANSFER",
   "governing_constraints": [
     "Standing research authorization no calendar expiry; machine permit required",
     "Package48 recovery adapter currently supported; scope expansions separately approved",
     "Preserve donor1413814 and all failed-job evidence",
     "No consumed permit resets; one qualified technical replacement per failed chain"
   ],
-  "notes": "Coarse-mesh (2,906 FEs) force rise (F_max ~ 1085 N at u ~ 0.0092 mm) proved physical h > l0/2 smearing matching uninterrupted baseline 1412809 within 0.02%. Diagnostic UEL +11.4% fracture energy step-jump isolated to JTYPE=3 SVARS(7) D_AVG ingestion into SV_H. Production UEL energy conserved (<0.08% individual, <0.04% total). Both jobs solving past inc 3350 with 0 cutbacks."
+  "notes": "Coarse-mesh (2,906 FEs) force rise (F_max ~ 1086 N at u ~ 0.0092 mm) proved physical h > l0/2 smearing matching uninterrupted baseline 1412809 within 0.126% at peak and 0.43 N at final residual. Diagnostic UEL v2 triangular indexing defect corrected and verified with Exit 0 datacheck. Standing grant adapter extension documented."
 }

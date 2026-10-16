@@ -3,7 +3,7 @@
   "scientific_phase": "MODE1_GATE6C_METHOD_C_STAGE_C1_0_RESTART_AUDIT",
   "protocol_version": 2,
   "created_at": "2026-10-15T19:45:00+02:00",
-  "last_updated": "2026-10-16",
+  "last_updated": "2026-10-16T07:40:00+02:00",
   "mesh_donor": {
     "nodes": 2989,
     "elements_physical": 2906,
@@ -33,21 +33,29 @@
     "sha256": "8C6D873037367665C01C305D50C5B148339DC38C6E581BF4A9E19C2B5E2AC978",
     "status": "DIAGNOSTIC_VARIANT_INGESTS_RESTORED_SVARS_INTO_COMMON"
   },
+  "diagnostic_uel_v2": {
+    "source": "f42_mixed_uel_restart_diagnostic_v2.for",
+    "sha256": "A684CFFA76F0EF767EA5D1AE25501F0A7C711C13E7DCE8777FCE68CC22F01D3D",
+    "status": "CORRECTED_DIAGNOSTIC_RESTORES_TRIANGULAR_SVARS8_HISTORY"
+  },
   "execution_scripts": {
     "donor_pbs": "submit_M1_MB_DONOR.pbs",
     "restart_prod_pbs": "submit_M1_MB_RESTART_PROD.pbs",
     "restart_diag_pbs": "submit_M1_MB_RESTART_DIAG.pbs",
+    "restart_diag_v2_pbs": "submit_M1_MB_RESTART_DIAG_V2.pbs",
     "instructions": "commands.txt"
   },
   "scientific_purpose": "Investigate native Abaqus *RESTART on identical 2,906-element mesh as a positive control to experimentally determine whether Abaqus preserves UEL SVARS and whether Fortran COMMON /CB_STATE_TRANS/ is wiped or restored across restart boundaries.",
   "hypotheses_and_predictions": {
     "hypothesis_1_svars_restoration": "Abaqus serializes and restores UEL SVARS into the recipient elements from the .res file.",
     "hypothesis_2_common_block_loss": "Abaqus does NOT serialize Fortran COMMON /CB_STATE_TRANS/. In the restart process, static memory starts zeroed, and because UEXTERNALDB does not implement LOP=4 and UEL lines 248-261 check KSTEP.EQ.1 (which is FALSE for restarted Step 2), COMMON state is NOT restored, causing Layer 1/2 state decoupling unless re-equilibrated as in Package 47.",
-    "hypothesis_3_diagnostic_uel_restoration": "Diagnostic UEL restores SVARS into COMMON /CB_STATE_TRANS/ upon first increment entry via SV_INGESTED flag, enabling authentic continuation without modifying constitutive relations."
+    "hypothesis_3_diagnostic_uel_restoration": "Diagnostic UEL restores SVARS into COMMON /CB_STATE_TRANS/ upon first increment entry via SV_INGESTED flag, enabling authentic continuation without modifying constitutive relations.",
+    "hypothesis_4_diagnostic_v2_history_indexing": "Corrected diagnostic UEL v2 loads SVARS(8) (HIST) into SV_H_COMMITTED for triangular elements (JTYPE=3), eliminating the +11.4% fracture energy step artifact and achieving individual energy continuity <= 0.50%."
   },
   "acceptance_criteria": {
     "criterion_1_donor_datacheck": "Donor deck passes Abaqus datacheck Exit 0.",
     "criterion_2_restart_datacheck": "Restart recipient deck passes Abaqus restart datacheck Exit 0.",
-    "criterion_3_experimental_distinction": "Defines an exact experimental test distinguishing native restart from history-initialized static re-equilibration (Package 47)."
+    "criterion_3_experimental_distinction": "Defines an exact experimental test distinguishing native restart from history-initialized static re-equilibration (Package 47).",
+    "criterion_4_energy_continuity": "Individual and total internal energy jump across restart <= 0.50%."
   }
 }

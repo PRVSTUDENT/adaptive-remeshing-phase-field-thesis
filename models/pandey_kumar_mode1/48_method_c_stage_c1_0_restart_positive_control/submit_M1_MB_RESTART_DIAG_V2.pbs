@@ -1,0 +1,53 @@
+#!/bin/bash
+#PBS -N M1_MB_RST_DIAG_V2
+#PBS -q entry_imfdfkmq
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=16gb
+#PBS -l walltime=08:00:00
+#PBS -m abe
+#PBS -r n
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -j oe
+#PBS -o /scratch9/pr21vyci/runs/mode1_package48_restart_control/pbs_execution_restart_diag_recovery2.log
+
+set -euo pipefail
+
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_package48_restart_control"
+cd "${RUN_DIR}"
+
+if [[ "$(pwd -P)" =~ ^/home/ ]]; then
+    echo "ERROR: Running under /home is strictly prohibited by HPC storage policy." >&2
+    exit 2
+fi
+
+WORK_DIR="${RUN_DIR}/recovery2_diag_v2"
+mkdir -p "${WORK_DIR}"
+for suffix in res mdl stt prt odb sim; do
+    if [ -f "${RUN_DIR}/M1_MB_DONOR_WITH_RESTART.${suffix}" ]; then
+        ln -s "${RUN_DIR}/M1_MB_DONOR_WITH_RESTART.${suffix}" "${WORK_DIR}/M1_MB_DONOR_WITH_RESTART.${suffix}"
+    fi
+done
+cp "${RUN_DIR}/M1_MB_NATIVE_RESTART.inp" "${RUN_DIR}/f42_mixed_uel_restart_diagnostic_v2.for" "${RUN_DIR}/job_notifications.sh" "${WORK_DIR}/"
+cd "${WORK_DIR}"
+export JOB_NAME="M1_MB_RST_DIAG_V2"
+if [ -f "./job_notifications.sh" ]; then
+    source ./job_notifications.sh
+    notification_install_terminal_trap
+    notify_start
+fi
+
+if ! type module >/dev/null 2>&1; then
+    source /etc/profile.d/lmod.sh
+fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+test -s M1_MB_DONOR_WITH_RESTART.res
+
+# Execute native restart continuation using corrected diagnostic UEL variant v2
+# Purpose: Empirically prove that corrected triangular history indexing SVARS(8) restores energy continuity (<0.50%)
+abaqus job=M1_MB_NATIVE_RESTART_DIAG_V2 oldjob=M1_MB_DONOR_WITH_RESTART input=M1_MB_NATIVE_RESTART.inp user=f42_mixed_uel_restart_diagnostic_v2.for cpus=1 interactive
+SOLVER_EXIT=$?
+
+echo "Abaqus native restart (diagnostic UEL v2) completed with exit code: ${SOLVER_EXIT}"
+exit ${SOLVER_EXIT}
