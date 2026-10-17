@@ -1,0 +1,37 @@
+{
+  "top_boundary": {
+    "gt_max_abs_ux": 1.1815740243396072e-38, 
+    "lateral_contraction_detected": true, 
+    "mean_u_star_abs_ux": 0.0008875722218048255, 
+    "u_star_max_abs_ux": 0.0013272680807858706, 
+    "num_nodes": 52
+  }, 
+  "force_deficit_pct": -2.5259167116289, 
+  "ground_truth_rf2_N": 661.7254018783569, 
+  "re_equilibrated_rf2_N": 645.010769367218, 
+  "max_displacement_diff_node": 70, 
+  "pin_nodes": {
+    "node_33": {
+      "uy": 0.0, 
+      "ux": 0.0, 
+      "coord": [
+        0.0, 
+        0.0
+      ], 
+      "d": null
+    }, 
+    "node_1": {
+      "uy": 2.409838192471746e-38, 
+      "ux": -0.001098491484299302, 
+      "coord": [
+        0.9604716300964355, 
+        0.0
+      ], 
+      "d": null
+    }
+  }, 
+  "node_count": 14456, 
+  "max_displacement_diff_mm": 0.0013272680807858706, 
+  "rel_l2_displacement_error_pct": 34.19236856288373, 
+  "force_deficit_N": -16.714632511138916
+}

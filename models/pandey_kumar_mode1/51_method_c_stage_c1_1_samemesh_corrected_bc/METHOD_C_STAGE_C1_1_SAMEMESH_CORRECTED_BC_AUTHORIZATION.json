@@ -1,0 +1,42 @@
+{
+  "adapter": "mode1-qualified-batch-v2",
+  "batch_name": "MODE1_METHOD_C_STAGE_C1_1_SAMEMESH_CORRECTED_BC",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_stage_c1_1_samemesh_corrected_bc",
+  "max_submissions": 1,
+  "automatic_retry": false,
+  "files": {
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_MC_STAGE_C1_1_SAMEMESH_CORRECTED_BC.inp": "ebda3bf1e39f92498e301e20d3b93cdda376fd91bb6b1a06091e08c714c359fa",
+    "submit_M1_MC_STAGE_C1_1_SAMEMESH_CORRECTED_BC.pbs": "c818e454a0f325f4bcb0d17a671733e74676ae81f999b5ea889591ce52fe534c"
+  },
+  "jobs": [
+    {
+      "id": "M1_MC_STAGE_C1_1_SAMEMESH_CORRECTED_BC",
+      "purpose": "Corrected boundary condition same-mesh diagnostic restoring N_TOP lateral constraint (u_x=0) and origin pin (Node 33) to isolate and eliminate the -16.71 N force deficit in Step 1",
+      "input": "M1_MC_STAGE_C1_1_SAMEMESH_CORRECTED_BC.inp",
+      "pbs": "submit_M1_MC_STAGE_C1_1_SAMEMESH_CORRECTED_BC.pbs",
+      "datacheck": "M1_MC_STAGE_C1_1_SAMEMESH_CORRECTED_BC_DC.dat",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 1,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_stage_c1_1_samemesh_corrected_bc/submit_M1_MC_STAGE_C1_1_SAMEMESH_CORRECTED_BC.pbs\"",
+      "command_sha256": "20931f88cfdd4011bb160c718dc9273d8e9c3160cf1d9fbdd6442b7102f17fc4"
+    }
+  ],
+  "acceptance": {
+    "terminal_exit_status": 0,
+    "step1_increments": 1,
+    "max_cutbacks": 0,
+    "step1_reaction_force_min_N": 660.0,
+    "step1_reaction_force_target_N": 661.725,
+    "step2_force_continuity_tol_N": 5.0,
+    "step2_damage_stability_tol": 0.02,
+    "total_energy_continuity_tol_pct": 0.1
+  }
+}

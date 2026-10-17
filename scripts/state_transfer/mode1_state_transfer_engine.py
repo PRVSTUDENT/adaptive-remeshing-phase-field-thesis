@@ -915,6 +915,17 @@ class Mode1StateTransferEngine:
         lines.append("*NSET, NSET=N_RP")
         lines.append(f"{recipient_mesh.rp_node_id}")
 
+        # Pin node set at origin (0, 0)
+        pin_node_id = None
+        min_dist = 1e9
+        for nid, (x, y) in recipient_mesh.nodes.items():
+            dist = math.hypot(x, y)
+            if dist < min_dist:
+                min_dist = dist
+                pin_node_id = nid
+        lines.append("*NSET, NSET=N_PIN")
+        lines.append(f"{pin_node_id}")
+
         # 7. Rigid Kinematic Coupling on N_TOP
         lines.append("** ==========================================================")
         lines.append("** RIGID LINEAR COUPLING ON N_TOP")
@@ -1014,13 +1025,14 @@ class Mode1StateTransferEngine:
         if continuation_mode in ("equilibrate", "equil_only"):
             lines.append("** STEP 1: INSTANTANEOUS STATIC EQUILIBRATION AT HANDOFF DISPLACEMENT (u = u_handoff)")
             lines.append("** ==========================================================")
-            lines.append("*STEP, NAME=Step-1-Equilibrate, NLGEOM=YES, INC=100")
+            lines.append("*STEP, NAME=Step-1-Equilibrate, NLGEOM=NO, INC=100")
             lines.append("*STATIC")
             lines.append("1.0, 1.0, 1.0e-6, 1.0")
             lines.append("** Boundary conditions:")
             lines.append("*BOUNDARY")
             lines.append("N_BOTTOM, 2, 2, 0.0")
-            lines.append("1, 1, 1, 0.0")  # Pin origin node
+            lines.append("N_PIN, 1, 1, 0.0")  # Pin origin node at (0, 0)
+            lines.append("N_TOP, 1, 1, 0.0")  # Lateral constraint ux=0
             lines.append(f"N_RP, 2, 2, {u_handoff:.10e}")
             lines.append("** Prescribed initial damage field on DOF 3 for static reconstruction:")
             for nid in sorted(recipient_mesh.nodes.keys()):
@@ -1040,12 +1052,13 @@ class Mode1StateTransferEngine:
                 lines.append("** ==========================================================")
                 lines.append("** STEP 2: CONTINUATION FRACTURE PROPAGATION (u_handoff -> u_final)")
                 lines.append("** ==========================================================")
-                lines.append(f"*STEP, NAME=Step-2-Continue, NLGEOM=YES, INC={num_increments * 2}")
+                lines.append(f"*STEP, NAME=Step-2-Continue, NLGEOM=NO, INC={num_increments * 2}")
                 lines.append("*STATIC")
                 lines.append(f"{dt_init:.8e}, 1.0, 1.0e-12, {dt_init:.8e}")
                 lines.append("*BOUNDARY, OP=NEW")
                 lines.append("N_BOTTOM, 2, 2, 0.0")
-                lines.append("1, 1, 1, 0.0")  # Pin origin node
+                lines.append("N_PIN, 1, 1, 0.0")  # Pin origin node at (0, 0)
+                lines.append("N_TOP, 1, 1, 0.0")  # Lateral constraint ux=0
                 lines.append(f"N_RP, 2, 2, {u_final:.10e}")
                 lines.append("*OUTPUT, FIELD, FREQUENCY=10")
                 lines.append("*NODE OUTPUT")
@@ -1058,13 +1071,14 @@ class Mode1StateTransferEngine:
         elif two_stage or continuation_mode == "reload":
             lines.append("** STEP 1: RELOAD TO HANDOFF DISPLACEMENT (u = u_handoff)")
             lines.append("** ==========================================================")
-            lines.append("*STEP, NAME=Step-1-Reload, NLGEOM=YES, INC=100")
+            lines.append("*STEP, NAME=Step-1-Reload, NLGEOM=NO, INC=100")
             lines.append("*STATIC")
             lines.append("0.1, 1.0, 1.0e-6, 0.1")
             lines.append("** Boundary conditions:")
             lines.append("*BOUNDARY")
             lines.append("N_BOTTOM, 2, 2, 0.0")
-            lines.append("1, 1, 1, 0.0")  # Pin origin node
+            lines.append("N_PIN, 1, 1, 0.0")  # Pin origin node at (0, 0)
+            lines.append("N_TOP, 1, 1, 0.0")  # Lateral constraint ux=0
             lines.append(f"N_RP, 2, 2, {u_handoff:.10e}")
             lines.append("*RESTART, WRITE, FREQUENCY=0")
             lines.append("*OUTPUT, FIELD, FREQUENCY=10")
@@ -1079,7 +1093,7 @@ class Mode1StateTransferEngine:
             lines.append("** ==========================================================")
             lines.append("** STEP 2: CONTINUATION FRACTURE PROPAGATION (u_handoff -> u_final)")
             lines.append("** ==========================================================")
-            lines.append(f"*STEP, NAME=Step-2-Continue, NLGEOM=YES, INC={num_increments * 2}")
+            lines.append(f"*STEP, NAME=Step-2-Continue, NLGEOM=NO, INC={num_increments * 2}")
             lines.append("*STATIC")
             lines.append(f"{dt_init:.8e}, 1.0, 1.0e-12, {dt_init:.8e}")
             lines.append("*BOUNDARY")
@@ -1096,13 +1110,14 @@ class Mode1StateTransferEngine:
             lines.append("** STEP 1: NONLINEAR STATIC CONTINUATION SOLVE")
             lines.append("** ==========================================================")
             dt_init = 1.0 / float(num_increments)
-            lines.append(f"*STEP, NAME=Step-1, NLGEOM=YES, INC={num_increments * 2}")
+            lines.append(f"*STEP, NAME=Step-1, NLGEOM=NO, INC={num_increments * 2}")
             lines.append("*STATIC")
             lines.append(f"{dt_init:.8e}, 1.0, 1.0e-12, {dt_init:.8e}")
             lines.append("** Boundary conditions:")
             lines.append("*BOUNDARY")
             lines.append("N_BOTTOM, 2, 2, 0.0")
-            lines.append("1, 1, 1, 0.0")  # Pin origin node
+            lines.append("N_PIN, 1, 1, 0.0")  # Pin origin node at (0, 0)
+            lines.append("N_TOP, 1, 1, 0.0")  # Lateral constraint ux=0
             lines.append(f"N_RP, 2, 2, {u_final:.10e}")
             lines.append("*RESTART, WRITE, FREQUENCY=0")
             lines.append("*OUTPUT, FIELD, FREQUENCY=10")

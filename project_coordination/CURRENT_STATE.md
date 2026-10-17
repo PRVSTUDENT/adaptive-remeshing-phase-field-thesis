@@ -1,3 +1,37 @@
+## Task F1522 Harvest Enriched Baseline Ground Truth & Eliminate State-Preservation Compliance Deficit (17 October 2026)
+Successfully harvested continuous enriched baseline ground truth from Job 1414571, executed the pointwise displacement falsification test proving that missing lateral constraints caused the compliance deficit, submitted and evaluated the Package 51 corrected same-mesh model (Job 1414758), achieved machine-precision restoration of continuous reaction force and energy, confirmed release-and-hold stability, and updated the state transfer engine:
+1. Harvest of Enriched Continuous Baseline Ground Truth (Job 1414571):
+   - Continuous baseline simulation `M1_MB_BASE_ENR` completed Exit 0 across all 2000 increments in 01:54:34 walltime with 0 cutbacks and exactly 3 iterations/inc.
+   - Deployed and executed `extract_enriched_baseline_ground_truth.py` on cluster scratch using Abaqus 2023.
+   - Harvested `fine_baseline_ground_truth_u0050.json` (11.2 MB, SHA256: `82C8834739CE441CA02D4F8885E93C6715EEDBB646705B74AF0D4F4898FDF9BF`) capturing complete nodal coordinates, displacements ($u_x, u_y$), element SDVs ($H, d, \sigma, \varepsilon$) across all 14,483 elements and 14,456 mesh nodes (+ RP 999999).
+   - Confirmed terminal energetic state at $u = 0.0050$ mm from `uel_energy_balance.csv`: $E_{\text{elas}} = 1.6543134$ mJ, $E_{\text{frac}} = 0.0367858$ mJ, $E_{\text{tot}} = 1.6910993$ mJ, $RF_2 = 661.7254$ N, matching reference Job 1412465 to all 8 significant digits.
+2. Pointwise Displacement Falsification Test (Root Cause Confirmed):
+   - Authored and executed `compare_re_equilibrated_displacements.py` comparing Job 1414563 Step 1 displacement field $u^*$ directly against continuous ground truth $u_{\text{cont}}$.
+   - Proved $\|u^* - u_{\text{cont}}\|_{L_2} / \|u_{\text{cont}}\|_{L_2} = 34.19\%$, with maximum displacement discrepancy of $0.001327$ mm localized at Node 70 on top boundary $y = 1.0$.
+   - Conclusively established that the $-16.71$ N / $-2.53\%$ reaction force deficit in same-mesh Job 1414563 was caused exclusively by boundary condition and kinematic mismatch in `mode1_state_transfer_engine.py`:
+     * Top boundary lateral constraint `N_TOP, 1, 1, 0.0` was omitted, allowing unconstrained lateral Poisson contraction under tension.
+     * Origin pin was placed on Node 1 $(0.9605, 0.0)$ instead of Node 33 (`N_PIN`) at $(0.0, 0.0)$, distorting the bottom boundary.
+     * `NLGEOM=YES` was used instead of canonical linear kinematics `NLGEOM=NO`.
+3. Corrected Same-Mesh Model Execution (Job 1414758.mmaster02):
+   - Created Package 51: `models/pandey_kumar_mode1/51_method_c_stage_c1_1_samemesh_corrected_bc/`.
+   - Staged and qualified via datacheck Exit 0, submitted via `Invoke-Mode1Execution.ps1` to `entry_imfdfkmq` -> `normal_imfdfkmq`.
+   - Completed Exit 0 in 27s walltime (20.0s CPU) across all 11 increments with 0 cutbacks.
+4. Elimination of Force Deficit & Machine-Precision Continuity:
+   - Step 1 reaction force: $RF_2 = 661.72524$ N. Compared to continuous ground truth ($661.72540$ N), the discrepancy is $0.00016$ N ($0.000024\%$ error), completely eliminating the $-17.17$ N deficit!
+   - Step 1 total energy: $E_{\text{tot}} = 1.691122$ mJ vs continuous $1.691099$ mJ (error $0.0013\% \ll 0.10\%$ threshold).
+   - Peak damage $d_{\max} = 0.3181415$ (error $0.0\%$, bitwise match to 7 significant figures).
+5. Step 2 Release-and-Hold Stability Verified:
+   - Evaluated Step 2 unconstrained release-and-hold across 10 increments:
+     * $|\Delta RF| = |661.72484 - 661.72524| = 0.00040$ N $\ll 5.0$ N threshold.
+     * $|\Delta d_{\max}| = |0.31814396 - 0.31814152| = 0.0000024 \ll 0.0200$ threshold.
+     * Total energy at Inc 10: $E_{\text{tot}} = 1.6910993$ mJ, matching continuous baseline to all 8 significant figures!
+6. State Transfer Engine Hardening:
+   - Updated `scripts/state_transfer/mode1_state_transfer_engine.py` to automatically identify the true origin pin node (`N_PIN`), prescribe `N_TOP, 1, 1, 0.0`, and enforce `NLGEOM=NO` across all continuation step branches.
+7. Verification & Active Regression Suite (11/11 PASS):
+   - Authored unit test `tests/unit/test_mode1_f1522_harvest_ground_truth_and_corrected_boundary_conditions.py` (5/5 PASS).
+   - Verified active regression battery (F1521 + F1522: 11/11 PASS in 0.63s).
+   - Same-mesh state preservation is QUALIFIED. Gate 6C hold remains strictly enforced on forward continuation pending nonmatching transfer qualification.
+
 ## Task F1521 Harvest Ground Truth & Isolate Reconstruction Error (16 October 2026)
 Conducted the constitutive audit of mechanical static equilibrium under frozen damage, evaluated the element-average fidelity of consistent inverse damage reconstruction, isolated the boundary condition and kinematic mismatch in the state transfer engine, monitored active execution of enriched baseline Job 1414571 with 100% bitwise parity, and verified 100% pass across the expanded 78-test active regression suite:
 1. Live Baseline Monitoring & Bitwise Parity:

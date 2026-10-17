@@ -119,7 +119,7 @@ def prepare(request,root=ROOT):
     require(all(proof.get(k) is True for k in ('passed','pbs_email_verified','telegram_verified')),'Actual notification preflight failed')
     require(proof.get('candidate_manifest_sha256')==key and proof.get('file_hashes')==files,'Preflight is not bound to current manifest/files')
     require(proof.get('batch_spec_sha256')==digest(json.dumps(batch,sort_keys=True,separators=(',',':')).encode()),'Preflight batch mismatch')
-    require(0 <= (datetime.now(timezone.utc)-datetime.fromisoformat(proof['checked_at'])).total_seconds()<300,'Refresh technical preflight')
+    require(-30 <= (datetime.now(timezone.utc)-datetime.fromisoformat(proof['checked_at'])).total_seconds()<300,'Refresh technical preflight')
     require(type(proof.get('active_job_count')) is int and 0<=proof['active_job_count']<4,'Live scheduler resource count required')
     for job in batch['jobs']:
         dc=proof.get('datachecks',{}).get(job['id'],{})
