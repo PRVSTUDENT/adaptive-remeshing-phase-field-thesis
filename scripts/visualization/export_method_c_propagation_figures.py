@@ -192,7 +192,7 @@ def load_stage_data(cfg):
     
     # Layer 1 elements
     for eid, conn in mesh.elements_u1.items():
-        coords = [mesh.nodes_u1[nid] for nid in conn if nid in mesh.nodes_u1]
+        coords = [mesh.nodes[nid] for nid in conn if nid in mesh.nodes]
         if len(coords) in (3, 4):
             polys.append(coords)
             d = damage_dict.get(eid, 0.0)
@@ -202,7 +202,7 @@ def load_stage_data(cfg):
             else:
                 num_tris += 1
                 
-    num_nodes = len(mesh.nodes_u1)
+    num_nodes = len(mesh.nodes)
     num_elements = len(polys)
     elem_damages = np.array(elem_damages)
     max_d = float(np.max(elem_damages)) if len(elem_damages) > 0 else 0.0
