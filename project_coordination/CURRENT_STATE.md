@@ -1,3 +1,42 @@
+## Task F1523 Verify Same-Mesh Spatial Fields & Isolate Boundary-Condition Mechanism (17 October 2026)
+Successfully verified machine-precision spatial field parity between corrected same-mesh Job 1414758 and continuous baseline Job 1414571, resolved the UEL nodal DOF-3 reference via companion ELEMENT_NODAL extrapolation, designed, qualified, submitted, and evaluated the one-factor ablation diagnostic (Job 1414760.mmaster02) proving that omitting N_TOP alone causes the exact -16.71 N deficit, re-evaluated Gate 6C quantitatively across all five physical thresholds, and preserved the strict forward continuation hold:
+1. Machine-Precision Spatial Displacement Parity (Job 1414758 vs Continuous Baseline Job 1414571):
+   - Evaluated spatial field parity across all 14,456 mesh nodes at handoff displacement u = 0.0050 mm:
+     * Relative L2 displacement error: ||u_corr - u_cont||_L2 / ||u_cont||_L2 = 0.000064% (0.000202% in u_x, 0.000020% in u_y).
+     * Maximum nodal displacement error: 7.08e-09 mm (7.08 picometers!) at Node 10318.
+     * Top boundary lateral error: 8.41e-45 mm across all 150 top nodes; Node 70 lateral error is exactly 0.000000 mm (down from 0.001327 mm / 34.19% in unconstrained Job 1414563).
+     * Classified formally as SAME_MESH_GLOBAL_EQUILIBRIUM_CONTINUITY_PASS and SAME_MESH_SPATIAL_DISPLACEMENT_PARITY_PASS.
+2. Element Damage & History Field Evaluation:
+   - Element damage SDV14 (d_avg) across all 14,483 elements:
+     * Relative L2 damage error: 0.042592%.
+     * Maximum damage error: 2.69e-04 at Element 411, well within the Gate 6C threshold of 0.0200.
+     * Crack-tip apex Element 661 damage: corrected = 0.3181415, ground truth = 0.3181416, absolute discrepancy = 1.19e-07.
+   - History field SDV2 (H):
+     * Relative L2 history discrepancy: 46.891580%, apex Element 661 discrepancy: 0.252132 (0.521140 vs 0.773272).
+     * Confirmed: In static re-equilibration under frozen damage, mechanical static equilibrium is independent of H (stress depends only on d). However, H governs future crack-tip driving forces upon continuation, proving why forward propagation must remain held until history transfer and nonmatching mapping are rigorously resolved.
+3. Resolution of UEL Nodal DOF-3 Output Reference:
+   - Audited Abaqus 2023 Standard 2D plane strain output architecture: *NODE OUTPUT\nU strictly allocates 2 components ('U1', 'U2') for 2D continuum nodes; UEL active DOF 3 is not exported to U.
+   - Proved that companion CPE4 visualizer elements (Layer 3) share the identical nodal connectivity and evaluate authentic integration-point phase-field (SDV1) and element-average damage (SDV14).
+   - Proved that Abaqus ODB API getSubset(position=ELEMENT_NODAL) successfully extrapolates SDV1 and SDV14 to all 57,531 element-node locations, enabling exact and thermodynamically consistent nodal recovery without modifying the frozen UEL Fortran source.
+4. One-Factor Boundary Condition Ablation Experiment (Job 1414760.mmaster02):
+   - Created Package 52: models/pandey_kumar_mode1/52_method_c_stage_c1_1_top_bc_ablation/.
+   - Deck M1_MC_STAGE_C1_1_TOP_BC_ABLATION.inp omitted ONLY N_TOP, 1, 1, 0.0, while preserving origin pin Node 33 (N_PIN) and linear kinematics NLGEOM=NO.
+   - Qualified via interactive Datacheck Exit 0, submitted via Invoke-Mode1Execution.ps1, completed Exit 0 in 31s walltime with 0 cutbacks across all 11 increments.
+   - Step 1 reaction force: RF_2 = 645.01075 N, reproducing the exact -16.71449 N (-2.53%) deficit observed in Job 1414563 (645.011 N, difference of 0.0002 N / 0.00003%).
+   - Step 1 total energy: E_tot = 1.6493355 mJ, matching Job 1414563 bitwise to all 7 significant figures.
+   - Spatial displacement comparison: Omitting N_TOP alone induced a 33.20% lateral displacement error and 0.001376 mm top edge contraction.
+   - Proved conclusively: Omission of N_TOP lateral constraint is the sole primary cause of the compliance deficit; origin pinning and NLGEOM contributed < 0.0002 N.
+5. Quantitative Gate 6C Re-Evaluation & Forward Hold:
+   - Force continuity: |Delta RF| = 0.00016 N <= 5.0 N (PASS).
+   - Peak damage continuity: |Delta d_max| = 1.19e-07 <= 0.020 (PASS).
+   - Elastic energy continuity: error = 0.000024% <= 0.50% (PASS).
+   - Fracture energy continuity: error = 0.062% <= 0.50% (PASS).
+   - Total energy continuity: error = 0.0013% <= 0.10% (PASS).
+   - Forward continuation hold (GATE_6C_HOLD) strictly maintained on M1_MC_STAGE_C1_1_FORWARD_14K pending nonmatching transfer qualification.
+6. Verification & Active Regression Battery (16/16 PASS):
+   - Authored unit test tests/unit/test_mode1_f1523_spatial_field_parity_and_bc_ablation.py (5/5 PASS).
+   - Verified 100% pass across active regression battery (F1521 + F1522 + F1523: 16/16 PASS in 0.38s).
+
 ## Task F1522 Harvest Enriched Baseline Ground Truth & Eliminate State-Preservation Compliance Deficit (17 October 2026)
 Successfully harvested continuous enriched baseline ground truth from Job 1414571, executed the pointwise displacement falsification test proving that missing lateral constraints caused the compliance deficit, submitted and evaluated the Package 51 corrected same-mesh model (Job 1414758), achieved machine-precision restoration of continuous reaction force and energy, confirmed release-and-hold stability, and updated the state transfer engine:
 1. Harvest of Enriched Continuous Baseline Ground Truth (Job 1414571):

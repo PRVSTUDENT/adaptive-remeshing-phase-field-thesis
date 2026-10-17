@@ -1,0 +1,44 @@
+{
+  "evaluation_title": "Job 1414758 vs Continuous Baseline Ground Truth Spatial Field Parity",
+  "job_id_corrected": "1414758.mmaster02",
+  "job_id_ground_truth": "1414571.mmaster02",
+  "num_mesh_nodes": 14456,
+  "num_mesh_elements": 14483,
+  "step1_vs_ground_truth": {
+    "rel_l2_displacement_error_pct": 6.437838608487857e-05,
+    "rel_l2_ux_error_pct": 0.00020213425110725662,
+    "rel_l2_uy_error_pct": 2.0001092767811964e-05,
+    "max_displacement_error_mm": 7.082091990293643e-09,
+    "max_displacement_error_node": 10318,
+    "max_ux_error_mm": 6.688424036838114e-09,
+    "max_ux_error_node": 10318,
+    "max_uy_error_mm": 5.8498699218034744e-09,
+    "max_uy_error_node": 1115,
+    "top_boundary_max_ux_error_mm": 8.407790785948902e-45,
+    "node_70_ux_error_mm": 0.0,
+    "rel_l2_damage_error_pct": 0.042592116018369916,
+    "max_damage_error": 0.0002693826536415145,
+    "max_damage_error_elem": 411,
+    "tip_elem_661_damage": {
+      "corrected": 0.31814152002334595,
+      "ground_truth": 0.3181416392326355,
+      "abs_diff": 1.1920928955078125e-07
+    },
+    "rel_l2_history_error_pct": 46.891579596009805,
+    "max_history_error": 0.4552353322505951,
+    "max_history_error_elem": 2288,
+    "tip_elem_661_history": {
+      "corrected": 0.5211398601531982,
+      "ground_truth": 0.7732717394828796,
+      "abs_diff": 0.2521318793296814
+    }
+  },
+  "within_run_release_relaxation": {
+    "rel_l2_displacement_shift_pct": 5.598016481754854e-05,
+    "max_displacement_shift_mm": 7.119897468954325e-09,
+    "max_displacement_shift_node": 10318,
+    "max_damage_shift": 0.0002693040732992813,
+    "max_damage_shift_elem": 411
+  },
+  "spatial_field_parity_verdict": "PASS"
+}

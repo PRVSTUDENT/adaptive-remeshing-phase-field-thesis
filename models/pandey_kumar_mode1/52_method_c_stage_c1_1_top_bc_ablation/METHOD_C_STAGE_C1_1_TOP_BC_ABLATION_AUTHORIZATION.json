@@ -1,0 +1,42 @@
+{
+  "adapter": "mode1-qualified-batch-v2",
+  "batch_name": "MODE1_METHOD_C_STAGE_C1_1_TOP_BC_ABLATION",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_stage_c1_1_top_bc_ablation",
+  "max_submissions": 1,
+  "automatic_retry": false,
+  "files": {
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_MC_STAGE_C1_1_TOP_BC_ABLATION.inp": "151eabf5262879d964bd7f24476c0a8b101e36aae61d7c1f11aeec5e42f8acff",
+    "submit_M1_MC_STAGE_C1_1_TOP_BC_ABLATION.pbs": "a09627d09ade6096980267092ca8a0dab89face4470b289e8d101a074c1563bb"
+  },
+  "jobs": [
+    {
+      "id": "M1_MC_STAGE_C1_1_TOP_BC_ABLATION",
+      "purpose": "One-factor numerical ablation diagnostic isolating boundary condition causality by removing ONLY N_TOP lateral constraint (u_x=0) while preserving origin pin Node 33 and linear kinematics NLGEOM=NO",
+      "input": "M1_MC_STAGE_C1_1_TOP_BC_ABLATION.inp",
+      "pbs": "submit_M1_MC_STAGE_C1_1_TOP_BC_ABLATION.pbs",
+      "datacheck": "M1_MC_STAGE_C1_1_TOP_BC_ABLATION_DC.dat",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 1,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_stage_c1_1_top_bc_ablation/submit_M1_MC_STAGE_C1_1_TOP_BC_ABLATION.pbs\"",
+      "command_sha256": "2809508d97e471b189e7c26d0aa703afebde3609529a216148eb6f1ac7b398ec"
+    }
+  ],
+  "acceptance": {
+    "terminal_exit_status": 0,
+    "step1_increments": 1,
+    "max_cutbacks": 0,
+    "step1_reaction_force_min_N": 640.0,
+    "step1_reaction_force_target_N": 645.0,
+    "step2_force_continuity_tol_N": 5.0,
+    "step2_damage_stability_tol": 0.02,
+    "total_energy_continuity_tol_pct": 0.1
+  }
+}
