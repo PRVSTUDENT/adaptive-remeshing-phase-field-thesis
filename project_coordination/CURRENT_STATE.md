@@ -1,5 +1,26 @@
 # Current State: Adaptive Remeshing for Phase-Field Fracture
 
+## Task F1540 Authentic Method C Adaptive-Remeshing Mesh Figures Export & Packaging (17 October 2026)
+Successfully parsed all five authentic Mode-I Method C input decks, extracted Layer 1 physical finite element connectivities ($1 \dots N_{\text{phys}}$) and nodal coordinates, rendered 10 individual high-resolution figures ($2550 \times 2550$ px, 300 DPI), rendered 2 composite 5-panel global and close-up comparison figures ($7800 \times 1800$ px, 300 DPI), packaged all 12 figures into `method_c_mesh_figures.zip` (35.5 MB) mirrored to the repository root for distribution, and passed 5/5 unit tests:
+1. **Authentic Mesh Discretization Provenance**:
+   - Stage 0 (Initial Coarse Mesh): 2,906 physical elements (2,818 quads, 88 tris), 2,988 nodes (`PK_M1_JOB1_UEL_2906.inp`)
+   - Stage 1 (Remeshing Cycle 1): 17,913 physical elements (17,441 quads, 472 tris), 17,932 nodes (`M1_MC_STAGE_C1_2_CYCLE1_CONT.inp`)
+   - Stage 2 (Remeshing Cycle 2): 21,546 physical elements (20,952 quads, 594 tris), 21,541 nodes (`M1_MC_STAGE_C1_2_CYCLE2_CONT.inp`)
+   - Stage 3 (Remeshing Cycle 3): 25,085 physical elements (24,410 quads, 675 tris), 25,052 nodes (`M1_MC_STAGE_C1_2_CYCLE3_CONT.inp`)
+   - Stage 4 (Remeshing Cycle 4): 29,293 physical elements (28,493 quads, 800 tris), 29,210 nodes (`M1_MC_STAGE_C1_2_CYCLE4_CONT.inp`)
+   - Strictly plotted single physical layer ($1 \dots N_{\text{phys}}$) from authentic `.inp` decks, eliminating co-located 3-layer UEL/UMAT duplicates.
+2. **Individual High-Resolution Figures ($2550 \times 2550$ px, 300 DPI)**:
+   - Full Specimen ($1.0 \times 1.0\,\text{mm}$): `mesh_stage0_coarse_2906.png` (1.86 MB), `mesh_stage1_cycle1_17913.png` (2.70 MB), `mesh_stage2_cycle2_21546.png` (2.83 MB), `mesh_stage3_cycle3_25085.png` (3.00 MB), `mesh_stage4_cycle4_29293.png` (3.00 MB).
+   - Crack-Tip Close-Up ($0.20 \times 0.20\,\text{mm}$, $[0.40, 0.60]\,\text{mm}$): `closeup_stage0_coarse_2906.png` (0.62 MB), `closeup_stage1_cycle1_17913.png` (2.32 MB), `closeup_stage2_cycle2_21546.png` (2.39 MB), `closeup_stage3_cycle3_25085.png` (2.35 MB), `closeup_stage4_cycle4_29293.png` (2.44 MB).
+   - Features annotated: initial crack seam ($y = 0.5\,\text{mm}, 0 \le x \le 0.5\,\text{mm}$), singular crack tip $(0.5, 0.5)$, loading step, element/node counts, quad/tri breakdown, and source deck.
+3. **Multi-Panel Global & Close-Up Comparisons ($7800 \times 1800$ px, 300 DPI)**:
+   - `method_c_full_meshes_comparison.png` (7.29 MB): 5 side-by-side columns illustrating specimen-scale refinement localization.
+   - `method_c_crack_tip_closeups_comparison.png` (4.90 MB): 5 side-by-side columns resolving the crack-tip refinement corridor narrowing from $h \approx 20\,\mu\text{m}$ down to $h_{\min} \approx 1.0\,\mu\text{m}$.
+4. **Distribution Package**:
+   - `method_c_mesh_figures/method_c_mesh_figures.zip` (35.5 MB) containing all 12 figures, mirrored to `method_c_mesh_figures.zip` at workspace root.
+5. **Unit Test Suite**:
+   - `tests/unit/test_mode1_f1540_mesh_figures_export.py`: **5/5 PASS in 1.17s**.
+
 ## Task F1539 Cycle 4 Control Step 1 & 2 Verification, Three-Way Trajectory Comparison, History Irreversibility Audit & Scientific Limits (17 October 2026)
 Successfully evaluated the definitive three-way comparison and conducted an exhaustive epistemic and mathematical audit of cross-mesh history transfer and fracture energy accounting while Package 63 Cycle 4 uninterrupted control (Job `1414832.mmaster02` on 29,293 finite elements, 87,879 3-layer elements) executes on node `mnode097/0`:
 1. **Package 63 Cycle 4 Control Step 1 & Step 2 Checkpoint Validation**:
