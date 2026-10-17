@@ -1,0 +1,43 @@
+{
+    "adapter":  "mode1-qualified-batch-v2",
+    "batch_name":  "MODE1_METHOD_C_STAGE_C1_2_CYCLE1_CONT",
+    "scientific_scope":  "MODE1",
+    "technical_stage":  "C1-2",
+    "remote_run_dir":  "/scratch9/pr21vyci/runs/mode1_stage_c1_2_cycle1_continuation",
+    "max_submissions":  1,
+    "automatic_retry":  false,
+    "files":  {
+                  "f42_mixed_uel.for":  "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+                  "job_notifications.sh":  "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+                  "M1_MC_STAGE_C1_2_CYCLE1_CONT.inp":  "5743b4c91660511c532155268aec41f25c67bf07b9b50e888cbd2f39ae809949",
+                  "submit_M1_MC_STAGE_C1_2_CYCLE1_CONT.pbs":  "cd7a67259074a4b74a7c2708d4997f45c124393a2b4a84775092cbc57f862b46"
+              },
+    "jobs":  [
+                 {
+                     "id":  "M1_MC_STAGE_C1_2_CYCLE1_CONT",
+                     "purpose":  "First Genuine Mode-I Method C Adaptive Remeshing Cycle (u=0.0010 -\u003e 0.0012 mm) on 17,913-element adaptively refined mesh generated natively by Abaqus CAE from MISESERI error indicator",
+                     "input":  "M1_MC_STAGE_C1_2_CYCLE1_CONT.inp",
+                     "pbs":  "submit_M1_MC_STAGE_C1_2_CYCLE1_CONT.pbs",
+                     "datacheck":  "M1_MC_STAGE_C1_2_CYCLE1_CONT_DC.dat",
+                     "cpus":  1,
+                     "memory_gb":  16,
+                     "walltime_hours":  2,
+                     "queue":  "entry_imfdfkmq",
+                     "execution":  "single-rank serial",
+                     "max_submissions":  1,
+                     "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_stage_c1_2_cycle1_continuation/submit_M1_MC_STAGE_C1_2_CYCLE1_CONT.pbs\"",
+                     "command_sha256":  "c34e46013088c59041c4ebcada92fd4d5c13b0b7db09c980794048afa97db4f6"
+                 }
+             ],
+    "acceptance":  {
+                       "terminal_exit_status":  0,
+                       "step1_increments":  1,
+                       "max_cutbacks":  0,
+                       "step1_force_tolerance_N":  5,
+                       "step1_total_energy_error_pct":  0.1,
+                       "step1_damage_delta_tolerance":  0.02,
+                       "step2_continuation_monotonicity":  true,
+                       "step2_force_tolerance_N":  5,
+                       "step2_energy_error_pct":  0.5
+                   }
+}
