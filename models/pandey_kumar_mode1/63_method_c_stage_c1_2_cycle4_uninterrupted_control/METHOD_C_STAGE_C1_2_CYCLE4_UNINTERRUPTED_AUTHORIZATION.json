@@ -1,0 +1,43 @@
+{
+    "adapter": "mode1-qualified-batch-v2",
+    "batch_name": "MODE1_METHOD_C_STAGE_C1_2_CYCLE4_UNINTERRUPTED_CONTROL",
+    "scientific_scope": "MODE1",
+    "technical_stage": "C1-2",
+    "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_stage_c1_2_cycle4_uninterrupted_control",
+    "max_submissions": 1,
+    "automatic_retry": false,
+    "files": {
+        "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+        "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "M1_MC_STAGE_C1_2_CYCLE4_UNINTERRUPTED_CONTROL.inp": "50acec4aaa9c741afa1220017bb27a4dfaa84e4c3fd257f95febdbe3b9d271a9",
+        "submit_M1_MC_STAGE_C1_2_CYCLE4_UNINTERRUPTED_CONTROL.pbs": "edc15ca65e1499510764195fdba755519f60f92ed1169b6fd118f1dad3541f5f"
+    },
+    "jobs": [
+        {
+            "id": "M1_MC_STAGE_C1_2_CYCLE4_UNINTERRUPTED_CONTROL",
+            "purpose": "Cycle 4 Native-Mesh Uninterrupted Reference Control (u=0.0 -> 0.0021 mm on 29,293-element mesh)",
+            "input": "M1_MC_STAGE_C1_2_CYCLE4_UNINTERRUPTED_CONTROL.inp",
+            "pbs": "submit_M1_MC_STAGE_C1_2_CYCLE4_UNINTERRUPTED_CONTROL.pbs",
+            "datacheck": "M1_MC_STAGE_C1_2_CYCLE4_UNINTERRUPTED_CONTROL_DC.dat",
+            "cpus": 1,
+            "memory_gb": 16,
+            "walltime_hours": 4,
+            "queue": "entry_imfdfkmq",
+            "execution": "single-rank serial",
+            "max_submissions": 1,
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_stage_c1_2_cycle4_uninterrupted_control/submit_M1_MC_STAGE_C1_2_CYCLE4_UNINTERRUPTED_CONTROL.pbs\"",
+            "command_sha256": "ac96961d65bd725595a567a8d696bfde30d0d41d0dcea27cdd8b1d9bf448ceb8"
+        }
+    ],
+    "acceptance": {
+        "terminal_exit_status": 0,
+        "step1_increments": 200,
+        "step2_increments": 200,
+        "step3_increments": 300,
+        "max_cutbacks": 0,
+        "step1_force_tolerance_N": 5.0,
+        "step2_force_tolerance_N": 5.0,
+        "step3_force_tolerance_N": 5.0,
+        "energy_continuity_error_pct": 0.5
+    }
+}
