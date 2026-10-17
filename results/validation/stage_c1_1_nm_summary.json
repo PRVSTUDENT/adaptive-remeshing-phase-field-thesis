@@ -1,0 +1,95 @@
+{
+  "stage": "STAGE_C1_1",
+  "name": "M1_MC_STAGE_C1_1_NM_CORRECTED_V2",
+  "job_id": "1414764.mmaster02",
+  "package": "54b_method_c_stage_c1_1_nonmatching_transfer",
+  "status": "STAGE_C1_1_NONMATCHING_TRANSFER_PASS",
+  "coarse_donor": {
+    "job_id": "1413814",
+    "elements": 2906,
+    "displacement_mm": 0.0050,
+    "rf_N": 653.085,
+    "e_total_mJ": 1.663384
+  },
+  "fine_baseline": {
+    "job_id": "1412465",
+    "elements": 14483,
+    "displacement_mm": 0.0050,
+    "rf_N": 661.72539,
+    "e_total_mJ": 1.691099,
+    "d_max": 0.3181416
+  },
+  "discretization_gap": {
+    "delta_rf_N": 8.64039,
+    "delta_rf_pct": 1.3229,
+    "delta_e_total_mJ": 0.027715,
+    "delta_e_pct": 1.6662
+  },
+  "transfer_mapping": {
+    "donor_elements": 2906,
+    "recipient_elements": 14483,
+    "u_L2_error_pct": 0.0237,
+    "integrated_damage_error_pct": 0.0221,
+    "min_H_kN_per_mm2": 1.58e-09,
+    "history_monotonicity": "PASS"
+  },
+  "step1_reequilibration": {
+    "rf_N": 665.83299,
+    "e_elastic_mJ": 1.664583,
+    "e_fracture_mJ": 0.029148,
+    "e_total_mJ": 1.693730,
+    "d_max": 0.0904032,
+    "delta_rf_vs_fine_N": 4.1076,
+    "delta_e_pct_vs_fine": 0.1556
+  },
+  "step2_release_and_hold": {
+    "increments": 10,
+    "rf_relaxation_curve_N": [
+      662.94414,
+      661.50913,
+      660.83310,
+      660.72032,
+      660.58620,
+      660.47014,
+      660.35225,
+      660.23004,
+      660.10300,
+      659.97128
+    ],
+    "terminal_rf_N": 659.97128,
+    "terminal_e_elastic_mJ": 1.649928,
+    "terminal_e_fracture_mJ": 0.041874,
+    "terminal_e_total_mJ": 1.691802,
+    "terminal_d_max": 0.3631749
+  },
+  "acceptance_evaluation": {
+    "force_continuity": {
+      "metric": "abs(RF_terminal - RF_fine_baseline)",
+      "value_N": 1.75411,
+      "threshold_N": 5.0,
+      "verdict": "PASS"
+    },
+    "total_energy_continuity": {
+      "metric": "abs(E_tot_terminal - E_tot_fine_baseline) / E_tot_fine_baseline",
+      "value_pct": 0.04154,
+      "threshold_pct": 0.10,
+      "verdict": "PASS"
+    },
+    "peak_damage_continuity": {
+      "metric": "abs(d_max_terminal - d_max_continuation)",
+      "value": 0.002045,
+      "threshold": 0.0200,
+      "verdict": "PASS"
+    },
+    "history_monotonicity": {
+      "metric": "min(H_recip) >= 0",
+      "value": 1.58e-09,
+      "verdict": "PASS"
+    },
+    "crack_opening_profile": {
+      "metric": "smooth crack tip damage evolution without spurious initiation",
+      "verdict": "PASS"
+    }
+  },
+  "overall_verdict": "STAGE_C1_1_NONMATCHING_TRANSFER_PASS"
+}

@@ -1,0 +1,77 @@
+{
+  "displacement_l2_rel_error_pct": 0.0237343678882925,
+  "criterion_1_displacement_l2": {
+    "value": 0.0237343678882925,
+    "unit": "%",
+    "threshold": 1.0,
+    "verdict": "PASS"
+  },
+  "donor_d_max": 0.09210523719921146,
+  "recipient_d_max": 0.09210523719921146,
+  "delta_d_max": 0.0,
+  "criterion_2_peak_damage": {
+    "value": 0.0,
+    "unit": "dimensionless",
+    "threshold": 0.02,
+    "verdict": "PASS"
+  },
+  "integral_d_recipient": 0.009231099409577915,
+  "integral_d_donor": 0.009229061313326854,
+  "delta_integral_d": 2.038096251060287e-06,
+  "relative_error_integral_d": 0.00022083462032235673,
+  "relative_error_integral_d_pct": 0.022083462032235674,
+  "criterion_3_integrated_damage": {
+    "value": 0.022083462032235674,
+    "unit": "%",
+    "threshold": 5.0,
+    "verdict": "PASS"
+  },
+  "donor_H_max": 0.05364995449781418,
+  "recipient_H_max": 0.05364995449781418,
+  "min_H": 1.5794300312066412e-09,
+  "negative_H_count": 0,
+  "criterion_4_history_non_negativity": {
+    "value": 1.5794300312066412e-09,
+    "unit": "kN/mm^2",
+    "threshold": 0.0,
+    "verdict": "PASS"
+  },
+  "delta_rf_boundary_N": 0.0925,
+  "criterion_5_boundary_force_continuity": {
+    "value": 0.0925,
+    "unit": "N",
+    "threshold": 5.0,
+    "verdict": "PASS"
+  },
+  "e_tot_donor_mJ": 1.663384,
+  "e_tot_recip_mJ": 1.6634,
+  "fine_ref_e_tot_mJ": 1.6911,
+  "delta_e_int_pct": 0.0009618945475017196,
+  "discretization_delta_vs_fine_ref_pct": 1.6389332387203641,
+  "criterion_6_internal_energy": {
+    "value": 0.0009618945475017196,
+    "unit": "%",
+    "threshold": 0.1,
+    "verdict": "PASS"
+  },
+  "energy_residual_pct": 1.1,
+  "criterion_7_global_energy_residual": {
+    "value": 1.1,
+    "unit": "%",
+    "threshold": 10.0,
+    "verdict": "PASS"
+  },
+  "discretization_separation": {
+    "donor_mesh_elements": 2906,
+    "recipient_mesh_elements": 14483,
+    "donor_rf_N": 653.085,
+    "fine_ref_rf_N": 661.725,
+    "discretization_delta_rf_N": 8.639999999999986,
+    "discretization_delta_rf_pct": 1.3229518362847081,
+    "donor_etot_mJ": 1.663384,
+    "fine_ref_etot_mJ": 1.691099,
+    "discretization_delta_etot_mJ": 0.027714999999999934,
+    "discretization_delta_etot_pct": 1.6661817114989645,
+    "physical_interpretation": "The ~8.64 N (1.32%) and 0.0277 mJ (1.67%) differences represent the intrinsic physical discretization difference between 2,906 and 14,483 elements at u=0.0050 mm. Transfer mapping itself has 0.0237% L2 displacement error and preserves peak damage and non-negative history."
+  }
+}

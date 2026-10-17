@@ -1980,3 +1980,9 @@ models/pandey_kumar_mode1/53_method_c_stage_c1_0b_samemesh_continuation/METHOD_C
 tests/unit/test_mode1_f1524_history_parity_and_continuation.py,test,"Unit tests for Task F1524 true 4-IP history parity, artifact resolution, and continuation deck structure (6/6 PASS)",F1524,2026-10-17T07:37:00+02:00
 project_coordination/sessions/2026-10-17_gemini-antigravity_F1524-RESTORE-COMMITTED-HISTORY-AND-QUALIFY-SAME-MESH-CONTINUATION.md,session_report,Session report for Task F1524,F1524,2026-10-17T07:41:00+02:00
 results/validation/stage_c1_0b_continuation_summary.json,evidence,Stage C1-0B same-mesh continuation summary proving continuous baseline parity across active crack propagation,F1524,2026-10-17T07:43:00+02:00
+results/validation/stage_c1_1_nm_summary.json,evidence,Stage C1-1 nonmatching state transfer validation summary proving force and energy continuity,F1525,2026-10-17T08:13:00+02:00
+tests/unit/test_mode1_f1525_continuation_closure_and_nonmatching_transfer.py,test,Unit tests for Task F1525 Stage C1-0B closure and Stage C1-1 nonmatching state transfer (5/5 PASS),F1525,2026-10-17T08:15:00+02:00
+models/pandey_kumar_mode1/54_method_c_stage_c1_1_nonmatching_transfer/M1_MC_STAGE_C1_1_NM_CORRECTED.inp,input_deck,Stage C1-1 nonmatching transfer input deck (2906 donor to 14483 recipient),F1525,2026-10-17T08:00:00+02:00
+models/pandey_kumar_mode1/54b_method_c_stage_c1_1_nonmatching_transfer/M1_MC_STAGE_C1_1_NM_CORRECTED_V2.inp,input_deck,Stage C1-1 nonmatching transfer input deck v2 with companion UMAT constants,F1525,2026-10-17T08:08:00+02:00
+runs/hpc/mode1_stage_c1_1_nonmatching_transfer_corrected_v2/evidence_1414764/uel_energy_balance.csv,evidence,Harvested UEL energy balance csv for Job 1414764,F1525,2026-10-17T08:12:00+02:00
+project_coordination/sessions/2026-10-17_gemini-antigravity_F1525-COMPLETE-STAGE-C1-0B-AND-PREPARE-STAGE-C1-1-NONMATCHING-TRANSFER.md,session_report,Session report for Task F1525,F1525,2026-10-17T08:20:00+02:00

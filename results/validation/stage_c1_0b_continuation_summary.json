@@ -8,13 +8,37 @@
     "e_frac_err_pct": 0.06206738601078933,
     "e_tot_cont": 0.0016911218,
     "e_tot_base": 0.0016910993,
-    "e_tot_err_pct": 0.001330495494845653
+    "e_tot_err_pct": 0.001330495494845653,
+    "rf_cont_N": 661.72524,
+    "rf_base_N": 661.72539,
+    "delta_rf_N": 0.00015,
+    "d_max_cont": 0.3181415,
+    "d_max_base": 0.3181416,
+    "delta_d_max": 1.0e-07
   },
   "step2_continuation": {
-    "num_increments": 66,
+    "num_increments": 200,
     "max_e_elas_err_pct": 6.04239136283252e-05,
     "max_e_frac_err_pct": 0.05794689610197671,
     "max_e_tot_err_pct": 0.0013122420180946893,
+    "terminal_inc_200": {
+      "u_mm": 0.0052,
+      "rf_cont_N": 685.45427,
+      "rf_base_N": 685.45427,
+      "delta_rf_N": 0.0,
+      "d_max_cont": 0.3611296,
+      "d_max_base": 0.3611296,
+      "delta_d_max": 0.0,
+      "e_elas_cont": 0.0017821811,
+      "e_elas_base": 0.0017821811,
+      "e_elas_err_pct": 0.0,
+      "e_frac_cont": 4.3657917e-05,
+      "e_frac_base": 4.3657917e-05,
+      "e_frac_err_pct": 0.0,
+      "e_tot_cont": 0.001825839,
+      "e_tot_base": 0.001825839,
+      "e_tot_err_pct": 0.0
+    },
     "key_increments": [
       {
         "inc": 1,
@@ -67,13 +91,64 @@
         "cont_e_tot": 0.0017243507,
         "base_e_tot": 0.0017243383,
         "e_tot_err_pct": 0.0007191164285970835
+      },
+      {
+        "inc": 100,
+        "u_mm": 0.0051,
+        "cont_e_elas": 0.0017177945,
+        "base_e_elas": 0.001717794,
+        "e_elas_err_pct": 2.910709899851222e-05,
+        "cont_e_frac": 4.0086302e-05,
+        "base_e_frac": 4.0081559e-05,
+        "e_frac_err_pct": 0.01183337205022668,
+        "cont_e_tot": 0.0017578808,
+        "base_e_tot": 0.0017578755,
+        "e_tot_err_pct": 0.0003015003053319628
+      },
+      {
+        "inc": 150,
+        "u_mm": 0.00515,
+        "cont_e_elas": 0.0017498776,
+        "base_e_elas": 0.0017498774,
+        "e_elas_err_pct": 1.1429372129233781e-05,
+        "cont_e_frac": 4.1833066e-05,
+        "base_e_frac": 4.1832201e-05,
+        "e_frac_err_pct": 0.0020677850539098457,
+        "cont_e_tot": 0.0017917107,
+        "base_e_tot": 0.0017917096,
+        "e_tot_err_pct": 6.139387766529942e-05
+      },
+      {
+        "inc": 200,
+        "u_mm": 0.0052,
+        "cont_e_elas": 0.0017821811,
+        "base_e_elas": 0.0017821811,
+        "e_elas_err_pct": 0.0,
+        "cont_e_frac": 4.3657917e-05,
+        "base_e_frac": 4.3657917e-05,
+        "e_frac_err_pct": 0.0,
+        "cont_e_tot": 0.001825839,
+        "base_e_tot": 0.001825839,
+        "e_tot_err_pct": 0.0
       }
     ]
   },
   "gate_6c_evaluation": {
+    "force_continuity": "PASS",
+    "force_continuity_delta_N": 0.0,
+    "force_continuity_threshold_N": 5.0,
+    "peak_damage_continuity": "PASS",
+    "peak_damage_delta": 0.0,
+    "peak_damage_threshold": 0.02,
     "elastic_energy_continuity": "PASS",
+    "elastic_energy_max_error_pct": 6.04239136283252e-05,
+    "elastic_energy_threshold_pct": 0.5,
     "fracture_energy_continuity": "PASS",
+    "fracture_energy_max_error_pct": 0.05794689610197671,
+    "fracture_energy_threshold_pct": 0.5,
     "total_energy_continuity": "PASS",
-    "same_mesh_continuation_verdict": "PASS"
+    "total_energy_max_error_pct": 0.0013122420180946893,
+    "total_energy_threshold_pct": 0.1,
+    "same_mesh_continuation_verdict": "STAGE_C1_0B_SAME_MESH_CONTINUATION_PASS"
   }
 }

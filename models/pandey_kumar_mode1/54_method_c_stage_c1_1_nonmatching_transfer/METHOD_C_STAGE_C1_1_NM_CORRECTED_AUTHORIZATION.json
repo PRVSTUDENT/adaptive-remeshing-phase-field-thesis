@@ -1,0 +1,42 @@
+{
+  "adapter": "mode1-qualified-batch-v2",
+  "batch_name": "MODE1_METHOD_C_STAGE_C1_1_NONMATCHING_TRANSFER_CORRECTED",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_stage_c1_1_nonmatching_transfer_corrected",
+  "max_submissions": 1,
+  "automatic_retry": false,
+  "files": {
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_MC_STAGE_C1_1_NM_CORRECTED.inp": "d89906d7be68d477ea8b84624a7e941255857d3f4985ea3e5dcc1a3b802aaecb",
+    "submit_M1_MC_STAGE_C1_1_NM_CORRECTED.pbs": "d9d0cf31c79735aa27a1eed67e61476f3a1109740f0b483fe923784dfcaa774c"
+  },
+  "jobs": [
+    {
+      "id": "M1_MC_STAGE_C1_1_NM_CORRECTED",
+      "purpose": "Corrected nonmatching-mesh transfer experiment (Stage C1-1) under Gate 6C transferring state from 2,906-element coarse donor to 14,483-element fine recipient under corrected boundary conditions (N_TOP, 1, 1, 0.0, N_PIN, 1, 1, 0.0, NLGEOM=NO) separating physical discretization gap from transfer errors",
+      "input": "M1_MC_STAGE_C1_1_NM_CORRECTED.inp",
+      "pbs": "submit_M1_MC_STAGE_C1_1_NM_CORRECTED.pbs",
+      "datacheck": "M1_MC_STAGE_C1_1_NM_CORRECTED_DC.dat",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 1,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_stage_c1_1_nonmatching_transfer_corrected/submit_M1_MC_STAGE_C1_1_NM_CORRECTED.pbs\"",
+      "command_sha256": "8961c1bfe5e55000b377139d71b642e33e22ef17105177448e155486db02979f"
+    }
+  ],
+  "acceptance": {
+    "terminal_exit_status": 0,
+    "step1_increments": 1,
+    "max_cutbacks": 0,
+    "discretization_delta_rf_N": 8.64,
+    "transfer_l2_displacement_error_max_pct": 0.05,
+    "step2_force_continuity_tol_N": 5.0,
+    "step2_damage_stability_tol": 0.02,
+    "total_energy_continuity_tol_pct": 0.1
+  }
+}
