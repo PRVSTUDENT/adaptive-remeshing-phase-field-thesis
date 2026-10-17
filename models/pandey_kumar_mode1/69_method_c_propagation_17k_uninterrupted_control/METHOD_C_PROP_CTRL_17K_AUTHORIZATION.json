@@ -1,0 +1,37 @@
+{
+    "adapter": "mode1-qualified-batch-v2",
+    "batch_name": "MODE1_METHOD_C_PROP_CTRL_17K",
+    "scientific_scope": "MODE1",
+    "technical_stage": "C1-2",
+    "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_stage_c1_2_propagation_17k_uninterrupted_control",
+    "max_submissions": 1,
+    "automatic_retry": false,
+    "files": {
+        "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+        "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "M1_MC_PROP_CTRL_17K.inp": "86139eb32dc3872df71351441d12b737ded8ff88750987e851e83b9b763d898f",
+        "submit_M1_MC_PROP_CTRL_17K.pbs": "a96037f9a42042b27b49886f1502b644b63081acde166b4c8c6b688c5d56a174"
+    },
+    "jobs": [
+        {
+            "id": "M1_MC_PROP_CTRL_17K",
+            "purpose": "Package 69 uninterrupted 17,913-element control from u=0 to 0.0060 mm across peak load",
+            "input": "M1_MC_PROP_CTRL_17K.inp",
+            "pbs": "submit_M1_MC_PROP_CTRL_17K.pbs",
+            "datacheck": "M1_MC_PROP_CTRL_17K_DC.dat",
+            "cpus": 1,
+            "memory_gb": 16,
+            "walltime_hours": 4,
+            "queue": "entry_imfdfkmq",
+            "execution": "single-rank serial",
+            "max_submissions": 1,
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_stage_c1_2_propagation_17k_uninterrupted_control/submit_M1_MC_PROP_CTRL_17K.pbs\"",
+            "command_sha256": "132dcd33e7d7651d3bbc5a24f315457052ed9fa303683e9ce8083fee46717a41"
+        }
+    ],
+    "acceptance": {
+        "terminal_exit_status": 0,
+        "k0_initial_stiffness_kN_per_mm": 137.95,
+        "f_max_peak_load_N": 745.0
+    }
+}
