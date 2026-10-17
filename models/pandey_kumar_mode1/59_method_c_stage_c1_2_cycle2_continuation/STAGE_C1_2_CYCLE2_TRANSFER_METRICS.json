@@ -1,0 +1,76 @@
+{
+  "displacement_l2_rel_error_pct": 0.013558341244463576,
+  "criterion_1_displacement_l2": {
+    "value": 0.013558341244463576,
+    "unit": "%",
+    "threshold": 1.0,
+    "verdict": "PASS"
+  },
+  "donor_d_max": 0.014226428285338467,
+  "recipient_d_max": 0.014226428285338467,
+  "delta_d_max": 0.0,
+  "criterion_2_peak_damage": {
+    "value": 0.0,
+    "unit": "dimensionless",
+    "threshold": 0.02,
+    "verdict": "PASS"
+  },
+  "integral_d_recipient": 0.000553228522629943,
+  "integral_d_donor": 0.0005531950308429022,
+  "delta_integral_d": 3.349178704086398e-08,
+  "relative_error_integral_d": 6.0542458217371575e-05,
+  "relative_error_integral_d_pct": 0.006054245821737157,
+  "criterion_3_integrated_damage": {
+    "value": 0.006054245821737157,
+    "unit": "%",
+    "threshold": 5.0,
+    "verdict": "PASS"
+  },
+  "donor_H_max": 0.02318567968904972,
+  "recipient_H_max": 0.02318567968904972,
+  "min_H": 9.562978880994777e-11,
+  "negative_H_count": 0,
+  "criterion_4_history_non_negativity": {
+    "value": 9.562978880994777e-11,
+    "unit": "kN/mm^2",
+    "threshold": 0.0,
+    "verdict": "PASS"
+  },
+  "delta_rf_boundary_N": 0.0925,
+  "criterion_5_boundary_force_continuity": {
+    "value": 0.0925,
+    "unit": "N",
+    "threshold": 5.0,
+    "verdict": "PASS"
+  },
+  "e_tot_donor_mJ": 1.663384,
+  "e_tot_recip_mJ": 1.6634,
+  "fine_ref_e_tot_mJ": 1.6911,
+  "delta_e_int_pct": 0.0009618945475017196,
+  "discretization_delta_vs_fine_ref_pct": 1.6389332387203641,
+  "criterion_6_internal_energy": {
+    "value": 0.0009618945475017196,
+    "unit": "%",
+    "threshold": 0.1,
+    "verdict": "PASS"
+  },
+  "energy_residual_pct": 1.1,
+  "criterion_7_global_energy_residual": {
+    "value": 1.1,
+    "unit": "%",
+    "threshold": 10.0,
+    "verdict": "PASS"
+  },
+  "cycle_provenance": {
+    "cycle": 2,
+    "error_target_pct": 2.0,
+    "donor_mesh_elements": 17913,
+    "donor_mesh_nodes": 17932,
+    "adapted_mesh_elements": 21546,
+    "adapted_mesh_nodes": 21541,
+    "adapted_quads": 20952,
+    "adapted_tris": 594,
+    "handoff_displacement_mm": 0.0012,
+    "continuation_target_displacement_mm": 0.0015
+  }
+}

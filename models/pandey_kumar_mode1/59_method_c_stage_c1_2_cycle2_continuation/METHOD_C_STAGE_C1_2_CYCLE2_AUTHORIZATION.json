@@ -1,0 +1,38 @@
+{
+    "adapter":  "mode1-qualified-batch-v2",
+    "batch_name":  "MODE1_METHOD_C_STAGE_C1_2_CYCLE2",
+    "scientific_scope":  "MODE1",
+    "technical_stage":  "C1-2",
+    "remote_run_dir":  "/scratch9/pr21vyci/runs/mode1_stage_c1_2_cycle2_continuation",
+    "max_submissions":  1,
+    "automatic_retry":  false,
+    "files":  {
+                  "f42_mixed_uel.for":  "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+                  "job_notifications.sh":  "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+                  "M1_MC_STAGE_C1_2_CYCLE2_CONT.inp":  "2d2e0b28d99e20f0da9c3ec155ac557c2dc61884b123ff04b2bf8689477188f7",
+                  "submit_M1_MC_STAGE_C1_2_CYCLE2_CONT.pbs":  "ac2c259abf64b665455f9ebe533770355a2f016db81a446e7227fc145d34307f"
+              },
+    "jobs":  [
+                 {
+                     "id":  "M1_MC_STAGE_C1_2_CYCLE2_CONT",
+                     "purpose":  "Cycle 2 Mode-I Method C Adaptive Remeshing Continuation (u=0.0012 -\u003e 0.0015 mm on 21,546-element mesh)",
+                     "input":  "M1_MC_STAGE_C1_2_CYCLE2_CONT.inp",
+                     "pbs":  "submit_M1_MC_STAGE_C1_2_CYCLE2_CONT.pbs",
+                     "datacheck":  "M1_MC_STAGE_C1_2_CYCLE2_CONT_DC.dat",
+                     "cpus":  1,
+                     "memory_gb":  16,
+                     "walltime_hours":  2,
+                     "queue":  "entry_imfdfkmq",
+                     "execution":  "single-rank serial",
+                     "max_submissions":  1,
+                     "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_stage_c1_2_cycle2_continuation/submit_M1_MC_STAGE_C1_2_CYCLE2_CONT.pbs\"",
+                     "command_sha256":  "95f687deaffcf02f91f1b958c5e255ffcbfb41aa643012fc5b8c07ff1615d841"
+                 }
+             ],
+    "acceptance":  {
+                       "terminal_exit_status":  0,
+                       "step2_continuation_monotonicity":  true,
+                       "step2_force_tolerance_N":  5.0,
+                       "step2_energy_error_pct":  0.5
+                   }
+}
