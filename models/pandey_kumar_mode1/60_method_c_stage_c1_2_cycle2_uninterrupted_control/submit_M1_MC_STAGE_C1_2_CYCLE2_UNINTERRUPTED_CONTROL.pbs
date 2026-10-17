@@ -1,0 +1,35 @@
+#!/bin/bash
+#PBS -N M1_MC_C2_CTRL
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -o pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -r n
+
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_stage_c1_2_cycle2_uninterrupted_control"
+cd "${RUN_DIR}"
+
+export NOTIFICATION_CONFIG="${HOME}/.config/adaptive-remeshing/notifications.env"
+if [ -f "${RUN_DIR}/job_notifications.sh" ]; then
+    source "${RUN_DIR}/job_notifications.sh"
+    notification_load_config
+    notify_start
+    notification_install_terminal_trap
+fi
+
+source /etc/profile.d/lmod.sh 2>/dev/null || true
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+
+JOB="M1_MC_STAGE_C1_2_CYCLE2_UNINTERRUPTED_CONTROL"
+INP="M1_MC_STAGE_C1_2_CYCLE2_UNINTERRUPTED_CONTROL.inp"
+USER="f42_mixed_uel.for"
+
+abaqus job="${JOB}" input="${INP}" user="${USER}" cpus=1 interactive
+EXIT_CODE=$?
+echo "ABAQUS_COMPLETION_CODE=${EXIT_CODE}"
+exit ${EXIT_CODE}
