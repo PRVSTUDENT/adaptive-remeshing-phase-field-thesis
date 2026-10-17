@@ -1,14 +1,16 @@
 {
-    "active":  true,
-    "agent":  "codex",
-    "task_id":  "BRIDGE-ORPHAN-LOCK-RECOVERY",
-    "claimed_at":  "2026-10-17T12:08:03.7891894+02:00",
-    "starting_commit":  "35690c9ee107387c5422cebeb8b2814872a1c931",
-    "allowed_write_scope":  [
-                                ".agents/scripts/Invoke-ChatGPTBridge.ps1",
-                                ".agents/scripts/Test-BridgeLockRecovery.ps1",
-                                "project_coordination/**",
-                                "C:/Users/pruth/OpenClawPAD/ChatGPTBridge/**"
-                            ],
-    "session_report":  null
+  "active": false,
+  "agent": "gemini-antigravity",
+  "task_id": "F1530-RESOLVE-CYCLE1-FRACTURE-ENERGY-DISCREPANCY-AND-UNINTERRUPTED-CONTROL",
+  "claimed_at": "2026-10-17T12:15:20+02:00",
+  "starting_commit": "c0a7b2a91ea51763c9715f7abcb87af8c9f84e5d",
+  "allowed_write_scope": [
+    "project_coordination/**",
+    "models/pandey_kumar_mode1/**",
+    "runs/hpc/**",
+    "tests/unit/**",
+    "docs/**"
+  ],
+  "session_report": "project_coordination/sessions/2026-10-17_gemini-antigravity_F1530-RESOLVE-CYCLE1-FRACTURE-ENERGY-DISCREPANCY-AND-UNINTERRUPTED-CONTROL.md",
+  "released_at": "2026-10-17T12:19:35+02:00"
 }

@@ -89,10 +89,13 @@ def test_04_package_59_manifest_and_frozen_subroutine():
     assert manifest_path.exists()
     with open(manifest_path, "r", encoding="utf-8") as fp:
         manifest = json.load(fp)
-    job = manifest["authorized_jobs"][0]
-    assert job["job_name"] == "M1_MC_STAGE_C1_2_CYCLE2_CONT"
-    assert job["input_deck"] == "M1_MC_STAGE_C1_2_CYCLE2_CONT.inp"
-    assert job["user_subroutine_sha256"] == uel_sha
+    jobs = manifest.get("jobs", manifest.get("authorized_jobs"))
+    job = jobs[0]
+    job_name = job.get("job_name", job.get("id"))
+    input_deck = job.get("input_deck", job.get("input"))
+    assert job_name == "M1_MC_STAGE_C1_2_CYCLE2_CONT"
+    assert input_deck == "M1_MC_STAGE_C1_2_CYCLE2_CONT.inp"
+    assert manifest["files"]["f42_mixed_uel.for"].upper() == uel_sha
 
 def test_05_package_59_transfer_metrics_pass():
     """Verify all Gate 6C transfer metrics pass for Cycle 2."""
