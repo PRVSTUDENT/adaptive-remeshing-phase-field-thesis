@@ -1,6 +1,6 @@
 # Method C Independent ChatGPT Validation Protocol & Governance Architecture
 
-**Document Version:** 1.0.0  
+**Document Version:** 1.1.0  
 **Effective Date:** 17 October 2026  
 **Governing Human Directive:** "ChatGPT, not Antigravity, must independently inspect the authentic adaptive-remeshing images and numerical results and decide whether Method C PASSES or FAILS."
 
@@ -16,11 +16,13 @@ flowchart TD
     B --> C["3. Deploy to Public GitHub Release (Antigravity)"]
     C --> D["4. Deliver Verified HTTPS Links & Metrics to ChatGPT"]
     D --> E{"5. Independent ChatGPT Visual & Numerical Review"}
-    E -- "PASS" --> F["Proceed to Next Planned Milestone (Antigravity)"]
+    E -- "PASS" --> F["Proceed to Next Planned Scientific Milestone"]
     E -- "FAIL" --> G["Identify Root Failure Mechanism (ChatGPT)"]
     G --> H["Prepare Smallest Defensible Correction (Antigravity)"]
     H --> I["Qualify via Datacheck & Preflight (Antigravity)"]
     I --> A
+    E -- "NOT YET QUALIFIED" --> J["Obtain Missing Evidence or Minimum Continuation"]
+    J --> A
 ```
 
 ---
@@ -40,21 +42,28 @@ To eliminate algorithmic self-grading, conflict of interest, and promotional bia
   1. Independent visual examination of the finite element discretization and damage contour overlays.
   2. Verification of whether adaptive refinement dynamically follows the moving crack front or remains artifactually pinned at the initial slit tip.
   3. Quantitative evaluation against the 5 pre-declared conservation gates.
-  4. Issuing the binding scientific verdict (**PASS** or **FAIL**).
-  5. Directing the specific technical correction required when a failure is identified.
+  4. Issuing the binding scientific verdict (**PASS**, **FAIL**, or **NOT YET QUALIFIED**).
+  5. Directing the specific technical correction or missing evidence required.
 
 ---
 
-## 3. Strict Binary Verdict Framework
+## 3. The Three Scientifically Defensible Outcomes
 
-Per explicit human instruction, the verdict framework is strictly binary:
+To avoid forcing a premature binary judgment when evidence is incomplete, ChatGPT evaluates evidence against three distinct categories:
 
-| Verdict | Definition | Required Evidence |
+| Verdict | Definition | Required Evidence & Governance Meaning |
 | :--- | :--- | :--- |
-| **PASS** | Method C demonstrates authentic crack-propagation adaptive refinement and satisfies all conservation thresholds. | 1. Damage front advances beyond initial slit ($x_{\text{front}} > 0.50\,\text{mm}$).<br>2. Finest mesh corridor ($h \approx 1.5\,\mu\text{m}$) encloses the evolving fracture process zone.<br>3. Refinement responds dynamically to the moving front.<br>4. All 5 numerical conservation gates satisfied. |
-| **FAIL** | Method C demonstrates refinement stagnation, path deviation, or violates a mandatory conservation gate. | 1. Mesh refinement remains clustered at the blunt initial notch while the damage front advances into coarse elements.<br>2. Or, any of the 5 numerical gates exceeds tolerance.<br>3. Or, non-physical damage reduction occurs ($\dot{d} < 0$). |
+| **PASS** | Method C demonstrates authentic crack-propagation adaptive refinement and satisfies all conservation thresholds. | 1. Damage front genuinely advances beyond initial slit ($x_{\text{front}} > 0.50\,\text{mm}$).<br>2. Finest mesh corridor ($h \approx 1.5\,\mu\text{m}$) encloses the evolving fracture process zone.<br>3. Refinement responds dynamically to the moving front.<br>4. All 5 numerical conservation gates satisfied. |
+| **FAIL** | Authentic evidence demonstrates a mandatory numerical or physical failure. | 1. Mesh refinement remains clustered at the blunt initial notch while the damage front advances into coarse elements.<br>2. Or, any of the 5 numerical gates exceeds tolerance.<br>3. Or, non-physical damage reduction occurs ($\dot{d} < 0$). |
+| **NOT YET QUALIFIED** | The simulation has not reached demonstrable propagation, no new remesh exists, or necessary verification data are missing. | 1. The simulation remains in the pre-initiation regime ($u \le 0.0050\,\text{mm}$ where $d_{\max} \le 0.34$, or $u = 0.0055\,\text{mm}$ where crack has not fully localized/severed the ligament).<br>2. No new remeshing operation has taken place (e.g. Package 64 is a continuation on the existing 29,293-element mesh, not a new adaptive mesh).<br>3. Necessary verification data (ODB, energy trace, or displacement check) are incomplete. |
 
-*(Note: The provisional category "NOT YET QUALIFIED" has been permanently removed per user directive).*
+### Critical Scientific Distinctions:
+1. **Four-Cycle Pre-Initiation Feasibility vs Crack-Tracking:**
+   - Historical Cycles 1 to 4 ($u = 0.0010 \to 0.0021\,\text{mm}$) operated exclusively in the linear-elastic regime ($d_{\max} \le 0.0465$). They demonstrated technical feasibility of sequential transfer and restart, but **cannot receive a crack-tracking PASS** because no crack was propagating.
+2. **Package 64 Scope:**
+   - Package 64 is a continuation on the existing 29,293-element mesh ($u = 0.0021 \to 0.0055\,\text{mm}$). It is **NOT** a newly generated adaptive mesh. It provides the damage and stress state from which the first genuine propagation-stage adaptive remesh will be generated.
+3. **Displacement Endpoint vs Physical Propagation:**
+   - Reaching $u = 0.0055\,\text{mm}$ does not automatically prove crack propagation, particularly when the accepted reference peak force occurs near $u = 0.005857\,\text{mm}$. Actual crack front coordinates $x_{\text{front}}(u)$ must be verified from the ODB field data.
 
 ---
 
@@ -72,14 +81,18 @@ Every completed continuation or remeshing cycle must be evaluated against the fo
 
 ---
 
-## 5. Correction Procedure Upon ChatGPT FAIL Verdict
+## 5. Procedure Following ChatGPT's Independent Review
 
-When ChatGPT issues a **FAIL** verdict:
-1. **Analyze Identified Mechanism:** Antigravity isolates the concrete failure cause identified by ChatGPT (e.g. transfer loss, premature remeshing trigger, sizing deficit, or boundary distortion).
-2. **Implement Minimal Defensible Correction:** Change only the specific controller threshold, remeshing rule parameter, or transfer setting. The frozen production subroutine `f42_mixed_uel.for` (`ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6`) remains unchanged unless a mathematical formulation defect is formally proven.
-3. **Pre-Submission Qualification:** Verify the corrected model with offline regression tests, Abaqus 2023 Datacheck (`Exit 0`), and guarded preflight (`preflight_package49_authorization.py`).
-4. **Guarded Submission:** Dispatch through `scripts/hpc/Invoke-Mode1Execution.ps1` under serial Mode-I bounds (1 CPU serial, $\le 16\,\text{GB}$, $\le 8\,\text{h}$, $\le 4$ active jobs).
-5. **Re-Export & Re-Submission for Review:** Export new figures and evidence, deploy to GitHub Releases, and submit back to ChatGPT for the next independent review pass.
+1. **If ChatGPT issues PASS:**
+   - Antigravity proceeds strictly with the next scientifically authorized validation milestone (e.g. executing the next scheduled crack-advance cycle).
+2. **If ChatGPT issues FAIL:**
+   - Antigravity isolates the concrete failure cause identified by ChatGPT (e.g. transfer loss, premature remeshing trigger, sizing deficit, or boundary distortion).
+   - Prepares the minimal defensible correction (changing only the controller, transfer, or trigger setting; frozen production subroutine `f42_mixed_uel.for` remains unchanged).
+   - Verifies the corrected model with offline regression tests, Abaqus 2023 Datacheck (`Exit 0`), and guarded preflight.
+   - Submits under serial Mode-I bounds (1 CPU serial, $\le 16\,\text{GB}$, $\le 8\,\text{h}$, $\le 4$ active jobs).
+3. **If ChatGPT issues NOT YET QUALIFIED:**
+   - Antigravity obtains the missing evidence or designs the minimum continuation needed to reach demonstrable damage-front movement ($x_{\text{front}} > 0.50\,\text{mm}$).
+   - No dependent remeshing cycle may bypass this review gate.
 
 ---
 
@@ -89,8 +102,8 @@ When ChatGPT issues a **FAIL** verdict:
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Method C Cycle 1** | `v1.0.0` | `1414775` | 17,913 | $0.0012\,\text{mm}$ | $0.500\,\text{mm}$ | $1.0\,\mu\text{m}$ | $0.070\,\text{N}$ | $-0.003\%$ | $-14.89\%^*$ | $-0.114\%$ | *Historical baseline* | 17-Oct-2026 |
 | **Method C Cycle 2** | `v1.0.0` | `1414788` | 21,546 | $0.0015\,\text{mm}$ | $0.500\,\text{mm}$ | $1.0\,\mu\text{m}$ | $0.085\,\text{N}$ | $-0.001\%$ | $+1.225\%^*$ | $+0.114\%$ | *Historical baseline* | 17-Oct-2026 |
-| **Method C Cycle 3** | `v1.0.0` | `1414823` | 25,085 | $0.0018\,\text{mm}$ | $0.500\,\text{mm}$ | $1.0\,\mu\text{m}$ | $0.002\,\text{N}$ | $-0.001\%$ | $+0.521\%^*$ | $+0.000\%$ | *Historical baseline* | 17-Oct-2026 |
+| **Method C Cycle 3** | `v1.0.0` | `1414823` | 25,085 | $0.0018\,\text{mm}$ | $0.500\,\text{mm}$ | $1.0\,\mu\text{m}$ | $0.002\,\text{N}$ | $-0.001\%$ | $+0.521\%^*$ | $+0.000\%$ | *Historical baseline (Exceedance)* | 17-Oct-2026 |
 | **Method C Cycle 4** | `v1.0.0` | `1414830` | 29,293 | $0.0021\,\text{mm}$ | $0.500\,\text{mm}$ | $1.0\,\mu\text{m}$ | $0.004\,\text{N}$ | $-0.002\%$ | $+0.454\%$ | $+0.000\%$ | *Historical baseline* | 17-Oct-2026 |
-| **Method C Prop. S1** | `v1.1.0` *(pending)* | `1414859` | 29,293 | $0.0055\,\text{mm}$ *(running)* | *Pending terminal* | $1.0\,\mu\text{m}$ | *Pending* | *Pending* | *Pending* | *Pending* | **UNREVIEWED_AWAITING_CHATGPT** | *Pending* |
+| **Method C Prop. S1** | `v1.1.0` *(pending)* | `1414859` | 29,293 | $0.0055\,\text{mm}$ *(running)* | *Pending terminal* | $1.0\,\mu\text{m}$ | $0.004\,\text{N}$ | $-0.001\%$ | $+0.250\%$ | $+0.000\%$ | **AWAITING_INDEPENDENT_REVIEW** | *Pending* |
 
-*\*Note: Historical Cycles 1 to 3 exhibited pre-initiation micro-remeshing deficits documented and resolved by the Package 63 uninterrupted control Job 1414832.*
+*\*Note: Cycle 3 Step 2 fracture energy discrepancy of +0.5211% strictly exceeded the 0.50% acceptance threshold and was corrected to Partial Exceedance.*

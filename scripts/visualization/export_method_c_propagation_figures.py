@@ -162,7 +162,28 @@ def load_stage_data(cfg):
     print(f"Loading {cfg['name']} from {deck_path.name}...")
     t0 = time.time()
     mesh = parse_mode1_input_deck(str(deck_path))
-    damage_dict = parse_initial_damage_from_deck(deck_path)
+    
+    # Check if a terminal donor JSON exists for this stage
+    donor_json = None
+    if cfg["stage_id"] == 5:
+        cand1 = REPO_ROOT / "runs" / "hpc" / "mode1_stage_c1_2_propagation_stage1_continuation" / "donor_propagation_u0055.json"
+        cand2 = REPO_ROOT / "models" / "pandey_kumar_mode1" / "64_method_c_propagation_stage1_continuation" / "donor_propagation_u0055.json"
+        if cand1.exists():
+            donor_json = cand1
+        elif cand2.exists():
+            donor_json = cand2
+
+    if donor_json is not None:
+        print(f"  Reading terminal damage fields from {donor_json.name}...")
+        with open(donor_json, 'r', encoding='utf-8') as fp:
+            jdata = json.load(fp)
+        damage_dict = {}
+        for eid_str, svals in jdata.get("elem_sdv", {}).items():
+            eid = int(eid_str)
+            d_list = svals.get("SDV14", [0.0])
+            damage_dict[eid] = float(np.mean(d_list))
+    else:
+        damage_dict = parse_initial_damage_from_deck(deck_path)
     
     polys = []
     elem_damages = []

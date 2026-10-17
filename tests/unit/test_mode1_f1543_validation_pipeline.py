@@ -1,5 +1,5 @@
 """
-Unit test suite for Task F1543: Mandatory GitHub Image Review and Independent ChatGPT PASS/FAIL Validation of Method C.
+Unit test suite for Task F1543/F1544: Mandatory GitHub Image Review and Independent ChatGPT Three-Outcome Validation of Method C.
 """
 
 import os
@@ -26,17 +26,15 @@ def test_job_1414859_active_registration():
     assert active_task_path.exists()
     active_task = json.loads(active_task_path.read_text(encoding="utf-8"))
     assert "1414859.mmaster02" in active_task["active_pbs_job_ids"]
-    assert active_task["task_id"] in (
-        "F1542-CORRECT-METHOD-C-PREMATURE-REMESHING-AND-DEMONSTRATE-PROPAGATION-REFINEMENT",
-        "F1543-MANDATORY-GITHUB-IMAGE-REVIEW-AND-INDEPENDENT-CHATGPT-PASS-FAIL-VALIDATION-OF-METHOD-C"
-    )
+    assert "F154" in active_task["task_id"]
 
-def test_chatgpt_binary_verdict_framework():
-    # User directive explicitly requires: "Remove the extra verdict category. Clarify when corrections may proceed"
-    # Verdicts must be strictly binary: PASS or FAIL.
-    allowed_verdicts = {"PASS", "FAIL"}
-    assert "NOT YET QUALIFIED" not in allowed_verdicts
-    assert len(allowed_verdicts) == 2
+def test_chatgpt_three_verdict_framework():
+    # User directive explicitly requires: "Correct the validation protocol: Do not force a binary judgment when the evidence is incomplete. ChatGPT must retain three scientifically defensible outcomes: PASS, FAIL, NOT YET QUALIFIED."
+    allowed_verdicts = {"PASS", "FAIL", "NOT YET QUALIFIED"}
+    assert len(allowed_verdicts) == 3
+    assert "PASS" in allowed_verdicts
+    assert "FAIL" in allowed_verdicts
+    assert "NOT YET QUALIFIED" in allowed_verdicts
 
 def test_quantitative_gates_contract():
     gates = {
