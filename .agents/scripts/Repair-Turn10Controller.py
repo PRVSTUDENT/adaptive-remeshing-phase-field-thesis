@@ -21,6 +21,24 @@ def repair(text):
         if text.count(anchor) != 1:
             raise RuntimeError("Instruction insertion point missing or ambiguous")
         text = text.replace(anchor, guard + anchor)
+    # A single account store is shared across workspaces and controller modes.
+    if '# AGY_SINGLE_INSTANCE_V1' not in text:
+        anchor = '$script:RequestedAgyProfile = $AuthoritativeAgyProfile'
+        guard = r"""# AGY_SINGLE_INSTANCE_V1
+$controllerSid = [System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+$controllerMutex = [System.Threading.Mutex]::new($false, ("Global\AdaptiveRemeshing.AgyController." + $controllerSid))
+$controllerLockHeld = $false
+try {
+    try { $controllerLockHeld = $controllerMutex.WaitOne(0) }
+    catch [System.Threading.AbandonedMutexException] { $controllerLockHeld = $true }
+    if (-not $controllerLockHeld) {
+        throw 'Another Antigravity controller is already running for this Windows user. This invocation stopped before profile selection or AGY execution. Close the existing controller before starting another.'
+    }
+"""
+        if text.count(anchor) != 1:
+            raise RuntimeError('Single-instance insertion point missing or ambiguous')
+        text = text.replace(anchor, guard + anchor)
+        text += "\n} finally {\n    if ($controllerLockHeld) { $controllerMutex.ReleaseMutex() }\n    $controllerMutex.Dispose()\n}\n"
     return text
 
 if __name__ == '__main__':
