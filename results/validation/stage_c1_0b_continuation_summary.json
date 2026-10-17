@@ -1,0 +1,79 @@
+{
+  "handoff_step1": {
+    "e_elas_cont": 0.0016543131,
+    "e_elas_base": 0.0016543134,
+    "e_elas_err_pct": 1.8134411539089373e-05,
+    "e_frac_cont": 3.6808657e-05,
+    "e_frac_base": 3.6785825e-05,
+    "e_frac_err_pct": 0.06206738601078933,
+    "e_tot_cont": 0.0016911218,
+    "e_tot_base": 0.0016910993,
+    "e_tot_err_pct": 0.001330495494845653
+  },
+  "step2_continuation": {
+    "num_increments": 66,
+    "max_e_elas_err_pct": 6.04239136283252e-05,
+    "max_e_frac_err_pct": 0.05794689610197671,
+    "max_e_tot_err_pct": 0.0013122420180946893,
+    "key_increments": [
+      {
+        "inc": 1,
+        "u_mm": 0.005001,
+        "cont_e_elas": 0.0016549749,
+        "base_e_elas": 0.0016549739,
+        "e_elas_err_pct": 6.04239136283252e-05,
+        "cont_e_frac": 3.6808447e-05,
+        "base_e_frac": 3.678713e-05,
+        "e_frac_err_pct": 0.05794689610197671,
+        "cont_e_tot": 0.0016917833,
+        "base_e_tot": 0.0016917611,
+        "e_tot_err_pct": 0.0013122420180946893
+      },
+      {
+        "inc": 10,
+        "u_mm": 0.00501,
+        "cont_e_elas": 0.0016606208,
+        "base_e_elas": 0.0016606199,
+        "e_elas_err_pct": 5.419662862585622e-05,
+        "cont_e_frac": 3.7122586e-05,
+        "base_e_frac": 3.7103261e-05,
+        "e_frac_err_pct": 0.05208437069721886,
+        "cont_e_tot": 0.0016977434,
+        "base_e_tot": 0.0016977232,
+        "e_tot_err_pct": 0.001189828824860815
+      },
+      {
+        "inc": 25,
+        "u_mm": 0.005025,
+        "cont_e_elas": 0.0016700969,
+        "base_e_elas": 0.0016700961,
+        "e_elas_err_pct": 4.790143512335151e-05,
+        "cont_e_frac": 3.7601618e-05,
+        "base_e_frac": 3.7585401e-05,
+        "e_frac_err_pct": 0.04314707191763493,
+        "cont_e_tot": 0.0017076985,
+        "base_e_tot": 0.0017076815,
+        "e_tot_err_pct": 0.0009955017958652858
+      },
+      {
+        "inc": 50,
+        "u_mm": 0.00505,
+        "cont_e_elas": 0.0016859382,
+        "base_e_elas": 0.0016859375,
+        "e_elas_err_pct": 4.151992585857208e-05,
+        "cont_e_frac": 3.8412518e-05,
+        "base_e_frac": 3.840088e-05,
+        "e_frac_err_pct": 0.0303065971404883,
+        "cont_e_tot": 0.0017243507,
+        "base_e_tot": 0.0017243383,
+        "e_tot_err_pct": 0.0007191164285970835
+      }
+    ]
+  },
+  "gate_6c_evaluation": {
+    "elastic_energy_continuity": "PASS",
+    "fracture_energy_continuity": "PASS",
+    "total_energy_continuity": "PASS",
+    "same_mesh_continuation_verdict": "PASS"
+  }
+}

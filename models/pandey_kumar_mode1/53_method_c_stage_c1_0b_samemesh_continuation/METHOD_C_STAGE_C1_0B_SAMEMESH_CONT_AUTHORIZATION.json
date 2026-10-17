@@ -1,0 +1,45 @@
+{
+  "adapter": "mode1-qualified-batch-v2",
+  "batch_name": "MODE1_METHOD_C_STAGE_C1_0B_SAMEMESH_CONTINUATION",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-0",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_stage_c1_0b_samemesh_continuation",
+  "max_submissions": 1,
+  "automatic_retry": false,
+  "files": {
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_MC_STAGE_C1_0B_SAMEMESH_CONT.inp": "3a80f17538d207a65ea038134fde40929e5d1c5049b0baf0c8674d6e6fade146",
+    "submit_M1_MC_STAGE_C1_0B_SAMEMESH_CONT.pbs": "ffa658a4c99f534ab5db089193c1ac35d27ed0378eecf5f353a0e7f7d2783f79"
+  },
+  "jobs": [
+    {
+      "id": "M1_MC_STAGE_C1_0B_SAMEMESH_CONT",
+      "purpose": "Genuine same-mesh continuation experiment (Stage C1-0B) advancing displacement from u=0.0050 to 0.0052 mm with active phase-field damage evolution under corrected boundary conditions",
+      "input": "M1_MC_STAGE_C1_0B_SAMEMESH_CONT.inp",
+      "pbs": "submit_M1_MC_STAGE_C1_0B_SAMEMESH_CONT.pbs",
+      "datacheck": "M1_MC_STAGE_C1_0B_SAMEMESH_CONT_DC.dat",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 1,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_stage_c1_0b_samemesh_continuation/submit_M1_MC_STAGE_C1_0B_SAMEMESH_CONT.pbs\"",
+      "command_sha256": "498b7677664e871414df5257ec5123d646ecf4aab55b16fd4c2811dd652aea9e"
+    }
+  ],
+  "acceptance": {
+    "terminal_exit_status": 0,
+    "step1_increments": 1,
+    "step2_increments": 200,
+    "max_cutbacks": 0,
+    "step1_reaction_force_min_N": 660.0,
+    "step1_reaction_force_target_N": 661.725,
+    "step2_force_continuity_tol_N": 5.0,
+    "step2_damage_continuity_tol": 0.02,
+    "elastic_energy_continuity_tol_pct": 0.5,
+    "fracture_energy_continuity_tol_pct": 0.5,
+    "total_energy_continuity_tol_pct": 0.1
+  }
+}
