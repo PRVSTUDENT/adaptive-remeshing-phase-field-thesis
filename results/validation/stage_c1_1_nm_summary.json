@@ -1,15 +1,22 @@
 {
   "stage": "STAGE_C1_1",
-  "name": "M1_MC_STAGE_C1_1_NM_CORRECTED_V2",
+  "name": "M1_MC_STAGE_C1_1_NM_TRANSFER_RECONCILIATION",
   "job_id": "1414764.mmaster02",
-  "package": "54b_method_c_stage_c1_1_nonmatching_transfer",
-  "status": "STAGE_C1_1_NONMATCHING_TRANSFER_PASS",
+  "primary_job_id": "1414764.mmaster02",
+  "frozen_control_job_id": "1414766.mmaster02",
+  "packages": [
+    "54b_method_c_stage_c1_1_nonmatching_transfer",
+    "54c_method_c_stage_c1_1_nonmatching_frozen_hold"
+  ],
+  "classification": "NONMATCHING_GLOBAL_FORCE_ENERGY_PARTIAL_PASS_DAMAGE_CONTINUITY_UNRESOLVED",
   "coarse_donor": {
     "job_id": "1413814",
     "elements": 2906,
     "displacement_mm": 0.0050,
     "rf_N": 653.085,
-    "e_total_mJ": 1.663384
+    "e_total_mJ": 1.663384,
+    "d_max": 0.100567,
+    "H_max_kN_per_mm2": 0.053650
   },
   "fine_baseline": {
     "job_id": "1412465",
@@ -17,20 +24,23 @@
     "displacement_mm": 0.0050,
     "rf_N": 661.72539,
     "e_total_mJ": 1.691099,
-    "d_max": 0.3181416
+    "d_max": 0.3181416,
+    "H_max_kN_per_mm2": 0.773272
   },
   "discretization_gap": {
     "delta_rf_N": 8.64039,
     "delta_rf_pct": 1.3229,
     "delta_e_total_mJ": 0.027715,
-    "delta_e_pct": 1.6662
+    "delta_e_pct": 1.6662,
+    "delta_d_max": 0.217575,
+    "delta_H_max_kN_per_mm2": 0.719622
   },
   "transfer_mapping": {
     "donor_elements": 2906,
     "recipient_elements": 14483,
     "u_L2_error_pct": 0.0237,
     "integrated_damage_error_pct": 0.0221,
-    "min_H_kN_per_mm2": 1.58e-09,
+    "min_H_kN_per_mm2": 1.5935e-09,
     "history_monotonicity": "PASS"
   },
   "step1_reequilibration": {
@@ -39,10 +49,34 @@
     "e_fracture_mJ": 0.029148,
     "e_total_mJ": 1.693730,
     "d_max": 0.0904032,
+    "H_max_kN_per_mm2": 0.455720,
     "delta_rf_vs_fine_N": 4.1076,
     "delta_e_pct_vs_fine": 0.1556
   },
+  "step2_frozen_control": {
+    "job_id": "1414766",
+    "package": "54c_method_c_stage_c1_1_nonmatching_frozen_hold",
+    "dof3_status": "CONSTRAINED_FROZEN",
+    "increments": 10,
+    "initial_rf_N": 665.832996,
+    "terminal_rf_N": 665.832996,
+    "delta_rf_N": 0.000000,
+    "initial_e_total_mJ": 1.6937302,
+    "terminal_e_total_mJ": 1.6937302,
+    "delta_e_total_mJ": 0.000000,
+    "initial_d_max": 0.09040315,
+    "terminal_d_max": 0.09040315,
+    "delta_d_max": 0.000000,
+    "initial_H_max_kN_per_mm2": 0.4557195,
+    "terminal_H_max_kN_per_mm2": 0.4557195,
+    "delta_H_max": 0.000000,
+    "min_H_kN_per_mm2": 1.5935e-09,
+    "invariance_verdict": "PERFECT_MECHANICAL_INVARIANCE_PASS"
+  },
   "step2_release_and_hold": {
+    "job_id": "1414764",
+    "package": "54b_method_c_stage_c1_1_nonmatching_transfer",
+    "dof3_status": "FREED_TO_EQUILIBRATE",
     "increments": 10,
     "rf_relaxation_curve_N": [
       662.94414,
@@ -60,7 +94,8 @@
     "terminal_e_elastic_mJ": 1.649928,
     "terminal_e_fracture_mJ": 0.041874,
     "terminal_e_total_mJ": 1.691802,
-    "terminal_d_max": 0.3631749
+    "terminal_d_max": 0.3631749,
+    "terminal_H_max_kN_per_mm2": 0.914031
   },
   "acceptance_evaluation": {
     "force_continuity": {
@@ -75,21 +110,24 @@
       "threshold_pct": 0.10,
       "verdict": "PASS"
     },
-    "peak_damage_continuity": {
-      "metric": "abs(d_max_terminal - d_max_continuation)",
-      "value": 0.002045,
+    "damage_continuity_vs_fine_baseline": {
+      "metric": "abs(d_max_terminal - d_max_fine_baseline)",
+      "value": 0.045033,
       "threshold": 0.0200,
-      "verdict": "PASS"
+      "verdict": "DISCREPANCY_EXCEEDS_THRESHOLD",
+      "root_cause": "Fine mesh strain singularity resolves physical damage from coarse donor 0.1006 to 0.3181; transient Newton iteration ratchets history from 0.756 to 0.914 kN/mm2, causing +0.0450 overshoot"
     },
     "history_monotonicity": {
       "metric": "min(H_recip) >= 0",
-      "value": 1.58e-09,
+      "value": 1.5935e-09,
       "verdict": "PASS"
     },
-    "crack_opening_profile": {
-      "metric": "smooth crack tip damage evolution without spurious initiation",
+    "mechanical_equilibrium_stability": {
+      "metric": "Frozen control delta_RF and delta_E_tot",
+      "delta_rf_N": 0.0,
+      "delta_e_pct": 0.0,
       "verdict": "PASS"
     }
   },
-  "overall_verdict": "STAGE_C1_1_NONMATCHING_TRANSFER_PASS"
+  "overall_verdict": "NONMATCHING_GLOBAL_FORCE_ENERGY_PARTIAL_PASS_DAMAGE_CONTINUITY_UNRESOLVED"
 }

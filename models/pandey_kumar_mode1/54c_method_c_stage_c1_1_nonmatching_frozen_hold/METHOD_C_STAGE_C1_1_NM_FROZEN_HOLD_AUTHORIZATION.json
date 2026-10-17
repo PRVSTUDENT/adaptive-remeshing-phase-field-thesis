@@ -1,0 +1,41 @@
+{
+  "adapter": "mode1-qualified-batch-v2",
+  "batch_name": "MODE1_METHOD_C_STAGE_C1_1_NONMATCHING_FROZEN_HOLD",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_stage_c1_1_nonmatching_frozen_hold",
+  "max_submissions": 1,
+  "automatic_retry": false,
+  "files": {
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_MC_STAGE_C1_1_NM_FROZEN_HOLD.inp": "9c6cead880b1a4f597aee572a0bc12344f8207f8c5eab4238c741b35cc7c41f4",
+    "submit_M1_MC_STAGE_C1_1_NM_FROZEN_HOLD.pbs": "556f5e40eeab79631ec18805a65e22b91ab7ce867257712f00f8d5014158f07e"
+  },
+  "jobs": [
+    {
+      "id": "M1_MC_STAGE_C1_1_NM_FROZEN_HOLD",
+      "purpose": "Nonmatching frozen-damage equilibrium control to isolate mechanical equilibrium stability from phase-field singular strain evolution",
+      "input": "M1_MC_STAGE_C1_1_NM_FROZEN_HOLD.inp",
+      "pbs": "submit_M1_MC_STAGE_C1_1_NM_FROZEN_HOLD.pbs",
+      "datacheck": "M1_MC_STAGE_C1_1_NM_FROZEN_HOLD_DC.dat",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 1,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_stage_c1_1_nonmatching_frozen_hold/submit_M1_MC_STAGE_C1_1_NM_FROZEN_HOLD.pbs\"",
+      "command_sha256": "fe0175d73729a2870070364c3e8244867c39c06137f099d17c4db90a60577fcb"
+    }
+  ],
+  "acceptance": {
+    "terminal_exit_status": 0,
+    "step1_increments": 1,
+    "max_cutbacks": 0,
+    "force_invariance_tolerance_N": 0.005,
+    "energy_invariance_tolerance_pct": 0.01,
+    "max_damage_evolution_tolerance": 1e-06,
+    "history_monotonicity": "min(H) >= 0.0"
+  }
+}
