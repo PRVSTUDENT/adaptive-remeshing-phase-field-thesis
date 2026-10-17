@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Dispatches a prompt across the Power Automate Desktop (PAD) ChatGPT Bridge.
 
@@ -306,26 +306,47 @@ Determine the next instruction to send to Antigravity.
     }
 
     # --- 3. Lockfile Check & Acquisition ---
-    if (Test-Path -LiteralPath $lockFile) {
-        $lockAge = (Get-Date) - (Get-Item -LiteralPath $lockFile).LastWriteTime
-        if ($lockAge.TotalMinutes -gt 60) {
-            Write-Warning "Removing stale bridge lock ($([math]::Round($lockAge.TotalMinutes)) minutes old)."
-            Remove-Item -LiteralPath $lockFile -Force -ErrorAction SilentlyContinue
-        } else {
-            $existingLock = Get-Content -LiteralPath $lockFile -Raw -ErrorAction SilentlyContinue
-            throw "Bridge is locked by another running transaction (bridge.lock exists). Content: $existingLock"
-        }
-    }
-
-    $lockContent = [ordered]@{
-        bridge_handoff_id = $HandoffId
-        locked_at         = (Get-Date).ToString("o")
-        pid               = $PID
-    } | ConvertTo-Json -Compress
-
-    [System.IO.File]::WriteAllText($lockFile, $lockContent, [System.Text.UTF8Encoding]::new($false))
-
+    # BRIDGE_OWNER_LOCK_V2: serialize acquisition; recover dead owners, never by age.
+    $bridgeLockKey = [BitConverter]::ToString([Security.Cryptography.SHA256]::Create().ComputeHash(
+        [Text.Encoding]::UTF8.GetBytes([IO.Path]::GetFullPath($BridgeDir).ToLowerInvariant()))).Replace('-', '')
+    $bridgeMutex = [Threading.Mutex]::new($false, "Global\AdaptiveRemeshing.Bridge.$bridgeLockKey")
+    $bridgeMutexHeld = $false
+    $ownsLockFile = $false
     try {
+        try { $bridgeMutexHeld = $bridgeMutex.WaitOne(0) }
+        catch [Threading.AbandonedMutexException] { $bridgeMutexHeld = $true }
+        if (-not $bridgeMutexHeld) { throw 'Bridge is locked by another running transaction (OS owner lock).' }
+        if (Test-Path -LiteralPath $lockFile) {
+            $existingLock = Get-Content -LiteralPath $lockFile -Raw -ErrorAction Stop
+            try { $owner = $existingLock | ConvertFrom-Json -ErrorAction Stop }
+            catch { throw 'Bridge lock metadata is invalid; preserving it for diagnosis.' }
+            if (-not $owner.pid -or [int]$owner.pid -le 0) { throw 'Bridge lock has no valid owner PID; preserving evidence.' }
+            $ownerProcess = Get-Process -Id ([int]$owner.pid) -ErrorAction SilentlyContinue
+            if ($ownerProcess) {
+                # PID reuse is only proven when exact recorded process start differs.
+                $sameOwner = $true
+                if ($owner.process_started_utc) {
+                    $sameOwner = ($ownerProcess.StartTime.ToUniversalTime().ToString('o') -eq $owner.process_started_utc)
+                }
+                if ($sameOwner) { throw "Bridge is locked by live owner PID $($owner.pid); age does not override ownership." }
+            }
+            $staleTag = 'orphan_' + [guid]::NewGuid().ToString('N')
+            foreach ($staleFile in @($lockFile, $requestReady, $requestTmp, $responseReady, $responseTmp)) {
+                if (Test-Path -LiteralPath $staleFile) {
+                    Move-Item -LiteralPath $staleFile -Destination (Join-Path $archiveDir ($staleTag + '_' + [IO.Path]::GetFileName($staleFile))) -ErrorAction Stop
+                }
+            }
+            Write-Warning "Recovered orphaned bridge transaction from dead/reused PID $($owner.pid); evidence archived."
+        }
+        $lockContent = [ordered]@{
+            bridge_handoff_id = $HandoffId
+            locked_at = (Get-Date).ToString('o')
+            pid = $PID
+            process_started_utc = (Get-Process -Id $PID).StartTime.ToUniversalTime().ToString('o')
+        } | ConvertTo-Json -Compress
+        [IO.File]::WriteAllText($lockFile, $lockContent, [Text.UTF8Encoding]::new($false))
+        $ownsLockFile = $true
+
         # --- 4. Clean Stale Handshake Files ---
         Remove-Item -LiteralPath $responseReady, $responseTmp, $requestReady, $requestTmp -Force -ErrorAction SilentlyContinue
 
@@ -399,9 +420,14 @@ Determine the next instruction to send to Antigravity.
         return $replyText
     }
     finally {
-        # --- 10. Always Release Lock ---
-        if (Test-Path -LiteralPath $lockFile) {
-            Remove-Item -LiteralPath $lockFile -Force -ErrorAction SilentlyContinue
+        # --- 10. Always Release Only Our Lock ---
+        try {
+            if ($ownsLockFile -and (Test-Path -LiteralPath $lockFile)) {
+                Remove-Item -LiteralPath $lockFile -Force -ErrorAction Stop
+            }
+        } finally {
+            if ($bridgeMutexHeld) { $bridgeMutex.ReleaseMutex() }
+            $bridgeMutex.Dispose()
         }
     }
 }

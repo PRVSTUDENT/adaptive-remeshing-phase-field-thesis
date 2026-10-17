@@ -1,9 +1,14 @@
 {
-  "active": false,
-  "agent": null,
-  "task_id": null,
-  "claimed_at": null,
-  "starting_commit": null,
-  "allowed_write_scope": [],
-  "session_report": null
+    "active":  true,
+    "agent":  "codex",
+    "task_id":  "BRIDGE-ORPHAN-LOCK-RECOVERY",
+    "claimed_at":  "2026-10-17T12:08:03.7891894+02:00",
+    "starting_commit":  "35690c9ee107387c5422cebeb8b2814872a1c931",
+    "allowed_write_scope":  [
+                                ".agents/scripts/Invoke-ChatGPTBridge.ps1",
+                                ".agents/scripts/Test-BridgeLockRecovery.ps1",
+                                "project_coordination/**",
+                                "C:/Users/pruth/OpenClawPAD/ChatGPTBridge/**"
+                            ],
+    "session_report":  null
 }
