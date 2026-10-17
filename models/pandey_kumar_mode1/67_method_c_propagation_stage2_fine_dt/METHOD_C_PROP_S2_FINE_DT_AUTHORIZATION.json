@@ -1,0 +1,38 @@
+{
+    "adapter": "mode1-qualified-batch-v2",
+    "batch_name": "MODE1_METHOD_C_PROP_S2_FINE_DT",
+    "scientific_scope": "MODE1",
+    "technical_stage": "C1-2",
+    "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_stage_c1_2_propagation_stage2_fine_dt",
+    "max_submissions": 1,
+    "automatic_retry": false,
+    "files": {
+        "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+        "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "M1_MC_PROP_S2_FINE_DT.inp": "22c2528d63094c1dae6b0d9995b6034ebb970ac1e0d30d2c454f472e20ac74b3",
+        "submit_M1_MC_PROP_S2_FINE_DT.pbs": "977a1ed784e67d8d20fe5f31a02307c26640e07ade47d9920afbd301440f8463"
+    },
+    "jobs": [
+        {
+            "id": "M1_MC_PROP_S2_FINE_DT",
+            "purpose": "Package 67: Temporal convergence diagnostic with finer increment resolution (du=1.25 nm across 400 increments) advancing from u=0.0055 to 0.0060 mm across peak load",
+            "input": "M1_MC_PROP_S2_FINE_DT.inp",
+            "pbs": "submit_M1_MC_PROP_S2_FINE_DT.pbs",
+            "datacheck": "M1_MC_PROP_S2_FINE_DT_DC.dat",
+            "cpus": 1,
+            "memory_gb": 16,
+            "walltime_hours": 4,
+            "queue": "entry_imfdfkmq",
+            "execution": "single-rank serial",
+            "max_submissions": 1,
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_stage_c1_2_propagation_stage2_fine_dt/submit_M1_MC_PROP_S2_FINE_DT.pbs\"",
+            "command_sha256": "c25eda6ec4a89ca8da1ea942db76fbd2d2491222a40b6f2015c57397f17ddd58"
+        }
+    ],
+    "acceptance": {
+        "terminal_exit_status": 0,
+        "step1_re_equilibration_dE_elas_pct": 0.5,
+        "step1_re_equilibration_dE_tot_pct": 0.1,
+        "step2_force_tolerance_N": 5.0
+    }
+}

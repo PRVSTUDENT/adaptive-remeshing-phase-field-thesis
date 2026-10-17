@@ -1,12 +1,14 @@
 {
-  "task_id": "F1547-EXECUTE-PACKAGE-65-ACROSS-PEAK-AND-PREPARE-METHOD-C-PROPAGATION-QUALIFICATION",
-  "status": "PACKAGE_65_PROPAGATION_STAGE2_SUBMITTED_AND_RUNNING_1414920",
+  "task_id": "F1548-OVERNIGHT-12H-HPC-EXECUTION-AND-MORNING-METHOD-C-VALIDATION-PACKAGE",
+  "status": "ALL_THREE_METHOD_C_PROPAGATION_JOBS_RUNNING_1414920_1414921_1414923",
   "agent": "gemini-antigravity",
-  "phase": "Task F1547 in progress: Package 65 (M1_MC_PROP_STAGE2_CONT on 29,293 elements, u=0.0055 to 0.0060 mm across peak) qualified via Datacheck Exit 0 and submitted as Job 1414920.mmaster02 on mnode099/0; Step 1 re-equilibration passed in 1 inc (2 iters) with machine-level energy continuity (dE_tot=+0.0004% <= 0.10%, dE_elas=+0.016% <= 0.50%); Step 2 forward continuation across peak actively solving with 3 iters/inc and 0 cutbacks.",
-  "gate_status": "GATE_6C_PROPAGATION_STAGE2_STEP2_RUNNING_ACROSS_PEAK",
-  "last_updated": "2026-10-17T19:12:00+02:00",
+  "phase": "Task F1548 active: All 3 jobs running concurrently on normal_imfdfkmq: Job 1414920 (Package 65) at Inc 160+/200 (80% complete across peak); Job 1414921 (Package 66 uninterrupted 29k control) at Inc 51+ of Step 1; Job 1414923 (Package 67 fine dt diagnostic, du=1.25 nm across 400 incs) completed Step 1 in 1 inc (2 iters) and entered Step 2.",
+  "gate_status": "GATE_6C_PROPAGATION_THREE_JOBS_ACTIVE_PARALLEL",
+  "last_updated": "2026-10-17T19:32:00+02:00",
   "active_pbs_job_ids": [
-    "1414920.mmaster02"
+    "1414920.mmaster02",
+    "1414921.mmaster02",
+    "1414923.mmaster02"
   ],
   "dependent_pbs_job_ids": [],
   "deferred_candidate_jobs": [

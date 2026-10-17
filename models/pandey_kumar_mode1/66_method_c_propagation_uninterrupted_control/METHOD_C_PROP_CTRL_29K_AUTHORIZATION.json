@@ -1,0 +1,37 @@
+{
+    "adapter": "mode1-qualified-batch-v2",
+    "batch_name": "MODE1_METHOD_C_PROP_CTRL_29K",
+    "scientific_scope": "MODE1",
+    "technical_stage": "C1-2",
+    "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_stage_c1_2_propagation_uninterrupted_control",
+    "max_submissions": 1,
+    "automatic_retry": false,
+    "files": {
+        "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+        "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "M1_MC_PROP_CTRL_29K.inp": "c2415db3867510f6e3d29f54dc7498b05894d718c7f1e48e3925be4c4eb8adf2",
+        "submit_M1_MC_PROP_CTRL_29K.pbs": "f612c0e0cc1295d3ea1608f596f387a84910b54c6e687da09f122d0786044669"
+    },
+    "jobs": [
+        {
+            "id": "M1_MC_PROP_CTRL_29K",
+            "purpose": "Uninterrupted continuous reference simulation on 29,293 finite elements from u=0 to u=0.0060 mm across 6 matching steps to provide the authoritative baseline without state transfer or remeshing",
+            "input": "M1_MC_PROP_CTRL_29K.inp",
+            "pbs": "submit_M1_MC_PROP_CTRL_29K.pbs",
+            "datacheck": "M1_MC_PROP_CTRL_29K_DC.dat",
+            "cpus": 1,
+            "memory_gb": 16,
+            "walltime_hours": 4,
+            "queue": "entry_imfdfkmq",
+            "execution": "single-rank serial",
+            "max_submissions": 1,
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_stage_c1_2_propagation_uninterrupted_control/submit_M1_MC_PROP_CTRL_29K.pbs\"",
+            "command_sha256": "dbe2d70fa628841376962b6729812ca0ac2b93f8cc671d45ae5596a63e748a63"
+        }
+    ],
+    "acceptance": {
+        "terminal_exit_status": 0,
+        "step2_force_tolerance_N": 5.0,
+        "step2_energy_error_pct": 0.5
+    }
+}
