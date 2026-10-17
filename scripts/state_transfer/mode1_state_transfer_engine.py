@@ -66,6 +66,14 @@ class Mode1Mesh:
         - Nodes with x > 0.5 + tol are in intact LIGAMENT (continuous across y = 0.5).
         - Nodes with x <= 0.5 + tol are UPPER or LOWER based on connected elements.
         """
+        # Fallback for single-layer raw meshes (CPE4/CPE3) where Layer 1 U1 is not yet generated
+        if not self.elements_u1 and self.elements_cpe:
+            self.elements_u1 = dict(self.elements_cpe)
+        if not self.n_bottom:
+            self.n_bottom = sorted([nid for nid, (x, y) in self.nodes.items() if abs(y) < 1e-5])
+        if not self.n_top:
+            self.n_top = sorted([nid for nid, (x, y) in self.nodes.items() if abs(y - 1.0) < 1e-5])
+
         # 1. Element classification based on centroid
         for eid, conn in self.elements_u1.items():
             coords = [self.nodes[n] for n in conn]

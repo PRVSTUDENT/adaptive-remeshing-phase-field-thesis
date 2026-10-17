@@ -1,0 +1,38 @@
+{
+    "adapter": "mode1-qualified-batch-v2",
+    "batch_name": "MODE1_METHOD_C_STAGE_C1_2_CYCLE3",
+    "scientific_scope": "MODE1",
+    "technical_stage": "C1-2",
+    "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_stage_c1_2_cycle3_continuation",
+    "max_submissions": 1,
+    "automatic_retry": false,
+    "files": {
+        "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+        "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "M1_MC_STAGE_C1_2_CYCLE3_CONT.inp": "c8e3a9e11daa8549754f2ca091d269d1434bdeb1d1464cf09641965002908bfe",
+        "submit_M1_MC_STAGE_C1_2_CYCLE3_CONT.pbs": "99a398adbd5521c39094ed26f5a528380f691a97e5ecd045c82f5247e535273e"
+    },
+    "jobs": [
+        {
+            "id": "M1_MC_STAGE_C1_2_CYCLE3_CONT",
+            "purpose": "Cycle 3 Mode-I Method C Adaptive Remeshing Continuation (u=0.0015 -> 0.0018 mm on 25,085-element mesh)",
+            "input": "M1_MC_STAGE_C1_2_CYCLE3_CONT.inp",
+            "pbs": "submit_M1_MC_STAGE_C1_2_CYCLE3_CONT.pbs",
+            "datacheck": "M1_MC_STAGE_C1_2_CYCLE3_CONT_DC.dat",
+            "cpus": 1,
+            "memory_gb": 16,
+            "walltime_hours": 2,
+            "queue": "entry_imfdfkmq",
+            "execution": "single-rank serial",
+            "max_submissions": 1,
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_stage_c1_2_cycle3_continuation/submit_M1_MC_STAGE_C1_2_CYCLE3_CONT.pbs\"",
+            "command_sha256": "fd9beaa4e456499df6054b2ea6d25ebd398cdc829f40766b0d098dfd8543b1ec"
+        }
+    ],
+    "acceptance": {
+        "terminal_exit_status": 0,
+        "step2_continuation_monotonicity": true,
+        "step2_force_tolerance_N": 5.0,
+        "step2_energy_error_pct": 0.5
+    }
+}
