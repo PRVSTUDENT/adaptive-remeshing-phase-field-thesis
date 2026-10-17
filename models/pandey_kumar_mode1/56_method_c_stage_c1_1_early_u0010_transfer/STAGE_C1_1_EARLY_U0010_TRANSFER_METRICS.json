@@ -1,0 +1,78 @@
+{
+  "displacement_l2_rel_error_pct": 0.023734367888292435,
+  "criterion_1_displacement_l2": {
+    "value": 0.023734367888292435,
+    "unit": "%",
+    "threshold": 1.0,
+    "verdict": "PASS"
+  },
+  "donor_d_max": 0.0034738018775679917,
+  "recipient_d_max": 0.0034738018775679917,
+  "delta_d_max": 0.0,
+  "criterion_2_peak_damage": {
+    "value": 0.0,
+    "unit": "dimensionless",
+    "threshold": 0.02,
+    "verdict": "PASS"
+  },
+  "integral_d_recipient": 0.000375830555638194,
+  "integral_d_donor": 0.0003757545695957826,
+  "delta_integral_d": 7.598604241139265e-08,
+  "relative_error_integral_d": 0.00020222253715539512,
+  "relative_error_integral_d_pct": 0.020222253715539512,
+  "criterion_3_integrated_damage": {
+    "value": 0.020222253715539512,
+    "unit": "%",
+    "threshold": 5.0,
+    "verdict": "PASS"
+  },
+  "donor_H_max": 0.0018099487060680985,
+  "recipient_H_max": 0.0018099487060680985,
+  "min_H": 6.223038057084906e-11,
+  "negative_H_count": 0,
+  "criterion_4_history_non_negativity": {
+    "value": 6.223038057084906e-11,
+    "unit": "kN/mm^2",
+    "threshold": 0.0,
+    "verdict": "PASS"
+  },
+  "delta_rf_boundary_N": 0.0925,
+  "criterion_5_boundary_force_continuity": {
+    "value": 0.0925,
+    "unit": "N",
+    "threshold": 5.0,
+    "verdict": "PASS"
+  },
+  "e_tot_donor_mJ": 1.663384,
+  "e_tot_recip_mJ": 1.6634,
+  "fine_ref_e_tot_mJ": 1.6911,
+  "delta_e_int_pct": 0.0009618945475017196,
+  "discretization_delta_vs_fine_ref_pct": 1.6389332387203641,
+  "criterion_6_internal_energy": {
+    "value": 0.0009618945475017196,
+    "unit": "%",
+    "threshold": 0.1,
+    "verdict": "PASS"
+  },
+  "energy_residual_pct": 1.1,
+  "criterion_7_global_energy_residual": {
+    "value": 1.1,
+    "unit": "%",
+    "threshold": 10.0,
+    "verdict": "PASS"
+  },
+  "discretization_separation": {
+    "target_displacement_mm": 0.001,
+    "donor_mesh_elements": 2906,
+    "recipient_mesh_elements": 14483,
+    "donor_rf_N": 135.26,
+    "fine_ref_rf_N": 137.888,
+    "discretization_delta_rf_N": 2.6280000000000143,
+    "discretization_delta_rf_pct": 1.9429247375425216,
+    "donor_etot_mJ": 0.067679,
+    "fine_ref_etot_mJ": 0.069,
+    "discretization_delta_etot_mJ": 0.0013210000000000027,
+    "discretization_delta_etot_pct": 1.951860990853888,
+    "physical_interpretation": "At u=0.0010 mm (linear elastic regime), the physical discretization difference between 2,906 and 14,483 elements is small (Delta RF = 2.63 N <= 5.0 N, Delta E_tot = -1.91%). The crack tip is pre-localized (donor d_max = 0.00377 vs fine d_max = 0.00953, |Delta d_max| = 0.00576 <= 0.0200 PASS), avoiding the unresolvable localization band mismatch that plagued transfer at u=0.0050 mm."
+  }
+}

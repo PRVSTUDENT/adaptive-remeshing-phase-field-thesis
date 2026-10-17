@@ -1,0 +1,42 @@
+{
+  "adapter": "mode1-qualified-batch-v2",
+  "batch_name": "MODE1_METHOD_C_STAGE_C1_1_EARLY_U0010_TRANSFER",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_stage_c1_1_early_u0010_transfer",
+  "max_submissions": 1,
+  "automatic_retry": false,
+  "files": {
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_MC_STAGE_C1_1_EARLY_U0010.inp": "3ce25b944a2018d0aaf0ec64d4e406e5185c957414accc12c4204c3a0dc08918",
+    "submit_M1_MC_STAGE_C1_1_EARLY_U0010.pbs": "f6504f816d8c3125e30b92a43e028997840bb1cd9acbe7987dbd769ade986d70"
+  },
+  "jobs": [
+    {
+      "id": "M1_MC_STAGE_C1_1_EARLY_U0010",
+      "purpose": "Physically admissible nonmatching-mesh state transfer experiment (Stage C1-1) at u=0.0010 mm transferring state from 2,906-element coarse donor to 14,483-element fine recipient under corrected boundary conditions (N_TOP, 1, 1, 0.0, N_PIN, 1, 1, 0.0, NLGEOM=NO) and companion visualizer UMAT constants (NPROPS=3, NPHYS=14483)",
+      "input": "M1_MC_STAGE_C1_1_EARLY_U0010.inp",
+      "pbs": "submit_M1_MC_STAGE_C1_1_EARLY_U0010.pbs",
+      "datacheck": "M1_MC_STAGE_C1_1_EARLY_U0010_DC.dat",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 1,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_stage_c1_1_early_u0010_transfer/submit_M1_MC_STAGE_C1_1_EARLY_U0010.pbs\"",
+      "command_sha256": "ae70bcf6bc4e8dce08eccb5c39d8be0978d04a86c2e2b78341c83844d9d7ab9c"
+    }
+  ],
+  "acceptance": {
+    "terminal_exit_status": 0,
+    "step1_increments": 1,
+    "max_cutbacks": 0,
+    "discretization_delta_rf_N": 2.63,
+    "transfer_l2_displacement_error_max_pct": 0.05,
+    "step2_force_continuity_tol_N": 5.0,
+    "step2_damage_stability_tol": 0.02,
+    "total_energy_continuity_tol_pct": 2.5
+  }
+}
