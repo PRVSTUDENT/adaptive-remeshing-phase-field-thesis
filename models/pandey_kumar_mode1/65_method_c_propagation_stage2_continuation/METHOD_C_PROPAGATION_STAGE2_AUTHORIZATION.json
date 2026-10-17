@@ -1,0 +1,37 @@
+{
+    "adapter": "mode1-qualified-batch-v2",
+    "batch_name": "MODE1_METHOD_C_PROPAGATION_STAGE2",
+    "scientific_scope": "MODE1",
+    "technical_stage": "C1-2",
+    "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_stage_c1_2_propagation_stage2_continuation",
+    "max_submissions": 1,
+    "automatic_retry": false,
+    "files": {
+        "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+        "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "M1_MC_PROP_STAGE2_CONT.inp": "d3aa7092d19d73cd6b40e6ab78c57531eb846c56673b8ff3c8818dd7c8fc4c22",
+        "submit_M1_MC_PROP_STAGE2_CONT.pbs": "cb514d183eee204088fa47e06cd4c9f6e87c15487e3889f00c071a1fde9e4a47"
+    },
+    "jobs": [
+        {
+            "id": "M1_MC_PROP_STAGE2_CONT",
+            "purpose": "Second Mode-I Method C propagation-stage forward continuation advancing authentic Package 64 state (u=0.0055 mm) on 29,293-element mesh across the reference peak (u_peak ~ 0.005857 mm) to u = 0.0060 mm to drive genuine macroscopic crack propagation into the ligament",
+            "input": "M1_MC_PROP_STAGE2_CONT.inp",
+            "pbs": "submit_M1_MC_PROP_STAGE2_CONT.pbs",
+            "datacheck": "M1_MC_PROP_STAGE2_CONT_DC.dat",
+            "cpus": 1,
+            "memory_gb": 16,
+            "walltime_hours": 4,
+            "queue": "entry_imfdfkmq",
+            "execution": "single-rank serial",
+            "max_submissions": 1,
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_stage_c1_2_propagation_stage2_continuation/submit_M1_MC_PROP_STAGE2_CONT.pbs\"",
+            "command_sha256": "5ddc638c02cc64fb3e4e9f630d8f271bd60470c5785ae5865f89f832fba88cf6"
+        }
+    ],
+    "acceptance": {
+        "terminal_exit_status": 0,
+        "step2_force_tolerance_N": 5.0,
+        "step2_energy_error_pct": 0.5
+    }
+}

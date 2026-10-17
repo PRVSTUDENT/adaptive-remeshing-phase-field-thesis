@@ -1,9 +1,16 @@
 {
-  "active": false,
-  "agent": null,
-  "task_id": null,
-  "claimed_at": null,
-  "starting_commit": null,
-  "allowed_write_scope": [],
-  "session_report": null
+  "active": true,
+  "agent": "gemini-antigravity",
+  "task_id": "F1547-EXECUTE-PACKAGE-65-ACROSS-PEAK-AND-PREPARE-METHOD-C-PROPAGATION-QUALIFICATION",
+  "claimed_at": "2026-10-18T01:05:00+02:00",
+  "starting_commit": "1eefd47ff4742c5f2ccba28a0d4cf5aa36b1ec47",
+  "allowed_write_scope": [
+    "project_coordination/",
+    "scripts/",
+    "tests/",
+    "docs/",
+    "models/",
+    "results/"
+  ],
+  "session_report": "project_coordination/sessions/2026-10-18_0200_gemini-antigravity_F1547-PACKAGE-65-EXECUTION-AND-PROPAGATION-QUALIFICATION.md"
 }

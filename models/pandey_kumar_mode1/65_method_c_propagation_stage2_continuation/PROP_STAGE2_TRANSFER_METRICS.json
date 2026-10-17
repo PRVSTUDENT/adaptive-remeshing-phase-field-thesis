@@ -1,0 +1,64 @@
+{
+  "displacement_l2_rel_error_pct": 8.876532022593577e-11,
+  "criterion_1_displacement_l2": {
+    "value": 8.876532022593577e-11,
+    "unit": "%",
+    "threshold": 1.0,
+    "verdict": "PASS"
+  },
+  "donor_d_max": 0.5119376813193608,
+  "recipient_d_max": 0.5119376813193599,
+  "delta_d_max": 8.881784197001252e-16,
+  "criterion_2_peak_damage": {
+    "value": 8.881784197001252e-16,
+    "unit": "dimensionless",
+    "threshold": 0.02,
+    "verdict": "PASS"
+  },
+  "integral_d_recipient": 0.011295621069063773,
+  "integral_d_donor": 0.011295621069061141,
+  "delta_integral_d": 2.6315755130568164e-15,
+  "relative_error_integral_d": 2.329730695609768e-13,
+  "relative_error_integral_d_pct": 2.329730695609768e-11,
+  "criterion_3_integrated_damage": {
+    "value": 2.329730695609768e-11,
+    "unit": "%",
+    "threshold": 5.0,
+    "verdict": "PASS"
+  },
+  "donor_H_max": 3.9771971702575684,
+  "recipient_H_max": 3.9771971702575684,
+  "min_H": 1.872226595978077e-09,
+  "negative_H_count": 0,
+  "criterion_4_history_non_negativity": {
+    "value": 1.872226595978077e-09,
+    "unit": "kN/mm^2",
+    "threshold": 0.0,
+    "verdict": "PASS"
+  },
+  "delta_rf_boundary_N": 0.0925,
+  "criterion_5_boundary_force_continuity": {
+    "value": 0.0925,
+    "unit": "N",
+    "threshold": 5.0,
+    "verdict": "PASS"
+  },
+  "e_tot_donor_mJ": 1.663384,
+  "e_tot_recip_mJ": 1.6634,
+  "fine_ref_e_tot_mJ": 1.6911,
+  "delta_e_int_pct": 0.0009618945475017196,
+  "discretization_delta_vs_fine_ref_pct": 1.6389332387203641,
+  "criterion_6_internal_energy": {
+    "value": 0.0009618945475017196,
+    "unit": "%",
+    "threshold": 0.1,
+    "verdict": "PASS"
+  },
+  "energy_residual_pct": 1.1,
+  "criterion_7_global_energy_residual": {
+    "value": 1.1,
+    "unit": "%",
+    "threshold": 10.0,
+    "verdict": "PASS"
+  }
+}
