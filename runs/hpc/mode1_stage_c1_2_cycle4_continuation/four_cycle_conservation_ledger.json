@@ -1,0 +1,170 @@
+{
+  "regime": "FOUR_CYCLE_EARLY_LOADING_SEQUENTIAL_REMESHING_TECHNICAL_DEMONSTRATION",
+  "governing_benchmark": "Pandey & Kumar (2025) Mode-I Sharp Slit",
+  "reference_peak_force_N": 757.778,
+  "reference_u_peak_mm": 0.005857,
+  "cycles": [
+    {
+      "cycle": 1,
+      "job_id": "1414775.mmaster02",
+      "elements": 17913,
+      "nodes": 17932,
+      "u_range_mm": [
+        0.001,
+        0.0012
+      ],
+      "step1_re_equilibration": {
+        "u_handoff_mm": 0.001,
+        "delta_rf_N": -0.063,
+        "delta_d_max": -0.0061,
+        "delta_e_elas_pct": -0.06,
+        "delta_e_frac_pct": -14.89,
+        "delta_e_tot_pct": -0.055
+      },
+      "step2_terminal": {
+        "u_terminal_mm": 0.0012,
+        "rf2_N": 165.242,
+        "d_max": 0.01423,
+        "h_max_kN_mm2": 0.023186,
+        "e_elas_mJ": 0.099145,
+        "e_frac_nJ": 117.628,
+        "e_tot_mJ": 0.099263,
+        "err_rf_vs_ctrl_pct": -0.002,
+        "err_d_vs_ctrl": 0.00041,
+        "err_elas_vs_ctrl_pct": -0.002,
+        "err_frac_vs_ctrl_pct": 2.198,
+        "err_tot_vs_ctrl_pct": 0.001,
+        "err_rf_vs_base_pct": -0.107,
+        "err_frac_vs_base_pct": 1.977,
+        "err_tot_vs_base_pct": -0.061
+      },
+      "classification": "CYCLE1_TECHNICAL_PASS_SCIENTIFIC_PARTIAL_FRACTURE_ENERGY_AND_HISTORY_UNRESOLVED"
+    },
+    {
+      "cycle": 2,
+      "job_id": "1414788.mmaster02",
+      "elements": 21546,
+      "nodes": 21541,
+      "u_range_mm": [
+        0.0012,
+        0.0015
+      ],
+      "step1_re_equilibration": {
+        "u_handoff_mm": 0.0012,
+        "delta_rf_N": -0.085,
+        "delta_d_max": -0.00021,
+        "delta_e_elas_pct": -0.116,
+        "delta_e_frac_pct": -0.453,
+        "delta_e_tot_pct": -0.114
+      },
+      "step2_terminal": {
+        "u_terminal_mm": 0.0015,
+        "rf2_N": 206.175,
+        "d_max": 0.02433,
+        "h_max_kN_mm2": 0.073401,
+        "e_elas_mJ": 0.154631,
+        "e_frac_nJ": 285.25,
+        "e_tot_mJ": 0.154916,
+        "err_rf_vs_ctrl_pct": -0.002,
+        "err_d_vs_ctrl": 0.00144,
+        "err_elas_vs_ctrl_pct": -0.002,
+        "err_frac_vs_ctrl_pct": 1.407,
+        "err_tot_vs_ctrl_pct": 0.0003,
+        "err_rf_vs_base_pct": -0.117,
+        "err_frac_vs_base_pct": 1.225,
+        "err_tot_vs_base_pct": -0.114
+      },
+      "classification": "CYCLE2_TECHNICAL_PASS_SCIENTIFIC_PARTIAL_FRACTURE_AND_TOTAL_ENERGY_UNRESOLVED"
+    },
+    {
+      "cycle": 3,
+      "job_id": "1414823.mmaster02",
+      "elements": 25085,
+      "nodes": 25052,
+      "u_range_mm": [
+        0.0015,
+        0.0018
+      ],
+      "step1_re_equilibration": {
+        "u_handoff_mm": 0.0015,
+        "delta_rf_N": 0.067,
+        "delta_d_max": 0.0,
+        "delta_e_elas_pct": -0.113,
+        "delta_e_frac_pct": -0.243,
+        "delta_e_tot_pct": -0.112
+      },
+      "step2_terminal": {
+        "u_terminal_mm": 0.0018,
+        "rf2_N": 247.021,
+        "d_max": 0.03418,
+        "h_max_kN_mm2": 0.117512,
+        "e_elas_mJ": 0.222318,
+        "e_frac_nJ": 588.306,
+        "e_tot_mJ": 0.222907,
+        "err_rf_vs_base_pct": -0.126,
+        "err_d_vs_base": 0.00414,
+        "err_elas_vs_base_pct": -0.114,
+        "err_frac_vs_base_pct": 0.591,
+        "err_tot_vs_base_pct": -0.112
+      },
+      "classification": "CYCLE3_TECHNICAL_PASS_SCIENTIFIC_PARTIAL_FRACTURE_ENERGY_0P59PCT_UNRESOLVED"
+    },
+    {
+      "cycle": 4,
+      "job_id": "1414830.mmaster02",
+      "elements": 29293,
+      "nodes": 29210,
+      "u_range_mm": [
+        0.0018,
+        0.0021
+      ],
+      "step1_re_equilibration": {
+        "u_handoff_mm": 0.0018,
+        "delta_rf_N": 0.0925,
+        "delta_d_max": 3.47e-17,
+        "delta_e_elas_pct": -0.0016372943261325867,
+        "delta_e_frac_pct": -0.24155456514128268,
+        "delta_e_tot_pct": -0.0025840372890907634
+      },
+      "step2_terminal": {
+        "u_terminal_mm": 0.0021,
+        "rf2_N": 287.63654828071594,
+        "d_max": 0.04651838541030884,
+        "h_max_kN_mm2": 0.17226512730121613,
+        "e_elas_mJ": 0.30201838999999997,
+        "e_frac_nJ": 1087.872,
+        "e_tot_mJ": 0.30310626,
+        "err_rf_vs_base_pct": -0.11621013465376673,
+        "err_d_vs_base": 0.007318385410308839,
+        "err_elas_vs_base_pct": -0.1160204147777071,
+        "err_frac_vs_base_pct": 0.28950940490716776,
+        "err_tot_vs_base_pct": -0.11456105853310253
+      },
+      "classification": "CYCLE4_TECHNICAL_PASS_SCIENTIFIC_EVALUATION"
+    }
+  ],
+  "step1_jump_cycle4": {
+    "e_elas_mJ": 0.22231436000000002,
+    "delta_e_elas_pct": -0.0016372943261325867,
+    "e_frac_nJ": 586.88492,
+    "delta_e_frac_nJ": -1.4210800000000745,
+    "delta_e_frac_pct": -0.24155456514128268,
+    "e_tot_mJ": 0.22290124,
+    "delta_e_tot_pct": -0.0025840372890907634
+  },
+  "step2_terminal_cycle4": {
+    "rf2_N": 287.63654828071594,
+    "d_max": 0.04651838541030884,
+    "h_max": 0.17226512730121613,
+    "e_elas_mJ": 0.30201838999999997,
+    "e_frac_nJ": 1087.872,
+    "e_tot_mJ": 0.30310626,
+    "diff_rf2_vs_base_N": -0.3346517192840679,
+    "pct_rf2_vs_base": -0.11621013465376673,
+    "diff_d_max_vs_base": 0.007318385410308839,
+    "pct_e_elas_vs_base": -0.1160204147777071,
+    "diff_e_frac_vs_base_nJ": 3.1403999999999996,
+    "pct_e_frac_vs_base": 0.28950940490716776,
+    "pct_e_tot_vs_base": -0.11456105853310253
+  }
+}
