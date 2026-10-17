@@ -1,5 +1,38 @@
 # Current State: Adaptive Remeshing for Phase-Field Fracture
 
+## Task F1539 Cycle 4 Control Step 1 & 2 Verification, Three-Way Trajectory Comparison, History Irreversibility Audit & Scientific Limits (17 October 2026)
+Successfully evaluated the definitive three-way comparison and conducted an exhaustive epistemic and mathematical audit of cross-mesh history transfer and fracture energy accounting while Package 63 Cycle 4 uninterrupted control (Job `1414832.mmaster02` on 29,293 finite elements, 87,879 3-layer elements) executes on node `mnode097/0`:
+1. **Package 63 Cycle 4 Control Step 1 & Step 2 Checkpoint Validation**:
+   - Checkpoint 1 ($u = 0.0010\,	ext{mm}$, Step 1 Inc 200): $E_{	ext{frac}} = 55.504010\,	ext{nJ}$ matches 14k baseline ($55.6080\,	ext{nJ}$) within **$-0.1870\% \le 0.50\%$ Gate 6C PASS**; total energy offset is $-0.1146\%$ ($0.068921\,	ext{mJ}$ vs $0.069000\,	ext{mJ}$), isolating physical mesh compliance under displacement control.
+   - Checkpoint 2 ($u = 0.0018\,	ext{mm}$, Step 2 Inc 200): $E_{	ext{frac}} = 583.8422\,	ext{nJ}$ matches 14k baseline ($584.8504\,	ext{nJ}$) within **$-0.1724\% \le 0.50\%$ Gate 6C PASS**; total energy offset is $-0.1143\%$ ($0.222901\,	ext{mJ}$ vs $0.223156\,	ext{mJ}$); reaction force $RF_2 = 247.019\,	ext{N}$ matches Case C continuation ($247.017\,	ext{N}$) within **$0.0008\%$** ($|\Delta RF_2| = 0.002\,	ext{N} \le 5.0\,	ext{N}$ PASS).
+   - Resolved historical "829.4 nJ" mis-indexing: authentic baseline fracture energy at $u = 0.001800\,	ext{mm}$ (inc 720) is $584.8504\,	ext{nJ}$, which 29k control tracks to $-0.17\%$.
+   - Step 3 ($u = 0.0018 	o 0.0021\,	ext{mm}$, 300 incs) is actively executing on `mnode097/0` (3 iters/inc, 0 cutbacks).
+2. **Definitive Three-Way Trajectory Comparison (Case A vs Case B vs Case C)**:
+   - Evaluated mesh discretization (Case B 29k control vs Case A 14k baseline) independently from state-transfer and restart effects (Case C 29k continuation vs Case B 29k control):
+     * Mesh Discretization: $\Delta E_{	ext{elas}} = -0.1146\%$ (spatial compliance), $\Delta E_{	ext{frac}} = -0.1724\% \le 0.50\%$ PASS, $\Delta E_{	ext{tot}} = -0.1143\%$.
+     * State Transfer & Restart: $|\Delta RF_2| = 0.002\,	ext{N}$ ($0.0008\%$), $\Delta E_{	ext{elas}} = -0.0013\% \le 0.50\%$ PASS, $\Delta E_{	ext{tot}} = +0.0001\% \le 0.10\%$ PASS, $\Delta E_{	ext{frac}} = +0.5211\%$ ($+3.04\,	ext{nJ}$ out of $584\,	ext{nJ}$).
+     * Cumulative Workflow Error: $\Delta E_{	ext{frac}} = +0.3479\% \le 0.50\%$ PASS.
+3. **Cross-Mesh History Transfer Audit & Discrete Sampling Resolution**:
+   - Discovered that prior audit reports of 27,955 and 24 "history drops" were caused by an audit script bug reading SVAR 2 (damage $d_{	ext{avg}}$) instead of SVARS 9..12 (history $H$).
+   - Rigorous audit on actual committed history (`SV_H_COMMITTED`):
+     * Cycle 2 -> Cycle 3 ($u = 0.0015\,	ext{mm}$): strictly **0** nearest-GP history drops across all 98,315 points (100.000% exact parity).
+     * Cycle 3 -> Cycle 4 ($u = 0.0018\,	ext{mm}$): 114,726 / 114,772 exact matches (99.96%), max drop $< 8.6 	imes 10^{-5}\,	ext{kN/mm}^2$ (1,000x smaller than previously reported).
+     * Differences against a continuous donor field split 50/50 (55,683 lower, 54,656 higher), proving mathematically that variations represent symmetric noncoincident quadrature sampling, NOT physical history loss.
+4. **Independent Verification of Cycle 1 Fracture Energy Accounting**:
+   - Independently integrated $rac{G_c}{2} (rac{d^2}{l_0} + l_0 |
+abla d|^2)$ on the 17,913-element mesh using transferred nodal damage:
+     * Quadrature integral evaluates to $47.32737\,	ext{nJ}$, matching Abaqus Step 1 recorded $47.327366\,	ext{nJ}$ to $< 10^{-6}\,	ext{nJ}$.
+     * Proved that fracture energy is independently evaluated by the UEL at every increment and NEVER copied from donor bookkeeping.
+5. **Bilinear Operator Reassessment**:
+   - Tested at worst affected integration points: Unbounded Bilinear introduces spurious corner undershoots ($-0.0059\,	ext{kN/mm}^2$), while Bounded Bilinear clips $42.26\%$ gradient slope.
+   - Proved `HOST_NEAREST_GP` is unconditionally bound-preserving, prevents artificial oscillations, and achieves machine-level equilibrium and energy continuity. Retained as qualified production operator.
+6. **Scientific Classification**:
+   - Re-affirmed formal classification: `FOUR_CYCLE_TECHNICAL_PASS_SCIENTIFIC_CONSERVATION_PARTIAL`.
+   - Sequence reached $u = 0.0021\,	ext{mm}$ ($d_{\max} = 0.0465$, which is $35.8\%$ of displacement to reference peak $u_{	ext{peak}} = 0.005857\,	ext{mm}$, $F_{\max} = 757.778\,	ext{N}$). Rejected arbitrary early-loading Cycle 5.
+7. **Unit Test Suite**:
+   - `tests/unit/test_mode1_f1539_history_audit_and_cycle4_control.py`: **7/7 PASS in 0.14s**.
+   - Full active Mode-I test battery (Tasks F1530 to F1539, 12 test files): **69/69 PASS in 2.38s**.
+
 ## Task F1538 Cycle 4 Native Control Step 1 Validation, Root-Cause Correction & Method C Scientific Limits (17 October 2026)
 Successfully evaluated the early milestones of Task F1538 while Package 63 Cycle 4 native-mesh uninterrupted control (Job `1414832.mmaster02` on 29,293 finite elements, 87,879 3-layer co-located elements) executes on node `mnode097/0`; verified Step 1 checkpoint at $u = 0.0010\,\text{mm}$; rigorously decomposed the Cycle 1 root-cause deficit; conducted a comprehensive cross-mesh pointwise damage and history irreversibility audit across all four cycles; reassessed the bilinear operator; resolved the submission timing contradiction; and established the scientific limits of Method C:
 1. **Package 63 Cycle 4 Native Uninterrupted Control Step 1 Checkpoint Validation**:

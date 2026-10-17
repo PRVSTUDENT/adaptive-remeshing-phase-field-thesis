@@ -1,0 +1,356 @@
+[
+  {
+    "boundary": "Cycle 1 -> Cycle 2 (u = 0.0012 mm)",
+    "total_gps": 84402,
+    "nearest_exact_matches": 83808,
+    "nearest_drops": 594,
+    "max_nearest_drop": 0.005381206516176462,
+    "nearest_gains": 0,
+    "max_nearest_gain": 0.0,
+    "spatial_drops": 39454,
+    "max_spatial_drop": 0.007593078666689442,
+    "worst_nearest_drops": [
+      {
+        "recip_eid": 36,
+        "k_pt": 1,
+        "coords": [
+          0.5012229283333334,
+          0.5033343433333334
+        ],
+        "h_committed": 0.0,
+        "host_eid": 3348,
+        "donor_nearest_k": 4,
+        "h_donor_nearest": 0.005381206516176462,
+        "drop": 0.005381206516176462
+      },
+      {
+        "recip_eid": 37,
+        "k_pt": 1,
+        "coords": [
+          0.503400902,
+          0.5006801883333333
+        ],
+        "h_committed": 0.0,
+        "host_eid": 3842,
+        "donor_nearest_k": 4,
+        "h_donor_nearest": 0.004384331870824099,
+        "drop": 0.004384331870824099
+      },
+      {
+        "recip_eid": 86,
+        "k_pt": 1,
+        "coords": [
+          0.5084844233333333,
+          0.500840823
+        ],
+        "h_committed": 0.0,
+        "host_eid": 4271,
+        "donor_nearest_k": 4,
+        "h_donor_nearest": 0.001848235260695219,
+        "drop": 0.001848235260695219
+      },
+      {
+        "recip_eid": 487,
+        "k_pt": 1,
+        "coords": [
+          0.507498622,
+          0.5002959273333333
+        ],
+        "h_committed": 0.0,
+        "host_eid": 4271,
+        "donor_nearest_k": 4,
+        "h_donor_nearest": 0.001848235260695219,
+        "drop": 0.001848235260695219
+      },
+      {
+        "recip_eid": 35,
+        "k_pt": 1,
+        "coords": [
+          0.4955132803333333,
+          0.493099779
+        ],
+        "h_committed": 0.0,
+        "host_eid": 3830,
+        "donor_nearest_k": 3,
+        "h_donor_nearest": 0.0018099487060680985,
+        "drop": 0.0018099487060680985
+      }
+    ],
+    "worst_spatial_drops": [
+      {
+        "recip_eid": 3274,
+        "k_pt": 1,
+        "coords": [
+          0.4988151642502821,
+          0.501152494272108
+        ],
+        "h_committed": 0.0018341962,
+        "host_eid": 3076,
+        "h_spatial": 0.009427274866689442,
+        "drop": 0.007593078666689442
+      },
+      {
+        "recip_eid": 3274,
+        "k_pt": 2,
+        "coords": [
+          0.4988151743675301,
+          0.5017068419971022
+        ],
+        "h_committed": 0.0018341962,
+        "host_eid": 3076,
+        "h_spatial": 0.008753716680526881,
+        "drop": 0.0069195204805268815
+      },
+      {
+        "recip_eid": 3136,
+        "k_pt": 1,
+        "coords": [
+          0.49875512014241047,
+          0.4985484675844586
+        ],
+        "h_committed": 0.0021421958,
+        "host_eid": 3087,
+        "h_spatial": 0.009020330127103515,
+        "drop": 0.0068781343271035154
+      },
+      {
+        "recip_eid": 36,
+        "k_pt": 1,
+        "coords": [
+          0.5012229283333334,
+          0.5033343433333334
+        ],
+        "h_committed": 0.0,
+        "host_eid": 3348,
+        "h_spatial": 0.005763826020961532,
+        "drop": 0.005763826020961532
+      },
+      {
+        "recip_eid": 3591,
+        "k_pt": 4,
+        "coords": [
+          0.5012434928296874,
+          0.5012627616585041
+        ],
+        "h_committed": 0.0049625412,
+        "host_eid": 827,
+        "h_spatial": 0.01067598955364207,
+        "drop": 0.00571344835364207
+      }
+    ]
+  },
+  {
+    "boundary": "Cycle 2 -> Cycle 3 (u = 0.0015 mm)",
+    "total_gps": 98315,
+    "nearest_exact_matches": 98315,
+    "nearest_drops": 0,
+    "max_nearest_drop": 0.0,
+    "nearest_gains": 0,
+    "max_nearest_gain": 0.0,
+    "spatial_drops": 46975,
+    "max_spatial_drop": 0.01026782283805484,
+    "worst_nearest_drops": [],
+    "worst_spatial_drops": [
+      {
+        "recip_eid": 1623,
+        "k_pt": 2,
+        "coords": [
+          0.49920167336853,
+          0.5009208505398556
+        ],
+        "h_committed": 0.020538017,
+        "host_eid": 942,
+        "h_spatial": 0.03080583983805484,
+        "drop": 0.01026782283805484
+      },
+      {
+        "recip_eid": 2307,
+        "k_pt": 3,
+        "coords": [
+          0.500951084726672,
+          0.5009154908660449
+        ],
+        "h_committed": 0.021998737,
+        "host_eid": 962,
+        "h_spatial": 0.031046308665244788,
+        "drop": 0.009047571665244787
+      },
+      {
+        "recip_eid": 3886,
+        "k_pt": 3,
+        "coords": [
+          0.5010669276167815,
+          0.49905282713226207
+        ],
+        "h_committed": 0.020202236,
+        "host_eid": 3590,
+        "h_spatial": 0.02920410345028955,
+        "drop": 0.009001867450289552
+      },
+      {
+        "recip_eid": 2308,
+        "k_pt": 4,
+        "coords": [
+          0.499268911894947,
+          0.49899653146070627
+        ],
+        "h_committed": 0.02318568,
+        "host_eid": 3264,
+        "h_spatial": 0.029614176833808382,
+        "drop": 0.006428496833808382
+      },
+      {
+        "recip_eid": 2307,
+        "k_pt": 2,
+        "coords": [
+          0.5009656032897377,
+          0.5002533232787733
+        ],
+        "h_committed": 0.030713221,
+        "host_eid": 962,
+        "h_spatial": 0.03507640034759756,
+        "drop": 0.004363179347597564
+      }
+    ]
+  },
+  {
+    "boundary": "Cycle 3 -> Cycle 4 (u = 0.0018 mm)",
+    "total_gps": 114772,
+    "nearest_exact_matches": 114726,
+    "nearest_drops": 21,
+    "max_nearest_drop": 8.513881964647765e-05,
+    "nearest_gains": 25,
+    "max_nearest_gain": 9.096114954767207e-05,
+    "spatial_drops": 55683,
+    "max_spatial_drop": 0.014709928631839876,
+    "worst_nearest_drops": [
+      {
+        "recip_eid": 13686,
+        "k_pt": 3,
+        "coords": [
+          0.5209506527142735,
+          0.5121312924502279
+        ],
+        "h_committed": 0.001702116,
+        "host_eid": 11222,
+        "donor_nearest_k": 1,
+        "h_donor_nearest": 0.0017872548196464777,
+        "drop": 8.513881964647765e-05
+      },
+      {
+        "recip_eid": 15149,
+        "k_pt": 1,
+        "coords": [
+          0.5256315534049647,
+          0.5089551497522043
+        ],
+        "h_committed": 0.0013353562,
+        "host_eid": 11870,
+        "donor_nearest_k": 1,
+        "h_donor_nearest": 0.0013874161522835493,
+        "drop": 5.205995228354924e-05
+      },
+      {
+        "recip_eid": 12780,
+        "k_pt": 2,
+        "coords": [
+          0.5044935171249043,
+          0.5207303721791611
+        ],
+        "h_committed": 0.0023877656,
+        "host_eid": 9582,
+        "donor_nearest_k": 1,
+        "h_donor_nearest": 0.002435595728456974,
+        "drop": 4.783012845697423e-05
+      },
+      {
+        "recip_eid": 15154,
+        "k_pt": 4,
+        "coords": [
+          0.49871454010111926,
+          0.5363640085655226
+        ],
+        "h_committed": 0.0012085408,
+        "host_eid": 11660,
+        "donor_nearest_k": 3,
+        "h_donor_nearest": 0.0012480911100283265,
+        "drop": 3.955031002832654e-05
+      },
+      {
+        "recip_eid": 23485,
+        "k_pt": 3,
+        "coords": [
+          0.5571273402295586,
+          0.4618581123932817
+        ],
+        "h_committed": 0.00072528608,
+        "host_eid": 19106,
+        "donor_nearest_k": 4,
+        "h_donor_nearest": 0.0007459738408215344,
+        "drop": 2.068776082153438e-05
+      }
+    ],
+    "worst_spatial_drops": [
+      {
+        "recip_eid": 1199,
+        "k_pt": 2,
+        "coords": [
+          0.4992536061744184,
+          0.5008214519631544
+        ],
+        "h_committed": 0.020538017,
+        "host_eid": 1623,
+        "h_spatial": 0.035247945631839875,
+        "drop": 0.014709928631839876
+      },
+      {
+        "recip_eid": 3867,
+        "k_pt": 2,
+        "coords": [
+          0.49930554058995924,
+          0.49906790227754083
+        ],
+        "h_committed": 0.02318568,
+        "host_eid": 2308,
+        "h_spatial": 0.03539091894063953,
+        "drop": 0.012205238940639532
+      },
+      {
+        "recip_eid": 2209,
+        "k_pt": 1,
+        "coords": [
+          0.5009222876549999,
+          0.5008176755504485
+        ],
+        "h_committed": 0.021998737,
+        "host_eid": 2307,
+        "h_spatial": 0.03327166736222722,
+        "drop": 0.011272930362227217
+      },
+      {
+        "recip_eid": 3964,
+        "k_pt": 4,
+        "coords": [
+          0.0008700584614150902,
+          0.0008731531460713174
+        ],
+        "h_committed": 0.0042151054,
+        "host_eid": 3527,
+        "h_spatial": 0.013481561039999469,
+        "drop": 0.009266455639999468
+      },
+      {
+        "recip_eid": 4341,
+        "k_pt": 4,
+        "coords": [
+          0.499290172920874,
+          0.5018814966316042
+        ],
+        "h_committed": 0.012065447,
+        "host_eid": 1624,
+        "h_spatial": 0.020367455527838044,
+        "drop": 0.008302008527838044
+      }
+    ]
+  }
+]
