@@ -1,0 +1,48 @@
+{
+  "odb_path": "PK_M1_COARSE_FINE_CONT.odb", 
+  "time_value": 1.0, 
+  "num_elements_evaluated": 4900, 
+  "step_name": "Step-1", 
+  "misesavg_value": 210.277786, 
+  "relative_error_indicator_distribution": {
+    "eta_ge_0.50": {
+      "count": 32, 
+      "percentage": 0.65
+    }, 
+    "eta_ge_0.10": {
+      "count": 172, 
+      "percentage": 3.51
+    }, 
+    "eta_ge_0.02": {
+      "count": 1394, 
+      "percentage": 28.45
+    }, 
+    "eta_ge_0.01": {
+      "count": 2952, 
+      "percentage": 60.24
+    }, 
+    "eta_ge_0.20": {
+      "count": 78, 
+      "percentage": 1.59
+    }, 
+    "eta_ge_0.05": {
+      "count": 380, 
+      "percentage": 7.76
+    }, 
+    "eta_ge_1.00": {
+      "count": 16, 
+      "percentage": 0.33
+    }
+  }, 
+  "miseseri_statistics": {
+    "std": 31.244295, 
+    "singularity_ratio_max_to_mean": 145.56, 
+    "min": 0.16635448, 
+    "max": 927.907471, 
+    "mean": 6.374877, 
+    "median": 2.64456, 
+    "max_element_label": 2415, 
+    "min_element_label": 53
+  }, 
+  "frame_index": 100
+}
