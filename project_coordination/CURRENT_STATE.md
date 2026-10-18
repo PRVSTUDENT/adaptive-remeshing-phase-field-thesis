@@ -1,3 +1,42 @@
+## Active Task: F1560 Independent Review of Exact Reconstruction & Nonmatching Mechanical Equilibrium
+
+- **Binding ChatGPT Scientific Review Decision Ingested**:
+  * Accepts donor identity-mesh energy results (Delta E_elas=+0.0487%, Delta E_frac=-0.0479%, Delta E_tot=+0.0204%) as a successful numerical energy-reconstruction diagnostic.
+  * Active classifications re-affirmed: `CYCLE5_NONMATCHING_TRANSFER = FAIL`, `PACKAGE70_REEQUILIBRATION = FAIL`, `METHOD_C_OVERALL = NOT_YET_QUALIFIED`, `CYCLE5_LOADED_PROPAGATION = ON_HOLD`.
+- **Priority 1: Operator A Spectral Analysis & Identifiability Proof**:
+  * Evaluated sparse operator A (E=29,293, N=29,210, redundancy 83).
+  * Extreme eigenvalues: lambda_max = 1.097290, lambda_min = 1.329910e-17, condition number kappa(A^T A) = 8.25e+16, kappa(A) = 2.87e+08.
+  * Near-null mode check: ||A v_null|| / ||v_null|| = 1.562109e-13. Discovered discrete quadrilateral checkerboard modes (+1, -1, +1, -1 -> 0).
+  * Mathematical identifiability: Element averages alone do NOT uniquely define the continuous nodal field without regularization.
+  * Minimum-norm resolution: Conjugate Gradient and LSQR project onto ker(A)^perp, recovering smooth physical fields with high fidelity (Gaussian tip relative error 0.037%, sharp crack wake 1.12%).
+  * Solver equivalence: CG and LSQR solutions match to max|d_CG - d_LSQR| = 3.51e-08 on authentic donor data.
+  * Order independence: forward vs reversed element numbering discrepancy = 1.92e-08.
+- **Priority 2: Package 70 Fixed-Damage Dirichlet Interpretation**:
+  * Step 1 applied 33,975 DOF 3 Dirichlet boundary conditions (*BOUNDARY).
+  * Proved that Package 70 performed a constrained mechanical re-equilibration at fixed damage, not a coupled phase-field solve.
+  * Constant prescribed top displacement (Delta u_top = 0) implies W_ext = 0 during re-equilibration.
+  * Proved that potential energy minimization was equivalent to strain energy minimization: Delta Pi = Delta E_elas = -1.6155% < 0.
+- **Priority 3: Separation of Displacement Interpolation & Mechanical Equilibrium**:
+  * Experiment A (Direct Interpolation): E_elas = 1.689950 mJ (+0.6557%), E_frac = 695.8692 uJ (-0.1875%), E_tot = 2.385819 mJ (+0.4083%), residual force imbalance ||R_free|| = 15.48 N.
+  * Experiment B (Discrete Mechanical Equilibrium): Assembled exact global K_recip(d_fixed) matching UEL and solved K_ff u_f = - K_fp u_p to ||R_free|| = 1.09e-13 kN.
+    - E_elas relaxed from 1.689950 mJ -> 1.660072 mJ (Delta E_elas = -1.7680%).
+    - E_tot relaxed from 2.385819 mJ -> 2.355942 mJ (Delta E_tot = -1.2523%).
+    - Top reaction force adjusted from 559.880 N -> 553.357 N (-1.1650%).
+    - Matches historical Package 70 Abaqus solve (-1.6155% elastic relaxation) within 0.15%.
+  * Ground truth comparison: Equilibrated state exhibits Delta E_elas = -1.1238% (vs <= +-0.50%), Delta E_tot = -0.8491% (vs <= +-0.10%), Delta RF_2 = -6.288 N (vs <= 5.0 N).
+  * Discretization conclusion: The +0.66% elevation was an interpolation artifact; the resulting -1.12% drop is a physical mesh compliance effect of refining elements to h <= 2 um.
+- **Priority 4: Physical Preservation Audit**:
+  * Nodal damage bounds: donor in [0, 1], recip in [0, 1], Delta d_max = 0.000000 <= 0.020 (PASS).
+  * Crack-front position: Delta x = 1.75 um = 0.233 l_0 <= 0.50 l_0 (PASS).
+  * Pointwise damage difference: RMS = 1.10e-3. Zero premature damage in intact ligament (x > 0.66 mm).
+  * History non-negativity: min(H) >= 0 verified.
+  * Fracture surface energy: Delta E_frac = -0.1397% <= +-0.50% (PASS).
+- **Priority 5 & Governance Closure**:
+  * Neither interpolated state (+0.4083% tot) nor equilibrated state (-0.8491% tot) satisfies the strict <= +-0.10% total energy conservation threshold.
+  * Package 71 receiver submission is **STRICTLY WITHHELD BY POLICY**.
+  * Cycle 5 loaded crack propagation (u = 0.0060 -> 0.0065 mm) remains strictly on **`HOLD`**.
+  * Full regression test suite: 6/6 tests PASS in `test_mode1_f1560` (17/17 combined).
+
 ## Active Task: F1557 State-Transfer Correction, Domain Partition Closure & Re-equilibration Audit
 
 - **Binding ChatGPT Scientific Review Verdict Ingested**:
