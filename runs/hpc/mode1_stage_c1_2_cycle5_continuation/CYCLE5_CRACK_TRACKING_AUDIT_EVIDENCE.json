@@ -1,0 +1,193 @@
+{
+  "bands_comparison": [
+    {
+      "band": "Band 1 (Behind Original Tip: x < 0.500, Corridor)",
+      "donor_count": 3058,
+      "recip_count": 3481,
+      "delta_count": 423,
+      "pct_count": 13.832570307390451,
+      "donor_h_median_um": 1.7238673302147978,
+      "recip_h_median_um": 1.5909857477231972,
+      "donor_h_over_l0_median": 0.22984897736197304,
+      "recip_h_over_l0_median": 0.21213143302975965,
+      "donor_h_min_um": 0.5073483379036536,
+      "recip_h_min_um": 0.4802729051506195,
+      "donor_h_max_um": 16.504744784793914,
+      "recip_h_max_um": 15.49986846088101
+    },
+    {
+      "band": "Band 2 (Propagated Wake: 0.500 <= x < 0.6413, Corridor)",
+      "donor_count": 2981,
+      "recip_count": 3102,
+      "delta_count": 121,
+      "pct_count": 4.059040590405904,
+      "donor_h_median_um": 1.66452716865938,
+      "recip_h_median_um": 1.7071458205885732,
+      "donor_h_over_l0_median": 0.2219369558212507,
+      "recip_h_over_l0_median": 0.22761944274514312,
+      "donor_h_min_um": 0.5591628565388358,
+      "recip_h_min_um": 0.5603695217557777,
+      "donor_h_max_um": 6.294742831937253,
+      "recip_h_max_um": 5.853926979535388
+    },
+    {
+      "band": "Band 3 (Moving Front +/- 2*l0: 0.6413 <= x <= 0.6713, Corridor)",
+      "donor_count": 96,
+      "recip_count": 120,
+      "delta_count": 24,
+      "pct_count": 25.0,
+      "donor_h_median_um": 5.672868317304098,
+      "recip_h_median_um": 4.8571868341282745,
+      "donor_h_over_l0_median": 0.7563824423072132,
+      "recip_h_over_l0_median": 0.6476249112171033,
+      "donor_h_min_um": 4.140112488765172,
+      "recip_h_min_um": 2.789367647799094,
+      "donor_h_max_um": 7.066117177120477,
+      "recip_h_max_um": 6.722344561626585
+    },
+    {
+      "band": "Band 4 (Ahead of Front 2*l0-4*l0: 0.6713 < x <= 0.6863, Corridor)",
+      "donor_count": 43,
+      "recip_count": 42,
+      "delta_count": -1,
+      "pct_count": -2.3255813953488373,
+      "donor_h_median_um": 5.778852686347102,
+      "recip_h_median_um": 5.8491882767585,
+      "donor_h_over_l0_median": 0.770513691512947,
+      "recip_h_over_l0_median": 0.7798917702344668,
+      "donor_h_min_um": 3.244550194719087,
+      "recip_h_min_um": 4.5049503186572055,
+      "donor_h_max_um": 7.1303760747440394,
+      "recip_h_max_um": 7.089057062459714
+    },
+    {
+      "band": "Band 5 (Unaffected Bulk & Outer Region)",
+      "donor_count": 23115,
+      "recip_count": 27349,
+      "delta_count": 4234,
+      "pct_count": 18.317110101665584,
+      "donor_h_median_um": 5.527204399394274,
+      "recip_h_median_um": 5.116938864637712,
+      "donor_h_over_l0_median": 0.7369605865859034,
+      "recip_h_over_l0_median": 0.6822585152850282,
+      "donor_h_min_um": 0.6803961200866097,
+      "recip_h_min_um": 0.5486744514483222,
+      "donor_h_max_um": 19.529399547703374,
+      "recip_h_max_um": 17.85686229233888
+    }
+  ],
+  "donor_stats": {
+    "Band 1 (Behind Original Tip: x < 0.500, Corridor)": {
+      "count": 3058,
+      "h_min_um": 0.5073483379036536,
+      "h_median_um": 1.7238673302147978,
+      "h_mean_um": 2.8890780215801444,
+      "h_max_um": 16.504744784793914,
+      "h_over_l0_min": 0.06764644505382049,
+      "h_over_l0_median": 0.22984897736197304,
+      "h_over_l0_max": 2.200632637972522,
+      "total_area": 0.049705298897379485
+    },
+    "Band 2 (Propagated Wake: 0.500 <= x < 0.6413, Corridor)": {
+      "count": 2981,
+      "h_min_um": 0.5591628565388358,
+      "h_median_um": 1.66452716865938,
+      "h_mean_um": 1.959702192888961,
+      "h_max_um": 6.294742831937253,
+      "h_over_l0_min": 0.07455504753851144,
+      "h_over_l0_median": 0.2219369558212507,
+      "h_over_l0_max": 0.8392990442583004,
+      "total_area": 0.014010098038626392
+    },
+    "Band 3 (Moving Front +/- 2*l0: 0.6413 <= x <= 0.6713, Corridor)": {
+      "count": 96,
+      "h_min_um": 4.140112488765172,
+      "h_median_um": 5.672868317304098,
+      "h_mean_um": 5.634259940665255,
+      "h_max_um": 7.066117177120477,
+      "h_over_l0_min": 0.552014998502023,
+      "h_over_l0_median": 0.7563824423072132,
+      "h_over_l0_max": 0.9421489569493969,
+      "total_area": 0.0030870571227225863
+    },
+    "Band 4 (Ahead of Front 2*l0-4*l0: 0.6713 < x <= 0.6863, Corridor)": {
+      "count": 43,
+      "h_min_um": 3.244550194719087,
+      "h_median_um": 5.778852686347102,
+      "h_mean_um": 5.660442659664427,
+      "h_max_um": 7.1303760747440394,
+      "h_over_l0_min": 0.4326066926292116,
+      "h_over_l0_median": 0.770513691512947,
+      "h_over_l0_max": 0.950716809965872,
+      "total_area": 0.0014062590000122055
+    },
+    "Band 5 (Unaffected Bulk & Outer Region)": {
+      "count": 23115,
+      "h_min_um": 0.6803961200866097,
+      "h_median_um": 5.527204399394274,
+      "h_mean_um": 5.7411037416831245,
+      "h_max_um": 19.529399547703374,
+      "h_over_l0_min": 0.09071948267821463,
+      "h_over_l0_median": 0.7369605865859034,
+      "h_over_l0_max": 2.6039199396937835,
+      "total_area": 0.9317912869412593
+    }
+  },
+  "recip_stats": {
+    "Band 1 (Behind Original Tip: x < 0.500, Corridor)": {
+      "count": 3481,
+      "h_min_um": 0.4802729051506195,
+      "h_median_um": 1.5909857477231972,
+      "h_mean_um": 2.7225715177355934,
+      "h_max_um": 15.49986846088101,
+      "h_over_l0_min": 0.06403638735341594,
+      "h_over_l0_median": 0.21213143302975965,
+      "h_over_l0_max": 2.0666491281174677,
+      "total_area": 0.05021969643740445
+    },
+    "Band 2 (Propagated Wake: 0.500 <= x < 0.6413, Corridor)": {
+      "count": 3102,
+      "h_min_um": 0.5603695217557777,
+      "h_median_um": 1.7071458205885732,
+      "h_mean_um": 1.9593155113525145,
+      "h_max_um": 5.853926979535388,
+      "h_over_l0_min": 0.07471593623410369,
+      "h_over_l0_median": 0.22761944274514312,
+      "h_over_l0_max": 0.7805235972713851,
+      "total_area": 0.014101309507282042
+    },
+    "Band 3 (Moving Front +/- 2*l0: 0.6413 <= x <= 0.6713, Corridor)": {
+      "count": 120,
+      "h_min_um": 2.789367647799094,
+      "h_median_um": 4.8571868341282745,
+      "h_mean_um": 4.9813857447105345,
+      "h_max_um": 6.722344561626585,
+      "h_over_l0_min": 0.37191568637321254,
+      "h_over_l0_median": 0.6476249112171033,
+      "h_over_l0_max": 0.896312608216878,
+      "total_area": 0.0030289655522096337
+    },
+    "Band 4 (Ahead of Front 2*l0-4*l0: 0.6713 < x <= 0.6863, Corridor)": {
+      "count": 42,
+      "h_min_um": 4.5049503186572055,
+      "h_median_um": 5.8491882767585,
+      "h_mean_um": 5.913964535049124,
+      "h_max_um": 7.089057062459714,
+      "h_over_l0_min": 0.6006600424876274,
+      "h_over_l0_median": 0.7798917702344668,
+      "h_over_l0_max": 0.945207608327962,
+      "total_area": 0.0014810581663251832
+    },
+    "Band 5 (Unaffected Bulk & Outer Region)": {
+      "count": 27349,
+      "h_min_um": 0.5486744514483222,
+      "h_median_um": 5.116938864637712,
+      "h_mean_um": 5.298262505008453,
+      "h_max_um": 17.85686229233888,
+      "h_over_l0_min": 0.07315659352644296,
+      "h_over_l0_median": 0.6822585152850282,
+      "h_over_l0_max": 2.380914972311851,
+      "total_area": 0.9311689703367787
+    }
+  }
+}

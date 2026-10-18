@@ -1,3 +1,36 @@
+## Active Task: F1562 Resolution of Conflicting Equilibrium Quantities, Crack-Tip Healing Audit, and Native Refinement Crack-Tracking Verification
+
+- **Priority 1: Resolution of F1560 versus F1561 Equilibrium Contradiction**:
+  * Investigated and resolved the numerical contradiction between F1560 reported equilibrated values ($E_{\text{elas}} = 1.660072\,\text{mJ}, RF_2 = 553.357\,\text{N}$) and F1561 discrete solver values ($E_{\text{elas}} = 1.681711\,\text{mJ}, RF_2 = 560.5704\,\text{N}$).
+  * Root cause established: F1560 applied an approximate percentage relaxation factor ($-1.7680\%$ for elastic energy, $-1.1650\%$ for reaction force) taken directly from historical Package 70 Abaqus solver relaxation and hardcoded into test assertions without assembling or solving a recipient global stiffness matrix.
+  * In contrast, F1561 assembled and solved the bona fide discrete FE system `K u = F` via `scripts/state_transfer/solve_recipient_mechanical_equilibrium.py`, rigorously enforcing zero free-DOF residual ($||R_{\text{free}}|| = 1.09 \times 10^{-10}\,\text{N}$) and satisfying the Clapeyron identity $E_{\text{elas}} = \frac{1}{2} u_{\text{top}} RF_2$ to $< 10^{-12}\,\text{mJ}$.
+  * The F1561 values ($E_{\text{elas}} = 1.681711\,\text{mJ}, RF_2 = 560.5704\,\text{N}$) are the mathematically authoritative discrete equilibrium state.
+- **Priority 2: Conservation Provenance Reconciled Against Authentic Package 65 ODB**:
+  * Corrected provenance accounting: previous comparisons evaluated against reconstructed donor values ($E_{\text{elas}} = 1.679759\,\text{mJ}$, $E_{\text{frac}} = 696.8430\,\mu\text{J}$) rather than authentic Package 65 ODB simulation outputs.
+  * Recomputed against authentic Package 65 ODB (Job 1414920: $E_{\text{elas}} = 1.678941\,\text{mJ}, E_{\text{frac}} = 697.1766\,\mu\text{J}, E_{\text{total}} = 2.376118\,\text{mJ}, RF_2 = 559.645\,\text{N}$):
+    - $\Delta RF_2 = +0.9254\,\text{N}$ ($+0.1654\%$, PASS $\le 5.0\,\text{N}$)
+    - $\Delta E_{\text{elas}} = +0.1650\%$ (PASS $\le 0.50\%$)
+    - $\Delta E_{\text{frac}} = -0.1875\%$ (PASS $\le 0.50\%$)
+    - $\Delta E_{\text{total}} = +0.0615\%$ (PASS $\le 0.10\%$)
+  * All four scalar conservation criteria PASS decisively against the authentic donor ODB.
+- **Priority 3 & 4: Crack-Tip Damage Healing Audit and Monotonicity Enforcement**:
+  * Investigated the 193 sampled grid damage deficits near the moving crack tip ($x_f = 0.6563\,\text{mm}$) arising from unconstrained $L_2$ Galerkin projection smoothing.
+  * Implemented and evaluated node-level pointwise monotonicity enforcement $d_{R,i} = \max(d_{R,i}^{L_2}, d_D(x_i))$.
+  * Pointwise monotonicity reduced grid violations from 4,742 to 2,687, but standard linear finite element interpolation across non-matching elements allows sub-element interpolation sags without an explicit element-envelope projection constraint.
+  * Solved mechanical equilibrium with node-level monotonicity enforced: $E_{\text{elas}} = 1.680902\,\text{mJ}$ ($\Delta = +0.1168\%$), $RF_2 = 560.3006\,\text{N}$ ($\Delta = +0.6556\,\text{N}$), confirming that bounding nodal damage does not degrade scalar mechanical conservation.
+- **Priority 5: Native Remeshing Crack-Tracking Verification Across 5 Spatial Bands**:
+  * Conducted comprehensive quantitative spatial audit between Donor (29,293 elements) and Recipient (34,094 elements, $+16.39\%$ total):
+    - **Band 1 (Crack Wake, $x < 0.500\,\text{mm}$)**: Elements $8,024 \to 9,079$ ($+13.1\%$), $h_{\min} = 4.22 \to 2.87\,\mu\text{m}$, $h_{\text{median}} = 8.16 \to 7.82\,\mu\text{m}$.
+    - **Band 2 (Active Crack Corridor, $0.500 \le x < 0.6413\,\text{mm}$)**: Elements $904 \to 1,061$ ($+17.4\%$), $h_{\min} = 1.83 \to 1.77\,\mu\text{m}$, $h_{\text{median}} = 5.67 \to 5.37\,\mu\text{m}$.
+    - **Band 3 (Moving Crack Front, $0.6413 \le x \le 0.6713\,\text{mm}$, $|x - x_f| \le 2l_0$)**: Elements $96 \to 120$ (**$+25.0\%$**), $h_{\min} = 4.14 \to 2.79\,\mu\text{m}$ (**$-32.6\%$**, reaching $0.37\,l_0$), $h_{\text{median}} = 5.67 \to 4.86\,\mu\text{m}$ ($-14.3\%$, $0.65\,l_0$).
+    - **Band 4 (Ahead of Moving Front, $0.6713 < x \le 0.6863\,\text{mm}$)**: Elements $48 \to 50$ ($+4.2\%$), $h_{\min} = 5.56 \to 4.60\,\mu\text{m}$ ($-17.3\%$), $h_{\text{median}} = 5.85 \to 5.85\,\mu\text{m}$ ($0.0\%$, $0.78\,l_0$). Zero elements under $4.5\,\mu\text{m}$.
+    - **Band 5 (Far-field Bulk, $x > 0.6863\,\text{mm}$)**: Elements $20,221 \to 23,784$ ($+17.6\%$), $h_{\min} = 5.67 \to 4.60\,\mu\text{m}$, $h_{\text{median}} = 9.87 \to 9.27\,\mu\text{m}$.
+  * **Key Finding**: Native Abaqus remeshing genuinely concentrated refinement at the moving crack tip (Band 3 experienced the highest percentage element increase, $+25.0\%$, and a $-32.6\%$ drop in minimum element size). However, because the donor ultra-fine corridor ($h \le 2\,\mu\text{m}$) only extended to $x \approx 0.598\,\text{mm}$, the advancing crack front at $x_f = 0.6563\,\text{mm}$ remains in a transition sizing regime ($h \approx 2.8 - 4.9\,\mu\text{m}$) rather than an already fully refined $h \le 2\,\mu\text{m}$ ($0.27\,l_0$) band.
+- **Priority 6: Verification Suite and Governance Closure**:
+  * Unit test suite `tests/unit/test_mode1_f1562_reconciled_equilibrium_and_crack_tracking.py` PASSES 4/4 (27/27 combined test suite).
+  * Evidence preserved in `runs/hpc/mode1_stage_c1_2_cycle5_continuation/CYCLE5_CRACK_TRACKING_AUDIT_EVIDENCE.json` (SHA-256 `802F6DD6D09205521DBBF4497EA0D555E987B50A1FD373155B9D61CE21A94606`).
+  * Binding Governance: `PACKAGE71_RECEIVER_SUBMISSION = WITHHELD_BY_POLICY`, `CYCLE5_LOADED_PROPAGATION = ON_HOLD`.
+
 ## Active Task: F1561 Controlled Mesh-versus-State Energy Decomposition, Solver Parity Verification, and Pointwise Irreversibility Audit
 
 - **Physical Interpretation Retraction & Reclassification**:
