@@ -1,3 +1,35 @@
+## Active Task: F1566 Resolve Irreversibility Criterion and Abaqus Continuation Architecture
+
+- **Task F1566 Scientific & Technical Achievements**:
+  * **Formal Retraction of False Mathematical Incompatibility Claim**:
+    - Formally retracted the convexity/secant argument. By Jensen's inequality, convex functions have linear secants on or above the graph ($f((1-t)x_1 + tx_2) \le (1-t)f(x_1) + tf(x_2)$).
+    - Clarified the four genuine physical/numerical causes of sub-element damage deficits: (1) piecewise-linear mesh crossings between nonmatching elements, (2) transverse cusp concavity of the $d(y) = \exp(-|y-0.5|/\ell_0)$ profile where $d''$ has a negative singular Dirac delta distribution at the peak, (3) gradient energy non-monotonicity in $\Gamma_\ell(d)$ under spatial variations, and (4) Candidate 3 heuristic defect (indiscriminate element-wide nodal lifting).
+    - Retracted the general "empty feasible intersection theorem"; classified Candidate 3's $+3.55\%$ fracture energy blowup as an algorithm-specific heuristic failure.
+  * **Independent Revalidation of Candidate 2 with Unclipped $d > 1.0$**:
+    - Ingested authentic Package 65 source data without clamping $d > 1.0$ down to 1.0 (raw integration-point SDV14 reaches $1.000892$, and donor nodal $d$ reaches $1.008317$).
+    - Recomputed exact Fortran UEL quadrature and solved mechanical equilibrium ($K_{	ext{free}} u = F$):
+      * $\Delta RF_2 = +0.1902\,	ext{N}$ (PASS $\le 5.0\,	ext{N}$)
+      * $\Delta E_{	ext{elas}} = +0.0336\%$ (PASS $\le \pm 0.50\%$)
+      * $\Delta E_{	ext{frac}} = +0.1290\%$ (PASS $\le \pm 0.50\%$)
+      * $\Delta E_{	ext{tot}} = +0.0616\%$ (PASS $\le \pm 0.10\%$)
+      * Nodal deficits (33,975 recipient nodes, Dataset C): **0 violations (0.00%)**, max deficit: **0.00000000**!
+      * Process-zone interior sub-element deficits (10,000 pts, Dataset D): 241 violations $> 10^{-2}$ (2.41%), max deficit $0.055074$.
+    - Candidate 2 satisfies all 4 scalar conservation criteria and eliminates all nodal deficits, but retains 241 interior sub-element deficits in the process zone. It cannot be declared fully irreversible or qualified for unconstrained continuation without resolving this interior deficit.
+  * **Correction of Native Crack-Front Spatial Band Orientation**:
+    - Established that measured crack front is at $x_f = 0.656302\,	ext{mm}$.
+    - Proved that Band 4 ($x \in [0.60, 0.65]\,	ext{mm}$) is located **in the crack wake / active process zone behind the moving crack front** ($x < x_f$).
+    - Proved that Band 5 ($x \in [0.65, 0.70]\,	ext{mm}$) straddles the moving crack front ($x_f pprox 0.6563\,	ext{mm}$) and extends into the virgin uncracked ligament ($x > 0.6563\,	ext{mm}$).
+    - The peak refinement (+20% in Band 4, ratio 1.20x) concentrates resolution on the active singular process zone behind the front, but does NOT pre-refine the virgin ligament ahead of the tip (where size remains $\sim 5.85\,\mu	ext{m} = 0.78\,\ell_0$, with 1.08x ratio).
+    - Re-rendered and verified Priority 4 figure registered at `results/figures/mode1_method_c_forward_refinement/fig_mode1_cycle5_crack_front_refinement_and_miseseri.png` (SHA-256 `BBF216D0...`).
+  * **Comprehensive Audit of Commercial Abaqus Continuation Architectures**:
+    - Systematically evaluated five continuation mechanisms: (1) `*INITIAL CONDITIONS, TYPE=DISPLACEMENT` (unsupported in static steps; proven by cluster diagnostic), (2) `*MAP SOLUTION` (unsupported for UEL user elements), (3) `*RESTART, READ` (unsupported across nonmatching meshes), (4) `*INITIAL CONDITIONS, TYPE=SOLUTION` (leaves nodal DOFs zero, triggering uninitialized damage shock), and (5) experimental Kinematic-Offset UEL architecture (`f42_experimental_offset_uel.for` on isolated branch).
+  * **Unit Test Suite Verified**: Combined test suite passes 10/10 in 0.22s.
+- **Binding Governance Status**:
+  * `PACKAGE71_RECEIVER_SUBMISSION = WITHHELD_BY_POLICY`
+  * `CYCLE5_LOADED_PROPAGATION = ON_HOLD`
+  * `METHOD_C_OVERALL = NOT_YET_QUALIFIED`
+  * Active cluster jobs: **0** (queue clean).
+
 ## Active Task: F1565 Collect Test Results, Execute Constrained Damage Transfer, and Verify Displacement Initialization
 
 - **Task F1564 / F1565 Scientific & Technical Achievements**:

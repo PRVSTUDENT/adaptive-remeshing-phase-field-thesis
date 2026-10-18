@@ -481,41 +481,70 @@ In an actual finite element solver implementation, achieving $\|\mathbf{R}^{(0)}
    - Authorize presenting Method C in Chapter 5 as an advanced methodological investigation detailing commercial solver barriers and establishing the Kinematic-Offset architecture as the future research foundation.
 ---
 
-## 9. Addendum: Task F1564 Constrained State Transfer, Displacement Initialization Verification, and Native Spatial Band Evidence (18 October 2026)
+## 9. Addendum: Task F1564/F1566 Constrained State Transfer, Displacement Initialization Verification, and Native Spatial Band Evidence (18 October 2026)
 
 ### 9.1 Commercial Abaqus Static Step Displacement Initialization Feasibility
 - **Finding:** `PACKAGE71_INITIAL_DISPLACEMENT_RESTORATION = UNSUPPORTED`
 - **Root Cause & Solver Architecture Boundary:**
   In Abaqus/Standard, `*INITIAL CONDITIONS, TYPE=DISPLACEMENT` is strictly restricted to dynamic steps or heat transfer/mass diffusion and is explicitly rejected in static steps:
-  `***ERROR: *INITIAL CONDITIONS, TYPE=DISPLACEMENT is not allowed in a *STATIC step`
+  `***ERROR: in keyword *INITIALCONDITIONS: Illegal value "DISPLACEMENT" for parameter "type".`
   Therefore, nodal displacement degrees of freedom 1 and 2 cannot be initialized to nonzero values at the start of a static step. When the recipient mesh is submitted with boundary conditions applying the current top displacement $u = 0.0060\,\text{mm}$, the solver starts from an undeformed configuration ($u \equiv 0$ at $t = 0$), accumulating $W_{\text{ext}} \approx 1.69\,\text{mJ}$ as a structural reload rather than continuing an existing equilibrium state.
 - **Governing Execution Decision:**
-  Because in-situ displacement continuation is mathematically and architecturally unsupported by commercial Abaqus/Standard for static steps without an unsupported solver mechanism:
+  Because in-situ displacement continuation is unsupported by commercial Abaqus/Standard for static steps without an unsupported solver mechanism:
   `PACKAGE71_RECEIVER_SUBMISSION = WITHHELD_BY_POLICY`
   `CYCLE5_LOADED_PROPAGATION = ON_HOLD`
   Zero unphysical jobs are submitted to the HPC scheduler.
 
-### 9.2 Constrained Nonmatching Phase-Field Projection & Multi-Metric Energy Audit
-A rigorous optimization and multi-metric audit was executed for Task F1564 comparing three transfer candidates against authentic Package 65 ODB ground truth (Job 1414920 at $u = 0.0060\,\text{mm}$, $E_{\text{elas}} = 1.678941\,\text{mJ}$, $E_{\text{frac}} = 697.1766\,\mu\text{J}$, $E_{\text{tot}} = 2.376118\,\text{mJ}$, $RF_2 = 559.645\,\text{N}$, $x_f = 0.656302\,\text{mm}$):
+### 9.2 Constrained Nonmatching Phase-Field Projection, Multi-Metric Energy Audit, and Irreversibility Retraction
+A rigorous optimization and multi-metric audit was executed comparing transfer candidates against authentic Package 65 ODB ground truth (Job 1414920 at $u = 0.0060\,\text{mm}$, $E_{\text{elas}} = 1.678941\,\text{mJ}$, $E_{\text{frac}} = 697.1766\,\mu\text{J}$, $E_{\text{tot}} = 2.376118\,\text{mJ}$, $RF_2 = 559.645\,\text{N}$, $x_f = 0.656302\,\text{mm}$, $d_{\max} = 1.000900$):
 
 | Formulation Candidate | $\Delta RF_2$ [N] (limit $\le 5.0$) | $\Delta E_{\text{elas}}$ [\%] (limit $\le 0.50$) | $\Delta E_{\text{frac}}$ [\%] (limit $\le 0.50$) | $\Delta E_{\text{tot}}$ [\%] (limit $\le 0.10$) | Dataset C Nodal Violations (tol=$10^{-6}$) | Dataset D PZ Violations (tol=$10^{-2}$) | Overall Assessment |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | **Candidate 1: Standard Unconstrained $L_2$** | $+0.9217$ (PASS) | $+0.1643\%$ (PASS) | $-0.1832\%$ (PASS) | $+0.0623\%$ (PASS) | 18,409 (54.18\%) | 307 (3.07\%) | Energy passes; high nodal irreversibility |
-| **Candidate 2: Node-Level Monotonic $L_2$** | **$+0.5784$ (PASS)** | **$+0.1030\%$ (PASS)** | **$+0.0229\%$ (PASS)** | **$+0.0795\%$ (PASS)** | **0 (0.00\%) (PASS)** | 253 (2.53\%) | **ALL 4 ENERGY METRICS PASS DECISIVELY** |
+| **Candidate 2: Node-Level Monotonic $L_2$ (Standard)** | **$+0.5784$ (PASS)** | **$+0.1030\%$ (PASS)** | **$+0.0229\%$ (PASS)** | **$+0.0795\%$ (PASS)** | **0 (0.00\%) (PASS)** | 253 (2.53\%) | **ALL 4 ENERGY METRICS PASS DECISIVELY** |
+| **Candidate 2: Node-Level Monotonic (Unclipped $d > 1.0$)** | **$+0.1902$ (PASS)** | **$+0.0336\%$ (PASS)** | **$+0.1290\%$ (PASS)** | **$+0.0616\%$ (PASS)** | **0 (0.00\%) (PASS)** | 241 (2.41\%) | **INDEPENDENTLY REVALIDATED (EXACT)** |
 | **Candidate 3: Sobolev with Envelope Lifting** | $-3.9157$ (PASS) | $-0.7000\%$ (**FAIL**) | $+3.5497\%$ (**FAIL**) | $+0.5469\%$ (**FAIL**) | 0 (0.00\%) (PASS) | 54 (0.54\%) | Subelement sag suppressed; energy blown |
 
-**Key Physical Finding:** On linear $C^0$ elements across nonmatching discretizations, sub-element chordal sag is a geometric consequence of linear interpolation over exponential damage gradients ($d \approx \exp(-s/\ell_0)$). Attempting to eliminate sub-element sag via nodal envelope lifting artificially inflates fracture surface energy by $+3.55\%$ and destroys global scalar energy conservation! Candidate 2 achieves the optimal physical balance.
+> [!WARNING] Retraction of False Convexity/Secant Mathematical Incompatibility Claim
+> The prior assertion that convexity geometrically forces linear secants to lie *below* the curve is **formally retracted as mathematically erroneous**. By Jensen's inequality and the definition of convexity ($f'' \ge 0$), secant chords lie strictly on or *above* a convex graph ($f((1-t)x_1 + tx_2) \le (1-t)f(x_1) + tf(x_2)$).
+>
+> The actual physical and mathematical origins of sub-element damage deficits ($d_R(\mathbf{x}) < d_D(\mathbf{x})$) across nonmatching meshes are:
+> 1. **Mesh non-alignment and boundary crossings:** The donor damage field $d_D(\mathbf{x})$ is piecewise linear on donor elements. Recipient elements cross donor element edges; linear interpolation between recipient nodes cannot identically reproduce donor piecewise linearity.
+> 2. **Transverse profile cusp concavity:** The physical damage profile across the crack line $d(y) = \exp(-|y - 0.5|/\ell_0)$ is sharply peaked at $y = 0.5\,\text{mm}$. The second derivative contains a negative singular distribution $-2/\ell_0 \delta(y - 0.5)$. Secant lines between nodes located on opposite sides of the crack fall *below* the cusp, producing interior chordal deficits.
+> 3. **Non-monotonicity of gradient energy:** The AT2 functional $\Gamma_\ell(d) = \int \frac{G_c}{2\ell_0}(d^2 + \ell_0^2 |\nabla d|^2)\mathrm{d}\Omega$ contains spatial gradients $|\nabla d|^2$. Pointwise damage elevation modifies spatial gradients non-monotonically, and uncoordinated nodal lifting inflates $|\nabla d|^2$.
+> 4. **Heuristic envelope lifting defect:** Candidate 3 elevated all nodes of an element whenever any sub-element sample sagged. This heuristic over-elevated damage across the active process zone, inflating fracture energy by $+3.55\%$. This is an algorithm-specific heuristic failure, NOT a general mathematical impossibility theorem!
+>
+> **Candidate 2 Status:** Candidate 2 satisfies all 4 scalar conservation criteria and eliminates all nodal deficits ($0$ violations across $33,975$ nodes). However, $241$ interior sub-element deficits $> 10^{-2}$ (max deficit $0.055074$) remain in the process zone. It cannot be classified as fully irreversible or scientifically qualified for unconstrained continuation without resolving this interior deficit.
 
-### 9.3 Native Crack-Front Spatial Band Refinement Analysis
-Analysis of element counts and densities across 5 spatial bands ($x \in [0.45, 0.70]$, $|y - 0.50| \le 0.05\,\text{mm}$) reveals the targeted adaptation driven by MISESERI:
+### 9.3 Native Crack-Front Spatial Band Refinement Analysis (Corrected Orientation)
+Analysis of element counts and densities across 5 spatial bands ($x \in [0.45, 0.70]$, $|y - 0.50| \le 0.05\,\text{mm}$) around the measured crack front ($x_f = 0.656302\,\text{mm}$):
 - **Band 1 (Wake, $x \in [0.45, 0.50]$):** Donor: 2,058 ($411.6\text{k}/\text{mm}^2$), Recipient: 2,359 ($471.8\text{k}/\text{mm}^2$), Ratio: 1.15x
-- **Band 2 (Early Prop, $x \in [0.50, 0.55]$):** Donor: 2,093 ($418.6\text{k}/\text{mm}^2$), Recipient: 2,074 ($414.8\text{k}/\text{mm}^2$), Ratio: 0.99x
-- **Band 3 (Mid Prop, $x \in [0.55, 0.60]$):** Donor: 681 ($136.2\text{k}/\text{mm}^2$), Recipient: 778 ($155.6\text{k}/\text{mm}^2$), Ratio: 1.14x
-- **Band 4 (Pre-Front, $x \in [0.60, 0.65]$):** Donor: 241 ($48.2\text{k}/\text{mm}^2$), Recipient: 289 ($57.8\text{k}/\text{mm}^2$), **Ratio: 1.20x (Peak Refinement)**
-- **Band 5 (Crack Front, $x \in [0.65, 0.70]$):** Donor: 145 ($29.0\text{k}/\text{mm}^2$), Recipient: 156 ($31.2\text{k}/\text{mm}^2$), Ratio: 1.08x
+- **Band 2 (Wake, $x \in [0.50, 0.55]$):** Donor: 2,093 ($418.6\text{k}/\text{mm}^2$), Recipient: 2,074 ($414.8\text{k}/\text{mm}^2$), Ratio: 0.99x
+- **Band 3 (Process Zone Behind Front, $x \in [0.55, 0.60]$):** Donor: 681 ($136.2\text{k}/\text{mm}^2$), Recipient: 778 ($155.6\text{k}/\text{mm}^2$), Ratio: 1.14x
+- **Band 4 (Process Zone Behind Front, $x \in [0.60, 0.65]$):** Donor: 241 ($48.2\text{k}/\text{mm}^2$), Recipient: 289 ($57.8\text{k}/\text{mm}^2$), **Ratio: 1.20x (Peak Refinement)**
+- **Band 5 (Crack Front & Virgin Ligament, $x \in [0.65, 0.70]$):** Donor: 145 ($29.0\text{k}/\text{mm}^2$), Recipient: 156 ($31.2\text{k}/\text{mm}^2$), Ratio: 1.08x
 
-The highest adaptive refinement boost occurs in Band 4, directly ahead of the crack front ($x_f \approx 0.656\,\text{mm}$), fully consistent with stress recovery error concentration.
-The verified figure is registered as `results/figures/mode1_method_c_forward_refinement/fig_mode1_cycle5_crack_front_refinement_and_miseseri.png`.
+> [!IMPORTANT] Crack-Front Spatial Band Correction
+> Because the measured macroscopic crack front is located at $x_f = 0.656302\,\text{mm}$:
+> - **Band 4 ($x \in [0.60, 0.65]\,\text{mm}$)** lies **strictly behind the crack front** ($x < x_f$) in the active process zone and crack wake!
+> - **Band 5 ($x \in [0.65, 0.70]\,\text{mm}$)** straddles the moving crack front ($x_f \approx 0.6563\,\text{mm}$) and extends into the uncracked virgin ligament ($x > 0.6563\,\text{mm}$).
+>
+> **Scientific Finding:** Native Abaqus remeshing genuinely concentrated refinement at the singular process zone directly behind the advancing crack front (1.20x density increase in Band 4). However, it did **NOT** pre-refine the virgin ligament ahead of the tip, where Band 5 experienced only a 1.08x density change and average element size remains $\bar{h} \approx 5.6 - 5.8\,\mu\text{m} \approx 0.78\,\ell_0$.
+> The corrected figure is registered at `results/figures/mode1_method_c_forward_refinement/fig_mode1_cycle5_crack_front_refinement_and_miseseri.png` (SHA-256 `BBF216D03604E2EB198574DC8E525A3F25EC4EEBCCB2922A27F0C44A925A0AEF`).
+
+### 9.4 Comprehensive Audit of Commercial Abaqus Continuation Architectures
+A systematic architectural investigation of documented Abaqus 2023 capabilities for continuing nonmatching user-element simulations was conducted:
+
+1. **`*INITIAL CONDITIONS, TYPE=DISPLACEMENT`:**
+   Explicitly rejected by Abaqus/Standard with fatal preprocessor syntax error in `*STATIC` steps (`Illegal value "DISPLACEMENT" for parameter "type"`).
+2. **`*MAP SOLUTION` (Mesh-to-Mesh Solution Mapping):**
+   Abaqus documentation restricts `*MAP SOLUTION` exclusively to native standard elements (continuum, shell, membrane, truss). User-defined elements (`*USER ELEMENT` / UEL) are unsupported because Abaqus has no internal definition of UEL topology, shape functions, or integration points.
+3. **`*RESTART, READ`:**
+   Abaqus requires identical mesh topology across restart steps unless paired with native `*MAP SOLUTION`. Transferring state to a newly remeshed nonmatching discretization via standard restart files fails closed.
+4. **`*INITIAL CONDITIONS, TYPE=SOLUTION`:**
+   Initializes only element internal state variables (`STATEV` / `SVARS`). It does NOT initialize active nodal degrees of freedom (DOF 1, 2 for displacements; DOF 3 for phase field). Leaving DOF 3 uninitialized ($d = 0$) while integration points possess non-zero strain history ($H > 0$) generates an artificial energetic residual shock $\mathbf{R}_d = \int_\Omega 2 H \mathbf{N}^T \mathrm{d}\Omega \ne \mathbf{0}$.
+5. **Experimental Kinematic-Offset Architecture (`f42_experimental_offset_uel.for`):**
+   Continuation without work duplication requires user-subroutine level kinematic offsetting: $\mathbf{u}_{\text{total}} = \mathbf{u}_0 + \Delta \mathbf{u}_{\text{solver}}$, where $\mathbf{u}_0$ is loaded via external table at `LOP=0`, and $\Delta \mathbf{u}_{\text{solver}}$ is tracked by Abaqus. This remains an experimental research path on an isolated branch and does not alter the frozen production UEL.
 
 ---
 *Report compiled and verified under Mandatory Multi-Agent Bootstrap Protocol v2.*
