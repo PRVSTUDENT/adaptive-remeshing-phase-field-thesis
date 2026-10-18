@@ -102,8 +102,8 @@ def test_05_cycle5_native_remesh_and_gate6c_metrics():
         "criterion_3_integrated_damage",
         "criterion_4_history_non_negativity",
         "criterion_5_boundary_force_continuity",
-        "criterion_6_internal_energy",
-        "criterion_7_global_energy_residual",
+        "criterion_6_fracture_energy_preservation",
+        "criterion_7_elastic_and_total_energy",
     ]
     for key in criteria_keys:
         assert key in metrics

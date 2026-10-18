@@ -1,0 +1,75 @@
+{
+  "status": "GATE_6C_CYCLE5_CONSISTENT_L2_TRANSFER_EVALUATED",
+  "transfer_method": "CONSISTENT_L2_GALERKIN_RECONSTRUCTION_AND_HOST_NEAREST_GP",
+  "donor_elements": 29293,
+  "recipient_elements": 34094,
+  "element_delta": 4801,
+  "element_growth_pct": 16.389581128597275,
+  "criterion_1_displacement_l2": {
+    "value": 0.26730151847948835,
+    "unit": "%",
+    "threshold": 1.0,
+    "verdict": "PASS"
+  },
+  "criterion_2_peak_damage": {
+    "donor_value": 1.0009,
+    "recipient_value": 1.0009,
+    "delta": 0.0,
+    "unit": "dimensionless",
+    "threshold": 0.02,
+    "verdict": "PASS"
+  },
+  "criterion_3_integrated_damage": {
+    "donor_value": 0.017658262481658544,
+    "recipient_value": 0.017659693229618797,
+    "relative_error_pct": 0.008102427754367373,
+    "unit": "%",
+    "threshold": 5.0,
+    "verdict": "PASS"
+  },
+  "criterion_4_history_non_negativity": {
+    "donor_max_H": 4025.285400390625,
+    "recipient_max_H": 4025.285400390625,
+    "min_H": 2.0506398801245496e-09,
+    "negative_H_count": 0,
+    "unit": "kN/mm^2",
+    "threshold": 0.0,
+    "verdict": "PASS"
+  },
+  "criterion_5_boundary_force_continuity": {
+    "value": 0.0925,
+    "unit": "N",
+    "threshold": 5.0,
+    "verdict": "PASS"
+  },
+  "criterion_6_fracture_energy_preservation": {
+    "donor_E_frac_uJ": 683.2473484120934,
+    "recipient_E_frac_uJ": 678.6419656234847,
+    "delta_E_frac_uJ": -4.605382788608722,
+    "delta_E_frac_pct": -0.6740432728077027,
+    "unit": "%",
+    "threshold": 1.0,
+    "verdict": "PASS"
+  },
+  "criterion_7_elastic_and_total_energy": {
+    "donor_E_elas_mJ": 2.5537602676805733,
+    "recipient_E_elas_mJ": 2.59349823682534,
+    "delta_E_elas_pct": 1.556057146306,
+    "donor_E_total_mJ": 3.237007616092667,
+    "recipient_E_total_mJ": 3.2721402024488246,
+    "delta_E_total_pct": 1.0853414796275858,
+    "unit": "%",
+    "threshold": 2.0,
+    "verdict": "PASS"
+  },
+  "gradient_accuracy": {
+    "donor_integral_grad_d_sq": 12.82132823100107,
+    "recipient_integral_grad_d_sq": 12.327496879269457,
+    "delta_grad_d_sq_pct": -3.8516395714569054
+  },
+  "crack_front_tracking": {
+    "recomputed_crack_front_x_d05_mm": 0.65630188575,
+    "recomputed_advance_from_notch_um": 156.30188575000003,
+    "source": "RECOMPUTED_FROM_RECIPIENT_CONTINUOUS_FIELD_DATA"
+  }
+}

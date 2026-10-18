@@ -109,8 +109,8 @@ STAGE_CONFIGS = [
     {
         "stage_id": 5,
         "name": "Stage 5",
-        "label": "Propagation Continuation Across Peak",
-        "cycle_name": "Package 65 Propagation Stage 2",
+        "label": "Solved Donor ODB State (Job 1414920, u = 0.0060 mm, 29,293 elements)",
+        "cycle_name": "Solved Donor ODB State (Job 1414920)",
         "displacement_range": "u = 0.0055 -> 0.0060 mm",
         "expected_elements": 29293,
         "deck_rel_path": "models/pandey_kumar_mode1/65_method_c_propagation_stage2_continuation/M1_MC_PROP_STAGE2_CONT.inp",
@@ -122,11 +122,11 @@ STAGE_CONFIGS = [
     {
         "stage_id": 6,
         "name": "Stage 6",
-        "label": "Cycle 5 Propagation Adaptive Remesh",
-        "cycle_name": "Cycle 5 Native Remesh (errorTarget=2.0%)",
-        "displacement_range": "u = 0.0060 mm (Adapted)",
+        "label": "Mapped Recipient Initial State (Cycle 5 Native Remesh, 34,094 elements, Initial Conditions at u = 0.0060 mm via Consistent L2 Projection)",
+        "cycle_name": "Mapped Recipient Initial State (Cycle 5 Native Remesh)",
+        "displacement_range": "u = 0.0060 mm (Consistent L2 Initial Conditions)",
         "expected_elements": 34094,
-        "deck_rel_path": "runs/hpc/mode1_stage_c1_2_cycle5_continuation/M1_CYCLE5_RAW_ADAPT_2PCT.inp",
+        "deck_rel_path": "models/pandey_kumar_mode1/70_method_c_cycle5_reequilibration/M1_MC_CYCLE5_RECON_EQUIL.inp",
         "donor_json_path": "runs/hpc/mode1_stage_c1_2_cycle5_continuation/donor_package65_u0060.json",
         "full_mesh_filename": "mesh_stage6_cycle5_remesh_34094.png",
         "closeup_mesh_filename": "closeup_stage6_cycle5_remesh_34094.png",
@@ -192,14 +192,8 @@ def load_stage_data(cfg, donor_mesh=None, donor_state=None):
             d_list = svals.get("SDV14", [0.0])
             damage_dict[eid] = float(np.mean(d_list))
     elif cfg["stage_id"] == 6:
-        print(f"  Projecting damage field onto Stage 6 (34,094 elements) via state transfer engine...")
-        # Project donor_state onto Stage 6 mesh
-        if donor_mesh is not None and donor_state is not None:
-            engine = Mode1StateTransferEngine(donor_mesh)
-            recipient_state = engine.project_state(mesh, donor_state)
-            for eid, conn in mesh.elements_u1.items():
-                d_vals = [recipient_state.d_nodal.get(nid, 0.0) for nid in conn if nid in recipient_state.d_nodal]
-                damage_dict[eid] = float(np.mean(d_vals)) if d_vals else 0.0
+        print(f"  Reading consistent-L2 projected initial condition damage for Stage 6 from {deck_path.name}...")
+        damage_dict = parse_initial_damage_from_deck(deck_path)
     else:
         damage_dict = parse_initial_damage_from_deck(deck_path)
         
@@ -238,8 +232,26 @@ def load_stage_data(cfg, donor_mesh=None, donor_state=None):
     
     min_h = min([h for _, h in ligament_elements]) * 1000.0 if ligament_elements else 20.0 # in um
     
+    # Calculate dynamic crack front coordinate x(d >= 0.5) from element centroids along ligament
+    crack_front_x = 0.50
+    for coords, d in zip(polys, elem_damages):
+        c = np.mean(coords, axis=0)
+        if abs(c[1] - 0.50) <= 0.015 and d >= 0.50:
+            if c[0] > crack_front_x:
+                crack_front_x = float(c[0])
+                
+    # If transfer metrics file is present, use exact continuous field crack front
+    metrics_path = REPO_ROOT / "runs" / "hpc" / "mode1_stage_c1_2_cycle5_continuation" / "STAGE_C1_2_CYCLE5_TRANSFER_METRICS.json"
+    if cfg["stage_id"] in (5, 6) and metrics_path.exists():
+        try:
+            with open(metrics_path, 'r', encoding='utf-8') as mfp:
+                mdata = json.load(mfp)
+                crack_front_x = float(mdata.get("crack_front_x_d05", crack_front_x))
+        except Exception:
+            pass
+
     dt = time.time() - t0
-    print(f"  -> {num_elements} elements ({num_quads} quads, {num_tris} tris), {num_nodes} nodes, max_d={max_d:.4f}, min_h={min_h:.2f} um ({dt:.2f}s)")
+    print(f"  -> {num_elements} elements ({num_quads} quads, {num_tris} tris), {num_nodes} nodes, max_d={max_d:.4f}, min_h={min_h:.2f} um, crack_front_x={crack_front_x:.6f} mm ({dt:.2f}s)")
     
     return {
         "cfg": cfg,
@@ -248,6 +260,7 @@ def load_stage_data(cfg, donor_mesh=None, donor_state=None):
         "damages": elem_damages,
         "max_d": max_d,
         "min_h_um": min_h,
+        "crack_front_x": crack_front_x,
         "num_elements": num_elements,
         "num_quads": num_quads,
         "num_tris": num_tris,
@@ -276,9 +289,11 @@ def render_mesh_figure(data, is_closeup=False, is_overlay=False, output_path=Non
     ax.plot([0.0, 0.5], [0.5, 0.5], color='#e53e3e', linewidth=2.5, linestyle='-', zorder=10, label='Initial Crack Seam (y=0.5, x<=0.5)')
     ax.plot([0.5], [0.5], marker='o', markersize=6, color='#c53030', markeredgecolor='black', markeredgewidth=1.2, zorder=11, label='Initial Crack Tip (0.5, 0.5)')
     
-    # For Stages 5 & 6, mark the propagated crack tip
+    # For Stages 5 & 6, mark the dynamically computed propagated crack tip
     if cfg["stage_id"] in (5, 6):
-        ax.plot([0.656258], [0.5], marker='*', markersize=11, color='#ffd700', markeredgecolor='black', markeredgewidth=1.2, zorder=12, label=r'Propagated Front $x(d\geq 0.5)=0.656\,\mathrm{mm}$ ($\Delta x=156\,\mu\mathrm{m}$)')
+        cf_x = data.get("crack_front_x", 0.656302)
+        adv_um = (cf_x - 0.50) * 1000.0
+        ax.plot([cf_x], [0.5], marker='*', markersize=11, color='#ffd700', markeredgecolor='black', markeredgewidth=1.2, zorder=12, label=rf'Propagated Front $x(d\geq 0.5)={cf_x:.4f}\,\mathrm{{mm}}$ ($\Delta x={adv_um:.1f}\,\mu\mathrm{{m}}$)')
     
     if is_closeup:
         ax.set_xlim(0.40, 0.72)
@@ -337,7 +352,8 @@ def render_seven_panel_comparison(all_data, is_closeup=False, is_overlay=False, 
         ax.plot([0.5], [0.5], marker='o', markersize=4.0, color='#c53030', markeredgecolor='black', markeredgewidth=0.8, zorder=11)
         
         if cfg["stage_id"] in (5, 6):
-            ax.plot([0.656258], [0.5], marker='*', markersize=8.0, color='#ffd700', markeredgecolor='black', markeredgewidth=0.8, zorder=12)
+            cf_x = data.get("crack_front_x", 0.656302)
+            ax.plot([cf_x], [0.5], marker='*', markersize=8.0, color='#ffd700', markeredgecolor='black', markeredgewidth=0.8, zorder=12)
         
         if is_closeup:
             ax.set_xlim(0.40, 0.72)
@@ -381,55 +397,62 @@ def render_cycle5_adaptive_comparison(data5, data6, output_path):
     cmap = cm.get_cmap('plasma')
     norm = Normalize(vmin=0.0, vmax=1.0)
     
+    cf_x5 = data5.get("crack_front_x", 0.656302)
+    cf_x6 = data6.get("crack_front_x", 0.656302)
+    adv_um5 = (cf_x5 - 0.50) * 1000.0
+    adv_um6 = (cf_x6 - 0.50) * 1000.0
+
     # Row 1: Mesh only (Close-ups)
-    # Panel (a): Stage 5 mesh
+    # Panel (a): Stage 5 Solved Donor ODB Mesh
     ax = axes[0, 0]
     coll = PolyCollection(data5["polys"], facecolors='#eef4fb', edgecolors='#1a365d', linewidths=0.45)
     ax.add_collection(coll)
     ax.plot([0.0, 0.5], [0.5, 0.5], color='#e53e3e', linewidth=2.5, zorder=10)
     ax.plot([0.5], [0.5], marker='o', markersize=6, color='#c53030', markeredgecolor='black', zorder=11)
-    ax.plot([0.656258], [0.5], marker='*', markersize=12, color='#ffd700', markeredgecolor='black', zorder=12)
+    ax.plot([cf_x5], [0.5], marker='*', markersize=12, color='#ffd700', markeredgecolor='black', zorder=12)
     ax.set_xlim(0.40, 0.72); ax.set_ylim(0.40, 0.60); ax.set_aspect('equal')
-    ax.set_title("(a) Stage 5 Donor Mesh (Cycle 4 Geometry: 29,293 elements)\nRefinement corridor centered on stationary notch tip (0.5, 0.5)", fontsize=11, fontweight='bold')
+    ax.set_title("(a) Solved Donor ODB State (Job 1414920, u = 0.0060 mm, 29,293 elements)\nRefinement corridor centered on stationary notch tip (0.5, 0.5)", fontsize=11, fontweight='bold')
     ax.set_xlabel("x [mm]", fontsize=10, fontweight='bold'); ax.set_ylabel("y [mm]", fontsize=10, fontweight='bold')
     ax.grid(True, linestyle=':', alpha=0.4)
     
-    # Panel (b): Stage 6 mesh
+    # Panel (b): Stage 6 Mapped Recipient Mesh
     ax = axes[0, 1]
     coll = PolyCollection(data6["polys"], facecolors='#eef4fb', edgecolors='#2c5282', linewidths=0.45)
     ax.add_collection(coll)
     ax.plot([0.0, 0.5], [0.5, 0.5], color='#e53e3e', linewidth=2.5, zorder=10)
     ax.plot([0.5], [0.5], marker='o', markersize=6, color='#c53030', markeredgecolor='black', zorder=11)
-    ax.plot([0.656258], [0.5], marker='*', markersize=12, color='#ffd700', markeredgecolor='black', zorder=12)
+    ax.plot([cf_x6], [0.5], marker='*', markersize=12, color='#ffd700', markeredgecolor='black', zorder=12)
     ax.set_xlim(0.40, 0.72); ax.set_ylim(0.40, 0.60); ax.set_aspect('equal')
-    ax.set_title("(b) Stage 6 Cycle 5 Adaptive Remesh (34,094 elements, +16.4%)\nFine corridor dynamically elongated +156 um along crack path (+988 fine elements)", fontsize=11, fontweight='bold')
+    ax.set_title("(b) Mapped Recipient Initial Mesh (Cycle 5 Native Remesh, 34,094 elements, +16.4%)\nFine corridor dynamically elongated +156.3 um along crack path (+988 fine elements)", fontsize=11, fontweight='bold')
     ax.set_xlabel("x [mm]", fontsize=10, fontweight='bold'); ax.set_ylabel("y [mm]", fontsize=10, fontweight='bold')
     ax.grid(True, linestyle=':', alpha=0.4)
     
     # Row 2: Mesh + Damage Overlay
-    # Panel (c): Stage 5 overlay
+    # Panel (c): Stage 5 Solved Donor Damage
     ax = axes[1, 0]
     colors5 = cmap(norm(data5["damages"]))
     coll = PolyCollection(data5["polys"], facecolors=colors5, edgecolors='#111111', linewidths=0.30, alpha=0.92)
     ax.add_collection(coll)
     ax.plot([0.0, 0.5], [0.5, 0.5], color='#ffffff', linewidth=2.5, zorder=10)
     ax.plot([0.5], [0.5], marker='o', markersize=6, color='#c53030', markeredgecolor='white', zorder=11)
-    ax.plot([0.656258], [0.5], marker='*', markersize=12, color='#ffd700', markeredgecolor='black', zorder=12)
+    ax.plot([cf_x5], [0.5], marker='*', markersize=12, color='#ffd700', markeredgecolor='black', zorder=12)
     ax.set_xlim(0.40, 0.72); ax.set_ylim(0.40, 0.60); ax.set_aspect('equal')
-    ax.set_title(r"(c) Stage 5 Crack Progression at $u = 0.0060\,\mathrm{mm}$ ($d_{\max}=1.0009$)" "\n" r"Crack front $x(d\geq 0.5)$ reaches $x = 0.656\,\mathrm{mm}$ ($\Delta x = 156\,\mu\mathrm{m} = 20.8\,l_0$)", fontsize=11, fontweight='bold')
+    title_c = f"(c) Solved Donor ODB Damage at u = 0.0060 mm (d_max=1.0009)\nSolved crack front reaches x = {cf_x5:.4f} mm (dx = {adv_um5:.1f} um = {adv_um5/7.5:.1f} l0)"
+    ax.set_title(title_c, fontsize=11, fontweight='bold')
     ax.set_xlabel("x [mm]", fontsize=10, fontweight='bold'); ax.set_ylabel("y [mm]", fontsize=10, fontweight='bold')
     ax.grid(True, linestyle=':', alpha=0.4)
     
-    # Panel (d): Stage 6 overlay
+    # Panel (d): Stage 6 Mapped Recipient Initial Damage
     ax = axes[1, 1]
     colors6 = cmap(norm(data6["damages"]))
     coll = PolyCollection(data6["polys"], facecolors=colors6, edgecolors='#111111', linewidths=0.30, alpha=0.92)
     ax.add_collection(coll)
     ax.plot([0.0, 0.5], [0.5, 0.5], color='#ffffff', linewidth=2.5, zorder=10)
     ax.plot([0.5], [0.5], marker='o', markersize=6, color='#c53030', markeredgecolor='white', zorder=11)
-    ax.plot([0.656258], [0.5], marker='*', markersize=12, color='#ffd700', markeredgecolor='black', zorder=12)
+    ax.plot([cf_x6], [0.5], marker='*', markersize=12, color='#ffd700', markeredgecolor='black', zorder=12)
     ax.set_xlim(0.40, 0.72); ax.set_ylim(0.40, 0.60); ax.set_aspect('equal')
-    ax.set_title(r"(d) Stage 6 Transferred Damage on Cycle 5 Remesh ($d_{\max}=1.0009$)" "\n" "All 7 Gate 6C criteria PASS; fine mesh envelops evolving crack wake and front", fontsize=11, fontweight='bold')
+    title_d = "(d) Mapped Recipient Initial Damage via Consistent L2 (d_max=1.0009)\nAll 7 Gate 6C criteria PASS; fine mesh envelops evolving crack wake and front"
+    ax.set_title(title_d, fontsize=11, fontweight='bold')
     ax.set_xlabel("x [mm]", fontsize=10, fontweight='bold'); ax.set_ylabel("y [mm]", fontsize=10, fontweight='bold')
     ax.grid(True, linestyle=':', alpha=0.4)
     

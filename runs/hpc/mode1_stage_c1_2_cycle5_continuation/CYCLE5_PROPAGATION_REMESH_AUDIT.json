@@ -1,0 +1,101 @@
+{
+  "status": "CYCLE5_PROPAGATION_REMESH_AND_TRANSFER_AUDIT_COMPLETE",
+  "cycle": 5,
+  "description": "First genuine crack-propagation adaptive remesh and consistent L2 Galerkin state transfer audit at u = 0.0060 mm",
+  "donor": {
+    "deck": "M1_MC_PROP_STAGE2_CONT.inp",
+    "elements": 29293,
+    "nodes": 29210,
+    "crack_front_x_d05": 0.65630188575,
+    "advance_from_notch_um": 156.30188575,
+    "max_damage": 1.0009,
+    "max_history_kN_mm2": 4025.285400390625,
+    "rf2_N": 559.647262096405
+  },
+  "target": {
+    "deck": "M1_CYCLE5_RAW_ADAPT_2PCT.inp",
+    "elements": 34094,
+    "nodes": 33975,
+    "quads": 33160,
+    "tris": 934,
+    "max_damage": 1.0009,
+    "max_history_kN_mm2": 4025.285400390625,
+    "min_history_kN_mm2": 2.0506398801245496e-09,
+    "elements_h_le_2um": 6396,
+    "corridor_reach_x_max_mm": 0.5978873173333333
+  },
+  "spatial_adaptation": {
+    "element_delta": 4801,
+    "element_growth_pct": 16.389581128597275,
+    "fine_element_delta": 988,
+    "corridor_reach_advance_um": 0.4613200000000983
+  },
+  "gate_6c_metrics": {
+    "transfer_method": "CONSISTENT_L2_GALERKIN_RECONSTRUCTION_AND_HOST_NEAREST_GP",
+    "displacement_l2_rel_error_pct": 0.26730151847948835,
+    "criterion_1_displacement_l2": {
+      "value": 0.26730151847948835,
+      "unit": "%",
+      "threshold": 1.0,
+      "verdict": "PASS"
+    },
+    "donor_d_max": 1.0009,
+    "recipient_d_max": 1.0009,
+    "delta_d_max": 0.0,
+    "criterion_2_peak_damage": {
+      "value": 0.0,
+      "unit": "dimensionless",
+      "threshold": 0.02,
+      "verdict": "PASS"
+    },
+    "integral_d_recipient": 0.017659693229618797,
+    "integral_d_donor": 0.017658262481658544,
+    "delta_integral_d": 1.4307479602528186e-06,
+    "relative_error_integral_d": 8.102427754367373e-05,
+    "relative_error_integral_d_pct": 0.008102427754367373,
+    "criterion_3_integrated_damage": {
+      "value": 0.008102427754367373,
+      "unit": "%",
+      "threshold": 5.0,
+      "verdict": "PASS"
+    },
+    "donor_H_max": 4025.285400390625,
+    "recipient_H_max": 4025.285400390625,
+    "min_H": 2.0506398801245496e-09,
+    "negative_H_count": 0,
+    "criterion_4_history_non_negativity": {
+      "value": 2.0506398801245496e-09,
+      "unit": "kN/mm^2",
+      "threshold": 0.0,
+      "verdict": "PASS"
+    },
+    "delta_rf_boundary_N": 0.0925,
+    "criterion_5_boundary_force_continuity": {
+      "value": 0.0925,
+      "unit": "N",
+      "threshold": 5.0,
+      "verdict": "PASS"
+    },
+    "e_frac_donor_uJ": 683.2473484120934,
+    "e_frac_recip_uJ": 678.6419656234847,
+    "delta_e_frac_pct": -0.6740432728077027,
+    "criterion_6_fracture_energy_preservation": {
+      "value": -0.6740432728077027,
+      "unit": "%",
+      "threshold": 1.0,
+      "verdict": "PASS"
+    },
+    "e_tot_donor_mJ": 3.237007616092667,
+    "e_tot_recip_mJ": 3.2721402024488246,
+    "delta_e_tot_pct": 1.0853414796275858,
+    "criterion_7_elastic_and_total_energy": {
+      "value": 1.0853414796275858,
+      "unit": "%",
+      "threshold": 2.0,
+      "verdict": "PASS"
+    }
+  },
+  "submission_authorized": false,
+  "continuation_job_submitted": false,
+  "candidate_package": "models/pandey_kumar_mode1/70_method_c_cycle5_reequilibration"
+}

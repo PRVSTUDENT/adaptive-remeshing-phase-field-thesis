@@ -1,0 +1,37 @@
+{
+    "adapter": "mode1-qualified-batch-v2",
+    "batch_name": "MODE1_METHOD_C_CYCLE5_RECON_EQUIL",
+    "scientific_scope": "MODE1",
+    "technical_stage": "C1-2",
+    "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_stage_c1_2_cycle5_continuation",
+    "max_submissions": 1,
+    "automatic_retry": false,
+    "files": {
+        "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+        "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "M1_MC_CYCLE5_RECON_EQUIL.inp": "07a5abd660e20581889d4f3769e1f2f0d6ac400998374d460904defeb070c42d",
+        "submit_M1_MC_CYCLE5_RECON_EQUIL.pbs": "b6efd6ec077e5f7be2a9e96e378f04e3ec1902042b8684c5c64f5a83d44de213"
+    },
+    "jobs": [
+        {
+            "id": "M1_MC_CYCLE5_RECON_EQUIL",
+            "purpose": "Package 70 consistent L2 state reconstruction and same-displacement re-equilibration at u=0.0060 mm on 34,094-element native adapted mesh",
+            "input": "M1_MC_CYCLE5_RECON_EQUIL.inp",
+            "pbs": "submit_M1_MC_CYCLE5_RECON_EQUIL.pbs",
+            "datacheck": "M1_MC_CYCLE5_RECON_EQUIL_DC.dat",
+            "cpus": 1,
+            "memory_gb": 16,
+            "walltime_hours": 2,
+            "queue": "entry_imfdfkmq",
+            "execution": "single-rank serial",
+            "max_submissions": 1,
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_stage_c1_2_cycle5_continuation/submit_M1_MC_CYCLE5_RECON_EQUIL.pbs\"",
+            "command_sha256": "5d01a9ecd8874e6e0793a703f76a330cf436ba15e71d5c9ee75b14b6b28e0c73"
+        }
+    ],
+    "acceptance": {
+        "terminal_exit_status": 0,
+        "step1_elastic_energy_error_pct": 2.0,
+        "step1_fracture_energy_error_pct": 1.0
+    }
+}
