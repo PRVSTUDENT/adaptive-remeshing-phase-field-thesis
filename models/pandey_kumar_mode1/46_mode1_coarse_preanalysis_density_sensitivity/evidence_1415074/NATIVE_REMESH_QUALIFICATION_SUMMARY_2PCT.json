@@ -1,0 +1,39 @@
+{
+  "remeshing_rule_args": {
+    "minElementSize": 0.001, 
+    "maxElementSize": 0.02, 
+    "name": "PK_M1_MISESERI_RR", 
+    "errorTarget": 2.0, 
+    "sizingMethod": "UNIFORM_ERROR", 
+    "variables": [
+      "MISESERI"
+    ], 
+    "coarseningFactor": "NOT_ALLOWED", 
+    "refinementFactor": 10
+  }, 
+  "raw_deck_path": "/scratch9/pr21vyci/runs/mode1_package46_coarse_fine_preanalysis/PK_M1_ADAPTED_RAW_2PCT.inp", 
+  "coarse_mesh": {
+    "nodes": 6048, 
+    "elements": 5951, 
+    "h_nominal_mm": 0.0142857
+  }, 
+  "seam_topology": {
+    "seam_verified": true, 
+    "coincident_node_pairs": 67, 
+    "tip_node_shared": true
+  }, 
+  "status": "NATIVE_ADAPTIVE_REMESH_QUALIFIED", 
+  "sizing_method": "UNIFORM_ERROR", 
+  "error_target_pct": 2.0, 
+  "adapted_mesh": {
+    "element_ratio": 2.0784742060157955, 
+    "elements": 12369, 
+    "tip_to_far_gradient": 0.6673759588782548, 
+    "h_max_mm": 0.8182513535696991, 
+    "nodes": 12410, 
+    "h_far_mean_mm": 0.030669958343073726, 
+    "h_min_mm": 6.540353057993758e-05, 
+    "h_tip_mean_mm": 0.045956043119420566
+  }, 
+  "preanalysis_odb": "PK_M1_COARSE_FINE_CONT.odb"
+}
