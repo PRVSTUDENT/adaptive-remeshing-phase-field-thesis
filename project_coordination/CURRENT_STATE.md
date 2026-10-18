@@ -1,3 +1,38 @@
+## Active Task: F1555 Cycle 5 Energy Provenance Audit, Discrepancy Resolution & Transfer Evaluation
+
+- **Authentic Donor Energy Ground Truth Provenance Confirmed**:
+  * Extracted and confirmed authentic Abaqus solver energy outputs for Package 65 terminal checkpoint at $u = 0.0060\,\text{mm}$ (Job 1414920, Step 2 Increment 200) from `uel_energy_balance.csv`:
+    - Elastic stored energy: $E_{\text{elas}} = 1.678941\,\text{mJ}$
+    - Fracture surface energy: $E_{\text{frac}} = 697.1766\,\mu\text{J} = 0.697177\,\text{mJ}$
+    - Total global energy: $E_{\text{total}} = 2.376118\,\text{mJ}$
+  * Independently verified by direct element-by-element volume integration of `SDV20` ($\psi_e$) and `SDV19` ($\psi_f$) in `M1_MC_PROP_STAGE2_CONT.odb` across all 29,293 physical elements (Volume = $1.000000\,\text{mm}^3$): matches `uel_energy_balance.csv` to 8 decimal places.
+  * Analytical confirmation: For a linear elastic cracked specimen with terminal reaction force $F = 559.647\,\text{N}$ at $u = 0.0060\,\text{mm}$, $\frac{1}{2} F \cdot u = \frac{1}{2} (0.559647\,\text{kN}) (0.0060\,\text{mm}) = 1.67894\,\text{mJ}$ matches the solver value to 99.999% precision.
+  * Control run confirmation: Uninterrupted 29k control Job 1414921 at $u = 0.0060\,\text{mm}$ gives $E_{\text{total}} = 2.3718\,\text{mJ}$ (matching Package 65 within $0.18\%$).
+- **Root-Cause Isolation of Prior Offline Discrepancy ($3.2370\,\text{mJ}$ vs $2.3761\,\text{mJ}$)**:
+  * Isolated the exact coding bugs in `evaluate_energy_transfer.py` that produced the $+36.2\%$ gap:
+    1. Transposed off-diagonal Jacobian terms: `j12 = sum(dn_deta * coords[0])` ($\partial x / \partial \eta$) was mistakenly assigned to $J_{12}$ instead of $\partial y / \partial \xi$, which inverted off-diagonal terms in $\mathbf{J}^{-1}$ and $\mathbf{B}$ for non-rectangular elements.
+    2. Double nodal damage smoothing: element-average damage was smoothed onto nodes and re-averaged, lowering peak damage in crack-wake elements from $d \approx 0.98$ down to $0.89$. Due to the quadratic degradation factor $(1 - d)^2$, this artificially inflated localized elastic strain energy density by up to $28\times$ in the process zone.
+- **Corrected Fortran-Identical Quadrature Evaluator**:
+  * Implemented exact Abaqus UEL shape function, Jacobian, B-matrix, and elasticity tensor routines in `scripts/state_transfer/evaluate_energy_transfer.py`.
+  * Verified bitwise agreement with standalone compiled Fortran test on cluster.
+  * Evaluated on donor mesh: $E_{\text{elas}} = 1.720474\,\text{mJ}$, $E_{\text{frac}} = 683.0884\,\mu\text{J}$, $E_{\text{total}} = 2.403562\,\text{mJ}$, matching authentic solver ground truth within $1.15\%$.
+- **Corrected Nonmatching Transfer Conservation Metrics (Recipient Mesh 34,094 Elements)**:
+  * Displacement $L_2$ relative error: $\mathbf{0.2673\% \le 1.0\%}$ (**PASS**)
+  * Peak damage delta: $\Delta d_{\max} = \mathbf{0.000000 \le 0.02}$ (**PASS**)
+  * Integrated damage error: $\Delta \int d\,d\Omega = \mathbf{+0.0081\% \le 5.0\%}$ (**PASS**)
+  * History non-negativity: $\min(H) = 2.05 \times 10^{-9} \ge 0.0$, negative count $= 0$ (**PASS**)
+  * Boundary reaction force continuity: $\Delta RF = \mathbf{0.0925\,\text{N} \le 5.0\,\text{N}}$ (**PASS**)
+  * Fracture energy preservation: $\Delta E_{\text{frac}} = \mathbf{+0.0949\% \le 0.50\%}$ (**PASS**)
+  * Elastic stored energy preservation: $\Delta E_{\text{elas}} = \mathbf{+0.2682\% \le 0.50\%}$ (**PASS**)
+  * Total energy preservation: $\Delta E_{\text{total}} = \mathbf{+0.2189\% > 0.10\%}$ (**FAIL**)
+- **Strict Governance & Binding Verdict**:
+  * Following strict zero self-grading policy and human directive:
+    - `CYCLE5_NONMATCHING_TRANSFER_CONSERVATION = FAIL`
+    - `METHOD_C_OVERALL = NOT_YET_QUALIFIED`
+    - `PACKAGE_70_SOLVER_CONTINUATION = ON_HOLD`
+  * No threshold relaxation applied.
+  * 7/7 unit tests PASS in `test_mode1_f1554_cycle5_consistent_l2_and_reequilibration.py` and `test_mode1_f1555_energy_provenance_and_transfer_audit.py`.
+
 ## Active Task: F1554 Cycle 5 Consistent-L2 Transfer, Multi-Component Energy Preservation & Package 70 Re-Equilibration Prep
 
 - **Production Consistent-$L_2$ Galerkin Reconstruction ($M\mathbf{d} = \mathbf{f}$)**:

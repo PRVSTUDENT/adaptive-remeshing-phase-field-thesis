@@ -1,16 +1,18 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F1554-CYCLE5-TRANSFER-QUALIFICATION-AND-REEQUILIBRATION-PREP",
-  "claimed_at": "2026-10-18T05:32:00+02:00",
-  "starting_commit": "b4aaaf0c3b831b79fe830b2751e30b52803faac5",
+  "task_id": "F1555-CYCLE5-ENERGY-PROVENANCE-AUDIT-AND-TRANSFER-CORRECTION",
+  "claimed_at": "2026-10-18T06:05:00+02:00",
+  "starting_commit": "71ea47a225504af00f392050d962cb915ca53ff6",
   "allowed_write_scope": [
     "project_coordination/**",
     "runs/hpc/mode1_stage_c1_2_cycle5_continuation/**",
+    "runs/hpc/mode1_stage_c1_2_propagation_stage2_continuation/**",
     "models/pandey_kumar_mode1/**",
+    "scripts/state_transfer/**",
     "scripts/visualization/**",
     "tests/unit/**"
   ],
-  "session_report": "project_coordination/sessions/2026-10-18_gemini-antigravity_F1554-CYCLE5-TRANSFER-QUALIFICATION-AND-REEQUILIBRATION-PREP.md",
-  "released_at": "2026-10-18T10:30:00+02:00"
+  "session_report": "project_coordination/sessions/2026-10-18_gemini-antigravity_F1555-CYCLE5-ENERGY-PROVENANCE-AUDIT-AND-TRANSFER-CORRECTION.md",
+  "released_at": "2026-10-18T11:45:00+02:00"
 }

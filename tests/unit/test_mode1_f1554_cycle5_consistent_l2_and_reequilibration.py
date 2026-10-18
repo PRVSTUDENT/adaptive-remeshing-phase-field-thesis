@@ -29,17 +29,17 @@ def test_01_consistent_l2_transfer_metrics_and_energies():
     # 1. Consistent L2 formulation verification
     assert metrics.get("transfer_method") == "CONSISTENT_L2_GALERKIN_RECONSTRUCTION_AND_HOST_NEAREST_GP"
 
-    # 2. Gate 6C criteria
-    criteria = [
+    # 2. Gate 6C criteria that PASS
+    passing_criteria = [
         "criterion_1_displacement_l2",
         "criterion_2_peak_damage",
         "criterion_3_integrated_damage",
         "criterion_4_history_non_negativity",
         "criterion_5_boundary_force_continuity",
         "criterion_6_fracture_energy_preservation",
-        "criterion_7_elastic_and_total_energy",
+        "criterion_7_elastic_energy_preservation",
     ]
-    for c in criteria:
+    for c in passing_criteria:
         assert metrics[c]["verdict"] == "PASS", f"Criterion {c} failed: {metrics[c]}"
 
     # Exact peak damage preservation
@@ -54,12 +54,16 @@ def test_01_consistent_l2_transfer_metrics_and_energies():
 
     # Multi-component energy verification
     c6 = metrics["criterion_6_fracture_energy_preservation"]
-    assert abs(c6["delta_E_frac_pct"]) <= 1.0, f"Fracture energy discrepancy exceeds 1.0%: {c6['delta_E_frac_pct']}"
+    assert abs(c6["delta_E_frac_pct"]) <= 0.50, f"Fracture energy discrepancy exceeds 0.50%: {c6['delta_E_frac_pct']}"
     assert c6["verdict"] == "PASS"
 
-    c7 = metrics["criterion_7_elastic_and_total_energy"]
-    assert abs(c7["delta_E_total_pct"]) <= 2.0, f"Total energy discrepancy exceeds 2.0%: {c7['delta_E_total_pct']}"
+    c7 = metrics["criterion_7_elastic_energy_preservation"]
+    assert abs(c7["delta_E_elas_pct"]) <= 0.50, f"Elastic energy discrepancy exceeds 0.50%: {c7['delta_E_elas_pct']}"
     assert c7["verdict"] == "PASS"
+
+    # Total energy criterion: recorded honestly as FAIL since +0.2189% > 0.10%
+    c8 = metrics["criterion_8_total_energy_preservation"]
+    assert c8["verdict"] == "FAIL"
 
 def test_02_dynamic_crack_front_tracking():
     c5_dir = REPO_ROOT / "runs" / "hpc" / "mode1_stage_c1_2_cycle5_continuation"
@@ -114,3 +118,5 @@ def test_04_governance_and_gate_status():
     assert audit.get("submission_authorized") is False
     assert audit.get("continuation_job_submitted") is False
     assert audit.get("candidate_package") == "models/pandey_kumar_mode1/70_method_c_cycle5_reequilibration"
+    assert audit.get("verdict", {}).get("cycle5_nonmatching_transfer_conservation") == "FAIL"
+    assert audit.get("verdict", {}).get("package_70_solver_continuation") == "ON_HOLD"

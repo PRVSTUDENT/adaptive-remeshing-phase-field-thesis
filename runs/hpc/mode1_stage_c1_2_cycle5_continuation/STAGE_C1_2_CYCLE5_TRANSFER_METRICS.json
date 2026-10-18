@@ -1,10 +1,35 @@
 {
-  "status": "GATE_6C_CYCLE5_CONSISTENT_L2_TRANSFER_EVALUATED",
+  "status": "GATE_6C_CYCLE5_CONSISTENT_L2_TRANSFER_EVALUATED_AND_AUDITED",
+  "verdict": {
+    "cycle5_nonmatching_transfer_conservation": "FAIL",
+    "method_c_overall": "NOT_YET_QUALIFIED",
+    "package_70_solver_continuation": "ON_HOLD",
+    "reason": "Total energy transfer difference (+0.2189%) exceeds the strict mandatory threshold of <= 0.10%. No threshold relaxation permitted."
+  },
   "transfer_method": "CONSISTENT_L2_GALERKIN_RECONSTRUCTION_AND_HOST_NEAREST_GP",
   "donor_elements": 29293,
   "recipient_elements": 34094,
   "element_delta": 4801,
   "element_growth_pct": 16.389581128597275,
+  "donor_energy_provenance_reconciliation": {
+    "authentic_abaqus_solver_uel_energy_balance": {
+      "E_elas_mJ": 1.6789409,
+      "E_frac_uJ": 697.17659,
+      "E_total_mJ": 2.3761175,
+      "provenance": "Job 1414920 terminal increment Step 2 Inc 200 (u=0.0060 mm), authentic uel_energy_balance.csv written by UEXTERNALDB and confirmed by ODB SDV19/SDV20 element field integration (Volume=1.000000 mm^3)"
+    },
+    "corrected_fortran_identical_donor_quadrature": {
+      "E_elas_mJ": 1.720474,
+      "E_frac_uJ": 683.0884,
+      "E_total_mJ": 2.403562,
+      "discrepancy_vs_solver_pct": {
+        "E_elas": 2.4738,
+        "E_frac": -2.0207,
+        "E_total": 1.1550
+      }
+    },
+    "prior_offline_discrepancy_root_cause": "The earlier reported donor values (E_elas=2.5538 mJ, E_total=3.2370 mJ, +36.2% gap) were caused by a coding defect in evaluate_energy_transfer.py: (1) transposed off-diagonal Jacobian entries (j12=dx/deta, j21=dy/dxi) which scrambled B-matrix and inverse Jacobian on non-rectangular elements, and (2) double nodal damage smoothing which smeared d from 0.98 down to 0.89, multiplying degraded elastic strain energy by up to 28x in the crack process zone."
+  },
   "criterion_1_displacement_l2": {
     "value": 0.26730151847948835,
     "unit": "%",
@@ -43,24 +68,31 @@
     "verdict": "PASS"
   },
   "criterion_6_fracture_energy_preservation": {
-    "donor_E_frac_uJ": 683.2473484120934,
-    "recipient_E_frac_uJ": 678.6419656234847,
-    "delta_E_frac_uJ": -4.605382788608722,
-    "delta_E_frac_pct": -0.6740432728077027,
+    "donor_E_frac_uJ": 683.0884,
+    "recipient_E_frac_uJ": 683.7366,
+    "delta_E_frac_uJ": 0.6482,
+    "delta_E_frac_pct": 0.0949,
     "unit": "%",
-    "threshold": 1.0,
+    "threshold": 0.50,
     "verdict": "PASS"
   },
-  "criterion_7_elastic_and_total_energy": {
-    "donor_E_elas_mJ": 2.5537602676805733,
-    "recipient_E_elas_mJ": 2.59349823682534,
-    "delta_E_elas_pct": 1.556057146306,
-    "donor_E_total_mJ": 3.237007616092667,
-    "recipient_E_total_mJ": 3.2721402024488246,
-    "delta_E_total_pct": 1.0853414796275858,
+  "criterion_7_elastic_energy_preservation": {
+    "donor_E_elas_mJ": 1.720474,
+    "recipient_E_elas_mJ": 1.725088,
+    "delta_E_elas_mJ": 0.004614,
+    "delta_E_elas_pct": 0.2682,
     "unit": "%",
-    "threshold": 2.0,
+    "threshold": 0.50,
     "verdict": "PASS"
+  },
+  "criterion_8_total_energy_preservation": {
+    "donor_E_total_mJ": 2.403562,
+    "recipient_E_total_mJ": 2.408824,
+    "delta_E_total_mJ": 0.005262,
+    "delta_E_total_pct": 0.2189,
+    "unit": "%",
+    "threshold": 0.10,
+    "verdict": "FAIL"
   },
   "gradient_accuracy": {
     "donor_integral_grad_d_sq": 12.82132823100107,

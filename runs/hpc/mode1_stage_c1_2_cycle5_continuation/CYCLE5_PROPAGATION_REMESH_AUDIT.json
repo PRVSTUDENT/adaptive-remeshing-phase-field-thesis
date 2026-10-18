@@ -1,6 +1,12 @@
 {
   "status": "CYCLE5_PROPAGATION_REMESH_AND_TRANSFER_AUDIT_COMPLETE",
   "cycle": 5,
+  "verdict": {
+    "cycle5_nonmatching_transfer_conservation": "FAIL",
+    "method_c_overall": "NOT_YET_QUALIFIED",
+    "package_70_solver_continuation": "ON_HOLD",
+    "reason": "Total energy transfer difference (+0.2189%) exceeds the strict mandatory threshold of <= 0.10%. No threshold relaxation permitted."
+  },
   "description": "First genuine crack-propagation adaptive remesh and consistent L2 Galerkin state transfer audit at u = 0.0060 mm",
   "donor": {
     "deck": "M1_MC_PROP_STAGE2_CONT.inp",
@@ -30,6 +36,23 @@
     "fine_element_delta": 988,
     "corridor_reach_advance_um": 0.4613200000000983
   },
+  "donor_energy_provenance_reconciliation": {
+    "solver_uel_energy_balance_mJ": {
+      "E_elas": 1.678941,
+      "E_frac_uJ": 697.1766,
+      "E_total": 2.376118
+    },
+    "corrected_donor_quadrature_mJ": {
+      "E_elas": 1.720474,
+      "E_frac_uJ": 683.0884,
+      "E_total": 2.403562
+    },
+    "discrepancy_vs_solver_pct": {
+      "E_elas": 2.4738,
+      "E_frac": -2.0207,
+      "E_total": 1.1550
+    }
+  },
   "gate_6c_metrics": {
     "transfer_method": "CONSISTENT_L2_GALERKIN_RECONSTRUCTION_AND_HOST_NEAREST_GP",
     "displacement_l2_rel_error_pct": 0.26730151847948835,
@@ -51,7 +74,6 @@
     "integral_d_recipient": 0.017659693229618797,
     "integral_d_donor": 0.017658262481658544,
     "delta_integral_d": 1.4307479602528186e-06,
-    "relative_error_integral_d": 8.102427754367373e-05,
     "relative_error_integral_d_pct": 0.008102427754367373,
     "criterion_3_integrated_damage": {
       "value": 0.008102427754367373,
@@ -76,23 +98,32 @@
       "threshold": 5.0,
       "verdict": "PASS"
     },
-    "e_frac_donor_uJ": 683.2473484120934,
-    "e_frac_recip_uJ": 678.6419656234847,
-    "delta_e_frac_pct": -0.6740432728077027,
+    "e_frac_donor_uJ": 683.0884,
+    "e_frac_recip_uJ": 683.7366,
+    "delta_e_frac_pct": 0.0949,
     "criterion_6_fracture_energy_preservation": {
-      "value": -0.6740432728077027,
+      "value": 0.0949,
       "unit": "%",
-      "threshold": 1.0,
+      "threshold": 0.50,
       "verdict": "PASS"
     },
-    "e_tot_donor_mJ": 3.237007616092667,
-    "e_tot_recip_mJ": 3.2721402024488246,
-    "delta_e_tot_pct": 1.0853414796275858,
-    "criterion_7_elastic_and_total_energy": {
-      "value": 1.0853414796275858,
+    "e_elas_donor_mJ": 1.720474,
+    "e_elas_recip_mJ": 1.725088,
+    "delta_e_elas_pct": 0.2682,
+    "criterion_7_elastic_energy_preservation": {
+      "value": 0.2682,
       "unit": "%",
-      "threshold": 2.0,
+      "threshold": 0.50,
       "verdict": "PASS"
+    },
+    "e_tot_donor_mJ": 2.403562,
+    "e_tot_recip_mJ": 2.408824,
+    "delta_e_tot_pct": 0.2189,
+    "criterion_8_total_energy_preservation": {
+      "value": 0.2189,
+      "unit": "%",
+      "threshold": 0.10,
+      "verdict": "FAIL"
     }
   },
   "submission_authorized": false,
