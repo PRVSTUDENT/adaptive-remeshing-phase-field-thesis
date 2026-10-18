@@ -1,0 +1,23 @@
+{
+  "package_name": "package52_continuous_650_element_reference",
+  "model_family": "pandey_kumar_mode1",
+  "description": "Continuous 650-element reference solution (25x26 quads, hx=0.004 mm, hy=0.003846 mm) under frozen production UEL f42_mixed_uel.for to isolate state transfer effects from mesh compliance sensitivity.",
+  "subroutine": {
+    "file": "f42_mixed_uel.for",
+    "sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "role": "production_frozen_uel"
+  },
+  "inputs": [
+    {
+      "file": "M1_650_CONTINUOUS_REF.inp",
+      "sha256": "7d3e8ca3bacc9846cf7b4b46e287ef1f727f51d4e75811278f52086d721ad9e3",
+      "elements": 650,
+      "nodes": 708,
+      "loading": "Continuous monotonic loading u = 0.0 -> 0.00250 -> 0.00270 mm"
+    }
+  ],
+  "pbs_script": {
+    "file": "submit_M1_650_CONTINUOUS_REF.pbs",
+    "sha256": "7bfeef17738db637b45f9bbb31795a9da4d93a8efca37af381ac59bda449415d"
+  }
+}

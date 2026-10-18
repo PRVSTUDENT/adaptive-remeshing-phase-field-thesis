@@ -1,0 +1,39 @@
+{
+  "batch_name": "MODE1_650_CONTINUOUS_REFERENCE",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_650_continuous_reference",
+  "files": {
+    "M1_650_CONTINUOUS_REF.inp": "7d3e8ca3bacc9846cf7b4b46e287ef1f727f51d4e75811278f52086d721ad9e3",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "submit_M1_650_CONTINUOUS_REF.pbs": "7bfeef17738db637b45f9bbb31795a9da4d93a8efca37af381ac59bda449415d",
+    "PACKAGE_MANIFEST.json": "5379047d55950bf41e78483b69564a4a69babcf3698ace766e5158afdd104c68"
+  },
+  "jobs": [
+    {
+      "id": "M1_650_CONTINUOUS_REF",
+      "pbs": "submit_M1_650_CONTINUOUS_REF.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_650_continuous_reference/submit_M1_650_CONTINUOUS_REF.pbs\"",
+      "command_sha256": "70a0a6eaefdbfa8566e325fcae7252deb9494638ba1924e3bf25b123903fd848",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Continuous 650-element Mode-I reference solution under frozen production UEL to isolate state transfer re-equilibration from discretization compliance",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 2,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_650_CONTINUOUS_REF.inp",
+      "datacheck": "M1_650_CONTINUOUS_REF_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_650_CONTINUOUS_REF": "Exit code 0; monotonic damage growth and fracture energy dissipation; full convergence across snap-through and stable crack propagation through u = 0.00270 mm with extrapolation=NO."
+  }
+}

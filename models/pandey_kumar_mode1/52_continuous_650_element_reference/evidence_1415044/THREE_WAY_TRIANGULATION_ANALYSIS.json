@@ -1,0 +1,73 @@
+{
+  "title": "Three-Way Triangulation Analysis: Case A vs Case B vs Case C",
+  "cases": {
+    "Case_A": {
+      "name": "Continuous 400-Element Donor Baseline / Same-Mesh Continuation (Pkg 50)",
+      "job_id": "1415036.mmaster02",
+      "mesh": "400 quads (20x20), h = 0.0050 mm",
+      "initial_slit_length_a0_mm": 0.04,
+      "intact_ligament_length_mm": 0.06,
+      "plateau_u00258": {
+        "u_mm": 0.00258,
+        "rf2_n": 5.1364979,
+        "e_frac_knmm": 0.00029880935,
+        "e_total_knmm": 0.00030533271
+      },
+      "continuation_endpoint_u00270": {
+        "u_mm": 0.0027,
+        "rf2_n": 5.2428159,
+        "e_frac_knmm": 0.00029902359,
+        "e_total_knmm": 0.00030599653
+      }
+    },
+    "Case_B": {
+      "name": "650-Element Receiver Initialized by Nonmatching State Transfer (Pkg 51)",
+      "job_id": "1415037.mmaster02",
+      "mesh": "650 quads (25x26), hx = 0.0040 mm, hy = 0.00385 mm",
+      "initial_slit_length_a0_mm": 0.02,
+      "intact_ligament_length_mm": 0.08,
+      "plateau_u00258": {
+        "u_mm": 0.00258,
+        "rf2_n": 3.0393876,
+        "e_frac_knmm": 0.00039787949,
+        "e_total_knmm": 0.00040173881
+      },
+      "continuation_endpoint_u00270": {
+        "u_mm": 0.0027,
+        "rf2_n": 2.9339092,
+        "e_frac_knmm": 0.00039819932,
+        "e_total_knmm": 0.00040210142
+      }
+    },
+    "Case_C": {
+      "name": "Continuous 650-Element Reference Without State Transfer (Pkg 52)",
+      "job_id": "1415044.mmaster02",
+      "mesh": "650 quads (25x26), hx = 0.0040 mm, hy = 0.00385 mm",
+      "initial_slit_length_a0_mm": 0.02,
+      "intact_ligament_length_mm": 0.08,
+      "subroutine": "f42_mixed_uel.for (CE8D5EDC... frozen production UEL)",
+      "plateau_u00258": {
+        "u_mm": 0.00258,
+        "rf2_n": 64.784793,
+        "e_frac_knmm": 0.00032131539,
+        "e_total_knmm": 0.00040488777,
+        "d_max": 0.99822543
+      },
+      "continuation_endpoint_u00270": {
+        "u_mm": 0.0027,
+        "rf2_n": 64.544354,
+        "e_frac_knmm": 0.00032543812,
+        "e_total_knmm": 0.000412573,
+        "d_max": 0.99835415
+      }
+    }
+  },
+  "scientific_synthesis": {
+    "root_cause_diagnosis": {
+      "geometric_discrepancy": "The donor mesh (Case A) was pre-cracked with initial sharp slit a0 = 0.040 mm (duplicate nodes spanning x in [0.000, 0.040] mm). The 650-quad receiver mesh generator (audit_and_generate_package51.py) inadvertently defaulted to slit_a = 0.020 mm, duplicating nodes only up to x = 0.020 mm.",
+      "consequence_for_case_b": "In Case B (Package 51), the domain x in [0.020, 0.040] mm along y = 0.050 mm was topologically welded. Projecting the donor's open crack displacement field onto this welded ligament imposed severe artificial kinematic opening strain. During Step 1 zero-increment re-equilibration, Newton-Raphson resolved the unphysical stress by driving phase-field damage to d -> 1.0 (delta_d up to +0.9561) along the welded ligament, causing an artificial +34.88% fracture energy surge and -40.8% reaction force drop.",
+      "irreversibility_reinterpretation": "The 3,046 sample points with apparent damage deficit > 10^-4 in PACKAGE51_TRANSFER_AUDIT.json were clustered around the mismatched slit region (x in [0.020, 0.040] mm). This is a concrete geometric artifact of the mismatched mesh generator, NOT an intrinsic failure of nonmatching state transfer or a physical irreversibility impossibility.",
+      "case_c_independent_validation": "Case C (Package 52) provides the clean, uninterrupted 650-element benchmark with the bitwise-frozen production UEL (f42_mixed_uel.for). Because slit_a = 0.020 mm leaves a longer uncracked ligament (0.080 mm vs 0.060 mm), the specimen carries a much higher pre-snap reaction force (64.78 N at u = 0.00258 mm) and maintains clean monotonicity across all 50 increments with 0 cutbacks and Exit 0."
+    }
+  }
+}

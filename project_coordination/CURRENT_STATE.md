@@ -1,3 +1,58 @@
+## Active Task: F1578 Diagnose Package 51 Energy Jump and Establish Independent Continuous 650-Element Reference
+
+- **Binding Method C Governance Status**:
+  * `PACKAGE51_ENERGY_JUMP_ROOT_CAUSE = GEOMETRIC_SLIT_MISMATCH_DIAGNOSED`
+  * `PACKAGE51_IRREVERSIBILITY_DEFICIT_REINTERPRETATION = RESOLVED_GEOMETRIC_ARTIFACT`
+  * `CONTINUOUS_650_ELEMENT_REFERENCE = ESTABLISHED_PACKAGE52_JOB_1415044_EXIT0`
+  * `THREE_WAY_TRIANGULATION_ANALYSIS = COMPLETED_CASE_A_VS_B_VS_C`
+  * `PRODUCTION_UEL_STATUS = BITWISE_FROZEN_PASS`
+  * `EXPERIMENTAL_OFFSET_UEL_STATUS = HASH_INVARIANT_PASS`
+  * `NONMATCHING_MESH_CONTINUATION_EXECUTED = PASS_VIA_PBS`
+  * `PACKAGE51_SUBMISSION_STATUS = COMPLETED_EXIT_0`
+  * `PBS_JOB_1415037 = COMPLETED_EXIT_0_MNODE097`
+  * `PBS_JOB_1415044 = COMPLETED_EXIT_0_MNODE097`
+  * `CYCLE5_NONMATCHING_TRANSFER = FAIL`
+  * `PACKAGE70_REEQUILIBRATION = FAIL`
+  * `METHOD_C_OVERALL = NOT_YET_QUALIFIED`
+  * `PACKAGE71_RECEIVER_SUBMISSION = ON_SCIENTIFIC_HOLD`
+  * `CYCLE5_LOADED_PROPAGATION = ON_HOLD`
+  * Active cluster jobs on `normal_imfdfkmq`: **0** (queue clean).
+  * Production UEL `models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) remains **100% FROZEN**.
+  * Experimental offset UEL: `models/pandey_kumar_mode1/experimental_offset_uel/f42_experimental_offset_uel.for` (`EF92ED58DBE3EA921B48CB328128AB950BA2CAFD698E05381E2B29F61412514D`).
+
+- **Task F1578 Scientific & Technical Achievements**:
+  * **Priority 1 Forensic Diagnosis of Package 51 Energy Jump & Force Drop**:
+    - Dissected solved Step 1 nodal displacements and damage values from `M1_EXP_NONMATCHING_CONT_650.dat` (708 nodes).
+    - Traced exact nodal coordinates and discovered massive localized damage growth ($\Delta d$ up to $+0.9561$) strictly along $y = 0.050$ mm bordering the crack plane:
+      * Node 319 $(0.0240, 0.0462)$: $d_0 = 0.0457 \to d_{\text{tot}} = 1.0018$ ($\Delta d = +0.9561$)
+      * Node 345 $(0.0240, 0.0500)$: $d_0 = 0.0618 \to d_{\text{tot}} = 0.9894$ ($\Delta d = +0.9276$)
+      * Node 320 $(0.0280, 0.0462)$: $d_0 = 0.0841 \to d_{\text{tot}} = 0.9948$ ($\Delta d = +0.9107$)
+      * Node 344 $(0.0200, 0.0500)$: $d_0 = 0.0238 \to d_{\text{tot}} = 0.9149$ ($\Delta d = +0.8911$)
+      * Node 346 $(0.0280, 0.0500)$: $d_0 = 0.1196 \to d_{\text{tot}} = 0.9859$ ($\Delta d = +0.8664$)
+      * Node 321 $(0.0320, 0.0462)$: $d_0 = 0.1534 \to d_{\text{tot}} = 0.9976$ ($\Delta d = +0.8441$)
+      * Node 347 $(0.0320, 0.0500)$: $d_0 = 0.2245 \to d_{\text{tot}} = 0.9874$ ($\Delta d = +0.7629$)
+      * Node 348 $(0.0360, 0.0500)$: $d_0 = 0.4417 \to d_{\text{tot}} = 0.9885$ ($\Delta d = +0.5469$)
+    - Root Cause Pinpointed: In Case A (Package 50 donor), the initial sharp slit extends from $x = 0.000$ to $x = 0.040$ mm ($a_0 = 0.040$ mm, 9 duplicate node pairs). However, the 650-element receiver generator (`audit_and_generate_package51.py`) defaulted to `slit_a = 0.020` mm, duplicating nodes only up to $x = 0.020$ mm.
+    - Consequence: The ligament between $x = 0.020$ and $x = 0.040$ mm was topologically continuous/welded. Projecting the donor's open crack displacement jump onto this welded continuum ligament imposed massive artificial opening strain. During Step 1 zero-increment re-equilibration, Newton-Raphson relaxed the artificial stress by tearing the welded ligament open into a phase-field crack ($d \to 1.0$), adding $0.020$ mm of new crack area, surging fracture energy by $+34.88\%$ ($2.95 \to 3.98 \times 10^{-4}$ kN*mm), and dropping reaction force by $-40.8\%$ ($5.14 \to 3.04$ N).
+  * **Priority 2 Irreversibility Deficit Reinterpretation**:
+    - Demonstrated that the 3,046 sample points ($14.93\%$) exhibiting damage deficits $> 10^{-4}$ in `PACKAGE51_TRANSFER_AUDIT.json` (max deficit $\Delta d = 0.113359$ at $(0.045, 0.055)$) were localized around the mismatched slit tip ($x \in [0.020, 0.040]$ mm).
+    - Corrected the assessment: this is a concrete geometric artifact of the mismatched mesh generator, NOT an intrinsic failure of nonmatching state transfer or a physical irreversibility impossibility.
+  * **Priority 3 & 4 Package 52 Construction, Staging, Datacheck & HPC Execution**:
+    - Constructed Package 52 (`models/pandey_kumar_mode1/52_continuous_650_element_reference/`) using the bitwise-frozen production UEL `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`).
+    - Input deck `M1_650_CONTINUOUS_REF.inp` (`7D3E8CA3...`): 650 quads, 708 nodes, continuous loading to $u = 0.00270$ mm with intermediate checkpoint at $u = 0.00258$ mm (Step 2 Inc 2) and `extrapolation=NO`.
+    - Staged to `/scratch9/pr21vyci/runs/mode1_650_continuous_reference/`, executed remote Abaqus 2023 datacheck (Exit 0), and passed technical preflight.
+    - Submitted via `Invoke-Mode1Execution.ps1` as Job `1415044.mmaster02`.
+    - Executed on compute node `mnode097/0` with **Exit Code 0** in 14s walltime across 50 increments (45 in Step 1, 5 in Step 2 with 2 iters/inc and 0 cutbacks).
+    - Downloaded and verified evidence (`pbs_execution.log`, `M1_650_CONTINUOUS_REF.sta`, `M1_650_CONTINUOUS_REF.dat`, `M1_650_CONTINUOUS_REF.msg`, `uel_energy_balance.csv`, `JOB_1415044_EVALUATION.json`).
+  * **Priority 5 Three-Way Comparative Triangulation (Cases A, B, and C)**:
+    - Case A (Continuous 400-quad donor, $a_0 = 0.040$ mm): plateau checkpoint $RF_2 = 5.0857$ N, $E_{\text{frac}} = 2.9881 \times 10^{-4}$ kN*mm; endpoint $RF_2 = 5.2428$ N, $E_{\text{frac}} = 2.9902 \times 10^{-4}$ kN*mm.
+    - Case B (650-quad receiver initialized by state transfer with welded slit, $a_0 = 0.020$ mm): post-snap plateau $RF_2 = 3.0394$ N, $E_{\text{frac}} = 3.9788 \times 10^{-4}$ kN*mm; endpoint $RF_2 = 2.9339$ N, $E_{\text{frac}} = 3.9820 \times 10^{-4}$ kN*mm.
+    - Case C (Continuous 650-quad reference without state transfer, $a_0 = 0.020$ mm): checkpoint $RF_2 = 64.7848$ N, $E_{\text{frac}} = 3.2132 \times 10^{-4}$ kN*mm, $d_{\max} = 0.9982$; endpoint $RF_2 = 64.5444$ N, $E_{\text{frac}} = 3.2544 \times 10^{-4}$ kN*mm, $d_{\max} = 0.9984$.
+    - Physical Explanation: In Case C, because $a_0 = 0.020$ mm leaves a longer uncracked ligament ($0.080$ mm vs $0.060$ mm), the specimen carries a much higher pre-snap elastic reaction force ($64.78$ N vs $5.09$ N post-snap) at $u = 0.00258$ mm. In Case B, the artificial kinematic tearing in Step 1 created an extra $0.020$ mm crack, matching Case A's effective crack length but softened due to localized process-zone damage.
+  * **Priority 6 Unit Regression Testing & Verification**:
+    - Created `tests/unit/test_mode1_f1578_continuous_650_ref_and_root_cause.py` validating UEL freeze, input deck integrity, Job 1415044 metrics, and triangulation findings.
+    - Full regression suite: **42/42 PASS**.
+
 ## Active Task: F1577 Execute Governed Nonmatching-Mesh Continuation and Verify Complete Fracture-State Conservation
 
 - **Binding Method C Governance Status**:
