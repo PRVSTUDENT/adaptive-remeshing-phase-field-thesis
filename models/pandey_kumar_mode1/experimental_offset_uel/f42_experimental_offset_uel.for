@@ -264,16 +264,18 @@ C ======================================================================
 
       IF (JTYPE .EQ. 1 .OR. JTYPE .EQ. 3) THEN
         IF (KSTEP .EQ. 1 .AND. KINC .LE. 1) THEN
-          IF (JTYPE .EQ. 1) THEN
-            DO KPT=1, 4
-              SV_H_COMMITTED(PHYSIDX, KPT) = SVARS(8+KPT)
-              SV_H_TRIAL(PHYSIDX, KPT)     = SVARS(8+KPT)
-            ENDDO
-          ELSE
-            DO KPT=1, 3
-              SV_H_COMMITTED(PHYSIDX, KPT) = SVARS(6+KPT)
-              SV_H_TRIAL(PHYSIDX, KPT)     = SVARS(6+KPT)
-            ENDDO
+          IF (.NOT. OFFSET_LOADED) THEN
+            IF (JTYPE .EQ. 1) THEN
+              DO KPT=1, 4
+                SV_H_COMMITTED(PHYSIDX, KPT) = SVARS(8+KPT)
+                SV_H_TRIAL(PHYSIDX, KPT)     = SVARS(8+KPT)
+              ENDDO
+            ELSE
+              DO KPT=1, 3
+                SV_H_COMMITTED(PHYSIDX, KPT) = SVARS(6+KPT)
+                SV_H_TRIAL(PHYSIDX, KPT)     = SVARS(6+KPT)
+              ENDDO
+            ENDIF
           ENDIF
         ENDIF
       ENDIF

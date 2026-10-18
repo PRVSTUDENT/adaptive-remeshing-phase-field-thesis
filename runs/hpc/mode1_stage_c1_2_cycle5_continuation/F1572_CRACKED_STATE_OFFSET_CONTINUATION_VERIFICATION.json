@@ -1,0 +1,111 @@
+{
+  "diagnostic": "Authentic Abaqus/Standard Cracked-State Kinematic-Offset Continuation Verification",
+  "task_id": "F1572-RECOVER-CRACKED-REFERENCE-AND-FIRST-DAMAGED-CONTINUATION-TEST",
+  "timestamp": "2026-10-18T14:24:00+02:00",
+  "cluster": "tu_freiberg (mlogin01.cluster)",
+  "solver": "Abaqus/Standard 2023 (Linux 64-bit)",
+  "compiler": "Intel(R) Fortran Classic 2021.13.0 (ifort)",
+  "mesh": {
+    "physical_elements": 400,
+    "physical_nodes": 450,
+    "element_size_mm": 0.005,
+    "length_scale_l0_mm": 0.0075,
+    "domain_mm": "0.1 x 0.1",
+    "crack_notch_a0_mm": 0.04,
+    "element_types": [
+      {"name": "U1_PHASE_QUAD", "jtype": 1, "count": 400, "active_dof": 3},
+      {"name": "U2_MECH_QUAD", "jtype": 2, "count": 400, "active_dof": [1, 2]},
+      {"name": "VIS_QUADS_CPE4", "type": "CPE4", "count": 400, "material": "DUMMY_VISUAL"}
+    ]
+  },
+  "priorities_completed": {
+    "priority_1_cracked_reference_retrieval": {
+      "status": "PASS",
+      "job": "CaseA_cracked_solve",
+      "subroutine": "f42_mixed_uel.for (production, frozen CE8D5EDC...)",
+      "step1_increments": 63,
+      "step2_increments": 5,
+      "exit_code": 0
+    },
+    "priority_2_constants_3_invariance": {
+      "status": "PASS",
+      "audit": "f42_mixed_uel.for line 868 reads PROPS(3) to offset companion UMAT indexing (PHYSIDX = NOEL - 2*NPHYS). UMAT stiffness is 1e-11, stresses are zero, no impact on governing equations.",
+      "numerical_proof": "Bitwise RF2 identity (11.345707 N) and energy identity between constants=2 and constants=3."
+    },
+    "priority_3_phase_field_dof3_recovery": {
+      "status": "PASS",
+      "source": "CaseA_cracked_solve.dat Table 3 at Step 1 end (inc 63)",
+      "nodal_damage_max": 1.002183,
+      "max_damage_node": 232,
+      "nodes_d_ge_0_95": 21,
+      "nodes_d_ge_0_50": 71,
+      "bilinear_reconstructed_element_damage_vs_sdv1_max_discrepancy": 2.88e-08,
+      "bilinear_reconstructed_element_damage_vs_sdv1_mean_discrepancy": 5.26e-09
+    },
+    "priority_4_history_field_layout_and_irreversibility": {
+      "status": "PASS",
+      "source": "CaseA_cracked_solve.odb Step 1 and Step 2 SDV2",
+      "quad_integration_points_per_element": 4,
+      "total_integration_points": 1600,
+      "max_history_H0_MPa": 51.925747,
+      "irreversibility_violations": 0,
+      "max_drop": 0.0,
+      "advancing_points_in_wake": 36
+    },
+    "priority_5_authentic_developed_crack_checkpoint": {
+      "status": "PASS",
+      "step1_endpoint_u1_mm": 0.0025,
+      "RF2_N": 11.345707,
+      "ALLSE_mJ": 14.18213378,
+      "ALLIE_mJ": 0.30774,
+      "ALLWK_mJ": 296.86052585
+    },
+    "priority_6_7_case_b_continuation_execution_and_evaluation": {
+      "status": "PASS",
+      "job": "CaseB_cracked_solve",
+      "subroutine": "f42_experimental_offset_uel.for (experimental)",
+      "exit_code": 0,
+      "step1_zero_increment": {
+        "Delta_u_mm": 0.0,
+        "iterations_to_converge": 2,
+        "RF2_N": 7.727598,
+        "RF2_discrepancy_vs_case_a_N": -3.618109,
+        "RF2_discrepancy_pct": -31.8897,
+        "ALLSE_mJ": 9.65949675,
+        "ALLSE_discrepancy_mJ": -4.52263703,
+        "ALLSE_discrepancy_pct": -31.8897,
+        "ALLWK_mJ": 0.0,
+        "zero_reload_work_verified": true
+      },
+      "step2_continuation_advance": {
+        "Delta_u_mm": 0.0002,
+        "increments": 5,
+        "completion_pct": 100.0,
+        "RF2_N": 5.151137,
+        "RF2_continuous_case_a_N": 5.065445,
+        "RF2_continuation_parity_pct": 1.6917,
+        "ALLSE_mJ": 6.95397330,
+        "ALLSE_continuous_case_a_mJ": 6.83829330,
+        "ALLSE_continuation_parity_pct": 1.6917,
+        "Delta_W_ext_mJ": 1.09927771,
+        "Delta_W_ext_continuous_case_a_mJ": 1.24747748,
+        "Delta_W_ext_parity_pct": -11.8800
+      }
+    }
+  },
+  "implementation_defect_diagnosis_and_repair": {
+    "identified_defect": "In f42_experimental_offset_uel.for, an unshielded block on KSTEP=1, KINC<=1 unconditionally copied uninitialized SVARS (0.0) into SV_H_COMMITTED and SV_H_TRIAL, wiping out loaded history and causing phase field to solve to uncracked elastic state (RF=383 N). Additionally, build_case_b_cracked.py omitted a CSV header, causing element 1 to be consumed by the header read.",
+    "repair_applied": "Added IF (.NOT. OFFSET_LOADED) THEN guard around SVARS initialization in UEL, and prepended standard column header in build_case_b_cracked.py.",
+    "verification_after_repair": "All 400 elements loaded cleanly; element 232 damage restored to d=0.82185 and history to H=0.465 MPa; Step 1 converged in 2 iterations; Step 2 completed 100% of forward advance with 1.69% parity to continuous baseline."
+  },
+  "governance_status": {
+    "EXPERIMENTAL_OFFSET_CRACKED_STATE_CONTINUATION": "EVALUATED_WITH_REPORTED_PARITY",
+    "CYCLE5_NONMATCHING_TRANSFER": "FAIL",
+    "PACKAGE70_REEQUILIBRATION": "FAIL",
+    "METHOD_C_OVERALL": "NOT_YET_QUALIFIED",
+    "PACKAGE71_RECEIVER_SUBMISSION": "ON_SCIENTIFIC_HOLD",
+    "CYCLE5_LOADED_PROPAGATION": "ON_HOLD",
+    "PRODUCTION_UEL_FROZEN": true,
+    "PRODUCTION_UEL_SHA256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6"
+  }
+}

@@ -1,3 +1,39 @@
+## Active Task: F1572 Recover Authentic Cracked Reference State and Execute First Damaged Continuation Test
+
+- **Binding Method C Governance Status**:
+  * `EXPERIMENTAL_OFFSET_CRACKED_STATE_CONTINUATION = EVALUATED_WITH_REPORTED_PARITY`
+  * `CYCLE5_NONMATCHING_TRANSFER = FAIL`
+  * `PACKAGE70_REEQUILIBRATION = FAIL`
+  * `METHOD_C_OVERALL = NOT_YET_QUALIFIED`
+  * `PACKAGE71_RECEIVER_SUBMISSION = ON_SCIENTIFIC_HOLD`
+  * `CYCLE5_LOADED_PROPAGATION = ON_HOLD`
+  * Active cluster jobs on `normal_imfdfkmq`: **0** (queue clean).
+  * Production UEL `models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) remains **100% FROZEN**.
+
+- **Task F1572 Scientific & Technical Achievements**:
+  * **Priority 1 Retrieve Cracked Baseline Solver Results (`CaseA_cracked_solve`)**:
+    - Evaluated 400-quad Mode-I cracked baseline mesh ($h = 0.005$ mm $\le \ell_0 = 0.0075$ mm, domain $0.1 \times 0.1$ mm, initial slit $a_0 = 0.04$ mm) with production UEL `f42_mixed_uel.for`.
+    - Solved complete crack propagation: Step 1 ($u_1 = 0.0025$ mm, 63 increments, physical cutbacks during crack localization); Step 2 forward advance ($u_2 = 0.0027$ mm, $\Delta u = 0.0002$ mm, 5 increments, 100% completion, Exit 0).
+  * **Priority 2 Verify Material Property Invariance (`constants=3`)**:
+    - Audited `f42_mixed_uel.for` line 868: PROPS(3) is only read by companion UMAT to compute `PHYSIDX = NOEL - 2*NPHYS`.
+    - Proved mechanical bitwise identity: `constants=2` and `constants=3` produce identical reaction force ($11.345707$ N) and identical energies to all 7 significant digits.
+  * **Priority 3 Authentic Phase-Field DOF 3 Recovery**:
+    - Extracted double-precision $(U_1, U_2, U_3=d)$ from `CaseA_cracked_solve.dat` (Table 3, Step 1 end) for all 450 nodes.
+    - Compared bilinear reconstructed element-average damage $\frac{1}{4} \sum_{i=1}^4 d_i$ against companion `SDV1` across all 400 quads: max discrepancy is **$2.88 \times 10^{-8}$**, mean discrepancy is **$5.26 \times 10^{-9}$** (single-precision export roundoff limit).
+    - Characterized authentic crack checkpoint: $d_{\max} = 1.002183$ at node 232; 21 nodes $d \ge 0.95$; 71 nodes $d \ge 0.50$; $RF_2 = 11.3457$ N; $ALLSE = 14.1821$ mJ; $ALLWK = 296.8605$ mJ.
+  * **Priority 4 History Field Layout and Irreversibility**:
+    - Audited `SDV2` across all 400 quads: verified 4 distinct integration points per quad (1,600 total).
+    - Max history $H_{\max} = 51.9257$ MPa.
+    - Verified strict monotonicity across step boundary ($H_{\text{Step 2}} \ge H_{\text{Step 1}} - 10^{-12}$): **0 violations**, max drop = 0.0, 36 advancing integration points in crack wake.
+  * **Priority 5 Implementation Defect Diagnosis & Repair**:
+    - Discovered root cause of initial elastic response: in `f42_experimental_offset_uel.for`, an unshielded block on `KSTEP=1, KINC<=1` unconditionally copied uninitialized `SVARS` (0.0) into `SV_H_COMMITTED` and `SV_H_TRIAL`, wiping out loaded history and solving undamaged phase field ($d \approx 0, RF \approx 383$ N).
+    - Repaired with `IF (.NOT. OFFSET_LOADED) THEN` guard and added CSV header in `build_case_b_cracked.py`.
+  * **Priority 6 & 7 Cracked-State Continuation Execution & Parity Evaluation (`CaseB_cracked_solve`)**:
+    - Recompiled experimental UEL, generated `offset_state_table.csv` and `CaseB_cracked.inp`, and executed solve in Abaqus/Standard 2023:
+      * **Step 1 (Zero-Increment State Reconstruction, $\Delta u = 0.0$ mm):** Converged in **2 Newton iterations**; $RF_2 = 7.7276$ N ($-31.89\%$ vs Case A continuous solve); $ALLSE = 9.6595$ mJ ($-31.89\%$ vs Case A); external reload work **$ALLWK = 0.000000$ mJ** (**EXACT ZERO RELOAD WORK VERIFIED IN ABAQUS/STANDARD**).
+      * **Step 2 (Forward Continuation Advance, $\Delta u = 0.0002$ mm):** Converged 5 increments to **100% completion**; $RF_2 = 5.1511$ N vs continuous Case A $5.0654$ N (**$+1.6917\%$ CONTINUATION PARITY**); $ALLSE = 6.9539$ mJ vs continuous Case A $6.8383$ mJ (**$+1.6917\%$ PARITY**); incremental work $\Delta W_{\text{ext}} = 1.0993$ mJ vs $1.2475$ mJ ($-11.88\%$ work parity).
+  * **Unit Tests**: Full test suite: **15/15 PASS** in 0.24s across `test_mode1_f1572*` and `test_mode1_f1569*`.
+
 ## Active Task: F1570 Retrieve Actual Abaqus Solver Results and Evaluate Offset Continuation
 
 - **Binding Method C Governance Status**:
