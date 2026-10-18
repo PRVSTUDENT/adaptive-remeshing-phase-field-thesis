@@ -1464,6 +1464,572 @@
         "lifecycle_tests": "PASS"
       },
       "qualified_at": "2026-10-18T15:06:47.251192+00:00"
+    },
+    "6ff0215c8f93cc9b3fe1a6ab2d5cbbe25b49dd0cf99267600554f089df3ccde5": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\52_continuous_650_element_reference\\CONTINUOUS_650_REFERENCE_AUTHORIZATION.json",
+      "attempts": {
+        "M1_650_CONTINUOUS_REF": 1
+      },
+      "audit": [
+        {
+          "job": "M1_650_CONTINUOUS_REF",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-10-18T15:41:18.133076+00:00",
+          "command_sha256": "70a0a6eaefdbfa8566e325fcae7252deb9494638ba1924e3bf25b123903fd848"
+        }
+      ],
+      "preflight": {
+        "active_job_count": 0,
+        "adapter_contract": "mode1-qualified-batch-v2",
+        "datachecks": {
+          "M1_650_CONTINUOUS_REF": {
+            "status": "PASS",
+            "input_sha256": "7d3e8ca3bacc9846cf7b4b46e287ef1f727f51d4e75811278f52086d721ad9e3",
+            "dat_sha256": "4ebfda729480215cb33dd5f3a3f7906cc682fa6630c6a3b491d8c0652f2291ca"
+          }
+        },
+        "batch_spec_sha256": "36b780f7f3b77b2c8d37b1eacb35554eb9453ed09aea1433a01aaf664f0dfb86",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "6ff0215c8f93cc9b3fe1a6ab2d5cbbe25b49dd0cf99267600554f089df3ccde5",
+        "authorized_command_sha256": "70a0a6eaefdbfa8566e325fcae7252deb9494638ba1924e3bf25b123903fd848",
+        "checked_at": "2026-10-18T15:41:13.709474+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "M1_650_CONTINUOUS_REF.inp": "7d3e8ca3bacc9846cf7b4b46e287ef1f727f51d4e75811278f52086d721ad9e3",
+          "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+          "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+          "submit_M1_650_CONTINUOUS_REF.pbs": "7bfeef17738db637b45f9bbb31795a9da4d93a8efca37af381ac59bda449415d",
+          "PACKAGE_MANIFEST.json": "5379047d55950bf41e78483b69564a4a69babcf3698ace766e5158afdd104c68"
+        },
+        "helper_sha256": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-10-18T15:41:14.247767+00:00"
+    },
+    "8ffe1c8b4b598e43aec9b129be0d56c75e3ab8de23eae4b8791bbbea12c0deb4": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\53_method_c_corrected_nonmatching_transfer\\NONMATCHING_CONTINUATION_AUTHORIZATION.json",
+      "attempts": {
+        "M1_EXP_NONMATCHING_CONT_650": 1
+      },
+      "audit": [
+        {
+          "job": "M1_EXP_NONMATCHING_CONT_650",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-10-18T16:32:56.626869+00:00",
+          "command_sha256": "d4ad3e76685cdcddc6479240ef09509494d0683ea17f786755d90ed373020ecb"
+        }
+      ],
+      "preflight": {
+        "active_job_count": 0,
+        "adapter_contract": "mode1-experimental-offset-v1",
+        "datachecks": {
+          "M1_EXP_NONMATCHING_CONT_650": {
+            "status": "PASS",
+            "input_sha256": "e5a8faaada2d08a5ee0e567a1dddbfbc8273c7bcbe1b16fea66ffc16cb7a634f",
+            "dat_sha256": "13ec67fc2ce1a7d451fa2a4e6edd49a25f420e708d145704a17581decb15b6c5"
+          }
+        },
+        "batch_spec_sha256": "3cd1436d4482725407d840bc7c2ba4d0c210fac3c64caadaeb0a98a3775003ac",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "8ffe1c8b4b598e43aec9b129be0d56c75e3ab8de23eae4b8791bbbea12c0deb4",
+        "authorized_command_sha256": "d4ad3e76685cdcddc6479240ef09509494d0683ea17f786755d90ed373020ecb",
+        "checked_at": "2026-10-18T16:32:51.910115+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "M1_EXP_NONMATCHING_CONT_650.inp": "e5a8faaada2d08a5ee0e567a1dddbfbc8273c7bcbe1b16fea66ffc16cb7a634f",
+          "f42_experimental_offset_uel.for": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d",
+          "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+          "offset_state_table.csv": "e8bf7cf9f2db6f0a24878b21d8ee312756fb2c7fe4b3f5a52e5f4f110748000c",
+          "submit_M1_EXP_NONMATCHING_CONT_650.pbs": "72e34af52173bd08e1de1320a55e3ab88170f3a5ef86bb7d8c444cfb673354a0",
+          "PACKAGE_MANIFEST.json": "f1bd3b11a439b4d76406b232871edab0f20da0bced22904be45f72c23e8be3ae"
+        },
+        "helper_sha256": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-10-18T16:32:52.538169+00:00"
+    },
+    "714c396198af629b32fe06468cf6c67bdbf30890cfaeb289c6cc596467d6c71e": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\53_method_c_corrected_nonmatching_transfer\\NONMATCHING_CONTINUATION_AUTHORIZATION.json",
+      "attempts": {
+        "M1_EXP_NONMATCHING_CONT_650": 1
+      },
+      "audit": [
+        {
+          "job": "M1_EXP_NONMATCHING_CONT_650",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-10-18T16:49:18.698048+00:00",
+          "command_sha256": "d4ad3e76685cdcddc6479240ef09509494d0683ea17f786755d90ed373020ecb"
+        }
+      ],
+      "preflight": {
+        "active_job_count": 0,
+        "adapter_contract": "mode1-experimental-offset-v1",
+        "datachecks": {
+          "M1_EXP_NONMATCHING_CONT_650": {
+            "status": "PASS",
+            "input_sha256": "67cbe70a4e888ed1aff93d586f97cf1459260514f1d2f2f32700127b2d0c3b1f",
+            "dat_sha256": "b557b7e675689f5dc7672c8705a521abfd9e30509dc1558796569d7c40556c80"
+          }
+        },
+        "batch_spec_sha256": "0d298183fc5822da44b8ad051fd50ded9645768742a5736c0ddfd95b0172500b",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "714c396198af629b32fe06468cf6c67bdbf30890cfaeb289c6cc596467d6c71e",
+        "authorized_command_sha256": "d4ad3e76685cdcddc6479240ef09509494d0683ea17f786755d90ed373020ecb",
+        "checked_at": "2026-10-18T16:49:13.272982+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "M1_EXP_NONMATCHING_CONT_650.inp": "67cbe70a4e888ed1aff93d586f97cf1459260514f1d2f2f32700127b2d0c3b1f",
+          "f42_experimental_offset_uel.for": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d",
+          "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+          "offset_state_table.csv": "e8bf7cf9f2db6f0a24878b21d8ee312756fb2c7fe4b3f5a52e5f4f110748000c",
+          "submit_M1_EXP_NONMATCHING_CONT_650.pbs": "46bb019b3b1a2eb0c976ce1a3df07616076058e23229647ce18eedda19bc2c86",
+          "PACKAGE_MANIFEST.json": "32a3791a00ebb264e16e303e7c07ca6353c5692bb28b814b48cfd9054347d39f"
+        },
+        "helper_sha256": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-10-18T16:49:13.990442+00:00"
+    },
+    "b3204bde999c3fb7afc32badaed2395db8c908925164f9853cddda51aa4ec358": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\53_method_c_corrected_nonmatching_transfer\\NONMATCHING_CONTINUATION_AUTHORIZATION.json",
+      "attempts": {
+        "M1_EXP_NONMATCHING_CONT_650": 1
+      },
+      "audit": [
+        {
+          "job": "M1_EXP_NONMATCHING_CONT_650",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-10-18T17:01:01.317808+00:00",
+          "command_sha256": "d4ad3e76685cdcddc6479240ef09509494d0683ea17f786755d90ed373020ecb"
+        }
+      ],
+      "preflight": {
+        "active_job_count": 0,
+        "adapter_contract": "mode1-experimental-offset-v1",
+        "datachecks": {
+          "M1_EXP_NONMATCHING_CONT_650": {
+            "status": "PASS",
+            "input_sha256": "78c81ebda987fd856b37793da75244688f93d5e3316bf2e84b2a18d9feeac8b4",
+            "dat_sha256": "cb09afb94a7f7a20a92efc7674c38864aed3bd37336311ab77455acc0c1f746b"
+          }
+        },
+        "batch_spec_sha256": "4a769a025ce49a03a294e210a94a4d66d2c3aec7e6a055c1e7ec71abc9691d92",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "b3204bde999c3fb7afc32badaed2395db8c908925164f9853cddda51aa4ec358",
+        "authorized_command_sha256": "d4ad3e76685cdcddc6479240ef09509494d0683ea17f786755d90ed373020ecb",
+        "checked_at": "2026-10-18T17:00:56.018759+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "M1_EXP_NONMATCHING_CONT_650.inp": "78c81ebda987fd856b37793da75244688f93d5e3316bf2e84b2a18d9feeac8b4",
+          "f42_experimental_offset_uel.for": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d",
+          "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+          "offset_state_table.csv": "e8bf7cf9f2db6f0a24878b21d8ee312756fb2c7fe4b3f5a52e5f4f110748000c",
+          "submit_M1_EXP_NONMATCHING_CONT_650.pbs": "46bb019b3b1a2eb0c976ce1a3df07616076058e23229647ce18eedda19bc2c86",
+          "PACKAGE_MANIFEST.json": "f69f6599012f63ae74f56f21323abcf48c2ff999fa92bbf16f0b510f4c97703b"
+        },
+        "helper_sha256": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-10-18T17:00:56.712211+00:00"
+    },
+    "6e4e09df6c150e12d19dd6904c349f5c97e5c9123fe16f3f651d0cbf2faeacd3": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\53_method_c_corrected_nonmatching_transfer\\NONMATCHING_CONTINUATION_AUTHORIZATION.json",
+      "attempts": {
+        "M1_EXP_NONMATCHING_CONT_650": 1
+      },
+      "audit": [
+        {
+          "job": "M1_EXP_NONMATCHING_CONT_650",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-10-18T17:09:35.089415+00:00",
+          "command_sha256": "d4ad3e76685cdcddc6479240ef09509494d0683ea17f786755d90ed373020ecb"
+        }
+      ],
+      "preflight": {
+        "active_job_count": 0,
+        "adapter_contract": "mode1-experimental-offset-v1",
+        "datachecks": {
+          "M1_EXP_NONMATCHING_CONT_650": {
+            "status": "PASS",
+            "input_sha256": "6be345b4a69e96b79b45c98d5882f8b17bd0369c57869e260a3506426886ca7f",
+            "dat_sha256": "42b8d7340db82a0f3fbf9cda39ac4fb7f3bdebd65dfe84d4e63eca4c9624d236"
+          }
+        },
+        "batch_spec_sha256": "ec87fd217ae2162ab94f31fcf252847d5959891befd2e46d8e885f7e5d7e4e32",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "6e4e09df6c150e12d19dd6904c349f5c97e5c9123fe16f3f651d0cbf2faeacd3",
+        "authorized_command_sha256": "d4ad3e76685cdcddc6479240ef09509494d0683ea17f786755d90ed373020ecb",
+        "checked_at": "2026-10-18T17:09:30.240153+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "M1_EXP_NONMATCHING_CONT_650.inp": "6be345b4a69e96b79b45c98d5882f8b17bd0369c57869e260a3506426886ca7f",
+          "f42_experimental_offset_uel.for": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d",
+          "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+          "offset_state_table.csv": "dbdb3b83d3af1df23c800b747846d15f1aec975365a3bb4cc4ddd67b2d9e9a9a",
+          "submit_M1_EXP_NONMATCHING_CONT_650.pbs": "46bb019b3b1a2eb0c976ce1a3df07616076058e23229647ce18eedda19bc2c86",
+          "PACKAGE_MANIFEST.json": "f2e52925dde787e754649ce6b4c85e5ecb71f74542060552ef629300076c4d2a"
+        },
+        "helper_sha256": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-10-18T17:09:30.905232+00:00"
+    },
+    "ac55794298be2a323442c565b2bd168e2dd62fcb68c0086a258df91fcc9c12f9": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\53_method_c_corrected_nonmatching_transfer\\NONMATCHING_CONTINUATION_AUTHORIZATION.json",
+      "attempts": {
+        "M1_EXP_NONMATCHING_CONT_650": 1
+      },
+      "audit": [
+        {
+          "job": "M1_EXP_NONMATCHING_CONT_650",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-10-18T17:13:34.974676+00:00",
+          "command_sha256": "d4ad3e76685cdcddc6479240ef09509494d0683ea17f786755d90ed373020ecb"
+        }
+      ],
+      "preflight": {
+        "active_job_count": 0,
+        "adapter_contract": "mode1-experimental-offset-v1",
+        "datachecks": {
+          "M1_EXP_NONMATCHING_CONT_650": {
+            "status": "PASS",
+            "input_sha256": "bdfee81485c7b3ebb050397841bae3f6437936db5d207c879c6bcb363d9cf285",
+            "dat_sha256": "92878ca35de99e6351497cf4b7300b418bfa2819217f52d52b0f35e564a1b34a"
+          }
+        },
+        "batch_spec_sha256": "d40b2e046f6f67cef89218aa41246f9c0cee531977c4ec825a73fe07479f93d5",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "ac55794298be2a323442c565b2bd168e2dd62fcb68c0086a258df91fcc9c12f9",
+        "authorized_command_sha256": "d4ad3e76685cdcddc6479240ef09509494d0683ea17f786755d90ed373020ecb",
+        "checked_at": "2026-10-18T17:13:30.146968+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "M1_EXP_NONMATCHING_CONT_650.inp": "bdfee81485c7b3ebb050397841bae3f6437936db5d207c879c6bcb363d9cf285",
+          "f42_experimental_offset_uel.for": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d",
+          "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+          "offset_state_table.csv": "dbdb3b83d3af1df23c800b747846d15f1aec975365a3bb4cc4ddd67b2d9e9a9a",
+          "submit_M1_EXP_NONMATCHING_CONT_650.pbs": "46bb019b3b1a2eb0c976ce1a3df07616076058e23229647ce18eedda19bc2c86",
+          "PACKAGE_MANIFEST.json": "9daaf36c336e32676dd7aca787dfa2e69c12621c7aef52d4c2e1e6aaae64cc7a"
+        },
+        "helper_sha256": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-10-18T17:13:30.802994+00:00"
+    },
+    "666a49e1ee16484e7f4cea4627a31bf4fc4a510fa8af3243bb43ec77cd3c4c14": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\54_continuous_650_element_corrected_reference\\CONTINUOUS_650_CORRECTED_REFERENCE_AUTHORIZATION.json",
+      "attempts": {
+        "M1_650_CONTINUOUS_CORRECTED_REF": 1
+      },
+      "audit": [
+        {
+          "job": "M1_650_CONTINUOUS_CORRECTED_REF",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-10-18T17:23:11.603095+00:00",
+          "command_sha256": "33d643e9178380d1a8d0d098ecad7dbda425a14f7ba5ca5d73e34635c65bc746"
+        }
+      ],
+      "preflight": {
+        "active_job_count": 0,
+        "adapter_contract": "mode1-qualified-batch-v2",
+        "datachecks": {
+          "M1_650_CONTINUOUS_CORRECTED_REF": {
+            "status": "PASS",
+            "input_sha256": "3a959cad7e56132b4854d994e2bf3c72abbbb3ebba77df2c999ed48cfc507214",
+            "dat_sha256": "705520aa9e383bb1e3e41fd7eb854ed40dd9fe7d22a88acb2022518f9f8988cb"
+          }
+        },
+        "batch_spec_sha256": "4963900acdee13c37cc7c83517e349051d6c859260fdb1808117adb85b08865a",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "666a49e1ee16484e7f4cea4627a31bf4fc4a510fa8af3243bb43ec77cd3c4c14",
+        "authorized_command_sha256": "33d643e9178380d1a8d0d098ecad7dbda425a14f7ba5ca5d73e34635c65bc746",
+        "checked_at": "2026-10-18T17:23:06.823149+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "M1_650_CONTINUOUS_CORRECTED_REF.inp": "3a959cad7e56132b4854d994e2bf3c72abbbb3ebba77df2c999ed48cfc507214",
+          "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+          "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+          "submit_M1_650_CONTINUOUS_CORRECTED_REF.pbs": "6687b1b7e33d7f9a09c1c6840d928afc6b6b8a321f044f575348815ee5689283",
+          "PACKAGE_MANIFEST.json": "c31af4d0d59e3ee739ff4485c62c5f1526c330a7cb8d2f35659c8fe8a7cac102"
+        },
+        "helper_sha256": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-10-18T17:23:07.497049+00:00"
+    },
+    "ad58ccfedaf54cddf11a840111533145f32cbda01094a331b890b3ea6703fac7": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\55_continuous_650_element_forward_reference\\CONTINUOUS_650_FORWARD_REFERENCE_AUTHORIZATION.json",
+      "attempts": {
+        "M1_650_CONTINUOUS_FWD_REF": 1
+      },
+      "audit": [
+        {
+          "job": "M1_650_CONTINUOUS_FWD_REF",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-10-18T18:12:18.100081+00:00",
+          "command_sha256": "a671bfcac2784f3636f713fb0529e6150ce04a21773269c744a9a95822fddafe"
+        }
+      ],
+      "preflight": {
+        "active_job_count": 0,
+        "adapter_contract": "mode1-qualified-batch-v2",
+        "datachecks": {
+          "M1_650_CONTINUOUS_FWD_REF": {
+            "status": "PASS",
+            "input_sha256": "f616e0d52d918a46561240c779c3666e13cec4993e1e81188640b478f2684a5f",
+            "dat_sha256": "b8ed58890be9f158a3f591ea25f050a47c1a91bf101a71ef8f25346597cd3a55"
+          }
+        },
+        "batch_spec_sha256": "b3617e160f67daafedff10039903ef8b1dec5b4cc9b4186649ec7fc90be95738",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "ad58ccfedaf54cddf11a840111533145f32cbda01094a331b890b3ea6703fac7",
+        "authorized_command_sha256": "a671bfcac2784f3636f713fb0529e6150ce04a21773269c744a9a95822fddafe",
+        "checked_at": "2026-10-18T18:12:13.485024+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "M1_650_CONTINUOUS_FWD_REF.inp": "f616e0d52d918a46561240c779c3666e13cec4993e1e81188640b478f2684a5f",
+          "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+          "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+          "submit_M1_650_CONTINUOUS_FWD_REF.pbs": "79dcb5b410e877508994428809fbe08655280c352c2e3b8fde667905207760fc",
+          "PACKAGE_MANIFEST.json": "c0ff944858633b32936d5987a33869b14300401922b6afd59deab01bb3ca4b95"
+        },
+        "helper_sha256": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-10-18T18:12:14.218191+00:00"
+    },
+    "6d88399f99137d1a47c75f5fc3a4bd411820856bd54a201715534f0bab76f8b6": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\56_method_c_samemesh_reconstruction\\SAMEMESH_RECONSTRUCTION_AUTHORIZATION.json",
+      "attempts": {
+        "M1_650_SAMEMESH_RECON_CONT": 1
+      },
+      "audit": [
+        {
+          "job": "M1_650_SAMEMESH_RECON_CONT",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-10-18T18:22:07.610081+00:00",
+          "command_sha256": "21e35c088586cbed019e0d8b17200f232ff7795e707f482c0bc95610aeebf11a"
+        }
+      ],
+      "preflight": {
+        "active_job_count": 0,
+        "adapter_contract": "mode1-experimental-offset-v1",
+        "datachecks": {
+          "M1_650_SAMEMESH_RECON_CONT": {
+            "status": "PASS",
+            "input_sha256": "f4874d068faf4758e79412c5bf1cb27d0ff99af24c00d7c2dbddc8f46b5ae415",
+            "dat_sha256": "4880b2e6c7cb7823071137bed8ed86a87e832a5c256e86a29346e090eb08ccf3"
+          }
+        },
+        "batch_spec_sha256": "ff4e10a12efb915ce0237b65cbe7a0f5cf317fd0d70639fa3aef1c1d07a53e46",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "6d88399f99137d1a47c75f5fc3a4bd411820856bd54a201715534f0bab76f8b6",
+        "authorized_command_sha256": "21e35c088586cbed019e0d8b17200f232ff7795e707f482c0bc95610aeebf11a",
+        "checked_at": "2026-10-18T18:22:02.928881+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "M1_650_SAMEMESH_RECON_CONT.inp": "f4874d068faf4758e79412c5bf1cb27d0ff99af24c00d7c2dbddc8f46b5ae415",
+          "f42_experimental_offset_uel.for": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d",
+          "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+          "offset_state_table.csv": "ce5cb4bdca394fb07b60b9b3d0e4278480766f460507a61e7da8858520a44f13",
+          "submit_M1_650_SAMEMESH_RECON_CONT.pbs": "a48f3749dfa45e4b45def1e8b860b22e9188fd21abdef2175360cfad365f6b70",
+          "PACKAGE_MANIFEST.json": "06125fa97f9c87ed4a4d715519d6d79f351d0e8cf061fe262a1de5c00888c4b8"
+        },
+        "helper_sha256": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-10-18T18:22:03.697398+00:00"
+    },
+    "12ecd054cd2e84db67511cde2e7ef8bc97461bb90a13264dc814b77abc73ad5a": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\46_mode1_coarse_preanalysis_density_sensitivity\\CONTINUUM_PREANALYSIS_AUTHORIZATION.json",
+      "attempts": {
+        "PK_M1_COARSE_FINE_CONT": 1
+      },
+      "audit": [
+        {
+          "job": "PK_M1_COARSE_FINE_CONT",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-10-18T18:43:31.680504+00:00",
+          "command_sha256": "efcd292332bcb1c4041b22a489a6e6536174db75da11a9dbd7adf05f3685441f"
+        }
+      ],
+      "preflight": {
+        "active_job_count": 0,
+        "adapter_contract": "mode1-continuum-preanalysis-v1",
+        "datachecks": {
+          "PK_M1_COARSE_FINE_CONT": {
+            "status": "PASS",
+            "input_sha256": "219acdf263f4f4096943b1ac976063722f927934c26458d593f7f714b84b8c56",
+            "dat_sha256": "65a12e1dcd24275e1682b5ae24cf3a58133b447c65245a6be7aa31df105452a2"
+          }
+        },
+        "batch_spec_sha256": "52853f91fddf65b7ee6a8b32f238b9641dd946b33a7a1032b6730c68acb2ca39",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "12ecd054cd2e84db67511cde2e7ef8bc97461bb90a13264dc814b77abc73ad5a",
+        "authorized_command_sha256": "efcd292332bcb1c4041b22a489a6e6536174db75da11a9dbd7adf05f3685441f",
+        "checked_at": "2026-10-18T18:43:26.852362+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "PK_M1_COARSE_FINE_CONT.inp": "219acdf263f4f4096943b1ac976063722f927934c26458d593f7f714b84b8c56",
+          "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+          "submit_M1_COARSE_FINE_CONT.pbs": "597d2df6b319974e7fc67f07670aba63506d4b91b0dffd865587c7bb02b07759",
+          "PACKAGE_MANIFEST.json": "094c0ddfcc01f79556c290ab0d43c876099034b0e286e6ef92a26f67702aa325"
+        },
+        "helper_sha256": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-10-18T18:43:27.659306+00:00"
+    },
+    "ab7f5a6ad60e1656fce7cb92a903ebbc2972230d806856ca019a64d76de67943": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\47_native_miseseri_phase_field_adapted\\NATIVE_ADAPTED_PHASE_FIELD_AUTHORIZATION.json",
+      "attempts": {
+        "PK_M1_NATIVE_ADAPTED_2PCT": 1
+      },
+      "audit": [
+        {
+          "job": "PK_M1_NATIVE_ADAPTED_2PCT",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-10-18T20:46:16.367168+00:00",
+          "command_sha256": "0fdc13a2a683c138be07a4c8839290e671819d2045c61769b613eeecbfa1a655"
+        }
+      ],
+      "preflight": {
+        "active_job_count": 0,
+        "adapter_contract": "mode1-qualified-batch-v2",
+        "datachecks": {
+          "PK_M1_NATIVE_ADAPTED_2PCT": {
+            "status": "PASS",
+            "input_sha256": "f888a7043244925d15f53f6df247ef7dd140a964fba6b05a30a9182ab8fff8c4",
+            "dat_sha256": "76c66192ecb35d720f2f03b0814e0cbf12e3ae8a7228268ff219ea9fb887d272"
+          }
+        },
+        "batch_spec_sha256": "c0cf0c397462fdf8f2acd9e5526bd2f351397b2ae911bef3baa6bd331b1c7369",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "ab7f5a6ad60e1656fce7cb92a903ebbc2972230d806856ca019a64d76de67943",
+        "authorized_command_sha256": "0fdc13a2a683c138be07a4c8839290e671819d2045c61769b613eeecbfa1a655",
+        "checked_at": "2026-10-18T20:46:11.491167+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "PK_M1_NATIVE_ADAPTED_2PCT.inp": "f888a7043244925d15f53f6df247ef7dd140a964fba6b05a30a9182ab8fff8c4",
+          "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+          "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+          "submit_M1_NATIVE_ADAPTED_2PCT.pbs": "673211459cb526a86d4770eb7b9467ae275411e1374a574d37c6c9026d3ce5aa",
+          "PACKAGE_MANIFEST.json": "b56bbbdf54dda893c414a2e316bbebabcd6341d3d61d6e499fe1827c0b288f4f"
+        },
+        "helper_sha256": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-10-18T20:46:12.454536+00:00"
     }
   }
 }
