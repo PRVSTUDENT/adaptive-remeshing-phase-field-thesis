@@ -20,6 +20,7 @@ import uuid
 
 ROOT = Path(__file__).resolve().parents[2]
 FROZEN_UEL = 'ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6'
+EXPERIMENTAL_OFFSET_UEL = 'ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d'
 
 
 def require(ok, reason):
@@ -45,8 +46,8 @@ def validate_manifest(path, root=ROOT):
     path=Path(path).resolve()
     require(path.is_relative_to((root/'models/pandey_kumar_mode1').resolve()), 'Manifest outside Mode-I models')
     batch=load(path)
-    require(batch.get('adapter')=='mode1-qualified-batch-v2' and batch.get('scientific_scope')=='MODE1', 'Qualified Mode-I manifest required')
-    require(batch.get('technical_stage') in ('C1-0','C1-1','C1-2','MODE1_BASELINE'), 'Outside active scientific stages')
+    require(batch.get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1') and batch.get('scientific_scope')=='MODE1', 'Qualified Mode-I manifest required')
+    require(batch.get('technical_stage') in ('C1-0','C1-1','C1-2','MODE1_BASELINE','EXPERIMENTAL_OFFSET'), 'Outside active scientific stages')
     require(batch.get('automatic_retry') is False, 'Blind automatic retries disallowed')
     jobs=batch['jobs']
     require(1 <= len(jobs)==batch['max_submissions'] <= 2, 'Batch must contain 1-2 named jobs')
@@ -59,7 +60,12 @@ def validate_manifest(path, root=ROOT):
         actual=digest((path.parent/name).read_bytes())
         require(actual==expected,'Candidate hash mismatch: '+name)
         files[name]=actual
-    require(files.get('f42_mixed_uel.for')==FROZEN_UEL and files.get('job_notifications.sh'),'Frozen UEL and notifications required')
+    is_experimental = (batch.get('adapter') == 'mode1-experimental-offset-v1' or batch.get('configuration') == 'EXPERIMENTAL_OFFSET')
+    if is_experimental:
+        require(batch.get('hypothesis'), 'Scientific hypothesis required for experimental configuration')
+        require(files.get('f42_experimental_offset_uel.for')==EXPERIMENTAL_OFFSET_UEL and files.get('job_notifications.sh'), 'Experimental offset UEL and notifications required')
+    else:
+        require(files.get('f42_mixed_uel.for')==FROZEN_UEL and files.get('job_notifications.sh'), 'Frozen UEL and notifications required')
     require(batch.get('acceptance'),'Scientific acceptance criteria required')
     seen=set()
     for job in jobs:

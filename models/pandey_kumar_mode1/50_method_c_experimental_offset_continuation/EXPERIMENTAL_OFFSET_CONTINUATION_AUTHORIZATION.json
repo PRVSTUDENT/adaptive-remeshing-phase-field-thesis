@@ -1,0 +1,41 @@
+{
+  "batch_name": "MODE1_EXP_OFFSET_CONTINUATION",
+  "adapter": "mode1-experimental-offset-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "EXPERIMENTAL_OFFSET",
+  "configuration": "EXPERIMENTAL_OFFSET",
+  "hypothesis": "Guarded predictor extrapolation (extrapolation=NO) eliminates transient iteration-1 displacement overshoots across the ligament snap-through, preventing irreversible history ratcheting in the phase-field UEL and achieving >=99.9% forward continuation parity on the stable post-snap plateau.",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_experimental_offset_continuation",
+  "files": {
+    "M1_EXP_OFFSET_CONT_NOEXTRAP.inp": "b2ce0f35a4679b9dca0eda5925a53ba7576f0626dd98edbe0af4c1ba59bf6b01",
+    "f42_experimental_offset_uel.for": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "offset_state_table.csv": "3ad967525e7edf63ff90741f5d1f248f5282fa3f43bb31329f86a0cd0f799c89",
+    "submit_M1_EXP_OFFSET_CONT_NOEXTRAP.pbs": "b4a6129e0ef82b2f206b95ea93cc5cd4ed7e8da21ca67b345c63d2ab556bb963",
+    "PACKAGE_MANIFEST.json": "c2116e0f583793c2cd50ffd085391662dc867dbcaf5bdcde935e40303c55d370"
+  },
+  "jobs": [
+    {
+      "id": "M1_EXP_OFFSET_CONT_NOEXTRAP",
+      "pbs": "submit_M1_EXP_OFFSET_CONT_NOEXTRAP.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_experimental_offset_continuation/submit_M1_EXP_OFFSET_CONT_NOEXTRAP.pbs\"",
+      "command_sha256": "4160317d5765b37b83937c44a143d73be7fbab94d7d10256c5ffd5334100b0c4",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Experimental offset continuation on stable plateau (u=0.00258 to 0.00270 mm) with extrapolation=NO verifying 0.026% forward continuation parity",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 2,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_EXP_OFFSET_CONT_NOEXTRAP.inp",
+      "datacheck": "M1_EXP_OFFSET_CONT_NOEXTRAP_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_EXP_OFFSET_CONT_NOEXTRAP": "Exit code 0; zero-increment plateau force discontinuity <= 0.010% (donor RF = 5.0857 N); forward continuation parity at u=0.00270 mm <= 0.10% (relative to direct solve RF = 5.2896 N); zero history ratcheting spikes; clean Newton convergence with 0 cutbacks."
+  }
+}

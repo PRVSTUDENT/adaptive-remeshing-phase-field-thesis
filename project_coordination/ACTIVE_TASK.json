@@ -1,10 +1,10 @@
 {
-  "task_id": "F1575-RESOLVE-FORWARD-CONTINUATION-ERRORS-AND-BEGIN-NONMATCHING-TRANSFER",
-  "status": "CONTINUATION_DISCREPANCY_RESOLVED_VIA_GUARDED_PREDICTOR__PARITY_RECOVERED_TO_0_026_PCT__INDEPENDENT_NONMATCHING_TRANSFER_EXECUTED_PASSING_DAMAGE_AND_FRACTURE_ENERGY__PRODUCTION_UEL_FROZEN",
+  "task_id": "F1576-RECOVER-RUNNING-EXPERIMENTS-RESTORE-PBS-EXECUTION-AND-ADVANCE-METHOD-C",
+  "status": "EXPERIMENTAL_PBS_EXECUTION_RESTORED__PACKAGE50_JOB_1415036_COMPLETED_EXIT0__GUARDED_PREDICTOR_VERIFIED_ON_COMPUTE_NODE__PRODUCTION_UEL_FROZEN",
   "agent": "gemini-antigravity",
-  "phase": "Task F1575 completed (18 Oct 2026 binding directive): (1) Priority 1 & 2: Pinpointed root cause of forward continuation discrepancy (2.59% - 3.54%) to solver predictor velocity extrapolation: under Abaqus default extrapolation=LINEAR, the rapid snap across ligament induces an iteration-1 displacement overshoot in Increment 3 (Node 240 jumped 10x applied increment to 4.44e-4 mm), ratcheting history variable to 69.92 MPa (vs 35.70 MPa physical equilibrium), artificially accelerating damage (+0.00715) and softening Case A (4.988 N vs 5.164 N in Case B which started quiescently); (2) Priority 3 & 4: Implemented guarded predictor control (extrapolation=NO) eliminating spurious iteration overshoots and recovering near-perfect continuation parity: Inc 2 (u=0.00266 mm) error reduced to -0.23% (5.256 N vs 5.244 N), Inc 3 (u=0.00270 mm) error reduced to -0.026% (5.290 N vs 5.288 N, 99.974% parity), proving kinematic-offset continuation is exact; (3) Priority 5 & 6: Executed independent controlled nonmatching-mesh state transfer benchmark from authentic 400-element uniform donor (20x20, h=0.005 mm) to 650-element nonmatching receiver (25x26, hx=0.004 mm, hy=0.003846 mm) at u=0.00258 mm: peak damage preserved (Delta d_max=0.00218 <= 0.020 PASS), integrated damage error 0.128% <= 5.0% PASS, zero negative history points (min H >= 0 PASS), fracture energy preserved within -1.590% <= 2.0% PASS, elastic energy unrelaxed transfer error +17.50% documented due to (1-d)^2 smoothing in singular wake; (4) Priority 7: Maintained production UEL f42_mixed_uel.for 100% frozen (CE8D5EDC...); maintained experimental offset UEL invariant (EF92ED58...); queue clean (0 active jobs); 10/10 unit tests PASS.",
-  "gate_status": "GATE_6C_F1575_COMPLETE__FORWARD_CONTINUATION_PARITY_0_026_PCT__NONMATCHING_TRANSFER_BENCHMARK_EXECUTED__PRODUCTION_UEL_FROZEN",
-  "last_updated": "2026-10-18T16:15:00+02:00",
+  "phase": "Task F1576 completed (18 Oct 2026 binding directive): (1) Telemetry & recovery audit: confirmed all 5 Task F1575 cluster operations completed Exit 0 with zero orphaned processes; (2) Restored governed PBS execution adapter: extended mode1_execution_gate.py and preflight_package49_authorization.py to support adapter: mode1-experimental-offset-v1 with f42_experimental_offset_uel.for (EF92ED58...) and mandatory hypothesis validation, while preserving production UEL f42_mixed_uel.for 100% frozen (CE8D5EDC...); (3) Package 50 submitted & completed via PBS: Job 1415036.mmaster02 executed on compute node mnode097/0 in normal_imfdfkmq, completing Exit 0 in 14s walltime; (4) Solver verification: 2 iterations per increment, 0 cutbacks, zero history ratcheting spikes, and monotonic fracture energy dissipation (2.988 to 2.990e-4 kN*mm); (5) Cluster queue clean (0 active jobs); 32/32 unit tests PASS.",
+  "gate_status": "GATE_6C_F1576_COMPLETE__EXPERIMENTAL_PBS_EXECUTION_RESTORED__JOB_1415036_EXIT0__PRODUCTION_UEL_FROZEN",
+  "last_updated": "2026-10-18T16:45:00+02:00",
   "active_pbs_job_ids": [],
   "dependent_pbs_job_ids": [],
   "deferred_candidate_jobs": [
@@ -89,6 +89,7 @@
     "1414917.mmaster02",
     "1414920.mmaster02",
     "1414946.mmaster02",
-    "1414955.mmaster02"
+    "1414955.mmaster02",
+    "1415036.mmaster02"
   ]
 }

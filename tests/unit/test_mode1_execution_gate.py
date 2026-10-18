@@ -1,4 +1,4 @@
-﻿"""Active technical gate regression tests. No scheduler, network or credentials."""
+"""Active technical gate regression tests. No scheduler, network or credentials."""
 import copy,hashlib,importlib.util,json,tempfile,unittest
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime,timezone,timedelta
@@ -94,5 +94,42 @@ class ExecutionGateTests(unittest.TestCase):
  def test_four_job_capacity_blocks(self):
   self.proof['active_job_count']=4
   with self.assertRaisesRegex(ValueError,'resource count'):self.prepare()
+ def test_experimental_offset_configuration_allowed(self):
+  exp_batch=copy.deepcopy(self.batch)
+  exp_batch['adapter']='mode1-experimental-offset-v1'
+  exp_batch['technical_stage']='EXPERIMENTAL_OFFSET'
+  exp_batch['hypothesis']='Guarded extrapolation=NO resolves continuation discrepancy'
+  del exp_batch['files']['f42_mixed_uel.for']
+  exp_uel_content=(ROOT/'models/pandey_kumar_mode1/experimental_offset_uel/f42_experimental_offset_uel.for').read_bytes()
+  (self.path.parent/'f42_experimental_offset_uel.for').write_bytes(exp_uel_content)
+  exp_batch['files']['f42_experimental_offset_uel.for']=engine.digest(exp_uel_content)
+  self.batch=exp_batch
+  self.refresh()
+  self.prepare()
+  engine.reserve(self.batch['jobs'][0]['command'],self.root)
+  self.assertEqual(engine.status(self.key,self.root)['attempts']['equil_test'],1)
+ def test_experimental_offset_without_hypothesis_denied(self):
+  exp_batch=copy.deepcopy(self.batch)
+  exp_batch['adapter']='mode1-experimental-offset-v1'
+  exp_batch['technical_stage']='EXPERIMENTAL_OFFSET'
+  del exp_batch['files']['f42_mixed_uel.for']
+  exp_uel_content=(ROOT/'models/pandey_kumar_mode1/experimental_offset_uel/f42_experimental_offset_uel.for').read_bytes()
+  (self.path.parent/'f42_experimental_offset_uel.for').write_bytes(exp_uel_content)
+  exp_batch['files']['f42_experimental_offset_uel.for']=engine.digest(exp_uel_content)
+  self.batch=exp_batch
+  self.refresh()
+  with self.assertRaisesRegex(ValueError,'hypothesis'):self.prepare()
+ def test_experimental_offset_tampered_uel_denied(self):
+  exp_batch=copy.deepcopy(self.batch)
+  exp_batch['adapter']='mode1-experimental-offset-v1'
+  exp_batch['technical_stage']='EXPERIMENTAL_OFFSET'
+  exp_batch['hypothesis']='Testing'
+  del exp_batch['files']['f42_mixed_uel.for']
+  tampered=b'tampered experimental uel'
+  (self.path.parent/'f42_experimental_offset_uel.for').write_bytes(tampered)
+  exp_batch['files']['f42_experimental_offset_uel.for']=engine.digest(tampered)
+  self.batch=exp_batch
+  self.refresh()
+  with self.assertRaisesRegex(ValueError,'Experimental offset UEL'):self.prepare()
 
 if __name__=='__main__':unittest.main()

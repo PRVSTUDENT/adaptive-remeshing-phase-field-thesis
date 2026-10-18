@@ -29,7 +29,7 @@ def run_shell(body, expected_status=0):
 
 def check(payload):
     global RUN
-    if payload.get('batch', {}).get('adapter') == 'mode1-qualified-batch-v2':
+    if payload.get('batch', {}).get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1'):
         target=payload['batch'].get('remote_run_dir','')
         require(re.fullmatch(r'/scratch9/pr21vyci/runs/mode1_[a-z0-9_/]+',target) and '..' not in target, 'Unsafe Mode-I scratch path')
         RUN=Path(target)
@@ -149,7 +149,8 @@ notification_send_email_once 'Package 49 authorization PREFLIGHT TEST' 'No PBS j
         require(job['input'] in facts,'Unbound datacheck input')
         datachecks[job['id']]={'status':'PASS','input_sha256':facts[job['input']], 'dat_sha256':hashlib.sha256(data).hexdigest()}
 
-    return dict(active_job_count=active_count, adapter_contract="mode1-qualified-batch-v2", datachecks=datachecks,
+    adapter_name = payload.get('batch', {}).get('adapter', 'mode1-qualified-batch-v2')
+    return dict(active_job_count=active_count, adapter_contract=adapter_name, datachecks=datachecks,
                 batch_spec_sha256=hashlib.sha256(json.dumps(batch,sort_keys=True,separators=(",",":")).encode()).hexdigest(), passed=True, pbs_email_verified=True, telegram_verified=True,
                 submission_queue=queue, queue_access_preflight='PASS',
                 compiler_environment='PASS_LOGIN_NODE',
