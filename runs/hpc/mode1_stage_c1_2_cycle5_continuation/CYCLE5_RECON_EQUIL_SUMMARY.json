@@ -1,0 +1,73 @@
+{
+    "job_id": "1414955.mmaster02",
+    "job_name": "M1_MC_CYCLE5_RECON_EQUIL",
+    "mesh_elements": 34094,
+    "mesh_nodes": 33975,
+    "displacement_u_mm": 0.006,
+    "exit_status": 0,
+    "walltime_sec": 10,
+    "increments": 1,
+    "cutbacks": 0,
+    "iterations": 2,
+    "severe_discontinuity_iterations": 0,
+    "negative_eigenvalues": 0,
+    "solver_energies": {
+        "E_elas_mJ": 1.69722,
+        "E_frac_uJ": 683.6044,
+        "E_total_mJ": 2.380824,
+        "RF2_N": 565.74
+    },
+    "donor_package65_energies": {
+        "E_elas_mJ": 1.678941,
+        "E_frac_uJ": 697.1766,
+        "E_total_mJ": 2.376118,
+        "RF2_N": 559.647
+    },
+    "solver_to_donor_deltas": {
+        "delta_E_elas_pct": 1.0887,
+        "delta_E_frac_pct": -1.9467,
+        "delta_E_total_pct": 0.1981,
+        "delta_RF_N": 6.093,
+        "delta_RF_pct": 1.089
+    },
+    "three_state_energy_decomposition": {
+        "state_A_authentic_solved_donor": {
+            "mesh_elements": 29293,
+            "E_elas_mJ": 1.678941,
+            "E_frac_uJ": 697.1766,
+            "E_total_mJ": 2.376118
+        },
+        "state_B_reconstructed_donor_mesh": {
+            "mesh_elements": 29293,
+            "E_elas_mJ": 1.720474,
+            "E_frac_uJ": 683.0884,
+            "E_total_mJ": 2.403562
+        },
+        "state_C_mapped_recipient_mesh": {
+            "mesh_elements": 34094,
+            "E_elas_mJ": 1.725088,
+            "E_frac_uJ": 683.7366,
+            "E_total_mJ": 2.408824
+        },
+        "delta_reconstruction_B_minus_A": {
+            "delta_E_elas_pct": 2.4738,
+            "delta_E_frac_pct": -2.0208,
+            "delta_E_total_pct": 1.155
+        },
+        "delta_remapping_C_minus_B": {
+            "delta_E_elas_pct": 0.2682,
+            "delta_E_frac_pct": 0.0949,
+            "delta_E_total_pct": 0.2189
+        },
+        "delta_combined_C_minus_A": {
+            "delta_E_elas_pct": 2.7486,
+            "delta_E_frac_pct": -1.9278,
+            "delta_E_total_pct": 1.3765
+        }
+    },
+    "governance": {
+        "status": "REEQUILIBRATION_DIAGNOSTIC_COMPLETED_EXIT0__LOADED_CONTINUATION_STRICTLY_ON_HOLD",
+        "method_c_verdict": "NOT_YET_QUALIFIED",
+        "zero_self_grading": true
+    }
+}

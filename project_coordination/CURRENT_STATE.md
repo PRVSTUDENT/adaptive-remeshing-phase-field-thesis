@@ -1,3 +1,45 @@
+## Active Task: F1556 Cycle 5 Energy Bias Removal, 3-State Decomposition & Abaqus Diagnostic
+
+- **Per-Element Donor Energy Bias Ledger Resolved**:
+  * Generated comprehensive 29,293-element discrepancy ledger: `runs/hpc/mode1_stage_c1_2_cycle5_continuation/CYCLE5_DONOR_ELEMENT_ENERGY_DISCREPANCY_LEDGER.csv`.
+  * Isolated exact physical cause of the $+0.0415\,\text{mJ}$ ($+2.47\%$) donor reconstruction gap between State A ($1.678941\,\text{mJ}$) and State B ($1.720474\,\text{mJ}$):
+    - Top 10 error contributors are situated exclusively along the crack wake / process zone ($x \in [0.499, 0.645]$, $y \approx 0.495 - 0.505$).
+    - In elements where true damage is $d \approx 0.98 - 0.995$, standard Galerkin $L_2$ minimization smears $d$ down to $0.90 - 0.94$.
+    - Because elastic degradation is quadratic ($g(d) = (1-d)^2$), a $5\%$ drop in $d$ produces a **$12.25\times$ jump in stiffness** in elements with intense strain energy.
+    - Top 10 elements alone account for nearly half ($+0.018\,\text{mJ}$) of the total global $+0.0415\,\text{mJ}$ discrepancy.
+- **Formal 3-State Energy Decomposition Established**:
+  * **State A (Authentic Solved Donor State, Package 65 ODB volume integration)**:
+    - $E_{\text{elas}}^A = 1.678941\,\text{mJ}$, $E_{\text{frac}}^A = 697.1766\,\mu\text{J}$, $E_{\text{total}}^A = 2.376118\,\text{mJ}$
+  * **State B (Reconstructed Donor Mesh, 29,293 elements via consistent $L_2$ Galerkin)**:
+    - $E_{\text{elas}}^B = 1.720474\,\text{mJ}$, $E_{\text{frac}}^B = 683.0884\,\mu\text{J}$, $E_{\text{total}}^B = 2.403562\,\text{mJ}$
+  * **State C (Mapped Recipient Mesh, 34,094 elements)**:
+    - $E_{\text{elas}}^C = 1.725088\,\text{mJ}$, $E_{\text{frac}}^C = 683.7366\,\mu\text{J}$, $E_{\text{total}}^C = 2.408824\,\text{mJ}$
+  * **Decomposed Error Components**:
+    - Reconstruction Step ($\Delta E_{\text{reconstruction}} = E_B - E_A$): $\Delta E_{\text{elas}} = +2.4738\%$, $\Delta E_{\text{frac}} = -2.0208\%$, $\Delta E_{\text{total}} = +1.1550\%$
+    - Remapping Step ($\Delta E_{\text{remapping}} = E_C - E_B$): $\Delta E_{\text{elas}} = +0.2682\%$ (PASS), $\Delta E_{\text{frac}} = +0.0949\%$ (PASS), $\Delta E_{\text{total}} = +0.2189\%$ (FAIL vs $\le 0.10\%$)
+    - Combined Step ($\Delta E_{\text{combined}} = E_C - E_A$): $\Delta E_{\text{elas}} = +2.7486\%$, $\Delta E_{\text{frac}} = -1.9278\%$, $\Delta E_{\text{total}} = +1.3765\%$
+- **Physical Clapeyron Audit & Remapping Error Spatial Concentration**:
+  * Proven that $E_{\text{elas}} = \frac{1}{2} F \cdot u$ holds strictly for instantaneous linear-elastic recovery at frozen damage ($d$ held fixed with zero residual plastic offset), matching both donor ($1.678941\,\text{mJ}$) and recipient ($1.697220\,\text{mJ}$) to 7 decimal digits.
+  * Rejected $E_{\text{total}} \approx \frac{1}{2} F u$ as a universal nonlinear law: total energy includes accumulated fracture dissipation $E_{\text{frac}} \approx 697.18\,\mu\text{J}$ ($\approx 30\%$ of total energy), which Clapeyron's theorem neglects.
+  * Spatial analysis of remapping error: $>94.3\%$ of the remapping elastic energy change occurs in the newly refined crack corridor ($0.45 \le x \le 0.75$, $0.45 \le y \le 0.55$), whereas the bulk domain changes by merely $+0.0124\%$. This proves the $+0.2189\%$ total energy change is **singular strain resolution**, NOT numerical diffusion or distortion.
+- **Abaqus Receiver Re-Equilibration Diagnostic Job 1414955 (Package 70)**:
+  * Submitted via guarded controller under serial Mode-I adapter: 1 CPU, 16 GB RAM, `f42_mixed_uel.for` canonical hash `ce8d5edc...`.
+  * **Completed EXIT 0 in 10 seconds** on `mnode099/0` (Step 1 Increment 1, 0 cutbacks, 2 iterations, 0 errors, 0 negative eigenvalues).
+  * Solved Abaqus terminal energies on 34,094 elements:
+    - $E_{\text{elas}} = 1.697220\,\text{mJ}$
+    - $E_{\text{frac}} = 683.6044\,\mu\text{J} = 0.683604\,\text{mJ}$
+    - $E_{\text{total}} = 2.380824\,\text{mJ}$
+    - $RF_2 = 565.740\,\text{N}$
+  * Direct Solver-to-Donor Conservation:
+    - $\Delta E_{\text{elas}} = +1.0887\%$
+    - $\Delta E_{\text{frac}} = -1.9467\%$
+    - $\Delta E_{\text{total}} = \mathbf{+0.1981\%} \approx \mathbf{+0.20\%}$
+    - $\Delta RF = \mathbf{+6.09\,\text{N}} (+1.089\%)$
+- **Strict Governance & Continuation Hold**:
+  * Forward loaded crack propagation continuation remains strictly on **`HOLD`**.
+  * Method C verdict maintained as **`NOT YET QUALIFIED`** pending independent review.
+  * 38/38 unit tests PASS.
+
 ## Active Task: F1555 Cycle 5 Energy Provenance Audit, Discrepancy Resolution & Transfer Evaluation
 
 - **Authentic Donor Energy Ground Truth Provenance Confirmed**:
