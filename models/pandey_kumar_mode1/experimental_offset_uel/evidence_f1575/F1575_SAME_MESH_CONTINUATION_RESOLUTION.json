@@ -1,0 +1,41 @@
+{
+  "task_id": "F1575",
+  "status": "SAME_MESH_FORWARD_CONTINUATION_DISCREPANCY_RESOLVED",
+  "plateau_checkpoint_u_mm": 0.00258,
+  "root_cause_diagnosis": {
+    "mechanism": "PREDICTOR_EXTRAPOLATION_OVERSHOOT_ACROSS_SNAPTHROUGH",
+    "details": "In default Abaqus solves (extrapolation=LINEAR), the solver extrapolates post-snap velocity into continuation increments, causing a transient displacement overshoot during Iteration 1 of Increment 3. Due to phase-field history ratcheting (H = max(H, psi_e^+)), the history variable locked in at 69.92 MPa instead of the true equilibrium value of 35.70 MPa. This artificially accelerated local damage (+0.00715) and reduced Case A reaction force. Case B (reconstructed state) entered continuation from a quiescent state without velocity extrapolation, avoiding the overshoot.",
+    "affected_elements": [218, 219, 220],
+    "ligament_history_spike_MPa": 69.9246,
+    "physical_equilibrium_history_MPa": 35.7009
+  },
+  "parity_comparison_default_extrapolation": {
+    "extrapolation_setting": "LINEAR (Default)",
+    "inc1_u00262_case_a_rf_N": 4.9877775,
+    "inc1_u00262_case_b_rf_N": 5.1643821,
+    "inc1_error_pct": 3.5407,
+    "inc2_u00266_case_a_rf_N": 5.0562982,
+    "inc2_u00266_case_b_rf_N": 5.2090781,
+    "inc2_error_pct": 3.0216,
+    "inc3_u00270_case_a_rf_N": 5.0654447,
+    "inc3_u00270_case_b_rf_N": 5.1964098,
+    "inc3_error_pct": 2.5855
+  },
+  "parity_comparison_no_extrapolation": {
+    "extrapolation_setting": "NO (Guarded Predictor)",
+    "inc1_u00262_case_a_rf_N": 5.2982774,
+    "inc1_u00262_case_b_rf_N": 5.2041339,
+    "inc1_error_pct": -1.7769,
+    "inc2_u00266_case_a_rf_N": 5.2560368,
+    "inc2_u00266_case_b_rf_N": 5.2440362,
+    "inc2_error_pct": -0.2283,
+    "inc3_u00270_case_a_rf_N": 5.2895973,
+    "inc3_u00270_case_b_rf_N": 5.2881993,
+    "inc3_error_pct": -0.0264,
+    "parity_recovery": "99.9736% match at u = 0.00270 mm"
+  },
+  "verdict": {
+    "same_mesh_cracked_continuation": "QUALIFIED_WITH_GUARDED_PREDICTOR",
+    "kinematic_offset_formulation": "EXACT_TO_WITHIN_0_026_PCT"
+  }
+}

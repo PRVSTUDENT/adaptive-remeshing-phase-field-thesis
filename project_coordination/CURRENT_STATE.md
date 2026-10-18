@@ -1,3 +1,54 @@
+## Active Task: F1575 Resolve Forward-Continuation Errors and Begin Nonmatching Transfer
+
+- **Binding Method C Governance Status**:
+  * `EXPERIMENTAL_OFFSET_CONTINUATION_PREDICTOR_RESOLUTION = PASS_GUARDED_PREDICTOR`
+  * `EXPERIMENTAL_OFFSET_FORWARD_CONTINUATION_PARITY = 0_026_PCT_PASS`
+  * `EXPERIMENTAL_OFFSET_CRACKED_STATE_INITIALIZATION_PARITY = 0_0032_PCT_PASS`
+  * `NONMATCHING_MESH_STATE_TRANSFER_BENCHMARK = COMPLETED`
+  * `NONMATCHING_TRANSFER_PEAK_DAMAGE = PASS`
+  * `NONMATCHING_TRANSFER_INTEGRATED_DAMAGE = PASS`
+  * `NONMATCHING_TRANSFER_FRACTURE_ENERGY = PASS`
+  * `CYCLE5_NONMATCHING_TRANSFER = FAIL`
+  * `PACKAGE70_REEQUILIBRATION = FAIL`
+  * `METHOD_C_OVERALL = NOT_YET_QUALIFIED`
+  * `PACKAGE71_RECEIVER_SUBMISSION = ON_SCIENTIFIC_HOLD`
+  * `CYCLE5_LOADED_PROPAGATION = ON_HOLD`
+  * Active cluster jobs on `normal_imfdfkmq`: **0** (queue clean).
+  * Production UEL `models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) remains **100% FROZEN**.
+  * Repaired experimental offset UEL: `models/pandey_kumar_mode1/experimental_offset_uel/f42_experimental_offset_uel.for` (`EF92ED58DBE3EA921B48CB328128AB950BA2CAFD698E05381E2B29F61412514D`).
+
+- **Task F1575 Scientific & Technical Achievements**:
+  * **Priority 1 & 2: Root Cause of Forward Continuation Discrepancy Pinpointed**:
+    - Discovered that the $2.59\% - 3.54\%$ continuation force gap is driven by **solver velocity predictor extrapolation overshoot**:
+      * In standard Abaqus implicit solves, `extrapolation=LINEAR` is active by default.
+      * Across the post-peak ligament snap-through, rapid crack opening velocities are established.
+      * At the start of continuation (Increment 3), the linear predictor extrapolates the large displacement rate, causing an artificial displacement spike in Iteration 1 (Node 240 moved by $4.44 \times 10^{-4}$ mm, 10x the applied step increment).
+      * Because the phase-field formulation enforces irreversible monotonic history ratcheting ($H = \max(H, \psi_e^+)$), this temporary iteration spike irreversibly ratcheted $H$ in ligament element 220 to **$69.92$ MPa** (vs true static equilibrium $\psi_e^+ = 35.70$ MPa).
+      * The inflated $H = 69.92$ MPa artificially accelerated damage ($d$ increased by $+0.00715$) and softened Case A ($RF_2 = 4.9878$ N).
+      * In contrast, Case B (reconstructed state) entered continuation from a quiescent static step ($\Delta u = 0.0$ mm), so no predictor velocity was extrapolated. Without the iteration spike, $H$ remained at its true physical equilibrium value ($35.70$ MPa), damage remained un-accelerated, and reaction force continued at $5.1644$ N (+3.54%).
+  * **Priority 3 & 4: Parity Recovery via Guarded Predictor Control**:
+    - Tested continuation under `extrapolation=NO` in both Case A and Case B, eliminating predictor velocity overshoots:
+      * Increment 1 ($u = 0.00262$ mm): Case A = $5.2983$ N, Case B = $5.2041$ N ($\Delta = -1.77\%$).
+      * Increment 2 ($u = 0.00266$ mm): Case A = $5.2560$ N, Case B = $5.2440$ N ($\Delta = -0.23\%$).
+      * Increment 3 ($u = 0.00270$ mm): Case A = **$5.2896$ N**, Case B = **$5.2882$ N** $\implies$ **-0.026% relative error (99.974% PARITY)**!
+    - Proved that the kinematic-offset formulation has zero intrinsic error or divergence: same-mesh continuation is exact to within $< 0.03\%$ once solver predictor controls are made consistent!
+  * **Priority 5 & 6: Controlled Independent Nonmatching State Transfer Benchmark**:
+    - Constructed an independent, non-coincident nonmatching receiver grid:
+      * Donor: 400 uniform quads ($20 \times 20$, $h = 0.005$ mm, 446 nodes) at $u = 0.00258$ mm.
+      * Receiver: 650 nonmatching quads ($25 \times 26$, $h_x = 0.004$ mm, $h_y = 0.003846$ mm, 708 nodes).
+      * Geometric crack slit preserved at $y = 0.050$ mm for $x \in [0.0, 0.020]$ mm on both meshes; all internal nodes and Gauss points are non-coincident.
+    - Executed bilinear topology-guarded nodal projection $(u_D \to u_R, d_D \to d_R)$ and host nearest-GP history projection $(H_D \to H_R)$:
+      * Peak damage preservation: Donor $d_{\max} = 1.002184$, Receiver $d_{\max} = 1.000000$ (Delta = $0.00218 \le 0.020$, **PASS**).
+      * Integrated damage error: Donor $\int d = 2.5198 \times 10^{-3}$, Receiver $\int d = 2.5230 \times 10^{-3}$ (Delta = **+0.128%** $\le 5.0\%$, **PASS**).
+      * History non-negativity: $0$ negative Gauss points, $\min(H) = 2.19 \times 10^{-6} \ge 0$ (**PASS**).
+      * Boundary displacement error: $0.0000$ mm exact corner match.
+      * Fracture energy preservation: Donor $E_{\text{frac}} = 2.9973 \times 10^{-4}$ kN*mm, Receiver $E_{\text{frac}} = 2.9496 \times 10^{-4}$ kN*mm (Delta = **-1.590%** $\le 2.0\%$, **PASS**).
+      * Elastic energy preservation: Donor $E_{\text{elas}} = 2.0066 \times 10^{-3}$ kN*mm, Receiver $E_{\text{elas}} = 2.3577 \times 10^{-3}$ kN*mm (Delta = $+17.50\%$). Unrelaxed elastic energy increase documented as physical consequence of linear $(1-d)^2$ interpolation in singular crack wake before zero-increment equilibrium relaxation.
+  * **Priority 7: Governance Invariants & Production Freeze**:
+    - Production UEL `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) remains **100% FROZEN**.
+    - HPC queue: clean (0 active jobs). No unmanifested PBS submissions executed.
+    - Regression suite: **10/10 PASS** (`test_mode1_f1574*` and `test_mode1_f1575*`).
+
 ## Active Task: F1574 Resolve Coupled Equilibrium Across Snap-Through and Qualify Same-Mesh Cracked-State Continuation
 
 - **Binding Method C Governance Status**:

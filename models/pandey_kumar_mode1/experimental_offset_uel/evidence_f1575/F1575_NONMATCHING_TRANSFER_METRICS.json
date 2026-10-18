@@ -1,0 +1,63 @@
+{
+  "transfer_method": "BILINEAR_TOPOLOGY_GUARDED_NODAL_PROJECTION_AND_HOST_NEAREST_GP", 
+  "task_id": "F1575", 
+  "plateau_state_provenance": "CaseA_noextrap (Step 2 Inc 2, u = 0.00258 mm)", 
+  "donor_mesh": {
+    "hx_mm": 0.005, 
+    "nodes": 446, 
+    "elements": 400, 
+    "name": "Donor_20x20", 
+    "hy_mm": 0.005
+  }, 
+  "experiment": "MODE1_NONMATCHING_MESH_STATE_TRANSFER_BENCHMARK", 
+  "criteria": {
+    "criterion_2_integrated_damage": {
+      "donor_int_d": 0.00251982021334375, 
+      "relative_error_pct": 0.12783785691434194, 
+      "receiver_int_d": 0.002523041497502583, 
+      "threshold_pct": 5.0, 
+      "verdict": "PASS"
+    }, 
+    "criterion_4_fracture_energy_preservation": {
+      "verdict": "PASS", 
+      "relative_error_pct": -1.5895008442333893, 
+      "threshold_pct": 2.0, 
+      "receiver_E_frac_kNmm": 0.00029496180652175053, 
+      "donor_E_frac_kNmm": 0.00029972595307628465
+    }, 
+    "criterion_5_elastic_energy_preservation": {
+      "verdict": "FAIL", 
+      "receiver_E_elas_kNmm": 0.0023577461967956926, 
+      "threshold_pct": 2.0, 
+      "relative_error_pct": 17.498951434388427, 
+      "donor_E_elas_kNmm": 0.002006610414827626
+    }, 
+    "criterion_1_peak_damage": {
+      "threshold": 0.02, 
+      "donor_d_max": 1.0021837, 
+      "delta": 0.0021837000000000106, 
+      "verdict": "PASS", 
+      "receiver_d_max": 1.0
+    }, 
+    "criterion_6_total_energy_preservation": {
+      "verdict": "FAIL", 
+      "donor_E_total_kNmm": 0.002306336367903911, 
+      "threshold_pct": 2.0, 
+      "relative_error_pct": 15.018261873411316, 
+      "receiver_E_total_kNmm": 0.0026527080033174433
+    }, 
+    "criterion_3_history_non_negativity": {
+      "threshold": 0.0, 
+      "verdict": "PASS", 
+      "negative_count": 0, 
+      "min_H": 2.194118451371e-06
+    }
+  }, 
+  "receiver_mesh": {
+    "hx_mm": 0.004, 
+    "nodes": 708, 
+    "elements": 650, 
+    "name": "Receiver_25x26", 
+    "hy_mm": 0.0038461538461538464
+  }
+}
