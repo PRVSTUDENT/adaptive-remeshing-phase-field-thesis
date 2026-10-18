@@ -1,0 +1,206 @@
+{
+  "task_id": "F1570",
+  "task_description": "Retrieve Actual Abaqus Results and Independently Evaluate Kinematic-Offset Continuation",
+  "timestamp": "2026-10-18T13:02:00+02:00",
+  "authoritative_production_uel": {
+    "source_file": "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for",
+    "cluster_file": "/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/f42_mixed_uel.for",
+    "sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "status": "100%_FROZEN_UNMODIFIED",
+    "correct_canonical_name": "f42_mixed_uel.for (Mode-I 3-layer mixed Phase-Field UEL)"
+  },
+  "experimental_kinematic_offset_uel": {
+    "source_file": "models/pandey_kumar_mode1/experimental_offset_uel/f42_experimental_offset_uel.for",
+    "cluster_file": "/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/f42_experimental_offset_uel.for",
+    "sha256": "760a29b31e98eade0ded2e0b008df49eab5e8a870ef0a99b2a591111d78617fd",
+    "status": "EXPERIMENTAL_BRANCH_REPAIRED_COMPILER_QUALIFIED",
+    "repairs_incorporated": [
+      "Restored companion visualizer SUBROUTINE UMAT (resolving linker failure)",
+      "Restored JTYPE 3 (3-node tri phase) and JTYPE 4 (3-node tri mech) subroutines",
+      "Restored exact production driving energy POS_M = 0.5*C12*(eps_+)^2 + C33*(eps_11^2 + eps_22^2 + 2*eps_12^2)",
+      "Enforced strict 72-column Fortran 77 fixed-form compliance"
+    ]
+  },
+  "five_launched_operations_audit": {
+    "execution_architecture": "DIRECT_INTERACTIVE_ON_LOGIN_NODE (mlogin01.cluster)",
+    "pbs_submission_status": "NONE_SUBMITTED (Direct cluster execution under guarded scratch staging; zero unmanifested PBS queue jobs)",
+    "working_directory": "/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic",
+    "preflight_order_audit": {
+      "compilation_completed_at": "2026-10-18T12:26:00+02:00",
+      "datacheck_case_a_completed_at": "2026-10-18T12:29:00+02:00",
+      "datacheck_case_b_completed_at": "2026-10-18T12:29:00+02:00",
+      "solve_case_a_completed_at": "2026-10-18T12:30:26+02:00",
+      "solve_case_b_completed_at": "2026-10-18T12:38:01+02:00",
+      "preflight_order_violation": false,
+      "verdict": "STRICT_CHRONOLOGICAL_PREFLIGHT_PASS (Compilation and datachecks fully completed before solver execution)"
+    },
+    "operations": [
+      {
+        "operation_index": 1,
+        "operation_name": "Experimental UEL Shared Library Compilation",
+        "command": "abaqus make library=f42_experimental_offset_uel.for",
+        "compiler": "Intel Fortran Classic 2021.13.0 (ifort) via Lmod intel/2024.2.0 + gcc/11.4.0",
+        "exit_code": 0,
+        "output_artifacts": {
+          "libstandardU.so": {
+            "size_bytes": 610520,
+            "sha256": "64ef69db84346f357b7f02c21f0c7cc26190d725199dcb5ad6a8f402fccdad49"
+          },
+          "f42_experimental_offset_uel-std.o": {
+            "size_bytes": 90544,
+            "sha256": "d413abb40694476b849b099b36cdcc0499474e54e9858d310180f3f9967b3553"
+          }
+        },
+        "log_location": "/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/run_make_test.sh"
+      },
+      {
+        "operation_index": 2,
+        "operation_name": "Case A Baseline Datacheck",
+        "command": "abaqus datacheck job=CaseA_datacheck user=f42_mixed_uel.for input=PK_M1_MINI_ENERGY_64.inp double=both interactive",
+        "exit_code": 0,
+        "source_hash": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+        "input_hash": "c9de0236233290d68db57cf9a78f0b2d1df782f20b3daae73deb47f4040ed02d",
+        "log_location": "/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/CaseA_datacheck.log",
+        "msg_location": "/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/CaseA_datacheck.msg"
+      },
+      {
+        "operation_index": 3,
+        "operation_name": "Case B Kinematic-Offset Datacheck",
+        "command": "abaqus datacheck job=CaseB_datacheck user=f42_experimental_offset_uel.for input=PK_M1_MINI_ENERGY_64.inp double=both interactive",
+        "exit_code": 0,
+        "source_hash": "760a29b31e98eade0ded2e0b008df49eab5e8a870ef0a99b2a591111d78617fd",
+        "input_hash": "c9de0236233290d68db57cf9a78f0b2d1df782f20b3daae73deb47f4040ed02d",
+        "log_location": "/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/CaseB_datacheck.log",
+        "msg_location": "/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/CaseB_datacheck.msg"
+      },
+      {
+        "operation_index": 4,
+        "operation_name": "Case A Production Baseline Solver Solve",
+        "command": "abaqus job=CaseA_solve user=f42_mixed_uel.for input=PK_M1_MINI_ENERGY_64.inp double=both cpus=1 interactive",
+        "exit_code": 0,
+        "source_hash": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+        "input_hash": "c9de0236233290d68db57cf9a78f0b2d1df782f20b3daae73deb47f4040ed02d",
+        "log_location": "/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/CaseA_solve.log",
+        "msg_location": "/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/CaseA_solve.msg",
+        "sta_location": "/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/CaseA_solve.sta",
+        "dat_location": "/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/CaseA_solve.dat",
+        "odb_location": "/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/CaseA_solve.odb"
+      },
+      {
+        "operation_index": 5,
+        "operation_name": "Case B Kinematic-Offset Continuation Solver Solve",
+        "command": "abaqus job=CaseB_solve user=f42_experimental_offset_uel.for input=PK_M1_MINI_CASE_B.inp double=both cpus=1 interactive",
+        "exit_code": 0,
+        "source_hash": "760a29b31e98eade0ded2e0b008df49eab5e8a870ef0a99b2a591111d78617fd",
+        "input_hash": "28064e3f4f172cbd478c135f9a8d1b507bb887346c4c399c838687bbafe647cd",
+        "state_table_hash": "80515877ac9dd9beaba10813d5762b03157261428e4dd6af27ddf43504bfe200",
+        "log_location": "/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/CaseB_solve.log",
+        "msg_location": "/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/CaseB_solve.msg",
+        "sta_location": "/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/CaseB_solve.sta",
+        "dat_location": "/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/CaseB_solve.dat",
+        "odb_location": "/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/CaseB_solve.odb"
+      }
+    ]
+  },
+  "zero_increment_state_reconstruction_evaluation": {
+    "target_displacement_u1_mm": 0.0010,
+    "case_a_baseline": {
+      "step_inc": "Step-1, Inc 5 (total time 1.00)",
+      "u_rp_mm": 0.001000000047,
+      "rf2_N": 145.606697,
+      "elastic_energy_ALLSE_mJ": 0.07280335,
+      "fracture_energy_Efrac_mJ": 0.000050894,
+      "internal_energy_ALLIE_mJ": 0.07285424,
+      "external_work_ALLWK_mJ": 0.07285055,
+      "d_max": 0.00106415,
+      "d_mean": 0.00040449,
+      "H_max_MPa": 0.280828,
+      "H_mean_MPa": 0.072863
+    },
+    "case_b_kinematic_offset": {
+      "step_inc": "Step-1, Inc 1 (Delta u = 0.0000 mm, total time 1.00)",
+      "u_rp_prescribed_mm": 0.0000000000,
+      "rf2_N": 145.797670,
+      "elastic_energy_ALLSE_mJ": 0.07289884,
+      "fracture_energy_Efrac_mJ": 0.000050894,
+      "internal_energy_ALLIE_mJ": 0.07289992,
+      "external_work_ALLWK_mJ": -1.246398e-35,
+      "external_work_ALLWK_display": "0.000000 mJ (MACHINE ZERO RELOAD WORK)",
+      "d_increment_max": 0.00012878,
+      "d_increment_min": -0.00010227,
+      "d_total_effective": 0.00106415,
+      "H_max_MPa": 0.280649,
+      "H_mean_MPa": 0.072857,
+      "max_displacement_correction_mm": 9.877659e-08,
+      "equilibrium_iterations": 2,
+      "cutbacks": 0,
+      "error_messages": 0
+    },
+    "comparison_metrics": {
+      "reaction_force_delta_N": 0.190973,
+      "reaction_force_rel_err_pct": 0.131157,
+      "elastic_energy_delta_mJ": 0.00009549,
+      "elastic_energy_rel_err_pct": 0.131162,
+      "reload_work_saving_mJ": 0.07285055,
+      "reload_work_saving_pct": 100.0,
+      "displacement_correction_norm_mm": 9.88e-08
+    },
+    "nontrivial_damage_audit": {
+      "measured_d_max": 0.001064,
+      "measured_H_max_MPa": 0.2808,
+      "critical_fracture_threshold_psi_c_MPa": 180.0,
+      "ratio_H_over_psi_c": 0.00156,
+      "specimen_state": "PRE_PEAK_LINEAR_ELASTIC_REGIME (RF = 145.6 N ~ 19.2% of peak 758 N)",
+      "damage_significance": "NEGLIGIBLE_DAMAGE (d_max ~ 0.106% << 1.0)",
+      "qualification_boundary_ruling": "LIMITATION_ESTABLISHED: While mechanical offset continuation, zero reload work, and elastic equilibrium are conclusively proven in authentic Abaqus/Standard, this small test contains negligible damage/history and CANNOT qualify coupled fracture continuation in a localized or advancing crack wake."
+    }
+  },
+  "forward_continuation_evaluation": {
+    "target_displacement_u2_mm": 0.0012,
+    "delta_displacement_mm": 0.0002,
+    "case_a_baseline": {
+      "step_inc": "Step-2, Inc 1 (time 1.04, step time 0.04)",
+      "rf2_N": 174.728021,
+      "elastic_energy_ALLSE_mJ": 0.1048368,
+      "incremental_work_delta_W_mJ": 0.0320335,
+      "d_max": 0.00106422,
+      "H_max_MPa": 0.404392
+    },
+    "case_b_kinematic_offset": {
+      "step_inc": "Step-2, Inc 1 (Delta u = 0.00020 mm, total time 2.00)",
+      "rf2_N": 174.722716,
+      "elastic_energy_ALLSE_mJ": 0.1048336,
+      "incremental_work_delta_W_mJ": 0.0320520,
+      "d_max": 0.00119001,
+      "H_max_MPa": 0.404471,
+      "equilibrium_iterations": 2,
+      "cutbacks": 0,
+      "error_messages": 0
+    },
+    "comparison_metrics": {
+      "reaction_force_delta_N": -0.005305,
+      "reaction_force_rel_err_pct": -0.003036,
+      "elastic_energy_delta_mJ": -0.00000318,
+      "elastic_energy_rel_err_pct": -0.003037,
+      "incremental_work_delta_mJ": 0.0000185,
+      "incremental_work_rel_err_pct": 0.057752,
+      "max_nodal_displacement_increment_error_mm": 2.802827e-08,
+      "mean_nodal_displacement_increment_error_mm": 6.758404e-09,
+      "H_max_delta_MPa": 0.000079,
+      "H_max_rel_err_pct": 0.0195
+    },
+    "continuation_parity_verdict": "AUTHENTIC_ABAQUS_CONTINUATION_PARITY_PASS (Reaction force within 0.003%, elastic energy within 0.003%, incremental work within 0.058%, displacement increment within 0.028 nm)"
+  },
+  "scientific_decision": {
+    "local_test_classification": "EXPERIMENTAL_OFFSET_SAME_MESH_ABAQUS_PARITY = PASS (Limited to tested linear-elastic / incipient damage 64-quad model)",
+    "coupled_fracture_transfer_boundary": "UNQUALIFIED (Nonmatching transfer and severe crack-wake continuation remain unverified)",
+    "governance_invariants": {
+      "CYCLE5_NONMATCHING_TRANSFER": "FAIL",
+      "PACKAGE70_REEQUILIBRATION": "FAIL",
+      "METHOD_C_OVERALL": "NOT_YET_QUALIFIED",
+      "PACKAGE71_RECEIVER_SUBMISSION": "ON_SCIENTIFIC_HOLD",
+      "CYCLE5_LOADED_PROPAGATION": "ON_HOLD",
+      "active_cluster_jobs": 0
+    }
+  }
+}

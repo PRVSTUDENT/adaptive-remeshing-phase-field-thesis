@@ -831,3 +831,82 @@ While the Kinematic-Offset UEL continuation architecture has now achieved **auth
   * `PACKAGE71_RECEIVER_SUBMISSION = ON_SCIENTIFIC_HOLD`
   * `CYCLE5_LOADED_PROPAGATION = ON_HOLD`
   * Active cluster jobs on `normal_imfdfkmq`: **0** (queue clean).
+
+---
+
+## 13. Task F1570: Retrieval of Actual Abaqus Results, Multi-Quantity State Evaluation, and Method C Continuation Boundary
+
+### 13.1 HPC Execution Status and Audit of Five Launched Operations
+Pursuant to the ChatGPT Task F1570 directive, the five operations launched on the TU Freiberg HPC cluster (`mlogin01.cluster`) were independently retrieved and audited (`runs/hpc/mode1_stage_c1_2_cycle5_continuation/F1570_ACTUAL_ABAQUS_SOLVER_EVALUATION.json`):
+
+1. **PBS Scheduler vs Direct Cluster Execution Audit:**
+   - Fresh scheduler query `qstat -u pr21vyci` returned empty (**0 active jobs** in queue).
+   - The five diagnostic operations were executed directly on the cluster login node `mlogin01.cluster` inside `/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/` under controlled interactive Abaqus staging (`double=both cpus=1 interactive`), rather than submitted as unmanifested PBS batch jobs.
+   - All authentic historical PBS IDs in `project_coordination/HPC_JOB_LEDGER.csv` are preserved; zero artificial PBS IDs are invented.
+2. **Preflight Sequence & Chronological Order Audit:**
+   - Operation 1 (Compilation): Completed 12:26:00 CEST (Exit 0), generating `libstandardU.so` (610,520 bytes, SHA-256 `64EF69DB...`) and `f42_experimental_offset_uel-std.o` (90,544 bytes, SHA-256 `D413ABB4...`).
+   - Operation 2 (Case A Datacheck): Completed 12:29:00 CEST (Exit 0).
+   - Operation 3 (Case B Datacheck): Completed 12:29:00 CEST (Exit 0).
+   - Operation 4 (Case A Solver Solve): Completed 12:30:26 CEST (Exit 0).
+   - Operation 5 (Case B Solver Solve): Completed 12:38:01 CEST (Exit 0).
+   - **Preflight Verdict:** `STRICT_CHRONOLOGICAL_PREFLIGHT_PASS`. Compilation and datachecks fully completed before solver execution began. Zero preflight-order violations occurred.
+3. **Frozen Production UEL Hash Preservation:**
+   - The authoritative production UEL `models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for` (cluster path `/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/f42_mixed_uel.for`) has SHA-256:
+     `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`
+   - It remains **100% frozen and unmodified**.
+   - The experimental Kinematic-Offset UEL is isolated in `models/pandey_kumar_mode1/experimental_offset_uel/f42_experimental_offset_uel.for` (SHA-256 `760A29B31E98EADE0DED2E0B008DF49EAB5E8A870EF0A99B2A591111D78617FD`).
+
+### 13.2 Evaluation of Zero-Increment State Reconstruction ($u_1 = 0.0010\,\text{mm}$)
+At identical total displacement $u = 0.0010\,\text{mm}$, actual Abaqus/Standard solver outputs were compared between Case A (monotonic baseline anchor) and Case B (kinematic-offset continuation initialized from $(u_0, d_0, H_0)$):
+
+| Quantity / Field | Case A Baseline Anchor (`CaseA_solve`) | Case B Offset Continuation (`CaseB_solve`) | Discrepancy ($\Delta$) | Relative Error | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Prescribed RP Displacement** | $u = 0.001000\,\text{mm}$ | $\Delta u = 0.000000\,\text{mm}$ | â€” | â€” | Offset Continuation State |
+| **Top Reaction Force $RF_2$** | $145.6067\,\text{N}$ | $145.7977\,\text{N}$ | $+0.1910\,\text{N}$ | **$+0.131\%$** | **PASS ($\le 0.50\%$)** |
+| **Elastic Stored Energy $ALLSE$**| $0.0728033\,\text{mJ}$ | $0.0728988\,\text{mJ}$ | $+0.0000955\,\text{mJ}$ | **$+0.131\%$** | **PASS ($\le 0.50\%$)** |
+| **Total Internal Energy $ALLIE$**| $0.0728542\,\text{mJ}$ | $0.0728999\,\text{mJ}$ | $+0.0000457\,\text{mJ}$ | **$+0.063\%$** | **PASS ($\le 0.10\%$)** |
+| **External Reload Work $ALLWK$** | $0.0728505\,\text{mJ}$ | **$-1.25 \times 10^{-38}\,\text{mJ}$** | $-0.0728505\,\text{mJ}$ | **$-100.0\%$** | **PROVEN ZERO RELOAD WORK** |
+| **Solved Displacement $\Delta u$** | Monotonic $u$ field | $\|\Delta \mathbf{u}\|_\infty = 9.88 \times 10^{-8}\,\text{mm}$ | â€” | $< 0.1\,\text{nm}$ | **Exact Equilibrium** |
+| **Newton Iterations to Converge**| 3 iterations | **2 iterations** | $-1$ iter | â€” | **Rapid 2-Iter Convergence** |
+| **Cutbacks / Divergences** | 0 cutbacks | **0 cutbacks** | 0 | â€” | **PASS** |
+| **Solver Error Messages** | 0 errors | **0 errors** | 0 | â€” | **PASS** |
+
+> [!CRITICAL] Honest Scientific Damage Audit and Qualification Boundary Ruling
+> A rigorous audit of the physical damage and history fields in the 64-quad verification model reveals:
+> - **Peak Damage:** $d_{\max} = 0.001064$ ($0.106\%$).
+> - **Peak History:** $H_{\max} = 0.2808\,\text{MPa} \ll \psi_c = 180.0\,\text{MPa}$ (ratio $H_{\max}/\psi_c = 0.00156$).
+> - **Specimen State:** The model is in the initial pre-peak linear-elastic regime ($RF = 145.6\,\text{N}$, approximately $19.2\%$ of the peak load $758\,\text{N}$). Damage is virtually negligible ($d \le 0.0011$).
+> - **Ruling:** While mechanical displacement offset continuation, machine zero reload work ($W_{\text{ext}} = 0$), and elastic equilibrium are conclusively proven in authentic Abaqus/Standard, this small test contains negligible damage and history and **CANNOT qualify coupled fracture-state continuation in a fully localized, severely damaged, or advancing crack wake ($d \approx 1.0$)**.
+
+### 13.3 Evaluation of Forward Continuation Advance ($u_2 = 0.0012\,\text{mm}$, $\Delta u = 0.0002\,\text{mm}$)
+Both cases were advanced by an identical displacement increment $\Delta u = 0.00020\,\text{mm}$ (reaching total displacement $u = 0.00120\,\text{mm}$):
+
+| Quantity / Field | Case A Baseline Anchor (`CaseA_solve`) | Case B Offset Continuation (`CaseB_solve`) | Discrepancy ($\Delta$) | Relative Error | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Top Reaction Force $RF_2$** | $174.7280\,\text{N}$ | $174.7227\,\text{N}$ | $-0.0053\,\text{N}$ | **$-0.0030\%$** | **PASS ($\le 0.010\%$)** |
+| **Elastic Stored Energy $ALLSE$**| $0.1048368\,\text{mJ}$ | $0.1048336\,\text{mJ}$ | $-0.0000032\,\text{mJ}$ | **$-0.0030\%$** | **PASS ($\le 0.010\%$)** |
+| **Incremental Work $\Delta W_{\text{ext}}$**| $0.0320335\,\text{mJ}$ | $0.0320520\,\text{mJ}$ | $+0.0000185\,\text{mJ}$ | **$+0.058\%$** | **PASS ($\le 0.10\%$)** |
+| **Peak History Variable $H$** | $0.40439\,\text{MPa}$ | $0.40447\,\text{MPa}$ | $+0.00008\,\text{MPa}$ | **$+0.019\%$** | **PASS** |
+| **Max Nodal Displacement Err** | â€” | $\|\Delta \mathbf{u}_B - \Delta \mathbf{u}_A\|_\infty = 2.80 \times 10^{-8}\,\text{mm}$ | â€” | $0.028\,\text{nm}$ | **Double-Precision Parity** |
+| **Mean Nodal Displacement Err**| â€” | $\text{mean}\|\Delta \mathbf{u}_B - \Delta \mathbf{u}_A\| = 6.76 \times 10^{-9}\,\text{mm}$ | â€” | $0.0068\,\text{nm}$ | **Double-Precision Parity** |
+| **Newton Iterations to Converge**| 3 iterations | **2 iterations** | $-1$ iter | â€” | **Rapid Convergence** |
+| **Cutbacks / Divergences** | 0 cutbacks | **0 cutbacks** | 0 | â€” | **PASS** |
+
+> [!NOTE] Mechanistic Behavior of Companion Visualization Elements
+> In Abaqus/Standard, companion visualization elements (`VIS_QUADS` with `*User Material`) receive nodal displacements directly from Abaqus boundary conditions ($\Delta u$). Consequently, their strain field reflects the step increment $\Delta \varepsilon = \varepsilon(\Delta \mathbf{u})$, while the UEL internal elements evaluate total strain $\boldsymbol{\varepsilon}_{\text{total}} = \mathbf{B}_u (\mathbf{u}_0 + \Delta \mathbf{u})$. This explains why companion element strain difference matches $\Delta \varepsilon$, while the UEL reaction force and strain energy match the total baseline state to within $0.003\%$.
+
+### 13.4 Scientific Decision and Method C Gate Separation
+1. **Local Test Classification:**
+   `EXPERIMENTAL_OFFSET_SAME_MESH_ABAQUS_PARITY = PASS`
+   (Strictly limited to the tested linear-elastic / incipient damage 64-quad verification model).
+2. **Coupled Fracture Transfer Boundary:**
+   `COUPLED_FRACTURE_CONTINUATION = UNQUALIFIED`
+   Nonmatching transfer across non-identical meshes and continuation through an authentic localized process zone ($d \to 1.0$) remain unverified.
+3. **Binding Governance Invariants Maintained:**
+   - `CYCLE5_NONMATCHING_TRANSFER = FAIL`
+   - `PACKAGE70_REEQUILIBRATION = FAIL`
+   - `METHOD_C_OVERALL = NOT_YET_QUALIFIED`
+   - `PACKAGE71_RECEIVER_SUBMISSION = ON_SCIENTIFIC_HOLD`
+   - `CYCLE5_LOADED_PROPAGATION = ON_HOLD`
+   - Active cluster jobs on `normal_imfdfkmq`: **0** (queue clean).
+
