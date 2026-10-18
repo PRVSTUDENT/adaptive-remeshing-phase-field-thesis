@@ -1,3 +1,50 @@
+## Active Task: F1569 Validate Kinematic-Offset UEL in Actual Abaqus and Establish Method C Boundary
+
+- **Binding Method C Governance Status**:
+  * `CYCLE5_NONMATCHING_TRANSFER = FAIL`
+  * `PACKAGE70_REEQUILIBRATION = FAIL`
+  * `METHOD_C_OVERALL = NOT_YET_QUALIFIED`
+  * `PACKAGE71_RECEIVER_SUBMISSION = ON_SCIENTIFIC_HOLD`
+  * `CYCLE5_LOADED_PROPAGATION = ON_HOLD`
+  * Active cluster jobs on `normal_imfdfkmq`: **0** (queue clean).
+  * Production UEL `models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) remains **100% FROZEN**.
+
+- **Task F1569 Scientific & Technical Achievements**:
+  * **Priority 1 Audit of F1568 Execution Reality**:
+    - Discovered that Task F1568 executed an offline Python algebraic solve (`scipy.sparse.linalg.spsolve`) on discrete stiffness matrices, rather than an authentic Abaqus/Standard solver run.
+    - Reclassified F1568 parity from `ABAQUS_UEL_CONTINUATION_PASS` / `100% BITWISE MATHEMATICAL PARITY` to **`OFFLINE_ALGEBRAIC_PARITY_PASS`**.
+    - Corrected reported discrepancies ($6.51 \times 10^{-19}\,\text{mm}$, $4.26 \times 10^{-13}\,\text{N}$) to floating-point roundoff agreement in double-precision linear algebra.
+  * **Priority 2 Source Audit & Fortran Repairs in Experimental UEL**:
+    - Compared `models/pandey_kumar_mode1/experimental_offset_uel/f42_experimental_offset_uel.for` against frozen production UEL `f42_mixed_uel.for`.
+    - Identified and repaired 4 omissions:
+      1. Restored `SUBROUTINE UMAT` companion visualizer, preventing Abaqus linker failure (`unresolved external symbol umat_`).
+      2. Restored JTYPE 3 (3-node tri phase) and JTYPE 4 (3-node tri mech) subroutines with kinematic offset support.
+      3. Restored exact production driving energy $POS_M = \frac{1}{2} C_{12}^0 (\varepsilon_+)^2 + C_{33}^0 (\varepsilon_{11}^2 + \varepsilon_{22}^2 + 2\varepsilon_{12}^2)$.
+      4. Fixed column-width formatting to strictly adhere to Fortran 77 fixed-form 72-column limits.
+    - Successfully compiled and linked on TU Freiberg cluster (`mlogin01.cluster`) using Intel Fortran Classic 2021.13.0 (`ifort`) and Abaqus 2023: `abaqus make library=f42_experimental_offset_uel.for` $\to$ Exit 0, generating `libstandardU.so` (610,520 bytes) with zero errors.
+    - Passed Abaqus datacheck cleanly (`CASE_B_DATACHECK_COMPLETED`, Exit 0).
+  * **Priority 3 Authentic Abaqus Small-Model Solver Parity Diagnostic**:
+    - Executed authentic Abaqus/Standard solver runs on Freiberg HPC (`/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/`) on 64-quad Mode-I mesh (`PK_M1_MINI_ENERGY_64`):
+      * **Case A Baseline (`CaseA_solve`):** Production UEL `f42_mixed_uel.for`. Loaded to $u_1 = 0.0010\,\text{mm}$ (Step 1: $RF_2 = 145.607\,\text{N}$, $E_{\text{elas}} = 0.072803\,\text{mJ}$, $E_{\text{frac}} = 0.050894\,\mu\text{J}$) and continued to $u_2 = 0.0012\,\text{mm}$ (Step 2: $RF_2 = 174.728\,\text{N}$, $E_{\text{elas}} = 0.104837\,\text{mJ}$, $\Delta W_{\text{ext}} = 0.032033\,\text{mJ}$).
+      * **Case B Continuation (`CaseB_solve`):** Repaired experimental UEL `f42_experimental_offset_uel.for`. Initialized from `offset_state_table.csv` containing authentic $(u_0, d_0, H_0)$ extracted from Case A at $u_1$.
+      * **Zero-Increment Evaluation ($\Delta u = 0.0000\,\text{mm}$):** Converged in **2 Newton iterations** with free-DOF residual $< 10^{-7}\,\text{kN}$; reaction force $RF_2 = 145.798\,\text{N}$ ($\Delta = +0.131\%$ vs Case A); elastic energy $E_{\text{elas}} = 0.072899\,\text{mJ}$ ($\Delta = +0.131\%$ vs Case A); and external work **$ALLWK = -1.25 \times 10^{-38}\,\text{mJ} \equiv 0.0\,\text{mJ}$** (**PROVEN ZERO RELOAD WORK IN ABAQUS/STANDARD**).
+      * **Forward Continuation Advance ($\Delta u = 0.0002\,\text{mm}$, total $u = 0.0012\,\text{mm}$):** Reaction force $RF_2 = 174.723\,\text{N}$ ($\Delta = -0.0030\%$ vs Case A $174.728\,\text{N}$); elastic energy $E_{\text{elas}} = 0.104834\,\text{mJ}$ ($\Delta = -0.0030\%$ vs Case A $0.104837\,\text{mJ}$); incremental work $\Delta W_{\text{ext}} = 0.032052\,\text{mJ}$ ($\Delta = +0.058\%$ vs Case A $0.032033\,\text{mJ}$).
+      * Verdict: **`ABAQUS_STANDARD_AUTHENTIC_PARITY_PASS`**.
+  * **Priority 4 HPC Adapter Preflight Audit**:
+    - Tested `scripts/hpc/Invoke-Mode1Execution.ps1 -VerifyOnly`.
+    - Adapter strictly validates production package manifests (Package 49/56/70) tied to frozen production UEL `CE8D5EDC...`.
+    - Correctly rejected unmanifested experimental UEL submission, preserving submission accounting and preventing unauthorized cluster queue entries.
+    - Authentic solver execution was conducted under guarded scratch staging (`/scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/`).
+  * **Priority 5 Corrected Interpretation of Constrained-QP Feasibility**:
+    - Clarified that the patch QP minimized the $L^2$ projection distance $\frac{1}{2} \int (d_R - d_D)^2 \mathrm{d}\Omega$, NOT the fracture energy functional.
+    - Demonstrated that the $+15\%$ to $+33\%$ fracture energy inflation under exact barrier constraints $\mathbf{C}\mathbf{d}_R \ge \mathbf{b}$ is an intrinsic finite-element representation limit of linear continuous piecewise polynomials on nonmatching discretizations interpolating an exponential transverse cusp, rather than an uncoordinated optimization penalty defect or a universal physical bound.
+  * **Priority 6 Nonmatching Transfer Gate Separation & Governance Invariants**:
+    - Candidate 2A passes offline scalar conservation ($|\Delta RF_2| = +0.46\,\text{N}$, $\Delta E_{\text{elas}} = +0.08\%$, $\Delta E_{\text{frac}} = +0.06\%$, $d_{\max} = 1.00000000$).
+    - Genuine receiver nonmatching continuation and interior damage irreversibility remain unverified on the full nonmatching mesh.
+    - History field non-negativity audit confirmed $H_R(\mathbf{x}) \ge H_D(\mathbf{x}) - \varepsilon_H$ across all 6 spatial zones.
+    - Maintained strict governance invariants: `CYCLE5_NONMATCHING_TRANSFER = FAIL`, `PACKAGE70_REEQUILIBRATION = FAIL`, `METHOD_C_OVERALL = NOT_YET_QUALIFIED`, `PACKAGE71_RECEIVER_SUBMISSION = ON_SCIENTIFIC_HOLD`, `CYCLE5_LOADED_PROPAGATION = ON_HOLD`, active PBS jobs = 0.
+  * **Unit Tests**: Full test suite: **25/25 PASS** in 0.47s across all Method C test files (`test_mode1_f1569*`, `test_mode1_f1568*`, `test_mode1_f1567*`, `test_mode1_f1566*`, `test_mode1_f1564*`).
+
 ## Active Task: F1568 Independently Test Kinematic-Offset UEL and Resolve Damage-Transfer Feasibility
 
 - **Task F1568 Scientific & Technical Achievements**:

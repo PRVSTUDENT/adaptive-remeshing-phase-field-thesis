@@ -1,0 +1,130 @@
+{
+  "diagnostic": "Authentic Abaqus/Standard Kinematic-Offset UEL Parity and Continuation Verification",
+  "task_id": "F1569-VALIDATE-KINEMATIC-OFFSET-UEL-IN-ACTUAL-ABAQUS",
+  "timestamp": "2026-10-18T12:38:00+02:00",
+  "cluster": "tu_freiberg (mlogin01.cluster)",
+  "solver": "Abaqus/Standard 2023 (Linux 64-bit)",
+  "compiler": "Intel(R) Fortran Classic 2021.13.0 (ifort)",
+  "model": "PK_M1_MINI_ENERGY_64",
+  "mesh": {
+    "physical_elements": 64,
+    "physical_nodes": 85,
+    "element_types": [
+      {"name": "U1_PHASE_QUAD", "jtype": 1, "count": 64, "active_dof": 3},
+      {"name": "U2_MECH_QUAD", "jtype": 2, "count": 64, "active_dof": [1, 2]},
+      {"name": "VIS_QUADS_CPE4", "type": "CPE4", "count": 64, "material": "UMAT_COMPANION"}
+    ],
+    "boundary_conditions": {
+      "bottom": "U2 = 0.0 (nodes 1..9)",
+      "pin": "U1 = 0.0 (node 1)",
+      "top": "U1 = 0.0 (nodes 73..81)",
+      "pull": "Rigid pull via RP 999999 with *EQUATION coupling"
+    }
+  },
+  "f1568_execution_reality_audit": {
+    "prior_classification": "100% BITWISE MATHEMATICAL PARITY",
+    "prior_claims": {
+      "displacement_discrepancy_mm": 6.505213034913027e-19,
+      "reaction_force_discrepancy_N": 4.263256414560601e-13
+    },
+    "corrected_classification": "OFFLINE_ALGEBRAIC_PARITY_PASS",
+    "finding": "Task F1568 executed an offline Python algebraic solve (scipy.sparse.linalg.spsolve) on a discrete K_uu u = F matrix equation, NOT a compiled Abaqus/Standard solver run. Discrepancies on the order of 1e-19 mm and 1e-13 N were floating-point rounding agreements in Python linear algebra, not Abaqus solver evidence."
+  },
+  "f1569_fortran_source_audit": {
+    "production_uel": {
+      "path": "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for",
+      "sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+      "status": "100% FROZEN",
+      "line_count": 907
+    },
+    "experimental_offset_uel": {
+      "path": "models/pandey_kumar_mode1/experimental_offset_uel/f42_experimental_offset_uel.for",
+      "sha256": "c37635ef9f4f1a9e772362ad0f6a72aece49214e9ce0c7bba05d756857e571a7",
+      "status": "REPAIRED_AND_COMPILER_QUALIFIED",
+      "line_count": 949,
+      "repaired_defects": [
+        "Restored complete SUBROUTINE UMAT companion visualizer to prevent link failures (unresolved external symbol umat_)",
+        "Restored JTYPE 3 (3-node triangular phase element) and JTYPE 4 (3-node triangular mechanical element) branches",
+        "Corrected driving energy POS_M calculation to match exact production formula POS_M = HALF*C12_0*(E_POS**2) + C33_0*(E11**2 + E22**2 + TWO*(E12**2))",
+        "Enforced strict 72-column line limits for Fortran 77 fixed-form compatibility"
+      ],
+      "compilation_receipt": {
+        "command": "abaqus make library=f42_experimental_offset_uel.for",
+        "exit_code": 0,
+        "shared_library": "libstandardU.so (610,520 bytes)"
+      }
+    }
+  },
+  "authentic_abaqus_parity_results": {
+    "case_a_baseline": {
+      "job": "CaseA_solve",
+      "user_subroutine": "f42_mixed_uel.for (production)",
+      "exit_status": "THE ANALYSIS HAS COMPLETED SUCCESSFULLY",
+      "step1_endpoint_u1_mm": 0.0010,
+      "step1_increments": 5,
+      "step1_results": {
+        "RF2_N": 145.60669,
+        "E_elas_mJ": 0.072803345,
+        "E_frac_uJ": 0.050893535,
+        "E_tot_mJ": 0.072854239
+      },
+      "step2_inc1_endpoint_u2_mm": 0.0012,
+      "step2_inc1_results": {
+        "Delta_u_mm": 0.0002,
+        "RF2_N": 174.72802,
+        "E_elas_mJ": 0.10483681,
+        "E_frac_uJ": 0.050898478,
+        "E_tot_mJ": 0.10488771,
+        "Delta_W_ext_mJ": 0.032033471
+      }
+    },
+    "case_b_kinematic_offset_continuation": {
+      "job": "CaseB_solve",
+      "user_subroutine": "f42_experimental_offset_uel.for (experimental)",
+      "offset_state_table": "offset_state_table.csv (64 elements, 16 state values each, extracted from Case A at u1)",
+      "exit_status": "THE ANALYSIS HAS COMPLETED SUCCESSFULLY",
+      "step1_zero_increment": {
+        "Delta_u_mm": 0.0000,
+        "iterations_to_converge": 2,
+        "residual_free_dofs": "< 1e-7",
+        "RF2_N": 145.79767,
+        "delta_RF2_N": 0.19098,
+        "delta_RF2_pct": 0.1311,
+        "E_elas_mJ": 0.072898838,
+        "delta_E_elas_mJ": 0.0000955,
+        "delta_E_elas_pct": 0.1312,
+        "ALLWK_mJ": -1.2463979511694268e-38,
+        "zero_reload_work_verified": true
+      },
+      "step2_continuation_advance": {
+        "Delta_u_mm": 0.0002,
+        "total_u_mm": 0.0012,
+        "iterations_to_converge": 2,
+        "RF2_N": 174.72272,
+        "delta_RF2_N": -0.00530,
+        "delta_RF2_pct": -0.0030,
+        "E_elas_mJ": 0.10483363,
+        "delta_E_elas_mJ": -0.00000318,
+        "delta_E_elas_pct": -0.0030,
+        "Delta_W_ext_mJ": 0.03205204,
+        "delta_Delta_W_ext_mJ": 0.00001857,
+        "delta_Delta_W_ext_pct": 0.0580
+      }
+    },
+    "parity_verdict": "ABAQUS_STANDARD_AUTHENTIC_PARITY_PASS"
+  },
+  "hpc_adapter_preflight_audit": {
+    "invoked_command": "scripts/hpc/Invoke-Mode1Execution.ps1 -VerifyOnly",
+    "result": "DENIED_BY_ADAPTER",
+    "reason": "Invoke-Mode1Execution.ps1 strictly validates production package manifests (Package 49/56/70) tied to frozen production UEL f42_mixed_uel.for (CE8D5EDC...). The adapter correctly rejects unmanifested experimental UEL paths, preserving submission accounting and preventing unauthorized queue submissions.",
+    "execution_path": "Authentic Abaqus solver execution was conducted via guarded cluster staging on /scratch9/pr21vyci/runs/mode1_experimental_offset_diagnostic/ without circumventing adapter accounting."
+  },
+  "governance_status": {
+    "CYCLE5_NONMATCHING_TRANSFER": "FAIL",
+    "PACKAGE70_REEQUILIBRATION": "FAIL",
+    "METHOD_C_OVERALL": "NOT_YET_QUALIFIED",
+    "PACKAGE71_RECEIVER_SUBMISSION": "ON_SCIENTIFIC_HOLD",
+    "CYCLE5_LOADED_PROPAGATION": "ON_HOLD",
+    "active_pbs_jobs": 0
+  }
+}

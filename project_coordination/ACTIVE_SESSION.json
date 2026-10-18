@@ -1,9 +1,16 @@
 {
   "active": false,
-  "agent": null,
-  "task_id": null,
-  "starting_commit": null,
-  "allowed_write_scope": [],
-  "claimed_at": null,
-  "last_updated": "2026-10-18T12:05:00+02:00"
+  "agent": "gemini-antigravity",
+  "task_id": "F1569-VALIDATE-KINEMATIC-OFFSET-UEL-IN-ACTUAL-ABAQUS",
+  "starting_commit": "0b646b03",
+  "allowed_write_scope": [
+    "scripts/**",
+    "models/pandey_kumar_mode1/**",
+    "runs/hpc/**",
+    "tests/unit/**",
+    "project_coordination/**",
+    "docs/**"
+  ],
+  "claimed_at": "2026-10-18T12:10:00+02:00",
+  "last_updated": "2026-10-18T12:48:00+02:00"
 }
