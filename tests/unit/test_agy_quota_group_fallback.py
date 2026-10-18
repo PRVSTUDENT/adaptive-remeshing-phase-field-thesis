@@ -1,57 +1,45 @@
-﻿"""Exercise the installed quota adapter with synthetic API replies, no credentials."""
+"""Quota parity regression tests; synthetic replies and no credentials."""
 import importlib.util
 from pathlib import Path
 import unittest
 from unittest.mock import patch
+spec = importlib.util.spec_from_file_location('worker', Path.home() / 'OpenClawPAD/agy_profile_quota.py')
+worker = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(worker)
 
-try:
-    spec = importlib.util.spec_from_file_location('agy_worker', Path.home() / 'OpenClawPAD/agy_profile_quota.py')
-    worker = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(worker)
-except (ImportError, FileNotFoundError) as error:
-    raise unittest.SkipTest('Installed Antigravity quota worker/dependencies required') from error
-
-
-class QuotaGroupFallbackTests(unittest.TestCase):
+class QuotaParityTests(unittest.TestCase):
     def setUp(self):
-        self.primary = {'groups': [{'displayName': 'Claude and GPT models', 'buckets': [{'remainingFraction': .25}]}]}
-        self.first = patch.object(worker.antigravity, 'fetch_quota_summary', return_value=self.primary)
-        self.first.start(); self.addCleanup(self.first.stop)
-        self.http = patch.object(worker.antigravity.utils, 'http_json')
-        self.api = self.http.start(); self.addCleanup(self.http.stop)
-        worker.install_quota_group_fallback()
+        self.old = worker.antigravity._parse_bucket
+        worker.install_quota_repair()
+        self.addCleanup(setattr, worker.antigravity, '_parse_bucket', self.old)
 
-    def test_supplements_actual_missing_gemini_group(self):
-        gemini = {'displayName': 'Gemini Models', 'buckets': [{'remainingFraction': .877}]}
-        self.api.return_value = (200, {'groups': [gemini, {'displayName': 'Claude and GPT models'}]})
-        result = worker.antigravity.fetch_quota_summary('synthetic-token', 'synthetic-project')
-        self.assertEqual(result['groups'], self.primary['groups'] + [gemini])
-        self.assertEqual(self.primary['groups'][0]['buckets'][0]['remainingFraction'], .25)
-        self.assertIn('cloudcode-pa.googleapis.com/v1internal:retrieveUserQuotaSummary', self.api.call_args.args[1])
+    def test_cli_user_agent(self):
+        self.assertIn('antigravity/cli/', worker.antigravity.USER_AGENT)
+        self.assertIn('aidev_client', worker.antigravity.USER_AGENT)
 
-    def test_primary_gemini_is_authoritative_no_extra_request(self):
-        self.primary['groups'].append({'displayName': 'Gemini Models', 'buckets': []})
-        self.assertEqual(worker.antigravity.fetch_quota_summary('synthetic', None), self.primary)
-        self.api.assert_not_called()
+    def test_cli_precision(self):
+        b = worker.antigravity._parse_bucket({'remainingFraction': .5464821, 'window': 'weekly'})
+        self.assertEqual(b['remaining_pct'], 54.65)
 
-    def test_failure_does_not_invent_gemini_capacity(self):
-        self.api.return_value = (503, {})
-        self.assertEqual(worker.antigravity.fetch_quota_summary('synthetic', None), self.primary)
+    def test_disabled_is_unavailable(self):
+        b = worker.antigravity._parse_bucket({'disabled': True, 'remainingFraction': 1, 'window': '5h'})
+        self.assertIsNone(b['remaining_pct'])
+        self.assertEqual(b['status'], 'NONAPPLICABLE')
 
-    def test_401_enters_existing_bounded_refresh_path(self):
-        self.api.return_value = (401, {})
-        with self.assertRaisesRegex(RuntimeError, 'HTTP 401'):
-            worker.antigravity.fetch_quota_summary('synthetic', None)
+    def test_missing_fraction_not_invented(self):
+        self.assertIsNone(worker.antigravity._parse_bucket({'window': '5h'}))
 
-    def test_duplicate_groups_not_appended(self):
-        self.api.return_value = (200, {'groups': [{'displayName': 'Gemini Models'}, {'displayName': 'Gemini Models'}]})
-        result = worker.antigravity.fetch_quota_summary('synthetic', None)
-        self.assertEqual(len(result['groups']), 2)
+    def test_missing_gemini_not_supplemented(self):
+        data = {'groups': [{'displayName': 'Claude and GPT models', 'buckets': [{'remainingFraction': 1}]}]}
+        with patch.object(worker.antigravity.utils, 'http_json', return_value=(200, data)) as api:
+            result = worker.antigravity.fetch_quota_summary('synthetic', None)
+        self.assertEqual(result, data)
+        self.assertEqual(api.call_count, 1)
+        self.assertIn('daily-cloudcode-pa.googleapis.com', api.call_args.args[1])
 
-    def test_empty_secondary_remains_unknown(self):
-        self.api.return_value = (200, {'groups': []})
-        self.assertEqual(worker.antigravity.fetch_quota_summary('synthetic', None), self.primary)
-
+    def test_invalid_fraction_rejected(self):
+        with self.assertRaises(ValueError):
+            worker.antigravity._parse_bucket({'remainingFraction': 1.2})
 
 if __name__ == '__main__':
     unittest.main()

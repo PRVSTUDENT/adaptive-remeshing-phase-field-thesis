@@ -1,9 +1,15 @@
 {
   "active": false,
-  "agent": null,
-  "task_id": null,
-  "claimed_at": null,
-  "starting_commit": "75bc754406de8812b6d6e98654c66aa2849688b5",
-  "allowed_write_scope": [],
-  "session_report": "project_coordination/sessions/2026-10-18_0930_gemini-antigravity_F1552-OVERNIGHT-CONTROLS-CYCLE5-EVIDENCE-AND-METHOD-C-GATES.md"
+  "agent": "codex",
+  "task_id": "AGY-REFRESH-CLI-PARITY",
+  "claimed_at": "2026-10-18T05:25:08.3308030+02:00",
+  "starting_commit": "bf70d49138b2e1d35adc42b891fe707cfec99557",
+  "allowed_write_scope": [
+    "project_coordination/**",
+    "tests/unit/test_agy_quota_group_fallback.py",
+    "C:/Users/pruth/OpenClawPAD/agy_profile_quota.py",
+    "C:/Users/pruth/OpenClawPAD/Refresh-AgyAccounts.ps1"
+  ],
+  "session_report": "project_coordination/sessions/2026-10-18_codex_AGY-REFRESH-CLI-PARITY.md",
+  "released_at": "2026-10-18T05:26:34.463586+02:00"
 }
