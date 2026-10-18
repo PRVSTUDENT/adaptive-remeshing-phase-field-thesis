@@ -1,0 +1,37 @@
+{
+  "diagnostic": "Kinematic-Offset UEL Parity & Continuation Diagnostic",
+  "model": "PK_M1_MINI_ENERGY_64",
+  "elements": 64,
+  "nodes": 85,
+  "zero_increment_audit": {
+    "residual_u_free_kN": 1.734723475976807e-16,
+    "residual_d": 0.0,
+    "RF2_CaseA_N": 145.80212761463105,
+    "RF2_CaseB_N": 145.80212761463105,
+    "delta_RF2_N": 0.0,
+    "E_elas_CaseA_mJ": 0.07290106380731537,
+    "E_elas_CaseB_mJ": 0.07290106380731537,
+    "delta_E_elas_mJ": 0.0,
+    "E_frac_CaseA_uJ": 0.0,
+    "E_frac_CaseB_uJ": 0.0,
+    "delta_E_frac_uJ": 0.0,
+    "W_ext_reload_mJ": 0.0,
+    "zero_reload_work_verified": true
+  },
+  "forward_advance_audit": {
+    "u1_mm": 0.001,
+    "u2_mm": 0.0012,
+    "Delta_u_mm": 0.0002,
+    "RF2_CaseA_N": 174.96255313755688,
+    "RF2_CaseB_N": 174.9625531375573,
+    "delta_RF2_N": 4.263256414560601e-13,
+    "E_elas_CaseA_mJ": 0.1049775318825341,
+    "E_elas_CaseB_mJ": 0.10497753188253416,
+    "delta_E_elas_mJ": 5.551115123125783e-17,
+    "Delta_W_ext_CaseA_mJ": 0.03207646807521877,
+    "Delta_W_ext_CaseB_mJ": 0.03207646807521884,
+    "delta_Delta_W_ext_mJ": 6.938893903907228e-17,
+    "max_displacement_discrepancy_mm": 6.505213034913027e-19
+  },
+  "parity_pass": true
+}

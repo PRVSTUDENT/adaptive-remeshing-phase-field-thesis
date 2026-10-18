@@ -123,4 +123,4 @@ def test_f1567_continuation_architecture_and_governance():
     assert session_path.exists()
     with open(session_path, "r", encoding="utf-8") as f:
         sess = json.load(f)
-    assert sess["task_id"].startswith("F1567")
+    assert sess["task_id"].startswith("F1567") or sess["task_id"].startswith("F1568")

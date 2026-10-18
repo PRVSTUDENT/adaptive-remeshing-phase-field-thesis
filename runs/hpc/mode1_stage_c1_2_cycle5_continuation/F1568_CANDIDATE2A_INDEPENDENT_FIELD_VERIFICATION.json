@@ -1,0 +1,76 @@
+{
+  "candidate": "Candidate 2A Independent Re-verification",
+  "clipping_audit": {
+    "E_frac_donor_raw_uJ": 697.2571817106726,
+    "E_frac_donor_admissible_uJ": 696.9023859823506,
+    "delta_clipping_uJ": -0.35479572832207396,
+    "delta_clipping_pct": -0.05088448532743786
+  },
+  "verified_metrics": {
+    "RF2_N": 560.103752489459,
+    "delta_RF2_N": 0.45875248945901603,
+    "E_elas_mJ": 1.6803112574681545,
+    "delta_elas_pct": 0.08161439074717011,
+    "E_frac_uJ": 697.592494762592,
+    "delta_frac_pct": 0.059654148259129874,
+    "E_total_mJ": 2.3779037522307465,
+    "delta_tot_pct": 0.07515418976441855,
+    "d_max": 1.0
+  },
+  "history_field_audit": [
+    {
+      "region": "Crack Wake",
+      "x_mm": 0.52,
+      "y_mm": 0.5,
+      "H_donor_MPa": 0.0,
+      "H_recip_MPa": 0.0,
+      "delta_H_MPa": 0.0,
+      "non_negative": true
+    },
+    {
+      "region": "Active Process Zone",
+      "x_mm": 0.62,
+      "y_mm": 0.5,
+      "H_donor_MPa": 0.0,
+      "H_recip_MPa": 0.0,
+      "delta_H_MPa": 0.0,
+      "non_negative": true
+    },
+    {
+      "region": "Moving Crack Front",
+      "x_mm": 0.6563,
+      "y_mm": 0.5,
+      "H_donor_MPa": 0.0,
+      "H_recip_MPa": 0.0,
+      "delta_H_MPa": 0.0,
+      "non_negative": true
+    },
+    {
+      "region": "Ahead of Front",
+      "x_mm": 0.67,
+      "y_mm": 0.5,
+      "H_donor_MPa": 0.0,
+      "H_recip_MPa": 0.0,
+      "delta_H_MPa": 0.0,
+      "non_negative": true
+    },
+    {
+      "region": "Intact Virgin Ligament",
+      "x_mm": 0.75,
+      "y_mm": 0.5,
+      "H_donor_MPa": 0.0,
+      "H_recip_MPa": 0.0,
+      "delta_H_MPa": 0.0,
+      "non_negative": true
+    },
+    {
+      "region": "Outer Bulk",
+      "x_mm": 0.5,
+      "y_mm": 0.8,
+      "H_donor_MPa": 0.0,
+      "H_recip_MPa": 0.0,
+      "delta_H_MPa": 0.0,
+      "non_negative": true
+    }
+  ]
+}
