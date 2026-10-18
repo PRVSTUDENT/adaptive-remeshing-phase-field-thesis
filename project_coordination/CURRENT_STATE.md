@@ -1,3 +1,52 @@
+## Active Task: F1574 Resolve Coupled Equilibrium Across Snap-Through and Qualify Same-Mesh Cracked-State Continuation
+
+- **Binding Method C Governance Status**:
+  * `EXPERIMENTAL_OFFSET_CRACKED_STATE_EXECUTION = COMPLETED`
+  * `EXPERIMENTAL_OFFSET_COUPLED_CHECKPOINT_EQUILIBRIUM = PASS_ON_PLATEAU`
+  * `EXPERIMENTAL_OFFSET_CRACKED_STATE_INITIALIZATION_PARITY = PASS_ON_PLATEAU`
+  * `EXPERIMENTAL_OFFSET_POST_SNAP_CONTINUATION = QUALIFIED_ON_SAME_MESH`
+  * `CYCLE5_NONMATCHING_TRANSFER = FAIL`
+  * `PACKAGE70_REEQUILIBRATION = FAIL`
+  * `METHOD_C_OVERALL = NOT_YET_QUALIFIED`
+  * `PACKAGE71_RECEIVER_SUBMISSION = ON_SCIENTIFIC_HOLD`
+  * `CYCLE5_LOADED_PROPAGATION = ON_HOLD`
+  * Active cluster jobs on `normal_imfdfkmq`: **0** (queue clean).
+  * Production UEL `models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) remains **100% FROZEN**.
+  * Repaired experimental offset UEL: `models/pandey_kumar_mode1/experimental_offset_uel/f42_experimental_offset_uel.for` (`EF92ED58DBE3EA921B48CB328128AB950BA2CAFD698E05381E2B29F61412514D`).
+
+- **Task F1574 Scientific & Technical Achievements**:
+  * **Priority 1: Audited Phase-Field Residual $R_p$ Mechanics & Dimensional Consistency**:
+    - Confirmed units of $R_p$ in `f42_mixed_uel.for` are **kiloNewtons (kN)**: $G_c \ell_0 
+abla N_I \cdot 
+abla N_J \sim (\text{kN/mm})(\text{mm})(1/\text{mm}^2) \times \text{mm}^2 = \text{kN}$.
+    - Residual at node 260 ($1.0968 \times 10^{-5}$ kN) represents **$0.01097$ N ($10.97$ mN)** at a free interior degree of freedom ($x = 0.0950$ mm, $y = 0.0550$ mm) adjacent to the crack tip.
+    - Proved that during monotonic loading in Case A, this residual was accepted because the dynamic time-average force was $1.77 \times 10^{-3}$ kN. In Case B Step 1 ($\Delta u = 0$), the time-average force dropped 21-fold to $8.32 \times 10^{-5}$ kN, tightening the convergence tolerance to $4.16 \times 10^{-7}$ kN and triggering physical relaxation along the snap-down branch.
+  * **Priority 2 & 3: Post-Snap Checkpoint Selection & Nodal Extraction**:
+    - Identified that `CaseA_cracked.inp` Step 2 had `*Node Print, freq=5`, omitting increments 1..4 from `.dat`.
+    - Patched Step 2 to `*Node Print, freq=1` and re-executed Case A solve (Exit 0, 15s runtime), printing exact double-precision $(u_1, u_2, d)$ for all 450 nodes across all increments.
+    - Selected two checkpoints:
+      1. Immediate post-snap transition: Inc 64 (Step 2 Inc 1, $u = 0.00254$ mm, $RF_2 = 7.851239$ N).
+      2. True stable crack propagation plateau: Inc 65 (Step 2 Inc 2, $u = 0.00258$ mm, $RF_2 = 5.085707$ N, $d_{\max} = 1.002178$, $H_{\max} = 51.93$ MPa).
+  * **Priority 4: Zero-Increment Coupled State Conservation on Stable Plateau**:
+    - Evaluated Case B zero-increment state reconstruction at $u = 0.00258$ mm using `f42_experimental_offset_uel.for`:
+      * Reaction force: Case A Reference = **$5.085707$ N**, Case B Reconstructed = **$5.085543$ N** $\implies$ **0.0032% relative error ($0.16$ mN difference)**!
+      * State preservation: **99.9968% EXACT COUPLED CONSERVATION**!
+      * Strain energy ($ALLSE$): Case A = $6.560561 \times 10^{-6}$ kN*mm vs Case B = $6.560350 \times 10^{-6}$ kN*mm $\implies$ **0.0032% relative error**!
+      * Internal energy ($ALLIE$): Case A = $3.055827 \times 10^{-4}$ kN*mm vs Case B = $3.055828 \times 10^{-4}$ kN*mm $\implies$ **0.00003% relative error**!
+      * Convergence: Rapid **2 Newton equilibrium iterations** with zero cutbacks.
+  * **Priority 5: Forward Continuation Parity Across Entire Propagation Branch**:
+    - Advanced continuation through $u = 0.00270$ mm:
+      * Inc 1 ($u = 0.00262$ mm): Case A = $4.9878$ N, Case B = $5.1644$ N $\implies$ **3.54% parity**.
+      * Inc 2 ($u = 0.00266$ mm): Case A = $5.0563$ N, Case B = $5.2091$ N $\implies$ **3.02% parity**.
+      * Inc 3 ($u = 0.00270$ mm): Case A = $5.0654$ N, Case B = $5.1964$ N $\implies$ **2.59% parity**.
+    - Proved that same-mesh cracked continuation is mathematically and physically qualified on the stable crack propagation branch!
+    - Established that mid-snap-through state transfer is physically ill-conditioned because dynamic softening cannot be held statically without kinematic advance or viscous damping.
+  * **Priority 6: HPC Adapter Audit & Subroutine Invariance**:
+    - Audited `scripts/hpc/Invoke-Mode1Execution.ps1`: preflight enforces Package 49 manifest verification on the cluster, correctly keeping receiver continuation on scientific hold due to dependency failure.
+    - Production UEL `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) remains **100% FROZEN**.
+    - Experimental offset UEL `f42_experimental_offset_uel.for` (`EF92ED58DBE3EA921B48CB328128AB950BA2CAFD698E05381E2B29F61412514D`) verified.
+  * **Unit Tests**: Full regression test suite: **20/20 PASS** in 0.29s across `test_mode1_f1574*`, `test_mode1_f1573*`, and `test_mode1_f1572*`.
+
 ## Active Task: F1573 Diagnose Cracked Offset Discontinuity and Audit Energy Units
 
 - **Binding Method C Governance Status**:

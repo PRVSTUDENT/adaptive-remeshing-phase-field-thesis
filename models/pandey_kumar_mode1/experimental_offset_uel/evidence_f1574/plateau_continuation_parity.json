@@ -1,0 +1,29 @@
+{
+  "zero_increment_u_mm": 0.00258,
+  "zero_increment_case_a_rf2_N": 5.085706500000001,
+  "zero_increment_case_b_rf2_N": 5.0855431,
+  "zero_increment_rel_error_pct": 0.0032129262669958027,
+  "step2_continuation_rows": [
+    {
+      "increment": 1,
+      "target_u_mm": 0.00262,
+      "case_a_rf2_N": 4.9877775,
+      "case_b_rf2_N": 5.1643821,
+      "rel_error_pct": 3.5407473569139785
+    },
+    {
+      "increment": 2,
+      "target_u_mm": 0.00266,
+      "case_a_rf2_N": 5.0562982,
+      "case_b_rf2_N": 5.2090781,
+      "rel_error_pct": 3.021576140426222
+    },
+    {
+      "increment": 3,
+      "target_u_mm": 0.0026999999999999997,
+      "case_a_rf2_N": 5.0654447000000005,
+      "case_b_rf2_N": 5.1964098000000005,
+      "rel_error_pct": 2.5854610553738757
+    }
+  ]
+}
