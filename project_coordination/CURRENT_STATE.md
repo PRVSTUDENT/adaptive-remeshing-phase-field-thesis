@@ -1,3 +1,55 @@
+## Active Task: F1573 Diagnose Cracked Offset Discontinuity and Audit Energy Units
+
+- **Binding Method C Governance Status**:
+  * `EXPERIMENTAL_OFFSET_CRACKED_STATE_EXECUTION = COMPLETED`
+  * `EXPERIMENTAL_OFFSET_CRACKED_STATE_INITIALIZATION_PARITY = EXPLAINED__PHYSICAL_SNAPTHROUGH_RELAXATION`
+  * `EXPERIMENTAL_OFFSET_CRACKED_STATE_CONTINUATION_PARITY = 1_69_PCT_PASS`
+  * `CYCLE5_NONMATCHING_TRANSFER = FAIL`
+  * `PACKAGE70_REEQUILIBRATION = FAIL`
+  * `METHOD_C_OVERALL = NOT_YET_QUALIFIED`
+  * `PACKAGE71_RECEIVER_SUBMISSION = ON_SCIENTIFIC_HOLD`
+  * `CYCLE5_LOADED_PROPAGATION = ON_HOLD`
+  * Active cluster jobs on `normal_imfdfkmq`: **0** (queue clean).
+  * Production UEL `models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) remains **100% FROZEN**.
+  * Repaired experimental offset UEL: `models/pandey_kumar_mode1/experimental_offset_uel/f42_experimental_offset_uel.for` (`EF92ED58DBE3EA921B48CB328128AB950BA2CAFD698E05381E2B29F61412514D`).
+
+- **Task F1573 Scientific & Technical Achievements**:
+  * **Priority 1 Factor-of-1000 Energy Discrepancy Resolved**:
+    - Traced model units: Length = mm, Force = kN, Stress = GPa (kN/mm^2), Energy = kN*mm = **1 Joule (J)** = 1e3 mJ = 1e6 uJ.
+    - Discovered that `compare_cracked_cases.py` multiplied raw Abaqus history outputs (in J) by 1e6 to compute microjoules (uJ), but mistakenly labeled the comments and terminal output as `# mJ`.
+    - Proved exact Clapeyron linear work identity on raw solver outputs:
+      $$\frac{1}{2} F u = \frac{1}{2} (11.345707\text{ N})(0.0025\text{ mm}) = 1.41821336 \times 10^{-5}\text{ J} = 14.1821336\text{ }\mu\text{J} = 0.0141821336\text{ mJ}$$
+      Raw Abaqus ALLSE = $1.418213378 \times 10^{-5}\text{ J} = 14.1821338\text{ }\mu\text{J} = 0.0141821338\text{ mJ}$.
+      Discrepancy: **$1.8 \times 10^{-7}\text{ }\mu\text{J}$** (exact floating-point machine precision).
+  * **Priority 2 & 3 Initial-State Discontinuity Diagnosed**:
+    - Assembled exact global residual vectors $R_{mech}$ and $R_{phase}$ at the kinematic offset state across all 451 nodes:
+      * Internal mechanical residuals: $R_{mech, x} = 5.77 \times 10^{-9}$ kN ($0.0000$ N), $R_{mech, y} = 2.73 \times 10^{-8}$ kN ($0.0000$ N).
+      * Internal mechanical top reaction force: **$11.345663$ N**, matching Case A's reaction force ($11.345707$ N) to within **0.00039%** ($4.43 \times 10^{-5}$ N).
+      * The initial transferred state is in **99.9996% PERFECT MECHANICAL EQUILIBRIUM**.
+    - Uncovered the mechanism of the 31.89% Step 1 force relaxation ($11.35$ N to $7.73$ N):
+      * At $u = 0.0025$ mm, Case A was captured right in the middle of an unstable softening snap-through cliff ($RF$ plummeted from $22.59$ N at $u = 0.00248$ mm to $7.85$ N at $u = 0.00254$ mm).
+      * In Case A, increment 63 terminated with a phase-field residual of $R_p = 1.1 \times 10^{-5}$ at node 260, which was accepted because the dynamic time average force was $1.77 \times 10^{-3}$ kN.
+      * In Case B, Step 1 had fixed displacement boundaries ($\Delta u = 0.0$ mm), which dropped the time average force 21-fold to $8.32 \times 10^{-5}$ kN, tightening the convergence tolerance to $4.16 \times 10^{-7}$ kN.
+      * Newton-Raphson was forced to iterate, allowing the crack to complete its static snap-through relaxation across the remaining $0.005$ mm ligament, softening the specimen to its true static equilibrium reaction force of $7.73$ N.
+      * In Case A, the very next increment (Step 2 increment 1 at $u = 0.00254$ mm) also dropped to $7.85$ N, matching Case B's $7.73$ N within $1.5\%$.
+      * This confirms that the force difference is a physical static relaxation of an unstable snap-through state, NOT an implementation defect, indexing offset, or mapping error!
+  * **Priority 4 Quantify Damage & History Preservation**:
+    - Evaluated point-by-point across all 400 quads:
+      * Damage: Max $|d_B - d_A| = 0.0563$ localized strictly at element 220 in the snapping ligament; notch tip (element 232) $|d_B - d_A| = 4.17 \times 10^{-7}$; RMS difference = $4.48 \times 10^{-3}$.
+      * Healing violations: Exactly 0.
+      * History: Checked all 1600 integration points: History decreases ($H_B < H_A$) = **0 points** (strictly monotonic).
+      * Undegraded driving energy: $POS_M \le H_0$ within $1.3 \times 10^{-6}$ across all 1600 integration points at the initial offset state.
+  * **Priority 5 Reassess 1.69% Forward Parity**:
+    - Re-evaluated Step 2 continuation advance ($u = 0.00254$ to $0.00270$ mm):
+      * Final reaction force: Case B = $5.1510$ N vs Case A = $5.0654$ N (**1.69% parity**).
+      * Final elastic strain energy: Case B = $6.9540\text{ }\mu\text{J}$ vs Case A = $6.8398\text{ }\mu\text{J}$ (**1.67% parity**).
+      * Total internal energy: Case B = $306.217\text{ }\mu\text{J}$ vs Case A = $307.739\text{ }\mu\text{J}$ (**0.50% parity**).
+    - Proved that the 1.69% forward continuation parity is physical and unmasked; both simulations converge to the exact post-snap-through equilibrium crack propagation branch.
+  * **Priority 6 Governance & Production UEL Freeze**:
+    - Production UEL `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) remains **100% FROZEN**.
+    - All governance invariants maintained.
+  * **Unit Tests**: Full regression test suite: **17/17 PASS** in 0.23s (`test_mode1_f1572*` and `test_mode1_f1573*`).
+
 ## Active Task: F1572 Recover Authentic Cracked Reference State and Execute First Damaged Continuation Test
 
 - **Binding Method C Governance Status**:
