@@ -1,0 +1,41 @@
+{
+  "batch_name": "MODE1_EXP_NONMATCHING_CONTINUATION",
+  "adapter": "mode1-experimental-offset-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "EXPERIMENTAL_OFFSET",
+  "configuration": "EXPERIMENTAL_OFFSET",
+  "hypothesis": "Nonmatching mesh state transfer from 400-quad donor to 650-quad receiver preserves fracture energy (-1.585% <= 2.0%), authentic unclipped damage bounds (d_max = 1.002184), and enables stable zero-increment state reconstruction in Abaqus/Standard under guarded predictor control (extrapolation=NO).",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_nonmatching_transfer_continuation",
+  "files": {
+    "M1_EXP_NONMATCHING_CONT_650.inp": "5eb76bc45e4a082368530c0dc8d330e5c9451dd549cf47ef4c2062b4914bdd27",
+    "f42_experimental_offset_uel.for": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "offset_state_table.csv": "ec8298cb8a4ef7251ed85dab1858757a32883c1afaaa26ca160b04e3482bfc6f",
+    "submit_M1_EXP_NONMATCHING_CONT_650.pbs": "5b651c30772d2affd3a6f69bf31b9d2b55d01678e7109c96e11e1da9bcf4a0f5",
+    "PACKAGE_MANIFEST.json": "88761e07c57d1d6ace4d5c4048c73471a534fabb6987f29f1ae2976a3c1588a9"
+  },
+  "jobs": [
+    {
+      "id": "M1_EXP_NONMATCHING_CONT_650",
+      "pbs": "submit_M1_EXP_NONMATCHING_CONT_650.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_nonmatching_transfer_continuation/submit_M1_EXP_NONMATCHING_CONT_650.pbs\"",
+      "command_sha256": "673e74511db5ce141dd124012f7c94f4ab6a25ccdc906fe933fa8d99df686771",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Controlled nonmatching-mesh (650 quads) cracked-state reconstruction at u=0.00258 mm and forward continuation to u=0.00270 mm under extrapolation=NO",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 2,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_EXP_NONMATCHING_CONT_650.inp",
+      "datacheck": "M1_EXP_NONMATCHING_CONT_650_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_EXP_NONMATCHING_CONT_650": "Exit code 0; zero-increment state reconstruction converges cleanly in <= 5 iterations with 0 cutbacks; external work during Step 1 reconstruction evaluates to machine zero (ALLWK ~ 0); fracture energy dissipation increases monotonically during Step 2 continuation."
+  }
+}

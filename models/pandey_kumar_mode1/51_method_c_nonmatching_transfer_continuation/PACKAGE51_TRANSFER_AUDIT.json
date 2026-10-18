@@ -1,0 +1,46 @@
+{
+  "donor_mesh": {
+    "elements": 400,
+    "nodes": 446,
+    "hx": 0.005,
+    "hy": 0.005
+  },
+  "receiver_mesh": {
+    "elements": 650,
+    "nodes": 708,
+    "hx": 0.004,
+    "hy": 0.0038461538461538464
+  },
+  "donor_d_max": 1.0021837,
+  "receiver_d_max": 1.0021837,
+  "delta_d_max": 0.0,
+  "integrated_damage_donor": 0.00251982021334375,
+  "integrated_damage_receiver": 0.0025231578730025832,
+  "integrated_damage_error_pct": 0.1324562618062402,
+  "max_healing_deficit": 0.11335930204615385,
+  "healing_violation_count": 3046,
+  "healing_violation_pct": 14.929908832467405,
+  "energies_donor": {
+    "E_frac_local": 0.0002485963026582847,
+    "E_frac_grad": 5.112965041799929e-05,
+    "E_frac_total": 0.00029972595307628394,
+    "E_elas": 0.0020066104148276256,
+    "E_total": 0.0023063363679039096,
+    "max_grad_d": 123.84310222459476
+  },
+  "energies_receiver": {
+    "E_frac_local": 0.0002474032669941493,
+    "E_frac_grad": 4.7572773234671704e-05,
+    "E_frac_total": 0.00029497604022882105,
+    "E_elas": 0.0015880524760976912,
+    "E_total": 0.0018830285163265123,
+    "max_grad_d": 128.12018652129103
+  },
+  "energy_errors_pct": {
+    "E_frac_local": -0.4799088527777813,
+    "E_frac_grad": -6.9565842016307835,
+    "E_frac_total": -1.5847519371317114,
+    "E_elas": -20.858953767858818,
+    "E_total": -18.35412463976867
+  }
+}
