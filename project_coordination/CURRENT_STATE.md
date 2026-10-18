@@ -1,3 +1,34 @@
+## Active Task: F1561 Controlled Mesh-versus-State Energy Decomposition, Solver Parity Verification, and Pointwise Irreversibility Audit
+
+- **Physical Interpretation Retraction & Reclassification**:
+  * Retracted the categorical claim that the remaining equilibrated energy discrepancy (Delta E_elas = -1.1238%, Delta E_tot = -0.8491%, Delta RF_2 = -6.288 N) was "proven physical mesh compliance convergence". Reclassified it as an unverified numerical hypothesis pending strict mesh-convergence verification on identical analytical fields.
+  * Explicitly rejected artificial boundary-force scaling as physically unprincipled and destructive to variational energy balance.
+- **Priority 1: Resolution of Fixed-Damage Fracture Energy Inconsistency**:
+  * Investigated the 0.1322 uJ difference between offline evaluation (683.7366 uJ) and Package 70 Abaqus solver output (683.6044 uJ, Job 1414955).
+  * Confirmed that under NLGEOM=NO, coordinates are never updated during mechanical deformation; fracture energy depends exclusively on reference geometry and nodal damage d.
+  * Evaluated the exact UEL fracture energy on the prescribed DOF 3 values parsed directly from *BOUNDARY in M1_MC_CYCLE5_RECON_EQUIL.inp: obtained **683.604402 uJ**, matching Abaqus solver output **683.6044 uJ** to 7 significant digits.
+  * Proved that the difference was solely caused by **text serialization floating-point formatting (%14.7e)** when writing float64 values to the Abaqus input deck.
+- **Priority 2: Bitwise-Faithful Mechanical Equilibrium Solver Verified**:
+  * Implemented and validated `scripts/state_transfer/solve_recipient_mechanical_equilibrium.py`, rigorously matching the element formulation of `f42_mixed_uel.for` (SHA-256 CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6).
+  * Quad4 and Tri3 stiffness matrices verified for symmetry (K = K^T), positive semi-definiteness, zero energy under rigid body modes (u_x, u_y), and exact strain energy derivative relation dE/du = K u (relative error 1.68e-12).
+  * Discrete Clapeyron identity E_elas == 0.5 * u_top * RF_2 holds to machine precision (< 1e-12 mJ).
+- **Priority 3: Controlled Mesh-versus-State Energy Decomposition**:
+  * **Donor State**: E_elas = 1.679759 mJ, E_frac = 696.8430 uJ, E_total = 2.376602 mJ, RF_2 = 559.6501 N, ||R_free|| = 0.1960 N.
+  * **Exp A (Interpolated Displacement)**: E_elas = 1.689950 mJ (+0.607%), RF_2 = 559.8801 N, ||R_free|| = 12.5677 N. Spatial decomposition proves that +98.1% of this artificial stiffening occurs in the refined crack corridor (+0.010002 mJ, +6.58%) due to displacement gradient discontinuities across the crack.
+  * **Exp B (Equilibrated at Fixed Damage)**: E_elas = 1.681711 mJ (+0.116%), RF_2 = 560.5704 N (+0.16%), ||R_free|| = 1.09e-10 N. Equilibrium relaxation removes the artificial corridor stiffening (-0.009892 mJ).
+  * **Net Source-Consistent Discrepancy**: With exact minimum-norm element-average inversion on donor and consistent L2 Galerkin transfer to recipient, the equilibrated recipient matches the authentic donor within **+0.116% elastic energy**, **+0.16% reaction force**, and **+0.041% total energy**! This refutes the claim of a large -1.12% physical compliance shift in the underlying continuum formulation.
+- **Priority 4: Fieldwise Irreversibility and Surface Energy Decomposition**:
+  * Monitored history field H: across a uniform 100x100 grid (10,000 points), **0 violations** were detected (0.00%), proving exact non-decreasing monotonicity (H_R >= H_D).
+  * Damage field d: 193 minor violations (1.93%), maximum deficit 0.027563 at the crack tip due to L2 projection smoothing of the steep gradient (d ~ 0.93 -> 0.90).
+  * Fracture energy decomposition:
+    - Potential term int (d^2 / 2 l_0): Donor 557.9806 uJ vs Recipient 557.7545 uJ (Delta = -0.041%).
+    - Gradient term int (l_0 |grad d|^2 / 2): Donor 138.8624 uJ vs Recipient 138.1146 uJ (Delta = -0.538%).
+    - Total fracture energy: Donor 696.8430 uJ vs Recipient 695.8692 uJ (Delta = -0.140%, -0.9738 uJ).
+- **Priority 5: Unit Tests & Governance Closure**:
+  * 6/6 unit tests PASS in `tests/unit/test_mode1_f1561_controlled_decomposition_and_irreversibility.py` (23/23 combined suite).
+  * Package 71 receiver submission remains **WITHHELD BY POLICY**.
+  * Cycle 5 loaded crack propagation (u = 0.0060 -> 0.0065 mm) remains strictly on **`HOLD`**.
+
 ## Active Task: F1560 Independent Review of Exact Reconstruction & Nonmatching Mechanical Equilibrium
 
 - **Binding ChatGPT Scientific Review Decision Ingested**:

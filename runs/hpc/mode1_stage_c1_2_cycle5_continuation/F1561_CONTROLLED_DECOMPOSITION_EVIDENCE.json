@@ -1,0 +1,75 @@
+{
+    "donor_authentic": {
+        "E_elas_mJ": 1.6797590064555075,
+        "E_frac_uJ": 696.8429980350801,
+        "E_total_mJ": 2.3766020044905876,
+        "RF2_N": 559.6501177994085,
+        "res_free_norm_N": 0.19596293124185024
+    },
+    "exp_A_interpolated": {
+        "E_elas_mJ": 1.6899500970971606,
+        "E_frac_uJ": 695.8691867153188,
+        "E_total_mJ": 2.3858192838124794,
+        "RF2_N": 559.880115325579,
+        "res_free_norm_N": 12.5677407742574
+    },
+    "exp_B_equilibrated": {
+        "E_elas_mJ": 1.6817111704793748,
+        "E_frac_uJ": 695.8691867153188,
+        "E_total_mJ": 2.377580357194694,
+        "RF2_N": 560.5703901596173,
+        "res_free_norm_N": 1.0937150771009199e-10,
+        "clapeyron_discrepancy_mJ": 4.354294702579864e-13
+    },
+    "regional_decomposition": {
+        "donor": {
+            "r1_elas_mJ": 0.1520653829570152,
+            "r2_elas_mJ": 1.5276936234984864,
+            "total_elas_mJ": 1.6797590064555015,
+            "r1_frac_uJ": 642.9585593528882,
+            "r2_frac_uJ": 53.88443868218984,
+            "total_frac_uJ": 696.842998035078,
+            "r1_vol": 0.030058571503116655,
+            "r2_vol": 0.9699414284968749
+        },
+        "exp_A": {
+            "r1_elas_mJ": 0.16206744959528385,
+            "r2_elas_mJ": 1.5278826475018583,
+            "total_elas_mJ": 1.6899500970971422,
+            "r1_frac_uJ": 642.0152745986171,
+            "r2_frac_uJ": 53.85391211670361,
+            "total_frac_uJ": 695.8691867153207,
+            "r1_vol": 0.029933829305217933,
+            "r2_vol": 0.9700661706947816
+        },
+        "exp_B": {
+            "r1_elas_mJ": 0.15217517370405567,
+            "r2_elas_mJ": 1.5295359967753506,
+            "total_elas_mJ": 1.6817111704794063,
+            "r1_frac_uJ": 642.0152745986171,
+            "r2_frac_uJ": 53.85391211670361,
+            "total_frac_uJ": 695.8691867153207,
+            "r1_vol": 0.029933829305217933,
+            "r2_vol": 0.9700661706947816
+        }
+    },
+    "irreversibility_audit": {
+        "grid_points": 10000,
+        "h_violations_count": 0,
+        "d_violations_count": 193,
+        "max_h_violation": 0.0,
+        "max_d_violation": 0.02756326506116258
+    },
+    "fracture_components": {
+        "donor": {
+            "E_frac_pot_uJ": 557.9806302331277,
+            "E_frac_grad_uJ": 138.86236780195142,
+            "E_frac_total_uJ": 696.8429980350793
+        },
+        "recip": {
+            "E_frac_pot_uJ": 557.754538434201,
+            "E_frac_grad_uJ": 138.11464828112446,
+            "E_frac_total_uJ": 695.8691867153254
+        }
+    }
+}
