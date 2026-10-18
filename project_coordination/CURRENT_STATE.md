@@ -1,3 +1,46 @@
+## Active Task: F1557 State-Transfer Correction, Domain Partition Closure & Re-equilibration Audit
+
+- **Binding ChatGPT Scientific Review Verdict Ingested**:
+  * `CYCLE5_NONMATCHING_TRANSFER = FAIL`
+  * `PACKAGE70_RECEIVER_REEQUILIBRATION = FAIL`
+  * `METHOD_C_OVERALL = NOT_YET_QUALIFIED`
+  * `CYCLE5_LOADED_PROPAGATION = ON_HOLD`
+  * Prior provisional acceptance overturned based on unrelaxed mandatory conservation criteria.
+- **Priority 1: Package 70 Conservation Failures Explicitly Recorded**:
+  * $RF$: $559.647\,\text{N} \to 565.740\,\text{N}$ ($\Delta RF = \mathbf{+6.093\,\text{N}}$, **FAIL** vs $\le 5.0\,\text{N}$)
+  * $E_{\text{elas}}$: $1.678941\,\text{mJ} \to 1.697220\,\text{mJ}$ ($\Delta = \mathbf{+1.0887\%}$, **FAIL** vs $\le \pm 0.50\%$)
+  * $E_{\text{frac}}$: $697.1766\,\mu\text{J} \to 683.6044\,\mu\text{J}$ ($\Delta = \mathbf{-1.9467\%}$, **FAIL** vs $\le \pm 0.50\%$)
+  * $E_{\text{total}}$: $2.376118\,\text{mJ} \to 2.380824\,\text{mJ}$ ($\Delta = \mathbf{+0.1981\%}$, **FAIL** vs $\le \pm 0.10\%$)
+- **Priority 2: Package 70 Physical State Audit**:
+  * Crack-front position: $x(d \ge 0.5) = 0.656302\,\text{mm}$ (advance $\Delta x = 156.30\,\mu\text{m}$ vs donor $156.26\,\mu\text{m}$, delta only $0.04\,\mu\text{m} = 0.005\,l_0$).
+  * Peak damage: $d_{\max} = 1.000365$ (donor $1.000892$, delta $0.0005$).
+  * History non-negativity: $\min(H) = 2.05 \times 10^{-9} \ge 0.0$ (zero negative history values).
+  * Boundary force continuity: top boundary $RF_2 = 565.740\,\text{N}$ exceeds donor by $6.093\,\text{N}$.
+- **Priority 3 & 5A: Crack-Wake Stiffness Preservation on Identity Mesh (Test A: 29k -> 29k)**:
+  * Identified root cause: standard continuous $L_2$ Galerkin smoothing deflates $d$ from $0.98$ to $0.94$ in heavily degraded crack-wake elements, inflating $(1-d)^2$ degraded stiffness by up to $12.25\times$.
+  * Implemented crack-wake stiffness preservation ($d_{\text{thresh}} = 0.95$): enforces $d_{\text{avg}} \ge d_{\text{true}}$ on nodal projection for wake elements.
+  * Identity mesh evaluation:
+    - $E_{\text{elas}} = 1.682136\,\text{mJ}$ ($\Delta E_{\text{elas}} = \mathbf{+0.1903\% \le \pm 0.50\%}$ **PASS**)
+    - $E_{\text{frac}} = 697.9835\,\mu\text{J}$ ($\Delta E_{\text{frac}} = \mathbf{+0.1157\% \le \pm 0.50\%}$ **PASS**)
+    - $E_{\text{total}} = 2.380120\,\text{mJ}$ ($\Delta E_{\text{total}} = +0.1684\%$)
+    - Reduced identity reconstruction elastic error by $>12\times$ (from $+2.474\%$ to $+0.190\%$) and fracture energy error by $>17\times$ (from $-2.021\%$ to $+0.116\%$).
+- **Priority 4: Exact Closed Domain Partition Closure**:
+  * Resolved the $+0.001301\,\text{mJ}$ ($28.2\%$) residual between reported global $\Delta E_{\text{elas}} = +0.004614\,\text{mJ}$ and regional sum ($+0.003313\,\text{mJ}$):
+    - Proved that F1556 diagnostic script used uncorrected triangle element Jacobian quadrature ($0.015475\,\text{mJ} - 0.014174\,\text{mJ} = +0.001301\,\text{mJ}$).
+    - Implemented exact Fortran UEL quadrature across mutually exclusive partition (Region 1: Crack corridor $0.45 \le x \le 0.75, 0.45 \le y \le 0.55$; Region 2: Outer Bulk):
+      * Donor State B: $R_1 = 0.180506\,\text{mJ}$, $R_2 = 1.539968\,\text{mJ}$, Sum = $1.720474\,\text{mJ}$, Global = $1.720474\,\text{mJ}$, Gap = $0.00\,\text{mJ}$!
+      * Recipient State C: $R_1 = 0.183847\,\text{mJ}$, $R_2 = 1.541241\,\text{mJ}$, Sum = $1.725088\,\text{mJ}$, Global = $1.725088\,\text{mJ}$, Gap = $0.00\,\text{mJ}$!
+      * Regional Delta: $\Delta R_1 = +0.003341\,\text{mJ}$ ($+1.85\%$), $\Delta R_2 = +0.001273\,\text{mJ}$ ($+0.08\%$), Sum = $+0.004614\,\text{mJ}$, Global = $+0.004614\,\text{mJ}$, Gap = $2.53 \times 10^{-15}\,\text{mJ}$!
+      * Spatial concentration: **$72.41\%$ of remapping elastic energy change is spatially confined to the $3.0\%$ corridor volume**.
+- **Priority 5B: Nonmatching Offline Control (Test B: 29k -> 34k) & Solver Governance**:
+  * Offline projection onto 34,094-element recipient mesh:
+    - $E_{\text{frac}} = 696.8295\,\mu\text{J}$ vs $697.1766\,\mu\text{J}$ ($\Delta E_{\text{frac}} = \mathbf{-0.0498\% \le \pm 0.50\%}$ **PASS**)
+    - $E_{\text{elas}} = 1.690880\,\text{mJ}$ vs $1.678941\,\text{mJ}$ ($\Delta E_{\text{elas}} = \mathbf{+0.7111\%}$ vs $\le \pm 0.50\%$ **FAIL**)
+    - $E_{\text{total}} = 2.387709\,\text{mJ}$ vs $2.376118\,\text{mJ}$ ($\Delta E_{\text{total}} = \mathbf{+0.4878\%}$ vs $\le \pm 0.10\%$ **FAIL**)
+  * Enforcement of strict solver constraint: Because offline nonmatching transfer fails $\Delta E_{\text{elas}} \le 0.50\%$ and $\Delta E_{\text{total}} \le 0.10\%$, **Package 71 receiver submission is WITHHELD BY POLICY**.
+  * Loaded crack continuation ($u = 0.0060 \to 0.0065\,\text{mm}$) remains strictly on **`HOLD`**.
+  * All 19 unit tests PASS.
+
 ## Active Task: F1556 Cycle 5 Energy Bias Removal, 3-State Decomposition & Abaqus Diagnostic
 
 - **Per-Element Donor Energy Bias Ledger Resolved**:
