@@ -135,7 +135,7 @@ def build_consistent_l2_donor_nodal_d(
     d_sol, info = spla.cg(M, f_vec, rtol=1e-10, atol=1e-12, maxiter=500)
     print(f"  CG solver converged with info={info} in {time.time()-t_solve:.2f}s")
 
-    d_sol_clamped = np.clip(d_sol, 0.0, 1.0009)
+    d_sol_clamped = np.clip(d_sol, 0.0, 1.0)
     donor_d_nodal = {node_ids[i]: float(d_sol_clamped[i]) for i in range(num_nodes)}
 
     if crack_wake_threshold is not None:
@@ -152,7 +152,7 @@ def build_consistent_l2_donor_nodal_d(
                     if d_recon < d_true:
                         deficit = d_true - d_recon
                         for n in conn:
-                            donor_d_nodal[n] = min(1.0009, donor_d_nodal[n] + deficit)
+                            donor_d_nodal[n] = min(1.0, donor_d_nodal[n] + deficit)
 
     print(f"  Donor nodal d: min={min(donor_d_nodal.values()):.6f}, max={max(donor_d_nodal.values()):.6f}")
     return donor_d_nodal, donor_data
@@ -239,7 +239,7 @@ def project_consistent_l2_to_recipient(
     d_recip_sol, info = spla.cg(M_recip, f_vec, rtol=1e-10, atol=1e-12, maxiter=500)
     print(f"  CG solver on recipient converged with info={info} in {time.time()-t_solve:.2f}s")
 
-    d_recip_clamped = np.clip(d_recip_sol, 0.0, 1.0009)
+    d_recip_clamped = np.clip(d_recip_sol, 0.0, 1.0)
     recip_d_nodal = {node_ids[i]: float(d_recip_clamped[i]) for i in range(num_nodes)}
     print(f"  Recipient nodal d: min={min(recip_d_nodal.values()):.6f}, max={max(recip_d_nodal.values()):.6f}")
 
