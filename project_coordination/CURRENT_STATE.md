@@ -1,3 +1,36 @@
+## Active Task: F1563 Damage Irreversibility Resolution, 2D Mesh Geometry Verification, and Staged Plan Synthesis
+
+- **Condensed Staged Plan Established**:
+  * **Stage 1 (Diagnostics & Characterization — Completed)**: Priorities 1 & 4. Unified damage-violation sampling across 4 datasets and 4 tolerances; 2D mesh geometry partition and element density verification.
+  * **Stage 2 (Constrained Transfer Formulation & Recalculation — Next Action)**: Priorities 2 & 3. Formulate and solve sparse constrained quadratic programming problem ($\min \frac{1}{2}\|d_R - d_D\|^2 + \frac{\alpha l_0^2}{2}\|\nabla d_R - \nabla d_D\|^2$) enforcing strict bounds and monotonicity; recompute full scalar force and energy balance against authentic Package 65 ODB.
+  * **Stage 3 (Solver Feasibility & Governed Execution)**: Priorities 5 & 6. Audit Package 71 displacement initialization mechanics (`*INITIAL CONDITIONS, TYPE=DISPLACEMENT` vs reload); gated submission decision via `Invoke-Mode1Execution.ps1` under strict pass/fail rules.
+- **Priority 1: Empirical Resolution of Damage Violation Discrepancy**:
+  * Demonstrated that the discrepancy between F1561 (193 violations on 10,000 points) and F1562 (4,742 / 2,687 violations) is entirely explained by sampling domain bounds and numerical tolerances:
+    - F1561 sampled the interior grid $[0.01, 0.99]^2$ at $\epsilon_d = 10^{-4}$, detecting exactly **193 violations (1.93%)** with maximum deficit $0.027563$.
+    - F1562 sampled the full boundary grid $[0.0, 1.0]^2$ at tight tolerance $\epsilon_d = 10^{-6}$, detecting **4,742 violations (47.4%)** for standard L2 and **2,687 violations (26.9%)** after node-level monotonic correction.
+    - Regional decomposition proves that **$89.7\%$ of violations at $\epsilon_d = 10^{-6}$ (4,260 out of 4,749) occur in the undamaged bulk** ($|y - 0.5| > 0.05\,\text{mm}$), where $d \approx 10^{-8} - 10^{-6}$ and floating-point discretization noise triggers false violations.
+    - At all 33,975 recipient finite-element nodes, node-level monotonic correction ($d_{R,i} = \max(d_{R,i}^{L_2}, d_D(x_i))$) satisfies $d_R(x_i) \ge d_D(x_i)$ with **zero violations (0.00%)** and **zero maximum deficit (0.000000)**.
+    - In the active process zone ($[0.50, 0.70] \times [0.48, 0.52]$, Dataset D), 223 violations ($2.23\%$) remain at $\epsilon_d = 10^{-2}$ due to sub-element linear interpolation sag across non-matching element boundaries, requiring a constrained element-envelope formulation.
+- **Priority 4: Verified 2D Geometry of 5-Band Mesh Partition**:
+  * Total domain area verified: $\sum \text{area}_i = 1.000000\,\text{mm}^2$ for both donor and recipient meshes ($\Delta = 0.000000$).
+  * Total element counts verified: Donor = 29,293 ($\Delta = 0$), Recipient = 34,094 ($\Delta = 0$). Confirmed strict disjoint partition with zero double counting of co-located UEL/UMAT layers.
+  * Band metrics:
+    - Band 1 (Crack Wake, $x < 0.500$): Elements $3,058 \to 3,481$ ($+13.8\%$), Density $61,523 \to 69,315\,\text{el/mm}^2$, $h_{\text{med}} = 1.72 \to 1.59\,\mu\text{m}$ ($0.23 \to 0.21\,l_0$).
+    - Band 2 (Active Corridor, $0.500 \le x < 0.6413$): Elements $2,981 \to 3,102$ ($+4.1\%$), Density $212,775 \to 219,980\,\text{el/mm}^2$, $h_{\text{med}} = 1.66 \to 1.71\,\mu\text{m}$ ($0.22 \to 0.23\,l_0$).
+    - Band 3 (Moving Crack Front, $0.6413 \le x \le 0.6713$): Elements $96 \to 120$ (**$+25.0\%$**), Density $31,098 \to 39,618\,\text{el/mm}^2$ (**$+27.4\%$**), $h_{\min} = 4.14 \to 2.79\,\mu\text{m}$ (**$-32.6\%$**, $0.37\,l_0$), $h_{\text{med}} = 5.67 \to 4.86\,\mu\text{m}$ (**$-14.3\%$**, $0.65\,l_0$).
+    - Band 4 (Ahead of Moving Front, $0.6713 < x \le 0.6863$): Elements $43 \to 42$ ($-2.3\%$), Density $30,578 \to 28,358\,\text{el/mm}^2$, $h_{\text{med}} = 5.78 \to 5.85\,\mu\text{m}$ ($0.78\,l_0$).
+    - Band 5 (Bulk / Outer Region): Elements $23,115 \to 27,349$ ($+18.3\%$), Density $24,807 \to 29,371\,\text{el/mm}^2$, $h_{\text{med}} = 5.53 \to 5.12\,\mu\text{m}$ ($0.68\,l_0$).
+  * Proved that native remeshing concentrates refinement directly at the active process zone singular stress field, while leaving Band 4 ahead of the tip unrefined ($0.78\,l_0$).
+- **Priority 5: Package 71 Mechanical Initialization Mechanics**:
+  * Established that Package 70 input deck lacked `*INITIAL CONDITIONS, TYPE=DISPLACEMENT`, forcing Abaqus to perform a complete mechanical reload from $u=0$ to $u=0.0060\,\text{mm}$ and accumulating $W_{\text{ext}} \approx 1.69\,\text{mJ}$ rather than testing a zero-increment relaxation.
+  * Specified `*INITIAL CONDITIONS, TYPE=DISPLACEMENT` serialization for Package 71 to achieve unperturbed mechanical relaxation.
+- **Binding Governance Status**:
+  * `CYCLE5_NONMATCHING_TRANSFER = FAIL`
+  * `PACKAGE70_REEQUILIBRATION = FAIL`
+  * `METHOD_C_OVERALL = NOT_YET_QUALIFIED`
+  * `PACKAGE71_RECEIVER_SUBMISSION = WITHHELD_BY_POLICY`
+  * `CYCLE5_LOADED_PROPAGATION = ON_HOLD`
+
 ## Active Task: F1562 Resolution of Conflicting Equilibrium Quantities, Crack-Tip Healing Audit, and Native Refinement Crack-Tracking Verification
 
 - **Priority 1: Resolution of F1560 versus F1561 Equilibrium Contradiction**:

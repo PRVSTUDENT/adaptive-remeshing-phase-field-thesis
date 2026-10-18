@@ -1,0 +1,482 @@
+{
+  "irreversibility_audit": {
+    "Dataset A (F1561 Interior Grid, 10k pts, [0.01, 0.99]^2)": {
+      "tol_1e-06": {
+        "tol": 1e-06,
+        "l2_violations": 4749,
+        "l2_percent": 47.49,
+        "l2_max_deficit": 0.02756326506116258,
+        "l2_by_region": {
+          "Wake": 235,
+          "Front": 87,
+          "Ligament": 167,
+          "Bulk": 4260
+        },
+        "node_irrev_violations": 2730,
+        "node_irrev_percent": 27.3,
+        "node_irrev_max_deficit": 0.02756326506116258,
+        "node_irrev_by_region": {
+          "Wake": 134,
+          "Front": 22,
+          "Ligament": 73,
+          "Bulk": 2501
+        }
+      },
+      "tol_1e-04": {
+        "tol": 0.0001,
+        "l2_violations": 193,
+        "l2_percent": 1.9300000000000002,
+        "l2_max_deficit": 0.02756326506116258,
+        "l2_by_region": {
+          "Wake": 7,
+          "Front": 58,
+          "Ligament": 18,
+          "Bulk": 110
+        },
+        "node_irrev_violations": 93,
+        "node_irrev_percent": 0.9299999999999999,
+        "node_irrev_max_deficit": 0.02756326506116258,
+        "node_irrev_by_region": {
+          "Wake": 3,
+          "Front": 14,
+          "Ligament": 8,
+          "Bulk": 68
+        }
+      },
+      "tol_1e-03": {
+        "tol": 0.001,
+        "l2_violations": 27,
+        "l2_percent": 0.27,
+        "l2_max_deficit": 0.02756326506116258,
+        "l2_by_region": {
+          "Wake": 0,
+          "Front": 26,
+          "Ligament": 1,
+          "Bulk": 0
+        },
+        "node_irrev_violations": 9,
+        "node_irrev_percent": 0.09,
+        "node_irrev_max_deficit": 0.02756326506116258,
+        "node_irrev_by_region": {
+          "Wake": 0,
+          "Front": 9,
+          "Ligament": 0,
+          "Bulk": 0
+        }
+      },
+      "tol_1e-02": {
+        "tol": 0.01,
+        "l2_violations": 4,
+        "l2_percent": 0.04,
+        "l2_max_deficit": 0.02756326506116258,
+        "l2_by_region": {
+          "Wake": 0,
+          "Front": 4,
+          "Ligament": 0,
+          "Bulk": 0
+        },
+        "node_irrev_violations": 4,
+        "node_irrev_percent": 0.04,
+        "node_irrev_max_deficit": 0.02756326506116258,
+        "node_irrev_by_region": {
+          "Wake": 0,
+          "Front": 4,
+          "Ligament": 0,
+          "Bulk": 0
+        }
+      }
+    },
+    "Dataset B (Full Boundary Grid, 10k pts, [0.0, 1.0]^2)": {
+      "tol_1e-06": {
+        "tol": 1e-06,
+        "l2_violations": 4742,
+        "l2_percent": 47.42,
+        "l2_max_deficit": 0.04649432051449365,
+        "l2_by_region": {
+          "Wake": 222,
+          "Front": 93,
+          "Ligament": 165,
+          "Bulk": 4262
+        },
+        "node_irrev_violations": 2687,
+        "node_irrev_percent": 26.87,
+        "node_irrev_max_deficit": 0.04435786303296729,
+        "node_irrev_by_region": {
+          "Wake": 123,
+          "Front": 22,
+          "Ligament": 69,
+          "Bulk": 2473
+        }
+      },
+      "tol_1e-04": {
+        "tol": 0.0001,
+        "l2_violations": 259,
+        "l2_percent": 2.59,
+        "l2_max_deficit": 0.04649432051449365,
+        "l2_by_region": {
+          "Wake": 5,
+          "Front": 62,
+          "Ligament": 21,
+          "Bulk": 171
+        },
+        "node_irrev_violations": 112,
+        "node_irrev_percent": 1.1199999999999999,
+        "node_irrev_max_deficit": 0.04435786303296729,
+        "node_irrev_by_region": {
+          "Wake": 4,
+          "Front": 17,
+          "Ligament": 7,
+          "Bulk": 84
+        }
+      },
+      "tol_1e-03": {
+        "tol": 0.001,
+        "l2_violations": 32,
+        "l2_percent": 0.32,
+        "l2_max_deficit": 0.04649432051449365,
+        "l2_by_region": {
+          "Wake": 1,
+          "Front": 30,
+          "Ligament": 1,
+          "Bulk": 0
+        },
+        "node_irrev_violations": 13,
+        "node_irrev_percent": 0.13,
+        "node_irrev_max_deficit": 0.04435786303296729,
+        "node_irrev_by_region": {
+          "Wake": 0,
+          "Front": 13,
+          "Ligament": 0,
+          "Bulk": 0
+        }
+      },
+      "tol_1e-02": {
+        "tol": 0.01,
+        "l2_violations": 5,
+        "l2_percent": 0.05,
+        "l2_max_deficit": 0.04649432051449365,
+        "l2_by_region": {
+          "Wake": 0,
+          "Front": 5,
+          "Ligament": 0,
+          "Bulk": 0
+        },
+        "node_irrev_violations": 4,
+        "node_irrev_percent": 0.04,
+        "node_irrev_max_deficit": 0.04435786303296729,
+        "node_irrev_by_region": {
+          "Wake": 0,
+          "Front": 4,
+          "Ligament": 0,
+          "Bulk": 0
+        }
+      }
+    },
+    "Dataset C (Recipient Nodal Points, 34,228 pts)": {
+      "tol_1e-06": {
+        "tol": 1e-06,
+        "l2_violations": 18938,
+        "l2_percent": 55.74098601913171,
+        "l2_max_deficit": 0.02075923998761653,
+        "l2_by_region": {
+          "Wake": 2330,
+          "Front": 2540,
+          "Ligament": 413,
+          "Bulk": 13655
+        },
+        "node_irrev_violations": 0,
+        "node_irrev_percent": 0.0,
+        "node_irrev_max_deficit": 0.0,
+        "node_irrev_by_region": {
+          "Wake": 0,
+          "Front": 0,
+          "Ligament": 0,
+          "Bulk": 0
+        }
+      },
+      "tol_1e-04": {
+        "tol": 0.0001,
+        "l2_violations": 3351,
+        "l2_percent": 9.863134657836644,
+        "l2_max_deficit": 0.02075923998761653,
+        "l2_by_region": {
+          "Wake": 692,
+          "Front": 1880,
+          "Ligament": 75,
+          "Bulk": 704
+        },
+        "node_irrev_violations": 0,
+        "node_irrev_percent": 0.0,
+        "node_irrev_max_deficit": 0.0,
+        "node_irrev_by_region": {
+          "Wake": 0,
+          "Front": 0,
+          "Ligament": 0,
+          "Bulk": 0
+        }
+      },
+      "tol_1e-03": {
+        "tol": 0.001,
+        "l2_violations": 557,
+        "l2_percent": 1.6394407652685798,
+        "l2_max_deficit": 0.02075923998761653,
+        "l2_by_region": {
+          "Wake": 21,
+          "Front": 533,
+          "Ligament": 3,
+          "Bulk": 0
+        },
+        "node_irrev_violations": 0,
+        "node_irrev_percent": 0.0,
+        "node_irrev_max_deficit": 0.0,
+        "node_irrev_by_region": {
+          "Wake": 0,
+          "Front": 0,
+          "Ligament": 0,
+          "Bulk": 0
+        }
+      },
+      "tol_1e-02": {
+        "tol": 0.01,
+        "l2_violations": 18,
+        "l2_percent": 0.052980132450331126,
+        "l2_max_deficit": 0.02075923998761653,
+        "l2_by_region": {
+          "Wake": 0,
+          "Front": 18,
+          "Ligament": 0,
+          "Bulk": 0
+        },
+        "node_irrev_violations": 0,
+        "node_irrev_percent": 0.0,
+        "node_irrev_max_deficit": 0.0,
+        "node_irrev_by_region": {
+          "Wake": 0,
+          "Front": 0,
+          "Ligament": 0,
+          "Bulk": 0
+        }
+      }
+    },
+    "Dataset D (Process Zone Corridor, 10k pts, [0.50,0.70]x[0.48,0.52])": {
+      "tol_1e-06": {
+        "tol": 1e-06,
+        "l2_violations": 5175,
+        "l2_percent": 51.74999999999999,
+        "l2_max_deficit": 0.045791960022381506,
+        "l2_by_region": {
+          "Wake": 0,
+          "Front": 4409,
+          "Ligament": 766,
+          "Bulk": 0
+        },
+        "node_irrev_violations": 1762,
+        "node_irrev_percent": 17.62,
+        "node_irrev_max_deficit": 0.04520064031303228,
+        "node_irrev_by_region": {
+          "Wake": 0,
+          "Front": 1567,
+          "Ligament": 195,
+          "Bulk": 0
+        }
+      },
+      "tol_1e-04": {
+        "tol": 0.0001,
+        "l2_violations": 4749,
+        "l2_percent": 47.49,
+        "l2_max_deficit": 0.045791960022381506,
+        "l2_by_region": {
+          "Wake": 0,
+          "Front": 4120,
+          "Ligament": 629,
+          "Bulk": 0
+        },
+        "node_irrev_violations": 1572,
+        "node_irrev_percent": 15.72,
+        "node_irrev_max_deficit": 0.04520064031303228,
+        "node_irrev_by_region": {
+          "Wake": 0,
+          "Front": 1427,
+          "Ligament": 145,
+          "Bulk": 0
+        }
+      },
+      "tol_1e-03": {
+        "tol": 0.001,
+        "l2_violations": 2550,
+        "l2_percent": 25.5,
+        "l2_max_deficit": 0.045791960022381506,
+        "l2_by_region": {
+          "Wake": 0,
+          "Front": 2438,
+          "Ligament": 112,
+          "Bulk": 0
+        },
+        "node_irrev_violations": 933,
+        "node_irrev_percent": 9.33,
+        "node_irrev_max_deficit": 0.04520064031303228,
+        "node_irrev_by_region": {
+          "Wake": 0,
+          "Front": 919,
+          "Ligament": 14,
+          "Bulk": 0
+        }
+      },
+      "tol_1e-02": {
+        "tol": 0.01,
+        "l2_violations": 266,
+        "l2_percent": 2.6599999999999997,
+        "l2_max_deficit": 0.045791960022381506,
+        "l2_by_region": {
+          "Wake": 0,
+          "Front": 266,
+          "Ligament": 0,
+          "Bulk": 0
+        },
+        "node_irrev_violations": 223,
+        "node_irrev_percent": 2.23,
+        "node_irrev_max_deficit": 0.04520064031303228,
+        "node_irrev_by_region": {
+          "Wake": 0,
+          "Front": 223,
+          "Ligament": 0,
+          "Bulk": 0
+        }
+      }
+    }
+  },
+  "donor_geometry": {
+    "Band 1 (Crack Wake, x < 0.500)": {
+      "count": 3058,
+      "area_mm2": 0.049705298897379485,
+      "density_per_mm2": 61522.615653383,
+      "h_min_um": 0.5073483379036536,
+      "h_median_um": 1.7238673302147978,
+      "h_p90_um": 6.61400548593899,
+      "h_max_um": 16.504744784793914,
+      "h_over_l0_min": 0.06764644505382049,
+      "h_over_l0_median": 0.22984897736197304,
+      "h_over_l0_p90": 0.8818673981251988,
+      "h_over_l0_max": 2.200632637972522
+    },
+    "Band 2 (Active Corridor, 0.500 <= x < 0.6413)": {
+      "count": 2981,
+      "area_mm2": 0.014010098038626392,
+      "density_per_mm2": 212775.09920210877,
+      "h_min_um": 0.5591628565388358,
+      "h_median_um": 1.66452716865938,
+      "h_p90_um": 3.287095270709305,
+      "h_max_um": 6.294742831937253,
+      "h_over_l0_min": 0.07455504753851144,
+      "h_over_l0_median": 0.2219369558212507,
+      "h_over_l0_p90": 0.43827936942790735,
+      "h_over_l0_max": 0.8392990442583004
+    },
+    "Band 3 (Moving Front, 0.6413 <= x <= 0.6713)": {
+      "count": 96,
+      "area_mm2": 0.0030870571227225863,
+      "density_per_mm2": 31097.578108737478,
+      "h_min_um": 4.140112488765172,
+      "h_median_um": 5.672868317304098,
+      "h_p90_um": 6.396087617865405,
+      "h_max_um": 7.066117177120477,
+      "h_over_l0_min": 0.552014998502023,
+      "h_over_l0_median": 0.7563824423072132,
+      "h_over_l0_p90": 0.852811682382054,
+      "h_over_l0_max": 0.9421489569493969
+    },
+    "Band 4 (Ahead of Front, 0.6713 < x <= 0.6863)": {
+      "count": 43,
+      "area_mm2": 0.0014062590000122055,
+      "density_per_mm2": 30577.582080987064,
+      "h_min_um": 3.244550194719087,
+      "h_median_um": 5.778852686347102,
+      "h_p90_um": 6.626884220818842,
+      "h_max_um": 7.1303760747440394,
+      "h_over_l0_min": 0.4326066926292116,
+      "h_over_l0_median": 0.770513691512947,
+      "h_over_l0_p90": 0.8835845627758456,
+      "h_over_l0_max": 0.950716809965872
+    },
+    "Band 5 (Bulk / Outer Region)": {
+      "count": 23115,
+      "area_mm2": 0.9317912869412593,
+      "density_per_mm2": 24807.057464422483,
+      "h_min_um": 0.6803961200866097,
+      "h_median_um": 5.527204399394274,
+      "h_p90_um": 9.329943448355415,
+      "h_max_um": 19.529399547703374,
+      "h_over_l0_min": 0.09071948267821463,
+      "h_over_l0_median": 0.7369605865859034,
+      "h_over_l0_p90": 1.2439924597807221,
+      "h_over_l0_max": 2.6039199396937835
+    }
+  },
+  "recipient_geometry": {
+    "Band 1 (Crack Wake, x < 0.500)": {
+      "count": 3481,
+      "area_mm2": 0.05021969643740445,
+      "density_per_mm2": 69315.43292657768,
+      "h_min_um": 0.4802729051506195,
+      "h_median_um": 1.5909857477231972,
+      "h_p90_um": 6.466590786737945,
+      "h_max_um": 15.49986846088101,
+      "h_over_l0_min": 0.06403638735341594,
+      "h_over_l0_median": 0.21213143302975965,
+      "h_over_l0_p90": 0.8622121048983927,
+      "h_over_l0_max": 2.0666491281174677
+    },
+    "Band 2 (Active Corridor, 0.500 <= x < 0.6413)": {
+      "count": 3102,
+      "area_mm2": 0.014101309507282042,
+      "density_per_mm2": 219979.5698688905,
+      "h_min_um": 0.5603695217557777,
+      "h_median_um": 1.7071458205885732,
+      "h_p90_um": 3.093278978640669,
+      "h_max_um": 5.853926979535388,
+      "h_over_l0_min": 0.07471593623410369,
+      "h_over_l0_median": 0.22761944274514312,
+      "h_over_l0_p90": 0.41243719715208926,
+      "h_over_l0_max": 0.7805235972713851
+    },
+    "Band 3 (Moving Front, 0.6413 <= x <= 0.6713)": {
+      "count": 120,
+      "area_mm2": 0.0030289655522096337,
+      "density_per_mm2": 39617.48588142901,
+      "h_min_um": 2.789367647799094,
+      "h_median_um": 4.8571868341282745,
+      "h_p90_um": 5.926513339019365,
+      "h_max_um": 6.722344561626585,
+      "h_over_l0_min": 0.37191568637321254,
+      "h_over_l0_median": 0.6476249112171033,
+      "h_over_l0_p90": 0.7902017785359154,
+      "h_over_l0_max": 0.896312608216878
+    },
+    "Band 4 (Ahead of Front, 0.6713 < x <= 0.6863)": {
+      "count": 42,
+      "area_mm2": 0.0014810581663251832,
+      "density_per_mm2": 28358.102979986827,
+      "h_min_um": 4.5049503186572055,
+      "h_median_um": 5.8491882767585,
+      "h_p90_um": 6.619844739400822,
+      "h_max_um": 7.089057062459714,
+      "h_over_l0_min": 0.6006600424876274,
+      "h_over_l0_median": 0.7798917702344668,
+      "h_over_l0_p90": 0.882645965253443,
+      "h_over_l0_max": 0.945207608327962
+    },
+    "Band 5 (Bulk / Outer Region)": {
+      "count": 27349,
+      "area_mm2": 0.9311689703367787,
+      "density_per_mm2": 29370.60927847349,
+      "h_min_um": 0.5486744514483222,
+      "h_median_um": 5.116938864637712,
+      "h_p90_um": 8.521760880069454,
+      "h_max_um": 17.85686229233888,
+      "h_over_l0_min": 0.07315659352644296,
+      "h_over_l0_median": 0.6822585152850282,
+      "h_over_l0_p90": 1.1362347840092604,
+      "h_over_l0_max": 2.380914972311851
+    }
+  }
+}
