@@ -1,0 +1,247 @@
+{
+  "metadata": {
+    "task_id": "F1564-EXECUTE-CONSTRAINED-TRANSFER-AND-VERIFY-DISPLACEMENT-INITIALIZATION",
+    "timestamp": "2026-10-18 10:39:59",
+    "donor_mesh_elements": 29293,
+    "recipient_mesh_elements": 34094,
+    "alpha_regularization": 1.0,
+    "l0_mm": 0.0075
+  },
+  "sag_statistics": {
+    "max_sag": 0.12825492961806162,
+    "elevated_nodes_count": 1004,
+    "active_process_zone_count": 3297
+  },
+  "authentic_odb_ground_truth": {
+    "E_elas_mJ": 1.678941,
+    "E_frac_uJ": 697.1766,
+    "E_total_mJ": 2.376118,
+    "RF2_N": 559.645,
+    "d_max": 1.0009,
+    "crack_front_x_mm": 0.656302
+  },
+  "candidate_evaluations": {
+    "Candidate_1_Standard_L2": {
+      "energies": {
+        "E_elas_mJ": 1.681700044428987,
+        "E_frac_uJ": 695.899096720252,
+        "E_total_mJ": 2.377599141149239,
+        "RF2_N": 560.5666814762766,
+        "res_free_N": 1.1006558012515546e-10,
+        "clapeyron_diff_mJ": 1.5720758028692217e-13
+      },
+      "discrepancies_vs_odb": {
+        "delta_RF_N": 0.9216814762766035,
+        "delta_elas_pct": 0.16433242317549515,
+        "delta_frac_pct": -0.18323955218060606,
+        "delta_tot_pct": 0.06233449471949749,
+        "pass_RF": true,
+        "pass_elas": true,
+        "pass_frac": true,
+        "pass_tot": true,
+        "all_pass": true
+      },
+      "crack_front_x_mm": 0.655306995,
+      "irreversibility_dataset_D": {
+        "tol_1e-04": {
+          "tol": 0.0001,
+          "violations_count": 4787,
+          "violations_pct": 47.870000000000005,
+          "max_deficit": 0.05262661579313732,
+          "by_region": {
+            "Wake": 0,
+            "Front": 4192,
+            "Ligament": 595,
+            "Bulk": 0
+          }
+        },
+        "tol_1e-02": {
+          "tol": 0.01,
+          "violations_count": 307,
+          "violations_pct": 3.0700000000000003,
+          "max_deficit": 0.05262661579313732,
+          "by_region": {
+            "Wake": 0,
+            "Front": 307,
+            "Ligament": 0,
+            "Bulk": 0
+          }
+        }
+      },
+      "irreversibility_dataset_C": {
+        "tol_1e-06": {
+          "tol": 1e-06,
+          "violations_count": 18409,
+          "violations_pct": 54.18395879323031,
+          "max_deficit": 0.0207354585005326,
+          "by_region": {
+            "Wake": 2105,
+            "Front": 2427,
+            "Ligament": 385,
+            "Bulk": 13492
+          }
+        },
+        "tol_1e-04": {
+          "tol": 0.0001,
+          "violations_count": 4621,
+          "violations_pct": 13.601177336276674,
+          "max_deficit": 0.0207354585005326,
+          "by_region": {
+            "Wake": 1046,
+            "Front": 1916,
+            "Ligament": 95,
+            "Bulk": 1564
+          }
+        }
+      }
+    },
+    "Candidate_2_Node_Monotonic": {
+      "energies": {
+        "E_elas_mJ": 1.6806702047696143,
+        "E_frac_uJ": 697.3361807686615,
+        "E_total_mJ": 2.378006385538276,
+        "RF2_N": 560.2234015898024,
+        "res_free_N": 1.0989783924710765e-10,
+        "clapeyron_diff_mJ": 2.0694557179012918e-13
+      },
+      "discrepancies_vs_odb": {
+        "delta_RF_N": 0.5784015898024109,
+        "delta_elas_pct": 0.10299377819793819,
+        "delta_frac_pct": 0.02288957613630448,
+        "delta_tot_pct": 0.07947355890052947,
+        "pass_RF": true,
+        "pass_elas": true,
+        "pass_frac": true,
+        "pass_tot": true,
+        "all_pass": true
+      },
+      "crack_front_x_mm": 0.655306995,
+      "irreversibility_dataset_D": {
+        "tol_1e-04": {
+          "tol": 0.0001,
+          "violations_count": 1724,
+          "violations_pct": 17.24,
+          "max_deficit": 0.055009630090572914,
+          "by_region": {
+            "Wake": 0,
+            "Front": 1548,
+            "Ligament": 176,
+            "Bulk": 0
+          }
+        },
+        "tol_1e-02": {
+          "tol": 0.01,
+          "violations_count": 253,
+          "violations_pct": 2.53,
+          "max_deficit": 0.055009630090572914,
+          "by_region": {
+            "Wake": 0,
+            "Front": 253,
+            "Ligament": 0,
+            "Bulk": 0
+          }
+        }
+      },
+      "irreversibility_dataset_C": {
+        "tol_1e-06": {
+          "tol": 1e-06,
+          "violations_count": 0,
+          "violations_pct": 0.0,
+          "max_deficit": 2.0858081928309957e-10,
+          "by_region": {
+            "Wake": 0,
+            "Front": 0,
+            "Ligament": 0,
+            "Bulk": 0
+          }
+        },
+        "tol_1e-04": {
+          "tol": 0.0001,
+          "violations_count": 0,
+          "violations_pct": 0.0,
+          "max_deficit": 2.0858081928309957e-10,
+          "by_region": {
+            "Wake": 0,
+            "Front": 0,
+            "Ligament": 0,
+            "Bulk": 0
+          }
+        }
+      }
+    },
+    "Candidate_3_Constrained_Sobolev": {
+      "energies": {
+        "E_elas_mJ": 1.6671879274191759,
+        "E_frac_uJ": 721.9240704405597,
+        "E_total_mJ": 2.3891119978597355,
+        "RF2_N": 555.7293091396682,
+        "res_free_N": 1.0847239128284882e-10,
+        "clapeyron_diff_mJ": 1.7119639039719914e-13
+      },
+      "discrepancies_vs_odb": {
+        "delta_RF_N": -3.915690860331779,
+        "delta_elas_pct": -0.7000289218515804,
+        "delta_frac_pct": 3.5496702615319715,
+        "delta_tot_pct": 0.546858273020765,
+        "pass_RF": true,
+        "pass_elas": false,
+        "pass_frac": false,
+        "pass_tot": false,
+        "all_pass": false
+      },
+      "crack_front_x_mm": 0.660247505,
+      "irreversibility_dataset_D": {
+        "tol_1e-04": {
+          "tol": 0.0001,
+          "violations_count": 234,
+          "violations_pct": 2.34,
+          "max_deficit": 0.032235219267287785,
+          "by_region": {
+            "Wake": 0,
+            "Front": 205,
+            "Ligament": 29,
+            "Bulk": 0
+          }
+        },
+        "tol_1e-02": {
+          "tol": 0.01,
+          "violations_count": 54,
+          "violations_pct": 0.54,
+          "max_deficit": 0.032235219267287785,
+          "by_region": {
+            "Wake": 0,
+            "Front": 54,
+            "Ligament": 0,
+            "Bulk": 0
+          }
+        }
+      },
+      "irreversibility_dataset_C": {
+        "tol_1e-06": {
+          "tol": 1e-06,
+          "violations_count": 0,
+          "violations_pct": 0.0,
+          "max_deficit": 6.2572724779386135e-12,
+          "by_region": {
+            "Wake": 0,
+            "Front": 0,
+            "Ligament": 0,
+            "Bulk": 0
+          }
+        },
+        "tol_1e-04": {
+          "tol": 0.0001,
+          "violations_count": 0,
+          "violations_pct": 0.0,
+          "max_deficit": 6.2572724779386135e-12,
+          "by_region": {
+            "Wake": 0,
+            "Front": 0,
+            "Ligament": 0,
+            "Bulk": 0
+          }
+        }
+      }
+    }
+  }
+}

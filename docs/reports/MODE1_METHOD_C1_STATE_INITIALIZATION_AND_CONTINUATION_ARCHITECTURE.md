@@ -479,8 +479,44 @@ In an actual finite element solver implementation, achieving $\|\mathbf{R}^{(0)}
 3. **Approve Thesis Chapter Positioning:**
    - Authorize presenting Method B in Chapter 4 as the successful engineering baseline resolving the force plateau.
    - Authorize presenting Method C in Chapter 5 as an advanced methodological investigation detailing commercial solver barriers and establishing the Kinematic-Offset architecture as the future research foundation.
-4. **HPC Execution Status:**
-   - Confirm that Gate 6C PBS execution remains on hold (`AUTHORIZED=false`, 0 active cluster jobs).
+---
+
+## 9. Addendum: Task F1564 Constrained State Transfer, Displacement Initialization Verification, and Native Spatial Band Evidence (18 October 2026)
+
+### 9.1 Commercial Abaqus Static Step Displacement Initialization Feasibility
+- **Finding:** `PACKAGE71_INITIAL_DISPLACEMENT_RESTORATION = UNSUPPORTED`
+- **Root Cause & Solver Architecture Boundary:**
+  In Abaqus/Standard, `*INITIAL CONDITIONS, TYPE=DISPLACEMENT` is strictly restricted to dynamic steps or heat transfer/mass diffusion and is explicitly rejected in static steps:
+  `***ERROR: *INITIAL CONDITIONS, TYPE=DISPLACEMENT is not allowed in a *STATIC step`
+  Therefore, nodal displacement degrees of freedom 1 and 2 cannot be initialized to nonzero values at the start of a static step. When the recipient mesh is submitted with boundary conditions applying the current top displacement $u = 0.0060\,\text{mm}$, the solver starts from an undeformed configuration ($u \equiv 0$ at $t = 0$), accumulating $W_{\text{ext}} \approx 1.69\,\text{mJ}$ as a structural reload rather than continuing an existing equilibrium state.
+- **Governing Execution Decision:**
+  Because in-situ displacement continuation is mathematically and architecturally unsupported by commercial Abaqus/Standard for static steps without an unsupported solver mechanism:
+  `PACKAGE71_RECEIVER_SUBMISSION = WITHHELD_BY_POLICY`
+  `CYCLE5_LOADED_PROPAGATION = ON_HOLD`
+  Zero unphysical jobs are submitted to the HPC scheduler.
+
+### 9.2 Constrained Nonmatching Phase-Field Projection & Multi-Metric Energy Audit
+A rigorous optimization and multi-metric audit was executed for Task F1564 comparing three transfer candidates against authentic Package 65 ODB ground truth (Job 1414920 at $u = 0.0060\,\text{mm}$, $E_{\text{elas}} = 1.678941\,\text{mJ}$, $E_{\text{frac}} = 697.1766\,\mu\text{J}$, $E_{\text{tot}} = 2.376118\,\text{mJ}$, $RF_2 = 559.645\,\text{N}$, $x_f = 0.656302\,\text{mm}$):
+
+| Formulation Candidate | $\Delta RF_2$ [N] (limit $\le 5.0$) | $\Delta E_{\text{elas}}$ [\%] (limit $\le 0.50$) | $\Delta E_{\text{frac}}$ [\%] (limit $\le 0.50$) | $\Delta E_{\text{tot}}$ [\%] (limit $\le 0.10$) | Dataset C Nodal Violations (tol=$10^{-6}$) | Dataset D PZ Violations (tol=$10^{-2}$) | Overall Assessment |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Candidate 1: Standard Unconstrained $L_2$** | $+0.9217$ (PASS) | $+0.1643\%$ (PASS) | $-0.1832\%$ (PASS) | $+0.0623\%$ (PASS) | 18,409 (54.18\%) | 307 (3.07\%) | Energy passes; high nodal irreversibility |
+| **Candidate 2: Node-Level Monotonic $L_2$** | **$+0.5784$ (PASS)** | **$+0.1030\%$ (PASS)** | **$+0.0229\%$ (PASS)** | **$+0.0795\%$ (PASS)** | **0 (0.00\%) (PASS)** | 253 (2.53\%) | **ALL 4 ENERGY METRICS PASS DECISIVELY** |
+| **Candidate 3: Sobolev with Envelope Lifting** | $-3.9157$ (PASS) | $-0.7000\%$ (**FAIL**) | $+3.5497\%$ (**FAIL**) | $+0.5469\%$ (**FAIL**) | 0 (0.00\%) (PASS) | 54 (0.54\%) | Subelement sag suppressed; energy blown |
+
+**Key Physical Finding:** On linear $C^0$ elements across nonmatching discretizations, sub-element chordal sag is a geometric consequence of linear interpolation over exponential damage gradients ($d \approx \exp(-s/\ell_0)$). Attempting to eliminate sub-element sag via nodal envelope lifting artificially inflates fracture surface energy by $+3.55\%$ and destroys global scalar energy conservation! Candidate 2 achieves the optimal physical balance.
+
+### 9.3 Native Crack-Front Spatial Band Refinement Analysis
+Analysis of element counts and densities across 5 spatial bands ($x \in [0.45, 0.70]$, $|y - 0.50| \le 0.05\,\text{mm}$) reveals the targeted adaptation driven by MISESERI:
+- **Band 1 (Wake, $x \in [0.45, 0.50]$):** Donor: 2,058 ($411.6\text{k}/\text{mm}^2$), Recipient: 2,359 ($471.8\text{k}/\text{mm}^2$), Ratio: 1.15x
+- **Band 2 (Early Prop, $x \in [0.50, 0.55]$):** Donor: 2,093 ($418.6\text{k}/\text{mm}^2$), Recipient: 2,074 ($414.8\text{k}/\text{mm}^2$), Ratio: 0.99x
+- **Band 3 (Mid Prop, $x \in [0.55, 0.60]$):** Donor: 681 ($136.2\text{k}/\text{mm}^2$), Recipient: 778 ($155.6\text{k}/\text{mm}^2$), Ratio: 1.14x
+- **Band 4 (Pre-Front, $x \in [0.60, 0.65]$):** Donor: 241 ($48.2\text{k}/\text{mm}^2$), Recipient: 289 ($57.8\text{k}/\text{mm}^2$), **Ratio: 1.20x (Peak Refinement)**
+- **Band 5 (Crack Front, $x \in [0.65, 0.70]$):** Donor: 145 ($29.0\text{k}/\text{mm}^2$), Recipient: 156 ($31.2\text{k}/\text{mm}^2$), Ratio: 1.08x
+
+The highest adaptive refinement boost occurs in Band 4, directly ahead of the crack front ($x_f \approx 0.656\,\text{mm}$), fully consistent with stress recovery error concentration.
+The verified figure is registered as `results/figures/mode1_method_c_forward_refinement/fig_mode1_cycle5_crack_front_refinement_and_miseseri.png`.
 
 ---
 *Report compiled and verified under Mandatory Multi-Agent Bootstrap Protocol v2.*
+
