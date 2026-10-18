@@ -1,0 +1,42 @@
+{
+  "pbs_job_id": "1415074.mmaster02",
+  "job_name": "PK_M1_COARSE_FINE_CONT",
+  "batch_name": "MODE1_COARSE_PREANALYSIS_DENSITY_SENSITIVITY",
+  "adapter": "mode1-continuum-preanalysis-v1",
+  "status": "COMPLETED",
+  "exit_code": 0,
+  "exec_host": "mnode097/0",
+  "queue": "normal_imfdfkmq",
+  "resources": {
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime_seconds": 48,
+    "cput_seconds": 35
+  },
+  "mesh_properties": {
+    "elements": 4900,
+    "nodes": 5076,
+    "element_type": "CPE4",
+    "nominal_hx_mm": 0.0142857,
+    "nominal_hy_mm": 0.0142857,
+    "crack_slit_a0_mm": 0.5,
+    "crack_slit_duplicate_node_pairs": 36
+  },
+  "step_metrics": {
+    "step_name": "Step-1",
+    "total_increments": 100,
+    "total_iterations": 100,
+    "total_cutbacks": 0,
+    "prescribed_u_mm": 0.0050,
+    "terminal_rf2_n": 674.22454,
+    "structural_stiffness_k0_kn_per_mm": 134.8449,
+    "miseseri_output_available": true
+  },
+  "scientific_findings": {
+    "linear_elastic_solve_complete": "Abaqus/Standard static linear-elastic boundary value problem solved 100 increments monotonically with zero cutbacks and Exit 0.",
+    "miseseri_field_generated": "MISESERI, MISESAVG, S, E, EVOL field outputs successfully written to ODB (70.7 MB) across all 100 increments.",
+    "stiffness_agreement": "Measured linear-elastic structural stiffness K0 = 134.84 kN/mm matches the canonical unnotched Mode-I plate stiffness (~138 kN/mm) within 2.2%.",
+    "coarse_fine_comparison_ready": "Provides high-resolution (4,900 CPE4, h=14.3 um) continuum stress error indicator distribution to compare against canonical 2,906-element pre-analysis for downstream adaptive remeshing."
+  },
+  "acceptance_verdict": "PASS"
+}

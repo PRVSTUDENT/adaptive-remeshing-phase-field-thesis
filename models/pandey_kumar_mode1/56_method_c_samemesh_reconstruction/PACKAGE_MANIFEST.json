@@ -1,0 +1,14 @@
+{
+  "package_name": "PACKAGE_56_METHOD_C_SAMEMESH_RECONSTRUCTION",
+  "scientific_scope": "MODE1",
+  "technical_stage": "EXPERIMENTAL_OFFSET",
+  "created_at": "2026-10-18T20:18:00+02:00",
+  "purpose": "Same-geometry cracked-state reconstruction at u = 0.00270 mm and forward continuation to u = 0.00290 mm under f42_experimental_offset_uel.for on identical 650-element grid to isolate experimental UEL behavior with zero spatial interpolation error",
+  "files": {
+    "M1_650_SAMEMESH_RECON_CONT.inp": "f4874d068faf4758e79412c5bf1cb27d0ff99af24c00d7c2dbddc8f46b5ae415",
+    "f42_experimental_offset_uel.for": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "offset_state_table.csv": "ce5cb4bdca394fb07b60b9b3d0e4278480766f460507a61e7da8858520a44f13",
+    "submit_M1_650_SAMEMESH_RECON_CONT.pbs": "a48f3749dfa45e4b45def1e8b860b22e9188fd21abdef2175360cfad365f6b70"
+  }
+}

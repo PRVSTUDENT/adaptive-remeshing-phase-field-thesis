@@ -1,0 +1,59 @@
+{
+  "package_name": "53_method_c_corrected_nonmatching_transfer",
+  "task_id": "F1579",
+  "description": "Corrected Sharp Slit Nonmatching Mesh State Transfer & Continuation (400 -> 650 quads, a0=0.040 mm)",
+  "donor_package": "50_method_c_experimental_offset_continuation",
+  "donor_mesh": {
+    "name": "Donor_400_a040",
+    "elements": 400,
+    "nodes": 450,
+    "hx_mm": 0.005,
+    "hy_mm": 0.005,
+    "slit_a0_mm": 0.04,
+    "slit_y_mm": 0.05,
+    "duplicate_node_pairs": 9
+  },
+  "receiver_mesh": {
+    "name": "Receiver_650_Matched_a040",
+    "elements": 650,
+    "nodes": 713,
+    "hx_mm": 0.004,
+    "hy_mm": 0.0038461538461538464,
+    "slit_a0_mm": 0.04,
+    "slit_y_mm": 0.05,
+    "duplicate_node_pairs": 11,
+    "ligament_shared_nodes": 15
+  },
+  "files": {
+    "M1_EXP_NONMATCHING_CONT_650.inp": {
+      "sha256": "bdfee81485c7b3ebb050397841bae3f6437936db5d207c879c6bcb363d9cf285",
+      "description": "Abaqus 2023 input deck with 650 quads, corrected sharp slit a0=0.040 mm"
+    },
+    "offset_state_table.csv": {
+      "sha256": "dbdb3b83d3af1df23c800b747846d15f1aec975365a3bb4cc4ddd67b2d9e9a9a",
+      "description": "Transferred nodal displacements, phase-field damage, and GP history from 400-quad donor checkpoint"
+    },
+    "f42_experimental_offset_uel.for": {
+      "sha256": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d",
+      "description": "Offset-continuation UEL (bitwise identical to Package 50)"
+    },
+    "submit_M1_EXP_NONMATCHING_CONT_650.pbs": "46bb019b3b1a2eb0c976ce1a3df07616076058e23229647ce18eedda19bc2c86"
+  },
+  "transfer_metrics": {
+    "donor_max_d": 1.0021837,
+    "receiver_max_d": 1.0021742320150002,
+    "delta_max_d": 9.46798499978918e-06,
+    "donor_int_damage": 0.00251234971895625,
+    "receiver_int_damage": 0.0025142182976086416,
+    "delta_int_damage_pct": 0.07437573830954738,
+    "donor_E_frac_kNmm": 0.0002963177364647719,
+    "receiver_E_frac_kNmm": 0.0002914386969020075,
+    "delta_E_frac_pct": -1.6465567066534574,
+    "donor_E_elas_kNmm": 7.907727934164297e-06,
+    "receiver_E_elas_kNmm": 1.5753863303135728e-05,
+    "delta_E_elas_pct": 99.2211092022177,
+    "donor_E_tot_kNmm": 0.0003042254643989362,
+    "receiver_E_tot_kNmm": 0.0003071925602051432,
+    "delta_E_tot_pct": 0.9752950207732023
+  }
+}

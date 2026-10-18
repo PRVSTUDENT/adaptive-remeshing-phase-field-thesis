@@ -29,7 +29,7 @@ def run_shell(body, expected_status=0):
 
 def check(payload):
     global RUN
-    if payload.get('batch', {}).get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1'):
+    if payload.get('batch', {}).get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1', 'mode1-continuum-preanalysis-v1'):
         target=payload['batch'].get('remote_run_dir','')
         require(re.fullmatch(r'/scratch9/pr21vyci/runs/mode1_[a-z0-9_/]+',target) and '..' not in target, 'Unsafe Mode-I scratch path')
         RUN=Path(target)

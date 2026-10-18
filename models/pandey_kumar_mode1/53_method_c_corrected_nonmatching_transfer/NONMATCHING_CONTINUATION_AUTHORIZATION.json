@@ -1,0 +1,41 @@
+{
+  "batch_name": "MODE1_EXP_NONMATCHING_CONT_650",
+  "adapter": "mode1-experimental-offset-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "EXPERIMENTAL_OFFSET",
+  "configuration": "EXPERIMENTAL_OFFSET",
+  "hypothesis": "Correcting receiver sharp slit geometry from a0=0.020 mm to a0=0.040 mm eliminates the welded ligament opening displacement jump, restores zero-increment force continuity (RF2 approx 5.09 N), and enables clean monotonic forward continuation with extrapolation=NO.",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_nonmatching_transfer_continuation_corrected",
+  "files": {
+    "M1_EXP_NONMATCHING_CONT_650.inp": "bdfee81485c7b3ebb050397841bae3f6437936db5d207c879c6bcb363d9cf285",
+    "f42_experimental_offset_uel.for": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "offset_state_table.csv": "dbdb3b83d3af1df23c800b747846d15f1aec975365a3bb4cc4ddd67b2d9e9a9a",
+    "submit_M1_EXP_NONMATCHING_CONT_650.pbs": "46bb019b3b1a2eb0c976ce1a3df07616076058e23229647ce18eedda19bc2c86",
+    "PACKAGE_MANIFEST.json": "9daaf36c336e32676dd7aca787dfa2e69c12621c7aef52d4c2e1e6aaae64cc7a"
+  },
+  "jobs": [
+    {
+      "id": "M1_EXP_NONMATCHING_CONT_650",
+      "pbs": "submit_M1_EXP_NONMATCHING_CONT_650.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_nonmatching_transfer_continuation_corrected/submit_M1_EXP_NONMATCHING_CONT_650.pbs\"",
+      "command_sha256": "d4ad3e76685cdcddc6479240ef09509494d0683ea17f786755d90ed373020ecb",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Corrected slit nonmatching mesh state transfer & continuation (400 -> 650 quads, a0=0.040 mm) under offset UEL",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 4,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_EXP_NONMATCHING_CONT_650.inp",
+      "datacheck": "M1_EXP_NONMATCHING_CONT_650_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_EXP_NONMATCHING_CONT_650": "Exit code 0; zero-increment plateau force discontinuity <= 5.0% (relative to donor RF = 5.0857 N); fracture energy discontinuity <= 2.0%; clean Newton convergence with 0 cutbacks."
+  }
+}

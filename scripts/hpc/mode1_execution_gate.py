@@ -46,8 +46,8 @@ def validate_manifest(path, root=ROOT):
     path=Path(path).resolve()
     require(path.is_relative_to((root/'models/pandey_kumar_mode1').resolve()), 'Manifest outside Mode-I models')
     batch=load(path)
-    require(batch.get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1') and batch.get('scientific_scope')=='MODE1', 'Qualified Mode-I manifest required')
-    require(batch.get('technical_stage') in ('C1-0','C1-1','C1-2','MODE1_BASELINE','EXPERIMENTAL_OFFSET'), 'Outside active scientific stages')
+    require(batch.get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1', 'mode1-continuum-preanalysis-v1') and batch.get('scientific_scope')=='MODE1', 'Qualified Mode-I manifest required')
+    require(batch.get('technical_stage') in ('C1-0','C1-1','C1-2','MODE1_BASELINE','EXPERIMENTAL_OFFSET','CONTINUUM_PREANALYSIS'), 'Outside active scientific stages')
     require(batch.get('automatic_retry') is False, 'Blind automatic retries disallowed')
     jobs=batch['jobs']
     require(1 <= len(jobs)==batch['max_submissions'] <= 2, 'Batch must contain 1-2 named jobs')
@@ -61,9 +61,13 @@ def validate_manifest(path, root=ROOT):
         require(actual==expected,'Candidate hash mismatch: '+name)
         files[name]=actual
     is_experimental = (batch.get('adapter') == 'mode1-experimental-offset-v1' or batch.get('configuration') == 'EXPERIMENTAL_OFFSET')
+    is_continuum = (batch.get('adapter') == 'mode1-continuum-preanalysis-v1' or batch.get('configuration') == 'CONTINUUM_PREANALYSIS')
     if is_experimental:
         require(batch.get('hypothesis'), 'Scientific hypothesis required for experimental configuration')
         require(files.get('f42_experimental_offset_uel.for')==EXPERIMENTAL_OFFSET_UEL and files.get('job_notifications.sh'), 'Experimental offset UEL and notifications required')
+    elif is_continuum:
+        require(batch.get('hypothesis'), 'Scientific hypothesis required for continuum pre-analysis configuration')
+        require(files.get('job_notifications.sh'), 'Notifications required for continuum pre-analysis configuration')
     else:
         require(files.get('f42_mixed_uel.for')==FROZEN_UEL and files.get('job_notifications.sh'), 'Frozen UEL and notifications required')
     require(batch.get('acceptance'),'Scientific acceptance criteria required')

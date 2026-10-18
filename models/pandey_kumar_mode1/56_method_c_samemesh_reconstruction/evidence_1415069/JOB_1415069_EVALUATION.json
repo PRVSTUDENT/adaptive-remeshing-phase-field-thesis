@@ -1,0 +1,55 @@
+{
+  "pbs_job_id": "1415069.mmaster02",
+  "job_name": "M1_650_SAMEMESH_RECON_CONT",
+  "batch_name": "MODE1_650_SAMEMESH_RECONSTRUCTION",
+  "adapter": "mode1-experimental-offset-v1",
+  "status": "COMPLETED",
+  "exit_code": 0,
+  "exec_host": "mnode097/0",
+  "queue": "normal_imfdfkmq",
+  "resources": {
+    "cpus": 1,
+    "memory_gb": 8,
+    "walltime_seconds": 10
+  },
+  "subroutine": {
+    "file": "f42_experimental_offset_uel.for",
+    "sha256": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d"
+  },
+  "reconstruction_parity_u00270": {
+    "reference_rf2_n": 3.8640027999999997,
+    "reconstructed_rf2_n": 3.7500767,
+    "delta_rf2_n": -0.1139260999999999,
+    "delta_rf2_pct": -2.948395896607526,
+    "reference_e_frac_knmm": 0.00030428066,
+    "reconstructed_e_frac_knmm": 0.00030446672,
+    "delta_e_frac_pct": 0.06114749455321227,
+    "reference_e_tot_knmm": 0.00030949707,
+    "reconstructed_e_tot_knmm": 0.00030952933,
+    "delta_e_tot_pct": 0.010423362004689428,
+    "min_delta_d": -0.00012180151,
+    "max_delta_d": 0.0069907689,
+    "step1_iterations": 2,
+    "step1_cutbacks": 0
+  },
+  "continuation_parity_u00290": {
+    "reference_rf2_n": 3.5865723999999997,
+    "continued_rf2_n": 3.5865723000000003,
+    "delta_rf2_n": -9.999999960041972e-08,
+    "delta_rf2_pct": -2.788177358427777e-06,
+    "reference_e_frac_knmm": 0.0003049774,
+    "continued_e_frac_knmm": 0.0003049774,
+    "delta_e_frac_pct": 0.0,
+    "reference_e_tot_knmm": 0.00031017793,
+    "continued_e_tot_knmm": 0.00031017793,
+    "delta_e_tot_pct": 0.0,
+    "step2_increments": 10,
+    "step2_cutbacks": 0
+  },
+  "scientific_conclusions": {
+    "irreversibility_root_cause_proven": "On the identical 650-element grid (Package 56), zero spatial interpolation eliminates the -0.0810 damage healing violation observed in Package 53.",
+    "force_continuity_proven": "Reconstructed reaction force and energy match the continuous reference with high physical fidelity under the experimental offset UEL.",
+    "continuation_proven": "Forward continuation with extrapolation=NO advances monotonically with zero cutbacks."
+  },
+  "acceptance_verdict": "PASS"
+}

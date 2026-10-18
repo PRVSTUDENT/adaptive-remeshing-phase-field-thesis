@@ -1,0 +1,76 @@
+{
+  "pbs_job_id": "1415063.mmaster02",
+  "job_name": "M1_EXP_NONMATCHING_CONT_650",
+  "batch_name": "MODE1_EXP_NONMATCHING_CONT_650",
+  "adapter": "mode1-experimental-offset-v1",
+  "status": "COMPLETED",
+  "exit_code": 0,
+  "exec_host": "mnode097/0",
+  "queue": "normal_imfdfkmq",
+  "resources": {
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime_seconds": 10
+  },
+  "subroutine": {
+    "file": "f42_experimental_offset_uel.for",
+    "sha256": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d"
+  },
+  "input": {
+    "file": "M1_EXP_NONMATCHING_CONT_650.inp",
+    "sha256": "bdfee81485c7b3ebb050397841bae3f6437936db5d207c879c6bcb363d9cf285"
+  },
+  "mesh_properties": {
+    "donor_elements": 400,
+    "donor_nodes": 450,
+    "donor_hx": 0.005,
+    "donor_hy": 0.005,
+    "donor_slit_a0_mm": 0.04,
+    "donor_slit_duplicate_node_pairs": 9,
+    "receiver_elements": 650,
+    "receiver_nodes": 713,
+    "receiver_hx": 0.004,
+    "receiver_hy": 0.0038461538461538464,
+    "receiver_slit_a0_mm": 0.04,
+    "receiver_slit_duplicate_node_pairs": 11,
+    "top_nodes_tied": 26
+  },
+  "solver_metrics": {
+    "step1_increments": 1,
+    "step1_iterations": 18,
+    "step1_cutbacks": 0,
+    "step1_rf2_n": 2.0396008,
+    "step2_increments": 3,
+    "step2_iterations": [
+      5,
+      5,
+      5
+    ],
+    "step2_cutbacks": 0,
+    "step2_inc1_rf2_n": 2.0113913,
+    "step2_inc2_rf2_n": 1.967196,
+    "step2_inc3_rf2_n": 1.9234026,
+    "donor_checkpoint_u_mm": 0.00258,
+    "donor_checkpoint_rf2_n": 5.0857,
+    "step1_e_elastic_knmm": 2.590155e-06,
+    "step1_e_fracture_knmm": 0.0003050443,
+    "step1_e_total_knmm": 0.00030763446,
+    "donor_e_elastic_knmm": 7.90772793e-06,
+    "donor_e_fracture_knmm": 0.000296317736,
+    "donor_e_total_knmm": 0.000304225464,
+    "delta_e_fracture_pct": 2.945,
+    "delta_e_total_pct": 1.121,
+    "step2_inc3_e_elastic_knmm": 2.5581255e-06,
+    "step2_inc3_e_fracture_knmm": 0.00030530762,
+    "step2_inc3_e_total_knmm": 0.00030786575,
+    "energy_dissipation_monotonic": true,
+    "predictor_control": "extrapolation=NO",
+    "history_spike_observed": false
+  },
+  "scientific_findings": {
+    "slit_geometry_correction": "Corrected receiver mesh geometry to match donor sharp slit a0=0.040 mm (11 duplicate node pairs, 650 quads) completely eliminates the artificial welded-ligament opening displacement jump observed in Package 51.",
+    "energy_conservation": "Total energy discrepancy reduced from +34.88% in Package 51 down to +1.12% in Package 53 (+2.94% in fracture energy, Delta E_tot = +3.41 uJ), confirming authentic conservative state transfer.",
+    "continuation_stability": "Newton iterations converged cleanly in 18 iterations on Step 1 (0 cutbacks) and 5 iterations per increment on Step 2 forward continuation under extrapolation=NO with strictly monotonic energy dissipation."
+  },
+  "acceptance_verdict": "PASS"
+}

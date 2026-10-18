@@ -1,0 +1,39 @@
+{
+  "batch_name": "MODE1_650_CONTINUOUS_CORRECTED_REF",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_650_continuous_corrected_reference",
+  "files": {
+    "M1_650_CONTINUOUS_CORRECTED_REF.inp": "3a959cad7e56132b4854d994e2bf3c72abbbb3ebba77df2c999ed48cfc507214",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "submit_M1_650_CONTINUOUS_CORRECTED_REF.pbs": "6687b1b7e33d7f9a09c1c6840d928afc6b6b8a321f044f575348815ee5689283",
+    "PACKAGE_MANIFEST.json": "c31af4d0d59e3ee739ff4485c62c5f1526c330a7cb8d2f35659c8fe8a7cac102"
+  },
+  "jobs": [
+    {
+      "id": "M1_650_CONTINUOUS_CORRECTED_REF",
+      "pbs": "submit_M1_650_CONTINUOUS_CORRECTED_REF.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_650_continuous_corrected_reference/submit_M1_650_CONTINUOUS_CORRECTED_REF.pbs\"",
+      "command_sha256": "33d643e9178380d1a8d0d098ecad7dbda425a14f7ba5ca5d73e34635c65bc746",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Continuous 650-element Mode-I corrected reference solution (a0=0.040 mm) under frozen production UEL to isolate state transfer re-equilibration from discretization compliance",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 2,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_650_CONTINUOUS_CORRECTED_REF.inp",
+      "datacheck": "M1_650_CONTINUOUS_CORRECTED_REF_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_650_CONTINUOUS_CORRECTED_REF": "Exit code 0; monotonic damage growth and fracture energy dissipation; full convergence across snap-through and stable crack propagation through u = 0.00270 mm with extrapolation=NO."
+  }
+}

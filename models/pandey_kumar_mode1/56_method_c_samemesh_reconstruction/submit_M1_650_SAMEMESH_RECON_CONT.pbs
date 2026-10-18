@@ -1,0 +1,40 @@
+#!/bin/bash
+#PBS -N M1_650_SM_RECON
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=02:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratch9/pr21vyci/runs/mode1_650_samemesh_reconstruction_pkg56/pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_650_samemesh_reconstruction_pkg56"
+cd "${RUN_DIR}"
+
+# Notifications are required; PBS spool location is not the package directory.
+export JOB_NAME="M1_650_SAMEMESH_RECON_CONT"
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+source "${RUN_DIR}/job_notifications.sh"
+notification_load_config
+notification_install_terminal_trap
+notify_start
+
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+
+JOB_NAME="M1_650_SAMEMESH_RECON_CONT"
+INP_NAME="M1_650_SAMEMESH_RECON_CONT.inp"
+USER_SUB="f42_experimental_offset_uel.for"
+
+test ! -e "${JOB_NAME}.lck"
+
+echo "Starting Abaqus/Standard 2023 Same-Mesh Reconstruction & Continuation (650 Quads, u=0.00270 to 0.00290 mm)..."
+abaqus job="${JOB_NAME}" input="${INP_NAME}" user="${USER_SUB}" cpus=1 interactive
+EXIT_CODE=$?
+
+echo "Abaqus Finished with Exit Code: ${EXIT_CODE}"
+exit ${EXIT_CODE}

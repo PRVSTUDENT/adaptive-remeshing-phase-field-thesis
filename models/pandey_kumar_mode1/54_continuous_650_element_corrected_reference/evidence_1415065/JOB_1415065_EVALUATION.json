@@ -1,0 +1,60 @@
+{
+  "pbs_job_id": "1415065.mmaster02",
+  "job_name": "M1_650_CONTINUOUS_CORRECTED_REF",
+  "batch_name": "MODE1_650_CONTINUOUS_CORRECTED_REF",
+  "adapter": "mode1-qualified-batch-v2",
+  "status": "COMPLETED",
+  "exit_code": 0,
+  "exec_host": "mnode097/0",
+  "queue": "normal_imfdfkmq",
+  "resources": {
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime_seconds": 17
+  },
+  "subroutine": {
+    "file": "f42_mixed_uel.for",
+    "sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6"
+  },
+  "input": {
+    "file": "M1_650_CONTINUOUS_CORRECTED_REF.inp",
+    "sha256": "3a959cad7e56132b4854d994e2bf3c72abbbb3ebba77df2c999ed48cfc507214"
+  },
+  "mesh_properties": {
+    "elements": 650,
+    "nodes": 713,
+    "hx": 0.004,
+    "hy": 0.0038461538461538464,
+    "slit_a0_mm": 0.04,
+    "slit_duplicate_node_pairs": 11,
+    "top_nodes_tied": 26
+  },
+  "solver_metrics": {
+    "step1_increments": 57,
+    "step1_cutbacks": 1,
+    "step2_increments": 5,
+    "step2_cutbacks": 0,
+    "step2_iterations": [2, 2, 2, 2, 2],
+    "peak_reaction_force_n": 183.96216,
+    "displacement_at_peak_mm": 0.00186875,
+    "checkpoint_u00258": {
+      "u2_mm": 0.00258,
+      "rf2_n": 12.267805,
+      "e_elastic_knmm": 2.914132e-05,
+      "e_fracture_knmm": 0.0002877985,
+      "e_total_knmm": 0.0003169398
+    },
+    "continuation_endpoint_u00270": {
+      "u2_mm": 0.00270,
+      "rf2_n": 3.8640028,
+      "e_elastic_knmm": 5.216404e-06,
+      "e_fracture_knmm": 0.0003042807,
+      "e_total_knmm": 0.0003094971
+    }
+  },
+  "scientific_findings": {
+    "reference_role": "Authoritative continuous 650-element reference with correct sharp slit a0=0.040 mm under bitwise-frozen production UEL f42_mixed_uel.for.",
+    "comparison_with_package53": "Package 53 transferred continuation reproduces Package 54 fracture energy at u=0.00270 mm within +0.338% (3.0531e-4 vs 3.0428e-4 kN*mm) and total energy within -0.527% (3.0787e-4 vs 3.0950e-4 kN*mm).",
+    "acceptance_verdict": "PASS"
+  }
+}

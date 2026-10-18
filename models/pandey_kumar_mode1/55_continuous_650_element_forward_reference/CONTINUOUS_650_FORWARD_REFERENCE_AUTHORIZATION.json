@@ -1,0 +1,39 @@
+{
+  "batch_name": "MODE1_650_CONTINUOUS_FORWARD_REFERENCE",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_650_continuous_reference_pkg55",
+  "files": {
+    "M1_650_CONTINUOUS_FWD_REF.inp": "f616e0d52d918a46561240c779c3666e13cec4993e1e81188640b478f2684a5f",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "submit_M1_650_CONTINUOUS_FWD_REF.pbs": "79dcb5b410e877508994428809fbe08655280c352c2e3b8fde667905207760fc",
+    "PACKAGE_MANIFEST.json": "c0ff944858633b32936d5987a33869b14300401922b6afd59deab01bb3ca4b95"
+  },
+  "jobs": [
+    {
+      "id": "M1_650_CONTINUOUS_FWD_REF",
+      "pbs": "submit_M1_650_CONTINUOUS_FWD_REF.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_650_continuous_reference_pkg55/submit_M1_650_CONTINUOUS_FWD_REF.pbs\"",
+      "command_sha256": "a671bfcac2784f3636f713fb0529e6150ce04a21773269c744a9a95822fddafe",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Continuous 650-element Mode-I reference solution extended from u = 0.00270 to 0.00290 mm under frozen production UEL",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 2,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_650_CONTINUOUS_FWD_REF.inp",
+      "datacheck": "M1_650_CONTINUOUS_FWD_REF_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_650_CONTINUOUS_FWD_REF": "Exit code 0; monotonic damage growth and fracture energy dissipation; full convergence across snap-through and forward continuation through u = 0.00290 mm with extrapolation=NO."
+  }
+}

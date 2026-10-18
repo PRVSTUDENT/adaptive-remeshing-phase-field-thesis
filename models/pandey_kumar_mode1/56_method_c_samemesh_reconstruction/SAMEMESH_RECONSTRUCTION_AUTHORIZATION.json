@@ -1,0 +1,41 @@
+{
+  "batch_name": "MODE1_650_SAMEMESH_RECONSTRUCTION",
+  "adapter": "mode1-experimental-offset-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "EXPERIMENTAL_OFFSET",
+  "configuration": "EXPERIMENTAL_OFFSET",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_650_samemesh_reconstruction_pkg56",
+  "files": {
+    "M1_650_SAMEMESH_RECON_CONT.inp": "f4874d068faf4758e79412c5bf1cb27d0ff99af24c00d7c2dbddc8f46b5ae415",
+    "f42_experimental_offset_uel.for": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "offset_state_table.csv": "ce5cb4bdca394fb07b60b9b3d0e4278480766f460507a61e7da8858520a44f13",
+    "submit_M1_650_SAMEMESH_RECON_CONT.pbs": "a48f3749dfa45e4b45def1e8b860b22e9188fd21abdef2175360cfad365f6b70",
+    "PACKAGE_MANIFEST.json": "06125fa97f9c87ed4a4d715519d6d79f351d0e8cf061fe262a1de5c00888c4b8"
+  },
+  "jobs": [
+    {
+      "id": "M1_650_SAMEMESH_RECON_CONT",
+      "pbs": "submit_M1_650_SAMEMESH_RECON_CONT.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_650_samemesh_reconstruction_pkg56/submit_M1_650_SAMEMESH_RECON_CONT.pbs\"",
+      "command_sha256": "21e35c088586cbed019e0d8b17200f232ff7795e707f482c0bc95610aeebf11a",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Same-geometry cracked-state reconstruction at u = 0.00270 mm and forward continuation to u = 0.00290 mm under f42_experimental_offset_uel.for on identical 650-element grid to isolate experimental UEL behavior with zero spatial interpolation error",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 2,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_650_SAMEMESH_RECON_CONT.inp",
+      "datacheck": "M1_650_SAMEMESH_RECON_CONT_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_650_SAMEMESH_RECON_CONT": "Exit code 0; Step 1 reconstruction convergence with zero reload work; Step 2 forward continuation parity against continuous reference Package 55 with extrapolation=NO."
+  },
+  "hypothesis": "Reconstructing the authentic cracked state at u = 0.00270 mm onto the identical 650-element discretization under f42_experimental_offset_uel.for eliminates spatial interpolation error and non-equilibrium chordal sag, proving whether the damage decrease and reaction force relaxation observed in Package 53 are interpolation artifacts or intrinsic to the offset UEL formulation."
+}

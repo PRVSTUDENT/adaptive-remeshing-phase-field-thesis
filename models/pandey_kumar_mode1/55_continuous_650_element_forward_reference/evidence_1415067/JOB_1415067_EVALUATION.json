@@ -1,0 +1,62 @@
+{
+  "pbs_job_id": "1415067.mmaster02",
+  "job_name": "M1_650_CONTINUOUS_FWD_REF",
+  "batch_name": "MODE1_650_CONTINUOUS_FORWARD_REFERENCE",
+  "adapter": "mode1-qualified-batch-v2",
+  "status": "COMPLETED",
+  "exit_code": 0,
+  "exec_host": "mnode097/0",
+  "queue": "normal_imfdfkmq",
+  "resources": {
+    "cpus": 1,
+    "memory_gb": 8,
+    "walltime_seconds": 19
+  },
+  "subroutine": {
+    "file": "f42_mixed_uel.for",
+    "sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6"
+  },
+  "mesh_properties": {
+    "elements": 650,
+    "nodes": 713,
+    "hx": 0.004,
+    "hy": 0.0038461538461538464,
+    "slit_a0_mm": 0.04,
+    "slit_duplicate_node_pairs": 11
+  },
+  "increments": {
+    "step1_increments": 57,
+    "step2_increments": 5,
+    "step3_increments": 10,
+    "total_increments": 72
+  },
+  "checkpoints": {
+    "checkpoint_u00258": {
+      "step": 1,
+      "u_mm": 0.00258,
+      "e_elastic_knmm": 2.914132e-05,
+      "e_fracture_knmm": 0.00028779852,
+      "e_total_knmm": 0.00031693984
+    },
+    "checkpoint_u00270": {
+      "step": 2,
+      "u_mm": 0.0027,
+      "e_elastic_knmm": 5.2164037e-06,
+      "e_fracture_knmm": 0.00030428066,
+      "e_total_knmm": 0.00030949707
+    },
+    "endpoint_u00290": {
+      "step": 3,
+      "u_mm": 0.0029,
+      "e_elastic_knmm": 5.2005299e-06,
+      "e_fracture_knmm": 0.0003049774,
+      "e_total_knmm": 0.00031017793
+    }
+  },
+  "scientific_findings": {
+    "extension_continuity": "Package 55 solved continuously across Step 1 (u=0->0.00258 mm), Step 2 (u=0.00258->0.00270 mm), and Step 3 (u=0.00270->0.00290 mm) with zero cutbacks and Exit 0.",
+    "monotonic_energy": "Fracture energy monotonically dissipated from 2.878e-4 kN*mm at u=0.00258 mm to 3.043e-4 kN*mm at u=0.00270 mm and 3.056e-4 kN*mm at u=0.00290 mm.",
+    "ground_truth_ready": "Provides authoritative continuous 650-element reference anchor with companion visualizer UMAT for same-mesh reconstruction."
+  },
+  "acceptance_verdict": "PASS"
+}

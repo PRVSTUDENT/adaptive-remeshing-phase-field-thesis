@@ -1,0 +1,41 @@
+#!/bin/bash
+#PBS -N PK_M1_COARSE_FINE_CONT
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -m abe
+#PBS -r n
+#PBS -o PK_M1_COARSE_FINE_CONT.out
+#PBS -e PK_M1_COARSE_FINE_CONT.err
+
+set -euo pipefail
+
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_package46_coarse_fine_preanalysis"
+cd "${RUN_DIR}" || exit 1
+
+CURRENT_DIR="$(pwd -P)"
+if [[ "$CURRENT_DIR" =~ ^/home/ ]]; then
+  echo "[STORAGE COMPLIANCE ERROR] Execution directly inside /home is prohibited." >&2
+  exit 88
+fi
+
+if [ ! -f ./job_notifications.sh ]; then
+  echo "[LAUNCHER ERROR] job_notifications.sh missing" >&2
+  exit 10
+fi
+
+source ./job_notifications.sh
+notification_load_config || true
+notification_install_terminal_trap
+notify_start || true
+
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort || true
+
+echo "=== STARTING SOLVER PK_M1_COARSE_FINE_CONT ==="
+abaqus job=PK_M1_COARSE_FINE_CONT input=PK_M1_COARSE_FINE_CONT.inp double=both ask_delete=OFF interactive
+ABAQUS_EXIT=$?
+echo "=== FINISHED SOLVER PK_M1_COARSE_FINE_CONT (EXIT: $ABAQUS_EXIT) ==="
+exit "$ABAQUS_EXIT"
