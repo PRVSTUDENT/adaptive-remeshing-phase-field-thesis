@@ -1,11 +1,21 @@
-# Mode-I bounded audit: Package 60 donor/receiver reaction-force discrepancy
+# Antigravity ? F1595: Package 60 Force Extraction Audit Only
 
-Perform exactly one scientific investigation: reconcile Package 60 reaction forces against its actual donor checkpoint and continuous-receiver reference. Return measured findings and the qualified submission decision. Leave Package 48 spatial analysis, ligament refinement, full-specimen scaling and sequential cycles to later turns.
+Single objective: determine whether the reported Package 60 reaction 0.16506 N is an absolute/current force, an incremental force, or an extraction error. Produce one verified conclusion from existing evidence, or identify the exact missing evidence and next smallest test.
 
-Follow current user instructions, AGENTS.md and mandatory coordination bootstrap. Reconcile the interrupted F1593 session and all existing PBS receipts before claiming work. Do not treat a stale active-session flag or a new CLI account as permission to repeat an experiment. Inspect existing files and current ledgers first; use the guarded SSH wrapper for one bounded live scheduler query. Empty qstat is not a scientific conclusion.
+Preserve the incomplete F1594 work. Codex reconciled the stopped local process, verified an empty live HPC queue, and preserved the transcript and dirty files. Follow AGENTS.md bootstrap and claim your own session before permitted coordination edits. Do not replay any prior experiment or overwrite pre-existing dirty work.
 
-Use the existing Package 60/72 evidence and scripts. Identify exact donor and recipient decks, mesh, load/displacement checkpoint, boundary node sets, coordinate direction, extraction convention, and force/energy units. Produce a compact measured table of donor, mapped receiver, equilibrated receiver and continuous receiver reactions at matching physical states. Separate mapping, discretization and equilibrium errors. Check whether the claimed Package 72 correction already resolves the discrepancy quantitatively; do not assume either success or failure from earlier prose. Reuse authentic artifacts and state which thresholds were predeclared. If an exact artifact is missing, record its absence instead of inventing values.
+Start from these existing artifacts; do not reconstruct the full project history:
+- models/pandey_kumar_mode1/60_method_c_smooth_h_nonmatching_transfer/evidence_1415177/M1_EXP_NONMATCHING_SMOOTH_H_650.dat
+- Package 60 input deck and its actual extraction code.
+- scripts/validation/audit_force_continuity.py (partial F1594 audit script; read/reuse, do not rewrite).
+- tests/unit/test_mode1_f1594_package60_force_continuity.py (partial F1594 assertions, not independent scientific proof).
+- project_coordination/sessions/2026-10-19_codex_f1594_partial_reconciliation.md (what was already done and artifact hashes).
 
-Submit no duplicate, unchanged or speculative run. A distinct correction requires an identified technical defect or reviewed numerical hypothesis and exact manifest qualification through Invoke-Mode1Execution.ps1; preserve once-only accounting, frozen production UEL, current Mode-I resources and real notifications. If no distinct qualified correction is necessary, report that submission decision explicitly.
+F1594 raw evidence pointers already identified: RF2 at node 999999 includes 1.6506233E-04 and endpoint 1.4961023E-04; verify the exact step/increment, units and extraction context before interpreting them. The F1594 log records 4 targeted tests and 13 combined regression tests passing; do not rerun unchanged tests or create new ones for this read-only audit. Consult the Package 54 reference only if essential to resolve the extraction convention.
 
-Use available evidence; keep this within the 10-minute call budget and reserve time for closeout. Do not wait for solver completion or chain another scientific objective. Record exact artifacts, PBS IDs, quantitative findings and remaining dependency in a concise session report; release your own lock, selectively commit/push governed progress, and emit your final response promptly. No model-driven closeout continuation will be issued after a timeout.
+Identify reaction node set, load step, physical displacement checkpoint, units, sign convention and any residual/displacement offset treatment. Distinguish the solver's reported RF2 from a claim that it preserves donor force. Do not infer physical correctness merely from an evaluation JSON saying PASS.
+
+This turn is READ-ONLY scientifically: no Fortran/code edits, new meshes, Abaqus runs, PBS submissions, numerical corrections, Package 48 spatial analysis, thesis rewriting, or other research objectives. Required coordination closeout is allowed. Do not wait for solver completion or poll repeatedly. Batch targeted local reads; after mandatory bootstrap, avoid more than eight additional tool round trips. Stop scientific investigation after four minutes even if unresolved, preserving the exact missing evidence so closeout fits within the existing 600-second execution budget.
+
+Write one short session report and concise ledger updates; release your own session and selectively commit/push only governed audit/coordination progress. Preserve unrelated dirty paths. Return under HPC STATUS, NEW EXPERIMENT, SCIENTIFIC PROGRESS, DOCUMENTATION, NEXT ACTION. Under NEW EXPERIMENT state that none was authorized for this extraction-only turn. End with exactly:
+Finished

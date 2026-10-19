@@ -1,21 +1,16 @@
 {
   "active": false,
   "agent": "codex",
-  "task_id": "CONTROLLER-CREDENTIAL-CONSISTENCY-AND-LOCAL-CLOSEOUT",
-  "starting_commit": "b4cf063130c22f168fa5183dbe439db825ac34f6",
+  "task_id": "F1595-PREPARE-BOUNDED-FORCE-EXTRACTION-AUDIT",
+  "starting_commit": "4f78d340328efbb25bf002f0b0dbae849c33cb67",
   "allowed_write_scope": [
-    "scripts/validation/AgyCredentialStores.ps1",
-    "scripts/validation/controller_credentials_closeout.patch",
-    "scripts/validation/agy_profile_credentials.patch",
-    "tests/unit/test_agy_credentials.ps1",
-    "tests/unit/test_agy_envelope.ps1",
     ".agents/INITIAL_PROMPT.txt",
     "project_coordination/ACTIVE_SESSION.json",
     "project_coordination/ARTIFACT_REGISTRY.csv",
     "project_coordination/TASK_LEDGER.csv",
-    "project_coordination/sessions/2026-10-19_codex_credential_closeout.md"
+    "project_coordination/sessions/2026-10-19_codex_f1594_partial_reconciliation.md"
   ],
-  "claimed_at": "2026-10-19T15:00:00+02:00",
-  "last_updated": "2026-10-19T15:34:25.085928+02:00",
-  "last_released": "2026-10-19T15:34:25.085928+02:00"
+  "claimed_at": "2026-10-19T15:42:00+02:00",
+  "last_updated": "2026-10-19T15:56:31.279223+02:00",
+  "last_released": "2026-10-19T15:56:31.279223+02:00"
 }
