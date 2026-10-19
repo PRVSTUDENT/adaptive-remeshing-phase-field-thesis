@@ -1,0 +1,29 @@
+--- a/Antigravity-Autonomous-Loop.ps1
++++ b/Antigravity-Autonomous-Loop.ps1
+@@ -3381,10 +3381,22 @@
+         Set-AndVerifyAgyRunProfile "PRE_AGY"
+ 
+         try {
+-            $agyRawOutput = $EffectiveInstruction |
+-                & $AgyPath @agyArgs 2>&1
+-
+-            $agyExitCode = $LASTEXITCODE
++            # Independent deadline: CLI print-timeout can emit output without exiting.
++            . (Join-Path $WorkspaceDir 'scripts/validation/Invoke-BoundedAgyProcess.ps1')
++            $timeoutMatch = [regex]::Match($PrintTimeout, '^(\d+)(s|m|h)$')
++            if (-not $timeoutMatch.Success) { throw "Unsupported PrintTimeout: $PrintTimeout" }
++            $unitSeconds = @{s=1; m=60; h=3600}[$timeoutMatch.Groups[2].Value]
++            $hardTimeout = [Math]::Min(86400, [int]$timeoutMatch.Groups[1].Value * $unitSeconds + 60)
++            $boundedRun = Invoke-BoundedAgyProcess -FilePath $AgyPath -ArgumentList $agyArgs -InputText $EffectiveInstruction -TimeoutSeconds $hardTimeout -WorkingDirectory $WorkspaceDir
++            $agyRawOutput = $boundedRun.Output
++            $agyExitCode = $boundedRun.ExitCode
++            if ($boundedRun.TimedOut) {
++                $recoveryInstruction = "Recover interrupted AGY turn. First inspect ACTIVE_SESSION and recover exact PBS IDs from the execution ledger and guarded qstat. Preserve every reserved or submitted job, including 1415119.mmaster02; never replay the original submission instruction. Review partial CLI output and current scientific state, perform only justified independent work, then emit a final response."
++                Write-LoopLog -Turn $CurrentTurn -Tier 'CONTROLLER' -Action 'AGY_WATCHDOG_TIMEOUT' -Message "Owned CLI stopped after ${hardTimeout}s. No automatic retry or submission replay."
++                Save-LoopState -Turn ($CurrentTurn - 1) -Status 'AGY_WATCHDOG_TIMEOUT' -LastInstruction $CurrentInstruction -LastResponse $agyRawOutput -NextInstruction $recoveryInstruction -Duration $boundedRun.DurationSeconds -Usage $null -Tier 'CONTROLLER' -Action 'AGY_WATCHDOG_TIMEOUT'
++                Save-LoopStatus -Turn $CurrentTurn -Status 'FAILED' -Tier 'CONTROLLER' -Action 'AGY_WATCHDOG_TIMEOUT' -Details 'Local CLI deadline exceeded. Recovery instruction saved; PBS jobs preserved.'
++                break MainLoop
++            }
+         }
+         catch {
+             $agyInvocationException = $_
