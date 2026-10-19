@@ -1,0 +1,104 @@
+--- a/Antigravity-Autonomous-Loop.ps1
++++ b/Antigravity-Autonomous-Loop.ps1
+@@ -3311,6 +3311,7 @@
+ # Prevent endless transient 503/network retries for one logical AGY turn.
+ $AgyTransientRetriesByTurn = @{}
+ $AgyEmptyRecoveryAttemptsByTurn = @{}
++$AgyTimeoutRecoveryAttemptsByTurn = @{}
+ 
+ :MainLoop while ($CurrentTurn -le ($StartTurn + $MaxTurns - 1)) {
+     Adopt-ExternalAgySwitchAtBoundary
+@@ -3340,8 +3341,9 @@
+     $agyArgs += "text"
+     $agyArgs += "--output-format"
+     $agyArgs += "json"
++    $effectivePrintTimeout = if ($AgyTimeoutRecoveryAttemptsByTurn.ContainsKey([string]$CurrentTurn)) { '180s' } else { $PrintTimeout }
+     $agyArgs += "--print-timeout"
+-    $agyArgs += $PrintTimeout
++    $agyArgs += $effectivePrintTimeout
+     if ($AllowSkipPermissions) {
+         $agyArgs += "--dangerously-skip-permissions"
+     }
+@@ -3366,6 +3368,7 @@
+         $prevNativeEAP = $PSNativeCommandUseErrorActionPreference
+     }
+ 
++    $preservedResponse = $null
+     $agyRawOutput = $null
+     $agyExitCode = $null
+     $agyInvocationException = $null
+@@ -3383,7 +3386,7 @@
+         try {
+             # Independent deadline: CLI print-timeout can emit output without exiting.
+             . (Join-Path $WorkspaceDir 'scripts/validation/Invoke-BoundedAgyProcess.ps1')
+-            $timeoutMatch = [regex]::Match($PrintTimeout, '^(\d+)(s|m|h)$')
++            $timeoutMatch = [regex]::Match($effectivePrintTimeout, '^(\d+)(s|m|h)$')
+             if (-not $timeoutMatch.Success) { throw "Unsupported PrintTimeout: $PrintTimeout" }
+             $unitSeconds = @{s=1; m=60; h=3600}[$timeoutMatch.Groups[2].Value]
+             $hardTimeout = [Math]::Min(86400, [int]$timeoutMatch.Groups[1].Value * $unitSeconds + 60)
+@@ -3625,19 +3628,14 @@
+         break MainLoop
+     }
+ 
+-    # Extract JSON payload (filter any leading warning logs)
+-    $jsonStart = $agyText.IndexOf("{")
+-    if ($jsonStart -lt 0) {
+-        Write-LoopLog -Turn $CurrentTurn -Tier "CONTROLLER" -Action "AGY_INVALID_JSON" -Message "No JSON object found: $agyText"
+-        Save-LoopStatus -Turn $CurrentTurn -Status "FAILED" -Tier "CONTROLLER" -Action "AGY_INVALID_JSON" -Details $agyText
+-        break MainLoop
+-    }
+-    $cleanJson = $agyText.Substring($jsonStart)
+-
++    # Parse the result envelope without treating stderr warnings as JSON.
++    . (Join-Path $WorkspaceDir 'scripts/validation/ConvertFrom-AgyEnvelope.ps1')
+     try {
+-        $agyObj = $cleanJson | ConvertFrom-Json
++        $agyObj = ConvertFrom-AgyEnvelope -Text $agyText
++        $cleanJson = $agyObj | ConvertTo-Json -Depth 30
+     } catch {
+-        Write-LoopLog -Turn $CurrentTurn -Tier "CONTROLLER" -Action "AGY_PARSE_ERROR" -Message "JSON parse failed: $_"
++        Write-LoopLog -Turn $CurrentTurn -Tier "CONTROLLER" -Action "AGY_PARSE_ERROR" -Message "No complete AGY envelope: $_"
++        Save-LoopState -Turn ($CurrentTurn - 1) -Status 'AGY_PARSE_ERROR' -LastInstruction $CurrentInstruction -LastResponse $agyText -NextInstruction 'Inspect existing session, ledgers and scheduler before further work. Recover incomplete CLI output; never replay submissions.' -Duration $turnDurationSeconds -Usage $null -Tier 'CONTROLLER' -Action 'AGY_PARSE_ERROR'
+         Save-LoopStatus -Turn $CurrentTurn -Status "FAILED" -Tier "CONTROLLER" -Action "JSON_PARSE_ERROR" -Details $_.Exception.Message
+         break MainLoop
+     }
+@@ -3657,6 +3655,39 @@
+             -Tier "CONTROLLER" `
+             -Action "AGY_CONVERSATION_CREATED" `
+             -Message "Captured Antigravity conversation ID: $ConversationId"
++    }
++
++    if ($agyText -match '(?i)\[agy\] print timeout.*returning partial output') {
++        # Timeout JSON may contain a tool message rather than a final scientific report.
++        # Salvage only a newly completed, released session with an existing report.
++        $diskSalvage = Test-SalvageAgySessionFromDisk -WorkspaceDir $WorkspaceDir
++        $sessionFile = Join-Path $WorkspaceDir 'project_coordination/ACTIVE_SESSION.json'
++        $freshCompletedReport = $false
++        if ($null -ne $diskSalvage -and (Test-Path -LiteralPath $sessionFile)) {
++            $reportFile = Join-Path $WorkspaceDir $diskSalvage.session_report
++            if (Test-Path -LiteralPath $reportFile) {
++                $freshCompletedReport = (Get-Item -LiteralPath $sessionFile).LastWriteTimeUtc -ge $turnStartTime.UtcDateTime -and (Get-Item -LiteralPath $reportFile).LastWriteTimeUtc -ge $turnStartTime.UtcDateTime
++            }
++        }
++        if ($freshCompletedReport) {
++            $preservedResponse = $diskSalvage.content
++            Write-LoopLog -Turn $CurrentTurn -Tier 'CONTROLLER' -Action 'AGY_TIMEOUT_COMPLETED_SESSION' -Message 'Print timeout received; fresh released session report recovered. No work replayed.'
++            $ConversationId = $null
++            $ConversationIdSource = 'fresh-after-timeout-completed-session'
++        } else {
++            $turnKey = [string]$CurrentTurn
++            $attempts = if ($AgyTimeoutRecoveryAttemptsByTurn.ContainsKey($turnKey)) { [int]$AgyTimeoutRecoveryAttemptsByTurn[$turnKey] } else { 0 }
++            $recovery = 'CONTINUATION ONLY: The CLI returned partial output at its print deadline. Do not replay any original submission or numerical operation. Inspect ACTIVE_SESSION, current ledgers, exact scheduler IDs and existing artifacts first. Preserve all reservations and running jobs. Complete only necessary verification and closeout of work already performed; emit your final scientific report promptly. Do not wait for running simulations. Release your own session normally. End with Finished.'
++            Save-LoopState -Turn ($CurrentTurn - 1) -Status 'AGY_PRINT_TIMEOUT_RECOVERY' -LastInstruction $CurrentInstruction -LastResponse $agyText -NextInstruction $recovery -Duration $turnDurationSeconds -Usage $null -Tier 'CONTROLLER' -Action 'AGY_PRINT_TIMEOUT_RECOVERY'
++            if ($attempts -lt 2 -and -not [string]::IsNullOrWhiteSpace($ConversationId)) {
++                $AgyTimeoutRecoveryAttemptsByTurn[$turnKey] = $attempts + 1
++                $CurrentInstruction = $recovery
++                Write-LoopLog -Turn $CurrentTurn -Tier 'CONTROLLER' -Action 'AGY_PRINT_TIMEOUT_RECOVERY' -Message "Continuing existing conversation for closeout only (attempt $($attempts + 1)/2; 180s print deadline)."
++                continue MainLoop
++            }
++            Save-LoopStatus -Turn $CurrentTurn -Status 'FAILED' -Tier 'CONTROLLER' -Action 'AGY_PRINT_TIMEOUT_RECOVERY_EXHAUSTED' -Details 'Bounded closeout recovery exhausted; raw partial output and safe recovery instruction saved. No submission replay.'
++            break MainLoop
++        }
+     }
+ 
+     if ($agyObj.status -ne "SUCCESS") {

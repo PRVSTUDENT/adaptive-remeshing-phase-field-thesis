@@ -1,16 +1,18 @@
 {
   "active": false,
-  "agent": "gemini-antigravity",
-  "task_id": "F1590-CAPTURE-MODE1-FRACTURE-PEAK-AND-ADVANCE-METHOD-C",
-  "starting_commit": "22a0946d0a01025c2dab2038b1ae0c888cb41e22",
+  "agent": "codex",
+  "task_id": "CONTROLLER-TIMEOUT-JSON-RECOVERY",
+  "starting_commit": "8998ddf45a8b0da613ce19d7280df3a289ccdc92",
   "allowed_write_scope": [
-    "project_coordination/**",
-    "models/pandey_kumar_mode1/**",
-    "runs/hpc/**",
-    "tests/unit/**",
-    "scripts/**"
+    "scripts/validation/ConvertFrom-AgyEnvelope.ps1",
+    "scripts/validation/controller_timeout_json.patch",
+    "tests/unit/test_agy_envelope.ps1",
+    "project_coordination/ACTIVE_SESSION.json",
+    "project_coordination/ARTIFACT_REGISTRY.csv",
+    "project_coordination/TASK_LEDGER.csv",
+    "project_coordination/sessions/2026-10-19_codex_timeout_json.md"
   ],
   "claimed_at": "2026-10-19T11:55:00+02:00",
-  "last_updated": "2026-10-19T12:30:00+02:00",
-  "last_released": "2026-10-19T12:33:00+02:00"
+  "last_updated": "2026-10-19T13:04:03.694373+02:00",
+  "last_released": "2026-10-19T13:04:03.694373+02:00"
 }
