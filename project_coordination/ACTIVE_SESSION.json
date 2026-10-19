@@ -1,16 +1,24 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "task_id": "F1595-PACKAGE60-FORCE-EXTRACTION-AUDIT",
-  "starting_commit": "80204c9025bc1dbf4cc33061389ef314289bfd37",
+  "task_id": "F1596-INDEPENDENTLY-QUALIFY-PACKAGE72-STATE-TRANSFER",
+  "starting_commit": "188df484b38a186afff040b6a6ef23f3f4216d2a",
   "allowed_write_scope": [
     "project_coordination/ACTIVE_SESSION.json",
     "project_coordination/ACTIVE_TASK.json",
+    "project_coordination/CURRENT_STATE.md",
     "project_coordination/TASK_LEDGER.csv",
+    "project_coordination/HPC_JOB_LEDGER.csv",
     "project_coordination/ARTIFACT_REGISTRY.csv",
-    "project_coordination/sessions/2026-10-19_gemini-antigravity_f1595_package60_force_audit.md"
+    "project_coordination/MODE1_EXECUTION_LEDGER.json",
+    "project_coordination/sessions/**",
+    "scripts/postprocessing/**",
+    "scripts/validation/**",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/**",
+    "tests/unit/**"
   ],
-  "claimed_at": "2026-10-19T16:24:00+02:00",
-  "last_updated": "2026-10-19T16:31:00+02:00",
-  "last_released": "2026-10-19T16:31:00+02:00"
+  "claimed_at": "2026-10-19T18:00:00+02:00",
+  "last_updated": "2026-10-19T18:47:00+02:00",
+  "last_released": "2026-10-19T18:47:00+02:00",
+  "session_report": "project_coordination/sessions/2026-10-19_gemini-antigravity_f1596_package72_state_transfer_audit.md"
 }

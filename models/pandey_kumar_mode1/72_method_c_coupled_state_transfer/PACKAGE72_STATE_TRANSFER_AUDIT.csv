@@ -1,0 +1,14 @@
+Metric,Donor_Case_A,Receiver_Mapped,Receiver_Step1_Equil,Discrepancy_Abs,Discrepancy_Pct,Acceptance_Tol,Verdict
+Reaction_Force_RF2_N,7.851239,2.573600,1.748264,-6.102975,-77.73%,<= 5.0%,FAIL
+Reaction_Force_vs_CaseB_N,5.735525,2.573600,1.748264,-3.987261,-69.52%,<= 5.0%,FAIL
+Reaction_Force_vs_Ref650_N,18.120424,2.573600,1.748264,-16.372160,-90.35%,Diagnostic,FAIL
+Step1_Reequilibration_Drop_N,2.573600,2.573600,1.748264,-0.825336,-32.07%,<= 5.0%,FAIL
+Pointwise_Min_Delta_d,0.000000,0.000000,-0.001661,-0.001661,N/A,>= 0.0,FAIL
+Healing_Nodes_Count,0,0,291,291,40.8%,0,FAIL
+Fracture_Energy_mJ,0.298809,N/A,0.343979,+0.045169,+15.12%,<= 2.0%,FAIL
+Elastic_Energy_mJ,0.006523,N/A,0.002220,-0.004303,-65.96%,<= 5.0%,FAIL
+Total_Internal_Energy_mJ,0.305333,N/A,0.346199,+0.040866,+13.38%,<= 2.0%,FAIL
+External_Reload_Work_mJ,0.000000,0.000000,0.000000,0.000000,0.00%,== 0.0,PASS
+Step1_Equilibrium_Iters,N/A,N/A,3,N/A,N/A,<= 5,PASS
+Solver_Exit_Code,0,N/A,0,0,N/A,== 0,PASS
+Continuation_Monotonicity,PASS,PASS,PASS,N/A,N/A,Monotonic,PASS

@@ -1,0 +1,37 @@
+{
+  "task_id": "F1596",
+  "verdict": "PACKAGE72_C1-1_FAIL",
+  "primary_failure": "FORCE_CONTINUITY_DEFICIT_MINUS_77P7PCT_AND_291_HEALING_NODES",
+  "checkpoint_u_mm": 0.00254,
+  "reaction_force": {
+    "donor_case_a_N": 7.851239499999999,
+    "donor_case_b_N": 5.7355247,
+    "continuous_650_ref_N": 18.120424,
+    "pkg60_step1_N": 0.16506233,
+    "pkg72_initial_mapped_N": 2.5736,
+    "pkg72_step1_equilibrated_N": 1.748264,
+    "error_vs_donor_case_a_pct": -77.73263699317796,
+    "error_vs_donor_case_b_pct": -69.5186736794979,
+    "reequilibration_drop_pct": -32.06931924152937
+  },
+  "damage_and_irreversibility": {
+    "min_delta_d": -0.0016612791,
+    "max_delta_d": 0.054701145,
+    "healing_nodes_count": 291,
+    "total_nodes": 713,
+    "healing_fraction_pct": 40.813464235624124,
+    "ledger_pass_zero_healing_status": "FALSIFIED"
+  },
+  "energies_mJ": {
+    "donor_e_elastic_mJ": 0.006523352400000001,
+    "donor_e_fracture_mJ": 0.29880935,
+    "donor_e_total_mJ": 0.30533271,
+    "receiver_e_elastic_mJ": 0.0022202953,
+    "receiver_e_fracture_mJ": 0.34397864,
+    "receiver_e_total_mJ": 0.34619894,
+    "delta_e_elastic_pct": -65.96389151075144,
+    "delta_e_fracture_pct": 15.116424569713107,
+    "delta_e_total_pct": 13.384163786447905
+  },
+  "scientific_conclusion": "Package 72 fails Stage C1-1 nonmatching state transfer qualification. Although Exit 0, 3 iterations, machine-zero reload work, and monotonic forward continuation were achieved, the reaction force exhibits a -77.73% deficit vs the donor traction, the fracture energy jumped +15.12%, and 291 nodes suffered damage healing (min delta_d = -0.001661). The ledger claim of 'RF2 1.748N matching donor' and 'zero healing' was unverified and is refuted by authentic solver evidence."
+}
