@@ -1,17 +1,16 @@
 {
   "active": false,
-  "agent": "gemini-antigravity",
-  "task_id": "F1589-PACKAGE48-STEP2-PEAK-EVALUATION-AND-INDEPENDENT-METHOD-C-PIPELINE",
-  "starting_commit": "ce684e09e6cd25a2feb4ba093184180727f2ca13",
+  "agent": "codex",
+  "task_id": "CONTROLLER-SMART-SWITCH-DEFAULT",
+  "starting_commit": "0af9e20d1d530615c77e88c578ec824104d9e3de",
   "allowed_write_scope": [
-    "models/pandey_kumar_mode1/**",
-    "project_coordination/**",
-    "scripts/**",
-    "tests/**",
-    "docs/**",
-    "MA_AdaptiveRemeshing_Report_2026/**"
+    "project_coordination/ACTIVE_SESSION.json",
+    "project_coordination/ARTIFACT_REGISTRY.csv",
+    "project_coordination/TASK_LEDGER.csv",
+    "project_coordination/sessions/2026-10-19_codex_smart_switch.md",
+    "scripts/validation/controller_smart_switch.patch"
   ],
   "claimed_at": "2026-10-19T09:30:00+02:00",
-  "last_updated": "2026-10-19T09:38:30+02:00",
-  "last_released": "2026-10-19T09:38:30+02:00"
+  "last_updated": "2026-10-19T11:52:46.096931+02:00",
+  "last_released": "2026-10-19T11:52:46.096931+02:00"
 }

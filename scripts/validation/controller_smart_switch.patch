@@ -1,0 +1,23 @@
+--- a/Antigravity-Autonomous-Loop.ps1
++++ b/Antigravity-Autonomous-Loop.ps1
+@@ -68,10 +68,10 @@
+     # The autonomous controller must NEVER automatically switch profiles.
+         [bool]$EnableAutomaticAgyProfileRotation = $false,
+ 
+-    # Opt-in to quota-prioritized profile selection at startup and on quota trouble.
++    # Quota-prioritized selection is enabled by default at startup and on quota trouble.
+     # Five-day/weekly reset timestamp is the first priority; >=20% 5-hour
+     # headroom is mandatory. Unknown quota telemetry NEVER implies spare quota.
+-    [bool]$EnableSmartAgyProfileSelection = $false,
++    [bool]$EnableSmartAgyProfileSelection = $true,
+     [double]$SmartMinLongRemainingPct = 2.0,
+     [string]$SmartQuotaGroupRegex = "",
+ 
+--- a/controller_recovery_20261019.ps1
++++ b/controller_recovery_20261019.ps1
+@@ -2,4 +2,4 @@
+ $instruction=@"
+ Recover F1587 after a local CLI hang. User requested controller repair, now installed and tested in commit 1e4d5085. The old CLI PID 26884 was stopped; its buffered output showed a print timeout after 2400s without process exit. Do not repeat the original prompt or any earlier submission. First run mandatory repository bootstrap; the Codex maintenance session has been released. Claim your own session. Preserve all pre-existing dirty paths. Inspect current ledgers and guarded live qstat. Latest independently verified running job is 1415119.mmaster02, Package48 corrected native adapted solve. Historical partial output mentions 1415104; reconcile actual accounting rather than treating it as a new candidate. Never reset reservations or resubmit any existing job. Review current job output with exact-path existence checks; evaluate current progress scientifically. If still running, report a concise actual status and emit final response promptly so the controller can advance and check quota; do not wait inside this turn for the simulation to finish. If terminal, collect evidence and review before dependent work. Follow current Mode-I scope and frozen UEL restrictions. No qdel/qmove. Restore normal session closeout and selective commit/push of your governed progress. An independent CLI watchdog now stops overlong calls and saves recovery state without automatic submission replay.
+ "@
+-& 'C:/Users/pruth/OpenClawPAD/Antigravity-Autonomous-Loop.ps1' -ConversationId '9e05992c-d9ba-4cbd-9188-eefa789de290' -InitialPrompt $instruction -PrintTimeout '2400s' -MaxTurns 50 -QuotaGroupRegex '(?i)^Gemini Models$' -AuthoritativeAgyProfile 'account1'
++& 'C:/Users/pruth/OpenClawPAD/Antigravity-Autonomous-Loop.ps1' -ConversationId '9e05992c-d9ba-4cbd-9188-eefa789de290' -InitialPrompt $instruction -PrintTimeout '2400s' -MaxTurns 50 -QuotaGroupRegex '(?i)^Gemini Models$' -EnableSmartAgyProfileSelection $true -QuotaCheckEveryTurns 1 -QuotaStopThresholdPct 20
