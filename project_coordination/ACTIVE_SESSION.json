@@ -1,18 +1,16 @@
 {
-    "active":  true,
-    "agent":  "codex",
-    "task_id":  "CONTROLLER-EXPIRED-NATIVE-CREDENTIAL-RECOVERY",
-    "starting_commit":  "08265843e59d83a5cc9b830bc9c1aeac496ade29",
-    "allowed_write_scope":  [
-                                "scripts/validation/AgyCredentialStores.ps1",
-                                "scripts/validation/controller_expired_native.patch",
-                                "tests/unit/test_agy_credentials.ps1",
-                                "project_coordination/ACTIVE_SESSION.json",
-                                "project_coordination/ARTIFACT_REGISTRY.csv",
-                                "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/sessions/2026-10-19_codex_expired_native.md"
-                            ],
-    "claimed_at":  "2026-10-19T16:00:45+02:00",
-    "last_updated":  "2026-10-19T16:00:45+02:00",
-    "last_released":  "2026-10-19T15:56:31.279223+02:00"
+  "active": false,
+  "agent": "gemini-antigravity",
+  "task_id": "F1595-PACKAGE60-FORCE-EXTRACTION-AUDIT",
+  "starting_commit": "80204c9025bc1dbf4cc33061389ef314289bfd37",
+  "allowed_write_scope": [
+    "project_coordination/ACTIVE_SESSION.json",
+    "project_coordination/ACTIVE_TASK.json",
+    "project_coordination/TASK_LEDGER.csv",
+    "project_coordination/ARTIFACT_REGISTRY.csv",
+    "project_coordination/sessions/2026-10-19_gemini-antigravity_f1595_package60_force_audit.md"
+  ],
+  "claimed_at": "2026-10-19T16:24:00+02:00",
+  "last_updated": "2026-10-19T16:31:00+02:00",
+  "last_released": "2026-10-19T16:31:00+02:00"
 }

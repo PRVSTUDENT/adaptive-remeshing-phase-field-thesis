@@ -1,13 +1,11 @@
 {
-  "task_id": "F1590-CAPTURE-MODE1-FRACTURE-PEAK-AND-ADVANCE-METHOD-C",
-  "status": "PACKAGE48_PEAK_CAPTURED_732N__PACKAGE60_HEALING_REDUCED_97P7PCT__PRODUCTION_UEL_FROZEN",
+  "task_id": "F1595-PACKAGE60-FORCE-EXTRACTION-AUDIT",
+  "status": "PACKAGE60_FORCE_EXTRACTION_AUDIT_PASS__CURRENT_TOTAL_FORCE_VERIFIED__EVALUATION_JSON_MISASSIGNMENT_IDENTIFIED__PRODUCTION_UEL_FROZEN",
   "agent": "gemini-antigravity",
-  "phase": "Task F1590: 1. Captured Mode-I physical fracture peak on 12,369-element native adapted mesh (Package 48, Job 1415119): F_max = 732.4603 N at u = 0.005636 mm (-3.34% vs reference 757.78 N), K0 = 137.842 kN/mm (-0.075% error); 2. Captured post-peak softening over 1,930 increments (load drop to 533.76 N, -27.10%); 3. Verified full-horizon energy balance: W_ext = 3.0372 mJ, E_tot = 3.0345 mJ, residual = 0.00271 mJ (0.0892% relative error, <0.80% max); 4. Quantitative ligament resolution analysis proves h coarsens from 0.23 l0 at notch tip to 2.0 l0 at x=0.72 mm, proving necessity of Method C external remeshing; 5. Package 60 nonmatching transfer (Job 1415177, Exit 0, 4 incs, 0 cutbacks) proved bilinear shape-function history projection and discrete equilibrium initialization suppress damage healing deficit from -0.0810 to -0.001840 (97.73% reduction, 44x improvement); healing nodes reduced by 73.06%; monotonic dissipation maintained; production UEL f42_mixed_uel.for 100% frozen; 39/39 unit tests PASS.",
-  "gate_status": "GATE_6B_ACTIVE_EVALUATION__PACKAGE48_PEAK_CAPTURED__PACKAGE60_METHOD_C_STAGE_C1_QUALIFIED",
-  "last_updated": "2026-10-19T12:30:00+02:00",
-  "active_pbs_job_ids": [
-    "1415119.mmaster02"
-  ],
+  "phase": "Task F1595: Completed read-only audit of Package 60 reaction force 0.16506 N. Verified it is the solver reported current (absolute) total vertical reaction force at Step 1 Increment 1 (u=0.00258 mm) balancing total displacement u_tot = u_offset + Du, not an incremental force. Identified extraction discrepancy in JOB_1415177_EVALUATION.json where step1_rf2_n was misassigned to Step 2 Inc 3 endpoint force (0.1496 N). Confirmed 0.165 N reflects artificial uncoupled relaxation rather than donor traction preservation; production UEL frozen.",
+  "gate_status": "GATE_6B_ACTIVE_EVALUATION__PACKAGE60_AUDIT_PASS",
+  "last_updated": "2026-10-19T16:30:00+02:00",
+  "active_pbs_job_ids": [],
   "dependent_pbs_job_ids": [],
   "deferred_candidate_jobs": [
     "M1_MC_STAGE_C1_2_CYCLE5 (Package 71 receiver continuation, displacement initialization unsupported in static steps, submission withheld by policy)",
@@ -51,22 +49,6 @@
     "1414558.mmaster02",
     "1414563.mmaster02",
     "1414571.mmaster02",
-    "1414577.mmaster02",
-    "1414588.mmaster02",
-    "1414605.mmaster02",
-    "1414606.mmaster02",
-    "1414611.mmaster02",
-    "1414615.mmaster02",
-    "1414616.mmaster02",
-    "1414620.mmaster02",
-    "1414631.mmaster02",
-    "1414637.mmaster02",
-    "1414644.mmaster02",
-    "1414645.mmaster02",
-    "1414646.mmaster02",
-    "1414652.mmaster02",
-    "1414660.mmaster02",
-    "1414661.mmaster02",
     "1414704.mmaster02",
     "1414705.mmaster02",
     "1414707.mmaster02",
@@ -104,6 +86,8 @@
     "1415069.mmaster02",
     "1415074.mmaster02",
     "1415099.mmaster02",
-    "1415177.mmaster02"
+    "1415119.mmaster02",
+    "1415177.mmaster02",
+    "1415199.mmaster02"
   ]
 }
