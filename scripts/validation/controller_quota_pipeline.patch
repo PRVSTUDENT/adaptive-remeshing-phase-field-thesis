@@ -1,0 +1,363 @@
+--- a/Antigravity-Autonomous-Loop.ps1
++++ b/Antigravity-Autonomous-Loop.ps1
+@@ -8,6 +8,7 @@
+     [string]$InitialPromptFile = "",
+     [int]$MaxTurns          = 50,
+     [string]$PrintTimeout   = "10000s",
++    [ValidateRange(60,1800)][int]$ScientificTurnSeconds = 600,
+ 
+     # AGY_QUOTA_GUARD_V1
+     # 1 = check after every actual AGY turn.
+@@ -72,7 +73,7 @@
+     # Five-day/weekly reset timestamp is the first priority; >=20% 5-hour
+     # headroom is mandatory. Unknown quota telemetry NEVER implies spare quota.
+     [bool]$EnableSmartAgyProfileSelection = $true,
+-    [double]$SmartMinLongRemainingPct = 2.0,
++    [double]$SmartMinLongRemainingPct = 20.0,
+     [string]$SmartQuotaGroupRegex = "",
+ 
+     # Authoritative manual AGY profile. Explicit caller selection always wins.
+@@ -133,6 +134,7 @@
+     if (-not $controllerLockHeld) {
+         throw 'Another Antigravity controller is already running for this Windows user. This invocation stopped before profile selection or AGY execution. Close the existing controller before starting another.'
+     }
++. (Join-Path $WorkspaceDir 'scripts/validation/AgyControllerPolicy.ps1')
+ $script:RequestedAgyProfile = $AuthoritativeAgyProfile
+ if ($EnableSmartAgyProfileSelection) {
+     $EnableAutomaticAgyProfileRotation = $true
+@@ -2089,9 +2091,10 @@
+ 
+ 
+ function Switch-ToNextAgyProfile {
++    param([string]$QuotaError = $script:LastAgyQuotaError)
+     if ($EnableSmartAgyProfileSelection) {
+         $oldProfile = Get-CurrentAgyProfileName
+-        Set-AgySmartQuotaCooldown -Profile $oldProfile -Reason 'QUOTA_TRIGGER'
++        if ($QuotaError) { Set-AgySmartQuotaCooldown -Profile $oldProfile -Reason 'ACTUAL_QUOTA_ERROR' -Message $QuotaError }
+         return (Invoke-AgySmartSelection -ExcludeProfile $oldProfile -Reason 'QUOTA_TRIGGER')
+     }
+     if (-not $EnableAutomaticAgyProfileRotation) {
+@@ -2230,46 +2233,9 @@
+ 
+ 
+ function Test-SalvageAgySessionFromDisk {
+-    param(
+-        [string]$WorkspaceDir
+-    )
+-
+-    if ([string]::IsNullOrWhiteSpace($WorkspaceDir)) {
+-        return $null
+-    }
+-
+-    $activeSessionPath = Join-PathStrict -Path $WorkspaceDir -ChildPath "project_coordination\ACTIVE_SESSION.json"
+-    if (-not (Test-Path -LiteralPath $activeSessionPath)) {
+-        return $null
+-    }
+-
+-    try {
+-        $rawSession = Get-Content -LiteralPath $activeSessionPath -Raw
+-        if ([string]::IsNullOrWhiteSpace($rawSession)) {
+-            return $null
+-        }
+-        $session = $rawSession | ConvertFrom-Json
+-        # Completed session requirement: active must be false and session_report path non-empty
+-        if ($null -ne $session -and ($session.active -eq $false) -and -not [string]::IsNullOrWhiteSpace($session.session_report)) {
+-            $reportRelative = [string]$session.session_report
+-            $reportPath = Join-PathStrict -Path $WorkspaceDir -ChildPath $reportRelative
+-            if ((Test-Path -LiteralPath $reportPath) -and ((Get-Item -LiteralPath $reportPath).Length -ge 100)) {
+-                $reportContent = Get-Content -LiteralPath $reportPath -Raw
+-                if (-not [string]::IsNullOrWhiteSpace($reportContent)) {
+-                    return [PSCustomObject]@{
+-                        task_id        = [string]$session.task_id
+-                        session_report = $reportRelative
+-                        content        = $reportContent
+-                    }
+-                }
+-            }
+-        }
+-    }
+-    catch {
+-        return $null
+-    }
+-
+-    return $null
++    param([string]$WorkspaceDir)
++    if ($null -eq $turnStartTime) { return $null }
++    return Get-AgyCompletedReceipt -WorkspaceDir $WorkspaceDir -Since $turnStartTime
+ }
+ 
+ function Test-IsAgyTransientNetworkOr503Error {
+@@ -2484,20 +2450,20 @@
+ }
+ 
+ function Set-AgySmartQuotaCooldown {
+-    param([string]$Profile, [string]$Reason)
++    param([string]$Profile, [string]$Reason, [string]$Message = '')
+     if ($Profile -notmatch '^account[1-5]$') { return }
+-    # Re-evaluate after a modest cooldown; never assume a quota reset happened.
+-    $until = [DateTimeOffset]::UtcNow.AddMinutes(60).ToString('o')
++    $existing = if ($script:SmartCooldowns.ContainsKey($Profile)) { [string]$script:SmartCooldowns[$Profile] } else { '' }
++    $until = Get-AgyQuotaCooldownDeadline -Message $Message -ExistingUntil $existing
+     $script:SmartCooldowns[$Profile] = $until
+-    Write-Host "[SMART-AGY] Excluding $Profile until $until after $Reason." -ForegroundColor Yellow
++    Write-AgySmartProfileState -Reason $Reason
++    Write-Host "[SMART-AGY] Excluding $Profile until $until after $Reason (provider reset respected)." -ForegroundColor Yellow
+ }
+ 
+ function Select-AgySmartCandidate {
+     param([object[]]$Records, [string]$ExcludeProfile = '')
+     $eligible = @($Records | Where-Object {
+         $_.profile -ne $ExcludeProfile -and
+-        $_.long_remaining_pct -gt $SmartMinLongRemainingPct -and
+-        $_.five_h_remaining_pct -gt $QuotaStopThresholdPct -and
++        (Test-AgyQuotaHeadroom -Record $_ -ShortThreshold $QuotaStopThresholdPct -LongThreshold ([Math]::Max(20, $SmartMinLongRemainingPct))) -and
+         -not (Get-AgySmartCooldownActive -Profile $_.profile)
+     })
+     # Primary: soonest REAL long-window reset. Secondary: most 5h quota
+@@ -2536,12 +2502,20 @@
+     $results = @()
+     $failures = @()
+     $seenIdentities = @{}
++    $blockedIdentities = @{}
++    foreach ($cooldownProfile in @($script:SmartCooldowns.Keys)) {
++        if (Get-AgySmartCooldownActive -Profile $cooldownProfile) {
++            try { $blockedIdentities[(Get-AgySavedProfileIdentity -Profile $cooldownProfile)] = $true }
++            catch { throw "Cannot verify exhausted account identity for $cooldownProfile; refusing an unsafe alias scan." }
++        }
++    }
+     foreach ($profile in @($AgyProfileRotationOrder | Where-Object { $_ -match '^account[1-5]$' } | Select-Object -Unique)) {
+         if (Get-AgySmartCooldownActive -Profile $profile) { continue }
+         try {
+             # Inventory reads each saved credential directly; only the winner is switched.
+             $payload = Get-AgyQuotaProviderJson -Profile $profile
+             if (-not $payload.profile_identity) { throw 'Missing quota profile identity.' }
++            if ($blockedIdentities.ContainsKey($payload.profile_identity)) { continue }
+             if ($seenIdentities.ContainsKey($payload.profile_identity)) {
+                 Write-Warning "[SMART-AGY] $profile is an alias of $($seenIdentities[$payload.profile_identity]); skipping duplicate capacity."
+                 continue
+@@ -2588,7 +2562,7 @@
+             try { $previousResponse = [string]((Get-Content -LiteralPath $StateFile -Raw | ConvertFrom-Json).last_response) } catch {}
+         }
+         if ($previousResponse.Length -gt 6000) { $previousResponse = $previousResponse.Substring($previousResponse.Length - 6000) }
+-        $script:PendingSmartProfileContext = "PROFILE CHANGE: $prior -> $($selected.profile). Previous conversation belongs to the old account and MUST NOT be reused. Continue project from persistent artifacts, do not repeat completed HPC work. Previous completed response (if any):`n$previousResponse`n"
++        $script:PendingSmartProfileContext = "Before any action read project_coordination/ACTIVE_SESSION.json, ACTIVE_TASK.json, HPC_JOB_LEDGER.csv, MODE1_EXECUTION_LEDGER.json and the latest session report. Reconcile guarded qstat with all reserved IDs; never repeat a submission. PROFILE CHANGE: $prior -> $($selected.profile). Previous conversation belongs to the old account and MUST NOT be reused. Continue project from persistent artifacts, do not repeat completed HPC work. Previous completed response (if any):`n$previousResponse`n"
+     }
+     Write-Host ("[SMART-AGY] {0}: selected {1}; longer window resets in {2:N1} h; long quota {3}%; 5h quota {4}%." -f `
+         $Reason, $selected.profile, ($selected.minutes_until_long_reset / 60.0), `
+@@ -3033,85 +3007,23 @@
+ }
+ 
+ function Invoke-EscalationChatGPT($AntigravityResponse, $QuotaSnapshotText = "") {
++    $stateFile = Join-Path $WorkspaceDir 'project_coordination/CURRENT_STATE.md'
++    $stateText = if (Test-Path -LiteralPath $stateFile) { Get-AgyBoundedText -Text (Get-Content -LiteralPath $stateFile -Raw) -Limit 5000 } else { 'Current state unavailable: require artifact reconciliation before action.' }
++    $resultText = Get-AgyBoundedText -Text ([string]$AntigravityResponse) -Limit 7000
++    $quotaText = Get-AgyBoundedText -Text ([string]$QuotaSnapshotText) -Limit 1800
+     $Prompt = @"
+-AUTOMATED ANTIGRAVITY WORKFLOW TURN
+-
+-HUMAN (USER) & SUPERVISOR DIRECTIVE STATUS:
+-The supervisor and human user have explicitly directed:
+-1. Temporarily narrow the thesis work to the basic Pandey-Kumar Mode-I benchmark ONLY ("We need to have understood everything related to the first model before we increase complexity").
+-2. Mode-II and multi-step state transfer continuation are PAUSED/ARCHIVED and must NOT drive active instructions.
+-3. Guide Antigravity according to the supervisor's preferred scientific logic:
+-   Define problem -> Define expected solution -> Establish reference -> Apply adaptive method -> Compare -> Explain discrepancies.
+-4. Require defensible scientific rigor: distinguish "I know this", "I verified this numerically", and "I do not yet understand this".
+-5. Target deliverables: condensed 5-chapter Mode-I report, exact multi-quantity convergence comparisons (F-u curve, peak force, displacement at peak, UEL energy limitation, phase-field distribution, crack path, computational cost), and clean reproduction package (.inp, .for, .py, commands.txt).
+-6. NEW HUMAN DIRECTIVE (2026-09-10): the verified supervisor handoff package is a baseline snapshot, NOT the end of Mode-I research. Continue working to resolve (A) the 71,320-element stiffness/response anomaly and (B) the 71,320-vs-~13,941 Pandey-Kumar native-remesh discrepancy.
+-7. Priority A comes first for solver/debugging work. Do not advance Gate 7, Mode-II, or state transfer merely because Gates 0-6 were packaged.
+-
+----------------- PROJECT / THESIS ALIGNMENT GUARD ----------------
+-$ProjectAlignmentGuard
+--------------- END PROJECT / THESIS ALIGNMENT GUARD --------------
+-
+-The following is the latest response from Antigravity:
+-
+----------------- ANTIGRAVITY RESPONSE ----------------
+-$AntigravityResponse
+--------------- END ANTIGRAVITY RESPONSE --------------
+-
+----------------- QUOTA GUARD SNAPSHOT ----------------
+-$QuotaSnapshotText
+--------------- END QUOTA GUARD SNAPSHOT --------------
+-
+-Determine the next instruction to send to Antigravity.
+-
+-Workflow requirements:
+-1. Give only the next actionable instruction. Do not add unnecessary commentary.
+-2. The human user has fully authorized today's project tasks and PBS submissions. Once candidate validation and datacheck pass, immediately authorize Antigravity to submit the validated PBS job.
+-3. If a PBS job has been submitted, preserve the exact job ID.
+-4. When asking Antigravity to perform work, require it to write "Finished" at the end.
+-5. Return only the next instruction that should be sent to Antigravity.
+-6. Concurrency & Batch Rules (Holiday-Window Concurrency Policy Floor >= 10, Up to 15-20 Useful Mode-I Jobs):
+-- The cluster queue normal_imfdfkmq operates under the Holiday-Window Concurrency Policy with demonstrated capacity >= 10 concurrent jobs (up to 640 CPUs / 4 TB RAM).
+-- Active running jobs (R or Q) do NOT block independent, scientifically justified Mode-I tasks, offline analysis, evidence evaluations, post-processing, or submission of independent companion/repeat/scaling jobs.
+-- Do NOT reply "stop" if:
+-  (a) Free cluster CPU capacity remains under the 640 CPU limit, AND
+-  (b) There is independent, scientifically justified Mode-I work ready to perform (such as submitting independent thread-determinism repeats, evaluating newly terminal jobs, offline reconciliation audits, or preparing/submitting the next batch), AND
+-  (c) The running jobs are independent and do not block that work.
+-  In this case, instruct Antigravity to proceed with that independent work!
+-- Reply "stop" ONLY if:
+-  All authorized and scientifically justified independent Mode-I work is already executing or completed, and the workflow is genuinely blocked waiting on running jobs to reach terminal state before any further scientific progress can be made.
+-- CURRENT MODE-I FUNDAMENTALS GOVERNANCE (POST-17-SEPTEMBER-2026 MEETING):
+-  ModeIReproductionStatus is CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION.
+-  Mechanical N_BOTTOM defect is RESOLVED_AND_CLOSED.
+-  Active phase: MODE1_GATE6B_ACTIVE_EVALUATION_AND_CONTINUATION.
+-  Priority 1 is UEL Energy Formulation and Output Audit (offline derivation, source audit, energy balance formulation, non-invasive code design, report updates).
+-  ModeIFundamentalsActionable is TRUE.
+-  With zero Q/R jobs, independent fundamentals work (energy audit, weak form derivations, report updating) is ACTIONABLE. Do NOT reply "stop" merely because zero jobs are in the queue.
+-- The exact meaning of "stop":
+-  "stop" means: leave the currently running PBS jobs untouched; no further independent action is possible right now.
+-  It does NOT mean: "stop using the cluster" or "halt research while independent work or free HPC capacity remains."
+-
+-7. When a fresh scheduler result is provided after that wait, evaluate that result and decide the next action.
+-
+-8. If the scheduler result is terminal (F/C/E), do NOT reply "stop" merely because the job finished. Give the next concrete instruction required to retrieve, inspect, diagnose, or evaluate the actual job evidence.
+-
+-9. Do not choose the scheduler polling interval yourself.
+-
+-10. If the supplied information is insufficient for a safe next instruction, reply exactly:
+-ESCALATION_UNRESOLVED
++AUTOMATED MODE-I RESEARCH HANDOFF, controller turn $CurrentTurn
++$(Get-AgyCompactRules)
++AUTHORITATIVE CURRENT STATE SNAPSHOT (may require live reconciliation):
++$stateText
++LATEST RESULT (bounded excerpt; full evidence is in project session reports):
++$resultText
++QUOTA SNAPSHOT:
++$quotaText
++Give ONLY the next instruction for ONE bounded scientific investigation or one independent qualified batch. Keep it below 4000 characters. Preserve the Method C pipeline; reconcile existing experiments before new work. Read exact task/session/ledger artifacts to recover details omitted from this compact handoff. Require exact quantitative evidence, job receipts, tests and truthful closeout. Ready qualified jobs must execute; do not spend another turn retelling project history. No waiting inside AGY for solver completion. If no scientifically supported next action can be determined, reply ESCALATION_UNRESOLVED. Never infer scientific success from an empty queue.
+ "@
+-
+-    $Reply = Invoke-ChatGPTBridgeWithManualFallback `
+-        -Prompt $Prompt `
+-        -ContextLabel "AGY_TURN_$CurrentTurn"
+-
+-    if ($Reply -eq "ESCALATION_UNRESOLVED") {
+-        throw "ChatGPT could not determine a safe next instruction."
+-    }
+-
+-    if ($Reply -match '^(?i:stop)\s*$') {
+-        return "stop"
+-    }
+-
++    $Reply = Invoke-ChatGPTBridgeWithManualFallback -Prompt $Prompt -ContextLabel "AGY_TURN_$CurrentTurn"
++    if ($Reply -eq 'ESCALATION_UNRESOLVED') { throw 'ChatGPT could not determine a safe next instruction.' }
+     return $Reply
+ }
+ 
+@@ -3128,7 +3040,7 @@
+ Evaluate solver evidence and job status against the Mode-I reference anchor, the active fundamentals roadmap, and multi-quantity convergence criteria.
+ 
+ ---------------- PROJECT / THESIS ALIGNMENT GUARD ----------------
+-$ProjectAlignmentGuard
++$(Get-AgyCompactRules)
+ -------------- END PROJECT / THESIS ALIGNMENT GUARD --------------
+ 
+ Tracked production PBS job:
+@@ -3315,6 +3227,18 @@
+ 
+ :MainLoop while ($CurrentTurn -le ($StartTurn + $MaxTurns - 1)) {
+     Adopt-ExternalAgySwitchAtBoundary
++    $script:LastAgyQuotaError = ''
++    if ($EnableSmartAgyProfileSelection) {
++        $current = Get-CurrentAgyProfileName
++        $ready = $false
++        try {
++            $payload = Get-AgyQuotaProviderJson -Profile $current
++            if ($payload.profile_identity -ne (Get-AgySavedProfileIdentity -Profile $current)) { throw 'Quota identity mismatch' }
++            $record = ConvertTo-AgySmartQuotaRecord -Profile $current -Payload $payload -GroupRegex $SmartQuotaGroupRegex
++            $ready = (Test-AgyQuotaHeadroom -Record $record -ShortThreshold $QuotaStopThresholdPct -LongThreshold ([Math]::Max(20, $SmartMinLongRemainingPct))) -and -not (Get-AgySmartCooldownActive -Profile $current)
++        } catch { Write-Warning "[SMART-AGY] Current profile quota cannot be qualified: $($_.Exception.Message)" }
++        if (-not $ready) { $null = Invoke-AgySmartSelection -ExcludeProfile $current -Reason 'PRE_TURN_BOTH_WINDOWS' }
++    }
+     Ensure-AuthoritativeAgyProfile "TURN_START"
+     Write-Host "`n----------------------------------------------------------" -ForegroundColor Yellow
+     Write-Host " TURN $CurrentTurn STARTING " -ForegroundColor Yellow
+@@ -3341,7 +3265,11 @@
+     $agyArgs += "text"
+     $agyArgs += "--output-format"
+     $agyArgs += "json"
+-    $effectivePrintTimeout = if ($AgyTimeoutRecoveryAttemptsByTurn.ContainsKey([string]$CurrentTurn)) { '180s' } else { $PrintTimeout }
++    $effectivePrintTimeout = if ($AgyTimeoutRecoveryAttemptsByTurn.ContainsKey([string]$CurrentTurn)) { '120s' } else { $PrintTimeout }
++    $budgetMatch = [regex]::Match($effectivePrintTimeout, '^(\d+)(s|m|h)$')
++    if (-not $budgetMatch.Success) { throw "Unsupported print timeout: $effectivePrintTimeout" }
++    $requestedSeconds = [int]$budgetMatch.Groups[1].Value * @{s=1;m=60;h=3600}[$budgetMatch.Groups[2].Value]
++    $effectivePrintTimeout = "$([Math]::Min($ScientificTurnSeconds, $requestedSeconds))s"
+     $agyArgs += "--print-timeout"
+     $agyArgs += $effectivePrintTimeout
+     if ($AllowSkipPermissions) {
+@@ -3352,7 +3280,7 @@
+     # follow-up turns. This prevents Turn 2+ from forgetting the restriction.
+     # TURN10_NONINTERACTIVE_GUARD_V1
+     $CurrentInstruction = "Use powershell.exe -NoProfile -NonInteractive for generated shell commands. Always supply explicit -Path and -ChildPath to Join-Path; missing paths are technical errors to diagnose locally. Never wait for a terminal parameter prompt. Do not use timer tools with empty arguments. Recover existing PBS IDs before any submission.`r`n" + $CurrentInstruction
+-    $EffectiveInstruction = $PersistentAgentGuard + "`r`n`r`n" + $ProjectAlignmentGuard + "`r`n`r`n" + $script:PendingSmartProfileContext + "`r`n`r`n" + $CurrentInstruction
++    $EffectiveInstruction = (Get-AgyCompactRules) + "`nRead authoritative AGENTS.md and required coordination bootstrap files; do not reconstruct unrelated history. Time budget: $ScientificTurnSeconds seconds; reserve time for truthful closeout and emit final response. `n" + $script:PendingSmartProfileContext + "`n" + $CurrentInstruction
+ 
+     # ------------------------------------------------------------
+     # 2. Invoke Antigravity CLI (agy.exe) with hardened error guard
+@@ -3394,11 +3322,21 @@
+             $agyRawOutput = $boundedRun.Output
+             $agyExitCode = $boundedRun.ExitCode
+             if ($boundedRun.TimedOut) {
+-                $recoveryInstruction = "Recover interrupted AGY turn. First inspect ACTIVE_SESSION and recover exact PBS IDs from the execution ledger and guarded qstat. Preserve every reserved or submitted job, including 1415119.mmaster02; never replay the original submission instruction. Review partial CLI output and current scientific state, perform only justified independent work, then emit a final response."
+-                Write-LoopLog -Turn $CurrentTurn -Tier 'CONTROLLER' -Action 'AGY_WATCHDOG_TIMEOUT' -Message "Owned CLI stopped after ${hardTimeout}s. No automatic retry or submission replay."
+-                Save-LoopState -Turn ($CurrentTurn - 1) -Status 'AGY_WATCHDOG_TIMEOUT' -LastInstruction $CurrentInstruction -LastResponse $agyRawOutput -NextInstruction $recoveryInstruction -Duration $boundedRun.DurationSeconds -Usage $null -Tier 'CONTROLLER' -Action 'AGY_WATCHDOG_TIMEOUT'
+-                Save-LoopStatus -Turn $CurrentTurn -Status 'FAILED' -Tier 'CONTROLLER' -Action 'AGY_WATCHDOG_TIMEOUT' -Details 'Local CLI deadline exceeded. Recovery instruction saved; PBS jobs preserved.'
+-                break MainLoop
++                [IO.File]::WriteAllText((Join-Path $PadDir 'controller_watchdog_last_partial.log'), [string]$boundedRun.Output, [Text.UTF8Encoding]::new($false))
++                $completedReceipt = Get-AgyCompletedReceipt -WorkspaceDir $WorkspaceDir -Since $turnStartTime
++                if ($null -ne $completedReceipt) {
++                    $agyRawOutput = @{conversation_id=$ConversationId;status='SUCCESS';response=$completedReceipt.content;usage=$null} | ConvertTo-Json -Depth 5
++                    $agyExitCode = 0
++                    $ConversationId = $null
++                    $ConversationIdSource = 'fresh-after-watchdog-receipt'
++                    Write-LoopLog -Turn $CurrentTurn -Tier 'CONTROLLER' -Action 'AGY_WATCHDOG_COMPLETED_RECEIPT' -Message "Recovered fresh completed task $($completedReceipt.task_id) from disk; raw partial output preserved."
++                } else {
++                    $recoveryInstruction = "Recover interrupted AGY turn. First inspect ACTIVE_SESSION and recover exact PBS IDs from the execution ledger and guarded qstat. Preserve every reserved or submitted job recorded in the current ledgers; never replay the original submission instruction. Review partial CLI output and current scientific state, perform only justified independent work, then emit a final response."
++                    Write-LoopLog -Turn $CurrentTurn -Tier 'CONTROLLER' -Action 'AGY_WATCHDOG_TIMEOUT' -Message "Owned CLI stopped after ${hardTimeout}s. No automatic retry or submission replay."
++                    Save-LoopState -Turn ($CurrentTurn - 1) -Status 'AGY_WATCHDOG_TIMEOUT' -LastInstruction $CurrentInstruction -LastResponse $agyRawOutput -NextInstruction $recoveryInstruction -Duration $boundedRun.DurationSeconds -Usage $null -Tier 'CONTROLLER' -Action 'AGY_WATCHDOG_TIMEOUT'
++                    Save-LoopStatus -Turn $CurrentTurn -Status 'FAILED' -Tier 'CONTROLLER' -Action 'AGY_WATCHDOG_TIMEOUT' -Details 'Local CLI deadline exceeded. Recovery instruction saved; PBS jobs preserved.'
++                    break MainLoop
++                }
+             }
+         }
+         catch {
+@@ -3425,6 +3363,7 @@
+         }
+ 
+         $agyText = $outputLines -join "`r`n"
++        if (Test-IsAgyQuotaLimitError -Message $agyText) { $script:LastAgyQuotaError = $agyText }
+ 
+         if ($agyInvocationException) {
+             $agyText =
+@@ -3660,7 +3599,7 @@
+     if ($agyText -match '(?i)\[agy\] print timeout.*returning partial output') {
+         # Timeout JSON may contain a tool message rather than a final scientific report.
+         # Salvage only a newly completed, released session with an existing report.
+-        $diskSalvage = Test-SalvageAgySessionFromDisk -WorkspaceDir $WorkspaceDir
++        $diskSalvage = Get-AgyCompletedReceipt -WorkspaceDir $WorkspaceDir -Since $turnStartTime
+         $sessionFile = Join-Path $WorkspaceDir 'project_coordination/ACTIVE_SESSION.json'
+         $freshCompletedReport = $false
+         if ($null -ne $diskSalvage -and (Test-Path -LiteralPath $sessionFile)) {
+@@ -3679,10 +3618,10 @@
+             $attempts = if ($AgyTimeoutRecoveryAttemptsByTurn.ContainsKey($turnKey)) { [int]$AgyTimeoutRecoveryAttemptsByTurn[$turnKey] } else { 0 }
+             $recovery = 'CONTINUATION ONLY: The CLI returned partial output at its print deadline. Do not replay any original submission or numerical operation. Inspect ACTIVE_SESSION, current ledgers, exact scheduler IDs and existing artifacts first. Preserve all reservations and running jobs. Complete only necessary verification and closeout of work already performed; emit your final scientific report promptly. Do not wait for running simulations. Release your own session normally. End with Finished.'
+             Save-LoopState -Turn ($CurrentTurn - 1) -Status 'AGY_PRINT_TIMEOUT_RECOVERY' -LastInstruction $CurrentInstruction -LastResponse $agyText -NextInstruction $recovery -Duration $turnDurationSeconds -Usage $null -Tier 'CONTROLLER' -Action 'AGY_PRINT_TIMEOUT_RECOVERY'
+-            if ($attempts -lt 2 -and -not [string]::IsNullOrWhiteSpace($ConversationId)) {
++            if ($attempts -lt 1 -and -not [string]::IsNullOrWhiteSpace($ConversationId)) {
+                 $AgyTimeoutRecoveryAttemptsByTurn[$turnKey] = $attempts + 1
+                 $CurrentInstruction = $recovery
+-                Write-LoopLog -Turn $CurrentTurn -Tier 'CONTROLLER' -Action 'AGY_PRINT_TIMEOUT_RECOVERY' -Message "Continuing existing conversation for closeout only (attempt $($attempts + 1)/2; 180s print deadline)."
++                Write-LoopLog -Turn $CurrentTurn -Tier 'CONTROLLER' -Action 'AGY_PRINT_TIMEOUT_RECOVERY' -Message "Continuing existing conversation for closeout only (attempt $($attempts + 1)/1; 120s print deadline)."
+                 continue MainLoop
+             }
+             Save-LoopStatus -Turn $CurrentTurn -Status 'FAILED' -Tier 'CONTROLLER' -Action 'AGY_PRINT_TIMEOUT_RECOVERY_EXHAUSTED' -Details 'Bounded closeout recovery exhausted; raw partial output and safe recovery instruction saved. No submission replay.'
+@@ -4214,7 +4153,7 @@
+     }
+ 
+     $tokenCount = if ($agyObj.usage -and $agyObj.usage.total_tokens) { $agyObj.usage.total_tokens } else { 0 }
+-    Write-LoopLog -Turn $CurrentTurn -Tier "AGY" -Action "COMPLETED_TURN" -Message ("Duration: {0:N2}s, Tokens: {1}" -f $turnDurationSeconds, $tokenCount)
++    Write-LoopLog -Turn $CurrentTurn -Tier "AGY" -Action "COMPLETED_TURN" -Message ("Duration: {0:N2}s, CLI-reported tokens (may be conversation-cumulative): {1}" -f $turnDurationSeconds, $tokenCount)
+ 
+     # ------------------------------------------------------------------------
+     # AGY_QUOTA_GUARD_V1: collect fresh five-hour quota after this AGY turn.

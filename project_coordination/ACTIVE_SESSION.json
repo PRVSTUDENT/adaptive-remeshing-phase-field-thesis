@@ -1,18 +1,19 @@
 {
   "active": false,
   "agent": "codex",
-  "task_id": "CONTROLLER-TIMEOUT-JSON-RECOVERY",
-  "starting_commit": "8998ddf45a8b0da613ce19d7280df3a289ccdc92",
+  "task_id": "CONTROLLER-BOUNDED-QUOTA-PIPELINE",
+  "starting_commit": "11dff71d3876b9d6fd43204f2f836ee93a8bc9c0",
   "allowed_write_scope": [
-    "scripts/validation/ConvertFrom-AgyEnvelope.ps1",
-    "scripts/validation/controller_timeout_json.patch",
+    "scripts/validation/AgyControllerPolicy.ps1",
+    "scripts/validation/controller_quota_pipeline.patch",
+    "tests/unit/test_agy_policy.ps1",
     "tests/unit/test_agy_envelope.ps1",
     "project_coordination/ACTIVE_SESSION.json",
     "project_coordination/ARTIFACT_REGISTRY.csv",
     "project_coordination/TASK_LEDGER.csv",
-    "project_coordination/sessions/2026-10-19_codex_timeout_json.md"
+    "project_coordination/sessions/2026-10-19_codex_quota_pipeline.md"
   ],
-  "claimed_at": "2026-10-19T11:55:00+02:00",
-  "last_updated": "2026-10-19T13:04:03.694373+02:00",
-  "last_released": "2026-10-19T13:04:03.694373+02:00"
+  "claimed_at": "2026-10-19T13:56:00+02:00",
+  "last_updated": "2026-10-19T14:53:36.104320+02:00",
+  "last_released": "2026-10-19T14:53:36.104320+02:00"
 }

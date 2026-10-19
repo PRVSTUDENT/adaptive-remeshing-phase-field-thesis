@@ -20,7 +20,7 @@ if ($errors.Count) { throw 'Controller syntax regression' }
 $node = $ast.Find({param($n) $n -is [Management.Automation.Language.IfStatementAst] -and $n.Extent.Text.StartsWith("if (`$agyText -match '(?i)\[agy\] print timeout")}, $true)
 if ($null -eq $node) { throw 'Timeout handler missing' }
 $testCode = @'
-function Test-SalvageAgySessionFromDisk { return $null }
+function Get-AgyCompletedReceipt { return $null }
 function Save-LoopState { $script:savedRecovery = $recovery }
 function Save-LoopStatus { $script:stoppedRecovery = $true }
 function Write-LoopLog { }
@@ -38,8 +38,8 @@ $executions = 0
 
     throw 'Timeout branch fell through into normal completion'
 }
-if ($executions -ne 3 -or $AgyTimeoutRecoveryAttemptsByTurn['1'] -ne 2 -or -not $script:stoppedRecovery) { throw 'Unbounded recovery regression' }
+if ($executions -ne 2 -or $AgyTimeoutRecoveryAttemptsByTurn['1'] -ne 1 -or -not $script:stoppedRecovery) { throw 'Unbounded recovery regression' }
 if ($CurrentInstruction -notmatch 'CONTINUATION ONLY' -or $script:savedRecovery -notmatch 'Do not replay') { throw 'Submission replay protection missing' }
-'PASS: isolated controller timeout handler continues only twice, saves safe closeout state, and stops on exhaustion'
+'PASS: isolated controller timeout handler continues only once, saves safe closeout state, and stops on exhaustion'
 '@
 & ([scriptblock]::Create($testCode))
