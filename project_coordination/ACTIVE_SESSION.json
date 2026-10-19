@@ -1,16 +1,18 @@
 {
-  "active": false,
-  "agent": "codex",
-  "task_id": "F1595-PREPARE-BOUNDED-FORCE-EXTRACTION-AUDIT",
-  "starting_commit": "4f78d340328efbb25bf002f0b0dbae849c33cb67",
-  "allowed_write_scope": [
-    ".agents/INITIAL_PROMPT.txt",
-    "project_coordination/ACTIVE_SESSION.json",
-    "project_coordination/ARTIFACT_REGISTRY.csv",
-    "project_coordination/TASK_LEDGER.csv",
-    "project_coordination/sessions/2026-10-19_codex_f1594_partial_reconciliation.md"
-  ],
-  "claimed_at": "2026-10-19T15:42:00+02:00",
-  "last_updated": "2026-10-19T15:56:31.279223+02:00",
-  "last_released": "2026-10-19T15:56:31.279223+02:00"
+    "active":  true,
+    "agent":  "codex",
+    "task_id":  "CONTROLLER-EXPIRED-NATIVE-CREDENTIAL-RECOVERY",
+    "starting_commit":  "08265843e59d83a5cc9b830bc9c1aeac496ade29",
+    "allowed_write_scope":  [
+                                "scripts/validation/AgyCredentialStores.ps1",
+                                "scripts/validation/controller_expired_native.patch",
+                                "tests/unit/test_agy_credentials.ps1",
+                                "project_coordination/ACTIVE_SESSION.json",
+                                "project_coordination/ARTIFACT_REGISTRY.csv",
+                                "project_coordination/TASK_LEDGER.csv",
+                                "project_coordination/sessions/2026-10-19_codex_expired_native.md"
+                            ],
+    "claimed_at":  "2026-10-19T16:00:45+02:00",
+    "last_updated":  "2026-10-19T16:00:45+02:00",
+    "last_released":  "2026-10-19T15:56:31.279223+02:00"
 }

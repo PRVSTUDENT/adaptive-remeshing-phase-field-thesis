@@ -1,0 +1,47 @@
+--- a/Antigravity-Autonomous-Loop.ps1
++++ b/Antigravity-Autonomous-Loop.ps1
+@@ -437,7 +437,27 @@
+     )
+ 
+     $expected = $script:RunLockedAgyProfile
+-    Assert-AgyCredentialStores -ExpectedBytes (Get-AgySavedCredentialBytes -Profile $expected) -TokenPath (Join-Path $env:USERPROFILE '.gemini/antigravity-cli/antigravity-oauth-token')
++    $tokenPath = Join-Path $env:USERPROFILE '.gemini/antigravity-cli/antigravity-oauth-token'
++    $expectedBytes = Get-AgySavedCredentialBytes -Profile $expected
++    try {
++        try {
++            Assert-AgyCredentialStores -ExpectedBytes $expectedBytes -TokenPath $tokenPath
++        } catch {
++            $verificationFailure = $_
++            $repairEligible = $false
++            if (Test-Path -LiteralPath $tokenPath) {
++                $nativeBytes = Read-AgyCredentialManagerBytes
++                try { $repairEligible = Test-AgyExpiredNativeRepair -ExpectedBytes $expectedBytes -NativeBytes $nativeBytes -CliBytes ([IO.File]::ReadAllBytes($tokenPath)) }
++                finally { [Array]::Clear($nativeBytes,0,$nativeBytes.Length) }
++            }
++            if (-not $repairEligible) { throw $verificationFailure }
++            Write-Warning "[PROFILE-GUARD] Expired native credential cache is unverifiable; CLI identity agrees with selected $expected. Resynchronizing stores once."
++            $global:LASTEXITCODE = 0 # PowerShell script success does not clear a prior native exit code.
++            $null = & agy-profile switch $expected -Force *>&1
++            if ($LASTEXITCODE -ne 0) { throw 'AGY_EXPIRED_NATIVE_REPAIR_FAILED: selected profile synchronization failed.' }
++            Assert-AgyCredentialStores -ExpectedBytes $expectedBytes -TokenPath $tokenPath
++        }
++    } finally { [Array]::Clear($expectedBytes,0,$expectedBytes.Length) }
+ 
+     $state = Get-AgyProfileState
+ 
+@@ -3446,7 +3466,14 @@
+ "@
+     }
+ 
+-    Set-AndVerifyAgyRunProfile "POST_AGY"
++    # Keep the result durable even if the post-call credential store was changed externally.
++    [IO.File]::WriteAllText((Join-Path $PadDir 'controller_last_agy_result.log'), [string]$agyText, [Text.UTF8Encoding]::new($false))
++    try { Set-AndVerifyAgyRunProfile "POST_AGY" }
++    catch {
++        Save-LoopState -Turn ($CurrentTurn - 1) -Status 'POST_AGY_CREDENTIAL_VERIFICATION_FAILED' -LastInstruction $CurrentInstruction -LastResponse $agyText -NextInstruction 'Reconcile existing partial result, current session and PBS receipts before any scientific action. Repair credential identity verification; never replay submissions.' -Duration $turnDurationSeconds -Usage $null -Tier 'CONTROLLER' -Action 'POST_AGY_CREDENTIAL_VERIFICATION_FAILED'
++        Save-LoopStatus -Turn $CurrentTurn -Status 'FAILED' -Tier 'CONTROLLER' -Action 'POST_AGY_CREDENTIAL_VERIFICATION_FAILED' -Details $_.Exception.Message
++        throw
++    }
+ 
+     if ($agyExitCode -ne 0) {
+ 
