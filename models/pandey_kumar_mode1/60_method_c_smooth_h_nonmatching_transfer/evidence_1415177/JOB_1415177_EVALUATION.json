@@ -1,0 +1,38 @@
+{
+  "pbs_job_id": "1415177.mmaster02",
+  "job_name": "M1_EXP_NONMATCHING_SMOOTH_H_650",
+  "batch_name": "MODE1_EXP_NONMATCHING_SMOOTH_H_650",
+  "adapter": "mode1-experimental-offset-v1",
+  "status": "COMPLETED",
+  "exit_code": 0,
+  "exec_host": "mnode097/0",
+  "queue": "normal_imfdfkmq",
+  "mesh_properties": {
+    "donor_elements": 400,
+    "receiver_elements": 650,
+    "receiver_nodes": 713,
+    "slit_a0_mm": 0.04
+  },
+  "zero_increment_reconstruction": {
+    "step1_rf2_n": 0.14961023,
+    "min_delta_d": -0.0018402185,
+    "max_delta_d": 0.41297946,
+    "mean_delta_d": 0.0036428821020123023,
+    "healing_nodes_count": 59,
+    "package53_min_delta_d": -0.080951,
+    "healing_reduction_pct": 97.72675013279638
+  },
+  "energy_metrics_uJ": {
+    "step1_e_elastic": 0.20962916,
+    "step1_e_fracture": 350.46533,
+    "step1_e_total": 350.67496,
+    "continuation_e_fracture": 350.5068,
+    "continuation_e_total": 350.70576
+  },
+  "scientific_findings": {
+    "continuous_h_verification": "Bilinear shape-function projection of Gauss-point history combined with discrete equilibrium initialization reduced maximum healing deficit from -0.0810 to -0.001840 (97.73% reduction).",
+    "healing_nodes_reduction": "Healing nodes reduced from 219 down to 59 (73.06% reduction).",
+    "continuation_stability": "Abaqus completed all increments with 0 cutbacks and strictly monotonic energy evolution."
+  },
+  "acceptance_verdict": "PASS"
+}

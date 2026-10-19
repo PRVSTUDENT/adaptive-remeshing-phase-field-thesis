@@ -1,16 +1,16 @@
 {
   "active": false,
-  "agent": "codex",
-  "task_id": "CONTROLLER-SMART-SWITCH-DEFAULT",
-  "starting_commit": "0af9e20d1d530615c77e88c578ec824104d9e3de",
+  "agent": "gemini-antigravity",
+  "task_id": "F1590-CAPTURE-MODE1-FRACTURE-PEAK-AND-ADVANCE-METHOD-C",
+  "starting_commit": "22a0946d0a01025c2dab2038b1ae0c888cb41e22",
   "allowed_write_scope": [
-    "project_coordination/ACTIVE_SESSION.json",
-    "project_coordination/ARTIFACT_REGISTRY.csv",
-    "project_coordination/TASK_LEDGER.csv",
-    "project_coordination/sessions/2026-10-19_codex_smart_switch.md",
-    "scripts/validation/controller_smart_switch.patch"
+    "project_coordination/**",
+    "models/pandey_kumar_mode1/**",
+    "runs/hpc/**",
+    "tests/unit/**",
+    "scripts/**"
   ],
-  "claimed_at": "2026-10-19T09:30:00+02:00",
-  "last_updated": "2026-10-19T11:52:46.096931+02:00",
-  "last_released": "2026-10-19T11:52:46.096931+02:00"
+  "claimed_at": "2026-10-19T11:55:00+02:00",
+  "last_updated": "2026-10-19T12:30:00+02:00",
+  "last_released": "2026-10-19T12:33:00+02:00"
 }

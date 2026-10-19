@@ -1,0 +1,41 @@
+{
+  "batch_name": "MODE1_EXP_NONMATCHING_SMOOTH_H_650",
+  "adapter": "mode1-experimental-offset-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "EXPERIMENTAL_OFFSET",
+  "configuration": "EXPERIMENTAL_OFFSET",
+  "hypothesis": "Continuous bilinear shape-function projection of Gauss-point history H combined with discrete equilibrium phase-field initialization eliminates the -0.0810 damage healing violation and restores zero-increment variational equilibrium on nonmatching meshes.",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_package60_smooth_h_nonmatching_transfer",
+  "files": {
+    "M1_EXP_NONMATCHING_SMOOTH_H_650.inp": "84374a88f1b15610362fd3157df0ef5feb70cd08f430359c062cbf67b9a8102a",
+    "f42_experimental_offset_uel.for": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "offset_state_table.csv": "dbd8e9374c325a7aa40cd46fe212c6e5d4d81f4d995060f755f2e87bd530b8f5",
+    "submit_M1_EXP_NONMATCHING_SMOOTH_H_650.pbs": "5e2b57f229c21b47a9aa5b100b148379eb57c1622890ea70ffd21c23eab470dc",
+    "PACKAGE_MANIFEST.json": "3d115d3981cbe25e33abb2669462461b4a2817f4af6155967322bf3f4ba1a6cd"
+  },
+  "jobs": [
+    {
+      "id": "M1_EXP_NONMATCHING_SMOOTH_H_650",
+      "pbs": "submit_M1_EXP_NONMATCHING_SMOOTH_H_650.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_package60_smooth_h_nonmatching_transfer/submit_M1_EXP_NONMATCHING_SMOOTH_H_650.pbs\"",
+      "command_sha256": "f8b26b69c3166d7495f2b9e5e0fae99571276bc4e701c72547ee435b48dfbf49",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Continuous bilinear H nonmatching mesh state transfer diagnostic (400 -> 650 quads, a0=0.040 mm) under offset UEL",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 4,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_EXP_NONMATCHING_SMOOTH_H_650.inp",
+      "datacheck": "M1_EXP_NONMATCHING_SMOOTH_H_650_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_EXP_NONMATCHING_SMOOTH_H_650": "Exit code 0; zero-increment healing violation min(delta_d) > -0.010 (90%+ reduction from -0.0810); rapid Newton convergence in <= 5 iterations on Step 1."
+  }
+}
