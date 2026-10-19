@@ -11,6 +11,9 @@
   * `PACKAGE48_CORRECTED_INP = PK_M1_NATIVE_ADAPTED_CORR_INP_SHA256_F20F5FF2...`
   * `PACKAGE48_DATACHECK_STATUS = EXIT_0_0_ERRORS_QUALIFIED`
   * `PACKAGE48_SUBMISSION_STATUS = SUBMITTED_AND_RUNNING_JOB_1415119_NORMAL_IMFDFKMQ`
+  * `PACKAGE48_STEP1_STATUS = COMPLETED_2000_INCS_0_CUTBACKS_RF_663_5N_EELAS_1_65J`
+  * `PACKAGE48_STEP2_STATUS = RUNNING_INC_76_PLUS_0_CUTBACKS_3_ITERS_PER_INC_RF_670_69N_EELAS_1_70J_EFRAC_0_039J`
+  * `REMOTE_GIT_SYNC_STATUS = PUSHED_TO_ORIGIN_MODE2_PANDEY_KUMAR_REPRODUCTION`
   * `ACTIVE_CLUSTER_JOBS = 1_JOB_1415119_RUNNING_ON_MNODE097_0`
   * `GOVERNED_EXECUTION_SLOTS_AVAILABLE = 3`
   * `PRODUCTION_UEL_STATUS = BITWISE_FROZEN_PASS`
@@ -43,5 +46,7 @@
      - Staged candidate files to cluster scratch: `/scratch9/pr21vyci/runs/mode1_package48_native_adapted_corrected/`.
      - Remote Abaqus 2023 datacheck executed under `ifort` 2021.13.0 and bitwise-frozen `f42_mixed_uel.for`: **Exit Code 0**, 0 errors, `ANALYSIS DATACHECK COMPLETE` verified in `PK_M1_NATIVE_ADAPTED_CORR.dat` (SHA-256 `9DC8D3BCE0E6EB0831FCD87564A707FBA49574D13DC8A88F7CBCD844E30E57F4`).
      - Technical preflight passed; submitted via `Invoke-Mode1Execution.ps1` as PBS Job **`1415119.mmaster02`**.
-     - Actively solving on `normal_imfdfkmq` / `mnode097/0` with 0 cutbacks and 3 iterations per increment across initial increments; energy balance telemetry confirms exact physical scaling ($E_{\text{elastic}} = 0.5 K_0 u^2$ to 5 decimal places, $E_{\text{fracture}} \approx 0$).
+     - Step 1 completed across 2,000 increments with 0 cutbacks and 3 iters/inc ($RF_2 \approx 663.5$ N, $E_{\text{elas}} \approx 1.65$ J).
+     - Step 2 actively solving at Increment >76 with 0 cutbacks and 3 iters/inc; reaction force climbing monotonically to **$670.69$ N** ($u = 0.005079$ mm); elastic energy expanding to $1.70$ J with $0.039$ J fracture dissipation; crack-tip node 135 damage advancing at $\Delta d \approx 2.35 \times 10^{-4}$/inc with $-1.84 \times 10^{-9}$ force residual.
      - Authored `tests/unit/test_mode1_f1587_package48_native_adapted_corrected.py` (5/5 PASS); regression test suite 10/10 PASS.
+     - Synchronized to GitHub remote `origin/mode2-pandey-kumar-reproduction`.
