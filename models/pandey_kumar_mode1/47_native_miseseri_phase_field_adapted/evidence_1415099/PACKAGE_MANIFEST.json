@@ -1,0 +1,44 @@
+{
+  "package_id": "47_native_miseseri_phase_field_adapted",
+  "task_id": "F1585-QUALIFY-NATIVE-ADAPTIVE-MESH-AND-SUBMIT-MODE1-PHASE-FIELD",
+  "governing_gate": "GATE_6B_ACTIVE_EVALUATION_AND_CONTINUATION",
+  "scientific_objective": "Execute full-scale Mode-I phase-field fracture simulation on the 12,369-element mesh produced by native Abaqus/CAE 2023 adaptiveRemesh driven by linear-elastic MISESERI error indicator field (Job 1415074)",
+  "benchmark": "Mode-I 1.0x1.0 mm square with sharp slit a0=0.5 mm at y=0.5 mm",
+  "mesh_spec": {
+    "num_physical_elements": 12369,
+    "element_breakdown": "12033 CPE4 quads, 336 CPE3 triangles",
+    "num_physical_nodes": 12410,
+    "h_min_um": 0.065,
+    "h_tip_um": 45.96,
+    "crack_tip_coord": [0.5, 0.5],
+    "seam_representation": "67 coincident node pairs duplicated along sharp slit y=0.5 mm, x in [0.0, 0.5] mm"
+  },
+  "material_spec": {
+    "E_MPa": 210000.0,
+    "nu": 0.3,
+    "Gc_kN_per_mm": 0.0027,
+    "l0_mm": 0.0075,
+    "k_viscosity": 1.0e-7
+  },
+  "loading_spec": {
+    "step_1": "Monotonic Tensile Loading to u = 0.0050 mm (INC=2500, dt_init=5.0e-4)",
+    "step_2": "Monotonic Tensile Loading to u = 0.0100 mm (INC=6000, dt_init=2.0e-4)"
+  },
+  "formulation": "3-layer co-located UEL/UMAT (Layer 1 Phase U1/U3, Layer 2 Mech U2/U4, Layer 3 Companion CPE4/CPE3)",
+  "user_subroutine": "f42_mixed_uel.for",
+  "user_subroutine_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+  "hpc_resources": {
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime": "08:00:00",
+    "queue": "entry_imfdfkmq",
+    "execution": "single-rank serial"
+  },
+  "files": {
+    "input_deck": "PK_M1_NATIVE_ADAPTED_2PCT.inp",
+    "input_deck_sha256": "f888a7043244925d15f53f6df247ef7dd140a964fba6b05a30a9182ab8fff8c4",
+    "submit_pbs": "submit_M1_NATIVE_ADAPTED_2PCT.pbs",
+    "user_subroutine": "f42_mixed_uel.for",
+    "job_notifications": "job_notifications.sh"
+  }
+}

@@ -1,18 +1,17 @@
 {
   "active": false,
-  "agent": "codex",
-  "task_id": "CONTROLLER-CLI-WATCHDOG-RECOVERY",
-  "starting_commit": "fa03a98211a0af2146a03c8a72ce064fe3bffe94",
+  "agent": "gemini-antigravity",
+  "task_id": "F1587-MORNING-RESEARCH-RESTART-RECOVER-OVERNIGHT-NATIVE-SOLVE-EVALUATE-CONVERGENCE-SUBMIT-PACKAGE48",
+  "starting_commit": "1e4d5085b915a25684a33574f68469448a7aca2c",
   "allowed_write_scope": [
-    "scripts/validation/Invoke-BoundedAgyProcess.ps1",
-    "tests/unit/test_agy_watchdog.ps1",
-    "project_coordination/sessions/2026-10-19_codex_controller_watchdog.md",
-    "project_coordination/ACTIVE_SESSION.json",
-    "project_coordination/ARTIFACT_REGISTRY.csv",
-    "project_coordination/TASK_LEDGER.csv",
-    "scripts/validation/controller_watchdog.patch"
+    "models/pandey_kumar_mode1/**",
+    "project_coordination/**",
+    "scripts/**",
+    "tests/**",
+    "docs/**",
+    "MA_AdaptiveRemeshing_Report_2026/**"
   ],
-  "claimed_at": "2026-10-19T06:14:50+02:00",
-  "last_updated": "2026-10-19T09:04:20.628029+02:00",
-  "last_released": "2026-10-19T09:04:20.628029+02:00"
+  "claimed_at": "2026-10-19T09:07:00+02:00",
+  "last_updated": "2026-10-19T09:10:00+02:00",
+  "last_released": "2026-10-19T09:10:00+02:00"
 }

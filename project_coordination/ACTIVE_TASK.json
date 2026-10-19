@@ -1,12 +1,12 @@
 {
-  "task_id": "F1585-QUALIFY-NATIVE-ADAPTIVE-MESH-AND-SUBMIT-MODE1-PHASE-FIELD",
-  "status": "PACKAGE47_NATIVE_ADAPTED_DATACHECK_EXIT0__JOB_1415099_SUBMITTED_AND_RUNNING_NORMAL_IMFDFKMQ__PRODUCTION_UEL_FROZEN",
+  "task_id": "F1587-MORNING-RESEARCH-RESTART-RECOVER-OVERNIGHT-NATIVE-SOLVE-EVALUATE-CONVERGENCE-SUBMIT-PACKAGE48",
+  "status": "PACKAGE48_SUBMITTED_AND_RUNNING_NORMAL_IMFDFKMQ__JOB_1415119__PACKAGE47_EVALUATED__PRODUCTION_UEL_FROZEN",
   "agent": "gemini-antigravity",
-  "phase": "Formulated 3-layer UEL/UMAT assembly for native 2.0% adapted mesh (Job 1415074 ODB lineage), executed remote Abaqus 2023 datacheck, and submitted full-scale Mode-I phase-field solve: 1. Assembled PK_M1_NATIVE_ADAPTED_2PCT.inp (12,369 elements: 12,033 quads, 336 tris; 12,410 nodes) with 3-layer co-located architecture (Layer 1 Phase U1/U3, Layer 2 Mech U2/U4, Layer 3 Companion CPE4/CPE3), PROPS(6)=12369.0, UMAT CONSTANTS=3 (210000.0, 0.0, 12369.0), DEPVAR=20, and verified 67 duplicate node pairs along sharp slit; 2. Wrapped N_BOTTOM node sets (12 entries/card) to obey 16-entry card limit; 3. Remote Abaqus 2023 datacheck executed on cluster scratch: Exit 0, 0 errors, ANALYSIS DATACHECK COMPLETE verified in PK_M1_NATIVE_ADAPTED_2PCT.dat (SHA256: 76c66192...); 4. Technical preflight passed; submitted via Invoke-Mode1Execution.ps1 as PBS Job 1415099.mmaster02; actively solving on normal_imfdfkmq with 0 cutbacks and 3 iters/inc across initial increments; production UEL f42_mixed_uel.for remains 100% bitwise frozen; 30/30 unit tests PASS.",
-  "gate_status": "GATE_6B_ACTIVE_EVALUATION__PACKAGE47_JOB_1415099_RUNNING__PRODUCTION_UEL_FROZEN",
-  "last_updated": "2026-10-18T22:45:00+02:00",
+  "phase": "Morning research restart: 1. Recovered and evaluated overnight Job 1415099 (Package 47, native MISESERI adapted mesh, 12,369 FEs): completed 2,510 increments (Step 1 complete, Step 2 terminated at Inc 434, u=0.005428 mm due to dtmin); K0 = 138.04 kN/mm matches reference 137.95 kN/mm (+0.054%); peak force was 24.08 N at u=0.000192 mm due to a 1000x unit mismatch (E=210,000 MPa entered instead of 210.0 kN/mm^2); mathematical proof confirms crack initiation at u_ref/sqrt(1000) = 0.000185 mm; 2. Audited near-tip mesh: actual h_tip = 1.72 um = 0.23 l0 (>4 elements across l0), disproving the 45.96 um artifact; 3. Audited 3-node triangular UELs (JTYPE 3 and 4): 1-point centroid Gauss quadrature verified exact for linear triangles; 4. Formulated Package 48 (PK_M1_NATIVE_ADAPTED_CORR.inp) with corrected E=210.0 kN/mm^2 and 12,369 elements; 5. Remote Abaqus 2023 datacheck passed Exit 0 (0 errors, DAT hash 9dc8d3bce0e6eb08...); 6. Submitted via Invoke-Mode1Execution.ps1 as PBS Job 1415119.mmaster02; actively solving on normal_imfdfkmq / mnode097 with 0 cutbacks and 3 iters/inc; production UEL f42_mixed_uel.for remains 100% bitwise frozen; 10/10 regression tests PASS.",
+  "gate_status": "GATE_6B_ACTIVE_EVALUATION__PACKAGE48_JOB_1415119_RUNNING__PRODUCTION_UEL_FROZEN",
+  "last_updated": "2026-10-19T06:50:00+02:00",
   "active_pbs_job_ids": [
-    "1415099.mmaster02"
+    "1415119.mmaster02"
   ],
   "dependent_pbs_job_ids": [],
   "deferred_candidate_jobs": [
@@ -102,6 +102,7 @@
     "1415065.mmaster02",
     "1415067.mmaster02",
     "1415069.mmaster02",
-    "1415074.mmaster02"
+    "1415074.mmaster02",
+    "1415099.mmaster02"
   ]
 }

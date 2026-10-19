@@ -1,0 +1,38 @@
+{
+  "batch_name": "MODE1_NATIVE_ADAPTED_CORR",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_package48_native_adapted_corrected",
+  "files": {
+    "PK_M1_NATIVE_ADAPTED_CORR.inp": "f20f5ff299cbad0e909f8e74454f795f6ebc331d7d6cd93abe21dd15a363628e",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "submit_M1_NATIVE_ADAPTED_CORR.pbs": "7a66007f311fe6985c97662140fca04912e27cffd91b76a8ed019b4d88fe67d5",
+    "PACKAGE_MANIFEST.json": "013b98cbc00d2186a62ccdf50565e0ba082f7774afed4453d121c0af0e5c3247"
+  },
+  "jobs": [
+    {
+      "id": "PK_M1_NATIVE_ADAPTED_CORR",
+      "pbs": "submit_M1_NATIVE_ADAPTED_CORR.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_package48_native_adapted_corrected/submit_M1_NATIVE_ADAPTED_CORR.pbs\"",
+      "command_sha256": "4e8e84e756724e132fce946e723a78007f5c806d1fa321759885af0c68fcb092",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Full-scale Mode-I phase-field fracture simulation on 12,369-element native MISESERI adapted mesh with corrected E=210.0 kN/mm^2",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "PK_M1_NATIVE_ADAPTED_CORR.inp",
+      "datacheck": "PK_M1_NATIVE_ADAPTED_CORR.dat"
+    }
+  ],
+  "acceptance": {
+    "PK_M1_NATIVE_ADAPTED_CORR": "Exit code 0; successful static solve of Mode-I phase-field fracture across Step 1 and Step 2; initial structural stiffness K0 = 138 kN/mm within +-1%; physical peak force F_max ~ 0.75 kN at u ~ 0.0058 mm; crack localization along y=0.5 mm; global energy balance consistency."
+  }
+}
