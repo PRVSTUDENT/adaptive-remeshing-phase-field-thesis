@@ -38,8 +38,8 @@ $executions = 0
 
     throw 'Timeout branch fell through into normal completion'
 }
-if ($executions -ne 2 -or $AgyTimeoutRecoveryAttemptsByTurn['1'] -ne 1 -or -not $script:stoppedRecovery) { throw 'Unbounded recovery regression' }
-if ($CurrentInstruction -notmatch 'CONTINUATION ONLY' -or $script:savedRecovery -notmatch 'Do not replay') { throw 'Submission replay protection missing' }
-'PASS: isolated controller timeout handler continues only once, saves safe closeout state, and stops on exhaustion'
+if ($executions -ne 1 -or -not $script:stoppedRecovery) { throw 'Model closeout continuation regression' }
+if ($script:savedRecovery -notmatch 'Never replay submissions' -or $script:savedRecovery -notmatch 'No model closeout continuation') { throw 'Submission replay protection missing' }
+'PASS: isolated controller timeout handler saves partial evidence and stops with zero model closeout calls'
 '@
 & ([scriptblock]::Create($testCode))
