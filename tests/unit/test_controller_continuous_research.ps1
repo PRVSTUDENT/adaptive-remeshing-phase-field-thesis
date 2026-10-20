@@ -436,6 +436,71 @@ sys.exit(0)
     $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $argsForeign -WorkingDirectory $fixture -TimeoutSeconds 15
     Assert ($r.ExitCode -ne 0 -and $r.Output -match 'Another agent owns the project session') 'Foreign active session correctly blocks new turn bootstrap'
 
+    # 11. Progress Watchdog: intermediate verified scientific progress resets watchdog clock while completion remains strictly gated
+    $dummyReport = 'project_coordination/sessions/watchdog_report.md'
+    Put $dummyReport "Bootstrap completed once; stage=Preparation. This note does not count as scientific progress.`n"
+
+    $watchdogState = [pscustomobject]@{
+        workspace = $fixture
+        run_id = 'watchdog-test-' + [guid]::NewGuid().ToString('N')
+        task_id = 'F1597'
+        requires_scientific_checkpoint = $true
+        bootstrap_record_path = (Join-Path $fixture 'watchdog_turn.json')
+        session_report = $dummyReport
+        owned_session_fingerprint = 'owned-watchdog-session'
+        progress_signature = ''
+        last_evidence_at = ''
+    }
+
+    # 11a: Baseline probe call initializes baselined evidence and returns false
+    $pBaseline = Test-ControllerDurableProgress $watchdogState
+    Assert ($pBaseline -eq $false -and $watchdogState.progress_signature -eq 'BASELINED') 'Watchdog baseline probe returns false and establishes baseline'
+
+    # 11b: Unchanged probe tick returns false
+    $pUnchanged = Test-ControllerDurableProgress $watchdogState
+    Assert ($pUnchanged -eq $false) 'Watchdog unchanged probe tick returns false (clock does not reset)'
+
+    # 11c: Generic boilerplate report does not reset clock
+    Put $dummyReport "Bootstrap completed once; stage=Preparation. This note does not count as scientific progress. Extra boilerplate text.`n"
+    $pBoilerplate = Test-ControllerDurableProgress $watchdogState
+    Assert ($pBoilerplate -eq $false) 'Watchdog rejects boilerplate report stubs without concrete findings'
+
+    # 11d: Fabricated/trivial JSON artifact (<20 char finding, no measurements) does not reset clock
+    $fakeArtifact = 'results/validation/fake_watchdog.json'
+    Put $fakeArtifact '{"finding":"short"}'
+    $pFake = Test-ControllerDurableProgress $watchdogState
+    Assert ($pFake -eq $false) 'Watchdog rejects trivial/fake validation artifacts without substantive findings'
+
+    # 11e: New research source or test file in allowed tree resets the watchdog clock
+    $newTestCandidate = 'tests/unit/test_watchdog_candidate.py'
+    Put $newTestCandidate "import unittest`nclass TestWatchdog(unittest.TestCase):`n    pass`n"
+    $pNewSource = Test-ControllerDurableProgress $watchdogState
+    Assert ($pNewSource -eq $true -and -not [string]::IsNullOrEmpty($watchdogState.last_evidence_at)) 'New verified test/research source code resets watchdog clock'
+
+    # 11f: Immediate subsequent tick without changes returns false (no repeated reset)
+    $pSecondTick = Test-ControllerDurableProgress $watchdogState
+    Assert ($pSecondTick -eq $false) 'Watchdog subsequent tick on unchanged test code returns false'
+
+    # 11g: Substantive preparation artifact in results/validation/ resets the watchdog clock
+    $prepArtifactRel = "results/validation/preparation-$($watchdogState.run_id).json"
+    $prepArtifactData = @{
+        schema = 1
+        task_id = $watchdogState.task_id
+        status = 'PREPARATION_COMPLETE'
+        finding = 'Observed that displacement mapping precedes damage projection; history variable must update monotonically'
+        verification_passed = $true
+        evidence_sources = @{
+            $newTestCandidate = (Get-FileHash -LiteralPath (Join-Path $fixture $newTestCandidate)).Hash
+        }
+    }
+    Put $prepArtifactRel ($prepArtifactData | ConvertTo-Json -Depth 8)
+    $pSubstantive = Test-ControllerDurableProgress $watchdogState
+    Assert ($pSubstantive -eq $true) 'Substantive intermediate preparation artifact resets watchdog clock'
+
+    # 11h: Scientific completion remains strictly gated (must not pass until formal qualification checkpoint)
+    $completionGated = Test-ControllerScientificCheckpoint $fixture $watchdogState
+    Assert ($completionGated -eq $false) 'Scientific completion remains strictly gated until terminal checkpoint'
+
     "ALL $script:checks CONTINUOUS RESEARCH & SAFETY CHECKS PASSED"
 } finally {
     if (Test-Path -LiteralPath $fixture) {

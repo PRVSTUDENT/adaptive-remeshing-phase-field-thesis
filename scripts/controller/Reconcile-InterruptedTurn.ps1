@@ -1,7 +1,9 @@
 [CmdletBinding()]
 param(
     [string]$Workspace = "D:\Master thesis\Adaptive remeshing",
-    [string]$RunId = "269d8d4b-e9ee-4684-9263-0623e06618cb"
+    [string]$RunId = "f9848452-4482-4c65-8337-e6edf5c378f2",
+    [string]$Status = "INTERRUPTED_TURN_PROGRESS_WATCHDOG_RECONCILED",
+    [string]$NextAction = "Dispatch Turn 2 under refreshed watchdog: derive and verify coupled state-transfer correction; never duplicate PBS submissions"
 )
 
 $ErrorActionPreference = 'Stop'
@@ -58,10 +60,10 @@ $reconciled = $existing
 $reconciled.state = 'COMPLETED'
 $reconciled.stop_reason = 'RECONCILED'
 $reconciled.block_reason = ''
-$reconciled.next_safe_action = 'Dispatch authentic_uel_history_call_trace; never duplicate PBS submissions'
+$reconciled.next_safe_action = $NextAction
 
 $reconciliationRecord = [ordered]@{
-    status = 'INTERRUPTED_TURN_CREDENTIAL_REPAIR_VERIFIED'
+    status = $Status
     original_checkpoint = $archivePath
     original_sha256 = $archiveHash
     run_id = $RunId
@@ -72,7 +74,7 @@ $reconciliationRecord = [ordered]@{
     bootstrap_record_sha256 = $bootstrapRecordHash
     hpc_ledger_sha256 = $hpcLedgerHash
     scientific_progress_fabricated = $false
-    next_operation = 'authentic_uel_history_call_trace'
+    next_operation = if ($existing.scientific_operation) { [string]$existing.scientific_operation } else { 'research_preparation' }
     reconciled_at = [DateTimeOffset]::UtcNow.ToString('o')
 }
 

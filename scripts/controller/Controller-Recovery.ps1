@@ -124,7 +124,7 @@ Authoritative predecessor: $($e.task.task_id), status $($e.task.status).
 Read CURRENT_STATE.md, ACTIVE_TASK.json, TASK_LEDGER.csv, exact session records and HPC/execution ledgers before choosing work. Completed predecessor work must not execute again.
 Use the exact canonical -File Bootstrap command supplied by the controller. It performs the ordered prerequisite reads and session claim once for this turn. Its completion receipt replaces repeated bootstrap reads. Never reconstruct bootstrap using nested -Command strings or raw head/tail commands.
 Select one next scientifically useful executable action from current evidence. Immediately execute independently ready qualified serial Mode-I jobs through scripts/hpc/Invoke-Mode1Execution.ps1 under the standing limits and once-only accounting. No administrative approval is needed. Do not repeat the completed audit, submit dependent work before quantitative predecessor acceptance, or manufacture a job. If scientific failure blocks execution, do only the smallest essential hypothesis/equation/checkpoint review and report its concrete finding promptly. Preserve the frozen production UEL and authentic failed results.
-Create the owned session report within 120 seconds, recording exact sources and the first concrete finding or blocker. Update it after each substantive action and at least every 180 seconds. A session claim, heartbeat, timestamp, or tool chatter is not a saved result. The controller will stop after 300 seconds without durable evidence. Do not spend the turn rereading broad history. Close the owned session truthfully and return evidence, actual PBS receipts if any, and the exact next safe action. End with Finished.
+Create the owned session report and record an initial verified research artifact early (within 120 seconds); update it after each substantive action and at least every 180 seconds. The controller progress watchdog resets upon verified intermediate scientific artifacts (new/modified analysis or test code, passing test receipts, or substantive JSON findings with verified hashes); metadata, conversation chatter, and unchanged stubs do not reset the 600-second deadline. Do not spend the turn rereading broad history. Close the owned session truthfully and return evidence, actual PBS receipts if any, and the exact next safe action. End with Finished.
 "@
     }
     return [pscustomobject]@{instruction=$Instruction; stale_replaced=[bool]$stale; evidence=$e; task_type=$taskType.task_type; operation=$taskType.operation}
@@ -266,33 +266,153 @@ function Complete-ControllerTurn([string]$Workspace,[string]$Path,$State,[string
 }
 
 function Test-ControllerDurableProgress($State) {
-    # Exclude ACTIVE_SESSION, task/status timestamps, source hashes and raw model chatter.
-    if(-not $State.PSObject.Properties['progress_evidence']){ $State|Add-Member -NotePropertyName progress_evidence -NotePropertyValue @{} }
-    if($State.progress_evidence -isnot [Collections.IDictionary]){
-        $map=@{};foreach($property in $State.progress_evidence.PSObject.Properties){$map[$property.Name]=$property.Value};$State.progress_evidence=$map
+    # Exclude model tokens, conversation output, timestamps, bootstrap, repeated file reads, generic reports or unchanged artifacts.
+    if (-not $State.PSObject.Properties['progress_evidence']) {
+        $State | Add-Member -NotePropertyName progress_evidence -NotePropertyValue @{}
     }
-    if($State.requires_scientific_checkpoint){
-        if(-not(Test-ControllerScientificCheckpoint $State.workspace $State)){return $false}
-        $receipt=Get-Content -LiteralPath $State.bootstrap_record_path -Raw|ConvertFrom-Json
-        $signature=$receipt.scientific_checkpoint.sha256
-        $changed=$State.progress_signature -ne $signature
-        $State.progress_signature=$signature
-        if($changed){$State.last_evidence_at=[datetimeoffset]::UtcNow.ToString('o')}
-        return $changed
+    if ($State.progress_evidence -isnot [Collections.IDictionary]) {
+        $map = @{}
+        foreach ($property in $State.progress_evidence.PSObject.Properties) { $map[$property.Name] = $property.Value }
+        $State.progress_evidence = $map
     }
-    $changed=$false
-    $names=if($State.sources -is [Collections.IDictionary]){$State.sources.Keys}else{$State.sources.PSObject.Properties.Name}
-    foreach($name in $names){
-        $value=if($State.sources -is [Collections.IDictionary]){$State.sources[$name]}else{$State.sources.$name}
-        $report=$name -eq $State.session_report -and $State.owned_session_fingerprint -and $State.report_bytes -ge 160
-        if($report -or $name -in @('project_coordination/HPC_JOB_LEDGER.csv','project_coordination/MODE1_EXECUTION_LEDGER.json')){
-            if($State.progress_signature -and $State.progress_evidence[$name] -ne $value){$changed=$true}
-            $State.progress_evidence[$name]=$value
+    $Workspace = if ($State.workspace -and (Test-Path -LiteralPath $State.workspace)) { $State.workspace } else { (Get-Location).Path }
+    $isInitialBaseline = -not $State.progress_signature
+    $changed = $false
+
+    # 1. Completed Scientific Qualification (Terminal Checkpoint)
+    if ($State.requires_scientific_checkpoint -and (Test-ControllerScientificCheckpoint $Workspace $State)) {
+        try {
+            $receipt = Get-Content -LiteralPath $State.bootstrap_record_path -Raw | ConvertFrom-Json
+            if ($receipt.scientific_checkpoint -and $receipt.scientific_checkpoint.sha256) {
+                $sig = 'QUALIFIED_CHECKPOINT:' + $receipt.scientific_checkpoint.sha256
+                if ($State.progress_evidence['SCIENTIFIC_CHECKPOINT'] -ne $sig) {
+                    if (-not $isInitialBaseline) { $changed = $true }
+                    $State.progress_evidence['SCIENTIFIC_CHECKPOINT'] = $sig
+                }
+            }
+        } catch {}
+    }
+
+    # 2. Verified Intermediate Research & Validation Artifacts (results/validation/*.json)
+    $valDir = Join-Path $Workspace 'results/validation'
+    if (Test-Path -LiteralPath $valDir) {
+        $valFiles = Get-ChildItem -LiteralPath $valDir -Filter '*.json' -File -Recurse -ErrorAction SilentlyContinue
+        foreach ($file in $valFiles) {
+            $rel = ($file.FullName.Substring($Workspace.Length)).TrimStart('\', '/').Replace('\', '/')
+            if ($rel -match '(?:^|\/)(?:temp|scratch|\.git|__pycache__)(?:\/|$)') { continue }
+            try {
+                $hash = (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash
+                if (-not $State.progress_evidence.ContainsKey($rel) -or $State.progress_evidence[$rel] -ne $hash) {
+                    $raw = [IO.File]::ReadAllText($file.FullName)
+                    if ($raw.Length -ge 40) {
+                        $json = $raw | ConvertFrom-Json -ErrorAction Stop
+                        $hasSubstantiveFinding = ($json.finding -is [string] -and $json.finding.Trim().Length -ge 20)
+                        $hasMeasurements = ($null -ne $json.measurements -and @($json.measurements.PSObject.Properties).Count -gt 0)
+                        $hasPassedStatus = ($json.verification_passed -eq $true -or $json.status -in @('PREPARATION_COMPLETE', 'QUALIFIED_OPERATION_READY', 'INVESTIGATION_COMPLETE', 'INTERMEDIATE_FINDING', 'PASSED'))
+                        $hasEvidence = ($null -ne $json.evidence_sources -and @($json.evidence_sources.PSObject.Properties).Count -gt 0)
+                        $hasTests = ($null -ne $json.tests -or $null -ne $json.passed)
+                        if ($hasSubstantiveFinding -or $hasMeasurements -or ($hasPassedStatus -and $hasEvidence) -or $hasTests) {
+                            if (-not $isInitialBaseline) { $changed = $true }
+                            $State.progress_evidence[$rel] = $hash
+                        }
+                    }
+                }
+            } catch {}
         }
     }
-    # Removed predecessor reports and changed session IDs do not count as progress.
-    $State.progress_signature='BASELINED'
-    if($changed){$State.last_evidence_at=[datetimeoffset]::UtcNow.ToString('o')}
+
+    # 3. New or Modified Source, Test, or Model Files with Verified Hashes
+    $gitDir = Join-Path $Workspace '.git'
+    if (Test-Path -LiteralPath $gitDir) {
+        $statusLines = & git -C $Workspace status --porcelain -u -- scripts/validation tests/unit models/pandey_kumar_mode1
+        foreach ($line in $statusLines) {
+            if ($line -match '^(?:[ MADRCU?!]{2})\s+(.+)$') {
+                $relPath = $matches[1].Trim().Trim('"').Replace('\', '/')
+                $fullPath = Join-Path $Workspace $relPath
+                if ((Test-Path -LiteralPath $fullPath -PathType Leaf) -and
+                    ($relPath -match '\.(?:py|ps1|for|f|inp|csv|json)$') -and
+                    ($relPath -notmatch '(?i)(?:^|\/)(?:\.|\.tmp$|\.log$|\.partial\.txt$|~)') -and
+                    ($relPath -notmatch '(?:^|\/)(?:temp|scratch|\.git|__pycache__)(?:\/|$)')) {
+                    $item = Get-Item -LiteralPath $fullPath
+                    if ($item.Length -gt 0) {
+                        $hash = (Get-FileHash -LiteralPath $fullPath -Algorithm SHA256).Hash
+                        if (-not $State.progress_evidence.ContainsKey($relPath) -or $State.progress_evidence[$relPath] -ne $hash) {
+                            if (-not $isInitialBaseline) { $changed = $true }
+                            $State.progress_evidence[$relPath] = $hash
+                        }
+                    }
+                }
+            }
+        }
+        try {
+            $headCommit = (& git -C $Workspace rev-parse HEAD).Trim()
+            if ($headCommit) {
+                if (-not $State.progress_evidence.ContainsKey('GIT_HEAD') -or $State.progress_evidence['GIT_HEAD'] -ne $headCommit) {
+                    if (-not $isInitialBaseline -and $State.progress_evidence.ContainsKey('GIT_HEAD')) { $changed = $true }
+                    $State.progress_evidence['GIT_HEAD'] = $headCommit
+                }
+            }
+        } catch {}
+    } else {
+        $scanDirs = @('scripts/validation', 'tests/unit', 'models/pandey_kumar_mode1')
+        foreach ($sub in $scanDirs) {
+            $fullSub = Join-Path $Workspace $sub
+            if (Test-Path -LiteralPath $fullSub) {
+                $files = Get-ChildItem -LiteralPath $fullSub -File -Recurse -ErrorAction SilentlyContinue |
+                    Where-Object {
+                        $_.Extension -in @('.py', '.ps1', '.for', '.f', '.inp', '.csv', '.json') -and
+                        $_.Name -notmatch '(?i)(^\.|\.tmp$|\.log$|\.partial\.txt$|~)'
+                    }
+                foreach ($file in $files) {
+                    if ($file.Length -gt 0) {
+                        $rel = ($file.FullName.Substring($Workspace.Length)).TrimStart('\', '/').Replace('\', '/')
+                        if ($rel -match '(?:^|\/)(?:temp|scratch|\.git|__pycache__)(?:\/|$)') { continue }
+                        $hash = (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash
+                        if (-not $State.progress_evidence.ContainsKey($rel) -or $State.progress_evidence[$rel] -ne $hash) {
+                            if (-not $isInitialBaseline) { $changed = $true }
+                            $State.progress_evidence[$rel] = $hash
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    # 4. HPC Ledgers
+    foreach ($ledger in @('project_coordination/HPC_JOB_LEDGER.csv', 'project_coordination/MODE1_EXECUTION_LEDGER.json')) {
+        $lp = Join-Path $Workspace $ledger
+        if (Test-Path -LiteralPath $lp) {
+            $lhash = (Get-FileHash -LiteralPath $lp -Algorithm SHA256).Hash
+            if (-not $State.progress_evidence.ContainsKey($ledger) -or $State.progress_evidence[$ledger] -ne $lhash) {
+                if (-not $isInitialBaseline) { $changed = $true }
+                $State.progress_evidence[$ledger] = $lhash
+            }
+        }
+    }
+
+    # 5. Substantive Session Report Updates with Concrete Findings
+    if ($State.session_report -and $State.owned_session_fingerprint) {
+        $srp = Join-Path $Workspace $State.session_report
+        if (Test-Path -LiteralPath $srp) {
+            $srItem = Get-Item -LiteralPath $srp
+            if ($srItem.Length -ge 200) {
+                $srText = [IO.File]::ReadAllText($srp)
+                $isBoilerplateOnly = ($srText -match '(?i)This note does not count as scientific progress')
+                if (-not $isBoilerplateOnly) {
+                    $srHash = (Get-FileHash -LiteralPath $srp -Algorithm SHA256).Hash
+                    if (-not $State.progress_evidence.ContainsKey($State.session_report) -or $State.progress_evidence[$State.session_report] -ne $srHash) {
+                        if (-not $isInitialBaseline) { $changed = $true }
+                        $State.progress_evidence[$State.session_report] = $srHash
+                    }
+                }
+            }
+        }
+    }
+
+    $State.progress_signature = 'BASELINED'
+    if ($changed) {
+        $State.last_evidence_at = [datetimeoffset]::UtcNow.ToString('o')
+    }
     return $changed
 }
 
@@ -456,7 +576,7 @@ function Assert-ControllerDispatchCheckpoint([string]$Workspace,$State) {
         $report=Join-Path $Workspace 'project_coordination/sessions/2026-10-20_codex_credential_lifecycle.md'
         if(-not(Test-Path -LiteralPath $report) -or (Get-FileHash -LiteralPath $report).Hash -ne $r.credential_report_sha256){throw 'BLOCKED: credential repair evidence changed'}
     }
-    if($State.reconciliation.status -eq 'INTERRUPTED_TURN_CREDENTIAL_REPAIR_VERIFIED'){
+    if($State.reconciliation.status -in @('INTERRUPTED_TURN_CREDENTIAL_REPAIR_VERIFIED','INTERRUPTED_TURN_PROGRESS_WATCHDOG_RECONCILED')){
         $r=$State.reconciliation
         if($State.state -ne 'COMPLETED' -or -not(Test-Path -LiteralPath $r.original_checkpoint) -or
             (Get-FileHash -LiteralPath $r.original_checkpoint).Hash -ne $r.original_sha256){throw 'BLOCKED: reconciled historical evidence missing or changed'}
