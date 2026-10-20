@@ -1,4 +1,5 @@
-﻿$ErrorActionPreference = 'Stop'
+$ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'Controller-Operations.ps1')
 
 function Get-ControllerTextHash([string]$Text) {
     $sha = [Security.Cryptography.SHA256]::Create()
@@ -39,9 +40,16 @@ function Get-ControllerEvidence([string]$Workspace) {
         if ($relative -like '*/ACTIVE_TASK.json') { $task = Get-Content -LiteralPath $p -Raw -Encoding UTF8 | ConvertFrom-Json }
         if ($relative -like '*/ACTIVE_SESSION.json') { $session = Get-Content -LiteralPath $p -Raw -Encoding UTF8 | ConvertFrom-Json }
     }
-    foreach ($relative in @('scripts/controller/Antigravity-Autonomous-Loop.ps1','scripts/controller/Controller-Recovery.ps1','scripts/controller/Invoke-ControllerTurn.ps1','scripts/validation/probe_mode1_f1597_kkt.py','scripts/validation/Invoke-BoundedAgyProcess.ps1','scripts/validation/AgyControllerPolicy.ps1','scripts/validation/AgyCredentialStores.ps1','models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/f42_experimental_offset_uel.for')) {
+    foreach ($relative in @('scripts/controller/Antigravity-Autonomous-Loop.ps1','scripts/controller/Controller-Recovery.ps1','scripts/controller/Invoke-ControllerTurn.ps1','scripts/controller/Controller-Operations.ps1','scripts/validation/probe_mode1_f1597_mechanical_history.py','scripts/validation/probe_mode1_f1597_kkt.py','scripts/validation/Invoke-BoundedAgyProcess.ps1','scripts/validation/AgyControllerPolicy.ps1','scripts/validation/AgyCredentialStores.ps1','models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/f42_experimental_offset_uel.for')) {
         $p=Join-Path $Workspace $relative
         if (Test-Path -LiteralPath $p -PathType Leaf) { $sources[$relative]=(Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash }
+    }
+    if($task.scientific_checkpoint.artifact){
+        $relative=[string]$task.scientific_checkpoint.artifact
+        if($relative -notmatch '^results/validation/mode1_f1597/[a-fA-F0-9-]{36}\.json$'){throw 'Unsafe scientific basis artifact'}
+        $p=Join-Path $Workspace $relative
+        if(-not(Test-Path -LiteralPath $p)){throw 'Missing scientific basis artifact'}
+        $sources[$relative]=(Get-FileHash -LiteralPath $p).Hash
     }
     if (-not $task.task_id -or $session.active -isnot [bool]) { throw 'BLOCKED: invalid task/session identity' }
     $report = ''; $reportBytes=0
@@ -65,7 +73,7 @@ function Get-ControllerEvidence([string]$Workspace) {
 
 function Resolve-ControllerInstruction([string]$Workspace, [string]$Instruction) {
     $e = Get-ControllerEvidence $Workspace
-    if($e.task.scientific_checkpoint_required -and -not $e.task.scientific_operation){throw ('NEXT_OPERATION_REQUIRES_DEFINITION: completed operation will not replay; '+$e.task.next_safe_action)}
+    if($e.task.scientific_checkpoint_required){$null=Resolve-ControllerOperation $e.task}
     $terminal = [string]$e.task.status -match '(?i)(completed|classified|closed|^done$)'
     $heading = ($Instruction -split "`n")[0]
     $id = [regex]::Match($heading,'\bF\d+\b').Value
@@ -90,7 +98,7 @@ Create the owned session report within 120 seconds, recording exact sources and 
 
 function New-ControllerTurnState($Evidence, [int]$Turn, [string]$Instruction, [int]$RecoveryCount = 0) {
     $runId=[guid]::NewGuid().ToString()
-    return [pscustomobject]@{schema=1; run_id=$runId; workspace=$Evidence.workspace; bootstrap_record_path=$(if($Evidence.workspace){Join-Path $Evidence.workspace ('project_coordination/controller/turn-'+$runId+'.json')}else{''}); bootstrap_repeat_reads=0; requires_scientific_checkpoint=[bool]$Evidence.task.scientific_checkpoint_required; task_id=[string]$Evidence.task.task_id; predecessor_task_id=[string]$Evidence.task.task_id; repository_commit=$Evidence.commit; initial_session_active=[bool]$Evidence.session.active; initial_session_hash=$Evidence.sources['project_coordination/ACTIVE_SESSION.json']; owned_session_fingerprint=''; turn=$Turn; state='PENDING'; recovery_count=$RecoveryCount; process_id=0; started_at=[DateTimeOffset]::UtcNow.ToString('o'); updated_at=''; last_confirmed_action=[string]$Evidence.task.status; sources=$Evidence.sources; pbs_receipts=$Evidence.pbs_receipts; execution_accounting=$Evidence.execution_accounting; session=$Evidence.session; session_report=$Evidence.report; progress_signature=''; last_evidence_at=''; conversation_id=''; live_buffer=''; stop_reason=''; original_instruction_hash=(Get-ControllerTextHash $Instruction); partial_output=''; partial_sha256=''; next_safe_action='Execute only reconciled instruction'; block_reason=''}
+    return [pscustomobject]@{schema=1; run_id=$runId; workspace=$Evidence.workspace; bootstrap_record_path=$(if($Evidence.workspace){Join-Path $Evidence.workspace ('project_coordination/controller/turn-'+$runId+'.json')}else{''}); bootstrap_repeat_reads=0; requires_scientific_checkpoint=[bool]$Evidence.task.scientific_checkpoint_required; scientific_operation=[string]$Evidence.task.scientific_operation; scientific_basis_artifact=[string]$Evidence.task.scientific_checkpoint.artifact; task_id=[string]$Evidence.task.task_id; predecessor_task_id=[string]$Evidence.task.task_id; repository_commit=$Evidence.commit; initial_session_active=[bool]$Evidence.session.active; initial_session_hash=$Evidence.sources['project_coordination/ACTIVE_SESSION.json']; owned_session_fingerprint=''; turn=$Turn; state='PENDING'; recovery_count=$RecoveryCount; process_id=0; started_at=[DateTimeOffset]::UtcNow.ToString('o'); updated_at=''; last_confirmed_action=[string]$Evidence.task.status; sources=$Evidence.sources; pbs_receipts=$Evidence.pbs_receipts; execution_accounting=$Evidence.execution_accounting; session=$Evidence.session; session_report=$Evidence.report; progress_signature=''; last_evidence_at=''; conversation_id=''; live_buffer=''; stop_reason=''; original_instruction_hash=(Get-ControllerTextHash $Instruction); partial_output=''; partial_sha256=''; next_safe_action='Execute only reconciled instruction'; block_reason=''}
 }
 
 function Sync-ControllerOwnedSession($Evidence,$State) {
@@ -242,7 +250,7 @@ function ConvertFrom-ControllerStream([string]$Raw) {
     return $Raw
 }
 
-function Test-ControllerScientificCheckpoint([string]$Workspace,$State) {
+function Test-ControllerScientificCheckpoint([string]$Workspace,$State,[switch]$Historical) {
     try{
         if(-not $State.bootstrap_record_path -or -not(Test-Path -LiteralPath $State.bootstrap_record_path -PathType Leaf)){return $false}
         $record=Get-Content -LiteralPath $State.bootstrap_record_path -Raw|ConvertFrom-Json
@@ -254,14 +262,29 @@ function Test-ControllerScientificCheckpoint([string]$Workspace,$State) {
         $artifact=Join-Path $Workspace $expected
         if(-not(Test-Path -LiteralPath $artifact -PathType Leaf) -or (Get-FileHash -LiteralPath $artifact).Hash -ne $checkpoint.sha256){return $false}
         $data=Get-Content -LiteralPath $artifact -Raw|ConvertFrom-Json
-        if($data.task_id -ne 'F1597' -or $data.operation -ne 'mapped_frozen_history_lower_bound_kkt_probe' -or -not $data.verification_passed -or
-            $data.measurements.phase_elements -le 0 -or $data.measurements.phase_nodes -le 0 -or $data.measurements.finite_difference_gradient_error_kN -gt 1e-10){return $false}
-        foreach($m in $data.measurements.PSObject.Properties){if([double]::IsNaN([double]$m.Value) -or [double]::IsInfinity([double]$m.Value)){return $false}}
-        $probe='scripts/validation/probe_mode1_f1597_kkt.py'
-        if(-not $State.sources.$probe -or $data.sources.$probe -ne $State.sources.$probe){return $false}
-        foreach($required in @($probe,'models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/f42_experimental_offset_uel.for')){
-            if(-not $data.sources.$required -or $data.sources.$required -ne $State.sources.$required){return $false}
+        if($checkpoint.operation -cne $data.operation){return $false}
+        $op=Get-ControllerOperation -ArtifactId $data.operation -Historical:$Historical
+        if(-not $Historical -and ($State.scientific_operation -cne $op.path -or $record.operation_id -cne $op.id)){return $false}
+        if($data.task_id -ne 'F1597' -or $data.verification_passed -isnot [bool] -or -not $data.verification_passed -or
+            $data.measurements.phase_elements -le 0 -or $data.measurements.phase_nodes -le 0){return $false}
+        foreach($m in $data.measurements.PSObject.Properties){if($m.Value -is [string] -or $null -eq $m.Value -or [double]::IsNaN([double]$m.Value) -or [double]::IsInfinity([double]$m.Value)){return $false}}
+        $probe=$op.path
+        $required=@($probe,'models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/f42_experimental_offset_uel.for')
+        if($op.id -eq 'mapped_frozen_history_lower_bound_kkt_probe'){
+            if($null -eq $data.measurements.finite_difference_gradient_error_kN -or $data.measurements.finite_difference_gradient_error_kN -gt 1e-10){return $false}
+        }else{
+            $m=$data.measurements
+            $names=@('free_mechanical_dofs','mechanical_free_residual_inf_kN','worst_mechanical_node','worst_mechanical_dof','mapped_displacement_jump_mm','mapped_damage_jump','history_increase_inf_kN_mm2','phase_before_mechanical_inf_kN','phase_after_mechanical_inf_kN','phase_call_order_delta_inf_kN','committed_before_accept_error','retry_restore_error','accepted_commit_error','mechanical_fd_relative_error','prior_kkt_residual_difference_kN')
+            foreach($name in $names){if($null -eq $m.PSObject.Properties[$name] -or [double]$m.$name -lt 0){return $false}}
+            if($m.free_mechanical_dofs -le 0 -or $m.worst_mechanical_dof -notin @(1,2) -or $m.mechanical_fd_relative_error -gt 1e-7 -or $m.prior_kkt_residual_difference_kN -gt 1e-10 -or $m.mapped_damage_jump -gt 1e-10 -or
+                $m.committed_before_accept_error -gt 1e-14 -or $m.retry_restore_error -gt 1e-14 -or $m.accepted_commit_error -gt 1e-14){return $false}
+            foreach($entry in @{history_kN_mm2=1e-10;residual_kN=1e-10;fd_relative=1e-7;mapping_mm=1e-10;transaction=1e-14}.GetEnumerator()){if($data.tolerances.($entry.Key) -ne $entry.Value){return $false}}
+            $classification=if($m.history_increase_inf_kN_mm2 -gt 1e-10){'HISTORY_UPDATE_AT_MAPPED_STATE'}elseif($m.mechanical_free_residual_inf_kN -gt 1e-10){'MECHANICAL_FREE_DOF_RESIDUAL'}elseif($m.mapped_displacement_jump_mm -gt 1e-10){'DISPLACEMENT_MAPPING_JUMP'}else{'NONE_ABOVE_DECLARED_TOLERANCES'}
+            if($data.first_verified_discrepancy.classification -cne $classification){return $false}
+            if(-not $State.scientific_basis_artifact){return $false}
+            $required+=@('scripts/validation/probe_mode1_f1597_kkt.py',$State.scientific_basis_artifact)
         }
+        foreach($source in $required){if(-not $data.sources.$source -or $data.sources.$source -ne $State.sources.$source){return $false}}
         $root=[IO.Path]::GetFullPath($Workspace).TrimEnd('\','/')+[IO.Path]::DirectorySeparatorChar
         foreach($source in $data.sources.PSObject.Properties){
             $path=[IO.Path]::GetFullPath((Join-Path $Workspace $source.Name))
@@ -288,4 +311,19 @@ function Test-ControllerBootstrapCommand($State,[string]$Command) {
     $State.bootstrap_repeat_reads++
     Write-Host '[BOOTSTRAP_DIAGNOSTIC] prerequisites already complete and unchanged; proceed to scientific operation'
     if($State.bootstrap_repeat_reads -ge 2){$State.stop_reason='BOOTSTRAP_LOOP';throw 'BOOTSTRAP_LOOP: repeated unchanged prerequisite reads after verified bootstrap'}
+}
+
+function Assert-ControllerDispatchCheckpoint([string]$Workspace,$State) {
+    if(-not $State){return}
+    if($State.state -eq 'BLOCKED'){throw ('BLOCKED: historical checkpoint requires evidence-based reconciliation; '+$State.block_reason)}
+    if($State.reconciliation.status -eq 'COMPLETED_SCIENCE_CREDENTIAL_REPAIR_VERIFIED'){
+        $r=$State.reconciliation
+        if($State.state -ne 'COMPLETED' -or -not(Test-Path -LiteralPath $r.original_checkpoint) -or
+            (Get-FileHash -LiteralPath $r.original_checkpoint).Hash -ne $r.original_sha256 -or
+            -not(Test-ControllerScientificCheckpoint $Workspace $State -Historical)){throw 'BLOCKED: reconciled historical evidence missing or changed'}
+        $original=Read-ControllerCheckpoint $r.original_checkpoint
+        if($original.state -ne 'BLOCKED' -or $original.run_id -ne $State.run_id -or $original.scientific_commit -ne $r.scientific_commit){throw 'BLOCKED: original historical checkpoint identity mismatch'}
+        $report=Join-Path $Workspace 'project_coordination/sessions/2026-10-20_codex_credential_lifecycle.md'
+        if(-not(Test-Path -LiteralPath $report) -or (Get-FileHash -LiteralPath $report).Hash -ne $r.credential_report_sha256){throw 'BLOCKED: credential repair evidence changed'}
+    }
 }

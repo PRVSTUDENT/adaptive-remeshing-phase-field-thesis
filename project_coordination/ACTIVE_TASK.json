@@ -1,8 +1,8 @@
 {
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "status":  "F1597_KKT_DIAGNOSTIC_VERIFIED_CORRECTION_PENDING",
+    "status":  "F1597_MECHANICAL_HISTORY_DIAGNOSTIC_READY",
     "agent":  "gemini-antigravity",
-    "phase":  "F1597: initial mapped-state KKT feasibility measured; coupled constrained-transfer correction remains pending.",
+    "phase":  "F1597: bounded mapped-state mechanical equilibrium and transactional history/call-order investigation; correction unqualified.",
     "gate_status":  "PACKAGE72_FAILED__F1597_CORRECTIVE_DIAGNOSTIC_READY__TRANSFER_CORRECTION_PENDING",
     "active_pbs_job_ids":  [
 
@@ -101,9 +101,9 @@
                              "last_updated":  "2026-10-19T18:46:00+02:00"
                          },
     "scientific_checkpoint_required":  true,
-    "scientific_operation":  "",
-    "last_updated":  "2026-10-20T11:42:14.4410042+02:00",
-    "next_safe_action":  "Review the measured KKT active-set requirements and history update before implementing a coupled constrained transfer correction.",
+    "scientific_operation":  "scripts/validation/probe_mode1_f1597_mechanical_history.py",
+    "last_updated":  "2026-10-20T12:40:51.239875+02:00",
+    "next_safe_action":  "Execute the registered mechanical/history investigation once, preserving completed KKT evidence; no HPC submission.",
     "scientific_checkpoint":  {
                                   "kind":  "NUMERICAL_FINDING",
                                   "operation":  "mapped_frozen_history_lower_bound_kkt_probe",

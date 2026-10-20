@@ -59,7 +59,8 @@ if($Stage -eq 'Bootstrap'){
     $task=$content['project_coordination/ACTIVE_TASK.json']|ConvertFrom-Json
     if($session.active){throw 'Another agent owns the project session'}
     if($task.task_id -ne $TaskId -or $task.status -match '(?i)^(complete|closed|PACKAGE72_C1_1_AUDIT_COMPLETED)'){throw 'Completed or mismatched task rejected before claim'}
-    if($task.scientific_operation -ne 'scripts/validation/probe_mode1_f1597_kkt.py'){throw 'No distinct qualified scientific operation defined; completed operation will not replay'}
+    $operation=Resolve-ControllerOperation $task
+    if($operation.path -cne $state.scientific_operation){throw 'Dispatch operation changed after controller preflight'}
     if($head -ne $state.repository_commit){throw 'Repository revision changed before bootstrap'}
     $registry=$content['project_coordination/ARTIFACT_REGISTRY.csv']
     if($registry.Contains(('turn-'+$RunId+'.json'))){throw 'Registered turn receipt already exists; reconcile instead of duplicating'}
@@ -70,7 +71,7 @@ if($Stage -eq 'Bootstrap'){
     $claim=[ordered]@{active=$true;agent='gemini-antigravity';task_id=$TaskId;starting_commit=$head;claimed_at=$now;last_updated=$now;last_released=$null;controller_run_id=$RunId;session_report=$relativeReport;allowed_write_scope=@($relativeReport,('project_coordination/controller/turn-'+$RunId+'.json'),('results/validation/mode1_f1597/'+$RunId+'.json'),'project_coordination/ACTIVE_SESSION.json','project_coordination/ACTIVE_TASK.json','project_coordination/CURRENT_STATE.md','project_coordination/TASK_LEDGER.csv','project_coordination/ARTIFACT_REGISTRY.csv')}
     [IO.File]::WriteAllText($sessionPath,(($claim|ConvertTo-Json -Depth 8).Replace("`r`n","`n")),[Text.UTF8Encoding]::new($false))
     New-Item -ItemType Directory -Path (Split-Path $recordPath) -Force|Out-Null
-    $script:record=[pscustomobject]@{schema=1;controller_run_id=$RunId;task_id=$TaskId;repository_commit=$head;bootstrap_status='COMPLETE';bootstrap_completed_at=$now;ordered_sources=$hashes;basis_sources=$basis;repeat_count=0;session_report=$relativeReport;scientific_checkpoint=$null;stage='BOOTSTRAP_COMPLETE';next_action='Scientific'}
+    $script:record=[pscustomobject]@{schema=1;controller_run_id=$RunId;task_id=$TaskId;repository_commit=$head;bootstrap_status='COMPLETE';operation_id=$operation.id;operation_path=$operation.path;bootstrap_completed_at=$now;ordered_sources=$hashes;basis_sources=$basis;repeat_count=0;session_report=$relativeReport;scientific_checkpoint=$null;stage='BOOTSTRAP_COMPLETE';next_action='Scientific'}
     Save-Record
     [IO.File]::WriteAllText((Join-Path $Workspace $relativeReport),"# F1597 controlled scientific step`n`nBootstrap completed once; no scientific result yet. This note does not count as scientific progress.`n",[Text.UTF8Encoding]::new($false))
     [pscustomobject]@{status='BOOTSTRAP_COMPLETE';task=$TaskId;turn=$RunId;commit=$head;ordered_read_count=$ordered.Count;dirty_path_count=@($status).Count;next_stage='Scientific';objective=$task.phase}|ConvertTo-Json -Depth 6
@@ -81,7 +82,11 @@ if($record.stage -eq 'COMPLETE'){Write-Output 'TURN_ALREADY_COMPLETE; no repeat 
 Assert-Owner
 if($Stage -eq 'Scientific'){
     if($record.scientific_checkpoint){Write-Output 'SCIENTIFIC_CHECKPOINT_ALREADY_EXISTS; use Complete';return}
-    $probe='scripts/validation/probe_mode1_f1597_kkt.py'
+    $task=Get-Content -LiteralPath $taskPath -Raw|ConvertFrom-Json
+    $operation=Resolve-ControllerOperation $task
+    if($record.operation_id -cne $operation.id -or $record.operation_path -cne $operation.path -or $state.scientific_operation -cne $operation.path){throw 'Dispatch operation changed after bootstrap'}
+    foreach($source in $state.sources.PSObject.Properties){if($source.Name -match '^(scripts/|models/|results/)'){if(-not(Test-Path -LiteralPath (Join-Path $Workspace $source.Name)) -or (Get-FileHash -LiteralPath (Join-Path $Workspace $source.Name)).Hash -ne $source.Value){throw 'Scientific basis/source changed after dispatch'}}}
+    $probe=$operation.path
     $pinned=$state.sources.$probe
     if(-not $pinned -or (Get-FileHash -LiteralPath (Join-Path $Workspace $probe)).Hash -ne $pinned){throw 'Scientific verifier source changed after dispatch'}
     $relative='results/validation/mode1_f1597/'+$RunId+'.json'
@@ -93,6 +98,7 @@ if($Stage -eq 'Scientific'){
     if(-not $payload.verification_passed){throw 'Scientific gradient verification failed'}
     $record.scientific_checkpoint=[pscustomobject]@{kind='NUMERICAL_FINDING';operation=$payload.operation;exit_code=0;artifact=$relative;sha256=(Get-FileHash -LiteralPath $output).Hash;created_at=[datetimeoffset]::Now.ToString('o')}
     $record.stage='SCIENTIFIC_CHECKPOINT_VERIFIED';$record.next_action='Complete';Save-Record
+    if(-not(Test-ControllerScientificCheckpoint $Workspace $state)){throw 'Scientific measurement/source verification failed'}
     $report=Join-Path $Workspace $record.session_report
     $text="`n## Verified F1597 operation`n`n$($payload.finding)`n`nEvidence: $relative`n`n"+($payload.measurements|ConvertTo-Json)+"`n`nLimit: $($payload.limitation)`n`nNext: $($payload.next_operation)`n"
     [IO.File]::AppendAllText($report,$text.Replace("`r`n","`n"),[Text.UTF8Encoding]::new($false))
@@ -102,13 +108,15 @@ if($Stage -eq 'Scientific'){
 if(-not(Test-ControllerScientificCheckpoint $Workspace $state)){throw 'A verified scientific checkpoint is required for closeout'}
 $payload=Get-Content -LiteralPath (Join-Path $Workspace $record.scientific_checkpoint.artifact) -Raw|ConvertFrom-Json
 $task=Get-Content -LiteralPath $taskPath -Raw|ConvertFrom-Json
-$task.status='F1597_KKT_DIAGNOSTIC_VERIFIED_CORRECTION_PENDING'
-$task.phase='F1597: initial mapped-state KKT feasibility measured; coupled constrained-transfer correction remains pending.'
+$operation=Resolve-ControllerOperation $task
+if($operation.id -cne $record.operation_id -or $operation.path -cne $state.scientific_operation){throw 'Closeout operation mismatch'}
+$task.status=$operation.status
+$task.phase='F1597: mechanical/history call-order diagnostic measured; transfer correction remains unqualified.'
 $task|Add-Member -NotePropertyName last_updated -NotePropertyValue ([datetimeoffset]::Now.ToString('o')) -Force
 $task|Add-Member -NotePropertyName next_safe_action -NotePropertyValue $payload.next_operation -Force
 $task|Add-Member -NotePropertyName scientific_checkpoint -NotePropertyValue $record.scientific_checkpoint -Force
 $task.scientific_operation=''
-$task|Add-Member -NotePropertyName completed_operations -NotePropertyValue @('mapped_frozen_history_lower_bound_kkt_probe') -Force
+$task|Add-Member -NotePropertyName completed_operations -NotePropertyValue @(@($task.completed_operations)+$operation.id|Select-Object -Unique) -Force
 [IO.File]::WriteAllText($taskPath,(($task|ConvertTo-Json -Depth 20).Replace("`r`n","`n")),[Text.UTF8Encoding]::new($false))
 $record.stage='COMPLETE';$record.next_action=$payload.next_operation;Save-Record
 [IO.File]::AppendAllText((Join-Path $Workspace $record.session_report),"`nBounded diagnostic complete. Transfer correction is not yet qualified. No HPC job submitted.`n`nFinished`n")
@@ -119,16 +127,16 @@ $registry=Join-Path $Workspace 'project_coordination/ARTIFACT_REGISTRY.csv'
 $ledger=Join-Path $Workspace 'project_coordination/TASK_LEDGER.csv'
 $newPaths=@($record.session_report,('project_coordination/controller/turn-'+$RunId+'.json'),$record.scientific_checkpoint.artifact)
 foreach($relative in $newPaths){
-    $row=[pscustomobject]@{artifact_id=('F1597-'+$RunId+'-'+[IO.Path]::GetFileName($relative));stage='Mode-I';canonical_path=$relative;type='verified_diagnostic_evidence';status='verified';created_by='gemini-antigravity';source_commit=$record.repository_commit;sha256=(Get-FileHash -LiteralPath (Join-Path $Workspace $relative)).Hash;supersedes='';notes='F1597 bounded frozen-history KKT diagnostic; not a transfer qualification'}
+    $row=[pscustomobject]@{artifact_id=('F1597-'+$RunId+'-'+[IO.Path]::GetFileName($relative));stage='Mode-I';canonical_path=$relative;type='verified_diagnostic_evidence';status='verified';created_by='gemini-antigravity';source_commit=$record.repository_commit;sha256=(Get-FileHash -LiteralPath (Join-Path $Workspace $relative)).Hash;supersedes='';notes=($operation.title+'; not a transfer qualification')}
     $csv=$row|ConvertTo-Csv -NoTypeInformation
     [IO.File]::AppendAllText($registry,$csv[1]+"`n")
 }
-$row=[pscustomobject]@{task_id=($TaskId+'-KKT-STEP');stage='Mode-I';title='Measured initial-state lower-bound KKT feasibility using frozen committed history';status='bounded_step_complete';agent='gemini-antigravity';base_commit=$record.repository_commit;result_commit='';write_scope=($newPaths -join ';');job_id='';classification='KKT_DIAGNOSTIC_ONLY_CORRECTION_PENDING';next_task=$payload.next_operation;updated_at=$session.last_released}
+$row=[pscustomobject]@{task_id=($TaskId+'-'+$operation.id);stage='Mode-I';title=$operation.title;status='bounded_step_complete';agent='gemini-antigravity';base_commit=$record.repository_commit;result_commit='';write_scope=($newPaths -join ';');job_id='';classification='MECHANICAL_HISTORY_DIAGNOSTIC_ONLY_CORRECTION_PENDING';next_task=$payload.next_operation;updated_at=$session.last_released}
 $csv=$row|ConvertTo-Csv -NoTypeInformation;[IO.File]::AppendAllText($ledger,$csv[1]+"`n")
 $staged=Invoke-LocalGit @('diff','--cached','--name-only')
 if($staged){throw 'Pre-existing staged paths must be preserved; closeout will not include them'}
 Invoke-LocalGit (@('add','--')+$newPaths+@('project_coordination/ACTIVE_SESSION.json','project_coordination/ACTIVE_TASK.json','project_coordination/ARTIFACT_REGISTRY.csv','project_coordination/TASK_LEDGER.csv'))
 Invoke-LocalGit @('diff','--cached','--check')
-Invoke-LocalGit @('commit','-m','research(mode1): record F1597 mapped-state KKT feasibility diagnostic')
+Invoke-LocalGit @('commit','-m','research(mode1): record F1597 mechanical history diagnostic')
 Invoke-LocalGit @('push','origin','HEAD:main','HEAD:mode2-pandey-kumar-reproduction')
 Write-Output ('SCIENTIFIC_STEP_COMPLETE: '+$payload.next_operation)

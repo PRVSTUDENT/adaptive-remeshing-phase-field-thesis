@@ -1,25 +1,22 @@
-# F1597: correct the failed Package 72 state transfer
+# F1597: mechanical equilibrium and history-field call-order investigation
 
-F1596 is completed and closed. Do not rerun its force/energy audit. ACTIVE_TASK.json
-now identifies F1597, with a source-pinned first corrective numerical diagnostic.
+The frozen-history KKT operation is completed in 0720bbd1 and must not execute again.
+Run the exact canonical -File Bootstrap, Scientific, Complete commands supplied by
+the controller. Bootstrap reads prerequisites and claims the session once; do not
+repeat unchanged reads or reconstruct nested -Command bootstrap scripts.
 
-Execute the exact canonical -File commands supplied by the controller, in order:
-Bootstrap, Scientific, Complete. Bootstrap implements git checks and mandatory
-ordered reads, verifies the inactive session and claims it once. Its receipt is
-idempotent. Do not generate nested powershell -Command scripts, use head/tail,
-or reread unchanged bootstrap files after its receipt says COMPLETE.
+Scientific must dispatch ONLY the registered operation
+scripts/validation/probe_mode1_f1597_mechanical_history.py
+(operation mapped_mechanical_history_call_order_probe). Reuse the authentic Package72
+offset state and preserved KKT artifact. Reconstruct JTYPE2 mechanical residuals,
+committed/trial history max-updates, LOP1 restore/LOP2 commit, and JTYPE1 phase
+residuals before/after the mechanical update. Record the first verified discrepancy,
+source hashes, declared tolerances and numerical checks. This is a read-only
+reconstruction, not evidence of the actual Abaqus runtime call order or a correction.
 
-Scientific computes the mapped-state phase residual and lower-bound KKT feasibility
-using Package 72's authentic offset table and the implemented UEL phase block,
-with a finite-difference gradient check. This is a new F1597 corrective diagnostic,
-not a rerun of F1596. Preserve the frozen production UEL and existing solver evidence.
-
-Complete verifies and preserves the numerical artifact, records the next correction
-step, releases the session and selectively commits/pushes governed progress. Report
-actual measurements and the next unresolved correction. Do not claim that transfer
-is repaired or qualified merely because this initial diagnostic passes.
-
-A generic status note or file read is not scientific progress. A verified numerical
-artifact is required. Keep the five-minute no-progress guard. If an operation fails,
-report the specific error and preserve its evidence. No new HPC job is part of
-this controlled diagnostic. End with Finished.
+Complete validates the measurements and pinned evidence, preserves both completed
+operation IDs, releases the session, and selectively commits/pushes. Advance once.
+Keep strict PRE/POST identity checks, the five-minute progress guard and total
+2400-second budget. No HPC job, solver run or scientific formulation change is part
+of this diagnostic. Preserve Package72 failure, frozen UEL and once-only accounting.
+Report actual findings, limitations and exact next safe action. End with Finished.

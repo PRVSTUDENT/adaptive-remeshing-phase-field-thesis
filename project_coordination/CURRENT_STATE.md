@@ -80,3 +80,11 @@
 - Missing native metadata now requires live provider subject proof before synchronization; identity conflicts and failed proof remain fail-closed. No saved-token rollback in this repair.
 - Credential regressions plus profile 6/6, bootstrap 20/20, recovery 25/25 and progress 20/20 pass. Report: project_coordination/sessions/2026-10-20_codex_credential_lifecycle.md.
 - F1597 diagnostic remains completed in 0720bbd1; next numerical operation is not defined by this maintenance. Earlier BLOCKED runtime checkpoint remains preserved as historical evidence, requiring reconciliation before later dispatch.
+
+## F1597 next-operation dispatch ready, 20 October 2026
+
+- New qualified executable: scripts/validation/probe_mode1_f1597_mechanical_history.py (mapped_mechanical_history_call_order_probe). KKT is completed and retired from execution; its checkpoint remains the scientific basis.
+- Registry-based Bootstrap/Scientific/Complete dispatch, strict numerical/source verification and once-only completion tested on manufactured data. No authentic new operation or HPC job executed during maintenance.
+- Historical runtime checkpoint reconciled against 0720bbd1 and credential repair 7186c5c8; original bytes and failure reason retained. This supersedes the earlier maintenance BLOCKED status without changing the historical failure.
+- Ready for one controlled validation after commit/push and inactive-session dry run. Five-minute progress guard, strict credentials and 2400-second total budget preserved.
+- Report: project_coordination/sessions/2026-10-20_codex_f1597_dispatch.md.
