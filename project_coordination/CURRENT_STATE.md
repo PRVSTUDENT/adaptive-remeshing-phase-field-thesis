@@ -96,3 +96,16 @@
 - Authentic UEL call-trace candidate prepared under package 73; marked NOT EXECUTABLE. Local compiler-only and fixture checks passed; Abaqus 2023 datacheck, qualified instrumentation adapter path, real notification/resource preflight and solver provenance/parity remain unqualified.
 - Dry-run preview reports TECHNICAL_QUALIFICATION_REQUIRED and dispatch_ready=false. No new scientific turn or job launched; do not restart a research loop yet.
 - Report: project_coordination/sessions/2026-10-20_codex_operation_preparation.md.
+
+## Controller nonintrusive rollback and reconciliation ? 20 October 2026
+
+- PR #1 (`fix/nonintrusive-controller-20261020`) verified and merged into `mode2-pandey-kumar-reproduction`:
+  * Stream interceptor `Test-ControllerBootstrapCommand` removed (benign `git status` and PowerShell `-Command` calls no longer cause `BOOTSTRAP_COMMAND_REJECTED`).
+  * Repeated Bootstrap calls made idempotent (`repeat_count++`, returns `BOOTSTRAP_ALREADY_COMPLETE`), preventing artificial `BOOTSTRAP_LOOP` terminations.
+  * Inactivity watchdog disabled for scientific-checkpoint turns (`requires_scientific_checkpoint = true`), reserving the full hard turn budget (`controllerBudget.work = 2280s`) within the 2400s cap.
+  * Credential guards, session ownership, terminal numerical qualification, frozen UEL (`CE8D5EDC...`), and duplicate HPC prevention preserved intact.
+- Unit suites passed 100%: bootstrap (26/26), continuous research (45/45), recovery (25/25), operations (9/9), preparation (11/11), credentials (5/5), policy and envelope.
+- Controller deployed to `C:\Users\pruth\OpenClawPAD\Antigravity-Autonomous-Loop.ps1`; source/installed SHA-256 parity verified: `0F2D7C382AA9E4BDD954FE20A4913C0D71F67AEED70102616E819E5568BFCADF`.
+- Blocked checkpoint `41ae7c01-96ed-4357-83f8-fb120f79e995` safely preserved and reconciled to `COMPLETED` (`INTERRUPTED_TURN_PROGRESS_WATCHDOG_RECONCILED`); dry-run verified exit 0.
+- Report: `project_coordination/sessions/2026-10-20_gemini-antigravity_controller_rollback_verification_and_checkpoint_reconciliation.md`.
+
