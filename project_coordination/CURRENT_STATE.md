@@ -1,6 +1,6 @@
 # Project Current State: Mode-I Adaptive Remeshing and Phase-Field Fracture
 
-## Active Task: F1596 Independently Qualify Package 72 Mechanical and Energetic State Transfer
+## Active Task: F1597 Correct Failed Package 72 State Transfer (initial KKT diagnostic ready)
 
 - **Binding Method C & Method B Governance Status**:
   * `PACKAGE48_FRACTURE_PEAK_STATUS = CAPTURED_FMAX_732P46N_AT_U_0P005636MM_MINUS_3P34PCT_PARITY_PASS`
@@ -54,3 +54,13 @@
 - Old blocked checkpoint archived; exact HPC/execution hashes verified unchanged before qualified migration. No research jobs submitted during maintenance.
 - User explicitly authorized the 20-turn background launch after commit/push and lock release; runtime receipt/logs reside under OpenClawPAD/controller-run-*.
 - Report: project_coordination/sessions/2026-10-20_codex_controller_progress.md.
+
+
+## F1597 controlled scientific checkpoint readiness ? 20 October 2026
+
+- Failed turn trace confirmed a nested PowerShell parser failure, repeated unchanged prerequisite reads and no session claim/scientific operation.
+- Canonical idempotent -File bootstrap and typed numerical checkpoint contract are qualified; F1596 is closed and cannot relaunch.
+- F1597 first diagnostic measures initialized phase-block lower-bound KKT feasibility with frozen committed H and finite-difference verification; no transfer correction is yet qualified.
+- 20 bootstrap/full manufactured-closeout checks, 20 progress, 25 recovery and 3 numerical kernel checks passed; existing guards retained.
+- Exactly one real controlled turn is authorized next after commit/push and lock release. Five-minute guard unchanged; credential resets and 20-turn launch prohibited.
+- Report: project_coordination/sessions/2026-10-20_codex_controller_bootstrap.md.

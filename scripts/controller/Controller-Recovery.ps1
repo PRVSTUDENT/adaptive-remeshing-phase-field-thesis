@@ -39,7 +39,7 @@ function Get-ControllerEvidence([string]$Workspace) {
         if ($relative -like '*/ACTIVE_TASK.json') { $task = Get-Content -LiteralPath $p -Raw -Encoding UTF8 | ConvertFrom-Json }
         if ($relative -like '*/ACTIVE_SESSION.json') { $session = Get-Content -LiteralPath $p -Raw -Encoding UTF8 | ConvertFrom-Json }
     }
-    foreach ($relative in @('scripts/controller/Antigravity-Autonomous-Loop.ps1','scripts/controller/Controller-Recovery.ps1','scripts/validation/Invoke-BoundedAgyProcess.ps1','scripts/validation/AgyControllerPolicy.ps1','scripts/validation/AgyCredentialStores.ps1','models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for')) {
+    foreach ($relative in @('scripts/controller/Antigravity-Autonomous-Loop.ps1','scripts/controller/Controller-Recovery.ps1','scripts/controller/Invoke-ControllerTurn.ps1','scripts/validation/probe_mode1_f1597_kkt.py','scripts/validation/Invoke-BoundedAgyProcess.ps1','scripts/validation/AgyControllerPolicy.ps1','scripts/validation/AgyCredentialStores.ps1','models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/f42_experimental_offset_uel.for')) {
         $p=Join-Path $Workspace $relative
         if (Test-Path -LiteralPath $p -PathType Leaf) { $sources[$relative]=(Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash }
     }
@@ -60,22 +60,27 @@ function Get-ControllerEvidence([string]$Workspace) {
     $execution = Get-Content -LiteralPath (Join-Path $Workspace 'project_coordination/MODE1_EXECUTION_LEDGER.json') -Raw -Encoding UTF8 | ConvertFrom-Json
     $commit=''
     if(Test-Path -LiteralPath (Join-Path $Workspace '.git')){ $commit=(& git -C $Workspace rev-parse HEAD).Trim() }
-    return [pscustomobject]@{task=$task; session=$session; sources=$sources; pbs_receipts=$receipts; execution_accounting=$execution; report=$report; report_bytes=$reportBytes; commit=$commit}
+    return [pscustomobject]@{task=$task; session=$session; sources=$sources; pbs_receipts=$receipts; execution_accounting=$execution; report=$report; report_bytes=$reportBytes; commit=$commit; workspace=$Workspace}
 }
 
 function Resolve-ControllerInstruction([string]$Workspace, [string]$Instruction) {
     $e = Get-ControllerEvidence $Workspace
+    if($e.task.scientific_checkpoint_required -and -not $e.task.scientific_operation){throw ('NEXT_OPERATION_REQUIRES_DEFINITION: completed operation will not replay; '+$e.task.next_safe_action)}
     $terminal = [string]$e.task.status -match '(?i)(completed|classified|closed|^done$)'
     $heading = ($Instruction -split "`n")[0]
     $id = [regex]::Match($heading,'\bF\d+\b').Value
     $currentId = [regex]::Match([string]$e.task.task_id,'\bF\d+\b').Value
+    if($id){
+        $closed=@(Import-Csv -LiteralPath (Join-Path $Workspace 'project_coordination/TASK_LEDGER.csv')|Where-Object { $_.task_id -match ('^'+[regex]::Escape($id)+'(?:-|$)') -and $_.status -match '^(?i:complete|completed|closed)$' })
+        if($closed.Count){throw ('COMPLETED_TASK_REJECTED: '+$id+'; select the authoritative active task instead')}
+    }
     $stale = $terminal -and $id -and $id -eq $currentId
     if ($stale -or $Instruction -match '^CONTROLLER_TASK: NEXT_UNRESOLVED') {
         $Instruction = @"
 CONTROLLER_TASK: NEXT_UNRESOLVED
 Authoritative predecessor: $($e.task.task_id), status $($e.task.status).
 Read CURRENT_STATE.md, ACTIVE_TASK.json, TASK_LEDGER.csv, exact session records and HPC/execution ledgers before choosing work. Completed predecessor work must not execute again.
-Perform the mandatory ordered bootstrap in one batched PowerShell call: read the required files in order, then emit current state and only relevant task/job/registry rows plus source hashes. Do not print entire historical ledgers into model context or read each historical file in a separate model round trip. Claim the session promptly after verifying it is inactive.
+Use the exact canonical -File Bootstrap command supplied by the controller. It performs the ordered prerequisite reads and session claim once for this turn. Its completion receipt replaces repeated bootstrap reads. Never reconstruct bootstrap using nested -Command strings or raw head/tail commands.
 Select one next scientifically useful executable action from current evidence. Immediately execute independently ready qualified serial Mode-I jobs through scripts/hpc/Invoke-Mode1Execution.ps1 under the standing limits and once-only accounting. No administrative approval is needed. Do not repeat the completed audit, submit dependent work before quantitative predecessor acceptance, or manufacture a job. If scientific failure blocks execution, do only the smallest essential hypothesis/equation/checkpoint review and report its concrete finding promptly. Preserve the frozen production UEL and authentic failed results.
 Create the owned session report within 120 seconds, recording exact sources and the first concrete finding or blocker. Update it after each substantive action and at least every 180 seconds. A session claim, heartbeat, timestamp, or tool chatter is not a saved result. The controller will stop after 300 seconds without durable evidence. Do not spend the turn rereading broad history. Close the owned session truthfully and return evidence, actual PBS receipts if any, and the exact next safe action. End with Finished.
 "@
@@ -84,7 +89,8 @@ Create the owned session report within 120 seconds, recording exact sources and 
 }
 
 function New-ControllerTurnState($Evidence, [int]$Turn, [string]$Instruction, [int]$RecoveryCount = 0) {
-    return [pscustomobject]@{schema=1; run_id=[guid]::NewGuid().ToString(); task_id=[string]$Evidence.task.task_id; predecessor_task_id=[string]$Evidence.task.task_id; repository_commit=$Evidence.commit; initial_session_active=[bool]$Evidence.session.active; initial_session_hash=$Evidence.sources['project_coordination/ACTIVE_SESSION.json']; owned_session_fingerprint=''; turn=$Turn; state='PENDING'; recovery_count=$RecoveryCount; process_id=0; started_at=[DateTimeOffset]::UtcNow.ToString('o'); updated_at=''; last_confirmed_action=[string]$Evidence.task.status; sources=$Evidence.sources; pbs_receipts=$Evidence.pbs_receipts; execution_accounting=$Evidence.execution_accounting; session=$Evidence.session; session_report=$Evidence.report; progress_signature=''; last_evidence_at=''; conversation_id=''; live_buffer=''; stop_reason=''; original_instruction_hash=(Get-ControllerTextHash $Instruction); partial_output=''; partial_sha256=''; next_safe_action='Execute only reconciled instruction'; block_reason=''}
+    $runId=[guid]::NewGuid().ToString()
+    return [pscustomobject]@{schema=1; run_id=$runId; workspace=$Evidence.workspace; bootstrap_record_path=$(if($Evidence.workspace){Join-Path $Evidence.workspace ('project_coordination/controller/turn-'+$runId+'.json')}else{''}); bootstrap_repeat_reads=0; requires_scientific_checkpoint=[bool]$Evidence.task.scientific_checkpoint_required; task_id=[string]$Evidence.task.task_id; predecessor_task_id=[string]$Evidence.task.task_id; repository_commit=$Evidence.commit; initial_session_active=[bool]$Evidence.session.active; initial_session_hash=$Evidence.sources['project_coordination/ACTIVE_SESSION.json']; owned_session_fingerprint=''; turn=$Turn; state='PENDING'; recovery_count=$RecoveryCount; process_id=0; started_at=[DateTimeOffset]::UtcNow.ToString('o'); updated_at=''; last_confirmed_action=[string]$Evidence.task.status; sources=$Evidence.sources; pbs_receipts=$Evidence.pbs_receipts; execution_accounting=$Evidence.execution_accounting; session=$Evidence.session; session_report=$Evidence.report; progress_signature=''; last_evidence_at=''; conversation_id=''; live_buffer=''; stop_reason=''; original_instruction_hash=(Get-ControllerTextHash $Instruction); partial_output=''; partial_sha256=''; next_safe_action='Execute only reconciled instruction'; block_reason=''}
 }
 
 function Sync-ControllerOwnedSession($Evidence,$State) {
@@ -183,6 +189,15 @@ function Test-ControllerDurableProgress($State) {
     if($State.progress_evidence -isnot [Collections.IDictionary]){
         $map=@{};foreach($property in $State.progress_evidence.PSObject.Properties){$map[$property.Name]=$property.Value};$State.progress_evidence=$map
     }
+    if($State.requires_scientific_checkpoint){
+        if(-not(Test-ControllerScientificCheckpoint $State.workspace $State)){return $false}
+        $receipt=Get-Content -LiteralPath $State.bootstrap_record_path -Raw|ConvertFrom-Json
+        $signature=$receipt.scientific_checkpoint.sha256
+        $changed=$State.progress_signature -ne $signature
+        $State.progress_signature=$signature
+        if($changed){$State.last_evidence_at=[datetimeoffset]::UtcNow.ToString('o')}
+        return $changed
+    }
     $changed=$false
     $names=if($State.sources -is [Collections.IDictionary]){$State.sources.Keys}else{$State.sources.PSObject.Properties.Name}
     foreach($name in $names){
@@ -209,6 +224,7 @@ function Write-ControllerStreamEvent($State,[string]$Chunk) {
             Write-Host "[AGY] conversation=$($State.conversation_id) initialized"
         }elseif($event.event -eq 'step_update'){
             Write-Host "[AGY] step=$($event.step_update.step_index) type=$($event.step_update.step_type) state=$($event.step_update.state)"
+            if($event.step_update.step_type -eq 'tool' -and $event.step_update.state -eq 'ACTIVE'){Test-ControllerBootstrapCommand $State ([string]$event.step_update.tool_info.parameters.CommandLine)}
         }elseif($event.event -eq 'result'){Write-Host "[AGY] result=$($event.result.status)"}
     }
 }
@@ -224,4 +240,52 @@ function ConvertFrom-ControllerStream([string]$Raw) {
         return (@{conversation_id=$conversation;status='SUCCESS';response=''}|ConvertTo-Json)+"`n[agy] print timeout returning partial output"
     }
     return $Raw
+}
+
+function Test-ControllerScientificCheckpoint([string]$Workspace,$State) {
+    try{
+        if(-not $State.bootstrap_record_path -or -not(Test-Path -LiteralPath $State.bootstrap_record_path -PathType Leaf)){return $false}
+        $record=Get-Content -LiteralPath $State.bootstrap_record_path -Raw|ConvertFrom-Json
+        $checkpoint=$record.scientific_checkpoint
+        if($record.controller_run_id -ne $State.run_id -or $record.task_id -ne $State.task_id -or $record.bootstrap_status -ne 'COMPLETE' -or
+            -not $checkpoint -or $checkpoint.kind -ne 'NUMERICAL_FINDING' -or $checkpoint.exit_code -ne 0){return $false}
+        $expected='results/validation/mode1_f1597/'+$State.run_id+'.json'
+        if($checkpoint.artifact -ne $expected){return $false}
+        $artifact=Join-Path $Workspace $expected
+        if(-not(Test-Path -LiteralPath $artifact -PathType Leaf) -or (Get-FileHash -LiteralPath $artifact).Hash -ne $checkpoint.sha256){return $false}
+        $data=Get-Content -LiteralPath $artifact -Raw|ConvertFrom-Json
+        if($data.task_id -ne 'F1597' -or $data.operation -ne 'mapped_frozen_history_lower_bound_kkt_probe' -or -not $data.verification_passed -or
+            $data.measurements.phase_elements -le 0 -or $data.measurements.phase_nodes -le 0 -or $data.measurements.finite_difference_gradient_error_kN -gt 1e-10){return $false}
+        foreach($m in $data.measurements.PSObject.Properties){if([double]::IsNaN([double]$m.Value) -or [double]::IsInfinity([double]$m.Value)){return $false}}
+        $probe='scripts/validation/probe_mode1_f1597_kkt.py'
+        if(-not $State.sources.$probe -or $data.sources.$probe -ne $State.sources.$probe){return $false}
+        foreach($required in @($probe,'models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/f42_experimental_offset_uel.for')){
+            if(-not $data.sources.$required -or $data.sources.$required -ne $State.sources.$required){return $false}
+        }
+        $root=[IO.Path]::GetFullPath($Workspace).TrimEnd('\','/')+[IO.Path]::DirectorySeparatorChar
+        foreach($source in $data.sources.PSObject.Properties){
+            $path=[IO.Path]::GetFullPath((Join-Path $Workspace $source.Name))
+            if(-not $path.StartsWith($root,[StringComparison]::OrdinalIgnoreCase) -or -not(Test-Path -LiteralPath $path -PathType Leaf) -or (Get-FileHash -LiteralPath $path).Hash -ne $source.Value){return $false}
+        }
+        return $true
+    }catch{return $false}
+}
+
+function Test-ControllerBootstrapCommand($State,[string]$Command) {
+    if(-not $State.requires_scientific_checkpoint){return}
+    $bootstrapRead=$Command -match '(?is)(git\s+status|Get-Content[^\r\n]*(START_HERE|ACTIVE_SESSION|CURRENT_STATE|TASK_LEDGER|ARTIFACT_REGISTRY))'
+    if($bootstrapRead -and $Command -match '(?i)powershell(?:\.exe)?\s+.*-Command'){
+        $State.stop_reason='BOOTSTRAP_COMMAND_REJECTED'
+        throw 'BOOTSTRAP_COMMAND_REJECTED: use the canonical -File Bootstrap entrypoint; nested command expansion previously removed variables'
+    }
+    if(-not $bootstrapRead -or -not(Test-Path -LiteralPath $State.bootstrap_record_path)){return}
+    $record=Get-Content -LiteralPath $State.bootstrap_record_path -Raw|ConvertFrom-Json
+    if($record.bootstrap_status -ne 'COMPLETE'){return}
+    foreach($source in $record.basis_sources.PSObject.Properties){
+        $path=Join-Path $State.workspace $source.Name
+        if(-not(Test-Path -LiteralPath $path) -or (Get-FileHash -LiteralPath $path).Hash -ne $source.Value){return}
+    }
+    $State.bootstrap_repeat_reads++
+    Write-Host '[BOOTSTRAP_DIAGNOSTIC] prerequisites already complete and unchanged; proceed to scientific operation'
+    if($State.bootstrap_repeat_reads -ge 2){$State.stop_reason='BOOTSTRAP_LOOP';throw 'BOOTSTRAP_LOOP: repeated unchanged prerequisite reads after verified bootstrap'}
 }

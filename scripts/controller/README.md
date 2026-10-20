@@ -35,6 +35,36 @@ powershell -NoProfile -NonInteractive -File tests/unit/test_controller_profile_g
 
 ## Durable recovery
 
+### Idempotent F1597 bootstrap and controlled validation
+
+`Invoke-ControllerTurn.ps1 -Stage Bootstrap` is the canonical `-File` entrypoint.
+It performs Git checks, reads the nine mandatory prerequisite files in order,
+validates task/session state, claims the owned session and records source hashes
+once under `project_coordination/controller/turn-<run-id>.json`. An unchanged
+repeat returns `BOOTSTRAP_ALREADY_COMPLETE`; further repetition is diagnosed.
+Changed relevant inputs require deliberate reconciliation. Raw repeated reads
+and nested bootstrap `powershell -Command` calls are diagnosed from live events.
+The failed real trace had stripped `$f`/`$files` variables in a nested command,
+not a successful bootstrap followed by scientific work.
+
+Closed task headings are rejected from TASK_LEDGER.csv before invoking the model,
+including F1596 when ACTIVE_TASK.json now correctly names F1597. Bootstrap notes,
+file reads and generic report length no longer count for F1597. A typed scientific
+checkpoint must reference a hash-verified numerical artifact and all five pinned
+sources, with finite measurements and a passed gradient verification.
+
+For the controlled test only, the next stages are `Scientific` and `Complete`.
+The first executes `probe_mode1_f1597_kkt.py` on the authentic mapped offsets using
+the implemented frozen-history phase block. The second preserves the measured
+KKT finding, records the next correction step, releases ownership and selectively
+commits/pushes the bounded scientific result. It does not qualify state transfer.
+
+`-ControlledSingleTurn -MaxTurns 1` requires this verified operation and clean
+scientific closeout, then exits without a bridge or another research turn.
+Credential resets and automatic profile restoration are forbidden in this mode;
+existing read-only PRE/POST identity checks still apply. The 300-second guard and
+2400-second maximum remain unchanged. Do not start a twenty-turn run to validate it.
+
 ### Saved-result deadline and live diagnostics
 
 The long scientific budget is an upper bound for productive work. Independently,

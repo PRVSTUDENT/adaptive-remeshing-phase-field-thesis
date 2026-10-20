@@ -1,26 +1,25 @@
-CONTROLLER_TASK: NEXT_UNRESOLVED
+# F1597: correct the failed Package 72 state transfer
 
-Use current coordination evidence to select one next scientifically useful action.
-Completed predecessor F1596 must not run again. Preserve its failed Package 72
-measurements, authentic checkpoints and frozen production UEL.
+F1596 is completed and closed. Do not rerun its force/energy audit. ACTIVE_TASK.json
+now identifies F1597, with a source-pinned first corrective numerical diagnostic.
 
-JOB FIRST: immediately execute any independently ready, scientifically justified,
-technically qualified serial Mode-I jobs through scripts/hpc/Invoke-Mode1Execution.ps1.
-Use exact manifests and once-only accounting; no permits or human activation.
-Do not submit scientifically dependent continuation before predecessor acceptance,
-blindly repeat a job, change formulation without scientific review, or create filler jobs.
+Execute the exact canonical -File commands supplied by the controller, in order:
+Bootstrap, Scientific, Complete. Bootstrap implements git checks and mandatory
+ordered reads, verifies the inactive session and claims it once. Its receipt is
+idempotent. Do not generate nested powershell -Command scripts, use head/tail,
+or reread unchanged bootstrap files after its receipt says COMPLETE.
 
-When a failed scientific dependency prevents submission, do only the smallest
-essential numerical/equation/checkpoint investigation, record its concrete finding
-and next safe step, then close out promptly. Do not spend a turn rereading history.
+Scientific computes the mapped-state phase residual and lower-bound KKT feasibility
+using Package 72's authentic offset table and the implemented UEL phase block,
+with a finite-difference gradient check. This is a new F1597 corrective diagnostic,
+not a rerun of F1596. Preserve the frozen production UEL and existing solver evidence.
 
-Follow the single-agent bootstrap in one batched shell call, reading required files
-in order and emitting current facts, relevant rows and hashes instead of dumping
-complete historical ledgers into model context. Create the owned session report with exact source
-paths and a concrete finding or blocker within 120 seconds. Update the report after
-each substantive action and at least every 180 seconds. Session claims, timestamps,
-metadata heartbeats and model chatter are not saved results. The controller stops
-at 300 seconds without durable evidence, even if the overall budget is longer.
+Complete verifies and preserves the numerical artifact, records the next correction
+step, releases the session and selectively commits/pushes governed progress. Report
+actual measurements and the next unresolved correction. Do not claim that transfer
+is repaired or qualified merely because this initial diagnostic passes.
 
-Return actual measurements, tests and PBS IDs (if submitted), or the precise scientific
-blocker. Release the owned session and synchronize governed progress. End with Finished.
+A generic status note or file read is not scientific progress. A verified numerical
+artifact is required. Keep the five-minute no-progress guard. If an operation fails,
+report the specific error and preserve its evidence. No new HPC job is part of
+this controlled diagnostic. End with Finished.

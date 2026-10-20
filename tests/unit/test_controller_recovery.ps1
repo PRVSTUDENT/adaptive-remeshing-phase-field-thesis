@@ -21,8 +21,9 @@ try {
     Put 'project_coordination/MODE1_EXECUTION_LEDGER.json' '{"reserved_commands":["job72"],"pbs_id":"1415199.mmaster02","attempts":1}'
     Put 'project_coordination/sessions/audit.md' 'Existing completed audit. No repeated audit or new submission.'
     $path=Join-Path $fixture 'checkpoint.json'
-    $resolved=Resolve-ControllerInstruction $fixture '# Antigravity F1596: repeat audit'
-    Assert ($resolved.stale_replaced -and $resolved.instruction.StartsWith('CONTROLLER_TASK: NEXT_UNRESOLVED')) 'completed F1596 rejects stale research heading'
+    $rejected=$false;try{$null=Resolve-ControllerInstruction $fixture '# Antigravity F1596: repeat audit'}catch{$rejected=$_.Exception.Message -match 'COMPLETED_TASK_REJECTED'}
+    Assert $rejected 'completed F1596 rejected before model invocation'
+    $resolved=Resolve-ControllerInstruction $fixture 'CONTROLLER_TASK: NEXT_UNRESOLVED'
     $e=$resolved.evidence
     $s=New-ControllerTurnState $e 1 $resolved.instruction
     Write-ControllerCheckpoint $path $s

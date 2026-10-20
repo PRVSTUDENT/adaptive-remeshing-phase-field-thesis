@@ -1,10 +1,10 @@
 {
-  "task_id": "F1596-INDEPENDENTLY-QUALIFY-PACKAGE72-STATE-TRANSFER",
-  "status": "PACKAGE72_C1_1_AUDIT_COMPLETED_CLASSIFIED_FAIL",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "status": "READY_OFFLINE_KKT_FEASIBILITY_PROBE",
   "agent": "gemini-antigravity",
-  "phase": "Task F1596: Completed independent qualification of Package 72 coupled state transfer. Classified as PACKAGE72_C1-1_FAIL due to -77.73% force deficit and 291 healing nodes. Forward Method C cycles on hold.",
-  "gate_status": "GATE_6B_ACTIVE_EVALUATION__PACKAGE72_AUDIT_COMPLETED_FAIL",
-  "last_updated": "2026-10-19T18:46:00+02:00",
+  "phase": "F1597 correcting failed Package 72 transfer: first measure frozen-history mapped-state lower-bound KKT feasibility with finite-difference verification, then review the constrained coupled correction. Do not repeat F1596 force/energy audit or submit dependent continuation.",
+  "gate_status": "PACKAGE72_FAILED__F1597_CORRECTIVE_DIAGNOSTIC_READY__TRANSFER_CORRECTION_PENDING",
+  "last_updated": "2026-10-20",
   "active_pbs_job_ids": [],
   "dependent_pbs_job_ids": [],
   "deferred_candidate_jobs": [
@@ -89,5 +89,15 @@
     "1415119.mmaster02",
     "1415177.mmaster02",
     "1415199.mmaster02"
-  ]
+  ],
+  "predecessor_task": {
+    "task_id": "F1596-INDEPENDENTLY-QUALIFY-PACKAGE72-STATE-TRANSFER",
+    "status": "PACKAGE72_C1_1_AUDIT_COMPLETED_CLASSIFIED_FAIL",
+    "phase": "Task F1596: Completed independent qualification of Package 72 coupled state transfer. Classified as PACKAGE72_C1-1_FAIL due to -77.73% force deficit and 291 healing nodes. Forward Method C cycles on hold.",
+    "gate_status": "GATE_6B_ACTIVE_EVALUATION__PACKAGE72_AUDIT_COMPLETED_FAIL",
+    "last_updated": "2026-10-19T18:46:00+02:00"
+  },
+  "scientific_checkpoint_required": true,
+  "scientific_operation": "scripts/validation/probe_mode1_f1597_kkt.py",
+  "next_safe_action": "Measure mapped-state lower-bound KKT feasibility using authentic Package72 offsets and the implemented phase block."
 }

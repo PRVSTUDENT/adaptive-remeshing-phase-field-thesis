@@ -118,10 +118,12 @@ param(
     [bool]$ModeIResolutionExtensionActive = $true,
 
     [ValidateRange(30,600)][int]$NoProgressSeconds = 300,
+    [switch]$ControlledSingleTurn,
     [switch]$ControllerDryRun,
     [switch]$AllowSkipPermissions = $true
 )
 
+if($ControlledSingleTurn -and $MaxTurns -ne 1){throw 'ControlledSingleTurn requires MaxTurns=1; no research loop allowed'}
 # Offline validation exits before credential/profile/bridge or AGY side effects.
 . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Recovery.ps1')
 $canonicalController = Join-Path $WorkspaceDir 'scripts/controller/Antigravity-Autonomous-Loop.ps1'
@@ -470,6 +472,7 @@ function Set-AndVerifyAgyRunProfile {
             Assert-AgyCredentialStores -ExpectedBytes $expectedBytes -TokenPath $tokenPath
         } catch {
             $verificationFailure = $_
+            if($ControlledSingleTurn){throw 'Controlled turn credential verification failed; credential reset/synchronization is disabled'}
             $repairEligible = $false
             if (Test-Path -LiteralPath $tokenPath) {
                 $nativeBytes = Read-AgyCredentialManagerBytes
@@ -510,6 +513,7 @@ function Set-AndVerifyAgyRunProfile {
     }
 
     if ($mustRestore) {
+        if($ControlledSingleTurn){throw 'Controlled turn profile mismatch; automatic credential switching is disabled'}
         if ($EnableSmartAgyProfileSelection -and $Context -ne 'STARTUP') {
             throw "AGY profile changed during $($Context): expected '$expected', detected '$($state.ActiveProfile)'. Will not silently undo an external switch. Switch only between AGY calls."
         }
@@ -3349,7 +3353,13 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
     # follow-up turns. This prevents Turn 2+ from forgetting the restriction.
     # TURN10_NONINTERACTIVE_GUARD_V1
     $CurrentInstruction = "Use powershell.exe -NoProfile -NonInteractive for generated shell commands. Always supply explicit -Path and -ChildPath to Join-Path; missing paths are technical errors to diagnose locally. Never wait for a terminal parameter prompt. Do not use timer tools with empty arguments. Recover existing PBS IDs before any submission.`r`n" + $CurrentInstruction
-    $EffectiveInstruction = (Get-AgyCompactRules) + "`nRead authoritative AGENTS.md and required coordination bootstrap files; do not reconstruct unrelated history. Work budget: $($controllerBudget.work) seconds. The controller reserves $($controllerBudget.closeout) seconds for local evidence reconciliation. Create the owned session report with exact sources and the first concrete finding or blocker within 120 seconds; update it every 180 seconds. Metadata/tool chatter does not reset the $NoProgressSeconds-second saved-result deadline; close the session before the work deadline and emit a final response. `n" + $script:PendingSmartProfileContext + "`n" + $CurrentInstruction
+    $bootstrapCommands=''
+    if($script:ControllerState.requires_scientific_checkpoint){
+        $entry=Join-Path $WorkspaceDir 'scripts/controller/Invoke-ControllerTurn.ps1'
+        $common=' -Workspace "'+$WorkspaceDir+'" -RunId '+$script:ControllerState.run_id+' -TaskId '+$script:ControllerState.task_id
+        $bootstrapCommands="FIRST TOOL CALL: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$entry`" -Stage Bootstrap$common`nSECOND TOOL CALL: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$entry`" -Stage Scientific$common`nTHIRD TOOL CALL: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$entry`" -Stage Complete$common`nThese canonical -File commands implement ordered bootstrap/claim, the source-pinned F1597 numerical operation, verified evidence and selective closeout. Do not generate nested -Command scripts, reread bootstrap files, or repeat F1596. Execute the stages once in order, report the actual measured result and next correction step, then finish. A generic status note is not a scientific checkpoint. If a stage fails, report its exact error; do not substitute invented measurements.`n"
+    }
+    $EffectiveInstruction = $bootstrapCommands + (Get-AgyCompactRules) + "`nThe canonical Bootstrap stage performs required prerequisite reads in order; once its receipt is COMPLETE, proceed to the scientific operation without rereading it. Work budget: $($controllerBudget.work) seconds. The controller reserves $($controllerBudget.closeout) seconds for local evidence reconciliation. Create the owned session report with exact sources and the first concrete finding or blocker within 120 seconds; update it every 180 seconds. Metadata/tool chatter does not reset the $NoProgressSeconds-second saved-result deadline; close the session before the work deadline and emit a final response. `n" + $script:PendingSmartProfileContext + "`n" + $CurrentInstruction
 
     # ------------------------------------------------------------
     # 2. Invoke Antigravity CLI (agy.exe) with hardened error guard
@@ -3466,7 +3476,7 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
     }
     if ($agyExitCode -eq 0) { $script:PendingSmartProfileContext = '' }
 
-    if ($script:ControllerRecoveryMode -and ($agyExitCode -ne 0 -or $agyInvocationException)) { throw 'BLOCKED: recovery process failure; no retry' }
+    if (($script:ControllerRecoveryMode -or $ControlledSingleTurn) -and ($agyExitCode -ne 0 -or $agyInvocationException)) { throw 'BLOCKED: recovery process failure; no retry' }
     if ($agyExitCode -ne 0 -or $agyInvocationException) {
 
         Write-Host `
@@ -3719,7 +3729,7 @@ The controller will not continue using another account.
         }
     }
 
-    if ($script:ControllerRecoveryMode -and $agyObj.status -ne 'SUCCESS') { throw 'BLOCKED: recovery returned an error; no retry' }
+    if (($script:ControllerRecoveryMode -or $ControlledSingleTurn) -and $agyObj.status -ne 'SUCCESS') { throw 'BLOCKED: recovery returned an error; no retry' }
     if ($agyObj.status -ne "SUCCESS") {
         $errMsg = if ($agyObj.error) {
             [string]$agyObj.error
@@ -4195,7 +4205,15 @@ Finished
     else {
         [string]$agyObj.response
     }
-    if ($script:ControllerRecoveryMode -and [string]::IsNullOrWhiteSpace($agentResponse)) { throw 'BLOCKED: empty recovery response; no retry' }
+    if($ControlledSingleTurn -and (Test-ControllerScientificCheckpoint $WorkspaceDir $script:ControllerState)){
+        $completed=Get-Content -LiteralPath $script:ControllerState.bootstrap_record_path -Raw|ConvertFrom-Json
+        $report=Join-Path $WorkspaceDir $completed.session_report
+        if($completed.stage -eq 'COMPLETE' -and (Test-Path -LiteralPath $report)){
+            $script:ControllerReceiptVerified=$true
+            if([string]::IsNullOrWhiteSpace($agentResponse)){$agentResponse=Get-Content -LiteralPath $report -Raw}
+        }
+    }
+    if (($script:ControllerRecoveryMode -or $ControlledSingleTurn) -and [string]::IsNullOrWhiteSpace($agentResponse)) { throw 'BLOCKED: empty recovery response; no retry' }
     if ([string]::IsNullOrWhiteSpace($agentResponse)) {
         # 1. Check if task was completed on disk despite the empty agent response
         $diskSalvage = Test-SalvageAgySessionFromDisk -WorkspaceDir $WorkspaceDir
@@ -4247,6 +4265,16 @@ Finished
 
     $completion = Complete-ControllerTurn $WorkspaceDir $controllerCheckpointPath $script:ControllerState $agentResponse -VerifiedReceipt:$script:ControllerReceiptVerified
     if ($completion -eq 'BLOCKED') { throw "BLOCKED: $($script:ControllerState.block_reason)" }
+    if($ControlledSingleTurn){
+        if(-not(Test-ControllerScientificCheckpoint $WorkspaceDir $script:ControllerState)){throw 'Controlled turn failed to reach a verified scientific operation'}
+        $receipt=Get-Content -LiteralPath $script:ControllerState.bootstrap_record_path -Raw|ConvertFrom-Json
+        if($receipt.stage -ne 'COMPLETE'){throw 'Controlled turn scientific closeout is incomplete'}
+        $refs=@(& git -C $WorkspaceDir rev-parse HEAD origin/main)
+        if($refs.Count -ne 2 -or $refs[0] -ne $refs[1] -or $refs[0] -eq $receipt.repository_commit){throw 'Controlled scientific closeout was not committed and synchronized to origin/main'}
+        Save-LoopState -Turn $CurrentTurn -Status 'CONTROLLED_SCIENTIFIC_STEP_COMPLETE' -LastInstruction $CurrentInstruction -LastResponse $agentResponse -NextInstruction $receipt.next_action -Duration $turnDurationSeconds -Usage $agyObj.usage -Tier 'CONTROLLER' -Action 'VERIFIED_SCIENTIFIC_OPERATION'
+        Write-LoopLog -Turn $CurrentTurn -Tier 'CONTROLLER' -Action 'VERIFIED_SCIENTIFIC_OPERATION' -Message ('Controlled F1597 step completed; next='+$receipt.next_action)
+        break MainLoop
+    }
     if ($script:ControllerRecoveryMode) {
         Write-LoopLog -Turn $CurrentTurn -Tier 'CONTROLLER' -Action 'COMPLETED_TURN' -Message 'Evidence-only recovery completed; original research instruction was not replayed.'
         Save-LoopState -Turn $CurrentTurn -Status 'RECOVERY_REVIEW_REQUIRED' -LastInstruction $CurrentInstruction -LastResponse $agentResponse -NextInstruction 'CONTROLLER_TASK: NEXT_UNRESOLVED' -Duration $turnDurationSeconds -Usage $null -Tier 'CONTROLLER' -Action 'RECOVERY_COMPLETED'
@@ -5138,7 +5166,7 @@ if ($CurrentTurn -gt ($StartTurn + $MaxTurns - 1)) {
     if ($null -ne $script:ControllerState -and $script:ControllerState.state -in @('RUNNING','CHECKPOINTED')) {
         # Release only proven owned sessions on abnormal closeout, never a live/foreign process.
         if(-not $script:ControllerState.process_id -or -not(Get-Process -Id $script:ControllerState.process_id -ErrorAction SilentlyContinue)){
-            $raw=if($script:ControllerState.captured_raw_output){$script:ControllerState.captured_raw_output}else{'Controller exited abnormally; inspect live output log and checkpoint.'}
+            $raw=if($script:ControllerState.captured_raw_output){$script:ControllerState.captured_raw_output}elseif($script:ControllerState.live_output_log -and (Test-Path -LiteralPath $script:ControllerState.live_output_log)){Get-Content -LiteralPath $script:ControllerState.live_output_log -Raw}else{'Controller exited abnormally; inspect live output log and checkpoint.'}
             $script:ControllerState=Set-ControllerInterrupted $WorkspaceDir $controllerCheckpointPath $script:ControllerState $raw
         }
         $script:ControllerState.state='BLOCKED'
