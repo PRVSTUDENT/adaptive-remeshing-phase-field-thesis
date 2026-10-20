@@ -426,7 +426,6 @@ function Write-ControllerStreamEvent($State,[string]$Chunk) {
             Write-Host "[AGY] conversation=$($State.conversation_id) initialized"
         }elseif($event.event -eq 'step_update'){
             Write-Host "[AGY] step=$($event.step_update.step_index) type=$($event.step_update.step_type) state=$($event.step_update.state)"
-            if($event.step_update.step_type -eq 'tool' -and $event.step_update.state -eq 'ACTIVE'){Test-ControllerBootstrapCommand $State ([string]$event.step_update.tool_info.parameters.CommandLine)}
         }elseif($event.event -eq 'result'){Write-Host "[AGY] result=$($event.result.status)"}
     }
 }
@@ -544,24 +543,8 @@ function Test-ControllerScientificCheckpoint([string]$Workspace,$State,[switch]$
     }catch{return $false}
 }
 
-function Test-ControllerBootstrapCommand($State,[string]$Command) {
-    if(-not $State.requires_scientific_checkpoint){return}
-    $bootstrapRead=$Command -match '(?is)(git\s+status|Get-Content[^\r\n]*(START_HERE|ACTIVE_SESSION|CURRENT_STATE|TASK_LEDGER|ARTIFACT_REGISTRY))'
-    if($bootstrapRead -and $Command -match '(?i)powershell(?:\.exe)?\s+.*-Command'){
-        $State.stop_reason='BOOTSTRAP_COMMAND_REJECTED'
-        throw 'BOOTSTRAP_COMMAND_REJECTED: use the canonical -File Bootstrap entrypoint; nested command expansion previously removed variables'
-    }
-    if(-not $bootstrapRead -or -not(Test-Path -LiteralPath $State.bootstrap_record_path)){return}
-    $record=Get-Content -LiteralPath $State.bootstrap_record_path -Raw|ConvertFrom-Json
-    if($record.bootstrap_status -ne 'COMPLETE'){return}
-    foreach($source in $record.basis_sources.PSObject.Properties){
-        $path=Join-Path $State.workspace $source.Name
-        if(-not(Test-Path -LiteralPath $path) -or (Get-FileHash -LiteralPath $path).Hash -ne $source.Value){return}
-    }
-    $State.bootstrap_repeat_reads++
-    Write-Host '[BOOTSTRAP_DIAGNOSTIC] prerequisites already complete and unchanged; proceed to scientific operation'
-    if($State.bootstrap_repeat_reads -ge 2){$State.stop_reason='BOOTSTRAP_LOOP';throw 'BOOTSTRAP_LOOP: repeated unchanged prerequisite reads after verified bootstrap'}
-}
+# AGY stream events are telemetry, never permission to terminate a normal shell command.
+# Session ownership, source verification and execution safeguards remain in the canonical stages.
 
 function Assert-ControllerDispatchCheckpoint([string]$Workspace,$State) {
     if(-not $State){return}
