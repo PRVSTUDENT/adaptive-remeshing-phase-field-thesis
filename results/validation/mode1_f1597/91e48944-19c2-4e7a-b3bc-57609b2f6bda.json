@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "task_id": "F1597",
+  "operation": "mapped_frozen_history_lower_bound_kkt_probe",
+  "verification_passed": true,
+  "measurements": {
+    "phase_elements": 650,
+    "phase_nodes": 713,
+    "max_nodal_mapping_jump": 0.0,
+    "phase_residual_inf_kN": 1.3099346063969505e-13,
+    "lower_bound_kkt_violation_inf_kN": 1.3099346063969505e-13,
+    "damage_increase_descent_nodes": 0,
+    "positive_gradient_lower_bound_nodes": 0,
+    "worst_kkt_node": 439,
+    "finite_difference_gradient_error_kN": 4.247888695798564e-14
+  },
+  "finding": "At d=d_mapped the lower-bound KKT condition is gradient>=0; negative-gradient nodes still admit feasible damage-increase descent. A nonzero positive gradient at an active lower bound is not itself a KKT violation.",
+  "limitation": "Frozen committed-H initialization diagnostic only. Mechanical/history coupling, donor comparison, upper bounds and conservation are not qualified; this is not a corrected transfer solve.",
+  "next_operation": "Review the measured KKT active-set requirements and history update before implementing a coupled constrained transfer correction.",
+  "sources": {
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp": "58b1e69f40c5a65c7b9f1049e42ad745152ab8b5cf6b0f15547ed3276cd54964",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv": "87c7954efef0134094bbfb03d7ada03d66f9a84281d0bb50f524ae88dfc65add",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/f42_experimental_offset_uel.for": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "scripts/validation/probe_mode1_f1597_kkt.py": "8d2942ebf7cbf3b05878e9e9c9154abf3c07206043e44bc6e25c3b8f576ac9ff"
+  }
+}
