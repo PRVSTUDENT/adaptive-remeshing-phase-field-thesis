@@ -41,11 +41,11 @@ try {
     $script:fakeManagerBytes=$alternate
     $failed=$false;try{Assert-AgyCredentialStores -ExpectedBytes $source -TokenPath $path}catch{$failed=$true};if(-not $failed){throw 'Wrong Credential Manager identity accepted'}
     # Real lifecycle code, synthetic stores/provider/refresh only; no real credential writes.
-    & {
-        function Read-AgyCredentialManagerBytes {return ,([byte[]]$script:fixtureNative.Clone())}
-        function Write-AgyCredentialManagerBytes {param([byte[]]$Bytes) $script:writes++;if(-not $script:badWrite){$script:fixtureNative=[byte[]]$Bytes.Clone()}}
-        function Get-AgyProviderIdentity {param($AccessToken) if($script:providerFails){throw 'AGY_PROVIDER_IDENTITY_UNPROVEN'};return $script:providerIdentity}
-        function Update-AgyNativeAccessToken {$script:refreshes++;$script:fixtureNative=[Text.Encoding]::UTF8.GetBytes((@{token=@{access_token='FAKE-NEW';refresh_token='FAKE-ROTATED';expiry='2099-01-01T00:00:00Z'}}|ConvertTo-Json -Depth 5))}
+    try {
+        function global:Read-AgyCredentialManagerBytes {return ,([byte[]]$script:fixtureNative.Clone())}
+        function global:Write-AgyCredentialManagerBytes {param([byte[]]$Bytes) $script:writes++;if(-not $script:badWrite){$script:fixtureNative=[byte[]]$Bytes.Clone()}}
+        function global:Get-AgyProviderIdentity {param($AccessToken) if($script:providerFails){throw 'AGY_PROVIDER_IDENTITY_UNPROVEN'};return $script:providerIdentity}
+        function global:Update-AgyNativeAccessToken {$script:refreshes++;$script:fixtureNative=[Text.Encoding]::UTF8.GetBytes((@{token=@{access_token='FAKE-NEW';refresh_token='FAKE-ROTATED';expiry='2099-01-01T00:00:00Z'}}|ConvertTo-Json -Depth 5))}
         $script:providerIdentity=(ConvertTo-AgyCredentialToken $source).Identity
         $script:providerFails=$false;$script:badWrite=$false;$script:writes=0;$script:refreshes=0
         $script:fixtureNative=[byte[]]$expired.Clone()
@@ -61,12 +61,12 @@ try {
             if($scenario -eq 'native-conflict'){$script:fixtureNative=[byte[]]$alternate.Clone()}
             if($scenario -eq 'cli-conflict'){Sync-AgyCliCredentialFile -Bytes $alternate -TokenPath $path}
             if($scenario -eq 'concurrent-change'){
-                function Get-AgyProviderIdentity {param($AccessToken) Sync-AgyCliCredentialFile -Bytes $alternate -TokenPath $path;return $script:providerIdentity}
+                function global:Get-AgyProviderIdentity {param($AccessToken) Sync-AgyCliCredentialFile -Bytes $alternate -TokenPath $path;return $script:providerIdentity}
             }
             $failed=$false
             try{Repair-AgyRefreshedNativeCredential -ExpectedBytes $source -TokenPath $path}catch{$failed=$true;if($_.Exception.Message -match 'FAKE-'){throw 'Credential leaked in diagnostic'}}
             if(-not $failed -or ($scenario -ne 'readback-failure' -and $script:writes -ne 0)){throw "Unsafe repair: $scenario"}
-            function Get-AgyProviderIdentity {param($AccessToken) if($script:providerFails){throw 'AGY_PROVIDER_IDENTITY_UNPROVEN'};return $script:providerIdentity}
+            function global:Get-AgyProviderIdentity {param($AccessToken) if($script:providerFails){throw 'AGY_PROVIDER_IDENTITY_UNPROVEN'};return $script:providerIdentity}
         }
         $script:providerFails=$false;$script:badWrite=$false;$script:providerIdentity=(ConvertTo-AgyCredentialToken $source).Identity
         $originalUserProfile=$env:USERPROFILE
@@ -79,9 +79,9 @@ try {
             if($errors.Count){throw 'Controller parse regression'}
             $node=$ast.Find({param($n)$n -is [Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -eq 'Set-AndVerifyAgyRunProfile'},$true)
             . ([scriptblock]::Create($node.Extent.Text))
-            function Get-AgySavedCredentialBytes {param($Profile) return ,([byte[]]$source.Clone())}
-            function Get-AgyProfileState {return [pscustomobject]@{ActiveProfile='account3';ActiveFile='account3';LastSwitch='account3';Raw='fixture'}}
-            function agy-profile {throw 'Profile rollback must never occur'}
+            function global:Get-AgySavedCredentialBytes {param($Profile) return ,([byte[]]$source.Clone())}
+            function global:Get-AgyProfileState {return [pscustomobject]@{ActiveProfile='account3';ActiveFile='account3';LastSwitch='account3';Raw='fixture'}}
+            function global:agy-profile {throw 'Profile rollback must never occur'}
             $script:RunLockedAgyProfile='account3';$EnableSmartAgyProfileSelection=$true;$ControlledSingleTurn=$true
             $script:fixtureNative=[byte[]]$live.Clone();$script:writes=0
             Set-AndVerifyAgyRunProfile -Context PRE_AGY
@@ -95,7 +95,7 @@ try {
         # Regression: expired native refresh resulting in conflicting identity fails closed.
         $script:fixtureNative=[byte[]]$expired.Clone()
         $script:refreshes=0;$script:writes=0
-        function Update-AgyNativeAccessToken {
+        function global:Update-AgyNativeAccessToken {
             $script:refreshes++
             # Simulates refresh using resident refresh token that belonged to another account (account-b)
             $script:fixtureNative=[Text.Encoding]::UTF8.GetBytes((@{token=@{access_token='FAKE-DIFF';refresh_token='FAKE-ALT';expiry='2099-01-01T00:00:00Z'};id_token=$second;auth_method='consumer'}|ConvertTo-Json -Depth 5))
@@ -111,7 +111,8 @@ try {
         }
         Write-Output 'PASS: expired native refresh producing conflicting provider identity fails closed without store mutation'
         Write-Output 'PASS: missing metadata and rotated refresh preserved; provider failure/mismatch, native/CLI conflict, concurrent change and failed readback rejected'
-
+    } finally {
+        . "$PSScriptRoot/../../scripts/validation/AgyCredentialStores.ps1"
     }
     & {
         function Invoke-RestMethod {
