@@ -1,21 +1,23 @@
-# Antigravity ? F1595: Package 60 Force Extraction Audit Only
+CONTROLLER_TASK: NEXT_UNRESOLVED
 
-Single objective: determine whether the reported Package 60 reaction 0.16506 N is an absolute/current force, an incremental force, or an extraction error. Produce one verified conclusion from existing evidence, or identify the exact missing evidence and next smallest test.
+Controller reconciliation is authoritative. Read project_coordination/ACTIVE_TASK.json,
+CURRENT_STATE.md, TASK_LEDGER.csv, the exact session records, HPC_JOB_LEDGER.csv and
+MODE1_EXECUTION_LEDGER.json before selecting any scientific action.
 
-Preserve the incomplete F1594 work. Codex reconciled the stopped local process, verified an empty live HPC queue, and preserved the transcript and dirty files. Follow AGENTS.md bootstrap and claim your own session before permitted coordination edits. Do not replay any prior experiment or overwrite pre-existing dirty work.
+F1596 is complete. Package 72 failed the state-transfer audit: force deficit 77.73%,
+291 healing nodes, fracture-energy increase 15.12%. Preserve this result and the
+frozen production UEL. Do not repeat the audit or launch dependent continuation.
 
-Start from these existing artifacts; do not reconstruct the full project history:
-- models/pandey_kumar_mode1/60_method_c_smooth_h_nonmatching_transfer/evidence_1415177/M1_EXP_NONMATCHING_SMOOTH_H_650.dat
-- Package 60 input deck and its actual extraction code.
-- scripts/validation/audit_force_continuity.py (partial F1594 audit script; read/reuse, do not rewrite).
-- tests/unit/test_mode1_f1594_package60_force_continuity.py (partial F1594 assertions, not independent scientific proof).
-- project_coordination/sessions/2026-10-19_codex_f1594_partial_reconciliation.md (what was already done and artifact hashes).
+The next bounded unit is scientific review of the proposed coupled constrained
+transfer hypothesis against existing equations and authentic checkpoints. Establish
+whether the hypothesis is supported and identify the smallest missing evidence.
+Do not implement changed scientific assumptions or submit a job during this review.
+If multiple scientific choices or missing source information prevent a defensible
+choice, report the concrete dependency and stop.
 
-F1594 raw evidence pointers already identified: RF2 at node 999999 includes 1.6506233E-04 and endpoint 1.4961023E-04; verify the exact step/increment, units and extraction context before interpreting them. The F1594 log records 4 targeted tests and 13 combined regression tests passing; do not rerun unchanged tests or create new ones for this read-only audit. Consult the Package 54 reference only if essential to resolve the extraction convention.
+Follow the repository bootstrap and single-agent session rules. Preserve unrelated
+dirty work and once-only submission accounting. Checkpoint findings in the owned
+session report after each substantive action, record exact evidence paths, release
+the session, and close out within the controller work budget.
 
-Identify reaction node set, load step, physical displacement checkpoint, units, sign convention and any residual/displacement offset treatment. Distinguish the solver's reported RF2 from a claim that it preserves donor force. Do not infer physical correctness merely from an evaluation JSON saying PASS.
-
-This turn is READ-ONLY scientifically: no Fortran/code edits, new meshes, Abaqus runs, PBS submissions, numerical corrections, Package 48 spatial analysis, thesis rewriting, or other research objectives. Required coordination closeout is allowed. Do not wait for solver completion or poll repeatedly. Batch targeted local reads; after mandatory bootstrap, avoid more than eight additional tool round trips. Stop scientific investigation after four minutes even if unresolved, preserving the exact missing evidence so closeout fits within the existing 600-second execution budget.
-
-Write one short session report and concise ledger updates; release your own session and selectively commit/push only governed audit/coordination progress. Preserve unrelated dirty paths. Return under HPC STATUS, NEW EXPERIMENT, SCIENTIFIC PROGRESS, DOCUMENTATION, NEXT ACTION. Under NEW EXPERIMENT state that none was authorized for this extraction-only turn. End with exactly:
-Finished
+Return verified findings and the next safe action. End with Finished.

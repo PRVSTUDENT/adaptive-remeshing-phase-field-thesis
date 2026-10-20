@@ -38,11 +38,10 @@ $null=Invoke-EscalationChatGPT -AntigravityResponse ('result '*13000) -QuotaSnap
 $rulesPath=Join-Path $WorkspaceDir '.agents/scripts/bridge_rules.txt'
 $rulesLength=if(Test-Path -LiteralPath $rulesPath){(Get-Item -LiteralPath $rulesPath).Length}else{0}
 if ($script:capturedPrompt.Length -gt 17000 -or $script:capturedPrompt.Length+$rulesLength -gt 35000) { throw 'Bridge context regressed to unbounded size' }
-$budgetCode=$ast.Find({param($n) $n -is [Management.Automation.Language.AssignmentStatementAst] -and $n.Left.Extent.Text -eq '$effectivePrintTimeout' -and $n.Right.Extent.Text -match 'ScientificTurnSeconds'},$true)
-foreach ($pair in @(@(2400,'600s'),@(120,'120s'))) {
-    $ScientificTurnSeconds=600; $requestedSeconds=$pair[0]
-    . ([scriptblock]::Create($budgetCode.Extent.Text))
-    if ($effectivePrintTimeout -ne $pair[1]) { throw 'Installed turn budget not enforced' }
+. "$PSScriptRoot/../../scripts/controller/Controller-Recovery.ps1"
+foreach ($pair in @(@('2400s',480),@('120s',90))) {
+    $budget=Get-ControllerBudget $pair[0] 600
+    if ($budget.work -ne $pair[1] -or ($budget.work+$budget.closeout) -gt 600) { throw 'Installed turn budget/reserve not enforced' }
 }
 
 $folder = Join-Path $env:TEMP ('agy-policy-test-' + [guid]::NewGuid().ToString('N'))

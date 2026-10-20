@@ -34,3 +34,13 @@
      - Offline mechanical solve $K_{\text{mech}}(d^*) u^* = F_{\text{ext}}$ froze $d^*$, ignoring the non-zero phase-field residual $R_d \ne 0$ ($4.75 \times 10^{-6}\,\mathrm{kN}$ at Node 350).
      - In Step 1, Abaqus released the phase field, causing instantaneous crack-tip tearing ($\Delta d = +0.0547$) and a $-32.07\%$ force drop ($2.574 \to 1.748\,\mathrm{N}$), while far-field nodes healed ($\Delta d < 0$).
      - Corrective requirement: Monolithic coupled inequality-constrained transfer operator $\min_{u^*, d^*} \Pi(u^*, d^*)$ subject to $d^* \ge d_{\text{donor}}$ and consistent boundary conditions prior to restart.
+
+
+## Controller maintenance ? 20 October 2026
+
+- AGY-DURABLE-RECOVERY: installed controller repaired and offline validated; canonical source and deployment under scripts/controller/.
+- Stale F1596 initial prompt replaced with NEXT_UNRESOLVED scientific hypothesis review. Existing Package 72 failure and scientific task remain unchanged.
+- Atomic durable checkpoints; timeout preserves partial work and permits one bounded evidence-only next turn; repeated recovery fails explicitly BLOCKED. Work/closeout budget 2280/120 within unchanged 2400 seconds.
+- 25 recovery checks plus affected envelope/policy/credentials/watchdog and 6/6 profile checks passed. No research loop, SSH/PBS commands or new jobs.
+- Installed controller SHA256 afc344eccc3cc2e7503b879296e981c6a5f66fef2df372138605a1ba40d681b5.
+- Report: project_coordination/sessions/2026-10-20_codex_controller_recovery.md.

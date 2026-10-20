@@ -22,6 +22,8 @@ if ($null -eq $node) { throw 'Timeout handler missing' }
 $testCode = @'
 function Get-AgyCompletedReceipt { return $null }
 function Save-LoopState { $script:savedRecovery = $recovery }
+function Set-ControllerInterrupted { return [pscustomobject]@{state='RECOVERY_REQUIRED'} }
+function Get-ControllerRecoveryInstruction { return 'EVIDENCE_ONLY_RECOVERY: Never replay submissions' }
 function Save-LoopStatus { $script:stoppedRecovery = $true }
 function Write-LoopLog { }
 $agyText = '[agy] print timeout after 40m0s with turn in progress; returning partial output'
@@ -32,14 +34,14 @@ $CurrentInstruction = 'Original operation MUST NOT be replayed'
 $AgyTimeoutRecoveryAttemptsByTurn = @{}
 $turnDurationSeconds = 2400
 $executions = 0
-:MainLoop while ($true) {
+:MainLoop while ($CurrentTurn -le 1) {
     $executions++
 '@ + "`n" + $node.Extent.Text + @'
 
     throw 'Timeout branch fell through into normal completion'
 }
-if ($executions -ne 1 -or -not $script:stoppedRecovery) { throw 'Model closeout continuation regression' }
-if ($script:savedRecovery -notmatch 'Never replay submissions' -or $script:savedRecovery -notmatch 'No model closeout continuation') { throw 'Submission replay protection missing' }
-'PASS: isolated controller timeout handler saves partial evidence and stops with zero model closeout calls'
+if ($executions -ne 1 -or $CurrentTurn -ne 2 -or -not $script:ControllerRecoveryMode -or $null -ne $ConversationId) { throw 'Recovery dispatch regression' }
+if ($script:savedRecovery -notmatch 'Never replay submissions' -or $CurrentInstruction -notmatch 'EVIDENCE_ONLY_RECOVERY') { throw 'Submission replay protection missing' }
+'PASS: isolated controller timeout handler saves partial evidence and schedules a fresh next recovery turn with zero immediate model calls'
 '@
 & ([scriptblock]::Create($testCode))

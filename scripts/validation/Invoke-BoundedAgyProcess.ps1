@@ -5,7 +5,10 @@ function Invoke-BoundedAgyProcess {
         [string[]]$ArgumentList = @(),
         [string]$InputText = '',
         [ValidateRange(1,86400)][int]$TimeoutSeconds = 2460,
-        [string]$WorkingDirectory = (Get-Location).Path
+        [string]$WorkingDirectory = (Get-Location).Path,
+        [scriptblock]$Checkpoint = {},
+        [scriptblock]$OnStarted = {},
+        [int]$CheckpointIntervalSeconds = 15
     )
     # Windows CommandLineToArgvW quoting, including trailing backslashes.
     $quoted = foreach ($arg in $ArgumentList) {
@@ -23,16 +26,39 @@ function Invoke-BoundedAgyProcess {
     $proc = New-Object System.Diagnostics.Process
     $proc.StartInfo = $info
     $clock = [Diagnostics.Stopwatch]::StartNew()
+    $nextCheckpoint = $CheckpointIntervalSeconds
+    $started = $false
     try {
         [void]$proc.Start()
+        $started = $true
+        & $OnStarted $proc.Id | Out-Null
+        & $Checkpoint | Out-Null
         $stdout = $proc.StandardOutput.ReadToEndAsync()
         $stderr = $proc.StandardError.ReadToEndAsync()
         $write = $proc.StandardInput.WriteLineAsync($InputText)
-        $timedOut = -not $write.Wait($TimeoutSeconds * 1000)
+        $timedOut = $false
+        try {
+            while (-not $write.Wait(250)) {
+                if ($clock.Elapsed.TotalSeconds -ge $TimeoutSeconds) { $timedOut=$true; break }
+                if ($clock.Elapsed.TotalSeconds -ge $nextCheckpoint) {
+                    & $Checkpoint | Out-Null
+                    $nextCheckpoint = $clock.Elapsed.TotalSeconds + $CheckpointIntervalSeconds
+                }
+            }
+        }
+        catch {
+            # A CLI may exit before consuming stdin; still collect its real exit/output.
+            $cause=$_.Exception.GetBaseException()
+            if ($cause -isnot [IO.IOException] -and $cause -isnot [ObjectDisposedException]) { throw }
+        }
         if (-not $timedOut) {
-            $proc.StandardInput.Close()
+            try { $proc.StandardInput.Close() } catch [IO.IOException] { }
             while (-not $proc.WaitForExit(250)) {
                 if ($clock.Elapsed.TotalSeconds -ge $TimeoutSeconds) { $timedOut = $true; break }
+                if ($clock.Elapsed.TotalSeconds -ge $nextCheckpoint) {
+                    & $Checkpoint | Out-Null
+                    $nextCheckpoint = $clock.Elapsed.TotalSeconds + $CheckpointIntervalSeconds
+                }
             }
         }
         if ($timedOut) {
@@ -51,5 +77,13 @@ function Invoke-BoundedAgyProcess {
             DurationSeconds = $clock.Elapsed.TotalSeconds
         }
     }
-    finally { $proc.Dispose() }
+    finally {
+        # Also clean up on checkpoint callback/pipe errors, targeting this invocation only.
+        if ($started -and -not $proc.HasExited) {
+            $killer = Start-Process -FilePath "$env:SystemRoot/System32/taskkill.exe" -ArgumentList @('/PID', $proc.Id, '/T', '/F') -WindowStyle Hidden -PassThru
+            if (-not $killer.WaitForExit(5000)) { $killer.Kill() }
+            $killer.Dispose()
+        }
+        $proc.Dispose()
+    }
 }
