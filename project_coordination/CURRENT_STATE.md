@@ -1,6 +1,6 @@
 # Project Current State: Mode-I Adaptive Remeshing and Phase-Field Fracture
 
-## Active Task: F1597 Correct Failed Package 72 State Transfer (initial KKT diagnostic ready)
+## Active Task: F1597 Correct Failed Package 72 State Transfer (KKT diagnostic verified; correction pending)
 
 - **Binding Method C & Method B Governance Status**:
   * `PACKAGE48_FRACTURE_PEAK_STATUS = CAPTURED_FMAX_732P46N_AT_U_0P005636MM_MINUS_3P34PCT_PARITY_PASS`
@@ -64,3 +64,12 @@
 - 20 bootstrap/full manufactured-closeout checks, 20 progress, 25 recovery and 3 numerical kernel checks passed; existing guards retained.
 - Exactly one real controlled turn is authorized next after commit/push and lock release. Five-minute guard unchanged; credential resets and 20-turn launch prohibited.
 - Report: project_coordination/sessions/2026-10-20_codex_controller_bootstrap.md.
+
+
+## Single controlled validation outcome ? 20 October 2026
+
+- Real F1597 turn passed bootstrap once (zero repeats), executed the numerical operation, preserved verified evidence and advanced the correction step; scientific commit 0720bbd1901eb17fb932f0fa4412d5bc34343dfd is synchronized to origin/main.
+- Frozen-H initialized phase residual/KKT violation = 1.30993460639695e-13 nominal UEL kN, 650 elements/713 nodes, zero counted sign violations at 1e-12; gradient FD error 4.24788869579856e-14. This does not qualify the coupled transfer.
+- Next scientific distinction: examine mechanical/history updating and call ordering during re-equilibration; the stored frozen-H phase block alone is already nearly stationary.
+- Full controller validation did NOT exit cleanly: final model result SUCCESS was followed by POST_AGY native-store ID_TOKEN_MISSING. No credential reset/bypass was performed; runtime remains BLOCKED and no further model turn was launched.
+- Scientific result is separately completed and must not replay. No new HPC job was submitted. Detailed outcome is in the bootstrap session report and run receipt 91e48944-19c2-4e7a-b3bc-57609b2f6bda.

@@ -472,7 +472,7 @@ function Set-AndVerifyAgyRunProfile {
             Assert-AgyCredentialStores -ExpectedBytes $expectedBytes -TokenPath $tokenPath
         } catch {
             $verificationFailure = $_
-            if($ControlledSingleTurn){throw 'Controlled turn credential verification failed; credential reset/synchronization is disabled'}
+            if($ControlledSingleTurn){throw ('Controlled turn credential verification failed without reset: '+$verificationFailure.Exception.Message)}
             $repairEligible = $false
             if (Test-Path -LiteralPath $tokenPath) {
                 $nativeBytes = Read-AgyCredentialManagerBytes

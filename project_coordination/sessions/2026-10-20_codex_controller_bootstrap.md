@@ -63,3 +63,30 @@ After engineering commit/push and lock release, run exactly one real CLI turn wi
 - `tests/unit/test_controller_bootstrap.ps1` SHA256 `8f16b8167db26ccd6e12767d533de7904275b19ff8b743e4a3c31827fec377f6`
 - `tests/unit/test_controller_recovery.ps1` SHA256 `82b85b985527aacfa8827d0c61d314a9f3ff9d9a5607df636d27035507037ed8`
 - `tests/unit/test_mode1_f1597_kkt_probe.py` SHA256 `e293b754187531aaff51f19010cc7006aa093ba6d5c39942a0f7fa4121b08bcf`
+
+## Actual single controlled turn ? final validation outcome
+
+Exactly one real model turn was launched, PID 10740 / owned CLI PID 2400, conversation 0bcb0907-25b4-4b84-abed-3ae9756d7138, controller run 91e48944-19c2-4e7a-b3bc-57609b2f6bda. MaxTurns=1, ControlledSingleTurn, PrintTimeout=2400s and NoProgressSeconds=300; current account3 was pinned, automatic profile rotation and bridge disabled for this test. No credential reset and no second model turn were performed.
+
+Observed:
+
+1. Bootstrap completed at 11:38:24.610 Berlin time, once, repeat_count=0; nine prerequisite source hashes were recorded and F1597 ownership acquired.
+2. Scientific stage completed at 11:40:01.973. Authentic 650-element/713-node offset data produced phase residual infinity norm 1.30993460639695e-13 and lower-bound KKT violation 1.30993460639695e-13 in the implemented phase block's nominal kN units. There were zero gradient-sign violations at the 1e-12 counting tolerance and zero mapped nodal damage inconsistency. Central finite-difference gradient error was 4.24788869579856e-14. The controller independently accepted artifact/source hash verification and reset the progress clock only for this numerical checkpoint.
+3. Complete released ownership, recorded the next correction step, committed and forward-pushed to origin/main and the source branch. Scientific commit: 0720bbd1901eb17fb932f0fa4412d5bc34343dfd. ACTIVE_TASK now says F1597_KKT_DIAGNOSTIC_VERIFIED_CORRECTION_PENDING, with the completed diagnostic removed from its executable-operation slot. No transfer qualification is claimed.
+4. CLI emitted final result SUCCESS at 11:45:04, but the controller then failed strict POST_AGY native-store verification. The native credential entry lacked ID-token identity metadata; CLI-file identity still matched saved account3. Read-only equality/provider checks did not establish the native entry's identity. This is not evidence that a different user executed the science. No credential mutation, profile switch/reset, trust relaxation or bypass was used to clear the failure. Controller exit was not a clean full pass: runtime remains BLOCKED for further model calls. The verified scientific step is separately marked completed and preserved; it must not be replayed.
+
+Therefore: the bootstrap/scientific-execution success criterion is demonstrated on the real agent, but the clean end-to-end exit criterion remains blocked by post-run native identity verification under the explicit no-reset constraint. Do not call the entire validation passed. No reset-based repair is permitted in this task, and the available read-only checks did not unblock the native identity check; no additional research run was launched.
+
+The initialized frozen-history phase block is already nearly stationary, which narrows the next F1597 investigation to mechanical/history updating and UEL call ordering during re-equilibration. This does not establish a cause for the earlier coupled force/energy failure by itself, and it does not repair or qualify transferred state.
+
+Evidence:
+
+- project_coordination/controller/turn-91e48944-19c2-4e7a-b3bc-57609b2f6bda.json
+- results/validation/mode1_f1597/91e48944-19c2-4e7a-b3bc-57609b2f6bda.json (SHA256 c3d9b0817bec007579351d1442e2616a766803c7ffe2e4845fd36d86422d182a)
+- project_coordination/sessions/2026-10-20_gemini-antigravity_F1597_91e48944-19c2-4e7a-b3bc-57609b2f6bda.md
+- C:/Users/pruth/OpenClawPAD/controller-run-controlled-bootstrap-20261020_113645.stdout.log and stderr.log
+- C:/Users/pruth/OpenClawPAD/controller-turn-91e48944-19c2-4e7a-b3bc-57609b2f6bda.jsonl
+
+The original post-check BLOCKED checkpoint is archived as controller_turn_checkpoint.json.post-identity-91e48944-19c2-4e7a-b3bc-57609b2f6bda.json. The current checkpoint retains BLOCKED, adds scientific_step_completed=true and the scientific commit, and records the exact independent validation outcome. There are no running AGY/controller processes and no orphan project lock. No HPC commands or submissions occurred.
+
+The final local diagnostic-only code change preserves the scrubbed normalization source/stage in controlled-mode errors. A synthetic regression proves zero profile-switch calls, unchanged credentials and no leaked token values for controlled POST failure. Its console result: PASS: controlled POST mismatch preserves exact diagnostic, performs zero profile switches and leaves synthetic credentials unchanged. This fix was tested locally, not with a second model turn. No credential-guard logic was relaxed. Final installed/canonical controller SHA256: d916ee3c0de439a00012bf8a7851616ac20bbbf6dbba274b709137d328f389b1.

@@ -1,21 +1,26 @@
 {
-    "active":  false,
-    "agent":  "gemini-antigravity",
-    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "starting_commit":  "34392c070bbc7513a38f61f65ed8b09562357ac3",
-    "claimed_at":  "2026-10-20T11:38:24.6104102+02:00",
-    "last_updated":  "2026-10-20T11:42:14.4727314+02:00",
-    "last_released":  "2026-10-20T11:42:14.4727314+02:00",
-    "controller_run_id":  "91e48944-19c2-4e7a-b3bc-57609b2f6bda",
-    "session_report":  "project_coordination/sessions/2026-10-20_gemini-antigravity_F1597_91e48944-19c2-4e7a-b3bc-57609b2f6bda.md",
-    "allowed_write_scope":  [
-                                "project_coordination/sessions/2026-10-20_gemini-antigravity_F1597_91e48944-19c2-4e7a-b3bc-57609b2f6bda.md",
-                                "project_coordination/controller/turn-91e48944-19c2-4e7a-b3bc-57609b2f6bda.json",
-                                "results/validation/mode1_f1597/91e48944-19c2-4e7a-b3bc-57609b2f6bda.json",
-                                "project_coordination/ACTIVE_SESSION.json",
-                                "project_coordination/ACTIVE_TASK.json",
-                                "project_coordination/CURRENT_STATE.md",
-                                "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/ARTIFACT_REGISTRY.csv"
-                            ]
+  "active": false,
+  "agent": "codex",
+  "task_id": "CONTROLLER-BOOTSTRAP-VALIDATION-CLOSEOUT",
+  "starting_commit": "0720bbd1901eb17fb932f0fa4412d5bc34343dfd",
+  "claimed_at": "2026-10-20T11:47:19.3460924+02:00",
+  "last_updated": "2026-10-20T11:53:44.733731+02:00",
+  "last_released": "2026-10-20T11:53:44.733731+02:00",
+  "controller_run_id": "91e48944-19c2-4e7a-b3bc-57609b2f6bda",
+  "session_report": "project_coordination/sessions/2026-10-20_codex_controller_bootstrap.md",
+  "allowed_write_scope": [
+    "scripts/controller/**",
+    "scripts/validation/AgyCredentialStores.ps1",
+    "tests/unit/test_agy_credentials.ps1",
+    "tests/unit/test_controller_bootstrap.ps1",
+    "project_coordination/ACTIVE_SESSION.json",
+    "project_coordination/CURRENT_STATE.md",
+    "project_coordination/TASK_LEDGER.csv",
+    "project_coordination/ARTIFACT_REGISTRY.csv",
+    "project_coordination/sessions/2026-10-20_codex_controller_bootstrap.md",
+    "C:/Users/pruth/OpenClawPAD/Antigravity-Autonomous-Loop.ps1",
+    "C:/Users/pruth/OpenClawPAD/controller_turn_checkpoint.json",
+    "C:/Users/pruth/OpenClawPAD/backups/**"
+  ],
+  "reconciliation": "Single controlled turn scientifically verified and synchronized; full controller exit blocked by missing native identity; no reset or second model turn. Closeout complete."
 }

@@ -62,6 +62,16 @@ try {
             Set-AndVerifyAgyRunProfile -Context PRE_AGY
             Set-AndVerifyAgyRunProfile -Context POST_AGY
             if($script:testSwitchCalls -ne 1){throw 'Expired native repair was repeated or skipped'}
+            $script:testRepairDone=$false;$script:testSwitchCalls=0;$ControlledSingleTurn=$true
+            $before=(Get-FileHash -LiteralPath $fixturePath).Hash
+            $failed=$false
+            try{Set-AndVerifyAgyRunProfile -Context POST_AGY}catch{
+                $failed=$_.Exception.Message -match 'source=native-store stage=ID_TOKEN_MISSING'
+                if($_.Exception.Message -match 'FAKE-UNRELATED'){throw 'Controlled diagnostic exposed credential values'}
+            }
+            if(-not $failed -or $script:testSwitchCalls -ne 0 -or (Get-FileHash -LiteralPath $fixturePath).Hash -ne $before){throw 'Controlled mode reset or bypassed native identity verification'}
+            Write-Output 'PASS: controlled POST mismatch preserves exact diagnostic, performs zero profile switches and leaves synthetic credentials unchanged'
+
         } finally {$env:USERPROFILE=$originalUserProfile}
     }
 } finally {
