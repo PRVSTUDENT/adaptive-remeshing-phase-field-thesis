@@ -1,27 +1,27 @@
 {
   "active": false,
   "agent": "codex",
-  "task_id": "AGY-DURABLE-RECOVERY",
-  "starting_commit": "a81b7b50f4515cf3ba8925fe6677ba6cdbc31f1b",
+  "task_id": "CONTROLLER-PROGRESS-OWNERSHIP",
+  "starting_commit": "0447926f781031b1768df94fa85851ba03f5860f",
   "allowed_write_scope": [
-    ".agents/INITIAL_PROMPT.txt",
     "scripts/controller/**",
+    "scripts/validation/Invoke-BoundedAgyProcess.ps1",
+    ".agents/INITIAL_PROMPT.txt",
     "tests/unit/test_controller_recovery.ps1",
+    "tests/unit/test_controller_progress.ps1",
     "project_coordination/ACTIVE_SESSION.json",
     "project_coordination/CURRENT_STATE.md",
     "project_coordination/TASK_LEDGER.csv",
     "project_coordination/ARTIFACT_REGISTRY.csv",
-    "project_coordination/sessions/2026-10-20_codex_controller_recovery.md",
+    "project_coordination/sessions/2026-10-20_codex_controller_progress.md",
     "C:/Users/pruth/OpenClawPAD/Antigravity-Autonomous-Loop.ps1",
-    "C:/Users/pruth/OpenClawPAD/Controller-Recovery.ps1",
+    "C:/Users/pruth/OpenClawPAD/controller_turn_checkpoint.json",
     "C:/Users/pruth/OpenClawPAD/backups/**",
-    "scripts/validation/Invoke-BoundedAgyProcess.ps1",
-    "tests/unit/test_agy_envelope.ps1",
-    "tests/unit/test_agy_policy.ps1"
+    "C:/Users/pruth/OpenClawPAD/controller-run-*"
   ],
-  "claimed_at": "2026-10-20T06:40:05.8348949+02:00",
-  "last_updated": "2026-10-20T06:52:09.165322+02:00",
-  "last_released": "2026-10-20T06:52:09.165322+02:00",
-  "session_report": "project_coordination/sessions/2026-10-20_codex_controller_recovery.md",
-  "reconciliation": "User-authorized stale Gemini lock reconciliation; controller maintenance complete; all unrelated dirty paths preserved."
+  "claimed_at": "2026-10-20T07:39:42.4557573+02:00",
+  "last_updated": "2026-10-20T07:54:01.037855+02:00",
+  "last_released": "2026-10-20T07:54:01.037855+02:00",
+  "session_report": "project_coordination/sessions/2026-10-20_codex_controller_progress.md",
+  "reconciliation": "Terminated F1597 lock preserved and reconciled; repair/tests complete; user-authorized detached launch follows commit/push."
 }

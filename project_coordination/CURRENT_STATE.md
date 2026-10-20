@@ -44,3 +44,13 @@
 - 25 recovery checks plus affected envelope/policy/credentials/watchdog and 6/6 profile checks passed. No research loop, SSH/PBS commands or new jobs.
 - Installed controller SHA256 afc344eccc3cc2e7503b879296e981c6a5f66fef2df372138605a1ba40d681b5.
 - Report: project_coordination/sessions/2026-10-20_codex_controller_recovery.md.
+
+
+## Controller live-failure correction ? 20 October 2026
+
+- CONTROLLER-PROGRESS-OWNERSHIP repairs the observed F1596 predecessor/F1597 session mismatch; no scientific completion is claimed for the interrupted run.
+- Live stream logs and 30-second status; independent 300-second deadline for saved evidence, excluding metadata and chatter. Job-first policy restored with scientific predecessor gates unchanged.
+- 20 new progress/ownership checks and 25 recovery checks plus existing profile/quota/credentials/envelope/watchdog regressions passed. Installed SHA256 e419cd4cc819ad12aa1a1c3d6d134787447a45d567da351f3cc07c7dea37e9d9.
+- Old blocked checkpoint archived; exact HPC/execution hashes verified unchanged before qualified migration. No research jobs submitted during maintenance.
+- User explicitly authorized the 20-turn background launch after commit/push and lock release; runtime receipt/logs reside under OpenClawPAD/controller-run-*.
+- Report: project_coordination/sessions/2026-10-20_codex_controller_progress.md.

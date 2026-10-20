@@ -1,23 +1,26 @@
 CONTROLLER_TASK: NEXT_UNRESOLVED
 
-Controller reconciliation is authoritative. Read project_coordination/ACTIVE_TASK.json,
-CURRENT_STATE.md, TASK_LEDGER.csv, the exact session records, HPC_JOB_LEDGER.csv and
-MODE1_EXECUTION_LEDGER.json before selecting any scientific action.
+Use current coordination evidence to select one next scientifically useful action.
+Completed predecessor F1596 must not run again. Preserve its failed Package 72
+measurements, authentic checkpoints and frozen production UEL.
 
-F1596 is complete. Package 72 failed the state-transfer audit: force deficit 77.73%,
-291 healing nodes, fracture-energy increase 15.12%. Preserve this result and the
-frozen production UEL. Do not repeat the audit or launch dependent continuation.
+JOB FIRST: immediately execute any independently ready, scientifically justified,
+technically qualified serial Mode-I jobs through scripts/hpc/Invoke-Mode1Execution.ps1.
+Use exact manifests and once-only accounting; no permits or human activation.
+Do not submit scientifically dependent continuation before predecessor acceptance,
+blindly repeat a job, change formulation without scientific review, or create filler jobs.
 
-The next bounded unit is scientific review of the proposed coupled constrained
-transfer hypothesis against existing equations and authentic checkpoints. Establish
-whether the hypothesis is supported and identify the smallest missing evidence.
-Do not implement changed scientific assumptions or submit a job during this review.
-If multiple scientific choices or missing source information prevent a defensible
-choice, report the concrete dependency and stop.
+When a failed scientific dependency prevents submission, do only the smallest
+essential numerical/equation/checkpoint investigation, record its concrete finding
+and next safe step, then close out promptly. Do not spend a turn rereading history.
 
-Follow the repository bootstrap and single-agent session rules. Preserve unrelated
-dirty work and once-only submission accounting. Checkpoint findings in the owned
-session report after each substantive action, record exact evidence paths, release
-the session, and close out within the controller work budget.
+Follow the single-agent bootstrap in one batched shell call, reading required files
+in order and emitting current facts, relevant rows and hashes instead of dumping
+complete historical ledgers into model context. Create the owned session report with exact source
+paths and a concrete finding or blocker within 120 seconds. Update the report after
+each substantive action and at least every 180 seconds. Session claims, timestamps,
+metadata heartbeats and model chatter are not saved results. The controller stops
+at 300 seconds without durable evidence, even if the overall budget is longer.
 
-Return verified findings and the next safe action. End with Finished.
+Return actual measurements, tests and PBS IDs (if submitted), or the precise scientific
+blocker. Release the owned session and synchronize governed progress. End with Finished.

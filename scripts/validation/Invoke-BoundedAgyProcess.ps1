@@ -1,89 +1,116 @@
+# Background .NET readers keep anonymous-pipe I/O off the PowerShell watchdog thread.
+if(-not ('AgyProcessPumpV2' -as [type])) {
+    Add-Type -TypeDefinition @'
+using System;
+using System.IO;
+using System.Text;
+using System.Threading;
+using System.Diagnostics;
+using System.Collections.Concurrent;
+public sealed class AgyProcessPumpV2 {
+    public readonly ConcurrentQueue<string> Out = new ConcurrentQueue<string>();
+    public readonly ConcurrentQueue<string> Err = new ConcurrentQueue<string>();
+    public volatile bool OutDone, ErrDone, InputDone;
+    public Exception InputError, ReadError;
+    Thread output, error, input;
+    void Read(Stream stream, ConcurrentQueue<string> queue, bool isError) {
+        try {
+            var bytes=new byte[4096]; var chars=new char[8192]; var decoder=Encoding.UTF8.GetDecoder();
+            int n;
+            while((n=stream.Read(bytes,0,bytes.Length))>0) {
+                int count=decoder.GetChars(bytes,0,n,chars,0,false);
+                if(count>0) queue.Enqueue(new string(chars,0,count));
+            }
+            int remaining=decoder.GetChars(bytes,0,0,chars,0,true);
+            if(remaining>0)queue.Enqueue(new string(chars,0,remaining));
+        } catch(Exception ex) { ReadError=ex; }
+        finally { if(isError) ErrDone=true; else OutDone=true; }
+    }
+    public void Start(Process process,string text) {
+        output=new Thread(()=>Read(process.StandardOutput.BaseStream,Out,false));
+        error=new Thread(()=>Read(process.StandardError.BaseStream,Err,true));
+        input=new Thread(()=> {try {process.StandardInput.WriteLine(text);process.StandardInput.Close();}catch(Exception ex){InputError=ex;}finally{InputDone=true;}});
+        output.IsBackground=true;error.IsBackground=true;input.IsBackground=true;
+        output.Start();error.Start();input.Start();
+    }
+    public void Join() {output.Join(1000);error.Join(1000);input.Join(1000);}
+}
+'@
+}
 function Invoke-BoundedAgyProcess {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)][string]$FilePath,
-        [string[]]$ArgumentList = @(),
-        [string]$InputText = '',
-        [ValidateRange(1,86400)][int]$TimeoutSeconds = 2460,
-        [string]$WorkingDirectory = (Get-Location).Path,
-        [scriptblock]$Checkpoint = {},
-        [scriptblock]$OnStarted = {},
-        [int]$CheckpointIntervalSeconds = 15
+        [string[]]$ArgumentList=@(), [string]$InputText='',
+        [ValidateRange(1,86400)][int]$TimeoutSeconds=2460,
+        [string]$WorkingDirectory=(Get-Location).Path,
+        [scriptblock]$Checkpoint={}, [scriptblock]$OnStarted={},
+        [int]$CheckpointIntervalSeconds=15,
+        [scriptblock]$ProgressProbe={ $false },
+        [int]$NoProgressSeconds=0, [int]$StatusIntervalSeconds=30,
+        [string]$OutputLogPath='', [scriptblock]$OnOutput={param($Chunk)}
     )
-    # Windows CommandLineToArgvW quoting, including trailing backslashes.
-    $quoted = foreach ($arg in $ArgumentList) {
-        '"' + ([regex]::Replace(([regex]::Replace($arg, '(\\*)"', '$1$1\"')), '(\\+)$', '$1$1')) + '"'
-    }
-    $info = New-Object System.Diagnostics.ProcessStartInfo
-    $info.FileName = $FilePath
-    $info.Arguments = $quoted -join ' '
-    $info.WorkingDirectory = $WorkingDirectory
-    $info.UseShellExecute = $false
-    $info.CreateNoWindow = $true
-    $info.RedirectStandardInput = $true
-    $info.RedirectStandardOutput = $true
-    $info.RedirectStandardError = $true
-    $proc = New-Object System.Diagnostics.Process
-    $proc.StartInfo = $info
-    $clock = [Diagnostics.Stopwatch]::StartNew()
-    $nextCheckpoint = $CheckpointIntervalSeconds
-    $started = $false
+    $quoted=foreach($arg in $ArgumentList){ '"'+([regex]::Replace(([regex]::Replace($arg,'(\\*)"','$1$1\"')),'(\\+)$','$1$1'))+'"' }
+    $info=[Diagnostics.ProcessStartInfo]::new()
+    $info.FileName=$FilePath; $info.Arguments=$quoted -join ' '; $info.WorkingDirectory=$WorkingDirectory
+    $info.UseShellExecute=$false; $info.CreateNoWindow=$true
+    $info.RedirectStandardInput=$true; $info.RedirectStandardOutput=$true; $info.RedirectStandardError=$true
+    $proc=[Diagnostics.Process]::new(); $proc.StartInfo=$info
+    $clock=[Diagnostics.Stopwatch]::StartNew(); $started=$false
+    $out=[Text.StringBuilder]::new(); $err=[Text.StringBuilder]::new()
+    $reason=''; $nextCheckpoint=0.0; $nextStatus=[double]$StatusIntervalSeconds; $lastProgress=0.0
+    $pump=$null; $failure=$null
     try {
-        [void]$proc.Start()
-        $started = $true
+        [void]$proc.Start(); $started=$true
         & $OnStarted $proc.Id | Out-Null
-        & $Checkpoint | Out-Null
-        $stdout = $proc.StandardOutput.ReadToEndAsync()
-        $stderr = $proc.StandardError.ReadToEndAsync()
-        $write = $proc.StandardInput.WriteLineAsync($InputText)
-        $timedOut = $false
-        try {
-            while (-not $write.Wait(250)) {
-                if ($clock.Elapsed.TotalSeconds -ge $TimeoutSeconds) { $timedOut=$true; break }
-                if ($clock.Elapsed.TotalSeconds -ge $nextCheckpoint) {
-                    & $Checkpoint | Out-Null
-                    $nextCheckpoint = $clock.Elapsed.TotalSeconds + $CheckpointIntervalSeconds
+        $pump=[AgyProcessPumpV2]::new(); $pump.Start($proc,$InputText)
+        while($true) {
+            foreach($queue in @($pump.Out,$pump.Err)) {
+                $chunk=$null
+                while($queue.TryDequeue([ref]$chunk)) {
+                    if([object]::ReferenceEquals($queue,$pump.Out)){[void]$out.Append($chunk)}else{[void]$err.Append($chunk)}
+                    if($OutputLogPath){[IO.File]::AppendAllText($OutputLogPath,$chunk,[Text.UTF8Encoding]::new($false))}
+                    & $OnOutput $chunk | Out-Null
+                    $chunk=$null
                 }
             }
-        }
-        catch {
-            # A CLI may exit before consuming stdin; still collect its real exit/output.
-            $cause=$_.Exception.GetBaseException()
-            if ($cause -isnot [IO.IOException] -and $cause -isnot [ObjectDisposedException]) { throw }
-        }
-        if (-not $timedOut) {
-            try { $proc.StandardInput.Close() } catch [IO.IOException] { }
-            while (-not $proc.WaitForExit(250)) {
-                if ($clock.Elapsed.TotalSeconds -ge $TimeoutSeconds) { $timedOut = $true; break }
-                if ($clock.Elapsed.TotalSeconds -ge $nextCheckpoint) {
-                    & $Checkpoint | Out-Null
-                    $nextCheckpoint = $clock.Elapsed.TotalSeconds + $CheckpointIntervalSeconds
-                }
+            if($clock.Elapsed.TotalSeconds -ge $nextCheckpoint) {
+                & $Checkpoint | Out-Null
+                if(& $ProgressProbe){$lastProgress=$clock.Elapsed.TotalSeconds}
+                $nextCheckpoint=$clock.Elapsed.TotalSeconds+$CheckpointIntervalSeconds
             }
+            if($clock.Elapsed.TotalSeconds -ge $nextStatus) {
+                Write-Host ('[PROGRESS] elapsed={0:N0}s; no saved result for {1:N0}s; captured={2} chars; PID={3}' -f $clock.Elapsed.TotalSeconds,($clock.Elapsed.TotalSeconds-$lastProgress),($out.Length+$err.Length),$proc.Id)
+                $nextStatus=$clock.Elapsed.TotalSeconds+$StatusIntervalSeconds
+            }
+            if($proc.HasExited -and $pump.OutDone -and $pump.ErrDone -and $pump.Out.IsEmpty -and $pump.Err.IsEmpty){break}
+            if($clock.Elapsed.TotalSeconds -ge $TimeoutSeconds){$reason='WORK_DEADLINE';break}
+            if($NoProgressSeconds -gt 0 -and ($clock.Elapsed.TotalSeconds-$lastProgress) -ge $NoProgressSeconds){$reason='NO_DURABLE_PROGRESS';break}
+            [Threading.Thread]::Sleep(50)
         }
-        if ($timedOut) {
-            # Target only this invocation's process tree; never a shared server or scheduler.
-            $killer = Start-Process -FilePath "$env:SystemRoot/System32/taskkill.exe" -ArgumentList @('/PID', $proc.Id, '/T', '/F') -WindowStyle Hidden -PassThru
-            if (-not $killer.WaitForExit(5000)) { $killer.Kill() }
-            if (-not $proc.WaitForExit(2000)) { throw "Watchdog could not terminate owned CLI PID $($proc.Id)" }
-        }
-        # Descendants may inherit pipe handles: never wait indefinitely on EOF.
-        $outText = if ($stdout.Wait(2000)) { $stdout.Result } else { '[stdout pipe did not close]' }
-        $errText = if ($stderr.Wait(2000)) { $stderr.Result } else { '[stderr pipe did not close]' }
-        [pscustomobject]@{
-            ExitCode = $(if ($timedOut) {124} else {$proc.ExitCode})
-            TimedOut = $timedOut
-            Output = "$outText`r`n$errText"
-            DurationSeconds = $clock.Elapsed.TotalSeconds
-        }
-    }
+    } catch { $failure=$_ }
     finally {
-        # Also clean up on checkpoint callback/pipe errors, targeting this invocation only.
-        if ($started -and -not $proc.HasExited) {
-            $killer = Start-Process -FilePath "$env:SystemRoot/System32/taskkill.exe" -ArgumentList @('/PID', $proc.Id, '/T', '/F') -WindowStyle Hidden -PassThru
-            if (-not $killer.WaitForExit(5000)) { $killer.Kill() }
+        if($started -and -not $proc.HasExited) {
+            $killer=Start-Process -FilePath "$env:SystemRoot/System32/taskkill.exe" -ArgumentList @('/PID',$proc.Id,'/T','/F') -WindowStyle Hidden -PassThru
+            if(-not $killer.WaitForExit(5000)){$killer.Kill()}
             $killer.Dispose()
+            if(-not $proc.WaitForExit(2000)){$failure='Cannot terminate owned CLI process'}
         }
+        # Drain bytes queued before termination, including incomplete JSON lines.
+        if($null -ne $pump){
+            $pump.Join()
+            foreach($queue in @($pump.Out,$pump.Err)){
+                $chunk=$null
+                while($queue.TryDequeue([ref]$chunk)){
+                    if([object]::ReferenceEquals($queue,$pump.Out)){[void]$out.Append($chunk)}else{[void]$err.Append($chunk)}
+                    if($OutputLogPath){[IO.File]::AppendAllText($OutputLogPath,$chunk,[Text.UTF8Encoding]::new($false))}
+                    $chunk=$null
+                }
+            }
+        }
+        $exitCode=if($reason){124}elseif($failure){1}elseif($started){$proc.ExitCode}else{1}
         $proc.Dispose()
     }
+    if($failure){throw $failure}
+    [pscustomobject]@{ExitCode=$exitCode;TimedOut=[bool]$reason;StopReason=$reason;Output=($out.ToString()+"`r`n"+$err.ToString());DurationSeconds=$clock.Elapsed.TotalSeconds}
 }

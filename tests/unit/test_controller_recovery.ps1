@@ -67,7 +67,8 @@ try {
     $mockTimeout=Join-Path $fixture 'mock-timeout.ps1'
     [IO.File]::WriteAllText($mockTimeout,('[IO.File]::WriteAllText('''+$pidPath+''',[string]$PID); [Console]::Out.WriteLine(''partial output before deadline''); Start-Sleep -Seconds 30'))
     $ticks=[System.Collections.Generic.List[int]]::new()
-    $r=Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList @('-NoProfile','-NonInteractive','-File',$mockTimeout) -TimeoutSeconds 3 -WorkingDirectory $fixture -CheckpointIntervalSeconds 1 -Checkpoint { $ticks.Add(1) }
+    $r=Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList @('-NoProfile','-NonInteractive','-Command',(Get-Content -LiteralPath $mockTimeout -Raw)) -TimeoutSeconds 8 -WorkingDirectory $fixture -CheckpointIntervalSeconds 1 -Checkpoint { $ticks.Add(1) }
+    if(-not(Test-Path -LiteralPath $pidPath)){throw "Mock child did not initialize: $($r|ConvertTo-Json -Compress)"}
     $ownedPid=[int](Get-Content -LiteralPath $pidPath)
     "WATCHDOG_RESULT="+($r|ConvertTo-Json -Compress)+" checkpoints=$($ticks.Count) owned_pid=$ownedPid alive=$([bool](Get-Process -Id $ownedPid -ErrorAction SilentlyContinue))"
     Assert ($r.TimedOut -and $r.Output -match 'partial output before deadline' -and $ticks.Count -ge 1 -and -not (Get-Process -Id $ownedPid -ErrorAction SilentlyContinue)) 'watchdog preserves partial stdout, checkpoints periodically and leaves no owned process'
@@ -75,7 +76,7 @@ try {
     $treeMock=Join-Path $fixture 'mock-process-tree.ps1'
     $treeCode='$null=[Console]::In.ReadToEnd(); $child=Start-Process -FilePath "$PSHOME/powershell.exe" -ArgumentList ''-NoProfile -NonInteractive -Command "Start-Sleep -Seconds 60"'' -WindowStyle Hidden -PassThru; [IO.File]::WriteAllText('''+$childPidPath+''',[string]$child.Id); [Console]::Out.WriteLine(''tree ready''); Start-Sleep -Seconds 60'
     [IO.File]::WriteAllText($treeMock,$treeCode)
-    $treeResult=Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList @('-NoProfile','-NonInteractive','-File',$treeMock) -InputText 'mock research' -TimeoutSeconds 6 -WorkingDirectory $fixture
+    $treeResult=Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList @('-NoProfile','-NonInteractive','-Command',(Get-Content -LiteralPath $treeMock -Raw)) -InputText 'mock research' -TimeoutSeconds 6 -WorkingDirectory $fixture
     if(-not(Test-Path -LiteralPath $childPidPath)){throw 'Tree mock did not initialize'}
     $descendantPid=[int](Get-Content -LiteralPath $childPidPath)
     Assert ($treeResult.TimedOut -and $treeResult.Output -match 'tree ready' -and -not(Get-Process -Id $descendantPid -ErrorAction SilentlyContinue)) 'watchdog kills owned descendants as well as root without orphaned processes'

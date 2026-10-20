@@ -117,6 +117,7 @@ param(
     # Mode-I questions are actually resolved or the human explicitly disables it.
     [bool]$ModeIResolutionExtensionActive = $true,
 
+    [ValidateRange(30,600)][int]$NoProgressSeconds = 300,
     [switch]$ControllerDryRun,
     [switch]$AllowSkipPermissions = $true
 )
@@ -131,7 +132,7 @@ if ($ControllerDryRun) {
     $resolved = Resolve-ControllerInstruction $WorkspaceDir $prompt
     $checkpoint = Read-ControllerCheckpoint $controllerCheckpointPath
     $budget = Get-ControllerBudget $PrintTimeout $ScientificTurnSeconds
-    [pscustomobject]@{mode='DRY_RUN_NO_EXECUTION'; task=$resolved.evidence.task.task_id; predecessor_status=$resolved.evidence.task.status; stale_prompt_replaced=$resolved.stale_replaced; active_session=$resolved.evidence.session.active; checkpoint_state=$(if($checkpoint){$checkpoint.state}else{'NONE'}); budget=$budget; source_sha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash; instruction=$resolved.instruction} | ConvertTo-Json -Depth 8
+    [pscustomobject]@{mode='DRY_RUN_NO_EXECUTION'; task=$resolved.evidence.task.task_id; predecessor_status=$resolved.evidence.task.status; stale_prompt_replaced=$resolved.stale_replaced; active_session=$resolved.evidence.session.active; checkpoint_state=$(if($checkpoint){$checkpoint.state}else{'NONE'}); budget=$budget; no_progress_seconds=$NoProgressSeconds; progress_policy='saved report or PBS/execution evidence; metadata and tokens excluded'; source_sha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash; instruction=$resolved.instruction} | ConvertTo-Json -Depth 8
     return
 }
 
@@ -139,7 +140,8 @@ $preflightCheckpoint = Read-ControllerCheckpoint $controllerCheckpointPath
 if ($null -ne $preflightCheckpoint -and $preflightCheckpoint.state -eq 'BLOCKED') { throw "BLOCKED: $($preflightCheckpoint.block_reason)" }
 $preflightEvidence = Get-ControllerEvidence $WorkspaceDir
 if ($preflightEvidence.session.active) {
-    $ownedInterrupted = $null -ne $preflightCheckpoint -and $preflightCheckpoint.state -in @('RUNNING','CHECKPOINTED') -and $preflightEvidence.session.agent -eq 'gemini-antigravity' -and $preflightEvidence.session.task_id -eq $preflightCheckpoint.task_id -and $preflightEvidence.session.claimed_at -and [datetimeoffset]::Parse($preflightEvidence.session.claimed_at) -ge [datetimeoffset]::Parse($preflightCheckpoint.started_at)
+    $ownedInterrupted = $null -ne $preflightCheckpoint -and $preflightCheckpoint.state -in @('RUNNING','CHECKPOINTED')
+    if($ownedInterrupted){try{Sync-ControllerOwnedSession $preflightEvidence $preflightCheckpoint}catch{$ownedInterrupted=$false}}
     if (-not $ownedInterrupted) { throw 'BLOCKED: repository session active; no profile selection or AGY execution' }
 }
 if ($null -ne $preflightCheckpoint -and $preflightCheckpoint.state -in @('RUNNING','CHECKPOINTED') -and $preflightCheckpoint.process_id -and (Get-Process -Id $preflightCheckpoint.process_id -ErrorAction SilentlyContinue)) { throw 'BLOCKED: interrupted owned CLI process still exists; no duplicate execution' }
@@ -3150,7 +3152,7 @@ Write-Host " Workspace:       $WorkspaceDir"
 Write-Host " agy Executable:  $AgyPath"
 Write-Host " Model:           $Model"
 Write-Host " Max Turns:       $MaxTurns"
-Write-Host " Requested timeout:$PrintTimeout; scientific cap=${ScientificTurnSeconds}s; local closeout reserve=120s; immediate model closeout retries=0"
+Write-Host " Requested timeout:$PrintTimeout; scientific cap=${ScientificTurnSeconds}s; local closeout reserve=120s; no-result deadline=${NoProgressSeconds}s; immediate model closeout retries=0"
 Write-Host " Mode-I Fundam.:  $($script:ModeIFundamentalsStatus) (Actionable: $(Get-ModeIFundamentalsActionable))"
 Write-Host " Active Prod Job: $ActiveProductionJobId"
 if ($EnableSmartAgyProfileSelection -and
@@ -3330,8 +3332,8 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
     $agyArgs += "--input-format"
     $agyArgs += "text"
     $agyArgs += "--output-format"
-    $agyArgs += "json"
-    $effectivePrintTimeout = if ($AgyTimeoutRecoveryAttemptsByTurn.ContainsKey([string]$CurrentTurn)) { '120s' } else { $PrintTimeout }
+    $agyArgs += "stream-json"
+    $effectivePrintTimeout = if ($script:ControllerRecoveryMode) { '180s' } else { $PrintTimeout }
     $budgetMatch = [regex]::Match($effectivePrintTimeout, '^(\d+)(s|m|h)$')
     if (-not $budgetMatch.Success) { throw "Unsupported print timeout: $effectivePrintTimeout" }
     $requestedSeconds = [int]$budgetMatch.Groups[1].Value * @{s=1;m=60;h=3600}[$budgetMatch.Groups[2].Value]
@@ -3347,7 +3349,7 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
     # follow-up turns. This prevents Turn 2+ from forgetting the restriction.
     # TURN10_NONINTERACTIVE_GUARD_V1
     $CurrentInstruction = "Use powershell.exe -NoProfile -NonInteractive for generated shell commands. Always supply explicit -Path and -ChildPath to Join-Path; missing paths are technical errors to diagnose locally. Never wait for a terminal parameter prompt. Do not use timer tools with empty arguments. Recover existing PBS IDs before any submission.`r`n" + $CurrentInstruction
-    $EffectiveInstruction = (Get-AgyCompactRules) + "`nRead authoritative AGENTS.md and required coordination bootstrap files; do not reconstruct unrelated history. Work budget: $($controllerBudget.work) seconds. The controller reserves $($controllerBudget.closeout) seconds for local evidence reconciliation. Checkpoint each substantive finding in the owned session report throughout execution; close the session before the work deadline and emit a final response. `n" + $script:PendingSmartProfileContext + "`n" + $CurrentInstruction
+    $EffectiveInstruction = (Get-AgyCompactRules) + "`nRead authoritative AGENTS.md and required coordination bootstrap files; do not reconstruct unrelated history. Work budget: $($controllerBudget.work) seconds. The controller reserves $($controllerBudget.closeout) seconds for local evidence reconciliation. Create the owned session report with exact sources and the first concrete finding or blocker within 120 seconds; update it every 180 seconds. Metadata/tool chatter does not reset the $NoProgressSeconds-second saved-result deadline; close the session before the work deadline and emit a final response. `n" + $script:PendingSmartProfileContext + "`n" + $CurrentInstruction
 
     # ------------------------------------------------------------
     # 2. Invoke Antigravity CLI (agy.exe) with hardened error guard
@@ -3388,8 +3390,16 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
             $hardTimeout = $controllerBudget.work
             $script:ControllerState.state='RUNNING'
             Write-ControllerCheckpoint $controllerCheckpointPath $script:ControllerState
-            $boundedRun = Invoke-BoundedAgyProcess -FilePath $AgyPath -ArgumentList $agyArgs -InputText $EffectiveInstruction -TimeoutSeconds $hardTimeout -WorkingDirectory $WorkspaceDir -Checkpoint { Update-ControllerEvidence $WorkspaceDir $controllerCheckpointPath $script:ControllerState } -OnStarted { param($ownedProcessId) $script:ControllerState.process_id=$ownedProcessId; Write-ControllerCheckpoint $controllerCheckpointPath $script:ControllerState }
-            $agyRawOutput = $boundedRun.Output
+            $livePath=Join-Path $PadDir ('controller-turn-'+$script:ControllerState.run_id+'.jsonl')
+            $script:ControllerState | Add-Member -NotePropertyName live_output_log -NotePropertyValue $livePath -Force
+            $agyArgs += @('--log-file',($livePath+'.cli.log'))
+            [void](Test-ControllerDurableProgress $script:ControllerState)
+            Write-Host "[PROGRESS] live log=$livePath; stop after ${NoProgressSeconds}s without a saved report/result; tokens and session metadata do not count."
+            $boundedRun = Invoke-BoundedAgyProcess -FilePath $AgyPath -ArgumentList $agyArgs -InputText $EffectiveInstruction -TimeoutSeconds $hardTimeout -WorkingDirectory $WorkspaceDir -Checkpoint { Update-ControllerEvidence $WorkspaceDir $controllerCheckpointPath $script:ControllerState } -OnStarted { param($ownedProcessId) $script:ControllerState.process_id=$ownedProcessId; Write-ControllerCheckpoint $controllerCheckpointPath $script:ControllerState } -NoProgressSeconds $NoProgressSeconds -ProgressProbe { Test-ControllerDurableProgress $script:ControllerState } -OutputLogPath $livePath -OnOutput {param($chunk) Write-ControllerStreamEvent $script:ControllerState $chunk}
+            $script:ControllerState.stop_reason=$boundedRun.StopReason
+            $script:ControllerState | Add-Member -NotePropertyName captured_raw_output -NotePropertyValue $boundedRun.Output -Force
+            if($script:ControllerState.conversation_id){$ConversationId=$script:ControllerState.conversation_id}
+            $agyRawOutput = ConvertFrom-ControllerStream $boundedRun.Output
             $agyExitCode = $boundedRun.ExitCode
             if ($boundedRun.TimedOut) {
                 [IO.File]::WriteAllText((Join-Path $PadDir 'controller_watchdog_last_partial.log'), [string]$boundedRun.Output, [Text.UTF8Encoding]::new($false))
@@ -3693,7 +3703,7 @@ The controller will not continue using another account.
             $ConversationId = $null
             $ConversationIdSource = 'fresh-after-timeout-completed-session'
         } else {
-            $script:ControllerState = Set-ControllerInterrupted $WorkspaceDir $controllerCheckpointPath $script:ControllerState $agyText
+            $script:ControllerState = Set-ControllerInterrupted $WorkspaceDir $controllerCheckpointPath $script:ControllerState $(if($script:ControllerState.captured_raw_output){$script:ControllerState.captured_raw_output}else{$agyText})
             $recovery = if ($script:ControllerState.state -eq 'BLOCKED') { $script:ControllerState.next_safe_action } else { Get-ControllerRecoveryInstruction $script:ControllerState }
             Save-LoopState -Turn $CurrentTurn -Status $script:ControllerState.state -LastInstruction $CurrentInstruction -LastResponse $agyText -NextInstruction $recovery -Duration $turnDurationSeconds -Usage $null -Tier 'CONTROLLER' -Action 'AGY_TIMEOUT_CHECKPOINTED'
             if ($script:ControllerState.state -eq 'BLOCKED') {
@@ -5126,6 +5136,11 @@ if ($CurrentTurn -gt ($StartTurn + $MaxTurns - 1)) {
 
  } finally {
     if ($null -ne $script:ControllerState -and $script:ControllerState.state -in @('RUNNING','CHECKPOINTED')) {
+        # Release only proven owned sessions on abnormal closeout, never a live/foreign process.
+        if(-not $script:ControllerState.process_id -or -not(Get-Process -Id $script:ControllerState.process_id -ErrorAction SilentlyContinue)){
+            $raw=if($script:ControllerState.captured_raw_output){$script:ControllerState.captured_raw_output}else{'Controller exited abnormally; inspect live output log and checkpoint.'}
+            $script:ControllerState=Set-ControllerInterrupted $WorkspaceDir $controllerCheckpointPath $script:ControllerState $raw
+        }
         $script:ControllerState.state='BLOCKED'
         $script:ControllerState.block_reason='Controller exited before a verified completed response; inspect loop status, credential/quota and preserved evidence'
         Write-ControllerCheckpoint $controllerCheckpointPath $script:ControllerState

@@ -35,6 +35,40 @@ powershell -NoProfile -NonInteractive -File tests/unit/test_controller_profile_g
 
 ## Durable recovery
 
+### Saved-result deadline and live diagnostics
+
+The long scientific budget is an upper bound for productive work. Independently,
+`-NoProgressSeconds` defaults to **300** (range 30â€“600). A turn stops as
+`NO_DURABLE_PROGRESS` if it saves no new result within that interval. Only changes
+to the owned session report (at least 160 bytes) or HPC/execution accounting reset
+this deadline. A session claim, a missing predecessor report, metadata timestamps,
+source-code hashes, model tokens and step events do not count. This tests durable
+artifact activity; it does not independently certify the scientific truth of a report.
+The prompt requests the first finding/report within 120 seconds and subsequent
+updates within 180 seconds. Mandatory bootstrap reads should be batched in order,
+with relevant rows/hashes emitted instead of full historical-ledger dumps.
+
+The CLI uses its actual `stream-json` event protocol. `[AGY]` shows conversation
+identity and step state immediately; `[PROGRESS]` reports elapsed/no-result time
+every 30 seconds. Exact raw events are written incrementally to
+`%USERPROFILE%\OpenClawPAD\controller-turn-<run-id>.jsonl`, with a separate
+`.cli.log`. These local files are not committed. Background .NET pipe readers and
+an independent stdin writer keep blocked I/O off the watchdog thread. Timeout
+checkpoints retain actual raw CLI output, not a fabricated routing envelope.
+
+Session ownership binds a newly claimed Gemini session to the invocation's start
+time, original inactive lock and repository commit, then freezes its fingerprint.
+The live task can differ from the completed predecessor in ACTIVE_TASK.json.
+Foreign sessions and changed ownership remain protected. Abnormal exit releases
+only proven ownership after the owned CLI is gone.
+
+No-result stalls become BLOCKED with no automatic model replay. Other verified
+timeout recoveries use a fresh evidence-only turn capped at 180 seconds total.
+Job-first instructions are active: submit independently ready qualified Mode-I
+work immediately through the guarded adapter, while preserving scientific
+predecessor acceptance and once-only accounting. A failed dependency never
+justifies a redundant/filler submission.
+
 The authoritative runtime checkpoint is
 `%USERPROFILE%\OpenClawPAD\controller_turn_checkpoint.json`. It uses an atomic
 same-directory replacement, a previous-version file and a SHA-256 envelope. States:
@@ -66,5 +100,5 @@ do not delete/reset them to force a replay. No permits or authorizations are inv
 Credential synchronization, PRE_AGY/POST_AGY verification, smart quota selection,
 the per-user controller mutex and the governed HPC adapter remain in place.
 Research progress must come from current coordination evidence, not a completed
-task heading in `INITIAL_PROMPT.txt`. The prompt currently requests scientific
-review of the unresolved transfer hypothesis, preserving Package 72's failed audit.
+task heading in `INITIAL_PROMPT.txt`. The prompt selects the next useful action under job-first governance, preserving
+Package 72's failed audit and any scientific dependencies.
