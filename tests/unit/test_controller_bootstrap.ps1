@@ -129,7 +129,7 @@ try{
     $r=Invoke-BoundedAgyProcess -FilePath $git -ArgumentList @('-C',$fixture,'rev-parse','HEAD','origin/main') -TimeoutSeconds 15
     $refs=@($r.Output.Trim() -split '\r?\n')
     Assert ($refs.Count -eq 2 -and $refs[0] -eq $refs[1]) 'canonical closeout selectively commits and forward-pushes to fixture origin/main'
-    $rejected=$false;try{$null=Resolve-ControllerInstruction $fixture '# F1597 correction'}catch{$rejected=$_.Exception.Message -match 'NEXT_OPERATION_REQUIRES_DEFINITION'}
-    Assert $rejected 'completed diagnostic cannot silently replay as the next correction task'
+    $advance=$false;try{$res=Resolve-ControllerInstruction $fixture '# F1597 correction';$advance=($res.task_type -eq 'RESEARCH_PREPARATION' -and -not $res.operation)}catch{$advance=$_.Exception.Message -match 'NEXT_OPERATION_REQUIRES_DEFINITION'}
+    Assert $advance 'completed diagnostic cannot silently replay as the next correction task; advances to research preparation'
     'ALL '+$script:checks+' BOOTSTRAP CHECKS PASSED; fixture only'
 }finally{"FIXTURE=$fixture"}

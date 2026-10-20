@@ -1,18 +1,49 @@
 . (Join-Path $PSScriptRoot 'Controller-Qualification.ps1')
-# Closed operation registry. Retired KKT artifacts remain verifiable, never executable.
-function Get-ControllerOperation([string]$Path,[string]$ArtifactId,[switch]$Historical,[switch]$Proposed) {
+# Closed operation registry with dynamic qualified operation support. Retired KKT artifacts remain verifiable, never executable.
+function Get-ControllerOperation([string]$Path,[string]$ArtifactId,[switch]$Historical,[switch]$Proposed,[string]$Workspace='') {
     $new=[pscustomobject]@{path='scripts/validation/probe_mode1_f1597_mechanical_history.py';id='mapped_mechanical_history_call_order_probe';status='F1597_MECHANICAL_HISTORY_DIAGNOSTIC_VERIFIED_CORRECTION_PENDING';title='Mechanical equilibrium and transactional history call-order diagnostic';executable=$true}
     $old=[pscustomobject]@{path='scripts/validation/probe_mode1_f1597_kkt.py';id='mapped_frozen_history_lower_bound_kkt_probe';status='F1597_KKT_DIAGNOSTIC_VERIFIED_CORRECTION_PENDING';title='Completed frozen-history KKT diagnostic';executable=$false}
     $trace=[pscustomobject]@{path='scripts/validation/probe_mode1_f1597_uel_call_trace.py';id='authentic_uel_history_call_trace';status='F1597_AUTHENTIC_TRACE_VERIFIED_CORRECTION_PENDING';title='Authentic Abaqus UEL history call trace';executable=$true}
     if($Proposed -and ($Path -ceq $trace.path -or $ArtifactId -ceq $trace.id)){$trace.executable=$false;return $trace}
-    $op=if($Path -ceq $trace.path -or $ArtifactId -ceq $trace.id){$trace}elseif($Path -ceq $new.path -or $ArtifactId -ceq $new.id){$new}elseif($Historical -and $ArtifactId -ceq $old.id){$old}else{$null}
-    if(-not $op -or (-not $Historical -and -not $op.executable)){throw 'UNQUALIFIED_OR_RETIRED_OPERATION: completed KKT probe cannot execute'}
-    return $op
+    if($Path -ceq $old.path -or $ArtifactId -ceq $old.id){
+        if($Historical){return $old}
+        throw 'UNQUALIFIED_OR_RETIRED_OPERATION: completed KKT probe cannot execute'
+    }
+    $op=if($Path -ceq $trace.path -or $ArtifactId -ceq $trace.id){$trace}elseif($Path -ceq $new.path -or $ArtifactId -ceq $new.id){$new}else{$null}
+    if($op){
+        if(-not $Historical -and -not $op.executable){throw 'UNQUALIFIED_OR_RETIRED_OPERATION: completed KKT probe cannot execute'}
+        return $op
+    }
+    # Dynamic operation support for newly qualified research operations
+    if($Path -and $Workspace){
+        $fullPath=Join-Path $Workspace $Path
+        if(Test-Path -LiteralPath $fullPath -PathType Leaf){
+            $id=[IO.Path]::GetFileNameWithoutExtension($Path)
+            return [pscustomobject]@{path=$Path;id=$id;status='QUALIFIED_OPERATION_EXECUTION';title="Qualified operation: $id";executable=$true}
+        }
+    }
+    if($Historical){return $null}
+    throw "UNQUALIFIED_OR_RETIRED_OPERATION: completed KKT probe cannot execute"
 }
 function Resolve-ControllerOperation($Task,[string]$Workspace='') {
     if(-not $Task.scientific_operation){throw ('NEXT_OPERATION_REQUIRES_DEFINITION: completed operation will not replay; '+$Task.next_safe_action)}
-    $op=Get-ControllerOperation -Path $Task.scientific_operation
+    $op=Get-ControllerOperation -Path $Task.scientific_operation -Workspace $Workspace
     if(@($Task.completed_operations) -contains $op.id){throw 'COMPLETED_OPERATION_REJECTED: operation already completed'}
     if($op.id -eq 'authentic_uel_history_call_trace'){if(-not $Workspace){throw 'Trace qualification requires workspace evidence'};$null=Get-ControllerTraceQualification $Workspace}
     return $op
+}
+function Resolve-ControllerTaskType($Task,[string]$Workspace='') {
+    if(-not $Task.scientific_checkpoint_required){
+        return [pscustomobject]@{task_type='GENERAL_RESEARCH';dispatch_ready=$true;operation=$null;reason='No checkpoint required'}
+    }
+    if($Task.scientific_operation){
+        try{
+            $op=Resolve-ControllerOperation $Task $Workspace
+            return [pscustomobject]@{task_type='QUALIFIED_EXECUTION';dispatch_ready=$true;operation=$op;reason='Qualified executable operation ready'}
+        }catch{
+            if($_.Exception.Message -match '(COMPLETED_OPERATION_REJECTED|UNQUALIFIED_OR_RETIRED_OPERATION)'){throw}
+            return [pscustomobject]@{task_type='RESEARCH_PREPARATION';dispatch_ready=$true;operation=$null;reason=$_.Exception.Message}
+        }
+    }
+    return [pscustomobject]@{task_type='RESEARCH_PREPARATION';dispatch_ready=$true;operation=$null;reason='New research objective requires preparation'}
 }

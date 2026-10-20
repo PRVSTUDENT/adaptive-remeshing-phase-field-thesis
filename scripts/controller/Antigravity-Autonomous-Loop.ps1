@@ -143,9 +143,17 @@ if ($ControllerDryRun) {
     $resolved = Resolve-ControllerInstruction $WorkspaceDir $prompt
     $checkpoint = Read-ControllerCheckpoint $controllerCheckpointPath
     Assert-ControllerDispatchCheckpoint $WorkspaceDir $checkpoint
-    $operation=if($resolved.evidence.task.scientific_checkpoint_required){Resolve-ControllerOperation $resolved.evidence.task $WorkspaceDir}else{$null}
+    $operation=if($resolved.evidence.task.scientific_checkpoint_required){
+        if($resolved.task_type -eq 'QUALIFIED_EXECUTION'){
+            $resolved.operation
+        } elseif($resolved.evidence.task.scientific_operation){
+            try{Resolve-ControllerOperation $resolved.evidence.task $WorkspaceDir}catch{$null}
+        } else {
+            $null
+        }
+    }else{$null}
     $budget = Get-ControllerBudget $PrintTimeout $ScientificTurnSeconds
-    [pscustomobject]@{mode='DRY_RUN_NO_EXECUTION'; scientific_operation=$operation.path; operation_id=$operation.id; checkpoint_reconciliation=$checkpoint.reconciliation.status; task=$resolved.evidence.task.task_id; predecessor_status=$resolved.evidence.task.status; stale_prompt_replaced=$resolved.stale_replaced; active_session=$resolved.evidence.session.active; checkpoint_state=$(if($checkpoint){$checkpoint.state}else{'NONE'}); budget=$budget; no_progress_seconds=$NoProgressSeconds; progress_policy='saved report or PBS/execution evidence; metadata and tokens excluded'; source_sha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash; instruction=$resolved.instruction} | ConvertTo-Json -Depth 8
+    [pscustomobject]@{mode='DRY_RUN_NO_EXECUTION'; task_type=$resolved.task_type; scientific_operation=$(if($operation){$operation.path}else{''}); operation_id=$(if($operation){$operation.id}else{''}); checkpoint_reconciliation=$checkpoint.reconciliation.status; task=$resolved.evidence.task.task_id; predecessor_status=$resolved.evidence.task.status; stale_prompt_replaced=$resolved.stale_replaced; active_session=$resolved.evidence.session.active; checkpoint_state=$(if($checkpoint){$checkpoint.state}else{'NONE'}); budget=$budget; no_progress_seconds=$NoProgressSeconds; progress_policy='saved report or PBS/execution evidence; metadata and tokens excluded'; source_sha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash; instruction=$resolved.instruction} | ConvertTo-Json -Depth 8
     return
 }
 
@@ -3366,7 +3374,12 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
     if($script:ControllerState.requires_scientific_checkpoint){
         $entry=Join-Path $WorkspaceDir 'scripts/controller/Invoke-ControllerTurn.ps1'
         $common=' -Workspace "'+$WorkspaceDir+'" -RunId '+$script:ControllerState.run_id+' -TaskId '+$script:ControllerState.task_id
-        $bootstrapCommands="FIRST TOOL CALL: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$entry`" -Stage Bootstrap$common`nSECOND TOOL CALL: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$entry`" -Stage Scientific$common`nTHIRD TOOL CALL: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$entry`" -Stage Complete$common`nThese canonical -File commands implement ordered bootstrap/claim, the source-pinned F1597 numerical operation, verified evidence and selective closeout. Do not generate nested -Command scripts, reread bootstrap files, or repeat F1596. Execute the stages once in order, report the actual measured result and next correction step, then finish. A generic status note is not a scientific checkpoint. If a stage fails, report its exact error; do not substitute invented measurements.`n"
+        if($script:ControllerState.task_type -eq 'RESEARCH_PREPARATION'){
+            $prepArtifact="results/validation/preparation-$($script:ControllerState.run_id).json"
+            $bootstrapCommands="FIRST TOOL CALL: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$entry`" -Stage Bootstrap$common`nPerform bounded research investigation, create/test analysis code or qualify the operation, record verified findings in a JSON artifact (e.g. $prepArtifact with schema:1, status:'PREPARATION_COMPLETE', finding:'...', verification_passed:true).`nNEXT TOOL CALL: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$entry`" -Stage Preparation$common -CheckpointArtifact `"$prepArtifact`"`nFINAL TOOL CALL: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$entry`" -Stage Complete$common`nThese canonical commands implement ordered bootstrap/claim, research preparation checkpointing, and selective closeout. Execute once in order, report actual findings, and finish with Finished.`n"
+        } else {
+            $bootstrapCommands="FIRST TOOL CALL: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$entry`" -Stage Bootstrap$common`nSECOND TOOL CALL: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$entry`" -Stage Scientific$common`nTHIRD TOOL CALL: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$entry`" -Stage Complete$common`nThese canonical -File commands implement ordered bootstrap/claim, the source-pinned numerical operation, verified evidence and selective closeout. Do not generate nested -Command scripts, reread bootstrap files, or repeat completed operations. Execute the stages once in order, report the actual measured result and next correction step, then finish. A generic status note is not a scientific checkpoint. If a stage fails, report its exact error; do not substitute invented measurements.`n"
+        }
     }
     $EffectiveInstruction = $bootstrapCommands + (Get-AgyCompactRules) + "`nThe canonical Bootstrap stage performs required prerequisite reads in order; once its receipt is COMPLETE, proceed to the scientific operation without rereading it. Work budget: $($controllerBudget.work) seconds. The controller reserves $($controllerBudget.closeout) seconds for local evidence reconciliation. Create the owned session report with exact sources and the first concrete finding or blocker within 120 seconds; update it every 180 seconds. Metadata/tool chatter does not reset the $NoProgressSeconds-second saved-result deadline; close the session before the work deadline and emit a final response. `n" + $script:PendingSmartProfileContext + "`n" + $CurrentInstruction
 

@@ -51,7 +51,7 @@ function Get-ControllerEvidence([string]$Workspace) {
     }
     if($task.scientific_checkpoint.artifact){
         $relative=[string]$task.scientific_checkpoint.artifact
-        if($relative -notmatch '^results/validation/mode1_f1597/[a-fA-F0-9-]{36}\.json$'){throw 'Unsafe scientific basis artifact'}
+        if($relative -notmatch '^results/validation/(?:(?:mode1_f1597/)?[a-fA-F0-9-]{36}|preparation-[a-fA-F0-9-]{36}|[a-zA-Z0-9_-]+)\.json$'){throw 'Unsafe scientific basis artifact'}
         $p=Join-Path $Workspace $relative
         if(-not(Test-Path -LiteralPath $p)){throw 'Missing scientific basis artifact'}
         $sources[$relative]=(Get-FileHash -LiteralPath $p).Hash
@@ -78,7 +78,7 @@ function Get-ControllerEvidence([string]$Workspace) {
 
 function Resolve-ControllerInstruction([string]$Workspace, [string]$Instruction) {
     $e = Get-ControllerEvidence $Workspace
-    if($e.task.scientific_checkpoint_required){$null=Resolve-ControllerOperation $e.task $Workspace}
+    $taskType = Resolve-ControllerTaskType $e.task $Workspace
     $terminal = [string]$e.task.status -match '(?i)(completed|classified|closed|^done$)'
     $heading = ($Instruction -split "`n")[0]
     $id = [regex]::Match($heading,'\bF\d+\b').Value
@@ -98,12 +98,52 @@ Select one next scientifically useful executable action from current evidence. I
 Create the owned session report within 120 seconds, recording exact sources and the first concrete finding or blocker. Update it after each substantive action and at least every 180 seconds. A session claim, heartbeat, timestamp, or tool chatter is not a saved result. The controller will stop after 300 seconds without durable evidence. Do not spend the turn rereading broad history. Close the owned session truthfully and return evidence, actual PBS receipts if any, and the exact next safe action. End with Finished.
 "@
     }
-    return [pscustomobject]@{instruction=$Instruction; stale_replaced=[bool]$stale; evidence=$e}
+    return [pscustomobject]@{instruction=$Instruction; stale_replaced=[bool]$stale; evidence=$e; task_type=$taskType.task_type; operation=$taskType.operation}
 }
 
 function New-ControllerTurnState($Evidence, [int]$Turn, [string]$Instruction, [int]$RecoveryCount = 0) {
     $runId=[guid]::NewGuid().ToString()
-    return [pscustomobject]@{schema=1; run_id=$runId; workspace=$Evidence.workspace; bootstrap_record_path=$(if($Evidence.workspace){Join-Path $Evidence.workspace ('project_coordination/controller/turn-'+$runId+'.json')}else{''}); bootstrap_repeat_reads=0; requires_scientific_checkpoint=[bool]$Evidence.task.scientific_checkpoint_required; scientific_operation=[string]$Evidence.task.scientific_operation; scientific_basis_artifact=[string]$Evidence.task.scientific_checkpoint.artifact; task_id=[string]$Evidence.task.task_id; predecessor_task_id=[string]$Evidence.task.task_id; repository_commit=$Evidence.commit; initial_session_active=[bool]$Evidence.session.active; initial_session_hash=$Evidence.sources['project_coordination/ACTIVE_SESSION.json']; owned_session_fingerprint=''; turn=$Turn; state='PENDING'; recovery_count=$RecoveryCount; process_id=0; started_at=[DateTimeOffset]::UtcNow.ToString('o'); updated_at=''; last_confirmed_action=[string]$Evidence.task.status; sources=$Evidence.sources; pbs_receipts=$Evidence.pbs_receipts; execution_accounting=$Evidence.execution_accounting; session=$Evidence.session; session_report=$Evidence.report; progress_signature=''; last_evidence_at=''; conversation_id=''; live_buffer=''; stop_reason=''; original_instruction_hash=(Get-ControllerTextHash $Instruction); partial_output=''; partial_sha256=''; next_safe_action='Execute only reconciled instruction'; block_reason=''}
+    $taskType = Resolve-ControllerTaskType $Evidence.task $Evidence.workspace
+    return [pscustomobject]@{
+        schema=1
+        run_id=$runId
+        workspace=$Evidence.workspace
+        bootstrap_record_path=$(if($Evidence.workspace){Join-Path $Evidence.workspace ('project_coordination/controller/turn-'+$runId+'.json')}else{''})
+        bootstrap_repeat_reads=0
+        requires_scientific_checkpoint=[bool]$Evidence.task.scientific_checkpoint_required
+        task_type=$taskType.task_type
+        scientific_operation=$(if($taskType.operation){$taskType.operation.path}elseif($Evidence.task.scientific_operation){[string]$Evidence.task.scientific_operation}else{''})
+        operation_id=$(if($taskType.operation){$taskType.operation.id}else{'research_preparation'})
+        scientific_basis_artifact=[string]$Evidence.task.scientific_checkpoint.artifact
+        task_id=[string]$Evidence.task.task_id
+        predecessor_task_id=[string]$Evidence.task.task_id
+        repository_commit=$Evidence.commit
+        initial_session_active=[bool]$Evidence.session.active
+        initial_session_hash=$Evidence.sources['project_coordination/ACTIVE_SESSION.json']
+        owned_session_fingerprint=''
+        turn=$Turn
+        state='PENDING'
+        recovery_count=$RecoveryCount
+        process_id=0
+        started_at=[DateTimeOffset]::UtcNow.ToString('o')
+        updated_at=''
+        last_confirmed_action=[string]$Evidence.task.status
+        sources=$Evidence.sources
+        pbs_receipts=$Evidence.pbs_receipts
+        execution_accounting=$Evidence.execution_accounting
+        session=$Evidence.session
+        session_report=$Evidence.report
+        progress_signature=''
+        last_evidence_at=''
+        conversation_id=''
+        live_buffer=''
+        stop_reason=''
+        original_instruction_hash=(Get-ControllerTextHash $Instruction)
+        partial_output=''
+        partial_sha256=''
+        next_safe_action='Execute only reconciled instruction'
+        block_reason=''
+    }
 }
 
 function Sync-ControllerOwnedSession($Evidence,$State) {
@@ -260,8 +300,17 @@ function Test-ControllerScientificCheckpoint([string]$Workspace,$State,[switch]$
         if(-not $State.bootstrap_record_path -or -not(Test-Path -LiteralPath $State.bootstrap_record_path -PathType Leaf)){return $false}
         $record=Get-Content -LiteralPath $State.bootstrap_record_path -Raw|ConvertFrom-Json
         $checkpoint=$record.scientific_checkpoint
-        if($record.controller_run_id -ne $State.run_id -or $record.task_id -ne $State.task_id -or $record.bootstrap_status -ne 'COMPLETE' -or
-            -not $checkpoint -or $checkpoint.kind -ne 'NUMERICAL_FINDING' -or $checkpoint.exit_code -ne 0){return $false}
+        if($record.controller_run_id -ne $State.run_id -or $record.task_id -ne $State.task_id -or $record.bootstrap_status -ne 'COMPLETE' -or -not $checkpoint){return $false}
+        if($checkpoint.kind -eq 'PREPARATION_CHECKPOINT'){
+            if($checkpoint.exit_code -ne 0 -or -not $checkpoint.artifact){return $false}
+            $artifactPath = Join-Path $Workspace $checkpoint.artifact
+            if(-not(Test-Path -LiteralPath $artifactPath -PathType Leaf) -or (Get-FileHash -LiteralPath $artifactPath).Hash -ne $checkpoint.sha256){return $false}
+            $prep = Get-Content -LiteralPath $artifactPath -Raw | ConvertFrom-Json
+            if($prep.schema -ne 1 -or -not $prep.finding -or $prep.status -notin @('PREPARATION_COMPLETE','QUALIFIED_OPERATION_READY','INVESTIGATION_COMPLETE')){return $false}
+            if($prep.PSObject.Properties['verification_passed'] -and -not $prep.verification_passed){return $false}
+            return $true
+        }
+        if($checkpoint.kind -ne 'NUMERICAL_FINDING' -or $checkpoint.exit_code -ne 0){return $false}
         $expected='results/validation/mode1_f1597/'+$State.run_id+'.json'
         if($checkpoint.artifact -ne $expected){return $false}
         $artifact=Join-Path $Workspace $expected
