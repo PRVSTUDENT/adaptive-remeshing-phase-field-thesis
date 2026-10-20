@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "task_id": "F1597",
+  "operation": "mapped_mechanical_history_call_order_probe",
+  "verification_passed": true,
+  "measurements": {
+    "phase_elements": 650,
+    "phase_nodes": 713,
+    "free_mechanical_dofs": 1347,
+    "mechanical_free_residual_inf_kN": 2.8656687889620433e-13,
+    "worst_mechanical_node": 669,
+    "worst_mechanical_dof": 2,
+    "mapped_displacement_jump_mm": 0.0,
+    "mapped_damage_jump": 0.0,
+    "history_increase_inf_kN_mm2": 30.98448823362262,
+    "phase_before_mechanical_inf_kN": 1.3099345852211268e-13,
+    "phase_after_mechanical_inf_kN": 4.749150004040064e-06,
+    "phase_call_order_delta_inf_kN": 4.749150065165221e-06,
+    "committed_before_accept_error": 0.0,
+    "retry_restore_error": 0.0,
+    "accepted_commit_error": 0.0,
+    "mechanical_fd_relative_error": 7.051670581010097e-13,
+    "prior_kkt_residual_difference_kN": 2.117582368135751e-21
+  },
+  "tolerances": {
+    "history_kN_mm2": 1e-10,
+    "residual_kN": 1e-10,
+    "fd_relative": 1e-07,
+    "mapping_mm": 1e-10,
+    "transaction": 1e-14
+  },
+  "first_verified_discrepancy": {
+    "classification": "HISTORY_UPDATE_AT_MAPPED_STATE",
+    "first_history_update": {
+      "element": 336,
+      "gauss_point": 2,
+      "committed": 8.471093655083,
+      "mechanical_driving": 17.672918345855663,
+      "trial": 17.672918345855663
+    }
+  },
+  "source_contract": "Package72 EF92ED58 JTYPE1/2; UEXTERNALDB LOP0/1/2; zero incremental DOFs",
+  "finding": "Mapped mechanical residual and history max-update measured; phase-before/after-mechanical orders compared. Classification: HISTORY_UPDATE_AT_MAPPED_STATE",
+  "limitation": "Read-only reconstruction, not an Abaqus execution trace or re-equilibration solve. Actual solver call order, evolving increments, conservation and transfer correction remain unqualified.",
+  "next_operation": "Review the measured mechanical/history discrepancy and obtain an authentic UEL call trace before choosing a coupled transfer correction.",
+  "sources": {
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp": "58b1e69f40c5a65c7b9f1049e42ad745152ab8b5cf6b0f15547ed3276cd54964",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv": "87c7954efef0134094bbfb03d7ada03d66f9a84281d0bb50f524ae88dfc65add",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/f42_experimental_offset_uel.for": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "scripts/validation/probe_mode1_f1597_kkt.py": "8d2942ebf7cbf3b05878e9e9c9154abf3c07206043e44bc6e25c3b8f576ac9ff",
+    "scripts/validation/probe_mode1_f1597_mechanical_history.py": "2044975fbd5bfbac25ea647fecda5fbfa35a109d75e9cd6194ac34e311876478",
+    "results/validation/mode1_f1597/91e48944-19c2-4e7a-b3bc-57609b2f6bda.json": "c3d9b0817bec007579351d1442e2616a766803c7ffe2e4845fd36d86422d182a"
+  }
+}
