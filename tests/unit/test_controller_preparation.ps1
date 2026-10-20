@@ -22,9 +22,14 @@ try{
     if($candidate.executable){throw 'Unqualified trace definition executable'}
     $failed=$false;try{$null=Resolve-ControllerOperation ([pscustomobject]@{scientific_operation=$candidate.path;completed_operations=@()}) $folder}catch{$failed=$true}
     if(-not $failed){throw 'Candidate bypassed qualification'}
-    $realTask=Get-Content -LiteralPath "$repo/project_coordination/ACTIVE_TASK.json" -Raw|ConvertFrom-Json
-    $task.scientific_checkpoint_required=$true;$task.scientific_operation='';$task.scientific_checkpoint=$realTask.scientific_checkpoint;PutTask $task
-    $copies=@('scripts/validation/Invoke-BoundedAgyProcess.ps1','scripts/validation/probe_mode1_f1597_uel_call_trace.py','tests/unit/test_mode1_f1597_uel_call_trace.py',$task.scientific_checkpoint.artifact)
+    $mechCheckpoint=@{
+        artifact='results/validation/mode1_f1597/0f0f0884-9d34-4087-a8e0-50397c74550f.json'
+        sha256='DD7D52DDB01C8CCC055D66E1D4135AD2E7D4E6975FE4609AC1C0F830758AE482'
+        kind='NUMERICAL_FINDING'
+        operation='mapped_mechanical_history_call_order_probe'
+    }
+    $task.scientific_checkpoint_required=$true;$task.scientific_operation='';$task.scientific_checkpoint=$mechCheckpoint;PutTask $task
+    $copies=@('scripts/validation/Invoke-BoundedAgyProcess.ps1','scripts/validation/probe_mode1_f1597_uel_call_trace.py','tests/unit/test_mode1_f1597_uel_call_trace.py','results/validation/mode1_f1597/0f0f0884-9d34-4087-a8e0-50397c74550f.json',$task.scientific_checkpoint.artifact)
     foreach($name in @('f42_experimental_offset_uel.for','M1_EXP_COUPLED_TRANSFER_650.inp','offset_state_table.csv')){$copies+=('models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/'+$name)}
     foreach($relative in $copies){$target=Join-Path $folder $relative;New-Item -ItemType Directory -Path (Split-Path $target) -Force|Out-Null;Copy-Item -LiteralPath (Join-Path $repo $relative) -Destination $target}
     foreach($relative in @('project_coordination/START_HERE.md','project_coordination/CURRENT_STATE.md','project_coordination/TASK_LEDGER.csv','project_coordination/HPC_JOB_LEDGER.csv','project_coordination/ARTIFACT_REGISTRY.csv','docs/project/PROJECT_PHASE_CHECKLIST.md')){
