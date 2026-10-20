@@ -92,7 +92,26 @@ try {
             if($script:writes -ne 2){throw 'PRE/POST recovery not idempotent'}
             Write-Output 'PASS: controlled PRE/POST provider-verified refresh recovery; repeated POST is read-only; zero profile switches'
         } finally {$env:USERPROFILE=$originalUserProfile}
+        # Regression: expired native refresh resulting in conflicting identity fails closed.
+        $script:fixtureNative=[byte[]]$expired.Clone()
+        $script:refreshes=0;$script:writes=0
+        function Update-AgyNativeAccessToken {
+            $script:refreshes++
+            # Simulates refresh using resident refresh token that belonged to another account (account-b)
+            $script:fixtureNative=[Text.Encoding]::UTF8.GetBytes((@{token=@{access_token='FAKE-DIFF';refresh_token='FAKE-ALT';expiry='2099-01-01T00:00:00Z'};id_token=$second;auth_method='consumer'}|ConvertTo-Json -Depth 5))
+        }
+        $conflictFailed=$false
+        try {
+            Repair-AgyRefreshedNativeCredential -ExpectedBytes $source -TokenPath $path
+        } catch {
+            $conflictFailed=$_.Exception.Message -eq 'AGY_CREDENTIAL_REPAIR_IDENTITY_CONFLICT'
+        }
+        if (-not $conflictFailed -or $script:refreshes -ne 1 -or $script:writes -ne 0) {
+            throw 'Expired refresh with conflicting identity was not rejected'
+        }
+        Write-Output 'PASS: expired native refresh producing conflicting provider identity fails closed without store mutation'
         Write-Output 'PASS: missing metadata and rotated refresh preserved; provider failure/mismatch, native/CLI conflict, concurrent change and failed readback rejected'
+
     }
     & {
         function Invoke-RestMethod {

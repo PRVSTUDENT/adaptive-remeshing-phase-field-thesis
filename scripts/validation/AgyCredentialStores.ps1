@@ -115,11 +115,15 @@ function Sync-AgyCliCredentialFile {
     $folder = Split-Path $TokenPath -Parent
     if (-not (Test-Path -LiteralPath $folder)) { $null=New-Item -ItemType Directory -Path $folder -Force }
     if (-not (Test-Path -LiteralPath $TokenPath)) { [IO.File]::WriteAllBytes($TokenPath,[byte[]]@()) }
-    $acl = New-Object Security.AccessControl.FileSecurity
+    $fileInfo = New-Object System.IO.FileInfo($TokenPath)
+    $acl = $fileInfo.GetAccessControl([System.Security.AccessControl.AccessControlSections]::Access)
     $acl.SetAccessRuleProtection($true,$false)
+    foreach ($rule in @($acl.GetAccessRules($true, $true, [System.Security.Principal.SecurityIdentifier]))) {
+        $acl.RemoveAccessRule($rule) | Out-Null
+    }
     $sid = [Security.Principal.WindowsIdentity]::GetCurrent().User
     $acl.AddAccessRule((New-Object Security.AccessControl.FileSystemAccessRule($sid,'FullControl','Allow')))
-    Set-Acl -LiteralPath $TokenPath -AclObject $acl
+    $fileInfo.SetAccessControl($acl)
     [IO.File]::WriteAllText($TokenPath,$wrapper,[Text.UTF8Encoding]::new($false))
     $verified = ConvertTo-AgyCredentialToken ([IO.File]::ReadAllBytes($TokenPath))
     if ($verified.Identity -ne $value.Identity) { throw 'AGY CLI credential synchronization failed.' }

@@ -456,4 +456,16 @@ function Assert-ControllerDispatchCheckpoint([string]$Workspace,$State) {
         $report=Join-Path $Workspace 'project_coordination/sessions/2026-10-20_codex_credential_lifecycle.md'
         if(-not(Test-Path -LiteralPath $report) -or (Get-FileHash -LiteralPath $report).Hash -ne $r.credential_report_sha256){throw 'BLOCKED: credential repair evidence changed'}
     }
+    if($State.reconciliation.status -eq 'INTERRUPTED_TURN_CREDENTIAL_REPAIR_VERIFIED'){
+        $r=$State.reconciliation
+        if($State.state -ne 'COMPLETED' -or -not(Test-Path -LiteralPath $r.original_checkpoint) -or
+            (Get-FileHash -LiteralPath $r.original_checkpoint).Hash -ne $r.original_sha256){throw 'BLOCKED: reconciled historical evidence missing or changed'}
+        $original=Read-ControllerCheckpoint $r.original_checkpoint
+        if($original.state -ne 'BLOCKED' -or $original.run_id -ne $State.run_id){throw 'BLOCKED: original historical checkpoint identity mismatch'}
+        if($r.session_report -and (-not(Test-Path -LiteralPath (Join-Path $Workspace $r.session_report)) -or
+            (Get-FileHash -LiteralPath (Join-Path $Workspace $r.session_report)).Hash -ne $r.session_report_sha256)){throw 'BLOCKED: session report evidence changed'}
+        if($r.bootstrap_record -and (-not(Test-Path -LiteralPath (Join-Path $Workspace $r.bootstrap_record)) -or
+            (Get-FileHash -LiteralPath (Join-Path $Workspace $r.bootstrap_record)).Hash -ne $r.bootstrap_record_sha256)){throw 'BLOCKED: bootstrap record evidence changed'}
+        if($r.hpc_ledger_sha256 -and (Get-FileHash -LiteralPath (Join-Path $Workspace 'project_coordination/HPC_JOB_LEDGER.csv')).Hash -ne $r.hpc_ledger_sha256){throw 'BLOCKED: HPC job ledger changed unexpectedly'}
+    }
 }
