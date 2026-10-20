@@ -73,3 +73,10 @@
 - Next scientific distinction: examine mechanical/history updating and call ordering during re-equilibration; the stored frozen-H phase block alone is already nearly stationary.
 - Full controller validation did NOT exit cleanly: final model result SUCCESS was followed by POST_AGY native-store ID_TOKEN_MISSING. No credential reset/bypass was performed; runtime remains BLOCKED and no further model turn was launched.
 - Scientific result is separately completed and must not replay. No new HPC job was submitted. Detailed outcome is in the bootstrap session report and run receipt 91e48944-19c2-4e7a-b3bc-57609b2f6bda.
+
+## Credential-only maintenance, 20 October 2026
+
+- Provider-verified native refresh synchronization repaired and deployed. Live PRE_AGY/POST_AGY/repeated POST checks pass; repeat leaves credential stores unchanged. No new model call or PBS job.
+- Missing native metadata now requires live provider subject proof before synchronization; identity conflicts and failed proof remain fail-closed. No saved-token rollback in this repair.
+- Credential regressions plus profile 6/6, bootstrap 20/20, recovery 25/25 and progress 20/20 pass. Report: project_coordination/sessions/2026-10-20_codex_credential_lifecycle.md.
+- F1597 diagnostic remains completed in 0720bbd1; next numerical operation is not defined by this maintenance. Earlier BLOCKED runtime checkpoint remains preserved as historical evidence, requiring reconciliation before later dispatch.

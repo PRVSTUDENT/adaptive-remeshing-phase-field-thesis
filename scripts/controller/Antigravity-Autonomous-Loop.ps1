@@ -472,19 +472,10 @@ function Set-AndVerifyAgyRunProfile {
             Assert-AgyCredentialStores -ExpectedBytes $expectedBytes -TokenPath $tokenPath
         } catch {
             $verificationFailure = $_
-            if($ControlledSingleTurn){throw ('Controlled turn credential verification failed without reset: '+$verificationFailure.Exception.Message)}
-            $repairEligible = $false
-            if (Test-Path -LiteralPath $tokenPath) {
-                $nativeBytes = Read-AgyCredentialManagerBytes
-                try { $repairEligible = Test-AgyExpiredNativeRepair -ExpectedBytes $expectedBytes -NativeBytes $nativeBytes -CliBytes ([IO.File]::ReadAllBytes($tokenPath)) }
-                finally { [Array]::Clear($nativeBytes,0,$nativeBytes.Length) }
-            }
-            if (-not $repairEligible) { throw $verificationFailure }
-            Write-Warning "[PROFILE-GUARD] Expired native credential cache is unverifiable; CLI identity agrees with selected $expected. Resynchronizing stores once."
-            $global:LASTEXITCODE = 0 # PowerShell script success does not clear a prior native exit code.
-            $null = & agy-profile switch $expected -Force *>&1
-            if ($LASTEXITCODE -ne 0) { throw 'AGY_EXPIRED_NATIVE_REPAIR_FAILED: selected profile synchronization failed.' }
+            if ($verificationFailure.Exception.Message -notmatch 'source=native-store stage=ID_TOKEN_MISSING') { throw $verificationFailure }
+            Repair-AgyRefreshedNativeCredential -ExpectedBytes $expectedBytes -TokenPath $tokenPath
             Assert-AgyCredentialStores -ExpectedBytes $expectedBytes -TokenPath $tokenPath
+            Write-Host "[PROFILE-GUARD] Verified refreshed native grant with provider and synchronized CLI cache [$Context]."
         }
     } finally { [Array]::Clear($expectedBytes,0,$expectedBytes.Length) }
 
@@ -508,7 +499,7 @@ function Set-AndVerifyAgyRunProfile {
             )
         )
         if (-not $mustRestore -and $Context -eq 'POST_AGY') {
-            Write-Warning ("[PROFILE-GUARD] Authenticated profile fingerprint unavailable after AGY; local active-profile marker agrees with '{0}'. Account identity is not independently verified." -f $expected)
+            Write-Warning ("[PROFILE-GUARD] Saved-profile blob changed after token refresh; native and CLI identity metadata passed the account guard for '{0}'." -f $expected)
         }
     }
 

@@ -1,26 +1,26 @@
 {
   "active": false,
   "agent": "codex",
-  "task_id": "CONTROLLER-BOOTSTRAP-VALIDATION-CLOSEOUT",
-  "starting_commit": "0720bbd1901eb17fb932f0fa4412d5bc34343dfd",
-  "claimed_at": "2026-10-20T11:47:19.3460924+02:00",
-  "last_updated": "2026-10-20T11:53:44.733731+02:00",
-  "last_released": "2026-10-20T11:53:44.733731+02:00",
+  "task_id": "CONTROLLER-CREDENTIAL-LIFECYCLE",
+  "starting_commit": "051ecd0dabb09076410a4c7f59763534aecabbc0",
+  "claimed_at": "2026-10-20T12:17:45.4423593+02:00",
+  "last_updated": "2026-10-20T12:23:37.237433+02:00",
+  "last_released": "2026-10-20T12:23:37.237433+02:00",
   "controller_run_id": "91e48944-19c2-4e7a-b3bc-57609b2f6bda",
-  "session_report": "project_coordination/sessions/2026-10-20_codex_controller_bootstrap.md",
+  "session_report": "project_coordination/sessions/2026-10-20_codex_credential_lifecycle.md",
   "allowed_write_scope": [
-    "scripts/controller/**",
     "scripts/validation/AgyCredentialStores.ps1",
+    "scripts/controller/Antigravity-Autonomous-Loop.ps1",
+    "scripts/controller/Invoke-AgyCredentialValidation.ps1",
     "tests/unit/test_agy_credentials.ps1",
-    "tests/unit/test_controller_bootstrap.ps1",
     "project_coordination/ACTIVE_SESSION.json",
     "project_coordination/CURRENT_STATE.md",
     "project_coordination/TASK_LEDGER.csv",
     "project_coordination/ARTIFACT_REGISTRY.csv",
-    "project_coordination/sessions/2026-10-20_codex_controller_bootstrap.md",
+    "project_coordination/sessions/2026-10-20_codex_credential_lifecycle.md",
     "C:/Users/pruth/OpenClawPAD/Antigravity-Autonomous-Loop.ps1",
-    "C:/Users/pruth/OpenClawPAD/controller_turn_checkpoint.json",
+    "Windows Credential Manager gemini:antigravity",
     "C:/Users/pruth/OpenClawPAD/backups/**"
   ],
-  "reconciliation": "Single controlled turn scientifically verified and synchronized; full controller exit blocked by missing native identity; no reset or second model turn. Closeout complete."
+  "reconciliation": "Credential-only repair validated against provider; no research replay; prior scientific diagnostic preserved."
 }

@@ -124,3 +124,91 @@ function Sync-AgyCliCredentialFile {
     $verified = ConvertTo-AgyCredentialToken ([IO.File]::ReadAllBytes($TokenPath))
     if ($verified.Identity -ne $value.Identity) { throw 'AGY CLI credential synchronization failed.' }
 }
+
+function Get-AgyProviderIdentity {
+    param([Parameter(Mandatory)][string]$AccessToken)
+    # Fixed HTTPS origin, bearer header only: no credentials in URLs or diagnostics.
+    try {
+        $reply=Invoke-RestMethod -Uri 'https://openidconnect.googleapis.com/v1/userinfo' -Headers @{Authorization=('Bearer '+$AccessToken)} -TimeoutSec 15 -ErrorAction Stop
+        if (-not $reply.sub) { throw 'Missing provider subject' }
+        $hash=[Security.Cryptography.SHA256]::Create()
+        try { return ([BitConverter]::ToString($hash.ComputeHash([Text.Encoding]::UTF8.GetBytes([string]$reply.sub)))).Replace('-','').ToLowerInvariant().Substring(0,16) }
+        finally { $hash.Dispose() }
+    } catch { throw 'AGY_PROVIDER_IDENTITY_UNPROVEN: bounded account lookup failed; credential contents suppressed.' }
+}
+
+function Write-AgyCredentialManagerBytes {
+    param([Parameter(Mandatory)][byte[]]$Bytes)
+    # Preserve the native entry metadata; replace only its blob. Never switch profiles.
+    if (-not ('AgyLocalCredentialWriter' -as [type])) {
+        Add-Type -TypeDefinition @'
+using System;
+using System.Runtime.InteropServices;
+public static class AgyLocalCredentialWriter {
+ [StructLayout(LayoutKind.Sequential,CharSet=CharSet.Unicode)] struct CRED {
+  public UInt32 Flags,Type; public string TargetName,Comment; public System.Runtime.InteropServices.ComTypes.FILETIME LastWritten;
+  public UInt32 Size; public IntPtr Blob; public UInt32 Persist,Count; public IntPtr Attributes; public string Alias,User;
+ }
+ [DllImport("advapi32.dll",EntryPoint="CredReadW",CharSet=CharSet.Unicode,SetLastError=true)] static extern bool Read(string target,UInt32 type,UInt32 flags,out IntPtr ptr);
+ [DllImport("advapi32.dll",EntryPoint="CredWriteW",CharSet=CharSet.Unicode,SetLastError=true)] static extern bool Write(ref CRED value,UInt32 flags);
+ [DllImport("advapi32.dll")] static extern void CredFree(IntPtr ptr);
+ public static void Put(byte[] bytes) {
+  IntPtr ptr; if(!Read("gemini:antigravity",1,0,out ptr)) throw new Exception("AGY native entry missing");
+  IntPtr blob=IntPtr.Zero;
+  try { var c=(CRED)Marshal.PtrToStructure(ptr,typeof(CRED)); blob=Marshal.AllocHGlobal(bytes.Length);
+   Marshal.Copy(bytes,0,blob,bytes.Length); c.Blob=blob; c.Size=(UInt32)bytes.Length;
+   if(!Write(ref c,0)) throw new Exception("AGY native credential write failed");
+  } finally { if(blob!=IntPtr.Zero) { for(int i=0;i<bytes.Length;i++) Marshal.WriteByte(blob,i,0); Marshal.FreeHGlobal(blob); } CredFree(ptr); }
+ }
+}
+'@
+    }
+    [AgyLocalCredentialWriter]::Put($Bytes)
+}
+
+function Update-AgyNativeAccessToken {
+    # Account discovery only; this command does not invoke a generative model.
+    . (Join-Path $PSScriptRoot 'Invoke-BoundedAgyProcess.ps1')
+    $exe=Join-Path $env:LOCALAPPDATA 'agy/bin/agy.exe'
+    $result=Invoke-BoundedAgyProcess -FilePath $exe -ArgumentList @('models') -TimeoutSeconds 30 -WorkingDirectory $env:USERPROFILE
+    if($result.TimedOut -or $result.ExitCode -ne 0){throw 'AGY_CREDENTIAL_REFRESH_FAILED: non-generative account discovery failed.'}
+}
+
+function Repair-AgyRefreshedNativeCredential {
+    param([Parameter(Mandatory)][byte[]]$ExpectedBytes,[Parameter(Mandatory)][string]$TokenPath)
+    $cliBytes=$null;$nativeBytes=$null;$candidate=$null;$readback=$null
+    try {
+        if (Get-Process -Name agy -ErrorAction SilentlyContinue) { throw 'AGY_CREDENTIAL_REPAIR_BUSY' }
+        $expected=ConvertTo-AgyCredentialToken $ExpectedBytes -SourceName saved-profile
+        $cliBytes=[IO.File]::ReadAllBytes($TokenPath)
+        $cli=ConvertTo-AgyCredentialToken $cliBytes -SourceName cli-file
+        $nativeBytes=Read-AgyCredentialManagerBytes
+        $native=ConvertTo-AgyCredentialToken $nativeBytes -SourceName native-store -AllowMissingIdentity
+        if ($cli.Identity -ne $expected.Identity -or ($native.Identity -and $native.Identity -ne $expected.Identity)) { throw 'AGY_CREDENTIAL_REPAIR_IDENTITY_CONFLICT' }
+        $expiry=[datetimeoffset]::MinValue
+        if ([datetimeoffset]::TryParse([string]$native.Token.expiry,[ref]$expiry) -and $expiry -le [datetimeoffset]::UtcNow) {
+            Update-AgyNativeAccessToken
+            [Array]::Clear($nativeBytes,0,$nativeBytes.Length)
+            $nativeBytes=Read-AgyCredentialManagerBytes
+            $native=ConvertTo-AgyCredentialToken $nativeBytes -SourceName native-store -AllowMissingIdentity
+        }
+        if ($native.Identity -and $native.Identity -ne $expected.Identity) { throw 'AGY_CREDENTIAL_REPAIR_IDENTITY_CONFLICT' }
+        if (-not $native.Token.access_token) { throw 'AGY_CREDENTIAL_REPAIR_ACCESS_MISSING' }
+        if ((Get-AgyProviderIdentity -AccessToken $native.Token.access_token) -ne $expected.Identity) { throw 'AGY_CREDENTIAL_REPAIR_PROVIDER_MISMATCH' }
+        # Provider proved this live grant. Restore missing metadata only after that proof.
+        if (-not $native.Identity) { $native.Token | Add-Member -NotePropertyName id_token -NotePropertyValue $expected.Token.id_token -Force }
+        $candidate=[Text.Encoding]::UTF8.GetBytes((@{token=$native.Token;auth_method=$native.AuthMethod}|ConvertTo-Json -Depth 12 -Compress))
+        if ([Convert]::ToBase64String([IO.File]::ReadAllBytes($TokenPath)) -cne [Convert]::ToBase64String($cliBytes) -or
+            [Convert]::ToBase64String((Read-AgyCredentialManagerBytes)) -cne [Convert]::ToBase64String($nativeBytes)) { throw 'AGY_CREDENTIAL_REPAIR_CONCURRENT_CHANGE' }
+        if ([Convert]::ToBase64String($nativeBytes) -cne [Convert]::ToBase64String($candidate)) { Write-AgyCredentialManagerBytes -Bytes $candidate }
+        $readback=Read-AgyCredentialManagerBytes
+        if ([Convert]::ToBase64String($readback) -cne [Convert]::ToBase64String($candidate)) { throw 'AGY_CREDENTIAL_REPAIR_READBACK_FAILED' }
+        $cliNormalized=[Text.Encoding]::UTF8.GetBytes((@{token=$cli.Token;auth_method=$cli.AuthMethod}|ConvertTo-Json -Depth 12 -Compress))
+        try {
+            if ([Convert]::ToBase64String($cliNormalized) -cne [Convert]::ToBase64String($candidate)) { Sync-AgyCliCredentialFile -Bytes $candidate -TokenPath $TokenPath }
+        } finally { [Array]::Clear($cliNormalized,0,$cliNormalized.Length) }
+        Assert-AgyCredentialStores -ExpectedBytes $ExpectedBytes -TokenPath $TokenPath
+    } finally {
+        foreach($buffer in @($cliBytes,$nativeBytes,$candidate,$readback)) { if($buffer){[Array]::Clear($buffer,0,$buffer.Length)} }
+    }
+}

@@ -40,40 +40,75 @@ try {
     Sync-AgyCliCredentialFile -Bytes $source -TokenPath $path
     $script:fakeManagerBytes=$alternate
     $failed=$false;try{Assert-AgyCredentialStores -ExpectedBytes $source -TokenPath $path}catch{$failed=$true};if(-not $failed){throw 'Wrong Credential Manager identity accepted'}
-    # Execute the installed PRE/POST guard with synthetic stores and a mocked profile switch.
+    # Real lifecycle code, synthetic stores/provider/refresh only; no real credential writes.
     & {
+        function Read-AgyCredentialManagerBytes {return ,([byte[]]$script:fixtureNative.Clone())}
+        function Write-AgyCredentialManagerBytes {param([byte[]]$Bytes) $script:writes++;if(-not $script:badWrite){$script:fixtureNative=[byte[]]$Bytes.Clone()}}
+        function Get-AgyProviderIdentity {param($AccessToken) if($script:providerFails){throw 'AGY_PROVIDER_IDENTITY_UNPROVEN'};return $script:providerIdentity}
+        function Update-AgyNativeAccessToken {$script:refreshes++;$script:fixtureNative=[Text.Encoding]::UTF8.GetBytes((@{token=@{access_token='FAKE-NEW';refresh_token='FAKE-ROTATED';expiry='2099-01-01T00:00:00Z'}}|ConvertTo-Json -Depth 5))}
+        $script:providerIdentity=(ConvertTo-AgyCredentialToken $source).Identity
+        $script:providerFails=$false;$script:badWrite=$false;$script:writes=0;$script:refreshes=0
+        $script:fixtureNative=[byte[]]$expired.Clone()
+        Repair-AgyRefreshedNativeCredential -ExpectedBytes $source -TokenPath $path
+        Assert-AgyCredentialStores -ExpectedBytes $source -TokenPath $path
+        $current=ConvertTo-AgyCredentialToken ([IO.File]::ReadAllBytes($path))
+        if($script:refreshes -ne 1 -or $script:writes -ne 1 -or $current.Token.refresh_token -ne 'FAKE-ROTATED'){throw 'Refreshed grant was lost or refresh was repeated'}
+        foreach($scenario in @('provider-failure','provider-mismatch','native-conflict','cli-conflict','concurrent-change','readback-failure')) {
+            Sync-AgyCliCredentialFile -Bytes $source -TokenPath $path
+            $script:fixtureNative=[byte[]]$live.Clone();$script:writes=0
+            $script:providerFails=$scenario -eq 'provider-failure';$script:badWrite=$scenario -eq 'readback-failure'
+            $script:providerIdentity=if($scenario -eq 'provider-mismatch'){(ConvertTo-AgyCredentialToken $alternate).Identity}else{(ConvertTo-AgyCredentialToken $source).Identity}
+            if($scenario -eq 'native-conflict'){$script:fixtureNative=[byte[]]$alternate.Clone()}
+            if($scenario -eq 'cli-conflict'){Sync-AgyCliCredentialFile -Bytes $alternate -TokenPath $path}
+            if($scenario -eq 'concurrent-change'){
+                function Get-AgyProviderIdentity {param($AccessToken) Sync-AgyCliCredentialFile -Bytes $alternate -TokenPath $path;return $script:providerIdentity}
+            }
+            $failed=$false
+            try{Repair-AgyRefreshedNativeCredential -ExpectedBytes $source -TokenPath $path}catch{$failed=$true;if($_.Exception.Message -match 'FAKE-'){throw 'Credential leaked in diagnostic'}}
+            if(-not $failed -or ($scenario -ne 'readback-failure' -and $script:writes -ne 0)){throw "Unsafe repair: $scenario"}
+            function Get-AgyProviderIdentity {param($AccessToken) if($script:providerFails){throw 'AGY_PROVIDER_IDENTITY_UNPROVEN'};return $script:providerIdentity}
+        }
+        $script:providerFails=$false;$script:badWrite=$false;$script:providerIdentity=(ConvertTo-AgyCredentialToken $source).Identity
         $originalUserProfile=$env:USERPROFILE
         try {
             $env:USERPROFILE=$folder
             $fixturePath=Join-Path $folder '.gemini/antigravity-cli/antigravity-oauth-token'
             Sync-AgyCliCredentialFile -Bytes $source -TokenPath $fixturePath
             $tokens=$null;$errors=$null
-            $ast=[Management.Automation.Language.Parser]::ParseFile((Join-Path $originalUserProfile 'OpenClawPAD/Antigravity-Autonomous-Loop.ps1'),[ref]$tokens,[ref]$errors)
+            $ast=[Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot '../../scripts/controller/Antigravity-Autonomous-Loop.ps1'),[ref]$tokens,[ref]$errors)
             if($errors.Count){throw 'Controller parse regression'}
             $node=$ast.Find({param($n)$n -is [Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -eq 'Set-AndVerifyAgyRunProfile'},$true)
             . ([scriptblock]::Create($node.Extent.Text))
-            $script:testRepairDone=$false;$script:testSwitchCalls=0
             function Get-AgySavedCredentialBytes {param($Profile) return ,([byte[]]$source.Clone())}
-            function Read-AgyCredentialManagerBytes {if($script:testRepairDone){return ,([byte[]]$source.Clone())}else{return ,([byte[]]$expired.Clone())}}
             function Get-AgyProfileState {return [pscustomobject]@{ActiveProfile='account3';ActiveFile='account3';LastSwitch='account3';Raw='fixture'}}
-            function agy-profile {param($Command,$Name,[switch]$Force) $script:testRepairDone=$true;$script:testSwitchCalls++}
-            $script:RunLockedAgyProfile='account3';$EnableSmartAgyProfileSelection=$true
-            $global:LASTEXITCODE=3 # A successful PS script must not inherit this stale native failure.
+            function agy-profile {throw 'Profile rollback must never occur'}
+            $script:RunLockedAgyProfile='account3';$EnableSmartAgyProfileSelection=$true;$ControlledSingleTurn=$true
+            $script:fixtureNative=[byte[]]$live.Clone();$script:writes=0
             Set-AndVerifyAgyRunProfile -Context PRE_AGY
+            # Simulate AGY dropping ID metadata after a refresh.
+            $script:fixtureNative=[byte[]]$live.Clone()
             Set-AndVerifyAgyRunProfile -Context POST_AGY
-            if($script:testSwitchCalls -ne 1){throw 'Expired native repair was repeated or skipped'}
-            $script:testRepairDone=$false;$script:testSwitchCalls=0;$ControlledSingleTurn=$true
-            $before=(Get-FileHash -LiteralPath $fixturePath).Hash
-            $failed=$false
-            try{Set-AndVerifyAgyRunProfile -Context POST_AGY}catch{
-                $failed=$_.Exception.Message -match 'source=native-store stage=ID_TOKEN_MISSING'
-                if($_.Exception.Message -match 'FAKE-UNRELATED'){throw 'Controlled diagnostic exposed credential values'}
-            }
-            if(-not $failed -or $script:testSwitchCalls -ne 0 -or (Get-FileHash -LiteralPath $fixturePath).Hash -ne $before){throw 'Controlled mode reset or bypassed native identity verification'}
-            Write-Output 'PASS: controlled POST mismatch preserves exact diagnostic, performs zero profile switches and leaves synthetic credentials unchanged'
-
+            Set-AndVerifyAgyRunProfile -Context POST_AGY
+            if($script:writes -ne 2){throw 'PRE/POST recovery not idempotent'}
+            Write-Output 'PASS: controlled PRE/POST provider-verified refresh recovery; repeated POST is read-only; zero profile switches'
         } finally {$env:USERPROFILE=$originalUserProfile}
+        Write-Output 'PASS: missing metadata and rotated refresh preserved; provider failure/mismatch, native/CLI conflict, concurrent change and failed readback rejected'
     }
+    & {
+        function Invoke-RestMethod {
+            param($Uri,$Headers,$TimeoutSec,$ErrorAction)
+            if($Uri -ne 'https://openidconnect.googleapis.com/v1/userinfo' -or $TimeoutSec -ne 15 -or $Headers.Authorization -ne 'Bearer FAKE-ACCESS'){throw 'Unexpected provider request'}
+            if($script:lookupFailure){throw 'FAKE-SENSITIVE-RESPONSE'}
+            return [pscustomobject]@{sub='fixture-account-a'}
+        }
+        $script:lookupFailure=$false
+        if((Get-AgyProviderIdentity 'FAKE-ACCESS') -ne (ConvertTo-AgyCredentialToken $source).Identity){throw 'Provider subject normalization mismatch'}
+        $script:lookupFailure=$true;$failed=$false
+        try{$null=Get-AgyProviderIdentity 'FAKE-ACCESS'}catch{$failed=$_.Exception.Message -like 'AGY_PROVIDER_IDENTITY_UNPROVEN:*';if($_.Exception.Message -match 'FAKE-'){throw 'Provider response leaked'}}
+        if(-not $failed){throw 'Provider transport failure not closed'}
+        Write-Output 'PASS: fixed HTTPS provider request, bounded lookup, subject normalization and credential-safe transport failure'
+    }
+
 } finally {
     $resolved=[IO.Path]::GetFullPath($folder);$base=[IO.Path]::GetFullPath($env:TEMP).TrimEnd('\')+'\'
     if(-not $resolved.StartsWith($base,[StringComparison]::OrdinalIgnoreCase) -or (Split-Path $resolved -Leaf) -notlike 'agy-credentials-test-*'){throw 'Unsafe fixture cleanup path'}
