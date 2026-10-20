@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "task_id": "F1597",
+  "operation": "authentic_uel_history_call_trace",
+  "verification_passed": true,
+  "measurements": {
+    "trace_records": 228,
+    "uel_calls": 92,
+    "phase_calls": 46,
+    "mechanical_calls": 46,
+    "accepted_element_callbacks": 8,
+    "history_write_calls": 16,
+    "history_increase_inf_kN_mm2": 9.201824690772654,
+    "phase_elements": 650,
+    "phase_nodes": 713
+  },
+  "first_history_update": {
+    "sequence": 10,
+    "element": 336,
+    "step": 1,
+    "increment": 1,
+    "jtype": 2
+  },
+  "pbs_job_id": "1415526.mmaster02",
+  "sources": {
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/f42_experimental_offset_uel.for": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/f42_history_trace_uel.for": "475ae437acc6688aa8dd56d1328fe5e874de10cecb644fd8eb6b6960ef9cbef5",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/offset_state_table.csv": "87c7954efef0134094bbfb03d7ada03d66f9a84281d0bb50f524ae88dfc65add",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/M1_F1597_HISTORY_TRACE_R2.inp": "58b1e69f40c5a65c7b9f1049e42ad745152ab8b5cf6b0f15547ed3276cd54964",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/submit_M1_F1597_HISTORY_TRACE_R2.pbs": "e85e6748595bb947b00e2b811ea17ebceb55adea837ab9c533fcc31a40877fb9",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/PARITY_PLAN.json": "4628330af955864e42a8c211ef303ed62c568dcc85d504231e40fd525a103577",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/trace_notification_receipts.sh": "651852d8ba671faf6bab12dd4f4deaeb43860dc70ebdfabd43883ce9cb340fbe",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/PACKAGE_MANIFEST.json": "b9190b31438d754815ffd16dc56a0c34f9a1ee69a0d21636dd3cab210fc5546d",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/TRACE_BATCH.json": "a515503cd9619823ae0b569b5b639945245f76150de70bc9d2669263f8b5b66b",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/NOTIFICATION_PREFLIGHT.json": "562fc54e8ae712ee16e878e6244a4356cd6769edef4d35e1325ed53794895bbe",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/datacheck.dat": "7fc7f7b2a49539392e0d0fff9e8fd24edbfaa542723531b305fc6e2a4d2fb10d",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/DATACHECK_BINDING.json": "f6bf6eac7d1f7cdc93b91ae5dc450186880d27763706f8e507575763adc4da8b",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/f1597_uel_call_trace.csv": "8673dc4f1d96d0e75ce702ffc751f44add4562a8b8ba34dfe35617e4b2633de1",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/notification_delivery.tsv": "abe8a961a1267b8ab2f52050ca9d95e244f61d8f77b274856a7cbb3bf057ccca",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/NOTIFICATION_VERIFICATION.json": "fb19403725daf12aef91a2031ad59cc0f93a455d86cbfe1363873425b5b22c02",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/parity.json": "ee91990e72fc8206ff66ebfb32ac193825a2b774667065235126a6e2e8ab3149",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/pbs_execution.log": "781fce2d645ed35e7fb9a271aa0be658b8c966990b6efb15ff0f9aba3ae573b9",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/provenance.json": "e67ea5b7e2a618032d0ea8958441b8759f7b9d600c1dbaf31126fd2a6eca1995",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/solver.dat": "bf6629b81d1c800af470dafa30025948fd1f0f2488d5001ca3c87c9c32c3d2fd",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/solver.log": "781fce2d645ed35e7fb9a271aa0be658b8c966990b6efb15ff0f9aba3ae573b9",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/solver.sta": "bf259222470c744ff0d4c4992f66f0cf2f2f9555be88e5209e6175b8557f0efc",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/TERMINAL_STATUS.json": "0e4fdf3c2a552660b4b34db973223726902c6cf61eeb4b6209cede7e20737bd1",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/uel_energy_balance.csv": "74e18e2cd32f4c49347de9b26bfa6a8a87a4d9aeffad68361341706d9ead0523",
+    "results/validation/mode1_f1597/0f0f0884-9d34-4087-a8e0-50397c74550f.json": "dd7d52ddb01c8ccc055d66e1d4135ad2e7d4e6975fe4609ac1c0f830758ae482",
+    "scripts/validation/probe_mode1_f1597_uel_call_trace.py": "4e8fd611f52ff177e03d9a66b7eda73d81660b5f53b1806330563735e11da3c4",
+    "scripts/validation/qualify_mode1_f1597_trace.py": "0693aad3e992a2e2d6d11f7015ca57e9d2353c48d496701cc6ca867e32dbf60a",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/evidence_1415199/uel_energy_balance.csv": "74e18e2cd32f4c49347de9b26bfa6a8a87a4d9aeffad68361341706d9ead0523",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/evidence_1415199/M1_EXP_COUPLED_TRANSFER_650.dat": "2c58720f17d10885d3951d47b315d4eff8863343b9313422925a0a4d4fb9b39b",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/f42_experimental_offset_uel.for": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp": "58b1e69f40c5a65c7b9f1049e42ad745152ab8b5cf6b0f15547ed3276cd54964",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv": "87c7954efef0134094bbfb03d7ada03d66f9a84281d0bb50f524ae88dfc65add",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/QUALIFICATION.json": "7ca1bed825e9ced2b637d8585016cee8b8f12670441f62976d576630e2d2ea7c"
+  },
+  "instrumentation_parity": {
+    "status": "PASS",
+    "force_relative_error": 0.0,
+    "energy_relative_error": 0.0,
+    "force_samples": 4,
+    "accepted_increments": 4,
+    "baseline_sources": {
+      "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/evidence_1415199/uel_energy_balance.csv": "74e18e2cd32f4c49347de9b26bfa6a8a87a4d9aeffad68361341706d9ead0523",
+      "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/evidence_1415199/M1_EXP_COUPLED_TRANSFER_650.dat": "2c58720f17d10885d3951d47b315d4eff8863343b9313422925a0a4d4fb9b39b"
+    },
+    "sources": {
+      "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/solver.dat": "bf6629b81d1c800af470dafa30025948fd1f0f2488d5001ca3c87c9c32c3d2fd",
+      "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/uel_energy_balance.csv": "74e18e2cd32f4c49347de9b26bfa6a8a87a4d9aeffad68361341706d9ead0523",
+      "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/PARITY_PLAN.json": "4628330af955864e42a8c211ef303ed62c568dcc85d504231e40fd525a103577"
+    }
+  },
+  "finding": "Authentic solver lifecycle trace validated; history writes distinguished from accepted LOP2 commits.",
+  "limitation": "Selected elements only; invocation sequence is not a Newton iteration counter. Transfer remains failed and unqualified.",
+  "next_operation": "Review authenticated solver call ordering and parity before choosing a numerical correction."
+}

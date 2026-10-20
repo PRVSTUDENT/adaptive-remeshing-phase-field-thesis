@@ -1,8 +1,8 @@
 {
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "status":  "F1597_MECHANICAL_HISTORY_DIAGNOSTIC_VERIFIED_CORRECTION_PENDING",
+    "status":  "F1597_AUTHENTIC_TRACE_VERIFIED_CORRECTION_PENDING",
     "agent":  "gemini-antigravity",
-    "phase":  "F1597: mechanical/history call-order diagnostic measured; transfer correction remains unqualified.",
+    "phase":  "F1597: Authentic Abaqus UEL history call trace measured; transfer correction remains unqualified.",
     "gate_status":  "PACKAGE72_FAILED__F1597_CORRECTIVE_DIAGNOSTIC_READY__TRANSFER_CORRECTION_PENDING",
     "active_pbs_job_ids":  [
 
@@ -91,7 +91,9 @@
                                   "1415099.mmaster02",
                                   "1415119.mmaster02",
                                   "1415177.mmaster02",
-                                  "1415199.mmaster02"
+                                  "1415199.mmaster02",
+                                  "1415522.mmaster02",
+                                  "1415526.mmaster02"
                               ],
     "predecessor_task":  {
                              "task_id":  "F1596-INDEPENDENTLY-QUALIFY-PACKAGE72-STATE-TRANSFER",
@@ -102,32 +104,34 @@
                          },
     "scientific_checkpoint_required":  true,
     "scientific_operation":  "",
-    "last_updated":  "2026-10-20T12:48:31.4073805+02:00",
-    "next_safe_action":  "Review the measured mechanical/history discrepancy and obtain an authentic UEL call trace before choosing a coupled transfer correction.",
+    "operation_preparation":  {
+                                  "status":  "READY",
+                                  "dispatch_ready":  true,
+                                  "operation_id":  "authentic_uel_history_call_trace",
+                                  "path":  "scripts/validation/probe_mode1_f1597_uel_call_trace.py",
+                                  "qualification_artifact":  "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/QUALIFICATION.json",
+                                  "pbs_job_id":  "1415526.mmaster02"
+                              },
+    "trace_qualification_experiment":  {
+                                           "status":  "R2_EXIT0_TRACE_CAPTURED_PARITY_PASS",
+                                           "pbs_job_id":  "1415526.mmaster02",
+                                           "prior_revision_job":  "1415522.mmaster02",
+                                           "prior_revision_result":  "EXIT0_TRACE_MISSING_AT_PROMISED_OUTPUT_PATH",
+                                           "automatic_retry":  false
+                                       },
+    "last_updated":  "2026-10-20T19:54:34.6304720+02:00",
+    "next_safe_action":  "Review authenticated solver call ordering and parity before choosing a numerical correction.",
     "scientific_checkpoint":  {
                                   "kind":  "NUMERICAL_FINDING",
-                                  "operation":  "mapped_mechanical_history_call_order_probe",
+                                  "operation":  "authentic_uel_history_call_trace",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/mode1_f1597/0f0f0884-9d34-4087-a8e0-50397c74550f.json",
-                                  "sha256":  "DD7D52DDB01C8CCC055D66E1D4135AD2E7D4E6975FE4609AC1C0F830758AE482",
-                                  "created_at":  "2026-10-20T12:47:08.4087034+02:00"
+                                  "artifact":  "results/validation/mode1_f1597/0363bb11-7267-4ec2-ad3f-1f096eed4745.json",
+                                  "sha256":  "7CA24C5BA2FD221045D74D40F35A4105CAFD34BED12C618FC3FF6DB16AF5A823",
+                                  "created_at":  "2026-10-20T19:54:27.3100502+02:00"
                               },
     "completed_operations":  [
                                  "mapped_frozen_history_lower_bound_kkt_probe",
-                                 "mapped_mechanical_history_call_order_probe"
-                             ],
-    "operation_preparation": {
-    "status": "TECHNICAL_QUALIFICATION_REQUIRED",
-    "dispatch_ready": false,
-    "operation_id": "authentic_uel_history_call_trace",
-    "path": "scripts/validation/probe_mode1_f1597_uel_call_trace.py",
-    "blocked_on": [
-        "Compile and Abaqus 2023 datacheck of the distinct instrumented source",
-        "Qualified manifest adapter for instrumentation: existing experimental adapter pins the uninstrumented EF92ED58 hash",
-        "Real notification, scheduler and once-only technical preflight before any diagnostic submission",
-        "Actual solver trace, terminal receipts and numerical force/energy parity review"
-    ],
-    "recipe": "f1597-trace-instrumentation-v1",
-    "receipt": "models/pandey_kumar_mode1/73_method_c_history_call_trace/PREPARATION.json"
-}
+                                 "mapped_mechanical_history_call_order_probe",
+                                 "authentic_uel_history_call_trace"
+                             ]
 }
