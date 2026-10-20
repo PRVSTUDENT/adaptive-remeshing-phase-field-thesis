@@ -45,15 +45,19 @@ try{
     $r=Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args -WorkingDirectory $fixture -TimeoutSeconds 30
     Assert ($r.ExitCode -eq 0 -and $r.Output -match 'BOOTSTRAP_ALREADY_COMPLETE' -and (Get-FileHash -LiteralPath "$fixture/project_coordination/ACTIVE_SESSION.json").Hash -eq $before) 'unchanged bootstrap is idempotent and does not reclaim session'
     $r=Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args -WorkingDirectory $fixture -TimeoutSeconds 30
-    Assert ($r.ExitCode -ne 0 -and $r.Output -match 'BOOTSTRAP_LOOP') 'repeated unchanged bootstrap produces explicit diagnostic'
+    Assert ($r.ExitCode -eq 0 -and $r.Output -match 'BOOTSTRAP_ALREADY_COMPLETE' -and (Get-FileHash -LiteralPath "$fixture/project_coordination/ACTIVE_SESSION.json").Hash -eq $before) 'repeated unchanged bootstrap remains idempotent and preserves session claim'
     Update-ControllerEvidence $fixture $checkpoint $state
     Assert (-not(Test-ControllerDurableProgress $state)) 'generic bootstrap status report does not count as scientific progress'
-    $failed=$false;try{Test-ControllerBootstrapCommand $state 'powershell.exe -NoProfile -Command "Get-Content project_coordination/ACTIVE_SESSION.json"'}catch{$failed=$_.Exception.Message -match 'BOOTSTRAP_COMMAND_REJECTED'}
-    Assert $failed 'observed nested-command failure rejected rather than repaired by rereading'
-    $state.stop_reason='';$state.bootstrap_repeat_reads=0
-    Test-ControllerBootstrapCommand $state 'Get-Content project_coordination/ACTIVE_SESSION.json'
-    $failed=$false;try{Test-ControllerBootstrapCommand $state 'Get-Content project_coordination/ACTIVE_SESSION.json'}catch{$failed=$_.Exception.Message -match 'BOOTSTRAP_LOOP'}
-    Assert $failed 'raw repeated prerequisite reads diagnosed after receipt completion'
+    # Stream output is telemetry. Normal PowerShell commands must not kill an active AGY turn.
+    $state.live_buffer='';$state.stop_reason=''
+    $commands=@('powershell.exe -NoProfile -NonInteractive -Command "git status --short; git log -3 --oneline"', 'powershell.exe -NoProfile -Command "Get-Content project_coordination/ACTIVE_SESSION.json"')
+    foreach($command in $commands){
+        $streamEvent=@{event='step_update';step_update=@{step_index=4;step_type='tool';state='ACTIVE';tool_info=@{parameters=@{CommandLine=$command}}}}|ConvertTo-Json -Depth 8 -Compress
+        Write-ControllerStreamEvent $state ($streamEvent+"`n")
+    }
+    Assert (-not $state.stop_reason -and $state.bootstrap_repeat_reads -eq 0) 'AGY telemetry cannot reject ordinary git status or file inspection commands'
+    $controllerSource=[IO.File]::ReadAllText((Join-Path $repo 'scripts/controller/Antigravity-Autonomous-Loop.ps1'))
+    Assert ($controllerSource.Contains('scientific inactivity cutoff disabled') -and $controllerSource.Contains('-NoProgressSeconds $watchdogSeconds') -and $controllerSource.Contains('$hardTimeout = $controllerBudget.work')) 'scientific inactivity cutoff removed, finite hard deadline preserved'
     $failed=$false;try{$null=Resolve-ControllerInstruction $fixture '# F1596: run audit again'}catch{$failed=$_.Exception.Message -match 'COMPLETED_TASK_REJECTED'}
     Assert $failed 'closed predecessor rejected even when authoritative active task is F1597'
     Assert (-not(Test-ControllerScientificCheckpoint $fixture $state)) 'no measurement artifact means no verified checkpoint'
