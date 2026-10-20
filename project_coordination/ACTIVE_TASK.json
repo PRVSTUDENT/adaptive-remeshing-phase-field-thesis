@@ -115,5 +115,19 @@
     "completed_operations":  [
                                  "mapped_frozen_history_lower_bound_kkt_probe",
                                  "mapped_mechanical_history_call_order_probe"
-                             ]
+                             ],
+    "operation_preparation": {
+    "status": "TECHNICAL_QUALIFICATION_REQUIRED",
+    "dispatch_ready": false,
+    "operation_id": "authentic_uel_history_call_trace",
+    "path": "scripts/validation/probe_mode1_f1597_uel_call_trace.py",
+    "blocked_on": [
+        "Compile and Abaqus 2023 datacheck of the distinct instrumented source",
+        "Qualified manifest adapter for instrumentation: existing experimental adapter pins the uninstrumented EF92ED58 hash",
+        "Real notification, scheduler and once-only technical preflight before any diagnostic submission",
+        "Actual solver trace, terminal receipts and numerical force/energy parity review"
+    ],
+    "recipe": "f1597-trace-instrumentation-v1",
+    "receipt": "models/pandey_kumar_mode1/73_method_c_history_call_trace/PREPARATION.json"
+}
 }

@@ -88,3 +88,11 @@
 - Historical runtime checkpoint reconciled against 0720bbd1 and credential repair 7186c5c8; original bytes and failure reason retained. This supersedes the earlier maintenance BLOCKED status without changing the historical failure.
 - Ready for one controlled validation after commit/push and inactive-session dry run. Five-minute progress guard, strict credentials and 2400-second total budget preserved.
 - Report: project_coordination/sessions/2026-10-20_codex_f1597_dispatch.md.
+
+## Next-operation preparation gate, 20 October 2026
+
+- Mechanical/history operation completed in fb3a5342; both previous probes remain completed. No authentic-data diagnostic replay during maintenance.
+- Bounded deterministic preparation runs before a next model dispatch. Unknown proposals and unqualified candidates stop without spending a model turn. Cached preparation is read-only.
+- Authentic UEL call-trace candidate prepared under package 73; marked NOT EXECUTABLE. Local compiler-only and fixture checks passed; Abaqus 2023 datacheck, qualified instrumentation adapter path, real notification/resource preflight and solver provenance/parity remain unqualified.
+- Dry-run preview reports TECHNICAL_QUALIFICATION_REQUIRED and dispatch_ready=false. No new scientific turn or job launched; do not restart a research loop yet.
+- Report: project_coordination/sessions/2026-10-20_codex_operation_preparation.md.

@@ -126,11 +126,20 @@ param(
 if($ControlledSingleTurn -and $MaxTurns -ne 1){throw 'ControlledSingleTurn requires MaxTurns=1; no research loop allowed'}
 # Offline validation exits before credential/profile/bridge or AGY side effects.
 . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Recovery.ps1')
+. (Join-Path $WorkspaceDir 'scripts/controller/Controller-Preparation.ps1')
 $canonicalController = Join-Path $WorkspaceDir 'scripts/controller/Antigravity-Autonomous-Loop.ps1'
 if ((Get-FileHash -LiteralPath $PSCommandPath).Hash -ne (Get-FileHash -LiteralPath $canonicalController).Hash) { throw 'Installed controller differs from canonical tested source; redeploy.' }
 $controllerCheckpointPath = Join-Path $env:USERPROFILE 'OpenClawPAD/controller_turn_checkpoint.json'
 if ($ControllerDryRun) {
     $prompt = if ($InitialPromptFile) { Get-Content -LiteralPath $InitialPromptFile -Raw -Encoding UTF8 } else { $InitialPrompt }
+    $preparation=Get-ControllerPreparationPlan $WorkspaceDir $prompt
+    if(-not $preparation.dispatch_ready){
+        $checkpoint=Read-ControllerCheckpoint $controllerCheckpointPath
+        Assert-ControllerDispatchCheckpoint $WorkspaceDir $checkpoint
+        $budget=Get-ControllerBudget $PrintTimeout $ScientificTurnSeconds
+        [pscustomobject]@{mode='DRY_RUN_NO_EXECUTION';task=(Get-ControllerEvidence $WorkspaceDir).task.task_id;proposed_operation=$preparation.operation_id;scientific_operation=$preparation.path;dispatch_ready=$false;preparation_status=$preparation.status;blocked_on=$preparation.blocked_on;checkpoint_state=$checkpoint.state;active_session=(Get-ControllerEvidence $WorkspaceDir).session.active;budget=$budget;no_progress_seconds=$NoProgressSeconds;source_sha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash}|ConvertTo-Json -Depth 8
+        return
+    }
     $resolved = Resolve-ControllerInstruction $WorkspaceDir $prompt
     $checkpoint = Read-ControllerCheckpoint $controllerCheckpointPath
     Assert-ControllerDispatchCheckpoint $WorkspaceDir $checkpoint
@@ -140,6 +149,13 @@ if ($ControllerDryRun) {
     return
 }
 
+Assert-ControllerDispatchCheckpoint $WorkspaceDir (Read-ControllerCheckpoint $controllerCheckpointPath)
+$preparationPrompt=if($InitialPromptFile){Get-Content -LiteralPath $InitialPromptFile -Raw -Encoding UTF8}else{$InitialPrompt}
+$preparation=Invoke-ControllerOperationPreparation $WorkspaceDir $preparationPrompt
+if(-not $preparation.dispatch_ready){
+    Write-Output ('NEXT_OPERATION_PREPARATION: '+($preparation|ConvertTo-Json -Depth 8 -Compress))
+    return # No profile selection, model call, timeout retry or completed-operation replay.
+}
 $preflightCheckpoint = Read-ControllerCheckpoint $controllerCheckpointPath
 Assert-ControllerDispatchCheckpoint $WorkspaceDir $preflightCheckpoint
 $preflightEvidence = Get-ControllerEvidence $WorkspaceDir
@@ -4919,6 +4935,15 @@ Finished
         }
     }
     # ------------------------------------------------------------------------
+    # Qualify a proposed successor before any account rotation or next model turn.
+    $preparation=Invoke-ControllerOperationPreparation $WorkspaceDir $NextInstruction
+    if(-not $preparation.dispatch_ready){
+        $script:ControllerState|Add-Member -NotePropertyName operation_preparation -NotePropertyValue $preparation -Force
+        $script:ControllerState|Add-Member -NotePropertyName next_instruction -NotePropertyValue $NextInstruction -Force
+        Write-ControllerCheckpoint $controllerCheckpointPath $script:ControllerState
+        Write-LoopLog -Turn $CurrentTurn -Tier 'CONTROLLER' -Action 'NEXT_OPERATION_PREPARATION' -Message ($preparation|ConvertTo-Json -Depth 8 -Compress)
+        break MainLoop
+    }
     # AGY_QUOTA_GUARD_V1: if low quota was detected, the completed AGY turn has
     # now been routed and NextInstruction is known. Persist the handoff and stop
     # BEFORE dispatching another AGY turn.
