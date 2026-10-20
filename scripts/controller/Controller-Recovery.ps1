@@ -49,6 +49,35 @@ function Get-ControllerEvidence([string]$Workspace) {
         foreach($source in $q.sources.PSObject.Properties){$sources[$source.Name]=$source.Value}
         $sources[$q.qualification_artifact]=(Get-FileHash -LiteralPath (Join-Path $Workspace $q.qualification_artifact)).Hash
     }
+    if($task.scientific_operation){
+        $probeRel = [string]$task.scientific_operation
+        $p = Join-Path $Workspace $probeRel
+        if(Test-Path -LiteralPath $p -PathType Leaf){
+            $sources[$probeRel] = (Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash
+        }
+        try {
+            $dq = Get-ControllerDynamicQualification -Workspace $Workspace -Path $probeRel
+            if($dq){
+                $sources[$dq.qualification_artifact] = (Get-FileHash -LiteralPath (Join-Path $Workspace $dq.qualification_artifact)).Hash
+                if($dq.scientific_dependencies){
+                    foreach($dep in $dq.scientific_dependencies.PSObject.Properties){
+                        $dp = Join-Path $Workspace $dep.Name
+                        if(Test-Path -LiteralPath $dp -PathType Leaf){
+                            $sources[$dep.Name] = (Get-FileHash -LiteralPath $dp -Algorithm SHA256).Hash
+                        }
+                    }
+                }
+                if($dq.tests){
+                    foreach($t in $dq.tests.PSObject.Properties){
+                        $tp = Join-Path $Workspace $t.Name
+                        if(Test-Path -LiteralPath $tp -PathType Leaf){
+                            $sources[$t.Name] = (Get-FileHash -LiteralPath $tp -Algorithm SHA256).Hash
+                        }
+                    }
+                }
+            }
+        } catch {}
+    }
     if($task.scientific_checkpoint.artifact){
         $relative=[string]$task.scientific_checkpoint.artifact
         if($relative -notmatch '^results/validation/(?:(?:mode1_f1597/)?[a-fA-F0-9-]{36}|preparation-[a-fA-F0-9-]{36}|[a-zA-Z0-9_-]+)\.json$'){throw 'Unsafe scientific basis artifact'}
@@ -306,8 +335,24 @@ function Test-ControllerScientificCheckpoint([string]$Workspace,$State,[switch]$
             $artifactPath = Join-Path $Workspace $checkpoint.artifact
             if(-not(Test-Path -LiteralPath $artifactPath -PathType Leaf) -or (Get-FileHash -LiteralPath $artifactPath).Hash -ne $checkpoint.sha256){return $false}
             $prep = Get-Content -LiteralPath $artifactPath -Raw | ConvertFrom-Json
-            if($prep.schema -ne 1 -or -not $prep.finding -or $prep.status -notin @('PREPARATION_COMPLETE','QUALIFIED_OPERATION_READY','INVESTIGATION_COMPLETE')){return $false}
+            if($prep.schema -ne 1 -or -not $prep.finding -or $prep.finding.Trim().Length -lt 20){return $false}
+            if($prep.status -notin @('PREPARATION_COMPLETE','QUALIFIED_OPERATION_READY','INVESTIGATION_COMPLETE')){return $false}
             if($prep.PSObject.Properties['verification_passed'] -and -not $prep.verification_passed){return $false}
+            if($null -eq $prep.evidence_sources -or @($prep.evidence_sources.PSObject.Properties).Count -lt 1){return $false}
+            $root = [IO.Path]::GetFullPath($Workspace).TrimEnd([char[]]'\/') + [IO.Path]::DirectorySeparatorChar
+            foreach($item in $prep.evidence_sources.PSObject.Properties){
+                if($item.Name -match '(?:\.\.[/\\]|[/\\]\.\.)'){return $false}
+                $ep = [IO.Path]::GetFullPath((Join-Path $Workspace $item.Name))
+                if(-not $ep.StartsWith($root, [StringComparison]::OrdinalIgnoreCase) -or -not (Test-Path -LiteralPath $ep -PathType Leaf)){return $false}
+                if((Get-Item -LiteralPath $ep).Length -gt 16777216){return $false}
+                if((Get-FileHash -LiteralPath $ep -Algorithm SHA256).Hash -cne $item.Value){return $false}
+            }
+            if($prep.qualified_operation){
+                try {
+                    $dq = Get-ControllerDynamicQualification -Workspace $Workspace -Path $prep.qualified_operation
+                    if(-not $dq){return $false}
+                } catch { return $false }
+            }
             return $true
         }
         if($checkpoint.kind -ne 'NUMERICAL_FINDING' -or $checkpoint.exit_code -ne 0){return $false}
@@ -317,15 +362,18 @@ function Test-ControllerScientificCheckpoint([string]$Workspace,$State,[switch]$
         if(-not(Test-Path -LiteralPath $artifact -PathType Leaf) -or (Get-FileHash -LiteralPath $artifact).Hash -ne $checkpoint.sha256){return $false}
         $data=Get-Content -LiteralPath $artifact -Raw|ConvertFrom-Json
         if($checkpoint.operation -cne $data.operation){return $false}
-        $op=Get-ControllerOperation -ArtifactId $data.operation -Historical:$Historical
+        $opPath = if($record.operation_path){ [string]$record.operation_path } elseif($State.scientific_operation){ [string]$State.scientific_operation } else { '' }
+        $op=Get-ControllerOperation -ArtifactId $data.operation -Path $opPath -Historical:$Historical -Workspace $Workspace
         if(-not $Historical -and ($State.scientific_operation -cne $op.path -or $record.operation_id -cne $op.id)){return $false}
-        if($data.task_id -ne 'F1597' -or $data.verification_passed -isnot [bool] -or -not $data.verification_passed -or
-            $data.measurements.phase_elements -le 0 -or $data.measurements.phase_nodes -le 0){return $false}
+        if($data.task_id -ne 'F1597' -or $data.verification_passed -isnot [bool] -or -not $data.verification_passed){return $false}
+        if($null -eq $data.measurements){return $false}
         foreach($m in $data.measurements.PSObject.Properties){if($m.Value -is [string] -or $null -eq $m.Value -or [double]::IsNaN([double]$m.Value) -or [double]::IsInfinity([double]$m.Value)){return $false}}
         $probe=$op.path
-        $required=@($probe,'models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/f42_experimental_offset_uel.for')
+        $required=@($probe)
         if($op.id -eq 'mapped_frozen_history_lower_bound_kkt_probe'){
+            if($data.measurements.phase_elements -le 0 -or $data.measurements.phase_nodes -le 0){return $false}
             if($null -eq $data.measurements.finite_difference_gradient_error_kN -or $data.measurements.finite_difference_gradient_error_kN -gt 1e-10){return $false}
+            $required+=@('models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/f42_experimental_offset_uel.for')
         }elseif($op.id -eq 'authentic_uel_history_call_trace'){
             $q=Get-ControllerTraceQualification $Workspace
             if($data.pbs_job_id -ne $q.pbs_job_id){return $false}
@@ -333,8 +381,9 @@ function Test-ControllerScientificCheckpoint([string]$Workspace,$State,[switch]$
             foreach($name in @('trace_records','uel_calls','phase_calls','mechanical_calls','accepted_element_callbacks','history_write_calls','history_increase_inf_kN_mm2')){if($null -eq $m.PSObject.Properties[$name] -or $m.$name -lt 0){return $false}}
             if($m.trace_records -le 0 -or $m.trace_records -gt 2048 -or $m.phase_calls -le 0 -or $m.mechanical_calls -le 0 -or $m.accepted_element_callbacks -le 0){return $false}
             foreach($source in $q.sources.PSObject.Properties){if($data.sources.($source.Name) -ne $source.Value){return $false}}
-            $required+=@($q.qualification_artifact,$State.scientific_basis_artifact)
-        }else{
+            $required+=@('models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/f42_experimental_offset_uel.for',$q.qualification_artifact,$State.scientific_basis_artifact)
+        }elseif($op.id -eq 'mapped_mechanical_history_call_order_probe'){
+            if($data.measurements.phase_elements -le 0 -or $data.measurements.phase_nodes -le 0){return $false}
             $m=$data.measurements
             $names=@('free_mechanical_dofs','mechanical_free_residual_inf_kN','worst_mechanical_node','worst_mechanical_dof','mapped_displacement_jump_mm','mapped_damage_jump','history_increase_inf_kN_mm2','phase_before_mechanical_inf_kN','phase_after_mechanical_inf_kN','phase_call_order_delta_inf_kN','committed_before_accept_error','retry_restore_error','accepted_commit_error','mechanical_fd_relative_error','prior_kkt_residual_difference_kN')
             foreach($name in $names){if($null -eq $m.PSObject.Properties[$name] -or [double]$m.$name -lt 0){return $false}}
@@ -344,11 +393,30 @@ function Test-ControllerScientificCheckpoint([string]$Workspace,$State,[switch]$
             $classification=if($m.history_increase_inf_kN_mm2 -gt 1e-10){'HISTORY_UPDATE_AT_MAPPED_STATE'}elseif($m.mechanical_free_residual_inf_kN -gt 1e-10){'MECHANICAL_FREE_DOF_RESIDUAL'}elseif($m.mapped_displacement_jump_mm -gt 1e-10){'DISPLACEMENT_MAPPING_JUMP'}else{'NONE_ABOVE_DECLARED_TOLERANCES'}
             if($data.first_verified_discrepancy.classification -cne $classification){return $false}
             if(-not $State.scientific_basis_artifact){return $false}
-            $required+=@('scripts/validation/probe_mode1_f1597_kkt.py',$State.scientific_basis_artifact)
+            $required+=@('models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/f42_experimental_offset_uel.for','scripts/validation/probe_mode1_f1597_kkt.py',$State.scientific_basis_artifact)
+        }elseif($op.qualification){
+            $crit=$op.qualification.verification_criteria
+            if($crit.required_measurements){
+                foreach($req in @($crit.required_measurements)){
+                    if($null -eq $data.measurements.PSObject.Properties[$req] -or [double]::IsNaN([double]$data.measurements.$req) -or [double]::IsInfinity([double]$data.measurements.$req)){return $false}
+                }
+            }
+            if($crit.tolerances){
+                foreach($tol in $crit.tolerances.PSObject.Properties){
+                    if($null -eq $data.tolerances -or $data.tolerances.($tol.Name) -ne $tol.Value){return $false}
+                }
+            }
+            $required+=@($op.qualification.qualification_artifact)
+            if($op.qualification.scientific_dependencies){
+                foreach($dep in $op.qualification.scientific_dependencies.PSObject.Properties){$required+=$dep.Name}
+            }
+        }else{
+            return $false
         }
         foreach($source in $required){if(-not $data.sources.$source -or $data.sources.$source -ne $State.sources.$source){return $false}}
         $root=[IO.Path]::GetFullPath($Workspace).TrimEnd('\','/')+[IO.Path]::DirectorySeparatorChar
         foreach($source in $data.sources.PSObject.Properties){
+            if($source.Name -match '(?:\.\.[/\\]|[/\\]\.\.)'){return $false}
             $path=[IO.Path]::GetFullPath((Join-Path $Workspace $source.Name))
             if(-not $path.StartsWith($root,[StringComparison]::OrdinalIgnoreCase) -or -not(Test-Path -LiteralPath $path -PathType Leaf) -or (Get-FileHash -LiteralPath $path).Hash -ne $source.Value){return $false}
         }

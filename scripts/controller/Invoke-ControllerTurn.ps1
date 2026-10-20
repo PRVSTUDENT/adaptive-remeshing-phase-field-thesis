@@ -139,7 +139,8 @@ if($Stage -eq 'Preparation'){
     $artifactFullPath=Join-Path $Workspace $targetArtifact
     if(-not(Test-Path -LiteralPath $artifactFullPath -PathType Leaf)){throw "PREPARATION_ARTIFACT_MISSING: $targetArtifact"}
     $prep=Get-Content -LiteralPath $artifactFullPath -Raw|ConvertFrom-Json
-    if($prep.schema -ne 1 -or -not $prep.finding){throw 'Invalid preparation artifact: schema 1 and finding required'}
+    if($prep.schema -ne 1 -or -not $prep.finding -or $prep.finding.Trim().Length -lt 20){throw 'Invalid preparation artifact: schema 1 and substantive finding (>=20 chars) required'}
+    if($null -eq $prep.evidence_sources -or @($prep.evidence_sources.PSObject.Properties).Count -lt 1){throw 'Invalid preparation artifact: evidence_sources required'}
     $prepStatus=if($prep.status){$prep.status}else{'PREPARATION_COMPLETE'}
     $record.scientific_checkpoint=[pscustomobject]@{
         kind='PREPARATION_CHECKPOINT'
@@ -202,6 +203,13 @@ $session.active=$false;$session.last_released=[datetimeoffset]::Now.ToString('o'
 $registry=Join-Path $Workspace 'project_coordination/ARTIFACT_REGISTRY.csv'
 $ledger=Join-Path $Workspace 'project_coordination/TASK_LEDGER.csv'
 $newPaths=@($record.session_report,('project_coordination/controller/turn-'+$RunId+'.json'),$record.scientific_checkpoint.artifact)
+if($operation -and $operation.qualification -and $operation.qualification.qualification_artifact){
+    $qArt = $operation.qualification.qualification_artifact
+    if(Test-Path -LiteralPath (Join-Path $Workspace $qArt)){
+        $newPaths += $qArt
+    }
+}
+$newPaths = @($newPaths | Select-Object -Unique)
 foreach($relative in $newPaths){
     $row=[pscustomobject]@{artifact_id=('F1597-'+$RunId+'-'+[IO.Path]::GetFileName($relative));stage='Mode-I';canonical_path=$relative;type='verified_diagnostic_evidence';status='verified';created_by='gemini-antigravity';source_commit=$record.repository_commit;sha256=(Get-FileHash -LiteralPath (Join-Path $Workspace $relative)).Hash;supersedes='';notes=($opTitle+'; not a transfer qualification')}
     $csv=$row|ConvertTo-Csv -NoTypeInformation

@@ -9,7 +9,10 @@ function Get-ControllerPreparationPlan([string]$Workspace,[string]$Instruction) 
             $op=Resolve-ControllerOperation $task $Workspace
             return [pscustomobject]@{status='READY';dispatch_ready=$true;task_type='QUALIFIED_EXECUTION';operation_id=$op.id;path=$op.path;blocked_on=@();recipe='qualified-execution'}
         }catch{
-            return [pscustomobject]@{status='DEFINITION_REJECTED';dispatch_ready=$false;task_type='REJECTED';operation_id='';path='';blocked_on=@($_.Exception.Message);recipe=''}
+            if($_.Exception.Message -match '(COMPLETED_OPERATION_REJECTED|completed KKT probe)'){
+                return [pscustomobject]@{status='DEFINITION_REJECTED';dispatch_ready=$false;task_type='REJECTED';operation_id='';path='';blocked_on=@($_.Exception.Message);recipe=''}
+            }
+            return [pscustomobject]@{status='READY';dispatch_ready=$true;task_type='RESEARCH_PREPARATION';operation_id='research_preparation';path=$task.scientific_operation;blocked_on=@($_.Exception.Message);recipe='autonomous-research-preparation';receipt=''}
         }
     }
     # Unsafe proposal rejection

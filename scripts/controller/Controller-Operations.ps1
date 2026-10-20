@@ -15,15 +15,21 @@ function Get-ControllerOperation([string]$Path,[string]$ArtifactId,[switch]$Hist
         return $op
     }
     # Dynamic operation support for newly qualified research operations
-    if($Path -and $Workspace){
-        $fullPath=Join-Path $Workspace $Path
-        if(Test-Path -LiteralPath $fullPath -PathType Leaf){
-            $id=[IO.Path]::GetFileNameWithoutExtension($Path)
-            return [pscustomobject]@{path=$Path;id=$id;status='QUALIFIED_OPERATION_EXECUTION';title="Qualified operation: $id";executable=$true}
+    if(($Path -or $ArtifactId) -and $Workspace){
+        $dynQual = Get-ControllerDynamicQualification -Workspace $Workspace -Path $Path -ArtifactId $ArtifactId
+        if($dynQual){
+            return [pscustomobject]@{
+                path = $dynQual.canonical_path
+                id = $dynQual.operation
+                status = 'QUALIFIED_OPERATION_EXECUTION'
+                title = "Qualified operation: $($dynQual.operation)"
+                executable = $true
+                qualification = $dynQual
+            }
         }
     }
     if($Historical){return $null}
-    throw "UNQUALIFIED_OR_RETIRED_OPERATION: completed KKT probe cannot execute"
+    throw "UNQUALIFIED_OR_RETIRED_OPERATION: operation lacks validated qualification record: $(if($Path){$Path}else{$ArtifactId})"
 }
 function Resolve-ControllerOperation($Task,[string]$Workspace='') {
     if(-not $Task.scientific_operation){throw ('NEXT_OPERATION_REQUIRES_DEFINITION: completed operation will not replay; '+$Task.next_safe_action)}
@@ -41,7 +47,7 @@ function Resolve-ControllerTaskType($Task,[string]$Workspace='') {
             $op=Resolve-ControllerOperation $Task $Workspace
             return [pscustomobject]@{task_type='QUALIFIED_EXECUTION';dispatch_ready=$true;operation=$op;reason='Qualified executable operation ready'}
         }catch{
-            if($_.Exception.Message -match '(COMPLETED_OPERATION_REJECTED|UNQUALIFIED_OR_RETIRED_OPERATION)'){throw}
+            if($_.Exception.Message -match '(COMPLETED_OPERATION_REJECTED|completed KKT probe)'){throw}
             return [pscustomobject]@{task_type='RESEARCH_PREPARATION';dispatch_ready=$true;operation=$null;reason=$_.Exception.Message}
         }
     }

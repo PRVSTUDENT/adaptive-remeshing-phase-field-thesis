@@ -134,7 +134,9 @@ try {
     $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args3_boot -WorkingDirectory $fixture -TimeoutSeconds 30
     Assert ($r.ExitCode -eq 0 -and $r.Output -match '"next_stage":\s*"Preparation"') 'Turn 3 Bootstrap completes and advances to Preparation'
 
-    # Write genuine preparation finding artifact
+    # Write genuine preparation finding artifact with verified evidence source
+    $evidenceNote = 'docs/project/research_investigation_note.md'
+    Put $evidenceNote 'Independent investigation note proving displacement mapping precedes damage projection in coupled solver.'
     $prepArtifactRel3 = "results/validation/preparation-$($state3.run_id).json"
     $prepArtifactPath3 = Join-Path $fixture $prepArtifactRel3
     $prepFindingData = @{
@@ -144,6 +146,9 @@ try {
         finding = 'Observed that displacement mapping precedes damage projection; history variable must update monotonically'
         operation = 'research_preparation'
         verification_passed = $true
+        evidence_sources = @{
+            $evidenceNote = (Get-FileHash -LiteralPath (Join-Path $fixture $evidenceNote)).Hash
+        }
         next_operation = 'Implement and qualify discrete transfer operator'
     }
     Put $prepArtifactRel3 ($prepFindingData | ConvertTo-Json -Depth 8)
@@ -160,19 +165,82 @@ try {
     Assert ($r.ExitCode -eq 0 -and $r.Output -match 'SCIENTIFIC_STEP_COMPLETE') 'Turn 3 Complete releases session and logs preparation finding'
 
     # -------------------------------------------------------------------------
-    # TURN 4: Produce and qualify a new operation, then advance without restart
+    # TURN 4: Produce, qualify, execute and complete a new scientific operation
     # -------------------------------------------------------------------------
-    # Create a newly qualified python probe script in workspace
     $newOpRel = 'scripts/validation/probe_mode1_f1597_coupled_correction.py'
-    $newOpPath = Join-Path $fixture $newOpRel
+    $newTestRel = 'tests/unit/test_mode1_f1597_coupled_correction.py'
+    $newDepRel = 'models/pandey_kumar_mode1/coupled_correction_basis.json'
+    $newQualRel = 'scripts/validation/probe_mode1_f1597_coupled_correction.qualification.json'
+
+    Put $newDepRel '{"basis_version": 1, "stiffness_kN_mm": 137.842}'
+    Put $newTestRel @"
+import unittest
+class TestCoupledCorrection(unittest.TestCase):
+    def test_pass(self):
+        self.assertTrue(True)
+if __name__ == '__main__':
+    unittest.main()
+"@
     Put $newOpRel @"
-import sys, json
-# Verified offline coupled correction probe
+import sys, json, hashlib
+
+def sha256(path):
+    with open(path, 'rb') as f:
+        return hashlib.sha256(f.read()).hexdigest().upper()
+
+workspace = sys.argv[sys.argv.index('--workspace') + 1] if '--workspace' in sys.argv else '.'
 output_path = sys.argv[sys.argv.index('--output') + 1] if '--output' in sys.argv else 'out.json'
+
+import os
+probe_path = os.path.join(workspace, '$newOpRel')
+qual_path = os.path.join(workspace, '$newQualRel')
+dep_path = os.path.join(workspace, '$newDepRel')
+
+payload = {
+    'schema': 1,
+    'task_id': 'F1597',
+    'operation': 'probe_mode1_f1597_coupled_correction',
+    'verification_passed': True,
+    'finding': 'Verified coupled correction probe executed with zero residual on receiver mesh.',
+    'limitation': 'Analytical 1-element receiver mesh',
+    'measurements': {
+        'phase_elements': 1,
+        'phase_nodes': 4,
+        'residual': 0.0
+    },
+    'sources': {
+        '$newOpRel': sha256(probe_path),
+        '$newQualRel': sha256(qual_path),
+        '$newDepRel': sha256(dep_path)
+    },
+    'next_operation': 'Advance to full verification'
+}
 with open(output_path, 'w') as f:
-    json.dump({'schema': 1, 'task_id': 'F1597', 'operation': 'probe_mode1_f1597_coupled_correction', 'verification_passed': True, 'measurements': {'phase_elements': 1, 'phase_nodes': 4, 'residual': 0.0}, 'next_operation': 'Advance to full verification'}, f)
+    json.dump(payload, f, indent=2)
 sys.exit(0)
 "@
+
+    $qualData = [ordered]@{
+        schema = 1
+        operation = 'probe_mode1_f1597_coupled_correction'
+        status = 'QUALIFIED'
+        dispatch_ready = $true
+        canonical_path = $newOpRel
+        script_sha256 = (Get-FileHash -LiteralPath (Join-Path $fixture $newOpRel)).Hash
+        execution_mode = 'OFFLINE'
+        tests = @{
+            $newTestRel = (Get-FileHash -LiteralPath (Join-Path $fixture $newTestRel)).Hash
+        }
+        tests_passed = $true
+        scientific_dependencies = @{
+            $newDepRel = (Get-FileHash -LiteralPath (Join-Path $fixture $newDepRel)).Hash
+        }
+        verification_criteria = @{
+            required_measurements = @('phase_elements', 'phase_nodes', 'residual')
+        }
+    }
+    Put $newQualRel ($qualData | ConvertTo-Json -Depth 8)
+
     # Set the newly qualified operation in ACTIVE_TASK
     $taskObj4 = Get-Content -LiteralPath "$fixture/project_coordination/ACTIVE_TASK.json" -Raw | ConvertFrom-Json
     $taskObj4.scientific_operation = $newOpRel
@@ -181,33 +249,164 @@ sys.exit(0)
     $taskType4 = Resolve-ControllerTaskType $taskObj4 $fixture
     Assert ($taskType4.task_type -eq 'QUALIFIED_EXECUTION' -and $taskType4.operation.path -eq $newOpRel) 'Newly created and qualified operation resolved as QUALIFIED_EXECUTION'
 
-    $state4 = New-ControllerTurnState (Get-ControllerEvidence $fixture) 3 'Turn 4: Executing newly qualified operation'
+    $evidence4 = Get-ControllerEvidence $fixture
+    Assert ($evidence4.sources.Contains($newOpRel)) 'Dynamic script automatically pinned in source inventory'
+    Assert ($evidence4.sources.Contains($newQualRel)) 'Dynamic qualification record automatically pinned in source inventory'
+    Assert ($evidence4.sources.Contains($newDepRel)) 'Dynamic dependency automatically pinned in source inventory'
+
+    $state4 = New-ControllerTurnState $evidence4 3 'Turn 4: Executing newly qualified operation'
     $state4.state = 'RUNNING'; $state4.process_id = $PID
     Assert ($state4.task_type -eq 'QUALIFIED_EXECUTION') 'Turn 4 turn state reflects QUALIFIED_EXECUTION'
+    $checkpoint4 = Join-Path $fixture 'runtime-4.json'; Write-ControllerCheckpoint $checkpoint4 $state4
+
+    # Stage Bootstrap
+    $args4_boot = @('-NoProfile', '-NonInteractive', '-File', $turnEntry, '-Stage', 'Bootstrap', '-Workspace', $fixture, '-RunId', $state4.run_id, '-TaskId', $state4.task_id, '-RuntimeCheckpoint', $checkpoint4)
+    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args4_boot -WorkingDirectory $fixture -TimeoutSeconds 30
+    Assert ($r.ExitCode -eq 0 -and $r.Output -match 'BOOTSTRAP_COMPLETE') 'Turn 4 Bootstrap claims session and completes'
+
+    # Stage Scientific
+    $args4_sci = @('-NoProfile', '-NonInteractive', '-File', $turnEntry, '-Stage', 'Scientific', '-Workspace', $fixture, '-RunId', $state4.run_id, '-TaskId', $state4.task_id, '-RuntimeCheckpoint', $checkpoint4)
+    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args4_sci -WorkingDirectory $fixture -TimeoutSeconds 30
+    Assert ($r.ExitCode -eq 0 -and $r.Output -match 'probe_mode1_f1597_coupled_correction') 'Turn 4 Scientific executes new dynamic operation'
+
+    # Stage Complete
+    $args4_comp = @('-NoProfile', '-NonInteractive', '-File', $turnEntry, '-Stage', 'Complete', '-Workspace', $fixture, '-RunId', $state4.run_id, '-TaskId', $state4.task_id, '-RuntimeCheckpoint', $checkpoint4)
+    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args4_comp -WorkingDirectory $fixture -TimeoutSeconds 30
+    Assert ($r.ExitCode -eq 0 -and $r.Output -match 'SCIENTIFIC_STEP_COMPLETE') 'Turn 4 Complete records dynamic operation, commits, pushes, and releases session'
+
+    $taskAfterTurn4 = Get-Content -LiteralPath "$fixture/project_coordination/ACTIVE_TASK.json" -Raw | ConvertFrom-Json
+    Assert ([string]::IsNullOrEmpty($taskAfterTurn4.scientific_operation)) 'Turn 4 leaves scientific_operation cleared'
+    Assert (@($taskAfterTurn4.completed_operations) -contains 'probe_mode1_f1597_coupled_correction') 'Turn 4 registers new operation in completed_operations'
 
     # -------------------------------------------------------------------------
     # TURN 5: Receive another unknown objective and continue again
     # -------------------------------------------------------------------------
-    $taskObj5 = Get-Content -LiteralPath "$fixture/project_coordination/ACTIVE_TASK.json" -Raw | ConvertFrom-Json
-    $taskObj5.scientific_operation = '' # Completed op cleared
-    Put 'project_coordination/ACTIVE_TASK.json' ($taskObj5 | ConvertTo-Json -Depth 10)
-
     $chatGptPrompt5 = "# ChatGPT Next Task: Formulate adaptive evolving threshold criterion"
-    $taskType5 = Resolve-ControllerTaskType $taskObj5 $fixture
+    $taskType5 = Resolve-ControllerTaskType $taskAfterTurn4 $fixture
     Assert ($taskType5.task_type -eq 'RESEARCH_PREPARATION' -and $taskType5.dispatch_ready) 'Turn 5 automatically handles second unknown objective as RESEARCH_PREPARATION'
 
     # -------------------------------------------------------------------------
     # SAFETY TESTS & FAILURE CASES
     # -------------------------------------------------------------------------
-    # 1. Unsafe candidate rejection (e.g. arbitrary commands or rm -rf)
+    # 1. Missing qualification record: file existence MUST NOT confer QUALIFIED_EXECUTION
+    $unqualRel = 'scripts/validation/probe_unqualified_candidate.py'
+    Put $unqualRel 'print("unqualified script")'
+    $taskObjUnqual = Get-Content -LiteralPath "$fixture/project_coordination/ACTIVE_TASK.json" -Raw | ConvertFrom-Json
+    $taskObjUnqual.scientific_operation = $unqualRel
+    $taskTypeUnqual = Resolve-ControllerTaskType $taskObjUnqual $fixture
+    Assert ($taskTypeUnqual.task_type -eq 'RESEARCH_PREPARATION') 'Unqualified existing script does NOT confer QUALIFIED_EXECUTION (routes to RESEARCH_PREPARATION)'
+
+    $unqualOpThrows = $false
+    try {
+        $null = Resolve-ControllerOperation $taskObjUnqual $fixture
+    } catch {
+        $unqualOpThrows = ($_.Exception.Message -match 'UNQUALIFIED_OR_RETIRED_OPERATION')
+    }
+    Assert $unqualOpThrows 'Resolve-ControllerOperation strictly throws for script without qualification record'
+
+    # 2. Source tampering rejection
+    $tamperedScript = 'scripts/validation/probe_tampered.py'
+    $tamperedQual = 'scripts/validation/probe_tampered.qualification.json'
+    Put $tamperedScript 'print("original")'
+    Put 'tests/unit/test_tampered.py' 'print("test")'
+    $tamperedQualData = @{
+        schema = 1
+        operation = 'probe_tampered'
+        status = 'QUALIFIED'
+        dispatch_ready = $true
+        canonical_path = $tamperedScript
+        script_sha256 = (Get-FileHash -LiteralPath (Join-Path $fixture $tamperedScript)).Hash
+        tests = @{ 'tests/unit/test_tampered.py' = (Get-FileHash -LiteralPath (Join-Path $fixture 'tests/unit/test_tampered.py')).Hash }
+        tests_passed = $true
+        verification_criteria = @{ required_measurements = @('m1') }
+    }
+    Put $tamperedQual ($tamperedQualData | ConvertTo-Json)
+    Put $tamperedScript 'print("tampered")' # Modify file after qualification
+    $tamperThrows = $false
+    try {
+        $null = Get-ControllerDynamicQualification -Workspace $fixture -Path $tamperedScript
+    } catch {
+        $tamperThrows = ($_.Exception.Message -match 'SCRIPT_HASH_MISMATCH')
+    }
+    Assert $tamperThrows 'Script source tampering detected and rejected by qualification validator'
+
+    # 3. Path escape rejection
+    $escapeThrows = $false
+    try {
+        $null = Get-ControllerDynamicQualification -Workspace $fixture -Path '../../escaped.py'
+    } catch {
+        $escapeThrows = ($_.Exception.Message -match 'PATH_ESCAPE_REJECTED')
+    }
+    Assert $escapeThrows 'Path traversal ../../ escapes rejected by qualification validator'
+
+    # 4. Fabricated preparation evidence rejection
+    # 4a. Empty or trivial finding
+    $fakeArtifact1 = 'results/validation/fake1.json'
+    Put $fakeArtifact1 (@{ schema = 1; status = 'PREPARATION_COMPLETE'; finding = 'short'; evidence_sources = @{ 'AGENTS.md' = (Get-FileHash -LiteralPath "$fixture/AGENTS.md").Hash } } | ConvertTo-Json)
+    $fakeState1 = [pscustomobject]@{ run_id = [guid]::NewGuid().ToString(); task_id = 'F1597'; bootstrap_record_path = (Join-Path $fixture 'fake_rec1.json') }
+    Put 'fake_rec1.json' (@{ controller_run_id = $fakeState1.run_id; task_id = 'F1597'; bootstrap_status = 'COMPLETE'; scientific_checkpoint = @{ kind = 'PREPARATION_CHECKPOINT'; exit_code = 0; artifact = $fakeArtifact1; sha256 = (Get-FileHash -LiteralPath "$fixture/$fakeArtifact1").Hash } } | ConvertTo-Json)
+    Assert (-not (Test-ControllerScientificCheckpoint $fixture $fakeState1)) 'Preparation checkpoint with <20 char finding rejected'
+
+    # 4b. Missing evidence_sources
+    $fakeArtifact2 = 'results/validation/fake2.json'
+    Put $fakeArtifact2 (@{ schema = 1; status = 'PREPARATION_COMPLETE'; finding = 'Long enough finding without evidence sources provided here' } | ConvertTo-Json)
+    $fakeState2 = [pscustomobject]@{ run_id = [guid]::NewGuid().ToString(); task_id = 'F1597'; bootstrap_record_path = (Join-Path $fixture 'fake_rec2.json') }
+    Put 'fake_rec2.json' (@{ controller_run_id = $fakeState2.run_id; task_id = 'F1597'; bootstrap_status = 'COMPLETE'; scientific_checkpoint = @{ kind = 'PREPARATION_CHECKPOINT'; exit_code = 0; artifact = $fakeArtifact2; sha256 = (Get-FileHash -LiteralPath "$fixture/$fakeArtifact2").Hash } } | ConvertTo-Json)
+    Assert (-not (Test-ControllerScientificCheckpoint $fixture $fakeState2)) 'Preparation checkpoint missing evidence_sources rejected'
+
+    # 4c. Evidence source hash mismatch
+    $fakeArtifact3 = 'results/validation/fake3.json'
+    Put $fakeArtifact3 (@{ schema = 1; status = 'PREPARATION_COMPLETE'; finding = 'Long enough finding with invalid evidence source hash'; evidence_sources = @{ 'AGENTS.md' = '0000000000000000000000000000000000000000000000000000000000000000' } } | ConvertTo-Json)
+    $fakeState3 = [pscustomobject]@{ run_id = [guid]::NewGuid().ToString(); task_id = 'F1597'; bootstrap_record_path = (Join-Path $fixture 'fake_rec3.json') }
+    Put 'fake_rec3.json' (@{ controller_run_id = $fakeState3.run_id; task_id = 'F1597'; bootstrap_status = 'COMPLETE'; scientific_checkpoint = @{ kind = 'PREPARATION_CHECKPOINT'; exit_code = 0; artifact = $fakeArtifact3; sha256 = (Get-FileHash -LiteralPath "$fixture/$fakeArtifact3").Hash } } | ConvertTo-Json)
+    Assert (-not (Test-ControllerScientificCheckpoint $fixture $fakeState3)) 'Preparation checkpoint with wrong evidence source hash rejected'
+
+    # 5. Completed-operation replay rejection
+    $taskObjReplay = Get-Content -LiteralPath "$fixture/project_coordination/ACTIVE_TASK.json" -Raw | ConvertFrom-Json
+    $taskObjReplay.scientific_operation = $newOpRel # Already completed in Turn 4
+    $replayThrows = $false
+    try {
+        $null = Resolve-ControllerOperation $taskObjReplay $fixture
+    } catch {
+        $replayThrows = ($_.Exception.Message -match 'COMPLETED_OPERATION_REJECTED')
+    }
+    Assert $replayThrows 'Replay of dynamic completed operation strictly rejected by Resolve-ControllerOperation'
+
+    # 6. Unqualified HPC execution rejection
+    $hpcOpRel = 'scripts/validation/probe_hpc_unqualified.py'
+    $hpcQualRel = 'scripts/validation/probe_hpc_unqualified.qualification.json'
+    Put $hpcOpRel 'print("hpc")'
+    Put 'tests/unit/test_hpc.py' 'print("test")'
+    $hpcQualData = @{
+        schema = 1
+        operation = 'probe_hpc_unqualified'
+        status = 'QUALIFIED'
+        dispatch_ready = $true
+        canonical_path = $hpcOpRel
+        script_sha256 = (Get-FileHash -LiteralPath (Join-Path $fixture $hpcOpRel)).Hash
+        execution_mode = 'HPC'
+        pbs_job_id = '9999999.mmaster02'
+        datacheck = 'FAIL' # Failed datacheck
+        login_notifications = 'PASS'
+        compute_notifications = 'PASS'
+        tests = @{ 'tests/unit/test_hpc.py' = (Get-FileHash -LiteralPath (Join-Path $fixture 'tests/unit/test_hpc.py')).Hash }
+        tests_passed = $true
+        verification_criteria = @{ required_measurements = @('m1') }
+    }
+    Put $hpcQualRel ($hpcQualData | ConvertTo-Json)
+    $hpcThrows = $false
+    try {
+        $null = Get-ControllerDynamicQualification -Workspace $fixture -Path $hpcOpRel
+    } catch {
+        $hpcThrows = ($_.Exception.Message -match 'HPC_QUALIFICATION_FAILED')
+    }
+    Assert $hpcThrows 'Unqualified HPC execution (failed datacheck / missing ledger) strictly rejected'
+
+    # 7. Unsafe candidate rejection (e.g. arbitrary commands or rm -rf)
     $unsafePlan = Get-ControllerPreparationPlan $fixture 'Please rm -rf / and bypass qualification'
     Assert ($unsafePlan.status -eq 'DEFINITION_REJECTED' -and -not $unsafePlan.dispatch_ready) 'Unsafe candidate with rm -rf and bypass rejected'
 
-    # 2. Duplicate completed operation replay rejection
-    $replayPlan = Get-ControllerPreparationPlan $fixture 'Execute mapped_mechanical_history_call_order_probe again'
-    Assert ($replayPlan.status -eq 'DEFINITION_REJECTED' -and -not $replayPlan.dispatch_ready) 'Replay of completed operation rejected'
-
-    # 3. Completed task ID rejection
+    # 8. Closed predecessor task F1596 rejection
     $taskClosedRejected = $false
     try {
         $null = Resolve-ControllerInstruction $fixture '# F1596: repeat audit task'
@@ -216,7 +415,7 @@ sys.exit(0)
     }
     Assert $taskClosedRejected 'Closed predecessor task F1596 rejected by Resolve-ControllerInstruction'
 
-    # 4. Retired KKT probe rejection
+    # 9. Retired KKT probe rejection
     $taskObjRetired = Get-Content -LiteralPath "$fixture/project_coordination/ACTIVE_TASK.json" -Raw | ConvertFrom-Json
     $taskObjRetired.scientific_operation = 'scripts/validation/probe_mode1_f1597_kkt.py'
     $retiredRejected = $false
@@ -227,25 +426,7 @@ sys.exit(0)
     }
     Assert $retiredRejected 'Retired KKT probe strictly rejected by Resolve-ControllerTaskType'
 
-    # 5. Invalid / tampered preparation checkpoint rejection
-    $corruptState = New-ControllerTurnState (Get-ControllerEvidence $fixture) 5 'Corrupt test'
-    $corruptState.state = 'RUNNING'; $corruptState.process_id = $PID
-    $corruptRecord = [pscustomobject]@{
-        schema = 1
-        controller_run_id = $corruptState.run_id
-        task_id = $corruptState.task_id
-        bootstrap_status = 'COMPLETE'
-        scientific_checkpoint = [pscustomobject]@{
-            kind = 'PREPARATION_CHECKPOINT'
-            exit_code = 0
-            artifact = $prepArtifactRel3
-            sha256 = '0000000000000000000000000000000000000000000000000000000000000000' # Wrong hash
-        }
-    }
-    Put ('project_coordination/controller/turn-' + $corruptState.run_id + '.json') ($corruptRecord | ConvertTo-Json -Depth 10)
-    Assert (-not (Test-ControllerScientificCheckpoint $fixture $corruptState)) 'Corrupted preparation artifact hash rejected'
-
-    # 6. Foreign active session rejection
+    # 10. Foreign active session rejection
     Put 'project_coordination/ACTIVE_SESSION.json' '{"active":true,"agent":"codex","task_id":"foreign-job"}'
     $foreignState = New-ControllerTurnState (Get-ControllerEvidence $fixture) 6 'Foreign'
     $foreignState.state = 'RUNNING'; $foreignState.process_id = $PID
