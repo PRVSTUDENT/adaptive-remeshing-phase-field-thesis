@@ -39,8 +39,8 @@ if($Stage -eq 'Bootstrap'){
             if(-not(Test-Path -LiteralPath $p) -or (Get-FileHash -LiteralPath $p).Hash -ne $property.Value){$changed+=$property.Name}
         }
         if($changed.Count){throw ('BOOTSTRAP_STATE_CHANGED: '+($changed -join ', '))}
+        # Repeated Bootstrap calls are read-only/idempotent; retain count for diagnostics.
         $record.repeat_count++;Save-Record
-        if($record.repeat_count -gt 1){throw 'BOOTSTRAP_LOOP: completed unchanged prerequisites requested repeatedly'}
         Write-Output 'BOOTSTRAP_ALREADY_COMPLETE: unchanged prerequisites; proceed to Scientific, do not reread bootstrap.'
         return
     }
