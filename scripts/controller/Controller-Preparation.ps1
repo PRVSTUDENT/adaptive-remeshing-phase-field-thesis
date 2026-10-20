@@ -3,7 +3,7 @@ function Get-ControllerPreparationPlan([string]$Workspace,[string]$Instruction) 
     $task=Get-Content -LiteralPath (Join-Path $Workspace 'project_coordination/ACTIVE_TASK.json') -Raw -Encoding UTF8|ConvertFrom-Json
     if(-not $task.scientific_checkpoint_required){return [pscustomobject]@{status='READY';dispatch_ready=$true;operation_id='';path='';blocked_on=@();recipe=''}}
     if($task.scientific_operation){
-        try{$op=Resolve-ControllerOperation $task;return [pscustomobject]@{status='READY';dispatch_ready=$true;operation_id=$op.id;path=$op.path;blocked_on=@();recipe=''}}catch{
+        try{$op=Resolve-ControllerOperation $task $Workspace;return [pscustomobject]@{status='READY';dispatch_ready=$true;operation_id=$op.id;path=$op.path;blocked_on=@();recipe=''}}catch{
             return [pscustomobject]@{status='DEFINITION_REJECTED';dispatch_ready=$false;operation_id='';path='';blocked_on=@($_.Exception.Message);recipe=''}
         }
     }

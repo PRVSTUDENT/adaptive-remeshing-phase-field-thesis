@@ -59,7 +59,7 @@ if($Stage -eq 'Bootstrap'){
     $task=$content['project_coordination/ACTIVE_TASK.json']|ConvertFrom-Json
     if($session.active){throw 'Another agent owns the project session'}
     if($task.task_id -ne $TaskId -or $task.status -match '(?i)^(complete|closed|PACKAGE72_C1_1_AUDIT_COMPLETED)'){throw 'Completed or mismatched task rejected before claim'}
-    $operation=Resolve-ControllerOperation $task
+    $operation=Resolve-ControllerOperation $task $Workspace
     if($operation.path -cne $state.scientific_operation){throw 'Dispatch operation changed after controller preflight'}
     if($head -ne $state.repository_commit){throw 'Repository revision changed before bootstrap'}
     $registry=$content['project_coordination/ARTIFACT_REGISTRY.csv']
@@ -83,7 +83,7 @@ Assert-Owner
 if($Stage -eq 'Scientific'){
     if($record.scientific_checkpoint){Write-Output 'SCIENTIFIC_CHECKPOINT_ALREADY_EXISTS; use Complete';return}
     $task=Get-Content -LiteralPath $taskPath -Raw|ConvertFrom-Json
-    $operation=Resolve-ControllerOperation $task
+    $operation=Resolve-ControllerOperation $task $Workspace
     if($record.operation_id -cne $operation.id -or $record.operation_path -cne $operation.path -or $state.scientific_operation -cne $operation.path){throw 'Dispatch operation changed after bootstrap'}
     foreach($source in $state.sources.PSObject.Properties){if($source.Name -match '^(scripts/|models/|results/)'){if(-not(Test-Path -LiteralPath (Join-Path $Workspace $source.Name)) -or (Get-FileHash -LiteralPath (Join-Path $Workspace $source.Name)).Hash -ne $source.Value){throw 'Scientific basis/source changed after dispatch'}}}
     $probe=$operation.path
@@ -108,10 +108,10 @@ if($Stage -eq 'Scientific'){
 if(-not(Test-ControllerScientificCheckpoint $Workspace $state)){throw 'A verified scientific checkpoint is required for closeout'}
 $payload=Get-Content -LiteralPath (Join-Path $Workspace $record.scientific_checkpoint.artifact) -Raw|ConvertFrom-Json
 $task=Get-Content -LiteralPath $taskPath -Raw|ConvertFrom-Json
-$operation=Resolve-ControllerOperation $task
+$operation=Resolve-ControllerOperation $task $Workspace
 if($operation.id -cne $record.operation_id -or $operation.path -cne $state.scientific_operation){throw 'Closeout operation mismatch'}
 $task.status=$operation.status
-$task.phase='F1597: mechanical/history call-order diagnostic measured; transfer correction remains unqualified.'
+$task.phase=('F1597: '+$operation.title+' measured; transfer correction remains unqualified.')
 $task|Add-Member -NotePropertyName last_updated -NotePropertyValue ([datetimeoffset]::Now.ToString('o')) -Force
 $task|Add-Member -NotePropertyName next_safe_action -NotePropertyValue $payload.next_operation -Force
 $task|Add-Member -NotePropertyName scientific_checkpoint -NotePropertyValue $record.scientific_checkpoint -Force
@@ -131,12 +131,12 @@ foreach($relative in $newPaths){
     $csv=$row|ConvertTo-Csv -NoTypeInformation
     [IO.File]::AppendAllText($registry,$csv[1]+"`n")
 }
-$row=[pscustomobject]@{task_id=($TaskId+'-'+$operation.id);stage='Mode-I';title=$operation.title;status='bounded_step_complete';agent='gemini-antigravity';base_commit=$record.repository_commit;result_commit='';write_scope=($newPaths -join ';');job_id='';classification='MECHANICAL_HISTORY_DIAGNOSTIC_ONLY_CORRECTION_PENDING';next_task=$payload.next_operation;updated_at=$session.last_released}
+$row=[pscustomobject]@{task_id=($TaskId+'-'+$operation.id);stage='Mode-I';title=$operation.title;status='bounded_step_complete';agent='gemini-antigravity';base_commit=$record.repository_commit;result_commit='';write_scope=($newPaths -join ';');job_id='';classification=($operation.id+'_ONLY_CORRECTION_PENDING');next_task=$payload.next_operation;updated_at=$session.last_released}
 $csv=$row|ConvertTo-Csv -NoTypeInformation;[IO.File]::AppendAllText($ledger,$csv[1]+"`n")
 $staged=Invoke-LocalGit @('diff','--cached','--name-only')
 if($staged){throw 'Pre-existing staged paths must be preserved; closeout will not include them'}
 Invoke-LocalGit (@('add','--')+$newPaths+@('project_coordination/ACTIVE_SESSION.json','project_coordination/ACTIVE_TASK.json','project_coordination/ARTIFACT_REGISTRY.csv','project_coordination/TASK_LEDGER.csv'))
 Invoke-LocalGit @('diff','--cached','--check')
-Invoke-LocalGit @('commit','-m','research(mode1): record F1597 mechanical history diagnostic')
+Invoke-LocalGit @('commit','-m',('research(mode1): record F1597 '+$operation.id))
 Invoke-LocalGit @('push','origin','HEAD:main','HEAD:mode2-pandey-kumar-reproduction')
 Write-Output ('SCIENTIFIC_STEP_COMPLETE: '+$payload.next_operation)

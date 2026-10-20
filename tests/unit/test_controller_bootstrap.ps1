@@ -8,7 +8,7 @@ function Put($Name,$Text){[IO.File]::WriteAllText((Join-Path $fixture $Name),$Te
 $script:checks=0
 function Assert($Value,$Message){if(-not $Value){throw "FAIL: $Message"};$script:checks++;"PASS $script:checks`: $Message"}
 try{
-    foreach($relative in @('scripts/controller/Controller-Recovery.ps1','scripts/controller/Controller-Operations.ps1','scripts/validation/probe_mode1_f1597_mechanical_history.py','scripts/validation/Invoke-BoundedAgyProcess.ps1','scripts/validation/probe_mode1_f1597_kkt.py')){
+    foreach($relative in @('scripts/controller/Controller-Recovery.ps1','scripts/controller/Controller-Operations.ps1','scripts/controller/Controller-Qualification.ps1','scripts/validation/probe_mode1_f1597_mechanical_history.py','scripts/validation/Invoke-BoundedAgyProcess.ps1','scripts/validation/probe_mode1_f1597_kkt.py')){
         Copy-Item -LiteralPath (Join-Path $repo $relative) -Destination (Join-Path $fixture $relative)
     }
     foreach($relative in @('AGENTS.md','project_coordination/START_HERE.md','project_coordination/CURRENT_STATE.md','docs/project/PROJECT_PHASE_CHECKLIST.md')){Put $relative 'Required prerequisite fixture, not a scientific finding.'}

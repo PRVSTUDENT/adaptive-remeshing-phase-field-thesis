@@ -15,7 +15,7 @@ if($s.state -ne 'BLOCKED' -or -not $s.scientific_step_completed -or $s.scientifi
 if(Get-Process agy -ErrorAction SilentlyContinue){throw 'Live AGY process; reconciliation forbidden'}
 $e=Get-ControllerEvidence $Workspace
 if($e.session.active -and $e.session.agent -ne 'codex'){throw 'Foreign session active'}
-$op=Resolve-ControllerOperation $e.task
+$op=Resolve-ControllerOperation $e.task $Workspace
 if(@($e.task.completed_operations) -notcontains 'mapped_frozen_history_lower_bound_kkt_probe'){throw 'Completed operation missing'}
 $record=Get-Content -LiteralPath $s.bootstrap_record_path -Raw|ConvertFrom-Json
 if($record.stage -ne 'COMPLETE' -or -not(Test-ControllerScientificCheckpoint $Workspace $s -Historical)){throw 'Historical scientific result not independently verified'}

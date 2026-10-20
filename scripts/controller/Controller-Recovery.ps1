@@ -40,9 +40,14 @@ function Get-ControllerEvidence([string]$Workspace) {
         if ($relative -like '*/ACTIVE_TASK.json') { $task = Get-Content -LiteralPath $p -Raw -Encoding UTF8 | ConvertFrom-Json }
         if ($relative -like '*/ACTIVE_SESSION.json') { $session = Get-Content -LiteralPath $p -Raw -Encoding UTF8 | ConvertFrom-Json }
     }
-    foreach ($relative in @('scripts/controller/Antigravity-Autonomous-Loop.ps1','scripts/controller/Controller-Recovery.ps1','scripts/controller/Invoke-ControllerTurn.ps1','scripts/controller/Controller-Operations.ps1','scripts/controller/Controller-Preparation.ps1','scripts/validation/probe_mode1_f1597_uel_call_trace.py','scripts/validation/probe_mode1_f1597_mechanical_history.py','scripts/validation/probe_mode1_f1597_kkt.py','scripts/validation/Invoke-BoundedAgyProcess.ps1','scripts/validation/AgyControllerPolicy.ps1','scripts/validation/AgyCredentialStores.ps1','models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/f42_experimental_offset_uel.for')) {
+    foreach ($relative in @('scripts/controller/Antigravity-Autonomous-Loop.ps1','scripts/controller/Controller-Recovery.ps1','scripts/controller/Invoke-ControllerTurn.ps1','scripts/controller/Controller-Operations.ps1','scripts/controller/Controller-Preparation.ps1','scripts/controller/Controller-Qualification.ps1','scripts/validation/probe_mode1_f1597_uel_call_trace.py','scripts/validation/probe_mode1_f1597_mechanical_history.py','scripts/validation/probe_mode1_f1597_kkt.py','scripts/validation/Invoke-BoundedAgyProcess.ps1','scripts/validation/AgyControllerPolicy.ps1','scripts/validation/AgyCredentialStores.ps1','models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/f42_experimental_offset_uel.for')) {
         $p=Join-Path $Workspace $relative
         if (Test-Path -LiteralPath $p -PathType Leaf) { $sources[$relative]=(Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash }
+    }
+    if($task.scientific_operation -eq 'scripts/validation/probe_mode1_f1597_uel_call_trace.py' -or $task.scientific_checkpoint.operation -eq 'authentic_uel_history_call_trace'){
+        $q=Get-ControllerTraceQualification $Workspace
+        foreach($source in $q.sources.PSObject.Properties){$sources[$source.Name]=$source.Value}
+        $sources[$q.qualification_artifact]=(Get-FileHash -LiteralPath (Join-Path $Workspace $q.qualification_artifact)).Hash
     }
     if($task.scientific_checkpoint.artifact){
         $relative=[string]$task.scientific_checkpoint.artifact
@@ -73,7 +78,7 @@ function Get-ControllerEvidence([string]$Workspace) {
 
 function Resolve-ControllerInstruction([string]$Workspace, [string]$Instruction) {
     $e = Get-ControllerEvidence $Workspace
-    if($e.task.scientific_checkpoint_required){$null=Resolve-ControllerOperation $e.task}
+    if($e.task.scientific_checkpoint_required){$null=Resolve-ControllerOperation $e.task $Workspace}
     $terminal = [string]$e.task.status -match '(?i)(completed|classified|closed|^done$)'
     $heading = ($Instruction -split "`n")[0]
     $id = [regex]::Match($heading,'\bF\d+\b').Value
@@ -272,6 +277,14 @@ function Test-ControllerScientificCheckpoint([string]$Workspace,$State,[switch]$
         $required=@($probe,'models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/f42_experimental_offset_uel.for')
         if($op.id -eq 'mapped_frozen_history_lower_bound_kkt_probe'){
             if($null -eq $data.measurements.finite_difference_gradient_error_kN -or $data.measurements.finite_difference_gradient_error_kN -gt 1e-10){return $false}
+        }elseif($op.id -eq 'authentic_uel_history_call_trace'){
+            $q=Get-ControllerTraceQualification $Workspace
+            if($data.pbs_job_id -ne $q.pbs_job_id){return $false}
+            $m=$data.measurements
+            foreach($name in @('trace_records','uel_calls','phase_calls','mechanical_calls','accepted_element_callbacks','history_write_calls','history_increase_inf_kN_mm2')){if($null -eq $m.PSObject.Properties[$name] -or $m.$name -lt 0){return $false}}
+            if($m.trace_records -le 0 -or $m.trace_records -gt 2048 -or $m.phase_calls -le 0 -or $m.mechanical_calls -le 0 -or $m.accepted_element_callbacks -le 0){return $false}
+            foreach($source in $q.sources.PSObject.Properties){if($data.sources.($source.Name) -ne $source.Value){return $false}}
+            $required+=@($q.qualification_artifact,$State.scientific_basis_artifact)
         }else{
             $m=$data.measurements
             $names=@('free_mechanical_dofs','mechanical_free_residual_inf_kN','worst_mechanical_node','worst_mechanical_dof','mapped_displacement_jump_mm','mapped_damage_jump','history_increase_inf_kN_mm2','phase_before_mechanical_inf_kN','phase_after_mechanical_inf_kN','phase_call_order_delta_inf_kN','committed_before_accept_error','retry_restore_error','accepted_commit_error','mechanical_fd_relative_error','prior_kkt_residual_difference_kN')

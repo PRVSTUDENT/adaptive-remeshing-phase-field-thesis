@@ -1,4 +1,4 @@
-﻿[CmdletBinding()]
+[CmdletBinding()]
 param(
     [string]$ConversationId = "",
     [string]$WorkspaceDir   = "D:\Master thesis\Adaptive remeshing",
@@ -143,7 +143,7 @@ if ($ControllerDryRun) {
     $resolved = Resolve-ControllerInstruction $WorkspaceDir $prompt
     $checkpoint = Read-ControllerCheckpoint $controllerCheckpointPath
     Assert-ControllerDispatchCheckpoint $WorkspaceDir $checkpoint
-    $operation=if($resolved.evidence.task.scientific_checkpoint_required){Resolve-ControllerOperation $resolved.evidence.task}else{$null}
+    $operation=if($resolved.evidence.task.scientific_checkpoint_required){Resolve-ControllerOperation $resolved.evidence.task $WorkspaceDir}else{$null}
     $budget = Get-ControllerBudget $PrintTimeout $ScientificTurnSeconds
     [pscustomobject]@{mode='DRY_RUN_NO_EXECUTION'; scientific_operation=$operation.path; operation_id=$operation.id; checkpoint_reconciliation=$checkpoint.reconciliation.status; task=$resolved.evidence.task.task_id; predecessor_status=$resolved.evidence.task.status; stale_prompt_replaced=$resolved.stale_replaced; active_session=$resolved.evidence.session.active; checkpoint_state=$(if($checkpoint){$checkpoint.state}else{'NONE'}); budget=$budget; no_progress_seconds=$NoProgressSeconds; progress_policy='saved report or PBS/execution evidence; metadata and tokens excluded'; source_sha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash; instruction=$resolved.instruction} | ConvertTo-Json -Depth 8
     return

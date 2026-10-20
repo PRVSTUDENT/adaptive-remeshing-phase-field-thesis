@@ -41,7 +41,7 @@ def strip_instrumentation(data):
     return b''.join(result)
 
 
-def instrument(parent):
+def instrument(parent, absolute_trace=False):
     if sha(parent) != PARENT_SHA:
         raise ValueError('Experimental UEL parent must be re-reviewed')
     newline = '\r\n' if b'\r\n' in parent else '\n'
@@ -123,6 +123,14 @@ def instrument(parent):
         '      RETURN',
         '      END',
     ]
+    if absolute_trace:
+        pos=helper.index('      LOGICAL OPENED')
+        helper[pos:pos]=['      CHARACTER*512 TRACE_DIR,TRACE_PATH','      INTEGER LTRACE']
+        pos=helper.index("        OPEN(UNIT=109,FILE='f1597_uel_call_trace.csv',")
+        helper[pos:pos+1]=['        CALL GETOUTDIR(TRACE_DIR,LTRACE)',
+                          '        TRACE_PATH=TRACE_DIR(1:LTRACE)//',
+                          "     1       '/f1597_uel_call_trace.csv'",
+                          '        OPEN(UNIT=109,FILE=TRIM(TRACE_PATH),']
     generated = (external+uel+umat+block(helper)).encode('ascii')
     if strip_instrumentation(generated) != parent:
         raise ValueError('Instrumentation altered non-diagnostic source bytes')
@@ -208,38 +216,45 @@ def analyze_trace(rows):
 def probe(workspace):
     # Acquisition is an external, technically qualified Abaqus experiment. Refuse to
     # reinterpret offline reconstruction or test fixtures as actual solver evidence.
-    folder = workspace/PACKAGE/'evidence'
+    package='models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/'
+    folder = workspace/package/'evidence'
     provenance_path = folder/'provenance.json'
-    if not provenance_path.is_file(): raise ValueError('TRACE_ACQUISITION_REQUIRED: compile/datacheck and a distinct qualified Abaqus trace job; no completed probe may replay')
-    provenance = json.loads(provenance_path.read_text())
-    receipt = provenance['pbs_job_id']
-    if not re.fullmatch(r'\d+\.mmaster02', receipt): raise ValueError('Invalid actual PBS receipt')
-    ledger = (workspace/'project_coordination/HPC_JOB_LEDGER.csv').read_text()
-    if not re.search(r'(?<!\d)'+re.escape(receipt)+r'(?!\d)', ledger): raise ValueError('PBS receipt absent from ledger')
-    if provenance.get('solver') != 'Abaqus/Standard 2023' or provenance.get('exit_code') != 0: raise ValueError('Unverified solver termination')
-    if provenance.get('instrumented_source_sha256') != sha((workspace/PACKAGE/'f42_history_trace_uel.for').read_bytes()): raise ValueError('Trace source mismatch')
-    sources = {}
+    qualification_path=workspace/package/'QUALIFICATION.json'
+    if not provenance_path.is_file() or not qualification_path.is_file(): raise ValueError('TRACE_ACQUISITION_REQUIRED: exact qualified solver evidence is missing')
+    qualification=json.loads(qualification_path.read_text())
+    if qualification.get('status')!='READY_FOR_TRACE_ANALYSIS' or qualification.get('dispatch_ready') is not True: raise ValueError('Trace technical qualification incomplete')
+    sources=dict(qualification['sources'])
+    for path,expected in sources.items():
+        full=(workspace/path).resolve()
+        if not full.is_relative_to(workspace) or not full.is_file() or sha(full.read_bytes())!=expected: raise ValueError('Trace qualification source changed: '+path)
+    provenance = json.loads(provenance_path.read_text()); receipt = provenance['pbs_job_id']
+    if receipt != qualification['pbs_job_id'] or not re.fullmatch(r'\d+\.mmaster02', receipt): raise ValueError('Invalid actual PBS receipt')
+    with (workspace/'project_coordination/HPC_JOB_LEDGER.csv').open(encoding='utf-8-sig') as handle:
+        records=[r for r in csv.DictReader(handle) if r.get('Job_ID')==receipt and r.get('Job_Name')=='M1_F1597_HISTORY_TRACE_R2']
+    if len(records)!=1 or records[0]['Status']!='COMPLETED' or records[0]['Exit_Status']!='0': raise ValueError('Terminal PBS receipt absent from ledger')
+    receipts=json.loads((workspace/'project_coordination/MODE1_BATCH_SUBMISSIONS.json').read_text(encoding='utf-8-sig'))
+    if receipts[qualification['manifest_sha256']]['M1_F1597_HISTORY_TRACE_R2']['pbs_job_id']!=receipt: raise ValueError('Governed receipt mismatch')
+    if provenance.get('solver') != 'Abaqus/Standard 2023' or type(provenance.get('exit_code')) is not int or provenance['exit_code']!=0: raise ValueError('Unverified solver termination')
+    if provenance.get('instrumented_source_sha256') != sha((workspace/package/'f42_history_trace_uel.for').read_bytes()): raise ValueError('Trace source mismatch')
     for name, expected in provenance['evidence_files'].items():
         if Path(name).name != name: raise ValueError('Unsafe evidence filename')
-        p = folder/name
-        if sha(p.read_bytes()) != expected: raise ValueError('Evidence hash mismatch')
-        sources[str(p.relative_to(workspace)).replace('\\','/')] = expected
-    for required in ('f1597_uel_call_trace.csv', 'solver.sta', 'solver.dat', 'parity.json'):
-        if required not in provenance['evidence_files']: raise ValueError('Missing independent solver evidence')
-    if 'THE ANALYSIS HAS COMPLETED SUCCESSFULLY' not in (folder/'solver.sta').read_text(): raise ValueError('Solver STA did not complete')
-    parity = json.loads((folder/'parity.json').read_text())
-    if parity.get('force_relative_error', 1) > 1e-8 or parity.get('energy_relative_error', 1) > 1e-8: raise ValueError('Instrumentation parity not verified')
+        if sha((folder/name).read_bytes())!=expected: raise ValueError('Evidence hash mismatch')
+    from qualify_mode1_f1597_trace import compare_parity
+    parity=compare_parity(workspace,folder,package=package)
+    recorded=json.loads((folder/'parity.json').read_text())
+    if recorded!=parity: raise ValueError('Recorded parity differs from recomputed measurements')
     with (folder/'f1597_uel_call_trace.csv').open() as handle:
         measurements, first = analyze_trace(list(csv.reader(handle)))
-    preparation = prepare(workspace)
-    sources.update(preparation['sources'])
-    for path in (PACKAGE+'f42_history_trace_uel.for', 'scripts/validation/probe_mode1_f1597_uel_call_trace.py', provenance_path.relative_to(workspace).as_posix(), preparation['basis_artifact']):
-        sources[path] = sha((workspace/path).read_bytes())
+    basis=json.loads((workspace/qualification['basis_artifact']).read_text())
+    measurements.update(phase_elements=basis['measurements']['phase_elements'],phase_nodes=basis['measurements']['phase_nodes'])
+    sources[package+'QUALIFICATION.json']=sha(qualification_path.read_bytes())
     return dict(schema=1, task_id='F1597', operation=OPERATION, verification_passed=True,
         measurements=measurements, first_history_update=first, pbs_job_id=receipt, sources=sources,
+        instrumentation_parity=parity,
         finding='Authentic solver lifecycle trace validated; history writes distinguished from accepted LOP2 commits.',
         limitation='Selected elements only; invocation sequence is not a Newton iteration counter. Transfer remains failed and unqualified.',
         next_operation='Review authenticated solver call ordering and parity before choosing a numerical correction.')
+
 
 
 if __name__ == '__main__':

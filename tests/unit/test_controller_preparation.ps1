@@ -20,7 +20,7 @@ try{
     if(-not (Get-ControllerPreparationPlan $folder '').dispatch_ready){throw 'Non-scientific controller regression'}
     $candidate=Get-ControllerOperation -ArtifactId authentic_uel_history_call_trace -Proposed
     if($candidate.executable){throw 'Unqualified trace definition executable'}
-    $failed=$false;try{$null=Get-ControllerOperation -Path $candidate.path}catch{$failed=$true}
+    $failed=$false;try{$null=Resolve-ControllerOperation ([pscustomobject]@{scientific_operation=$candidate.path;completed_operations=@()}) $folder}catch{$failed=$true}
     if(-not $failed){throw 'Candidate bypassed qualification'}
     $realTask=Get-Content -LiteralPath "$repo/project_coordination/ACTIVE_TASK.json" -Raw|ConvertFrom-Json
     $task.scientific_checkpoint_required=$true;$task.scientific_operation='';$task.scientific_checkpoint=$realTask.scientific_checkpoint;PutTask $task

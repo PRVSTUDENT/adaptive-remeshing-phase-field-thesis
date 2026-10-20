@@ -1,0 +1,46 @@
+{
+  "batch_name": "MODE1_F1597_HISTORY_TRACE_R2",
+  "adapter": "mode1-uel-trace-v1",
+  "technical_stage": "UEL_TRACE",
+  "configuration": "NONINVASIVE_HISTORY_TRACE",
+  "scientific_scope": "MODE1",
+  "hypothesis": "Actual JTYPE2 trial-history max updates alter what a later JTYPE1 call reads before LOP2 accepts the increment.",
+  "max_submissions": 1,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_package74_history_call_trace",
+  "diagnostic_kind": "NONINVASIVE_HISTORY_CALL_TRACE",
+  "files": {
+    "f42_experimental_offset_uel.for": "ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d",
+    "f42_history_trace_uel.for": "475ae437acc6688aa8dd56d1328fe5e874de10cecb644fd8eb6b6960ef9cbef5",
+    "offset_state_table.csv": "87c7954efef0134094bbfb03d7ada03d66f9a84281d0bb50f524ae88dfc65add",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_F1597_HISTORY_TRACE_R2.inp": "58b1e69f40c5a65c7b9f1049e42ad745152ab8b5cf6b0f15547ed3276cd54964",
+    "submit_M1_F1597_HISTORY_TRACE_R2.pbs": "e85e6748595bb947b00e2b811ea17ebceb55adea837ab9c533fcc31a40877fb9",
+    "PARITY_PLAN.json": "4628330af955864e42a8c211ef303ed62c568dcc85d504231e40fd525a103577",
+    "trace_notification_receipts.sh": "651852d8ba671faf6bab12dd4f4deaeb43860dc70ebdfabd43883ce9cb340fbe",
+    "PACKAGE_MANIFEST.json": "b9190b31438d754815ffd16dc56a0c34f9a1ee69a0d21636dd3cab210fc5546d"
+  },
+  "jobs": [
+    {
+      "id": "M1_F1597_HISTORY_TRACE_R2",
+      "pbs": "submit_M1_F1597_HISTORY_TRACE_R2.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_package74_history_call_trace/submit_M1_F1597_HISTORY_TRACE_R2.pbs\"",
+      "command_sha256": "4b7f43c6fc1ea00dd67dd13f0a247f1572c4def6b5ad1b84851758acb5d7f226",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Logging-only diagnostic; no corrected-transfer or retry claim",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 4,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_F1597_HISTORY_TRACE_R2.inp",
+      "user_subroutine": "f42_history_trace_uel.for",
+      "datacheck": "M1_F1597_HISTORY_TRACE_R2_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_F1597_HISTORY_TRACE_R2": "Abaqus2023 Exit0; bounded paired UEL/lifecycle trace; unchanged accepted increments; all RF/energy samples pass predeclared parity. Transfer remains failed."
+  },
+  "instrumentation_revision": 2
+}

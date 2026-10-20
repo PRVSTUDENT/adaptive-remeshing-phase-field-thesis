@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "parent_pbs_job_id": "1415199.mmaster02",
+  "purpose": "Logging-only diagnostic; no corrected-transfer or retry claim",
+  "hypothesis": "Actual JTYPE2 trial-history max updates alter what a later JTYPE1 call reads before LOP2 accepts the increment.",
+  "baseline_sources": {
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/evidence_1415199/uel_energy_balance.csv": "74e18e2cd32f4c49347de9b26bfa6a8a87a4d9aeffad68361341706d9ead0523",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/evidence_1415199/M1_EXP_COUPLED_TRANSFER_650.dat": "2c58720f17d10885d3951d47b315d4eff8863343b9313422925a0a4d4fb9b39b"
+  },
+  "force_samples": "All N_RP U2/RF2 printed rows; require equal sample count and displacement sequence",
+  "energy_samples": "All accepted-increment elastic/fracture/total rows; match step, increment and time",
+  "force_rtol": 1e-08,
+  "force_atol_kN": 1e-12,
+  "energy_rtol": 1e-08,
+  "energy_atol_kNmm": 1e-14,
+  "rationale": "Unchanged input/offsets/equations, identical Abaqus2023 serial path; tolerance exceeds last printed decimal roundoff and does not excuse changed acceptance path.",
+  "reject_on": "Nonfinite data, changed increments, truncation, wrong source/receipt or parity outside tolerances. No automatic resubmission."
+}
