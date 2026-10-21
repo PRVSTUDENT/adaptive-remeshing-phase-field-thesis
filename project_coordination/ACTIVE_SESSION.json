@@ -1,23 +1,26 @@
 {
-    "active": false,
-    "agent": "gemini-antigravity",
-    "task_id": "CONTROLLER-EMERGENCY-UTF8-CRASH-REPAIR",
-    "starting_commit": "ff140ad741ffd6064505cfe5e0d36332ebc0c4ba",
-    "claimed_at": "2026-10-21T20:47:00+02:00",
-    "last_updated": "2026-10-21T21:30:00+02:00",
-    "last_released": "2026-10-21T21:30:00+02:00",
-    "controller_run_id": "50bf5c41-9cda-4b5e-a71f-08531857f7a5",
-    "session_report": "project_coordination/sessions/2026-10-21_gemini-antigravity_controller_emergency_utf8_crash_repair.md",
-    "allowed_write_scope": [
-        "scripts/controller/Antigravity-Autonomous-Loop.ps1",
-        "scripts/controller/Controller-Recovery.ps1",
-        "scripts/controller/Invoke-ControllerTurn.ps1",
-        "tests/unit/test_controller_recovery.ps1",
-        "tests/unit/test_agy_credentials.ps1",
-        "tests/unit/test_utf8_boundary.ps1",
-        "project_coordination/ACTIVE_SESSION.json",
-        "project_coordination/CURRENT_STATE.md",
-        "project_coordination/TASK_LEDGER.csv",
-        "project_coordination/sessions/*"
-    ]
+    "active":  false,
+    "agent":  "gemini-antigravity",
+    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "starting_commit":  "2fbbd270ec0b874f18523b286d8818e6566b4780",
+    "claimed_at":  "2026-10-21T21:32:53.2663864+02:00",
+    "last_updated":  "2026-10-21T21:43:19.9306669+02:00",
+    "last_released":  "2026-10-21T21:43:19.9306669+02:00",
+    "controller_run_id":  "efde5d25-c476-4673-8cd2-5cad22feeed3",
+    "session_report":  "project_coordination/sessions/2026-10-21_gemini-antigravity_F1597_efde5d25-c476-4673-8cd2-5cad22feeed3.md",
+    "allowed_write_scope":  [
+                                "project_coordination/sessions/2026-10-21_gemini-antigravity_F1597_efde5d25-c476-4673-8cd2-5cad22feeed3.md",
+                                "project_coordination/controller/turn-efde5d25-c476-4673-8cd2-5cad22feeed3.json",
+                                "results/validation/mode1_f1597/efde5d25-c476-4673-8cd2-5cad22feeed3.json",
+                                "results/validation/preparation-efde5d25-c476-4673-8cd2-5cad22feeed3.json",
+                                "results/validation/*",
+                                "scripts/validation/*",
+                                "tests/unit/*",
+                                "models/pandey_kumar_mode1/*",
+                                "project_coordination/ACTIVE_SESSION.json",
+                                "project_coordination/ACTIVE_TASK.json",
+                                "project_coordination/CURRENT_STATE.md",
+                                "project_coordination/TASK_LEDGER.csv",
+                                "project_coordination/ARTIFACT_REGISTRY.csv"
+                            ]
 }
