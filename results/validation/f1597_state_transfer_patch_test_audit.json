@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "operation": "audit_f1597_state_transfer_patch_test",
+  "title": "F1597 State-Transfer Contract Definition and Nonmatching-Mesh Patch Test Suite",
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "classification": "STATE_TRANSFER_CONTRACT_AND_PATCH_TEST_QUALIFIED",
+  "finding": "Nonmatching-mesh state-transfer contract and patch test suite verified: (1) Established formal donor-to-receiver state contract covering displacement (ux, uy), phase field (d in [0, 1]), lower-bound irreversibility (d >= d_prior), and history (H >= 0). (2) Patch Test 1 (constant field): Exact reproduction (scalar err = 1.11e-16, vector err = 1.11e-16 <= 1e-12). (3) Patch Test 2 (affine field): First-order bilinear quad completeness verified (max err = 1.11e-16 <= 1e-11). (4) Patch Test 3 (slit flank discontinuity): Exact duplicate-node topological isolation at y=0.050 mm, x<=0.040 mm verified with zero cross-slit leakage (err <= 1.11e-16). (5) Patch Test 4 (bounds and irreversibility): Clamping and lower-bound operator guarantees zero healing nodes. (6) Patch Test 5 (AT2 fracture energy): Discrete Gauss quadrature conserves fracture energy within 0.16% (Donor=0.271250 mJ, Receiver=0.270818 mJ, Diff=0.1589% <= 2.0%). Frozen UEL f42_mixed_uel.for (CE8D5EDCD2911DCB...) is strictly preserved.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/candidate_donor_h0025.inp": "4C82B66BDA1D925C2BEA65CF765633897ACF4B0030E43C77647FA5E0D05A3179",
+    "models/pandey_kumar_mode1/candidate_crack_band_mesh_c2.inp": "257FC6263D63721BDEEFE48A43CD504C79A92DF61C099CE9481984B625454901",
+    "scripts/validation/audit_f1597_state_transfer_patch_test.py": "26C16E33BEB86C0E448173405C0A9F353D746AA27EE6907DCFE8DB2655150C48",
+    "tests/unit/test_mode1_f1597_state_transfer_patch_test.py": "099943CF43F2F388A4E3DF7AC7828671C2510796A99B9E18D893B34A942EF136"
+  },
+  "state_transfer_contract": {
+    "title": "Mode-I Nonmatching State-Transfer Technical Contract",
+    "primary_fields": {
+      "displacement_u": {
+        "components": [
+          "u_x",
+          "u_y"
+        ],
+        "target_location": "Receiver nodes (U2 element layer)",
+        "continuity_rule": "Isoparametric bilinear C0 interpolation from containing donor element",
+        "slit_condition": "Separate sampling for upper and lower flank duplicate nodes at y=0.050 mm, x<=0.040 mm",
+        "boundary_constraints": "Preserves bottom fixed (u_y=0), pin (u_x=0), and top rigid (u_x=0, u_y=u_top)"
+      },
+      "phase_field_d": {
+        "components": [
+          "d"
+        ],
+        "target_location": "Receiver nodes (U1 element layer)",
+        "range_bounds": [
+          0.0,
+          1.0
+        ],
+        "irreversibility_rule": "d*(x) >= d_prior(x) for all x in Omega (zero healing: min Delta d >= 0)",
+        "slit_condition": "Discontinuous jump across slit flank nodes strictly preserved; zero cross-slit smoothing",
+        "variational_regularization": "L2 mass-matrix projection / variational weighting across nonmatching boundaries"
+      }
+    },
+    "history_and_state_variables": {
+      "crack_driving_history_H": {
+        "target_location": "Receiver element 2x2 Gauss integration points",
+        "mapping_rule": "Isoparametric evaluation from containing donor element integration points",
+        "admissibility": "H*(x_qp) >= 0.0 everywhere; local KKT complementarity satisfied",
+        "svars_allocation": "18 internal state variables per element mapped to restart UEL storage"
+      }
+    },
+    "energy_and_force_conservation_tolerances": {
+      "reaction_force_continuity": "|Delta RF2| / RF2_donor <= 5.0%",
+      "fracture_energy_continuity": "|Delta Gamma| / Gamma_donor <= 2.0%",
+      "damage_healing_tolerance": "0 healing nodes (min Delta d >= 0.0)",
+      "mechanical_residual_tolerance": "||R_mech||_inf <= 1.0e-10 kN"
+    }
+  },
+  "patch_test_results": {
+    "patch_test_1_constant_field": {
+      "description": "Constant scalar field d=0.420 and vector displacement u0=(1.5e-3, -2.0e-3)",
+      "scalar_max_error": 1.1102230246251565e-16,
+      "vector_max_error": 8.940560153363745e-19,
+      "tolerance": 1e-12,
+      "passed": true
+    },
+    "patch_test_2_affine_field": {
+      "description": "Linear affine field d = 1.25*x - 0.75*y + 0.35 on uncracked bilinear quads",
+      "max_error": 1.1102230246251565e-16,
+      "tolerance": 1e-11,
+      "passed": true
+    },
+    "patch_test_3_slit_discontinuity": {
+      "description": "Topological jump across slit: d_upper=0.85 vs d_lower=0.15 at y=0.050 mm, x<=0.040 mm",
+      "upper_flank_max_error": 1.1102230246251565e-16,
+      "lower_flank_max_error": 2.7755575615628914e-17,
+      "cross_slit_jump_exact": 0.7,
+      "cross_slit_jump_measured": 0.7,
+      "tolerance": 1e-12,
+      "passed": true
+    },
+    "patch_test_4_bounds_and_irreversibility": {
+      "description": "Enforcement of physical damage bounds [0, 1] and pointwise irreversibility constraint",
+      "bounds_satisfied": true,
+      "healing_nodes": 0,
+      "min_delta_d": 0.020441255932535318,
+      "irreversibility_passed": true,
+      "passed": true
+    },
+    "patch_test_5_at2_fracture_energy": {
+      "description": "AT2 fracture energy Gauss quadrature conservation under 1D exponential damage profile",
+      "gamma_donor_mJ": 0.2712495395423521,
+      "gamma_receiver_mJ": 0.270818475176619,
+      "relative_error_pct": 0.1589180082887427,
+      "tolerance_pct": 2.0,
+      "passed": true
+    }
+  },
+  "mesh_metrics": {
+    "donor_h_um": 2.5,
+    "donor_quad_count": 1600,
+    "donor_node_count": 1698,
+    "donor_slit_nodes": 34,
+    "receiver_h_min_um": 1.0,
+    "receiver_quad_count": 2300,
+    "receiver_node_count": 2413,
+    "receiver_slit_nodes": 32
+  },
+  "limitation": "Patch tests verify geometric, topological, kinematic, and quadrature transfer consistency on manufactured solutions. Final coupled equilibrium and crack unzipping suppression requires actual Abaqus donor solve on HPC once university VPN connectivity is restored.",
+  "next_operation": "Submit candidate_donor_h0025.inp via Invoke-Mode1Execution.ps1 once university VPN gateway restores connectivity, extract frame 650 state, and verify coupled state transfer to Candidate C2."
+}
