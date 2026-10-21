@@ -150,14 +150,19 @@ def mesh(ax,p,title,zoom=None):
     if zoom: ax.set_xlim(*zoom[:2]); ax.set_ylim(*zoom[2:])
     return len(nodes),len(quads)+len(tris)
 native_mesh_path='models/pandey_kumar_mode1/38_method_b_native_final_14k/M1_MB_NATIVE_FINAL_1S.inp'
-fig,axs=plt.subplots(2,2,figsize=(10.2,5.4),layout='constrained')
-mesh(axs[0,0],coarse_path,'Coarse pre-analysis | 2,906 FE')
-_,count=mesh(axs[0,1],native_mesh_path,'Automatically generated native\nMethod B mesh | 14,677 FE'); assert count==14677
-mesh(axs[1,0],native_mesh_path,'Native B: actual crack-tip zoom',(.475,.54,.47,.53))
-_,count=mesh(axs[1,1],corrected_mesh_path,'Separate retrospective mesh | 14,483 FE'); assert count==14483
-fig.suptitle('AUTHENTIC INPUT GEOMETRY | native partition result and separate corrected mesh',fontsize=12)
-save(fig,'mesh_artifacts.png','AUTHENTIC input-deck geometry',[coarse_path,native_mesh_path,corrected_mesh_path,partition_result_path],
-     'Figure 2. Coarse mesh, automatically generated native Method B mesh (14,677 FE) and its tip zoom, plus separate retrospective 14,483-FE verification mesh. The native deck reconstructs the native adapted geometry in UEL layers. The retrospective mesh is not a consequence of choosing 1, 2 or 4 steps.')
+fig,axs=plt.subplots(1,3,figsize=(10.2,2.8),layout='constrained')
+mesh(axs[0],coarse_path,'Coarse pre-analysis | 2,906 FE')
+_,count=mesh(axs[1],native_mesh_path,'Automatically generated native\nMethod B mesh | 14,677 FE'); assert count==14677
+mesh(axs[2],native_mesh_path,'Native B: actual crack-tip zoom',(.475,.54,.47,.53))
+fig.suptitle('AUTHENTIC INPUT GEOMETRY | native loading-partition study only',fontsize=12)
+save(fig,'mesh_artifacts.png','AUTHENTIC input-deck geometry',[coarse_path,native_mesh_path,partition_result_path],
+     'Figure 2, page 2. Coarse mesh, automatically generated native Method B mesh (14,677 FE) and native tip zoom, alongside partition invariance. No retrospective verification mesh is included. This native mesh did not produce the corrected fracture-response curve on page 3.')
+fig,axs=plt.subplots(1,2,figsize=(10.2,2.6),layout='constrained')
+_,count=mesh(axs[0],corrected_mesh_path,'Retrospective verification mesh | 14,483 FE'); assert count==14483
+mesh(axs[1],corrected_mesh_path,'Actual corrected crack-tip refinement',(.475,.54,.47,.53))
+fig.suptitle('AUTHENTIC INPUT GEOMETRY | separate ligament-resolution correction',fontsize=12)
+save(fig,'corrected_verification_mesh.png','AUTHENTIC input-deck geometry',[corrected_mesh_path,eval_path],
+     'Page 3 corrected verification geometry. The 14,483-element mesh and its tip zoom are paired with the fracture-response evaluation of job 1412465. Retrospective ligament refinement used knowledge of the crack path; it is separate from the native 14,677-element partition result and not caused by partition count.')
 fig,ax=plt.subplots(figsize=(6.5,4.5),layout='constrained'); mesh(ax,native_mesh_path,'Automatically generated native Method B: crack-tip mesh',(.475,.54,.47,.53))
 save(fig,'native_crack_tip.png','AUTHENTIC input-deck geometry',[native_mesh_path],
      'Companion close-up of genuine native 14,677-FE Method B geometry. Separate from retrospective 14,483-FE verification mesh.')
@@ -230,10 +235,13 @@ pages=[[
 ('p','Method A: one preliminary simulation, one native adaptive remesh, then a fresh final simulation from zero load. Method B extends that same two-pass approach by partitioning preliminary loading into configurable 1, 2 or 4 steps and selecting/evaluating the relevant MISESERI field before one remesh and a fresh final solve.'),
 ('p','B varies the loading schedule and field-selection opportunities. It does not preserve a loaded fracture state across meshes or perform multiple remeshing cycles. With one step and the same controls, its architecture reduces to Method A.'),
 ('img',('method_b_workflow.png','Conceptual A/B workflow. The shared architecture has two simulation passes and exactly one remesh; only the pre-analysis schedule and field-selection flexibility differ.',500)),
-('img',('mesh_artifacts.png','Figure 2. Authentic coarse mesh, automatically generated native Method B mesh (14,677 FE) and tip zoom, and separate retrospectively corrected ligament-resolution verification mesh (14,483 FE). Partition choice did not cause the latter correction.',475)),
+('h2','What did B add beyond A?'),
+('p','B made preliminary loading and field selection configurable, and tested whether step boundaries alone alter the native mesh. For this common pre-peak endpoint, they did not. This is consistent with linear-elastic companion-layer stress recovery: at the same mesh and endpoint state, subdividing a monotonic load schedule adds no new spatial error information.'),
+('p','This is an observed invariance result, not an accuracy advantage. Companion-layer elasticity does not make the physical phase-field model globally linear. Benefits of selecting intermediate frames were not tested. Different frames, evolving damage, unloading or other controls could change the result. No final fracture-response improvement is attributed to partition count; B remains a one-remesh/two-pass extension, not a demonstrated sequential adaptive algorithm.'),
 ('note','Keep two findings separate: A - the partition study produced equivalent native 14,677-element meshes; B - a distinct retrospective ligament-resolution study evaluated the corrected 14,483-element fracture response.')
 ],[
 ('h1','2. Finding A: Method B loading-partition study'),
+('img',('mesh_artifacts.png','Figure 2. Authentic coarse and automatically generated native Method B mesh (14,677 FE), with native tip zoom. This demonstrates implemented native remeshing and belongs to the partition study; it is not the mesh used for the corrected response on page 3.',475)),
 ('p','The executed infinitesimal-companion decks prescribe cumulative RP displacements of 0.005 mm (1 step); 0.0025, 0.005 mm (2 steps); and 0.00125, 0.0025, 0.00375, 0.005 mm (4 steps). Equal divisions are verified from these decks, not assumed.'),
 ('img',('method_b_loading_schedules.png','Figure 3. Verified deck-derived prescribed histories, not measured solver curves. Each step lasts 1.0 static step-time unit; total times are 1, 2 and 4. Stars mark the selected terminal MISESERI frames; one native remesh follows each complete pre-analysis.',500)),
 ('table',([
@@ -242,12 +250,11 @@ pages=[[
 ['2','0.005000','Max |difference| = 0','14,677','No field/mesh change'],
 ['4','0.005000','Max |difference| = 0','14,677','No field/mesh change']],[65,95,140,80,105])),
 ('p','Field output is requested every increment. The compared selections are the last frames of Step-1, Step-2 and Step-4 respectively (increments 500, 250 and 125). The physical displacement increment is 0.000010 mm in every schedule. Archived verification reports identical recovered fields and native mesh identity, with 14,646 nodes in each case.'),
-('h2','What did B add beyond A?'),
-('p','B made preliminary loading and field selection configurable, and tested whether step boundaries alone alter the native mesh. For this common pre-peak endpoint, they did not. This is consistent with linear-elastic companion-layer stress recovery: at the same mesh and endpoint state, subdividing a monotonic load schedule adds no new spatial error information.'),
-('p','This is an observed invariance result, not an accuracy advantage. Companion-layer elasticity does not make the physical phase-field model globally linear. Benefits of selecting intermediate frames were not tested. Different frames, evolving damage, unloading or other controls could change the result. No final fracture-response improvement is attributed to partition count; B remains a one-remesh/two-pass extension, not a demonstrated sequential adaptive algorithm.')
+
 ],[
 ('h1','3. Finding B: corrected ligament-resolution study'),
 ('p','The separate retrospectively refined 14,483-element verification mesh (serial job 1412465) is compared with canonical fixed reference job 1398090. It uses prior crack-path/ligament information. Its improved brittle fracture response is a mesh-resolution finding, not a benefit caused by choosing 1, 2 or 4 loading partitions.'),
+('img',('corrected_verification_mesh.png','Authentic 14,483-element retrospective verification mesh and crack-tip zoom. Refinement used prior knowledge of the fracture ligament. This is the mesh used for the corrected response below.',450)),
 ('table',([
 ['Quantity','Corrected Method B','Fixed reference','Difference'],
 ['Base elements','14,483','15,192','-4.67%'],
@@ -255,11 +262,10 @@ pages=[[
 ['Peak force [N]','743.701','757.778','-1.86%'],
 ['Matched external work [mJ]','2.2674',f'{wr[-1]:.4f}','-3.87%'],
 ['Comparison endpoint [mm]','0.007889','0.007889','Same horizon']],[166,122,113,84])),
-('img',('method_b_response.png','Figure 1. Authentic corrected Method B and fixed-reference histories, both ending at 0.007889 mm. Force is in N; work is in mJ; plotted displacement is in micrometres. No corrected data are extrapolated.',500)),
+('img',('method_b_response.png','Figure 1. Authentic corrected Method B and fixed-reference histories, both ending at 0.007889 mm. Force is in N; work is in mJ; plotted displacement is in micrometres. No corrected data are extrapolated.',475)),
 ('h2','Validated range and interpretation'),
-('p','Initial stiffness and peak-force differences meet the reported 0.5% and 2% criteria. Matched-horizon external work differs by -3.87%. This supports the corrected mesh as a useful pre-refinement baseline within the verified range.'),
-('p','The corrected solve reached 0.007889 mm; the full 0.010 mm horizon was not completed. The reference is deliberately cropped to the same endpoint. Retrospective ligament refinement does not establish that native automatic remeshing independently predicted the whole crack path.'),
-('note','Work provenance: direct CSV re-integration gives 2.267379 mJ and 2.358732 mJ (approximately -3.87%). The earlier summary listed reference 2.3586 mJ; 2.3587 mJ is the reproducible rounded CSV value. Work follows the established first-recorded-row zero convention; see FIGURE_SOURCES.md.')
+('p','Stiffness and peak-force differences meet the reported 0.5% and 2% criteria; matched work differs by -3.87%. The corrected solve reached 0.007889 mm; the full 0.010 mm horizon was not completed. Reference data are cropped to the same endpoint. This supports a retrospectively refined baseline within the verified range, not predictive native crack tracking.'),
+('note','Matched-work integration convention and rounding details: FIGURE_SOURCES.md.')
 ],[
 ('h1','4. Method C: shared workflow and current evidence'),
 ('p','Step 0 solves on a coarse mesh and monitors the crack region. Each of four proposed cycles then extracts displacement u, damage d and committed history H; remeshes; transfers and re-equilibrates the state; and continues loading. C1/C2 differ in whether earlier refinement is retained or selectively coarsened (Section 5).'),

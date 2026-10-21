@@ -54,17 +54,25 @@ Output SHA-256: `91d027faa05ceaf2e6003580db044482a37236e420f974412df32b85390b329
 
 ## mesh_artifacts.png
 
-**Type: AUTHENTIC input-deck geometry.** Figure 2. Coarse mesh, automatically generated native Method B mesh (14,677 FE) and its tip zoom, plus separate retrospective 14,483-FE verification mesh. The native deck reconstructs the native adapted geometry in UEL layers. The retrospective mesh is not a consequence of choosing 1, 2 or 4 steps.
+**Type: AUTHENTIC input-deck geometry.** Figure 2, page 2. Coarse mesh, automatically generated native Method B mesh (14,677 FE) and native tip zoom, alongside partition invariance. No retrospective verification mesh is included. This native mesh did not produce the corrected fracture-response curve on page 3.
 
-Output SHA-256: `1156c87ee48c999c975adbef8809404002e372e6a4e765230c9ca44481d3c8ab`
+Output SHA-256: `616a9f6edb40a58b2346f298b19ac76723113cd7ff3bd2ebb1890ad63bd19560`
 
 - `models/pandey_kumar_mode1/method_b_preflight_decks/M1-MB-1S.inp` | SHA-256 `060f4b810bc5e2b3d169a5b83f7694f86fe3ed5067c1a482fa2be64bdfefd1f0`
 
 - `models/pandey_kumar_mode1/38_method_b_native_final_14k/M1_MB_NATIVE_FINAL_1S.inp` | SHA-256 `39cfd486c87a48a72f145919998e4fe698367dda452b0f20c2e8f43ea13b0a6d`
 
+- `runs/mode1/method_b_inf_companion/inf_companion_method_b_results.json` | SHA-256 `79dbb197ef76786c3c130ceb1628ba46757dbf4422cb72e5d1d6aa1978d7fd99`
+
+## corrected_verification_mesh.png
+
+**Type: AUTHENTIC input-deck geometry.** Page 3 corrected verification geometry. The 14,483-element mesh and its tip zoom are paired with the fracture-response evaluation of job 1412465. Retrospective ligament refinement used knowledge of the crack path; it is separate from the native 14,677-element partition result and not caused by partition count.
+
+Output SHA-256: `75ab2e3eb3ae465879ec6628136c17951c63cb7374c6bc583cd5842195057fdb`
+
 - `models/pandey_kumar_mode1/40_method_b_corrected_propagation_14k/M1_MB_CORRECTED_PROPAGATION_14K.inp` | SHA-256 `1209f716971719b1a740ff92c8b5503ba9784f10d5eedd3c5035c81d40a066e9`
 
-- `runs/mode1/method_b_inf_companion/inf_companion_method_b_results.json` | SHA-256 `79dbb197ef76786c3c130ceb1628ba46757dbf4422cb72e5d1d6aa1978d7fd99`
+- `models/pandey_kumar_mode1/40_method_b_corrected_propagation_14k/evidence_1412465/corrected_method_b_evaluation.json` | SHA-256 `8820553ccf3db5c3b41743e0553d3be4f25a3c68e027a628ba4e479b932f11f1`
 
 ## native_crack_tip.png
 

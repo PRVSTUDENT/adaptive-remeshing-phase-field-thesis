@@ -12,13 +12,19 @@ B varies the loading schedule and field-selection opportunities. It does not pre
 
 Conceptual A/B workflow. The shared architecture has two simulation passes and exactly one remesh; only the pre-analysis schedule and field-selection flexibility differ.
 
-![Figure 2. Authentic coarse mesh, automatically generated native Method B mesh (14,677 FE) and tip zoom, and separate retrospectively corrected ligament-resolution verification mesh (14,483 FE). Partition choice did not cause the latter correction.](figures/mesh_artifacts.png)
+## What did B add beyond A?
 
-Figure 2. Authentic coarse mesh, automatically generated native Method B mesh (14,677 FE) and tip zoom, and separate retrospectively corrected ligament-resolution verification mesh (14,483 FE). Partition choice did not cause the latter correction.
+B made preliminary loading and field selection configurable, and tested whether step boundaries alone alter the native mesh. For this common pre-peak endpoint, they did not. This is consistent with linear-elastic companion-layer stress recovery: at the same mesh and endpoint state, subdividing a monotonic load schedule adds no new spatial error information.
+
+This is an observed invariance result, not an accuracy advantage. Companion-layer elasticity does not make the physical phase-field model globally linear. Benefits of selecting intermediate frames were not tested. Different frames, evolving damage, unloading or other controls could change the result. No final fracture-response improvement is attributed to partition count; B remains a one-remesh/two-pass extension, not a demonstrated sequential adaptive algorithm.
 
 Keep two findings separate: A - the partition study produced equivalent native 14,677-element meshes; B - a distinct retrospective ligament-resolution study evaluated the corrected 14,483-element fracture response.
 
 # 2. Finding A: Method B loading-partition study
+
+![Figure 2. Authentic coarse and automatically generated native Method B mesh (14,677 FE), with native tip zoom. This demonstrates implemented native remeshing and belongs to the partition study; it is not the mesh used for the corrected response on page 3.](figures/mesh_artifacts.png)
+
+Figure 2. Authentic coarse and automatically generated native Method B mesh (14,677 FE), with native tip zoom. This demonstrates implemented native remeshing and belongs to the partition study; it is not the mesh used for the corrected response on page 3.
 
 The executed infinitesimal-companion decks prescribe cumulative RP displacements of 0.005 mm (1 step); 0.0025, 0.005 mm (2 steps); and 0.00125, 0.0025, 0.00375, 0.005 mm (4 steps). Equal divisions are verified from these decks, not assumed.
 
@@ -34,15 +40,13 @@ Figure 3. Verified deck-derived prescribed histories, not measured solver curves
 
 Field output is requested every increment. The compared selections are the last frames of Step-1, Step-2 and Step-4 respectively (increments 500, 250 and 125). The physical displacement increment is 0.000010 mm in every schedule. Archived verification reports identical recovered fields and native mesh identity, with 14,646 nodes in each case.
 
-## What did B add beyond A?
-
-B made preliminary loading and field selection configurable, and tested whether step boundaries alone alter the native mesh. For this common pre-peak endpoint, they did not. This is consistent with linear-elastic companion-layer stress recovery: at the same mesh and endpoint state, subdividing a monotonic load schedule adds no new spatial error information.
-
-This is an observed invariance result, not an accuracy advantage. Companion-layer elasticity does not make the physical phase-field model globally linear. Benefits of selecting intermediate frames were not tested. Different frames, evolving damage, unloading or other controls could change the result. No final fracture-response improvement is attributed to partition count; B remains a one-remesh/two-pass extension, not a demonstrated sequential adaptive algorithm.
-
 # 3. Finding B: corrected ligament-resolution study
 
 The separate retrospectively refined 14,483-element verification mesh (serial job 1412465) is compared with canonical fixed reference job 1398090. It uses prior crack-path/ligament information. Its improved brittle fracture response is a mesh-resolution finding, not a benefit caused by choosing 1, 2 or 4 loading partitions.
+
+![Authentic 14,483-element retrospective verification mesh and crack-tip zoom. Refinement used prior knowledge of the fracture ligament. This is the mesh used for the corrected response below.](figures/corrected_verification_mesh.png)
+
+Authentic 14,483-element retrospective verification mesh and crack-tip zoom. Refinement used prior knowledge of the fracture ligament. This is the mesh used for the corrected response below.
 
 | Quantity | Corrected Method B | Fixed reference | Difference |
 | --- | --- | --- | --- |
@@ -58,11 +62,9 @@ Figure 1. Authentic corrected Method B and fixed-reference histories, both endin
 
 ## Validated range and interpretation
 
-Initial stiffness and peak-force differences meet the reported 0.5% and 2% criteria. Matched-horizon external work differs by -3.87%. This supports the corrected mesh as a useful pre-refinement baseline within the verified range.
+Stiffness and peak-force differences meet the reported 0.5% and 2% criteria; matched work differs by -3.87%. The corrected solve reached 0.007889 mm; the full 0.010 mm horizon was not completed. Reference data are cropped to the same endpoint. This supports a retrospectively refined baseline within the verified range, not predictive native crack tracking.
 
-The corrected solve reached 0.007889 mm; the full 0.010 mm horizon was not completed. The reference is deliberately cropped to the same endpoint. Retrospective ligament refinement does not establish that native automatic remeshing independently predicted the whole crack path.
-
-Work provenance: direct CSV re-integration gives 2.267379 mJ and 2.358732 mJ (approximately -3.87%). The earlier summary listed reference 2.3586 mJ; 2.3587 mJ is the reproducible rounded CSV value. Work follows the established first-recorded-row zero convention; see FIGURE_SOURCES.md.
+Matched-work integration convention and rounding details: FIGURE_SOURCES.md.
 
 # 4. Method C: shared workflow and current evidence
 
