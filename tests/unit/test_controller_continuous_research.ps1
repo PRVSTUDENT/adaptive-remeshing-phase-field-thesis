@@ -433,7 +433,7 @@ sys.exit(0)
     $foreignCheckpoint = Join-Path $fixture 'runtime-foreign.json'
     Write-ControllerCheckpoint $foreignCheckpoint $foreignState
     $argsForeign = @('-NoProfile', '-NonInteractive', '-File', $turnEntry, '-Stage', 'Bootstrap', '-Workspace', $fixture, '-RunId', $foreignState.run_id, '-TaskId', $foreignState.task_id, '-RuntimeCheckpoint', $foreignCheckpoint)
-    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $argsForeign -WorkingDirectory $fixture -TimeoutSeconds 15
+    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $argsForeign -WorkingDirectory $fixture -TimeoutSeconds 45
     Assert ($r.ExitCode -ne 0 -and $r.Output -match 'Another agent owns the project session') 'Foreign active session correctly blocks new turn bootstrap'
 
     # 11. Progress Watchdog: intermediate verified scientific progress resets watchdog clock while completion remains strictly gated

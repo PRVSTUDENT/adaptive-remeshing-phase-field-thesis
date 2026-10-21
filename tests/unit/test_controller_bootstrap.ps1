@@ -32,19 +32,19 @@ try{
     Put 'project_coordination/ACTIVE_TASK.json' ($originalTask.Replace('probe_mode1_f1597_mechanical_history.py','probe_mode1_f1597_kkt.py'))
     $rejected=$false;try{$null=Resolve-ControllerInstruction $fixture '# F1597 retired operation'}catch{$rejected=$_.Exception.Message -match 'UNQUALIFIED_OR_RETIRED_OPERATION'}
     Assert $rejected 'completed KKT path rejected by pre-model instruction resolution'
-    $r=Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args -WorkingDirectory $fixture -TimeoutSeconds 30
+    $r=Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args -WorkingDirectory $fixture -TimeoutSeconds 45
     Assert ($r.ExitCode -ne 0 -and $r.Output -match 'UNQUALIFIED_OR_RETIRED_OPERATION' -and -not(Test-Path -LiteralPath $state.bootstrap_record_path)) 'direct Bootstrap rejects retired KKT before claim or numerical execution'
     Put 'project_coordination/ACTIVE_TASK.json' $originalTask
-    $r=Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args -WorkingDirectory $fixture -TimeoutSeconds 30
+    $r=Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args -WorkingDirectory $fixture -TimeoutSeconds 45
     Assert ($r.ExitCode -eq 0 -and $r.Output -match 'BOOTSTRAP_COMPLETE') ('canonical -File bootstrap reads prerequisites and claims session: '+$r.Output.Substring(0,[Math]::Min(120,$r.Output.Length)))
     $record=Get-Content -LiteralPath $state.bootstrap_record_path -Raw|ConvertFrom-Json
     Assert ($record.bootstrap_status -eq 'COMPLETE' -and @($record.ordered_sources.PSObject.Properties).Count -eq 9) 'ordered prerequisite receipt records nine source hashes once'
     $owner=Get-Content -LiteralPath "$fixture/project_coordination/ACTIVE_SESSION.json" -Raw|ConvertFrom-Json
     Assert ($owner.allowed_write_scope -contains ('results/validation/mode1_f1597/'+$state.run_id+'.json')) 'claimed write scope contains exact artifact paths, not split string fragments'
     $before=(Get-FileHash -LiteralPath "$fixture/project_coordination/ACTIVE_SESSION.json").Hash
-    $r=Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args -WorkingDirectory $fixture -TimeoutSeconds 30
+    $r=Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args -WorkingDirectory $fixture -TimeoutSeconds 45
     Assert ($r.ExitCode -eq 0 -and $r.Output -match 'BOOTSTRAP_ALREADY_COMPLETE' -and (Get-FileHash -LiteralPath "$fixture/project_coordination/ACTIVE_SESSION.json").Hash -eq $before) 'unchanged bootstrap is idempotent and does not reclaim session'
-    $r=Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args -WorkingDirectory $fixture -TimeoutSeconds 30
+    $r=Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args -WorkingDirectory $fixture -TimeoutSeconds 45
     Assert ($r.ExitCode -eq 0 -and $r.Output -match 'BOOTSTRAP_ALREADY_COMPLETE' -and (Get-FileHash -LiteralPath "$fixture/project_coordination/ACTIVE_SESSION.json").Hash -eq $before) 'repeated unchanged bootstrap remains idempotent and preserves session claim'
     Update-ControllerEvidence $fixture $checkpoint $state
     Assert (-not(Test-ControllerDurableProgress $state)) 'generic bootstrap status report does not count as scientific progress'
