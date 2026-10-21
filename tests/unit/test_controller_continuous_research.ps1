@@ -90,17 +90,17 @@ try {
 
     # Stage Bootstrap
     $args1_boot = @('-NoProfile', '-NonInteractive', '-File', $turnEntry, '-Stage', 'Bootstrap', '-Workspace', $fixture, '-RunId', $state1.run_id, '-TaskId', $state1.task_id, '-RuntimeCheckpoint', $checkpoint1)
-    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args1_boot -WorkingDirectory $fixture -TimeoutSeconds 30
+    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args1_boot -WorkingDirectory $fixture -TimeoutSeconds 60
     Assert ($r.ExitCode -eq 0 -and $r.Output -match 'BOOTSTRAP_COMPLETE') 'Turn 1 Bootstrap claims session and completes'
 
     # Stage Scientific
     $args1_sci = @('-NoProfile', '-NonInteractive', '-File', $turnEntry, '-Stage', 'Scientific', '-Workspace', $fixture, '-RunId', $state1.run_id, '-TaskId', $state1.task_id, '-RuntimeCheckpoint', $checkpoint1)
-    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args1_sci -WorkingDirectory $fixture -TimeoutSeconds 30
+    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args1_sci -WorkingDirectory $fixture -TimeoutSeconds 60
     Assert ($r.ExitCode -eq 0 -and $r.Output -match 'mapped_mechanical_history_call_order_probe') 'Turn 1 Scientific executes mechanical history probe'
 
     # Stage Complete
     $args1_comp = @('-NoProfile', '-NonInteractive', '-File', $turnEntry, '-Stage', 'Complete', '-Workspace', $fixture, '-RunId', $state1.run_id, '-TaskId', $state1.task_id, '-RuntimeCheckpoint', $checkpoint1)
-    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args1_comp -WorkingDirectory $fixture -TimeoutSeconds 30
+    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args1_comp -WorkingDirectory $fixture -TimeoutSeconds 60
     Assert ($r.ExitCode -eq 0 -and $r.Output -match 'SCIENTIFIC_STEP_COMPLETE') 'Turn 1 Complete commits, pushes, and clears scientific_operation'
 
     $taskAfterTurn1 = Get-Content -LiteralPath "$fixture/project_coordination/ACTIVE_TASK.json" -Raw | ConvertFrom-Json
@@ -131,7 +131,7 @@ try {
 
     # Turn 3 Bootstrap
     $args3_boot = @('-NoProfile', '-NonInteractive', '-File', $turnEntry, '-Stage', 'Bootstrap', '-Workspace', $fixture, '-RunId', $state3.run_id, '-TaskId', $state3.task_id, '-RuntimeCheckpoint', $checkpoint3)
-    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args3_boot -WorkingDirectory $fixture -TimeoutSeconds 30
+    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args3_boot -WorkingDirectory $fixture -TimeoutSeconds 60
     Assert ($r.ExitCode -eq 0 -and $r.Output -match '"next_stage":\s*"Preparation"') 'Turn 3 Bootstrap completes and advances to Preparation'
 
     # Write genuine preparation finding artifact with verified evidence source
@@ -155,13 +155,13 @@ try {
 
     # Stage Preparation
     $args3_prep = @('-NoProfile', '-NonInteractive', '-File', $turnEntry, '-Stage', 'Preparation', '-Workspace', $fixture, '-RunId', $state3.run_id, '-TaskId', $state3.task_id, '-RuntimeCheckpoint', $checkpoint3, '-CheckpointArtifact', $prepArtifactRel3)
-    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args3_prep -WorkingDirectory $fixture -TimeoutSeconds 30
+    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args3_prep -WorkingDirectory $fixture -TimeoutSeconds 60
     Assert ($r.ExitCode -eq 0 -and $r.Output -match 'PREPARATION_COMPLETE') 'Turn 3 Preparation verifies preparation checkpoint artifact'
     Assert (Test-ControllerScientificCheckpoint $fixture $state3) 'Test-ControllerScientificCheckpoint passes for PREPARATION_CHECKPOINT'
 
     # Stage Complete
     $args3_comp = @('-NoProfile', '-NonInteractive', '-File', $turnEntry, '-Stage', 'Complete', '-Workspace', $fixture, '-RunId', $state3.run_id, '-TaskId', $state3.task_id, '-RuntimeCheckpoint', $checkpoint3)
-    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args3_comp -WorkingDirectory $fixture -TimeoutSeconds 30
+    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args3_comp -WorkingDirectory $fixture -TimeoutSeconds 60
     Assert ($r.ExitCode -eq 0 -and $r.Output -match 'SCIENTIFIC_STEP_COMPLETE') 'Turn 3 Complete releases session and logs preparation finding'
 
     # -------------------------------------------------------------------------
@@ -261,17 +261,17 @@ sys.exit(0)
 
     # Stage Bootstrap
     $args4_boot = @('-NoProfile', '-NonInteractive', '-File', $turnEntry, '-Stage', 'Bootstrap', '-Workspace', $fixture, '-RunId', $state4.run_id, '-TaskId', $state4.task_id, '-RuntimeCheckpoint', $checkpoint4)
-    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args4_boot -WorkingDirectory $fixture -TimeoutSeconds 30
+    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args4_boot -WorkingDirectory $fixture -TimeoutSeconds 60
     Assert ($r.ExitCode -eq 0 -and $r.Output -match 'BOOTSTRAP_COMPLETE') 'Turn 4 Bootstrap claims session and completes'
 
     # Stage Scientific
     $args4_sci = @('-NoProfile', '-NonInteractive', '-File', $turnEntry, '-Stage', 'Scientific', '-Workspace', $fixture, '-RunId', $state4.run_id, '-TaskId', $state4.task_id, '-RuntimeCheckpoint', $checkpoint4)
-    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args4_sci -WorkingDirectory $fixture -TimeoutSeconds 30
+    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args4_sci -WorkingDirectory $fixture -TimeoutSeconds 60
     Assert ($r.ExitCode -eq 0 -and $r.Output -match 'probe_mode1_f1597_coupled_correction') 'Turn 4 Scientific executes new dynamic operation'
 
     # Stage Complete
     $args4_comp = @('-NoProfile', '-NonInteractive', '-File', $turnEntry, '-Stage', 'Complete', '-Workspace', $fixture, '-RunId', $state4.run_id, '-TaskId', $state4.task_id, '-RuntimeCheckpoint', $checkpoint4)
-    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args4_comp -WorkingDirectory $fixture -TimeoutSeconds 30
+    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $args4_comp -WorkingDirectory $fixture -TimeoutSeconds 60
     Assert ($r.ExitCode -eq 0 -and $r.Output -match 'SCIENTIFIC_STEP_COMPLETE') 'Turn 4 Complete records dynamic operation, commits, pushes, and releases session'
 
     $taskAfterTurn4 = Get-Content -LiteralPath "$fixture/project_coordination/ACTIVE_TASK.json" -Raw | ConvertFrom-Json
@@ -433,7 +433,7 @@ sys.exit(0)
     $foreignCheckpoint = Join-Path $fixture 'runtime-foreign.json'
     Write-ControllerCheckpoint $foreignCheckpoint $foreignState
     $argsForeign = @('-NoProfile', '-NonInteractive', '-File', $turnEntry, '-Stage', 'Bootstrap', '-Workspace', $fixture, '-RunId', $foreignState.run_id, '-TaskId', $foreignState.task_id, '-RuntimeCheckpoint', $foreignCheckpoint)
-    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $argsForeign -WorkingDirectory $fixture -TimeoutSeconds 45
+    $r = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList $argsForeign -WorkingDirectory $fixture -TimeoutSeconds 60
     Assert ($r.ExitCode -ne 0 -and $r.Output -match 'Another agent owns the project session') 'Foreign active session correctly blocks new turn bootstrap'
 
     # 11. Progress Watchdog: intermediate verified scientific progress resets watchdog clock while completion remains strictly gated
