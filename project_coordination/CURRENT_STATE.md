@@ -36,6 +36,21 @@
      - Corrective requirement: Monolithic coupled inequality-constrained transfer operator $\min_{u^*, d^*} \Pi(u^*, d^*)$ subject to $d^* \ge d_{\text{donor}}$ and consistent boundary conditions prior to restart.
 
 
+## Controller TURN_START Provider Verification Repair — 21 October 2026
+
+- **Turn 1 Science Preserved**: Turn `242c8dbb-aabe-433b-a9a8-5151c475c213` (Candidate C2 crack-band mesh generation & energy preservation check) completed cleanly; results and ledgers 100% preserved. Turn 1 was NOT replayed.
+- **Turn 2 Pending State Reconciled**: Checkpoint `controller_turn_checkpoint.json` preserved in state `PENDING` for Turn 2; pending 5,229-character instruction ("Antigravity — F1597: Physically Admissible Coupled Transfer on Candidate C2") intact in `antigravity_loop_state.json` and ChatGPT bridge archive.
+- **Provider Verification Defect & Repair**:
+  1. Identified root cause: `agy-profile switch account3` restores saved DPAPI profile whose token expired on 2026-10-19. `Update-AgyNativeAccessToken` refreshes the native store (`gemini:antigravity`), but leaves the CLI file (`~/.gemini/antigravity-cli/antigravity-oauth-token`) untouched. Controller was reading the stale CLI file and passing its expired token to `Get-AgyProviderIdentity`, getting HTTP 401 Unauthorized from Google OIDC.
+  2. Fixed `Set-AndVerifyAgyRunProfile` in `Antigravity-Autonomous-Loop.ps1`: now extracts and verifies the **refreshed native access token actually being used** against Google `/userinfo`. Synchronizes native and CLI stores only after live provider subject verification succeeds.
+  3. Fixed `Get-AgyProviderIdentity` in `AgyCredentialStores.ps1`: classifies HTTP 401 as immediate fail-closed without retrying; allows at most 1 bounded retry for transient 5xx / network errors; suppresses all credential contents and raw payloads.
+- **Verification & Parity**:
+  - `test_agy_credentials.ps1`: ALL PASS, including new regression tests for stale CLI token replacement, provider 401, transient 503 retry, provider identity mismatch, and pending instruction preservation.
+  - `test_controller_recovery.ps1`: ALL 26 CHECKS PASSED.
+  - `test_controller_profile_guard.ps1`: ALL 6 CHECKS PASSED.
+  - Deployed `Antigravity-Autonomous-Loop.ps1` to OpenClawPAD with SHA-256 parity: `C6C72916EF27D3E7BB1D831476D6872F822AE167990031B378DC22C15909DCF8`.
+  - OpenClawPAD `-ControllerDryRun` returned exit code 0 (`checkpoint_state: PENDING`, `task: F1597-CORRECT-PACKAGE72-STATE-TRANSFER`). Controller is verified ready to resume Turn 2.
+
 ## Controller Turn 4 Closeout and TURN_END Credential Refresh Lifecycle Repair — 21 October 2026
 
 - **Turn 4 Science Preserved**: Turn `fcb85c6f-703c-47e4-8ee4-f814e7c75b63` completed cleanly with compliance ablation proof ($e_{K,\text{elastic}} = 1.17\% \le 5\%$, $e_{K,\text{dam}} = 67.22\% \gg 5\%$, diffuse damage band volume expansion $+18.01\%$).

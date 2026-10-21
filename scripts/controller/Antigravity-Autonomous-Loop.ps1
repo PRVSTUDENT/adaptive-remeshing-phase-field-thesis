@@ -496,30 +496,62 @@ function Set-AndVerifyAgyRunProfile {
     try {
         try {
             Assert-AgyCredentialStores -ExpectedBytes $expectedBytes -TokenPath $tokenPath
+            if ($Context -in @('STARTUP', 'TURN_START')) {
+                $checkBytes = [IO.File]::ReadAllBytes($tokenPath)
+                try {
+                    $checkTok = ConvertTo-AgyCredentialToken $checkBytes -SourceName cli-file
+                    $expCheck = [datetimeoffset]::MinValue
+                    if ((-not $checkTok.Token.access_token) -or ([datetimeoffset]::TryParse([string]$checkTok.Token.expiry, [ref]$expCheck) -and $expCheck -le [datetimeoffset]::UtcNow)) {
+                        throw "AGY_CREDENTIAL_EXPIRED: active access token expired; resynchronization required."
+                    }
+                } finally {
+                    if ($checkBytes) { [Array]::Clear($checkBytes, 0, $checkBytes.Length) }
+                }
+            }
         } catch {
             $verificationFailure = $_
             if ($Context -in @('STARTUP', 'TURN_START')) {
                 if (Get-Process -Name agy -ErrorAction SilentlyContinue) { throw 'AGY_CREDENTIAL_RESYNC_BUSY: active AGY process prevents profile resynchronization.' }
                 $null = & agy-profile switch $expected -Force *>&1
-                Assert-AgyCredentialStores -ExpectedBytes $expectedBytes -TokenPath $tokenPath
-                $cliBytes = [IO.File]::ReadAllBytes($tokenPath)
+                $expectedToken = ConvertTo-AgyCredentialToken $expectedBytes -SourceName saved-profile
+                $nativeBytes = $null
+                $candidate = $null
                 try {
-                    $cliToken = ConvertTo-AgyCredentialToken $cliBytes -SourceName cli-file
-                    $expectedToken = ConvertTo-AgyCredentialToken $expectedBytes -SourceName saved-profile
-                    if (-not $cliToken.Token.access_token) { throw 'AGY_RESYNC_ACCESS_MISSING' }
+                    $nativeBytes = Read-AgyCredentialManagerBytes
+                    $nativeToken = ConvertTo-AgyCredentialToken $nativeBytes -SourceName native-store -AllowMissingIdentity
+                    if ($nativeToken.Identity -and $nativeToken.Identity -ne $expectedToken.Identity) {
+                        throw 'AGY_RESYNC_IDENTITY_CONFLICT: native credential identity does not match expected profile.'
+                    }
                     $expiry = [datetimeoffset]::MinValue
-                    if ([datetimeoffset]::TryParse([string]$cliToken.Token.expiry, [ref]$expiry) -and $expiry -le [datetimeoffset]::UtcNow) {
+                    $needsRefresh = (-not $nativeToken.Token.access_token) -or ([datetimeoffset]::TryParse([string]$nativeToken.Token.expiry, [ref]$expiry) -and $expiry -le [datetimeoffset]::UtcNow)
+                    if ($needsRefresh) {
                         Update-AgyNativeAccessToken
-                        Assert-AgyCredentialStores -ExpectedBytes $expectedBytes -TokenPath $tokenPath
-                        [Array]::Clear($cliBytes, 0, $cliBytes.Length)
-                        $cliBytes = [IO.File]::ReadAllBytes($tokenPath)
-                        $cliToken = ConvertTo-AgyCredentialToken $cliBytes -SourceName cli-file
+                        [Array]::Clear($nativeBytes, 0, $nativeBytes.Length)
+                        $nativeBytes = Read-AgyCredentialManagerBytes
+                        $nativeToken = ConvertTo-AgyCredentialToken $nativeBytes -SourceName native-store -AllowMissingIdentity
                     }
-                    if ((Get-AgyProviderIdentity -AccessToken $cliToken.Token.access_token) -ne $expectedToken.Identity) {
-                        throw 'AGY_RESYNC_PROVIDER_MISMATCH'
+                    if ($nativeToken.Identity -and $nativeToken.Identity -ne $expectedToken.Identity) {
+                        throw 'AGY_RESYNC_IDENTITY_CONFLICT: refreshed native credential identity does not match expected profile.'
                     }
+                    if (-not $nativeToken.Token.access_token) {
+                        throw 'AGY_RESYNC_ACCESS_MISSING: native access token missing after refresh.'
+                    }
+                    $liveProviderIdentity = Get-AgyProviderIdentity -AccessToken $nativeToken.Token.access_token
+                    if ($liveProviderIdentity -ne $expectedToken.Identity) {
+                        throw 'AGY_RESYNC_PROVIDER_MISMATCH: live provider identity does not match expected profile.'
+                    }
+                    if (-not $nativeToken.Identity) {
+                        $nativeToken.Token | Add-Member -NotePropertyName id_token -NotePropertyValue $expectedToken.Token.id_token -Force
+                    }
+                    $candidate = [Text.Encoding]::UTF8.GetBytes((@{token=$nativeToken.Token;auth_method=$nativeToken.AuthMethod} | ConvertTo-Json -Depth 12 -Compress))
+                    if ([Convert]::ToBase64String($nativeBytes) -cne [Convert]::ToBase64String($candidate)) {
+                        Write-AgyCredentialManagerBytes -Bytes $candidate
+                    }
+                    Sync-AgyCliCredentialFile -Bytes $candidate -TokenPath $tokenPath
+                    Assert-AgyCredentialStores -ExpectedBytes $expectedBytes -TokenPath $tokenPath
                 } finally {
-                    if ($cliBytes) { [Array]::Clear($cliBytes, 0, $cliBytes.Length) }
+                    if ($nativeBytes) { [Array]::Clear($nativeBytes, 0, $nativeBytes.Length) }
+                    if ($candidate) { [Array]::Clear($candidate, 0, $candidate.Length) }
                 }
                 Write-Host "[PROFILE-GUARD] Synchronized active profile '$expected' [$Context]."
             } elseif ($Context -eq 'TURN_END') {

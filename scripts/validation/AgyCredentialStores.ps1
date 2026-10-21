@@ -132,13 +132,57 @@ function Sync-AgyCliCredentialFile {
 function Get-AgyProviderIdentity {
     param([Parameter(Mandatory)][string]$AccessToken)
     # Fixed HTTPS origin, bearer header only: no credentials in URLs or diagnostics.
-    try {
-        $reply=Invoke-RestMethod -Uri 'https://openidconnect.googleapis.com/v1/userinfo' -Headers @{Authorization=('Bearer '+$AccessToken)} -TimeoutSec 15 -ErrorAction Stop
-        if (-not $reply.sub) { throw 'Missing provider subject' }
-        $hash=[Security.Cryptography.SHA256]::Create()
-        try { return ([BitConverter]::ToString($hash.ComputeHash([Text.Encoding]::UTF8.GetBytes([string]$reply.sub)))).Replace('-','').ToLowerInvariant().Substring(0,16) }
-        finally { $hash.Dispose() }
-    } catch { throw 'AGY_PROVIDER_IDENTITY_UNPROVEN: bounded account lookup failed; credential contents suppressed.' }
+    $maxAttempts = 2
+    $attempt = 0
+    $uri = 'https://openidconnect.googleapis.com/v1/userinfo'
+    $headers = @{ Authorization = ('Bearer ' + $AccessToken) }
+
+    while ($attempt -lt $maxAttempts) {
+        $attempt++
+        $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
+        try {
+            $reply = Invoke-RestMethod -Uri $uri -Headers $headers -TimeoutSec 15 -ErrorAction Stop
+            $stopwatch.Stop()
+            if (-not $reply.sub) { throw 'Missing provider subject' }
+            $hash = [Security.Cryptography.SHA256]::Create()
+            try { return ([BitConverter]::ToString($hash.ComputeHash([Text.Encoding]::UTF8.GetBytes([string]$reply.sub)))).Replace('-','').ToLowerInvariant().Substring(0,16) }
+            finally { $hash.Dispose() }
+        } catch {
+            $stopwatch.Stop()
+            $elapsedMs = [int]$stopwatch.ElapsedMilliseconds
+            $ex = $_.Exception
+            $inner = if ($ex.InnerException) { $ex.InnerException } else { $ex }
+            $category = $inner.GetType().Name
+            $statusCode = $null
+
+            if ($inner -is [System.Net.WebException] -and $inner.Response) {
+                try { $statusCode = [int](([System.Net.HttpWebResponse]$inner.Response).StatusCode) } catch {}
+            } elseif ($inner.PSObject.Properties['StatusCode']) {
+                try { $statusCode = [int]$inner.StatusCode } catch {}
+            }
+
+            if ($statusCode -eq 401) {
+                throw "AGY_PROVIDER_IDENTITY_UNPROVEN: HTTP 401 Unauthorized; token expired or invalid; credential contents suppressed (elapsed: ${elapsedMs}ms)."
+            }
+
+            $isTransient = $false
+            if ($statusCode) {
+                if ($statusCode -ge 500 -or $statusCode -eq 408 -or $statusCode -eq 429) { $isTransient = $true }
+            } else {
+                if ($category -in @('WebException', 'TimeoutException', 'IOException', 'HttpRequestException', 'SocketException')) {
+                    $isTransient = $true
+                }
+            }
+
+            if ($attempt -lt $maxAttempts -and $isTransient) {
+                Start-Sleep -Seconds 1
+                continue
+            }
+
+            $detail = if ($statusCode) { "HTTP $statusCode ($category, elapsed: ${elapsedMs}ms)" } else { "$category, elapsed: ${elapsedMs}ms" }
+            throw "AGY_PROVIDER_IDENTITY_UNPROVEN: bounded account lookup failed ($detail); credential contents suppressed."
+        }
+    }
 }
 
 function Write-AgyCredentialManagerBytes {

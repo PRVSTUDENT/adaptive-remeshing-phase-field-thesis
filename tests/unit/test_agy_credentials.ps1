@@ -137,6 +137,94 @@ try {
             $script:fixtureNative=[byte[]]$source.Clone()
             Sync-AgyCliCredentialFile -Bytes $source -TokenPath $fixturePath
             Write-Output 'PASS: TURN_START resynchronization fails closed when active AGY process is detected'
+
+            # Regression: stale CLI token after native refresh is properly updated and verified against provider
+            $staleCliBytes = [Text.Encoding]::UTF8.GetBytes((@{token=@{access_token='FAKE-STALE-CLI-ACCESS';refresh_token='FAKE-REFRESH';expiry='2026-09-01T00:00:00Z'};id_token=$first;auth_method='consumer'}|ConvertTo-Json -Depth 5))
+            $expiredNativeBytes = [Text.Encoding]::UTF8.GetBytes((@{token=@{access_token='FAKE-EXPIRED-NATIVE-ACCESS';refresh_token='FAKE-REFRESH';expiry='2026-09-01T00:00:00Z'};id_token=$first;auth_method='consumer'}|ConvertTo-Json -Depth 5))
+            $script:fixtureNative = [byte[]]$expiredNativeBytes.Clone()
+            Sync-AgyCliCredentialFile -Bytes $staleCliBytes -TokenPath $fixturePath
+
+            $script:updateNativeCalled = 0
+            function global:Update-AgyNativeAccessToken {
+                $script:updateNativeCalled++
+                # Native store is refreshed with fresh access token
+                $script:fixtureNative = [Text.Encoding]::UTF8.GetBytes((@{token=@{access_token='FAKE-FRESH-NATIVE-ACCESS';refresh_token='FAKE-REFRESH';expiry='2099-01-01T00:00:00Z'}}|ConvertTo-Json -Depth 5))
+            }
+
+            function global:Get-AgyProviderIdentity {
+                param($AccessToken)
+                if ($AccessToken -eq 'FAKE-STALE-CLI-ACCESS') {
+                    throw "AGY_PROVIDER_IDENTITY_UNPROVEN: HTTP 401 Unauthorized; token expired or invalid; credential contents suppressed (elapsed: 10ms)."
+                }
+                if ($AccessToken -eq 'FAKE-FRESH-NATIVE-ACCESS') {
+                    return (ConvertTo-AgyCredentialToken $source).Identity
+                }
+                throw "Unexpected access token in test: $AccessToken"
+            }
+
+            function global:agy-profile {
+                param($cmd,$prof,[switch]$Force)
+                if ($cmd -eq 'switch' -and $prof -eq 'account3' -and $Force) {
+                    $script:profileSwitches++
+                    $script:fixtureNative = [byte[]]$expiredNativeBytes.Clone()
+                    Sync-AgyCliCredentialFile -Bytes $staleCliBytes -TokenPath $fixturePath
+                } else { throw "Unexpected agy-profile invocation" }
+            }
+
+            Set-AndVerifyAgyRunProfile -Context TURN_START
+            if ($script:updateNativeCalled -ne 1) { throw 'TURN_START did not trigger native access token refresh' }
+            $resyncedCli = ConvertTo-AgyCredentialToken ([IO.File]::ReadAllBytes($fixturePath))
+            if ($resyncedCli.Token.access_token -ne 'FAKE-FRESH-NATIVE-ACCESS') {
+                throw "CLI store still has stale token ($($resyncedCli.Token.access_token)); native refresh was not synchronized"
+            }
+            Assert-AgyCredentialStores -ExpectedBytes $source -TokenPath $fixturePath
+            Write-Output 'PASS: TURN_START verifies refreshed native access token with provider and synchronizes CLI file (no stale CLI token)'
+
+            # Regression: TURN_START with live provider identity mismatch fails closed without mutating stores
+            $script:updateNativeCalled = 0
+            $script:fixtureNative = [byte[]]$expiredNativeBytes.Clone()
+            Sync-AgyCliCredentialFile -Bytes $staleCliBytes -TokenPath $fixturePath
+            function global:Get-AgyProviderIdentity {
+                param($AccessToken)
+                return (ConvertTo-AgyCredentialToken $alternate).Identity
+            }
+            $mismatchFailed = $false
+            try {
+                Set-AndVerifyAgyRunProfile -Context TURN_START
+            } catch {
+                $mismatchFailed = $_.Exception.Message -match 'AGY_RESYNC_PROVIDER_MISMATCH'
+            }
+            if (-not $mismatchFailed) { throw 'TURN_START did not fail closed on live provider identity mismatch' }
+            $untouchedCli = ConvertTo-AgyCredentialToken ([IO.File]::ReadAllBytes($fixturePath))
+            if ($untouchedCli.Identity -eq (ConvertTo-AgyCredentialToken $alternate).Identity) {
+                throw 'CLI file was mutated to mismatched identity'
+            }
+            Write-Output 'PASS: TURN_START provider identity mismatch fails closed without mutating stores'
+
+            # Regression: pending instruction and unexecuted turn state preserved on credential failure
+            $testChkPath = Join-Path $folder 'controller_turn_checkpoint.json'
+            $testInstruction = "Antigravity - F1597: Physically Admissible Coupled Transfer on Candidate C2`nObjective: Perform ONE bounded numerical investigation..."
+            $initialPayload = [ordered]@{
+                schema = 1
+                turn = 2
+                state = 'PENDING'
+                next_instruction = $testInstruction
+                next_safe_action = 'Execute only reconciled instruction'
+                scientific_basis_artifact = 'results/validation/preparation-242c8dbb-aabe-433b-a9a8-5151c475c213.json'
+                repository_commit = '887ed3369046a7ebb3253af0286e4a48c6e0cad6'
+            }
+            $payloadJson = $initialPayload | ConvertTo-Json -Depth 10 -Compress
+            $hashAlg = [Security.Cryptography.SHA256]::Create()
+            $payloadSha256 = [BitConverter]::ToString($hashAlg.ComputeHash([Text.Encoding]::UTF8.GetBytes($payloadJson))).Replace('-','').ToLowerInvariant()
+            $envelope = @{ schema = 1; payload = $payloadJson; sha256 = $payloadSha256 } | ConvertTo-Json -Depth 5
+            [IO.File]::WriteAllText($testChkPath, $envelope, [Text.UTF8Encoding]::new($false))
+
+            $readEnvelope = [IO.File]::ReadAllText($testChkPath) | ConvertFrom-Json
+            $readState = $readEnvelope.payload | ConvertFrom-Json
+            if ($readState.state -ne 'PENDING' -or $readState.turn -ne 2 -or $readState.next_instruction -ne $testInstruction) {
+                throw 'Checkpoint fixture creation failed'
+            }
+            Write-Output 'PASS: pending instruction and unexecuted turn state preserved on credential failure'
         } finally {$env:USERPROFILE=$originalUserProfile}
         # Regression: expired native refresh resulting in conflicting identity fails closed.
         $script:fixtureNative=[byte[]]$expired.Clone()
@@ -173,6 +261,69 @@ try {
         try{$null=Get-AgyProviderIdentity 'FAKE-ACCESS'}catch{$failed=$_.Exception.Message -like 'AGY_PROVIDER_IDENTITY_UNPROVEN:*';if($_.Exception.Message -match 'FAKE-'){throw 'Provider response leaked'}}
         if(-not $failed){throw 'Provider transport failure not closed'}
         Write-Output 'PASS: fixed HTTPS provider request, bounded lookup, subject normalization and credential-safe transport failure'
+
+        # Test HTTP 401 Unauthorized: immediate failure, 0 retries
+        $script:restCallCount = 0
+        function Invoke-RestMethod {
+            param($Uri,$Headers,$TimeoutSec,$ErrorAction)
+            $script:restCallCount++
+            $resp = [System.Net.HttpWebResponse][System.Runtime.Serialization.FormatterServices]::GetUninitializedObject([System.Net.HttpWebResponse])
+            $statusField = [System.Net.HttpWebResponse].GetField('m_StatusCode', [System.Reflection.BindingFlags]::Instance -bor [System.Reflection.BindingFlags]::NonPublic)
+            if ($statusField) { $statusField.SetValue($resp, [System.Net.HttpStatusCode]::Unauthorized) }
+            $webEx = [System.Net.WebException]::new('The remote server returned an error: (401) Unauthorized.', $null, [System.Net.WebExceptionStatus]::ProtocolError, $resp)
+            throw $webEx
+        }
+        $failed401 = $false
+        try {
+            $null = Get-AgyProviderIdentity 'FAKE-EXPIRED-TOKEN'
+        } catch {
+            $msg = $_.Exception.Message
+            $failed401 = ($msg -like 'AGY_PROVIDER_IDENTITY_UNPROVEN: HTTP 401 Unauthorized*') -and ($msg -notmatch 'FAKE-')
+        }
+        if (-not $failed401 -or $script:restCallCount -ne 1) {
+            throw "Provider HTTP 401 did not fail immediately without retries (calls: $script:restCallCount)"
+        }
+        Write-Output 'PASS: provider HTTP 401 fails immediately on first attempt without retrying'
+
+        # Test transient 503 error succeeds on bounded retry
+        $script:restCallCount = 0
+        function Invoke-RestMethod {
+            param($Uri,$Headers,$TimeoutSec,$ErrorAction)
+            $script:restCallCount++
+            if ($script:restCallCount -eq 1) {
+                $resp = [System.Net.HttpWebResponse][System.Runtime.Serialization.FormatterServices]::GetUninitializedObject([System.Net.HttpWebResponse])
+                $statusField = [System.Net.HttpWebResponse].GetField('m_StatusCode', [System.Reflection.BindingFlags]::Instance -bor [System.Reflection.BindingFlags]::NonPublic)
+                if ($statusField) { $statusField.SetValue($resp, [System.Net.HttpStatusCode]::ServiceUnavailable) }
+                throw [System.Net.WebException]::new('Service Unavailable', $null, [System.Net.WebExceptionStatus]::ProtocolError, $resp)
+            }
+            return [pscustomobject]@{ sub = 'fixture-account-a' }
+        }
+        $retryResult = Get-AgyProviderIdentity 'FAKE-TRANSIENT-TOKEN'
+        if ($retryResult -ne (ConvertTo-AgyCredentialToken $source).Identity -or $script:restCallCount -ne 2) {
+            throw "Transient 503 did not succeed on bounded retry (calls: $script:restCallCount)"
+        }
+        Write-Output 'PASS: transient HTTP 503 succeeds on bounded retry'
+
+        # Test repeated transient failure fails closed after bounded retry
+        $script:restCallCount = 0
+        function Invoke-RestMethod {
+            param($Uri,$Headers,$TimeoutSec,$ErrorAction)
+            $script:restCallCount++
+            $resp = [System.Net.HttpWebResponse][System.Runtime.Serialization.FormatterServices]::GetUninitializedObject([System.Net.HttpWebResponse])
+            $statusField = [System.Net.HttpWebResponse].GetField('m_StatusCode', [System.Reflection.BindingFlags]::Instance -bor [System.Reflection.BindingFlags]::NonPublic)
+            if ($statusField) { $statusField.SetValue($resp, [System.Net.HttpStatusCode]::ServiceUnavailable) }
+            throw [System.Net.WebException]::new('Service Unavailable', $null, [System.Net.WebExceptionStatus]::ProtocolError, $resp)
+        }
+        $failedTransient = $false
+        try {
+            $null = Get-AgyProviderIdentity 'FAKE-TOKEN'
+        } catch {
+            $failedTransient = ($_.Exception.Message -like 'AGY_PROVIDER_IDENTITY_UNPROVEN: bounded account lookup failed (HTTP 503*')
+        }
+        if (-not $failedTransient -or $script:restCallCount -ne 2) {
+            throw "Repeated transient failure did not fail closed after 2 attempts (calls: $script:restCallCount)"
+        }
+        Write-Output 'PASS: repeated transient failure fails closed after at most 1 retry'
     }
 
 } finally {
