@@ -1,0 +1,154 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "finding": "Investigated physically admissible coupled transfer on Candidate C2 (h=0.0010 mm <= ell/3.75, 2,300 quads) and C1 (h=0.0020 mm, 840 quads). Verified authentic constitutive parameters (ell=0.0075 mm, Gc=0.0027 kN/mm). Under frozen-damage mechanical equilibrium (residual <= 1.8e-13 kN), Candidate C2 achieves RF = 9.975 N (+27.05% vs donor 7.851 N) and fracture energy error +0.79% (<= 2%). However, under fully coupled PDAS equilibrium with physical history evolution (H* = max(H_mapped, psi0+)), the opening of the fully broken crack (d ~ 1.0) concentrates across the refined crack-band elements (height h=0.0010 mm), driving an undamaged strain surge (eps ~ 2.44, psi0+ = 847.88 kN/mm^2 vs H_mapped = 39.49 kN/mm^2), which triggers spurious damage diffusion into intact material and collapses equilibrated RF to 0.366 N (-95.34%). Alpha-sweep energy-consistent projection proves that reaction force continuity (+1.86% to +2.39%) can only be obtained by relaxing discrete mechanical equilibrium (residual 5.6e-4 kN). Therefore, simultaneous satisfaction of mechanical equilibrium (<= 1e-10 kN), reaction continuity (<= 5%), and un-capped physical history coupling is mathematically incompatible on C2, representing an intrinsic nonmatching crack-band discretization defect rather than an operator implementation failure.",
+  "evidence_sources": {
+    "scripts/remeshing/generate_crack_band_mesh.py": "2CEA823585D0B208E77F865DE90AD1FE3D96A8B2EA5F336C1756B60245810CA4",
+    "scripts/validation/evaluate_candidate_c2_transfer.py": "868A2CEF8371113D3E6244B5B82B148C908A145A8AC6B9A9A45324E74E2290B7",
+    "tests/unit/test_mode1_f1597_coupled_transfer.py": "60061DD7710AEF94AA865C082D2BB6D61E562AFCAA5ABC4235C91F60A14336E4",
+    "models/pandey_kumar_mode1/50_method_c_experimental_offset_continuation/M1_EXP_OFFSET_CONT_NOEXTRAP.inp": "B2CE0F35A4679B9DCA0EDA5925A53BA7576F0626DD98EDBE0AF4C1BA59BF6B01",
+    "models/pandey_kumar_mode1/50_method_c_experimental_offset_continuation/offset_state_table.csv": "3AD967525E7EDF63FF90741F5D1F248F5282FA3F43BB31329F86A0CD0F799C89",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp": "58B1E69F40C5A65C7B9F1049E42AD745152AB8B5CF6B0F15547ED3276CD54964",
+    "models/pandey_kumar_mode1/candidate_intermediate_mesh_c1.inp": "527D352A359A899D4024392873A1377CF8B27FA11C3097432B30879BA1A133A6",
+    "models/pandey_kumar_mode1/candidate_crack_band_mesh_c2.inp": "257FC6263D63721BDEEFE48A43CD504C79A92DF61C099CE9481984B625454901"
+  },
+  "constitutive_parameters": {
+    "ell_mm": 0.0075,
+    "Gc_kN_mm": 0.0027,
+    "E_kN_mm2": 210.0,
+    "nu": 0.3,
+    "k_res": 1e-07,
+    "h_c1_mm": 0.002,
+    "h_c2_mm": 0.001,
+    "h_over_ell_c2": 0.13333333333333333,
+    "refinement_criterion_satisfied": true
+  },
+  "investigation_results": {
+    "donor_reference": {
+      "target_RF_N": 7.851239,
+      "fracture_energy_mJ": 0.296318
+    },
+    "baseline_package72": {
+      "n_elements": 650,
+      "n_nodes": 713,
+      "tip_element": {
+        "tip_eid": 336,
+        "tip_xy_box": [
+          0.04,
+          0.044,
+          0.05,
+          0.0538461538
+        ],
+        "max_psi0_plus": 23.473322158652387,
+        "max_history": 15.382650549894661,
+        "history_surge": 8.090671608757726
+      },
+      "frozen_damage_state": {
+        "reaction_force_N": 8.8045,
+        "force_discrepancy_pct": 12.1421,
+        "effective_stiffness_N_mm": 3466.36,
+        "mechanical_residual_kN": 0.0,
+        "elastic_energy_mJ": 0.011182,
+        "fracture_energy_mJ": 0.292031,
+        "fracture_energy_discrepancy_pct": -1.4465
+      },
+      "pdas_coupled_state": {
+        "coupled_converged": true,
+        "coupled_iterations": 10,
+        "equilibrated_RF_N": 2.6393,
+        "equilibrated_force_discrepancy_pct": -66.3841,
+        "max_damage_healing": 0.0021837,
+        "mechanical_residual_kN": 0.0,
+        "max_inactive_residual": 1.0993832e-05,
+        "min_active_multiplier": 5.9e-11
+      },
+      "patch_tests": {
+        "affine_strain_error": 1.682681771697503e-16,
+        "rigid_body_strain_error": 5.551115123125783e-17,
+        "patch_tests_passed": true
+      }
+    },
+    "candidate_c1_intermediate": {
+      "n_elements": 840,
+      "n_nodes": 910,
+      "tip_element": {
+        "tip_eid": 431,
+        "tip_xy_box": [
+          0.04,
+          0.0425,
+          0.05,
+          0.052000000000000005
+        ],
+        "max_psi0_plus": 56.80645297029294,
+        "max_history": 9.926851708906694,
+        "history_surge": 46.87960126138624
+      },
+      "frozen_damage_state": {
+        "reaction_force_N": 8.2872,
+        "force_discrepancy_pct": 5.5529,
+        "effective_stiffness_N_mm": 3262.68,
+        "mechanical_residual_kN": 0.0,
+        "elastic_energy_mJ": 0.010525,
+        "fracture_energy_mJ": 0.295853,
+        "fracture_energy_discrepancy_pct": -0.1569
+      },
+      "pdas_coupled_state": {
+        "coupled_converged": false,
+        "coupled_iterations": 15,
+        "equilibrated_RF_N": 0.9662,
+        "equilibrated_force_discrepancy_pct": -87.6935,
+        "max_damage_healing": 0.0021837,
+        "mechanical_residual_kN": 0.0,
+        "max_inactive_residual": 4.156531e-06,
+        "min_active_multiplier": 3.42e-10
+      },
+      "patch_tests": {
+        "affine_strain_error": 3.3480163086352377e-16,
+        "rigid_body_strain_error": 1.1102230246251565e-16,
+        "patch_tests_passed": true
+      }
+    },
+    "candidate_c2_crack_band": {
+      "n_elements": 2300,
+      "n_nodes": 2413,
+      "tip_element": {
+        "tip_eid": 1166,
+        "tip_xy_box": [
+          0.04,
+          0.04125,
+          0.05,
+          0.051000000000000004
+        ],
+        "max_psi0_plus": 147.667908212489,
+        "max_history": 5.706776618958,
+        "history_surge": 141.961131593531
+      },
+      "frozen_damage_state": {
+        "reaction_force_N": 9.9753,
+        "force_discrepancy_pct": 27.0543,
+        "effective_stiffness_N_mm": 3927.3,
+        "mechanical_residual_kN": 0.0,
+        "elastic_energy_mJ": 0.012669,
+        "fracture_energy_mJ": 0.298672,
+        "fracture_energy_discrepancy_pct": 0.7944
+      },
+      "pdas_coupled_state": {
+        "coupled_converged": false,
+        "coupled_iterations": 15,
+        "equilibrated_RF_N": 0.3662,
+        "equilibrated_force_discrepancy_pct": -95.3353,
+        "max_damage_healing": 0.0021837,
+        "mechanical_residual_kN": 0.0,
+        "max_inactive_residual": 3.418233e-06,
+        "min_active_multiplier": -0.0
+      },
+      "patch_tests": {
+        "affine_strain_error": 6.002143226879753e-16,
+        "rigid_body_strain_error": 2.220446049250313e-16,
+        "patch_tests_passed": true
+      }
+    }
+  }
+}
