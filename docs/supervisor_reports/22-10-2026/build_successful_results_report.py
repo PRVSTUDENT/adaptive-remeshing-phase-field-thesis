@@ -235,13 +235,12 @@ pages=[[
 ('p','Method A: one preliminary simulation, one native adaptive remesh, then a fresh final simulation from zero load. Method B extends that same two-pass approach by partitioning preliminary loading into configurable 1, 2 or 4 steps and selecting/evaluating the relevant MISESERI field before one remesh and a fresh final solve.'),
 ('p','B varies the loading schedule and field-selection opportunities. It does not preserve a loaded fracture state across meshes or perform multiple remeshing cycles. With one step and the same controls, its architecture reduces to Method A.'),
 ('img',('method_b_workflow.png','Conceptual A/B workflow. The shared architecture has two simulation passes and exactly one remesh; only the pre-analysis schedule and field-selection flexibility differ.',500)),
+('img',('mesh_artifacts.png','Figure 2. Authentic coarse and automatically generated native Method B mesh (14,677 FE), with native tip zoom. This demonstrates implemented native remeshing and belongs to the partition study; it is not the mesh used for the corrected response on page 3.',475)),
 ('h2','What did B add beyond A?'),
 ('p','B made preliminary loading and field selection configurable, and tested whether step boundaries alone alter the native mesh. For this common pre-peak endpoint, they did not. This is consistent with linear-elastic companion-layer stress recovery: at the same mesh and endpoint state, subdividing a monotonic load schedule adds no new spatial error information.'),
-('p','This is an observed invariance result, not an accuracy advantage. Companion-layer elasticity does not make the physical phase-field model globally linear. Benefits of selecting intermediate frames were not tested. Different frames, evolving damage, unloading or other controls could change the result. No final fracture-response improvement is attributed to partition count; B remains a one-remesh/two-pass extension, not a demonstrated sequential adaptive algorithm.'),
 ('note','Keep two findings separate: A - the partition study produced equivalent native 14,677-element meshes; B - a distinct retrospective ligament-resolution study evaluated the corrected 14,483-element fracture response.')
 ],[
 ('h1','2. Finding A: Method B loading-partition study'),
-('img',('mesh_artifacts.png','Figure 2. Authentic coarse and automatically generated native Method B mesh (14,677 FE), with native tip zoom. This demonstrates implemented native remeshing and belongs to the partition study; it is not the mesh used for the corrected response on page 3.',475)),
 ('p','The executed infinitesimal-companion decks prescribe cumulative RP displacements of 0.005 mm (1 step); 0.0025, 0.005 mm (2 steps); and 0.00125, 0.0025, 0.00375, 0.005 mm (4 steps). Equal divisions are verified from these decks, not assumed.'),
 ('img',('method_b_loading_schedules.png','Figure 3. Verified deck-derived prescribed histories, not measured solver curves. Each step lasts 1.0 static step-time unit; total times are 1, 2 and 4. Stars mark the selected terminal MISESERI frames; one native remesh follows each complete pre-analysis.',500)),
 ('table',([
@@ -250,6 +249,7 @@ pages=[[
 ['2','0.005000','Max |difference| = 0','14,677','No field/mesh change'],
 ['4','0.005000','Max |difference| = 0','14,677','No field/mesh change']],[65,95,140,80,105])),
 ('p','Field output is requested every increment. The compared selections are the last frames of Step-1, Step-2 and Step-4 respectively (increments 500, 250 and 125). The physical displacement increment is 0.000010 mm in every schedule. Archived verification reports identical recovered fields and native mesh identity, with 14,646 nodes in each case.'),
+('p','This is an observed invariance result, not an accuracy advantage. Companion-layer elasticity does not make the physical phase-field model globally linear. Benefits of selecting intermediate frames were not tested. Different frames, evolving damage, unloading or other controls could change the result. No final fracture-response improvement is attributed to partition count; B remains a one-remesh/two-pass extension, not a demonstrated sequential adaptive algorithm.'),
 
 ],[
 ('h1','3. Finding B: corrected ligament-resolution study'),
@@ -267,26 +267,26 @@ pages=[[
 ('p','Stiffness and peak-force differences meet the reported 0.5% and 2% criteria; matched work differs by -3.87%. The corrected solve reached 0.007889 mm; the full 0.010 mm horizon was not completed. Reference data are cropped to the same endpoint. This supports a retrospectively refined baseline within the verified range, not predictive native crack tracking.'),
 ('note','Matched-work integration convention and rounding details: FIGURE_SOURCES.md.')
 ],[
-('h1','4. Method C: shared workflow and current evidence'),
-('p','Step 0 solves on a coarse mesh and monitors the crack region. Each of four proposed cycles then extracts displacement u, damage d and committed history H; remeshes; transfers and re-equilibrates the state; and continues loading. C1/C2 differ in whether earlier refinement is retained or selectively coarsened (Section 5).'),
-('h2','Verified building blocks; nonmatching handoff still unqualified'),
-('p','Native mesh generation and a same-mesh continuation control are demonstrated. At u=0.00270 mm, that control gives 5.2881993 N versus 5.2895973 N (-0.0264% endpoint difference). It establishes neither whole-trajectory agreement nor nonmatching-transfer qualification.'),
-('p','Crack-band receiver test mesh CB-2300 (formerly Candidate C2) is an unrelated offline test: 2,300 quads, 2,413 nodes, 0.1 x 0.1 mm domain, 0.001 mm band spacing and positive minimum Jacobian 3.125e-7. Its equilibrated force is 0.366 N versus donor 7.851 N (-95.34%, FAIL); maximum damage healing is 0.0021837.'),
-('img',('candidate_c1_c2_meshes.png','Figure 5. Authentic intermediate receiver and CB-2300 test meshes with actual slit-tip close-ups. Neither mesh is a Method C1/C2 strategy or an accepted adaptive cycle.',400)),
-('img',('candidate_c2_passing_checks.png','Figure 6. Authentic offline checks: CB-2300 elastic stiffness discrepancy 4.58% (limit 5%) and fracture-energy discrepancy +0.79% (limit 2%). Passing subchecks do not qualify continuation.',400)),
-('note','CB-2300 is only a report label; scientific filenames and checkpoints are unchanged. Zero healing in the separate constrained 650-element prototype is not a CB-2300 result. Neither this test nor the continuation control demonstrates wake coarsening. No complete nonmatching remesh-and-continue cycle is qualified.')
-],[
-('h1','5. Planned Method C1 and Method C2 strategies'),
-('p','Both strategies target four state-preserving cycles following the evolving crack. C1 - Sequential forward refinement generally retains earlier fine regions. C2 - Sequential refinement with selective wake coarsening investigates removing unnecessary wake resolution while protecting active and damaged regions, potentially limiting mesh growth.'),
-('img',('method_c_planned_workflow.png','Figure 4. Side-by-side conceptual progressions: C1 accumulates refinement; C2 could limit mesh growth through conditional coarsening while protecting the damaged corridor. All ten panels are illustrative, not completed solver cycles.',475)),
-('table',([
-['Comparison','Method C1','Method C2'],
-['Earlier fine regions','Generally retain refinement','Selective coarsening only after physical checks'],
-['Qualification','Not validated for complete nonmatching cycles','Not validated; coarsening not verified']],[118,184,183])),
-('p','Coarsening must preserve damage irreversibility, fracture energy, displacement compatibility, crack opening and mechanical compliance. The active process zone and damaged regions need sufficient resolution; a relaxed wake is not automatically safe to coarsen. No cost saving is claimed.'),
-('h2','Scientific decision and immediate next work'),
-('p','First qualify one physically continuous C1 nonmatching handoff, then sequential refinement. Method C2 coarsening is an additional proposed extension after that dependency passes. Preserve the validated Method B findings; do not treat CB-2300 as a Method C2 implementation.')
+('h1','4. Planned Method C1 and Method C2 strategies'),
+('p','C1 - Forward refinement follows the advancing crack while generally retaining previously refined regions. C2 - Forward refinement with selective coarsening investigates removing unnecessary resolution behind the advancing crack, subject to physical preservation criteria. Both target four state-preserving remeshing cycles.'),
+('img',('method_c_planned_workflow.png','Conceptual four-cycle progressions: C1 accumulates refinement; C2 investigates conditional wake coarsening while protecting the damaged corridor. Every panel is illustrative, not an accepted solver cycle.',500)),
+('h2','Achieved building blocks and remaining gate'),
+('p','Native adaptive mesh generation is implemented. A same-mesh continuation control reached -0.0264% endpoint force difference at u=0.00270 mm; this does not establish whole-trajectory or nonmatching-transfer equivalence.'),
+('p','No nonmatching sequential continuation is physically qualified: force, energy and damage-preservation checks remain unresolved. Both C1/C2 remain unqualified; coarsening is an additional unverified extension and must preserve displacement compatibility, fracture energy and irreversibility. Damaged regions and the active tip require sufficient resolution; crack opening and mechanical compliance must also be preserved.'),
+('note','Question for the supervisor: after the first qualified nonmatching handoff, which should be prioritized - C1 sequential cycles or investigation of C2 selective coarsening?')
 ]]
+
+figure_numbers={}
+for blocks in pages:
+    for index,(kind,value) in enumerate(blocks):
+        if kind=='img':
+            name,caption,width=value
+            number=len(figure_numbers)+1
+            assert name not in figure_numbers
+            figure_numbers[name]=number
+            caption=re.sub(r'^Figure \d+\.\s*','',caption)
+            blocks[index]=(kind,(name,f'Figure {number}. '+caption,width))
+assert len(pages)==4 and list(figure_numbers.values())==list(range(1,7))
 
 styles=getSampleStyleSheet()
 for name,size,leading,color in [('MainTitle',17,21,INK),('SubTitle',11.5,15,BLUE),('ReportBody',10.2,14,'#111111'),('Caption',9,12,'#465b68'),('Note',8.3,10.8,'#465b68'),('Cell',9,12,'#111111')]:
@@ -309,14 +309,16 @@ def footer(canvas,doc):
     canvas.setStrokeColor(colors.HexColor('#cbd7df')); canvas.line(40,32,555,32)
     canvas.setFont('Helvetica',8); canvas.setFillColor(colors.HexColor('#465b68')); canvas.drawString(40,20,'Mode-I adaptive remeshing | Technical progress | 22 October 2026'); canvas.drawRightString(555,20,str(doc.page))
 SimpleDocTemplate(str(OUT/'SUPERVISOR_REPORT_SUCCESSFUL_RESULTS_ONLY.pdf'),pagesize=(595.28,841.89),leftMargin=40,rightMargin=40,topMargin=35,bottomMargin=42,title='Mode-I adaptive remeshing: validated results',author='Pruthviraja Reddy Vandavagali').build(story,onFirstPage=footer,onLaterPages=footer)
-references=[eval_path,ref_path,corr_path,partition_result_path,partition_manifest_path,decision_path,*deck_paths,*wrapper_paths,*method_c_sources,'docs/reports/MODE1_METHOD_B_EVIDENCE_AUDIT_AND_SUPERVISOR_DECISION_PACKAGE.md','docs/reports/MODE1_METHOD_B_SCIENTIFIC_VALIDATION_AND_ADAPTIVE_LIMITATION_REPORT.md','models/pandey_kumar_mode1/experimental_offset_uel/evidence_f1575/F1575_SAME_MESH_CONTINUATION_RESOLUTION.json',cp,'results/validation/mode1_f1597/correction_prototype.json']
+references=[eval_path,ref_path,corr_path,partition_result_path,partition_manifest_path,decision_path,*deck_paths,*wrapper_paths,*method_c_sources,'docs/reports/MODE1_METHOD_B_EVIDENCE_AUDIT_AND_SUPERVISOR_DECISION_PACKAGE.md','docs/reports/MODE1_METHOD_B_SCIENTIFIC_VALIDATION_AND_ADAPTIVE_LIMITATION_REPORT.md','models/pandey_kumar_mode1/experimental_offset_uel/evidence_f1575/F1575_SAME_MESH_CONTINUATION_RESOLUTION.json','models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/PACKAGE72_STATE_TRANSFER_AUDIT.json']
 md.extend(['## Evidence references']+['- `'+p+'`' for p in references]+['- Figure classes and hashes: [FIGURE_SOURCES.md](FIGURE_SOURCES.md).'])
 text=''
 for i,line in enumerate(md): text+=line+ ('\n' if line.startswith('|') and i+1<len(md) and md[i+1].startswith('|') else '\n\n')
 (OUT/'SUPERVISOR_REPORT_SUCCESSFUL_RESULTS_ONLY.md').write_text(text.rstrip()+'\n',encoding='utf-8',newline='\n')
 prov=['# Figure sources and evidence boundaries','Authentic solver outputs, input geometry, offline diagnostics and conceptual figures are separate evidence classes. Actual mesh images come from input connectivity. Conceptual meshes do not represent completed cycles.','## Nomenclature used in this report','Method C1 is the planned sequential forward-refinement strategy. Method C2 is the planned sequential refinement with selective wake-coarsening extension. Neither is qualified. CB-2300 is the report-only alias of the separate historical Candidate C2 crack-band receiver test mesh (2,300 quads). The 840-element intermediate receiver is also not the Method C1 strategy. Original files, identifiers and checkpoints are unchanged. Stable report figure filenames containing candidate_c1_c2 or candidate_c2 refer to those original test artifacts, not to the planned strategies. No external illustrative images from the pasted request are used.']
-for name,kind,paths,desc in sources:
-    prov.extend([f'## {name}',f'**Type: {kind}.** {desc}',f'Output SHA-256: `{hashlib.sha256((FIG/name).read_bytes()).hexdigest()}`'])
+for name,kind,paths,desc in sorted(sources,key=lambda item:(figure_numbers.get(item[0],999),item[0])):
+    desc=re.sub(r'^Figure \d+(?:, page \d+)?\.\s*','',desc)
+    placement=f'Main report Figure {figure_numbers[name]}' if name in figure_numbers else 'Preserved companion research image; excluded from main report'
+    prov.extend([f'## {name}',f'**Placement: {placement}.**',f'**Type: {kind}.** {desc}',f'Output SHA-256: `{hashlib.sha256((FIG/name).read_bytes()).hexdigest()}`'])
     for p in paths: prov.append(f'- `{p}` | SHA-256 `{hashlib.sha256((ROOT/p).read_bytes()).hexdigest()}`')
 prov.append('## Numerical claim sources')
 for p in references:
@@ -327,6 +329,6 @@ for sch in schedules:
     prov.append(f"- {sch['partitions']}S: total static step-time {sch['total_step_time']:g}; select {sch['indicator_step']} last frame (step-local increment {sch['indicator_nominal_increment']}); one remesh after the pre-analysis.")
     for step in sch['steps']:
         prov.append(f"  - {step['name']}: time {step['start_time']:g} to {step['end_time']:g}; prescribed U2 {step['start_u_mm']:.6f} to {step['end_u_mm']:.6f} mm; initial/max dt={step['dt_max']:.6f}; {step['nominal_increments']} nominal increments; field frequency=1.")
-prov.extend(['## Rebuild and scope','Run `python docs/supervisor_reports/22-10-2026/build_successful_results_report.py`. No solver, scheduler or controller execution. Stable output names are reused; native_crack_tip.png is a companion genuine native 14,677-element mesh close-up. All other generated figures are embedded.','## Comparison convention','Both response curves are cropped to 0.007889 mm without extrapolation. The reference has authentic later records to 0.010 mm, excluded here. The corrected 14,483-element study does not complete 0.010 mm. kN-mm work is converted to mJ with factor 1000. Partition invariance (native 14,677 FE) and retrospective ligament resolution (14,483 FE) are separate findings; no fracture-response advantage is attributed to loading partition count.'])
+prov.extend(['## Rebuild and scope','Run `python docs/supervisor_reports/22-10-2026/build_successful_results_report.py`. No solver, scheduler or controller execution. Stable output names are reused; native_crack_tip.png is a companion genuine native 14,677-element mesh close-up. CB-2300 receiver/subcheck images and native_crack_tip.png are preserved companion images, not embedded in the four-page presentation. Main report figures are numbered automatically by appearance, 1 through 6.','## Comparison convention','Both response curves are cropped to 0.007889 mm without extrapolation. The reference has authentic later records to 0.010 mm, excluded here. The corrected 14,483-element study does not complete 0.010 mm. kN-mm work is converted to mJ with factor 1000. Partition invariance (native 14,677 FE) and retrospective ligament resolution (14,483 FE) are separate findings; no fracture-response advantage is attributed to loading partition count.'])
 (OUT/'FIGURE_SOURCES.md').write_text('\n\n'.join(prov)+'\n',encoding='utf-8',newline='\n')
 print(f'Built report and {len(sources)} figures. Matched work: {wc[-1]:.9f}, {wr[-1]:.9f} mJ; error {work_error:.5f}%.')

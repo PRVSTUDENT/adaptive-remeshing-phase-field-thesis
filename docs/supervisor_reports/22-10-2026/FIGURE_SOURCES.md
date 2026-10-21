@@ -6,19 +6,9 @@ Authentic solver outputs, input geometry, offline diagnostics and conceptual fig
 
 Method C1 is the planned sequential forward-refinement strategy. Method C2 is the planned sequential refinement with selective wake-coarsening extension. Neither is qualified. CB-2300 is the report-only alias of the separate historical Candidate C2 crack-band receiver test mesh (2,300 quads). The 840-element intermediate receiver is also not the Method C1 strategy. Original files, identifiers and checkpoints are unchanged. Stable report figure filenames containing candidate_c1_c2 or candidate_c2 refer to those original test artifacts, not to the planned strategies. No external illustrative images from the pasted request are used.
 
-## method_b_response.png
-
-**Type: AUTHENTIC simulation outputs.** Figure 1. Only corrected Method B and canonical fixed reference. Both end at 0.007889 mm. Reference endpoint is interpolated within its recorded range, not extrapolated. Work uses trapezoidal integration of kN versus mm multiplied by 1000 to mJ. Zero is at the first recorded row, u=0.0000025 mm, matching the established evaluation convention. Reintegrated work: 2.267379222 versus 2.358731686 mJ (-3.87295%). Prior summary reference 2.3586 mJ differs by about 0.0001 mJ; the CSV value rounds to 2.3587 mJ.
-
-Output SHA-256: `2fb72c5cb9c2c58a2bc7d5c36c07cac0f2ec302351379c73982171e92cf5becc`
-
-- `results/pandey_kumar_mode1/master_fracture_curves/curve_standard_1398090.csv` | SHA-256 `780d05d39532e778802cdd8503cdd0df25568e412c3d4a51c50f4e001febede6`
-
-- `models/pandey_kumar_mode1/40_method_b_corrected_propagation_14k/evidence_1412465/corrected_method_b_load_displacement.csv` | SHA-256 `dc1ed0877b6e94c6fb1fc318927a67554c6cf970de042a60567362f72e81a1d9`
-
-- `models/pandey_kumar_mode1/40_method_b_corrected_propagation_14k/evidence_1412465/corrected_method_b_evaluation.json` | SHA-256 `8820553ccf3db5c3b41743e0553d3be4f25a3c68e027a628ba4e479b932f11f1`
-
 ## method_b_workflow.png
+
+**Placement: Main report Figure 1.**
 
 **Type: CONCEPTUAL method explanation.** A and B share one-remesh/two-pass architecture. B parameterizes preliminary loading and field selection; it is not sequential adaptation. The 1-step B case reduces to the same architecture as A at the same controls.
 
@@ -28,9 +18,25 @@ Output SHA-256: `fc7256b5bd54bc632c002d1b0e3f81247132b24f7a918fa336a830946769d5d
 
 - `docs/methods/MODE1_LOAD_PARTITION_EXPERIMENT_SPECIFICATION.md` | SHA-256 `b5273f0ee7091f61c76f180a2c66940b153fab3ff9389c6e39bf1265570a37f2`
 
+## mesh_artifacts.png
+
+**Placement: Main report Figure 2.**
+
+**Type: AUTHENTIC input-deck geometry.** Coarse mesh, automatically generated native Method B mesh (14,677 FE) and native tip zoom, alongside partition invariance. No retrospective verification mesh is included. This native mesh did not produce the corrected fracture-response curve on page 3.
+
+Output SHA-256: `616a9f6edb40a58b2346f298b19ac76723113cd7ff3bd2ebb1890ad63bd19560`
+
+- `models/pandey_kumar_mode1/method_b_preflight_decks/M1-MB-1S.inp` | SHA-256 `060f4b810bc5e2b3d169a5b83f7694f86fe3ed5067c1a482fa2be64bdfefd1f0`
+
+- `models/pandey_kumar_mode1/38_method_b_native_final_14k/M1_MB_NATIVE_FINAL_1S.inp` | SHA-256 `39cfd486c87a48a72f145919998e4fe698367dda452b0f20c2e8f43ea13b0a6d`
+
+- `runs/mode1/method_b_inf_companion/inf_companion_method_b_results.json` | SHA-256 `79dbb197ef76786c3c130ceb1628ba46757dbf4422cb72e5d1d6aa1978d7fd99`
+
 ## method_b_loading_schedules.png
 
-**Type: VERIFIED DECK-DERIVED diagram, not measured solver history.** Figure 3. Prescribed RP-U2 ramps reconstructed by parsing actual infinitesimal-companion execution decks. Each step duration is 1; accumulated step-times total 1, 2 and 4. End displacements are absolute BC values, not increments to add. Equal displacement partitions are verified, not assumed. Field output is every increment; remesh selection is the last frame of Step-1/2/4 at u=0.005 mm. Increment labels 500/250/125 follow deck time controls and archived zero-cutback completion. Remeshing occurs once after selection. Static pseudo-time is not walltime. Manifest supplies selection rule; archived result supplies endpoint/field comparison; no ODB is opened or new solver execution claimed.
+**Placement: Main report Figure 3.**
+
+**Type: VERIFIED DECK-DERIVED diagram, not measured solver history.** Prescribed RP-U2 ramps reconstructed by parsing actual infinitesimal-companion execution decks. Each step duration is 1; accumulated step-times total 1, 2 and 4. End displacements are absolute BC values, not increments to add. Equal displacement partitions are verified, not assumed. Field output is every increment; remesh selection is the last frame of Step-1/2/4 at u=0.005 mm. Increment labels 500/250/125 follow deck time controls and archived zero-cutback completion. Remeshing occurs once after selection. Static pseudo-time is not walltime. Manifest supplies selection rule; archived result supplies endpoint/field comparison; no ODB is opened or new solver execution claimed.
 
 Output SHA-256: `91d027faa05ceaf2e6003580db044482a37236e420f974412df32b85390b3293`
 
@@ -52,19 +58,9 @@ Output SHA-256: `91d027faa05ceaf2e6003580db044482a37236e420f974412df32b85390b329
 
 - `docs/decisions/SUPERVISOR_DECISION_METHOD_B_MODE1_LOAD_PARTITIONING.md` | SHA-256 `229a13bc06882549df179be781820a7afa9e116ef75a7f655ef72e0f33274c8e`
 
-## mesh_artifacts.png
-
-**Type: AUTHENTIC input-deck geometry.** Figure 2, page 2. Coarse mesh, automatically generated native Method B mesh (14,677 FE) and native tip zoom, alongside partition invariance. No retrospective verification mesh is included. This native mesh did not produce the corrected fracture-response curve on page 3.
-
-Output SHA-256: `616a9f6edb40a58b2346f298b19ac76723113cd7ff3bd2ebb1890ad63bd19560`
-
-- `models/pandey_kumar_mode1/method_b_preflight_decks/M1-MB-1S.inp` | SHA-256 `060f4b810bc5e2b3d169a5b83f7694f86fe3ed5067c1a482fa2be64bdfefd1f0`
-
-- `models/pandey_kumar_mode1/38_method_b_native_final_14k/M1_MB_NATIVE_FINAL_1S.inp` | SHA-256 `39cfd486c87a48a72f145919998e4fe698367dda452b0f20c2e8f43ea13b0a6d`
-
-- `runs/mode1/method_b_inf_companion/inf_companion_method_b_results.json` | SHA-256 `79dbb197ef76786c3c130ceb1628ba46757dbf4422cb72e5d1d6aa1978d7fd99`
-
 ## corrected_verification_mesh.png
+
+**Placement: Main report Figure 4.**
 
 **Type: AUTHENTIC input-deck geometry.** Page 3 corrected verification geometry. The 14,483-element mesh and its tip zoom are paired with the fracture-response evaluation of job 1412465. Retrospective ligament refinement used knowledge of the crack path; it is separate from the native 14,677-element partition result and not caused by partition count.
 
@@ -74,17 +70,25 @@ Output SHA-256: `75ab2e3eb3ae465879ec6628136c17951c63cb7374c6bc583cd5842195057fd
 
 - `models/pandey_kumar_mode1/40_method_b_corrected_propagation_14k/evidence_1412465/corrected_method_b_evaluation.json` | SHA-256 `8820553ccf3db5c3b41743e0553d3be4f25a3c68e027a628ba4e479b932f11f1`
 
-## native_crack_tip.png
+## method_b_response.png
 
-**Type: AUTHENTIC input-deck geometry.** Companion close-up of genuine native 14,677-FE Method B geometry. Separate from retrospective 14,483-FE verification mesh.
+**Placement: Main report Figure 5.**
 
-Output SHA-256: `718acdc49449f30bede8fc8323a4032adf0677514ffd18cc05124495e157e584`
+**Type: AUTHENTIC simulation outputs.** Only corrected Method B and canonical fixed reference. Both end at 0.007889 mm. Reference endpoint is interpolated within its recorded range, not extrapolated. Work uses trapezoidal integration of kN versus mm multiplied by 1000 to mJ. Zero is at the first recorded row, u=0.0000025 mm, matching the established evaluation convention. Reintegrated work: 2.267379222 versus 2.358731686 mJ (-3.87295%). Prior summary reference 2.3586 mJ differs by about 0.0001 mJ; the CSV value rounds to 2.3587 mJ.
 
-- `models/pandey_kumar_mode1/38_method_b_native_final_14k/M1_MB_NATIVE_FINAL_1S.inp` | SHA-256 `39cfd486c87a48a72f145919998e4fe698367dda452b0f20c2e8f43ea13b0a6d`
+Output SHA-256: `2fb72c5cb9c2c58a2bc7d5c36c07cac0f2ec302351379c73982171e92cf5becc`
+
+- `results/pandey_kumar_mode1/master_fracture_curves/curve_standard_1398090.csv` | SHA-256 `780d05d39532e778802cdd8503cdd0df25568e412c3d4a51c50f4e001febede6`
+
+- `models/pandey_kumar_mode1/40_method_b_corrected_propagation_14k/evidence_1412465/corrected_method_b_load_displacement.csv` | SHA-256 `dc1ed0877b6e94c6fb1fc318927a67554c6cf970de042a60567362f72e81a1d9`
+
+- `models/pandey_kumar_mode1/40_method_b_corrected_propagation_14k/evidence_1412465/corrected_method_b_evaluation.json` | SHA-256 `8820553ccf3db5c3b41743e0553d3be4f25a3c68e027a628ba4e479b932f11f1`
 
 ## method_c_planned_workflow.png
 
-**Type: CONCEPTUAL C1/C2 strategy comparison and future mesh progression.** Figure 4. Side-by-side Step 0 plus four proposed cycles for Method C1 (accumulating forward refinement) and Method C2 (moving active fine zone with conditional selective coarsening). Every strip and crack position is conceptual. The blue damaged corridor stays protected; amber regions illustrate potential coarsening outside it, not blanket coarsening of damaged wake or a qualified rule. No physical dimensions, counts, measured savings, cycle displacements or accepted solver trajectory are implied. Both strategies remain unqualified; coarsening is an additional proposed extension after a physically accepted refinement handoff.
+**Placement: Main report Figure 6.**
+
+**Type: CONCEPTUAL C1/C2 strategy comparison and future mesh progression.** Side-by-side Step 0 plus four proposed cycles for Method C1 (accumulating forward refinement) and Method C2 (moving active fine zone with conditional selective coarsening). Every strip and crack position is conceptual. The blue damaged corridor stays protected; amber regions illustrate potential coarsening outside it, not blanket coarsening of damaged wake or a qualified rule. No physical dimensions, counts, measured savings, cycle displacements or accepted solver trajectory are implied. Both strategies remain unqualified; coarsening is an additional proposed extension after a physically accepted refinement handoff.
 
 Output SHA-256: `fd48a695e98d2e434c94b84c609ebd44d70ecda4ba41d6fa3566f0830447fb3f`
 
@@ -96,7 +100,9 @@ Output SHA-256: `fd48a695e98d2e434c94b84c609ebd44d70ecda4ba41d6fa3566f0830447fb3
 
 ## candidate_c1_c2_meshes.png
 
-**Type: AUTHENTIC input-deck geometry.** Figure 5. Actual intermediate 840-element receiver and crack-band receiver test mesh CB-2300 (formerly Candidate C2), with common-scale tip close-ups. Both are offline test meshes, not Method C1/C2 strategies. Slit y=0.050 mm ends at x=0.040 mm; dark line/dot mark input geometry, not a simulated evolving crack. Original input filenames and scientific identifiers are unchanged.
+**Placement: Preserved companion research image; excluded from main report.**
+
+**Type: AUTHENTIC input-deck geometry.** Actual intermediate 840-element receiver and crack-band receiver test mesh CB-2300 (formerly Candidate C2), with common-scale tip close-ups. Both are offline test meshes, not Method C1/C2 strategies. Slit y=0.050 mm ends at x=0.040 mm; dark line/dot mark input geometry, not a simulated evolving crack. Original input filenames and scientific identifiers are unchanged.
 
 Output SHA-256: `0ca6cbc9a6fc2221dc056ac01e0dac885f54e82ef7739f931338cbfb6c2138ce`
 
@@ -110,13 +116,25 @@ Output SHA-256: `0ca6cbc9a6fc2221dc056ac01e0dac885f54e82ef7739f931338cbfb6c2138c
 
 ## candidate_c2_passing_checks.png
 
-**Type: AUTHENTIC offline numerical diagnostics.** Figure 6. Passing undamaged elastic-stiffness and mapped fracture-energy checks of offline receiver meshes. CB-2300 is the report-only alias of historical Candidate C2, not the Method C2 coarsening strategy. These checks are not damaged-state compliance or solver continuation conservation. Force and healing failures are retained.
+**Placement: Preserved companion research image; excluded from main report.**
+
+**Type: AUTHENTIC offline numerical diagnostics.** Passing undamaged elastic-stiffness and mapped fracture-energy checks of offline receiver meshes. CB-2300 is the report-only alias of historical Candidate C2, not the Method C2 coarsening strategy. These checks are not damaged-state compliance or solver continuation conservation. Force and healing failures are retained.
 
 Output SHA-256: `01219a1b52215ba2ad613f8cb19190d06a39227b5027d776cf3b677742d63b06`
 
 - `results/validation/mesh_convergence_prototype.json` | SHA-256 `a26f1ce1dd32a48f43e0d995f2f68b1658b034a289f8f232fa181486e591d814`
 
 - `scripts/validation/evaluate_candidate_meshes.py` | SHA-256 `330e441928f37b37f45f9f25b37857d1ffb778779899fbb6e507dfcfae9d859f`
+
+## native_crack_tip.png
+
+**Placement: Preserved companion research image; excluded from main report.**
+
+**Type: AUTHENTIC input-deck geometry.** Companion close-up of genuine native 14,677-FE Method B geometry. Separate from retrospective 14,483-FE verification mesh.
+
+Output SHA-256: `718acdc49449f30bede8fc8323a4032adf0677514ffd18cc05124495e157e584`
+
+- `models/pandey_kumar_mode1/38_method_b_native_final_14k/M1_MB_NATIVE_FINAL_1S.inp` | SHA-256 `39cfd486c87a48a72f145919998e4fe698367dda452b0f20c2e8f43ea13b0a6d`
 
 ## Numerical claim sources
 
@@ -156,9 +174,7 @@ Output SHA-256: `01219a1b52215ba2ad613f8cb19190d06a39227b5027d776cf3b677742d63b0
 
 - `models/pandey_kumar_mode1/experimental_offset_uel/evidence_f1575/F1575_SAME_MESH_CONTINUATION_RESOLUTION.json` | SHA-256 `3ffcd33f1c0213dc281033af2cd77983ebcdc8a8d3633587b7bcc8638ce926fb`
 
-- `results/validation/mesh_convergence_prototype.json` | SHA-256 `a26f1ce1dd32a48f43e0d995f2f68b1658b034a289f8f232fa181486e591d814`
-
-- `results/validation/mode1_f1597/correction_prototype.json` | SHA-256 `617bcd8f31c3752871c206b5416b386e7e59dda3a0275ea265fa18a551b2faef`
+- `models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/PACKAGE72_STATE_TRANSFER_AUDIT.json` | SHA-256 `05047da6e223c58834ac775dc492bc2f3ab2bd93551f37e01a950049680ffa82`
 
 ## Verified schedule and field selection
 
@@ -186,7 +202,7 @@ The build parses the actually executed M1_MB_INF_1S/2S/4S decks, verifies their 
 
 ## Rebuild and scope
 
-Run `python docs/supervisor_reports/22-10-2026/build_successful_results_report.py`. No solver, scheduler or controller execution. Stable output names are reused; native_crack_tip.png is a companion genuine native 14,677-element mesh close-up. All other generated figures are embedded.
+Run `python docs/supervisor_reports/22-10-2026/build_successful_results_report.py`. No solver, scheduler or controller execution. Stable output names are reused; native_crack_tip.png is a companion genuine native 14,677-element mesh close-up. CB-2300 receiver/subcheck images and native_crack_tip.png are preserved companion images, not embedded in the four-page presentation. Main report figures are numbered automatically by appearance, 1 through 6.
 
 ## Comparison convention
 

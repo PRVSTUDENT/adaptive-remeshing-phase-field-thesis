@@ -8,23 +8,21 @@ Method A: one preliminary simulation, one native adaptive remesh, then a fresh f
 
 B varies the loading schedule and field-selection opportunities. It does not preserve a loaded fracture state across meshes or perform multiple remeshing cycles. With one step and the same controls, its architecture reduces to Method A.
 
-![Conceptual A/B workflow. The shared architecture has two simulation passes and exactly one remesh; only the pre-analysis schedule and field-selection flexibility differ.](figures/method_b_workflow.png)
+![Figure 1. Conceptual A/B workflow. The shared architecture has two simulation passes and exactly one remesh; only the pre-analysis schedule and field-selection flexibility differ.](figures/method_b_workflow.png)
 
-Conceptual A/B workflow. The shared architecture has two simulation passes and exactly one remesh; only the pre-analysis schedule and field-selection flexibility differ.
+Figure 1. Conceptual A/B workflow. The shared architecture has two simulation passes and exactly one remesh; only the pre-analysis schedule and field-selection flexibility differ.
+
+![Figure 2. Authentic coarse and automatically generated native Method B mesh (14,677 FE), with native tip zoom. This demonstrates implemented native remeshing and belongs to the partition study; it is not the mesh used for the corrected response on page 3.](figures/mesh_artifacts.png)
+
+Figure 2. Authentic coarse and automatically generated native Method B mesh (14,677 FE), with native tip zoom. This demonstrates implemented native remeshing and belongs to the partition study; it is not the mesh used for the corrected response on page 3.
 
 ## What did B add beyond A?
 
 B made preliminary loading and field selection configurable, and tested whether step boundaries alone alter the native mesh. For this common pre-peak endpoint, they did not. This is consistent with linear-elastic companion-layer stress recovery: at the same mesh and endpoint state, subdividing a monotonic load schedule adds no new spatial error information.
 
-This is an observed invariance result, not an accuracy advantage. Companion-layer elasticity does not make the physical phase-field model globally linear. Benefits of selecting intermediate frames were not tested. Different frames, evolving damage, unloading or other controls could change the result. No final fracture-response improvement is attributed to partition count; B remains a one-remesh/two-pass extension, not a demonstrated sequential adaptive algorithm.
-
 Keep two findings separate: A - the partition study produced equivalent native 14,677-element meshes; B - a distinct retrospective ligament-resolution study evaluated the corrected 14,483-element fracture response.
 
 # 2. Finding A: Method B loading-partition study
-
-![Figure 2. Authentic coarse and automatically generated native Method B mesh (14,677 FE), with native tip zoom. This demonstrates implemented native remeshing and belongs to the partition study; it is not the mesh used for the corrected response on page 3.](figures/mesh_artifacts.png)
-
-Figure 2. Authentic coarse and automatically generated native Method B mesh (14,677 FE), with native tip zoom. This demonstrates implemented native remeshing and belongs to the partition study; it is not the mesh used for the corrected response on page 3.
 
 The executed infinitesimal-companion decks prescribe cumulative RP displacements of 0.005 mm (1 step); 0.0025, 0.005 mm (2 steps); and 0.00125, 0.0025, 0.00375, 0.005 mm (4 steps). Equal divisions are verified from these decks, not assumed.
 
@@ -40,13 +38,15 @@ Figure 3. Verified deck-derived prescribed histories, not measured solver curves
 
 Field output is requested every increment. The compared selections are the last frames of Step-1, Step-2 and Step-4 respectively (increments 500, 250 and 125). The physical displacement increment is 0.000010 mm in every schedule. Archived verification reports identical recovered fields and native mesh identity, with 14,646 nodes in each case.
 
+This is an observed invariance result, not an accuracy advantage. Companion-layer elasticity does not make the physical phase-field model globally linear. Benefits of selecting intermediate frames were not tested. Different frames, evolving damage, unloading or other controls could change the result. No final fracture-response improvement is attributed to partition count; B remains a one-remesh/two-pass extension, not a demonstrated sequential adaptive algorithm.
+
 # 3. Finding B: corrected ligament-resolution study
 
 The separate retrospectively refined 14,483-element verification mesh (serial job 1412465) is compared with canonical fixed reference job 1398090. It uses prior crack-path/ligament information. Its improved brittle fracture response is a mesh-resolution finding, not a benefit caused by choosing 1, 2 or 4 loading partitions.
 
-![Authentic 14,483-element retrospective verification mesh and crack-tip zoom. Refinement used prior knowledge of the fracture ligament. This is the mesh used for the corrected response below.](figures/corrected_verification_mesh.png)
+![Figure 4. Authentic 14,483-element retrospective verification mesh and crack-tip zoom. Refinement used prior knowledge of the fracture ligament. This is the mesh used for the corrected response below.](figures/corrected_verification_mesh.png)
 
-Authentic 14,483-element retrospective verification mesh and crack-tip zoom. Refinement used prior knowledge of the fracture ligament. This is the mesh used for the corrected response below.
+Figure 4. Authentic 14,483-element retrospective verification mesh and crack-tip zoom. Refinement used prior knowledge of the fracture ligament. This is the mesh used for the corrected response below.
 
 | Quantity | Corrected Method B | Fixed reference | Difference |
 | --- | --- | --- | --- |
@@ -56,9 +56,9 @@ Authentic 14,483-element retrospective verification mesh and crack-tip zoom. Ref
 | Matched external work [mJ] | 2.2674 | 2.3587 | -3.87% |
 | Comparison endpoint [mm] | 0.007889 | 0.007889 | Same horizon |
 
-![Figure 1. Authentic corrected Method B and fixed-reference histories, both ending at 0.007889 mm. Force is in N; work is in mJ; plotted displacement is in micrometres. No corrected data are extrapolated.](figures/method_b_response.png)
+![Figure 5. Authentic corrected Method B and fixed-reference histories, both ending at 0.007889 mm. Force is in N; work is in mJ; plotted displacement is in micrometres. No corrected data are extrapolated.](figures/method_b_response.png)
 
-Figure 1. Authentic corrected Method B and fixed-reference histories, both ending at 0.007889 mm. Force is in N; work is in mJ; plotted displacement is in micrometres. No corrected data are extrapolated.
+Figure 5. Authentic corrected Method B and fixed-reference histories, both ending at 0.007889 mm. Force is in N; work is in mJ; plotted displacement is in micrometres. No corrected data are extrapolated.
 
 ## Validated range and interpretation
 
@@ -66,44 +66,21 @@ Stiffness and peak-force differences meet the reported 0.5% and 2% criteria; mat
 
 Matched-work integration convention and rounding details: FIGURE_SOURCES.md.
 
-# 4. Method C: shared workflow and current evidence
+# 4. Planned Method C1 and Method C2 strategies
 
-Step 0 solves on a coarse mesh and monitors the crack region. Each of four proposed cycles then extracts displacement u, damage d and committed history H; remeshes; transfers and re-equilibrates the state; and continues loading. C1/C2 differ in whether earlier refinement is retained or selectively coarsened (Section 5).
+C1 - Forward refinement follows the advancing crack while generally retaining previously refined regions. C2 - Forward refinement with selective coarsening investigates removing unnecessary resolution behind the advancing crack, subject to physical preservation criteria. Both target four state-preserving remeshing cycles.
 
-## Verified building blocks; nonmatching handoff still unqualified
+![Figure 6. Conceptual four-cycle progressions: C1 accumulates refinement; C2 investigates conditional wake coarsening while protecting the damaged corridor. Every panel is illustrative, not an accepted solver cycle.](figures/method_c_planned_workflow.png)
 
-Native mesh generation and a same-mesh continuation control are demonstrated. At u=0.00270 mm, that control gives 5.2881993 N versus 5.2895973 N (-0.0264% endpoint difference). It establishes neither whole-trajectory agreement nor nonmatching-transfer qualification.
+Figure 6. Conceptual four-cycle progressions: C1 accumulates refinement; C2 investigates conditional wake coarsening while protecting the damaged corridor. Every panel is illustrative, not an accepted solver cycle.
 
-Crack-band receiver test mesh CB-2300 (formerly Candidate C2) is an unrelated offline test: 2,300 quads, 2,413 nodes, 0.1 x 0.1 mm domain, 0.001 mm band spacing and positive minimum Jacobian 3.125e-7. Its equilibrated force is 0.366 N versus donor 7.851 N (-95.34%, FAIL); maximum damage healing is 0.0021837.
+## Achieved building blocks and remaining gate
 
-![Figure 5. Authentic intermediate receiver and CB-2300 test meshes with actual slit-tip close-ups. Neither mesh is a Method C1/C2 strategy or an accepted adaptive cycle.](figures/candidate_c1_c2_meshes.png)
+Native adaptive mesh generation is implemented. A same-mesh continuation control reached -0.0264% endpoint force difference at u=0.00270 mm; this does not establish whole-trajectory or nonmatching-transfer equivalence.
 
-Figure 5. Authentic intermediate receiver and CB-2300 test meshes with actual slit-tip close-ups. Neither mesh is a Method C1/C2 strategy or an accepted adaptive cycle.
+No nonmatching sequential continuation is physically qualified: force, energy and damage-preservation checks remain unresolved. Both C1/C2 remain unqualified; coarsening is an additional unverified extension and must preserve displacement compatibility, fracture energy and irreversibility. Damaged regions and the active tip require sufficient resolution; crack opening and mechanical compliance must also be preserved.
 
-![Figure 6. Authentic offline checks: CB-2300 elastic stiffness discrepancy 4.58% (limit 5%) and fracture-energy discrepancy +0.79% (limit 2%). Passing subchecks do not qualify continuation.](figures/candidate_c2_passing_checks.png)
-
-Figure 6. Authentic offline checks: CB-2300 elastic stiffness discrepancy 4.58% (limit 5%) and fracture-energy discrepancy +0.79% (limit 2%). Passing subchecks do not qualify continuation.
-
-CB-2300 is only a report label; scientific filenames and checkpoints are unchanged. Zero healing in the separate constrained 650-element prototype is not a CB-2300 result. Neither this test nor the continuation control demonstrates wake coarsening. No complete nonmatching remesh-and-continue cycle is qualified.
-
-# 5. Planned Method C1 and Method C2 strategies
-
-Both strategies target four state-preserving cycles following the evolving crack. C1 - Sequential forward refinement generally retains earlier fine regions. C2 - Sequential refinement with selective wake coarsening investigates removing unnecessary wake resolution while protecting active and damaged regions, potentially limiting mesh growth.
-
-![Figure 4. Side-by-side conceptual progressions: C1 accumulates refinement; C2 could limit mesh growth through conditional coarsening while protecting the damaged corridor. All ten panels are illustrative, not completed solver cycles.](figures/method_c_planned_workflow.png)
-
-Figure 4. Side-by-side conceptual progressions: C1 accumulates refinement; C2 could limit mesh growth through conditional coarsening while protecting the damaged corridor. All ten panels are illustrative, not completed solver cycles.
-
-| Comparison | Method C1 | Method C2 |
-| --- | --- | --- |
-| Earlier fine regions | Generally retain refinement | Selective coarsening only after physical checks |
-| Qualification | Not validated for complete nonmatching cycles | Not validated; coarsening not verified |
-
-Coarsening must preserve damage irreversibility, fracture energy, displacement compatibility, crack opening and mechanical compliance. The active process zone and damaged regions need sufficient resolution; a relaxed wake is not automatically safe to coarsen. No cost saving is claimed.
-
-## Scientific decision and immediate next work
-
-First qualify one physically continuous C1 nonmatching handoff, then sequential refinement. Method C2 coarsening is an additional proposed extension after that dependency passes. Preserve the validated Method B findings; do not treat CB-2300 as a Method C2 implementation.
+Question for the supervisor: after the first qualified nonmatching handoff, which should be prioritized - C1 sequential cycles or investigation of C2 selective coarsening?
 
 ## Evidence references
 
@@ -143,8 +120,6 @@ First qualify one physically continuous C1 nonmatching handoff, then sequential 
 
 - `models/pandey_kumar_mode1/experimental_offset_uel/evidence_f1575/F1575_SAME_MESH_CONTINUATION_RESOLUTION.json`
 
-- `results/validation/mesh_convergence_prototype.json`
-
-- `results/validation/mode1_f1597/correction_prototype.json`
+- `models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/PACKAGE72_STATE_TRANSFER_AUDIT.json`
 
 - Figure classes and hashes: [FIGURE_SOURCES.md](FIGURE_SOURCES.md).
