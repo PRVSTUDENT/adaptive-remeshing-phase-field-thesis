@@ -1,22 +1,83 @@
-# F1597: mechanical equilibrium and history-field call-order investigation
+# Antigravity — F1597: Physically Admissible Coupled Transfer on Candidate C2
 
-The frozen-history KKT operation is completed in 0720bbd1 and must not execute again.
-Run the exact canonical -File Bootstrap, Scientific, Complete commands supplied by
-the controller. Bootstrap reads prerequisites and claims the session once; do not
-repeat unchanged reads or reconstruct nested -Command bootstrap scripts.
+**Objective:** Perform ONE bounded numerical investigation implementing and testing an energy-consistent displacement/strain transfer operator that reduces artificial crack-tip history surges without violating phase-field fracture thermodynamics.
 
-Scientific must dispatch ONLY the registered operation
-scripts/validation/probe_mode1_f1597_mechanical_history.py
-(operation mapped_mechanical_history_call_order_probe). Reuse the authentic Package72
-offset state and preserved KKT artifact. Reconstruct JTYPE2 mechanical residuals,
-committed/trial history max-updates, LOP1 restore/LOP2 commit, and JTYPE1 phase
-residuals before/after the mechanical update. Record the first verified discrepancy,
-source hashes, declared tolerances and numerical checks. This is a read-only
-reconstruction, not evidence of the actual Abaqus runtime call order or a correction.
+Do not repeat the completed mesh-generation, PDAS, mortar, compliance or root-cause studies.
 
-Complete validates the measurements and pinned evidence, preserves both completed
-operation IDs, releases the session, and selectively commits/pushes. Advance once.
-Keep strict PRE/POST identity checks, the five-minute progress guard and total
-2400-second budget. No HPC job, solver run or scientific formulation change is part
-of this diagnostic. Preserve Package72 failure, frozen UEL and once-only accounting.
-Report actual findings, limitations and exact next safe action. End with Finished.
+## 1. Reconcile authoritative evidence
+
+Follow canonical Bootstrap/Preparation/Complete stages. Read current task/session records, HPC ledgers, Package 50/72 evidence, Candidate C1/C2 meshes, evaluate_candidate_meshes.py, and the existing F1597 numerical checkpoints.
+
+Preserve the reported Candidate C2 force-continuity failure of −95.34% and fracture-energy result of +0.79% as distinct observations. No Method C execution is currently qualified.
+
+Resolve two scientific inconsistencies before proceeding:
+
+Earlier refinement criteria used \(\ell=0.004\) mm; the latest report identifies authentic \(\ell=0.0075\) mm and \(G_c=0.0027\) kN/mm. Verify these directly against the frozen UEL, input decks and authentic energy records. Recalculate all \((h/\ell)\), refinement-width and acceptance claims. Do not retain the previous thresholds without justification.
+
+The proposed cap \(H^*\le H_{\mathrm{donor}}^{\max}\) can contradict the physical consistency requirement \(H^*\ge\psi_0^+(\varepsilon(u^*))\). Do not clip history or suppress genuine strain energy merely to improve force agreement.
+
+## 2. Implement a physically consistent transfer correction
+
+Develop a constrained displacement/strain reconstruction on the actual nonmatching receiver mesh.
+
+Investigate an \(L_2\)-consistent, gradient-aware or energy-weighted projection that minimizes artificial strain concentration while preserving:
+
+- Exact prescribed boundary displacement and displacement compatibility.
+- Rigid-body and affine-field reproduction.
+- Donor-to-receiver virtual-work consistency where applicable.
+- Mechanical equilibrium under the authentic loading state.
+- Damage irreversibility and valid phase-field KKT conditions.
+- Physical history evolution:
+  \[
+  H_q^*=\max\left(H_{q,\mathrm{donor}}^{\mathrm{mapped}}, \psi_0^+(\varepsilon(u^*))_q\right).
+  \]
+
+Use a clearly derived optimization objective with explicit constraints. Do not introduce artificial history caps, stiffness scaling, extra traction on prescribed-DOF boundaries or unphysical damage smoothing.
+
+## 3. Execute controlled offline comparisons
+
+Implement one focused numerical module and targeted regression tests.
+
+Compare at minimum:
+- Existing pointwise-interpolation baseline.
+- Candidate C1 and C2 with the corrected displacement/strain projection.
+- Frozen-damage mechanical equilibrium and fully coupled PDAS equilibrium, separately.
+
+For each, measure:
+1. Crack-tip \(\psi_0^+\) and committed-history change, including element 336 or its physically corresponding receiver location.
+2. Reaction force in N before and after equilibrium.
+3. Damaged effective stiffness in N/mm.
+4. Fracture and elastic energies in mJ with consistent authentic constitutive parameters.
+5. Damage healing and history monotonicity.
+6. Mechanical residual, phase KKT residual and complementarity.
+7. Projection error, convergence iterations and numerical conditioning.
+
+Include constant/affine patch tests and a projection-consistency test independent of force matching.
+
+Acceptance targets: reaction continuity ≤ 5%, fracture-energy discrepancy ≤ 2%, no healing beyond \(10^{-10}\), mechanical residual ≤ \(10^{-10}\) kN, and physically valid history/KKT conditions.
+
+Passing isolated tests is not proof that the complete transfer passes.
+
+## 4. Determine the scientific outcome
+
+Establish quantitatively whether corrected displacement/strain reconstruction improves the C2 result.
+
+If the requirements cannot be satisfied simultaneously, identify the incompatibility from computed residuals and state variables. Distinguish a projection defect from legitimate damage evolution and from model/mesh inconsistency.
+
+Do not assume that finer mesh resolution must increase a \((1/h)\) strain singularity; verify behavior against the regularized phase-field length and numerical evidence.
+
+## 5. Execution and closeout
+
+Check the current live PBS queue and once-only job records. Preserve the production UEL SHA256 `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`.
+
+If a distinct candidate satisfies scientific qualification and all required Abaqus technical checks, including datacheck, source hashes, real notifications and resource preflight, submit through `scripts/hpc/Invoke-Mode1Execution.ps1` in this turn and preserve its exact PBS ID. Do not wait for solver completion.
+
+Otherwise, retain Stage C1-1 as FAILED and provide the exact numerical blocker—no speculative submission.
+
+Deliver working code, passing tests, quantified comparisons, verified JSON evidence, source hashes and a concise session report. Selectively commit and push genuine results.
+
+Report under **HPC STATUS; NEW EXPERIMENT; SCIENTIFIC PROGRESS; DOCUMENTATION; NEXT ACTION**.
+
+The next action must follow the measured coupled-transfer outcome, not another historical diagnostic or administrative task.
+
+Finished
