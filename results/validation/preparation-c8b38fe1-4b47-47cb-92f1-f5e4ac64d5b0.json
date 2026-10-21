@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "task_id": "F1597",
+  "operation": "root_cause_state_transfer_analysis",
+  "verification_passed": true,
+  "status": "PREPARATION_COMPLETE",
+  "title": "Package 72 State Transfer Failure Root Cause Verification",
+  "finding": "Root cause of Package 72 state transfer failure established: mechanical strain energy density psi_0^+(u_mapped) on receiver mesh (17.67 kN/mm^2 at el 336 gp 2) surges 2.09x above transferred H_committed (8.47 kN/mm^2), driving crack-tip tearing (delta_d=+0.0547, el 336 d surges 0.8950->0.9290) and -32.07% re-equilibration force drop; unconstrained phase linear solve allows 291 nodes (40.8%) to heal.",
+  "measurements": {
+    "donor_case_a_force_N": 7.851239499999999,
+    "receiver_initial_mapped_force_N": 2.5736,
+    "receiver_equilibrated_force_N": 1.748264,
+    "force_deficit_vs_donor_pct": -77.73263699317796,
+    "reequilibration_drop_pct": -32.06931924152937,
+    "healing_node_count": 291,
+    "healing_node_fraction_pct": 40.813464235624124,
+    "min_delta_damage": -0.0016612791,
+    "max_delta_damage": 0.054701145,
+    "el336_initial_phase": 0.8950247820404751,
+    "el336_final_phase": 0.9290199484818294,
+    "el336_delta_phase": 0.03399516644135436,
+    "el336_initial_history_gp2_kN_mm2": 8.471093655083,
+    "el336_mechanical_history_gp2_kN_mm2": 17.672918345855663,
+    "el336_final_history_gp2_kN_mm2": 29.976593293216336,
+    "el336_history_surge_ratio": 3.5386922295716996,
+    "kkt_frozen_residual_inf_kN": 1.3099346063969505e-13,
+    "mech_phase_after_mech_residual_inf_kN": 4.749150004040064e-06
+  },
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/f1597_uel_call_trace.csv": "8673DC4F1D96D0E75CE702FFC751F44ADD4562A8B8BA34DFE35617E4B2633DE1",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/parity.json": "EE91990E72FC8206FF66EBFB32AC193825A2B774667065235126A6E2E8AB3149",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/provenance.json": "E67EA5B7E2A618032D0EA8958441B8759F7B9D600C1DBAF31126FD2A6ECA1995",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/QUALIFICATION.json": "7CA1BED825E9CED2B637D8585016CEE8B8F12670441F62976D576630E2D2EA7C",
+    "results/validation/mode1_f1597/0363bb11-7267-4ec2-ad3f-1f096eed4745.json": "7CA24C5BA2FD221045D74D40F35A4105CAFD34BED12C618FC3FF6DB16AF5A823",
+    "results/validation/mode1_f1597/0f0f0884-9d34-4087-a8e0-50397c74550f.json": "DD7D52DDB01C8CCC055D66E1D4135AD2E7D4E6975FE4609AC1C0F830758AE482",
+    "results/validation/mode1_f1597/91e48944-19c2-4e7a-b3bc-57609b2f6bda.json": "C3D9B0817BEC007579351D1442E2616A766803C7FFE2E4845FD36D86422D182A",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/PACKAGE72_STATE_TRANSFER_AUDIT.json": "05047DA6E223C58834AC775DC492BC2F3AB2BD93551F37E01A950049680FFA82",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv": "87C7954EFEF0134094BBFB03D7ADA03D66F9A84281D0BB50F524AE88DFC65ADD",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/f42_experimental_offset_uel.for": "EF92ED58DBE3EA921B48CB328128AB950BA2CAFD698E05381E2B29F61412514D"
+  },
+  "limitation": "Diagnostic synthesis of Package 72; does not yet implement or solve the corrected coupled transfer operator.",
+  "next_operation": "Formulate constrained monolithic state-transfer operator with variational inequality irreversibility (d >= d_mapped) and strain-consistent H projection."
+}

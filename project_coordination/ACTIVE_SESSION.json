@@ -1,18 +1,18 @@
 {
     "active":  false,
     "agent":  "gemini-antigravity",
-    "task_id":  "CONTROLLER-NONINTRUSIVE-ROLLBACK-AND-RECONCILIATION",
-    "starting_commit":  "58f1de808d29d3d149cc47232977145f31ffcfd8",
-    "claimed_at":  "2026-10-20T20:46:00.0000000+02:00",
-    "last_updated":  "2026-10-20T21:15:00.0000000+02:00",
-    "last_released":  "2026-10-20T21:15:00.0000000+02:00",
-    "controller_run_id":  "41ae7c01-96ed-4357-83f8-fb120f79e995",
-    "session_report":  "project_coordination/sessions/2026-10-20_gemini-antigravity_controller_rollback_verification_and_checkpoint_reconciliation.md",
+    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "starting_commit":  "5096c14e4ca69d7d7e635cc756f20b5234634f8b",
+    "claimed_at":  "2026-10-21T06:07:19.9999882+02:00",
+    "last_updated":  "2026-10-21T06:17:03.5162208+02:00",
+    "last_released":  "2026-10-21T06:17:03.5162208+02:00",
+    "controller_run_id":  "c8b38fe1-4b47-47cb-92f1-f5e4ac64d5b0",
+    "session_report":  "project_coordination/sessions/2026-10-21_gemini-antigravity_F1597_c8b38fe1-4b47-47cb-92f1-f5e4ac64d5b0.md",
     "allowed_write_scope":  [
-                                "project_coordination/sessions/2026-10-20_gemini-antigravity_F1597_41ae7c01-96ed-4357-83f8-fb120f79e995.md",
-                                "project_coordination/controller/turn-41ae7c01-96ed-4357-83f8-fb120f79e995.json",
-                                "results/validation/mode1_f1597/41ae7c01-96ed-4357-83f8-fb120f79e995.json",
-                                "results/validation/preparation-41ae7c01-96ed-4357-83f8-fb120f79e995.json",
+                                "project_coordination/sessions/2026-10-21_gemini-antigravity_F1597_c8b38fe1-4b47-47cb-92f1-f5e4ac64d5b0.md",
+                                "project_coordination/controller/turn-c8b38fe1-4b47-47cb-92f1-f5e4ac64d5b0.json",
+                                "results/validation/mode1_f1597/c8b38fe1-4b47-47cb-92f1-f5e4ac64d5b0.json",
+                                "results/validation/preparation-c8b38fe1-4b47-47cb-92f1-f5e4ac64d5b0.json",
                                 "results/validation/*",
                                 "scripts/validation/*",
                                 "tests/unit/*",
@@ -22,6 +22,5 @@
                                 "project_coordination/CURRENT_STATE.md",
                                 "project_coordination/TASK_LEDGER.csv",
                                 "project_coordination/ARTIFACT_REGISTRY.csv"
-                            ],
-    "interruption_checkpoint":  "C:\\Users\\pruth\\OpenClawPAD\\controller_turn_checkpoint.json"
+                            ]
 }
