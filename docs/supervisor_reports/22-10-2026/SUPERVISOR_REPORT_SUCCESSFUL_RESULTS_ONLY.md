@@ -12,9 +12,9 @@ B varies the loading schedule and field-selection opportunities. It does not pre
 
 Conceptual A/B workflow. The shared architecture has two simulation passes and exactly one remesh; only the pre-analysis schedule and field-selection flexibility differ.
 
-![Figure 2. Authentic coarse mesh, genuine native 14,677-element Method B mesh and tip zoom, and separate retrospectively refined 14,483-element verification mesh. Partition choice did not produce the latter correction.](figures/mesh_artifacts.png)
+![Figure 2. Authentic coarse mesh, automatically generated native Method B mesh (14,677 FE) and tip zoom, and separate retrospectively corrected ligament-resolution verification mesh (14,483 FE). Partition choice did not cause the latter correction.](figures/mesh_artifacts.png)
 
-Figure 2. Authentic coarse mesh, genuine native 14,677-element Method B mesh and tip zoom, and separate retrospectively refined 14,483-element verification mesh. Partition choice did not produce the latter correction.
+Figure 2. Authentic coarse mesh, automatically generated native Method B mesh (14,677 FE) and tip zoom, and separate retrospectively corrected ligament-resolution verification mesh (14,483 FE). Partition choice did not cause the latter correction.
 
 Keep two findings separate: A - the partition study produced equivalent native 14,677-element meshes; B - a distinct retrospective ligament-resolution study evaluated the corrected 14,483-element fracture response.
 
@@ -64,50 +64,44 @@ The corrected solve reached 0.007889 mm; the full 0.010 mm horizon was not compl
 
 Work provenance: direct CSV re-integration gives 2.267379 mJ and 2.358732 mJ (approximately -3.87%). The earlier summary listed reference 2.3586 mJ; 2.3587 mJ is the reproducible rounded CSV value. Work follows the established first-recorded-row zero convention; see FIGURE_SOURCES.md.
 
-# 4. Method C: intended sequential adaptation
+# 4. Method C: shared workflow and current evidence
 
-Method C aims to retain the current fracture state while changing the mesh. The target is four genuine adaptive remeshing cycles, with refinement following the active crack-tip/process-zone region rather than a preselected full propagation ligament.
+Step 0 solves on a coarse mesh and monitors the crack region. Each of four proposed cycles then extracts displacement u, damage d and committed history H; remeshes; transfers and re-equilibrates the state; and continues loading. C1/C2 differ in whether earlier refinement is retained or selectively coarsened (Section 5).
 
-![Figure 4. Conceptual Step 0 plus four intended remeshing cycles. Every panel is illustrative: no authentic four-cycle solver trajectory has yet been qualified.](figures/method_c_planned_workflow.png)
+## Verified building blocks; nonmatching handoff still unqualified
 
-Figure 4. Conceptual Step 0 plus four intended remeshing cycles. Every panel is illustrative: no authentic four-cycle solver trajectory has yet been qualified.
+Native mesh generation and a same-mesh continuation control are demonstrated. At u=0.00270 mm, that control gives 5.2881993 N versus 5.2895973 N (-0.0264% endpoint difference). It establishes neither whole-trajectory agreement nor nonmatching-transfer qualification.
 
-## Intended sequence: Step 0 and cycles 1-4
+Crack-band receiver test mesh CB-2300 (formerly Candidate C2) is an unrelated offline test: 2,300 quads, 2,413 nodes, 0.1 x 0.1 mm domain, 0.001 mm band spacing and positive minimum Jacobian 3.125e-7. Its equilibrated force is 0.366 N versus donor 7.851 N (-95.34%, FAIL); maximum damage healing is 0.0021837.
 
-Step 0: solve on the coarse mesh and monitor damage and the error indicator. Cycle 1: at a chosen remeshing point, extract displacement, damage and committed history; remesh around the active region; transfer and re-equilibrate; continue loading. Cycles 2, 3 and 4 repeat that sequence from the newly continued solution. Remeshing points must be selected and validated; no cycle displacements are claimed here.
+![Figure 5. Authentic intermediate receiver and CB-2300 test meshes with actual slit-tip close-ups. Neither mesh is a Method C1/C2 strategy or an accepted adaptive cycle.](figures/candidate_c1_c2_meshes.png)
 
-| Building block | Achieved evidence | Remaining target |
+Figure 5. Authentic intermediate receiver and CB-2300 test meshes with actual slit-tip close-ups. Neither mesh is a Method C1/C2 strategy or an accepted adaptive cycle.
+
+![Figure 6. Authentic offline checks: CB-2300 elastic stiffness discrepancy 4.58% (limit 5%) and fracture-energy discrepancy +0.79% (limit 2%). Passing subchecks do not qualify continuation.](figures/candidate_c2_passing_checks.png)
+
+Figure 6. Authentic offline checks: CB-2300 elastic stiffness discrepancy 4.58% (limit 5%) and fracture-energy discrepancy +0.79% (limit 2%). Passing subchecks do not qualify continuation.
+
+CB-2300 is only a report label; scientific filenames and checkpoints are unchanged. Zero healing in the separate constrained 650-element prototype is not a CB-2300 result. Neither this test nor the continuation control demonstrates wake coarsening. No complete nonmatching remesh-and-continue cycle is qualified.
+
+# 5. Planned Method C1 and Method C2 strategies
+
+Both strategies target four state-preserving cycles following the evolving crack. C1 - Sequential forward refinement generally retains earlier fine regions. C2 - Sequential refinement with selective wake coarsening investigates removing unnecessary wake resolution while protecting active and damaged regions, potentially limiting mesh growth.
+
+![Figure 4. Side-by-side conceptual progressions: C1 accumulates refinement; C2 could limit mesh growth through conditional coarsening while protecting the damaged corridor. All ten panels are illustrative, not completed solver cycles.](figures/method_c_planned_workflow.png)
+
+Figure 4. Side-by-side conceptual progressions: C1 accumulates refinement; C2 could limit mesh growth through conditional coarsening while protecting the damaged corridor. All ten panels are illustrative, not completed solver cycles.
+
+| Comparison | Method C1 | Method C2 |
 | --- | --- | --- |
-| Native mesh generation | Authentic refined input meshes | Adapt repeatedly to evolving crack |
-| Same-mesh continuation | -0.0264% endpoint force error | Preserve state on a new mesh |
-| Nonmatching transfer | Offline components evaluated | Force/energy continuity; no healing |
-| Sequential loading cycles | No qualified complete cycle | Four accepted remesh/continue cycles |
+| Earlier fine regions | Generally retain refinement | Selective coarsening only after physical checks |
+| Qualification | Not validated for complete nonmatching cycles | Not validated; coarsening not verified |
 
-## Successful continuation control and current boundary
-
-The experimental same-mesh control reaches 5.2881993 N versus 5.2895973 N at u=0.00270 mm with the guarded predictor: -0.0264% endpoint difference. This is endpoint agreement for a specific same-mesh control, not whole-trajectory or nonmatching-transfer equivalence.
-
-Nonmatching transfer remains unqualified because force continuity, energy and pointwise damage irreversibility must all survive re-equilibration. Separate mesh-generation and continuation controls do not yet form a validated multi-cycle solution. Candidate C2 isolates the current limitation below.
-
-# 5. Method C - Candidate C2: Crack-Band-Resolved Receiver Mesh
-
-Candidate C2 is a small receiver mesh developed for Method C: 2,300 quadrilateral elements, 2,413 physical nodes and 0.001 mm crack-band element size. Its minimum Jacobian is positive (3.125e-7). C1 is a separate intermediate candidate.
-
-![Figure 5. Authentic C1/C2 receiver geometries and common-scale crack-tip close-ups. These are separate offline transfer candidates, not successive remeshing cycles.](figures/candidate_c1_c2_meshes.png)
-
-Figure 5. Authentic C1/C2 receiver geometries and common-scale crack-tip close-ups. These are separate offline transfer candidates, not successive remeshing cycles.
-
-![Figure 6. Authentic passing offline checks: C2 elastic stiffness error 4.58% (limit 5%) and mapped fracture-energy error +0.79% (limit 2%). These do not qualify loaded continuation.](figures/candidate_c2_passing_checks.png)
-
-Figure 6. Authentic passing offline checks: C2 elastic stiffness error 4.58% (limit 5%) and mapped fracture-energy error +0.79% (limit 2%). These do not qualify loaded continuation.
-
-## Remaining limitation: physical state continuity
-
-C2 equilibrated force is 0.366 N versus donor 7.851 N (-95.34%, FAIL). The evaluated C2 prototype also reports maximum damage healing 0.0021837. Thus C2 is a successful mesh-generation and partial verification result, not qualified Method C continuation. Zero healing in the separate constrained 650-element prototype must not be attributed to C2.
+Coarsening must preserve damage irreversibility, fracture energy, displacement compatibility, crack opening and mechanical compliance. The active process zone and damaged regions need sufficient resolution; a relaxed wake is not automatically safe to coarsen. No cost saving is claimed.
 
 ## Scientific decision and immediate next work
 
-Retain corrected Method B as the retrospectively refined baseline within 0.007889 mm. For Method C, prioritize one transfer hypothesis preserving the damaged profile and committed history under consistent boundary conditions. Check force, energy, residuals and irreversibility offline before a distinct qualified serial single-handoff test. Require physical acceptance before any four-cycle demonstration.
+First qualify one physically continuous C1 nonmatching handoff, then sequential refinement. Method C2 coarsening is an additional proposed extension after that dependency passes. Preserve the validated Method B findings; do not treat CB-2300 as a Method C2 implementation.
 
 ## Evidence references
 
@@ -134,6 +128,12 @@ Retain corrected Method B as the retrospectively refined baseline within 0.00788
 - `runs/mode1/method_b_inf_companion/02_pre_2s/submit_M1_PRE_INF_2S.pbs`
 
 - `runs/mode1/method_b_inf_companion/03_pre_4s/submit_M1_PRE_INF_4S.pbs`
+
+- `docs/reports/MODE1_METHOD_C_CONTINUATION_ARCHITECTURE_VALIDATION.md`
+
+- `docs/reports/MODE1_METHOD_C_EXPERIMENTAL_PREFLIGHT_AND_GATE_6C_READINESS.md`
+
+- `docs/reports/MODE1_METHOD_C1_CONTINUATION_FEASIBILITY_AND_PLAN.md`
 
 - `docs/reports/MODE1_METHOD_B_EVIDENCE_AUDIT_AND_SUPERVISOR_DECISION_PACKAGE.md`
 

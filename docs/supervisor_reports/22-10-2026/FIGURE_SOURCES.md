@@ -2,6 +2,10 @@
 
 Authentic solver outputs, input geometry, offline diagnostics and conceptual figures are separate evidence classes. Actual mesh images come from input connectivity. Conceptual meshes do not represent completed cycles.
 
+## Nomenclature used in this report
+
+Method C1 is the planned sequential forward-refinement strategy. Method C2 is the planned sequential refinement with selective wake-coarsening extension. Neither is qualified. CB-2300 is the report-only alias of the separate historical Candidate C2 crack-band receiver test mesh (2,300 quads). The 840-element intermediate receiver is also not the Method C1 strategy. Original files, identifiers and checkpoints are unchanged. Stable report figure filenames containing candidate_c1_c2 or candidate_c2 refer to those original test artifacts, not to the planned strategies. No external illustrative images from the pasted request are used.
+
 ## method_b_response.png
 
 **Type: AUTHENTIC simulation outputs.** Figure 1. Only corrected Method B and canonical fixed reference. Both end at 0.007889 mm. Reference endpoint is interpolated within its recorded range, not extrapolated. Work uses trapezoidal integration of kN versus mm multiplied by 1000 to mJ. Zero is at the first recorded row, u=0.0000025 mm, matching the established evaluation convention. Reintegrated work: 2.267379222 versus 2.358731686 mJ (-3.87295%). Prior summary reference 2.3586 mJ differs by about 0.0001 mJ; the CSV value rounds to 2.3587 mJ.
@@ -50,9 +54,9 @@ Output SHA-256: `91d027faa05ceaf2e6003580db044482a37236e420f974412df32b85390b329
 
 ## mesh_artifacts.png
 
-**Type: AUTHENTIC input-deck geometry.** Figure 2. Coarse mesh, genuine native 14,677-FE partition-study result and its tip zoom, plus separate retrospective 14,483-FE verification mesh. The native deck reconstructs the native adapted geometry in UEL layers. The retrospective mesh is not a consequence of choosing 1, 2 or 4 steps.
+**Type: AUTHENTIC input-deck geometry.** Figure 2. Coarse mesh, automatically generated native Method B mesh (14,677 FE) and its tip zoom, plus separate retrospective 14,483-FE verification mesh. The native deck reconstructs the native adapted geometry in UEL layers. The retrospective mesh is not a consequence of choosing 1, 2 or 4 steps.
 
-Output SHA-256: `cd7f35c95f50d3cb3855c5f4f7a6f79d757ff8e60775797421282f35c45b7a77`
+Output SHA-256: `1156c87ee48c999c975adbef8809404002e372e6a4e765230c9ca44481d3c8ab`
 
 - `models/pandey_kumar_mode1/method_b_preflight_decks/M1-MB-1S.inp` | SHA-256 `060f4b810bc5e2b3d169a5b83f7694f86fe3ed5067c1a482fa2be64bdfefd1f0`
 
@@ -66,23 +70,27 @@ Output SHA-256: `cd7f35c95f50d3cb3855c5f4f7a6f79d757ff8e60775797421282f35c45b7a7
 
 **Type: AUTHENTIC input-deck geometry.** Companion close-up of genuine native 14,677-FE Method B geometry. Separate from retrospective 14,483-FE verification mesh.
 
-Output SHA-256: `e83566d5aa565fd7e49472ae079ede548c27467600944264c64d47fdaaa01815`
+Output SHA-256: `718acdc49449f30bede8fc8323a4032adf0677514ffd18cc05124495e157e584`
 
 - `models/pandey_kumar_mode1/38_method_b_native_final_14k/M1_MB_NATIVE_FINAL_1S.inp` | SHA-256 `39cfd486c87a48a72f145919998e4fe698367dda452b0f20c2e8f43ea13b0a6d`
 
 ## method_c_planned_workflow.png
 
-**Type: CONCEPTUAL intended workflow and mesh progression.** Figure 4. User-requested target of Step 0 plus four future cycles. All five meshes, refinement boxes and crack positions are conceptual. No accepted multi-mesh trajectory or cycle displacement is asserted. No wake coarsening is represented.
+**Type: CONCEPTUAL C1/C2 strategy comparison and future mesh progression.** Figure 4. Side-by-side Step 0 plus four proposed cycles for Method C1 (accumulating forward refinement) and Method C2 (moving active fine zone with conditional selective coarsening). Every strip and crack position is conceptual. The blue damaged corridor stays protected; amber regions illustrate potential coarsening outside it, not blanket coarsening of damaged wake or a qualified rule. No physical dimensions, counts, measured savings, cycle displacements or accepted solver trajectory are implied. Both strategies remain unqualified; coarsening is an additional proposed extension after a physically accepted refinement handoff.
 
-Output SHA-256: `593c07382415da05c9f6c80d380355fd5d0400dcb13bca5fd497b59c4dfd79cb`
+Output SHA-256: `fd48a695e98d2e434c94b84c609ebd44d70ecda4ba41d6fa3566f0830447fb3f`
+
+- `docs/reports/MODE1_METHOD_C_CONTINUATION_ARCHITECTURE_VALIDATION.md` | SHA-256 `fbbdfb147fd61b2b21717c02a465e473e169527625cede952b40720bef9ae263`
+
+- `docs/reports/MODE1_METHOD_C_EXPERIMENTAL_PREFLIGHT_AND_GATE_6C_READINESS.md` | SHA-256 `624cf82a8e2bfb7a89d42eb7e90ba77fc7ce6d5bbdfaa21c82f9ba20778aacc4`
 
 - `docs/reports/MODE1_METHOD_C1_CONTINUATION_FEASIBILITY_AND_PLAN.md` | SHA-256 `b018b5868faeb3832a5a689498963dc58ba54ab3e575f02608c98f9f812e323d`
 
 ## candidate_c1_c2_meshes.png
 
-**Type: AUTHENTIC input-deck geometry.** Figure 5. Actual C1/C2 receiver geometries with common-scale tip close-ups. The slit is y=0.050 mm, ending at x=0.040 mm as defined in the mesh generator and evaluator; dark line/dot identify this geometry, not a simulated evolving crack. Coordinates in mm. Distinct transfer-test candidates, not successive full-plate Method C cycles.
+**Type: AUTHENTIC input-deck geometry.** Figure 5. Actual intermediate 840-element receiver and crack-band receiver test mesh CB-2300 (formerly Candidate C2), with common-scale tip close-ups. Both are offline test meshes, not Method C1/C2 strategies. Slit y=0.050 mm ends at x=0.040 mm; dark line/dot mark input geometry, not a simulated evolving crack. Original input filenames and scientific identifiers are unchanged.
 
-Output SHA-256: `0d63e70a5b8fd4d1d868498d9d59cd6264948d37c17396ae733ec6547b54eb5b`
+Output SHA-256: `0ca6cbc9a6fc2221dc056ac01e0dac885f54e82ef7739f931338cbfb6c2138ce`
 
 - `models/pandey_kumar_mode1/candidate_intermediate_mesh_c1.inp` | SHA-256 `527d352a359a899d4024392873a1377cf8b27fa11c3097432b30879ba1a133a6`
 
@@ -94,9 +102,9 @@ Output SHA-256: `0d63e70a5b8fd4d1d868498d9d59cd6264948d37c17396ae733ec6547b54eb5
 
 ## candidate_c2_passing_checks.png
 
-**Type: AUTHENTIC offline numerical diagnostics.** Figure 6. Passing undamaged elastic-stiffness and mapped fracture-energy checks. Not damaged-state compliance or solver continuation conservation. C2 healing and force-continuity failures are retained in report text.
+**Type: AUTHENTIC offline numerical diagnostics.** Figure 6. Passing undamaged elastic-stiffness and mapped fracture-energy checks of offline receiver meshes. CB-2300 is the report-only alias of historical Candidate C2, not the Method C2 coarsening strategy. These checks are not damaged-state compliance or solver continuation conservation. Force and healing failures are retained.
 
-Output SHA-256: `033bb575dd628e1ee44deb82b612ab1163667abc23f884a4de37651be08cc292`
+Output SHA-256: `01219a1b52215ba2ad613f8cb19190d06a39227b5027d776cf3b677742d63b06`
 
 - `results/validation/mesh_convergence_prototype.json` | SHA-256 `a26f1ce1dd32a48f43e0d995f2f68b1658b034a289f8f232fa181486e591d814`
 
@@ -127,6 +135,12 @@ Output SHA-256: `033bb575dd628e1ee44deb82b612ab1163667abc23f884a4de37651be08cc29
 - `runs/mode1/method_b_inf_companion/02_pre_2s/submit_M1_PRE_INF_2S.pbs` | SHA-256 `209af42bcd144cc4b29bb25d371d8c61b6385a4fe997c72553817d9622b26917`
 
 - `runs/mode1/method_b_inf_companion/03_pre_4s/submit_M1_PRE_INF_4S.pbs` | SHA-256 `1d12c0d29ef961c03931a0d29c343bc6963046636b11bb64b69013f508618a2c`
+
+- `docs/reports/MODE1_METHOD_C_CONTINUATION_ARCHITECTURE_VALIDATION.md` | SHA-256 `fbbdfb147fd61b2b21717c02a465e473e169527625cede952b40720bef9ae263`
+
+- `docs/reports/MODE1_METHOD_C_EXPERIMENTAL_PREFLIGHT_AND_GATE_6C_READINESS.md` | SHA-256 `624cf82a8e2bfb7a89d42eb7e90ba77fc7ce6d5bbdfaa21c82f9ba20778aacc4`
+
+- `docs/reports/MODE1_METHOD_C1_CONTINUATION_FEASIBILITY_AND_PLAN.md` | SHA-256 `b018b5868faeb3832a5a689498963dc58ba54ab3e575f02608c98f9f812e323d`
 
 - `docs/reports/MODE1_METHOD_B_EVIDENCE_AUDIT_AND_SUPERVISOR_DECISION_PACKAGE.md` | SHA-256 `d5d7a5daf2c63d94581e3dc1a67989438f8dbf155bdb51c09fbe89f09fb8cb47`
 
