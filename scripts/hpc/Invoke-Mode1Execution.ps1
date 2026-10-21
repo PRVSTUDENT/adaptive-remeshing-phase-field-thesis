@@ -1,6 +1,9 @@
 [CmdletBinding()]
-param([string]$ManifestPath='', [switch]$VerifyOnly, [switch]$DryRun, [switch]$PrepareOnly, [switch]$AutoQueue)
+param([string]$ManifestPath='', [switch]$VerifyOnly, [switch]$DryRun, [switch]$PrepareOnly, [switch]$AutoQueue, [string]$PreflightReport='')
 $ErrorActionPreference='Stop'
+if ($env:ADAPTIVE_REMESHING_OFFLINE_MODE -eq '1' -or $env:OFFLINE_RESEARCH_ONLY -eq '1') {
+    throw 'BLOCKED_OFFLINE_MODE: HPC submission and remote execution are disabled during offline research maintenance.'
+}
 $repo='D:\Master thesis\Adaptive remeshing'
 if(-not $ManifestPath){$ManifestPath=Join-Path $repo 'models/pandey_kumar_mode1/49_method_c_stage_c1_1_nonmatching_transfer/METHOD_C_STAGE_C1_1_AUTHORIZATION.json'}
 $ManifestPath=[IO.Path]::GetFullPath($ManifestPath)
@@ -45,6 +48,13 @@ try {
  if($LASTEXITCODE -ne 0){throw "Technical preflight failed: $output"}
  $proof=($output|Out-String)|ConvertFrom-Json
  if(-not $proof.passed){throw 'Technical qualification did not pass'}
+ if($PreflightReport){
+    $reportPath=[IO.Path]::GetFullPath($PreflightReport)
+    if(-not $reportPath.StartsWith((Join-Path $repo 'models/pandey_kumar_mode1/'),[StringComparison]::OrdinalIgnoreCase) -or [IO.Path]::GetExtension($reportPath) -ne '.json'){throw 'Unsafe technical proof path'}
+    if(Test-Path -LiteralPath $reportPath){throw 'Preserve existing preflight proof; use a distinct qualification receipt'}
+    [IO.File]::WriteAllText($reportPath,(($proof|ConvertTo-Json -Depth 30).Replace("`r`n","`n")),[Text.UTF8Encoding]::new($false))
+ }
+
  Write-Output "TECHNICAL_PREFLIGHT_PASS: datachecks=$($proof.datacheck_verified); active jobs=$($proof.active_job_count); login notifications verified; compute delivery=$($proof.compute_node_delivery)"
  if($VerifyOnly){Write-Output 'VERIFY_ONLY: no submission or execution-state change';return}
  . (Join-Path $repo 'scripts/hpc/Invoke-Mode1Engine.ps1')

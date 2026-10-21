@@ -200,7 +200,21 @@
   * Source and deployed `Antigravity-Autonomous-Loop.ps1` bitwise SHA-256 parity verified (`CEB78C0C4DF196E4391EFAEDF677922FFFBB70E8D6B5DACAA3F2B2C4A38D604A`).
   * `-ControllerDryRun` verified exit code 0 (`mode: DRY_RUN_NO_EXECUTION`, `task: F1597-CORRECT-PACKAGE72-STATE-TRANSFER`, `task_type: RESEARCH_PREPARATION`, `stale_prompt_replaced: false`).
 - **Branch Synchronization**:
-  * Local `main`, `mode2-pandey-kumar-reproduction`, and remote `origin/main`, `origin/mode2-pandey-kumar-reproduction` are 100% synchronized at commit `588b0b6b`.
+  * Local `main`, `mode2-pandey-kumar-reproduction`, and remote `origin/main`, `origin/mode2-pandey-kumar-reproduction` are 100% synchronized at commit `8b54bf10`.
+
+## Controller Offline Lifecycle and Restart Hardening — 21 October 2026
+
+- **Audited and Hardened Components**:
+  1. **Task Selection**: `Resolve-ControllerInstruction` updated so that mentioning a completed subtask ID (e.g. `F1597-CORRECT-CRACK-OPENING-TRANSFER-FORMULATION`) in the body text as historical context does not trigger rejection. Only instructions whose heading, explicit directive, or replay action targets the completed subtask are rejected.
+  2. **Startup & Resume Precedence**: Checkpoint inspection occurs first. Pending verified checkpoints (`state = 'PENDING'`) and recovery checkpoints (`state = 'RECOVERY_REQUIRED'`) take absolute precedence over stale startup prompt files. Completed turns resume at `turn + 1`.
+  3. **Credential Lifecycle**: Profile verification occurs before AGY dispatch. Profile switches and token refreshes are strictly forbidden during `POST_AGY` and `TURN_END`, failing closed on identity mismatch and deferring legitimate token refresh to `TURN_START`.
+  4. **Scientific Result Preservation**: `Complete-ControllerTurn` records completed response and state to disk before nonessential closeout actions (bridge, quota, network). An unexecuted turn is never re-run if already completed.
+  5. **Multi-Turn Reliability & Streaming**: `Write-ControllerStreamEvent` deduplicates consecutive identical streaming step events, preventing terminal/log spam from repeated `ACTIVE` events.
+  6. **Offline Execution (Research-Only Mode)**: Added `-OfflineOnly` and `-ResearchOnlyMode` parameters. Sets `$env:ADAPTIVE_REMESHING_OFFLINE_MODE = "1"` which causes `Invoke-Mode1Execution.ps1` to throw `BLOCKED_OFFLINE_MODE`, `Invoke-GuardedSsh.ps1` to exit 72 `FAIL_CLOSED_OFFLINE_MODE`, and skips live cluster scheduler queries in the controller.
+- **Verification**:
+  * All 35 tests in `tests/unit/test_controller_recovery.ps1` PASSED.
+  * All unit test suites passed (`test_controller_bootstrap.ps1`, `test_controller_continuous_research.ps1`, `test_controller_operations.ps1`, `test_controller_profile_guard.ps1`, `test_agy_credentials.ps1`).
+  * Source and deployed parity verified. Controller dry run verified exit code 0 (`DRY_RUN_NO_EXECUTION`).
 
 
 

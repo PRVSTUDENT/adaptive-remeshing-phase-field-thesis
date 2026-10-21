@@ -135,9 +135,12 @@ function Resolve-ControllerInstruction([string]$Workspace, [string]$Instruction)
             $instructionUpper = $Instruction.ToUpperInvariant()
             foreach ($entry in $closed) {
                 $subtaskId = $entry.task_id.Trim()
-                # Check for explicit subtask ID in heading or instruction
-                if ($subtaskId -and ($headingClean -match [regex]::Escape($subtaskId.ToUpperInvariant()) -or
-                    $instructionUpper -match ('\b' + [regex]::Escape($subtaskId.ToUpperInvariant()) + '\b'))) {
+                $subtaskUpper = $subtaskId.ToUpperInvariant()
+                # Check for explicit subtask ID in heading, explicit task directive, or replay request (context mentions in body permitted)
+                $targetedInHeading = $subtaskId -and ($headingClean -match [regex]::Escape($subtaskUpper))
+                $targetedInDirective = $subtaskId -and ($instructionUpper -match ('(?im)^\s*(?:task|subtask|objective|controller_task)\s*:\s*' + [regex]::Escape($subtaskUpper)))
+                $targetedInReplay = $subtaskId -and ($instructionUpper -match ('(?i)(?:run|execute|replay|repeat)\s+(?:task\s+)?' + [regex]::Escape($subtaskUpper)))
+                if ($targetedInHeading -or $targetedInDirective -or $targetedInReplay) {
                     throw ('COMPLETED_TASK_REJECTED: ' + $subtaskId + '; select the authoritative active task instead')
                 }
 
@@ -467,7 +470,11 @@ function Write-ControllerStreamEvent($State,[string]$Chunk) {
             $State.conversation_id=[string]$event.conversation_id
             Write-Host "[AGY] conversation=$($State.conversation_id) initialized"
         }elseif($event.event -eq 'step_update'){
-            Write-Host "[AGY] step=$($event.step_update.step_index) type=$($event.step_update.step_type) state=$($event.step_update.state)"
+            $stepKey = "$($event.step_update.step_index):$($event.step_update.step_type):$($event.step_update.state)"
+            if ($State.last_stream_step -ne $stepKey) {
+                $State.last_stream_step = $stepKey
+                Write-Host "[AGY] step=$($event.step_update.step_index) type=$($event.step_update.step_type) state=$($event.step_update.state)"
+            }
         }elseif($event.event -eq 'result'){Write-Host "[AGY] result=$($event.result.status)"}
     }
 }

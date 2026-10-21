@@ -120,8 +120,16 @@ param(
     [ValidateRange(30,600)][int]$NoProgressSeconds = 300,
     [switch]$ControlledSingleTurn,
     [switch]$ControllerDryRun,
-    [switch]$AllowSkipPermissions = $true
+    [switch]$AllowSkipPermissions = $true,
+    [switch]$OfflineOnly,
+    [switch]$ResearchOnlyMode
 )
+
+if ($OfflineOnly -or $ResearchOnlyMode -or $env:ADAPTIVE_REMESHING_OFFLINE_MODE -eq '1') {
+    $env:ADAPTIVE_REMESHING_OFFLINE_MODE = '1'
+    $env:OFFLINE_RESEARCH_ONLY = '1'
+    Write-Host "[OFFLINE-MODE] Verified research-only mode ACTIVE. HPC submissions and remote scheduler operations are strictly blocked." -ForegroundColor Cyan
+}
 
 if($ControlledSingleTurn -and $MaxTurns -ne 1){throw 'ControlledSingleTurn requires MaxTurns=1; no research loop allowed'}
 # Offline validation exits before credential/profile/bridge or AGY side effects.
@@ -131,17 +139,26 @@ $canonicalController = Join-Path $WorkspaceDir 'scripts/controller/Antigravity-A
 if ((Get-FileHash -LiteralPath $PSCommandPath).Hash -ne (Get-FileHash -LiteralPath $canonicalController).Hash) { throw 'Installed controller differs from canonical tested source; redeploy.' }
 $controllerCheckpointPath = Join-Path $env:USERPROFILE 'OpenClawPAD/controller_turn_checkpoint.json'
 if ($ControllerDryRun) {
-    $prompt = if ($InitialPromptFile) { Get-Content -LiteralPath $InitialPromptFile -Raw -Encoding UTF8 } else { $InitialPrompt }
+    $checkpoint = Read-ControllerCheckpoint $controllerCheckpointPath
+    $prompt = if ($checkpoint -and $checkpoint.state -eq 'PENDING' -and $checkpoint.next_instruction) {
+        $checkpoint.next_instruction
+    } elseif ($checkpoint -and $checkpoint.state -eq 'RECOVERY_REQUIRED') {
+        Get-ControllerRecoveryInstruction $checkpoint
+    } elseif ($checkpoint -and $checkpoint.state -eq 'COMPLETED' -and $checkpoint.next_instruction) {
+        $checkpoint.next_instruction
+    } elseif ($InitialPromptFile) {
+        Get-Content -LiteralPath $InitialPromptFile -Raw -Encoding UTF8
+    } else {
+        $InitialPrompt
+    }
     $preparation=Get-ControllerPreparationPlan $WorkspaceDir $prompt
     if(-not $preparation.dispatch_ready){
-        $checkpoint=Read-ControllerCheckpoint $controllerCheckpointPath
         Assert-ControllerDispatchCheckpoint $WorkspaceDir $checkpoint
         $budget=Get-ControllerBudget $PrintTimeout $ScientificTurnSeconds
-        [pscustomobject]@{mode='DRY_RUN_NO_EXECUTION';task=(Get-ControllerEvidence $WorkspaceDir).task.task_id;proposed_operation=$preparation.operation_id;scientific_operation=$preparation.path;dispatch_ready=$false;preparation_status=$preparation.status;blocked_on=$preparation.blocked_on;checkpoint_state=$checkpoint.state;active_session=(Get-ControllerEvidence $WorkspaceDir).session.active;budget=$budget;no_progress_seconds=$NoProgressSeconds;source_sha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash}|ConvertTo-Json -Depth 8
+        [pscustomobject]@{mode='DRY_RUN_NO_EXECUTION';task=(Get-ControllerEvidence $WorkspaceDir).task.task_id;proposed_operation=$preparation.operation_id;scientific_operation=$preparation.path;dispatch_ready=$false;preparation_status=$preparation.status;blocked_on=$preparation.blocked_on;checkpoint_state=$(if($checkpoint){$checkpoint.state}else{'NONE'});active_session=(Get-ControllerEvidence $WorkspaceDir).session.active;budget=$budget;no_progress_seconds=$NoProgressSeconds;source_sha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash}|ConvertTo-Json -Depth 8
         return
     }
     $resolved = Resolve-ControllerInstruction $WorkspaceDir $prompt
-    $checkpoint = Read-ControllerCheckpoint $controllerCheckpointPath
     Assert-ControllerDispatchCheckpoint $WorkspaceDir $checkpoint
     $operation=if($resolved.evidence.task.scientific_checkpoint_required){
         if($resolved.task_type -eq 'QUALIFIED_EXECUTION'){
@@ -158,8 +175,8 @@ if ($ControllerDryRun) {
 }
 
 Assert-ControllerDispatchCheckpoint $WorkspaceDir (Read-ControllerCheckpoint $controllerCheckpointPath)
-$preparationPrompt=if($InitialPromptFile){Get-Content -LiteralPath $InitialPromptFile -Raw -Encoding UTF8}else{$InitialPrompt}
-$preparation=Invoke-ControllerOperationPreparation $WorkspaceDir $preparationPrompt
+$preparationPrompt = if ($InitialPromptFile) { Get-Content -LiteralPath $InitialPromptFile -Raw -Encoding UTF8 } else { $InitialPrompt }
+$preparation = Invoke-ControllerOperationPreparation $WorkspaceDir $preparationPrompt
 if(-not $preparation.dispatch_ready){
     Write-Output ('NEXT_OPERATION_PREPARATION: '+($preparation|ConvertTo-Json -Depth 8 -Compress))
     return # No profile selection, model call, timeout retry or completed-operation replay.
@@ -617,6 +634,9 @@ function Set-AndVerifyAgyRunProfile {
 
     if ($mustRestore) {
         if($ControlledSingleTurn){throw 'Controlled turn profile mismatch; automatic credential switching is disabled'}
+        if ($Context -in @('POST_AGY', 'TURN_END')) {
+            throw "AGY profile changed during $($Context): expected '$expected', detected '$($state.ActiveProfile)'. Account switching and token refresh are forbidden during $Context."
+        }
         if ($EnableSmartAgyProfileSelection -and $Context -notin @('STARTUP', 'TURN_START')) {
             throw "AGY profile changed during $($Context): expected '$expected', detected '$($state.ActiveProfile)'. Will not silently undo an external switch. Switch only between AGY calls."
         }
@@ -3311,9 +3331,44 @@ if (-not [string]::IsNullOrWhiteSpace($InitialPromptFile)) {
     Write-Host "Prompt Length:   $($InitialPrompt.Length) characters" -ForegroundColor Cyan
 }
 
-# 1. Resolve Resume State / Initial Instruction
-$CurrentInstruction = $InitialPrompt
+# 1. Resolve Authoritative Resume State and Initial Instruction
+$script:ControllerState = Read-ControllerCheckpoint $controllerCheckpointPath
+$script:ControllerRecoveryMode = $false
+$CurrentInstruction = ''
 $StartTurn = 1
+
+if ($null -ne $script:ControllerState) {
+    if ($script:ControllerState.state -in @('RUNNING','CHECKPOINTED')) {
+        $script:ControllerState = Set-ControllerInterrupted $WorkspaceDir $controllerCheckpointPath $script:ControllerState 'Controller restart after interruption; inspect preserved periodic checkpoint and artifacts.'
+    }
+    if ($script:ControllerState.state -eq 'BLOCKED') { throw "BLOCKED: $($script:ControllerState.block_reason)" }
+    if ($script:ControllerState.state -eq 'RECOVERY_REQUIRED') {
+        $CurrentInstruction = Get-ControllerRecoveryInstruction $script:ControllerState
+        $script:ControllerRecoveryMode = $true
+        $ConversationId = $null
+        $StartTurn = if ($script:ControllerState.turn) { [int]$script:ControllerState.turn } else { 1 }
+        Write-Host "[RESUME] Resuming recovery turn from checkpoint (Turn $StartTurn)." -ForegroundColor Yellow
+    }
+    elseif ($script:ControllerState.state -eq 'PENDING' -and $script:ControllerState.next_instruction) {
+        $resolved = Resolve-ControllerInstruction $WorkspaceDir $script:ControllerState.next_instruction
+        $CurrentInstruction = $resolved.instruction
+        $ConversationId = $null
+        $StartTurn = if ($script:ControllerState.turn) { [int]$script:ControllerState.turn + 1 } else { 1 }
+        Write-Host "[RESUME] Safely resuming from pending verified next_instruction in checkpoint (Turn $StartTurn)." -ForegroundColor Green
+    }
+    elseif ($script:ControllerState.state -eq 'COMPLETED') {
+        $StartTurn = if ($script:ControllerState.turn) { [int]$script:ControllerState.turn + 1 } else { 1 }
+        if ($script:ControllerState.next_instruction) {
+            $resolved = Resolve-ControllerInstruction $WorkspaceDir $script:ControllerState.next_instruction
+            $CurrentInstruction = $resolved.instruction
+            Write-Host "[RESUME] Safely resuming from completed checkpoint next_instruction (Turn $StartTurn)." -ForegroundColor Green
+        }
+    }
+}
+
+if ([string]::IsNullOrWhiteSpace($CurrentInstruction)) {
+    $CurrentInstruction = $InitialPrompt
+}
 
 if ([string]::IsNullOrWhiteSpace($CurrentInstruction)) {
     if (Test-Path $StateFile) {
@@ -3332,7 +3387,7 @@ if ([string]::IsNullOrWhiteSpace($CurrentInstruction)) {
                 elseif ($existing.next_instruction) {
                     $CurrentInstruction = $existing.next_instruction
                     $StartTurn = [int]($existing.completed_turn) + 1
-                    Write-Host "[RESUME] Safely resuming from pending next_instruction (Turn ${StartTurn})." -ForegroundColor Green
+                    Write-Host "[RESUME] Safely resuming from pending next_instruction in StateFile (Turn ${StartTurn})." -ForegroundColor Green
                 }
             }
             elseif ($existing.loop_status -eq "STOPPED_CLEAN" -or [string]::IsNullOrWhiteSpace($existing.next_instruction) -or $existing.next_instruction -match '^(?i:stop)\s*$') {
@@ -3344,7 +3399,7 @@ if ([string]::IsNullOrWhiteSpace($CurrentInstruction)) {
             elseif ($existing.next_instruction) {
                 $CurrentInstruction = $existing.next_instruction
                 $StartTurn = [int]($existing.completed_turn) + 1
-                Write-Host "[RESUME] Safely resuming from pending next_instruction (Turn ${StartTurn})." -ForegroundColor Green
+                Write-Host "[RESUME] Safely resuming from pending next_instruction in StateFile (Turn ${StartTurn})." -ForegroundColor Green
             }
         } catch { }
     }
@@ -3354,22 +3409,9 @@ if ([string]::IsNullOrWhiteSpace($CurrentInstruction)) {
     $CurrentInstruction = $ModeIFundamentalsKickoffInstruction
 }
 
-$resolved = Resolve-ControllerInstruction $WorkspaceDir $CurrentInstruction
-$CurrentInstruction = $resolved.instruction
-$script:ControllerState = Read-ControllerCheckpoint $controllerCheckpointPath
-$script:ControllerRecoveryMode = $false
-if ($null -ne $script:ControllerState -and $script:ControllerState.state -in @('RUNNING','CHECKPOINTED')) {
-    $script:ControllerState = Set-ControllerInterrupted $WorkspaceDir $controllerCheckpointPath $script:ControllerState 'Controller restart after interruption; inspect preserved periodic checkpoint and artifacts.'
-}
-if ($null -ne $script:ControllerState -and $script:ControllerState.state -eq 'BLOCKED') { throw "BLOCKED: $($script:ControllerState.block_reason)" }
-if ($null -ne $script:ControllerState -and $script:ControllerState.state -eq 'RECOVERY_REQUIRED') {
-    $CurrentInstruction = Get-ControllerRecoveryInstruction $script:ControllerState
-    $script:ControllerRecoveryMode = $true
-    $ConversationId = $null
-}
-if ($null -ne $script:ControllerState -and $script:ControllerState.state -eq 'PENDING' -and $script:ControllerState.next_instruction) {
-    $CurrentInstruction = (Resolve-ControllerInstruction $WorkspaceDir $script:ControllerState.next_instruction).instruction
-    $ConversationId = $null
+if (-not $script:ControllerRecoveryMode) {
+    $resolved = Resolve-ControllerInstruction $WorkspaceDir $CurrentInstruction
+    $CurrentInstruction = $resolved.instruction
 }
 $session = (Get-ControllerEvidence $WorkspaceDir).session
 if ($session.active) { throw "BLOCKED: repository session still active for $($session.agent); reconcile ownership before AGY execution." }
@@ -4716,54 +4758,64 @@ Finished
             } catch {}
         }
 
-        # Query live user queue immediately (no 15-minute blind sleep!)
-        $sshConfig = Join-PathStrict -Path $env:USERPROFILE -ChildPath ".ssh\codex_config"
-        $RemoteCommand = "qstat -u pr21vyci"
+        if ($env:ADAPTIVE_REMESHING_OFFLINE_MODE -eq '1') {
+            Write-Host ""
+            Write-Host "[SCHEDULER] Offline research mode active; skipping live cluster queries." -ForegroundColor Cyan
+            $SchedulerResult = @()
+            $cleanSched = @()
+            $qstatText = ""
+            $SchedulerExitCode = 0
+            $isSchedulerUnreachable = $false
+        } else {
+            # Query live user queue immediately (no 15-minute blind sleep!)
+            $sshConfig = Join-PathStrict -Path $env:USERPROFILE -ChildPath ".ssh\codex_config"
+            $RemoteCommand = "qstat -u pr21vyci"
 
-        Write-Host ""
-        Write-Host "[SCHEDULER] Querying live user scheduler state (qstat -u pr21vyci)..." -ForegroundColor Yellow
+            Write-Host ""
+            Write-Host "[SCHEDULER] Querying live user scheduler state (qstat -u pr21vyci)..." -ForegroundColor Yellow
 
-        $savedErrorActionPreference = $ErrorActionPreference
-        $hadNativePreference = $null -ne (Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue)
-        if ($hadNativePreference) {
-            $savedNativePreference = $PSNativeCommandUseErrorActionPreference
-        }
-
-        try {
-            $ErrorActionPreference = "Continue"
+            $savedErrorActionPreference = $ErrorActionPreference
+            $hadNativePreference = $null -ne (Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue)
             if ($hadNativePreference) {
-                $PSNativeCommandUseErrorActionPreference = $false
+                $savedNativePreference = $PSNativeCommandUseErrorActionPreference
             }
 
-            $SchedulerResult = & ssh `
-                -n -T `
-                -o BatchMode=yes `
-                -o ConnectTimeout=20 `
-                -F $sshConfig `
-                tu_freiberg `
-                $RemoteCommand 2>&1
+            try {
+                $ErrorActionPreference = "Continue"
+                if ($hadNativePreference) {
+                    $PSNativeCommandUseErrorActionPreference = $false
+                }
 
-            $SchedulerExitCode = $LASTEXITCODE
-        }
-        finally {
-            $ErrorActionPreference = $savedErrorActionPreference
-            if ($hadNativePreference) {
-                $PSNativeCommandUseErrorActionPreference = $savedNativePreference
+                $SchedulerResult = & ssh `
+                    -n -T `
+                    -o BatchMode=yes `
+                    -o ConnectTimeout=20 `
+                    -F $sshConfig `
+                    tu_freiberg `
+                    $RemoteCommand 2>&1
+
+                $SchedulerExitCode = $LASTEXITCODE
             }
+            finally {
+                $ErrorActionPreference = $savedErrorActionPreference
+                if ($hadNativePreference) {
+                    $PSNativeCommandUseErrorActionPreference = $savedNativePreference
+                }
+            }
+
+            $cleanSched = @(
+                $SchedulerResult |
+                ForEach-Object { $_.ToString() } |
+                Where-Object { $_ -notmatch "post-quantum key exchange algorithm" }
+            )
+            $qstatText = ($cleanSched | Out-String).Trim()
+
+            # Fail-closed check: verify transport and query success before parsing scheduler state
+            $isSchedulerUnreachable = (
+                $SchedulerExitCode -ne 0 -or
+                $qstatText -match '(?i)(?:ssh:\s*connect|connection timed out|connection refused|network is unreachable|could not resolve hostname|permission denied|host key verification failed|qstat:\s*(?:cannot connect|server|communication))'
+            )
         }
-
-        $cleanSched = @(
-            $SchedulerResult |
-            ForEach-Object { $_.ToString() } |
-            Where-Object { $_ -notmatch "post-quantum key exchange algorithm" }
-        )
-        $qstatText = ($cleanSched | Out-String).Trim()
-
-        # Fail-closed check: verify transport and query success before parsing scheduler state
-        $isSchedulerUnreachable = (
-            $SchedulerExitCode -ne 0 -or
-            $qstatText -match '(?i)(?:ssh:\s*connect|connection timed out|connection refused|network is unreachable|could not resolve hostname|permission denied|host key verification failed|qstat:\s*(?:cannot connect|server|communication))'
-        )
 
         if ($isSchedulerUnreachable) {
             Write-Host "`n==========================================================" -ForegroundColor Red

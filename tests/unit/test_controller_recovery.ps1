@@ -44,6 +44,32 @@ try {
     $newResolved = Resolve-ControllerInstruction $fixture '# Antigravity — F1597: Physical Consistency Audit Before Further Transfer Experiments'
     Assert ($newResolved -and -not $newResolved.stale_replaced -and $newResolved.instruction -match 'Physical Consistency Audit') 'legitimate new F1597 research instruction resolves without completed-task rejection'
 
+    # 5. Context mention of completed subtask in instruction body text does not trigger rejection
+    $contextInstruction = "# Antigravity - F1597: Physical Consistency Audit`n`nBased on findings from F1597-CORRECT-CRACK-OPENING-TRANSFER-FORMULATION, we test whether history attenuation can arise from a single energy functional."
+    $contextResolved = Resolve-ControllerInstruction $fixture $contextInstruction
+    Assert ($contextResolved -and $contextResolved.instruction -match 'Physical Consistency Audit') 'context mention of completed subtask in body does not trigger rejection'
+
+    # 6. Streaming step deduplication avoids excessive repeated ACTIVE-step logs
+    $streamState = [pscustomobject]@{ live_buffer = ''; conversation_id = ''; last_stream_step = '' }
+    $chunk1 = '{"event":"step_update","step_update":{"step_index":1,"step_type":"tool","state":"ACTIVE"}}' + "`n"
+    Write-ControllerStreamEvent $streamState $chunk1
+    Assert ($streamState.last_stream_step -eq '1:tool:ACTIVE') 'stream step recorded'
+    Write-ControllerStreamEvent $streamState $chunk1
+    Assert ($streamState.last_stream_step -eq '1:tool:ACTIVE') 'consecutive duplicate stream step deduplicated'
+
+    # 7. Offline mode strictly fails closed for cluster SSH and HPC submissions
+    $env:ADAPTIVE_REMESHING_OFFLINE_MODE = '1'
+    try {
+        $null = & powershell -NoProfile -ExecutionPolicy Bypass -Command "& '$repo\.agents\scripts\Invoke-GuardedSsh.ps1' -RemoteCommand 'hostname' 2>`$null; exit `$LASTEXITCODE"
+        Assert ($LASTEXITCODE -eq 72) 'Invoke-GuardedSsh fails closed with exit 72 in offline mode'
+        $hpcBlocked = $false
+        try { & (Join-Path $repo 'scripts/hpc/Invoke-Mode1Execution.ps1') -DryRun } catch { $hpcBlocked = $_.Exception.Message -match 'BLOCKED_OFFLINE_MODE' }
+        Assert $hpcBlocked 'Invoke-Mode1Execution fails closed in offline mode'
+    } finally {
+        $env:ADAPTIVE_REMESHING_OFFLINE_MODE = $null
+        $env:OFFLINE_RESEARCH_ONLY = $null
+    }
+
     # Restore F1596 state for subsequent lifecycle tests
     Put 'project_coordination/ACTIVE_TASK.json' '{"task_id":"F1596-AUDIT","status":"AUDIT_COMPLETED_CLASSIFIED_FAIL"}'
     Put 'project_coordination/TASK_LEDGER.csv' "task_id,status`nF1596-AUDIT,completed"
