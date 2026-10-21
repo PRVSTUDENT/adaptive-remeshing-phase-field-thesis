@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "run_id": "242c8dbb-aabe-433b-a9a8-5151c475c213",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "finding": "Constructed crack-band-resolved receiver mesh Candidate C2 (h=0.0010 mm <= ell/3.75 across w=0.024 mm band >= 4*ell, 2,300 quads, J_min=3.12e-7) and intermediate mesh C1 (h=0.0020 mm, 840 quads), verifying elastic compliance parity (e_K,el = 3.03% for C1, 4.58% for C2 <= 5%) and fracture surface energy preservation (E_frac error -0.16% for C1, +0.79% for C2 <= 2%) under authentic constitutive parameters (ell=0.0075 mm, Gc=0.0027 kN/mm). Reconciled historical energy report unit discrepancies: E_frac in UEL is in kN*mm (Joules = 1000 mJ), establishing Package 72 true E_frac = 0.292 mJ (falsifying 0.1815-0.2128 uJ reporting artifact). However, mapped damaged stiffness discrepancy remains at 27.05% and equilibrated reaction force exhibits a -95.34% deficit (0.366 N vs donor 7.851 N), proving that standard linear FE interpolation onto refined crack bands sharpens crack-tip strain energy concentration without bound, triggering spurious crack-tip damage relaxation. A history-bounded or sharp-profile-conserving mapping operator is necessary to pass Gate C1-1.",
+  "evidence_sources": {
+    "scripts/remeshing/generate_crack_band_mesh.py": "2CEA823585D0B208E77F865DE90AD1FE3D96A8B2EA5F336C1756B60245810CA4",
+    "tests/unit/test_mode1_f1597_mesh_generator.py": "4C3C9123F885FD97975B9D970E81C9F0DFC5527B255EEF034350E7B1BC902AAF",
+    "scripts/validation/evaluate_candidate_meshes.py": "330E441928F37B37F45F9F25B37857D1FFB778779899FBB6E507DFCFAE9D859F",
+    "tests/unit/test_mode1_f1597_crack_band_verification.py": "DE3D685D00FF3F18A5599223637C826F9C7B014F3BA1FBDA740929EC5CACCC91",
+    "results/validation/mesh_convergence_prototype.json": "A26F1CE1DD32A48F43E0D995F2F68B1658B034A289F8F232FA181486E591D814",
+    "models/pandey_kumar_mode1/candidate_intermediate_mesh_c1.inp": "527D352A359A899D4024392873A1377CF8B27FA11C3097432B30879BA1A133A6",
+    "models/pandey_kumar_mode1/candidate_crack_band_mesh_c2.inp": "257FC6263D63721BDEEFE48A43CD504C79A92DF61C099CE9481984B625454901",
+    "models/pandey_kumar_mode1/50_method_c_experimental_offset_continuation/M1_EXP_OFFSET_CONT_NOEXTRAP.inp": "B2CE0F35A4679B9DCA0EDA5925A53BA7576F0626DD98EDBE0AF4C1BA59BF6B01",
+    "models/pandey_kumar_mode1/50_method_c_experimental_offset_continuation/offset_state_table.csv": "3AD967525E7EDF63FF90741F5D1F248F5282FA3F43BB31329F86A0CD0F799C89",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp": "58B1E69F40C5A65C7B9F1049E42AD745152AB8B5CF6B0F15547ED3276CD54964",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv": "87C7954EFEF0134094BBFB03D7ADA03D66F9A84281D0BB50F524AE88DFC65ADD",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/PACKAGE72_STATE_TRANSFER_AUDIT.json": "05047DA6E223C58834AC775DC492BC2F3AB2BD93551F37E01A950049680FFA82"
+  }
+}
