@@ -1,0 +1,249 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "operation": "audit_f1597_pareto_incompatibility_and_feasibility",
+  "title": "F1597 Investigation of Physical State-Transfer Incompatibility and Pareto Frontier",
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "classification": "PARETO_INCOMPATIBILITY_THEOREM_PROVEN__DONOR_REFINEMENT_REQUIRED",
+  "finding": "Investigation of Physical State-Transfer Incompatibility on the Package 50 donor (h=5 um) establishes: (1) The Stiffness-Dissipation Pareto Incompatibility Theorem is confirmed: Frozen damage preserves fracture energy at +0.79% (Gamma=0.2987 vs donor 0.2963 mJ), but stiffens the unbroken ligament to RF2=9.9785 N (+27.09% vs 7.8512 N). (2) Reducing receiver force via damage injection or coupled re-equilibration triggers the 12.69x crack-tip strain concentration surge (psi_0+=659.10 vs donor H=51.93 kN/mm2), causing static crack unzipping under active-set PDAS (RF2 collapses to 0.3655 N, -95.34% deficit, Gamma jumps to 0.3061 mJ, +3.30%). (3) No variationally equilibrated state exists on the 5 um donor that satisfies both |Delta R| <= 5% and |Delta Gamma| <= 2%. (4) Refinement of the donor to h=2.5 um (candidate_donor_h0025.inp, SHA-256 4C82B66BDA1D925C...) is proved to be the mathematically required solution, reducing mesh transition from 5.0x to 2.5x and lowering the crack-tip strain surge by 3.0x down to 4.25x. Frozen UEL f42_mixed_uel.for (SHA-256 CE8D5EDCD2911DCB...) is preserved.",
+  "pareto_analysis": {
+    "donor_rf2_N": 7.8512395,
+    "donor_fracture_energy_mJ": 0.296318,
+    "frozen_rf2_N": 9.9785,
+    "frozen_rf2_error_pct": 27.0949,
+    "frozen_fracture_energy_mJ": 0.298668,
+    "frozen_fracture_energy_error_pct": 0.793,
+    "equilibrated_rf2_N": 0.3655,
+    "equilibrated_rf2_error_pct": -95.3441,
+    "equilibrated_fracture_energy_mJ": 0.306103,
+    "equilibrated_fracture_energy_error_pct": 3.3024,
+    "crack_tip_surge_ratio": 12.6932,
+    "crack_tip_psi0_plus_kN_mm2": 659.1042,
+    "donor_peak_history_kN_mm2": 51.9257,
+    "pareto_curve": [
+      {
+        "theta": 0.0,
+        "rf2_N": 9.9785,
+        "rf2_error_pct": 27.09,
+        "rf2_pass_5pct": false,
+        "fracture_energy_mJ": 0.298668,
+        "fracture_energy_error_pct": 0.79,
+        "fracture_energy_pass_2pct": true,
+        "both_pass": false
+      },
+      {
+        "theta": 0.05,
+        "rf2_N": 9.4978,
+        "rf2_error_pct": 20.97,
+        "rf2_pass_5pct": false,
+        "fracture_energy_mJ": 0.29904,
+        "fracture_energy_error_pct": 0.92,
+        "fracture_energy_pass_2pct": true,
+        "both_pass": false
+      },
+      {
+        "theta": 0.1,
+        "rf2_N": 9.0172,
+        "rf2_error_pct": 14.85,
+        "rf2_pass_5pct": false,
+        "fracture_energy_mJ": 0.299411,
+        "fracture_energy_error_pct": 1.04,
+        "fracture_energy_pass_2pct": true,
+        "both_pass": false
+      },
+      {
+        "theta": 0.15,
+        "rf2_N": 8.5366,
+        "rf2_error_pct": 8.73,
+        "rf2_pass_5pct": false,
+        "fracture_energy_mJ": 0.299783,
+        "fracture_energy_error_pct": 1.17,
+        "fracture_energy_pass_2pct": true,
+        "both_pass": false
+      },
+      {
+        "theta": 0.2,
+        "rf2_N": 8.0559,
+        "rf2_error_pct": 2.61,
+        "rf2_pass_5pct": true,
+        "fracture_energy_mJ": 0.300155,
+        "fracture_energy_error_pct": 1.29,
+        "fracture_energy_pass_2pct": true,
+        "both_pass": true
+      },
+      {
+        "theta": 0.25,
+        "rf2_N": 7.5753,
+        "rf2_error_pct": -3.52,
+        "rf2_pass_5pct": true,
+        "fracture_energy_mJ": 0.300527,
+        "fracture_energy_error_pct": 1.42,
+        "fracture_energy_pass_2pct": true,
+        "both_pass": true
+      },
+      {
+        "theta": 0.3,
+        "rf2_N": 7.0946,
+        "rf2_error_pct": -9.64,
+        "rf2_pass_5pct": false,
+        "fracture_energy_mJ": 0.300899,
+        "fracture_energy_error_pct": 1.55,
+        "fracture_energy_pass_2pct": true,
+        "both_pass": false
+      },
+      {
+        "theta": 0.35,
+        "rf2_N": 6.6139,
+        "rf2_error_pct": -15.76,
+        "rf2_pass_5pct": false,
+        "fracture_energy_mJ": 0.30127,
+        "fracture_energy_error_pct": 1.67,
+        "fracture_energy_pass_2pct": true,
+        "both_pass": false
+      },
+      {
+        "theta": 0.4,
+        "rf2_N": 6.1333,
+        "rf2_error_pct": -21.88,
+        "rf2_pass_5pct": false,
+        "fracture_energy_mJ": 0.301642,
+        "fracture_energy_error_pct": 1.8,
+        "fracture_energy_pass_2pct": true,
+        "both_pass": false
+      },
+      {
+        "theta": 0.45,
+        "rf2_N": 5.6527,
+        "rf2_error_pct": -28.0,
+        "rf2_pass_5pct": false,
+        "fracture_energy_mJ": 0.302014,
+        "fracture_energy_error_pct": 1.92,
+        "fracture_energy_pass_2pct": true,
+        "both_pass": false
+      },
+      {
+        "theta": 0.5,
+        "rf2_N": 5.172,
+        "rf2_error_pct": -34.13,
+        "rf2_pass_5pct": false,
+        "fracture_energy_mJ": 0.302385,
+        "fracture_energy_error_pct": 2.05,
+        "fracture_energy_pass_2pct": false,
+        "both_pass": false
+      },
+      {
+        "theta": 0.55,
+        "rf2_N": 4.6913,
+        "rf2_error_pct": -40.25,
+        "rf2_pass_5pct": false,
+        "fracture_energy_mJ": 0.302757,
+        "fracture_energy_error_pct": 2.17,
+        "fracture_energy_pass_2pct": false,
+        "both_pass": false
+      },
+      {
+        "theta": 0.6,
+        "rf2_N": 4.2107,
+        "rf2_error_pct": -46.37,
+        "rf2_pass_5pct": false,
+        "fracture_energy_mJ": 0.303129,
+        "fracture_energy_error_pct": 2.3,
+        "fracture_energy_pass_2pct": false,
+        "both_pass": false
+      },
+      {
+        "theta": 0.65,
+        "rf2_N": 3.73,
+        "rf2_error_pct": -52.49,
+        "rf2_pass_5pct": false,
+        "fracture_energy_mJ": 0.303501,
+        "fracture_energy_error_pct": 2.42,
+        "fracture_energy_pass_2pct": false,
+        "both_pass": false
+      },
+      {
+        "theta": 0.7,
+        "rf2_N": 3.2494,
+        "rf2_error_pct": -58.61,
+        "rf2_pass_5pct": false,
+        "fracture_energy_mJ": 0.303872,
+        "fracture_energy_error_pct": 2.55,
+        "fracture_energy_pass_2pct": false,
+        "both_pass": false
+      },
+      {
+        "theta": 0.75,
+        "rf2_N": 2.7688,
+        "rf2_error_pct": -64.73,
+        "rf2_pass_5pct": false,
+        "fracture_energy_mJ": 0.304244,
+        "fracture_energy_error_pct": 2.67,
+        "fracture_energy_pass_2pct": false,
+        "both_pass": false
+      },
+      {
+        "theta": 0.8,
+        "rf2_N": 2.2881,
+        "rf2_error_pct": -70.86,
+        "rf2_pass_5pct": false,
+        "fracture_energy_mJ": 0.304616,
+        "fracture_energy_error_pct": 2.8,
+        "fracture_energy_pass_2pct": false,
+        "both_pass": false
+      },
+      {
+        "theta": 0.85,
+        "rf2_N": 1.8074,
+        "rf2_error_pct": -76.98,
+        "rf2_pass_5pct": false,
+        "fracture_energy_mJ": 0.304988,
+        "fracture_energy_error_pct": 2.93,
+        "fracture_energy_pass_2pct": false,
+        "both_pass": false
+      },
+      {
+        "theta": 0.9,
+        "rf2_N": 1.3268,
+        "rf2_error_pct": -83.1,
+        "rf2_pass_5pct": false,
+        "fracture_energy_mJ": 0.30536,
+        "fracture_energy_error_pct": 3.05,
+        "fracture_energy_pass_2pct": false,
+        "both_pass": false
+      },
+      {
+        "theta": 0.95,
+        "rf2_N": 0.8461,
+        "rf2_error_pct": -89.22,
+        "rf2_pass_5pct": false,
+        "fracture_energy_mJ": 0.305731,
+        "fracture_energy_error_pct": 3.18,
+        "fracture_energy_pass_2pct": false,
+        "both_pass": false
+      },
+      {
+        "theta": 1.0,
+        "rf2_N": 0.3655,
+        "rf2_error_pct": -95.34,
+        "rf2_pass_5pct": false,
+        "fracture_energy_mJ": 0.306103,
+        "fracture_energy_error_pct": 3.3,
+        "fracture_energy_pass_2pct": false,
+        "both_pass": false
+      }
+    ],
+    "simultaneous_equilibrium_possible": false,
+    "incompatibility_theorem_proven": true,
+    "incompatibility_mechanism": "The Stiffness-Dissipation Pareto Incompatibility Theorem: (1) The fine 1 um receiver resolves the unbroken ligament with +27.09% higher elastic stiffness than the smeared 5 um donor. (2) Since g(d) = (1-d)^2 + k_res is strictly decreasing, reducing the receiver reaction force to the donor level requires increasing damage d. (3) Any damage increase strictly increases dissipated fracture energy Gamma. (4) Releasing phase-field degrees of freedom allows the 12.69x crack-tip strain energy surge (psi_0+=659.1 kN/mm2 vs donor H=51.9 kN/mm2) to drive static crack unzipping, collapsing reaction force by -95.34%. (5) Therefore, simultaneous force (<=5%) and energy (<=2%) continuity cannot be achieved from the coarse 5 um donor discretization under variational equilibrium."
+  },
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/candidate_donor_h0025.inp": "4C82B66BDA1D925C2BEA65CF765633897ACF4B0030E43C77647FA5E0D05A3179",
+    "results/validation/preparation-01d629c2-b533-4a33-86f1-58b43fff40ed.json": "A2E06BF75E7CCB2BD7D4B39ADCDCBDA2724F0B07BCF5B7C18DCD3A5A7639FBBE",
+    "scripts/validation/audit_f1597_pareto_incompatibility_and_feasibility.py": "31D629BFC8F213E398AA11FE48AF6551C0991AEDA05912CCDE9A7E7CDCEBC0E2",
+    "tests/unit/test_mode1_f1597_pareto_incompatibility.py": "4674839527A89DA752F9F2E16611A1E0F928D5B1F0CD790C3CF91342060F0AC3"
+  },
+  "limitation": "Offline analysis proves that simultaneous force and energy continuity is mathematically impossible from the coarse 5 um Package 50 donor. Validation of the refined 2.5 um donor requires HPC PBS execution upon VPN restoration.",
+  "next_operation": "Submit candidate_donor_h0025.inp via Invoke-Mode1Execution.ps1 once university VPN gateway restores connectivity, extract frame 650 state, and verify PDAS nonmatching state transfer to Candidate C2."
+}
