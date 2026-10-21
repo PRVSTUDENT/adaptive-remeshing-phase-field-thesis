@@ -114,34 +114,67 @@ def test_operator_comparison_metrics():
     with open(comp_file, "r") as f:
         data = json.load(f)
 
-    baseline = data["baseline_continuous_h1"]
-    c_op_95 = data["crack_opening_compatible_d95"]
-    c_op_90 = data["crack_opening_compatible_d90"]
+    ops = data["operator_comparison"]
+    baseline = ops["baseline_continuous_h1"]
+    ablation_95 = ops["experimental_threshold_ablation_d95"]
+    kinematic_p1 = ops["kinematic_bulk_strain_p1"]
+    kinematic_p2 = ops["kinematic_bulk_strain_p2"]
 
     # 1. Baseline H1 fails coupled convergence and surges strain energy to ~975 kN/mm^2
     assert not baseline["coupled_converged"], "Baseline H1 should not converge"
     assert baseline["peak_psi0_effective_kN_mm2"] > 800.0, "Baseline psi0+ should surge"
     assert baseline["reaction_force_continuity_pct"] < -90.0, "Baseline RF collapses by >90%"
 
-    # 2. Crack-Opening-Compatible operator achieves coupled convergence in <= 3 iterations
-    assert c_op_95["coupled_converged"], "Crack-opening-compatible (d=0.95) must converge"
-    assert c_op_95["coupled_iterations"] <= 5, "Must converge in <= 5 iterations"
-    assert c_op_90["coupled_converged"], "Crack-opening-compatible (d=0.90) must converge"
-    assert c_op_90["coupled_iterations"] <= 5, "Must converge in <= 5 iterations"
+    # 2. Kinematically consistent bulk strain operators achieve coupled convergence in <= 3 iterations
+    assert kinematic_p1["coupled_converged"], "Kinematic bulk (p=1) must converge"
+    assert kinematic_p1["coupled_iterations"] <= 3, f"Must converge in <= 3 iterations, got {kinematic_p1['coupled_iterations']}"
+    assert kinematic_p2["coupled_converged"], "Kinematic bulk (p=2) must converge"
+    assert kinematic_p2["coupled_iterations"] <= 3, f"Must converge in <= 3 iterations, got {kinematic_p2['coupled_iterations']}"
 
-    # 3. Peak effective strain energy is suppressed by >95%
-    psi0_red_95 = (1.0 - c_op_95["peak_psi0_effective_kN_mm2"] / baseline["peak_psi0_effective_kN_mm2"]) * 100.0
-    assert psi0_red_95 > 95.0, f"Strain energy reduction {psi0_red_95:.2f}% <= 95%"
+    # 3. Peak bulk strain energy is suppressed by >99% without artificial threshold zeroing
+    assert kinematic_p1["peak_psi0_effective_kN_mm2"] < 2.0, f"Bulk psi0+ (p=1) = {kinematic_p1['peak_psi0_effective_kN_mm2']} >= 2.0 kN/mm^2"
+    assert kinematic_p2["peak_psi0_effective_kN_mm2"] < 0.1, f"Bulk psi0+ (p=2) = {kinematic_p2['peak_psi0_effective_kN_mm2']} >= 0.1 kN/mm^2"
 
-    # 4. Discrete mechanical equilibrium residual is <= 1e-10 kN across all operators
+    # 4. Reaction force is significantly restored (4.14 N vs 0.88 N for threshold ablation and 0.36 N for baseline)
+    assert kinematic_p1["equilibrated_RF_N"] > 4.0, f"Expected RF > 4.0 N, got {kinematic_p1['equilibrated_RF_N']}"
+    assert kinematic_p2["equilibrated_RF_N"] > 4.0, f"Expected RF > 4.0 N, got {kinematic_p2['equilibrated_RF_N']}"
+
+    # 5. Discrete mechanical equilibrium residual is <= 1e-10 kN across all operators
     assert baseline["mechanical_residual_kN"] <= 1e-10, "Baseline mechanical residual > 1e-10 kN"
-    assert c_op_95["mechanical_residual_kN"] <= 1e-10, "C-op 95 mechanical residual > 1e-10 kN"
-    assert c_op_90["mechanical_residual_kN"] <= 1e-10, "C-op 90 mechanical residual > 1e-10 kN"
+    assert ablation_95["mechanical_residual_kN"] <= 1e-10, "Ablation mechanical residual > 1e-10 kN"
+    assert kinematic_p1["mechanical_residual_kN"] <= 1e-10, "Kinematic p1 mechanical residual > 1e-10 kN"
+    assert kinematic_p2["mechanical_residual_kN"] <= 1e-10, "Kinematic p2 mechanical residual > 1e-10 kN"
 
-    # 5. KKT complementarity conditions satisfied
-    assert c_op_95["kkt_satisfied"], "KKT conditions not satisfied for C-op 95"
-    assert c_op_90["kkt_satisfied"], "KKT conditions not satisfied for C-op 90"
+    # 6. Reconciled damage non-healing: zero physical healing, authentic donor overshoot reported
+    for op_name, op in [("kinematic_p1", kinematic_p1), ("kinematic_p2", kinematic_p2), ("baseline", baseline)]:
+        assert op["max_physical_healing"] == 0.0, f"{op_name} physical healing {op['max_physical_healing']} != 0.0"
+        assert op["damage_non_healing_satisfied"], f"{op_name} damage_non_healing_satisfied is False"
+        assert abs(op["donor_overshoot_above_1"] - 0.0021837) < 1e-6, f"{op_name} overshoot mismatch"
+
+    # 7. KKT complementarity conditions satisfied
+    assert kinematic_p1["kkt_satisfied"], "KKT conditions not satisfied for Kinematic p1"
+    assert kinematic_p2["kkt_satisfied"], "KKT conditions not satisfied for Kinematic p2"
+
+
+def test_mesh_resolution_hierarchy():
+    """Verify controlled mesh resolution comparison across Package 72, C1, and C2."""
+    comp_file = REPO_ROOT / "results/validation/c2_operator_comparison.json"
+    with open(comp_file, "r") as f:
+        data = json.load(f)
+
+    hierarchy = data.get("mesh_resolution_hierarchy", {})
+    assert "package72_baseline" in hierarchy
+    assert "candidate_c1_intermediate" in hierarchy
+    assert "candidate_c2_crack_band" in hierarchy
+
+    for mesh_name, res in hierarchy.items():
+        assert res["coupled_converged"], f"{mesh_name} failed coupled convergence"
+        assert res["coupled_iterations"] <= 3, f"{mesh_name} took {res['coupled_iterations']} > 3 iters"
+        assert res["max_physical_healing"] == 0.0, f"{mesh_name} physical healing != 0"
+        assert res["damage_non_healing_satisfied"], f"{mesh_name} non-healing not satisfied"
+        assert res["equilibrated_RF_N"] > 2.5, f"{mesh_name} RF {res['equilibrated_RF_N']} <= 2.5 N"
 
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
+

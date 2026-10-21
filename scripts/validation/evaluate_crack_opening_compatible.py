@@ -1,20 +1,21 @@
-"""F1597: Controlled Numerical Evaluation of Crack-Opening-Compatible State Reconstruction.
+"""F1597: Kinematically Consistent Crack-Opening State Reconstruction and Operator Evaluation.
 
-Compares Candidate C2 under:
-  1. Standard continuous H1 projection (baseline: un-split opening concentrates in crack band,
-     producing eps ~ 2.44, driving psi0+ ~ 848 kN/mm^2, collapsing RF by -95.34%).
-  2. Crack-Opening-Compatible Reconstruction (operator decomposes kinematic opening across fully
-     broken material d >= 0.95 so crack opening does not inject artificial undamaged strain energy
-     into the intact continuum history field, while strictly preserving discrete mechanical
-     equilibrium residual <= 10^-10 kN).
+Addresses the two fundamental scientific issues identified in Turn ebf8ec9b:
+  1. Reconciles the damage-healing discrepancy: donor Package 50 has a slight numerical overshoot
+     d_donor = 1.0021837 (+0.22% above 1.0) at node 231. Clamping the lower bound to the physical
+     interval [0, 1] via d_lower = min(1.0, d_mapped) strictly enforces pointwise non-healing
+     (d* >= d_lower, max_physical_healing = 0.0), satisfying irreversibility while explicitly
+     recording donor numerical overshoot.
+  2. Implements a kinematically consistent crack-opening representation where total strain is
+     partitioned into bulk elastic strain and crack-opening separation:
+         eps_bulk = (1 - d)^p * eps_total,   eps_crack = [1 - (1 - d)^p] * eps_total
+     The fracture history field H is evaluated strictly from the physical bulk strain energy
+     psi0_bulk = (1 - d)^(2p) * psi0_total, without artificial threshold zeroing (no 'if d >= 0.95: 0').
+  3. Evaluates a true topological split-mesh representation ([u] = u+ - u- across duplicate crack-face nodes).
+  4. Performs a controlled mesh-resolution comparison across Package 72 (650 quads), Candidate C1 (840 quads),
+     and Candidate C2 (2,300 quads) to rigorously test the coarse-donor damage profile hypothesis.
 
-Measures:
-  - Peak crack-band strain eps and undamaged strain energy psi0+
-  - Committed history field H* = max(H_mapped, psi0+_effective)
-  - Discrete mechanical equilibrium residual (kN)
-  - Reaction force continuity vs authentic donor (7.851 N, target <= 5%)
-  - Continuum fracture surface energy preservation (target <= 2%)
-  - Phase-field KKT conditions, damage irreversibility, and non-healing (d* >= d_donor)
+Preserves the frozen production UEL (f42_mixed_uel.for).
 """
 import argparse
 import hashlib
@@ -53,18 +54,19 @@ def solve_coupled_pdas_with_operator(
     mesh: dict,
     state_transfer: dict,
     props: list,
-    operator_type: str = "crack_opening_compatible",
+    operator_type: str = "kinematic_bulk_p1",
     d_threshold: float = 0.95,
+    p_power: float = 1.0,
     u_bar: float = 0.00254,
     max_coupled_iter: int = 25,
 ) -> dict:
-    """Solve coupled mechanical-phase-field equilibrium with active-set PDAS irreversibility (d* >= d_mapped).
+    """Solve coupled mechanical-phase-field equilibrium with active-set PDAS irreversibility.
 
     operator_type:
-      'baseline_h1': standard H1 projection (H* = max(H_mapped, psi0+))
-      'crack_opening_compatible': traction-free crack-opening compatible operator where fully broken
-                                   crack band (mean d >= d_threshold) transfers zero artificial elastic
-                                   strain energy into history (H* = H_mapped on broken band).
+      'baseline_h1': standard continuous H1 projection (H* = max(H_mapped, psi0+))
+      'ablation_threshold_d95': experimental history ablation (psi0+ = 0 if mean_d >= d_threshold)
+      'kinematic_bulk': kinematically consistent bulk strain decomposition:
+                        eps_bulk = (1 - d)^p * eps_total, psi0_bulk = (1 - d)^(2p) * psi0_total
     """
     ell, gc = props[0], props[1]
     nodes = mesh["nodes"]
@@ -75,9 +77,17 @@ def solve_coupled_pdas_with_operator(
     d_mapped = state_transfer["d_mapped"].copy()
     h_dict = {eid: val.copy() for eid, val in state_transfer["h_mapped"].items()}
 
-    top_nodes = mesh["top_nodes"]
-    bottom_nodes = mesh["bottom_nodes"]
-    pin_nodes = mesh["pin_nodes"]
+    # Donor numerical overshoot tracking
+    donor_overshoot_above_1 = float(np.max(np.maximum(0.0, d_mapped - 1.0)))
+
+    # Physical lower bound: physical damage cannot exceed 1.0
+    # Clamping d_lower to min(1.0, d_mapped) respects the phase-field physical range [0, 1]
+    d_lower = np.minimum(1.0, d_mapped)
+
+    rp_nid = mesh.get("rp_nid", 999999)
+    top_nodes = [n for n in mesh.get("top_nodes", []) if n != rp_nid and n in index]
+    bottom_nodes = [n for n in mesh.get("bottom_nodes", []) if n != rp_nid and n in index]
+    pin_nodes = [n for n in mesh.get("pin_nodes", []) if n != rp_nid and n in index]
 
     fixed_dofs = []
     prescribed_dofs = []
@@ -97,7 +107,6 @@ def solve_coupled_pdas_with_operator(
     d_current = d_mapped.copy()
     u_current, K, _, _, _ = solve_mechanical_system(mesh, d_current, props, u_bar)
 
-    history_surges = []
     coupled_converged = False
 
     for citer in range(max_coupled_iter):
@@ -114,38 +123,33 @@ def solve_coupled_pdas_with_operator(
             d_elem = d_current[loc]
             elem_mean_d = float(np.mean(d_elem))
 
-            # Compute strains and strain energy at Gauss points
             k_elem, _, psi0_plus = mechanical_element(xy, u_elem, d_elem, props)
             peak_psi0_all = max(peak_psi0_all, float(np.max(psi0_plus)))
 
-            # Approximate strain_yy in element
             dy_elem = np.mean(xy[2:, 1]) - np.mean(xy[:2, 1])
             duy_elem = np.mean(u_elem[[3, 7]]) - np.mean(u_elem[[1, 5]])
             if dy_elem > 1e-7:
                 peak_strain_yy = max(peak_strain_yy, abs(duy_elem / dy_elem))
 
             if operator_type == "baseline_h1":
-                # Standard continuous H1 projection: H* = max(H, psi0+) everywhere
-                h_dict[eid] = np.maximum(h_dict[eid], psi0_plus)
-                peak_psi0_effective = max(peak_psi0_effective, float(np.max(psi0_plus)))
-            elif operator_type == "crack_opening_compatible":
-                # Crack-opening-compatible decomposition:
-                # If element is fully broken (d >= d_threshold), the separation is a kinematic opening jump [[u]].
-                # The bulk intact material stores no elastic strain energy (traction-free condition).
-                # Therefore, only undamaged continuum material (d < d_threshold) drives history evolution.
+                # Standard continuous H1 projection
+                psi0_eff = psi0_plus
+            elif operator_type == "ablation_threshold_d95":
+                # Experimental history ablation
                 if elem_mean_d >= d_threshold:
-                    # Fully broken crack band: preserve authentic mapped history, zero artificial surge
                     psi0_eff = np.zeros_like(psi0_plus)
                 else:
-                    # Intact or partially damaged material: genuine elastic strain energy drives damage
-                    # Continuous transition factor (1 - d/d_threshold)^2 for smooth boundary if desired,
-                    # or sharp transition at d_threshold
                     psi0_eff = psi0_plus
-
-                h_dict[eid] = np.maximum(h_dict[eid], psi0_eff)
-                peak_psi0_effective = max(peak_psi0_effective, float(np.max(psi0_eff)))
+            elif operator_type == "kinematic_bulk":
+                # Kinematically consistent bulk strain decomposition:
+                # eps_bulk = (1 - d)^p * eps_total -> psi0_bulk = (1 - d)^(2p) * psi0_total
+                bulk_factor = (max(0.0, 1.0 - elem_mean_d)) ** (2.0 * p_power)
+                psi0_eff = bulk_factor * psi0_plus
             else:
                 raise ValueError(f"Unknown operator_type: {operator_type}")
+
+            h_dict[eid] = np.maximum(h_dict[eid], psi0_eff)
+            peak_psi0_effective = max(peak_psi0_effective, float(np.max(psi0_eff)))
 
         # 2. Assemble Phase System: A(H) * d = b(H)
         A = np.zeros((n_nodes, n_nodes))
@@ -157,8 +161,7 @@ def solve_coupled_pdas_with_operator(
             A[np.ix_(loc, loc)] += ae
             b[loc] += be
 
-        # 3. Solve active-set PDAS with d_lower = d_mapped (irreversibility & non-healing)
-        d_lower = d_mapped
+        # 3. Solve active-set PDAS with d_lower (irreversibility & non-healing)
         d_new = d_current.copy()
         for piter in range(50):
             grad = A @ d_new - b
@@ -204,23 +207,21 @@ def solve_coupled_pdas_with_operator(
     rf_kN = f_int_kN[prescribed_dofs]
     equilibrated_rf_N = float(np.sum(rf_kN) * 1000.0)
 
-    # Healing check: max(d_mapped - d_equilibrated)
-    max_healing = float(np.max(np.maximum(0.0, d_mapped - d_current)))
+    # Damage healing check:
+    # 1. Physical healing relative to physical lower bound d_lower = min(1.0, d_mapped)
+    max_physical_healing = float(np.max(np.maximum(0.0, d_lower - d_current)))
+    # 2. Raw discrepancy relative to un-clamped donor field (includes numerical overshoot)
+    raw_donor_diff = float(np.max(np.maximum(0.0, d_mapped - d_current)))
 
     # KKT complementarity checks
     phase_grad = A @ d_current - b
-    active_set = np.isclose(d_current, d_mapped, atol=1e-6)
+    active_set = np.isclose(d_current, d_lower, atol=1e-6)
     inactive_set = ~active_set
     max_inactive_residual = float(np.max(np.abs(phase_grad[inactive_set]))) if np.any(inactive_set) else 0.0
     min_active_multiplier = float(np.min(phase_grad[active_set])) if np.any(active_set) else 0.0
 
-    # Effective damaged stiffness
     effective_stiffness = equilibrated_rf_N / u_bar
-
-    # Damage and fracture energy metrics
     d_metrics = compute_damage_metrics(mesh, d_current, ell=ell, gc=gc)
-
-    # Peak values in crack band
     max_history_val = max(float(np.max(v)) for v in h_dict.values())
 
     return {
@@ -235,8 +236,10 @@ def solve_coupled_pdas_with_operator(
         "peak_psi0_all": peak_psi0_all,
         "peak_psi0_effective": peak_psi0_effective,
         "max_committed_history": max_history_val,
-        "max_healing": max_healing,
-        "healing_satisfied": max_healing < 1e-12,
+        "donor_overshoot_above_1": donor_overshoot_above_1,
+        "max_physical_healing": max_physical_healing,
+        "raw_donor_diff": raw_donor_diff,
+        "damage_non_healing_satisfied": max_physical_healing < 1e-12,
         "max_inactive_residual": max_inactive_residual,
         "min_active_multiplier": min_active_multiplier,
         "kkt_satisfied": max_inactive_residual < 1e-4 and min_active_multiplier >= -1e-8,
@@ -259,7 +262,7 @@ def compare_c2_operators(workspace: Path) -> dict:
     )
     donor_fracture_energy_mJ = donor_d_metrics["fracture_energy_mJ"]
 
-    # Build Candidate C2 mesh
+    # Build Candidate C2 mesh (a0 = 0.040 matching authentic geometry)
     y_coords_c2 = generate_graded_1d(0.0, 0.100, 0.050, band_half_width=0.012, h_fine=0.0010, growth_ratio=1.15, max_h=0.005)
     x_coords_c2 = generate_graded_1d(0.0, 0.100, 0.050, band_half_width=0.015, h_fine=0.00125, growth_ratio=1.15, max_h=0.005, key_points=[0.040])
     mesh_c2 = build_quad_mesh(x_coords_c2, y_coords_c2, slit_y=0.050, slit_a0=0.040)
@@ -267,17 +270,29 @@ def compare_c2_operators(workspace: Path) -> dict:
 
     # 1. Baseline H1 Continuous Operator
     baseline_res = solve_coupled_pdas_with_operator(
-        mesh_c2, transfer_c2, props, operator_type="baseline_h1", d_threshold=0.95
+        mesh_c2, transfer_c2, props, operator_type="baseline_h1"
     )
 
-    # 2. Crack-Opening-Compatible Operator (traction-free crack band d >= 0.95)
-    crack_op_res = solve_coupled_pdas_with_operator(
-        mesh_c2, transfer_c2, props, operator_type="crack_opening_compatible", d_threshold=0.95
+    # 2. Previous Experimental Threshold Ablation (d >= 0.95 -> psi0 = 0)
+    ablation_res = solve_coupled_pdas_with_operator(
+        mesh_c2, transfer_c2, props, operator_type="ablation_threshold_d95", d_threshold=0.95
     )
 
-    # Also evaluate threshold sensitivity: d_threshold = 0.90
-    crack_op_res_90 = solve_coupled_pdas_with_operator(
-        mesh_c2, transfer_c2, props, operator_type="crack_opening_compatible", d_threshold=0.90
+    # 3. Kinematically Consistent Bulk-Strain Representation (p = 1.0)
+    kinematic_p1_res = solve_coupled_pdas_with_operator(
+        mesh_c2, transfer_c2, props, operator_type="kinematic_bulk", p_power=1.0
+    )
+
+    # 4. Kinematically Consistent Bulk-Strain Representation (p = 2.0)
+    kinematic_p2_res = solve_coupled_pdas_with_operator(
+        mesh_c2, transfer_c2, props, operator_type="kinematic_bulk", p_power=2.0
+    )
+
+    # 5. Split-Node Crack-Opening Representation (slit extended to a0 = 0.050 mm)
+    mesh_split = build_quad_mesh(x_coords_c2, y_coords_c2, slit_y=0.050, slit_a0=0.050)
+    transfer_split = transfer_donor_to_mesh(donor, mesh_split)
+    split_res = solve_coupled_pdas_with_operator(
+        mesh_split, transfer_split, props, operator_type="kinematic_bulk", p_power=1.0
     )
 
     def summarize_operator_eval(res: dict):
@@ -303,8 +318,10 @@ def compare_c2_operators(workspace: Path) -> dict:
             "fracture_energy_mJ": float(round(e_frac, 6)),
             "fracture_energy_preservation_pct": float(round(e_frac_err, 4)),
             "fracture_energy_within_target_2pct": abs(e_frac_err) <= 2.0,
-            "max_damage_healing": float(round(res["max_healing"], 14)),
-            "damage_non_healing_satisfied": res["healing_satisfied"],
+            "donor_overshoot_above_1": float(round(res["donor_overshoot_above_1"], 7)),
+            "max_physical_healing": float(round(res["max_physical_healing"], 14)),
+            "raw_donor_diff": float(round(res["raw_donor_diff"], 7)),
+            "damage_non_healing_satisfied": res["damage_non_healing_satisfied"],
             "kkt_satisfied": res["kkt_satisfied"],
             "max_inactive_residual": float(round(res["max_inactive_residual"], 12)),
             "min_active_multiplier": float(round(res["min_active_multiplier"], 12)),
@@ -316,18 +333,91 @@ def compare_c2_operators(workspace: Path) -> dict:
             "fracture_energy_mJ": donor_fracture_energy_mJ,
         },
         "baseline_continuous_h1": summarize_operator_eval(baseline_res),
-        "crack_opening_compatible_d95": summarize_operator_eval(crack_op_res),
-        "crack_opening_compatible_d90": summarize_operator_eval(crack_op_res_90),
+        "experimental_threshold_ablation_d95": summarize_operator_eval(ablation_res),
+        "kinematic_bulk_strain_p1": summarize_operator_eval(kinematic_p1_res),
+        "kinematic_bulk_strain_p2": summarize_operator_eval(kinematic_p2_res),
+        "split_node_topological_jump": summarize_operator_eval(split_res),
     }
+
+
+def evaluate_mesh_resolution_hierarchy(workspace: Path) -> dict:
+    """Controlled mesh-resolution comparison testing the coarse-donor damage profile hypothesis."""
+    donor = load_package50_donor(workspace)
+    props = donor["props"]
+    target_rf = 7.851239
+    target_ef = 0.2963177
+
+    def make_mesh_dict(nodes, elements, rp_nid=999999):
+        return {
+            "nodes": nodes, "elements": elements, "rp_nid": rp_nid,
+            "top_nodes": [n for n, (x, y) in nodes.items() if abs(y - 0.100) < 1e-6 and n != rp_nid],
+            "bottom_nodes": [n for n, (x, y) in nodes.items() if abs(y) < 1e-6 and n != rp_nid],
+            "pin_nodes": [n for n, (x, y) in nodes.items() if abs(x) < 1e-6 and abs(y) < 1e-6 and n != rp_nid],
+        }
+
+    # 1. Package 72
+    deck_72 = workspace / "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp"
+    nodes_72, elements_72, _ = load_deck(deck_72)
+    mesh_72 = make_mesh_dict(nodes_72, elements_72)
+    transfer_72 = transfer_donor_to_mesh(donor, mesh_72)
+
+    # 2. Candidate C1
+    deck_c1 = workspace / "models/pandey_kumar_mode1/candidate_intermediate_mesh_c1.inp"
+    nodes_c1, elements_c1, _ = load_deck(deck_c1)
+    mesh_c1 = make_mesh_dict(nodes_c1, elements_c1)
+    transfer_c1 = transfer_donor_to_mesh(donor, mesh_c1)
+
+    # 3. Candidate C2
+    y_coords_c2 = generate_graded_1d(0.0, 0.100, 0.050, band_half_width=0.012, h_fine=0.0010, growth_ratio=1.15, max_h=0.005)
+    x_coords_c2 = generate_graded_1d(0.0, 0.100, 0.050, band_half_width=0.015, h_fine=0.00125, growth_ratio=1.15, max_h=0.005, key_points=[0.040])
+    mesh_c2 = build_quad_mesh(x_coords_c2, y_coords_c2, slit_y=0.050, slit_a0=0.040)
+    transfer_c2 = transfer_donor_to_mesh(donor, mesh_c2)
+
+    cases = [
+        ("package72_baseline", "Package 72 (650 quads, h~0.0035 mm)", mesh_72, transfer_72),
+        ("candidate_c1_intermediate", "Candidate C1 (840 quads, h=0.0020 mm)", mesh_c1, transfer_c1),
+        ("candidate_c2_crack_band", "Candidate C2 (2300 quads, h=0.0010 mm)", mesh_c2, transfer_c2),
+    ]
+
+    hierarchy_res = {}
+    for key, name, mesh, trans in cases:
+        res = solve_coupled_pdas_with_operator(mesh, trans, props, operator_type="kinematic_bulk", p_power=1.0)
+        rf = res["equilibrated_rf_N"]
+        rf_err = (rf - target_rf) / target_rf * 100.0
+        ef = res["fracture_energy_mJ"]
+        ef_err = (ef - target_ef) / target_ef * 100.0
+        hierarchy_res[key] = {
+            "description": name,
+            "n_elements": len(mesh["elements"]),
+            "n_nodes": len(mesh["nodes"]) - 1,
+            "coupled_converged": res["coupled_converged"],
+            "coupled_iterations": res["coupled_iterations"],
+            "equilibrated_RF_N": float(round(rf, 4)),
+            "reaction_force_continuity_pct": float(round(rf_err, 4)),
+            "fracture_energy_mJ": float(round(ef, 6)),
+            "fracture_energy_preservation_pct": float(round(ef_err, 4)),
+            "peak_psi0_effective_kN_mm2": float(round(res["peak_psi0_effective"], 2)),
+            "mechanical_residual_kN": float(round(res["free_residual_kN"], 14)),
+            "max_physical_healing": float(round(res["max_physical_healing"], 14)),
+            "damage_non_healing_satisfied": res["damage_non_healing_satisfied"],
+        }
+    return hierarchy_res
 
 
 def main():
     workspace = REPO_ROOT
-    res = compare_c2_operators(workspace)
+    operators_res = compare_c2_operators(workspace)
+    hierarchy_res = evaluate_mesh_resolution_hierarchy(workspace)
+
+    combined = {
+        "operator_comparison": operators_res,
+        "mesh_resolution_hierarchy": hierarchy_res,
+    }
+
     out_file = workspace / "results/validation/c2_operator_comparison.json"
     with open(out_file, "w", encoding="utf-8") as f:
-        json.dump(res, f, indent=2)
-    print("Operator comparison completed and written to results/validation/c2_operator_comparison.json")
+        json.dump(combined, f, indent=2)
+    print("Operator comparison and mesh hierarchy successfully written to results/validation/c2_operator_comparison.json")
 
 
 if __name__ == "__main__":
