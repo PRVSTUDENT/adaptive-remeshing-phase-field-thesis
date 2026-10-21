@@ -1,0 +1,161 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "operation": "audit_f1597_independent_pareto_verification",
+  "title": "F1597 Independent Audit and Verification of Nonmatching State-Transfer Feasibility",
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "classification": "NUMERICALLY_SUPPORTED_FOR_RESTRICTED_TRANSFER_FAMILY",
+  "finding": "Independent verification of Turn 10 state-transfer feasibility: (1) Reconstructed Turn 10 mathematical problem and classified its Pareto incompatibility claim as NUMERICALLY_SUPPORTED_FOR_RESTRICTED_TRANSFER_FAMILY: Turn 10 sampled only a 1D scalar ray between two endpoints rather than a global variational optimization over H^1(Omega). (2) Independent L2 mass-matrix projection and variational weighting (alpha = 1.40) achieves simultaneous continuity for frozen damage: RF2 = 8.2057 N (+4.52% <= 5%) and Gamma = 0.299391 mJ (+1.04% <= 2%) with zero damage healing (min delta d = 0.0) and mechanical residual <= 1e-14 kN. (3) However, the 12.76x crack-tip strain energy concentration surge (psi0+ = 662.7 kN/mm2 vs donor 51.9 kN/mm2) persists, proving that coupled phase re-equilibration requires donor refinement (candidate_donor_h0025.inp). (4) The 3.0x surge reduction for h=2.5 um is verified as a theoretical scaling hypothesis, not an empirical solver fact. Frozen UEL f42_mixed_uel.for (CE8D5EDCD2911DCB...) is strictly preserved.",
+  "audit_data": {
+    "mathematical_reconstruction": {
+      "turn10_admissible_space_investigated": "Restricted 1D scalar linear convex combination between two discrete states (nodal interpolation and unzipped coupled equilibrium).",
+      "global_optimization_performed_in_turn10": false,
+      "field_level_optimization_performed_in_turn10": false,
+      "mechanical_equilibrium_enforced": true,
+      "pointwise_irreversibility_enforced": true,
+      "strain_surge_in_unexecuted_donor_status": "Theoretical asymptotic scaling projection (psi0 ~ h^-1.58), not empirical measurement."
+    },
+    "variational_results": {
+      "interpolation_baseline": {
+        "rf2_N": 9.9785,
+        "rf2_error_pct": 27.09,
+        "fracture_energy_mJ": 0.298668,
+        "fracture_energy_error_pct": 0.79,
+        "max_psi0_kN_mm2": 659.1,
+        "surge_ratio": 12.69
+      },
+      "l2_projection": {
+        "rf2_N": 8.732,
+        "rf2_error_pct": 11.22,
+        "fracture_energy_mJ": 0.299149,
+        "fracture_energy_error_pct": 0.96,
+        "max_psi0_kN_mm2": 661.6,
+        "surge_ratio": 12.74
+      },
+      "alpha_scan": [
+        {
+          "alpha": 0.0,
+          "rf2_N": 9.9785,
+          "rf2_error_pct": 27.09,
+          "rf2_pass_5pct": false,
+          "fracture_energy_mJ": 0.298668,
+          "fracture_energy_error_pct": 0.79,
+          "fracture_energy_pass_2pct": true,
+          "both_pass": false,
+          "max_psi0_kN_mm2": 659.1,
+          "crack_tip_surge_ratio": 12.69
+        },
+        {
+          "alpha": 0.5,
+          "rf2_N": 9.3682,
+          "rf2_error_pct": 19.32,
+          "rf2_pass_5pct": false,
+          "fracture_energy_mJ": 0.298886,
+          "fracture_energy_error_pct": 0.87,
+          "fracture_energy_pass_2pct": true,
+          "both_pass": false,
+          "max_psi0_kN_mm2": 660.32,
+          "crack_tip_surge_ratio": 12.72
+        },
+        {
+          "alpha": 1.0,
+          "rf2_N": 8.732,
+          "rf2_error_pct": 11.22,
+          "rf2_pass_5pct": false,
+          "fracture_energy_mJ": 0.299149,
+          "fracture_energy_error_pct": 0.96,
+          "fracture_energy_pass_2pct": true,
+          "both_pass": false,
+          "max_psi0_kN_mm2": 661.6,
+          "crack_tip_surge_ratio": 12.74
+        },
+        {
+          "alpha": 1.25,
+          "rf2_N": 8.4048,
+          "rf2_error_pct": 7.05,
+          "rf2_pass_5pct": false,
+          "fracture_energy_mJ": 0.299297,
+          "fracture_energy_error_pct": 1.01,
+          "fracture_energy_pass_2pct": true,
+          "both_pass": false,
+          "max_psi0_kN_mm2": 662.26,
+          "crack_tip_surge_ratio": 12.75
+        },
+        {
+          "alpha": 1.35,
+          "rf2_N": 8.2723,
+          "rf2_error_pct": 5.36,
+          "rf2_pass_5pct": false,
+          "fracture_energy_mJ": 0.299359,
+          "fracture_energy_error_pct": 1.03,
+          "fracture_energy_pass_2pct": true,
+          "both_pass": false,
+          "max_psi0_kN_mm2": 662.52,
+          "crack_tip_surge_ratio": 12.76
+        },
+        {
+          "alpha": 1.4,
+          "rf2_N": 8.2057,
+          "rf2_error_pct": 4.52,
+          "rf2_pass_5pct": true,
+          "fracture_energy_mJ": 0.299391,
+          "fracture_energy_error_pct": 1.04,
+          "fracture_energy_pass_2pct": true,
+          "both_pass": true,
+          "max_psi0_kN_mm2": 662.65,
+          "crack_tip_surge_ratio": 12.76
+        },
+        {
+          "alpha": 1.45,
+          "rf2_N": 8.139,
+          "rf2_error_pct": 3.66,
+          "rf2_pass_5pct": true,
+          "fracture_energy_mJ": 0.299423,
+          "fracture_energy_error_pct": 1.05,
+          "fracture_energy_pass_2pct": true,
+          "both_pass": true,
+          "max_psi0_kN_mm2": 662.79,
+          "crack_tip_surge_ratio": 12.76
+        },
+        {
+          "alpha": 1.5,
+          "rf2_N": 8.072,
+          "rf2_error_pct": 2.81,
+          "rf2_pass_5pct": true,
+          "fracture_energy_mJ": 0.299456,
+          "fracture_energy_error_pct": 1.06,
+          "fracture_energy_pass_2pct": true,
+          "both_pass": true,
+          "max_psi0_kN_mm2": 662.92,
+          "crack_tip_surge_ratio": 12.77
+        }
+      ],
+      "counterexample_found": true,
+      "counterexample_details": {
+        "alpha": 1.4,
+        "rf2_N": 8.2057,
+        "rf2_error_pct": 4.52,
+        "fracture_energy_mJ": 0.299391,
+        "fracture_energy_error_pct": 1.04,
+        "max_psi0_kN_mm2": 662.65,
+        "crack_tip_surge_ratio": 12.76,
+        "damage_min": 0.0031180092000000006,
+        "damage_max": 1.0,
+        "healing_nodes": 0,
+        "mechanical_residual_kN": 3.757514386985329e-15
+      }
+    },
+    "classification": "NUMERICALLY_SUPPORTED_FOR_RESTRICTED_TRANSFER_FAMILY",
+    "scientific_assessment": "Turn 10's 'Stiffness-Dissipation Pareto Incompatibility Theorem' is rigorously classified as NUMERICALLY_SUPPORTED_FOR_RESTRICTED_TRANSFER_FAMILY rather than a general mathematical impossibility theorem. For frozen-damage state transfer, global L2 mass-matrix variational projection combined with process-zone weighting (alpha = 1.40) achieves RF2 = 8.2057 N (+4.52% <= 5.0%) and Gamma = 0.299391 mJ (+1.04% <= 2.0%) with zero damage healing and exact mechanical equilibrium, demonstrating that simultaneous continuity is achievable for frozen damage. However, the crack-tip strain energy concentration surge (12.76x) remains present across all tested fine-mesh transfer operators, confirming that coupled phase-field re-equilibration triggers static unzipping unless the donor discretization itself is refined (candidate_donor_h0025.inp). Method C state transfer remains UNQUALIFIED pending cluster execution of the refined donor."
+  },
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/candidate_donor_h0025.inp": "4C82B66BDA1D925C2BEA65CF765633897ACF4B0030E43C77647FA5E0D05A3179",
+    "results/validation/f1597_pareto_incompatibility_audit.json": "B92C1CBF64654BBE122AABFA9A76A7D03699DBC079C74376B09DA0DB61CD2B65",
+    "scripts/validation/audit_f1597_independent_pareto_verification.py": "19E6ED80FC10E8439C25812BEE5F66B6BF64D49D8723FEA5941623057C3C695F",
+    "tests/unit/test_mode1_f1597_independent_pareto_verification.py": "DD9002270C070910038FD1327AC8EE74C9F54D6924AAB77F73B9DCB93004B913"
+  },
+  "limitation": "Frozen-damage variational continuity (|Delta R| <= 5%, |Delta Gamma| <= 2%) is demonstrated offline. However, coupled phase re-equilibration requires candidate donor refinement on HPC once cluster access resumes.",
+  "next_operation": "Submit candidate_donor_h0025.inp via Invoke-Mode1Execution.ps1 once university VPN gateway restores connectivity, extract frame 650 state, and verify PDAS nonmatching state transfer to Candidate C2."
+}
