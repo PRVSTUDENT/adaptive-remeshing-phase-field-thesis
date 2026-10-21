@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "operation": "audit_f1597_hpc_offline_blocker_and_donor_preflight",
+  "title": "F1597 Investigation of HPC Offline Blocker and Candidate Donor Preflight",
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "classification": "HPC_BLOCKER_RESOLVED_TO_VPN_GATEWAY_OUTAGE__DONOR_PREFLIGHT_VERIFIED",
+  "finding": "Investigation of HPC execution state confirms: (1) Root cause of FAIL_CLOSED_OFFLINE_MODE is resolved into a two-layer structure: the local process guard (ADAPTIVE_REMESHING_OFFLINE_MODE=1) protects against hanging SSH calls, while underlying physical probing demonstrates that the TUBAF VPN gateway vpn.tu-freiberg.de (139.20.202.130:443) is dropping TCP connections (i/o timeout confirmed in WireGuard logs since 16:21), preventing access to internal cluster host mlogin01.hrz.tu-freiberg.de. (2) Candidate donor candidate_donor_h0025.inp (SHA-256 4C82B66BDA1D925C...) is bitwise verified under frozen production UEL f42_mixed_uel.for (SHA-256 CE8D5EDCD2911DCB...), providing l0/h = 3.0 elements across the damage band. (3) Local Abaqus 2024 datacheck confirms complete problem size (1600 quads, 1699 nodes, 5095 variables) and zero geometric errors. (4) Live PBS submission remains deferred strictly by physical gateway reachability until university VPN restores.",
+  "offline_blocker_diagnosis": {
+    "layer1_local_guard": {
+      "ADAPTIVE_REMESHING_OFFLINE_MODE": "1",
+      "OFFLINE_RESEARCH_ONLY": "1",
+      "guard_active": true,
+      "mechanism": "Invoke-GuardedSsh.ps1 and Invoke-Mode1Execution.ps1 fail closed with exit code 72."
+    },
+    "layer2_network_gateway": {
+      "vpn_host": "vpn.tu-freiberg.de",
+      "vpn_ip": "139.20.202.130",
+      "vpn_port": 443,
+      "tcp_port_443_reachable": false,
+      "cluster_login_host": "mlogin01.hrz.tu-freiberg.de",
+      "cluster_dns_status": "UNRESOLVABLE_WITHOUT_ACTIVE_VPN",
+      "wireguard_last_error": "dialing: 'vpn.tu-freiberg.de' failed with ip: '139.20.202.130', error: dial tcp :0->139.20.202.130:443: i/o timeout",
+      "gateway_status": "PORT_443_TIMED_OUT"
+    },
+    "blocker_classification": "PHYSICAL_VPN_GATEWAY_OUTAGE_AND_FAIL_CLOSED_GUARD"
+  },
+  "candidate_donor_preflight": {
+    "candidate_donor_deck": "models\\pandey_kumar_mode1\\candidate_donor_h0025.inp",
+    "candidate_donor_sha256": "4C82B66BDA1D925C2BEA65CF765633897ACF4B0030E43C77647FA5E0D05A3179",
+    "deck_hash_verified": true,
+    "production_uel": "models\\pandey_kumar_mode1\\reproduction_package_gate6b_energy\\f42_mixed_uel.for",
+    "production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "uel_hash_verified": true,
+    "nominal_h_mm": 0.0025,
+    "nominal_h_um": 2.5,
+    "physical_length_scale_l0_um": 7.5,
+    "resolution_ratio_l0_over_h": 3.0,
+    "coarse_donor_resolution_ratio_l0_over_h": 1.5,
+    "elements_count": 1600,
+    "nodes_count": 1698,
+    "split_slit_nodes_count": 17,
+    "preflight_passed": true
+  },
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/candidate_donor_h0025.inp": "4C82B66BDA1D925C2BEA65CF765633897ACF4B0030E43C77647FA5E0D05A3179",
+    "scripts/validation/audit_f1597_hpc_offline_blocker_and_donor_preflight.py": "CE5F89906E403886E931639D9398722C34442EFC892B9A9C0557A65F99711F52",
+    "tests/unit/test_mode1_f1597_hpc_offline_blocker_and_donor_preflight.py": "951FE62A2381988AF522A15F4B732D77E56D2C5977856CEE50FC3CAD7EEAA305",
+    "results/validation/f1597_hpc_offline_blocker_and_donor_preflight_audit.json": "D7903DDEE62BB397B2E8A2F2834DD87FE69131D28B45113C3BE1D72AC857EFB1"
+  },
+  "limitation": "HPC PBS submission cannot execute until the TUBAF university VPN gateway restores TCP port 443 service. Preflight technical qualification of candidate_donor_h0025.inp is complete.",
+  "next_operation": "Submit candidate_donor_h0025.inp via Invoke-Mode1Execution.ps1 once university VPN gateway restores connectivity, extract frame 650 state, and verify PDAS nonmatching state transfer to Candidate C2."
+}
