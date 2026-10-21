@@ -112,9 +112,51 @@ function Resolve-ControllerInstruction([string]$Workspace, [string]$Instruction)
     $heading = ($Instruction -split "`n")[0]
     $id = [regex]::Match($heading,'\bF\d+\b').Value
     $currentId = [regex]::Match([string]$e.task.task_id,'\bF\d+\b').Value
-    if($id){
-        $closed=@(Import-Csv -LiteralPath (Join-Path $Workspace 'project_coordination/TASK_LEDGER.csv')|Where-Object { $_.task_id -match ('^'+[regex]::Escape($id)+'(?:-|$)') -and $_.status -match '^(?i:complete|completed|closed)$' })
-        if($closed.Count){throw ('COMPLETED_TASK_REJECTED: '+$id+'; select the authoritative active task instead')}
+    if ($id) {
+        $closed = @(Import-Csv -LiteralPath (Join-Path $Workspace 'project_coordination/TASK_LEDGER.csv') |
+            Where-Object { $_.task_id -match ('^' + [regex]::Escape($id) + '(?:-|$)') -and $_.status -match '^(?i:complete|completed|closed)$' })
+        if ($closed.Count) {
+            # Case 1: Predecessor task different from current active task
+            if ($currentId -and $id -ne $currentId) {
+                throw ('COMPLETED_TASK_REJECTED: ' + $id + '; select the authoritative active task instead')
+            }
+
+            # Case 2: Current active parent task itself is terminal or marked completed in ledger
+            if ($terminal) {
+                throw ('COMPLETED_TASK_REJECTED: ' + $id + '; select the authoritative active task instead')
+            }
+            $parentClosed = @($closed | Where-Object { $_.task_id.Trim() -eq $e.task.task_id.Trim() })
+            if ($parentClosed.Count -gt 0) {
+                throw ('COMPLETED_TASK_REJECTED: ' + $id + '; select the authoritative active task instead')
+            }
+
+            # Case 3: Current task is still active, but instruction targets an already-completed subtask or duplicate instruction
+            $headingClean = $heading.ToUpperInvariant()
+            $instructionUpper = $Instruction.ToUpperInvariant()
+            foreach ($entry in $closed) {
+                $subtaskId = $entry.task_id.Trim()
+                # Check for explicit subtask ID in heading or instruction
+                if ($subtaskId -and ($headingClean -match [regex]::Escape($subtaskId.ToUpperInvariant()) -or
+                    $instructionUpper -match ('\b' + [regex]::Escape($subtaskId.ToUpperInvariant()) + '\b'))) {
+                    throw ('COMPLETED_TASK_REJECTED: ' + $subtaskId + '; select the authoritative active task instead')
+                }
+
+                # Check if heading matches all significant keywords of the completed subtask ID
+                $parts = @($subtaskId -split '-' | Where-Object { $_ -and $_ -ne $id })
+                if ($parts.Count -gt 0) {
+                    $allPartsMatch = $true
+                    foreach ($p in $parts) {
+                        if ($headingClean -notmatch ('\b' + [regex]::Escape($p) + '\b')) {
+                            $allPartsMatch = $false
+                            break
+                        }
+                    }
+                    if ($allPartsMatch) {
+                        throw ('COMPLETED_TASK_REJECTED: ' + $subtaskId + '; select the authoritative active task instead')
+                    }
+                }
+            }
+        }
     }
     $stale = $terminal -and $id -and $id -eq $currentId
     if ($stale -or $Instruction -match '^CONTROLLER_TASK: NEXT_UNRESOLVED') {

@@ -23,6 +23,30 @@ try {
     $path=Join-Path $fixture 'checkpoint.json'
     $rejected=$false;try{$null=Resolve-ControllerInstruction $fixture '# Antigravity F1596: repeat audit'}catch{$rejected=$_.Exception.Message -match 'COMPLETED_TASK_REJECTED'}
     Assert $rejected 'completed F1596 rejected before model invocation'
+
+    # Regression: Active F1597 parent with completed subtask and legitimate new instructions
+    Put 'project_coordination/ACTIVE_TASK.json' '{"task_id":"F1597-CORRECT-PACKAGE72-STATE-TRANSFER","status":"PREPARATION_COMPLETE"}'
+    Put 'project_coordination/TASK_LEDGER.csv' "task_id,status`nF1596-AUDIT,completed`nF1597-CORRECT-CRACK-OPENING-TRANSFER-FORMULATION,complete"
+
+    # 1. Closed predecessor rejected while F1597 parent is active
+    $predRejected=$false;try{$null=Resolve-ControllerInstruction $fixture '# Antigravity F1596: rerun audit'}catch{$predRejected=$_.Exception.Message -match 'COMPLETED_TASK_REJECTED: F1596'}
+    Assert $predRejected 'closed predecessor F1596 rejected while F1597 is active parent'
+
+    # 2. Completed F1597 subtask by explicit ID rejected
+    $subtaskRejected=$false;try{$null=Resolve-ControllerInstruction $fixture '# F1597-CORRECT-CRACK-OPENING-TRANSFER-FORMULATION: rerun'}catch{$subtaskRejected=$_.Exception.Message -match 'COMPLETED_TASK_REJECTED: F1597-CORRECT-CRACK-OPENING-TRANSFER-FORMULATION'}
+    Assert $subtaskRejected 'explicit completed F1597 subtask ID rejected'
+
+    # 3. Duplicate completed instruction heading rejected
+    $dupRejected=$false;try{$null=Resolve-ControllerInstruction $fixture '# Antigravity — F1597: Correct the Crack-Opening Transfer Formulation'}catch{$dupRejected=$_.Exception.Message -match 'COMPLETED_TASK_REJECTED: F1597-CORRECT-CRACK-OPENING-TRANSFER-FORMULATION'}
+    Assert $dupRejected 'duplicate completed F1597 instruction heading rejected'
+
+    # 4. Legitimate new F1597 research instruction resolves successfully
+    $newResolved = Resolve-ControllerInstruction $fixture '# Antigravity — F1597: Physical Consistency Audit Before Further Transfer Experiments'
+    Assert ($newResolved -and -not $newResolved.stale_replaced -and $newResolved.instruction -match 'Physical Consistency Audit') 'legitimate new F1597 research instruction resolves without completed-task rejection'
+
+    # Restore F1596 state for subsequent lifecycle tests
+    Put 'project_coordination/ACTIVE_TASK.json' '{"task_id":"F1596-AUDIT","status":"AUDIT_COMPLETED_CLASSIFIED_FAIL"}'
+    Put 'project_coordination/TASK_LEDGER.csv' "task_id,status`nF1596-AUDIT,completed"
     $resolved=Resolve-ControllerInstruction $fixture 'CONTROLLER_TASK: NEXT_UNRESOLVED'
     $e=$resolved.evidence
     $s=New-ControllerTurnState $e 1 $resolved.instruction

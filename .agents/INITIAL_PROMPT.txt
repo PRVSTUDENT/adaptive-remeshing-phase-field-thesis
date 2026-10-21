@@ -1,38 +1,39 @@
-# Antigravity — F1597: Crack-Opening-Compatible State Reconstruction and History Transfer
+﻿# Antigravity — F1597: Physical Consistency Audit Before Further Transfer Experiments
 
-**Objective:** Perform ONE bounded numerical investigation formulating and evaluating a crack-opening-compatible state reconstruction operator that accommodates finite crack opening across nonmatching discretizations without artificial history/strain concentration in the regularized band, while preserving exact physical history coupling and discrete mechanical equilibrium.
+Perform ONE bounded, entirely offline scientific verification turn. Do not use HPC, VPN, SSH, qstat or qsub during the university service outage.
 
-Do not repeat the completed Candidate C2 alpha-sweep or compliance ablation studies.
+Use the latest evidence on branch `mode2-pandey-kumar-reproduction`, including commit `588b0b6b`.
 
-## 1. Reconcile Authoritative Evidence & Baseline Findings
-- Follow canonical Bootstrap/Preparation/Complete stages. Read current task/session records, HPC ledgers, Candidate C1/C2 meshes, and verified F1597 numerical checkpoints.
-- Reconcile the proven trade-off: on Candidate C2 ($h = 0.0010$ mm $\le \ell/3.75$), un-split opening displacement ($\Delta u \approx 0.0024$ mm) concentrates into refined crack-band elements, producing $\varepsilon \approx 2.44$, driving undamaged strain energy $\psi_0^+ \approx 848$ kN/mm$^2$ (vs mapped history $39.5$ kN/mm$^2$), diffusing damage into intact material and collapsing equilibrated reaction force by $-95.34\%$.
-- An alpha-sweep variational projection proved that reaction force continuity (+1.86% to +2.39%) can only be obtained by violating discrete mechanical equilibrium (residual $5.6 \times 10^{-4}$ kN).
-- Preserve authentic parameters: $\ell = 0.0075$ mm, $G_c = 0.0027$ kN/mm, $E = 210.0$ kN/mm$^2$, $\nu = 0.3$.
-- Preserve thermodynamic principles: never clip history ($H^* \ge \psi_0^+$ is mandatory); do not apply artificial force matching or unphysical stiffness scaling.
+Do not repeat completed numerical experiments.
 
-## 2. Formulate Crack-Opening-Compatible State Reconstruction
-- Develop an operator that explicitly accounts for the kinematic jump across fully broken material ($d \approx 1.0$ or $d \ge 0.95$):
-  1. Decompose displacement into a regular conforming field and a discontinuous/crack-opening jump across the fully localized crack band.
-  2. Alternatively, evaluate a cohesive/traction-free transition formulation where degraded crack-band elements transfer zero artificial elastic strain into history.
-  3. Formulate the projection objective to minimize energy discrepancy while constraining mechanical equilibrium residual to $\le 10^{-10}$ kN.
+**Priority 1 — Variational and constitutive consistency**
 
-## 3. Controlled Numerical Evaluation & Metrics
-- Implement a focused numerical evaluation module and targeted unit regression tests.
-- Compare Candidate C2 under:
-  1. Standard continuous $H^1$ projection (baseline).
-  2. Crack-opening-compatible reconstruction.
-- Quantitatively measure:
-  1. Peak crack-band strain $\varepsilon$ and undamaged strain energy $\psi_0^+$.
-  2. Committed history field $H^* = \max(H_{\text{mapped}}, \psi_0^+)$.
-  3. Discrete mechanical equilibrium residual (kN).
-  4. Reaction force continuity vs authentic donor ($7.851$ N, target $\le 5\%$).
-  5. Continuum fracture surface energy preservation (target $\le 2\%$).
-  6. Phase-field KKT conditions, damage irreversibility, and non-healing ($d^* \ge d_{\text{donor}}$).
+Audit the proposed relation `eps_bulk = (1-d)^p eps_total` against the actual frozen production UEL's elastic energy, degradation function, phase-field evolution equation and committed-history definition.
 
-## 4. Execution & Reporting Discipline
-- Check live PBS queue (`qstat -u pr21vyci`). Preserve production UEL SHA-256 `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`.
-- If a qualified Abaqus package passes all preflights and notifications, submit via `scripts/hpc/Invoke-Mode1Execution.ps1` and record PBS ID. Otherwise, retain Stage C1-1 as FAILED and report the exact numerical blocker.
-- Report under **HPC STATUS; NEW EXPERIMENT; SCIENTIFIC PROGRESS; DOCUMENTATION; NEXT ACTION**.
+Determine whether multiplying the history-driving energy by `(1-d)^(2p)` while retaining the original mechanical stiffness and equilibrium equations can arise from one consistent energy functional.
+
+Do not call this a physically validated crack-opening decomposition unless the derivation and governing-equation consistency are demonstrated. If not, relabel it an experimental history-source attenuation study.
+
+**Priority 2 — Correct interpretation of numerical checks**
+
+Verify the reported donor overshoot `d=1.0021837`, admissible-range normalization, mapping behavior and damage-irreversibility claims. Report raw donor discrepancy separately from physical-bound non-healing.
+
+Keep the split-node mesh test separate because it changes the crack length from 0.040 to 0.050 mm. Do not use it to claim operator equivalence.
+
+**Priority 3 — Identify the smallest valid next experiment**
+
+Test whether a physically consistent, state-preserving transfer can be built using the original UEL constitutive laws without artificial history attenuation, force scaling, or altered crack geometry.
+
+Treat the coarse-donor resolution explanation as a hypothesis until physically comparable donor states establish it.
+
+Report failures explicitly. Do not tune parameters merely to hit force or energy targets.
+
+**Constraints and deliverables**
+
+Preserve the frozen production UEL, completed evidence, and existing research checkpoints. No speculative HPC jobs.
+
+Deliver a concise constitutive consistency verdict, verified numerical evidence, corrected scientific terminology, targeted tests and one concrete next experiment.
+
+Commit verified changes to the intended branch. Do not silently assume that pushing a feature branch updates `main`.
 
 Finished

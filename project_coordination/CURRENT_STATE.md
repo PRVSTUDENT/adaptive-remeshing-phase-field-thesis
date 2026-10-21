@@ -186,4 +186,21 @@
   * Production UEL `models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) remains **100% BITWISE FROZEN**.
   * Zero PBS jobs submitted. All evaluations conducted through verified offline coupled solvers.
 
+## Controller Subtask Duplicate Protection Repair — 21 October 2026
+
+- **Defect Identified**: `COMPLETED_TASK_REJECTED: F1597` occurred on controller turn startup because `Resolve-ControllerInstruction` in `Controller-Recovery.ps1` line 117 checked if ANY completed task in `TASK_LEDGER.csv` matched `^F1597(?:-|$)`. Completed subtask `F1597-CORRECT-CRACK-OPENING-TRANSFER-FORMULATION` caused the controller to erroneously reject instructions for the still-active parent task `F1597-CORRECT-PACKAGE72-STATE-TRANSFER` (`PREPARATION_COMPLETE`).
+- **Correction Applied**:
+  * Updated `Resolve-ControllerInstruction` in `scripts/controller/Controller-Recovery.ps1` to distinguish completed subtasks from the active parent task.
+  * Legitimate new research instructions for the active parent task (e.g. `# Antigravity — F1597: Physical Consistency Audit Before Further Transfer Experiments`) resolve cleanly.
+  * Genuine duplicate instructions matching completed subtask keywords or explicit subtask IDs remain strictly rejected.
+  * Closed predecessor tasks (e.g. `F1596`) remain strictly rejected.
+- **Verification**:
+  * All 30 checks in `tests/unit/test_controller_recovery.ps1` PASSED (including 4 new regression checks for active parent, completed subtask, duplicate instruction, and legitimate new instruction).
+  * `tests/unit/test_controller_bootstrap.ps1` (26/26 PASS), `test_controller_continuous_research.ps1` (45/45 PASS), `test_controller_operations.ps1` (9/9 PASS), and credential test suite (100% PASS).
+  * Source and deployed `Antigravity-Autonomous-Loop.ps1` bitwise SHA-256 parity verified (`CEB78C0C4DF196E4391EFAEDF677922FFFBB70E8D6B5DACAA3F2B2C4A38D604A`).
+  * `-ControllerDryRun` verified exit code 0 (`mode: DRY_RUN_NO_EXECUTION`, `task: F1597-CORRECT-PACKAGE72-STATE-TRANSFER`, `task_type: RESEARCH_PREPARATION`, `stale_prompt_replaced: false`).
+- **Branch Synchronization**:
+  * Local `main`, `mode2-pandey-kumar-reproduction`, and remote `origin/main`, `origin/mode2-pandey-kumar-reproduction` are 100% synchronized at commit `588b0b6b`.
+
+
 
