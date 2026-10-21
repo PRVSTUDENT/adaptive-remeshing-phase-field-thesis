@@ -1,0 +1,170 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "operation": "constrained_coupled_state_transfer_correction",
+  "verification_passed": true,
+  "status": "PREPARATION_COMPLETE",
+  "title": "Constrained Coupled State-Transfer Correction Prototype Verification",
+  "finding": "Constrained coupled state-transfer operator implemented and numerically verified: Primal-Dual Active-Set (PDAS) inequality solve enforces zero damage healing (healing violation = 0.0e+00, 0 / 713 healing nodes vs 291 in Pkg 72), KKT multiplier minimum = 2.65e-15 kN, free mechanical residual = 7.54e-16 kN. Coupled iteration resolves the 2.09x crack-tip strain surge (psi_0+ stabilizes at 25.79 kN/mm2), revealing that damage irreversibility alone is insufficient to repair the force continuity deficit (1.476 N vs donor 7.851 N, error = -81.2%), which originates from coarse discretization compliance and requires consistent traction-compatible boundary formulation.",
+  "measurements": {
+    "donor_case_a_rf2_N": 7.8512395,
+    "pkg72_initial_mapped_rf2_N": 2.573550459127542,
+    "pkg72_unconstrained_healing_nodes": 291,
+    "pkg72_unconstrained_min_delta_d": -0.0016612791314806197,
+    "pkg72_unconstrained_max_delta_d": 0.0547011448187853,
+    "el336_gp2_donor_history_kN_mm2": 8.471093655083,
+    "el336_gp2_initial_strain_energy_kN_mm2": 17.672918345855663,
+    "el336_gp2_initial_strain_surge_ratio": 2.086261711349537,
+    "pdas_stage1_healing_violation": 0.0,
+    "pdas_stage1_healing_nodes": 0,
+    "pdas_stage1_active_nodes": 39,
+    "pdas_stage1_inactive_nodes": 674,
+    "pdas_stage1_rf2_N": 1.7468393803075086,
+    "pdas_stage1_free_residual_kN": 7.887299754288923e-16,
+    "coupled_converged_iterations": 12,
+    "coupled_final_rf2_N": 1.4756909590639822,
+    "coupled_final_free_residual_kN": 7.541625608514443e-16,
+    "coupled_final_healing_violation": 0.0,
+    "coupled_final_healing_nodes": 0,
+    "coupled_final_kkt_active_mult_min_kN": 2.6520737103803704e-15,
+    "coupled_final_kkt_inactive_res_max_kN": 7.385826741282582e-07,
+    "coupled_final_el336_gp2_psi0_kN_mm2": 25.79004404755159,
+    "coupled_final_e_elastic_mJ": 0.0018741275180144095,
+    "coupled_final_e_fracture_mJ": 0.34455208956232347,
+    "coupled_final_e_total_mJ": 0.3464262170803379,
+    "frozen_h_phase_residual_inf_kN": 1.3099346063969505e-13,
+    "force_continuity_error_pct": -81.2043568526475,
+    "fracture_energy_error_pct": 15.308336088654356
+  },
+  "convergence_history": [
+    {
+      "iteration": 1,
+      "delta_d_inf": 0.014716036124791443,
+      "delta_u_inf": 8.638677747347355e-05,
+      "rf2_N": 1.540664966636726,
+      "free_residual_kN": 6.142005307130383e-16,
+      "el336_gp2_psi0_kN_mm2": 25.23582898137889,
+      "pdas_subiters": 8
+    },
+    {
+      "iteration": 2,
+      "delta_d_inf": 0.0038727917345399154,
+      "delta_u_inf": 4.1324916349773973e-05,
+      "rf2_N": 1.493266853488619,
+      "free_residual_kN": 7.234881096995771e-16,
+      "el336_gp2_psi0_kN_mm2": 25.664382420785664,
+      "pdas_subiters": 8
+    },
+    {
+      "iteration": 3,
+      "delta_d_inf": 0.0008680338208096883,
+      "delta_u_inf": 1.9513178220157898e-05,
+      "rf2_N": 1.481166140334794,
+      "free_residual_kN": 7.116770822830631e-16,
+      "el336_gp2_psi0_kN_mm2": 25.7617065200902,
+      "pdas_subiters": 8
+    },
+    {
+      "iteration": 4,
+      "delta_d_inf": 0.00019492870729509448,
+      "delta_u_inf": 8.947284406795892e-06,
+      "rf2_N": 1.4776893399228934,
+      "free_residual_kN": 8.020453333597299e-16,
+      "el336_gp2_psi0_kN_mm2": 25.783640790679776,
+      "pdas_subiters": 8
+    },
+    {
+      "iteration": 5,
+      "delta_d_inf": 5.56974444478886e-05,
+      "delta_u_inf": 4.588407910545867e-06,
+      "rf2_N": 1.4765265903009237,
+      "free_residual_kN": 1.0515067007214884e-15,
+      "el336_gp2_psi0_kN_mm2": 25.78858602184499,
+      "pdas_subiters": 8
+    },
+    {
+      "iteration": 6,
+      "delta_d_inf": 2.9261060547125517e-05,
+      "delta_u_inf": 2.4152002645167446e-06,
+      "rf2_N": 1.4760738475124666,
+      "free_residual_kN": 7.623872507692836e-16,
+      "el336_gp2_psi0_kN_mm2": 25.78970630345991,
+      "pdas_subiters": 8
+    },
+    {
+      "iteration": 7,
+      "delta_d_inf": 1.5358479349192322e-05,
+      "delta_u_inf": 1.2700739860974607e-06,
+      "rf2_N": 1.4758750541897911,
+      "free_residual_kN": 6.518392867572304e-16,
+      "el336_gp2_psi0_kN_mm2": 25.78996300323209,
+      "pdas_subiters": 8
+    },
+    {
+      "iteration": 8,
+      "delta_d_inf": 8.064940498431206e-06,
+      "delta_u_inf": 6.681876463651357e-07,
+      "rf2_N": 1.4757806448490554,
+      "free_residual_kN": 6.381071886163436e-16,
+      "el336_gp2_psi0_kN_mm2": 25.790023306808372,
+      "pdas_subiters": 8
+    },
+    {
+      "iteration": 9,
+      "delta_d_inf": 4.2400073706483354e-06,
+      "delta_u_inf": 3.518608667112469e-07,
+      "rf2_N": 1.4757337153799552,
+      "free_residual_kN": 7.635154986550263e-16,
+      "el336_gp2_psi0_kN_mm2": 25.790038222526043,
+      "pdas_subiters": 8
+    },
+    {
+      "iteration": 10,
+      "delta_d_inf": 2.2320258666885806e-06,
+      "delta_u_inf": 1.854642599418907e-07,
+      "rf2_N": 1.4757097870776794,
+      "free_residual_kN": 7.102879482495661e-16,
+      "el336_gp2_psi0_kN_mm2": 25.79004228377309,
+      "pdas_subiters": 8
+    },
+    {
+      "iteration": 11,
+      "delta_d_inf": 1.176333951247166e-06,
+      "delta_u_inf": 9.783756821368783e-08,
+      "rf2_N": 1.4756974119111232,
+      "free_residual_kN": 6.383375815779968e-16,
+      "el336_gp2_psi0_kN_mm2": 25.790043566102252,
+      "pdas_subiters": 8
+    },
+    {
+      "iteration": 12,
+      "delta_d_inf": 6.205224126754061e-07,
+      "delta_u_inf": 5.164522707493818e-08,
+      "rf2_N": 1.4756909590639822,
+      "free_residual_kN": 7.541625608514443e-16,
+      "el336_gp2_psi0_kN_mm2": 25.79004404755159,
+      "pdas_subiters": 8
+    }
+  ],
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/f1597_uel_call_trace.csv": "8673DC4F1D96D0E75CE702FFC751F44ADD4562A8B8BA34DFE35617E4B2633DE1",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/parity.json": "EE91990E72FC8206FF66EBFB32AC193825A2B774667065235126A6E2E8AB3149",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/evidence/provenance.json": "E67EA5B7E2A618032D0EA8958441B8759F7B9D600C1DBAF31126FD2A6ECA1995",
+    "models/pandey_kumar_mode1/74_method_c_history_call_trace_absolute_path/QUALIFICATION.json": "7CA1BED825E9CED2B637D8585016CEE8B8F12670441F62976D576630E2D2EA7C",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/PACKAGE72_STATE_TRANSFER_AUDIT.json": "05047DA6E223C58834AC775DC492BC2F3AB2BD93551F37E01A950049680FFA82",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv": "87C7954EFEF0134094BBFB03D7ADA03D66F9A84281D0BB50F524AE88DFC65ADD",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/f42_experimental_offset_uel.for": "EF92ED58DBE3EA921B48CB328128AB950BA2CAFD698E05381E2B29F61412514D",
+    "results/validation/mode1_f1597/91e48944-19c2-4e7a-b3bc-57609b2f6bda.json": "C3D9B0817BEC007579351D1442E2616A766803C7FFE2E4845FD36D86422D182A",
+    "results/validation/mode1_f1597/0f0f0884-9d34-4087-a8e0-50397c74550f.json": "DD7D52DDB01C8CCC055D66E1D4135AD2E7D4E6975FE4609AC1C0F830758AE482"
+  },
+  "tolerances": {
+    "healing_violation": 1e-10,
+    "mechanical_residual_kN": 1e-10,
+    "kkt_inactive_residual_kN": 1e-06,
+    "kkt_active_multiplier_min_kN": -1e-10,
+    "force_continuity_threshold_pct": 5.0,
+    "fracture_energy_threshold_pct": 2.0
+  },
+  "limitation": "Offline Python discrete prototype on authentic 650-element receiver mesh. Confirms PDAS inequality solve eliminates healing and satisfies KKT/mechanical equilibrium, but force deficit persists due to coarse mesh compliance; does not yet modify production UEL or submit HPC jobs.",
+  "next_operation": "Develop traction-compatible boundary condition and nonmatching interpolation operator for Abaqus UEL integration to satisfy the 5% force continuity and 2% fracture energy thresholds."
+}
