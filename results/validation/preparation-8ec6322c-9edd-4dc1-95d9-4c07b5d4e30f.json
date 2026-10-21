@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "offline_physical_consistency_and_state_transfer_audit",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "8ec6322c-9edd-4dc1-95d9-4c07b5d4e30f",
+  "verification_passed": true,
+  "scientific_classification": "EXPERIMENTAL_HISTORY_SOURCE_ATTENUATION_STUDY",
+  "gate_status": "PACKAGE72_FAILED__TRANSFER_CORRECTION_PENDING",
+  "finding": "Independent variational consistency audit proves that the kinematic bulk-strain relations eps_bulk = (1-d)^p * eps and psi0_bulk = (1-d)^(2p) * psi0 violate Schwarz integrability against the frozen production UEL mechanical equilibrium (curl defect = 36.0% to 97.8%). Because mixed partial derivatives do not commute (d(sigma)/dd != -dY_bulk/deps), no scalar potential Pi(u, d) exists. The formulation is strictly classified as an EXPERIMENTAL_HISTORY_SOURCE_ATTENUATION_STUDY, preserving the bitwise frozen UEL (f42_mixed_uel.for SHA-256 CE8D5EDCD2911DCB...). Reaction force on Candidate C2 reaches 4.14 N (-47.2% vs donor 7.851 N), so nonmatching state transfer qualification remains FAILED pending resolution of coarse-donor Laplacian diffusion.",
+  "evidence_sources": {
+    "results/validation/f1597_variational_consistency_audit.json": "F84C714DA42C09E3F4E29DC77CD5326E4C4DE3CD5CE0F6F9F19AE230A314CAF8",
+    "scripts/validation/audit_f1597_variational_consistency.py": "0EE9525FE43EFCAE0B2050C5772BD7EA702837C420F08D15E5BD91B8C062AD46",
+    "tests/unit/test_mode1_f1597_variational_consistency.py": "359EFF773D50C296ACE75C755DCA77E7E5F3F0B24CF054508C6FB26140138109",
+    "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "results/validation/c2_operator_comparison.json": "E4BF125ECA0C405A99D87B1E78A09CB1155D957C546F4C51A421B5D32F4D0B64"
+  }
+}
