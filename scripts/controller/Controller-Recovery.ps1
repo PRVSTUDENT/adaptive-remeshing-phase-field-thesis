@@ -611,7 +611,7 @@ function Assert-ControllerDispatchCheckpoint([string]$Workspace,$State) {
         $report=Join-Path $Workspace 'project_coordination/sessions/2026-10-20_codex_credential_lifecycle.md'
         if(-not(Test-Path -LiteralPath $report) -or (Get-FileHash -LiteralPath $report).Hash -ne $r.credential_report_sha256){throw 'BLOCKED: credential repair evidence changed'}
     }
-    if($State.reconciliation.status -in @('INTERRUPTED_TURN_CREDENTIAL_REPAIR_VERIFIED','INTERRUPTED_TURN_PROGRESS_WATCHDOG_RECONCILED')){
+    if($State.reconciliation.status -in @('INTERRUPTED_TURN_CREDENTIAL_REPAIR_VERIFIED','INTERRUPTED_TURN_PROGRESS_WATCHDOG_RECONCILED','INTERRUPTED_TURN_UTF8_CRASH_RECONCILED')){
         $r=$State.reconciliation
         if($State.state -ne 'COMPLETED' -or -not(Test-Path -LiteralPath $r.original_checkpoint) -or
             (Get-FileHash -LiteralPath $r.original_checkpoint).Hash -ne $r.original_sha256){throw 'BLOCKED: reconciled historical evidence missing or changed'}

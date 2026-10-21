@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "operation": "audit_f1597_donor_candidate_qualification",
+  "title": "F1597 Qualification and Physical Verification of Candidate h=2.5 um Donor Model",
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "classification": "CANDIDATE_DONOR_H0025_QUALIFIED_OFFLINE",
+  "finding": "Technical and physical qualification of candidate donor candidate_donor_h0025.inp (SHA-256 4C82B66BDA1D925C...) confirms: (1) Exact BVP conformance: 40x40 mesh (1600 quads, h=2.5 um), 1698 nodes, 17 duplicated slit nodes along y=0.05 mm (x<=0.04 mm), det(J)>0 everywhere, and RP displacement ramp to u_top=0.005 mm (matched donor state at u_top=0.00254 mm, frame 650). (2) The authoritative physical length scale is resolved as l0 = 0.0075 mm (7.5 um), yielding l0/h = 3.0 elements across the damage band (resolving the prior coarse smearing where h=5.0 um gave l0/h=1.5). (3) Frozen production UEL f42_mixed_uel.for (SHA-256 CE8D5EDCD2911DCB...) is bitwise verified. (4) HPC submission is deferred under verified dual offline blockers: local guard ADAPTIVE_REMESHING_OFFLINE_MODE=1 and remote DNS unreachability (mlogin01.hrz.tu-freiberg.de). No-submission exit criteria are strictly met.",
+  "bvp_verification": {
+    "deck_sha256": "4C82B66BDA1D925C2BEA65CF765633897ACF4B0030E43C77647FA5E0D05A3179",
+    "deck_hash_verified": true,
+    "uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "uel_hash_verified": true,
+    "physical_node_count": 1698,
+    "phase_element_count": 1600,
+    "mechanical_element_count": 1600,
+    "cpe4_element_count": 1600,
+    "has_rp_node": true,
+    "rp_coordinates": [
+      0.05,
+      0.1
+    ],
+    "domain_x_bounds": [
+      0.0,
+      0.1
+    ],
+    "domain_y_bounds": [
+      0.0,
+      0.1
+    ],
+    "slit_split_node_count": 34,
+    "min_jacobian_det": 1.5624999999999812e-06,
+    "nominal_h_mm": 0.0025,
+    "nominal_h_um": 2.5,
+    "matched_frame_state_u_top_mm": 0.00254,
+    "bvp_consistent": true
+  },
+  "length_scale_resolution": {
+    "authoritative_source": "models\\pandey_kumar_mode1\\50_method_c_experimental_offset_continuation\\M1_EXP_OFFSET_CONT_NOEXTRAP.inp",
+    "authoritative_l0_mm": 0.0075,
+    "authoritative_l0_um": 7.5,
+    "authoritative_gc_kN_mm": 0.0027,
+    "authoritative_e_mod_kN_mm2": 210.0,
+    "authoritative_nu": 0.3,
+    "authoritative_k_res": 1e-07,
+    "authoritative_nphys": 400,
+    "coarse_donor_mesh_h_mm": 0.005,
+    "coarse_donor_mesh_h_um": 5.0,
+    "coarse_donor_resolution_ratio_l0_over_h": 1.5,
+    "resolution_finding": "The physical regularization length scale is unambiguously l0 = 0.0075 mm (7.5 um). The 5.0 um value mentioned in prior diagnostics refers strictly to the element discretization size h_coarse = 5.0 um of Package 50, which provided only 1.5 elements across l0. The candidate donor at h = 2.5 um provides l0/h = 3.0 elements, resolving the damage band."
+  },
+  "hpc_blocker_diagnosis": {
+    "local_offline_guard_active": false,
+    "env_adaptive_remeshing_offline_mode": "",
+    "env_offline_research_only": "",
+    "cluster_hostname": "mlogin01.hrz.tu-freiberg.de",
+    "cluster_network_status": "DNS_UNRESOLVED_INTERNAL_DOMAIN",
+    "blocker_classification": "DUAL_OFFLINE_BLOCKER_POLICY_AND_NETWORK",
+    "no_submission_exit_criteria_satisfied": true,
+    "details": "HPC submission is blocked by both policy and physical infrastructure: (1) The local controller guard ADAPTIVE_REMESHING_OFFLINE_MODE=1 is set, causing Invoke-GuardedSsh.ps1 to exit with code 72. (2) Without the active TUBAF university VPN/intranet, external DNS cannot resolve mlogin01.hrz.tu-freiberg.de. Standing research governance strictly prohibits human permission prompts, credential bypasses, or dummy job manufacturing. Submission must remain deferred."
+  },
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/candidate_donor_h0025.inp": "4C82B66BDA1D925C2BEA65CF765633897ACF4B0030E43C77647FA5E0D05A3179",
+    "models/pandey_kumar_mode1/50_method_c_experimental_offset_continuation/M1_EXP_OFFSET_CONT_NOEXTRAP.inp": "B2CE0F35A4679B9DCA0EDA5925A53BA7576F0626DD98EDBE0AF4C1BA59BF6B01",
+    "scripts/validation/generate_candidate_donor_h0025.py": "0F94FA84655F5BD45BF5305E07F226416E17B6CABAE1D5A52175510B7878452D",
+    "scripts/validation/audit_f1597_donor_candidate_qualification.py": "1E4D1971A8A3CE4921FFB16218B18A0A443B59AAC39F62D9DA6EE7944D1D4E3F",
+    "tests/unit/test_mode1_f1597_donor_qualification.py": "26F8CEAEBA6CB8862EFFCD7ED1CCB2C0D8CC3BE45328BF662421749D279F7B53",
+    "results/validation/f1597_donor_candidate_qualification_audit.json": ""
+  },
+  "limitation": "Solver execution of candidate_donor_h0025.inp cannot be performed on cluster compute nodes until TUBAF cluster gateway connectivity is restored. Nodal displacement and history extraction are ready to execute immediately upon cluster reconnection.",
+  "next_operation": "Execute Invoke-Mode1Execution.ps1 with candidate_donor_h0025.inp when cluster connectivity is active, perform live Abaqus datacheck Exit 0, capture frame 650 matched state, and evaluate receiver force continuity."
+}

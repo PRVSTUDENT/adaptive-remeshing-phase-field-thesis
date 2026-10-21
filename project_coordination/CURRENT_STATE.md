@@ -36,6 +36,22 @@
      - Corrective requirement: Monolithic coupled inequality-constrained transfer operator $\min_{u^*, d^*} \Pi(u^*, d^*)$ subject to $d^* \ge d_{\text{donor}}$ and consistent boundary conditions prior to restart.
 
 
+## Emergency Controller Repair — Invalid UTF-8 Crash (Turn 7) — 21 October 2026
+
+- **Turn 7 Science Preserved & Reconciled**: Candidate high-resolution donor deck `models/pandey_kumar_mode1/candidate_donor_h0025.inp` (`4C82B66BDA1D925C2BEA65CF765633897ACF4B0030E43C77647FA5E0D05A3179`), frozen production UEL `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`), preparation audit `audit_f1597_donor_candidate_qualification.py`, and verified audit artifact `results/validation/f1597_donor_candidate_qualification_audit.json` are 100% preserved. Turn 7 was reconciled via `Reconcile-Turn7Utf8Crash.ps1` with status `INTERRUPTED_TURN_UTF8_CRASH_RECONCILED`. Research does NOT restart from Turn 1.
+- **Root Cause & Permanent Fix**:
+  1. Identified defect: .NET Framework 4.8 `Process.StandardInput.WriteLine()` defaulted to Windows ANSI CP1252, transcoding multibyte UTF-8 characters (`—`, `µ`, etc.) into standalone high bytes (`0x94`, `0xB5`). Go protobuf strictly checks `utf8.ValidString(Part.Text)`, which threw `proto: field google.cloud.aiplatform.master.Part.text contains invalid UTF-8` (exit code 3).
+  2. Subprocess UTF-8 Stream Pump: Upgraded to `AgyProcessPumpV3` writing raw UTF-8 bytes directly to `process.StandardInput.BaseStream` with flush; stdout/stderr decoders use replacement fallback (`\uFFFD`) to prevent crashes on non-UTF-8 tool output.
+  3. Character-Safe Truncation & Validation: Added `Get-SafeTruncatedText` preventing surrogate pair splitting (`0xD800..0xDFFF`), `Test-IsValidUtf8String`, and pre-dispatch validation.
+  4. Conversation Discarding: Controller detects exit code 3 or invalid UTF-8, discards contaminated conversation ID, logs `AGY_INVALID_UTF8_DISCARDED`, clears conversation in loop state, and starts fresh conversation on subsequent turns.
+- **Verification, Parity & Resumption**:
+  - `tests/unit/test_utf8_boundary.ps1`: ALL PASS (7/7).
+  - `tests/unit/test_controller_recovery.ps1`: ALL PASS (35/35).
+  - `tests/unit/test_mode1_f1597_donor_qualification.py`: ALL PASS (6/6).
+  - Bitwise deployed controller parity: 100% IDENTICAL (`6B5EB0DE286F9B51FE1B78B3BAEE0C188B25B65A9A5611901679A891E74A464D`).
+  - `Antigravity-Autonomous-Loop.ps1 -ControllerDryRun`: Exit code 0, mode `DRY_RUN_NO_EXECUTION`, zero scientific execution.
+  - Zero duplicate PBS jobs; `HPC_JOB_LEDGER.csv` bitwise unchanged (`8DD8CC73...`).
+
 ## Controller Post-Turn Quota Credential Lifecycle Repair — 21 October 2026
 
 - **Turn 4 Science Preserved**: Turn `01d629c2-b533-4a33-86f1-58b43fff40ed` (Candidate C2 canonical variational state-transfer feasibility test under frozen UEL `f42_mixed_uel.for`) completed cleanly; results, session report `2026-10-21_gemini-antigravity_F1597_01d629c2-b533-4a33-86f1-58b43fff40ed.md` and preparation artifact `preparation-01d629c2-b533-4a33-86f1-58b43fff40ed.json` are 100% preserved. Turn 4 was NOT replayed.

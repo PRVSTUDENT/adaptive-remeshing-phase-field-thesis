@@ -131,6 +131,85 @@ if ($OfflineOnly -or $ResearchOnlyMode -or $env:ADAPTIVE_REMESHING_OFFLINE_MODE 
     Write-Host "[OFFLINE-MODE] Verified research-only mode ACTIVE. HPC submissions and remote scheduler operations are strictly blocked." -ForegroundColor Cyan
 }
 
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+[Console]::InputEncoding  = [System.Text.UTF8Encoding]::new($false)
+$OutputEncoding           = [System.Text.UTF8Encoding]::new($false)
+
+function Get-SafeTruncatedText {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $false)]
+        [string]$Text,
+        [Parameter(Mandatory = $true)]
+        [int]$MaxLength,
+        [ValidateSet('Head', 'Tail')]
+        [string]$Direction = 'Head',
+        [string]$Ellipsis = ''
+    )
+
+    if ([string]::IsNullOrEmpty($Text) -or $Text.Length -le $MaxLength) {
+        return $Text
+    }
+
+    if ($Direction -eq 'Head') {
+        $len = $MaxLength
+        if ($len -gt 0 -and $len -le $Text.Length) {
+            if ([char]::IsHighSurrogate($Text[$len - 1])) {
+                $len--
+            }
+        }
+        $sub = $Text.Substring(0, $len)
+        if (-not [string]::IsNullOrEmpty($Ellipsis)) {
+            $sub += $Ellipsis
+        }
+        return $sub
+    }
+    else {
+        $start = $Text.Length - $MaxLength
+        if ($start -ge 0 -and $start -lt $Text.Length) {
+            if ([char]::IsLowSurrogate($Text[$start])) {
+                $start++
+            }
+        }
+        $sub = $Text.Substring($start)
+        if (-not [string]::IsNullOrEmpty($Ellipsis)) {
+            $sub = $Ellipsis + $sub
+        }
+        return $sub
+    }
+}
+
+function Test-IsValidUtf8String {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $false)]
+        [string]$Text
+    )
+    if ([string]::IsNullOrEmpty($Text)) { return $true }
+    try {
+        $strict = [System.Text.UTF8Encoding]::new($false, $true)
+        $null = $strict.GetBytes($Text)
+        return $true
+    } catch {
+        return $false
+    }
+}
+
+function ConvertTo-SafeUtf8String {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $false)]
+        [string]$Text,
+        [string]$Context = 'diagnostic'
+    )
+    if ([string]::IsNullOrEmpty($Text)) { return $Text }
+    if (Test-IsValidUtf8String $Text) { return $Text }
+    Write-Warning "[ENCODING-DEFENSE] Text in $Context contained invalid UTF-16 surrogates or encoding sequences; applying safe replacement."
+    $loose = [System.Text.UTF8Encoding]::new($false, $false)
+    $bytes = $loose.GetBytes($Text)
+    return $loose.GetString($bytes)
+}
+
 if($ControlledSingleTurn -and $MaxTurns -ne 1){throw 'ControlledSingleTurn requires MaxTurns=1; no research loop allowed'}
 # Offline validation exits before credential/profile/bridge or AGY side effects.
 . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Recovery.ps1')
@@ -2729,7 +2808,7 @@ function Invoke-AgySmartSelectionOnce {
         if ([string]::IsNullOrWhiteSpace($previousResponse) -and (Test-Path -LiteralPath $StateFile)) {
             try { $previousResponse = [string]((Get-Content -LiteralPath $StateFile -Raw | ConvertFrom-Json).last_response) } catch {}
         }
-        if ($previousResponse.Length -gt 6000) { $previousResponse = $previousResponse.Substring($previousResponse.Length - 6000) }
+        if ($previousResponse.Length -gt 6000) { $previousResponse = Get-SafeTruncatedText -Text $previousResponse -MaxLength 6000 -Direction 'Tail' }
         $script:PendingSmartProfileContext = "Before any action read project_coordination/ACTIVE_SESSION.json, ACTIVE_TASK.json, HPC_JOB_LEDGER.csv, MODE1_EXECUTION_LEDGER.json and the latest session report. Reconcile guarded qstat with all reserved IDs; never repeat a submission. PROFILE CHANGE: $prior -> $($selected.profile). Previous conversation belongs to the old account and MUST NOT be reused. Continue project from persistent artifacts, do not repeat completed HPC work. Previous completed response (if any):`n$previousResponse`n"
     }
     Write-Host ("[SMART-AGY] {0}: selected {1}; longer window resets in {2:N1} h; long quota {3}%; 5h quota {4}%." -f `
@@ -3460,7 +3539,7 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
     Write-Host "`n----------------------------------------------------------" -ForegroundColor Yellow
     Write-Host " TURN $CurrentTurn STARTING " -ForegroundColor Yellow
     Write-Host "----------------------------------------------------------" -ForegroundColor Yellow
-    $previewText = if ($CurrentInstruction.Length -gt 120) { $CurrentInstruction.Substring(0, 120) } else { $CurrentInstruction }
+    $previewText = Get-SafeTruncatedText -Text $CurrentInstruction -MaxLength 120 -Direction 'Head'
     Write-LoopLog -Turn $CurrentTurn -Tier "CONTROLLER" -Action "INSTRUCTION_DISPATCH" -Message "Prompt: ${previewText}..."
 
     # ------------------------------------------------------------
@@ -3510,6 +3589,10 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
         }
     }
     $EffectiveInstruction = $bootstrapCommands + (Get-AgyCompactRules) + "`nThe canonical Bootstrap stage performs required prerequisite reads in order; once its receipt is COMPLETE, proceed to the scientific operation without rereading it. Work budget: $($controllerBudget.work) seconds. The controller reserves $($controllerBudget.closeout) seconds for local evidence reconciliation. Create the owned session report and produce an initial verified research artifact early (within 120 seconds); update it with verified intermediate findings every 180 seconds as investigation proceeds. The controller enforces a hard $($controllerBudget.work)-second execution deadline for scientific turns; no shorter inactivity cutoff applies. Intermediate artifacts do not substitute for scientific checkpoint verification. Close the session before the work deadline and emit a final response. `n" + $script:PendingSmartProfileContext + "`n" + $CurrentInstruction
+    if (-not (Test-IsValidUtf8String $EffectiveInstruction)) {
+        Write-Warning "[ENCODING-DEFENSE] EffectiveInstruction contained invalid surrogates! Repairing boundary safely."
+        $EffectiveInstruction = ConvertTo-SafeUtf8String $EffectiveInstruction -Context 'EffectiveInstruction'
+    }
 
     # ------------------------------------------------------------
     # 2. Invoke Antigravity CLI (agy.exe) with hardened error guard
@@ -3645,8 +3728,7 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
             $snippet = $agyText
 
             if ($snippet.Length -gt 1500) {
-                $snippet = $snippet.Substring(0, 1500) +
-                    "`r`n...[truncated]"
+                $snippet = Get-SafeTruncatedText -Text $snippet -MaxLength 1500 -Direction 'Head' -Ellipsis "`r`n...[truncated]"
             }
 
             Write-Host "[AGY-DIAGNOSTIC-OUTPUT]" -ForegroundColor Red
@@ -3797,6 +3879,39 @@ The controller will not continue using another account.
                 Start-Sleep -Seconds $backoffSec
                 continue MainLoop
             }
+        }
+
+        $isUtf8Crash = ($agyExitCode -eq 3) -or ($errText -match '(?i)invalid UTF-8|Part\.text contains invalid UTF-8')
+        if ($isUtf8Crash) {
+            $contaminatedId = $ConversationId
+            $ConversationId = $null
+            $script:ConversationId = $null
+            $ConversationIdSource = 'fresh-after-utf8-crash'
+            Write-LoopLog `
+                -Turn $CurrentTurn `
+                -Tier "CONTROLLER" `
+                -Action "AGY_INVALID_UTF8_DISCARDED" `
+                -Message "Conversation '$contaminatedId' invalidated and discarded due to exit code 3 invalid UTF-8 protobuf error. Contaminated history will NOT be reused. Next attempt will use a fresh conversation."
+
+            Save-LoopState `
+                -Turn ($CurrentTurn - 1) `
+                -Status 'AGY_UTF8_CRASH_FAIL_CLOSED' `
+                -LastInstruction $CurrentInstruction `
+                -LastResponse $errText `
+                -NextInstruction 'Reconcile partial evidence in a fresh conversation; never reuse contaminated conversation ID or replay submissions.' `
+                -Duration $turnDurationSeconds `
+                -Usage $null `
+                -Tier 'CONTROLLER' `
+                -Action 'AGY_INVALID_UTF8_DISCARDED'
+
+            Save-LoopStatus `
+                -Turn $CurrentTurn `
+                -Status "FAILED" `
+                -Tier "CONTROLLER" `
+                -Action "AGY_UTF8_CRASH" `
+                -Details "Exit code ${agyExitCode} - invalid UTF-8 in conversation history/request. Conversation '${contaminatedId}' discarded."
+
+            break MainLoop
         }
 
         Write-LoopLog `
@@ -4669,7 +4784,7 @@ Finished
         Write-LoopLog -Turn $CurrentTurn -Tier "tier3_chatgpt" -Action "ESCALATE_CHATGPT" -Message "Escalating substantive turn to ChatGPT bridge..."
         try {
             $NextInstruction = Invoke-EscalationChatGPT -AntigravityResponse $agentResponse -QuotaSnapshotText $quotaSnapshotText
-            $gptPreview = if ($NextInstruction.Length -gt 80) { $NextInstruction.Substring(0, 80) } else { $NextInstruction }
+            $gptPreview = Get-SafeTruncatedText -Text $NextInstruction -MaxLength 80 -Direction 'Head'
             Write-LoopLog -Turn $CurrentTurn -Tier "tier3_chatgpt" -Action "CHATGPT_DISPATCH" -Message "ChatGPT response received: ${gptPreview}..."
         } catch {
             Write-LoopLog -Turn $CurrentTurn -Tier "tier3_chatgpt" -Action "CHATGPT_FAILURE_STOP" -Message "Error: $_"
@@ -4990,7 +5105,7 @@ Finished
             if ($schedulerInstruction -notmatch '^(?i:stop)\s*$') {
                 # ChatGPT determined an actionable independent instruction!
                 $NextInstruction = $schedulerInstruction
-                $gptPreview = if ($NextInstruction.Length -gt 80) { $NextInstruction.Substring(0, 80) } else { $NextInstruction }
+                $gptPreview = Get-SafeTruncatedText -Text $NextInstruction -MaxLength 80 -Direction 'Head'
                 Write-LoopLog `
                     -Turn $CurrentTurn `
                     -Tier "tier3_chatgpt" `

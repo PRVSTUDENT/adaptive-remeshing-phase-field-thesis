@@ -1,5 +1,5 @@
 # Background .NET readers keep anonymous-pipe I/O off the PowerShell watchdog thread.
-if(-not ('AgyProcessPumpV2' -as [type])) {
+if(-not ('AgyProcessPumpV3' -as [type])) {
     Add-Type -TypeDefinition @'
 using System;
 using System.IO;
@@ -7,33 +7,48 @@ using System.Text;
 using System.Threading;
 using System.Diagnostics;
 using System.Collections.Concurrent;
-public sealed class AgyProcessPumpV2 {
+
+public sealed class AgyProcessPumpV3 {
     public readonly ConcurrentQueue<string> Out = new ConcurrentQueue<string>();
     public readonly ConcurrentQueue<string> Err = new ConcurrentQueue<string>();
     public volatile bool OutDone, ErrDone, InputDone;
     public Exception InputError, ReadError;
     Thread output, error, input;
+
     void Read(Stream stream, ConcurrentQueue<string> queue, bool isError) {
         try {
-            var bytes=new byte[4096]; var chars=new char[8192]; var decoder=Encoding.UTF8.GetDecoder();
+            var bytes = new byte[4096];
+            var chars = new char[8192];
+            var decoder = new UTF8Encoding(false, false).GetDecoder();
             int n;
-            while((n=stream.Read(bytes,0,bytes.Length))>0) {
-                int count=decoder.GetChars(bytes,0,n,chars,0,false);
-                if(count>0) queue.Enqueue(new string(chars,0,count));
+            while((n = stream.Read(bytes, 0, bytes.Length)) > 0) {
+                int count = decoder.GetChars(bytes, 0, n, chars, 0, false);
+                if(count > 0) queue.Enqueue(new string(chars, 0, count));
             }
-            int remaining=decoder.GetChars(bytes,0,0,chars,0,true);
-            if(remaining>0)queue.Enqueue(new string(chars,0,remaining));
-        } catch(Exception ex) { ReadError=ex; }
-        finally { if(isError) ErrDone=true; else OutDone=true; }
+            int remaining = decoder.GetChars(bytes, 0, 0, chars, 0, true);
+            if(remaining > 0) queue.Enqueue(new string(chars, 0, remaining));
+        } catch(Exception ex) { ReadError = ex; }
+        finally { if(isError) ErrDone = true; else OutDone = true; }
     }
-    public void Start(Process process,string text) {
-        output=new Thread(()=>Read(process.StandardOutput.BaseStream,Out,false));
-        error=new Thread(()=>Read(process.StandardError.BaseStream,Err,true));
-        input=new Thread(()=> {try {process.StandardInput.WriteLine(text);process.StandardInput.Close();}catch(Exception ex){InputError=ex;}finally{InputDone=true;}});
-        output.IsBackground=true;error.IsBackground=true;input.IsBackground=true;
-        output.Start();error.Start();input.Start();
+
+    public void Start(Process process, string text) {
+        output = new Thread(() => Read(process.StandardOutput.BaseStream, Out, false));
+        error = new Thread(() => Read(process.StandardError.BaseStream, Err, true));
+        input = new Thread(() => {
+            try {
+                if(!string.IsNullOrEmpty(text)) {
+                    byte[] utf8Bytes = new UTF8Encoding(false, false).GetBytes(text + "\n");
+                    process.StandardInput.BaseStream.Write(utf8Bytes, 0, utf8Bytes.Length);
+                    process.StandardInput.BaseStream.Flush();
+                }
+                process.StandardInput.Close();
+            } catch(Exception ex) { InputError = ex; }
+            finally { InputDone = true; }
+        });
+        output.IsBackground = true; error.IsBackground = true; input.IsBackground = true;
+        output.Start(); error.Start(); input.Start();
     }
-    public void Join() {output.Join(1000);error.Join(1000);input.Join(1000);}
+    public void Join() { output.Join(1000); error.Join(1000); input.Join(1000); }
 }
 '@
 }
@@ -55,6 +70,8 @@ function Invoke-BoundedAgyProcess {
     $info.FileName=$FilePath; $info.Arguments=$quoted -join ' '; $info.WorkingDirectory=$WorkingDirectory
     $info.UseShellExecute=$false; $info.CreateNoWindow=$true
     $info.RedirectStandardInput=$true; $info.RedirectStandardOutput=$true; $info.RedirectStandardError=$true
+    $info.StandardOutputEncoding=[Text.UTF8Encoding]::new($false)
+    $info.StandardErrorEncoding=[Text.UTF8Encoding]::new($false)
     $proc=[Diagnostics.Process]::new(); $proc.StartInfo=$info
     $clock=[Diagnostics.Stopwatch]::StartNew(); $started=$false
     $out=[Text.StringBuilder]::new(); $err=[Text.StringBuilder]::new()
@@ -63,7 +80,7 @@ function Invoke-BoundedAgyProcess {
     try {
         [void]$proc.Start(); $started=$true
         & $OnStarted $proc.Id | Out-Null
-        $pump=[AgyProcessPumpV2]::new(); $pump.Start($proc,$InputText)
+        $pump=[AgyProcessPumpV3]::new(); $pump.Start($proc,$InputText)
         while($true) {
             foreach($queue in @($pump.Out,$pump.Err)) {
                 $chunk=$null

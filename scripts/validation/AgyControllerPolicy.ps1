@@ -34,10 +34,88 @@ function Get-AgyQuotaCooldownDeadline {
     return $until.ToUniversalTime().ToString('o')
 }
 
+function Get-SafeTruncatedText {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $false)]
+        [string]$Text,
+        [Parameter(Mandatory = $true)]
+        [int]$MaxLength,
+        [ValidateSet('Head', 'Tail')]
+        [string]$Direction = 'Head',
+        [string]$Ellipsis = ''
+    )
+
+    if ([string]::IsNullOrEmpty($Text) -or $Text.Length -le $MaxLength) {
+        return $Text
+    }
+
+    if ($Direction -eq 'Head') {
+        $len = $MaxLength
+        if ($len -gt 0 -and $len -le $Text.Length) {
+            if ([char]::IsHighSurrogate($Text[$len - 1])) {
+                $len--
+            }
+        }
+        $sub = $Text.Substring(0, $len)
+        if (-not [string]::IsNullOrEmpty($Ellipsis)) {
+            $sub += $Ellipsis
+        }
+        return $sub
+    }
+    else {
+        $start = $Text.Length - $MaxLength
+        if ($start -ge 0 -and $start -lt $Text.Length) {
+            if ([char]::IsLowSurrogate($Text[$start])) {
+                $start++
+            }
+        }
+        $sub = $Text.Substring($start)
+        if (-not [string]::IsNullOrEmpty($Ellipsis)) {
+            $sub = $Ellipsis + $sub
+        }
+        return $sub
+    }
+}
+
+function Test-IsValidUtf8String {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $false)]
+        [string]$Text
+    )
+    if ([string]::IsNullOrEmpty($Text)) { return $true }
+    try {
+        $strict = [System.Text.UTF8Encoding]::new($false, $true)
+        $null = $strict.GetBytes($Text)
+        return $true
+    } catch {
+        return $false
+    }
+}
+
+function ConvertTo-SafeUtf8String {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $false)]
+        [string]$Text,
+        [string]$Context = 'diagnostic'
+    )
+    if ([string]::IsNullOrEmpty($Text)) { return $Text }
+    if (Test-IsValidUtf8String $Text) { return $Text }
+    Write-Warning "[ENCODING-DEFENSE] Text in $Context contained invalid UTF-16 surrogates or encoding sequences; applying safe replacement."
+    $loose = [System.Text.UTF8Encoding]::new($false, $false)
+    $bytes = $loose.GetBytes($Text)
+    return $loose.GetString($bytes)
+}
+
 function Get-AgyBoundedText {
     param([string]$Text, [int]$Limit = 6000)
     if ($Text.Length -le $Limit) { return $Text }
-    return $Text.Substring(0, [int]($Limit/2)) + "`n[abridged; full evidence remains in project artifacts]`n" + $Text.Substring($Text.Length - [int]($Limit/2))
+    $half = [int]($Limit / 2)
+    $head = Get-SafeTruncatedText -Text $Text -MaxLength $half -Direction 'Head'
+    $tail = Get-SafeTruncatedText -Text $Text -MaxLength $half -Direction 'Tail'
+    return $head + "`n[abridged; full evidence remains in project artifacts]`n" + $tail
 }
 
 function Get-AgyCompletedReceipt {
