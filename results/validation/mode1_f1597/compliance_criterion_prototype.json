@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "finding": "Verified compliance ablation: Undamaged elastic mesh parity is 1.17% (PASS <= 5%), proving the nonmatching receiver discretization has NO elastic compliance defect. However, damaged stiffness collapses by 67.22% at mapping due to diffuse damage volume expansion (int d^2 dOmega +18.01%, E_frac +17.30%) on the h=0.004 mm receiver mesh. Equilibrated reaction force exhibits -81.20% discontinuity (FAIL <= 5%). Formulated quantitative mesh acceptance criterion requiring h <= ell / 3.75 = 0.00107 mm across the 4*ell crack band to preserve structural compliance and fracture energy.",
+  "overall_transfer_qualification": "FAIL",
+  "acceptance_criteria": {
+    "criterion_1_elastic_compliance": {
+      "description": "Elastic stiffness discrepancy e_K_elastic <= 5.0%",
+      "threshold_pct": 5.0,
+      "observed_pct": 1.1654,
+      "status": "PASS"
+    },
+    "criterion_2_damaged_compliance": {
+      "description": "Initial mapped damaged stiffness discrepancy e_K_dam <= 5.0%",
+      "threshold_pct": 5.0,
+      "observed_pct": 67.2211,
+      "status": "FAIL"
+    },
+    "criterion_3_crack_band_sizing": {
+      "description": "Crack band element size h <= ell / 3.75 (0.0011 mm)",
+      "required_max_h_mm": 0.001067,
+      "actual_h_mm": 0.004,
+      "status": "FAIL"
+    },
+    "criterion_4_refinement_band_width": {
+      "description": "Refinement zone width w_refine >= 4 * ell (0.0160 mm)",
+      "required_min_width_mm": 0.016,
+      "actual_width_mm": 0.024,
+      "status": "PASS"
+    },
+    "criterion_5_fracture_energy_preservation": {
+      "description": "Fracture surface energy jump |Delta E_frac| / E_frac <= 2.0%",
+      "threshold_pct": 2.0,
+      "observed_pct": 17.2966,
+      "status": "FAIL"
+    },
+    "criterion_6_force_continuity": {
+      "description": "Equilibrated reaction force continuity |Delta RF_2| / RF_2 <= 5.0%",
+      "threshold_pct": 5.0,
+      "observed_pct": 81.2044,
+      "status": "FAIL"
+    }
+  },
+  "measurements": {
+    "donor_elements": 400,
+    "receiver_elements": 650,
+    "donor_nodes": 450,
+    "receiver_nodes": 713,
+    "donor_elastic_RF_N": 389.3683,
+    "receiver_elastic_RF_N": 393.906,
+    "donor_elastic_stiffness_N_mm": 153294.61,
+    "receiver_elastic_stiffness_N_mm": 155081.09,
+    "elastic_stiffness_discrepancy_pct": 1.1654,
+    "donor_damaged_RF_N": 7.8512,
+    "receiver_damaged_RF_N": 2.5736,
+    "donor_damaged_stiffness_N_mm": 3091.04,
+    "receiver_damaged_stiffness_N_mm": 1013.21,
+    "damaged_stiffness_discrepancy_pct": 67.2211,
+    "receiver_equilibrated_RF_N": 1.4757,
+    "receiver_equilibrated_stiffness_N_mm": 580.98,
+    "equilibrated_force_continuity_error_pct": -81.2044,
+    "donor_damage_L1_integral_mm2": 0.00251235,
+    "receiver_damage_L1_integral_mm2": 0.00273821,
+    "donor_damage_L2_integral_mm2": 0.0013743,
+    "receiver_damage_L2_integral_mm2": 0.00162185,
+    "damage_L2_expansion_pct": 18.0129,
+    "donor_degraded_area_mm2": 0.0036504,
+    "receiver_degraded_area_mm2": 0.00385457,
+    "degraded_area_expansion_pct": 5.5931,
+    "donor_fracture_energy_mJ": 0.00018146,
+    "receiver_fracture_energy_mJ": 0.00021284,
+    "fracture_energy_error_pct": 17.2966
+  },
+  "evidence_sources": {
+    "scripts/validation/correct_mode1_f1597_state_transfer.py": "CF17B1016436C677372E90FC18A430623CD79A1741008BAAA76D1D811C21DC82",
+    "tests/unit/test_mode1_f1597_correction.py": "2F7A9C39B55902BF33BBFE57BB92D8FA65B5ADA84251E6B848A3A0460B2A4F9C",
+    "scripts/validation/transfer_mode1_f1597_conservative_traction.py": "931B8FD6B699A6C4C33DBDB8B8B6E7C8F79FBF3D2F0DB7291693166C59F6D326",
+    "tests/unit/test_mode1_f1597_conservative_traction.py": "A939318A47C094736E13BCFEE79903BB810EF62E8721463327C49507FDA1A628",
+    "models/pandey_kumar_mode1/50_method_c_experimental_offset_continuation/M1_EXP_OFFSET_CONT_NOEXTRAP.inp": "B2CE0F35A4679B9DCA0EDA5925A53BA7576F0626DD98EDBE0AF4C1BA59BF6B01",
+    "models/pandey_kumar_mode1/50_method_c_experimental_offset_continuation/offset_state_table.csv": "3AD967525E7EDF63FF90741F5D1F248F5282FA3F43BB31329F86A0CD0F799C89",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp": "58B1E69F40C5A65C7B9F1049E42AD745152AB8B5CF6B0F15547ED3276CD54964",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv": "87C7954EFEF0134094BBFB03D7ADA03D66F9A84281D0BB50F524AE88DFC65ADD",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/PACKAGE72_STATE_TRANSFER_AUDIT.json": "05047DA6E223C58834AC775DC492BC2F3AB2BD93551F37E01A950049680FFA82"
+  }
+}
