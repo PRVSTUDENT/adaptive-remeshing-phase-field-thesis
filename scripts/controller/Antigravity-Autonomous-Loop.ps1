@@ -520,6 +520,7 @@ function Set-AndVerifyAgyRunProfile {
                     $nativeBytes = Read-AgyCredentialManagerBytes
                     $nativeToken = ConvertTo-AgyCredentialToken $nativeBytes -SourceName native-store -AllowMissingIdentity
                     if ($nativeToken.Identity -and $nativeToken.Identity -ne $expectedToken.Identity) {
+                        Write-Warning ("[PROFILE-GUARD] Native credential identity '{0}' does not match expected profile '{1}' [$Context]." -f $nativeToken.Identity, $expectedToken.Identity)
                         throw 'AGY_RESYNC_IDENTITY_CONFLICT: native credential identity does not match expected profile.'
                     }
                     $expiry = [datetimeoffset]::MinValue
@@ -531,6 +532,7 @@ function Set-AndVerifyAgyRunProfile {
                         $nativeToken = ConvertTo-AgyCredentialToken $nativeBytes -SourceName native-store -AllowMissingIdentity
                     }
                     if ($nativeToken.Identity -and $nativeToken.Identity -ne $expectedToken.Identity) {
+                        Write-Warning ("[PROFILE-GUARD] Refreshed native credential identity '{0}' does not match expected profile '{1}' [$Context]." -f $nativeToken.Identity, $expectedToken.Identity)
                         throw 'AGY_RESYNC_IDENTITY_CONFLICT: refreshed native credential identity does not match expected profile.'
                     }
                     if (-not $nativeToken.Token.access_token) {
@@ -554,24 +556,35 @@ function Set-AndVerifyAgyRunProfile {
                     if ($candidate) { [Array]::Clear($candidate, 0, $candidate.Length) }
                 }
                 Write-Host "[PROFILE-GUARD] Synchronized active profile '$expected' [$Context]."
-            } elseif ($Context -eq 'TURN_END') {
+            } elseif ($Context -in @('POST_AGY', 'TURN_END')) {
                 if ($verificationFailure.Exception.Message -match 'source=native-store stage=ID_TOKEN_MISSING') {
                     if (-not (Test-Path -LiteralPath $tokenPath)) { throw $verificationFailure }
                     $cliBytes = [IO.File]::ReadAllBytes($tokenPath)
+                    $nativeBytes = $null
                     try {
                         $cliTok = ConvertTo-AgyCredentialToken $cliBytes -SourceName cli-file
                         $expTok = ConvertTo-AgyCredentialToken $expectedBytes -SourceName saved-profile
-                        if ($cliTok.Identity -ne $expTok.Identity) { throw $verificationFailure }
+                        if ($cliTok.Identity -ne $expTok.Identity) {
+                            Write-Warning ("[PROFILE-GUARD] CLI credential identity '{0}' does not match expected profile '{1}' [$Context]." -f $cliTok.Identity, $expTok.Identity)
+                            throw $verificationFailure
+                        }
+                        $nativeBytes = Read-AgyCredentialManagerBytes
+                        $nativeTok = ConvertTo-AgyCredentialToken $nativeBytes -SourceName native-store -AllowMissingIdentity
+                        if ($nativeTok.Identity -and $nativeTok.Identity -ne $expTok.Identity) {
+                            Write-Warning ("[PROFILE-GUARD] Native credential identity '{0}' does not match expected profile '{1}' [$Context]." -f $nativeTok.Identity, $expTok.Identity)
+                            throw $verificationFailure
+                        }
                     } finally {
                         if ($cliBytes) { [Array]::Clear($cliBytes, 0, $cliBytes.Length) }
+                        if ($nativeBytes) { [Array]::Clear($nativeBytes, 0, $nativeBytes.Length) }
                     }
-                    Write-Host "[PROFILE-GUARD] Native ID metadata missing at TURN_END; token refresh deferred to next turn start."
+                    Write-Host "[PROFILE-GUARD] Native ID metadata missing at $Context; token refresh deferred to next turn start."
                 } else {
                     throw $verificationFailure
                 }
             } else {
                 if ($verificationFailure.Exception.Message -notmatch 'source=native-store stage=ID_TOKEN_MISSING') { throw $verificationFailure }
-                Repair-AgyRefreshedNativeCredential -ExpectedBytes $expectedBytes -TokenPath $tokenPath
+                Repair-AgyRefreshedNativeCredential -ExpectedBytes $expectedBytes -TokenPath $tokenPath -SkipTokenRefresh
                 Assert-AgyCredentialStores -ExpectedBytes $expectedBytes -TokenPath $tokenPath
                 Write-Host "[PROFILE-GUARD] Verified refreshed native grant with provider and synchronized CLI cache [$Context]."
             }

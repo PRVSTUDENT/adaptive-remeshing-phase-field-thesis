@@ -83,14 +83,42 @@ try {
             function global:Get-AgyProfileState {return [pscustomobject]@{ActiveProfile='account3';ActiveFile='account3';LastSwitch='account3';Raw='fixture'}}
             function global:agy-profile {throw 'Profile rollback must never occur'}
             $script:RunLockedAgyProfile='account3';$EnableSmartAgyProfileSelection=$true;$ControlledSingleTurn=$true
-            $script:fixtureNative=[byte[]]$live.Clone();$script:writes=0
+            $script:RunLockedAgyProfile='account3';$EnableSmartAgyProfileSelection=$true;$ControlledSingleTurn=$true
+            $script:fixtureNative=[byte[]]$live.Clone();$script:writes=0;$script:refreshes=0
             Set-AndVerifyAgyRunProfile -Context PRE_AGY
-            # Simulate AGY dropping ID metadata after a refresh.
+            if($script:writes -ne 1){throw 'PRE_AGY initial setup failed'}
+            Write-Output 'PASS: controlled PRE provider-verified refresh recovery; zero profile switches'
+
+            # Test POST_AGY deferred refresh: simulate AGY dropping ID metadata after execution
             $script:fixtureNative=[byte[]]$live.Clone()
+            $script:refreshes=0; $writesBefore=$script:writes
             Set-AndVerifyAgyRunProfile -Context POST_AGY
             Set-AndVerifyAgyRunProfile -Context POST_AGY
-            if($script:writes -ne 2){throw 'PRE/POST recovery not idempotent'}
-            Write-Output 'PASS: controlled PRE/POST provider-verified refresh recovery; repeated POST is read-only; zero profile switches'
+            if($script:refreshes -ne 0 -or $script:writes -ne $writesBefore){throw 'POST_AGY mutated stores or invoked token refresh'}
+            Write-Output 'PASS: POST_AGY deferred token refresh preserves completed turn without models refresh or store mutation'
+
+            # Test POST_AGY with expired access token and missing ID metadata: must NOT invoke agy models
+            $script:fixtureNative=[byte[]]$expired.Clone()
+            $script:refreshes=0; $writesBefore=$script:writes
+            Set-AndVerifyAgyRunProfile -Context POST_AGY
+            if($script:refreshes -ne 0 -or $script:writes -ne $writesBefore){throw 'POST_AGY with expired token called models refresh'}
+            Write-Output 'PASS: POST_AGY with expired token defers refresh without invoking agy models'
+
+            # Test POST_AGY with genuine CLI account conflict: must fail closed.
+            Sync-AgyCliCredentialFile -Bytes $alternate -TokenPath $fixturePath
+            $failedConflict=$false
+            try { Set-AndVerifyAgyRunProfile -Context POST_AGY } catch { $failedConflict=$true }
+            if (-not $failedConflict) { throw 'POST_AGY did not fail closed on genuine CLI identity conflict' }
+            Sync-AgyCliCredentialFile -Bytes $source -TokenPath $fixturePath
+            Write-Output 'PASS: POST_AGY with genuine CLI identity mismatch fails closed'
+
+            # Test POST_AGY with conflicting native identity: must fail closed.
+            $script:fixtureNative=[byte[]]$alternate.Clone()
+            $failedConflict=$false
+            try { Set-AndVerifyAgyRunProfile -Context POST_AGY } catch { $failedConflict=$true }
+            if (-not $failedConflict) { throw 'POST_AGY did not fail closed on conflicting native identity' }
+            $script:fixtureNative=[byte[]]$live.Clone()
+            Write-Output 'PASS: POST_AGY with genuine native identity mismatch fails closed'
 
             # Test TURN_END deferred refresh: native ID metadata missing does NOT trigger token refresh at turn end.
             $script:fixtureNative=[byte[]]$live.Clone()

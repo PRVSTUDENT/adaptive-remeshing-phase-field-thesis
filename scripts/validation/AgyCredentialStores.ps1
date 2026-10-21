@@ -232,7 +232,10 @@ function Repair-AgyRefreshedNativeCredential {
         $cli=ConvertTo-AgyCredentialToken $cliBytes -SourceName cli-file
         $nativeBytes=Read-AgyCredentialManagerBytes
         $native=ConvertTo-AgyCredentialToken $nativeBytes -SourceName native-store -AllowMissingIdentity
-        if ($cli.Identity -ne $expected.Identity -or ($native.Identity -and $native.Identity -ne $expected.Identity)) { throw 'AGY_CREDENTIAL_REPAIR_IDENTITY_CONFLICT' }
+        if ($cli.Identity -ne $expected.Identity -or ($native.Identity -and $native.Identity -ne $expected.Identity)) {
+            Write-Warning ("[PROFILE-GUARD] Identity conflict detected before repair: expected '{0}', CLI '{1}', native '{2}'." -f $expected.Identity, $cli.Identity, $native.Identity)
+            throw 'AGY_CREDENTIAL_REPAIR_IDENTITY_CONFLICT'
+        }
         $expiry=[datetimeoffset]::MinValue
         if (-not $SkipTokenRefresh -and [datetimeoffset]::TryParse([string]$native.Token.expiry,[ref]$expiry) -and $expiry -le [datetimeoffset]::UtcNow) {
             Update-AgyNativeAccessToken
@@ -240,7 +243,10 @@ function Repair-AgyRefreshedNativeCredential {
             $nativeBytes=Read-AgyCredentialManagerBytes
             $native=ConvertTo-AgyCredentialToken $nativeBytes -SourceName native-store -AllowMissingIdentity
         }
-        if ($native.Identity -and $native.Identity -ne $expected.Identity) { throw 'AGY_CREDENTIAL_REPAIR_IDENTITY_CONFLICT' }
+        if ($native.Identity -and $native.Identity -ne $expected.Identity) {
+            Write-Warning ("[PROFILE-GUARD] Conflicting identity detected after token refresh: expected '{0}', actual '{1}'." -f $expected.Identity, $native.Identity)
+            throw 'AGY_CREDENTIAL_REPAIR_IDENTITY_CONFLICT'
+        }
         if (-not $native.Token.access_token) { throw 'AGY_CREDENTIAL_REPAIR_ACCESS_MISSING' }
         if ((Get-AgyProviderIdentity -AccessToken $native.Token.access_token) -ne $expected.Identity) { throw 'AGY_CREDENTIAL_REPAIR_PROVIDER_MISMATCH' }
         # Provider proved this live grant. Restore missing metadata only after that proof.

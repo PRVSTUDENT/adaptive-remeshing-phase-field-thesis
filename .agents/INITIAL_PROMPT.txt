@@ -1,83 +1,38 @@
-# Antigravity — F1597: Physically Admissible Coupled Transfer on Candidate C2
+# Antigravity — F1597: Crack-Opening-Compatible State Reconstruction and History Transfer
 
-**Objective:** Perform ONE bounded numerical investigation implementing and testing an energy-consistent displacement/strain transfer operator that reduces artificial crack-tip history surges without violating phase-field fracture thermodynamics.
+**Objective:** Perform ONE bounded numerical investigation formulating and evaluating a crack-opening-compatible state reconstruction operator that accommodates finite crack opening across nonmatching discretizations without artificial history/strain concentration in the regularized band, while preserving exact physical history coupling and discrete mechanical equilibrium.
 
-Do not repeat the completed mesh-generation, PDAS, mortar, compliance or root-cause studies.
+Do not repeat the completed Candidate C2 alpha-sweep or compliance ablation studies.
 
-## 1. Reconcile authoritative evidence
+## 1. Reconcile Authoritative Evidence & Baseline Findings
+- Follow canonical Bootstrap/Preparation/Complete stages. Read current task/session records, HPC ledgers, Candidate C1/C2 meshes, and verified F1597 numerical checkpoints.
+- Reconcile the proven trade-off: on Candidate C2 ($h = 0.0010$ mm $\le \ell/3.75$), un-split opening displacement ($\Delta u \approx 0.0024$ mm) concentrates into refined crack-band elements, producing $\varepsilon \approx 2.44$, driving undamaged strain energy $\psi_0^+ \approx 848$ kN/mm$^2$ (vs mapped history $39.5$ kN/mm$^2$), diffusing damage into intact material and collapsing equilibrated reaction force by $-95.34\%$.
+- An alpha-sweep variational projection proved that reaction force continuity (+1.86% to +2.39%) can only be obtained by violating discrete mechanical equilibrium (residual $5.6 \times 10^{-4}$ kN).
+- Preserve authentic parameters: $\ell = 0.0075$ mm, $G_c = 0.0027$ kN/mm, $E = 210.0$ kN/mm$^2$, $\nu = 0.3$.
+- Preserve thermodynamic principles: never clip history ($H^* \ge \psi_0^+$ is mandatory); do not apply artificial force matching or unphysical stiffness scaling.
 
-Follow canonical Bootstrap/Preparation/Complete stages. Read current task/session records, HPC ledgers, Package 50/72 evidence, Candidate C1/C2 meshes, evaluate_candidate_meshes.py, and the existing F1597 numerical checkpoints.
+## 2. Formulate Crack-Opening-Compatible State Reconstruction
+- Develop an operator that explicitly accounts for the kinematic jump across fully broken material ($d \approx 1.0$ or $d \ge 0.95$):
+  1. Decompose displacement into a regular conforming field and a discontinuous/crack-opening jump across the fully localized crack band.
+  2. Alternatively, evaluate a cohesive/traction-free transition formulation where degraded crack-band elements transfer zero artificial elastic strain into history.
+  3. Formulate the projection objective to minimize energy discrepancy while constraining mechanical equilibrium residual to $\le 10^{-10}$ kN.
 
-Preserve the reported Candidate C2 force-continuity failure of −95.34% and fracture-energy result of +0.79% as distinct observations. No Method C execution is currently qualified.
+## 3. Controlled Numerical Evaluation & Metrics
+- Implement a focused numerical evaluation module and targeted unit regression tests.
+- Compare Candidate C2 under:
+  1. Standard continuous $H^1$ projection (baseline).
+  2. Crack-opening-compatible reconstruction.
+- Quantitatively measure:
+  1. Peak crack-band strain $\varepsilon$ and undamaged strain energy $\psi_0^+$.
+  2. Committed history field $H^* = \max(H_{\text{mapped}}, \psi_0^+)$.
+  3. Discrete mechanical equilibrium residual (kN).
+  4. Reaction force continuity vs authentic donor ($7.851$ N, target $\le 5\%$).
+  5. Continuum fracture surface energy preservation (target $\le 2\%$).
+  6. Phase-field KKT conditions, damage irreversibility, and non-healing ($d^* \ge d_{\text{donor}}$).
 
-Resolve two scientific inconsistencies before proceeding:
-
-Earlier refinement criteria used \(\ell=0.004\) mm; the latest report identifies authentic \(\ell=0.0075\) mm and \(G_c=0.0027\) kN/mm. Verify these directly against the frozen UEL, input decks and authentic energy records. Recalculate all \((h/\ell)\), refinement-width and acceptance claims. Do not retain the previous thresholds without justification.
-
-The proposed cap \(H^*\le H_{\mathrm{donor}}^{\max}\) can contradict the physical consistency requirement \(H^*\ge\psi_0^+(\varepsilon(u^*))\). Do not clip history or suppress genuine strain energy merely to improve force agreement.
-
-## 2. Implement a physically consistent transfer correction
-
-Develop a constrained displacement/strain reconstruction on the actual nonmatching receiver mesh.
-
-Investigate an \(L_2\)-consistent, gradient-aware or energy-weighted projection that minimizes artificial strain concentration while preserving:
-
-- Exact prescribed boundary displacement and displacement compatibility.
-- Rigid-body and affine-field reproduction.
-- Donor-to-receiver virtual-work consistency where applicable.
-- Mechanical equilibrium under the authentic loading state.
-- Damage irreversibility and valid phase-field KKT conditions.
-- Physical history evolution:
-  \[
-  H_q^*=\max\left(H_{q,\mathrm{donor}}^{\mathrm{mapped}}, \psi_0^+(\varepsilon(u^*))_q\right).
-  \]
-
-Use a clearly derived optimization objective with explicit constraints. Do not introduce artificial history caps, stiffness scaling, extra traction on prescribed-DOF boundaries or unphysical damage smoothing.
-
-## 3. Execute controlled offline comparisons
-
-Implement one focused numerical module and targeted regression tests.
-
-Compare at minimum:
-- Existing pointwise-interpolation baseline.
-- Candidate C1 and C2 with the corrected displacement/strain projection.
-- Frozen-damage mechanical equilibrium and fully coupled PDAS equilibrium, separately.
-
-For each, measure:
-1. Crack-tip \(\psi_0^+\) and committed-history change, including element 336 or its physically corresponding receiver location.
-2. Reaction force in N before and after equilibrium.
-3. Damaged effective stiffness in N/mm.
-4. Fracture and elastic energies in mJ with consistent authentic constitutive parameters.
-5. Damage healing and history monotonicity.
-6. Mechanical residual, phase KKT residual and complementarity.
-7. Projection error, convergence iterations and numerical conditioning.
-
-Include constant/affine patch tests and a projection-consistency test independent of force matching.
-
-Acceptance targets: reaction continuity ≤ 5%, fracture-energy discrepancy ≤ 2%, no healing beyond \(10^{-10}\), mechanical residual ≤ \(10^{-10}\) kN, and physically valid history/KKT conditions.
-
-Passing isolated tests is not proof that the complete transfer passes.
-
-## 4. Determine the scientific outcome
-
-Establish quantitatively whether corrected displacement/strain reconstruction improves the C2 result.
-
-If the requirements cannot be satisfied simultaneously, identify the incompatibility from computed residuals and state variables. Distinguish a projection defect from legitimate damage evolution and from model/mesh inconsistency.
-
-Do not assume that finer mesh resolution must increase a \((1/h)\) strain singularity; verify behavior against the regularized phase-field length and numerical evidence.
-
-## 5. Execution and closeout
-
-Check the current live PBS queue and once-only job records. Preserve the production UEL SHA256 `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`.
-
-If a distinct candidate satisfies scientific qualification and all required Abaqus technical checks, including datacheck, source hashes, real notifications and resource preflight, submit through `scripts/hpc/Invoke-Mode1Execution.ps1` in this turn and preserve its exact PBS ID. Do not wait for solver completion.
-
-Otherwise, retain Stage C1-1 as FAILED and provide the exact numerical blocker—no speculative submission.
-
-Deliver working code, passing tests, quantified comparisons, verified JSON evidence, source hashes and a concise session report. Selectively commit and push genuine results.
-
-Report under **HPC STATUS; NEW EXPERIMENT; SCIENTIFIC PROGRESS; DOCUMENTATION; NEXT ACTION**.
-
-The next action must follow the measured coupled-transfer outcome, not another historical diagnostic or administrative task.
+## 4. Execution & Reporting Discipline
+- Check live PBS queue (`qstat -u pr21vyci`). Preserve production UEL SHA-256 `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`.
+- If a qualified Abaqus package passes all preflights and notifications, submit via `scripts/hpc/Invoke-Mode1Execution.ps1` and record PBS ID. Otherwise, retain Stage C1-1 as FAILED and report the exact numerical blocker.
+- Report under **HPC STATUS; NEW EXPERIMENT; SCIENTIFIC PROGRESS; DOCUMENTATION; NEXT ACTION**.
 
 Finished

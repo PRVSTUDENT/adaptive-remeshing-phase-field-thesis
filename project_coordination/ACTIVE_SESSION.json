@@ -1,26 +1,19 @@
 {
     "active":  false,
     "agent":  "gemini-antigravity",
-    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "starting_commit":  "f569661fa6eef7b29ce29b70d5c5a12cd9b21176",
-    "claimed_at":  "2026-10-21T14:56:54.2259016+02:00",
-    "last_updated":  "2026-10-21T15:13:33.8974100+02:00",
-    "last_released":  "2026-10-21T15:13:33.8974100+02:00",
+    "task_id":  "CONTROLLER-POST-AGY-LIFECYCLE-REPAIR",
+    "starting_commit":  "de2300b73a311066d931ce3d60e7d8a5b9250e1e",
+    "claimed_at":  "2026-10-21T15:32:00.0000000+02:00",
+    "last_updated":  "2026-10-21T15:52:15.0000000+02:00",
+    "last_released":  "2026-10-21T15:52:15.0000000+02:00",
     "controller_run_id":  "45f4b937-e196-4f2c-904b-69e7f53469b9",
-    "session_report":  "project_coordination/sessions/2026-10-21_gemini-antigravity_F1597_45f4b937-e196-4f2c-904b-69e7f53469b9.md",
+    "session_report":  "project_coordination/sessions/2026-10-21_gemini-antigravity_controller_post_agy_lifecycle_repair.md",
     "allowed_write_scope":  [
-                                "project_coordination/sessions/2026-10-21_gemini-antigravity_F1597_45f4b937-e196-4f2c-904b-69e7f53469b9.md",
-                                "project_coordination/controller/turn-45f4b937-e196-4f2c-904b-69e7f53469b9.json",
-                                "results/validation/mode1_f1597/45f4b937-e196-4f2c-904b-69e7f53469b9.json",
-                                "results/validation/preparation-45f4b937-e196-4f2c-904b-69e7f53469b9.json",
-                                "results/validation/*",
+                                "scripts/controller/*",
                                 "scripts/validation/*",
                                 "tests/unit/*",
-                                "models/pandey_kumar_mode1/*",
-                                "project_coordination/ACTIVE_SESSION.json",
-                                "project_coordination/ACTIVE_TASK.json",
-                                "project_coordination/CURRENT_STATE.md",
-                                "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/ARTIFACT_REGISTRY.csv"
+                                ".agents/INITIAL_PROMPT.txt",
+                                "C:/Users/pruth/OpenClawPAD/*",
+                                "project_coordination/*"
                             ]
 }

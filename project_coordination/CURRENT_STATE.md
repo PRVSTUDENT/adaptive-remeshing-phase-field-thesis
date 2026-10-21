@@ -50,6 +50,26 @@
   - `test_controller_profile_guard.ps1`: ALL 6 CHECKS PASSED.
   - Deployed `Antigravity-Autonomous-Loop.ps1` to OpenClawPAD with SHA-256 parity: `C6C72916EF27D3E7BB1D831476D6872F822AE167990031B378DC22C15909DCF8`.
   - OpenClawPAD `-ControllerDryRun` returned exit code 0 (`checkpoint_state: PENDING`, `task: F1597-CORRECT-PACKAGE72-STATE-TRANSFER`). Controller is verified ready to resume Turn 2.
+## Controller POST_AGY Credential Lifecycle Repair — 21 October 2026
+
+- **Turn 1 Science Preserved**: Run `45f4b937-e196-4f2c-904b-69e7f53469b9` (Candidate C2 coupled transfer evaluation, alpha-sweep proof of mechanical equilibrium vs force continuity incompatibility) completed cleanly in 18.1 minutes; results and session report 100% preserved. Run 45f4b937 was NOT replayed.
+- **POST_AGY Credential Lifecycle Fix**:
+  1. Identified failure mode: When AGY runs for ~18 minutes, the native access token expires and drops `id_token` metadata. At `POST_AGY`, `Assert-AgyCredentialStores` caught `ID_TOKEN_MISSING` and previously called `Repair-AgyRefreshedNativeCredential`. Seeing an expired token, it invoked `Update-AgyNativeAccessToken` (`agy models`), which refreshed into another saved account, triggering `AGY_CREDENTIAL_REPAIR_IDENTITY_CONFLICT` immediately after scientific computation had succeeded.
+  2. Fixed `Set-AndVerifyAgyRunProfile` in `Antigravity-Autonomous-Loop.ps1`: `POST_AGY` now groups with `TURN_END` (`$Context -in @('POST_AGY', 'TURN_END')`). If `source=native-store stage=ID_TOKEN_MISSING`, it verifies CLI store matches expected profile identity, checks that native identity does not conflict, and defers token refresh to `TURN_START` without calling `agy models` or mutating stores.
+  3. Added `-SkipTokenRefresh` to the fallback `else` branch of `Set-AndVerifyAgyRunProfile`, ensuring `agy models` is never invoked during profile checks.
+  4. In `Repair-AgyRefreshedNativeCredential` (`AgyCredentialStores.ps1`) and `Set-AndVerifyAgyRunProfile`, identity conflicts now log warning messages with redacted identity hashes (`expected.Identity` vs `actual.Identity`) without leaking secrets.
+- **Checkpoint & Bridge State Reconciled**:
+  - `C:\Users\pruth\OpenClawPAD\controller_turn_checkpoint.json` reconciled: `state='PENDING'`, `turn=1`, checksum verified.
+  - `C:\Users\pruth\OpenClawPAD\antigravity_loop_state.json` reconciled: `completed_turn=1`, `loop_status='IDLE'`.
+  - Staged next instruction set to scientifically distinct task: "Antigravity — F1597: Crack-Opening-Compatible State Reconstruction and History Transfer".
+  - `.agents/INITIAL_PROMPT.txt` updated to match this new instruction, preventing any replay of the old C2 alpha-sweep task.
+- **Verification & Parity**:
+  - `tests/unit/test_agy_credentials.ps1`: ALL PASS (including POST_AGY deferred refresh, expired token without models refresh, genuine CLI/native identity conflicts fail-closed, and TURN_START resynchronization).
+  - `tests/unit/test_controller_recovery.ps1`: ALL 26 CHECKS PASSED.
+  - `tests/unit/test_controller_profile_guard.ps1`: ALL 6 CHECKS PASSED.
+  - `tests/unit/test_agy_envelope.ps1` & `test_agy_policy.ps1`: ALL CHECKS PASSED.
+  - Deployed `Antigravity-Autonomous-Loop.ps1` to OpenClawPAD with SHA-256 parity: `CEB78C0C4DF196E4391EFAEDF677922FFFBB70E8D6B5DACAA3F2B2C4A38D604A`.
+  - OpenClawPAD `-ControllerDryRun` returned exit code 0 (`checkpoint_state: PENDING`, `task: F1597-CORRECT-PACKAGE72-STATE-TRANSFER`). Controller is verified ready to resume Turn 2 in a single verified turn.
 
 ## Controller Turn 4 Closeout and TURN_END Credential Refresh Lifecycle Repair — 21 October 2026
 
