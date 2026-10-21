@@ -211,6 +211,7 @@ function New-ControllerTurnState($Evidence, [int]$Turn, [string]$Instruction, [i
         last_evidence_at=''
         conversation_id=''
         live_buffer=''
+        last_stream_step=''
         stop_reason=''
         original_instruction_hash=(Get-ControllerTextHash $Instruction)
         partial_output=''
@@ -471,8 +472,10 @@ function Write-ControllerStreamEvent($State,[string]$Chunk) {
             Write-Host "[AGY] conversation=$($State.conversation_id) initialized"
         }elseif($event.event -eq 'step_update'){
             $stepKey = "$($event.step_update.step_index):$($event.step_update.step_type):$($event.step_update.state)"
-            if ($State.last_stream_step -ne $stepKey) {
-                $State.last_stream_step = $stepKey
+            $lastStep = if ($State.PSObject.Properties['last_stream_step']) { [string]$State.last_stream_step } else { '' }
+            if ($lastStep -ne $stepKey) {
+                if ($State.PSObject.Properties['last_stream_step']) { $State.last_stream_step = $stepKey }
+                else { $State | Add-Member -NotePropertyName last_stream_step -NotePropertyValue $stepKey -Force }
                 Write-Host "[AGY] step=$($event.step_update.step_index) type=$($event.step_update.step_type) state=$($event.step_update.state)"
             }
         }elseif($event.event -eq 'result'){Write-Host "[AGY] result=$($event.result.status)"}
