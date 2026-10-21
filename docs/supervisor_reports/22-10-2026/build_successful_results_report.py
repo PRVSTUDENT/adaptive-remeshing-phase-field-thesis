@@ -1,6 +1,6 @@
 """Render a standalone report from existing evidence, without solver execution."""
 from pathlib import Path
-import hashlib, json, sys
+import hashlib, json, sys, re
 from xml.sax.saxutils import escape
 import numpy as np
 import pandas as pd
@@ -68,16 +68,76 @@ fig.suptitle('AUTHENTIC SOLVER OUTPUTS | matched horizon: 0 to 0.007889 mm',font
 save(fig,'method_b_response.png','AUTHENTIC simulation outputs',[ref_path,corr_path,eval_path],
      'Figure 1. Only corrected Method B and canonical fixed reference. Both end at 0.007889 mm. Reference endpoint is interpolated within its recorded range, not extrapolated. Work uses trapezoidal integration of kN versus mm multiplied by 1000 to mJ. Zero is at the first recorded row, u=0.0000025 mm, matching the established evaluation convention. Reintegrated work: %.9f versus %.9f mJ (%.5f%%). Prior summary reference 2.3586 mJ differs by about 0.0001 mJ; the CSV value rounds to 2.3587 mJ.'%(wc[-1],wr[-1],work_error))
 
-fig,ax=plt.subplots(figsize=(10.2,1.65)); ax.set(xlim=(0,1),ylim=(0,1)); ax.axis('off')
-labels=['Coarse Mode-I\nsolve to chosen\npre-analysis point','Native MISESERI\nadaptive mesh\nrefinement','Fresh solve on\nrefined mesh\nfrom zero load','Compare with\nfixed fine-mesh\nreference']
-for i,t in enumerate(labels):
-    x=.12+i*.255
-    ax.add_patch(Rectangle((x-.112,.34),.224,.44,facecolor='#e7eff4',edgecolor=BLUE,lw=1))
-    ax.text(x,.56,t,ha='center',va='center',fontsize=10.5,linespacing=1.05)
-    if i<3: ax.annotate('',xy=(x+.140,.56),xytext=(x+.115,.56),arrowprops=dict(arrowstyle='->',color=BLUE,lw=1.5))
-ax.text(.5,.08,'CONCEPTUAL METHOD B PROCESS | final evaluated mesh includes retrospective ligament refinement',ha='center',fontsize=10,color=BLUE)
-save(fig,'method_b_workflow.png','CONCEPTUAL method explanation',['docs/reports/MODE1_METHOD_B_SCIENTIFIC_VALIDATION_AND_ADAPTIVE_LIMITATION_REPORT.md',eval_path],
-     'Method B schematic, not solver imagery. Fresh refined-mesh solve without state transfer. The corrected configuration uses retrospective ligament information; this does not establish fully predictive native automatic crack tracking.')
+partition_result_path='runs/mode1/method_b_inf_companion/inf_companion_method_b_results.json'
+partition_result=read_json(partition_result_path)
+partition_manifest_path='models/pandey_kumar_mode1/method_b_preflight_manifest.json'
+partition_manifest=read_json(partition_manifest_path)['primary_matrix']['configurations']
+decision_path='docs/decisions/SUPERVISOR_DECISION_METHOD_B_MODE1_LOAD_PARTITIONING.md'
+deck_paths=[f'models/pandey_kumar_mode1/method_b_inf_companion_decks/M1_MB_INF_{n}S.inp' for n in (1,2,4)]
+wrapper_paths=[f'runs/mode1/method_b_inf_companion/{i:02d}_pre_{n}s/submit_M1_PRE_INF_{n}S.pbs' for i,n in enumerate((1,2,4),1)]
+schedules=[]
+for n,p,wrapper in zip((1,2,4),deck_paths,wrapper_paths):
+    assert (ROOT/p).is_file() and (ROOT/wrapper).is_file()
+    deck=(ROOT/p).read_text(); assert '*AMPLITUDE' not in deck.upper()
+    assert Path(p).name in (ROOT/wrapper).read_text()
+    blocks=re.findall(r'^\*STEP\s*,([^\n]*)\n(.*?)^\*END STEP',deck,re.I|re.M|re.S)
+    assert len(blocks)==n
+    steps=[]; t=0.; prev_u=0.
+    for header,block in blocks:
+        name=re.search(r'NAME=([^,\s]+)',header,re.I).group(1)
+        static=re.search(r'^\*STATIC\s*\n([^\n]+)',block,re.I|re.M).group(1)
+        dt,duration,dt_min,dt_max=[float(s) for s in static.split(',')]
+        end_u=float(re.search(r'^N_RP\s*,\s*2\s*,\s*2\s*,\s*([\d.Ee+-]+)',block,re.M).group(1))
+        assert re.search(r'^\*OUTPUT, FIELD, FREQUENCY=1',block,re.I|re.M)
+        assert 'MISESERI, MISESAVG' in block and 'AMPLITUDE=' not in block.upper()
+        nominal=int(round(duration/dt_max))
+        assert abs((end_u-prev_u)*dt_max/duration-1e-5)<1e-12
+        steps.append(dict(name=name,start_time=t,end_time=t+duration,start_u_mm=prev_u,end_u_mm=end_u,dt_initial=dt,dt_max=dt_max,nominal_increments=nominal,field_frequency=1))
+        t+=duration; prev_u=end_u
+    config=partition_manifest[f'M1-MB-{n}S']
+    assert config['remesh_target_step']==steps[-1]['name'] and config['remesh_frame_rule']=='LAST_INCREMENT'
+    assert abs(prev_u-.005)<1e-12
+    archived=partition_result['extraction'][f'{n}S']; native=partition_result['native_remeshing'][f'{n}S']
+    assert abs(archived['u2']-prev_u)<1e-8 and native['adapted_element_count']==14677
+    assert native['status']=='SUCCESS'
+    schedules.append(dict(partitions=n,deck=p,steps=steps,total_step_time=t,endpoint_u_mm=prev_u,indicator_step=steps[-1]['name'],indicator_frame_rule='LAST_INCREMENT',indicator_nominal_increment=steps[-1]['nominal_increments'],remesh_count=1,native_elements=14677))
+assert partition_result['error_field_comparison']['max_diff_1s_2s']==0
+assert partition_result['error_field_comparison']['max_diff_1s_4s']==0
+assert partition_result['mesh_topology_comparison']['step_partition_mesh_invariance_verified']
+
+fig,ax=plt.subplots(figsize=(10.2,2.7)); ax.set(xlim=(0,1),ylim=(0,1)); ax.axis('off')
+for row,label,text in [(0,'A','One preliminary\nsimulation'),(1,'B','Pre-analysis split\ninto 1 / 2 / 4 steps')]:
+    y=.72-row*.40
+    ax.text(.02,y,label,ha='center',va='center',fontsize=14,fontweight='bold',color=BLUE)
+    labels=[text,'Select / evaluate\nMISESERI field','One native\nadaptive remesh','Fresh final solve\nfrom zero load']
+    for i,txt in enumerate(labels):
+        x=.16+i*.235
+        ax.add_patch(Rectangle((x-.102,y-.135),.204,.27,facecolor='#e7eff4' if not row else '#deefe9',edgecolor=BLUE,lw=1))
+        ax.text(x,y,txt,ha='center',va='center',fontsize=11,linespacing=1.1)
+        if i<3: ax.annotate('',xy=(x+.130,y),xytext=(x+.105,y),arrowprops=dict(arrowstyle='->',color=BLUE,lw=1.5))
+ax.text(.5,.04,'CONCEPTUAL A/B COMPARISON | both: one remesh, two passes, no loaded-state transfer',ha='center',fontsize=11,color=BLUE)
+save(fig,'method_b_workflow.png','CONCEPTUAL method explanation',[decision_path,'docs/methods/MODE1_LOAD_PARTITION_EXPERIMENT_SPECIFICATION.md'],
+     'A and B share one-remesh/two-pass architecture. B parameterizes preliminary loading and field selection; it is not sequential adaptation. The 1-step B case reduces to the same architecture as A at the same controls.')
+
+fig,axs=plt.subplots(3,1,figsize=(10.2,5.4)); fig.subplots_adjust(left=.09,right=.73,top=.89,bottom=.1,hspace=.65)
+for ax,schedule in zip(axs,schedules):
+    n=schedule['partitions']
+    for step in schedule['steps']:
+        ax.plot([step['start_time'],step['end_time']],[step['start_u_mm']*1000,step['end_u_mm']*1000],color=BLUE,lw=2)
+        ax.axvline(step['end_time'],ls=':',color='#839aaa',lw=1)
+        ax.text((step['start_time']+step['end_time'])/2,5.5,step['name'],ha='center',fontsize=10)
+        ax.plot(step['end_time'],step['end_u_mm']*1000,'o',color=BLUE,ms=3)
+        label_offset=(-4,-14) if step is schedule['steps'][-1] else (-4,6)
+        ax.annotate(f"{step['end_u_mm']:.5f} mm",(step['end_time'],step['end_u_mm']*1000),xytext=label_offset,textcoords='offset points',ha='right',fontsize=10)
+    ax.plot(schedule['total_step_time'],5,'*',color=GREEN,ms=12,clip_on=False)
+    ax.set(xlim=(0,n),ylim=(0,6.5),xticks=list(range(n+1)),yticks=[0,2.5,5],ylabel=f'{n}-step\nu [micrometres]')
+    ax.tick_params(labelsize=10); ax.grid(axis='y',alpha=.15)
+    ax.text(1.04,.72,f"Select {schedule['indicator_step']}, last frame\ninc {schedule['indicator_nominal_increment']} at u = 0.005 mm",transform=ax.transAxes,fontsize=10,color=GREEN,va='center')
+    ax.text(1.04,.13,'Then ONE native remesh\n(no remesh at earlier boundaries)',transform=ax.transAxes,fontsize=9,va='center')
+    ax.set_xlabel('Accumulated Abaqus static step-time [model units]',fontsize=10)
+fig.suptitle('VERIFIED DECK-DERIVED LOADING SCHEDULES | 1 / 2 / 4 partitions',fontsize=13)
+save(fig,'method_b_loading_schedules.png','VERIFIED DECK-DERIVED diagram, not measured solver history',deck_paths+wrapper_paths+[partition_manifest_path,partition_result_path,decision_path],
+     'Figure 3. Prescribed RP-U2 ramps reconstructed by parsing actual infinitesimal-companion execution decks. Each step duration is 1; accumulated step-times total 1, 2 and 4. End displacements are absolute BC values, not increments to add. Equal displacement partitions are verified, not assumed. Field output is every increment; remesh selection is the last frame of Step-1/2/4 at u=0.005 mm. Increment labels 500/250/125 follow deck time controls and archived zero-cutback completion. Remeshing occurs once after selection. Static pseudo-time is not walltime. Manifest supplies selection rule; archived result supplies endpoint/field comparison; no ODB is opened or new solver execution claimed.')
 
 coarse_path='models/pandey_kumar_mode1/method_b_preflight_decks/M1-MB-1S.inp'
 corrected_mesh_path=base+'/M1_MB_CORRECTED_PROPAGATION_14K.inp'
@@ -89,16 +149,18 @@ def mesh(ax,p,title,zoom=None):
     ax.autoscale(); ax.set_aspect('equal'); ax.set_title(title,fontsize=11); ax.set_xlabel('x [mm]'); ax.set_ylabel('y [mm]'); ax.tick_params(labelsize=10)
     if zoom: ax.set_xlim(*zoom[:2]); ax.set_ylim(*zoom[2:])
     return len(nodes),len(quads)+len(tris)
-fig,axs=plt.subplots(1,3,figsize=(10.2,3.7),layout='constrained')
-mesh(axs[0],coarse_path,'Coarse pre-analysis | 2,906 FE')
-_,count=mesh(axs[1],corrected_mesh_path,'Corrected refined mesh | 14,483 FE'); assert count==14483
-mesh(axs[2],corrected_mesh_path,'Corrected crack-tip zoom',(.475,.54,.47,.53))
-fig.suptitle('AUTHENTIC INPUT GEOMETRY | before pre-refinement and final evaluated configuration',fontsize=12)
-save(fig,'mesh_artifacts.png','AUTHENTIC input-deck geometry',[coarse_path,corrected_mesh_path],
-     'Figure 2. Coarse pre-analysis and final corrected Method B mesh with actual tip zoom. Before/after includes retrospective ligament refinement, not a purely automatic native remesh transition or loaded state-preserving handoff.')
-fig,ax=plt.subplots(figsize=(6.5,4.5),layout='constrained'); mesh(ax,corrected_mesh_path,'Corrected Method B: actual crack-tip mesh',(.475,.54,.47,.53))
-save(fig,'native_crack_tip.png','AUTHENTIC input-deck geometry',[corrected_mesh_path],
-     'Companion close-up of corrected 14,483-FE configuration; filename retained. Not evidence for predictive native crack tracking.')
+native_mesh_path='models/pandey_kumar_mode1/38_method_b_native_final_14k/M1_MB_NATIVE_FINAL_1S.inp'
+fig,axs=plt.subplots(2,2,figsize=(10.2,5.4),layout='constrained')
+mesh(axs[0,0],coarse_path,'Coarse pre-analysis | 2,906 FE')
+_,count=mesh(axs[0,1],native_mesh_path,'Genuine native B | 14,677 FE'); assert count==14677
+mesh(axs[1,0],native_mesh_path,'Native B: actual crack-tip zoom',(.475,.54,.47,.53))
+_,count=mesh(axs[1,1],corrected_mesh_path,'Separate retrospective mesh | 14,483 FE'); assert count==14483
+fig.suptitle('AUTHENTIC INPUT GEOMETRY | native partition result and separate corrected mesh',fontsize=12)
+save(fig,'mesh_artifacts.png','AUTHENTIC input-deck geometry',[coarse_path,native_mesh_path,corrected_mesh_path,partition_result_path],
+     'Figure 2. Coarse mesh, genuine native 14,677-FE partition-study result and its tip zoom, plus separate retrospective 14,483-FE verification mesh. The native deck reconstructs the native adapted geometry in UEL layers. The retrospective mesh is not a consequence of choosing 1, 2 or 4 steps.')
+fig,ax=plt.subplots(figsize=(6.5,4.5),layout='constrained'); mesh(ax,native_mesh_path,'Genuine native Method B: actual crack-tip mesh',(.475,.54,.47,.53))
+save(fig,'native_crack_tip.png','AUTHENTIC input-deck geometry',[native_mesh_path],
+     'Companion close-up of genuine native 14,677-FE Method B geometry. Separate from retrospective 14,483-FE verification mesh.')
 
 fig,axs=plt.subplots(1,5,figsize=(10.2,4.8)); fig.subplots_adjust(top=.77,bottom=.28,left=.03,right=.98,wspace=.25)
 for i,ax in enumerate(axs):
@@ -117,7 +179,7 @@ fig.text(.5,.86,'Refinement follows the active fracture process zone as loading 
 fig.text(.5,.09,'At every handoff: transfer displacement u, damage d and committed history H;\naccept force, energy and irreversibility checks before continuing.',ha='center',fontsize=11)
 fig.text(.5,.015,'Illustrative meshes and crack positions only. No numerical cycle, displacement or crack-path result is implied.',ha='center',fontsize=9,color=BLUE)
 save(fig,'method_c_planned_workflow.png','CONCEPTUAL intended workflow and mesh progression',['docs/reports/MODE1_METHOD_C1_CONTINUATION_FEASIBILITY_AND_PLAN.md'],
-     'Figure 3. User-requested target of Step 0 plus four future cycles. All five meshes, refinement boxes and crack positions are conceptual. No accepted multi-mesh trajectory or cycle displacement is asserted. No wake coarsening is represented.')
+     'Figure 4. User-requested target of Step 0 plus four future cycles. All five meshes, refinement boxes and crack positions are conceptual. No accepted multi-mesh trajectory or cycle displacement is asserted. No wake coarsening is represented.')
 
 candidate_paths=['models/pandey_kumar_mode1/candidate_intermediate_mesh_c1.inp','models/pandey_kumar_mode1/candidate_crack_band_mesh_c2.inp']
 fig,axs=plt.subplots(2,2,figsize=(9.5,5.6),layout='constrained')
@@ -129,7 +191,7 @@ for col,(p,label) in enumerate(zip(candidate_paths,['C1 | 840 quads / 910 nodes'
         axs[row,col].plot(.040,.050,'o',color=INK,ms=3)
 fig.suptitle('AUTHENTIC RECEIVER MESHES | separate offline candidates, not sequential cycles',fontsize=12)
 save(fig,'candidate_c1_c2_meshes.png','AUTHENTIC input-deck geometry',candidate_paths+['scripts/remeshing/generate_crack_band_mesh.py','scripts/validation/evaluate_candidate_meshes.py'],
-     'Figure 4. Actual C1/C2 receiver geometries with common-scale tip close-ups. The slit is y=0.050 mm, ending at x=0.040 mm as defined in the mesh generator and evaluator; dark line/dot identify this geometry, not a simulated evolving crack. Coordinates in mm. Distinct transfer-test candidates, not successive full-plate Method C cycles.')
+     'Figure 5. Actual C1/C2 receiver geometries with common-scale tip close-ups. The slit is y=0.050 mm, ending at x=0.040 mm as defined in the mesh generator and evaluator; dark line/dot identify this geometry, not a simulated evolving crack. Coordinates in mm. Distinct transfer-test candidates, not successive full-plate Method C cycles.')
 cp='results/validation/mesh_convergence_prototype.json'; data=read_json(cp)['comparisons']
 c1,c2=data['candidate_1_intermediate'],data['candidate_2_crack_band_resolved']
 assert abs(c2['equilibrated_RF_N']-.3662)<1e-6 and c2['max_damage_healing']>0
@@ -139,25 +201,34 @@ for ax,key,title,limit in [(axs[0],'elastic_stiffness_discrepancy_pct','Elastic 
     ax.set_title(title); ax.legend(fontsize=9,loc='upper right'); ax.set_ylim(-.5,limit*1.5)
     for i,v in enumerate(vals): ax.text(i,v+.10,f'{v:+.2f}%',ha='center',fontsize=11)
 save(fig,'candidate_c2_passing_checks.png','AUTHENTIC offline numerical diagnostics',[cp,'scripts/validation/evaluate_candidate_meshes.py'],
-     'Figure 5. Passing undamaged elastic-stiffness and mapped fracture-energy checks. Not damaged-state compliance or solver continuation conservation. C2 healing and force-continuity failures are retained in report text.')
+     'Figure 6. Passing undamaged elastic-stiffness and mapped fracture-energy checks. Not damaged-state compliance or solver continuation conservation. C2 healing and force-continuity failures are retained in report text.')
 
 # Shared blocks keep Markdown and PDF claims identical.
 pages=[[
 ('h1','Mode-I adaptive remeshing: validated results'),
 ('p','Technical progress report | 22 October 2026'),
-('h2','1. Objective and demonstrated progress'),
-('p','Preserve phase-field fracture accuracy while concentrating resolution where needed. Corrected Method B is successful within its verified displacement range. Method C has verified building blocks, but a physically continuous nonmatching handoff remains incomplete.'),
-('h2','2. Method B: pre-refine, then solve afresh'),
-('p','Start with a coarse Mode-I analysis and evaluate MISESERI at the chosen pre-analysis point. Native Abaqus remeshing generates a refined mesh; Method B then runs a fresh phase-field solve from zero load. It does not transfer a loaded fracture state between meshes.'),
-('img',('method_b_workflow.png','Method B process schematic. A fresh refined-mesh solve is distinct from Method C state-preserving continuation.',500)),
-('img',('mesh_artifacts.png','Figure 2. Authentic coarse and corrected refined meshes, with the crack-tip region. Final ligament refinement uses retrospective crack-path information; this is not a purely predictive automatic remeshing demonstration.',500)),
-('h2','What the final evaluated configuration establishes'),
-('p','The 14,483-element configuration resolves the expected propagation ligament using retrospective refinement. Its comparison with the fine fixed mesh tests the resulting fracture response. Predictive remeshing that follows an evolving crack remains a Method C target.'),
-('h2','Independent pre-analysis reproducibility result'),
-('p','At fixed displacement resolution, preliminary loading split into 1, 2 or 4 steps produced identical recovered MISESERI fields (maximum difference zero) and identical native 14,677-element meshes. This establishes invariance for the tested pre-peak window, separately from the corrected 14,483-element evaluation.')
+('h2','1. Method A and Method B: what changes?'),
+('p','Method A: one preliminary simulation, one native adaptive remesh, then a fresh final simulation from zero load. Method B extends that same two-pass approach by partitioning preliminary loading into configurable 1, 2 or 4 steps and selecting/evaluating the relevant MISESERI field before one remesh and a fresh final solve.'),
+('p','B varies the loading schedule and field-selection opportunities. It does not preserve a loaded fracture state across meshes or perform multiple remeshing cycles. With one step and the same controls, its architecture reduces to Method A.'),
+('img',('method_b_workflow.png','Conceptual A/B workflow. The shared architecture has two simulation passes and exactly one remesh; only the pre-analysis schedule and field-selection flexibility differ.',500)),
+('img',('mesh_artifacts.png','Figure 2. Authentic coarse mesh, genuine native 14,677-element Method B mesh and tip zoom, and separate retrospectively refined 14,483-element verification mesh. Partition choice did not produce the latter correction.',475)),
+('note','Keep two findings separate: A - the partition study produced equivalent native 14,677-element meshes; B - a distinct retrospective ligament-resolution study evaluated the corrected 14,483-element fracture response.')
 ],[
-('h1','3. Method B: final quantitative comparison'),
-('p','Corrected Method B (serial job 1412465) versus canonical fixed-mesh reference (job 1398090). Results are restricted to the common displacement horizon.'),
+('h1','2. Finding A: Method B loading-partition study'),
+('p','The executed infinitesimal-companion decks prescribe cumulative RP displacements of 0.005 mm (1 step); 0.0025, 0.005 mm (2 steps); and 0.00125, 0.0025, 0.00375, 0.005 mm (4 steps). Equal divisions are verified from these decks, not assumed.'),
+('img',('method_b_loading_schedules.png','Figure 3. Verified deck-derived prescribed histories, not measured solver curves. Each step lasts 1.0 static step-time unit; total times are 1, 2 and 4. Stars mark the selected terminal MISESERI frames; one native remesh follows each complete pre-analysis.',500)),
+('table',([
+['Partitions','Endpoint [mm]','MISESERI comparison','Native FE','Observed difference'],
+['1','0.005000','Reference terminal field','14,677','Baseline'],
+['2','0.005000','Max |difference| = 0','14,677','No field/mesh change'],
+['4','0.005000','Max |difference| = 0','14,677','No field/mesh change']],[65,95,140,80,105])),
+('p','Field output is requested every increment. The compared selections are the last frames of Step-1, Step-2 and Step-4 respectively (increments 500, 250 and 125). The physical displacement increment is 0.000010 mm in every schedule. Archived verification reports identical recovered fields and native mesh identity, with 14,646 nodes in each case.'),
+('h2','What did B add beyond A?'),
+('p','B made preliminary loading and field selection configurable, and tested whether step boundaries alone alter the native mesh. For this common pre-peak endpoint, they did not. This is consistent with linear-elastic companion-layer stress recovery: at the same mesh and endpoint state, subdividing a monotonic load schedule adds no new spatial error information.'),
+('p','This is an observed invariance result, not an accuracy advantage. Companion-layer elasticity does not make the physical phase-field model globally linear. Benefits of selecting intermediate frames were not tested. Different frames, evolving damage, unloading or other controls could change the result. No final fracture-response improvement is attributed to partition count; B remains a one-remesh/two-pass extension, not a demonstrated sequential adaptive algorithm.')
+],[
+('h1','3. Finding B: corrected ligament-resolution study'),
+('p','The separate retrospectively refined 14,483-element verification mesh (serial job 1412465) is compared with canonical fixed reference job 1398090. It uses prior crack-path/ligament information. Its improved brittle fracture response is a mesh-resolution finding, not a benefit caused by choosing 1, 2 or 4 loading partitions.'),
 ('table',([
 ['Quantity','Corrected Method B','Fixed reference','Difference'],
 ['Base elements','14,483','15,192','-4.67%'],
@@ -173,7 +244,7 @@ pages=[[
 ],[
 ('h1','4. Method C: intended sequential adaptation'),
 ('p','Method C aims to retain the current fracture state while changing the mesh. The target is four genuine adaptive remeshing cycles, with refinement following the active crack-tip/process-zone region rather than a preselected full propagation ligament.'),
-('img',('method_c_planned_workflow.png','Figure 3. Conceptual Step 0 plus four intended remeshing cycles. Every panel is illustrative: no authentic four-cycle solver trajectory has yet been qualified.',480)),
+('img',('method_c_planned_workflow.png','Figure 4. Conceptual Step 0 plus four intended remeshing cycles. Every panel is illustrative: no authentic four-cycle solver trajectory has yet been qualified.',480)),
 ('h2','Intended sequence: Step 0 and cycles 1-4'),
 ('p','Step 0: solve on the coarse mesh and monitor damage and the error indicator. Cycle 1: at a chosen remeshing point, extract displacement, damage and committed history; remesh around the active region; transfer and re-equilibrate; continue loading. Cycles 2, 3 and 4 repeat that sequence from the newly continued solution. Remeshing points must be selected and validated; no cycle displacements are claimed here.'),
 ('table',([
@@ -188,8 +259,8 @@ pages=[[
 ],[
 ('h1','5. Method C - Candidate C2: Crack-Band-Resolved Receiver Mesh'),
 ('p','Candidate C2 is a small receiver mesh developed for Method C: 2,300 quadrilateral elements, 2,413 physical nodes and 0.001 mm crack-band element size. Its minimum Jacobian is positive (3.125e-7). C1 is a separate intermediate candidate.'),
-('img',('candidate_c1_c2_meshes.png','Figure 4. Authentic C1/C2 receiver geometries and common-scale crack-tip close-ups. These are separate offline transfer candidates, not successive remeshing cycles.',475)),
-('img',('candidate_c2_passing_checks.png','Figure 5. Authentic passing offline checks: C2 elastic stiffness error 4.58% (limit 5%) and mapped fracture-energy error +0.79% (limit 2%). These do not qualify loaded continuation.',475)),
+('img',('candidate_c1_c2_meshes.png','Figure 5. Authentic C1/C2 receiver geometries and common-scale crack-tip close-ups. These are separate offline transfer candidates, not successive remeshing cycles.',475)),
+('img',('candidate_c2_passing_checks.png','Figure 6. Authentic passing offline checks: C2 elastic stiffness error 4.58% (limit 5%) and mapped fracture-energy error +0.79% (limit 2%). These do not qualify loaded continuation.',475)),
 ('h2','Remaining limitation: physical state continuity'),
 ('p','C2 equilibrated force is 0.366 N versus donor 7.851 N (-95.34%, FAIL). The evaluated C2 prototype also reports maximum damage healing 0.0021837. Thus C2 is a successful mesh-generation and partial verification result, not qualified Method C continuation. Zero healing in the separate constrained 650-element prototype must not be attributed to C2.'),
 ('h2','Scientific decision and immediate next work'),
@@ -217,7 +288,7 @@ def footer(canvas,doc):
     canvas.setStrokeColor(colors.HexColor('#cbd7df')); canvas.line(40,32,555,32)
     canvas.setFont('Helvetica',8); canvas.setFillColor(colors.HexColor('#465b68')); canvas.drawString(40,20,'Mode-I adaptive remeshing | Technical progress | 22 October 2026'); canvas.drawRightString(555,20,str(doc.page))
 SimpleDocTemplate(str(OUT/'SUPERVISOR_REPORT_SUCCESSFUL_RESULTS_ONLY.pdf'),pagesize=(595.28,841.89),leftMargin=40,rightMargin=40,topMargin=35,bottomMargin=42,title='Mode-I adaptive remeshing: validated results',author='Pruthviraja Reddy Vandavagali').build(story,onFirstPage=footer,onLaterPages=footer)
-references=[eval_path,ref_path,corr_path,'docs/reports/MODE1_METHOD_B_EVIDENCE_AUDIT_AND_SUPERVISOR_DECISION_PACKAGE.md','docs/reports/MODE1_METHOD_B_SCIENTIFIC_VALIDATION_AND_ADAPTIVE_LIMITATION_REPORT.md','models/pandey_kumar_mode1/experimental_offset_uel/evidence_f1575/F1575_SAME_MESH_CONTINUATION_RESOLUTION.json',cp,'results/validation/mode1_f1597/correction_prototype.json']
+references=[eval_path,ref_path,corr_path,partition_result_path,partition_manifest_path,decision_path,*deck_paths,*wrapper_paths,'docs/reports/MODE1_METHOD_B_EVIDENCE_AUDIT_AND_SUPERVISOR_DECISION_PACKAGE.md','docs/reports/MODE1_METHOD_B_SCIENTIFIC_VALIDATION_AND_ADAPTIVE_LIMITATION_REPORT.md','models/pandey_kumar_mode1/experimental_offset_uel/evidence_f1575/F1575_SAME_MESH_CONTINUATION_RESOLUTION.json',cp,'results/validation/mode1_f1597/correction_prototype.json']
 md.extend(['## Evidence references']+['- `'+p+'`' for p in references]+['- Figure classes and hashes: [FIGURE_SOURCES.md](FIGURE_SOURCES.md).'])
 text=''
 for i,line in enumerate(md): text+=line+ ('\n' if line.startswith('|') and i+1<len(md) and md[i+1].startswith('|') else '\n\n')
@@ -230,6 +301,11 @@ prov.append('## Numerical claim sources')
 for p in references:
     assert (ROOT/p).is_file(),p
     prov.append(f'- `{p}` | SHA-256 `{hashlib.sha256((ROOT/p).read_bytes()).hexdigest()}`')
-prov.extend(['## Rebuild and scope','Run `python docs/supervisor_reports/22-10-2026/build_successful_results_report.py`. No solver, scheduler or controller execution. Stable output names are reused; native_crack_tip.png is a companion corrected-mesh close-up. All other generated figures are embedded.','## Comparison convention','Both curves are cropped to 0.007889 mm without extrapolation. The reference has authentic later records to 0.010 mm, excluded here. Corrected Method B does not complete 0.010 mm. kN-mm work is converted to mJ with factor 1000. Retrospective ligament refinement is not equated with fully predictive native automatic refinement.'])
+prov.extend(['## Verified schedule and field selection','The build parses the actually executed M1_MB_INF_1S/2S/4S decks, verifies their input filenames against PBS wrappers, reads *STATIC and absolute N_RP U2 boundary values, and verifies MISESERI output every increment. No amplitude override is present. The preflight manifest specifies LAST_INCREMENT of Step-1/2/4; its endpoint matches the executed deck and archived result. Decision record Section 8.6 reports 500 total increments and zero cutbacks per case, supporting terminal increment labels 500/250/125. These are step-local increments, not guessed global ODB frame indices. The build does not reopen the historical ODBs or recompute absent cross-partition arrays. Mesh/field identity is the archived verified observation, not a new three-ODB comparison.'])
+for sch in schedules:
+    prov.append(f"- {sch['partitions']}S: total static step-time {sch['total_step_time']:g}; select {sch['indicator_step']} last frame (step-local increment {sch['indicator_nominal_increment']}); one remesh after the pre-analysis.")
+    for step in sch['steps']:
+        prov.append(f"  - {step['name']}: time {step['start_time']:g} to {step['end_time']:g}; prescribed U2 {step['start_u_mm']:.6f} to {step['end_u_mm']:.6f} mm; initial/max dt={step['dt_max']:.6f}; {step['nominal_increments']} nominal increments; field frequency=1.")
+prov.extend(['## Rebuild and scope','Run `python docs/supervisor_reports/22-10-2026/build_successful_results_report.py`. No solver, scheduler or controller execution. Stable output names are reused; native_crack_tip.png is a companion genuine native 14,677-element mesh close-up. All other generated figures are embedded.','## Comparison convention','Both response curves are cropped to 0.007889 mm without extrapolation. The reference has authentic later records to 0.010 mm, excluded here. The corrected 14,483-element study does not complete 0.010 mm. kN-mm work is converted to mJ with factor 1000. Partition invariance (native 14,677 FE) and retrospective ligament resolution (14,483 FE) are separate findings; no fracture-response advantage is attributed to loading partition count.'])
 (OUT/'FIGURE_SOURCES.md').write_text('\n\n'.join(prov)+'\n',encoding='utf-8',newline='\n')
 print(f'Built report and {len(sources)} figures. Matched work: {wc[-1]:.9f}, {wr[-1]:.9f} mJ; error {work_error:.5f}%.')
