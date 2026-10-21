@@ -1,0 +1,199 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "operation": "canonical_variational_state_transfer_feasibility",
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "finding": "Canonical variational state-transfer feasibility tested from Package 50 donor to Candidate C2 receiver strictly under the frozen production UEL (SHA-256 CE8D5EDCD2911DCB...). Normalized admissible damage clamped the donor overshoot (d_raw=1.0021837 isolated, delta=+0.0021837 across 4 nodes). Continuous-transfer baseline (frozen damage d=d_admissible) yields RF2 = 9.9785 N (+27.09% vs 7.8512 N) and fracture energy E_frac = 0.2987 mJ (+0.79% vs 0.2963 mJ). However, un-equilibrated phase-field residual reaches ||R_phase||_inf = 0.0000 kN due to a 12.69x crack-tip strain energy surge (psi_0^+=659.10 vs donor H=51.93 kN/mm2). Under coupled variational re-equilibration with active-set PDAS (zero healing = 0.0e+00, free residual = 3.27e-15 kN, min active multiplier = -2.12e-22 kN), the crack tip unzips statically without load incrementation, driving RF2 down to 0.3655 N (-95.34% deficit) and fracture energy to 0.3061 mJ. Comparison against the inconsistent attenuated formulation (4.14 N, -47.2%, curl defect 36-98%) confirms that the fundamental barrier is coarse-donor discretization error: the coarse 5 um mesh cannot provide a point-equilibrated stress field on a 1 um crack band without triggering localized phase-field relaxation. Transfer remains FAILED (-95.3% coupled / +27.1% frozen vs +-5.0% threshold).",
+  "measurements": {
+    "donor_target_rf2_N": 7.8512395,
+    "donor_fracture_energy_mJ": 0.296318,
+    "donor_raw_overshoot_d": 1.0021837,
+    "donor_overshoot_delta": 0.0021837000000000106,
+    "donor_overshoot_nodes": 4,
+    "c2_elements": 2300,
+    "c2_nodes": 2413,
+    "frozen_baseline_rf2_N": 9.9785,
+    "frozen_baseline_rf2_error_pct": 27.0949,
+    "frozen_baseline_fracture_energy_mJ": 0.298668,
+    "frozen_baseline_fracture_energy_error_pct": 0.793,
+    "frozen_baseline_free_residual_kN": 3e-15,
+    "frozen_baseline_phase_residual_inf_kN": 1.5e-05,
+    "crack_tip_psi0_plus_kN_mm2": 659.1042,
+    "donor_peak_history_kN_mm2": 51.9257,
+    "crack_tip_surge_ratio": 12.6932,
+    "coupled_equilibrated_rf2_N": 0.3655,
+    "coupled_equilibrated_rf2_error_pct": -95.3441,
+    "coupled_fracture_energy_mJ": 0.306103,
+    "coupled_fracture_energy_error_pct": 3.3024,
+    "coupled_free_residual_kN": 3e-15,
+    "coupled_healing_violation": 0.0,
+    "coupled_min_active_multiplier_kN": -0.0,
+    "coupled_max_inactive_residual_kN": 3.418244e-06,
+    "damage_min_bound": 0.003411,
+    "damage_max_bound": 1.0,
+    "damage_l2_expansion_pct": 2.9794,
+    "attenuated_historical_rf2_N": 4.14,
+    "attenuated_historical_deficit_pct": -47.2
+  },
+  "transects": {
+    "x_0.035": {
+      "peak_donor_d": 0.333635,
+      "peak_mapped_d": 0.333635,
+      "peak_equilibrated_d": 0.382224,
+      "donor_point_count": 22,
+      "c2_point_count": 52
+    },
+    "x_0.040": {
+      "peak_donor_d": 0.873822,
+      "peak_mapped_d": 0.873822,
+      "peak_equilibrated_d": 0.976752,
+      "donor_point_count": 22,
+      "c2_point_count": 52
+    },
+    "x_0.045": {
+      "peak_donor_d": 0.995053,
+      "peak_mapped_d": 0.995053,
+      "peak_equilibrated_d": 0.999804,
+      "donor_point_count": 21,
+      "c2_point_count": 51
+    },
+    "x_0.050": {
+      "peak_donor_d": 0.991981,
+      "peak_mapped_d": 0.991981,
+      "peak_equilibrated_d": 1.0,
+      "donor_point_count": 21,
+      "c2_point_count": 51
+    }
+  },
+  "coupled_iteration_history": [
+    {
+      "iteration": 1,
+      "rf2_N": 1.1307236512062055,
+      "phase_delta": 0.2116034814449439,
+      "u_delta": 0.0007319298810225543,
+      "max_psi0_plus_kN_mm2": 659.1041906821281,
+      "pdas_subiters": 9
+    },
+    {
+      "iteration": 2,
+      "rf2_N": 0.5041892178187082,
+      "phase_delta": 0.03006368921982938,
+      "u_delta": 0.000719844174224435,
+      "max_psi0_plus_kN_mm2": 822.8620271985947,
+      "pdas_subiters": 4
+    },
+    {
+      "iteration": 3,
+      "rf2_N": 0.4008663075698585,
+      "phase_delta": 0.004716075330820746,
+      "u_delta": 0.00034312187334951244,
+      "max_psi0_plus_kN_mm2": 837.340081068272,
+      "pdas_subiters": 3
+    },
+    {
+      "iteration": 4,
+      "rf2_N": 0.3791054740694923,
+      "phase_delta": 0.0008409595925752411,
+      "u_delta": 0.00022973545830009537,
+      "max_psi0_plus_kN_mm2": 962.5429183036325,
+      "pdas_subiters": 3
+    },
+    {
+      "iteration": 5,
+      "rf2_N": 0.3726262268679573,
+      "phase_delta": 0.0005092847927229416,
+      "u_delta": 0.00015497971400228218,
+      "max_psi0_plus_kN_mm2": 972.7081528288231,
+      "pdas_subiters": 2
+    },
+    {
+      "iteration": 6,
+      "rf2_N": 0.3698827379416713,
+      "phase_delta": 0.0004616640509722547,
+      "u_delta": 0.00014479922220703438,
+      "max_psi0_plus_kN_mm2": 973.9296847536809,
+      "pdas_subiters": 2
+    },
+    {
+      "iteration": 7,
+      "rf2_N": 0.36840154821204524,
+      "phase_delta": 0.0004308705379704181,
+      "u_delta": 0.00012464435841454558,
+      "max_psi0_plus_kN_mm2": 974.2973068985277,
+      "pdas_subiters": 2
+    },
+    {
+      "iteration": 8,
+      "rf2_N": 0.3674699316745714,
+      "phase_delta": 0.00037777912300840377,
+      "u_delta": 0.00010032825457454054,
+      "max_psi0_plus_kN_mm2": 974.4441830613713,
+      "pdas_subiters": 2
+    },
+    {
+      "iteration": 9,
+      "rf2_N": 0.3668494108066207,
+      "phase_delta": 0.00029782689904744863,
+      "u_delta": 7.524384152267317e-05,
+      "max_psi0_plus_kN_mm2": 974.5057062784358,
+      "pdas_subiters": 2
+    },
+    {
+      "iteration": 10,
+      "rf2_N": 0.36643428382458365,
+      "phase_delta": 0.0002173565251667453,
+      "u_delta": 5.2543105047683336e-05,
+      "max_psi0_plus_kN_mm2": 974.5318289574732,
+      "pdas_subiters": 2
+    },
+    {
+      "iteration": 11,
+      "rf2_N": 0.36614613380525185,
+      "phase_delta": 0.00014902204205125003,
+      "u_delta": 3.414538047372931e-05,
+      "max_psi0_plus_kN_mm2": 974.5430352542626,
+      "pdas_subiters": 2
+    },
+    {
+      "iteration": 12,
+      "rf2_N": 0.3659332354856279,
+      "phase_delta": 0.00010550824757737942,
+      "u_delta": 2.6145057867362582e-05,
+      "max_psi0_plus_kN_mm2": 974.5479317562555,
+      "pdas_subiters": 2
+    },
+    {
+      "iteration": 13,
+      "rf2_N": 0.3657711947001234,
+      "phase_delta": 8.073757982518526e-05,
+      "u_delta": 2.1544139049063573e-05,
+      "max_psi0_plus_kN_mm2": 974.5501481613858,
+      "pdas_subiters": 2
+    },
+    {
+      "iteration": 14,
+      "rf2_N": 0.3656455273903778,
+      "phase_delta": 6.261895774084536e-05,
+      "u_delta": 1.756819140963763e-05,
+      "max_psi0_plus_kN_mm2": 974.5512080429646,
+      "pdas_subiters": 2
+    },
+    {
+      "iteration": 15,
+      "rf2_N": 0.3655472976742803,
+      "phase_delta": 4.8794595287393605e-05,
+      "u_delta": 1.421598890810399e-05,
+      "max_psi0_plus_kN_mm2": 974.5517567009789,
+      "pdas_subiters": 2
+    }
+  ],
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/50_method_c_experimental_offset_continuation/M1_EXP_OFFSET_CONT_NOEXTRAP.inp": "B2CE0F35A4679B9DCA0EDA5925A53BA7576F0626DD98EDBE0AF4C1BA59BF6B01",
+    "models/pandey_kumar_mode1/50_method_c_experimental_offset_continuation/offset_state_table.csv": "3AD967525E7EDF63FF90741F5D1F248F5282FA3F43BB31329F86A0CD0F799C89",
+    "models/pandey_kumar_mode1/candidate_crack_band_mesh_c2.inp": "257FC6263D63721BDEEFE48A43CD504C79A92DF61C099CE9481984B625454901",
+    "scripts/remeshing/generate_crack_band_mesh.py": "2CEA823585D0B208E77F865DE90AD1FE3D96A8B2EA5F336C1756B60245810CA4",
+    "scripts/validation/transfer_mode1_f1597_canonical_feasibility.py": "AC8EFED80862E46D2DFC0090B2BF5C029BD2BD52333E2B15D167F7D4D663FB40"
+  }
+}
