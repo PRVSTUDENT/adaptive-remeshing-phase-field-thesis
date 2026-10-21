@@ -1,19 +1,26 @@
 {
     "active":  false,
     "agent":  "gemini-antigravity",
-    "task_id":  "CONTROLLER-POST-AGY-LIFECYCLE-REPAIR",
-    "starting_commit":  "de2300b73a311066d931ce3d60e7d8a5b9250e1e",
-    "claimed_at":  "2026-10-21T15:32:00.0000000+02:00",
-    "last_updated":  "2026-10-21T15:52:15.0000000+02:00",
-    "last_released":  "2026-10-21T15:52:15.0000000+02:00",
-    "controller_run_id":  "45f4b937-e196-4f2c-904b-69e7f53469b9",
-    "session_report":  "project_coordination/sessions/2026-10-21_gemini-antigravity_controller_post_agy_lifecycle_repair.md",
+    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "starting_commit":  "916035f4e02d4adc6eb2b816be3597490e567a29",
+    "claimed_at":  "2026-10-21T15:59:28.3631510+02:00",
+    "last_updated":  "2026-10-21T16:16:36.8746127+02:00",
+    "last_released":  "2026-10-21T16:16:36.8746127+02:00",
+    "controller_run_id":  "ebf8ec9b-fb85-43c9-8397-3b9b095ff870",
+    "session_report":  "project_coordination/sessions/2026-10-21_gemini-antigravity_F1597_ebf8ec9b-fb85-43c9-8397-3b9b095ff870.md",
     "allowed_write_scope":  [
-                                "scripts/controller/*",
+                                "project_coordination/sessions/2026-10-21_gemini-antigravity_F1597_ebf8ec9b-fb85-43c9-8397-3b9b095ff870.md",
+                                "project_coordination/controller/turn-ebf8ec9b-fb85-43c9-8397-3b9b095ff870.json",
+                                "results/validation/mode1_f1597/ebf8ec9b-fb85-43c9-8397-3b9b095ff870.json",
+                                "results/validation/preparation-ebf8ec9b-fb85-43c9-8397-3b9b095ff870.json",
+                                "results/validation/*",
                                 "scripts/validation/*",
                                 "tests/unit/*",
-                                ".agents/INITIAL_PROMPT.txt",
-                                "C:/Users/pruth/OpenClawPAD/*",
-                                "project_coordination/*"
+                                "models/pandey_kumar_mode1/*",
+                                "project_coordination/ACTIVE_SESSION.json",
+                                "project_coordination/ACTIVE_TASK.json",
+                                "project_coordination/CURRENT_STATE.md",
+                                "project_coordination/TASK_LEDGER.csv",
+                                "project_coordination/ARTIFACT_REGISTRY.csv"
                             ]
 }
