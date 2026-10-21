@@ -91,6 +91,52 @@ try {
             Set-AndVerifyAgyRunProfile -Context POST_AGY
             if($script:writes -ne 2){throw 'PRE/POST recovery not idempotent'}
             Write-Output 'PASS: controlled PRE/POST provider-verified refresh recovery; repeated POST is read-only; zero profile switches'
+
+            # Test TURN_END deferred refresh: native ID metadata missing does NOT trigger token refresh at turn end.
+            $script:fixtureNative=[byte[]]$live.Clone()
+            $script:refreshes=0; $writesBefore=$script:writes
+            Set-AndVerifyAgyRunProfile -Context TURN_END
+            if ($script:refreshes -ne 0 -or $script:writes -ne $writesBefore) { throw 'TURN_END did not defer token refresh' }
+            Write-Output 'PASS: TURN_END deferred token refresh preserves completed turn without models refresh or store mutation'
+
+            # Test TURN_END with genuine CLI account conflict: must fail closed.
+            Sync-AgyCliCredentialFile -Bytes $alternate -TokenPath $fixturePath
+            $failedConflict=$false
+            try { Set-AndVerifyAgyRunProfile -Context TURN_END } catch { $failedConflict=$true }
+            if (-not $failedConflict) { throw 'TURN_END did not fail closed on genuine CLI identity conflict' }
+            Sync-AgyCliCredentialFile -Bytes $source -TokenPath $fixturePath
+            Write-Output 'PASS: TURN_END with genuine CLI identity mismatch fails closed'
+
+            # Test TURN_START bounded resynchronization when stores drifted at between-turn boundary.
+            $script:fixtureNative=[byte[]]$alternate.Clone()
+            Sync-AgyCliCredentialFile -Bytes $alternate -TokenPath $fixturePath
+            $script:profileSwitches=0
+            function global:agy-profile {
+                param($cmd,$prof,[switch]$Force)
+                if ($cmd -eq 'switch' -and $prof -eq 'account3' -and $Force) {
+                    $script:profileSwitches++
+                    $script:fixtureNative=[byte[]]$source.Clone()
+                    Sync-AgyCliCredentialFile -Bytes $source -TokenPath $fixturePath
+                } else { throw "Unexpected agy-profile invocation: cmd=$cmd prof=$prof Force=$Force" }
+            }
+            Set-AndVerifyAgyRunProfile -Context TURN_START
+            if ($script:profileSwitches -ne 1) { throw 'TURN_START did not perform bounded profile resynchronization' }
+            Write-Output 'PASS: TURN_START bounded resynchronization successfully restores and verifies active profile with provider'
+
+            # Test TURN_START fails closed if an AGY process is active (not a safe between-turn boundary).
+            $script:fixtureNative=[byte[]]$alternate.Clone()
+            function global:Get-Process {
+                param([string]$Name,[System.Management.Automation.ActionPreference]$ErrorAction)
+                if ($Name -eq 'agy') { return [pscustomobject]@{Id=99999;ProcessName='agy'} }
+                return $null
+            }
+            $failedBusy=$false
+            try { Set-AndVerifyAgyRunProfile -Context TURN_START } catch { $failedBusy=$_.Exception.Message -match 'AGY_CREDENTIAL_RESYNC_BUSY' }
+            if (-not $failedBusy) { throw 'TURN_START resync did not fail closed when AGY process was active' }
+            Remove-Item Function:\Get-Process
+            $script:fixtureNative=[byte[]]$source.Clone()
+            Sync-AgyCliCredentialFile -Bytes $source -TokenPath $fixturePath
+            Write-Output 'PASS: TURN_START resynchronization fails closed when active AGY process is detected'
         } finally {$env:USERPROFILE=$originalUserProfile}
         # Regression: expired native refresh resulting in conflicting identity fails closed.
         $script:fixtureNative=[byte[]]$expired.Clone()

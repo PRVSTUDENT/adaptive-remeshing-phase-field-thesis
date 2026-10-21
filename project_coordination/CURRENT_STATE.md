@@ -36,7 +36,24 @@
      - Corrective requirement: Monolithic coupled inequality-constrained transfer operator $\min_{u^*, d^*} \Pi(u^*, d^*)$ subject to $d^* \ge d_{\text{donor}}$ and consistent boundary conditions prior to restart.
 
 
-## Controller maintenance ? 20 October 2026
+## Controller Turn 4 Closeout and TURN_END Credential Refresh Lifecycle Repair — 21 October 2026
+
+- **Turn 4 Science Preserved**: Turn `fcb85c6f-703c-47e4-8ee4-f814e7c75b63` completed cleanly with compliance ablation proof ($e_{K,\text{elastic}} = 1.17\% \le 5\%$, $e_{K,\text{dam}} = 67.22\% \gg 5\%$, diffuse damage band volume expansion $+18.01\%$).
+- **Lifecycle & Credential Fix**:
+  1. Checkpoint save with `state='PENDING'` and `next_instruction` reordered to execute before `Ensure-AuthoritativeAgyProfile "TURN_END"`.
+  2. At `TURN_END`, unnecessary token refresh is avoided; missing ID metadata defers refresh to next turn start without invoking `Update-AgyNativeAccessToken` (`agy models`).
+  3. At safe between-turn boundary (`TURN_START` / `STARTUP`), bounded resynchronization via `agy-profile switch account3 -Force` performs exact store assertions and live Google OIDC provider verification, remaining strictly fail-closed on any mismatch or concurrent busy process.
+  4. Added `[switch]$SkipTokenRefresh` to `Repair-AgyRefreshedNativeCredential`.
+  5. Checkpoint in OpenClawPAD (`controller_turn_checkpoint.json`) reconciled with `state='PENDING'`, preserving the pending Turn 5 instruction ("Antigravity — F1597: Generate and Verify a Crack-Band-Resolved Receiver Mesh").
+- **Verification & Parity**:
+  - `tests/unit/test_agy_credentials.ps1`: PASS (all unit tests, including TURN_END deferred refresh, genuine conflict fail-closed, TURN_START resynchronization, and busy process rejection).
+  - `tests/unit/test_controller_recovery.ps1`: ALL 26 CHECKS PASSED.
+  - `tests/unit/test_controller_profile_guard.ps1`: ALL 6 CHECKS PASSED.
+  - `tests/unit/test_agy_envelope.ps1` & `test_agy_policy.ps1`: ALL PASSED.
+  - Deployed canonical `Antigravity-Autonomous-Loop.ps1` to OpenClawPAD; SHA-256 parity: `EB12CC2DA581EC59B33A2283CAC016EEE6B05088446FE1D18FEAFC267C42B203`.
+  - OpenClawPAD `-ControllerDryRun` returned exit code 0 (`checkpoint_state: PENDING`, `task: F1597-CORRECT-PACKAGE72-STATE-TRANSFER`). Controller is fully ready to resume Turn 5.
+
+## Controller maintenance — 20 October 2026
 
 - AGY-DURABLE-RECOVERY: installed controller repaired and offline validated; canonical source and deployment under scripts/controller/.
 - Stale F1596 initial prompt replaced with NEXT_UNRESOLVED scientific hypothesis review. Existing Package 72 failure and scientific task remain unchanged.

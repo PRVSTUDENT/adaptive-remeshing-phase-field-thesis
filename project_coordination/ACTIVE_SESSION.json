@@ -1,26 +1,21 @@
 {
     "active":  false,
     "agent":  "gemini-antigravity",
-    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "starting_commit":  "6ae78d049dc0a7b60623c6c47429004994a85298",
-    "claimed_at":  "2026-10-21T06:53:53.8443559+02:00",
-    "last_updated":  "2026-10-21T07:02:39.1648242+02:00",
-    "last_released":  "2026-10-21T07:02:39.1648242+02:00",
-    "controller_run_id":  "fcb85c6f-703c-47e4-8ee4-f814e7c75b63",
-    "session_report":  "project_coordination/sessions/2026-10-21_gemini-antigravity_F1597_fcb85c6f-703c-47e4-8ee4-f814e7c75b63.md",
+    "task_id":  "CONTROLLER-TURN-END-CREDENTIAL-REFRESH-REPAIR",
+    "starting_commit":  "9474b1ed95a9611841959c90dac8340900f849ba",
+    "claimed_at":  "2026-10-21T07:14:00+02:00",
+    "last_updated":  "2026-10-21T07:42:00+02:00",
+    "controller_run_id":  "maintenance",
+    "session_report":  "project_coordination/sessions/2026-10-21_gemini-antigravity_controller_turn_end_credential_refresh_repair.md",
     "allowed_write_scope":  [
-                                "project_coordination/sessions/2026-10-21_gemini-antigravity_F1597_fcb85c6f-703c-47e4-8ee4-f814e7c75b63.md",
-                                "project_coordination/controller/turn-fcb85c6f-703c-47e4-8ee4-f814e7c75b63.json",
-                                "results/validation/mode1_f1597/fcb85c6f-703c-47e4-8ee4-f814e7c75b63.json",
-                                "results/validation/preparation-fcb85c6f-703c-47e4-8ee4-f814e7c75b63.json",
-                                "results/validation/*",
-                                "scripts/validation/*",
-                                "tests/unit/*",
-                                "models/pandey_kumar_mode1/*",
+                                "project_coordination/sessions/2026-10-21_gemini-antigravity_controller_turn_end_credential_refresh_repair.md",
                                 "project_coordination/ACTIVE_SESSION.json",
                                 "project_coordination/ACTIVE_TASK.json",
                                 "project_coordination/CURRENT_STATE.md",
                                 "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/ARTIFACT_REGISTRY.csv"
+                                "project_coordination/ARTIFACT_REGISTRY.csv",
+                                "scripts/controller/*",
+                                "scripts/validation/*",
+                                "tests/unit/*"
                             ]
 }

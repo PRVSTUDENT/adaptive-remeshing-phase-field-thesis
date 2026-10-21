@@ -118,6 +118,9 @@ try {
     Assert (-not (Test-AgyQuotaHeadroom @{long_remaining_pct=90;five_h_remaining_pct=0})) 'exhausted quota fails closed'
     $text=Get-Content -LiteralPath $source -Raw
     Assert ($text.Contains('Set-AndVerifyAgyRunProfile "PRE_AGY"') -and $text.Contains('Set-AndVerifyAgyRunProfile "POST_AGY"') -and $text.Contains('$controllerMutex.ReleaseMutex()')) 'strict credentials and single-controller mutex release remain in production path'
+    $idxPending = $text.IndexOf("`$script:ControllerState.state='PENDING'")
+    $idxTurnEnd = $text.IndexOf('Ensure-AuthoritativeAgyProfile "TURN_END"')
+    Assert ($idxPending -gt 0 -and $idxTurnEnd -gt $idxPending) 'PENDING next turn checkpoint is written before TURN_END profile verification'
     $lockName='Local\AgyControllerTest-'+[guid]::NewGuid().ToString('N')
     $mutex=[Threading.Mutex]::new($false,$lockName)
     try { Assert ($mutex.WaitOne(0)) 'test mutex acquired'; $mutex.ReleaseMutex() }

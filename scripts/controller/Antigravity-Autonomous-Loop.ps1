@@ -498,10 +498,45 @@ function Set-AndVerifyAgyRunProfile {
             Assert-AgyCredentialStores -ExpectedBytes $expectedBytes -TokenPath $tokenPath
         } catch {
             $verificationFailure = $_
-            if ($Context -eq 'STARTUP') {
+            if ($Context -in @('STARTUP', 'TURN_START')) {
+                if (Get-Process -Name agy -ErrorAction SilentlyContinue) { throw 'AGY_CREDENTIAL_RESYNC_BUSY: active AGY process prevents profile resynchronization.' }
                 $null = & agy-profile switch $expected -Force *>&1
                 Assert-AgyCredentialStores -ExpectedBytes $expectedBytes -TokenPath $tokenPath
-                Write-Host "[PROFILE-GUARD] Synchronized active profile '$expected' at startup."
+                $cliBytes = [IO.File]::ReadAllBytes($tokenPath)
+                try {
+                    $cliToken = ConvertTo-AgyCredentialToken $cliBytes -SourceName cli-file
+                    $expectedToken = ConvertTo-AgyCredentialToken $expectedBytes -SourceName saved-profile
+                    if (-not $cliToken.Token.access_token) { throw 'AGY_RESYNC_ACCESS_MISSING' }
+                    $expiry = [datetimeoffset]::MinValue
+                    if ([datetimeoffset]::TryParse([string]$cliToken.Token.expiry, [ref]$expiry) -and $expiry -le [datetimeoffset]::UtcNow) {
+                        Update-AgyNativeAccessToken
+                        Assert-AgyCredentialStores -ExpectedBytes $expectedBytes -TokenPath $tokenPath
+                        [Array]::Clear($cliBytes, 0, $cliBytes.Length)
+                        $cliBytes = [IO.File]::ReadAllBytes($tokenPath)
+                        $cliToken = ConvertTo-AgyCredentialToken $cliBytes -SourceName cli-file
+                    }
+                    if ((Get-AgyProviderIdentity -AccessToken $cliToken.Token.access_token) -ne $expectedToken.Identity) {
+                        throw 'AGY_RESYNC_PROVIDER_MISMATCH'
+                    }
+                } finally {
+                    if ($cliBytes) { [Array]::Clear($cliBytes, 0, $cliBytes.Length) }
+                }
+                Write-Host "[PROFILE-GUARD] Synchronized active profile '$expected' [$Context]."
+            } elseif ($Context -eq 'TURN_END') {
+                if ($verificationFailure.Exception.Message -match 'source=native-store stage=ID_TOKEN_MISSING') {
+                    if (-not (Test-Path -LiteralPath $tokenPath)) { throw $verificationFailure }
+                    $cliBytes = [IO.File]::ReadAllBytes($tokenPath)
+                    try {
+                        $cliTok = ConvertTo-AgyCredentialToken $cliBytes -SourceName cli-file
+                        $expTok = ConvertTo-AgyCredentialToken $expectedBytes -SourceName saved-profile
+                        if ($cliTok.Identity -ne $expTok.Identity) { throw $verificationFailure }
+                    } finally {
+                        if ($cliBytes) { [Array]::Clear($cliBytes, 0, $cliBytes.Length) }
+                    }
+                    Write-Host "[PROFILE-GUARD] Native ID metadata missing at TURN_END; token refresh deferred to next turn start."
+                } else {
+                    throw $verificationFailure
+                }
             } else {
                 if ($verificationFailure.Exception.Message -notmatch 'source=native-store stage=ID_TOKEN_MISSING') { throw $verificationFailure }
                 Repair-AgyRefreshedNativeCredential -ExpectedBytes $expectedBytes -TokenPath $tokenPath
@@ -537,7 +572,7 @@ function Set-AndVerifyAgyRunProfile {
 
     if ($mustRestore) {
         if($ControlledSingleTurn){throw 'Controlled turn profile mismatch; automatic credential switching is disabled'}
-        if ($EnableSmartAgyProfileSelection -and $Context -ne 'STARTUP') {
+        if ($EnableSmartAgyProfileSelection -and $Context -notin @('STARTUP', 'TURN_START')) {
             throw "AGY profile changed during $($Context): expected '$expected', detected '$($state.ActiveProfile)'. Will not silently undo an external switch. Switch only between AGY calls."
         }
         Write-Host ""
@@ -5184,12 +5219,13 @@ Finished
                    -Tier $tierName `
                    -Action $routerResult.action
 
-    Ensure-AuthoritativeAgyProfile "TURN_END"
-    # Durably preserve the router's next instruction; a new prompt cannot override it.
+    # Durably preserve the router's next instruction before profile verification; a new prompt cannot override it.
     $script:ControllerState.state='PENDING'
     $script:ControllerState | Add-Member -NotePropertyName next_instruction -NotePropertyValue $NextInstruction -Force
     $script:ControllerState.next_safe_action=$NextInstruction
     Write-ControllerCheckpoint $controllerCheckpointPath $script:ControllerState
+
+    Ensure-AuthoritativeAgyProfile "TURN_END"
 
     # Prepare for next turn
     $CurrentInstruction = $NextInstruction

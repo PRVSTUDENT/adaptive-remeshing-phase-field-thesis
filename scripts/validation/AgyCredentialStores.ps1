@@ -179,7 +179,7 @@ function Update-AgyNativeAccessToken {
 }
 
 function Repair-AgyRefreshedNativeCredential {
-    param([Parameter(Mandatory)][byte[]]$ExpectedBytes,[Parameter(Mandatory)][string]$TokenPath)
+    param([Parameter(Mandatory)][byte[]]$ExpectedBytes,[Parameter(Mandatory)][string]$TokenPath,[switch]$SkipTokenRefresh)
     $cliBytes=$null;$nativeBytes=$null;$candidate=$null;$readback=$null
     try {
         if (Get-Process -Name agy -ErrorAction SilentlyContinue) { throw 'AGY_CREDENTIAL_REPAIR_BUSY' }
@@ -190,7 +190,7 @@ function Repair-AgyRefreshedNativeCredential {
         $native=ConvertTo-AgyCredentialToken $nativeBytes -SourceName native-store -AllowMissingIdentity
         if ($cli.Identity -ne $expected.Identity -or ($native.Identity -and $native.Identity -ne $expected.Identity)) { throw 'AGY_CREDENTIAL_REPAIR_IDENTITY_CONFLICT' }
         $expiry=[datetimeoffset]::MinValue
-        if ([datetimeoffset]::TryParse([string]$native.Token.expiry,[ref]$expiry) -and $expiry -le [datetimeoffset]::UtcNow) {
+        if (-not $SkipTokenRefresh -and [datetimeoffset]::TryParse([string]$native.Token.expiry,[ref]$expiry) -and $expiry -le [datetimeoffset]::UtcNow) {
             Update-AgyNativeAccessToken
             [Array]::Clear($nativeBytes,0,$nativeBytes.Length)
             $nativeBytes=Read-AgyCredentialManagerBytes
