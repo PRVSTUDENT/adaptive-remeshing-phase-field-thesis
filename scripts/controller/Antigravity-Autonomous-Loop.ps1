@@ -573,7 +573,7 @@ function Set-AndVerifyAgyRunProfile {
                     if ($candidate) { [Array]::Clear($candidate, 0, $candidate.Length) }
                 }
                 Write-Host "[PROFILE-GUARD] Synchronized active profile '$expected' [$Context]."
-            } elseif ($Context -in @('POST_AGY', 'TURN_END')) {
+            } elseif ($Context -in @('POST_AGY', 'PRE_QUOTA_CHECK', 'QUOTA_401_RETRY_PREP', 'QUOTA_401_POST_FAILURE', 'POST_QUOTA_CHECK', 'TURN_END')) {
                 if ($verificationFailure.Exception.Message -match 'source=native-store stage=ID_TOKEN_MISSING') {
                     if (-not (Test-Path -LiteralPath $tokenPath)) { throw $verificationFailure }
                     $cliBytes = [IO.File]::ReadAllBytes($tokenPath)
@@ -627,14 +627,14 @@ function Set-AndVerifyAgyRunProfile {
                 $state.LastSwitch -ne $expected
             )
         )
-        if (-not $mustRestore -and $Context -eq 'POST_AGY') {
+        if (-not $mustRestore -and $Context -in @('POST_AGY', 'PRE_QUOTA_CHECK', 'QUOTA_401_RETRY_PREP', 'QUOTA_401_POST_FAILURE', 'POST_QUOTA_CHECK', 'TURN_END')) {
             Write-Warning ("[PROFILE-GUARD] Saved-profile blob changed after token refresh; native and CLI identity metadata passed the account guard for '{0}'." -f $expected)
         }
     }
 
     if ($mustRestore) {
         if($ControlledSingleTurn){throw 'Controlled turn profile mismatch; automatic credential switching is disabled'}
-        if ($Context -in @('POST_AGY', 'TURN_END')) {
+        if ($Context -in @('POST_AGY', 'PRE_QUOTA_CHECK', 'QUOTA_401_RETRY_PREP', 'QUOTA_401_POST_FAILURE', 'POST_QUOTA_CHECK', 'TURN_END')) {
             throw "AGY profile changed during $($Context): expected '$expected', detected '$($state.ActiveProfile)'. Account switching and token refresh are forbidden during $Context."
         }
         if ($EnableSmartAgyProfileSelection -and $Context -notin @('STARTUP', 'TURN_START')) {
@@ -4458,14 +4458,14 @@ Finished
     )
 
     if ($quotaCheckDue) {
-        Ensure-AuthoritativeAgyProfile "PRE_QUOTA_CHECK"
-        Write-LoopLog `
-            -Turn $CurrentTurn `
-            -Tier "CONTROLLER" `
-            -Action "QUOTA_CHECK_START" `
-            -Message "Checking Antigravity 5-hour quota after AGY turn; threshold is < $QuotaStopThresholdPct%."
-
         try {
+            Ensure-AuthoritativeAgyProfile "PRE_QUOTA_CHECK"
+            Write-LoopLog `
+                -Turn $CurrentTurn `
+                -Tier "CONTROLLER" `
+                -Action "QUOTA_CHECK_START" `
+                -Message "Checking Antigravity 5-hour quota after AGY turn; threshold is < $QuotaStopThresholdPct%."
+
             $quotaSnapshot = Get-AgyFiveHourQuotaSnapshot
             $quotaSnapshotText = Format-AgyQuotaSnapshot -Snapshot $quotaSnapshot
 
@@ -4508,7 +4508,7 @@ Finished
                     )
 
 
-                if ($quotaLastError -match '(?i)(401|token refresh failed|unauthorized)') {
+                if ($quotaLastError -match '(?i)(401|token refresh failed|unauthorized|AGY_PROVIDER_IDENTITY_UNPROVEN)') {
                     Write-Warning '[PROFILE-GUARD] OAuth quota error: saved profiles will not be overwritten. Re-authenticate the affected account if the error persists.'
                     Ensure-AuthoritativeAgyProfile "QUOTA_401_RETRY_PREP"
                 }
@@ -4573,27 +4573,20 @@ Finished
                 $isKnownAuth401 = (
                     $quotaLastError -match '(?i)HTTP\s*401' -or
                     $quotaLastError -match '(?i)token refresh failed' -or
-                    $quotaLastError -match '(?i)unauthorized'
+                    $quotaLastError -match '(?i)unauthorized' -or
+                    $quotaLastError -match '(?i)AGY_PROVIDER_IDENTITY_UNPROVEN'
                 )
 
 
                 if (
-                    $ContinueWhenQuotaTelemetryAuthFails -and
                     $isKnownAuth401
                 ) {
 
                     $quotaTelemetryUnavailable = $true
-
-                    # IMPORTANT:
-                    # This disables only the external telemetry stop for a manually
-                    # selected profile. Smart profile inventory NEVER treats 401
-                    # telemetry as usable quota.
-                    # This disables only the external telemetry stop.
-                    # AGY's own quota/rate-limit response is still a hard
-                    # automatic profile-rotation trigger.
                     $quotaStopPending = $false
+                    $quotaCheckFailed = $false
 
-                    Write-Host "[PROFILE-GUARD] Restoring authoritative profile after quota telemetry auth failure..." -ForegroundColor Yellow
+                    Write-Host "[PROFILE-GUARD] Post-turn quota telemetry authentication unavailable; token refresh deferred to next turn start." -ForegroundColor Yellow
                     Ensure-AuthoritativeAgyProfile "QUOTA_401_POST_FAILURE"
 
                     Write-LoopLog `
@@ -4602,8 +4595,7 @@ Finished
                         -Action "QUOTA_TELEMETRY_AUTH_UNAVAILABLE_CONTINUE" `
                         -Message (
                             "$quotaSnapshotText " +
-                            "Continuing because this is the known external " +
-                            "aichecker OAuth 401 condition; authoritative profile verified."
+                            "Continuing because post-turn quota telemetry encountered expired credentials; refresh deferred to next TURN_START."
                         )
                 }
                 else {

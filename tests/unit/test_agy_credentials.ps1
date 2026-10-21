@@ -120,6 +120,42 @@ try {
             $script:fixtureNative=[byte[]]$live.Clone()
             Write-Output 'PASS: POST_AGY with genuine native identity mismatch fails closed'
 
+            # Test PRE_QUOTA_CHECK deferred refresh with missing native ID metadata and expired token:
+            # Must NOT invoke agy models, mutate stores, or call provider with expired token (which would throw HTTP 401).
+            $script:fixtureNative=[byte[]]$expired.Clone()
+            $script:refreshes=0; $writesBefore=$script:writes
+            Set-AndVerifyAgyRunProfile -Context PRE_QUOTA_CHECK
+            if ($script:refreshes -ne 0 -or $script:writes -ne $writesBefore) { throw 'PRE_QUOTA_CHECK mutated stores or called models refresh' }
+            Write-Output 'PASS: PRE_QUOTA_CHECK defers token refresh without store mutation or HTTP 401 provider call'
+
+            # Test PRE_QUOTA_CHECK with genuine CLI account conflict: must fail closed.
+            Sync-AgyCliCredentialFile -Bytes $alternate -TokenPath $fixturePath
+            $failedConflict=$false
+            try { Set-AndVerifyAgyRunProfile -Context PRE_QUOTA_CHECK } catch { $failedConflict=$true }
+            if (-not $failedConflict) { throw 'PRE_QUOTA_CHECK did not fail closed on genuine CLI identity conflict' }
+            Sync-AgyCliCredentialFile -Bytes $source -TokenPath $fixturePath
+            Write-Output 'PASS: PRE_QUOTA_CHECK with genuine CLI identity mismatch fails closed'
+
+            # Test post-quota contexts (QUOTA_401_RETRY_PREP, QUOTA_401_POST_FAILURE, POST_QUOTA_CHECK) defer refresh.
+            foreach ($ctx in @('QUOTA_401_RETRY_PREP', 'QUOTA_401_POST_FAILURE', 'POST_QUOTA_CHECK')) {
+                $script:fixtureNative=[byte[]]$expired.Clone()
+                $script:refreshes=0; $writesBefore=$script:writes
+                Set-AndVerifyAgyRunProfile -Context $ctx
+                if ($script:refreshes -ne 0 -or $script:writes -ne $writesBefore) { throw "$ctx mutated stores or invoked refresh" }
+            }
+            Write-Output 'PASS: all post-turn quota contexts defer token refresh without store mutation'
+
+            # Regression: full post-turn credential lifecycle (Turn completed -> POST_AGY -> PRE_QUOTA_CHECK 401 -> TURN_END -> TURN_START recovery)
+            $script:fixtureNative=[byte[]]$expired.Clone()
+            $script:refreshes=0; $script:writes=0
+            Set-AndVerifyAgyRunProfile -Context POST_AGY
+            Set-AndVerifyAgyRunProfile -Context PRE_QUOTA_CHECK
+            Set-AndVerifyAgyRunProfile -Context QUOTA_401_POST_FAILURE
+            Set-AndVerifyAgyRunProfile -Context POST_QUOTA_CHECK
+            Set-AndVerifyAgyRunProfile -Context TURN_END
+            if ($script:refreshes -ne 0 -or $script:writes -ne 0) { throw 'Post-turn sequence mutated credentials or refreshed tokens prematurely' }
+            Write-Output 'PASS: full post-turn lifecycle preserves research and defers credential refresh without HTTP 401 crash'
+
             # Test TURN_END deferred refresh: native ID metadata missing does NOT trigger token refresh at turn end.
             $script:fixtureNative=[byte[]]$live.Clone()
             $script:refreshes=0; $writesBefore=$script:writes

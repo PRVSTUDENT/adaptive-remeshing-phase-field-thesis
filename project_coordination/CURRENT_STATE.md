@@ -36,6 +36,27 @@
      - Corrective requirement: Monolithic coupled inequality-constrained transfer operator $\min_{u^*, d^*} \Pi(u^*, d^*)$ subject to $d^* \ge d_{\text{donor}}$ and consistent boundary conditions prior to restart.
 
 
+## Controller Post-Turn Quota Credential Lifecycle Repair — 21 October 2026
+
+- **Turn 4 Science Preserved**: Turn `01d629c2-b533-4a33-86f1-58b43fff40ed` (Candidate C2 canonical variational state-transfer feasibility test under frozen UEL `f42_mixed_uel.for`) completed cleanly; results, session report `2026-10-21_gemini-antigravity_F1597_01d629c2-b533-4a33-86f1-58b43fff40ed.md` and preparation artifact `preparation-01d629c2-b533-4a33-86f1-58b43fff40ed.json` are 100% preserved. Turn 4 was NOT replayed.
+- **Root Cause & Lifecycle Fix**:
+  1. Identified defect: After Turn 4 finished, `POST_AGY` safely deferred missing native ID metadata, but `PRE_QUOTA_CHECK` executed immediately before quota telemetry. Because `PRE_QUOTA_CHECK` was not included in `Set-AndVerifyAgyRunProfile`'s deferred-refresh list, it fell into the `else` branch and invoked `Repair-AgyRefreshedNativeCredential -SkipTokenRefresh`, which queried Google `/userinfo` with the expired token and threw `AGY_PROVIDER_IDENTITY_UNPROVEN: HTTP 401 Unauthorized`, crashing the loop after the turn had finished.
+  2. Broadened deferred-refresh contexts in `Set-AndVerifyAgyRunProfile`: `@('POST_AGY', 'PRE_QUOTA_CHECK', 'QUOTA_401_RETRY_PREP', 'QUOTA_401_POST_FAILURE', 'POST_QUOTA_CHECK', 'TURN_END')` perform read-only identity checks, defer token refresh to `TURN_START`, and fail closed on genuine profile mismatch.
+  3. Hardened quota error handler: wrapped `Ensure-AuthoritativeAgyProfile "PRE_QUOTA_CHECK"` inside the quota `try` block. Any 401, token refresh failure, or `AGY_PROVIDER_IDENTITY_UNPROVEN` error marks quota telemetry unavailable, retains completed research, and defers refresh to `TURN_START`.
+  4. Added regression tests to `tests/unit/test_agy_credentials.ps1` covering `PRE_QUOTA_CHECK` deferred refresh, genuine conflict fail-closed, post-quota contexts, and the complete post-turn lifecycle.
+- **Verification, Parity & Resumption**:
+  - `test_agy_credentials.ps1`: ALL PASS.
+  - `test_controller_profile_guard.ps1`: ALL PASS (6/6).
+  - `test_controller_recovery.ps1`: ALL PASS (35/35).
+  - `test_controller_bootstrap.ps1`: ALL PASS (26/26).
+  - `test_controller_operations.ps1`: ALL PASS (9/9).
+  - `test_controller_continuous_research.ps1`: ALL PASS (45/45).
+  - Bitwise frozen UEL SHA-256 verified: `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`.
+  - OpenClawPAD `controller_turn_checkpoint.json` reconciled: `turn = 4`, `state = 'COMPLETED'`, `run_id = '01d629c2-b533-4a33-86f1-58b43fff40ed'`, `next_instruction` intact (5,726 chars).
+  - OpenClawPAD `antigravity_loop_state.json` reconciled: `completed_turn = 4`, `loop_status = 'PENDING_NEXT_TURN'`.
+  - Deployed `Antigravity-Autonomous-Loop.ps1` to OpenClawPAD with bitwise SHA-256 parity: `E7D391446A3986AF170135F3607EF79A5F94628E9936B6E16C7F0266E6609BE5`.
+  - `-ControllerDryRun` returned exit code 0 (`checkpoint_state: COMPLETED`, `task: F1597-CORRECT-PACKAGE72-STATE-TRANSFER`, Turn 5 instruction verified).
+
 ## Controller TURN_START Provider Verification Repair — 21 October 2026
 
 - **Turn 1 Science Preserved**: Turn `242c8dbb-aabe-433b-a9a8-5151c475c213` (Candidate C2 crack-band mesh generation & energy preservation check) completed cleanly; results and ledgers 100% preserved. Turn 1 was NOT replayed.
