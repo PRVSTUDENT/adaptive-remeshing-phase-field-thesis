@@ -1,22 +1,18 @@
 {
-    "active":  false,
-    "agent":  "gemini-antigravity",
-    "task_id":  "CONTROLLER-TURN-START-PROVIDER-VERIFY-REPAIR",
-    "starting_commit":  "887ed3369046a7ebb3253af0286e4a48c6e0cad6",
-    "claimed_at":  "2026-10-21T12:28:30+02:00",
-    "last_updated":  "2026-10-21T12:45:00+02:00",
-    "last_released":  "2026-10-21T12:45:00+02:00",
-    "controller_run_id":  "maintenance",
-    "session_report":  "project_coordination/sessions/2026-10-21_gemini-antigravity_controller_turn_start_provider_verify_repair.md",
-    "allowed_write_scope":  [
-                                "project_coordination/sessions/2026-10-21_gemini-antigravity_controller_turn_start_provider_verify_repair.md",
-                                "project_coordination/ACTIVE_SESSION.json",
-                                "project_coordination/ACTIVE_TASK.json",
-                                "project_coordination/CURRENT_STATE.md",
-                                "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/ARTIFACT_REGISTRY.csv",
-                                "scripts/controller/*",
-                                "scripts/validation/*",
-                                "tests/unit/*"
-                            ]
+  "active": false,
+  "agent": "codex",
+  "task_id": "SUPERVISOR-REPORT-20261022",
+  "starting_commit": "33afc6c710f5438ca41353d37eabe79dfc641d99",
+  "claimed_at": "2026-10-21T12:28:30+02:00",
+  "last_updated": "2026-10-21T13:06:38.183626+02:00",
+  "last_released": "2026-10-21T13:06:38.183626+02:00",
+  "controller_run_id": "maintenance",
+  "session_report": "project_coordination/sessions/2026-10-21_codex_supervisor_report.md",
+  "allowed_write_scope": [
+    "docs/supervisor_reports/22-10-2026/*",
+    "project_coordination/ACTIVE_SESSION.json",
+    "project_coordination/sessions/2026-10-21_codex_supervisor_report.md",
+    "project_coordination/TASK_LEDGER.csv",
+    "project_coordination/ARTIFACT_REGISTRY.csv"
+  ]
 }
