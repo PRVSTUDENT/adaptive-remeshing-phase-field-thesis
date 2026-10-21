@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "run_id": "fcb85c6f-703c-47e4-8ee4-f814e7c75b63",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "finding": "Stiffness ablation demonstrates undamaged elastic mesh discrepancy of 1.17% (PASS <= 5%), proving no geometric/elastic compliance defect. Damaged initial stiffness collapses by 67.22% due to diffuse damage volume expansion (int d^2 dOmega +18.01%, E_frac +17.30%) on the h=0.004 mm receiver mesh, resulting in -81.20% equilibrated force deficit. Formulated quantitative mesh acceptance criterion requiring h <= ell / 3.75 = 0.00107 mm across 4*ell crack band.",
+  "evidence_sources": {
+    "scripts/validation/correct_mode1_f1597_state_transfer.py": "CF17B1016436C677372E90FC18A430623CD79A1741008BAAA76D1D811C21DC82",
+    "tests/unit/test_mode1_f1597_correction.py": "2F7A9C39B55902BF33BBFE57BB92D8FA65B5ADA84251E6B848A3A0460B2A4F9C",
+    "scripts/validation/transfer_mode1_f1597_conservative_traction.py": "931B8FD6B699A6C4C33DBDB8B8B6E7C8F79FBF3D2F0DB7291693166C59F6D326",
+    "tests/unit/test_mode1_f1597_conservative_traction.py": "A939318A47C094736E13BCFEE79903BB810EF62E8721463327C49507FDA1A628",
+    "scripts/validation/verify_mode1_f1597_compliance_criterion.py": "D4FA493E21DC5E645424AAD5D1194F3A8AE60AD41F6FE7DFA3FFD332CA278D60",
+    "tests/unit/test_mode1_f1597_compliance_criterion.py": "C7CB1DC7E7BDFCFAE65AFDAF55FE3CFF2D92FD885F7A1029B1142C5673ED5154",
+    "results/validation/mode1_f1597/compliance_criterion_prototype.json": "F727DD487778E2F429801A82871E84D72D1A579D24E9411F3F93B43CDFD7CF4B",
+    "models/pandey_kumar_mode1/50_method_c_experimental_offset_continuation/M1_EXP_OFFSET_CONT_NOEXTRAP.inp": "B2CE0F35A4679B9DCA0EDA5925A53BA7576F0626DD98EDBE0AF4C1BA59BF6B01",
+    "models/pandey_kumar_mode1/50_method_c_experimental_offset_continuation/offset_state_table.csv": "3AD967525E7EDF63FF90741F5D1F248F5282FA3F43BB31329F86A0CD0F799C89",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/M1_EXP_COUPLED_TRANSFER_650.inp": "58B1E69F40C5A65C7B9F1049E42AD745152AB8B5CF6B0F15547ED3276CD54964",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/offset_state_table.csv": "87C7954EFEF0134094BBFB03D7ADA03D66F9A84281D0BB50F524AE88DFC65ADD",
+    "models/pandey_kumar_mode1/72_method_c_coupled_state_transfer/PACKAGE72_STATE_TRANSFER_AUDIT.json": "05047DA6E223C58834AC775DC492BC2F3AB2BD93551F37E01A950049680FFA82"
+  }
+}
