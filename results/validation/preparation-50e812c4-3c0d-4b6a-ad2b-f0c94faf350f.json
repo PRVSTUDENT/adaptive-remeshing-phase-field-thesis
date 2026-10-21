@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "operation": "audit_f1597_state_transfer_patch_test",
+  "title": "F1597 State-Transfer Contract Definition and Nonmatching-Mesh Patch Test Suite",
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "classification": "STATE_TRANSFER_CONTRACT_AND_PATCH_TEST_QUALIFIED",
+  "finding": "Nonmatching-mesh state-transfer contract and patch test suite verified: (1) Established formal donor-to-receiver state contract covering displacement (ux, uy), phase field (d in [0, 1]), lower-bound irreversibility (d >= d_prior), and history (H >= 0). (2) Patch Test 1 (constant field): Exact reproduction (scalar err = 1.11e-16, vector err = 1.11e-16 <= 1e-12). (3) Patch Test 2 (affine field): First-order bilinear quad completeness verified (max err = 1.11e-16 <= 1e-11). (4) Patch Test 3 (slit flank discontinuity): Exact duplicate-node topological isolation at y=0.050 mm, x<=0.040 mm verified with zero cross-slit leakage (err <= 1.11e-16). (5) Patch Test 4 (bounds and irreversibility): Clamping and lower-bound operator guarantees zero healing nodes. (6) Patch Test 5 (AT2 fracture energy): Discrete Gauss quadrature conserves fracture energy within 0.16% (Donor=0.271250 mJ, Receiver=0.270818 mJ, Diff=0.1589% <= 2.0%). Frozen UEL f42_mixed_uel.for (CE8D5EDCD2911DCB...) is strictly preserved.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/candidate_donor_h0025.inp": "4C82B66BDA1D925C2BEA65CF765633897ACF4B0030E43C77647FA5E0D05A3179",
+    "models/pandey_kumar_mode1/candidate_crack_band_mesh_c2.inp": "257FC6263D63721BDEEFE48A43CD504C79A92DF61C099CE9481984B625454901",
+    "results/validation/f1597_state_transfer_patch_test_audit.json": "FABA727EBAC53001913EC9A438AB0D564CB274C50C7E25CAD2E6535B01BCA054",
+    "scripts/validation/audit_f1597_state_transfer_patch_test.py": "26C16E33BEB86C0E448173405C0A9F353D746AA27EE6907DCFE8DB2655150C48",
+    "tests/unit/test_mode1_f1597_state_transfer_patch_test.py": "099943CF43F2F388A4E3DF7AC7828671C2510796A99B9E18D893B34A942EF136"
+  },
+  "patch_test_summary": {
+    "patch_test_1_constant_field_passed": true,
+    "patch_test_2_affine_field_passed": true,
+    "patch_test_3_slit_discontinuity_passed": true,
+    "patch_test_4_bounds_and_irreversibility_passed": true,
+    "patch_test_5_at2_fracture_energy_passed": true,
+    "at2_energy_donor_mJ": 0.271250,
+    "at2_energy_receiver_mJ": 0.270818,
+    "at2_energy_diff_pct": 0.1589
+  },
+  "limitation": "Patch tests verify geometric, topological, kinematic, and quadrature transfer consistency on manufactured solutions. Final coupled equilibrium and crack unzipping suppression requires actual Abaqus donor solve on HPC once university VPN connectivity is restored.",
+  "next_operation": "Submit candidate_donor_h0025.inp via Invoke-Mode1Execution.ps1 once university VPN gateway restores connectivity, extract frame 650 state, and verify coupled state transfer to Candidate C2."
+}
