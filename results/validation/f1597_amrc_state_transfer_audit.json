@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "operation": "audit_f1597_amrc_state_transfer",
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "classification": "AMRC_INFORMED_TRANSFER_AUDIT_PASSED",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/candidate_donor_h0025.inp": "4C82B66BDA1D925C2BEA65CF765633897ACF4B0030E43C77647FA5E0D05A3179",
+    "models/pandey_kumar_mode1/candidate_crack_band_mesh_c2.inp": "257FC6263D63721BDEEFE48A43CD504C79A92DF61C099CE9481984B625454901",
+    "results/validation/f1597_amrc_receiver_reequilibration_sample.inp": "BC379AA7773C4ED0EBDEB3DBE4A4E388FF08D0D3965B0DEF8A2704BB0A222248"
+  },
+  "amrc_integration_metrics": {
+    "amrc_upstream_commit": "71aaceac455cd3683682f61ae37f1b71d0cd5e6a",
+    "amrc_license": "MIT License, Copyright (c) 2026 Aarosh Dahal, Abhinav Gupta, Aditya Kumar",
+    "active_zone_threshold": 0.05,
+    "donor_active_points_count": 434,
+    "refine_radius_mm": 0.015,
+    "tagged_refinement_elements_in_c2": 1822,
+    "c2_total_physical_elements": 2300,
+    "c2_total_physical_nodes": 2413,
+    "inequality_bound_healing_node_count": 0,
+    "min_delta_damage": 0.0,
+    "negative_history_count": 0,
+    "min_history_value": 4.7220845502611844e-06,
+    "donor_fracture_energy_mj": 0.12422935243691158,
+    "receiver_fracture_energy_mj": 0.12371001506453105,
+    "fracture_energy_relative_error_pct": 0.41804723456501397,
+    "fracture_energy_continuity_pass": true,
+    "uel_hash_verified": true,
+    "two_step_reequilibration_structured": true
+  },
+  "summary": "Successfully audited AMRC-informed Method C state transfer between candidate donor (h=2.5 um, 1600 quads) and Candidate C2 receiver (h=1.0 um, 2300 quads): (1) AMRC KDTree active-zone tagging identifies 1822 refinement elements within radius r=2*ell_0=15 um; (2) Inequality bound transfer d*(x) >= d_lb(x) guarantees strictly 0 healing nodes (min Delta d = 0.0000e+00); (3) Kuhn-Tucker strain history H >= 0 verified at all 4 Gauss points of all 2300 receiver quads (min H = 4.7221e-06); (4) AT2 fracture energy continuity preserved within 0.42% (tolerance <= 2.0%); (5) 2-step mechanical re-equilibration deck structured to resolve Abaqus Section 34.2.1 static displacement limitation."
+}
