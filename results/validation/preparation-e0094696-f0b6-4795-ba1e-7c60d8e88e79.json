@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "e0094696-f0b6-4795-ba1e-7c60d8e88e79",
+  "package": "Package 81 Stabilization Feasibility & Investigation",
+  "finding": "Completed Turn 29 investigation into Abaqus automatic static stabilization (*STATIC, STABILIZE). Empirically demonstrated two blockers: 1) Automatic energy fraction stabilization (*STATIC, STABILIZE=1.0e-4) aborts at Step 3 Increment 2 with '***ERROR: THE STATIC STABILIZATION DAMPING FACTOR COULD NOT BE CALCULATED' because all elements in the model are User Elements (UEL U1/U2) with zero continuum element volume/strain energy; 2) Constant factor stabilization (*STATIC, STABILIZE, FACTOR=1.0e-5) bypasses the calculation error but cuts back and diverges at the identical point (t=0.0366, dt < 1e-12) as unstabilized Package 80 because Abaqus viscous damping acts exclusively on mechanical DOFs 1-2 and does not regularize the coupled phase-field softening snapback at crack-tip Node 1239 (DOF 3). In accordance with the Standing Policy, submission of Package 81 is withheld, and direct loading continuation past Step 2 is recommended as the sound physical alternative.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/f1597_turn29_stabilization_evaluation.json": "FADE76A0A13B160E02B7A88150E15F6EA0156823ADE4C5BB1635D264C8216F6D",
+    "results/validation/mode1_f1597/test_stab_c2.sta": "518B1FBF14FBDFCBAB2F715131765A9EB8F92BAEC3A21366F78428B35ED8977E",
+    "results/validation/mode1_f1597/test_stab_c2.msg": "1C29D80FF4C6264BEA9E6A44213D4F8AA9B9EEEF26D700640A966A20CA0B97D0",
+    "scripts/validation/test_stabilization_compatibility.py": "FCE66D577D5815A34106A70DD6914E85BE566FA2F51E379D8FB62A6E7BB05846",
+    "models/pandey_kumar_mode1/80_candidate_c2_peak_preserved_reequilibration/test_stab_c2.inp": "A71EF1A11D24FA06A80F52EF87031F099292B80DF260F43EE32E0970532857EA"
+  },
+  "verification_passed": true
+}
