@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "53624688-7972-486e-af51-f9b0f62447c5",
+  "package": "Package 82 Staggered Re-equilibration Diagnostic",
+  "finding": "Evaluated completed PBS Job 1416368.mmaster02 (Package 82 Staggered Mechanical-Phase-Field Re-equilibration Diagnostic). Authentic cluster telemetry verifies Exit 0 with zero cutbacks and 1 iteration/increment across all 4 steps. Step 3 (phase-field subproblem under locked mechanical displacements) solved unconditionally with linear residual 6.27e-20 and zero damage healing (0 healing nodes, min delta_d = -5.90e-7). Active Dirichlet constraints satisfied KKT dual feasibility (1611 positive multipliers, 155 sub-tolerance boundary reactions min -3.66e-6). In Step 4, unconstrained crack-tip compliance under held displacement (u_top = 0.002540 mm) over-softens the structure, causing reaction force to relax to 0.8799 N (-73.06% error vs donor 3.26615 N) and fracture energy to rise to 305.47 microJ (+3.93% error vs donor 293.92 microJ). Method C Gate C1-1 is formally classified as FAILED due to the -73.06% force deficit; forward sequential remeshing cycles are strictly held pending either direct loading continuation or the November 13 hierarchical transfer pivot.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/f1597_turn31_package82_evaluation.json": "62BA4CC14B9F3D19108C6A37466CD183C1FDE78C2CE1A4D00E31CD221860C718",
+    "models/pandey_kumar_mode1/82_candidate_c2_staggered_reequilibration/pkg82_extracted_telemetry.json": "26E470B6D9A7262F94C681762B70F49FEAE05FADF45F5DD6F3A83E951C5A223A",
+    "models/pandey_kumar_mode1/82_candidate_c2_staggered_reequilibration/pkg82_kkt_summary.json": "BA433A7463814A615BB57C5CC5F114D00D13001A3731A276F70CC884BA70DC1B",
+    "models/pandey_kumar_mode1/82_candidate_c2_staggered_reequilibration/uel_energy_balance.csv": "919D61F9319E6D2EF60A5F46BE04B14B0EC87E86DF9E6593885FD0FC8BA8DA74",
+    "models/pandey_kumar_mode1/82_candidate_c2_staggered_reequilibration/M1_C2_STAGGERED_REEQUIL.sta": "0059765CFA5E8201676CF555052454D1D455F2781AABCCBCEDBD6F50510B03E8",
+    "models/pandey_kumar_mode1/82_candidate_c2_staggered_reequilibration/pbs_execution.log": "DC0F31A6E72BAF674A30C82AC37AF21702F20CE69E9ECC52AC0DAF973082CF2F",
+    "scripts/validation/evaluate_package82_solver_results.py": "8847C15EB207A6806A30C16997BE48FBA9D16BD88BF35C4F6A1784A8945DE1BB"
+  },
+  "verification_passed": true
+}
