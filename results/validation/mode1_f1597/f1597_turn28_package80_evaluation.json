@@ -1,0 +1,84 @@
+{
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "evaluation_target": "Package 80 Peak-Preserved Re-equilibration Diagnostic",
+  "job_id": "1416366.mmaster02",
+  "mesh": "Candidate C2 (h=1.0 um, 2300 CPE4 quads, 2413 physical nodes)",
+  "step1_parity": {
+    "rf2_N": 3.2683026511222124,
+    "donor_rf2_N": 3.26615,
+    "rf2_error_pct": 0.0659079075428961,
+    "e_frac_uj": 295.48362,
+    "donor_e_frac_uj": 293.92334,
+    "e_frac_error_pct": 0.5308459001588569,
+    "verdict": "EXACT_PARITY_PASS"
+  },
+  "step2_frozen_relaxation": {
+    "initial_rf2_N": 3.2683026511222124,
+    "terminal_rf2_N": 7.319264113903046,
+    "package79_comparison_N": 11.708741,
+    "reduction_vs_pkg79_N": 4.389476886096954,
+    "e_elastic_initial_uj": 13.460504,
+    "e_elastic_terminal_uj": 9.295857,
+    "verdict": "WAKE_PRESTRESS_REDUCED_BY_4_39N_BUT_RESIDUAL_PRESTRESS_REMAINS"
+  },
+  "step3_coupled_convergence": {
+    "start_time": 0.0,
+    "terminal_time": 0.03655172511935234,
+    "exit_code": 1,
+    "termination_reason": "TIME_INCREMENT_REQUIRED_LESS_THAN_MINIMUM",
+    "limiting_node_u": 1192,
+    "limiting_node_d": 1239,
+    "largest_scaled_residual": -0.0003384,
+    "largest_disp_increment": 0.02368,
+    "verdict": "CRACK_TIP_SOFTENING_SNAPBACK_CUTBACK"
+  },
+  "gate_c1_1_matrix": {
+    "step3_coupled_completion": {
+      "target": "1.000 (100% of coupled re-equilibration step)",
+      "measured": 0.03655172511935234,
+      "status": "FAIL",
+      "notes": "Cutback down to dt < 1e-12 at increment 13 (step time 0.03655) due to unregularized crack-tip softening"
+    },
+    "reaction_force_continuity": {
+      "target": "<= 5.0% error vs donor 3.266150 N",
+      "step1_injected_rf2_N": 3.2683026511222124,
+      "step1_rf2_error_pct": 0.0659079075428961,
+      "step2_frozen_rf2_N": 7.319264113903046,
+      "step2_rf2_error_pct": 124.09454905325983,
+      "step3_terminal_rf2_N": 5.190570838749409,
+      "step3_rf2_error_pct": 58.92016100759023,
+      "status": "FAIL",
+      "notes": "Step 1 achieved exact parity (+0.066% error), but Step 2 interior release rose to 7.319 N (+124.1%), dropping to 5.191 N (+58.9%) before Step 3 cutback"
+    },
+    "fracture_energy_continuity": {
+      "target": "<= 2.0% error vs donor 293.92334 microJ",
+      "step1_e_frac_uj": 295.48362,
+      "step1_e_frac_error_pct": 0.5308459001588569,
+      "step2_e_frac_uj": 295.48362,
+      "step2_e_frac_error_pct": 0.5308459001588569,
+      "step3_e_frac_uj": 296.38809,
+      "step3_e_frac_error_pct": 0.8385689955755066,
+      "status": "PASS",
+      "notes": "Fracture energy preserved with +0.53% error across Step 1 and Step 2, rising slightly to +0.84% in Step 3 (+0.53% <= 2.0% PASS)"
+    },
+    "damage_irreversibility": {
+      "target": "zero healing violations (min delta_d >= 0.0)",
+      "healing_nodes_count": 4,
+      "min_delta_d": -0.0006572604179382324,
+      "stationary_nodes_count": 1806,
+      "advancing_nodes_count": 603,
+      "status": "FAIL",
+      "notes": "4 healing nodes detected (min delta_d = -0.000657), down from 9 in Pkg 79 and 291 in Pkg 72"
+    },
+    "kkt_complementarity": {
+      "target": "zero complementarity slack violations, dual multipliers lambda >= 0",
+      "slack_violations_count": 0,
+      "negative_multiplier_count": 49,
+      "min_lambda": -5.034009973314824e-06,
+      "status": "FAIL",
+      "notes": "49 nodes with small negative lambda (min -5.03e-6) in unconstrained crack wake / tip transition"
+    },
+    "overall_gate_verdict": "FAILED"
+  },
+  "root_cause_analysis": "Peak-preserving projection restored authentic wake damage d=0.997133, achieving exact Step 1 parity (RF2 error +0.066%, E_frac error +0.53%) and reducing Step 2 spurious reaction force by 4.39 N (from 11.71 N to 7.32 N). However, in Step 2, releasing interior displacement constraints under frozen damage still caused RF2 to rise to 7.32 N (+124%) because coarse-to-fine interpolation strains between h=2.5 um donor and h=1.0 um C2 mesh produce non-zero mechanical residuals. In Step 3, when crack-tip damage was released, the localized softening snapback at Node 1239 (delta_d = +0.052) triggered severe standard Newton cutbacks down to dt < 1e-12 at t=0.03655. To traverse this softening state to full equilibrium (t=1.0), coupled re-equilibration requires either arc-length / Riks control or numerical viscous regularization on the damage evolution equation."
+}
