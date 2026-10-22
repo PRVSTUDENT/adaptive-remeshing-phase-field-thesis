@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "5e91086e-bac3-478c-a87a-71290f40249e",
+  "package": "Package 80 Evaluation",
+  "finding": "Evaluated authentic Package 80 solver results (Job 1416366.mmaster02) on Candidate C2 (h=1.0 um, 2300 quads, 2413 nodes). Step 1 state injection achieved exact physical parity with donor (RF2 = 3.2683 N vs donor 3.26615 N, error +0.066%; fracture energy = 295.48 microJ vs donor 293.92 microJ, error +0.53%). Peak-preserving projection reduced Step 2 spurious reaction force by 4.39 N compared to Package 79 (dropping from 11.71 N to 7.32 N), but residual mechanical interpolation strains still elevate reaction force to 7.32 N (+124.1%). In Step 3 coupled re-equilibration, reaction force decreased continuously from 7.32 N toward 5.19 N, but localized crack-tip softening at Node 1239 (delta_d = +0.052) induced severe cutbacks down to dt < 1e-12 at t=0.03655, terminating with Exit 1. Damage healing was reduced to only 4 nodes (min delta_d = -0.000657). Method C Gate C1-1 criteria remain strictly FAILED. Traversing localized softening to complete equilibrium requires arc-length / Riks stepping or numerical viscous regularization.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/80_candidate_c2_peak_preserved_reequilibration/pkg80_extracted_telemetry.json": "514C489C23AA97052630834BBF6B65B53195FFD8D4C5808993C90E30C363A930",
+    "models/pandey_kumar_mode1/80_candidate_c2_peak_preserved_reequilibration/uel_energy_balance.csv": "2B3A336AAF8FE96A8B176A4001E50CCE685F6EC9E95F0E9B601B50C1B374A495",
+    "models/pandey_kumar_mode1/80_candidate_c2_peak_preserved_reequilibration/M1_C2_PEAK_PRESERVED_REEQUIL.sta": "F1D496538B151E06E2BA0B368D5126B053507D95B910C32BE05A81D3D3736791",
+    "models/pandey_kumar_mode1/80_candidate_c2_peak_preserved_reequilibration/M1_C2_PEAK_PRESERVED_REEQUIL.msg": "E9A615DB009C637D4A52B542C2487ACC475E0BEE0E8C16A0015F7AE2489AEAA1",
+    "models/pandey_kumar_mode1/80_candidate_c2_peak_preserved_reequilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "results/validation/mode1_f1597/f1597_turn28_package80_evaluation.json": "492BB68A6F849AED4C3053491491FE2C80542E7EDA398C9834809646E40A19C5",
+    "scripts/validation/evaluate_package80_solver_results.py": "900ADB63379CFE25839AA4ECC7E4F34C49DBF2B51E933B0CB6B21E40328B5271",
+    "tests/unit/test_mode1_f1597_package80_evaluation.py": "284CA4DADBB63FE7D4F1401E8A7384DDD1C7E2E246A254A6B1FE91D2388D50E6"
+  },
+  "verification_passed": true,
+  "gate_c1_1_status": "FAILED"
+}
