@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "1bf7d999-9cfb-499c-b544-6bb8c9768cc2",
+  "package": "Package 83 Same-Mesh Positive Control Investigation",
+  "finding": "Investigated same-mesh positive control for Method C (Package 83). Proved that authentic Abaqus restart file (.res) is absent on cluster scratch and locally because *RESTART, WRITE was omitted from Package 76 forward deck. Furthermore, verified that donor ODB fieldOutputs['U'] contains only 2 displacement components (DOF 1 and 2), with DOF 3 not exported to nodal fields. Under frozen production UEL f42_mixed_uel.for, internal UEL history SVARS(5..8) cannot be initialized via input deck keywords without a .res restart database. Pursuant to mandatory prompt directive, activated explicit NO-SUBMIT recovery branch and withheld Package 83 submission. Formulated the exact forward restart unblocking protocol (forward execution up to u_top = 0.00254 mm with *RESTART, WRITE and 3-DOF nodal outputs) to enable genuine same-mesh positive control.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/f1597_turn32_positive_control_investigation.json": "99C565BAA6D92A2B0B896D5F2C931B426A73AF7CAA97003355E54078030A9F77",
+    "scripts/validation/audit_donor_mesh_positive_control.py": "269AC7DF01DE086DAE73A201D9F851BF6802018638E384C37B4ED95CB7E7813C",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/candidate_donor_h0025_visual.inp": "14DBD51BDC8E6852A51DE41B9F72627CC0CE51611EFD3227448C8AA287D285E9",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/pkg76_frame111_elem_sdv.csv": "6FCEF49A45028140C02FE696C92A99131A615DA6B951622AD0F35FAF39DB5672",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/pkg76_frame111_nodal_u.csv": "638E6665DCAB7C03BFE03A4197081E80A83662EE19CA34C0CD4D91C2A1F0797E",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/pkg76_frame111_extraction_manifest.json": "7B02E73A04B0D7A318A94FE580A1080AF3C64CD609AD18092D212CC972F95611",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/uel_energy_balance.csv": "EC265AAF6CE4CEDC8190154A946D02C2F162BFF77D19F3B5AFFEA1E378B961D7"
+  },
+  "verification_passed": true
+}
