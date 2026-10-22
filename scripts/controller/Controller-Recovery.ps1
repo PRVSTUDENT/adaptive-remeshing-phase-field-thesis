@@ -298,9 +298,48 @@ function Get-ControllerBudget([string]$PrintTimeout,[int]$Cap,[int]$Reserve=120)
     return [pscustomobject]@{total=$total; work=($total-$closeout); closeout=$closeout}
 }
 
+function Test-ControllerCompletedScienceReceipt([string]$Workspace,$State) {
+    # Fail closed: report text by itself is never an execution receipt.
+    try {
+        if (-not $State -or -not $State.run_id -or -not $State.task_id -or
+            -not $State.bootstrap_record_path -or -not $State.session -or
+            $State.session.active -ne $false -or
+            [string]$State.session.controller_run_id -cne [string]$State.run_id) { return $false }
+        if (-not (Test-ControllerScientificCheckpoint $Workspace $State)) { return $false }
+        $record = Get-Content -LiteralPath $State.bootstrap_record_path -Raw -Encoding UTF8 | ConvertFrom-Json
+        if ($record.stage -cne 'COMPLETE' -or $record.bootstrap_status -cne 'COMPLETE' -or
+            [string]$record.controller_run_id -cne [string]$State.run_id -or
+            [string]$record.task_id -cne [string]$State.task_id -or
+            [string]$record.session_report -cne [string]$State.session.session_report) { return $false }
+        $relative = [string]$record.session_report
+        if ([string]::IsNullOrWhiteSpace($relative)) { return $false }
+        $base = [IO.Path]::GetFullPath((Join-Path $Workspace 'project_coordination/sessions')) + [IO.Path]::DirectorySeparatorChar
+        $full = [IO.Path]::GetFullPath((Join-Path $Workspace $relative))
+        if (-not $full.StartsWith($base,[StringComparison]::OrdinalIgnoreCase) -or
+            -not (Test-Path -LiteralPath $full -PathType Leaf)) { return $false }
+        # Each accepted receipt must belong to the same run (not just the task).
+        if ($relative -notmatch [regex]::Escape([string]$State.run_id)) { return $false }
+        $report = Get-Content -LiteralPath $full -Raw -Encoding UTF8
+        if ($report -notmatch '(?s)Finished\s*$' -or
+            $report -notmatch [regex]::Escape([string]$State.run_id)) { return $false }
+        return $true
+    } catch { return $false }
+}
 function Complete-ControllerTurn([string]$Workspace,[string]$Path,$State,[string]$Response,[switch]$VerifiedReceipt) {
     Update-ControllerEvidence $Workspace $Path $State
-    if ($State.session.active -or $Response -match '(?im)^\s*BLOCKED\b' -or (-not $VerifiedReceipt -and $Response -notmatch '(?s)Finished\s*$')) {
+    $receiptAccepted = [bool]$VerifiedReceipt
+    # A normal successful AGY run may omit a final chat marker after independently
+    # committing and releasing a valid scientific result. Accept only a verified
+    # receipt tied to THIS controller run, never a stale report or active session.
+    if (-not $receiptAccepted -and -not $State.session.active -and
+        $Response -notmatch '(?im)^\s*BLOCKED\b' -and
+        $Response -notmatch '(?s)Finished\s*$') {
+        $receiptAccepted = Test-ControllerCompletedScienceReceipt $Workspace $State
+        if ($receiptAccepted) {
+            Write-Host ('[RECEIPT] Verified completed scientific turn ' + $State.turn + ' / ' + $State.run_id + ' without terminal chat marker.')
+        }
+    }
+    if ($State.session.active -or $Response -match '(?im)^\s*BLOCKED\b' -or (-not $receiptAccepted -and $Response -notmatch '(?s)Finished\s*$')) {
         $State.state='BLOCKED'; $State.block_reason='Response incomplete, explicitly blocked, or repository session not released'
     } else {
         $State.state='COMPLETED'

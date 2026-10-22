@@ -37,6 +37,20 @@
      - Corrective requirement: Monolithic coupled inequality-constrained transfer operator $\min_{u^*, d^*} \Pi(u^*, d^*)$ subject to $d^* \ge d_{\text{donor}}$ and consistent boundary conditions prior to restart.
 
 
+## Controller Permanent Auto-Closeout Fix & Turn 19 Reconciliation — 22 October 2026
+
+- **Turn 19 Science Preserved & Verified**: Turn 19 (`run_id: e5f34801-00a4-416c-91fe-2fb9b23883a4`, `preparation-e5f34801-00a4-416c-91fe-2fb9b23883a4.json`, git commit `2e0ba429`) completed Package 76 instrumented donor ODB evaluation, verified exact force/energy parity against Package 75, confirmed $d_{\max}=0.9971$ at transfer point $u_{\text{top}}=0.00254\,\text{mm}$, and cleanly released the session lock.
+- **Root Cause & Permanent Fix**:
+  1. Identified defect: In `Complete-ControllerTurn`, normal AGY turns required the literal chat marker `Finished\s*$` to avoid `BLOCKED`. Because Turn 19's chat concluded with a period (`Finished.\r\n`), the strict regex failed despite valid on-disk scientific results and released session.
+  2. Permanent fallback: Implemented `Test-ControllerCompletedScienceReceipt` in `scripts/controller/Controller-Recovery.ps1`. If the final chat marker is omitted or punctuated, the controller independently accepts the turn if and only if: (a) session is released (`active == false`) and matching `run_id`, (b) `Test-ControllerScientificCheckpoint` passes, (c) bootstrap record has `stage == 'COMPLETE'` and matching `run_id`, (d) verified on-disk session report exists and ends in `Finished`. Explicit `BLOCKED` directives and active sessions continue to fail closed.
+  3. Added comprehensive regression test suite: `tests/unit/test_controller_completed_science_receipt.ps1`.
+- **Turn 19 Reconciled & Ready for Turn 20**:
+  - Reconciled via `Reconcile_MethodC_Turn19.ps1 -Apply` (status `TURN19_COMPLETED_SCIENCE_RECEIPT_VERIFIED`).
+  - Next verified instruction: `TURN 20 — F1597: BUILD AUTHENTIC PACKAGE 76 TO C2 STATE-TRANSFER INPUTS`.
+  - All 35 controller recovery checks and all receipt regression checks passed.
+  - Frozen UEL `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) remains 100% bitwise frozen.
+  - Zero duplicate PBS jobs; `1416301.mmaster02` preserved.
+
 ## Emergency Controller Repair — Interrupted Turn 13 Checkpoint Reconciliation & Prompt Restoration — 22 October 2026
 
 - **Turn 12 Science Preserved & Baseline Verified**: Turn 12 (`preparation-50e812c4-ad26-4d22-ab79-880bb6be457f.json`, patch test suite qualified under frozen production UEL `f42_mixed_uel.for`) completed cleanly with exit code 0; all verification artifacts, session report `2026-10-21_gemini-antigravity_F1597_50e812c4-ad26-4d22-ab79-880bb6be457f.md`, and bootstrap records are 100% preserved. Turn 13 exited prematurely at step 980 (~4 min runtime) with 0 numerical validation artifacts, 0 PBS submissions, and only a 163-byte stub session report.
