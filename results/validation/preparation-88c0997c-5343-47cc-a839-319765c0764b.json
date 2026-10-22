@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "88c0997c-5343-47cc-a839-319765c0764b",
+  "package": "Package 82 Staggered Re-equilibration Diagnostic",
+  "finding": "Completed Turn 30 qualification and HPC submission of Package 82 (Job 1416368.mmaster02) testing staggered mechanical-phase-field re-equilibration. Verified that freezing mechanical displacements via *Boundary, OP=NEW, FIXED on N_PHYSICAL renders the phase-field subproblem strictly convex and positive-definite under the frozen UEL f42_mixed_uel.for, converging in 1 iteration with zero cutbacks and zero damage healing (min delta_d = -5.9e-7, 0 healing nodes out of 2413). In Step 4, mechanical relaxation under the updated crack-tip damage reduces elastic strain energy from 9.30 to 1.12 microJ with total energy strictly bounded at 306.58 microJ. Package 82 submitted to queue entry_imfdfkmq and running.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/f1597_turn30_staggered_evaluation.json": "F7077A2A9EFE4498FCD762E775D96133E4775706B615AF5DAF9E17F8CC42533B",
+    "models/pandey_kumar_mode1/82_candidate_c2_staggered_reequilibration/M1_C2_STAGGERED_REEQUIL.inp": "77BDA5CB8F981E1636A78C76DDBE7A6F978FFA5D32DC5AA7F3ABADE4FC4FF744",
+    "models/pandey_kumar_mode1/82_candidate_c2_staggered_reequilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/82_candidate_c2_staggered_reequilibration/submit_M1_C2_STAGGERED_REEQUIL.pbs": "21EB9D11C73E756A0ACC1D90495F3BF4822FB2A04EAFD777CCF4C3EF742F711B",
+    "models/pandey_kumar_mode1/82_candidate_c2_staggered_reequilibration/PACKAGE_MANIFEST.json": "024E2EFEB6D9856CDB2050AA44CB4DF13ADF4A23A2B4F61C659014FA9D55986A",
+    "models/pandey_kumar_mode1/82_candidate_c2_staggered_reequilibration/M1_C2_STAGGERED_REEQUIL_DC.dat": "0CF6C7C88D7D7C5B2BF1816CDFE7A1DAC3F4E619CE226A238A95A8158FC1C723"
+  },
+  "verification_passed": true
+}
