@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "c2_active_set_reequilibration_diagnostic",
+  "title": "Candidate C2 Active-Set Re-equilibration Diagnostic (PBS 1416328.mmaster02)",
+  "finding": "Developed and qualified Kuhn-Tucker active-set formulation for unilateral damage irreversibility (d_receiver >= d_mapped) on Candidate C2 (2,300 quads, h=1.0 um) under frozen UEL f42_mixed_uel.for. Analyzed Package 78 telemetry: Step 2 reaction forces RF3 match Lagrange multipliers lambda_i = (K_phi d - F_phi^ext)_i; crack-tip nodes (Node 1192, lambda = -4.63e-5) have negative multipliers confirming driving force exceeds resistance, while 1,756 far-field and flank nodes have positive multipliers (lambda > 0) predicting 87.5% (1508/1724) of healing onset. Formulated Package 79 active-set deck: Step 1 injects state, Step 2 relaxes mechanical residual under frozen damage, Step 3 enforces active equality constraints (d = d_mapped) only on the 1,756 active nodes while leaving 657 inactive crack-tip/opening nodes free to advance damage under dt_min = 1e-12. Verified Abaqus 2023 cluster datacheck PASS (Exit 0) and submitted qualified diagnostic PBS 1416328.mmaster02.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/79_candidate_c2_active_set_reequilibration/M1_C2_ACTIVE_SET_REEQUIL.inp": "74E994553D0130011930DF8CEDC3D02666A045051BBA44209FD6A4023544E83D",
+    "models/pandey_kumar_mode1/79_candidate_c2_active_set_reequilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/79_candidate_c2_active_set_reequilibration/submit_M1_C2_ACTIVE_SET_REEQUIL.pbs": "CE16BF4687CCBC41242901B90FA09C062AECBC419CF287378A2439686C690179",
+    "models/pandey_kumar_mode1/79_candidate_c2_active_set_reequilibration/M1_C2_ACTIVE_SET_REEQUIL_DC.dat": "C75223544B9F77F74AAAE68F185A34F2EEB8BD565B6195C1660ABF930876373D",
+    "models/pandey_kumar_mode1/79_candidate_c2_active_set_reequilibration/PACKAGE_MANIFEST.json": "421CC0A8D2CE159757A9B1F7539A1259F53AFADA83E2799B5224662AB4F50AC8",
+    "models/pandey_kumar_mode1/79_candidate_c2_active_set_reequilibration/C2_ACTIVE_SET_REEQUIL_AUTHORIZATION.json": "C9CAAFC3415A08C782AE0703CC5D3D8C8FA388F43067C23D5FD1F0E94819F0ED",
+    "results/validation/f1597_turn24_active_set_formulation_audit.json": "F61D6A70A0F72C54A5BA1791E0CE274B76430B321A4D0E95636C1104A6C80E4F",
+    "results/validation/mode1_f1597/package79_active_set_audit.json": "512321730C86CEB2FCE08B7351B3BA8A5EB580445CC0A5527CF3AAF14AFBEA8B",
+    "tests/unit/test_mode1_f1597_active_set_formulation.py": "ACC88407CAE96F9A94E3EF78F6D2CCDF3AC2535CAB7ECBD0DE3B5F13CA2596AC",
+    "tests/unit/test_mode1_f1597_package79_active_set_deck.py": "82D48578670E78F517B937BE9055FE84FCC8FD8548DDD759BC5AFA1A56918BD1"
+  },
+  "next_operation": "Await completion of PBS 1416328.mmaster02, evaluate constrained coupled equilibrium, verify zero damage healing and Kuhn-Tucker complementarity, and determine Gate C1-1 status"
+}

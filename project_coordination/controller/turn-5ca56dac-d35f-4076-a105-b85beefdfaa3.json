@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "5ca56dac-d35f-4076-a105-b85beefdfaa3",
+    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "repository_commit":  "3125bb06a155f201f681062ef3f178a268236983",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-10-22T15:13:49.6335467+02:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "B9754754AB0B9F372E9B2A70E0AAAB250F5D5A082E8FBCB0CE600428BB0BF8C6",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "EB09AAD7A2285D68860EAF8B481242FAF3645F45BC757CC367F32A9175804863",
+                            "project_coordination/ACTIVE_SESSION.json":  "57E2ABC5AA800E7F545B59D6C6AE9663A6FF485E369D66A27559094A21784DFE",
+                            "project_coordination/ACTIVE_TASK.json":  "D0EE4E9341D551D81B4361A4CDCA7353A508CA2E512CB659D5CC509AFE5ACC1F",
+                            "project_coordination/TASK_LEDGER.csv":  "72A083621255EA93997B4BD724C226AABE455A867A510ED1FD10892C820E3CAD",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "DBD8E522E815A58570DA0D0DDE6104A1B386FF5518AD25545D2905973DB359D5",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "E08B322272AFF64A4B8D45BC79121B98B7E2E25BF6F0548A9C3E60E98BBDD529",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "D0EE4E9341D551D81B4361A4CDCA7353A508CA2E512CB659D5CC509AFE5ACC1F",
+                          "project_coordination/CURRENT_STATE.md":  "EB09AAD7A2285D68860EAF8B481242FAF3645F45BC757CC367F32A9175804863",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "DBD8E522E815A58570DA0D0DDE6104A1B386FF5518AD25545D2905973DB359D5",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "781C35B00B626354B8A64D33C85FCBE43D921FC2821C38966057E3B289321262"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-10-22_gemini-antigravity_F1597_5ca56dac-d35f-4076-a105-b85beefdfaa3.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "c2_active_set_reequilibration_diagnostic",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-5ca56dac-d35f-4076-a105-b85beefdfaa3.json",
+                                  "sha256":  "3E37619565F6020043562321F41BF512CE156F5B91991F08696A305F1E99AE5F",
+                                  "created_at":  "2026-10-22T15:32:46.5204530+02:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Await completion of PBS 1416328.mmaster02, evaluate constrained coupled equilibrium, verify zero damage healing and Kuhn-Tucker complementarity, and determine Gate C1-1 status"
+}
