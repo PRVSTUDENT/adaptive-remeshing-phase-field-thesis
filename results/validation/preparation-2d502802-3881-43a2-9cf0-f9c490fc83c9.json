@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": "2d502802-3881-43a2-9cf0-f9c490fc83c9",
+  "finding": "Authentic Package 83 R1 same-mesh staggered control (Job 1416405.mmaster02) completed Exit 0 in 3 seconds walltime across Steps 2, 3, and 4. Direct restart at Increment 111 confirmed exact parity (RF2 = 3.2660 N, d_max = 0.997133). In Step 2 (staggered phase subproblem with held displacement), unconstrained elliptic phase solve relaxed crack-tip damage to 0.982222 (delta_d = -0.0149, healing violation). In Step 3 (mechanical solve with fixed damage), stiffness recovery (1-d)^2 increased 37-fold, driving RF2 upward to 6.8120 N. In Step 4 (coupled solve), state converged to RF2 = 6.1184 N (+87.33% error vs donor 3.2660 N, Gate C1-1 FAILED). Crucially, this positive control completely refutes the hypothesis that displacement hold causes compliance collapse: reaction force stiffened by +87.3% on the donor mesh rather than collapsing by -73.1% as on Candidate C2 (0.8799 N). The Candidate C2 collapse was exclusively driven by nonmatching mesh transfer and flank defects.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/f1597_turn36_package83_r1_evaluation.json": "9AF4313D3A7B859BD34B4CC21FC8D2717352DF77CD475D9371BCC79295413AAA",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/evidence_1416405/M1_DONOR_SAMEMESH_STAGGERED_R1.sta": "884F4DFA6A2C62BA59818A41925F95A349DC48D975371EAD9AB4DD8061DED9A4",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/evidence_1416405/M1_DONOR_SAMEMESH_STAGGERED_R1.msg": "04AB219AD0E2660D3F55B9B2D368188CE42D333D92C60BF0A5E14098EE19F7F5",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/evidence_1416405/M1_DONOR_SAMEMESH_STAGGERED_R1.dat": "13227FFD6313F4839E77DF78CDE861FBFC657149549E5D97E19F545198723FEE",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/evidence_1416405/uel_energy_balance.csv": "5642A545D9D755C23ECD79A716E1B1D96C3D6691EB253410857869263BC0CB7E",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/evidence_1416405/pbs_execution.log": "4EB85385279489AB375EF88AB2BB24EF0002897A635713F6439C37C6B5EA3FD1",
+    "scripts/validation/evaluate_package83_r1_solver_results.py": "56DA41C474AF1CD7CFBCCA16A5378983107B1326B3D936E8395253FB6FB99D84"
+  },
+  "verification_passed": true,
+  "pbs_job_receipt": {
+    "job_id": "1416405.mmaster02",
+    "job_name": "M1_DONOR_SAMEMESH_STAGGERED_R1",
+    "queue": "normal_imfdfkmq",
+    "status": "F",
+    "exit_status": 0,
+    "classification": "SAME_MESH_STAGGERED_CONTROL_R1_COMPLETE_EXIT0_STIFFENING_OBSERVED",
+    "run_directory": "/scratch9/pr21vyci/runs/mode1_package83_donor_staggered_control_r1"
+  }
+}

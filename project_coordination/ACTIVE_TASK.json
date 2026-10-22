@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Mandatory donor energy reconciliation completed: UEL fracture dissipation (303.88346 uJ) represents raw Gauss-point integration in f42_mixed_uel.for, whereas the 293.923098 uJ reference represents post-processed Bourdin quadrature on element-averaged nodal damage. Authentic elastic strain energy at Increment 111 is 4.1477027 uJ (matching 1/2*RF*u=4.1480 uJ and ALLSE); the 7.82236 uJ value was an artifact from Stage D3/Cycle 5 continuation. Job 1416404 completed Exit 0 but resumed Step 1 to completion due to omission of the END STEP parameter on *RESTART, READ; verified that *RESTART, READ, STEP=1, INC=111, END STEP cleanly starts Step 2 immediately at Increment 111. Package 83 R1 was technically qualified and submitted as PBS Job 1416405.mmaster02 on queue normal_imfdfkmq.",
+    "phase":  "Authentic Package 83 R1 same-mesh staggered control (Job 1416405.mmaster02) completed Exit 0 in 3 seconds walltime across Steps 2, 3, and 4. Direct restart at Increment 111 confirmed exact parity (RF2 = 3.2660 N, d_max = 0.997133). In Step 2 (staggered phase subproblem with held displacement), unconstrained elliptic phase solve relaxed crack-tip damage to 0.982222 (delta_d = -0.0149, healing violation). In Step 3 (mechanical solve with fixed damage), stiffness recovery (1-d)^2 increased 37-fold, driving RF2 upward to 6.8120 N. In Step 4 (coupled solve), state converged to RF2 = 6.1184 N (+87.33% error vs donor 3.2660 N, Gate C1-1 FAILED). Crucially, this positive control completely refutes the hypothesis that displacement hold causes compliance collapse: reaction force stiffened by +87.3% on the donor mesh rather than collapsing by -73.1% as on Candidate C2 (0.8799 N). The Candidate C2 collapse was exclusively driven by nonmatching mesh transfer and flank defects.",
     "gate_status":  "PACKAGE72_FAILED__PACKAGE80_EVALUATED__PACKAGE82_EVALUATED_GATE_C1_1_FAIL__PACKAGE84_SUBMITTED_RUNNING__DONOR_RESTART_PENDING",
     "active_pbs_job_ids":  [
                                "1416392.mmaster02"
@@ -127,14 +127,14 @@
                                  "mapped_mechanical_history_call_order_probe",
                                  "authentic_uel_history_call_trace"
                              ],
-    "last_updated":  "2026-10-22T19:18:09.0232336+02:00",
+    "last_updated":  "2026-10-22T19:30:21.4831497+02:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-241964e0-6620-4ed1-8b75-e29f3e6caba2.json",
-                                  "sha256":  "9BBE96A8585F828562056F0E4782DC138380AEFD81D34C7F63D82B0DF86852F5",
-                                  "created_at":  "2026-10-22T19:17:22.3338336+02:00"
+                                  "artifact":  "results/validation/preparation-2d502802-3881-43a2-9cf0-f9c490fc83c9.json",
+                                  "sha256":  "D55924A48FD014D056294B1BAE019DC2D352D930C1B161A24F57B3F48169A267",
+                                  "created_at":  "2026-10-22T19:28:43.5936937+02:00"
                               }
 }
