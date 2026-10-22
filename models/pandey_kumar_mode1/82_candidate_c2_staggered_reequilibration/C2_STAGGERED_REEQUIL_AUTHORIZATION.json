@@ -1,0 +1,40 @@
+{
+  "batch_name": "MODE1_C2_STAGGERED_REEQUIL",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_candidate_c2_staggered_reequilibration",
+  "files": {
+    "M1_C2_STAGGERED_REEQUIL.inp": "77bda5cb8f981e1636a78c76ddbe7a6f978ffa5d32dc5aa7f3abade4fc4ff744",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "submit_M1_C2_STAGGERED_REEQUIL.pbs": "21eb9d11c73e756a0acc1d90495f3bf4822fb2a04eafd777ccf4c3ef742f711b",
+    "PACKAGE_MANIFEST.json": "024e2efeb6d9856cdb2050aa44cb4df13adf4a23a2b4f61c659014fa9d55986a",
+    "M1_C2_STAGGERED_REEQUIL_DC.dat": "0cf6c7c88d7d7c5b2bf1816cdfe7a1dac3f4e619ce226a238a95a8158fc1c723"
+  },
+  "jobs": [
+    {
+      "id": "M1_C2_STAGGERED_REEQUIL",
+      "pbs": "submit_M1_C2_STAGGERED_REEQUIL.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_candidate_c2_staggered_reequilibration/submit_M1_C2_STAGGERED_REEQUIL.pbs\"",
+      "command_sha256": "5c1a1be35274044dabaaa3de74c50f3df66063a4ac481e5273cf63b6840dde6d",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Candidate C2 4-step staggered re-equilibration diagnostic (2300 quads, h=1.0 um, u_top=0.002540107 mm, frozen UEL) solving alternating mechanical-damage subproblems under unilateral irreversibility",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 4,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_C2_STAGGERED_REEQUIL.inp",
+      "datacheck": "M1_C2_STAGGERED_REEQUIL_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_C2_STAGGERED_REEQUIL": "Exit code 0; Step 1 injects state; Step 2 achieves mechanical equilibrium under frozen damage; Step 3 solves convex phase-field update under fixed mechanical displacement with zero healing; Step 4 relaxes mechanical displacements under updated damage; no solver divergence or cutbacks."
+  }
+}
