@@ -1,0 +1,41 @@
+{
+    "schema":  1,
+    "status":  "PREPARATION_COMPLETE",
+    "run_id":  "5a4f4c10-90c7-47ae-8bd5-d854cad9a4e2",
+    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "finding":  "Constructed, qualified, and submitted final overnight HPC batch containing Job A (Package 87, PBS 1416420.mmaster02) Candidate C2 virgin-mesh control and Job B (Package 88, PBS 1416421.mmaster02) same-process forward continuation under the bitwise frozen production UEL.",
+    "evidence_sources":  {
+                             "models/pandey_kumar_mode1/87_c2_virgin_mesh_control/M1_C2_VIRGIN_CONTROL.inp":  "755C8D851AF174A340068B65BCE3FAE1FADD6F257B8CC11A1164C9423F9BB5AB",
+                             "models/pandey_kumar_mode1/87_c2_virgin_mesh_control/f42_mixed_uel.for":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+                             "models/pandey_kumar_mode1/87_c2_virgin_mesh_control/submit_M1_C2_VIRGIN_CONTROL.pbs":  "AAF47D7B8959488FE44D9CB41CE2B4466481E80E1723B26ED3266D98A7785327",
+                             "models/pandey_kumar_mode1/87_c2_virgin_mesh_control/PACKAGE_MANIFEST.json":  "BB21FF4674946518C79198B80095DDBCEFE1DAE79FAFAD3760230B4B2C67639C",
+                             "models/pandey_kumar_mode1/87_c2_virgin_mesh_control/PACKAGE87_AUTHORIZATION.json":  "F9E815BAA1EF57A533A6FCEACAF0EEA6A636CE36E3A24CDB16FC769D373E4D35",
+                             "models/pandey_kumar_mode1/87_c2_virgin_mesh_control/QUALIFICATION.json":  "894524F0381FB21CCBF0421410EB4C669680F0E147DBAB418B62CE10BA64961C",
+                             "models/pandey_kumar_mode1/88_sameprocess_forward_continuation/M1_DONOR_FORWARD_CONTINUATION.inp":  "FD1FD5459988983F763255916A57D947C473AE06A9AE1AEF6BF3463806C9F95C",
+                             "models/pandey_kumar_mode1/88_sameprocess_forward_continuation/f42_mixed_uel.for":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+                             "models/pandey_kumar_mode1/88_sameprocess_forward_continuation/submit_M1_DONOR_FORWARD_CONTINUATION.pbs":  "1AF6CDD0070A4EA5588EA4861BD3D92ACFE569BF63B91F10AED437AF2D79D9CA",
+                             "models/pandey_kumar_mode1/88_sameprocess_forward_continuation/PACKAGE_MANIFEST.json":  "5C98EBFFCF8170803D086B706E1102A1377DFE1D8452FACEA16F282CA22FBD8D",
+                             "models/pandey_kumar_mode1/88_sameprocess_forward_continuation/PACKAGE88_AUTHORIZATION.json":  "AAB55B2452704FE5BFFCE3DBAD13AC49C95D011711307CEF1FD99CCF1FDE94FB",
+                             "models/pandey_kumar_mode1/88_sameprocess_forward_continuation/QUALIFICATION.json":  "A49BA6C293C24E6AC07DDEC9F57A9EBC14EE56B6182B47F333EA38C91BC37D5D",
+                             "tests/unit/test_mode1_f1597_turn41_packages87_88.py":  "DAAF9AF0BBC3C29330E87CAE5BDB3858BFFC566A11AF47C39C079E0ED62095CF"
+                         },
+    "verification_passed":  true,
+    "jobs_submitted":  [
+                           {
+                               "package_id":  "PACKAGE_87_C2_VIRGIN_MESH_CONTROL",
+                               "pbs_job_id":  "1416420.mmaster02",
+                               "job_name":  "M1_C2_VIRGIN_CONTROL",
+                               "mesh":  "Candidate C2 (2,300 physical quads)",
+                               "scratch_dir":  "/scratch9/pr21vyci/runs/mode1_package87_c2_virgin_control",
+                               "purpose":  "Virgin monotonic loading to u=0.0025401 mm to establish intrinsic C2 discretization response"
+                           },
+                           {
+                               "package_id":  "PACKAGE_88_SAMEPROCESS_FORWARD_CONTINUATION",
+                               "pbs_job_id":  "1416421.mmaster02",
+                               "job_name":  "M1_DONOR_FORWARD_CONTINUATION",
+                               "mesh":  "Authentic Donor (1,600 physical quads)",
+                               "scratch_dir":  "/scratch9/pr21vyci/runs/mode1_package88_sameprocess_forward_continuation",
+                               "purpose":  "Same-process continuation from Steps 1-4 past checkpoint to u=0.003000 mm without restart"
+                           }
+                       ]
+}
