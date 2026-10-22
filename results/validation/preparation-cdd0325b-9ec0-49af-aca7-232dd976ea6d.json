@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "diagnose_force_discontinuity_and_audit_active_set",
+  "title": "Diagnosis of Package 79 Force Discontinuity and KKT Active-Set Membership Audit",
+  "finding": "Diagnosed dominant root cause of Package 79 reaction-force discrepancy (+258% increase to 11.71 N in Step 2, +58.68% at terminal Step 3): unweighted element-to-node damage averaging across the crack wake broadened the profile and diluted damage (d = 0.9928 vs donor Gauss-point d = 0.9971), increasing the residual wake stiffness integral int(g(d)*dx) by 1.981x (1.287e-4 mm vs donor 6.499e-5 mm) and transmitting an unphysical ~8.44 N elastic wake force. In Step 3, unconstrained crack-tip nodes attempted to shed this excess energy through severe localized softening (d jumping from 0.785 to 0.924), causing Newton iteration cutback down to dt < 1e-12 at increment 16. Active-set audit verified that all 9 healing nodes were in the inactive set (min delta_d = -0.00040) and must be activated, while 13 negative multiplier nodes (min lambda = -1.10e-6) were active and must be released, updating partitions to |A_{k+1}| = 1,752 and |I_{k+1}| = 661. In accordance with policy, new execution is withheld until wake-damage mapping is corrected. Method C Gate C1-1 criteria remain strictly FAILED.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "results/validation/mode1_f1597/f1597_turn26_force_and_kkt_audit.json": "4B340E7ABAB668FF16CC5EF3DDE95BD82FACCFD8E5CFD39D6EFC93CD0083130D",
+    "results/validation/mode1_f1597/f1597_turn26_active_set_membership_audit.json": "137641845394CE3ABD8AB6E55B27631C8ACE419E1E0D5D4C756518376F1C0328",
+    "results/validation/package79_c2_active_set_reequilibration/pkg79_extracted_telemetry.json": "2DCA1D5A709E8838C21581F3A519C703CADB5EAF74F40836BB7BB1E10988E88F",
+    "results/validation/package79_c2_active_set_reequilibration/uel_energy_balance.csv": "8395B96B64B04BCA91E8EC27583312CDE27F08C36782FF621BB21E1BDF51468E",
+    "results/validation/package79_c2_active_set_reequilibration/M1_C2_ACTIVE_SET_REEQUIL.sta": "A7EE60F5577A39A6A9DEAACB817F4434DFFCB269B64142A429681E4B0F3B0642",
+    "tests/unit/test_mode1_f1597_turn26_force_and_active_set_audit.py": "620B336772B37084194C5C8683E809768AF25DE508A200F9730B8845E32B17D5",
+    "scripts/validation/audit_pkg79_force_and_kkt_discrepancy.py": "151F34E0202447551E5B871854E63E88E3D521403420529CC29D3D63CC00934F"
+  },
+  "next_operation": "Prepare Package 80 candidate deck with wake-damage mapping correction to restore donor ligament stiffness compliance and eliminate artificial elastic prestress"
+}
