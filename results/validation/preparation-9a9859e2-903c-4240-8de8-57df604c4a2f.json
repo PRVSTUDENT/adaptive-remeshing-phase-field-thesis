@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "9a9859e2-903c-4240-8de8-57df604c4a2f",
+  "finding": "Authentic Package 76 visual donor state (1698 nodes, 1600 quads) at u_top=0.002540107 mm successfully extracted and mapped to Candidate C2 receiver (2413 nodes, 2300 quads). Exact bilinear finite-element interpolation verified 0.2033% AT2 fracture energy continuity (0.293923 vs 0.293326 mJ, pass <=2.0%), zero damage healing (Delta d >= 0, 0 healing nodes), Kuhn-Tucker history monotonicity (H >= 0), and crack-face flank isolation (CMOD = 2.548 um). Complete mapped state table (candidate_c2_mapped_state_table.csv) and full receiver proposal input deck (candidate_receiver_c2_state_transferred.inp) generated with all 2300 SVARS solution cards. Submission withheld by policy pending resolution of static displacement initialization and coupled residual equilibrium without artificial Dirichlet holding constraints.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/candidate_c2_mapped_state_table.csv": "4B0B3C7BA72AF4956C3CB9FDDB13DD8E7739CF9AD3E917BEC73A19B17DA93536",
+    "models/pandey_kumar_mode1/candidate_receiver_c2_state_transferred.inp": "A6EF89F0F6B68915B4B70E023A2DB01C5F6F6E1A8C6C77E5459241AB03E4C96E",
+    "results/validation/mode1_f1597/pkg76_to_c2_state_transfer_audit.json": "663CD6D6A16EB3923FA98E7D40EBE1D206EB5E82994ABCD01F2CB3548443A769",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/pkg76_frame111_extraction_manifest.json": "7B02E73A04B0D7A318A94FE580A1080AF3C64CD609AD18092D212CC972F95611",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/pkg76_frame111_nodal_u.csv": "638E6665DCAB7C03BFE03A4197081E80A83662EE19CA34C0CD4D91C2A1F0797E",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/pkg76_frame111_elem_sdv.csv": "6FCEF49A45028140C02FE696C92A99131A615DA6B951622AD0F35FAF39DB5672"
+  },
+  "verification_passed": true
+}
