@@ -36,6 +36,24 @@
      - Corrective requirement: Monolithic coupled inequality-constrained transfer operator $\min_{u^*, d^*} \Pi(u^*, d^*)$ subject to $d^* \ge d_{\text{donor}}$ and consistent boundary conditions prior to restart.
 
 
+## Emergency Controller Repair — Interrupted Turn 13 Checkpoint Reconciliation & Prompt Restoration — 22 October 2026
+
+- **Turn 12 Science Preserved & Baseline Verified**: Turn 12 (`preparation-50e812c4-ad26-4d22-ab79-880bb6be457f.json`, patch test suite qualified under frozen production UEL `f42_mixed_uel.for`) completed cleanly with exit code 0; all verification artifacts, session report `2026-10-21_gemini-antigravity_F1597_50e812c4-ad26-4d22-ab79-880bb6be457f.md`, and bootstrap records are 100% preserved. Turn 13 exited prematurely at step 980 (~4 min runtime) with 0 numerical validation artifacts, 0 PBS submissions, and only a 163-byte stub session report.
+- **Evidence-Based Reconciliation**: Reconciled via upgraded `scripts/controller/Reconcile-InterruptedTurn.ps1`. Blocked checkpoint backed up to `C:\Users\pruth\OpenClawPAD\backups\checkpoint-dbb0e4b9-d64c-4385-87fb-3ad0a3321a6e-interrupted.json` (`SHA256: 962577F8CF910ED49BE211B52C3F78E35A16B988880E112B620C7F1CD20906FF`). Checkpoint reset to `turn=12`, `state='COMPLETED'`, `reconciliation.status='INTERRUPTED_TURN_PROGRESS_WATCHDOG_RECONCILED'`, and `conversation_id=''` to guarantee fresh context. `antigravity_loop_state.json` synchronized to `completed_turn=12`, `loop_status='PENDING_NEXT_TURN'`, `conversation_id=''`. Start turn for subsequent execution is reliably Turn 13 (`StartTurn = 13`) with instruction `TURN 13 — F1597: VERIFY EXECUTABLE ABAQUS STATE-INITIALIZATION PATHWAY`.
+- **Initial Prompt Restored**: Corrupted `.agents/INITIAL_PROMPT.txt` (which contained ChatGPT discussion about GitHub phase-field repos) was restored from Git `HEAD` (`95234dc3`), restoring the authoritative Mode-I research prompt (`# Antigravity — F1597: Physical Consistency Audit Before Further Transfer Experiments`).
+- **Verification, Parity & Resumption**:
+  - `tests/unit/test_controller_recovery.ps1`: ALL PASS (35/35).
+  - `tests/unit/test_controller_bootstrap.ps1`: ALL PASS (26/26).
+  - `tests/unit/test_controller_operations.ps1`: ALL PASS (9/9).
+  - `tests/unit/test_controller_profile_guard.ps1`: ALL PASS (6/6).
+  - `tests/unit/test_utf8_boundary.ps1`: ALL PASS (7/7).
+  - `tests/unit/test_agy_credentials.ps1`: ALL PASS.
+  - `tests/unit/test_mode1_f1597_donor_qualification.py`: ALL PASS (6/6).
+  - Production UEL `f42_mixed_uel.for` remains **100% BITWISE FROZEN** (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`).
+  - Bitwise deployed controller parity: 100% IDENTICAL (`6B5EB0DE286F9B51FE1B78B3BAEE0C188B25B65A9A5611901679A891E74A464D`).
+  - `Antigravity-Autonomous-Loop.ps1 -ControllerDryRun`: Exit code 0, mode `DRY_RUN_NO_EXECUTION`, zero scientific execution.
+  - Zero duplicate PBS jobs; `HPC_JOB_LEDGER.csv` bitwise unchanged (`8DD8CC73...`).
+
 ## Emergency Controller Repair — Invalid UTF-8 Crash (Turn 7) — 21 October 2026
 
 - **Turn 7 Science Preserved & Reconciled**: Candidate high-resolution donor deck `models/pandey_kumar_mode1/candidate_donor_h0025.inp` (`4C82B66BDA1D925C2BEA65CF765633897ACF4B0030E43C77647FA5E0D05A3179`), frozen production UEL `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`), preparation audit `audit_f1597_donor_candidate_qualification.py`, and verified audit artifact `results/validation/f1597_donor_candidate_qualification_audit.json` are 100% preserved. Turn 7 was reconciled via `Reconcile-Turn7Utf8Crash.ps1` with status `INTERRUPTED_TURN_UTF8_CRASH_RECONCILED`. Research does NOT restart from Turn 1.
