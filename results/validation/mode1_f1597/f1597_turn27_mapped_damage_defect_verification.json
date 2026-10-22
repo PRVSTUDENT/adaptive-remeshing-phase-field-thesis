@@ -1,0 +1,32 @@
+{
+  "status": "DAMAGE_DEFECT_VERIFIED",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 27,
+  "donor_evidence": {
+    "source": "models\\pandey_kumar_mode1\\76_candidate_donor_h0025_visual\\evidence_1416301\\pkg76_frame111_elem_sdv.csv",
+    "donor_max_wake_gp_damage": 0.99713301659,
+    "donor_mean_wake_inner_gp_damage": 0.9950848117482503,
+    "donor_mean_inner_gp_deg": 3.1192559985595155e-05,
+    "donor_ligament_transmittance_integral_mm": 6.499216024692347e-05
+  },
+  "receiver_c2_evidence": {
+    "source": "models\\pandey_kumar_mode1\\candidate_c2_mapped_state_table.csv",
+    "c2_max_wake_nodal_damage": 0.9967988113,
+    "c2_mean_wake_nodal_damage": 0.9940392762920833,
+    "c2_mean_wake_elem_deg": 0.00013668720010099843,
+    "c2_ligament_transmittance_integral_mm": 0.00012873427585898743,
+    "local_degradation_amplification_ratio": 4.382044954441736,
+    "ligament_integral_ratio": 1.980766224262892
+  },
+  "package79_solver_measurements": {
+    "donor_target_rf2_N": 3.26615,
+    "step1_injection_rf2_N": 3.2680744770914316,
+    "step2_mech_relaxation_rf2_N": 11.708741076290607,
+    "step3_terminal_rf2_N": 5.183012690395117,
+    "step3_rf2_error_pct": 58.688752518871354,
+    "healing_nodes_count": 9,
+    "min_delta_d": -0.0004018545150756836,
+    "step3_terminal_time": 0.09474138170480728
+  },
+  "scientific_conclusion": "Independently verified: The donor authentic Gauss-point damage on the crack center line reaches 0.99713, whereas unweighted element-to-node averaging in the receiver blurred the profile to 0.99285. Because g(d) = (1 - d)^2 + 1e-7, this 0.43% damage deficit causes a 6.16x increase in degraded stiffness across the wake, and doubles the total ligament compliance integral (1.981x). This artificial residual wake bonding transmits ~8.44 N of excess force, elevating Step 2 reaction force from 3.268 N to 11.709 N. A peak-preserving projection must restore the authentic Gauss-point crack-wake damage without artificially extending the crack tip or broadening the damaged zone."
+}

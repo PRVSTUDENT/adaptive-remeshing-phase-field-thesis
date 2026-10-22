@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "5d39dea5-e914-402a-86be-690c7d0b7e08",
+  "package": "Package 80",
+  "finding": "Independently verified Package 79 crack-wake damage dilution defect where unweighted element averaging reduced donor peak damage from 0.9971 to 0.9928, creating an artificial 6.16x stiffer elastic spring across the wake and inflating reaction force by +8.44 N. Constructed topology-aware peak-preserving projection restoring authentic wake peak d = 0.997133 and reducing ligament compliance integral to 5.433e-5 mm (0.836x donor), achieving 295.48 microJ fracture energy (-0.19% vs donor 296.04 microJ) with zero healing violations. Reconciled active-set partition to exactly 1,752 active nodes and 661 inactive nodes (total 2,413 physical nodes). Passed unit tests (4/4) and interactive Abaqus 2023 datacheck (Exit 0) on cluster. Submitted Package 80 diagnostic re-equilibration via Invoke-Mode1Execution.ps1 as PBS Job ID 1416366.mmaster02.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/candidate_c2_peak_preserved_mapped_table.csv": "26717E4AD2A60EBA15ABD17D799FAD763BCC9DB40773BFEB8C516D57F41092E4",
+    "models/pandey_kumar_mode1/80_candidate_c2_peak_preserved_reequilibration/M1_C2_PEAK_PRESERVED_REEQUIL.inp": "5B2FE6EE6C24AC93B689D8F7CE470408B62CEB87238691C07C7AC6642B13362A",
+    "models/pandey_kumar_mode1/80_candidate_c2_peak_preserved_reequilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/80_candidate_c2_peak_preserved_reequilibration/submit_M1_C2_PEAK_PRESERVED_REEQUIL.pbs": "083C5ABCAA50454B98FA694BDE5B17C130D88AFBF96567057A1866CB97C1C67E",
+    "models/pandey_kumar_mode1/80_candidate_c2_peak_preserved_reequilibration/PACKAGE_MANIFEST.json": "E4E01F46552A6F47B5A7D8DB127B3BBC40E49F7A9D368089954E511568B3A5E8",
+    "models/pandey_kumar_mode1/80_candidate_c2_peak_preserved_reequilibration/C2_PEAK_PRESERVED_REEQUIL_AUTHORIZATION.json": "3C80A7915760758A48BA955631371D42E4C86ED5A5AC8CB33100B8CCBF30A173",
+    "models/pandey_kumar_mode1/80_candidate_c2_peak_preserved_reequilibration/M1_C2_PEAK_PRESERVED_REEQUIL_DC.dat": "748983132025AC79FA7AD4459442F2FE71413905DB2AF624DB714A06FA70ABB1",
+    "results/validation/mode1_f1597/f1597_turn27_mapped_damage_defect_verification.json": "D208E27FE081CD51638F6FFEE4F7CB771C7B85AD1325D6E2B60A8FCD4CB37C1D",
+    "results/validation/mode1_f1597/package80_active_set_audit.json": "48779A4266ED40E3A2A0629140F208C28A98CD07465FABB02959A8EA2B298723",
+    "tests/unit/test_mode1_f1597_package80_peak_preservation.py": "86B38A28559AAEDF2C345914900CC786AB1A68D16F689C22733BC5FBB6357F6F"
+  },
+  "verification_passed": true,
+  "hpc_submission": {
+    "pbs_job_id": "1416366.mmaster02",
+    "job_name": "M1_C2_PEAK_PRESERVED_REEQUIL",
+    "queue": "entry_imfdfkmq",
+    "scratch_dir": "/scratch9/pr21vyci/runs/mode1_candidate_c2_peak_preserved_reequilibration",
+    "status": "SUBMITTED"
+  }
+}

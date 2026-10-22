@@ -1,0 +1,40 @@
+{
+  "batch_name": "MODE1_C2_PEAK_PRESERVED_REEQUIL",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_candidate_c2_peak_preserved_reequilibration",
+  "files": {
+    "M1_C2_PEAK_PRESERVED_REEQUIL.inp": "5b2fe6ee6c24ac93b689d8f7ce470408b62ceb87238691c07c7ac6642b13362a",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "submit_M1_C2_PEAK_PRESERVED_REEQUIL.pbs": "083c5abcaa50454b98fa694bde5b17c130d88afbf96567057a1866cb97c1c67e",
+    "PACKAGE_MANIFEST.json": "e4e01f46552a6f47b5a7d8db127b3bbc40e49f7a9d368089954e511568b3a5e8",
+    "M1_C2_PEAK_PRESERVED_REEQUIL_DC.dat": "748983132025ac79fa7ad4459442f2fe71413905db2af624db714a06fa70abb1"
+  },
+  "jobs": [
+    {
+      "id": "M1_C2_PEAK_PRESERVED_REEQUIL",
+      "pbs": "submit_M1_C2_PEAK_PRESERVED_REEQUIL.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_candidate_c2_peak_preserved_reequilibration/submit_M1_C2_PEAK_PRESERVED_REEQUIL.pbs\"",
+      "command_sha256": "d358710dd7986479bdfb6a6da8edaaccc6916cf71cd1be42168cae55c49c5c14",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Candidate C2 peak-preserved active-set re-equilibration diagnostic (2300 quads, h=1.0 um, u_top=0.002540107 mm, frozen UEL) restoring authentic donor crack-wake damage peak",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 4,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_C2_PEAK_PRESERVED_REEQUIL.inp",
+      "datacheck": "M1_C2_PEAK_PRESERVED_REEQUIL_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_C2_PEAK_PRESERVED_REEQUIL": "Exit code 0; Step 1 injects state; Step 2 achieves mechanical equilibrium under frozen damage; Step 3 achieves coupled Newton-Raphson equilibrium with active set holding d >= d_mapped; zero damage healing within tolerance; force continuity within 5% and fracture energy continuity within 2%."
+  }
+}
