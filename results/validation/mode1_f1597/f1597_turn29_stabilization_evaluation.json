@@ -1,0 +1,48 @@
+{
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "evaluation_target": "Abaqus Static Stabilization (*STATIC, STABILIZE) Compatibility and Physics Evaluation",
+  "tested_formulations": [
+    {
+      "type": "Automatic Dissipated Energy Fraction (*STATIC, STABILIZE=1.0e-4)",
+      "datacheck_result": "PASS (Exit 0)",
+      "runtime_result": "ABORT at Step 3 Increment 2",
+      "error_message": "***ERROR: THE STATIC STABILIZATION DAMPING FACTOR COULD NOT BE CALCULATED: ANALYSIS TERMINATED",
+      "mechanism": "Abaqus/Standard calculates stabilization damping from continuum element volume and strain energy. Because the entire model consists exclusively of User Elements (UEL U1/U2), continuum element energy is zero, causing internal damping factor evaluation to fail."
+    },
+    {
+      "type": "Constant Factor Stabilization (*STATIC, STABILIZE, FACTOR=1.0e-5)",
+      "datacheck_result": "PASS (Exit 0)",
+      "runtime_result": "CUTBACK / DIVERGENCE at Step 3 Increment 13 (t=0.0366, dt < 1e-12)",
+      "error_message": "***ERROR: TIME INCREMENT REQUIRED IS LESS THAN THE MINIMUM SPECIFIED",
+      "convergence_details": {
+        "step1_injected": "CONVERGED (1 inc, t=1.0)",
+        "step2_frozen_relaxation": "CONVERGED (6 incs, t=2.0)",
+        "step3_stabilized_advancement": "CONVERGED inc 1-3, diverged inc 4-13",
+        "divergence_time": 0.0366,
+        "limiting_phase_node": 1239,
+        "limiting_displacement_node": 1192,
+        "phase_correction_magnitude": 0.01125,
+        "displacement_residual_force_kN": -0.0003384
+      },
+      "mechanism": "Abaqus stabilization damping applies viscous resistance strictly to standard structural degrees of freedom (DOF 1 and 2), not to the user-defined phase-field damage degree of freedom (DOF 3). Consequently, the localized softening snapback at the crack tip (d advancing by +0.052) produces a negative tangent stiffness in the coupled system that standard Newton-Raphson cannot regularize."
+    }
+  ],
+  "standing_policy_decision": {
+    "action": "WITHHOLD_SUBMISSION",
+    "rationale": "Empirical testing on the cluster demonstrated that Abaqus automatic stabilization either aborts immediately due to UEL incompatibility or fails to traverse the localized crack-tip snapback at t=0.0366. Submitting Package 81 would constitute an unproductive rerun without resolving the numerical blocker, violating Standing Research Execution Rule 4.",
+    "energy_validity": "INVALID (ALLSD is zero or uncoupled from UEL damage dissipation; cannot satisfy ALLSD/ALLIE <= 1e-3 criterion in a meaningful physical sense)"
+  },
+  "recommended_alternatives": [
+    {
+      "method": "Direct Loading Continuation Past Step 2",
+      "description": "Step 2 achieves complete mechanical equilibrium under the injected damage field (residual force < 1e-15 kN). Instead of attempting an artificial static coupled relaxation under fixed displacement (which induces an unconstrained snap-through), resume physical displacement loading u_top > 0.002540107 mm directly from the relaxed Step 2 state. Monotonically increasing external work naturally stabilizes crack advancement under standard incrementation.",
+      "feasibility": "HIGH (Preserves frozen UEL, standard Abaqus workflow, no artificial damping required)"
+    },
+    {
+      "method": "Staggered Operator Splitting (L-Scheme)",
+      "description": "Decouple Step 3 into alternating subproblems: solve mechanical equilibrium at frozen damage (convex, guaranteed convergence), then solve phase-field damage update at frozen displacement (strictly bounded, convex under active-set projection), iterating until joint convergence.",
+      "feasibility": "MODERATE (Requires multi-step or external driver scripting)"
+    }
+  ],
+  "verification_passed": true
+}
