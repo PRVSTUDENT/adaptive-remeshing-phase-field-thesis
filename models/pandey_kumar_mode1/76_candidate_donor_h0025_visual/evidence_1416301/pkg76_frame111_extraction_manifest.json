@@ -1,0 +1,37 @@
+{
+  "status": "EXTRACTION_COMPLETE", 
+  "target_frame_index": 111, 
+  "files_generated": {
+    "nodal_csv": "pkg76_frame111_nodal_u.csv", 
+    "elem_csv": "pkg76_frame111_elem_sdv.csv"
+  }, 
+  "odb_path": "M1_CANDIDATE_DONOR_H0025_VISUAL.odb", 
+  "hashes": {
+    "nodal_csv_sha256": "638E6665DCAB7C03BFE03A4197081E80A83662EE19CA34C0CD4D91C2A1F0797E", 
+    "elem_csv_sha256": "6FCEF49A45028140C02FE696C92A99131A615DA6B951622AD0F35FAF39DB5672"
+  }, 
+  "num_elements": 1600, 
+  "terminal_frame_metrics": {
+    "terminal_min_damage": 0.004147700499743223, 
+    "frame_id": 196, 
+    "note": "Terminal damage reached d > 1.0 at increment 196 (t=0.928) due to unconstrained post-softening separation, kept strictly separate from transfer frame 111.", 
+    "step_time": 0.9280214905738831, 
+    "terminal_max_damage": 1.0011378526687622
+  }, 
+  "damage_metrics": {
+    "max": 0.9971330165863037, 
+    "mean": 0.2534168799876352, 
+    "bound_0_to_1_satisfied": true, 
+    "min": 0.004132100380957127
+  }, 
+  "frame_id": 111, 
+  "step_time": 0.5080214738845825, 
+  "num_nodes": 1698, 
+  "history_metrics": {
+    "max": 82.31742858886719, 
+    "mean": 2.0248711015725243, 
+    "nonnegative_kuhn_tucker_satisfied": true, 
+    "min": 1.9249300819978998e-08
+  }, 
+  "target_u_top": 0.002540107
+}

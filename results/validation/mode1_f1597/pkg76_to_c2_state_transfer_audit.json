@@ -1,0 +1,47 @@
+{
+  "status": "MAPPING_COMPLETE",
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "donor": {
+    "model": "Package 76 Visual Donor",
+    "h": 0.0025,
+    "num_nodes": 1698,
+    "num_elements": 1600,
+    "checkpoint_u_top": 0.002540107,
+    "at2_fracture_energy_mj": 0.00029392309774041805
+  },
+  "receiver": {
+    "model": "Candidate C2 Receiver",
+    "h": 0.001,
+    "num_nodes": 2413,
+    "num_elements": 2300,
+    "at2_fracture_energy_mj": 0.0002933255205262898,
+    "energy_continuity_rel_diff_pct": 0.20331073628517596,
+    "energy_continuity_pass": true
+  },
+  "verification_criteria": {
+    "svars_ordering_correct": true,
+    "svars_ordering_detail": "SVARS(9..12) mapped to 4-GP Kuhn-Tucker history H, ingested by f42_mixed_uel.for lines 248-262",
+    "phase_field_convention_satisfied": true,
+    "min_damage": 0.004132854549272617,
+    "max_damage": 0.9967988113024295,
+    "zero_healing_strictly_enforced": true,
+    "healing_node_count": 0,
+    "min_delta_d": 0.0,
+    "history_monotonicity_kuhn_tucker": true,
+    "min_history_h": 0.0,
+    "max_history_h": 93.40715822413715,
+    "crack_flank_separation_preserved": true,
+    "cmod_at_slit_mouth_um": 2.5480426988957
+  },
+  "governed_artifacts": {
+    "mapped_state_table_csv": "candidate_c2_mapped_state_table.csv",
+    "mapped_state_table_sha256": "4B0B3C7BA72AF4956C3CB9FDDB13DD8E7739CF9AD3E917BEC73A19B17DA93536",
+    "receiver_input_proposal_inp": "candidate_receiver_c2_state_transferred.inp",
+    "receiver_input_proposal_sha256": "A6EF89F0F6B68915B4B70E023A2DB01C5F6F6E1A8C6C77E5459241AB03E4C96E"
+  },
+  "mechanical_equilibrium_assessment": {
+    "holding_step_used_for_proposal": true,
+    "claim_of_physical_equilibrium": false,
+    "assessment": "The generated receiver input proposal contains complete 4-GP SVARS solution cards for all 2300 quads and prescribed displacement mapping for all 2413 nodes. However, as required by policy, physical equilibrium is NOT claimed from projected fields or the holding step. Step 1 holds the mapped state, but Step 2 (interior release) must be verified through Abaqus solver execution and residual convergence before claiming Method C Gate C1-1 pass."
+  }
+}
