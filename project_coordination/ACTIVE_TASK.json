@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 75 candidate donor calculation qualified and submitted to HPC cluster as PBS Job ID 1416259.mmaster02 using corrected input deck candidate_donor_h0025_corrected.inp under frozen production UEL f42_mixed_uel.for.",
+    "phase":  "Authentic Mode-I 2.5 um candidate donor (PBS 1416259.mmaster02, 1600 quads) successfully solved 195 increments to t=0.928021 (u_top=0.004640 mm) under frozen production UEL. At target transfer displacement u_top = 0.002540 mm (inc 111, t=0.508021), authentic reaction force RF2 = 3.26620 N (-58.40% vs 5 um reference 7.85122 N due to resolved crack-band softening) and UEL fracture energy E_frac = 0.303883 mJ (vs 0.1242 mJ unevolved synthetic profile) are rigorously recovered. Classified as AVAILABLE_WITH_LIMITATIONS because pointwise damage d and history H were omitted from ODB by dummy elastic overlay without SDV, precluding direct unmapped ingestion into Candidate C2. Gate C1-1 remains FAILED.",
     "gate_status":  "PACKAGE72_FAILED__F1597_CORRECTIVE_DIAGNOSTIC_READY__TRANSFER_CORRECTION_PENDING",
     "active_pbs_job_ids":  [
 
@@ -124,14 +124,14 @@
                                  "mapped_mechanical_history_call_order_probe",
                                  "authentic_uel_history_call_trace"
                              ],
-    "last_updated":  "2026-10-22T11:58:31.6707698+02:00",
-    "next_safe_action":  "Await solver completion for donor job 1416259.mmaster02, evaluate displacement and phase field continuity at transfer point u_top = 0.00254 mm, and proceed with candidate receiver continuation C2.",
+    "last_updated":  "2026-10-22T12:17:55.2114847+02:00",
+    "next_safe_action":  "Construct complete field mapping (reconstructing d from u via variational solve or re-running donor with companion UMAT SDVs enabled) before submitting AMRC-informed Candidate C2 receiver continuation.",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
-                                  "operation":  "research_preparation",
+                                  "operation":  "qualify_authentic_donor_state",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-7024a21f-6c70-428b-9632-ae3157efc712.json",
-                                  "sha256":  "2BFC32E1B4872AC08B1E3FAEC17743354412938B1C85CBC41172611B2C1002DE",
-                                  "created_at":  "2026-10-22T11:58:12.6538240+02:00"
+                                  "artifact":  "results/validation/preparation-37f83b35-487f-4d39-8736-f8c30001fbcf.json",
+                                  "sha256":  "7C00BAF573F3F2CFB7933ECA9E4288E0F41C540B1011663EECDA7A0875813C46",
+                                  "created_at":  "2026-10-22T12:17:37.3072494+02:00"
                               }
 }
