@@ -1,0 +1,30 @@
+{
+  "package_id": "PACKAGE_86_DONOR_SAMEPROCESS_STAGGERED_CONTROL",
+  "mesh": "Authentic Mode-I Donor (h=2.5 um, 1600 physical quads, 1698 physical nodes)",
+  "purpose": "Uninterrupted same-process staggered re-equilibration donor positive control without restart, executing Step 1 (donor loading to u=0.0025401 mm), Step 2 (damage subproblem), Step 3 (mechanical subproblem), and Step 4 (coupled check) inside one Abaqus analysis with frozen production UEL",
+  "parent_checkpoint": {
+    "job_id": "1416392.mmaster02",
+    "package": "Package 84 (M1_DONOR_H0025_RESTART)",
+    "step": 1,
+    "increment": 111,
+    "step_time": 0.50802148,
+    "u_top_mm": 0.002540107,
+    "donor_reference_rf2_N": 3.2660337,
+    "donor_reference_e_frac_uj": 303.88346,
+    "donor_reference_e_elas_uj": 4.1477027,
+    "donor_reference_d_max": 0.997133,
+    "donor_reference_h_max_MPa": 82.317429
+  },
+  "files": {
+    "inp": "M1_DONOR_SAMEPROCESS_STAGGERED.inp",
+    "inp_sha256": "72349FE779D5CE835B677D249A03287B6CE8786F170FFCA0389174DBD05FBE70",
+    "uel": "f42_mixed_uel.for",
+    "uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "pbs": "submit_M1_DONOR_SAMEPROCESS_STAGGERED.pbs",
+    "pbs_sha256": "C1201C75851A0803DD8C177E04B00B1C897B8D449BA2EC28497ADF6EDA305F93",
+    "notif": "job_notifications.sh",
+    "notif_sha256": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "datacheck_script": "run_pkg86_datacheck.sh",
+    "datacheck_script_sha256": "3EBED9DB42333BE090C930A89A69140EB37184FFDB9E9CB7B46EAD905BED227D"
+  }
+}

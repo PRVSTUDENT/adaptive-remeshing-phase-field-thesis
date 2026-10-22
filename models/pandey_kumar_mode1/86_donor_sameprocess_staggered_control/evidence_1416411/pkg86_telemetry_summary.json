@@ -1,0 +1,128 @@
+{
+  "status": "EVALUATION_SUCCESS", 
+  "job_id": "1416411.mmaster02", 
+  "package": "PACKAGE_86_DONOR_SAMEPROCESS_STAGGERED", 
+  "step1_parity_with_authentic_donor": {
+    "e_elas_rel_err_pct": 1.6876812317976948e-05, 
+    "e_frac_rel_err_pct": 3.290735196562665e-06, 
+    "h_max_rel_err_pct": 0.00011171858536990998, 
+    "rf2_rel_err_pct": 2.189174399772677e-05, 
+    "d_max_rel_err_pct": 1.6633993322713156e-06, 
+    "pass_all_within_0_1_pct": true
+  }, 
+  "scientific_decision": {
+    "rf2_step1_N": 3.2660344149917364, 
+    "rf2_change_pct": 0.008412041166818547, 
+    "decision": "DECISION_A_HISTORY_PRESERVED_RESPONSE_STATIONARY_RESTART_INITIALIZATION_IMPLICATED", 
+    "summary": "Step 1 achieved 0.000% parity with authentic donor. Across Steps 2, 3, 4, history was 100% monotonically preserved and the physical response remained stationary within 0.0084% force deviation with zero damage healing.", 
+    "history_monotonicity_preserved": true, 
+    "healing_ip_count_step1_to_step4": 0, 
+    "rf2_step4_N": 3.265759674832225
+  }, 
+  "healing_analysis": {
+    "step3_to_step4": {
+      "from_step": 3, 
+      "healing_ip_count": 0, 
+      "healing_detected": false, 
+      "to_step": 4, 
+      "max_damage_increase": 5.960464477539063e-08, 
+      "max_healing_magnitude": 0.0
+    }, 
+    "step2_to_step3": {
+      "from_step": 2, 
+      "healing_ip_count": 0, 
+      "healing_detected": false, 
+      "to_step": 3, 
+      "max_damage_increase": 0.0, 
+      "max_healing_magnitude": 0.0
+    }, 
+    "step1_to_step2": {
+      "from_step": 1, 
+      "healing_ip_count": 0, 
+      "healing_detected": false, 
+      "to_step": 2, 
+      "max_damage_increase": 7.748603820800781e-07, 
+      "max_healing_magnitude": 0.0
+    }, 
+    "step1_to_step4_total": {
+      "from_step": 1, 
+      "healing_ip_count": 0, 
+      "healing_detected": false, 
+      "to_step": 4, 
+      "max_damage_increase": 8.344650268554688e-07, 
+      "max_healing_magnitude": 0.0
+    }
+  }, 
+  "steps": {
+    "COUPLED_CHECK": {
+      "rf2_N": 3.265759674832225, 
+      "elastic_energy_uj": 4.1476902, 
+      "step_index": 4, 
+      "final_frame_time": 1.0, 
+      "u2_mm": 0.002540107350796461, 
+      "fracture_energy_uj": 303.8835, 
+      "d_max": 0.9971330761909485, 
+      "num_increments": 1, 
+      "total_energy_uj": 308.03119, 
+      "h_max_MPa": 82.31733703613281
+    }, 
+    "PHASE_SUBPROBLEM": {
+      "rf2_N": 3.2660344149917364, 
+      "elastic_energy_uj": 4.147691, 
+      "step_index": 2, 
+      "final_frame_time": 1.0, 
+      "u2_mm": 0.002540107350796461, 
+      "fracture_energy_uj": 303.8835, 
+      "d_max": 0.9971330761909485, 
+      "num_increments": 1, 
+      "total_energy_uj": 308.03119, 
+      "h_max_MPa": 82.31733703613281
+    }, 
+    "DONOR_LOADING": {
+      "rf2_N": 3.2660344149917364, 
+      "elastic_energy_uj": 4.1477034, 
+      "step_index": 1, 
+      "final_frame_time": 0.5080214738845825, 
+      "u2_mm": 0.002540107350796461, 
+      "fracture_energy_uj": 303.88347, 
+      "d_max": 0.9971330165863037, 
+      "num_increments": 111, 
+      "total_energy_uj": 308.03117, 
+      "h_max_MPa": 82.31733703613281
+    }, 
+    "MECHANICAL_SUBPROBLEM": {
+      "rf2_N": 3.265760373324156, 
+      "elastic_energy_uj": 4.147691, 
+      "step_index": 3, 
+      "final_frame_time": 1.0, 
+      "u2_mm": 0.002540107350796461, 
+      "fracture_energy_uj": 303.8835, 
+      "d_max": 0.9971330761909485, 
+      "num_increments": 1, 
+      "total_energy_uj": 308.03119, 
+      "h_max_MPa": 82.31733703613281
+    }
+  }, 
+  "history_monotonicity": {
+    "step3_to_step4": {
+      "violating_integration_points": 0, 
+      "max_history_drop_MPa": 0.0, 
+      "monotonicity_strictly_preserved": true
+    }, 
+    "step2_to_step3": {
+      "violating_integration_points": 0, 
+      "max_history_drop_MPa": 0.0, 
+      "monotonicity_strictly_preserved": true
+    }, 
+    "step1_to_step2": {
+      "violating_integration_points": 0, 
+      "max_history_drop_MPa": 0.0, 
+      "monotonicity_strictly_preserved": true
+    }, 
+    "step1_to_step4_total": {
+      "violating_integration_points": 0, 
+      "max_history_drop_MPa": 0.0, 
+      "monotonicity_strictly_preserved": true
+    }
+  }
+}

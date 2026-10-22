@@ -1,0 +1,39 @@
+{
+  "batch_name": "MODE1_PACKAGE86_DONOR_SAMEPROCESS_STAGGERED",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_package86_donor_sameprocess_staggered",
+  "files": {
+    "M1_DONOR_SAMEPROCESS_STAGGERED.inp": "72349fe779d5ce835b677d249a03287b6ce8786f170ffca0389174dbd05fbe70",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "submit_M1_DONOR_SAMEPROCESS_STAGGERED.pbs": "c1201c75851a0803dd8c177e04b00b1c897b8d449ba2ec28497adf6eda305f93",
+    "PACKAGE_MANIFEST.json": "e8eca949b41d4b4a23b953984db7c6c1a0fb211eeb42e0aa00f2ce4ae42a1468"
+  },
+  "jobs": [
+    {
+      "id": "M1_DONOR_SAMEPROCESS_STAGGERED",
+      "pbs": "submit_M1_DONOR_SAMEPROCESS_STAGGERED.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_package86_donor_sameprocess_staggered/submit_M1_DONOR_SAMEPROCESS_STAGGERED.pbs\"",
+      "command_sha256": "90e779c0b30a363557dfb57908c360ae8a5034b2a6c982aab89a4c22f9b8d242",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Evaluate same-process uninterrupted staggered re-equilibration donor positive control without restart (Step 1 loading to u=0.00254 mm, Step 2 phase, Step 3 mech, Step 4 coupled)",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 2,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_DONOR_SAMEPROCESS_STAGGERED.inp",
+      "datacheck": "M1_DONOR_SAMEPROCESS_STAGGERED_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_DONOR_SAMEPROCESS_STAGGERED": "Exit code 0; Step 1 parity with authentic Package 76 Increment 111 within 0.1% (|RF2 - 3.266 N| / 3.266 N <= 0.1%, |E_frac - 303.88 uJ| / 303.88 uJ <= 0.1%); physical boundary RF2, damage change distribution, per-Gauss-point committed history monotonicity, energy conservation, and convergence across Steps 2, 3, 4."
+  }
+}
