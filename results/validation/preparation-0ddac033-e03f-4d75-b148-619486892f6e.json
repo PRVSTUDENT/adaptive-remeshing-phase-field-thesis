@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "c2_staged_reequilibration_diagnostic",
+  "title": "Candidate C2 Staged Re-equilibration Diagnostic (PBS 1416322.mmaster02)",
+  "finding": "Package 77 release divergence diagnosed: abrupt release of interior Dirichlet constraints shocked crack-tip elements (Node 1192 max corr 242 mm) under degraded stiffness ((1-d)^2+k ~ 1e-4), coupled with top-edge Poisson overconstraint (N_TOP u_x=0). Resolved top-edge boundary to match donor (N_RP u_x=0), implemented 3-step staged re-equilibration (Step 1 injects state, Step 2 relaxes mechanical residual under frozen damage, Step 3 releases damage for coupled equilibrium), verified Abaqus 2023 cluster datacheck PASS, and submitted qualified diagnostic PBS 1416322.mmaster02.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/candidate_receiver_c2_staged_reequilibration.inp": "8010390F51EEE3155C53DA1B213D0D4EBF6CDF213E342D6BBC23C6DB193F9761",
+    "scripts/validation/build_c2_staged_reequilibration_deck.py": "A96DD8DA481BE77C0EA789D408149BACFB4452135A9C7BEBB4EFA2B776510C11",
+    "scripts/validation/diagnose_c2_release_instability.py": "86A3FDC5F3A823F2271F91C56093E386AD573C51BDB3913CA1053A36C4B91934",
+    "models/pandey_kumar_mode1/78_candidate_c2_staged_reequilibration/C2_STAGED_REEQUIL_AUTHORIZATION.json": "6975269CA462D9C189371E452DB84E78BF789DF7AB954B0C6CF0B2FCFC23FCD3",
+    "models/pandey_kumar_mode1/78_candidate_c2_staged_reequilibration/submit_M1_C2_STAGED_REEQUIL.pbs": "EB5D0B1507A4472BD9592F421E4EF0F5F3F6960652B18A3446943DC6BF3D7A61",
+    "models/pandey_kumar_mode1/78_candidate_c2_staged_reequilibration/PACKAGE_MANIFEST.json": "E406F5C77036A76C6CDCD0BE215B35FE167F74F5E4797EBE6C712C8CF89A7EC2",
+    "models/pandey_kumar_mode1/78_candidate_c2_staged_reequilibration/M1_C2_STAGED_REEQUIL_DC.dat": "C5C2FF5D2991F36F4F7F83EC4CF298C8517605AC7823C6459511E936B4D22CCE",
+    "tests/unit/test_mode1_f1597_c2_staged_reequilibration.py": "0E05CC28DF2A142F674F9BB27E5BC8E7123954AD63BA1A4732D7DB11B9307320",
+    "results/validation/package77_c2_reequilibration/c2_divergence_diagnostic.json": "8E35BFF6828D6163607B5FE58B697F198004D7C37AFC8E9B793EE314E4A64EEC"
+  },
+  "next_operation": "Reconcile terminal state of PBS 1416322.mmaster02 and evaluate 3-step re-equilibration convergence and continuity under Method C Gate C1-1"
+}
