@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "evaluate_package78_c2_staged_reequilibration",
+  "title": "Package 78 Staged Re-equilibration Independent Evaluation and Gate C1-1 Decision",
+  "finding": "Package 78 solver evidence independently evaluated: Step 1 state injection matched donor RF within 0.0588% (3.268 N vs 3.266 N) and fracture energy within 0.2033% (293.33 uJ vs 293.92 uJ). Step 2 mechanical relaxation completed 100% (6 increments, 1 iteration each) relaxing elastic energy from 24.57 uJ to 14.87 uJ while strictly preserving damage energy (Delta d = 0). Step 3 unconstrained coupled release reduced max displacement corrections by >2,700,000x (0.087 um vs 242 mm in Package 77) and preserved fracture energy within 0.1199% of donor across 11 converged increments before time cutback (dt < 1e-8). Gate C1-1 strictly FAILED due to 1724 healing nodes (min Delta d = -0.004259), incomplete step time (t = 0.0631), and reaction force deficit.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "results/validation/package78_c2_staged_reequilibration/package78_extracted_telemetry.json": "C29472A3A4944EEFEF7DE476938AE0B7379F8D4BC674F46C76FF6C9FF642A3E8",
+    "results/validation/package78_c2_staged_reequilibration/uel_energy_balance.csv": "5E1B6705E5E3B07C42E01B6E0924B420B88BAA23C0C86567B0A75ADC24292B13",
+    "results/validation/package78_c2_staged_reequilibration/M1_C2_STAGED_REEQUIL.sta": "62FD71047785C8E0CA9A287490858DE0D14E4BDAAA6FC0CB4BBBF0F29FAD7C3C",
+    "results/validation/package78_c2_staged_reequilibration/M1_C2_STAGED_REEQUIL.dat": "E027FB783C68AF0DC894180E5D3C035207C379C2DAB30E2AD91F6F52B30149E3",
+    "results/validation/package78_c2_staged_reequilibration/M1_C2_STAGED_REEQUIL.msg": "0F59A160D8028CBA2B0DF3AF7EBB3EB661E58124AE4890BEF83A18016F75E308",
+    "tests/unit/test_mode1_f1597_package78_evaluation.py": "598087DEBFFFCB3893405E2A18889360D9DF164434D3A01AED3BC29B981DD935",
+    "tests/unit/test_mode1_f1597_c2_staged_reequilibration.py": "0E05CC28DF2A142F674F9BB27E5BC8E7123954AD63BA1A4732D7DB11B9307320"
+  },
+  "next_operation": "Formulate and test bounded phase-field irreversibility constraint or stabilization hypothesis for unconstrained coupled re-equilibration under Method C Gate C1-1"
+}
