@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "evaluate_package76_visual_donor",
+  "title": "Package 76 Instrumented Visual Donor Telemetry & Parity Evaluation",
+  "finding": "Authentic Package 76 instrumented donor calculation (PBS 1416301.mmaster02) successfully executed under frozen production UEL, providing complete ODB frame at u_top = 0.002540 mm (Increment 111, step time t = 0.508021) with full UMAT SDV1..SDV20 field outputs across all 1600 physical quads and all 4 Gauss points. Exact force and energy parity against uninstrumented Package 75 verified (RF2 relative diff 0.0051%, E_frac relative diff 1.4e-6%). Max nodal damage reached 0.9971 at transfer checkpoint and 1.0011 at terminal increment 196 (t = 0.928021), confirming intact-to-broken phase evolution and crack tip localization.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/candidate_donor_h0025_visual.inp": "14DBD51BDC8E6852A51DE41B9F72627CC0CE51611EFD3227448C8AA287D285E9",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/M1_CANDIDATE_DONOR_H0025_VISUAL.sta": "F9A397C312943616643B2EB12C4AEFBDC7A33B05E57A67708BE1B794988F0E33",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/uel_energy_balance.csv": "EC265AAF6CE4CEDC8190154A946D02C2F162BFF77D19F3B5AFFEA1E378B961D7",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/pbs_execution.log": "6585F7D670B6777EEB02A8BD3207853E92DAD33C929B661A95FB11141D7C31F4",
+    "results/validation/mode1_f1597/pkg76_telemetry_summary.json": "30F5750664F6BEA2DA819D92FB196955FBFB9E542D41943D94AEF0A843154876",
+    "results/validation/mode1_f1597/pkg76_spatial_topology.json": "8DA86293E2DA4CB904C729999D7043186404428C2394FD5793D5E9F180D1FF93"
+  },
+  "next_operation": "Prepare qualified receiver mesh generation and state transfer mapping using verified Package 76 donor field outputs"
+}
