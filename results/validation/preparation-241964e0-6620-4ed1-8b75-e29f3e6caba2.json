@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": "241964e0-6620-4ed1-8b75-e29f3e6caba2",
+  "finding": "Mandatory donor energy reconciliation completed: UEL fracture dissipation (303.88346 uJ) represents raw Gauss-point integration in f42_mixed_uel.for, whereas the 293.923098 uJ reference represents post-processed Bourdin quadrature on element-averaged nodal damage. Authentic elastic strain energy at Increment 111 is 4.1477027 uJ (matching 1/2*RF*u=4.1480 uJ and ALLSE); the 7.82236 uJ value was an artifact from Stage D3/Cycle 5 continuation. Job 1416404 completed Exit 0 but resumed Step 1 to completion due to omission of the END STEP parameter on *RESTART, READ; verified that *RESTART, READ, STEP=1, INC=111, END STEP cleanly starts Step 2 immediately at Increment 111. Package 83 R1 was technically qualified and submitted as PBS Job 1416405.mmaster02 on queue normal_imfdfkmq.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/f1597_turn35_donor_energy_and_restart_reconciliation.json": "A4945B7ED9828D1E78722B1EEE4B19DA6D0F7EF8242EB25CB1367606B71D19A5",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/evidence_1416404/M1_DONOR_SAMEMESH_STAGGERED_CONTROL.sta": "D3CE6CC3283CE40E657E7644664FBB8D42C72BC6F502735656F77FA29303FAD5",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/evidence_1416404/pbs_execution.log": "A7F5FECD30999C458FE7BFEB028A778A9EC53C44A74EC8ACF6F67949BA2B4A7F",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/evidence_1416404/uel_energy_balance.csv": "CB099521B8DB2EAF94540D6E733BB5390A40A736E820BFC71B03CCD24CB2BE57",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/M1_DONOR_SAMEMESH_STAGGERED_R1.inp": "C48800D4EE39EE1D44840CA28D0B8F20148BADE266C45D09DDA3111D616AF479",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/submit_M1_DONOR_SAMEMESH_STAGGERED_R1.pbs": "753DAB61B6CB2FB9B5C90EFCE15851C264582D671E50AC0CF79AE7CF88B98D47",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/run_pkg83_r1_datacheck.sh": "F37A31E22326DAA86ED2B32234B2953FBD0C507A8754A9D31301F67369B8E057",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/M1_DONOR_SAMEMESH_STAGGERED_R1_DC.dat": "09AB357818AE9A18A04BFA75443393706C18210ECE035704666BB2D9A1FEB461",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/PACKAGE_MANIFEST.json": "D30E94F0272D26470C8459F2ADD0ABABEEF48D3EFC55A0273D058FA0DB03226A",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/PACKAGE83_AUTHORIZATION.json": "C2B67851609D9C3022AD95078347BB6DAB940503F1EE9ADB22078614F8354711"
+  },
+  "verification_passed": true,
+  "pbs_job_receipt": {
+    "job_id": "1416405.mmaster02",
+    "job_name": "M1_DONOR_SAMEMESH_STAGGERED_R1",
+    "queue": "normal_imfdfkmq",
+    "status": "R",
+    "run_directory": "/scratch9/pr21vyci/runs/mode1_package83_donor_staggered_control_r1"
+  }
+}

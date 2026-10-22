@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 84 donor restart generation (Job 1416392.mmaster02) completed and verified 100% bitwise parity at target Increment 111 (RF2 err=0.0000%, d_max err=0.0000%, H_max err=0.0000%) against authentic Package 76 evidence, successfully producing the native Abaqus restart database (.res, .mdl, .stt, .prt). Package 83 (Same-Mesh Staggered Positive Control) was built, technically qualified through Abaqus 2023 pre-processor datacheck Exit 0, and submitted to PBS as Job 1416404.mmaster02 on queue normal_imfdfkmq under bitwise frozen UEL f42_mixed_uel.for.",
+    "phase":  "Mandatory donor energy reconciliation completed: UEL fracture dissipation (303.88346 uJ) represents raw Gauss-point integration in f42_mixed_uel.for, whereas the 293.923098 uJ reference represents post-processed Bourdin quadrature on element-averaged nodal damage. Authentic elastic strain energy at Increment 111 is 4.1477027 uJ (matching 1/2*RF*u=4.1480 uJ and ALLSE); the 7.82236 uJ value was an artifact from Stage D3/Cycle 5 continuation. Job 1416404 completed Exit 0 but resumed Step 1 to completion due to omission of the END STEP parameter on *RESTART, READ; verified that *RESTART, READ, STEP=1, INC=111, END STEP cleanly starts Step 2 immediately at Increment 111. Package 83 R1 was technically qualified and submitted as PBS Job 1416405.mmaster02 on queue normal_imfdfkmq.",
     "gate_status":  "PACKAGE72_FAILED__PACKAGE80_EVALUATED__PACKAGE82_EVALUATED_GATE_C1_1_FAIL__PACKAGE84_SUBMITTED_RUNNING__DONOR_RESTART_PENDING",
     "active_pbs_job_ids":  [
                                "1416392.mmaster02"
@@ -127,14 +127,14 @@
                                  "mapped_mechanical_history_call_order_probe",
                                  "authentic_uel_history_call_trace"
                              ],
-    "last_updated":  "2026-10-22T19:02:52.5832172+02:00",
+    "last_updated":  "2026-10-22T19:18:09.0232336+02:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-bd4e3d5a-7411-4adc-98db-048987ab095e.json",
-                                  "sha256":  "C40EB6E08BF1329C7C9C271838252FFF13C641888DD0BB9F490C40B2FE58E65A",
-                                  "created_at":  "2026-10-22T19:02:16.7315147+02:00"
+                                  "artifact":  "results/validation/preparation-241964e0-6620-4ed1-8b75-e29f3e6caba2.json",
+                                  "sha256":  "9BBE96A8585F828562056F0E4782DC138380AEFD81D34C7F63D82B0DF86852F5",
+                                  "created_at":  "2026-10-22T19:17:22.3338336+02:00"
                               }
 }
