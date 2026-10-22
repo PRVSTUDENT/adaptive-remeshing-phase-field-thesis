@@ -2350,6 +2350,58 @@
         "lifecycle_tests": "PASS"
       },
       "qualified_at": "2026-10-22T09:56:24.567045+00:00"
+    },
+    "98bf7d06e42639d99f3bb262a1f368db68f70c60ac8628bfe248408898cf9a4e": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\76_candidate_donor_h0025_visual\\CANDIDATE_DONOR_H0025_VISUAL_AUTHORIZATION.json",
+      "attempts": {
+        "M1_CANDIDATE_DONOR_H0025_VISUAL": 1
+      },
+      "audit": [
+        {
+          "job": "M1_CANDIDATE_DONOR_H0025_VISUAL",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-10-22T10:32:26.225943+00:00",
+          "command_sha256": "341f65a1559bb49e4a91aacdf33036cfe2d49594884a510d89e9b036d7be4120"
+        }
+      ],
+      "preflight": {
+        "trace_datacheck_binding": "NOT_APPLICABLE",
+        "active_job_count": 0,
+        "adapter_contract": "mode1-qualified-batch-v2",
+        "datachecks": {
+          "M1_CANDIDATE_DONOR_H0025_VISUAL": {
+            "status": "PASS",
+            "input_sha256": "14dbd51bdc8e6852a51de41b9f72627cc0ce51611efd3227448c8aa287d285e9",
+            "dat_sha256": "8035b988a2ceafea8a0e26610c8efac2b5697d0e2edbe37f3ec81fb6a7c06793"
+          }
+        },
+        "batch_spec_sha256": "22a3f7e9448ce545b7cc24f6ac919cc9efb9789a60f52e320726114481f3af6d",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "98bf7d06e42639d99f3bb262a1f368db68f70c60ac8628bfe248408898cf9a4e",
+        "authorized_command_sha256": "341f65a1559bb49e4a91aacdf33036cfe2d49594884a510d89e9b036d7be4120",
+        "checked_at": "2026-10-22T10:32:25.593908+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "candidate_donor_h0025_visual.inp": "14dbd51bdc8e6852a51de41b9f72627cc0ce51611efd3227448c8aa287d285e9",
+          "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+          "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+          "submit_M1_CANDIDATE_DONOR_H0025_VISUAL.pbs": "a0f0a036b624b6845bd9fdedc8a8daed4cfe63801cae597ccb2df7a46a4b60ef",
+          "PACKAGE_MANIFEST.json": "78d11314e1cf4d82ca5d750307ba9e079a3abc9796f7c4046da61f1a77a29cb2"
+        },
+        "helper_sha256": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-10-22T10:32:23.914035+00:00"
     }
   }
 }

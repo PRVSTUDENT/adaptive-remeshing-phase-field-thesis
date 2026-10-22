@@ -1,0 +1,39 @@
+{
+  "batch_name": "MODE1_CANDIDATE_DONOR_H0025_VISUAL",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_candidate_donor_h0025_visual",
+  "files": {
+    "candidate_donor_h0025_visual.inp": "14dbd51bdc8e6852a51de41b9f72627cc0ce51611efd3227448c8aa287d285e9",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "submit_M1_CANDIDATE_DONOR_H0025_VISUAL.pbs": "a0f0a036b624b6845bd9fdedc8a8daed4cfe63801cae597ccb2df7a46a4b60ef",
+    "PACKAGE_MANIFEST.json": "78d11314e1cf4d82ca5d750307ba9e079a3abc9796f7c4046da61f1a77a29cb2"
+  },
+  "jobs": [
+    {
+      "id": "M1_CANDIDATE_DONOR_H0025_VISUAL",
+      "pbs": "submit_M1_CANDIDATE_DONOR_H0025_VISUAL.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_candidate_donor_h0025_visual/submit_M1_CANDIDATE_DONOR_H0025_VISUAL.pbs\"",
+      "command_sha256": "341f65a1559bb49e4a91aacdf33036cfe2d49594884a510d89e9b036d7be4120",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "High-resolution candidate Mode-I donor calculation with companion UMAT visualization (1600 quads, h=2.5 um, u_top=0.0050 mm, SDV output) under frozen production UEL",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 4,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "candidate_donor_h0025_visual.inp",
+      "datacheck": "M1_CANDIDATE_DONOR_H0025_VISUAL_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_CANDIDATE_DONOR_H0025_VISUAL": "Exit code 0; monotonic damage growth and fracture energy dissipation; solution advances through u = 0.00254 mm transfer point with valid displacement, damage, and history fields recorded in ODB via UMAT companion SDVs."
+  }
+}
