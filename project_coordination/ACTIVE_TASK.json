@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Authentic Package 83 R1 same-mesh staggered control (Job 1416405.mmaster02) completed Exit 0 in 3 seconds walltime across Steps 2, 3, and 4. Direct restart at Increment 111 confirmed exact parity (RF2 = 3.2660 N, d_max = 0.997133). In Step 2 (staggered phase subproblem with held displacement), unconstrained elliptic phase solve relaxed crack-tip damage to 0.982222 (delta_d = -0.0149, healing violation). In Step 3 (mechanical solve with fixed damage), stiffness recovery (1-d)^2 increased 37-fold, driving RF2 upward to 6.8120 N. In Step 4 (coupled solve), state converged to RF2 = 6.1184 N (+87.33% error vs donor 3.2660 N, Gate C1-1 FAILED). Crucially, this positive control completely refutes the hypothesis that displacement hold causes compliance collapse: reaction force stiffened by +87.3% on the donor mesh rather than collapsing by -73.1% as on Candidate C2 (0.8799 N). The Candidate C2 collapse was exclusively driven by nonmatching mesh transfer and flank defects.",
+    "phase":  "Conclusively established the root cause of Package 83 R1\u0027s damage healing and apparent history loss: The frozen production UEL f42_mixed_uel.for unconditionally zeroes COMMON-block history arrays SV_H_COMMITTED and SV_H_TRIAL at UEXTERNALDB LOP=0, and attempts to repopulate them from element SVARS(9..12) via a hard-coded gate IF (KSTEP .EQ. 1 .AND. KINC .LE. 1). In Package 83 R1, *RESTART, READ, STEP=1, INC=111, END STEP causes Abaqus execution to begin in Step 2 (KSTEP=2), which completely bypasses the initialization gate. Consequently, COMMON history was zeroed across all 1,600 elements. When the staggered phase solve executed, the missing 2H(1-d) driving source term allowed crack-tip damage to relax downward from 0.9971 to 0.9822 (healing violation). When the mechanical solve ran, current strain energy (57.82 MPa) overwrote SV_H_TRIAL, permanently wiping the authentic peak history of 82.32 MPa and causing a 38.4x stiffness surge that drove RF2 to 6.12 N. Existing raw solver evidence from Job 1416405 (Frame 0 vs Frame 1) and Job 1416392 proves this mechanism without requiring redundant HPC submissions. A candidate restart-aware state restoration architecture using element-level lazy initialization has been formulated and verified in diagnostic subroutine f42_mixed_uel_restart_aware.for, while the production UEL remains 100% bitwise frozen pending formal review.",
     "gate_status":  "PACKAGE72_FAILED__PACKAGE80_EVALUATED__PACKAGE82_EVALUATED_GATE_C1_1_FAIL__PACKAGE84_SUBMITTED_RUNNING__DONOR_RESTART_PENDING",
     "active_pbs_job_ids":  [
                                "1416392.mmaster02"
@@ -127,14 +127,14 @@
                                  "mapped_mechanical_history_call_order_probe",
                                  "authentic_uel_history_call_trace"
                              ],
-    "last_updated":  "2026-10-22T19:30:21.4831497+02:00",
+    "last_updated":  "2026-10-22T19:42:25.1363601+02:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-2d502802-3881-43a2-9cf0-f9c490fc83c9.json",
-                                  "sha256":  "D55924A48FD014D056294B1BAE019DC2D352D930C1B161A24F57B3F48169A267",
-                                  "created_at":  "2026-10-22T19:28:43.5936937+02:00"
+                                  "artifact":  "results/validation/preparation-51b208c1-0d40-473b-b7af-c0775886f34b.json",
+                                  "sha256":  "E648C5C923CDE6FE008F5D44A477D92B4B2370BA5FC87CFCFC940764D5B52A67",
+                                  "created_at":  "2026-10-22T19:41:27.7281616+02:00"
                               }
 }

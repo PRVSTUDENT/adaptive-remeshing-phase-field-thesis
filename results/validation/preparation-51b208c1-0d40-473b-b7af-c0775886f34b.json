@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": "51b208c1-0d40-473b-b7af-c0775886f34b",
+  "finding": "Conclusively established the root cause of Package 83 R1's damage healing and apparent history loss: The frozen production UEL f42_mixed_uel.for unconditionally zeroes COMMON-block history arrays SV_H_COMMITTED and SV_H_TRIAL at UEXTERNALDB LOP=0, and attempts to repopulate them from element SVARS(9..12) via a hard-coded gate IF (KSTEP .EQ. 1 .AND. KINC .LE. 1). In Package 83 R1, *RESTART, READ, STEP=1, INC=111, END STEP causes Abaqus execution to begin in Step 2 (KSTEP=2), which completely bypasses the initialization gate. Consequently, COMMON history was zeroed across all 1,600 elements. When the staggered phase solve executed, the missing 2H(1-d) driving source term allowed crack-tip damage to relax downward from 0.9971 to 0.9822 (healing violation). When the mechanical solve ran, current strain energy (57.82 MPa) overwrote SV_H_TRIAL, permanently wiping the authentic peak history of 82.32 MPa and causing a 38.4x stiffness surge that drove RF2 to 6.12 N. Existing raw solver evidence from Job 1416405 (Frame 0 vs Frame 1) and Job 1416392 proves this mechanism without requiring redundant HPC submissions. A candidate restart-aware state restoration architecture using element-level lazy initialization has been formulated and verified in diagnostic subroutine f42_mixed_uel_restart_aware.for, while the production UEL remains 100% bitwise frozen pending formal review.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/f1597_turn37_initial_history_loss_audit.json": "091E976B95ABE0468182899BB6AD82D40E2C6DDE9F8B3AE81F14279FEA3B03F8",
+    "results/validation/mode1_f1597/f1597_turn37_uel_restart_history_diagnosis.json": "B9773F0C3EB069C82C841D3AF0825099166058E6DB8069658A2041A5F40AD6EC",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/85_restart_aware_uel_diagnostic/f42_mixed_uel_restart_aware.for": "AD44039F633D673F7FD1535A430FF11EF63F0C1070F299D5828E72070B1713D9",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/M1_DONOR_SAMEMESH_STAGGERED_R1.inp": "C48800D4EE39EE1D44840CA28D0B8F20148BADE266C45D09DDA3111D616AF479",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/evidence_1416405/M1_DONOR_SAMEMESH_STAGGERED_R1.sta": "884F4DFA6A2C62BA59818A41925F95A349DC48D975371EAD9AB4DD8061DED9A4",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/evidence_1416405/M1_DONOR_SAMEMESH_STAGGERED_R1.msg": "04AB219AD0E2660D3F55B9B2D368188CE42D333D92C60BF0A5E14098EE19F7F5",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/evidence_1416405/M1_DONOR_SAMEMESH_STAGGERED_R1.dat": "13227FFD6313F4839E77DF78CDE861FBFC657149549E5D97E19F545198723FEE",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/evidence_1416405/uel_energy_balance.csv": "5642A545D9D755C23ECD79A716E1B1D96C3D6691EB253410857869263BC0CB7E",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/evidence_1416405/pbs_execution.log": "4EB85385279489AB375EF88AB2BB24EF0002897A635713F6439C37C6B5EA3FD1",
+    "tests/unit/test_mode1_f1597_turn37_restart_history_audit.py": "003DA4C6A238BC2574AFCB13F7C9CD1FE618BA1135AF2D85605F5CD6C45C0AFF",
+    "scripts/validation/audit_f1597_uel_restart_history_loss.py": "0EAD6FC55A43E9D98395A1F425A4D813FF92C8409728210C78DC23C885A96D8A",
+    "scripts/validation/generate_turn37_diagnosis_report.py": "93702AF5D2BD5BD711B05C0B8395DE468704D5C3692E1B1C319AD8B93850E0E4"
+  },
+  "verification_passed": true
+}
