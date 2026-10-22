@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": "1f030190-ebd9-4813-9f84-2cceab1ab104",
+  "finding": "Audited Package 85 restart-aware UEL diagnostic Fortran source and execution governance. Confirmed that SVARS(18) was never overwritten with a boolean flag; SV_ELEM_INITIALIZED is strictly isolated in dedicated COMMON /CB_RESTART_INIT/, preserving all 18 SVARS meanings identically to the frozen production UEL. Refined input deck to establish a true falsifiable identity boundary hold, uploaded to cluster, and re-executed Abaqus 2023 preflight datacheck with Exit Code 0. Confirmed that mode1_execution_gate.py has no active adapter allowing execution of an isolated diagnostic subroutine outside the production UEL freeze, and formulated a testable specification for a dedicated diagnostic-only adapter proposal (mode1-restart-aware-diagnostic-v1) preserving the production UEL freeze.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/85_restart_aware_uel_diagnostic/f42_mixed_uel_restart_aware.for": "27594ABA2A43334A953CEA22C473A08064A53369CEAAE0739EC114B44891ED33",
+    "models/pandey_kumar_mode1/85_restart_aware_uel_diagnostic/M1_RESTART_AWARE_IDENTITY_DIAGNOSTIC.inp": "0AC239DCAC2AB0C7DC5077A8B3DD4766B9CD901009D798621359E33E6DD78B0D",
+    "models/pandey_kumar_mode1/85_restart_aware_uel_diagnostic/M1_RESTART_AWARE_IDENTITY_DIAGNOSTIC_DC.dat": "50C9ADD5F6EEC1817375AFDEE593CBA2BF3058FA7ADED99163196A3C0215A475",
+    "models/pandey_kumar_mode1/85_restart_aware_uel_diagnostic/submit_M1_RESTART_AWARE_IDENTITY_DIAGNOSTIC.pbs": "4DE39D5298FB94A34C7EA6C90D72A0101B48A9C55AB8E6171986BFAEA6F3033E",
+    "models/pandey_kumar_mode1/85_restart_aware_uel_diagnostic/PACKAGE_MANIFEST.json": "82C390DFF5EA9C68390E4884A66CB403A402A53BD62C4CAB371679832D3B80BD",
+    "models/pandey_kumar_mode1/85_restart_aware_uel_diagnostic/PACKAGE85_AUTHORIZATION.json": "2B5DFBA4324609701128597099704F15321DF9501CE87848E8D7B77591A7F2EE",
+    "scripts/hpc/mode1_execution_gate.py": "EB952D5624237CBB0C39A5F7BE6BDB9EDE0B36BA8A9A64D7FE76A35AD53E695D",
+    "tests/unit/test_mode1_f1597_turn37_restart_history_audit.py": "57B93876D425B90269CC88EB21D45D8191E6CE25DC96AD38CCFDE6E5BA72BDF3",
+    "tests/unit/test_mode1_f1597_turn39_abi_and_governance.py": "03C19584209C2926D8A8F65954C89D6C1CDEDCEBF8EBA599F576A2D8399E5764",
+    "results/validation/mode1_f1597/f1597_turn39_initial_abi_and_governance_audit.json": "C565D171B076E7E243020973BD1F57510CF420BB9AD894F2AE47EAC74B3750DF",
+    "results/validation/mode1_f1597/f1597_turn39_diagnostic_adapter_proposal.json": "36CC57FB12437EECA3770FCA02EF1E420DD16ED18560F0EFBE88BB713F844496"
+  },
+  "verification_passed": true
+}
