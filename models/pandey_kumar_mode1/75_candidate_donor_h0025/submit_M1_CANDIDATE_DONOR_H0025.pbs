@@ -27,7 +27,7 @@ module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
 command -v ifort
 
 JOB_NAME="M1_CANDIDATE_DONOR_H0025"
-INP_NAME="candidate_donor_h0025.inp"
+INP_NAME="candidate_donor_h0025_corrected.inp"
 USER_SUB="f42_mixed_uel.for"
 
 test ! -e "${JOB_NAME}.lck"

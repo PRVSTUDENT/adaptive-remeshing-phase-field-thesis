@@ -46,8 +46,8 @@ def validate_manifest(path, root=ROOT):
     path=Path(path).resolve()
     require(path.is_relative_to((root/'models/pandey_kumar_mode1').resolve()), 'Manifest outside Mode-I models')
     batch=load(path)
-    require(batch.get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1', 'mode1-continuum-preanalysis-v1') and batch.get('scientific_scope')=='MODE1', 'Qualified Mode-I manifest required')
-    require(batch.get('technical_stage') in ('C1-0','C1-1','C1-2','MODE1_BASELINE','EXPERIMENTAL_OFFSET','CONTINUUM_PREANALYSIS'), 'Outside active scientific stages')
+    require(batch.get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1', 'mode1-continuum-preanalysis-v1', 'mode1-uel-trace-v1') and batch.get('scientific_scope')=='MODE1', 'Qualified Mode-I manifest required')
+    require(batch.get('technical_stage') in ('C1-0','C1-1','C1-2','MODE1_BASELINE','EXPERIMENTAL_OFFSET','CONTINUUM_PREANALYSIS','UEL_TRACE'), 'Outside active scientific stages')
     require(batch.get('automatic_retry') is False, 'Blind automatic retries disallowed')
     jobs=batch['jobs']
     require(1 <= len(jobs)==batch['max_submissions'] <= 2, 'Batch must contain 1-2 named jobs')
@@ -62,7 +62,17 @@ def validate_manifest(path, root=ROOT):
         files[name]=actual
     is_experimental = (batch.get('adapter') == 'mode1-experimental-offset-v1' or batch.get('configuration') == 'EXPERIMENTAL_OFFSET')
     is_continuum = (batch.get('adapter') == 'mode1-continuum-preanalysis-v1' or batch.get('configuration') == 'CONTINUUM_PREANALYSIS')
-    if is_experimental:
+    is_trace = batch.get('adapter') == 'mode1-uel-trace-v1'
+    if is_trace:
+        require(batch.get('diagnostic_kind')=='NONINVASIVE_HISTORY_CALL_TRACE' and batch.get('hypothesis'), 'Reviewed trace hypothesis required')
+        require(files.get('f42_experimental_offset_uel.for')==EXPERIMENTAL_OFFSET_UEL and files.get('job_notifications.sh'), 'Pinned trace parent/notifications required')
+        sys.path.insert(0,str(ROOT/'scripts/validation'))
+        from probe_mode1_f1597_uel_call_trace import instrument
+        require((path.parent/'f42_history_trace_uel.for').read_bytes()==instrument((path.parent/'f42_experimental_offset_uel.for').read_bytes(),absolute_trace=batch.get('instrumentation_revision')==2), 'Only deterministic logging instrumentation is qualified')
+        require(len(jobs)==1 and jobs[0].get('user_subroutine')=='f42_history_trace_uel.for' and jobs[0]['id']==('M1_F1597_HISTORY_TRACE_R2' if batch.get('instrumentation_revision')==2 else 'M1_F1597_HISTORY_TRACE_650'), 'Exact trace job/source required')
+        require(files.get(jobs[0]['input'])=='58b1e69f40c5a65c7b9f1049e42ad745152ab8b5cf6b0f15547ed3276cd54964' and files.get('offset_state_table.csv')=='87c7954efef0134094bbfb03d7ada03d66f9a84281d0bb50f524ae88dfc65add', 'Authentic unchanged receiver state required')
+        require('USER_SUB="f42_history_trace_uel.for"' in (path.parent/jobs[0]['pbs']).read_text(), 'PBS trace source differs')
+    elif is_experimental:
         require(batch.get('hypothesis'), 'Scientific hypothesis required for experimental configuration')
         require(files.get('f42_experimental_offset_uel.for')==EXPERIMENTAL_OFFSET_UEL and files.get('job_notifications.sh'), 'Experimental offset UEL and notifications required')
     elif is_continuum:
@@ -134,6 +144,8 @@ def prepare(request,root=ROOT):
     for job in batch['jobs']:
         dc=proof.get('datachecks',{}).get(job['id'],{})
         require(dc.get('status')=='PASS' and dc.get('input_sha256')==files[job['input']] and re.fullmatch(r'[0-9a-f]{64}',dc.get('dat_sha256','')),'Input-bound datacheck required')
+        if batch.get('adapter')=='mode1-uel-trace-v1':
+            require(dc.get('source_sha256')==files[job['user_subroutine']] and proof.get('trace_datacheck_binding')=='PASS','Source-bound trace datacheck required')
     with locked(root):
         data=read_ledger(root)
         record=data['batches'].setdefault(key,{'manifest_path':str(Path(request['manifest_path']).resolve()),'attempts':{},'audit':[]})
@@ -211,7 +223,7 @@ def main():
     args=parser.parse_args()
     try:
         if args.prepare:
-            incoming=sys.stdin.read().lstrip('\ufeffï»¿')
+            incoming=sys.stdin.read().lstrip('\ufeff\xef\xbb\xbf')
             require(bool(incoming.strip()),'Empty technical preflight transport')
             try:
                 if not incoming.lstrip().startswith('{'):incoming=base64.b64decode(incoming.strip(),validate=True).decode('utf-8')

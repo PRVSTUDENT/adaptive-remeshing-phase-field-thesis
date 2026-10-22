@@ -9,11 +9,11 @@
   "automatic_retry": false,
   "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_candidate_donor_h0025",
   "files": {
-    "candidate_donor_h0025.inp": "4c82b66bda1d925c2bea65cf765633897acf4b0030e43c77647fa5e0d05a3179",
+    "candidate_donor_h0025_corrected.inp": "0c313809d1711e0cf241d987d89756fae3b9ac300a5f4b67196f6e5b388f0d86",
     "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
     "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
-    "submit_M1_CANDIDATE_DONOR_H0025.pbs": "633e0d12ef83ffff4512dab244654f0aefba6adb2de82ca29a00e695c5b83e75",
-    "PACKAGE_MANIFEST.json": "f4426d9ae5f7085bcb933f2ab6c977f06a0f3600bea5b6c7d2f029b33c5ec32c"
+    "submit_M1_CANDIDATE_DONOR_H0025.pbs": "f84ce8f6d94c2b69439918a4bda82f0ae2d4f78749210abc186ca632419f8959",
+    "PACKAGE_MANIFEST.json": "fbc85ec68d0a4e44733db167a085c3db9415af40f2a3ba87e4070c3d513075b7"
   },
   "jobs": [
     {
@@ -29,7 +29,7 @@
       "walltime_hours": 4,
       "queue": "entry_imfdfkmq",
       "execution": "single-rank serial",
-      "input": "candidate_donor_h0025.inp",
+      "input": "candidate_donor_h0025_corrected.inp",
       "datacheck": "M1_CANDIDATE_DONOR_H0025_DC.dat"
     }
   ],
