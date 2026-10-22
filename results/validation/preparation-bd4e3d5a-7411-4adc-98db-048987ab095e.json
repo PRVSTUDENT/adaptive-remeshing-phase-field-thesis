@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": "bd4e3d5a-7411-4adc-98db-048987ab095e",
+  "finding": "Package 84 donor restart generation (Job 1416392.mmaster02) completed and verified 100% bitwise parity at target Increment 111 (RF2 err=0.0000%, d_max err=0.0000%, H_max err=0.0000%) against authentic Package 76 evidence, successfully producing the native Abaqus restart database (.res, .mdl, .stt, .prt). Package 83 (Same-Mesh Staggered Positive Control) was built, technically qualified through Abaqus 2023 pre-processor datacheck Exit 0, and submitted to PBS as Job 1416404.mmaster02 on queue normal_imfdfkmq under bitwise frozen UEL f42_mixed_uel.for.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/84_donor_restart_checkpoint/evidence_1416392/pkg84_telemetry_summary.json": "D344F3DFC371C14A6C9269E39A553F557D3A948D9D6F7C467E3AE1611235931C",
+    "models/pandey_kumar_mode1/84_donor_restart_checkpoint/evidence_1416392/M1_DONOR_H0025_RESTART.sta": "9B4A2CAFB4CF0C69DF21B7EAB94000145134705888977F72D1603A578C25DFC0",
+    "models/pandey_kumar_mode1/84_donor_restart_checkpoint/evidence_1416392/uel_energy_balance.csv": "EC265AAF6CE4CEDC8190154A946D02C2F162BFF77D19F3B5AFFEA1E378B961D7",
+    "results/validation/mode1_f1597/f1597_turn34_package84_parity_evaluation.json": "EBEC75CD4C99EF7283989596B7D08D1293615A8E146B67E9220F87106063A5EC",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/M1_DONOR_SAMEMESH_STAGGERED_CONTROL.inp": "397595FBDA37B4AFC6DF27FCF69D48AB7E7B80F95A5B27D015A34290CDCFA8EC",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/PACKAGE_MANIFEST.json": "67F6268C54A264E02F1FD9DF46EEA6249397F4868525990FA80FC605D8A3B516",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/PACKAGE83_AUTHORIZATION.json": "33996630A1DB1E6ADFF09346FAE875F967F859F5850D1906C92372BF6DC83D81",
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/submit_M1_DONOR_SAMEMESH_STAGGERED_CONTROL.pbs": "86D18FB528E19DFC85ED5476032C23B45BFBC98F3E222D6A61BC9241F672D6DE",
+    "scripts/validation/extract_pkg84_donor_restart_telemetry.py": "EF9F245D75BE903925A7EFC3ACC8ACC7CB8A7784FA693F6A16AA186048091B24",
+    "scripts/validation/generate_package83_manifest.py": "CA9AF5392777B9F254CE2ADCBDA48C157EE85DA56879C1B075B4248131B0DD2D"
+  },
+  "verification_passed": true,
+  "pbs_job_receipt": {
+    "job_id": "1416404.mmaster02",
+    "job_name": "M1_DONOR_SAMEMESH_STAGGERED_CONTROL",
+    "queue": "normal_imfdfkmq",
+    "status": "R",
+    "run_directory": "/scratch9/pr21vyci/runs/mode1_package83_donor_staggered_control"
+  }
+}
