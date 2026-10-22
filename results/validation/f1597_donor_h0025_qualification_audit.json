@@ -1,0 +1,84 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "operation": "qualify_authentic_donor_state",
+  "title": "F1597 Authentic 2.5 um Donor State Extraction and Qualification",
+  "status": "PREPARATION_COMPLETE",
+  "classification": "DONOR_STATE_AVAILABLE_WITH_LIMITATIONS",
+  "verification_passed": true,
+  "hpc_provenance": {
+    "pbs_job_id": "1416259.mmaster02",
+    "queue": "normal_imfdfkmq",
+    "solver": "Abaqus/Standard 2023",
+    "production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "input_deck_sha256": "0C313809D1711E0CF241D987D89756FAE3B9AC300A5F4B67196F6E5B388F0D86",
+    "total_solved_increments": 197,
+    "terminal_step_time": 0.928021491,
+    "terminal_u_top_mm": 0.00464010751,
+    "peak_rf2_N": 186.230943,
+    "peak_u_top_mm": 0.00188205077,
+    "peak_inc": 83
+  },
+  "transfer_checkpoint_u00254": {
+    "target_u_top_mm": 0.00254,
+    "closest_discrete_inc": 111,
+    "closest_discrete_time": 0.508021474,
+    "closest_discrete_u_top_mm": 0.00254010735,
+    "closest_discrete_rf2_N": 3.26603372,
+    "interpolated_rf2_N": 3.2662022352938243,
+    "fracture_energy_mJ": 0.30388346000000005,
+    "elastic_energy_mJ": 0.0041477027,
+    "total_internal_energy_mJ": 0.30803116999999997
+  },
+  "comparison_with_reference_5um": {
+    "reference_rf2_N": 7.851221990795304,
+    "donor_25um_rf2_N": 3.2662022352938243,
+    "delta_rf2_N": -4.58501975550148,
+    "delta_rf2_pct": -58.39880417184627,
+    "synthetic_amrc_e_frac_mJ": 0.12422935243691158,
+    "authentic_solved_e_frac_mJ": 0.30388346000000005,
+    "delta_e_frac_pct": 144.61486278319265,
+    "energy_reconciliation_explanation": "Synthetic AMRC assumed an unevolved pre-propagation damage profile (0.1242 mJ), whereas the authentic solver advanced through the physical initiation peak (186.23 N) and dissipated 0.3039 mJ through physical crack softening along the slit."
+  },
+  "field_availability_audit": {
+    "nodal_mechanical_u_present": true,
+    "nodal_mechanical_rf_present": true,
+    "global_rf2_history_present": true,
+    "global_uel_energy_present": true,
+    "pointwise_damage_d_in_odb": false,
+    "pointwise_history_h_in_odb": false,
+    "field_frame_decimation_frequency": 5,
+    "bracketing_frames": {
+      "frame_22": {
+        "inc": 110,
+        "time": 0.503021,
+        "u_top_mm": 0.002515
+      },
+      "frame_23": {
+        "inc": 115,
+        "time": 0.528021,
+        "u_top_mm": 0.00264
+      }
+    }
+  },
+  "gate_c1_1_status": {
+    "current_gate_state": "FAILED",
+    "force_continuity_criterion_met": false,
+    "fracture_energy_continuity_criterion_met": false,
+    "zero_healing_verified": false,
+    "reason": "Authentic receiver execution with complete field mapping is pending; donor state has identified field limitations."
+  },
+  "finding": "The authentic 2.5 um donor simulation (PBS 1416259.mmaster02) successfully converged through the transfer threshold u_top = 0.00254 mm (increment 111, t = 0.508021) to terminal increment 195 (t = 0.928021). Global mechanical reaction force (RF2 = 3.26620 N), peak force (186.2309 N at u = 0.001882 mm), and complete integrated UEL energies (E_frac = 0.303883 mJ, E_elas = 0.004148 mJ, E_tot = 0.308031 mJ) are rigorously recovered. However, the state is classified as AVAILABLE_WITH_LIMITATIONS because: (1) Pointwise nodal damage d and Gauss-point history H were omitted from ODB field output by candidate_donor_h0025_corrected.inp (dummy elastic visualizer without SDV); (2) Field output was written at frequency=5 (inc 110 at u=0.002515 mm, inc 115 at u=0.002640 mm) bracketing the target increment 111; (3) Direct un-interpolated ingestion into Candidate C2 is precluded until full d and H fields are mapped. Method C Gate C1-1 remains FAILED in project governance.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/CANDIDATE_DONOR_H0025_AUTHORIZATION.json": "7D5AC31D05B52256538BB3A854476E4F02C8F300B8361E188F48578567F10DDE",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/PACKAGE_MANIFEST.json": "FBC85EC68D0A4E44733DB167A085C3DB9415AF40F2A3BA87E4070C3D513075B7",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/candidate_donor_h0025_corrected.inp": "0C313809D1711E0CF241D987D89756FAE3B9AC300A5F4B67196F6E5B388F0D86",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/submit_M1_CANDIDATE_DONOR_H0025.pbs": "F84CE8F6D94C2B69439918A4BDA82F0AE2D4F78749210ABC186CA632419F8959",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/evidence_1416259/donor_h0025_rf_curve.csv": "8CEFAF0727CA2A16650F435AC88190C975F469000760F228733CDB39E46E403F",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/evidence_1416259/uel_energy_balance.csv": "5D0FD1157C5E1EB2AF29F09EF0AE98D772FE30463B1D94EF8BB11A7CFDC7F50B",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/evidence_1416259/donor_h0025_frame22_inc110.csv": "F5D3665219CD0E18D57B514F15F5EDAF15B7A48A762510DEF8242DDDD39BF5DE",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/evidence_1416259/donor_h0025_frame23_inc115.csv": "C103E27D8EA3E21837F6FEA5B85478891210295DBB706CA339C5D5C2FD8EA0BB",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/evidence_1416259/M1_CANDIDATE_DONOR_H0025.sta": "E367E4018836CFB0436770ACD13A4299E0F8CD83344BC169AA7A5543CC277E4C",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/evidence_1416259/pbs_execution.log": "573C790F1B5CC79931FDF38A54EC38A0FF8BA1475470FA919AA87FE0B50CCA9F"
+  }
+}
