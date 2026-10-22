@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "7161078d-61ec-4f49-a851-871d90bf8fd8",
+    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "repository_commit":  "ec501ea1fb3b355d3df5b4b2a75d883f44711000",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-10-22T11:29:13.3784949+02:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "B9754754AB0B9F372E9B2A70E0AAAB250F5D5A082E8FBCB0CE600428BB0BF8C6",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "8FACBA51C4A243A5E4EC65736A36F08C284BE6F97A36DA12A9F0A7BFE6DA9AF8",
+                            "project_coordination/ACTIVE_SESSION.json":  "959977E4F6C1004D54551463523344B5B8CDAA80B64C50274DA4A07139DCD05E",
+                            "project_coordination/ACTIVE_TASK.json":  "291FF94F9CF0F8D957A3E67FA344D554A3190E70ED0E4FB0D29E1DFCBA3557C4",
+                            "project_coordination/TASK_LEDGER.csv":  "03BDA57BA392EB17A0A71B1A905E48B8AD480B883EB04E828F9E5A7AEA8028F2",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "8DD8CC73677122C7AAE5F56B3BD3291A6D6C92E3ACBA1D8A4C417B8294196E95",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "704408DC09D9C5B57D3611604E30AAEACE7AED3BB5D647F8A06418ED115DCB3F",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "291FF94F9CF0F8D957A3E67FA344D554A3190E70ED0E4FB0D29E1DFCBA3557C4",
+                          "project_coordination/CURRENT_STATE.md":  "8FACBA51C4A243A5E4EC65736A36F08C284BE6F97A36DA12A9F0A7BFE6DA9AF8",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "8DD8CC73677122C7AAE5F56B3BD3291A6D6C92E3ACBA1D8A4C417B8294196E95",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "94EEA199BC041E4C7104EFFBFC15A74995AAE65506C733C9724F014B30AE0737"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-10-22_gemini-antigravity_F1597_7161078d-61ec-4f49-a851-871d90bf8fd8.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "audit_f1597_donor_datacheck_blocker",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-7161078d-61ec-4f49-a851-871d90bf8fd8.json",
+                                  "sha256":  "06EE554FA39E7837E8857AD13AB27855C87B08AA60F71F6C490E64ABF1E052EB",
+                                  "created_at":  "2026-10-22T11:42:02.8197877+02:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Re-target execution manifest to candidate_donor_h0025_corrected.inp, execute Invoke-Mode1Execution.ps1 on HPC cluster, and proceed with Method C receiver transfer once solved."
+}
