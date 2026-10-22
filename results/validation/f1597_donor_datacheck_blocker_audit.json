@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "operation": "audit_f1597_donor_datacheck_blocker",
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "classification": "GENUINE_TECHNICAL_DATACHECK_BLOCKER_IDENTIFIED_AND_SOLVED",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/candidate_donor_h0025.inp": "4C82B66BDA1D925C2BEA65CF765633897ACF4B0030E43C77647FA5E0D05A3179",
+    "models/pandey_kumar_mode1/candidate_donor_h0025_corrected.inp": "0C313809D1711E0CF241D987D89756FAE3B9AC300A5F4B67196F6E5B388F0D86",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/CANDIDATE_DONOR_H0025_AUTHORIZATION.json": "2B1D53FA001B96A987032CCAB218D0F72D5B2281AF96012D5ADEA99C4BDF3BA2"
+  },
+  "blocker_diagnostics": {
+    "component": "Abaqus/Standard 2023 Analysis Input File Processor (pre)",
+    "failing_deck": "candidate_donor_h0025.inp",
+    "failing_deck_sha256": "4C82B66BDA1D925C2BEA65CF765633897ACF4B0030E43C77647FA5E0D05A3179",
+    "pre_exit_code": 1,
+    "fatal_error_count": 7,
+    "exact_error_signatures": [
+      "***ERROR: EQUATION DOF MUST BE A POSITIVE INTEGER",
+      "***ERROR: THE COEFFICIENT FOR THE FIRST NODE IN A *EQUATION OPTION MUST BE NON-ZERO",
+      "***ERROR: THERE ARE MORE TERMS DEFINED THAN REQUIRED FOR THIS EQUATION"
+    ],
+    "defect_mechanism": "Lines 6608-6612 contained a stray '2' token immediately after '*Equation' before a comment line, followed by 41 constraint pairs sharing a single '*Equation' header. In Abaqus input deck syntax, each linear constraint equation requires its own '*EQUATION' keyword block.",
+    "stray_token_identified": true,
+    "original_equation_header_count": 1,
+    "corrected_equation_header_count": 41
+  },
+  "solution_verification": {
+    "corrected_deck": "candidate_donor_h0025_corrected.inp",
+    "corrected_deck_sha256": "0C313809D1711E0CF241D987D89756FAE3B9AC300A5F4B67196F6E5B388F0D86",
+    "solver": "Abaqus/Standard 2023",
+    "compiler": "Intel Fortran Classic 2021.13.0 (ifort 2024.2.0)",
+    "datacheck_exit_code": 0,
+    "datacheck_status": "ANALYSIS DATACHECK COMPLETE WITH 3 WARNING MESSAGES",
+    "warning_messages": 3,
+    "error_messages": 0,
+    "cluster_host": "mlogin01.cluster",
+    "datacheck_cpu_time_s": 0.12,
+    "datacheck_walltime_s": 0
+  },
+  "submission_decision": {
+    "submission_executed": false,
+    "reason": "In strict adherence to repository policy ('If a genuine technical defect remains, report the blocker and retain the correctly prepared candidate without claiming a submission'), original candidate_donor_h0025.inp is preserved bitwise unchanged with hash 4C82B66B... Submission of the failing deck was blocked by automated preflight ('Datacheck failed'). The corrected deck candidate_donor_h0025_corrected.inp is retained and ready for execution upon manifest re-targeting."
+  },
+  "summary": "Diagnosed exact Abaqus 2023 pre-processor blocker for candidate donor candidate_donor_h0025.inp: (1) Fatal input syntax error in *EQUATION block (stray '2' token and missing per-constraint headers) causes pre to abort with 7 fatal errors; (2) Verified minimal syntax repair by generating candidate_donor_h0025_corrected.inp (0C313809...), which passed cluster Abaqus 2023 datacheck with Exit code 0 and 'ANALYSIS DATACHECK COMPLETE'; (3) In compliance with repository instructions, the original deck is preserved, submission is withheld, and full diagnostic evidence is recorded."
+}
