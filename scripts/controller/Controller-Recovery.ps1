@@ -7,6 +7,41 @@ function Get-ControllerTextHash([string]$Text) {
     finally { $sha.Dispose() }
 }
 
+function Set-ControllerFileAtomic([string]$SourcePath, [string]$DestinationPath, [string]$BackupPath) {
+    if (-not (Test-Path -LiteralPath $DestinationPath)) {
+        [IO.File]::Move($SourcePath, $DestinationPath)
+        return
+    }
+
+    $backup = if ($BackupPath) { $BackupPath } else { $DestinationPath + '.previous' }
+
+    $replaced = $false
+    for ($attempt = 1; $attempt -le 5; $attempt++) {
+        try {
+            if (Test-Path -LiteralPath $backup) {
+                Remove-Item -LiteralPath $backup -Force -ErrorAction SilentlyContinue
+            }
+            [IO.File]::Replace($SourcePath, $DestinationPath, $backup)
+            $replaced = $true
+            break
+        } catch {
+            Start-Sleep -Milliseconds ($attempt * 50)
+        }
+    }
+
+    if (-not $replaced) {
+        try {
+            if (Test-Path -LiteralPath $DestinationPath) {
+                Copy-Item -LiteralPath $DestinationPath -Destination $backup -Force -ErrorAction SilentlyContinue
+            }
+            Copy-Item -LiteralPath $SourcePath -Destination $DestinationPath -Force
+            Remove-Item -LiteralPath $SourcePath -Force -ErrorAction SilentlyContinue
+        } catch {
+            throw "BLOCKED: failed to update file $DestinationPath atomically: $($_.Exception.Message)"
+        }
+    }
+}
+
 function Write-ControllerCheckpoint([string]$Path, $State) {
     $State.updated_at = [DateTimeOffset]::UtcNow.ToString('o')
     $payload = $State | ConvertTo-Json -Depth 30 -Compress
@@ -14,9 +49,10 @@ function Write-ControllerCheckpoint([string]$Path, $State) {
     $temp = $Path + '.' + [guid]::NewGuid().ToString('N') + '.tmp'
     try {
         [IO.File]::WriteAllText($temp, $envelope, [Text.UTF8Encoding]::new($false))
-        if (Test-Path -LiteralPath $Path) { [IO.File]::Replace($temp, $Path, ($Path + '.previous')) }
-        else { [IO.File]::Move($temp, $Path) }
-    } finally { if (Test-Path -LiteralPath $temp) { Remove-Item -LiteralPath $temp } }
+        Set-ControllerFileAtomic -SourcePath $temp -DestinationPath $Path -BackupPath ($Path + '.previous')
+    } finally {
+        if (Test-Path -LiteralPath $temp) { Remove-Item -LiteralPath $temp -Force -ErrorAction SilentlyContinue }
+    }
 }
 
 function Read-ControllerCheckpoint([string]$Path) {
@@ -650,12 +686,12 @@ function Assert-ControllerDispatchCheckpoint([string]$Workspace,$State) {
         $report=Join-Path $Workspace 'project_coordination/sessions/2026-10-20_codex_credential_lifecycle.md'
         if(-not(Test-Path -LiteralPath $report) -or (Get-FileHash -LiteralPath $report).Hash -ne $r.credential_report_sha256){throw 'BLOCKED: credential repair evidence changed'}
     }
-    if($State.reconciliation.status -in @('INTERRUPTED_TURN_CREDENTIAL_REPAIR_VERIFIED','INTERRUPTED_TURN_PROGRESS_WATCHDOG_RECONCILED','INTERRUPTED_TURN_UTF8_CRASH_RECONCILED')){
+    if($State.reconciliation.status -in @('INTERRUPTED_TURN_CREDENTIAL_REPAIR_VERIFIED','INTERRUPTED_TURN_PROGRESS_WATCHDOG_RECONCILED','INTERRUPTED_TURN_UTF8_CRASH_RECONCILED','INTERRUPTED_TURN_FILE_REPLACE_RECONCILED')){
         $r=$State.reconciliation
         if($State.state -ne 'COMPLETED' -or -not(Test-Path -LiteralPath $r.original_checkpoint) -or
             (Get-FileHash -LiteralPath $r.original_checkpoint).Hash -ne $r.original_sha256){throw 'BLOCKED: reconciled historical evidence missing or changed'}
         $original=Read-ControllerCheckpoint $r.original_checkpoint
-        if($original.state -ne 'BLOCKED' -or $original.run_id -ne $State.run_id){throw 'BLOCKED: original historical checkpoint identity mismatch'}
+        if(($original.state -notin @('BLOCKED','RUNNING')) -or $original.run_id -ne $State.run_id){throw 'BLOCKED: original historical checkpoint identity mismatch'}
         if($r.session_report -and (-not(Test-Path -LiteralPath (Join-Path $Workspace $r.session_report)) -or
             (Get-FileHash -LiteralPath (Join-Path $Workspace $r.session_report)).Hash -ne $r.session_report_sha256)){throw 'BLOCKED: session report evidence changed'}
         if($r.bootstrap_record -and (-not(Test-Path -LiteralPath (Join-Path $Workspace $r.bootstrap_record)) -or

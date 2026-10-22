@@ -2614,6 +2614,59 @@
         "lifecycle_tests": "PASS"
       },
       "qualified_at": "2026-10-22T14:22:22.671012+00:00"
+    },
+    "533d9d8676b6eeef40270779986c862b58fdeb217d903c671d91b2b53f4b1d97": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\82_candidate_c2_staggered_reequilibration\\C2_STAGGERED_REEQUIL_AUTHORIZATION.json",
+      "attempts": {
+        "M1_C2_STAGGERED_REEQUIL": 1
+      },
+      "audit": [
+        {
+          "job": "M1_C2_STAGGERED_REEQUIL",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-10-22T15:29:54.079458+00:00",
+          "command_sha256": "5c1a1be35274044dabaaa3de74c50f3df66063a4ac481e5273cf63b6840dde6d"
+        }
+      ],
+      "preflight": {
+        "trace_datacheck_binding": "NOT_APPLICABLE",
+        "active_job_count": 0,
+        "adapter_contract": "mode1-qualified-batch-v2",
+        "datachecks": {
+          "M1_C2_STAGGERED_REEQUIL": {
+            "status": "PASS",
+            "input_sha256": "77bda5cb8f981e1636a78c76ddbe7a6f978ffa5d32dc5aa7f3abade4fc4ff744",
+            "dat_sha256": "0cf6c7c88d7d7c5b2bf1816cdfe7a1dac3f4e619ce226a238a95a8158fc1c723"
+          }
+        },
+        "batch_spec_sha256": "60cf9f9e0e52890335e55f178b96eee59e656dd4c19c2ba93b886221d5e748db",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "533d9d8676b6eeef40270779986c862b58fdeb217d903c671d91b2b53f4b1d97",
+        "authorized_command_sha256": "5c1a1be35274044dabaaa3de74c50f3df66063a4ac481e5273cf63b6840dde6d",
+        "checked_at": "2026-10-22T15:29:51.277152+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "M1_C2_STAGGERED_REEQUIL.inp": "77bda5cb8f981e1636a78c76ddbe7a6f978ffa5d32dc5aa7f3abade4fc4ff744",
+          "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+          "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+          "submit_M1_C2_STAGGERED_REEQUIL.pbs": "21eb9d11c73e756a0acc1d90495f3bf4822fb2a04eafd777ccf4c3ef742f711b",
+          "PACKAGE_MANIFEST.json": "024e2efeb6d9856cdb2050aa44cb4df13adf4a23a2b4f61c659014fa9d55986a",
+          "M1_C2_STAGGERED_REEQUIL_DC.dat": "0cf6c7c88d7d7c5b2bf1816cdfe7a1dac3f4e619ce226a238a95a8158fc1c723"
+        },
+        "helper_sha256": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-10-22T15:29:51.660699+00:00"
     }
   }
 }

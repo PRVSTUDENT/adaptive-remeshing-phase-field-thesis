@@ -79,6 +79,26 @@ try {
     Write-ControllerCheckpoint $path $s
     Assert ((Read-ControllerCheckpoint $path).state -eq 'PENDING') 'atomic checksum-protected checkpoint round trip'
     $s.state='RUNNING'; Write-ControllerCheckpoint $path $s
+
+    # Regression: resilient atomic file replacement even with existing .previous and repeated writes
+    $testFile = Join-Path $fixture 'atomic_test.txt'
+    $testBackup = $testFile + '.previous'
+    $temp1 = $testFile + '.1.tmp'
+    [IO.File]::WriteAllText($temp1, 'version 1', [Text.UTF8Encoding]::new($false))
+    Set-ControllerFileAtomic -SourcePath $temp1 -DestinationPath $testFile -BackupPath $testBackup
+    Assert ((Get-Content -LiteralPath $testFile -Raw) -eq 'version 1') 'atomic file write creates initial file'
+
+    $temp2 = $testFile + '.2.tmp'
+    [IO.File]::WriteAllText($temp2, 'version 2', [Text.UTF8Encoding]::new($false))
+    Set-ControllerFileAtomic -SourcePath $temp2 -DestinationPath $testFile -BackupPath $testBackup
+    Assert ((Get-Content -LiteralPath $testFile -Raw) -eq 'version 2' -and (Get-Content -LiteralPath $testBackup -Raw) -eq 'version 1') 'atomic file replacement creates backup without error'
+
+    # Third write when .previous already exists (reproducing Turn 30 defect)
+    $temp3 = $testFile + '.3.tmp'
+    [IO.File]::WriteAllText($temp3, 'version 3', [Text.UTF8Encoding]::new($false))
+    Set-ControllerFileAtomic -SourcePath $temp3 -DestinationPath $testFile -BackupPath $testBackup
+    Assert ((Get-Content -LiteralPath $testFile -Raw) -eq 'version 3' -and (Get-Content -LiteralPath $testBackup -Raw) -eq 'version 2') 'repeated atomic replacement succeeds with existing backup file'
+
     $s=Set-ControllerInterrupted $fixture $path $s 'partial measured evidence'
     Assert ($s.state -eq 'RECOVERY_REQUIRED' -and (Test-Path -LiteralPath $s.partial_output) -and (Get-Content -LiteralPath $s.partial_output -Raw) -eq 'partial measured evidence') 'timeout preserves partial bytes and creates safe recovery state'
     Assert ($s.pbs_receipts -contains '1415199.mmaster02' -and $s.execution_accounting.attempts -eq 1) 'actual PBS receipts and reserved submission count preserved'

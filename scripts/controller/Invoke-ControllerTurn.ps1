@@ -25,7 +25,11 @@ $record=if(Test-Path -LiteralPath $recordPath){Get-Content -LiteralPath $recordP
 function Save-Record {
     $temp=$recordPath+'.tmp'
     [IO.File]::WriteAllText($temp,(($script:record|ConvertTo-Json -Depth 30).Replace("`r`n","`n")),[Text.UTF8Encoding]::new($false))
-    if(Test-Path -LiteralPath $recordPath){[IO.File]::Replace($temp,$recordPath,($recordPath+'.previous'))}else{[IO.File]::Move($temp,$recordPath)}
+    try {
+        Set-ControllerFileAtomic -SourcePath $temp -DestinationPath $recordPath -BackupPath ($recordPath+'.previous')
+    } finally {
+        if(Test-Path -LiteralPath $temp){ Remove-Item -LiteralPath $temp -Force -ErrorAction SilentlyContinue }
+    }
 }
 function Assert-Owner {
     $owner=Get-Content -LiteralPath $sessionPath -Raw|ConvertFrom-Json
