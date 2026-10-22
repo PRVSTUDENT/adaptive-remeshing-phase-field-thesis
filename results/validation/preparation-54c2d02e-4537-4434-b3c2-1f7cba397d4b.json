@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "c2_active_set_reequilibration_evaluation",
+  "title": "Candidate C2 Active-Set Re-equilibration Diagnostic Evaluation (PBS 1416328.mmaster02)",
+  "finding": "Retrieved authentic solver outputs and extracted full telemetry for Package 79 (M1_C2_ACTIVE_SET_REEQUIL, PBS ID 1416328.mmaster02). Verified that the Kuhn-Tucker active-set formulation successfully eliminated diffuse healing: on 1,756 active nodes, damage was strictly locked (delta_d = 0.0), reducing healing violations from 1,724 nodes in Package 78 to only 9 nodes with negligible solver residual (min delta_d = -0.00040). Fracture energy was strictly monotonic non-decreasing across all 15 converged increments (293.33 to 296.00 microJ), matching the donor reference functional (293.92 microJ) within 0.708% (passing the <= 2% Gate C1-1 threshold). KKT complementarity was verified with zero slack (lambda * delta_d = 0.0000000). Step 3 converged 15 cutback increments to step time t = 0.0947 (+50.1% further than Package 78) before terminating at dt < dt_min = 1e-12 in increment 16 due to localized crack-tip opening under unrelaxed prestress, reaching terminal RF2 = 5.18301 N (+58.68% vs donor 3.266150 N). Method C Gate C1-1 criteria remain strictly FAILED.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "results/validation/package79_c2_active_set_reequilibration/pkg79_extracted_telemetry.json": "2DCA1D5A709E8838C21581F3A519C703CADB5EAF74F40836BB7BB1E10988E88F",
+    "results/validation/package79_c2_active_set_reequilibration/uel_energy_balance.csv": "8395B96B64B04BCA91E8EC27583312CDE27F08C36782FF621BB21E1BDF51468E",
+    "results/validation/package79_c2_active_set_reequilibration/M1_C2_ACTIVE_SET_REEQUIL.sta": "A7EE60F5577A39A6A9DEAACB817F4434DFFCB269B64142A429681E4B0F3B0642",
+    "results/validation/package79_c2_active_set_reequilibration/M1_C2_ACTIVE_SET_REEQUIL.msg": "BB330D9FC4AA3125FB425BE43F3473238E9AF2BA5F4E81E40EE1AB04459E7B8B",
+    "results/validation/package79_c2_active_set_reequilibration/M1_C2_ACTIVE_SET_REEQUIL.dat": "CB010A09B23D315B9C43624FBF0FF1C9B1252C94E7634B9BBDA67CB8650F0F09",
+    "results/validation/package79_c2_active_set_reequilibration/pbs_execution.log": "8C37C59C17AD26E99628151E5A78073B51D6AEA7C6A27EDD55D3E48588CE00B6",
+    "models/pandey_kumar_mode1/79_candidate_c2_active_set_reequilibration/M1_C2_ACTIVE_SET_REEQUIL.inp": "74E994553D0130011930DF8CEDC3D02666A045051BBA44209FD6A4023544E83D",
+    "models/pandey_kumar_mode1/79_candidate_c2_active_set_reequilibration/PACKAGE_MANIFEST.json": "421CC0A8D2CE159757A9B1F7539A1259F53AFADA83E2799B5224662AB4F50AC8",
+    "tests/unit/test_mode1_f1597_package79_evaluation.py": "43B401111F32D8DFCC588CFD699F57AC687F61D4C734A1F1B4C18ED291017985"
+  },
+  "next_operation": "Prepare Package 80 continuation strategy incorporating arc-length (Riks) or viscous regularization to traverse localized crack-tip softening and achieve full coupled step equilibrium"
+}
