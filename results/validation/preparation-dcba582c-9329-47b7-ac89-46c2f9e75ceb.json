@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "c2_kinematics_and_reequilibration_diagnostic",
+  "title": "Candidate C2 Kinematics Correction and Re-equilibration Diagnostic",
+  "finding": "Candidate C2 kinematic MPC conflicts resolved completely (0 Abaqus pre errors vs 48 previously); Step 1 state injection converged to machine precision (6.234e-19 residual) matching donor AT2 fracture functional to 0.20% (293.33 uJ vs 293.92 uJ), while Step 2 unconstrained re-equilibration achieved Increment 1 convergence before exhibiting slit-flank node divergence under degraded stiffness contrast.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/candidate_receiver_c2_corrected_reequilibration.inp": "BE6D0EBD97436C353726370ED22D0040357521A9CAFFEBAD9DA77E5A9C8187B4",
+    "scripts/validation/audit_c2_kinematics_and_mpc.py": "F267B20E71355169D2437D613185FF7CCC66D9F550155C848A07783B2DAA39C8",
+    "models/pandey_kumar_mode1/77_candidate_c2_reequilibration_diagnostic/C2_CORRECTED_REEQUIL_AUTHORIZATION.json": "3529A185E7DD1F93A0416CAE2AC7BA6618C2B21C7D00928573CE6697EA15928F",
+    "models/pandey_kumar_mode1/77_candidate_c2_reequilibration_diagnostic/submit_M1_C2_CORRECTED_REEQUIL.pbs": "9AB1F0A24C7F5EBA84A47C31BCB980097B1FB6F6A28FD6A9949B992E04D65C4D",
+    "models/pandey_kumar_mode1/77_candidate_c2_reequilibration_diagnostic/M1_C2_CORRECTED_REEQUIL_PREFLIGHT_REPORT.json": "D734C3D2051AEA6A58C836707469BB36752D4A87337C6F52865CE683CC88172E",
+    "tests/unit/test_mode1_f1597_c2_kinematics_correction.py": "35EBBFEB212256F411AA3DC93C65528839EC7CB9D52378BDB464F60D14BB53A7",
+    "tests/unit/test_mode1_f1597_pkg76_to_c2_transfer.py": "C9F213EA7FF4346315B3D0DE5552F216B527ECB82181E5029DCC9B115658A2B0"
+  },
+  "next_operation": "Diagnose slit-flank unconstrained release divergence and evaluate damped/incremental re-equilibration under Method C Gate C1-1"
+}
