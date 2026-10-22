@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "turn": "13fafc7a-f2c7-41d2-bf88-0cacfcb34ce9",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "operation": "audit_f1597_state_initialization_pathway",
+  "status": "INITIAL_AUDIT_COMPLETE",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/candidate_donor_h0025.inp": "4C82B66BDA1D925C2BEA65CF765633897ACF4B0030E43C77647FA5E0D05A3179",
+    "models/pandey_kumar_mode1/candidate_crack_band_mesh_c2.inp": "257FC6263D63721BDEEFE48A43CD504C79A92DF61C099CE9481984B625454901"
+  },
+  "uel_state_layout_audit": {
+    "nsvars_declared": 18,
+    "jtype_1_phase_quad_svars": {
+      "svars_1_to_4": "Gauss-point phase-field d_pt(1..4)",
+      "svars_5_to_8": "Gauss-point trial history field H(1..4)",
+      "svars_9_to_12": "Gauss-point committed history field H(1..4) [INGESTED AT KSTEP=1, KINC<=1]",
+      "svars_13": "Average element phase-field d_avg",
+      "svars_14": "Average element phase-field d_avg",
+      "svars_15": "Degraded stiffness factor g(d) = (1 - d_avg)^2 + k_res",
+      "svars_16": "Gauss-point 1 history field H_pt1",
+      "svars_17": "Integrated element fracture energy E_frac (kN*mm)",
+      "svars_18": "Element fracture energy density psi_f (kN/mm^2)"
+    },
+    "jtype_2_mech_quad_svars": {
+      "svars_1_to_4": "Gauss-point strain epsilon_11(1..4)",
+      "svars_5_to_8": "Gauss-point stress sigma_11(1..4)",
+      "svars_9": "Phase-field d_val",
+      "svars_10": "Degraded stiffness factor g(d)",
+      "svars_11": "Point 1 strain epsilon_11",
+      "svars_12": "Point 1 stress sigma_11",
+      "svars_13": "Point 1 history H_pt1",
+      "svars_14": "Phase-field d_val",
+      "svars_15": "Degraded stiffness factor g(d)",
+      "svars_16": "Point 1 history H_pt1",
+      "svars_17": "Integrated element elastic strain energy E_elas (kN*mm)",
+      "svars_18": "Element elastic strain energy density psi_e (kN/mm^2)"
+    },
+    "fortran_common_block": {
+      "name": "CB_STATE_TRANS",
+      "arrays": [
+        "SV_PHASE_COMMITTED(150000)",
+        "SV_PHASE_TRIAL(150000)",
+        "SV_H_COMMITTED(150000, 4)",
+        "SV_H_TRIAL(150000, 4)",
+        "SV_E_FRAC(150000)",
+        "SV_E_ELAS(150000)",
+        "SV_PSI_F(150000)",
+        "SV_PSI_E(150000)"
+      ],
+      "lifecycle_in_uexternaldb": {
+        "lop_0": "Zeros all committed and trial arrays at start of analysis",
+        "lop_1": "Restores trial state from committed state at start of increment",
+        "lop_2": "Commits trial state at end of accepted increment and writes energy CSV",
+        "lop_3": "Closes CSV file at end of analysis"
+      }
+    },
+    "initialization_ingestion_mechanism": {
+      "source_lines_uel": "248-262 in f42_mixed_uel.for",
+      "history_ingestion_statement": "SV_H_COMMITTED(PHYSIDX, KPT) = SVARS(8+KPT) at KSTEP=1, KINC<=1",
+      "history_field_supported": true,
+      "history_field_keyword": "*INITIAL CONDITIONS, TYPE=SOLUTION",
+      "phase_field_ingestion": "Derived from nodal DOF 3 (U(1..4)), NOT from SVARS",
+      "displacement_field_ingestion": "Derived from nodal DOFs 1, 2 (U(1..8)), NOT from SVARS"
+    },
+    "abaqus_standard_limitations": {
+      "initial_displacements_in_static_steps": "IGNORED by Abaqus/Standard (Section 34.2.1: 'Initial displacements cannot be applied in a static analysis. If initial displacements are specified for a static analysis, Abaqus/Standard ignores them.')",
+      "map_solution_for_uel": "UNSUPPORTED for *USER ELEMENT (only standard continuum elements)",
+      "restart_on_different_mesh": "UNSUPPORTED by *RESTART, READ (requires identical node and element numbering)"
+    }
+  },
+  "finding": "Audited frozen production UEL f42_mixed_uel.for state layout and identified exact Abaqus state-initialization interface: (1) SVARS declaration is 18 variables; (2) History field H at 4 Gauss points is initialized via *INITIAL CONDITIONS, TYPE=SOLUTION populating SVARS(9..12) at KSTEP=1, KINC<=1; (3) Phase field d and displacement u are nodal DOFs (DOFs 3 and 1,2) and NOT read from SVARS; (4) Abaqus Standard explicitly ignores *INITIAL CONDITIONS, TYPE=DISPLACEMENT in static steps."
+}

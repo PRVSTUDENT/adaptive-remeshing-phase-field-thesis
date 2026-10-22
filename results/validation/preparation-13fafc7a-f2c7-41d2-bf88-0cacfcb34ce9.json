@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "operation": "audit_f1597_state_initialization_pathway",
+  "title": "F1597 Executable Abaqus UEL State-Initialization Pathway Verification",
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "classification": "STATE_LAYOUT_VERIFIED_SOLVER_VALIDATION_PENDING",
+  "finding": "Audited frozen production UEL f42_mixed_uel.for state layout and verified nonmatching state initialization: (1) SVARS declaration is 18 variables with bitwise lossless packing/unpacking round-trip (max err = 0.0); (2) 1-to-1 U1/U2 overlay element correspondence verified across all 2300 receiver quads with 0 mismatches; (3) History field H at 4 Gauss points is initialized via *INITIAL CONDITIONS, TYPE=SOLUTION populating SVARS(9..12) at KSTEP=1, KINC<=1 (lines 248-262); (4) Abaqus Standard explicitly ignores *INITIAL CONDITIONS, TYPE=DISPLACEMENT in static analysis steps (Section 34.2.1), establishing the exact technical cause of Package 71 displacement loss.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/candidate_donor_h0025.inp": "4C82B66BDA1D925C2BEA65CF765633897ACF4B0030E43C77647FA5E0D05A3179",
+    "models/pandey_kumar_mode1/candidate_crack_band_mesh_c2.inp": "257FC6263D63721BDEEFE48A43CD504C79A92DF61C099CE9481984B625454901",
+    "scripts/validation/audit_f1597_state_initialization_pathway.py": "A0D3759F3CD20E632C68C019654B9058ADEF9ACB2833E9BE8F2579CC2E243A73",
+    "tests/unit/test_mode1_f1597_state_initialization_pathway.py": "AF41DE99870FA31A85B05D53F816D6D92E87BD3A08FF31C31734EA982CAB70FA",
+    "results/validation/f1597_state_initialization_pathway_audit.json": "CB042EF1BD9503E8109920CFB1D4382022E0CC93438307B6930023B44DB181DA",
+    "results/validation/f1597_receiver_initialization_deck_sample.inp": "8A2DCABDF01F4AE4ECF397D7C94F3D27523E21595884471B0B3C4E74D2B81331"
+  },
+  "audit_summary": {
+    "uel_declared_nsvars": 18,
+    "common_block_cb_state_trans": "VERIFIED",
+    "history_svars_ingestion_path": "SVARS(9..12) at KSTEP=1, KINC<=1 (lines 248-262)",
+    "packing_unpacking_roundtrip_err": 0.0,
+    "overlay_u1_u2_mismatches": 0,
+    "healing_node_count": 0,
+    "negative_history_count": 0,
+    "abaqus_static_displacement_initialization": "IGNORED_BY_STANDARD_SECTION_34_2_1",
+    "minimal_receiver_initialization_card": "results/validation/f1597_receiver_initialization_deck_sample.inp"
+  },
+  "limitation": "A valid initialization deck does not establish coupled mechanical equilibrium or Method C continuation. Preserve Method C Gate C1-1 as FAILED until authentic receiver calculations meet force continuity <=5%, fracture-energy continuity <=2% and zero nonphysical healing.",
+  "next_operation": "Formulate coupled mechanical continuation solver driver (either pre-equilibrated boundary step or qualified kinematic offset) and execute receiver solve once donor solve is complete."
+}

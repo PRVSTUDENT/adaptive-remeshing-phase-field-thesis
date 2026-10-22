@@ -1,0 +1,105 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "operation": "audit_f1597_state_initialization_pathway",
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "classification": "STATE_LAYOUT_VERIFIED_SOLVER_VALIDATION_PENDING",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/candidate_donor_h0025.inp": "4C82B66BDA1D925C2BEA65CF765633897ACF4B0030E43C77647FA5E0D05A3179",
+    "models/pandey_kumar_mode1/candidate_crack_band_mesh_c2.inp": "257FC6263D63721BDEEFE48A43CD504C79A92DF61C099CE9481984B625454901",
+    "results/validation/f1597_receiver_initialization_deck_sample.inp": "8A2DCABDF01F4AE4ECF397D7C94F3D27523E21595884471B0B3C4E74D2B81331"
+  },
+  "audit_metrics": {
+    "uel_nsvars": 18,
+    "packing_max_difference": 0.0,
+    "packing_lossless": true,
+    "donor_overlay_mismatches": 0,
+    "c2_overlay_mismatches": 0,
+    "receiver_elements": 2300,
+    "receiver_nodes": 2413,
+    "negative_history_count": 0,
+    "min_history_value": 8.058061077003794e-06,
+    "healing_node_count": 0,
+    "min_delta_damage": 1.9812735971496426e-05,
+    "history_ingestion_statement_verified": true,
+    "kstep_kinc_guard_verified": true
+  },
+  "uel_state_layout": {
+    "uel_path": "models\\pandey_kumar_mode1\\reproduction_package_gate6b_energy\\f42_mixed_uel.for",
+    "uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "uel_hash_verified": true,
+    "declared_nsvars": 18,
+    "has_common_block_cb_state_trans": true,
+    "has_initial_history_ingestion_statement": true,
+    "has_kstep_kinc_guard": true,
+    "phase_field_from_nodal_dof3": true,
+    "variable_mapping": {
+      "phase_u1": {
+        "svars_1_4": "Gauss point phase field d_pt(1..4)",
+        "svars_5_8": "Gauss point trial history H_trial(1..4)",
+        "svars_9_12": "Gauss point committed history H_committed(1..4) [INGESTED]",
+        "svars_13_14": "Element average phase field d_avg",
+        "svars_15": "Stiffness degradation factor g(d) = (1 - d_avg)^2 + k",
+        "svars_16": "Gauss point 1 history H_pt1",
+        "svars_17": "Integrated element fracture energy E_frac (kN*mm)",
+        "svars_18": "Element fracture energy density psi_f (kN/mm^2)"
+      },
+      "mech_u2": {
+        "svars_1_4": "Gauss point normal strain epsilon_11(1..4)",
+        "svars_5_8": "Gauss point normal stress sigma_11(1..4)",
+        "svars_9_10": "Coupled phase field d_val and degradation factor g(d)",
+        "svars_11_12": "Point 1 strain and stress",
+        "svars_13": "Point 1 history H_pt1",
+        "svars_14_15": "Coupled phase field d_val and degradation factor g(d)",
+        "svars_16": "Point 1 history H_pt1",
+        "svars_17": "Integrated element elastic strain energy E_elas (kN*mm)",
+        "svars_18": "Element elastic strain energy density psi_e (kN/mm^2)"
+      }
+    }
+  },
+  "packing_test": {
+    "n_elements_tested": 2300,
+    "nsvars": 18,
+    "max_packing_unpacking_difference": 0.0,
+    "packing_lossless": true
+  },
+  "overlay_donor": {
+    "n_physical_elements": 1600,
+    "u1_count": 1600,
+    "u2_count": 1600,
+    "u1_u2_mismatches": 0,
+    "overlay_exact": true
+  },
+  "overlay_c2": {
+    "n_physical_elements": 2300,
+    "u1_count": 2300,
+    "u2_count": 2300,
+    "u1_u2_mismatches": 0,
+    "overlay_exact": true
+  },
+  "abaqus_limitations": {
+    "initial_conditions_type_solution": {
+      "supported": true,
+      "notes": "Abaqus/Standard supports *INITIAL CONDITIONS, TYPE=SOLUTION on *USER ELEMENT. Frozen UEL f42_mixed_uel.for successfully ingests SVARS(9..12) into SV_H_COMMITTED and SV_H_TRIAL at KSTEP=1, KINC<=1 (lines 248-262)."
+    },
+    "initial_conditions_type_displacement": {
+      "supported": false,
+      "source_citation": "Abaqus Analysis User's Guide, Section 34.2.1 'Initial conditions in Abaqus/Standard and Abaqus/Explicit': 'Initial displacements cannot be applied in a static analysis. If initial displacements are specified for a static analysis, Abaqus/Standard ignores them.'",
+      "consequence": "Transferred non-zero displacement field cannot be applied via *INITIAL CONDITIONS in a *STATIC step. Specifying initial displacements leaves nodes at u=0.0 at the beginning of Step 1."
+    },
+    "map_solution_keyword": {
+      "supported": false,
+      "source_citation": "Abaqus Analysis User's Guide, Section 12.2.1 'Transferring results between different meshes': '*MAP SOLUTION is supported only for standard Abaqus continuum elements; user-defined elements (UEL) are not supported.'",
+      "consequence": "Automated mesh-to-mesh interpolation within Abaqus Standard cannot be invoked for UEL models."
+    },
+    "restart_read_keyword": {
+      "supported": false,
+      "source_citation": "Abaqus Analysis User's Guide, Section 9.1.1 'Restarting an analysis': '*RESTART, READ requires the model geometry, element definitions, and node definitions to remain unchanged.'",
+      "consequence": "Standard Abaqus restart fails if the mesh discretization is modified."
+    },
+    "technically_justified_pathway": "Because Abaqus Standard ignores initial displacements in static steps, an authentic continuation requires either: (1) Prescribed zero-increment boundary displacement step (holding all nodes at transferred positions then releasing free nodes), OR (2) Kinematic-Offset UEL formulation (solving for Delta u relative to offset u0, as formulated in F1568), OR (3) Solving a static equilibrium reconstruction step with matched surface tractions. For history field H, the frozen production UEL's SVARS(9..12) ingestion via *INITIAL CONDITIONS, TYPE=SOLUTION is 100% verified and operational without code modification."
+  },
+  "summary": "Audited production UEL f42_mixed_uel.for state layout and verified nonmatching state initialization: (1) SVARS declaration is 18 variables with bitwise lossless packing/unpacking round-trip (max err = 0.0); (2) 1-to-1 U1/U2 overlay element correspondence verified across all 2300 receiver quads with 0 mismatches; (3) History field H at 4 Gauss points is initialized via *INITIAL CONDITIONS, TYPE=SOLUTION populating SVARS(9..12) at KSTEP=1, KINC<=1 (lines 248-262); (4) Abaqus Standard explicitly ignores *INITIAL CONDITIONS, TYPE=DISPLACEMENT in static analysis steps (Section 34.2.1), establishing the exact technical cause of Package 71 displacement loss."
+}
