@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 75 candidate donor calculation qualified and submitted to HPC cluster as PBS Job ID 1416259.mmaster02 using corrected input deck candidate_donor_h0025_corrected.inp under frozen production UEL f42_mixed_uel.for.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/CANDIDATE_DONOR_H0025_AUTHORIZATION.json": "7D5AC31D05B52256538BB3A854476E4F02C8F300B8361E188F48578567F10DDE",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/PACKAGE_MANIFEST.json": "FBC85EC68D0A4E44733DB167A085C3DB9415AF40F2A3BA87E4070C3D513075B7",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/submit_M1_CANDIDATE_DONOR_H0025.pbs": "F84CE8F6D94C2B69439918A4BDA82F0AE2D4F78749210ABC186CA632419F8959",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/candidate_donor_h0025_corrected.inp": "0C313809D1711E0CF241D987D89756FAE3B9AC300A5F4B67196F6E5B388F0D86",
+    "models/pandey_kumar_mode1/candidate_donor_h0025_corrected.inp": "0C313809D1711E0CF241D987D89756FAE3B9AC300A5F4B67196F6E5B388F0D86",
+    "models/pandey_kumar_mode1/candidate_donor_h0025.inp": "4C82B66BDA1D925C2BEA65CF765633897ACF4B0030E43C77647FA5E0D05A3179",
+    "scripts/hpc/mode1_execution_gate.py": "EB952D5624237CBB0C39A5F7BE6BDB9EDE0B36BA8A9A64D7FE76A35AD53E695D",
+    "project_coordination/MODE1_BATCH_SUBMISSIONS.json": "77EA8CBB2EEDEC1ACF4A4E077B1F698B9AEF944C866F3CD1ED64B1738F03D795",
+    "project_coordination/HPC_JOB_LEDGER.csv": "896D9920D19DC31214C8171B2D3E0C177F7EE4B198A261CEB313A9CC470B9E97"
+  },
+  "verification_passed": true,
+  "next_operation": "Await solver completion for donor job 1416259.mmaster02, evaluate displacement and phase field continuity at transfer point u_top = 0.00254 mm, and proceed with candidate receiver continuation C2.",
+  "title": "Package 75 Candidate Donor Qualification & HPC Submission"
+}
