@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "5c974f35-a422-4ad2-93f8-e98209dcf73b",
+  "timestamp": "2026-10-22T20:33:00+02:00",
+  "finding": "Constructed and qualified Package 86 same-process uninterrupted staggered donor control without restart using the frozen production UEL. Validated Abaqus 2023 preflight datacheck with Exit Code 0 and executed job 1416411.mmaster02 via Invoke-Mode1Execution.ps1.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/86_donor_sameprocess_staggered_control/M1_DONOR_SAMEPROCESS_STAGGERED.inp": "72349FE779D5CE835B677D249A03287B6CE8786F170FFCA0389174DBD05FBE70",
+    "models/pandey_kumar_mode1/86_donor_sameprocess_staggered_control/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/86_donor_sameprocess_staggered_control/M1_DONOR_SAMEPROCESS_STAGGERED_DC.dat": "495523462AB40497086A4E99E2E529B1B17A2802D79BFAFA3458EBF2E576CC95",
+    "models/pandey_kumar_mode1/86_donor_sameprocess_staggered_control/MODE1_PACKAGE86_PREFLIGHT_REPORT.json": "8AD227B3068434372A36060A91ACDC43AB17337AA57048855F7E0C8B1C4727F2",
+    "models/pandey_kumar_mode1/86_donor_sameprocess_staggered_control/PACKAGE86_AUTHORIZATION.json": "0E808F9D65568103D3F154D1B33093D652CE8A8EC498D15682007CBECC69F84A",
+    "models/pandey_kumar_mode1/86_donor_sameprocess_staggered_control/PACKAGE_MANIFEST.json": "E8ECA949B41D4B4A23B953984DB7C6C1A0FB211EEB42E0AA00F2CE4AE42A1468",
+    "models/pandey_kumar_mode1/86_donor_sameprocess_staggered_control/submit_M1_DONOR_SAMEPROCESS_STAGGERED.pbs": "C1201C75851A0803DD8C177E04B00B1C897B8D449BA2EC28497ADF6EDA305F93",
+    "tests/unit/test_mode1_f1597_turn40_sameprocess_control.py": "C772B1581B6C113BA849C7C2350F4E940D1778A9F089A57ED3F4311AE6F49A7B"
+  },
+  "verification_passed": true,
+  "hpc_execution": {
+    "job_id": "1416411.mmaster02",
+    "job_name": "M1_DONOR_SAMEPROCESS_STAGGERED",
+    "pbs_name": "M1_DONOR_SAMEPR",
+    "queue": "normal_imfdfkmq",
+    "cluster_run_dir": "/scratch9/pr21vyci/runs/mode1_package86_donor_sameprocess_staggered",
+    "status": "RUNNING",
+    "submission_method": "Invoke-Mode1Execution.ps1"
+  }
+}
