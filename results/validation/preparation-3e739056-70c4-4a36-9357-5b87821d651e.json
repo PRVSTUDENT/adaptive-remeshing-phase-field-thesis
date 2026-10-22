@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": "3e739056-70c4-4a36-9357-5b87821d651e",
+  "finding": "Package 85 restart-aware identity diagnostic was formulated, verified locally and datachecked on the cluster with Exit Code 0 (Abaqus 2023 pre-processor and Intel Fortran compilation pass). However, HPC submission was deliberately withheld pursuant to the governance stop rule: mode1_execution_gate.py strictly enforces that f42_mixed_uel.for must match the frozen production hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6. Because modifying the production UEL without supervisor formulation review is prohibited, unilateral cluster execution of modified user subroutines is stopped. The lazy initialization repair architecture is fully demonstrated in Python unit simulations and cluster datachecks, and is preserved for supervisor milestone review.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/83_donor_samemesh_staggered_control/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/85_restart_aware_uel_diagnostic/f42_mixed_uel_restart_aware.for": "27594ABA2A43334A953CEA22C473A08064A53369CEAAE0739EC114B44891ED33",
+    "models/pandey_kumar_mode1/85_restart_aware_uel_diagnostic/M1_RESTART_AWARE_IDENTITY_DIAGNOSTIC.inp": "9B9FF01A56B1170435E169B63D8DAB46DC09428225F8A78B62251120455A135B",
+    "models/pandey_kumar_mode1/85_restart_aware_uel_diagnostic/submit_M1_RESTART_AWARE_IDENTITY_DIAGNOSTIC.pbs": "4DE39D5298FB94A34C7EA6C90D72A0101B48A9C55AB8E6171986BFAEA6F3033E",
+    "models/pandey_kumar_mode1/85_restart_aware_uel_diagnostic/M1_RESTART_AWARE_IDENTITY_DIAGNOSTIC_DC.dat": "035899C18E8E5CC6676A0A37F47FF8F729D497A5E4ED621AE6232A0184BE9F76",
+    "models/pandey_kumar_mode1/85_restart_aware_uel_diagnostic/PACKAGE_MANIFEST.json": "CA0BC0EA3D1A1FCFA4FDBFBC123DC7046EA761E8E258546B79C36894CBB0C17D",
+    "models/pandey_kumar_mode1/85_restart_aware_uel_diagnostic/PACKAGE85_AUTHORIZATION.json": "9DCE3A4BB3798A392850C5FF6F90A5CC0F9D8FE5863B753CD7C56806D75C30F1",
+    "tests/unit/test_mode1_f1597_turn37_restart_history_audit.py": "4E331F5889E73834D32731485D3A40458809BDCD82BC3CA9E2F65F8B7C4A5FD9",
+    "results/validation/mode1_f1597/f1597_turn38_package85_qualification_blocker.json": "FF067A64C6A40767704D98A3652F420260BE7CA9C01A4CFBBB97BC557706B4A6",
+    "scripts/validation/evaluate_turn38_package85_blocker.py": "07005FC650227C06368BD10DC8D7702A6F2D270849A505F35B815EB2943C911C"
+  },
+  "verification_passed": true
+}
