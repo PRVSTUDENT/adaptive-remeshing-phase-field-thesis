@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "turn": "c443264a-207f-42ea-914d-abf7d5416859",
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "status": "INITIAL_AUDIT_COMPLETE",
+  "timestamp": "2026-10-23T14:31:30+02:00",
+  "finding": "Corrected Package 96-R1 evaluation contradiction: reclassified gate4_irreversibility from PASS to FAIL due to 756 Step 4 healing points (min delta_d = -0.001155). Reconfirmed Gate 3 FAIL (4 points exceed d=1, max d=1.000162). Confirmed Stage C1-2 overall status is strictly FAIL. Dispatched quantitative nodal vs Gauss-point field audit and constrained active-set formulation investigation.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/pkg96_r1_solver_evaluation.json": "6927_bytes_verified",
+    "results/validation/mode1_f1597/pkg96_r1_frame_history_summary.csv": "3845_bytes_verified",
+    "project_coordination/HPC_JOB_LEDGER.csv": "301_lines_verified",
+    "models/pandey_kumar_mode1/96_r1_c5_package96_r1_consistent_transfer/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "package96_r1_reclassified_audit": {
+    "job_id": "1416889.mmaster02",
+    "exit_code": 0,
+    "increments_solved": 16,
+    "cutbacks": 0,
+    "severe_discontinuities": 0,
+    "gates": {
+      "gate1_force_continuity": {
+        "verdict": "PASS",
+        "step2_rf2_N": 111.9263,
+        "donor_rf2_N": 112.9707,
+        "mismatch_pct": -0.925,
+        "tolerance_pct": 5.0
+      },
+      "gate2_energy_continuity": {
+        "verdict": "PASS",
+        "step2_e_frac_kNmm": 0.00013773671,
+        "donor_e_frac_kNmm": 0.00013773671,
+        "mismatch_pct": 0.000,
+        "tolerance_pct": 2.0
+      },
+      "gate3_damage_bounds": {
+        "verdict": "FAIL",
+        "d_max": 1.000162,
+        "overshoot_points": 4,
+        "bound_criteria": "0.0 <= d <= 1.00000"
+      },
+      "gate4_irreversibility": {
+        "verdict": "FAIL",
+        "step3_healing_points": 0,
+        "step4_healing_points": 756,
+        "step4_min_delta_d": -0.001155138,
+        "reclassification_rationale": "Previously misclassified as PASS because evaluator checked only step3_healing == 0 while ignoring 756 step4 healing violations"
+      },
+      "gate5_history_preservation": {
+        "verdict": "PASS",
+        "h_init": 1752.6559,
+        "h_term": 1752.6559,
+        "negative_h_points": 0
+      },
+      "gate6_continuation_softening": {
+        "verdict": "PASS",
+        "force_drop_pct": -2.987,
+        "step3_rf2_N": 111.9263,
+        "step4_rf2_N": 108.5826
+      }
+    },
+    "overall_qualification": "GATE_C1_2_FAIL"
+  },
+  "verification_passed": true
+}

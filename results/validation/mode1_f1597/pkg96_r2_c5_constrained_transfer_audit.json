@@ -1,0 +1,53 @@
+{
+  "status": "PACKAGE96_R2_CONSTRUCTED",
+  "manifest_path": "models/pandey_kumar_mode1/96_r2_c5_package96_r2_constrained_transfer/PACKAGE_MANIFEST.json",
+  "authorization_path": "models/pandey_kumar_mode1/96_r2_c5_package96_r2_constrained_transfer/M1_C5_PACKAGE96_R2_TRANSFER_AUTHORIZATION.json",
+  "input_deck_hash": "FC853DCE119167A5F0B79BA1F7123B6EDC767875E322C4AB897305BE009863B7",
+  "frozen_uel_hash": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "receiver_mesh": {
+    "name": "Candidate C5",
+    "elements": 4440,
+    "physical_nodes": 4610,
+    "h_fine_mm": 0.0007,
+    "error_threshold": 0.15,
+    "companion_elements": 4440,
+    "companion_type": "CPE4 (Layer 3)"
+  },
+  "donor_provenance": {
+    "donor_job": "1416653.mmaster02",
+    "donor_package": "PACKAGE_94",
+    "checkpoint_step": "FORWARD_CONTINUATION",
+    "checkpoint_frame": 7,
+    "u2_target_mm": 0.002052,
+    "rf2_target_N": 112.9707098,
+    "d_max_donor": 0.9998528,
+    "e_fracture_target_kNmm": 0.00013773671,
+    "e_total_target_kNmm": 0.00025364406,
+    "nodal_csv": "results/validation/mode1_f1597/pkg94_step4_frame7_nodal_state.csv",
+    "committed_history_csv": "results/validation/mode1_f1597/pkg94_step4_frame7_committed_history.csv",
+    "gp_history_source": "AUTHENTIC_PACKAGE94_COMPANION_TELEMETRY"
+  },
+  "remediation": {
+    "formulation": "VARIATIONAL_INEQUALITY_PDAS",
+    "e_frac_predicted_kNmm": 0.00013827760906875007,
+    "e_frac_mismatch_pct": 0.392705088389346,
+    "step3_irreversibility_fix": "CLAMPS_ALL_NODES_TO_D_CKPT",
+    "step4_active_partition": {
+      "upper_bound_U_nodes": 73,
+      "lower_bound_L_nodes": 3745,
+      "free_advancing_A_nodes": 802
+    }
+  },
+  "continuation": {
+    "checkpoint_u_mm": 0.002052,
+    "continuation_u_mm": 0.002056,
+    "delta_u_nm": 4.0,
+    "step4_increments": [
+      0.1,
+      1.0,
+      1e-08,
+      0.2
+    ]
+  },
+  "verification_passed": true
+}
