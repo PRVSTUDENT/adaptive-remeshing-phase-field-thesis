@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "25031f9a-024b-4d80-ae32-e152b133d4bd",
+  "timestamp": "2026-10-23T17:02:25+02:00",
+  "finding": "Package 96-R3 dual-job reconciliation and Step 4 forward healing diagnosis completed: Job 1416912 successfully overwrote Job 1416910 scratch outputs, achieving Gate 1 force continuity (1.15%), Gate 2 energy continuity (0.41%), Gate 3 bounds (0 overshoots), Gate 5 history, Gate 6 continuation softening (-0.89%), and Gate 4 Step 3 zero healing. The 84 Step 4 continuation healing points were conclusively audited to reside across 20 physical elements (80 GPs) attached to 17 free nodes in Set A on the diffuse wake flanks (X <= 0.0612 mm, |Y - 0.050| >= 0.00067 mm) where elastic unloading drives artificial relaxation. Centerline nodes (|Y - 0.050| = 0.0 mm) exhibit strictly positive crack advancement (0 healing). The minimal repair formulation (R4) reclassifies these 17 diffuse flank nodes to Set L (clamped to d_ckpt), bounding the active set A to 39 strictly advancing crack-front nodes (0.0612 <= X <= 0.0729 mm) and eliminating flank relaxation without replaying simulations.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/pkg96_r3_solver_evaluation.json": "A5C5EA2E000B0C0A51E9F3D37B447B500826967E8616F279855F910BC803FD18",
+    "results/validation/mode1_f1597/pkg96_r3_healing_gp_audit.json": "24699867ED5C3C83E229C6982AB73C51BAAC76A9571819BC45233E7D6D49A05D",
+    "results/validation/mode1_f1597/pkg96_r3_true_healing_connectivity_audit.json": "3738C88557DD61488DA8431DD74590149418E06BB788B333E14C8AF0714C413D",
+    "results/validation/mode1_f1597/pkg96_r3_healing_free_nodes_profile.json": "55BDF55339AC6F4602D81725F787CCAD5ED7D28A70B85F66497F149530FB7099",
+    "results/validation/mode1_f1597/pkg96_r4_minimal_repair_formulation.json": "82E7101876934E60BEB2BBFF155030AB073BC35404FDCE486212E3B3225B25C4",
+    "tests/unit/test_mode1_f1597_turn62_healing_diagnosis.py": "895F6F2D0A8801C7FF25B5922B426AE728AFA5EA115BFF3EB18A8E199B257006",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}
