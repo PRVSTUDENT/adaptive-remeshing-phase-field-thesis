@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "run_id": "2b64cf0c-aefc-474c-a851-7c44f565b742",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "finding": "Package 96-R5 candidate constructed and qualified: continuous variational L2 projection resolved pre-solver fracture energy to 0.134768 uJ (-2.15% vs authentic donor 0.137737 uJ, a 3.4x improvement over R4), with zero damage overshoots (0 <= d <= 0.99935); Abaqus 2023 remote datacheck PASSED CLEANLY (Exit 0); however solver execution is strictly blocked because static Dirichlet boundary partitions in a multi-increment step cannot enforce accepted-increment lower bounds d_{n+1} >= d_n under the bitwise frozen UEL, mandating an explicit transition to genuine external cycle restart architecture.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "results/validation/mode1_f1597/pkg96_r5_variational_transfer_evaluation.json": "00476656E3AAA1A596D265BADB7610C0CA806BEE3D363F1C3336BEEA334832A1",
+    "models/pandey_kumar_mode1/96_r5_c5_package96_r5_variational_transfer/M1_C5_PACKAGE96_R5_TRANSFER.inp": "505EDCB7A0423ECD8EFF564BEDC0F4DA9291B74D6A9D72DD54D8DC8C7CAE7CDA",
+    "models/pandey_kumar_mode1/96_r5_c5_package96_r5_variational_transfer/PACKAGE_MANIFEST.json": "6094F6B75FE04C199EC25F96B5AC75B38B9D549B8FE7C399C65E78FA2DCCEF30",
+    "models/pandey_kumar_mode1/96_r5_c5_package96_r5_variational_transfer/M1_C5_PACKAGE96_R5_TRANSFER_AUTHORIZATION.json": "65D1DABE09207BE85F62E43C4572690E7F3E41F22952726636C3A70378FE842A",
+    "tests/unit/test_mode1_f1597_turn67_package96_r5_qualification.py": "67EB829FC7CB6DC12B890930CB49BFD4F604E04DEB44415141838B3368A3A704",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  }
+}
