@@ -1,0 +1,41 @@
+#!/bin/bash
+#PBS -N M1_C3_P93_INST
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=04:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratch9/pr21vyci/runs/mode1_package93_c3_instrumented_control/pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_package93_c3_instrumented_control"
+cd "${RUN_DIR}"
+
+export JOB_NAME="M1_C3_PACKAGE93_INSTRUMENTED_REPLAY"
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+source "${RUN_DIR}/job_notifications.sh"
+notification_load_config
+notification_install_terminal_trap
+notify_start
+
+export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/tmp/xdg_runtime_${USER}}"
+mkdir -p "${XDG_RUNTIME_DIR}"
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+
+JOB_NAME="M1_C3_PACKAGE93_INSTRUMENTED_REPLAY"
+INP_NAME="M1_C3_PACKAGE93_INSTRUMENTED_REPLAY.inp"
+USER_SUB="f42_mixed_uel.for"
+
+test ! -e "${JOB_NAME}.lck"
+
+echo "Starting Abaqus analysis ${JOB_NAME} at $(date)"
+abaqus job="${JOB_NAME}" input="${INP_NAME}" user="${USER_SUB}" cpus=1 interactive
+EXIT_CODE=$?
+echo "Abaqus completed with exit code ${EXIT_CODE} at $(date)"
+
+exit ${EXIT_CODE}

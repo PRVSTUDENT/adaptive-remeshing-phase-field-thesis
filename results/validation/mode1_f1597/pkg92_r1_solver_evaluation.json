@@ -1,0 +1,228 @@
+{
+  "donor_comparison": {
+    "step1_rf2_N": 159.15586054325104, 
+    "step3_mismatch_pct": 3.355498536373821, 
+    "donor_rf2_target_N": 159.15939211845398, 
+    "force_continuity_gate": "PASS", 
+    "step1_mismatch_pct": 0.002218892115592857, 
+    "donor_package": "PACKAGE_90_R1", 
+    "step2_mismatch_pct": 0.10843547883036485, 
+    "donor_dmax_target": 0.9729551076889038, 
+    "step2_rf2_N": 158.98680686950684, 
+    "step3_rf2_N": 153.81880104541779
+  }, 
+  "forward_continuation": {
+    "terminal_u2_mm": 0.0020649998914450407, 
+    "terminal_h_min": 7.510855937198357e-09, 
+    "companion_gp_count": 17688, 
+    "terminal_d_min": 0.003856946947053075, 
+    "damage_bound_check": "OVERSHOOT_ABOVE_1", 
+    "terminal_d_max": 1.000016689300537, 
+    "softening_force_drop_pct": -31.53165794874453, 
+    "terminal_rf2_N": 105.31718283891678, 
+    "terminal_h_max": 2004.738037109375
+  }, 
+  "energy_progression": [
+    {
+      "total_time": 1.0, 
+      "step_time": 1.0, 
+      "E_fracture_mJ": 8.7654896e-05, 
+      "step": 1, 
+      "E_total_mJ": 0.00025189504, 
+      "E_elastic_mJ": 0.00016424014, 
+      "inc": 1
+    }, 
+    {
+      "total_time": 1.1, 
+      "step_time": 0.1, 
+      "E_fracture_mJ": 8.7654896e-05, 
+      "step": 2, 
+      "E_total_mJ": 0.00025145111, 
+      "E_elastic_mJ": 0.00016379621, 
+      "inc": 1
+    }, 
+    {
+      "total_time": 1.2, 
+      "step_time": 0.2, 
+      "E_fracture_mJ": 8.7654896e-05, 
+      "step": 2, 
+      "E_total_mJ": 0.0002510539, 
+      "E_elastic_mJ": 0.00016339901, 
+      "inc": 2
+    }, 
+    {
+      "total_time": 1.35, 
+      "step_time": 0.35, 
+      "E_fracture_mJ": 8.7654896e-05, 
+      "step": 2, 
+      "E_total_mJ": 0.00025054572, 
+      "E_elastic_mJ": 0.00016289082, 
+      "inc": 3
+    }, 
+    {
+      "total_time": 1.55, 
+      "step_time": 0.55, 
+      "E_fracture_mJ": 8.7654896e-05, 
+      "step": 2, 
+      "E_total_mJ": 0.00025003169, 
+      "E_elastic_mJ": 0.0001623768, 
+      "inc": 4
+    }, 
+    {
+      "total_time": 1.75, 
+      "step_time": 0.75, 
+      "E_fracture_mJ": 8.7654896e-05, 
+      "step": 2, 
+      "E_total_mJ": 0.00024970459, 
+      "E_elastic_mJ": 0.00016204969, 
+      "inc": 5
+    }, 
+    {
+      "total_time": 1.95, 
+      "step_time": 0.95, 
+      "E_fracture_mJ": 8.7654896e-05, 
+      "step": 2, 
+      "E_total_mJ": 0.0002495644, 
+      "E_elastic_mJ": 0.0001619095, 
+      "inc": 6
+    }, 
+    {
+      "total_time": 2.0, 
+      "step_time": 1.0, 
+      "E_fracture_mJ": 8.7654896e-05, 
+      "step": 2, 
+      "E_total_mJ": 0.00024955856, 
+      "E_elastic_mJ": 0.00016190366, 
+      "inc": 7
+    }, 
+    {
+      "total_time": 3.0, 
+      "step_time": 1.0, 
+      "E_fracture_mJ": 9.2126935e-05, 
+      "step": 3, 
+      "E_total_mJ": 0.00024876777, 
+      "E_elastic_mJ": 0.00015664084, 
+      "inc": 1
+    }, 
+    {
+      "total_time": 3.05, 
+      "step_time": 0.05, 
+      "E_fracture_mJ": 9.4423795e-05, 
+      "step": 4, 
+      "E_total_mJ": 0.0002484943, 
+      "E_elastic_mJ": 0.00015407051, 
+      "inc": 1
+    }, 
+    {
+      "total_time": 3.1, 
+      "step_time": 0.1, 
+      "E_fracture_mJ": 9.8620191e-05, 
+      "step": 4, 
+      "E_total_mJ": 0.00024792407, 
+      "E_elastic_mJ": 0.00014930388, 
+      "inc": 2
+    }, 
+    {
+      "total_time": 3.175, 
+      "step_time": 0.175, 
+      "E_fracture_mJ": 0.00010647677, 
+      "step": 4, 
+      "E_total_mJ": 0.00024761419, 
+      "E_elastic_mJ": 0.00014113743, 
+      "inc": 3
+    }, 
+    {
+      "total_time": 3.2875, 
+      "step_time": 0.2875, 
+      "E_fracture_mJ": 0.00011898838, 
+      "step": 4, 
+      "E_total_mJ": 0.00024979784, 
+      "E_elastic_mJ": 0.00013080946, 
+      "inc": 4
+    }, 
+    {
+      "total_time": 3.45625, 
+      "step_time": 0.45625, 
+      "E_fracture_mJ": 0.00013545976, 
+      "step": 4, 
+      "E_total_mJ": 0.0002557841, 
+      "E_elastic_mJ": 0.00012032435, 
+      "inc": 5
+    }, 
+    {
+      "total_time": 3.65625, 
+      "step_time": 0.65625, 
+      "E_fracture_mJ": 0.00014785815, 
+      "step": 4, 
+      "E_total_mJ": 0.00026096374, 
+      "E_elastic_mJ": 0.00011310559, 
+      "inc": 6
+    }, 
+    {
+      "total_time": 3.85625, 
+      "step_time": 0.85625, 
+      "E_fracture_mJ": 0.00015333159, 
+      "step": 4, 
+      "E_total_mJ": 0.00026305709, 
+      "E_elastic_mJ": 0.0001097255, 
+      "inc": 7
+    }, 
+    {
+      "total_time": 4.0, 
+      "step_time": 1.0, 
+      "E_fracture_mJ": 0.00015514864, 
+      "step": 4, 
+      "E_total_mJ": 0.00026388864, 
+      "E_elastic_mJ": 0.00010873999, 
+      "inc": 8
+    }
+  ], 
+  "step_rf_summary": {
+    "STAGGERED_PHASE_SUBPROBLEM": {
+      "last_frame_time": 1.0, 
+      "u2_rp_mm": 0.002036693040281534, 
+      "d_min": 0.003856946947053075, 
+      "companion_gp_count": 17688, 
+      "h_max": 348.1175842285156, 
+      "num_frames": 2, 
+      "h_min": 7.510855937198357e-09, 
+      "d_max": 0.9877288341522217, 
+      "rf2_rp_N": 153.81880104541779
+    }, 
+    "STATE_INJECTION": {
+      "last_frame_time": 1.0, 
+      "u2_rp_mm": 0.002036693040281534, 
+      "d_min": 0.003856946947053075, 
+      "companion_gp_count": 17688, 
+      "h_max": 155.51771545410156, 
+      "num_frames": 2, 
+      "h_min": 7.510855937198357e-09, 
+      "d_max": 0.9660900831222534, 
+      "rf2_rp_N": 159.15586054325104
+    }, 
+    "FORWARD_CONTINUATION": {
+      "last_frame_time": 1.0, 
+      "u2_rp_mm": 0.0020649998914450407, 
+      "d_min": 0.003856946947053075, 
+      "companion_gp_count": 17688, 
+      "h_max": 2004.738037109375, 
+      "num_frames": 9, 
+      "h_min": 7.510855937198357e-09, 
+      "d_max": 1.000016689300537, 
+      "rf2_rp_N": 105.31718283891678
+    }, 
+    "MECH_REEQUIL_FROZEN_DAMAGE": {
+      "last_frame_time": 1.0, 
+      "u2_rp_mm": 0.002036693040281534, 
+      "d_min": 0.003856946947053075, 
+      "companion_gp_count": 17688, 
+      "h_max": 155.51771545410156, 
+      "num_frames": 8, 
+      "h_min": 7.510855937198357e-09, 
+      "d_max": 0.9660900831222534, 
+      "rf2_rp_N": 158.98680686950684
+    }
+  }, 
+  "pbs_job_id": "1416628.mmaster02", 
+  "job_name": "M1_C4_PACKAGE92_R1_TRANSFER"
+}

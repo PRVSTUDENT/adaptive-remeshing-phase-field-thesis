@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "turn": 55,
+  "run_id": "b13e68ac-0d42-4db1-ae22-779415f0ae6e",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "timestamp": "2026-10-23T11:21:00+02:00",
+  "status": "INITIAL_AUDIT_AND_HISTORY_DEFECT_DISCOVERED",
+  "package92_r1_evaluation": {
+    "pbs_job_id": "1416628.mmaster02",
+    "exit_code": 0,
+    "walltime_seconds": 22,
+    "steps_solved": 4,
+    "cutbacks": 0,
+    "reactions": {
+      "donor_rf2_target_N": 159.15939211845398,
+      "step1_injection_rf2_N": 159.15586054325104,
+      "step1_mismatch_pct": 0.002218892115592857,
+      "step2_reequil_rf2_N": 158.98680686950684,
+      "step2_mismatch_pct": 0.10843547883036485,
+      "step3_staggered_rf2_N": 153.81880104541779,
+      "step3_mismatch_pct": 3.355498536373821,
+      "step4_terminal_rf2_N": 105.31718283891678,
+      "softening_force_drop_pct": -31.53165794874453
+    },
+    "damage_bounds": {
+      "terminal_d_min": 0.003856946947053075,
+      "terminal_d_max": 1.000016689300537,
+      "terminal_overshoot_pct": 0.0016689
+    },
+    "energy_continuity": {
+      "step1_total_mJ": 0.00025189504,
+      "step2_total_mJ": 0.00024955856,
+      "step3_total_mJ": 0.00024876777,
+      "donor_total_mJ": 0.00024858000,
+      "step3_energy_mismatch_pct": 0.0755
+    },
+    "solver_gates_verdict": "PASS_NUMERICAL_CONTINUITY"
+  },
+  "committed_history_defect_audit": {
+    "discovery": "Evaluation of running maximum history over all 13 accepted trajectory frames in Package 90-R1 ODB proves that single-frame constitutive reconstruction max(H_init, psi0_pos(Frame6)) underestimates the true historical maximum committed by the solver in regions of local stress relaxation.",
+    "total_gauss_points": 10600,
+    "underestimated_points_count": 1067,
+    "underestimated_fraction_pct": 10.066037735849056,
+    "max_absolute_error_kNmm2": 1.0963622021660653,
+    "max_relative_error_pct": 89.68142379620735,
+    "critical_elements": [1340, 1341, 1342, 1235, 1236],
+    "critical_location": "Fracture process zone along y = 0.050 mm, x in [0.040, 0.044] mm",
+    "package92_r1_classification": "CONDITIONALLY_QUALIFIED_HISTORY_UNDERESTIMATED"
+  },
+  "corrective_plan": {
+    "action": "Package 93: Same-trajectory faithfully instrumented C3 control reproducing Package 90-R1 exact boundary conditions and active set (531 free nodes, 2,238 clamped nodes) with Layer 3 companion elements (2,650 CPE4 quads) exporting solver SDVs at frequency 1.",
+    "target_metrics": {
+      "rf2_parity_tolerance_pct": 0.05,
+      "expected_rf2_N": 159.1594,
+      "expected_dmax": 0.972955
+    }
+  },
+  "evidence_sources": {
+    "results/validation/mode1_f1597/pkg92_r1_solver_evaluation.json": "0A9E71F42CE98A3C1EE2B59D82F7FF2B07C64DF8333D72BD057530BC3E6EB528",
+    "results/validation/mode1_f1597/pkg90_r1_running_history_audit.json": "A973656C6063F2856B77EB80A04ECF0A4106B4D2B82F63DBBC5FF5D075FEE2BA",
+    "results/validation/mode1_f1597/pkg90_r1_running_vs_frame6_history.csv": "36D19EF44F34C82E3EBCBCE7040E7A6E944747B50713732FA32D5392D66EC5DA"
+  },
+  "verification_passed": true
+}
