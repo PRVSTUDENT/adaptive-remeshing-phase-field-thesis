@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 72,
+  "created_at": "2026-10-23T21:32:00+02:00",
+  "adapter_specification": {
+    "adapter_name": "mode1-pdas-iterative-v1",
+    "scientific_scope": "MODE1",
+    "execution_architecture": "single-rank serial compute-node iterative driver",
+    "seed_deck_contract": {
+      "name": "seed_c5_continuation.inp",
+      "preflight_datacheck_required": true,
+      "uel_linkage_verified": true,
+      "preserves_authentic_mesh": true,
+      "physical_nodes": 4610,
+      "reference_node_excluded": 999999
+    },
+    "subproblem_generation_rules": {
+      "mutation_scope": "BOUNDARY_DOF11_ONLY",
+      "prohibited_mutations": [
+        "*ELEMENT",
+        "*NODE",
+        "*USER ELEMENT",
+        "*MATERIAL",
+        "*STEP",
+        "*STATIC",
+        "*CONTROLS"
+      ],
+      "active_set_mapping": {
+        "U": "Dirichlet BC DOF 11 = 1.00000000",
+        "L": "Dirichlet BC DOF 11 = d_checkpoint",
+        "A": "Free DOF 11"
+      }
+    },
+    "subproblem_accounting_and_ledger": {
+      "ledger_file": "pdas_subproblem_ledger.json",
+      "mandatory_fields": [
+        "iteration",
+        "subproblem_id",
+        "input_deck_sha256",
+        "exit_code",
+        "set_sizes",
+        "set_changes",
+        "residual_inf_norm_A_kNmm",
+        "strict_healing_count",
+        "strict_overshoot_count",
+        "rf2_kN"
+      ]
+    },
+    "convergence_and_safety_criteria": {
+      "active_set_invariance": "Delta_N_active == 0",
+      "free_set_residual_tol_kNmm": 1.0e-6,
+      "strict_healing_tolerance": 0,
+      "strict_overshoot_tolerance": 0,
+      "max_iterations_cap": 25,
+      "overflow_behavior": "TERMINATE_WITH_FAILURE_DIAGNOSTIC"
+    }
+  },
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "tests/unit/test_mode1_f1597_turn72_pdas_adapter_specification.py": "FF620257421FFD80F3DE215BF9871E0023717FAC65FCB6FA6A11BC7B77ED2AD1"
+  },
+  "verification_passed": true,
+  "gate_c1_2_status": "NOT_QUALIFIED",
+  "qualification_decision": "Adapter design specification completed and unit-tested; bare unconstrained submission remains blocked; live HPC pilot queued for morning implementation."
+}
