@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "run_id": "7cd039d3-2735-42bb-be7f-f62a4e5b2771",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "finding": "External Primal-Dual Active-Set (PDAS) Increment Controller formulated and verified: Sobolev H^1 state transfer resolved fracture energy error to -1.5500% (passing the <= 2% gate); three-way comparison proved unconstrained solve yields 1,955 healing nodes and naive clipping leaves non-zero PDE residuals (2.21e-6 kN/mm), whereas converged PDAS achieves exactly 0 healing nodes, 0 overshoots, and strict KKT multiplier validity; stopping tolerances rigorously defined with active-set invariance Delta_N_active == 0 and dual tolerance tau_res = 1.0e-6.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "results/validation/mode1_f1597/pkg96_h1_transfer_and_pdas_evaluation.json": "3E6FFF70D0DFB4F1902D46F3DE870ABBB93D88D14073A152E1820352B4DEF313",
+    "results/validation/mode1_f1597/pkg96_pdas_controller_feasibility.json": "D29A068DD1615D8A0EE60A5B4F4804B1504A3212B498883041BE91A26A63E0DF",
+    "scripts/validation/evaluate_h1_variational_transfer.py": "8E28265D5CC1E9BC773DBEB0235925BF4979BF408E4773BD7AEEB59F7608C826",
+    "scripts/validation/pdas_increment_controller.py": "1A61C8030AD877BA788F5145BD3E4977BF453120E783509051D8FC1C366641A3",
+    "tests/unit/test_mode1_f1597_turn68_pdas_controller.py": "65F1CF59B1E6879C4F7219D5AD690EAF4ECEAB0CE7525DF92710C30AACC4F63A",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  }
+}
