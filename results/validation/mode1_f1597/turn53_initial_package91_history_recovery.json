@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "controller_run_id": "15edb78c-2f6d-454e-96af-4518fca0ce6f",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 53,
+  "status": "INITIAL_RESEARCH_ARTIFACT_VERIFIED",
+  "operation": "package91_terminal_state_extraction_and_authentic_history_recovery",
+  "title": "Package 91 Authentic Gauss-Point History Recovery and Checkpoint Verification",
+  "finding": "Package 91 (Job 1416584.mmaster02) completed Exit 0 with zero cutbacks across all 4 steps. Authentic integration-point strain energy history (H) was successfully recovered across all 10,600 Gauss points (2,650 quads x 4 IPs) via Layer 3 companion CPE4 elements (5301..7950) linked to the frozen f42_mixed_uel.for UMAT visualization bridge. Recovered H satisfies strict non-negativity (H_min = 4.328e-7, H_max = 71.272, H_mean = 0.1606). Phase field damage bounds satisfy physical constraints without overshoot (d_max = 0.94942 <= 1.00000). Reaction force at Step 4 Frame 6 (u2 = 0.0020367 mm) reached RF2 = 162.93 N, matching Package 90-R1 (159.16 N) within 2.37% while successfully eliminating the -0.000169 interface relaxation. The missing committed history dependency is now 100% resolved without data fabrication.",
+  "verification_passed": true,
+  "package91_metrics": {
+    "pbs_job_id": "1416584.mmaster02",
+    "exit_code": 0,
+    "step_4_increments": 8,
+    "cutbacks": 0,
+    "checkpoint": "Step 4 Frame 6 (t = 0.65625)",
+    "u2_rp_mm": 0.002036693,
+    "rf2_rp_N": 162.9265,
+    "rf2_parity_vs_pkg90_r1_pct": 2.367,
+    "uel_total_energy_microjoules": 249.173,
+    "total_gauss_points": 10600,
+    "h_min": 4.32797e-07,
+    "h_max": 71.27176,
+    "h_mean": 0.160567,
+    "h_nonnegative_gate": "PASS",
+    "d_min": 0.003947,
+    "d_max": 0.949424,
+    "d_bounds_gate": "PASS"
+  },
+  "evidence_sources": {
+    "results/validation/mode1_f1597/pkg91_frame6_audit_summary.json": "B12FA1FA310C0C760C9577CED0B3B084FE4EDE08E9235D16F2805888671736EA",
+    "scripts/validation/extract_pkg91_terminal_state.py": "3141587958096E90658239021ECAEB01208CC33DB21CEF643D372F2431161089",
+    "models/pandey_kumar_mode1/91_c3_package91_instrumented_replay/M1_C3_PACKAGE91_INSTRUMENTED_REPLAY.sta": "9F48F654534632B6DBD7A3FC32B42CA67B7AE9AD9B4C38503AA5091CA661923D",
+    "models/pandey_kumar_mode1/91_c3_package91_instrumented_replay/uel_energy_balance.csv": "EB0CDD660C049A9138678840AB93C3A9C56722D901F044AD554FF5411DB6BD09"
+  }
+}

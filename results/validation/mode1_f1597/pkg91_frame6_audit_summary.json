@@ -1,0 +1,27 @@
+{
+  "frame_id": 6, 
+  "history_recovery": {
+    "total_gauss_points": 10600, 
+    "expected_gauss_points": 10600, 
+    "h_max": 71.27175903320312, 
+    "h_min": 4.3279700889797823e-07, 
+    "h_mean": 0.16056707003002663, 
+    "nonnegative_gate": "PASS"
+  }, 
+  "u2_rp_mm": 0.002036693040281534, 
+  "step_name": "FORWARD_CONTINUATION", 
+  "force_parity_vs_pkg90_r1": {
+    "diff_pct": 2.3668787243398874, 
+    "pkg90_r1_rf2_N": 159.1594, 
+    "pkg91_rf2_N": 162.92650997638702
+  }, 
+  "phase_damage_recovery": {
+    "d_max": 0.9494244456291199, 
+    "damage_bounds_gate": "PASS", 
+    "d_min": 0.003947028890252113
+  }, 
+  "step_time": 0.65625, 
+  "rf2_rp_N": 162.92650997638702, 
+  "job_name": "M1_C3_PACKAGE91_INSTRUMENTED_REPLAY", 
+  "frame_index": 6
+}

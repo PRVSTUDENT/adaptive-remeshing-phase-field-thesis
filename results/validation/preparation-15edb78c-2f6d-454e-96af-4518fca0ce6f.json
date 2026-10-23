@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "controller_run_id": "15edb78c-2f6d-454e-96af-4518fca0ce6f",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 91 (Job 1416584) completed Exit 0 with all 10,600 Gauss-point strain energy histories authentically recovered (H_min=4.328e-7, H_max=71.272, H_mean=0.1606) via Layer 3 companion CPE4 elements (5301..7950) linked to the frozen f42_mixed_uel.for UMAT visualization bridge, resolving the missing history dependency without data fabrication. Candidate C4 mesh (4,422 quads, 4,588 nodes, min detJ=3.691e-8) was generated authentically from the measured Zienkiewicz-Zhu MISESERI error distribution with process-zone resolution h_fine=0.00080 mm <= ell_0/4. Package 92 (M1_C4_PACKAGE92_TRANSFER) constructed, mapping U1, U2, damage d (0 <= d <= 0.9494 <= 1.0), and committed history H across all 17,688 Gauss points with active-set irreversibility (4,151 clamped nodes, 437 free crack-band nodes) and Layer 3 companion overlay. Preflight and Abaqus 2023 interactive datacheck passed with Exit 0. Job submitted to PBS entry_imfdfkmq as Job 1416604.mmaster02 under the Job-First / Report-After policy.",
+  "operation": "package92_error_driven_c4_transfer_qualification_and_submission",
+  "title": "Package 92 Error-Driven C3 -> C4 State Transfer Qualification and Submission",
+  "classification": "RESEARCH_PREPARATION_VERIFIED",
+  "next_operation": "Advance to qualified execution or next research task",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/92_c4_package92_error_driven_transfer/M1_C4_PACKAGE92_TRANSFER.inp": "C1BD24F95580E4D341CCA4D62ECB50A764A35E00F62BEF56D46917756C0C227B",
+    "models/pandey_kumar_mode1/92_c4_package92_error_driven_transfer/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/92_c4_package92_error_driven_transfer/candidate_crack_band_mesh_c4.inp": "1F771B85F2DFBFC826C16D3EE493B180AB87FA4390AEE6E557F2EBE52B06A71D",
+    "models/pandey_kumar_mode1/92_c4_package92_error_driven_transfer/candidate_c4_frame6_mapped_state_table.csv": "C57B4DBC9DFBDB4B36F5CFFCC4B9B88C8A04E3A54677483EE0B25AB87C0F1ED2",
+    "models/pandey_kumar_mode1/92_c4_package92_error_driven_transfer/submit_M1_C4_PACKAGE92_TRANSFER.pbs": "62ACB4063A299DA49875B2E7FF3864A1E9B01DC29518F42ACDAE4D3803F742E7",
+    "models/pandey_kumar_mode1/92_c4_package92_error_driven_transfer/run_pkg92_datacheck.sh": "DA1A31EB3F9AFC9DEB85288ACEA97A3D838390984195F5BF42FBD7E8AAA55039",
+    "models/pandey_kumar_mode1/92_c4_package92_error_driven_transfer/PACKAGE_MANIFEST.json": "12982D0A343C193D555EE711295F5E6993132D9BC11825CDAB825913565F6356",
+    "models/pandey_kumar_mode1/92_c4_package92_error_driven_transfer/M1_C4_PACKAGE92_TRANSFER_AUTHORIZATION.json": "B7C530ABBD7008EAF99A6A85A3627F26CE49A26A64C3402A6EDFF90215936459",
+    "scripts/remeshing/generate_error_driven_c4_mesh.py": "6F06F080BB9B9D48837995CB76BA14A2F6491CC65044F70606AE94E42C1E67A1",
+    "scripts/validation/build_package92_c4_transfer.py": "2A4C268981B98572E02F8B3AFA7AE5E11DC3A3C6FE006385B26F05EC472FBDAF",
+    "scripts/validation/upload_package92.py": "AA1AC5004BAB0CB617C6B24AD33917AFA179106304BE9C29705E1E879862F836",
+    "tests/unit/test_mode1_f1597_turn53_c4_mesh_generation.py": "C3F2BB503E1FA8D8236C7E8AA565D2A9A286B15A618C102C7D5E737421014536",
+    "tests/unit/test_mode1_f1597_turn53_package92_c4_transfer.py": "AC6C5B4645C82D9FC6223F2E27EA7E49D9B78DF4C744CA9901FC056EAF57597A",
+    "results/validation/mode1_f1597/turn53_initial_package91_history_recovery.json": "9FB3FA2F018C785520594F9A5B767BB1BCD37576A0EBC1BA376EC1EE3F6601ED",
+    "results/validation/mode1_f1597/pkg91_frame6_audit_summary.json": "B12FA1FA310C0C760C9577CED0B3B084FE4EDE08E9235D16F2805888671736EA",
+    "results/validation/mode1_f1597/pkg91_frame6_gauss_point_history.csv": "4F78D6B8185CB7CDC10441A5A1A9EBA7DD64D4566E68ADD7C9A35D6DEBCB3C35",
+    "results/validation/mode1_f1597/pkg91_frame6_nodal_disp.csv": "F125D8DE28588E3F1261B6742DAA3BB078C9A3DFE53DA0CA2121A5DD8E2D0ED5"
+  },
+  "package92_execution": {
+    "pbs_job_id": "1416604.mmaster02",
+    "job_name": "M1_C4_PACKAGE92_TRANSFER",
+    "queue": "entry_imfdfkmq",
+    "scratch_directory": "/scratch9/pr21vyci/runs/mode1_package92_c4_error_driven_transfer",
+    "status": "RUNNING",
+    "datacheck_result": "PASS (Exit 0)",
+    "uel_hash": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "receiver_mesh": "4,422 CPE4 quads, 4,588 nodes, h_fine=0.00080 mm <= ell_0/4",
+    "layer_3_overlay": "4,422 CPE4 companion elements (8845..13266) with DUMMY_MAT / UMAT visualization bridge",
+    "total_gauss_points": 17688
+  }
+}
