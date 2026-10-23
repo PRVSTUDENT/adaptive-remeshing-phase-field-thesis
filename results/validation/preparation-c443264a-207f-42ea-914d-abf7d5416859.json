@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "run_id": "c443264a-207f-42ea-914d-abf7d5416859",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "status": "PREPARATION_COMPLETE",
+  "timestamp": "2026-10-23T14:50:00+02:00",
+  "finding": "Formulated, qualified, and verified Package 96-R2: Mode-I Method C Stage C1-2 second error-driven nonmatching C4->C5 transfer using a variational inequality-constrained active set (d_lower <= d <= 1.00000). Authentic committed donor history H is preserved 100% unscaled. Initial fracture energy continuity achieves 0.39% error (<= 2.0% gate) with 0 overshoots and 0 healing points. Step 4 active-set continuation partitions the domain into 73 upper-bound clamped nodes (d=1.0), 3,745 lower-bound clamped nodes, and 802 advancing nodes (delta_d > 0). All unit qualification tests passed 100%, and frozen UEL hash CE8D5EDC... is 100% verified.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/96_r2_c5_package96_r2_constrained_transfer/M1_C5_PACKAGE96_R2_TRANSFER.inp": "FC853DCE119167A5F0B79BA1F7123B6EDC767875E322C4AB897305BE009863B7",
+    "models/pandey_kumar_mode1/96_r2_c5_package96_r2_constrained_transfer/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/96_r2_c5_package96_r2_constrained_transfer/PACKAGE_MANIFEST.json": "E1B24BF7D285D6A1F55FB3F65DFBF81F075E24EF5DE00B139CCF96FF63613FF6",
+    "models/pandey_kumar_mode1/96_r2_c5_package96_r2_constrained_transfer/M1_C5_PACKAGE96_R2_TRANSFER_AUTHORIZATION.json": "0E22533EC2813117328046885001FA71603CB984C9EDEA4B3BAF42B527935972",
+    "models/pandey_kumar_mode1/96_r2_c5_package96_r2_constrained_transfer/submit_M1_C5_PACKAGE96_R2_TRANSFER.pbs": "582799F8130C55414F5329C106ED7C031846BB6DD697499B349E9941F771834E",
+    "models/pandey_kumar_mode1/96_r2_c5_package96_r2_constrained_transfer/candidate_crack_band_mesh_c5.inp": "4F68E1D5977116A9BBCDD86039059692E8D4B8298C944B8D96907F7B61BEDC75",
+    "models/pandey_kumar_mode1/96_r2_c5_package96_r2_constrained_transfer/candidate_c5_frame7_mapped_state_table.csv": "770A46817CEEC5E909FC0D18862CCF11CB79FBA248F1AFA4968B48548E08863E",
+    "tests/unit/test_mode1_f1597_turn60_package96_r2.py": "B930CA0F29B042BE635528517897E084C8DE553F1B2BA48FD09A8E3F337F9E34",
+    "results/validation/mode1_f1597/pkg96_r2_c5_constrained_transfer_audit.json": "00F69D24F84452AADAED36D8CE50AB8CFF32F3A5BE106689A7C554377E25FDC8",
+    "results/validation/mode1_f1597/turn60_initial_pkg96_r1_audit_and_reclassification.json": "5F0635000DDB09C37B3D10554BB033FEBD21109C5FDFF899AE4A858F6D7A9605",
+    "results/validation/mode1_f1597/pkg96_r1_solver_evaluation.json": "A216A34377AB7F84176BDA7EED3E418859F4E4E09BE08FC1B2024C8EAA7EF78A"
+  },
+  "package_96_r2": {
+    "deck_hash": "FC853DCE119167A5F0B79BA1F7123B6EDC767875E322C4AB897305BE009863B7",
+    "frozen_uel_hash": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "mesh_elements": 4440,
+    "mesh_nodes": 4610,
+    "step3_clamped_nodes": 4610,
+    "step4_free_advancing_nodes": 802,
+    "step4_clamped_nodes": 3808,
+    "step4_upper_bound_clamped_nodes": 73,
+    "predicted_e_frac_kNmm": 0.0001382776,
+    "predicted_e_frac_mismatch_pct": 0.3927,
+    "datacheck_exit_code": 0
+  },
+  "verification_passed": true
+}
