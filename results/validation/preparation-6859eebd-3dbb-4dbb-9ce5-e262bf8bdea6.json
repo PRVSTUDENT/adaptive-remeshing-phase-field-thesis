@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "run_id": "6859eebd-3dbb-4dbb-9ce5-e262bf8bdea6",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "finding": "Formulated, qualified, and submitted Package 89 (PBS Job ID 1416539.mmaster02) for nonmatching coupled state transfer at authentic pre-peak checkpoint Frame 88 (u=0.001965107 mm, t=0.39302148 s). Scanned displacement interval [0.00170, 0.00205] mm across Package 76 (donor reference) and Package 87 (C2 virgin mesh) confirming force continuity within -0.78% (185.34 N donor vs 183.89 N C2 virgin) and Bourdin AT2 fracture energy continuity within 0.0366% (52.285 uJ vs 52.266 uJ). Preserved upper/lower slit flank topology (CMOD = 2.185 um), strictly enforced zero healing (0 healing nodes), mapped 4-GP Kuhn-Tucker history H >= 0 via *INITIAL CONDITIONS, TYPE=SOLUTION into frozen UEL SVARS(9..12), verified Abaqus 2023 preflight datacheck Exit 0, and dispatched single-rank serial execution to cluster queue.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/89_c2_frame88_early_state_transfer/M1_C2_FRAME88_TRANSFER.inp": "385243CC6EE3D9291860CB904F7B25C3E497C1108BC66358BC65501367F59507",
+    "models/pandey_kumar_mode1/89_c2_frame88_early_state_transfer/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/89_c2_frame88_early_state_transfer/submit_M1_C2_FRAME88_TRANSFER.pbs": "3995212DEAC0F6FE74599E05CA16A8E20D67C2A5836B34D562CE1F9DABFB6E87",
+    "models/pandey_kumar_mode1/89_c2_frame88_early_state_transfer/PACKAGE_MANIFEST.json": "5B83C8CBF7012652A92FAC3ECEED0BC69AF4BD13627C5F1489F6644F83684042",
+    "models/pandey_kumar_mode1/89_c2_frame88_early_state_transfer/candidate_c2_frame88_mapped_state_table.csv": "74C0CE3E49A3EF909D1F073E8E715C27A9E0F9BA71FCCEB896245F3C9E0B7D5C",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_frame88/pkg76_frame88_nodal_u.csv": "F15E268F8E6CCB74D2AC5287ADA439075880FDEED170C1282536FAEDBFA84A05",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_frame88/pkg76_frame88_elem_sdv.csv": "41C7AF3A864B0CEB8E1894F432AE527812AC16233C6CFC602F1B413A3C1B1C1D",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_frame88/pkg76_frame88_extraction_manifest.json": "02FF74366B124D07C624FA2E982DA774BBB5F94102236BAFAD3F1CB2851CD936",
+    "results/validation/mode1_f1597/p76_p87_checkpoint_candidates.json": "800F27227572B5EA454C31BBE976AD019BE5D5BEB5FACCAB979B2408F6B75614",
+    "results/validation/mode1_f1597/candidate_energy_comparison.json": "E26F669777A3B3DDE4DE991635DB097A0BE071D815B08266E8AC384E7AB55F62",
+    "results/validation/mode1_f1597/pkg76_frame88_to_c2_audit.json": "B376E9EF01D8A272715FE84CC954B03DDDD1E0E6776CBA127BA94B20F681AF2B",
+    "tests/unit/test_mode1_f1597_turn43_checkpoint_selection.py": "19630DBD64AC5A23D73E4C52D1A043A190B95842287477B847280F063ED6978B"
+  },
+  "verification_passed": true,
+  "scientific_audit": {
+    "checkpoint_selection": {
+      "source_model": "Package 76 Visual Donor (1600 quads, h=2.5 um)",
+      "source_step": "Step-1",
+      "source_frame": 88,
+      "source_inc": 88,
+      "time_s": 0.39302148,
+      "displacement_u2_mm": 0.00196510735,
+      "donor_reaction_force_N": 185.33544,
+      "c2_virgin_reaction_force_N": 183.88912,
+      "force_continuity_error_pct": -0.78036,
+      "force_continuity_pass": true,
+      "donor_at2_fracture_energy_uJ": 52.28544,
+      "c2_at2_fracture_energy_uJ": 52.26631,
+      "fracture_energy_diff_pct": 0.0366,
+      "fracture_energy_pass": true,
+      "donor_max_damage": 0.490618,
+      "ligament_state": "INTACT_LOCALIZING_CRACK_BAND"
+    },
+    "state_initialization_verification": {
+      "mechanism": "*INITIAL CONDITIONS, TYPE=SOLUTION populates SVARS(9..12) on Step 1 Inc 1, committed into SV_H_COMMITTED and SV_H_TRIAL by frozen UEL lines 248-262",
+      "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "healing_node_count": 0,
+      "zero_healing_pass": true,
+      "min_history_h": 0.0,
+      "max_history_h": 1.297688,
+      "history_monotonicity_pass": true,
+      "crack_flank_preserved": true,
+      "cmod_um": 2.185032
+    },
+    "hpc_execution": {
+      "package_id": "PACKAGE_89_C2_FRAME88_EARLY_STATE_TRANSFER",
+      "job_id": "1416539.mmaster02",
+      "job_name": "M1_C2_FRAME88_TRANSFER",
+      "queue": "normal_imfdfkmq",
+      "status": "RUNNING",
+      "resources": "1 CPU, 8 GB RAM, 4h walltime",
+      "datacheck_result": "EXIT_0_ANALYSIS_DATACHECK_COMPLETE",
+      "run_dir": "/scratch9/pr21vyci/runs/mode1_package89_c2_frame88_transfer"
+    }
+  }
+}
