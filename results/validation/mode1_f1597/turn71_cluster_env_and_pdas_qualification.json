@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 71,
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "hpc_python_dependency_resolution": {
+    "blocker_identified_in_turn70": "Cluster system /usr/bin/python3 (Python 3.6.8) lacks NumPy, raising ModuleNotFoundError: No module named 'numpy'",
+    "discovered_environments": {
+      "system_python3": {
+        "path": "/usr/bin/python3",
+        "version": "3.6.8",
+        "numpy": null,
+        "scipy": null,
+        "usable_for_pdas": false
+      },
+      "abaqus_embedded_python": {
+        "path": "/cluster/application/abaqus/2023/linux_a64/code/bin/SMAPython",
+        "version": "2.7.15",
+        "numpy": "1.15.4",
+        "scipy": "1.2.0",
+        "odb_api": true,
+        "usable_for_pdas": true
+      },
+      "spack_cluster_module_python": {
+        "module": "python/gcc/11.4.0/3.11.7",
+        "path": "/cluster/stages/2024.0/spack-0.22/opt/spack/linux-rocky8-cascadelake/gcc-11.4.0/python-3.11.7-qfpdtq2pisspwunkuc4fqloxqo2ltw6j/bin/python3",
+        "version": "3.11.7",
+        "numpy": "2.4.4",
+        "scipy": "1.17.1",
+        "usable_for_pdas": true
+      }
+    },
+    "verified_solution": {
+      "module_combination": "module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7",
+      "test_execution": "bash /scratch9/pr21vyci/runs/env_test/run_cluster_pdas_startup.sh",
+      "exit_code": 0,
+      "status": "PASS_CLEAN_ENVIRONMENT_VERIFIED"
+    }
+  },
+  "solver_interface_and_physical_invariants": {
+    "physical_nodes": 4610,
+    "kinematic_reference_node": 999999,
+    "reference_node_excluded_from_phase_dof": true,
+    "h1_transfer_fracture_energy_error_pct": -1.550042,
+    "h1_transfer_gap_closure_status": "PASS (1.5500% <= 2.0%)",
+    "uel_residual_mathematical_equivalence": "PASS (< 1e-15 difference between AMATRX/RHS and algebraic K_d/F_d)",
+    "kkt_multiplier_sign_conventions": {
+      "lower_bound_multiplier": "lambda_L = -R_d >= 0 (release if R_d > tau_res)",
+      "upper_bound_multiplier": "lambda_U = R_d >= 0 (release if R_d < -tau_res)",
+      "status": "VERIFIED"
+    },
+    "disjoint_active_set_partition_sum": 4610
+  },
+  "distinction_offline_prototype_vs_real_abaqus": {
+    "offline_discrete_prototype_provenance": "Turn 70 reported residual 1.08e-19 kN/mm and active-set invariance at iter 15 using in-memory spla.spsolve",
+    "classification": "ARCHITECTURAL_FEASIBILITY_PROTOTYPE__NOT_REAL_ABAQUS_SOLVER_EVIDENCE",
+    "predeclared_real_solver_acceptance_gates": {
+      "free_set_residual_inf_norm_kNmm": 1.0e-06,
+      "mechanical_residual_inf_norm_kN": 0.0001,
+      "active_set_invariance": "Delta_N == 0",
+      "kkt_multipliers": "non-negative (lambda_L >= 0, lambda_U >= 0)",
+      "strict_healing": "0 nodes (Delta_d >= 0)",
+      "strict_overshoots": "0 nodes (d <= 1.000000)",
+      "force_continuity_pct": 5.0,
+      "fracture_energy_continuity_pct": 2.0,
+      "max_pdas_iterations": 25
+    }
+  },
+  "execution_adapter_evaluation_and_submission_verdict": {
+    "adapter_evaluated": "mode1-qualified-batch-v2",
+    "adapter_contract": "Enforces static input deck with pre-computed datacheck .dat file (ANALYSIS DATACHECK COMPLETE)",
+    "iterative_harness_incompatibility": "An iterative PDAS driver generates dynamic subproblem input decks at runtime on the compute node; subproblems cannot be pre-datachecked before outer iteration begins",
+    "governance_action": "In accordance with Standing Governance Rule 4 and user instruction ('If the existing execution adapter cannot safely launch the iterative harness, document the exact incompatibility and block submission rather than bypassing its once-only safeguards'), submission of an untracked or unconstrained job is PRECISELY BLOCKED",
+    "gate_c1_2_status": "NOT_QUALIFIED"
+  }
+}
