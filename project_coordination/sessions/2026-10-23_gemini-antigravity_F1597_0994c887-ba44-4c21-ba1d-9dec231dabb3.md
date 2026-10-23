@@ -76,3 +76,7 @@
 - Extract Step 1-4 reactions, companion element SDVs, and verify force continuity against authentic Package 90-R1 donor ($159.16\,\text{N}$ target, tolerance $\le 5\%$), zero damage healing ($\Delta d \ge 0$), and crack propagation softening under forward continuation.
 
 Finished
+
+Turn complete. No unqualified HPC job submitted.
+
+Finished
