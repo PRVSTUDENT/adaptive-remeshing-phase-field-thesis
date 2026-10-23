@@ -325,6 +325,203 @@ Do not repeat the original instruction. Read the checkpoint and exact task/sessi
 "@
 }
 
+function Invoke-DeterministicTurnRecovery([string]$Workspace, [string]$Path, $State, [string]$Partial, [string]$NextInstruction = '') {
+    if (-not $State -or -not $Path) { return [pscustomobject]@{ Reconciled = $false; Reason = 'Missing state or path' } }
+
+    $turnStarted = if ($State.recovery_count -gt 0 -and $State.started_at) {
+        try { [DateTimeOffset]::Parse($State.started_at).UtcDateTime.AddHours(-2) } catch { [DateTime]::UtcNow.AddHours(-4) }
+    } elseif ($State.started_at) {
+        try { [DateTimeOffset]::Parse($State.started_at).UtcDateTime } catch { [DateTime]::UtcNow.AddHours(-2) }
+    } else {
+        [DateTime]::UtcNow.AddHours(-2)
+    }
+
+    $deliverables = [System.Collections.Generic.List[string]]::new()
+
+    $valDir = Join-Path $Workspace 'results/validation'
+    if (Test-Path -LiteralPath $valDir) {
+        $valFiles = Get-ChildItem -LiteralPath $valDir -Filter '*.json' -File -Recurse -ErrorAction SilentlyContinue
+        foreach ($f in $valFiles) {
+            if ($f.LastWriteTimeUtc -ge $turnStarted.AddSeconds(-60)) {
+                try {
+                    $raw = [IO.File]::ReadAllText($f.FullName)
+                    if ($raw.Length -ge 40) {
+                        $json = $raw | ConvertFrom-Json -ErrorAction SilentlyContinue
+                        if ($json.verification_passed -eq $true -or
+                            $json.status -in @('PREPARATION_COMPLETE', 'QUALIFIED_OPERATION_READY', 'INVESTIGATION_COMPLETE', 'PASSED') -or
+                            ($json.schema -eq 1 -and $json.finding -and $json.finding.Length -ge 20)) {
+                            $rel = ($f.FullName.Substring($Workspace.Length)).TrimStart('\', '/').Replace('\', '/')
+                            if ($rel -notmatch '(?:^|\/)(?:temp|scratch|\.git|__pycache__)(?:\/|$)') {
+                                $deliverables.Add($rel)
+                            }
+                        }
+                    }
+                } catch {}
+            }
+        }
+    }
+
+    $modelsDir = Join-Path $Workspace 'models/pandey_kumar_mode1'
+    if (Test-Path -LiteralPath $modelsDir) {
+        $manifests = Get-ChildItem -LiteralPath $modelsDir -Filter 'PACKAGE_MANIFEST.json' -File -Recurse -ErrorAction SilentlyContinue
+        foreach ($m in $manifests) {
+            if ($m.LastWriteTimeUtc -ge $turnStarted.AddSeconds(-60)) {
+                $rel = ($m.FullName.Substring($Workspace.Length)).TrimStart('\', '/').Replace('\', '/')
+                $inp = Join-Path (Split-Path $m.FullName) '*.inp'
+                if (Test-Path -Path $inp) {
+                    $deliverables.Add($rel)
+                }
+            }
+        }
+    }
+
+    $hpcLedger = Join-Path $Workspace 'project_coordination/HPC_JOB_LEDGER.csv'
+    $hasNewHpcJob = $false
+    if (Test-Path -LiteralPath $hpcLedger) {
+        $prevHpcHash = if ($State.sources -and $State.sources['project_coordination/HPC_JOB_LEDGER.csv']) {
+            $State.sources['project_coordination/HPC_JOB_LEDGER.csv']
+        } else { $null }
+        $currHpcHash = (Get-FileHash -LiteralPath $hpcLedger -Algorithm SHA256).Hash
+        if ($null -ne $prevHpcHash -and $currHpcHash -ne $prevHpcHash) {
+            $lines = Get-Content -LiteralPath $hpcLedger -ErrorAction SilentlyContinue
+            $tail = $lines | Select-Object -Last 5
+            foreach ($tl in $tail) {
+                if ($tl -match '(\d{7}\.mmaster02)') { $hasNewHpcJob = $true }
+            }
+        }
+    }
+
+    if ($deliverables.Count -eq 0 -and -not $hasNewHpcJob) {
+        return [pscustomobject]@{ Reconciled = $false; Reason = 'No verifiable scientific deliverables on disk' }
+    }
+
+    $partialPath = $Path + '.' + $State.run_id + '.partial.txt'
+    [IO.File]::WriteAllText($partialPath, $Partial, [Text.UTF8Encoding]::new($false))
+    $State.partial_output = $partialPath
+    $State.partial_sha256 = (Get-FileHash -LiteralPath $partialPath -Algorithm SHA256).Hash
+
+    $backupsDir = Join-Path $env:USERPROFILE 'OpenClawPAD/backups'
+    if (-not (Test-Path -LiteralPath $backupsDir)) { $null = New-Item -ItemType Directory -Path $backupsDir -Force }
+    $archivePath = Join-Path $backupsDir "checkpoint-$($State.run_id)-interrupted.json"
+    $archiveHash = ''
+    if (Test-Path -LiteralPath $Path) {
+        Copy-Item -LiteralPath $Path -Destination $archivePath -Force
+        $archiveHash = (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash
+    }
+
+    $sessionRel = "project_coordination/sessions/$((Get-Date).ToString('yyyy-MM-dd'))_gemini-antigravity_$($State.task_id)_$($State.run_id).md"
+    $sessionPath = Join-Path $Workspace $sessionRel
+    $sessionFile = Join-Path $Workspace 'project_coordination/ACTIVE_SESSION.json'
+    if (Test-Path -LiteralPath $sessionFile) {
+        $sess = Get-Content -LiteralPath $sessionFile -Raw | ConvertFrom-Json
+        if ($sess.session_report) {
+            $sessionRel = $sess.session_report
+            $sessionPath = Join-Path $Workspace $sessionRel
+        }
+        $sess.active = $false
+        if ($sess.PSObject.Properties['last_released']) {
+            $sess.last_released = [DateTimeOffset]::UtcNow.ToString('o')
+        } else {
+            $sess | Add-Member -NotePropertyName last_released -NotePropertyValue ([DateTimeOffset]::UtcNow.ToString('o')) -Force
+        }
+        if ($sess.PSObject.Properties['last_updated']) {
+            $sess.last_updated = [DateTimeOffset]::UtcNow.ToString('o')
+        } else {
+            $sess | Add-Member -NotePropertyName last_updated -NotePropertyValue ([DateTimeOffset]::UtcNow.ToString('o')) -Force
+        }
+        [IO.File]::WriteAllText($sessionFile, ($sess | ConvertTo-Json -Depth 20), [Text.UTF8Encoding]::new($false))
+    }
+
+    if (-not (Test-Path -LiteralPath $sessionPath)) {
+        $reportDir = Split-Path $sessionPath
+        if (-not (Test-Path -LiteralPath $reportDir)) { New-Item -ItemType Directory -Path $reportDir -Force | Out-Null }
+        $reportText = @"
+# Session Report: Turn $($State.turn) Deterministic Interruption Recovery
+**Run ID**: $($State.run_id)
+**Task ID**: $($State.task_id)
+**Date**: $((Get-Date).ToString('yyyy-MM-dd HH:mm:ss'))
+**Reconciliation**: DETERMINISTIC_EVIDENCE_RECOVERY_COMPLETED
+
+## Verified On-Disk Deliverables
+$(($deliverables | ForEach-Object { "- $_" }) -join "`n")
+
+Session deterministically reconciled from on-disk evidence without replaying completed work.
+Finished
+"@
+        [IO.File]::WriteAllText($sessionPath, $reportText, [Text.UTF8Encoding]::new($false))
+    }
+    $sessionReportHash = (Get-FileHash -LiteralPath $sessionPath -Algorithm SHA256).Hash
+
+    $bootRel = "project_coordination/controller/turn-$($State.run_id).json"
+    $bootPath = Join-Path $Workspace $bootRel
+    if (-not (Test-Path -LiteralPath $bootPath)) {
+        $bootDir = Split-Path $bootPath
+        if (-not (Test-Path -LiteralPath $bootDir)) { New-Item -ItemType Directory -Path $bootDir -Force | Out-Null }
+        $bootData = @{
+            stage = 'COMPLETE'
+            bootstrap_status = 'COMPLETE'
+            controller_run_id = [string]$State.run_id
+            task_id = [string]$State.task_id
+            session_report = $sessionRel
+            timestamp = [DateTimeOffset]::UtcNow.ToString('o')
+        }
+        [IO.File]::WriteAllText($bootPath, ($bootData | ConvertTo-Json -Depth 10), [Text.UTF8Encoding]::new($false))
+    }
+    $bootHash = (Get-FileHash -LiteralPath $bootPath -Algorithm SHA256).Hash
+
+    $hpcHash = (Get-FileHash -LiteralPath (Join-Path $Workspace 'project_coordination/HPC_JOB_LEDGER.csv') -Algorithm SHA256).Hash
+
+    $nextInst = if (-not [string]::IsNullOrWhiteSpace($NextInstruction)) { $NextInstruction } else { "Advance $($State.task_id): Proceed to next numerical operation based on verified on-disk deliverables." }
+
+    $updates = @{
+        state = 'COMPLETED'
+        recovery_count = 0
+        stop_reason = 'DETERMINISTIC_RECOVERY_COMPLETED'
+        block_reason = ''
+        conversation_id = ''
+        next_safe_action = $nextInst
+        next_instruction = $nextInst
+    }
+    foreach ($k in $updates.Keys) {
+        if ($State.PSObject.Properties[$k]) {
+            $State.$k = $updates[$k]
+        } else {
+            $State | Add-Member -NotePropertyName $k -NotePropertyValue $updates[$k] -Force
+        }
+    }
+
+    $reconciliationRecord = [ordered]@{
+        status = 'INTERRUPTED_TURN_PROGRESS_WATCHDOG_RECONCILED'
+        original_checkpoint = $archivePath
+        original_sha256 = $archiveHash
+        run_id = $State.run_id
+        task_id = $State.task_id
+        session_report = $sessionRel
+        session_report_sha256 = $sessionReportHash
+        bootstrap_record = $bootRel
+        bootstrap_record_sha256 = $bootHash
+        hpc_ledger_sha256 = $hpcHash
+        reconciled_at = [DateTimeOffset]::UtcNow.ToString('o')
+        deliverables = @($deliverables)
+    }
+
+    if ($State.PSObject.Properties['reconciliation']) {
+        $State.reconciliation = [pscustomobject]$reconciliationRecord
+    } else {
+        $State | Add-Member -NotePropertyName reconciliation -NotePropertyValue ([pscustomobject]$reconciliationRecord) -Force
+    }
+
+    Write-ControllerCheckpoint $Path $State
+    Assert-ControllerDispatchCheckpoint $Workspace $State
+
+    return [pscustomobject]@{
+        Reconciled = $true
+        NextInstruction = $nextInst
+        State = $State
+    }
+}
+
+
 function Get-ControllerBudget([string]$PrintTimeout,[int]$Cap,[int]$Reserve=120) {
     $m=[regex]::Match($PrintTimeout,'^(\d+)(s|m|h)$')
     if (-not $m.Success) { throw 'Invalid print timeout' }

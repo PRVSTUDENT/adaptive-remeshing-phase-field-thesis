@@ -63,7 +63,8 @@ function Invoke-BoundedAgyProcess {
         [int]$CheckpointIntervalSeconds=15,
         [scriptblock]$ProgressProbe={ $false },
         [int]$NoProgressSeconds=0, [int]$StatusIntervalSeconds=30,
-        [string]$OutputLogPath='', [scriptblock]$OnOutput={param($Chunk)}
+        [string]$OutputLogPath='', [scriptblock]$OnOutput={param($Chunk)},
+        [int]$InactivityTimeoutSeconds=0
     )
     $quoted=foreach($arg in $ArgumentList){ '"'+([regex]::Replace(([regex]::Replace($arg,'(\\*)"','$1$1\"')),'(\\+)$','$1$1'))+'"' }
     $info=[Diagnostics.ProcessStartInfo]::new()
@@ -75,7 +76,7 @@ function Invoke-BoundedAgyProcess {
     $proc=[Diagnostics.Process]::new(); $proc.StartInfo=$info
     $clock=[Diagnostics.Stopwatch]::StartNew(); $started=$false
     $out=[Text.StringBuilder]::new(); $err=[Text.StringBuilder]::new()
-    $reason=''; $nextCheckpoint=0.0; $nextStatus=[double]$StatusIntervalSeconds; $lastProgress=0.0
+    $reason=''; $nextCheckpoint=0.0; $nextStatus=[double]$StatusIntervalSeconds; $lastProgress=0.0; $lastActivity=0.0
     $pump=$null; $failure=$null
     try {
         [void]$proc.Start(); $started=$true
@@ -88,6 +89,7 @@ function Invoke-BoundedAgyProcess {
                     if([object]::ReferenceEquals($queue,$pump.Out)){[void]$out.Append($chunk)}else{[void]$err.Append($chunk)}
                     if($OutputLogPath){[IO.File]::AppendAllText($OutputLogPath,$chunk,[Text.UTF8Encoding]::new($false))}
                     & $OnOutput $chunk | Out-Null
+                    $lastActivity=$clock.Elapsed.TotalSeconds
                     $chunk=$null
                 }
             }
@@ -97,12 +99,14 @@ function Invoke-BoundedAgyProcess {
                 $nextCheckpoint=$clock.Elapsed.TotalSeconds+$CheckpointIntervalSeconds
             }
             if($clock.Elapsed.TotalSeconds -ge $nextStatus) {
-                Write-Host ('[PROGRESS] elapsed={0:N0}s; no saved result for {1:N0}s; captured={2} chars; PID={3}' -f $clock.Elapsed.TotalSeconds,($clock.Elapsed.TotalSeconds-$lastProgress),($out.Length+$err.Length),$proc.Id)
+                $idleSec = [Math]::Max(0.0, ($clock.Elapsed.TotalSeconds - $lastActivity))
+                Write-Host ('[PROGRESS] elapsed={0:N0}s; idle={1:N0}s; captured={2} chars; PID={3}' -f $clock.Elapsed.TotalSeconds,$idleSec,($out.Length+$err.Length),$proc.Id)
                 $nextStatus=$clock.Elapsed.TotalSeconds+$StatusIntervalSeconds
             }
             if($proc.HasExited -and $pump.OutDone -and $pump.ErrDone -and $pump.Out.IsEmpty -and $pump.Err.IsEmpty){break}
             if($clock.Elapsed.TotalSeconds -ge $TimeoutSeconds){$reason='WORK_DEADLINE';break}
             if($NoProgressSeconds -gt 0 -and ($clock.Elapsed.TotalSeconds-$lastProgress) -ge $NoProgressSeconds){$reason='NO_DURABLE_PROGRESS';break}
+            if($InactivityTimeoutSeconds -gt 0 -and ($clock.Elapsed.TotalSeconds-$lastActivity) -ge $InactivityTimeoutSeconds){$reason='STALLED_OUTPUT';break}
             [Threading.Thread]::Sleep(50)
         }
     } catch { $failure=$_ }

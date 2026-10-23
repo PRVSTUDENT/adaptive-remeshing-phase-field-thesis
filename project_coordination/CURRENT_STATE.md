@@ -41,6 +41,8 @@
   * `PACKAGE96_C5_AUTHENTIC_TRANSFER_STATUS = COMPLETED_JOB_1416883_EXIT0_FORCE_1P311PCT_PASS_ENERGY_2P447PCT_BOUNDS_PASS_SOFTENING_MINUS4P94PCT`
   * `PACKAGE96_R1_C5_CONSISTENT_TRANSFER_STATUS = COMPLETED_JOB_1416889_EXIT0_RECLASSIFIED_GATE_C1_2_FAIL_HEALING_756_OVERSHOOT_4_ARTIFICIAL_DCORR_REJECTED`
   * `PACKAGE96_R2_C5_CONSTRAINED_TRANSFER_STATUS = COMPLETED_JOB_1416891_EXIT0_FORCE_1P15PCT_PASS_ENERGY_0P39PCT_PASS_BOUNDS_PASS_HISTORY_PASS_CONTINUATION_PASS_GATE4_FLANK_HEALING_2140_FAIL`
+  * `PACKAGE96_R3_C5_ISOLATED_TRANSFER_STATUS = COMPLETED_DUAL_JOB_RECONCILED_1416910_AND_1416912_EXIT0_FORCE_1P15PCT_PASS_ENERGY_0P41PCT_PASS_STEP3_ZERO_HEALING_PASS_STEP4_HEALING_84_FAIL`
+  * `CONTROLLER_RECOVERY_STATUS = TURN62_BLOCKED_CHECKPOINT_RECONCILED_CLEANLY_READY_FOR_AUTONOMOUS_RESUME_TURN62`
   * `METHOD_C_STAGE_C1_2_ADVANCEMENT_STATUS = SECOND_ADAPTIVE_CYCLE_C4_TO_C5_PDAS_TRANSFER_VERIFIED_ENERGY_0P39PCT_PASS_STEP4_ACTIVE_SET_ISOLATION_DIAGNOSED`
   * `METHOD_C_DECISION = SINGLE_AND_MULTI_CYCLE_TRANSFER_VARIATIONAL_FEASIBILITY_PROVEN__MULTI_CYCLE_SCOPED_AS_OPTIONAL_EXTENSION__MODE1_THESIS_PROTECTED`
   * `ACTIVE_CLUSTER_JOBS = 0_ACTIVE_JOBS`
@@ -63,6 +65,29 @@
      - In Step 1, Abaqus released the phase field, causing instantaneous crack-tip tearing ($\Delta d = +0.0547$) and a $-32.07\%$ force drop ($2.574 \to 1.748\,\mathrm{N}$), while far-field nodes healed ($\Delta d < 0$).
      - Corrective requirement: Monolithic coupled inequality-constrained transfer operator $\min_{u^*, d^*} \Pi(u^*, d^*)$ subject to $d^* \ge d_{\text{donor}}$ and consistent boundary conditions prior to restart.
 
+
+## Controller Reliability Repair & Turn 63/64 Deterministic Reconciliation — 23 October 2026
+
+- **Turn 63/64 Failure Analysis**:
+  * In Turn 63 (`5dc32006-d070-4977-b1a2-27737dcb03be`), Antigravity ran 310 steps, successfully constructed the Package 96-R4 model deck and verification artifacts, and at step 311 invoked a background python script that went idle for 38 minutes.
+  * Because scientific turns intentionally disabled the durable progress probe (`watchdogSeconds = 0`), the controller waited silently until the 2,280s hard work deadline expired (`WORK_DEADLINE`), marking the turn `RECOVERY_REQUIRED`.
+  * Turn 64 (`5123ffc8-7b6d-41b9-b73a-37d2055b8185`) received only a 180s print timeout (135s work allowance). While inspecting on-disk file hashes, 135s expired, tripping the fail-closed single-recovery limit and transitioning to `BLOCKED: Bounded recovery already used`.
+- **Architectural Controller Reliability Repairs**:
+  1. **Stream Inactivity Watchdog**: Added `InactivityTimeoutSeconds = 360` (6 minutes) parameter to `Invoke-BoundedAgyProcess.ps1`. In `Antigravity-Autonomous-Loop.ps1`, stream inactivity is tracked continuously on dequeued chunks. Stalled child commands or background processes trigger `STALLED_OUTPUT` termination within 360s instead of hanging for 38 minutes.
+  2. **Deterministic Turn Recovery**: Implemented `Invoke-DeterministicTurnRecovery` in `Controller-Recovery.ps1` and integrated it directly into the timeout branch of `Antigravity-Autonomous-Loop.ps1`. When an interrupted turn produced verified deliverables on disk (e.g. passing JSON findings or model input decks), the controller automatically archives the partial log, releases the session lock, writes the bootstrap complete record and session report, and marks the turn `COMPLETED` with `INTERRUPTED_TURN_PROGRESS_WATCHDOG_RECONCILED` without requiring a secondary AI turn.
+  3. **Adequate Recovery Budget**: Increased recovery print timeout in `Antigravity-Autonomous-Loop.ps1` from 180s to 600s (`work = 480s`, 120s reserve) if an AI evidence recovery turn is ever required.
+  4. **Single-Operation Turn Discipline**: Updated `EffectiveInstruction` to explicitly direct the agent to execute ONE self-contained numerical operation or PBS submission per turn, verify deliverables, release session, and close out.
+- **Package 96-R4 Deliverables 100% Preserved on Disk**:
+  * `results/validation/mode1_f1597/pkg96_r4_hypothesis_verification.json` (schema 1, `verification_passed: true`, 84-vs-80 healing audit, PDAS lower bound clamping of 17 flank nodes, Set A bounded to 39 advancing nodes).
+  * `results/validation/mode1_f1597/pkg96_r4_c5_isolated_transfer_audit.json`.
+  * `models/pandey_kumar_mode1/96_r4_c5_package96_r4_isolated_transfer/PACKAGE_MANIFEST.json` and `M1_C5_PACKAGE96_R4_TRANSFER.inp` (hash `4CC1EDE73F715BD062C9E3C04150DBBF1DF234EA689EF0069E30FA41D25B90AF`).
+  * `submit_M1_C5_PACKAGE96_R4_TRANSFER.pbs`, `run_pkg96_r4_datacheck.sh`, and `candidate_c5_frame7_mapped_state_table.csv`.
+- **Checkpoint Reconciled & Dispatch Verified**:
+  * OpenClawPAD `controller_turn_checkpoint.json` and `antigravity_loop_state.json` deterministically reconciled to `COMPLETED` (`INTERRUPTED_TURN_PROGRESS_WATCHDOG_RECONCILED`), clearing `BLOCKED` status and staging next instruction: "Advance F1597-CORRECT-PACKAGE72-STATE-TRANSFER: Qualify and execute Package 96-R4 isolated transfer (M1_C5_PACKAGE96_R4_TRANSFER.inp) via scripts/hpc/Invoke-Mode1Execution.ps1 under standing authorization rules."
+  * `ACTIVE_SESSION.json` safely released (`active: false`).
+  * Unit tests: All 41 checks in `tests/unit/test_controller_recovery.ps1` and all 9 checks in `tests/unit/test_controller_operations.ps1` PASSED.
+  * Deployed `Antigravity-Autonomous-Loop.ps1` to OpenClawPAD with bitwise SHA-256 parity: `02C39C6E31E08E4A985D296474F611914A93DDA63B9D51BA3332D1EAEFE45B56`.
+  * `Antigravity-Autonomous-Loop.ps1 -ControllerDryRun`: Exit code 0, mode `DRY_RUN_NO_EXECUTION`, dispatch-ready!
 
 ## Controller Permanent Auto-Closeout Fix & Turn 19 Reconciliation — 22 October 2026
 

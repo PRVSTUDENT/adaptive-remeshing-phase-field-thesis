@@ -3561,7 +3561,7 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
     $agyArgs += "text"
     $agyArgs += "--output-format"
     $agyArgs += "stream-json"
-    $effectivePrintTimeout = if ($script:ControllerRecoveryMode) { '180s' } else { $PrintTimeout }
+    $effectivePrintTimeout = if ($script:ControllerRecoveryMode) { '600s' } else { $PrintTimeout }
     $budgetMatch = [regex]::Match($effectivePrintTimeout, '^(\d+)(s|m|h)$')
     if (-not $budgetMatch.Success) { throw "Unsupported print timeout: $effectivePrintTimeout" }
     $requestedSeconds = [int]$budgetMatch.Groups[1].Value * @{s=1;m=60;h=3600}[$budgetMatch.Groups[2].Value]
@@ -3588,7 +3588,7 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
             $bootstrapCommands="IMMEDIATE FIRST TOOL CALL REQUIRED (DO NOT OUTPUT NARRATIVE PREAMBLE OR REASONING TEXT):`nFIRST TOOL CALL: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$entry`" -Stage Bootstrap$common`nProduce an initial meaningful, verifiable research artifact early and record subsequent verified intermediate results as numerical investigation proceeds before the final scientific checkpoint and closeout.`nSECOND TOOL CALL: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$entry`" -Stage Scientific$common`nTHIRD TOOL CALL: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$entry`" -Stage Complete$common`nThese canonical -File commands implement ordered bootstrap/claim, the source-pinned numerical operation, verified evidence and selective closeout. Do not generate nested -Command scripts, reread bootstrap files, or repeat completed operations. Execute the stages once in order, report the actual measured result and next correction step, then finish. A generic status note is not a scientific checkpoint. If a stage fails, report its exact error; do not substitute invented measurements.`n"
         }
     }
-    $EffectiveInstruction = $bootstrapCommands + (Get-AgyCompactRules) + "`nThe canonical Bootstrap stage performs required prerequisite reads in order; once its receipt is COMPLETE, proceed to the scientific operation without rereading it. Work budget: $($controllerBudget.work) seconds. The controller reserves $($controllerBudget.closeout) seconds for local evidence reconciliation. Create the owned session report and produce an initial verified research artifact early (within 120 seconds); update it with verified intermediate findings every 180 seconds as investigation proceeds. The controller enforces a hard $($controllerBudget.work)-second execution deadline for scientific turns; no shorter inactivity cutoff applies. Intermediate artifacts do not substitute for scientific checkpoint verification. Close the session before the work deadline and emit a final response. `n" + $script:PendingSmartProfileContext + "`n" + $CurrentInstruction
+    $EffectiveInstruction = $bootstrapCommands + (Get-AgyCompactRules) + "`nThe canonical Bootstrap stage performs required prerequisite reads in order; once its receipt is COMPLETE, proceed to the scientific operation without rereading it. Work budget: $($controllerBudget.work) seconds. The controller reserves $($controllerBudget.closeout) seconds for local evidence reconciliation. SINGLE-OPERATION DISCIPLINE: Perform exactly ONE self-contained numerical operation, qualification check, or PBS submission in this turn, verify its deliverables on disk, write the session report, release the session lock, and close out. Do NOT chain multiple unrequested research investigations or expand scope across hundreds of steps. Create the owned session report and produce an initial verified research artifact early (within 120 seconds); update it with verified intermediate findings every 180 seconds as investigation proceeds. The controller enforces a hard $($controllerBudget.work)-second execution deadline for scientific turns; a 360-second output stream inactivity timeout applies to detect stalled background tasks. Intermediate artifacts do not substitute for scientific checkpoint verification. Close the session before the work deadline and emit a final response. `n" + $script:PendingSmartProfileContext + "`n" + $CurrentInstruction
     if (-not (Test-IsValidUtf8String $EffectiveInstruction)) {
         Write-Warning "[ENCODING-DEFENSE] EffectiveInstruction contained invalid surrogates! Repairing boundary safely."
         $EffectiveInstruction = ConvertTo-SafeUtf8String $EffectiveInstruction -Context 'EffectiveInstruction'
@@ -3636,16 +3636,17 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
             $livePath=Join-Path $PadDir ('controller-turn-'+$script:ControllerState.run_id+'.jsonl')
             $script:ControllerState | Add-Member -NotePropertyName live_output_log -NotePropertyValue $livePath -Force
             $agyArgs += @('--log-file',($livePath+'.cli.log'))
-            # Scientific operations get their full hard turn budget; unfinished research is not failure at 600s.
-            # No-progress policy remains available for non-scientific turns only.
+            # Scientific operations get their full hard turn budget, but stream inactivity (stalled tools/commands) is capped at 360s.
+            # No-progress durable artifact policy remains available for non-scientific turns only.
             $watchdogSeconds = if($script:ControllerState.requires_scientific_checkpoint){0}else{$NoProgressSeconds}
+            $streamInactivitySeconds = 360
             if($watchdogSeconds -gt 0){[void](Test-ControllerDurableProgress $script:ControllerState)}
             if($watchdogSeconds -gt 0){
-                Write-Host "[PROGRESS] live log=$livePath; inactivity deadline=${watchdogSeconds}s; hard work deadline=${hardTimeout}s."
+                Write-Host "[PROGRESS] live log=$livePath; inactivity deadline=${watchdogSeconds}s; stream stall deadline=${streamInactivitySeconds}s; hard work deadline=${hardTimeout}s."
             }else{
-                Write-Host "[PROGRESS] live log=$livePath; scientific inactivity cutoff disabled; hard work deadline=${hardTimeout}s."
+                Write-Host "[PROGRESS] live log=$livePath; scientific progress probe disabled; stream stall deadline=${streamInactivitySeconds}s; hard work deadline=${hardTimeout}s."
             }
-            $boundedRun = Invoke-BoundedAgyProcess -FilePath $AgyPath -ArgumentList $agyArgs -InputText $EffectiveInstruction -TimeoutSeconds $hardTimeout -WorkingDirectory $WorkspaceDir -Checkpoint { Update-ControllerEvidence $WorkspaceDir $controllerCheckpointPath $script:ControllerState } -OnStarted { param($ownedProcessId) $script:ControllerState.process_id=$ownedProcessId; Write-ControllerCheckpoint $controllerCheckpointPath $script:ControllerState } -NoProgressSeconds $watchdogSeconds -ProgressProbe { if($watchdogSeconds -gt 0){Test-ControllerDurableProgress $script:ControllerState}else{$false} } -OutputLogPath $livePath -OnOutput {param($chunk) Write-ControllerStreamEvent $script:ControllerState $chunk}
+            $boundedRun = Invoke-BoundedAgyProcess -FilePath $AgyPath -ArgumentList $agyArgs -InputText $EffectiveInstruction -TimeoutSeconds $hardTimeout -InactivityTimeoutSeconds $streamInactivitySeconds -WorkingDirectory $WorkspaceDir -Checkpoint { Update-ControllerEvidence $WorkspaceDir $controllerCheckpointPath $script:ControllerState } -OnStarted { param($ownedProcessId) $script:ControllerState.process_id=$ownedProcessId; Write-ControllerCheckpoint $controllerCheckpointPath $script:ControllerState } -NoProgressSeconds $watchdogSeconds -ProgressProbe { if($watchdogSeconds -gt 0){Test-ControllerDurableProgress $script:ControllerState}else{$false} } -OutputLogPath $livePath -OnOutput {param($chunk) Write-ControllerStreamEvent $script:ControllerState $chunk}
             $script:ControllerState.stop_reason=$boundedRun.StopReason
             $script:ControllerState | Add-Member -NotePropertyName captured_raw_output -NotePropertyValue $boundedRun.Output -Force
             if($script:ControllerState.conversation_id){$ConversationId=$script:ControllerState.conversation_id}
@@ -3985,6 +3986,20 @@ The controller will not continue using another account.
             $ConversationId = $null
             $ConversationIdSource = 'fresh-after-timeout-completed-session'
         } else {
+            $detRecovery = Invoke-DeterministicTurnRecovery -Workspace $WorkspaceDir -Path $controllerCheckpointPath -State $script:ControllerState -Partial $(if($script:ControllerState.captured_raw_output){$script:ControllerState.captured_raw_output}else{$agyText})
+            if ($detRecovery.Reconciled) {
+                $script:ControllerState = $detRecovery.State
+                $preservedResponse = [IO.File]::ReadAllText((Join-Path $WorkspaceDir $detRecovery.State.reconciliation.session_report))
+                $script:ControllerReceiptVerified = $true
+                Write-LoopLog -Turn $CurrentTurn -Tier 'CONTROLLER' -Action 'AGY_DETERMINISTIC_RECOVERY_SUCCESS' -Message "Interrupted turn deterministically reconciled from on-disk deliverables ($($detRecovery.State.reconciliation.deliverables.Count) files). No replay needed."
+                $ConversationId = $null
+                $ConversationIdSource = 'deterministic-reconciliation'
+                $CurrentInstruction = $detRecovery.NextInstruction
+                Save-LoopState -Turn $CurrentTurn -Status 'COMPLETED' -LastInstruction $CurrentInstruction -LastResponse $preservedResponse -NextInstruction $detRecovery.NextInstruction -Duration $turnDurationSeconds -Usage $null -Tier 'CONTROLLER' -Action 'AGY_DETERMINISTIC_RECOVERED'
+                $script:ControllerRecoveryMode = $false
+                $CurrentTurn++
+                continue MainLoop
+            }
             $script:ControllerState = Set-ControllerInterrupted $WorkspaceDir $controllerCheckpointPath $script:ControllerState $(if($script:ControllerState.captured_raw_output){$script:ControllerState.captured_raw_output}else{$agyText})
             $recovery = if ($script:ControllerState.state -eq 'BLOCKED') { $script:ControllerState.next_safe_action } else { Get-ControllerRecoveryInstruction $script:ControllerState }
             Save-LoopState -Turn $CurrentTurn -Status $script:ControllerState.state -LastInstruction $CurrentInstruction -LastResponse $agyText -NextInstruction $recovery -Duration $turnDurationSeconds -Usage $null -Tier 'CONTROLLER' -Action 'AGY_TIMEOUT_CHECKPOINTED'

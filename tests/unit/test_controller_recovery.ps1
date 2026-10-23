@@ -198,6 +198,30 @@ try {
     $mutex=[Threading.Mutex]::new($false,$lockName)
     try { Assert ($mutex.WaitOne(0)) 'no abandoned controller lock remains after release'; $mutex.ReleaseMutex() }
     finally { $mutex.Dispose() }
+
+    # 39. Inactivity timeout terminates stalled command
+    $stallMock = Join-Path $fixture 'mock-stall.ps1'
+    $stallCode = '[Console]::Out.WriteLine("starting tool call"); Start-Sleep -Seconds 30; [Console]::Out.WriteLine("finished")'
+    [IO.File]::WriteAllText($stallMock, $stallCode)
+    $stallResult = Invoke-BoundedAgyProcess -FilePath "$PSHOME/powershell.exe" -ArgumentList @('-NoProfile','-NonInteractive','-Command',(Get-Content -LiteralPath $stallMock -Raw)) -InputText 'test' -TimeoutSeconds 20 -InactivityTimeoutSeconds 3 -WorkingDirectory $fixture
+    Assert ($stallResult.TimedOut -and $stallResult.StopReason -eq 'STALLED_OUTPUT' -and $stallResult.DurationSeconds -lt 15) 'stream inactivity timeout terminates stalled command without waiting for hard turn timeout'
+
+    # 40. Deterministic recovery automatically reconciles valid deliverables on disk
+    $valDir = Join-Path $fixture 'results/validation'
+    New-Item -ItemType Directory -Path $valDir -Force | Out-Null
+    $valFile = Join-Path $valDir 'pkg_test_audit.json'
+    [IO.File]::WriteAllText($valFile, '{"schema":1,"verification_passed":true,"finding":"Verified test deliverable for deterministic recovery"}')
+    $detPath = Join-Path $fixture 'checkpoint-det.json'
+    $detState = New-ControllerTurnState (Get-ControllerEvidence $fixture) 63 'test turn'
+    $detState.state = 'RUNNING'
+    Write-ControllerCheckpoint $detPath $detState
+    $detRec = Invoke-DeterministicTurnRecovery -Workspace $fixture -Path $detPath -State $detState -Partial 'partial output'
+    Assert ($detRec.Reconciled -and $detRec.State.state -eq 'COMPLETED' -and (Test-Path -LiteralPath (Join-Path $fixture $detRec.State.reconciliation.session_report))) 'deterministic turn recovery reconciles valid deliverables without requiring secondary AI turn'
+
+    # 41. Recovery budget provides adequate reconciliation allowance (600s total, 480s work)
+    $recBudget = Get-ControllerBudget '600s' 2400
+    Assert ($recBudget.total -eq 600 -and $recBudget.work -eq 480 -and $recBudget.closeout -eq 120) 'recovery budget provides 480 seconds work allowance'
+
     "ALL $count CONTROLLER RECOVERY CHECKS PASSED; no real AGY or PBS calls"
 } finally {
     # Keep fixture evidence available for diagnosing failures; do not recursively delete.
