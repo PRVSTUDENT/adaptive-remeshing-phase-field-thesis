@@ -1,0 +1,31 @@
+{
+  "status": "ADMISSIBLE_DONOR_CHECKPOINT_VERIFIED",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "fbcc6f27-f8c5-4646-b45c-bbc02b5b241a",
+  "donor_source": {
+    "package": "Package 90-R1",
+    "job_id": "1416558.mmaster02",
+    "step": "FORWARD_CONTINUATION",
+    "frame_index": 3,
+    "frame_id": 6,
+    "step_time": 0.65625
+  },
+  "physical_state": {
+    "u2_rp_mm": 0.002036693040281534,
+    "rf2_rp_N": 159.15939211845398,
+    "d_max": 0.9729551076889038,
+    "d_min": 0.0035983866546303034,
+    "overshoot_node_count": 0,
+    "meets_damage_upper_bound_gate": true
+  },
+  "admissibility_gate_verdict": {
+    "gate_status": "PASS",
+    "criteria": "Pointwise continuous damage d <= 1.00000 with 0 overshoot nodes and zero unconstrained far-field healing",
+    "explanation": "Unlike terminal Frame 8 (which reached d_max = 1.00254 at u = 0.0020480 mm), Frame 6 (u = 0.0020367 mm, RF = 159.16 N) exhibits zero overshoot nodes (d_max = 0.972955 <= 1.00000) and represents a fully admissible physical softening state."
+  },
+  "numerical_dependency_status": {
+    "committed_gauss_history_in_odb": false,
+    "status": "GAUSS_HISTORY_UNAVAILABLE_IN_ODB",
+    "impact_on_remeshing": "A nonmatching transfer to C4 requires transferring committed strain energy H at every integration point. Because M1_C3_PACKAGE90_R1_TRANSFER.inp requested only *Node Output (U, RF) without *Element Output (SDV), H is not in the authentic ODB. Under Job-First/Report-After and Method C governance, the controller must identify this exact numerical dependency rather than inventing an unverified history field."
+  }
+}

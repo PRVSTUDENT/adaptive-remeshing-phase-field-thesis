@@ -1,0 +1,39 @@
+{
+  "status": "C3_COMPANION_MISESERI_AUDITED", 
+  "mean_miseseri": 0.046484036123344924, 
+  "peak_relative_error_eta": {
+    "x_mm": 0.00168517604470253, 
+    "percentage": 232.82886115276932, 
+    "element_id": 1273, 
+    "value": 2.328288611527693, 
+    "y_mm": 0.0494999997317791
+  }, 
+  "companion_deck": "M1_C3_COMPANION_FRAME6.inp", 
+  "percentage_exceeding_threshold": 15.849056603773585, 
+  "displacement_horizon_u2_mm": 0.002036693, 
+  "numerical_dependency_audit": {
+    "donor_checkpoint": "Package 90-R1 (Job 1416558) Step 4 Frame 6", 
+    "damage_admissibility": "STRICT_PASS (d_max = 0.972955 <= 1.00000, 0 overshoot nodes)", 
+    "healing_admissibility": "STRICT_PASS (0 unconstrained healing nodes, min delta_d = -0.000169 at boundary interface)", 
+    "gauss_point_history_sdvs": "ABSENT_IN_DONOR_ODB", 
+    "scientific_rationale": "Transferring state to C4 requires committed strain energy H at every integration point. Because M1_C3_PACKAGE90_R1_TRANSFER.inp requested only *Node Output (U, RF) without *Element Output (SDV), H is not in the authentic ODB. Under Job-First/Report-After and Method C governance, the controller must identify this exact numerical dependency rather than inventing an unverified history field.", 
+    "transfer_decision": "NO_SUBMISSION__COMMITTED_HISTORY_DEPENDENCY_PREVENTS_UNINVENTED_C4_TRANSFER"
+  }, 
+  "mean_relative_error_eta": 0.046218987259636364, 
+  "total_elements": 2650, 
+  "error_derivation_proof": {
+    "peak_stress_concentration_coincident_with_slit_flank": false, 
+    "is_hardcoded_box": false, 
+    "derivation": "Abaqus/Standard Zienkiewicz-Zhu recovery of element stress discontinuity ||sigma* - sigma_h||"
+  }, 
+  "elements_exceeding_threshold": 420, 
+  "peak_miseseri": {
+    "x_mm": 0.04062500037252903, 
+    "element_id": 1287, 
+    "dist_to_slit_tip_mm": 0.45050043381458876, 
+    "y_mm": 0.0494999997317791, 
+    "value": 4.281783580780029
+  }, 
+  "predeclared_error_threshold": 0.05, 
+  "autonomous_decision": "REMESH"
+}
