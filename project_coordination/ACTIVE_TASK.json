@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Admissible donor state verified at Package 90-R1 Step 4 Frame 6 (u=0.0020367 mm, RF=159.16 N, d_max=0.97296 \u003c= 1.00000, 0 overshoot nodes). Authentic Abaqus companion continuum solve (M1_C3_COMPANION_FRAME6, Exit 0) extracted Zienkiewicz-Zhu MISESERI error distribution across all 2,650 elements (peak MISESERI=4.2818 at element 1287, peak relative error eta=232.8% at element 1273, 420 elements / 15.85% exceeding 5% threshold). While autonomous REMESH is triggered by recovered stress error, sequential C3-\u003eC4 transfer is governed by a strict numerical dependency: committed Gauss-point history (H / SDV) is absent from the authentic donor ODB because only *Node Output (U, RF) was requested. Preserved scientifically valid NO-SUBMIT decision to avoid unverified history fabrication.",
+    "phase":  "Package 91 (M1_C3_PACKAGE91_INSTRUMENTED_REPLAY) formulated, qualified via full Abaqus datacheck (Exit 0), and submitted to PBS queue entry_imfdfkmq as Job 1416584.mmaster02. Package 91 integrates 2,650 Layer 3 companion visualization elements (CPE4, IDs 5301..7950) driven by frozen f42_mixed_uel.for UMAT visualization bridge (neutral 1e-11 tangent, zero load) with field SDV output to recover authentic committed Gauss-point history across all 10,600 integration points at the C3 post-peak checkpoint (u=0.0020367 mm, RF=159.16 N, d_max=0.97296 \u003c= 1.00000). Perfected Step 4 active-set clamping (2,420 far-field \u0026 behind-slit nodes clamped, 349 forward crack nodes free) guarantees zero healing.",
     "gate_status":  "PACKAGE89_COMPLETED_JOB1416539_EVALUATED__FORCE_CONTINUITY_PASS",
     "active_pbs_job_ids":  [
 
@@ -138,14 +138,14 @@
                                  "morning_scientific_audit_packages87_88",
                                  "package89_state_transfer_submission"
                              ],
-    "last_updated":  "2026-10-23T09:42:55.1581143+02:00",
+    "last_updated":  "2026-10-23T10:02:25.9586369+02:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
-                                  "operation":  "authentic_miseseri_adaptation_decision_and_donor_admissibility_audit",
+                                  "operation":  "package91_instrumented_replay_submission_and_gauss_point_history_recovery",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-fbcc6f27-f8c5-4646-b45c-bbc02b5b241a.json",
-                                  "sha256":  "CAE971717B07D325E5E14143C51CB567DA1EB68AEF8F18B75BCEC386EF4E6746",
-                                  "created_at":  "2026-10-23T09:39:53.8927507+02:00"
+                                  "artifact":  "results/validation/preparation-2f22e848-495a-4355-b555-682cc793227e.json",
+                                  "sha256":  "C593A71FF84A58B35B80D2A196448C4B6BCDA404BA9ACFE6240F96ECBA728BB5",
+                                  "created_at":  "2026-10-23T10:00:51.9356910+02:00"
                               }
 }
