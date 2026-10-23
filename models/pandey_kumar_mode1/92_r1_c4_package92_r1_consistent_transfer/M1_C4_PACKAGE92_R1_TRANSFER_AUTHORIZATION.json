@@ -1,0 +1,39 @@
+{
+  "batch_name": "MODE1_PACKAGE_92_R1_C4_CONSISTENT_TRANSFER",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_package92_r1_c4_consistent_transfer",
+  "files": {
+    "M1_C4_PACKAGE92_R1_TRANSFER.inp": "5e90a07be65a613d17c99fddef88249867523b49ecc783220e15b9af25e5f017",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "submit_M1_C4_PACKAGE92_R1_TRANSFER.pbs": "437419ff0d80df33a4aa4025ad3ac3a2ae7e558f8b7a29f358ea7579384ae517",
+    "PACKAGE_MANIFEST.json": "bd85ef91698232e159563c8033d9c953e7bc7c758694dd1ddec548576a274c6b"
+  },
+  "jobs": [
+    {
+      "id": "M1_C4_PACKAGE92_R1_TRANSFER",
+      "pbs": "submit_M1_C4_PACKAGE92_R1_TRANSFER.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_package92_r1_c4_consistent_transfer/submit_M1_C4_PACKAGE92_R1_TRANSFER.pbs\"",
+      "command_sha256": "2f6bae218340021a11d4dfcf6cb8e0e72b5c30a048f3b7af2adfa3ef3c40ae9b",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Package 92-R1: 100% self-consistent donor state transfer from Package 90-R1 Frame 6 to Candidate C4 with Layer 3 companion overlay",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 4,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_C4_PACKAGE92_R1_TRANSFER.inp",
+      "datacheck": "M1_C4_PACKAGE92_R1_TRANSFER_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_C4_PACKAGE92_R1_TRANSFER": "Exit code 0 across 4 steps; reaction force continuity within 5% of authentic Package 90-R1 donor RF2 (159.16 N); active set irreversibility preserved (0 healing nodes); authentic committed Gauss-point history H mapped and preserved without fabrication across all 4,422 quads."
+  }
+}

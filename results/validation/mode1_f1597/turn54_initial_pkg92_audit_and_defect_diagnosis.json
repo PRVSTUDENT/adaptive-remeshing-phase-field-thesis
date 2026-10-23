@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "turn": 54,
+  "run_id": "0994c887-ba44-4c21-ba1d-9dec231dabb3",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "timestamp": "2026-10-23T10:36:30+02:00",
+  "status": "AUDIT_AND_DEFECT_DIAGNOSIS_COMPLETE",
+  "job_evaluation": {
+    "pbs_job_id": "1416604.mmaster02",
+    "job_name": "M1_C4_PACKAGE92_TRANSFER",
+    "exit_code": 0,
+    "input_deck_hash": "C1BD24F95580E4D341CCA4D62ECB50A764A35E00F62BEF56D46917756C0C227B",
+    "solver_evaluation_hash": "B683EA2FBFAA87BCE6BBBD82192325E67D7605819BB53660089C808D7B60E4D9",
+    "steps_solved": 4,
+    "cutbacks": 0,
+    "reactions": {
+      "step1_injection_rf2_N": 159.15586054325104,
+      "step2_reequil_rf2_N": 158.98680686950684,
+      "step3_staggered_rf2_N": 155.33028542995453,
+      "step4_terminal_rf2_N": 113.6205643415451,
+      "step4_terminal_u2_mm": 0.0020649998914450407,
+      "softening_force_drop_pct": -26.85
+    },
+    "companion_element_audit": {
+      "total_companion_gauss_points": 17688,
+      "d_min": 0.003856946947053075,
+      "d_max": 1.0007590055465698,
+      "h_min": 7.1193255735124694e-09,
+      "h_max": 2571.37158203125,
+      "terminal_crack_tip_overshoot_pct": 0.0759
+    }
+  },
+  "defect_diagnosis": {
+    "defect_identified": "MIXED_DONOR_STATE_COUPLING_DEFECT",
+    "description": "Package 92 utilized a mixed-donor state: nodal displacements U1, U2 and damage d were interpolated from Package 90-R1 (Frame 6, RF2 = 159.16 N, d_max = 0.9730), while Gauss-point history H was interpolated from Package 91 (Frame 6, RF2 = 162.93 N, d_max = 0.9494).",
+    "root_cause": "Package 91 was formulated with an overtightened crack-band corridor (clamping 2,420 nodes vs 2,221 in Package 90-R1), altering boundary kinematics and stiffening the specimen by +2.37% (159.16 N -> 162.93 N). Combining Package 90-R1 displacements with Package 91 history created a thermodynamic mismatch between strain energy psi_0^+(eps) and historical maximum H.",
+    "resolution_strategy": "Package 92-R1 will be formulated with a 100% self-consistent donor state derived directly from Package 90-R1 Frame 6: evaluate Gauss-point history H(x) = max(H_prior, psi_0^+(eps(u))) directly from Package 90-R1 displacements using the UEL constitutive relation, ensuring strict thermodynamic and kinematic consistency across all 17,688 Gauss points of Candidate C4."
+  },
+  "evidence_sources": {
+    "results/validation/mode1_f1597/pkg92_solver_evaluation.json": "B683EA2FBFAA87BCE6BBBD82192325E67D7605819BB53660089C808D7B60E4D9",
+    "models/pandey_kumar_mode1/90_r1_c3_active_set_transfer/M1_C3_PACKAGE90_R1_TRANSFER.inp": "C9CFD0707001AA17F6CD638DBED5EA4BB23160DE629BCB0AEBC10E57F1EA4506",
+    "models/pandey_kumar_mode1/92_c4_package92_error_driven_transfer/M1_C4_PACKAGE92_TRANSFER.inp": "C1BD24F95580E4D341CCA4D62ECB50A764A35E00F62BEF56D46917756C0C227B"
+  },
+  "verification_passed": true
+}
