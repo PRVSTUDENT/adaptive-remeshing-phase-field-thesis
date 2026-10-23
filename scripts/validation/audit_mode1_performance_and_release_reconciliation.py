@@ -29,6 +29,8 @@ def run_reconciliation(workspace="."):
     pkg40_eval_path = ws / "models/pandey_kumar_mode1/40_method_b_corrected_propagation_14k/evidence_1412873/corrected_method_b_8ta_evaluation.json"
     pkg89_matrix_path = ws / "results/validation/package89_acceptance_matrix.json"
     checklist_path = ws / "docs/thesis/MODE1_THESIS_COMPLETION_CHECKLIST_AND_ARCHITECTURE_OUTLINE.md"
+    config_path = ws / "models/pandey_kumar_mode1/canonical_mode1_method_b_config.json"
+    runbook_path = ws / "docs/reproduction/MODE1_METHOD_B_REPRODUCTION_RUNBOOK.md"
 
     # 1. Parse Package 38 terminal evaluation
     with open(pkg38_eval_path, "r", encoding="utf-8") as f:
@@ -107,7 +109,9 @@ def run_reconciliation(workspace="."):
             "dof_reduction_vs_hypothetical_uniform_1um_pct": adapted_dof_red_vs_uniform1um_pct,
             "crack_tip_element_size_um": 1.15,
             "ref15k_tip_element_size_um": 1.50,
-            "clarification": "The 80.9% DOF reduction applies exclusively to the coarse pre-analysis screening phase; the adapted fracture mesh has comparable DOFs (-5.64%) to the non-uniform S1 reference while providing 2x finer crack-tip resolution and >98.5% savings vs uniform 1 um."
+            "linear_resolution_ratio_vs_ref15k": 1.50 / 1.15,
+            "refinement_corridor_bounds_y_mm": [0.48, 0.52],
+            "clarification": "The 80.74% DOF reduction applies exclusively to the coarse pre-analysis screening phase; the adapted fracture mesh has comparable DOFs (-5.64%) to the non-uniform S1 reference while providing 1.304x finer linear crack-tip resolution (1.15 um vs 1.50 um) and >98.5% savings vs a hypothetical uniform 1 um mesh (>1M elements, >3M DOFs, theoretical baseline)."
         },
         "uniform_reference_s1": {
             "elements": 15192,
@@ -124,7 +128,7 @@ def run_reconciliation(workspace="."):
     t_solver_serial_sec = 23498  # from pbs_execution.log of Job 1412465 (06:31:38)
     speedup_solver = t_solver_serial_sec / t_solver_8t_sec
 
-    # Stage overhead times (measured)
+    # Stage overhead times (workstation desktop benchmark estimates)
     t_preanalysis_sec = 8.0
     t_error_sec = 4.0
     t_remesh_sec = 25.0
@@ -145,6 +149,15 @@ def run_reconciliation(workspace="."):
             "T_solver_serial": t_solver_serial_sec,
             "T_post": t_post_sec
         },
+        "component_nature": {
+            "T_preanalysis": "workstation_benchmark_estimate",
+            "T_error": "workstation_benchmark_estimate",
+            "T_remesh": "workstation_benchmark_estimate",
+            "T_transfer": "exact_methodological",
+            "T_solver_8t": "exact_pbs_measurement",
+            "T_solver_serial": "exact_pbs_measurement",
+            "T_post": "workstation_benchmark_estimate"
+        },
         "T_total_8t_sec": t_total_8t_sec,
         "T_total_8t_formatted": "03:36:12",
         "T_total_serial_sec": t_total_serial_sec,
@@ -152,7 +165,7 @@ def run_reconciliation(workspace="."):
         "solver_only_speedup_8t_vs_serial": speedup_solver,
         "full_workflow_speedup_8t_vs_serial": speedup_workflow,
         "pre_refinement_overhead_percentage": ((t_preanalysis_sec + t_error_sec + t_remesh_sec) / t_total_8t_sec) * 100.0,
-        "classification": "Parallelization speedup on matched adapted mesh; pre-refinement overhead is negligible (<0.3% of total time)."
+        "classification": "Parallelization speedup on matched adapted mesh; pre-refinement overhead is negligible (<0.3% of total time). Note: Pre/postprocessing timings are representative workstation desktop estimates; solver walltimes are exact PBS accounting from Jobs 1412873 (8T) and 1412872 (serial)."
     }
 
     # 6. Reconciled Release Acceptance Matrix
@@ -190,7 +203,7 @@ def run_reconciliation(workspace="."):
                 "verdict": "PASS"
             },
             "gate_5_dof_reduction_adapted_vs_1um": {
-                "metric": "Degree-of-freedom reduction of adapted mesh vs uniform 1 um",
+                "metric": "Degree-of-freedom reduction of adapted mesh vs uniform 1 um (theoretical baseline)",
                 "claimed_tolerance": ">= 90.0%",
                 "measured_value": f"{adapted_dof_red_vs_uniform1um_pct:.2f}%",
                 "verdict": "PASS"
@@ -222,7 +235,7 @@ def run_reconciliation(workspace="."):
             "gate_10_architecture_contract": {
                 "metric": "Decoupled 5-layer framework specification with explicit maturity labels",
                 "claimed_tolerance": "Implemented vs Designed vs Future Research clearly defined",
-                "measured_value": "Defined in MODE1_THESIS_COMPLETION_CHECKLIST_AND_ARCHITECTURE_OUTLINE.md",
+                "measured_value": "Defined in MODE1_THESIS_COMPLETION_CHECKLIST_AND_ARCHITECTURE_OUTLINE.md and MODE1_METHOD_B_REPRODUCTION_RUNBOOK.md",
                 "verdict": "PASS"
             }
         },
@@ -234,7 +247,9 @@ def run_reconciliation(workspace="."):
             "models/pandey_kumar_mode1/89_mode1_preanalysis_uel_canonical_2906/PK_M1_JOB1_UEL_2906.inp": compute_sha256(coarse_deck_path),
             "models/pandey_kumar_mode1/40_method_b_corrected_propagation_14k/evidence_1412873/corrected_method_b_8ta_evaluation.json": compute_sha256(pkg40_eval_path),
             "results/validation/package89_acceptance_matrix.json": compute_sha256(pkg89_matrix_path),
-            "docs/thesis/MODE1_THESIS_COMPLETION_CHECKLIST_AND_ARCHITECTURE_OUTLINE.md": compute_sha256(checklist_path)
+            "docs/thesis/MODE1_THESIS_COMPLETION_CHECKLIST_AND_ARCHITECTURE_OUTLINE.md": compute_sha256(checklist_path),
+            "models/pandey_kumar_mode1/canonical_mode1_method_b_config.json": compute_sha256(config_path),
+            "docs/reproduction/MODE1_METHOD_B_REPRODUCTION_RUNBOOK.md": compute_sha256(runbook_path)
         }
     }
 

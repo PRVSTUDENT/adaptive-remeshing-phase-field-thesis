@@ -66,7 +66,12 @@
       "dof_reduction_vs_hypothetical_uniform_1um_pct": 98.53523430984379,
       "crack_tip_element_size_um": 1.15,
       "ref15k_tip_element_size_um": 1.5,
-      "clarification": "The 80.9% DOF reduction applies exclusively to the coarse pre-analysis screening phase; the adapted fracture mesh has comparable DOFs (-5.64%) to the non-uniform S1 reference while providing 2x finer crack-tip resolution and >98.5% savings vs uniform 1 um."
+      "linear_resolution_ratio_vs_ref15k": 1.3043478260869565,
+      "refinement_corridor_bounds_y_mm": [
+        0.48,
+        0.52
+      ],
+      "clarification": "The 80.74% DOF reduction applies exclusively to the coarse pre-analysis screening phase; the adapted fracture mesh has comparable DOFs (-5.64%) to the non-uniform S1 reference while providing 1.304x finer linear crack-tip resolution (1.15 um vs 1.50 um) and >98.5% savings vs a hypothetical uniform 1 um mesh (>1M elements, >3M DOFs, theoretical baseline)."
     },
     "uniform_reference_s1": {
       "elements": 15192,
@@ -84,6 +89,15 @@
       "T_solver_serial": 23498,
       "T_post": 15.0
     },
+    "component_nature": {
+      "T_preanalysis": "workstation_benchmark_estimate",
+      "T_error": "workstation_benchmark_estimate",
+      "T_remesh": "workstation_benchmark_estimate",
+      "T_transfer": "exact_methodological",
+      "T_solver_8t": "exact_pbs_measurement",
+      "T_solver_serial": "exact_pbs_measurement",
+      "T_post": "workstation_benchmark_estimate"
+    },
     "T_total_8t_sec": 12972.0,
     "T_total_8t_formatted": "03:36:12",
     "T_total_serial_sec": 23550.0,
@@ -91,7 +105,7 @@
     "solver_only_speedup_8t_vs_serial": 1.8187306501547988,
     "full_workflow_speedup_8t_vs_serial": 1.8154486586493987,
     "pre_refinement_overhead_percentage": 0.28522972556275056,
-    "classification": "Parallelization speedup on matched adapted mesh; pre-refinement overhead is negligible (<0.3% of total time)."
+    "classification": "Parallelization speedup on matched adapted mesh; pre-refinement overhead is negligible (<0.3% of total time). Note: Pre/postprocessing timings are representative workstation desktop estimates; solver walltimes are exact PBS accounting from Jobs 1412873 (8T) and 1412872 (serial)."
   },
   "acceptance_gates": {
     "gate_1_force_parity": {
@@ -119,7 +133,7 @@
       "verdict": "PASS"
     },
     "gate_5_dof_reduction_adapted_vs_1um": {
-      "metric": "Degree-of-freedom reduction of adapted mesh vs uniform 1 um",
+      "metric": "Degree-of-freedom reduction of adapted mesh vs uniform 1 um (theoretical baseline)",
       "claimed_tolerance": ">= 90.0%",
       "measured_value": "98.54%",
       "verdict": "PASS"
@@ -151,7 +165,7 @@
     "gate_10_architecture_contract": {
       "metric": "Decoupled 5-layer framework specification with explicit maturity labels",
       "claimed_tolerance": "Implemented vs Designed vs Future Research clearly defined",
-      "measured_value": "Defined in MODE1_THESIS_COMPLETION_CHECKLIST_AND_ARCHITECTURE_OUTLINE.md",
+      "measured_value": "Defined in MODE1_THESIS_COMPLETION_CHECKLIST_AND_ARCHITECTURE_OUTLINE.md and MODE1_METHOD_B_REPRODUCTION_RUNBOOK.md",
       "verdict": "PASS"
     }
   },
@@ -163,6 +177,8 @@
     "models/pandey_kumar_mode1/89_mode1_preanalysis_uel_canonical_2906/PK_M1_JOB1_UEL_2906.inp": "27AAB773A116E3C8A832E4980D0E25F48A435F34DEDECE4ABE78FFA232C0C1FF",
     "models/pandey_kumar_mode1/40_method_b_corrected_propagation_14k/evidence_1412873/corrected_method_b_8ta_evaluation.json": "9B5BB5A6359DAA3336B1C1D79D833282C48A0491E0B257D5822E2F70CC032FCE",
     "results/validation/package89_acceptance_matrix.json": "E0503D40C74BD9CD91C7A049EEA959569D218EDC254ECD980583FDF269DFCBED",
-    "docs/thesis/MODE1_THESIS_COMPLETION_CHECKLIST_AND_ARCHITECTURE_OUTLINE.md": "4E6794F2610E68C060E0E962795C4F668B1892A7BB864519AD96A13AB1CC6F5A"
+    "docs/thesis/MODE1_THESIS_COMPLETION_CHECKLIST_AND_ARCHITECTURE_OUTLINE.md": "4E6794F2610E68C060E0E962795C4F668B1892A7BB864519AD96A13AB1CC6F5A",
+    "models/pandey_kumar_mode1/canonical_mode1_method_b_config.json": "8C325D9CB117DC148C3419DF60CA927E8F642117CC556A96AE3A150F3593E751",
+    "docs/reproduction/MODE1_METHOD_B_REPRODUCTION_RUNBOOK.md": "27162B1B8F4C8FA3ADEE3B47C5F521CBD41EFF96288FED1BDC798E60A76B7D79"
   }
 }

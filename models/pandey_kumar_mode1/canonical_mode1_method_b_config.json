@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "name": "Canonical Mode-I Method B Full-Scale Reproduction Package",
+  "governing_document": "docs/reproduction/MODE1_METHOD_B_REPRODUCTION_RUNBOOK.md",
+  "physical_problem": {
+    "specimen_type": "Single-edge notched tension plate (Mode-I)",
+    "domain_dimensions_mm": [1.0, 1.0],
+    "thickness_mm": 1.0,
+    "initial_slit": {
+      "location_y_mm": 0.5,
+      "length_a0_mm": 0.5,
+      "span_x_mm": [0.0, 0.5],
+      "flank_topology": "duplicate coincident nodes on opposing crack flanks"
+    },
+    "boundary_conditions": {
+      "bottom_y0": "fixed in y (u_y = 0 on N_BOTTOM), bottom-left fixed in x (u_x = 0)",
+      "top_y1": "rigid kinematically coupled to reference node N_RP",
+      "loading": "displacement-controlled monotonic tension u_y(t) up to 0.010 mm on N_RP"
+    }
+  },
+  "material_parameters": {
+    "model": "Linear-elastic brittle phase-field fracture (AT2)",
+    "youngs_modulus_E_GPa": 210.0,
+    "poissons_ratio_nu": 0.3,
+    "fracture_energy_Gc_N_per_mm": 2.7,
+    "length_scale_l0_mm": 0.0075,
+    "residual_stiffness_k_res": 1e-07,
+    "strain_energy_decomposition": "Spectral tension/compression split (Miehe et al.)"
+  },
+  "mesh_hierarchy": {
+    "coarse_preanalysis": {
+      "purpose": "Linear-elastic coarse pre-analysis for stress recovery error estimation",
+      "elements": 2906,
+      "physical_nodes": 2989,
+      "solver_dofs": 8969,
+      "dof_reduction_vs_ref15k_pct": 80.73999,
+      "input_deck": "models/pandey_kumar_mode1/89_mode1_preanalysis_uel_canonical_2906/PK_M1_JOB1_UEL_2906.inp",
+      "input_deck_sha256": "27AAB773A116E3C8A832E4980D0E25F48A435F34DEDECE4ABE78FFA232C0C1FF"
+    },
+    "adapted_fracture_mesh": {
+      "purpose": "Production Mode-I fracture propagation under Method B native pre-refinement",
+      "elements": 14677,
+      "physical_nodes": 14647,
+      "solver_dofs": 43943,
+      "crack_tip_element_size_um": 1.15,
+      "refinement_corridor_bounds_y_mm": [0.48, 0.52],
+      "linear_resolution_ratio_vs_ref15k": 1.30435,
+      "dof_reduction_vs_ref15k_pct": 5.63692,
+      "dof_reduction_vs_hypothetical_uniform_1um_pct": 98.53523,
+      "dof_reduction_vs_hypothetical_1um_note": "Hypothetical uniform 1 um mesh (>1M elements, >3M DOFs) is a theoretical resolution baseline, not an executed solver job",
+      "input_deck": "models/pandey_kumar_mode1/38_method_b_native_final_14k/M1_MB_NATIVE_FINAL_1S.inp",
+      "input_deck_sha256": "39CFD486C87A48A72F145919998E4FE698367DDA452B0F20C2E8F43EA13B0A6D"
+    },
+    "uniform_reference_s1": {
+      "purpose": "Non-uniform graded reference discretization for parity verification",
+      "elements": 15192,
+      "physical_nodes": 15522,
+      "solver_dofs": 46568,
+      "crack_tip_element_size_um": 1.5,
+      "input_deck": "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/PK_MODE1_REF15K_ENERGY.inp",
+      "input_deck_sha256": "EC560A4C265730647B43DAB125D166EBC57CAC285D574D38222A498A967535D9"
+    }
+  },
+  "uel_contract": {
+    "source_file": "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for",
+    "expected_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "status": "BITWISE_FROZEN_PASS",
+    "element_formulation": "Dual-element approach (JTYPE 1: phase field DOF 3; JTYPE 2: displacement DOFs 1,2)",
+    "nsvars": 18
+  },
+  "computational_benchmarks": {
+    "solver_walltime_8t_s": 12920,
+    "solver_walltime_serial_s": 23498,
+    "solver_speedup_8t_vs_serial": 1.81873,
+    "solver_speedup_status": "PASS (>= 1.5x threshold)",
+    "workstation_estimates_s": {
+      "preanalysis_screening_s": 8.0,
+      "error_recovery_s": 4.0,
+      "gmsh_remeshing_s": 25.0,
+      "postprocessing_s": 15.0,
+      "total_offline_overhead_s": 52.0,
+      "notes": "Workstation timings are representative desktop benchmark estimates; solver times are exact PBS accounting from Jobs 1412873 (8T) and 1412872 (serial)"
+    },
+    "full_workflow_estimated_walltime_8t_s": 12972.0,
+    "pre_refinement_overhead_percentage": 0.28523
+  },
+  "acceptance_tolerances": {
+    "elastic_stiffness_K0": {
+      "reference_kN_per_mm": 137.94552,
+      "adapted_kN_per_mm": 137.89188,
+      "error_pct": -0.03888,
+      "tolerance_pct": 0.05,
+      "verdict": "PASS"
+    },
+    "peak_reaction_force_Fmax": {
+      "reference_kN": 0.757778,
+      "adapted_kN": 0.743021,
+      "error_pct": -1.94746,
+      "tolerance_pct": 2.0,
+      "verdict": "PASS"
+    },
+    "peak_displacement_upeak": {
+      "reference_mm": 0.005857,
+      "adapted_mm": 0.005727,
+      "error_pct": -2.21957,
+      "tolerance_pct": 2.5,
+      "verdict": "PASS"
+    },
+    "terminal_propagation_horizon": {
+      "terminal_displacement_mm": 0.01,
+      "total_increments": 7000,
+      "softening_monotonic": true,
+      "verdict": "PASS"
+    }
+  },
+  "governance": {
+    "architecture_decision_milestone": "November 13, 2026",
+    "thesis_freeze_milestone": "December 13, 2026",
+    "thesis_pdf_status": "PROTECTED_DO_NOT_MODIFY",
+    "method_c_classification": "OPTIONAL_SUCCESSOR_EXTENSION"
+  }
+}

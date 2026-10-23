@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "name": "Mode-I Method B Clean-Checkout Reproduction Verification",
+  "checks": {
+    "uel_integrity": {
+      "path": "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for",
+      "expected_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "actual_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "passed": true
+    },
+    "deck_hash_coarse_preanalysis": {
+      "path": "models/pandey_kumar_mode1/89_mode1_preanalysis_uel_canonical_2906/PK_M1_JOB1_UEL_2906.inp",
+      "expected_sha256": "27AAB773A116E3C8A832E4980D0E25F48A435F34DEDECE4ABE78FFA232C0C1FF",
+      "actual_sha256": "27AAB773A116E3C8A832E4980D0E25F48A435F34DEDECE4ABE78FFA232C0C1FF",
+      "passed": true
+    },
+    "deck_hash_adapted_fracture_mesh": {
+      "path": "models/pandey_kumar_mode1/38_method_b_native_final_14k/M1_MB_NATIVE_FINAL_1S.inp",
+      "expected_sha256": "39CFD486C87A48A72F145919998E4FE698367DDA452B0F20C2E8F43EA13B0A6D",
+      "actual_sha256": "39CFD486C87A48A72F145919998E4FE698367DDA452B0F20C2E8F43EA13B0A6D",
+      "passed": true
+    },
+    "deck_hash_uniform_reference_s1": {
+      "path": "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/PK_MODE1_REF15K_ENERGY.inp",
+      "expected_sha256": "EC560A4C265730647B43DAB125D166EBC57CAC285D574D38222A498A967535D9",
+      "actual_sha256": "EC560A4C265730647B43DAB125D166EBC57CAC285D574D38222A498A967535D9",
+      "passed": true
+    },
+    "geometry_and_topology": {
+      "node_count": 14647,
+      "domain_x_range": [
+        0.0,
+        1.0
+      ],
+      "domain_y_range": [
+        0.0,
+        1.0
+      ],
+      "nodes_on_slit_y05": 125,
+      "has_N_BOTTOM": true,
+      "has_N_TOP": true,
+      "has_N_RP": true,
+      "has_UEL_JTYPE1": true,
+      "has_UEL_JTYPE2": true,
+      "passed": true
+    },
+    "parity_and_convergence": {
+      "delta_K0_pct": -0.03888392270107034,
+      "K0_pass": true,
+      "delta_Fmax_pct": -1.9474555872564236,
+      "Fmax_pass": true,
+      "delta_upeak_pct": -2.2195663308861175,
+      "upeak_pass": true,
+      "terminal_displacement_mm": 0.01,
+      "terminal_increments": 7000,
+      "horizon_pass": true,
+      "solver_speedup": 1.81873,
+      "speedup_pass": true,
+      "coarse_dof_reduction_pct": 80.73999,
+      "coarse_dof_pass": true,
+      "passed": true
+    }
+  },
+  "overall_status": "PASSED"
+}
