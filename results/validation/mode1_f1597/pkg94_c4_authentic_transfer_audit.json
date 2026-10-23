@@ -1,0 +1,39 @@
+{
+  "status": "PACKAGE94_CONSTRUCTED",
+  "manifest_path": "models/pandey_kumar_mode1/94_c4_package94_authentic_transfer/PACKAGE_MANIFEST.json",
+  "authorization_path": "models/pandey_kumar_mode1/94_c4_package94_authentic_transfer/M1_C4_PACKAGE94_TRANSFER_AUTHORIZATION.json",
+  "input_deck_hash": "313DD063C355FAD3AB23212F4E008B6338A583801191630142DC0AF826A4B4D4",
+  "frozen_uel_hash": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "receiver_mesh": {
+    "name": "Candidate C4",
+    "elements": 4422,
+    "physical_nodes": 4588,
+    "h_fine_mm": 0.0008,
+    "error_threshold": 0.15,
+    "companion_elements": 4422,
+    "companion_type": "CPE4 (Layer 3)"
+  },
+  "donor_provenance": {
+    "donor_job": "1416642.mmaster02",
+    "donor_package": "PACKAGE_93",
+    "checkpoint_frame": 6,
+    "u2_target_mm": 0.00203669304,
+    "rf2_target_N": 159.15939211845398,
+    "d_max_donor": 0.9729551076889038,
+    "nodal_csv": "results/validation/mode1_f1597/pkg90_r1_frame6_nodal_state.csv",
+    "committed_history_csv": "results/validation/mode1_f1597/pkg93_frame6_committed_history.csv",
+    "gp_history_source": "AUTHENTIC_PACKAGE93_COMPANION_TELEMETRY"
+  },
+  "continuation": {
+    "checkpoint_u_mm": 0.00203669304,
+    "continuation_u_mm": 0.002052,
+    "delta_u_nm": 15.307,
+    "step4_increments": [
+      0.1,
+      1.0,
+      1e-08,
+      0.2
+    ]
+  },
+  "verification_passed": true
+}

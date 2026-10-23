@@ -1,0 +1,46 @@
+#!/bin/bash
+#PBS -N M1_C4_P94_TRANS
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=04:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratch9/pr21vyci/runs/mode1_package94_c4_authentic_transfer/pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_package94_c4_authentic_transfer"
+cd "${RUN_DIR}"
+
+export JOB_NAME="M1_C4_PACKAGE94_TRANSFER"
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+source "${RUN_DIR}/job_notifications.sh"
+notification_load_config
+notification_install_terminal_trap
+notify_start
+
+export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/tmp/xdg_runtime_${USER}}"
+mkdir -p "${XDG_RUNTIME_DIR}"
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+
+echo "=== PACKAGE 94 EXECUTION START ==="
+echo "Host: $(hostname)"
+echo "Date: $(date -Is)"
+echo "PWD:  $(pwd)"
+
+ABAQUS_CMD="abaqus job=M1_C4_PACKAGE94_TRANSFER input=M1_C4_PACKAGE94_TRANSFER.inp user=f42_mixed_uel.for cpus=1 interactive"
+echo "Running: ${ABAQUS_CMD}"
+${ABAQUS_CMD}
+EXIT_CODE=$?
+
+echo "Abaqus completed with exit code: ${EXIT_CODE}"
+if [ ${EXIT_CODE} -eq 0 ]; then
+    echo "=== PACKAGE 94 SUCCESS ==="
+else
+    echo "=== PACKAGE 94 FAILED ==="
+    exit ${EXIT_CODE}
+fi

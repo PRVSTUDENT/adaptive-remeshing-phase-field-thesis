@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 94 constructed, qualified via Abaqus datacheck Exit 0, and submitted as Job 1416653.mmaster02 using single-source authentic committed history from Package 93 Frame 6 and calibrated softening continuation.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/94_c4_package94_authentic_transfer/M1_C4_PACKAGE94_TRANSFER.inp": "313DD063C355FAD3AB23212F4E008B6338A583801191630142DC0AF826A4B4D4",
+    "models/pandey_kumar_mode1/94_c4_package94_authentic_transfer/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/94_c4_package94_authentic_transfer/candidate_crack_band_mesh_c4.inp": "1F771B85F2DFBFC826C16D3EE493B180AB87FA4390AEE6E557F2EBE52B06A71D",
+    "models/pandey_kumar_mode1/94_c4_package94_authentic_transfer/candidate_c4_frame6_mapped_state_table.csv": "A543A4375F0672EC074CA6985C71E4C26A214CDF72C0818405277B66094484A2",
+    "models/pandey_kumar_mode1/94_c4_package94_authentic_transfer/job_notifications.sh": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "models/pandey_kumar_mode1/94_c4_package94_authentic_transfer/submit_M1_C4_PACKAGE94_TRANSFER.pbs": "BFE32EEF2084D06A81D0EE8D796D3C51EAA301D0B99213B36FF49E3C18B32467",
+    "models/pandey_kumar_mode1/94_c4_package94_authentic_transfer/run_pkg94_datacheck.sh": "D17B78493EE7F20BA5AD5D20627B4A8181995939482E72B703494A0AD14EB1CA",
+    "models/pandey_kumar_mode1/94_c4_package94_authentic_transfer/PACKAGE_MANIFEST.json": "D0B9DD226EAE81E21C5AC54F60EFC0AD109C04DE147BD5B751D1D55C2CE8F745",
+    "models/pandey_kumar_mode1/94_c4_package94_authentic_transfer/M1_C4_PACKAGE94_TRANSFER_AUTHORIZATION.json": "319D3C3DA51A25D32A54E9259D4E2915C23D686F58ECB4ADAB980D5AC2D5F03A",
+    "results/validation/mode1_f1597/pkg93_frame6_committed_history.csv": "625D638F46533A501DA92304A2770BD27CD847D6CF9C9D30D2CC9DE9BB82CA9F",
+    "results/validation/mode1_f1597/pkg93_scientific_qualification.json": "BCB095D34CE2F6BB86317CD5588B27FFFF0C8E8F8BB2B4FE8D92164146F6BA34",
+    "tests/unit/test_mode1_f1597_turn56_package94_transfer.py": "58B89EFF5A43EC16A339F277374F481ACE6E6E24C9822DD04E43CC767BF4A8B7"
+  },
+  "verification_passed": true
+}
