@@ -1,0 +1,19 @@
+{
+  "package_id": "PACKAGE_89_C2_FRAME88_EARLY_STATE_TRANSFER",
+  "mesh": "Candidate C2 mesh (h=1.0 um, 2300 physical quads, 2413 physical nodes)",
+  "purpose": "Nonmatching coupled state transfer at authentic pre-peak/early-propagation checkpoint Frame 88 (u_top=0.001965107 mm, t=0.39302148 s) from Package 76 visual donor to Candidate C2 mesh. Evaluates: (1) State injection holding force continuity (<=5% vs donor 185.335 N and C2 virgin 183.889 N); (2) Step 2 interior mechanical re-equilibration under frozen damage; (3) Step 3 active-set phase subproblem; (4) Step 4 forward continuation to u=0.0020151 mm.",
+  "files": {
+    "inp": "M1_C2_FRAME88_TRANSFER.inp",
+    "inp_sha256": "385243CC6EE3D9291860CB904F7B25C3E497C1108BC66358BC65501367F59507",
+    "uel": "f42_mixed_uel.for",
+    "uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "pbs": "submit_M1_C2_FRAME88_TRANSFER.pbs",
+    "pbs_sha256": "3995212DEAC0F6FE74599E05CA16A8E20D67C2A5836B34D562CE1F9DABFB6E87",
+    "notif": "job_notifications.sh",
+    "notif_sha256": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "datacheck_script": "run_pkg89_datacheck.sh",
+    "datacheck_script_sha256": "574C558FAAB356F2DC690892DE3A42EDD6932988DC4ABE49AAEBA1D966AD2591",
+    "mapped_state_csv": "candidate_c2_frame88_mapped_state_table.csv",
+    "mapped_state_csv_sha256": "74C0CE3E49A3EF909D1F073E8E715C27A9E0F9BA71FCCEB896245F3C9E0B7D5C"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "status": "MAPPING_COMPLETE",
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "checkpoint": {
+    "source_model": "Package 76 Visual Donor",
+    "source_step": "Step-1",
+    "source_frame": 88,
+    "source_inc": 88,
+    "source_time": 0.39302148,
+    "checkpoint_u_top_mm": 0.00196510735,
+    "donor_rf2_N": 185.33544,
+    "virgin_c2_rf2_interp_N": 183.88912,
+    "rf2_discrepancy_pct": -0.78036,
+    "meets_5pct_force_gate": true
+  },
+  "donor": {
+    "h_mm": 0.0025,
+    "num_nodes": 1698,
+    "num_elements": 1600,
+    "at2_fracture_energy_uJ": 52.28544254696665
+  },
+  "receiver": {
+    "model": "Package 89 Candidate C2 Receiver",
+    "h_mm": 0.001,
+    "num_nodes": 2413,
+    "num_elements": 2300,
+    "at2_fracture_energy_uJ": 52.26630749506784,
+    "energy_continuity_rel_diff_pct": 0.036597283998533264,
+    "energy_continuity_pass": true
+  },
+  "verification_criteria": {
+    "svars_ordering_correct": true,
+    "svars_ordering_detail": "SVARS(9..12) mapped to 4-GP Kuhn-Tucker history H, ingested by f42_mixed_uel.for lines 248-262 on Step 1 Inc 1",
+    "phase_field_bounds_satisfied": true,
+    "min_damage": 0.003013264155,
+    "max_damage": 0.47862151264999997,
+    "zero_healing_strictly_enforced": true,
+    "healing_node_count": 0,
+    "min_delta_d": 0.0,
+    "history_monotonicity_kuhn_tucker": true,
+    "min_history_h": 0.0,
+    "max_history_h": 1.297688457275515,
+    "crack_flank_separation_preserved": true,
+    "cmod_at_slit_mouth_um": 2.18503229555
+  },
+  "governed_artifacts": {
+    "mapped_state_table_csv": "candidate_c2_frame88_mapped_state_table.csv",
+    "mapped_state_table_sha256": "74C0CE3E49A3EF909D1F073E8E715C27A9E0F9BA71FCCEB896245F3C9E0B7D5C",
+    "package89_input_deck_inp": "M1_C2_FRAME88_TRANSFER.inp",
+    "package89_input_deck_sha256": "385243CC6EE3D9291860CB904F7B25C3E497C1108BC66358BC65501367F59507"
+  }
+}

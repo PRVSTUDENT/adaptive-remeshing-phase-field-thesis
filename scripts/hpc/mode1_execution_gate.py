@@ -125,7 +125,14 @@ def save_ledger(data,root):
     temp=path.with_name(path.name+'.'+str(uuid.uuid4())+'.tmp.json')
     with temp.open('x',encoding='utf-8') as stream:
         json.dump(data,stream,indent=2);stream.flush();os.fsync(stream.fileno())
-    os.replace(temp,path)
+    try:
+        os.replace(temp,path)
+    except (PermissionError, OSError):
+        with path.open('w',encoding='utf-8') as stream:
+            json.dump(data,stream,indent=2);stream.flush();os.fsync(stream.fileno())
+        if temp.exists():
+            try: temp.unlink()
+            except OSError: pass
 
 
 def receipts(root,key):
