@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Turn 72 formulated the formal adapter specification for mode1-pdas-iterative-v1 to resolve the iterative Abaqus PDAS execution blocker. The specification establishes the seed deck preflight datacheck contract, defines deterministic subproblem generation restricted exclusively to boundary condition modifications on phase DOF 11 (Dirichlet d=1 on U, d=d_ckpt on L, free on A), specifies the runtime subproblem ledger schema (tracking input hashes, exit codes, set counts, dual residuals, and reaction forces), and enforces safety termination at k_max=25. Bitwise production UEL integrity (CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6) was verified, and 35/35 unit tests passed. Gate C1-2 remains strictly NOT QUALIFIED until real solver evidence is collected; no bare unconstrained jobs were submitted.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "tests/unit/test_mode1_f1597_turn72_pdas_adapter_specification.py": "FF620257421FFD80F3DE215BF9871E0023717FAC65FCB6FA6A11BC7B77ED2AD1",
+    "results/validation/mode1_f1597/turn72_pdas_adapter_design_specification.json": "A6D85B0FB7151A6CF9840F177BE53F789458BC5D2068B2026F2EA5578A8E27EF"
+  },
+  "verification_passed": true
+}
