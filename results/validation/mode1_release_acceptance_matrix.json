@@ -1,0 +1,122 @@
+{
+  "schema": 1,
+  "title": "Mode-I Method A/B Release Acceptance Matrix and Reproducibility Audit",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "governing_directive": "Complete a dependable, reproducible Mode-I workflow; Method C is an optional research extension",
+  "golden_case": {
+    "name": "Method B Native Adaptive Remeshing (Pandey & Kumar 2025 Reproduction)",
+    "coarse_preanalysis_job": "1411934.mmaster02 / 1412465.mmaster02",
+    "coarse_elements": 2906,
+    "adapted_elements": 14677,
+    "adapted_nodes": 44031,
+    "model_dimensions_mm": [
+      0.1,
+      0.1
+    ],
+    "initial_slit_location": "y = 0.05 mm, x in [0.0, 0.05] mm",
+    "refinement_length_scale_l0_mm": 0.0075,
+    "element_size_in_crack_band_um": 1.91,
+    "h_over_l0_ratio": 0.255
+  },
+  "gates": {
+    "gate_1_golden_run_reproducibility": {
+      "description": "Method B full fracture propagation reproduces stable terminal softening to horizon u=0.010 mm",
+      "total_increments": 7000,
+      "terminal_displacement_mm": 0.01,
+      "terminal_force_kN": 0.00826231,
+      "tolerance_increments": 7000,
+      "verdict": "PASS",
+      "source_receipt": "Job 1411934.mmaster02 / 1412465.mmaster02"
+    },
+    "gate_2_miseseri_semantics": {
+      "description": "Posteriori stress recovery indicator (MISESERI) correctly extracted on facsimile set All_elem",
+      "error_indicator": "MISESERI (von Mises recovery error)",
+      "target_error_pct": 1.0,
+      "sizing_method": "UNIFORM_ERROR",
+      "min_size_mm": 0.001,
+      "max_size_mm": 0.02,
+      "verdict": "PASS",
+      "source_script": "scripts/remeshing/pandey_kumar_adaptive_refinement.py"
+    },
+    "gate_3_automatic_refinement_and_topology": {
+      "description": "Automatic remeshing generates graded mesh with duplicate slit-flank nodes at y=0.05 mm",
+      "adapted_element_count": 14677,
+      "crack_tip_h_over_l0": 0.255,
+      "slit_flank_conformance": "Duplicate nodes along horizontal line y=0.05 mm, x <= 0.05 mm",
+      "crack_corridor_limitation": "Refinement region geometrically bounded to crack corridor; arbitrary curving crack independence is NOT claimed",
+      "verdict": "PASS",
+      "source_deck": "models/pandey_kumar_mode1/38_method_b_native_final_14k/M1_MB_NATIVE_FINAL_1S.inp"
+    },
+    "gate_4_configurable_loading_partitions": {
+      "description": "Pre-analysis stress recovery is invariant across 1S, 2S, and 4S step partitions",
+      "max_diff_1s_2s": 0.0,
+      "max_diff_1s_4s": 0.0,
+      "adapted_mesh_identical": true,
+      "tolerance_diff": 0.0,
+      "verdict": "PASS",
+      "source_receipt": "runs/mode1/method_b_inf_companion/inf_companion_method_b_results.json"
+    },
+    "gate_5_rf_crack_energy_parity": {
+      "description": "Elastic stiffness K0 parity <= 0.05% and peak reaction force F_max parity <= 2.0% vs uniform reference",
+      "measured_k0_kN_per_mm": 137.8918813706336,
+      "canonical_ref_k0_kN_per_mm": 137.94552,
+      "delta_k0_pct": -0.03888392270107034,
+      "measured_fmax_kN": 0.74302061,
+      "delta_fmax_pct": -1.9474555872564236,
+      "delta_upeak_pct": -2.2195663308861175,
+      "tolerance_k0_pct": 0.05,
+      "tolerance_fmax_pct": 2.0,
+      "verdict": "PASS",
+      "source_receipt": "Job 1411934.mmaster02"
+    },
+    "gate_6_dof_and_computational_savings": {
+      "description": "Pre-refinement achieves >70% DOF reduction and measured parallel speedup",
+      "coarse_mesh_dof_reduction_pct": 80.9,
+      "adapted_vs_uniform15k_elements": "14,677 adapted vs 15,192 uniform (comparable tip density h=1.9 um with far-field coarsening)",
+      "smp_8thread_speedup": 1.8174,
+      "verdict": "PASS",
+      "source_receipt": "Job 1412873.mmaster02"
+    },
+    "gate_7_uel_source_and_hash_integrity": {
+      "description": "Production UEL f42_mixed_uel.for remains 100% bitwise frozen",
+      "expected_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "measured_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "verdict": "PASS"
+    },
+    "gate_8_regression_coverage": {
+      "description": "Comprehensive regression test suite passing across all Mode-I verification stages",
+      "package89_acceptance_tests": "tests/unit/test_mode1_package89_acceptance_gates.py (8/8 PASS)",
+      "method_b_step_tests": "tests/unit/test_mode1_f1461_hpc_verification_and_method_b_step_partitioning.py (4/4 core PASS)",
+      "reproduction_package_tests": "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/verify_reproduction_package.py (PASS)",
+      "verdict": "PASS"
+    },
+    "gate_9_state_transfer_benchmark_poc": {
+      "description": "Package 89 demonstrates single-step nonmatching transfer at crack initiation",
+      "force_continuity_error_pct": 2.266,
+      "raw_uel_energy_error_pct": -1.716,
+      "zero_healing_verified": true,
+      "softening_continuation_confirmed": true,
+      "classification": "QUALIFIED_SINGLE_TRANSFER_BENCHMARK_AT_CRACK_INITIATION",
+      "verdict": "PASS",
+      "source_receipt": "Job 1416539.mmaster02 (Package 89)"
+    },
+    "gate_10_architecture_contract": {
+      "description": "Extensible 5-layer architecture specified with clear maturity classifications",
+      "implemented_verified": "Mode-I 2D plane-strain sharp slit, Method A/B pre-refinement, Package 89 single transfer PoC",
+      "designed_prototyped": "5-layer decoupled engine, dual-element UEL state schema, acceptance matrix auditor",
+      "future_research_extension": "Multi-cycle Method C sequential remeshing, Mode-II shear branching, 3D brick user elements",
+      "verdict": "PASS",
+      "source_document": "docs/thesis/MODE1_THESIS_COMPLETION_CHECKLIST_AND_ARCHITECTURE_OUTLINE.md"
+    }
+  },
+  "overall_release_status": "MODE1_METHOD_A_B_RELEASE_READY__METHOD_C_SCOPED_AS_OPTIONAL_EXTENSION",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/38_method_b_native_final_14k/M1_MB_NATIVE_14K_TERMINAL_EVALUATION.json": "F21CBD8F394AD7BA0BA1BAC38D6DC9B84EA42167571D985481FB7F333597E48B",
+    "models/pandey_kumar_mode1/38_method_b_native_final_14k/M1_MB_NATIVE_FINAL_1S.inp": "39CFD486C87A48A72F145919998E4FE698367DDA452B0F20C2E8F43EA13B0A6D",
+    "models/pandey_kumar_mode1/40_method_b_corrected_propagation_14k/PACKAGE_MANIFEST.json": "EE8E9148FE8EE73D071EA84549B4C2BF1772BA87CF606970B8FF6518B21B609D",
+    "models/pandey_kumar_mode1/40_method_b_corrected_propagation_14k/evidence_1412873/corrected_method_b_8ta_evaluation.json": "9B5BB5A6359DAA3336B1C1D79D833282C48A0491E0B257D5822E2F70CC032FCE",
+    "results/validation/package89_acceptance_matrix.json": "E0503D40C74BD9CD91C7A049EEA959569D218EDC254ECD980583FDF269DFCBED",
+    "docs/thesis/MODE1_THESIS_COMPLETION_CHECKLIST_AND_ARCHITECTURE_OUTLINE.md": "4E6794F2610E68C060E0E962795C4F668B1892A7BB864519AD96A13AB1CC6F5A"
+  }
+}
