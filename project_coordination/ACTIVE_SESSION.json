@@ -2,19 +2,25 @@
     "active":  false,
     "agent":  "gemini-antigravity",
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "starting_commit":  "4426c95faa072b9d063b64e9d89ac4db5ab89794",
-    "claimed_at":  "2026-10-23T17:58:00+02:00",
-    "last_updated":  "2026-10-23T16:26:46.1915668+00:00",
-    "last_released":  "2026-10-23T16:26:46.1845844+00:00",
-    "controller_run_id":  "controller-recovery-turn64-reliability-repair",
-    "session_report":  "project_coordination/sessions/2026-10-23_gemini-antigravity_F1597_turn64_recovery_and_controller_reliability.md",
+    "starting_commit":  "9cf075fcf40b520c6077bbc97c620757f9a0ec24",
+    "claimed_at":  "2026-10-23T19:40:53.0839110+02:00",
+    "last_updated":  "2026-10-23T19:47:58.1723154+02:00",
+    "last_released":  "2026-10-23T19:47:58.1723154+02:00",
+    "controller_run_id":  "949406d2-42b9-4ab6-863e-2bc0120c44c9",
+    "session_report":  "project_coordination/sessions/2026-10-23_gemini-antigravity_F1597_949406d2-42b9-4ab6-863e-2bc0120c44c9.md",
     "allowed_write_scope":  [
-                                "project_coordination/sessions/2026-10-23_gemini-antigravity_F1597_turn64_recovery_and_controller_reliability.md",
-                                "project_coordination/*",
-                                "scripts/controller/*",
+                                "project_coordination/sessions/2026-10-23_gemini-antigravity_F1597_949406d2-42b9-4ab6-863e-2bc0120c44c9.md",
+                                "project_coordination/controller/turn-949406d2-42b9-4ab6-863e-2bc0120c44c9.json",
+                                "results/validation/mode1_f1597/949406d2-42b9-4ab6-863e-2bc0120c44c9.json",
+                                "results/validation/preparation-949406d2-42b9-4ab6-863e-2bc0120c44c9.json",
+                                "results/validation/*",
                                 "scripts/validation/*",
                                 "tests/unit/*",
-                                "results/validation/*"
-                            ],
-    "interruption_checkpoint":  "C:\\Users\\pruth\\OpenClawPAD\\controller_turn_checkpoint.json"
+                                "models/pandey_kumar_mode1/*",
+                                "project_coordination/ACTIVE_SESSION.json",
+                                "project_coordination/ACTIVE_TASK.json",
+                                "project_coordination/CURRENT_STATE.md",
+                                "project_coordination/TASK_LEDGER.csv",
+                                "project_coordination/ARTIFACT_REGISTRY.csv"
+                            ]
 }

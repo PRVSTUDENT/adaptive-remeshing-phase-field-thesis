@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "949406d2-42b9-4ab6-863e-2bc0120c44c9",
+  "finding": "Package 96-R4 Gate Failure diagnosis completed: Job 1416964 Exit 0 verified; clamping 17 diffuse flank nodes eliminated 71.4% of healing points (down from 84 to 24 across 6 boundary elements); Step 2 force deficit (100.19 N, 11.31%) and fracture energy jump (+7.46%) traced directly to compliant unprojected element-level raw mapping causing a 10.28% elastic relaxation drop; R5 Variational Residual Active Set Filter formulated to enforce strict irreversibility without geometric heuristics.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/pkg96_r4_failure_diagnosis.json": "3E58CC8B89CBFA45495181937071F1A49D5456DAEC1CF366B15F46429115CBC3",
+    "results/validation/mode1_f1597/pkg96_r4_solver_evaluation.json": "22EBF80AB75AD10826EB8E9BE276364BF5E9518AC23F92D9B18AFBCF37F89C7F",
+    "results/validation/mode1_f1597/pkg96_r4_frame_history_summary.csv": "0B6FECF006E61132A6642DB3ACFBFE64DD5BB197D1B19EC7230846659DA8BE2F",
+    "results/validation/mode1_f1597/pkg96_r4_uel_energy_balance.csv": "A1C89FF74AB00F985941181C574964AB1403361ECAE7859DDAA35E817437E1EE",
+    "tests/unit/test_mode1_f1597_turn66_package96_r4_diagnosis.py": "8E727B739EE41937AAE5DE008F0D1A4CAD400D18FB166A559943D3D612CD6231",
+    "models/pandey_kumar_mode1/96_r4_c5_package96_r4_isolated_transfer/M1_C5_PACKAGE96_R4_TRANSFER.inp": "E5F24ED191F5B3E78315C2DF5827C6B5EA756EBE2BE9A9F43C3BCCEA3908B0C4"
+  },
+  "verification_passed": true
+}
