@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "controller_run_id": "fbcc6f27-f8c5-4646-b45c-bbc02b5b241a",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Admissible donor state verified at Package 90-R1 Step 4 Frame 6 (u=0.0020367 mm, RF=159.16 N, d_max=0.97296 <= 1.00000, 0 overshoot nodes). Authentic Abaqus companion continuum solve (M1_C3_COMPANION_FRAME6, Exit 0) extracted Zienkiewicz-Zhu MISESERI error distribution across all 2,650 elements (peak MISESERI=4.2818 at element 1287, peak relative error eta=232.8% at element 1273, 420 elements / 15.85% exceeding 5% threshold). While autonomous REMESH is triggered by recovered stress error, sequential C3->C4 transfer is governed by a strict numerical dependency: committed Gauss-point history (H / SDV) is absent from the authentic donor ODB because only *Node Output (U, RF) was requested. Preserved scientifically valid NO-SUBMIT decision to avoid unverified history fabrication.",
+  "operation": "authentic_miseseri_adaptation_decision_and_donor_admissibility_audit",
+  "title": "Admissible Donor Audit and Authentic MISESERI Error-Driven Adaptation Decision",
+  "classification": "RESEARCH_PREPARATION_VERIFIED",
+  "next_operation": "Advance to qualified execution or next research task",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/90_r1_c3_active_set_transfer/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/90_r1_c3_active_set_transfer/M1_C3_PACKAGE90_R1_TRANSFER.inp": "C9CFD0707001AA17F6CD638DBED5EA4BB23160DE629BCB0AEBC10E57F1EA4506",
+    "models/pandey_kumar_mode1/90_r1_c3_active_set_transfer/M1_C3_PACKAGE90_R1_TRANSFER.sta": "7435F3DD027C40603933226906402AB1E189A38FCDB4C97D786E830298E90B63",
+    "models/pandey_kumar_mode1/90_r1_c3_active_set_transfer/uel_energy_balance.csv": "B9641C8ADB46952CE47226DD733D1062B33375D3A2C6B23A2BB86B4FA80B3241",
+    "models/pandey_kumar_mode1/90_r1_c3_active_set_transfer/candidate_crack_band_mesh_c3.inp": "F8C2C039F924410A3A24043C511DE7FAC5BA52206B546A5B0D46F9D5F3270DE5",
+    "models/pandey_kumar_mode1/91_c3_companion_miseseri/M1_C3_COMPANION_FRAME6.inp": "9526002EC222091E8B1D1F3147CF1D90D6379CD4D304F23F0EF798328E836B66",
+    "results/validation/mode1_f1597/pkg90_r1_frame6_audit_summary.json": "61EF2326517768484E5FC676083E7FE2865275694AA68A8018CFCFE01522D796",
+    "results/validation/mode1_f1597/pkg90_r1_frame6_nodal_state.csv": "757DD7E482F6C19961357D72735D40EFD1218D2973E7D983502EE0D7F870BD06",
+    "results/validation/mode1_f1597/c3_companion_miseseri_summary.json": "9F6E42CF995E4B7E63D478404CC833EC1DEFE2E3D901C28C112C21A9C608EFBB",
+    "results/validation/mode1_f1597/c3_companion_miseseri_distribution.csv": "D4F3B63AE7F3D0E531E1F15C4D77CC5514262DE23B7FC690960CA0249CCE4E68",
+    "results/validation/mode1_f1597/turn51_admissible_checkpoint_audit.json": "587FC2B762DBE42EF4F6BB4A8B549BC2712C129747510D6A93C47517D3B58EBA",
+    "scripts/validation/build_c3_companion_deck.py": "D2C795A00480D47DE13FF04B8D81969F605B444EAF9E5C99AE593B3E4E36A69C",
+    "scripts/validation/extract_c3_miseseri_distribution.py": "CBD2B5D6FBCB965318631E4BE83D080A8CF883B9BD64E72BD1E52977C8F05E69",
+    "scripts/validation/extract_pkg90_r1_frame6_state.py": "A6C658C78BE84C5DC51D90ECDE837A5E8FF1749811BD103380D0AA87C7F17833",
+    "scripts/validation/audit_turn51_donor_checkpoint.py": "EABF863D237E009C1BEF23D69D27E1EE5C419F278A720807ADF6F4CBD5D0B9E1",
+    "tests/unit/test_mode1_f1597_turn51_miseseri_adaptation.py": "4E4B2D150DF4AB784D03919F537793846A16506C5AF410BED7C9BFD08690C3BE"
+  },
+  "donor_admissibility": {
+    "checkpoint": "Package 90-R1 Step 4 Frame 6",
+    "u2_rp_mm": 0.002036693,
+    "rf2_rp_N": 159.1594,
+    "d_max": 0.972955,
+    "overshoot_nodes": 0,
+    "damage_bounds_gate": "PASS"
+  },
+  "miseseri_error_distribution": {
+    "total_elements": 2650,
+    "peak_miseseri": 4.28178,
+    "peak_eta_relative_error": 2.3283,
+    "elements_exceeding_5pct": 420,
+    "percentage_exceeding_5pct": 15.85,
+    "autonomous_decision": "REMESH",
+    "derivation": "Abaqus/Standard Zienkiewicz-Zhu recovery of element stress discontinuity ||sigma* - sigma_h||"
+  },
+  "dependency_resolution": {
+    "history_sdvs_in_odb": false,
+    "transfer_status": "NO_SUBMISSION__COMMITTED_HISTORY_DEPENDENCY_BLOCKS_UNINVENTED_C4_TRANSFER",
+    "governance": "JOB_FIRST_REPORT_AFTER__NO_INVENTED_HISTORY"
+  }
+}
