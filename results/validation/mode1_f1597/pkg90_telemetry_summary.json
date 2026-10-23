@@ -1,0 +1,308 @@
+{
+  "status": "PACKAGE90_TELEMETRY_SUCCESS", 
+  "step4_forward_continuation": {
+    "softening_observed": true, 
+    "final_u2_mm": 0.002065107459202409, 
+    "final_d_max": 1.0014089345932007, 
+    "final_rf2_N": 126.94858014583588
+  }, 
+  "energy_balance": [
+    {
+      "step_time": 1.0, 
+      "step": 1, 
+      "e_elastic_uJ": 170.87246000000002, 
+      "e_fracture_uJ": 76.07599400000001, 
+      "e_total_uJ": 246.94845999999998, 
+      "inc": 1
+    }, 
+    {
+      "step_time": 0.1, 
+      "step": 2, 
+      "e_elastic_uJ": 170.87186, 
+      "e_fracture_uJ": 76.07599400000001, 
+      "e_total_uJ": 246.94785, 
+      "inc": 1
+    }, 
+    {
+      "step_time": 0.2, 
+      "step": 2, 
+      "e_elastic_uJ": 170.87131, 
+      "e_fracture_uJ": 76.07599400000001, 
+      "e_total_uJ": 246.9473, 
+      "inc": 2
+    }, 
+    {
+      "step_time": 0.35, 
+      "step": 2, 
+      "e_elastic_uJ": 170.87061, 
+      "e_fracture_uJ": 76.07599400000001, 
+      "e_total_uJ": 246.94661, 
+      "inc": 3
+    }, 
+    {
+      "step_time": 0.575, 
+      "step": 2, 
+      "e_elastic_uJ": 170.86984, 
+      "e_fracture_uJ": 76.07599400000001, 
+      "e_total_uJ": 246.94582999999997, 
+      "inc": 4
+    }, 
+    {
+      "step_time": 0.9125, 
+      "step": 2, 
+      "e_elastic_uJ": 170.86929, 
+      "e_fracture_uJ": 76.07599400000001, 
+      "e_total_uJ": 246.94528, 
+      "inc": 5
+    }, 
+    {
+      "step_time": 1.0, 
+      "step": 2, 
+      "e_elastic_uJ": 170.86926, 
+      "e_fracture_uJ": 76.07599400000001, 
+      "e_total_uJ": 246.94525000000002, 
+      "inc": 6
+    }, 
+    {
+      "step_time": 1.0, 
+      "step": 3, 
+      "e_elastic_uJ": 168.64713, 
+      "e_fracture_uJ": 78.20279, 
+      "e_total_uJ": 246.84992, 
+      "inc": 1
+    }, 
+    {
+      "step_time": 0.05, 
+      "step": 4, 
+      "e_elastic_uJ": 169.08066, 
+      "e_fracture_uJ": 78.144963, 
+      "e_total_uJ": 247.22563, 
+      "inc": 1
+    }, 
+    {
+      "step_time": 0.1, 
+      "step": 4, 
+      "e_elastic_uJ": 168.95642, 
+      "e_fracture_uJ": 78.623951, 
+      "e_total_uJ": 247.58037, 
+      "inc": 2
+    }, 
+    {
+      "step_time": 0.175, 
+      "step": 4, 
+      "e_elastic_uJ": 168.44335, 
+      "e_fracture_uJ": 79.63438000000001, 
+      "e_total_uJ": 248.07772999999997, 
+      "inc": 3
+    }, 
+    {
+      "step_time": 0.2875, 
+      "step": 4, 
+      "e_elastic_uJ": 166.85302000000001, 
+      "e_fracture_uJ": 81.87111399999999, 
+      "e_total_uJ": 248.72413, 
+      "inc": 4
+    }, 
+    {
+      "step_time": 0.45625, 
+      "step": 4, 
+      "e_elastic_uJ": 162.41163999999998, 
+      "e_fracture_uJ": 86.932098, 
+      "e_total_uJ": 249.34374, 
+      "inc": 5
+    }, 
+    {
+      "step_time": 0.65625, 
+      "step": 4, 
+      "e_elastic_uJ": 153.37591, 
+      "e_fracture_uJ": 95.91913, 
+      "e_total_uJ": 249.29504000000003, 
+      "inc": 6
+    }, 
+    {
+      "step_time": 0.85625, 
+      "step": 4, 
+      "e_elastic_uJ": 141.62669, 
+      "e_fracture_uJ": 108.09866, 
+      "e_total_uJ": 249.72535000000002, 
+      "inc": 7
+    }, 
+    {
+      "step_time": 1.0, 
+      "step": 4, 
+      "e_elastic_uJ": 131.08035, 
+      "e_fracture_uJ": 118.7007, 
+      "e_total_uJ": 249.78103999999996, 
+      "inc": 8
+    }
+  ], 
+  "steps": {
+    "STAGGERED_PHASE_SUBPROBLEM": {
+      "frames": [
+        {
+          "rf2_N": 169.58825290203094, 
+          "frame_id": 0, 
+          "d_max": 0.8569584488868713, 
+          "step_time": 0.0, 
+          "u2_mm": 0.002015107311308384
+        }, 
+        {
+          "rf2_N": 169.58825290203094, 
+          "frame_id": 1, 
+          "d_max": 0.884311318397522, 
+          "step_time": 1.0, 
+          "u2_mm": 0.002015107311308384
+        }
+      ], 
+      "total_frames": 2, 
+      "final_u2_mm": 0.002015107311308384, 
+      "final_d_max": 0.884311318397522, 
+      "final_rf2_N": 169.58825290203094
+    }, 
+    "STATE_INJECTION": {
+      "frames": [
+        {
+          "rf2_N": -0.0, 
+          "frame_id": 0, 
+          "d_max": 0.0, 
+          "step_time": 0.0, 
+          "u2_mm": 0.0
+        }, 
+        {
+          "rf2_N": 169.6094125509262, 
+          "frame_id": 1, 
+          "d_max": 0.8569584488868713, 
+          "step_time": 1.0, 
+          "u2_mm": 0.002015107311308384
+        }
+      ], 
+      "total_frames": 2, 
+      "final_u2_mm": 0.002015107311308384, 
+      "final_d_max": 0.8569584488868713, 
+      "final_rf2_N": 169.6094125509262
+    }, 
+    "FORWARD_CONTINUATION": {
+      "frames": [
+        {
+          "rf2_N": 169.58825290203094, 
+          "frame_id": 0, 
+          "d_max": 0.884311318397522, 
+          "step_time": 0.0, 
+          "u2_mm": 0.002015107311308384
+        }, 
+        {
+          "rf2_N": 169.30054128170013, 
+          "frame_id": 2, 
+          "d_max": 0.8868482112884521, 
+          "step_time": 0.10000000149011612, 
+          "u2_mm": 0.002020107349380851
+        }, 
+        {
+          "rf2_N": 166.20780527591705, 
+          "frame_id": 4, 
+          "d_max": 0.9080276489257812, 
+          "step_time": 0.2874999940395355, 
+          "u2_mm": 0.002029482275247574
+        }, 
+        {
+          "rf2_N": 151.1349380016327, 
+          "frame_id": 6, 
+          "d_max": 0.986243724822998, 
+          "step_time": 0.65625, 
+          "u2_mm": 0.00204791990108788
+        }, 
+        {
+          "rf2_N": 126.94858014583588, 
+          "frame_id": 8, 
+          "d_max": 1.0014089345932007, 
+          "step_time": 1.0, 
+          "u2_mm": 0.002065107459202409
+        }
+      ], 
+      "total_frames": 5, 
+      "final_u2_mm": 0.002065107459202409, 
+      "final_d_max": 1.0014089345932007, 
+      "final_rf2_N": 126.94858014583588
+    }, 
+    "MECH_REEQUIL_FROZEN_DAMAGE": {
+      "frames": [
+        {
+          "rf2_N": 169.6094125509262, 
+          "frame_id": 0, 
+          "d_max": 0.8569584488868713, 
+          "step_time": 0.0, 
+          "u2_mm": 0.002015107311308384
+        }, 
+        {
+          "rf2_N": 169.60729658603668, 
+          "frame_id": 1, 
+          "d_max": 0.8569584488868713, 
+          "step_time": 0.10000000149011612, 
+          "u2_mm": 0.002015107311308384
+        }, 
+        {
+          "rf2_N": 169.60518062114716, 
+          "frame_id": 2, 
+          "d_max": 0.8569584488868713, 
+          "step_time": 0.20000000298023224, 
+          "u2_mm": 0.002015107311308384
+        }, 
+        {
+          "rf2_N": 169.60200667381287, 
+          "frame_id": 3, 
+          "d_max": 0.8569584488868713, 
+          "step_time": 0.3499999940395355, 
+          "u2_mm": 0.002015107311308384
+        }, 
+        {
+          "rf2_N": 169.59723830223083, 
+          "frame_id": 4, 
+          "d_max": 0.8569584488868713, 
+          "step_time": 0.574999988079071, 
+          "u2_mm": 0.002015107311308384
+        }, 
+        {
+          "rf2_N": 169.59010064601898, 
+          "frame_id": 5, 
+          "d_max": 0.8569584488868713, 
+          "step_time": 0.9125000238418579, 
+          "u2_mm": 0.002015107311308384
+        }, 
+        {
+          "rf2_N": 169.58825290203094, 
+          "frame_id": 6, 
+          "d_max": 0.8569584488868713, 
+          "step_time": 1.0, 
+          "u2_mm": 0.002015107311308384
+        }
+      ], 
+      "total_frames": 7, 
+      "final_u2_mm": 0.002015107311308384, 
+      "final_d_max": 0.8569584488868713, 
+      "final_rf2_N": 169.58825290203094
+    }
+  }, 
+  "step2_mech_reequilibration": {
+    "rf2_N": 169.58825290203094, 
+    "meets_5pct_force_gate": true, 
+    "discrepancy_vs_pkg89_pct": -0.006395728496818695
+  }, 
+  "reference_pkg89_terminal": {
+    "rf2_N": 169.5991, 
+    "e_fracture_uJ": 76.07036, 
+    "e_elastic_uJ": 170.8775, 
+    "u2_mm": 0.00201510735
+  }, 
+  "step3_staggered_phase": {
+    "rf2_N": 169.58825290203094, 
+    "d_max": 0.884311318397522
+  }, 
+  "job_name": "M1_C3_PACKAGE90_TRANSFER", 
+  "step1_state_injection": {
+    "rf2_N": 169.6094125509262, 
+    "e_fracture_uJ": 76.07599400000001, 
+    "discrepancy_vs_pkg89_pct": 0.00608054578486303, 
+    "meets_5pct_force_gate": true, 
+    "delta_fracture_energy_pct": 0.007406301219048778
+  }
+}

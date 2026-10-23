@@ -1,0 +1,17 @@
+{
+  "package_id": "PACKAGE_90_R1_C3_ACTIVE_SET_TRANSFER",
+  "mesh": "Candidate C3 mesh (2650 quads, 2769 physical nodes)",
+  "purpose": "Package 90-R1 correction: enforces active-set damage irreversibility (d >= d_mapped, zero healing) across all 2,238 far-field nodes during Step 4 forward loading, with calibrated horizon u = 0.0020480 mm to prevent d > 1.0 overshoot while capturing genuine crack softening.",
+  "files": {
+    "inp": "M1_C3_PACKAGE90_R1_TRANSFER.inp",
+    "inp_sha256": "C9CFD0707001AA17F6CD638DBED5EA4BB23160DE629BCB0AEBC10E57F1EA4506",
+    "uel": "f42_mixed_uel.for",
+    "uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "pbs": "submit_M1_C3_PACKAGE90_R1_TRANSFER.pbs",
+    "pbs_sha256": "BA3DE299EE492398088B075CA501ECD9F94507FE68C73D9C19B62734553958CC",
+    "notif": "job_notifications.sh",
+    "notif_sha256": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "datacheck_script": "run_pkg90_r1_datacheck.sh",
+    "datacheck_script_sha256": "3A202083CB7632B3805E1EDA0EE833EB2B1FEA46FDFAB9F98F0D43DD6D19EF05"
+  }
+}

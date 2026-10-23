@@ -1,0 +1,19 @@
+{
+  "package_id": "PACKAGE_90_C3_SECOND_CYCLE_TRANSFER",
+  "mesh": "Candidate C3 mesh (h_fine=1.0 um in y, 1.25 um in x, 2650 physical quads, 2769 physical nodes)",
+  "purpose": "Second-cycle nonmatching coupled state transfer at Package 89 terminal state (u_top=0.002015107 mm, RF2=169.5991 N, d_max=0.85696) from Candidate C2 to forward-adapted Candidate C3 mesh (crack band extended to x in [0.0375, 0.0775] mm). Evaluates: (1) Step 1 state injection force continuity; (2) Step 2 interior mechanical re-equilibration under frozen damage; (3) Step 3 active-set phase subproblem; (4) Step 4 continued forward propagation to u=0.0020651 mm.",
+  "files": {
+    "inp": "M1_C3_PACKAGE90_TRANSFER.inp",
+    "inp_sha256": "D09A19917F0C86D1FCAC35C625563F16CE6EA3FA6786B94153A2A54E2968D1EC",
+    "uel": "f42_mixed_uel.for",
+    "uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "pbs": "submit_M1_C3_PACKAGE90_TRANSFER.pbs",
+    "pbs_sha256": "02E66F6F37EACADF9E99FA63CC3A2F7F2603EEA59125D80225A269215B62C0BD",
+    "notif": "job_notifications.sh",
+    "notif_sha256": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "datacheck_script": "run_pkg90_datacheck.sh",
+    "datacheck_script_sha256": "25A70F66B6696133DC91A919D0B662CE86BABD779A0DA9F1137A157A06041281",
+    "mapped_state_csv": "candidate_c3_frame89_mapped_state_table.csv",
+    "mapped_state_csv_sha256": "2278147FC6AC198B99C442779F4E37A307328307D32D18E14D313493D6410A53"
+  }
+}
