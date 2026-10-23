@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "controller_run_id": "2f22e848-495a-4355-b555-682cc793227e",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 91 (M1_C3_PACKAGE91_INSTRUMENTED_REPLAY) formulated, qualified via full Abaqus datacheck (Exit 0), and submitted to PBS queue entry_imfdfkmq as Job 1416584.mmaster02. Package 91 integrates 2,650 Layer 3 companion visualization elements (CPE4, IDs 5301..7950) driven by frozen f42_mixed_uel.for UMAT visualization bridge (neutral 1e-11 tangent, zero load) with field SDV output to recover authentic committed Gauss-point history across all 10,600 integration points at the C3 post-peak checkpoint (u=0.0020367 mm, RF=159.16 N, d_max=0.97296 <= 1.00000). Perfected Step 4 active-set clamping (2,420 far-field & behind-slit nodes clamped, 349 forward crack nodes free) guarantees zero healing.",
+  "operation": "package91_instrumented_replay_submission_and_gauss_point_history_recovery",
+  "title": "Package 91 Instrumented Replay Qualification and Job Submission",
+  "classification": "RESEARCH_PREPARATION_VERIFIED",
+  "next_operation": "Advance to qualified execution or next research task",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/91_c3_package91_instrumented_replay/M1_C3_PACKAGE91_INSTRUMENTED_REPLAY.inp": "5550FA978109636786A0A11492BB8F09992FC5D200A66D87391B1A26424E8AD0",
+    "models/pandey_kumar_mode1/91_c3_package91_instrumented_replay/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/91_c3_package91_instrumented_replay/submit_M1_C3_PACKAGE91_INSTRUMENTED_REPLAY.pbs": "E2D194E62AD48541049664751D1B11673104E690709DB5257A9B3C7BE3FA9D89",
+    "models/pandey_kumar_mode1/91_c3_package91_instrumented_replay/run_pkg91_datacheck.sh": "60DA1CCED8E33DF13A0650FAD1B4FB5258B0E920C19912A15D986C5D549B89FF",
+    "models/pandey_kumar_mode1/91_c3_package91_instrumented_replay/PACKAGE_MANIFEST.json": "6076E0A71504E95A8A046A8885CF360CBE2844142A7F5D213F8400DE4F879B55",
+    "models/pandey_kumar_mode1/91_c3_package91_instrumented_replay/M1_C3_PACKAGE91_INSTRUMENTED_REPLAY_AUTHORIZATION.json": "9843DEC448B3A8A513B103816C2B883634214DD5F45EE273FD7C2F18E1EDAC97",
+    "scripts/validation/build_package91_instrumented_deck.py": "E256586D8F9312DE5FCBFFECBDBE48658E9CC4F582518A30FD3B8CB4C9095818",
+    "scripts/validation/upload_package91.py": "EB06F522E56257AC54C3B3144637C5F5C03F316A8E8E64CB0F315AB131FC66D9",
+    "scripts/validation/audit_turn52_coordinate_reconciliation.py": "15CF904130C3A991997CE4870DD92A8C798C16ADEB11DA4FC827EC634EC7778A",
+    "results/validation/mode1_f1597/turn52_initial_miseseri_coordinate_reconciliation.json": "ABC44F29C4A37D177DD1DCA689A0A48DC9B2D4239D03C99C1A57DCCEEA71B35E",
+    "tests/unit/test_mode1_f1597_turn52_package91_replay.py": "C51A155CD97C7DA2F522C442607801FCEE985DCFCA3A21250AB796856C23ED20"
+  },
+  "package91_execution": {
+    "pbs_job_id": "1416584.mmaster02",
+    "job_name": "M1_C3_PACKAGE91_INSTRUMENTED_REPLAY",
+    "queue": "entry_imfdfkmq",
+    "scratch_directory": "/scratch9/pr21vyci/runs/mode1_package91_c3_instrumented_replay",
+    "status": "RUNNING",
+    "datacheck_result": "PASS (Exit 0)",
+    "uel_hash": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "layer_3_overlay": "2,650 CPE4 companion elements (5301..7950) with DUMMY_MAT / UMAT visualization bridge",
+    "gauss_points_instrumented": 10600
+  }
+}

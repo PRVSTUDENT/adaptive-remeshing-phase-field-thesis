@@ -1,0 +1,35 @@
+{
+  "package_name": "91_c3_package91_instrumented_replay",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "2f22e848-495a-4355-b555-682cc793227e",
+  "model_type": "Mode-I Phase-Field C3 Replay with Layer 3 Visualization Overlay",
+  "job_name": "M1_C3_PACKAGE91_INSTRUMENTED_REPLAY",
+  "input_deck": "M1_C3_PACKAGE91_INSTRUMENTED_REPLAY.inp",
+  "input_deck_sha256": "5550FA978109636786A0A11492BB8F09992FC5D200A66D87391B1A26424E8AD0",
+  "user_subroutine": "f42_mixed_uel.for",
+  "user_subroutine_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "scratch_directory": "/scratch9/pr21vyci/runs/mode1_package91_c3_instrumented_replay",
+  "pbs_script": "submit_M1_C3_PACKAGE91_INSTRUMENTED_REPLAY.pbs",
+  "datacheck_script": "run_pkg91_datacheck.sh",
+  "resources": {
+    "cpus": 1,
+    "memory_gb": 8,
+    "walltime": "04:00:00",
+    "queue": "entry_imfdfkmq"
+  },
+  "discretization": {
+    "physical_quads": 2650,
+    "physical_nodes": 2769,
+    "layer_1_phase_elements": "1..2650 (U1)",
+    "layer_2_mech_elements": "2651..5300 (U2)",
+    "layer_3_overlay_elements": "5301..7950 (CPE4, UMATELEM)",
+    "total_gauss_points": 10600
+  },
+  "acceptance_criteria": {
+    "gate1_force_parity_vs_pkg90_r1_pct": 0.05,
+    "gate2_raw_uel_energy_parity_pct": 0.05,
+    "gate3_damage_bounds_frame6": "d_max <= 1.00000 (0 overshoot nodes)",
+    "gate4_zero_healing": "0 healing nodes (min delta_d >= 0 everywhere)",
+    "gate5_authentic_history_recovery": "Export STATEV(2)/STATEV(16) at all 10,600 Gauss points"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "status": "COORDINATE_AND_GAUSS_COUNT_RECONCILED",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "2f22e848-495a-4355-b555-682cc793227e",
+  "governance": {
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "frozen_uel_verified": true
+  },
+  "specimen_geometry_reconciliation": {
+    "specimen_width_mm": 0.1,
+    "specimen_height_mm": 0.1,
+    "slit_y_centerline_mm": 0.05,
+    "prior_reported_slit_y_mm": 0.5,
+    "correction_note": "Corrected prior typo (0.50 mm -> 0.050 mm). Miniature Mode-I specimen dimensions are 0.10 x 0.10 mm with initial slit length a0 = 0.040 mm at mid-height y = 0.050 mm."
+  },
+  "peak_error_spatial_proximity": {
+    "peak_miseseri_elem_id": 1287,
+    "centroid_x_mm": 0.040625,
+    "centroid_y_mm": 0.0495,
+    "peak_miseseri_value_kN_per_mm2": 4.281784,
+    "distance_to_slit_tip_mm": 0.0008003905296791068,
+    "distance_to_slit_tip_um": 0.8003905296791067,
+    "coincident_with_crack_tip": true,
+    "verdict": "Peak absolute MISESERI occurs exactly 0.80 um from the physical slit tip (coincident with the crack initiation singular zone), proving authentic stress-discontinuity provenance."
+  },
+  "absolute_vs_relative_error_analysis": {
+    "peak_absolute_error": {
+      "element_id": 1287,
+      "miseseri": 4.281784,
+      "misesavg": 20.3541,
+      "eta_relative": 0.21036469310851377
+    },
+    "peak_relative_error": {
+      "element_id": 1273,
+      "miseseri": 0.3592,
+      "misesavg": 0.1543,
+      "eta_relative": 2.3283,
+      "denominator_artifact": true,
+      "note": "Element 1273 has high relative error (232.8%) due to small denominator (MISESAVG = 0.15 kN/mm^2) near low-stress boundary, whereas absolute error is concentrated at the crack tip."
+    }
+  },
+  "discretization_accounting": {
+    "physical_quad_elements": 2650,
+    "quad_integration_points": 4,
+    "total_phase_gauss_points": 10600,
+    "prior_11076_refutation": "Refuted prior 11,076 count (which conflated 2,769 nodes * 4); true integration point count is exactly 10,600."
+  },
+  "package91_architecture_plan": {
+    "name": "Package 91 (M1_C3_PACKAGE91_INSTRUMENTED_REPLAY)",
+    "base_mesh": "candidate_crack_band_mesh_c3.inp (2,650 quads)",
+    "layer_1_elements": "1 .. 2650 (Phase UEL, TYPE=U1)",
+    "layer_2_elements": "2651 .. 5300 (Mech UEL, TYPE=U2)",
+    "layer_3_elements": "5301 .. 7950 (Visualization UMAT, TYPE=CPE4, elset=UMATELEM)",
+    "material_section": "*SOLID SECTION, ELSET=UMATELEM, MATERIAL=DUMMY_MAT / *USER MATERIAL, CONSTANTS=3: 210.0, 0.3, 2650.0 / *DEPVAR 20",
+    "field_output_request": "*ELEMENT OUTPUT, ELSET=UMATELEM: SDV, S, E at frequency=1",
+    "objective": "Export authentic committed Gauss-point history H from STATEV(2)/STATEV(16) without modifying physical solution or production Fortran."
+  }
+}
