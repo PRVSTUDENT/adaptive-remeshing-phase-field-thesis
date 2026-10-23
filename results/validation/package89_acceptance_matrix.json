@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "package": "Package 89 (Job 1416539.mmaster02)",
+  "donor_package": "Package 76 (Frame 88, Job 1416301)",
+  "physical_specimen": {
+    "domain_size_mm": [
+      0.1,
+      0.1
+    ],
+    "initial_slit_location": "y = 0.05 mm, x in [0.0, 0.05] mm",
+    "constitutive_model": "Linear-elastic phase-field fracture (AT2 spectral/vol-dev split, brittle)",
+    "length_scale_l0_mm": 0.0075,
+    "youngs_modulus_kN_mm2": 210.0,
+    "poissons_ratio": 0.3,
+    "fracture_energy_gc_kN_mm": 0.0027,
+    "residual_stiffness_k": 1e-07
+  },
+  "gates": {
+    "gate_1_force_continuity": {
+      "description": "Force continuity upon interior node mechanical relaxation (Step 2)",
+      "donor_rf2_N": 185.33544,
+      "step1_injection_rf2_N": 185.47528982162476,
+      "step1_error_pct": 0.07545767912750542,
+      "step2_relaxed_rf2_N": 189.53575193881989,
+      "step2_error_pct": 2.2663296015159755,
+      "tolerance_pct": 5.0,
+      "verdict": "PASS"
+    },
+    "gate_2a_smooth_at2_fracture_energy": {
+      "description": "Mapped continuous AT2 smooth-field integral continuity",
+      "donor_energy_uJ": 52.28544,
+      "mapped_energy_uJ": 52.26631,
+      "error_pct": -0.03658762362907166,
+      "tolerance_pct": 2.0,
+      "verdict": "PASS"
+    },
+    "gate_2b_raw_uel_fracture_energy": {
+      "description": "Authentic discrete UEL Gauss-point fracture energy continuity",
+      "donor_uel_e_frac_uJ": 53.178788,
+      "receiver_uel_step1_e_frac_uJ": 52.266307,
+      "receiver_uel_step2_e_frac_uJ": 52.266307,
+      "raw_uel_error_pct": -1.7158740060040474,
+      "tolerance_pct": 2.0,
+      "verdict": "PASS"
+    },
+    "gate_3_pointwise_irreversibility": {
+      "description": "Thermodynamic irreversibility / zero healing across re-equilibration and continuation",
+      "healing_nodes_count": 0,
+      "advancing_nodes_count": 206,
+      "min_delta_d": 0.0,
+      "max_delta_d": 0.37577199935913086,
+      "tolerance_healing_nodes": 0,
+      "verdict": "PASS"
+    },
+    "gate_4_solver_incrementation_consistency": {
+      "description": "Solver incrementation and output frequency reconciliation",
+      "step4_solver_increments_sta": 8,
+      "step4_field_frames_odb": 5,
+      "output_frequency_setting": 2,
+      "cutbacks_count": 0,
+      "verdict": "PASS"
+    },
+    "gate_5_forward_continuation_softening": {
+      "description": "Coupled incremental loading extension exhibiting genuine physical softening",
+      "u_start_mm": 0.0019651073962450027,
+      "u_end_mm": 0.002015107311308384,
+      "rf2_start_N": 189.53575193881989,
+      "rf2_end_N": 169.59913074970245,
+      "softening_delta_rf_N": -19.93662118911743,
+      "terminal_d_max": 0.8569584488868713,
+      "verdict": "PASS"
+    }
+  },
+  "overall_classification": "QUALIFIED_SINGLE_TRANSFER_BENCHMARK_AT_CRACK_INITIATION",
+  "evidence_hashes": {
+    "models/pandey_kumar_mode1/89_c2_frame88_early_state_transfer/M1_C2_FRAME88_TRANSFER.sta": "BAA4C97C8949C61ECEFA5E36FBCA16959969E3C6B9D11B9D8A73D6DBB83AC676",
+    "models/pandey_kumar_mode1/89_c2_frame88_early_state_transfer/uel_energy_balance.csv": "B2DF06157167A8857149B625A59534F8FE4415389E38EEDD342CF9521F786236",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/uel_energy_balance.csv": "EC265AAF6CE4CEDC8190154A946D02C2F162BFF77D19F3B5AFFEA1E378B961D7",
+    "results/validation/mode1_f1597/pkg89_extracted_telemetry.json": "B125598BBB9B00B6767A2123E21AEDF8173C7F4F60E5C82D3DA0DA06613331AF"
+  }
+}
