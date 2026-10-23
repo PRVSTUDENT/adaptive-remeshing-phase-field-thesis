@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "controller_run_id": "53c71e0e-51b5-4009-ae96-a9294080d3f8",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Turn 69 successfully resolved both Turn 68 numerical inconsistencies: the residual target discrepancy was resolved by proving premature termination at iter 15 (1.27e-6 kN/mm with Delta_N=11) versus complete convergence at iter 20 (4.34e-19 <= 1.0e-6 kN/mm with Delta_N=0), while strict and tolerance healing counts are identically 0 nodes. Real Abaqus 2023 ODB inspection proved standard 2D planar RF field output contains only ('RF1', 'RF2') with no RF3, validating an algebraic dual residual evaluation architecture using extracted SDV1/SDV2 without modifying the bitwise frozen UEL. The two transfer-error thresholds were clarified: Threshold 1 (pre-solver fracture energy projection error <= 2.0%, achieved -1.5500% with H^1 Sobolev) vs Threshold 2 (post-equilibration reaction force continuity <= 5.0% after Step 2 mechanical relaxation).",
+  "operation": "real_abaqus_pdas_interface_validation_and_threshold_clarification",
+  "title": "Real Abaqus 2023 Interface Validation, Inconsistency Resolution, and Transfer-Error Threshold Clarification",
+  "classification": "RESEARCH_PREPARATION_VERIFIED",
+  "next_operation": "Advance to qualified execution or next research task",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "scripts/validation/inspect_remote_odb_fields.py": "1E80B10642FADD292CA04D97D9FF88A7EFF82E10054757AFA3E66DC9F3163BE9",
+    "scripts/validation/test_pdas_convergence.py": "01645E371E5698D3793843075C83B43D479425CC9A1BB695BCBE9B6A6F248D74",
+    "scripts/validation/generate_turn69_audit_artifact.py": "8A216A18603B98E2AECA126C3D3C756B9034C7074CC767BA74C72A211FEA6E22",
+    "results/validation/mode1_f1597/pkg96_pdas_real_abaqus_audit.json": "B427CC30F1DE1F864732776A0DB26E748E62C5D313DF48649A5EA963B9E4616F",
+    "tests/unit/test_mode1_f1597_turn69_real_abaqus_pdas.py": "C0720CB736BFB8844CA610350A5F6CE543472976261CFF6AD69AA90D175B577B"
+  },
+  "inconsistency_resolution": {
+    "residual_target_kNmm": 1.0e-6,
+    "iter15_residual_kNmm": 1.273724e-6,
+    "iter15_classification": "FAIL_AT_ITER_15 (Premature termination with Delta_N=11)",
+    "iter20_residual_kNmm": 4.336809e-19,
+    "iter20_classification": "PASS_AT_ITER_20 (Full convergence with Delta_N=0)",
+    "strict_healing_nodes": 0,
+    "tolerance_healing_nodes": 0,
+    "strict_overshoot_nodes": 0,
+    "tolerance_overshoot_nodes": 0
+  },
+  "abaqus_odb_interface": {
+    "inspected_odb": "/scratch9/pr21vyci/runs/mode1_package96_r4_c5_transfer/M1_C5_PACKAGE96_R4_TRANSFER.odb",
+    "rf_field_components": ["RF1", "RF2"],
+    "rf3_present": false,
+    "dual_residual_evaluation_mode": "ALGEBRAIC_EVALUATION (R_d = F_phase - K_phase * d using SDV1/SDV2)"
+  },
+  "transfer_error_thresholds": {
+    "threshold_1_pre_solver_projection": {
+      "metric": "Fracture energy spatial projection error",
+      "gate": "<= 2.0%",
+      "achieved_h1": -1.5500,
+      "status": "PASS"
+    },
+    "threshold_2_post_equilibration_force": {
+      "metric": "Step 2 reaction force continuity",
+      "gate": "<= 5.0%",
+      "status": "REQUIRES_SOLVER_HARNESS_PILOT"
+    },
+    "threshold_3_post_equilibration_energy": {
+      "metric": "Step 3 solver continuous energy balance",
+      "gate": "<= 2.0%",
+      "status": "REQUIRES_SOLVER_HARNESS_PILOT"
+    }
+  },
+  "qualification_decision": {
+    "submission_status": "PRECISELY_BLOCKED",
+    "rationale": "Single-increment continuous solve produces 1,955 healing nodes; outer PDAS loop requires cluster-side driver harness",
+    "rule": "JOB_FIRST_REPORT_AFTER_RULE_4 (preserve evidence, no blind retries, no artificial jobs)"
+  }
+}
