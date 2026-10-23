@@ -1,0 +1,31 @@
+{
+  "package_id": "PACKAGE_95",
+  "description": "Mode-I Companion Continuum Linear Elastic Analysis on Candidate C4 for Authentic MISESERI Error Recovery at Step 4 Frame 7",
+  "schema_version": 1,
+  "model": "pandey_kumar_mode1",
+  "files": {
+    "M1_C4_COMPANION_FRAME7.inp": "1341296513C369CC8B57BBB0A717D3313AC29BEC03B17358AA727A9103789E9A",
+    "f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "job_notifications.sh": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "submit_M1_C4_COMPANION_FRAME7.pbs": "651631DF8985ED488A3129E6ECCA15D4D982171E68B9B924DA9BA07C5C591637",
+    "run_c4_companion_datacheck.sh": "902817106AF7824FCC5B866977BF76D52374CF663D2FDB7EF91DC9B6903FB5D1"
+  },
+  "mesh": {
+    "name": "Candidate C4",
+    "quad_count": 4422,
+    "node_count": 4588,
+    "element_type": "CPE4",
+    "process_zone_h_fine_mm": 0.0008
+  },
+  "loading": {
+    "step": "STATIC_ELASTIC",
+    "prescribed_u2_mm": 0.0020520000252872705,
+    "source_state": "Package 94 Step 4 Frame 7 (RF2 = 112.97 N)"
+  },
+  "outputs_requested": [
+    "S",
+    "MISESERI",
+    "MISESAVG",
+    "EVOL"
+  ]
+}
