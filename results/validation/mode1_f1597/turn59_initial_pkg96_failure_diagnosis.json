@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "turn": "5565918a-9f32-4bcf-87c6-153b4bcaa3b3",
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "status": "INITIAL_AUDIT_COMPLETE",
+  "timestamp": "2026-10-23T14:02:25+02:00",
+  "finding": "Independently audited Package 96 (Job 1416883.mmaster02) failure evidence: confirmed Exit 0 across all 4 steps, but Stage C1-2 failed two scientific gates: fracture energy continuity was -2.447% (threshold <= 2.0%) and Step 3 unconstrained crack-front nodes produced 1,316 Gauss-point healing violations (min delta_d = -0.0277). Quantitative field diagnosis dispatched to analyze nodal vs Gauss-point fields and energy integration.",
+  "evidence_sources": {
+    "project_coordination/HPC_JOB_LEDGER.csv": "eea37392cdfbc579a4dd75ab854ec0bc93ad39da8eb94c75876b8032d4bc2ee3",
+    "results/validation/mode1_f1597/pkg96_solver_evaluation.json": "7299_bytes_verified",
+    "results/validation/mode1_f1597/pkg96_frame_history_summary.csv": "3748_bytes_verified",
+    "models/pandey_kumar_mode1/96_c5_package96_authentic_transfer/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "package96_audit": {
+    "job_id": "1416883.mmaster02",
+    "exit_code": 0,
+    "rf2_continuity": {
+      "step2_rf2_N": 114.4518,
+      "donor_rf2_N": 112.9707,
+      "mismatch_pct": 1.311,
+      "verdict": "PASS"
+    },
+    "fracture_energy_continuity": {
+      "step2_e_frac_kNmm": 0.00013437,
+      "donor_e_frac_kNmm": 0.00013774,
+      "mismatch_pct": -2.447,
+      "threshold_pct": 2.0,
+      "verdict": "FAIL"
+    },
+    "irreversibility": {
+      "step3_healing_points": 1316,
+      "step3_min_delta_d": -0.02771,
+      "step4_healing_points": 0,
+      "verdict": "FAIL"
+    },
+    "damage_bounds": {
+      "d_min": 0.003946,
+      "d_max": 0.999708,
+      "overshoots": 0,
+      "negative_d": 0,
+      "verdict": "PASS"
+    },
+    "continuation_softening": {
+      "delta_u_nm": 4.0,
+      "force_drop_pct": -4.936,
+      "cutbacks": 0,
+      "verdict": "PASS"
+    }
+  },
+  "verification_passed": true
+}

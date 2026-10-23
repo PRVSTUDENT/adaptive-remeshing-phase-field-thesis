@@ -1,0 +1,271 @@
+{
+  "overall_qualification": "GATE_C1_2_FAIL",
+  "gates": {
+    "gate6_softening_continuation": {
+      "terminal_u2_mm": 0.002056000055745244,
+      "terminal_rf2_N": 108.58261585235596,
+      "verdict": "PASS",
+      "force_drop_pct": -2.9873613478672776,
+      "checkpoint_rf2_N": 111.92625761032104
+    },
+    "gate4_irreversibility": {
+      "step3_healing_points": 0,
+      "step4_min_delta_d": -0.0011551380157470703,
+      "verdict": "PASS",
+      "step4_healing_points": 756,
+      "step3_min_delta_d": 0.0
+    },
+    "gate3_damage_bounds": {
+      "terminal_dmax": 1.0001620054244995,
+      "bound_criteria": "0.0 <= d <= 1.00000",
+      "verdict": "FAIL",
+      "total_overshoot_points": 4,
+      "total_negative_d_points": 0
+    },
+    "gate2_energy_continuity": {
+      "tolerance_pct": 2.0,
+      "verdict": "PASS",
+      "diff_fracture_pct": 0.0,
+      "diff_total_pct": 0.42224919440258846,
+      "step2_e_fracture_kNmm": 0.00013773671,
+      "step2_e_total_kNmm": 0.00025257305
+    },
+    "gate1_force_continuity": {
+      "tolerance_pct": 5.0,
+      "step2_diff_pct": 0.9245336178214498,
+      "verdict": "PASS",
+      "step1_diff_pct": 1.951654695161908,
+      "step2_rf2_N": 111.92625761032104,
+      "step1_rf2_N": 110.76591163873672,
+      "step3_rf2_N": 111.92625761032104,
+      "step3_diff_pct": 0.9245336178214498
+    },
+    "gate5_history_preservation": {
+      "terminal_h_max": 1752.6558837890625,
+      "total_negative_h_points": 0,
+      "initial_h_max": 1752.6558837890625,
+      "verdict": "PASS"
+    }
+  },
+  "step_rf_summary": {
+    "STAGGERED_PHASE_SUBPROBLEM": {
+      "last_frame_time": 1.0,
+      "u2_rp_mm": 0.0020520000252872705,
+      "h_max": 1752.6558837890625,
+      "num_frames": 2,
+      "h_min": 2.265619913899286e-09,
+      "d_max": 0.9991871118545532,
+      "rf2_rp_N": 111.92625761032104,
+      "gp_count": 17760,
+      "overshoot_count": 0,
+      "healing_count": 0,
+      "d_min": 0.0041170124895870686,
+      "min_delta_d": 0.0
+    },
+    "STATE_INJECTION": {
+      "last_frame_time": 1.0,
+      "u2_rp_mm": 0.0020520000252872705,
+      "h_max": 1752.6558837890625,
+      "num_frames": 2,
+      "h_min": 2.265619913899286e-09,
+      "d_max": 0.9991871118545532,
+      "rf2_rp_N": 110.76591163873672,
+      "gp_count": 17760,
+      "overshoot_count": 0,
+      "healing_count": 0,
+      "d_min": 0.0041170124895870686,
+      "min_delta_d": 0.0
+    },
+    "FORWARD_CONTINUATION": {
+      "last_frame_time": 1.0,
+      "u2_rp_mm": 0.002056000055745244,
+      "h_max": 1752.6558837890625,
+      "num_frames": 8,
+      "h_min": 2.265619913899286e-09,
+      "d_max": 1.0001620054244995,
+      "rf2_rp_N": 108.58261585235596,
+      "gp_count": 17760,
+      "overshoot_count": 4,
+      "healing_count": 756,
+      "d_min": 0.0041170124895870686,
+      "min_delta_d": -0.0011551380157470703
+    },
+    "MECH_REEQUIL_FROZEN_DAMAGE": {
+      "last_frame_time": 1.0,
+      "u2_rp_mm": 0.0020520000252872705,
+      "h_max": 1752.6558837890625,
+      "num_frames": 8,
+      "h_min": 2.265619913899286e-09,
+      "d_max": 0.9991871118545532,
+      "rf2_rp_N": 111.92625761032104,
+      "gp_count": 17760,
+      "overshoot_count": 0,
+      "healing_count": 0,
+      "d_min": 0.0041170124895870686,
+      "min_delta_d": 0.0
+    }
+  },
+  "donor_reference": {
+    "package": "PACKAGE_94",
+    "frame": 7,
+    "dmax_target": 0.9998528361320496,
+    "rf2_target_N": 112.97070980072021,
+    "e_fracture_target_kNmm": 0.00013773671,
+    "u2_target_mm": 0.0020520000252872705,
+    "e_total_target_kNmm": 0.00025364406
+  },
+  "energy_balance": [
+    {
+      "total_time": 1.0,
+      "step_time": 1.0,
+      "E_elastic_kNmm": 0.00011520923,
+      "E_total_kNmm": 0.00025294594,
+      "step": 1,
+      "E_fracture_kNmm": 0.00013773671,
+      "inc": 1
+    },
+    {
+      "total_time": 1.1,
+      "step_time": 0.1,
+      "E_elastic_kNmm": 0.00011513838,
+      "E_total_kNmm": 0.00025287509,
+      "step": 2,
+      "E_fracture_kNmm": 0.00013773671,
+      "inc": 1
+    },
+    {
+      "total_time": 1.2,
+      "step_time": 0.2,
+      "E_elastic_kNmm": 0.00011507499,
+      "E_total_kNmm": 0.0002528117,
+      "step": 2,
+      "E_fracture_kNmm": 0.00013773671,
+      "inc": 2
+    },
+    {
+      "total_time": 1.35,
+      "step_time": 0.35,
+      "E_elastic_kNmm": 0.00011499389,
+      "E_total_kNmm": 0.0002527306,
+      "step": 2,
+      "E_fracture_kNmm": 0.00013773671,
+      "inc": 3
+    },
+    {
+      "total_time": 1.55,
+      "step_time": 0.55,
+      "E_elastic_kNmm": 0.00011491185,
+      "E_total_kNmm": 0.00025264856,
+      "step": 2,
+      "E_fracture_kNmm": 0.00013773671,
+      "inc": 4
+    },
+    {
+      "total_time": 1.75,
+      "step_time": 0.75,
+      "E_elastic_kNmm": 0.00011485965,
+      "E_total_kNmm": 0.00025259636,
+      "step": 2,
+      "E_fracture_kNmm": 0.00013773671,
+      "inc": 5
+    },
+    {
+      "total_time": 1.95,
+      "step_time": 0.95,
+      "E_elastic_kNmm": 0.00011483727,
+      "E_total_kNmm": 0.00025257398,
+      "step": 2,
+      "E_fracture_kNmm": 0.00013773671,
+      "inc": 6
+    },
+    {
+      "total_time": 2.0,
+      "step_time": 1.0,
+      "E_elastic_kNmm": 0.00011483634,
+      "E_total_kNmm": 0.00025257305,
+      "step": 2,
+      "E_fracture_kNmm": 0.00013773671,
+      "inc": 7
+    },
+    {
+      "total_time": 3.0,
+      "step_time": 1.0,
+      "E_elastic_kNmm": 0.00011483634,
+      "E_total_kNmm": 0.00025257305,
+      "step": 3,
+      "E_fracture_kNmm": 0.00013773671,
+      "inc": 1
+    },
+    {
+      "total_time": 3.1,
+      "step_time": 0.1,
+      "E_elastic_kNmm": 0.00011468771,
+      "E_total_kNmm": 0.00025264821,
+      "step": 4,
+      "E_fracture_kNmm": 0.0001379605,
+      "inc": 1
+    },
+    {
+      "total_time": 3.2,
+      "step_time": 0.2,
+      "E_elastic_kNmm": 0.00011451188,
+      "E_total_kNmm": 0.00025272913,
+      "step": 4,
+      "E_fracture_kNmm": 0.00013821725,
+      "inc": 2
+    },
+    {
+      "total_time": 3.35,
+      "step_time": 0.35,
+      "E_elastic_kNmm": 0.00011419371,
+      "E_total_kNmm": 0.00025286317,
+      "step": 4,
+      "E_fracture_kNmm": 0.00013866946,
+      "inc": 3
+    },
+    {
+      "total_time": 3.55,
+      "step_time": 0.55,
+      "E_elastic_kNmm": 0.00011364454,
+      "E_total_kNmm": 0.00025306567,
+      "step": 4,
+      "E_fracture_kNmm": 0.00013942113,
+      "inc": 4
+    },
+    {
+      "total_time": 3.75,
+      "step_time": 0.75,
+      "E_elastic_kNmm": 0.00011290286,
+      "E_total_kNmm": 0.0002532968,
+      "step": 4,
+      "E_fracture_kNmm": 0.00014039394,
+      "inc": 5
+    },
+    {
+      "total_time": 3.95,
+      "step_time": 0.95,
+      "E_elastic_kNmm": 0.00011197504,
+      "E_total_kNmm": 0.0002535676,
+      "step": 4,
+      "E_fracture_kNmm": 0.00014159256,
+      "inc": 6
+    },
+    {
+      "total_time": 4.0,
+      "step_time": 1.0,
+      "E_elastic_kNmm": 0.00011162293,
+      "E_total_kNmm": 0.00025364717,
+      "step": 4,
+      "E_fracture_kNmm": 0.00014202423,
+      "inc": 7
+    }
+  ],
+  "receiver_mesh": {
+    "quads": 4440,
+    "nodes": 4610,
+    "name": "Candidate C5",
+    "h_fine_mm": 0.0007
+  },
+  "pbs_job_id": "1416889.mmaster02",
+  "job_name": "M1_C5_PACKAGE96_R1_TRANSFER"
+}

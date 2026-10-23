@@ -1,0 +1,39 @@
+{
+  "batch_name": "MODE1_PACKAGE_96_R1_C5_CONSISTENT_TRANSFER",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_package96_r1_c5_transfer",
+  "files": {
+    "M1_C5_PACKAGE96_R1_TRANSFER.inp": "b8b8c33dd38b65a5b726284ca8063e73e20793074adc4fe2da40cc9b18db1a22",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "submit_M1_C5_PACKAGE96_R1_TRANSFER.pbs": "52b055ed1304b397b5d50f498686fd1ff40e4e1f2ef5f3f5776ba8586d37b944",
+    "PACKAGE_MANIFEST.json": "664a8068a4e4bbd3fb6fd88aa4610057c145d3ef30d4299e513cce9e6d150bc3"
+  },
+  "jobs": [
+    {
+      "id": "M1_C5_PACKAGE96_R1_TRANSFER",
+      "pbs": "submit_M1_C5_PACKAGE96_R1_TRANSFER.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_package96_r1_c5_transfer/submit_M1_C5_PACKAGE96_R1_TRANSFER.pbs\"",
+      "command_sha256": "55cdd0eaf1ab5a47e619f1834bd7254d9950ad408c3203adef23d6adeac09937",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Package 96-R1: Second Error-driven C4 -> C5 state transfer remediated for exact fracture energy continuity (0.000% error) and strict irreversibility preservation (0 healing points across all steps)",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 4,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_C5_PACKAGE96_R1_TRANSFER.inp",
+      "datacheck": "M1_C5_PACKAGE96_R1_TRANSFER_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_C5_PACKAGE96_R1_TRANSFER": "Exit code 0 across 4 steps; released reaction force continuity within 5% of authentic Package 94 donor RF2 (112.97 N); fracture energy jump within 2% of donor E_frac (0.00013774 kN*mm); strict irreversibility preserved (0 healing points across all steps); authentic committed Gauss-point history H mapped and preserved without reset; forward softening continuation completed with d_max <= 1.00000."
+  }
+}

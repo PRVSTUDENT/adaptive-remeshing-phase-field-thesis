@@ -1,0 +1,52 @@
+{
+  "status": "PACKAGE96_R1_CONSTRUCTED",
+  "manifest_path": "models/pandey_kumar_mode1/96_r1_c5_package96_r1_consistent_transfer/PACKAGE_MANIFEST.json",
+  "authorization_path": "models/pandey_kumar_mode1/96_r1_c5_package96_r1_consistent_transfer/M1_C5_PACKAGE96_R1_TRANSFER_AUTHORIZATION.json",
+  "input_deck_hash": "B8B8C33DD38B65A5B726284CA8063E73E20793074ADC4FE2DA40CC9B18DB1A22",
+  "frozen_uel_hash": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "receiver_mesh": {
+    "name": "Candidate C5",
+    "elements": 4440,
+    "physical_nodes": 4610,
+    "h_fine_mm": 0.0007,
+    "error_threshold": 0.15,
+    "companion_elements": 4440,
+    "companion_type": "CPE4 (Layer 3)"
+  },
+  "donor_provenance": {
+    "donor_job": "1416653.mmaster02",
+    "donor_package": "PACKAGE_94",
+    "checkpoint_step": "FORWARD_CONTINUATION",
+    "checkpoint_frame": 7,
+    "u2_target_mm": 0.002052,
+    "rf2_target_N": 112.9707098,
+    "d_max_donor": 0.9998528,
+    "e_fracture_target_kNmm": 0.00013773671,
+    "e_total_target_kNmm": 0.00025364406,
+    "nodal_csv": "results/validation/mode1_f1597/pkg94_step4_frame7_nodal_state.csv",
+    "committed_history_csv": "results/validation/mode1_f1597/pkg94_step4_frame7_committed_history.csv",
+    "gp_history_source": "AUTHENTIC_PACKAGE94_COMPANION_TELEMETRY"
+  },
+  "remediation": {
+    "energy_correction_formula": "d_corr = d + c * d * (1 - d)",
+    "energy_correction_c": 0.04342636,
+    "e_frac_predicted_kNmm": 0.00013773671,
+    "e_frac_mismatch_pct": 0.0,
+    "step3_irreversibility_fix": "CLAMPS_ALL_NODES_TO_DCORR",
+    "step4_crack_corridor": "0.045 <= x <= 0.075, |y - 0.050| <= 0.006, 0.15 <= d < 0.9990",
+    "free_nodes_step4": 446,
+    "clamped_nodes_step4": 4164
+  },
+  "continuation": {
+    "checkpoint_u_mm": 0.002052,
+    "continuation_u_mm": 0.002056,
+    "delta_u_nm": 4.0,
+    "step4_increments": [
+      0.1,
+      1.0,
+      1e-08,
+      0.2
+    ]
+  },
+  "verification_passed": true
+}

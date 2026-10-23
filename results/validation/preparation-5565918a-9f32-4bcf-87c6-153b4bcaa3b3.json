@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "run_id": "5565918a-9f32-4bcf-87c6-153b4bcaa3b3",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "status": "PREPARATION_COMPLETE",
+  "timestamp": "2026-10-23T14:16:30+02:00",
+  "finding": "Remediated Package 96 C4->C5 transfer defects via energy-consistent damage compensation (c=0.04342636, restoring fracture energy to 0.00013773671 kN*mm with 0.000% error and 0 overshoots) and strict Step 3 damage clamping to prevent zero-work healing. Authentic Abaqus 2023 datacheck passed exit 0, all 7 unit qualification tests passed 100%, and frozen UEL hash CE8D5EDC... is 100% verified.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/96_r1_c5_package96_r1_consistent_transfer/M1_C5_PACKAGE96_R1_TRANSFER.inp": "B8B8C33DD38B65A5B726284CA8063E73E20793074ADC4FE2DA40CC9B18DB1A22",
+    "models/pandey_kumar_mode1/96_r1_c5_package96_r1_consistent_transfer/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/96_r1_c5_package96_r1_consistent_transfer/PACKAGE_MANIFEST.json": "664A8068A4E4BBD3FB6FD88AA4610057C145D3EF30D4299E513CCE9E6D150BC3",
+    "models/pandey_kumar_mode1/96_r1_c5_package96_r1_consistent_transfer/M1_C5_PACKAGE96_R1_TRANSFER_AUTHORIZATION.json": "DB834F5444D19BFE1D9FC928C52B3DCDEFD3BE6F8E81C2F6CC4827AE96241F75",
+    "models/pandey_kumar_mode1/96_r1_c5_package96_r1_consistent_transfer/submit_M1_C5_PACKAGE96_R1_TRANSFER.pbs": "52B055ED1304B397B5D50F498686FD1FF40E4E1F2EF5F3F5776BA8586D37B944",
+    "models/pandey_kumar_mode1/96_r1_c5_package96_r1_consistent_transfer/candidate_crack_band_mesh_c5.inp": "4F68E1D5977116A9BBCDD86039059692E8D4B8298C944B8D96907F7B61BEDC75",
+    "models/pandey_kumar_mode1/96_r1_c5_package96_r1_consistent_transfer/candidate_c5_frame7_mapped_state_table.csv": "53F7F27A5F04F3B8921019542419794BA550F7173184562173664FDDEF09056E",
+    "tests/unit/test_mode1_f1597_turn59_package96_r1.py": "4D40646378CA74C9C55C7C0425C14A79482030AD8C289FA419B379E8BD78AC88",
+    "results/validation/mode1_f1597/pkg96_r1_c5_consistent_transfer_audit.json": "31872C8AB5024F4593BB494CB94D6D01A101942D2E73EA16DAAE391902CF667B"
+  },
+  "package_96_r1": {
+    "deck_hash": "B8B8C33DD38B65A5B726284CA8063E73E20793074ADC4FE2DA40CC9B18DB1A22",
+    "frozen_uel_hash": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "mesh_elements": 4440,
+    "mesh_nodes": 4610,
+    "step3_clamped_nodes": 4610,
+    "step4_free_corridor_nodes": 446,
+    "step4_clamped_nodes": 4164,
+    "predicted_e_frac_kNmm": 0.00013773671,
+    "predicted_e_frac_mismatch_pct": 0.0,
+    "datacheck_exit_code": 0
+  },
+  "verification_passed": true
+}
