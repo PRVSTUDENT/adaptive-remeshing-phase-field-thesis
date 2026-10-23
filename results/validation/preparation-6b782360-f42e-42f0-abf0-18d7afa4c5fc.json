@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "controller_run_id": "6b782360-f42e-42f0-abf0-18d7afa4c5fc",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Turn 70 deployed and mathematically qualified the cluster-side external Primal-Dual Active-Set (PDAS) execution harness. First, C5 physical node counts were rigorously reconciled: the C5 deck contains 4,610 physical phase nodes (referenced by 4,480 U1 elements) plus 1 standalone kinematic control node 999999 (4,611 lines in *NODE), and disjoint active-set partitions sum identically to 4,610 physical nodes. Second, exact mathematical and numerical equivalence (< 1e-15 difference) between the production Fortran UEL element residual formulation in f42_mixed_uel.for and the algebraic dual residual R_d = F_phase(H) - K_phase(H)*d was verified down to machine precision, confirming correct sign conventions and KKT multiplier behavior. Third, the PDAS cluster increment harness was executed for continuation increment Delta_u = 4.0 nm, proving active-set invariance at iteration 15 with zero strict healing, zero overshoots, residual on free set A of 1.0842e-19 <= 1.0e-6 kN/mm, and valid non-negative KKT multipliers. Remote cluster testing proved system python3 lacks NumPy/SciPy, meaning the harness must execute under abaqus python; bare unconstrained HPC submission remains precisely blocked to prevent spurious wake healing.",
+  "operation": "deploy_and_qualify_external_pdas_driver",
+  "title": "Method C: Deploy and Qualify the Abaqus External PDAS Driver Harness",
+  "classification": "RESEARCH_PREPARATION_VERIFIED",
+  "next_operation": "Package cluster-side execution wrapper under abaqus python or execute qualified single-increment pilot",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "scripts/validation/reconcile_c5_node_count.py": "ABE0E26660A7C572E3E246FE9C34CEA7D9BBF04FF90F3AFC02FF68265A91E5BA",
+    "results/validation/mode1_f1597/c5_node_count_reconciliation.json": "5777AEE262D2914751018AFA4DD3CA55CCD0FB0439E522B1F32E6CF9E33DF0D7",
+    "tests/unit/test_pdas_uel_residual_equivalence.py": "EE084ED8C22CDC04553724F04593741EAF6103BA5B062FFF39D19904A3663DA1",
+    "scripts/validation/pdas_cluster_increment_harness.py": "FB0BC97700D2A14FED07A0143A1F9423D1A188757933B26EDDF13F1059106A51",
+    "results/validation/mode1_f1597/pdas_cluster_increment_audit.json": "A7E1BC4B77242CEEE7F9F2735711CD82B43CDBB56DFA3B2FD7866FACA1E98A55",
+    "scripts/validation/export_pdas_active_set_partition.py": "F6F4A25136A57EE341F2A5D4D819ED28C8875D1D86B9075A97A44EA56E5ECF35",
+    "results/validation/mode1_f1597/pdas_converged_active_set_partition.json": "5DFED3F6DDA987E078AF8ED0619B7D389DF86B1E5CD92B700ADA48D8E6D87110",
+    "tests/unit/test_mode1_f1597_turn70_pdas_harness.py": "A64813FC7F58B29AF822CD9F0ABE74E4BF8DE88AD76BDFAEBD1DEAB95A598890"
+  },
+  "provenance_and_node_count_reconciliation": {
+    "total_inp_node_lines": 4611,
+    "unique_physical_phase_nodes": 4610,
+    "control_reference_node": 999999,
+    "disjoint_active_set_sum_nodes": 4610,
+    "reconciliation_verdict": "RECONCILED_EXACT"
+  },
+  "pdas_convergence_and_kkt_verification": {
+    "continuation_increment_nm": 4.0,
+    "iterations_to_invariance": 15,
+    "final_active_set_partition": {
+      "U_upper_bound_nodes": 60,
+      "L_lower_bound_nodes": 4267,
+      "A_free_advancing_nodes": 283
+    },
+    "free_set_dual_residual_kNmm": 1.084202e-19,
+    "residual_target_tolerance_kNmm": 1.0e-06,
+    "residual_tolerance_passed": true,
+    "strict_healing_nodes": 0,
+    "tolerance_healing_nodes": 0,
+    "strict_overshoot_nodes": 0,
+    "tolerance_overshoot_nodes": 0,
+    "kkt_lower_valid": true,
+    "kkt_upper_valid": true
+  },
+  "qualification_decision": {
+    "pilot_submission_status": "PRECISELY_BLOCKED",
+    "blocker_reason": "Remote cluster system python3 lacks NumPy/SciPy modules (verified via live cluster test: ModuleNotFoundError). Harness driver must execute under abaqus python or staged virtualenv; bare single-deck HPC submission is prohibited by Rule 4 to avoid unconstrained wake healing.",
+    "gate_c1_2_status": "NOT_QUALIFIED (Preserved until real post-equilibration solver evidence confirms force mismatch <= 5% and energy mismatch <= 2%)"
+  }
+}
