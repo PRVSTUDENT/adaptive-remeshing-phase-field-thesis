@@ -1,0 +1,225 @@
+{
+  "status": "PACKAGE89_TELEMETRY_EXTRACTION_SUCCESS",
+  "step3_phase_subproblem": {
+    "rf2_N": 189.53575193881989,
+    "advancing_nodes_count": 206,
+    "zero_healing_pass": true,
+    "converged": true,
+    "min_delta_d": 0.0,
+    "max_delta_d": 0.37577199935913086,
+    "healing_nodes_count": 0
+  },
+  "step2_mech_relaxation": {
+    "converged": true,
+    "rf2_N": 189.53575193881989,
+    "err_vs_donor_pct": 2.2663296015159755,
+    "meets_5pct_gate": true,
+    "err_vs_c2_virgin_pct": 3.0706721196011455
+  },
+  "job_id": "1416539.mmaster02",
+  "step_results": {
+    "STAGGERED_PHASE_SUBPROBLEM": {
+      "terminal_d_min": 0.0030132641550153494,
+      "terminal_d_max": 0.7834168076515198,
+      "terminal_rf2_N": 189.53575193881989,
+      "terminal_u2_mm": 0.0019651073962450027,
+      "frames": [
+        {
+          "d_max": 0.4786215126514435,
+          "rf2_rp_N": 189.53575193881989,
+          "frame_id": 0,
+          "d_min": 0.0030132641550153494,
+          "time": 0.0,
+          "frame_idx": 0,
+          "u2_rp": 0.0019651073962450027
+        },
+        {
+          "d_max": 0.7834168076515198,
+          "rf2_rp_N": 189.53575193881989,
+          "frame_id": 1,
+          "d_min": 0.0030132641550153494,
+          "time": 1.0,
+          "frame_idx": 1,
+          "u2_rp": 0.0019651073962450027
+        }
+      ],
+      "total_frames": 2
+    },
+    "STATE_INJECTION": {
+      "terminal_d_min": 0.0030132641550153494,
+      "terminal_d_max": 0.4786215126514435,
+      "terminal_rf2_N": 185.47528982162476,
+      "terminal_u2_mm": 0.0019651073962450027,
+      "frames": [
+        {
+          "d_max": 0.0,
+          "rf2_rp_N": -0.0,
+          "frame_id": 0,
+          "d_min": 0.0,
+          "time": 0.0,
+          "frame_idx": 0,
+          "u2_rp": 0.0
+        },
+        {
+          "d_max": 0.4786215126514435,
+          "rf2_rp_N": 185.47528982162476,
+          "frame_id": 1,
+          "d_min": 0.0030132641550153494,
+          "time": 1.0,
+          "frame_idx": 1,
+          "u2_rp": 0.0019651073962450027
+        }
+      ],
+      "total_frames": 2
+    },
+    "FORWARD_CONTINUATION": {
+      "terminal_d_min": 0.0035983866546303034,
+      "terminal_d_max": 0.8569584488868713,
+      "terminal_rf2_N": 169.59913074970245,
+      "terminal_u2_mm": 0.002015107311308384,
+      "frames": [
+        {
+          "d_max": 0.7834168076515198,
+          "rf2_rp_N": 189.53575193881989,
+          "frame_id": 0,
+          "d_min": 0.0030132641550153494,
+          "time": 0.0,
+          "frame_idx": 0,
+          "u2_rp": 0.0019651073962450027
+        },
+        {
+          "d_max": 0.7855077385902405,
+          "rf2_rp_N": 188.85987997055054,
+          "frame_id": 2,
+          "d_min": 0.0030534968245774508,
+          "time": 0.10000000149011612,
+          "frame_idx": 1,
+          "u2_rp": 0.0019701074343174696
+        },
+        {
+          "d_max": 0.7905431389808655,
+          "rf2_rp_N": 187.27052211761475,
+          "frame_id": 4,
+          "d_min": 0.0031324850860983133,
+          "time": 0.2874999940395355,
+          "frame_idx": 2,
+          "u2_rp": 0.0019794823601841927
+        },
+        {
+          "d_max": 0.8088974356651306,
+          "rf2_rp_N": 181.78868293762207,
+          "frame_id": 6,
+          "d_min": 0.0033195496071130037,
+          "time": 0.65625,
+          "frame_idx": 3,
+          "u2_rp": 0.0019979197531938553
+        },
+        {
+          "d_max": 0.8569584488868713,
+          "rf2_rp_N": 169.59913074970245,
+          "frame_id": 8,
+          "d_min": 0.0035983866546303034,
+          "time": 1.0,
+          "frame_idx": 4,
+          "u2_rp": 0.002015107311308384
+        }
+      ],
+      "total_frames": 5
+    },
+    "MECH_REEQUIL_FROZEN_DAMAGE": {
+      "terminal_d_min": 0.0030132641550153494,
+      "terminal_d_max": 0.4786215126514435,
+      "terminal_rf2_N": 189.53575193881989,
+      "terminal_u2_mm": 0.0019651073962450027,
+      "frames": [
+        {
+          "d_max": 0.4786215126514435,
+          "rf2_rp_N": 185.47528982162476,
+          "frame_id": 0,
+          "d_min": 0.0030132641550153494,
+          "time": 0.0,
+          "frame_idx": 0,
+          "u2_rp": 0.0019651073962450027
+        },
+        {
+          "d_max": 0.4786215126514435,
+          "rf2_rp_N": 185.8813315629959,
+          "frame_id": 1,
+          "d_min": 0.0030132641550153494,
+          "time": 0.10000000149011612,
+          "frame_idx": 1,
+          "u2_rp": 0.0019651073962450027
+        },
+        {
+          "d_max": 0.4786215126514435,
+          "rf2_rp_N": 186.28738820552826,
+          "frame_id": 2,
+          "d_min": 0.0030132641550153494,
+          "time": 0.20000000298023224,
+          "frame_idx": 2,
+          "u2_rp": 0.0019651073962450027
+        },
+        {
+          "d_max": 0.4786215126514435,
+          "rf2_rp_N": 186.8964582681656,
+          "frame_id": 3,
+          "d_min": 0.0030132641550153494,
+          "time": 0.3499999940395355,
+          "frame_idx": 3,
+          "u2_rp": 0.0019651073962450027
+        },
+        {
+          "d_max": 0.4786215126514435,
+          "rf2_rp_N": 187.81006336212158,
+          "frame_id": 4,
+          "d_min": 0.0030132641550153494,
+          "time": 0.574999988079071,
+          "frame_idx": 4,
+          "u2_rp": 0.0019651073962450027
+        },
+        {
+          "d_max": 0.4786215126514435,
+          "rf2_rp_N": 189.18046355247498,
+          "frame_id": 5,
+          "d_min": 0.0030132641550153494,
+          "time": 0.9125000238418579,
+          "frame_idx": 5,
+          "u2_rp": 0.0019651073962450027
+        },
+        {
+          "d_max": 0.4786215126514435,
+          "rf2_rp_N": 189.53575193881989,
+          "frame_id": 6,
+          "d_min": 0.0030132641550153494,
+          "time": 1.0,
+          "frame_idx": 6,
+          "u2_rp": 0.0019651073962450027
+        }
+      ],
+      "total_frames": 7
+    }
+  },
+  "step4_forward_continuation": {
+    "softening_delta_rf_N": -19.93662118911743,
+    "rf2_end_N": 169.59913074970245,
+    "total_increments": 4,
+    "converged": true,
+    "genuine_softening_confirmed": true,
+    "u_start_mm": 0.0019651073962450027,
+    "u_end_mm": 0.002015107311308384,
+    "rf2_start_N": 189.53575193881989
+  },
+  "reference_benchmarks": {
+    "c2_virgin_rf2_N": 183.88912,
+    "donor_rf2_N": 185.33544,
+    "mapped_at2_frac_energy_uJ": 52.26631,
+    "donor_at2_frac_energy_uJ": 52.28544
+  },
+  "step1_state_injection": {
+    "converged": true,
+    "rf2_N": 185.47528982162476,
+    "err_vs_donor_pct": 0.07545767912750542,
+    "meets_5pct_gate": true,
+    "err_vs_c2_virgin_pct": 0.8625686074438579
+  }
+}
