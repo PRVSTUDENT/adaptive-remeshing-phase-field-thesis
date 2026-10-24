@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": "7c50fe68-b2e7-4952-b2b8-0894ea8fd729",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 101 bound-constrained VI pilot constructed, verified, and submitted: replaced Package 100 active-set release suppression heuristic with exact variational inequality solver for min_{d_ckpt <= d <= 1.0} (1/2 d^T K d - F^T d) on mesh C5; proved that L-BFGS-B satisfies the governing threshold ||R_d||_inf,A <= 1.0e-6 kN/mm in 12 iterations (<= 25 iters) with 0 KKT violations on L and U; strictly preserved zero damage healing (min delta d >= 0) and zero overshoot (max d <= 1.0) by construction; resolved the 6.282e-6 objective suboptimality gap (Phi_d* = -0.016388487 vs -0.016382206); demonstrated that non-matching C4->C5 transfer has an intrinsic -2.110% fracture energy deficit at d_ckpt (0.134830 mJ vs 0.137737 mJ) due to gradient smoothing across refined crack-band quad elements, mandating that Gate C1-2 strictly remains NOT_QUALIFIED; verified frozen UEL hash CE8D5EDC...; completed authentic Abaqus 2023 remote datacheck (Exit 0); verified 6/6 unit tests in test_mode1_f1597_turn87_package101_vi.py; and submitted Job 1417162.mmaster02 via Invoke-Mode1Execution.ps1 under standing Mode-I rules.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/101_c5_bound_constrained_vi_continuation/PACKAGE_MANIFEST.json": "BC6F9DE439AF09F9C47FB0FF3B1EF1F64942DBD07F31F35D2A314B06470E1E8E",
+    "models/pandey_kumar_mode1/101_c5_bound_constrained_vi_continuation/M1_C5_PACKAGE101_VI_PILOT_AUTHORIZATION.json": "27BD3223CACFAD9B7B8EA51885431A0582F1A3B841E875132388E25817917DB9",
+    "models/pandey_kumar_mode1/101_c5_bound_constrained_vi_continuation/M1_C5_PACKAGE101_SEED_TRANSFER_DC.dat": "A52DA14C89F2D7E36E314455CE67271C92533CBE6B4A775BFC747785DEB3F5B1",
+    "models/pandey_kumar_mode1/101_c5_bound_constrained_vi_continuation/vi_cluster_execution_adapter.py": "271F001A8B8EC922422C6005998AA8E3DEC54CED1A89889C104AEB26862DE8F1",
+    "tests/unit/test_mode1_f1597_turn87_package101_vi.py": "165C7ED38A4353963947DF0EA966DA3F03A6557DB4E7FDBC2CCB2AD1B0287ED2",
+    "results/validation/mode1_f1597/turn87_c5_fracture_energy_recomputation.json": "88EF55DCD1A7FA6693B7A69C4933B432579232031A02F717F93EDDEE2079464B",
+    "results/validation/mode1_f1597/turn87_initial_package101_architecture_plan.json": "15E78777F301B7A1CAC363F04CF8DD3945957FF163D8D391F55C9964ACDA4DEB"
+  },
+  "job_id": "1417162.mmaster02",
+  "verification_passed": true
+}
