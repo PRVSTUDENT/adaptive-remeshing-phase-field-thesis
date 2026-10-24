@@ -1,0 +1,505 @@
+{
+  "schema": 1,
+  "records": [
+    {
+      "iteration": 1,
+      "subproblem_id": "pdas_subproblem_iter_01",
+      "input_deck_sha256": "2A9E2240BF72BC70EB07AC05C4ECBD080DB06D0CBB6FC05AF01B158B39B8556D",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4552,
+        "A": 0
+      },
+      "set_changes": 91,
+      "residual_inf_norm_A_kNmm": 0.0,
+      "strict_healing_count": 1065,
+      "tolerance_healing_count": 1063,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.114533111453
+    },
+    {
+      "iteration": 2,
+      "subproblem_id": "pdas_subproblem_iter_02",
+      "input_deck_sha256": "D34A3236980DE79FE1724C1D170EAF747B28EB385E5E2617F24FA41F6846A8F9",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4461,
+        "A": 91
+      },
+      "set_changes": 81,
+      "residual_inf_norm_A_kNmm": 1.3962640687425055e-05,
+      "strict_healing_count": 1057,
+      "tolerance_healing_count": 1055,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.113386429846
+    },
+    {
+      "iteration": 3,
+      "subproblem_id": "pdas_subproblem_iter_03",
+      "input_deck_sha256": "2E3EA2B3A0609B6AECEB87DDA96CAC8130102D23C10C16ED6C645F4A0DA7CFE8",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4520,
+        "A": 32
+      },
+      "set_changes": 87,
+      "residual_inf_norm_A_kNmm": 1.0396393562547217e-05,
+      "strict_healing_count": 1061,
+      "tolerance_healing_count": 1059,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.114043086767
+    },
+    {
+      "iteration": 4,
+      "subproblem_id": "pdas_subproblem_iter_04",
+      "input_deck_sha256": "9064ACE0107920AC2E58B538776548A2B2D40B47F067BD54291B5E0924230D0B",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4465,
+        "A": 87
+      },
+      "set_changes": 88,
+      "residual_inf_norm_A_kNmm": 1.4791399279146151e-05,
+      "strict_healing_count": 1063,
+      "tolerance_healing_count": 1061,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.113573685288
+    },
+    {
+      "iteration": 5,
+      "subproblem_id": "pdas_subproblem_iter_05",
+      "input_deck_sha256": "99395819CE53FA00D7D334653B6B1BC14480929C7A115AEB6DB1E7FED3A9435E",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4521,
+        "A": 31
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.0937660423327442e-05,
+      "strict_healing_count": 1064,
+      "tolerance_healing_count": 1062,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.114068292081
+    },
+    {
+      "iteration": 6,
+      "subproblem_id": "pdas_subproblem_iter_06",
+      "input_deck_sha256": "E01496D2B458EEDB4A743AE73C1CE39AEE022DBEC902A06EE8D3C8FBD4F4F102",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4466,
+        "A": 86
+      },
+      "set_changes": 90,
+      "residual_inf_norm_A_kNmm": 1.4782459974250334e-05,
+      "strict_healing_count": 1064,
+      "tolerance_healing_count": 1062,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.113578379154
+    },
+    {
+      "iteration": 7,
+      "subproblem_id": "pdas_subproblem_iter_07",
+      "input_deck_sha256": "03BE20B6E5D5A47A04A57C02D9062056FA4F0022AE748D439EA5A56B7DF96FC9",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4522,
+        "A": 30
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.0923518427901713e-05,
+      "strict_healing_count": 1065,
+      "tolerance_healing_count": 1063,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.114089645445
+    },
+    {
+      "iteration": 8,
+      "subproblem_id": "pdas_subproblem_iter_08",
+      "input_deck_sha256": "2E79DA9E1228BFC896F6438CD1E57D556106771184843A4DAC7717E300E2DE63",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4467,
+        "A": 85
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.4782454936613197e-05,
+      "strict_healing_count": 1064,
+      "tolerance_healing_count": 1062,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.113578416407
+    },
+    {
+      "iteration": 9,
+      "subproblem_id": "pdas_subproblem_iter_09",
+      "input_deck_sha256": "4BB2FF551413B283E881EAE26555960E1914628B2691C76400012C8B43CA9C54",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4522,
+        "A": 30
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.0923518427901713e-05,
+      "strict_healing_count": 1065,
+      "tolerance_healing_count": 1063,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.114089645445
+    },
+    {
+      "iteration": 10,
+      "subproblem_id": "pdas_subproblem_iter_10",
+      "input_deck_sha256": "7E6FE6EEF22AFBFC85B21A4B75D7E262833C5A05FF560EC0511DDB819677285B",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4467,
+        "A": 85
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.4782454936613197e-05,
+      "strict_healing_count": 1064,
+      "tolerance_healing_count": 1062,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.113578416407
+    },
+    {
+      "iteration": 11,
+      "subproblem_id": "pdas_subproblem_iter_11",
+      "input_deck_sha256": "9F29EB2CE72767EE6FCC102407BB4107AD6BAB4F811E6B6863533F6B1F2745F6",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4522,
+        "A": 30
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.0923518427901713e-05,
+      "strict_healing_count": 1065,
+      "tolerance_healing_count": 1063,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.114089645445
+    },
+    {
+      "iteration": 12,
+      "subproblem_id": "pdas_subproblem_iter_12",
+      "input_deck_sha256": "364B7F590EF65EAAB785D92AC88102C0B98C77A8A494ABFE460192BB564529B8",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4467,
+        "A": 85
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.4782454936613197e-05,
+      "strict_healing_count": 1064,
+      "tolerance_healing_count": 1062,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.113578416407
+    },
+    {
+      "iteration": 13,
+      "subproblem_id": "pdas_subproblem_iter_13",
+      "input_deck_sha256": "7AA5846F99B2507A72C66DD17216FB166EE2CC89DDA7A64279939BD7047BBBAF",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4522,
+        "A": 30
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.0923518427901713e-05,
+      "strict_healing_count": 1065,
+      "tolerance_healing_count": 1063,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.114089645445
+    },
+    {
+      "iteration": 14,
+      "subproblem_id": "pdas_subproblem_iter_14",
+      "input_deck_sha256": "BB55AE2F727603F5210261ED29A0E792D53F91C60C8B7BEA179E9A6C6332C54F",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4467,
+        "A": 85
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.4782454936613197e-05,
+      "strict_healing_count": 1064,
+      "tolerance_healing_count": 1062,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.113578416407
+    },
+    {
+      "iteration": 15,
+      "subproblem_id": "pdas_subproblem_iter_15",
+      "input_deck_sha256": "4F1ADB44371B216E4DD6FECE2F220DB7D32F470B3E3AE04AF3AB3F53B0CC5F6C",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4522,
+        "A": 30
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.0923518427901713e-05,
+      "strict_healing_count": 1065,
+      "tolerance_healing_count": 1063,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.114089645445
+    },
+    {
+      "iteration": 16,
+      "subproblem_id": "pdas_subproblem_iter_16",
+      "input_deck_sha256": "57766E12E30D8D49429C3ED475D5B8372D2CCA824B5C33CD2753D383A608D867",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4467,
+        "A": 85
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.4782454936613197e-05,
+      "strict_healing_count": 1064,
+      "tolerance_healing_count": 1062,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.113578416407
+    },
+    {
+      "iteration": 17,
+      "subproblem_id": "pdas_subproblem_iter_17",
+      "input_deck_sha256": "994F0933F0933B4A42E5425E183AF714FA2A1010E87482130DB23CD4962FF491",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4522,
+        "A": 30
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.0923518427901713e-05,
+      "strict_healing_count": 1065,
+      "tolerance_healing_count": 1063,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.114089645445
+    },
+    {
+      "iteration": 18,
+      "subproblem_id": "pdas_subproblem_iter_18",
+      "input_deck_sha256": "61F0C2EE08B727DA4FCC0D89F64F94CAC6F204EA65ADE39D97D09D664F24CB80",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4467,
+        "A": 85
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.4782454936613197e-05,
+      "strict_healing_count": 1064,
+      "tolerance_healing_count": 1062,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.113578416407
+    },
+    {
+      "iteration": 19,
+      "subproblem_id": "pdas_subproblem_iter_19",
+      "input_deck_sha256": "B1CF41B643FE1DE87EB8B0E438D94E5D4185CFFC7534D93FD8FED302A82F4B14",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4522,
+        "A": 30
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.0923518427901713e-05,
+      "strict_healing_count": 1065,
+      "tolerance_healing_count": 1063,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.114089645445
+    },
+    {
+      "iteration": 20,
+      "subproblem_id": "pdas_subproblem_iter_20",
+      "input_deck_sha256": "E7D3EC9AD00E34CA8296138619AF9D70002BA757F74972849A65B747E7EB4848",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4467,
+        "A": 85
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.4782454936613197e-05,
+      "strict_healing_count": 1064,
+      "tolerance_healing_count": 1062,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.113578416407
+    },
+    {
+      "iteration": 21,
+      "subproblem_id": "pdas_subproblem_iter_21",
+      "input_deck_sha256": "702C4DDC93087BF066C2B4C8ABA113D2CE11D600E15C1AA9F9293C074E8CBB15",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4522,
+        "A": 30
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.0923518427901713e-05,
+      "strict_healing_count": 1065,
+      "tolerance_healing_count": 1063,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.114089645445
+    },
+    {
+      "iteration": 22,
+      "subproblem_id": "pdas_subproblem_iter_22",
+      "input_deck_sha256": "712F5B34FFB449C620A20DCE17D40A934AD5CD80C3FA4F878428457F6DB45E9D",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4467,
+        "A": 85
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.4782454936613197e-05,
+      "strict_healing_count": 1064,
+      "tolerance_healing_count": 1062,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.113578416407
+    },
+    {
+      "iteration": 23,
+      "subproblem_id": "pdas_subproblem_iter_23",
+      "input_deck_sha256": "5D8CEF8F9FE9E685FAD0AAC6DBD8EF99FC7F010A8B52AA8274477A8BD4BAD5DA",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4522,
+        "A": 30
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.0923518427901713e-05,
+      "strict_healing_count": 1065,
+      "tolerance_healing_count": 1063,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.114089645445
+    },
+    {
+      "iteration": 24,
+      "subproblem_id": "pdas_subproblem_iter_24",
+      "input_deck_sha256": "1BBD78C82FA583DCF9533E2B8C6A6490F35EB68374F112BDC6BCC6CB3A53B615",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4467,
+        "A": 85
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.4782454936613197e-05,
+      "strict_healing_count": 1064,
+      "tolerance_healing_count": 1062,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.113578416407
+    },
+    {
+      "iteration": 25,
+      "subproblem_id": "pdas_subproblem_iter_25",
+      "input_deck_sha256": "3CE7C85E34D6EDB79DBDF6DC3F06E352A369BDF5625690B69E730E905226ACBE",
+      "exit_code": 0,
+      "set_sizes": {
+        "U": 58,
+        "L": 4522,
+        "A": 30
+      },
+      "set_changes": 89,
+      "residual_inf_norm_A_kNmm": 1.0923518427901713e-05,
+      "strict_healing_count": 1065,
+      "tolerance_healing_count": 1063,
+      "strict_overshoot_count": 0,
+      "tolerance_overshoot_count": 0,
+      "kkt_lower_multiplier_valid": false,
+      "kkt_upper_multiplier_valid": true,
+      "rf2_kN": 0.114089645445
+    }
+  ]
+}

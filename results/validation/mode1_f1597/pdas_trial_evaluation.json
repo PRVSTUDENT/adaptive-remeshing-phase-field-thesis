@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "execution_mode": "cluster_abaqus",
+  "status": "FAILED_CONVERGENCE",
+  "converged": false,
+  "iterations": 25,
+  "final_set_sizes": {
+    "U": 58,
+    "L": 4522,
+    "A": 30
+  },
+  "final_residual_inf_A": 1.0923518427901713e-05,
+  "strict_healing_nodes": 1065,
+  "tolerance_healing_nodes": 1063,
+  "strict_overshoot_nodes": 0,
+  "tolerance_overshoot_nodes": 0,
+  "kkt_lower_valid": false,
+  "kkt_upper_valid": true,
+  "ledger_path": "/scratch9/pr21vyci/runs/mode1_package97_c5_pdas_pilot/pdas_subproblem_ledger.json",
+  "checkpoint_type": "TRIAL_OFFLINE_OR_UNCONVERGED_EVALUATION"
+}
