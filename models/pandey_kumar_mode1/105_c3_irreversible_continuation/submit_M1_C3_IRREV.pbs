@@ -1,0 +1,31 @@
+#PBS -N M1_C3_IRREV
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=16gb
+#PBS -l walltime=08:00:00
+#PBS -q entry_imfdfkmq
+#PBS -o pbs_execution.log
+#PBS -e pbs_error.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+cd "$PBS_O_WORKDIR" || exit 1
+source ./job_notifications.sh
+
+JOB_NAME="M1_C3_IRREV_SOLVE"
+INP_NAME="M1_C3_IRREV_CONTINUATION.inp"
+USER_SUB="f42_experimental_irreversible_uel.for"
+
+notify_start "$JOB_NAME" "$PBS_JOBID"
+notification_install_terminal_trap "$JOB_NAME" "$PBS_JOBID"
+
+export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/tmp/xdg_runtime_${USER}}"
+mkdir -p "$XDG_RUNTIME_DIR"
+
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+abaqus job="$JOB_NAME" input="$INP_NAME" user="$USER_SUB" cpus=1 interactive
+EXIT_CODE=$?
+
+exit $EXIT_CODE

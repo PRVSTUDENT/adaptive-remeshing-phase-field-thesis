@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 113,
+  "stage": "STAGE_A_C3_ABAQUS_SOLVER_EVALUATION",
+  "verdict": "ACTIVE_SET_PENALTY_CHATTERING_IDENTIFIED",
+  "datacheck_status": {
+    "job_name": "M1_C3_IRREV_DC",
+    "exit_code": 0,
+    "compilation": "INTEL_IFORT_2021_13_0_PASS",
+    "linking": "GNU_LD_PASS",
+    "abaqus_pre": "PASS",
+    "wallclock_seconds": 1,
+    "cpu_seconds": 0.19,
+    "warning_messages": 4
+  },
+  "solver_execution": {
+    "job_name": "M1_C3_IRREV_SOLVE",
+    "exit_code": 1,
+    "wallclock_seconds": 9,
+    "cpu_seconds": 6.9,
+    "total_increments_attempted": 1,
+    "cutbacks": 5,
+    "iterations_completed": 30,
+    "divergence_cause": "TOO_MANY_ATTEMPTS_MADE_FOR_THIS_INCREMENT",
+    "chattering_diagnostics": {
+      "oscillation_period": "2_CYCLE_EQUILIBRIUM_TOGGLE",
+      "chattering_nodes": [1362, 1254, 1309, 1198],
+      "chattering_dof": 3,
+      "displacement_correction_magnitude": 6.986e-4,
+      "penalty_residual_spike_N": 190400.0,
+      "mathematical_mechanism": "Discontinuous step penalty gamma = 1e8 switches on when d < d_lower and off when d >= d_lower without line search or Fischer-Burmeister regularization. Large restoring force in iteration n pushes d above bound; in iteration n+1 penalty turns off, causing d to fall below bound, creating an undamped 2-cycle limit cycle."
+    }
+  },
+  "governed_dispatch_status": {
+    "hpc_gate_script": "scripts/hpc/mode1_execution_gate.py",
+    "gate_decision": "BLOCKED_BY_POLICY_SCOPE_RESTRICTION",
+    "reason": "scripts/hpc/ is outside ACTIVE_SESSION.json allowed_write_scope; production UEL and historical allowlist remain strictly enforced",
+    "proposed_patch": "results/validation/mode1_f1597/mode1_execution_gate_experimental_uel.patch"
+  },
+  "governance": {
+    "production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "production_uel_status": "BITWISE_FROZEN_UNCHANGED",
+    "experimental_uel_sha256": "55FF5D097F207340291BB1A26603B70AB1F105BE8458914809AF08476A8FA195",
+    "gate_c1_1_status": "QUALIFIED_OFFLINE_ONLY",
+    "gate_c1_2_status": "NOT_QUALIFIED"
+  }
+}
