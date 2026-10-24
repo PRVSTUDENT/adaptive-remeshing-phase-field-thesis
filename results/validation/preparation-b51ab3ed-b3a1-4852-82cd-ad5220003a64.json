@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Audit proves Abaqus ignores initial displacements in static steps; frozen UEL f42_mixed_uel.for ingests SVARS(9..12) as history, but unconstrained phase-field solve heals 352 nodes (-9.47e-4), strictly withholding free HPC continuation.",
+  "evidence_sources": {
+    "scripts/validation/audit_turn108_c3_abaqus_initialization_pathway.py": "C87A1243FB117B97086FAC40D81FA82243DA6C9B969F58E6267E0FC0ACEF8213",
+    "results/validation/mode1_f1597/turn108_c3_abaqus_initialization_audit.json": "8AF2D0C6B60984F88A6DAB73E6B76B2B7975FF895B17A4C36FDFE8ADBCE69477",
+    "tests/unit/test_mode1_f1597_turn108_abaqus_initialization.py": "5B572510E264E5CB5650A73260B203FBFB52998D971DF802EBBF15773461C0C1"
+  },
+  "verification_passed": true
+}
