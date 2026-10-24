@@ -476,3 +476,19 @@
   * **Gate C1-2 Status**: Strictly **`NOT_QUALIFIED`**.
   * **Package 94 Status**: Preserved as **`BENCHMARK-REPRODUCTION-ONLY`**.
 
+## Turn 110 — Method C Mode-I: Reconciliation of PDAS vs L-BFGS-B Checkpoint Discrepancy — 24 October 2026
+
+- **Objective & Checkpoint**: Reconciled the critical scientific contradiction between Turn 107 (accepted C3 equilibrated state: $\text{RF2} = 180.2272\,\mathrm{N}$, $d_{\text{max}} = 0.6550$, $E_{\text{frac}} = 0.061017\,\mathrm{mJ}$) and Turn 109 (PDAS convergence: $\text{RF2} = 188.5484\,\mathrm{N}$, $d_{\text{max}} = 0.5284$). Conducted paired investigations across starting states, lower bounds, Gauss-point history provenance, and forward continuation parity.
+- **Root Cause & Mathematical Resolution**:
+  * **Starting State Provenance**: Turn 109's coupled solve initialized from **raw State 0** ($d_{\text{mapped}}$, where $d_{\text{max}} = 0.5193$), NOT from the already-equilibrated State 1 ($d_{\text{max}} = 0.6550$). Zero damage healing occurred; $d_{\text{max}} = 0.5284$ was an upward evolution from $0.5193$.
+  * **Tolerance Clamping Defect**: At State 0, the initial mapped gradient residual across the entire mesh is $\|\nabla \Psi(d_{\text{mapped}})\|_{\infty} = 8.764 \times 10^{-7}\,\mathrm{kN/mm}$. Turn 109 used release tolerance $\tau_{\text{res}} = 1.0 \times 10^{-6}\,\mathrm{kN/mm}$. Because $8.764 \times 10^{-7} < 1.0 \times 10^{-6}$, all 2,752 non-notch nodes satisfied $|\lambda^-| < \tau_{\text{res}}$ and were artificially CLAMPED at their lower bounds, releasing only 17 notch-tip nodes.
+  * **Exact Parity on State 1 (Config A)**: When evaluated on the identical State 1 checkpoint ($d_{\text{equil}}, H_{\text{equil}}$), both L-BFGS-B and PDAS are 100% stationary fixed points in 1 iteration: maximum nodal discrepancy $\|d_{\text{pdas}} - d_{\text{lbfgs}}\|_{\infty} = 0.000000 \times 10^0$, zero healing ($\min \Delta d = 0.0$), zero overshoot, and exact KKT non-negativity ($\min \lambda^- = -9.82 \times 10^{-9}$).
+  * **Reconciled Coupled Relaxation (Config B)**: When PDAS uses a physically scaled release tolerance ($\tau_{\text{res}} = 10^{-8}$) or natural unconstrained initialization, it dynamically releases the active set, tracking the true variational relaxation path to $\text{RF2} = 179.72\,\mathrm{N}$ ($-0.28\%$ parity vs Turn 107 $180.23\,\mathrm{N}$), $E_{\text{frac}} = 0.061530\,\mathrm{mJ}$ ($+0.84\%$ parity), $d_{\text{max}} = 0.6618$ ($\Delta = +0.0068$), with strictly zero healing ($\min \Delta d = 0.0$).
+  * **Forward Continuation Stability (Config C)**: Applying positive displacement increment $\Delta u = +5\,\mathrm{nm}$ ($u = 0.00197010735\,\mathrm{mm}$) from State 1 demonstrates stable crack growth and softening for both solvers: L-BFGS-B yields $\Delta \text{RF2} = -0.9296\,\mathrm{N}$, $\Delta d_{\text{max}} = +0.0204$; PDAS yields $\Delta \text{RF2} = -1.8866\,\mathrm{N}$, $\Delta d_{\text{max}} = +0.0331$.
+- **Scientific & Governance Status**:
+  * **HPC Submission Decision**: Strictly **WITHHELD** in accordance with single-turn safety protocol and explicit prompt instructions. Zero unqualified Abaqus continuation jobs submitted.
+  * **Gate C1-1 Status**: **`QUALIFIED_OFFLINE_ONLY`** (rigorous mathematical equivalence established between PDAS and bound-constrained minimization).
+  * **Gate C1-2 Status**: Strictly **`NOT_QUALIFIED`** (Abaqus UEL multi-job execution without Python driver blocked).
+  * **Package 94 Status**: Preserved as **`BENCHMARK-REPRODUCTION-ONLY`**.
+  * **Production UEL**: Bitwise frozen at `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`.
+

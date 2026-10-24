@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Turn 107 vs Turn 109 discrepancy resolved: Turn 109 initialized from raw State 0 (not State 1) with coarse release tolerance 1e-6 that clamped 2,752 nodes; under identical State 1 both L-BFGS-B and PDAS are stationary fixed points with 0.00 discrepancy, 0 healing, and verified KKT feasibility.",
+  "evidence_sources": {
+    "scripts/validation/run_turn110_resolve_pdas_checkpoint_inconsistency.py": "C0A92FD8FD92631748F916A4A9A45ACD14CEB59F59E5EBB1BD29EFBB8E3CBB2D",
+    "results/validation/mode1_f1597/turn110_pdas_checkpoint_resolution_audit.json": "356041F368801CE2EC9BBA459FFB7E8F5059BF0B70E1B52907DAD189F99F66EA",
+    "tests/unit/test_mode1_f1597_turn110_checkpoint_resolution.py": "84F72B166FEB0B00D166714508C04C40189401B99C136EFD3810BD3F98E3686E"
+  },
+  "verification_passed": true
+}

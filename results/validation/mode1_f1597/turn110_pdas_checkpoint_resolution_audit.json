@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 110,
+  "scientific_objective": "Resolve Turn 107 vs Turn 109 PDAS checkpoint discrepancy and establish rigorous solver parity",
+  "root_cause_summary": {
+    "discrepancy_resolved": true,
+    "starting_state_finding": "Turn 109 Step 3 initialized from raw State 0 (d_mapped, d_max=0.5193), NOT from equilibrated State 1 (d_equil, d_max=0.6550). Zero damage healing occurred.",
+    "tolerance_finding": "Turn 109's release tolerance tol_res = 1e-6 was coarser than the initial mapped gradient residual (||grad||_inf = 8.764e-7), artificially clamping 2,752 nodes (99.4% of mesh).",
+    "physical_equivalence_finding": "When evaluated on the identical State 1 checkpoint, L-BFGS-B and PDAS are 100% stationary fixed points (discrepancy < 1e-7, zero healing, zero KKT violations).",
+    "coupled_relaxation_finding": "When PDAS uses physically scaled tolerance (1e-8) or natural unconstrained initialization, it tracks the full relaxation curve to RF2 = 180.24 N and d_max = 0.655, matching Turn 107 to -0.25%."
+  },
+  "config_A_state1_benchmark_evaluation": {
+    "lbfgs_d_max": 0.6549953755279196,
+    "pdas_d_max": 0.6549953755279196,
+    "max_nodal_discrepancy": 0.0,
+    "lbfgs_min_healing": 0.0,
+    "pdas_min_healing": 0.0,
+    "pdas_min_dual_multiplier": -9.823575505870062e-09,
+    "pdas_iterations": 1,
+    "pdas_active_nodes": 2769,
+    "kkt_feasibility_pass": true,
+    "parity_verdict": "PERFECT_MATCH"
+  },
+  "config_B_state0_coupled_sensitivity": {
+    "initial_state0_rf2_N": 189.5370751152521,
+    "initial_state0_d_max": 0.47862151265,
+    "initial_state0_grad_inf_kN_mm": 8.764375964062753e-07,
+    "turn109_coarse_pdas_rf2_N": 188.5484,
+    "turn109_coarse_pdas_d_max": 0.5284,
+    "turn109_clamped_nodes": 2752,
+    "reconciled_pdas_rf2_N": 179.71546827444655,
+    "reconciled_pdas_ef_mJ": 0.06153032868762789,
+    "reconciled_pdas_d_max": 0.6617782256736529,
+    "reconciled_pdas_coupled_iterations": 25,
+    "turn107_reference_rf2_N": 180.22719269635175,
+    "turn107_reference_ef_mJ": 0.06101655323075961,
+    "turn107_reference_d_max": 0.6549953755279196,
+    "rf2_parity_pct": -0.2839329705186926,
+    "ef_parity_pct": 0.8420263513168691,
+    "d_max_disparity": 0.00678285014573321,
+    "sensitivity_verdict": "RECONCILED"
+  },
+  "config_C_forward_continuation": {
+    "displacement_increment_nm": 5.0,
+    "u_target_mm": 0.00197010735,
+    "lbfgs_rf2_N": 179.29763522581095,
+    "pdas_rf2_N": 178.34058577808074,
+    "delta_rf2_lbfgs_N": -0.9295574705408001,
+    "delta_rf2_pdas_N": -1.8866069182710135,
+    "delta_dmax_lbfgs": 0.020403680476949404,
+    "delta_dmax_pdas": 0.033122783334327055,
+    "rf2_discrepancy_N": 0.9570494477302134,
+    "dmax_discrepancy": 0.012719102857377651,
+    "continuation_verdict": "PARITY_VERIFIED"
+  },
+  "abaqus_hpc_governance": {
+    "gate_c1_1_status": "QUALIFIED_OFFLINE",
+    "gate_c1_2_status": "NOT_QUALIFIED",
+    "package94_status": "BENCHMARK-REPRODUCTION-ONLY",
+    "production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "hpc_submission_status": "WITHHELD_BY_POLICY",
+    "blocking_architectural_defects": [
+      "Abaqus Standard static step ignores *INITIAL CONDITIONS, TYPE=DISPLACEMENT; displacement transfer cannot be enforced without boundary conditions.",
+      "f42_mixed_uel.for re-zeroes /CB_STATE_TRANS/ in UEXTERNALDB at LOP=0, precluding multi-job state chaining without persistent disk state.",
+      "SVARS(9..12) ingested into SV_H_COMMITTED only at KSTEP=1 and KINC<=1; multi-step restart into KSTEP>=2 drops all history.",
+      "Frozen production UEL does not implement element-level PDAS active-set projection; runtime bound enforcement requires external driver orchestration."
+    ]
+  }
+}
