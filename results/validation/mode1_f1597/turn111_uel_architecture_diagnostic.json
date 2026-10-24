@@ -1,0 +1,41 @@
+{
+  "patch_nodes": 9,
+  "shared_node": 5,
+  "connected_elements": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "unconstrained_d5": 0.38750000000000007,
+  "required_lower_bound_d5": 0.5375000000000001,
+  "route_b1_penalty_clamping": {
+    "d5_achieved": 0.5374934548310619,
+    "healing_error": 6.545168938165702e-06,
+    "global_reaction": 0.2618067575233079,
+    "flaw_identified": "Element-local penalty multiplies stiffness by element degree (4x on quad patch) and creates artificial off-diagonal coupling unless shape-function projectors are globally unified."
+  },
+  "exact_reference_pdas": {
+    "d5_exact": 0.5375000000000001,
+    "lambda_minus_d5": 0.26181799728567695,
+    "active_nodes": [
+      5
+    ],
+    "free_nodes": [
+      1,
+      2,
+      3,
+      4,
+      6,
+      7,
+      8,
+      9
+    ],
+    "kkt_complementarity_error": 0.0
+  },
+  "architectural_conclusions": {
+    "can_element_local_clamping_work": false,
+    "reason": "An element in Abaqus UEL only evaluates element-level matrices AMATRX(NDOFEL, NDOFEL) and RHS(NDOFEL). A shared node receives contributions from all incident elements. Local trial projection without global assembly knowledge violates equilibrium and complementarity.",
+    "viable_solution": "Global Nodal Communication via COMMON Block in UEXTERNALDB/UEL. By sharing a global nodal reaction array and nodal active-set mask in COMMON /CB_NODAL_PDAS/, elements can evaluate whether a node is globally active and apply unified row-orthonormalization, or an external driver orchestrates multi-job step progression."
+  }
+}

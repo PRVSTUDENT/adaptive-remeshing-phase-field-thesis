@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 111,
+  "model": "pandey_kumar_mode1",
+  "diagnostic_mesh": "4_element_2x2_quad_patch",
+  "central_shared_node": 5,
+  "production_uel_status": "BITWISE_FROZEN",
+  "production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "experimental_uel_path": "models/pandey_kumar_mode1/104_experimental_irreversible_uel/f42_experimental_irreversible_uel.for",
+  "checkA_irreversibility_retention": {
+    "unconstrained_production_d5": 0.35714285714285715,
+    "unconstrained_healing_magnitude": 0.24285714285714283,
+    "experimental_uel_d5": 0.5999999999997954,
+    "experimental_healing_magnitude": 2.0461410343841635e-13,
+    "dual_multiplier_lambda_minus": 8.183642941096182e-05,
+    "kkt_complementarity_error": 1.67448876325252e-17,
+    "reference_lbfgs_d5": 0.6,
+    "discrepancy_vs_reference": 8.948263796604294e-10,
+    "passed": true
+  },
+  "checkB_active_set_release": {
+    "step1_damage_d5": 0.5999999999997954,
+    "step2_advanced_damage_d5": 0.965250965250965,
+    "damage_advancement_delta": 0.3652509652511696,
+    "free_node_residual_kN_mm": 0.0,
+    "reference_lbfgs_d5": 0.9652509469757561,
+    "discrepancy_vs_reference": 1.827520890174128e-08,
+    "passed": true
+  },
+  "acceptance_criteria_verification": {
+    "pointwise_damage_healing_le_1e8": true,
+    "damage_within_0_1_bounds": true,
+    "free_phase_residual_le_1e6": true,
+    "mechanical_residual_le_1e4": true,
+    "kkt_feasibility_and_complementarity": true,
+    "correct_activation_and_release_on_shared_nodes": true,
+    "monotonic_committed_history": true,
+    "no_state_reset_across_increments": true,
+    "consistent_force_energy_damage_vs_reference": true
+  },
+  "governance_and_gate_status": {
+    "gate_c1_1_status": "QUALIFIED_OFFLINE_ONLY",
+    "gate_c1_2_status": "NOT_QUALIFIED",
+    "package94_status": "BENCHMARK-REPRODUCTION-ONLY",
+    "hpc_submission_status": "WITHHELD_BY_POLICY",
+    "hpc_decision_justification": "Reduced experimental UEL architecture validated on diagnostic patch; full Abaqus UEL compilation and datacheck on cluster pending before production HPC execution."
+  }
+}
