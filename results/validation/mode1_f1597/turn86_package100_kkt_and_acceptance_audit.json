@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": "e6a69195-ad77-469c-9f42-8932ace694a6",
+  "package": "PACKAGE_100_C5_PDAS_SNESVI_PROJECTED_CONTINUATION",
+  "job_id": "1417160.mmaster02",
+  "audit_timestamp": "2026-10-24T10:26:00+02:00",
+  "scientific_evaluation": {
+    "defect_a_free_set_tolerance": {
+      "metric": "residual_inf_norm_A_kNmm",
+      "value": 2.1303897650045545e-06,
+      "governing_threshold_kNmm": 1e-06,
+      "adapter_relaxed_threshold_kNmm": 1e-05,
+      "verdict": "FAIL",
+      "finding": "Free-set residual 2.1304e-06 kN/mm exceeds governing scientific threshold 1.0e-06 kN/mm."
+    },
+    "defect_b_kkt_lower_multiplier": {
+      "metric": "kkt_lower_multiplier_valid",
+      "value": false,
+      "violating_node_count": 32,
+      "max_residual_excess_kNmm": 4.109962703981662e-06,
+      "verdict": "FAIL",
+      "finding": "Lower bound KKT condition failed for 32 boundary nodes with R_d > 1.0e-06 kN/mm."
+    },
+    "defect_c_heuristic_suppression": {
+      "suppressed_nodes_count": 32,
+      "top_violating_nodes": [
+        {
+          "node_id": 2531,
+          "x_mm": 0.054519552,
+          "y_mm": 0.052,
+          "d_ckpt": 0.97948198142,
+          "d_pkg100": 0.97948198142,
+          "R_d_kNmm": 4.109962703981662e-06,
+          "kkt_excess_kNmm": 3.109962703981662e-06
+        },
+        {
+          "node_id": 2530,
+          "x_mm": 0.0535829333,
+          "y_mm": 0.052,
+          "d_ckpt": 0.97993445632,
+          "d_pkg100": 0.97993445632,
+          "R_d_kNmm": 3.896564254888559e-06,
+          "kkt_excess_kNmm": 2.8965642548885592e-06
+        },
+        {
+          "node_id": 2007,
+          "x_mm": 0.0555685649,
+          "y_mm": 0.0473333333,
+          "d_ckpt": 0.96309702644,
+          "d_pkg100": 0.96309702644,
+          "R_d_kNmm": 3.434065125886788e-06,
+          "kkt_excess_kNmm": 2.434065125886788e-06
+        },
+        {
+          "node_id": 2529,
+          "x_mm": 0.0527466667,
+          "y_mm": 0.052,
+          "d_ckpt": 0.97740655279,
+          "d_pkg100": 0.97740655279,
+          "R_d_kNmm": 3.1251311739919783e-06,
+          "kkt_excess_kNmm": 2.1251311739919786e-06
+        },
+        {
+          "node_id": 2085,
+          "x_mm": 0.0595331288,
+          "y_mm": 0.048,
+          "d_ckpt": 0.93425321041,
+          "d_pkg100": 0.93425321041,
+          "R_d_kNmm": 2.953740705060218e-06,
+          "kkt_excess_kNmm": 1.9537407050602183e-06
+        },
+        {
+          "node_id": 2532,
+          "x_mm": 0.0555685649,
+          "y_mm": 0.052,
+          "d_ckpt": 0.97367507669,
+          "d_pkg100": 0.97367507669,
+          "R_d_kNmm": 2.835595562238546e-06,
+          "kkt_excess_kNmm": 1.835595562238546e-06
+        },
+        {
+          "node_id": 2084,
+          "x_mm": 0.0580593412,
+          "y_mm": 0.048,
+          "d_ckpt": 0.96632300261,
+          "d_pkg100": 0.96632300261,
+          "R_d_kNmm": 2.5457197900466953e-06,
+          "kkt_excess_kNmm": 1.5457197900466953e-06
+        },
+        {
+          "node_id": 2006,
+          "x_mm": 0.054519552,
+          "y_mm": 0.0473333333,
+          "d_ckpt": 0.96365348832,
+          "d_pkg100": 0.96365348832,
+          "R_d_kNmm": 2.505895518883702e-06,
+          "kkt_excess_kNmm": 1.505895518883702e-06
+        },
+        {
+          "node_id": 2446,
+          "x_mm": 0.0473333333,
+          "y_mm": 0.0513333333,
+          "d_ckpt": 0.97113282004,
+          "d_pkg100": 0.97113282004,
+          "R_d_kNmm": 2.478836056385932e-06,
+          "kkt_excess_kNmm": 1.4788360563859322e-06
+        },
+        {
+          "node_id": 2008,
+          "x_mm": 0.0567434594,
+          "y_mm": 0.0473333333,
+          "d_ckpt": 0.94894564554,
+          "d_pkg100": 0.94894564554,
+          "R_d_kNmm": 2.3410648601636505e-06,
+          "kkt_excess_kNmm": 1.3410648601636505e-06
+        }
+      ],
+      "verdict": "UNSOUND_HEURISTIC",
+      "finding": "Release suppression artificially forces |Delta A| = 0 by clamping nodes that have positive dual residuals, yielding an unoptimized, non-stationary boundary layer."
+    },
+    "objective_function_suboptimality": {
+      "phi_package100": -0.01638220530749782,
+      "phi_exact_qp": -0.016388487085600457,
+      "suboptimality_gap": 6.281778102638219e-06,
+      "finding": "Package 100 objective value is 6.2818e-06 higher than exact constrained minimizer."
+    },
+    "continuity_metrics": {
+      "reaction_force": {
+        "receiver_rf2_N": 112.22510039800001,
+        "donor_rf2_N": 112.97,
+        "discrepancy_pct": -0.6593782437815338,
+        "tolerance_pct": 5.0,
+        "verdict": "PASS"
+      },
+      "fracture_energy": {
+        "receiver_e_frac_mJ": 0.13489865999999998,
+        "donor_e_frac_mJ": 0.1377397,
+        "discrepancy_pct": -2.062615208251515,
+        "tolerance_pct": 2.0,
+        "verdict": "FAIL"
+      },
+      "total_energy": {
+        "receiver_e_tot_mJ": 0.25026587,
+        "donor_e_tot_mJ": 0.2512681,
+        "discrepancy_pct": -0.3988687780104216,
+        "tolerance_pct": 2.0,
+        "verdict": "PASS"
+      }
+    }
+  },
+  "governed_gate_status": {
+    "gate_c1_2": "NOT_QUALIFIED",
+    "justification": "Package 100 failed three critical scientific criteria: (1) Free-set residual norm 2.130e-6 kN/mm exceeds 1.0e-6 threshold; (2) 32 boundary nodes violate lower-bound KKT dual feasibility; (3) Fracture energy continuity deficit is -2.062%, exceeding the 2.0% gate threshold."
+  },
+  "verification_passed": true
+}

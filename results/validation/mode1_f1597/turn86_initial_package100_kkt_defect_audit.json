@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": "e6a69195-ad77-469c-9f42-8932ace694a6",
+  "turn_number": 86,
+  "status": "INITIAL_AUDIT_COMPLETE",
+  "package": "PACKAGE_100_C5_PDAS_SNESVI_PROJECTED_CONTINUATION",
+  "job_id": "1417160.mmaster02",
+  "investigation_scope": "Independent KKT Correctness and False Acceptance Prevention Audit",
+  "identified_defects": {
+    "defect_a_tolerance": {
+      "code_line": "if n_changes == 0 and res_inf_A <= 1.0e-5 and raw_heal_count == 0 and raw_overshoot_count == 0:",
+      "issue": "Declared tolerance 1.0e-5 kN/mm is relaxed by one order of magnitude above the governing Mode-I scientific threshold TAU_RES = 1.0e-6 kN/mm.",
+      "scientific_verdict": "REJECT_RELAXED_TOLERANCE"
+    },
+    "defect_b_missing_kkt_predicate": {
+      "code_line": "kkt_lower_valid = bool(np.all(R_current[L_k] <= TAU_RES)); kkt_upper_valid = bool(np.all(R_current[U_k] >= -TAU_RES))",
+      "issue": "kkt_lower_valid and kkt_upper_valid are computed as telemetry metrics but are omitted from the termination decision predicate.",
+      "scientific_verdict": "REJECT_UNENFORCED_KKT"
+    },
+    "defect_c_heuristic_suppression": {
+      "code_line": "release_L = release_L & ~suppressed",
+      "issue": "Permanent release suppression of chattering boundary nodes with positive dual residual R_d > 1.0e-6 kN/mm leaves active KKT violations at the lower bound, achieving active-set stationarity (|Delta A| = 0) at the expense of true variational inequality optimality.",
+      "scientific_verdict": "REJECT_HEURISTIC_SUPPRESSION_IF_KKT_VIOLATED"
+    }
+  },
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "verification_passed": true
+}
