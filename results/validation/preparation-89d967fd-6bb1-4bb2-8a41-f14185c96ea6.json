@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Corrected qualification criteria to enforce Authentic Abaqus Donor as the sole authoritative reference, proving that previous candidates (point interpolation -2.11%, L2 projection -2.16%, lumped L2 -3.19%, raw H1 damage overshoot max 1.00085) strictly fail. Formulated and solved the exact bound-constrained H^1 projection (min 1/2 d^T A d - b^T d s.t. d_ckpt <= d <= 1.0) with complete KKT stationarity (0 multiplier violations, free gradient norm 9.54e-9), achieving fracture energy E_frac = 0.136659 mJ (-0.7822% error vs Abaqus donor, passing the <= 2.0% gate) and reaction force RF2 = 114.2252 N (+1.1105% error, passing the <= 5.0% gate) with zero healing and zero overshoot. Constructed and technically qualified Package 103 (M1_C5_PACKAGE103_H1_PILOT) with bitwise frozen UEL, verified 3-line card history initialization (17,760 GPs), and remote Abaqus 2023 datacheck Exit 0, submitting Job 1417180.mmaster02.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/c4_c5_projection_comparison.json": "082510B014C13CD768FF1C8D82AD870AD31782A163D7711178D1EE7C78BDF528",
+    "scripts/validation/evaluate_c4_to_c5_l2_projection.py": "9CC34F6BF0E1434B6B65672060D48682E6DE894378AC6FA8D71E52F124616C52",
+    "tests/unit/test_mode1_f1597_turn97_h1_qualification.py": "A3D11B6AF6E26CB68C71EC1784B9946B58A84525154F66DF65911B024548BBC8",
+    "models/pandey_kumar_mode1/103_c5_h1_transfer_pilot/PACKAGE_MANIFEST.json": "3D72A306FF3CBF5B1E3ABFEBC03E55AAF8D35CAC93CBDA673EA5DD9F3B6A8426",
+    "models/pandey_kumar_mode1/103_c5_h1_transfer_pilot/M1_C5_PACKAGE103_H1_PILOT_AUTHORIZATION.json": "D205D09AF7934801D8A9AFD8E491DB55C0D9C17BBECA2D740E045713933933A1"
+  },
+  "verification_passed": true
+}
