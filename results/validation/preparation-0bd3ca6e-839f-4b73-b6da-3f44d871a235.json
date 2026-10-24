@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Reconciled and evaluated authentic Package 102 PBS job 1417164.mmaster02. Abaqus completed Exit 0 with strict 0 healing nodes and 0 overshoot nodes. However, reaction force RF2=98.79 N (error -12.55% vs donor 112.97 N) and fracture energy E_frac=0.149309 mJ (error +8.40% vs donor 0.137737 mJ) failed continuity thresholds. Independent KKT stationarity audit revealed free-set residual ||R_d||_inf,A=1.8267e-06 kN/mm. Proved that an independently optimized phase solution drives excessive local damage dissipation (+22.55% local energy surge), over-softening the crack band. Gate C1-2 strictly maintained as NOT_QUALIFIED; follow-on forward continuation withheld.",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "pbs_job_id": "1417164.mmaster02",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/M1_C5_PACKAGE102_STAGGERED_AUTHORIZATION.json": "824DC54124901B3883DD5D916B06A5BB29EC6106D8D4155F274FC0EDB8826861",
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/M1_C5_PACKAGE102_STAGGERED_REEQUIL.inp": "3C96437397315D9507888420C82E9899581C40C4AB51EE59ADB5EBD757076D22",
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/M1_C5_PACKAGE102_STAGGERED_REEQUIL_DC.dat": "DDE36A0ADA1777CD39C331C523D8FA29DC322972FA8E28BF31D04E5644BF31A4",
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/PACKAGE_MANIFEST.json": "AAC9C1E5B41C4AA2C0E6FF08EAEAAD1EDABB8B50D7956D976E10C9AFB200270C",
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/pdas_trial_evaluation.json": "96A513A178B611F08B5B75661C159A27B0FB4EB37D2F84588D80E1C86DBF1456",
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/staggered_execution_adapter.py": "890E76FB7A4F00E30C301F2406FE73E29DB0E122368A57C48E303B9B44764FB4",
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/submit_M1_C5_PACKAGE102_STAGGERED_PILOT.pbs": "D87972AAE1981287D46BBBAC64A51AF6BBF41F0D16E6B4E126F8A08D3D641EFB",
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/turn89_c5_staggered_d_opt.npy": "E438CB5D1EABEA98981C8E4FD82B86BBBADD5C59AD12F6D9DC5352A57D8CE7BE",
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/turn89_c5_updated_h_table.csv": "2E62AED39DB0DB00CDF25C1890A4DC60D3D157FB2F98740DB4F3FC8FFD9B002D",
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/uel_energy_balance.csv": "E3A449C582AB61A2CCA4541921056FA6CA738383B76D98177A37E1EBDCE0F168",
+    "results/validation/mode1_f1597/turn90_initial_pkg102_reconciliation.json": "1F3D391F9C4D7D96ED7718BEED25F7C8F5116C47947F2C1ED8BC38AB6B3132BD",
+    "results/validation/mode1_f1597/turn90_pkg102_detailed_diagnosis.json": "B75656E700866F63E02B3992D156CC439247FE56608CF254A5A364E86EA340BB",
+    "results/validation/mode1_f1597/turn90_pkg102_kkt_stationarity.json": "FB08B0F4F5A2E96A049DF7F07D9EA63418857FCCC3F615A67C1BF57F44A66D58",
+    "tests/unit/test_mode1_f1597_turn90_package102_validation.py": "FDB26EEE00BA28CCE13361046A36807B5FEBC20842301E591639C5669A5BA290"
+  },
+  "verification_passed": true
+}

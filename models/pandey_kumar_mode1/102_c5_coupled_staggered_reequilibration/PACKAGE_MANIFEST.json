@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "package_id": "PACKAGE_102",
+  "name": "mode1_package102_c5_staggered_reequil",
+  "description": "Package 102 C4->C5 Method C Coupled Staggered Re-Equilibration on Mesh C5 at Matched Checkpoint Displacement u=0.002052 mm",
+  "timestamp": "2026-10-24T11:23:00+02:00",
+  "model_tree": "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_package102_c5_staggered_reequil",
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "governed_gate_c1_2": "NOT_QUALIFIED",
+  "files": {
+    "M1_C5_PACKAGE102_STAGGERED_REEQUIL.inp": "3c96437397315d9507888420c82e9899581c40c4ab51ee59adb5ebd757076d22",
+    "M1_C5_PACKAGE102_STAGGERED_REEQUIL_DC.dat": "dde36a0ada1777cd39c331c523d8fa29dc322972fa8e28bf31d04e5644bf31a4",
+    "candidate_c5_frame7_mapped_state_table.csv": "713c076501ca6098510fd3be8917896ec31b4a42cedc7977ea0c33d28fb00b3a",
+    "candidate_crack_band_mesh_c5.inp": "4f68e1d5977116a9bbcdd86039059692e8d4b8298c944b8d96907f7b61bedc75",
+    "extract_pdas_subproblem_odb.py": "3aed5089aa6d66208b9a8e385fa9462b4d3bc5aa23bdfd8a08d473aa73a8fa5c",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "run_pkg102_datacheck.sh": "128338f57a4278b06553c5a09f9d41bdf8664c4162224f59d14aa4eaea227313",
+    "staggered_execution_adapter.py": "890e76fb7a4f00e30c301f2406fe73e29db0e122368a57c48e303b9b44764fb4",
+    "submit_M1_C5_PACKAGE102_STAGGERED_PILOT.pbs": "d87972aae1981287d46bbbac64a51af6bbf41f0d16e6b4e126f8a08d3d641efb",
+    "turn89_c5_staggered_d_opt.npy": "e438cb5d1eabea98981c8e4fd82b86bbbadd5c59ad12f6d9dc5352a57d8ce7be",
+    "turn89_c5_updated_h_table.csv": "2e62aed39db0db00cdf25c1890a4dc60d3d157fb2f98740db4f3fc8ffd9b002d"
+  }
+}

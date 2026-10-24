@@ -1,0 +1,42 @@
+#!/bin/bash
+#PBS -N M1_C5_P102_STAG
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=08:00:00
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratch9/pr21vyci/runs/mode1_package102_c5_staggered_reequil/pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_package102_c5_staggered_reequil"
+cd "${RUN_DIR}"
+
+export NOTIFICATION_CONFIG="${HOME}/.config/adaptive-remeshing/notifications.env"
+if [ -f "./job_notifications.sh" ]; then
+    source "./job_notifications.sh"
+    notification_load_config
+    notification_install_terminal_trap
+    notify_start "M1_C5_PACKAGE102_STAGGERED_PILOT" "mode1_package102_c5_staggered_reequil"
+fi
+
+if ! type module >/dev/null 2>&1; then
+    source /etc/profile.d/lmod.sh 2>/dev/null || source /usr/share/Modules/init/bash 2>/dev/null || true
+fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7
+
+command -v ifort
+
+export OMP_NUM_THREADS=1
+
+echo "Starting Package 102 Coupled Staggered Re-Equilibration on $(hostname) at $(date)..."
+
+python3 staggered_execution_adapter.py \
+    --work-dir "${RUN_DIR}" \
+    --job-name M1_C5_PACKAGE102_STAGGERED_REEQUIL
+
+EXIT_CODE=$?
+echo "Package 102 Staggered Pilot finished with exit code ${EXIT_CODE} at $(date)"
+exit ${EXIT_CODE}
