@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 98,
+  "authentic_deliverables": {
+    "job_name": "M1_C5_PACKAGE103_H1_PILOT",
+    "status": "COMPLETED_EXIT0",
+    "solver_iterations": 2,
+    "solver_cutbacks": 0,
+    "rf2_N": 112.99864947795868,
+    "donor_rf2_N": 112.97070980072021,
+    "rf2_error_pct": 0.024731788697928705,
+    "gate_rf_pass": true,
+    "e_frac_mJ": 0.13665934,
+    "donor_e_frac_mJ": 0.13773671,
+    "e_frac_error_pct": -0.7821952477302687,
+    "gate_e_frac_pass": true,
+    "e_elas_mJ": 0.11593662,
+    "donor_e_elas_mJ": 0.11590736,
+    "e_elas_error_pct": 0.0252442985501552,
+    "e_total_mJ": 0.25259596,
+    "donor_e_total_mJ": 0.25364406,
+    "e_total_error_pct": -0.4132168519932997,
+    "gate_e_total_pass": true,
+    "overall_status": "PASS"
+  },
+  "disjoint_active_set_partition": {
+    "total_physical_nodes": 4610,
+    "set_U_upper_active_count": 61,
+    "set_L_lower_active_count": 416,
+    "set_A_free_count": 4133,
+    "sum_partition": 4610,
+    "is_disjoint": true,
+    "is_exhaustive": true
+  },
+  "damage_bounds_and_irreversibility": {
+    "d_min": 0.003880314472,
+    "d_max": 1.0,
+    "min_delta_d": 0.0,
+    "max_overshoot": 0.0,
+    "bounds_pass": true,
+    "zero_healing_pass": true
+  },
+  "gauss_point_history_layer_audit": {
+    "total_gauss_points": 17760,
+    "min_history_H": 1.4407833331e-07,
+    "max_history_H": 1752.6559427,
+    "decay_points": 0,
+    "nan_inf_points": 0,
+    "history_monotonicity_pass": true
+  },
+  "overall_qualification": "PASS"
+}
