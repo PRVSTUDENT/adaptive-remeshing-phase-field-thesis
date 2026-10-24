@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "aea87509-0713-40a9-86b5-672e70a96cca",
+  "verification_passed": true,
+  "finding": "Discovered the exact cause of the history mismatch and continuity failures in Package 102: Abaqus *INITIAL CONDITIONS, TYPE=SOLUTION only reads up to 8 entries per data line, silently ignoring variables on single lines beyond field 8. In M1_C5_PACKAGE102_STAGGERED_REEQUIL.inp, all 13 fields were on one line, so SVARS(9..12) remained 0.0, zeroing out SV_H_COMMITTED and SV_H_TRIAL on all 4,440 quads and causing SDV2 to match instantaneous POS_M(u) instead of the transferred history field.",
+  "evidence_sources": {
+    "scripts/validation/audit_package102_history.py": "F25A6686881C66A078DA5CC113F6A545C1CECBE773CB105E4BAB1181A06A4D95",
+    "scripts/validation/verify_initial_conditions_syntax.py": "5175BF2EA5A2A220EDDFC297C0B30C153C4841A9E46B57B10325CF74200E9813",
+    "results/validation/mode1_f1597/turn91_initial_history_loss_discovery.json": "07BBC93EA48C27BB0C449FECA958E9FF3F52B7DD42B247D1E06958F125F2AD0A",
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/M1_C5_PACKAGE102_STAGGERED_REEQUIL.inp": "3C96437397315D9507888420C82E9899581C40C4AB51EE59ADB5EBD757076D22",
+    "models/pandey_kumar_mode1/candidate_receiver_c2_corrected_reequilibration.inp": "BE6D0EBD97436C353726370ED22D0040357521A9CAFFEBAD9DA77E5A9C8187B4"
+  }
+}
