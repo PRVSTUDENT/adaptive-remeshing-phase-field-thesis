@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "e6a69195-ad77-469c-9f42-8932ace694a6",
+  "finding": "Turn 86 Package 100 KKT correctness audit completed: reconciled authentic solver outputs from finished Job 1417160.mmaster02 (Exit 0, 13 iterations); proved that Package 100 achieved apparent convergence via three mathematical defects: (1) free-set residual norm 2.130e-6 kN/mm exceeds governing scientific threshold 1.0e-6 kN/mm; (2) termination predicate omitted lower-bound KKT check (kkt_lower_multiplier_valid was false); and (3) heuristic release suppression clamped 32 boundary nodes with positive dual residuals (R_d up to 4.110e-6 kN/mm), stopping at an unoptimized state with objective value 6.282e-6 above exact QP minimizer; additionally verified that fracture energy continuity deficit (-2.063% vs Case A donor) fails the 2.0% gate; strictly maintained Gate C1-2 as NOT_QUALIFIED; and verified rejection via unit test suite tests/unit/test_mode1_f1597_turn86_kkt_verification.py.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/turn86_initial_package100_kkt_defect_audit.json": "F0438517A747BE1A4980D2BD404D20A07E8A501DFECA159B59F8015B853E3E6A",
+    "results/validation/mode1_f1597/turn86_package100_kkt_and_acceptance_audit.json": "8D5D1AD144FEB4BABC92E7C5C4BB354DC3E51D968AFDC938AC9509838FEB7FF6",
+    "tests/unit/test_mode1_f1597_turn86_kkt_verification.py": "31B6C82BAEDD6AB48356F510B3ACB30B83C65C850AB7FDAC57BE21E3EF7A544B",
+    "scripts/validation/audit_package100_kkt_and_acceptance.py": "765F249980F4050A2FD6E9371E88ACD83E72BE9D9DF35E791A514A15EDEEDE66"
+  },
+  "verification_passed": true
+}

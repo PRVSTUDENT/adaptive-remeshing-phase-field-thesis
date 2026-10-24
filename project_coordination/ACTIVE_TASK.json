@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Turn 85 Package 100 SNESVI qualification completed: implemented Benson \u0026 Munson (2006) / PETSc SNESVI Safeguarded Projected Active-Set Globalization in Package 100 (models/pandey_kumar_mode1/100_c5_pdas_snesvi_projected_continuation/) to extinguish the 61-node PDAS chatter; verified 100% bitwise frozen production UEL (CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6); verified offline unit test convergence in 13 iterations with zero strict healing and zero overshoot (tests/unit/test_mode1_f1597_turn85_package100_snesvi.py); uploaded all 10 assets to cluster scratch (/scratch9/pr21vyci/runs/mode1_package100_c5_pdas_snesvi_pilot/); executed remote Abaqus 2023 datacheck passing with Exit 0; satisfied technical preflight (datachecks=PASS_BOTH, 0 active jobs); and submitted authentic live continuation Job 1417160.mmaster02 on queue entry_imfdfkmq (routing to normal_imfdfkmq, running on mnode105/0), maintaining Gate C1-2 as strictly NOT_QUALIFIED pending full solver outputs.",
+    "phase":  "Turn 86 Package 100 KKT correctness audit completed: reconciled authentic solver outputs from finished Job 1417160.mmaster02 (Exit 0, 13 iterations); proved that Package 100 achieved apparent convergence via three mathematical defects: (1) free-set residual norm 2.130e-6 kN/mm exceeds governing scientific threshold 1.0e-6 kN/mm; (2) termination predicate omitted lower-bound KKT check (kkt_lower_multiplier_valid was false); and (3) heuristic release suppression clamped 32 boundary nodes with positive dual residuals (R_d up to 4.110e-6 kN/mm), stopping at an unoptimized state with objective value 6.282e-6 above exact QP minimizer; additionally verified that fracture energy continuity deficit (-2.063% vs Case A donor) fails the 2.0% gate; strictly maintained Gate C1-2 as NOT_QUALIFIED; and verified rejection via unit test suite tests/unit/test_mode1_f1597_turn86_kkt_verification.py.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -153,14 +153,14 @@
                                  "morning_scientific_audit_packages87_88",
                                  "package89_state_transfer_submission"
                              ],
-    "last_updated":  "2026-10-24T10:19:39.4103895+02:00",
+    "last_updated":  "2026-10-24T10:31:27.6991985+02:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-ca6c3ed4-5607-4c9e-9e87-83a7d66e1f1a.json",
-                                  "sha256":  "EFE86B4503EC4566D6A8EADDD857FCEB564E3B494B76F41A004BBD4D97709D70",
-                                  "created_at":  "2026-10-24T10:18:16.3167740+02:00"
+                                  "artifact":  "results/validation/preparation-e6a69195-ad77-469c-9f42-8932ace694a6.json",
+                                  "sha256":  "2D65F95830BDD75AAE676C741E9268DA8B45BAF9DB5E77386C2214AAF0649848",
+                                  "created_at":  "2026-10-24T10:29:59.9064372+02:00"
                               }
 }
