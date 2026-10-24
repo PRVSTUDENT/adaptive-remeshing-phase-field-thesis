@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 98 Revision 1 (M1_C5_PACKAGE98_R1_PDAS_PILOT) successfully qualified and submitted to cluster under Job ID 1417028.mmaster02; exact Dirichlet boundary invariant preservation (d[L]=d_ckpt, d[U]=1.0) eliminates active-set chatter, verified via unit tests and running live Abaqus 2023 subproblem on mnode102.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/98_r1_c5_pdas_chatter_repair_pilot/M1_C5_PACKAGE98_R1_PDAS_PILOT_AUTHORIZATION.json": "0D4CD1C52F7A2774A084C54BCF6525E4CCBF44185B9DB2984D7E1A68405425C8",
+    "models/pandey_kumar_mode1/98_r1_c5_pdas_chatter_repair_pilot/M1_C5_PACKAGE98_R1_PDAS_PILOT_PREFLIGHT_REPORT.json": "D7E543CDA825B0BF4A19DAB41834B105CEA40A69A8A178A3BD486F1522248E95",
+    "models/pandey_kumar_mode1/98_r1_c5_pdas_chatter_repair_pilot/PACKAGE_MANIFEST.json": "FF6C9B664C1FDB1F38DEA93A4C303198FEBE48DF31EADE4C844DD3C08ADC85C4",
+    "models/pandey_kumar_mode1/98_r1_c5_pdas_chatter_repair_pilot/pdas_cluster_execution_adapter.py": "E25DD389EFC91BF4C78F35B42BD702B49E48AF66C4908EA669D895AF038F442B",
+    "models/pandey_kumar_mode1/98_r1_c5_pdas_chatter_repair_pilot/submit_M1_C5_PACKAGE98_R1_PDAS_PILOT.pbs": "BCD602A56DF7AB1E355600D0A71B1D7B0AE22BB26E2D038B5D4F670545F84F97",
+    "tests/unit/test_mode1_f1597_package98_r1_adapter.py": "9B8D3A9D1E13E3D1A50C743884E0E515E350D06339A9F783B9A585E20F329B22",
+    "tests/unit/test_mode1_f1597_turn79_pdas_chatter_repair.py": "FA385924CA2E7793BFDBDBECDDE530DB00EB25A3BC91731B7F8A71AACBD103FC"
+  },
+  "verification_passed": true
+}
