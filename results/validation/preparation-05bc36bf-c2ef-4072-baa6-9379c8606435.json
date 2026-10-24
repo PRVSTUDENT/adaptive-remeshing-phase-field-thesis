@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": "05bc36bf-c2ef-4072-baa6-9379c8606435",
+  "finding": "Verified authentic solver deliverables for Package 102-R1 Job 1417172.mmaster02: all 17,760 integration points successfully ingested and preserved transferred history without loss or decay (0 points with decay < -1e-4; 1,510 active-zone points experienced physical monotonic growth H_acc >= H_new). Pointwise damage irreversibility (0 healing nodes) and upper bound (max d = 1.0, 0 overshoot nodes) were strictly satisfied across all 4,610 nodes. However, because d was held fixed at d_opt during the displacement step, the mechanical stiffness and RF2 (98.79 N, error -12.55%) remained decoupled from H; proving that true coupled stationarity requires alternating mechanical-phase iterations rather than further history-syntax repairs.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/102_r1_c5_coupled_staggered_history_repaired/package102_r1_deliverable_evaluation.json": "8D4E7509953163462FA92B150D2ADEE892D89F15567C35C46E780F71027FF7F0",
+    "models/pandey_kumar_mode1/102_r1_c5_coupled_staggered_history_repaired/M1_C5_PACKAGE102_R1_STAGGERED_extracted.csv": "8C45E756A8397CC8C359166C564F364F3C58B00028329E8940B4AF3E76723350",
+    "models/pandey_kumar_mode1/102_r1_c5_coupled_staggered_history_repaired/pdas_trial_evaluation.json": "925C60EE020703013A7313FF1EDA66E2DDF9C1FCEF16AE6F65DAF5C2C96F5592",
+    "models/pandey_kumar_mode1/102_r1_c5_coupled_staggered_history_repaired/M1_C5_PACKAGE102_R1_STAGGERED.dat": "9D602B80A52189D35E7C7B6605F6D6B7FC4B0F303E1ABBF209647ED1A59AA3B0",
+    "scripts/validation/audit_package102_r1_history.py": "9BF9FC58F66508029175FC0FCC2E33689EA9F821D6CC1B0DFA9AD46E6FEB5BC9",
+    "scripts/validation/evaluate_package102_r1_deliverables.py": "A4031BFAE8D41C146CC1AFF9410B0DB4BDF493A5059F2FAEF6987AB132A3FD96"
+  },
+  "verification_passed": true
+}
