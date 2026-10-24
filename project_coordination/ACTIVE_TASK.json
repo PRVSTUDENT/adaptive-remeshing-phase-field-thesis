@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Evidence recovery of interrupted turn 115 successfully completed: genuine Abaqus 2023 execution on scratch9 completed Stage A same-load re-equilibration (RF2 = 184.85 N, +2.57% parity PASS) and Stage B forward continuation across 200 increments to final displacement u = 0.001970 mm with zero wake healing (\u003e1e-5: 0), continuous physical softening from 184.85 N to 1.11 N, and 100% bitwise frozen production UEL.",
+    "phase":  "Turn 117 scientific evaluation of Candidate C3 Abaqus continuation evidence: Stage A same-load re-equilibration (RF2 = 184.85 N, Ef = 0.061015 mJ) satisfies Gate C1-1 parity (+2.57% force, -0.0027% energy PASS). In Stage B (+5 nm), Abaqus completed 200 increments with zero cutbacks and 100% pointwise irreversibility (0 healing elements), but load dropped to 1.11 N (-99.4% vs 179.30 N reference) with d_max = 1.001 due to intra-increment iteration history ratcheting in the monolithic UEL; Stage B continuation is strictly FAILED_SCIENTIFIC_CONTINUITY. PBS execution withheld; production UEL bitwise frozen.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -156,14 +156,14 @@
                                  "morning_scientific_audit_packages87_88",
                                  "package89_state_transfer_submission"
                              ],
-    "last_updated":  "2026-10-24T20:11:24.4320074+02:00",
+    "last_updated":  "2026-10-24T20:25:02.7688867+02:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-c0480a93-620a-410c-8bf2-face6434c4a7.json",
-                                  "sha256":  "9A4BA0C6824D19564363397DB176475406530AA78722A55F8EF0CF3230CBE767",
-                                  "created_at":  "2026-10-24T20:10:54.1649112+02:00"
+                                  "artifact":  "results/validation/preparation-5b8d2fdb-206e-47ee-a97a-0a488880a563.json",
+                                  "sha256":  "A989388AEF2366C1E91B99DD2DC129F37EA2BCE6737D845583D2832BCCC56F23",
+                                  "created_at":  "2026-10-24T20:23:11.3963251+02:00"
                               }
 }

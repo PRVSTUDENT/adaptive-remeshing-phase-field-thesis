@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "5b8d2fdb-206e-47ee-a97a-0a488880a563",
+  "finding": "Turn 117 scientific evaluation of Candidate C3 Abaqus continuation evidence: Stage A same-load re-equilibration (RF2 = 184.85 N, Ef = 0.061015 mJ) satisfies Gate C1-1 parity (+2.57% force, -0.0027% energy PASS). In Stage B (+5 nm), Abaqus completed 200 increments with zero cutbacks and 100% pointwise irreversibility (0 healing elements), but load dropped to 1.11 N (-99.4% vs 179.30 N reference) with d_max = 1.001 due to intra-increment iteration history ratcheting in the monolithic UEL; Stage B continuation is strictly FAILED_SCIENTIFIC_CONTINUITY. PBS execution withheld; production UEL bitwise frozen.",
+  "evidence_sources": {
+    "scripts/validation/evaluate_c3_continuation_turn117.py": "B47A47DFA373D0DA546DED2E84135FD4D3EA6509EC64620616C83F4CC97B96A1",
+    "results/validation/mode1_f1597/turn117_c3_continuation_evaluation_audit.json": "DA295EBEF9CC3DFA0CAA6E26F31486169A3C1479355047CCC609A96B659B06BA",
+    "results/validation/mode1_f1597/turn115_continuation_evidence_reconciliation.json": "CD35263F2D6446FEC88426C8EB753EBFC420313D9E426655F23C480F84D51F53",
+    "models/pandey_kumar_mode1/105_c3_irreversible_continuation/f42_experimental_irreversible_uel.for": "8563460AE568D086DFF870BD117CBA79D5B6ED4CF7F0F70EA6D8D6205EDC0487",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}
