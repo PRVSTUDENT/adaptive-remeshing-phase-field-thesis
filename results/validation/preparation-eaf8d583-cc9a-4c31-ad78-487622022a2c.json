@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Implemented, technically qualified, and submitted Package 102 coupled staggered re-equilibration job 1417164.mmaster02 on C5 crack-band mesh at matched displacement u=0.002052 mm without additional loading. Preflight checks confirmed: datachecks=PASS_BOTH, bitwise frozen UEL CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6 preserved, all 4,610 physical nodes prescribed to variational inequality phase minimizer d_opt with zero healing and zero overshoot, and strictly monotonic history table H_new verified across all 17,760 integration points.",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "pbs_job_id": "1417164.mmaster02",
+  "queue": "entry_imfdfkmq",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/M1_C5_PACKAGE102_STAGGERED_AUTHORIZATION.json": "824DC54124901B3883DD5D916B06A5BB29EC6106D8D4155F274FC0EDB8826861",
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/M1_C5_PACKAGE102_STAGGERED_REEQUIL.inp": "3C96437397315D9507888420C82E9899581C40C4AB51EE59ADB5EBD757076D22",
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/M1_C5_PACKAGE102_STAGGERED_REEQUIL_DC.dat": "DDE36A0ADA1777CD39C331C523D8FA29DC322972FA8E28BF31D04E5644BF31A4",
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/PACKAGE_MANIFEST.json": "AAC9C1E5B41C4AA2C0E6FF08EAEAAD1EDABB8B50D7956D976E10C9AFB200270C",
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/staggered_execution_adapter.py": "890E76FB7A4F00E30C301F2406FE73E29DB0E122368A57C48E303B9B44764FB4",
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/submit_M1_C5_PACKAGE102_STAGGERED_PILOT.pbs": "D87972AAE1981287D46BBBAC64A51AF6BBF41F0D16E6B4E126F8A08D3D641EFB",
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/turn89_c5_staggered_d_opt.npy": "E438CB5D1EABEA98981C8E4FD82B86BBBADD5C59AD12F6D9DC5352A57D8CE7BE",
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/turn89_c5_updated_h_table.csv": "2E62AED39DB0DB00CDF25C1890A4DC60D3D157FB2F98740DB4F3FC8FFD9B002D",
+    "tests/unit/test_mode1_f1597_turn89_staggered_coupling.py": "8234BFE93F7172185926F726A7BAF40AD17D3308371AD239FFC97F6A1E44D0C2"
+  },
+  "verification_passed": true
+}
