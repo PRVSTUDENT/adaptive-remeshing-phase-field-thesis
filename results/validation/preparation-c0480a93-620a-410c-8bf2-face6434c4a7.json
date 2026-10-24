@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "c0480a93-620a-410c-8bf2-face6434c4a7",
+  "finding": "Evidence recovery of interrupted turn 115 successfully completed: genuine Abaqus 2023 execution on scratch9 completed Stage A same-load re-equilibration (RF2 = 184.85 N, +2.57% parity PASS) and Stage B forward continuation across 200 increments to final displacement u = 0.001970 mm with zero wake healing (>1e-5: 0), continuous physical softening from 184.85 N to 1.11 N, and 100% bitwise frozen production UEL.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/turn115_stage_a_qualification_audit.json": "901F94340118BB4295AE770B57669AEF37326DF56A0F6D455BB07A804AF0CB62",
+    "results/validation/mode1_f1597/turn115_continuation_evidence_reconciliation.json": "CD35263F2D6446FEC88426C8EB753EBFC420313D9E426655F23C480F84D51F53",
+    "models/pandey_kumar_mode1/105_c3_irreversible_continuation/M1_C3_IRREV_CONTINUATION.inp": "82159F0EB597ABD50724744CA60C4E4D94755131E22C84B851A9AB3200EA9CE3",
+    "models/pandey_kumar_mode1/105_c3_irreversible_continuation/f42_experimental_irreversible_uel.for": "8563460AE568D086DFF870BD117CBA79D5B6ED4CF7F0F70EA6D8D6205EDC0487",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}
