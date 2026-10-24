@@ -1,0 +1,39 @@
+#!/bin/bash
+#PBS -N M1_DIAG_4ELEM
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratch9/pr21vyci/runs/mode1_experimental_diagnostic_patch/pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_experimental_diagnostic_patch"
+cd "${RUN_DIR}"
+
+export JOB_NAME="M1_DIAGNOSTIC_4ELEM_IRREV"
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+source "${RUN_DIR}/job_notifications.sh"
+notification_load_config
+notification_install_terminal_trap
+notify_start
+
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+
+JOB_NAME="M1_DIAGNOSTIC_4ELEM_IRREV"
+INP_NAME="M1_DIAGNOSTIC_4ELEM_IRREV.inp"
+USER_SUB="f42_experimental_irreversible_uel.for"
+
+test ! -e "${JOB_NAME}.lck"
+
+echo "Starting Abaqus/Standard 2023 4-Element Diagnostic Irreversible UEL..."
+abaqus job="${JOB_NAME}" input="${INP_NAME}" user="${USER_SUB}" cpus=1 interactive
+EXIT_CODE=$?
+
+echo "Abaqus Finished with Exit Code: ${EXIT_CODE}"
+exit ${EXIT_CODE}

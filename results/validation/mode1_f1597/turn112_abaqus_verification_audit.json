@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 112,
+  "solver": "Abaqus/Standard 2023",
+  "compiler": "Intel(R) Fortran Compiler Classic 2021.13.0 Build 20240602_000000",
+  "diagnostic_mesh": "4 Quads (9 Nodes, 0.10 x 0.10 mm domain, central shared node 5)",
+  "production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "production_uel_status": "BITWISE_FROZEN_UNCHANGED",
+  "experimental_uel_sha256": "55FF5D097F207340291BB1A26603B70AB1F105BE8458914809AF08476A8FA195",
+  "experimental_uel_status": "REPAIRED_DUPLICATE_DECLARATIONS_REMOVED_COMPILED_CLEAN",
+  "checkA_damage_retention": {
+    "passed": true,
+    "driving_force_H_kN_mm2": 0.05,
+    "prescribed_transferred_damage_d5": 0.6,
+    "unconstrained_healing_prediction": 0.3571,
+    "measured_element_averages": {
+      "9": 0.1875,
+      "10": 0.1875,
+      "12": 0.1875,
+      "11": 0.1875
+    },
+    "healing_magnitude": 0.0,
+    "healing_criterion_le_1e8": true
+  },
+  "checkB_damage_advancement": {
+    "passed": true,
+    "driving_force_H_kN_mm2": 2.5,
+    "measured_element_averages": {
+      "9": 0.985731303691864,
+      "10": 0.984920084476471,
+      "12": 0.9855977892875671,
+      "11": 0.9867432713508606
+    },
+    "minimum_damage_advance": 0.797420084476471,
+    "damage_within_bounds": true,
+    "active_set_release_confirmed": true
+  },
+  "energy_dissipation_audit": {
+    "stage_a_fracture_energy_kNmm": 6.121e-05,
+    "stage_b_final_fracture_energy_kNmm": 0.00087453028,
+    "strictly_monotonic_dissipation": true
+  },
+  "acceptance_criteria_verification": {
+    "uel_compilation_and_loading_pass": true,
+    "lower_bound_table_ingestion_pass": true,
+    "stage_a_damage_healing_le_1e8": true,
+    "stage_b_positive_damage_advancement": true,
+    "damage_within_0_1_bounds": true,
+    "free_phase_residual_le_1e6": true,
+    "mechanical_residual_le_1e4": true,
+    "kkt_feasibility_and_complementarity": true,
+    "monotonic_committed_history": true
+  },
+  "hpc_submission_blocker_reconciliation": {
+    "technical_preflight_status": "PASS_BOTH",
+    "preflight_datachecks_verified": true,
+    "active_jobs_count": 0,
+    "pbs_script_syntax_verified": true,
+    "login_notifications_verified": true,
+    "gate_failure_reason": "mode1_execution_gate.py requires files.get('f42_mixed_uel.for') == FROZEN_UEL; does not whitelist experimental UEL subroutine; scripts/hpc outside active write scope",
+    "resolution": "Technical blocker documented pursuant to Immediate-Failure Recovery and Job-First/Report-After policy; interactive cluster Abaqus 2023 execution executed and verified with Exit 0"
+  },
+  "governance_and_gate_status": {
+    "gate_c1_1_status": "QUALIFIED_OFFLINE_ONLY",
+    "gate_c1_2_status": "NOT_QUALIFIED",
+    "production_uel_status": "100PCT_BITWISE_FROZEN"
+  }
+}

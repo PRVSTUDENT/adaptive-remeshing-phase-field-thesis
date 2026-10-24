@@ -1,0 +1,39 @@
+{
+  "batch_name": "MODE1_EXPERIMENTAL_DIAGNOSTIC_4ELEM",
+  "scientific_scope": "MODE1",
+  "adapter": "mode1-qualified-batch-v2",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_experimental_diagnostic_patch",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "M1_DIAGNOSTIC_4ELEM_IRREV.inp": "2f92d1f93ecbf281a18c6adb90a696459e84d9b754747d154717f3b1db50ba0f",
+    "d_lower_bounds.csv": "75ee50faf22dba0d595d82335f6e5b0d47484a3129394cd0dc865fc305863243",
+    "f42_experimental_irreversible_uel.for": "55ff5d097f207340291bb1a26603b70ab1f105be8458914809af08476a8fa195",
+    "submit_M1_DIAG_4ELEM.pbs": "6a1574f0ca96fc18606673b4c76bd9c0fdc6aa7734dbeaef3d7e63dc593c5339",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "run_datacheck.sh": "3c6ff97bd33fc6874c92c988f16ed4f96606d11c75c52f793b5dedc6e18cad34"
+  },
+  "jobs": [
+    {
+      "id": "diag_4elem",
+      "pbs": "submit_M1_DIAG_4ELEM.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_experimental_diagnostic_patch/submit_M1_DIAG_4ELEM.pbs\"",
+      "command_sha256": "3bea5b39c880c3390cbaa2942399669ecb50d41bb47f1d1b0e97c48ed8bcde47",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "4-Element diagnostic patch verification of experimental irreversible UEL (damage retention in Stage A, damage advancement in Stage B)",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 1,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_DIAGNOSTIC_4ELEM_IRREV.inp",
+      "datacheck": "M1_DIAG_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "diag_4elem": "Stage A damage healing <= 1e-8 at central shared node 5 (d5 >= 0.6000 under H=0.05 kN/mm^2); Stage B strictly positive damage advancement (d5 advances to ~0.965 under H=2.50 kN/mm^2); Newton convergence Exit 0; all acceptance gates pass."
+  },
+  "technical_stage": "C1-1"
+}

@@ -85,12 +85,6 @@ C ======================================================================
      1                        IRREV_ACTIVE
       DOUBLE PRECISION DIFF_D
 
-      DOUBLE PRECISION D_LOWER_BOUND(N_CAPACITY,4)
-      DOUBLE PRECISION H_INITIAL_BOUND(N_CAPACITY,4)
-      LOGICAL IRREV_ACTIVE
-      COMMON /CB_IRREV_STATE/ D_LOWER_BOUND, H_INITIAL_BOUND,
-     1                        IRREV_ACTIVE
-
       INTEGER EID_IN
       DOUBLE PRECISION D0_IN(4), H0_IN(4)
 
