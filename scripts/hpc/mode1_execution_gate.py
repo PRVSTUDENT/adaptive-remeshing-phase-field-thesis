@@ -46,7 +46,7 @@ def validate_manifest(path, root=ROOT):
     path=Path(path).resolve()
     require(path.is_relative_to((root/'models/pandey_kumar_mode1').resolve()), 'Manifest outside Mode-I models')
     batch=load(path)
-    require(batch.get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1', 'mode1-continuum-preanalysis-v1', 'mode1-uel-trace-v1') and batch.get('scientific_scope')=='MODE1', 'Qualified Mode-I manifest required')
+    require(batch.get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1', 'mode1-continuum-preanalysis-v1', 'mode1-uel-trace-v1', 'mode1-pdas-iterative-v1') and batch.get('scientific_scope')=='MODE1', 'Qualified Mode-I manifest required')
     require(batch.get('technical_stage') in ('C1-0','C1-1','C1-2','MODE1_BASELINE','EXPERIMENTAL_OFFSET','CONTINUUM_PREANALYSIS','UEL_TRACE'), 'Outside active scientific stages')
     require(batch.get('automatic_retry') is False, 'Blind automatic retries disallowed')
     jobs=batch['jobs']
