@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "turn": "06bc2e33-1e48-4595-ab31-469452e3e1ff",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "operation": "package97_pdas_pilot_inspection",
+  "pbs_job_id": "1417026.mmaster02",
+  "job_name": "M1_C5_P97_PDAS",
+  "queue": "normal_imfdfkmq",
+  "host": "mnode102/0",
+  "scheduler_state": "RUNNING",
+  "elapsed_walltime": "00:09:30",
+  "latest_completed_subproblem": 12,
+  "active_subproblem": 13,
+  "subproblem_details": {
+    "iter_01_to_iter_12": "Executed Abaqus/Standard 2023 with 0 cutbacks, 0 analysis warnings, 0 errors per subproblem",
+    "extraction_status": "pdas_subproblem_iter_01_extracted.csv through iter_12_extracted.csv verified present in cluster scratch",
+    "uel_energy_balance": "Updated dynamically by adapter across iterations"
+  },
+  "status": "WAITING_FOR_PACKAGE97_TERMINAL_EVIDENCE",
+  "single_inspection_contract": "PASS",
+  "timestamp": "2026-10-24T05:31:30Z"
+}
