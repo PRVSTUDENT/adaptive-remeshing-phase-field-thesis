@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "59c4189b-09ed-4847-8088-b03c1d7acd93",
+  "turn": 74,
+  "created_at": "2026-10-24T06:42:00+02:00",
+  "finding": "Remediated five critical live-solver integration defects in pdas_cluster_execution_adapter.py: authentic unscaled history (scale_h=1.0), mechanical continuation displacement (+4.0 nm) on node 999999, live ODB extraction via extract_pdas_subproblem_odb.py, strict vs tolerance healing/overshoot discrimination with KKT multiplier checking, and crash-safe atomic ledger persistence. 10/10 Turn 74 unit tests passed. Gate C1-2 remains strictly NOT QUALIFIED until genuine solver output meets all physical acceptance criteria.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "scripts/validation/pdas_cluster_execution_adapter.py": "8CCCAF67E74E53072AA5E599788DB2C4E4FD3C68C28837E92FA3B4C08455E916",
+    "scripts/validation/extract_pdas_subproblem_odb.py": "FAFBE6D730C4A7E78F1B54DE473DF125B7984485B4EEF0DDD446ECE6023DACCC",
+    "tests/unit/test_mode1_f1597_turn74_real_pdas_qualification.py": "BD26F68F33362DFC10B618743FC83B86D188E7900C7958FABD8126B645AA82EC",
+    "tests/unit/test_mode1_f1597_turn73_pdas_execution_adapter.py": "6F1090EC3BA9C6B04F4C10E2AD60C08390DEBC879E09DB6797242BFC0A2AC006",
+    "results/validation/mode1_f1597/turn74_initial_gap_remediation_audit.json": "77B5630A02EBCE7A18C52EC9D3C0967A486C783FC147007C200D8B18E8DAC33A",
+    "results/validation/mode1_f1597/turn74_real_pdas_qualification.json": "E200849027253B2F78C9A60229E2C9C2E70ED95F35691BE400D4A87A5FA52CB4"
+  },
+  "verification_passed": true
+}
