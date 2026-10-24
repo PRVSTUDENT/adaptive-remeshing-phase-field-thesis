@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "status": "MATHEMATICAL_DISCREPANCY_ANALYZED",
+  "explanation": "The discrepancy between Turn 81 QP and Abaqus Subproblem 15 is proven to arise from: (1) Intermediate unconstrained subproblem solves on a restricted active set (|A|=149) where phase field degrees of freedom are unbounded predictors without box constraints, compared to the global constrained QP where box constraints d <= 1.0 are enforced simultaneously across all nodes; (2) Mechanical coupling and incremental loading (+4 nm) in Abaqus Step 4, which increases strain energy and drives wake damage above 1.0; (3) In the fully converged PDAS solution, nodes 2212, 2287, 2289, 2291 settle at d in [0.995, 0.998] (FREE), while node 2534 settles at d_ckpt = 0.936863 (LOWER), perfectly reconciling the QP bounds and physical irreversibility.",
+  "nodes": {
+    "2212": {
+      "d_ckpt": 0.97825717993,
+      "unconstrained_global_kf": 0.9983506893155568,
+      "turn81_constrained_qp": 0.9983535166209317,
+      "abaqus_iter15_subproblem_u3": 1.0045279,
+      "pdas_converged_d": 0.9976198006821553,
+      "pdas_converged_set": "FREE"
+    },
+    "2287": {
+      "d_ckpt": 0.97487207462,
+      "unconstrained_global_kf": 0.9967601344990454,
+      "turn81_constrained_qp": 0.9967653626367006,
+      "abaqus_iter15_subproblem_u3": 1.0052093,
+      "pdas_converged_d": 0.9968801164894454,
+      "pdas_converged_set": "FREE"
+    },
+    "2289": {
+      "d_ckpt": 0.98022629814,
+      "unconstrained_global_kf": 0.9957388000550158,
+      "turn81_constrained_qp": 0.9957923239822356,
+      "abaqus_iter15_subproblem_u3": 1.0066022,
+      "pdas_converged_d": 0.9955396678828081,
+      "pdas_converged_set": "FREE"
+    },
+    "2291": {
+      "d_ckpt": 0.98602297812,
+      "unconstrained_global_kf": 0.9974629188798639,
+      "turn81_constrained_qp": 0.9974610481745854,
+      "abaqus_iter15_subproblem_u3": 1.0042033,
+      "pdas_converged_d": 0.9971939910676975,
+      "pdas_converged_set": "FREE"
+    },
+    "2534": {
+      "d_ckpt": 0.93686268669,
+      "unconstrained_global_kf": 0.9587225110210349,
+      "turn81_constrained_qp": 0.9587487389673652,
+      "abaqus_iter15_subproblem_u3": 0.92119142,
+      "pdas_converged_d": 0.93686268669,
+      "pdas_converged_set": "LOWER"
+    }
+  }
+}

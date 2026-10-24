@@ -1,0 +1,44 @@
+{
+  "batch_name": "MODE1_PACKAGE_99_C5_PDAS_PILOT",
+  "adapter": "mode1-pdas-iterative-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_package99_c5_pdas_pilot",
+  "files": {
+    "candidate_c5_frame7_mapped_state_table.csv": "713c076501ca6098510fd3be8917896ec31b4a42cedc7977ea0c33d28fb00b3a",
+    "candidate_crack_band_mesh_c5.inp": "4f68e1d5977116a9bbcdd86039059692e8d4b8298c944b8d96907f7b61bedc75",
+    "extract_pdas_subproblem_odb.py": "3aed5089aa6d66208b9a8e385fa9462b4d3bc5aa23bdfd8a08d473aa73a8fa5c",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_C5_PACKAGE99_SEED_TRANSFER.inp": "32ac550c7293aa69e0519a7cff93fb8b1183da1438cff76746c265d4c9cd5207",
+    "M1_C5_PACKAGE99_SEED_TRANSFER_DC.dat": "1d8085b865113ca92b49065fe66bd4b59b9ef15ae2f6bbf579285df9cf31b107",
+    "pdas_cluster_execution_adapter.py": "961f1b91bbc1b64c0dfb8c4c58ed9ed64e7c16a7565cfc63aa35dd54a53a6acc",
+    "submit_M1_C5_PACKAGE99_PDAS_PILOT.pbs": "8b30e830b23b716e7b9f003fd2a0fb34bcd419a1919a49936ade34740096340a",
+    "PACKAGE_MANIFEST.json": "4466e760dce14d771be462c8b3016a2e9849c11eb09e560cff85039da850ee6c"
+  },
+  "jobs": [
+    {
+      "id": "M1_C5_PACKAGE99_PDAS_PILOT",
+      "pbs": "submit_M1_C5_PACKAGE99_PDAS_PILOT.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_package99_c5_pdas_pilot/submit_M1_C5_PACKAGE99_PDAS_PILOT.pbs\"",
+      "command_sha256": "02b051fb32a3e38503f63405d731b0b4d5f0f94969ee2281197bc933348cae7d",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Package 99: Live cluster iterative PDAS pilot on C5 crack-band mesh under Abaqus 2023 with authentic nodal DOF 3 extraction from .dat, eliminating companion element SDV1 smearing, with strictly disjoint active-set partitions (U, L, A), cycle-detection safeguard, unscaled authentic history, +4.0 nm continuation loading (u_target=0.002056 mm), and atomic checkpoint persistence.",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_C5_PACKAGE99_SEED_TRANSFER.inp",
+      "datacheck": "M1_C5_PACKAGE99_SEED_TRANSFER_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_C5_PACKAGE99_PDAS_PILOT": "Active-set stationarity and valid KKT conditions achieved; free-set residual ||R_d||_inf,A <= 1e-6 kN/mm; mechanical equilibrium residual <= 1e-4 kN; reaction force continuity within 5% of authentic Package 94 donor RF2 (112.97 N); fracture energy jump within 2% of donor E_frac (0.00013774 kN*mm); strict irreversibility preserved (0 genuine healing points); strict non-overshoot preserved (d <= 1.000000); authentic committed Gauss-point history H preserved without reset; converged checkpoint pdas_accepted_checkpoint.json emitted."
+  }
+}

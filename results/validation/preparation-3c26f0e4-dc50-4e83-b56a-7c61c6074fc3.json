@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "3c26f0e4-dc50-4e83-b56a-7c61c6074fc3",
+  "finding": "Terminal evaluation of Job 1417035 (Package 99 PDAS Pilot) completed: all 14 subproblems converged with Exit 0 and authentic nodal .dat extraction; reaction force continuity passed at -0.651% (112.235 N vs donor 112.9707 N, threshold <= 5%), total energy continuity passed at -0.397% (0.2526 mJ vs 0.2536 mJ, threshold <= 2%), and non-overshoot strictly passed with 0 overshoots (d <= 1.0 everywhere); driver cleanly detected 2-cycle active-set oscillation at iteration 15 affecting 61 crack-wake margin nodes with max |delta d| = 0.0258 and mesh RMS = 0.00135.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/package99_source_provenance_audit.json": "5431718021705E2564854B8E6E151CAE600834A6DB25F9F801B6B9EF71E74A30",
+    "results/validation/mode1_f1597/mathematical_discrepancy_audit.json": "0A1386BF93EB053D094941B31927F502720E68CA0AFF98C83406088592006BA3",
+    "results/validation/mode1_f1597/package99_evaluation_report.json": "7B2CDD59B965EDAC675F271C4BC3F5AFEFF484C7A927C5451F04B5FD25E3ED31",
+    "results/validation/mode1_f1597/pkg99_pdas_trial_evaluation.json": "790F027169202DCAB1BC3785107ECB36E8AC7720AB2C9CE62ABB12252161901F",
+    "results/validation/mode1_f1597/pkg99_uel_energy_balance.csv": "A1F3F73394FB28852CB335EEAC808909A42F33E6996727EAD05737527BEC373A"
+  },
+  "verification_passed": true
+}

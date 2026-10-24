@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "job_id": "1417035.mmaster02",
+  "package": "PACKAGE_99",
+  "subproblems_executed": 14,
+  "status": "TERMINAL_CYCLE_DETECTED",
+  "cycle_details": {
+    "period": 2,
+    "repeated_iterations": [
+      13,
+      15
+    ],
+    "toggling_node_count": 61,
+    "max_d_discrepancy_between_cycles": 0.025815240000000017,
+    "mean_d_discrepancy_on_toggling_set": 0.008488089508196727,
+    "rms_mesh_discrepancy": 0.0013460854581928221,
+    "spatial_box": {
+      "x_min": 0.04,
+      "x_max": 0.06303249,
+      "y_min": 0.0473333333,
+      "y_max": 0.052
+    }
+  },
+  "physical_criteria": {
+    "donor_rf2_n": 112.97071,
+    "final_rf2_n": 112.234763801,
+    "rf2_discrepancy_pct": -0.6514486799277416,
+    "force_continuity_passed": true,
+    "max_overshoot_observed": 0,
+    "overshoot_passed": true,
+    "energy_step1_elastic_J": 0.00011780691,
+    "energy_step1_fracture_J": 0.00013482992,
+    "energy_step1_total_J": 0.00025263683,
+    "energy_step4_elastic_J": 0.00011537672,
+    "energy_step4_fracture_J": 0.00013465317,
+    "energy_step4_total_J": 0.00025002989
+  },
+  "conclusion": "Package 99 successfully demonstrated authentic solver subproblem execution on HPC with exact nodal .dat extraction and zero cutbacks. Physical force continuity passed with -0.651% (threshold <= 5.0%), and zero overshoot was maintained. Convergence stalled at iteration 15 due to an undamped 2-cycle active-set oscillation affecting exactly 61 boundary nodes at the crack wake margin with max |delta d| = 2.5815e-02."
+}
