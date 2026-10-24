@@ -1,0 +1,45 @@
+{
+  "batch_name": "MODE1_PACKAGE_101_C5_VI_PILOT",
+  "adapter": "mode1-pdas-iterative-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_package101_c5_vi_continuation",
+  "files": {
+    "M1_C5_PACKAGE101_SEED_TRANSFER.inp": "32ac550c7293aa69e0519a7cff93fb8b1183da1438cff76746c265d4c9cd5207",
+    "M1_C5_PACKAGE101_SEED_TRANSFER_DC.dat": "a52da14c89f2d7e36e314455ce67271c92533cbe6b4a775bfc747785deb3f5b1",
+    "PACKAGE_MANIFEST.json": "bc6f9de439af09f9c47fb0ff3b1ef1f64942dbd07f31f35d2a314b06470e1e8e",
+    "candidate_c5_frame7_mapped_state_table.csv": "713c076501ca6098510fd3be8917896ec31b4a42cedc7977ea0c33d28fb00b3a",
+    "candidate_crack_band_mesh_c5.inp": "4f68e1d5977116a9bbcdd86039059692e8d4b8298c944b8d96907f7b61bedc75",
+    "extract_pdas_subproblem_odb.py": "3aed5089aa6d66208b9a8e385fa9462b4d3bc5aa23bdfd8a08d473aa73a8fa5c",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "run_pkg101_datacheck.sh": "b2ce62f11ecb9d93ed0b848cfce9e43f777ed4e2bf4ee7f9de065e026ef1804c",
+    "submit_M1_C5_PACKAGE101_VI_PILOT.pbs": "a58d2519690adb8b243f1cf5b1ba0ac1af4de9990d768f7480584b570ed7834e",
+    "vi_cluster_execution_adapter.py": "271f001a8b8ec922422c6005998aa8e3dec54ced1a89889c104aeb26862de8f1"
+  },
+  "jobs": [
+    {
+      "id": "M1_C5_PACKAGE101_VI_PILOT",
+      "pbs": "submit_M1_C5_PACKAGE101_VI_PILOT.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_package101_c5_vi_continuation/submit_M1_C5_PACKAGE101_VI_PILOT.pbs\"",
+      "command_sha256": "828be1d7b7a901acd30e131bf766d8f009ed49bf842badddaf58158e2be05630",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Package 101: Live cluster bound-constrained VI pilot on C5 crack-band mesh solving min_{d_ckpt <= d <= 1.0} (1/2 d^T K d - F^T d) to exact KKT stationarity (||R_d||_inf,A <= 1e-6 kN/mm), replacing Package 100 release suppression heuristic with true variational inequality optimization, enforcing zero damage healing and zero overshoot by construction, and coupling mechanical equilibrium in Abaqus 2023 under frozen UEL.",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_C5_PACKAGE101_SEED_TRANSFER.inp",
+      "datacheck": "M1_C5_PACKAGE101_SEED_TRANSFER_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_C5_PACKAGE101_VI_PILOT": "Bound-constrained VI stationarity and valid KKT conditions achieved without heuristic release suppression; free-set residual ||R_d||_inf,A <= 1e-6 kN/mm; lower-bound KKT multipliers valid (lambda_L <= 1e-6 kN/mm); upper-bound KKT multipliers valid; reaction force continuity within 5% of authentic Package 94 donor RF2 (112.97 N); fracture energy jump within 2% of donor E_frac (0.00013774 kN*mm); strict irreversibility preserved (0 genuine healing points); strict non-overshoot preserved (d <= 1.000000); authentic committed Gauss-point history H preserved without reset; converged checkpoint pdas_accepted_checkpoint.json emitted."
+  }
+}

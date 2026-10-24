@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": "7c50fe68-b2e7-4952-b2b8-0894ea8fd729",
+  "turn_number": 87,
+  "status": "INITIAL_AUDIT_COMPLETE",
+  "package": "PACKAGE_101_C5_BOUND_CONSTRAINED_VI_SOLVER",
+  "design_specification": {
+    "objective": "Replace heuristic active-set release suppression with a mathematically rigorous bound-constrained variational-inequality / quadratic-programming solver that solves min_{d_ckpt <= d <= 1} (1/2 d^T K d - F^T d) to true KKT stationarity (res <= 1.0e-6 kN/mm, 0 KKT violations).",
+    "defects_eliminated": [
+      "Zero tolerance relaxation: strict adherence to governing scientific threshold TAU_RES <= 1.0e-6 kN/mm.",
+      "Mandatory KKT predicate: convergence requires simultaneous free-set residual <= 1e-6, kkt_lower_valid == True, and kkt_upper_valid == True.",
+      "No permanent release suppression: every node with R_d > 1e-6 is permitted to advance along projected descent directions without artificial clamping."
+    ],
+    "solver_strategy": "Projected Barzilai-Borwein (SPG2) / Bound-Constrained Active-Set Line Search with exact QP reference verification (solve_exact_qp_c5.py).",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "mesh": "candidate_crack_band_mesh_c5.inp (4,440 quads, 4,610 physical nodes)",
+    "predecessor_reference": "Job 1417160.mmaster02 confirmed FAILED: res=2.130e-6, 32 KKT violations, E_frac deficit=-2.063%."
+  },
+  "verification_passed": true
+}

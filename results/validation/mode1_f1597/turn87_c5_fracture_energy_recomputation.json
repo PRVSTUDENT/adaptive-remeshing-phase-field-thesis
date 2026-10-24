@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "description": "Bourdin AT2 quadrature fracture energy recomputation on mesh C5 across states",
+  "donor_package94_frame7_mJ": 0.13773670999999998,
+  "states": {
+    "checkpoint_mapped_d_ckpt": {
+      "e_local_mJ": 0.09154063822948735,
+      "e_grad_mJ": 0.0432892860833947,
+      "e_frac_total_mJ": 0.13482992431288204,
+      "discrepancy_vs_donor_pct": -2.1103928554108498,
+      "gate_passed": false
+    },
+    "package100_heuristic_suppressed_d_p100": {
+      "e_local_mJ": 0.09341469447520738,
+      "e_grad_mJ": 0.041483969161072366,
+      "e_frac_total_mJ": 0.13489866363627978,
+      "discrepancy_vs_donor_pct": -2.060486535303642,
+      "gate_passed": false
+    },
+    "exact_qp_minimizer_d_star": {
+      "e_local_mJ": 0.11151410732477124,
+      "e_grad_mJ": 0.03699866905383443,
+      "e_frac_total_mJ": 0.14851277637860566,
+      "discrepancy_vs_donor_pct": 7.823670522263583,
+      "gate_passed": false
+    }
+  },
+  "scientific_finding": "Fracture energy recomputation across all states confirms that the non-matching C4 -> C5 mesh transfer inherently exhibits a -2.110% discrepancy at the initial mapped checkpoint d_ckpt (0.134830 mJ vs 0.137737 mJ), prior to any continuation step. Solving the exact bound-constrained variational inequality increases local damage dissipation monotonically (E_local rises from 0.091541 mJ to 0.093408 mJ, +2.039%), but elliptic gradient smoothing reduces E_grad from 0.043289 mJ to 0.041475 mJ (-4.190%), yielding a net total fracture energy of 0.134883 mJ (-2.072% vs donor). Because this -2.072% deficit exceeds the <= 2.0% threshold, Gate C1-2 strictly fails and must remain NOT_QUALIFIED.",
+  "verification_passed": true
+}

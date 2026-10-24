@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "package_id": "PACKAGE_101",
+  "name": "mode1_package101_c5_vi_continuation",
+  "description": "Package 101 C4->C5 Method C Continuation via Bound-Constrained Variational Inequality / QP Solver",
+  "timestamp": "2026-10-24T10:47:00+02:00",
+  "model_tree": "models/pandey_kumar_mode1/101_c5_bound_constrained_vi_continuation",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_package101_c5_vi_continuation",
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "governed_gate_c1_2": "NOT_QUALIFIED",
+  "files": {
+    "M1_C5_PACKAGE101_SEED_TRANSFER.inp": "32AC550C7293AA69E0519A7CFF93FB8B1183DA1438CFF76746C265D4C9CD5207",
+    "candidate_crack_band_mesh_c5.inp": "4F68E1D5977116A9BBCDD86039059692E8D4B8298C944B8D96907F7B61BEDC75",
+    "candidate_c5_frame7_mapped_state_table.csv": "713C076501CA6098510FD3BE8917896EC31B4A42CEDC7977EA0C33D28FB00B3A",
+    "f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "vi_cluster_execution_adapter.py": "271F001A8B8EC922422C6005998AA8E3DEC54CED1A89889C104AEB26862DE8F1",
+    "extract_pdas_subproblem_odb.py": "3AED5089AA6D66208B9A8E385FA9462B4D3BC5AA23BDFD8A08D473AA73A8FA5C",
+    "submit_M1_C5_PACKAGE101_VI_PILOT.pbs": "A58D2519690ADB8B243F1CF5B1BA0AC1AF4DE9990D768F7480584B570ED7834E",
+    "run_pkg101_datacheck.sh": "B2CE62F11ECB9D93ED0B848CFCE9E43F777ED4E2BF4EE7F9DE065E026EF1804C",
+    "job_notifications.sh": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11"
+  }
+}
