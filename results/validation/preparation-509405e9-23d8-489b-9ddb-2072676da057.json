@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "509405e9-23d8-489b-9ddb-2072676da057",
+  "finding": "Audited authoritative Fortran UEL weak form in f42_mixed_uel.for (SHA-256: CE8D5EDC...), verified exact energy terms and discrete balance identity W_ext = E_elas + E_frac + R_book, verified non-invasive companion UMAT routing, proved exact bitwise mechanical parity on 7,000-increment reference benchmark (|Delta K0|=0.0%, |Delta Fmax|=0.0%), verified 64-quad mini energy case, and confirmed thesis documentation.",
+  "evidence_sources": {
+    "scripts/validation/audit_mode1_uel_energy_qualification.py": "6105DE3A2027AF6EDE59045222924E8F5076F35DCAED046E1A0C0BB5E210DA5C",
+    "results/validation/mode1_f1597/turn118_uel_energy_formulation_audit.json": "7162A0EC2DC567C3C4F97C1F8397AB8E01E4D0A0B2800CCB15DF9D1BBA3D84C3",
+    "docs/methods/UEL_ENERGY_FORMULATION_AND_BALANCE_AUDIT.md": "06D4D949584C5E6A4EB08E9B1258AC5C51B51997CB6DD2EF1FB3F78A3DEB7ADE",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/PK_M1_MINI_ENERGY_64.inp": "C9DE0236233290D68DB57CF9A78F0B2D1DF782F20B3DAAE73DEB47F4040ED02D"
+  },
+  "verification_passed": true
+}
