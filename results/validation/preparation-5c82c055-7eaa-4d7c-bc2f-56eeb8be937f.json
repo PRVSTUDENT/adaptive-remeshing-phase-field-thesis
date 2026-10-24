@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Three-state C3 acceptance audit reveals State 1 fixed-load re-equilibration failed force (-29.51%) and energy (+104.50%) continuity due to unphysical tip tearing (d_max=0.9956); corrective investigation proves pure history transfer preserves exact parity (1.298 kN/mm^2) and phase equilibrium (8.76e-7 kN/mm), with Gate C1-1 provisionally qualified for interpolation only.",
+  "evidence_sources": {
+    "scripts/validation/audit_turn105_c3_state1_and_forward.py": "CC87000C3F13EA2141BF939BFB104D2F5501FCBEECCECE41956D395B55069A20",
+    "scripts/validation/investigate_c3_history_transfer_hypothesis.py": "79603251159FD224A13B5050B1FF6FE57C8ADDF9489CFB03B56053C3E7CBAD29",
+    "results/validation/mode1_f1597/turn105_c3_state1_acceptance_audit.json": "A389F2C0E3FE81798C6BF274FFF6BB2491810A72DC321C65017BE7F83A79FC7C",
+    "results/validation/mode1_f1597/turn105_history_investigation.json": "202BB6FB75DB2EAA242E2DC3DD9A3D6DF95CA88B3326A6F1FF2F7C0F5A7DA43E",
+    "tests/unit/test_mode1_f1597_turn105_c3_acceptance.py": "98D61C174352B5BF92B80642CE1F227F55E393F7DFC48ED53B07FF0003C49D2C"
+  },
+  "verification_passed": true
+}
