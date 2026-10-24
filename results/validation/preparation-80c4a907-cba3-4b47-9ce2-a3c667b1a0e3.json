@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": "80c4a907-cba3-4b47-9ce2-a3c667b1a0e3",
+  "finding": "Proved mathematically and empirically that alternating minimization starting from d^(1)=d_opt is incapable of restoring donor force continuity under displacement control: because degradation g(d)=(1-d)^2+k is strictly monotonically decreasing, the damage irreversibility constraint d^(2)>=d^(1) causes stiffness and reaction force to drop further from 99.66 N (-11.78%) to 95.82 N (-15.18%), while increasing fracture energy from +8.40% to +10.85%. Package 102-R1 is an unaccepted solver trial iterate that must be rejected. The authentic mapped checkpoint d_ckpt preserves physical stiffness (RF2=115.56 N, error +2.29%, PASS); directing future work to refine crack-band fracture energy (-2.110%) at the transfer boundary rather than continuing from over-damaged states.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/102_r1_c5_coupled_staggered_history_repaired/irreversible_coupling_feasibility_findings.json": "3734E6E8D8901B6A28D0644CE4AE76662E2831F38008ECAA05E9F221D845FA65",
+    "scripts/validation/investigate_irreversible_coupling_feasibility.py": "742A9D420ADDBDC784ECB81E6E73C6B9FB169965DF3EE98071482FD1485ADAB4",
+    "models/pandey_kumar_mode1/102_r1_c5_coupled_staggered_history_repaired/package102_r1_deliverable_evaluation.json": "8D4E7509953163462FA92B150D2ADEE892D89F15567C35C46E780F71027FF7F0",
+    "models/pandey_kumar_mode1/102_r1_c5_coupled_staggered_history_repaired/M1_C5_PACKAGE102_R1_STAGGERED_extracted.csv": "8C45E756A8397CC8C359166C564F364F3C58B00028329E8940B4AF3E76723350"
+  },
+  "verification_passed": true
+}
