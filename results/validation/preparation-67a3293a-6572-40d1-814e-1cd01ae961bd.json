@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "67a3293a-6572-40d1-814e-1cd01ae961bd",
+  "verification_passed": true,
+  "finding": "Interrupted turn 4c629de9-a8f5-4caa-92e8-411fb4f2d9da successfully recovered: verified checkpoint SHA256 9985B8F3D9352EFC2198AE4077B82CEC44D506D56733D74E5CEDA16DCBDAA1BF, confirmed empirical Abaqus keyword card limit (Format C fatal error vs Format Full 3-line clean pass in runs/local_ic_test), verified zero active cluster jobs for pr21vyci, and reconciled complete evidence ledger.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/turn92_recovery_checkpoint_audit.json": "B97206139EC09B4F94E3BD9FEAF4B1677BD1A5736D3AB94773F3B8067D6D2122",
+    "scripts/validation/verify_initial_conditions_syntax.py": "5175BF2EA5A2A220EDDFC297C0B30C153C4841A9E46B57B10325CF74200E9813",
+    "results/validation/mode1_f1597/turn91_initial_history_loss_discovery.json": "07BBC93EA48C27BB0C449FECA958E9FF3F52B7DD42B247D1E06958F125F2AD0A",
+    "models/pandey_kumar_mode1/102_c5_coupled_staggered_reequilibration/M1_C5_PACKAGE102_STAGGERED_REEQUIL.inp": "3C96437397315D9507888420C82E9899581C40C4AB51EE59ADB5EBD757076D22",
+    "models/pandey_kumar_mode1/candidate_receiver_c2_corrected_reequilibration.inp": "BE6D0EBD97436C353726370ED22D0040357521A9CAFFEBAD9DA77E5A9C8187B4"
+  }
+}
