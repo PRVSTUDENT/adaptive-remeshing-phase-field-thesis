@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Audit of the C4 predecessor chain (Pkg 89 -> 90 -> 90-R1 -> 93 -> 94) proves that artificial corridor clamping was introduced in Package 90-R1 (2,221 nodes clamped) to suppress unconstrained healing and propagated to C4 in Package 94 (3,845 nodes clamped, 83.8% of mesh). Controlled same-mesh C4 continuation proves that removing artificial corridor clamping and solving genuine bound-constrained phase minimization (d >= d_mapped) causes wake tearing: reaction force drops from 120.51 N to 90.09 N (-25.24% tearing drop, -43.33% from initial 158.99 N; -20.25% vs Package 94 Step 4 Abaqus baseline 112.97 N) while fracture energy surges +75.15% (0.0877 to 0.1535 mJ). This proves that the C4 donor solution itself is fundamentally dependent on artificial crack corridor clamping and cannot serve as an unrestricted physical target. Pursuant to policy, Package 94 is classified as BENCHMARK-REPRODUCTION-ONLY, Package 103 transfer parity is recognized as a valid benchmark transfer test but insufficient for general Method C continuation, Gate C1-2 remains strictly NOT_QUALIFIED, and HPC submission is strictly WITHHELD. The earliest admissible uncontaminated predecessor checkpoint is Package 89 Frame 88 (u = 0.001965107 mm).",
+  "evidence_sources": {
+    "scripts/validation/audit_c4_predecessor_and_corridor_free_reference.py": "87E3A950F05F55A2CF670B0BB2CB306EF2A37E112611E4CFDF7825CC65EE0EEE",
+    "results/validation/mode1_f1597/turn102_c4_corridor_free_reference_audit.json": "30C876346F6C9BBCB7043DA05711BCF01FDCE8F46C6B1AB5AAE9CA1ECE49FD1D",
+    "tests/unit/test_mode1_f1597_turn102_c4_corridor_free_reference.py": "8EB441594C4FFAA0F9CF8FF736FA196EB86B918B9DAAEBDB2414E8A04010A24F"
+  },
+  "verification_passed": true
+}
