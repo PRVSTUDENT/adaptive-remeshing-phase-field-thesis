@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Comprehensive finite-element transfer operator evaluation demonstrates that natural energy H^1 projection (Method C) recovers the nonmatching gradient attenuation deficit across C4 to C5 grids, achieving fracture energy E_frac = 0.135602 mJ (-1.55% vs Abaqus donor, passing the <= 2.0% gate) and reaction force RF2 = 114.88 N (+1.69% error, passing the <= 5.0% gate) without artificial bulk damage inflation, while confirming that restarting from trial iterate d_opt is mathematically impossible due to irreversibility decoupling.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/c4_c5_projection_comparison.json": "C409C91272555DD10909995FA56A4660A98DE76189E931856FBE686D83BE6E6B",
+    "scripts/validation/evaluate_c4_to_c5_l2_projection.py": "9110306B859675625200D1BF637BC7EC9EF2B228D17B92D95FEB867CAB7E3049",
+    "tests/unit/test_mode1_f1597_turn96_l2_and_energy_projection.py": "EF386A7FDAB34C82F00E6C5C245E09CDE5093D1AE029A9AA91837402E138A59E"
+  },
+  "verification_passed": true
+}
