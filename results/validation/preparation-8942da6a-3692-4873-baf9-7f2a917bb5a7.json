@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Technical preflight and authorization verified; submitted Package 97 live cluster iterative PDAS pilot to queue entry_imfdfkmq with allocated PBS Job ID 1417026.mmaster02.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/97_pdas_iterative_continuation_pilot/M1_C5_PACKAGE97_PDAS_PILOT_AUTHORIZATION.json": "12A1ADC9A01D2E52F40F81214DBE3FA77EC42E8DD96592C1CB6445040DA4686D",
+    "models/pandey_kumar_mode1/97_pdas_iterative_continuation_pilot/M1_C5_PACKAGE97_PDAS_PILOT_PREFLIGHT_REPORT.json": "098F5F4D31A61F52F034D471D5B0EC8218235DF57D418E0A919F0D9E434AED2A",
+    "models/pandey_kumar_mode1/97_pdas_iterative_continuation_pilot/PACKAGE_MANIFEST.json": "8460442004621A8852B692B0A90A92F8F82EE65A5903E06BF5BE52DC01022587",
+    "models/pandey_kumar_mode1/97_pdas_iterative_continuation_pilot/submit_M1_C5_PACKAGE97_PDAS_PILOT.pbs": "01052FBE4FF5FFF7B99CAE06115F59AE9E21045E7B72C88F564C28FDAA11E603",
+    "models/pandey_kumar_mode1/97_pdas_iterative_continuation_pilot/pdas_cluster_execution_adapter.py": "55D9AEF5931449D8506A81415803E1E409FB7F6052A5A9768122FA43E601085B",
+    "models/pandey_kumar_mode1/97_pdas_iterative_continuation_pilot/extract_pdas_subproblem_odb.py": "398CC5F2F919F27202E6229953E5E3806AC473A9DC18D420730A5339090A77E6",
+    "models/pandey_kumar_mode1/97_pdas_iterative_continuation_pilot/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/97_pdas_iterative_continuation_pilot/M1_C5_PACKAGE97_SEED_TRANSFER.inp": "505EDCB7A0423ECD8EFF564BEDC0F4DA9291B74D6A9D72DD54D8DC8C7CAE7CDA",
+    "models/pandey_kumar_mode1/97_pdas_iterative_continuation_pilot/M1_C5_PACKAGE97_SEED_TRANSFER_DC.dat": "618415DB104F906231F5EA90285F10A89417DFA0B379773A9B80C8FAEF453C73",
+    "models/pandey_kumar_mode1/97_pdas_iterative_continuation_pilot/candidate_crack_band_mesh_c5.inp": "4F68E1D5977116A9BBCDD86039059692E8D4B8298C944B8D96907F7B61BEDC75",
+    "models/pandey_kumar_mode1/97_pdas_iterative_continuation_pilot/candidate_c5_frame7_mapped_state_table.csv": "713C076501CA6098510FD3BE8917896EC31B4A42CEDC7977EA0C33D28FB00B3A",
+    "models/pandey_kumar_mode1/97_pdas_iterative_continuation_pilot/job_notifications.sh": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "project_coordination/HPC_JOB_LEDGER.csv": "E003A127FAC39C67B464B641E1BD678034BDBE0551B381A479D8844FEC69BDAD",
+    "project_coordination/MODE1_BATCH_SUBMISSIONS.json": "280B03EB1470BD756C24EFFD6F1580BBBAC51F8B0535F7735E5A5FCB0AD5F3FB",
+    "project_coordination/MODE1_EXECUTION_LEDGER.json": "54A5396B565EF8BA615A9B30AF11FFF576D9BF5F5857BF6835B081AF0B64B833"
+  },
+  "verification_passed": true
+}
