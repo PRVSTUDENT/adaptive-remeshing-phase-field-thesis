@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "run_id": "9e86c254-38e4-4f67-8c8a-5c410cc7fbbf",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "finding": "Authentic converged nodal phase extraction from Abaqus .dat was verified on all 4,610 physical nodes, proving that wake nodes 2212, 2287, 2289, 2291 actually advance (u3 > 1.0) rather than heal, and Package 99 was qualified and submitted to PBS as Job 1417035.mmaster02.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/99_c5_pdas_authentic_nodal_extraction_pilot/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/99_c5_pdas_authentic_nodal_extraction_pilot/M1_C5_PACKAGE99_SEED_TRANSFER.inp": "32AC550C7293AA69E0519A7CFF93FB8B1183DA1438CFF76746C265D4C9CD5207",
+    "models/pandey_kumar_mode1/99_c5_pdas_authentic_nodal_extraction_pilot/extract_pdas_subproblem_odb.py": "3AED5089AA6D66208B9A8E385FA9462B4D3BC5AA23BDFD8A08D473AA73A8FA5C",
+    "models/pandey_kumar_mode1/99_c5_pdas_authentic_nodal_extraction_pilot/pdas_cluster_execution_adapter.py": "961F1B91BBC1B64C0DFB8C4C58ED9ED64E7C16A7565CFC63AA35DD54A53A6ACC",
+    "models/pandey_kumar_mode1/99_c5_pdas_authentic_nodal_extraction_pilot/submit_M1_C5_PACKAGE99_PDAS_PILOT.pbs": "8B30E830B23B716E7B9F003FD2A0FB34BCD419A1919A49936ADE34740096340A",
+    "models/pandey_kumar_mode1/99_c5_pdas_authentic_nodal_extraction_pilot/PACKAGE_MANIFEST.json": "4466E760DCE14D771BE462C8B3016A2E9849C11EB09E560CFF85039DA850EE6C",
+    "results/validation/mode1_f1597/turn82_initial_audit.json": "48B1E43545B0462BF4D65C992DAC5FA78A7758BFC70624925AF1E5B1208DA6A6",
+    "results/validation/mode1_f1597/replay_iter15.dat": "AE1299A4C87DF65599F27779095A2E1245A10DA6A2B1268E1743A355F911CDF3"
+  },
+  "job_id": "1417035.mmaster02",
+  "verification_passed": true
+}
