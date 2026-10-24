@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Technical preflight and authorization verified; submitted Package 97 live cluster iterative PDAS pilot to queue entry_imfdfkmq with allocated PBS Job ID 1417026.mmaster02.",
+    "phase":  "Live PBS job 1417026.mmaster02 actively executing Package 97 iterative PDAS pilot on mnode102; subproblems 01-12 completed with 0 cutbacks and verified ODB extractions; subproblem 13 actively solving.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -149,14 +149,14 @@
                                  "morning_scientific_audit_packages87_88",
                                  "package89_state_transfer_submission"
                              ],
-    "last_updated":  "2026-10-24T07:26:55.2958651+02:00",
+    "last_updated":  "2026-10-24T07:33:13.6375681+02:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-8942da6a-3692-4873-baf9-7f2a917bb5a7.json",
-                                  "sha256":  "DE42D26112D1309BA9FE9FF028150D011872455FEEA1FAEE52C1E98A35DBB6E8",
-                                  "created_at":  "2026-10-24T07:22:39.5408340+02:00"
+                                  "artifact":  "results/validation/preparation-06bc2e33-1e48-4595-ab31-469452e3e1ff.json",
+                                  "sha256":  "F1971E82EE84B45004C51FAD4463400F2951BA70B97870969BF1F6734C6320A6",
+                                  "created_at":  "2026-10-24T07:31:52.1280386+02:00"
                               }
 }
