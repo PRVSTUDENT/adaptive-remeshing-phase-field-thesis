@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Quadrature alignment and same-mesh donor closure audit proves offline mechanical solver matches authentic C4 donor within -0.0319% RF2 and -1.76% E_frac parity, establishing baseline Abaqus UEL residual ||R_d||_inf = 1.52e-05 kN/mm. Under 100% aligned UEL operators, Package 103 C5 checkpoint exhibits ||R_d||_inf = 3.96e-06 kN/mm on free set with 5 lower bound residuals <= 2.53e-06 kN/mm, rigorously proving that C5 checkpoint stationarity is tighter than authentic Abaqus convergence. Unconstrained global alternating minimization on C5 drives tearing (-39.7 N force drop) because authentic C4 continuation clamped 3,845/4,588 nodes (83.8%) via active-set boundary conditions. Pursuant to policy, Package 104 HPC execution is withheld and Gate C1-2 remains strictly NOT_QUALIFIED.",
+  "evidence_sources": {
+    "scripts/validation/audit_quadrature_and_donor_closure.py": "DA81EB23979D4BB41826C44B3D470E3A49676B1DCAAB4D7DFDC0664B73A9316D",
+    "scripts/validation/test_aligned_forward_continuation.py": "B1889CCD5B4458DCC9037E8FE2137F4156AF8101FE5A7852C428E177071D5AEF",
+    "results/validation/mode1_f1597/turn100_quadrature_and_donor_closure_audit.json": "146B1A0DB8B0F515929277F148E984FF1703ED0B1A626241B38A9D353E7FD7CD",
+    "tests/unit/test_mode1_f1597_turn100_quadrature_and_closure_audit.py": "C9D621C999158BC52537BFF0F7C94291736D353A2BD537CE6FE8E63CE9768370"
+  },
+  "verification_passed": true
+}
