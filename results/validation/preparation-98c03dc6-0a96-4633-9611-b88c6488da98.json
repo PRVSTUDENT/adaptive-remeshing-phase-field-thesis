@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Pure history transfer H_initial=Project(H_donor) stabilizes C3 coupled re-equilibration: 21 iterations converged, RF2=180.23 N (-4.91% vs donor, -0.20% vs C2 equilibrated), d_max=0.6550 matching C2 (0.6501); forward increment withheld as raw pre-equilibration fracture energy gate measured +16.74%.",
+  "evidence_sources": {
+    "scripts/validation/evaluate_corrected_c3_coupled_transfer_and_increment.py": "3370E999C8D421E8CFB59A736E7AF9BED2A86A7E8508403FC5EDA54CC1058F07",
+    "results/validation/mode1_f1597/turn106_c3_coupled_continuation_audit.json": "8FACC43C6A4DAA27DBB6D2C473283E612A2ED1D485BF32F515B8644E8DE434E7",
+    "tests/unit/test_mode1_f1597_turn106_c3_continuation.py": "F0252107806F60B6F1A09B6D537BA55D581B3E591ACC69D345E6FA91ECA93BAE"
+  },
+  "verification_passed": true
+}
