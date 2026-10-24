@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 113,
+  "controller_run_id": "9a3a1165-487e-4005-8b5c-e3087d47a6c5",
+  "finding": "Candidate C3 continuation package constructed and verified: Abaqus 2023 Datacheck passed Exit 0 (1s, 4 warnings); solver execution diagnosed 2-cycle active-set chattering at constraint boundary; execution-gate patch prepared and preserved; production UEL bitwise frozen.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/104_experimental_irreversible_uel/f42_experimental_irreversible_uel.for": "55FF5D097F207340291BB1A26603B70AB1F105BE8458914809AF08476A8FA195",
+    "results/validation/mode1_f1597/mode1_execution_gate_experimental_uel.patch": "878F9B74D29487B510624D556889ABDCFF47ECAF6FA8518113136B2940CBAD5E",
+    "models/pandey_kumar_mode1/105_c3_irreversible_continuation/M1_C3_IRREV_CONTINUATION.inp": "7E5A0938A7A3D7D99294BC7C1244D564B8D2701C53A0DA98063A25CCB7595CAA",
+    "models/pandey_kumar_mode1/105_c3_irreversible_continuation/d_lower_bounds.csv": "65DBBF621A9415E8C4381289C3A0C622AE8E019B189B104E3A9E30AC8B8813EB",
+    "models/pandey_kumar_mode1/105_c3_irreversible_continuation/submit_M1_C3_IRREV.pbs": "E80532A64C3CEBA62C5C20752A99AEF26618D91F9ADBBD64C591ABC70E666013",
+    "models/pandey_kumar_mode1/105_c3_irreversible_continuation/M1_C3_IRREV_AUTHORIZATION.json": "BE3D6F1F0DE42D6C7B69A1D07CEA2F4851A5265A020C2A66D8CC1BF42CDB4A75",
+    "results/validation/mode1_f1597/turn113_c3_package_generation_audit.json": "F99BF3F4C2F37F1B78B01659506CE1172A8900906E70A6786BB84D02A4C1274C",
+    "results/validation/mode1_f1597/turn113_c3_abaqus_solve_diagnosis.json": "8DB07EB537394747EA101DA9FC4631317E1D3B4A63CC824A2874FFC88B086A3F",
+    "tests/unit/test_mode1_f1597_turn113_c3_continuation.py": "75F15702E88F3DE60454CB3FB638FAC0EA0ABDF8BF5BDFBA9F01AD427B653478"
+  },
+  "verification_passed": true
+}
