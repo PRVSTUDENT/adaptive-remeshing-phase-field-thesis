@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": "2dd26045-0653-4414-83ec-3d6454163196",
+  "finding": "Verified authentic Abaqus keyword card layout for *INITIAL CONDITIONS, TYPE=SOLUTION: each card permits at most 8 entries (Line 1: Element ID + 7 SVARS; Line 2: 8 SVARS; Line 3: 3 SVARS for NSVARS=18). In runs/local_ic_test/test_ic_full.dat, Abaqus printed exact state variable ingestion with SVARS(9..12) receiving the 4 Gauss-point history values [1.1e-3, 2.2e-3, 3.3e-3, 4.4e-3]. In contrast, placing 13 entries on a single line silently truncated fields past entry 8, proving the root cause of 100% transferred history loss in Package 102. Package 102-R1 input deck was regenerated with 39,960 cards strictly adhering to the <=8 entries-per-line limit, confirmed by verify_package102_r1_deck.py and 4/4 passing unit tests.",
+  "evidence_sources": {
+    "runs/local_ic_test/test_ic_full.dat": "93D93E611E228B3ABA834F32D3E0B2023A95970ACAB4A27E2A968B5C110A60DC",
+    "runs/local_ic_test/test_ic_full.inp": "C61159C81637AF8A8AC912AD198473DB08C46C36FAC17F4EF5FDA439A9E49543",
+    "scripts/validation/verify_package102_r1_deck.py": "4E03CA0EA4EE3148E657FDD9A0C18DB5D7C8D47CB23F176280D54F422FB6B14D",
+    "tests/unit/test_mode1_f1597_turn91_history_loss_discovery.py": "C09F2B8A27B9A9DAA8143743EAD999A6AC8C8F07E43A5FBE573AE34E803F559F",
+    "models/pandey_kumar_mode1/102_r1_c5_coupled_staggered_history_repaired/M1_C5_PACKAGE102_R1_STAGGERED.inp": "22DAA8C857B65C42A302C04C725ACE4D6931C0342600F4531054435BE62532D1",
+    "models/pandey_kumar_mode1/102_r1_c5_coupled_staggered_history_repaired/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}

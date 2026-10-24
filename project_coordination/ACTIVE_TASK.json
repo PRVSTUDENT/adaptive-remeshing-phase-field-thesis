@@ -2,10 +2,10 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Interrupted turn 4c629de9-a8f5-4caa-92e8-411fb4f2d9da successfully recovered: verified checkpoint SHA256 9985B8F3D9352EFC2198AE4077B82CEC44D506D56733D74E5CEDA16DCBDAA1BF, confirmed empirical Abaqus keyword card limit (Format C fatal error vs Format Full 3-line clean pass in runs/local_ic_test), verified zero active cluster jobs for pr21vyci, and reconciled complete evidence ledger.",
+    "phase":  "Verified authentic Abaqus keyword card layout for *INITIAL CONDITIONS, TYPE=SOLUTION: each card permits at most 8 entries (Line 1: Element ID + 7 SVARS; Line 2: 8 SVARS; Line 3: 3 SVARS for NSVARS=18). In runs/local_ic_test/test_ic_full.dat, Abaqus printed exact state variable ingestion with SVARS(9..12) receiving the 4 Gauss-point history values [1.1e-3, 2.2e-3, 3.3e-3, 4.4e-3]. In contrast, placing 13 entries on a single line silently truncated fields past entry 8, proving the root cause of 100% transferred history loss in Package 102. Package 102-R1 input deck was regenerated with 39,960 cards strictly adhering to the \u003c=8 entries-per-line limit, confirmed by verify_package102_r1_deck.py and 4/4 passing unit tests.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
-
+                               "1417172.mmaster02"
                            ],
     "dependent_pbs_job_ids":  [
 
@@ -155,14 +155,14 @@
                                  "morning_scientific_audit_packages87_88",
                                  "package89_state_transfer_submission"
                              ],
-    "last_updated":  "2026-10-24T12:36:50.0665208+02:00",
+    "last_updated":  "2026-10-24T12:50:03.0083167+02:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-67a3293a-6572-40d1-814e-1cd01ae961bd.json",
-                                  "sha256":  "95850FA6A6E75F29C85E493C590015F26F51C129421F7F7088E9218BA922EFE4",
-                                  "created_at":  "2026-10-24T12:36:43.8381120+02:00"
+                                  "artifact":  "results/validation/preparation-2dd26045-0653-4414-83ec-3d6454163196.json",
+                                  "sha256":  "9852B4F48E24625F42F31E3CC003431EA0A95FA0E11C22FF1064C427DB1A285F",
+                                  "created_at":  "2026-10-24T12:46:16.1969922+02:00"
                               }
 }
