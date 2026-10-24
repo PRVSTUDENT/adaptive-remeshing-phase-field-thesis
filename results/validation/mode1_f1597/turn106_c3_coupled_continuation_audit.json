@@ -1,0 +1,302 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 106,
+  "donor_c2_benchmark": {
+    "checkpoint": "Package 89 Frame 88",
+    "u_mm": 0.00196510735,
+    "rf2_N": 189.53575540752456,
+    "e_frac_mJ": 0.05226630749512702,
+    "e_elas_mJ": 0.18622905301955253,
+    "d_max": 0.47862151265
+  },
+  "recipient_c3_state0": {
+    "u_mm": 0.00196510735,
+    "rf2_N": 189.5370751152521,
+    "diff_rf2_pct": 0.000696284310416615,
+    "e_frac_mJ": 0.052266424184613934,
+    "diff_ef_pct": 0.0002232594811184644,
+    "e_elas_mJ": 0.18623034970323982,
+    "d_max": 0.47862151265,
+    "res_d_max_kN_mm": 8.764375964062753e-07,
+    "res_u_max_kN": 1.7208456881689926e-15
+  },
+  "recipient_c3_state1_coupled": {
+    "u_mm": 0.00196510735,
+    "converged": true,
+    "iterations": 21,
+    "rf2_N": 180.22719269635175,
+    "diff_rf2_pct": -4.9112436284954715,
+    "e_frac_mJ": 0.06101655323075961,
+    "diff_ef_pct": 16.74165663309658,
+    "e_elas_mJ": 0.17708289051873788,
+    "d_max": 0.6549953755279196,
+    "min_healing": 0.0,
+    "kkt_violations": 0,
+    "res_d_max_kN_mm": 9.823575505870062e-09,
+    "res_u_max_kN": 1.7763568394002505e-15,
+    "history": [
+      {
+        "iter": 1,
+        "rf2_N": 189.5370751152521,
+        "diff_d": 0.1284024259052401,
+        "max_delta_H": 1.3505651555396985,
+        "free_nodes": 2618,
+        "res_d_free": 8.633622334665578e-09,
+        "res_u_max": 1.7208456881689926e-15,
+        "d_max": 0.5653727004927863
+      },
+      {
+        "iter": 2,
+        "rf2_N": 185.32002566164462,
+        "diff_d": 0.04169218160566268,
+        "max_delta_H": 0.9841135750902006,
+        "free_nodes": 2717,
+        "res_d_free": 8.378464726752645e-09,
+        "res_u_max": 1.609823385706477e-15,
+        "d_max": 0.5932924496275035
+      },
+      {
+        "iter": 3,
+        "rf2_N": 184.07514898386307,
+        "diff_d": 0.018203386200339455,
+        "max_delta_H": 0.41010189282078446,
+        "free_nodes": 2729,
+        "res_d_free": 8.648940337855444e-09,
+        "res_u_max": 1.8318679906315083e-15,
+        "d_max": 0.607526803368066
+      },
+      {
+        "iter": 4,
+        "rf2_N": 183.30510410265333,
+        "diff_d": 0.010644110670504858,
+        "max_delta_H": 0.2304308240403432,
+        "free_nodes": 2727,
+        "res_d_free": 8.826388069204108e-09,
+        "res_u_max": 1.5543122344752192e-15,
+        "d_max": 0.6165514371211102
+      },
+      {
+        "iter": 5,
+        "rf2_N": 182.7312384336517,
+        "diff_d": 0.006742136286451594,
+        "max_delta_H": 0.1582249879032962,
+        "free_nodes": 2725,
+        "res_d_free": 8.128361853792632e-09,
+        "res_u_max": 1.4432899320127035e-15,
+        "d_max": 0.6228194607208467
+      },
+      {
+        "iter": 6,
+        "rf2_N": 182.31269535652828,
+        "diff_d": 0.005385084918371752,
+        "max_delta_H": 0.11095441334475709,
+        "free_nodes": 2729,
+        "res_d_free": 8.257170716519411e-09,
+        "res_u_max": 1.429412144204889e-15,
+        "d_max": 0.6277907543426682
+      },
+      {
+        "iter": 7,
+        "rf2_N": 181.95774808317,
+        "diff_d": 0.004134207790869593,
+        "max_delta_H": 0.0924373256302049,
+        "free_nodes": 2729,
+        "res_d_free": 7.599531955480701e-09,
+        "res_u_max": 1.8318679906315083e-15,
+        "d_max": 0.6314287553856456
+      },
+      {
+        "iter": 8,
+        "rf2_N": 181.7041210834401,
+        "diff_d": 0.0038375645657229285,
+        "max_delta_H": 0.06907500107188547,
+        "free_nodes": 2731,
+        "res_d_free": 9.296567886914645e-09,
+        "res_u_max": 1.6653345369377348e-15,
+        "d_max": 0.6352663199513685
+      },
+      {
+        "iter": 9,
+        "rf2_N": 181.45812787868263,
+        "diff_d": 0.0029004871806307397,
+        "max_delta_H": 0.06772644369414849,
+        "free_nodes": 2731,
+        "res_d_free": 9.555758808432136e-09,
+        "res_u_max": 2.3869795029440866e-15,
+        "d_max": 0.6379837045617286
+      },
+      {
+        "iter": 10,
+        "rf2_N": 181.2800470067073,
+        "diff_d": 0.0030630411791493506,
+        "max_delta_H": 0.054001729863851544,
+        "free_nodes": 2731,
+        "res_d_free": 9.185282613719022e-09,
+        "res_u_max": 1.4432899320127035e-15,
+        "d_max": 0.6408464854098855
+      },
+      {
+        "iter": 11,
+        "rf2_N": 181.11872426625442,
+        "diff_d": 0.00154720884107995,
+        "max_delta_H": 0.05429286305287562,
+        "free_nodes": 2731,
+        "res_d_free": 7.93503051754621e-09,
+        "res_u_max": 1.609823385706477e-15,
+        "d_max": 0.6423936942509655
+      },
+      {
+        "iter": 12,
+        "rf2_N": 181.08614462658167,
+        "diff_d": 0.0024324545367470085,
+        "max_delta_H": 0.028631137089429437,
+        "free_nodes": 2731,
+        "res_d_free": 8.5427938110104e-09,
+        "res_u_max": 2.4980018054066022e-15,
+        "d_max": 0.6443684838942372
+      },
+      {
+        "iter": 13,
+        "rf2_N": 180.9110160523572,
+        "diff_d": 0.0022579016571749877,
+        "max_delta_H": 0.0374379928543771,
+        "free_nodes": 2731,
+        "res_d_free": 6.079878420061313e-09,
+        "res_u_max": 1.2212453270876722e-15,
+        "d_max": 0.64651838356699
+      },
+      {
+        "iter": 14,
+        "rf2_N": 180.74109472357938,
+        "diff_d": 0.0015826475843487842,
+        "max_delta_H": 0.04315681656475512,
+        "free_nodes": 2731,
+        "res_d_free": 8.008371883723606e-09,
+        "res_u_max": 1.942890293094024e-15,
+        "d_max": 0.6481010311513388
+      },
+      {
+        "iter": 15,
+        "rf2_N": 180.70071369665405,
+        "diff_d": 0.0018171829185137378,
+        "max_delta_H": 0.030770805659594558,
+        "free_nodes": 2731,
+        "res_d_free": 7.896953505648917e-09,
+        "res_u_max": 2.609024107869118e-15,
+        "d_max": 0.6496676464672791
+      },
+      {
+        "iter": 16,
+        "rf2_N": 180.60184689821796,
+        "diff_d": 0.0018769028172159752,
+        "max_delta_H": 0.030390237742457415,
+        "free_nodes": 2731,
+        "res_d_free": 7.955976849730894e-09,
+        "res_u_max": 1.4432899320127035e-15,
+        "d_max": 0.6511197728446249
+      },
+      {
+        "iter": 17,
+        "rf2_N": 180.47354887491022,
+        "diff_d": 0.0010154573989487048,
+        "max_delta_H": 0.02816751919694216,
+        "free_nodes": 2731,
+        "res_d_free": 8.075670359185188e-09,
+        "res_u_max": 1.6653345369377348e-15,
+        "d_max": 0.651798245050142
+      },
+      {
+        "iter": 18,
+        "rf2_N": 180.45773254112234,
+        "diff_d": 0.0016552571072852018,
+        "max_delta_H": 0.017190804980574015,
+        "free_nodes": 2731,
+        "res_d_free": 9.75834104508319e-09,
+        "res_u_max": 1.4988010832439613e-15,
+        "d_max": 0.6530380383637571
+      },
+      {
+        "iter": 19,
+        "rf2_N": 180.3291451162721,
+        "diff_d": 0.0015738370498296073,
+        "max_delta_H": 0.023122504176986247,
+        "free_nodes": 2731,
+        "res_d_free": 4.631959205653374e-09,
+        "res_u_max": 1.7763568394002505e-15,
+        "d_max": 0.6544294105877262
+      },
+      {
+        "iter": 20,
+        "rf2_N": 180.23734537419332,
+        "diff_d": 0.0006360083920354809,
+        "max_delta_H": 0.029281268262344895,
+        "free_nodes": 2731,
+        "res_d_free": 7.815663076630793e-09,
+        "res_u_max": 1.8318679906315083e-15,
+        "d_max": 0.6549953755279196
+      },
+      {
+        "iter": 21,
+        "rf2_N": 180.22719269635175,
+        "diff_d": 0.0,
+        "max_delta_H": 0.012559631276857885,
+        "free_nodes": 2731,
+        "res_d_free": 9.823575505870062e-09,
+        "res_u_max": 1.7763568394002505e-15,
+        "d_max": 0.6549953755279196
+      }
+    ]
+  },
+  "gates": {
+    "gate1_force_continuity": {
+      "pass": true,
+      "measured_diff_pct": -4.9112436284954715,
+      "threshold_pct": 5.0
+    },
+    "gate2_fracture_energy_continuity": {
+      "pass": false,
+      "measured_diff_pct": 16.74165663309658,
+      "threshold_pct": 2.0
+    },
+    "gate3_phase_field_equilibrium": {
+      "pass": true,
+      "measured": 9.823575505870062e-09,
+      "threshold": 1e-06
+    },
+    "gate4_mechanical_equilibrium": {
+      "pass": true,
+      "measured": 1.7763568394002505e-15,
+      "threshold": 0.0001
+    },
+    "gate5_kkt_complementarity": {
+      "pass": true,
+      "measured": 0,
+      "threshold": 0
+    },
+    "gate6_damage_healing": {
+      "pass": true,
+      "measured": 0.0,
+      "threshold": 0.0
+    },
+    "gate7_damage_overshoot": {
+      "pass": true,
+      "measured": 0.6549953755279196,
+      "threshold": 1.0
+    },
+    "gate8_coupled_iterations": {
+      "pass": true,
+      "measured": 21,
+      "threshold": 25
+    }
+  },
+  "same_load_acceptance_passed": false,
+  "forward_increment": null,
+  "scientific_conclusions": {
+    "gate_c1_1_status": "PROVISIONALLY_QUALIFIED_INTERPOLATION_ONLY",
+    "gate_c1_2_status": "NOT_QUALIFIED",
+    "package94_status": "BENCHMARK-REPRODUCTION-ONLY",
+    "hpc_decision": "WITHHELD_INCREMENTAL_INVESTIGATION",
+    "physical_mechanism_explanation": "Pure history projection H_initial = Project(H_donor) avoids synthetic pre-relaxation driving spikes. During coupled re-equilibration, the dynamic update H_trial = max(H_initial, psi0_pos) governs whether the crack tip remains diffuse or advances, ensuring physical consistency with the UEL formulation."
+  }
+}

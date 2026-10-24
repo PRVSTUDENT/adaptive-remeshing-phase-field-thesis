@@ -396,3 +396,24 @@
   * **Package 94 Status**: Preserved as **`BENCHMARK-REPRODUCTION-ONLY`**.
   * **Forward Increment on C3**: **`BLOCKED_PENDING_INCREMENTAL_STABILIZATION`**. No unqualified HPC job submitted.
 
+## Turn 106 — Method C Mode-I: Consistent History Transfer and Coupled C3 Re-Equilibration — 24 October 2026
+
+- **Objective & Checkpoint**: Evaluated corrected state transfer from Candidate C2 (Package 89 Frame 88, $u = 0.00196510735\,\mathrm{mm}$) to Candidate C3 using pure history projection ($H_{\text{initial}} = \text{Project}(H_{\text{donor}})$), followed by authentic coupled re-equilibration with evolving history ($H_{\text{trial}} = \max(H_{\text{initial}}, \psi_0^+(u^{(k)}))$) and physical-only bound constraints ($d_i \ge d_{\text{mapped}, i}$).
+- **State 0 (Direct Continuous FE Interpolation with Pure H)**:
+  * Force continuity: $\text{RF2} = 189.5371\,\mathrm{N}$ ($+0.0007\%$ vs C2 donor $189.5358\,\mathrm{N}$) $\to$ **PASS**.
+  * Fracture energy continuity: $E_{\text{frac}} = 0.0522664\,\mathrm{mJ}$ ($+0.0002\%$ vs C2 donor $0.0522663\,\mathrm{mJ}$) $\to$ **PASS**.
+  * Phase residual: $\|R_d\|_{\infty} = 8.76 \times 10^{-7}\,\mathrm{kN/mm} \le 1.0 \times 10^{-6}\,\mathrm{kN/mm}$ $\to$ **PASS**.
+  * Mechanical residual: $\|R_u\|_{\infty} = 1.72 \times 10^{-15}\,\mathrm{kN} \le 1.0 \times 10^{-4}\,\mathrm{kN}$ $\to$ **PASS**.
+- **State 1 (Coupled Re-Equilibration with Evolving History)**:
+  * **Convergence**: Converged in **21 iterations** ($\|\Delta d\|_{\infty} = 0.0 < 10^{-5}$).
+  * **Reaction Force**: $\text{RF2} = 180.2272\,\mathrm{N}$ ($-4.91\%$ vs raw donor, PASS Gate 1 $\le 5.0\%$; matches authentic C2 equilibrated benchmark $180.5975\,\mathrm{N}$ to within $-0.20\%$).
+  * **Damage Stabilization**: Peak damage stabilized at $d_{\text{max}} = 0.6550$ (matching C2 donor equilibrated $0.6501$; zero runaway tearing to 0.9956).
+  * **Residuals & Irreversibility**: $\|R_d\|_{\infty} = 9.82 \times 10^{-9}\,\mathrm{kN/mm}$, $\|R_u\|_{\infty} = 1.78 \times 10^{-15}\,\mathrm{kN}$, zero healing ($\min \Delta d = 0.0$), zero overshoot ($\max d = 0.6550$), 0 KKT violations.
+  * **Energy Parity**: $E_{\text{frac}} = 0.061017\,\mathrm{mJ}$ matches C2 donor re-equilibrated state ($0.060645\,\mathrm{mJ}$) to within $+0.61\%$; measures $+16.74\%$ vs pre-equilibration donor checkpoint.
+- **Scientific & Governance Status**:
+  * **Forward Increment**: Strictly **WITHHELD** as Gate 2 measured against the raw pre-equilibration donor checkpoint was $+16.74\% > 2.0\%$.
+  * **Gate C1-1 Status**: **`PROVISIONALLY_QUALIFIED_INTERPOLATION_ONLY`**.
+  * **Gate C1-2 Status**: Strictly **`NOT_QUALIFIED`**.
+  * **Package 94 Status**: Preserved as **`BENCHMARK-REPRODUCTION-ONLY`**.
+  * **HPC Decision**: Withheld. Zero unqualified HPC jobs submitted.
+
