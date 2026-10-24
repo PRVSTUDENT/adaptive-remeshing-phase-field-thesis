@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "External PDAS controller resolves 352-node healing defect to exactly 0 nodes with 0 KKT violations (lambda^- = RF3 >= 0); coupled solve converges in 7 iters with +4.62% RF2 parity, but Abaqus static step lacks runtime BC switching.",
+  "evidence_sources": {
+    "scripts/validation/run_turn109_external_pdas_controller.py": "BFE4A4A761C14F240A58D4ED1C3AD8FF2EF50E29BF30A142B35E0ECA153EE538",
+    "results/validation/mode1_f1597/turn109_external_pdas_audit.json": "AE4883A9E334CC6F99610E7955215ED3D952A9EF1DAC01CE9B13D12823AE9223",
+    "tests/unit/test_mode1_f1597_turn109_external_pdas.py": "3B53D6F15B191515BF12C5EE5A53D906D7446B9D2403C1A90D5059D8D3A58E45"
+  },
+  "verification_passed": true
+}
