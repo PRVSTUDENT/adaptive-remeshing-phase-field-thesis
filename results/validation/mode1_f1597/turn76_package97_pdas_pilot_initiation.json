@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 76,
+  "created_at": "2026-10-24T07:13:30+02:00",
+  "status": "PACKAGE97_PILOT_INITIATION_UNDERWAY",
+  "finding": "Turn 76 initiated Package 97 dedicated PDAS continuation pilot construction (models/pandey_kumar_mode1/97_pdas_iterative_continuation_pilot/) to execute genuine iterative Abaqus subproblem solves inside a single 1-CPU 16GB 8h accounted PBS allocation.",
+  "target_scratch_dir": "/scratch9/pr21vyci/runs/mode1_package97_c5_pdas_pilot",
+  "seed_deck": "M1_C5_PACKAGE97_SEED_TRANSFER.inp",
+  "datacheck_file": "M1_C5_PACKAGE97_SEED_TRANSFER_DC.dat",
+  "pbs_script": "submit_M1_C5_PACKAGE97_PDAS_PILOT.pbs",
+  "adapter": "mode1-pdas-iterative-v1",
+  "predeclared_acceptance_criteria": {
+    "phase_residual_tol_kNmm": 1.0e-6,
+    "mechanical_residual_tol_kN": 1.0e-4,
+    "strict_healing_nodes_allowed": 0,
+    "strict_overshoot_nodes_allowed": 0,
+    "force_continuity_tol_pct": 5.0,
+    "fracture_energy_continuity_tol_pct": 2.0,
+    "max_iterations_cap": 25
+  },
+  "gate_c1_2_status": "NOT_QUALIFIED"
+}

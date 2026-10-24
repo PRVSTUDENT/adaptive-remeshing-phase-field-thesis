@@ -1,0 +1,44 @@
+{
+  "batch_name": "MODE1_PACKAGE_97_C5_PDAS_PILOT",
+  "adapter": "mode1-pdas-iterative-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_package97_c5_pdas_pilot",
+  "files": {
+    "candidate_c5_frame7_mapped_state_table.csv": "713c076501ca6098510fd3be8917896ec31b4a42cedc7977ea0c33d28fb00b3a",
+    "candidate_crack_band_mesh_c5.inp": "4f68e1d5977116a9bbcdd86039059692e8d4b8298c944b8d96907f7b61bedc75",
+    "extract_pdas_subproblem_odb.py": "398cc5f2f919f27202e6229953e5e3806ac473a9dc18d420730a5339090a77e6",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_C5_PACKAGE97_SEED_TRANSFER.inp": "505edcb7a0423ecd8eff564bedc0f4da9291b74d6a9d72dd54d8dc8c7cae7cda",
+    "M1_C5_PACKAGE97_SEED_TRANSFER_DC.dat": "618415db104f906231f5ea90285f10a89417dfa0b379773a9b80c8faef453c73",
+    "PACKAGE_MANIFEST.json": "8460442004621a8852b692b0a90a92f8f82ee65a5903e06bf5be52dc01022587",
+    "pdas_cluster_execution_adapter.py": "55d9aef5931449d8506a81415803e1e409fb7f6052a5a9768122fa43e601085b",
+    "submit_M1_C5_PACKAGE97_PDAS_PILOT.pbs": "01052fbe4ff5fff7b99cae06115f59ae9e21045e7b72c88f564c28fdaa11e603"
+  },
+  "jobs": [
+    {
+      "id": "M1_C5_PACKAGE97_PDAS_PILOT",
+      "pbs": "submit_M1_C5_PACKAGE97_PDAS_PILOT.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_package97_c5_pdas_pilot/submit_M1_C5_PACKAGE97_PDAS_PILOT.pbs\"",
+      "command_sha256": "8c81446b6d435ba905e41a6a696c4964ac90937d90f2d3002ee485a3bbb81a05",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Package 97: First live cluster iterative PDAS continuation pilot on C5 mesh under Abaqus 2023 with authentic unscaled history (scale_h=1.0), +4.0 nm continuation loading (u_target=0.002056 mm), live ODB extraction, and atomic checkpoint persistence.",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_C5_PACKAGE97_SEED_TRANSFER.inp",
+      "datacheck": "M1_C5_PACKAGE97_SEED_TRANSFER_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_C5_PACKAGE97_PDAS_PILOT": "Exit code 0 across PDAS iterations; released reaction force continuity within 5% of authentic Package 94 donor RF2 (112.97 N); fracture energy jump within 2% of donor E_frac (0.00013774 kN*mm); strict irreversibility preserved (0 healing points); authentic committed Gauss-point history H preserved without reset; forward softening continuation completed with d_max <= 1.00000; converged checkpoint pdas_accepted_checkpoint.json emitted."
+  }
+}
