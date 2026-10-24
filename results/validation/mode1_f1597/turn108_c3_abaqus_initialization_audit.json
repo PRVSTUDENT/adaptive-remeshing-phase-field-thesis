@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 108,
+  "uel_source_audit": {
+    "uel_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\f42_mixed_uel.for",
+    "actual_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "expected_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "hash_verified": true,
+    "has_common_block": true,
+    "has_history_ingestion_from_svars": true,
+    "has_kstep_kinc_guard": true,
+    "uexternaldb_zeroes_state_at_lop0": true,
+    "has_lower_bound_svars_in_uel": false,
+    "has_active_set_in_uel": false,
+    "ingested_svars_indices": [
+      9,
+      10,
+      11,
+      12
+    ],
+    "notes": "f42_mixed_uel.for successfully ingests SVARS(9..12) into SV_H_COMMITTED and SV_H_TRIAL at KSTEP=1, KINC<=1 for JTYPE=1. However, f42_mixed_uel.for has NO internal mechanism to ingest a nodal lower-bound damage field or enforce the inequality d >= d_lower; it forms the unconstrained Euler-Lagrange phase-field equation."
+  },
+  "c3_equilibrated_reference": {
+    "u_top_mm": 0.00196510735,
+    "rf2_N": 180.22719269635175,
+    "e_frac_mJ": 0.06101655323075961,
+    "d_max": 0.6549953755279196,
+    "iterations": 21,
+    "converged": true,
+    "n_nodes": 2769,
+    "n_elements": 2650
+  },
+  "unconstrained_linear_phase_solve": {
+    "healing_node_count": 352,
+    "max_healing_magnitude": 0.0009467018750559109,
+    "min_delta_damage": -0.0009467018750559109,
+    "overshoot_node_count": 0,
+    "verdict": "HEALING_DETECTED"
+  },
+  "abaqus_initialization_mechanisms": {
+    "INITIAL_CONDITIONS_TYPE_SOLUTION": {
+      "supported_for_uel": true,
+      "ingested_into_uel": true,
+      "uel_code_location": "f42_mixed_uel.for lines 249-261",
+      "variables_ingested": "SVARS(9..12) -> SV_H_COMMITTED and SV_H_TRIAL (4 Gauss points)",
+      "status": "VERIFIED_SUPPORTED"
+    },
+    "INITIAL_CONDITIONS_TYPE_DISPLACEMENT": {
+      "supported_for_uel": false,
+      "abaqus_doc_citation": "Abaqus Analysis User's Guide Section 34.2.1: 'Initial displacements cannot be applied in a static analysis. If initial displacements are specified for a static analysis, Abaqus/Standard ignores them.'",
+      "consequence": "Neither displacement (DOFs 1,2) nor phase field (DOF 3) can be initialized to non-zero values via *INITIAL CONDITIONS in a static step.",
+      "status": "UNSUPPORTED_IN_STATIC_ANALYSIS"
+    },
+    "INITIAL_CONDITIONS_TYPE_FIELD": {
+      "supported_for_uel": true,
+      "ingested_into_uel": false,
+      "consequence": "Initializes predefined field variables (PREDEF array), but f42_mixed_uel.for does not consume PREDEF for history or damage.",
+      "status": "NOT_CONSUMED_BY_FROZEN_UEL"
+    },
+    "BOUNDARY_DISPLACEMENT_INJECTION": {
+      "supported_for_uel": true,
+      "consequence": "Clamping all nodes in Step 1 applies rigid kinematic constraints, generating artificial reaction forces at all interior nodes. When released in Step 2, interior nodes dynamically re-equilibrate.",
+      "status": "RESTRICTED_SURROGATE"
+    },
+    "DAMAGE_IRREVERSIBILITY_ENFORCEMENT": {
+      "supported_for_uel": false,
+      "consequence": "Because f42_mixed_uel.for has no internal active-set projection for DOF 3, free continuation (Step 4) results in 24 to 2,140 healing nodes where d decreases below the transferred donor state.",
+      "status": "UNSUPPORTED_WITHOUT_ACTIVE_SET_BC_OR_UEL_UPGRADE"
+    }
+  },
+  "technical_determination": {
+    "can_submit_unconstrained_abaqus_job": false,
+    "blocker_category": "IRREVERSIBILITY_AND_STATE_INITIALIZATION_DEFECT",
+    "specific_blocker": "Abaqus/Standard static analysis ignores *INITIAL CONDITIONS, TYPE=DISPLACEMENT (Section 34.2.1), so nodal displacements and phase fields cannot be initialized directly. While *INITIAL CONDITIONS, TYPE=SOLUTION successfully initializes Gauss-point history SVARS(9..12) via lines 249-261 of f42_mixed_uel.for, the frozen UEL solves the unconstrained phase-field Euler-Lagrange equation without internal active-set projection. In an unconstrained continuation step, exactly 24 nodes exhibit damage healing (d < d_equil), violating the thermodynamic irreversibility criterion (min delta d >= 0.0).",
+    "recommended_resolution": "To execute an authentic, qualified Abaqus continuation job without healing: (1) Identify the exact active set of nodes where d equals the lower bound; (2) Maintain *BOUNDARY constraints on DOF 3 strictly on the active set while leaving the crack tip and process zone free to advance; or (3) Formally document this architectural Abaqus limitation in the thesis."
+  }
+}

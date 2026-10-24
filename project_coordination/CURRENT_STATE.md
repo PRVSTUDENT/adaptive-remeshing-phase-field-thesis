@@ -431,8 +431,26 @@
   * **Crack Advancement**: $d_{\text{max}} = 0.6754$ ($\Delta d_{\text{max}} = +0.0204$), matching C2 reference ($0.6696$, $\Delta = +0.0195$).
   * **Residuals & Irreversibility**: $\|R_u\| = 1.78 \times 10^{-15}\,\mathrm{kN} \le 1.0 \times 10^{-4}\,\mathrm{kN}$, $\|R_d\| = 9.14 \times 10^{-9}\,\mathrm{kN/mm} \le 1.0 \times 10^{-6}\,\mathrm{kN/mm}$, 0 KKT violations, zero healing ($\min \Delta d = 0.0$), zero overshoot ($\max d = 0.6754$).
 - **Scientific & Governance Status**:
-  * **Gate C1-1 Status**: **`QUALIFIED_AT_FRAME88`** (matched-equilibrated consistency and authentic forward continuation verified).
+  * **Gate C1-1 Status**: **`QUALIFIED_AT_FRAME88`** (matched-equilibrated consistency and authentic forward continuation verified offline).
   * **Gate C1-2 Status**: Strictly **`NOT_QUALIFIED`**.
   * **Package 94 Status**: Preserved as **`BENCHMARK-REPRODUCTION-ONLY`**.
   * **HPC Execution Decision**: C3 continuation validated offline; ready for Abaqus UEL input-deck generation and HPC submission.
+
+## Turn 108 — Method C Mode-I: Abaqus UEL State Initialization & Irreversibility Audit for Candidate C3 — 24 October 2026
+
+- **Objective & Checkpoint**: Audited Abaqus 2023 UEL state initialization mechanisms and evaluated whether Candidate C3 re-equilibrated state transfer and forward continuation can execute in authentic Abaqus Standard with the frozen production UEL (`f42_mixed_uel.for` at SHA-256 `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`).
+- **Abaqus Keyword & Frozen UEL Ingestion Findings**:
+  * `*INITIAL CONDITIONS, TYPE=SOLUTION` on `*USER ELEMENT` is fully supported; lines 249-261 of `f42_mixed_uel.for` successfully ingest `SVARS(9..12)` into `SV_H_COMMITTED` and `SV_H_TRIAL` across all 4 Gauss points.
+  * `*INITIAL CONDITIONS, TYPE=DISPLACEMENT` is explicitly ignored by Abaqus/Standard in static analysis (Section 34.2.1); neither displacement (DOFs 1,2) nor phase field (DOF 3) can be initialized directly via `*INITIAL CONDITIONS`.
+  * `*INITIAL CONDITIONS, TYPE=FIELD` populates `PREDEF`, which `f42_mixed_uel.for` does not consume.
+- **Thermodynamic Irreversibility & Healing Defect**:
+  * Evaluated the exact unconstrained Euler-Lagrange phase-field equation solved by `f42_mixed_uel.for` on Candidate C3 with initialized history $H$.
+  * Exactly 352 nodes out of 2,769 (12.71%) exhibit damage healing ($d < d_{\text{equil}} - 10^{-6}$), with maximum healing magnitude $\Delta d = -9.47 \times 10^{-4}$.
+  * Because `f42_mixed_uel.for` has no internal active-set projection for DOF 3, free continuation without boundary constraints violates thermodynamic irreversibility.
+  * Clamping active-set nodes via `*Boundary` applies artificial kinematic reactions and cannot dynamically release cracking nodes without an iterative external driver.
+- **Scientific & Governance Status**:
+  * **HPC Submission Decision**: Strictly **WITHHELD** in accordance with single-turn safety protocol and explicit prompt instructions. Zero unqualified Abaqus continuation jobs submitted.
+  * **Gate C1-1 Status**: **`QUALIFIED_OFFLINE_ONLY`** (variational inequality transfer qualified; Abaqus UEL unconstrained execution blocked by healing defect).
+  * **Gate C1-2 Status**: Strictly **`NOT_QUALIFIED`**.
+  * **Package 94 Status**: Preserved as **`BENCHMARK-REPRODUCTION-ONLY`**.
 
