@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Terminal evaluation of Job 1417035 (Package 99 PDAS Pilot) completed: all 14 subproblems converged with Exit 0 and authentic nodal .dat extraction; reaction force continuity passed at -0.651% (112.235 N vs donor 112.9707 N, threshold \u003c= 5%), total energy continuity passed at -0.397% (0.2526 mJ vs 0.2536 mJ, threshold \u003c= 2%), and non-overshoot strictly passed with 0 overshoots (d \u003c= 1.0 everywhere); driver cleanly detected 2-cycle active-set oscillation at iteration 15 affecting 61 crack-wake margin nodes with max |delta d| = 0.0258 and mesh RMS = 0.00135.",
+    "phase":  "Turn 84 diagnosis completed: reconciled true Package 99 cluster payload hashes against earlier session report stubs; diagnosed the 61-node 2-cycle active-set oscillation as undamped PDAS chatter driven by 33 boundary nodes where positive dual residuals (1.01e-6 to 4.11e-6 kN/mm) barely exceed TAU_RES; proved via exact bound-constrained QP (fun=-1.6388e-2, 0 KKT violations) that these nodes are stably free (d* in [0.85, 0.99]) in the true minimizer; proved via PETSc SNESVI projected active-set simulation that cycle-prevention projection extinguishes chatter and converges at iteration 13; and decomposed the -2.110% fracture energy deficit into +2.038% true damage progression and -4.191% non-local gradient smoothing across nonmatching meshes, maintaining Gate C1-2 as strictly NOT_QUALIFIED.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -153,14 +153,14 @@
                                  "morning_scientific_audit_packages87_88",
                                  "package89_state_transfer_submission"
                              ],
-    "last_updated":  "2026-10-24T09:33:36.2483182+02:00",
+    "last_updated":  "2026-10-24T09:54:25.9644976+02:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-3c26f0e4-dc50-4e83-b56a-7c61c6074fc3.json",
-                                  "sha256":  "503FBE2B78736B0CD18F2D16A56899AB6998444F8DCDACDC69FE26B353B1FE71",
-                                  "created_at":  "2026-10-24T09:31:45.7611605+02:00"
+                                  "artifact":  "results/validation/preparation-40608749-9a82-4d64-89cc-663c8d3a1c6a.json",
+                                  "sha256":  "1711ABC4BD7A7A5603F3510DC3E1FCF480D502446DFB3D95B89511DC29F2E08D",
+                                  "created_at":  "2026-10-24T09:52:55.6725832+02:00"
                               }
 }

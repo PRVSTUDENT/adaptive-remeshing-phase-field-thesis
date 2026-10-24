@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "40608749-9a82-4d64-89cc-663c8d3a1c6a",
+  "finding": "Turn 84 diagnosis completed: reconciled true Package 99 cluster payload hashes against earlier session report stubs; diagnosed the 61-node 2-cycle active-set oscillation as undamped PDAS chatter driven by 33 boundary nodes where positive dual residuals (1.01e-6 to 4.11e-6 kN/mm) barely exceed TAU_RES; proved via exact bound-constrained QP (fun=-1.6388e-2, 0 KKT violations) that these nodes are stably free (d* in [0.85, 0.99]) in the true minimizer; proved via PETSc SNESVI projected active-set simulation that cycle-prevention projection extinguishes chatter and converges at iteration 13; and decomposed the -2.110% fracture energy deficit into +2.038% true damage progression and -4.191% non-local gradient smoothing across nonmatching meshes, maintaining Gate C1-2 as strictly NOT_QUALIFIED.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/turn84_initial_61node_and_provenance_audit.json": "34F322B598B4554DCD066B755DFB273F308E2B00BDF1EA5F911C42BE56CF7C31",
+    "results/validation/mode1_f1597/turn84_61node_mathematical_diagnosis.json": "6FED590019BC50F9A56EB996CC094DD7BE68AAF015F15CE3584551AA31AACCC8",
+    "results/validation/mode1_f1597/turn84_exact_qp_reference.json": "CD077355589D3EB9E7A788848A38B384ADDEF29D94A25FF22365F81F1A9F09F1",
+    "results/validation/mode1_f1597/turn84_fracture_energy_decomposition_audit.json": "4473152456E9915D906B1682A2DD4357CFE3455FB647C93F86CF7817CD7EB182"
+  },
+  "verification_passed": true
+}

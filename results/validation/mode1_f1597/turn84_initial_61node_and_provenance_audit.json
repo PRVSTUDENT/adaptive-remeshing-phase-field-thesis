@@ -1,0 +1,160 @@
+{
+  "schema": 1,
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": "40608749-9a82-4d64-89cc-663c8d3a1c6a",
+  "turn_number": 84,
+  "status": "INITIAL_AUDIT_COMPLETE",
+  "provenance_reconciliation": {
+    "immutable_submitted_payload_dir": "/scratch9/pr21vyci/runs/mode1_package99_c5_pdas_pilot",
+    "f42_mixed_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "M1_C5_PACKAGE99_SEED_TRANSFER_sha256": "32AC550C7293AA69E0519A7CFF93FB8B1183DA1438CFF76746C265D4C9CD5207",
+    "candidate_crack_band_mesh_c5_sha256": "4F68E1D5977116A9BBCDD86039059692E8D4B8298C944B8D96907F7B61BEDC75",
+    "candidate_c5_frame7_mapped_state_table_sha256": "713C076501CA6098510FD3BE8917896EC31B4A42CEDC7977EA0C33D28FB00B3A",
+    "pdas_cluster_execution_adapter_sha256": "961F1B91BBC1B64C0DFB8C4C58ED9ED64E7C16A7565CFC63AA35DD54A53A6ACC",
+    "extract_pdas_subproblem_odb_sha256": "3AED5089AA6D66208B9A8E385FA9462B4D3BC5AA23BDFD8A08D473AA73A8FA5C",
+    "PACKAGE_MANIFEST_sha256": "4466E760DCE14D771BE462C8B3016A2E9849C11EB09E560CFF85039DA850EE6C",
+    "submit_M1_C5_PACKAGE99_PDAS_PILOT_sha256": "8B30E830B23B716E7B9F003FD2A0FB34BCD419A1919A49936ADE34740096340A",
+    "reconciliation_finding": "Turn 83 session report text contained historical hashes from intermediate preparation scripts. The true immutable cluster execution payload matches package99_source_provenance_audit.json exactly with 100% bitwise parity."
+  },
+  "scientific_classification_corrections": {
+    "free_set_residual_iter14_kNmm": 7.44e-06,
+    "free_set_residual_verdict": "FAIL (exceeds 1.0e-6 threshold)",
+    "lower_bound_kkt_verdict": "FAIL (non-stationary active set)",
+    "strict_healing_count_iter14": 33,
+    "strict_healing_verdict": "FAIL (trial state violates irreversibility prior to clamping)",
+    "active_set_stationarity_changes_iter14": 35,
+    "active_set_stationarity_verdict": "FAIL (2-cycle oscillation detected, active set not converged)",
+    "fracture_energy_discrepancy_pct": -2.11,
+    "fracture_energy_verdict": "FAIL (exceeds predeclared <= 2.0% threshold)",
+    "reaction_force_discrepancy_pct": -0.651,
+    "reaction_force_verdict": "PASS (within <= 5.0% threshold)",
+    "total_energy_discrepancy_pct": -0.397,
+    "total_energy_verdict": "PASS (within <= 2.0% separate total energy threshold)",
+    "gate_c1_2_overall_status": "NOT_QUALIFIED"
+  },
+  "sixty_one_node_investigation": {
+    "toggling_node_count": 61,
+    "max_abs_delta_d": 0.025815240000000017,
+    "mean_abs_delta_d": 0.008488089508196727,
+    "rms_mesh_delta_d": 0.0013460854581928221,
+    "spatial_box": {
+      "x_min": 0.04,
+      "x_max": 0.06303249,
+      "y_min": 0.04733333,
+      "y_max": 0.052
+    },
+    "top_10_toggling_nodes": [
+      {
+        "node_label": 4610,
+        "x_mm": 0.04,
+        "y_mm": 0.05,
+        "d_ckpt": 0.841322,
+        "d_iter13": 0.841322,
+        "d_iter14": 0.815506,
+        "delta_d": -0.025815,
+        "d13_equals_ckpt": true,
+        "d14_equals_ckpt": false
+      },
+      {
+        "node_label": 2360,
+        "x_mm": 0.04,
+        "y_mm": 0.05067,
+        "d_ckpt": 0.809607,
+        "d_iter13": 0.809607,
+        "d_iter14": 0.786779,
+        "delta_d": -0.022828,
+        "d13_equals_ckpt": true,
+        "d14_equals_ckpt": false
+      },
+      {
+        "node_label": 2008,
+        "x_mm": 0.05674,
+        "y_mm": 0.04733,
+        "d_ckpt": 0.948946,
+        "d_iter13": 0.948946,
+        "d_iter14": 0.926569,
+        "delta_d": -0.022377,
+        "d13_equals_ckpt": true,
+        "d14_equals_ckpt": false
+      },
+      {
+        "node_label": 2084,
+        "x_mm": 0.05806,
+        "y_mm": 0.048,
+        "d_ckpt": 0.966323,
+        "d_iter13": 0.966323,
+        "d_iter14": 0.945166,
+        "delta_d": -0.021157,
+        "d13_equals_ckpt": true,
+        "d14_equals_ckpt": false
+      },
+      {
+        "node_label": 2007,
+        "x_mm": 0.05557,
+        "y_mm": 0.04733,
+        "d_ckpt": 0.963097,
+        "d_iter13": 0.963097,
+        "d_iter14": 0.942963,
+        "delta_d": -0.020134,
+        "d13_equals_ckpt": true,
+        "d14_equals_ckpt": false
+      },
+      {
+        "node_label": 2006,
+        "x_mm": 0.05452,
+        "y_mm": 0.04733,
+        "d_ckpt": 0.963653,
+        "d_iter13": 0.963653,
+        "d_iter14": 0.944845,
+        "delta_d": -0.018809,
+        "d13_equals_ckpt": true,
+        "d14_equals_ckpt": false
+      },
+      {
+        "node_label": 2526,
+        "x_mm": 0.05067,
+        "y_mm": 0.052,
+        "d_ckpt": 0.967628,
+        "d_iter13": 0.967628,
+        "d_iter14": 0.949506,
+        "delta_d": -0.018121,
+        "d13_equals_ckpt": true,
+        "d14_equals_ckpt": false
+      },
+      {
+        "node_label": 2525,
+        "x_mm": 0.05,
+        "y_mm": 0.052,
+        "d_ckpt": 0.962076,
+        "d_iter13": 0.962076,
+        "d_iter14": 0.944089,
+        "delta_d": -0.017987,
+        "d13_equals_ckpt": true,
+        "d14_equals_ckpt": false
+      },
+      {
+        "node_label": 2532,
+        "x_mm": 0.05557,
+        "y_mm": 0.052,
+        "d_ckpt": 0.973675,
+        "d_iter13": 0.973675,
+        "d_iter14": 0.956616,
+        "delta_d": -0.01706,
+        "d13_equals_ckpt": true,
+        "d14_equals_ckpt": false
+      },
+      {
+        "node_label": 2446,
+        "x_mm": 0.04733,
+        "y_mm": 0.05133,
+        "d_ckpt": 0.971133,
+        "d_iter13": 0.971133,
+        "d_iter14": 0.954439,
+        "delta_d": -0.016693,
+        "d13_equals_ckpt": true,
+        "d14_equals_ckpt": false
+      }
+    ]
+  },
+  "verification_passed": true
+}
