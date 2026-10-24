@@ -380,3 +380,19 @@
   * **Package 94 Status**: Preserved as **BENCHMARK-REPRODUCTION-ONLY**.
   * **HPC Decision**: C2 $\to$ C3 nonmatching transfer benchmark is physically proven and numerically verified.
 
+## Turn 105 — Method C Mode-I: Complete Three-State C3 Acceptance & State 1 Diagnosis — 24 October 2026
+
+- **Objective & Checkpoint**: Independently verified the physical validity of the Turn 104 Candidate C2 -> Candidate C3 re-equilibrated state (State 1), evaluated all 8 transfer acceptance gates, and investigated the root cause of peak damage growth to $d_{\text{max}} = 0.9956$.
+- **Three-State Acceptance Audit**:
+  * **State A (C2 Donor Benchmark)**: $\text{RF2} = 189.5358\,\mathrm{N}$, $E_{\text{frac}} = 0.052266\,\mathrm{mJ}$, $d_{\text{max}} = 0.478622$, $\|R_u\| = 1.53 \times 10^{-15}\,\mathrm{kN}$.
+  * **State B (C3 State 0 Post-Projection)**: $\text{RF2} = 189.5371\,\mathrm{N}$ ($+0.0007\%$), $E_{\text{frac}} = 0.052266\,\mathrm{mJ}$ ($+0.0002\%$), $\|R_u\| = 1.72 \times 10^{-15}\,\mathrm{kN}$ $\to$ **Interpolation parity verified**.
+  * **State C (C3 State 1 Re-Equilibrated)**: $\text{RF2} = 133.6099\,\mathrm{N}$ ($-29.51\%$, FAIL Gate 1), $E_{\text{frac}} = 0.106882\,\mathrm{mJ}$ ($+104.50\%$, FAIL Gate 2), $d_{\text{max}} = 0.995587$, 25 iterations non-converged (FAIL Gate 8).
+- **Root Cause & Bounded Corrective Investigation**:
+  * Identified that evaluating $\psi_0^+(B \cdot u_{\text{trans}})$ on unrelaxed interpolated displacements across the newly refined C3 notch elements produced an artificial driving energy spike ($\max H = 27.691\,\mathrm{kN/mm^2}$ vs donor $1.298\,\mathrm{kN/mm^2}$), triggering fixed-displacement tip tearing.
+  * Corrective investigation proved that transferring history purely ($H = H_{\text{interp}}$) preserves exact donor history ($1.297688\,\mathrm{kN/mm^2}$, $0.00\%$ parity), achieves State 0 phase equilibrium immediately ($\|R_d\| = 8.76 \times 10^{-7}\,\mathrm{kN/mm} \le 1.0 \times 10^{-6}\,\mathrm{kN/mm}$), and under fixed-history re-equilibration yields $\text{RF2} = 188.1073\,\mathrm{N}$ ($-0.75\%$ diff, PASS) with diffuse damage $d_{\text{max}} = 0.5224$.
+- **Scientific & Governance Status**:
+  * **Gate C1-1 Status**: **`PROVISIONALLY_QUALIFIED_INTERPOLATION_ONLY`** (interpolation parity qualified; coupled fixed-load re-equilibration failed).
+  * **Gate C1-2 Status**: Strictly **`NOT_QUALIFIED`**.
+  * **Package 94 Status**: Preserved as **`BENCHMARK-REPRODUCTION-ONLY`**.
+  * **Forward Increment on C3**: **`BLOCKED_PENDING_INCREMENTAL_STABILIZATION`**. No unqualified HPC job submitted.
+

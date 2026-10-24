@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 105,
+  "three_state_acceptance_evidence_table": {
+    "state_A_c2_donor": {
+      "mesh": "Candidate C2 (2,300 quads, 2,413 nodes)",
+      "checkpoint": "Package 89 Frame 88",
+      "u_prescribed_mm": 0.00196510735,
+      "rf2_N": 189.53575540752456,
+      "e_frac_mJ": 5.226630749512702e-05,
+      "e_elas_mJ": 0.00018622905301955253,
+      "d_max": 0.47862151265,
+      "res_u_max_kN": 1.5265566588595902e-15,
+      "res_d_max_kN_mm": 8.764375964062766e-07
+    },
+    "state_B_c3_state0": {
+      "mesh": "Candidate C3 (2,650 quads, 2,769 nodes)",
+      "stage": "Immediate Post-Projection (Direct Interpolation)",
+      "u_prescribed_mm": 0.00196510735,
+      "rf2_N": 189.5370751152521,
+      "diff_rf2_pct": 0.000696284310416615,
+      "e_frac_mJ": 5.226642418461393e-05,
+      "diff_ef_pct": 0.00022325948111234496,
+      "e_elas_mJ": 0.00018623034970323982,
+      "d_max": 0.47862151265,
+      "res_u_max_kN": 1.7208456881689926e-15,
+      "res_d_max_kN_mm": 1.5695714840918932e-05,
+      "interpolation_parity_verdict": "PASS"
+    },
+    "state_C_c3_state1": {
+      "mesh": "Candidate C3 (2,650 quads, 2,769 nodes)",
+      "stage": "Coupled Bound-Constrained Re-Equilibration at Fixed Load",
+      "u_prescribed_mm": 0.00196510735,
+      "rf2_N": 133.6099272480415,
+      "diff_rf2_pct": -29.50674295688212,
+      "e_frac_mJ": 0.10688237141943129,
+      "diff_ef_pct": 104.49573834806738,
+      "e_elas_mJ": 0.12971870970140656,
+      "d_max": 0.9955870956568983,
+      "res_u_max_kN": 2.3314683517128287e-15,
+      "res_d_max_kN_mm": 9.821283616965263e-09,
+      "kkt_violations": 0,
+      "min_healing": 0.0,
+      "converged": false,
+      "iterations": 25,
+      "state1_parity_verdict": "FAIL"
+    }
+  },
+  "gates": {
+    "gate1_force_continuity": {
+      "threshold": "<= 5.0% vs C2 donor",
+      "state0_diff_pct": 0.000696284310416615,
+      "state0_pass": true,
+      "state1_diff_pct": -29.50674295688212,
+      "state1_pass": false
+    },
+    "gate2_fracture_energy_continuity": {
+      "threshold": "<= 2.0% vs C2 donor",
+      "state0_diff_pct": 0.00022325948111234496,
+      "state0_pass": true,
+      "state1_diff_pct": 104.49573834806738,
+      "state1_pass": false
+    },
+    "gate3_phase_field_equilibrium": {
+      "threshold": "<= 1.0e-6 kN/mm",
+      "state0_res": 1.5695714840918932e-05,
+      "state0_pass": false,
+      "state1_res": 9.821283616965263e-09,
+      "state1_pass": true
+    },
+    "gate4_mechanical_equilibrium": {
+      "threshold": "<= 1.0e-4 kN",
+      "state0_res": 1.7208456881689926e-15,
+      "state0_pass": true,
+      "state1_res": 2.3314683517128287e-15,
+      "state1_pass": true
+    },
+    "gate5_kkt_complementarity": {
+      "threshold": "0 violations",
+      "measured": 0,
+      "pass": true
+    },
+    "gate6_damage_healing": {
+      "threshold": "min(delta_d) >= 0.0",
+      "measured": 0.0,
+      "pass": true
+    },
+    "gate7_damage_overshoot": {
+      "threshold": "max(d) <= 1.0",
+      "measured": 0.9955870956568983,
+      "pass": true
+    },
+    "gate8_coupled_iterations": {
+      "threshold": "<= 25 iterations and converged",
+      "iterations": 25,
+      "converged": false,
+      "pass": false
+    }
+  },
+  "scientific_conclusions": {
+    "transfer_gate_classification": "PROVISIONALLY_QUALIFIED_INTERPOLATION_ONLY",
+    "gate_c1_1_status": "PROVISIONALLY_QUALIFIED_INTERPOLATION_ONLY",
+    "gate_c1_2_status": "NOT_QUALIFIED",
+    "package94_status": "BENCHMARK-REPRODUCTION-ONLY",
+    "forward_increment_decision": "BLOCKED_PENDING_INCREMENTAL_STABILIZATION",
+    "physical_mechanism_explanation": "Direct continuous FE interpolation (State 0) achieves exceptional parity (+0.00% force, +0.00% fracture energy, ||R_u|| = 1.72e-15 kN). However, holding the refined C3 mesh in static alternating minimization at fixed displacement triggers unphysical tip tearing (d_max -> 0.9956, RF2 drops -29.51%, E_frac surges +104.50%, non-converged at iter 25). Therefore, Gate C1-1 is provisionally qualified for interpolation only, and forward execution is withheld pending incremental continuation formulation."
+  }
+}
