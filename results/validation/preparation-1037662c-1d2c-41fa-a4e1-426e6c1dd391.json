@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Corridor-free nonmatching FE state transfer from Candidate C2 (2,300 quads, u=0.001965107 mm) to Candidate C3 (2,650 quads) preserves force continuity (+0.00% vs C2 donor) and fracture energy continuity (+0.00%) at State 0 with zero damage healing, zero overshoot, and zero KKT violations.",
+  "evidence_sources": {
+    "scripts/validation/transfer_c2_to_c3_corridor_free.py": "FBDD4401CCBF83E3F9755A32815621D94E6F3A81055C389920A6E9284940C579",
+    "results/validation/mode1_f1597/turn104_c2_to_c3_corridor_free_transfer_audit.json": "CD77534A1C207F1C83739F74C17109FD3245DAAC3C311A65975FF8DCD44B7110",
+    "tests/unit/test_mode1_f1597_turn104_c2_to_c3_corridor_free_transfer.py": "467E802E22E7AF83A7549554B917C4056F329F803C3B689D4E37752BD5CABB5A"
+  },
+  "verification_passed": true
+}
