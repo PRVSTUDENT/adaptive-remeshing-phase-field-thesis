@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "807680d2-51ed-4306-9184-471b6fe66e9b",
+  "finding": "Turn 119 non-ratcheting history fix implemented in experimental UEL (SHA-256: E72E00D3...): verified 5 unit tests pass, Abaqus 2023 datacheck Exit 0, and Stage A same-load re-equilibration exact preservation (RF2 = 184.852 N, 0 healing elements). In Stage B (+5 nm), non-ratcheting logic successfully prevented stiffness collapse and wake tearing, but monolithic block-Jacobi Picard iterations without off-diagonal Jacobian coupling cut back at Increment 1. Production UEL bitwise frozen.",
+  "evidence_sources": {
+    "tests/unit/test_mode1_f1597_turn119_history_ratcheting_fix.py": "891873DE908DAD510E56170968C8257CB85D620D7B99F7CB1BFB404E956AAE81",
+    "scripts/validation/evaluate_turn119_c3_continuation_audit.py": "1C5D146C9F002AA67B64A47E3E69E4814290D8217C5240CED521E80EA5102AD4",
+    "results/validation/mode1_f1597/turn119_c3_continuation_audit.json": "51988E286025CAA05F9DD336AB2304C3FCD01B8B1330C93BC6112159ACBAE73C",
+    "models/pandey_kumar_mode1/106_c3_history_corrected_continuation/f42_experimental_irreversible_uel.for": "E72E00D338E355B370FC5EBABFE6679F49BC07458D333B642B593C6710B16DAD",
+    "models/pandey_kumar_mode1/106_c3_history_corrected_continuation/M1_C3_IRREV_CONTINUATION.inp": "4BD22283ADA42A5299D1D3851A7273C1F404CBF463D2227A8FA22D1EEC29777A",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}
