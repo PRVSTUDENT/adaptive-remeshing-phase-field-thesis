@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 98 Revision 1 (1417028.mmaster02) terminal evaluation completed across 15 live Abaqus subproblems; reaction force continuity achieved outstanding 0.08% parity (113.061 N vs 112.970 N, PASS) and zero overshoot (PASS); cycle detection terminated cleanly at iteration 16; diagnosed wake-relief mechanism across 5 wake nodes (d > 0.92).",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/pkg98_r1_pdas_trial_evaluation.json": "E451608A867658D4C42B50754E2F1D7CFA884DE23928F9231826BE0C4A19E44F",
+    "results/validation/mode1_f1597/pkg98_r1_pdas_subproblem_ledger.json": "C9681468A99E06F82E12A9925648DD6572A26507C76EF8D27C75A580AD2102B0",
+    "results/validation/mode1_f1597/pkg98_r1_uel_energy_balance.csv": "53A79E241FFE31E3E4E5DB98842FC642810EFCCE5D202A80B1FD1BA0576FBFFA",
+    "results/validation/mode1_f1597/pkg98_r1_pbs_execution.log": "B3C62904437C45048186491720E47442447165841F9A0E9BE1C930B5D7243008",
+    "scripts/validation/evaluate_package98_r1_pdas_telemetry.py": "79E6A76AFD7FC96430833D5CF863E5DE9E2A997DB1317732B4F424C2E3ACDB8F",
+    "scripts/validation/diagnose_pkg98_r1_healing_nodes.py": "B56252BB4308031912DB5D217A2AE4D93E7E890A1FF10EBBAD99FE0DC58E2381",
+    "scripts/validation/inspect_iter15_free_healing.py": "1D117B9027F207FD76CBFF448D944A6791726DB3923CC5E870862F9C00026A0B"
+  },
+  "verification_passed": true
+}
