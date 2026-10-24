@@ -1,0 +1,45 @@
+{
+  "batch_name": "MODE1_PACKAGE_100_C5_PDAS_SNESVI_PILOT",
+  "adapter": "mode1-pdas-iterative-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_package100_c5_pdas_snesvi_pilot",
+  "files": {
+    "M1_C5_PACKAGE100_SEED_TRANSFER.inp": "32ac550c7293aa69e0519a7cff93fb8b1183da1438cff76746c265d4c9cd5207",
+    "M1_C5_PACKAGE100_SEED_TRANSFER_DC.dat": "75006db20d7b7e5b68fed1ef6540cbd1df5a4d1415d48f5a6b1a0be6f0200346",
+    "PACKAGE_MANIFEST.json": "a46ff2d530c985c562f5a7b38236440d43f6dfc530693fd1f59a8d8d9187b84b",
+    "candidate_c5_frame7_mapped_state_table.csv": "713c076501ca6098510fd3be8917896ec31b4a42cedc7977ea0c33d28fb00b3a",
+    "candidate_crack_band_mesh_c5.inp": "4f68e1d5977116a9bbcdd86039059692e8d4b8298c944b8d96907f7b61bedc75",
+    "extract_pdas_subproblem_odb.py": "3aed5089aa6d66208b9a8e385fa9462b4d3bc5aa23bdfd8a08d473aa73a8fa5c",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "pdas_cluster_execution_adapter.py": "42ba60adf88bda95d6391bc0e007c6fc7829e78a5801da29983268957462b673",
+    "run_pkg100_datacheck.sh": "f3978094140005adbe8a228dbdc60556d6e533c1c5f83a6c61cc2401c346adb1",
+    "submit_M1_C5_PACKAGE100_SNESVI_PILOT.pbs": "796c4727d91c82eafcee7e84d8acd25dd398c0c0c0386bca93f3c4e2f40e8052"
+  },
+  "jobs": [
+    {
+      "id": "M1_C5_PACKAGE100_SNESVI_PILOT",
+      "pbs": "submit_M1_C5_PACKAGE100_SNESVI_PILOT.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_package100_c5_pdas_snesvi_pilot/submit_M1_C5_PACKAGE100_SNESVI_PILOT.pbs\"",
+      "command_sha256": "e0c191be4f057024b8c9a6ab648d9a783a04e07c3d12adaf5dea20bfbe528789",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Package 100: Live cluster iterative PDAS pilot on C5 crack-band mesh under Abaqus 2023 with Benson & Munson (2006) / PETSc SNESVI Safeguarded Projected Active-Set Globalization, authentic nodal DOF 3 extraction from .dat, strictly disjoint active-set partitions (U, L, A), cycle-prevention projection extinguishing the 61-node chatter, unscaled authentic history, +4.0 nm continuation loading (u_target=0.002056 mm), and atomic checkpoint persistence.",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_C5_PACKAGE100_SEED_TRANSFER.inp",
+      "datacheck": "M1_C5_PACKAGE100_SEED_TRANSFER_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_C5_PACKAGE100_SNESVI_PILOT": "Active-set stationarity and valid KKT conditions achieved via SNESVI projected globalization; free-set residual ||R_d||_inf,A <= 1e-6 kN/mm; mechanical equilibrium residual <= 1e-4 kN; reaction force continuity within 5% of authentic Package 94 donor RF2 (112.97 N); fracture energy jump within 2% of donor E_frac (0.00013774 kN*mm); strict irreversibility preserved (0 genuine healing points); strict non-overshoot preserved (d <= 1.000000); authentic committed Gauss-point history H preserved without reset; converged checkpoint pdas_accepted_checkpoint.json emitted."
+  }
+}

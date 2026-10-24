@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": "ca6c3ed4-5607-4c9e-9e87-83a7d66e1f1a",
+  "turn_number": 85,
+  "package": "PACKAGE_100_C5_PDAS_SNESVI_PROJECTED_CONTINUATION",
+  "status": "QUALIFIED_AND_SUBMITTED",
+  "job_id": "1417160.mmaster02",
+  "cluster_queue": "entry_imfdfkmq",
+  "execution_queue": "normal_imfdfkmq",
+  "exec_node": "mnode105/0",
+  "resources": {
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime_hours": 8
+  },
+  "uel_integrity": {
+    "path": "models/pandey_kumar_mode1/100_c5_pdas_snesvi_projected_continuation/f42_mixed_uel.for",
+    "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "status": "100%_BITWISE_FROZEN_PASS"
+  },
+  "package_manifest": {
+    "M1_C5_PACKAGE100_SEED_TRANSFER.inp": "32AC550C7293AA69E0519A7CFF93FB8B1183DA1438CFF76746C265D4C9CD5207",
+    "candidate_crack_band_mesh_c5.inp": "4F68E1D5977116A9BBCDD86039059692E8D4B8298C944B8D96907F7B61BEDC75",
+    "candidate_c5_frame7_mapped_state_table.csv": "713C076501CA6098510FD3BE8917896EC31B4A42CEDC7977EA0C33D28FB00B3A",
+    "f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "extract_pdas_subproblem_odb.py": "3AED5089AA6D66208B9A8E385FA9462B4D3BC5AA23BDFD8A08D473AA73A8FA5C",
+    "pdas_cluster_execution_adapter.py": "42BA60ADF88BDA95D6391BC0E007C6FC7829E78A5801DA29983268957462B673",
+    "submit_M1_C5_PACKAGE100_SNESVI_PILOT.pbs": "796C4727D91C82EAFCEE7E84D8ACD25DD398C0C0C0386BCA93F3C4E2F40E8052",
+    "run_pkg100_datacheck.sh": "F3978094140005ADBE8A228DBDC60556D6E533C1C5F83A6C61CC2401C346ADB1",
+    "job_notifications.sh": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "M1_C5_PACKAGE100_SEED_TRANSFER_DC.dat": "75006DB20D7B7E5B68FED1EF6540CBD1DF5A4D1415D48F5A6B1A0BE6F0200346"
+  },
+  "offline_unit_test": {
+    "test_file": "tests/unit/test_mode1_f1597_turn85_package100_snesvi.py",
+    "tests_run": 3,
+    "tests_passed": 3,
+    "converged_iteration": 13,
+    "final_set_sizes": {
+      "U": 60,
+      "L": 4268,
+      "A": 282
+    },
+    "strict_healing_count": 0,
+    "strict_overshoot_count": 0,
+    "verdict": "PASS"
+  },
+  "remote_datacheck": {
+    "dat_path": "models/pandey_kumar_mode1/100_c5_pdas_snesvi_projected_continuation/M1_C5_PACKAGE100_SEED_TRANSFER_DC.dat",
+    "completion_marker": "ANALYSIS DATACHECK COMPLETE",
+    "warnings": 87,
+    "errors": 0,
+    "verdict": "PASS"
+  },
+  "governance": {
+    "standing_authorization_rule": "Invoke-Mode1Execution.ps1",
+    "gate_c1_2_status": "NOT_QUALIFIED",
+    "provisional_qualification": "IN_PROGRESS_JOB_1417160"
+  },
+  "verification_passed": true
+}

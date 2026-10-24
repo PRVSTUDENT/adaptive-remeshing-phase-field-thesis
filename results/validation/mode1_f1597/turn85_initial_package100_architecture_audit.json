@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": "ca6c3ed4-5607-4c9e-9e87-83a7d66e1f1a",
+  "turn_number": 85,
+  "status": "INITIAL_AUDIT_COMPLETE",
+  "package": "PACKAGE_100_C5_PDAS_SNESVI_PROJECTED_CONTINUATION",
+  "design_specification": {
+    "objective": "Integrate Benson & Munson (2006) / PETSc SNESVI projected active-set globalization into the HPC cluster execution adapter to extinguish the 61-node (33 boundary node) PDAS chatter and achieve stationary active-set convergence under coupled Abaqus continuation.",
+    "core_mechanisms": [
+      "Projected State Update: trial subproblem phase d_trial is projected via P_[l,u](d) = clip(d, d_ckpt, 1.0), guaranteeing zero overshoot and zero healing by construction.",
+      "Dual Residual Tracking: algebraic residual R_d = F - K*d evaluated at projected state, measuring true distance to stationarity.",
+      "Safeguarded Cycle-Prevention Projection: boundary nodes with borderline dual residuals (|R_d - tau_res| <= 1e-6) that oscillate between release and predictor healing are stabilized by requiring strict descent into the domain interior before unclamping.",
+      "Convergence Criteria: stationary active set (|Delta A| = 0), free-set residual ||R_d||_inf,A <= 1e-6 kN/mm, zero healing, zero overshoot."
+    ],
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "mesh": "candidate_crack_band_mesh_c5.inp (4,440 quads, 4,610 physical nodes)",
+    "target_displacement_mm": 0.002056,
+    "delta_displacement_nm": 4.0
+  },
+  "verification_passed": true
+}
