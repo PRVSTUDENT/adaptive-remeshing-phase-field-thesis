@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "ca6c3ed4-5607-4c9e-9e87-83a7d66e1f1a",
+  "finding": "Turn 85 Package 100 SNESVI qualification completed: implemented Benson & Munson (2006) / PETSc SNESVI Safeguarded Projected Active-Set Globalization in Package 100 (models/pandey_kumar_mode1/100_c5_pdas_snesvi_projected_continuation/) to extinguish the 61-node PDAS chatter; verified 100% bitwise frozen production UEL (CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6); verified offline unit test convergence in 13 iterations with zero strict healing and zero overshoot (tests/unit/test_mode1_f1597_turn85_package100_snesvi.py); uploaded all 10 assets to cluster scratch (/scratch9/pr21vyci/runs/mode1_package100_c5_pdas_snesvi_pilot/); executed remote Abaqus 2023 datacheck passing with Exit 0; satisfied technical preflight (datachecks=PASS_BOTH, 0 active jobs); and submitted authentic live continuation Job 1417160.mmaster02 on queue entry_imfdfkmq (routing to normal_imfdfkmq, running on mnode105/0), maintaining Gate C1-2 as strictly NOT_QUALIFIED pending full solver outputs.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/turn85_initial_package100_architecture_audit.json": "E4267DB6E0EBBA6E0CC0AB85A65A7C3F589AD5B317D99E71AA4DAD7398DD5146",
+    "results/validation/mode1_f1597/turn85_package100_snesvi_qualification_receipt.json": "99415D1129D0A3203372543B03282B4B5B462DF07696DCBEE15F0A6E94367A86",
+    "tests/unit/test_mode1_f1597_turn85_package100_snesvi.py": "1B95C77EEA7DDACD8E58B2BE9E9D596C67BE1CB273128027C2F0FCA58456D3E6",
+    "models/pandey_kumar_mode1/100_c5_pdas_snesvi_projected_continuation/M1_C5_PACKAGE100_PDAS_PILOT_AUTHORIZATION.json": "5D68C89B9FC175C5C195F1CE58E9A7902C960BB5FECE60EA5A15C507FA09F62E"
+  },
+  "verification_passed": true
+}
