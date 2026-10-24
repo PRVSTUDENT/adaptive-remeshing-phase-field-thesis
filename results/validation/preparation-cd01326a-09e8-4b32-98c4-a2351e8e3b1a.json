@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Turn 114 successfully diagnosed and eliminated the active-set chattering defect in Candidate C3 Abaqus UEL via C1-smooth Huber regularization (gamma = 10.0 kN, delta = 1e-4 mm) and exact nodal phase ratcheting. Genuine Abaqus 2023 execution on the full 2,650-element mesh converged Stage A same-load re-equilibration in 5 iterations (0 cutbacks, 0 divergence), achieving strict parity: RF2 = 184.853 N (+2.56% vs target 180.227 N, tolerance <= 5%), E_frac = 0.061015 mJ (-0.0035% vs target 0.061017 mJ, tolerance <= 2%), and d_max = 0.655 (target 0.654995). Production UEL remains 100% bitwise frozen (CE8D5EDC...), Gate C1-1 remains QUALIFIED_OFFLINE_ONLY, and Gate C1-2 remains NOT_QUALIFIED.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/105_c3_irreversible_continuation/f42_experimental_irreversible_uel.for": "9D6877F36F88457E9EACB06D5F6C7E112A8865D2A1DB1CC95F00DF28AA2448B8",
+    "models/pandey_kumar_mode1/105_c3_irreversible_continuation/M1_C3_IRREV_CONTINUATION.inp": "EE64D7D0BDFF0D35EBFCC8E7BF628CF179D0C9DBB2E6C6B6D3B6246F04795CD4",
+    "models/pandey_kumar_mode1/105_c3_irreversible_continuation/d_lower_bounds.csv": "65DBBF621A9415E8C4381289C3A0C622AE8E019B189B104E3A9E30AC8B8813EB",
+    "scripts/validation/verify_smooth_penalty_regularization.py": "04232E00B6F030F95B96E2ED0922BCBF204FA20670456D17206FEAD4A35349C4",
+    "scripts/validation/test_fem_penalty_chattering.py": "BE883C548D51647A6CA50E648CBD53BF17616E4E564A0B366D532031C2FD3D5E",
+    "scripts/validation/update_experimental_uel_regularization.py": "D03B81600CCA540F243337EBD1B9667C9862604038864B95BE5630F9A3635190",
+    "scripts/validation/update_nodal_phase_tracking.py": "1168405285F16B4CF8564E7D5BD5FB03E70E14C8D464EA71379ACC91266AF5BB",
+    "results/validation/mode1_f1597/turn114_active_set_regularization_analysis.json": "4FFAC9B28B23C50897076146753A06FE864DE2052C51398BBA468FF05BC19354",
+    "results/validation/mode1_f1597/turn114_c3_continuation_verification.json": "CB627739EAEC35BAF1300F1C5C5191487888A509A30AF2262F42EB3F13FDFC23",
+    "tests/unit/test_mode1_f1597_turn114_huber_regularization.py": "8CB634C56E71FE5C6CAE6EB85DDEF4D2A2C73E05E8FE40043B1FF77AFAFC0126"
+  },
+  "verification_passed": true,
+  "results_summary": {
+    "stage_a_equilibrium": "CONVERGED_ATTEMPT1_5_EQUIL_ITERS",
+    "cutbacks": 0,
+    "top_displacement_mm": 0.00196510735,
+    "measured_RF2_N": 184.853062,
+    "target_RF2_N": 180.2272,
+    "rf2_parity_percent": 2.5667,
+    "measured_E_frac_mJ": 0.06101489,
+    "target_E_frac_mJ": 0.061017,
+    "energy_parity_percent": -0.003458,
+    "d_max_nodal": 0.655,
+    "d_max_target": 0.654995,
+    "production_uel_status": "BITWISE_FROZEN_PASS",
+    "gate_c1_1_status": "QUALIFIED_OFFLINE_ONLY",
+    "gate_c1_2_status": "NOT_QUALIFIED"
+  }
+}

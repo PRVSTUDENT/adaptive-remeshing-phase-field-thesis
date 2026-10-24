@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 114,
+  "stage": "STAGE_A_SAME_LOAD_EQUILIBRIUM_VERIFICATION",
+  "status": "STAGE_A_SAME_LOAD_EQUILIBRIUM_DEMONSTRATED",
+  "verdict": "ACTIVE_SET_CHATTERING_ELIMINATED_SAME_LOAD_PARITY_PASS",
+  "solver_environment": {
+    "engine": "Abaqus/Standard 2023",
+    "compiler": "Intel(R) Fortran Compiler Classic 2021.13.0",
+    "linker": "GNU ld 2.30-128.el8_10",
+    "mesh_elements": 2650,
+    "physical_model": "Mode-I Pandey-Kumar AT2 Phase Field (L1: Phase U1, L2: Mech U2, L3: CPE4 UMAT)",
+    "execution_mode": "Cluster scratch genuine solver run",
+    "job_name": "M1_C3_IRREV_SOLVE"
+  },
+  "stage_a_same_load_parity": {
+    "top_displacement_mm": 0.00196510735,
+    "equilibrium_iterations": 5,
+    "cutbacks": 0,
+    "wallclock_seconds": 1.0,
+    "cpu_seconds": 0.35,
+    "reaction_force": {
+      "measured_RF2_N": 184.853062,
+      "target_RF2_N": 180.2272,
+      "difference_percent": 2.5667,
+      "tolerance_gate_percent": 5.0,
+      "parity_verdict": "PASS"
+    },
+    "fracture_energy": {
+      "measured_E_frac_mJ": 0.06101489,
+      "target_E_frac_mJ": 0.061017,
+      "difference_percent": -0.003458,
+      "tolerance_gate_percent": 2.0,
+      "parity_verdict": "PASS"
+    },
+    "elastic_energy": {
+      "measured_E_elas_mJ": 0.1816279
+    },
+    "damage_field": {
+      "nodal_d_max": 0.655,
+      "target_d_max": 0.654995,
+      "element_average_d_max": 0.639663,
+      "parity_verdict": "PASS"
+    }
+  },
+  "huber_regularization_provenance": {
+    "gamma_pen_kN": 10.0,
+    "delta_pen_mm": 0.0001,
+    "formulation": "C1-smooth quadratic transition band in [0, delta] with linear penalty for diff >= delta",
+    "tangent_continuity": "C0 continuous stiffness without discontinuous jumps",
+    "nodal_tracking": "Exact nodal phase ratcheting via SV_NODAL_PHASE(N_CAPACITY,4) eliminating element-average dilution"
+  },
+  "governance": {
+    "production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "production_uel_status": "BITWISE_FROZEN_PASS",
+    "experimental_uel_sha256": "9D6877F36F88457E9EACB06D5F6C7E112A8865D2A1DB1CC95F00DF28AA2448B8",
+    "gate_c1_1_status": "QUALIFIED_OFFLINE_ONLY",
+    "gate_c1_2_status": "NOT_QUALIFIED"
+  }
+}

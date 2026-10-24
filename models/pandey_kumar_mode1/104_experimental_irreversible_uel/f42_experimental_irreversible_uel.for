@@ -72,11 +72,13 @@ C ======================================================================
       DOUBLE PRECISION SV_E_ELAS(N_CAPACITY)
       DOUBLE PRECISION SV_PSI_F(N_CAPACITY)
       DOUBLE PRECISION SV_PSI_E(N_CAPACITY)
+      DOUBLE PRECISION SV_NODAL_PHASE(N_CAPACITY,4)
 
       COMMON /CB_STATE_TRANS/ SV_PHASE_COMMITTED, SV_PHASE_TRIAL,
      1                        SV_H_COMMITTED, SV_H_TRIAL,
      2                        SV_E_FRAC, SV_E_ELAS,
-     3                        SV_PSI_F, SV_PSI_E
+     3                        SV_PSI_F, SV_PSI_E,
+     4                        SV_NODAL_PHASE
 
       DOUBLE PRECISION D_LOWER_BOUND(N_CAPACITY,4)
       DOUBLE PRECISION H_INITIAL_BOUND(N_CAPACITY,4)
@@ -180,8 +182,8 @@ C       End of Accepted Increment: Commit Trial State and Output Energies
         IF (IRREV_ACTIVE) THEN
           DO I=1, N_CAPACITY
             DO KPT=1, 4
-              IF (SV_PHASE_COMMITTED(I) .GT. D_LOWER_BOUND(I, KPT)) THEN
-                D_LOWER_BOUND(I, KPT) = SV_PHASE_COMMITTED(I)
+              IF (SV_NODAL_PHASE(I, KPT) .GT. D_LOWER_BOUND(I, KPT)) THEN
+                D_LOWER_BOUND(I, KPT) = SV_NODAL_PHASE(I, KPT)
               ENDIF
             ENDDO
           ENDDO
@@ -246,18 +248,22 @@ C ======================================================================
       DOUBLE PRECISION SV_E_ELAS(N_CAPACITY)
       DOUBLE PRECISION SV_PSI_F(N_CAPACITY)
       DOUBLE PRECISION SV_PSI_E(N_CAPACITY)
+      DOUBLE PRECISION SV_NODAL_PHASE(N_CAPACITY,4)
 
       COMMON /CB_STATE_TRANS/ SV_PHASE_COMMITTED, SV_PHASE_TRIAL,
      1                        SV_H_COMMITTED, SV_H_TRIAL,
      2                        SV_E_FRAC, SV_E_ELAS,
-     3                        SV_PSI_F, SV_PSI_E
+     3                        SV_PSI_F, SV_PSI_E,
+     4                        SV_NODAL_PHASE
 
       DOUBLE PRECISION D_LOWER_BOUND(N_CAPACITY,4)
       DOUBLE PRECISION H_INITIAL_BOUND(N_CAPACITY,4)
       LOGICAL IRREV_ACTIVE
       COMMON /CB_IRREV_STATE/ D_LOWER_BOUND, H_INITIAL_BOUND,
      1                        IRREV_ACTIVE
-      DOUBLE PRECISION DIFF_D
+      DOUBLE PRECISION DIFF_D, PEN_FORCE, PEN_STIFF
+      DOUBLE PRECISION GAMMA_PEN, DELTA_PEN
+      PARAMETER (GAMMA_PEN = 10.0D0, DELTA_PEN = 1.0D-4)
 
       DOUBLE PRECISION W4(4), XG4(4), YG4(4)
       DOUBLE PRECISION W3(3), XG3(3), YG3(3)
@@ -348,6 +354,9 @@ C ----------------------------------------------------------------------
 
         D_AVG = 0.25D0 * (U(1) + U(2) + U(3) + U(4))
         SV_PHASE_TRIAL(PHYSIDX) = D_AVG
+        DO I=1, 4
+          SV_NODAL_PHASE(PHYSIDX, I) = U(I)
+        ENDDO
 
         E_FRAC_ELEM = ZERO
         VOL_ELEM    = ZERO
@@ -437,13 +446,23 @@ C         Gauss-point phase-field and gradient computation for energy
           ENDDO
         ENDDO
 
-C       Enforce damage irreversibility via active-set penalty / restoring force
+C       Enforce damage irreversibility via C1-smooth regularized penalty
         IF (IRREV_ACTIVE) THEN
           DO I=1, 4
-            IF (U(I) .LT. D_LOWER_BOUND(PHYSIDX, I)) THEN
-              DIFF_D = D_LOWER_BOUND(PHYSIDX, I) - U(I)
-              RHS(I,1) = RHS(I,1) + 1.0D8 * DIFF_D
-              AMATRX(I,I) = AMATRX(I,I) + 1.0D8
+            DIFF_D = D_LOWER_BOUND(PHYSIDX, I) - U(I)
+            IF (DIFF_D .GT. ZERO) THEN
+              IF (DIFF_D .LT. DELTA_PEN) THEN
+C               C1-smooth quadratic transition band (delta = 1.0D-4)
+                PEN_FORCE = (GAMMA_PEN / (TWO * DELTA_PEN)) *
+     1                      (DIFF_D**2)
+                PEN_STIFF = (GAMMA_PEN / DELTA_PEN) * DIFF_D
+              ELSE
+C               Linear penalty zone
+                PEN_FORCE = GAMMA_PEN * (DIFF_D - HALF * DELTA_PEN)
+                PEN_STIFF = GAMMA_PEN
+              ENDIF
+              RHS(I,1) = RHS(I,1) + PEN_FORCE
+              AMATRX(I,I) = AMATRX(I,I) + PEN_STIFF
             ENDIF
           ENDDO
         ENDIF
@@ -653,6 +672,9 @@ C ----------------------------------------------------------------------
 
         D_AVG = (U(1) + U(2) + U(3)) / THREE
         SV_PHASE_TRIAL(PHYSIDX) = D_AVG
+        DO I=1, 3
+          SV_NODAL_PHASE(PHYSIDX, I) = U(I)
+        ENDDO
 
         KPT = 1
         XI  = XG3(KPT)
@@ -722,13 +744,23 @@ C ----------------------------------------------------------------------
           ENDDO
         ENDDO
 
-C       Enforce damage irreversibility via active-set penalty / restoring force
+C       Enforce damage irreversibility via C1-smooth regularized penalty
         IF (IRREV_ACTIVE) THEN
           DO I=1, 3
-            IF (U(I) .LT. D_LOWER_BOUND(PHYSIDX, I)) THEN
-              DIFF_D = D_LOWER_BOUND(PHYSIDX, I) - U(I)
-              RHS(I,1) = RHS(I,1) + 1.0D8 * DIFF_D
-              AMATRX(I,I) = AMATRX(I,I) + 1.0D8
+            DIFF_D = D_LOWER_BOUND(PHYSIDX, I) - U(I)
+            IF (DIFF_D .GT. ZERO) THEN
+              IF (DIFF_D .LT. DELTA_PEN) THEN
+C               C1-smooth quadratic transition band (delta = 1.0D-4)
+                PEN_FORCE = (GAMMA_PEN / (TWO * DELTA_PEN)) *
+     1                      (DIFF_D**2)
+                PEN_STIFF = (GAMMA_PEN / DELTA_PEN) * DIFF_D
+              ELSE
+C               Linear penalty zone
+                PEN_FORCE = GAMMA_PEN * (DIFF_D - HALF * DELTA_PEN)
+                PEN_STIFF = GAMMA_PEN
+              ENDIF
+              RHS(I,1) = RHS(I,1) + PEN_FORCE
+              AMATRX(I,I) = AMATRX(I,I) + PEN_STIFF
             ENDIF
           ENDDO
         ENDIF
@@ -946,11 +978,13 @@ C ======================================================================
       DOUBLE PRECISION SV_E_ELAS(N_CAPACITY)
       DOUBLE PRECISION SV_PSI_F(N_CAPACITY)
       DOUBLE PRECISION SV_PSI_E(N_CAPACITY)
+      DOUBLE PRECISION SV_NODAL_PHASE(N_CAPACITY,4)
 
       COMMON /CB_STATE_TRANS/ SV_PHASE_COMMITTED, SV_PHASE_TRIAL,
      1                        SV_H_COMMITTED, SV_H_TRIAL,
      2                        SV_E_FRAC, SV_E_ELAS,
-     3                        SV_PSI_F, SV_PSI_E
+     3                        SV_PSI_F, SV_PSI_E,
+     4                        SV_NODAL_PHASE
 
       DOUBLE PRECISION D_LOWER_BOUND(N_CAPACITY,4)
       DOUBLE PRECISION H_INITIAL_BOUND(N_CAPACITY,4)
