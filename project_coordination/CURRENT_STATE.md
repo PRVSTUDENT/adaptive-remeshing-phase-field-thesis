@@ -454,3 +454,25 @@
   * **Gate C1-2 Status**: Strictly **`NOT_QUALIFIED`**.
   * **Package 94 Status**: Preserved as **`BENCHMARK-REPRODUCTION-ONLY`**.
 
+## Turn 109 — Method C Mode-I: External Primal-Dual Active-Set (PDAS) Controller for Abaqus UEL — 24 October 2026
+
+- **Objective & Checkpoint**: Evaluated an external Primal-Dual Active-Set (PDAS) controller to enforce phase-field variational inequality irreversibility on Candidate C3 without altering the frozen production UEL (`f42_mixed_uel.for` at SHA-256 `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) or permanently fixing damage nodes.
+- **Clarification of Lower-Bound Multiplier Sign**:
+  * Formulated stationarity: $\lambda^- = K_d d - F_d = \text{RF3}$.
+  * In Abaqus, reaction force on constrained DOF 3 is directly the Lagrange multiplier $\lambda^-$.
+  * Dual feasibility: $\lambda^- \ge 0 \iff \text{RF3} \ge 0$ (internal resistance holds damage from healing).
+  * Release criterion: $\text{RF3} < -\tau_{\text{res}}$ (driving force exceeds resistance, damage must advance).
+- **Numerical Verification & Performance**:
+  * Baseline healing defect verified: State 0 has 1,824 healing nodes (65.87%); State 1 has 352 healing nodes (12.71%).
+  * Single-step PDAS on State 1: Converged in 1 iteration to strictly 0 healing nodes, 0 overshoot nodes, and $\lambda^- \ge -9.82 \times 10^{-9}$.
+  * Coupled alternating minimization with external PDAS: Converged in **7 coupled iterations** with strictly zero healing ($\min \Delta d = 0.000000$), zero overshoot ($d_{\text{max}} = 0.5284 \le 1.0$), 0 KKT violations, phase residual $5.08 \times 10^{-21}\,\mathrm{kN/mm} \le 1.0 \times 10^{-6}\,\mathrm{kN/mm}$, mechanical residual $1.89 \times 10^{-15}\,\mathrm{kN} \le 1.0 \times 10^{-4}\,\mathrm{kN}$, and reaction force $\text{RF2} = 188.5484\,\mathrm{N}$ ($+4.62\%$ parity vs Turn 107 benchmark, PASS Gate $\le 5.0\%$).
+- **Abaqus Execution Feasibility**:
+  * Abaqus/Standard static steps do not support dynamic runtime boundary condition switching during iterations within a single job.
+  * Subroutine `UEXTERNALDB` in `f42_mixed_uel.for` unconditionally zeroes COMMON block `/CB_STATE_TRANS/` at `LOP=0`, and lines 249-261 only ingest `SVARS(9..12)` at `KSTEP=1, KINC<=1`.
+  * Multi-job restarts wipe internal trial states unless an isolated experimental UEL variant with internal active-set projection is developed.
+- **Scientific & Governance Status**:
+  * **HPC Submission Decision**: Strictly **WITHHELD** in accordance with single-turn safety protocol and explicit prompt instructions. Zero unqualified Abaqus continuation jobs submitted.
+  * **Gate C1-1 Status**: **`QUALIFIED_OFFLINE_ONLY`**.
+  * **Gate C1-2 Status**: Strictly **`NOT_QUALIFIED`**.
+  * **Package 94 Status**: Preserved as **`BENCHMARK-REPRODUCTION-ONLY`**.
+

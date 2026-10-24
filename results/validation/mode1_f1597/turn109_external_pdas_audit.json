@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 109,
+  "algorithm": "External Primal-Dual Active-Set (PDAS) Controller for Variational Inequality Phase Field",
+  "multiplier_sign_clarification": {
+    "definition": "lambda^- = (K_d * d - F_d)_i = RF3_i",
+    "physical_meaning": "Reaction force holding damage from healing below d_previous",
+    "dual_feasibility_condition": "lambda^- >= 0 (RF3 >= 0)",
+    "release_criterion": "lambda^- < -tol_res (driving force exceeds resistance, damage must advance)",
+    "activation_criterion": "d_i < d_previous_i - tol_primal (healing detected, bound must be enforced)"
+  },
+  "baseline_healing_defect_reproduced": {
+    "state0_healing_node_count": 1824,
+    "state0_max_healing_magnitude": 0.008988680255178655,
+    "state1_healing_node_count": 352,
+    "state1_max_healing_magnitude": 0.0009467018750559109,
+    "baseline_verified": true
+  },
+  "pdas_subproblem_results": {
+    "converged": true,
+    "iterations": 1,
+    "n_active_nodes": 2769,
+    "n_free_nodes": 0,
+    "healing_nodes_post_pdas": 0,
+    "overshoot_nodes_post_pdas": 0
+  },
+  "coupled_pdas_equilibrium": {
+    "converged": true,
+    "coupled_iterations": 7,
+    "rf2_N": 188.54844234530952,
+    "rf2_parity_vs_turn107_pct": 4.617084627242455,
+    "e_frac_mJ": 0.053114683556884826,
+    "e_frac_parity_vs_turn107_pct": -12.951007822598909,
+    "e_elas_mJ": 0.18525896494190597,
+    "d_max": 0.5283579988800533,
+    "min_delta_damage": 0.0,
+    "kkt_violations": 0,
+    "n_active_set": 2752
+  },
+  "abaqus_execution_feasibility": {
+    "feasibility_assessment": "BLOCKED_WITHOUT_EXTERNAL_PYTHON_DRIVER_OR_NEWTON_ACTIVE_SET_UEL",
+    "architectural_reasons": [
+      "Abaqus Standard static analysis does not support runtime iterative boundary condition switching inside a single job.",
+      "f42_mixed_uel.for UEXTERNALDB zeroes COMMON block /CB_STATE_TRANS/ at LOP=0 in every fresh job, precluding multi-job PDAS restarts without writing state variables to disk.",
+      "f42_mixed_uel.for only ingests SVARS(9..12) into SV_H_COMMITTED if KSTEP=1 and KINC<=1; multi-step restarts into KSTEP>=2 lose all history.",
+      "To execute PDAS authentically in Abaqus, either: (A) An external Python driver orchestrates separate Abaqus jobs with *INITIAL CONDITIONS, TYPE=SOLUTION providing updated H and *BOUNDARY prescribing the active set; or (B) A qualified UEL upgrade implements an internal primal-dual active-set projector directly within the element Newton loop."
+    ]
+  },
+  "scientific_determinations": {
+    "pdas_mathematical_validation": "PASS",
+    "healing_defect_eliminated_offline": "PASS",
+    "kkt_complementarity_verified": "PASS",
+    "gate_c1_1_status": "QUALIFIED_OFFLINE_ONLY",
+    "gate_c1_2_status": "NOT_QUALIFIED",
+    "package94_status": "BENCHMARK-REPRODUCTION-ONLY",
+    "hpc_submission_status": "WITHHELD_BY_POLICY"
+  }
+}
