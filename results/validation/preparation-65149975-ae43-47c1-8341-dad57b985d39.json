@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "run_id": "65149975-ae43-47c1-8341-dad57b985d39",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "finding": "The active-set 2-cycle oscillation in Package 98-R1 is proven to originate from an extraction contradiction between algebraic nodal residual release (R_d > 0) and patch-averaged companion SDV1 healing detection (D_AVG smearing), while exact bound-constrained QP optimization proves that all 5 nodes belong strictly to the FREE set A with zero KKT multiplier violations.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/98_r1_c5_pdas_chatter_repair_pilot/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/98_r1_c5_pdas_chatter_repair_pilot/extract_pdas_subproblem_odb.py": "398CC5F2F919F27202E6229953E5E3806AC473A9DC18D420730A5339090A77E6",
+    "models/pandey_kumar_mode1/98_r1_c5_pdas_chatter_repair_pilot/pdas_cluster_execution_adapter.py": "E25DD389EFC91BF4C78F35B42BD702B49E48AF66C4908EA669D895AF038F442B",
+    "results/validation/mode1_f1597/turn81_initial_five_node_audit.json": "506E3CFCB6AE8667E9FD90A00104199BC27AF7BC74E96D2CE6F733EB4F181F51",
+    "results/validation/mode1_f1597/exact_qp_solution_audit.json": "8119F70C09D8F1864523FDC36EAA00E3ECFFC7292CD0D677F3D3E392394C3E39",
+    "results/validation/mode1_f1597/turn81_five_node_contradiction_synthesis.json": "DD621694A0A2A64A09BD4ECF5A0097F20B6FAA42AA314937B01CBF6D6B4813C7",
+    "results/validation/mode1_f1597/pkg98_r1_pdas_subproblem_ledger.json": "C9681468A99E06F82E12A9925648DD6572A26507C76EF8D27C75A580AD2102B0",
+    "results/validation/mode1_f1597/pkg98_r1_pdas_trial_evaluation.json": "E451608A867658D4C42B50754E2F1D7CFA884DE23928F9231826BE0C4A19E44F"
+  },
+  "verification_passed": true
+}
