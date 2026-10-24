@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": "130744d1-bdc5-430e-bbdf-31f8c14e5fdb",
+  "created_at": "2026-10-24T06:27:20+02:00",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Turn 73 implemented and qualified pdas_cluster_execution_adapter.py for mode1-pdas-iterative-v1. Empirically resolved critical DOF mismatch by confirming Phase DOF 3 (rejecting DOF 11), verified transactional state reconstruction preserving committed history H via INITIAL CONDITIONS TYPE=SOLUTION across independent Abaqus subproblems, confirmed disjoint partition sum |U|+|L|+|A|=4610 excluding control node 999999, reproduced H1 energy mismatch (-1.5500%), and validated 9/9 new unit tests plus 174/174 regression suite. Bare unconstrained submissions remain blocked; Gate C1-2 remains strictly NOT QUALIFIED.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "scripts/validation/pdas_cluster_execution_adapter.py": "FD0F2FF01843CC91394FF4171BC3DE04948143A01BB5154C2461DFB53793E627",
+    "tests/unit/test_mode1_f1597_turn73_pdas_execution_adapter.py": "BC0FDF1E2241A6C7919A59DC030A2AAA8C9184E280BE907000CD2E08F3083DD8",
+    "results/validation/mode1_f1597/turn73_initial_dof_and_state_audit.json": "558E261BA197645B8BB96ADC46BE3A340CFE1C97847D202745FE92BA9A98555D",
+    "results/validation/scratch_pdas_adapter_test/pdas_subproblem_ledger.json": "937B8781DD735AFE51D0E23F916F35D051EEAE83A9E4F3069C07645276F9985C",
+    "results/validation/scratch_pdas_adapter_test/pdas_accepted_checkpoint.json": "7AFF47D73C22A9C1A2A2D442CD4FD1D8D7DE3947DA7622CE4FCFEF297BAFFED1",
+    "results/validation/mode1_f1597/turn73_execution_adapter_qualification.json": "07121396918E3F17C2551CCCBE3A074C455ED0B8CB7F67580E58F2E8DBD2D18F"
+  },
+  "verification_passed": true,
+  "gate_c1_2_status": "NOT_QUALIFIED"
+}
