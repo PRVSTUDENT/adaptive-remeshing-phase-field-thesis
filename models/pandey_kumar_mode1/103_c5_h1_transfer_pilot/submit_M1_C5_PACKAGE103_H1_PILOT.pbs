@@ -1,0 +1,48 @@
+#!/bin/bash
+#PBS -N M1_C5_P103
+#PBS -q entry_imfdfkmq
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=08:00:00
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratch9/pr21vyci/runs/mode1_package103_c5_h1_pilot/pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_package103_c5_h1_pilot"
+cd "${RUN_DIR}"
+
+export NOTIFICATION_CONFIG="${HOME}/.config/adaptive-remeshing/notifications.env"
+if [ -f "./job_notifications.sh" ]; then
+    source "./job_notifications.sh"
+    notification_load_config
+    notification_install_terminal_trap
+    notify_start "M1_C5_PACKAGE103_H1_PILOT" "mode1_package103_c5_h1_pilot"
+fi
+
+if ! type module >/dev/null 2>&1; then
+    source /etc/profile.d/lmod.sh 2>/dev/null || source /usr/share/Modules/init/bash 2>/dev/null || true
+fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/gcc/11.4.0/3.11.7
+
+command -v ifort
+
+export OMP_NUM_THREADS=1
+
+echo "Starting Package 103 Bound-Constrained H^1 Pilot on $(hostname) at $(date)..."
+
+abaqus job=M1_C5_PACKAGE103_H1_PILOT user=f42_mixed_uel.for cpus=1 interactive
+ABAQUS_EXIT=$?
+
+if [ $ABAQUS_EXIT -eq 0 ]; then
+    python3 extract_pkg103_results.py
+    EXIT_CODE=0
+else
+    echo "ERROR: Abaqus execution failed with exit code ${ABAQUS_EXIT}"
+    EXIT_CODE=$ABAQUS_EXIT
+fi
+
+echo "Package 103 finished with exit code ${EXIT_CODE} at $(date)"
+exit ${EXIT_CODE}

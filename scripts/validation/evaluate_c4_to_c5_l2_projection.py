@@ -5,22 +5,19 @@ evaluate_c4_to_c5_l2_projection.py
 Task: F1597-CORRECT-PACKAGE72-STATE-TRANSFER
 Protocol Version: 2
 
-Rigorous numerical comparison of nonmatching state transfer operators from
-authentic Case A C4 donor (Package 94 Step 4 Frame 7, 4422 quads, 4588 nodes)
+Rigorous numerical comparison and qualification of nonmatching state transfer
+operators from authentic Case A C4 donor (Package 94 Step 4 Frame 7, 4422 quads, 4588 nodes)
 to C5 receiver mesh (4440 quads, 4610 nodes).
 
-Compares:
-1. Method A: Standard Point-to-Point Interpolation (d_ckpt)
-2. Method B1: Consistent L^2 Finite-Element Projection (d_L2_consistent)
-3. Method B2: Bound-Preserving Clipped L^2 Projection (d_L2_bound)
-4. Method B3: Lumped-Mass L^2 Projection (d_L2_lumped)
-5. Method C1: Natural Energy-Inner-Product (H^1) Projection (d_energy_consistent)
-6. Method C2: Bound-Preserving Energy (H^1) Projection (d_energy_bound)
-7. State Accounting Reconciliation:
-   - Donor C4 Checkpoint
-   - Receiver Checkpoint (d_ckpt)
-   - Offline VI Diagnostic from d_ckpt
-   - Rejected Package 102-R1 Solver Trial Iterate (d_opt)
+Governing Acceptance Standards:
+1. Authentic Abaqus donor (E_frac = 0.13773671 mJ, RF2 = 112.9707 N) is the SOLE
+   authoritative benchmark. No reference substitution or disjunctive local-model criteria.
+2. Fracture Energy: |E_frac - E_donor| / E_donor <= 2.0%.
+3. Reaction Force:  |RF2 - RF_donor| / RF_donor <= 5.0%.
+4. Physical Bounds: Strictly 0.0 <= d <= 1.00000000 at all physical nodes.
+5. Pointwise Irreversibility / Non-Healing: d(x) >= d_ckpt(x) across all receiver nodes.
+6. Mathematical Rigor: Constrained H^1 minimization must be solved with exact KKT stationarity,
+   not ad-hoc post-solve clipping.
 """
 
 import sys
@@ -33,6 +30,7 @@ from typing import Dict, Any, List, Tuple
 import numpy as np
 import scipy.sparse as sp
 import scipy.sparse.linalg as spla
+from scipy.optimize import minimize
 
 REPO_ROOT = Path("D:/Master thesis/Adaptive remeshing")
 
@@ -163,11 +161,11 @@ def compute_energies(nodes, elements, d):
         "e_total_kNmm": float(e_total_kNmm),
         "e_pot_kNmm": float(e_pot),
         "e_grad_kNmm": float(e_grad),
-        "e_pot_pct": float(e_pot / e_total_kNmm * 100.0),
-        "e_grad_pct": float(e_grad / e_total_kNmm * 100.0)
+        "e_pot_pct": float(e_pot / e_total_kNmm * 100.0) if e_total_kNmm > 0 else 0.0,
+        "e_grad_pct": float(e_grad / e_total_kNmm * 100.0) if e_total_kNmm > 0 else 0.0
     }
 
-def solve_elasticity_rf(nodes, elements, d, u_top=U_TOP_MM):
+def solve_elasticity_rf(nodes, elements, d, u_top=U_TOP_MM, clamp_top_u1=True):
     node_list = sorted(nodes.keys())
     node_to_idx = {nid: i for i, nid in enumerate(node_list)}
     n_nodes = len(node_list)
@@ -243,7 +241,8 @@ def solve_elasticity_rf(nodes, elements, d, u_top=U_TOP_MM):
     for nid in top_nodes:
         idx = node_to_idx[nid]
         prescribed_dofs[2*idx + 1] = u_top
-        prescribed_dofs[2*idx] = 0.0
+        if clamp_top_u1:
+            prescribed_dofs[2*idx] = 0.0
 
     prescribed_keys = np.array(sorted(prescribed_dofs.keys()))
     prescribed_vals = np.array([prescribed_dofs[k] for k in prescribed_keys])
@@ -289,15 +288,16 @@ def main():
 
     # Compute authentic donor energies and force
     c4_energies = compute_energies(c4_nodes, c4_elements, c4_d)
-    c4_rf2, _ = solve_elasticity_rf(c4_nodes, c4_elements, c4_d)
+    c4_rf2_clamped, _ = solve_elasticity_rf(c4_nodes, c4_elements, c4_d, clamp_top_u1=True)
+    c4_rf2_free, _ = solve_elasticity_rf(c4_nodes, c4_elements, c4_d, clamp_top_u1=False)
+
     print(f"Donor Reference Values (Abaqus Report / Solver Deliverable):")
     print(f"  Target RF2:            {DONOR_RF2_N:.4f} N")
     print(f"  Target E_frac:         {DONOR_E_FRAC_MJ:.6f} mJ")
     print(f"Donor Reference Values (Discrete Model Evaluation on C4 mesh):")
-    print(f"  Model RF2:             {c4_rf2:.4f} N (diff vs Abaqus: {(c4_rf2 - DONOR_RF2_N)/DONOR_RF2_N*100:+.2f}%)")
+    print(f"  Model RF2 (clamped u1): {c4_rf2_clamped:.4f} N (diff vs Abaqus: {(c4_rf2_clamped - DONOR_RF2_N)/DONOR_RF2_N*100:+.2f}%)")
+    print(f"  Model RF2 (free u1):    {c4_rf2_free:.4f} N (diff vs Abaqus: {(c4_rf2_free - DONOR_RF2_N)/DONOR_RF2_N*100:+.2f}%)")
     print(f"  Model E_frac:          {c4_energies['e_total_mJ']:.6f} mJ (diff vs Abaqus: {(c4_energies['e_total_mJ'] - DONOR_E_FRAC_MJ)/DONOR_E_FRAC_MJ*100:+.2f}%)")
-    print(f"  Model Potential E:     {c4_energies['e_pot_kNmm']*1000.0:.6f} mJ ({c4_energies['e_pot_pct']:.2f}%)")
-    print(f"  Model Gradient E:      {c4_energies['e_grad_kNmm']*1000.0:.6f} mJ ({c4_energies['e_grad_pct']:.2f}%)")
 
     # 2. Load C5 receiver mesh
     c5_mesh_inp = REPO_ROOT / "models/pandey_kumar_mode1/102_r1_c5_coupled_staggered_history_repaired/candidate_crack_band_mesh_c5.inp"
@@ -393,7 +393,6 @@ def main():
         elem_indices = [c5_node_to_idx[n] for n in conn]
         xe = np.array([c5_nodes[n] for n in conn])
 
-        # Element flank classification
         cy = np.mean(xe[:, 1])
         flank_type = "upper" if cy >= 0.050 else "lower"
 
@@ -413,11 +412,8 @@ def main():
                 dNdx[0, i] = invJ[0, 0] * dNdxi[i] + invJ[0, 1] * dNdeta[i]
                 dNdx[1, i] = invJ[1, 0] * dNdxi[i] + invJ[1, 1] * dNdeta[i]
 
-            # Physical coordinates of this Gauss point
             gp_x = float(np.dot(N, xe[:, 0]))
             gp_y = float(np.dot(N, xe[:, 1]))
-
-            # Evaluate donor C4 field at this exact physical Gauss point
             d_c4_gp, grad_d_c4_gp = eval_c4_field(gp_x, gp_y, flank_type)
 
             for i in range(4):
@@ -425,18 +421,15 @@ def main():
                 f_L2[idx_i] += cj * N[i] * d_c4_gp
                 m_lumped[idx_i] += cj * N[i]
 
-                # Gradient projection term
                 grad_N_dot_grad_d = dNdx[0, i] * grad_d_c4_gp[0] + dNdx[1, i] * grad_d_c4_gp[1]
                 f_grad[idx_i] += cj * grad_N_dot_grad_d
 
                 for j in range(4):
                     idx_j = elem_indices[j]
-                    # Mass term
                     I_m.append(idx_i)
                     J_m.append(idx_j)
                     V_m.append(cj * N[i] * N[j])
 
-                    # Stiffness/gradient term
                     bdb = dNdx[0, i] * dNdx[0, j] + dNdx[1, i] * dNdx[1, j]
                     I_k.append(idx_i)
                     J_k.append(idx_j)
@@ -446,29 +439,52 @@ def main():
     K_grad_c5 = sp.coo_matrix((V_k, (I_k, J_k)), shape=(n_c5_nodes, n_c5_nodes)).tocsr()
     print(f"C5 Mass Matrix assembled: {M_c5.nnz} nonzeros")
 
-    # 6. Compute Method B1: Consistent L^2 Projection
-    print("\nSolving Method B1: Consistent L^2 Projection...")
+    # Method B1: Consistent L^2 Projection
     d_L2_raw = spla.spsolve(M_c5, f_L2)
     d_L2_bound = np.clip(d_L2_raw, 0.0, 1.0)
-    print(f"  d_L2_raw bounds:   min={np.min(d_L2_raw):.6e}, max={np.max(d_L2_raw):.6e}")
-    print(f"  d_L2_bound bounds: min={np.min(d_L2_bound):.6e}, max={np.max(d_L2_bound):.6e}")
 
     # Method B2: Lumped Mass Projection
-    print("Computing Method B2: Lumped Mass L^2 Projection...")
     d_L2_lumped = f_L2 / m_lumped
-    d_L2_lumped_bound = np.clip(d_L2_lumped, 0.0, 1.0)
-    print(f"  d_L2_lumped bounds: min={np.min(d_L2_lumped):.6e}, max={np.max(d_L2_lumped):.6e}")
 
-    # Method C: Natural Energy-Inner-Product (H^1) Projection
-    print("Solving Method C: Natural Energy (H^1) Projection...")
-    # Bilinear form: a(u, v) = (Gc/ell0) * (u, v)_L2 + (Gc*ell0) * (grad u, grad v)_L2
-    # RHS: (Gc/ell0) * f_L2 + (Gc*ell0) * f_grad
+    # Method C1: Raw H^1 Projection
     A_energy = (E_GC / E_L0) * M_c5 + (E_GC * E_L0) * K_grad_c5
     rhs_energy = (E_GC / E_L0) * f_L2 + (E_GC * E_L0) * f_grad
-    d_energy_raw = spla.spsolve(A_energy, rhs_energy)
-    d_energy_bound = np.clip(d_energy_raw, 0.0, 1.0)
-    print(f"  d_energy_raw bounds:   min={np.min(d_energy_raw):.6e}, max={np.max(d_energy_raw):.6e}")
-    print(f"  d_energy_bound bounds: min={np.min(d_energy_bound):.6e}, max={np.max(d_energy_bound):.6e}")
+    d_H1_raw = spla.spsolve(A_energy, rhs_energy)
+
+    # Method C2: Exact Bound-Constrained H^1 Projection (d_ckpt <= d <= 1.0)
+    print("\nSolving Exact Bound-Constrained H^1 Projection (d_ckpt <= d <= 1.0)...")
+    def loss_and_grad(d):
+        Ad = A_energy.dot(d)
+        val = 0.5 * np.dot(d, Ad) - np.dot(rhs_energy, d)
+        grad = Ad - rhs_energy
+        return val, grad
+
+    bounds = [(float(d_ckpt[i]), 1.0) for i in range(n_c5_nodes)]
+    res = minimize(
+        loss_and_grad,
+        d_ckpt.copy(),
+        method="L-BFGS-B",
+        jac=True,
+        bounds=bounds,
+        options={"ftol": 1e-15, "gtol": 1e-8, "maxiter": 500}
+    )
+    d_H1_constrained = res.x
+    print(f"  L-BFGS-B Converged: {res.success} in {res.nit} iterations (Status: {res.message})")
+
+    # KKT check for d_H1_constrained
+    grad_c = A_energy.dot(d_H1_constrained) - rhs_energy
+    min_margin = float(np.min(d_H1_constrained - d_ckpt))
+    max_margin = float(np.max(d_H1_constrained - 1.0))
+    is_lower = np.abs(d_H1_constrained - d_ckpt) < 1e-6
+    is_upper = np.abs(d_H1_constrained - 1.0) < 1e-6
+    is_free = ~(is_lower | is_upper)
+    lower_mult_viol = int(np.sum(grad_c[is_lower] < -1e-5))
+    upper_mult_viol = int(np.sum(grad_c[is_upper] > 1e-5))
+    free_grad_norm = float(np.max(np.abs(grad_c[is_free]))) if np.sum(is_free) > 0 else 0.0
+
+    print(f"  KKT Verification: min(d - d_ckpt)={min_margin:.2e}, max(d - 1.0)={max_margin:.2e}")
+    print(f"  Active Lower: {np.sum(is_lower)}, Active Upper: {np.sum(is_upper)}, Free: {np.sum(is_free)}")
+    print(f"  Lower Violations: {lower_mult_viol}, Upper Violations: {upper_mult_viol}, Free Res Norm: {free_grad_norm:.6e}")
 
     # 7. Evaluate All Candidates
     candidates = {
@@ -476,56 +492,64 @@ def main():
             "name": "Original Case A C4 Donor (Package 94 Step 4 Frame 7)",
             "nodes": c4_nodes,
             "elements": c4_elements,
-            "d": c4_d
+            "d": c4_d,
+            "is_receiver": False
         },
         "method_a_d_ckpt": {
             "name": "Method A: Point-to-Point Interpolation (d_ckpt)",
             "nodes": c5_nodes,
             "elements": c5_elements,
-            "d": d_ckpt
+            "d": d_ckpt,
+            "is_receiver": True
         },
-        "method_b1_l2_consistent": {
+        "method_b1_l2_raw": {
             "name": "Method B1: Consistent L^2 Projection (Raw)",
             "nodes": c5_nodes,
             "elements": c5_elements,
-            "d": d_L2_raw
+            "d": d_L2_raw,
+            "is_receiver": True
         },
         "method_b2_l2_bound": {
-            "name": "Method B2: Consistent L^2 Projection (Bound-Preserved)",
+            "name": "Method B2: Consistent L^2 Projection (Clipped)",
             "nodes": c5_nodes,
             "elements": c5_elements,
-            "d": d_L2_bound
+            "d": d_L2_bound,
+            "is_receiver": True
         },
         "method_b3_l2_lumped": {
             "name": "Method B3: Lumped-Mass L^2 Projection",
             "nodes": c5_nodes,
             "elements": c5_elements,
-            "d": d_L2_lumped_bound
+            "d": d_L2_lumped,
+            "is_receiver": True
         },
-        "method_c1_energy_raw": {
+        "method_c1_h1_raw": {
             "name": "Method C1: Energy (H^1) Inner-Product Projection (Raw)",
             "nodes": c5_nodes,
             "elements": c5_elements,
-            "d": d_energy_raw
+            "d": d_H1_raw,
+            "is_receiver": True
         },
-        "method_c2_energy_bound": {
-            "name": "Method C2: Energy (H^1) Inner-Product Projection (Bound-Preserved)",
+        "method_c2_h1_bound_constrained": {
+            "name": "Method C2: Exact Bound-Constrained H^1 Transfer (d >= d_ckpt, d <= 1.0)",
             "nodes": c5_nodes,
             "elements": c5_elements,
-            "d": d_energy_bound
+            "d": d_H1_constrained,
+            "is_receiver": True
         },
         "rejected_pkg102_r1_d_opt": {
             "name": "Rejected Package 102-R1 Solver Trial Iterate (d_opt)",
             "nodes": c5_nodes,
             "elements": c5_elements,
-            "d": d_opt
+            "d": d_opt,
+            "is_receiver": True
         }
     }
 
     results = {}
-    print("\n" + "="*80)
+    print("\n" + "="*85)
     print(f"{'Candidate Operator':<35} | {'E_frac (mJ)':<11} | {'E_frac Err%':<11} | {'RF2 (N)':<9} | {'RF2 Err%':<9} | {'Status'}")
-    print("="*80)
+    print("="*85)
 
     for cid, cinfo in candidates.items():
         c_nodes = cinfo["nodes"]
@@ -533,25 +557,44 @@ def main():
         c_d = cinfo["d"]
 
         en = compute_energies(c_nodes, c_elems, c_d)
-        rf2, _ = solve_elasticity_rf(c_nodes, c_elems, c_d)
+        rf2, _ = solve_elasticity_rf(c_nodes, c_elems, c_d, clamp_top_u1=True)
 
         e_err_abaqus = (en["e_total_mJ"] - DONOR_E_FRAC_MJ) / DONOR_E_FRAC_MJ * 100.0
         rf_err_abaqus = (rf2 - DONOR_RF2_N) / DONOR_RF2_N * 100.0
 
         e_err_c4_model = (en["e_total_mJ"] - c4_energies["e_total_mJ"]) / c4_energies["e_total_mJ"] * 100.0
-        rf_err_c4_model = (rf2 - c4_rf2) / c4_rf2 * 100.0
+        rf_err_c4_model = (rf2 - c4_rf2_clamped) / c4_rf2_clamped * 100.0
 
-        pass_e = abs(e_err_abaqus) <= 2.0 or abs(e_err_c4_model) <= 2.0
+        d_min = float(np.min(c_d))
+        d_max = float(np.max(c_d))
+
+        # Check bounds: 0.0 <= d <= 1.0
+        bounds_pass = (d_min >= -1e-9) and (d_max <= 1.0 + 1e-9) and not (np.isnan(d_min) or np.isnan(d_max))
+
+        # Check non-healing vs d_ckpt (for receiver candidates)
+        if cinfo["is_receiver"]:
+            heal_violations = int(np.sum(c_d < d_ckpt - 1e-6))
+            zero_healing_pass = (heal_violations == 0)
+        else:
+            heal_violations = 0
+            zero_healing_pass = True
+
+        # STRICT CRITERIA: Sole authoritative reference is Authentic Abaqus Donor
+        pass_e = abs(e_err_abaqus) <= 2.0
         pass_rf = abs(rf_err_abaqus) <= 5.0
 
-        status = "PASS" if (pass_e and pass_rf) else "FAIL"
+        qualified = bool(pass_e and pass_rf and bounds_pass and zero_healing_pass)
+        status = "PASS" if qualified else "FAIL"
 
         print(f"{cinfo['name'][:35]:<35} | {en['e_total_mJ']:11.6f} | {e_err_abaqus:+10.2f}% | {rf2:9.2f} | {rf_err_abaqus:+8.2f}% | {status}")
 
         results[cid] = {
             "name": cinfo["name"],
-            "d_min": float(np.min(c_d)),
-            "d_max": float(np.max(c_d)),
+            "d_min": d_min,
+            "d_max": d_max,
+            "bounds_pass": bounds_pass,
+            "zero_healing_pass": zero_healing_pass,
+            "healing_node_count": heal_violations,
             "e_total_mJ": en["e_total_mJ"],
             "e_total_kNmm": en["e_total_kNmm"],
             "e_pot_kNmm": en["e_pot_kNmm"],
@@ -567,13 +610,13 @@ def main():
             "gate_rf_pass": bool(pass_rf),
             "overall_qualification": status
         }
-    print("="*80)
+    print("="*85)
 
     # 8. Detailed Analysis of Energy Components
     print("\n=== DETAILED ENERGY COMPONENT BREAKDOWN (kN*mm) ===")
     print(f"{'Candidate':<35} | {'E_total':<14} | {'E_pot':<14} | {'E_grad':<14}")
-    print("-"*80)
-    for cid in ["donor_c4", "method_a_d_ckpt", "method_b2_l2_bound", "method_c2_energy_bound", "rejected_pkg102_r1_d_opt"]:
+    print("-"*85)
+    for cid in ["donor_c4", "method_a_d_ckpt", "method_b2_l2_bound", "method_c2_h1_bound_constrained", "rejected_pkg102_r1_d_opt"]:
         r = results[cid]
         print(f"{r['name'][:35]:<35} | {r['e_total_kNmm']:14.10e} | {r['e_pot_kNmm']:14.10e} | {r['e_grad_kNmm']:14.10e}")
 
@@ -589,14 +632,32 @@ def main():
                 "u_top_mm": U_TOP_MM
             },
             "c4_model_discrete_reference": {
-                "rf2_N": float(c4_rf2),
+                "rf2_clamped_N": float(c4_rf2_clamped),
+                "rf2_free_N": float(c4_rf2_free),
                 "e_frac_mJ": float(c4_energies["e_total_mJ"]),
                 "e_pot_kNmm": float(c4_energies["e_pot_kNmm"]),
                 "e_grad_kNmm": float(c4_energies["e_grad_kNmm"])
             },
+            "kkt_verification_method_c2": {
+                "lbfgsb_converged": bool(res.success),
+                "iterations": int(res.nit),
+                "active_lower_nodes": int(np.sum(is_lower)),
+                "active_upper_nodes": int(np.sum(is_upper)),
+                "free_nodes": int(np.sum(is_free)),
+                "lower_multiplier_violations": lower_mult_viol,
+                "upper_multiplier_violations": upper_mult_viol,
+                "free_gradient_norm": free_grad_norm,
+                "min_damage_margin_vs_ckpt": min_margin,
+                "max_damage_overshoot_vs_one": max_margin
+            },
             "candidates": results
         }, f, indent=2)
     print(f"\nSaved detailed projection comparison to: {out_json}")
+
+    # 10. Also save the qualified field to disk
+    out_npy = REPO_ROOT / "results/validation/mode1_f1597/c5_h1_bound_constrained_d.npy"
+    np.save(out_npy, d_H1_constrained)
+    print(f"Saved qualified damage field array to: {out_npy}")
 
 if __name__ == "__main__":
     main()

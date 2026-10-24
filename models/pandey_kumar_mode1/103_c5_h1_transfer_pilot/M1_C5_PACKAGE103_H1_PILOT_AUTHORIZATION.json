@@ -1,0 +1,44 @@
+{
+  "batch_name": "MODE1_PACKAGE_103_C5_H1_PILOT",
+  "adapter": "mode1-pdas-iterative-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_package103_c5_h1_pilot",
+  "files": {
+    "M1_C5_PACKAGE103_H1_PILOT.inp": "c24cb17a2298879f8587dd0a789b7a29498b4737b7f721ace7cafa54915e99a3",
+    "M1_C5_PACKAGE103_H1_PILOT_DC.dat": "a3c92f8bcda0f89ba0060ae1fdff1b0b3845b24f0f11108ca907b760ce3761a0",
+    "PACKAGE_MANIFEST.json": "3d72a306ff3cbf5b1e3abfebc03e55aaf8d35cac93cbda673ea5dd9f3b6a8426",
+    "candidate_c5_h1_state_table.csv": "57e5509e3b351ce161d8ee03ae6c4353132e366fe6620526e756f67af3ed7134",
+    "candidate_crack_band_mesh_c5.inp": "4f68e1d5977116a9bbcdd86039059692e8d4b8298c944b8d96907f7b61bedc75",
+    "extract_pkg103_results.py": "ff2024bc0ff3e4055d77d221a95b33d9ce04cd0c3f35a6d0b55c6020fe2e33c0",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "run_pkg103_datacheck.sh": "897b1b14b135c963f9e1c2ba1a443877f6d15b02f57967436c7544b747405900",
+    "submit_M1_C5_PACKAGE103_H1_PILOT.pbs": "67e7ad93c64d8ded468f6b847bf31744a2204a260bab74034a8e049942df6ec6"
+  },
+  "jobs": [
+    {
+      "id": "M1_C5_PACKAGE103_H1_PILOT",
+      "pbs": "submit_M1_C5_PACKAGE103_H1_PILOT.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_package103_c5_h1_pilot/submit_M1_C5_PACKAGE103_H1_PILOT.pbs\"",
+      "command_sha256": "80645a782430ffd0a4c0c13c19e06d5d6792636ff6a3053333d366765403fabd",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Package 103: Mode-I Method C Stage C1-2 First Conforming Matched-Displacement Pilot under Exact Bound-Constrained H^1 State Transfer on C5 crack-band mesh solving for mechanical equilibrium and AT2 fracture energy at matched displacement u=0.002052 mm without artificial loading, verifying 100% Gauss-point history preservation, zero healing, zero overshoot, and physical force and fracture-energy continuity.",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_C5_PACKAGE103_H1_PILOT.inp",
+      "datacheck": "M1_C5_PACKAGE103_H1_PILOT_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_C5_PACKAGE103_H1_PILOT": "Mechanical equilibrium and authentic phase state achieved at matched displacement u=0.002052 mm; reaction force continuity within 5% of authentic Package 94 donor RF2 (112.97 N); Bourdin AT2 fracture energy continuity within 2% of donor (0.137737 mJ); strictly 0 healing nodes (min Delta d >= 0) and 0 overshoot nodes (max d <= 1.0); strictly monotonic committed Gauss-point history H preserved without reset; 100% bitwise frozen UEL hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6 preserved."
+  }
+}
