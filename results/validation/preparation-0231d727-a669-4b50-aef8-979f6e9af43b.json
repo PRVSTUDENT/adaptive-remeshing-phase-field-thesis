@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "0231d727-a669-4b50-aef8-979f6e9af43b",
+  "turn": 75,
+  "created_at": "2026-10-24T07:09:45+02:00",
+  "finding": "Turn 75 reconciled all source code on GitHub origin/main (commit edb14f45), registered mode1-pdas-iterative-v1 in execution gates, fixed the subproblem boundary condition conflict (*Boundary, OP=NEW replacement preventing 4611 fatal errors), executed real Abaqus 2023 subproblem datacheck (Exit 0, 0.32s CPU), established cluster environment (Python 3.11.7 with NumPy 2.4.4 / SciPy 1.17.1), confirmed 4,610 physical nodes and -1.5500% pre-solver energy mismatch. Gate C1-2 remains strictly NOT QUALIFIED; explicit no-submission closeout executed under overnight cutoff.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "scripts/validation/pdas_cluster_execution_adapter.py": "55D9AEF5931449D8506A81415803E1E409FB7F6052A5A9768122FA43E601085B",
+    "scripts/validation/extract_pdas_subproblem_odb.py": "398CC5F2F919F27202E6229953E5E3806AC473A9DC18D420730A5339090A77E6",
+    "scripts/hpc/mode1_execution_gate.py": "858E6C8F8F3832D8CB04EDA15B4AE9094B821DC943EB1429DEB250F62885E204",
+    "scripts/hpc/preflight_package49_authorization.py": "83452ADE24DE28E41492241C78D4D7B444B11CACBCDA47B83FD0D2C1C8C11899",
+    "tests/unit/test_mode1_f1597_turn74_real_pdas_qualification.py": "430343E62EE0831FD5C2776A75F85B0E993CCFFFC6C528B175DDAEBF79541AC2",
+    "models/pandey_kumar_mode1/96_r5_c5_package96_r5_variational_transfer/M1_C5_PACKAGE96_R5_TRANSFER.inp": "505EDCB7A0423ECD8EFF564BEDC0F4DA9291B74D6A9D72DD54D8DC8C7CAE7CDA",
+    "results/validation/mode1_f1597/pkg96_h1_transfer_and_pdas_evaluation.json": "3E6FFF70D0DFB4F1902D46F3DE870ABBB93D88D14073A152E1820352B4DEF313"
+  },
+  "verification_passed": true
+}
