@@ -1,0 +1,44 @@
+{
+  "batch_name": "MODE1_PACKAGE_98_C5_PDAS_PILOT",
+  "adapter": "mode1-pdas-iterative-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_package98_c5_pdas_repair",
+  "files": {
+    "candidate_c5_frame7_mapped_state_table.csv": "713c076501ca6098510fd3be8917896ec31b4a42cedc7977ea0c33d28fb00b3a",
+    "candidate_crack_band_mesh_c5.inp": "4f68e1d5977116a9bbcdd86039059692e8d4b8298c944b8d96907f7b61bedc75",
+    "extract_pdas_subproblem_odb.py": "398cc5f2f919f27202e6229953e5e3806ac473a9dc18d420730a5339090a77e6",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_C5_PACKAGE98_SEED_TRANSFER.inp": "505edcb7a0423ecd8eff564bedc0f4da9291b74d6a9d72dd54d8dc8c7cae7cda",
+    "M1_C5_PACKAGE98_SEED_TRANSFER_DC.dat": "618415db104f906231f5ea90285f10a89417dfa0b379773a9b80c8faef453c73",
+    "PACKAGE_MANIFEST.json": "3e37e88a5db67e747788006aaeae6a0bf72c0f0d0e1721a6cd113f22a3b882b9",
+    "pdas_cluster_execution_adapter.py": "3511dff93b480e52e3647f8c8d03605886add653abf85aad18454ccf1a9b2a5b",
+    "submit_M1_C5_PACKAGE98_PDAS_PILOT.pbs": "1c72bf2aa75371e5583cadb8141dccc28bb929f9cca3055b30e5cd7f83b3aa42"
+  },
+  "jobs": [
+    {
+      "id": "M1_C5_PACKAGE98_PDAS_PILOT",
+      "pbs": "submit_M1_C5_PACKAGE98_PDAS_PILOT.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_package98_c5_pdas_repair/submit_M1_C5_PACKAGE98_PDAS_PILOT.pbs\"",
+      "command_sha256": "dc7a7ec9972bb4e48471c55077fe126817124bd28caa0f29573dc4788c4dc69d",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Package 98: Corrected live cluster iterative PDAS pilot on C5 mesh under Abaqus 2023 with exact Dirichlet boundary state preservation (d[L]=d_ckpt, d[U]=1.0), active-set cycle-detection safeguard, unscaled authentic history (scale_h=1.0), +4.0 nm continuation loading (u_target=0.002056 mm), live ODB extraction, and atomic checkpoint persistence.",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_C5_PACKAGE98_SEED_TRANSFER.inp",
+      "datacheck": "M1_C5_PACKAGE98_SEED_TRANSFER_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_C5_PACKAGE98_PDAS_PILOT": "Active-set stationarity and valid KKT conditions achieved; free-set residual ||R_d||_inf,A <= 1e-6 kN/mm; mechanical equilibrium residual <= 1e-4 kN; reaction force continuity within 5% of authentic Package 94 donor RF2 (112.97 N); fracture energy jump within 2% of donor E_frac (0.00013774 kN*mm); strict irreversibility preserved (0 genuine healing points); strict non-overshoot preserved (d <= 1.000000); authentic committed Gauss-point history H preserved without reset; converged checkpoint pdas_accepted_checkpoint.json emitted."
+  }
+}

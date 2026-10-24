@@ -1,0 +1,41 @@
+{
+    "active_job_count":  0,
+    "adapter_contract":  "mode1-pdas-iterative-v1",
+    "datachecks":  {
+                       "M1_C5_PACKAGE98_R1_PDAS_PILOT":  {
+                                                             "status":  "PASS",
+                                                             "input_sha256":  "505edcb7a0423ecd8eff564bedc0f4da9291b74d6a9d72dd54d8dc8c7cae7cda",
+                                                             "dat_sha256":  "618415db104f906231f5ea90285f10a89417dfa0b379773a9b80c8faef453c73"
+                                                         }
+                   },
+    "batch_spec_sha256":  "fd6f18e938633c89161880ff93fd66811c2f685ef6d4f82f6202bb60f034a40e",
+    "passed":  true,
+    "pbs_email_verified":  true,
+    "telegram_verified":  true,
+    "submission_queue":  "entry_imfdfkmq",
+    "queue_access_preflight":  "PASS",
+    "compiler_environment":  "PASS_LOGIN_NODE",
+    "datacheck_verified":  "PASS_BOTH",
+    "candidate_manifest_sha256":  "0d4cd1c52f7a2774a084c54bcf6525e4ccbf44185b9db2984d7e1a68405425c8",
+    "authorized_command_sha256":  "4df18c5b7aebc5ac3818d86299c90191fdb0c2c627a172ae9302fd57a0322b67",
+    "checked_at":  "2026-10-24T06:24:40.788278+00:00",
+    "config_path":  "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+    "config_mode":  "600",
+    "file_hashes":  {
+                        "candidate_c5_frame7_mapped_state_table.csv":  "713c076501ca6098510fd3be8917896ec31b4a42cedc7977ea0c33d28fb00b3a",
+                        "candidate_crack_band_mesh_c5.inp":  "4f68e1d5977116a9bbcdd86039059692e8d4b8298c944b8d96907f7b61bedc75",
+                        "extract_pdas_subproblem_odb.py":  "398cc5f2f919f27202e6229953e5e3806ac473a9dc18d420730a5339090a77e6",
+                        "f42_mixed_uel.for":  "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+                        "job_notifications.sh":  "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+                        "M1_C5_PACKAGE98_R1_SEED_TRANSFER.inp":  "505edcb7a0423ecd8eff564bedc0f4da9291b74d6a9d72dd54d8dc8c7cae7cda",
+                        "M1_C5_PACKAGE98_R1_SEED_TRANSFER_DC.dat":  "618415db104f906231f5ea90285f10a89417dfa0b379773a9b80c8faef453c73",
+                        "pdas_cluster_execution_adapter.py":  "e25dd389efc91bf4c78f35b42bd702b49e48af66c4908ea669d895af038f442b",
+                        "submit_M1_C5_PACKAGE98_R1_PDAS_PILOT.pbs":  "bcd602a56df7ab1e355600d0a71b1d7b0ae22bb26e2d038b5d4f670545f84f97",
+                        "PACKAGE_MANIFEST.json":  "ff6c9b664c1fdb1f38dea93a4c303198febe48df31eade4c844dd3c08adc85c4"
+                    },
+    "helper_sha256":  "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "email_evidence":  "sendmail accepted test message; PBS abe directives verified",
+    "telegram_notification_contract":  "PASS_LOGIN_NODE",
+    "compute_node_delivery":  "UNRESOLVED",
+    "lifecycle_tests":  "PASS"
+}
