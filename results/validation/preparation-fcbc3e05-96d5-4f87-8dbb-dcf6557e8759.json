@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Isolated experimental UEL implemented with active-set irreversibility penalty and verified on 4-element diagnostic patch: Check A retains transferred damage with 2.05e-13 healing and KKT satisfaction; Check B releases active constraint advancing damage under driving increment (+0.365); production UEL preserved bitwise frozen.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/104_experimental_irreversible_uel/f42_experimental_irreversible_uel.for": "E069834828E9A091F8978C4206BEF81DBD1D96B32DC85850529007FAF691C652",
+    "scripts/validation/run_turn111_verify_experimental_uel_patch.py": "EBE4D2E0697FDED94182AF02C0F09D111F522C14C5AE05D199BD50F0175CAFE3",
+    "results/validation/mode1_f1597/turn111_experimental_uel_patch_audit.json": "11301F709BFEE1B11A9188B66DFA321D9BE6F2D382EB70C1B11259CBC002EF9A",
+    "tests/unit/test_mode1_f1597_turn111_experimental_uel.py": "24827F70FCE04C36B48E59BE561808634E490A5BFAD125031BE6332CD279C400"
+  },
+  "verification_passed": true
+}

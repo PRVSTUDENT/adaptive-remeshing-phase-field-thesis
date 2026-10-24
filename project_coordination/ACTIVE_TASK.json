@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Turn 107 vs Turn 109 discrepancy resolved: Turn 109 initialized from raw State 0 (not State 1) with coarse release tolerance 1e-6 that clamped 2,752 nodes; under identical State 1 both L-BFGS-B and PDAS are stationary fixed points with 0.00 discrepancy, 0 healing, and verified KKT feasibility.",
+    "phase":  "Isolated experimental UEL implemented with active-set irreversibility penalty and verified on 4-element diagnostic patch: Check A retains transferred damage with 2.05e-13 healing and KKT satisfaction; Check B releases active constraint advancing damage under driving increment (+0.365); production UEL preserved bitwise frozen.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -156,14 +156,14 @@
                                  "morning_scientific_audit_packages87_88",
                                  "package89_state_transfer_submission"
                              ],
-    "last_updated":  "2026-10-24T17:51:24.7861140+02:00",
+    "last_updated":  "2026-10-24T18:11:49.4524754+02:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-4ff721db-d10a-4d60-b787-bfcfbde5a6eb.json",
-                                  "sha256":  "80B864567A986D1D7554DC25808DEF0EB8DEBC4B6C22E2BC1B749FABD913E421",
-                                  "created_at":  "2026-10-24T17:50:07.5663566+02:00"
+                                  "artifact":  "results/validation/preparation-fcbc3e05-96d5-4f87-8dbb-dcf6557e8759.json",
+                                  "sha256":  "B0A8991F3658639407F7A5720EA40E56CADA7647B7C6674DFF8C49D9EA66882E",
+                                  "created_at":  "2026-10-24T18:10:35.8980107+02:00"
                               }
 }
