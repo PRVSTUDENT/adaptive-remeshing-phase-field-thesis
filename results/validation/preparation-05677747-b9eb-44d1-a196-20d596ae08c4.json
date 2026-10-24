@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "turn": "05677747-b9eb-44d1-a196-20d596ae08c4",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "finding": "Turn 112 Genuine Abaqus 2023 verification complete: experimental irreversible UEL compiled cleanly (ifort 2021.13.0, exit 0), executed genuine 2-step solve on 4-element diagnostic patch (Exit 0); Stage A preserves transferred damage with healing <= 1e-8 (elem avg exactly 0.1875); Stage B releases active constraint advancing damage to ~0.985 with strictly monotonic dissipation; production UEL preserved bitwise frozen (CE8D5EDC...).",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/104_experimental_irreversible_uel/f42_experimental_irreversible_uel.for": "55FF5D097F207340291BB1A26603B70AB1F105BE8458914809AF08476A8FA195",
+    "models/pandey_kumar_mode1/104_experimental_irreversible_uel/diagnostic_patch/M1_DIAGNOSTIC_4ELEM_IRREV.inp": "2F92D1F93ECBF281A18C6ADB90A696459E84D9B754747D154717F3B1DB50BA0F",
+    "models/pandey_kumar_mode1/104_experimental_irreversible_uel/diagnostic_patch/d_lower_bounds.csv": "75EE50FAF22DBA0D595D82335F6E5B0D47484A3129394CD0DC865FC305863243",
+    "models/pandey_kumar_mode1/104_experimental_irreversible_uel/diagnostic_patch/submit_M1_DIAG_4ELEM.pbs": "6A1574F0CA96FC18606673B4C76BD9C0FDC6AA7734DBEAEF3D7E63DC593C5339",
+    "results/validation/mode1_f1597/turn112_abaqus_verification_audit.json": "1A1B72E9006C646F6194AEE48B6F9866893BC55ED77429906FCEFF6E3BB59ACD",
+    "results/validation/mode1_f1597/turn112_abaqus_diag_results.json": "E5DF884BF9C4B4582EC428A690D404D3498528E1A3BC9F43F6F76D0E543E63FA",
+    "results/validation/mode1_f1597/turn112_uel_energy_balance.csv": "21E1D76D192A62FBB5AEC9D34FC50720ACB1290D48CA0E7975A48153E484FF6D"
+  },
+  "verification_passed": true,
+  "timestamp": "2026-10-24T18:37:30+02:00"
+}
