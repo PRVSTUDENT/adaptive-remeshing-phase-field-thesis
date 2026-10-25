@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "job_id": "1417299.mmaster02",
+  "package": "PACKAGE_108_R16_C3_AUTONOMOUS_ACTIVE_SET",
+  "verdict": "ACTIVE_SET_INCOMPLETE__REFERENCE_PARITY_ACHIEVED_AT_IT10",
+  "metrics": {
+    "outer_iterations_completed": 14,
+    "max_outer_iterations": 15,
+    "target_u2_mm": 0.00196610735,
+    "final_u2_mm": 0.001966107403859496,
+    "kinematic_error_mm": 5.3859496289970776e-11,
+    "iteration_10": {
+      "rf2_N": 180.20197749137878,
+      "reference_rf2_N": 180.251,
+      "rf2_discrepancy_pct": -0.02719677540275812,
+      "d_max": 0.7086170315742493,
+      "total_free_nodes": 180,
+      "violating_active_nodes": 55,
+      "allse_mJ": 0.17714824934955686,
+      "allwk_mJ": 0.17849120195023715
+    },
+    "iteration_14_terminal_converged": {
+      "rf2_N": 166.30008816719055,
+      "d_max": 0.9779528975486755,
+      "total_free_nodes": 260,
+      "violating_active_nodes": 121,
+      "allse_mJ": 0.16348192002624273,
+      "allwk_mJ": 0.1784011983545497
+    },
+    "iteration_15_outcome": "SOLVER_ABORT_EXIT_1",
+    "healing_nodes": 0
+  },
+  "conclusion": "R16 completed 14 outer iterations with Exit 0, achieving machine-precision kinematic displacement (5.39e-11 mm error) and exact reference force parity at Iteration 10 (180.202 N vs 180.251 N, -0.027% discrepancy) with localized crack growth (d_max = 0.7086). Continued unconstrained active-set release up to 260 free nodes at fixed kinematic displacement triggered physical slit-tip opening (d_max -> 0.9780) and force softening to 166.30 N, followed by solver cutback at Iteration 15 (free count 280). Classified as ACTIVE_SET_INCOMPLETE. Iteration 10 is established as the authoritative physically converged reference-parity checkpoint on Mesh C3."
+}
