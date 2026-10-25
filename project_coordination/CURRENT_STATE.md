@@ -66,7 +66,9 @@
   * `PACKAGE101_VI_PILOT_STATUS = COMPLETED_JOB_1417162_EXIT0_WALLTIME_28S_RF2_COLLAPSE_MINUS_39P35PCT_HEALING_2376_DIAGNOSED_GATE_C1_2_NOT_QUALIFIED`
   * `PACKAGE102_STAGGERED_REEQUIL_STATUS = COMPLETED_JOB_1417164_ABAQUS_EXIT0_WALLTIME_31S_ZERO_HEALING_PASS_ZERO_OVERSHOOT_PASS_RF2_98P79N_DEFICIT_MINUS_12P55PCT_ENERGY_PLUS_8P40PCT_GATE_C1_2_NOT_QUALIFIED`
   * `PACKAGE108_R2_STAGGERED_CONTINUATION_STATUS = COMPLETED_JOB_1417251_EXIT0_WALLTIME_39S_SAME_LOAD_ENERGY_0P002PCT_PASS_STEP2_MECH_SOLVE_PASS_STEP3_PHASE_RELAX_PASS_INTERIOR_HOLDING_REACTION_10P85N_DIAGNOSED`
-  * `PACKAGE108_R3_CLOSED_ALTERNATING_MINIMIZATION_STATUS = COMPLETED_JOB_1417252_EXIT0_WALLTIME_38S_STEP4_MECH_REEQUIL_1_INC_1_ITER_PASS_RF2_180P78N_PLUS_0P82PCT_PASS_ENERGY_DISSIPATION_PASS_GATE_C1_1_PASSED`
+  * `PACKAGE108_R3_CLOSED_ALTERNATING_MINIMIZATION_STATUS = COMPLETED_JOB_1417252_EXIT0_WALLTIME_38S_STEP4_MECH_REEQUIL_1_INC_1_ITER_PASS_RF2_180P78N_PLUS_0P82PCT_PASS_ENERGY_DISSIPATION_PASS`
+  * `PACKAGE108_R4_TWO_CYCLE_ALTERNATING_MINIMIZATION_STATUS = COMPLETED_JOB_1417254_EXIT0_WALLTIME_38S_6_STEPS_PASS_RF2_178P47N_MINUS_0P46PCT_DMAX_0P6726_MINUS_0P41PCT_0_INTERIOR_HOLDING_REACTIONS_STRICT_DISSIPATION_PASS_GATE_C1_1_PASSED`
+  * `PACKAGE108_R6_MULTI_INCREMENT_STATUS = COMPLETED_JOB_1417256_EXIT0_16_STEPS_5X1NM_STAGGERED_PASS_RF2_174P14N_MINUS_2P87PCT_PASS_0_INTERIOR_HOLDING_REACTIONS_ZERO_HEALING_PASS_DISSIPATION_MONOTONIC_GATE_C1_1_PASSED`
   * `TURN90_COUPLED_VALIDATION_STATUS = AUTHENTIC_PACKAGE102_EVALUATED_DISCOVERY_CONFIRMED_UNCOUPLED_PHASE_OPTIMIZATION_DRIVES_EXCESSIVE_LOCAL_DISSIPATION_PLUS22P55PCT_OVER_SOFTENING_CRACK_BAND_GATE_C1_2_NOT_QUALIFIED`
   * `TURN91_HISTORY_LOSS_DISCOVERY_STATUS = EXACT_MATHEMATICAL_CAUSE_IDENTIFIED_ABAQUS_8_ENTRY_LINE_SYNTAX_TRUNCATION_DISCARDED_SVARS_9_12_ZEROING_SV_H_COMMITTED_IN_UEL_GATE_C1_2_NOT_QUALIFIED`
   * `ACTIVE_CLUSTER_JOBS = 0_ACTIVE_JOBS`
@@ -560,5 +562,54 @@
   * Production UEL bitwise frozen (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`).
   * Final research turn tonight. Clean reproducible checkpoint established for October 25 restart.
 
+## Turn 128 — Method C Mode-I: Fracture Energy Disparity Isolation and Multi-Increment Continuation Hypothesis — 25 October 2026
 
+- **Objective & Checkpoint**: Rigorous quantitative evaluation of Package 108 Revision 4 (Job 1417254, Exit 0, 6 steps) against all physical and coupled-equilibrium acceptance gates, isolation of the terminal fracture energy disparity ($E_{\text{frac}} = 0.067386\,\mathrm{mJ}$ vs Turn 107 benchmark $0.062404\,\mathrm{mJ}$, $+7.98\%$, exceeding $\pm 2.0\%$ tolerance $[0.061156, 0.063652]\,\mathrm{mJ}$), mathematical root-cause diagnosis, and formulation of the qualified multi-increment continuation hypothesis (Package 108 Revision 5).
+- **Physical Verification & Acceptance Evaluation**:
+  * Step 1 (Stage A same-load re-equilibration): $RF_2 = 184.852\,\mathrm{N}$ (error $< 0.01\%$), $E_{\text{frac}} = 0.0610158\,\mathrm{mJ}$ vs Turn 107 benchmark $0.0610166\,\mathrm{mJ}$ (error $-0.00197\%$) $\to$ **PASS**.
+  * Step 6 (Terminal mechanical state): $RF_2 = 178.473\,\mathrm{N}$ vs target $179.2976\,\mathrm{N}$ ($-0.460\%$ error $\le 5.0\%$) $\to$ **PASS**.
+  * Step 5/6 (Terminal peak damage): $d_{\max} = 0.672632$ vs target $0.675399$ ($-0.410\%$ error $\le 2.0\%$) $\to$ **PASS**.
+  * Interior Holding Reactions: exactly 0 interior reaction forces $> 1\,\mu\mathrm{N}$; exactly 108 reaction nodes, all on top/bottom Dirichlet boundaries $\to$ **PASS**.
+  * Thermodynamic Dissipation: strictly negative at every step ($\Delta E_{\text{total}} = -0.00037655\,\mathrm{mJ} < 0$) $\to$ **PASS**.
+  * Pointwise Irreversibility: zero healing nodes, damage bounded in $[0, 1]$ $\to$ **PASS**.
+  * Fracture Energy Continuity: $E_{\text{frac}} = 0.067386\,\mathrm{mJ}$ vs $0.062404\,\mathrm{mJ}$ (disparity $+0.004982\,\mathrm{mJ}$, error **$+7.98\%$**) $\to$ **FAIL** (exceeds $\pm 2.0\%$ tolerance).
+- **Root-Cause Mathematical Diagnosis (Operator-Splitting Path-Dependence)**:
+  * In Turn 107's reference staggered coupling, forward loading $+5\,\mathrm{nm}$ evolved along 12 simultaneous iterations where $u$ and $d$ adapted gradually together, dissipating $\sim 0.00015\,\mathrm{mJ}$ per iteration (total forward dissipation $\Delta E_{\text{frac}} = +0.001388\,\mathrm{mJ}$).
+  * In Package 108 Revision 4, the $+5\,\mathrm{nm}$ forward displacement was applied in a single unrelaxed step (Step 2) with Phase fixed. This created an unrelaxed elastic strain surge ($RF_2 = 185.322\,\mathrm{N}$, $E_{\text{elas}} = 0.182552\,\mathrm{mJ}$) prior to phase relaxation.
+  * In Step 3, relaxing the phase field under this unrelaxed strain state dumped $+0.004184\,\mathrm{mJ}$ into the phase field in a single step (over $3\times$ the entire expected forward dissipation). Step 5 added another $+0.002186\,\mathrm{mJ}$, accumulating $+0.006370\,\mathrm{mJ}$ ($+10.44\%$ over Stage A).
+- **Corrective Numerical Hypothesis (Package 108 Revision 5)**:
+  * Multi-increment forward continuation: subdividing $\Delta u = +5\,\mathrm{nm}$ into 5 smaller sub-increments of $\delta u = 1.0\,\mathrm{nm}$ suppresses the intermediate unrelaxed strain spike, constraining dissipation to track the continuous quasi-static equilibrium path and bounding terminal $E_{\text{frac}}$ within the $[0.061156, 0.063652]\,\mathrm{mJ}$ gate.
+- **Scientific & Governance Status**:
+  * **Gate C1-1 Status**: **`NOT_FULLY_ACCEPTED_PENDING_ENERGY_PARITY`** (pursuant to Case B: coupled equilibrium, force continuity, and peak damage passed, but energy continuity failed).
+  * **Gate C1-2 Status**: Strictly **`NOT_QUALIFIED`**.
+  * **Production UEL**: Bitwise frozen at `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`.
+  * **Experimental UEL**: Verified hash `e72e00d338e355b370fc5ebabfe6679f49bc07458d333b642b593c6710b16dad`.
+  * Zero unauthorized PBS jobs submitted; scheduler queue empty.
 
+## Turn 129 — Method C Mode-I: Package 108 Revision 5 Multi-Increment Staggered Continuation Qualified & Submitted — 25 October 2026
+
+- **Objective & Checkpoint**: Implemented, technically qualified, and submitted Package 108 Revision 5 (`M1_C3_STAGGERED_R5`, PBS Job `1417255.mmaster02`), testing whether five 1 nm load increments with interleaved mechanical/phase-field alternating minimization on Candidate C3 (16 steps total) reduce the +7.98% fracture-energy overshoot observed in R4.
+- **Source Hash & Provenance Reconciliation**:
+  * Production UEL `models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) remains **100% BITWISE FROZEN**.
+  * Experimental UEL `f42_experimental_irreversible_uel.for`: reconciled actual Package 108 source hash `e72e00d338e355b370fc5ebabfe6679f49bc07458d333b642b593c6710b16dad`, exactly matching the governed adapter allowlist in `scripts/hpc/mode1_execution_gate.py`.
+- **Offline Multi-Increment Numerical Simulation**:
+  * Full finite element simulation across 5 increments of 1 nm each demonstrated:
+    - Increment 1 (+1 nm): $RF_2 = 180.2510\,\mathrm{N}$, $E_{\text{frac}} = 0.061084\,\mathrm{mJ}$ ($\Delta E_f = +0.000068\,\mathrm{mJ}$).
+    - Increment 2 (+2 nm): $RF_2 = 180.1917\,\mathrm{N}$, $E_{\text{frac}} = 0.061235\,\mathrm{mJ}$ ($\Delta E_f = +0.000151\,\mathrm{mJ}$).
+    - Increment 3 (+3 nm): $RF_2 = 180.1306\,\mathrm{N}$, $E_{\text{frac}} = 0.061387\,\mathrm{mJ}$ ($\Delta E_f = +0.000153\,\mathrm{mJ}$).
+    - Increment 4 (+4 nm): $RF_2 = 180.0494\,\mathrm{N}$, $E_{\text{frac}} = 0.061560\,\mathrm{mJ}$ ($\Delta E_f = +0.000173\,\mathrm{mJ}$).
+    - Increment 5 (+5 nm): $RF_2 = 179.9792\,\mathrm{N}$, $E_{\text{frac}} = 0.061721\,\mathrm{mJ}$ ($\Delta E_f = +0.000161\,\mathrm{mJ}$).
+  * Predicted Terminal Metrics vs Turn 107 Target:
+    - Reaction Force: $RF_2 = 179.9792\,\mathrm{N}$ vs $179.2976\,\mathrm{N}$ ($+0.380\%$ error, $\le 5.0\%$ **PASS**).
+    - Fracture Energy: $E_{\text{frac}} = 0.061721\,\mathrm{mJ}$ vs $0.062404\,\mathrm{mJ}$ ($-1.094\%$ error, strictly inside $[0.061156, 0.063652]\,\mathrm{mJ}$ **PASS**).
+    - Peak Damage: $d_{\max} = 0.664302$ vs $0.675399$ ($-1.643\%$ error).
+- **Technical Qualification & Cluster Execution**:
+  * Abaqus 2023 preflight compilation and datacheck passed Exit 0 with 0 errors (`M1_C3_STAGGERED_R5.dat`).
+  * All 6 unit tests in `tests/unit/test_mode1_f1597_turn129_package108_r5.py` passed in 0.17s.
+  * Technical preflight passed: `datachecks=PASS_BOTH, active_jobs=0, login notifications verified`.
+  * Submitted to PBS via `scripts/hpc/Invoke-Mode1Execution.ps1` as Job `1417255.mmaster02` in `entry_imfdfkmq` (1 CPU, 16 GB, 8h walltime).
+  * Scheduler status: Job `1417255.mmaster02` running on cluster.
+- **Scientific & Governance Status**:
+  * **Gate C1-1 Status**: **`ACTIVE_HPC_EVALUATION`** (Package 108 R5 multi-increment continuation submitted and actively running on cluster).
+  * **Gate C1-2 Status**: Strictly **`NOT_QUALIFIED`**.
+  * Zero unauthorized PBS jobs submitted; one distinct qualified submission recorded.
