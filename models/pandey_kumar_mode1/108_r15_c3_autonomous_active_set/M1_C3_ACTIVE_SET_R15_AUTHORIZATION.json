@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "adapter": "mode1-experimental-12dof-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "batch_name": "MODE1_C3_ACTIVE_SET_CONTINUATION_R15",
+  "configuration": "UNIFIED_12DOF_AUTONOMOUS_ACTIVE_SET",
+  "hypothesis": "Safeguarded ranked batch active-set continuation with B_max=20 and screening cutoff tau_release=5.0e-8 kN/mm prevents domain-wide compliance collapse, stabilizes monolithic coupled Abaqus continuation, reaches the full +1 nm displacement target with zero healing, and relaxes reaction force monotonically towards reference parity.",
+  "automatic_retry": false,
+  "max_submissions": 1,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c3_active_set_continuation_r15",
+  "files": {
+    "active_set_boundary_cards.inc": "4d4925af24dbf697803dfd8048f7eb3ac8064c6914173058d9587e083f330fb3",
+    "d_lower_bounds.csv": "7eb193cad4fb1db1401a27ea234940d5b7d857cd8042b13ff435a636d38a19eb",
+    "driver_r15_autonomous_continuation.py": "87968e6e0c7e7a004628a92b24ddee8040bc0aaacf1a48f3c4235cee3f3b0455",
+    "f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "M1_C3_ACTIVE_SET_R15_CONTINUATION.inp": "cfd1c98e5125542fd05afd73b58eff099fae4146916a11c60863aad9cd6fc9ee",
+    "run_pkg108_r15_datacheck.sh": "783c370f16f1b6bdbba3a747fd07eb4be555b0baf40466ab319def4d6fa65c0d",
+    "stage_a_all_d0_boundary_cards.inc": "4d4925af24dbf697803dfd8048f7eb3ac8064c6914173058d9587e083f330fb3",
+    "submit_M1_C3_ACTIVE_SET_R15.pbs": "d0f8cfafeee658e6bba8cc6d343dfac9931afdb257ee67fb1c0c8a1d0932b439"
+  },
+  "jobs": [
+    {
+      "id": "M1_C3_ACTIVE_SET_R15",
+      "purpose": "Abaqus 2023 Candidate C3 safeguarded ranked-batch active-set continuation driver (R15)",
+      "input": "M1_C3_ACTIVE_SET_R15_CONTINUATION.inp",
+      "user_subroutine": "f42_unified_12dof_active_set_uel.for",
+      "pbs": "submit_M1_C3_ACTIVE_SET_R15.pbs",
+      "datacheck": "M1_C3_ACTIVE_SET_R15.dat",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c3_active_set_continuation_r15/submit_M1_C3_ACTIVE_SET_R15.pbs\"",
+      "command_sha256": "4fb9b8b7364fdf9ab9bace12ec5f8bc59269e78ef60fd650cddef3c73da72cd1",
+      "depends_on": []
+    }
+  ],
+  "acceptance": {
+    "stage_A_same_load": {
+      "u_top_target_mm": 0.00196510735,
+      "rf2_expected_N": 184.851,
+      "rf2_continuity_pct_max": 1.0,
+      "kkt_violations_max": 0
+    },
+    "stage_B_forward_continuation": {
+      "delta_u_mm": 1e-06,
+      "u_top_target_mm": 0.00196610735,
+      "expected_rf2_N_approx": 180.251,
+      "rf2_tolerance_pct": 2.0,
+      "expected_allse_mJ_approx": 0.1818,
+      "allse_tolerance_pct": 2.0,
+      "expected_dmax_approx": 0.67,
+      "dmax_tolerance_pct": 5.0,
+      "kkt_violations_max": 0,
+      "healing_magnitude_max": 1e-08
+    }
+  }
+}

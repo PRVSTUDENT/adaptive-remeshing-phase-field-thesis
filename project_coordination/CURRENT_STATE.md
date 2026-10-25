@@ -728,3 +728,34 @@
   * **Gate C1-1 Status**: **`ACTIVE_HPC_EVALUATION`** (Package 108 R14 executed on cluster; physical driving forces verified; threshold tuning identified for Turn 145).
   * **Gate C1-2 Status**: Strictly **`NOT_QUALIFIED`**.
   * Exactly one qualified job (`1417294.mmaster02`) executed in Turn 144.
+
+## Turn 145 — Method C Mode-I: Safeguarded Ranked Batch Active-Set Release Formulated, Full +1 nm Continuation Verified, and Package 108 Revision 15 (R15) Submitted to Cluster — 25 October 2026
+
+- **Objective & Diagnostics**:
+  * Investigated R14 Iteration-2 solver abort ( < 10^{-5}$ cutback).
+  * Characterized authentic R14 nodal RF3 distribution: identified that $\tau_{\text{release}} = 1.0 \times 10^{-9}\,\mathrm{kN/mm}$ with unlimited batch size released 1,402 weakly-strained background nodes ($|\lambda| \le 10^{-9}$) simultaneously.
+  * Identified physical separation: physical crack-tip driving forces have $|\lambda| \ge 5.0 \times 10^{-8}\,\mathrm{kN/mm}$ (top 42 nodes), whereas the elastic far field has $|\lambda| \le 1.0 \times 10^{-9}\,\mathrm{kN/mm}$.
+- **Safeguarded Ranked Batch Active-Set Formulation (Package 108 Revision 15)**:
+  * Implemented bounded batch active-set release: candidates violating $\lambda_i < -\tau_{\text{release}}$ ($\tau_{\text{release}} = 5.0 \times 10^{-8}\,\mathrm{kN/mm}$) are sorted by driving force magnitude and released at most {\max} = 20$ nodes per outer iteration.
+  * Robust incrementation floor: updated Step 2 to dt_min = 1.0E-8, inc=200.
+  * Verified autonomous multi-iteration continuation:
+    - Iteration 1 ( = 0$):  = 184.9453\,\mathrm{N}$, {\text{RP}} = 0.0019661074\,\mathrm{mm}$ (error .39 \times 10^{-11}\,\mathrm{mm}$), {\max} = 0.6550$, 42 violating nodes.
+    - Iteration 2 ( = 20$):  = 183.8242\,\mathrm{N}$, {\text{RP}} = 0.0019661074\,\mathrm{mm}$, {\max} = 0.6600$ ($\Delta d = +0.0050$), 36 violating nodes.
+    - Iteration 3 ( = 40$):  = 182.7773\,\mathrm{N}$, {\text{RP}} = 0.0019661074\,\mathrm{mm}$, {\max} = 0.6650$ ($\Delta d = +0.0100$), 32 violating nodes.
+    - Iteration 4 ( = 60$):  = 182.2627\,\mathrm{N}$, {\text{RP}} = 0.0019661074\,\mathrm{mm}$, {\max} = 0.6700$ ($\Delta d = +0.0150$), 35 violating nodes.
+    - Every iteration solved with 0 cutbacks in 1 single increment across 3 equilibrium iterations.
+    - Zero healing ($\Delta d \ge 0$ everywhere).
+    - Monotonic reaction force relaxation towards reference:  = 182.26\,\mathrm{N}$ vs .25\,\mathrm{N}$ (+1.11% reference parity, within $\pm 2.0\%$ Gate tolerance).
+- **Technical Qualification & Cluster Submission (Job 1417298.mmaster02)**:
+  * Package 108 Revision 15 (M1_C3_ACTIVE_SET_R15) created under models/pandey_kumar_mode1/108_r15_c3_autonomous_active_set/.
+  * Abaqus 2023 preflight compilation and datacheck completed with 0 errors (M1_C3_ACTIVE_SET_R15.dat).
+  * All 6 unit regression tests in 	ests/unit/test_mode1_f1597_turn145_r15_qualification.py passed in 0.18s.
+  * Technical preflight passed: datachecks=PASS_BOTH, active_jobs=0, login notifications verified.
+  * Submitted to PBS via Invoke-Mode1Execution.ps1 as Job 1417298.mmaster02 in entry_imfdfkmq -> 
+ormal_imfdfkmq (1 CPU, 16 GB, 8h walltime).
+- **Scientific & Governance Status**:
+  * **Production UEL**: Bitwise frozen at CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6.
+  * **Repaired Unified 12-DOF UEL**: Verified at b0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac.
+  * **Gate C1-1 Status**: **ACTIVE_HPC_EVALUATION** (Package 108 R15 actively running on cluster as Job 1417298.mmaster02).
+  * **Gate C1-2 Status**: Strictly **NOT_QUALIFIED**.
+  * Exactly one qualified job (1417298.mmaster02) submitted in Turn 145.
