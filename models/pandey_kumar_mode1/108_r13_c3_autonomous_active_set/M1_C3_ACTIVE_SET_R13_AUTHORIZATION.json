@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "adapter": "mode1-experimental-12dof-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "batch_name": "MODE1_C3_ACTIVE_SET_CONTINUATION_R13",
+  "configuration": "UNIFIED_12DOF_AUTONOMOUS_ACTIVE_SET",
+  "hypothesis": "Deploying the corrected repository-compatible autonomous active-set iteration driver in genuine Abaqus/Standard 2023 eliminates R11 damage locking without precomputed masks, iteratively discovers active crack-tip constraints via KKT multipliers (lambda = RF3), relaxes reaction force monotonically toward reference continuation, and preserves strict Stage-A checkpoint reset semantics.",
+  "automatic_retry": false,
+  "max_submissions": 1,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c3_active_set_continuation_r13",
+  "files": {
+    "M1_C3_ACTIVE_SET_R13_CONTINUATION.inp": "d2550fef0b32fd824bba0d527751d9066f7dd4b901a7c488ae1f0c06e81e6e5d",
+    "f42_unified_12dof_active_set_uel.for": "a33de85124681766ea362f11d28440c55f40dd85f7d80c19186e44c343d9129b",
+    "stage_a_all_d0_boundary_cards.inc": "4d4925af24dbf697803dfd8048f7eb3ac8064c6914173058d9587e083f330fb3",
+    "active_set_boundary_cards.inc": "4d4925af24dbf697803dfd8048f7eb3ac8064c6914173058d9587e083f330fb3",
+    "d_lower_bounds.csv": "7eb193cad4fb1db1401a27ea234940d5b7d857cd8042b13ff435a636d38a19eb",
+    "driver_r13_autonomous_continuation.py": "520097b05d65309db75db995f3aa759f5ac88ceaf831737b61e93d99e7a51c5b",
+    "run_pkg108_r13_datacheck.sh": "0f57d2fae3b7d47caab7485af71c039a02b67492079f50c69afe6857e3a3d800",
+    "submit_M1_C3_ACTIVE_SET_R13.pbs": "e3b73d6ba79b8801b3c1556903aa0bae325cf156bd9cc3b0f691b64664d29960",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47"
+  },
+  "jobs": [
+    {
+      "id": "M1_C3_ACTIVE_SET_R13",
+      "purpose": "Abaqus 2023 Candidate C3 autonomous active-set continuation driver (R13)",
+      "input": "M1_C3_ACTIVE_SET_R13_CONTINUATION.inp",
+      "user_subroutine": "f42_unified_12dof_active_set_uel.for",
+      "pbs": "submit_M1_C3_ACTIVE_SET_R13.pbs",
+      "datacheck": "M1_C3_ACTIVE_SET_R13.dat",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c3_active_set_continuation_r13/submit_M1_C3_ACTIVE_SET_R13.pbs\"",
+      "command_sha256": "f82956555b05df0f586401f527376196e666e1d82098646242271874b94aa434",
+      "depends_on": []
+    }
+  ],
+  "acceptance": {
+    "stage_A_same_load": {
+      "u_top_target_mm": 0.00196510735,
+      "rf2_expected_N": 184.851,
+      "rf2_continuity_pct_max": 1.0,
+      "kkt_violations_max": 0
+    },
+    "stage_B_forward_continuation": {
+      "delta_u_mm": 1e-06,
+      "u_top_target_mm": 0.00196610735,
+      "expected_rf2_N_approx": 180.5077,
+      "rf2_tolerance_pct": 2.0,
+      "expected_allse_mJ_approx": 0.1818,
+      "allse_tolerance_pct": 2.0,
+      "expected_dmax_approx": 0.7006,
+      "dmax_tolerance_pct": 5.0,
+      "kkt_violations_max": 0,
+      "healing_magnitude_max": 1e-08
+    }
+  }
+}
