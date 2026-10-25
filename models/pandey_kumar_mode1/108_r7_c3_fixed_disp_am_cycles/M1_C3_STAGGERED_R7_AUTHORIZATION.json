@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "adapter": "mode1-experimental-irrev-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "batch_name": "MODE1_C3_STAGGERED_CONTINUATION_R7",
+  "configuration": "STAGGERED_IRREVERSIBLE",
+  "hypothesis": "Executing 8 alternating minimization cycles at fixed displacement u = 0.00196610735 mm (+1 nm) will discriminate between premature cycle termination and constitutive strain ratcheting. If the physical formulation is stable, H and d will converge across cycles 1 to 8 toward the Turn 134 Python prediction (H_max ~ 4.80 MPa, RF2 ~ 180.24 N), resolving R6 over-dissipation.",
+  "automatic_retry": false,
+  "max_submissions": 1,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c3_staggered_continuation_r7",
+  "files": {
+    "M1_C3_STAGGERED_R7_CONTINUATION.inp": "21b7ca033d0745b04cce129dfbc5d7a52264ece858d41f7a6ef67ea646790b4e",
+    "d_lower_bounds.csv": "65dbbf621a9415e8c4381289c3a0c622ae8e019b189b104e3a9e30ac8b8813eb",
+    "f42_experimental_irreversible_uel.for": "e72e00d338e355b370fc5ebabfe6679f49bc07458d333b642b593c6710b16dad",
+    "submit_M1_C3_STAGGERED_R7.pbs": "d6e6694d7e9b1e7122864867a7f7a679185254b351e4a892f5c773d47c49a5c5",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47"
+  },
+  "jobs": [
+    {
+      "id": "M1_C3_STAGGERED_R7",
+      "purpose": "Abaqus 2023 Candidate C3 18-step +1nm continuation with 8 within-step alternating minimization cycles at fixed displacement (R7)",
+      "input": "M1_C3_STAGGERED_R7_CONTINUATION.inp",
+      "user_subroutine": "f42_experimental_irreversible_uel.for",
+      "pbs": "submit_M1_C3_STAGGERED_R7.pbs",
+      "datacheck": "M1_C3_STAGGERED_R7.dat",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c3_staggered_continuation_r7/submit_M1_C3_STAGGERED_R7.pbs\"",
+      "command_sha256": "877eebe61022347f78437ce5871dbf614d89c5ab1180a4f4964c79a96a2c9f37",
+      "depends_on": []
+    }
+  ],
+  "acceptance": {
+    "stage_A_same_load": {
+      "u_top_target_mm": 0.00196510735,
+      "rf2_continuity_vs_c2_equil_pct_max": 5.0,
+      "ef_continuity_vs_c2_equil_pct_max": 2.0,
+      "healing_magnitude_max": 1e-08,
+      "kkt_violations_max": 0
+    },
+    "stage_B_forward_continuation": {
+      "delta_u_mm": 1e-06,
+      "num_am_cycles": 8,
+      "u_top_target_mm": 0.00196610735,
+      "expected_rf2_N_approx": 180.244,
+      "rf2_tolerance_pct": 5.0,
+      "expected_ef_mJ_approx": 0.061091,
+      "ef_tolerance_pct": 2.0,
+      "healing_magnitude_max": 1e-08
+    }
+  }
+}
