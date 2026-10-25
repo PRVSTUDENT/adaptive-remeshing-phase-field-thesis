@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "e285ac70-5205-432c-903b-def8085cbaf6",
+  "finding": "Turn 122 genuine Abaqus/Standard 2023 execution on 4-element diagnostic patch verified: completed Exit 0 with 0 cutbacks (Step 1 1 iter, Step 2 3 iters); strictly held mechanical displacements (*Boundary, op=NEW, fixed drift < 1e-12 mm); preserved transferred history H=0.05 and damage lower bound d>=0.60; satisfied thermodynamic energy monotonicity (E_elas relaxed 0.2842->0.1618 uJ, E_frac increased 0.0612->0.1419 uJ). Provenance clarified: Turn 121 multi-cycle AM was QUALIFIED_OFFLINE_ONLY; Turn 122 provides the first authentic solver verification of staggered state preservation. Production UEL frozen at CE8D5EDC... Gate C1-1 remains unpromoted pending full physical C3 continuation.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/107_staggered_coupling_diagnostic/M1_DIAG_STAGGERED_2STEP.inp": "3A143137D6F9629435A2F1C2DCA77C61476EB5EA70F4C575286F3ECC3E3E6269",
+    "models/pandey_kumar_mode1/107_staggered_coupling_diagnostic/M1_DIAG_STAG_SOLVE.sta": "AAC5B7F3A31B38B18AA08B1FA09AA7C7D257786C42D8DCB63DE7F680F5B4A2BF",
+    "models/pandey_kumar_mode1/107_staggered_coupling_diagnostic/d_lower_bounds.csv": "75EE50FAF22DBA0D595D82335F6E5B0D47484A3129394CD0DC865FC305863243",
+    "models/pandey_kumar_mode1/107_staggered_coupling_diagnostic/f42_experimental_irreversible_uel.for": "E72E00D338E355B370FC5EBABFE6679F49BC07458D333B642B593C6710B16DAD",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "results/validation/mode1_f1597/turn122_odb_extracted_data.json": "89DD6654785AE67CC0A2C8CC460A0C86E64F2C51FA9C9F2818125F7B2134E485",
+    "results/validation/mode1_f1597/turn122_uel_energy_balance.csv": "88AAC4E7F851A37D3761F516E11CDFC99BFB5B22E9A377E166FEE7C088A2053C",
+    "results/validation/mode1_f1597/turn122_staggered_verification_metrics.json": "66965F8962CD950435BB4E37C786005511D03EF884C2E028F0507CD9AA9F8121",
+    "scripts/validation/evaluate_turn122_staggered_diagnostic.py": "A9ED2E819ADD0EC913EB418917CF8B2ECC7C13B22EFAC9BC035B479F3C4F68CD",
+    "tests/unit/test_mode1_f1597_turn122_staggered_verification.py": "A4A62A88F904BC6CA2622A260153D8281DCF60B287EFC35277E3D04D1326D0D0"
+  },
+  "verification_passed": true
+}
