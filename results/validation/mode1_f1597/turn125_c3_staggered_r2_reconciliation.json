@@ -1,0 +1,56 @@
+{
+  "job_id": "1417251.mmaster02",
+  "job_name": "M1_C3_STAGGERED_R2",
+  "terminal_state": "F",
+  "exit_code": 0,
+  "solver_completion": "THE ANALYSIS HAS COMPLETED SUCCESSFULLY",
+  "mesh": {
+    "candidate": "C3",
+    "element_count": 2650,
+    "node_count": 2769,
+    "physical_dofs": 8307
+  },
+  "stage_a_evaluation": {
+    "u_rp_mm": 0.00196510735,
+    "equil_iters": 6,
+    "severe_discon_iters": 0,
+    "measured_ef_mJ": 0.061015797,
+    "reference_matched_ef_mJ": 0.061017,
+    "relative_error_pct": 0.0019715816903570675,
+    "pass_tolerance_pct": 2.0,
+    "status": "PASS"
+  },
+  "stage_b_mech_evaluation": {
+    "u_rp_mm": 0.00197010735,
+    "delta_u_mm": 5e-06,
+    "equil_iters": 1,
+    "measured_ef_mJ": 0.061015797,
+    "phase_holding_drift_mJ": 0.0,
+    "elastic_strain_energy_mJ": 0.18255244,
+    "status": "PASS"
+  },
+  "stage_b_phase_evaluation": {
+    "increments": 10,
+    "final_step_time": 1.0,
+    "final_ef_mJ": 0.06519984300000001,
+    "final_e_elastic_mJ": 0.17818672,
+    "final_e_total_mJ": 0.24338656,
+    "delta_ef_dissipation_mJ": 0.004184046000000011,
+    "thermodynamic_total_energy_change_mJ": -0.0001816699999999949,
+    "dissipation_positive": true,
+    "free_energy_decreasing": true,
+    "status": "PASS"
+  },
+  "overall_continuation_verdict": "GENUINE_STAGGERED_CONTINUATION_SUCCESS",
+  "evidence_hashes": {
+    "models/pandey_kumar_mode1/108_r2_c3_staggered_continuation/M1_C3_STAGGERED_R2_CONTINUATION.inp": "ABBFBAF2AAD20BCD393A259654E71CF1CA86FBF91CF86DFC139D98D85AE10B02",
+    "models/pandey_kumar_mode1/108_r2_c3_staggered_continuation/submit_M1_C3_STAGGERED_R2.pbs": "3DFC96619264C21780D61530635847F9ADF39671601015789465DBE52F6ADCA4",
+    "models/pandey_kumar_mode1/108_r2_c3_staggered_continuation/d_lower_bounds.csv": "65DBBF621A9415E8C4381289C3A0C622AE8E019B189B104E3A9E30AC8B8813EB",
+    "models/pandey_kumar_mode1/108_r2_c3_staggered_continuation/f42_experimental_irreversible_uel.for": "E72E00D338E355B370FC5EBABFE6679F49BC07458D333B642B593C6710B16DAD",
+    "models/pandey_kumar_mode1/108_r2_c3_staggered_continuation/job_notifications.sh": "96756A681D2D36C11B36B89288F631F8ECC9537543C2C745A4BAE1B425984B47",
+    "models/pandey_kumar_mode1/108_r2_c3_staggered_continuation/M1_C3_STAGGERED_R2.dat": "7C450D2D56909397D807B116D2C646BF685DCEE09BBFE7738C9725FD5253F14D",
+    "models/pandey_kumar_mode1/108_r2_c3_staggered_continuation/M1_C3_STAGGERED_R2.sta": "2B60576A636D6EDD8657EB5F4244FBAABE340A5FF2B1F53CBA2187E77AB36F32",
+    "models/pandey_kumar_mode1/108_r2_c3_staggered_continuation/uel_energy_balance.csv": "A573952E56F0D0FF78B0D389ECAA89AEA6E90F054A6E32EBF11F9B8DF0CC770B",
+    "models/pandey_kumar_mode1/108_r2_c3_staggered_continuation/M1_C3_STAGGERED_R2_AUTHORIZATION.json": "9913F894C092611FE0E31FE52E801DBF6FE139D2AA932BB5AC2F3FCE6776A1E8"
+  }
+}

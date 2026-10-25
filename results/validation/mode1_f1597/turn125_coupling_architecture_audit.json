@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "status": "INITIAL_AUDIT_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "d6708a5f-ea74-41a7-92c4-8030a0d62460",
+  "jobs_reconciled": {
+    "1417248.mmaster02": {
+      "package": "108",
+      "terminal_state": "F",
+      "exit_code": 1,
+      "failure_cause": "Startup environment failure: submit_M1_C3_STAGGERED.pbs used relative RUN_DIR='$(pwd)' evaluating to $HOME where job_notifications.sh was absent."
+    },
+    "1417249.mmaster02": {
+      "package": "108_r1",
+      "terminal_state": "F",
+      "exit_code": 1,
+      "cput_seconds": 43,
+      "walltime_seconds": 56,
+      "memory_kb": 520212,
+      "step1_status": "CONVERGED (1 inc, 6 iterations, 0 severe discontinuity iterations)",
+      "step2_status": "FAILED (10 cutbacks, residual divergence at crack band node 1368 DOF 3)"
+    }
+  },
+  "stage_a_verification": {
+    "mesh": "Candidate C3 (2,650 quads, 2,769 nodes)",
+    "displacement_u_mm": 0.00196510735,
+    "converged_increments": 1,
+    "equilibrium_iterations": 6,
+    "severe_discontinuity_iterations": 0,
+    "measured_ef_mJ": 0.061015797,
+    "matched_reference_ef_mJ": 0.061017,
+    "relative_error_pct": 0.00197,
+    "state_preservation": "VERIFIED_PASS"
+  },
+  "stage_b_failure_mechanism": {
+    "architecture_defect": "Coupling Architecture Mismatch: Package 108 R1 used a two-step Abaqus input deck where both JTYPE 1 (phase) and JTYPE 2 (mechanics) were simultaneously active in Step 2. Because f42_experimental_irreversible_uel.for has zero off-diagonal Jacobian blocks (K_ud = 0, K_du = 0), Abaqus Newton-Raphson effectively executed Block-Jacobi Picard iterations. Under forward displacement loading, strong two-way field coupling produced numerical divergence and 10 consecutive cutbacks at crack-band node 1368 (phase DOF 3).",
+    "required_correction": "True alternating minimization: sequence distinct sub-steps fixing phase field during mechanical solve (e.g. *BOUNDARY on DOF 3) followed by fixing displacement during phase solve (e.g. *BOUNDARY on DOFs 1,2) with inter-iteration history update H = max(H_committed, psi_plus(u))."
+  }
+}
