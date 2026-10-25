@@ -1,0 +1,17 @@
+{
+    "schema":  1,
+    "run_id":  "f0800f17-a719-4ac2-9fd1-c8bc4958b30d",
+    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "status":  "PREPARATION_COMPLETE",
+    "finding":  "Package 108 Revision 6 successfully corrected the Abaqus boundary syntax defect by eliminating OP=NEW / OP=MOD mixing and separating fixed phase constraints from un-fixed RP displacement boundary cards. Kinematic solve diagnostic empirically verified true physical reference point advancement from u=0.001965107 mm to u=0.001966107 mm (+1.0 nm). Preflight datacheck passed with zero errors, and PBS Job 1417256.mmaster02 was submitted under governed once-only execution.",
+    "verification_passed":  true,
+    "evidence_sources":  {
+                             "models/pandey_kumar_mode1/108_r6_c3_multi_increment_continuation/M1_C3_STAGGERED_R6_AUTHORIZATION.json":  "CAB39FF5929DEFDC11B22515D009A53EE21555F88DF23EFAE5325867CC6C40D2",
+                             "models/pandey_kumar_mode1/108_r6_c3_multi_increment_continuation/M1_C3_STAGGERED_R6_CONTINUATION.inp":  "C3EDEAF1A408FA927C90A8595681BB4FE4B973C1A6B283AC20C039C7D91FD1FB",
+                             "models/pandey_kumar_mode1/108_r6_c3_multi_increment_continuation/submit_M1_C3_STAGGERED_R6.pbs":  "7FCFF2F31ED0A83B801401F0BE35608498D6585EFD54DEFA75CB2EA3FBB8B820",
+                             "models/pandey_kumar_mode1/108_r6_c3_multi_increment_continuation/diagnostic_motion_results.json":  "5AA5F92B9CD1E2B287D97AE751FD7E19FD1362054D2560FFDD7B9BF5E5DEF26D",
+                             "tests/unit/test_mode1_f1597_turn131_package108_r6_kinematics.py":  "C77594411848F2C1C66DC9AEEBB6C64279DE1188B74140CBA471FD7CC42B596F",
+                             "scripts/validation/create_package108_r6.py":  "6556D0C80992B84BA409B1A1455CE5756ECC66CF6422F501391FE1E1F7C600C1",
+                             "scripts/validation/run_kinematic_diagnostic_solve.py":  "A593BB32CE4EE2E7D6FCD40DB16A1CB338269CE1D5AE859027EC3E4A9FDB45E8"
+                         }
+}
