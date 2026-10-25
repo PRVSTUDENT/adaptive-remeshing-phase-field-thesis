@@ -21,6 +21,7 @@ import uuid
 ROOT = Path(__file__).resolve().parents[2]
 FROZEN_UEL = 'ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6'
 EXPERIMENTAL_OFFSET_UEL = 'ef92ed58dbe3ea921b48cb328128ab950ba2cafd698e05381e2b29f61412514d'
+EXPERIMENTAL_IRREVERSIBLE_UEL = 'e72e00d338e355b370fc5ebabfe6679f49bc07458d333b642b593c6710b16dad'
 
 
 def require(ok, reason):
@@ -46,8 +47,8 @@ def validate_manifest(path, root=ROOT):
     path=Path(path).resolve()
     require(path.is_relative_to((root/'models/pandey_kumar_mode1').resolve()), 'Manifest outside Mode-I models')
     batch=load(path)
-    require(batch.get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1', 'mode1-continuum-preanalysis-v1', 'mode1-uel-trace-v1', 'mode1-pdas-iterative-v1') and batch.get('scientific_scope')=='MODE1', 'Qualified Mode-I manifest required')
-    require(batch.get('technical_stage') in ('C1-0','C1-1','C1-2','MODE1_BASELINE','EXPERIMENTAL_OFFSET','CONTINUUM_PREANALYSIS','UEL_TRACE'), 'Outside active scientific stages')
+    require(batch.get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1', 'mode1-continuum-preanalysis-v1', 'mode1-uel-trace-v1', 'mode1-pdas-iterative-v1', 'mode1-experimental-irrev-v1') and batch.get('scientific_scope')=='MODE1', 'Qualified Mode-I manifest required')
+    require(batch.get('technical_stage') in ('C1-0','C1-1','C1-2','MODE1_BASELINE','EXPERIMENTAL_OFFSET','CONTINUUM_PREANALYSIS','UEL_TRACE','EXPERIMENTAL_IRREVERSIBLE'), 'Outside active scientific stages')
     require(batch.get('automatic_retry') is False, 'Blind automatic retries disallowed')
     jobs=batch['jobs']
     require(1 <= len(jobs)==batch['max_submissions'] <= 2, 'Batch must contain 1-2 named jobs')
@@ -61,6 +62,7 @@ def validate_manifest(path, root=ROOT):
         require(actual==expected,'Candidate hash mismatch: '+name)
         files[name]=actual
     is_experimental = (batch.get('adapter') == 'mode1-experimental-offset-v1' or batch.get('configuration') == 'EXPERIMENTAL_OFFSET')
+    is_experimental_irrev = (batch.get('adapter') == 'mode1-experimental-irrev-v1' or batch.get('configuration') == 'STAGGERED_IRREVERSIBLE')
     is_continuum = (batch.get('adapter') == 'mode1-continuum-preanalysis-v1' or batch.get('configuration') == 'CONTINUUM_PREANALYSIS')
     is_trace = batch.get('adapter') == 'mode1-uel-trace-v1'
     if is_trace:
@@ -75,6 +77,9 @@ def validate_manifest(path, root=ROOT):
     elif is_experimental:
         require(batch.get('hypothesis'), 'Scientific hypothesis required for experimental configuration')
         require(files.get('f42_experimental_offset_uel.for')==EXPERIMENTAL_OFFSET_UEL and files.get('job_notifications.sh'), 'Experimental offset UEL and notifications required')
+    elif is_experimental_irrev:
+        require(batch.get('hypothesis'), 'Scientific hypothesis required for experimental irreversible configuration')
+        require(files.get('f42_experimental_irreversible_uel.for')==EXPERIMENTAL_IRREVERSIBLE_UEL and files.get('job_notifications.sh'), 'Experimental irreversible UEL and notifications required')
     elif is_continuum:
         require(batch.get('hypothesis'), 'Scientific hypothesis required for continuum pre-analysis configuration')
         require(files.get('job_notifications.sh'), 'Notifications required for continuum pre-analysis configuration')

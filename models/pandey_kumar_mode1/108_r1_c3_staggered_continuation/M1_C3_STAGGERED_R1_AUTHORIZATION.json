@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "adapter": "mode1-experimental-irrev-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "batch_name": "MODE1_C3_STAGGERED_CONTINUATION_R1",
+  "configuration": "STAGGERED_IRREVERSIBLE",
+  "hypothesis": "Two-step staggered coupling with irreversible UEL avoids block-Jacobi Picard cutbacks and achieves continuous +5 nm forward continuation on Candidate C3.",
+  "automatic_retry": false,
+  "max_submissions": 1,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c3_staggered_continuation_r1",
+  "files": {
+    "M1_C3_STAGGERED_CONTINUATION.inp": "4bd22283ada42a5299d1d3851a7273c1f404cbf463d2227a8fa22d1eec29777a",
+    "d_lower_bounds.csv": "65dbbf621a9415e8c4381289c3a0c622ae8e019b189b104e3a9e30ac8b8813eb",
+    "f42_experimental_irreversible_uel.for": "e72e00d338e355b370fc5ebabfe6679f49bc07458d333b642b593c6710b16dad",
+    "submit_M1_C3_STAGGERED_R1.pbs": "1057c89aaa61791a7801515d9ecde3828d4906d92d5ee11bb1a249cdac3eeb6b",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47"
+  },
+  "jobs": [
+    {
+      "id": "M1_C3_STAGGERED_R1",
+      "purpose": "Abaqus 2023 Candidate C3 staggered forward continuation (+5 nm) with verified irreversible UEL (R1)",
+      "input": "M1_C3_STAGGERED_CONTINUATION.inp",
+      "user_subroutine": "f42_experimental_irreversible_uel.for",
+      "pbs": "submit_M1_C3_STAGGERED_R1.pbs",
+      "datacheck": "M1_C3_STAGGERED_R1.dat",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c3_staggered_continuation_r1/submit_M1_C3_STAGGERED_R1.pbs\"",
+      "command_sha256": "c13d06c98ad584a0b7d1af968f81c3c6133b1ecba37b4cc480fb33d6c9aabb2e",
+      "depends_on": []
+    }
+  ],
+  "acceptance": {
+    "stage_A_same_load": {
+      "u_top_target_mm": 0.00196510735,
+      "rf2_continuity_vs_c2_equil_pct_max": 5.0,
+      "ef_continuity_vs_c2_equil_pct_max": 2.0,
+      "healing_magnitude_max": 1e-08,
+      "kkt_violations_max": 0
+    },
+    "stage_B_forward_continuation": {
+      "delta_u_mm": 5e-06,
+      "u_top_target_mm": 0.00197010735,
+      "expected_rf2_N_approx": 179.3,
+      "expected_ef_mJ_approx": 0.0624,
+      "monotonic_softening_required": true,
+      "monotonic_dissipation_required": true,
+      "healing_magnitude_max": 1e-08
+    }
+  }
+}
