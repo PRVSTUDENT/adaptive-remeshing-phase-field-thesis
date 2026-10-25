@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 136,
+  "objective": "DISCRIMINATE_INCREMENT_LEVEL_HISTORY_COMMITMENT_AGAINST_PHYSICAL_RESIDUAL",
+  "stage_a_baseline": {
+    "u_top_mm": 0.00196510735,
+    "max_h_n_MPa": 5.209341715788678,
+    "max_d_stage_a": 0.65499537553
+  },
+  "target_increment": {
+    "u_top_n1_mm": 0.0019661073500000003,
+    "delta_u_mm": 1e-06
+  },
+  "formulation_b_candidate_r8": {
+    "rf2_N": 184.94530283568756,
+    "e_frac_mJ": 0.06101655323074247,
+    "e_elas_mJ": 0.18181115962661312,
+    "e_total_mJ": 0.2428277128573556,
+    "d_max": 0.65499537553,
+    "max_h_cand_MPa": 5.214686050515196,
+    "max_h_terminal_MPa": 5.214686050515196,
+    "delta_h_deficit_MPa": 0.0,
+    "mechanical_residual_kN": 1.9984014443252818e-15,
+    "free_phase_physical_residual_kN_mm": 0.0,
+    "all_phase_physical_residual_kN_mm": 8.186368509340996e-07,
+    "kkt_violations": 0,
+    "min_healing": 0.0,
+    "criteria_verdict": {
+      "mechanical_residual_pass": true,
+      "free_phase_residual_pass": true,
+      "kkt_pass": true,
+      "healing_pass": true,
+      "r8_qualified": true
+    }
+  },
+  "scientific_conclusion": "Increment-level history commitment (freezing predictor history H_cand) stabilizes intra-increment staggered solves, preventing the explosive strain ratcheting seen in R7. At +1 nm loading, the predictor history is insufficient to advance damage beyond the transferred bound d0, leaving the crack locked in the pre-propagation elastic state (d_max = 0.6550, Delta E_frac = 0.0 mJ). However, during active crack propagation, freezing predictor history suppresses legitimate crack advance and creates an unresolved physical residual (r_d > 1e-6 kN/mm) whenever post-softening strain localization raises true strain energy above H_cand."
+}
