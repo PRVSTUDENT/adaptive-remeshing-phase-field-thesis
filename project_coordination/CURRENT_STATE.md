@@ -655,3 +655,27 @@
   * **Gate C1-1 Status**: **`ACTIVE_HPC_EVALUATION`**.
   * **Gate C1-2 Status**: Strictly **`NOT_QUALIFIED`**.
   * Cluster queue verified empty (0 active jobs); exactly 0 unqualified jobs submitted.
+
+## Turn 142 — Method C Mode-I: Candidate R12 Autonomous Active-Set Continuation Formulation and Cluster Submission — 25 October 2026
+
+- **Objective & Checkpoint**: Formulated, packaged, and technically qualified Candidate Package 108 Revision 12 (R12) for autonomous (oracle-free) active-set continuation in genuine Abaqus/Standard 2023, eliminating R11's artificial crack-tip damage locking.
+- **R12 Autonomous Continuation Architecture**:
+  * User element: Experimental unified 12-DOF coupled UEL (`f42_unified_12dof_active_set_uel.for`, SHA `A33DE851...`) bitwise preserved.
+  * Continuation step: Candidate C3 Stage-A (+1 nm continuation, target $u_{\text{RP}} = 0.00196610735\,\mathrm{mm}$, 2,650 quad elements, 2,772 nodes).
+  * Step 1 (Stage-A): Same-load re-equilibration ($u = 0.00196510735\,\mathrm{mm}$) with all 2,769 nodes constrained to $d_0$ via `stage_a_all_d0_boundary_cards.inc`.
+  * Step 2 (Inc1-Coupled): Forward continuation ($u = 0.00196610735\,\mathrm{mm}$) with `*Boundary, OP=NEW`, applying active-set constraints from `active_set_boundary_cards.inc` while releasing inactive crack-tip nodes to evolve damage.
+  * Autonomous driver: `driver_r12_autonomous_continuation.py` executes up to 8 bounded outer iterations inside ONE PBS allocation, resetting to authentic Stage-A state on each trial solve, updating the active set via KKT multipliers ($\lambda = RF3$), and terminating upon binary closure or fail-fast stop conditions.
+  * KKT sign convention: On active nodes ($d = d_0$), $\lambda = RF3$; release node if $\lambda < -5.0 \times 10^{-7}\,\mathrm{kN/mm}$. On free nodes ($d > d_0$), reactivate if healing occurs ($d < d_0 - 1.0 \times 10^{-8}$).
+  * Fail-fast conditions: 6 explicit checks (solver abort, damage upper bound violation $d > 1.0 + 10^{-5}$, severe healing divergence $d < d_0 - 10^{-4}$, kinematic displacement error $|u_2 - u_{\text{target}}| > 10^{-7}\,\mathrm{mm}$, cycle oscillation detection, maximum 8 iterations).
+- **Technical Qualification & Cluster Submission**:
+  * Abaqus 2023 preflight compilation and datacheck completed cleanly with 0 errors (`M1_C3_ACTIVE_SET_R12.dat`).
+  * All 6 unit regression tests in `tests/unit/test_mode1_f1597_turn142_r12_qualification.py` passed in 0.005s.
+  * Technical preflight passed: `datachecks=PASS_BOTH, active_jobs=0, login notifications verified`.
+  * Submitted to PBS via `scripts/hpc/Invoke-Mode1Execution.ps1` as Job `1417289.mmaster02` in `entry_imfdfkmq` -> `normal_imfdfkmq` (1 CPU, 16 GB, 8h walltime).
+  * Scheduler status: Job `1417289.mmaster02` actively running on cluster (`S = R`).
+- **Scientific & Governance Status**:
+  * **Production UEL**: Bitwise frozen at `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`.
+  * **Experimental UEL**: Preserved at `A33DE85124681766EA362F11D28440C55F40DD85F7D80C19186E44C343D9129B`.
+  * **Gate C1-1 Status**: **`ACTIVE_HPC_EVALUATION`** (Package 108 R12 autonomous driver actively running on cluster as Job `1417289.mmaster02`).
+  * **Gate C1-2 Status**: Strictly **`NOT_QUALIFIED`**.
+  * Exactly one qualified job (`1417289.mmaster02`) submitted in Turn 142.
