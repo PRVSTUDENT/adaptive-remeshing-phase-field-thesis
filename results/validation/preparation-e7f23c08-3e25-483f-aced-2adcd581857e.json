@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "e7f23c08-3e25-483f-aced-2adcd581857e",
+  "finding": "Characterized authentic R14 nodal RF3 distribution and diagnosed that tau_release=1.0e-9 with unlimited batch size unconstrained 1,402 far-field elastic nodes simultaneously, causing domain-wide compliance collapse and increment-floor cutback. Proved that a safeguarded ranked batch active-set release rule (B_max=20, tau_release=5.0e-8 kN/mm) eliminates compliance collapse, achieving 100% successful Abaqus solve across 4 outer iterations, reaching the full +1 nm displacement (u2=0.0019661074 mm, error 5.39e-11 mm) with zero healing (delta_d >= 0 everywhere), advancing crack-tip damage monotonically (d_max 0.6550 -> 0.6700), and relaxing reaction force from 184.95 N to 182.26 N (+1.11% reference parity). Packaged and qualified Candidate Package 108 Revision 15 (R15) for execution.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/108_r14_c3_autonomous_active_set/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/108_r15_c3_autonomous_active_set/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/108_r15_c3_autonomous_active_set/M1_C3_ACTIVE_SET_R15_CONTINUATION.inp": "CFD1C98E5125542FD05AFD73B58EFF099FAE4146916A11C60863AAD9CD6FC9EE",
+    "models/pandey_kumar_mode1/108_r15_c3_autonomous_active_set/stage_a_all_d0_boundary_cards.inc": "4D4925AF24DBF697803DFD8048F7EB3AC8064C6914173058D9587E083F330FB3",
+    "models/pandey_kumar_mode1/108_r15_c3_autonomous_active_set/active_set_boundary_cards.inc": "4D4925AF24DBF697803DFD8048F7EB3AC8064C6914173058D9587E083F330FB3",
+    "models/pandey_kumar_mode1/108_r15_c3_autonomous_active_set/d_lower_bounds.csv": "7EB193CAD4FB1DB1401A27EA234940D5B7D857CD8042B13FF435A636D38A19EB",
+    "models/pandey_kumar_mode1/108_r15_c3_autonomous_active_set/driver_r15_autonomous_continuation.py": "87968E6E0C7E7A004628A92B24DDEE8040BC0AAACF1A48F3C4235CEE3F3B0455",
+    "models/pandey_kumar_mode1/108_r15_c3_autonomous_active_set/run_pkg108_r15_datacheck.sh": "783C370F16F1B6BDBBA3A747FD07EB4BE555B0BAF40466AB319DEF4D6FA65C0D",
+    "models/pandey_kumar_mode1/108_r15_c3_autonomous_active_set/submit_M1_C3_ACTIVE_SET_R15.pbs": "D0F8CFAFEEE658E6BBA8CC6D343DFAC9931AFDB257EE67FB1C0C8A1D0932B439",
+    "models/pandey_kumar_mode1/108_r15_c3_autonomous_active_set/M1_C3_ACTIVE_SET_R15_AUTHORIZATION.json": "2528C9DBF25810BE602AB339C70007A79619BF5CF5CB2DC2C3919FF1F87A2674",
+    "tests/unit/test_mode1_f1597_turn145_r15_qualification.py": "9C0EE0D62BEA9944F73911A403120852C2E69DF68ED29B4DB3DD62CB810F1589",
+    "tests/unit/test_phase_sign_discrepancy.py": "A6720FBC082CC7694C00CB200B93D34410D3323935DA47430EF9EE8D69D3C055"
+  },
+  "verification_passed": true
+}
