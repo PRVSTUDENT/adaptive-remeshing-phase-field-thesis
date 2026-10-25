@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 138,
+  "objective": "IMPLEMENT_AND_VALIDATE_UNIFIED_12DOF_COUPLED_UEL_FOR_R10",
+  "element_formulation": {
+    "element_name": "CPE4_UNIFIED_12DOF_COUPLED_UEL",
+    "nodes_per_elem": 4,
+    "dofs_per_node": 3,
+    "total_dofs_per_elem": 12,
+    "dof_assignment": "1:ux, 2:uy, 3:d",
+    "matrix_dimension": [
+      12,
+      12
+    ],
+    "unsymmetric": true
+  },
+  "finite_difference_validation": {
+    "rel_error_active": 6.440370530776832e-14,
+    "max_entry_diff": 1.873843094579719e-12,
+    "norm_kdu_inactive": 0.0,
+    "fd_pass": true
+  },
+  "element_block_equivalence_error": {
+    "err_Ru": 0.0,
+    "err_Rd": 0.0,
+    "err_Kuu": 0.0,
+    "err_Kud": 0.0,
+    "err_Kdu": 0.0,
+    "err_Kdd": 0.0,
+    "machine_precision_pass": true
+  },
+  "c3_coupled_solution_1nm": {
+    "converged": true,
+    "iterations": 2,
+    "rf2_N": 184.94530283569063,
+    "e_frac_mJ": 0.06101655323074247,
+    "e_elas_mJ": 0.181811159626613,
+    "d_max": 0.65499537553,
+    "delta_d_max": 0.0,
+    "min_healing": 0.0,
+    "res_u_free_kN": 8.385219602002891e-16,
+    "res_d_free_kN_mm": 0.0,
+    "kkt_violations": 0,
+    "max_h_committed_MPa": 5.214686050515304
+  },
+  "acceptance_verdict": {
+    "unified_12dof_formulation_qualified": true,
+    "history_ratcheting_eliminated": true,
+    "abaqus_assembly_defect_resolved_mathematically": true
+  }
+}

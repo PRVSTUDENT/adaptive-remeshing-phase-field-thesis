@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "R10 unified 12-DOF coupled UEL formulation mathematically verified via 144-entry finite differences (error 6.44e-14) and C3 mesh continuation (rf2=184.95 N, 0 KKT violations); Abaqus/Standard architectural limitation verified as lacking native bound-constrained inequality solves.",
+  "evidence_sources": {
+    "scripts/validation/develop_r10_unified_12dof_uel.py": "522534C927266ADD6EF4BC7130079A82D051644D39D30EA75701F2A226DA4BD8",
+    "tests/unit/test_mode1_f1597_turn138_r10_unified_uel.py": "D31892A73870C29B827A79F7610876635CC7AC7B877B9220E0E45C274BB869A0",
+    "results/validation/mode1_f1597/r10_unified_12dof_uel_evaluation.json": "F8C55D26C9D1E48C4B9D35D09109438CB10F5DF1B9D9EFF09051442C73B6A2F7",
+    "results/validation/mode1_f1597/r10_active_set_architectural_audit.json": "D71EE04E299C737B675BAD02D06376B915A8BBA9806BAB3C292BDF5D18EA6CDA",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}

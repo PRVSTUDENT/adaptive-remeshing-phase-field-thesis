@@ -1,0 +1,6 @@
+{
+  "unconstrained_newton_min_delta_d": 4.336516691706665e-05,
+  "unconstrained_newton_max_delta_d": 0.09401546386586501,
+  "unconstrained_advancing_nodes": 2769,
+  "architectural_verdict": "Abaqus/Standard native Newton-Raphson solver does not support inequality-constrained DOFs (d >= d0). An unconstrained Newton step produces diffuse artificial phase advance across 2769 nodes (max delta_d = 9.40e-02, min delta_d = 4.34e-05) because Abaqus/Standard lacks active-set bound constraints. Enforcing genuine complementarity (d >= d0, lambda >= 0, lambda*(d-d0) = 0) requires either an external Primal-Dual Active Set (PDAS) driver or custom Lagrange multiplier elements."
+}
