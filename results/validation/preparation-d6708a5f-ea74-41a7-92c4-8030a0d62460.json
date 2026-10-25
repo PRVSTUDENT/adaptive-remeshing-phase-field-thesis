@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "d6708a5f-ea74-41a7-92c4-8030a0d62460",
+  "finding": "Turn 125 evaluated PBS Job 1417249 (Package 108 R1) and proved that Stage B cutbacks were caused by coupling-architecture mismatch: R1 left both displacement and phase DOFs simultaneously active without an off-diagonal Jacobian (K_ud=0, K_du=0 in UEL), degenerating to un-relaxed Block-Jacobi Picard iterations under forward loading. Corrected in Package 108 Revision 2 (108_r2_c3_staggered_continuation) implementing canonical multi-step alternating minimization with boundary switching (*Boundary, fixed on N_ALL, 3, 3 during Step 2 forward mech solve; *Boundary, op=NEW, fixed on N_ALL, 1, 2 during Step 3 phase solve). Package 108-R2 passed Abaqus 2023 datacheck (Exit 0, 0 errors) and governed preflight, and was submitted as PBS Job 1417251.mmaster02. Job 1417251 completed with Exit 0 in 39s walltime: Step 1 same-load re-equilibration converged in 6 iterations matching reference fracture energy to 0.002% (measured 0.061016 mJ vs reference 0.061017 mJ); Step 2 forward mechanical solve converged in 1 iteration with zero phase drift; Step 3 phase relaxation completed in 10 increments reaching E_frac = 0.065200 mJ with monotonic thermodynamic dissipation (delta E_total < 0).",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/108_r2_c3_staggered_continuation/M1_C3_STAGGERED_R2_CONTINUATION.inp": "ABBFBAF2AAD20BCD393A259654E71CF1CA86FBF91CF86DFC139D98D85AE10B02",
+    "models/pandey_kumar_mode1/108_r2_c3_staggered_continuation/d_lower_bounds.csv": "65DBBF621A9415E8C4381289C3A0C622AE8E019B189B104E3A9E30AC8B8813EB",
+    "models/pandey_kumar_mode1/108_r2_c3_staggered_continuation/f42_experimental_irreversible_uel.for": "E72E00D338E355B370FC5EBABFE6679F49BC07458D333B642B593C6710B16DAD",
+    "models/pandey_kumar_mode1/108_r2_c3_staggered_continuation/submit_M1_C3_STAGGERED_R2.pbs": "3DFC96619264C21780D61530635847F9ADF39671601015789465DBE52F6ADCA4",
+    "models/pandey_kumar_mode1/108_r2_c3_staggered_continuation/job_notifications.sh": "96756A681D2D36C11B36B89288F631F8ECC9537543C2C745A4BAE1B425984B47",
+    "models/pandey_kumar_mode1/108_r2_c3_staggered_continuation/M1_C3_STAGGERED_R2.dat": "7C450D2D56909397D807B116D2C646BF685DCEE09BBFE7738C9725FD5253F14D",
+    "models/pandey_kumar_mode1/108_r2_c3_staggered_continuation/M1_C3_STAGGERED_R2.sta": "2B60576A636D6EDD8657EB5F4244FBAABE340A5FF2B1F53CBA2187E77AB36F32",
+    "models/pandey_kumar_mode1/108_r2_c3_staggered_continuation/uel_energy_balance.csv": "A573952E56F0D0FF78B0D389ECAA89AEA6E90F054A6E32EBF11F9B8DF0CC770B",
+    "models/pandey_kumar_mode1/108_r2_c3_staggered_continuation/M1_C3_STAGGERED_R2_AUTHORIZATION.json": "9913F894C092611FE0E31FE52E801DBF6FE139D2AA932BB5AC2F3FCE6776A1E8",
+    "results/validation/mode1_f1597/turn125_coupling_architecture_audit.json": "7B0DC1D06B38602C878D86C2E284359E4A8207564E2E2EE789329B876042A2A5",
+    "results/validation/mode1_f1597/turn125_c3_staggered_r2_reconciliation.json": "FB784F11B5DE82F0DA8836C8874E57E1547792430D9ED43AA2DC7A19B94268D5",
+    "tests/unit/test_mode1_turn125_r2_continuation.py": "0F3F7F021330C8AB88A3FCBD5E79F7DB9725B380DAD798637715813BC756FB35"
+  },
+  "verification_passed": true
+}
