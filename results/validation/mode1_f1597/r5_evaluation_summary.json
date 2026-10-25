@@ -1,0 +1,203 @@
+{
+    "pbs_job_id":  "1417255.mmaster02",
+    "package":  "models/pandey_kumar_mode1/108_r5_c3_multi_increment_continuation",
+    "model":  "Candidate C3 (2,650 quads, 2,769 nodes)",
+    "solver_exit_status":  0,
+    "walltime_seconds":  102,
+    "acceptance_status":  "REJECTED_NUMERICAL_FAILURE",
+    "gate_decision":  "GATE_C1_1_UNPROMOTED",
+    "initial_state_stage_A":  {
+                                  "step_name":  "Stage-A",
+                                  "u_rp_mm":  0.0019651073962450027,
+                                  "rf2_N":  184.8520040512085,
+                                  "d_max":  0.63966572284698486,
+                                  "e_frac_mJ":  0.061015797,
+                                  "e_total_mJ":  0.2426428
+                              },
+    "terminal_state_inc5_mech2":  {
+                                      "step_name":  "Inc5-Mech2",
+                                      "u_rp_mm":  0.0019651073962450027,
+                                      "prescribed_target_u_mm":  0.00197010735,
+                                      "u_error_mm":  -4.9999537549971773E-06,
+                                      "rf2_N":  174.17499423027041,
+                                      "rf2_ref_N":  179.2976,
+                                      "rf2_error_pct":  -2.8570409027948922,
+                                      "rf2_pass":  true,
+                                      "e_frac_mJ":  0.071065248,
+                                      "e_frac_ref_mJ":  0.062404,
+                                      "e_frac_allowed_interval_mJ":  [
+                                                                         0.06115592,
+                                                                         0.06365208
+                                                                     ],
+                                      "e_frac_error_pct":  13.879315428498169,
+                                      "e_frac_pass":  false,
+                                      "d_max":  0.71514832973480225,
+                                      "d_max_ref":  0.675399,
+                                      "d_max_error_pct":  5.8853107177834545,
+                                      "d_max_pass":  false,
+                                      "healing_detected":  false,
+                                      "d_min":  0.003725487738847733,
+                                      "interior_holding_rf_nodes":  0
+                                  },
+    "root_cause_diagnosis":  {
+                                 "identified_mechanism":  "Abaqus *BOUNDARY, OP=NEW, FIXED keyword parameter override",
+                                 "detail":  "In steps 2, 5, 8, 11, and 14, the input deck specified \u0027*Boundary, op=NEW, fixed\u0027 with data line \u0027N_RP, 2, 2, \u003cprescribed_disp\u003e\u0027. In Abaqus keyword syntax, the \u0027fixed\u0027 parameter explicitly freezes degrees of freedom at the values from the start of the step, causing Abaqus to ignore the numeric magnitude on the data line. Consequently, displacement u_RP remained locked at u = 0.00196510735 mm throughout all 16 steps.",
+                                 "consequence":  "The alternating minimization cycles operated at zero displacement advancement. Cyclic alternation between phase relaxation and mechanical re-equilibration under stationary boundaries caused progressive unzipping: peak damage escalated from 0.6397 to 0.7151 (+11.8%), crack-tip tensile history climbed from 5.209 MPa to 7.653 MPa (+46.9%), and fracture energy reached 0.071065 mJ (+13.88% above reference), violating the +-2.0% gate window.",
+                                 "first_violating_step":  "Step 2 (Inc1-Mech1): displacement failed to advance; Step 3 (Inc1-Phase1): E_frac jumped to 0.064924 mJ exceeding upper bound 0.063652 mJ.",
+                                 "falsifiable_hypothesis":  "Replacing \u0027*Boundary, op=NEW, fixed\u0027 with separate \u0027*Boundary, op=NEW, fixed\u0027 for holding sets and explicit un-fixed \u0027*Boundary\u0027 for N_RP (exactly as correctly implemented in R4 Stage-B-Mech) will restore actual forward displacement incrementation (1 nm per cycle), enabling true multi-increment crack progression without spurious static damage escalation."
+                             },
+    "step_evolution":  [
+                           {
+                               "step_name":  "Stage-A",
+                               "rp_u2_mm":  0.0019651073962450027,
+                               "rp_rf2_N":  184.8520040512085,
+                               "d_max":  0.63966572284698486,
+                               "d_min":  0.0035442239604890347,
+                               "h_max":  5.2093420028686523,
+                               "num_interior_rf_gt_1uN":  108
+                           },
+                           {
+                               "step_name":  "Inc1-Mech1",
+                               "rp_u2_mm":  0.0019651073962450027,
+                               "rp_rf2_N":  184.8519891500473,
+                               "d_max":  0.63966572284698486,
+                               "d_min":  0.0035442239604890347,
+                               "h_max":  5.2093648910522461,
+                               "num_interior_rf_gt_1uN":  108
+                           },
+                           {
+                               "step_name":  "Inc1-Phase1",
+                               "rp_u2_mm":  0.0019651073962450027,
+                               "rp_rf2_N":  177.5897741317749,
+                               "d_max":  0.654975950717926,
+                               "d_min":  0.0036074079107493162,
+                               "h_max":  5.2093648910522461,
+                               "num_interior_rf_gt_1uN":  2084
+                           },
+                           {
+                               "step_name":  "Inc1-Mech2",
+                               "rp_u2_mm":  0.0019651073962450027,
+                               "rp_rf2_N":  180.60193955898285,
+                               "d_max":  0.654975950717926,
+                               "d_min":  0.0036074079107493162,
+                               "h_max":  5.58884859085083,
+                               "num_interior_rf_gt_1uN":  108
+                           },
+                           {
+                               "step_name":  "Inc2-Mech1",
+                               "rp_u2_mm":  0.0019651073962450027,
+                               "rp_rf2_N":  180.60193955898285,
+                               "d_max":  0.654975950717926,
+                               "d_min":  0.0036074079107493162,
+                               "h_max":  5.58884859085083,
+                               "num_interior_rf_gt_1uN":  108
+                           },
+                           {
+                               "step_name":  "Inc2-Phase1",
+                               "rp_u2_mm":  0.0019651073962450027,
+                               "rp_rf2_N":  176.96006596088409,
+                               "d_max":  0.67026960849761963,
+                               "d_min":  0.0036401164252310991,
+                               "h_max":  5.58884859085083,
+                               "num_interior_rf_gt_1uN":  1462
+                           },
+                           {
+                               "step_name":  "Inc2-Mech2",
+                               "rp_u2_mm":  0.0019651073962450027,
+                               "rp_rf2_N":  178.43018472194672,
+                               "d_max":  0.67026960849761963,
+                               "d_min":  0.0036401164252310991,
+                               "h_max":  6.02637243270874,
+                               "num_interior_rf_gt_1uN":  108
+                           },
+                           {
+                               "step_name":  "Inc3-Mech1",
+                               "rp_u2_mm":  0.0019651073962450027,
+                               "rp_rf2_N":  178.43018472194672,
+                               "d_max":  0.67026960849761963,
+                               "d_min":  0.0036401164252310991,
+                               "h_max":  6.02637243270874,
+                               "num_interior_rf_gt_1uN":  108
+                           },
+                           {
+                               "step_name":  "Inc3-Phase1",
+                               "rp_u2_mm":  0.0019651073962450027,
+                               "rp_rf2_N":  176.35731399059296,
+                               "d_max":  0.68538480997085571,
+                               "d_min":  0.0036696388851851225,
+                               "h_max":  6.02637243270874,
+                               "num_interior_rf_gt_1uN":  1240
+                           },
+                           {
+                               "step_name":  "Inc3-Mech2",
+                               "rp_u2_mm":  0.0019651073962450027,
+                               "rp_rf2_N":  176.82334780693054,
+                               "d_max":  0.68538480997085571,
+                               "d_min":  0.0036696388851851225,
+                               "h_max":  6.51214599609375,
+                               "num_interior_rf_gt_1uN":  108
+                           },
+                           {
+                               "step_name":  "Inc4-Mech1",
+                               "rp_u2_mm":  0.0019651073962450027,
+                               "rp_rf2_N":  176.82334780693054,
+                               "d_max":  0.68538480997085571,
+                               "d_min":  0.0036696388851851225,
+                               "h_max":  6.51214599609375,
+                               "num_interior_rf_gt_1uN":  108
+                           },
+                           {
+                               "step_name":  "Inc4-Phase1",
+                               "rp_u2_mm":  0.0019651073962450027,
+                               "rp_rf2_N":  175.62174797058103,
+                               "d_max":  0.700305163860321,
+                               "d_min":  0.0036978472489863634,
+                               "h_max":  6.51214599609375,
+                               "num_interior_rf_gt_1uN":  1168
+                           },
+                           {
+                               "step_name":  "Inc4-Mech2",
+                               "rp_u2_mm":  0.0019651073962450027,
+                               "rp_rf2_N":  175.4499226808548,
+                               "d_max":  0.700305163860321,
+                               "d_min":  0.0036978472489863634,
+                               "h_max":  7.0504188537597656,
+                               "num_interior_rf_gt_1uN":  108
+                           },
+                           {
+                               "step_name":  "Inc5-Mech1",
+                               "rp_u2_mm":  0.0019651073962450027,
+                               "rp_rf2_N":  175.4499226808548,
+                               "d_max":  0.700305163860321,
+                               "d_min":  0.0036978472489863634,
+                               "h_max":  7.0504188537597656,
+                               "num_interior_rf_gt_1uN":  108
+                           },
+                           {
+                               "step_name":  "Inc5-Phase1",
+                               "rp_u2_mm":  0.0019651073962450027,
+                               "rp_rf2_N":  174.77336525917053,
+                               "d_max":  0.71514832973480225,
+                               "d_min":  0.003725487738847733,
+                               "h_max":  7.0504188537597656,
+                               "num_interior_rf_gt_1uN":  1134
+                           },
+                           {
+                               "step_name":  "Inc5-Mech2",
+                               "rp_u2_mm":  0.0019651073962450027,
+                               "rp_rf2_N":  174.17499423027041,
+                               "d_max":  0.71514832973480225,
+                               "d_min":  0.003725487738847733,
+                               "h_max":  7.6533646583557129,
+                               "num_interior_rf_gt_1uN":  108
+                           }
+                       ],
+    "evidence_sources":  {
+                             "models/pandey_kumar_mode1/108_r5_c3_multi_increment_continuation/M1_C3_STAGGERED_R5.sta":  "91523146f4132907debad578087a558a2ce995dcabd67d7493ec9bd89cb54cbc",
+                             "models/pandey_kumar_mode1/108_r5_c3_multi_increment_continuation/M1_C3_STAGGERED_R5.dat":  "3df98343465e48a6a34a85c7589035abff39dadd462c32c68ec2c0c36731e52c",
+                             "models/pandey_kumar_mode1/108_r5_c3_multi_increment_continuation/uel_energy_balance.csv":  "56e9fc2ff3df7df506ebdac15b1fc803fd0cb2e47237572fb0a9cdba9e1f80e1",
+                             "models/pandey_kumar_mode1/108_r5_c3_multi_increment_continuation/r5_extracted_telemetry.json":  "2387f5f4c29ceeb1d7b71608ec6c3da10f4f076479b07ff4d4760bed40581418",
+                             "models/pandey_kumar_mode1/108_r5_c3_multi_increment_continuation/pbs_execution.log":  "fc87e7a8ca9bf34a0d69b71381dcb9ed1840652e8b2447da89a1be2daf6c8599",
+                             "models/pandey_kumar_mode1/108_r5_c3_multi_increment_continuation/pbs_error.log":  "625b983827a5d8a226bf2e903b10d8a9ace5f64af8757d8a4792d8badc85f1b8"
+                         }
+}
