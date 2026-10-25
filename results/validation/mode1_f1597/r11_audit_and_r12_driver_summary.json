@@ -1,0 +1,124 @@
+{
+  "schema": 1,
+  "task": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 141,
+  "r11_audit_verdict": {
+    "status": "IMPLEMENTATION_PARITY_PASS__PHYSICAL_CONTINUATION_UNACCEPTED",
+    "rf2_r11_N": 184.94530022144318,
+    "rf2_ref_N": 180.251,
+    "rf2_disparity_pct": 2.6043129976772232,
+    "e_frac_r11_mJ": 0.181626269906507,
+    "e_frac_ref_mJ": 0.061084,
+    "delta_d_max": 0.0,
+    "active_nodes_constrained": 2769,
+    "total_nodes": 2769,
+    "physical_finding": "R11 achieved exact implementation parity with the R10 PDAS solver (relative force error 1.4e-8, elastic energy match to 8 decimal places), verifying that the unified 12-DOF UEL runs cleanly in Abaqus. However, because the oracle mask prescribed all 2,769 nodes as active Dirichlet constraints, crack-tip damage was completely locked (Delta_d = 0.0, Delta_E_frac = 0.0 mJ). This artificial constraint explains the +2.60% reaction force elevation (184.95 N vs 180.25 N) compared to the relaxed reference continuation. R11 is therefore classified as an implementation parity pass, but physical continuation is unaccepted until autonomous active-set release is demonstrated."
+  },
+  "r12_autonomous_active_set": {
+    "converged": false,
+    "final_active_node_count": 2575,
+    "final_free_node_count": 194,
+    "driver_history": [
+      {
+        "outer_iter": 1,
+        "active_nodes": 2769,
+        "inactive_nodes": 0,
+        "min_lambda_kN_mm": -8.186368509341446e-07,
+        "release_count": 18,
+        "activate_count": 0,
+        "rf2_N": 184.94530283569063,
+        "e_elas_mJ": 0.06101655323074247,
+        "e_frac_mJ": 0.181811159626613,
+        "d_max": 0.65499537553
+      },
+      {
+        "outer_iter": 2,
+        "active_nodes": 2751,
+        "inactive_nodes": 18,
+        "min_lambda_kN_mm": -9.204159265394514e-07,
+        "release_count": 20,
+        "activate_count": 0,
+        "rf2_N": 183.8743146315628,
+        "e_elas_mJ": 0.06192175776244534,
+        "e_frac_mJ": 0.18076549119718952,
+        "d_max": 0.6599790315188405
+      },
+      {
+        "outer_iter": 3,
+        "active_nodes": 2731,
+        "inactive_nodes": 38,
+        "min_lambda_kN_mm": -9.718265860959644e-07,
+        "release_count": 22,
+        "activate_count": 0,
+        "rf2_N": 182.86947369609877,
+        "e_elas_mJ": 0.06278472605896032,
+        "e_frac_mJ": 0.1798261920993893,
+        "d_max": 0.6639016622558577
+      },
+      {
+        "outer_iter": 4,
+        "active_nodes": 2709,
+        "inactive_nodes": 60,
+        "min_lambda_kN_mm": -5.387682161729629e-07,
+        "release_count": 22,
+        "activate_count": 0,
+        "rf2_N": 182.21528315551356,
+        "e_elas_mJ": 0.06334710338393726,
+        "e_frac_mJ": 0.17923586198340644,
+        "d_max": 0.670142283161967
+      },
+      {
+        "outer_iter": 5,
+        "active_nodes": 2687,
+        "inactive_nodes": 82,
+        "min_lambda_kN_mm": -5.256841526190112e-07,
+        "release_count": 25,
+        "activate_count": 0,
+        "rf2_N": 181.77115033122024,
+        "e_elas_mJ": 0.06373426528454626,
+        "e_frac_mJ": 0.17883666318086824,
+        "d_max": 0.6753669463667332
+      },
+      {
+        "outer_iter": 6,
+        "active_nodes": 2662,
+        "inactive_nodes": 107,
+        "min_lambda_kN_mm": -4.271393944685071e-07,
+        "release_count": 26,
+        "activate_count": 0,
+        "rf2_N": 181.37226099122353,
+        "e_elas_mJ": 0.06410172966852526,
+        "e_frac_mJ": 0.1784593301723436,
+        "d_max": 0.6829265671927911
+      },
+      {
+        "outer_iter": 7,
+        "active_nodes": 2636,
+        "inactive_nodes": 133,
+        "min_lambda_kN_mm": -3.589983603488308e-07,
+        "release_count": 29,
+        "activate_count": 0,
+        "rf2_N": 180.97020616104123,
+        "e_elas_mJ": 0.06448429259239662,
+        "e_frac_mJ": 0.1780674864723743,
+        "d_max": 0.6911652768316586
+      },
+      {
+        "outer_iter": 8,
+        "active_nodes": 2607,
+        "inactive_nodes": 162,
+        "min_lambda_kN_mm": -3.000356680400225e-07,
+        "release_count": 32,
+        "activate_count": 0,
+        "rf2_N": 180.5077035207868,
+        "e_elas_mJ": 0.06493372754246328,
+        "e_frac_mJ": 0.17760846131133898,
+        "d_max": 0.7005807450770977
+      }
+    ],
+    "final_rf2_N": 180.5077035207868,
+    "final_e_elas_mJ": 0.06493372754246328,
+    "final_e_frac_mJ": 0.17760846131133898,
+    "final_d_max": 0.7005807450770977
+  }
+}
