@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Derived and numerically verified Candidate R9 coupled active-set Newton formulation for C3 continuation: all 4 Jacobian blocks (K_uu, K_ud, K_du, K_dd) match finite differences with relative error < 1e-9. Solved +1 nm increment in 2 Newton iterations satisfying discrete mechanical equilibrium (res_u = 8.39e-16 kN <= 1e-4 kN), physical phase stationarity (res_d = 0.0 <= 1e-6 kN/mm), active-set KKT complementarity (0 violations), and zero healing. Proved that Abaqus Standard's 2-element UEL architecture yields block-diagonal tangent matrices (K_ud = K_du = 0), establishing that genuine coupled continuation requires either a unified 12-DOF UEL or external coupled driving.",
+  "evidence_sources": {
+    "scripts/validation/develop_r9_coupled_active_set_continuation.py": "D3E58A7C4B90DCF905A335D6C376F761E45ABBE3C30A2069112352566150D3C4",
+    "tests/unit/test_mode1_f1597_turn137_r9_coupled_continuation.py": "EBC4D217D3F5DE096642A4530FEB19C671EBE90746A269B7F1906FDAABDB7B1C",
+    "results/validation/mode1_f1597/r9_coupled_active_set_evaluation.json": "53A4EDDAE430D5441663CA8D35F4A2F0860291BDE9E510E542CE517A13B2E6C9",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}
