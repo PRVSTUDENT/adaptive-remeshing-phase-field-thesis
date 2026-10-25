@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "7bede10a-a142-43d0-a24f-19965331c124",
+  "finding": "Turn 121 genuine Abaqus staggered-coupling alternating minimization proven on 4-element diagnostic: verified individual outer cycle subsolve residuals (mechanical <= 1e-4 kN, free-phase <= 1e-6 kN/mm), complete AM convergence in 6 cycles without cutback or chattering, zero healing (<= 1e-8), monotonic history commitment, and dynamic active-set release under tensile advance. Production UEL bitwise frozen.",
+  "evidence_sources": {
+    "scripts/validation/verify_mode1_turn121_staggered_coupling.py": "876E45E6B5516E6CF8F5CF83938BBB7C7D8F95EB9036CD76DCD3652FFA52107F",
+    "tests/unit/test_mode1_f1597_turn121_staggered_coupling.py": "E4ED0253E7CC8557ED92BF3DB76F851C9D6DA3535107BB4BE5E8183C358C1A5D",
+    "results/validation/mode1_f1597/turn121_staggered_coupling_audit.json": "D09D9A128AD5F03DF6911A939489ACA8C890C2B15A26C8EB4423750FDB13BDA3",
+    "models/pandey_kumar_mode1/106_c3_history_corrected_continuation/f42_experimental_irreversible_uel.for": "E72E00D338E355B370FC5EBABFE6679F49BC07458D333B642B593C6710B16DAD",
+    "models/pandey_kumar_mode1/104_experimental_irreversible_uel/diagnostic_patch/M1_DIAGNOSTIC_4ELEM_IRREV.inp": "2F92D1F93ECBF281A18C6ADB90A696459E84D9B754747D154717F3B1DB50BA0F",
+    "models/pandey_kumar_mode1/104_experimental_irreversible_uel/diagnostic_patch/d_lower_bounds.csv": "75EE50FAF22DBA0D595D82335F6E5B0D47484A3129394CD0DC865FC305863243",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}
