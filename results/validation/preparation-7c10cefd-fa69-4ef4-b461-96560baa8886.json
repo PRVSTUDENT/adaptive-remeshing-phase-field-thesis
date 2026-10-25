@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "State-matched 5x1 nm continuation simulation in Python proves that the mathematical AT2 staggered problem is physically consistent and path-independent: RF2=179.087 N (-0.12%), E_frac=0.062616 mJ (+0.34%), d_max=0.678303 (+0.43%), and H_max=5.310 MPa (+1.31%) match Turn 107 benchmark targets across sub-increments. In contrast, Abaqus R6 over-dissipation originated from: (1) un-equilibrated Stage-A kinematics that trapped 5.209 MPa of unrelaxed strain energy (RF2=184.85 N vs true 180.23 N), and (2) single-cycle alternating minimization per increment that ratcheted unsoftened tensile strain without within-step staggered convergence.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/python_c3_multi_increment_simulation.json": "2ED5B107B4D86DC70F04AEDF7D3E6BDDB65872B9CDA86F7200415579F013D688",
+    "scripts/validation/simulate_c3_multi_increment.py": "AF08D1EDC88FFC3A1EBF7F494CE5D78FC3E75F2686FAA269BD15A38C30BB89E9",
+    "scripts/validation/inspect_turn107_details.py": "7DFDEE07CBC8F81FA3604747E91E9DCA51475DDB35A00DC9796FD4357C72B785",
+    "scripts/validation/extract_stage_a_u1341.py": "2E1D56CFD8D1702662ED338987AD7A4FE6764AD9D1C1CEAA18C6D64ED4EAB1E4",
+    "tests/unit/test_mode1_f1597_turn134_staggered_convergence.py": "57B2F972086C14BE0A5B94C14A5D711CF733987D406C0400AF52CC53D2C447D3"
+  },
+  "verification_passed": true,
+  "metadata": {
+    "turn107_targets": {
+      "rf2_N": 179.2976,
+      "e_frac_mJ": 0.062404,
+      "d_max": 0.675399,
+      "h_max_MPa": 5.241126
+    },
+    "python_5x1nm_results": {
+      "rf2_N": 179.0874,
+      "rf2_error_pct": -0.117,
+      "e_frac_mJ": 0.062616,
+      "e_frac_error_pct": 0.339,
+      "d_max": 0.678303,
+      "d_max_error_pct": 0.430,
+      "h_max_MPa": 5.309983,
+      "h_max_error_pct": 1.314
+    },
+    "abaqus_r6_results": {
+      "rf2_N": 174.1436,
+      "rf2_error_pct": -2.875,
+      "e_frac_mJ": 0.071527,
+      "e_frac_error_pct": 14.619,
+      "d_max": 0.718683,
+      "d_max_error_pct": 6.409,
+      "h_max_MPa": 7.846845,
+      "h_max_error_pct": 49.717
+    },
+    "verdict": "PATH_INDEPENDENCE_VERIFIED_IMPLEMENTATION_DEFECT_LOCALIZED"
+  }
+}
