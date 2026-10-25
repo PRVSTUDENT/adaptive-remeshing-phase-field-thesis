@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "1f7f8332-cad8-4729-b2d6-5d07543285b8",
+  "finding": "Turn 129 successfully constructed, verified, and submitted Package 108 Revision 5 (M1_C3_STAGGERED_R5, PBS Job 1417255.mmaster02) testing five 1 nm loading increments with interleaved alternating minimization on Candidate C3 (16 steps total). The experimental irreversible UEL hash e72e00d338e355b370fc5ebabfe6679f49bc07458d333b642b593c6710b16dad was reconciled and verified against the governed adapter allowlist, while production UEL CE8D5EDC... remains 100% bitwise frozen. Abaqus 2023 preflight datacheck passed Exit 0 with zero errors. Offline numerical simulation demonstrates that 5x1nm load incrementation constrains terminal fracture energy to E_frac = 0.061721 mJ (-1.09% vs Turn 107 benchmark 0.062404 mJ, passing the +-2.0% tolerance window), resolving the +7.98% over-dissipation observed in R4.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/108_r5_c3_multi_increment_continuation/M1_C3_STAGGERED_R5_AUTHORIZATION.json": "889A04798A38138C7AB13D5A462278BF57F4F0957FC59D06EB2BFB0F52E756DE",
+    "models/pandey_kumar_mode1/108_r5_c3_multi_increment_continuation/M1_C3_STAGGERED_R5_CONTINUATION.inp": "96D61C55874DC34333B826560342B1998F62A0E4E88599A470DF9E352E6A77CB",
+    "models/pandey_kumar_mode1/108_r5_c3_multi_increment_continuation/submit_M1_C3_STAGGERED_R5.pbs": "F91B097EAC674C6CD11B01297AF7313622068F90872E23C1603EFA4BA6EF352B",
+    "models/pandey_kumar_mode1/108_r5_c3_multi_increment_continuation/M1_C3_STAGGERED_R5.dat": "C00299525D088F79436E13ABD305C26507C919178637AD3521A3C2E856982745",
+    "scripts/validation/create_package108_r5.py": "944B1675B2D83EB87731AA4B1D280E3C3C9CBC52C0E4DEEC0547D494463DD786",
+    "scripts/validation/simulate_package108_r5_incremental.py": "135369C8DAE15BEEF9007F8B751C6FD4E56DE77B14BCF1CC9A352EFD303BE6E7",
+    "tests/unit/test_mode1_f1597_turn129_package108_r5.py": "FCB30E8D14E3DF0EAC3499FBD755DC25B814892DEF69575C531C45EC72B23163"
+  },
+  "verification_passed": true
+}
