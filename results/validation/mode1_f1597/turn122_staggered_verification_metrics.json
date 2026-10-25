@@ -1,0 +1,25 @@
+{
+  "status": "QUALIFIED_AUTHENTIC_ABAQUS_SOLVE",
+  "solver": "Abaqus/Standard 2023 HF4 (x86_64)",
+  "compiler": "Intel Fortran Classic 2021.13.0",
+  "patch_type": "4-element bilinear quad diagnostic patch",
+  "uel_name": "f42_experimental_irreversible_uel.for",
+  "uel_sha256": "8563460ae568d086dff870bd117cba79d5b6ed4cf7f0f70ea6d8d6205edc0487",
+  "step1_mech_top_rf2_kN": 0.3021778091788292,
+  "step1_mech_top_rf2_N": 302.1778091788292,
+  "step1_net_equilibrium_error_kN": 7.450580596923828e-09,
+  "step1_node5_uy_mm": 0.0010100939543917775,
+  "step2_max_displacement_drift_mm": 8.50900713454647e-38,
+  "transferred_h_retention": true,
+  "transferred_h_value": 0.05,
+  "e_elastic_step1_kNmm": 0.00028416801,
+  "e_elastic_step2_kNmm": 0.00016176669,
+  "e_fracture_step1_kNmm": 6.121e-05,
+  "e_fracture_step2_kNmm": 0.00014190072,
+  "thermodynamic_monotonicity_passed": true,
+  "iterations": {
+    "step1_equil_iters": 1,
+    "step2_equil_iters": 3,
+    "total_cutbacks": 0
+  }
+}

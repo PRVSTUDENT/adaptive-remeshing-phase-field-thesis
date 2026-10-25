@@ -1,0 +1,129 @@
+*Heading
+** 4-Element Diagnostic Patch: Genuine Abaqus 2-Step Staggered Coupling
+** Step 1: Mechanical Subsolve (DOF 3 fixed at d_transferred, DOFs 1,2 solve to equilibrium)
+** Step 2: Phase Subsolve (DOFs 1,2 fixed at u_converged, DOF 3 released to solve with active-set irreversibility)
+** Geometry: 0.10 x 0.10 mm (4 quads of 0.05 x 0.05 mm)
+** Central node 5 shared by all 4 quads
+*Preprint, echo=NO, model=NO, history=NO, contact=NO
+** ----------------------------------------------------------------
+** USER ELEMENTS (Phase U1: DOF 3, Mech U2: DOFs 1, 2)
+** ----------------------------------------------------------------
+*USER ELEMENT, TYPE=U1, NODES=4, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM
+3
+*USER ELEMENT, TYPE=U2, NODES=4, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM
+1, 2
+** ----------------------------------------------------------------
+** NODES (3x3 grid)
+** ----------------------------------------------------------------
+*Node
+1, 0.000000, 0.000000
+2, 0.050000, 0.000000
+3, 0.100000, 0.000000
+4, 0.000000, 0.050000
+5, 0.050000, 0.050000
+6, 0.100000, 0.050000
+7, 0.000000, 0.100000
+8, 0.050000, 0.100000
+9, 0.100000, 0.100000
+** ----------------------------------------------------------------
+** LAYER 1: Phase Elements (Type U1: 1..4)
+** ----------------------------------------------------------------
+*Element, type=U1, elset=PHASE_QUADS
+1, 1, 2, 5, 4
+2, 2, 3, 6, 5
+3, 4, 5, 8, 7
+4, 5, 6, 9, 8
+** ----------------------------------------------------------------
+** LAYER 2: Mechanical Elements (Type U2: 5..8)
+** ----------------------------------------------------------------
+*Element, type=U2, elset=MECH_QUADS
+5, 1, 2, 5, 4
+6, 2, 3, 6, 5
+7, 4, 5, 8, 7
+8, 5, 6, 9, 8
+** ----------------------------------------------------------------
+** LAYER 3: Visualization CPE4 Elements (9..12)
+** ----------------------------------------------------------------
+*Element, type=CPE4, elset=VIS_QUADS
+9,  1, 2, 5, 4
+10, 2, 3, 6, 5
+11, 4, 5, 8, 7
+12, 5, 6, 9, 8
+** ----------------------------------------------------------------
+** NODE SETS
+** ----------------------------------------------------------------
+*Nset, nset=N_BOTTOM
+1, 2, 3
+*Nset, nset=N_TOP
+7, 8, 9
+*Nset, nset=N_PIN
+1
+*Nset, nset=N_CENTER
+5
+*Nset, nset=N_ALL
+1, 2, 3, 4, 5, 6, 7, 8, 9
+** ----------------------------------------------------------------
+** UEL PROPERTIES (l0, Gc, E, nu, k, N_PHYS)
+** ----------------------------------------------------------------
+*UEL PROPERTY, ELSET=PHASE_QUADS
+0.015, 0.0027, 210.0, 0.3, 1.0e-7, 4.
+*UEL PROPERTY, ELSET=MECH_QUADS
+0.015, 0.0027, 210.0, 0.3, 1.0e-7, 4.
+** ----------------------------------------------------------------
+** VISUALIZATION SOLID SECTION & UMAT
+** ----------------------------------------------------------------
+*Solid Section, elset=VIS_QUADS, material=DUMMY_MAT
+1.0
+*Material, name=DUMMY_MAT
+*User Material, constants=3
+210.0, 0.3, 4.
+*Depvar
+18
+** ================================================================
+** STEP 1: Mechanical Subsolve (DOF 3 fixed, DOFs 1,2 solve to equilibrium)
+** ================================================================
+*Step, name=Mech-Subsolve, nlgeom=NO, inc=20
+*Static
+1.0, 1.0, 1.0E-5, 1.0
+*Boundary
+N_BOTTOM, 2, 2, 0.0
+N_PIN, 1, 1, 0.0
+N_TOP, 1, 1, 0.0
+N_TOP, 2, 2, 0.0018808
+** Constrain Phase Field (DOF 3) to initial transferred state during Mech solve
+1, 3, 3, 0.05
+2, 3, 3, 0.05
+3, 3, 3, 0.05
+4, 3, 3, 0.05
+5, 3, 3, 0.60
+6, 3, 3, 0.05
+7, 3, 3, 0.05
+8, 3, 3, 0.05
+9, 3, 3, 0.05
+*Output, field, frequency=1
+*Node Output
+U, RF
+*Element Output, elset=VIS_QUADS
+SDV, S, E
+*Output, history, frequency=1
+*Energy Output
+ALLSE, ALLIE, ALLWK, ALLFD, ALLCD, ALLVD, ALLPD, ALLAE, ETOTAL
+*End Step
+** ================================================================
+** STEP 2: Phase Subsolve (DOFs 1,2 fixed at Step 1 values, DOF 3 released to solve)
+** ================================================================
+*Step, name=Phase-Subsolve, nlgeom=NO, inc=20
+*Static
+1.0, 1.0, 1.0E-5, 1.0
+** Fix all mechanical DOFs to their converged Step 1 values; release DOF 3
+*Boundary, op=NEW, fixed
+N_ALL, 1, 2
+*Output, field, frequency=1
+*Node Output
+U, RF
+*Element Output, elset=VIS_QUADS
+SDV, S, E
+*Output, history, frequency=1
+*Energy Output
+ALLSE, ALLIE, ALLWK, ALLFD, ALLCD, ALLVD, ALLPD, ALLAE, ETOTAL
+*End Step
