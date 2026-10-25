@@ -703,3 +703,28 @@
   * **Gate C1-1 Status**: **`ACTIVE_HPC_EVALUATION`** (Package 108 R13 autonomous active-set continuation verified and converged on cluster).
   * **Gate C1-2 Status**: Strictly **`NOT_QUALIFIED`**.
   * Exactly one qualified job (`1417292.mmaster02`) executed in Turn 143.
+
+## Turn 144 — Method C Mode-I: R13 Damage Inversion Diagnosed, Repaired UEL Machine Parity Proved, and Candidate Package 108 Revision 14 (R14) Executed on Cluster — 25 October 2026
+
+- **Objective & Diagnostics**:
+  * Investigated R13's premature active-set closure after 2 iterations where $RF2 = 184.9453\,\mathrm{N}$ (vs reference $180.2510\,\mathrm{N}$) and damage remained frozen at $d_{\max} = 0.654995$.
+  * Discovered mathematical root cause in `f42_unified_12dof_active_set_uel.for`: line 352 omitted the variational chain rule minus sign, writing $+2(1-d)H$ instead of $-2(1-d)H$ in $R_d$, and line 357 wrote $-2H$ instead of $+2H$ in $K_{dd}$.
+  * This sign inversion inverted the physical crack driving force: strain energy $H$ forced $R_d > 0 \implies RF3 > 0$, locking true crack-tip nodes, while numerical noise at the boundary released 12 far-field nodes.
+  * Corrected signs and developed unit test `tests/unit/test_phase_sign_discrepancy.py`: proved **100% machine-precision parity with production UEL (`CE8D5EDC...`)** ($2.00 \times 10^{-21}$ relative difference in $RHS$ and $RF$, $0.00 \times 10^0$ in $K$).
+- **Candidate Package 108 Revision 14 (R14) Formulation & Qualification**:
+  * User element: Repaired 12-DOF UEL (`f42_unified_12dof_active_set_uel.for`, SHA `ab0a5a71...`).
+  * Updated execution gate `scripts/hpc/mode1_execution_gate.py` to recognize repaired UEL.
+  * Abaqus 2023 preflight compilation and datacheck completed cleanly with 0 errors (`M1_C3_ACTIVE_SET_R14.dat`).
+  * All 6 unit regression tests in `tests/unit/test_mode1_f1597_turn144_r14_qualification.py` and `test_phase_sign_discrepancy.py` passed in 0.22s.
+- **HPC Execution & Authentic Solver Findings (Job 1417294.mmaster02)**:
+  * Submitted via `Invoke-Mode1Execution.ps1` to PBS as Job `1417294.mmaster02` in `entry_imfdfkmq` -> `normal_imfdfkmq` (1 CPU, 16 GB, walltime 29s, Exit 0).
+  * Outer Iteration 1 (`M1_C3_ACTIVE_SET_R14_IT1`): Solved Step 1 and Step 2 cleanly (Exit 0).
+  * Crack-tip driving force confirmed: Crack-tip nodes 1366 and 1367 experienced authentic physical crack driving forces ($\lambda = RF3 = -2.13 \times 10^{-7}\,\mathrm{kN/mm}$ and $-1.23 \times 10^{-7}\,\mathrm{kN/mm}$), confirming elimination of the R13 sign defect.
+  * Active crack propagation initiated: In Iteration 2, the crack tip actively initiated damage propagation ($\Delta d = 0.05034$ at Node 1368) across 9 successfully solved increments.
+  * Compliance cutback diagnosed: Due to the tight release threshold $\tau_{\text{release}} = 1.0 \times 10^{-9}\,\mathrm{kN/mm}$, 1,402 weakly-strained nodes across the domain were unconstrained simultaneously, triggering domain-wide compliance and an incrementation cutback ($dt < 10^{-5}$) at Inc 10.
+- **Scientific & Governance Status**:
+  * **Production UEL**: Bitwise frozen at `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`.
+  * **Repaired Unified 12-DOF UEL**: Verified at `ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac`.
+  * **Gate C1-1 Status**: **`ACTIVE_HPC_EVALUATION`** (Package 108 R14 executed on cluster; physical driving forces verified; threshold tuning identified for Turn 145).
+  * **Gate C1-2 Status**: Strictly **`NOT_QUALIFIED`**.
+  * Exactly one qualified job (`1417294.mmaster02`) executed in Turn 144.

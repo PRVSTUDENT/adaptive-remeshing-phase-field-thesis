@@ -1,0 +1,15 @@
+{
+  "package_name": "PACKAGE_108_R14_C3_AUTONOMOUS_ACTIVE_SET",
+  "description": "Repaired unified 12-DOF monolithic coupled UEL active-set continuation with canonical AT2 sign convention",
+  "model_files": {
+    "M1_C3_ACTIVE_SET_R14_CONTINUATION.inp": "d27f05cb3f31346fe55ad5ccb7fabf6be0af4df643d03d9c20924f31b76bed80",
+    "f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "submit_M1_C3_ACTIVE_SET_R14.pbs": "2b43593988b2f131d2213eb775fff3d4596cc103ea160eb13a04b4a7a70c8418",
+    "driver_r14_autonomous_continuation.py": "bd0d944d0b1eabb0e1175ba6ae4b4849c50621e735e6334fa0713d092b4b84b6",
+    "run_pkg108_r14_datacheck.sh": "52d399283a12bf1296f60bbb785c2057c56de60d1f0f346a33c21167f42228b5",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "stage_a_all_d0_boundary_cards.inc": "4d4925af24dbf697803dfd8048f7eb3ac8064c6914173058d9587e083f330fb3",
+    "active_set_boundary_cards.inc": "4d4925af24dbf697803dfd8048f7eb3ac8064c6914173058d9587e083f330fb3",
+    "d_lower_bounds.csv": "7eb193cad4fb1db1401a27ea234940d5b7d857cd8042b13ff435a636d38a19eb"
+  }
+}
