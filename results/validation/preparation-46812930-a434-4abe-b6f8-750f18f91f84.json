@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "46812930-a434-4abe-b6f8-750f18f91f84",
+  "finding": "Diagnosed and isolated the root cause of R13 false physical active-set convergence: f42_unified_12dof_active_set_uel.for possessed inverted sign conventions for the phase-field energy coupling term (+2(1-d)H in Rd and -2H in Kdd), which falsely made crack-tip reaction force RF3 positive (+7.05e-6 kN/mm) and caused premature healing upon release. Formulated and qualified Candidate Package 108 Revision 14 (R14) with canonical AT2 signs (-2(1-d)H in Rd and +2H in Kdd), demonstrating machine-precision parity (2.00e-21) with production UEL f42_mixed_uel.for. Preflight compilation and datacheck completed Exit 0 with 0 errors on cluster. All 6 unit regression tests passed. Package ready for immediate qualified PBS submission.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/108_r13_c3_autonomous_active_set/f42_unified_12dof_active_set_uel.for": "A33DE85124681766EA362F11D28440C55F40DD85F7D80C19186E44C343D9129B",
+    "models/pandey_kumar_mode1/108_r14_c3_autonomous_active_set/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/108_r14_c3_autonomous_active_set/M1_C3_ACTIVE_SET_R14_CONTINUATION.inp": "D27F05CB3F31346FE55AD5CCB7FABF6BE0AF4DF643D03D9C20924F31B76BED80",
+    "models/pandey_kumar_mode1/108_r14_c3_autonomous_active_set/stage_a_all_d0_boundary_cards.inc": "4D4925AF24DBF697803DFD8048F7EB3AC8064C6914173058D9587E083F330FB3",
+    "models/pandey_kumar_mode1/108_r14_c3_autonomous_active_set/active_set_boundary_cards.inc": "4D4925AF24DBF697803DFD8048F7EB3AC8064C6914173058D9587E083F330FB3",
+    "models/pandey_kumar_mode1/108_r14_c3_autonomous_active_set/d_lower_bounds.csv": "7EB193CAD4FB1DB1401A27EA234940D5B7D857CD8042B13FF435A636D38A19EB",
+    "models/pandey_kumar_mode1/108_r14_c3_autonomous_active_set/driver_r14_autonomous_continuation.py": "BD0D944D0B1EABB0E1175BA6AE4B4849C50621E735E6334FA0713D092B4B84B6",
+    "models/pandey_kumar_mode1/108_r14_c3_autonomous_active_set/run_pkg108_r14_datacheck.sh": "52D399283A12BF1296F60BBB785C2057C56DE60D1F0F346A33C21167F42228B5",
+    "models/pandey_kumar_mode1/108_r14_c3_autonomous_active_set/submit_M1_C3_ACTIVE_SET_R14.pbs": "2B43593988B2F131D2213EB775FFF3D4596CC103EA160EB13A04B4A7A70C8418",
+    "models/pandey_kumar_mode1/108_r14_c3_autonomous_active_set/M1_C3_ACTIVE_SET_R14_AUTHORIZATION.json": "D85602E35A4AF494A64DE2C1A46F8D479405CC4DD8605EEFC7C87B745D7C2E69",
+    "tests/unit/test_mode1_f1597_turn144_r14_qualification.py": "00A98A6F8B613B0FBCADBDF5F5B56FF0210C2FFA1D0006A44080FAC50B5432A3",
+    "tests/unit/test_phase_sign_discrepancy.py": "A6720FBC082CC7694C00CB200B93D34410D3323935DA47430EF9EE8D69D3C055"
+  },
+  "verification_passed": true
+}
