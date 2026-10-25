@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "e0354599-7e8f-45ed-aa14-4a76d6d0ccc3",
+  "finding": "Turn 123 Candidate C3 staggered continuation staged and technically preflighted: Abaqus 2023 datacheck completed Exit 0 with zero errors on 2,650-element mesh; preflight passed (datachecks=PASS_BOTH, active jobs=0, notifications verified). Exact dispatch blocker isolated with empirical stack trace: mode1_execution_gate.py line 82 denies non-frozen UELs with 'Frozen UEL and notifications required'. Experimental irreversible UEL (SHA-256 e72e00d3...) cannot be dispatched through Invoke-Mode1Execution.ps1 because scripts/hpc/ is outside authorized write scope in ACTIVE_SESSION.json. Requires human/supervisor gate extension.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/108_c3_staggered_continuation/M1_C3_STAGGERED_CONTINUATION.inp": "4BD22283ADA42A5299D1D3851A7273C1F404CBF463D2227A8FA22D1EEC29777A",
+    "models/pandey_kumar_mode1/108_c3_staggered_continuation/d_lower_bounds.csv": "65DBBF621A9415E8C4381289C3A0C622AE8E019B189B104E3A9E30AC8B8813EB",
+    "models/pandey_kumar_mode1/108_c3_staggered_continuation/f42_experimental_irreversible_uel.for": "E72E00D338E355B370FC5EBABFE6679F49BC07458D333B642B593C6710B16DAD",
+    "models/pandey_kumar_mode1/108_c3_staggered_continuation/submit_M1_C3_STAGGERED.pbs": "5A2FF00F6A39CD257499AB6BC62808BA5AE1E80C02B3DAD5AA14E22F129D9B47",
+    "models/pandey_kumar_mode1/108_c3_staggered_continuation/job_notifications.sh": "96756A681D2D36C11B36B89288F631F8ECC9537543C2C745A4BAE1B425984B47",
+    "models/pandey_kumar_mode1/108_c3_staggered_continuation/M1_C3_STAGGERED.dat": "3F1530F0CE260359905B2135B67D87D17594AC0A1C621B3D08D5AB920B97DF14",
+    "models/pandey_kumar_mode1/108_c3_staggered_continuation/M1_C3_STAGGERED_AUTHORIZATION.json": "18A0B07DD557D17BE54F4B7DD99EDD949BECDE1AA226A7C76663BD7856281BFC",
+    "results/validation/mode1_f1597/turn123_dispatch_gate_audit.json": "93AD591D1979DAB3E569083AD3E6DA9FCE0BA55F2B76D1F54101DC4AC9AAB7A0",
+    "scripts/validation/evaluate_mode1_turn123_dispatch_gate_audit.py": "B070E61D1FA7A67DF9A548047CC3801A68BF87714C36023D0A87F1E331C1A918",
+    "scripts/validation/record_turn123_gate_evidence.py": "5FED3716BA418C0C0D673DD7C018924374F6C93BF835828ED12504855C6B27C0",
+    "tests/unit/test_mode1_f1597_turn123_dispatch_audit.py": "D49C88855626709DC009E65AC3A33417CBABF849BA0455244C7A0C46BC0CFD64"
+  },
+  "verification_passed": true
+}
