@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "5387a7cc-f1e9-4965-b657-0613ec505835",
+  "finding": "Turn 128 mathematical audit isolates the fracture energy disparity (E_frac = 0.067386 mJ vs Turn 107 benchmark 0.062404 mJ, +7.98%) in Package 108 Revision 4: applying +5 nm forward loading in a single unrelaxed step with phase fixed creates an artificial strain peak driving excessive dissipation (+0.006370 mJ vs +0.001388 mJ in Turn 107). Pursuant to Case B, Gate C1-1 remains NOT_FULLY_ACCEPTED pending multi-increment forward continuation qualification.",
+  "evidence_sources": {
+    "scripts/validation/audit_turn128_fracture_energy_origin.py": "DE2C698A2BC0060B87F059DA5E8D9B98B409EA18931FB25F3BD946F6FBEC7874",
+    "results/validation/mode1_f1597/turn128_fracture_energy_audit.json": "A4D2D45E0F5359EB69F6FC673CCD78DE964D5ADCCFA6ED73C81A16CEDD3DD74B",
+    "models/pandey_kumar_mode1/108_r4_c3_staggered_continuation/uel_energy_balance.csv": "DCD866F54C5D0C0CB6C8A2BA3487C55A5AAAA9BF18DCF7CA884BC50DBDA18DA1",
+    "models/pandey_kumar_mode1/108_r4_c3_staggered_continuation/M1_C3_STAGGERED_R4_CONTINUATION.inp": "EC10AE57D9E096F2B1854A2696B41AB3417755D41639A95658691CC7FBE41974",
+    "results/validation/mode1_f1597/r4_evaluation_summary.json": "023BA71B335E7F608F20B12D45884E40D99E7BCE4451B5508620188BDFDE32B8"
+  },
+  "verification_passed": true
+}
