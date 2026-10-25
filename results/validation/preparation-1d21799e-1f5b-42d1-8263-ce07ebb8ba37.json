@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Audited authentic Stage-A state proving discrete coupled equilibrium (mechanical residual 3.27e-7 kN, phase residual 8.16e-7 kN/mm, 0 KKT violations). Submitted and completed Package 108 Revision 7 (PBS Job 1417269.mmaster02, Exit 0, 30s) testing 8 within-step alternating minimization cycles at fixed displacement u = 0.00196610735 mm (+1 nm). R7 decisively discriminates the dissipation mechanism: incomplete cycle convergence is ruled out; instead, iterative within-step H-updating causes constitutive strain localization ratcheting, driving H_max from 5.21 to 10.23 MPa, d_max from 0.6397 to 0.7651, and E_frac from 0.0610 to 0.0750 mJ while total energy strictly decreases monotonically.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/stage_a_stationarity_audit.json": "B6D43C3C40A72EDFEFE127CB763ABDB7861C192B9E8334CB487BAC70921DB3EA",
+    "scripts/validation/audit_stage_a_stationarity.py": "7EB14673208B624725E174D9B7AE669BE446EAF73F5F17A00F3788C37083DF9A",
+    "models/pandey_kumar_mode1/108_r7_c3_fixed_disp_am_cycles/M1_C3_STAGGERED_R7_AUTHORIZATION.json": "A666242A388340D28BB877F6C4CAB194D341FE9D992DF8DE9DDA343B7E2540F1",
+    "models/pandey_kumar_mode1/108_r7_c3_fixed_disp_am_cycles/M1_C3_STAGGERED_R7_CONTINUATION.inp": "21B7CA033D0745B04CCE129DFBC5D7A52264ECE858D41F7A6EF67EA646790B4E",
+    "models/pandey_kumar_mode1/108_r7_c3_fixed_disp_am_cycles/submit_M1_C3_STAGGERED_R7.pbs": "D6E6694D7E9B1E7122864867A7F7A679185254B351E4A892F5C773D47C49A5C5",
+    "scripts/validation/extract_r7_metrics.py": "476132F7C04FE1E835A27C13406DC3AD1AB4B416D3E913F42D5D309B830D44E6",
+    "models/pandey_kumar_mode1/108_r7_c3_fixed_disp_am_cycles/r7_metrics.json": "25C620B714FDF719A5A711F7934FC5501B91FBE934F0FC8C64F56045D2080D73",
+    "models/pandey_kumar_mode1/108_r7_c3_fixed_disp_am_cycles/uel_energy_balance.csv": "69C9707B90FBEFA5776529904C602FB0B31A0563262B8E5928FF98654EE46A05"
+  },
+  "verification_passed": true
+}
