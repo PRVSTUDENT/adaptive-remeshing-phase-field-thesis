@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Turn 139 Method C: Package 108 Revision 11 (R11) active-set coupled UEL continuation was qualified, submitted, and completed on the cluster with Exit 0 in 16 seconds walltime (PBS Job 1417283.mmaster02). The 12-DOF monolithic coupled UEL with oracle active-set boundary constraints achieved machine-precision match with the offline R10 PDAS solution (RF2 = 184.945300 N vs 184.945303 N, relative error 1.4e-8; ALLSE = 0.181811 mJ matching to 8 decimal places), with zero KKT violations (min phase reaction -3.83e-9 kN/mm >= -1e-6 kN/mm) and zero convergence cutbacks, completely resolving the unphysical diffuse phase evolution.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/108_r11_c3_active_set_continuation/f42_unified_12dof_active_set_uel.for": "A33DE85124681766EA362F11D28440C55F40DD85F7D80C19186E44C343D9129B",
+    "models/pandey_kumar_mode1/108_r11_c3_active_set_continuation/M1_C3_ACTIVE_SET_R11_CONTINUATION.inp": "5E3372B2527003F1386426768BE9716DC018ED06010A9CC912324DC1C6B0DFC9",
+    "models/pandey_kumar_mode1/108_r11_c3_active_set_continuation/active_set_boundary_cards.inc": "295CB48EE735B3C8EFC635A1B2F760479000818FF8F48C9DA49FDC69AF1B0627",
+    "models/pandey_kumar_mode1/108_r11_c3_active_set_continuation/submit_M1_C3_ACTIVE_SET_R11.pbs": "F12C712B88E2AC1743233DEA2AD4BC0F467DC743AEEB4D415F66171C7557ADCA",
+    "models/pandey_kumar_mode1/108_r11_c3_active_set_continuation/M1_C3_ACTIVE_SET_R11_AUTHORIZATION.json": "F581BF9B7ED7691B4F4C2C9420CF3DCFDFEBC58B46026AB847136DF16F1675B2",
+    "results/validation/mode1_f1597/r11_active_set_oracle_summary.json": "0888C0092A2DBD6B3CDCFBD4AAFF972AB4DCD482E6D2B9FC0726301740CD98F6",
+    "results/validation/mode1_f1597/r11_extracted_telemetry.json": "C527253B7F5857A7F34A81848D3029AEB09C1F574A3F9CA892341A35A819C302",
+    "tests/unit/test_mode1_f1597_turn139_r11_active_set.py": "B2BD2240BF980AB92D75E6C449DADB4E4A7900A93587E4CCE5865DC605D74B23",
+    "scripts/hpc/mode1_execution_gate.py": "AEABAEB2D4B2E2EF260626E1A0A981A61B3246D30E6227EF17409D5E5E4CEBAF",
+    "scripts/hpc/preflight_package49_authorization.py": "EFA2395E376782642E3F4FED07D548C4DF39C71EEB71CE026C08B911C7423455"
+  },
+  "verification_passed": true,
+  "job_id": "1417283.mmaster02",
+  "exit_status": 0,
+  "walltime_seconds": 16,
+  "rf2_stage_a_N": 184.851229,
+  "rf2_step2_continuation_N": 184.9453,
+  "elastic_strain_energy_mJ": 0.181811,
+  "kkt_violations": 0
+}
