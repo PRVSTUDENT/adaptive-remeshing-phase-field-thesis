@@ -1,0 +1,23 @@
+{
+  "turn": "e0354599-7e8f-45ed-aa14-4a76d6d0ccc3",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "status": "DISPATCHER_GATE_BLOCKED_WITH_EXACT_EVIDENCE",
+  "preflight_status": "PASS",
+  "datacheck_status": "ANALYSIS_DATACHECK_COMPLETE",
+  "package": "Package 108 (models/pandey_kumar_mode1/108_c3_staggered_continuation)",
+  "manifest_path": "models\\pandey_kumar_mode1\\108_c3_staggered_continuation\\M1_C3_STAGGERED_AUTHORIZATION.json",
+  "manifest_sha256": "18a0b07dd557d17be54f4b7dd99edd949becde1aa226a7c76663bd7856281bfc",
+  "datacheck_path": "models\\pandey_kumar_mode1\\108_c3_staggered_continuation\\M1_C3_STAGGERED.dat",
+  "datacheck_sha256": "3f1530f0ce260359905b2135b67d87d17594ac0a1c621b3d08d5ab920b97df14",
+  "preflight_output": "TECHNICAL_PREFLIGHT_PASS: datachecks=PASS_BOTH; active jobs=0; login notifications verified; compute delivery=UNRESOLVED",
+  "exact_failing_gate_check": {
+    "source_file": "scripts/hpc/mode1_execution_gate.py",
+    "source_line": 82,
+    "statement": "require(files.get('f42_mixed_uel.for')==FROZEN_UEL and files.get('job_notifications.sh'), 'Frozen UEL and notifications required')",
+    "error_message": "Frozen UEL and notifications required",
+    "stack_trace": "At D:\\Master thesis\\Adaptive remeshing\\scripts\\hpc\\Invoke-Mode1Execution.ps1:63 char:36; if($prepared.decision -eq 'deny'){throw $prepared.reason}",
+    "cause": "The dispatcher gate strictly requires f42_mixed_uel.for matching FROZEN_UEL (ce8d5edc...). The scientifically required non-ratcheting irreversible UEL (f42_experimental_irreversible_uel.for, SHA-256 e72e00d3...) is rejected by the gate.",
+    "authorized_scope_boundary": "scripts/hpc/ is outside allowed_write_scope in ACTIVE_SESSION.json and cannot be modified by the agent without violating governance constraints."
+  },
+  "scientific_and_governance_implication": "Full Candidate C3 staggered continuation has been successfully staged and passed technical preflight (datacheck Exit 0, 0 errors). Governed PBS submission is blocked strictly by the dispatcher gate's hardcoded frozen UEL requirement. Execution requires supervisor/human extension of mode1_execution_gate.py to recognize f42_experimental_irreversible_uel.for as an authorized experimental adapter."
+}
