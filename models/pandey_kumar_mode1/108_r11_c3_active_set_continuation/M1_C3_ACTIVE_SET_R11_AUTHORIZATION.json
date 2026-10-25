@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "adapter": "mode1-experimental-12dof-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "batch_name": "MODE1_C3_ACTIVE_SET_CONTINUATION_R11",
+  "configuration": "UNIFIED_12DOF_ACTIVE_SET",
+  "hypothesis": "Imposing mathematically justified oracle active-set boundary constraints (d = d0) on the unified 12-DOF monolithic coupled UEL reproduces the admissible coupled continuation state (+1 nm) with machine-precision force and energy continuity, resolving both R7 history ratcheting and Abaqus unconstrained diffuse phase evolution.",
+  "automatic_retry": false,
+  "max_submissions": 1,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c3_active_set_continuation_r11",
+  "files": {
+    "M1_C3_ACTIVE_SET_R11_CONTINUATION.inp": "5e3372b2527003f1386426768be9716dc018ed06010a9cc912324dc1c6b0dfc9",
+    "f42_unified_12dof_active_set_uel.for": "a33de85124681766ea362f11d28440c55f40dd85f7d80c19186e44c343d9129b",
+    "active_set_boundary_cards.inc": "295cb48ee735b3c8efc635a1b2f760479000818ff8f48c9da49fdc69af1b0627",
+    "d_lower_bounds.csv": "65dbbf621a9415e8c4381289c3a0c622ae8e019b189b104e3a9e30ac8b8813eb",
+    "submit_M1_C3_ACTIVE_SET_R11.pbs": "f12c712b88e2ac1743233dea2ad4bc0f467dc743aeeb4d415f66171c7557adca",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47"
+  },
+  "jobs": [
+    {
+      "id": "M1_C3_ACTIVE_SET_R11",
+      "purpose": "Abaqus 2023 Candidate C3 2-step +1nm continuation with unified 12-DOF monolithic coupled UEL and active-set constraints (R11)",
+      "input": "M1_C3_ACTIVE_SET_R11_CONTINUATION.inp",
+      "user_subroutine": "f42_unified_12dof_active_set_uel.for",
+      "pbs": "submit_M1_C3_ACTIVE_SET_R11.pbs",
+      "datacheck": "M1_C3_ACTIVE_SET_R11.dat",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c3_active_set_continuation_r11/submit_M1_C3_ACTIVE_SET_R11.pbs\"",
+      "command_sha256": "19237bfa4e2c1739f1a0c91116ad96449a1cc5c38b064b535b52c04d74944956",
+      "depends_on": []
+    }
+  ],
+  "acceptance": {
+    "stage_A_same_load": {
+      "u_top_target_mm": 0.00196510735,
+      "rf2_expected_N": 184.851,
+      "rf2_continuity_pct_max": 1.0,
+      "kkt_violations_max": 0
+    },
+    "stage_B_forward_continuation": {
+      "delta_u_mm": 1e-06,
+      "u_top_target_mm": 0.00196610735,
+      "expected_rf2_N_approx": 184.9453,
+      "rf2_tolerance_pct": 2.0,
+      "expected_ef_mJ_approx": 0.061017,
+      "ef_tolerance_pct": 2.0,
+      "expected_dmax_approx": 0.655,
+      "dmax_tolerance_pct": 2.0,
+      "kkt_violations_max": 0,
+      "healing_magnitude_max": 1e-08
+    }
+  }
+}
