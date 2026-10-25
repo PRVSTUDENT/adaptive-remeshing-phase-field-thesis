@@ -65,6 +65,8 @@
   * `PACKAGE100_KKT_AUDIT_STATUS = AUDIT_COMPLETE_DEFECTS_PROVEN_HEURISTIC_RELEASE_SUPPRESSION_REJECTED_GATE_C1_2_NOT_QUALIFIED`
   * `PACKAGE101_VI_PILOT_STATUS = COMPLETED_JOB_1417162_EXIT0_WALLTIME_28S_RF2_COLLAPSE_MINUS_39P35PCT_HEALING_2376_DIAGNOSED_GATE_C1_2_NOT_QUALIFIED`
   * `PACKAGE102_STAGGERED_REEQUIL_STATUS = COMPLETED_JOB_1417164_ABAQUS_EXIT0_WALLTIME_31S_ZERO_HEALING_PASS_ZERO_OVERSHOOT_PASS_RF2_98P79N_DEFICIT_MINUS_12P55PCT_ENERGY_PLUS_8P40PCT_GATE_C1_2_NOT_QUALIFIED`
+  * `PACKAGE108_R2_STAGGERED_CONTINUATION_STATUS = COMPLETED_JOB_1417251_EXIT0_WALLTIME_39S_SAME_LOAD_ENERGY_0P002PCT_PASS_STEP2_MECH_SOLVE_PASS_STEP3_PHASE_RELAX_PASS_INTERIOR_HOLDING_REACTION_10P85N_DIAGNOSED`
+  * `PACKAGE108_R3_CLOSED_ALTERNATING_MINIMIZATION_STATUS = COMPLETED_JOB_1417252_EXIT0_WALLTIME_38S_STEP4_MECH_REEQUIL_1_INC_1_ITER_PASS_RF2_180P78N_PLUS_0P82PCT_PASS_ENERGY_DISSIPATION_PASS_GATE_C1_1_PASSED`
   * `TURN90_COUPLED_VALIDATION_STATUS = AUTHENTIC_PACKAGE102_EVALUATED_DISCOVERY_CONFIRMED_UNCOUPLED_PHASE_OPTIMIZATION_DRIVES_EXCESSIVE_LOCAL_DISSIPATION_PLUS22P55PCT_OVER_SOFTENING_CRACK_BAND_GATE_C1_2_NOT_QUALIFIED`
   * `TURN91_HISTORY_LOSS_DISCOVERY_STATUS = EXACT_MATHEMATICAL_CAUSE_IDENTIFIED_ABAQUS_8_ENTRY_LINE_SYNTAX_TRUNCATION_DISCARDED_SVARS_9_12_ZEROING_SV_H_COMMITTED_IN_UEL_GATE_C1_2_NOT_QUALIFIED`
   * `ACTIVE_CLUSTER_JOBS = 0_ACTIVE_JOBS`
@@ -532,5 +534,31 @@
   * **Production UEL**: Bitwise frozen at `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`.
   * **Gate C1-1 Status**: **`QUALIFIED_OFFLINE_ONLY`** (experimental UEL irreversibility architecture mathematically and numerically verified in genuine Abaqus 2023 execution on diagnostic patch).
   * **Gate C1-2 Status**: Strictly **`NOT_QUALIFIED`** (Candidate C3 continuation pending).
+
+## Turn 117 — Method C Mode-I: Comprehensive C3 Continuation Evaluation, Scientific Deficit Diagnosis, and Overnight Shutdown — 24 October 2026
+
+- **Objective & Checkpoint**: Evaluated authentic Abaqus 2023 continuation evidence for Candidate C3 (2,650 quads) from Turn 115 on scratch9 against predeclared acceptance gates, established root-cause mathematical diagnosis of the Stage B softening discrepancy, conducted cluster queue audit, and executed governed overnight shutdown.
+- **Stage A Evaluation (Same-Load Re-Equilibration at $u = 0.00196510735\,\mathrm{mm}$)**:
+  * Solved in Attempt 1 across 6 equilibrium passes with optimal conditioning.
+  * Reaction Force: $\text{RF2} = 184.851989\,\mathrm{N}$ vs $180.227193\,\mathrm{N}$ ($+2.566\%$ error $\le 5.0\%$) $\to$ **PASS**.
+  * Fracture Energy: $E_{\text{frac}} = 0.061015\,\mathrm{mJ}$ vs $0.061017\,\mathrm{mJ}$ ($-0.0027\%$ error $\le 2.0\%$) $\to$ **PASS**.
+  * Crack-Tip Damage: $d_{\max} = 0.655000$ vs $0.654995$ ($+0.0007\%$) $\to$ **PASS**.
+  * Verdict: **`STAGE_A_ACCEPTED`** (Gate C1-1 parity satisfied).
+- **Stage B Evaluation (Forward Continuation to $u = 0.00197010735\,\mathrm{mm}$, $+5\,\mathrm{nm}$)**:
+  * Solved across 200 increments to Exit 0 with zero cutbacks and 100% pointwise irreversibility (0 healing elements > 1e-5 across all 2,650 elements).
+  * Reaction Force Continuity: $\text{RF2} = 1.113388\,\mathrm{N}$ vs Turn 107 reference $179.2976\,\mathrm{N}$ (disparity: $-178.18\,\mathrm{N}$, error: **$-99.38\%$**) $\to$ **FAIL**.
+  * Fracture Energy Continuity: $E_{\text{frac}} = 0.266099\,\mathrm{mJ}$ vs reference $0.062404\,\mathrm{mJ}$ (disparity: $+0.2037\,\mathrm{mJ}$, error: **$+326.41\%$**) $\to$ **FAIL**.
+  * Damage Field: Complete crack propagation across ligament ($d_{\max} = 1.001125$) vs reference localized growth ($d_{\max} = 0.675399$).
+  * Verdict: **`FAILED_SCIENTIFIC_CONTINUITY`**. Do not promote Stage B solely based on Exit 0.
+- **Root-Cause Diagnosis (Intra-Increment Iteration History Ratcheting)**:
+  * Divergence diagnosed between offline staggered solver (which updates history $H$ only once per outer staggered cycle using converged displacements) and monolithic Abaqus UEL (`f42_experimental_irreversible_uel.for`).
+  * In the monolithic UEL, `SV_H_TRIAL` was updated during every Newton-Raphson equilibrium iteration whenever $\psi_0^+ > H$. Intermediate trial displacement overshoots permanently ratcheted $H$ upward, triggering artificial stiffness degradation and runaway crack propagation across increments.
+  * Concrete repair hypothesis: decouple iteration history updates so $H$ is updated only upon increment convergence at `LOP=2`.
+- **HPC Queue & Overnight Governance**:
+  * Guarded SSH `qstat -u pr21vyci` confirmed **0 active jobs** (queue empty).
+  * PBS execution strictly withheld pursuant to scientific failure policy (failed threshold requires reviewed hypothesis, not blind rerun).
+  * Production UEL bitwise frozen (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`).
+  * Final research turn tonight. Clean reproducible checkpoint established for October 25 restart.
+
 
 

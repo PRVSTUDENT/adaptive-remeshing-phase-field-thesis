@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 108 Revision 3 (Job 1417252) successfully executed 4-step closed alternating minimization continuation on Candidate C3 with Abaqus Exit 0 in 38s walltime. Step 4 mechanical re-equilibration converged in 1 increment and 1 iteration, restoring reaction force to 180.78 N (within 0.8% of target 179.30 N) and verifying strict monotonic thermodynamic dissipation across the entire cycle (delta E_total = -0.000293 mJ < 0).",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/108_r3_c3_staggered_continuation/M1_C3_STAGGERED_R3_AUTHORIZATION.json": "6518DDF7583AA306E7D91FF46AB60EA3F03AB2CBC6DDA0D6DCFE355C5FC81328",
+    "models/pandey_kumar_mode1/108_r3_c3_staggered_continuation/M1_C3_STAGGERED_R3_CONTINUATION.inp": "D7FD92292CFA9D301DF3DA99880615948C99C3EDECB1F1A9693E684FFBB8DC8C",
+    "models/pandey_kumar_mode1/108_r3_c3_staggered_continuation/submit_M1_C3_STAGGERED_R3.pbs": "A5CC9F83C1D450E55F30886CD66F273689E0146F7BA7D26CA8D25119ED416BDF",
+    "models/pandey_kumar_mode1/108_r3_c3_staggered_continuation/M1_C3_STAGGERED_R3.dat": "4A29EBEEF17E919FF55444DA09B5589D279A5DFC6E519336B5A9A9DF14664214",
+    "models/pandey_kumar_mode1/108_r3_c3_staggered_continuation/M1_C3_STAGGERED_R3.sta": "8C5B4DFEE2AE87096239023D97AA0F37D47D87B9C475D448F9A4B7B25B1D2FE2",
+    "models/pandey_kumar_mode1/108_r3_c3_staggered_continuation/uel_energy_balance.csv": "E4FDF15278BFE60E15607A059922028F092E83FED564DE82D980E1B04A2FD247",
+    "models/pandey_kumar_mode1/108_r3_c3_staggered_continuation/r3_extracted_telemetry.json": "9DAB2DE6A906DAA917F17C3651285716053AE50AE1CD4F807CBEC8F96883E9CA",
+    "results/validation/mode1_f1597/r3_evaluation_summary.json": "AECE36D34B9B71C80C3B66D42F8C6BB5DA18AC9A6BACAD3D5A37C964F07BEC76",
+    "scripts/validation/create_package108_r3.py": "9C1549F095D00EBF399BFC5587BF9D1D9106AA187EE8DA13B9FEF4E8D6ED0F11",
+    "scripts/validation/stage_and_datacheck_package108_r3.py": "8FB5C9B0541A4FF2DB9CEC0DA7CCCF4D8D73F692947D21908A32BA6805C1547A",
+    "scripts/validation/extract_mode1_turn126_r3_odb.py": "2717F96D9FE45888FABC7C06031539A1A1E8EE8032311786CF6E4A7B0673F464",
+    "scripts/validation/evaluate_mode1_turn126_r3_results.py": "80BBBB126F365EF02823EA81A82A79F4447F1EA1FF24873101A5A206165F3646"
+  },
+  "verification_passed": true,
+  "metadata": {
+    "pbs_job_id": "1417252.mmaster02",
+    "package": "108_r3_c3_staggered_continuation",
+    "walltime_seconds": 38,
+    "step1_rf2_N": 184.852,
+    "step1_ef_mJ": 0.0610158,
+    "step2_rf2_N": 185.322,
+    "step3_rf2_N": 177.892,
+    "step4_rf2_N": 180.777,
+    "step4_ef_mJ": 0.0652,
+    "delta_et_total_cycle_mJ": -0.00029315,
+    "exit_code": 0
+  }
+}

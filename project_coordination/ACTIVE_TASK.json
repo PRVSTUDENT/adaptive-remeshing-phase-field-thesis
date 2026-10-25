@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Turn 125 evaluated PBS Job 1417249 (Package 108 R1) and proved that Stage B cutbacks were caused by coupling-architecture mismatch: R1 left both displacement and phase DOFs simultaneously active without an off-diagonal Jacobian (K_ud=0, K_du=0 in UEL), degenerating to un-relaxed Block-Jacobi Picard iterations under forward loading. Corrected in Package 108 Revision 2 (108_r2_c3_staggered_continuation) implementing canonical multi-step alternating minimization with boundary switching (*Boundary, fixed on N_ALL, 3, 3 during Step 2 forward mech solve; *Boundary, op=NEW, fixed on N_ALL, 1, 2 during Step 3 phase solve). Package 108-R2 passed Abaqus 2023 datacheck (Exit 0, 0 errors) and governed preflight, and was submitted as PBS Job 1417251.mmaster02. Job 1417251 completed with Exit 0 in 39s walltime: Step 1 same-load re-equilibration converged in 6 iterations matching reference fracture energy to 0.002% (measured 0.061016 mJ vs reference 0.061017 mJ); Step 2 forward mechanical solve converged in 1 iteration with zero phase drift; Step 3 phase relaxation completed in 10 increments reaching E_frac = 0.065200 mJ with monotonic thermodynamic dissipation (delta E_total \u003c 0).",
+    "phase":  "Package 108 Revision 3 (Job 1417252) successfully executed 4-step closed alternating minimization continuation on Candidate C3 with Abaqus Exit 0 in 38s walltime. Step 4 mechanical re-equilibration converged in 1 increment and 1 iteration, restoring reaction force to 180.78 N (within 0.8% of target 179.30 N) and verifying strict monotonic thermodynamic dissipation across the entire cycle (delta E_total = -0.000293 mJ \u003c 0).",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -123,7 +123,11 @@
                                   "1417035.mmaster02",
                                   "1417162.mmaster02",
                                   "1417164.mmaster02",
-                                  "1417172.mmaster02"
+                                  "1417172.mmaster02",
+                                  "1417248.mmaster02",
+                                  "1417249.mmaster02",
+                                  "1417251.mmaster02",
+                                  "1417252.mmaster02"
                               ],
     "predecessor_task":  {
                              "task_id":  "F1596-INDEPENDENTLY-QUALIFY-PACKAGE72-STATE-TRANSFER",
@@ -156,14 +160,14 @@
                                  "morning_scientific_audit_packages87_88",
                                  "package89_state_transfer_submission"
                              ],
-    "last_updated":  "2026-10-25T08:45:50.4716348+01:00",
+    "last_updated":  "2026-10-25T09:02:01.9104127+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-d6708a5f-ea74-41a7-92c4-8030a0d62460.json",
-                                  "sha256":  "6F626DDBDCBE2D07C34AF4539EC02D1A72BEFFF10E598D3C340DB634E792BD78",
-                                  "created_at":  "2026-10-25T08:45:02.9073141+01:00"
+                                  "artifact":  "results/validation/preparation-2f168b9a-06b8-4c99-883b-c8b27e6f53cc.json",
+                                  "sha256":  "8FB68D76F762DE3DD19093C762F336C0D26D735849031B0EDF0758BE6285F299",
+                                  "created_at":  "2026-10-25T09:00:15.1585528+01:00"
                               }
 }

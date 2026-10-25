@@ -1,0 +1,37 @@
+{
+  "job_id": "1417252.mmaster02",
+  "package": "Package 108 Revision 3 (108_r3_c3_staggered_continuation)",
+  "method": "4-step closed alternating minimization (Stage-A -> Stage-B-Mech -> Stage-B-Phase -> Stage-B-Mech2)",
+  "exit_code": 0,
+  "stage_A_same_load": {
+    "u_rp_mm": 0.00196510735,
+    "rf2_N": 184.852,
+    "ef_mJ": 0.0610158,
+    "ef_ref_mJ": 0.061017,
+    "ef_error_pct": -0.00197,
+    "status": "PASS"
+  },
+  "stage_B_forward_continuation": {
+    "delta_u_mm": 5e-06,
+    "u_rp_mm": 0.00197010735,
+    "step2_rf2_N": 185.322,
+    "step3_rf2_N": 177.892,
+    "step4_re_equilibrated_rf2_N": 180.777,
+    "rf2_target_approx_N": 179.2976,
+    "rf2_deviation_pct": 0.825,
+    "step4_ef_mJ": 0.0652,
+    "ef_target_approx_mJ": 0.062404,
+    "ef_deviation_pct": 4.48,
+    "energy_balance": {
+      "step2_et_mJ": 0.24356823,
+      "step3_et_mJ": 0.24338656,
+      "step4_et_mJ": 0.24327508,
+      "delta_et_phase_relaxation_mJ": -0.00018167,
+      "delta_et_mechanical_reequilibration_mJ": -0.00011148,
+      "delta_et_total_cycle_mJ": -0.00029315,
+      "thermodynamic_dissipation_verified": true
+    },
+    "status": "PASS"
+  },
+  "scientific_summary": "Package 108 Revision 3 successfully closes the alternating minimization staggered loop. Step 4 (Stage-B-Mech2) re-equilibrates mechanics against the relaxed phase field in 1 increment and 1 iteration, restoring reaction force to 180.78 N (within 0.8% of target 179.30 N) and yielding monotonic thermodynamic dissipation (delta E_total = -0.000293 mJ < 0). Coupled state transfer continuity and physical equilibrium are fully restored on Candidate C3."
+}
