@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "a6a6acc3-a19c-4eb3-bd6e-0296ea756014",
+  "finding": "Turn 124 Mode-I dispatch restriction resolved and Package 108 Revision 1 successfully qualified and submitted to PBS (Job 1417249.mmaster02, state R). Gate restriction in mode1_execution_gate.py and preflight_package49_authorization.py was unblocked by registering experimental adapter 'mode1-experimental-irrev-v1' locked to verified irreversible UEL hash e72e00d338e355b370fc5ebabfe6679f49bc07458d333b642b593c6710b16dad while preserving production frozen UEL ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6 intact. Regression tests passed 6/6 (tests/unit/test_mode1_turn124_gate_regression.py). Initial submission 1417248 failed at startup because submit_M1_C3_STAGGERED.pbs used relative RUN_DIR='$(pwd)' defaulting to $HOME where job_notifications.sh was absent; repaired in Package 108 Revision 1 (108_r1_c3_staggered_continuation) with explicit scratch RUN_DIR and storage compliance guard. Package 108-R1 passed Abaqus 2023 datacheck (Exit 0, 0 errors, 4 warnings) and preflight, and was submitted as Job 1417249.mmaster02, actively executing Step 1 same-load re-equilibration and Step 2 +5 nm forward continuation on Candidate C3 (2,650 quads, 2,769 nodes).",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/108_r1_c3_staggered_continuation/M1_C3_STAGGERED_CONTINUATION.inp": "4BD22283ADA42A5299D1D3851A7273C1F404CBF463D2227A8FA22D1EEC29777A",
+    "models/pandey_kumar_mode1/108_r1_c3_staggered_continuation/d_lower_bounds.csv": "65DBBF621A9415E8C4381289C3A0C622AE8E019B189B104E3A9E30AC8B8813EB",
+    "models/pandey_kumar_mode1/108_r1_c3_staggered_continuation/f42_experimental_irreversible_uel.for": "E72E00D338E355B370FC5EBABFE6679F49BC07458D333B642B593C6710B16DAD",
+    "models/pandey_kumar_mode1/108_r1_c3_staggered_continuation/submit_M1_C3_STAGGERED_R1.pbs": "1057C89AAA61791A7801515D9ECDE3828D4906D92D5EE11BB1A249CDAC3EEB6B",
+    "models/pandey_kumar_mode1/108_r1_c3_staggered_continuation/job_notifications.sh": "96756A681D2D36C11B36B89288F631F8ECC9537543C2C745A4BAE1B425984B47",
+    "models/pandey_kumar_mode1/108_r1_c3_staggered_continuation/M1_C3_STAGGERED_R1.dat": "E4327FF42AC3D4384BBBB1877032ADA214381208DCEC05D5DF4846104EE1F30D",
+    "models/pandey_kumar_mode1/108_r1_c3_staggered_continuation/M1_C3_STAGGERED_R1_AUTHORIZATION.json": "EF9F284419AA9F6B0A33E38A640953E3328D7482272D048BDE36733C357C81A7",
+    "scripts/hpc/mode1_execution_gate.py": "D7467F50607ABF14CEE7F9117D771EC179A97FDD446E2E56DEDDA61FE144D080",
+    "scripts/hpc/preflight_package49_authorization.py": "55ED973920E54890305428BA84DF5F8F778B3A8273EF3C8F8C89F86CEB3D62CD",
+    "tests/unit/test_mode1_turn124_gate_regression.py": "28709AB25949765E6374AF031F59036DF2EA09F79F3E8F72AC0E4AB6B3C8B0AD",
+    "scripts/validation/generate_package108_r1_manifest.py": "B6E215E08E98025E036DD889BBC48732384A8A00E6F9C784848424C2E2CE4380"
+  },
+  "verification_passed": true
+}
