@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Diagnostic reconstruction of Package 108 Revision 6 (Job 1417256) proves that load refinement under alternating minimization induces artificial strain ratcheting. During staggered mechanical re-equilibration (Inc*-Mech2), crack-tip strain expands to maintain equilibrium with the bulk, surging unsoftened POS_M by +0.38 to +0.67 MPa per cycle and accumulating H_max = 7.847 MPa (vs 5.241 MPa in Turn 107 forward continuation). In contrast, monolithic displacement advance in the reference solution exhibits no ratcheting (delta H = +0.024 MPa across 5 nm). The first departure occurs at Step 3 (Inc1-Phase1), where fracture energy jumps by +3.963 uJ in a single 1 nm step.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/r6_energy_dissipation_diagnosis.json": "C4177531D44222F603890B697A68EE09750F700B2A6906690D48FC89754099AA",
+    "scripts/validation/diagnose_mode1_turn133_r6_dissipation.py": "207794FD9D52AD12EF664173E109EE3D727905FAA879171C35D5BFF7EFA6A77C",
+    "tests/unit/test_mode1_f1597_turn133_r6_dissipation_diagnosis.py": "733AA4BB927F1A3BE8466F878DA4E2A7BC2D2C2B9670CD67D7E03D02F06D5824",
+    "models/pandey_kumar_mode1/108_r6_c3_multi_increment_continuation/M1_C3_STAGGERED_R6_AUTHORIZATION.json": "CAB39FF5929DEFDC11B22515D009A53EE21555F88DF23EFAE5325867CC6C40D2",
+    "models/pandey_kumar_mode1/108_r6_c3_multi_increment_continuation/M1_C3_STAGGERED_R6_CONTINUATION.inp": "C3EDEAF1A408FA927C90A8595681BB4FE4B973C1A6B283AC20C039C7D91FD1FB",
+    "models/pandey_kumar_mode1/108_r6_c3_multi_increment_continuation/uel_energy_balance.csv": "BA61D993BBCE185B44E39A6EDC1A8F16C6830B3D4CDC0FFE96E0742C1BD8E90C",
+    "models/pandey_kumar_mode1/108_r6_c3_multi_increment_continuation/r6_extracted_telemetry.json": "CFC7363DF46A1D97555B12F4B7C6673A7DD650FF6DF9F5B28A277007536CC8D2"
+  },
+  "verification_passed": true,
+  "metadata": {
+    "pbs_job_id": "1417256.mmaster02",
+    "package": "108_r6_c3_multi_increment_continuation",
+    "steps_count": 16,
+    "step1_ef_mJ": 0.061016,
+    "step3_ef_mJ": 0.064979,
+    "final_ef_mJ": 0.071527,
+    "target_ef_mJ": 0.062404,
+    "ef_departure_pct": 14.62,
+    "final_hmax_MPa": 7.847,
+    "target_hmax_MPa": 5.241,
+    "strain_ratcheting_per_cycle_MPa": [
+      0.386,
+      0.453,
+      0.514,
+      0.583,
+      0.67
+    ]
+  }
+}
