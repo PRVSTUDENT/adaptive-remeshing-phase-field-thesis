@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "job_id": "1417252.mmaster02",
+  "package": "Package 108 Revision 3 (108_r3_c3_staggered_continuation)",
+  "terminal_stage": "Stage-B-Mech2 (Step 4)",
+  "measured_metrics": {
+    "u_rp_mm": 0.0019701074343174696,
+    "rf2_N": 180.777,
+    "rf2_ref_N": 179.2976,
+    "rf2_error_pct": 0.825,
+    "d_max_measured": 0.65617,
+    "d_max_target_approx": 0.675399,
+    "d_max_lag_pct": -2.847,
+    "h_max_step3_phase1_MPa": 5.235908,
+    "h_max_step4_mech2_MPa": 5.649146,
+    "h_max_step4_increase_pct": 7.892,
+    "num_interior_holding_rf_nodes": 0
+  },
+  "equilibrium_verdicts": {
+    "mechanical_subsystem_equilibrium": "PASS (0 interior holding reactions; converged in 1 increment, 1 iteration)",
+    "phase_subsystem_equilibrium_at_mech2_strain": "FAIL (H_max surged +7.89% during Mech2; phase field d=0.656170 is lagging behind H=5.6491 MPa)",
+    "alternating_minimization_closure": "CYCLE_1_COMPLETE__CYCLE_2_REQUIRED",
+    "gate_c1_1_status": "HOLD_PENDING_CYCLE_2"
+  },
+  "scientific_justification_for_r4": "In Step 4 (Mechanical 2), re-equilibrating displacements eliminated all 2,116 interior artificial holding reactions and restored reaction force to 180.78 N (+0.82% error). However, adapting displacements to the softened crack band increased crack-tip tensile driving history H_max from 5.2359 to 5.6491 MPa (+7.89%). Because the phase field was held fixed during Step 4, d_max remains at 0.656170, lagging behind the Turn 107 reference d_max = 0.675399. Executing a second alternating minimization cycle (Phase 2 relaxation under updated H, followed by Mechanical 3 re-equilibration) in Package 108 Revision 4 is mathematically and physically necessary to close coupled equilibrium."
+}
