@@ -1,0 +1,18 @@
+{
+    "schema":  1,
+    "run_id":  "0bcc301f-07a3-42d6-aacd-6d4c2d4fa57b",
+    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "status":  "PREPARATION_COMPLETE",
+    "finding":  "Package 108 Revision 5 (Job 1417255.mmaster02) completed Exit 0 across all 16 steps. Telemetry evaluation diagnosed that *BOUNDARY, OP=NEW, FIXED on mechanical increment steps froze RP displacement at u=0.001965107 mm, suppressing the five 1 nm forward increments. The stationary alternating cycles underwent cyclic damage escalation (d_max=0.715148, +5.89%) and excessive dissipation (E_frac=0.071065 mJ, +13.88% vs 0.062404 mJ benchmark), failing the +-2% gate tolerance. Gate C1-1 remains UNPROMOTED and Gate C1-2 strictly NOT_QUALIFIED pending syntax correction to separate fixed holding from un-fixed RP boundary conditions.",
+    "verification_passed":  true,
+    "evidence_sources":  {
+                             "models/pandey_kumar_mode1/108_r5_c3_multi_increment_continuation/M1_C3_STAGGERED_R5.sta":  "91523146F4132907DEBAD578087A558A2CE995DCABD67D7493EC9BD89CB54CBC",
+                             "models/pandey_kumar_mode1/108_r5_c3_multi_increment_continuation/M1_C3_STAGGERED_R5.dat":  "3DF98343465E48A6A34A85C7589035ABFF39DADD462C32C68EC2C0C36731E52C",
+                             "models/pandey_kumar_mode1/108_r5_c3_multi_increment_continuation/uel_energy_balance.csv":  "56E9FC2FF3DF7DF506EBDAC15B1FC803FD0CB2E47237572FB0A9CDBA9E1F80E1",
+                             "models/pandey_kumar_mode1/108_r5_c3_multi_increment_continuation/r5_extracted_telemetry.json":  "2387F5F4C29CEEB1D7B71608EC6C3DA10F4F076479B07FF4D4760BED40581418",
+                             "models/pandey_kumar_mode1/108_r5_c3_multi_increment_continuation/pbs_execution.log":  "FC87E7A8CA9BF34A0D69B71381DCB9ED1840652E8B2447DA89A1BE2DAF6C8599",
+                             "models/pandey_kumar_mode1/108_r5_c3_multi_increment_continuation/pbs_error.log":  "625B983827A5D8A226BF2E903B10D8A9ACE5F64AF8757D8A4792D8BADC85F1B8",
+                             "results/validation/mode1_f1597/r5_evaluation_summary.json":  "A953C800203AC840C82682A3C3ACD983F568B9B24821AF53C4AA64748152AE20",
+                             "tests/unit/test_mode1_f1597_turn130_package108_r5_evaluation.py":  "F1AAEC80DA9087BB2D66A99DA0899018F64CA28FBF086004BCAA795B2EE45D30"
+                         }
+}
