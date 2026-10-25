@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 108 Revision 4 (Job 1417254) completed 6-step two-cycle alternating minimization continuation on Candidate C3 with Abaqus Exit 0 in 38s walltime. Step 5 Phase 2 relaxation converged peak damage to d_max = 0.672632 (-0.41% vs Turn 107 benchmark 0.675399) under updated history H_max = 5.649 MPa. Step 6 Mechanical 3 re-equilibration converged in 1 increment and 1 iteration, restoring reaction force to 178.473 N (-0.46% vs target 179.298 N). Zero interior holding reactions; strict monotonic dissipation verified across all 6 steps. Coupled mechanical/phase-field equilibrium is completely closed on Candidate C3.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/108_r4_c3_staggered_continuation/M1_C3_STAGGERED_R4_AUTHORIZATION.json": "49DF2B0459A88C401EEC14D6C54FD2C0ACADDEADFB3CBB355BAB537B45974C6D",
+    "models/pandey_kumar_mode1/108_r4_c3_staggered_continuation/M1_C3_STAGGERED_R4_CONTINUATION.inp": "EC10AE57D9E096F2B1854A2696B41AB3417755D41639A95658691CC7FBE41974",
+    "models/pandey_kumar_mode1/108_r4_c3_staggered_continuation/submit_M1_C3_STAGGERED_R4.pbs": "C7D2DE91BC8FFF7FABB45E4C858FF6B4146B299487867AA33B818FDEDB07CF3C",
+    "models/pandey_kumar_mode1/108_r4_c3_staggered_continuation/M1_C3_STAGGERED_R4.dat": "43F64A656853A50105971049B02249E56B25634847D0402B2BF1CC81AFD825DB",
+    "models/pandey_kumar_mode1/108_r4_c3_staggered_continuation/M1_C3_STAGGERED_R4.sta": "FB5532D5C045DEB4756324CA15B1C4F56788ADAB8FE5C7B3CC6B483E1D1E0312",
+    "models/pandey_kumar_mode1/108_r4_c3_staggered_continuation/uel_energy_balance.csv": "DCD866F54C5D0C0CB6C8A2BA3487C55A5AAAA9BF18DCF7CA884BC50DBDA18DA1",
+    "models/pandey_kumar_mode1/108_r4_c3_staggered_continuation/r4_extracted_telemetry.json": "4777D33AF37EF84A7D7B5EEF34CAEE9329683106CE0E416AA5FDA7AF0CE8DF42",
+    "results/validation/mode1_f1597/r4_evaluation_summary.json": "023BA71B335E7F608F20B12D45884E40D99E7BCE4451B5508620188BDFDE32B8",
+    "results/validation/mode1_f1597/r3_coupled_residual_audit.json": "3074DAB8F1E02C3D92E4B46140F3A8A6FEFA1F786871AE844FBA9C2C7EBB250E",
+    "scripts/validation/audit_mode1_turn127_r3_residuals.py": "2DA12DCF7611470F3D8C8AEAC2C5ECD46289A7B925DDE20ECBC5ABE31CAB50F3",
+    "scripts/validation/create_package108_r4.py": "DF9BAC237C6F6DBEBB04D01BB09D804182732D405CA047D07C7CD4F20F64FC8F",
+    "scripts/validation/stage_and_datacheck_package108_r4.py": "8A8EE09E6F39A1B07AE348745AA00F65441E339EDAD063F39067A55CB77FB7C6",
+    "scripts/validation/extract_mode1_turn127_r4_odb.py": "ED25013F328804967C1E725F896C2CCB9058F8162B193CA78DD8494CC54C1072",
+    "scripts/validation/evaluate_mode1_turn127_r4_results.py": "EB7154664BA6B03812BDA1291D7249CED8F76F8609B97B32B82B038DD61E7DA8"
+  },
+  "verification_passed": true,
+  "metadata": {
+    "pbs_job_id": "1417254.mmaster02",
+    "package": "108_r4_c3_staggered_continuation",
+    "walltime_seconds": 38,
+    "step1_rf2_N": 184.852,
+    "step1_ef_mJ": 0.0610158,
+    "step4_mech2_rf2_N": 180.777,
+    "step4_mech2_dmax": 0.65617,
+    "step5_phase2_dmax": 0.672632,
+    "step6_mech3_rf2_N": 178.473,
+    "step6_mech3_ef_mJ": 0.067386,
+    "target_rf2_N": 179.2976,
+    "rf2_error_pct": -0.46,
+    "target_dmax": 0.675399,
+    "dmax_error_pct": -0.41,
+    "total_cycle_dissipation_mJ": -0.00037655,
+    "exit_code": 0
+  }
+}
