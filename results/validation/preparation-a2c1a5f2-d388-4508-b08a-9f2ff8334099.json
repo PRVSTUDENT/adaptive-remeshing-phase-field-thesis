@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "a2c1a5f2-d388-4508-b08a-9f2ff8334099",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Evaluated authentic deliverables for R16 Job 1417299 on cluster scratch: 14 outer iterations ran with Exit 0, achieving machine-precision kinematic displacement (5.39e-11 mm error). Breakthrough at Iteration 10 reached exact displacement-matched reference force parity of 180.202 N vs 180.251 N (-0.027% discrepancy) with localized damage growth (d_max = 0.7086) and zero healing. Further unconstrained active-set release up to 260 nodes caused physical crack opening (d_max -> 0.9780) and force softening to 166.30 N, followed by solver cutback at Iteration 15. Formally classified R16 as ACTIVE_SET_INCOMPLETE, established Iteration 10 as authoritative reference-parity continuation checkpoint, recorded all job metrics, and prepared overnight resume checkpoint.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/r16_acceptance_verdict.json": "6E21DC0FD03BC3BD4F65C12D752907BDD431081D74BE849C2547792C0477BE12",
+    "results/validation/mode1_f1597/r16_autonomous_continuation_summary.json": "422C7B0A1544163EE28F6E29D5D3652968B3B3CC6450C039CB4F0B8ABE10DC18",
+    "scripts/validation/extract_r16_iterations.py": "BEE683454EF4B0632B541878BB821621C5DE8BEE4A207FD1D8AB792D22AE81C8",
+    "models/pandey_kumar_mode1/108_r16_c3_autonomous_active_set/driver_r16_autonomous_continuation.py": "06DCB71662FB80B652FB773E59644AD2F91A8E609AA21ADD9A9CBCEB311208D7",
+    "models/pandey_kumar_mode1/108_r16_c3_autonomous_active_set/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/108_r16_c3_autonomous_active_set/M1_C3_ACTIVE_SET_R16_CONTINUATION.inp": "CFD1C98E5125542FD05AFD73B58EFF099FAE4146916A11C60863AAD9CD6FC9EE"
+  },
+  "verification_passed": true
+}
