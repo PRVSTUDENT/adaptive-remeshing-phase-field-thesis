@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "job_id": "1417298.mmaster02",
+  "package": "PACKAGE_108_R15_C3_AUTONOMOUS_ACTIVE_SET",
+  "verdict": "FULL_DISPLACEMENT_PASS__ACTIVE_SET_INCOMPLETE",
+  "metrics": {
+    "outer_iterations_completed": 8,
+    "max_outer_iterations": 8,
+    "target_u2_mm": 0.00196610735,
+    "final_u2_mm": 0.001966107403859496,
+    "kinematic_error_mm": 5.3859496289970776e-11,
+    "final_rf2_N": 180.8948665857315,
+    "reference_rf2_N": 180.251,
+    "rf2_discrepancy_pct": 0.3572055554374187,
+    "final_d_max": 0.6945846080780029,
+    "damage_growth": 0.03958922624588013,
+    "total_free_nodes": 140,
+    "violating_active_nodes": 51,
+    "healing_nodes": 0
+  },
+  "conclusion": "R15 achieved authentic full +1 nm displacement (5.39e-11 mm error), zero healing, monotonic damage growth (0.6550 -> 0.6946), and +0.357% reference force parity (180.895 N vs 180.251 N). 51 active nodes retained driving forces exceeding 5e-8 kN/mm when the 8-iteration ceiling was reached. Algorithmic correction: Package 108 Revision 16 increases iteration ceiling from 8 to 15 to test full active-set closure."
+}

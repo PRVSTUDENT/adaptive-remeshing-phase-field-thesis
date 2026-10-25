@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "package_name": "PACKAGE_108_R16_C3_AUTONOMOUS_ACTIVE_SET",
+  "created_at": "2026-10-25T15:40:00+01:00",
+  "author": "gemini-antigravity",
+  "description": "Package 108 Revision 16: Autonomous Safeguarded Active-Set Continuation Driver (max 15 outer iterations)",
+  "files": {
+    "active_set_boundary_cards.inc": "4d4925af24dbf697803dfd8048f7eb3ac8064c6914173058d9587e083f330fb3",
+    "d_lower_bounds.csv": "7eb193cad4fb1db1401a27ea234940d5b7d857cd8042b13ff435a636d38a19eb",
+    "driver_r16_autonomous_continuation.py": "06dcb71662fb80b652fb773e59644ad2f91a8e609aa21add9a9cbceb311208d7",
+    "f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "M1_C3_ACTIVE_SET_R16_CONTINUATION.inp": "cfd1c98e5125542fd05afd73b58eff099fae4146916a11c60863aad9cd6fc9ee",
+    "run_pkg108_r16_datacheck.sh": "9fba4838c70fffad738ad501b96344d9788afc1902f0d3c7cb49b8d8cd1e15b0",
+    "stage_a_all_d0_boundary_cards.inc": "4d4925af24dbf697803dfd8048f7eb3ac8064c6914173058d9587e083f330fb3",
+    "submit_M1_C3_ACTIVE_SET_R16.pbs": "0725a1f3edca95179455a3a08d2fa0c34e9997cfc4a188bf4374d584ed41cfc1"
+  }
+}
