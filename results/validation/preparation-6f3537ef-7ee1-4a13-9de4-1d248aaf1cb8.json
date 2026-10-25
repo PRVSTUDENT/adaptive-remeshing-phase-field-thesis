@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Mathematically audited candidate increment-level history commitment (freezing predictor history H_cand) against the true discrete AT2 variational problem. At +1 nm loading (u = 0.00196610735 mm), frozen predictor history stabilizes intra-increment solves and eliminates R7 strain ratcheting, but artificially suppresses crack tip advance (d_max locked at 0.6550, Delta E_frac = 0.0 mJ vs reference +0.067 uJ). Under active crack propagation, post-softening strain localization raises true strain energy above H_cand by Delta H = 0.385 MPa, violating the physical phase residual (r_d = 2.50e-4 kN/mm >> 1.0e-6 kN/mm). Candidate R8 is scientifically rejected from HPC submission; genuine continuation requires coupled/relaxed variational updates.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/r8_mathematical_history_audit.json": "0D7E0C8C43017016444DFE5EA8DED1F5CD1C2C48DA442B1C2007F0FBAB8691BF",
+    "tests/unit/test_mode1_f1597_turn136_r8_history_audit.py": "1236199F0868556F406A1305C8F29CF5ACBCEC0D14893F13E5891DB503ECD0A6",
+    "results/validation/mode1_f1597/stage_a_stationarity_audit.json": "B6D43C3C40A72EDFEFE127CB763ABDB7861C192B9E8334CB487BAC70921DB3EA",
+    "models/pandey_kumar_mode1/108_r7_c3_fixed_disp_am_cycles/r7_metrics.json": "25C620B714FDF719A5A711F7934FC5501B91FBE934F0FC8C64F56045D2080D73",
+    "models/pandey_kumar_mode1/108_r7_c3_fixed_disp_am_cycles/uel_energy_balance.csv": "69C9707B90FBEFA5776529904C602FB0B31A0563262B8E5928FF98654EE46A05"
+  },
+  "verification_passed": true
+}
