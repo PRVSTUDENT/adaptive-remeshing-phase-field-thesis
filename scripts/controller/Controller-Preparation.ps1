@@ -19,6 +19,10 @@ function Get-ControllerPreparationPlan([string]$Workspace,[string]$Instruction) 
     if($Instruction -match '(?i)(change formulation and execute arbitrary|arbitrary commands|destructive|bypass qualification|qdel|qmove|rm -rf)'){
         return [pscustomobject]@{status='DEFINITION_REJECTED';dispatch_ready=$false;task_type='REJECTED';operation_id='';path='';blocked_on=@('Unreviewed proposal rejected; safety guard enforced');recipe=''}
     }
+    # External institutional authentication blocker rejection
+    if($Instruction -match '(?i)(BLOCKED_EXTERNAL_AUTHENTICATION|INTERACTIVE_SSO_REQUIRED|OFFLINE_QUALIFIED__INTERACTIVE_SSO_REQUIRED)'){
+        return [pscustomobject]@{status='BLOCKED_EXTERNAL_AUTHENTICATION';dispatch_ready=$false;task_type='BLOCKED_ON_SSO';operation_id='';path='';blocked_on=@('University eduVPN interactive browser SSO required on workstation');recipe=''}
+    }
     # Replay rejection: check if instruction attempts to replay a completed task
     if($task.completed_operations){
         foreach($comp in $task.completed_operations){

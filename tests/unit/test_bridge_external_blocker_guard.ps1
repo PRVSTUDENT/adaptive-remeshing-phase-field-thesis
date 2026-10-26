@@ -6,12 +6,14 @@ $ErrorActionPreference = "Stop"
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $repoRoot = Resolve-Path (Join-Path $scriptDir "..\..")
 $bridgeScript = Join-Path $repoRoot ".agents\scripts\Invoke-ChatGPTBridge.ps1"
+$prepScript = Join-Path $repoRoot "scripts\controller\Controller-Preparation.ps1"
 
 if (-not (Test-Path -LiteralPath $bridgeScript)) {
     throw "Bridge script not found at: $bridgeScript"
 }
 
 . $bridgeScript
+. $prepScript
 
 $testBridgeDir = Join-Path $env:TEMP ("test_bridge_" + [guid]::NewGuid().ToString("N"))
 New-Item -ItemType Directory -Path $testBridgeDir -Force | Out-Null
@@ -78,6 +80,12 @@ No SSO dependencies involved.
     Assert-Condition ($res4.Contains("Standard Mode-I benchmark calculation")) "-DryRun preserved prompt text"
     Assert-Condition (-not (Test-Path (Join-Path $testBridgeDir "bridge.lock"))) "Lock was not acquired in DryRun"
     Assert-Condition (-not (Test-Path (Join-Path $testBridgeDir "bridge_request.ready"))) "Request ready file was not created in DryRun"
+
+    Write-Host "`n=== Test 5: Verify Get-ControllerPreparationPlan Halts Autonomous Loop ===" -ForegroundColor Cyan
+    $prepPlan = Get-ControllerPreparationPlan $repoRoot $res1
+    Assert-Condition ($prepPlan.status -eq "BLOCKED_EXTERNAL_AUTHENTICATION") "Preparation plan status is BLOCKED_EXTERNAL_AUTHENTICATION"
+    Assert-Condition ($prepPlan.dispatch_ready -eq $false) "dispatch_ready is false, halting autonomous turn dispatch"
+    Assert-Condition ($prepPlan.task_type -eq "BLOCKED_ON_SSO") "task_type is BLOCKED_ON_SSO"
 
 } finally {
     Remove-Item -LiteralPath $testBridgeDir -Recurse -Force -ErrorAction SilentlyContinue
