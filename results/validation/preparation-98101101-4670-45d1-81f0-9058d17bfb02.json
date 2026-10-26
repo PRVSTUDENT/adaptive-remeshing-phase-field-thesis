@@ -1,0 +1,22 @@
+{
+    "schema":  1,
+    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "run_id":  "98101101-4670-45d1-81f0-9058d17bfb02",
+    "status":  "PREPARATION_COMPLETE",
+    "finding":  "Package 108 Revision 19 (R19) calibrated active-set continuation qualified and submitted as PBS Job 1417517.mmaster02 (single-rank serial, 1 CPU, 16GB, entry_imfdfkmq); empirical audit verified crack-tip driving forces (|lambda_tip| = 1.171e-08 kN/mm on node 1367) are separated by \u003e1000x from numerical noise (1e-11 kN/mm); driver release threshold tau_release calibrated from 5e-08 to 1.0e-09 kN/mm with strict non-vacuous KKT stationarity enforcement, restoring genuine crack-tip release without modifying frozen UELs.",
+    "job_id":  "1417517.mmaster02",
+    "package":  "PACKAGE_108_R19_C3_CALIBRATED_ACTIVE_SET",
+    "evidence_sources":  {
+                             "results/validation/r19_release_threshold_verification.json":  "4F4CB587707D45ED803BD7A8865E5BE7894A670A98055E10549FFA54607368D1",
+                             "tests/unit/test_mode1_f1597_turn168_r19_threshold_calibration.py":  "55BFC5A4FA37125936002172D1B49808B2D7065A8973FAE8C7EB29C5D821A5C9",
+                             "results/validation/mode1_f1597/r18_forensic_convergence_audit.json":  "DB3CBBF7EF4EDF7F5BFFF373ED0B67A88D1EF2A453099287114CF9A0573943EC",
+                             "models/pandey_kumar_mode1/108_r19_c3_calibrated_active_set/driver_r19_safeguarded_continuation.py":  "17C38B45D43F4298B99953047D79A297ECDA722CB70BF187CA4EF97AC383574C",
+                             "models/pandey_kumar_mode1/108_r19_c3_calibrated_active_set/f42_unified_12dof_active_set_uel.for":  "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+                             "models/pandey_kumar_mode1/108_r19_c3_calibrated_active_set/M1_C3_ACTIVE_SET_R19_AUTHORIZATION.json":  "9F7DAC9D2E8D7630A65EEECEEFF5B3C22C1AFE56C46B7A5F8BBB917BBAECE81A",
+                             "models/pandey_kumar_mode1/108_r19_c3_calibrated_active_set/M1_C3_ACTIVE_SET_R19_CONTINUATION.inp":  "443416CA672E669CAE7305D0394082241E756C02D07396ACE9AE0E1BD30F00E9",
+                             "models/pandey_kumar_mode1/108_r19_c3_calibrated_active_set/submit_M1_C3_ACTIVE_SET_R19.pbs":  "278DC52248F3A4A11973210DF7271D322890D4F468E4993768FB2309BC8A12D0",
+                             "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+                             "project_coordination/HPC_JOB_LEDGER.csv":  "EA2250603594E9693A93C860D78EC488C45891BF2A250E6EE5AF833D4599E4D4"
+                         },
+    "verification_passed":  true
+}
