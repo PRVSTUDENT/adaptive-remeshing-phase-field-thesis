@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 108 Revision 21 Job 1417540.mmaster02 completed Exit 0 at walltime 18m27s executing all 80 outer iterations at preferred batch size B=20 with 0 trial rejections and 1600 total released nodes. Kinematic error (5.38e-11 mm \u003c= 1e-7 mm), reaction force parity (178.1448 N vs 180.2444 N, -1.16% within +/-5%), mechanical residual (2.45e-7 kN \u003c= 1e-4 kN), and pointwise irreversibility (0 healing nodes) passed all tolerances. However, active-set KKT stationarity failed with 250 violating active nodes persisting at max_outer_iters=80 (worst lambda=-1.196e-8 kN/mm \u003c -1e-9 kN/mm). Crucially, releasing 600 additional nodes in iterations 51-80 falsified the Turn 179 relaxation hypothesis: d_max increased from 0.685370 to 0.688991 (+4.94% above Case A reference 0.656562) rather than relaxing. The first demonstrated defect is FAR_FIELD_ELASTIC_ACTIVE_SET_PERSISTENCE: weak bulk elastic energy density perpetually exceeds the uniform crack-tip release threshold tau_release=1e-9 kN/mm across the bulk, requiring a two-scale or crack-band restricted active-set formulation.",
+    "phase":  "Independent mathematical audit rejects the proposed R22 two-scale active-set threshold (verdict: R22_TWO_SCALE_CRITERION_REJECTED) and identifies critical formulation defects (R22_FORMULATION_DEFECT_IDENTIFIED). Geometric decomposition proves that the proposed core radius r_core = 5*l0 = 0.075 mm encompasses 86.6% (2399/2769) of all physical nodes, rendering a spatial two-scale distinction largely geometric fiction for this specimen. Physical energy analysis proves that bulk strain energy density psi_bulk ~ 44.6 MPa under nominal strain eps_yy ~ 0.02 exerts a legitimate AT2 driving force (theoretical homogeneous equilibrium d_eq ~ 0.33), generating authentic negative Lagrange multipliers lambda ~ -1.2e-8 to -3.3e-8 kN/mm rather than numerical noise. Applying tau_bulk = 5e-8 kN/mm conceals 100% of the 250 active violations without resolving physical equilibrium. Furthermore, the reported \u0027free_phase_residual = 0.0\u0027 is proven to be a reporting artifact caused by extracting RF3 on unconstrained DOFs, where Abaqus reaction forces are identically zero. Submission of R22 is withheld pending formulation correction.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -174,14 +174,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-26T11:49:22.8350686+01:00",
+    "last_updated":  "2026-10-26T12:07:52.2110903+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-696666fc-a86f-4668-a081-c4ce98433a4c.json",
-                                  "sha256":  "708927A7D5F5E52C6A45FBB83A9610E797AA202825C38D544F1125C079540D66",
-                                  "created_at":  "2026-10-26T11:49:08.0724273+01:00"
+                                  "artifact":  "results/validation/preparation-f70dfcb9-6736-487c-82a9-e9ee505fbf00.json",
+                                  "sha256":  "E2FB7D296DB6126D473B696581C6BDF133CC64741BD5A816402CA4C33857D264",
+                                  "created_at":  "2026-10-26T12:07:09.1454157+01:00"
                               }
 }

@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "f70dfcb9-6736-487c-82a9-e9ee505fbf00",
+  "status": "PREPARATION_COMPLETE",
+  "verdict": "R22_TWO_SCALE_CRITERION_REJECTED",
+  "secondary_classification": "R22_FORMULATION_DEFECT_IDENTIFIED",
+  "finding": "Independent mathematical audit rejects the proposed R22 two-scale active-set threshold (verdict: R22_TWO_SCALE_CRITERION_REJECTED) and identifies critical formulation defects (R22_FORMULATION_DEFECT_IDENTIFIED). Geometric decomposition proves that the proposed core radius r_core = 5*l0 = 0.075 mm encompasses 86.6% (2399/2769) of all physical nodes, rendering a spatial two-scale distinction largely geometric fiction for this specimen. Physical energy analysis proves that bulk strain energy density psi_bulk ~ 44.6 MPa under nominal strain eps_yy ~ 0.02 exerts a legitimate AT2 driving force (theoretical homogeneous equilibrium d_eq ~ 0.33), generating authentic negative Lagrange multipliers lambda ~ -1.2e-8 to -3.3e-8 kN/mm rather than numerical noise. Applying tau_bulk = 5e-8 kN/mm conceals 100% of the 250 active violations without resolving physical equilibrium. Furthermore, the reported 'free_phase_residual = 0.0' is proven to be a reporting artifact caused by extracting RF3 on unconstrained DOFs, where Abaqus reaction forces are identically zero. Submission of R22 is withheld pending formulation correction.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "results/validation/mode1_f1597/r22_two_scale_audit.json": "E013DA997F026AE94E13E5E4ACED48BBB6E4812497F68C4F43763D23AA75F692",
+    "scripts/validation/audit_r22_two_scale_hypothesis.py": "41F08561E046C60A3AFD8F14CF40AB79F94E2A25CDDA8D010B81CFC089790F35",
+    "tests/unit/test_mode1_f1597_turn181_r22_audit.py": "362E078274ACDFEF840B1CBD7144030ABCFE5BC9B67BBF3EF1C4462E9C2C4B9B",
+    "results/validation/mode1_f1597/r21_quantitative_audit.json": "DDFAE1926181A4E083D41A22963DE5C8349C6282485CEBCC1ABA1174A05BD718",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/r21_safeguarded_continuation_summary.json": "363728A452D1BBCAF9DC99FEB06BCA7768B6B8CD5B557E930F5969AB40B0417D",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/driver_r21_safeguarded_continuation.py": "BFEF6A4DA5BF0E067DE51D4ECA7760F1399D6A00F01068CAE2E8CDB2A6D84123",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "project_coordination/HPC_JOB_LEDGER.csv": "F669EC28A149C5DB858BE021ED96E433FA494553EE86CA008AF2E1E33F9BB05D"
+  }
+}
