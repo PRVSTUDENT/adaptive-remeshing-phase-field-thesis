@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn_id": "63d4e5a7-cc1a-4e27-b770-50c69b0fa9c5",
+  "package": "109_c4_c1_1_same_load_transfer",
+  "pbs_job_id": "1417558.mmaster02",
+  "finding": "Package 109 Job 1417558 completed execution on node mnode100. Autonomous adaptive PDAS continuation solved 5 outer iterations releasing 1,130 nodes with zero damage healing (0 nodes) and reaction force within 1.76% of donor benchmark (175.10 N vs 178.23 N target). Outer iteration 6 reached iteration cap due to localized damage jumps in crack wake.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/109_c4_c1_1_same_load_transfer/c4_c1_1_continuation_summary.json": "6237712CF668EA34EFF97952FEADAE7FC9E6DF55D96B6E1D8B82B1F36FE28414",
+    "models/pandey_kumar_mode1/109_c4_c1_1_same_load_transfer/pbs_execution.log": "B7EAB66C2EAA068F22713B1C106D32F6CFB5E77C2BC655FF9F5C3B8DC44FCEC7",
+    "models/pandey_kumar_mode1/109_c4_c1_1_same_load_transfer/M1_C4_C1_1_TRANSFER.inp": "293B1E443029F69D43AD5C96242A8CCC8130565193609BDA5FCC7504B810113A",
+    "models/pandey_kumar_mode1/109_c4_c1_1_same_load_transfer/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "scripts/analysis/parse_c4_c1_1_summary.py": "8F66B6FAC6F85BDF990C1EF98FB83F2BA09DD514B16CA1B9564C64378E81B0EC"
+  },
+  "metrics": {
+    "outer_iterations_completed": 6,
+    "accepted_iterations": 5,
+    "nodes_released": 1130,
+    "final_active_nodes": 3458,
+    "final_rf2_N": 175.1042,
+    "donor_target_rf2_N": 178.2346,
+    "rf2_discrepancy_pct": -1.756,
+    "healing_nodes": 0,
+    "d_max": 0.826185
+  },
+  "verification_passed": true
+}

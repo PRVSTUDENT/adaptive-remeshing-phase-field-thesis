@@ -2,10 +2,10 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Candidate Package 108 Revision 22 (108_r22_c3_adaptive_pdas_release) fully verified against Case A roller-top reference: spatial damage correlation R2=0.99949, relative L2 error=2.49%, crack-tip localization identical at Node 1367, RF2=-1.12% (178.23 N vs 180.24 N), E_frac=+3.30% (0.0631 mJ vs 0.0611 mJ), E_elas=-1.12% (0.1752 mJ vs 0.1772 mJ), total internal energy parity=99.98% (0.23832 mJ vs 0.23828 mJ, +0.018%), and incremental external work parity=99.44% (0.0001792 mJ vs 0.0001802 mJ). Physical validity confirmed across all 8 criteria; Stage C1-0B promoted to FULLY VERIFIED.",
+    "phase":  "Package 109 Job 1417558 completed execution on node mnode100. Autonomous adaptive PDAS continuation solved 5 outer iterations releasing 1,130 nodes with zero damage healing (0 nodes) and reaction force within 1.76% of donor benchmark (175.10 N vs 178.23 N target). Outer iteration 6 reached iteration cap due to localized damage jumps in crack wake.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
-
+                               "1417558.mmaster02"
                            ],
     "dependent_pbs_job_ids":  [
 
@@ -174,14 +174,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-26T13:10:58.5334895+01:00",
+    "last_updated":  "2026-10-26T14:03:13.5452163+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-ad9f5099-f070-4ec8-b3de-248abbaa5b4c.json",
-                                  "sha256":  "E5293C4D37C15637A19459E76BEAA8FD5745D443B85E7F3C2F68CC24F21A677B",
-                                  "created_at":  "2026-10-26T13:09:11.7388635+01:00"
+                                  "artifact":  "results/validation/preparation-63d4e5a7-cc1a-4e27-b770-50c69b0fa9c5.json",
+                                  "sha256":  "63DEAD6CDB1C2C3498C4D4B0CB900C86FBF1E827C0872D0B8E26D3B33119B88C",
+                                  "created_at":  "2026-10-26T14:01:38.2002550+01:00"
                               }
 }
