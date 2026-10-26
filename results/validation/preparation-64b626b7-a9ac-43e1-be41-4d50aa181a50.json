@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "64b626b7-a9ac-43e1-be41-4d50aa181a50",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Forensic audit of R18 Job 1417505.mmaster02 confirms verdict R18_FALSE_CONVERGENCE: driver release threshold tau_release = 5.0e-08 kN/mm was coarser than the subcritical crack-tip driving force magnitude |lambda_tip| = 1.171e-08 kN/mm on node 1367 (RF3 = -1.171e-08), causing 0 active-node releases so all 2769 nodes remained clamped at d = d0; the reported zero free-phase residual was a vacuous null-set artifact and damage experienced zero evolution (Delta dmax = 0.0); calibrating tau_release = 1.0e-09 kN/mm restores active-set release without modifying frozen UELs.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/r18_forensic_convergence_audit.json": "DB3CBBF7EF4EDF7F5BFFF373ED0B67A88D1EF2A453099287114CF9A0573943EC",
+    "tests/unit/test_mode1_f1597_turn167_r18_convergence_audit.py": "68D02C59C9304B93439312279CA39E0F8385D3C2F08FF35F2DF2FFBB22D51330",
+    "results/validation/mode1_f1597/r18_safeguarded_continuation_summary.json": "E0059183F71733B9A236BD53B2A776F8D147D71271F3D6D7FD8848AA3D9A3A43",
+    "results/validation/mode1_f1597/r18_pbs_execution.log": "C4B08A9A50BAE2FCE49D388E63E12283AA2C2D3CBA66F9D16D21502041050972",
+    "models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/driver_r18_safeguarded_continuation.py": "56D6D059B449E24FC2E51FAAC6517BB9A20133A17D12505DFDE16AEE08520D60",
+    "models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/M1_C3_ACTIVE_SET_R18_AUTHORIZATION.json": "6B35DEE6CC4E2A7FAB7E942682FD39BA8C2FFB8A25A433D0224F6E094E086B58",
+    "models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/M1_C3_ACTIVE_SET_R18_CONTINUATION.inp": "4026EE5268110FE70959A1418599520CB0F9442C36314F7F92B85FAF0F422574",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "project_coordination/HPC_JOB_LEDGER.csv": "3626021773E061A8709DC2A2F610498E3B334AD1D65481867DD3A8DFCDEFFF1E"
+  },
+  "verification_passed": true
+}
