@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "dd38e284-c007-44fc-a133-cb2d13fcf787",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Resolved apparent reference discrepancy: proved authentic benchmark sequence is strictly monotonic (Stage-A dmax=0.654995, +1nm ref dmax=0.655215, +5nm ref dmax=0.675399). Established that dmax=0.708617 at +1nm was NOT a reference but an un-converged R16 trial iterate with 55 KKT violations (NOT_COMPARABLE). Verified target intervals for R17 physical validation.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/r17_reference_consistency_and_provenance_audit.json": "80C8B991004DD742972A11CD8AAC95D6F35636F1905D661034DD9476D3340798",
+    "scripts/validation/audit_reference_states_provenance.py": "8D2B3B578BEDAE5CE73C663FF111DEFCA6B7652B750C3979C7022967C0BDCB9D",
+    "tests/unit/test_mode1_f1597_turn152_reference_consistency.py": "8B22AADDA660825727E00BF3A3AB4F585A80E0D92AACAFAA6298F2502DBFBDE3",
+    "models/pandey_kumar_mode1/108_r17_c3_safeguarded_active_set/driver_r17_safeguarded_continuation.py": "99149EF17E2CE08D6491CC3B7B1CB96DE2732928F3A946B2A0C76C0CFC564C92",
+    "models/pandey_kumar_mode1/108_r17_c3_safeguarded_active_set/M1_C3_ACTIVE_SET_R17_CONTINUATION.inp": "19CFDF4FE69B8DAF537BAA56CF1E50C9301605581190E744554DC94C0EA37511",
+    "models/pandey_kumar_mode1/108_r17_c3_safeguarded_active_set/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}

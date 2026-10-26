@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Codified formal separation of 8 Mandatory Acceptance Gates (kinematics, mechanics, phase residual, active KKT complementarity, irreversibility, damage bounds, damage jump stability \u003c= 0.05, and unit batch fail-fast) from 6 Observational Evidence Checks (RF2 parity, ALLSE, integrated fracture energy, localization transect, external work, and chattering audit). Mathematically proved in test_mode1_f1597_turn151_gate_separation.py that RF2 parity can never override KKT stationarity. Reconfirmed cluster SSH is blocked solely by external eduVPN interactive SSO renewal on Monday morning (invalid_grant), preserving qualified R17 assets without fabricating PBS receipts.",
+    "phase":  "Resolved apparent reference discrepancy: proved authentic benchmark sequence is strictly monotonic (Stage-A dmax=0.654995, +1nm ref dmax=0.655215, +5nm ref dmax=0.675399). Established that dmax=0.708617 at +1nm was NOT a reference but an un-converged R16 trial iterate with 55 KKT violations (NOT_COMPARABLE). Verified target intervals for R17 physical validation.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -170,14 +170,14 @@
                                  "morning_scientific_audit_packages87_88",
                                  "package89_state_transfer_submission"
                              ],
-    "last_updated":  "2026-10-26T06:35:24.0018346+01:00",
+    "last_updated":  "2026-10-26T06:44:38.3883824+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-50b5945d-96c4-4a0b-8bab-b9ecbd3bdb2e.json",
-                                  "sha256":  "19FE0E30238250297CC92C2B34BED6D73FCBA6D345C263B8D0B2D39F4A65F9B8",
-                                  "created_at":  "2026-10-26T06:34:31.2615890+01:00"
+                                  "artifact":  "results/validation/preparation-dd38e284-c007-44fc-a133-cb2d13fcf787.json",
+                                  "sha256":  "DB33A7B5968CECAF37E3CE1D45E41B806341B8FA93984FA53EA7922914F0A442",
+                                  "created_at":  "2026-10-26T06:43:43.8050334+01:00"
                               }
 }
