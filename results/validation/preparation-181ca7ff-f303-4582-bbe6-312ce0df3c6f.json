@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Turn 194 independent audit established C1_1_PREMATURE_AM_TERMINATION for Job 1417601 (terminal Delta d = 0.01315 > 1e-3, Delta RF2 = -0.851 N > 0.1 N at cycle 5) and reconciled authentic donor energy to 0.238324 mJ (+0.64% diff). Formulated, qualified, and submitted Package 110 R1 dynamic continuation under PBS Job 1417610.mmaster02 with dual stationarity stopping criteria.",
+  "evidence_sources": {
+    "results/validation/c4_am_c1_1_convergence_audit_turn194.json": "A37356FEF67CB8919AAD63FE2D9381060E4739500F2AD0444C88FE7C92DAB73D",
+    "tests/unit/test_mode1_f1597_turn194_c1_1_independent_audit.py": "A06237910D69D0D8F2A6A928025C71B29AE895EE8FC33225B27B816408115FE6",
+    "scripts/validation/audit_turn194_c1_1_convergence.py": "5119D7188C367D70BBF1CEDF7C0B3AF41F319812553028F8A7B9151F70DE6268",
+    "models/pandey_kumar_mode1/110_r1_c4_am_dynamic_continuation/M1_C4_AM_DYNAMIC_AUTHORIZATION.json": "C80AB325402B9A8E9F1E87ABFE75385D69CA8D0C352FD6061235FC7D944B6005",
+    "models/pandey_kumar_mode1/110_r1_c4_am_dynamic_continuation/PACKAGE_MANIFEST.json": "D061688A4340784E44DF67A5D6C736C51EF3AE5B4BBED528ED2D014C9B80FE8E"
+  },
+  "verification_passed": true
+}
