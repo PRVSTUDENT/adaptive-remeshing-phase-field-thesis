@@ -1,0 +1,21 @@
+{
+    "schema":  1,
+    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "run_id":  "e685b5f0-d301-4086-b731-c65352c2cbfc",
+    "status":  "PREPARATION_COMPLETE",
+    "finding":  "Guarded live PBS query confirms Package 108 Revision 19 Job 1417517.mmaster02 is running on compute node (status R, queue normal_imfdfkmq, CPU time 00:01:57); pursuant to single-operation discipline and anti-polling governance, execution remains non-terminal under classification R19_RUNNING_OR_QUEUED; bounded offline review verified complete 5-category evidence-to-label decision matrix and driver safeguard integrity.",
+    "job_id":  "1417517.mmaster02",
+    "classification":  "R19_RUNNING_OR_QUEUED",
+    "evidence_sources":  {
+                             "results/validation/r19_execution_status_and_driver_review.json":  "962726825A200EA6967AFDEB8F99F919A5D024F7B68433BCBFCCCA0E6429B5DE",
+                             "tests/unit/test_mode1_f1597_turn169_r19_execution_review.py":  "F2A167EC750D93FF119C5F13B833AB258745DDA0D31E04796FA451782B019E29",
+                             "models/pandey_kumar_mode1/108_r19_c3_calibrated_active_set/driver_r19_safeguarded_continuation.py":  "17C38B45D43F4298B99953047D79A297ECDA722CB70BF187CA4EF97AC383574C",
+                             "models/pandey_kumar_mode1/108_r19_c3_calibrated_active_set/f42_unified_12dof_active_set_uel.for":  "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+                             "models/pandey_kumar_mode1/108_r19_c3_calibrated_active_set/M1_C3_ACTIVE_SET_R19_AUTHORIZATION.json":  "9F7DAC9D2E8D7630A65EEECEEFF5B3C22C1AFE56C46B7A5F8BBB917BBAECE81A",
+                             "models/pandey_kumar_mode1/108_r19_c3_calibrated_active_set/M1_C3_ACTIVE_SET_R19_CONTINUATION.inp":  "443416CA672E669CAE7305D0394082241E756C02D07396ACE9AE0E1BD30F00E9",
+                             "models/pandey_kumar_mode1/108_r19_c3_calibrated_active_set/submit_M1_C3_ACTIVE_SET_R19.pbs":  "278DC52248F3A4A11973210DF7271D322890D4F468E4993768FB2309BC8A12D0",
+                             "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+                             "project_coordination/HPC_JOB_LEDGER.csv":  "EA2250603594E9693A93C860D78EC488C45891BF2A250E6EE5AF833D4599E4D4"
+                         },
+    "verification_passed":  true
+}

@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 108 Revision 19 (R19) calibrated active-set continuation qualified and submitted as PBS Job 1417517.mmaster02 (single-rank serial, 1 CPU, 16GB, entry_imfdfkmq); empirical audit verified crack-tip driving forces (|lambda_tip| = 1.171e-08 kN/mm on node 1367) are separated by \u003e1000x from numerical noise (1e-11 kN/mm); driver release threshold tau_release calibrated from 5e-08 to 1.0e-09 kN/mm with strict non-vacuous KKT stationarity enforcement, restoring genuine crack-tip release without modifying frozen UELs.",
+    "phase":  "Guarded live PBS query confirms Package 108 Revision 19 Job 1417517.mmaster02 is running on compute node (status R, queue normal_imfdfkmq, CPU time 00:01:57); pursuant to single-operation discipline and anti-polling governance, execution remains non-terminal under classification R19_RUNNING_OR_QUEUED; bounded offline review verified complete 5-category evidence-to-label decision matrix and driver safeguard integrity.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -170,14 +170,14 @@
                                  "morning_scientific_audit_packages87_88",
                                  "package89_state_transfer_submission"
                              ],
-    "last_updated":  "2026-10-26T09:24:24.8669508+01:00",
+    "last_updated":  "2026-10-26T09:29:39.3208277+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-98101101-4670-45d1-81f0-9058d17bfb02.json",
-                                  "sha256":  "715A57221DFF9975BBA04CA525F644B871D7EE3723D9804CC53032475C059A0E",
-                                  "created_at":  "2026-10-26T09:23:48.4102542+01:00"
+                                  "artifact":  "results/validation/preparation-e685b5f0-d301-4086-b731-c65352c2cbfc.json",
+                                  "sha256":  "9CC79496CB37602871DCDCC872244846120B9E2ADEF31D180525BC83742187FF",
+                                  "created_at":  "2026-10-26T09:28:58.7247267+01:00"
                               }
 }
