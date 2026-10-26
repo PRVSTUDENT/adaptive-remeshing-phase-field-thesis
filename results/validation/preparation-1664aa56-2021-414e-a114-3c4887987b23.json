@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn_run_id": "1664aa56-2021-414e-a114-3c4887987b23",
+  "finding": "Turn 195 audit resolved the fixed-load instability of Package 110 R1: verified applied displacement is strictly u_RP = 0.001966107 mm (u2=0.0055 mm was a narrative typo); demonstrated that continuing damage growth is caused by a dual mechanism: (1) within-step history ratcheting in the Python AM driver (h_val = max(prev_h, pos_m)) surging crack-tip psi+ from 8.46 to 47.89 GPa, and (2) genuine physical fracture instability where total potential energy decreases monotonically (dE_tot = -0.792 uJ < 0) as elastic release exceeds fracture resistance; established that Cycle 5 is an unverified intermediate iterate rather than a stationary equilibrium; Gate C1-1 remains PROVISIONAL and Gate C1-2 is NOT QUALIFIED.",
+  "evidence_sources": {
+    "results/validation/c4_am_fixed_load_instability_turn195_audit.json": "C4A7A75ABB53E915C009DB12548C18A6ECFA4CA3ED851756FB43011BB490C404",
+    "results/validation/c4_am_driving_energy_audit.json": "F18A556CA3932C66726BDE97699A1EB7ADD0C855B2B558668CF2D741E24E2900",
+    "results/validation/c4_am_dynamic_continuation_summary_1417610.json": "18E93A31E94063534E63066E4818CD924369A69346762984CBDD33C0B881AF94",
+    "models/pandey_kumar_mode1/110_r1_c4_am_dynamic_continuation/M1_C4_AM_CONTINUATION.inp": "32274A9E4699D994AAFC38DEC7FFA26A94EB7FEEBB9069656973FEE0F83D912D",
+    "models/pandey_kumar_mode1/110_r1_c4_am_dynamic_continuation/driver_c4_am_dynamic_continuation.py": "21B0115B6BE8E352E7BF227D16B2FD301E0F5E6DABD88BD6AB7B4F993B17A836",
+    "tests/unit/test_mode1_f1597_turn195_c1_1_fixed_load_instability_audit.py": "78BB5C78E162C0EC7CF1A1BCD5E6C24C54002ACB42C8603BD2A7C9F709E1C1DB"
+  },
+  "verification_passed": true
+}
