@@ -1,0 +1,22 @@
+{
+    "schema": 1,
+    "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "run_id": "ed2577ce-712f-4829-8b7c-fc8491475512",
+    "status": "PREPARATION_COMPLETE",
+    "finding": "Reconciled live cluster execution for Package 108 Revision 20 PBS Job 1417519.mmaster02: job is actively running on compute host mnode102 (queue normal_imfdfkmq, CPU time 00:03:23, walltime 00:06:12); empirical inspection confirms iterations IT1_B20 through IT27_B20 have successfully maintained batch size B = 20, demonstrating that the R20 scheduling repair resolved R19's batch starvation defect; classified under single-operation governance as R20_RUNNING_OR_QUEUED with authentic outstanding dependency.",
+    "job_id": "1417519.mmaster02",
+    "verdict": "R20_RUNNING_OR_QUEUED",
+    "evidence_sources": {
+        "results/validation/r20_running_status_audit.json": "90425DE0E954B100ECF72E20E145557E36220BD85125B096AF46916610B53F2C",
+        "tests/unit/test_mode1_f1597_turn172_r20_running_audit.py": "A8AF7C6D1FBBA30777A94844AB9ED7841065ABFC15B067BB0DC5E4EE2F81FDD4",
+        "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/driver_r20_safeguarded_continuation.py": "D452397A3B906BB6DFD549F6E2F5D1D2A3234525402DC8A7425D9FDBB484F758",
+        "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+        "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/M1_C3_ACTIVE_SET_R20_AUTHORIZATION.json": "B1AF9597912072E914372BBC28521BC5ED0FB8ECF340114F179F1B4ED863B474",
+        "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/M1_C3_ACTIVE_SET_R20_CONTINUATION.inp": "0FB2006394A9B34CF6CFCCC31D14E85526A10BF2358847173713F883DFC8D5DF",
+        "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/PACKAGE_MANIFEST.json": "93A8832B8CC905BC5EB07E7BFCDC0B8B94C5126693923B7C187B87CB22DDD9A1",
+        "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/submit_M1_C3_ACTIVE_SET_R20.pbs": "E7F35C33A6027CAB8379182875E2175A1DCC464DF070BBAC55C5DB9AA1FF5396",
+        "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+        "project_coordination/HPC_JOB_LEDGER.csv": "F23BDDB4B653B8338E80771DB2B64FF94B756F5C64ADB4AFBE768D9F8CD42000"
+    },
+    "verification_passed": true
+}
