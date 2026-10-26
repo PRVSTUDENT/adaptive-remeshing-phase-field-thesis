@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 194,
+  "target_job": "1417601.mmaster02",
+  "package": "PACKAGE_110_C4_C1_1_SAFEGUARDED_AM_CONTINUATION",
+  "classification": "C1_1_PREMATURE_AM_TERMINATION",
+  "rationale": "Job 1417601 completed Exit 0 and satisfied force continuity (-1.66%), energy continuity (+0.64%), and zero damage healing across 5 cycles. However, outer fixed-point convergence was NOT achieved: terminal max_delta_d = 0.013152 exceeds tolerance 1.0e-4 by a factor of 130, terminal RF2 drift was -0.8511 N, and d_max continued increasing (0.7249 -> 0.7823). The loop terminated purely because max_am_cycles = 5 was reached, not because mathematical stationarity was reached. Stopping at 5 cycles was premature.",
+  "energy_reconciliation": {
+    "authentic_r22_donor_energy_mJ": 0.238324,
+    "misreported_table_reference_mJ": 0.2442,
+    "terminal_c4_energy_mJ": 0.23985022182146942,
+    "energy_diff_vs_authentic_donor_pct": 0.6403978707429443,
+    "energy_continuity_pass_2pct": true
+  },
+  "gate_c1_1_assessment": {
+    "force_continuity_pass": true,
+    "energy_continuity_pass": true,
+    "zero_healing_pass": true,
+    "monotonic_energy_pass": true,
+    "fixed_point_stationarity_pass": false
+  },
+  "cycle_audit": [
+    {
+      "cycle": 1,
+      "rf2_rp_N": 180.03110587596893,
+      "delta_rf2_prev_cycle_N": 0.0,
+      "rf2_diff_donor_pct": 1.0079575502170555,
+      "d_max": 0.7249134569408207,
+      "max_delta_d": 0.050000000000000044,
+      "delta_d_stationary": false,
+      "healing_count": 0,
+      "kkt_violations": 2,
+      "e_tot_mJ": 0.24000399592710236,
+      "delta_etot_prev_cycle_mJ": 0.0,
+      "energy_diff_donor_pct": 0.7049210012849553,
+      "e_elas_mJ": 0.17514915242329931,
+      "e_frac_mJ": 0.06485484350380305
+    },
+    {
+      "cycle": 2,
+      "rf2_rp_N": 178.0705749988556,
+      "delta_rf2_prev_cycle_N": -1.9605308771133423,
+      "rf2_diff_donor_pct": -0.09201469428931894,
+      "d_max": 0.740413683674938,
+      "max_delta_d": 0.050000000000000044,
+      "delta_d_stationary": false,
+      "healing_count": 0,
+      "kkt_violations": 2,
+      "e_tot_mJ": 0.2398822581849002,
+      "delta_etot_prev_cycle_mJ": -0.00012173774220217148,
+      "energy_diff_donor_pct": 0.653840227967047,
+      "e_elas_mJ": 0.1740697177235633,
+      "e_frac_mJ": 0.06581254046133689
+    },
+    {
+      "cycle": 3,
+      "rf2_rp_N": 177.030548453331,
+      "delta_rf2_prev_cycle_N": -1.0400265455245972,
+      "rf2_diff_donor_pct": -0.6755302853884563,
+      "d_max": 0.7567175145828435,
+      "max_delta_d": 0.025860788433382242,
+      "delta_d_stationary": false,
+      "healing_count": 0,
+      "kkt_violations": 4,
+      "e_tot_mJ": 0.23986299971713793,
+      "delta_etot_prev_cycle_mJ": -1.9258467762267584e-05,
+      "energy_diff_donor_pct": 0.645759435532266,
+      "e_elas_mJ": 0.17315888392675932,
+      "e_frac_mJ": 0.06670411579037862
+    },
+    {
+      "cycle": 4,
+      "rf2_rp_N": 176.12123489379883,
+      "delta_rf2_prev_cycle_N": -0.9093135595321655,
+      "rf2_diff_donor_pct": -1.1857082625450244,
+      "d_max": 0.7697561618090157,
+      "max_delta_d": 0.014297228224410041,
+      "delta_d_stationary": false,
+      "healing_count": 0,
+      "kkt_violations": 3,
+      "e_tot_mJ": 0.23985481576454698,
+      "delta_etot_prev_cycle_mJ": -8.183952590945509e-06,
+      "energy_diff_donor_pct": 0.6423254747935467,
+      "e_elas_mJ": 0.17231766788211905,
+      "e_frac_mJ": 0.06753714788242794
+    },
+    {
+      "cycle": 5,
+      "rf2_rp_N": 175.27015507221222,
+      "delta_rf2_prev_cycle_N": -0.8510798215866089,
+      "rf2_diff_donor_pct": -1.6632137140190157,
+      "d_max": 0.7823414739382553,
+      "max_delta_d": 0.013152442258936414,
+      "delta_d_stationary": false,
+      "healing_count": 0,
+      "kkt_violations": 3,
+      "e_tot_mJ": 0.23985022182146942,
+      "delta_etot_prev_cycle_mJ": -4.593943077557672e-06,
+      "energy_diff_donor_pct": 0.6403978707429443,
+      "e_elas_mJ": 0.17143794247690286,
+      "e_frac_mJ": 0.06841227934456656
+    }
+  ],
+  "corrective_action": {
+    "required": true,
+    "proposed_package": "110_r1_c4_am_dynamic_continuation",
+    "stationarity_criteria": {
+      "max_delta_d_tol": 0.001,
+      "delta_rf2_tol_N": 0.1,
+      "max_am_cycles": 15
+    }
+  }
+}

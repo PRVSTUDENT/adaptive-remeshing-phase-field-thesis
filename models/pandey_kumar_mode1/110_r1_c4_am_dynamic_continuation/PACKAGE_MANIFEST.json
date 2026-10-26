@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "package": "110_r1_c4_am_dynamic_continuation",
+  "job_name": "M1_C4_AM_DYNAMIC_CONTINUATION",
+  "inp_deck": "M1_C4_AM_CONTINUATION.inp",
+  "pbs_script": "submit_M1_C4_AM_DYNAMIC_CONTINUATION.pbs",
+  "driver_script": "driver_c4_am_dynamic_continuation.py",
+  "user_subroutine": "f42_unified_12dof_active_set_uel.for",
+  "bounds_csv": "d_lower_bounds.csv",
+  "all_d0_inc": "stage_a_all_d0_boundary_cards.inc",
+  "active_cards_inc": "active_set_boundary_cards.inc",
+  "files": {
+    "active_set_boundary_cards.inc": "e1e54d1c5725aa5f1774af4a9cbb25eb31d0aabd2793933d94e6b29bd58c5cd1",
+    "driver_c4_am_dynamic_continuation.py": "21b0115b6be8e352e7bf227d16b2fd301e0f5e6dabd88bd6ab7b4f993b17a836",
+    "d_lower_bounds.csv": "8304d44786381ec5191fa745d2bc90b819c7d146c24b3d7ef21a17a72ad8896c",
+    "f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "M1_C4_AM_CONTINUATION.inp": "32274a9e4699d994aafc38dec7ffa26a94eb7feebb9069656973fee0f83d912d",
+    "run_c4_am_datacheck.sh": "c1c989a3e8d0174b4deb8239d0463be25f3240a5aaac249d39145d93d530ccad",
+    "stage_a_all_d0_boundary_cards.inc": "e1e54d1c5725aa5f1774af4a9cbb25eb31d0aabd2793933d94e6b29bd58c5cd1",
+    "submit_M1_C4_AM_DYNAMIC_CONTINUATION.pbs": "fa20249a9184d83e1e606296d077a1c370f819be48d48e1562b93386e2ca5a77",
+    "M1_C4_AM_DYNAMIC_AUTHORIZATION.json": "c80ab325402b9a8e9f1e87abfe75385d69ca8d0c352fd6061235fc7d944b6005",
+    "M1_C4_AM_DATACHECK.dat": "6c7ecd1ba62e45d7fbdd5627cf0c719b3927a84ca4766228a4fda1e726ca4eb0"
+  }
+}
