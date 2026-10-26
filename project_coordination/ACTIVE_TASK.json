@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Completed terminal audit for Package 108 Revision 20 PBS Job 1417519.mmaster02: Exit 0, walltime 759s, 50 iterations; R19 batch starvation defect resolved (all 50 iterations maintained B = 20, releasing 1000 nodes without rejection); genuine damage progression observed (d_max 0.655 -\u003e 0.685, delta d_max = +0.0304); mechanical parity passed (RF2 = 178.52 N vs 180.24 N, -0.95%); 0 healing violations; 257 violating nodes remained active at max_outer_iters = 50; classified as R20_ACTIVE_SET_NONCONVERGED.",
+    "phase":  "Diagnosed and recovered autonomous controller operation definition rejection: the rejection occurred at Controller-Preparation.ps1:19-21 where an empty scientific_operation in ACTIVE_TASK.json caused instruction evaluation against safety guards. Recovered and formally qualified operation probe_mode1_f1597_r20_active_set_audit for Package 108 Revision 20 Job 1417519.mmaster02 through the repository dynamic qualification mechanism (scripts/validation/probe_mode1_f1597_r20_active_set_audit.qualification.json). Verified that unit test tests/unit/test_mode1_f1597_r20_active_set_audit.py passes and Get-ControllerDynamicQualification validates dispatch_ready=true with 100% frozen UEL integrity.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -150,7 +150,7 @@
                              "last_updated":  "2026-10-19T18:46:00+02:00"
                          },
     "scientific_checkpoint_required":  true,
-    "scientific_operation":  "",
+    "scientific_operation":  "scripts/validation/probe_mode1_f1597_r20_active_set_audit.py",
     "operation_preparation":  {
                                   "status":  "READY",
                                   "dispatch_ready":  true,
@@ -173,14 +173,14 @@
                                  "morning_scientific_audit_packages87_88",
                                  "package89_state_transfer_submission"
                              ],
-    "last_updated":  "2026-10-26T10:29:33.6775692+01:00",
-    "next_safe_action":  "Advance to qualified execution or next research task",
+    "last_updated":  "2026-10-26T10:50:03.8149275+01:00",
+    "next_safe_action":  "Execute qualified operation probe_mode1_f1597_r20_active_set_audit to record verified terminal numerical measurements for Package 108 Revision 20.",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
-                                  "operation":  "research_preparation",
+                                  "operation":  "probe_mode1_f1597_r20_active_set_audit",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-eb669b35-6819-405c-95d0-71164e5d1a65.json",
-                                  "sha256":  "6D2C027BD70801039DE269177BDE710B680AB0858CE052D9C53FFCB3A00B2EA0",
-                                  "created_at":  "2026-10-26T10:28:58.2663988+01:00"
+                                  "artifact":  "results/validation/preparation-a848465f-8fba-45ba-95ba-248c45a68e3e.json",
+                                  "sha256":  "A78ADB544FE2F5E81A6B561A1C086EE2F3361F10057534F99A6BF10625B23309",
+                                  "created_at":  "2026-10-26T10:48:11.4339363+01:00"
                               }
 }

@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "a848465f-8fba-45ba-95ba-248c45a68e3e",
+  "status": "PREPARATION_COMPLETE",
+  "operation": "probe_mode1_f1597_r20_active_set_audit",
+  "qualified_operation": "scripts/validation/probe_mode1_f1597_r20_active_set_audit.py",
+  "title": "Qualified operation: probe_mode1_f1597_r20_active_set_audit",
+  "classification": "RESEARCH_PREPARATION_VERIFIED",
+  "finding": "Diagnosed and recovered autonomous controller operation definition rejection: the rejection occurred at Controller-Preparation.ps1:19-21 where an empty scientific_operation in ACTIVE_TASK.json caused instruction evaluation against safety guards. Recovered and formally qualified operation probe_mode1_f1597_r20_active_set_audit for Package 108 Revision 20 Job 1417519.mmaster02 through the repository dynamic qualification mechanism (scripts/validation/probe_mode1_f1597_r20_active_set_audit.qualification.json). Verified that unit test tests/unit/test_mode1_f1597_r20_active_set_audit.py passes and Get-ControllerDynamicQualification validates dispatch_ready=true with 100% frozen UEL integrity.",
+  "limitation": "Applies strictly to terminal evidence evaluation of completed PBS Job 1417519.mmaster02; does not authorize new HPC job submission or UEL modification.",
+  "next_operation": "Execute qualified operation probe_mode1_f1597_r20_active_set_audit to record verified terminal numerical measurements for Package 108 Revision 20.",
+  "evidence_sources": {
+    "scripts/validation/probe_mode1_f1597_r20_active_set_audit.py": "6C8667E3A77D69D9ECF8B54B8760B282DFF65748D357D725C7D782AC53D9D999",
+    "scripts/validation/probe_mode1_f1597_r20_active_set_audit.qualification.json": "5C14422876396C4A7FC810493A7AE2F6D6C4B4E19C3BECE5CF3AF0CC32650C54",
+    "tests/unit/test_mode1_f1597_r20_active_set_audit.py": "B66A76434F9A9D28BC6A8D8FFB88512FA580FBC2DCCB3ED5CC14B37298C16D24",
+    "tests/unit/test_mode1_f1597_turn173_r20_terminal_audit.py": "1083B61C69BF54CACC20853A9FD1F2196C3E38945D2CCE39746F0CAF9285B55A",
+    "results/validation/r20_terminal_evaluation_audit.json": "30F76D0CE83B36DC8BE929A978BECB1CEF84E0E9D356E9A73DB75E6D01494EFB",
+    "results/validation/mode1_f1597/r20_safeguarded_continuation_summary.json": "F5CBD032DA9453F15D6A1580E8A271E7CAACF7E66B7615BDA3E7C1F74C71DDD0",
+    "results/validation/mode1_f1597/r20_pbs_execution.log": "47B787AAD97D50433E04B950E5BEA1396564C15B10FA7CCBB2ED9A8454ECC663",
+    "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/M1_C3_ACTIVE_SET_R20_AUTHORIZATION.json": "B1AF9597912072E914372BBC28521BC5ED0FB8ECF340114F179F1B4ED863B474",
+    "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/M1_C3_ACTIVE_SET_R20_CONTINUATION.inp": "0FB2006394A9B34CF6CFCCC31D14E85526A10BF2358847173713F883DFC8D5DF",
+    "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/driver_r20_safeguarded_continuation.py": "D452397A3B906BB6DFD549F6E2F5D1D2A3234525402DC8A7425D9FDBB484F758",
+    "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "project_coordination/HPC_JOB_LEDGER.csv": "33FC81645A53BF9E6CAEB15B66CAB861693A0B50588676673758FB040274938E"
+  },
+  "verification_passed": true
+}
