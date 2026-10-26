@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "PBS Job 1417553.mmaster02 (M1_C3_ACTIVE_SET_R22) verified active and running on mnode102/0 in normal_imfdfkmq (walltime 00:06:13, cput 00:03:49). Conducted independent bounded offline audit of frozen R22 driver logic: verified that adaptive PDAS release batch formula B_k = min(N_viol, max(20, (N_viol+1)//2)) clears 250 violators in \u003c= 9 steps (vs 80 in R21); verified strict rollback to preceding accepted state across all 4 rejection guards; confirmed duplicate prevention in boundary cards; and proved that Abaqus/Standard ODB RF=0.0 at unconstrained DOFs is a structural reporting artifact, establishing that true free-phase residual verification requires independent matrix reconstruction R_d = K_dd * d - F_d. Classified as R22_RUNNING_OR_QUEUED.",
+    "phase":  "Package 108 Revision 22 Job 1417553.mmaster02 completed Exit 0 on mnode102 (walltime 11m33s, 48 outer iterations, 0 trial rejections, 2433 released nodes). Conducted independent mathematical phase-field residual assembly R_d = K_dd * d - F_d across all 2769 nodes: independently verified that true maximum free-phase residual is 4.58e-7 kN/mm \u003c= 1.0e-6 kN/mm; active KKT violations reached exactly 0 under tau_kkt = 1.0e-9 kN/mm (worst signed multiplier -9.85e-10 kN/mm); mechanical residual in .msg is -1.13e-7 kN \u003c= 1e-4 kN; displacement error is 5.39e-11 mm \u003c= 1e-7 mm; reaction force RF2 = 178.23 N matches Case A reference 180.24 N (-1.12% within +/-5%); zero healing detected (pointwise irreversibility strictly preserved); and d_max relaxed from R21\u0027s 0.688991 to 0.686396. All 7 predeclared physical and numerical acceptance criteria met. Classified as R22_C1_0B_VERIFIED.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -174,14 +174,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-26T12:44:57.5863220+01:00",
+    "last_updated":  "2026-10-26T12:56:08.1261480+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-b7c47557-4d40-4665-8dc5-c17508ef78f3.json",
-                                  "sha256":  "55BA3B9F41367CA5D1F7E7A33C19044EB2AE7964DA1F9045E83B7125E4AA121A",
-                                  "created_at":  "2026-10-26T12:44:30.8567111+01:00"
+                                  "artifact":  "results/validation/preparation-4b4ecef6-6930-4657-903e-12174e7e9822.json",
+                                  "sha256":  "85FFA8AD39E4E9856D6428E963BC28F45E3F95E81E99547175C5E40950FE24DE",
+                                  "created_at":  "2026-10-26T12:55:23.9774344+01:00"
                               }
 }

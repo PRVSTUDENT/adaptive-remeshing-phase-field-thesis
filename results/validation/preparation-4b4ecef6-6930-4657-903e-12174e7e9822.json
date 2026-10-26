@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "4b4ecef6-6930-4657-903e-12174e7e9822",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 108 Revision 22 Job 1417553.mmaster02 completed Exit 0 on mnode102 (walltime 11m33s, 48 outer iterations, 0 trial rejections, 2433 released nodes). Conducted independent mathematical phase-field residual assembly R_d = K_dd * d - F_d across all 2769 nodes: independently verified that true maximum free-phase residual is 4.58e-7 kN/mm <= 1.0e-6 kN/mm; active KKT violations reached exactly 0 under tau_kkt = 1.0e-9 kN/mm (worst signed multiplier -9.85e-10 kN/mm); mechanical residual in .msg is -1.13e-7 kN <= 1e-4 kN; displacement error is 5.39e-11 mm <= 1e-7 mm; reaction force RF2 = 178.23 N matches Case A reference 180.24 N (-1.12% within +/-5%); zero healing detected (pointwise irreversibility strictly preserved); and d_max relaxed from R21's 0.688991 to 0.686396. All 7 predeclared physical and numerical acceptance criteria met. Classified as R22_C1_0B_VERIFIED.",
+  "job_id": "1417553.mmaster02",
+  "verdict": "R22_C1_0B_VERIFIED",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/r22_terminal_kkt_evaluation.json": "425D760E391CE5304EBFAABF30EE5230FDAA64D3A99396697D837DFD807F734D",
+    "tests/unit/test_mode1_f1597_turn185_residual_validator.py": "B860F2247481D6B929E032CFA8F5165B22B06CB15A40E615D7AC39C9765B9C7E",
+    "scripts/validation/evaluate_pdas_phase_residual.py": "7A1C98B6D90747E4A6DF7E09B9EAD37AE2EDB500B3202A0914766EC9F8E0388A",
+    "models/pandey_kumar_mode1/108_r22_c3_adaptive_pdas_release/r22_safeguarded_continuation_summary.json": "C12B440F3A06789C8583A4946B90E5BB115C35620D577D44CEB42B339EAF79BA",
+    "models/pandey_kumar_mode1/108_r22_c3_adaptive_pdas_release/driver_r22_safeguarded_continuation.py": "2C31DBAB085AC3E6FC23F3410E4526DC8882AD24512CA29DC843A25B22F5746E",
+    "models/pandey_kumar_mode1/108_r22_c3_adaptive_pdas_release/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/108_r22_c3_adaptive_pdas_release/M1_C3_ACTIVE_SET_R22_AUTHORIZATION.json": "FA6CB5F2ECCC5711FEE93AB08D0D738E4848CE118E1295579FB1C42B56AB35CE",
+    "models/pandey_kumar_mode1/108_r22_c3_adaptive_pdas_release/M1_C3_ACTIVE_SET_R22_CONTINUATION.inp": "234F613123D3618ACCB6A029AAD9C91ABCC010B31594B3F409666FF5231FFE90",
+    "models/pandey_kumar_mode1/108_r22_c3_adaptive_pdas_release/PACKAGE_MANIFEST.json": "B6A50C84B8D0424E8F011C3D22C6D7DC09BF46FA73A7962D1DD4EBDD98697B56",
+    "models/pandey_kumar_mode1/108_r22_c3_adaptive_pdas_release/submit_M1_C3_ACTIVE_SET_R22.pbs": "204228925771D1355AA55BA8FA9313B983F3E44BD2FACD84E0212150835AFB91",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "project_coordination/HPC_JOB_LEDGER.csv": "FC574324ABC5FCCFD0FF5C883F6BF78C584E5F729334A553A660F9F9D8B13231"
+  },
+  "verification_passed": true
+}
