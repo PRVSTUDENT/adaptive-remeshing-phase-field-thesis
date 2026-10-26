@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Audited live PBS Job 1417540.mmaster02 on mnode102 in queue normal_imfdfkmq: actively running (state R, walltime 10:32); adhered to single-operation discipline without polling. Executed independent mathematical audit of R21 donor history basis and irreversibility: proved R21 strictly initializes from authentic Stage-A lower bounds (d0_max = 0.65499538, identical to Case A reference) with zero carryover of R20 nonconverged damage; proved that R20 peak damage (0.68537) is NOT irreversible in R21 because free nodes solve static equilibrium unconstrained by prior iteration states and healing is checked relative to Stage-A d0; crack-tip damage is mathematically capable of relaxing toward reference (0.656562) as far-field constraints are released; assigned verdict R21_RUNNING_OR_QUEUED.",
+    "phase":  "R21 job 1417540.mmaster02 is running normally in normal_imfdfkmq on mnode102 (elapsed walltime 14m39s exceeding R20 terminal walltime). Spatial damage decomposition confirms that R20 crack-tip node 1367 exhibited d_max=0.685370 (+4.39% relative to Case A reference 0.656562) while all 257 remaining active-set nodes are located in the far-field bulk (r \u003e 0.100 mm up to 0.643 mm) with weak elastic Lagrange multipliers; decoupling in R21 restores specimen compliance and permits the crack tip to relax toward reference equilibrium without violating irreversibility.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -174,14 +174,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-26T11:32:31.5332923+01:00",
+    "last_updated":  "2026-10-26T11:40:15.8183233+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-dfe0770d-90fd-485c-9ba1-b169930f1032.json",
-                                  "sha256":  "2B77EAC1FCFAF766F346A076A8265188AC225ABF516CBBEA32B78782A3579D31",
-                                  "created_at":  "2026-10-26T11:32:21.7288106+01:00"
+                                  "artifact":  "results/validation/preparation-55b5b372-7b49-4cd1-85d4-4833302a533f.json",
+                                  "sha256":  "BD3D99D084E2128AD3DAB7535EAA387E114E3F6B3C6B4CFA41C710F21A8C9C54",
+                                  "created_at":  "2026-10-26T11:40:05.3674365+01:00"
                               }
 }
