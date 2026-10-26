@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "e1896851-2f13-43b1-bb5f-54885079df58",
+  "status": "PREPARATION_COMPLETE",
+  "verdict": "ACTIVE_SET_ALGORITHM_DEFECT_CONFIRMED",
+  "secondary_classification": "RESIDUAL_EXTRACTION_DEFECT_CONFIRMED",
+  "finding": "Independent mathematical reconstruction of discrete AT2 phase-field residuals proves that: (1) RESIDUAL_EXTRACTION_DEFECT_CONFIRMED: The continuation driver evaluated free-phase residual via abs(rf3_val) from ODB fieldOutput['RF'], which Abaqus sets identically to 0.0 on all unconstrained DOFs. True finite element assembly demonstrates that the authentic free-phase residual at R21 It80 is strictly converged (||R_d,free||_inf <= 1.0e-6 kN/mm), matching Abaqus solver message file log (largest residual across ALL free DOFs was 2.45e-7 kN at Node 1313 DOF 2). (2) ACTIVE_SET_ALGORITHM_DEFECT_CONFIRMED: Solution of the exact bound-constrained quadratic program (min 0.5*d^T*K*d - F^T*d s.t. d >= d0) proves that standard AT2 satisfies 100% of the original KKT conditions (0 active violations, ||R_d,free||_inf <= 1.0e-9 kN/mm, d_max = 0.656116 matching Case A reference 0.656562). R21 nonconvergence was caused solely by clamping release batch size to B=20, which starved the algorithm and exhausted max_outer_iters=80 before reaching the optimal active set. No constitutive modification or artificial driving threshold is required; replacing the rigid batch limiter with Primal-Dual Active Set (PDAS) or dynamic batch expansion will achieve authentic KKT stationarity.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "results/validation/mode1_f1597/r182_residual_reconstruction_audit.json": "BF38C252AAA8CF0668ECB11BCC4879FD1A59CCD1F5B0DC7697C8129CFD00E9D5",
+    "scripts/validation/reconstruct_true_phase_residuals.py": "D0ABE9540076BFC1C29D183E9D44BD5406F5390ACE21A6918AAAEDAED2478BB6",
+    "tests/unit/test_mode1_f1597_turn182_residual_reconstruction.py": "6FF36C7DB3D59556A331AD6FBA857EC0192C516666E132B97211E61F72E79721",
+    "results/validation/mode1_f1597/r22_two_scale_audit.json": "E013DA997F026AE94E13E5E4ACED48BBB6E4812497F68C4F43763D23AA75F692",
+    "results/validation/mode1_f1597/r21_quantitative_audit.json": "DDFAE1926181A4E083D41A22963DE5C8349C6282485CEBCC1ABA1174A05BD718",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/r21_safeguarded_continuation_summary.json": "363728A452D1BBCAF9DC99FEB06BCA7768B6B8CD5B557E930F5969AB40B0417D",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/driver_r21_safeguarded_continuation.py": "BFEF6A4DA5BF0E067DE51D4ECA7760F1399D6A00F01068CAE2E8CDB2A6D84123",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "project_coordination/HPC_JOB_LEDGER.csv": "F669EC28A149C5DB858BE021ED96E433FA494553EE86CA008AF2E1E33F9BB05D"
+  }
+}

@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Independent mathematical audit rejects the proposed R22 two-scale active-set threshold (verdict: R22_TWO_SCALE_CRITERION_REJECTED) and identifies critical formulation defects (R22_FORMULATION_DEFECT_IDENTIFIED). Geometric decomposition proves that the proposed core radius r_core = 5*l0 = 0.075 mm encompasses 86.6% (2399/2769) of all physical nodes, rendering a spatial two-scale distinction largely geometric fiction for this specimen. Physical energy analysis proves that bulk strain energy density psi_bulk ~ 44.6 MPa under nominal strain eps_yy ~ 0.02 exerts a legitimate AT2 driving force (theoretical homogeneous equilibrium d_eq ~ 0.33), generating authentic negative Lagrange multipliers lambda ~ -1.2e-8 to -3.3e-8 kN/mm rather than numerical noise. Applying tau_bulk = 5e-8 kN/mm conceals 100% of the 250 active violations without resolving physical equilibrium. Furthermore, the reported \u0027free_phase_residual = 0.0\u0027 is proven to be a reporting artifact caused by extracting RF3 on unconstrained DOFs, where Abaqus reaction forces are identically zero. Submission of R22 is withheld pending formulation correction.",
+    "phase":  "Independent mathematical reconstruction of discrete AT2 phase-field residuals proves that: (1) RESIDUAL_EXTRACTION_DEFECT_CONFIRMED: The continuation driver evaluated free-phase residual via abs(rf3_val) from ODB fieldOutput[\u0027RF\u0027], which Abaqus sets identically to 0.0 on all unconstrained DOFs. True finite element assembly demonstrates that the authentic free-phase residual at R21 It80 is strictly converged (||R_d,free||_inf \u003c= 1.0e-6 kN/mm), matching Abaqus solver message file log (largest residual across ALL free DOFs was 2.45e-7 kN at Node 1313 DOF 2). (2) ACTIVE_SET_ALGORITHM_DEFECT_CONFIRMED: Solution of the exact bound-constrained quadratic program (min 0.5*d^T*K*d - F^T*d s.t. d \u003e= d0) proves that standard AT2 satisfies 100% of the original KKT conditions (0 active violations, ||R_d,free||_inf \u003c= 1.0e-9 kN/mm, d_max = 0.656116 matching Case A reference 0.656562). R21 nonconvergence was caused solely by clamping release batch size to B=20, which starved the algorithm and exhausted max_outer_iters=80 before reaching the optimal active set. No constitutive modification or artificial driving threshold is required; replacing the rigid batch limiter with Primal-Dual Active Set (PDAS) or dynamic batch expansion will achieve authentic KKT stationarity.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -174,14 +174,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-26T12:07:52.2110903+01:00",
+    "last_updated":  "2026-10-26T12:18:13.7790888+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-f70dfcb9-6736-487c-82a9-e9ee505fbf00.json",
-                                  "sha256":  "E2FB7D296DB6126D473B696581C6BDF133CC64741BD5A816402CA4C33857D264",
-                                  "created_at":  "2026-10-26T12:07:09.1454157+01:00"
+                                  "artifact":  "results/validation/preparation-e1896851-2f13-43b1-bb5f-54885079df58.json",
+                                  "sha256":  "09854DC571C7E2367A95F045DED4598CC9DC1836CA3550B2FF449561DC26C753",
+                                  "created_at":  "2026-10-26T12:18:01.5331539+01:00"
                               }
 }
