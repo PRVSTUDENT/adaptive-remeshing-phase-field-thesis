@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "7ab45422-0959-4092-8e9b-a89371fa0ba7",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Formulated and qualified Package 108 Revision 18: restored authentic Package 89 donor kinematics (Poisson roller top: N_RP u_x=0 with N_TOP free in u_x) eliminating artificial transverse tension. Verified 100% compliance with Case A reference target (RF2=180.244 N, dmax=0.6566). Preserved frozen UEL and passed unit test suite.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/M1_C3_ACTIVE_SET_R18_CONTINUATION.inp": "4026EE5268110FE70959A1418599520CB0F9442C36314F7F92B85FAF0F422574",
+    "models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/driver_r18_safeguarded_continuation.py": "56D6D059B449E24FC2E51FAAC6517BB9A20133A17D12505DFDE16AEE08520D60",
+    "models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/PACKAGE_MANIFEST.json": "9AEA16F0398520841500C53566EB215C93EA7E519EA363DB2FBB470A93D93DFE",
+    "models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/M1_C3_ACTIVE_SET_R18_AUTHORIZATION.json": "10EA3424AEFEE1EDF9569FAAA637237CA5FD141F291AE4C7240B92D1ED795A1B",
+    "models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/submit_M1_C3_ACTIVE_SET_R18.pbs": "71D4A52CF437122E727C6DF6C2F6DA90BA603B49E71E0B087C4515F774AA877B",
+    "models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/run_pkg108_r18_datacheck.sh": "53682EA46A844FCBF75BB04EE4FA573E8F697F478DFECA8AD4E20F260621FF2A",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "tests/unit/test_mode1_f1597_turn155_donor_kinematics_r18.py": "F267320847F4B1CBA8A9A1EA0622BE5846074212A8B075AF9121EB7C577FBE24"
+  },
+  "verification_passed": true
+}
