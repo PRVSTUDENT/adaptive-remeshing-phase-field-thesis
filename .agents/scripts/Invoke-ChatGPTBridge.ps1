@@ -67,7 +67,13 @@ function Invoke-ChatGPTBridge {
 
         [string]$BridgeDir = (Join-Path $env:USERPROFILE "OpenClawPAD\ChatGPTBridge"),
 
-        [switch]$DryRun = $false
+        [switch]$DryRun = $false,
+
+        [switch]$Resume = $false,
+
+        [switch]$ForceResume = $false,
+
+        [string]$TaskId = $null
     )
 
     if (-not (Test-Path -LiteralPath $BridgeDir)) {
@@ -299,7 +305,78 @@ Determine the next instruction to send to Antigravity.
         }
     }
 
-    # --- 2d. DryRun Mode ---
+        # --- 2d. External Authentication Blocker Guard ---
+    $isBlocked = $false
+    $ssoBlockerPatterns = 'INTERACTIVE_SSO_REQUIRED|BLOCKED_EXTERNAL_AUTHENTICATION|OFFLINE_QUALIFIED__INTERACTIVE_SSO_REQUIRED'
+
+    # Check if prompt text explicitly indicates external authentication blocker
+    if ($PromptText -match $ssoBlockerPatterns) {
+        $isBlocked = $true
+    }
+
+    # Check active task and current state in project coordination if task matches or not specified
+    if (-not $isBlocked) {
+        $coordDirs = @(
+            "D:\Master thesis\Adaptive remeshing\project_coordination",
+            (Join-Path $PSScriptRoot "..\..\project_coordination"),
+            (Join-Path (Split-Path $BridgeDir -Parent) "project_coordination")
+        )
+        foreach ($cd in $coordDirs) {
+            $activeTaskFile = Join-Path $cd "ACTIVE_TASK.json"
+            if (Test-Path -LiteralPath $activeTaskFile) {
+                try {
+                    $taskJson = Get-Content -LiteralPath $activeTaskFile -Raw -Encoding UTF8 | ConvertFrom-Json
+                    $taskMatches = $true
+                    if (-not [string]::IsNullOrWhiteSpace($TaskId)) {
+                        $taskMatches = ($taskJson.task_id -eq $TaskId)
+                    } elseif ($PromptText -notmatch [regex]::Escape($taskJson.task_id) -and -not [string]::IsNullOrWhiteSpace($taskJson.task_id)) {
+                        # If TaskId is omitted and PromptText does not mention the active task or Mode-1/R18, do not block unrelated prompts
+                        if ($PromptText -notmatch 'F1597|Package\s*108|Revision\s*18|R18') {
+                            $taskMatches = $false
+                        }
+                    }
+
+                    if ($taskMatches) {
+                        $taskStateStr = "$($taskJson.phase) $($taskJson.status) $($taskJson.gate_status)"
+                        if ($taskStateStr -match $ssoBlockerPatterns) {
+                            $isBlocked = $true
+                            break
+                        }
+                    }
+                } catch {}
+            }
+        }
+    }
+
+    $isResumed = ($Resume -or $ForceResume -or ($env:RESUME_AFTER_SSO -eq '1'))
+
+    if ($isBlocked -and -not $isResumed) {
+        # Check if live authenticated network connectivity to the cluster is restored
+        $networkRestored = $false
+        try {
+            $entry = [System.Net.Dns]::GetHostAddresses("mlogin01.hrz.tu-freiberg.de")
+            if ($entry -and $entry.Count -gt 0) {
+                $networkRestored = $true
+            }
+        } catch {
+            $networkRestored = $false
+        }
+
+        if (-not $networkRestored) {
+            $blockedNotice = @"
+BLOCKED_EXTERNAL_AUTHENTICATION
+Status: R18_OFFLINE_QUALIFIED__INTERACTIVE_SSO_REQUIRED
+Package: models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/
+Checkpoint: results/validation/mode1_f1597/r18_donor_kinematics_audit.json
+Action Required: User must connect university eduVPN on workstation and complete browser-based SSO login for TU Bergakademie Freiberg.
+"@
+            Write-Warning "[Bridge] External authentication blocker active: university eduVPN interactive browser SSO required."
+            Write-Host "[Bridge] Suppressing outgoing bridge dispatch to prevent infinite orchestration loop." -ForegroundColor Yellow
+            return $blockedNotice.Trim()
+        }
+    }
+
+    # --- 2e. DryRun Mode ---
     if ($DryRun) {
         Write-Host "[Bridge] Dry-run requested. Prompt assembled successfully ($($assembledPrompt.Length) chars)." -ForegroundColor Cyan
         return $assembledPrompt

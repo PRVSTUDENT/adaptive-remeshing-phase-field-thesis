@@ -879,4 +879,20 @@ MODE-I FUNDAMENTALS GOVERNANCE (POST-08-OCTOBER-2026 SUPERVISOR MEETING):
   .agents/scripts/project_alignment_guard.txt, .agents/scripts/Invoke-ChatGPTBridge.ps1),
   tested with regression test suites, and verified via -DryRun before release.
 
+---------------- EXTERNAL AUTHENTICATION & IDEMPOTENT BRIDGE GUARD ----------------
+- External Authentication Blocker Precedence:
+  When an external institutional authentication blocker (e.g. INTERACTIVE_SSO_REQUIRED /
+  R18_OFFLINE_QUALIFIED__INTERACTIVE_SSO_REQUIRED / BLOCKED_EXTERNAL_AUTHENTICATION) is active
+  and cluster network connectivity is unauthenticated (e.g. eduVPN OAuth expired, DNS resolution
+  of cluster login nodes blocked pending workstation browser SSO), outgoing ChatGPT bridge dispatches
+  MUST be suppressed to prevent infinite orchestration loops.
+- Resumption Requirements:
+  Resumption of bridge dispatch requires a genuine external event:
+  1. Live cluster connectivity restored (authenticated DNS resolution and SSH reachability confirmed), OR
+  2. Explicit administrative override via -Resume / -ForceResume parameter or RESUME_AFTER_SSO=1 environment variable.
+- Standing Authorization & Offline Safety:
+  Package 108 Revision 18 and frozen user subroutines (f42_mixed_uel.for, f42_unified_12dof_active_set_uel.for)
+  must remain 100% bitwise frozen. Do not fabricate artificial R19 packages or repeat identical offline
+  qualification checks merely to satisfy loop activity.
+
 ================================================================================
