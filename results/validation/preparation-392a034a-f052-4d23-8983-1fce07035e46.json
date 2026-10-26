@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn_id": "392a034a-f052-4d23-8983-1fce07035e46",
+  "package": "109_c4_c1_1_same_load_transfer",
+  "pbs_job_id": "1417558.mmaster02",
+  "finding": "Forensic investigation of Package 109 Iteration 6 establishes dual failure mechanisms: small trial batches (B23, B11, B5) solve to completion but fail damage jump safeguard due to wake snap-through on previously released crack-tip nodes (Delta d up to 0.177, dmax jumping to 0.983 vs 0.05 allowance), while single-node release (B1, Node 2557) fails due to monolithic static Newton-Raphson divergence in increment 20 at step time 0.998493 with phase correction overshoot (Delta d = 5.27 at Node 2279) and 35 negative eigenvalues. Demonstrates COUPLED_NEWTON_DIVERGENCE and ACTIVE_SET_RELEASE_INSTABILITY requiring trust-region damped phase corrections.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/109_c4_c1_1_same_load_transfer/it6_forensic_investigation.json": "4B17E4D1F23FE09FF6BC8A29755FE553A22333F5D554861A46DAA70355E08E47",
+    "tests/unit/test_mode1_f1597_turn189_c4_c1_1_failure_diagnosis.py": "FC12ABEA90EF6FBDD059D761FB2EB4B526E1D644889EA0667B5C4FC68A4F5187",
+    "scripts/analysis/extract_it6_details.py": "A807C1CC211018E46E5C0208615D6EDDF5E93025E475A5B96C9A9359F9AE4E0B",
+    "models/pandey_kumar_mode1/109_c4_c1_1_same_load_transfer/c4_c1_1_continuation_summary.json": "6237712CF668EA34EFF97952FEADAE7FC9E6DF55D96B6E1D8B82B1F36FE28414",
+    "models/pandey_kumar_mode1/109_c4_c1_1_same_load_transfer/pbs_execution.log": "B7EAB66C2EAA068F22713B1C106D32F6CFB5E77C2BC655FF9F5C3B8DC44FCEC7"
+  },
+  "diagnostics": {
+    "root_cause_classification": "COUPLED_NEWTON_DIVERGENCE_AND_ACTIVE_SET_RELEASE_INSTABILITY",
+    "donor_reconciliation": {
+      "r22_terminal_dmax": 0.686396,
+      "c4_initial_dmax": 0.684771,
+      "c4_qp_standalone_dmax": 0.692199,
+      "bilinear_interpolation_smoothing_pct": -0.237
+    },
+    "energy_continuity": {
+      "donor_e_frac_mJ": 0.063110,
+      "c4_mapped_e_frac_mJ": 0.063015,
+      "e_frac_diff_pct": -0.15,
+      "donor_e_tot_mJ": 0.238324,
+      "c4_mapped_e_tot_mJ": 0.242967,
+      "e_tot_diff_pct": 1.95,
+      "energy_gate_status": "PASS"
+    },
+    "iteration_trajectory": {
+      "it1_rf2_N": 179.9126,
+      "it2_rf2_N": 178.9485,
+      "it3_rf2_N": 177.7150,
+      "it4_rf2_N": 176.9688,
+      "it5_rf2_N": 175.1042,
+      "target_donor_rf2_N": 178.2346,
+      "final_rf2_diff_pct": -1.76,
+      "force_gate_status": "PASS",
+      "nodes_released": 1130,
+      "healing_nodes": 0,
+      "zero_healing_status": "PASS"
+    },
+    "iteration_6_failure_modes": {
+      "large_batches_B758_to_B47": "Abaqus solver process aborted with returncode 1",
+      "small_batches_B23_B11_B5": "Solved to step time 1.0 but rejected due to wake snap-through (Delta d up to 0.177 > 0.05)",
+      "single_node_batch_B1": "Aborted at step time 0.998493 in Inc 20 due to dt < 1e-8 cutback from unconstrained phase correction (+5.27 at Node 2279) and 35 negative eigenvalues"
+    },
+    "correction_hypothesis": "SAFEGUARDED_AM_PDAS_OR_TRUST_REGION_PHASE_STEP_DAMPING"
+  },
+  "verification_passed": true
+}
