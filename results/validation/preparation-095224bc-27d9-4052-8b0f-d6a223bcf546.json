@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "095224bc-27d9-4052-8b0f-d6a223bcf546",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Independently audited R16 Iterations 1-14: demonstrated that Iteration 10 RF2 parity (180.202 N vs 180.251 N, -0.027%) is an incidental crossing with 55 active nodes retaining driving forces lambda < -5e-8 kN/mm and d_max = 0.7086 exceeding +5 nm reference. Releasing fixed batches of 20 nodes triggered an active-set stress-transfer cascade where violating nodes increased to 121, causing crack tip separation (d_max -> 0.9780) and force drop to 166.30 N at Iteration 14, followed by solver abort at Iteration 15. Formulated and qualified R17 adaptive batch halving, backtracking, and damage jump merit rejection guardrails.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/r16_quantitative_audit.json": "232D932625217876F38566846760AB4D8439A2DF961A507918FB9DED8005E6E6",
+    "results/validation/mode1_f1597/r16_acceptance_verdict.json": "6E21DC0FD03BC3BD4F65C12D752907BDD431081D74BE849C2547792C0477BE12",
+    "results/validation/mode1_f1597/r16_autonomous_continuation_summary.json": "422C7B0A1544163EE28F6E29D5D3652968B3B3CC6450C039CB4F0B8ABE10DC18",
+    "scripts/validation/audit_r16_iterations_and_develop_r17.py": "AE5363BFD27805CC432C1EEECD889D69706A140534D29DB64B97CCDD34573BF3",
+    "tests/unit/test_mode1_f1597_turn148_r17_qualification.py": "0BFAA89D312114D5C57BA250FB0E189A04D1B7F421682DC3DF43FE012DA21BB6",
+    "models/pandey_kumar_mode1/108_r16_c3_autonomous_active_set/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}

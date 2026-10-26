@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Evaluated authentic deliverables for R16 Job 1417299 on cluster scratch: 14 outer iterations ran with Exit 0, achieving machine-precision kinematic displacement (5.39e-11 mm error). Breakthrough at Iteration 10 reached exact displacement-matched reference force parity of 180.202 N vs 180.251 N (-0.027% discrepancy) with localized damage growth (d_max = 0.7086) and zero healing. Further unconstrained active-set release up to 260 nodes caused physical crack opening (d_max -\u003e 0.9780) and force softening to 166.30 N, followed by solver cutback at Iteration 15. Formally classified R16 as ACTIVE_SET_INCOMPLETE, established Iteration 10 as authoritative reference-parity continuation checkpoint, recorded all job metrics, and prepared overnight resume checkpoint.",
+    "phase":  "Independently audited R16 Iterations 1-14: demonstrated that Iteration 10 RF2 parity (180.202 N vs 180.251 N, -0.027%) is an incidental crossing with 55 active nodes retaining driving forces lambda \u003c -5e-8 kN/mm and d_max = 0.7086 exceeding +5 nm reference. Releasing fixed batches of 20 nodes triggered an active-set stress-transfer cascade where violating nodes increased to 121, causing crack tip separation (d_max -\u003e 0.9780) and force drop to 166.30 N at Iteration 14, followed by solver abort at Iteration 15. Formulated and qualified R17 adaptive batch halving, backtracking, and damage jump merit rejection guardrails.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -170,14 +170,14 @@
                                  "morning_scientific_audit_packages87_88",
                                  "package89_state_transfer_submission"
                              ],
-    "last_updated":  "2026-10-25T15:53:56.7736638+01:00",
+    "last_updated":  "2026-10-26T06:14:37.4884252+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-a2c1a5f2-d388-4508-b08a-9f2ff8334099.json",
-                                  "sha256":  "7A06E9A16DF79C94439C2273D2539DE5712DD2F39556F5A83B8D85E035473201",
-                                  "created_at":  "2026-10-25T15:51:31.0251172+01:00"
+                                  "artifact":  "results/validation/preparation-095224bc-27d9-4052-8b0f-d6a223bcf546.json",
+                                  "sha256":  "6CC90851754FF6CFD413C8DC28A548E47B501743B7398CF68B1ECB161622464A",
+                                  "created_at":  "2026-10-26T06:14:01.9814604+01:00"
                               }
 }
