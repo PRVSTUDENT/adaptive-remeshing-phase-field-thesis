@@ -305,7 +305,19 @@ Determine the next instruction to send to Antigravity.
         }
     }
 
-        # --- 2d. External Authentication Blocker Guard ---
+            # Re-source Controller-Preparation to ensure running controller loop has latest plan logic
+    $prepScriptCandidates = @(
+        "D:\Master thesis\Adaptive remeshing\scripts\controller\Controller-Preparation.ps1",
+        (Join-Path $PSScriptRoot "..\..\scripts\controller\Controller-Preparation.ps1")
+    )
+    foreach ($psc in $prepScriptCandidates) {
+        if (Test-Path -LiteralPath $psc) {
+            try { . $psc } catch {}
+            break
+        }
+    }
+
+    # --- 2d. External Authentication Blocker Guard ---
     $isBlocked = $false
     $ssoBlockerPatterns = 'INTERACTIVE_SSO_REQUIRED|BLOCKED_EXTERNAL_AUTHENTICATION|OFFLINE_QUALIFIED__INTERACTIVE_SSO_REQUIRED'
 
