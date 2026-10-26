@@ -1,0 +1,122 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 186,
+  "verdict": "R22_C1_0B_FULLY_VERIFIED",
+  "all_physical_passed": true,
+  "criteria": {
+    "c1_crack_tip_localization": {
+      "passed": true,
+      "r22_tip_node": 1367,
+      "ref_tip_node": 1367,
+      "expected_node": 1367
+    },
+    "c2_spatial_correlation_r2": {
+      "passed": true,
+      "r_squared": 0.9994938095789985,
+      "pearson_r": 0.9997468727527976,
+      "threshold": 0.999
+    },
+    "c3_relative_l2_damage_error": {
+      "passed": true,
+      "l2_error_d": 0.024850468259912727,
+      "l_inf_d": 0.029833918483624267,
+      "mean_abs_error_d": 0.0029044083471709697,
+      "threshold": 0.05
+    },
+    "c4_peak_damage_physicality": {
+      "passed": true,
+      "d_max_r22": 0.6863961815834045,
+      "d_max_ref": 0.6565622630997803,
+      "diff_dmax": 0.029833918483624267,
+      "diff_dmax_pct": 4.543958762230947,
+      "physical_interval": [
+        0.6,
+        0.75
+      ]
+    },
+    "c5_force_continuity": {
+      "passed": true,
+      "rf2_r22_N": 178.23457717895508,
+      "rf2_ref_N": 180.24440872966002,
+      "diff_rf2_N": -2.009831550704945,
+      "diff_rf2_pct": -1.1150590272785632,
+      "threshold_pct": 5.0
+    },
+    "c6_fracture_energy_parity": {
+      "passed": true,
+      "e_frac_r22_mJ": 0.06310988254409206,
+      "e_frac_ref_mJ": 0.0610911000980322,
+      "diff_ef_mJ": 0.0020187824460598525,
+      "diff_ef_pct": 3.3045442672014986,
+      "threshold_pct": 5.0
+    },
+    "c7_elastic_energy_parity": {
+      "passed": true,
+      "e_elas_r22_mJ": 0.1752140364471459,
+      "e_elas_ref_mJ": 0.17718992839989478,
+      "diff_ee_mJ": -0.001975891952748887,
+      "diff_ee_pct": -1.115126559727229,
+      "threshold_pct": 5.0
+    },
+    "c8_external_work_parity": {
+      "passed": true,
+      "w_ext_r22_mJ": 0.00017923088493765338,
+      "w_ext_ref_mJ": 0.00018023580071300588,
+      "diff_wext_mJ": -1.0049157753525017e-06,
+      "diff_wext_pct": -0.557556141109088,
+      "threshold_pct": 2.0
+    }
+  },
+  "spatial_field_summary": {
+    "total_nodes": 2769,
+    "l_inf_damage_error": 0.029833918483624267,
+    "l2_damage_relative_error": 0.024850468259912727,
+    "l_inf_disp_error_mm": 1.8359378071576777e-05,
+    "l2_disp_relative_error": 0.006232801016395216,
+    "band_profile": {
+      "d_ge_0.01": {
+        "r22_node_count": 2579,
+        "ref_node_count": 2578,
+        "count_diff": 1
+      },
+      "d_ge_0.05": {
+        "r22_node_count": 2363,
+        "ref_node_count": 2359,
+        "count_diff": 4
+      },
+      "d_ge_0.10": {
+        "r22_node_count": 2169,
+        "ref_node_count": 2165,
+        "count_diff": 4
+      },
+      "d_ge_0.20": {
+        "r22_node_count": 1286,
+        "ref_node_count": 1268,
+        "count_diff": 18
+      },
+      "d_ge_0.50": {
+        "r22_node_count": 59,
+        "ref_node_count": 48,
+        "count_diff": 11
+      }
+    }
+  },
+  "energy_balance_summary": {
+    "e_frac_r22_mJ": 0.06310988254409206,
+    "e_frac_ref_mJ": 0.0610911000980322,
+    "e_elas_r22_mJ": 0.1752140364471459,
+    "e_elas_ref_mJ": 0.17718992839989478,
+    "e_tot_r22_mJ": 0.23832391899123795,
+    "e_tot_ref_mJ": 0.23828102849792698,
+    "diff_etot_pct": 0.0179999614662308,
+    "w_ext_r22_mJ": 0.00017923088493765338,
+    "w_ext_ref_mJ": 0.00018023580071300588
+  },
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/108_r22_c3_adaptive_pdas_release/r22_terminal_nodal_state.json": "502ED81BCBB8DD6382AA2B40EF8B1AAF16C3ED32C3C0C1B61D26C994AF90A204",
+    "results/validation/mode1_f1597/r17_matched_boundary_reference_audit.json": "83DAB2166F8C95623CA2FA8FDA724E02752778ED509D308C162B827822A40524",
+    "results/validation/mode1_f1597/c3_case_a_plus_1nm_d.npy": "D3DB4DE5FE1AB60FDA0909E41E505206D6B48920A244BD34EE551D39B21E1B70",
+    "results/validation/mode1_f1597/c3_case_a_plus_1nm_u.npy": "CDDFC91B358315256C1459520A6A21666169524957C70ED1F4317790A4137520"
+  }
+}
