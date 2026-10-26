@@ -1,0 +1,22 @@
+{
+    "schema":  1,
+    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "run_id":  "8bcdd884-1b92-4f37-ab8d-4de22ed98af2",
+    "status":  "PREPARATION_COMPLETE",
+    "finding":  "Package 108 Revision 19 (Job 1417517.mmaster02) finished with Abaqus Exit 0 across 20 outer iterations; empirical audit confirms R18 false convergence is eliminated: crack-tip nodes 1367, 1366, 1368 released in Iteration 1 and 112 nodes evolved damage with genuine advance Delta d_max = +0.004186 (d_max: 0.6550 -\u003e 0.6592) and RF2 = 180.1916 N (-0.029% vs ref 180.2444 N); classified as R19_ACTIVE_SET_NONCONVERGED because 239 active violations remained when max_outer_iters = 20 was reached due to adaptive batch reduction to B = 2.",
+    "job_id":  "1417517.mmaster02",
+    "verdict":  "R19_ACTIVE_SET_NONCONVERGED",
+    "evidence_sources":  {
+                             "results/validation/r19_terminal_evaluation_audit.json":  "64F76C16D26682DB803EDD78E804522898C9358BD0441A16C55F13A16E9F80F6",
+                             "tests/unit/test_mode1_f1597_turn170_r19_terminal_audit.py":  "4BB0CF73522605A1F0D05644A340C2E4AB6A43A2A1DB29F9D41FF3D670F68171",
+                             "results/validation/mode1_f1597/r19_safeguarded_continuation_summary.json":  "C9104DAAE8256232C8C05B65E49B9DBE7E7EDFC24A56794D76D2110B2D6A3B22",
+                             "results/validation/mode1_f1597/r19_pbs_execution.log":  "E7DCA24A807A3B9BFC2E106CB218C585B07F6BB87BC1992439D8C06040CF8B19",
+                             "models/pandey_kumar_mode1/108_r19_c3_calibrated_active_set/driver_r19_safeguarded_continuation.py":  "17C38B45D43F4298B99953047D79A297ECDA722CB70BF187CA4EF97AC383574C",
+                             "models/pandey_kumar_mode1/108_r19_c3_calibrated_active_set/f42_unified_12dof_active_set_uel.for":  "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+                             "models/pandey_kumar_mode1/108_r19_c3_calibrated_active_set/M1_C3_ACTIVE_SET_R19_AUTHORIZATION.json":  "9F7DAC9D2E8D7630A65EEECEEFF5B3C22C1AFE56C46B7A5F8BBB917BBAECE81A",
+                             "models/pandey_kumar_mode1/108_r19_c3_calibrated_active_set/M1_C3_ACTIVE_SET_R19_CONTINUATION.inp":  "443416CA672E669CAE7305D0394082241E756C02D07396ACE9AE0E1BD30F00E9",
+                             "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+                             "project_coordination/HPC_JOB_LEDGER.csv":  "C11780A49031A0C597F81D5405A7CBA8D1A795B29E036E34700C27ADFAA9847D"
+                         },
+    "verification_passed":  true
+}

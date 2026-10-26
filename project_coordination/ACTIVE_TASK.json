@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Guarded live PBS query confirms Package 108 Revision 19 Job 1417517.mmaster02 is running on compute node (status R, queue normal_imfdfkmq, CPU time 00:01:57); pursuant to single-operation discipline and anti-polling governance, execution remains non-terminal under classification R19_RUNNING_OR_QUEUED; bounded offline review verified complete 5-category evidence-to-label decision matrix and driver safeguard integrity.",
+    "phase":  "Package 108 Revision 19 (Job 1417517.mmaster02) finished with Abaqus Exit 0 across 20 outer iterations; empirical audit confirms R18 false convergence is eliminated: crack-tip nodes 1367, 1366, 1368 released in Iteration 1 and 112 nodes evolved damage with genuine advance Delta d_max = +0.004186 (d_max: 0.6550 -\u003e 0.6592) and RF2 = 180.1916 N (-0.029% vs ref 180.2444 N); classified as R19_ACTIVE_SET_NONCONVERGED because 239 active violations remained when max_outer_iters = 20 was reached due to adaptive batch reduction to B = 2.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -170,14 +170,14 @@
                                  "morning_scientific_audit_packages87_88",
                                  "package89_state_transfer_submission"
                              ],
-    "last_updated":  "2026-10-26T09:29:39.3208277+01:00",
+    "last_updated":  "2026-10-26T09:37:02.3527315+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-e685b5f0-d301-4086-b731-c65352c2cbfc.json",
-                                  "sha256":  "9CC79496CB37602871DCDCC872244846120B9E2ADEF31D180525BC83742187FF",
-                                  "created_at":  "2026-10-26T09:28:58.7247267+01:00"
+                                  "artifact":  "results/validation/preparation-8bcdd884-1b92-4f37-ab8d-4de22ed98af2.json",
+                                  "sha256":  "7474654904487A9DE9B7F3730B1736E393BF21DB937E5F4BE75A085EF537AE4E",
+                                  "created_at":  "2026-10-26T09:36:23.2507073+01:00"
                               }
 }
