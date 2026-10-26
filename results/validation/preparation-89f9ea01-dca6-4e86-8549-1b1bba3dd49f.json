@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 208,
+  "run_id": "89f9ea01-dca6-4e86-8549-1b1bba3dd49f",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Independently audited, harvested, and validated Package 113 (Job 1417682.mmaster02) second Stage C1-2 forward physical displacement continuation on Candidate C4 (4,422 elements, 4,588 nodes). Driver achieved converged stationary equilibrium at Cycle 4 (Delta d_max = 0.000890 <= 1e-3, Delta RF2 = 0.0663 N <= 0.1 N) with terminal RF2 = 187.3915 N (+0.71% vs donor ref 186.067909 N, PASS <= 5%), total energy E_tot = 0.216714 mJ (+2.00% vs donor ref 0.212448 mJ, PASS <= 2%), zero damage healing (0 violations across 4,588 nodes), mechanical residual 4.59e-16 kN (PASS <= 1e-4 kN), free phase residual 1.33e-9 kN/mm (PASS <= 1e-6 kN/mm), and active KKT multiplier -9.94e-10 kN/mm (PASS >= -1e-9 kN/mm). Verified native Abaqus MISESERI recovery on Candidate C4 (Package 95 audit) identifies 284 candidate elements (6.42%) above threshold eta >= 0.15 with peak stress error at notch tip Element 2176 (6.71 kN/mm^2, eta = 38.5%). Candidate C4 Increment-79 checkpoint (u_RP = 0.00184250 mm, d_max = 0.4992) is established and preserved. Genuine adaptive remeshing C4 -> C5 is scientifically justified and prepared. All 9 unit tests passed.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/c4_c1_2_inc79_continuation_summary.json": "568B8B92F1576DB761D841914B55E20C59B1B334E680A4EF21778D28E5A46461",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/pbs_execution.log": "1420C829E60743852E192EE68035C4B8FDDD12FCE8D2A66A952AF1B6FED69CFF",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/M1_C4_INC79_AM_CYC4_MECH.msg": "35174D03666BEE49DC6D8D95654CFDF3D229DD71DAE4F067288FD3D2E165FFAA",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/M1_C4_INC79_AM_CYC4_MECH.sta": "58820A0013FD4113FD816DFEC8B71B0BA41F03E84D140DDB41FB579D557A691A",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/M1_C4_INC79_AM_CYC4_MECH.dat": "F0F1BE930B5CB60741E7419F1E6B583C8C011B7CE4B2459F88243E90E095F591",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/M1_C4_C1_2_INC79_CONTINUATION.inp": "5A1DA93664D57894AFA428FB961EFD5CB864E42161898B74778F2B3B1EEC4DDD",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/d_lower_bounds.csv": "31DD76E38752795821E9F7AF75BF4971F9926A090A13B304668E95A876DB725D",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/active_set_boundary_cards.inc": "B3B7881552C29CCAA5D082F9EE644B797EA9E6113A5BF2B314ADCE7021940E4F",
+    "models/pandey_kumar_mode1/95_c4_companion_miseseri/c4_miseseri_audit.json": "598B1E9563170F85D63814D6253F7FEAA1CA1A4E8EDF9830BBD2C7C273149363",
+    "tests/unit/test_mode1_f1597_turn208_package113_continuation.py": "A5E92F07CFC488A2817D34B8CB36687B6F8FF9C203CEF73C66FB5D63977335AA"
+  },
+  "verification_passed": true,
+  "verdict": "C1_2_SECOND_FORWARD_PASSED",
+  "evaluated_job": {
+    "pbs_job_id": "1417682.mmaster02",
+    "job_name": "M1_C4_C1_2_INC79",
+    "package": "113_c1_2_second_forward_continuation",
+    "terminal_status": "EXIT_0_CONVERGED_CYCLE4",
+    "cycles_completed": 4
+  },
+  "accepted_c1_2_checkpoint": {
+    "increment_id": "Increment-79",
+    "displacement_target_u_mm": 0.00184250000,
+    "physical_increment_delta_u_mm": 2.109375e-05,
+    "rf2_rp_N": 187.3914748430252,
+    "d_max": 0.4992200600543182,
+    "e_elastic_mJ": 0.17259901081241638,
+    "e_fracture_mJ": 0.04411506312278167,
+    "e_total_mJ": 0.21671407393519804,
+    "mechanical_residual_max_kN": 4.591e-16,
+    "free_phase_residual_max_kN_mm": 1.3327841378084072e-09,
+    "active_kkt_multiplier_min_kN_mm": -9.938324526017337e-10,
+    "stationarity_delta_d_max": 0.0008896473731701549,
+    "stationarity_delta_rf2_N": 0.06633996963500977,
+    "healing_violations": 0
+  },
+  "miseseri_c5_readiness": {
+    "companion_job": "M1_C4_COMPANION_FRAME7",
+    "total_elements": 4422,
+    "peak_miseseri_kNmm2": 6.707442760467529,
+    "peak_element_id": 2176,
+    "peak_eta": 0.3847810069187959,
+    "elements_above_threshold": 284,
+    "pct_above_threshold": 6.42243328810493,
+    "adaptation_recommendation": "ADVANCE_CYCLE_C5_REFINEMENT"
+  }
+}
