@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn_run_id": "1be2aa5a-84a0-4684-bb20-99447a7737c7",
+  "finding": "Turn 197 evaluated terminal Package 110 R2 (Job 1417641.mmaster02, Exit 0, 15 cycles, walltime 228 s): verified that step-frozen committed history eliminated artificial intra-step history ratcheting, reducing damage and increasing force at every cycle; demonstrated that continuing damage growth (d_max -> 0.9480, Delta RF2 = -9.23%) is driven by genuine post-peak physical fracture instability where potential energy descends monotonically (dE_tot = -0.726 uJ < 0); classified terminal result as C1_1_PHYSICAL_INSTABILITY; proved that infinite fixed-load static AM cannot achieve stationary equilibrium and that continuation must transition to Gate C1-2 controlled forward displacement incrementation.",
+  "evidence_sources": {
+    "results/validation/c4_am_step_frozen_terminal_audit_turn197.json": "B72CDAD9DE519739B33A22F8F9F2C3069257455B44EACE278E7EA882D0876CCD",
+    "results/validation/c4_am_step_frozen_history_summary.json": "7C55ACD38412BAC204A1FC6AF5EF7C647D0B58F1F0F56E7C7AF060F0DB94921B",
+    "tests/unit/test_mode1_f1597_turn197_c1_1_terminal_audit.py": "4FD61201A52DCB873EA9D2ACB5CEE282F788581E62E16A6E1937959B0E8F10B1",
+    "scripts/validation/compare_r1_vs_r2_c4_am.py": "09A9EFD38C8032377646EF1D3D553DC4A8EDCA6D57246AA3F161C5994B5B867D",
+    "models/pandey_kumar_mode1/110_r2_c4_am_step_frozen_history/driver_c4_am_step_frozen_history.py": "41D9C4D21D5ACB8170355784CD1040BEA03FB3A5EF41500087840396A63E7752"
+  },
+  "verification_passed": true
+}
