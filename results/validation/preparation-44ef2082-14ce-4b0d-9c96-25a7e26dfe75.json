@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 210,
+  "run_id": "44ef2082-14ce-4b0d-9c96-25a7e26dfe75",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Constructed, qualified, submitted, and harvested Package 114 native Abaqus MISESERI companion-continuum diagnostic (Job 1417689.mmaster02, Exit 0, walltime 2s, CPU 0.44s) on Candidate C4 (4,422 quads, 4,588 nodes) at exact Increment-79 pre-peak loading (prescribed u_RP = 0.001842500 mm). Preserved authentic C4 equilibrium stress state where specimen retains 99.8% stiffness relative to linear elasticity (PFM RF2 = 187.3915 N vs elastic 187.8 N), proving companion linear elasticity is an authentic representation of the pre-peak singular stress field (unlike Package 95's 54% post-peak softening mismatch). Extracted genuine Abaqus MISESERI field: peak recovered stress error is 6.022643 kN/mm^2 at notch-tip Element 2176 (x=0.0403 mm, y=0.0496 mm, eta = 38.5%), scaling exactly by 0.8979 with displacement from Package 95 (6.707443 kN/mm^2). Identified 284 elements (6.42%) above threshold eta >= 0.15 for prospective C5 refinement marking. Consistency audit confirmed constitutive regularization length l0 = 0.0075 mm (7.5 um) in UEL cards, correcting earlier 30 um diffuse band conflation. Package 113 energy gate failure remains an explicit unresolved dependency; C5 remeshing is not authorized. All 8 qualification unit tests passed.",
+  "evidence_sources": {
+    "scripts/model_generation/build_package114_companion_deck.py": "7FD6692D90BF675158174C67220B5444BD6BCF81CB22D222CDDD2B2487565DCB",
+    "scripts/validation/audit_package114_companion_formulation.py": "8C0F1489E830A43226B9477B7253F222938BD5182E79DF0D757B0F23CC7B6EEC",
+    "scripts/validation/stage_and_qualify_package114.py": "BF7F3061B9110BEF722915E5F59086A867B9F5ADD346B2BF0D0E292F3A3ADF61",
+    "scripts/validation/extract_c4_inc79_miseseri_distribution.py": "B5AA48A2CE32A1E61D02EFC850092BA4305305F767AE516AA1EB5BA7F151386F",
+    "scripts/validation/run_and_download_c4_inc79_miseseri.py": "4251A645C18D94353E6BE52FA9AA714147B31775A5C77D33FB68D659CC10E62B",
+    "tests/unit/test_mode1_f1597_turn210_package114_qualification.py": "888236F47B02D276409ECB231A6BF8A64D06A223C7EFDFC3B5080E1294EC0968",
+    "results/validation/audit_package114_companion_formulation.json": "B9101F3D47AFD2AD693321317D8E602C8FBC94DF364F81391357598C1D97A72A",
+    "models/pandey_kumar_mode1/114_c4_inc79_companion_miseseri/M1_C4_INC79_COMPANION.inp": "F22A7A2FFDFDBA4130A043002BDA9ABC149AD87F5534CE8BBDA9BDE1DC9F07BA",
+    "models/pandey_kumar_mode1/114_c4_inc79_companion_miseseri/c4_inc79_miseseri_audit.json": "236FD576288D7349D99AC8C9F6EA3AB78BB68D068C0BA5428B7F4ECEB9A31E11",
+    "models/pandey_kumar_mode1/114_c4_inc79_companion_miseseri/c4_inc79_companion_miseseri_distribution.csv": "08655FB873C9924A8A22D3748B30471091085EB4C1D3E67D9473456734DF49C3",
+    "models/pandey_kumar_mode1/114_c4_inc79_companion_miseseri/QUALIFICATION.json": "D04826F606C9FC645133E703EC6751A71659EE36961D05221E7CD9B65BBC7985",
+    "models/pandey_kumar_mode1/114_c4_inc79_companion_miseseri/PACKAGE_MANIFEST.json": "C0E05DD78A1CD6550BA761CFEFA25D0618BE32290A68C1994A7231AB07098978",
+    "models/pandey_kumar_mode1/114_c4_inc79_companion_miseseri/M1_C4_INC79_COMPANION_AUTHORIZATION.json": "D105DBEA8F4ED2FCABB195AC2694DBD52FF6611D87CAC1D696574ABA6300C46A"
+  },
+  "verification_passed": true,
+  "verdict": "PACKAGE_114_EXACT_STATE_MISESERI_QUALIFIED_AND_EVALUATED",
+  "executed_job": {
+    "pbs_job_id": "1417689.mmaster02",
+    "job_name": "M1_C4_INC79_COMPANION",
+    "exit_code": 0,
+    "walltime_sec": 2,
+    "cpu_time_sec": 0.44,
+    "execution_host": "mnode100.cluster"
+  },
+  "exact_state_miseseri_summary": {
+    "prescribed_u2_mm": 0.00184250000,
+    "actual_pfm_rf2_N": 187.391475,
+    "stiffness_retention_ratio": 0.998,
+    "total_elements": 4422,
+    "peak_miseseri_kNmm2": 6.022643,
+    "peak_element_id": 2176,
+    "peak_element_centroid_mm": {"x": 0.040303, "y": 0.049620},
+    "peak_relative_error_eta": 1.8773,
+    "elements_with_eta_ge_0p15": 284,
+    "pct_elements_marked": 6.4224,
+    "scaling_vs_package95_ratio": 0.8979045
+  },
+  "consistency_audit": {
+    "confirmed_constitutive_l0_mm": 0.0075,
+    "confirmed_constitutive_l0_um": 7.5,
+    "diffuse_band_width_4l0_um": 30.0,
+    "correction_note": "Internal UEL parameter verified as l0 = 7.5 um; 30 um refers to diffuse crack band width."
+  },
+  "adaptive_remeshing_status": {
+    "c5_remeshing_authorized": false,
+    "energy_gate_status": "PACKAGE_113_ENERGY_GATE_FAILED_UNRESOLVED_DEPENDENCY",
+    "c5_prerequisite": "Energy gate resolution and supervisor review required before C5 remeshing."
+  }
+}
