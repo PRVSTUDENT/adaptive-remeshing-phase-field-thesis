@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "a243fd91-c8f7-42b3-a9c1-c0edec2fb673",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Proved boundary condition bifurcation: solved Case A (roller top: RF2=180.244 N, dmax=0.6566, stable) vs Case B (clamped top: RF2=99.99 N, dmax=1.0, tear-through). Disproved forcing clamped Abaqus R17 deck to roller target 180.251 N. Established boundary-matched validation contract with explicit thresholds.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/r17_matched_boundary_reference_audit.json": "83DAB2166F8C95623CA2FA8FDA724E02752778ED509D308C162B827822A40524",
+    "scripts/validation/solve_matched_boundary_reference.py": "8B7269C17348A7F3B0D46974AA64D3EA1C80C04143FAF930644B5C72826BEBFA",
+    "tests/unit/test_mode1_f1597_turn154_matched_boundary_reference.py": "7B556560EC44665AFFB919E3AAF4FD302FBE34DE72B536F90EB31993B03E9E42",
+    "models/pandey_kumar_mode1/108_r17_c3_safeguarded_active_set/driver_r17_safeguarded_continuation.py": "99149EF17E2CE08D6491CC3B7B1CB96DE2732928F3A946B2A0C76C0CFC564C92",
+    "models/pandey_kumar_mode1/108_r17_c3_safeguarded_active_set/M1_C3_ACTIVE_SET_R17_CONTINUATION.inp": "19CFDF4FE69B8DAF537BAA56CF1E50C9301605581190E744554DC94C0EA37511",
+    "models/pandey_kumar_mode1/108_r17_c3_safeguarded_active_set/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}
