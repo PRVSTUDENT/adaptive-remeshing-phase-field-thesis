@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 205,
+  "run_id": "a406e0fd-8687-439d-b709-d9fa8e74a516",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Constructed, qualified, and submitted Package 112 for the first genuine Stage C1-2 forward physical displacement continuation on Candidate C4 (4,422 elements, 4,588 nodes). Derived forward increment Delta_u = 2.109375e-5 mm (21.094 nm) from authentic donor Inc 77 to Inc 78 (target u_RP = 0.00182141 mm). Initialized damage lower bounds from accepted Package 111 R2 Cycle 6 (D0 in [0.0030, 0.4782]) and updated committed history (H0 in [2.27e-8, 3.88] kN/mm^2). Passed 6/6 unit tests, passed Abaqus 2023 remote datacheck Exit 0, verified 9/9 bit-for-bit remote hashes on cluster scratch, and submitted qualified Job 1417669.mmaster02 (M1_C4_C1_2_FORWARD_STEP) to normal_imfdfkmq for safe overnight execution.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/112_c1_2_first_forward_continuation/M1_C4_C1_2_TRANSFER_AUTHORIZATION.json": "6B3B94A9E2122BA427147C38328513DB774D2A0F4E4ADA80B3861B21841783E9",
+    "models/pandey_kumar_mode1/112_c1_2_first_forward_continuation/PACKAGE_MANIFEST.json": "184AAF2BF4E6CF9BC73DCFB867D147D2F92CAB054DEE0F03D7F3B9119E5D09F5",
+    "models/pandey_kumar_mode1/112_c1_2_first_forward_continuation/M1_C4_C1_2_FORWARD_CONTINUATION.inp": "503D14336EFFB0FB381DB7CAA85CCF2C3F20945415C3A1040714659BD7E109D2",
+    "models/pandey_kumar_mode1/112_c1_2_first_forward_continuation/driver_c4_c1_2_forward_continuation.py": "4F76DAC00CC7DD79D1044493C09128E229176F2202DDD8F68D24AD87189D8BDC",
+    "models/pandey_kumar_mode1/112_c1_2_first_forward_continuation/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/112_c1_2_first_forward_continuation/submit_M1_C4_C1_2_FORWARD_CONTINUATION.pbs": "A0B0E6971BA9D80C768BB7DDDA45DF906EECDBE26EA157E15936896A30FC3C68",
+    "models/pandey_kumar_mode1/112_c1_2_first_forward_continuation/d_lower_bounds.csv": "2C75410E7C327DE28485D59AC143F0E5343BDD5CE6D9993AC45794D4E2B1FBD2",
+    "models/pandey_kumar_mode1/112_c1_2_first_forward_continuation/active_set_boundary_cards.inc": "222395422F6F79E0BD606A56EB8F7E28757712B657B1F0F4EDCF02AF5A11B353",
+    "models/pandey_kumar_mode1/112_c1_2_first_forward_continuation/M1_C4_C1_2_DATACHECK.dat": "48887620C24123C0B0B041A9D2B9B61165DF32BC2CA5E21546AF8A49B6595E37",
+    "tests/unit/test_mode1_f1597_turn205_package112_qualification.py": "69328BF2A2B4496C98009ED2A44DF06725ECFD0C607E55FBD86D2C7270DAD719",
+    "scripts/validation/extract_c1_1_cycle6_state.py": "E146D86160B95DB238CA9B4CCF84D3A2C2D34B9BE8304CC90961934D753939D7",
+    "scripts/validation/generate_package112_manifest.py": "F0D99A490F253D6BE0F7711EB0D418D287469CA1A43106B9CFCCC18C28A432D9",
+    "scripts/validation/setup_package112.py": "2F3EAAF4D206537BB16262A720387767563DE8A0D15372D761A3335E2E45BFFB",
+    "scripts/validation/verify_package112_remote_hashes.py": "6181529FC8ED99B4BBC8CB3244990733DA55B634FFDAB35047161D9D24FA0FD3"
+  },
+  "verification_passed": true,
+  "package_name": "112_c1_2_first_forward_continuation",
+  "job_id": "M1_C4_C1_2_FORWARD_STEP",
+  "pbs_job_id": "1417669.mmaster02",
+  "frozen_uel_sha256": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+  "physical_parameters": {
+    "starting_u_mm": 0.0018003125,
+    "delta_u_mm": 2.109375e-05,
+    "target_u_mm": 0.00182140625,
+    "target_rf2_ref_N": 185.598224,
+    "num_elements": 4422,
+    "num_physical_nodes": 4588
+  },
+  "predeclared_acceptance": {
+    "mechanical_residual_tol_kN": 0.0001,
+    "free_phase_residual_tol_kN_mm": 1e-06,
+    "active_kkt_tol_kN_mm": -1e-09,
+    "healing_tolerance": 0.0,
+    "stationarity_delta_d_max": 0.001,
+    "stationarity_delta_rf2_max_N": 0.1,
+    "force_continuity_pct_max": 5.0,
+    "total_energy_continuity_pct_max": 2.0
+  }
+}
