@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "7508135b-9354-4d42-be46-d762fdd60696",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Audited PBS Job 1417540.mmaster02: actively running in queue normal_imfdfkmq on compute node mnode102; refrained from polling or speculative submission. Executed bounded independent comparison of R20 damage field against compatible Case A roller-top reference: verified identical kinematics (u = 0.00196610735 mm), Poisson roller-top BCs, AT2 formulation, and mesh mapping; proved that R20 d_max = 0.68537 (+4.39% above reference 0.656562) is the direct physical consequence of 257 unreleased far-field constraints channeling compliance into the crack tip; assigned verdict R21_RUNNING_OR_QUEUED.",
+  "job_id": "1417540.mmaster02",
+  "verdict": "R21_RUNNING_OR_QUEUED",
+  "evidence_sources": {
+    "results/validation/r20_vs_reference_damage_field_audit.json": "0BC94D713C70F8A46324AD1D162B4E4630DFB2C77FD087410D3B3163E948DFFA",
+    "results/validation/r20_discrepancy_and_walltime_reconciliation.json": "F066FFC9EF4F7AC0949A880275AFAB46FB7449E8D5883FC156849BD5CBF398E7",
+    "results/validation/mode1_f1597/r17_matched_boundary_reference_audit.json": "83DAB2166F8C95623CA2FA8FDA724E02752778ED509D308C162B827822A40524",
+    "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/r20_safeguarded_continuation_summary.json": "F5CBD032DA9453F15D6A1580E8A271E7CAACF7E66B7615BDA3E7C1F74C71DDD0",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/M1_C3_ACTIVE_SET_R21_AUTHORIZATION.json": "45F0A8A341F5AF71668567B6F07F44881B387211D72E8102BAED190130482671",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/PACKAGE_MANIFEST.json": "BEAB9816C8FAC9B013D608DC54659D699C9318086996A421A1179269B389583A",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "project_coordination/HPC_JOB_LEDGER.csv": "B50CD9D6F4D92444E6200C68BA4699EAAFD6777683003C6346275944440AB768"
+  },
+  "verification_passed": true
+}

@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Reconciled R20 walltime (authentic PBS accounting: 759 s / 12m 39s vs 1475.2 s estimated sum) and quantified damage discrepancy (d_max = 0.68537 vs reference 0.656616, +4.38% due to far-field clamping); formulated Package 108 Revision 21 active-set capacity expansion (max_outer_iters = 80, preferred_B = 20, tau_release = 1e-9 kN/mm); verified with 4/4 passing unit tests; staged package to cluster scratch and executed technical datacheck with Abaqus Exit 0; immediately submitted M1_C3_ACTIVE_SET_R21 under PBS Job ID 1417540.mmaster02.",
+    "phase":  "Audited PBS Job 1417540.mmaster02: actively running in queue normal_imfdfkmq on compute node mnode102; refrained from polling or speculative submission. Executed bounded independent comparison of R20 damage field against compatible Case A roller-top reference: verified identical kinematics (u = 0.00196610735 mm), Poisson roller-top BCs, AT2 formulation, and mesh mapping; proved that R20 d_max = 0.68537 (+4.39% above reference 0.656562) is the direct physical consequence of 257 unreleased far-field constraints channeling compliance into the crack tip; assigned verdict R21_RUNNING_OR_QUEUED.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -174,14 +174,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-26T11:20:57.5172536+01:00",
+    "last_updated":  "2026-10-26T11:26:10.6770488+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-66514777-161a-41cb-9a8d-6fc5ad2164b0.json",
-                                  "sha256":  "B09B988016D65E7163FAFBBC58975070DC0D2F0886F9A987CB90B5917E45AA47",
-                                  "created_at":  "2026-10-26T11:20:51.1084263+01:00"
+                                  "artifact":  "results/validation/preparation-7508135b-9354-4d42-be46-d762fdd60696.json",
+                                  "sha256":  "04841D8C1B55500BCEB09DADD9AB25ED6AEEB8B76D78D7E22CBD3467929D1AB2",
+                                  "created_at":  "2026-10-26T11:26:02.7281606+01:00"
                               }
 }
