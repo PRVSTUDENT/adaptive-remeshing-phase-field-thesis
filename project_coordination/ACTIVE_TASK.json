@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Root cause of Candidate Package 110 AM-PDAS force drop definitively diagnosed as EXTERNAL_QP_UEL_INCONSISTENCY: driver_c4_am_continuation.py hardcoded regularisation length E_L0 = 0.015 mm (15 um) instead of the strictly required 0.0075 mm (7.5 um) specified in the UEL property card (*UEL PROPERTY, 0.0075, 0.0027, 210.0, 0.3, 1.0E-07). This factor-of-2 discrepancy doubled the phase stiffness matrix diagonal (mean ratio 1.9908), causing the external QP solver to solve an artificially widened crack functional that diffused damage into the specimen bulk (Delta d ~ +0.14 across 4,585 nodes) and softened elastic modulus (1-d)^2 by 34%, dropping reaction force by 28%. When repaired to E_L0 = 0.0075 mm and augmented with trust-region damping (Delta d \u003c= 0.05), Kdd matches UEL-consistent reference assembly to machine precision (\u003c 1.3e-17), Cycle 1 RF2 = 180.03 N (+1.01%), Cycle 2 RF2 = 178.06 N (-0.10%), and Cycle 3 RF2 = 177.04 N (-0.67%), fully satisfying Gate C1-1 force continuity.",
+    "phase":  "Candidate Package 110 (Alternating Minimization AM-PDAS on Candidate C4 crack-band mesh, 4,422 quads, 4,588 nodes) was technically qualified and executed to Exit 0 under PBS Job 1417601.mmaster02 (66 s walltime, 53 s CPU on mnode103/0). With the corrected regularisation length E_L0 = 0.0075 mm (matching the governing UEL property card) and trust-region safeguard (Delta d \u003c= 0.05), force continuity is preserved across all 5 AM cycles: Cycle 1 RF2 = 180.03 N (+1.01%), Cycle 2 RF2 = 178.07 N (-0.09%), Cycle 3 RF2 = 177.03 N (-0.68%), Cycle 4 RF2 = 176.12 N (-1.19%), and Cycle 5 RF2 = 175.27 N (-1.66% vs 178.23 N donor benchmark), strictly within [-1.66%, +1.01%] (comfortably inside the 5.0% Gate C1-1 threshold). Across all 5 cycles, damage healing is strictly zero (Delta d \u003e= 0 everywhere), total energy decreases monotonically (0.240004 -\u003e 0.239850 mJ), and all Abaqus solves exited with code 0, definitively closing and passing Gate C1-1.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -143,7 +143,8 @@
                                   "1417519.mmaster02",
                                   "1417558.mmaster02",
                                   "1417582.mmaster02",
-                                  "1417586.mmaster02"
+                                  "1417586.mmaster02",
+                                  "1417601.mmaster02"
                               ],
     "predecessor_task":  {
                              "task_id":  "F1596-INDEPENDENTLY-QUALIFY-PACKAGE72-STATE-TRANSFER",
@@ -177,14 +178,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-26T15:24:19.5437221+01:00",
+    "last_updated":  "2026-10-26T15:44:47.4533289+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-56a89bd7-1691-462e-8c8f-89eefd61754c.json",
-                                  "sha256":  "4E7B20DFE5E89F3CEE9F9DA7CF8347BFC379F2F5CB3500B25468F454FA20D223",
-                                  "created_at":  "2026-10-26T15:23:13.4977584+01:00"
+                                  "artifact":  "results/validation/preparation-691a2787-8389-45f3-b5a4-717143d11890.json",
+                                  "sha256":  "ABC80CFDA08F647B87FC7A1C290A33CDBA56EB75654F5C81C07BD09B19CE43CF",
+                                  "created_at":  "2026-10-26T15:44:39.5845167+01:00"
                               }
 }

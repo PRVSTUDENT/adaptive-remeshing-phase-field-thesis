@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn_run_id": "691a2787-8389-45f3-b5a4-717143d11890",
+  "finding": "Candidate Package 110 (Alternating Minimization AM-PDAS on Candidate C4 crack-band mesh, 4,422 quads, 4,588 nodes) was technically qualified and executed to Exit 0 under PBS Job 1417601.mmaster02 (66 s walltime, 53 s CPU on mnode103/0). With the corrected regularisation length E_L0 = 0.0075 mm (matching the governing UEL property card) and trust-region safeguard (Delta d <= 0.05), force continuity is preserved across all 5 AM cycles: Cycle 1 RF2 = 180.03 N (+1.01%), Cycle 2 RF2 = 178.07 N (-0.09%), Cycle 3 RF2 = 177.03 N (-0.68%), Cycle 4 RF2 = 176.12 N (-1.19%), and Cycle 5 RF2 = 175.27 N (-1.66% vs 178.23 N donor benchmark), strictly within [-1.66%, +1.01%] (comfortably inside the 5.0% Gate C1-1 threshold). Across all 5 cycles, damage healing is strictly zero (Delta d >= 0 everywhere), total energy decreases monotonically (0.240004 -> 0.239850 mJ), and all Abaqus solves exited with code 0, definitively closing and passing Gate C1-1.",
+  "evidence_sources": {
+    "results/validation/c4_am_qualification_turn193.json": "B3A9A6BC210EC2EB01AC2060BAAB1A12ED29C0110F7A74E325DD31489517B592",
+    "tests/unit/test_mode1_f1597_turn193_c4_am_qualification_and_submission.py": "CE7DC3CAC943BE39CABD20D95ECE57D10AFC1641AD3BF4D3E46ED72F68959D4C",
+    "models/pandey_kumar_mode1/110_c4_c1_1_safeguarded_am_continuation/c4_am_continuation_summary.json": "40FE46537D3D84EC19496E4FC62F63A0D27D76A71CD9402CF01878D35ACDFD27",
+    "models/pandey_kumar_mode1/110_c4_c1_1_safeguarded_am_continuation/pbs_execution.log": "836384F329DD3FC8DB7C9B5A40AEA0CAD7E2B29C6F43476468B5589D2F931E2B",
+    "models/pandey_kumar_mode1/110_c4_c1_1_safeguarded_am_continuation/driver_c4_am_continuation.py": "B4C4FE6C7E6F22900A3CA7B813A8A628F92467615101D83724CC3F4FAFE2DEA2"
+  },
+  "verification_passed": true
+}

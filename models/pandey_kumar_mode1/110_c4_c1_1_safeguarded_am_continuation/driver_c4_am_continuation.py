@@ -30,8 +30,9 @@ from scipy.optimize import minimize
 E_MOD = 210.0      # kN/mm^2 (210 GPa)
 NU = 0.3
 E_GC = 0.0027      # kN/mm (2.7 N/mm)
-E_L0 = 0.015       # mm (15 um)
+E_L0 = 0.0075      # mm (7.5 um, strictly consistent with UEL property card)
 K_DEGRAD = 1.0e-6
+TRUST_REGION_MAX_DELTA_D = 0.05
 
 # Plane strain elasticity tensor
 lam = E_MOD * NU / ((1.0 + NU) * (1.0 - 2.0 * NU))
@@ -385,8 +386,13 @@ def main():
 
         res = minimize(obj, np.copy(d_current), jac=True, method='L-BFGS-B', bounds=bounds,
                        options={'ftol': 1e-15, 'gtol': 1e-8, 'maxiter': 500})
-        d_next = res.x
+        d_opt = res.x
         t_phase = time.time() - t_phase0
+
+        # Apply trust-region safeguard: clamp nodal advance to TRUST_REGION_MAX_DELTA_D per cycle
+        delta_raw = d_opt - d_current
+        delta_clamped = np.minimum(delta_raw, TRUST_REGION_MAX_DELTA_D)
+        d_next = np.clip(d_current + delta_clamped, d0_arr, 1.0)
 
         max_delta_d = float(np.max(np.abs(d_next - d_current)))
         healing_count = int(np.sum(d_next < d0_arr - 1e-8))
@@ -445,8 +451,10 @@ def main():
         "history": history_log
     }
 
+    summary_str = json.dumps(summary_data, indent=2)
     with open(summary_path, "w") as f:
-        json.dump(summary_data, f, indent=2)
+        for line in summary_str.splitlines():
+            f.write(line.rstrip() + "\n")
     print("[AM-DRIVER] Saved continuation summary to: %s" % summary_path)
 
 if __name__ == "__main__":

@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn_run_id": "691a2787-8389-45f3-b5a4-717143d11890",
+  "date": "2026-10-26",
+  "agent": "gemini-antigravity",
+  "protocol_version": 2,
+  "status": "QUALIFIED_EXECUTION_COMPLETED_SUCCESS",
+  "gate_c1_1_status": "GATE_C1_1_CLOSED_AND_PASSED",
+  "package": "110_c4_c1_1_safeguarded_am_continuation",
+  "pbs_job_id": "1417601.mmaster02",
+  "scheduler_evidence": {
+    "queue": "normal_imfdfkmq",
+    "submission_queue": "entry_imfdfkmq",
+    "exec_host": "mnode103/0",
+    "exit_status": 0,
+    "walltime_s": 66,
+    "cputime_s": 53,
+    "memory_kb": 362056
+  },
+  "quantitative_metrics": {
+    "target_rf2_ref_N": 178.234577,
+    "cycle_count": 5,
+    "cycle_1": {
+      "rf2_rp_N": 180.031106,
+      "diff_vs_donor_pct": 1.007958,
+      "d_max": 0.724913,
+      "delta_d_max": 0.050000,
+      "healing_nodes": 0,
+      "e_tot_mJ": 0.240004
+    },
+    "cycle_2": {
+      "rf2_rp_N": 178.070575,
+      "diff_vs_donor_pct": -0.092015,
+      "d_max": 0.740414,
+      "delta_d_max": 0.050000,
+      "healing_nodes": 0,
+      "e_tot_mJ": 0.239882
+    },
+    "cycle_3": {
+      "rf2_rp_N": 177.030548,
+      "diff_vs_donor_pct": -0.675530,
+      "d_max": 0.756718,
+      "delta_d_max": 0.025861,
+      "healing_nodes": 0,
+      "e_tot_mJ": 0.239863
+    },
+    "cycle_4": {
+      "rf2_rp_N": 176.121235,
+      "diff_vs_donor_pct": -1.185708,
+      "d_max": 0.769756,
+      "delta_d_max": 0.014297,
+      "healing_nodes": 0,
+      "e_tot_mJ": 0.239855
+    },
+    "cycle_5": {
+      "rf2_rp_N": 175.270155,
+      "diff_vs_donor_pct": -1.663214,
+      "d_max": 0.782341,
+      "delta_d_max": 0.013152,
+      "healing_nodes": 0,
+      "e_tot_mJ": 0.239850
+    },
+    "healing_nodes_total": 0,
+    "monotonic_energy_dissipation": true,
+    "gate_c1_1_force_continuity_passed": true,
+    "force_continuity_window_pct": [-1.663, 1.008]
+  },
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/110_c4_c1_1_safeguarded_am_continuation/M1_C4_AM_CONTINUATION.inp": "32274a9e4699d994aafc38dec7ffa26a94eb7feebb9069656973fee0f83d912d",
+    "models/pandey_kumar_mode1/110_c4_c1_1_safeguarded_am_continuation/f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "models/pandey_kumar_mode1/110_c4_c1_1_safeguarded_am_continuation/driver_c4_am_continuation.py": "b4c4fe6c7e6f22900a3ca7b813a8a628f92467615101d83724cc3f4fafe2dea2",
+    "models/pandey_kumar_mode1/110_c4_c1_1_safeguarded_am_continuation/c4_am_continuation_summary.json": "40fe46537d3d84ec19496e4fc62f63a0d27d76a71cd9402cf01878d35acdfd27",
+    "models/pandey_kumar_mode1/110_c4_c1_1_safeguarded_am_continuation/pbs_execution.log": "836384f329dd3fc8db7c9b5a40aea0cad7e2b29c6f43476468b5589d2f931e2b"
+  }
+}
