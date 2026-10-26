@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 202,
+  "run_id": "3d843882-f30f-4b5d-85f5-3e89cda50597",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Harvested and evaluated terminal deliverables of Package 111 R1 (Job 1417657.mmaster02, Exit Status 0, walltime 27 s, 2 AM cycles). Verified clean mechanical equilibrium in Abaqus/Standard with zero cutbacks and machine-precision residual (4.588e-16 kN); force parity RF2 = 191.0402 N (+3.00% vs donor 185.4705 N, <= 5% pass) with stationarity drift |Delta RF2| = 0.0013 N <= 0.1 N; total energy parity 0.209119 mJ (+0.009% vs donor 0.2091 mJ, <= 2% pass); damage stationarity Delta d_max = 9.47e-7 <= 1e-3. However, exactly 124 nodes experienced damage healing (down to Delta d = -3.146e-4 below d0) violating zero-healing tolerance 0. Diagnosed root cause as an inverted PDAS release sign at line 278 (lambda_mult < active_kkt_tol released healing nodes rather than growing nodes), causing 2-cycle chatter. Verified corrected PDAS formulation locally yielding 0 healing violations. Formally classified as C1_1_DRIVER_FAILURE; Gate C1-1 NOT PASSED; advancing C1-2 strictly blocked; corrective Package 111 R2 prioritized for Turn 203.",
+  "evidence_sources": {
+    "results/validation/c4_frame77_r1_terminal_audit_turn202.json": "2BC750484D26856280012FC5F558B69B286CDF26C07029146408B59783C608AA",
+    "results/validation/mode1_f1597_turn202_evidence/c4_frame77_am_step_frozen_summary.json": "493C026EC2BD5A4F9325429F1A30FD3D347E7E49B3D4468358D1C9BB3C35C7A6",
+    "results/validation/mode1_f1597_turn202_evidence/pbs_execution.log": "2A67662CE36ACD5DB0670F5705D4CAD9DE624FDF2F004882892A79985AB1B13B",
+    "results/validation/mode1_f1597_turn202_evidence/M1_C4_F77_AM_CYC2_MECH.sta": "72DE34FE9D474586829AD76A1655A6895FA87CC194D85D4C28AE3A50AFAE9585",
+    "results/validation/mode1_f1597_turn202_evidence/M1_C4_F77_AM_CYC2_MECH.msg": "439E0BDDF783D121C2A4527ADBEE2F7E83E05EFDBA4A9481263B368846B17A3B",
+    "tests/unit/test_mode1_f1597_turn202_c1_1_evaluation.py": "E342022DDF05978E92783B2595FE2C9E8A3B292F95C301F47240A6FB9395BABB",
+    "scripts/validation/verify_turn202_pdas_fix.py": "81100AC4FA207B87F6EEB67EB8D7C0EF1E1D46185C1C92DD8A1829391B882B4A",
+    "models/pandey_kumar_mode1/111_r1_c4_frame77_pre_instability/d_lower_bounds.csv": "417D463279851DE55F968B718D48B27C302C16398DADEC7D3CD4C15DB8172CA3",
+    "models/pandey_kumar_mode1/111_r1_c4_frame77_pre_instability/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC"
+  },
+  "verification_passed": true,
+  "job_id": "1417657.mmaster02",
+  "package_name": "111_r1_c4_frame77_pre_instability",
+  "classification": "C1_1_DRIVER_FAILURE",
+  "gate_c1_1_status": "FAIL",
+  "healing_violation_count": 124,
+  "force_parity_pct": 3.003,
+  "energy_parity_pct": 0.009,
+  "next_step": "Execute corrected Package 111 R2 in Turn 203 with fixed PDAS release condition"
+}

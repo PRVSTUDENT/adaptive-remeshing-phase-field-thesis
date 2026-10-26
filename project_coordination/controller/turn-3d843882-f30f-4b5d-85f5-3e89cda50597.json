@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "3d843882-f30f-4b5d-85f5-3e89cda50597",
+    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "repository_commit":  "08b6f66c136afc3b646e23a800b02c909ba3c6b6",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-10-26T18:31:50.1365976+01:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "B9754754AB0B9F372E9B2A70E0AAAB250F5D5A082E8FBCB0CE600428BB0BF8C6",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "CBB47524B8B90014BB857FE3C76116EBB039E323E0B9CC24DEE673F4A62DD5B5",
+                            "project_coordination/ACTIVE_SESSION.json":  "2609BEF088EEFD14DEA8380F3184D986F3206188038141A03917357A627F745A",
+                            "project_coordination/ACTIVE_TASK.json":  "A1E47373831591E25A41FD7C104AE450788E5C078C42417026A188D6D6E944FE",
+                            "project_coordination/TASK_LEDGER.csv":  "E25DE39170D80997388B2C20C14C56B66BA6C15FC0D667DD8F5ACCF6C7B3E6CC",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "303872EBD02E7A8E4998035AF7607B02663FACC7DB8645C1066EC332037580F4",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "EA37AD58FB280D4F1539A8EF2835A77792806C2D08D1313628E956C4ECCB7D09",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "A1E47373831591E25A41FD7C104AE450788E5C078C42417026A188D6D6E944FE",
+                          "project_coordination/CURRENT_STATE.md":  "CBB47524B8B90014BB857FE3C76116EBB039E323E0B9CC24DEE673F4A62DD5B5",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "303872EBD02E7A8E4998035AF7607B02663FACC7DB8645C1066EC332037580F4",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "147A2042A186C205A2C68A4F1DB3237CCC0A480A7837BF2E42B9E085951B92FE"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-10-26_gemini-antigravity_F1597_3d843882-f30f-4b5d-85f5-3e89cda50597.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-3d843882-f30f-4b5d-85f5-3e89cda50597.json",
+                                  "sha256":  "A9963122AD31726AC0B71D8B7A9E3A2B271E7D4440F9EF7CEFC6DA544EB39468",
+                                  "created_at":  "2026-10-26T18:37:44.3546850+01:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Advance to qualified execution or next research task"
+}
