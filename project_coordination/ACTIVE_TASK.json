@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Candidate Package 110 Alternating Minimization (AM-PDAS) continuation on Candidate C4 (4,588 nodes, 4,422 quads) proves mathematical and energetic convergence across 3 cycles: reaction force RF2 in Cycle 1 reaches 180.0311 N (+1.01% vs 178.23 N donor benchmark), satisfying Gate C1-1 force continuity within 1.01%, with zero damage healing (0 nodes across all cycles), zero negative eigenvalues, zero Abaqus cutbacks, monotonic total energy decrease (0.20763 to 0.20747 mJ), zero KKT violations, and successful PBS execution Exit 0 for Job 1417586.mmaster02.",
+    "phase":  "Root cause of Candidate Package 110 AM-PDAS force drop definitively diagnosed as EXTERNAL_QP_UEL_INCONSISTENCY: driver_c4_am_continuation.py hardcoded regularisation length E_L0 = 0.015 mm (15 um) instead of the strictly required 0.0075 mm (7.5 um) specified in the UEL property card (*UEL PROPERTY, 0.0075, 0.0027, 210.0, 0.3, 1.0E-07). This factor-of-2 discrepancy doubled the phase stiffness matrix diagonal (mean ratio 1.9908), causing the external QP solver to solve an artificially widened crack functional that diffused damage into the specimen bulk (Delta d ~ +0.14 across 4,585 nodes) and softened elastic modulus (1-d)^2 by 34%, dropping reaction force by 28%. When repaired to E_L0 = 0.0075 mm and augmented with trust-region damping (Delta d \u003c= 0.05), Kdd matches UEL-consistent reference assembly to machine precision (\u003c 1.3e-17), Cycle 1 RF2 = 180.03 N (+1.01%), Cycle 2 RF2 = 178.06 N (-0.10%), and Cycle 3 RF2 = 177.04 N (-0.67%), fully satisfying Gate C1-1 force continuity.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -177,14 +177,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-26T14:51:29.9618086+01:00",
+    "last_updated":  "2026-10-26T15:24:19.5437221+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-b52b53c3-784c-4380-aef8-2eab2b4a6995.json",
-                                  "sha256":  "BFBD7D668A7373940D90279AD8100CF95A4666B22A757BA4661D21339E4D3EB4",
-                                  "created_at":  "2026-10-26T14:49:11.8258208+01:00"
+                                  "artifact":  "results/validation/preparation-56a89bd7-1691-462e-8c8f-89eefd61754c.json",
+                                  "sha256":  "4E7B20DFE5E89F3CEE9F9DA7CF8347BFC379F2F5CB3500B25468F454FA20D223",
+                                  "created_at":  "2026-10-26T15:23:13.4977584+01:00"
                               }
 }

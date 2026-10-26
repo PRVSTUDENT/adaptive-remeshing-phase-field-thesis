@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn_run_id": "56a89bd7-1691-462e-8c8f-89eefd61754c",
+  "finding": "Root cause of Candidate Package 110 AM-PDAS force drop definitively diagnosed as EXTERNAL_QP_UEL_INCONSISTENCY: driver_c4_am_continuation.py hardcoded regularisation length E_L0 = 0.015 mm (15 um) instead of the strictly required 0.0075 mm (7.5 um) specified in the UEL property card (*UEL PROPERTY, 0.0075, 0.0027, 210.0, 0.3, 1.0E-07). This factor-of-2 discrepancy doubled the phase stiffness matrix diagonal (mean ratio 1.9908), causing the external QP solver to solve an artificially widened crack functional that diffused damage into the specimen bulk (Delta d ~ +0.14 across 4,585 nodes) and softened elastic modulus (1-d)^2 by 34%, dropping reaction force by 28%. When repaired to E_L0 = 0.0075 mm and augmented with trust-region damping (Delta d <= 0.05), Kdd matches UEL-consistent reference assembly to machine precision (< 1.3e-17), Cycle 1 RF2 = 180.03 N (+1.01%), Cycle 2 RF2 = 178.06 N (-0.10%), and Cycle 3 RF2 = 177.04 N (-0.67%), fully satisfying Gate C1-1 force continuity.",
+  "evidence_sources": {
+    "results/validation/c4_am_forensic_classification_turn192.json": "232315DB70166A3D1E86A32B3BCC0ECDA48933532474AB34D09F3A1ACCB8C27C",
+    "tests/unit/test_mode1_f1597_turn192_forensic_classification_and_e_l0_repair.py": "DAABDEFAA684FE91067F7887178838CEA51918B42381553E2AE7F448D45CABE5",
+    "models/pandey_kumar_mode1/110_c4_c1_1_safeguarded_am_continuation/driver_c4_am_continuation.py": "B4C4FE6C7E6F22900A3CA7B813A8A628F92467615101D83724CC3F4FAFE2DEA2",
+    "models/pandey_kumar_mode1/110_c4_c1_1_safeguarded_am_continuation/M1_C4_AM_CONTINUATION.inp": "32274A9E4699D994AAFC38DEC7FFA26A94EB7FEEBB9069656973FEE0F83D912D",
+    "results/validation/c4_am_pdas_multicycle_convergence_turn191.json": "370393F10752D262D934DF6DAA7799AD9E4336BECDDEEEBA3175148C739E864F"
+  },
+  "verification_passed": true
+}
