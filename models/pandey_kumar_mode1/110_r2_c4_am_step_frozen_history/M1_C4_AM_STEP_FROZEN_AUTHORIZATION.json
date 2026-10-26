@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "adapter": "mode1-experimental-12dof-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "batch_name": "MODE1_C4_AM_STEP_FROZEN_HISTORY",
+  "configuration": "ALTERNATING_MINIMIZATION_STEP_FROZEN_COMMITTED_HISTORY",
+  "hypothesis": "Package 110 R1 Job 1417610 demonstrated continuing damage growth (d_max -> 0.962) and load drift (-10.23%) across 15 cycles because within-step AM iterations iteratively accumulated history h_val = max(prev_h, pos_m), surging crack-tip psi+ by 5.66x and ratcheting the phase driving force. By strictly preserving the authentic donor committed history H_n across all trial AM iterations (H_trial^(k) = max(H_committed, psi_plus(u_trial^(k)))) without iterative accumulation, intra-increment history ratcheting is eliminated. Coupled stationarity (Delta d_max <= 1e-3, |Delta RF2| <= 0.1 N) is achieved with zero healing, preserving force continuity within 5% and energy continuity within 2% of the authentic R22 donor benchmark (0.238324 mJ).",
+  "automatic_retry": false,
+  "max_submissions": 1,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_am_step_frozen_history",
+  "files": {
+    "active_set_boundary_cards.inc": "e1e54d1c5725aa5f1774af4a9cbb25eb31d0aabd2793933d94e6b29bd58c5cd1",
+    "driver_c4_am_step_frozen_history.py": "41d9c4d21d5acb8170355784cd1040bea03fb3a5ef41500087840396a63e7752",
+    "d_lower_bounds.csv": "8304d44786381ec5191fa745d2bc90b819c7d146c24b3d7ef21a17a72ad8896c",
+    "f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "M1_C4_AM_CONTINUATION.inp": "32274a9e4699d994aafc38dec7ffa26a94eb7feebb9069656973fee0f83d912d",
+    "run_c4_am_datacheck.sh": "382828b9e6c8371daca8321c0680680d34d12d51d845521da761045be0a1bf1f",
+    "stage_a_all_d0_boundary_cards.inc": "e1e54d1c5725aa5f1774af4a9cbb25eb31d0aabd2793933d94e6b29bd58c5cd1",
+    "submit_M1_C4_AM_STEP_FROZEN_HISTORY.pbs": "1924e809b8582ee885747cddba59649874bc752ec1415eef94b59aabcf3bd05b",
+    "M1_C4_AM_DATACHECK.dat": "11b05c37178f847f327d21e333eb64ef45763ea15476826e6611117b22a72200"
+  },
+  "jobs": [
+    {
+      "id": "M1_C4_AM_STEP_FROZEN_HISTORY",
+      "purpose": "Abaqus 2023 Candidate C4 Stage C1-1 AM Continuation with Step-Frozen Committed History at u = 0.00196610735 mm (4,422 quads, 4,588 nodes, up to 15 cycles with stationarity stopping criteria Delta d <= 1e-3 and Delta RF2 <= 0.1 N)",
+      "input": "M1_C4_AM_CONTINUATION.inp",
+      "user_subroutine": "f42_unified_12dof_active_set_uel.for",
+      "pbs": "submit_M1_C4_AM_STEP_FROZEN_HISTORY.pbs",
+      "datacheck": "M1_C4_AM_DATACHECK.dat",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c4_am_step_frozen_history/submit_M1_C4_AM_STEP_FROZEN_HISTORY.pbs\"",
+      "command_sha256": "4b4b01a967e48ad2b94ff3d80fd33118a215294fc071ee002ce8b0719a208f13",
+      "depends_on": []
+    }
+  ],
+  "acceptance": {
+    "stage_C1_1_same_load": {
+      "u_top_target_mm": 0.00196610735,
+      "rf2_expected_N": 178.2346,
+      "rf2_continuity_pct_max": 5.0,
+      "energy_continuity_pct_max": 2.5,
+      "kkt_violations_max": 0,
+      "free_phase_residual_max_kN_mm": 1e-06,
+      "healing_tolerance": 0,
+      "stationarity_delta_d_max": 1.0e-3
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 196,
+  "turn_run_id": "1d83624d-9c25-4c33-8902-ad44cd9bee56",
+  "package": "models/pandey_kumar_mode1/110_r2_c4_am_step_frozen_history",
+  "submitted_pbs_job_id": "1417641.mmaster02",
+  "job_name": "M1_C4_AM_STEP_FROZEN_HISTORY",
+  "classification": "CORRECTED_STEP_FROZEN_AM_CONTINUATION_QUALIFIED_AND_SUBMITTED",
+  "rationale": "Formulated, verified, and submitted Package 110 R2 on Candidate C4 (4,422 quads, 4,588 nodes) under PBS Job 1417641.mmaster02. Solves the root cause identified in Turn 195: intra-increment history ratcheting is eliminated by preserving the authentic donor committed history H_n as an invariant baseline across all within-step AM iterations (H_trial^(k) = max(H_committed, psi_plus(u_trial^(k)))). Predeclared stopping criteria: Delta d_max <= 1.0e-3, |Delta RF2| <= 0.1 N, active KKT multiplier >= -1.0e-9 kN/mm, free phase residual <= 1.0e-6 kN/mm, zero damage healing, force continuity <= 5%, and energy continuity <= 2% against the authentic R22 donor benchmark (0.238324 mJ). Preflight datacheck passed Exit 0 with Abaqus 2023 and Intel Fortran on the cluster. Execution verified running on queue normal_imfdfkmq.",
+  "predeclared_acceptance_criteria": {
+    "u_top_target_mm": 0.00196610735,
+    "rf2_expected_N": 178.2346,
+    "rf2_continuity_pct_max": 5.0,
+    "energy_continuity_pct_max": 2.5,
+    "kkt_violations_max": 0,
+    "free_phase_residual_max_kN_mm": 1e-06,
+    "healing_tolerance": 0,
+    "stationarity_delta_d_max": 1.0e-3
+  },
+  "package_manifest": {
+    "driver_script": "driver_c4_am_step_frozen_history.py",
+    "driver_sha256": "41d9c4d21d5acb8170355784cd1040bea03fb3a5ef41500087840396a63e7752",
+    "authorization_manifest": "M1_C4_AM_STEP_FROZEN_AUTHORIZATION.json",
+    "authorization_sha256": "6ce22e8e847819179f09a586dfd21e06c17bd51ad61caf34fd0f0565dee9f155",
+    "package_manifest": "PACKAGE_MANIFEST.json",
+    "package_manifest_sha256": "c74741836446de6ae54d43123d8e1becc3bd6d9e90ea714d4c0b263aeb83cc9c",
+    "pbs_script": "submit_M1_C4_AM_STEP_FROZEN_HISTORY.pbs",
+    "pbs_sha256": "1924e809b8582ee885747cddba59649874bc752ec1415eef94b59aabcf3bd05b",
+    "frozen_uel_sha256": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "datacheck_sha256": "11b05c37178f847f327d21e333eb64ef45763ea15476826e6611117b22a72200"
+  },
+  "gate_status": {
+    "gate_c1_0a": "VERIFIED",
+    "gate_c1_0b": "FULLY_VERIFIED",
+    "gate_c1_1": "IN_EXECUTION_JOB_1417641",
+    "gate_c1_2": "NOT_QUALIFIED"
+  }
+}
