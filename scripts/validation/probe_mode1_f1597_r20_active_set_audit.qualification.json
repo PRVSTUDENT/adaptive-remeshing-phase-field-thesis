@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "operation": "probe_mode1_f1597_r20_active_set_audit",
+  "status": "QUALIFIED",
+  "dispatch_ready": true,
+  "canonical_path": "scripts/validation/probe_mode1_f1597_r20_active_set_audit.py",
+  "script_sha256": "3E4BC064F8D2EFCD4EE7C1F235B37EC0865F03FA92F9AB803439D0B7F196A6D7",
+  "execution_mode": "HPC",
+  "pbs_job_id": "1417519.mmaster02",
+  "datacheck": "PASS",
+  "login_notifications": "PASS",
+  "compute_notifications": "PASS",
+  "production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "tests": {
+    "tests/unit/test_mode1_f1597_r20_active_set_audit.py": "B66A76434F9A9D28BC6A8D8FFB88512FA580FBC2DCCB3ED5CC14B37298C16D24",
+    "tests/unit/test_mode1_f1597_turn173_r20_terminal_audit.py": "1083B61C69BF54CACC20853A9FD1F2196C3E38945D2CCE39746F0CAF9285B55A"
+  },
+  "tests_passed": true,
+  "scientific_dependencies": {
+    "results/validation/r20_terminal_evaluation_audit.json": "30F76D0CE83B36DC8BE929A978BECB1CEF84E0E9D356E9A73DB75E6D01494EFB",
+    "results/validation/mode1_f1597/r20_safeguarded_continuation_summary.json": "F5CBD032DA9453F15D6A1580E8A271E7CAACF7E66B7615BDA3E7C1F74C71DDD0",
+    "results/validation/mode1_f1597/r20_pbs_execution.log": "47B787AAD97D50433E04B950E5BEA1396564C15B10FA7CCBB2ED9A8454ECC663",
+    "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/M1_C3_ACTIVE_SET_R20_AUTHORIZATION.json": "B1AF9597912072E914372BBC28521BC5ED0FB8ECF340114F179F1B4ED863B474",
+    "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/M1_C3_ACTIVE_SET_R20_CONTINUATION.inp": "0FB2006394A9B34CF6CFCCC31D14E85526A10BF2358847173713F883DFC8D5DF",
+    "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/driver_r20_safeguarded_continuation.py": "D452397A3B906BB6DFD549F6E2F5D1D2A3234525402DC8A7425D9FDBB484F758",
+    "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_criteria": {
+    "required_measurements": [
+      "total_outer_iterations",
+      "rejected_trials_count",
+      "batch_size_maintained",
+      "total_released_nodes",
+      "delta_dmax",
+      "actual_rf2_N",
+      "rf2_delta_pct",
+      "healing_violations",
+      "damage_bound_violations",
+      "violating_active_nodes"
+    ]
+  }
+}
