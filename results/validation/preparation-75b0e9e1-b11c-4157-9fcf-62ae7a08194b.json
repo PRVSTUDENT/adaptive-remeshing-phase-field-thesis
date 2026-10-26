@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "75b0e9e1-b11c-4157-9fcf-62ae7a08194b",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Independently qualified Package 108 Revision 18: proved Poisson roller-top kinematic freedom across all 54 top nodes, resolved reference damage disparity (0.655215 partial vs 0.656616 full KKT), verified Stage-A state compatibility, preserved frozen UELs, and classified package as OFFLINE_QUALIFIED__HPC_BLOCKED pending external eduVPN SSO renewal.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/r18_donor_kinematics_audit.json": "65F494DE3D8E317DAAA5A933FD3D4CED7BF359E01871A47CAECBC0E5CEA396E1",
+    "scripts/validation/verify_r18_donor_kinematics_and_continuation.py": "157BC9B29EE8D000F75B8EC6CF02059C1A014A787E6795D0661240D93484D57D",
+    "tests/unit/test_mode1_f1597_turn157_r18_scientific_qualification.py": "C62B2615DD532B4E6C08E973E140471738B1F6A70CEEF23D22C92EEBBBC68E4A",
+    "models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/M1_C3_ACTIVE_SET_R18_CONTINUATION.inp": "4026EE5268110FE70959A1418599520CB0F9442C36314F7F92B85FAF0F422574",
+    "models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/driver_r18_safeguarded_continuation.py": "56D6D059B449E24FC2E51FAAC6517BB9A20133A17D12505DFDE16AEE08520D60",
+    "models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/PACKAGE_MANIFEST.json": "9AEA16F0398520841500C53566EB215C93EA7E519EA363DB2FBB470A93D93DFE",
+    "models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/M1_C3_ACTIVE_SET_R18_AUTHORIZATION.json": "10EA3424AEFEE1EDF9569FAAA637237CA5FD141F291AE4C7240B92D1ED795A1B",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}
