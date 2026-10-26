@@ -1,0 +1,31 @@
+{
+  "package_id": "PACKAGE_114",
+  "description": "Mode-I Companion Continuum Linear Elastic Analysis on Candidate C4 for Authentic MISESERI Error Recovery at Increment 79 (u_RP = 0.001842500 mm)",
+  "schema_version": 1,
+  "model": "pandey_kumar_mode1",
+  "files": {
+    "M1_C4_INC79_COMPANION.inp": "F22A7A2FFDFDBA4130A043002BDA9ABC149AD87F5534CE8BBDA9BDE1DC9F07BA",
+    "f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "job_notifications.sh": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "submit_M1_C4_INC79_COMPANION.pbs": "52B2AB521E7961BB9D64F2BF216C3C2E8C82C7CD0242DE9A4D0D88229641AA08",
+    "run_c4_inc79_companion_datacheck.sh": "9EEA93FE0232D6D256E69628143D95DF02AB314D3258A3DBFA6593F09C4B23C6"
+  },
+  "mesh": {
+    "name": "Candidate C4",
+    "quad_count": 4422,
+    "node_count": 4588,
+    "element_type": "CPE4",
+    "process_zone_h_fine_mm": 0.000606
+  },
+  "loading": {
+    "step": "STATIC_ELASTIC",
+    "prescribed_u2_mm": 0.0018425,
+    "source_state": "Package 113 Stage C1-2 Increment 79 (u_RP = 0.001842500 mm, RF2 = 187.3915 N)"
+  },
+  "outputs_requested": [
+    "S",
+    "MISESERI",
+    "MISESAVG",
+    "EVOL"
+  ]
+}

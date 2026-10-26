@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 210,
+  "package_id": "PACKAGE_114",
+  "job_name": "M1_C4_INC79_COMPANION",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_inc79_companion_miseseri",
+  "mesh": {
+    "name": "Candidate C4",
+    "quad_count": 4422,
+    "node_count": 4588,
+    "element_type": "CPE4",
+    "process_zone_h_fine_mm": 0.000606
+  },
+  "loading_state": {
+    "step": "STATIC_ELASTIC",
+    "prescribed_u2_mm": 0.0018425000000000000,
+    "source_state": "Package 113 Stage C1-2 Increment 79 (u_RP = 0.001842500 mm, RF2 = 187.3915 N)",
+    "stiffness_retention_vs_elastic": 0.998
+  },
+  "phase_field_length_audit": {
+    "model_parameter_l0_mm": 0.0075,
+    "model_parameter_l0_um": 7.5,
+    "status": "VERIFIED_L0_EQUALS_7P5_MICRONS"
+  },
+  "verified_remote_hashes": {
+    "M1_C4_INC79_COMPANION.inp": "F22A7A2FFDFDBA4130A043002BDA9ABC149AD87F5534CE8BBDA9BDE1DC9F07BA",
+    "f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "job_notifications.sh": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "submit_M1_C4_INC79_COMPANION.pbs": "52B2AB521E7961BB3F57813FDDA5F36BC0B4F3DDA1DCCAC05C125867EAE90461",
+    "run_c4_inc79_companion_datacheck.sh": "9EEA93FE0232D6D269781B85D8134F5C02947265E95E401815BF7FE662998634",
+    "PACKAGE_MANIFEST.json": "C0E05DD78A1CD65507E780E27FF93DE12CD2387B60128ED806CEFEA8CCB6B48F",
+    "M1_C4_INC79_COMPANION_AUTHORIZATION.json": "D105DBEA8F4ED2FC88BF7372297120F548842DC7B04344E9B3BCF4892B30206D"
+  },
+  "datacheck": {
+    "exit_code": 0,
+    "status": "ANALYSIS_DATACHECK_COMPLETE",
+    "dat_sha256": "3BBE211EDFE697D0F2E51A4476B0BBEB92849E93A3DCBC5DC821A8587BEBC3EB",
+    "msg_sha256": "43F6E7260EE3A83F8C58DE9E7F46B1DC558AC68EAAFF793C989C94073356D59A"
+  },
+  "native_error_output": {
+    "requested_fields": ["S", "MISESERI", "MISESAVG", "EVOL"],
+    "status": "CONFIRMED_ABAQUS_NATIVE"
+  },
+  "qualification_status": "PASS_READY_FOR_SUBMISSION"
+}

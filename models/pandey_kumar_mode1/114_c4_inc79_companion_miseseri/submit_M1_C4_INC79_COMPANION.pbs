@@ -1,0 +1,44 @@
+#!/bin/bash
+#PBS -N M1_C4_INC79_COMP
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratch9/pr21vyci/runs/mode1_c4_inc79_companion_miseseri/pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_c4_inc79_companion_miseseri"
+cd "${RUN_DIR}"
+
+export JOB_NAME="M1_C4_INC79_COMPANION"
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+source "${RUN_DIR}/job_notifications.sh"
+notification_load_config
+notification_install_terminal_trap
+notify_start
+
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+
+echo "=== C4 INC79 COMPANION CONTINUUM EXECUTION START ==="
+echo "Host: $(hostname)"
+echo "Date: $(date -Is)"
+echo "PWD:  $(pwd)"
+
+ABAQUS_CMD="abaqus job=M1_C4_INC79_COMPANION input=M1_C4_INC79_COMPANION.inp cpus=1 interactive"
+echo "Running: ${ABAQUS_CMD}"
+${ABAQUS_CMD}
+EXIT_CODE=$?
+
+echo "Abaqus completed with exit code: ${EXIT_CODE}"
+if [ ${EXIT_CODE} -eq 0 ]; then
+    echo "=== C4 INC79 COMPANION CONTINUUM SUCCESS ==="
+else
+    echo "=== C4 INC79 COMPANION CONTINUUM FAILED ==="
+    exit ${EXIT_CODE}
+fi

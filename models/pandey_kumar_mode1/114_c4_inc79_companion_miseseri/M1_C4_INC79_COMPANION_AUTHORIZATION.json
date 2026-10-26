@@ -1,0 +1,39 @@
+{
+  "batch_name": "MODE1_PACKAGE_114_C4_INC79_COMPANION_MISESERI",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_inc79_companion_miseseri",
+  "files": {
+    "M1_C4_INC79_COMPANION.inp": "f22a7a2ffdfdba4130a043002bda9abc149ad87f5534ce8bbda9bde1dc9f07ba",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "submit_M1_C4_INC79_COMPANION.pbs": "52b2ab521e7961bb9d64f2bf216c3c2e8c82c7cd0242de9a4d0d88229641aa08",
+    "PACKAGE_MANIFEST.json": "c0e05dd78a1cd6550ba761cfefa25d0618be32290a68c1994a7231ab07098978"
+  },
+  "jobs": [
+    {
+      "id": "M1_C4_INC79_COMPANION",
+      "pbs": "submit_M1_C4_INC79_COMPANION.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c4_inc79_companion_miseseri/submit_M1_C4_INC79_COMPANION.pbs\"",
+      "command_sha256": "6db6c31f49fb68943afa4bb293ffe354cf7f726610294212c228798a5ba7519d",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Package 114: Companion continuum linear elastic solve on C4 mesh at Increment 79 state for authentic MISESERI error recovery",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 1,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_C4_INC79_COMPANION.inp",
+      "datacheck": "M1_C4_INC79_COMPANION_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_C4_INC79_COMPANION": "Exit code 0; authentic field outputs MISESERI, MISESAVG, S, EVOL captured in ODB for error-driven adaptation."
+  }
+}
