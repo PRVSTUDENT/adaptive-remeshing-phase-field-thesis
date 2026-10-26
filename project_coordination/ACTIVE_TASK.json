@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Resolved R21 active-set release starvation defect where fixed batch size B=20 exhausted the 80-iteration ceiling leaving 250 active nodes unreleased. Formulated Candidate Package 108 Revision 22 (108_r22_c3_adaptive_pdas_release) with dynamic adaptive PDAS batch scheduling B_k = min(N_viol, max(20, (N_viol+1)//2)) releasing large blocks (125 -\u003e 60 -\u003e ...) while strictly preserving the Delta d_max \u003c= 0.05 damage jump safeguard, adaptive halving, rollback, and 80 outer iterations capacity. Qualified via 5/5 unit tests and full 17/17 regression; staged to cluster scratch; executed remote technical datacheck with Abaqus Exit 0; and immediately submitted M1_C3_ACTIVE_SET_R22 under authentic PBS Job ID 1417553.mmaster02 in normal_imfdfkmq.",
+    "phase":  "PBS Job 1417553.mmaster02 (M1_C3_ACTIVE_SET_R22) verified active and running on mnode102/0 in normal_imfdfkmq (walltime 00:06:13, cput 00:03:49). Conducted independent bounded offline audit of frozen R22 driver logic: verified that adaptive PDAS release batch formula B_k = min(N_viol, max(20, (N_viol+1)//2)) clears 250 violators in \u003c= 9 steps (vs 80 in R21); verified strict rollback to preceding accepted state across all 4 rejection guards; confirmed duplicate prevention in boundary cards; and proved that Abaqus/Standard ODB RF=0.0 at unconstrained DOFs is a structural reporting artifact, establishing that true free-phase residual verification requires independent matrix reconstruction R_d = K_dd * d - F_d. Classified as R22_RUNNING_OR_QUEUED.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -174,14 +174,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-26T12:38:21.7154913+01:00",
+    "last_updated":  "2026-10-26T12:44:57.5863220+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-ce976aed-b5cb-4508-8120-a83516c1d046.json",
-                                  "sha256":  "FCBF83E6E4795A6A46DDC2C07BBFA4F6BAB13054DF00A4CD32472CDC121DF72C",
-                                  "created_at":  "2026-10-26T12:37:59.3394583+01:00"
+                                  "artifact":  "results/validation/preparation-b7c47557-4d40-4665-8dc5-c17508ef78f3.json",
+                                  "sha256":  "55BA3B9F41367CA5D1F7E7A33C19044EB2AE7964DA1F9045E83B7125E4AA121A",
+                                  "created_at":  "2026-10-26T12:44:30.8567111+01:00"
                               }
 }
