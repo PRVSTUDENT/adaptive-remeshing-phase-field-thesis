@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 206,
+  "run_id": "bd2e84e6-b80a-45ff-9e2d-8ea042c0892f",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Independently harvested, audited, and verified Package 112 (Job 1417669.mmaster02) first Stage C1-2 forward physical displacement continuation on Candidate C4 (4,422 elements, 4,588 nodes). Driver achieved converged stationary equilibrium at Cycle 4 (Delta d_max = 0.000770 <= 1e-3, Delta RF2 = 0.0518 N <= 0.1 N) with terminal RF2 = 186.9800 N (+0.81% vs ref 185.47-185.60 N, PASS <= 5%), total energy E_tot = 0.212751 mJ (1.75% vs donor, PASS <= 2%), zero damage healing (0 violations), mechanical residual 3.65e-16 kN (PASS <= 1e-4 kN), free phase residual 2.75e-9 kN/mm (PASS <= 1e-6 kN/mm), and active KKT multiplier -9.81e-10 kN/mm (PASS >= -1e-9 kN/mm). Peak committed history 3.879615 kN/mm^2 reconciled at 606 nm notch-tip elements (EID 2243/2176) with genuine elastic-singular strain energy psi_+(eps_cyc6). All 9 unit tests passed.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/112_c1_2_first_forward_continuation/c4_c1_2_forward_continuation_summary.json": "51BC2272CB448D4696015269E95EA3D8DB553CF26E8DCE45CEBA0B320DB2AA8A",
+    "models/pandey_kumar_mode1/112_c1_2_first_forward_continuation/pbs_execution.log": "26E77E49F7C50C2B1EFC4EB293DA766C98CA2FBE31E65EEB48079E9A5EBB5048",
+    "models/pandey_kumar_mode1/112_c1_2_first_forward_continuation/M1_C4_C1_2_AM_CYC4_MECH.msg": "BFBA2F88C28A9B6074536A7047C12A2ED1E9668E20BB62939A8A086DA5A8D54D",
+    "models/pandey_kumar_mode1/112_c1_2_first_forward_continuation/M1_C4_C1_2_AM_CYC4_MECH.sta": "D09EFCD64B057DA472C3D3E7609741D4A5B186D8E8EB24E7FDF63638924B12DC",
+    "models/pandey_kumar_mode1/112_c1_2_first_forward_continuation/M1_C4_C1_2_AM_CYC4_MECH.dat": "7B6E6E866EE06671A2CF00400B469C96CC1A2AD43C112E063129722E6171A935",
+    "models/pandey_kumar_mode1/112_c1_2_first_forward_continuation/active_set_boundary_cards_cyc4.inc": "20DA49D404FFCF0F92B6A93DD5EE77A5EE5D768FFF7346621BD63D294FA7CDF8",
+    "models/pandey_kumar_mode1/112_c1_2_first_forward_continuation/M1_C4_C1_2_FORWARD_CONTINUATION.inp": "503D14336EFFB0FB381DB7CAA85CCF2C3F20945415C3A1040714659BD7E109D2",
+    "models/pandey_kumar_mode1/112_c1_2_first_forward_continuation/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/112_c1_2_first_forward_continuation/d_lower_bounds.csv": "2C75410E7C327DE28485D59AC143F0E5343BDD5CE6D9993AC45794D4E2B1FBD2",
+    "tests/unit/test_mode1_f1597_turn206_package112_c1_2_continuation.py": "1CCEE36FBED5757A2F97AC9F1485466595DA1EA0C5F5DA5A63D03025D1DE0AC8",
+    "scripts/validation/audit_history_jump.py": "77580F9114F18E374DCA93B4DF5D9C40E95D689CA48BF44BEA659B10A9B509C7"
+  },
+  "verification_passed": true,
+  "verdict": "C1_2_FIRST_FORWARD_PASSED",
+  "evaluated_job": {
+    "pbs_job_id": "1417669.mmaster02",
+    "job_name": "M1_C4_C1_2_FORWARD_STEP",
+    "package": "112_c1_2_first_forward_continuation",
+    "terminal_status": "EXIT_0_CONVERGED_CYCLE4",
+    "cycles_completed": 4
+  },
+  "accepted_c1_2_checkpoint": {
+    "displacement_target_u_mm": 0.00182140625,
+    "physical_increment_delta_u_mm": 2.109375e-05,
+    "rf2_rp_N": 186.98003888130188,
+    "d_max": 0.4884063856394002,
+    "e_elastic_mJ": 0.17025802841529908,
+    "e_fracture_mJ": 0.04249346006486757,
+    "e_total_mJ": 0.21275148848016665,
+    "mechanical_residual_max_kN": 3.648e-16,
+    "free_phase_residual_max_kN_mm": 2.7471752071446122e-09,
+    "active_kkt_multiplier_min_kN_mm": -9.810406772082403e-10,
+    "stationarity_delta_d_max": 0.0007701773553079327,
+    "stationarity_delta_rf2_N": 0.05175173282623291,
+    "healing_violations": 0
+  },
+  "next_continuation_target": {
+    "stage": "C1-2-Step3",
+    "donor_reference_increment": 79,
+    "target_displacement_u_mm": 0.00184250000,
+    "delta_u_mm": 2.109375e-05,
+    "donor_reference_rf2_N": 185.5,
+    "donor_reference_e_tot_mJ": 0.212448
+  }
+}
