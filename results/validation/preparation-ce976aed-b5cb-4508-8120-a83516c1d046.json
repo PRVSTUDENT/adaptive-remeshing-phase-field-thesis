@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "ce976aed-b5cb-4508-8120-a83516c1d046",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Resolved R21 active-set release starvation defect where fixed batch size B=20 exhausted the 80-iteration ceiling leaving 250 active nodes unreleased. Formulated Candidate Package 108 Revision 22 (108_r22_c3_adaptive_pdas_release) with dynamic adaptive PDAS batch scheduling B_k = min(N_viol, max(20, (N_viol+1)//2)) releasing large blocks (125 -> 60 -> ...) while strictly preserving the Delta d_max <= 0.05 damage jump safeguard, adaptive halving, rollback, and 80 outer iterations capacity. Qualified via 5/5 unit tests and full 17/17 regression; staged to cluster scratch; executed remote technical datacheck with Abaqus Exit 0; and immediately submitted M1_C3_ACTIVE_SET_R22 under authentic PBS Job ID 1417553.mmaster02 in normal_imfdfkmq.",
+  "job_id": "1417553.mmaster02",
+  "verdict": "SUBMITTED_AND_RUNNING",
+  "evidence_sources": {
+    "tests/unit/test_mode1_f1597_turn183_r22_qualification.py": "199E12DA858701AE936BA88D63BE883C41083D29863802046D395C9F2F99E6C8",
+    "models/pandey_kumar_mode1/108_r22_c3_adaptive_pdas_release/driver_r22_safeguarded_continuation.py": "2C31DBAB085AC3E6FC23F3410E4526DC8882AD24512CA29DC843A25B22F5746E",
+    "models/pandey_kumar_mode1/108_r22_c3_adaptive_pdas_release/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/108_r22_c3_adaptive_pdas_release/M1_C3_ACTIVE_SET_R22_AUTHORIZATION.json": "FA6CB5F2ECCC5711FEE93AB08D0D738E4848CE118E1295579FB1C42B56AB35CE",
+    "models/pandey_kumar_mode1/108_r22_c3_adaptive_pdas_release/M1_C3_ACTIVE_SET_R22_CONTINUATION.inp": "234F613123D3618ACCB6A029AAD9C91ABCC010B31594B3F409666FF5231FFE90",
+    "models/pandey_kumar_mode1/108_r22_c3_adaptive_pdas_release/PACKAGE_MANIFEST.json": "B6A50C84B8D0424E8F011C3D22C6D7DC09BF46FA73A7962D1DD4EBDD98697B56",
+    "models/pandey_kumar_mode1/108_r22_c3_adaptive_pdas_release/submit_M1_C3_ACTIVE_SET_R22.pbs": "204228925771D1355AA55BA8FA9313B983F3E44BD2FACD84E0212150835AFB91",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "project_coordination/HPC_JOB_LEDGER.csv": "12BC10CC75087558CBEA71B322EFBB9DB1C04B3E92DAD27103E592C266CF6962"
+  },
+  "verification_passed": true
+}
