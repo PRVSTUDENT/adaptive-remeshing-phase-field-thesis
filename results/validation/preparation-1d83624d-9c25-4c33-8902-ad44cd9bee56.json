@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn_run_id": "1d83624d-9c25-4c33-8902-ad44cd9bee56",
+  "finding": "Turn 196 implemented the isolated history correction on Candidate C4 (Package 110 R2): strictly preserves the authentic donor committed history H_n across all within-step trial iterations (H_trial^(k) = max(H_committed, psi_plus(u_trial^(k)))) without iterative accumulation, eliminating artificial intra-increment history ratcheting; predeclared strict stopping criteria (Delta d_max <= 1e-3, |Delta RF2| <= 0.1 N, active KKT multiplier >= -1e-9, free phase residual <= 1e-6 kN/mm, zero healing, force continuity <= 5%, energy continuity <= 2% vs 0.238324 mJ donor benchmark); verified compilation and datacheck with Abaqus 2023 Exit 0; qualified and immediately submitted under PBS Job 1417641.mmaster02.",
+  "evidence_sources": {
+    "results/validation/c4_am_step_frozen_qualification_turn196.json": "E56C1394B147FECF05412815B07B6400303E965E08FB0E3C60341768C093387E",
+    "models/pandey_kumar_mode1/110_r2_c4_am_step_frozen_history/driver_c4_am_step_frozen_history.py": "41D9C4D21D5ACB8170355784CD1040BEA03FB3A5EF41500087840396A63E7752",
+    "models/pandey_kumar_mode1/110_r2_c4_am_step_frozen_history/M1_C4_AM_STEP_FROZEN_AUTHORIZATION.json": "6CE22E8E847819179F09A586DFD21E06C17BD51AD61CAF34FD0F0565DEE9F155",
+    "models/pandey_kumar_mode1/110_r2_c4_am_step_frozen_history/PACKAGE_MANIFEST.json": "C74741836446DE6AE54D43123D8E1BECC3BD6D9E90EA714D4C0B263AEB83CC9C",
+    "models/pandey_kumar_mode1/110_r2_c4_am_step_frozen_history/submit_M1_C4_AM_STEP_FROZEN_HISTORY.pbs": "1924E809B8582EE885747CDDBA59649874BC752EC1415EEF94B59AABCF3BD05B",
+    "tests/unit/test_mode1_f1597_turn196_c4_am_step_frozen_qualification.py": "C6237598AE19B4E6E093274214083BE67F94BC532F215C7DA9DA22277AAA3B42"
+  },
+  "verification_passed": true
+}

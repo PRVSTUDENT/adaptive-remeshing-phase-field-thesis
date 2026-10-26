@@ -2,10 +2,10 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Turn 195 audit resolved the fixed-load instability of Package 110 R1: verified applied displacement is strictly u_RP = 0.001966107 mm (u2=0.0055 mm was a narrative typo); demonstrated that continuing damage growth is caused by a dual mechanism: (1) within-step history ratcheting in the Python AM driver (h_val = max(prev_h, pos_m)) surging crack-tip psi+ from 8.46 to 47.89 GPa, and (2) genuine physical fracture instability where total potential energy decreases monotonically (dE_tot = -0.792 uJ \u003c 0) as elastic release exceeds fracture resistance; established that Cycle 5 is an unverified intermediate iterate rather than a stationary equilibrium; Gate C1-1 remains PROVISIONAL and Gate C1-2 is NOT QUALIFIED.",
-    "gate_status":  "GATE_C1_1_PROVISIONAL_FULL_EQUILIBRIUM_UNRESOLVED__GATE_C1_2_NOT_QUALIFIED",
+    "phase":  "Turn 196 implemented the isolated history correction on Candidate C4 (Package 110 R2): strictly preserves the authentic donor committed history H_n across all within-step trial iterations (H_trial^(k) = max(H_committed, psi_plus(u_trial^(k)))) without iterative accumulation, eliminating artificial intra-increment history ratcheting; predeclared strict stopping criteria (Delta d_max \u003c= 1e-3, |Delta RF2| \u003c= 0.1 N, active KKT multiplier \u003e= -1e-9, free phase residual \u003c= 1e-6 kN/mm, zero healing, force continuity \u003c= 5%, energy continuity \u003c= 2% vs 0.238324 mJ donor benchmark); verified compilation and datacheck with Abaqus 2023 Exit 0; qualified and immediately submitted under PBS Job 1417641.mmaster02.",
+    "gate_status":  "GATE_C1_1_IN_EXECUTION_JOB_1417641__GATE_C1_2_NOT_QUALIFIED",
     "active_pbs_job_ids":  [
-
+                               "1417641.mmaster02"
                            ],
     "dependent_pbs_job_ids":  [
 
@@ -179,14 +179,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-26T16:35:08.7586432+01:00",
+    "last_updated":  "2026-10-26T16:49:24.9206620+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-1664aa56-2021-414e-a114-3c4887987b23.json",
-                                  "sha256":  "04E16B8AE507D032C482B13BF1FB1B49CF49B87ED9DF912165181F2867849726",
-                                  "created_at":  "2026-10-26T16:33:01.8660249+01:00"
+                                  "artifact":  "results/validation/preparation-1d83624d-9c25-4c33-8902-ad44cd9bee56.json",
+                                  "sha256":  "BB878749B8DBCA5B5B08230F0B04F1CA341D84446AF65D618CF61AB9EFCEE6B3",
+                                  "created_at":  "2026-10-26T16:48:20.7261108+01:00"
                               }
 }
