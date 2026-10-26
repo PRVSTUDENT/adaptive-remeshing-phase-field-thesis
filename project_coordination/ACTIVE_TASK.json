@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 108 Revision 22 Job 1417553.mmaster02 completed Exit 0 on mnode102 (walltime 11m33s, 48 outer iterations, 0 trial rejections, 2433 released nodes). Conducted independent mathematical phase-field residual assembly R_d = K_dd * d - F_d across all 2769 nodes: independently verified that true maximum free-phase residual is 4.58e-7 kN/mm \u003c= 1.0e-6 kN/mm; active KKT violations reached exactly 0 under tau_kkt = 1.0e-9 kN/mm (worst signed multiplier -9.85e-10 kN/mm); mechanical residual in .msg is -1.13e-7 kN \u003c= 1e-4 kN; displacement error is 5.39e-11 mm \u003c= 1e-7 mm; reaction force RF2 = 178.23 N matches Case A reference 180.24 N (-1.12% within +/-5%); zero healing detected (pointwise irreversibility strictly preserved); and d_max relaxed from R21\u0027s 0.688991 to 0.686396. All 7 predeclared physical and numerical acceptance criteria met. Classified as R22_C1_0B_VERIFIED.",
+    "phase":  "Candidate Package 108 Revision 22 (108_r22_c3_adaptive_pdas_release) fully verified against Case A roller-top reference: spatial damage correlation R2=0.99949, relative L2 error=2.49%, crack-tip localization identical at Node 1367, RF2=-1.12% (178.23 N vs 180.24 N), E_frac=+3.30% (0.0631 mJ vs 0.0611 mJ), E_elas=-1.12% (0.1752 mJ vs 0.1772 mJ), total internal energy parity=99.98% (0.23832 mJ vs 0.23828 mJ, +0.018%), and incremental external work parity=99.44% (0.0001792 mJ vs 0.0001802 mJ). Physical validity confirmed across all 8 criteria; Stage C1-0B promoted to FULLY VERIFIED.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -174,14 +174,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-26T12:56:08.1261480+01:00",
+    "last_updated":  "2026-10-26T13:10:58.5334895+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-4b4ecef6-6930-4657-903e-12174e7e9822.json",
-                                  "sha256":  "85FFA8AD39E4E9856D6428E963BC28F45E3F95E81E99547175C5E40950FE24DE",
-                                  "created_at":  "2026-10-26T12:55:23.9774344+01:00"
+                                  "artifact":  "results/validation/preparation-ad9f5099-f070-4ec8-b3de-248abbaa5b4c.json",
+                                  "sha256":  "E5293C4D37C15637A19459E76BEAA8FD5745D443B85E7F3C2F68CC24F21A677B",
+                                  "created_at":  "2026-10-26T13:09:11.7388635+01:00"
                               }
 }
