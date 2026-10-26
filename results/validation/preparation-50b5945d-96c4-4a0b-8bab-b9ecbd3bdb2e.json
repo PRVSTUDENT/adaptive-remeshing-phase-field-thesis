@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "50b5945d-96c4-4a0b-8bab-b9ecbd3bdb2e",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Codified formal separation of 8 Mandatory Acceptance Gates (kinematics, mechanics, phase residual, active KKT complementarity, irreversibility, damage bounds, damage jump stability <= 0.05, and unit batch fail-fast) from 6 Observational Evidence Checks (RF2 parity, ALLSE, integrated fracture energy, localization transect, external work, and chattering audit). Mathematically proved in test_mode1_f1597_turn151_gate_separation.py that RF2 parity can never override KKT stationarity. Reconfirmed cluster SSH is blocked solely by external eduVPN interactive SSO renewal on Monday morning (invalid_grant), preserving qualified R17 assets without fabricating PBS receipts.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/r17_mandatory_gates_vs_evidence_checks.json": "10B247368602FD3EE64042A1B98044D75011DF9C28532EE0EB4E40ED18E2B1CD",
+    "tests/unit/test_mode1_f1597_turn151_gate_separation.py": "E499D8E89968680FCA371720767FBB06FCADD5C5262497799AA917126206A08C",
+    "scripts/validation/separate_mandatory_gates_from_evidence_checks.py": "2C69A7B0A43BEDC3007C89B23456522C0F2AD6AD15C5619BE99BB1D8A46C144C",
+    "models/pandey_kumar_mode1/108_r17_c3_safeguarded_active_set/driver_r17_safeguarded_continuation.py": "99149EF17E2CE08D6491CC3B7B1CB96DE2732928F3A946B2A0C76C0CFC564C92",
+    "models/pandey_kumar_mode1/108_r17_c3_safeguarded_active_set/M1_C3_ACTIVE_SET_R17_CONTINUATION.inp": "19CFDF4FE69B8DAF537BAA56CF1E50C9301605581190E744554DC94C0EA37511",
+    "models/pandey_kumar_mode1/108_r17_c3_safeguarded_active_set/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}

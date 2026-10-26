@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Audited cluster connectivity and formally established the R17 Fallback Validation Boundary under offline conditions. Verified cluster SSH remains unreachable due to university VPN token renewal on Monday morning (ssh: Could not resolve hostname mlogin01.hrz.tu-freiberg.de). Classified R17 as OFFLINE_QUALIFIED__HPC_BLOCKED. Formally separated offline-verifiable components (mesh C3 topology, bitwise frozen production UEL CE8D5EDC..., 12-DOF UEL AB0A5A71..., adaptive batch halving 20-\u003e10-\u003e5-\u003e2-\u003e1, damage-jump merit check Delta d_max \u003c= 0.05, unit-batch fail-fast, zero trial-history carryover, and rejection of force-matching false convergence) from cluster-dependent tasks (ifort compilation, abaqus datacheck, PBS queue dispatch, live receipts). Verified 6 unit tests in test_mode1_f1597_turn150_fallback_boundary.py without fabricating remote receipts.",
+    "phase":  "Codified formal separation of 8 Mandatory Acceptance Gates (kinematics, mechanics, phase residual, active KKT complementarity, irreversibility, damage bounds, damage jump stability \u003c= 0.05, and unit batch fail-fast) from 6 Observational Evidence Checks (RF2 parity, ALLSE, integrated fracture energy, localization transect, external work, and chattering audit). Mathematically proved in test_mode1_f1597_turn151_gate_separation.py that RF2 parity can never override KKT stationarity. Reconfirmed cluster SSH is blocked solely by external eduVPN interactive SSO renewal on Monday morning (invalid_grant), preserving qualified R17 assets without fabricating PBS receipts.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -170,14 +170,14 @@
                                  "morning_scientific_audit_packages87_88",
                                  "package89_state_transfer_submission"
                              ],
-    "last_updated":  "2026-10-26T06:27:23.6442824+01:00",
+    "last_updated":  "2026-10-26T06:35:24.0018346+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-07003ab0-ebfe-41f0-a2f5-b5a1df5c8632.json",
-                                  "sha256":  "CAC74ADAD1CAC20211E786EF06B50136069DF9A7D4890078339AF6CB44030EFD",
-                                  "created_at":  "2026-10-26T06:26:50.4832110+01:00"
+                                  "artifact":  "results/validation/preparation-50b5945d-96c4-4a0b-8bab-b9ecbd3bdb2e.json",
+                                  "sha256":  "19FE0E30238250297CC92C2B34BED6D73FCBA6D345C263B8D0B2D39F4A65F9B8",
+                                  "created_at":  "2026-10-26T06:34:31.2615890+01:00"
                               }
 }
