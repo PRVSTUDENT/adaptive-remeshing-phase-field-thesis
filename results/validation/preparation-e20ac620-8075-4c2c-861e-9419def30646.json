@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "e20ac620-8075-4c2c-861e-9419def30646",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Autonomous loop halt verified: Controller-Preparation re-sourcing integrated into Invoke-ChatGPTBridge so that live in-memory controller sessions evaluate BLOCKED_EXTERNAL_AUTHENTICATION with dispatch_ready=false, terminating the loop until university eduVPN interactive browser SSO is renewed; Package 108 Revision 18 and frozen UELs remain bitwise intact.",
+  "evidence_sources": {
+    "scripts/controller/Controller-Preparation.ps1": "81B4F1D5CA008DCFD1AA964E18F7958A94C4E305869E27B60F97694FFD2BDC08",
+    ".agents/scripts/Invoke-ChatGPTBridge.ps1": "C53015221B30361267EE44FF6ED0662BB5D59EC53E4D8F9D7421485FA27823B6",
+    ".agents/scripts/bridge_rules.txt": "FC6F3AF4B58FAC61A2E93FFF8C0D27AF7DBC8223E32D3AD02460C99C814132D5",
+    ".agents/scripts/project_alignment_guard.txt": "28C61B984D8DEBC29F7E4BBB15CF016C55867B7B73044E4C919745D3F87B3F6A",
+    "tests/unit/test_bridge_external_blocker_guard.ps1": "249756A8900BBAF0FFFA45040E96504B391EE46A29BD3CEDD5933AF391EFF103",
+    "tests/unit/test_bridge_external_blocker_guard.py": "5F987C657FF9AF3A13BF2A0DE69B28FE1F026A3E4A704DA47FE18E6DA969F0EC",
+    "models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/M1_C3_ACTIVE_SET_R18_CONTINUATION.inp": "4026EE5268110FE70959A1418599520CB0F9442C36314F7F92B85FAF0F422574",
+    "models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/driver_r18_safeguarded_continuation.py": "56D6D059B449E24FC2E51FAAC6517BB9A20133A17D12505DFDE16AEE08520D60",
+    "models/pandey_kumar_mode1/108_r18_c3_donor_kinematics_active_set/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "results/validation/mode1_f1597/r18_donor_kinematics_audit.json": "65F494DE3D8E317DAAA5A933FD3D4CED7BF359E01871A47CAECBC0E5CEA396E1"
+  },
+  "verification_passed": true
+}
