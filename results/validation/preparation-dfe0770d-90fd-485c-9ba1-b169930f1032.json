@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "dfe0770d-90fd-485c-9ba1-b169930f1032",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Audited live PBS Job 1417540.mmaster02 on mnode102 in queue normal_imfdfkmq: actively running (state R, walltime 10:32); adhered to single-operation discipline without polling. Executed independent mathematical audit of R21 donor history basis and irreversibility: proved R21 strictly initializes from authentic Stage-A lower bounds (d0_max = 0.65499538, identical to Case A reference) with zero carryover of R20 nonconverged damage; proved that R20 peak damage (0.68537) is NOT irreversible in R21 because free nodes solve static equilibrium unconstrained by prior iteration states and healing is checked relative to Stage-A d0; crack-tip damage is mathematically capable of relaxing toward reference (0.656562) as far-field constraints are released; assigned verdict R21_RUNNING_OR_QUEUED.",
+  "job_id": "1417540.mmaster02",
+  "verdict": "R21_RUNNING_OR_QUEUED",
+  "evidence_sources": {
+    "results/validation/r21_irreversibility_and_donor_basis_audit.json": "BCEF1719E78B34E99F56F11EB3B18C9B08885944F074D59386EC2464AE8EF2D4",
+    "results/validation/r20_vs_reference_damage_field_audit.json": "0BC94D713C70F8A46324AD1D162B4E4630DFB2C77FD087410D3B3163E948DFFA",
+    "results/validation/mode1_f1597/r17_matched_boundary_reference_audit.json": "83DAB2166F8C95623CA2FA8FDA724E02752778ED509D308C162B827822A40524",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/driver_r21_safeguarded_continuation.py": "BFEF6A4DA5BF0E067DE51D4ECA7760F1399D6A00F01068CAE2E8CDB2A6D84123",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/stage_a_all_d0_boundary_cards.inc": "4D4925AF24DBF697803DFD8048F7EB3AC8064C6914173058D9587E083F330FB3",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/M1_C3_ACTIVE_SET_R21_AUTHORIZATION.json": "45F0A8A341F5AF71668567B6F07F44881B387211D72E8102BAED190130482671",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "project_coordination/HPC_JOB_LEDGER.csv": "B50CD9D6F4D92444E6200C68BA4699EAAFD6777683003C6346275944440AB768"
+  },
+  "verification_passed": true
+}
