@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 203,
+  "run_id": "c82c19f0-d1e0-45e0-974c-1c46399d3594",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Constructed isolated Package 111 Revision 2 (111_r2_c4_frame77_pre_instability) with mathematically rigorous PDAS active-set release repair: releases clamped nodes strictly when driving force promotes growth (R = q - K*d > 1e-9 kN/mm), clamps trial healing nodes (d_trial < d_lower - 1e-8), and enforces strict Dirichlet projection on exit (d_final[L] = d_lower_bound[L]), guaranteeing zero healing violations. Verified that release threshold 1e-9 avoids concealing active KKT violations (min_lambda >= -1e-9 kN/mm). Preserved authentic 17,688-GP strain history (H0 in [0, 0.68061] kN/mm^2) and damage lower bounds (D0 in [0, 0.3584]); confirmed frozen UEL SHA-256 AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC; passed 6/6 unit qualification tests; staged all files on cluster (/scratch9/pr21vyci/runs/mode1_c4_frame77_r2_pre_instability); verified technical preflight PASS_BOTH with 0 active jobs.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/111_r2_c4_frame77_pre_instability/M1_C4_FRAME77_R2_TRANSFER_AUTHORIZATION.json": "97B57ACAF5996CEC16A3868FD3A3A7404B09BBD8EBDA36A09C84566663B6A5EB",
+    "models/pandey_kumar_mode1/111_r2_c4_frame77_pre_instability/PACKAGE_MANIFEST.json": "E36AF96315520255F9787F6D82026A149DC3FFA2FC3F8D8E9FEE6763B92D3E3E",
+    "models/pandey_kumar_mode1/111_r2_c4_frame77_pre_instability/driver_c4_frame77_am_step_frozen_history.py": "B76070BD349B86BB18722759A1B6B74398DD1337C45B48F126286AA065013C14",
+    "models/pandey_kumar_mode1/111_r2_c4_frame77_pre_instability/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/111_r2_c4_frame77_pre_instability/submit_M1_C4_FRAME77_STEP_FROZEN.pbs": "38819F2727638AA2ADF7D6A6335D5F76CCC214238262893895783489FD824216",
+    "models/pandey_kumar_mode1/111_r2_c4_frame77_pre_instability/d_lower_bounds.csv": "417D463279851DE55F968B718D48B27C302C16398DADEC7D3CD4C15DB8172CA3",
+    "models/pandey_kumar_mode1/111_r2_c4_frame77_pre_instability/M1_C4_FRAME77_DATACHECK.dat": "D8517B03EF39BA8EB5CB0671B5917FDFF5BE98D32806796E60AEBA27097D85F0",
+    "tests/unit/test_mode1_f1597_turn203_package111_r2_qualification.py": "E0F441D290CD89DE1CC34C530A952AA07F011D82893023F3CC98BFCF6FAEA0D2",
+    "scripts/validation/generate_package111_r2_manifest.py": "87BBE50CAD47720AB1C1F52CFA2E559999E3DFFBE64708F6C4A3A252A782A5D3",
+    "scripts/validation/upload_and_stage_package111_r2.py": "1A158BEB7178EEB307A3C034D15C268073CE12149C8CA734C5976C29D6CCB4C2",
+    "scripts/validation/verify_turn202_pdas_fix.py": "81100AC4FA207B87F6EEB67EB8D7C0EF1E1D46185C1C92DD8A1829391B882B4A"
+  },
+  "verification_passed": true,
+  "package_name": "111_r2_c4_frame77_pre_instability",
+  "job_id": "M1_C4_F77_R2_STEP_FROZEN",
+  "frozen_uel_sha256": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+  "predeclared_acceptance": {
+    "force_continuity_pct_max": 5.0,
+    "total_energy_continuity_pct_max": 2.0,
+    "healing_tolerance": 0.0,
+    "active_kkt_tol_kN_mm": -1e-09,
+    "free_phase_residual_tol_kN_mm": 1e-06,
+    "mechanical_residual_tol_kN": 0.0001,
+    "stationarity_delta_d_max": 0.001,
+    "stationarity_delta_rf2_max_N": 0.1
+  }
+}
