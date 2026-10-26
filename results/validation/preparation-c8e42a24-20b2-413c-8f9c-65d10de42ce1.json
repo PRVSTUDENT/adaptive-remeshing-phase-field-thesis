@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 209,
+  "run_id": "c8e42a24-20b2-413c-8f9c-65d10de42ce1",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Audited Package 113 (Job 1417682.mmaster02) Increment-79 energy continuity with unrounded precision: total energy E_tot = 0.21671407 mJ vs donor 0.21244805 mJ (+2.008032%), exceeding the strict <= 2.000000% threshold by +0.008032% (8 uJ/J margin), primarily driven by +7.48% higher resolved crack-tip fracture energy on Candidate C4 (h ~ 606 nm vs 7.5 um). Classified strictly as C1_2_STEP2_ENERGY_GATE_FAILED pursuant to scientific discipline against artificial threshold rounding. Furthermore, evaluated Package 95 MISESERI error recovery: while topologically consistent at the notch tip (Element 2176, eta = 38.5%), its prescribed displacement u_RP = 0.002052 mm (RF2 = 112.97 N) represents a post-peak softened state rather than Increment 79 (u_RP = 0.0018425 mm, RF2 = 187.39 N). A dedicated companion linear-elastic solve at Increment 79 is scientifically required before generating Candidate C5. All 6 unit tests passed.",
+  "evidence_sources": {
+    "scripts/validation/audit_turn209_energy_and_miseseri.py": "A3D2B19CB77208DEF3FF1F90D17509C7AEC65DD6D42F3FEA4A3050B2BDF0910A",
+    "tests/unit/test_mode1_f1597_turn209_energy_gate_audit.py": "482CAD5FA7D5122BA0673804CACE0E99A62E2129977ED7C6CE839DFBE13BCC3B",
+    "results/validation/turn209_energy_and_miseseri_audit.json": "ECE868DB34E263867302B8B29B54E1ED5A7632451F53755D5FFD0BAA69A0557C",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/uel_energy_balance.csv": "EC265AAF6CE4CEDC8190154A946D02C2F162BFF77D19F3B5AFFEA1E378B961D7",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/c4_c1_2_inc79_continuation_summary.json": "568B8B92F1576DB761D841914B55E20C59B1B334E680A4EF21778D28E5A46461",
+    "models/pandey_kumar_mode1/95_c4_companion_miseseri/c4_miseseri_audit.json": "598B1E9563170F85D63814D6253F7FEAA1CA1A4E8EDF9830BBD2C7C273149363",
+    "models/pandey_kumar_mode1/95_c4_companion_miseseri/PACKAGE_MANIFEST.json": "226247C72207F5DFE6FE309E24AF71E4DC76E951F3B50A0654AC7C5481A9622B"
+  },
+  "verification_passed": true,
+  "verdict": "C1_2_STEP2_ENERGY_GATE_FAILED",
+  "audit_details": {
+    "donor_total_energy_mJ": 0.21244805,
+    "c4_total_energy_mJ": 0.21671407,
+    "relative_difference_pct": 2.0080315,
+    "threshold_pct": 2.000000,
+    "threshold_excess_pct": 0.0080315,
+    "elastic_energy_diff_pct": 0.69737,
+    "fracture_energy_diff_pct": 7.48145,
+    "reaction_force_continuity_diff_pct": 0.71133,
+    "healing_violations": 0,
+    "mechanical_residual_kN": 4.591e-16,
+    "free_phase_residual_kN_mm": 1.33278e-09,
+    "active_kkt_multiplier_kN_mm": -9.9383e-10,
+    "miseseri_load_correspondence": {
+      "pkg95_prescribed_u2_mm": 0.002052,
+      "inc79_prescribed_u2_mm": 0.0018425,
+      "state_mismatch": "POST_PEAK_SOFTENING_VS_PRE_PEAK_HARDENING",
+      "adaptation_requirement": "DEDICATED_COMPANION_SOLVE_AT_INC79_BEFORE_C5"
+    }
+  }
+}
