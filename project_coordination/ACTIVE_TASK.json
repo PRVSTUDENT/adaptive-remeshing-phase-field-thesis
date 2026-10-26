@@ -2,10 +2,10 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Turn 200 evaluated terminal Package 111 (Job 1417650.mmaster02, Exit Status 1, walltime 15 s): verified Cycle 1 Abaqus/Standard mechanical solve completed cleanly (Exit 0, 1 inc, 2 iterations, 0 cutbacks, residual force -4.142e-16 kN, RF2 = 191.0415 N, +3.00% parity vs donor 185.4705 N, \u003c= 5% gate pass); independently audited d_lower_bounds.csv and confirmed authentic 17,688 Gauss-point strain history (H0 in [0, 0.68061] kN/mm^2) distinct from damage (D0 in [0, 0.3584]); diagnosed driver failure as an IndexError at line 316 (1-based node ID indexing 0-based array in compute_energies_and_residuals); classified terminal result as C1_1_INCOMPLETE_EVIDENCE; verified numerical repair locally with zero errors (reproducing 0.037152 mJ fracture energy) and 14/14 regression tests passing.",
-    "gate_status":  "GATE_C1_1_INCOMPLETE_EVIDENCE__DRIVER_REPAIR_READY",
+    "phase":  "Constructed isolated Package 111 Revision 1 (111_r1_c4_frame77_pre_instability) with verified IndexError fix at line 316 (de = np.array([d_nodal[n2idx[n]] for n in conn])); verified that compute_energies_and_residuals evaluates all 4,422 quads and 17,688 Gauss points without indexing exceptions, reproducing analytical fracture energy 0.037152 mJ; preserved authentic 17,688-GP strain history (H0 in [0, 0.68061] kN/mm^2) and damage lower bounds (D0 in [0, 0.3584]); verified frozen UEL hash AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC; passed 6/6 unit qualification tests; staged all files on cluster (/scratch9/pr21vyci/runs/mode1_c4_frame77_r1_pre_instability); verified live Abaqus 2023 datacheck Exit 0 and technical preflight verification PASS_BOTH with 0 active jobs.",
+    "gate_status":  "GATE_C1_1_INCOMPLETE_EVIDENCE__JOB_1417657_RUNNING",
     "active_pbs_job_ids":  [
-
+                               "1417657.mmaster02"
                            ],
     "dependent_pbs_job_ids":  [
 
@@ -181,14 +181,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-26T18:02:58.7601311+01:00",
+    "last_updated":  "2026-10-26T18:28:41.0149634+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-71e13c7e-f993-4623-bfa9-15e6a235ab1e.json",
-                                  "sha256":  "6DF8EFC151AD42D672E70C246C6D7E98377E546567C09D6F9693BBE61E036B10",
-                                  "created_at":  "2026-10-26T18:01:52.0644161+01:00"
+                                  "artifact":  "results/validation/preparation-85c5ca47-b36e-4c14-83e6-d754c4078c01.json",
+                                  "sha256":  "B85391D5CB7C8935D456B6D91CAB2599700A815FFB4376A730AF165F205DA624",
+                                  "created_at":  "2026-10-26T18:26:51.9127328+01:00"
                               }
 }
