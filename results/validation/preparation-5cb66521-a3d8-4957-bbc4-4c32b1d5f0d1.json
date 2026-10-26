@@ -1,0 +1,22 @@
+{
+    "schema": 1,
+    "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "run_id": "5cb66521-a3d8-4957-bbc4-4c32b1d5f0d1",
+    "status": "PREPARATION_COMPLETE",
+    "finding": "Formulated Package 108 Revision 20 (driver_r20_safeguarded_continuation.py) restoring preferred release batch size B = 20 at each accepted active-set state, restricting batch halving strictly to genuine merit rejections, and extending maximum outer iterations to 50; verified with 4/4 passing unit tests; staged to HPC cluster and successfully executed technical qualification and datacheck with Abaqus Exit 0; immediately submitted M1_C3_ACTIVE_SET_R20 to cluster under Job ID 1417519.mmaster02.",
+    "job_id": "1417519.mmaster02",
+    "verdict": "SUBMITTED_AND_RUNNING",
+    "evidence_sources": {
+        "results/validation/r20_batch_scheduling_analysis.json": "AEB16974C45C8AF3BB117096DA733C902DA53FBEB90648C3D0B074149E075ADC",
+        "tests/unit/test_mode1_f1597_turn171_r20_scheduling_repair.py": "65A2D0F61B78959B8329A9485E6970E0BD62E224881A596CEE645E6FBFDCCA30",
+        "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/driver_r20_safeguarded_continuation.py": "D452397A3B906BB6DFD549F6E2F5D1D2A3234525402DC8A7425D9FDBB484F758",
+        "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+        "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/M1_C3_ACTIVE_SET_R20_AUTHORIZATION.json": "B1AF9597912072E914372BBC28521BC5ED0FB8ECF340114F179F1B4ED863B474",
+        "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/M1_C3_ACTIVE_SET_R20_CONTINUATION.inp": "0FB2006394A9B34CF6CFCCC31D14E85526A10BF2358847173713F883DFC8D5DF",
+        "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/PACKAGE_MANIFEST.json": "93A8832B8CC905BC5EB07E7BFCDC0B8B94C5126693923B7C187B87CB22DDD9A1",
+        "models/pandey_kumar_mode1/108_r20_c3_adaptive_release_continuation/submit_M1_C3_ACTIVE_SET_R20.pbs": "E7F35C33A6027CAB8379182875E2175A1DCC464DF070BBAC55C5DB9AA1FF5396",
+        "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+        "project_coordination/HPC_JOB_LEDGER.csv": "F23BDDB4B653B8338E80771DB2B64FF94B756F5C64ADB4AFBE768D9F8CD42000"
+    },
+    "verification_passed": true
+}
