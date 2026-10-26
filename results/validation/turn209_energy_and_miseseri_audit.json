@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 209,
+  "donor_increment_79": {
+    "step": 1,
+    "increment": 79,
+    "time": 0.3685,
+    "e_elas_mJ": 0.17140369,
+    "e_elas_kNmm": 0.00017140369,
+    "e_frac_kNmm": 4.1044352e-05,
+    "e_tot_kNmm": 0.00021244805,
+    "e_frac_mJ": 0.041044352,
+    "e_tot_mJ": 0.21244805
+  },
+  "candidate_c4_increment_79": {
+    "cycle": 4,
+    "rf2_rp_N": 187.3914748430252,
+    "d_max": 0.4992200600543182,
+    "e_elas_mJ": 0.17259901081241638,
+    "e_frac_mJ": 0.04411506312278167,
+    "e_tot_mJ": 0.21671407393519804,
+    "healing_violations": 0,
+    "max_delta_d": 0.0008896473731701549,
+    "delta_rf2_prev_cycle_N": 0.06633996963500977
+  },
+  "energy_continuity_evaluation": {
+    "elastic_energy_donor_mJ": 0.17140369,
+    "elastic_energy_c4_mJ": 0.17259901081241638,
+    "elastic_energy_diff_pct": 0.6973716915991621,
+    "fracture_energy_donor_mJ": 0.041044352,
+    "fracture_energy_c4_mJ": 0.04411506312278167,
+    "fracture_energy_diff_pct": 7.481446223786578,
+    "total_energy_donor_mJ": 0.21244805,
+    "total_energy_c4_mJ": 0.21671407393519804,
+    "total_energy_diff_pct_unrounded": 2.0080315800488817,
+    "total_energy_diff_pct_vs_rounded_ref": 2.008055587813507,
+    "predeclared_threshold_pct": 2.0,
+    "threshold_excess_pct": 0.008031580048881715,
+    "gate_passed": false,
+    "verdict": "C1_2_STEP2_ENERGY_GATE_FAILED",
+    "physical_mechanism": "Candidate C4 resolves the localized crack tip with element size h ~ 606 nm (vs donor C3 h ~ 7.5 um). In phase-field fracture (l0 = 30 um), the finer mesh resolves the damage gradient and localized core more accurately, producing +7.48% higher regularized fracture energy (0.04412 mJ vs 0.04104 mJ). Elastic strain energy matches closely (+0.70%, 0.17260 mJ vs 0.17140 mJ). Total energy difference evaluates unrounded to +2.008031%, which exceeds the strict <= 2.000000% gate by +0.008031% (8 uJ/J). Under strict scientific discipline, the gate must be classified as C1_2_STEP2_ENERGY_GATE_FAILED without artificial threshold rounding."
+  },
+  "miseseri_audit": {
+    "pkg95_prescribed_u2_mm": 0.0020520000252872705,
+    "pkg95_source_state": "Package 94 Step 4 Frame 7 (RF2 = 112.97 N)",
+    "pkg113_inc79_u2_mm": 0.0018425,
+    "displacement_discrepancy_mm": 0.0002095000252872706,
+    "displacement_discrepancy_pct": 11.370421996595418,
+    "pkg95_peak_element": 2176,
+    "pkg95_peak_miseseri_kNmm2": 6.707442760467529,
+    "pkg95_elements_above_threshold": 284,
+    "spatial_indicator_validity": "TOPOLOGICALLY_CONSISTENT_NOTCH_TIP_LOCALIZATION",
+    "quantitative_load_correspondence": "LOAD_STATE_MISMATCH_POST_PEAK_VS_PRE_PEAK",
+    "c5_remeshing_recommendation": "DEDICATED_COMPANION_SOLVE_REQUIRED_AT_INC79_LOAD_BEFORE_C5_FINALIZATION"
+  },
+  "evidence_hashes": {
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/uel_energy_balance.csv": "EC265AAF6CE4CEDC8190154A946D02C2F162BFF77D19F3B5AFFEA1E378B961D7",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/c4_c1_2_inc79_continuation_summary.json": "568B8B92F1576DB761D841914B55E20C59B1B334E680A4EF21778D28E5A46461",
+    "models/pandey_kumar_mode1/95_c4_companion_miseseri/c4_miseseri_audit.json": "598B1E9563170F85D63814D6253F7FEAA1CA1A4E8EDF9830BBD2C7C273149363",
+    "models/pandey_kumar_mode1/95_c4_companion_miseseri/PACKAGE_MANIFEST.json": "226247C72207F5DFE6FE309E24AF71E4DC76E951F3B50A0654AC7C5481A9622B"
+  }
+}
