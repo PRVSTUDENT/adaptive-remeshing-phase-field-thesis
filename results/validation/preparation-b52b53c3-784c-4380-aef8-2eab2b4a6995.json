@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn_run_id": "b52b53c3-784c-4380-aef8-2eab2b4a6995",
+  "finding": "Candidate Package 110 Alternating Minimization (AM-PDAS) continuation on Candidate C4 (4,588 nodes, 4,422 quads) proves mathematical and energetic convergence across 3 cycles: reaction force RF2 in Cycle 1 reaches 180.0311 N (+1.01% vs 178.23 N donor benchmark), satisfying Gate C1-1 force continuity within 1.01%, with zero damage healing (0 nodes across all cycles), zero negative eigenvalues, zero Abaqus cutbacks, monotonic total energy decrease (0.20763 to 0.20747 mJ), zero KKT violations, and successful PBS execution Exit 0 for Job 1417586.mmaster02.",
+  "evidence_sources": {
+    "results/validation/c4_am_pdas_multicycle_convergence_turn191.json": "370393F10752D262D934DF6DAA7799AD9E4336BECDDEEEBA3175148C739E864F",
+    "tests/unit/test_mode1_f1597_turn191_c4_am_continuation_convergence.py": "B003301AF871508D8DA0044662F17F4A442043E7F188CF141A631422B2015DDD",
+    "models/pandey_kumar_mode1/110_c4_c1_1_safeguarded_am_continuation/PACKAGE_MANIFEST.json": "1554A1E95E0CA131090787A488F9DB2AF9282F5FE8D5B320C7BCCA67A763D9A9",
+    "models/pandey_kumar_mode1/110_c4_c1_1_safeguarded_am_continuation/M1_C4_AM_AUTHORIZATION.json": "648FF92EE6EBE387EF88F807BCFE8CAC2011700871EDA73EC747F9A390732BF1",
+    "models/pandey_kumar_mode1/110_c4_c1_1_safeguarded_am_continuation/driver_c4_am_continuation.py": "38A6B49C9C0B05F7B8AC286B219260E8606BE2131E82CFD406EFCDAF3E811750",
+    "models/pandey_kumar_mode1/110_c4_c1_1_safeguarded_am_continuation/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/110_c4_c1_1_safeguarded_am_continuation/c4_am_continuation_summary.json": "E1410DC506E4E43564C512515B285813F90A6110AE9177333FE61CF9D32F4A61",
+    "models/pandey_kumar_mode1/110_c4_c1_1_safeguarded_am_continuation/M1_C4_AM_DATACHECK.dat": "6C7ECD1BA62E45D7FBDD5627CF0C719B3927A84CA4766228A4FDA1E726CA4EB0"
+  },
+  "verification_passed": true
+}

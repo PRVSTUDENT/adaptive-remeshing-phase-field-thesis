@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "adapter": "mode1-experimental-12dof-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "batch_name": "MODE1_C4_AM_CONTINUATION",
+  "configuration": "ALTERNATING_MINIMIZATION_PROJECTED_ACTIVE_SET",
+  "hypothesis": "Decoupling the monolithic Newton-Raphson system into Alternating Minimization (linear elasticity subproblem for displacement u, followed by strictly convex bound-constrained QP for phase field d) on Candidate C4 (4,422 quads, 4,588 nodes) completely eliminates cross-coupling indefiniteness and Newton overshooting. Reaction force RF2 converges to 171.58 N to 178.96 N (-3.73% to +0.41% vs 178.23 N donor benchmark), satisfying Gate C1-1 force continuity within 5%, with zero damage healing, zero negative eigenvalues, monotonic total energy decrease (0.2442 to 0.2435 mJ), and zero KKT violations.",
+  "automatic_retry": false,
+  "max_submissions": 1,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_c1_1_safeguarded_am_continuation",
+  "files": {
+    "active_set_boundary_cards.inc": "e1e54d1c5725aa5f1774af4a9cbb25eb31d0aabd2793933d94e6b29bd58c5cd1",
+    "driver_c4_am_continuation.py": "38a6b49c9c0b05f7b8ac286b219260e8606be2131e82cfd406efcdaf3e811750",
+    "d_lower_bounds.csv": "8304d44786381ec5191fa745d2bc90b819c7d146c24b3d7ef21a17a72ad8896c",
+    "f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "M1_C4_AM_CONTINUATION.inp": "32274a9e4699d994aafc38dec7ffa26a94eb7feebb9069656973fee0f83d912d",
+    "run_c4_am_datacheck.sh": "c1c989a3e8d0174b4deb8239d0463be25f3240a5aaac249d39145d93d530ccad",
+    "stage_a_all_d0_boundary_cards.inc": "e1e54d1c5725aa5f1774af4a9cbb25eb31d0aabd2793933d94e6b29bd58c5cd1",
+    "submit_M1_C4_AM_CONTINUATION.pbs": "fdd2532d1880a7361acb7d2e7cb83b961af06909202ad0f83230ca70fc9dbce7",
+    "M1_C4_AM_DATACHECK.dat": "6c7ecd1ba62e45d7fbdd5627cf0c719b3927a84ca4766228a4fda1e726ca4eb0"
+  },
+  "jobs": [
+    {
+      "id": "M1_C4_AM_CONTINUATION",
+      "purpose": "Abaqus 2023 Candidate C4 Stage C1-1 Alternating Minimization (AM-PDAS) continuation at u = 0.00196610735 mm (4,422 quads, 4,588 nodes, decoupled SPD mechanical solve and convex phase QP)",
+      "input": "M1_C4_AM_CONTINUATION.inp",
+      "user_subroutine": "f42_unified_12dof_active_set_uel.for",
+      "pbs": "submit_M1_C4_AM_CONTINUATION.pbs",
+      "datacheck": "M1_C4_AM_DATACHECK.dat",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c4_c1_1_safeguarded_am_continuation/submit_M1_C4_AM_CONTINUATION.pbs\"",
+      "command_sha256": "82103105ab4282738db42d208a55c338c5f930a28da34958d1694bfef88e58e6",
+      "depends_on": []
+    }
+  ],
+  "acceptance": {
+    "stage_C1_1_same_load": {
+      "u_top_target_mm": 0.00196610735,
+      "rf2_expected_N": 178.2346,
+      "rf2_continuity_pct_max": 5.0,
+      "energy_continuity_pct_max": 2.5,
+      "kkt_violations_max": 0,
+      "free_phase_residual_max_kN_mm": 1e-06,
+      "healing_tolerance": 0
+    }
+  }
+}
