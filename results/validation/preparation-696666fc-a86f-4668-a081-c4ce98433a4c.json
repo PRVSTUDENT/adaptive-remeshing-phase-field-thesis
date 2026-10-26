@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "run_id": "696666fc-a86f-4668-a081-c4ce98433a4c",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "verdict": "R21_ACTIVE_SET_NONCONVERGED",
+  "job_id": "1417540.mmaster02",
+  "exit_status": 0,
+  "walltime": "00:18:27",
+  "host": "mnode102",
+  "queue": "normal_imfdfkmq",
+  "finding": "Package 108 Revision 21 Job 1417540.mmaster02 completed Exit 0 at walltime 18m27s executing all 80 outer iterations at preferred batch size B=20 with 0 trial rejections and 1600 total released nodes. Kinematic error (5.38e-11 mm <= 1e-7 mm), reaction force parity (178.1448 N vs 180.2444 N, -1.16% within +/-5%), mechanical residual (2.45e-7 kN <= 1e-4 kN), and pointwise irreversibility (0 healing nodes) passed all tolerances. However, active-set KKT stationarity failed with 250 violating active nodes persisting at max_outer_iters=80 (worst lambda=-1.196e-8 kN/mm < -1e-9 kN/mm). Crucially, releasing 600 additional nodes in iterations 51-80 falsified the Turn 179 relaxation hypothesis: d_max increased from 0.685370 to 0.688991 (+4.94% above Case A reference 0.656562) rather than relaxing. The first demonstrated defect is FAR_FIELD_ELASTIC_ACTIVE_SET_PERSISTENCE: weak bulk elastic energy density perpetually exceeds the uniform crack-tip release threshold tau_release=1e-9 kN/mm across the bulk, requiring a two-scale or crack-band restricted active-set formulation.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "results/validation/mode1_f1597/r21_quantitative_audit.json": "DDFAE1926181A4E083D41A22963DE5C8349C6282485CEBCC1ABA1174A05BD718",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/r21_safeguarded_continuation_summary.json": "363728A452D1BBCAF9DC99FEB06BCA7768B6B8CD5B557E930F5969AB40B0417D",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/pbs_execution.log": "4DFBDD4825EE0665307354A6C28FAC8738F590EDA97E6AFDCA5C89725DA08AFC",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/M1_C3_ACTIVE_SET_R21_IT80_B20.msg": "4847018CC3618FEF133AA0A4A0BE59C74ED797847D8EF69EFAFC7B6CAE740FD0",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/M1_C3_ACTIVE_SET_R21_IT80_B20.dat": "F11792C2A8641B88347382059649BFF750BBE02CAFBD359F5E4EC3644C9AC5D1",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/M1_C3_ACTIVE_SET_R21_IT80_B20.sta": "6450F6CBF49760888A1664300BDCC31FF594E6887DDDC1D3AA28FB5981FD7C07",
+    "tests/unit/test_mode1_f1597_turn180_r21_terminal_audit.py": "D679F260A7350EC84987327836EE32D94F49A0D9F73FCC42AC23781A617F070A",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/driver_r21_safeguarded_continuation.py": "BFEF6A4DA5BF0E067DE51D4ECA7760F1399D6A00F01068CAE2E8CDB2A6D84123",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "project_coordination/HPC_JOB_LEDGER.csv": "F669EC28A149C5DB858BE021ED96E433FA494553EE86CA008AF2E1E33F9BB05D"
+  }
+}

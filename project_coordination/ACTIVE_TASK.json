@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "R21 job 1417540.mmaster02 is running normally in normal_imfdfkmq on mnode102 (elapsed walltime 14m39s exceeding R20 terminal walltime). Spatial damage decomposition confirms that R20 crack-tip node 1367 exhibited d_max=0.685370 (+4.39% relative to Case A reference 0.656562) while all 257 remaining active-set nodes are located in the far-field bulk (r \u003e 0.100 mm up to 0.643 mm) with weak elastic Lagrange multipliers; decoupling in R21 restores specimen compliance and permits the crack tip to relax toward reference equilibrium without violating irreversibility.",
+    "phase":  "Package 108 Revision 21 Job 1417540.mmaster02 completed Exit 0 at walltime 18m27s executing all 80 outer iterations at preferred batch size B=20 with 0 trial rejections and 1600 total released nodes. Kinematic error (5.38e-11 mm \u003c= 1e-7 mm), reaction force parity (178.1448 N vs 180.2444 N, -1.16% within +/-5%), mechanical residual (2.45e-7 kN \u003c= 1e-4 kN), and pointwise irreversibility (0 healing nodes) passed all tolerances. However, active-set KKT stationarity failed with 250 violating active nodes persisting at max_outer_iters=80 (worst lambda=-1.196e-8 kN/mm \u003c -1e-9 kN/mm). Crucially, releasing 600 additional nodes in iterations 51-80 falsified the Turn 179 relaxation hypothesis: d_max increased from 0.685370 to 0.688991 (+4.94% above Case A reference 0.656562) rather than relaxing. The first demonstrated defect is FAR_FIELD_ELASTIC_ACTIVE_SET_PERSISTENCE: weak bulk elastic energy density perpetually exceeds the uniform crack-tip release threshold tau_release=1e-9 kN/mm across the bulk, requiring a two-scale or crack-band restricted active-set formulation.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -174,14 +174,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-26T11:40:15.8183233+01:00",
+    "last_updated":  "2026-10-26T11:49:22.8350686+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-55b5b372-7b49-4cd1-85d4-4833302a533f.json",
-                                  "sha256":  "BD3D99D084E2128AD3DAB7535EAA387E114E3F6B3C6B4CFA41C710F21A8C9C54",
-                                  "created_at":  "2026-10-26T11:40:05.3674365+01:00"
+                                  "artifact":  "results/validation/preparation-696666fc-a86f-4668-a081-c4ce98433a4c.json",
+                                  "sha256":  "708927A7D5F5E52C6A45FBB83A9610E797AA202825C38D544F1125C079540D66",
+                                  "created_at":  "2026-10-26T11:49:08.0724273+01:00"
                               }
 }
