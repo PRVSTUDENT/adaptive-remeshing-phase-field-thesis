@@ -1,8 +1,8 @@
 {
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "status":  "QUALIFIED_OPERATION_EXECUTION",
+    "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "F1597: Qualified operation: probe_mode1_f1597_r20_active_set_audit measured; transfer correction remains unqualified.",
+    "phase":  "Reconciled R20 walltime (authentic PBS accounting: 759 s / 12m 39s vs 1475.2 s estimated sum) and quantified damage discrepancy (d_max = 0.68537 vs reference 0.656616, +4.38% due to far-field clamping); formulated Package 108 Revision 21 active-set capacity expansion (max_outer_iters = 80, preferred_B = 20, tau_release = 1e-9 kN/mm); verified with 4/4 passing unit tests; staged package to cluster scratch and executed technical datacheck with Abaqus Exit 0; immediately submitted M1_C3_ACTIVE_SET_R21 under PBS Job ID 1417540.mmaster02.",
     "gate_status":  "GATE_C1_1_CLOSED_AND_PASSED__ADVANCE_CYCLE_C5_REFINEMENT",
     "active_pbs_job_ids":  [
 
@@ -166,16 +166,6 @@
                                            "prior_revision_result":  "EXIT0_TRACE_MISSING_AT_PROMISED_OUTPUT_PATH",
                                            "automatic_retry":  false
                                        },
-    "last_updated":  "2026-10-26T11:04:19.7027585+01:00",
-    "next_safe_action":  "Advance to Package 108 Revision 21 active-set iteration capacity expansion (N_max = 80, B = 20) or initial batch size calibration (B = 50) to clear remaining far-field active violations.",
-    "scientific_checkpoint":  {
-                                  "kind":  "NUMERICAL_FINDING",
-                                  "operation":  "probe_mode1_f1597_r20_active_set_audit",
-                                  "exit_code":  0,
-                                  "artifact":  "results/validation/mode1_f1597/63b5b5f9-fe70-4b83-b6c4-848b2e60ac0b.json",
-                                  "sha256":  "506E7EF18FFD6DE266BAF782AA3E9F0398A99D9D9C3FF3A778F39AF116E0A531",
-                                  "created_at":  "2026-10-26T11:00:59.8533887+01:00"
-                              },
     "completed_operations":  [
                                  "mapped_frozen_history_lower_bound_kkt_probe",
                                  "mapped_mechanical_history_call_order_probe",
@@ -183,5 +173,15 @@
                                  "morning_scientific_audit_packages87_88",
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
-                             ]
+                             ],
+    "last_updated":  "2026-10-26T11:20:57.5172536+01:00",
+    "next_safe_action":  "Advance to qualified execution or next research task",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-66514777-161a-41cb-9a8d-6fc5ad2164b0.json",
+                                  "sha256":  "B09B988016D65E7163FAFBBC58975070DC0D2F0886F9A987CB90B5917E45AA47",
+                                  "created_at":  "2026-10-26T11:20:51.1084263+01:00"
+                              }
 }

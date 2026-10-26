@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "66514777-161a-41cb-9a8d-6fc5ad2164b0",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Reconciled R20 walltime (authentic PBS accounting: 759 s / 12m 39s vs 1475.2 s estimated sum) and quantified damage discrepancy (d_max = 0.68537 vs reference 0.656616, +4.38% due to far-field clamping); formulated Package 108 Revision 21 active-set capacity expansion (max_outer_iters = 80, preferred_B = 20, tau_release = 1e-9 kN/mm); verified with 4/4 passing unit tests; staged package to cluster scratch and executed technical datacheck with Abaqus Exit 0; immediately submitted M1_C3_ACTIVE_SET_R21 under PBS Job ID 1417540.mmaster02.",
+  "job_id": "1417540.mmaster02",
+  "verdict": "SUBMITTED_AND_RUNNING",
+  "evidence_sources": {
+    "results/validation/r20_discrepancy_and_walltime_reconciliation.json": "F066FFC9EF4F7AC0949A880275AFAB46FB7449E8D5883FC156849BD5CBF398E7",
+    "tests/unit/test_mode1_f1597_turn176_r21_capacity_expansion.py": "3967A6B6AE01F392BCE67B4FA10A0A073E8222F0AB4F5F55487E70CBE1D77023",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/driver_r21_safeguarded_continuation.py": "BFEF6A4DA5BF0E067DE51D4ECA7760F1399D6A00F01068CAE2E8CDB2A6D84123",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/M1_C3_ACTIVE_SET_R21_AUTHORIZATION.json": "45F0A8A341F5AF71668567B6F07F44881B387211D72E8102BAED190130482671",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/M1_C3_ACTIVE_SET_R21_CONTINUATION.inp": "C4512B2B301CE718B2D8AA5C29FBFF70F6F9C9F22FA382C453F5769C4D3421F3",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/PACKAGE_MANIFEST.json": "BEAB9816C8FAC9B013D608DC54659D699C9318086996A421A1179269B389583A",
+    "models/pandey_kumar_mode1/108_r21_c3_extended_active_set/submit_M1_C3_ACTIVE_SET_R21.pbs": "7DEA7639E2796E602F577DC03C6CC5913F6B3831D568595357671F538AE7E33E",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "project_coordination/HPC_JOB_LEDGER.csv": "B50CD9D6F4D92444E6200C68BA4699EAAFD6777683003C6346275944440AB768"
+  },
+  "verification_passed": true
+}
