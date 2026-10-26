@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "af1760ab-8115-4afe-80c0-9dfc6c9ba49e",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Proved discrete operator equivalence: identified exact root cause of the +4.624 N initial force discrepancy as horizontal Poisson constraint N_TOP (ux=0) in Abaqus deck vs roller top in benchmark script. Falsified R16 IT10 as spurious coincidence where damage over-softening masked Poisson stiffening. Defined explicit decision thresholds.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/r17_operator_equivalence_and_discrepancy_audit.json": "019B477F603AFCDD369CE72CD1FA7F6A76DF9A99FF033F7803489FEA33DE42E7",
+    "scripts/validation/audit_operator_equivalence_and_equilibrium.py": "1EA5C12F34AB802FBE85D631B20705253E839AD6117028BADF7698431F9874D2",
+    "tests/unit/test_mode1_f1597_turn153_operator_equivalence.py": "2F9274C007599E1BC380FF540EC0DF2877C344D8D34C9EBC6D6ED1AB65B32241",
+    "models/pandey_kumar_mode1/108_r17_c3_safeguarded_active_set/driver_r17_safeguarded_continuation.py": "99149EF17E2CE08D6491CC3B7B1CB96DE2732928F3A946B2A0C76C0CFC564C92",
+    "models/pandey_kumar_mode1/108_r17_c3_safeguarded_active_set/M1_C3_ACTIVE_SET_R17_CONTINUATION.inp": "19CFDF4FE69B8DAF537BAA56CF1E50C9301605581190E744554DC94C0EA37511",
+    "models/pandey_kumar_mode1/108_r17_c3_safeguarded_active_set/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}
