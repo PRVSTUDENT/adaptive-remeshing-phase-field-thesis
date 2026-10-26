@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 207,
+  "run_id": "bd0972a2-7d27-4d71-9952-8162c9ed543f",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Constructed, qualified, and submitted Package 113 for the second genuine Stage C1-2 forward physical displacement continuation on Candidate C4 (4,422 elements, 4,588 nodes). Prescribed forward increment Delta_u = 2.109375e-5 mm (21.094 nm) from accepted Package 112 Cycle 4 (u_RP = 0.00182141 mm) to target u_RP = 0.00184250 mm matching authentic donor Increment 79 (ref RF2 = 186.067909 N, total energy = 0.212448 mJ). Starting damage lower bounds initialized from Package 112 Cycle 4 (D0 in [0.0031, 0.4906]) and committed history (H0 in [2.27e-8, 4.09] kN/mm^2). Passed 7/7 unit tests, passed Abaqus 2023 remote datacheck Exit 0, verified 9/9 bit-for-bit remote hashes on cluster scratch, passed guarded technical preflight, and submitted qualified Job 1417682.mmaster02 (M1_C4_C1_2_INC79) to normal_imfdfkmq for safe overnight execution.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/M1_C4_C1_2_INC79_AUTHORIZATION.json": "7BBDE20E639ADCBEE3229A5F7D7AB1EA572D04A27DA97C785546C4EBCCE800C5",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/PACKAGE_MANIFEST.json": "0DF8923A043C0BFAFD0AD9BE62A46FA9BA8A02BD184C49539D85C9E0116C5CF5",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/M1_C4_C1_2_INC79_CONTINUATION.inp": "5A1DA93664D57894AFA428FB961EFD5CB864E42161898B74778F2B3B1EEC4DDD",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/driver_c4_c1_2_inc79_continuation.py": "B3DAA63D736EAB4C186A9252DAC08711673AABAB9563AE18EF10C72CA305C04E",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/submit_M1_C4_C1_2_INC79_CONTINUATION.pbs": "AF6FF9DB27D6AB92E5644B7BF68AD4A6AE5CFEFDDB94C5EBF6AAC8E34762EF4C",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/d_lower_bounds.csv": "31DD76E38752795821E9F7AF75BF4971F9926A090A13B304668E95A876DB725D",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/active_set_boundary_cards.inc": "B3B7881552C29CCAA5D082F9EE644B797EA9E6113A5BF2B314ADCE7021940E4F",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/nodal_displacements_cyc4.csv": "B579C8B6C6AFBC6BFBAC7C22375C9FF5B718C823B1DBA364F98E4EFD5F47E3D6",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/M1_C4_INC79_DATACHECK.dat": "7246DD184489ACA81D25C8F6E43B7B5B710F15DB3DC5B61A799A031B5FECB973",
+    "tests/unit/test_mode1_f1597_turn207_package113_qualification.py": "C5936E90D21D5BC6FE16E38E28B6F5116E63B03A2620FE25011F2427990BED2E",
+    "scripts/validation/setup_package113.py": "79B88D90F62EA0FBB7E5F56675D609B038868E14D847EA038234DB583B266BFB",
+    "scripts/validation/generate_package113_manifest.py": "02BA7BBC32614F417055578955546B308C07088BDDE37E786F4755209F1EA7BB",
+    "scripts/validation/verify_package113_remote_hashes.py": "BC652BA6C2949B5EC93ED885A5EC9A77829D627029BB1AE6D9CEEF0AD5CC44C4"
+  },
+  "verification_passed": true,
+  "package_name": "113_c1_2_second_forward_continuation",
+  "job_id": "M1_C4_C1_2_INC79",
+  "pbs_job_id": "1417682.mmaster02",
+  "frozen_uel_sha256": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+  "physical_parameters": {
+    "starting_u_mm": 0.00182140625,
+    "delta_u_mm": 2.109375e-05,
+    "target_u_mm": 0.00184250000,
+    "target_rf2_ref_N": 186.067909,
+    "target_e_tot_ref_mJ": 0.212448,
+    "num_elements": 4422,
+    "num_physical_nodes": 4588
+  },
+  "predeclared_acceptance": {
+    "mechanical_residual_tol_kN": 0.0001,
+    "free_phase_residual_tol_kN_mm": 1e-06,
+    "active_kkt_tol_kN_mm": -1e-09,
+    "healing_tolerance": 0.0,
+    "stationarity_delta_d_max": 0.001,
+    "stationarity_delta_rf2_max_N": 0.1,
+    "force_continuity_pct_max": 5.0,
+    "total_energy_continuity_pct_max": 2.0
+  }
+}
