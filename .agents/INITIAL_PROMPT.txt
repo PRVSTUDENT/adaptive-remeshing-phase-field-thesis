@@ -1,39 +1,24 @@
-﻿# Antigravity — F1597: Physical Consistency Audit Before Further Transfer Experiments
+TURN 216 — METHOD C: GOVERNANCE REVIEW OF DISCRETIZATION-AWARE ENERGY BASELINE BEFORE NEXT REMESHING CYCLE
 
-Perform ONE bounded, entirely offline scientific verification turn. Do not use HPC, VPN, SSH, qstat or qsub during the university service outage.
+Continue F1597-CORRECT-PACKAGE72-STATE-TRANSFER.
 
-Use the latest evidence on branch `mode2-pandey-kumar-reproduction`, including commit `588b0b6b`.
+ONE BOUNDED SCIENTIFIC INVESTIGATION: Synthesize the quantitative Package 115 state-transfer and Package 113/114 energy deconstruction evidence for supervisor/governance review to formalize the discretization-aware energy baseline (accounting for mesh convergence of the regularized AT2 fracture energy functional) prior to initiating downstream adaptive remeshing cycles.
 
-Do not repeat completed numerical experiments.
+JOB-FIRST / REPORT-AFTER. Reconcile all existing jobs first. Preserve immutable Method C threshold discipline: retain C1_2_STEP2_ENERGY_GATE_FAILED without post-hoc relaxation. Zero duplicate PBS submissions.
 
-**Priority 1 — Variational and constitutive consistency**
+1. Bootstrap and reconcile
+Follow AGENTS.md; acquire the exclusive lock. Read live project_coordination task/session/ledger records, Package 113, 114, and 115 complete solver summaries, authentic Package 76 Increment-79 donor evidence and immutable source hashes.
+Verified predecessors:
+- Package 113 Job 1417682.mmaster02: Exit 0, RF2 = 187.39 N (+0.71%), E_tot = 0.216714 mJ (+2.008%), C1_2_STEP2_ENERGY_GATE_FAILED.
+- Package 114 Job 1417689.mmaster02: Exit 0, MISESERI companion recovered (4422 elems, 284 marked, pre-peak valid).
+- Package 115 Job 1417751.mmaster02: Exit 0, 7 cycles converged stationary state, RF2 = 185.79 N (-0.15%), 0 healing nodes, E_tot = 0.216760 mJ (+2.030%).
 
-Audit the proposed relation `eps_bulk = (1-d)^p eps_total` against the actual frozen production UEL's elastic energy, degradation function, phase-field evolution equation and committed-history definition.
+2. Formalize Discretization-Aware Energy Baseline
+Structure the multi-mesh energy baseline formalization distinguishing:
+- Elastic strain energy continuity (virtually identical: -0.153% difference between transferred and donor states).
+- AT2 regularized fracture energy functional scaling with element size h (accounting for over 100% of the observed net energy increase from C3 h=2.5 um to C4 h_min=0.606 um).
+- Document why post-hoc threshold relaxation is avoided while physical conservation holds.
 
-Determine whether multiplying the history-driving energy by `(1-d)^(2p)` while retaining the original mechanical stiffness and equilibrium equations can arise from one consistent energy functional.
-
-Do not call this a physically validated crack-opening decomposition unless the derivation and governing-equation consistency are demonstrated. If not, relabel it an experimental history-source attenuation study.
-
-**Priority 2 — Correct interpretation of numerical checks**
-
-Verify the reported donor overshoot `d=1.0021837`, admissible-range normalization, mapping behavior and damage-irreversibility claims. Report raw donor discrepancy separately from physical-bound non-healing.
-
-Keep the split-node mesh test separate because it changes the crack length from 0.040 to 0.050 mm. Do not use it to claim operator equivalence.
-
-**Priority 3 — Identify the smallest valid next experiment**
-
-Test whether a physically consistent, state-preserving transfer can be built using the original UEL constitutive laws without artificial history attenuation, force scaling, or altered crack geometry.
-
-Treat the coarse-donor resolution explanation as a hypothesis until physically comparable donor states establish it.
-
-Report failures explicitly. Do not tune parameters merely to hit force or energy targets.
-
-**Constraints and deliverables**
-
-Preserve the frozen production UEL, completed evidence, and existing research checkpoints. No speculative HPC jobs.
-
-Deliver a concise constitutive consistency verdict, verified numerical evidence, corrected scientific terminology, targeted tests and one concrete next experiment.
-
-Commit verified changes to the intended branch. Do not silently assume that pushing a feature branch updates `main`.
-
-Finished
+3. Closeout
+Record verified findings in the session report, update coordination ledgers, run unit tests, and cleanly release the session lock.
+End with: Finished

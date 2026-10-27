@@ -553,7 +553,7 @@ function Test-ControllerCompletedScienceReceipt([string]$Workspace,$State) {
         # Each accepted receipt must belong to the same run (not just the task).
         if ($relative -notmatch [regex]::Escape([string]$State.run_id)) { return $false }
         $report = Get-Content -LiteralPath $full -Raw -Encoding UTF8
-        if ($report -notmatch '(?s)Finished\s*$' -or
+        if ($report -notmatch '(?s)Finished[.\s]*$' -or
             $report -notmatch [regex]::Escape([string]$State.run_id)) { return $false }
         return $true
     } catch { return $false }
@@ -566,13 +566,13 @@ function Complete-ControllerTurn([string]$Workspace,[string]$Path,$State,[string
     # receipt tied to THIS controller run, never a stale report or active session.
     if (-not $receiptAccepted -and -not $State.session.active -and
         $Response -notmatch '(?im)^\s*BLOCKED\b' -and
-        $Response -notmatch '(?s)Finished\s*$') {
+        $Response -notmatch '(?s)Finished[.\s]*$') {
         $receiptAccepted = Test-ControllerCompletedScienceReceipt $Workspace $State
         if ($receiptAccepted) {
             Write-Host ('[RECEIPT] Verified completed scientific turn ' + $State.turn + ' / ' + $State.run_id + ' without terminal chat marker.')
         }
     }
-    if ($State.session.active -or $Response -match '(?im)^\s*BLOCKED\b' -or (-not $receiptAccepted -and $Response -notmatch '(?s)Finished\s*$')) {
+    if ($State.session.active -or $Response -match '(?im)^\s*BLOCKED\b' -or (-not $receiptAccepted -and $Response -notmatch '(?s)Finished[.\s]*$')) {
         $State.state='BLOCKED'; $State.block_reason='Response incomplete, explicitly blocked, or repository session not released'
     } else {
         $State.state='COMPLETED'

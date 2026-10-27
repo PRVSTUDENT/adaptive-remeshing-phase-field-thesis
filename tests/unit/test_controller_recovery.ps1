@@ -178,6 +178,8 @@ try {
     Assert ((Complete-ControllerTurn $fixture $path $s 'BLOCKED: evidence missing') -eq 'BLOCKED') 'blocked/incomplete model response cannot count as completion'
     $s=New-ControllerTurnState (Get-ControllerEvidence $fixture) 1 'review'
     Assert ((Complete-ControllerTurn $fixture $path $s 'Authentic completed session report without marker' -VerifiedReceipt) -eq 'COMPLETED') 'verified completed receipt preserves work even without Finished marker'
+    $s=New-ControllerTurnState (Get-ControllerEvidence $fixture) 1 'review'
+    Assert ((Complete-ControllerTurn $fixture $path $s "Authentic completed session report with punctuated marker.`nFinished.`n") -eq 'COMPLETED') 'punctuated Finished marker is accepted as normal completion'
     $s=Set-ControllerInterrupted $fixture $path $s 'trusted partial'
     [IO.File]::AppendAllText($s.partial_output,'tampered')
     $failed=$false; try {$null=Get-ControllerRecoveryInstruction $s}catch{$failed=$_.Exception.Message -match 'modified recovery'}

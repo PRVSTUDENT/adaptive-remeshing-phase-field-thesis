@@ -55,7 +55,7 @@
   * `PACKAGE96_R2_C5_CONSTRAINED_TRANSFER_STATUS = COMPLETED_JOB_1416891_EXIT0_FORCE_1P15PCT_PASS_ENERGY_0P39PCT_PASS_BOUNDS_PASS_HISTORY_PASS_CONTINUATION_PASS_GATE4_FLANK_HEALING_2140_FAIL`
   * `PACKAGE96_R3_C5_ISOLATED_TRANSFER_STATUS = COMPLETED_DUAL_JOB_RECONCILED_1416910_AND_1416912_EXIT0_FORCE_1P15PCT_PASS_ENERGY_0P41PCT_PASS_STEP3_ZERO_HEALING_PASS_STEP4_HEALING_84_FAIL`
   * `PACKAGE96_R4_C5_ISOLATED_TRANSFER_STATUS = COMPLETED_JOB_1416964_EXIT0_11_INCS_STEP3_ZERO_HEALING_PASS_STEP4_HEALING_REDUCED_71PCT_TO_24_BOUNDS_PASS_SOFTENING_PASS`
-  * `CONTROLLER_RECOVERY_STATUS = TURN62_BLOCKED_CHECKPOINT_RECONCILED_CLEANLY_READY_FOR_AUTONOMOUS_RESUME_TURN62`
+  * `CONTROLLER_RECOVERY_STATUS = TURN215_BLOCKED_CHECKPOINT_RECONCILED_CLEANLY_READY_FOR_AUTONOMOUS_RESUME_TURN216`
   * `PACKAGE102_STAGGERED_REEQUIL_STATUS = COMPLETED_JOB_1417164_EXIT0_RF2_98P79N_MINUS_12P55PCT_ENERGY_0P1493MJ_PLUS_8P40PCT_GATE_C1_2_NOT_QUALIFIED`
   * `PACKAGE102_HISTORY_LOSS_DEFECT = PROVEN_18_SVARS_PLACED_ON_SINGLE_LINE_TRUNCATING_SVARS_8_TO_18_RESOLVED_BY_3_LINE_CARD_FORMAT`
   * `PACKAGE102_R1_STAGGERED_STATUS = COMPLETED_JOB_1417172_EXIT0_WALLTIME_28S_HISTORY_100PCT_VERIFIED_17760_GPS_ZERO_HEALING_PASS_ZERO_OVERSHOOT_PASS_RF2_98P79N_DEFICIT_MINUS_12P55PCT_GATE_C1_2_NOT_QUALIFIED`
@@ -113,6 +113,18 @@
      - Offline mechanical solve $K_{\text{mech}}(d^*) u^* = F_{\text{ext}}$ froze $d^*$, ignoring the non-zero phase-field residual $R_d \ne 0$ ($4.75 \times 10^{-6}\,\mathrm{kN}$ at Node 350).
      - In Step 1, Abaqus released the phase field, causing instantaneous crack-tip tearing ($\Delta d = +0.0547$) and a $-32.07\%$ force drop ($2.574 \to 1.748\,\mathrm{N}$), while far-field nodes healed ($\Delta d < 0$).
      - Corrective requirement: Monolithic coupled inequality-constrained transfer operator $\min_{u^*, d^*} \Pi(u^*, d^*)$ subject to $d^* \ge d_{\text{donor}}$ and consistent boundary conditions prior to restart.
+
+
+## Controller Reliability Repair & Turn 214/215 Historical Reconciliation — 27 October 2026
+
+- **Turn 214 Interruption**: Interrupted by a stream timeout during execution; partial scientific results on disk preserved intact.
+- **Turn 215 Evidence-Only Recovery & Checkpoint Block**: Turn 215 successfully recovered and verified Package 115 and Package 113 results, produced deliverables, committed `cd96c89c`, released the repository session, and concluded with `Finished.`.
+- **Root Cause & Controller Repair**: The regex `$Response -notmatch '(?s)Finished\s*$'` failed closed on punctuated `Finished.`. Updated `scripts/controller/Controller-Recovery.ps1` to accept `Finished[.\s]*$` and added comprehensive unit tests (`tests/unit/test_controller_punctuated_finished_marker.ps1`).
+- **Deterministic Reconciliation**: Successfully executed `scripts/controller/Reconcile-Turn215BlockedCheckpoint.ps1`. Archived original interrupted checkpoint (`CCC5CBA009F37D19A079722CF13747504262747BE1F36395A51024E57D729EDD`), marked checkpoint `COMPLETED` (`INTERRUPTED_TURN_PROGRESS_WATCHDOG_RECONCILED`), verified loop state and dry-run guard pass.
+- **Scientific Findings Preserved**:
+  * Package 113 (`1417682.mmaster02`, Exit 0): $E_{\text{tot}} = 0.21671407\,\text{mJ}$ (+2.008%), RF2 = $187.39\,\text{N}$, gate `C1_2_STEP2_ENERGY_GATE_FAILED` retained.
+  * Package 114 (`1417689.mmaster02`, Exit 0): Companion MISESERI recovered ($6.022\,\text{kN/mm}^2$, 4,422 elements, 284 marked, pre-peak valid).
+  * Package 115 (`1417751.mmaster02`, Exit 0): 7 cycles converged stationary equilibrium, RF2 = $185.789\,\text{N}$ (-0.150%), zero healing across 4,588 nodes, $E_{\text{elas}} = 0.171141\,\text{mJ}$ (-0.153%), $E_{\text{tot}} = 0.216760\,\text{mJ}$ (+2.030%).
 
 
 ## Controller Reliability Repair & Turn 63/64 Deterministic Reconciliation — 23 October 2026
