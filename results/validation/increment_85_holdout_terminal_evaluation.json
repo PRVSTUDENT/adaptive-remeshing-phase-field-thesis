@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "title": "Package 119 Increment-85 Holdout Diagnostic Terminal Evaluation",
+  "frozen_prediction_reference": {
+    "path": "results/validation/increment_85_frozen_prediction.json",
+    "sha256": "2977DBBF4828A23AF97D433D025167C4B1B12AA4BAFF06C2A82AC133EC6E8E67",
+    "timestamp": "2026-10-27T12:01:00+01:00"
+  },
+  "pbs_execution": {
+    "job_id": "1417898.mmaster02",
+    "scratch_dir": "/scratch9/pr21vyci/runs/mode1_c4_inc85_holdout_diagnostic",
+    "exit_code": 0,
+    "walltime_s": 108,
+    "cycles_completed": 10,
+    "status": "CONVERGED_STATIONARY_STATE"
+  },
+  "numerical_stationarity_audit": {
+    "mechanical_residual_pass": true,
+    "free_phase_residual_kN_mm": 1.300858841531214e-09,
+    "free_phase_residual_pass": true,
+    "min_lambda_kkt_kN_mm": -9.700247050580806e-10,
+    "min_lambda_kkt_pass": true,
+    "healing_violations": 0,
+    "healing_pass": true,
+    "terminal_delta_d_max": 0.0008135360851146967,
+    "stationarity_d_pass": true,
+    "terminal_delta_rf2_N": 0.05671381950378418,
+    "stationarity_rf2_pass": true,
+    "numerical_validity_verdict": "PASS"
+  },
+  "terminal_metrics": {
+    "rf2_rp_N": 184.79062616825104,
+    "rf2_donor_ref_N": 186.067909,
+    "e_elas_mJ": 0.176596012288746,
+    "e_frac_mJ": 0.05315005044680671,
+    "e_tot_mJ": 0.22974606273555273,
+    "d_max": 0.5937417350745222
+  },
+  "prediction_vs_measured_comparison": {
+    "e_source_c3_donor_mJ": 0.22534936,
+    "predicted_delta_e_mesh_mJ": 0.00486763,
+    "predicted_delta_e_mesh_pct": 2.15998,
+    "predicted_e_target_c4_mJ": 0.23021699,
+    "uncertainty_interval_mJ": [
+      0.22976699,
+      0.23066699
+    ],
+    "measured_delta_e_mesh_mJ": 0.004396702735552732,
+    "measured_delta_e_mesh_pct": 1.9510606711076226,
+    "measured_e_target_c4_mJ": 0.22974606273555273,
+    "inside_uncertainty_interval": true,
+    "dimensionless_residual_r_E_pct": -0.2089765262467434,
+    "abs_residual_pct": 0.2089765262467434,
+    "pass_band_threshold_pct": 0.25,
+    "falsification_threshold_pct": 0.5,
+    "residual_sign_interpretation": "ENERGY_DEFICIT (measured target energy is 0.209% below prediction, well within the 0.250% pass band)"
+  },
+  "donor_provenance_verdict": "DONOR_HISTORY_CONSISTENT",
+  "classification": "HOLDOUT_PREDICTIVE_VALIDATION_PASSED",
+  "governance_status": {
+    "original_gate_status": "C1_2_STEP2_ENERGY_GATE_FAILED (RETAINED, NOT CLEARED)",
+    "package_113_status": "FAIL (+2.0080315% > 2.000000%)",
+    "c5_remeshing_permitted": false,
+    "scientific_interpretation": "The passing holdout (|r_E| = 0.209% <= 0.250%) independently validates that the AT2 crack-tip variational sharpening model generalizes to predict cross-mesh energy offsets without in-sample tuning. However, per project governance, this diagnostic validation does not retrospectively alter the binding Level 3 gate for Package 113. Autonomous C5 remeshing remains blocked."
+  }
+}

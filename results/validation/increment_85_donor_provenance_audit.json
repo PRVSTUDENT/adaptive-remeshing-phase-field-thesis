@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "title": "Increment-85 Donor Provenance and Damage Monotonicity Audit",
+  "investigation_question": "Why did Turn 227 cite d_max ~ 0.499 at Increment 79 while Frame 85 reports d_max = 0.446 despite larger displacement?",
+  "finding": "Apples-to-oranges cross-mesh comparison identified. d_max = 0.499220 in Turn 227 belonged to receiver Package 113 on fine mesh Candidate C4 (h_min = 0.61 um). On the authentic coarse donor C3 mesh (h = 2.5 um), damage evolved strictly monotonically across all increments.",
+  "donor_c3_damage_evolution": [
+    {
+      "frame": 77,
+      "increment": 77,
+      "step_time_s": 0.360063,
+      "u_top_mm": 0.00180031,
+      "c3_d_max": 0.370382,
+      "mesh": "C3 (1600 quads)"
+    },
+    {
+      "frame": 79,
+      "increment": 79,
+      "step_time_s": 0.3685,
+      "u_top_mm": 0.0018425,
+      "c3_d_max": 0.433395,
+      "mesh": "C3 (Package 117 control)"
+    },
+    {
+      "frame": 85,
+      "increment": 85,
+      "step_time_s": 0.382343,
+      "u_top_mm": 0.00191171,
+      "c3_d_max": 0.445999,
+      "mesh": "C3 (Package 76 visual donor)"
+    },
+    {
+      "frame": 88,
+      "increment": 88,
+      "step_time_s": 0.393021,
+      "u_top_mm": 0.00196511,
+      "c3_d_max": 0.490618,
+      "mesh": "C3 (Package 76 visual donor)"
+    }
+  ],
+  "receiver_c4_damage_evolution": [
+    {
+      "step": "Frame 77 direct transfer (P111 R2)",
+      "u_top_mm": 0.00180031,
+      "c4_d_max": 0.479016,
+      "mesh": "C4 (4422 quads)"
+    },
+    {
+      "step": "Increment 78 forward step 1 (P112)",
+      "u_top_mm": 0.00182141,
+      "c4_d_max": 0.488406,
+      "mesh": "C4 (4422 quads)"
+    },
+    {
+      "step": "Increment 79 forward step 2 (P113)",
+      "u_top_mm": 0.0018425,
+      "c4_d_max": 0.49922,
+      "mesh": "C4 (4422 quads)"
+    },
+    {
+      "step": "Increment 79 equilibrated hold (P115/118)",
+      "u_top_mm": 0.0018425,
+      "c4_d_max": 0.523842,
+      "mesh": "C4 (4422 quads)"
+    },
+    {
+      "step": "Increment 85 holdout diagnostic (P119)",
+      "u_top_mm": 0.00191171,
+      "c4_d_max": 0.593742,
+      "mesh": "C4 (4422 quads)"
+    }
+  ],
+  "donor_monotonicity_verified": true,
+  "receiver_monotonicity_verified": true,
+  "classification": "DONOR_HISTORY_CONSISTENT"
+}
