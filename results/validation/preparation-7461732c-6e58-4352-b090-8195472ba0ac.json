@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 126 Revision 2 completed Exit 0 as PBS Job 1417985.mmaster02 on mnode105 (walltime 105s, 6 cycles). Depth-3 safeguarded Anderson acceleration activated at Cycle 6 (step size: 0.000562, accepted), reducing Delta d to 0.000327 <= 1.0e-3 and Delta RF2 to 0.0764 N <= 0.1 N with zero healing violations and free residual 1.09e-19, achieving CONVERGED_STATIONARY_STATE. Hypothesis H7 confirmed (Anderson acceleration resolves AM contractivity stagnation). Terminal RF2 = 135.73 N (-26.90% vs donor ref 185.68 N) demonstrates post-initiation softening on mesh C4, failing Stage C1-1 force continuity (<= 5%). Binding Method C gate C1_2_STEP2_ENERGY_GATE_FAILED retained.",
+  "evidence_sources": {
+    "results/validation/package126_r2_h7_evaluation.json": "42B62389C0B6D92BCEDE08EA536F009375C44C761479167B4B76926CDD5BA4B0",
+    "tests/unit/test_mode1_f1597_package126_r2_terminal_evaluation.py": "B11F4551B905BCD1EAF253106726891215DA3F8F2A0B318D9BF654B4F1CB0BA3",
+    "scripts/validation/evaluate_package126_r2.py": "6309837F094643E5DC04DD5C3B3080E129F9DA0355E006F56ED1CD7E4A7C37DD",
+    "models/pandey_kumar_mode1/126_r2_c4_inc87_anderson_control/c4_inc87_anderson_r2_summary.json": "152A30D9189E51694B04DE34C772647B250B6F5C1F43EF4CF8736618D3EA226E",
+    "models/pandey_kumar_mode1/126_r2_c4_inc87_anderson_control/pbs_execution.log": "7EE9B89FA483FB10783702FAF84AD7B7F07ED4F6721DEBB27624033FD5F254DC",
+    "models/pandey_kumar_mode1/126_r2_c4_inc87_anderson_control/_extracted_u_rf.json": "7EBB08E3833FEBFE21E98D10F46AD408B5E0532254E29D86BE6F3DE7B7223EDD",
+    "project_coordination/HPC_JOB_LEDGER.csv": "BED177D8A968064DD889E75CFF34D40339727FD28E9492CEABCA3206193AD6EE"
+  },
+  "verification_passed": true
+}
