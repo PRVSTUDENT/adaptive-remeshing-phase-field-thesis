@@ -2,10 +2,10 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 125 40-cycle stagnation diagnosed: spectral radius rho_d increased from 0.7657 to 1.0025, causing asymptotic stalling of Delta d at 0.001187 (Cycle-26 projection failed due to non-constant contraction rate). Package 126 (safeguarded Anderson acceleration, m=3, start=6) qualified and executed (PBS Job 1417975.mmaster02); terminated Exit 1 on startup due to KeyError: 999999 (reference point node 999999 unmasked in parse_inp_mesh); classified H7_INVALID pursuant to mandatory evidence-first failure diagnosis. Binding Method C gate C1_2_STEP2_ENERGY_GATE_FAILED retained.",
-    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE126_COMPLETED_EXIT1_H7_INVALID",
+    "phase":  "Package 126 Reference Point node parsing defect repaired in Package 126 Revision 1 (driver_c4_inc87_anderson_am_r1.py): restored strict RP exclusion in parse_inp_mesh (4,588 physical continuum nodes, 4,422 quads, RP 999999 preserved for kinematic coupling and RF2 extraction). Staged to /scratch9/pr21vyci/runs/mode1_c4_inc87_anderson_control_r1 with remote SHA256 checksums verified, Abaqus 2023 interactive datacheck Exit 0 completed (M1_C4_INC87_AND_R1_DC.dat), and 14/14 unit tests passed. Submitted to entry_imfdfkmq as PBS Job 1417980.mmaster02; actively running on mnode104 with Cycle 1 completed Exit 0 and Cycle 2 currently executing. Binding Method C gate C1_2_STEP2_ENERGY_GATE_FAILED retained.",
+    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE126_R1_EXECUTING_JOB_1417980",
     "active_pbs_job_ids":  [
-
+                               "1417980.mmaster02"
                            ],
     "dependent_pbs_job_ids":  [
 
@@ -198,14 +198,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-27T16:51:27.2978335+01:00",
+    "last_updated":  "2026-10-27T17:05:33.6772373+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-ec8aff7a-9a77-4d89-9773-b2bdf22a06c0.json",
-                                  "sha256":  "DA4E05FF497BE523330722F7CE090578775D797D3FE53D0B13CD0DD5ACE980C6",
-                                  "created_at":  "2026-10-27T16:50:35.3130797+01:00"
+                                  "artifact":  "results/validation/preparation-4e862753-4d2d-4347-b0be-d839d4b59032.json",
+                                  "sha256":  "4D3E15A16F35AE44F9E8D6EDF95E8898C0E39D083FA33AD9B7B7B991AE1AD4CE",
+                                  "created_at":  "2026-10-27T17:04:51.5888419+01:00"
                               }
 }

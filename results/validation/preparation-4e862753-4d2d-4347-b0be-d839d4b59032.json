@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 126 Reference Point node parsing defect repaired in Package 126 Revision 1 (driver_c4_inc87_anderson_am_r1.py): restored strict RP exclusion in parse_inp_mesh (4,588 physical continuum nodes, 4,422 quads, RP 999999 preserved for kinematic coupling and RF2 extraction). Staged to /scratch9/pr21vyci/runs/mode1_c4_inc87_anderson_control_r1 with remote SHA256 checksums verified, Abaqus 2023 interactive datacheck Exit 0 completed (M1_C4_INC87_AND_R1_DC.dat), and 14/14 unit tests passed. Submitted to entry_imfdfkmq as PBS Job 1417980.mmaster02; actively running on mnode104 with Cycle 1 completed Exit 0 and Cycle 2 currently executing. Binding Method C gate C1_2_STEP2_ENERGY_GATE_FAILED retained.",
+  "evidence_sources": {
+    "scripts/validation/generate_package126_r1.py": "A3CAD8BB588F6E2F543D612B48B9FAC2625415C05A7C7C6F2B8855A4E44D24AB",
+    "scripts/validation/stage_and_qualify_package126_r1.py": "FE881573C5141917F4F017DBC8A52C9C427FB3A93F8783062B7F991E498DB12B",
+    "tests/unit/test_mode1_f1597_package126_r1_qualification.py": "AD91289F81183122953916AD57FA7DF50AEAB125FBE002480305626281086F70",
+    "results/validation/package126_r1_input_parity_report.json": "C6F6EBDA0AE5DFD84B232194789A211C481BF2B472DA6DCA07D93C5B030EBBCF",
+    "models/pandey_kumar_mode1/126_r1_c4_inc87_anderson_control/M1_C4_INC87_AND_R1.inp": "AE15B81703D804BBD551A01E77ABF339D4B6E474C2120BF597DC296838EF241A",
+    "models/pandey_kumar_mode1/126_r1_c4_inc87_anderson_control/driver_c4_inc87_anderson_am_r1.py": "E462EACD1BCF0F4C01B45AA9E453CE195C6BDC659FFCC9C181712883EEF2A8EC",
+    "models/pandey_kumar_mode1/126_r1_c4_inc87_anderson_control/submit_M1_C4_INC87_AND_R1.pbs": "4F3EEC3B9D805FBB3ED130300500BD4FDDCC95B84DDD807D2DFB896658B95235",
+    "models/pandey_kumar_mode1/126_r1_c4_inc87_anderson_control/PACKAGE_MANIFEST.json": "3C3AC0FCAC21F0FE3D6D1AA7C7020F7B1B5E5A601749DE46A25323974559CCB2",
+    "models/pandey_kumar_mode1/126_r1_c4_inc87_anderson_control/M1_C4_INC87_AND_R1_AUTHORIZATION.json": "8070DD9BA22DA20FB77036D7533F893AFB6F1A7C4C02CF20DBBC658876F75788",
+    "models/pandey_kumar_mode1/126_r1_c4_inc87_anderson_control/M1_C4_INC87_AND_R1_DC.dat": "EAA93733D90CC4BBBBF8EA50D053FB5E7E24899B4505236B6439C002E2EC2F50",
+    "models/pandey_kumar_mode1/126_r1_c4_inc87_anderson_control/M1_C4_INC87_AND_R1_DC.msg": "5D0D1E7BEFF5CC090F3A47B46EA88E4977A15581F494D6EAD52B2DDA5997A9BA",
+    "project_coordination/HPC_JOB_LEDGER.csv": "241FAA36AA87BF87B5D24FA9ED257C201B14A447909666F9AABB3F5EE8EE17E6"
+  },
+  "verification_passed": true
+}
