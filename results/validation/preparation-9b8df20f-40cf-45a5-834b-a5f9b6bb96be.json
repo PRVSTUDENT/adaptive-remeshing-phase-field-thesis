@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "9b8df20f-40cf-45a5-834b-a5f9b6bb96be",
+  "package": "PACKAGE_116_C3_INT_INC79_DIRECT_TRANSFER",
+  "finding": "Package 116 intermediate-resolution direct transfer control deck qualified and submitted to normal_imfdfkmq as Job 1417809. Three-level resolution progression established: Level 1 (C3 donor, 1600 quads, h=2.5 um, E_frac=0.041044 mJ), Level 2 (C3-Int, 2484 quads, h=1.2 um, mapped E_frac=0.040730 mJ), Level 3 (C4 receiver, 4422 quads, h=0.606 um, converged E_frac=0.045619 mJ). Preflight datacheck passed on Abaqus 2023 with unified 12-DOF UEL. Gate C1_2_STEP2_ENERGY_GATE_FAILED retained pending solver convergence.",
+  "pbs_job_id": "1417809.mmaster02",
+  "queue": "normal_imfdfkmq",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/116_c3_int_inc79_direct_transfer/M1_C3_INT_INC79_DIRECT_TRANSFER.inp": "DA1DBDC7B6C5E306D01ACE725065195FF76CF0B2B81F1FB4A50307AF9ABAB111",
+    "models/pandey_kumar_mode1/116_c3_int_inc79_direct_transfer/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/116_c3_int_inc79_direct_transfer/driver_c3_int_inc79_direct_transfer.py": "E9902C9C8193E7030166AE1B4CAFFCB7E58117558828B48EC4E1A2396B3D1F7C",
+    "models/pandey_kumar_mode1/116_c3_int_inc79_direct_transfer/PACKAGE_MANIFEST.json": "8CAA115A36489DB6597F77E0E9AFF617148D126E3A4F7C3F38A2ABABA9CBF402",
+    "models/pandey_kumar_mode1/116_c3_int_inc79_direct_transfer/M1_C3_INT_INC79_TRANSFER_AUTHORIZATION.json": "9A8807F4962D7D6F9ACE9964AF19DB9EAD2B93C23AF8642A1DB96A4C4DBF5F59",
+    "models/pandey_kumar_mode1/116_c3_int_inc79_direct_transfer/submit_M1_C3_INT_INC79_DIRECT_TRANSFER.pbs": "E8EB2390913B30FEE6C78E716BA2C562F0D41657F27D9DFEBFC055A33FD58688",
+    "scripts/remeshing/build_package116_intermediate_transfer.py": "DC07B8AEE7EC2CB3889689389BCB0B4B191BDB5212CD770C792B5FDEE4A475F6",
+    "scripts/validation/stage_and_qualify_package116.py": "47BF8BDDB0D0B66B344FDFB4E8B1AF51E4CEB22A914C8C609DF4A53A8DD30E72",
+    "results/validation/c3_int_inc79_direct_transfer_mapping_audit.json": "49431902F2792F2F76BE90E11FBA73DAEE6E10E1D01D331843C1852379D0E687"
+  }
+}
