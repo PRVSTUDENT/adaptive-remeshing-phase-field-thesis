@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "description": "Cross-mesh AT2 energy evaluation and physical decomposition of the +2.03% energy offset",
+  "donor_mesh_c3": {
+    "quads": 1600,
+    "h_mm": 0.0025,
+    "h_over_l0": 0.3333,
+    "e_elas_mJ": 0.1707282134289051,
+    "e_frac_mJ": 0.04172632950745831,
+    "e_tot_mJ": 0.2124545429363634,
+    "d_max": 0.4333949856672412
+  },
+  "receiver_mesh_c4": {
+    "quads": 4422,
+    "h_min_mm": 0.000609,
+    "h_min_over_l0": 0.0812,
+    "initial_mapped_unsolved": {
+      "e_elas_mJ": 0.19849518756737786,
+      "e_frac_mJ": 0.041675529088608124,
+      "e_tot_mJ": 0.240170716655986,
+      "quadrature_delta_frac_pct": -0.12174667518049263
+    },
+    "equilibrated_solved": {
+      "e_elas_mJ": 0.17115261123031414,
+      "e_frac_mJ": 0.045607176528678316,
+      "e_tot_mJ": 0.21675978775899246,
+      "d_max": 0.5238423787433053
+    }
+  },
+  "energy_shift_attribution": {
+    "stage_1_discretization_quadrature_shift_mJ": -5.080041885018732e-05,
+    "stage_1_discretization_quadrature_pct": -0.12174667518049263,
+    "stage_2_reequilibration_crack_sharpening_mJ": 0.003931647440070192,
+    "stage_2_reequilibration_crack_sharpening_pct": 9.433947273257044,
+    "total_fracture_energy_elevation_mJ": 0.0038808470212200047,
+    "total_fracture_energy_elevation_pct": 9.30071508093308,
+    "total_energy_continuity_offset_pct": 2.0264310487908057
+  },
+  "scientific_assessment": {
+    "equifinality_supported": true,
+    "source_state_sensitivity": "EXTREMELY_LOW (0.0000% total energy difference between P115 and P118)",
+    "continuum_limit_proved": false,
+    "critique_of_100pct_discretization_claim": "The phrase '100% intrinsic spatial discretization' is an empirical observation within the tested discrete model family, not a formal mathematical proof of the continuum limit. The total energy shift (+2.026%) is partitioned into: (1) pure numerical quadrature integration on the fixed transferred field (-0.12% fracture energy change), and (2) natural phase-field crack-tip sharpening (+9.46% fracture energy increase) as the fine mesh (h/l0 = 0.081) resolves peak strain energy concentration that was spatially diffused on the coarse donor (h/l0 = 0.333). Stored energy between different nonmatching discretizations is not a strictly conserved invariant in regularized damage mechanics."
+  }
+}

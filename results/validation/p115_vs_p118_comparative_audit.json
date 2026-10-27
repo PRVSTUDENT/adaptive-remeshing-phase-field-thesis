@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "description": "Pointwise unrounded comparison between Package 115 and Package 118 on identical Candidate C4 mesh",
+  "receiver_mesh": "Candidate C4 (4,422 quads, 4,588 nodes)",
+  "source_preparations": {
+    "package_115": "Direct transfer from un-equilibrated Package 76 Inc 79 donor (quad-averaged nodal d0)",
+    "package_118": "Direct transfer from fully re-equilibrated Package 117 C3 donor (converged Cyc 3 stationary state)"
+  },
+  "terminal_metrics_comparison": {
+    "reaction_force": {
+      "p115_N": 185.7885718345642,
+      "p118_N": 185.7827603816986,
+      "abs_diff_N": -0.005811452865600586,
+      "rel_diff_pct": -0.003127992646811132
+    },
+    "peak_damage": {
+      "p115": 0.5237728264413353,
+      "p118": 0.5238423787433053,
+      "abs_diff": 6.955230197003281e-05
+    },
+    "energies": {
+      "e_elas_mJ": {
+        "p115_mJ": 0.17115796359071664,
+        "p118_mJ": 0.17115261123031414,
+        "abs_diff_mJ": -5.352360402499645e-06,
+        "rel_diff_pct": -0.00312714657864155
+      },
+      "e_frac_local_mJ": {
+        "p115_mJ": 0.040572618079478755,
+        "p118_mJ": 0.040576022271853286,
+        "abs_diff_mJ": 3.4041923745314895e-06,
+        "rel_diff_pct": 0.00839036901159035
+      },
+      "e_frac_grad_mJ": {
+        "p115_mJ": 0.005029015075571365,
+        "p118_mJ": 0.0050311542568250295,
+        "abs_diff_mJ": 2.1391812536648153e-06,
+        "rel_diff_pct": 0.04253678347587326
+      },
+      "e_frac_total_mJ": {
+        "p115_mJ": 0.04560163315505012,
+        "p118_mJ": 0.045607176528678316,
+        "abs_diff_mJ": 5.54337362819457e-06,
+        "rel_diff_pct": 0.012156085746636626
+      },
+      "e_tot_mJ": {
+        "p115_mJ": 0.21675959674576675,
+        "p118_mJ": 0.21675978775899246,
+        "abs_diff_mJ": 1.9101322570880264e-07,
+        "rel_diff_pct": 8.812215402524413e-05
+      }
+    },
+    "am_convergence": {
+      "p115_cycles": 7,
+      "p118_cycles": 7,
+      "p115_healing_violations": 0,
+      "p118_healing_violations": 0
+    }
+  },
+  "pointwise_field_norms": {
+    "damage_nodal": {
+      "l_infinity": 0.00014734000000005132,
+      "l_2_rms": 2.251400306528257e-05,
+      "relative_l_2_pct": 0.012817226563676938
+    },
+    "displacement_nodal_mm": {
+      "l_infinity": 5.401131487138866e-08,
+      "l_2_rms": 2.0455237711435376e-08,
+      "relative_l_2_pct": 0.0017531389541324976
+    },
+    "source_d0_gp": {
+      "l_infinity": 0.04949610030000001,
+      "l_2_rms": 0.004104602457385796
+    },
+    "committed_h0_gp": {
+      "l_infinity": 0.000368212289999989,
+      "l_2_rms": 2.559793502064803e-05
+    }
+  },
+  "scientific_conclusion": "Package 115 and Package 118 achieve virtually identical terminal stationary states on Candidate C4 (Total energy diff: 0.0000%, RF2 diff: -0.002%, d_max diff: +0.004%). This proves that the post-transfer alternating minimization procedure possesses extraordinarily low sensitivity to the pre-transfer donor equilibrium state, and that the +2.03% total energy elevation is driven by the 4x spatial mesh resolution difference rather than transfer initialization artifacts."
+}

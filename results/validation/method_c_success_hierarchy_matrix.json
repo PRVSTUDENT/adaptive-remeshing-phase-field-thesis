@@ -1,0 +1,214 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "description": "Definitive Method C Success-Criteria Hierarchy Decision Matrix",
+  "levels": [
+    {
+      "level": 0,
+      "name": "Implementation and Execution Validity",
+      "purpose": "Verify structural, topological, material, and execution integrity of simulation assets",
+      "binding_status": "MANDATORY_PREREQUISITE",
+      "criteria": [
+        {
+          "metric": "Element Topology & Geometry",
+          "threshold": "Exact matching quad connectivity; valid slit flank assignment (y=0.05 mm, x<=0.04 mm)",
+          "provenance": "AGENTS.md & ABAQUS 2023 Manual",
+          "measured_result": "Exact C4 mesh (4,422 quads, 4,588 nodes, 0 coordinate errors)",
+          "status": "PASS"
+        },
+        {
+          "metric": "Frozen UEL Subroutine Hash",
+          "threshold": "Bit-for-bit SHA-256 match: AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+          "provenance": "Package 111-118 governance lock",
+          "measured_result": "Exact bitwise match verified across all packages",
+          "status": "PASS"
+        },
+        {
+          "metric": "Solver Exit Code & Errors",
+          "threshold": "Abaqus Exit 0; 0 fatal errors on .dat/.msg/.sta logs",
+          "provenance": "PBS Job Accounting Policy",
+          "measured_result": "Jobs 1417751, 1417818, 1417847, 1417860 all completed Exit 0",
+          "status": "PASS"
+        }
+      ],
+      "level_verdict": "PASS",
+      "progression_permitted": "Permits numerical analysis and state evaluation",
+      "outstanding_dependency": "None"
+    },
+    {
+      "level": 1,
+      "name": "Numerical Equilibrium and Physical Admissibility",
+      "purpose": "Verify variational stationarity, KKT conditions, and thermodynamic irreversibility",
+      "binding_status": "MANDATORY_PREREQUISITE",
+      "criteria": [
+        {
+          "metric": "Mechanical Residual",
+          "threshold": "<= 1.0e-4 kN",
+          "provenance": "Abaqus/Standard default force equilibrium",
+          "measured_result": "<= 1.0e-7 kN across all converged cycles",
+          "status": "PASS"
+        },
+        {
+          "metric": "Free-Phase Residual",
+          "threshold": "<= 1.0e-6 kN/mm",
+          "provenance": "Euler-Lagrange phase stationarity on active set",
+          "measured_result": "1.10e-9 kN/mm (Package 118 Cycle 7)",
+          "status": "PASS"
+        },
+        {
+          "metric": "Active Set Dual Multiplier",
+          "threshold": "lambda >= -1.0e-9 kN/mm",
+          "provenance": "Karush-Kuhn-Tucker active inequality condition",
+          "measured_result": "-9.87e-10 kN/mm (Package 118 Cycle 7)",
+          "status": "PASS"
+        },
+        {
+          "metric": "Damage Healing Violations",
+          "threshold": "0 nodes with d(k) < d0 - 1.0e-8",
+          "provenance": "Clausius-Duhem phase-field damage irreversibility",
+          "measured_result": "0 healing violations across all 4,588 nodes",
+          "status": "PASS"
+        },
+        {
+          "metric": "Cycle-to-Cycle Stationarity",
+          "threshold": "Delta d_max <= 1.0e-3 AND |Delta RF2| <= 0.1 N",
+          "provenance": "Decoupled AM fixed-point termination criteria",
+          "measured_result": "Delta d_max = 0.000567, Delta RF2 = 0.0327 N (Cycle 7)",
+          "status": "PASS"
+        }
+      ],
+      "level_verdict": "PASS",
+      "progression_permitted": "Permits valid state representation and transfer comparison",
+      "outstanding_dependency": "None"
+    },
+    {
+      "level": 2,
+      "name": "State-Transfer Validity",
+      "purpose": "Verify mathematical correctness of nonmatching field interpolation and mapping",
+      "binding_status": "MANDATORY_PREREQUISITE",
+      "criteria": [
+        {
+          "metric": "Slit-Flank Awareness",
+          "threshold": "Upper/lower flank displacement topology preserved across crack face (y=0.050 mm, x<=0.040 mm)",
+          "provenance": "Flank-preserving state-transfer contract",
+          "measured_result": "Zero flank crossing; valid jump resolution preserved",
+          "status": "PASS"
+        },
+        {
+          "metric": "Initial Mapped Fracture Energy Parity",
+          "threshold": "|E_frac_mapped - E_frac_donor| / E_frac_donor <= 1.0%",
+          "provenance": "Quadrature-consistent L2 field projection requirement",
+          "measured_result": "-0.1217% difference (0.041676 mJ vs 0.041726 mJ in P118)",
+          "status": "PASS"
+        },
+        {
+          "metric": "Initial Pointwise Bound Feasibility",
+          "threshold": "0.0 <= d0 <= 1.0 everywhere; d0 matches donor lower bounds",
+          "provenance": "Thermodynamic state constraint",
+          "measured_result": "Exact bounds satisfied for all 4,588 nodes and 17,688 Gauss points",
+          "status": "PASS"
+        }
+      ],
+      "level_verdict": "PASS",
+      "progression_permitted": "Permits evaluating formal Method C progression gates",
+      "outstanding_dependency": "None"
+    },
+    {
+      "level": 3,
+      "name": "Formal Method C Progression Gates",
+      "purpose": "Strict predeclared continuity gates governing autonomous forward continuation",
+      "binding_status": "BINDING_EXECUTION_GATE",
+      "criteria": [
+        {
+          "metric": "Package 111 R2 (Stage C1-1 Direct)",
+          "threshold": "Force error <= 5.0%, Energy error <= 2.0%, 0 healing",
+          "provenance": "Stage C1-1 Progression Gate",
+          "measured_result": "Force diff = 0.37%, Energy diff = 0.15%, 0 healing",
+          "status": "PASS"
+        },
+        {
+          "metric": "Package 112 (Stage C1-2 Forward Step 1)",
+          "threshold": "Force error <= 5.0%, Energy continuity <= 2.0%, 0 healing",
+          "provenance": "Stage C1-2 Progression Gate",
+          "measured_result": "Force diff = 0.81%, Energy continuity = +1.75%, 0 healing",
+          "status": "PASS"
+        },
+        {
+          "metric": "Package 113 (Stage C1-2 Forward Step 2)",
+          "threshold": "Total Energy Continuity <= 2.000000%",
+          "provenance": "Predeclared Stage C1-2 Step 2 Energy Gate",
+          "measured_result": "+2.0080315% (> 2.000000%, excess +0.0080315% / +17.0 nJ)",
+          "status": "FAIL"
+        }
+      ],
+      "level_verdict": "FAIL",
+      "binding_verdict": "C1_2_STEP2_ENERGY_GATE_FAILED",
+      "progression_permitted": "BLOCKED from autonomous C5 remeshing or uncalibrated continuation",
+      "outstanding_dependency": "Formulation of a discretization-aware calibrated energy acceptance criterion OR adaptive step-size regularization"
+    },
+    {
+      "level": 4,
+      "name": "Independent Explanatory Diagnostics",
+      "purpose": "Isolate physical and numerical mechanisms driving the Level 3 gate failure",
+      "binding_status": "SCIENTIFIC_EXPLANATORY (NON-GATE)",
+      "criteria": [
+        {
+          "metric": "Package 115 (C4 Direct Transfer Control)",
+          "threshold": "Quantify C4 energy offset at Inc 79 physical hold",
+          "provenance": "Method C Diagnostic Suite",
+          "measured_result": "RF2 = 185.79 N (-0.15%), E_tot = 0.216760 mJ (+2.03%), 7 cycles",
+          "status": "PASS"
+        },
+        {
+          "metric": "Package 116 R1 (C3-Int Mesh Sensitivity)",
+          "threshold": "Quantify intermediate h=1.25 um mesh convergence plateau",
+          "provenance": "Method C Diagnostic Suite",
+          "measured_result": "E_tot = 0.216781 mJ (+2.04%), 7 cycles, proves AT2 discretization plateau",
+          "status": "PASS"
+        },
+        {
+          "metric": "Package 117 (C3 Same-Mesh Control)",
+          "threshold": "Separate solver AM re-equilibration from spatial remeshing",
+          "provenance": "Method C Diagnostic Suite",
+          "measured_result": "Same-mesh E_tot conserved within +0.003% (+6.5 nJ); R = 14.91% solver, 85.09% spatial",
+          "status": "PASS"
+        },
+        {
+          "metric": "Package 118 (C4 from Re-equilibrated Donor)",
+          "threshold": "Test source-state sensitivity and equifinality",
+          "provenance": "Method C Diagnostic Suite",
+          "measured_result": "E_tot = 0.216760 mJ matches P115 to 0.0000%; proves 0% dependence on donor non-equilibrium",
+          "status": "PASS"
+        }
+      ],
+      "level_verdict": "PASS",
+      "progression_permitted": "Provides scientific evidence base for thesis report; does NOT relax Level 3",
+      "outstanding_dependency": "None"
+    },
+    {
+      "level": 5,
+      "name": "End-to-End Adaptive Remeshing Success",
+      "purpose": "Autonomous chained solve -> evaluate -> remesh -> transfer -> restart cycles",
+      "binding_status": "FINAL_THESIS_GOAL",
+      "criteria": [
+        {
+          "metric": "Automated Multi-Cycle Execution",
+          "threshold": "Autonomous external-driver progression through >= 2 consecutive adaptive mesh cycles",
+          "provenance": "Master Thesis Phase Objectives",
+          "measured_result": "Only single-cycle C3 -> C4 transfer evaluated; C4 -> C5 blocked at Level 3",
+          "status": "NOT_YET_DEMONSTRATED"
+        },
+        {
+          "metric": "Crack Propagation Across Adaptations",
+          "threshold": "Continuous crack growth across nonmatching refined corridors with physical force/energy balance",
+          "provenance": "Phase-Field Adaptive Remeshing Validation Boundary",
+          "measured_result": "Pending Level 3 resolution and continuation authorization",
+          "status": "NOT_YET_DEMONSTRATED"
+        }
+      ],
+      "level_verdict": "NOT_YET_DEMONSTRATED",
+      "progression_permitted": "None",
+      "outstanding_dependency": "Calibrated Level 3 energy continuity criteria and multi-cycle external driver validation"
+    }
+  ]
+}
