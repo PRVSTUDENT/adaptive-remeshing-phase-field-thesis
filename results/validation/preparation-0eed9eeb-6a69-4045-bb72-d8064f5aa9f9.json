@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 126 R1 PBS Job 1417980.mmaster02 completed Exit 0 with 28 s walltime; authentic solver telemetry retrieved and adjudicated. Terminal evaluation classified H7_INVALID due to two driver defects: (1) ODB RF2 extraction lacked kN-to-N multiplier (0.1918 N vs target 185.68 N, -99.90% deficit); (2) PDAS assembly diverged from Package 125 (q_vec sign inversion and altered active set logic), suppressing free nodes to 547 (vs 4,574 in P125) and triggering premature pseudo-convergence at Cycle 2 before Anderson acceleration (Cycle 6+) activated. Ten-turn Method C resolution plan recorded (docs/project/TEN_TURN_METHOD_C_RESOLUTION_PLAN.md). Binding Method C gate C1_2_STEP2_ENERGY_GATE_FAILED retained.",
+  "evidence_sources": {
+    "scripts/validation/evaluate_package126_r1.py": "2C431014928AAC06B4BF59F469DDC3218DE2B16308C8DB6D20180F808D8E06E1",
+    "tests/unit/test_mode1_f1597_package126_r1_terminal_evaluation.py": "AC271CCCA5B418028F30C8FF0AB05B7A7691DA0DD789D1CC04B80077365899B2",
+    "results/validation/package126_r1_h7_evaluation.json": "3348A865338B16D3B561AA0B17751CEF96481E668E88E03CC38548D8A914E4DE",
+    "docs/project/TEN_TURN_METHOD_C_RESOLUTION_PLAN.md": "75F2903A7B34DA2F9A64EF4DCB9E3A1C8474B5C5A0751B2B2CE3290ED1D282C1",
+    "models/pandey_kumar_mode1/126_r1_c4_inc87_anderson_control/c4_inc87_anderson_r1_summary.json": "A05288C6B62EB8C358E19E93C444B3299C2E1D96DB243BAC6A5036166351E17B",
+    "models/pandey_kumar_mode1/126_r1_c4_inc87_anderson_control/pbs_execution.log": "B9ACA4E70CFF7C69F3BEF93521F234AC4F6A0D9CB01EB3D41D7AB4B6ABB4A62F",
+    "models/pandey_kumar_mode1/126_r1_c4_inc87_anderson_control/pbs_error.log": "1B6F65955505F077B234BA4CD0D906836B9348AA1FA3BA17F006180CE8B8755B",
+    "models/pandey_kumar_mode1/126_r1_c4_inc87_anderson_control/_extracted_u_rf.json": "22673FC087A84B3A157AEEDA10BBBBFE77009D94DF2171EABE4A25E903A08D08",
+    "models/pandey_kumar_mode1/126_r1_c4_inc87_anderson_control/M1_C4_INC87_R1_CYC1_MECH.dat": "D2E6B409550D689DFFB7B6CF473078441E08878B6E5F5888258133431D2A96CC",
+    "models/pandey_kumar_mode1/126_r1_c4_inc87_anderson_control/M1_C4_INC87_R1_CYC2_MECH.dat": "823CC23407DCE98B705D1D403E94E2CB3B47AE08205B1A24F59E29F2BCD2B136",
+    "project_coordination/HPC_JOB_LEDGER.csv": "AA8F8C3E0B84004CA80CFF208FBF880427B4B7F9103F064675E26D27029A56EF"
+  },
+  "verification_passed": true
+}

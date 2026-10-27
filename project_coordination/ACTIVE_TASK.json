@@ -2,10 +2,10 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 126 Reference Point node parsing defect repaired in Package 126 Revision 1 (driver_c4_inc87_anderson_am_r1.py): restored strict RP exclusion in parse_inp_mesh (4,588 physical continuum nodes, 4,422 quads, RP 999999 preserved for kinematic coupling and RF2 extraction). Staged to /scratch9/pr21vyci/runs/mode1_c4_inc87_anderson_control_r1 with remote SHA256 checksums verified, Abaqus 2023 interactive datacheck Exit 0 completed (M1_C4_INC87_AND_R1_DC.dat), and 14/14 unit tests passed. Submitted to entry_imfdfkmq as PBS Job 1417980.mmaster02; actively running on mnode104 with Cycle 1 completed Exit 0 and Cycle 2 currently executing. Binding Method C gate C1_2_STEP2_ENERGY_GATE_FAILED retained.",
-    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE126_R1_EXECUTING_JOB_1417980",
+    "phase":  "Package 126 R1 PBS Job 1417980.mmaster02 completed Exit 0 with 28 s walltime; authentic solver telemetry retrieved and adjudicated. Terminal evaluation classified H7_INVALID due to two driver defects: (1) ODB RF2 extraction lacked kN-to-N multiplier (0.1918 N vs target 185.68 N, -99.90% deficit); (2) PDAS assembly diverged from Package 125 (q_vec sign inversion and altered active set logic), suppressing free nodes to 547 (vs 4,574 in P125) and triggering premature pseudo-convergence at Cycle 2 before Anderson acceleration (Cycle 6+) activated. Ten-turn Method C resolution plan recorded (docs/project/TEN_TURN_METHOD_C_RESOLUTION_PLAN.md). Binding Method C gate C1_2_STEP2_ENERGY_GATE_FAILED retained.",
+    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE126_R1_COMPLETED_EXIT0_H7_INVALID",
     "active_pbs_job_ids":  [
-                               "1417980.mmaster02"
+
                            ],
     "dependent_pbs_job_ids":  [
 
@@ -20,6 +20,7 @@
                                     "PK_M1_COARSE_FINE_CONT (Package 46, 4,900 CPE4 quads, h=14.3 um, input deck 219ACDF2..., Abaqus 2023 datacheck Exit 0, completed Exit 0 Job 1415074)"
                                 ],
     "completed_pbs_job_ids":  [
+                                  "1417980.mmaster02",
                                   "1417975.mmaster02",
                                   "1417969.mmaster02",
                                   "1417947.mmaster02",
@@ -198,14 +199,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-27T17:05:33.6772373+01:00",
+    "last_updated":  "2026-10-27T17:17:37.9755182+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-4e862753-4d2d-4347-b0be-d839d4b59032.json",
-                                  "sha256":  "4D3E15A16F35AE44F9E8D6EDF95E8898C0E39D083FA33AD9B7B7B991AE1AD4CE",
-                                  "created_at":  "2026-10-27T17:04:51.5888419+01:00"
+                                  "artifact":  "results/validation/preparation-0eed9eeb-6a69-4045-bb72-d8064f5aa9f9.json",
+                                  "sha256":  "A68409C1062F3D60278F598B3727D3E896FC6A55A5C9E0019F695D15FA8605C2",
+                                  "created_at":  "2026-10-27T17:16:53.3162177+01:00"
                               }
 }
