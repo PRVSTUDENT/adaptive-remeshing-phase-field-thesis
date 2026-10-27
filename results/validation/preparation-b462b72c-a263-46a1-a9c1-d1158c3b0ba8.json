@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 120 (Job 1417902) Increment-88 15-cycle nonstationarity was audited across all cycles. Contraction factors reached a minimum at Cycle 12 (rho_d = 0.995, rho_F = 0.995) and strictly reversed to expansion in Cycles 13-15 (Cycle 13: rho_d = 1.0053, rho_F = 1.0043; Cycle 14: rho_d = 1.0150, rho_F = 1.0148; Cycle 15: rho_d = 1.0246, rho_F = 1.0239; Delta d_max = 0.007227). Active damage recruited 62 new nodes from Cycle 3 to 15, confirming localized softening instability (d_max >= 0.71, (1-d)^2 < 0.084) under fixed displacement rather than an insufficient iteration cap. Hypothesis H1 is formally refuted; Package 120 R1 extended iteration submission is rejected as an unsupported retry. Status is classified as HOLDOUT_NONSTATIONARY_UNRESOLVED.",
+  "evidence_sources": {
+    "results/validation/package120_convergence_diagnosis.json": "EF67A120C3992D52F28DC3C70F60A2642BC28BD797B99276CCE9B3DD10405417",
+    "scripts/validation/diagnose_package120_convergence.py": "E0D5334EECB41170A723950F8F82DBE3B6FB8AE23C3CA8D4E6C74681B4F9A159",
+    "tests/unit/test_mode1_f1597_package120_convergence_diagnosis.py": "5A9926D83664F274E2FACF73580C5A7002C79DF97768B7F5A11012233D26D9C5",
+    "models/pandey_kumar_mode1/120_c4_inc88_holdout_diagnostic/c4_inc88_holdout_summary.json": "0BA1F6ADF05E03BE7FD3DA6B456753ECB12AF604EA4440CDFAC7DFD68715BBA4",
+    "models/pandey_kumar_mode1/120_c4_inc88_holdout_diagnostic/pbs_execution.log": "43D4F32F68208366A905025C19B34E3E6B19FD83D74AD2EBBEBB6F22BA017564"
+  },
+  "verification_passed": true,
+  "metadata": {
+    "package": "120_c4_inc88_holdout_diagnostic",
+    "pbs_job_id": "1417902.mmaster02",
+    "total_cycles": 15,
+    "cycle12_delta_dmax": 0.006913,
+    "cycle12_delta_rf2_N": 0.4198,
+    "cycle13_rho_d": 1.005352,
+    "cycle14_rho_d": 1.014964,
+    "cycle15_rho_d": 1.024525,
+    "terminal_delta_dmax": 0.007227,
+    "terminal_delta_rf2_N": 0.4380,
+    "hypothesis_h1_verdict": "REFUTED",
+    "hpc_decision": "NO_SUBMISSION_UNSUPPORTED_RETRY",
+    "scientific_classification": "HOLDOUT_NONSTATIONARY_UNRESOLVED",
+    "gate_status": "C1_2_STEP2_ENERGY_GATE_FAILED"
+  }
+}
