@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "a374df18-42c3-43e0-a687-27804e57cd88",
+  "finding": "Package 117 C3 same-mesh control terminal evaluation completed (Job 1417847 Exit 0, 3 cycles stationary equilibrium). Critical mesh-identity audit verified EXACT_SAME_MESH_VERIFIED with 0 coordinate mismatches across 1698 physical nodes and 1600 quads. Same-mesh total energy conserved within +0.00306% (+6.5 nJ). Diagnostic ratio R = 14.91% proves that spatial mesh refinement (h/l0 from 0.333 to 0.081) drives 85.09% of the fracture energy shift, confirming an AT2 regularization discretization effect while solver re-equilibration contributes 14.91%.",
+  "evidence_sources": {
+    "results/validation/c3_package117_mesh_identity_audit.json": "61243F34F7A7C3D2BF8BBC56DA03BB5CFA2DB1DF234282D6B731E0A756030AFC",
+    "results/validation/package117_terminal_evaluation_audit.json": "A1E3F55D3383A03A2D6456E8A40792D83510BA1FC7DEFBCDD68A017DA1CA9554",
+    "results/validation/c3_samemesh_inc79_control_summary.json": "C29FC5C9A0B495BE45FF3FCD97EEAAA3E1803E914E4624796ABDC379FEA2EECB",
+    "models/pandey_kumar_mode1/117_c3_samemesh_am_control/c3_samemesh_inc79_control_summary.json": "C29FC5C9A0B495BE45FF3FCD97EEAAA3E1803E914E4624796ABDC379FEA2EECB",
+    "models/pandey_kumar_mode1/117_c3_samemesh_am_control/pbs_execution.log": "F366A74E01754BB039C623AB682EAC48FE13C3FBC28132668D8F844731DEABED",
+    "tests/unit/test_mode1_f1597_package117_terminal_evaluation.py": "D8CE0764D1ABDFE0C8F5456A2A24DE7CBD8437BC563991493F3E3E85B1D4AAAC",
+    "scripts/validation/audit_package117_mesh_identity.py": "00988C2CE0E7A7FE5436F9A06673A4C3257B4529C8C8E042C450442661147CD9"
+  },
+  "verification_passed": true,
+  "hpc_terminal_job": {
+    "pbs_job_id": "1417847.mmaster02",
+    "exit_status": 0,
+    "walltime_seconds": 65,
+    "cpu_seconds": 29,
+    "cycles_completed": 3,
+    "driver_status": "CONVERGED_STATIONARY_STATE"
+  },
+  "governance": {
+    "retained_gate": "C1_2_STEP2_ENERGY_GATE_FAILED",
+    "threshold_relaxation": false,
+    "advance_to_c5": false
+  },
+  "next_safe_action": "Advance to next research task"
+}

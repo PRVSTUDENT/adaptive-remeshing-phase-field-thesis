@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 117 C3 same-mesh AM control at Increment 79 qualified and submitted to cluster as Job 1417847.mmaster02. Verified Abaqus 2023 preflight compilation and datacheck completed Exit 0 with zero errors (CPU 0.08s), confirmed UEL property ordering [l0, Gc, E, nu, k] matches unified 12-DOF UEL hash AB0A5A71..., unit qualification tests passed 5/5, and scheduler submission executed under standing authorization with once-only accounting.",
+    "phase":  "Package 117 C3 same-mesh control terminal evaluation completed (Job 1417847 Exit 0, 3 cycles stationary equilibrium). Critical mesh-identity audit verified EXACT_SAME_MESH_VERIFIED with 0 coordinate mismatches across 1698 physical nodes and 1600 quads. Same-mesh total energy conserved within +0.00306% (+6.5 nJ). Diagnostic ratio R = 14.91% proves that spatial mesh refinement (h/l0 from 0.333 to 0.081) drives 85.09% of the fracture energy shift, confirming an AT2 regularization discretization effect while solver re-equilibration contributes 14.91%.",
     "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE116_R1_INTERMEDIATE_CONTROL_SUBMITTED",
     "active_pbs_job_ids":  [
                                "1417818.mmaster02"
@@ -187,14 +187,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-27T10:41:45.2363233+01:00",
+    "last_updated":  "2026-10-27T10:59:19.6985118+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-e9a1521e-7901-4773-a700-83d17ff99368.json",
-                                  "sha256":  "19E704DAFACF3968DF290BE6F34895D23E18986872B45403D3F4DD573531D72A",
-                                  "created_at":  "2026-10-27T10:37:59.2696634+01:00"
+                                  "artifact":  "results/validation/preparation-a374df18-42c3-43e0-a687-27804e57cd88.json",
+                                  "sha256":  "B0D842EDE69A34EF4D5BC32107D0E85102F79A1658C76175E7A6E2A84CC9BF54",
+                                  "created_at":  "2026-10-27T10:58:27.2516556+01:00"
                               }
 }
