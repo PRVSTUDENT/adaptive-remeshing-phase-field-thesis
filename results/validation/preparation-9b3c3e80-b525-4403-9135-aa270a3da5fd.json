@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "9b3c3e80-b525-4403-9135-aa270a3da5fd",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 126 Revision 4 generated, qualified, and submitted as Job 1418006.mmaster02: repaired compute-node python environment by specifying 'abaqus python' in submit script (resolving Job 1417993 Exit 1 missing numpy defect); retained E_L0 = 0.0075 mm constitutive parity and coupled re-equilibration; passed all 10 unit tests and Abaqus 2023 interactive datacheck Exit 0.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/126_r4_c4_inc87_anderson_control/submit_M1_C4_INC87_AND_R4.pbs": "9F9257C52B3CAE05EA2A7ACAB63B76C75303303E2A7048B8560517B0B64260A1",
+    "models/pandey_kumar_mode1/126_r4_c4_inc87_anderson_control/driver_c4_inc87_anderson_am_r4.py": "B0CE892B1EA0787B201C02C8CA2754AB28AC399818B0505732CEDBA36237DE69",
+    "models/pandey_kumar_mode1/126_r4_c4_inc87_anderson_control/M1_C4_INC87_AND_R4.inp": "AE15B81703D804BBD551A01E77ABF339D4B6E474C2120BF597DC296838EF241A",
+    "models/pandey_kumar_mode1/126_r4_c4_inc87_anderson_control/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/126_r4_c4_inc87_anderson_control/M1_C4_INC87_AND_R4_DC.dat": "72C6A04C5D55E784EC94E9BFEAAE9E37762B0A06F18094517DC74305D6029F12",
+    "results/validation/package126_r4_change_report.json": "38309A762888120203039678D668419ABE69A148A824BC1DFF1A2D7BA00B0208",
+    "tests/unit/test_mode1_f1597_package126_r4_qualification.py": "2209CF845C8371819049A378E0039F86EFEDA947818F357D216264D641E67DAA"
+  },
+  "verification_passed": true
+}
