@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 121 (C3 Increment-88 Same-Mesh AM Control) was formulated and qualified to isolate whether Package 120 nonstationarity is specific to C3->C4 refinement or also occurs on the authentic C3 donor mesh. Standardized cycle-data audit schema and descriptive H1 criteria were defined and verified across all tests. Package 121 uses 1,600 quads, 1,698 nodes, authentic checkpoint fields (u_RP = 0.00196511 mm, RF2 = 185.335 N, d_max = 0.490618), and bitwise frozen unified UEL. Interactive Abaqus 2023 datacheck passed (Exit 0, 0 errors). Submitted as PBS Job 1417909.mmaster02 in normal_imfdfkmq (1 CPU, 16 GB, 8h). Status classified as C3_INC88_SAMEMESH_CONTROL_SUBMITTED. Gate C1_2_STEP2_ENERGY_GATE_FAILED strictly retained.",
+  "evidence_sources": {
+    "scripts/validation/cycle_data_audit_schema.py": "229BE75EC2594FB6A091E682D0D9E76DC339A7A73C38A2DF0A251A4A94A579DE",
+    "tests/unit/test_mode1_f1597_cycle_data_audit_schema.py": "6ED376038E7685DCD912BC089C876E167D7852B44AF63E35ED43669E6676556B",
+    "results/validation/cycle_data_audit_specification.json": "FA3D978494FBE0ABD494E92D0C03140019E34E7C2E58C865AA4FAFB0B09425A3",
+    "models/pandey_kumar_mode1/121_c3_inc88_samemesh_control/M1_C3_INC88_SAMEMESH_CONTROL.inp": "6CF4D2F8CE86836B5E1A7AAE806F19DB2693CB11D6C73A1C45FE614E862C83DB",
+    "models/pandey_kumar_mode1/121_c3_inc88_samemesh_control/driver_c3_inc88_samemesh_control.py": "2AD31CFBA3EE65CAAA555EB73F96B9A3F4447B6A02B112E64F6FAB7AB8A04C7D",
+    "models/pandey_kumar_mode1/121_c3_inc88_samemesh_control/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/121_c3_inc88_samemesh_control/submit_M1_C3_INC88_SAMEMESH_CONTROL.pbs": "98891F8FD78DE2E82BB528B4E07B67FC0FE9D8071AEB3781AC32AEF95B5A265C",
+    "models/pandey_kumar_mode1/121_c3_inc88_samemesh_control/M1_C3_INC88_SAMEMESH_AUTHORIZATION.json": "7F2EAF2A493348A44A211DFFF911B7AD9FBD67E7905F6BF524181D824EC800DF",
+    "models/pandey_kumar_mode1/121_c3_inc88_samemesh_control/PACKAGE_MANIFEST.json": "52906207226F21CFB6C3306911D723197ACD4632DC5ED51E506D8B2543848A75",
+    "models/pandey_kumar_mode1/121_c3_inc88_samemesh_control/M1_C3_SM_INC88_DC.dat": "44453AB743B48F0ADD94FF09D6EB7A32FE11622E605290B4F79526443C8E89D1",
+    "tests/unit/test_mode1_f1597_package121_qualification.py": "BCE3E4BE1DEB51B9134DE4FB1B0896D7F6366DDC07B129D730C6CB7BE26E3359"
+  },
+  "verification_passed": true,
+  "metadata": {
+    "package": "121_c3_inc88_samemesh_control",
+    "pbs_job_id": "1417909.mmaster02",
+    "job_name": "M1_C3_SM_INC88_CONTROL",
+    "queue": "normal_imfdfkmq",
+    "status": "C3_INC88_SAMEMESH_CONTROL_SUBMITTED",
+    "hypothesis_h2_status": "PENDING_EXECUTION",
+    "gate_status": "C1_2_STEP2_ENERGY_GATE_FAILED"
+  }
+}
