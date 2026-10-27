@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 124 terminal evidence reconciled (Exit 0, 394 s walltime, Cycle 15 cap reached); Hypothesis H5 refuted (H5_FAILED_NONSTATIONARY: delta_d_max = 0.002141 > 0.001, delta_RF2 = 0.1311 N > 0.1 N at Cycle 15); stationarity transition bracket narrowed to 0.001929511665 < u <= 0.001947309589 mm (17.80 nm width, 50.00% reduction).",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/124_c4_inc87_holdout_diagnostic/c4_inc87_holdout_summary.json": "D58F491B20D92A12ED3E77655DE0C3E67313087F42F7DF57E58F26723232ACB2",
+    "models/pandey_kumar_mode1/124_c4_inc87_holdout_diagnostic/pbs_execution.log": "7BFB77E0054BBA4B2469FC8BE1F1263A2E530F81B9E84F3098AD22A97CDE5AE4",
+    "models/pandey_kumar_mode1/124_c4_inc87_holdout_diagnostic/qstat_accounting.txt": "C74817DFB54A59B4E26B126F352A626147567264C27E78105672A5E8F758C29C",
+    "results/validation/package124_initial_energy_audit.json": "BE908C753ED7C3707618F7A1EFDE4C4DF6C144CA35129D3696F493D8B471DFA2",
+    "results/validation/package124_stationarity_bracket_evaluation.json": "B82A365A7D2F288076874A518897F2D103E8777048CB881DA2F57B3551380025",
+    "scripts/validation/evaluate_package124_stationarity_bracket.py": "D7CEFAF0A1E03E8F09CC130680832F88AB53753917AB0E3731421E2E786478CC",
+    "tests/unit/test_mode1_f1597_package124_terminal_evaluation.py": "B4482B9C4C2E3BC7511CD0F4226FC6CD137898E0C6C3E6A2FB54BC831CB05283",
+    "project_coordination/HPC_JOB_LEDGER.csv": "CCA30B85A7A51F2D1A9520E00D828D07439E986BD6402F9DD140E9055049C831",
+    "project_coordination/CURRENT_STATE.md": "31BAD971053D01020F819A338C7746D8E99EE86BD4791B5CE68BADC0E27BE6DB",
+    "project_coordination/ACTIVE_TASK.json": "1FB71EC090436DFD4A3939E6F25BA315CF6686B4A41AB2CD195E6D97CB3DE162"
+  },
+  "verification_passed": true
+}
