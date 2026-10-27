@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 120 Increment-88 holdout reached 15-cycle iteration cap without stationarity (Delta d = 0.0072, Delta RF2 = 0.438 N); measured C4 energy 0.23958419 mJ yielded residual r_E = -0.46645% failing the 0.250% acceptance band but within 0.500% non-falsification (SECOND_HOLDOUT_PREDICTIVE_VALIDATION_FAILED); comparative synthesis proves negative bias deepens from -0.209% (Inc 85) to -0.466% (Inc 88) as crack enters active localized softening; Gate C1-2 Step 2 remains bindingly C1_2_STEP2_ENERGY_GATE_FAILED.",
+  "evidence_sources": {
+    "results/validation/increment_88_frozen_prediction.json": "16A2461734A18968823DB30305DBBAB26E75F6B07D124217677AD2A09A445B6E",
+    "results/validation/increment_88_holdout_terminal_evaluation.json": "F0D0EC3F5316F163A32CDB1BD82A1985255D46612A9A9888361B3C3F0BE23376",
+    "results/validation/holdout_comparison_inc85_vs_inc88.json": "6167E5D5EFCDB7C856DA5A88F5AD54F87F4AF2DCE48DF4B985DB926DC956D790",
+    "scripts/validation/audit_increment_88_holdout_terminal.py": "F40B547229AFDA4E61AEC591038FD3B6F1B8ED654815F1A1075E6206A2B82658",
+    "tests/unit/test_mode1_f1597_increment_88_holdout_terminal.py": "C116D07713DBC21D0ADB7871D9B7E4FCF56B3DD021EDBE64460BC07AB6AC71CA",
+    "models/pandey_kumar_mode1/120_c4_inc88_holdout_diagnostic/c4_inc88_holdout_summary.json": "0BA1F6ADF05E03BE7FD3DA6B456753ECB12AF604EA4440CDFAC7DFD68715BBA4",
+    "models/pandey_kumar_mode1/120_c4_inc88_holdout_diagnostic/pbs_execution.log": "43D4F32F68208366A905025C19B34E3E6B19FD83D74AD2EBBEBB6F22BA017564"
+  },
+  "verification_passed": true
+}
