@@ -1,0 +1,37 @@
+{
+  "package_name": "PACKAGE_122_C4_INC88_FROM_P121_TRANSFER",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "version": 1,
+  "created_date": "2026-10-27",
+  "description": "Package 122: Candidate C4 State Transfer from Re-equilibrated C3 Increment-88 (Package 121)",
+  "mode": "Mode-I",
+  "execution_type": "Serial",
+  "donor_source": {
+    "package": "PACKAGE_121_C3_INC88_SAMEMESH_CONTROL",
+    "increment": 88,
+    "prescribed_u_rp_mm": 0.001965107396,
+    "rf2_N": 185.04463136,
+    "e_elas_mJ": 0.1817857,
+    "e_frac_mJ": 0.05349818,
+    "e_tot_mJ": 0.23528389,
+    "d_max": 0.52713245
+  },
+  "receiver_target": {
+    "mesh": "Candidate C4",
+    "quads": 4422,
+    "nodes": 4588,
+    "prescribed_u_rp_mm": 0.001965107396
+  },
+  "files": {
+    "M1_C4_INC88_TRANSFER.inp": "5491B8958C34CBFB732DEC9E7EF0CCE7606299F7A8BC053F06B210D2C822464B",
+    "active_set_boundary_cards.inc": "BA66C5B1D51345D5BCBAB7E4C8D6ED7EBFA2233811D9537585AA07A0F00538BD",
+    "d_lower_bounds.csv": "8E7DFA030B27E4C8B875BA08989936C9F976C85DEA2E8D4843592FD9FF35A178",
+    "driver_c4_inc88_transfer.py": "35079356C5D34BBF92209E807873CFACE1BE35C9FD568E0A5E32B99EAFFEA60B",
+    "f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "job_notifications.sh": "96756A681D2D36C11B36B89288F631F8ECC9537543C2C745A4BAE1B425984B47",
+    "nodal_displacements_initial.csv": "600E8EE6F1FBA3B659AF6460074366D8509CC12B5A9B7EC9BB7813426E67E825",
+    "run_c4_inc88_transfer_datacheck.sh": "DB12E38F000D3057991873393C1A956096F1517E2A695B0F836A9373F2C8EC3B",
+    "stage_a_all_d0_boundary_cards.inc": "BA66C5B1D51345D5BCBAB7E4C8D6ED7EBFA2233811D9537585AA07A0F00538BD",
+    "submit_M1_C4_INC88_TRANSFER.pbs": "F25C568BFE7B393067EE2D1AC75E43213E6FDAEF633F85EABEBA689638EBD860"
+  }
+}

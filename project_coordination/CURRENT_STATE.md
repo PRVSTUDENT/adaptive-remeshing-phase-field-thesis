@@ -928,3 +928,32 @@ ormal_imfdfkmq (1 CPU, 16 GB, 8h walltime).
   * Status: **`C3_INC88_SAMEMESH_CONTROL_SUBMITTED`** (Job running `R` on scheduler).
 - **Governance**:
   * Gate status: **`C1_2_STEP2_ENERGY_GATE_FAILED`** strictly retained. Autonomous C5 remeshing remains strictly blocked.
+
+## Turn 234 — Method C Mode-I: Package 121 Same-Mesh Terminal Re-equilibration Verified (H2 Passed, 3 Cycles); Package 122 Controlled Source-State Sensitivity Qualified & Submitted (Job 1417919 Running) — 27 October 2026
+
+- **Package 121 Terminal Re-equilibration & Evaluation (Exit 0, 68 s Walltime)**:
+  * Reconciled authentic solver deliverables from PBS Job `1417909.mmaster02` (`c3_inc88_samemesh_control_summary.json`).
+  * Converged to stationary equilibrium in exactly 3 AM cycles (`CONVERGED_STATIONARY_STATE`):
+    - Cycle 3: $\Delta d_{\max} = 0.000764 \le 1.0 \times 10^{-3}$, $|\Delta RF_2| = 0.0047\,\text{N} \le 0.1\,\text{N}$.
+    - Terminal reaction force: $RF_2 = 185.044631\,\text{N}$ ($-0.157\%$ vs donor $185.335442\,\text{N}$).
+    - Terminal total energy: $E_{\text{tot}} = 0.23528389\,\text{mJ}$ ($+0.00040\%$, $+0.94\,\text{nJ}$ vs donor $0.23528295\,\text{mJ}$).
+    - Elastic strain energy: $E_{\text{elas}} = 0.18178570\,\text{mJ}$; Fracture energy: $E_{\text{frac}} = 0.05349818\,\text{mJ}$.
+  * Pointwise state verification: 0 damage healing violations, 0 history underestimations, 41 top nodes carry exact $u_2 = 0.001965107396\,\text{mm}$.
+  * Verdict: **`HYPOTHESIS_H2_PASSED`**. Authentic Increment 88 achieves stationary equilibrium on the C3 donor mesh; nonstationarity is strictly localized to the nonmatching C3 $\to$ C4 refinement transition.
+- **Package 121 Terminal State Extraction & Provenance Audit**:
+  * Extracted authentic nodal and Gauss-point arrays (`p121_terminal_nodal_u.csv`, `p121_terminal_nodal_d.csv`, `p121_terminal_elem_gp.csv`).
+  * Audited provenance in `results/validation/package121_source_state_audit.json`: status **`PACKAGE121_SOURCE_STATE_QUALIFIED`**.
+- **Package 122 Formulation, Staging, Qualification & HPC Submission (Job 1417919.mmaster02)**:
+  * Formulated Package 122 (`models/pandey_kumar_mode1/122_c4_inc88_from_p121_transfer`):
+    - Nonmatching transfer from re-equilibrated Package 121 C3 terminal state onto Candidate C4 (4,422 quads, 4,588 nodes).
+    - Exact bilinear shape function mapping with slit flank jump awareness ($y = 0.050\,\text{mm}, x \le 0.040\,\text{mm}$).
+    - Initial mapped energies: $E_{\text{elas}} = 0.211138\,\text{mJ}$, $E_{\text{frac}} = 0.053423\,\text{mJ}$, $E_{\text{tot}} = 0.264561\,\text{mJ}$, peak nodal $d = 0.523425$.
+    - Bitwise frozen unified 12-DOF UEL (`AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC`).
+    - Material card: `[0.0075, 0.0027, 210.0, 0.3, 1.0E-07]`, driver `K_DEGRAD = 1.0e-7`, cap = 15 cycles.
+  * Verified 7/7 unit tests in `tests/unit/test_mode1_f1597_package122_qualification.py`.
+  * Staged to `/scratch9/pr21vyci/runs/mode1_c4_inc88_from_p121_transfer`, verified all 12 remote SHA-256 hashes, interactive datacheck passed (Exit 0, 0 errors).
+  * Submitted via guarded `Invoke-Mode1Execution.ps1` as PBS Job **`1417919.mmaster02`** in `entry_imfdfkmq` $\to$ `normal_imfdfkmq` (1 CPU, 16 GB, 8h).
+  * Recorded in `HPC_JOB_LEDGER.csv` under once-only accounting; observed scheduler status `R` (running).
+  * Scientific classification: **`PACKAGE122_SUBMITTED_AWAITING_RESULT`**.
+- **Governance**:
+  * Gate status: **`C1_2_STEP2_ENERGY_GATE_FAILED`** strictly retained. Autonomous C5 remeshing remains strictly blocked.

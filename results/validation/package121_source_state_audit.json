@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "title": "Package 121 Terminal State Qualification as Package 122 Donor Source",
+  "source_provenance": {
+    "source_package": "PACKAGE_121_C3_INC88_SAMEMESH_CONTROL",
+    "pbs_job_id": "1417909.mmaster02",
+    "cluster_dir": "/scratch9/pr21vyci/runs/mode1_c3_inc88_samemesh_control",
+    "uel_hash": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "prescribed_u_rp_mm": 0.001965107396
+  },
+  "topology_checks": {
+    "physical_quads": 1600,
+    "physical_nodes": 1698,
+    "slit_duplicate_pairs": 17,
+    "topology_pass": true
+  },
+  "irreversibility_checks": {
+    "nodal_healing_violations": 0,
+    "gp_history_underestimations": 0,
+    "irreversibility_pass": true
+  },
+  "controlled_source_difference": {
+    "p121_converged_rf2_N": 185.04463136196136,
+    "p120_donor_rf2_N": 185.335442,
+    "rf2_difference_N": -0.2908106380386357,
+    "rf2_difference_pct": -0.1569104294895931,
+    "p121_converged_etot_mJ": 0.2352838866123208,
+    "p120_donor_etot_mJ": 0.23528295,
+    "etot_difference_mJ": 9.366123208121024e-07,
+    "etot_difference_pct": 0.0003980791301758595,
+    "p121_nodal_dmax": 0.5271324450135,
+    "p120_donor_nodal_dmax": 0.47862151264999997,
+    "nodal_dmax_diff": 0.048510932363500014,
+    "p121_gp_dmax": 0.5117532101756,
+    "p120_donor_gp_dmax": 0.49061819911,
+    "gp_dmax_diff": 0.021135011065600062,
+    "p121_active_nodes": 1031,
+    "p121_free_nodes": 667,
+    "p121_cycles_to_converge": 3,
+    "status": "PACKAGE121_SOURCE_STATE_QUALIFIED"
+  },
+  "verdict": "PACKAGE121_SOURCE_STATE_QUALIFIED"
+}

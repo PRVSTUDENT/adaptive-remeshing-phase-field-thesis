@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "package": "PACKAGE_122_C4_INC88_FROM_P121_TRANSFER",
+  "objective": "C4 State-Transfer Control from Re-equilibrated C3 Donor (Package 121)",
+  "donor_reference": {
+    "model": "Candidate C3 Re-equilibrated Control (Package 121)",
+    "quads": 1600,
+    "nodes": 1698,
+    "prescribed_u_rp_mm": 0.001965107396,
+    "re_equilibrated_rf2_N": 185.04463136,
+    "re_equilibrated_e_elas_mJ": 0.1817857,
+    "re_equilibrated_e_frac_mJ": 0.05349818,
+    "re_equilibrated_e_tot_mJ": 0.23528389,
+    "re_equilibrated_d_max": 0.52713245
+  },
+  "receiver_target": {
+    "model": "Candidate C4",
+    "quads": 4422,
+    "nodes": 4588,
+    "prescribed_u_rp_mm": 0.001965107396
+  },
+  "initial_mapped_energies_mJ": {
+    "e_elas_mJ": 0.21113796921654737,
+    "e_frac_mJ": 0.05342259208662713,
+    "e_tot_mJ": 0.2645605613031745,
+    "delta_elas_pct": 16.146632665026665,
+    "delta_frac_pct": -0.1412906259107737,
+    "delta_tot_pct": 12.4431261754362
+  },
+  "comparison_with_package120": {
+    "pkg120_donor_rf2_N": 185.335442,
+    "pkg120_donor_etot_mJ": 0.23528295,
+    "pkg120_donor_nodal_dmax": 0.478622,
+    "pkg122_donor_rf2_N": 185.04463136,
+    "pkg122_donor_etot_mJ": 0.23528389,
+    "pkg122_donor_nodal_dmax": 0.52713245,
+    "pkg120_mapped_e_frac_mJ": 0.055375,
+    "pkg122_mapped_e_frac_mJ": 0.05342259208662713,
+    "difference_frac_pct": -3.5257930715537222
+  },
+  "scientific_hypothesis_h3": "Determines whether Package 120's C4 nonstationarity at Increment 88 persists when nonmatching state transfer originates from the fully re-equilibrated C3 state produced by Package 121, rather than the original unequilibrated donor checkpoint (Package 76 Frame 88)."
+}
