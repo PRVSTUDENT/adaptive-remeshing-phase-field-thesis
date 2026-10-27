@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "11ad78c4-1e9d-4498-b304-89154ac3c9ee",
+  "finding": "Evidence-only recovery completed for interrupted turn a1822aad-d030-45cb-9a23-9645504fe356. Verified partial checkpoint SHA256 72674930D5FBA209E4D90C4CCD69040EB983F93F0B5E925CD8D8FFBA63FB139A, existence and hashes of Package 117 specification and unit test (5/5 checks passed), confirmed cluster queue empty via guarded qstat, preserved once-only job accounting in HPC_JOB_LEDGER.csv (last completed Job 1417818.mmaster02), and confirmed zero unauthorized qsub or solver submissions occurred.",
+  "evidence_sources": {
+    "results/validation/package117_c3_samemesh_control_specification.json": "D45AC5AE3A847A684520C42ED5DC1C1A16EC4079C173738FC5964D15649A663C",
+    "tests/unit/test_mode1_f1597_package117_specification.py": "441AE79D1F391F55E73EF920B68A760F99F8B580CB0C49BCFE33724F995B2B5A",
+    "scripts/remeshing/build_package117_c3_samemesh_control.py": "D6C862B0307038CCC8EC3E205E56CF225FB5A618922DE2563279C097123B1FD3",
+    "results/validation/c3_int_r1_inc79_direct_transfer_summary.json": "D9B3D3519E73A7E3EA84FE5EE80620B2D2B1F7C28DBBD3CE2BD5C276CE26F0A0",
+    "results/validation/three_level_at2_energy_convergence_audit.json": "CED391A1B69BF8F02850AC96C2647EB5DEFFAA3644286D78BF500D271EF4DB22",
+    "tests/unit/test_mode1_f1597_three_level_energy_convergence.py": "52C8F3B17735B2EC6CC845CFF49C79479E0E3788F03A9589042D45F1847B134D"
+  },
+  "verification_passed": true,
+  "recovery_checkpoint": {
+    "path": "C:\\Users\\pruth\\OpenClawPAD\\controller_turn_checkpoint.json.a1822aad-d030-45cb-9a23-9645504fe356.partial.txt",
+    "sha256": "72674930D5FBA209E4D90C4CCD69040EB983F93F0B5E925CD8D8FFBA63FB139A",
+    "status": "RECOVERED_AND_VERIFIED"
+  },
+  "cluster_state": {
+    "qstat_result": "EMPTY",
+    "active_jobs_count": 0,
+    "last_completed_job": "1417818.mmaster02"
+  },
+  "governance": {
+    "retained_gate": "C1_2_STEP2_ENERGY_GATE_FAILED",
+    "threshold_relaxation": false,
+    "advance_to_c5": false
+  },
+  "next_safe_action": "Advance to qualified execution or next research task"
+}

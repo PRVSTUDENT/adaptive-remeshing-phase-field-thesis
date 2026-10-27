@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 116 Revision 1 (Job 1417818.mmaster02) evaluated: Exit 0, walltime 96 s, 7 cycles, achieved CONVERGED_STATIONARY_STATE with RF2=185.847 N (-0.1186% vs donor), max delta d=0.000728 \u003c= 0.001, zero damage healing violations (0 nodes), and total energy 0.216781 mJ (+2.0395% vs donor). Constitutive consistency audit proved NO_MISMATCH across all authentic source decks: all 4 models (C3 donor, C4 continuation, C4 receiver, C3 intermediate) use identical parameters (l0=0.0075 mm, Gc=0.0027 kN/mm, E=210.0 kN/mm2, nu=0.3, k=1.0e-07). Three-level mesh hierarchy (h in {2.5 um, 1.2 um, 0.606 um}) demonstrates monotonic convergence and confirms that 99.32% of the fracture energy shift occurs in the initial step from under-resolved coarse mesh (h/l0=0.333) to intermediate mesh (h/l0=0.160), with less than 0.07% (31 nJ) shift from intermediate to fine mesh (h/l0=0.081). The AT2 discretization continuum plateau is mathematically proven. Gate C1_2_STEP2_ENERGY_GATE_FAILED retained without threshold relaxation.",
+    "phase":  "Evidence-only recovery completed for interrupted turn a1822aad-d030-45cb-9a23-9645504fe356. Verified partial checkpoint SHA256 72674930D5FBA209E4D90C4CCD69040EB983F93F0B5E925CD8D8FFBA63FB139A, existence and hashes of Package 117 specification and unit test (5/5 checks passed), confirmed cluster queue empty via guarded qstat, preserved once-only job accounting in HPC_JOB_LEDGER.csv (last completed Job 1417818.mmaster02), and confirmed zero unauthorized qsub or solver submissions occurred.",
     "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE116_R1_INTERMEDIATE_CONTROL_SUBMITTED",
     "active_pbs_job_ids":  [
                                "1417818.mmaster02"
@@ -187,14 +187,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-27T08:58:17.1424235+01:00",
+    "last_updated":  "2026-10-27T09:47:03.4637073+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-983c257a-5765-438c-b960-ae914b63bf51.json",
-                                  "sha256":  "91CF54A8E62480082DBB57F1A87892CA288A558B0DDB5DC3BBBD9C20582EB097",
-                                  "created_at":  "2026-10-27T08:56:09.6472583+01:00"
+                                  "artifact":  "results/validation/preparation-11ad78c4-1e9d-4498-b304-89154ac3c9ee.json",
+                                  "sha256":  "9F8E66873410D40869095AE9B69EA426981D2C36FBD4417EBBF1ABC47F6B048E",
+                                  "created_at":  "2026-10-27T09:45:36.0191641+01:00"
                               }
 }
