@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "package": "PACKAGE_115_C4_INC79_DIRECT_TRANSFER",
+  "objective": "Isolated Direct Transfer Control at Increment 79 (u_RP = 0.00184250 mm)",
+  "donor_reference": {
+    "model": "Candidate C3 (1600 Quads)",
+    "increment": 79,
+    "prescribed_u_rp_mm": 0.0018425,
+    "rf2_N": 186.067909,
+    "e_elas_mJ": 0.17140369,
+    "e_frac_mJ": 0.041044352,
+    "e_tot_mJ": 0.21244805
+  },
+  "receiver_target": {
+    "model": "Candidate C4",
+    "quads": 4422,
+    "nodes": 4588,
+    "prescribed_u_rp_mm": 0.0018425
+  },
+  "initial_mapped_energies_mJ": {
+    "e_elas_mJ": 0.20197842964292076,
+    "e_frac_mJ": 0.040728386269108664,
+    "e_tot_mJ": 0.24270681591202942,
+    "delta_elas_pct": 17.83785380753516,
+    "delta_frac_pct": -0.7698153716529255,
+    "delta_tot_pct": 14.24290122315993
+  },
+  "comparison_with_sequential_package113": {
+    "pkg113_rf2_N": 187.391475,
+    "pkg113_e_elas_mJ": 0.17259901,
+    "pkg113_e_frac_mJ": 0.04411506,
+    "pkg113_e_tot_mJ": 0.21671407,
+    "pkg113_delta_e_tot_pct": 2.0080315
+  },
+  "hypothesis": "Directly transferring C3 Increment 79 onto C4 and re-equilibrating at the same physical displacement can distinguish a discretization-related energy offset from errors accumulated during Package 112->113 sequential continuation."
+}
