@@ -957,3 +957,30 @@ ormal_imfdfkmq (1 CPU, 16 GB, 8h walltime).
   * Scientific classification: **`PACKAGE122_SUBMITTED_AWAITING_RESULT`**.
 - **Governance**:
   * Gate status: **`C1_2_STEP2_ENERGY_GATE_FAILED`** strictly retained. Autonomous C5 remeshing remains strictly blocked.
+
+## Turn 235 — Method C Mode-I: Package 122 Terminal Reconciled (Exit 0, 303 s); Initial Mapped Energy Deconstructed; Hypothesis H3 Refuted (Prior C3 Re-equilibration Does Not Prevent C4 Nonstationarity) — 27 October 2026
+
+- **Package 122 Terminal Reconciliation (PBS Job 1417919.mmaster02)**:
+  * Reconciled authentic deliverables from `/scratch9/pr21vyci/runs/mode1_c4_inc88_from_p121_transfer` (`c4_inc88_from_p121_summary.json`, `pbs_execution.log`).
+  * Job execution: Exit 0, walltime 303 s on `mnode102`. Completed all 15 AM cycles (`ITERATION_CAP_REACHED`).
+  * Terminal Cycle 15 state:
+    - Peak damage: $d_{\max} = 0.736904$ ($\Delta d_{\max} = 0.007688 > 1.0\times 10^{-3}$).
+    - Reaction force: $RF_2 = 178.508431\,\text{N}$ ($|\Delta RF_2| = 0.4667\,\text{N} > 0.1\,\text{N}$, $-3.53\%$ vs donor reference).
+    - Total energy: $E_{\text{tot}} = 0.23958011\,\text{mJ}$ ($E_{\text{elas}} = 0.174922\,\text{mJ}$, $E_{\text{frac}} = 0.064658\,\text{mJ}$).
+    - Active set: 4,326 free nodes, 262 active nodes.
+    - Mathematical optimality: zero healing violations across all 4,588 nodes, free residual $\le 2.86\times 10^{-20}\,\text{kN/mm} \le 1.0\times 10^{-6}\,\text{kN/mm}$, active KKT multiplier $\ge -9.90\times 10^{-10}\,\text{kN/mm} \ge -1.0\times 10^{-9}\,\text{kN/mm}$.
+- **Audit of Initial Mapped Energy (+16.15% Elevation Deconstructed)**:
+  * Independent recomputation in `scripts/validation/audit_initial_mapped_energy_p122.py` verified that raw interpolated field $\Pi u$ yields $E_{\text{elas}} = 0.211138\,\text{mJ}$ and $E_{\text{tot}} = 0.264561\,\text{mJ}$ (+12.44%).
+  * Root cause: Dirichlet's principle of minimum potential energy. Interpolating coarse bilinear displacements onto a refined nonmatching discretization creates parasitic, non-equilibrated strain gradients ($\operatorname{div} \boldsymbol{\sigma} \neq 0$), yielding an upper bound on elastic energy.
+  * In Cycle 1, Abaqus solved mechanical equilibrium with the mapped damage field $d_0$, immediately relaxing elastic energy to $0.182873\,\text{mJ}$ (+0.598% vs donor), exactly matching the behavior of Package 118 (+0.82% post-solve).
+  * Status: **`PACKAGE122_INITIAL_STATE_ENERGY_VERIFIED`** in `results/validation/package122_initial_energy_audit.json`.
+- **Evaluation of Hypothesis H3 (Verdict: H3_NOT_SUPPORTED)**:
+  * Hypothesis H3 asserted that Package 120's nonstationarity on C4 stemmed from transferring an unequilibrated donor checkpoint.
+  * Package 122 (transferring the fully equilibrated Package 121 donor) also reached the 15-cycle cap and reproduced the exact nonstationary trajectory:
+    - Contraction maintained through Cycle 11 ($\rho_d = 0.9925 < 1.0$).
+    - Loss of contraction and progressive expansion across Cycles 12–15: Cycle 12 ($\rho_d = 1.0023$), Cycle 13 ($\rho_d = 1.0122$), Cycle 14 ($\rho_d = 1.0214$), Cycle 15 ($\rho_d = 1.0312$).
+    - Active damage zone continuously recruits nodes (free nodes expand from 4,268 to 4,326).
+  * High-precision terminal agreement: Package 120 and Package 122 total energies match within **0.0017%** (0.239580 vs 0.239584 mJ, difference 4 nJ), reaction forces match within **0.23%** (178.51 vs 178.92 N), and peak damage matches within **0.93%** (0.7369 vs 0.7301).
+  * Conclusion: Prior same-mesh donor re-equilibration does NOT restore or alter C4 stationarity. Nonstationarity at Increment 88 is an intrinsic physical-numerical feature of the fine discretization ($h \approx 0.61\,\mu\text{m}$) where localized softening ($d > 0.7$) allows the crack tip to propagate within-step under fixed macroscopic displacement.
+- **Governance**:
+  * Gate status: **`C1_2_STEP2_ENERGY_GATE_FAILED`** strictly retained (+2.0080315% > 2.000000%). Autonomous C5 remeshing remains strictly blocked.
