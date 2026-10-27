@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 125 Increment-87 extended AM convergence control (40 cycles) completed Exit 0 Job 1417969; controlled parity with Package 124 confirmed for Cycles 1-15 (0 node mismatch, |Delta RF2| < 1e-8 N, |Delta d| < 1e-10); Hypothesis H6 evaluated: H6_FAILED_EXTENDED_CAP_NONSTATIONARY (terminal Delta d = 0.001187 > 1e-3, terminal |Delta RF2| = 0.0707 N <= 0.1 N, free_res = 3.39e-20 kN/mm <= 1e-6); contraction rate deteriorated asymptotically to 1.0025, stalling Delta d at ~0.00118 mm without oscillation or divergence; Method C binding gate C1_2_STEP2_ENERGY_GATE_FAILED retained.",
+  "evidence_sources": {
+    "results/validation/package125_terminal_evaluation.json": "CD806542053CC100612BE6BDF9796350CAF22461B281B8BA3EF1E231898EA808",
+    "scripts/validation/evaluate_package125_terminal.py": "DF6DE23F667FAF170B6B4AD7F7F7AE438AE3ED18997121173B4A97E25D797956",
+    "tests/unit/test_mode1_f1597_package125_terminal_evaluation.py": "10C03FEA98C4E5943E518EA6515FEFF45AC700A8A7834660F2D84514911C1C74",
+    "models/pandey_kumar_mode1/125_c4_inc87_extended_am_control/c4_inc87_ext_am_summary.json": "E76FCBE7943CB8F230C32EFBD0E0F091FAE1930CFB766297FCC517718628A96A",
+    "models/pandey_kumar_mode1/125_c4_inc87_extended_am_control/pbs_execution.log": "AC5B1F42C42C2345717BD6013A9DE8019C3C15D18BEA0A4C533D72552DE4E4D8",
+    "models/pandey_kumar_mode1/125_c4_inc87_extended_am_control/qstat_accounting.txt": "07B038C508BD596FA6E77C8CB74ADD033BF918A8397E27516A44C20FB0460C6C",
+    "project_coordination/HPC_JOB_LEDGER.csv": "22F8C40E64C74640ACFB92A58CC7EAEA104BF66A6C6ED480A6602577B6A71B1A"
+  },
+  "verification_passed": true
+}
