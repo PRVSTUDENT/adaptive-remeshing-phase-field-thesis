@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "adapter": "mode1-experimental-12dof-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "batch_name": "MODE1_C4_INC88_HOLDOUT_DIAGNOSTIC",
+  "configuration": "ALTERNATING_MINIMIZATION_SAME_LOAD_HOLDOUT_DIAGNOSTIC",
+  "hypothesis": "Second Independent Increment-88 C4 Holdout Diagnostic to test state-dependent mesh-aware energy correction on more strongly localized crack state.",
+  "automatic_retry": false,
+  "max_submissions": 1,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_inc88_holdout_diagnostic",
+  "files": {
+    "M1_C4_INC88_HOLDOUT.inp": "a2224e866556f7733e49fb3dd22cd21eed27f9b0047a32bbcd43b9e731daafd2",
+    "active_set_boundary_cards.inc": "575854e3ea17e152c755c883e9385777f174d8302328c324ac79d5c6f4e90ab3",
+    "d_lower_bounds.csv": "dd8b722be9344a3cf0999a830bca417635b3f98b276e56e776f7f8023892c64c",
+    "driver_c4_inc88_holdout.py": "98cbf0738deda1a25cfcac44c656fb41662c91e4d4d73745d4d1165e2c242dfe",
+    "f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "nodal_displacements_initial.csv": "60cb6a68878a859010be309060e8a75dbafdb829004f8ffda809c56fb6a2d461",
+    "run_c4_inc88_holdout_datacheck.sh": "699007bd5bc2cefc8ef3e5a58d0e874311b52798ea9d80eff710e70f494736e9",
+    "stage_a_all_d0_boundary_cards.inc": "575854e3ea17e152c755c883e9385777f174d8302328c324ac79d5c6f4e90ab3",
+    "submit_M1_C4_INC88_HOLDOUT.pbs": "c94adcc22a8ef1d7983d7f4c3cfc62f9af1c69a2dafc8fc33b9b0804d6a438db"
+  },
+  "jobs": [
+    {
+      "id": "M1_C4_INC88_HOLDOUT",
+      "purpose": "Abaqus 2023 Candidate C4 Independent Holdout Diagnostic at u = 0.00196511 mm (4,422 quads, 4,588 nodes, up to 15 AM cycles with irreversible history transferred from authentic C3 Increment 88)",
+      "input": "M1_C4_INC88_HOLDOUT.inp",
+      "user_subroutine": "f42_unified_12dof_active_set_uel.for",
+      "pbs": "submit_M1_C4_INC88_HOLDOUT.pbs",
+      "datacheck": "M1_C4_INC88_HOLDOUT_DC.dat",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c4_inc88_holdout_diagnostic/submit_M1_C4_INC88_HOLDOUT.pbs\"",
+      "command_sha256": "4e3ea6285ce57908ae87cd417ab973cc1ca4f13005fbee3216d21af67b0f7f2e",
+      "depends_on": []
+    }
+  ],
+  "acceptance": {
+    "stage_C1_1_direct_transfer": {
+      "u_top_target_mm": 0.001965107396,
+      "rf2_expected_N": 185.33544242,
+      "rf2_continuity_pct_max": 5.0,
+      "energy_continuity_pct_max": 2.5,
+      "kkt_violations_max": 0,
+      "free_phase_residual_max_kN_mm": 1e-06,
+      "healing_tolerance": 0,
+      "stationarity_delta_d_max": 0.001,
+      "stationarity_delta_rf2_max_N": 0.1
+    }
+  },
+  "package_name": "120_c4_inc88_holdout_diagnostic"
+}

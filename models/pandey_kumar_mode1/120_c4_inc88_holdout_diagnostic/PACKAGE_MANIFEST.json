@@ -1,0 +1,39 @@
+{
+  "package_name": "PACKAGE_120_C4_INC88_HOLDOUT_DIAGNOSTIC",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "version": 1,
+  "created_date": "2026-10-27",
+  "description": "Package 120: Independent Increment-88 C4 Holdout Diagnostic for Mesh-Aware Energy Criterion Validation",
+  "mode": "Mode-I",
+  "execution_type": "Serial",
+  "donor_source": {
+    "package": "PACKAGE_76_CANDIDATE_DONOR_H0025_VISUAL",
+    "increment": 88,
+    "prescribed_u_rp_mm": 0.001965107396,
+    "rf2_N": 185.33544242,
+    "e_elas_mJ": 0.18210416,
+    "e_frac_mJ": 0.05317879,
+    "e_tot_mJ": 0.23528295
+  },
+  "receiver_target": {
+    "mesh": "Candidate C4",
+    "quads": 4422,
+    "nodes": 4588,
+    "prescribed_u_rp_mm": 0.001965107396
+  },
+  "frozen_prediction_reference": "results/validation/increment_88_frozen_prediction.json",
+  "predicted_e_target_mJ": 0.24068166,
+  "predicted_delta_e_pct": 2.29456,
+  "files": {
+    "M1_C4_INC88_HOLDOUT.inp": "A2224E866556F7733E49FB3DD22CD21EED27F9B0047A32BBCD43B9E731DAAFD2",
+    "driver_c4_inc88_holdout.py": "98CBF0738DEDA1A25CFCAC44C656FB41662C91E4D4D73745D4D1165E2C242DFE",
+    "f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "submit_M1_C4_INC88_HOLDOUT.pbs": "C94ADCC22A8EF1D7983D7F4C3CFC62F9AF1C69A2DAFC8FC33B9B0804D6A438DB",
+    "d_lower_bounds.csv": "DD8B722BE9344A3CF0999A830BCA417635B3F98B276E56E776F7F8023892C64C",
+    "active_set_boundary_cards.inc": "575854E3EA17E152C755C883E9385777F174D8302328C324AC79D5C6F4E90AB3",
+    "stage_a_all_d0_boundary_cards.inc": "575854E3EA17E152C755C883E9385777F174D8302328C324AC79D5C6F4E90AB3",
+    "nodal_displacements_initial.csv": "60CB6A68878A859010BE309060E8A75DBAFDB829004F8FFDA809C56FB6A2D461",
+    "job_notifications.sh": "96756A681D2D36C11B36B89288F631F8ECC9537543C2C745A4BAE1B425984B47",
+    "run_c4_inc88_holdout_datacheck.sh": "699007BD5BC2CEFC8EF3E5A58D0E874311B52798EA9D80EFF710E70F494736E9"
+  }
+}

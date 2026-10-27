@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "title": "Frozen Pre-Execution Prediction for Increment-88 C3->C4 Second Holdout Validation",
+  "status": "PREDICTION_FROZEN_BEFORE_HOLDOUT_EVALUATION",
+  "timestamp": "2026-10-27T12:42:00+01:00",
+  "governance_note": "Prediction coefficients and uncertainty intervals derived solely from previously available Packages 111-118 calibration data. Strictly untouched and un-recalibrated after Package 119 or Increment 88 observations.",
+  "energy_units": "milliJoules (mJ = kN*mm)",
+  "donor_c3_source_state": {
+    "source_package": "PACKAGE_76_CANDIDATE_DONOR_H0025_VISUAL",
+    "source_odb": "/scratch9/pr21vyci/runs/mode1_candidate_donor_h0025_visual/M1_CANDIDATE_DONOR_H0025_VISUAL.odb",
+    "increment_number": 88,
+    "frame_index": 88,
+    "step_time_s": 0.39302149415016174,
+    "prescribed_displacement_u2_mm": 0.0019651073962450027,
+    "rf2_donor_N": 185.3354424238205,
+    "d_max": 0.49061819911003113,
+    "h_max_kN_mm2": 1.1330522298812866,
+    "e_source_elas_mJ": 0.18210416,
+    "e_source_frac_mJ": 0.05317879,
+    "e_source_tot_mJ": 0.23528295,
+    "stability_status": "PRE_PEAK_CONVERGED_STABLE (4 solver iterations, 0 cutbacks, Step 1)"
+  },
+  "candidate_receiver_mesh": {
+    "mesh_id": "C4",
+    "elements_quads": 4422,
+    "nodes": 4588,
+    "h_min_mm": 0.000609,
+    "h_min_over_l0": 0.0812
+  },
+  "predictive_model": {
+    "formulation": "Localized AT2 Phase-Field Discretization Sharpening Model",
+    "calibration_basis": "Decomposed quadrature (-0.1217%) and variational crack-tip sharpening (+9.4339%) from Packages 111-118",
+    "coefficients": {
+      "alpha_frac": 0.093007,
+      "alpha_elas": 0.002486
+    },
+    "scaling_equations": {
+      "delta_e_frac_predicted_mJ": "e_source_frac * alpha_frac = 0.05317879 * 0.093007 = 0.00494600 mJ",
+      "delta_e_elas_predicted_mJ": "e_source_elas * alpha_elas = 0.18210416 * 0.002486 = 0.00045271 mJ",
+      "delta_e_mesh_predicted_mJ": "delta_e_frac_predicted + delta_e_elas_predicted = 0.00539871 mJ",
+      "delta_e_mesh_predicted_pct": "+2.29456%"
+    },
+    "point_prediction": {
+      "delta_e_mesh_mJ": 0.00539871,
+      "delta_e_mesh_pct": 2.29456,
+      "predicted_e_target_mJ": 0.24068166
+    },
+    "uncertainty_interval": {
+      "delta_e_mesh_min_mJ": 0.00492814,
+      "delta_e_mesh_max_mJ": 0.00586928,
+      "delta_e_mesh_min_pct": 2.09456,
+      "delta_e_mesh_max_pct": 2.49456,
+      "predicted_e_target_min_mJ": 0.24021109,
+      "predicted_e_target_max_mJ": 0.24115223,
+      "extrapolation_uncertainty_note": "Nominal prediction interval reflects +-0.200 percentage points around the point prediction. Evaluation of nominal interval coverage is kept distinct from diagnostic acceptance."
+    }
+  },
+  "acceptance_criteria": {
+    "dimensionless_residual_formula": "r_E = (E_target - E_source - Delta_E_mesh_predicted) / E_source",
+    "residual_sign_convention": {
+      "r_E_positive": "Excess target energy beyond predicted discretization sharpening (spurious hardening/ratcheting)",
+      "r_E_negative": "Target energy deficit below predicted discretization sharpening (spurious dissipation/healing)",
+      "r_E_zero": "Exact balance between target energy and independently predicted mesh-sharpened energy"
+    },
+    "predeclared_pass_band": {
+      "max_abs_residual_pct": 0.25,
+      "acceptance_condition": "|r_E| <= 0.25%"
+    },
+    "falsification_condition": {
+      "falsification_threshold_pct": 0.5,
+      "falsification_rule": "|r_E| > 0.50% falsifies the localized AT2 scaling model"
+    }
+  },
+  "package_119_predecessor_record": {
+    "package": "PACKAGE_119_C4_INC85_HOLDOUT",
+    "job_id": "1417898.mmaster02",
+    "measured_e_tot_mJ": 0.22974606,
+    "predicted_e_tot_mJ": 0.23021699,
+    "dimensionless_residual_r_E_pct": -0.20898,
+    "diagnostic_acceptance_verdict": "PASS (|r_E| = 0.20898% <= 0.25000%)",
+    "nominal_interval_verdict": "INTERVAL_MISS (measured 0.22974606 mJ is 0.00002094 mJ below nominal lower bound 0.22976699 mJ)",
+    "classification": "HOLDOUT_PREDICTIVE_VALIDATION_PASSED"
+  },
+  "governance_status": {
+    "original_gate_status": "C1_2_STEP2_ENERGY_GATE_FAILED (RETAINED, NOT CLEARED)",
+    "package_113_status": "FAIL (+2.0080315% > 2.000000%)",
+    "c5_remeshing_permitted": false,
+    "role_of_holdout": "Prospective diagnostic verification only; does not retroactively alter Package 113 gate status"
+  }
+}
