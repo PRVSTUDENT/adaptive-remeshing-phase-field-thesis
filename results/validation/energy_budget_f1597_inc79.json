@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "investigation": "METHOD_C_C4_INC79_ENERGY_DISCREPANCY_DECONSTRUCTION",
+  "checkpoint": "Package 113 Increment 79 (u_RP = 0.00184250 mm)",
+  "donor_mesh": {
+    "name": "Candidate C3",
+    "elements": 1600,
+    "nominal_h_mm": 0.0025,
+    "nominal_h_over_l0": 0.33333333333333337
+  },
+  "refined_mesh": {
+    "name": "Candidate C4",
+    "elements": 4422,
+    "nodes": 4588,
+    "min_h_mm": 0.00038423072310080883,
+    "min_h_over_l0": 0.05123076308010784,
+    "max_h_mm": 0.00326574753485027,
+    "integrated_area_mm2": 0.01000000000000006
+  },
+  "donor_energy_mJ": {
+    "step": 1,
+    "increment": 79,
+    "total_time": 0.3685,
+    "e_elas_mJ": 0.17140369,
+    "e_frac_mJ": 0.041044352,
+    "e_tot_mJ": 0.21244805
+  },
+  "solver_c4_energy_mJ": {
+    "e_elas_mJ": 0.17259901081241638,
+    "e_frac_mJ": 0.04411506312278167,
+    "e_tot_mJ": 0.21671407393519804
+  },
+  "initial_fe_reconstruction_mJ": {
+    "e_elas_mJ": 0.1700386473262621,
+    "e_frac_local_mJ": 0.03834844092797358,
+    "e_frac_grad_mJ": 0.004369894312418967,
+    "e_frac_tot_mJ": 0.042718335240392584,
+    "e_tot_mJ": 0.21275698256665468,
+    "local_frac_fraction": 0.8977044801060734,
+    "grad_frac_fraction": 0.1022955198939257,
+    "quadrature_notes": "Reconstructed from nodal_displacements_cyc4.csv and initial boundary cards, matching Package 112 baseline within 0.1%."
+  },
+  "energy_discrepancy_deconstruction": {
+    "delta_elas_mJ": 0.0011953208124163839,
+    "pct_diff_elas": 0.6973716915991621,
+    "share_of_excess_elas_pct": 28.01955241165084,
+    "delta_frac_mJ": 0.0030707111227816705,
+    "pct_diff_frac": 7.481446223786578,
+    "share_of_excess_frac_pct": 71.98063511659885,
+    "delta_tot_mJ": 0.004266023935198038,
+    "pct_diff_tot": 2.0080315800488817,
+    "predeclared_gate_tolerance_pct": 2.0,
+    "gate_margin_exceeded_pct": 0.008031580048881715
+  },
+  "physical_mechanism_deconstruction": {
+    "primary_driver": "AT2_REGULARIZED_FRACTURE_ENERGY_DISCRETIZATION_RESOLUTION",
+    "fracture_share_pct": 71.98063511659885,
+    "elastic_continuity_status": "EXCELLENT (0.697% diff, within 2.0% gate)",
+    "equilibrium_status": "STRICTLY SATISFIED (residual 4.59e-16 kN <= 1e-4 kN)",
+    "damage_healing_status": "ZERO VIOLATIONS (0 nodes healed across 4,588 nodes)",
+    "kkt_optimality_status": "SATISFIED (min lambda -9.94e-10 kN/mm >= -1e-9 kN/mm)",
+    "free_residual_status": "SATISFIED (free residual 1.33e-9 kN/mm <= 1e-6 kN/mm)",
+    "discretization_explanation": "Candidate C4 refines the crack-tip mesh from h = 2.5 um (l0/3) to h = 0.606 um (~l0/12). The sharper FE interpolation captures the localized damage gradient |grad d|^2 and core damage d^2 with higher fidelity, integrating 0.044115 mJ vs 0.041044 mJ (+7.481%). Because regularized fracture energy converges from below as h -> 0 in under-resolved meshes, this increase represents mathematical discretization resolution rather than state corruption."
+  },
+  "package114_miseseri_companion_status": {
+    "role": "QUALIFIED_COMPANION_CONTINUUM_DIAGNOSTIC",
+    "displacement_scaling": "Exact 0.8979 scaling with displacement from post-peak Package 95",
+    "global_reaction_agreement": "187.8 N companion vs 187.39 N coupled PFM (99.8% agreement)",
+    "pointwise_limit": "Global agreement does not establish pointwise equivalence between elastic companion stresses and damaged UEL stresses in the process zone. Preserved strictly as an offline companion diagnostic, not as a phase-field error estimator.",
+    "marked_elements_above_threshold_eta_015": 284
+  },
+  "falsifiable_hypothesis_test": {
+    "hypothesis": "The +2.008032% C4 total-energy excess is primarily a mesh-dependent increase in resolved AT2 fracture energy, rather than failed equilibrium or erroneous history transfer.",
+    "test_result": "SUPPORTED",
+    "evidence": {
+      "fracture_energy_share_of_excess_pct": 71.98063511659885,
+      "elastic_energy_continuity_pct": 0.6973716915991621,
+      "zero_healing_verified": true,
+      "mechanical_equilibrium_verified": true
+    }
+  },
+  "classification": "ENERGY_DIFFERENCE_DISCRETIZATION_SUPPORTED",
+  "method_c_gate_status": "C1_2_STEP2_ENERGY_GATE_FAILED",
+  "hpc_execution_recommendation": "OFFLINE_AUDIT_SUFFICIENT_NO_ADDITIONAL_HPC_RUN_NEEDED",
+  "c4_to_c5_remeshing_prerequisite": "Because C1_2_STEP2_ENERGY_GATE_FAILED remains in effect under strict protocol, C4 -> C5 remeshing must not proceed until the supervisory governance establishes a reviewed discretization-aware continuity criterion or authentic multi-mesh energy baseline.",
+  "source_hashes": {
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/M1_C4_C1_2_INC79_CONTINUATION.inp": "5A1DA93664D57894AFA428FB961EFD5CB864E42161898B74778F2B3B1EEC4DDD",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/nodal_displacements_cyc4.csv": "B579C8B6C6AFBC6BFBAC7C22375C9FF5B718C823B1DBA364F98E4EFD5F47E3D6",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/active_set_boundary_cards.inc": "B3B7881552C29CCAA5D082F9EE644B797EA9E6113A5BF2B314ADCE7021940E4F",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/c4_c1_2_inc79_continuation_summary.json": "568B8B92F1576DB761D841914B55E20C59B1B334E680A4EF21778D28E5A46461",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/uel_energy_balance.csv": "EC265AAF6CE4CEDC8190154A946D02C2F162BFF77D19F3B5AFFEA1E378B961D7"
+  }
+}
