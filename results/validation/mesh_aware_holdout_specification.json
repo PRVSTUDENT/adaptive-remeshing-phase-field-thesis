@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "title": "Prospective Holdout Validation Specification for Mesh-Aware Energy Criterion",
+  "formulation": {
+    "energy_units": "milliJoules (mJ = 10^-3 J = kN*mm)",
+    "dimensionless_residual_formula": "r_E = (E_target - E_source - Delta_E_mesh_model) / E_source",
+    "residual_sign_convention": {
+      "r_E_positive": "Unexplained energy excess beyond predicted discretization sharpening (excess stiffness / history ratcheting)",
+      "r_E_negative": "Unexplained energy deficit below predicted discretization sharpening (spurious relaxation / healing / interpolation loss)",
+      "r_E_zero": "Exact balance between target energy and independently predicted mesh-sharpened energy"
+    }
+  },
+  "holdout_experiment": {
+    "recommended_state": "Increment 85 (post-initiation localized crack tip, u ~ 0.00195 mm)",
+    "donor_source": "Authentic coarse C3 donor continued to Inc 85",
+    "candidate_receiver": "Candidate C4 mesh (h_min = 0.61 um)",
+    "independent_predictor": "Variational energy functional integration using localized asymptotic crack-tip model or multi-mesh scaling extrapolation",
+    "predeclared_acceptance_band": "|r_E| <= 0.25% (unexplained residual)",
+    "falsification_condition": "|r_E| > 0.50% falsifies the state-dependent scaling model"
+  },
+  "governance_status": {
+    "gate_c1_2_step2_status": "C1_2_STEP2_ENERGY_GATE_FAILED (RETAINED, NOT CLEARED)",
+    "c5_remeshing_permitted": false,
+    "classification": "PROSPECTIVE_CRITERION_REQUIRES_HOLDOUT_VALIDATION"
+  }
+}
