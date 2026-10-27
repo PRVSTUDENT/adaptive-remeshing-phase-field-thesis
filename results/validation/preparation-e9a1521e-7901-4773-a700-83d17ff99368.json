@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "e9a1521e-7901-4773-a700-83d17ff99368",
+  "finding": "Package 117 C3 same-mesh AM control at Increment 79 qualified and submitted to cluster as Job 1417847.mmaster02. Verified Abaqus 2023 preflight compilation and datacheck completed Exit 0 with zero errors (CPU 0.08s), confirmed UEL property ordering [l0, Gc, E, nu, k] matches unified 12-DOF UEL hash AB0A5A71..., unit qualification tests passed 5/5, and scheduler submission executed under standing authorization with once-only accounting.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/117_c3_samemesh_am_control/M1_C3_SAMEMESH_AM_CONTROL.inp": "9251B32682A8C207F026DA8E1E29D6097C7A2E75CB1E685878B231C7ACB25A21",
+    "models/pandey_kumar_mode1/117_c3_samemesh_am_control/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/117_c3_samemesh_am_control/PACKAGE_MANIFEST.json": "184E80218E813F360E6F46A53A9BA324D8D9BA3DF856C4E4E1F22BEA1A7FA0F8",
+    "models/pandey_kumar_mode1/117_c3_samemesh_am_control/M1_C3_SAMEMESH_AUTHORIZATION.json": "922D85A1261A7854AC23204B830684D16EBB90D1DA9671A6F357A25776EF2888",
+    "models/pandey_kumar_mode1/117_c3_samemesh_am_control/submit_M1_C3_SAMEMESH_AM_CONTROL.pbs": "E69D562076B3CF8EA9E33806E0144CF3EDC788E3B4B096390C7A921F5477880D",
+    "tests/unit/test_mode1_f1597_package117_qualification.py": "E3688AE168C024349FE86BFD82B0CE4F80522A3C3292090A040FFF02453CF930",
+    "results/validation/package117_c3_samemesh_control_specification.json": "D45AC5AE3A847A684520C42ED5DC1C1A16EC4079C173738FC5964D15649A663C"
+  },
+  "verification_passed": true,
+  "hpc_job": {
+    "pbs_job_id": "1417847.mmaster02",
+    "job_name": "M1_C3_SM_INC79_CONTROL",
+    "run_dir": "/scratch9/pr21vyci/runs/mode1_c3_samemesh_am_control",
+    "queue": "entry_imfdfkmq -> normal_imfdfkmq",
+    "state": "RUNNING",
+    "resources": "1 CPU, 16 GB, 8h"
+  },
+  "governance": {
+    "retained_gate": "C1_2_STEP2_ENERGY_GATE_FAILED",
+    "threshold_relaxation": false,
+    "advance_to_c5": false
+  },
+  "next_safe_action": "Audit authentic cluster output from Job 1417847.mmaster02 upon completion and evaluate same-mesh re-equilibration diagnostic ratio R"
+}
