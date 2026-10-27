@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Increment 88 qualified as second independent holdout; untouched localized AT2 model froze predicted Delta E_mesh = +0.00539871 mJ (+2.29456%) and target E_C4 = 0.24068166 mJ; Package 120 staged, datachecked, and submitted as PBS Job 1417902.mmaster02 (SECOND_HOLDOUT_SUBMITTED_AWAITING_RESULT); Gate C1-2 Step 2 remains bindingly C1_2_STEP2_ENERGY_GATE_FAILED.",
+  "evidence_sources": {
+    "results/validation/increment_88_frozen_prediction.json": "16A2461734A18968823DB30305DBBAB26E75F6B07D124217677AD2A09A445B6E",
+    "results/validation/c4_inc88_holdout_mapping_audit.json": "B09BFF1DFD4950097B3D123D7DADC24DB3B36AE0AC59BC177084A395997A75A0",
+    "scripts/validation/evaluate_increment_88_prediction.py": "DAB6CC39FE629E76AC39EDAE5B981DD6AAC89955F2C09B8665E284FCDB04D06C",
+    "scripts/validation/map_pkg76_inc88_to_c4.py": "3E3DC055A8BFDB2FE871F9A681B036CD11832BC4937E16B1B984D27BFFD9BC6D",
+    "scripts/validation/stage_and_qualify_package120.py": "02B5C86C440CC32FA9D7C6E70B600DF74A719995F4604157D6BAC4572E63ADC5",
+    "tests/unit/test_mode1_f1597_increment_88_prediction.py": "820D36EB12D9DAAA760EF34FDCDA57821EBD16B2E3EF03482B077E00EA083F50",
+    "models/pandey_kumar_mode1/120_c4_inc88_holdout_diagnostic/PACKAGE_MANIFEST.json": "7941E50EBE297E6C4678820733AE62E2BC3712E6D4200541B40E4B8EA9B9344D",
+    "models/pandey_kumar_mode1/120_c4_inc88_holdout_diagnostic/M1_C4_INC88_HOLDOUT_AUTHORIZATION.json": "A674A16C8F73B077756AFA7A54CFCAC2F0742F1EB46D721A3AAAC644337F88B5",
+    "models/pandey_kumar_mode1/120_c4_inc88_holdout_diagnostic/M1_C4_INC88_HOLDOUT_DC.dat": "AC7034B3ADA65A8FD4ABFFE394415358AC56AB650BB9FD5A2508A57AC068BA04"
+  },
+  "verification_passed": true
+}

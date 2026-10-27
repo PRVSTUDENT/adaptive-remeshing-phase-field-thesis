@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 119 Increment-85 out-of-sample holdout re-equilibrated to E_tot = 0.22974606 mJ with residual r_E = -0.20898% satisfying the predeclared |r_E| \u003c= 0.25% acceptance band (HOLDOUT_PREDICTIVE_VALIDATION_PASSED); donor provenance resolved as DONOR_HISTORY_CONSISTENT; Gate C1-2 Step 2 remains bindingly C1_2_STEP2_ENERGY_GATE_FAILED.",
+    "phase":  "Increment 88 qualified as second independent holdout; untouched localized AT2 model froze predicted Delta E_mesh = +0.00539871 mJ (+2.29456%) and target E_C4 = 0.24068166 mJ; Package 120 staged, datachecked, and submitted as PBS Job 1417902.mmaster02 (SECOND_HOLDOUT_SUBMITTED_AWAITING_RESULT); Gate C1-2 Step 2 remains bindingly C1_2_STEP2_ENERGY_GATE_FAILED.",
     "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE116_R1_INTERMEDIATE_CONTROL_SUBMITTED",
     "active_pbs_job_ids":  [
                                "1417818.mmaster02"
@@ -187,14 +187,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-27T12:32:57.7583651+01:00",
+    "last_updated":  "2026-10-27T12:55:40.3849932+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-890cae91-20b7-46e6-a23b-10e83b735ddd.json",
-                                  "sha256":  "B304D91854F3D2306994723C5C5A5C4CBA954D7A6F9D6FA0A2CC3A551BD94C28",
-                                  "created_at":  "2026-10-27T12:30:58.5231924+01:00"
+                                  "artifact":  "results/validation/preparation-1c3aa6e7-f33c-4439-89f3-98d60fa343e5.json",
+                                  "sha256":  "423DEACF6735C5406BEBC2FC4622792D13A05358071F2E493B14539EF56C33FC",
+                                  "created_at":  "2026-10-27T12:54:55.3168738+01:00"
                               }
 }
