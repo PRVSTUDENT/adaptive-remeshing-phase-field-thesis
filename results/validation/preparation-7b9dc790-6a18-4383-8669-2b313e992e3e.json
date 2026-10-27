@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Independently qualified and submitted Increment-85 C4 Holdout Diagnostic (Package 119, Job 1417898.mmaster02) to validate the prospective state-dependent mesh-aware energy correction without circular calibration; froze prediction Delta_E_mesh = +0.004868 mJ (+2.160% +/- 0.200%) derived solely from prior Packages 111-118 data before receiver evaluation; established authentic C3 donor state at Increment 85 (u = 0.00191171 mm, E_tot = 0.225349 mJ, RF2 = 185.974 N, d_max = 0.4460); classified status as HOLDOUT_SUBMITTED_AWAITING_RESULT; and preserved Gate C1-2 Step 2 failure (C1_2_STEP2_ENERGY_GATE_FAILED) with autonomous C5 remeshing blocked.",
+  "evidence_sources": {
+    "results/validation/increment_85_frozen_prediction.json": "2977DBBF4828A23AF97D433D025167C4B1B12AA4BAFF06C2A82AC133EC6E8E67",
+    "scripts/validation/evaluate_increment_85_holdout.py": "6D7D0E4790110A3B7D9C9C9237253515A08EE025A5FF493338394C6D2C6334A4",
+    "tests/unit/test_mode1_f1597_increment_85_holdout.py": "458AEA0598CE60C33F5B6AC8C78BA42139C4CA8C1CAB5777C7B71E3870A27F87",
+    "scripts/validation/map_pkg76_inc85_to_c4.py": "4CFA9C7C8E567C3EBB2596080F5BB420415355C1F2DCAA5E4964482CA3726224",
+    "results/validation/c4_inc85_holdout_mapping_audit.json": "3E66635B151DB23BF373CE48F2DA5041921A9814316504D73FEB10F59F0A0277",
+    "models/pandey_kumar_mode1/119_c4_inc85_holdout_diagnostic/M1_C4_INC85_HOLDOUT_AUTHORIZATION.json": "4CB1C1772E16A073FF6EB27954E4A4E888B7347729F0D0E530A0D4708F5434EC"
+  },
+  "verification_passed": true
+}
