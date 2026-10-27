@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "title": "Method C Out-of-Sample Holdout Comparative Synthesis (Increments 85 vs 88)",
+  "summary": "Evaluation of localized AT2 phase-field discretization sharpening model across two progressive holdout increments.",
+  "holdouts": [
+    {
+      "holdout_id": "PACKAGE_119_INC85",
+      "job_id": "1417898.mmaster02",
+      "increment": 85,
+      "u_top_mm": 0.00191171,
+      "donor_c3_d_max": 0.445999,
+      "receiver_c4_d_max": 0.593742,
+      "donor_c3_e_tot_mJ": 0.22534936,
+      "predicted_c4_e_tot_mJ": 0.23021699,
+      "predicted_delta_e_pct": 2.15998,
+      "measured_c4_e_tot_mJ": 0.22974606,
+      "measured_delta_e_pct": 1.95106,
+      "dimensionless_residual_r_E_pct": -0.20898,
+      "cycles_to_converge": 10,
+      "stationarity_status": "CONVERGED_STATIONARY_STATE (PASS)",
+      "diagnostic_acceptance": "PASS (|r_E| <= 0.250%)",
+      "nominal_interval_coverage": "INTERVAL_MISS (-0.00002094 mJ below lower bound)",
+      "classification": "HOLDOUT_PREDICTIVE_VALIDATION_PASSED"
+    },
+    {
+      "holdout_id": "PACKAGE_120_INC88",
+      "job_id": "1417902.mmaster02",
+      "increment": 88,
+      "u_top_mm": 0.00196511,
+      "donor_c3_d_max": 0.490618,
+      "receiver_c4_d_max": 0.730093,
+      "donor_c3_e_tot_mJ": 0.23528295,
+      "predicted_c4_e_tot_mJ": 0.24068166,
+      "predicted_delta_e_pct": 2.29456,
+      "measured_c4_e_tot_mJ": 0.23958419,
+      "measured_delta_e_pct": 1.82811,
+      "dimensionless_residual_r_E_pct": -0.46645,
+      "cycles_to_converge": 15,
+      "stationarity_status": "ITERATION_CAP_REACHED (FAIL, Delta d = 0.0072)",
+      "diagnostic_acceptance": "FAIL (|r_E| = 0.466% > 0.250%)",
+      "nominal_interval_coverage": "INTERVAL_MISS (-0.00062690 mJ below lower bound)",
+      "classification": "SECOND_HOLDOUT_PREDICTIVE_VALIDATION_FAILED"
+    }
+  ],
+  "synthesis_findings": {
+    "error_trend_with_displacement": "Residual r_E shifted from -0.209% at Inc 85 (u = 0.001912 mm) to -0.466% at Inc 88 (u = 0.001965 mm). Negative bias deepened by 0.257 percentage points as displacement increased.",
+    "error_trend_with_damage": "As receiver peak damage progressed from d_max = 0.594 (Inc 85) to d_max = 0.730 (Inc 88), the physical system entered active localized crack-softening on Candidate C4, increasing continuous within-step relaxation and reducing stored elastic strain energy.",
+    "stationarity_divergence": "While Increment 85 achieved stationary equilibrium in 10 cycles (Delta d = 0.0008 <= 0.001), Increment 88 reached the 15-cycle loop cap without stationarity (Delta d = 0.0072, Delta RF2 = 0.438 N). This proves that static alternating minimization at fixed displacement cannot achieve rapid stationarity once localized damage exceeds ~0.70.",
+    "domain_of_applicability": "The localized linear crack-tip variational sharpening model is predictive for pre-localization states (d_max <= 0.60, r_E in [-0.21%, +0.05%]), but underestimates relaxation as damage localization transitions into crack growth (d_max >= 0.70).",
+    "statistical_limitation": "Increments 85 and 88 share the identical coarse donor trajectory and fine C4 mesh. They represent correlated progressive validation points along one trajectory, not independent random samples."
+  },
+  "governance_status": {
+    "original_gate_status": "C1_2_STEP2_ENERGY_GATE_FAILED (RETAINED, NOT CLEARED)",
+    "package_113_status": "FAIL (+2.0080315% > 2.000000%)",
+    "c5_remeshing_permitted": false
+  }
+}

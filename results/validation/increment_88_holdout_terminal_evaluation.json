@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "title": "Package 120 Increment-88 Holdout Diagnostic Terminal Evaluation",
+  "frozen_prediction_reference": {
+    "path": "results/validation/increment_88_frozen_prediction.json",
+    "sha256": "16A2461734A18968823DB30305DBBAB26E75F6B07D124217677AD2A09A445B6E",
+    "sha256_verified": true,
+    "timestamp": "2026-10-27T12:42:00+01:00"
+  },
+  "pbs_execution": {
+    "job_id": "1417902.mmaster02",
+    "scratch_dir": "/scratch9/pr21vyci/runs/mode1_c4_inc88_holdout_diagnostic",
+    "exit_code": 0,
+    "walltime_s": 160,
+    "cycles_completed": 15,
+    "status": "ITERATION_CAP_REACHED"
+  },
+  "numerical_stationarity_audit": {
+    "mechanical_residual_pass": true,
+    "free_phase_residual_kN_mm": 1.2801266518745778e-09,
+    "free_phase_residual_pass": true,
+    "min_lambda_kkt_kN_mm": -9.9446021708435e-10,
+    "min_lambda_kkt_pass": true,
+    "healing_violations": 0,
+    "healing_pass": true,
+    "terminal_delta_d_max": 0.007227456601547222,
+    "stationarity_d_pass": false,
+    "terminal_delta_rf2_N": 0.438004732131958,
+    "stationarity_rf2_pass": false,
+    "numerical_validity_verdict": "FAIL_NONSTATIONARY_ITERATION_CAP_REACHED"
+  },
+  "terminal_metrics": {
+    "rf2_rp_N": 178.9204329252243,
+    "rf2_donor_ref_N": 185.3354424238205,
+    "e_elas_mJ": 0.17535893051539106,
+    "e_frac_mJ": 0.0642252574277935,
+    "e_tot_mJ": 0.23958418794318456,
+    "d_max": 0.7300930588400278
+  },
+  "prediction_vs_measured_comparison": {
+    "e_source_c3_donor_mJ": 0.23528295,
+    "predicted_delta_e_mesh_mJ": 0.00539871,
+    "predicted_delta_e_mesh_pct": 2.29456,
+    "predicted_e_target_c4_mJ": 0.24068166,
+    "uncertainty_interval_mJ": [
+      0.24021109,
+      0.24115223
+    ],
+    "measured_delta_e_mesh_mJ": 0.0043012379431845715,
+    "measured_delta_e_mesh_pct": 1.828112892661611,
+    "measured_e_target_c4_mJ": 0.23958418794318456,
+    "inside_uncertainty_interval": false,
+    "dimensionless_residual_r_E_pct": -0.466447762923505,
+    "abs_residual_pct": 0.466447762923505,
+    "pass_band_threshold_pct": 0.25,
+    "falsification_threshold_pct": 0.5,
+    "residual_sign_interpretation": "ENERGY_DEFICIT (measured target energy is 0.466% below prediction)",
+    "diagnostic_acceptance_verdict": "FAIL (|r_E| = 0.466% > 0.250%)",
+    "falsification_verdict": "NOT_FALSIFIED (|r_E| = 0.466% <= 0.500%)"
+  },
+  "classification": "SECOND_HOLDOUT_PREDICTIVE_VALIDATION_FAILED",
+  "governance_status": {
+    "original_gate_status": "C1_2_STEP2_ENERGY_GATE_FAILED (RETAINED, NOT CLEARED)",
+    "package_113_status": "FAIL (+2.0080315% > 2.000000%)",
+    "c5_remeshing_permitted": false,
+    "scientific_interpretation": "Package 120 demonstrated that as crack localization advances towards softening (d_max ~ 0.730), fixed-displacement alternating minimization does not reach stationary equilibrium within 15 cycles (Delta d = 0.0072, Delta RF2 = 0.438 N), and the resulting energy deficit (r_E = -0.466%) exceeds the 0.250% acceptance band. While below the 0.500% falsification threshold, this outcome limits the prospective domain of applicability of the linear sharpening model to subcritical pre-peak states (d_max <= 0.60)."
+  }
+}
