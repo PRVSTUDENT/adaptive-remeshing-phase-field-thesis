@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 125 40-cycle stagnation diagnosed: spectral radius rho_d increased from 0.7657 to 1.0025, causing asymptotic stalling of Delta d at 0.001187 (Cycle-26 projection failed due to non-constant contraction rate). Package 126 (safeguarded Anderson acceleration, m=3, start=6) qualified and executed (PBS Job 1417975.mmaster02); terminated Exit 1 on startup due to KeyError: 999999 (reference point node 999999 unmasked in parse_inp_mesh); classified H7_INVALID pursuant to mandatory evidence-first failure diagnosis. Binding Method C gate C1_2_STEP2_ENERGY_GATE_FAILED retained.",
+  "evidence_sources": {
+    "results/validation/package125_stagnation_diagnosis.json": "A4B4D621FC459562D7242C30E7876656017F80B889126B03463F6A713CD1478D",
+    "scripts/validation/diagnose_package125_stagnation.py": "3C31234D3FA80E8416C88981F1A798BAA86FFBDA3FA4F9261DE4ADCA8AA26896",
+    "scripts/validation/generate_package126.py": "17D7A4E811CF622675B9C9112CF01CCE809C55DDE274A3528B725B382798123E",
+    "scripts/validation/stage_and_qualify_package126.py": "32641CBD40EF5FE64AFAC22A36284D9D19A039AF84E1F3D2973A856808775588",
+    "tests/unit/test_mode1_f1597_package126_qualification.py": "77BC3F7C0CEDFABAD35E220BA73C1FD27F1B9701C5F598BECD4842E9FAC0D550",
+    "models/pandey_kumar_mode1/126_c4_inc87_safeguarded_anderson_control/M1_C4_INC87_AND_AM.inp": "AE15B81703D804BBD551A01E77ABF339D4B6E474C2120BF597DC296838EF241A",
+    "models/pandey_kumar_mode1/126_c4_inc87_safeguarded_anderson_control/driver_c4_inc87_anderson_am.py": "5CEF6105AE6359D28DC277E4788D821554309B8CD13C44408D71786F979A3324",
+    "models/pandey_kumar_mode1/126_c4_inc87_safeguarded_anderson_control/submit_M1_C4_INC87_AND_AM.pbs": "C5E17C27380AAA24803460071910DD0CCD0145C90011D213CDC70C9CFDB69A96",
+    "models/pandey_kumar_mode1/126_c4_inc87_safeguarded_anderson_control/PACKAGE_MANIFEST.json": "7CE6FA56A9EAB5D1936870C96AC59770278D91FEB37E336563AF6BD49E9EFC20",
+    "models/pandey_kumar_mode1/126_c4_inc87_safeguarded_anderson_control/M1_C4_INC87_AND_AM_AUTHORIZATION.json": "54274634266E9DD50A754FF8AF47BC70A8C481CE5BFCD8E7900EE813442DB755",
+    "models/pandey_kumar_mode1/126_c4_inc87_safeguarded_anderson_control/M1_C4_INC87_AND_AM_DC.dat": "775C6CB24FDD160D52556D81182A969EF5FCBF08451EE162AB0989B801255343",
+    "models/pandey_kumar_mode1/126_c4_inc87_safeguarded_anderson_control/M1_C4_INC87_AND_AM_DC.msg": "633D059BE166CCFE4B01F9CD1ADDB763E46AA23C61A1D199107905FFC09B4262",
+    "models/pandey_kumar_mode1/126_c4_inc87_safeguarded_anderson_control/pbs_execution.log": "DE768CC5BA244ADCFBE97E9785279BB64DB519EE70F9D26F5C062376F97F58DF",
+    "models/pandey_kumar_mode1/126_c4_inc87_safeguarded_anderson_control/pbs_error.log": "C78C7053A21595698AC8DBC3A193750A5BD349D7CCDC3095263E499EEA3C2178",
+    "models/pandey_kumar_mode1/126_c4_inc87_safeguarded_anderson_control/qstat_accounting.txt": "8BBC097AF57222F2771BB4F254D8C14D316138D1A6A7C99162632AF9DA1464C7",
+    "project_coordination/HPC_JOB_LEDGER.csv": "FA68DB62AF6509986BE1D1E664B4502C049062A021DC8299444684D93DE9BB0C"
+  },
+  "verification_passed": true
+}
