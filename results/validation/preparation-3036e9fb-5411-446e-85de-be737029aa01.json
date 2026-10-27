@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "3036e9fb-5411-446e-85de-be737029aa01",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Governance review of discretization-aware energy baseline completed: Package 115 state transfer preserves elastic energy to -0.153% and reaction force to -0.150% with zero healing violations, while 106.08% of the net +2.030% energy difference is proven to originate from AT2 regularized fracture energy gradient resolution on refined C4 mesh; C1_2_STEP2_ENERGY_GATE_FAILED retained without post-hoc threshold relaxation.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/uel_energy_balance.csv": "EC265AAF6CE4CEDC8190154A946D02C2F162BFF77D19F3B5AFFEA1E378B961D7",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/c4_c1_2_inc79_continuation_summary.json": "568B8B92F1576DB761D841914B55E20C59B1B334E680A4EF21778D28E5A46461",
+    "models/pandey_kumar_mode1/114_c4_inc79_companion_miseseri/c4_inc79_miseseri_audit.json": "236FD576288D7349D99AC8C9F6EA3AB78BB68D068C0BA5428B7F4ECEB9A31E11",
+    "models/pandey_kumar_mode1/115_c4_inc79_direct_transfer/c4_inc79_direct_transfer_summary.json": "68B04B35ED41C537656865FF690AFFDE78011E11C78F7E799F5ADCD34F174AEC",
+    "results/validation/energy_budget_f1597_inc79.json": "A7C915959692F2B7FB0D8D6EF85C1B08BACE55F5D0B544E2B3E9CF49EA23E6D9"
+  },
+  "verification_passed": true
+}
