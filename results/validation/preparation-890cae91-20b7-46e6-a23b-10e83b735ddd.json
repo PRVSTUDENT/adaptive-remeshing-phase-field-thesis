@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 119 Increment-85 out-of-sample holdout re-equilibrated to E_tot = 0.22974606 mJ with residual r_E = -0.20898% satisfying the predeclared |r_E| <= 0.25% acceptance band (HOLDOUT_PREDICTIVE_VALIDATION_PASSED); donor provenance resolved as DONOR_HISTORY_CONSISTENT; Gate C1-2 Step 2 remains bindingly C1_2_STEP2_ENERGY_GATE_FAILED.",
+  "evidence_sources": {
+    "results/validation/increment_85_frozen_prediction.json": "2977DBBF4828A23AF97D433D025167C4B1B12AA4BAFF06C2A82AC133EC6E8E67",
+    "results/validation/increment_85_holdout_terminal_evaluation.json": "D23A77119EAE04F1725023B7261FA5D844885DB4CA2B94DDE16389B6A02D27A7",
+    "results/validation/increment_85_donor_provenance_audit.json": "18BDA0D40BC9F6B02D3C83A9F4DCBA7D33AF9CF62740604B3155A6DEBA606756",
+    "scripts/validation/audit_increment_85_holdout_terminal.py": "C5174F24B755E088CE2BC53D2AC29D3929BF3996BD2830D3A9D690ED51876ED5",
+    "models/pandey_kumar_mode1/119_c4_inc85_holdout_diagnostic/c4_inc85_holdout_summary.json": "BD86732DBD45D42CFCBC5C0AAE04650C72407676671459161785D7E32943BDE7",
+    "models/pandey_kumar_mode1/119_c4_inc85_holdout_diagnostic/pbs_execution.log": "3DF58F758FBCD14589BE53835D7966C0F79A2D01FE45D012A280DEBDD13AF47C",
+    "tests/unit/test_mode1_f1597_increment_85_holdout_terminal.py": "1593D11CCEAA1F0E0ECB674DB405A6FD2167AE8BCA32F956ABE169DEB7B6545B"
+  },
+  "verification_passed": true
+}
