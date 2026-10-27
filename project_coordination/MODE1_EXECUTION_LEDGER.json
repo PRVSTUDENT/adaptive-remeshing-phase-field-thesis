@@ -6213,6 +6213,62 @@
         "lifecycle_tests": "PASS"
       },
       "qualified_at": "2026-10-27T07:15:12.926431+00:00"
+    },
+    "a6b1b1732d07f96d800aa7d7b2006fa1bc28064e82a49ab9d36a2df6a2d806a4": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\116_r1_c3_int_inc79_direct_transfer\\M1_C3_INT_R1_TRANSFER_AUTHORIZATION.json",
+      "attempts": {
+        "M1_C3_INT_R1_INC79_TRANSFER": 1
+      },
+      "audit": [
+        {
+          "job": "M1_C3_INT_R1_INC79_TRANSFER",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-10-27T07:43:40.211272+00:00",
+          "command_sha256": "06691c43a19d2e102757955684bd6ca92b5be67b45bb92462751e6c15310cd6a"
+        }
+      ],
+      "preflight": {
+        "active_job_count": 0,
+        "adapter_contract": "mode1-experimental-12dof-v1",
+        "datachecks": {
+          "M1_C3_INT_R1_INC79_TRANSFER": {
+            "status": "PASS",
+            "input_sha256": "ebb991afba89053e2ebfc08e67be801aa193aab71ac7ac3ae43f4919eacd22b7",
+            "dat_sha256": "f33e4a405368ed77bf5dcab30a256d3acf493cd5998f4deae62a27c6fd96fb59"
+          }
+        },
+        "batch_spec_sha256": "a6ffb687a38798c3e24856f0dd1d52170cacffb43dc22188697498e80a924850",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "a6b1b1732d07f96d800aa7d7b2006fa1bc28064e82a49ab9d36a2df6a2d806a4",
+        "authorized_command_sha256": "06691c43a19d2e102757955684bd6ca92b5be67b45bb92462751e6c15310cd6a",
+        "checked_at": "2026-10-27T07:43:35.872336+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "M1_C3_INT_R1_INC79_DIRECT_TRANSFER.inp": "ebb991afba89053e2ebfc08e67be801aa193aab71ac7ac3ae43f4919eacd22b7",
+          "active_set_boundary_cards.inc": "e9dec5d00f9c04be500ddfa48f10c9346499785c52b013fee056e9b344ee69ef",
+          "d_lower_bounds.csv": "ef9d277f905f8f70cab0d3058467fc46ac396c6b680549b5e0b8ec043cae4930",
+          "driver_c3_int_r1_inc79_direct_transfer.py": "836f41332cfb467fd9e672d8486992e3b33dd129ba156a7a5d9e7415adfd5dc6",
+          "f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+          "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+          "nodal_displacements_initial.csv": "e8e2b69586a6c2cd0133ea124e7255110f48fd148d4c7f6eb8a9ad8b1523cf4f",
+          "run_c3_int_r1_transfer_datacheck.sh": "c9f1b15cc80a39b6b74f1a74d463979f2eee49285667674d1a90f707ad5e0a0b",
+          "stage_a_all_d0_boundary_cards.inc": "e9dec5d00f9c04be500ddfa48f10c9346499785c52b013fee056e9b344ee69ef",
+          "submit_M1_C3_INT_R1_INC79_DIRECT_TRANSFER.pbs": "e18cf136b7fbe4292ed0752c900c26c23687da25bcfd120fce6c9b1675d9eb15"
+        },
+        "helper_sha256": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-10-27T07:43:36.354147+00:00"
     }
   }
 }

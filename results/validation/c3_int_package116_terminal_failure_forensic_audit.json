@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "package": "PACKAGE_116_C3_INT_INC79_DIRECT_TRANSFER",
+  "pbs_job_id": "1417809.mmaster02",
+  "job_name": "M1_C3_INT_INC79_TRANSFER",
+  "execution_accounting": {
+    "job_state": "F",
+    "exit_status": 0,
+    "walltime_seconds": 184,
+    "cput_seconds": 145,
+    "memory_kb": 344536,
+    "cycles_completed": 15,
+    "driver_status": "ITERATION_CAP_REACHED"
+  },
+  "terminal_state": {
+    "rf2_rp_N": 0.0013018478739468264,
+    "target_rf2_ref_N": 186.067909,
+    "rf2_deficit_pct": -99.99930033723659,
+    "d_max": 1.0,
+    "e_elas_mJ": 0.12115130401614525,
+    "e_frac_mJ": 0.12077135411540985,
+    "e_tot_mJ": 0.2419226581315551,
+    "healing_violations": 0,
+    "free_nodes": 2604,
+    "min_lambda_kN_mm": -9.875233846136649e-10,
+    "free_res_max_kN_mm": 4.535674643104358e-07
+  },
+  "scientific_classification": "INTERMEDIATE_MESH_NUMERICAL_FAILURE",
+  "root_cause_diagnosis": {
+    "defect_type": "UEL_PROPERTY_CARD_PARAMETER_PERMUTATION",
+    "actual_deck_card": "210.0, 0.3, 0.0027, 0.0075, 1.0e-06",
+    "actual_order_provided": ["E=210.0", "nu=0.3", "Gc=0.0027", "l0=0.0075", "k=1.0e-06"],
+    "expected_uel_card": "0.0075, 0.0027, 210.0, 0.3, 1.0E-07",
+    "expected_order_in_uel": ["l0=PROPS(1)", "Gc=PROPS(2)", "E=PROPS(3)", "nu=PROPS(4)", "k=PROPS(5)"],
+    "consequences": {
+      "effective_E_MOD": 0.0027,
+      "nominal_E_MOD": 210.0,
+      "stiffness_deficit_ratio": 77777.77777777778,
+      "effective_L0": 210.0,
+      "nominal_L0": 0.0075,
+      "effective_GC": 0.3,
+      "nominal_GC": 0.0027,
+      "observed_RF2_ratio": 0.0000119475,
+      "expected_RF2_N": 186.067909,
+      "theoretical_scaled_RF2_N": 0.0023923
+    }
+  },
+  "c4_node_count_reconciliation": {
+    "reported_in_earlier_records": 4588,
+    "reported_in_turn216_summary_table": 4539,
+    "reconciled_physical_abaqus_nodes": 4588,
+    "reconciled_reference_points": 1,
+    "total_nodes_in_deck": 4589,
+    "unique_coordinate_pairs": 4556,
+    "duplicate_coordinate_pairs": 32,
+    "duplicate_location": "Initial notch slit flank x in [0.0, 0.050] mm, y = 0.050 mm",
+    "explanation": "4588 is the exact physical mesh node count in Abaqus. The value 4539 in the Turn 216 summary table was an inadvertent transcription typo; no nodes were added or removed from C4."
+  },
+  "three_mesh_provenance_and_geometry": {
+    "c3_donor": {
+      "elements": 1600,
+      "nodes": 1681,
+      "h_tip_um": 2.500,
+      "source": "models/pandey_kumar_mode1/01_baseline_donor_40x40/M1_C3_REF_H0025.inp",
+      "donor_increment": 79,
+      "displacement_mm": 0.00184250,
+      "rf2_N": 186.067909,
+      "e_elas_mJ": 0.17140369,
+      "e_frac_mJ": 0.041044352,
+      "e_tot_mJ": 0.21244805
+    },
+    "c3_int": {
+      "elements": 2484,
+      "nodes": 2610,
+      "unique_coords": 2585,
+      "duplicate_pairs": 25,
+      "h_tip_um": 1.200,
+      "min_det_jac": 1.09304e-07,
+      "max_aspect_ratio": 8.01,
+      "initial_mapped_e_elas_mJ": 0.17060,
+      "initial_mapped_e_frac_mJ": 0.04073,
+      "initial_mapped_e_tot_mJ": 0.21133,
+      "source": "Package 76 Inc 79 companion MISESERI distribution",
+      "status": "NUMERICAL_FAILURE_DUE_TO_UEL_PROPERTY_PERMUTATION"
+    },
+    "c4_receiver": {
+      "elements": 4422,
+      "nodes": 4588,
+      "unique_coords": 4556,
+      "duplicate_pairs": 32,
+      "h_tip_um": 0.606,
+      "min_det_jac": 1.7351e-08,
+      "max_aspect_ratio": 9.92,
+      "converged_rf2_N": 185.788572,
+      "converged_e_elas_mJ": 0.17114132,
+      "converged_e_frac_mJ": 0.04561903,
+      "converged_e_tot_mJ": 0.21676034,
+      "status": "CONVERGED_STATIONARY_STATE"
+    }
+  }
+}
