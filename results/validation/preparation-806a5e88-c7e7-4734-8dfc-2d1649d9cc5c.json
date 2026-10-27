@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "run_id": "806a5e88-c7e7-4734-8dfc-2d1649d9cc5c",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 115 C4 direct state transfer from authentic C3 Increment 79 (u = 0.00184250 mm) successfully executed under PBS Job 1417751.mmaster02 (Exit 0, walltime 92 s, 7 cycles on mnode100). The solver achieved stationary equilibrium at Cycle 7 with Delta d = 0.000639 <= 1.0e-3, Delta RF2 = 0.0364 N <= 0.1 N, preserving force continuity to -0.1501% (RF2 = 185.79 N vs 186.07 N donor baseline), zero damage healing across all 4,588 nodes, and quantifying an intrinsic +2.0298% discretization energy shift (+0.004312 mJ) between coarse C3 and refined C4.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/115_c4_inc79_direct_transfer/c4_inc79_direct_transfer_summary.json": "7E887BDDF6A49BFB43E17CA5F44EF421CFF3DCE625DA2C521089B5432FBE742C",
+    "models/pandey_kumar_mode1/115_c4_inc79_direct_transfer/pbs_execution.log": "CA42DB5C912938EAE2375B97EE3B96F0BCE8B2260B0BB1F3690E6BDBF74BAB21",
+    "tests/unit/test_mode1_f1597_turn213_package115_direct_transfer_execution.py": "20870D423B2A86F9CBCEF00AB9014496A1B8EBCFEE80BF0F9D4560F9EA85D3C9",
+    "models/pandey_kumar_mode1/115_c4_inc79_direct_transfer/M1_C4_INC79_TRANSFER_AUTHORIZATION.json": "CB82A84ACF6FAEB1BDB38586066CC0EFB4C086952AA1083419A0DBFFED740792"
+  },
+  "verification_passed": true,
+  "classification": "PACKAGE115_DIRECT_TRANSFER_STATIONARY_SUCCESS",
+  "pbs_job_id": "1417751.mmaster02",
+  "cycles_completed": 7,
+  "terminal_rf2_N": 185.7885718345642,
+  "target_rf2_N": 186.067909,
+  "rf2_diff_pct": -0.1501264602461766,
+  "max_delta_d": 0.0006385957386421115,
+  "delta_rf2_prev_cycle_N": 0.03644824028015137,
+  "healing_violations": 0,
+  "terminal_e_tot_mJ": 0.2167603445146977,
+  "donor_e_tot_mJ": 0.212448,
+  "energy_diff_pct": 2.029831919293991
+}
