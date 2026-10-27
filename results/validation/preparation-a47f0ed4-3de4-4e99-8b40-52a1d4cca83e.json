@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 123 terminal evidence reconciled (Exit 0, 255 s, Cycle 12 converged stationary equilibrium); initial mapped elastic energy audited (+18.28% pre-solve relaxing to +0.67% post-solve); Hypothesis H4 passed (Increment 86 admits stationary C4 equilibrium, terminal rho_d = 0.7664 < 1.0); stationarity transition bracket narrowed to 0.001929511665 < u <= 0.001965107396 mm.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/123_c4_inc86_holdout_diagnostic/c4_inc86_holdout_summary.json": "2769F5BE81C9CBB9F79DFF55C171D2E3DBA7F905E13235679230631DAB6355D4",
+    "models/pandey_kumar_mode1/123_c4_inc86_holdout_diagnostic/pbs_execution.log": "7CED3AD9C8E718FCEEED7527FAB9FDFE8C4DC89AEA8EAA10E2BA248EC5C00389",
+    "models/pandey_kumar_mode1/123_c4_inc86_holdout_diagnostic/qstat_accounting.txt": "901FC0D8CDFEEE08AB1E79C810E05AF7509B4CA16B14A73E591F2EE156A411D7",
+    "results/validation/package123_initial_energy_audit.json": "39B281A320CCAECEA8FF4372AB96FF9823F2D87E189A038347C748F061756A33",
+    "results/validation/package123_stationarity_bracket_evaluation.json": "9748D88AE3F13D90FC3F8308AB7535224714FFAAFEEB67533A16D07631180D3B",
+    "scripts/validation/audit_initial_mapped_energy_p123.py": "9AEA8BF27347DEEC875E78685B2DD9904AE95C23FB8D8ED9D741B7A305FA2205",
+    "scripts/validation/evaluate_package123_stationarity_bracket.py": "6AFCE5A67CADDD0DAD59CB3AA5B5FF511EC70588EA887A9953D1F1AB3D3C9EE2",
+    "tests/unit/test_mode1_f1597_package123_terminal_evaluation.py": "5763F88BFAA589CF723833ADF5BCE8FACBF59A402859540DE6605476048BA099",
+    "project_coordination/HPC_JOB_LEDGER.csv": "6CFDE3290359D303FC2E557C3467E83F7FA746E285CF9851984AEF81280545BD",
+    "project_coordination/CURRENT_STATE.md": "6D8885D546BFBEDEF35CDC872CF80C86B1D597D62DAFCED4596B72FEA98F8828",
+    "project_coordination/ACTIVE_TASK.json": "9F07E6080905B18AEE2B43A093566272712309FB4C7A7DAB792DCEFCD9C9FC2A"
+  },
+  "verification_passed": true
+}

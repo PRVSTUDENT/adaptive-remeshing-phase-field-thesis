@@ -2,10 +2,10 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 123 qualified and submitted to cluster queue (PBS Job 1417938.mmaster02, 1 CPU, 16 GB, 8h walltime, entry_imfdfkmq -\u003e normal_imfdfkmq) under standing Mode-I authorization; tests Hypothesis H4 (Increment 86 intermediate holdout stationarity bracket between Increment 85 and Increment 88).",
-    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE123_HOLDOUT_SUBMITTED",
+    "phase":  "Package 123 terminal evidence reconciled (Exit 0, 255 s, Cycle 12 converged stationary equilibrium); initial mapped elastic energy audited (+18.28% pre-solve relaxing to +0.67% post-solve); Hypothesis H4 passed (Increment 86 admits stationary C4 equilibrium, terminal rho_d = 0.7664 \u003c 1.0); stationarity transition bracket narrowed to 0.001929511665 \u003c u \u003c= 0.001965107396 mm.",
+    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE123_HOLDOUT_PASSED",
     "active_pbs_job_ids":  [
-                               "1417938.mmaster02"
+
                            ],
     "dependent_pbs_job_ids":  [
 
@@ -20,6 +20,7 @@
                                     "PK_M1_COARSE_FINE_CONT (Package 46, 4,900 CPE4 quads, h=14.3 um, input deck 219ACDF2..., Abaqus 2023 datacheck Exit 0, completed Exit 0 Job 1415074)"
                                 ],
     "completed_pbs_job_ids":  [
+                                  "1417938.mmaster02",
                                   "1417919.mmaster02",
                                   "1417909.mmaster02",
                                   "1417902.mmaster02",
@@ -194,14 +195,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-27T15:15:54.5567541+01:00",
+    "last_updated":  "2026-10-27T15:33:21.3805808+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-ad45bfdf-8bf8-4982-9cd9-db9b83e5121d.json",
-                                  "sha256":  "91086F713712E7592D5635AD7576A1DEEE96A868E992685F20A9B7AF2642CA88",
-                                  "created_at":  "2026-10-27T15:15:09.4411512+01:00"
+                                  "artifact":  "results/validation/preparation-a47f0ed4-3de4-4e99-8b40-52a1d4cca83e.json",
+                                  "sha256":  "45E287A2ABC3B5E2C5A6ADE5AA7842A0FAE848A8D083DB87F441E7FBCF8700C8",
+                                  "created_at":  "2026-10-27T15:33:11.2511975+01:00"
                               }
 }
