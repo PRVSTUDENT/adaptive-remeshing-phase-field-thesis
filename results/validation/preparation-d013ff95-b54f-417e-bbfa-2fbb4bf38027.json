@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 122 (Controlled Source-State Sensitivity at Increment 88) successfully prepared, mapped with slit-flank awareness from converged Package 121 re-equilibrated terminal state, staged to cluster scratch, datacheck verified Exit 0, and submitted to PBS queue as Job 1417919.mmaster02.",
+  "evidence_sources": {
+    "results/validation/package121_source_state_audit.json": "4A10901A8D5056E74F9F54130D111C21AA63E270668F548CE4E76C5876A12653",
+    "results/validation/c4_inc88_from_p121_mapping_audit.json": "706ECF91A37B523A994D212333C9FFC60F60617B2EC086A7610F6BE32F20EB62",
+    "models/pandey_kumar_mode1/122_c4_inc88_from_p121_transfer/PACKAGE_MANIFEST.json": "488DCC6949FBEC62870B0F5F533B824AB09032581273C2FDFB6BFC5EFFABB47F",
+    "models/pandey_kumar_mode1/122_c4_inc88_from_p121_transfer/M1_C4_INC88_TRANSFER_AUTHORIZATION.json": "ACE6C8CB7B11F8B367337E48A6B6525ECF5E7239FEA1168035A913CB0EFA57EF",
+    "models/pandey_kumar_mode1/122_c4_inc88_from_p121_transfer/M1_C4_INC88_TRANSFER.inp": "5491B8958C34CBFB732DEC9E7EF0CCE7606299F7A8BC053F06B210D2C822464B",
+    "models/pandey_kumar_mode1/122_c4_inc88_from_p121_transfer/driver_c4_inc88_transfer.py": "35079356C5D34BBF92209E807873CFACE1BE35C9FD568E0A5E32B99EAFFEA60B",
+    "models/pandey_kumar_mode1/122_c4_inc88_from_p121_transfer/submit_M1_C4_INC88_TRANSFER.pbs": "F25C568BFE7B393067EE2D1AC75E43213E6FDAEF633F85EABEBA689638EBD860",
+    "models/pandey_kumar_mode1/122_c4_inc88_from_p121_transfer/d_lower_bounds.csv": "8E7DFA030B27E4C8B875BA08989936C9F976C85DEA2E8D4843592FD9FF35A178",
+    "models/pandey_kumar_mode1/122_c4_inc88_from_p121_transfer/stage_a_all_d0_boundary_cards.inc": "BA66C5B1D51345D5BCBAB7E4C8D6ED7EBFA2233811D9537585AA07A0F00538BD",
+    "models/pandey_kumar_mode1/122_c4_inc88_from_p121_transfer/active_set_boundary_cards.inc": "BA66C5B1D51345D5BCBAB7E4C8D6ED7EBFA2233811D9537585AA07A0F00538BD",
+    "models/pandey_kumar_mode1/122_c4_inc88_from_p121_transfer/nodal_displacements_initial.csv": "600E8EE6F1FBA3B659AF6460074366D8509CC12B5A9B7EC9BB7813426E67E825",
+    "models/pandey_kumar_mode1/122_c4_inc88_from_p121_transfer/run_c4_inc88_transfer_datacheck.sh": "DB12E38F000D3057991873393C1A956096F1517E2A695B0F836A9373F2C8EC3B",
+    "models/pandey_kumar_mode1/122_c4_inc88_from_p121_transfer/M1_C4_INC88_TRANSFER_DC.dat": "8AE4919081DC8FC2945E1DC64ED068B87D57E43327B9C18CDA46236960402513",
+    "models/pandey_kumar_mode1/122_c4_inc88_from_p121_transfer/M1_C4_INC88_TRANSFER_DC.msg": "08408C4797F7105315A8C7D103ED6E00E68D341B2072AAFB964D8C567DAB7E3F",
+    "scripts/remeshing/build_package122_from_p121_transfer.py": "EA555B47A980B253E43E7CA5CD48A91F2F1A1E4E48F017BD325C6971B44F4B99",
+    "scripts/validation/stage_and_qualify_package122.py": "37B929489698C203CBD62260EC83AFA051E6880106CC741D08F7E9D1E5F882EE",
+    "tests/unit/test_mode1_f1597_package122_qualification.py": "EACD1458A838928C9070C5EAFED646AA9904A2A85C9A22F8F4C7FEDD0C08F704"
+  },
+  "verification_passed": true
+}
