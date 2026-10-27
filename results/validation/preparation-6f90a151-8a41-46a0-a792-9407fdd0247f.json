@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Independently audited prospective dimensionless energy residual r_E = (E_target - E_source - Delta_E_mesh_independent) / E_source (units mJ = kN*mm; r_E > 0 denotes excess hardening, r_E < 0 denotes excess relaxation); identified circular in-sample calibration if Delta_E_mesh is tuned to Package 115 (+2.0295%) to evaluate Package 113 (+2.0080%) within the same Increment 79 control family; demonstrated that mesh energy shift is strongly state-dependent on crack localization (Frame 77: +0.150%, Inc 78: +1.750%, Inc 79: +2.026%), so a constant geometric offset fails on earlier increments; classified criterion as PROSPECTIVE_CRITERION_REQUIRES_HOLDOUT_VALIDATION; strictly retained binding Gate C1-2 Step 2 failure (C1_2_STEP2_ENERGY_GATE_FAILED) with autonomous C5 remeshing blocked; and specified a rigorous out-of-sample holdout test at Increment 85.",
+  "evidence_sources": {
+    "scripts/validation/audit_mesh_aware_energy_criterion.py": "0418FCC92B88083441C34A21F995C215DA85F3751747D9506234D9ABE4C2AABD",
+    "results/validation/mesh_aware_energy_criterion_audit.json": "033A06F1B27A0F212677FAF50597F3A8F28591FCD0396EAAB9CEDAAA9AB058C6",
+    "results/validation/mesh_aware_controls_comparison.csv": "14C7F05139183D4FD0A8C549128BAB8F3492693CA59F50AFC5B215CE427FEF8C",
+    "results/validation/mesh_aware_holdout_specification.json": "27D96F428E2447D7FA150BC28E11A12B875C9EE70D81BDEE55DFBBCEB137F67A",
+    "tests/unit/test_mode1_f1597_mesh_aware_criterion.py": "6B1C03A548F836C3DED2E4A62208E4DBA3EF6F304FFC9CA37B649E790FA68C17"
+  },
+  "verification_passed": true
+}
