@@ -3,7 +3,7 @@
 ## Active Task: F1597 Correct Failed Package 72 State Transfer (Package 83 R1 Same-Mesh Control Evaluated; Stage C1-1 Under Autonomous HPC Qualification)
 
 - **Binding Method C & Method B Governance Status**:
-  * PACKAGE120_C4_INC88_HOLDOUT_STATUS = COMPLETED_JOB_1417902_EXIT0_WALLTIME_160S_CYC15_ITERATION_CAP_REACHED_RESIDUAL_MINUS_0P466PCT_FAIL_NONSTATIONARY_PREDICTIVE_VALIDATION_FAILED_GATE_C1_2_STEP2_ENERGY_GATE_FAILED_RETAINED
+  * PACKAGE120_C4_INC88_HOLDOUT_STATUS = AUDITED_JOB_1417902_EXIT0_WALLTIME_160S_CYC15_CAP_REACHED_H1_REFUTED_CONTRACTION_REVERSED_EXPANDING_CYC13_15_ACTIVE_SOFTENING_INSTABILITY_PROVEN_R1_REJECTED_UNSUPPORTED_RETRY_STATUS_HOLDOUT_NONSTATIONARY_UNRESOLVED_RESIDUAL_MINUS_0P466PCT_GATE_C1_2_STEP2_ENERGY_GATE_FAILED_RETAINED
   * PACKAGE119_C4_INC85_HOLDOUT_STATUS = COMPLETED_JOB_1417898_EXIT0_WALLTIME_108S_CYC10_CONVERGED_STATIONARY_STATE_PASS_RESIDUAL_MINUS_0P209PCT_PASS_HOLDOUT_PREDICTIVE_VALIDATION_PASSED_DONOR_HISTORY_CONSISTENT_GATE_C1_2_STEP2_ENERGY_GATE_FAILED_RETAINED
   * MESH_AWARE_ENERGY_CRITERION_STATUS = AUDITED_TURN227_DIMENSIONLESS_RESIDUAL_R_E_FORMULATED_UNITS_MJ_CIRCULAR_CALIBRATION_IDENTIFIED_STATE_DEPENDENCE_PROVEN_CLASSIFIED_PROSPECTIVE_CRITERION_REQUIRES_HOLDOUT_VALIDATION_HOLDOUT_SPECIFIED_AT_INC85_GATE_C1_2_STEP2_ENERGY_GATE_FAILED_RETAINED
   * METHOD_C_SUCCESS_HIERARCHY_STATUS = FORMALIZED_TURN226_LEVELS_0_1_2_PASS_LEVEL_3_FAIL_C1_2_STEP2_ENERGY_GATE_FAILED_RETAINED_LEVEL_4_DIAGNOSTICS_PASS_LEVEL_5_NOT_YET_DEMONSTRATED
@@ -890,3 +890,23 @@ ormal_imfdfkmq (1 CPU, 16 GB, 8h walltime).
   * Frozen UEL `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) remains **100% BITWISE FROZEN**.
   * All 15 unit tests in the Package 117 suite passed.
   * Queue clean: `ACTIVE_CLUSTER_JOBS = 0_ACTIVE_JOBS`.
+
+## Turn 232 — Method C Mode-I: Package 120 Nonstationarity Diagnosed Across All Cycles; Hypothesis H1 Refuted (Contraction Reversal to Expansion); Package 120 R1 Rejected as Unsupported Retry — 27 October 2026
+
+- **Objective & Hypothesis Evaluation**:
+  * Investigated whether Package 120's Increment-88 nonstationarity (`ITERATION_CAP_REACHED`, 15 cycles, $\Delta d_{\max} = 0.007227$, $|\Delta RF_2| = 0.4380\,\text{N}$) stemmed from an insufficient AM iteration budget (Hypothesis H1) or genuine localized softening instability under fixed displacement.
+  * Audited authentic unrounded cycle telemetry from `c4_inc88_holdout_summary.json` across all 15 cycles and computed consecutive contraction factors:
+    $$\rho_d^{(k)} = \frac{\Delta d_{\max}^{(k)}}{\Delta d_{\max}^{(k-1)}}, \quad \rho_F^{(k)} = \frac{|\Delta RF_2^{(k)}|}{|\Delta RF_2^{(k-1)}|}$$
+- **Contraction Reversal & Proof of Instability**:
+  * Discovered contraction factor minimum at Cycle 12 ($\Delta d_{\max} = 0.006913$, $|\Delta RF_2| = 0.4198\,\text{N}$, $\rho_d = 0.9946$, $\rho_F = 0.9950$).
+  * Discovered strict expansion ($\rho > 1.0$) across Cycles 13–15:
+    - Cycle 13: $\rho_d = 1.005352 > 1$, $\rho_F = 1.004288 > 1$ ($\Delta d_{\max} = 0.006950$).
+    - Cycle 14: $\rho_d = 1.014964 > 1$, $\rho_F = 1.014769 > 1$ ($\Delta d_{\max} = 0.007054$).
+    - Cycle 15: $\rho_d = 1.024525 > 1$, $\rho_F = 1.023871 > 1$ ($\Delta d_{\max} = 0.007227$).
+  * Active damage recruited 62 new nodes between Cycle 3 (4,276 free nodes) and Cycle 15 (4,338 free nodes).
+  * Verdict: **`HYPOTHESIS_H1_REFUTED`**. Expanding the iteration cap does not produce asymptotic stationarity; the crack is actively propagating within-step under fixed displacement ($d_{\max} \ge 0.71$, $(1-d)^2 < 0.084$).
+- **HPC Execution Decision & Governance**:
+  * Decision: **`NO_SUBMISSION_UNSUPPORTED_RETRY`**. Package 120 R1 extended cap is rejected. Zero PBS jobs submitted; queue clear (`0` active jobs).
+  * Scientific classification: **`HOLDOUT_NONSTATIONARY_UNRESOLVED`**.
+  * Gate status: **`C1_2_STEP2_ENERGY_GATE_FAILED`** strictly retained. Autonomous C5 remeshing remains strictly blocked.
+
