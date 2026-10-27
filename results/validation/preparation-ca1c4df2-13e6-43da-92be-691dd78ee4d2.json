@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "classification": "TECHNICALLY_BLOCKED",
+  "operation": "c4_inc79_direct_transfer_investigation",
+  "title": "Candidate C4 Inc79 Direct Transfer Investigation",
+  "finding": "Package 115 direct-transfer control on Candidate C4 successfully constructed and verified offline; HPC execution attempt failed with login node DNS unresolvable error (mlogin01.hrz.tu-freiberg.de), classifying job as TECHNICALLY_BLOCKED under safety rules.",
+  "limitation": "HPC execution blocked by cluster network resolution failure; remote job execution pending network availability.",
+  "next_operation": "Re-evaluate cluster reachability when network/DNS is restored to submit qualified Package 115 job.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/115_c4_inc79_direct_transfer/M1_C4_INC79_TRANSFER_AUTHORIZATION.json": "CB82A84ACF6FAEB1BDB38586066CC0EFB4C086952AA1083419A0DBFFED740792",
+    "models/pandey_kumar_mode1/115_c4_inc79_direct_transfer/PACKAGE_MANIFEST.json": "0DDA9A461A2C4A23C121C6A878EC0736995849F05F0761456EFC1F54F18A22C1",
+    "results/validation/c4_inc79_direct_transfer_mapping_audit.json": "9B360BF1E92D479F39ED5D4859A8459185C456206BA9E56C3BEE5ACF0D412339",
+    "scripts/validation/map_pkg76_inc79_to_c4.py": "A276D6D4E143B8A78E957D6BB456EA374E8F17E852E5B6CD8B32D8D13979E204",
+    "tests/unit/test_mode1_f1597_turn211_package115_qualification.py": "A08B3654A893216EBB74ACFB14E17E4FF26CAFFB9DBFD11480B263C976DE9078"
+  }
+}
