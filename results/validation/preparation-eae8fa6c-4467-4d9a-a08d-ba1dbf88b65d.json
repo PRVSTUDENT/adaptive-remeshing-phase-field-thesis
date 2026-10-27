@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "eae8fa6c-4467-4d9a-a08d-ba1dbf88b65d",
+  "checkpoint_recovery": {
+    "interrupted_run_id": "4518c2ef-8f99-4f79-8b4f-c2935b975cbc",
+    "checkpoint_path": "C:\\Users\\pruth\\OpenClawPAD\\controller_turn_checkpoint.json.4518c2ef-8f99-4f79-8b4f-c2935b975cbc.partial.txt",
+    "checkpoint_sha256": "2325F72847C9D6650F8E894F7409DD779C61EA2FC040918D98CB46DA261CAA02",
+    "verification_status": "MATCHED_AND_VERIFIED"
+  },
+  "finding": "Evidence-only recovery completed for interrupted turn 4518c2ef-8f99-4f79-8b4f-c2935b975cbc: reconciled authentic Package 115 state transfer (Job 1417751.mmaster02, Exit 0, 7 cycles, RF2=185.79 N [-0.150%], 0 healing nodes, E_tot=0.216760 mJ [+2.030%]) and Package 113 energy deconstruction, confirming elastic continuity is preserved within -0.153% while energy difference is 100% driven by AT2 fracture gradient resolution on the refined C4 mesh.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/115_c4_inc79_direct_transfer/c4_inc79_direct_transfer_summary.json": "68B04B35ED41C537656865FF690AFFDE78011E11C78F7E799F5ADCD34F174AEC",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/c4_c1_2_inc79_continuation_summary.json": "568B8B92F1576DB761D841914B55E20C59B1B334E680A4EF21778D28E5A46461",
+    "results/validation/energy_budget_f1597_inc79.json": "A7C915959692F2B7FB0D8D6EF85C1B08BACE55F5D0B544E2B3E9CF49EA23E6D9",
+    "results/validation/c4_inc79_independent_transfer_audit.json": "2C5A07D82618459E9911F996A75CF7EDE8A61F19033EFCE04B8F55351863D945",
+    "project_coordination/HPC_JOB_LEDGER.csv": "F5A158824E6DDF2801D805518811223D9A8D42322603F5A1B1A77A6D614BB55F"
+  },
+  "metrics": {
+    "job_id": "1417751.mmaster02",
+    "package": "PACKAGE_115_C4_INC79_DIRECT_TRANSFER",
+    "solver_exit_code": 0,
+    "walltime_s": 92,
+    "cycles_to_stationarity": 7,
+    "donor_rf2_n": 186.067909,
+    "transferred_rf2_n": 185.788572,
+    "delta_rf2_pct": -0.150126,
+    "donor_e_elas_mj": 0.17140369,
+    "transferred_e_elas_mj": 0.17114132,
+    "delta_e_elas_pct": -0.153071,
+    "donor_e_frac_mj": 0.04104435,
+    "transferred_e_frac_mj": 0.04561903,
+    "delta_e_frac_pct": 11.145699,
+    "donor_e_tot_mj": 0.21244805,
+    "transferred_e_tot_mj": 0.21676034,
+    "delta_e_tot_pct": 2.029809,
+    "healing_violations_nodes": 0,
+    "active_nodes_count": 4588
+  }
+}

@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 115 C4 direct state transfer from authentic C3 Increment 79 (u = 0.00184250 mm) successfully executed under PBS Job 1417751.mmaster02 (Exit 0, walltime 92 s, 7 cycles on mnode100). The solver achieved stationary equilibrium at Cycle 7 with Delta d = 0.000639 \u003c= 1.0e-3, Delta RF2 = 0.0364 N \u003c= 0.1 N, preserving force continuity to -0.1501% (RF2 = 185.79 N vs 186.07 N donor baseline), zero damage healing across all 4,588 nodes, and quantifying an intrinsic +2.0298% discretization energy shift (+0.004312 mJ) between coarse C3 and refined C4.",
+    "phase":  "Evidence-only recovery completed for interrupted turn 4518c2ef-8f99-4f79-8b4f-c2935b975cbc: reconciled authentic Package 115 state transfer (Job 1417751.mmaster02, Exit 0, 7 cycles, RF2=185.79 N [-0.150%], 0 healing nodes, E_tot=0.216760 mJ [+2.030%]) and Package 113 energy deconstruction, confirming elastic continuity is preserved within -0.153% while energy difference is 100% driven by AT2 fracture gradient resolution on the refined C4 mesh.",
     "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE114_MISESERI_DIAGNOSTIC_COMPLETED",
     "active_pbs_job_ids":  [
 
@@ -186,14 +186,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-27T06:39:28.0817935+01:00",
+    "last_updated":  "2026-10-27T07:03:18.7069370+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-806a5e88-c7e7-4734-8dfc-2d1649d9cc5c.json",
-                                  "sha256":  "7777B4BCBF830E64BD0D46C056B39FFC78BE2E8661D372D8152D7B787EC6FF18",
-                                  "created_at":  "2026-10-27T06:37:22.7646248+01:00"
+                                  "artifact":  "results/validation/preparation-eae8fa6c-4467-4d9a-a08d-ba1dbf88b65d.json",
+                                  "sha256":  "C96A24E94796858D8AE2D159F2B4EA7E8ECF0B11C3D22E995E6ABE7F0E98DE63",
+                                  "created_at":  "2026-10-27T07:02:12.5740535+01:00"
                               }
 }
