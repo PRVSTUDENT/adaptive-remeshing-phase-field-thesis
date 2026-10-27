@@ -1,0 +1,131 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "audit_title": "Three-Level AT2 Energy-Convergence and Constitutive-Consistency Audit",
+  "constitutive_consistency_audit": {
+    "expected_uel_order": ["l0", "Gc", "E", "nu", "k"],
+    "canonical_values": {
+      "l0_mm": 0.0075,
+      "Gc_kN_mm": 0.0027,
+      "E_kN_mm2": 210.0,
+      "nu": 0.3,
+      "k_residual": 1.0e-07
+    },
+    "verified_decks": {
+      "package_76_c3_donor": {
+        "deck": "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/candidate_donor_h0025_visual.inp",
+        "uel_property_line": "0.0075, 0.0027, 210.0, 0.3, 1e-07, 1600",
+        "k_residual": 1.0e-07,
+        "match": true
+      },
+      "package_113_continuation": {
+        "deck": "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/M1_C4_C1_2_INC79_CONTINUATION.inp",
+        "uel_property_line": "0.0075, 0.0027, 210.0, 0.3, 1.0E-07",
+        "k_residual": 1.0e-07,
+        "match": true
+      },
+      "package_115_c4_receiver": {
+        "deck": "models/pandey_kumar_mode1/115_c4_inc79_direct_transfer/M1_C4_INC79_DIRECT_TRANSFER.inp",
+        "uel_property_line": "0.0075, 0.0027, 210.0, 0.3, 1.0E-07",
+        "k_residual": 1.0e-07,
+        "match": true
+      },
+      "package_116_r1_intermediate": {
+        "deck": "models/pandey_kumar_mode1/116_r1_c3_int_inc79_direct_transfer/M1_C3_INT_R1_INC79_DIRECT_TRANSFER.inp",
+        "uel_property_line": "0.0075, 0.0027, 210.0, 0.3, 1.0E-07",
+        "k_residual": 1.0e-07,
+        "match": true
+      }
+    },
+    "mismatch_finding": "NO_MISMATCH. The canonical constitutive parameter across all authentic Mode-I decks is k = 1.0e-07. The mention of 1.0e-06 in helper constants did not alter the reference Abaqus input decks. Package 116 R1 is constitutively identical to C3 and C4."
+  },
+  "package_116_r1_evaluation": {
+    "pbs_job_id": "1417818.mmaster02",
+    "exit_status": 0,
+    "walltime_seconds": 96,
+    "cput_seconds": 77,
+    "memory_kb": 301088,
+    "driver_status": "CONVERGED_STATIONARY_STATE",
+    "cycles_to_convergence": 7,
+    "acceptance_criteria": {
+      "imposed_displacement_mm": {"measured": 0.0018425, "target": 0.0018425, "pass": true},
+      "free_phase_residual_kN_mm": {"measured": 2.36375e-20, "tol": 1.0e-06, "pass": true},
+      "active_kkt_min_kN_mm": {"measured": -8.48427e-10, "tol": -1.0e-09, "pass": true},
+      "healing_violations_nodes": {"measured": 0, "tol": 0, "pass": true},
+      "terminal_max_delta_d": {"measured": 0.000727638, "tol": 0.001, "pass": true},
+      "terminal_delta_rf2_N": {"measured": 0.0412017, "tol": 0.1, "pass": true}
+    },
+    "classification": "INTERMEDIATE_MESH_CONVERGED"
+  },
+  "three_level_mesh_hierarchy": {
+    "level_1_c3_donor": {
+      "model": "Package 76 Increment 79",
+      "h_tip_um": 2.500,
+      "h_over_l0": 0.3333333333,
+      "elements": 1600,
+      "nodes": 1681,
+      "rf2_N": 186.067909,
+      "e_elas_mJ": 0.171403690,
+      "e_frac_mJ": 0.041044352,
+      "e_tot_mJ": 0.212448042,
+      "d_max": 0.537416
+    },
+    "level_2_c3_int_r1": {
+      "model": "Package 116 R1 Job 1417818",
+      "h_tip_um": 1.200,
+      "h_over_l0": 0.1600000000,
+      "elements": 2484,
+      "nodes": 2610,
+      "rf2_N": 185.8471781015396,
+      "e_elas_mJ": 0.17119313202068087,
+      "e_frac_mJ": 0.045587795947720264,
+      "e_tot_mJ": 0.21678092796840115,
+      "d_max": 0.5202280908061423
+    },
+    "level_3_c4_receiver": {
+      "model": "Package 115 Job 1417751",
+      "h_tip_um": 0.606,
+      "h_over_l0": 0.0808000000,
+      "elements": 4422,
+      "nodes": 4588,
+      "rf2_N": 185.7885718345642,
+      "e_elas_mJ": 0.17114131508131342,
+      "e_frac_mJ": 0.04561902943338428,
+      "e_tot_mJ": 0.2167603445146977,
+      "d_max": 0.5237728264413353
+    }
+  },
+  "consecutive_step_changes": {
+    "level_1_to_level_2": {
+      "delta_rf2_N": -0.2207308984604,
+      "delta_rf2_pct": -0.11862921427271705,
+      "delta_e_elas_mJ": -0.00021055797931913,
+      "delta_e_elas_pct": -0.1228433159983946,
+      "delta_e_frac_mJ": 0.004543443947720264,
+      "delta_e_frac_pct": 11.069600109919532,
+      "delta_e_tot_mJ": 0.00433288596840115,
+      "delta_e_tot_pct": 2.0395038374245584
+    },
+    "level_2_to_level_3": {
+      "delta_rf2_N": -0.0586062669754,
+      "delta_rf2_pct": -0.03153465545800045,
+      "delta_e_elas_mJ": -0.00005181693936745,
+      "delta_e_elas_pct": -0.030268118015386616,
+      "delta_e_frac_mJ": 0.000031233485664016,
+      "delta_e_frac_pct": 0.06851282245367618,
+      "delta_e_tot_mJ": -0.00002058345370345,
+      "delta_e_tot_pct": -0.009495048247070188
+    },
+    "convergence_plateau_analysis": {
+      "total_e_frac_shift_mJ": 0.00457467743338428,
+      "pct_of_shift_in_first_refinement": 99.31725,
+      "pct_of_shift_in_second_refinement": 0.68275,
+      "conclusion": "The fracture energy shift occurs almost entirely between h = 2.5 um (where h/l0 = 0.333 is too coarse to resolve the gradient) and h = 1.2 um (h/l0 = 0.160). Further refinement to h = 0.606 um yields a negligible 31 nJ (+0.068%) change, establishing that the AT2 regularized fracture energy has converged to its continuum plateau."
+    }
+  },
+  "governance_verdict": {
+    "gate_status": "C1_2_STEP2_ENERGY_GATE_FAILED_RETAINED",
+    "threshold_relaxation_authorized": false,
+    "scientific_assessment": "The C1-2 Step 2 energy discrepancy (+2.03% total energy, +11.15% fracture energy) is physically and mathematically explained by coarse-donor under-resolution. However, pursuant to repository governance, the predeclared threshold is strictly retained without retrospective modification."
+  }
+}
