@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "7705b827-86dd-497d-828d-6021ec268b2b",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Independent comparative convergence audit: Package 126 R4 Anderson acceleration demonstrated exact machine-precision parity with Package 125 across Cycles 1-5 (0.000000 N RF2 diff), but subsequently induced oscillatory iteration across Cycles 6-40 (21 proposals accepted, 13 safeguard fallbacks). While Package 125 monotonic AM reduced Delta d to 0.001187 and Delta RF2 to 0.0707 N, Anderson acceleration amplified terminal Delta d by 2.30x (to 0.002734) and terminal Delta RF2 by 32.6x (to 2.3065 N), cycling RF2 between 175.7 N and 183.5 N. Spatial audit shows crack tip position at d>=0.5 differs by < 1 element width (Dice overlap = 0.985), proving acceleration oscillates around the same physical softening crack band rather than branching to a distinct macroscopic crack path. Classification: ACCELERATION_CAUSES_OSCILLATORY_ITERATION.",
+  "evidence_sources": {
+    "results/validation/package125_vs_package126_r4_convergence_audit.json": "965713118D8FA40781C13932E959FCE50A4B04961FF2F9B0C3A027D2CDE06D44",
+    "scripts/validation/audit_package125_vs_package126_r4.py": "09CF4CC4610DE57748DDC2E43D8176C5F8852A8C909A619EE3A2F1EEE0D38B8A",
+    "tests/unit/test_mode1_f1597_package125_vs_package126_r4_convergence_audit.py": "827A34C1F6AA2D0D10FAA765FB3281B5F858F4B09E0B7C7DF96D9CA5C41ABC57"
+  },
+  "verification_passed": true
+}
