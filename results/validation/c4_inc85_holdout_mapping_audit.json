@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "package": "PACKAGE_119_C4_INC85_HOLDOUT_DIAGNOSTIC",
+  "objective": "Independent Increment-85 Holdout Diagnostic on Candidate C4 (u_RP = 0.00191171 mm)",
+  "donor_reference": {
+    "package": "PACKAGE_76_CANDIDATE_DONOR_H0025_VISUAL",
+    "increment": 85,
+    "prescribed_u_rp_mm": 0.001911713858,
+    "rf2_N": 185.97407639,
+    "e_elas_mJ": 0.17776461,
+    "e_frac_mJ": 0.04758475,
+    "e_tot_mJ": 0.22534936
+  },
+  "receiver_target": {
+    "mesh": "Candidate C4",
+    "quads": 4422,
+    "nodes": 4588,
+    "prescribed_u_rp_mm": 0.001911713858
+  },
+  "initial_mapped_energies_mJ": {
+    "e_elas_mJ": 20.827958197900227,
+    "e_frac_mJ": 0.046825931217659385,
+    "e_tot_mJ": 20.874784129117884,
+    "delta_elas_pct": 11616.594319814403,
+    "delta_frac_pct": -1.5946680025441287,
+    "delta_tot_pct": 9163.298608488563
+  },
+  "frozen_prediction": {
+    "predicted_delta_e_mesh_mJ": 0.00486763,
+    "predicted_delta_e_mesh_pct": 2.15998,
+    "predicted_e_target_mJ": 0.23021699,
+    "predeclared_pass_band_pct": 0.25,
+    "falsification_threshold_pct": 0.5
+  }
+}
