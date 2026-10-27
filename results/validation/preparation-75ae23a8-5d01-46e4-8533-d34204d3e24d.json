@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 126 Revision 3 generated and qualified: E_L0 = 0.0075 mm restored in driver (matching Package 125, UEL property card, and Pandey-Kumar benchmark), and Anderson loop architecture corrected for coupled re-equilibration. Verified across 10 unit tests (10/10 PASS) and Abaqus 2023 interactive datacheck Exit 0. Submitted to PBS as Job 1417993.mmaster02; completed Exit 1 due to python3 invocation in PBS script missing cluster numpy environment. Diagnosed and repaired to 'abaqus python' for Package 126 R4. Binding Method C gate C1_2_STEP2_ENERGY_GATE_FAILED retained.",
+  "evidence_sources": {
+    "results/validation/package126_r3_change_report.json": "78588F9888551752601E1EBF94003D4FA5109F650D4DD9074549114D5E09A1E9",
+    "tests/unit/test_mode1_f1597_package126_r3_qualification.py": "6D7E965C2D30C506F6901E0A20C32CD1547F6CD8D0AA99A5508F673D4542C1AF",
+    "scripts/validation/generate_package126_r3.py": "4BA997341B6661D01D225A43807A59B96795CD08253540C4FFC1340C5AF82314",
+    "scripts/validation/stage_and_qualify_package126_r3.py": "0CD83D0A64162637386125CFAE42C93A9E0A0C656390B86B2EFA000289FB9065",
+    "models/pandey_kumar_mode1/126_r3_c4_inc87_anderson_control/M1_C4_INC87_AND_R3_DC.dat": "CB19635F9E4CE2C70FC88214BBF4586758C89A1A3045A06E0C23410D653DBE8D",
+    "models/pandey_kumar_mode1/126_r3_c4_inc87_anderson_control/pbs_execution.log": "72AE2346BE98A9B677BF7DCEC3B9EC50D3CADAA8010883A350FA0DBBE3452559",
+    "models/pandey_kumar_mode1/126_r3_c4_inc87_anderson_control/pbs_error.log": "72377141937C382340F9C43E04D1F4FDFCC873BF496E6E0BFE9192CD057B4B39",
+    "project_coordination/HPC_JOB_LEDGER.csv": "93D1282CD1698AAF4874D262E1F84A6B862B0A652A46B42DCE6FCE5811DE12BA"
+  },
+  "verification_passed": true
+}
