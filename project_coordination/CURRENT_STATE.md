@@ -3,6 +3,9 @@
 ## Active Task: F1597 Correct Failed Package 72 State Transfer (Package 83 R1 Same-Mesh Control Evaluated; Stage C1-1 Under Autonomous HPC Qualification)
 
 - **Binding Method C & Method B Governance Status**:
+  * PACKAGE118_C4_INC79_FROM_P117_TRANSFER_STATUS = SUBMITTED_JOB_1417860_RUNNING_NORMAL_IMFDFKMQ_4422QUADS_4588NODES_DIRECT_TRANSFER_FROM_RE_EQUILIBRATED_C3_DONOR_GATE_C1_2_STEP2_ENERGY_GATE_FAILED_RETAINED
+  * PACKAGE117_C3_SAMEMESH_AM_CONTROL_STATUS = COMPLETED_JOB_1417847_EXIT0_WALLTIME_65S_3CYCLES_CONVERGED_STATIONARY_STATE_PASS_RF2_185P32N_MINUS_0P40PCT_PASS_ENERGY_0P212455MJ_PLUS_0P003PCT_R_14P91PCT_PARTITIONED_PROVES_SAME_MESH_ENERGY_CONSERVED_DISCRETIZATION_DOMINANT_85P09PCT_GATE_C1_2_STEP2_ENERGY_GATE_FAILED_RETAINED
+  * EVIDENCE_RECOVERY_STATUS = TURN_11AD78C4_CHECKPOINT_A1822AAD_AUDIT_PACKAGE117_SPECIFICATION_VERIFIED_HPC_ACCOUNTING_PRESERVED_NO_UNAUTHORIZED_SUBMISSIONS
   * PACKAGE116_R1_C3_INT_INC79_DIRECT_TRANSFER_STATUS = COMPLETED_JOB_1417818_EXIT0_WALLTIME_96S_7CYCLES_CONVERGED_STATIONARY_STATE_PASS_RF2_185P85N_MINUS_0P12PCT_PASS_ENERGY_0P216781MJ_PLUS_2P04PCT_CONVERGENCE_PLATEAU_99P32PCT_AT2_DISCRETIZATION_PROVEN_GATE_C1_2_STEP2_ENERGY_GATE_FAILED_RETAINED
   * PACKAGE116_C3_INT_INC79_DIRECT_TRANSFER_STATUS = AUDITED_JOB_1417809_EXIT0_WALLTIME_184S_15CYCLES_CAP_REACHED_CLASSIFIED_INTERMEDIATE_MESH_NUMERICAL_FAILURE_DEFECT_UEL_PROPERTY_PERMUTATION_REPAIRED_IN_R1
   * DISCRETIZATION_AWARE_ENERGY_BASELINE_STATUS = FORMALIZED_TURN216_ELASTIC_CONTINUITY_MINUS_0P153PCT_PASS_FRACTURE_SCALING_106P08PCT_EXCESS_GATE_C1_2_STEP2_ENERGY_GATE_FAILED_RETAINED
@@ -847,3 +850,39 @@ ormal_imfdfkmq (1 CPU, 16 GB, 8h walltime).
   * Diagnostic successfully provides an authentic spatial marking field for prospective C4 $\to$ C5 refinement.
   * Candidate C5 remeshing is **NOT AUTHORIZED**: Package 113 energy-gate failure ($+2.008032\% > 2.000000\%$) remains an explicit unresolved dependency.
   * All 8 qualification unit tests passed. Clean queue confirmed (`ACTIVE_CLUSTER_JOBS = 0_ACTIVE_JOBS`).
+
+## Turn 221/222 — Method C Mode-I: Package 117 C3 Same-Mesh AM Control Qualified, Executed, and Evaluated (Job 1417847 Exit 0; Exact Same-Mesh Verified; Diagnostic Ratio R = 14.91% Proves Discretization Dominance) — 27 October 2026
+
+- **Objective & Mesh-Identity Resolution**:
+  * Investigated critical mesh-identity discrepancy: resolved the apparent confusion between 1,681 nodes and 1,698 nodes.
+  * Verified that Package 76 C3 donor deck contains 1,681 unique spatial coordinates plus 17 duplicate node pairs along the initial crack slit ($y = 0.050\,\text{mm}, x \le 0.040\,\text{mm}$), totaling exactly 1,698 physical finite element nodes.
+  * Rigorous topological audit confirmed:
+    - Node-by-node coordinates: exactly 1,698 nodes with $0.00\,\text{mm}$ difference (100% bit-for-bit identical).
+    - Element connectivity: 1,600 quads with 0 connectivity mismatches. (Package 76's 4,800 elements represented a 3-layer overlay [1,600 U1 + 1,600 U2 + 1,600 CPE4] on the identical 1,600 quad geometry, unified in Package 117 under the 12-DOF UEL).
+    - Boundary sets `N_TOP` (41 nodes), `N_BOTTOM` (41 nodes), and 17 slit duplicate pairs match bit-for-bit.
+  * Classification: **`EXACT_SAME_MESH_VERIFIED`** (`results/validation/c3_package117_mesh_identity_audit.json`).
+- **HPC Execution & Terminal Metrics (Job 1417847.mmaster02)**:
+  * Submitted via `Invoke-Mode1Execution.ps1` to PBS as Job `1417847.mmaster02` in `normal_imfdfkmq` (1 CPU, 16 GB, walltime 65 s, Exit 0).
+  * Solved 3 alternating minimization cycles cleanly, achieving stationary equilibrium:
+    - Status: `CONVERGED_STATIONARY_STATE`.
+    - Reaction force: $RF_2 = 185.318261\,\text{N}$ ($-0.4029\%$ vs donor $186.067909\,\text{N}$, $|\Delta RF_2| = 0.0635\,\text{N} \le 0.1\,\text{N}$).
+    - Damage bounds: $d_{\max} = 0.433395$, $\max \Delta d = 1.077 \times 10^{-4} \le 1.0 \times 10^{-3}$.
+    - Pointwise irreversibility: exactly 0 healing violations ($d_{\text{new}} \ge d_{\text{old}}$ everywhere, $\min \Delta d = 0.0$).
+    - Free-phase residual: $1.673 \times 10^{-20}\,\text{kN/mm} \le 1.0 \times 10^{-6}\,\text{kN/mm}$.
+    - Active KKT multiplier: $-8.571 \times 10^{-10}\,\text{kN/mm} \ge -1.0 \times 10^{-9}\,\text{kN/mm}$.
+    - Elastic strain energy: $E_{\text{elas}} = 0.170728213\,\text{mJ}$ ($-0.3941\%$ vs donor $0.171403690\,\text{mJ}$).
+    - Fracture energy: $E_{\text{frac}} = 0.041726330\,\text{mJ}$ ($+1.6616\%$ vs donor $0.041044352\,\text{mJ}$).
+    - Total stored energy: $E_{\text{tot}} = 0.212454543\,\text{mJ}$ ($+0.00306\%$ vs donor $0.212448042\,\text{mJ}$, diff $+6.5\,\text{nJ}$).
+- **Diagnostic Ratio Partitioning & Physical Proof**:
+  * Diagnostic ratio evaluated:
+    $$R = \frac{E_{\text{frac,P117}} - E_{\text{frac,donor}}}{E_{\text{frac,P115}} - E_{\text{frac,donor}}} = \frac{0.041726330 - 0.041044352}{0.045618585 - 0.041044352} = \frac{0.000681978}{0.004574233} = 0.149091 \quad (14.91\%)$$
+  * Predeclared threshold classification: **`PARTITIONED_MECHANISM`** ($0.10 < R < 0.90$).
+  * Scientific significance:
+    - Same-mesh re-equilibration on C3 contributes **$14.91\%$** ($0.682\,\mu\text{J}$) of the fracture energy shift.
+    - Spatial refinement to C4 ($h/\ell_0 = 0.333 \to 0.081$) drives **$85.09\%$** ($3.892\,\mu\text{J}$) of the shift.
+    - On the same mesh, total energy $E_{\text{tot}}$ is conserved within **$+0.00306\%$ ($+6.5\,\text{nJ}$)**, proving that the energy continuity failure on C4 ($+2.03\%$) is an AT2 gradient resolution phenomenon rather than a solver re-equilibration artifact.
+- **Governance Discipline**:
+  * Gate `C1_2_STEP2_ENERGY_GATE_FAILED` retained without post-hoc threshold relaxation.
+  * Frozen UEL `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`) remains **100% BITWISE FROZEN**.
+  * All 15 unit tests in the Package 117 suite passed.
+  * Queue clean: `ACTIVE_CLUSTER_JOBS = 0_ACTIVE_JOBS`.

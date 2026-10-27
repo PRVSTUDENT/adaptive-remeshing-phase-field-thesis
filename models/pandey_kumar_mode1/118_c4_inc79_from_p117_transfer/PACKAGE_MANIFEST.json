@@ -1,0 +1,39 @@
+{
+  "package_name": "PACKAGE_118_C4_INC79_FROM_P117_TRANSFER",
+  "created_at": "2026-10-27T11:15:00+01:00",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "protocol_version": 2,
+  "model": "pandey_kumar_mode1",
+  "solver": "Abaqus/Standard 2023 with Intel Fortran ifort (active-set alternating minimization)",
+  "mesh": {
+    "name": "Candidate C4",
+    "quad_count": 4422,
+    "node_count": 4588,
+    "h_min_mm": 0.000609,
+    "h_min_over_l0": 0.0812
+  },
+  "donor": {
+    "source": "PACKAGE_117_C3_SAMEMESH_AM_CONTROL",
+    "model": "Candidate C3 (1600 quads, 1698 physical nodes)",
+    "physical_endpoint_u_rp_mm": 0.0018425,
+    "re_equilibrated_rf2_N": 185.31826138,
+    "re_equilibrated_e_tot_mJ": 0.21245454,
+    "re_equilibrated_e_elas_mJ": 0.17072821,
+    "re_equilibrated_e_frac_mJ": 0.04172633,
+    "re_equilibrated_d_max": 0.43339499
+  },
+  "files": {
+    "input_deck": "M1_C4_P117_DIRECT_TRANSFER.inp",
+    "input_deck_sha256": "CF245E54433592E4C8F2FE484484CFE2B1DBF656168EC59F4DF009EDF2BC767F",
+    "user_subroutine": "f42_unified_12dof_active_set_uel.for",
+    "user_subroutine_sha256": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "driver_script": "driver_c4_p117_direct_transfer.py",
+    "driver_script_sha256": "5C4061353B4A76B56B5DB63E6A4F796C1427D49CC7A62C93011A7E9FED73EEBB",
+    "pbs_script": "submit_M1_C4_P117_DIRECT_TRANSFER.pbs",
+    "pbs_script_sha256": "804AEE09035B8F5A75BCE53817FDD598225428FC1CEBC624F7FEF1BFECA30DD0",
+    "d_lower_bounds": "d_lower_bounds.csv",
+    "d_lower_bounds_sha256": "3ED03A48970E702520D76666C76A2DC37B92BE8EE2776EC9CF76998BD8095BBD",
+    "stage_a_cards": "stage_a_all_d0_boundary_cards.inc",
+    "stage_a_cards_sha256": "290D48491E158A7FACB3B52D921B96505148C3576ECFD44BA7ECAE94470C52F1"
+  }
+}

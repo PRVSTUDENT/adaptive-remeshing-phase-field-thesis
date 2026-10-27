@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "package": "PACKAGE_118_C4_INC79_FROM_P117_TRANSFER",
+  "objective": "C4 Direct State-Transfer Control from Re-equilibrated C3 Donor (Package 117)",
+  "donor_reference": {
+    "model": "Candidate C3 Re-equilibrated Control (Package 117)",
+    "quads": 1600,
+    "nodes": 1698,
+    "prescribed_u_rp_mm": 0.0018425,
+    "re_equilibrated_rf2_N": 185.31826138,
+    "re_equilibrated_e_elas_mJ": 0.17072821,
+    "re_equilibrated_e_frac_mJ": 0.04172633,
+    "re_equilibrated_e_tot_mJ": 0.21245454,
+    "re_equilibrated_d_max": 0.43339499
+  },
+  "receiver_target": {
+    "model": "Candidate C4",
+    "quads": 4422,
+    "nodes": 4588,
+    "prescribed_u_rp_mm": 0.0018425
+  },
+  "initial_mapped_energies_mJ": {
+    "e_elas_mJ": 0.19849518756737786,
+    "e_frac_mJ": 0.041675529088608124,
+    "e_tot_mJ": 0.240170716655986,
+    "delta_elas_pct": 16.263848585642563,
+    "delta_frac_pct": -0.12174785415318173,
+    "delta_tot_pct": 13.045697520036992
+  },
+  "comparison_with_package115": {
+    "pkg115_mapped_e_frac_mJ": 0.045619,
+    "pkg118_mapped_e_frac_mJ": 0.041675529088608124,
+    "difference_pct": -8.64436070802051
+  },
+  "scientific_finding": "Mapped fracture energy on C4 from re-equilibrated C3 donor confirms whether the +11% fracture energy elevation is an intrinsic consequence of nonmatching fine-mesh spatial discretization (h/l0 = 0.333 -> 0.081) or donor state non-equilibrium."
+}

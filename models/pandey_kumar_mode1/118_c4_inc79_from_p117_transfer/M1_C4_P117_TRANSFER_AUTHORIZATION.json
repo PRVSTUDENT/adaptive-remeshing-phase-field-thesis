@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "adapter": "mode1-experimental-12dof-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "batch_name": "MODE1_C4_P117_DIRECT_TRANSFER",
+  "configuration": "ALTERNATING_MINIMIZATION_SAME_LOAD_DIRECT_TRANSFER",
+  "hypothesis": "Transferring the re-equilibrated C3 donor state from Package 117 onto Candidate C4 isolates whether the fracture-energy elevation on C4 persists when starting from a converged stationary donor state.",
+  "automatic_retry": false,
+  "max_submissions": 1,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_p117_direct_transfer",
+  "files": {
+    "M1_C4_P117_DIRECT_TRANSFER.inp": "dd4dfdd947334bf96f37be24ed88558ae8148923673903fd601907e6779b38c0",
+    "active_set_boundary_cards.inc": "5a9a4e0b101bad660e0307cffb7bc7d441dcdebe2c9d51fe3d682de6d8c1d4c3",
+    "d_lower_bounds.csv": "b3d8f63291649a91ec470293d6cb9e0ae078ec9a9038f18ab61c48688cd0e2fe",
+    "driver_c4_p117_direct_transfer.py": "2c380a47d73dbf067ecc28eecc8770f3b3e2c0188825359cf4c4a710a575acef",
+    "f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "nodal_displacements_initial.csv": "7b0d2c1d1c9d3507022bdf6f7e15ad399f041ba14ca54f3b4c9d7c2638c97138",
+    "run_c4_p117_transfer_datacheck.sh": "f1c8d044123219599231f142d6d15a201c541d8f74acc03f39f517bcb10e8ddf",
+    "stage_a_all_d0_boundary_cards.inc": "5a9a4e0b101bad660e0307cffb7bc7d441dcdebe2c9d51fe3d682de6d8c1d4c3",
+    "submit_M1_C4_P117_DIRECT_TRANSFER.pbs": "b36fe5a846602ca25c19faa3b76a1e69905149eddefcbead7a18f2e8e8c58db3"
+  },
+  "jobs": [
+    {
+      "id": "M1_C4_P117_TRANSFER",
+      "purpose": "Abaqus 2023 Candidate C4 Stage C1-1 Direct State-Transfer from Re-equilibrated C3 Control at u = 0.00184250 mm (4,422 quads, 4,588 nodes, up to 15 AM cycles with step-frozen history from Package 117)",
+      "input": "M1_C4_P117_DIRECT_TRANSFER.inp",
+      "user_subroutine": "f42_unified_12dof_active_set_uel.for",
+      "pbs": "submit_M1_C4_P117_DIRECT_TRANSFER.pbs",
+      "datacheck": "M1_C4_P117_DC.dat",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c4_p117_direct_transfer/submit_M1_C4_P117_DIRECT_TRANSFER.pbs\"",
+      "command_sha256": "65fc46fb589d4165fc3b02139f8ffc1419bc9895a30cb173d7f479c572d03158",
+      "depends_on": []
+    }
+  ],
+  "acceptance": {
+    "stage_C1_1_direct_transfer": {
+      "u_top_target_mm": 0.0018425,
+      "rf2_expected_N": 185.31826138,
+      "rf2_continuity_pct_max": 5.0,
+      "energy_continuity_pct_max": 2.0,
+      "kkt_violations_max": 0,
+      "free_phase_residual_max_kN_mm": 1e-06,
+      "healing_tolerance": 0,
+      "stationarity_delta_d_max": 0.001,
+      "stationarity_delta_rf2_max_N": 0.1
+    }
+  },
+  "package_name": "118_c4_inc79_from_p117_transfer"
+}

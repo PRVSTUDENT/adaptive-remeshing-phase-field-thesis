@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Resolved damage maximum provenance (0.4334 terminal nodal vs 0.5000 peak GP), constructed Package 118 nonmatching state-transfer deck from re-equilibrated C3 donor (Package 117), verified initial mapped C4 fracture energy within 0.12% of donor (0.04168 mJ vs 0.04173 mJ), passed full preflight compilation and datacheck on cluster (M1_C4_P117_DC), and successfully submitted Job 1417860.mmaster02 to PBS under standing authorization.",
+  "evidence_sources": {
+    "results/validation/package117_source_state_audit.json": "F422B3F7A02B3C06C6615F3C098CDA3C1BBF98C4113CF82A58B353D897B828E5",
+    "results/validation/c4_inc79_from_p117_mapping_audit.json": "C765FEC3E2C997B527BE54738EAC34FFF34E7F1F89CD263491D8B4C1B229F7F7",
+    "models/pandey_kumar_mode1/118_c4_inc79_from_p117_transfer/PACKAGE_MANIFEST.json": "7C6D2483136C03B73A8499606D05CB81F554758730F64C068417FAC7A758FB56",
+    "models/pandey_kumar_mode1/118_c4_inc79_from_p117_transfer/M1_C4_P117_TRANSFER_AUTHORIZATION.json": "175CA63D336B73DB906035B29AE5918538D4DEF06F40E6BD8277FE80A192C399",
+    "tests/unit/test_mode1_f1597_package118_qualification.py": "86BD399100C471F2353B8E0D4277F213680F095F559DC3E325A063F7EDCE3665"
+  },
+  "verification_passed": true
+}
