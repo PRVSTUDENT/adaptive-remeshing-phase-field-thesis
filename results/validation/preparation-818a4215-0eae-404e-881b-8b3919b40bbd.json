@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 126 Revision 2 generated and qualified: canonical PDAS assembly (q_vec += qe, R_current = q_vec - K*d), canonical history loader (H0_* columns from d_lower_bounds.csv), and RF2 extraction scaling (* 1000.0) restored from Package 125 while retaining Reference Point isolation (4,588 nodes, 4,422 quads) and depth-3 safeguarded Anderson acceleration. Verified across 9 unit tests (9/9 PASS) and Abaqus 2023 interactive datacheck Exit 0 (M1_C4_INC87_AND_R2_DC.dat). Submitted to entry_imfdfkmq as PBS Job 1417985.mmaster02; actively running on mnode105 with Cycle 1 mechanical solve executing. Binding Method C gate C1_2_STEP2_ENERGY_GATE_FAILED retained.",
+  "evidence_sources": {
+    "scripts/validation/generate_package126_r2.py": "5B57B8A4CB3937259064ED289969FAD8EFFD613D824A043E36EC08D9E5DB3A21",
+    "scripts/validation/stage_and_qualify_package126_r2.py": "F35E3F37A090F36EE193502F6E49A27979CCAD6E7EEA908F0413F7265783FE21",
+    "tests/unit/test_mode1_f1597_package126_r2_qualification.py": "A420220C2ADA48EEA8BE20416E16C45DB4B59E8461A910936BFE7C2A596B7FD3",
+    "results/validation/package126_r2_change_report.json": "9097E8653A2CE874049CBB09B4D4B86364500BAC692F2878840D8AB2B4663D1A",
+    "models/pandey_kumar_mode1/126_r2_c4_inc87_anderson_control/M1_C4_INC87_AND_R2.inp": "AE15B81703D804BBD551A01E77ABF339D4B6E474C2120BF597DC296838EF241A",
+    "models/pandey_kumar_mode1/126_r2_c4_inc87_anderson_control/driver_c4_inc87_anderson_am_r2.py": "5696115D804BBE02F35723C35F6F78A11DE8C48DBBA64AD14BB12B4065ACD0A9",
+    "models/pandey_kumar_mode1/126_r2_c4_inc87_anderson_control/submit_M1_C4_INC87_AND_R2.pbs": "B3C945F7C749E5B4B92B1FE23E4D608278A31FF58B5FF996E0C1F350ABB82ECE",
+    "models/pandey_kumar_mode1/126_r2_c4_inc87_anderson_control/PACKAGE_MANIFEST.json": "53BF8F1782AAF7BB4E6AC211C5AA6898202FD80EBD66634CD4F30BE539E05C80",
+    "models/pandey_kumar_mode1/126_r2_c4_inc87_anderson_control/M1_C4_INC87_AND_R2_AUTHORIZATION.json": "F5E6282E2D376092BD474BCDFFC4B0959B6693C0284154EC54BC94FCA1E08B43",
+    "models/pandey_kumar_mode1/126_r2_c4_inc87_anderson_control/M1_C4_INC87_AND_R2_DC.dat": "3AB46B5CA74A060DD78C52845FC11DC5F1004DDBD63AAF05B28A4919CC408E32",
+    "models/pandey_kumar_mode1/126_r2_c4_inc87_anderson_control/M1_C4_INC87_AND_R2_DC.msg": "BA25B50129EAF0A6BDB24271B146C4E567AB369EBBF9B00A107B692DCEDCBD2D",
+    "project_coordination/HPC_JOB_LEDGER.csv": "69F04931B2BDBC5F951B0D50865CF45C992D5034CEF152AAFAC76A9DEC26294D"
+  },
+  "verification_passed": true
+}
