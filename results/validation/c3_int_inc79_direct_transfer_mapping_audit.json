@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "package": "PACKAGE_116_C3_INT_INC79_DIRECT_TRANSFER",
+  "resolution_level": "INTERMEDIATE (Level 2 of 3)",
+  "mesh_metrics": {
+    "n_elements": 2484,
+    "n_nodes": 2610,
+    "h_tip_um": 1.2,
+    "h_min_mm": 0.0012,
+    "min_det_jac": 1.0929715933632569e-07,
+    "max_aspect_ratio": 8.005697543405235,
+    "crack_tip_center_mm": [
+      0.039562811362654694,
+      0.05
+    ]
+  },
+  "donor_comparison": {
+    "donor_package": "PACKAGE_76_INCREMENT_79",
+    "u_top_mm": 0.0018425,
+    "donor_rf2_N": 186.067909,
+    "donor_e_elas_mJ": 0.17140369,
+    "donor_e_frac_mJ": 0.041044352,
+    "donor_e_tot_mJ": 0.21244805,
+    "initial_mapped_e_elas_mJ": 0.1961442848047628,
+    "initial_mapped_e_frac_mJ": 0.040730062046161634,
+    "initial_mapped_e_tot_mJ": 0.23687434685092443,
+    "delta_e_elas_pct": 14.434108626694552,
+    "delta_e_frac_pct": -0.7657325271900133,
+    "delta_e_tot_pct": 11.497538739905792
+  },
+  "resolution_progression": {
+    "level1_c3_donor": {
+      "h_tip_um": 2.5,
+      "elements": 1600,
+      "e_tot_mJ": 0.212448,
+      "e_frac_mJ": 0.041044
+    },
+    "level2_c3_int": {
+      "h_tip_um": 1.2,
+      "elements": 2484,
+      "initial_mapped_e_tot_mJ": 0.23687434685092443,
+      "initial_mapped_e_frac_mJ": 0.040730062046161634
+    },
+    "level3_c4_receiver": {
+      "h_tip_um": 0.606,
+      "elements": 4422,
+      "converged_e_tot_mJ": 0.21676,
+      "converged_e_frac_mJ": 0.045619
+    }
+  },
+  "source_hashes": {
+    "M1_C3_INT_INC79_DIRECT_TRANSFER.inp": "da1dbdc7b6c5e306d01ace725065195ff76cf0b2b81f1fb4a50307af9abab111",
+    "active_set_boundary_cards.inc": "e9dec5d00f9c04be500ddfa48f10c9346499785c52b013fee056e9b344ee69ef",
+    "d_lower_bounds.csv": "ef9d277f905f8f70cab0d3058467fc46ac396c6b680549b5e0b8ec043cae4930",
+    "driver_c3_int_inc79_direct_transfer.py": "e9902c9c8193e7030166ae1b4caffcb7e58117558828b48ec4e1a2396b3d1f7c",
+    "f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "nodal_displacements_initial.csv": "e8e2b69586a6c2cd0133ea124e7255110f48fd148d4c7f6eb8a9ad8b1523cf4f",
+    "run_c3_int_inc79_transfer_datacheck.sh": "6d094168f588baf229fdea494e49eb4100740fbc7ebd9c1e85eb0e11f0293f75",
+    "stage_a_all_d0_boundary_cards.inc": "e9dec5d00f9c04be500ddfa48f10c9346499785c52b013fee056e9b344ee69ef",
+    "submit_M1_C3_INT_INC79_DIRECT_TRANSFER.pbs": "e58bdd0f3a78a46dd2e3358d087f7407f517e2ac317612588763569a324b08ac"
+  }
+}

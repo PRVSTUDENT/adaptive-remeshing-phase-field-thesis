@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "adapter": "mode1-experimental-12dof-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "batch_name": "MODE1_C3_INT_INC79_DIRECT_TRANSFER",
+  "configuration": "ALTERNATING_MINIMIZATION_SAME_LOAD_DIRECT_TRANSFER",
+  "hypothesis": "At fixed physical load, the converged AT2 functional changes systematically with crack-tip mesh resolution; the C4 fracture-energy increase is primarily discretization-dependent rather than an implementation defect.",
+  "automatic_retry": false,
+  "max_submissions": 1,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c3_int_inc79_direct_transfer",
+  "files": {
+    "M1_C3_INT_INC79_DIRECT_TRANSFER.inp": "da1dbdc7b6c5e306d01ace725065195ff76cf0b2b81f1fb4a50307af9abab111",
+    "active_set_boundary_cards.inc": "e9dec5d00f9c04be500ddfa48f10c9346499785c52b013fee056e9b344ee69ef",
+    "d_lower_bounds.csv": "ef9d277f905f8f70cab0d3058467fc46ac396c6b680549b5e0b8ec043cae4930",
+    "driver_c3_int_inc79_direct_transfer.py": "e9902c9c8193e7030166ae1b4caffcb7e58117558828b48ec4e1a2396b3d1f7c",
+    "f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "nodal_displacements_initial.csv": "e8e2b69586a6c2cd0133ea124e7255110f48fd148d4c7f6eb8a9ad8b1523cf4f",
+    "run_c3_int_inc79_transfer_datacheck.sh": "1590ab5037e0e1e01876291f73b82dc46067bfee13a064251f16b6ff3831746b",
+    "stage_a_all_d0_boundary_cards.inc": "e9dec5d00f9c04be500ddfa48f10c9346499785c52b013fee056e9b344ee69ef",
+    "submit_M1_C3_INT_INC79_DIRECT_TRANSFER.pbs": "e8eb2390913b30fee6c78e716ba2c562f0d41657f27d9dfebfc055a33fd58688"
+  },
+  "jobs": [
+    {
+      "id": "M1_C3_INT_INC79_TRANSFER",
+      "purpose": "Abaqus 2023 Candidate C3-Intermediate Stage C1-1 Direct State-Transfer Control at u = 0.00184250 mm (2,484 quads, 2,610 nodes, h_tip = 1.2 um, up to 15 AM cycles with irreversible history transferred from authentic C3 Increment 79)",
+      "input": "M1_C3_INT_INC79_DIRECT_TRANSFER.inp",
+      "user_subroutine": "f42_unified_12dof_active_set_uel.for",
+      "pbs": "submit_M1_C3_INT_INC79_DIRECT_TRANSFER.pbs",
+      "datacheck": "M1_C3_INT_XFER_DC.dat",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c3_int_inc79_direct_transfer/submit_M1_C3_INT_INC79_DIRECT_TRANSFER.pbs\"",
+      "command_sha256": "3480809a2d5dc981491f80dfb6ddfcaa25bf9607e20730f621aabcc4080d8f70",
+      "depends_on": []
+    }
+  ],
+  "acceptance": {
+    "stage_C1_1_direct_transfer": {
+      "u_top_target_mm": 0.0018425,
+      "rf2_expected_N": 186.067909,
+      "rf2_continuity_pct_max": 5.0,
+      "energy_continuity_pct_max": 2.0,
+      "kkt_violations_max": 0,
+      "free_phase_residual_max_kN_mm": 1e-06,
+      "healing_tolerance": 0,
+      "stationarity_delta_d_max": 0.001,
+      "stationarity_delta_rf2_max_N": 0.1
+    }
+  },
+  "package_name": "116_c3_int_inc79_direct_transfer"
+}
