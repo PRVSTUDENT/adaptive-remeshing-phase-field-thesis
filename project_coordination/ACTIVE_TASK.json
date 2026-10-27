@@ -2,10 +2,10 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 116 intermediate-resolution direct transfer control deck qualified and submitted to normal_imfdfkmq as Job 1417809. Three-level resolution progression established: Level 1 (C3 donor, 1600 quads, h=2.5 um, E_frac=0.041044 mJ), Level 2 (C3-Int, 2484 quads, h=1.2 um, mapped E_frac=0.040730 mJ), Level 3 (C4 receiver, 4422 quads, h=0.606 um, converged E_frac=0.045619 mJ). Preflight datacheck passed on Abaqus 2023 with unified 12-DOF UEL. Gate C1_2_STEP2_ENERGY_GATE_FAILED retained pending solver convergence.",
-    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE116_INTERMEDIATE_CONTROL_SUBMITTED",
+    "phase":  "Package 116 audited (Job 1417809, Exit 0, walltime 184 s, 15 cycles, iteration cap reached, RF2=0.0013 N, classified INTERMEDIATE_MESH_NUMERICAL_FAILURE due to UEL property permutation defect). Concrete root cause diagnosed: PROPS(1..5) parameter ordering was [E, nu, Gc, l0, k] instead of [l0, Gc, E, nu, k], causing an effective Young\u0027s modulus deficit of 77,778x and length scale inflation to 210 mm in the mechanical solve. C4 physical node count contradiction resolved: 4,588 physical Abaqus nodes + 1 RP = 4,589 nodes, 4,556 unique coordinates with 32 initial crack-slit duplicate pairs; 4,539 in the Turn 216 summary table was an inadvertent transcription typo. Repaired Package 116 Revision 1 deck qualified and submitted to normal_imfdfkmq as Job 1417818. Gate C1_2_STEP2_ENERGY_GATE_FAILED retained.",
+    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE116_R1_INTERMEDIATE_CONTROL_SUBMITTED",
     "active_pbs_job_ids":  [
-                               "1417809.mmaster02"
+                               "1417818.mmaster02"
                            ],
     "dependent_pbs_job_ids":  [
 
@@ -20,6 +20,7 @@
                                     "PK_M1_COARSE_FINE_CONT (Package 46, 4,900 CPE4 quads, h=14.3 um, input deck 219ACDF2..., Abaqus 2023 datacheck Exit 0, completed Exit 0 Job 1415074)"
                                 ],
     "completed_pbs_job_ids":  [
+                                  "1417809.mmaster02",
                                   "1417689.mmaster02",
                                   "1417682.mmaster02",
                                   "1417669.mmaster02",
@@ -186,14 +187,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-27T08:22:06.8146926+01:00",
+    "last_updated":  "2026-10-27T08:46:23.2738227+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-9b8df20f-40cf-45a5-834b-a5f9b6bb96be.json",
-                                  "sha256":  "381E71B35948DF0FF9EE90FC8317C6115991C702F6723A252F3398138CF81567",
-                                  "created_at":  "2026-10-27T08:19:09.7940659+01:00"
+                                  "artifact":  "results/validation/preparation-ce7940bf-bb84-4b69-b90a-32f57ad7ce11.json",
+                                  "sha256":  "C966E8904E83A666ED6BA84DED31BAAEA18421816DA45A05740EC37D92814B1D",
+                                  "created_at":  "2026-10-27T08:45:10.5276517+01:00"
                               }
 }

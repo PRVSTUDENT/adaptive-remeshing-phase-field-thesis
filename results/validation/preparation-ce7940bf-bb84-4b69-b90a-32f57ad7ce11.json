@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "ce7940bf-bb84-4b69-b90a-32f57ad7ce11",
+  "package": "PACKAGE_116_R1_C3_INT_INC79_DIRECT_TRANSFER",
+  "finding": "Package 116 audited (Job 1417809, Exit 0, walltime 184 s, 15 cycles, iteration cap reached, RF2=0.0013 N, classified INTERMEDIATE_MESH_NUMERICAL_FAILURE due to UEL property permutation defect). Concrete root cause diagnosed: PROPS(1..5) parameter ordering was [E, nu, Gc, l0, k] instead of [l0, Gc, E, nu, k], causing an effective Young's modulus deficit of 77,778x and length scale inflation to 210 mm in the mechanical solve. C4 physical node count contradiction resolved: 4,588 physical Abaqus nodes + 1 RP = 4,589 nodes, 4,556 unique coordinates with 32 initial crack-slit duplicate pairs; 4,539 in the Turn 216 summary table was an inadvertent transcription typo. Repaired Package 116 Revision 1 deck qualified and submitted to normal_imfdfkmq as Job 1417818. Gate C1_2_STEP2_ENERGY_GATE_FAILED retained.",
+  "pbs_job_id": "1417818.mmaster02",
+  "queue": "normal_imfdfkmq",
+  "verification_passed": true,
+  "evidence_sources": {
+    "results/validation/c3_int_package116_terminal_failure_forensic_audit.json": "9400FC5D9644CA11983F8884FFECF320C841D4581B25CDF829571E91ABE8BCBF",
+    "tests/unit/test_mode1_f1597_package116_uel_properties_and_audit.py": "08EA96DB8DBA6882D5E69317682A780447D70BB46666132F55BAC8E07FCA30C8",
+    "models/pandey_kumar_mode1/116_r1_c3_int_inc79_direct_transfer/M1_C3_INT_R1_INC79_DIRECT_TRANSFER.inp": "EBB991AFBA89053E2EBFC08E67BE801AA193AAB71AC7AC3AE43F4919EACD22B7",
+    "models/pandey_kumar_mode1/116_r1_c3_int_inc79_direct_transfer/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/116_r1_c3_int_inc79_direct_transfer/driver_c3_int_r1_inc79_direct_transfer.py": "836F41332CFB467FD9E672D8486992E3B33DD129BA156A7A5D9E7415ADFD5DC6",
+    "models/pandey_kumar_mode1/116_r1_c3_int_inc79_direct_transfer/PACKAGE_MANIFEST.json": "9C064C2EF334667CCA20AFB339C04B6C105AB29F54B74D8D4AEC6B42E7659DD9",
+    "models/pandey_kumar_mode1/116_r1_c3_int_inc79_direct_transfer/M1_C3_INT_R1_TRANSFER_AUTHORIZATION.json": "A6B1B1732D07F96D800AA7D7B2006FA1BC28064E82A49AB9D36A2DF6A2D806A4",
+    "models/pandey_kumar_mode1/116_r1_c3_int_inc79_direct_transfer/submit_M1_C3_INT_R1_INC79_DIRECT_TRANSFER.pbs": "E18CF136B7FBE4292ED0752C900C26C23687DA25BCFD120FCE6C9B1675D9EB15"
+  }
+}
