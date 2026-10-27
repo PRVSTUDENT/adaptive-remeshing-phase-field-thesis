@@ -2,8 +2,8 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 126 Revision 2 completed Exit 0 as PBS Job 1417985.mmaster02 on mnode105 (walltime 105s, 6 cycles). Depth-3 safeguarded Anderson acceleration activated at Cycle 6 (step size: 0.000562, accepted), reducing Delta d to 0.000327 \u003c= 1.0e-3 and Delta RF2 to 0.0764 N \u003c= 0.1 N with zero healing violations and free residual 1.09e-19, achieving CONVERGED_STATIONARY_STATE. Hypothesis H7 confirmed (Anderson acceleration resolves AM contractivity stagnation). Terminal RF2 = 135.73 N (-26.90% vs donor ref 185.68 N) demonstrates post-initiation softening on mesh C4, failing Stage C1-1 force continuity (\u003c= 5%). Binding Method C gate C1_2_STEP2_ENERGY_GATE_FAILED retained.",
-    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE126_R2_EVALUATED_H7_CONFIRMED",
+    "phase":  "Independent numerical audit of Package 126 R2 vs Package 125 completed: pre-acceleration parity failed at Cycle 1 phase solve due to a constitutive parameter defect (E_L0 = 0.015 mm in driver vs 0.0075 mm in UEL card and P125), causing a 54.65 N load drop to 137.20 N at Cycle 2. Furthermore, in Cycle 6 the loop terminated upon unaccelerated Picard stationarity before the Anderson accelerate was re-equilibrated. Reclassified H7_INVALID_CONTROLLED_COMPARISON. Binding Method C gate C1_2_STEP2_ENERGY_GATE_FAILED retained.",
+    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE126_R2_AUDITED_H7_INVALID_CONTROLLED_COMPARISON",
     "active_pbs_job_ids":  [
 
                            ],
@@ -200,14 +200,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-27T17:48:39.1298163+01:00",
+    "last_updated":  "2026-10-27T18:01:07.7442134+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-7461732c-6e58-4352-b090-8195472ba0ac.json",
-                                  "sha256":  "497E12AAC0BE509A27D0CA626B4BB6E741E174F9E020EDF526C631B88241E29E",
-                                  "created_at":  "2026-10-27T17:47:55.2155679+01:00"
+                                  "artifact":  "results/validation/preparation-b82f93f0-3671-40f7-8789-f95dc5bdb5f2.json",
+                                  "sha256":  "C8F08FAF04D5DAB2716F8A35AAF763849995719DB971000C807AAA82A383779C",
+                                  "created_at":  "2026-10-27T18:00:34.6192326+01:00"
                               }
 }

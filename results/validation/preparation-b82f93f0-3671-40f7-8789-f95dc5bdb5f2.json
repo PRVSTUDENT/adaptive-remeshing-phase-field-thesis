@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Independent numerical audit of Package 126 R2 vs Package 125 completed: pre-acceleration parity failed at Cycle 1 phase solve due to a constitutive parameter defect (E_L0 = 0.015 mm in driver vs 0.0075 mm in UEL card and P125), causing a 54.65 N load drop to 137.20 N at Cycle 2. Furthermore, in Cycle 6 the loop terminated upon unaccelerated Picard stationarity before the Anderson accelerate was re-equilibrated. Reclassified H7_INVALID_CONTROLLED_COMPARISON. Binding Method C gate C1_2_STEP2_ENERGY_GATE_FAILED retained.",
+  "evidence_sources": {
+    "results/validation/audit_package126_r2_vs_package125.json": "5A56C46F42DECFA47966393737F2997B10F7867E7422EC7CF77D78BBF1D4F590",
+    "tests/unit/test_mode1_f1597_package126_r2_audit.py": "68BED24D28DE6E08C96C511F59EE7900870E6A21674946C03811D047052DB40D",
+    "scripts/validation/audit_package126_r2_anderson.py": "85B1DC2462BE66E2A3EAD24735816644339C993AB9D6DA247381C3D181C98A15",
+    "scripts/validation/compare_p125_vs_p126_r2.py": "652235831968169B3ECE4E354080DBFA969CCC085ACAAB8F64030CE718736502",
+    "project_coordination/HPC_JOB_LEDGER.csv": "5479F3EC099CAE23320F19805A78AB4319A2B257611571C045B03F876CB0E2A0"
+  },
+  "verification_passed": true
+}
