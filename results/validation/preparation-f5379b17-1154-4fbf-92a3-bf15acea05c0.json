@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "f5379b17-1154-4fbf-92a3-bf15acea05c0",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 126 Revision 4 evaluated (Job 1418006 Exit 0, 40 cycles, walltime 580 s): verified machine-precision parity with Package 125 across unaccelerated Cycles 1-5 (RF2 diff 0.000000 N, dmax diff 2e-15); Anderson acceleration (21 accepted proposals, 13 trust-region fallbacks) actively cycled in softening regime without achieving stationarity (Cycle 40: Delta d_max = 0.002734 > 1e-3, Delta RF2 = 2.3065 N > 0.1 N); Hypothesis H7 classified as H7_FAILED_NONSTATIONARY, proving nonstationarity at Increment 87 is physical softening instability, not slow AM contraction.",
+  "evidence_sources": {
+    "results/validation/package126_r4_evaluation.json": "0FFA42F3524A8D0A3100D093216E6A9672B4706A8E505A03E26D04F9E6B2AAFD",
+    "tests/unit/test_mode1_f1597_package126_r4_terminal_evaluation.py": "C1039AAEF218EBA4FD265C2E0D5D4AB3502A8CF3F53E3F7966011CE440989BF3",
+    "models/pandey_kumar_mode1/126_r4_c4_inc87_anderson_control/c4_inc87_anderson_r4_summary.json": "D3BFB85466630E41A0E45F69B5FF4E28AF28C0D33B119033E80B1B80453E6D1A",
+    "models/pandey_kumar_mode1/126_r4_c4_inc87_anderson_control/pbs_execution.log": "12463927ADDC793E217F40649F67667F46BC895361A1C1B7C68AA6521CE24FD0"
+  },
+  "verification_passed": true
+}
