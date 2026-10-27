@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "adapter": "mode1-experimental-12dof-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "batch_name": "MODE1_C3_INC88_SAMEMESH_CONTROL",
+  "configuration": "ALTERNATING_MINIMIZATION_SAME_MESH_CONTROL",
+  "hypothesis": "Hypothesis H2: At authentic Increment 88, the C3 same-mesh AM-PDAS control achieves stationary equilibrium within the original 15-cycle budget, whereas the refined C4 control did not.",
+  "automatic_retry": false,
+  "max_submissions": 1,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c3_inc88_samemesh_control",
+  "files": {
+    "M1_C3_INC88_SAMEMESH_CONTROL.inp": "6cf4d2f8ce86836b5e1a7aae806f19db2693cb11d6c73a1c45fe614e862c83db",
+    "active_set_boundary_cards.inc": "4776936929271fc38dc725162c7f1272e5e0e87a4b9d5b90b585d06659621efb",
+    "d_lower_bounds.csv": "05ad347ba98ce8acad2da2bd8eba609c65212942fdb4b9b6e73ec9fd4331768c",
+    "driver_c3_inc88_samemesh_control.py": "2ad31cfba3ee65caaa555eb73f96b9a3f4447b6a02b112e64f6fab7ab8a04c7d",
+    "f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "nodal_displacements_initial.csv": "772eb20238661aa8c163ec1618e0525489a1e83fdd4c028049d4c46e9c8bf575",
+    "run_c3_inc88_samemesh_datacheck.sh": "df1809d7609a12ff9d0c96989456c1ac2d02deda533a8ae5c767b7d7fef8a141",
+    "stage_a_all_d0_boundary_cards.inc": "4776936929271fc38dc725162c7f1272e5e0e87a4b9d5b90b585d06659621efb",
+    "submit_M1_C3_INC88_SAMEMESH_CONTROL.pbs": "98891f8fd78de2e82bb528b4e07b67fc0fe9d8071aeb3781ac32aef95b5a265c"
+  },
+  "jobs": [
+    {
+      "id": "M1_C3_SM_INC88_CONTROL",
+      "purpose": "Abaqus 2023 C3 Increment-88 Same-Mesh AM Control at u = 0.00196511 mm (1,600 quads, 1,698 nodes, h = 2.5 um, UEL properties [0.0075, 0.0027, 210.0, 0.3, 1.0E-07], up to 15 AM cycles with step-frozen history on original donor mesh to isolate nonstationarity mechanism)",
+      "input": "M1_C3_INC88_SAMEMESH_CONTROL.inp",
+      "user_subroutine": "f42_unified_12dof_active_set_uel.for",
+      "pbs": "submit_M1_C3_INC88_SAMEMESH_CONTROL.pbs",
+      "datacheck": "M1_C3_SM_INC88_DC.dat",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c3_inc88_samemesh_control/submit_M1_C3_INC88_SAMEMESH_CONTROL.pbs\"",
+      "command_sha256": "0b5fbd409aa5dc66fb749245a61a0186885cfcc91cd5cc2abd67b66373300a9a",
+      "depends_on": []
+    }
+  ],
+  "acceptance": {
+    "stage_C1_1_same_mesh_control": {
+      "u_top_target_mm": 0.001965107396,
+      "rf2_expected_N": 185.33544242,
+      "rf2_continuity_pct_max": 5.0,
+      "energy_continuity_pct_max": 2.0,
+      "kkt_violations_max": 0,
+      "free_phase_residual_max_kN_mm": 1e-06,
+      "healing_tolerance": 0,
+      "stationarity_delta_d_max": 0.001,
+      "stationarity_delta_rf2_max_N": 0.1
+    }
+  },
+  "package_name": "121_c3_inc88_samemesh_control"
+}

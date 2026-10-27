@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "artifact_type": "INTERMEDIATE_RESEARCH_SPECIFICATION",
+  "title": "Standardized Cycle-Data Audit Schema & Descriptive H1 Criteria",
+  "fields": [
+    "cycle",
+    "uRP_mm",
+    "RF2_N",
+    "delta_RF2_N",
+    "mechanical_residual_kN",
+    "dmax",
+    "delta_d_Linf",
+    "free_phase_residual_kN_per_mm",
+    "active_KKT_min_kN_per_mm",
+    "healing_count",
+    "active_free_nodes",
+    "Eelas_mJ",
+    "Efrac_local_mJ",
+    "Efrac_gradient_mJ",
+    "Etotal_mJ",
+    "committed_history_status",
+    "solver_status"
+  ],
+  "contraction_factor_definitions": {
+    "rho_d": "delta_d_Linf^(k) / delta_d_Linf^(k-1) (computed only when denominator >= 1e-12, else null)",
+    "rho_F": "|delta_RF2_N^(k)| / |delta_RF2_N^(k-1)| (computed only when denominator >= 1e-12, else null)",
+    "missing_value_policy": "explicitly null; zero is never fabricated for non-calculable ratios"
+  },
+  "descriptive_h1_criteria": {
+    "sustained_contraction_supported": "Both update magnitudes decrease across the final five available cycles, with geometric-mean contraction factors below 0.95.",
+    "loss_of_contraction_detected": "Both factors exceed 1.0 across at least three consecutive cycles.",
+    "inconclusive": "Any other pattern or insufficient telemetry."
+  },
+  "scientific_interpretation_correction": {
+    "principle": "These criteria classify observed iteration behavior, not mathematical existence or nonexistence of equilibrium.",
+    "package120_clarification": "Three consecutive expansion factors demonstrate loss of contraction over those cycles, but do not mathematically prove that no stationary equilibrium exists or that additional iterations could never converge."
+  },
+  "h2_hypothesis_formulation": {
+    "statement": "At authentic Increment 88, the C3 same-mesh AM-PDAS control achieves stationary equilibrium within the original 15-cycle budget, whereas the refined C4 control did not.",
+    "decision_rules": {
+      "if_h2_passes": "Nonstationarity is associated with the refined receiver formulation/state or its transfer preparation, but the exact cause remains unresolved.",
+      "if_h2_fails": "The nonstationarity problem also affects same-mesh re-equilibration at advanced damage. Source-state consistency must be investigated before claiming physical instability."
+    }
+  }
+}
