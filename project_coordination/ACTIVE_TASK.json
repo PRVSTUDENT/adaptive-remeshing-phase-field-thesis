@@ -2,10 +2,10 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 123 terminal evidence reconciled (Exit 0, 255 s, Cycle 12 converged stationary equilibrium); initial mapped elastic energy audited (+18.28% pre-solve relaxing to +0.67% post-solve); Hypothesis H4 passed (Increment 86 admits stationary C4 equilibrium, terminal rho_d = 0.7664 \u003c 1.0); stationarity transition bracket narrowed to 0.001929511665 \u003c u \u003c= 0.001965107396 mm.",
-    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE123_HOLDOUT_PASSED",
+    "phase":  "Package 124 Increment-87 holdout diagnostic qualified and submitted (Job 1417947.mmaster02, single-rank serial, normal_imfdfkmq); initial mapped elastic energy audited (+18.39% pre-solve Dirichlet elevation); testing Hypothesis H5 on intermediate stationarity transition at u=0.00194731 mm.",
+    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE124_SUBMITTED",
     "active_pbs_job_ids":  [
-
+                               "1417947.mmaster02"
                            ],
     "dependent_pbs_job_ids":  [
 
@@ -195,14 +195,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-27T15:33:21.3805808+01:00",
+    "last_updated":  "2026-10-27T15:52:26.1012181+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-a47f0ed4-3de4-4e99-8b40-52a1d4cca83e.json",
-                                  "sha256":  "45E287A2ABC3B5E2C5A6ADE5AA7842A0FAE848A8D083DB87F441E7FBCF8700C8",
-                                  "created_at":  "2026-10-27T15:33:11.2511975+01:00"
+                                  "artifact":  "results/validation/preparation-bf78de0e-9aa3-4472-90b8-b70ceebf20ea.json",
+                                  "sha256":  "5E19E82183A4EA47E7A3CBD9CDCB8C20BB1EB04A5D8CA1027AD8286E3BAA056C",
+                                  "created_at":  "2026-10-27T15:52:06.5117907+01:00"
                               }
 }

@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 124 Increment-87 holdout diagnostic qualified and submitted (Job 1417947.mmaster02, single-rank serial, normal_imfdfkmq); initial mapped elastic energy audited (+18.39% pre-solve Dirichlet elevation); testing Hypothesis H5 on intermediate stationarity transition at u=0.00194731 mm.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/124_c4_inc87_holdout_diagnostic/M1_C4_INC87_HOLDOUT.inp": "AE15B81703D804BBD551A01E77ABF339D4B6E474C2120BF597DC296838EF241A",
+    "models/pandey_kumar_mode1/124_c4_inc87_holdout_diagnostic/M1_C4_INC87_HOLDOUT_AUTHORIZATION.json": "3D3783B840F119536850B633E80373507C762A823F4E87EC03073D73EA8847FB",
+    "models/pandey_kumar_mode1/124_c4_inc87_holdout_diagnostic/PACKAGE_MANIFEST.json": "CA9A1D5BBF99A5981975BCFE9D5290BFEC15B353D0EE7D262A0725CE790E3163",
+    "models/pandey_kumar_mode1/124_c4_inc87_holdout_diagnostic/submit_M1_C4_INC87_HOLDOUT.pbs": "5545C2EB3D699E70E23D55B4767E86E581D380E280A51AAAE4C4BEC637509737",
+    "models/pandey_kumar_mode1/124_c4_inc87_holdout_diagnostic/run_c4_inc87_holdout_datacheck.sh": "E0D8CF56CA8D5E366237C5C9CE00BC5C3E8A07B19F9B7E95F93BF10E39594C78",
+    "models/pandey_kumar_mode1/124_c4_inc87_holdout_diagnostic/M1_C4_INC87_HOLDOUT_DC.dat": "B356C4F0F1BAE18CF11A3157FA2009205B9E3C04BDD5B1AC55C4B003A58D8710",
+    "models/pandey_kumar_mode1/124_c4_inc87_holdout_diagnostic/M1_C4_INC87_HOLDOUT_DC.msg": "F6963893981050E73C78EEA677946C84ADEBE394BFEBFAA67E9F821FF239520B",
+    "results/validation/c4_inc87_holdout_mapping_audit.json": "F67DDCB89DF49F3802C331FD9F8853C7E18808C1BA0E921C1C4E07D05ECD4B87",
+    "results/validation/package124_initial_energy_audit.json": "BE908C753ED7C3707618F7A1EFDE4C4DF6C144CA35129D3696F493D8B471DFA2",
+    "scripts/validation/map_pkg76_inc87_to_c4.py": "AE4F192733B4DF6A8416E1B6D190482F4D6CED36D23F934A1770B043E2234E59",
+    "scripts/validation/stage_and_qualify_package124.py": "EFB00FA8E4B2086FE75F131EF70A2C38C78FEAF18E05C1C12D6CB72A26242159",
+    "scripts/validation/audit_initial_mapped_energy_p124.py": "C64528E8DF96D9D517B95EC2315F58480B6A612594DAE65B9C777B205A3249C2",
+    "tests/unit/test_mode1_f1597_package124_qualification.py": "0BE2614CC49C419A1CBB8EAAC5D6FC7EF3C6DA93B755B89EF1BEC1FB1D2A4851",
+    "project_coordination/HPC_JOB_LEDGER.csv": "C168432CB2E38AAB67F4AA030C2040E46FBCBCA607BC6D317E290DEFEFDC1A07"
+  },
+  "verification_passed": true
+}
