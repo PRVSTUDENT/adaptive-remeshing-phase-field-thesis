@@ -2,10 +2,10 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 124 terminal evidence reconciled (Exit 0, 394 s walltime, Cycle 15 cap reached); Hypothesis H5 refuted (H5_FAILED_NONSTATIONARY: delta_d_max = 0.002141 \u003e 0.001, delta_RF2 = 0.1311 N \u003e 0.1 N at Cycle 15); stationarity transition bracket narrowed to 0.001929511665 \u003c u \u003c= 0.001947309589 mm (17.80 nm width, 50.00% reduction).",
-    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE124_EVALUATED_NONSTATIONARY",
+    "phase":  "Package 125 Increment-87 extended AM convergence control (40 cycles) qualified and submitted; geometric contraction audit confirms sustained rho_d \u003c 1.0 (terminal rho_d = 0.9328), projecting stationarity at cycle ~26; testing Hypothesis H6.",
+    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE125_SUBMITTED",
     "active_pbs_job_ids":  [
-
+                               "1417969.mmaster02"
                            ],
     "dependent_pbs_job_ids":  [
 
@@ -196,14 +196,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-27T16:02:07.3221584+01:00",
+    "last_updated":  "2026-10-27T16:15:25.0641354+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-7a8c1a73-328e-4518-aca7-60646c1a7c8a.json",
-                                  "sha256":  "B8305BC5C45D67438838243E3D87D01428C7FE294D02E18A35DBBC4E4B0EA9EA",
-                                  "created_at":  "2026-10-27T16:01:50.4517968+01:00"
+                                  "artifact":  "results/validation/preparation-c9fcc1d3-129c-4b80-aaea-a9d2917fef64.json",
+                                  "sha256":  "0D8BE1DF80AD693D1E64740A2C545F59BDAB95AD3DBA12FCEABB8512F171F599",
+                                  "created_at":  "2026-10-27T16:15:15.2179004+01:00"
                               }
 }

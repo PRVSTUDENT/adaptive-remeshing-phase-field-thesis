@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 125 Increment-87 extended AM convergence control (40 cycles) qualified and submitted; geometric contraction audit confirms sustained rho_d < 1.0 (terminal rho_d = 0.9328), projecting stationarity at cycle ~26; testing Hypothesis H6.",
+  "evidence_sources": {
+    "results/validation/package125_hypothesis_h6_audit.json": "795A52F341AD0117A329FD8CEBD1BC4F6BF35B54AF8BAA5D2FDD172055DC23C7",
+    "scripts/validation/audit_package125_convergence_hypothesis.py": "0E184F1C84BA74C94EB53F508D35180EE9D04DC504DA531289901BD77A0BBD53",
+    "scripts/validation/generate_package125.py": "8B4E2E7BE89EF0206F0E913A7A192350BCB273D8394D207CDCC6C0B5A925BA29",
+    "scripts/validation/stage_and_qualify_package125.py": "A00FAD9E1535B6D9106B105C4910CE04B00DD67ED66AB25F40F6CD25CECD7F56",
+    "tests/unit/test_mode1_f1597_package125_qualification.py": "E51F69F5C06458566266450BB4FD5D449084E9AF0D2546C42BC2EA839E2428E4",
+    "models/pandey_kumar_mode1/125_c4_inc87_extended_am_control/M1_C4_INC87_EXT_AM.inp": "AE15B81703D804BBD551A01E77ABF339D4B6E474C2120BF597DC296838EF241A",
+    "models/pandey_kumar_mode1/125_c4_inc87_extended_am_control/driver_c4_inc87_ext_am.py": "744F2124AE9F08C32472AB214DE76140F3241BEA0CD938BDEBC537170BB5B3ED",
+    "models/pandey_kumar_mode1/125_c4_inc87_extended_am_control/submit_M1_C4_INC87_EXT_AM.pbs": "CBFE0B0A09C553461C2C3C30E9D7785C32DB07C357DEADF17825BDA65DFC7D5E",
+    "models/pandey_kumar_mode1/125_c4_inc87_extended_am_control/PACKAGE_MANIFEST.json": "03795A807E694978BD4BEC6B536FBB1B2DFFEA13AA9FF9EBDCD4842E46D3BEC1",
+    "models/pandey_kumar_mode1/125_c4_inc87_extended_am_control/M1_C4_INC87_EXT_AM_AUTHORIZATION.json": "4DEFD863C24A654A9777B9A9D465348AFA93C770B6DDC6AFB3F76BC1D1EB8D90",
+    "models/pandey_kumar_mode1/125_c4_inc87_extended_am_control/run_c4_inc87_ext_am_datacheck.sh": "B7A351AF9433BFB094EBA034BD8937A0D5AF3BA61929B25B0448EC7B1A602EAA",
+    "models/pandey_kumar_mode1/125_c4_inc87_extended_am_control/M1_C4_INC87_EXT_AM_DC.dat": "E7AF0231F3F40C06777EFE9BA77A077E3CAFE1FC1264D623F7E4948767AE7980",
+    "models/pandey_kumar_mode1/125_c4_inc87_extended_am_control/M1_C4_INC87_EXT_AM_DC.msg": "2E79F67E43F1FAAF6A84C76C7FFD2F7A861B001081EA1807F85911BE2B21343C",
+    "project_coordination/HPC_JOB_LEDGER.csv": "91538A37F2CCD006AF5C49B2432BA2032F7933D8AC97DDD22606FB2697A6E11A"
+  },
+  "verification_passed": true
+}
