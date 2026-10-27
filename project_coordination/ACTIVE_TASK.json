@@ -2,10 +2,10 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 122 terminal evidence reconciled (Exit 0, 303 s, 15 cycles, iteration cap reached); initial mapped elastic energy deconstructed via Dirichlet minimum potential energy (+16.15% pre-solve relaxing to +0.598% post-solve); Hypothesis H3 refuted with H3_NOT_SUPPORTED as Package 122 reproduces Package 120 nonstationary trajectory within 0.0017% energy parity.",
-    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE116_R1_INTERMEDIATE_CONTROL_SUBMITTED",
+    "phase":  "Package 123 qualified and submitted to cluster queue (PBS Job 1417938.mmaster02, 1 CPU, 16 GB, 8h walltime, entry_imfdfkmq -\u003e normal_imfdfkmq) under standing Mode-I authorization; tests Hypothesis H4 (Increment 86 intermediate holdout stationarity bracket between Increment 85 and Increment 88).",
+    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE123_HOLDOUT_SUBMITTED",
     "active_pbs_job_ids":  [
-                               "1417818.mmaster02"
+                               "1417938.mmaster02"
                            ],
     "dependent_pbs_job_ids":  [
 
@@ -20,6 +20,13 @@
                                     "PK_M1_COARSE_FINE_CONT (Package 46, 4,900 CPE4 quads, h=14.3 um, input deck 219ACDF2..., Abaqus 2023 datacheck Exit 0, completed Exit 0 Job 1415074)"
                                 ],
     "completed_pbs_job_ids":  [
+                                  "1417919.mmaster02",
+                                  "1417909.mmaster02",
+                                  "1417902.mmaster02",
+                                  "1417898.mmaster02",
+                                  "1417860.mmaster02",
+                                  "1417847.mmaster02",
+                                  "1417818.mmaster02",
                                   "1417809.mmaster02",
                                   "1417689.mmaster02",
                                   "1417682.mmaster02",
@@ -187,14 +194,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-27T14:23:28.9838236+01:00",
+    "last_updated":  "2026-10-27T15:15:54.5567541+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-d6ea8f07-2fe4-4a25-b28b-99e7a086411c.json",
-                                  "sha256":  "AC43F3E616000E8F8B6FC5C092F5A647728824ED02FA4C6599F2BA02BF873653",
-                                  "created_at":  "2026-10-27T14:22:40.3713603+01:00"
+                                  "artifact":  "results/validation/preparation-ad45bfdf-8bf8-4982-9cd9-db9b83e5121d.json",
+                                  "sha256":  "91086F713712E7592D5635AD7576A1DEEE96A868E992685F20A9B7AF2642CA88",
+                                  "created_at":  "2026-10-27T15:15:09.4411512+01:00"
                               }
 }

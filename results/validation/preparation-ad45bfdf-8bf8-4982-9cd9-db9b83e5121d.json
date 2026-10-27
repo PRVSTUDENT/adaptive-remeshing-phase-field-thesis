@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 123 qualified and submitted to cluster queue (PBS Job 1417938.mmaster02, 1 CPU, 16 GB, 8h walltime, entry_imfdfkmq -> normal_imfdfkmq) under standing Mode-I authorization; tests Hypothesis H4 (Increment 86 intermediate holdout stationarity bracket between Increment 85 and Increment 88).",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/123_c4_inc86_holdout_diagnostic/PACKAGE_MANIFEST.json": "71BBA066568EC2C8F9E7E0886F3F53CE00FDBD39231481CA546BA46F1018BAD3",
+    "models/pandey_kumar_mode1/123_c4_inc86_holdout_diagnostic/M1_C4_INC86_HOLDOUT_AUTHORIZATION.json": "C5C5DCB55EE91700015F5411AF07AE346F88875C3E5995514C6CF1BEFAB1023B",
+    "models/pandey_kumar_mode1/123_c4_inc86_holdout_diagnostic/M1_C4_INC86_HOLDOUT.inp": "474D50436EAE655D5068E184401E171DCC77503C70D41E5A443591519793C0A6",
+    "models/pandey_kumar_mode1/123_c4_inc86_holdout_diagnostic/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/123_c4_inc86_holdout_diagnostic/submit_M1_C4_INC86_HOLDOUT.pbs": "93A2F4262C5E06EA55C3CA22114DD956C0A1F3A8E4075B49AFFEDBA808C8290D",
+    "models/pandey_kumar_mode1/123_c4_inc86_holdout_diagnostic/driver_c4_inc86_holdout.py": "BA6795BC6A6E5B3546C50ADD6BD8412ED886A73484603BE47B639E18208DFA75",
+    "tests/unit/test_mode1_f1597_package123_qualification.py": "FE8A368C89C868DB8D2A2A2A7B7BE7863AB00CA53780B0513AAFCBD6015BB480",
+    "project_coordination/HPC_JOB_LEDGER.csv": "D0167CEC3652BE6A8E6B46F23D563E7F7D1A2BE99B147F73C92492DD344B97AB",
+    "project_coordination/CURRENT_STATE.md": "D5B5C8C4904A4566A97491B5C9C12BFE3C41CDBEA703FF168A4D97A3B600B7A9",
+    "project_coordination/ACTIVE_TASK.json": "C6D88D79D1BBEAB6DFD19C392E7627A7576BFCB8D7CE847497B49EF9C49A2BEC"
+  },
+  "verification_passed": true
+}
