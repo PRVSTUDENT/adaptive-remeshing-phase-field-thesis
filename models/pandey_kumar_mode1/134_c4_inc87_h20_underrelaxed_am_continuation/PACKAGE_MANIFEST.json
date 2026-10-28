@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "adapter": "mode1-experimental-12dof-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-2",
+  "package_name": "134_c4_inc87_h20_underrelaxed_am_continuation",
+  "batch_name": "MODE1_C4_INC87_H20_CONT",
+  "configuration": "SAFEGUARDED_UNDERRELAXED_AM_SAME_MESH_FORWARD_CONTINUATION",
+  "hypothesis": "Hypothesis H20: Introducing a fixed under-relaxation parameter omega = 0.70 on the coupled alternating minimization damage update d_(k+1) = d_k + 0.70 [T(d_k) - d_k] contracts the iteration spectral radius, suppresses nonlinear crack-tip overshoot near Node 2277, and achieves true coupled fixed-point equilibrium (raw unrelaxed ||T(d) - d||_inf <= 1.0e-3, |Delta RF2| <= 0.1 N) on Candidate C4 (4,422 quads, 4,588 nodes, max 35 cycles) from the authentic Increment-86.75 checkpoint.",
+  "automatic_retry": false,
+  "max_submissions": 1,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_inc87_h20_underrelaxed_am_continuation",
+  "files": {
+    "M1_C4_INC87_H20_UNDERRELAXED_AM_CONTINUATION.inp": "1552ab0993b4c36a6233c656b4f34915232c7028ad5898a2b40ce88dc28b77e1",
+    "active_set_boundary_cards.inc": "e62e1574c03ff1fd5dc4c406bc03d27b013b4b9e07a3637d586cec70563d109b",
+    "d_lower_bounds.csv": "bf250b09cac2479dd9590ad4a0918b7d3bebf0f94bd5972383305580983b376a",
+    "driver_c4_inc87_h20_continuation.py": "d93aa027ada353c29511dd1ae939d6e7849ae3fa267fe687f915836b76066dc2",
+    "f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "mode1_am_state_checkpoint.py": "426357112153f33e84ab6ac7f4d9b6bb41e0b86a95de960996cbd4f81e39ebfb",
+    "nodal_displacements_initial.csv": "554610895b86d559f02ff195f892bee15f0790cc378ec76cdf905b9a40073d18",
+    "run_c4_inc87_h20_cont_datacheck.sh": "8b6e3cbff2f07d7d0b62bb4d1db17a8ce73056a8d489abff07c7c2576002e797",
+    "stage_a_all_d0_boundary_cards.inc": "e62e1574c03ff1fd5dc4c406bc03d27b013b4b9e07a3637d586cec70563d109b",
+    "submit_M1_C4_INC87_H20_CONT.pbs": "ebdd3f64c10d38053d40ffd683365aa42ecf6ac0f8475f0523f7ef070887d18f"
+  },
+  "jobs": [
+    {
+      "id": "M1_C4_INC87_H20_CONT",
+      "purpose": "Abaqus 2023 Candidate C4 Coupled State Forward Continuation under Hypothesis H20 with Under-Relaxation (omega=0.70, max 35 cycles) from Increment-86.75 to Increment-87 Target u = 0.001947309589 mm (Delta u = 4.449 nm, 4,422 quads, 4,588 nodes, initialized from authentic committed Increment-86.75 checkpoint)",
+      "input": "M1_C4_INC87_H20_UNDERRELAXED_AM_CONTINUATION.inp",
+      "user_subroutine": "f42_unified_12dof_active_set_uel.for",
+      "pbs": "submit_M1_C4_INC87_H20_CONT.pbs",
+      "datacheck": "M1_C4_INC87_H20_CONT_DC.dat",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c4_inc87_h20_underrelaxed_am_continuation/submit_M1_C4_INC87_H20_CONT.pbs\"",
+      "command_sha256": "add6df9487279048d38863f3b8a4bef5809714b63a66f75689c5853208b1bdc5",
+      "depends_on": []
+    }
+  ],
+  "acceptance": {
+    "stage_C1_2_step2_underrelaxed_continuation": {
+      "u_top_target_mm": 0.001947309589,
+      "u_init_inc86_75_mm": 0.001942860108,
+      "forward_increment_mm": 4.449481e-06,
+      "under_relaxation_omega": 0.7,
+      "max_cycles": 35,
+      "raw_stationarity_tol_delta_d": 0.001,
+      "stationarity_tol_delta_rf2_N": 0.1,
+      "free_residual_tol_kN_mm": 1e-06,
+      "active_kkt_tol_kN_mm": -1e-09,
+      "max_healing_violations": 0,
+      "donor_rf2_target_N": 185.682431,
+      "donor_rf2_tol_pct": 5.0,
+      "donor_etot_target_mJ": 0.23197697,
+      "donor_etot_tol_pct": 2.0
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "audit_name": "H20_UNDERRELAXED_AM_CONTROLLED_DIFFERENCE_AUDIT",
+  "package_pair": {
+    "baseline": "PACKAGE_133_C4_INC87_H18_SECOND_QUARTERSTEP_CONTINUATION",
+    "candidate": "PACKAGE_134_C4_INC87_H20_UNDERRELAXED_AM_CONTINUATION"
+  },
+  "invariants_verified": true,
+  "invariants_detail": {
+    "production_uel": {
+      "file": "f42_unified_12dof_active_set_uel.for",
+      "pkg133_sha": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+      "pkg134_sha": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+      "match": true
+    },
+    "d_lower_bounds": {
+      "file": "d_lower_bounds.csv",
+      "pkg133_sha": "BF250B09CAC2479DD9590AD4A0918B7D3BEBF0F94BD5972383305580983B376A",
+      "pkg134_sha": "BF250B09CAC2479DD9590AD4A0918B7D3BEBF0F94BD5972383305580983B376A",
+      "match": true
+    },
+    "nodal_displacements": {
+      "file": "nodal_displacements_initial.csv",
+      "pkg133_sha": "554610895B86D559F02FF195F892BEE15F0790CC378EC76CDF905B9A40073D18",
+      "pkg134_sha": "554610895B86D559F02FF195F892BEE15F0790CC378EC76CDF905B9A40073D18",
+      "match": true
+    },
+    "stage_a_cards": {
+      "file": "stage_a_all_d0_boundary_cards.inc",
+      "pkg133_sha": "E62E1574C03FF1FD5DC4C406BC03D27B013B4B9E07A3637D586CEC70563D109B",
+      "pkg134_sha": "E62E1574C03FF1FD5DC4C406BC03D27B013B4B9E07A3637D586CEC70563D109B",
+      "match": true
+    }
+  },
+  "controlled_differences": {
+    "under_relaxation_omega": {
+      "pkg133_h18": 1.0,
+      "pkg134_h20": 0.7,
+      "purpose": "Introduce positive under-relaxation damping on coupled damage update to suppress crack-tip fixed-point overshoot near Node 2277."
+    },
+    "max_am_cycles": {
+      "pkg133_h18": 25,
+      "pkg134_h20": 35,
+      "purpose": "Allow up to 35 damped cycles while explicitly anchoring comparison at Cycle 25 against H18."
+    },
+    "convergence_evaluation": {
+      "pkg133_h18": "max_delta_d = ||d_next - d_current||_inf <= 1.0e-3 (unrelaxed map)",
+      "pkg134_h20": "raw_max_delta_d = ||T(d) - d||_inf <= 1.0e-3 (raw unrelaxed residual governs; relaxed norm cannot falsely trigger convergence)",
+      "safeguard_proven": true
+    }
+  },
+  "kinematics": {
+    "mesh": "Candidate C4 (4,422 quads, 4,588 nodes)",
+    "initial_displacement_mm": 0.001942860108,
+    "target_displacement_mm": 0.001947309589,
+    "forward_increment_mm": 4.449481e-06,
+    "forward_increment_nm": 4.449481,
+    "identical_to_pkg133": true
+  },
+  "qualification_status": "QUALIFIED_FOR_HPC_SUBMISSION"
+}

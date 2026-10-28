@@ -1,0 +1,40 @@
+{
+  "active_job_count": 0,
+  "adapter_contract": "mode1-experimental-12dof-v1",
+  "datachecks": {
+    "M1_C4_INC87_H20_CONT": {
+      "status": "PASS",
+      "input_sha256": "1552ab0993b4c36a6233c656b4f34915232c7028ad5898a2b40ce88dc28b77e1",
+      "dat_sha256": "d23405bd25fc4bb3be61cf177489283b8027834625a89dc8cfa67a5213541865"
+    }
+  },
+  "passed": true,
+  "pbs_email_verified": true,
+  "telegram_verified": true,
+  "submission_queue": "entry_imfdfkmq",
+  "queue_access_preflight": "PASS",
+  "compiler_environment": "PASS_LOGIN_NODE",
+  "datacheck_verified": "PASS_BOTH",
+  "candidate_manifest_sha256": "0dd4c1965241fae05e4a90afc31043287f4b87235a8b864946fdd81f43ddc325",
+  "authorized_command_sha256": "add6df9487279048d38863f3b8a4bef5809714b63a66f75689c5853208b1bdc5",
+  "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+  "config_mode": "600",
+  "file_hashes": {
+    "M1_C4_INC87_H20_UNDERRELAXED_AM_CONTINUATION.inp": "1552ab0993b4c36a6233c656b4f34915232c7028ad5898a2b40ce88dc28b77e1",
+    "active_set_boundary_cards.inc": "e62e1574c03ff1fd5dc4c406bc03d27b013b4b9e07a3637d586cec70563d109b",
+    "d_lower_bounds.csv": "bf250b09cac2479dd9590ad4a0918b7d3bebf0f94bd5972383305580983b376a",
+    "driver_c4_inc87_h20_continuation.py": "d93aa027ada353c29511dd1ae939d6e7849ae3fa267fe687f915836b76066dc2",
+    "f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "mode1_am_state_checkpoint.py": "426357112153f33e84ab6ac7f4d9b6bb41e0b86a95de960996cbd4f81e39ebfb",
+    "nodal_displacements_initial.csv": "554610895b86d559f02ff195f892bee15f0790cc378ec76cdf905b9a40073d18",
+    "run_c4_inc87_h20_cont_datacheck.sh": "8b6e3cbff2f07d7d0b62bb4d1db17a8ce73056a8d489abff07c7c2576002e797",
+    "stage_a_all_d0_boundary_cards.inc": "e62e1574c03ff1fd5dc4c406bc03d27b013b4b9e07a3637d586cec70563d109b",
+    "submit_M1_C4_INC87_H20_CONT.pbs": "ebdd3f64c10d38053d40ffd683365aa42ecf6ac0f8475f0523f7ef070887d18f"
+  },
+  "helper_sha256": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+  "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+  "telegram_notification_contract": "PASS_LOGIN_NODE",
+  "compute_node_delivery": "UNRESOLVED",
+  "lifecycle_tests": "PASS"
+}

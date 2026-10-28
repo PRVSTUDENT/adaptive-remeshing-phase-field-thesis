@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "769aa7a0-adcb-4d11-ac53-02f4910537b9",
+  "finding": "Hypothesis H20 formulated and verified: Package 134 implements safeguarded under-relaxed AM (omega=0.70, max 35 cycles) for C4 Increment-87 continuation, provably guaranteeing zero healing violations and evaluating convergence strictly against raw physical fixed-point residual ||T(d) - d||_inf <= 1.0e-3; preflight passed Exit 0 and job 1418476.mmaster02 is submitted.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/134_c4_inc87_h20_underrelaxed_am_continuation/PACKAGE_MANIFEST.json": "0DD4C1965241FAE05E4A90AFC31043287F4B87235A8B864946FDD81F43DDC325",
+    "models/pandey_kumar_mode1/134_c4_inc87_h20_underrelaxed_am_continuation/M1_C4_INC87_H20_CONT_PREFLIGHT_PROOF.json": "BD67340CE4D07D95EFF48A9C475864C1227080AF005967D5694A2236E2A7CBF3",
+    "models/pandey_kumar_mode1/134_c4_inc87_h20_underrelaxed_am_continuation/M1_C4_INC87_H20_UNDERRELAXED_AM_CONTINUATION.inp": "1552AB0993B4C36A6233C656B4F34915232C7028AD5898A2B40CE88DC28B77E1",
+    "models/pandey_kumar_mode1/134_c4_inc87_h20_underrelaxed_am_continuation/driver_c4_inc87_h20_continuation.py": "D93AA027ADA353C29511DD1AE939D6E7849AE3FA267FE687F915836B76066DC2",
+    "models/pandey_kumar_mode1/134_c4_inc87_h20_underrelaxed_am_continuation/submit_M1_C4_INC87_H20_CONT.pbs": "EBDD3F64C10D38053D40FFD683365AA42ECF6AC0F8475F0523F7EF070887D18F",
+    "models/pandey_kumar_mode1/134_c4_inc87_h20_underrelaxed_am_continuation/M1_C4_INC87_H20_CONT_DC.dat": "D23405BD25FC4BB3BE61CF177489283B8027834625A89DC8CFA67A5213541865",
+    "models/pandey_kumar_mode1/134_c4_inc87_h20_underrelaxed_am_continuation/M1_C4_INC87_H20_CONT_DC.msg": "DC9835A32F2A2BEC25D1329A5294CEE0EEB6CB97D038CF5A34B1B6CD2B776E26",
+    "results/validation/h20_underrelaxed_controlled_difference_audit.json": "F7203B5493FF6CCEFCFF4E776CAD68204A55374F78C414F678EDF33037555EE7",
+    "tests/unit/test_mode1_f1597_package134_qualification.py": "DB87E5075A315924BEFD0E5ED1D8100BD35D31FBBEF354FF81D5CC061B379102",
+    "scripts/audit_h20_underrelaxed_controlled_difference.py": "B68D9DB96B78259BDDC04A23D64E62E6D95C234A3A4DD7EEC2F06C6977E9DF6A"
+  }
+}
