@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "controller_run_id": "beb11316-c756-4b2b-898f-754dbbff654e",
+  "interrupted_run_id": "81f408c0-5218-48fe-8c65-b8fc86f56e81",
+  "title": "Evidence-only recovery of interrupted task F1597",
+  "operation": "research_preparation",
+  "finding": "Evidence-only recovery of interrupted task F1597-CORRECT-PACKAGE72-STATE-TRANSFER (checkpoint 81f408c0, SHA256 51A48CFF38EB2E670983A67E4CE5AF0852B17AB31DB4EA871DF53768A905F277) completed. Preserved turn record 81f408c0 confirmed at BOOTSTRAP_COMPLETE with no scientific checkpoint and zero unrecorded HPC submissions. Predecessor Turn 252 comparative audit (Package 125 vs Package 126 R4) confirmed intact with classification ACCELERATION_CAUSES_OSCILLATORY_ITERATION. All job receipts up to Job 1418006 (Package 126 R4 Exit 0) and Job 1417969 (Package 125 Exit 0) reconciled in HPC_JOB_LEDGER.csv. Guarded qstat confirms cluster queue is clear. Binding Method C gate remains STAGE_C1_2_STEP2_ENERGY_GATE_FAILED.",
+  "verification_passed": true,
+  "next_operation": "Advance to next qualified research step or hypothesis under Method C gate review",
+  "evidence_sources": {
+    "project_coordination/controller/turn-81f408c0-5218-48fe-8c65-b8fc86f56e81.json": "4FBEAA6BA2C24D5C569611B461E23FD56D9F85D4351142ADA485AB26B42F0695",
+    "project_coordination/sessions/2026-10-27_gemini-antigravity_F1597_81f408c0-5218-48fe-8c65-b8fc86f56e81.md": "E1468AB1A14D3F14061D648B8CD513948E96C19CB460BBF3FC0AEBA075CB57A5",
+    "results/validation/package125_vs_package126_r4_convergence_audit.json": "965713118D8FA40781C13932E959FCE50A4B04961FF2F9B0C3A027D2CDE06D44",
+    "tests/unit/test_mode1_f1597_turn254_recovery.py": "769800280BC3437B23B859AC940FE04226D626B3886966A11711BBD92092CA84",
+    "project_coordination/HPC_JOB_LEDGER.csv": "C89E52F14659D6A0EA1ED3A4D6B90DE1A578CEB9452B43F54DB188836822FE45"
+  }
+}
