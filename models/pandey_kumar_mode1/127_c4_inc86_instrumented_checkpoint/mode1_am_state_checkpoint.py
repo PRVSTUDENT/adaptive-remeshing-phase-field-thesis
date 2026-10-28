@@ -52,6 +52,11 @@ def compute_bytes_sha256(data):
     return hashlib.sha256(data).hexdigest().lower()
 
 
+def is_finite(val):
+    """Check if float is finite in Python 2.7 and 3.x."""
+    return not (math.isinf(val) or math.isnan(val))
+
+
 def serialize_checkpoint(
     output_dir,
     mesh_info,
@@ -99,7 +104,7 @@ def serialize_checkpoint(
         if len(h_list) != GAUSS_POINTS_PER_ELEM:
             raise ValueError("Element %d has %d GP history values, expected %d" % (eid, len(h_list), GAUSS_POINTS_PER_ELEM))
         for val in h_list:
-            if not math.isfinite(val):
+            if not is_finite(val):
                 raise ValueError("Element %d contains non-finite history: %f" % (eid, val))
             if val < 0.0:
                 raise ValueError("Element %d contains negative driving energy: %f" % (eid, val))
@@ -115,7 +120,7 @@ def serialize_checkpoint(
     d_min_val = float("inf")
     d_max_val = float("-inf")
     for nid, d_val in d_nodal.items():
-        if not math.isfinite(d_val):
+        if not is_finite(d_val):
             raise ValueError("Node %d contains non-finite damage: %f" % (nid, d_val))
         if d_val < -1e-6 or d_val > 1.0 + 1e-6:
             raise ValueError("Node %d damage out of physical bounds [0, 1]: %f" % (nid, d_val))
@@ -125,7 +130,7 @@ def serialize_checkpoint(
             d_max_val = d_val
 
     for nid, u_vec in u_nodal.items():
-        if not math.isfinite(u_vec[0]) or not math.isfinite(u_vec[1]):
+        if not is_finite(u_vec[0]) or not is_finite(u_vec[1]):
             raise ValueError("Node %d displacement contains non-finite values" % nid)
 
     # 3. Deterministic serialization of CSV and INC files

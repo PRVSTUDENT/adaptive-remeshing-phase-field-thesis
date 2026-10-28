@@ -3,10 +3,10 @@
   "status": "PREPARATION_COMPLETE",
   "finding": "Resolved Turn 256 state-persistence defect by authoring Python 2.7/3.x compatible AM checkpoint serialization module (mode1_am_state_checkpoint.py) capturing all 4,588 nodal displacements, 4,588 damage values, and 17,688 GP history variables, passed unit tests (5/5 and 7/7), qualified Package 127 on Candidate C4, and actively launched job 1418155 on HPC cluster.",
   "evidence_sources": {
-    "scripts/driver/mode1_am_state_checkpoint.py": "417E87284B06EF5BBA18244B61F8D3B57C6F5F5DA0B0266D8CBFF36A6D6B05A4",
+    "scripts/driver/mode1_am_state_checkpoint.py": "426357112153F33E84AB6AC7F4D9B6BB41E0B86A95DE960996CBD4F81E39EBFB",
     "tests/unit/test_mode1_f1597_turn257_state_checkpoint_serialization.py": "F1C9AD8F5EBF3B88EF5813837595EAB19177E980DD1D3B8029899DBC46F0C837",
     "tests/unit/test_mode1_f1597_package127_qualification.py": "747F55613215E3B4F65646FF22E74B9C9C335D5DE476BFAE6A7E374AEFFDB33B",
-    "models/pandey_kumar_mode1/127_c4_inc86_instrumented_checkpoint/M1_C4_INC86_INSTRUMENTED_AUTHORIZATION.json": "D0B4777CE0C72B497EF67007C04AABBFCD99384FFD03B7FB8A3B2024809A018C",
+    "models/pandey_kumar_mode1/127_c4_inc86_instrumented_checkpoint/M1_C4_INC86_INSTRUMENTED_AUTHORIZATION.json": "2299674DC9271A5F6514DCA3571AFB990B304C549328F3D346D032D888016979",
     "models/pandey_kumar_mode1/127_c4_inc86_instrumented_checkpoint/M1_C4_INC86_INSTRUMENTED_PREFLIGHT_PROOF.json": "B4C350B9A906E07C67FF33D94FC2AE596ED668A9BCABFA39E359E180E6161FC4",
     "models/pandey_kumar_mode1/127_c4_inc86_instrumented_checkpoint/M1_C4_INC86_INSTRUMENTED_DC.dat": "9B60F61F3E04F8B6401790D875FBDDF45C11A632837E84B9F5DDCA12D95A4F94",
     "models/pandey_kumar_mode1/127_c4_inc86_instrumented_checkpoint/driver_c4_inc86_instrumented.py": "F84B1EDB5D7B5615DF2FEF56F1972023752004CE46A5539E65E57A4320D3315D",
