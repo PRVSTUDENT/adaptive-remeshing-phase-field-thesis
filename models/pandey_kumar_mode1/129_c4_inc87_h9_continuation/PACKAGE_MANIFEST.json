@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "adapter": "mode1-experimental-12dof-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-2",
+  "batch_name": "MODE1_C4_INC87_H9_CONTINUATION",
+  "configuration": "ALTERNATING_MINIMIZATION_SAME_MESH_FORWARD_CONTINUATION",
+  "hypothesis": "Hypothesis H9: Forward loading from the authentic stationary C4 Increment-86 checkpoint to Increment 87 (u = 0.00194731 mm) on Candidate C4 without remeshing or nonmatching interpolation shock achieves coupled equilibrium with strictly monotonic history (zero healing violations) and satisfies force and energy continuity criteria.",
+  "automatic_retry": false,
+  "max_submissions": 1,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_inc87_h9_continuation",
+  "files": {
+    "M1_C4_INC87_H9_CONTINUATION.inp": "3c61a27c0dd620f6201b9be66f981cae9db9341eb888f94dfc2ffcb47277a49b",
+    "active_set_boundary_cards.inc": "fd36071113c3af81872953ead05a1a4128ae9a1947b00e524947bee31d8304bd",
+    "d_lower_bounds.csv": "22eff1803b31fe8c7099604dd450481e5184bd7af9828dcba1ca224c074cd745",
+    "driver_c4_inc87_h9_continuation.py": "69f65abfcf1ba2bb56514c05232dcc17944d9e273bc0da9bbebdcd68a68c9575",
+    "f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "mode1_am_state_checkpoint.py": "426357112153f33e84ab6ac7f4d9b6bb41e0b86a95de960996cbd4f81e39ebfb",
+    "nodal_displacements_initial.csv": "c19b19644822ccfa51ca87a3d08934dce8e4b8026ba6593357cba65cd8b4b18e",
+    "run_c4_inc87_h9_cont_datacheck.sh": "1b8a492aad655d4528a31fe771a8d5b185da3a3502e03e9ce42c07db6e9b9af9",
+    "stage_a_all_d0_boundary_cards.inc": "fd36071113c3af81872953ead05a1a4128ae9a1947b00e524947bee31d8304bd",
+    "submit_M1_C4_INC87_H9_CONT.pbs": "ce5f55a4d555003e852d2a470a4954403852c6856b2b82117cdea6cb7f306ac5"
+  },
+  "jobs": [
+    {
+      "id": "M1_C4_INC87_H9_CONT",
+      "purpose": "Abaqus 2023 Candidate C4 Coupled State Forward Continuation under Hypothesis H9 to Increment 87 at u = 0.00194731 mm (4,422 quads, 4,588 nodes, initialized from committed P127 R1 checkpoint without nonmatching interpolation shock)",
+      "input": "M1_C4_INC87_H9_CONTINUATION.inp",
+      "user_subroutine": "f42_unified_12dof_active_set_uel.for",
+      "pbs": "submit_M1_C4_INC87_H9_CONT.pbs",
+      "datacheck": "M1_C4_INC87_H9_CONT_DC.dat",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c4_inc87_h9_continuation/submit_M1_C4_INC87_H9_CONT.pbs\"",
+      "command_sha256": "63c64ef89330e8becf19071d56004c7d886751052c2a75942686887095485476",
+      "depends_on": []
+    }
+  ],
+  "acceptance": {
+    "stage_C1_2_step2_continuation": {
+      "u_top_target_mm": 0.001947309589,
+      "rf2_expected_N": 185.682431,
+      "rf2_continuity_pct_max": 5.0,
+      "energy_continuity_pct_max": 2.0,
+      "kkt_violations_max": 0,
+      "free_phase_residual_max_kN_mm": 1e-06,
+      "healing_tolerance": 1e-08,
+      "stationarity_delta_d_max": 0.001,
+      "stationarity_delta_rf2_max_N": 0.1
+    }
+  },
+  "package_name": "129_c4_inc87_h9_continuation"
+}
