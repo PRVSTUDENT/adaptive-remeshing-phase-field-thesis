@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Audited Hypothesis H12 nonmatching C3->C4 transfer at Inc 86: authentic C3 displacements (1,698 nodes) and GP history/damage (6,400 GPs) verified in P76; direct nodal damage reconstructed by averaging. Package 123 verified transfer feasibility (raw +13.98% energy jump equilibrated to +1.9234% < 2% gate, RF2=-1.12%). H11 active set shift (296->4,117 active) verified as natural lower-bound binding at unchanged load with min lambda = -9.705e-10 kN/mm within numerical tolerance. No new HPC submission required as P123 stands as authentic evaluation. Stage C1-2 Step 2 energy gate remains strictly binding.",
+  "evidence_sources": {
+    "scripts/validation/audit_h12_nonmatching_state_transfer.py": "F8B7C6000842F65934386F84D65169F68FBAA43042EBB72E0930BBB56D980536",
+    "results/validation/h12_nonmatching_state_transfer_audit.json": "1E7DBEF8B7903690FEB043F93898163CD70E55BD638D35F9AFFB09E20A58E7E6",
+    "tests/unit/test_mode1_f1597_h12_nonmatching_transfer.py": "F81A568782F9A1F30ACCE123957B19A02610A2B1A4AABCEA97F2D1B1CC803CA0",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_frame86/pkg76_frame86_nodal_u.csv": "90E8CD545A9A21E0214BB9DDF47626828640A5D4A3EAE3EFF5E435745151DB7D",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_frame86/pkg76_frame86_elem_sdv.csv": "6A8194C14409F2C685DA2864F7420A32549AEF8F823031451B351D66FB49482A",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_frame86/pkg76_frame86_extraction_manifest.json": "12BE24FBC73F536F67191A8E36CEBAF09200EED5519D062335CE4C763E301B06",
+    "results/validation/c4_inc86_holdout_mapping_audit.json": "9E78726D0680B6A7B0A6E8F221EB405DBF0016F2665104FA2783DFA7CE8B6755",
+    "results/validation/mode1_f1597_turn262/job_1418222_c4_inc86_reconstruction_summary.json": "154FBA84AAF55BB1FB56934915586A2CB5A88354717D366D97DAB0CEFFB88DB6"
+  },
+  "verification_passed": true
+}
