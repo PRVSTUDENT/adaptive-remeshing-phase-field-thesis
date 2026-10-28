@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "719d70ce-66e3-4167-b237-d72075ce03ed",
+  "hypothesis": "H9",
+  "finding": "Qualified and submitted Package 129 Candidate C4 Increment-86->87 forward continuation under Hypothesis H9 (PBS Job 1418398.mmaster02): verified complete staging of all 11 candidate assets to /scratch9/pr21vyci/runs/mode1_c4_inc87_h9_continuation with exact SHA-256 match, verified Abaqus 2023 datacheck completion (M1_C4_INC87_H9_CONT_DC.dat, 0 errors), confirmed dual-channel notification contract and login node queue accessibility, and executed atomic once-only submission through Invoke-Mode1Execution.ps1 into entry_imfdfkmq routing queue.",
+  "verification_passed": true,
+  "pbs_job_id": "1418398.mmaster02",
+  "job_name": "M1_C4_INC87_H9_CONT",
+  "queue": "entry_imfdfkmq",
+  "preflight_proof": "models/pandey_kumar_mode1/129_c4_inc87_h9_continuation/M1_C4_INC87_H9_CONT_PREFLIGHT_PROOF.json",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/129_c4_inc87_h9_continuation/PACKAGE_MANIFEST.json": "918960F735D40ABB2076667023FC59CEA726DCAB3CE041F83C3C671DA108166B",
+    "models/pandey_kumar_mode1/129_c4_inc87_h9_continuation/M1_C4_INC87_H9_CONT_PREFLIGHT_PROOF.json": "8942450D281292B5EC8827DB31C5944E689FD97D369945A69A861DC8E6EB4246",
+    "models/pandey_kumar_mode1/129_c4_inc87_h9_continuation/M1_C4_INC87_H9_CONT_DC.dat": "39C916E1374D7CF552AEFCC52D061D216B1CBDCA761BD4506DEE7B4539F71EDB",
+    "models/pandey_kumar_mode1/129_c4_inc87_h9_continuation/submit_M1_C4_INC87_H9_CONT.pbs": "CE5F55A4D555003E852D2A470A4954403852C6856B2B82117CDEA6CB7F306AC5",
+    "models/pandey_kumar_mode1/129_c4_inc87_h9_continuation/driver_c4_inc87_h9_continuation.py": "69F65ABFCF1BA2BB56514C05232DCC17944D9E273BC0DA9BBEBDCD68A68C9575",
+    "tests/unit/test_mode1_f1597_package129_qualification.py": "A42F49263CE76D2D4F0A3ED579004CA87F6666D91F44807AA5DFBA279436B191"
+  }
+}
