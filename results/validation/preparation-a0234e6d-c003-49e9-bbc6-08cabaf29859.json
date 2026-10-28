@@ -1,0 +1,18 @@
+{
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/137_c4_donor_inc89_h27_exact_frame_continuation/c4_donor_inc89_exact_checkpoint.json": "7BF3333DC457E4B1253D0157EDAA0A2AD99D976D29974563C221875A2FA7D361",
+    "models/pandey_kumar_mode1/137_c4_donor_inc89_h27_exact_frame_continuation/c4_donor_inc89_exact_checkpoint_active_set_cards.inc": "B9E01CB5409A3B2B7D77F003782A691702F0EBBFCFA7174FD3BD369111A12146",
+    "models/pandey_kumar_mode1/137_c4_donor_inc89_h27_exact_frame_continuation/c4_donor_inc89_exact_checkpoint_d_lower_bounds.csv": "A50A179DF54D737864D5C06A6342EC6D71611C452B1C2C2D93825CFC4C16DE80",
+    "models/pandey_kumar_mode1/137_c4_donor_inc89_h27_exact_frame_continuation/c4_donor_inc89_exact_checkpoint_nodal_displacements.csv": "2E9C453A7D18D4F396DD036D09AFB233ECC2EDE78CC8E3A14440A554926C2C3E",
+    "results/validation/h28_c4_inc89_exact_checkpoint_integrity.json": "A525CEDBB30A3E0141BAFCF891CFDD6CA2AC0C1772C73F3E181408EE4D31AB2A",
+    "scripts/audit_h28_checkpoint_integrity.py": "20F6D1C81FEF881DB3C339E273C0A57D3D6E2B1D04E9341E20C3C77193B1C130",
+    "tests/unit/test_mode1_f1597_turn289_h28_checkpoint_integrity.py": "5141DACD6FB6789C6717A4FB3430CB9E77E988C58289F5085823ED0134AB4E38"
+  },
+  "finding": "Hypothesis H28 verified: exact-frame Increment-89 C4 converged state from Package 137 Cycle 5 serialized into c4_donor_inc89_exact_checkpoint.json and companions with 0 damage healing violations, 0 driving history loss violations, distinct D0/H0 column separation, and lossless round-trip restoration within machine precision (max disp error 4.999e-14 mm, max damage error 0.0), classified as H28_CHECKPOINT_VERIFIED_RESTORABLE.",
+  "run_id": "a0234e6d-c003-49e9-bbc6-08cabaf29859",
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "verdict": "H28_CHECKPOINT_VERIFIED_RESTORABLE",
+  "verification_passed": true
+}

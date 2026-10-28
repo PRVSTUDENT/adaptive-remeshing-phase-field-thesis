@@ -2,8 +2,8 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 137 (Candidate C4 Hypothesis H27 exact donor frame continuation) qualified with 7/7 unit tests passing, clean Abaqus 2023 preflight datacheck Exit 0, and submitted to normal_imfdfkmq as PBS Job 1418548.mmaster02.",
-    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H27_EXACT_FRAME_PARITY_PASSED",
+    "phase":  "Hypothesis H28 verified: exact-frame Increment-89 C4 converged state from Package 137 Cycle 5 serialized into c4_donor_inc89_exact_checkpoint.json and companions with 0 damage healing violations, 0 driving history loss violations, distinct D0/H0 column separation, and lossless round-trip restoration within machine precision (max disp error 4.999e-14 mm, max damage error 0.0), classified as H28_CHECKPOINT_VERIFIED_RESTORABLE.",
+    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H28_CHECKPOINT_VERIFIED_RESTORABLE",
     "active_pbs_job_ids":  [
 
                            ],
@@ -220,14 +220,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-28T18:11:38.7275077+01:00",
+    "last_updated":  "2026-10-28T18:26:00.0272853+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-62b6b689-c34f-4e74-ba0b-51cfe194a526.json",
-                                  "sha256":  "045CE28134B12BA21FEBBAC921E7903084C3C6C2577A75B5D229303A8A077907",
-                                  "created_at":  "2026-10-28T18:07:32.1169602+01:00"
+                                  "artifact":  "results/validation/preparation-a0234e6d-c003-49e9-bbc6-08cabaf29859.json",
+                                  "sha256":  "A52A92C42B1067534A80DD81B1A4FA34050909A342C477BC4751D6B465E866B3",
+                                  "created_at":  "2026-10-28T18:24:21.6734022+01:00"
                               }
 }
