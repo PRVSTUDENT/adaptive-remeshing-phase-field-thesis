@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "package_name": "132_c4_inc86_75_h17_quarterstep_continuation",
+  "hypothesis": "H17_QUARTERSTEP_AM_CONTINUATION",
+  "status": "PASS",
+  "verification_passed": true,
+  "kinematics": {
+    "source_increment": 86.5,
+    "source_u_top_mm": 0.001938410627,
+    "target_increment": 86.75,
+    "target_u_top_mm": 0.001942860108,
+    "forward_displacement_increment_mm": 4.449480999999932e-06,
+    "forward_displacement_increment_nm": 4.449480999999932,
+    "kinematics_correct": true
+  },
+  "checkpoint_restoration_provenance": {
+    "d_lower_bounds_matches_inc86_5_checkpoint": true,
+    "nodal_displacements_matches_inc86_5_checkpoint": true,
+    "active_set_cards_matches_inc86_5_checkpoint": true,
+    "uel_source_matches_package130": true,
+    "frozen_uel_sha256": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac"
+  },
+  "predeclared_acceptance_criteria": {
+    "stationarity_delta_d_max": 0.001,
+    "stationarity_delta_rf2_max_N": 0.1,
+    "free_phase_residual_max_kN_mm": 1e-06,
+    "active_multiplier_min_kN_mm": -1e-09,
+    "mechanical_residual_max_kN": 0.0001,
+    "damage_healing_tolerance": 1e-08,
+    "max_am_cycles_allowed": 25,
+    "governance_gate": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED_RETAINED"
+  },
+  "file_hashes": {
+    "M1_C4_INC86_75_H17_QUARTERSTEP_CONTINUATION.inp": "20bb928f246f14b87def4bb6ecc1bc403c0520260b2078e6c58ea78d6c6e7f57",
+    "f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "d_lower_bounds.csv": "0623f25218f79479ebba9f7938afb59c068500b744a70a6833c83e6a8428f351",
+    "nodal_displacements_initial.csv": "ca566ffafb22a888a3c2003ec75348032db60fb6d78f7e1716517b3791f2322c",
+    "active_set_boundary_cards.inc": "af51dd44cf81f48a45bcd8c057fca62a1fcc935d7920100b7100df38dda85f69",
+    "stage_a_all_d0_boundary_cards.inc": "af51dd44cf81f48a45bcd8c057fca62a1fcc935d7920100b7100df38dda85f69",
+    "mode1_am_state_checkpoint.py": "426357112153f33e84ab6ac7f4d9b6bb41e0b86a95de960996cbd4f81e39ebfb"
+  }
+}
