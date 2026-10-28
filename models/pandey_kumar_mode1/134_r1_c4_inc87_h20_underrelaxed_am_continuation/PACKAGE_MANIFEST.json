@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "adapter": "mode1-experimental-12dof-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-2",
+  "package_name": "134_r1_c4_inc87_h20_underrelaxed_am_continuation",
+  "batch_name": "MODE1_C4_INC87_H20_CONT_R1",
+  "configuration": "SAFEGUARDED_UNDERRELAXED_AM_SAME_MESH_FORWARD_CONTINUATION_REPAIRED",
+  "hypothesis": "Hypothesis H20 R1: Correcting the committed strain energy history loading function in driver_c4_inc87_h20_continuation_r1.py to parse H0 columns (parts[5:9]) rather than D0 columns (parts[1:5]) restores authentic driving force q_vec across all 17,688 GPs. With omega = 0.70 under-relaxation and raw fixed-point stationarity ||T(d) - d||_inf <= 1.0e-3, this eliminates artificial whole-mesh free-set release and achieves physical equilibrium on Candidate C4 (4,422 quads, 4,588 nodes, max 35 cycles) from the authentic Increment-86.75 checkpoint.",
+  "automatic_retry": false,
+  "max_submissions": 1,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_inc87_h20_underrelaxed_am_continuation_r1",
+  "files": {
+    "M1_C4_INC87_H20_CONT_R1.inp": "4dad83161ca78ccdee6d9b8580e236535b8821912d346fb025758d92e716d9a0",
+    "active_set_boundary_cards.inc": "e62e1574c03ff1fd5dc4c406bc03d27b013b4b9e07a3637d586cec70563d109b",
+    "d_lower_bounds.csv": "bf250b09cac2479dd9590ad4a0918b7d3bebf0f94bd5972383305580983b376a",
+    "driver_c4_inc87_h20_continuation_r1.py": "b6ea0e1807fcbfc16955c7c901cee6fb96ad758379637979b696b2280f3160a0",
+    "f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "mode1_am_state_checkpoint.py": "426357112153f33e84ab6ac7f4d9b6bb41e0b86a95de960996cbd4f81e39ebfb",
+    "nodal_displacements_initial.csv": "554610895b86d559f02ff195f892bee15f0790cc378ec76cdf905b9a40073d18",
+    "run_c4_inc87_h20_cont_r1_datacheck.sh": "4ebdd32e3d593051442b7379f4256bdd594f17ac5f4a2e649e2c50065d44f7e9",
+    "stage_a_all_d0_boundary_cards.inc": "e62e1574c03ff1fd5dc4c406bc03d27b013b4b9e07a3637d586cec70563d109b",
+    "submit_M1_C4_INC87_H20_CONT_R1.pbs": "efd1c32977205ecc3f0ceed80eb8de81263497ff6c8cba07aa26881a585d3dd0"
+  },
+  "jobs": [
+    {
+      "id": "M1_C4_INC87_H20_CONT_R1",
+      "purpose": "Abaqus 2023 Candidate C4 Coupled State Forward Continuation under Hypothesis H20 R1 with Repaired History Loading and Under-Relaxation (omega=0.70, max 35 cycles) from Increment-86.75 to Increment-87 Target u = 0.001947309589 mm (Delta u = 4.449 nm, 4,422 quads, 4,588 nodes, initialized from authentic committed Increment-86.75 checkpoint)",
+      "input": "M1_C4_INC87_H20_CONT_R1.inp",
+      "user_subroutine": "f42_unified_12dof_active_set_uel.for",
+      "pbs": "submit_M1_C4_INC87_H20_CONT_R1.pbs",
+      "datacheck": "M1_C4_INC87_H20_CONT_R1_DC.dat",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c4_inc87_h20_underrelaxed_am_continuation_r1/submit_M1_C4_INC87_H20_CONT_R1.pbs\"",
+      "command_sha256": "74e27c249ac55007c92e2b72441365f901c6e58a5525e7eeaf39129016fa269c",
+      "depends_on": []
+    }
+  ],
+  "acceptance": {
+    "stage_C1_2_step2_underrelaxed_continuation": {
+      "u_top_target_mm": 0.001947309589,
+      "u_init_inc86_75_mm": 0.001942860108,
+      "forward_increment_mm": 4.449481e-06,
+      "under_relaxation_omega": 0.7,
+      "max_cycles": 35,
+      "raw_stationarity_tol_delta_d": 0.001,
+      "stationarity_tol_delta_rf2_N": 0.1,
+      "free_residual_tol_kN_mm": 1e-06,
+      "active_kkt_tol_kN_mm": -1e-09,
+      "max_healing_violations": 0,
+      "donor_rf2_target_N": 185.682431,
+      "donor_rf2_tol_pct": 5.0,
+      "donor_etot_target_mJ": 0.23197697,
+      "donor_etot_tol_pct": 2.0
+    }
+  }
+}

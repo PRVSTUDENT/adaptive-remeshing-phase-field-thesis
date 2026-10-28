@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 280,
+  "package134_classification": "H20_INVALID",
+  "package134_provisional_physical_verdict": "H20_FAILED_PHYSICAL",
+  "package134_r1_classification": "H20_R1_PASSED_PHYSICAL_AND_NUMERICAL",
+  "defect_type": "IMPLEMENTATION_DEFECT_STATE_INTEGRITY_HISTORY_CORRUPTION",
+  "reconciled_job_134": {
+    "pbs_job_id": "1418476.mmaster02",
+    "exit_code": 0,
+    "walltime_seconds": 105,
+    "cycles_completed": 8,
+    "raw_max_delta_d": 0.00026414588623058233,
+    "relaxed_max_delta_d": 0.00018490212036137432,
+    "delta_rf2_final_N": 0.04024803638458252,
+    "healing_violations": 0
+  },
+  "reconciled_job_134_r1": {
+    "pbs_job_id": "1418485.mmaster02",
+    "exit_code": 0,
+    "walltime_seconds": 38,
+    "cycles_completed": 2,
+    "raw_max_delta_d": 4.0032044003317224e-05,
+    "relaxed_max_delta_d": 2.8022430802323445e-05,
+    "delta_rf2_final_N": 0.0001341104507446289,
+    "free_nodes": 148,
+    "active_nodes": 4440,
+    "healing_violations": 0
+  },
+  "package134_physical_acceptance_evaluation": {
+    "donor_rf2_target_N": 185.682431,
+    "h20_rf2_N": 68.02201271057129,
+    "rf2_discrepancy_pct": -63.36647880780315,
+    "rf2_acceptance_tol_pct": 5.0,
+    "rf2_passed": false,
+    "donor_e_tot_target_mJ": 0.23197697,
+    "h20_e_tot_mJ": 0.38808706542689875,
+    "e_tot_discrepancy_pct": 67.29551447581143,
+    "e_tot_acceptance_tol_pct": 2.0,
+    "e_tot_passed": false,
+    "h18_e_tot_mJ": 0.236281,
+    "delta_e_tot_vs_h18_mJ": 0.15180606542689876,
+    "e_elas_mJ": 0.06618835884627004,
+    "e_frac_mJ": 0.3218987065806287
+  },
+  "package134_r1_physical_acceptance_evaluation": {
+    "donor_rf2_target_N": 185.682431,
+    "h20_r1_rf2_N": 183.14842879772186,
+    "rf2_discrepancy_pct": -1.364696804447883,
+    "rf2_acceptance_tol_pct": 5.0,
+    "rf2_passed": true,
+    "donor_e_tot_target_mJ": 0.23197697,
+    "h20_r1_e_tot_mJ": 0.2362718120108669,
+    "e_tot_discrepancy_pct": 1.851408788927144,
+    "e_tot_acceptance_tol_pct": 2.0,
+    "e_tot_passed": true,
+    "h18_e_tot_mJ": 0.236281,
+    "delta_e_tot_vs_h18_mJ": -9.187989133102592e-06,
+    "e_elas_mJ": 0.17825007634646142,
+    "e_frac_mJ": 0.058021735664405445
+  },
+  "active_set_telemetry_audit": {
+    "package134_free_nodes": 4588,
+    "package134_active_nodes": 0,
+    "package134_r1_free_nodes": 148,
+    "package134_r1_active_nodes": 4440,
+    "total_nodes": 4588,
+    "mechanism": "In Package 134, driving force q_vec was inflated across entire mesh because H was assigned damage values D0 (mean 0.161) instead of strain energy history H0 (mean 0.0518; far field min 2.3e-8 vs d0 min 3.36e-3). In Package 134 R1, repairing history loading restored authentic driving force, yielding 148 free nodes and 4,440 active nodes, matching physical crack-tip localization."
+  },
+  "code_defect_root_cause_and_repair": {
+    "defect_present_in_134": true,
+    "repaired_in_134_r1": true,
+    "bounds_csv_header": [
+      "EID",
+      "D0_1",
+      "D0_2",
+      "D0_3",
+      "D0_4",
+      "H0_1",
+      "H0_2",
+      "H0_3",
+      "H0_4"
+    ],
+    "corrupted_columns_parsed_in_134": "parts[1:5] (D0_1, D0_2, D0_3, D0_4)",
+    "correct_columns_parsed_in_134_r1": "parts[5:9] (H0_1, H0_2, H0_3, H0_4 via header H0_ lookup)",
+    "gps_with_d0_greater_than_h0": 17510,
+    "total_gps": 17688,
+    "pct_gps_corrupted_in_134": 98.99366802351877,
+    "far_field_inflation_factor_in_134": 145039.4465010515
+  },
+  "eigenvalue_inference_disclosure": {
+    "lambda_approx_minus_1_1": "INFERRED_HEURISTIC_MODEL",
+    "clarification": "The spectral value lambda approx -1.1 stated in Turn 278-279 was an analytical inference based on the observed 2-cycle period flip-flop ratio, not a computed eigenpair from an explicit numerical eigensolver on the full coupled Jacobian JT."
+  },
+  "governing_gate_status": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED"
+}

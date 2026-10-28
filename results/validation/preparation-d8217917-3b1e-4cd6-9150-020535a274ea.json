@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "d8217917-3b1e-4cd6-9150-020535a274ea",
+  "finding": "Hypothesis H20 audited: Package 134 classified as H20_INVALID due to parsing D0 instead of H0 columns; Package 134 R1 repaired history loading and verified on HPC (Job 1418485.mmaster02, Exit 0, 2 cycles, RF2=183.15 N, E_tot=0.2363 mJ, -1.36% force and +1.85% energy parity PASS, 148 free nodes, 0 healing violations).",
+  "verification_passed": true,
+  "evidence_sources": {
+    "results/validation/h20_integrity_and_physical_failure_audit.json": "AF0D3975657F62F136752BF24657F97BFB56E7ADB62C28A5470B015788B834AF",
+    "scripts/audit_h20_integrity_and_physical_failure.py": "A9003A43A64340850C795B53C92AC5124F88C21DC740BDF0167ECD0F05505FF3",
+    "tests/unit/test_mode1_f1597_turn280_h20_defect_audit.py": "8A664A87B4CC6B36D7D48D95FC495DB9246BD109F29EC38B4FDEA1DF22900FA1",
+    "tests/unit/test_mode1_f1597_package134_r1_qualification.py": "EFFCFD88B5A0C38911948A983CD3D17F50883D10FB862E93D4CDAE1E079FF8B4",
+    "models/pandey_kumar_mode1/134_r1_c4_inc87_h20_underrelaxed_am_continuation/PACKAGE_MANIFEST.json": "798CE9D405DC86010C78AB4A3B6B8A67A9404BDCFA3FDB15D5AB0563F16F60DD",
+    "models/pandey_kumar_mode1/134_r1_c4_inc87_h20_underrelaxed_am_continuation/M1_C4_INC87_H20_CONT_R1_PREFLIGHT_PROOF.json": "DD5D1B404EBC209C706CDC3E2EF80738DC1C354F44A828D9C0F94BEC15F150B3",
+    "models/pandey_kumar_mode1/134_r1_c4_inc87_h20_underrelaxed_am_continuation/M1_C4_INC87_H20_CONT_R1.inp": "4DAD83161CA78CCDEE6D9B8580E236535B8821912D346FB025758D92E716D9A0",
+    "models/pandey_kumar_mode1/134_r1_c4_inc87_h20_underrelaxed_am_continuation/driver_c4_inc87_h20_continuation_r1.py": "B6EA0E1807FCBFC16955C7C901CEE6FB96AD758379637979B696B2280F3160A0",
+    "models/pandey_kumar_mode1/134_r1_c4_inc87_h20_underrelaxed_am_continuation/submit_M1_C4_INC87_H20_CONT_R1.pbs": "EFD1C32977205ECC3F0CEED80EB8DE81263497FF6C8CBA07AA26881A585D3DD0",
+    "models/pandey_kumar_mode1/134_r1_c4_inc87_h20_underrelaxed_am_continuation/c4_inc87_h20_continuation_summary.json": "11F52F6C09BD70661D657EBAF0A4E2D2CD7931B82097119158E1BCAD96D7A685",
+    "models/pandey_kumar_mode1/134_r1_c4_inc87_h20_underrelaxed_am_continuation/M1_C4_INC87_H20_CONT_R1_DC.dat": "D7A6F958161C9C9F253E8190E6080D25EFFA0A60138001742992FCE6E8CDA963",
+    "models/pandey_kumar_mode1/134_r1_c4_inc87_h20_underrelaxed_am_continuation/M1_C4_INC87_H20_CONT_R1_DC.msg": "BD268881ED39B66BC6124C9CE273F962DF4F81BDC1874EF5DFAF678247CD3717"
+  }
+}
