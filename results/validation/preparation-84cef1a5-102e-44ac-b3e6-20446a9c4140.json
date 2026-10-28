@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "84cef1a5-102e-44ac-b3e6-20446a9c4140",
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "finding": "Hypothesis H26 donor reference audit completed: interpolation uncertainty across linear, quadratic, cubic, and work-integrated models is strictly bounded to 4.60 nJ (0.0019%), which is over 119 times smaller than the 0.2285% passing margin. Energy parity pass of Package 136 is mathematically guaranteed across all interpolants. Cluster audit confirms absent Package 76 binary restart database (.res), triggering H26_BLOCKED_AUTHENTIC_RESTART on the HPC submission path. Stage C1-2 energy failure (+2.00803158%) and H24_REFERENCE_AUDIT_PENDING are strictly retained.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/evidence_1416259/donor_h0025_rf_curve.csv": "8CEFAF0727CA2A16650F435AC88190C975F469000760F228733CDB39E46E403F",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/uel_energy_balance.csv": "EC265AAF6CE4CEDC8190154A946D02C2F162BFF77D19F3B5AFFEA1E378B961D7",
+    "models/pandey_kumar_mode1/136_c4_inc89_h24_underrelaxed_forward_continuation/c4_inc89_checkpoint.json": "E6C2B029B7E787F1CA8AE8259B7567A26E26D361A3F85F9BFBF7338271A600C5",
+    "scripts/audit_h26_interpolation_uncertainty.py": "21D0228CECB6E43358E3665985BEB7E6CC824CBC6DBA3CE72FDA838BDE289176",
+    "scripts/create_h26_donor_audit.py": "3AB0E233A00970BEC516F04C82C2C77A98579FBCCA122598D297B54CBC84A050",
+    "results/validation/h26_donor_interpolation_uncertainty_audit.json": "3B47444446777F457E34FCFB479054DE1EA5E75D53B63351578B63243660E183",
+    "tests/unit/test_mode1_f1597_turn287_h26_donor_audit.py": "7A3D8B4A31C126F6765663A00237B08B8EA11BF27624A134E4A3F962884DA4DC"
+  }
+}
