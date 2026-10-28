@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Reconciled Job 1418155 proving 100% physical parity with Package 123 (12 cycles, RF2=183.8078N, Etot=0.233063mJ, delta_d=0.000885, delta_RF2=0.0626N), diagnosed Python 2.7 math.isfinite AttributeError causing serialization failure, verified is_finite repair on cluster Abaqus Python 2.7.15 and local Abaqus Python, and audited complete 17,688 GP committed history separation and restoration semantics.",
+  "evidence_sources": {
+    "tests/unit/test_mode1_f1597_turn258_package127_terminal_evaluation.py": "9F8897D80AFBC9972E335EA721AD093022BC10538168C26522E56E2F80C1CEF1",
+    "results/validation/package127_c4_inc86_terminal_evaluation_and_checkpoint_audit.json": "2534FB45C39277013AB189D5AD10724490441ED6EE1D97C744B696F0CC4BC855",
+    "results/validation/mode1_f1597_turn258/job_1418155_pbs_execution.log": "1B85C638CDADE3BA5BA83D929B73A33B9D903D5745CB75DDC2A5BC858265E980",
+    "results/validation/mode1_f1597_turn258/job_1418155_pbs_error.log": "2B2FA3467197B8CDA4F32A335C9A598DF6533E73E18789BE54ABE705BDB2DDC4",
+    "scripts/driver/mode1_am_state_checkpoint.py": "426357112153F33E84AB6AC7F4D9B6BB41E0B86A95DE960996CBD4F81E39EBFB",
+    "models/pandey_kumar_mode1/127_c4_inc86_instrumented_checkpoint/M1_C4_INC86_INSTRUMENTED_AUTHORIZATION.json": "2299674DC9271A5F6514DCA3571AFB990B304C549328F3D346D032D888016979",
+    "models/pandey_kumar_mode1/127_c4_inc86_instrumented_checkpoint/driver_c4_inc86_instrumented.py": "F84B1EDB5D7B5615DF2FEF56F1972023752004CE46A5539E65E57A4320D3315D",
+    "models/pandey_kumar_mode1/127_c4_inc86_instrumented_checkpoint/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC"
+  },
+  "verification_passed": true
+}

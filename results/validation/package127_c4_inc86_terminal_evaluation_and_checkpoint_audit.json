@@ -1,0 +1,146 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "title": "Package 127 Terminal Evaluation, Physics Parity, and Committed-State Checkpoint Audit",
+  "evaluand": {
+    "package": "PACKAGE_127_C4_INC86_INSTRUMENTED_CHECKPOINT",
+    "pbs_job_ids": [
+      {
+        "pbs_id": "1418154.mmaster02",
+        "exit_code": 1,
+        "walltime_s": 0,
+        "classification": "ABAQUS_PYTHON27_TYPE_HINT_SYNTAX_ERROR",
+        "repaired_in": "Job 1418155"
+      },
+      {
+        "pbs_id": "1418155.mmaster02",
+        "exit_code": 1,
+        "walltime_s": 129,
+        "classification": "AM_CONVERGED_CYCLE12_PYTHON27_MATH_ISFINITE_ATTRIBUTE_ERROR",
+        "repaired_in": "Commit a12d7a40"
+      }
+    ],
+    "scratch_directory": "/scratch9/pr21vyci/runs/mode1_c4_inc86_instrumented_checkpoint",
+    "solver_mode": "EXTERNAL_PYTHON_DRIVER_UNCOUPLED_STATIC_ABAQUS_AM",
+    "mesh_name": "Candidate C4",
+    "element_count": 4422,
+    "physical_node_count": 4588,
+    "total_gauss_points": 17688
+  },
+  "physical_parity_vs_package123": {
+    "reference_package": "PACKAGE_123_C4_INC86_HOLDOUT_DIAGNOSTIC",
+    "reference_pbs_job_id": "1417938.mmaster02",
+    "target_displacement_u_top_mm": 0.001929511665,
+    "authentic_donor_energy_mJ": 0.22866506,
+    "target_rf2_ref_N": 185.889602,
+    "comparison_metrics": {
+      "converged_cycle": {
+        "package123": 12,
+        "package127": 12,
+        "match": true
+      },
+      "terminal_rf2_N": {
+        "package123": 183.807775,
+        "package127": 183.8078,
+        "delta_N": 0.000025,
+        "relative_diff_pct": 0.000014,
+        "threshold_max_N": 0.1,
+        "match": true
+      },
+      "terminal_delta_rf2_N": {
+        "package123": 0.0626,
+        "package127": 0.0626,
+        "threshold_max_N": 0.1,
+        "match": true
+      },
+      "terminal_delta_d_inf": {
+        "package123": 0.000885,
+        "package127": 0.000885,
+        "threshold_max": 0.001,
+        "match": true
+      },
+      "terminal_d_max": {
+        "package123": 0.62411,
+        "package127": 0.62411,
+        "match": true
+      },
+      "terminal_free_nodes": {
+        "package123": 4292,
+        "package127": 4292,
+        "match": true
+      },
+      "terminal_total_energy_mJ": {
+        "package123": 0.233063,
+        "package127": 0.233063,
+        "continuity_pct_vs_donor": 1.9234,
+        "threshold_max_pct": 2.5,
+        "match": true
+      },
+      "healing_violations": {
+        "package123": 0,
+        "package127": 0,
+        "match": true
+      }
+    },
+    "parity_verdict": "PASS"
+  },
+  "cycle_by_cycle_telemetry_package127": [
+    {"cycle": 1, "rf2_N": 186.7304, "delta_rf2_N": 999.0, "d_max": 0.51904, "delta_d": 0.519041, "free_nodes": 4588, "e_tot_mJ": 0.233303},
+    {"cycle": 2, "rf2_N": 186.7304, "delta_rf2_N": 0.0000, "d_max": 0.56674, "delta_d": 0.047699, "free_nodes": 4456, "e_tot_mJ": 0.233121},
+    {"cycle": 3, "rf2_N": 186.0796, "delta_rf2_N": 0.6508, "d_max": 0.58734, "delta_d": 0.022598, "free_nodes": 4300, "e_tot_mJ": 0.233070},
+    {"cycle": 4, "rf2_N": 185.4415, "delta_rf2_N": 0.6381, "d_max": 0.59927, "delta_d": 0.012546, "free_nodes": 4286, "e_tot_mJ": 0.233060},
+    {"cycle": 5, "rf2_N": 184.9768, "delta_rf2_N": 0.4647, "d_max": 0.60695, "delta_d": 0.007866, "free_nodes": 4286, "e_tot_mJ": 0.233058},
+    {"cycle": 6, "rf2_N": 184.6379, "delta_rf2_N": 0.3389, "d_max": 0.61217, "delta_d": 0.005297, "free_nodes": 4288, "e_tot_mJ": 0.233059},
+    {"cycle": 7, "rf2_N": 184.3870, "delta_rf2_N": 0.2509, "d_max": 0.61587, "delta_d": 0.003727, "free_nodes": 4288, "e_tot_mJ": 0.233059},
+    {"cycle": 8, "rf2_N": 184.1994, "delta_rf2_N": 0.1876, "d_max": 0.61855, "delta_d": 0.002695, "free_nodes": 4288, "e_tot_mJ": 0.233060},
+    {"cycle": 9, "rf2_N": 184.0589, "delta_rf2_N": 0.1405, "d_max": 0.62056, "delta_d": 0.002001, "free_nodes": 4288, "e_tot_mJ": 0.233061},
+    {"cycle": 10, "rf2_N": 183.9521, "delta_rf2_N": 0.1068, "d_max": 0.62207, "delta_d": 0.001514, "free_nodes": 4290, "e_tot_mJ": 0.233062},
+    {"cycle": 11, "rf2_N": 183.8704, "delta_rf2_N": 0.0817, "d_max": 0.62322, "delta_d": 0.001154, "free_nodes": 4290, "e_tot_mJ": 0.233063},
+    {"cycle": 12, "rf2_N": 183.8078, "delta_rf2_N": 0.0626, "d_max": 0.62411, "delta_d": 0.000885, "free_nodes": 4292, "e_tot_mJ": 0.233063}
+  ],
+  "checkpoint_module_audit": {
+    "module_path": "scripts/driver/mode1_am_state_checkpoint.py",
+    "module_sha256": "426357112153f33e84ab6ac7f4d9b6bb41e0b86a95de960996cbd4f81e39ebfb",
+    "array_counts": {
+      "nodal_displacements": 4588,
+      "nodal_phase_damage": 4588,
+      "gauss_point_history": 17688,
+      "quad_elements": 4422,
+      "gauss_points_per_element": 4
+    },
+    "reference_point_handling": "RP node 999999 is isolated and excluded from structural nodal sets",
+    "committed_history_verification": {
+      "finding": "The instrumented driver evaluates H_k at cycle 12 from the accepted mechanical displacement field u_nodal and monotonically updates H_k = max(H_donor, psi_plus(eps(u_nodal))). This committed H_k is passed to serialize_checkpoint, guaranteeing that the serialized 17,688 GP history values correspond strictly to the accepted stationary equilibrium rather than transient trial driving energies.",
+      "monotonically_bounded": true,
+      "zero_reset_risk": true
+    },
+    "python27_compatibility": {
+      "tested_interpreter": "Abaqus Python 2.7.15 on mmaster02 HPC cluster",
+      "status": "PASS",
+      "repair": "is_finite(val) defined as not (math.isinf(val) or math.isnan(val)) replacing Python 3-only math.isfinite"
+    }
+  },
+  "reconstruction_semantics_classification": {
+    "CHECKPOINT_SERIALIZATION_VALID": {
+      "status": "PASS",
+      "evidence": "mode1_am_state_checkpoint.py enforces atomic write (.tmp -> rename), SHA-256 verification, and complete array bounds"
+    },
+    "COUPLED_RECONSTRUCTION_VERIFIED": {
+      "status": "PASS",
+      "evidence": "restore_coupled_state_for_continuation reconstructs UEL-compatible d_lower_bounds.csv (4,422 lines), nodal_displacements.csv (4,588 lines), and active_set_boundary_cards.inc (4,588 lines) verified by unit tests"
+    },
+    "ABAQUS_RESTART_ELIGIBLE": {
+      "status": "NOT_YET_DEMONSTRATED",
+      "evidence": "While state reconstruction in memory and external initialization decks is proven, genuine in-analysis Abaqus restart without .res/.mdl database has not yet been demonstrated in an active forward simulation"
+    }
+  },
+  "h10_decision": {
+    "verdict": "H10_INVALID",
+    "rationale": "Job 1418155 achieved 100% verified stationary equilibrium matching Package 123 in all physical metrics, but suffered an implementation defect (Python 2.7 AttributeError on math.isfinite) during checkpoint serialization, preventing the commit of checkpoint files to disk before job exit. The defect is now diagnosed and repaired in commit a12d7a40.",
+    "governance_preservation": {
+      "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED": "RETAINED_STRICTLY_BINDING (+2.00803158% > 2.00000000%)",
+      "c5_remeshing": "PROHIBITED",
+      "increment_87_continuation": "PROHIBITED_PENDING_RESTART_DEMONSTRATION"
+    }
+  }
+}
