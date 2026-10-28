@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 135 (Job 1418517.mmaster02) submitted for genuine irreversible same-mesh continuation from Increment 87 to Increment 88 on Candidate C4 (4,422 quads, 4,588 nodes, 17,688 GP histories) under Hypothesis H23. Preflight verified authentic Increment-87 committed checkpoint (Package 134 R1, Job 1418485: 0 history/damage violations, RF2=183.15 N, E_tot=0.236272 mJ), authentic Increment-88 donor reference (Package 76 row 88: u=0.0019651074 mm, Delta u=17.798 nm, RF2_target=185.335 N, E_tot_target=0.235283 mJ), repaired history loading parsing H0 from columns 5-8, under-relaxed AM/PDAS method (omega=0.70, max 35 cycles), clean Abaqus 2023 compile/link and remote datacheck Exit 0, and dual-channel notifications.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/135_c4_inc88_h23_underrelaxed_forward_continuation/PACKAGE_MANIFEST.json": "6689AC233AE777E0A4731EED5E978B296361CD7F4C9F906008136CE53D67E093",
+    "models/pandey_kumar_mode1/135_c4_inc88_h23_underrelaxed_forward_continuation/M1_C4_INC88_H23_CONT_PREFLIGHT_PROOF.json": "44D785C0AB3BC811A71D8DAA853C682E8918C6C658CD2C08017C0D38DB1A2292",
+    "models/pandey_kumar_mode1/135_c4_inc88_h23_underrelaxed_forward_continuation/M1_C4_INC88_H23_CONT.inp": "10FEF02247D038DCEA13607E1A5B0C26CFD2BE4F3AC754F3AE22E50F2C52BA15",
+    "models/pandey_kumar_mode1/135_c4_inc88_h23_underrelaxed_forward_continuation/driver_c4_inc88_h23_continuation.py": "13BE2A4F7FB83EE6B299E4473C02F898714673D48754F01834F4AFD3FED7778E",
+    "models/pandey_kumar_mode1/135_c4_inc88_h23_underrelaxed_forward_continuation/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/135_c4_inc88_h23_underrelaxed_forward_continuation/submit_M1_C4_INC88_H23_CONT.pbs": "4E62C636CAFCB9DADD793D19645EB27495B4C874CD0A1240AB1E9F40E9F44F02",
+    "models/pandey_kumar_mode1/135_c4_inc88_h23_underrelaxed_forward_continuation/M1_C4_INC88_H23_CONT_DC.dat": "CED26A88688CCF65F9BAF9EE21FDE0D9ADB67E07DDE8248B7EF4B89E28F7AB58",
+    "models/pandey_kumar_mode1/135_c4_inc88_h23_underrelaxed_forward_continuation/M1_C4_INC88_H23_CONT_DC.msg": "635F0F4A1D7627D4AF148A87C7A531B921F30A44AC1406AACE47A9C304206608",
+    "tests/unit/test_mode1_f1597_package135_qualification.py": "20CC793D97B2C36A29E1BB2F0597ECADDD11645C024D3A74EE21B117E9198F7B",
+    "results/validation/c4_inc87_checkpoint_audit.json": "60D3F37B4CF8B654FC11EA7EC01D3C06EEDF5FD43F260BA2E6DD3FE7F4F284DC"
+  },
+  "verification_passed": true,
+  "metadata": {
+    "pbs_job_id": "1418517.mmaster02",
+    "package": "135_c4_inc88_h23_underrelaxed_forward_continuation",
+    "hypothesis": "H23",
+    "mesh": "Candidate C4 (4422 quads, 4588 nodes, 17688 GP histories)",
+    "continuation_step": "Increment 87 to Increment 88",
+    "u_top_init_mm": 0.001947309589,
+    "u_top_target_mm": 0.0019651074,
+    "delta_u_mm": 1.7797811e-05,
+    "under_relaxation_omega": 0.7,
+    "max_cycles": 35,
+    "donor_rf2_target_N": 185.335442,
+    "donor_etot_target_mJ": 0.23528295,
+    "status": "SUBMITTED_PENDING"
+  }
+}
