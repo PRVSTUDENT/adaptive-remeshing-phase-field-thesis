@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "c2c3483e-d289-46af-93a0-d9a153a5917e",
+  "finding": "Hypothesis H19 confirmed: ~0.00145 contraction floor is an intrinsic localized coupled Picard mode at crack tip node 2277 (Dice 0.90-1.0); subproblem KKT optimality holds while coupled map stalls.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "results/validation/h19_increment87_fixed_point_diagnostic.json": "20DB0FA2900065150E0C335EF91D14B054B71D252CD3C4081E47AA1E919A205A",
+    "scripts/audit_h19_increment87_fixed_point_diagnostic.py": "E4AB78CBCDED9C821AC0965E42D139526E29B5524926D419C9A11E82A1634A0D",
+    "tests/unit/test_mode1_f1597_h19_diagnostic.py": "A4251A463D343C2951EF3EA29C7EB0BF01C88C81B7186BB9C4238A4A70EAF52E",
+    "results/validation/h9_final_active_set_cards.inc": "D71E05E7F37D32413016DEC758DA8282DE2FF7E7B6E7B3647E6953E17D8ACEB8",
+    "results/validation/h14_final_active_set_cards.inc": "8923C41907BD6F03D16B6291B3CF46E8A2BDF34CF64236E5B5DF43836797524B",
+    "results/validation/h16_final_active_set_cards.inc": "6305F5841136648931A3980C07D45378C0E53281E4509A99619AFEB7412334AE",
+    "results/validation/h18_final_active_set_cards.inc": "AF3F6329D9B5C808B4BCE448F926557AC75979E7DB91C54823809A5262E71C6F"
+  }
+}
