@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "e5ed1a18-1f77-479b-b14d-8e943ad4d04a",
+  "finding": "Package 138 (Candidate C4 Increment-90 H29 under-relaxed forward continuation) successfully qualified across all 7 unit tests, verified via remote Abaqus 2023 interactive datacheck, and submitted to PBS scheduler as Job 1418550.mmaster02 on queue entry_imfdfkmq (routed to normal_imfdfkmq, 1 CPU, 16 GB, 8 h walltime). Solver continuing under-relaxed AM/PDAS (omega=0.70, max 35 cycles) from exact Increment-89 checkpoint (u=0.001990107350 mm) to authentic donor Increment 90 (u=0.002015107310 mm, Delta u=24.999960 nm).",
+  "verification_passed": true,
+  "pbs_job_id": "1418550.mmaster02",
+  "submission_queue": "entry_imfdfkmq",
+  "execution_queue": "normal_imfdfkmq",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/138_c4_inc90_h29_underrelaxed_forward_continuation/PACKAGE_MANIFEST.json": "031AAC02142F7D62979E7901E955296DAA1AEAD621F1FE5C73F3D0FC7619EAE4",
+    "models/pandey_kumar_mode1/138_c4_inc90_h29_underrelaxed_forward_continuation/M1_C4_INC90_H29_CONT.inp": "5715FBD7E9D0375EED1B845B9CD78BF73A796BE51C384FCF55F41A021D18B0CE",
+    "models/pandey_kumar_mode1/138_c4_inc90_h29_underrelaxed_forward_continuation/driver_c4_inc90_h29_continuation.py": "63EF107564A21AC68D776AC0061BE2EC995A34E1D50B79E826930D25780A1684",
+    "models/pandey_kumar_mode1/138_c4_inc90_h29_underrelaxed_forward_continuation/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/138_c4_inc90_h29_underrelaxed_forward_continuation/submit_M1_C4_INC90_H29_CONT.pbs": "6EA7ECAE308549D44AA0CD15532D42229CC9468EFABD387DF6141FA69E107889",
+    "models/pandey_kumar_mode1/138_c4_inc90_h29_underrelaxed_forward_continuation/d_lower_bounds.csv": "A50A179DF54D737864D5C06A6342EC6D71611C452B1C2C2D93825CFC4C16DE80",
+    "models/pandey_kumar_mode1/138_c4_inc90_h29_underrelaxed_forward_continuation/nodal_displacements_initial.csv": "2E9C453A7D18D4F396DD036D09AFB233ECC2EDE78CC8E3A14440A554926C2C3E",
+    "tests/unit/test_mode1_f1597_package138_qualification.py": "09A84543719C1308B46003CAE48E30EE37B86BE84BE64E492E0818C87CA055A8"
+  }
+}
