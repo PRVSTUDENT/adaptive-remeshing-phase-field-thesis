@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "package_name": "PACKAGE_133_C4_INC87_H18_SECOND_QUARTERSTEP_CONTINUATION",
+  "hypothesis": "H18_SECOND_QUARTERSTEP_AM_CONTINUATION",
+  "kinematics": {
+    "u_init_inc86_75_mm": 0.001942860108,
+    "u_target_inc87_mm": 0.001947309589,
+    "delta_u_mm": 4.449481e-06,
+    "bc_found_in_inp": true
+  },
+  "restoration_invariants": {
+    "d_lower_bounds_match": true,
+    "nodal_displacements_match": true,
+    "active_set_cards_match": true,
+    "frozen_uel_bit_exact": true
+  },
+  "hashes": {
+    "d_lower_bounds_sha256": "BF250B09CAC2479DD9590AD4A0918B7D3BEBF0F94BD5972383305580983B376A",
+    "nodal_displacements_sha256": "554610895B86D559F02FF195F892BEE15F0790CC378EC76CDF905B9A40073D18",
+    "active_set_cards_sha256": "E62E1574C03FF1FD5DC4C406BC03D27B013B4B9E07A3637D586CEC70563D109B",
+    "f42_uel_sha256": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC"
+  },
+  "audit_verdict": "H18_CONTROLLED_DIFFERENCE_VERIFIED"
+}
