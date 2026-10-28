@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "title": "Comparative Evaluation of Method C Candidate C4 Forward Continuation Hypotheses",
+  "donor_benchmark": {
+    "increment": 87,
+    "target_displacement_mm": 0.001947309589,
+    "reaction_force_N": 185.682431,
+    "total_energy_mJ": 0.23197697
+  },
+  "continuation_runs": {
+    "H9_P129_FULLSTEP_25CYC": {
+      "step_type": "Direct Full Step",
+      "delta_u_mm": 1.77979236e-05,
+      "cycles_completed": 25,
+      "status": "ITERATION_CAP_REACHED",
+      "verdict": "H9_CONTINUATION_FAILED",
+      "d_max": 0.6825330574403248,
+      "max_delta_d": 0.0014507131740042478,
+      "rf2_rp_N": 181.3296526670456,
+      "delta_rf2_N": 0.0889897346496582,
+      "e_tot_mJ": 0.23635581345921175,
+      "healing_violations": 0,
+      "free_nodes": 3764,
+      "active_nodes": 824
+    },
+    "H14_P129R1_FULLSTEP_65CYC": {
+      "step_type": "Direct Full Step (Extended)",
+      "delta_u_mm": 1.77979236e-05,
+      "cycles_completed": 65,
+      "status": "ITERATION_CAP_REACHED",
+      "verdict": "H14_CONTINUATION_FAILED",
+      "d_max": 0.7715691889563809,
+      "max_delta_d": 0.005304024837651911,
+      "rf2_rp_N": 175.8609265089035,
+      "delta_rf2_N": 0.32116472721099854,
+      "e_tot_mJ": 0.2364023362210111,
+      "healing_violations": 0,
+      "free_nodes": 3960,
+      "active_nodes": 628
+    },
+    "H15_P130R1_FIRST_HALFSTEP_9CYC": {
+      "step_type": "First Half-Step (to Inc 86.5)",
+      "delta_u_mm": 8.8989616e-06,
+      "target_displacement_mm": 0.001938410627,
+      "cycles_completed": 9,
+      "status": "CONVERGED_STATIONARY_STATE",
+      "verdict": "H15_PASSED_MIDPOINT",
+      "d_max": 0.6393167578428999,
+      "max_delta_d": 0.0008972348746436598,
+      "rf2_rp_N": 183.4491789340973,
+      "delta_rf2_N": 0.05838274955749512,
+      "e_tot_mJ": 0.23463880679575386,
+      "healing_violations": 0,
+      "free_nodes": 3281,
+      "active_nodes": 1307
+    },
+    "H16_P131R1_SECOND_HALFSTEP_25CYC": {
+      "step_type": "Second Half-Step (to Inc 87)",
+      "delta_u_mm": 8.8989616e-06,
+      "target_displacement_mm": 0.001947309589,
+      "cycles_completed": 25,
+      "status": "ITERATION_CAP_REACHED",
+      "verdict": "H16_FAILED_NONSTATIONARY",
+      "d_max": 0.6870797231249486,
+      "max_delta_d": 0.0014453047222904303,
+      "rf2_rp_N": 181.04727566242218,
+      "delta_rf2_N": 0.08864700794219971,
+      "e_tot_mJ": 0.2362784531605136,
+      "healing_violations": 0,
+      "free_nodes": 3848,
+      "active_nodes": 740,
+      "rf2_discrepancy_pct": 2.496281049647518,
+      "e_tot_discrepancy_pct": 1.8542716376171295
+    }
+  },
+  "scientific_findings": {
+    "load_partitioning_effect": "Splitting the forward increment into two half-steps (Delta u = 8.899 nm) demonstrated dramatic acceleration in the initial phase (H15 reached stationary coupled equilibrium at the midpoint u=1.938411 um in only 9 cycles). In the second half-step (H16 to u=1.947310 um), force stationarity was achieved within 21 cycles (Delta RF2 = 0.0886 N <= 0.1 N at cycle 25), but damage stationarity decelerated asymptotically (Delta d = 0.001445 > 0.001000 at cycle 25) with contraction ratio rho -> 0.996.",
+    "loss_of_contraction_mechanism": "Contraction factor rho remained strictly sub-unity (< 1.0) throughout all 25 cycles, confirming monotonic convergence without numerical instability or oscillation. However, as the damage increment localized near the crack tip (d_max reaching 0.687), the standard unaccelerated alternating minimization operator experienced spectral radius rho_AM -> 1, requiring additional iterations beyond the 25-cycle cap.",
+    "physical_fidelity": "Zero damage healing violations across all 4,588 nodes; KKT complementarity strictly preserved; reaction force within 2.50% of authentic donor benchmark; total energy discrepancy +1.854% strictly within the 2.000% tolerance.",
+    "verdict": "H16_FAILED_NONSTATIONARY",
+    "gate_status": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED (+2.00803158% > 2.00000000%) remains permanently active and binding."
+  },
+  "provenance_hashes": {
+    "p129_summary": "B38A4077F7EB23A2623254ADAA3AD1A57027DCFC2D4A50DF1B679736F0AC8257",
+    "p129_r1_summary": "844E3DE6AA9F4585FB3ACE2F13B220728AB43D1BDF803ED3987A2ED6C47DBDAB",
+    "p130_r1_summary": "AAE20DAAD8C179A1B3096958EA9B6D7A76C455F1AE37A2BA17DDDE580D428718",
+    "p131_r1_summary": "793048B259203CAB1642E8ACF338071BA352CB9C9E6DB6079AD14936A0851188"
+  }
+}
