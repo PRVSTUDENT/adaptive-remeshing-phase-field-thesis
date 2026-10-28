@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "42038f95-f870-4f6f-8096-c5ff77c76286",
+  "finding": "Package 132 (Job 1418466.mmaster02) qualified via Abaqus 2023 datacheck (Exit 0) and 11 unit tests, and submitted to PBS under Hypothesis H17 for first quarter-step continuation from Increment 86.5 to 86.75 (Delta u = 4.449481 nm); job is actively running in normal_imfdfkmq on mnode106.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/132_c4_inc86_75_h17_quarterstep_continuation/M1_C4_INC86_75_H17_QUARTERSTEP_CONTINUATION.inp": "20BB928F246F14B87DEF4BB6ECC1BC403C0520260B2078E6C58EA78D6C6E7F57",
+    "models/pandey_kumar_mode1/132_c4_inc86_75_h17_quarterstep_continuation/PACKAGE_MANIFEST.json": "D054B0D43B01C7990A7AD6FFB0F9D04D74911F4283A747D96F757B43CDDE4E4A",
+    "models/pandey_kumar_mode1/132_c4_inc86_75_h17_quarterstep_continuation/M1_C4_INC86_75_H17_CONT_PREFLIGHT_PROOF.json": "DDD99D3FAE2922BAF76C6F45B37BB133295069508CC7C4626F04D280B7E05008",
+    "models/pandey_kumar_mode1/132_c4_inc86_75_h17_quarterstep_continuation/M1_C4_INC86_75_H17_CONT_DC.dat": "155C8E244734E60B5E8408407BE596811DD543E72741548F0CA62A8A03193DAA",
+    "models/pandey_kumar_mode1/132_c4_inc86_75_h17_quarterstep_continuation/M1_C4_INC86_75_H17_CONT_DC.msg": "68661610C6F0DD176AA534DA852E0E0F83C5C13CF9CD21A83FFA6C954CDD81A6",
+    "results/validation/h17_quarterstep_controlled_difference_audit.json": "620688733AF35C60F69E65CB8714F71695C1CE430C485E0AC97AFE3CD2EE711B",
+    "tests/unit/test_mode1_f1597_package132_qualification.py": "D2962122A7469CE3A7C32087DCE223C864EB2467F0B00809295BBFAED3E1E074",
+    "tests/unit/test_mode1_f1597_h17_controlled_difference.py": "61FB71CB36AEED456DFE899094D6957CD1A9C11DC4B72F023863C7092F4C2315",
+    "scripts/audit_h17_quarterstep_controlled_difference.py": "E0A362DC3D5AD9230DC403AAA98F21027164CC0EB3A5EF14AD390750A6E667D7"
+  }
+}
