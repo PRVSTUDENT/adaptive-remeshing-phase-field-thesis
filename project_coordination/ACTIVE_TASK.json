@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Evidence-only recovery of interrupted task F1597-CORRECT-PACKAGE72-STATE-TRANSFER (checkpoint 81f408c0, SHA256 51A48CFF38EB2E670983A67E4CE5AF0852B17AB31DB4EA871DF53768A905F277) completed. Preserved turn record 81f408c0 confirmed at BOOTSTRAP_COMPLETE with no scientific checkpoint and zero unrecorded HPC submissions. Predecessor Turn 252 comparative audit (Package 125 vs Package 126 R4) confirmed intact with classification ACCELERATION_CAUSES_OSCILLATORY_ITERATION. All job receipts up to Job 1418006 (Package 126 R4 Exit 0) and Job 1417969 (Package 125 Exit 0) reconciled in HPC_JOB_LEDGER.csv. Guarded qstat confirms cluster queue is clear. Binding Method C gate remains STAGE_C1_2_STEP2_ENERGY_GATE_FAILED.",
+    "phase":  "Forensic evaluation of Package 113 energy audit artifact: calculation and deconstruction was completed in results/validation/package113_energy_gate_forensic_audit.json (SHA256 E2587DA5FDF47347280C3C2FD893714F85DBCBD45A0149504DB7DA8395B70AF8), confirming exact exceedance of +0.00803158 percentage points (+2.00803158% vs 2.0000000% tolerance) with 71.98% excess driven by AT2 fracture energy on refined C4 mesh. Independent testing, Git commit, push, and artifact registration were incomplete. Finished bounded verification: authored tests/unit/test_mode1_f1597_turn255_package113_energy_gate_audit.py (6/6 unit tests passed, 0 failures), registered artifacts in ARTIFACT_REGISTRY.csv, preserved scientific classification P113_DISCRETIZATION_BIAS_SUPPORTED, reconciled zero active HPC jobs, and strictly retained binding gate STAGE_C1_2_STEP2_ENERGY_GATE_FAILED (C5 advancement prohibited).",
     "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE126_R4_EVALUATED_H7_FAILED_NONSTATIONARY",
     "active_pbs_job_ids":  [
 
@@ -202,14 +202,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-28T05:23:08.1018148+01:00",
+    "last_updated":  "2026-10-28T05:42:46.5995564+01:00",
     "next_safe_action":  "Advance to next qualified research step or hypothesis under Method C gate review",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-beb11316-c756-4b2b-898f-754dbbff654e.json",
-                                  "sha256":  "F89302D3557467AA067B90D1B8B36F5C592536C82AF93757B5369576D3D606AA",
-                                  "created_at":  "2026-10-28T05:22:13.8886589+01:00"
+                                  "artifact":  "results/validation/preparation-833e4aa7-659c-4287-806d-9724b7be4c36.json",
+                                  "sha256":  "CA4DDB74A3C2AB9FF86961BBB268F6A538F4C483BFA41735953C6E161328CB63",
+                                  "created_at":  "2026-10-28T05:40:46.7357235+01:00"
                               }
 }
