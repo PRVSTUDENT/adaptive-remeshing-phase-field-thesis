@@ -2,10 +2,10 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 135 (Job 1418517.mmaster02) completed genuine irreversible same-mesh continuation on Candidate C4 (4,422 quads, 4,588 nodes, 17,688 GP histories) from Increment 87 to Increment 88 with Abaqus Exit 0 in 3 cycles (53 s walltime). Hypothesis H23 passed: raw damage stationarity converged to Delta d = 0.000225 \u003c= 1.0e-3 (relaxed 0.000158), reaction force stabilized to Delta RF2 = 0.0648 N \u003c= 0.1 N, free KKT residual reached 1.40e-9 kN/mm, active multiplier reached -9.90e-10 kN/mm. Pointwise irreversibility strictly preserved across all 4,588 nodes (0 healing violations) and all 17,688 Gauss points (0 history violations). Physical donor parity verified: final RF2 = 184.545 N (-0.427% vs Package 76 donor 185.335 N, within +/- 5.0%), total energy = 0.239540 mJ (+1.809% vs donor 0.235283 mJ, within \u003c= 2.0%). Incremental energy balance residual = 0.0042 uJ (0.128% of Delta W_ext). Governing gate STAGE_C1_2_STEP2_ENERGY_GATE_FAILED strictly retained.",
-    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE135_H23_PASSED",
+    "phase":  "Package 136 qualified and submitted as PBS Job 1418531.mmaster02 on normal_imfdfkmq for Candidate C4 Increment-89 forward continuation under Hypothesis H24 with under-relaxed AM (omega=0.70, max 35 cycles) initialized from authentic Increment-88 checkpoint.",
+    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE136_H24_SUBMITTED",
     "active_pbs_job_ids":  [
-
+                               "1418531.mmaster02"
                            ],
     "dependent_pbs_job_ids":  [
 
@@ -218,14 +218,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-28T16:09:32.2277761+01:00",
+    "last_updated":  "2026-10-28T16:53:28.5516474+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-4bfec3e2-5627-4242-82d4-7946fdd2aa33.json",
-                                  "sha256":  "3A6F58BBE26FF2CB97D71CCF596A529A71B36458E9FB3F101548F8FB0A2FC53A",
-                                  "created_at":  "2026-10-28T16:01:41.8747365+01:00"
+                                  "artifact":  "results/validation/preparation-5374d1ec-f619-4c7d-8316-ed5d9f6bf10c.json",
+                                  "sha256":  "DCC169D9CB188C43C9E249D87AAAB95633A0CCF248DD5265B67A46BB71D6595D",
+                                  "created_at":  "2026-10-28T16:51:29.4538654+01:00"
                               }
 }

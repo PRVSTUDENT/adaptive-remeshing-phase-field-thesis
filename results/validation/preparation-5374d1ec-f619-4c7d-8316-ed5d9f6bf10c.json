@@ -1,0 +1,21 @@
+{
+  "delta_u_nm": 17.7978,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/136_c4_inc89_h24_underrelaxed_forward_continuation/M1_C4_INC89_H24_CONT.inp": "5C57F8B00E98C3C1D05CEB6F40EC28E6CE517FE4509A99ED23EA1469A313C89A",
+    "models/pandey_kumar_mode1/136_c4_inc89_h24_underrelaxed_forward_continuation/PACKAGE_MANIFEST.json": "99632EFC0F593E1F8C9C63664D5348F4A5F5BCC26ACE42CB0B4B26990A1D8A20",
+    "models/pandey_kumar_mode1/136_c4_inc89_h24_underrelaxed_forward_continuation/driver_c4_inc89_h24_continuation.py": "ACED2CCE87C3496950140F84AB7704EB4151EE4E8468A8CD2E5D6296ED92BEA8",
+    "models/pandey_kumar_mode1/136_c4_inc89_h24_underrelaxed_forward_continuation/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/136_c4_inc89_h24_underrelaxed_forward_continuation/run_c4_inc89_h24_cont_datacheck.sh": "7C0CEB5187CD47A8976EF1FFC7F6BA53A675154679FC0C982B1EA6FAC601815A",
+    "models/pandey_kumar_mode1/136_c4_inc89_h24_underrelaxed_forward_continuation/submit_M1_C4_INC89_H24_CONT.pbs": "B5A86A17726A4D2CA89E64136545F91E48E89F7310C9C91811797B4FF656F05E",
+    "results/validation/c4_inc88_checkpoint_audit.json": "731BF6CFE7D7BFD0CEDB1A60E9D1A15146D6835B940FC3C4491A8527F59FFA2D",
+    "tests/unit/test_mode1_f1597_package136_qualification.py": "C50546EC29F4BA90BE203925CAAFFC23D9A3087E2820BC19DFC7407C1AD4BA92"
+  },
+  "finding": "Package 136 qualified and submitted as PBS Job 1418531.mmaster02 on normal_imfdfkmq for Candidate C4 Increment-89 forward continuation under Hypothesis H24 with under-relaxed AM (omega=0.70, max 35 cycles) initialized from authentic Increment-88 checkpoint.",
+  "governing_gate": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED",
+  "pbs_job_id": "1418531.mmaster02",
+  "relaxation_omega": 0.7,
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "target_u_rp_mm": 0.0019829052,
+  "verification_passed": true
+}
