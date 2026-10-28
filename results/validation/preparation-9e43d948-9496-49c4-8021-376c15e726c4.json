@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "9e43d948-9496-49c4-8021-376c15e726c4",
+  "finding": "Package 133 (Job 1418470.mmaster02) qualified via Abaqus 2023 datacheck (Exit 0) and 14 unit tests, and submitted to PBS under Hypothesis H18 for second quarter-step continuation from Increment 86.75 to 87.00 (Delta u = 4.449481 nm); job is actively running in normal_imfdfkmq.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/133_c4_inc87_h18_second_quarterstep_continuation/M1_C4_INC87_H18_SECOND_QUARTERSTEP_CONTINUATION.inp": "4F91EC1BB9572A44F6EF48B3E48B9A6EA1B6BD6B017FE6D9CE47877EEAABBE7E",
+    "models/pandey_kumar_mode1/133_c4_inc87_h18_second_quarterstep_continuation/PACKAGE_MANIFEST.json": "63C6537EA2E4ADA8D7412FD556CD3DB77F5B2E35FF4F3D4446F35244D2571C59",
+    "models/pandey_kumar_mode1/133_c4_inc87_h18_second_quarterstep_continuation/M1_C4_INC87_H18_CONT_PREFLIGHT_PROOF.json": "9F5634B0A172583C96C7E2131436F8E60E43DFBC88DEFA781677AE0966EFC99B",
+    "models/pandey_kumar_mode1/133_c4_inc87_h18_second_quarterstep_continuation/M1_C4_INC87_H18_CONT_DC.dat": "F75A6B9068EF6875C25E537852ECA90F45FF9ECDFA6070303B981AE8FF34B3D7",
+    "models/pandey_kumar_mode1/133_c4_inc87_h18_second_quarterstep_continuation/M1_C4_INC87_H18_CONT_DC.msg": "288167C881EB0645136A287290507E7DEE47B3D6ABB9E55503ECC3946BB2CA1B",
+    "results/validation/h18_quarterstep_controlled_difference_audit.json": "3CB3A119FA90A22A3E7ADCFB527AA634A40CAEB00C4C424478099CCCEEFFEB67",
+    "results/validation/c4_inc86_75_checkpoint_audit.json": "755C8BDBB8C3BA2C5EC9FDFD07220240294DC9C7D890C27A4D3F2DAC8665E7BD",
+    "tests/unit/test_mode1_f1597_package133_qualification.py": "1D6D29316394668905DDE651D11B41BB27048D2ABFDF39036F070F17D965E956",
+    "tests/unit/test_mode1_f1597_h18_controlled_difference.py": "6CB12F220D37C823D2945E5110FB7BA0919F3177A872C40CA7B6BB4E0466EE51",
+    "tests/unit/test_mode1_f1597_c4_inc86_75_checkpoint.py": "27EF7B81A106E6366FD0268B2870EFABA6C6E13E478E73E853E391DDF19A116D"
+  }
+}

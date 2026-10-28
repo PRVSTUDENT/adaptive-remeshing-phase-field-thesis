@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 132 (Job 1418466.mmaster02) qualified via Abaqus 2023 datacheck (Exit 0) and 11 unit tests, and submitted to PBS under Hypothesis H17 for first quarter-step continuation from Increment 86.5 to 86.75 (Delta u = 4.449481 nm); job is actively running in normal_imfdfkmq on mnode106.",
+    "phase":  "Package 133 (Job 1418470.mmaster02) qualified via Abaqus 2023 datacheck (Exit 0) and 14 unit tests, and submitted to PBS under Hypothesis H18 for second quarter-step continuation from Increment 86.75 to 87.00 (Delta u = 4.449481 nm); job is actively running in normal_imfdfkmq.",
     "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H9_CONTINUATION_ELIGIBILITY_VERIFIED",
     "active_pbs_job_ids":  [
 
@@ -207,14 +207,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-28T12:51:29.8267060+01:00",
+    "last_updated":  "2026-10-28T13:15:37.7135678+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-42038f95-f870-4f6f-8096-c5ff77c76286.json",
-                                  "sha256":  "EE269392014E0C8D766EC59226CD809C5ED97E07EFBD8EB19968F30EC0245A7A",
-                                  "created_at":  "2026-10-28T12:45:13.0351470+01:00"
+                                  "artifact":  "results/validation/preparation-9e43d948-9496-49c4-8021-376c15e726c4.json",
+                                  "sha256":  "FC4EA915F19B761D38E8E7F936276496E1A8AF98486961DD6A6B738ABB5B7233",
+                                  "created_at":  "2026-10-28T13:12:32.4726309+01:00"
                               }
 }
