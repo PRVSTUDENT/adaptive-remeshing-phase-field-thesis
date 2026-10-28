@@ -1,0 +1,27 @@
+{
+  "cycles_completed": 4,
+  "delta_rf2_N": 0.08367,
+  "e_tot_mJ": 0.2428034,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/136_c4_inc89_h24_underrelaxed_forward_continuation/c4_inc89_checkpoint.json": "E6C2B029B7E787F1CA8AE8259B7567A26E26D361A3F85F9BFBF7338271A600C5",
+    "models/pandey_kumar_mode1/136_c4_inc89_h24_underrelaxed_forward_continuation/c4_inc89_checkpoint_active_set_cards.inc": "9A35DA2FD3A4FB45D57BF2129EE7E216A66097C2199D84D88F3AD1AB122F9BDB",
+    "models/pandey_kumar_mode1/136_c4_inc89_h24_underrelaxed_forward_continuation/c4_inc89_checkpoint_d_lower_bounds.csv": "50A2A54FF7F524C5558CF4D141410DCC7BF1E370CA99388C347FC5E7530E8747",
+    "models/pandey_kumar_mode1/136_c4_inc89_h24_underrelaxed_forward_continuation/c4_inc89_checkpoint_nodal_displacements.csv": "8050F7173A185B812F54DA181182AB5EBAE63A11F351E258F0D68BE171B87B92",
+    "models/pandey_kumar_mode1/136_c4_inc89_h24_underrelaxed_forward_continuation/c4_inc89_checkpoint_recovery_receipt.json": "7AA4D02EE5E3EBF69FE7CB45B26CFE5941554C2F9385E8DCA5B512A2EF140F45",
+    "models/pandey_kumar_mode1/136_c4_inc89_h24_underrelaxed_forward_continuation/c4_inc89_h24_continuation_summary.json": "553075A603F51F9EEAB83FBD813677C3148DBA4884B354C5DDCCE50EE0067BE9",
+    "models/pandey_kumar_mode1/136_c4_inc89_h24_underrelaxed_forward_continuation/pbs_execution.log": "BC19BE986105BDA633A1F515A4D2298D4067A026C309906D18B68C3595CA3613",
+    "results/validation/c4_inc89_h24_continuation_audit.json": "AB0CB16C4A727F664CB4D861F561A19785C8B1402778D3051CA7D5DC9B65BEC8",
+    "tests/unit/test_mode1_f1597_package136_terminal_evaluation.py": "1054DAC018FD36F13B3B9EC5D88AA180815D88F4F0B4143EC6902077E74D74A9"
+  },
+  "finding": "Package 136 terminal solver evidence audited and verified: Hypothesis H24 passed with Abaqus Exit 0 in 4 cycles under under-relaxation omega=0.70; raw delta_d = 0.000267 <= 0.001, delta_RF2 = 0.0837 N <= 0.1 N, 0 healing violations, 0 history reversals, RF2 = 184.933 N (+0.077% vs donor), E_tot = 0.242803 mJ (+1.771% vs donor). Increment-89 checkpoint serialized.",
+  "governing_gate": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED",
+  "healing_violations": 0,
+  "history_violations": 0,
+  "pbs_job_id": "1418531.mmaster02",
+  "raw_delta_d": 0.0002666778,
+  "rf2_rp_N": 184.93326,
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "verdict": "H24_PASSED",
+  "verification_passed": true
+}
