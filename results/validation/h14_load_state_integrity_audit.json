@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "audit_name": "H14_LOAD_STATE_INTEGRITY_AUDIT",
+  "status": "PASS",
+  "finding": "Package 129 R1 physical loading is bit-exact identical to Package 129: initial RP displacement 1.929512 um, target RP displacement 1.947310 um, increment 17.798 nm. The Turn 269 mention of 1.5486 -> 1.5664 um was a narrative reporting typo and NOT an input defect. Load control integrity is fully verified.",
+  "discrepancy_analysis": {
+    "turn_269_narrative_text": "u2 = 1.5486 um -> 1.5664 um",
+    "narrative_increment_nm": 17.80000000000004,
+    "actual_package129_loading": {
+      "initial_u2_mm": 0.0019295116654,
+      "target_u2_mm": 0.001947309589,
+      "delta_u2_mm": 1.7797923600000034e-05,
+      "delta_u2_nm": 17.797923600000033
+    },
+    "actual_package129_r1_loading": {
+      "initial_u2_mm": 0.0019295116654,
+      "target_u2_mm": 0.001947309589,
+      "delta_u2_mm": 1.7797923600000034e-05,
+      "delta_u2_nm": 17.797923600000033
+    },
+    "root_cause": "The actual input deck M1_C4_INC87_H9_CONTINUATION.inp and nodal_displacements_initial.csv were never modified between Package 129 and Package 129 R1. Their SHA-256 hashes are identical. The string '1.5486 um -> 1.5664 um' was a narrative typographical error in the assistant summary, conflating the increment delta (~17.8 nm) with an arbitrary displacement offset. No simulation input defect exists."
+  },
+  "bit_exact_asset_verification": {
+    "M1_C4_INC87_H9_CONTINUATION.inp": {
+      "p129_sha256": "3c61a27c0dd620f6201b9be66f981cae9db9341eb888f94dfc2ffcb47277a49b",
+      "p129_r1_sha256": "3c61a27c0dd620f6201b9be66f981cae9db9341eb888f94dfc2ffcb47277a49b",
+      "match": true
+    },
+    "nodal_displacements_initial.csv": {
+      "p129_sha256": "c19b19644822ccfa51ca87a3d08934dce8e4b8026ba6593357cba65cd8b4b18e",
+      "p129_r1_sha256": "c19b19644822ccfa51ca87a3d08934dce8e4b8026ba6593357cba65cd8b4b18e",
+      "match": true
+    },
+    "d_lower_bounds.csv": {
+      "p129_sha256": "22eff1803b31fe8c7099604dd450481e5184bd7af9828dcba1ca224c074cd745",
+      "p129_r1_sha256": "22eff1803b31fe8c7099604dd450481e5184bd7af9828dcba1ca224c074cd745",
+      "match": true
+    },
+    "f42_unified_12dof_active_set_uel.for": {
+      "p129_sha256": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+      "p129_r1_sha256": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+      "match": true
+    }
+  },
+  "verification_passed": true
+}

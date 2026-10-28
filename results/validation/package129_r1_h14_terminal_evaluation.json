@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "job_id": "1418403.mmaster02",
+  "package": "PACKAGE_129_R1_C4_INC87_EXTENDED_AM_CONTINUATION",
+  "hypothesis": "H14_CRITICAL_SLOWING_DOWN_FALSIFICATION",
+  "verdict": "H14_FAILED_NONSTATIONARY",
+  "finding": "Hypothesis H14 is rigorously FALSIFIED. Extending the AM iteration cap from 25 to 65 cycles did NOT achieve coupled stationary equilibrium. Instead of asymptotically contracting toward stationarity (as predicted by critical slowing down), the damage update reached a minimum of 0.001451 at Cycle 25 and then progressively accelerated up to 0.005304 at Cycle 65 (contraction ratio rho expanded from 0.989 to 1.089). RF2 softened from 181.33 N down to 175.86 N (-5.29% vs Stage C1-1 donor, violating the 5.0% parity threshold). The unaccelerated AM iteration cap extension alone is insufficient to establish equilibrium at Increment 87 because the system exhibits continuous crack tip damage evolution.",
+  "parity_cycles_1_to_25": {
+    "first_25_cycles_bit_exact_parity": true,
+    "max_rf2_discrepancy_N": 0.0,
+    "max_dmax_discrepancy": 0.0,
+    "max_delta_d_discrepancy": 0.0,
+    "max_etot_discrepancy_mJ": 0.0,
+    "max_active_nodes_discrepancy": 0,
+    "conclusion": "Cycles 1-25 reproduced Package 129 results with machine precision, confirming exact formulation parity."
+  },
+  "critical_slowing_down_falsification": {
+    "predicted_convergence_window_cycles": "43-59",
+    "actual_cycles_completed": 65,
+    "min_delta_d_achieved": 0.001414526287078277,
+    "min_delta_d_cycle": 30,
+    "turning_points": [
+      {
+        "type": "contraction_to_expansion",
+        "cycle": 31,
+        "rho": 1.0007516275677675,
+        "delta_d": 0.0014155894840309768
+      }
+    ],
+    "cycle_25_delta_d": 0.0014507131740042478,
+    "cycle_65_delta_d": 0.005304024837651911,
+    "contraction_ratio_progression": {
+      "cycle_5_rho": 0.9071482617422181,
+      "cycle_25_rho": 0.9893735298763761,
+      "cycle_40_rho": 1.0180074700542021,
+      "cycle_50_rho": 1.040212792497502,
+      "cycle_65_rho": 1.0894809360916429
+    },
+    "interpretation": "The alternating minimization algorithm did not stall due to critical slowing down. Rather, at Cycle 25 the algorithm entered an active damage advancement regime where additional free nodes underwent softening, driving crack tip extension and macroscopic load relaxation."
+  },
+  "quantitative_criteria_audit": {
+    "cycles_completed": 65,
+    "stationarity_accepted": false,
+    "final_max_delta_d": 0.005304024837651911,
+    "stationarity_tol_delta_d": 0.001,
+    "stationarity_passed": false,
+    "final_delta_rf2_N": 0.32116472721099854,
+    "delta_rf2_tol_N": 0.1,
+    "delta_rf2_passed": false,
+    "free_phase_residual_kN_mm": 6.676773248474125e-09,
+    "free_phase_residual_tol": 1e-06,
+    "free_phase_residual_passed": true,
+    "active_multiplier_min_kN_mm": -9.551904331799204e-10,
+    "active_multiplier_tol": -1e-09,
+    "active_multiplier_passed": true,
+    "healing_violations": 0,
+    "healing_violations_passed": true,
+    "rf2_rp_N": 175.8609265089035,
+    "target_rf2_ref_N": 185.682431,
+    "rf2_error_pct": 5.289409686313566,
+    "rf2_parity_passed": false,
+    "e_tot_mJ": 0.2364023362210111,
+    "target_etot_ref_mJ": 0.23197697,
+    "etot_discrepancy_pct": 1.907674809706793,
+    "etot_gate_passed": true,
+    "active_nodes": 628,
+    "free_nodes": 3960,
+    "d_max": 0.7715691889563809,
+    "e_elas_mJ": 0.1708881989152187,
+    "e_frac_mJ": 0.06551413730579236,
+    "incremental_external_work_mJ": 0.003200678300309607,
+    "walltime_seconds": 691.0
+  },
+  "governance_gate": {
+    "status": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED",
+    "binding": true,
+    "reason": "+2.00803158% > 2.00000000% baseline energy failure preserved; Candidate C4 Increment 87 nonstationary."
+  }
+}
