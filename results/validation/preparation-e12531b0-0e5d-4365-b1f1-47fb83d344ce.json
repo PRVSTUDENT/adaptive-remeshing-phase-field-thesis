@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 127 R1 (Job 1418167, Exit 0, 129s) establishes exact physical parity with Package 123 at stationary Increment-86 Candidate C4 (RF2=183.808 N, Etot=0.233063 mJ) and successfully serializes a verified committed-state checkpoint (d_lower_bounds.csv element table of 4,423 lines for 4,422 elements / 17,688 GPs with zero monotonicity violations; 4,588 nodes in active_set_cards.inc and nodal_displacements.csv). Stage C1-2 Step 2 energy gate remains strictly binding.",
+  "evidence_sources": {
+    "results/validation/package127_r1_c4_inc86_terminal_checkpoint_validation_report.json": "D446390B8A3D527BC1CC12782DE1897D1DA21767903F138F54E5AF4A474CBFE7",
+    "results/validation/mode1_f1597_turn260/c4_inc86_checkpoint.json": "6D57B2D8DEE239C86519A2C74F86B7446669936C53B8BFC22EEFAA0155B0AE9E",
+    "results/validation/mode1_f1597_turn260/c4_inc86_checkpoint_active_set_cards.inc": "FD36071113C3AF81872953EAD05A1A4128AE9A1947B00E524947BEE31D8304BD",
+    "results/validation/mode1_f1597_turn260/c4_inc86_checkpoint_d_lower_bounds.csv": "22EFF1803B31FE8C7099604DD450481E5184BD7AF9828DCBA1CA224C074CD745",
+    "results/validation/mode1_f1597_turn260/c4_inc86_checkpoint_nodal_displacements.csv": "C19B19644822CCFA51CA87A3D08934DCE8E4B8026BA6593357CBA65CD8B4B18E",
+    "results/validation/mode1_f1597_turn260/c4_inc86_instrumented_summary.json": "ACFD9D14EB2C540F9DF4B6BF5C6833642EF06D9117658FD8325B1ABE5DAB5B49",
+    "results/validation/mode1_f1597_turn260/job_1418167_pbs_execution.log": "B57C0649075D9695F42B26666FBF6052F4F39E8E750EBE09D2456C5AE357270F",
+    "results/validation/mode1_f1597_turn260/job_1418167_pbs_error.log": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+  },
+  "verification_passed": true
+}
