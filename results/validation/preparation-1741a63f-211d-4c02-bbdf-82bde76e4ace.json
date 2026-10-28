@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Authored and qualified Package 127 R1 on Candidate C4 (4,422 quads, 4,588 nodes, 17,688 GP history) repairing the Python 2.7 math.isfinite serialization defect via verified is_finite implementation, verified real cluster Abaqus Python 2.7.15 execution (ALL_ABAQUS_PYTHON27_QUALIFICATION_CHECKS_PASS), passed cluster datacheck Exit 0, and submitted Job 1418167 to normal_imfdfkmq under Method C rules.",
+  "evidence_sources": {
+    "tests/unit/test_mode1_f1597_package127_r1_qualification.py": "E6EA1254BE12362CAFCA90CECB7F95A7BDD408111755BE52D7B730D6FB029B2B",
+    "results/validation/package127_to_r1_change_report.json": "F89AEC9580D63299B74D150964CD1D291FCF3904A24DB5601C8740AAECE25E00",
+    "models/pandey_kumar_mode1/127_r1_c4_inc86_instrumented_checkpoint/M1_C4_INC86_INST_R1_AUTHORIZATION.json": "C6E043D5AD28795F6753F5B0FFDBCDFC0484EAF90B055FD31418EB5217D09CD3",
+    "models/pandey_kumar_mode1/127_r1_c4_inc86_instrumented_checkpoint/M1_C4_INC86_INST_R1_PREFLIGHT_PROOF.json": "AAE33A5574A69B930F6B5777039879F00590364941D501C35115AD8551012D7A",
+    "models/pandey_kumar_mode1/127_r1_c4_inc86_instrumented_checkpoint/M1_C4_INC86_INST_R1_DC.dat": "CB7386650FCA4FB8D481131B033A96CECE8D7E41820197A3E241F558D5D6BBBE",
+    "models/pandey_kumar_mode1/127_r1_c4_inc86_instrumented_checkpoint/driver_c4_inc86_instrumented.py": "26EBA37D1B95F0E9FE7CE2D4B7D915426859BB092D4A38A52F3695697902CD58",
+    "models/pandey_kumar_mode1/127_r1_c4_inc86_instrumented_checkpoint/mode1_am_state_checkpoint.py": "426357112153F33E84AB6AC7F4D9B6BB41E0B86A95DE960996CBD4F81E39EBFB",
+    "models/pandey_kumar_mode1/127_r1_c4_inc86_instrumented_checkpoint/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC"
+  },
+  "verification_passed": true
+}
