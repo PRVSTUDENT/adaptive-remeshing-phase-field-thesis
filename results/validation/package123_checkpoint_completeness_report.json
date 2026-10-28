@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "title": "Package 123 Increment-86 Checkpoint Completeness and Continuation Audit",
+  "evaluand": {
+    "package": "PACKAGE_123_C4_INC86_HOLDOUT_DIAGNOSTIC",
+    "pbs_job_id": "1417938.mmaster02",
+    "scratch_directory": "/scratch9/pr21vyci/runs/mode1_c4_inc86_holdout_diagnostic",
+    "solver_mode": "EXTERNAL_PYTHON_DRIVER_UNCOUPLED_STATIC_ABAQUS_AM",
+    "completed_cycles": 12,
+    "convergence_status": "CONVERGED_STATIONARY_STATE"
+  },
+  "dof_and_mesh_topology_audit": {
+    "mesh_name": "Candidate C4",
+    "quad_elements": 4422,
+    "physical_nodes": 4588,
+    "reference_point_isolated": true,
+    "slit_topology_intact": true,
+    "mechanical_displacements_available": {
+      "source": "M1_C4_INC79_DIR_CYC12_MECH.odb",
+      "available": true,
+      "format": "Nodal vector field U (u_x, u_y)"
+    },
+    "phase_field_dofs_available": {
+      "source": "active_set_boundary_cards.inc (cycle 12 prescribed cards)",
+      "available": true,
+      "format": "Dirichlet boundary cards on DOF 11"
+    }
+  },
+  "internal_state_and_history_audit": {
+    "gauss_point_history_variables_H": {
+      "required_count": 17688,
+      "source_in_job": "Transient Python memory (trial_driving_energy) in driver_c4_inc86_holdout.py",
+      "persisted_to_disk": false,
+      "d_lower_bounds_csv_updated": false,
+      "finding": "The converged history array trial_driving_energy was held only in Python process memory during Job 1417938. It was not serialized to disk, leaving d_lower_bounds.csv at its pre-solve mapped initial state."
+    },
+    "damage_lower_bounds_irreversibility": {
+      "persisted_to_disk": false,
+      "finding": "d_lower_bounds.csv on disk retains the initial donor mapped bounds, not the cycle 12 converged bounds d_cyc12."
+    },
+    "active_set_multipliers_lambda": {
+      "persisted_to_disk": false,
+      "finding": "Dual multipliers lambda were evaluated in Python memory but only summary min_lambda was recorded in JSON."
+    },
+    "abaqus_restart_database": {
+      "restart_cards_in_deck": false,
+      "res_or_mdl_file_available": false,
+      "finding": "M1_C4_INC86_HOLDOUT.inp ran as 12 uncoupled single-step static mechanical jobs without *RESTART, WRITE directives. No binary restart file (.res/.mdl) exists for Cycle 12."
+    }
+  },
+  "continuation_eligibility_verdict": {
+    "eligible_for_genuine_restart": false,
+    "eligible_for_state_reconstruction": false,
+    "prohibition_reason": "Policy strictly prohibits fabricating missing integration-point history or silently resetting internal variables from ODB fields alone. Without persisted 17,688 Gauss-point history variables H_k and committed lower bounds, a genuine continuation cannot be initialized without state corruption.",
+    "governance_blocker": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED remains strictly binding (+2.00803158% > 2.00000000%).",
+    "classification": "H9_BLOCKED_STATE_OR_GOVERNANCE"
+  }
+}
