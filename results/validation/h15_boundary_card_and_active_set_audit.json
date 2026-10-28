@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "audit_target": "PACKAGE_130_R1_C4_INC86_HALFSTEP_H15_CONTINUATION",
+  "pbs_job_id": "1418441.mmaster02",
+  "status": "PASS",
+  "verification_passed": true,
+  "h15_verdict": "H15_PASSED_MIDPOINT",
+  "active_set_semantics_audit": {
+    "d_prescribed_type": "node_id_keyed_dict",
+    "first_physical_node_id": 1,
+    "last_physical_node_id": 4588,
+    "rp_999999_excluded_from_damage_cards": true,
+    "staggered_am_damage_prescription": "all_4588_nodes_held_fixed_during_abaqus_displacement_solve",
+    "pdas_phase_subproblem_free_nodes": 3281,
+    "pdas_phase_subproblem_active_nodes": 1307,
+    "free_nodes_residual_satisfied": true,
+    "free_residual_max_kN_mm": 2.5208102388238666e-09,
+    "free_residual_tolerance_kN_mm": 1e-06,
+    "active_multiplier_min_kN_mm": -9.829979650761126e-10,
+    "active_multiplier_tolerance_kN_mm": -1e-09,
+    "obsolete_constraints_overwritten_per_cycle": true,
+    "zero_damage_healing_violations": 0,
+    "committed_gp_histories_count": 17688,
+    "mechanical_boundary_conditions_preserved": true
+  },
+  "numerical_convergence_metrics": {
+    "converged_cycle": 9,
+    "delta_d_final": 0.0008972348746436598,
+    "delta_d_threshold": 0.001,
+    "delta_rf2_final_N": 0.05838274955749512,
+    "delta_rf2_threshold_N": 0.1,
+    "rf2_final_N": 183.4491789340973,
+    "d_max_final": 0.6393167578428999,
+    "delta_d_history": [
+      0.002927931491307989,
+      0.0024839751098598706,
+      0.0021188785859215242,
+      0.0018001359233578151,
+      0.001535566001858335,
+      0.00132090304845911,
+      0.001145498688322255,
+      0.001006178904735422,
+      0.0008972348746436598
+    ],
+    "contraction_factors": [
+      0.8483720050260497,
+      0.853019250277857,
+      0.8495701147382712,
+      0.8530278085857125,
+      0.8602059741232608,
+      0.8672087551456017,
+      0.8783763045675009,
+      0.8917249908748491
+    ],
+    "mean_contraction_factor": 0.8626881504173879,
+    "turning_point_suppressed": true
+  },
+  "energetics_and_work_balance": {
+    "initial_u_top_mm": 0.0019295116654,
+    "target_midpoint_u_top_mm": 0.001938410627,
+    "delta_u_mm": 8.89896160000017e-06,
+    "rf2_init_N": 183.8078,
+    "rf2_final_N": 183.4491789340973,
+    "delta_w_ext_mJ": 0.0016341028764333015,
+    "e_elas_final_mJ": 0.17768004560961173,
+    "e_frac_final_mJ": 0.05695876118614215,
+    "e_tot_final_mJ": 0.23463880679575386,
+    "delta_e_tot_mJ": 0.0015758067957538646,
+    "energy_balance_residual_mJ": 5.829608067943687e-05,
+    "relative_energy_residual_pct": 3.567466988778434,
+    "whole_system_energy_residual_pct": 0.024845029462744365
+  },
+  "governance": {
+    "stage_c1_2_step2_energy_gate_failed_binding": true,
+    "production_uel_preserved": true,
+    "no_c5_remeshing_without_authorization": true
+  }
+}

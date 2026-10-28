@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "7d0d6f97-8747-4b3b-b197-3d2bc61157a1",
+  "finding": "Package 130 R1 converged to stationary equilibrium in 9 cycles (Delta d = 0.000897, Delta RF2 = 0.0584 N, zero healing violations), supporting Hypothesis H15 (H15_PASSED_MIDPOINT); active-set boundary semantics verified with 3281 free nodes and 1307 active nodes.",
+  "pbs_job_id": "1418441.mmaster02",
+  "package_name": "130_r1_c4_inc86_halfstep_h15_continuation",
+  "verification_passed": true,
+  "h15_verdict": "H15_PASSED_MIDPOINT",
+  "evidence_sources": {
+    "results/validation/h15_boundary_card_and_active_set_audit.json": "CF3094CC8A3C1C24E5D13895A59672356093A0EA195D768CD8F4463A372713DB",
+    "scripts/validation/audit_h15_boundary_and_terminal_results.py": "D514BF924E083B6183581833F63D55EDD717FE2DB3352134013B58EA86B69385",
+    "tests/unit/test_mode1_f1597_h15_boundary_and_terminal_audit.py": "A4811B6CDB5273D01EF439F618C1EC21B44A824985A0AD43F4F020E34682C062",
+    "models/pandey_kumar_mode1/130_r1_c4_inc86_halfstep_h15_continuation/c4_inc86_h15_continuation_summary.json": "AAE20DAAD8C179A1B3096958EA9B6D7A76C455F1AE37A2BA17DDDE580D428718",
+    "models/pandey_kumar_mode1/130_r1_c4_inc86_halfstep_h15_continuation/pbs_execution.log": "F487514E247496367AB2E804C63612AA6E47A215A4E77D64F9EC353D99066743",
+    "models/pandey_kumar_mode1/130_r1_c4_inc86_halfstep_h15_continuation/driver_c4_inc86_h15_continuation.py": "BABF65B18503441C3B5AF027E27821AB38E8C1EE385CF239B7840F31F1513B65"
+  }
+}

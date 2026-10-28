@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "44630a62-d04a-4193-9313-b7e4ccd7d768",
+  "finding": "Package 130 R1 (Candidate C4 Increment-86 Half-Step H15 Continuation) technically qualified with zero defects, cluster datacheck verified, and autonomously submitted as PBS Job 1418441.mmaster02.",
+  "pbs_job_id": "1418441.mmaster02",
+  "package_name": "130_r1_c4_inc86_halfstep_h15_continuation",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/130_r1_c4_inc86_halfstep_h15_continuation/PACKAGE_MANIFEST.json": "80EBDA8D398547D811EBBF5DB32AEB30BCDE63098977E39E49DC4FB1F1563D8F",
+    "models/pandey_kumar_mode1/130_r1_c4_inc86_halfstep_h15_continuation/M1_C4_INC86_H15_CONTINUATION.inp": "485FB721646F735EEDD63D4AAFDEB2C0610B3AC7B78EF342106CC67F9618EE34",
+    "models/pandey_kumar_mode1/130_r1_c4_inc86_halfstep_h15_continuation/driver_c4_inc86_h15_continuation.py": "BABF65B18503441C3B5AF027E27821AB38E8C1EE385CF239B7840F31F1513B65",
+    "models/pandey_kumar_mode1/130_r1_c4_inc86_halfstep_h15_continuation/submit_M1_C4_INC86_H15_CONT.pbs": "236B0B5289B6DE629E48E1B02C1EFC1750979A8AFB273C701C620ADC47D8F130",
+    "models/pandey_kumar_mode1/130_r1_c4_inc86_halfstep_h15_continuation/M1_C4_INC86_H15_CONT_R1_PREFLIGHT_PROOF.json": "9BDDADDB3B0A80C5B5155AAC6D8F36824347BD5D15DD2BBA8B265DCB8C96E824",
+    "models/pandey_kumar_mode1/130_r1_c4_inc86_halfstep_h15_continuation/M1_C4_INC86_H15_CONT_DC.dat": "FD173082054A3B87DAB04FE477F4AB446225D296510BE297820B271CF7163B4B",
+    "tests/unit/test_mode1_f1597_package130_r1_qualification.py": "D41AB779D96B7E17A4E297841D697E17D0272FD785E09449F7B1D204C7C7B909",
+    "results/validation/h15_halfstep_controlled_difference_audit.json": "F331CD99B7A37230885936255329DE935093A00F5E6941CD4D97F1C7FAC31D1F"
+  }
+}

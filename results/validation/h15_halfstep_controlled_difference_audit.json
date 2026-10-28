@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "package": "PACKAGE_130_C4_INC86_HALFSTEP_H15_CONTINUATION",
+  "audit_name": "H15_HALFSTEP_CONTROLLED_DIFFERENCE_AUDIT",
+  "status": "PASS",
+  "hypothesis": {
+    "id": "H15",
+    "name": "Half-Step Forward Continuation",
+    "statement": "Reducing the forward displacement increment by 50% (from Delta u = 17.8 nm to Delta u = 8.899 nm, reaching midpoint target u_RP = 0.001938410627 mm) reduces damage evolution per loading step and allows the original unaccelerated AM/PDAS algorithm to reach stationary equilibrium before the onset of noncontractive iterations on Candidate C4."
+  },
+  "loading_comparison": {
+    "initial_increment86_u2_mm": 0.0019295116654,
+    "original_increment87_target_u2_mm": 0.001947309589,
+    "original_increment87_delta_u2_mm": 1.77979236e-05,
+    "original_increment87_delta_u2_nm": 17.7979236,
+    "h15_midpoint_target_u2_mm": 0.001938410627,
+    "h15_midpoint_delta_u2_mm": 8.89896160000017e-06,
+    "h15_midpoint_delta_u2_nm": 8.89896160000017,
+    "step_reduction_factor": 0.5
+  },
+  "invariant_assets_verified": {
+    "f42_unified_12dof_active_set_uel.for": {
+      "sha256": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+      "matches_p129": true,
+      "is_frozen_uel": true
+    },
+    "d_lower_bounds.csv": {
+      "sha256": "22eff1803b31fe8c7099604dd450481e5184bd7af9828dcba1ca224c074cd745",
+      "matches_p129": true,
+      "committed_gp_count": 17688
+    },
+    "nodal_displacements_initial.csv": {
+      "sha256": "c19b19644822ccfa51ca87a3d08934dce8e4b8026ba6593357cba65cd8b4b18e",
+      "matches_p129": true
+    }
+  },
+  "predeclared_stationarity_rules": {
+    "delta_d_max_stationarity_threshold": 0.001,
+    "delta_rf2_stationarity_threshold_N": 0.1,
+    "max_am_cycles": 25,
+    "free_phase_residual_tol_kN_mm": 1e-06,
+    "min_active_multiplier_tol_kN_mm": -1e-09,
+    "healing_violation_tol": 1e-08,
+    "midpoint_evaluation_rule": "Midpoint is a diagnostic step. If stationarity is achieved within 25 cycles with 0 healing violations, free residual <= 1e-6, and active multiplier >= -1e-9, classify H15_PASSED_MIDPOINT. Donor Increment-87 energy acceptance is not directly applied to the midpoint."
+  },
+  "verification_passed": true
+}

@@ -1,0 +1,42 @@
+{
+    "active_job_count":  0,
+    "adapter_contract":  "mode1-experimental-12dof-v1",
+    "datachecks":  {
+                       "M1_C4_INC86_H15_CONT":  {
+                                                    "status":  "PASS",
+                                                    "input_sha256":  "485fb721646f735eedd63d4aafdeb2c0610b3ac7b78ef342106cc67f9618ee34",
+                                                    "dat_sha256":  "40ca8f16c438c9c84485983c5092a5ce0d4d0879189505e74cb85ea3857319b1"
+                                                }
+                   },
+    "batch_spec_sha256":  "79b3561be14d52ff2aca9e935a924f5855ad7ab71438a3222586e33283c0afdc",
+    "passed":  true,
+    "pbs_email_verified":  true,
+    "telegram_verified":  true,
+    "submission_queue":  "entry_imfdfkmq",
+    "queue_access_preflight":  "PASS",
+    "compiler_environment":  "PASS_LOGIN_NODE",
+    "datacheck_verified":  "PASS_BOTH",
+    "candidate_manifest_sha256":  "372848dd8269db6e08cd6d345cb3c6ee6e35e31046e1a331baf04e3c1e073c77",
+    "authorized_command_sha256":  "90162662558b5bd9d4ebb910e3579046a19414ce261b925fe76b848567651d6f",
+    "checked_at":  "2026-10-28T09:54:13.786023+00:00",
+    "config_path":  "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+    "config_mode":  "600",
+    "file_hashes":  {
+                        "M1_C4_INC86_H15_CONTINUATION.inp":  "485fb721646f735eedd63d4aafdeb2c0610b3ac7b78ef342106cc67f9618ee34",
+                        "active_set_boundary_cards.inc":  "fd36071113c3af81872953ead05a1a4128ae9a1947b00e524947bee31d8304bd",
+                        "d_lower_bounds.csv":  "22eff1803b31fe8c7099604dd450481e5184bd7af9828dcba1ca224c074cd745",
+                        "driver_c4_inc86_h15_continuation.py":  "df3cdd97d43182da400538f7cdd7eb5274950a6795a6e3722362a1915b06cc75",
+                        "f42_unified_12dof_active_set_uel.for":  "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+                        "job_notifications.sh":  "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+                        "mode1_am_state_checkpoint.py":  "426357112153f33e84ab6ac7f4d9b6bb41e0b86a95de960996cbd4f81e39ebfb",
+                        "nodal_displacements_initial.csv":  "c19b19644822ccfa51ca87a3d08934dce8e4b8026ba6593357cba65cd8b4b18e",
+                        "run_c4_inc86_h15_cont_datacheck.sh":  "747fbea95584f65b202659df6a14ccbac4ef4200227d39367848eb018bcc02ea",
+                        "stage_a_all_d0_boundary_cards.inc":  "fd36071113c3af81872953ead05a1a4128ae9a1947b00e524947bee31d8304bd",
+                        "submit_M1_C4_INC86_H15_CONT.pbs":  "a2f36086dc0f04e351b9021412b27e925e5388420e743a392be513e0c56ab742"
+                    },
+    "helper_sha256":  "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "email_evidence":  "sendmail accepted test message; PBS abe directives verified",
+    "telegram_notification_contract":  "PASS_LOGIN_NODE",
+    "compute_node_delivery":  "UNRESOLVED",
+    "lifecycle_tests":  "PASS"
+}
