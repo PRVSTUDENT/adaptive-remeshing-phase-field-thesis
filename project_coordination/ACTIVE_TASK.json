@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 133 (Job 1418470.mmaster02) evaluated Exit 0; bounds semantics verified; H18 nonstationarity confirmed (delta_d=0.001486 > 0.001); 3-step energy path conserved within 1.20% cumulative residual.",
+    "phase":  "Package 133 (Job 1418470.mmaster02) evaluated Exit 0; bounds semantics verified; H18 nonstationarity confirmed (delta_d=0.001486 \u003e 0.001); 3-step energy path conserved within 1.20% cumulative residual.",
     "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H9_CONTINUATION_ELIGIBILITY_VERIFIED",
     "active_pbs_job_ids":  [
 
@@ -215,14 +215,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-28T13:15:37.7135678+01:00",
+    "last_updated":  "2026-10-28T13:26:53.7745078+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-9e43d948-9496-49c4-8021-376c15e726c4.json",
-                                  "sha256":  "FC4EA915F19B761D38E8E7F936276496E1A8AF98486961DD6A6B738ABB5B7233",
-                                  "created_at":  "2026-10-28T13:12:32.4726309+01:00"
+                                  "artifact":  "results/validation/preparation-f08ce4d7-6792-49e3-a1ae-3f229151e10c.json",
+                                  "sha256":  "D03107FABEB1D14FFC36E6F737D756D1990C8776155CD7822E5936771DCEF7A1",
+                                  "created_at":  "2026-10-28T13:23:58.5058173+01:00"
                               }
 }
