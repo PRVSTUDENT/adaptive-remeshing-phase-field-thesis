@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "48e5e9a5-f2ad-42eb-b30b-9a2e63fb44c8",
+  "finding": "Package 131 R1 (Job 1418451.mmaster02) completed Exit 0 with 25 AM cycles: force stationarity achieved (Delta RF2 = 0.0886 N <= 0.1 N), but damage stationarity reached iteration cap with Delta d = 0.001445 > 0.001000, confirming verdict H16_FAILED_NONSTATIONARY with 0 healing violations and KKT complementarity satisfied.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/131_r1_c4_inc87_second_halfstep_h16_continuation/c4_inc87_h16_continuation_summary.json": "793048B259203CAB1642E8ACF338071BA352CB9C9E6DB6079AD14936A0851188",
+    "models/pandey_kumar_mode1/131_r1_c4_inc87_second_halfstep_h16_continuation/pbs_execution.log": "07ADF9D8FD2B88B08331CCE2F1EE8392BB0BA39D65638035917EF0D9D1D073C0",
+    "models/pandey_kumar_mode1/131_r1_c4_inc87_second_halfstep_h16_continuation/pbs_error.log": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+    "scripts/validation/audit_h16_boundary_and_terminal_results.py": "C8E935D01B633BBE0E514154E75619A47D3EADB7B2BF57D7425603655EB76055",
+    "scripts/audit_h16_second_halfstep_evaluation.py": "5E0F05AD20E9E06762D52E1E475D9642424D04427C95B2C9374A016BAF50157A",
+    "results/validation/h16_boundary_card_and_active_set_audit.json": "A0C80BF1F917FB7E0FC9173D4364E86887ACEF57AFEFC90E6240A36176C97F3F",
+    "results/validation/h16_second_halfstep_evaluation.json": "55CA770910069DD0374FBB773EA55CB97FE1F49FEAA45B8DA508951D18F548A9",
+    "tests/unit/test_mode1_f1597_h16_boundary_and_terminal_audit.py": "5BFED82CBC64DCEC72CE2EC0184EE684D29F1F0FE12F2E9CD44627954A75FD42",
+    "tests/unit/test_mode1_f1597_package131_r1_terminal_evaluation.py": "597E9C9A6EB3C7ADF2F4D0F254B0E9DB22C87803EB0B5A0309F7EB6A36BFB3BE"
+  }
+}
