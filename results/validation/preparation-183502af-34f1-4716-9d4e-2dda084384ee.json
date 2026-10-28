@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "183502af-34f1-4716-9d4e-2dda084384ee",
+  "turn": 264,
+  "hypothesis": "H13",
+  "finding": "Audited Hypothesis H13 nodal damage recovery: UEL source code (f42_mixed_uel.for) and authentic GP CSV prove SDV1 is the element average D_avg broadcast to all 4 Gauss points (zero intra-element variance across 1,600 quads). N_gp inverse on constant GP vector yields a flat field with zero gradient. Global recovery is underdetermined (nullspace dimension >= 98). H13 premise is REFUTED; spatial recovery is APPROXIMATE_RECOVERY (-1.57% fracture energy error for Package 123 averaging vs +3.14% for constrained least squares). Offline mapping confirms total transfer jump (+13.98%) is dominated by elastic displacement gradient artifacts (+18.28%) rather than fracture energy (-1.65%), requiring staggered AM re-equilibration as demonstrated in Package 123. No new HPC submission is justified as Package 123 stands as the authentic evaluation and Stage C1-2 step 2 continuation energy gate remains strictly binding.",
+  "evidence_sources": {
+    "scripts/validation/audit_h13_nodal_damage_recovery.py": "B5EABF29F6699A9CD1881EC665F68A1273F6C83119A20322107A897B69A0B768",
+    "results/validation/h13_nodal_damage_recovery_audit.json": "545CF621DBE7AC1AE08B12A3248D2FE2E8DA3BC64BB218591DED15AB29A90BE2",
+    "tests/unit/test_mode1_f1597_h13_nodal_damage_recovery.py": "C60548DEA7C347A6E198A98358E3B74A20E51C48764649DC6EC0065CF02D4F1A",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/108_r14_c3_autonomous_active_set/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_frame86/pkg76_frame86_elem_sdv.csv": "6A8194C14409F2C685DA2864F7420A32549AEF8F823031451B351D66FB49482A"
+  },
+  "verification_passed": true
+}
