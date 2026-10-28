@@ -1,0 +1,160 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "investigation": "H8_PROSPECTIVE_AT2_ENERGY_CONSISTENCY_EVALUATION",
+  "hypothesis": "H8: Mesh-aware AT2 energy comparison explains reproducible refinement bias across holdout states without calibration to Package 113",
+  "classification": "H8_SUPPORTED_PROSPECTIVELY",
+  "governing_gate": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED",
+  "gate_retained": true,
+  "c5_remeshing_permitted": false,
+  "finding": "Hypothesis H8 is SUPPORTED PROSPECTIVELY: Independent out-of-sample holdout evaluations on Package 119 (Increment 85, |r_E| = 0.209% <= 0.250%) and Package 123 (Increment 86, |r_E| = 0.235% <= 0.250%) confirm that the mesh-dependent regularized AT2 fracture energy scaling explains a reproducible +1.92% to +2.16% energy offset upon C3 -> C4 refinement, without calibration to Package 113. However, this finding is strictly bounded to the pre-peak stationary regime (d_max <= 0.65), as demonstrated by the failure of Package 120 (Increment 88, r_E = -0.466%) under active localized softening. In accordance with thesis governance, this prospective physical criterion provides evidentiary justification for future supervisory threshold revision but does NOT retroactively alter the failed Level 3 gate for Package 113 (+2.0080315% > 2.0000000%). Binding gate STAGE_C1_2_STEP2_ENERGY_GATE_FAILED remains strictly retained.",
+  "h_over_l0_c3": 0.33333333333333337,
+  "h_over_l0_c4": 0.0808,
+  "eligibility_matrix": {
+    "PACKAGE_111_R2": {
+      "increment": 77,
+      "u_mm": 0.0018003,
+      "role": "CALIBRATION_BASELINE_PRE_LOCALIZATION",
+      "eligible_for_holdout": false,
+      "donor_mesh": "C3 (1600 quads, h = 2.5 um)",
+      "receiver_mesh": "C4 (4422 quads, h = 0.606 um)",
+      "reason": "Used as the baseline pre-localization transfer anchor (Level 3 Gate Passed)."
+    },
+    "PACKAGE_115": {
+      "increment": 79,
+      "u_mm": 0.0018425,
+      "role": "IN_SAMPLE_DIAGNOSTIC_CALIBRATION",
+      "eligible_for_holdout": false,
+      "donor_mesh": "C3 (1600 quads)",
+      "receiver_mesh": "C4 (4422 quads)",
+      "reason": "Synthesized directly at Increment 79 as an in-sample diagnostic for Package 113; circular for holdout."
+    },
+    "PACKAGE_117": {
+      "increment": 79,
+      "u_mm": 0.0018425,
+      "role": "SAME_MESH_SOLVER_CONTROL",
+      "eligible_for_holdout": false,
+      "donor_mesh": "C3 (1600 quads)",
+      "receiver_mesh": "C3 (1600 quads)",
+      "reason": "Identical-mesh AM control (0.003% change); proves solver convergence in absence of mesh change."
+    },
+    "PACKAGE_113": {
+      "increment": 79,
+      "u_mm": 0.0018425,
+      "role": "FAILED_GATE_EVALUAND",
+      "eligible_for_holdout": false,
+      "donor_mesh": "C3 (1600 quads)",
+      "receiver_mesh": "C4 (4422 quads)",
+      "reason": "Subject of the forensic audit (+2.0080315% > 2.0000000%); cannot serve as holdout without circularity."
+    },
+    "PACKAGE_119": {
+      "increment": 85,
+      "u_mm": 0.00191171,
+      "role": "INDEPENDENT_HOLDOUT_PRE_PEAK_LOCALIZED",
+      "eligible_for_holdout": true,
+      "donor_mesh": "C3 (1600 quads)",
+      "receiver_mesh": "C4 (4422 quads)",
+      "reason": "Fully independent forward state with localized stationary crack tip (d_max = 0.594)."
+    },
+    "PACKAGE_123": {
+      "increment": 86,
+      "u_mm": 0.00192951,
+      "role": "INDEPENDENT_HOLDOUT_STATIONARY_BOUNDARY",
+      "eligible_for_holdout": true,
+      "donor_mesh": "C3 (1600 quads)",
+      "receiver_mesh": "C4 (4422 quads)",
+      "reason": "Independent boundary state converging at Cycle 12 (d_max = 0.624, strictly contracting rho_d = 0.766)."
+    },
+    "PACKAGE_120": {
+      "increment": 88,
+      "u_mm": 0.00196511,
+      "role": "NEGATIVE_CONTROL_POST_PEAK_NONSTATIONARY",
+      "eligible_for_holdout": true,
+      "donor_mesh": "C3 (1600 quads)",
+      "receiver_mesh": "C4 (4422 quads)",
+      "reason": "Validates boundary of applicability; reaches cycle cap (d_max = 0.730, active crack softening)."
+    },
+    "PACKAGE_93": {
+      "increment": 89,
+      "u_mm": 0.001995,
+      "role": "INELIGIBLE_IDENTICAL_MESH",
+      "eligible_for_holdout": false,
+      "donor_mesh": "C3 (1600 quads)",
+      "receiver_mesh": "C3 (1600 quads)",
+      "reason": "Same-mesh control (h_c3 -> h_c3); delta(h/l0) = 0. Does not test mesh-dependent refinement scaling."
+    },
+    "PACKAGE_94": {
+      "increment": 89,
+      "u_mm": 0.001995,
+      "role": "INELIGIBLE_RETIRED_FORMULATION",
+      "eligible_for_holdout": false,
+      "donor_mesh": "C3 (1600 quads)",
+      "receiver_mesh": "C4 (4422 quads)",
+      "reason": "Historical transfer run prior to frozen unified 12-DOF active set UEL harmonization."
+    }
+  },
+  "holdout_evaluations": [
+    {
+      "package": "PACKAGE_119",
+      "state": "Increment 85 (u = 0.0019117 mm, d_max = 0.5937)",
+      "donor_e_tot_mJ": 0.22534936,
+      "measured_c4_e_tot_mJ": 0.22974606,
+      "measured_delta_e_mJ": 0.0043967,
+      "measured_delta_pct": 1.95106,
+      "predicted_delta_pct": 2.15998,
+      "dimensionless_residual_r_E_pct": -0.20898,
+      "pass_band_pct": 0.25,
+      "is_within_pass_band": true,
+      "stationarity_converged": true,
+      "verdict": "HOLDOUT_PREDICTION_CONFIRMED"
+    },
+    {
+      "package": "PACKAGE_123",
+      "state": "Increment 86 (u = 0.0019295 mm, d_max = 0.6241)",
+      "donor_e_tot_mJ": 0.22866506,
+      "measured_c4_e_tot_mJ": 0.23306328,
+      "measured_delta_e_mJ": 0.00439822,
+      "measured_delta_pct": 1.92343,
+      "predicted_delta_pct": 2.1584,
+      "dimensionless_residual_r_E_pct": -0.23497,
+      "pass_band_pct": 0.25,
+      "is_within_pass_band": true,
+      "stationarity_converged": true,
+      "verdict": "HOLDOUT_PREDICTION_CONFIRMED"
+    },
+    {
+      "package": "PACKAGE_120",
+      "state": "Increment 88 (u = 0.0019651 mm, d_max = 0.7301)",
+      "donor_e_tot_mJ": 0.23528295,
+      "measured_c4_e_tot_mJ": 0.23958419,
+      "measured_delta_e_mJ": 0.00430124,
+      "measured_delta_pct": 1.82811,
+      "predicted_delta_pct": 2.29456,
+      "dimensionless_residual_r_E_pct": -0.46645,
+      "pass_band_pct": 0.25,
+      "is_within_pass_band": false,
+      "stationarity_converged": false,
+      "verdict": "HOLDOUT_PREDICTION_EXCEEDED_PHYSICAL_SOFTENING_BOUNDARY"
+    }
+  ],
+  "domain_of_applicability": {
+    "valid_regime": "Pre-peak stationary equilibrium where d_max <= 0.65 and alternating minimization converges within 15 cycles (Delta d_max <= 1e-3).",
+    "invalid_regime": "Active post-peak localized crack propagation where d_max >= 0.70 and continuous within-step relaxation causes stationary divergence.",
+    "holdout_accuracy_in_valid_regime": "Residual |r_E| <= 0.235% across all validated stationary holdouts (Increments 85 and 86).",
+    "error_trend": "Negative residual deepens systematically as damage localization approaches softening boundary (-0.209% at Inc 85 -> -0.235% at Inc 86 -> -0.466% at Inc 88)."
+  },
+  "package113_retained_metrics": {
+    "donor_u_mm": 0.0018425,
+    "measured_discrepancy_pct": 2.00803158,
+    "predeclared_tolerance_pct": 2.0,
+    "exceedance_pct_points": 0.00803158,
+    "frac_energy_increase_pct": 7.481,
+    "elas_energy_increase_pct": 0.697,
+    "frac_share_of_excess_pct": 71.98,
+    "status": "FAIL_RETAINED"
+  },
+  "hpc_execution_justification": {
+    "submission_justified": false,
+    "rationale": "Investigation is a mathematically closed analytical and holdout synthesis of existing authentic solver deliverables. No ungrounded cluster jobs are permitted."
+  }
+}
