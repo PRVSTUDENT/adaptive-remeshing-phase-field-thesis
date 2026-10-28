@@ -2,10 +2,10 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 135 (Job 1418517.mmaster02) submitted for genuine irreversible same-mesh continuation from Increment 87 to Increment 88 on Candidate C4 (4,422 quads, 4,588 nodes, 17,688 GP histories) under Hypothesis H23. Preflight verified authentic Increment-87 committed checkpoint (Package 134 R1, Job 1418485: 0 history/damage violations, RF2=183.15 N, E_tot=0.236272 mJ), authentic Increment-88 donor reference (Package 76 row 88: u=0.0019651074 mm, Delta u=17.798 nm, RF2_target=185.335 N, E_tot_target=0.235283 mJ), repaired history loading parsing H0 from columns 5-8, under-relaxed AM/PDAS method (omega=0.70, max 35 cycles), clean Abaqus 2023 compile/link and remote datacheck Exit 0, and dual-channel notifications.",
-    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE135_SUBMITTED",
+    "phase":  "Package 135 (Job 1418517.mmaster02) completed genuine irreversible same-mesh continuation on Candidate C4 (4,422 quads, 4,588 nodes, 17,688 GP histories) from Increment 87 to Increment 88 with Abaqus Exit 0 in 3 cycles (53 s walltime). Hypothesis H23 passed: raw damage stationarity converged to Delta d = 0.000225 \u003c= 1.0e-3 (relaxed 0.000158), reaction force stabilized to Delta RF2 = 0.0648 N \u003c= 0.1 N, free KKT residual reached 1.40e-9 kN/mm, active multiplier reached -9.90e-10 kN/mm. Pointwise irreversibility strictly preserved across all 4,588 nodes (0 healing violations) and all 17,688 Gauss points (0 history violations). Physical donor parity verified: final RF2 = 184.545 N (-0.427% vs Package 76 donor 185.335 N, within +/- 5.0%), total energy = 0.239540 mJ (+1.809% vs donor 0.235283 mJ, within \u003c= 2.0%). Incremental energy balance residual = 0.0042 uJ (0.128% of Delta W_ext). Governing gate STAGE_C1_2_STEP2_ENERGY_GATE_FAILED strictly retained.",
+    "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__PACKAGE135_H23_PASSED",
     "active_pbs_job_ids":  [
-                               "1418517.mmaster02"
+
                            ],
     "dependent_pbs_job_ids":  [
 
@@ -20,6 +20,7 @@
                                     "PK_M1_COARSE_FINE_CONT (Package 46, 4,900 CPE4 quads, h=14.3 um, input deck 219ACDF2..., Abaqus 2023 datacheck Exit 0, completed Exit 0 Job 1415074)"
                                 ],
     "completed_pbs_job_ids":  [
+                                  "1418517.mmaster02",
                                   "1418485.mmaster02",
                                   "1418476.mmaster02",
                                   "1418470.mmaster02",
@@ -217,14 +218,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-28T15:35:17.3283321+01:00",
+    "last_updated":  "2026-10-28T16:09:32.2277761+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-5288ca0c-f2ef-4731-a392-352f47c7c762.json",
-                                  "sha256":  "AAE24B5F5CAFA7EDDB8FFF5FAFE51D8FF510C4A04F4A16E83907F6909A535C10",
-                                  "created_at":  "2026-10-28T15:27:22.7203850+01:00"
+                                  "artifact":  "results/validation/preparation-4bfec3e2-5627-4242-82d4-7946fdd2aa33.json",
+                                  "sha256":  "3A6F58BBE26FF2CB97D71CCF596A529A71B36458E9FB3F101548F8FB0A2FC53A",
+                                  "created_at":  "2026-10-28T16:01:41.8747365+01:00"
                               }
 }
