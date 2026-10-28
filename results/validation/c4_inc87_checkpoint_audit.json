@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "checkpoint_id": "c4_inc87_checkpoint",
+  "verification_status": "AUTHENTIC_CHECKPOINT_VERIFIED_PASS",
+  "predecessor_package": "PACKAGE_134_R1_C4_INC87_H20_R1_UNDERRELAXED_AM_CONTINUATION",
+  "pbs_job_id": "1418485.mmaster02",
+  "target_u_rp_mm": 0.001947309589,
+  "converged_cycle": 2,
+  "mesh_metadata": {
+    "element_count": 4422,
+    "gauss_points_total": 17688,
+    "name": "Candidate C4",
+    "node_count": 4588,
+    "reference_point_node": 999999
+  },
+  "checks": {
+    "node_count_check": {
+      "expected": 4588,
+      "actual": 4588,
+      "pass": true
+    },
+    "element_count_check": {
+      "expected": 4422,
+      "actual": 4422,
+      "pass": true
+    },
+    "gp_count_check": {
+      "expected": 17688,
+      "actual": 17688,
+      "pass": true
+    },
+    "d_lower_bounds_hash_check": {
+      "hash": "6410787FCCF85E13ADCF861D03BBC3D140A8951CFF54AF21DB0EA847FC2FD1B8",
+      "pass": true
+    },
+    "nodal_displacements_hash_check": {
+      "hash": "618655185D55AC9885C481E2DFAA3016C52705CD19BF6BA41625327F51D71E9D",
+      "pass": true
+    },
+    "active_set_cards_hash_check": {
+      "hash": "837AF37F740C160B86A527D0E170C50F817912A434D3F341D5595A8AF237DAE4",
+      "pass": true
+    },
+    "history_monotonicity_vs_inc86_75": {
+      "violations": 0,
+      "pass": true
+    },
+    "damage_monotonicity_vs_inc86_75": {
+      "violations": 0,
+      "pass": true
+    },
+    "rp_displacement_check": {
+      "expected_u2": 0.001947309589,
+      "actual_u2": 0.001947309589,
+      "pass": true
+    }
+  },
+  "state_summary": {
+    "d_max": 0.65443797,
+    "d_min": 0.00336084,
+    "e_tot_mJ": 0.2362718120108669,
+    "h_max": 8.458076090351108,
+    "h_min": 2.31719031e-08,
+    "rf2_rp_N": 183.14842879772186
+  },
+  "evidence_hashes": {
+    "c4_inc87_checkpoint.json": "424A7A653C911DBDFE538A2E7AED055656B0F3178DF6E2C26C227A1598DB0C3D",
+    "c4_inc87_checkpoint_d_lower_bounds.csv": "6410787FCCF85E13ADCF861D03BBC3D140A8951CFF54AF21DB0EA847FC2FD1B8",
+    "c4_inc87_checkpoint_nodal_displacements.csv": "618655185D55AC9885C481E2DFAA3016C52705CD19BF6BA41625327F51D71E9D",
+    "c4_inc87_checkpoint_active_set_cards.inc": "837AF37F740C160B86A527D0E170C50F817912A434D3F341D5595A8AF237DAE4"
+  }
+}

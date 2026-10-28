@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "adapter": "mode1-experimental-12dof-v1",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-2",
+  "package_name": "135_c4_inc88_h23_underrelaxed_forward_continuation",
+  "batch_name": "MODE1_C4_INC88_H23_CONT",
+  "configuration": "SAFEGUARDED_UNDERRELAXED_AM_SAME_MESH_FORWARD_CONTINUATION_INC88",
+  "hypothesis": "Hypothesis H23: The corrected committed strain energy history loading function (parsing H0 from columns 5-8) and under-relaxed AM/PDAS method (omega=0.70) maintain coupled equilibrium, damage irreversibility, and physically consistent force/energy evolution over one additional C4 load increment from Increment 87 to Increment 88 (u = 0.0019651074 mm, Delta u = 17.798 nm, max 35 cycles) initialized from the verified authentic Increment-87 checkpoint (Package 134 R1, Job 1418485).",
+  "automatic_retry": false,
+  "max_submissions": 1,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_inc88_h23_underrelaxed_forward_continuation",
+  "files": {
+    "M1_C4_INC88_H23_CONT.inp": "10fef02247d038dcea13607e1a5b0c26cfd2be4f3ac754f3ae22e50f2c52ba15",
+    "active_set_boundary_cards.inc": "837af37f740c160b86a527d0e170c50f817912a434d3f341d5595a8af237dae4",
+    "d_lower_bounds.csv": "6410787fccf85e13adcf861d03bbc3d140a8951cff54af21db0ea847fc2fd1b8",
+    "driver_c4_inc88_h23_continuation.py": "13be2a4f7fb83ee6b299e4473c02f898714673d48754f01834f4afd3fed7778e",
+    "f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "mode1_am_state_checkpoint.py": "426357112153f33e84ab6ac7f4d9b6bb41e0b86a95de960996cbd4f81e39ebfb",
+    "nodal_displacements_initial.csv": "618655185d55ac9885c481e2dfaa3016c52705cd19bf6ba41625327f51d71e9d",
+    "run_c4_inc88_h23_cont_datacheck.sh": "37526d150a20c53e6266061d43569481cb44e12cfcfb11ae56788d7c331564ab",
+    "stage_a_all_d0_boundary_cards.inc": "837af37f740c160b86a527d0e170c50f817912a434d3f341d5595a8af237dae4",
+    "submit_M1_C4_INC88_H23_CONT.pbs": "4e62c636cafcb9dadd793d19645eb27495b4c874cd0a1240ab1e9f40e9f44f02"
+  },
+  "jobs": [
+    {
+      "id": "M1_C4_INC88_H23_CONT",
+      "purpose": "Abaqus 2023 Candidate C4 Coupled State Forward Continuation under Hypothesis H23 with Repaired History Loading and Under-Relaxation (omega=0.70, max 35 cycles) from Increment-87 to Increment-88 Target u = 0.0019651074 mm (Delta u = 17.798 nm, 4,422 quads, 4,588 nodes, initialized from authentic committed Increment-87 checkpoint)",
+      "input": "M1_C4_INC88_H23_CONT.inp",
+      "user_subroutine": "f42_unified_12dof_active_set_uel.for",
+      "pbs": "submit_M1_C4_INC88_H23_CONT.pbs",
+      "datacheck": "M1_C4_INC88_H23_CONT_DC.dat",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c4_inc88_h23_underrelaxed_forward_continuation/submit_M1_C4_INC88_H23_CONT.pbs\"",
+      "command_sha256": "957145402faa57fc06fd8b7f903a789c14f7494c5f180b2cd36e16369a7d5274",
+      "depends_on": []
+    }
+  ],
+  "acceptance": {
+    "stage_C1_2_step3_underrelaxed_continuation": {
+      "u_top_target_mm": 0.0019651074,
+      "u_init_inc87_mm": 0.001947309589,
+      "forward_increment_mm": 1.7797811e-05,
+      "under_relaxation_omega": 0.7,
+      "max_cycles": 35,
+      "raw_stationarity_tol_delta_d": 0.001,
+      "stationarity_tol_delta_rf2_N": 0.1,
+      "free_residual_tol_kN_mm": 1e-06,
+      "active_kkt_tol_kN_mm": -1e-09,
+      "max_healing_violations": 0,
+      "donor_rf2_target_N": 185.335442,
+      "donor_rf2_tol_pct": 5.0,
+      "donor_etot_target_mJ": 0.23528295,
+      "donor_etot_tol_pct": 2.0
+    }
+  }
+}
