@@ -1,0 +1,29 @@
+{
+  "chain_steps": [
+    "Inc 86",
+    "Inc 86.5",
+    "Inc 86.75",
+    "Inc 87",
+    "Inc 88",
+    "Inc 89"
+  ],
+  "cumulative_energy_residual_pct": 0.839,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/136_c4_inc89_h24_underrelaxed_forward_continuation/c4_inc89_checkpoint.json": "E6C2B029B7E787F1CA8AE8259B7567A26E26D361A3F85F9BFBF7338271A600C5",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/evidence_1416259/donor_h0025_rf_curve.csv": "8CEFAF0727CA2A16650F435AC88190C975F469000760F228733CDB39E46E403F",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/evidence_1416259/uel_energy_balance.csv": "5D0FD1157C5E1EB2AF29F09EF0AE98D772FE30463B1D94EF8BB11A7CFDC7F50B",
+    "results/validation/c4_continuation_chain_synthesis.json": "D151CFE4147128293DC3F2B3910FABBC62480D17927072201F684D5B08878E47",
+    "results/validation/c4_inc89_h24_continuation_audit.json": "AB0CB16C4A727F664CB4D861F561A19785C8B1402778D3051CA7D5DC9B65BEC8",
+    "results/validation/h25_donor_reference_audit.json": "494C137F74D1144189AE8ADD4F717CAC2230CF1CF0C0561513456AB7690B6CB0",
+    "tests/unit/test_mode1_f1597_turn286_h25_reference_audit.py": "9825EEE24FFC50E5C95D7C3CD22E1E596DB78D1966DCD55F03DA8A97E0CD0455"
+  },
+  "finding": "Hypothesis H25 donor reference reconciliation and full-chain C4 state integrity audit completed: under frame-locked interpolated donor reference (184.791 N, 0.238579 mJ), Package 136 passes all gates (RF2 +0.077%, E_tot +1.771%), whereas prompt target (185.498 N, 0.237418 mJ) targets an unphysical force and earlier displacement. Physical parity classified H24_REFERENCE_AUDIT_PENDING. Full-chain continuation (Inc 86 to 89) verified with 0.839% cumulative energy residual and 0 healing violations.",
+  "governing_gate": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED",
+  "healing_violations": 0,
+  "history_violations": 0,
+  "numerical_verdict": "H24_STATIONARITY_VERIFIED",
+  "physical_verdict": "H24_REFERENCE_AUDIT_PENDING",
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true
+}
