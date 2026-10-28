@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 133 (Job 1418470.mmaster02) qualified via Abaqus 2023 datacheck (Exit 0) and 14 unit tests, and submitted to PBS under Hypothesis H18 for second quarter-step continuation from Increment 86.75 to 87.00 (Delta u = 4.449481 nm); job is actively running in normal_imfdfkmq.",
+    "phase":  "Package 133 (Job 1418470.mmaster02) evaluated Exit 0; bounds semantics verified; H18 nonstationarity confirmed (delta_d=0.001486 > 0.001); 3-step energy path conserved within 1.20% cumulative residual.",
     "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H9_CONTINUATION_ELIGIBILITY_VERIFIED",
     "active_pbs_job_ids":  [
 
@@ -20,6 +20,14 @@
                                     "PK_M1_COARSE_FINE_CONT (Package 46, 4,900 CPE4 quads, h=14.3 um, input deck 219ACDF2..., Abaqus 2023 datacheck Exit 0, completed Exit 0 Job 1415074)"
                                 ],
     "completed_pbs_job_ids":  [
+                                  "1418470.mmaster02",
+                                  "1418466.mmaster02",
+                                  "1418451.mmaster02",
+                                  "1418450.mmaster02",
+                                  "1418441.mmaster02",
+                                  "1418429.mmaster02",
+                                  "1418403.mmaster02",
+                                  "1418398.mmaster02",
                                   "1418169.mmaster02",
                                   "1418222.mmaster02",
                                   "1418167.mmaster02",

@@ -1,0 +1,400 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "package_name": "PACKAGE_133_C4_INC87_H18_SECOND_QUARTERSTEP_CONTINUATION",
+  "hypothesis": "H18_SECOND_QUARTERSTEP_AM_CONTINUATION",
+  "h18_verdict": "H18_FAILED_NONSTATIONARY",
+  "job_accounting": {
+    "pbs_job_id": "1418470.mmaster02",
+    "exit_status": 0,
+    "walltime_seconds": 387,
+    "cput_seconds": 268
+  },
+  "acceptance_criteria": {
+    "stationarity_delta_d": {
+      "threshold": 0.001,
+      "measured": 0.0014857858344360375,
+      "passed": false
+    },
+    "stationarity_delta_rf2": {
+      "threshold": 0.1,
+      "measured": 0.09094178676605225,
+      "passed": true
+    },
+    "free_phase_residual": {
+      "threshold": 1e-06,
+      "measured": 5.0529095953027415e-09,
+      "passed": true
+    },
+    "min_active_multiplier": {
+      "threshold": -1e-09,
+      "measured": -9.95597895339783e-10,
+      "passed": true
+    },
+    "healing_violations": {
+      "threshold": 0,
+      "measured": 0,
+      "passed": true
+    },
+    "rf2_parity_vs_donor": {
+      "threshold_pct": 5.0,
+      "discrepancy_pct": -2.7749679571766137,
+      "passed": true
+    },
+    "energy_parity_vs_donor": {
+      "threshold_pct": 2.0,
+      "discrepancy_pct": 1.8554339708503584,
+      "passed": true
+    }
+  },
+  "bounds_semantics_audit": {
+    "d_lower_bounds_csv_lines": 4422,
+    "gp_history_count": 17688,
+    "nodal_cards_count": 4588,
+    "semantics_verified": true,
+    "mechanism": "d_lower_bounds.csv supplies 17,688 GP driving histories (H0_1..4) to UEL UEXTERNALDB common blocks, while active_set_boundary_cards.inc supplies 4,588 nodal bounds on DOF 3 to the PDAS solver."
+  },
+  "path_reconstruction": {
+    "states": [
+      {
+        "step_name": "Increment 86.00 (Baseline)",
+        "package": "Package 127 R1",
+        "u_rp_mm": 0.001929511665,
+        "rf2_rp_N": 183.8091,
+        "e_elas_mJ": 0.178305,
+        "e_frac_mJ": 0.054758,
+        "e_tot_mJ": 0.233063,
+        "d_max": 0.627685,
+        "am_cycles": 12,
+        "converged": true
+      },
+      {
+        "step_name": "Increment 86.50 (First Half-Step)",
+        "package": "Package 130 R1 (H15)",
+        "u_rp_mm": 0.001938410627,
+        "rf2_rp_N": 183.4492,
+        "e_elas_mJ": 0.178273,
+        "e_frac_mJ": 0.056366,
+        "e_tot_mJ": 0.234639,
+        "d_max": 0.639317,
+        "am_cycles": 9,
+        "converged": true
+      },
+      {
+        "step_name": "Increment 86.75 (First Quarter-Step)",
+        "package": "Package 132 (H17)",
+        "u_rp_mm": 0.001942860108,
+        "rf2_rp_N": 182.7887,
+        "e_elas_mJ": 0.177437,
+        "e_frac_mJ": 0.058022,
+        "e_tot_mJ": 0.235458,
+        "d_max": 0.654438,
+        "am_cycles": 11,
+        "converged": true
+      },
+      {
+        "step_name": "Increment 87.00 (Second Quarter-Step)",
+        "package": "Package 133 (H18)",
+        "u_rp_mm": 0.001947309589,
+        "rf2_rp_N": 180.52980303764343,
+        "e_elas_mJ": 0.17560319518490544,
+        "e_frac_mJ": 0.06067795432102393,
+        "e_tot_mJ": 0.23628114950592935,
+        "d_max": 0.6954789298157961,
+        "am_cycles": 25,
+        "converged": false
+      }
+    ],
+    "steps": [
+      {
+        "step": "Increment 86.00 (Baseline) -> Increment 86.50 (First Half-Step)",
+        "delta_u_nm": 8.89896200000008,
+        "f_avg_N": 183.62914999999998,
+        "w_ext_mJ": 0.0016341088279423148,
+        "delta_elas_mJ": -3.200000000000425e-05,
+        "delta_frac_mJ": 0.0016079999999999983,
+        "delta_etot_mJ": 0.001575999999999994,
+        "energy_residual_pct": 3.5559949832406126
+      },
+      {
+        "step": "Increment 86.50 (First Half-Step) -> Increment 86.75 (First Quarter-Step)",
+        "delta_u_nm": 4.449480999999932,
+        "f_avg_N": 183.11894999999998,
+        "w_ext_mJ": 0.0008147842887649376,
+        "delta_elas_mJ": -0.0008359999999999757,
+        "delta_frac_mJ": 0.0016559999999999978,
+        "delta_etot_mJ": 0.0008190000000000142,
+        "energy_residual_pct": 0.5174021263304962
+      },
+      {
+        "step": "Increment 86.75 (First Quarter-Step) -> Increment 87.00 (Second Quarter-Step)",
+        "delta_u_nm": 4.449480999999932,
+        "f_avg_N": 181.65925151882172,
+        "w_ext_mJ": 0.0008082893881072061,
+        "delta_elas_mJ": -0.0018338048150945696,
+        "delta_frac_mJ": 0.0026559543210239317,
+        "delta_etot_mJ": 0.0008231495059293492,
+        "energy_residual_pct": 1.8384650399705802
+      }
+    ],
+    "cumulative_w_ext_mJ": 0.0032571825048144584,
+    "cumulative_delta_e_mJ": 0.0032181495059293574,
+    "cumulative_residual_pct": 1.198366957559366
+  },
+  "comparative_evaluation": {
+    "H9_Pkg129": {
+      "type": "Full Step (17.798 nm)",
+      "cycles": 25,
+      "status": "CAP_REACHED",
+      "final_delta_d": 0.00145,
+      "final_delta_rf2_N": 0.1704,
+      "rf2_N": 181.33,
+      "e_tot_mJ": 0.236356
+    },
+    "H14_Pkg129R1": {
+      "type": "Extended Full Step (17.798 nm)",
+      "cycles": 65,
+      "status": "CAP_REACHED",
+      "final_delta_d": 0.0053,
+      "final_delta_rf2_N": 0.045,
+      "rf2_N": 175.86,
+      "e_tot_mJ": 0.236402
+    },
+    "H16_Pkg131R1": {
+      "type": "Second Half-Step (8.899 nm)",
+      "cycles": 25,
+      "status": "CAP_REACHED",
+      "final_delta_d": 0.001445,
+      "final_delta_rf2_N": 0.0886,
+      "rf2_N": 181.05,
+      "e_tot_mJ": 0.236278
+    },
+    "H18_Pkg133": {
+      "type": "Second Quarter-Step (4.449 nm)",
+      "cycles": 25,
+      "status": "CAP_REACHED",
+      "final_delta_d": 0.0014857858344360375,
+      "final_delta_rf2_N": 0.09094178676605225,
+      "rf2_N": 180.52980303764343,
+      "e_tot_mJ": 0.23628114950592935
+    }
+  },
+  "trajectory": [
+    {
+      "cycle": 2,
+      "delta_d": 0.0020851978525354697,
+      "delta_rf2_N": 0.30063092708587646,
+      "rho": 1.024664009808613,
+      "rf2_N": 182.84793198108673,
+      "d_max": 0.6585581742864249,
+      "free_nodes": 3028
+    },
+    {
+      "cycle": 3,
+      "delta_d": 0.0020366004142750027,
+      "delta_rf2_N": 0.15015900135040283,
+      "rho": 0.976694087709051,
+      "rf2_N": 182.69777297973633,
+      "d_max": 0.6605947747006999,
+      "free_nodes": 3170
+    },
+    {
+      "cycle": 4,
+      "delta_d": 0.0019715275560149292,
+      "delta_rf2_N": 0.12868642807006836,
+      "rho": 0.9680482937134046,
+      "rf2_N": 182.56908655166626,
+      "d_max": 0.6625663022567149,
+      "free_nodes": 3262
+    },
+    {
+      "cycle": 5,
+      "delta_d": 0.0019027129826765243,
+      "delta_rf2_N": 0.12026727199554443,
+      "rho": 0.9650958095267507,
+      "rf2_N": 182.44881927967072,
+      "d_max": 0.6644690152393914,
+      "free_nodes": 3344
+    },
+    {
+      "cycle": 6,
+      "delta_d": 0.0018363321381555942,
+      "delta_rf2_N": 0.1147240400314331,
+      "rho": 0.9651125287285564,
+      "rf2_N": 182.33409523963928,
+      "d_max": 0.666305347377547,
+      "free_nodes": 3388
+    },
+    {
+      "cycle": 7,
+      "delta_d": 0.0017788323428352681,
+      "delta_rf2_N": 0.11026859283447266,
+      "rho": 0.9686876931870949,
+      "rf2_N": 182.2238266468048,
+      "d_max": 0.6680841797203823,
+      "free_nodes": 3454
+    },
+    {
+      "cycle": 8,
+      "delta_d": 0.0017265382015090314,
+      "delta_rf2_N": 0.1070946455001831,
+      "rho": 0.9706019841966188,
+      "rf2_N": 182.11673200130463,
+      "d_max": 0.6698107179218913,
+      "free_nodes": 3506
+    },
+    {
+      "cycle": 9,
+      "delta_d": 0.0016785881106564648,
+      "delta_rf2_N": 0.10465085506439209,
+      "rho": 0.972227610828039,
+      "rf2_N": 182.01208114624023,
+      "d_max": 0.6714890897382952,
+      "free_nodes": 3542
+    },
+    {
+      "cycle": 10,
+      "delta_d": 0.0016383289418374636,
+      "delta_rf2_N": 0.10146200656890869,
+      "rho": 0.9760160526793814,
+      "rf2_N": 181.91061913967133,
+      "d_max": 0.6731267891575726,
+      "free_nodes": 3588
+    },
+    {
+      "cycle": 11,
+      "delta_d": 0.0016005809002413995,
+      "delta_rf2_N": 0.09956955909729004,
+      "rho": 0.9769594245501592,
+      "rf2_N": 181.81104958057404,
+      "d_max": 0.6747261943242161,
+      "free_nodes": 3628
+    },
+    {
+      "cycle": 12,
+      "delta_d": 0.0015671545430497869,
+      "delta_rf2_N": 0.09720027446746826,
+      "rho": 0.9791161089160996,
+      "rf2_N": 181.71384930610657,
+      "d_max": 0.676291505481326,
+      "free_nodes": 3628
+    },
+    {
+      "cycle": 13,
+      "delta_d": 0.0015438565362417833,
+      "delta_rf2_N": 0.09481608867645264,
+      "rho": 0.985133561389125,
+      "rf2_N": 181.61903321743011,
+      "d_max": 0.6778330993517656,
+      "free_nodes": 3650
+    },
+    {
+      "cycle": 14,
+      "delta_d": 0.001520909396038217,
+      "delta_rf2_N": 0.09407103061676025,
+      "rho": 0.985136481489772,
+      "rf2_N": 181.52496218681335,
+      "d_max": 0.6793513305179737,
+      "free_nodes": 3676
+    },
+    {
+      "cycle": 15,
+      "delta_d": 0.0015014236925604552,
+      "delta_rf2_N": 0.09274482727050781,
+      "rho": 0.9871881234158197,
+      "rf2_N": 181.43221735954285,
+      "d_max": 0.6808496632930174,
+      "free_nodes": 3696
+    },
+    {
+      "cycle": 16,
+      "delta_d": 0.0014867838947963952,
+      "delta_rf2_N": 0.0915229320526123,
+      "rho": 0.9902493894051358,
+      "rf2_N": 181.34069442749023,
+      "d_max": 0.6823329317076241,
+      "free_nodes": 3708
+    },
+    {
+      "cycle": 17,
+      "delta_d": 0.0014747860553624426,
+      "delta_rf2_N": 0.09086728096008301,
+      "rho": 0.9919303407334825,
+      "rf2_N": 181.24982714653015,
+      "d_max": 0.6838037836835205,
+      "free_nodes": 3728
+    },
+    {
+      "cycle": 18,
+      "delta_d": 0.0014651839360376728,
+      "delta_rf2_N": 0.09022653102874756,
+      "rho": 0.9934891442118973,
+      "rf2_N": 181.1596006155014,
+      "d_max": 0.6852645372039389,
+      "free_nodes": 3736
+    },
+    {
+      "cycle": 19,
+      "delta_d": 0.00145963126960591,
+      "delta_rf2_N": 0.08971989154815674,
+      "rho": 0.9962102598211805,
+      "rf2_N": 181.06988072395325,
+      "d_max": 0.6867193607498916,
+      "free_nodes": 3742
+    },
+    {
+      "cycle": 20,
+      "delta_d": 0.0014563757324274063,
+      "delta_rf2_N": 0.08957087993621826,
+      "rho": 0.9977696167201305,
+      "rf2_N": 180.98030984401703,
+      "d_max": 0.6881704497140287,
+      "free_nodes": 3746
+    },
+    {
+      "cycle": 21,
+      "delta_d": 0.001456574145690781,
+      "delta_rf2_N": 0.08951127529144287,
+      "rho": 1.000136237688501,
+      "rf2_N": 180.8907985687256,
+      "d_max": 0.6896213343019992,
+      "free_nodes": 3764
+    },
+    {
+      "cycle": 22,
+      "delta_d": 0.0014598514084261938,
+      "delta_rf2_N": 0.08958578109741211,
+      "rho": 1.0022499800268379,
+      "rf2_N": 180.80121278762817,
+      "d_max": 0.691075020900032,
+      "free_nodes": 3778
+    },
+    {
+      "cycle": 23,
+      "delta_d": 0.0014659957098570597,
+      "delta_rf2_N": 0.08991360664367676,
+      "rho": 1.0042088539939074,
+      "rf2_N": 180.7112991809845,
+      "d_max": 0.6925343699425279,
+      "free_nodes": 3788
+    },
+    {
+      "cycle": 24,
+      "delta_d": 0.0014736831619266422,
+      "delta_rf2_N": 0.09055435657501221,
+      "rho": 1.0052438434968762,
+      "rf2_N": 180.62074482440948,
+      "d_max": 0.6940008604810046,
+      "free_nodes": 3790
+    },
+    {
+      "cycle": 25,
+      "delta_d": 0.0014857858344360375,
+      "delta_rf2_N": 0.09094178676605225,
+      "rho": 1.0082125336178591,
+      "rf2_N": 180.52980303764343,
+      "d_max": 0.6954789298157961,
+      "free_nodes": 3796
+    }
+  ]
+}
