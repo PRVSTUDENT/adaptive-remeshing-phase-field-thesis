@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "904b2ab3-e86e-46d5-9bf3-0cf740294e01",
+  "hypothesis": "H9",
+  "finding": "Completed terminal evaluation of Package 129 Candidate C4 Increment-86->87 forward continuation under Hypothesis H9 (PBS Job 1418398.mmaster02, Exit 0, walltime 366s): verified genuine continuation from P127 R1 checkpoint without interpolation shock, confirmed strictly 0 healing violations across all 25 cycles, RF2 continuity of 181.33 N (-2.34% vs donor, meets 5% gate), total energy of 0.236356 mJ (+1.8876% vs donor, meets 2% gate, 0.002% prediction accuracy), and incremental energy balance residual of +43.5 nJ (+0.018% of E_tot). Classified as H9_FAILED_NONSTATIONARY because Delta d = 0.001451 exceeded the 0.001000 stationarity threshold at the 25-cycle cap despite monotonic contraction (contraction factor 0.949). Binding gate STAGE_C1_2_STEP2_ENERGY_GATE_FAILED retained.",
+  "verification_passed": true,
+  "pbs_job_id": "1418398.mmaster02",
+  "scientific_classification": "H9_FAILED_NONSTATIONARY",
+  "governance_gate_retained": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED",
+  "evidence_sources": {
+    "results/validation/package129_h9_terminal_evaluation.json": "AC771309AB0C0A0F97E22D4842C41AF725B8C3D2BF4B50DB547A0295051B398D",
+    "scripts/validation/evaluate_package129_h9_continuation.py": "864669FC46D5DFF71EDB0F4E7F9CBAA53E27A050D7DF3AD5C9FF65A0CE1833D3",
+    "tests/unit/test_mode1_f1597_package129_terminal_evaluation.py": "12EE90FB9047F5001DD9C073485B0E06CF173A0FEEA59EF6767431F89A21FCF8",
+    "models/pandey_kumar_mode1/129_c4_inc87_h9_continuation/c4_inc87_h9_continuation_summary.json": "B38A4077F7EB23A2623254ADAA3AD1A57027DCFC2D4A50DF1B679736F0AC8257",
+    "models/pandey_kumar_mode1/129_c4_inc87_h9_continuation/pbs_execution.log": "25635F6765EE1899B608B5CD283CFA7C107D16D49A8E6AE02F6B27B7B41EF78D"
+  }
+}
