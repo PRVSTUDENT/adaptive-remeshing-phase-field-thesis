@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "package": "135_c4_inc88_h23_underrelaxed_forward_continuation",
+  "pbs_job_id": "1418517.mmaster02",
+  "verdict": "H23_PASSED",
+  "all_criteria_passed": true,
+  "cycles_completed": 3,
+  "under_relaxation_omega": 0.7,
+  "kinematics": {
+    "initial_u_top_mm": 0.001947309589,
+    "target_u_top_mm": 0.0019651074,
+    "forward_increment_mm": 1.7797810999999964e-05,
+    "forward_increment_nm": 17.797810999999964
+  },
+  "stationarity_and_kkt": {
+    "raw_max_delta_d": 0.0002254272833515092,
+    "raw_delta_d_tol": 0.001,
+    "raw_delta_d_pass": true,
+    "relaxed_max_delta_d": 0.00015779909834612305,
+    "delta_rf2_N": 0.06480515003204346,
+    "delta_rf2_tol_N": 0.1,
+    "delta_rf2_pass": true,
+    "free_res_max_kN_mm": 1.3993272503238717e-09,
+    "free_res_tol_kN_mm": 1e-06,
+    "free_res_pass": true,
+    "min_lambda_kN_mm": -9.900915004026106e-10,
+    "active_kkt_tol_kN_mm": -1e-09,
+    "active_kkt_pass": true,
+    "free_nodes": 2524,
+    "active_nodes": 2064,
+    "d_max": 0.6564694683918332
+  },
+  "irreversibility": {
+    "healing_violations": 0,
+    "healing_pass": true,
+    "history_violations": 0,
+    "max_history_drop_MPa": 0.0,
+    "history_monotone_pass": true
+  },
+  "donor_parity": {
+    "rf2_actual_N": 184.54495072364807,
+    "rf2_donor_target_N": 185.335442,
+    "rf2_discrepancy_pct": -0.4265192171672859,
+    "rf2_tol_pct": 5.0,
+    "rf2_pass": true,
+    "e_tot_actual_mJ": 0.23953987324581033,
+    "e_tot_donor_target_mJ": 0.23528295,
+    "e_tot_discrepancy_pct": 1.8092782523384463,
+    "e_tot_tol_pct": 2.0,
+    "etot_pass": true,
+    "e_elas_mJ": 0.181230936804699,
+    "e_frac_mJ": 0.05830893644111135
+  },
+  "incremental_energetics": {
+    "delta_w_ext_mJ": 0.0032720683810680946,
+    "delta_e_tot_mJ": 0.003267873245810321,
+    "energy_balance_residual_mJ": 4.195135257773538e-06,
+    "relative_incremental_energy_residual_pct": 0.12821050079656734
+  },
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/135_c4_inc88_h23_underrelaxed_forward_continuation/c4_inc88_h23_continuation_summary.json": "D216CF8EB15404BCC2A6E471C15B3687BCD74EA6F610E04E65090AD92F00710C",
+    "models/pandey_kumar_mode1/135_c4_inc88_h23_underrelaxed_forward_continuation/c4_inc88_checkpoint.json": "5A89F85F07BC75487A8FE977A968774EE308B62884263B9D460C767B572ABD2B",
+    "models/pandey_kumar_mode1/135_c4_inc88_h23_underrelaxed_forward_continuation/c4_inc88_checkpoint_d_lower_bounds.csv": "F66FB1BFABCF6710BCF08BC2AE7ED98CAA893B939BECA891F4171C17C4EE0EC3",
+    "models/pandey_kumar_mode1/135_c4_inc88_h23_underrelaxed_forward_continuation/c4_inc88_checkpoint_recovery_receipt.json": "DAE558162F9E43AF846B5D6FD852B23E3E90176C5B49D8243437E2EDEF82A25C"
+  }
+}
