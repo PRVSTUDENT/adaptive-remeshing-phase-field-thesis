@@ -1,0 +1,20 @@
+{
+  "authorization_status": "QUALIFIED_FOR_AUTONOMOUS_EXECUTION",
+  "batch_name": "MODE1_C4_INC89_H27_CONT",
+  "package_name": "137_c4_donor_inc89_h27_exact_frame_continuation",
+  "schema": 1,
+  "target_endpoint": {
+    "delta_u_mm": 7.20215e-06,
+    "donor_etot_mJ": 0.23991278,
+    "donor_frame": 89,
+    "donor_rf2_N": 184.570536,
+    "u_rp_init_mm": 0.0019829052,
+    "u_rp_target_mm": 0.00199010735
+  },
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "technical_qualification": {
+    "frozen_uel_sha256": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "predecessor_checkpoint": "Package 136 Job 1418531 Exit 0 serialized checkpoint (c4_inc89_checkpoint.json)",
+    "solver_mode": "under-relaxed AM/PDAS omega=0.70 max 35 cycles"
+  }
+}

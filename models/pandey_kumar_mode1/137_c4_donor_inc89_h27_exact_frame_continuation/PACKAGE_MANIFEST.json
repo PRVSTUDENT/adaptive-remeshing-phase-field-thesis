@@ -1,0 +1,64 @@
+{
+  "acceptance": {
+    "stage_C1_2_step3_exact_frame_continuation": {
+      "active_kkt_tol_kN_mm": -1e-09,
+      "donor_etot_target_mJ": 0.23991278,
+      "donor_etot_tol_pct": 2.0,
+      "donor_rf2_target_N": 184.570536,
+      "donor_rf2_tol_pct": 5.0,
+      "forward_increment_mm": 7.20215e-06,
+      "free_residual_tol_kN_mm": 1e-06,
+      "max_cycles": 35,
+      "max_healing_violations": 0,
+      "mechanical_residual_tol_kN": 0.0001,
+      "raw_stationarity_tol_delta_d": 0.001,
+      "stationarity_tol_delta_rf2_N": 0.1,
+      "u_init_inc89_mm": 0.0019829052,
+      "u_top_target_mm": 0.00199010735,
+      "under_relaxation_omega": 0.7
+    }
+  },
+  "adapter": "mode1-experimental-12dof-v1",
+  "automatic_retry": false,
+  "batch_name": "MODE1_C4_INC89_H27_CONT",
+  "configuration": "SAFEGUARDED_UNDERRELAXED_AM_SAME_MESH_FORWARD_CONTINUATION_INC89_EXACT_FRAME",
+  "files": {
+    "M1_C4_INC89_H27_CONT.inp": "5e2e3c9a84026768604dde8b2125832e8e67065fb343224d5f48399d26eecdf8",
+    "active_set_boundary_cards.inc": "9a35da2fd3a4fb45d57bf2129ee7e216a66097c2199d84d88f3ad1ab122f9bdb",
+    "d_lower_bounds.csv": "50a2a54ff7f524c5558cf4d141410dcc7bf1e370ca99388c347fc5e7530e8747",
+    "driver_c4_donor_inc89_h27_continuation.py": "690926e21754f24a310ed6b07e4f8cd1b6b10f395694e66603959e59819f41b3",
+    "f42_unified_12dof_active_set_uel.for": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+    "mode1_am_state_checkpoint.py": "426357112153f33e84ab6ac7f4d9b6bb41e0b86a95de960996cbd4f81e39ebfb",
+    "nodal_displacements_initial.csv": "8050f7173a185b812f54da181182ab5ebae63a11f351e258f0d68be171b87b92",
+    "run_c4_donor_inc89_h27_cont_datacheck.sh": "ceabe410d6a96643a832a3815ca6c29f13118a7f4ad8a1e4c488d09345e0978b",
+    "stage_a_all_d0_boundary_cards.inc": "9a35da2fd3a4fb45d57bf2129ee7e216a66097c2199d84d88f3ad1ab122f9bdb",
+    "submit_M1_C4_INC89_H27_CONT.pbs": "fdb62be3c165b2e303f7b876bed7400649aa508f4606e4f98234a71f18461eca"
+  },
+  "hypothesis": "Hypothesis H27: Corrected under-relaxed AM/PDAS method (omega=0.70, max 35 cycles) continues the authentic Candidate C4 state from the verified Package 136 checkpoint (u = 0.0019829052 mm) to the exact displacement of authentic Package 76 donor Increment 89 (u = 0.00199010735 mm, Delta u = 7.20215 nm), providing direct un-interpolated displacement-matched force and energy comparisons.",
+  "jobs": [
+    {
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c4_donor_inc89_h27_exact_frame_continuation/submit_M1_C4_INC89_H27_CONT.pbs\"",
+      "command_sha256": "5635cd728c1b0d32dc3d317244d032bcfd0bfffe1f370439a5c391e65608a6d7",
+      "cpus": 1,
+      "datacheck": "M1_C4_INC89_H27_CONT_DC.dat",
+      "depends_on": [],
+      "execution": "single-rank serial",
+      "id": "M1_C4_INC89_H27_CONT",
+      "input": "M1_C4_INC89_H27_CONT.inp",
+      "max_submissions": 1,
+      "memory_gb": 16,
+      "pbs": "submit_M1_C4_INC89_H27_CONT.pbs",
+      "purpose": "Abaqus 2023 Candidate C4 Exact Donor-Frame Forward Continuation under Hypothesis H27 with Under-Relaxation (omega=0.70, max 35 cycles) from Package 136 Checkpoint to Authentic Donor Increment 89 Target u = 0.00199010735 mm (Delta u = 7.20215 nm, 4,422 quads, 4,588 nodes, initialized from authentic committed Increment-89 checkpoint)",
+      "queue": "entry_imfdfkmq",
+      "user_subroutine": "f42_unified_12dof_active_set_uel.for",
+      "walltime_hours": 8
+    }
+  ],
+  "max_submissions": 1,
+  "package_name": "137_c4_donor_inc89_h27_exact_frame_continuation",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_donor_inc89_h27_exact_frame_continuation",
+  "schema": 1,
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-2"
+}

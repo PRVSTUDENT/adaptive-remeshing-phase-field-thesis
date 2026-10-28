@@ -1,0 +1,17 @@
+{
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/137_c4_donor_inc89_h27_exact_frame_continuation/M1_C4_INC89_H27_CONT.inp": "5E2E3C9A84026768604DDE8B2125832E8E67065FB343224D5F48399D26EECDF8",
+    "models/pandey_kumar_mode1/137_c4_donor_inc89_h27_exact_frame_continuation/PACKAGE_MANIFEST.json": "17ED55197C335C68164CDA0EF7465BF2D15DEC52B4022875C5C4585EAF29E680",
+    "models/pandey_kumar_mode1/137_c4_donor_inc89_h27_exact_frame_continuation/driver_c4_donor_inc89_h27_continuation.py": "690926E21754F24A310ED6B07E4F8CD1B6B10F395694E66603959E59819F41B3",
+    "models/pandey_kumar_mode1/137_c4_donor_inc89_h27_exact_frame_continuation/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/137_c4_donor_inc89_h27_exact_frame_continuation/submit_M1_C4_INC89_H27_CONT.pbs": "FDB62BE3C165B2E303F7B876BED7400649AA508F4606E4F98234A71F18461ECA",
+    "tests/unit/test_mode1_f1597_package137_qualification.py": "0C187835CA8671B89B14F74A96129A65ED8C250F253731F8D704393308629D1D"
+  },
+  "finding": "Package 137 (Candidate C4 Hypothesis H27 exact donor frame continuation) qualified with 7/7 unit tests passing, clean Abaqus 2023 preflight datacheck Exit 0, and submitted to normal_imfdfkmq as PBS Job 1418548.mmaster02.",
+  "pbs_job_id": "1418548.mmaster02",
+  "run_id": "62b6b689-c34f-4e74-ba0b-51cfe194a526",
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "verification_passed": true
+}
