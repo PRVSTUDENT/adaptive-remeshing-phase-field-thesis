@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 128 (M1_C4_INC86_RECON, Job 1418169.mmaster02) submitted to normal_imfdfkmq after passing Abaqus 2023 compile/link/datacheck Exit 0, qualifying Hypothesis H11 same-load coupled state reconstruction from authentic Package 127 R1 checkpoint (4,422 quads, 4,588 nodes, 17,688 GP history; d_committed, H_committed). Stage C1-2 Step 2 energy gate remains strictly binding.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/128_c4_inc86_checkpoint_reconstruction_control/PACKAGE_MANIFEST.json": "72F4EDB4922202AB9A5063E02B5FB570C8DC4042DBCA866177117F9BC024FF21",
+    "models/pandey_kumar_mode1/128_c4_inc86_checkpoint_reconstruction_control/M1_C4_INC86_RECON_PREFLIGHT_PROOF.json": "87BBEAA4A8E57DC0E1FDDD18450AE3F0EE2F2E675C3320CB595FDF5D44F835C9",
+    "models/pandey_kumar_mode1/128_c4_inc86_checkpoint_reconstruction_control/M1_C4_INC86_RECON_DC.dat": "3805047A5690CC48C108ACAB89784105FD90FD049DD4114C507770DBE295B7F7",
+    "results/validation/mode1_f1597_turn261_h11_restoration_specification.json": "4EA0C998A289F3B0A533C0B0F003C62EDE9E9D9B7F5FE36D28A6649DA3FE56D8",
+    "tests/unit/test_mode1_f1597_turn261_h11_restoration_qualification.py": "D97FD0BAFAA47088A35A31E3969C56BBB649E899CADF4D65E43DE757BA228E0D",
+    "tests/unit/test_mode1_f1597_package128_qualification.py": "7073394501D6CC2E6CF1B9A36A26A0F07F9E8B016ADDA300A5FECBEF7B49A35D"
+  },
+  "verification_passed": true
+}
