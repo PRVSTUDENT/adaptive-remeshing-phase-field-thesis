@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "package": "129_c4_inc87_h9_continuation",
+  "pbs_job_id": "1418398.mmaster02",
+  "execution_host": "mnode100",
+  "walltime_seconds": 366,
+  "cput_seconds": 267,
+  "exit_code": 0,
+  "hypothesis": "H9",
+  "scientific_classification": "H9_FAILED_NONSTATIONARY",
+  "governance_gate_retained": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED",
+  "continuation_verification": {
+    "source_checkpoint": "Package 127 R1 (Job 1418167, C4 Increment 86)",
+    "source_displacement_mm": 0.001929511665,
+    "target_displacement_mm": 0.001947309589,
+    "incremental_loading_mm": 1.7797923999999946e-05,
+    "incremental_loading_nm": 17.797923999999945,
+    "mesh_elements": 4422,
+    "mesh_nodes": 4588,
+    "mesh_gauss_points": 17688,
+    "active_nodes_final": 824,
+    "free_nodes_final": 3764,
+    "uel_hash_verified": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "healing_nodes": 0,
+    "history_preservation": "VERIFIED_17688_GPS_INITIALIZED_FROM_P127_R1"
+  },
+  "predeclared_criteria_evaluation": {
+    "stationarity_delta_d": {
+      "observed": 0.0014507131740042478,
+      "threshold": 0.001,
+      "status": "FAIL"
+    },
+    "stationarity_delta_rf2": {
+      "observed_N": 0.0889897346496582,
+      "threshold_N": 0.1,
+      "status": "PASS"
+    },
+    "kkt_free_residual": {
+      "observed_kN_mm": 3.5516592242914564e-09,
+      "threshold_kN_mm": 1e-06,
+      "status": "PASS"
+    },
+    "kkt_min_active_multiplier": {
+      "observed_kN_mm": -9.551904331799204e-10,
+      "threshold_kN_mm": -1e-09,
+      "status": "PASS"
+    },
+    "damage_healing": {
+      "observed_healing_nodes": 0,
+      "threshold_nodes": 0,
+      "status": "PASS"
+    },
+    "rf2_continuity_vs_donor": {
+      "observed_N": 181.3296526670456,
+      "donor_N": 185.682431,
+      "discrepancy_pct": -2.3442058085476134,
+      "threshold_pct": 5.0,
+      "status": "PASS"
+    },
+    "energy_continuity_vs_donor": {
+      "observed_mJ": 0.23635581345921175,
+      "donor_mJ": 0.23197697,
+      "discrepancy_pct": 1.8876199043429809,
+      "threshold_pct": 2.0,
+      "status": "PASS"
+    }
+  },
+  "energy_balance_analysis": {
+    "p127_r1_inc86_e_tot_mJ": 0.233063,
+    "p127_r1_inc86_e_elas_mJ": 0.176472,
+    "p127_r1_inc86_e_frac_mJ": 0.056591,
+    "cycle25_inc87_e_tot_mJ": 0.23635581345921175,
+    "cycle25_inc87_e_elas_mJ": 0.17646702604538742,
+    "cycle25_inc87_e_frac_mJ": 0.059888787413824314,
+    "delta_e_elas_mJ": -4.973954612574882e-06,
+    "delta_e_frac_mJ": 0.0032977874138243116,
+    "delta_e_tot_mJ": 0.0032928134592117575,
+    "delta_w_ext_mJ": 0.0032493440935867776,
+    "energy_balance_residual_mJ": 4.346936562497992e-05,
+    "rel_energy_residual_vs_wext_pct": 1.3377889313346438,
+    "rel_energy_residual_vs_etot_pct": 0.018391494158226614,
+    "turn265_predicted_etot_mJ": 0.23635108,
+    "turn265_predicted_error_vs_actual_pct": 0.002002683641447887
+  },
+  "convergence_dynamics": {
+    "cycles_completed": 25,
+    "cycle_cap": 25,
+    "initial_cycle1_delta_d": 0.005219391290159914,
+    "final_cycle25_delta_d": 0.0014507131740042478,
+    "monotonic_contraction_verified": true,
+    "average_contraction_factor": 0.9487282343787271,
+    "extrapolated_cycles_to_1e-3": 48,
+    "comparison_with_prior_inc87": {
+      "package124_cycle15_delta_d": 0.001614,
+      "package125_cycle40_delta_d": 0.001187,
+      "package126_r4_cycle40_delta_d": 0.00273,
+      "package129_cycle25_delta_d": 0.0014507131740042478,
+      "finding": "Package 129 exhibits pure monotonic contraction without strain shock or oscillatory amplification, but unaccelerated fixed-point AM undergoes asymptotic critical slowing down (contraction factor 0.985) requiring ~50 cycles to satisfy 1e-3 stationarity in softening."
+    }
+  }
+}
