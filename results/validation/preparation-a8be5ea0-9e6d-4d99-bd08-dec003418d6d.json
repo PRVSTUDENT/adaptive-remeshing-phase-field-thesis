@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "a8be5ea0-9e6d-4d99-bd08-dec003418d6d",
+  "finding": "Package 138 (Job 1418550.mmaster02) completed Exit 0 in 52s walltime across 4 cycles, confirming coupled stationary equilibrium under Hypothesis H29 with raw Delta d = 0.000563 <= 1.0e-3, Delta RF2 = 0.0907 N <= 0.1 N, 0 healing violations, 0 history loss violations, RF2 = 184.82 N (+0.66% vs donor 183.60 N), and E_tot = 0.248649 mJ (+1.69% vs donor 0.244516 mJ), classified as H29_PASSED.",
+  "verification_passed": true,
+  "h29_verdict": "H29_PASSED",
+  "pbs_job_id": "1418550.mmaster02",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/138_c4_inc90_h29_underrelaxed_forward_continuation/c4_inc90_h29_continuation_summary.json": "6C0ECCB5C120934A93E64DBB5698CB49487CE2BA6C97128A3F26AE230FBF9CF4",
+    "models/pandey_kumar_mode1/138_c4_inc90_h29_underrelaxed_forward_continuation/pbs_execution.log": "505131664B379F808E9E7AFCBF0AAA688606DA022753A8BD9D8FA7147F073ACC",
+    "models/pandey_kumar_mode1/138_c4_inc90_h29_underrelaxed_forward_continuation/c4_donor_inc90_exact_checkpoint.json": "A1093EDF1687E13CF85F38272E5C077625ACF0632F8FC36B23C4E331C3B6C795",
+    "models/pandey_kumar_mode1/138_c4_inc90_h29_underrelaxed_forward_continuation/c4_donor_inc90_exact_checkpoint_d_lower_bounds.csv": "3F0B63B3A15728F5D730348F01B40F3A20AFEEE300E5584C051125964CC691C9",
+    "models/pandey_kumar_mode1/138_c4_inc90_h29_underrelaxed_forward_continuation/c4_donor_inc90_exact_checkpoint_nodal_displacements.csv": "7CB453D4E3BBAFFCD8CDD88188238FEFEFCF9907C81348017EA0B8A0A322176E",
+    "models/pandey_kumar_mode1/138_c4_inc90_h29_underrelaxed_forward_continuation/c4_donor_inc90_exact_checkpoint_active_set_cards.inc": "85814EFBF249EBBF4F1B3DB0D7B97DDBF8CAB0AD458EEEA30B773593199DC195",
+    "models/pandey_kumar_mode1/138_c4_inc90_h29_underrelaxed_forward_continuation/c4_donor_inc90_exact_checkpoint_recovery_receipt.json": "24BEF00B3B5591E85582F146479FEEF480C85B088707F2B150080C56B89B8D74",
+    "results/validation/h29_c4_inc90_package138_evaluation.json": "D4DE15015D1ADB600092DFA07A3F2148705AA74F89655ED702EB89FF6395005A",
+    "scripts/audit_h29_package138_evaluation.py": "3956B91150260FFB41E0C1AEB4CD21A1223066844950DA060B300BB811655079",
+    "tests/unit/test_mode1_f1597_package138_terminal_evaluation.py": "3816513A943C5B568B5B5B51744760E33019782F1CFCD0027FD980AE272C0513"
+  }
+}
