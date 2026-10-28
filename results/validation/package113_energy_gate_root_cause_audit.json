@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "investigation": "PACKAGE113_ENERGY_GATE_ROOT_CAUSE_AUDIT",
+  "classification": "P113_GATE_VALID_FAILURE",
+  "classification_candidates": [
+    "P113_GATE_MEASUREMENT_DEFECT_IDENTIFIED",
+    "P113_GATE_NUMERICAL_DEFECT_IDENTIFIED",
+    "P113_GATE_VALID_FAILURE",
+    "P113_GATE_UNRESOLVED"
+  ],
+  "governing_gate": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED",
+  "finding": "Root-cause audit of Package 113 energy gate: unrounded discrepancy evaluates to +2.00803158% vs 2.00000000% tolerance (+0.00803158 percentage points). Driver inspection proves zero column-indexing defect (dynamic header search correctly parsed H0 columns 5-8). Component deconstruction confirms 71.98% of excess is driven by AT2 regularized fracture energy resolution (+7.481%) on the refined C4 mesh (h/l0=0.051 vs 0.333), while elastic strain energy passes (+0.697%). Package 117 same-mesh control proves AM conserved energy to +0.00305%. The failure represents an authentic, reproducible physical-numerical consequence of local mesh refinement under a fixed global scalar threshold. Classification: P113_GATE_VALID_FAILURE. Governing gate STAGE_C1_2_STEP2_ENERGY_GATE_FAILED remains strictly retained without tolerance relaxation or artificial rounding.",
+  "energy_deconstruction": {
+    "donor_increment": 79,
+    "donor_u_mm": 0.0018425,
+    "donor_elas_mJ": 0.17140369,
+    "donor_frac_mJ": 0.041044352,
+    "donor_tot_mJ": 0.21244805,
+    "donor_tot_sum_mJ": 0.212448042,
+    "receiver_elas_mJ": 0.17259901081241638,
+    "receiver_frac_mJ": 0.04411506312278167,
+    "receiver_tot_mJ": 0.21671407393519804,
+    "delta_elas_mJ": 0.0011953208124163839,
+    "pct_diff_elas": 0.6973716915991621,
+    "share_of_excess_elas_pct": 28.01955241165084,
+    "delta_frac_mJ": 0.0030707111227816705,
+    "pct_diff_frac": 7.481446223786578,
+    "share_of_excess_frac_pct": 71.98063511659883,
+    "delta_tot_mJ": 0.004266023935198038,
+    "pct_diff_tot_unrounded": 2.0080315800488817,
+    "predeclared_tolerance_pct": 2.0,
+    "exceedance_pct_points": 0.008031580048881715,
+    "exceedance_ppm": 80.31580048881715
+  },
+  "driver_code_integrity": {
+    "driver_file": "driver_c4_c1_2_inc79_continuation.py",
+    "d_lower_bounds_header": [
+      "EID",
+      "D0_1",
+      "D0_2",
+      "D0_3",
+      "D0_4",
+      "H0_1",
+      "H0_2",
+      "H0_3",
+      "H0_4"
+    ],
+    "h_column_indices": [
+      5,
+      6,
+      7,
+      8
+    ],
+    "d_column_indices": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "uses_dynamic_header_lookup": true,
+    "has_p134_hardcoded_d0_defect": false,
+    "verdict": "DRIVER_CODE_INTEGRITY_VERIFIED_NO_INDEXING_DEFECT"
+  },
+  "quadrature_and_unit_audit": {
+    "quadrature_rule": "2x2 Gauss-Legendre (4 points per quad)",
+    "gauss_weights": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "elastic_strain_energy_definition": "0.5 * eps^T * C(d) * eps",
+    "degradation_function": "(1.0 - d_avg)^2 + k_degrad",
+    "phase_field_fracture_energy_definition": "(Gc / (2 * l0)) * (d^2 + l0^2 * |grad d|^2)",
+    "energy_units": "mJ (10^-3 J = 10^-3 kN*mm = 1 N*mm)",
+    "length_units": "mm",
+    "force_units": "kN in solver internal, reported in N",
+    "verdict": "QUADRATURE_AND_UNITS_CONSISTENT"
+  },
+  "same_mesh_control_audit": {
+    "package": "PACKAGE_117",
+    "mesh": "Candidate C3 (same-mesh control, 1600 elements)",
+    "donor_energy_mJ": 0.21244805,
+    "receiver_energy_mJ": 0.2124545429363634,
+    "pct_diff": 0.003056246627540387,
+    "verdict": "AM_ALGORITHM_CONSERVES_ENERGY_TO_0P003_PCT"
+  },
+  "numerical_stationarity_audit": {
+    "cycles_completed": 4,
+    "final_delta_d_max": 0.0008896473731701549,
+    "stationarity_tolerance": 0.001,
+    "stationarity_passed": true,
+    "load_drift_delta_rf2_N": 0.06633996963500977,
+    "load_drift_tolerance_N": 0.1,
+    "load_drift_passed": true,
+    "healing_violations": 0,
+    "healing_passed": true,
+    "free_residual_max_kN_mm": 1.3327841378084072e-09,
+    "kkt_min_lambda_kN_mm": -9.938324526017337e-10,
+    "verdict": "FULL_NUMERICAL_STATIONARITY_AND_EQUILIBRIUM_ACHIEVED"
+  },
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/driver_c4_c1_2_inc79_continuation.py": "B3DAA63D736EAB4C186A9252DAC08711673AABAB9563AE18EF10C72CA305C04E",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/c4_c1_2_inc79_continuation_summary.json": "568B8B92F1576DB761D841914B55E20C59B1B334E680A4EF21778D28E5A46461",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/d_lower_bounds.csv": "31DD76E38752795821E9F7AF75BF4971F9926A090A13B304668E95A876DB725D",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/uel_energy_balance.csv": "EC265AAF6CE4CEDC8190154A946D02C2F162BFF77D19F3B5AFFEA1E378B961D7",
+    "models/pandey_kumar_mode1/117_c3_samemesh_am_control/c3_samemesh_inc79_control_summary.json": "C29FC5C9A0B495BE45FF3FCD97EEAAA3E1803E914E4624796ABDC379FEA2EECB"
+  }
+}

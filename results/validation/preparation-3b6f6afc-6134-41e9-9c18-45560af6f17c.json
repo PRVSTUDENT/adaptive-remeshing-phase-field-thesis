@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "3b6f6afc-6134-41e9-9c18-45560af6f17c",
+  "finding": "Root-cause audit of Package 113 energy gate: unrounded discrepancy evaluates to +2.00803158% vs 2.00000000% tolerance (+0.00803158 percentage points). Driver inspection proves zero column-indexing defect (dynamic header search correctly parsed H0 columns 5-8). Component deconstruction confirms 71.98% of excess is driven by AT2 regularized fracture energy resolution (+7.481%) on the refined C4 mesh (h/l0=0.051 vs 0.333), while elastic strain energy passes (+0.697%). Package 117 same-mesh control proves AM conserved energy to +0.00305%. The failure represents an authentic, reproducible physical-numerical consequence of local mesh refinement under a fixed global scalar threshold. Classification: P113_GATE_VALID_FAILURE. Governing gate STAGE_C1_2_STEP2_ENERGY_GATE_FAILED remains strictly retained without tolerance relaxation or artificial rounding.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "results/validation/package113_energy_gate_root_cause_audit.json": "5DC353BF8F198666069FA6F36AC97036145DE24CA93B8F07A22FA4D5A4DE601B",
+    "scripts/audit_package113_energy_gate_root_cause.py": "B323E3AB4E80F13B89C51C9C754F942FE228E25C45CE3B619D0F1210191E2F24",
+    "tests/unit/test_mode1_f1597_package113_root_cause_audit.py": "05A2AA382CCBF90324540192CF982365679AB95B71ADB7EFD9D85819C25801C4",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/driver_c4_c1_2_inc79_continuation.py": "B3DAA63D736EAB4C186A9252DAC08711673AABAB9563AE18EF10C72CA305C04E",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/c4_c1_2_inc79_continuation_summary.json": "568B8B92F1576DB761D841914B55E20C59B1B334E680A4EF21778D28E5A46461",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/d_lower_bounds.csv": "31DD76E38752795821E9F7AF75BF4971F9926A090A13B304668E95A876DB725D",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/uel_energy_balance.csv": "EC265AAF6CE4CEDC8190154A946D02C2F162BFF77D19F3B5AFFEA1E378B961D7",
+    "models/pandey_kumar_mode1/117_c3_samemesh_am_control/c3_samemesh_inc79_control_summary.json": "C29FC5C9A0B495BE45FF3FCD97EEAAA3E1803E914E4624796ABDC379FEA2EECB",
+    "models/pandey_kumar_mode1/134_r1_c4_inc87_h20_underrelaxed_am_continuation/c4_inc87_h20_continuation_summary.json": "11F52F6C09BD70661D657EBAF0A4E2D2CD7931B82097119158E1BCAD96D7A685"
+  }
+}
