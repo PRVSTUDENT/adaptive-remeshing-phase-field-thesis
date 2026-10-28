@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": "Turn 289",
+  "hypothesis": "Hypothesis H28: Exact-Frame Increment-89 C4 Checkpoint Serialization and Restorability Validation",
+  "verdict": "H28_CHECKPOINT_VERIFIED_RESTORABLE",
+  "checkpoint_provenance": {
+    "source_package": "137_c4_donor_inc89_h27_exact_frame_continuation",
+    "source_job_id": "1418548.mmaster02",
+    "converged_cycle": 5,
+    "target_displacement_mm": 0.00199010735,
+    "rf2_N": 183.8437020778656,
+    "e_tot_mJ": 0.24409408569336769,
+    "frozen_uel_sha256": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC"
+  },
+  "file_hashes": {
+    "checkpoint_json": "7BF3333DC457E4B1253D0157EDAA0A2AD99D976D29974563C221875A2FA7D361",
+    "bounds_csv": "A50A179DF54D737864D5C06A6342EC6D71611C452B1C2C2D93825CFC4C16DE80",
+    "disp_csv": "2E9C453A7D18D4F396DD036D09AFB233ECC2EDE78CC8E3A14440A554926C2C3E",
+    "cards_inc": "B9E01CB5409A3B2B7D77F003782A691702F0EBBFCFA7174FD3BD369111A12146",
+    "receipt_json": "D82C8B5762AE06FF04B043648F8BBFBAE34B34A9ABA3E132B257F9C551E3A98B"
+  },
+  "dimension_checks": {
+    "node_count": 4588,
+    "damage_count": 4588,
+    "element_count": 4422,
+    "total_gp_count": 17688,
+    "expected_nodes": 4588,
+    "expected_elements": 4422,
+    "expected_gps": 17688,
+    "all_counts_match": true
+  },
+  "monotonicity_results": {
+    "d_healing_violations": 0,
+    "max_d_healing_violation": 0.0,
+    "d_min_growth": 0.0,
+    "d_max_growth": 0.011410999999999949,
+    "h_loss_violations": 0,
+    "max_h_loss_violation": 0.0,
+    "h_min_growth": -4.909586487356066e-10,
+    "h_max_growth": 0.5260645455983894,
+    "pointwise_monotonicity_passed": true
+  },
+  "column_separation_results": {
+    "d_min": 0.00336084,
+    "d_max": 0.67447905,
+    "h_min_MPa": 2.31719031e-08,
+    "h_max_MPa": 9.62063419013337,
+    "d0_columns": [
+      "D0_1",
+      "D0_2",
+      "D0_3",
+      "D0_4"
+    ],
+    "h0_columns": [
+      "H0_1",
+      "H0_2",
+      "H0_3",
+      "H0_4"
+    ],
+    "d0_csv_range": [
+      0.00336084,
+      0.67447905
+    ],
+    "h0_csv_range": [
+      2.31719031e-08,
+      9.62063419
+    ],
+    "separation_strictly_valid": true
+  },
+  "restoration_results": {
+    "max_disp_restoration_error_mm": 4.999473057765158e-14,
+    "max_damage_restoration_error": 0.0,
+    "restored_node_count": 4588,
+    "restored_damage_count": 4588,
+    "lossless_round_trip_passed": true
+  },
+  "negative_tests": {
+    "neg_test_column_swap_detected": true,
+    "neg_test_dropped_record_detected": true,
+    "neg_test_strict_integer_ordering_verified": true
+  },
+  "donor_inc90_reference": {
+    "increment": 90,
+    "displacement_mm": 0.00201510731,
+    "rf2_N": 183.603957,
+    "e_elas_mJ": 0.18498689,
+    "e_frac_mJ": 0.059529113,
+    "e_tot_mJ": 0.244516,
+    "reference_authenticated": true
+  },
+  "governing_gate": {
+    "milestone": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED",
+    "p113_error_pct": 2.00803158,
+    "threshold_pct": 2.0,
+    "status": "FAILED_INVARIANT"
+  }
+}
