@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "finding": "Completed independent qualification and critical defect correction of Package 146 -> Package 147 transfer driver: implemented coupled AbaqusPDASIterationController with authentic solver output parsing (.sta, .dat, uel_energy_balance.csv) and dual-channel notification PBS generation; corrected canonical KKT sign convention (lambda_i = r_i >= 0 on active set); verified Fortran SVARS(9..12) history commitment and survival across accepted increments; all 15 unit and validation tests pass in 36.87s; execution decision classified NOT QUALIFIED FOR HPC SUBMISSION IN TURN 329 pending Turn 330 operation registration and preflight datacheck.",
+  "evidence_sources": {
+    "scripts/state_transfer/build_package146_147_transfer_deck.py": "6B22E3AE9D3D870EC9DDA6BA7FA36514B2E5BF045EEF41938576A1DD8AE2F1BA",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "AF7021E88BB366C4DDB578E36F72B22E12F2985C5C9ECBABA9AA1FD7787F9175",
+    "tests/unit/test_mode1_f1597_package146_147_transfer_driver.py": "D9804F19E74E72EB01BDE2F88E1D6448803F192CFFEEEA328CEAA9470589C74F",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8",
+    "results/validation/f1597_package146_to_147_transfer_implementation_contract.json": "D1DEF183DCE75AF8A67828710D0421491E7C6417624AE76D408180A596392A5F",
+    "models/pandey_kumar_mode1/146_c3_fine_donor/M1_C3_FINE_PACKAGE146_DONOR.inp": "9F93419A4F1E090286007A7291693BD3B783D984CE276E102D22D404AD4C5475",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/M1_C4_CORRECTED_PACKAGE147_REF.inp": "FFFE51D5348F6E4B5E9B4742D783CA1645B480B229189168493AEDA10C91722A"
+  },
+  "verification_passed": true,
+  "title": "Package 146 to Package 147 State Transfer Driver Technical Qualification and Abaqus Iteration Interface",
+  "classification": "PACKAGE146_147_TRANSFER_DRIVER_QUALIFIED_OFFLINE",
+  "execution_decision": "NOT_QUALIFIED_FOR_HPC_SUBMISSION_IN_TURN_329",
+  "next_operation": "Turn 330: Complete formal operation registration and preflight cluster datacheck for Package 148 transfer continuation, then submit if all execution gates pass."
+}
