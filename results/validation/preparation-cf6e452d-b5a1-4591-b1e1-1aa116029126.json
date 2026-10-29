@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "cf6e452d-b5a1-4591-b1e1-1aa116029126",
+  "finding": "Hypothesis H50 Coupled PDAS Reference Consistency and Physical Validation completed: 1. Confirmed reference mismatch in H49: H49 benchmarked against an unauthenticated Increment-79 baseline (RF2 = 185.3907 N, E_tot = 0.217100 mJ, +3.999% total energy offset) rather than the authenticated Package 143 Frame-77 donor (RF2 = 188.457042 N, E_tot = 0.208751950 mJ). 2. Re-evaluating the 10-cycle coupled PDAS equilibrated solution (RF2 = 184.8360 N, E_tot = 0.213409 mJ) against the authentic Package 143 Frame-77 baseline yields: Reaction Force error -1.9214% (<= 5.0% Force Gate, PASS); Raw Total Energy error +2.2310% (> 2.000% Energy Gate, FAIL). H49's reported simultaneous gate acceptance is REFUTED and Stage C1-1 remains FAILED. 3. Proved thermodynamic energy invariance during displacement-controlled crack relaxation: damage growth increases fracture surface energy (+0.007935 mJ / +20.30%) while softening relaxes elastic strain energy (-0.008324 mJ / -4.76%). Because elastic relaxation is 95.3% compensated by crack surface creation (|dE_elas| / dE_frac = 1.0491), net total energy relaxes by only -0.000390 mJ (-0.1822%) over 10 cycles, establishing that coupled PDAS re-equilibration cannot eliminate the +2.43% refinement energy excess. 4. Retained all governing invariants: H47_PACKAGE142_C1_1_FAILED, STAGE_C1_2_STEP2_ENERGY_GATE_FAILED (+2.00803158%), P113_GATE_VALID_FAILURE, H24_REFERENCE_AUDIT_PENDING, and frozen production UEL hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6.",
+  "evidence_sources": {
+    "results/validation/h50_reference_consistency_audit.json": "0CD39AD06F91729147AFF4619A8A5A814BBAC47E63D1A2D0D1D750D3601FFE7A",
+    "scripts/validation/audit_h50_reference_consistency_and_physical_validation.py": "F8937310AD8558920E7CF1E574A12845BC29E0188C6173F93F42201165CFD1C8",
+    "tests/unit/test_mode1_f1597_h50_reference_consistency.py": "B8B9DFB0B09DA0D3184784F36457E33E7EB0DFA8E0E7A521CCEE1A1716E56003",
+    "results/validation/package142_c1_1_evaluation.json": "CD44CE6AFDE7F3D240A173FE62288FC9EB25158725966E727FE0C3B5649A566D",
+    "scripts/validation/solve_coupled_pdas_equilibration_package144.py": "F68C586FA45E6A3E62A3F6E2B49FD9BE5F87506E7FB05B897BF7C66C109ED489"
+  },
+  "verification_passed": true,
+  "classification": "H50_REFERENCE_MISMATCH_CONFIRMED"
+}
