@@ -1,0 +1,39 @@
+{
+  "batch_name": "MODE1_PACKAGE146_C3_FINE_DONOR",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c3_fine_package146_donor",
+  "files": {
+    "M1_C3_FINE_PACKAGE146_DONOR.inp": "9f93419a4f1e090286007a7291693bd3b783d984ce276e102d22d404ad4c5475",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "submit_M1_C3_FINE_PACKAGE146_DONOR.pbs": "0edd261d670667adb8c516042c76528f4a0205aae1828c475ad77a25db4c174e",
+    "PACKAGE_MANIFEST.json": "efe20e3d82d9ae3d457b91f9c714781e3136b1487ce9df6523772ac64899058e"
+  },
+  "jobs": [
+    {
+      "id": "M1_C3_FINE_PACKAGE146_DONOR",
+      "purpose": "Abaqus 2023 Candidate C3-Fine continuous donor calculation (5112 quads, h=0.81 um, 5290 nodes, f42_mixed_uel.for) with *NODE PRINT to capture authentic nodal phase field (DOF 3) at Frame-77 for reduced mesh-jump state transfer",
+      "input": "M1_C3_FINE_PACKAGE146_DONOR.inp",
+      "datacheck": "M1_C3_FINE_PACKAGE146_DONOR_DC.dat",
+      "pbs": "submit_M1_C3_FINE_PACKAGE146_DONOR.pbs",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "depends_on": [],
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c3_fine_package146_donor/submit_M1_C3_FINE_PACKAGE146_DONOR.pbs\"",
+      "command_sha256": "722e1d24e3d9b4d165f0b599ce37cb49a631749147704eb88b8a818b37299ab6"
+    }
+  ],
+  "acceptance": {
+    "M1_C3_FINE_PACKAGE146_DONOR": "Exit code 0; monotonic damage growth and fracture energy dissipation; Step 1 completes at exact target displacement u = 0.0018003125442192 mm with authentic nodal phase field (DOF 3) recorded in .dat file via *NODE PRINT; Step 2 continues through u = 0.0020 mm."
+  }
+}
