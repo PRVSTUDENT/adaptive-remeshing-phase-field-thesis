@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Hypothesis H35 active-set provenance audit proves: 1. Package 113's 1,640 clamped nodes satisfy all Karush-Kuhn-Tucker conditions (min lambda = -9.94e-10 >= -1e-9 kN/mm, free residual = 1.33e-9 <= 1e-6 kN/mm, 0 healing violations, 0 history loss violations) and represent the genuine, physically required active set of the variational inequality under incremental crack growth (Delta u = 21.094 nm). 2. Damage advances only in the active process zone (2,948 free nodes), while unloaded wake nodes and outer elastic nodes remain legitimately bound at d = d_inc78. 3. Conversely, Package 115's 4,478 free nodes (only 110 clamped) resulted from coarse-to-fine interpolation smoothing (d_max,0 = 0.3884 vs 0.5374) which artificially unclamped the phase field during unconstrained direct relaxation. 4. The active-set disparity is a rigorous physical consequence of path-dependent incremental loading with irreversible memory versus static direct relaxation, with zero transfer defect detected (H35_ACTIVE_SET_PHYSICALLY_JUSTIFIED). In accordance with governance rules, HPC submission is WITHHELD and the governing gate STAGE_C1_2_STEP2_ENERGY_GATE_FAILED remains invariant.",
+  "classification": "H35_ACTIVE_SET_PHYSICALLY_JUSTIFIED",
+  "evidence_sources": {
+    "results/validation/h35_active_set_provenance_audit.json": "77C9445104F8A1B6768A8C920407F597E901142870F237309C9EDB1D265C4460",
+    "scripts/audit_h35_active_set_provenance.py": "BDD6E946307A501E141C6D8A59E4ED3B571B2063BB30082EFE6E4A3F528807DE",
+    "tests/unit/test_mode1_f1597_h35_active_set_provenance.py": "D336A3EDAF1A3006C393158085B335DDE4D04130D3D2F75F71C185008B0329C2",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/c4_c1_2_inc79_continuation_summary.json": "568B8B92F1576DB761D841914B55E20C59B1B334E680A4EF21778D28E5A46461",
+    "models/pandey_kumar_mode1/115_c4_inc79_direct_transfer/c4_inc79_direct_transfer_summary.json": "68B04B35ED41C537656865FF690AFFDE78011E11C78F7E799F5ADCD34F174AEC"
+  },
+  "verification_passed": true
+}
