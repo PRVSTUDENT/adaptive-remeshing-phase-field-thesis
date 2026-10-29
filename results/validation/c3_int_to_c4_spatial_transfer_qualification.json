@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "hypothesis": "H40",
+  "classification": "H40_JOB_PENDING_MAPPING_QUALIFIED",
+  "status": "QUALIFICATION_COMPLETE",
+  "verification_passed": true,
+  "finding": "Hypothesis H40 C3-Intermediate to C4 Nonmatching Spatial Transfer Geometry Qualification establishes: 1. Complete spatial containment: All 4,588 receiver physical nodes (100.0%) and all 17,688 receiver Gauss points (100.0%) map deterministically to interior donor C3-Int elements with maximum coordinate reconstruction error 3.469e-17 mm and RMS error 7.643e-18 mm. 2. Strict slit flank isolation: Exactly 32 receiver seam pairs (64 nodes) along y = 0.05 mm, x <= 0.04 mm remain partitioned, with zero flank violations across the crack face (0 nodes / 0 GPs cross-interpolated). 3. Mathematical operator exactness: Bilinear inverse isoparametric Newton-Raphson solver confirms partition of unity error < 2.220e-16. Linear displacement patch test passed with max error 1.570e-16 mm; constant phase damage reproduced exactly; conservative host-nearest GP mapping satisfies strict non-negativity (0 violations). Classification: H40_JOB_PENDING_MAPPING_QUALIFIED. Job 1418650 remains queued in normal_imfdfkmq. Governing gates STAGE_C1_2_STEP2_ENERGY_GATE_FAILED (+2.00803158%), P113_GATE_VALID_FAILURE, and H24_REFERENCE_AUDIT_PENDING remain strictly invariant.",
+  "donor_mesh": {
+    "name": "C3-Intermediate",
+    "inp_file": "models/pandey_kumar_mode1/141_c3_int_donor_monotonic/M1_C3_INT_DONOR_MONOTONIC.inp",
+    "physical_nodes": 2610,
+    "physical_quads": 2484,
+    "seam_pairs": 25,
+    "slit_nodes": 50
+  },
+  "receiver_mesh": {
+    "name": "C4-Receiver",
+    "inp_file": "models/pandey_kumar_mode1/111_r2_c4_frame77_pre_instability/M1_C4_FRAME77_CONTINUATION.inp",
+    "physical_nodes": 4588,
+    "physical_quads": 4422,
+    "total_gauss_points": 17688,
+    "seam_pairs": 32,
+    "slit_nodes": 64
+  },
+  "node_mapping_metrics": {
+    "total_target_nodes": 4588,
+    "mapped_nodes": 4588,
+    "rejected_nodes": 0,
+    "coverage_pct": 100.0,
+    "max_coord_recon_error": 3.1031676915590914e-17,
+    "rms_coord_recon_error": 7.64300802919893e-18,
+    "flank_violations": 0
+  },
+  "gp_mapping_metrics": {
+    "total_target_gps": 17688,
+    "mapped_gps": 17688,
+    "rejected_gps": 0,
+    "coverage_pct": 100.0,
+    "max_coord_recon_error": 3.469446951953614e-17,
+    "rms_coord_recon_error": 7.230947388171334e-18,
+    "flank_violations": 0
+  },
+  "patch_test_metrics": {
+    "linear_displacement_max_error": 1.5700924586837752e-16,
+    "linear_displacement_rms_error": 3.875472011752157e-17,
+    "constant_phase_max_error": 1.1102230246251565e-16,
+    "partition_of_unity_max_error": 2.220446049250313e-16,
+    "history_non_negativity_violations": 0,
+    "patch_tests_passed": true
+  },
+  "execution_time_seconds": 6.84
+}
