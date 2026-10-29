@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "finding": "Completed final overnight technical review and GO/NO-GO execution evaluation for Package 148 state transfer: verified all 7,265 receiver nodes, 28,224 GP history values, and seam isolation (y=0.050 mm, x<=0.040 mm); confirmed Fortran SVARS(9..12) commitment and survival across accepted increments; confirmed active-set decoupling and ratchet prevention; generated authoritative overnight restart checkpoint; execution decision NO-GO for Turn 330 pending Turn 331 operation registration and preflight datacheck.",
+  "evidence_sources": {
+    "scripts/state_transfer/build_package146_147_transfer_deck.py": "6B22E3AE9D3D870EC9DDA6BA7FA36514B2E5BF045EEF41938576A1DD8AE2F1BA",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "AF7021E88BB366C4DDB578E36F72B22E12F2985C5C9ECBABA9AA1FD7787F9175",
+    "tests/unit/test_mode1_f1597_package146_147_transfer_driver.py": "D9804F19E74E72EB01BDE2F88E1D6448803F192CFFEEEA328CEAA9470589C74F",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/M1_C4_PACKAGE148_STATE_TRANSFER.inp": "77D4C5D992940AAC761599F41E68EEE3C965FC92D6183C78ECB8D9E48BDB3138",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/PACKAGE_MANIFEST.json": "0FA2F82631AC554626D0FF457D61A946EF2CB7DA10D59B791D7CF5B2CD056CFA",
+    "results/validation/f1597_package148_overnight_restart_checkpoint.json": "3AE5AA3E7477746C5EBB828E31818C1D02494108F74D2FD421A0718233673C9B"
+  },
+  "verification_passed": true,
+  "title": "Package 148 Final Overnight Checkpoint and Defensible Execution Decision",
+  "classification": "PACKAGE148_OVERNIGHT_CHECKPOINT_SAFELY_STORED",
+  "execution_decision": "NO-GO",
+  "hpc_submission": "NONE",
+  "science": "QUALIFIED_OFFLINE",
+  "controller_registration": "PENDING",
+  "overnight_status": "SAFELY_CHECKPOINTED",
+  "next_operation": "Turn 331: Register evaluate_mode1_package148_state_transfer in Controller-Operations.ps1, stage package to /scratch9, execute preflight Abaqus 2023 datacheck, and submit qualified PBS job via Invoke-Mode1Execution.ps1."
+}
