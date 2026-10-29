@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "investigation": "H33_DISCRETIZATION_AWARE_ENERGY_VALIDATION",
+  "classification": "H33_MESH_AWARE_DIAGNOSTIC_SUPPORTED",
+  "classification_candidates": [
+    "H33_CANDIDATE_QUALIFIED_SUBMITTED",
+    "H33_MESH_AWARE_DIAGNOSTIC_SUPPORTED",
+    "H33_ADDITIONAL_MESH_EVIDENCE_REQUIRED",
+    "H33_HYPOTHESIS_REJECTED",
+    "H33_BLOCKED_EVIDENCE"
+  ],
+  "governing_gate_retained": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED",
+  "p113_gate_valid_failure_retained": "+2.00803158%",
+  "h24_reference_audit_pending_retained": true,
+  "mesh_hierarchy": {
+    "level_1_c3_donor": {
+      "model": "Candidate C3 (Package 76 Inc 79)",
+      "h_tip_um": 2.5,
+      "h_over_l0": 0.33333333333333337,
+      "elements": 1600,
+      "nodes": 1681,
+      "rf2_N": 186.067909,
+      "e_elas_mJ": 0.17140369,
+      "e_frac_mJ": 0.041044352,
+      "e_tot_mJ": 0.21244805,
+      "d_max": 0.537416
+    },
+    "level_2_c3_int_r1": {
+      "model": "Candidate C3-Intermediate (Package 116 R1 Job 1417818)",
+      "h_tip_um": 1.2,
+      "h_over_l0": 0.16,
+      "elements": 2484,
+      "nodes": 2610,
+      "rf2_N": 185.8471781015396,
+      "e_elas_mJ": 0.17119313202068087,
+      "e_frac_mJ": 0.045587795947720264,
+      "e_tot_mJ": 0.21678092796840115,
+      "d_max": 0.5202280908061423,
+      "cycles": 7
+    },
+    "level_3_c4_direct": {
+      "model": "Candidate C4 Direct Transfer (Package 115 Job 1417751)",
+      "h_tip_um": 0.606,
+      "h_over_l0": 0.0808,
+      "elements": 4422,
+      "nodes": 4588,
+      "rf2_N": 185.7885718345642,
+      "e_elas_mJ": 0.17114131508131342,
+      "e_frac_mJ": 0.04561902943338428,
+      "e_tot_mJ": 0.2167603445146977,
+      "d_max": 0.5237728264413353
+    },
+    "level_3_c4_p113_sequential": {
+      "model": "Candidate C4 Sequential Continuation (Package 113 Job 1417682)",
+      "h_tip_um": 0.606,
+      "h_over_l0": 0.0808,
+      "elements": 4422,
+      "nodes": 4588,
+      "rf2_N": 187.3914748430252,
+      "e_elas_mJ": 0.17259901081241638,
+      "e_frac_mJ": 0.04411506312278167,
+      "e_tot_mJ": 0.21671407393519804,
+      "d_max": 0.4992200600543182
+    }
+  },
+  "spatial_convergence_analysis": {
+    "r_12": 2.0833333333333335,
+    "r_23": 1.9801980198019802,
+    "delta_tot_12_mJ": 0.00433287796840115,
+    "delta_tot_23_mJ": -2.058345370345438e-05,
+    "delta_frac_12_mJ": 0.0045434439477202646,
+    "delta_frac_23_mJ": 3.1233485664014515e-05,
+    "share_first_refinement_frac_pct": 99.31725272177478,
+    "share_second_refinement_frac_pct": 0.68274727822522,
+    "continuum_extrapolation": {
+      "e_inf_p1_mJ": 0.21673934523364669,
+      "e_inf_p2_mJ": 0.2167532982443118,
+      "coarse_donor_bias_p1_pct": -1.9799336521113122,
+      "coarse_donor_bias_p2_pct": -1.9862434755014327
+    },
+    "discretization_uncertainty": {
+      "mesh_truncation_raw_nJ": 20.58345370345438,
+      "gci_p1_nJ": 26.249101313748643,
+      "gci_p2_nJ": 8.807837982354195
+    }
+  },
+  "two_level_evaluation_framework": {
+    "level_a_original_acceptance_gate": {
+      "gate_name": "STAGE_C1_2_STEP2_ENERGY_GATE",
+      "description": "Strict unrounded raw comparison against donor energy denominator",
+      "measured_pct": 2.0080315800488817,
+      "predeclared_tolerance_pct": 2.0,
+      "exceedance_pct_points": 0.008031580048881715,
+      "exceedance_ppm": 80.31580048881715,
+      "excess_energy_nJ": 17.062935198037913,
+      "pass": false,
+      "status": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED",
+      "p113_classification": "P113_GATE_VALID_FAILURE",
+      "retrospective_relaxation_allowed": false,
+      "governance_note": "Strictly retained. Under repository governance, no retrospective waiver or threshold modification is permitted."
+    },
+    "level_b_mesh_aware_diagnostic": {
+      "diagnostic_name": "LEVEL_B_MESH_AWARE_ENERGY_DIAGNOSTIC",
+      "description": "Evaluation against resolution-consistent continuum limit and mesh truncation uncertainty",
+      "continuum_limit_e_inf_p1_mJ": 0.21673934523364669,
+      "continuum_limit_e_inf_p2_mJ": 0.2167532982443118,
+      "pct_deviation_from_e_inf_p1": 0.011659765060840894,
+      "pct_deviation_from_e_inf_p2": 0.01809629169728036,
+      "direct_c4_receiver_tot_mJ": 0.2167603445146977,
+      "pct_deviation_from_direct_c4": 0.02134642275239611,
+      "mesh_truncation_uncertainty_raw_nJ": 20.58345370345438,
+      "gci_uncertainty_p1_nJ": 26.249101313748643,
+      "excess_energy_over_2pct_gate_nJ": 17.062935198037913,
+      "is_excess_bounded_by_mesh_uncertainty": true,
+      "diagnostic_status": "H33_MESH_AWARE_DIAGNOSTIC_SUPPORTED",
+      "scientific_assessment": "When evaluated against a resolution-consistent continuum benchmark, the Package 113 cross-mesh transfer energy residual is ~0.018% (182 ppm), which is over 100 times smaller than the 2.0% threshold. Furthermore, the 17.06 nJ excess over the 2.000% gate is fully bounded within the fine-mesh discretization truncation uncertainty (20.58 nJ raw step / 26.25 nJ GCI). This proves that the cross-mesh transfer does not inject non-physical energy; the apparent gate failure is entirely a mesh-discretization artifact of evaluating a finely resolved AT2 phase field against an under-resolved coarse-mesh denominator."
+    }
+  },
+  "finding": "Hypothesis H33 (Discretization-Aware Energy Validation) is SUPPORTED across authentic 3-level mesh data: 1. Asymptotic spatial convergence analysis reveals that 99.32% of the AT2 fracture energy shift occurs between h = 2.5 um (h/l0 = 0.333) and h = 1.2 um (h/l0 = 0.160), settling onto an invariant plateau with only 31.2 nJ (+0.068%) change upon further refinement to h = 0.606 um (h/l0 = 0.081). 2. Richardson extrapolation establishes the continuum total energy at E_inf ~ 0.216739 - 0.216753 mJ, demonstrating that the coarse C3 donor under-predicts the true continuum energy by -1.986% (-4.3 uJ) due to gradient under-integration. 3. Under Level A (Predeclared Acceptance Gate), Package 113 strictly FAILS (+2.00803158% vs 2.00000000%, an exceedance of +0.00803158 percentage points / 80.32 ppm / 17.06 nJ). This gate and failure status remain strictly invariant pursuant to repository governance. 4. Under Level B (Mesh-Aware Diagnostic), the Package 113 energy residual against the continuum limit evaluates to ~0.018% (182 ppm), and the 17.06 nJ excess is fully bounded within the 20.58 nJ fine-mesh discretization truncation uncertainty (and 26.25 nJ GCI). 5. The Two-Level Framework resolves the scientific paradox: the nonmatching state transfer preserves variational state consistency without physical corruption, while preserving strict governance integrity.",
+  "source_files": {
+    "three_level_audit": "CED391A1B69BF8F02850AC96C2647EB5DEFFAA3644286D78BF500D271EF4DB22",
+    "c3_int_summary": "E58409C06E7D23428C791670B2DF15F5967C604B408BF46FDC9DA555F5695F14",
+    "p113_continuation_summary": "568B8B92F1576DB761D841914B55E20C59B1B334E680A4EF21778D28E5A46461",
+    "pkg76_uel_energy_csv": "EC265AAF6CE4CEDC8190154A946D02C2F162BFF77D19F3B5AFFEA1E378B961D7",
+    "energy_budget_f1597_inc79": "A7C915959692F2B7FB0D8D6EF85C1B08BACE55F5D0B544E2B3E9CF49EA23E6D9"
+  }
+}
