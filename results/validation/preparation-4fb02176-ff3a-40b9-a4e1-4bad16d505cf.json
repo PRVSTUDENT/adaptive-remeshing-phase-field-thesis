@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Hypothesis H53 Continuous C4 Reference Verification and Mesh-Transfer Error Decomposition: 1. Authenticated PBS Job 1418732.mmaster02 (Package 145 / M1_C4_PACKAGE145_CONTINUOUS_REFERENCE, 4422 quads, 4588 nodes, h_tip=0.6 um) completed Exit 0 with verified Abaqus convergence, unconstrained phase-field DOF 3 physical evolution (d_max grew from 0.0 to 0.4991 at Step 1 Increment 76, localizing at crack tip Node 2278 at x=0.0414 mm, y=0.0500 mm, and reaching 1.002 in Step 2). 2. Evaluated authentic Step 1 Increment 76 observables at exact u_RP = 0.001800312544 mm: RF2 = 187.68440 N, E_elastic = 0.16894325 mJ, E_fracture = 0.04431343 mJ, E_total = 0.21325668 mJ. 3. Performed controlled three-way comparison against C3-Intermediate donor (Package 143, E_A = 0.20875195 mJ, RF2 = 188.457042 N) and C4 transferred receiver (Package 142, E_C = 0.21383294 mJ, RF2 = 194.121346 N). 4. Decoupled energy shifts: mesh-discretization shift Delta_mesh = +2.1579% (+0.004505 mJ, accounting for 88.66% of the raw Stage C1-1 excess); numerical transfer/re-equilibration defect Delta_transfer = +0.2702% (+0.000576 mJ, accounting for 11.34% of the excess); raw total discrepancy Delta_total = +2.4340% (+0.005081 mJ). 5. Verified exact absolute energy identity: (E_B - E_A) + (E_C - E_B) = E_C - E_A (identity error = 0.0 mJ). 6. Classified as H53_C4_REFERENCE_QUALIFIED_MESH_BIAS_QUANTIFIED while preserving governance invariants: H47_PACKAGE142_C1_1_FAILED, STAGE_C1_2_STEP2_ENERGY_GATE_FAILED, P113_GATE_VALID_FAILURE, and H24_REFERENCE_AUDIT_PENDING. Original raw <=2.0% gate remains binding; no speculative C1-2 execution.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/145_c4_continuous_reference/M1_C4_PACKAGE145_CONTINUOUS_REFERENCE.inp": "973AD6A2E480DBBB7A66F9919D4C3ABB9521DAF52D6F3CE992A1F8C8B5CD9518",
+    "models/pandey_kumar_mode1/145_c4_continuous_reference/M1_C4_PACKAGE145_CONTINUOUS_REFERENCE.sta": "25E32FBDC9B8AA12859D305214737DFEE563827FC267F3C15937A764C1FE6FDE",
+    "models/pandey_kumar_mode1/145_c4_continuous_reference/M1_C4_PACKAGE145_CONTINUOUS_REFERENCE.dat": "20B30670792CFD12F5AF8230862E1300F99AD986271179203F971FF485BCC9C2",
+    "models/pandey_kumar_mode1/145_c4_continuous_reference/uel_energy_balance.csv": "ED2462FFE221E48827A803D66DA9949E8A1744FCD0901B63A9AEC9677A4D7A25",
+    "models/pandey_kumar_mode1/145_c4_continuous_reference/pbs_execution.log": "4244B6ABD6155FAF719FFDCCFA1E3C71E40921985898E14CB00D64020C3BDBCC",
+    "scripts/validation/evaluate_package145_h53_decomposition.py": "DD9E4A80BB77CB9F33F2CFFF77CBD6C95A038855601F6BA86A3EE4A18D621F77",
+    "tests/unit/test_mode1_f1597_h53_c4_reference_decomposition.py": "D2A0A76C1EF43BD577231FAF2A30871B9F1F778ADF9703DC72F0F27172B83761",
+    "results/validation/h53_c4_reference_mesh_bias_audit.json": "F1F2C3460C07B57B750C24153ABAF676F02BF89201A6ADEE71459BF2931CAFC5"
+  },
+  "verification_passed": true
+}
