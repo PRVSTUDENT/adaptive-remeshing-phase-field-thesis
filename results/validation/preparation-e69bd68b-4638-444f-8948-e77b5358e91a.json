@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 146 Candidate C3-Fine continuous donor simulation (5,112 quads, 5,290 nodes, h_tip ~ 0.81 um) qualified and submitted to PBS as Job 1418753.mmaster02. Tests H54 by reducing mesh resolution jump ratio to C4 from 1.38 down to 1.07 to lower Stage C1-1 total energy discrepancy below 2.0% threshold under frozen physics.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/146_c3_fine_donor/M1_C3_FINE_PACKAGE146_DONOR.inp": "9F93419A4F1E090286007A7291693BD3B783D984CE276E102D22D404AD4C5475",
+    "models/pandey_kumar_mode1/146_c3_fine_donor/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/146_c3_fine_donor/job_notifications.sh": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "models/pandey_kumar_mode1/146_c3_fine_donor/submit_M1_C3_FINE_PACKAGE146_DONOR.pbs": "0EDD261D670667ADB8C516042C76528F4A0205AAE1828C475AD77A25DB4C174E",
+    "models/pandey_kumar_mode1/146_c3_fine_donor/PACKAGE_MANIFEST.json": "EFE20E3D82D9AE3D457B91F9C714781E3136B1487CE9DF6523772AC64899058E",
+    "models/pandey_kumar_mode1/146_c3_fine_donor/M1_C3_FINE_PACKAGE146_DONOR_AUTHORIZATION.json": "10DE92F37F608CC7574EAEC0F65D9A9117A9D0BB738FE422E0067F89CC202EEC",
+    "scripts/state_transfer/build_package146_c3_fine_donor_deck.py": "55E5B67F6151BEBB9D4C207002DD863EC388893614CF70D1477A2A18E9BDA988",
+    "tests/unit/test_mode1_f1597_package146_qualification.py": "E40E8A22A24A28CE0D0C00F0A2AD49AA4E1B14A584BB8656C80872996DA3694D"
+  },
+  "verification_passed": true
+}
