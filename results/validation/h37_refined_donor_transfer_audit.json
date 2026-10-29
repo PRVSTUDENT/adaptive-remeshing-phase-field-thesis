@@ -1,0 +1,166 @@
+{
+  "schema": 1,
+  "turn": 302,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "hypothesis": "H37",
+  "title": "Refined-Donor Nonmatching State Transfer Qualification",
+  "classification": "H37_BLOCKED_AUTHENTIC_STATE",
+  "availability_audit": {
+    "p116_dir_exists": true,
+    "p116_r1_dir_exists": true,
+    "summary_exists": true,
+    "summary_status": "CONVERGED_STATIONARY_STATE",
+    "summary_target_rf2_ref_N": 186.067909,
+    "summary_cycles": 7,
+    "summary_final_rf2_N": 185.8471781015396,
+    "summary_final_e_tot_mJ": 0.21678092796840115,
+    "inp_step_definition": [
+      "*Step, name=C1-2-Inc79, nlgeom=NO, inc=200",
+      "*Static",
+      "1.0, 1.0, 1.0E-8, 1.0",
+      "*Boundary",
+      "N_BOTTOM, 2, 2, 0.0",
+      "N_PIN, 1, 1, 0.0",
+      "N_RP, 1, 1, 0.0",
+      "N_RP, 2, 2, 0.00184250",
+      "*Include, input=active_set_boundary_cards.inc",
+      "*Output, field, frequency=1",
+      "*Node Output",
+      "U, RF",
+      "*Output, history, frequency=1",
+      "*Energy Output",
+      "ALLSE, ALLIE, ALLWK, ALLFD, ALLCD, ALLVD, ALLPD, ALLAE, ETOTAL"
+    ],
+    "inp_applied_displacement_mm": 0.0018425,
+    "required_frame77_displacement_mm": 0.0018003125442191958,
+    "c3_int_hpc_jobs": [
+      {
+        "job_id": "1417809.mmaster02",
+        "job_name": "M1_C3_INT_INC79_DIRECT_TRANSFER",
+        "status": "SUBMITTED",
+        "exit_info": "STANDING_MODE1_V2_ACCEPTED_ONCE"
+      },
+      {
+        "job_id": "1417818.mmaster02",
+        "job_name": "M1_C3_INT_R1_INC79_DIRECT_TRANSFER",
+        "status": "SUBMITTED",
+        "exit_info": "STANDING_MODE1_V2_ACCEPTED_ONCE"
+      },
+      {
+        "job_id": "1417809.mmaster02",
+        "job_name": "M1_C3_INT_INC79_DIRECT_TRANSFER",
+        "status": "F",
+        "exit_info": "PACKAGE116_C3_INT_INC79_DIRECT_TRANSFER_EXIT0_WALLTIME_184S_ITERATION_CAP_REACHED_NUMERICAL_FAILURE_PROPS_PERMUTATION"
+      },
+      {
+        "job_id": "1417818.mmaster02",
+        "job_name": "M1_C3_INT_R1_INC79_DIRECT_TRANSFER",
+        "status": "F",
+        "exit_info": "PACKAGE116_R1_C3_INT_INC79_DIRECT_TRANSFER_EXIT0_WALLTIME_96S_CYC7_CONVERGED_STATIONARY_STATE_PASS"
+      }
+    ],
+    "has_authentic_frame77_checkpoint": false,
+    "authenticity_verdict": "AUTHENTIC_FRAME77_CHECKPOINT_ABSENT: Package 116 R1 (Job 1417818) executed solely at Increment 79 (u_RP = 0.00184250 mm) as a receiver re-equilibration from coarse C3 Increment 79. No continuous donor simulation exists for C3-Int from u = 0, and no state files exist at Frame 77 (u = 0.00180031 mm)."
+  },
+  "h37_specification": {
+    "hypothesis_id": "H37",
+    "title": "Refined-Donor Nonmatching State Transfer Qualification",
+    "statement": "Reducing the source-to-target mesh-resolution mismatch from h_donor/h_target = 4.125 (coarse C3, h/ell0 = 0.3333, 1,600 quads) to h_donor/h_target = 1.980 (intermediate C3-Int, h/ell0 = 0.1600, 2,484 quads) will reduce AT2 regularization gradient under-integration bias, enabling nonmatching transfer to Candidate C4 (h/ell0 = 0.0808, 4,422 quads) at Frame 77 (u_top = 0.00180031 mm) to satisfy force continuity (|Delta RF2| <= 5.0%), re-equilibration energy continuity (|Delta E_tot| <= 2.0%), and forward continuation energy discrepancy (|Delta E_tot| <= 2.00000%) without violating pointwise damage irreversibility (0 healing violations) or Kuhn-Tucker optimality.",
+    "mesh_progression": {
+      "source_mesh": {
+        "name": "Candidate C3-Intermediate (C3-Int)",
+        "elements": 2484,
+        "nodes": 2610,
+        "h_tip_um": 1.2,
+        "h_over_ell0": 0.16
+      },
+      "target_mesh": {
+        "name": "Candidate C4",
+        "elements": 4422,
+        "nodes": 4588,
+        "h_tip_um": 0.606,
+        "h_over_ell0": 0.0808
+      },
+      "reference_coarse_mesh": {
+        "name": "Candidate C3 (Donor Baseline)",
+        "elements": 1600,
+        "nodes": 1681,
+        "h_tip_um": 2.5,
+        "h_over_ell0": 0.33333333
+      },
+      "resolution_mismatch_reduction": {
+        "original_ratio_c3_to_c4": 4.12541254,
+        "intermediate_ratio_c3int_to_c4": 1.98019802,
+        "mismatch_reduction_factor": 2.08333333
+      }
+    },
+    "predeclared_acceptance_thresholds": {
+      "initial_mapping_fidelity": {
+        "max_damage_attenuation_pct": 0.25,
+        "rms_damage_attenuation_pct": 0.1,
+        "committed_history_loss_pct": 0.0,
+        "slit_flank_cross_contamination": 0
+      },
+      "stage_c1_1_re_equilibration": {
+        "reaction_force_continuity_pct": 5.0,
+        "total_energy_continuity_pct": 2.0,
+        "damage_healing_violations": 0,
+        "am_loop_cap": 15
+      },
+      "stage_c1_2_step1_forward_continuation": {
+        "displacement_increment_nm": 21.09375,
+        "reaction_force_continuity_pct": 5.0,
+        "total_energy_continuity_pct": 2.0,
+        "damage_healing_violations": 0
+      },
+      "stage_c1_2_step2_forward_continuation": {
+        "displacement_increment_nm": 21.09375,
+        "reaction_force_continuity_pct": 5.0,
+        "total_energy_discrepancy_pct": 2.0,
+        "damage_healing_violations": 0,
+        "kkt_min_dual_multiplier_kN_mm": -1e-09,
+        "kkt_max_free_residual_kN_mm": 1e-06
+      }
+    }
+  },
+  "comparative_resolution_metrics": {
+    "level1_c3_donor": {
+      "elements": 1600,
+      "nodes": 1681,
+      "h_um": 2.5,
+      "h_over_ell0": 0.33333333,
+      "frame77_rf2_N": 185.470521,
+      "frame77_e_tot_mJ": 0.2091,
+      "inc79_rf2_N": 186.067909,
+      "inc79_e_tot_mJ": 0.21244805
+    },
+    "level2_c3_int": {
+      "elements": 2484,
+      "nodes": 2610,
+      "h_um": 1.2,
+      "h_over_ell0": 0.16,
+      "frame77_rf2_N": null,
+      "frame77_e_tot_mJ": null,
+      "inc79_rf2_N": 185.847178,
+      "inc79_e_tot_mJ": 0.21678093
+    },
+    "level3_c4": {
+      "elements": 4422,
+      "nodes": 4588,
+      "h_um": 0.606,
+      "h_over_ell0": 0.0808,
+      "frame77_p111_r2_rf2_N": 186.15,
+      "frame77_p111_r2_e_tot_mJ": 0.208797,
+      "inc79_p113_seq_rf2_N": 187.391475,
+      "inc79_p113_seq_e_tot_mJ": 0.21671407,
+      "inc79_p115_dir_rf2_N": 185.788572,
+      "inc79_p115_dir_e_tot_mJ": 0.21676034
+    }
+  },
+  "governing_gate_status": {
+    "stage_c1_2_step2_energy_gate_failed": "RETAINED_INVARIANT (+2.00803158%)",
+    "p113_gate_valid_failure": "RETAINED_INVARIANT",
+    "h24_reference_audit_pending": "RETAINED_INVARIANT"
+  },
+  "next_dependent_action": "To unblock H37 nonmatching transfer, qualify Package 141 as an authentic continuous monotonic C3-Int donor simulation (2,484 quads, h = 1.2 um, 2,610 nodes, f42_mixed_uel.for, 0 <= u <= 0.0020 mm) with field output frequency 1 to capture an authentic, history-consistent Frame-77 donor state."
+}
