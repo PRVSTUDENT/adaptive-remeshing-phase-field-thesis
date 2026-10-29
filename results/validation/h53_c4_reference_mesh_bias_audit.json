@@ -1,0 +1,146 @@
+{
+  "schema": 1,
+  "protocol_version": 2,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "hypothesis": "H53",
+  "classification": "H53_C4_REFERENCE_QUALIFIED_MESH_BIAS_QUANTIFIED",
+  "package_145_authenticated": true,
+  "pbs_execution": {
+    "pbs_job_id": "1418732.mmaster02",
+    "model_name": "M1_C4_PACKAGE145_CONTINUOUS_REFERENCE",
+    "queue": "normal_imfdfkmq",
+    "exit_code": 0,
+    "abaqus_completed": true,
+    "cpu_time_used": "00:01:44",
+    "walltime_s": 133
+  },
+  "phase_field_physical_qualification": {
+    "status": "PASS",
+    "unconstrained_dof3": true,
+    "dof3_initial": 0.0,
+    "dof3_max_step1": 0.4991,
+    "dof3_max_node_step1": 2278,
+    "crack_tip_location_x_mm": 0.0414057,
+    "crack_tip_location_y_mm": 0.05,
+    "dof3_max_step2_final": 1.002,
+    "damage_monotonic_growth": true,
+    "coupled_history_updates": true,
+    "solver_architecture": "Single-rank monolithic Newton-Raphson sparse direct solve with staggered trial/committed state exchange via /CB_STATE_TRANS/ in UEXTERNALDB"
+  },
+  "three_way_comparison": {
+    "target_u_rp_mm": 0.0018003125442191958,
+    "donor_A_package143": {
+      "package": "143_c3_int_donor_monitored",
+      "job_name": "M1_C3_INT_DONOR_MONITORED",
+      "frame": 77,
+      "step": 1,
+      "increment": 76,
+      "step_time_s": 0.36006251,
+      "u_rp_mm": 0.0018003125442191958,
+      "rf2_n": 188.45704197883606,
+      "e_elastic_knmm": 0.00016963481,
+      "e_fracture_knmm": 3.9117135e-05,
+      "e_total_knmm": 0.00020875195,
+      "e_elastic_mj": 0.16963481,
+      "e_fracture_mj": 0.039117135,
+      "e_total_mj": 0.20875195
+    },
+    "reference_B_package145": {
+      "package": "145_c4_continuous_reference",
+      "job_name": "M1_C4_PACKAGE145_CONTINUOUS_REFERENCE",
+      "pbs_job_id": "1418732.mmaster02",
+      "step": 1,
+      "increment": 76,
+      "step_time_s": 0.36006251,
+      "u_rp_mm": 0.0018003125,
+      "rf2_n": 187.6844,
+      "rf2_kn": 0.1876844,
+      "e_elastic_knmm": 0.00016894325,
+      "e_fracture_knmm": 4.431343e-05,
+      "e_total_knmm": 0.00021325668,
+      "e_elastic_mj": 0.16894325,
+      "e_fracture_mj": 0.044313429999999994,
+      "e_total_mj": 0.21325668,
+      "max_damage_u3_step1": 0.4991,
+      "max_damage_node_step1": 2278,
+      "max_damage_u3_step2_final": 1.002,
+      "phase_field_dof3_physically_evolved": true,
+      "unconstrained_phase_coupling": true
+    },
+    "receiver_C_package142": {
+      "package": "142_c4_c3_int_state_transfer",
+      "job_name": "M1_C4_PACKAGE142_STATE_TRANSFER",
+      "step": 1,
+      "increment": 1,
+      "step_time_s": 1.0,
+      "u_rp_mm": 0.0018003125442191958,
+      "rf2_n": 194.1213458776474,
+      "e_elastic_knmm": 0.00017473955,
+      "e_fracture_knmm": 3.9093387e-05,
+      "e_total_knmm": 0.00021383294,
+      "e_elastic_mj": 0.17473955,
+      "e_fracture_mj": 0.039093387,
+      "e_total_mj": 0.21383294
+    }
+  },
+  "decomposition": {
+    "delta_mesh_pct": 2.1579343330685115,
+    "delta_transfer_pct": 0.27021896805295625,
+    "delta_total_pct": 2.433984449007546,
+    "dE_mesh_mj": 0.004504730000000012,
+    "dE_transfer_mj": 0.0005762599999999951,
+    "dE_total_mj": 0.0050809900000000074,
+    "identity_error_mj": 0.0,
+    "identity_passed": true,
+    "mesh_share_of_total_shift_pct": 88.65850946370699,
+    "transfer_share_of_total_shift_pct": 11.34149053629301
+  },
+  "component_breakdown": {
+    "reaction_force": {
+      "rf2_donor_A_n": 188.45704197883606,
+      "rf2_reference_B_n": 187.6844,
+      "rf2_receiver_C_n": 194.1213458776474,
+      "diff_mesh_pct": -0.4099830766328261,
+      "diff_transfer_pct": 3.4296648403636043,
+      "diff_total_pct": 3.005620718300061
+    },
+    "elastic_energy_mj": {
+      "elas_donor_A": 0.16963481,
+      "elas_reference_B": 0.16894325,
+      "elas_receiver_C": 0.17473955,
+      "diff_mesh_pct": -0.4076757594741361,
+      "diff_transfer_pct": 3.4309154109442104,
+      "diff_total_pct": 3.0092526410115923
+    },
+    "fracture_energy_mj": {
+      "frac_donor_A": 0.039117135,
+      "frac_reference_B": 0.044313429999999994,
+      "frac_receiver_C": 0.039093387,
+      "diff_mesh_pct": 13.283935543847976,
+      "diff_transfer_pct": -11.77982160261572,
+      "diff_total_pct": -0.06070996763949367
+    }
+  },
+  "scientific_interpretation": {
+    "causality_caveat": "B and C have different damage histories and equilibrium constraints (free continuous evolution vs clamped transferred re-equilibration); thus the decomposition is an empirical diagnostic, not proof of uniquely separable causal operators.",
+    "dominant_mechanism": "Mesh discretization error (Delta_mesh = +2.1579%) accounts for 88.66% of the raw +2.4340% Stage C1-1 total energy excess. The actual state-transfer / initialization defect (Delta_transfer) is only +0.2702% relative to the continuous C4 reference.",
+    "fracture_energy_mechanism": "On the finer C4 mesh (h=0.6 um vs 1.0 um), the continuous reference resolves steeper damage gradients at the crack tip, naturally yielding +13.28% higher fracture surface energy (0.044313 mJ vs 0.039117 mJ). In contrast, Package 142 retained the smeared C3 damage field (0.039093 mJ), causing elastic strain energy to rise (+3.43% vs B) during displacement re-equilibration."
+  },
+  "governance_invariants": {
+    "H47_PACKAGE142_C1_1_FAILED": "PRESERVED",
+    "P113_GATE_VALID_FAILURE": "PRESERVED",
+    "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED": "PRESERVED",
+    "H24_REFERENCE_AUDIT_PENDING": "PRESERVED",
+    "original_raw_gate_binding": true,
+    "raw_total_energy_gate_status": "FAIL (+2.4340% > 2.0%)",
+    "next_job_ready": false,
+    "decision": "No speculative C1-2 execution. Stage C1-1 failure remains active under raw physical gate."
+  },
+  "evidence_hashes": {
+    "M1_C4_PACKAGE145_CONTINUOUS_REFERENCE.inp": "973AD6A2E480DBBB7A66F9919D4C3ABB9521DAF52D6F3CE992A1F8C8B5CD9518",
+    "M1_C4_PACKAGE145_CONTINUOUS_REFERENCE.sta": "25E32FBDC9B8AA12859D305214737DFEE563827FC267F3C15937A764C1FE6FDE",
+    "M1_C4_PACKAGE145_CONTINUOUS_REFERENCE.dat": "20B30670792CFD12F5AF8230862E1300F99AD986271179203F971FF485BCC9C2",
+    "uel_energy_balance.csv": "ED2462FFE221E48827A803D66DA9949E8A1744FCD0901B63A9AEC9677A4D7A25",
+    "pbs_execution.log": "4244B6ABD6155FAF719FFDCCFA1E3C71E40921985898E14CB00D64020C3BDBCC"
+  }
+}
