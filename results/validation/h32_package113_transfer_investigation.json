@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "investigation": "H32_PACKAGE113_NONMATCHING_ENERGY_TRANSFER_CORRECTION_AUDIT",
+  "classification": "H32_HYPOTHESIS_REJECTED",
+  "classification_candidates": [
+    "H32_CANDIDATE_QUALIFIED_SUBMITTED",
+    "H32_OFFLINE_SUPPORTED_HPC_UNQUALIFIED",
+    "H32_HYPOTHESIS_REJECTED",
+    "H32_BLOCKED_EVIDENCE"
+  ],
+  "governing_gate_retained": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED",
+  "p113_gate_valid_failure_retained": "+2.00803158%",
+  "h24_reference_audit_pending_retained": true,
+  "binding_energy_gate": {
+    "donor_increment": 79,
+    "donor_model": "Candidate C3 (1600 quads, h=2.5 um)",
+    "receiver_model": "Candidate C4 (4422 quads, h=0.606 um)",
+    "u_rp_mm": 0.0018425,
+    "donor_rf2_N": 186.067909,
+    "receiver_rf2_N": 187.3914748430252,
+    "rf2_diff_pct": 0.7113348293849111,
+    "donor_elas_mJ": 0.17140369,
+    "receiver_elas_mJ": 0.17259901081241638,
+    "delta_elas_mJ": 0.0011953208124163839,
+    "pct_diff_elas": 0.6973716915991621,
+    "donor_frac_mJ": 0.041044352,
+    "receiver_frac_mJ": 0.04411506312278167,
+    "delta_frac_mJ": 0.0030707111227816705,
+    "pct_diff_frac": 7.481446223786578,
+    "donor_tot_mJ": 0.21244805,
+    "receiver_tot_mJ": 0.21671407393519804,
+    "delta_tot_mJ": 0.004266023935198038,
+    "pct_diff_tot_unrounded": 2.0080315800488817,
+    "predeclared_tolerance_pct": 2.0,
+    "exceedance_pct_points": 0.008031580048881715,
+    "exceedance_ppm": 80.31580048881715,
+    "excess_energy_nJ": 17.062935198037913,
+    "share_of_excess_frac_pct": 71.98063511659883,
+    "share_of_excess_elas_pct": 28.01955241165084,
+    "reproducibility_of_71_98_share": true
+  },
+  "independent_transfer_matrix": {
+    "package113_sequential_continuation": {
+      "e_tot_mJ": 0.21671407393519804,
+      "pct_diff_tot": 2.0080315800488817,
+      "cycles": 4,
+      "status": "CONVERGED_STATIONARY_STATE"
+    },
+    "package115_direct_transfer": {
+      "e_tot_mJ": 0.2167603445146977,
+      "e_elas_mJ": 0.17114131508131342,
+      "e_frac_mJ": 0.04561902943338428,
+      "pct_diff_tot": 2.0298112949013634
+    },
+    "package117_same_mesh_control": {
+      "e_tot_mJ": 0.2124545429363634,
+      "pct_diff_tot": 0.003056246627540387,
+      "verdict": "AM_CONSERVES_ENERGY_TO_0P00305PCT"
+    },
+    "package118_transfer_from_p117": {
+      "e_tot_mJ": 0.21676045484422696,
+      "pct_diff_tot": 2.0298632273758024
+    }
+  },
+  "h32_hypothesis_evaluation": {
+    "mathematical_bound_analysis": {
+      "damage_lower_bound_constraint": "d_C4(x) >= d_C3(x) pointwise (no healing)",
+      "history_lower_bound_constraint": "H_C4(x) >= H_C3(x) pointwise (no history loss)",
+      "at2_kernel": "(Gc / (2*l0)) * (d^2 + l0^2 * |grad d|^2) >= 0 strictly convex",
+      "coarse_mesh_h_over_l0": 0.33333333,
+      "fine_mesh_h_over_l0": 0.0808,
+      "quadrature_resolution_effect": "Coarse mesh underestimates gradient peak; fine mesh resolves higher gradient energy",
+      "projection_energy_reduction_possible": false,
+      "reason": "Under the strict non-healing constraint d_C4 >= d_donor and history monotonicity H_C4 >= H_donor, the AT2 functional cannot be arbitrarily reduced below its discrete C4 minimizer without either: (a) introducing artificial damage healing (violating irreversibility), or (b) applying post-hoc non-physical energy scaling (violating energy conservation), or (c) artificially flattening the crack-tip profile (violating governing phase-field PDEs). Because Package 113, 115, and 118 all independently converged to E_tot ~ 0.21671-0.21676 mJ (+2.008% to +2.030%) regardless of transfer pathway, this energy shift is an intrinsic discretization property of the AT2 regularization on nonmatching meshes, not an artifact of transfer."
+    },
+    "hypothesis_verdict": "H32_HYPOTHESIS_REJECTED",
+    "h32_classification": "H32_HYPOTHESIS_REJECTED"
+  },
+  "finding": "Independent reconstruction and rigorous variational analysis of Package 113 cross-mesh transfer confirms: 1. The original unrounded energy discrepancy evaluates to +2.00803158% (exceedance of +0.00803158 percentage points, 80.32 ppm, or ~17.06 nJ over the 2.000% threshold). 2. Component deconstruction confirms 71.98% of the excess is driven by AT2 regularized fracture energy resolution (+7.481% on C4 vs C3), while elastic energy passes (+0.697%). 3. Multi-experiment synthesis across Package 113 (+2.008%), Package 115 (+2.030%), and Package 118 (+2.030%) demonstrates that ANY physically admissible state transferred to C4 and re-equilibrated intrinsically settles at E_tot ~ 0.21671-0.21676 mJ. 4. Hypothesis H32 is quantitatively REJECTED: under the mandatory physical constraints of zero damage healing (d >= d_donor) and history preservation (H >= H_donor), no admissible damage projection can reduce the AT2 energy below its discrete fine-mesh equilibrium without violating irreversibility or variational consistency. 5. Therefore, the cross-mesh energy discrepancy cannot be resolved by projection tricks; it is an authentic discretization phenomenon. In accordance with governance rules, submission of an artificial HPC job is WITHHELD. The governing gate STAGE_C1_2_STEP2_ENERGY_GATE_FAILED and classification P113_GATE_VALID_FAILURE remain strictly retained.",
+  "source_files": {
+    "pkg113_continuation_summary": "568B8B92F1576DB761D841914B55E20C59B1B334E680A4EF21778D28E5A46461",
+    "pkg113_bounds_csv": "31DD76E38752795821E9F7AF75BF4971F9926A090A13B304668E95A876DB725D",
+    "pkg76_uel_energy_csv": "EC265AAF6CE4CEDC8190154A946D02C2F162BFF77D19F3B5AFFEA1E378B961D7"
+  }
+}
