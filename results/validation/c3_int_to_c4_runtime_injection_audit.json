@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "hypothesis": "H43",
+  "classification": "H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED",
+  "finding": "Hypothesis H43 Runtime State-Injection Validation & Traceability Audit establishes: 1. UMAT Companion Elements: Formally proven to be read-only diagnostic visualizers; STATEV(1..20) are populated from COMMON /CB_STATE_TRANS/ and do not serve as initialization inputs for the solver. 2. Production UEL History Ingestion (f42_mixed_uel.for, CE8D5EDC...): Initialized strictly at KSTEP=1, KINC<=1 via SVARS(8+KPT) = SVARS(9..12). UEXTERNALDB(LOP=0) zeroes state arrays and does NOT read external CSV files. To initialize history in pure Abaqus, *INITIAL CONDITIONS, TYPE=SOLUTION cards must be embedded in the input deck. 3. Decoupled AM Driver Ingestion: Ingests d_lower_bounds.csv directly into Python memory for phase QP assembly, while injecting nodal damage d into Abaqus via active_set_boundary_cards.inc (*BOUNDARY cards). 4. Critical Generator Defects Isolated: Package142DeckGenerator produces CSV tables but omits: (a) formatting active_set_boundary_cards.inc (*BOUNDARY cards for d), (b) embedding *INITIAL CONDITIONS, TYPE=SOLUTION cards, and (c) generating the executable M1_C4_PACKAGE142_STATE_TRANSFER.inp deck. Classification: H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED. Governing gates STAGE_C1_2_STEP2_ENERGY_GATE_FAILED (+2.00803158%), P113_GATE_VALID_FAILURE, and H24_REFERENCE_AUDIT_PENDING remain strictly invariant.",
+  "defects_count": 3,
+  "defects": [
+    "Package142DeckGenerator generates nodal_phase_field_initial.csv but does NOT yet format it into active_set_boundary_cards.inc for *BOUNDARY inclusion.",
+    "f42_mixed_uel.for cannot enforce d >= d0 in a pure continuous Abaqus solve; requires external PDAS AM driver to prevent unphysical crack healing.",
+    "d_lower_bounds.csv is not automatically read by f42_mixed_uel.for. For pure Abaqus execution, *INITIAL CONDITIONS, TYPE=SOLUTION cards must be written into the deck. For AM driver execution, d_lower_bounds.csv is directly ingested by Python."
+  ],
+  "frozen_uel_audit": {
+    "uel_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\141_c3_int_donor_monotonic\\f42_mixed_uel.for",
+    "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "uexternaldb_zeroes_state_on_lop0": true,
+    "has_csv_reader_in_uexternaldb": false,
+    "uel_initializes_h_from_svars_8_plus_kpt": true,
+    "svars_history_indices": [
+      9,
+      10,
+      11,
+      12
+    ],
+    "umat_companion_is_diagnostic_output_only": true,
+    "has_sv_d_lower_bound_in_fortran": false
+  },
+  "unified_uel_audit": {
+    "uel_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\111_r2_c4_frame77_pre_instability\\f42_unified_12dof_active_set_uel.for",
+    "sha256": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "reads_d_lower_bounds_csv_in_uexternaldb": true,
+    "has_sv_d_lower": true,
+    "has_sv_h_committed": true
+  },
+  "generator_audit": {
+    "gen_path": "D:\\Master thesis\\Adaptive remeshing\\scripts\\state_transfer\\build_package142_transfer_deck.py",
+    "sha256": "FA7188079911B2BCB0417483E0F046FCBA87CA27B06884136277FB6F2F5635AA",
+    "generates_nodal_displacements_initial_csv": true,
+    "generates_d_lower_bounds_csv": true,
+    "generates_nodal_phase_field_initial_csv": true,
+    "generates_package_manifest_json": true,
+    "generates_inp_deck_file": false,
+    "generates_active_set_boundary_cards_inc": false,
+    "generates_initial_conditions_solution_cards": false
+  },
+  "variable_trace_table": [
+    {
+      "variable": "u1, u2 (Nodal Displacements)",
+      "physical_dimension": "mm (displacement vector)",
+      "target_count": 4588,
+      "mapped_artifact": "nodal_displacements_initial.csv",
+      "ingestion_mechanism_am_driver": "Solved by Abaqus in Step 1 Cycle 1 linear mechanical solve with RP boundary condition u_RP = 0.0018003125 mm under prescribed damage field d.",
+      "ingestion_mechanism_pure_abaqus": "*INITIAL CONDITIONS, TYPE=DISPLACEMENT is unsupported for static steps in Abaqus Standard. Displacements are established by equilibrium solve under applied boundary conditions.",
+      "status": "VERIFIED_VIA_EQUILIBRIUM_SOLVE",
+      "defect_identified": null
+    },
+    {
+      "variable": "d (True UEL DOF-3 Nodal Damage)",
+      "physical_dimension": "dimensionless [0, 1]",
+      "target_count": 4588,
+      "mapped_artifact": "nodal_phase_field_initial.csv",
+      "ingestion_mechanism_am_driver": "Injected into Abaqus via active_set_boundary_cards.inc included under *BOUNDARY: format 'node_id, 3, 3, d_value'. Prescribes active DOF 3 of user element U1.",
+      "ingestion_mechanism_pure_abaqus": "In f42_mixed_uel.for, D_AVG is computed from nodal DOF 3 values U(1..4). If unprescribed, DOF 3 is solved from Euler-Lagrange equations without lower-bound constraints.",
+      "status": "DEFECT_IDENTIFIED",
+      "defect_identified": "Package142DeckGenerator generates nodal_phase_field_initial.csv but does NOT yet format it into active_set_boundary_cards.inc for *BOUNDARY inclusion."
+    },
+    {
+      "variable": "d0 (Nodal Damage Lower Bounds)",
+      "physical_dimension": "dimensionless [0, 1]",
+      "target_count": 4588,
+      "mapped_artifact": "d_lower_bounds.csv / stage_a_all_d0_boundary_cards.inc",
+      "ingestion_mechanism_am_driver": "Loaded by Python driver into d_lower_bound array. Enforced strictly by PDAS solver via d_final = np.clip(d_trial, d_lower_bound, 1.0) and active set projection.",
+      "ingestion_mechanism_pure_abaqus": "f42_mixed_uel.for does NOT contain an internal active-set bound inequality solver (SV_D_LOWER absent). Bound enforcement requires external PDAS driver.",
+      "status": "VERIFIED_FOR_AM_DRIVER_DEFECT_FOR_PURE_F42",
+      "defect_identified": "f42_mixed_uel.for cannot enforce d >= d0 in a pure continuous Abaqus solve; requires external PDAS AM driver to prevent unphysical crack healing."
+    },
+    {
+      "variable": "H0 (Gauss-Point History Field)",
+      "physical_dimension": "kN/mm^2 (MPa equivalent, strain energy density)",
+      "target_count": 17688,
+      "mapped_artifact": "d_lower_bounds.csv (columns H0_1..H0_4 for 4,422 quads)",
+      "ingestion_mechanism_am_driver": "Loaded by driver_c4_frame77_am_step_frozen_history.py into h_committed_dict. Incorporated into phase QP assembly via H_trial = max(H_committed, psi_plus(u)).",
+      "ingestion_mechanism_pure_abaqus": "In f42_mixed_uel.for, SV_H_COMMITTED and SV_H_TRIAL are populated at KSTEP=1, KINC<=1 from SVARS(8+KPT) = SVARS(9..12). Requires *INITIAL CONDITIONS, TYPE=SOLUTION in input deck.",
+      "status": "DEFECT_IDENTIFIED",
+      "defect_identified": "d_lower_bounds.csv is not automatically read by f42_mixed_uel.for. For pure Abaqus execution, *INITIAL CONDITIONS, TYPE=SOLUTION cards must be written into the deck. For AM driver execution, d_lower_bounds.csv is directly ingested by Python."
+    },
+    {
+      "variable": "UMAT Companion SDVs (STATEV 1..20)",
+      "physical_dimension": "Diagnostic visualization fields (d, H, g(d), E_frac, E_elas)",
+      "target_count": "17,688 (4 GPs x 4,422 elements)",
+      "mapped_artifact": "None required (pure output)",
+      "ingestion_mechanism_am_driver": "N/A (diagnostic output only)",
+      "ingestion_mechanism_pure_abaqus": "UMAT subroutine strictly assigns STATEV(1)=SV_PHASE_TRIAL, STATEV(2)=SV_H_TRIAL, etc., from common block /CB_STATE_TRANS/. UMAT never writes to the state arrays. Initializing UMAT STATEV has zero influence on the solver.",
+      "status": "VERIFIED_DIAGNOSTIC_OUTPUT_ONLY",
+      "defect_identified": null
+    }
+  ]
+}
