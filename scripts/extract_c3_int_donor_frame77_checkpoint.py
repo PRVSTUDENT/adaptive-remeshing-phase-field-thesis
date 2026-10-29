@@ -110,17 +110,33 @@ def parse_inp_mesh(inp_path):
             slit_nodes.append(nid)
 
     # Classify upper vs lower flank based on element connectivity
+    from collections import defaultdict
     upper_flank_nodes = set()
     lower_flank_nodes = set()
-    for eid, conn in elements.items():
-        # Element center y
-        ey = sum(nodes[n][1] for n in conn) / 4.0
-        for n in conn:
-            if n in slit_nodes:
-                if ey > 0.050:
-                    upper_flank_nodes.add(n)
-                elif ey < 0.050:
-                    lower_flank_nodes.add(n)
+    by_x = defaultdict(list)
+
+    for nid in slit_nodes:
+        x, y = nodes[nid]
+        by_x[round(x, 7)].append(nid)
+
+    for nid in slit_nodes:
+        attached_elems = [eid for eid, conn in elements.items() if nid in conn]
+        centers_y = [sum(nodes[m][1] for m in elements[eid])/4.0 for eid in attached_elems]
+        if all(cy > 0.05 for cy in centers_y):
+            upper_flank_nodes.add(nid)
+        elif all(cy < 0.05 for cy in centers_y):
+            lower_flank_nodes.add(nid)
+
+    # Establish exact coincident seam pairs
+    seam_pairs = []
+    for x_val in sorted(by_x.keys()):
+        pair = by_x[x_val]
+        if len(pair) == 2:
+            n1, n2 = pair[0], pair[1]
+            if n1 in lower_flank_nodes and n2 in upper_flank_nodes:
+                seam_pairs.append((n1, n2))
+            elif n2 in lower_flank_nodes and n1 in upper_flank_nodes:
+                seam_pairs.append((n2, n1))
 
     return {
         "nodes": nodes,
@@ -130,7 +146,8 @@ def parse_inp_mesh(inp_path):
         "nset_pin": sorted(nset_pin),
         "slit_nodes": sorted(slit_nodes),
         "upper_flank_nodes": sorted(list(upper_flank_nodes)),
-        "lower_flank_nodes": sorted(list(lower_flank_nodes))
+        "lower_flank_nodes": sorted(list(lower_flank_nodes)),
+        "seam_pairs": seam_pairs
     }
 
 
@@ -179,77 +196,160 @@ def extract_odb_data(odb_path, mesh_info):
     # 1. Step-1 identification
     if "Step-1" not in odb.steps:
         odb.close()
-        raise RuntimeError("Step-1 not found in ODB steps: %s" % list(odb.steps.keys()))
+        raise RuntimeError("STRICT_FAILURE: Step-1 not found in ODB steps: %s" % list(odb.steps.keys()))
 
     step1 = odb.steps["Step-1"]
     n_frames = len(step1.frames)
+    if n_frames == 0:
+        odb.close()
+        raise RuntimeError("STRICT_FAILURE: Step-1 contains zero frames.")
     print("Step-1 contains %d frames." % n_frames)
 
     # Final frame of Step 1 is the Frame-77 donor state
     frame77 = step1.frames[-1]
     step_time = frame77.frameValue
-    total_time = frame77.loadCase.totalTime if hasattr(frame77, 'loadCase') and hasattr(frame77.loadCase, 'totalTime') else step_time
     print("Final Step-1 frame %d: step_time = %.8f s" % (frame77.frameId, step_time))
 
-    # 2. Extract displacements from root assembly instance
+    # Verify step_time is within tolerance of target
+    if abs(step_time - TARGET_T_STEP1) > 1.0e-5:
+        odb.close()
+        raise RuntimeError(
+            "STRICT_FAILURE: Step-1 terminated early! step_time = %.8f s, expected %.8f s" % (
+                step_time, TARGET_T_STEP1
+            )
+        )
+
+    # 2. Extract displacements and nodal phase damage from root assembly instance
     inst_name = list(odb.rootAssembly.instances.keys())[0]
     inst = odb.rootAssembly.instances[inst_name]
+
+    if "U" not in frame77.fieldOutputs:
+        odb.close()
+        raise RuntimeError("STRICT_FAILURE: FieldOutput 'U' missing from Frame 77.")
+    if "RF" not in frame77.fieldOutputs:
+        odb.close()
+        raise RuntimeError("STRICT_FAILURE: FieldOutput 'RF' missing from Frame 77.")
 
     u_field = frame77.fieldOutputs["U"]
     rf_field = frame77.fieldOutputs["RF"]
 
     disp_dict = {}
+    d_nodal_dict = {}
     rf_dict = {}
 
     for val in u_field.values:
+        data = val.data
         if val.nodeLabel <= N_PHYS_NODES:
-            disp_dict[val.nodeLabel] = (float(val.data[0]), float(val.data[1]))
+            disp_dict[val.nodeLabel] = (float(data[0]), float(data[1]))
+            # DOF 3 is phase-field damage on UEL Layer 1 nodes
+            if len(data) >= 3:
+                d_nodal_dict[val.nodeLabel] = float(data[2])
+            else:
+                d_nodal_dict[val.nodeLabel] = 0.0
         elif val.nodeLabel == RP_NODE:
-            disp_dict[RP_NODE] = (float(val.data[0]), float(val.data[1]))
+            disp_dict[RP_NODE] = (float(data[0]), float(data[1]))
 
     for val in rf_field.values:
         if val.nodeLabel == RP_NODE:
             rf_dict[RP_NODE] = (float(val.data[0]), float(val.data[1]))
 
+    # Verify complete nodal recovery
+    if len(disp_dict) < N_PHYS_NODES:
+        odb.close()
+        raise RuntimeError(
+            "STRICT_FAILURE: Incomplete nodal displacement extraction (%d of %d physical nodes)." % (
+                len(disp_dict), N_PHYS_NODES
+            )
+        )
+
     # Verify RP displacement matches target
     rp_u2 = disp_dict.get(RP_NODE, (0.0, 0.0))[1]
     print("RP 999999 displacement u2 = %.12f mm (target: %.12f mm)" % (rp_u2, TARGET_U_FRAME77))
+    if abs(rp_u2 - TARGET_U_FRAME77) > 1.0e-6:
+        odb.close()
+        raise RuntimeError(
+            "STRICT_FAILURE: Target displacement mismatch! u_RP = %.12e, expected %.12e" % (
+                rp_u2, TARGET_U_FRAME77
+            )
+        )
 
     # 3. Extract SDVs from Companion CPE4 Overlay elements (Layer 3: 4969..7452)
-    sdv_field = frame77.fieldOutputs.get("SDV", None)
+    if "SDV" not in frame77.fieldOutputs:
+        odb.close()
+        raise RuntimeError("STRICT_FAILURE: FieldOutput 'SDV' missing from Frame 77 companion elements.")
+
+    sdv_field = frame77.fieldOutputs["SDV"]
     d_dict = {}      # physical element -> list of 4 GP d values
     h_dict = {}      # physical element -> list of 4 GP H values
     e_frac_dict = {} # physical element -> E_frac
     e_elas_dict = {} # physical element -> E_elas
 
-    if sdv_field is not None:
-        for val in sdv_field.values:
-            eid = val.elementLabel
-            if L3_OFFSET < eid <= L3_OFFSET + N_PHYS_ELEMS:
-                phys_eid = eid - L3_OFFSET
-                gp_idx = val.integrationPoint - 1
-                if phys_eid not in d_dict:
-                    d_dict[phys_eid] = [0.0] * 4
-                    h_dict[phys_eid] = [0.0] * 4
-                
-                # SDV1 = d, SDV2 = H (or SDV16), SDV17 = E_frac, SDV18 = E_elas
-                data = val.data
-                if isinstance(data, (list, tuple)):
-                    if len(data) >= 1:
-                        d_dict[phys_eid][gp_idx] = float(data[0])
-                    if len(data) >= 2:
-                        h_dict[phys_eid][gp_idx] = float(data[1])
-                    if len(data) >= 17:
-                        e_frac_dict[phys_eid] = float(data[16])
-                    if len(data) >= 18:
-                        e_elas_dict[phys_eid] = float(data[17])
+    gp_count_check = {}
+
+    for val in sdv_field.values:
+        eid = val.elementLabel
+        if L3_OFFSET < eid <= L3_OFFSET + N_PHYS_ELEMS:
+            phys_eid = eid - L3_OFFSET
+            gp_idx = val.integrationPoint - 1
+            if phys_eid not in d_dict:
+                d_dict[phys_eid] = [0.0] * 4
+                h_dict[phys_eid] = [0.0] * 4
+                gp_count_check[phys_eid] = 0
+            
+            gp_count_check[phys_eid] += 1
+
+            # SDV1 = d, SDV2 = H (or SDV16), SDV17 = E_frac, SDV18 = E_elas
+            data = val.data
+            if isinstance(data, (list, tuple)):
+                if len(data) >= 1:
+                    d_dict[phys_eid][gp_idx] = float(data[0])
+                if len(data) >= 2:
+                    h_dict[phys_eid][gp_idx] = float(data[1])
+                if len(data) >= 17:
+                    e_frac_dict[phys_eid] = float(data[16])
+                if len(data) >= 18:
+                    e_elas_dict[phys_eid] = float(data[17])
+
+    # Verify complete element and Gauss-point coverage
+    if len(d_dict) < N_PHYS_ELEMS:
+        odb.close()
+        raise RuntimeError(
+            "STRICT_FAILURE: Incomplete element SDV extraction (%d of %d physical elements)." % (
+                len(d_dict), N_PHYS_ELEMS
+            )
+        )
+    for phys_eid, count in gp_count_check.items():
+        if count != 4:
+            odb.close()
+            raise RuntimeError(
+                "STRICT_FAILURE: Element %d has %d Gauss points (expected exactly 4)." % (
+                    phys_eid, count
+                )
+            )
 
     odb.close()
+
+    # 4. Slit Flank Penetration Audit
+    seam_pairs = mesh_info.get("seam_pairs", [])
+    penetration_violations = 0
+    for n_lower, n_upper in seam_pairs:
+        u_y_lower = disp_dict[n_lower][1]
+        u_y_upper = disp_dict[n_upper][1]
+        if u_y_upper < u_y_lower - 1.0e-9:
+            penetration_violations += 1
+
+    if penetration_violations > 0:
+        raise RuntimeError(
+            "STRICT_FAILURE: Slit flank interpenetration detected across %d seam pairs!" % (
+                penetration_violations
+            )
+        )
 
     return {
         "step_time": step_time,
         "frame_id": frame77.frameId,
         "displacements": disp_dict,
+        "d_nodal": d_nodal_dict,
         "reactions": rf_dict,
         "d_gp": d_dict,
         "h_gp": h_dict,
@@ -262,17 +362,23 @@ def serialize_checkpoint(output_dir, mesh_info, extracted_data, energy_record=No
     """Atomically serializes the verified Frame-77 checkpoint files."""
     os.makedirs(output_dir, exist_ok=True)
 
-    # 1. nodal_displacements.csv: node_id, u1, u2
+    # 1. nodal_displacements.csv: node_id, u1, u2, d_nodal
     disp_csv = os.path.join(output_dir, "c3_int_donor_frame77_nodal_displacements.csv")
-    with open(disp_csv, "w") as f:
-        f.write("node_id,u1_mm,u2_mm\n")
-        disps = extracted_data["displacements"]
+    phase_csv = os.path.join(output_dir, "c3_int_donor_frame77_nodal_phase_field.csv")
+    disps = extracted_data["displacements"]
+    d_nodal = extracted_data.get("d_nodal", {})
+
+    with open(disp_csv, "w") as f, open(phase_csv, "w") as f_phase:
+        f.write("node_id,u1_mm,u2_mm,d_nodal\n")
+        f_phase.write("node_id,d_nodal\n")
         for nid in sorted(mesh_info["nodes"].keys()):
             u1, u2 = disps.get(nid, (0.0, 0.0))
-            f.write("%d,%.12e,%.12e\n" % (nid, u1, u2))
+            d_val = d_nodal.get(nid, 0.0)
+            f.write("%d,%.12e,%.12e,%.12e\n" % (nid, u1, u2, d_val))
+            f_phase.write("%d,%.12e\n" % (nid, d_val))
         if RP_NODE in disps:
             u1_rp, u2_rp = disps[RP_NODE]
-            f.write("%d,%.12e,%.12e\n" % (RP_NODE, u1_rp, u2_rp))
+            f.write("%d,%.12e,%.12e,0.0\n" % (RP_NODE, u1_rp, u2_rp))
 
     # 2. d_lower_bounds.csv: EID, D0_1, D0_2, D0_3, D0_4, H0_1, H0_2, H0_3, H0_4
     bounds_csv = os.path.join(output_dir, "c3_int_donor_frame77_d_lower_bounds.csv")
@@ -307,8 +413,10 @@ def serialize_checkpoint(output_dir, mesh_info, extracted_data, energy_record=No
         "slit_flank_nodes": len(mesh_info["slit_nodes"]),
         "upper_flank_nodes": len(mesh_info["upper_flank_nodes"]),
         "lower_flank_nodes": len(mesh_info["lower_flank_nodes"]),
+        "seam_pairs": len(mesh_info.get("seam_pairs", [])),
         "files": {
             "c3_int_donor_frame77_nodal_displacements.csv": compute_sha256(disp_csv),
+            "c3_int_donor_frame77_nodal_phase_field.csv": compute_sha256(phase_csv),
             "c3_int_donor_frame77_d_lower_bounds.csv": compute_sha256(bounds_csv)
         }
     }

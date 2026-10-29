@@ -5,7 +5,7 @@ Task: F1597-CORRECT-PACKAGE72-STATE-TRANSFER
 Protocol Version: 2
 
 Independent technical qualification of the Package 141 Abaqus Python 2.7 / pure Python
-donor checkpoint extraction engine (Hypothesis H38 / Turn 304).
+donor checkpoint extraction engine (Hypotheses H38 & H39 / Turns 304 & 305).
 """
 
 import hashlib
@@ -114,6 +114,7 @@ class TestMode1F1597Package141ExtractorQualification(unittest.TestCase):
             # Create synthetic mock extracted data
             mock_disp = {nid: (0.0, 0.0018003125442191958 * (y / 0.1)) for nid, (x, y) in self.mesh_info["nodes"].items()}
             mock_disp[RP_NODE] = (0.0, TARGET_U_FRAME77)
+            mock_d_nodal = {nid: 0.05 for nid in self.mesh_info["nodes"].keys()}
             mock_rf = {RP_NODE: (0.0, 0.18585)}
             mock_d = {eid: [0.05, 0.05, 0.05, 0.05] for eid in self.mesh_info["elements"].keys()}
             mock_h = {eid: [0.12, 0.12, 0.12, 0.12] for eid in self.mesh_info["elements"].keys()}
@@ -122,6 +123,7 @@ class TestMode1F1597Package141ExtractorQualification(unittest.TestCase):
                 "step_time": TARGET_T_STEP1,
                 "frame_id": 77,
                 "displacements": mock_disp,
+                "d_nodal": mock_d_nodal,
                 "reactions": mock_rf,
                 "d_gp": mock_d,
                 "h_gp": mock_h,
@@ -142,10 +144,12 @@ class TestMode1F1597Package141ExtractorQualification(unittest.TestCase):
             manifest = serialize_checkpoint(temp_dir, self.mesh_info, extracted_data, energy_rec)
 
             disp_file = os.path.join(temp_dir, "c3_int_donor_frame77_nodal_displacements.csv")
+            phase_file = os.path.join(temp_dir, "c3_int_donor_frame77_nodal_phase_field.csv")
             bounds_file = os.path.join(temp_dir, "c3_int_donor_frame77_d_lower_bounds.csv")
             manifest_file = os.path.join(temp_dir, "c3_int_donor_frame77_checkpoint_manifest.json")
 
             self.assertTrue(os.path.exists(disp_file))
+            self.assertTrue(os.path.exists(phase_file))
             self.assertTrue(os.path.exists(bounds_file))
             self.assertTrue(os.path.exists(manifest_file))
 
@@ -153,7 +157,13 @@ class TestMode1F1597Package141ExtractorQualification(unittest.TestCase):
             with open(disp_file, "r") as f:
                 d_lines = [l.strip() for l in f if l.strip()]
             self.assertEqual(len(d_lines), 2612)
-            self.assertEqual(d_lines[0], "node_id,u1_mm,u2_mm")
+            self.assertEqual(d_lines[0], "node_id,u1_mm,u2_mm,d_nodal")
+
+            # Verify phase lines (2610 nodes + header = 2611 lines)
+            with open(phase_file, "r") as f:
+                p_lines = [l.strip() for l in f if l.strip()]
+            self.assertEqual(len(p_lines), 2611)
+            self.assertEqual(p_lines[0], "node_id,d_nodal")
 
             # Verify bounds lines (2484 quads + header = 2485 lines)
             with open(bounds_file, "r") as f:
@@ -168,9 +178,73 @@ class TestMode1F1597Package141ExtractorQualification(unittest.TestCase):
             self.assertEqual(manifest["slit_flank_nodes"], 50)
             self.assertEqual(manifest["upper_flank_nodes"], 25)
             self.assertEqual(manifest["lower_flank_nodes"], 25)
+            self.assertEqual(manifest["seam_pairs"], 25)
 
         finally:
             shutil.rmtree(temp_dir)
+
+    def test_06_coincident_slit_node_discrimination(self):
+        """Verify strict element-connectivity-based classification of 25 coincident seam pairs."""
+        seam_pairs = self.mesh_info["seam_pairs"]
+        self.assertEqual(len(seam_pairs), 25)
+
+        lower_set = set(self.mesh_info["lower_flank_nodes"])
+        upper_set = set(self.mesh_info["upper_flank_nodes"])
+
+        # Check node ranges: lower flank 1266..1290, upper flank 2586..2610
+        self.assertEqual(sorted(list(lower_set)), list(range(1266, 1291)))
+        self.assertEqual(sorted(list(upper_set)), list(range(2586, 2611)))
+
+        for n_lower, n_upper in seam_pairs:
+            self.assertIn(n_lower, lower_set)
+            self.assertIn(n_upper, upper_set)
+            # Must share exact identical x and y coordinates
+            x_lower, y_lower = self.mesh_info["nodes"][n_lower]
+            x_upper, y_upper = self.mesh_info["nodes"][n_upper]
+            self.assertAlmostEqual(x_lower, x_upper, places=7)
+            self.assertAlmostEqual(y_lower, 0.050, places=5)
+            self.assertAlmostEqual(y_upper, 0.050, places=5)
+
+    def test_07_strict_slit_penetration_audit_logic(self):
+        """Verify that interpenetration on any seam pair triggers STRICT_FAILURE."""
+        seam_pairs = self.mesh_info["seam_pairs"]
+        # Normal opening: upper moves up (+0.001), lower moves down (-0.001)
+        valid_disp = {nid: (0.0, 0.0) for nid in self.mesh_info["nodes"].keys()}
+        for n_lower, n_upper in seam_pairs:
+            valid_disp[n_lower] = (0.0, -0.0001)
+            valid_disp[n_upper] = (0.0, +0.0001)
+
+        penetration_count = 0
+        for n_lower, n_upper in seam_pairs:
+            if valid_disp[n_upper][1] < valid_disp[n_lower][1] - 1.0e-9:
+                penetration_count += 1
+        self.assertEqual(penetration_count, 0)
+
+        # Inverted penetration: upper moves down, lower moves up
+        invalid_disp = dict(valid_disp)
+        n_low_test, n_up_test = seam_pairs[0]
+        invalid_disp[n_up_test] = (0.0, -0.0002)
+        invalid_disp[n_low_test] = (0.0, +0.0002)
+
+        penetration_count_inv = 0
+        for n_lower, n_upper in seam_pairs:
+            if invalid_disp[n_upper][1] < invalid_disp[n_lower][1] - 1.0e-9:
+                penetration_count_inv += 1
+        self.assertEqual(penetration_count_inv, 1)
+
+    def test_08_phase_field_nodal_vs_integration_point_distinction(self):
+        """Verify distinction between nodal phase field DOF 3 and companion UMAT element average."""
+        uel_path = os.path.join(self.pkg_dir, "f42_mixed_uel.for")
+        with open(uel_path, "r") as f:
+            lines = f.readlines()
+
+        has_d_avg = any("D_AVG = 0.25D0 * (U(1) + U(2) + U(3) + U(4))" in l for l in lines)
+        has_sv_phase = any("SV_PHASE_TRIAL(PHYSIDX) = D_AVG" in l for l in lines)
+        has_props_offset = any("N_PHYS = INT(PROPS(6))" in l or "N_PHYS" in l for l in lines)
+
+        self.assertTrue(has_d_avg)
+        self.assertTrue(has_sv_phase)
+        self.assertTrue(has_props_offset)
 
 
 if __name__ == "__main__":
