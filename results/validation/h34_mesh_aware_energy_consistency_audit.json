@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "investigation": "H34_INDEPENDENT_VALIDATION_OF_MESH_AWARE_ENERGY_CONSISTENCY",
+  "classification": "H34_TRANSFER_ERROR_NOT_EXCLUDED",
+  "classification_candidates": [
+    "H34_MESH_AWARE_CONSISTENCY_INDEPENDENTLY_SUPPORTED",
+    "H34_TRANSFER_ERROR_NOT_EXCLUDED",
+    "H34_REFERENCE_STATES_NOT_COMPARABLE",
+    "H34_INSUFFICIENT_EVIDENCE"
+  ],
+  "governing_gate_retained": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED",
+  "p113_gate_valid_failure_retained": "+2.00803158%",
+  "h24_reference_audit_pending_retained": true,
+  "authentic_unrounded_data": {
+    "level_1_c3_donor": {
+      "rf2_N": 186.067909,
+      "e_elas_mJ": 0.17140369,
+      "e_frac_mJ": 0.041044352,
+      "e_tot_mJ": 0.21244805,
+      "d_max": 0.537416
+    },
+    "level_2_c3_int": {
+      "rf2_N": 185.8471781015396,
+      "e_elas_mJ": 0.17119313202068087,
+      "e_frac_mJ": 0.045587795947720264,
+      "e_tot_mJ": 0.21678092796840115,
+      "d_max": 0.5202280908061423,
+      "free_nodes": 2544,
+      "clamped_nodes": 66
+    },
+    "level_3_c4_direct": {
+      "rf2_N": 185.7885718345642,
+      "e_elas_mJ": 0.17114131508131342,
+      "e_frac_mJ": 0.04561902943338428,
+      "e_tot_mJ": 0.2167603445146977,
+      "d_max": 0.5237728264413353,
+      "free_nodes": 4478,
+      "clamped_nodes": 110
+    },
+    "level_3_c4_sequential": {
+      "rf2_N": 187.3914748430252,
+      "e_elas_mJ": 0.17259901081241638,
+      "e_frac_mJ": 0.04411506312278167,
+      "e_tot_mJ": 0.21671407393519804,
+      "d_max": 0.4992200600543182,
+      "free_nodes": 2948,
+      "clamped_nodes": 1640
+    }
+  },
+  "comparability_analysis": {
+    "solutions_physically_identical": false,
+    "load_history_mismatch": "Package 113 is incremental forward continuation (Frames 77->78->79); Package 115 is static direct transfer at Frame 79",
+    "active_set_clamping_mismatch": {
+      "p113_clamped_nodes": 1640,
+      "p115_clamped_nodes": 110,
+      "delta_clamped_nodes": 1530,
+      "impact": "1,530 additional nodes were clamped in P113 due to sequential continuation history, constraining crack opening"
+    },
+    "crack_state_mismatch": {
+      "p113_dmax": 0.4992200600543182,
+      "p115_dmax": 0.5237728264413353,
+      "delta_dmax": -0.02455276638701709,
+      "pct_diff_dmax": -4.687674722233247
+    },
+    "energy_component_compensation": {
+      "delta_elas_nJ": 1457.6957311029648,
+      "delta_frac_nJ": -1503.9663106026085,
+      "net_delta_tot_nJ": -46.27057949965763,
+      "compensation_ratio": 0.9692342978872286,
+      "finding": "Elastic strain energy (+1457.7 nJ) and AT2 fracture energy (-1504.0 nJ) compensate by 98.4%, masking a 1.5 uJ component disparity beneath a 46.3 nJ total energy difference."
+    },
+    "truncation_bound_validity": {
+      "h33_truncation_bound_nJ": 20.58345370345438,
+      "actual_total_energy_difference_nJ": 46.27057949965763,
+      "is_total_difference_within_bound": false,
+      "actual_fracture_difference_nJ": 1503.9663106026085,
+      "is_fracture_difference_within_bound": false,
+      "finding": "Total energy difference (46.27 nJ) exceeds H33's truncation estimate (20.58 nJ) by 2.25x. Component fracture difference (1503.97 nJ) exceeds it by 73.07x. Therefore, H33's scalar truncation bound does not bound the actual difference between sequential continuation and direct transfer."
+    }
+  },
+  "asymptotic_sensitivity": {
+    "direct_sequence_e_inf_p1_mJ": 0.21673934523364669,
+    "direct_sequence_e_inf_p15_mJ": 0.2167488230109324,
+    "direct_sequence_e_inf_p2_mJ": 0.2167532982443118,
+    "continuum_spread_nJ": 13.95301066511867,
+    "sequential_continuum_shift_nJ": 62.11024463861903
+  },
+  "finding": "Hypothesis H34 independent audit reveals: 1. Candidate C4 Direct (Package 115) and Candidate C4 Sequential Continuation (Package 113) are fundamentally NON-COMPARABLE physical reference states. Package 113 is an incremental forward continuation (Frames 77->78->79) with 1,640 clamped nodes, while Package 115 is a static direct transfer at Frame 79 with only 110 clamped nodes. 2. Between Sequential and Direct C4 states, the total energy difference is -46.27 nJ (-0.0213%), which exceeds H33's 20.58 nJ fine-mesh truncation estimate by 2.25x. 3. More critically, an elastic-fracture energy compensation of 1.504 uJ (98.4% cancellation) masks a major disparity in physical state: Package 113 has +1.458 uJ (+0.85%) higher elastic energy and -1.504 uJ (-3.30%) lower fracture energy, accompanied by a -4.69% lower peak damage (0.4992 vs 0.5238) and +1.603 N (+0.86%) stiffer reaction force. 4. Therefore, while H33 correctly identified that coarse C3 under-resolves AT2 fracture gradients (+11.1% shift in direct transfer), H33's conclusion that Package 113's sequential continuation is consistent within truncation error is REFUTED. Scalar total-energy uncertainty overlap alone does NOT establish physical transfer correctness. Consequently, transfer error is NOT excluded (H34_TRANSFER_ERROR_NOT_EXCLUDED). In accordance with governance rules, submission of an artificial HPC job is WITHHELD. The governing gate STAGE_C1_2_STEP2_ENERGY_GATE_FAILED and classification P113_GATE_VALID_FAILURE remain strictly retained.",
+  "source_files": {
+    "p76_uel_energy_csv": "EC265AAF6CE4CEDC8190154A946D02C2F162BFF77D19F3B5AFFEA1E378B961D7",
+    "p116_summary_json": "E58409C06E7D23428C791670B2DF15F5967C604B408BF46FDC9DA555F5695F14",
+    "p115_summary_json": "68B04B35ED41C537656865FF690AFFDE78011E11C78F7E799F5ADCD34F174AEC",
+    "p113_summary_json": "568B8B92F1576DB761D841914B55E20C59B1B334E680A4EF21778D28E5A46461",
+    "p112_summary_json": "51BC2272CB448D4696015269E95EA3D8DB553CF26E8DCE45CEBA0B320DB2AA8A",
+    "p111_summary_json": "68F590A06B3B7FCF6E4EF9E76BDCB9400AF6BF7DB07A8EBCBF0B274A3C563D7A",
+    "h33_audit_json": "94703380445AC984509E5FE50106B8ACC7950F1E4F9DC9F1FE90E990B4C98CA2"
+  }
+}
