@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "35878f03-394a-4d67-8047-aab4a76cc204",
+  "finding": "Hypothesis H34 independent audit reveals: 1. Candidate C4 Direct (Package 115) and Candidate C4 Sequential Continuation (Package 113) are fundamentally non-comparable reference states: Package 113 is an incremental forward continuation (Frames 77->78->79) with 1,640 clamped nodes, while Package 115 is a static direct transfer at Frame 79 with only 110 clamped nodes. 2. Total energy difference between Sequential and Direct C4 states is -46.27 nJ (-0.0213%), which exceeds H33's fine-mesh truncation estimate of 20.58 nJ by 2.25x. 3. Crucially, an elastic-fracture energy compensation of 1.504 uJ (98.4% cancellation) masks a major disparity in crack state: Package 113 has +1.458 uJ (+0.85%) higher elastic energy and -1.504 uJ (-3.30%) lower fracture energy, accompanied by -4.69% lower peak damage (0.4992 vs 0.5238) and +1.603 N (+0.86%) stiffer reaction force. 4. While coarse C3 under-resolves AT2 fracture gradients (+11.1% shift in direct transfer), scalar total-energy uncertainty overlap alone does NOT establish physical transfer correctness. Consequently, transfer error is NOT excluded (H34_TRANSFER_ERROR_NOT_EXCLUDED). In accordance with governance rules, submission of an artificial HPC job is WITHHELD. The governing gate STAGE_C1_2_STEP2_ENERGY_GATE_FAILED and classification P113_GATE_VALID_FAILURE remain strictly retained.",
+  "verification_passed": true,
+  "classification": "H34_TRANSFER_ERROR_NOT_EXCLUDED",
+  "hpc_decision": "WITHHELD_NO_QUALIFIED_CANDIDATE_NO_ARTIFICIAL_JOB",
+  "governing_gate_retained": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED",
+  "p113_gate_valid_failure_retained": "+2.00803158%",
+  "h24_reference_audit_pending_retained": true,
+  "comparability_verdict": {
+    "solutions_physically_identical": false,
+    "total_energy_difference_nJ": 46.2706,
+    "truncation_bound_nJ": 20.5835,
+    "is_total_difference_within_bound": false,
+    "ratio_to_truncation_bound": 2.248,
+    "delta_elas_nJ": 1457.6957,
+    "delta_frac_nJ": -1503.9663,
+    "ratio_frac_to_truncation_bound": 73.067,
+    "clamped_nodes_p113": 1640,
+    "clamped_nodes_p115": 110,
+    "dmax_p113": 0.49922006,
+    "dmax_p115": 0.52377283
+  },
+  "evidence_sources": {
+    "results/validation/h34_mesh_aware_energy_consistency_audit.json": "459DEB8E88ED6C2CD94C6B138290BE0B401636D5B786423FC953098C0B588B7D",
+    "tests/unit/test_mode1_f1597_h34_mesh_aware_energy_consistency.py": "B83EF7A543665B367C9AE6476010AC61B49E5097FC0C213DE85BE70324B00376",
+    "scripts/audit_h34_mesh_aware_energy_consistency.py": "D8BB6105B70A87AF4DEA0166E1C54BB528DD334116C2FD2AE449E9FD9CE7A0FB",
+    "models/pandey_kumar_mode1/115_c4_inc79_direct_transfer/c4_inc79_direct_transfer_summary.json": "68B04B35ED41C537656865FF690AFFDE78011E11C78F7E799F5ADCD34F174AEC",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/c4_c1_2_inc79_continuation_summary.json": "568B8B92F1576DB761D841914B55E20C59B1B334E680A4EF21778D28E5A46461",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/uel_energy_balance.csv": "EC265AAF6CE4CEDC8190154A946D02C2F162BFF77D19F3B5AFFEA1E378B961D7"
+  }
+}
