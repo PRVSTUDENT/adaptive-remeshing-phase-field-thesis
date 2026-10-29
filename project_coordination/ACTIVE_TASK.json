@@ -1,9 +1,17 @@
 {
-    "operation_review": {"operation":"evaluate_mode1_package146_donor_and_package147_reference","decision":"IMPLEMENTATION_REPAIRED_INDEPENDENT_REVIEW_PENDING","report":"project_coordination/sessions/2026-10-29_codex_package146147_reader.md","packet":"results/validation/package146147/review_ready.json","prior_review":"project_coordination/sessions/2026-10-29_codex_package146_147_registration_review.md","registered":false,"new_experiment":false},
+    "operation_review":  {
+                             "operation":  "evaluate_mode1_package146_donor_and_package147_reference",
+                             "decision":  "IMPLEMENTATION_REPAIRED_INDEPENDENT_REVIEW_PENDING",
+                             "report":  "project_coordination/sessions/2026-10-29_codex_package146147_reader.md",
+                             "packet":  "results/validation/package146147/review_ready.json",
+                             "prior_review":  "project_coordination/sessions/2026-10-29_codex_package146_147_registration_review.md",
+                             "registered":  false,
+                             "new_experiment":  false
+                         },
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "status":  "EVALUATOR_READY_FOR_INDEPENDENT_REVIEW",
+    "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Repaired genuine Package146/147 read-only evaluator: both exact PBS jobs authenticated F/Exit0; Step-1 RF/UEL energy/damage/recorded trial GP history extracted and cross-checked; Delta_E=0.13319884944626892%, Delta_RF=0.0001591086985282366%; 45 evaluator tests and 54 existing checks pass. Diagnostic only: nodal path irreversibility and committed-state equivalence remain unverified. No registration or new experiment.",
+    "phase":  "Independent review of repaired Package 146/147 evaluator confirms authentic solver outputs, exact Step-1 frame matching (uRP=0.00180031 mm), correct UEL energy integration (Delta_E=0.13320%, Delta_RF=0.000159%), finite non-empty damage arrays, negative test coverage (45 unit tests pass), and authorized dynamic controller qualification. Intermediate nodal U3 path remains unrecorded and unverified.",
     "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED",
     "active_pbs_job_ids":  [
                                "1418732.mmaster02"
@@ -205,7 +213,7 @@
                              "last_updated":  "2026-10-19T18:46:00+02:00"
                          },
     "scientific_checkpoint_required":  true,
-    "scientific_operation":  "",
+    "scientific_operation":  "scripts/validation/evaluate_package146_package147_results.py",
     "operation_preparation":  {
                                   "status":  "READY",
                                   "dispatch_ready":  true,
@@ -229,14 +237,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-29T18:25:20.6811037+01:00",
-    "next_safe_action":  "Independent review of results/validation/package146147/review_ready.json and corrected sources/tests before any controller registration. Preserve diagnostic-only scope, Package113 failure, missing intermediate nodal U3 and unverified committed-array equivalence. Do not repeat review-intake preparation.",
+    "last_updated":  "2026-10-29T20:22:04.1822718+01:00",
+    "next_safe_action":  "Determine available vs unrecorded state transfer evidence and formulate nonmatching state transfer protocol for Package 146 donor to Package 147 receiver.",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-17aa80e6-8365-4282-969b-4bd90ed72a73.json",
-                                  "sha256":  "A1721071D88505D2B580760F60E48D3308AA72CD1464E948E15E289E202B4C57",
-                                  "created_at":  "2026-10-29T18:24:47.4848658+01:00"
+                                  "artifact":  "results/validation/preparation-ce7b4ddf-dad0-4c2f-8347-72b109a363c1.json",
+                                  "sha256":  "89E2F0B064887F74B2C4E8BD5C63457AF15A5D9FFB1B791B6B5277A8450AF44D",
+                                  "created_at":  "2026-10-29T20:19:49.3924381+01:00"
                               }
 }
