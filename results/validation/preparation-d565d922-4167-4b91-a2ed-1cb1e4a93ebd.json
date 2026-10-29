@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "d565d922-4167-4b91-a2ed-1cb1e4a93ebd",
+  "finding": "Hypothesis H47 Package 142 Stage C1-1 Quantitative Acceptance Evaluation completed: 1. Resolved critical donor baseline check: E_total = 2.087519e-04 kN*mm corresponds authentically and exclusively to Step 1 Increment 76 (Frame 77, u_RP = 0.001800312544 mm), whereas Step 2 reached E_total = 2.457702e-04 kN*mm at u_RP = 0.002000 mm. 2. Terminal solver deliverables for Package 142 (PBS 1418722.mmaster02) reconciled from HPC scratch: converged Exit 0 in 2 iterations at exact displacement u_RP = 0.001800312544 mm. 3. Evaluated Stage C1-1 quantitative acceptance criteria against donor Frame 77: (a) Slit-flank topology: 32 coincident seam pairs along y = 0.05 mm, x <= 0.04 mm satisfied zero interpenetration (min gap = 4.222932e-04 mm > 0, PASS); (b) Reaction force continuity: receiver RF2 = 194.121346 N vs donor 188.457042 N (+3.0056% <= 5.00% threshold, PASS); (c) Fracture energy continuity: receiver E_frac = 3.909339e-05 kN*mm vs donor 3.911714e-05 kN*mm (-0.0607% <= 2.00% threshold, PASS); (d) Raw total energy continuity: receiver E_tot = 2.138329e-04 kN*mm vs donor 2.087519e-04 kN*mm (+2.4340% > 2.000% threshold, FAIL). 4. Classified outcome as H47_PACKAGE142_C1_1_FAILED due to the +2.4340% total energy discrepancy, driven by +3.0093% higher elastic strain energy (1.747396e-04 vs 1.696348e-04 kN*mm) from C4 mesh refinement (h_tip = 1.2 um to 0.6 um). 5. Master invariants STAGE_C1_2_STEP2_ENERGY_GATE_FAILED (+2.00803158%), P113_GATE_VALID_FAILURE, and H24_REFERENCE_AUDIT_PENDING strictly preserved.",
+  "evidence_sources": {
+    "results/validation/package142_c1_1_evaluation.json": "CD44CE6AFDE7F3D240A173FE62288FC9EB25158725966E727FE0C3B5649A566D",
+    "scripts/validation/extract_package142_c1_1_results.py": "46B92A46F61C1F91F449DC86230584BAA7080469247401E9B088B1DAC1BE34DD",
+    "tests/unit/test_mode1_f1597_package142_c1_1_evaluation.py": "D5B1D82F7E21C2AD29FBF96B45550F6EB75740AB80D1CCF21CEFA38BD003F8CF",
+    "models/pandey_kumar_mode1/142_c4_c3_int_state_transfer/M1_C4_PACKAGE142_STATE_TRANSFER.sta": "61788996C76500B39D38B7BBE7C48F69CF20B742F7DA0E0236EC5E7CA86D2B5E",
+    "models/pandey_kumar_mode1/142_c4_c3_int_state_transfer/uel_energy_balance.csv": "8E309EABA7B0FA986B99EB59357AB0955E6127D878CD14AE2161F9A5F75A700D"
+  },
+  "verification_passed": true,
+  "classification": "H47_PACKAGE142_C1_1_FAILED"
+}
