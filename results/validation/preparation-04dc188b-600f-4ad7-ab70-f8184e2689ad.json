@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "04dc188b-600f-4ad7-ab70-f8184e2689ad",
+  "finding": "Hypothesis H48 Variational Equilibration & Energy Attribution Diagnosis completed: 1. Discovered that active_set_boundary_cards.inc prescribed Dirichlet boundary conditions fixing phase-field DOF 3 on all 4,588 physical nodes without releasing unconstrained damage nodes, and no external PDAS driver ran; Package 142 solved only a linear elastic mechanical step under frozen damage in 2 iterations (2 s). 2. Evaluated exact finite element phase residuals R_d = K_dd * d_0 - F_d: identified 1,365 nodes with negative residuals (R_d < -1e-9 kN/mm), proving driving force strictly exceeds resistance and full variational phase-field equilibrium was not satisfied in Package 142. 3. Solved exact bound-constrained quadratic program min 0.5 d^T K d - d^T F s.t. d >= d_0: maximum damage growth is Delta d_max = 0.00763 (mean 0.000336), increasing fracture energy by only Delta E_frac = +1.34e-7 kN*mm (+0.34%). 4. Proved that the +2.4340% total energy gate failure is 100.47% explained by the elastic strain energy excess (+3.0093% / +5.105e-6 kN*mm vs fracture energy -0.0607% / -2.37e-8 kN*mm), which is two orders of magnitude larger than phase relaxation and is primarily driven by nonmatching mesh refinement (h_tip = 1.2 um -> 0.6 um) resolving higher singular strain gradients near the slit tip. 5. Classified as H48_PHASE_EQUILIBRATION_DEFECT_CONFIRMED with H48_ELASTIC_DISCRETIZATION_BIAS_SUPPORTED; preserved governing invariants STAGE_C1_2_STEP2_ENERGY_GATE_FAILED (+2.00803158%), P113_GATE_VALID_FAILURE, and H24_REFERENCE_AUDIT_PENDING.",
+  "evidence_sources": {
+    "results/validation/h48_variational_equilibration_audit.json": "E61929EC4D553F4C60D41932584126114E9914992F9786E0C34ABFCC0C25DBBE",
+    "scripts/validation/audit_package142_variational_equilibration.py": "A4526602FBB6E84CB4A9E3E0AFAFAFA88D10A47EEECEE5F41A5543C021D584CD",
+    "tests/unit/test_mode1_f1597_h48_variational_equilibration_audit.py": "0A5FA96DA0EAC92ED5C1DB62D4970FF5553E48E65494A51F19534E122894C1C2",
+    "models/pandey_kumar_mode1/142_c4_c3_int_state_transfer/active_set_boundary_cards.inc": "BE2B8ECEF269CB1CB39A07C43B5FA5029E248C08F857DC2F6D97A43962D13558",
+    "models/pandey_kumar_mode1/142_c4_c3_int_state_transfer/M1_C4_PACKAGE142_STATE_TRANSFER.inp": "0BFD4C134912EFE0C3F6FD43972DF1E7297EC8BB79C7D1350211BBFD67F49264"
+  },
+  "verification_passed": true,
+  "classification": "H48_PHASE_EQUILIBRATION_DEFECT_CONFIRMED"
+}
