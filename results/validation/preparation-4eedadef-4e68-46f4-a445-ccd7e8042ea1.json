@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "turn": 331,
+  "controller_run_id": "4eedadef-4e68-46f4-a445-ccd7e8042ea1",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "finding": "Authoritative UEL energy formulation, weak-form derivation, non-invasive UEXTERNALDB tracking, and intact-limit mechanical parity independently audited and verified with 15 passing unit tests.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/PK_M1_MINI_ENERGY_64.inp": "C9DE0236233290D68DB57CF9A78F0B2D1DF782F20B3DAAE73DEB47F4040ED02D",
+    "scripts/validation/audit_turn331_uel_energy_formulation.py": "8F15FCD076B86888A61FFF961809AD79082B93EBFC44F556B6B63D8ABD951780",
+    "tests/unit/test_mode1_f1597_turn331_uel_energy_audit.py": "98150F09E1E325CFF560A38E9D0EF85D8397677AEE56D51153C20D5343F383CE",
+    "results/validation/uel_energy_formulation_audit.json": "57D8CC8C2927B7E5D641549A7050AC40CAFD070B48C18513C6F0DE09650C7E57"
+  },
+  "verification_passed": true
+}
