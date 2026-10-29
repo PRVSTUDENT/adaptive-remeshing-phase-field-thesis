@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 147 Candidate C4-Corrected continuous reference simulation (7,056 quads, 7,265 nodes, h_tip ~ 0.68 um) formulated, qualified with zero coarsened elements (100% refined, h_ratio in [0.777, 0.926]), verified via Abaqus 2023 interactive datacheck Exit 0, and submitted to PBS as Job 1418768.mmaster02. Resolves H55 coarsening defect by providing an authentic, genuinely refinement-only receiver reference.",
+  "evidence_sources": {
+    "scripts/state_transfer/build_package147_c4_corrected_reference_deck.py": "333A3392012A28AC7FC4624C2ACDF3A68C057126CC68020862052B71338527EC",
+    "scripts/validation/stage_and_qualify_package147.py": "C17CAC36BB0F07713653A0E132FF693FF2BEF7DEC0B66720AB4568A68537DDF8",
+    "tests/unit/test_mode1_f1597_package147_qualification.py": "8485101F6C5B217E8F1131C0FCCD74C15429AB54968A03A8823F815024E59B9C",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/M1_C4_CORRECTED_PACKAGE147_REF.inp": "FFFE51D5348F6E4B5E9B4742D783CA1645B480B229189168493AEDA10C91722A",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/PACKAGE_MANIFEST.json": "D4695BBD485596B78FBC2AC70FD39495EED560E2EB819418DF8CF6789413856F",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/M1_C4_CORRECTED_PACKAGE147_REF_AUTHORIZATION.json": "95BE6B72A895FE4750086C0576C62CDDE4FE74A131E0A0ECF285CC5B4F0686F8",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/submit_M1_C4_CORRECTED_PACKAGE147_REF.pbs": "057DA0174D4B5D062EE521738A45BDFBC79CB698704E305D89E154A44BF773CB"
+  },
+  "verification_passed": true
+}
