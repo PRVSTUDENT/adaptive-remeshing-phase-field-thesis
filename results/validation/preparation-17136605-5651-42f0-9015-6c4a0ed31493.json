@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Hypothesis H52 Candidate C4 Continuous Reference Simulation (Package 145) Formulated, Qualified, and Submitted: 1. Audited historical simulation records across all 13 prior Candidate C4 jobs, confirming that zero continuous simulations from u = 0 exist on the C4 mesh (all previous runs were coarse restarts or state-transferred jobs); establishing that Candidate B reference anchor was absent from historical archives. 2. Formulated Package 145 (M1_C4_PACKAGE145_CONTINUOUS_REFERENCE, 4,422 physical quads, 4,588 nodes, h_tip = 0.6 um) starting from virgin initial conditions (u=0, d=0, H=0) under frozen production UEL (f42_mixed_uel.for, SHA-256: CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6). 3. Configured the qualified two-step loading schedule targeting exact Frame-77 landing at u_RP = 0.0018003125442191958 mm (Step 1) matching Package 143 Frame 77 and continuing through u = 0.0020 mm (Step 2), enabling rigorous decoupling of mesh-discretization energy shift Delta_mesh = (E_B - E_A) / E_A from state transfer/initialization defect Delta_transfer = (E_C - E_B) / E_B. 4. Verified zero artificial phase clamping on DOF 3, passed 7/7 unit qualification tests, verified remote bit-for-bit SHA-256 staging, and completed remote Abaqus 2023 interactive datacheck Exit 0. 5. Submitted Package 145 via Invoke-Mode1Execution.ps1 as PBS Job 1418732.mmaster02, actively queued in normal_imfdfkmq. Preserved master invariants: H47_PACKAGE142_C1_1_FAILED, STAGE_C1_2_STEP2_ENERGY_GATE_FAILED (+2.00803158%), P113_GATE_VALID_FAILURE, and H24_REFERENCE_AUDIT_PENDING.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/145_c4_continuous_reference/M1_C4_PACKAGE145_CONTINUOUS_REFERENCE.inp": "973AD6A2E480DBBB7A66F9919D4C3ABB9521DAF52D6F3CE992A1F8C8B5CD9518",
+    "models/pandey_kumar_mode1/145_c4_continuous_reference/PACKAGE_MANIFEST.json": "5582560E32230601F0B024EDF0F8ACE13FA8204684703BAEC5BF2BC2D0A2FEF5",
+    "models/pandey_kumar_mode1/145_c4_continuous_reference/M1_C4_PACKAGE145_CONTINUOUS_REFERENCE_AUTHORIZATION.json": "241A606BCD91B4A2046CBA01DE06BC4D6BEDA0444769FF26AD1251AC0C5DC422",
+    "models/pandey_kumar_mode1/145_c4_continuous_reference/submit_M1_C4_PACKAGE145_CONTINUOUS_REFERENCE.pbs": "78ED4387200C208A03EBCCF50FA44ACE79CED7236E926E13ECE11507C52E69EC",
+    "scripts/state_transfer/build_package145_continuous_reference_deck.py": "6160CFDD48052300BDE56C6828FCE64032F799B82398A1CC81D95219363F00CE",
+    "scripts/validation/stage_and_qualify_package145.py": "4F41C95B4F968A76C35DF96FC87A5E30D1D3648E7991BBEA872C9BB949E2D211",
+    "tests/unit/test_mode1_f1597_package145_qualification.py": "60AA7B78C0332EA3EAD774D5253489FFB0BB856B2DA5AEF01F742D10B373AFA0"
+  },
+  "verification_passed": true
+}
