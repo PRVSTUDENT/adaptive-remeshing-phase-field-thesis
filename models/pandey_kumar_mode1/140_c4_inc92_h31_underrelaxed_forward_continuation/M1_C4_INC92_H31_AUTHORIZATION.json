@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "package_name": "140_c4_inc92_h31_underrelaxed_forward_continuation",
+  "batch_name": "MODE1_C4_INC92_H31_CONT",
+  "authorization_status": "QUALIFIED_FOR_AUTONOMOUS_EXECUTION",
+  "technical_qualification": {
+    "frozen_uel_sha256": "ab0a5a71335ecb445e91ec13a645e280ff3310b561a5e78aba4a49c8e81dd8ac",
+    "predecessor_checkpoint": "Package 139 Job 1418554 Exit 0 serialized checkpoint (c4_donor_inc91_exact_checkpoint.json)",
+    "solver_mode": "under-relaxed AM/PDAS omega=0.70 max 35 cycles"
+  },
+  "target_endpoint": {
+    "donor_frame": 92,
+    "u_rp_init_mm": 0.0020401075,
+    "u_rp_target_mm": 0.00206510746,
+    "delta_u_mm": 2.499996e-05,
+    "donor_rf2_N": 180.059254,
+    "donor_etot_mJ": 0.25357917
+  }
+}

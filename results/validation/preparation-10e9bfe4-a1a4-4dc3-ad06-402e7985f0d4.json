@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "10e9bfe4-a1a4-4dc3-ad06-402e7985f0d4",
+  "finding": "Package 140 (Candidate C4 Increment-92 H31 forward continuation) successfully qualified across all 7 unit tests, validated via remote Abaqus 2023 interactive datacheck (Exit 0), and submitted to PBS scheduler as Job 1418600.mmaster02 on queue entry_imfdfkmq (routed to normal_imfdfkmq, 1 CPU, 16 GB, 8 h walltime). Solver advancing under-relaxed AM/PDAS (omega=0.70, max 35 cycles) from authentic Increment-91 exact checkpoint (u=0.002040107500 mm) to authentic donor Increment 92 (u=0.002065107460 mm, Delta u=24.999960 nm), classified as H31_SUBMITTED_PENDING.",
+  "verification_passed": true,
+  "h31_classification": "H31_SUBMITTED_PENDING",
+  "pbs_job_id": "1418600.mmaster02",
+  "submission_queue": "entry_imfdfkmq",
+  "execution_queue": "normal_imfdfkmq",
+  "kinematics": {
+    "u_init_inc92_mm": 0.002040107500,
+    "u_target_inc92_mm": 0.002065107460,
+    "delta_u_nm": 24.999960,
+    "donor_rf2_ref_N": 180.059254,
+    "donor_etot_ref_mJ": 0.25357917
+  },
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/140_c4_inc92_h31_underrelaxed_forward_continuation/PACKAGE_MANIFEST.json": "FFECF8310D0FDE7B83E691A8910FC0044F0E2B250313351C5B376262D2FC879A",
+    "models/pandey_kumar_mode1/140_c4_inc92_h31_underrelaxed_forward_continuation/M1_C4_INC92_H31_CONT.inp": "DE9D14AAC0D05C72A023A2AA3F06741A9CBA23703A0161CA18C0AF69CE72AC2A",
+    "models/pandey_kumar_mode1/140_c4_inc92_h31_underrelaxed_forward_continuation/driver_c4_inc92_h31_continuation.py": "26D9DEBAAC2D01A473C9AC0F9D43CE7F0C4A5290F7E61080EFE0B8CD00A6165D",
+    "models/pandey_kumar_mode1/140_c4_inc92_h31_underrelaxed_forward_continuation/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC",
+    "models/pandey_kumar_mode1/140_c4_inc92_h31_underrelaxed_forward_continuation/submit_M1_C4_INC92_H31_CONT.pbs": "85E450215F8D304FF861C4104328FF11CBE24B1542168BC844B2325A4B12B616",
+    "models/pandey_kumar_mode1/140_c4_inc92_h31_underrelaxed_forward_continuation/d_lower_bounds.csv": "29A2FF2447C8A9DF86D6DC2C7E5E17F3DCD7B9B42443134212511A26BDA325F3",
+    "models/pandey_kumar_mode1/140_c4_inc92_h31_underrelaxed_forward_continuation/nodal_displacements_initial.csv": "A3A7B8B244A1C4C62949E7AC792AFCEDE30F86BE43C7FD56D6E2CBF5D66E632A",
+    "models/pandey_kumar_mode1/140_c4_inc92_h31_underrelaxed_forward_continuation/M1_C4_INC92_H31_AUTHORIZATION.json": "BFED7E80C1308ACAD8378BA9A382F460A3F356192CE16DBEA9040541BEF58775",
+    "tests/unit/test_mode1_f1597_package140_qualification.py": "A2B3D9DEA59BD8799DE4EBC38D3347F1E8AAA8347EAD179698E1A0C0201E884E"
+  }
+}
