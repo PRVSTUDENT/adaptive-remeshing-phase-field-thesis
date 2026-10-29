@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "4d85134b-587f-4478-a781-0010ea9800ee",
+  "finding": "Independent reconstruction and rigorous variational analysis of Package 113 cross-mesh transfer confirms: unrounded energy discrepancy evaluates to +2.00803158% vs 2.00000000% tolerance (+0.00803158 percentage points, 80.32 ppm, or ~17.06 nJ excess). Component deconstruction proves 71.98% of the excess is driven by AT2 regularized fracture energy resolution (+7.481%) on the fine C4 mesh (h/l0=0.081 vs 0.333 on C3), while elastic strain energy passes (+0.697%). Multi-experiment synthesis across Package 113 (+2.008%), Package 115 (+2.030%), and Package 118 (+2.030%) establishes a robust convergence plateau at E_tot ~ 0.21671-0.21676 mJ. Hypothesis H32 is quantitatively REJECTED: under mandatory non-healing (d >= d_donor) and history preservation (H >= H_donor), no admissible damage projection can reduce AT2 energy below the discrete fine-mesh equilibrium without physical violations. In accordance with governance rules, submission of an artificial HPC job is WITHHELD. The governing gate STAGE_C1_2_STEP2_ENERGY_GATE_FAILED and classification P113_GATE_VALID_FAILURE remain strictly retained.",
+  "verification_passed": true,
+  "classification": "H32_HYPOTHESIS_REJECTED",
+  "hpc_decision": "WITHHELD_NO_QUALIFIED_CANDIDATE_NO_ARTIFICIAL_JOB",
+  "governing_gate_retained": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED",
+  "p113_gate_valid_failure_retained": "+2.00803158%",
+  "h24_reference_audit_pending_retained": true,
+  "binding_energy_gate": {
+    "donor_tot_mJ": 0.21244805,
+    "receiver_tot_mJ": 0.21671407393519804,
+    "delta_tot_mJ": 0.004266023935198038,
+    "pct_diff_tot_unrounded": 2.0080315800488817,
+    "predeclared_tolerance_pct": 2.0,
+    "exceedance_pct_points": 0.008031580048881715,
+    "exceedance_ppm": 80.31580048881715,
+    "excess_energy_nJ": 17.06293935198038,
+    "share_of_excess_frac_pct": 71.98063511659883,
+    "share_of_excess_elas_pct": 28.01955241165084
+  },
+  "evidence_sources": {
+    "results/validation/h32_package113_transfer_investigation.json": "837594C992D1DC15E6A1E60ACE66A7EAC15544B61672448A269FA6D6F23723C5",
+    "tests/unit/test_mode1_f1597_h32_package113_transfer_investigation.py": "01BB27AFB572C18A6EF0BA5C2F02145A9C4D8136404CBCF23938D748F33D494F",
+    "scripts/audit_h32_package113_transfer_investigation.py": "71EADF56AAE10FA5D365341CC8F3DFF54B4A06A3E55EB5A3F303CB5BC2F704BB",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/c4_c1_2_inc79_continuation_summary.json": "568B8B92F1576DB761D841914B55E20C59B1B334E680A4EF21778D28E5A46461",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/d_lower_bounds.csv": "31DD76E38752795821E9F7AF75BF4971F9926A090A13B304668E95A876DB725D",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/uel_energy_balance.csv": "EC265AAF6CE4CEDC8190154A946D02C2F162BFF77D19F3B5AFFEA1E378B961D7"
+  }
+}
