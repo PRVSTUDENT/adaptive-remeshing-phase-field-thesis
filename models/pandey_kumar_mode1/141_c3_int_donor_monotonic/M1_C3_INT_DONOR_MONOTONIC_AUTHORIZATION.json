@@ -1,0 +1,39 @@
+{
+  "batch_name": "MODE1_PACKAGE141_C3_INT_DONOR_MONOTONIC",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c3_int_donor_monotonic",
+  "files": {
+    "M1_C3_INT_DONOR_MONOTONIC.inp": "997f554defbdcac9fa0c1494e0f10994f51a1ab5716b1f6fac1d226b8ba3090c",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "submit_M1_C3_INT_DONOR_MONOTONIC.pbs": "604effd8cd78a471a1699c454d28d1e5e3593e7eb1039b8b77233e5092fd0d9e",
+    "PACKAGE_MANIFEST.json": "e692eaa52168014469af1106ca5397b515a88f06124517ecd3519686de57da4e"
+  },
+  "jobs": [
+    {
+      "id": "M1_C3_INT_DONOR_MONOTONIC",
+      "pbs": "submit_M1_C3_INT_DONOR_MONOTONIC.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c3_int_donor_monotonic/submit_M1_C3_INT_DONOR_MONOTONIC.pbs\"",
+      "command_sha256": "4e57d5567cb9bf9a7aa5ca5196fe3eecc689958eaddb8b55536f8b15721a16ea",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Abaqus 2023 Candidate C3-Intermediate continuous donor calculation (2484 quads, h=1.2 um, 2610 nodes, f42_mixed_uel.for) targeting exact Frame-77 displacement (u = 0.0018003125 mm)",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_C3_INT_DONOR_MONOTONIC.inp",
+      "datacheck": "M1_C3_INT_DONOR_MONOTONIC_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_C3_INT_DONOR_MONOTONIC": "Exit code 0; monotonic damage growth and fracture energy dissipation; Step 1 completes at exact target displacement u = 0.0018003125 mm with valid displacement, damage, and history fields recorded in ODB via UMAT companion SDVs."
+  }
+}
