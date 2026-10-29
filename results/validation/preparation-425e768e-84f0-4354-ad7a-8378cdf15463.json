@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "425e768e-84f0-4354-ad7a-8378cdf15463",
+  "finding": "Package 140 (Candidate C4 Increment-92 H31 under-relaxed AM/PDAS continuation, omega=0.70, max 35 cycles) terminal evaluation confirmed PASSED across all 8 independent acceptance criteria and unit tests: PBS Job 1418600.mmaster02 completed Exit 0 in 79s walltime and 5 cycles, achieving raw stationarity ||T(d)-d||_inf = 0.000534 <= 1.0e-3, reaction drift Delta RF2 = 0.0718 N <= 0.10 N, free residual 5.71e-09 kN/mm <= 1.0e-6, min multiplier -9.95e-10 kN/mm >= -1.0e-9, zero healing violations (0/4588 nodes), zero history loss violations (0/17688 GPs), authentic donor parity (RF2 = 183.14 N, +1.71% <= 5.0%; E_tot = 0.2575 mJ, +1.55% <= 2.0%), and exact lossless round-trip checkpoint serialization on disk. Hypothesis H31 is definitively accepted. In accordance with Method C loop control, forward same-mesh loading is stopped at Increment 92; speculative Increment 93 is withheld to prioritize the nonmatching cross-mesh transfer bottleneck.",
+  "verification_passed": true,
+  "h31_classification": "H31_PASSED",
+  "pbs_job_id": "1418600.mmaster02",
+  "loop_start_decision": "STOP_FORWARD_SAME_MESH_AT_INC92_PRIORITIZE_CROSS_MESH_TRANSFER",
+  "governing_gate_retained": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED",
+  "p113_gate_valid_failure_retained": "+2.00803158%",
+  "h24_reference_audit_pending_retained": true,
+  "kinematics": {
+    "u_init_inc92_mm": 0.0020401075,
+    "u_target_inc92_mm": 0.00206510746,
+    "delta_u_nm": 24.99996,
+    "computed_rf2_N": 183.13969671726227,
+    "donor_rf2_ref_N": 180.059254,
+    "rf2_error_pct": 1.7107938908056668,
+    "computed_etot_mJ": 0.2575032123958027,
+    "donor_etot_ref_mJ": 0.25357917,
+    "etot_error_pct": 1.5474624338437124
+  },
+  "evidence_sources": {
+    "results/validation/h31_c4_inc92_package140_evaluation.json": "2C30B3F8963C8784762F1914C21B83967612DBC85439F6474325B312B2283592",
+    "tests/unit/test_mode1_f1597_package140_terminal_evaluation.py": "405D742E5FF9D67D0AC7166D3A8FAB133CBA2F6E91BA3627E4D40D0B97C21043",
+    "scripts/audit_h31_package140_evaluation.py": "4B2995D6748FC4066EEA66179E8474B29BA8C5B45D983D7D217750EAA48B2E13",
+    "models/pandey_kumar_mode1/140_c4_inc92_h31_underrelaxed_forward_continuation/c4_inc92_h31_continuation_summary.json": "2E04D966819EF528DA7655EE40C4D99A0D5A23AB1D5F8EF51B51D62B99FBA2EC",
+    "models/pandey_kumar_mode1/140_c4_inc92_h31_underrelaxed_forward_continuation/c4_donor_inc92_exact_checkpoint.json": "B9E07ACE33AFB91F1CD46EF58D3EA6C782D37B26365E1A776B627763C2FBCA87",
+    "models/pandey_kumar_mode1/140_c4_inc92_h31_underrelaxed_forward_continuation/c4_donor_inc92_exact_checkpoint_d_lower_bounds.csv": "D85E57E596482A040878CE8B5109EE94628C2E721C5C6C28FE0F998A7062B816",
+    "models/pandey_kumar_mode1/140_c4_inc92_h31_underrelaxed_forward_continuation/c4_donor_inc92_exact_checkpoint_nodal_displacements.csv": "38368669524EDA14BFDB81CBE88FE982707F6680D852348EC0153BCDF9CCFD88",
+    "models/pandey_kumar_mode1/140_c4_inc92_h31_underrelaxed_forward_continuation/c4_donor_inc92_exact_checkpoint_active_set_cards.inc": "466EA42500DF4FE7D484728A9228F20A1DC01C0E154251BC37DCD358F5846351",
+    "models/pandey_kumar_mode1/140_c4_inc92_h31_underrelaxed_forward_continuation/c4_donor_inc92_exact_checkpoint_recovery_receipt.json": "14AAD98FC3BE4CE6D683F95602FACFA3AC80F33255FA0E3B17D8EA2B1822792F",
+    "models/pandey_kumar_mode1/140_c4_inc92_h31_underrelaxed_forward_continuation/pbs_execution.log": "77884F9B2A12B41B62BB9E8CF226766F4EC9E76D776E8CA972F93A8DAC781B1F"
+  }
+}
