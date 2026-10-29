@@ -2,7 +2,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "gemini-antigravity",
-    "phase":  "Formal review intake completed for candidate operation \u0027evaluate_mode1_package146_donor_and_package147_reference\u0027. All 8 evaluation contract criteria verified via unit tests (8/8 PASS). Evaluator requires authentic convergence from jobs 1418753.mmaster02 and 1418768.mmaster02, exact displacement landing at u = 0.0018003125442191958 mm, RF2 \u003c= 5% and raw total energy \u003c= 2% gates, zero healing, and fails closed against premature evaluation of queued/running simulations and against falsely declaring Stage C1-1 nonmatching transfer acceptance. In accordance with safety policy, registration is NOT self-authorized; status is DEFINITION_REVIEW_REQUIRED pending supervisor registration in Controller-Operations.ps1.",
+    "phase":  "Independent scientific review of candidate operation \u0027evaluate_mode1_package146_donor_and_package147_reference\u0027 audited across result provenance, solver convergence, damage admissibility, read-only behavior, and continuous mesh boundary. All 8 evaluator verification unit tests pass. Registration in scripts/controller/Controller-Operations.ps1 cannot be self-authorized within preparation scope and requires external reviewer/supervisor decision. Status is DEFINITION_REVIEW_REQUIRED; existing HPC jobs 1418753.mmaster02 and 1418768.mmaster02 preserved intact for overnight execution and subsequent evaluation.",
     "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED",
     "active_pbs_job_ids":  [
                                "1418732.mmaster02"
@@ -226,14 +226,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-29T18:19:09.1307758+01:00",
-    "next_safe_action":  "DEFINITION_REVIEW_REQUIRED: evaluate_mode1_package146_donor_and_package147_reference requires formal review and registration before execution",
+    "last_updated":  "2026-10-29T18:25:20.6811037+01:00",
+    "next_safe_action":  "DEFINITION_REVIEW_REQUIRED: supervisor registration of evaluate_mode1_package146_donor_and_package147_reference required in Controller-Operations.ps1 before execution",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-a329eaa7-9bf3-4cdc-9121-ac1f9c00556b.json",
-                                  "sha256":  "72EF1D8A689758048C0F82B84E6CA56B4EDF3A82C3B2C1398D67B12C6837BAD9",
-                                  "created_at":  "2026-10-29T18:18:36.2668865+01:00"
+                                  "artifact":  "results/validation/preparation-17aa80e6-8365-4282-969b-4bd90ed72a73.json",
+                                  "sha256":  "A1721071D88505D2B580760F60E48D3308AA72CD1464E948E15E289E202B4C57",
+                                  "created_at":  "2026-10-29T18:24:47.4848658+01:00"
                               }
 }

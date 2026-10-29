@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Independent scientific review of candidate operation 'evaluate_mode1_package146_donor_and_package147_reference' audited across result provenance, solver convergence, damage admissibility, read-only behavior, and continuous mesh boundary. All 8 evaluator verification unit tests pass. Registration in scripts/controller/Controller-Operations.ps1 cannot be self-authorized within preparation scope and requires external reviewer/supervisor decision. Status is DEFINITION_REVIEW_REQUIRED; existing HPC jobs 1418753.mmaster02 and 1418768.mmaster02 preserved intact for overnight execution and subsequent evaluation.",
+  "operation": "research_preparation",
+  "title": "Formal scientific review and registration decision for Package 146 and 147 evaluation",
+  "classification": "DEFINITION_REVIEW_REQUIRED",
+  "next_operation": "DEFINITION_REVIEW_REQUIRED: supervisor registration of evaluate_mode1_package146_donor_and_package147_reference required in Controller-Operations.ps1 before execution",
+  "evidence_sources": {
+    "scripts/validation/evaluate_package146_package147_evaluation_spec.py": "97A6DAA29A8C8C6C85D20E42E5D50FE82226012CB9A08C5E2F59427BDA1EAD1E",
+    "scripts/validation/evaluate_package146_package147_results.py": "7E99551062544B1EA33D771B8A058D33387081DFF83923B5A6EC270B21459E41",
+    "tests/unit/test_mode1_f1597_package146_147_evaluation_definition.py": "A3AB513DF65C540BC0AF74BDA06718464F2EF3AF0DB7A4649864ADCAC8583E77",
+    "models/pandey_kumar_mode1/146_c3_fine_donor/M1_C3_FINE_PACKAGE146_DONOR.inp": "9F93419A4F1E090286007A7291693BD3B783D984CE276E102D22D404AD4C5475",
+    "models/pandey_kumar_mode1/146_c3_fine_donor/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/146_c3_fine_donor/PACKAGE_MANIFEST.json": "EFE20E3D82D9AE3D457B91F9C714781E3136B1487CE9DF6523772AC64899058E",
+    "models/pandey_kumar_mode1/146_c3_fine_donor/M1_C3_FINE_PACKAGE146_DONOR_AUTHORIZATION.json": "10DE92F37F608CC7574EAEC0F65D9A9117A9D0BB738FE422E0067F89CC202EEC",
+    "models/pandey_kumar_mode1/146_c3_fine_donor/submit_M1_C3_FINE_PACKAGE146_DONOR.pbs": "0EDD261D670667ADB8C516042C76528F4A0205AAE1828C475AD77A25DB4C174E",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/M1_C4_CORRECTED_PACKAGE147_REF.inp": "FFFE51D5348F6E4B5E9B4742D783CA1645B480B229189168493AEDA10C91722A",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/PACKAGE_MANIFEST.json": "D4695BBD485596B78FBC2AC70FD39495EED560E2EB819418DF8CF6789413856F",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/M1_C4_CORRECTED_PACKAGE147_REF_AUTHORIZATION.json": "95BE6B72A895FE4750086C0576C62CDDE4FE74A131E0A0ECF285CC5B4F0686F8",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/submit_M1_C4_CORRECTED_PACKAGE147_REF.pbs": "057DA0174D4B5D062EE521738A45BDFBC79CB698704E305D89E154A44BF773CB"
+  },
+  "verification_passed": true
+}
