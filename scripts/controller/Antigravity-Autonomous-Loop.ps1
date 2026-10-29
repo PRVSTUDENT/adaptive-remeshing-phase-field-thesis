@@ -214,6 +214,7 @@ if($ControlledSingleTurn -and $MaxTurns -ne 1){throw 'ControlledSingleTurn requi
 # Offline validation exits before credential/profile/bridge or AGY side effects.
 . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Recovery.ps1')
 . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Preparation.ps1')
+. (Join-Path $WorkspaceDir 'scripts/controller/Controller-DefinitionRecovery.ps1')
 $canonicalController = Join-Path $WorkspaceDir 'scripts/controller/Antigravity-Autonomous-Loop.ps1'
 if ((Get-FileHash -LiteralPath $PSCommandPath).Hash -ne (Get-FileHash -LiteralPath $canonicalController).Hash) { throw 'Installed controller differs from canonical tested source; redeploy.' }
 $controllerCheckpointPath = Join-Path $env:USERPROFILE 'OpenClawPAD/controller_turn_checkpoint.json'
@@ -256,7 +257,7 @@ if ($ControllerDryRun) {
 Assert-ControllerDispatchCheckpoint $WorkspaceDir (Read-ControllerCheckpoint $controllerCheckpointPath)
 $preparationPrompt = if ($InitialPromptFile) { Get-Content -LiteralPath $InitialPromptFile -Raw -Encoding UTF8 } else { $InitialPrompt }
 $preparation = Invoke-ControllerOperationPreparation $WorkspaceDir $preparationPrompt
-if(-not $preparation.dispatch_ready){
+if(-not $preparation.dispatch_ready -and $preparation.status -ne 'DEFINITION_REJECTED'){
     Write-Output ('NEXT_OPERATION_PREPARATION: '+($preparation|ConvertTo-Json -Depth 8 -Compress))
     return # No profile selection, model call, timeout retry or completed-operation replay.
 }
@@ -3166,10 +3167,13 @@ function Invoke-ChatGPTBridgeWithManualFallback {
         [Parameter(Mandatory = $true)]
         [string]$Prompt,
 
-        [string]$ContextLabel = "chatgpt"
+        [string]$ContextLabel = "chatgpt",
+        [string]$HandoffId = '',
+        [switch]$SingleDispatch
     )
 
     if ($script:PreferManualChatGPTBridge -and $EnableManualClipboardFallback) {
+        if($SingleDispatch){throw 'CHATGPT_BRIDGE_FAIL_CLOSED: definition recovery requires automatic bridge'}
         return Invoke-ManualChatGPTBridge `
             -Prompt $Prompt `
             -ContextLabel $ContextLabel
@@ -3181,7 +3185,7 @@ function Invoke-ChatGPTBridgeWithManualFallback {
     }
 
     if (-not (Test-Path -LiteralPath $BridgeScript)) {
-        if ($EnableManualClipboardFallback) {
+        if ($EnableManualClipboardFallback -and -not $SingleDispatch) {
             Write-Host ""
             Write-Host "Automatic bridge script not found. Using manual clipboard mode." -ForegroundColor Yellow
             Write-Host ""
@@ -3192,11 +3196,11 @@ function Invoke-ChatGPTBridgeWithManualFallback {
 
     . $BridgeScript
 
-    $attempts = [Math]::Max(1, $ChatGPTBridgeMaxAttempts)
+    $attempts = if($SingleDispatch){1}else{[Math]::Max(1, $ChatGPTBridgeMaxAttempts)}
     $timeoutMinutes = [Math]::Max(1, [int][Math]::Ceiling($ChatGPTBridgeTimeoutSeconds / 60))
 
     # Generate a single persistent handoff ID for all retries of this logical request
-    $persistentHandoffId = "HND-" + ([guid]::NewGuid().ToString("N").Substring(0, 12))
+    $persistentHandoffId = if($HandoffId){$HandoffId}else{"HND-" + ([guid]::NewGuid().ToString("N").Substring(0, 12))}
 
     for ($attempt = 1; $attempt -le $attempts; $attempt++) {
         try {
@@ -3250,6 +3254,23 @@ Repair the ChatGPT bridge and restart the controller.
 
             throw "CHATGPT_BRIDGE_FAIL_CLOSED"
         }
+    }
+}
+
+function Invoke-DefinitionCorrectionChatGPT([string]$Instruction,[string]$RecoveryKey) {
+    if(-not $EnableChatGPTBridge){throw 'DEFINITION_RECOVERY_STOPPED: automatic ChatGPT bridge disabled'}
+    Write-LoopLog -Turn $CurrentTurn -Tier 'CONTROLLER' -Action 'DEFINITION_RECOVERY' -Message ('Validating rejected successor; durable key='+$RecoveryKey)
+    try {
+        $result=Invoke-ControllerDefinitionRecovery -Workspace $WorkspaceDir -Instruction $Instruction -RecoveryKey $RecoveryKey `
+            -StatePath (Join-Path $env:USERPROFILE 'OpenClawPAD/definition_recovery_state.json') `
+            -BridgeArchive (Join-Path $env:USERPROFILE 'OpenClawPAD/ChatGPTBridge/archive') `
+            -Consult { param($prompt,$handoff) Invoke-ChatGPTBridgeWithManualFallback -Prompt $prompt -ContextLabel 'DEFINITION_REJECTION_RECOVERY' -HandoffId $handoff -SingleDispatch }
+        if(-not $result.plan.dispatch_ready){throw ('DEFINITION_RECOVERY_STOPPED: '+($result.plan|ConvertTo-Json -Depth 8 -Compress))}
+        Write-LoopLog -Turn $CurrentTurn -Tier 'CONTROLLER' -Action 'DEFINITION_CORRECTION_VALIDATED' -Message ('Original safety validator passed; consultations='+$result.attempts)
+        return $result.instruction
+    } catch {
+        Write-LoopLog -Turn $CurrentTurn -Tier 'CONTROLLER' -Action 'DEFINITION_RECOVERY_STOPPED' -Message $_.Exception.Message
+        throw
     }
 }
 
@@ -3416,6 +3437,18 @@ $script:ControllerRecoveryMode = $false
 $CurrentInstruction = ''
 $StartTurn = 1
 
+# Reconcile a rejected durable successor before ordinary resume resolution. No
+# completed research turn or bridge consultation is replayed after a restart.
+if($script:ControllerState -and $script:ControllerState.state -in @('COMPLETED','PENDING') -and $script:ControllerState.next_instruction){
+    $resumePlan=Get-ControllerPreparationPlan $WorkspaceDir $script:ControllerState.next_instruction
+    if($resumePlan.status -eq 'DEFINITION_REJECTED'){
+        $CurrentTurn=[int]$script:ControllerState.turn
+        $corrected=Invoke-DefinitionCorrectionChatGPT $script:ControllerState.next_instruction ($script:ControllerState.run_id+':successor:'+ $script:ControllerState.turn)
+        $script:ControllerState.next_instruction=$corrected
+        Write-ControllerCheckpoint $controllerCheckpointPath $script:ControllerState
+    }
+}
+
 if ($null -ne $script:ControllerState) {
     if ($script:ControllerState.state -in @('RUNNING','CHECKPOINTED')) {
         $script:ControllerState = Set-ControllerInterrupted $WorkspaceDir $controllerCheckpointPath $script:ControllerState 'Controller restart after interruption; inspect preserved periodic checkpoint and artifacts.'
@@ -3489,6 +3522,11 @@ if ([string]::IsNullOrWhiteSpace($CurrentInstruction)) {
 }
 
 if (-not $script:ControllerRecoveryMode) {
+    $initialPlan=Get-ControllerPreparationPlan $WorkspaceDir $CurrentInstruction
+    if($initialPlan.status -eq 'DEFINITION_REJECTED'){
+        $CurrentTurn=$StartTurn-1
+        $CurrentInstruction=Invoke-DefinitionCorrectionChatGPT $CurrentInstruction ('initial:'+ (Get-DefinitionProposalHash $CurrentInstruction))
+    }
     $resolved = Resolve-ControllerInstruction $WorkspaceDir $CurrentInstruction
     $CurrentInstruction = $resolved.instruction
 }
@@ -5217,6 +5255,21 @@ Finished
     # ------------------------------------------------------------------------
     # Qualify a proposed successor before any account rotation or next model turn.
     $preparation=Invoke-ControllerOperationPreparation $WorkspaceDir $NextInstruction
+    if($preparation.status -eq 'DEFINITION_REJECTED'){
+        # Persist before consulting: restart can find both the rejected proposal
+        # and its durable outbox reservation instead of re-running the AGY turn.
+        $script:ControllerState|Add-Member -NotePropertyName operation_preparation -NotePropertyValue $preparation -Force
+        $script:ControllerState|Add-Member -NotePropertyName next_instruction -NotePropertyValue $NextInstruction -Force
+        Write-ControllerCheckpoint $controllerCheckpointPath $script:ControllerState
+        Write-LoopLog -Turn $CurrentTurn -Tier 'CONTROLLER' -Action 'NEXT_OPERATION_PREPARATION' -Message ($preparation|ConvertTo-Json -Depth 8 -Compress)
+        try {
+            $NextInstruction=Invoke-DefinitionCorrectionChatGPT $NextInstruction ($script:ControllerState.run_id+':successor:'+ $CurrentTurn)
+            $preparation=Invoke-ControllerOperationPreparation $WorkspaceDir $NextInstruction
+        }catch{
+            Save-LoopStatus -Turn $CurrentTurn -Status 'FAILED' -Tier 'CONTROLLER' -Action 'DEFINITION_RECOVERY_STOPPED' -Details $_.Exception.Message
+            break MainLoop
+        }
+    }
     if(-not $preparation.dispatch_ready){
         $script:ControllerState|Add-Member -NotePropertyName operation_preparation -NotePropertyValue $preparation -Force
         $script:ControllerState|Add-Member -NotePropertyName next_instruction -NotePropertyValue $NextInstruction -Force
