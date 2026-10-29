@@ -1,0 +1,42 @@
+{
+  "tests_run": 45,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "sources": {
+    "scripts/validation/evaluate_package146_package147_results.py": "03119dc4a34e67e911fcb449638f02f3bce5e6b3351696b68fe41bedb61b0d07",
+    "scripts/validation/evaluate_package146_package147_evaluation_spec.py": "3c26631d1bb327fb9fdefee7def939db9b2cbbf113ca23003d42b52518e53533",
+    "scripts/validation/extract_package146147_odb.py": "d9e80a1f192d3d494f3a3cd69efbafc787dfe39ed7bc460628efb6600fd668f5",
+    "scripts/validation/audit_h55_refinement_only_geometry.py": "3a7686123799260fca693d183c32c7931cbc7c6e5577f6fa1a1979f58bc7a0be",
+    "tests/unit/test_mode1_f1597_package146_147_evaluation_definition.py": "c8a13c3ccb887c40097c441e93be772033971172076d07b1782343aef3bbb22c",
+    "tests/fixtures/package146147/146_energy.csv": "f02f6b0097dfabb80265c21a093e7a875dec44fb901e48996b971ab997cd8a89",
+    "tests/fixtures/package146147/146_pbs.txt": "07a14704f909fafd629ef9b8797303699e593e995747db4bfd1c9eafa9993168",
+    "tests/fixtures/package146147/146_step1_dat.txt.gz": "7ad9a8d92a2e9dcf69489ac573ed6d29394a7d1e907a6a2ffb7f0e752db29504",
+    "tests/fixtures/package146147/146_step1_sta.txt": "9622523e5b5b6eac90ca0278e21f518fa9523e33a777f070411860bb258aa203",
+    "tests/fixtures/package146147/147_energy.csv": "1475d291d19885d32ee48876de1dcc376a5d4fd316668184aef48bafdc977f44",
+    "tests/fixtures/package146147/147_pbs.txt": "9b37a1bcce666bac39be8ae21d405bc0f7d86c22101e9f417016f6c1733a5642",
+    "tests/fixtures/package146147/147_step1_dat.txt.gz": "3e3bde2985030b54e30f0053a598c799e0e00595ddb9ce5306955801b1156325",
+    "tests/fixtures/package146147/147_step1_sta.txt": "5f19b6c5d99cc3fb35819a624e560751537651e5efc0e1631ae90ed6388f01a6",
+    "tests/fixtures/package146147/provenance.json": "6d561071d0fed066f1772f516dd926240f698b8993a1034069112c68f593a6d2"
+  },
+  "result_report_sha256": "74f4bbbb8b0e5af52f0ff9328fe8cdc8ac5742ac80f75a7a98a3d1e6fdea8565",
+  "artifact_root": "C:\\Users\\pruth\\OpenClawPAD\\backups\\package146147-reader-6ab68ef24c4f461ba7db8bd27b992081",
+  "run_at": "2026-10-29T18:03:15.755410+00:00",
+  "regressions": {
+    "package_read_only_pytest": {
+      "passed": 12,
+      "deselected": 4,
+      "reason": "Generation and remote datachecks deliberately not run"
+    },
+    "controller_operations": {
+      "passed": 9
+    },
+    "controller_definition_recovery": {
+      "passed": 33
+    }
+  },
+  "log_sha256": {
+    "unit": "bf05b76f9b2ee6cd0c0bbd2e5dd16b88ee43c8dd5d63766c6455781511b98646",
+    "package_regressions": "b4ea6fe7befd5f09f63a22dd2b2fa7b5a06946c087d8eb638be456f48e1e4a0b"
+  }
+}

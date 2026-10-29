@@ -1,0 +1,99 @@
+{
+  "operation_id": "evaluate_mode1_package146_donor_and_package147_reference",
+  "source_hashes": {
+    "scripts/validation/evaluate_package146_package147_results.py": "03119dc4a34e67e911fcb449638f02f3bce5e6b3351696b68fe41bedb61b0d07",
+    "scripts/validation/evaluate_package146_package147_evaluation_spec.py": "3c26631d1bb327fb9fdefee7def939db9b2cbbf113ca23003d42b52518e53533",
+    "scripts/validation/extract_package146147_odb.py": "d9e80a1f192d3d494f3a3cd69efbafc787dfe39ed7bc460628efb6600fd668f5",
+    "scripts/validation/audit_h55_refinement_only_geometry.py": "3a7686123799260fca693d183c32c7931cbc7c6e5577f6fa1a1979f58bc7a0be",
+    "tests/unit/test_mode1_f1597_package146_147_evaluation_definition.py": "c8a13c3ccb887c40097c441e93be772033971172076d07b1782343aef3bbb22c",
+    "tests/fixtures/package146147/146_energy.csv": "f02f6b0097dfabb80265c21a093e7a875dec44fb901e48996b971ab997cd8a89",
+    "tests/fixtures/package146147/146_pbs.txt": "07a14704f909fafd629ef9b8797303699e593e995747db4bfd1c9eafa9993168",
+    "tests/fixtures/package146147/146_step1_dat.txt.gz": "7ad9a8d92a2e9dcf69489ac573ed6d29394a7d1e907a6a2ffb7f0e752db29504",
+    "tests/fixtures/package146147/146_step1_sta.txt": "9622523e5b5b6eac90ca0278e21f518fa9523e33a777f070411860bb258aa203",
+    "tests/fixtures/package146147/147_energy.csv": "1475d291d19885d32ee48876de1dcc376a5d4fd316668184aef48bafdc977f44",
+    "tests/fixtures/package146147/147_pbs.txt": "9b37a1bcce666bac39be8ae21d405bc0f7d86c22101e9f417016f6c1733a5642",
+    "tests/fixtures/package146147/147_step1_dat.txt.gz": "3e3bde2985030b54e30f0053a598c799e0e00595ddb9ce5306955801b1156325",
+    "tests/fixtures/package146147/147_step1_sta.txt": "5f19b6c5d99cc3fb35819a624e560751537651e5efc0e1631ae90ed6388f01a6",
+    "tests/fixtures/package146147/provenance.json": "6d561071d0fed066f1772f516dd926240f698b8993a1034069112c68f593a6d2"
+  },
+  "tests_bound": true,
+  "tests_passed": true,
+  "genuine_result_evidence_bound": true,
+  "verification_passed": true,
+  "registration_status": "NOT_REGISTERED",
+  "executable_in_current_scope": false,
+  "review_status": "READY_FOR_INDEPENDENT_REVIEW",
+  "outstanding_limitations": [
+    "Intermediate nodal U3 path not recorded: full nodal irreversibility unverified",
+    "SDV2 exports trial GP history, not a committed-array preservation proof",
+    "Continuous-mesh sensitivity is not nonmatching transfer acceptance",
+    "Independent review required before any controller registration"
+  ],
+  "scientific_acceptance": false,
+  "frozen_uel_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+  "artifact_root": "C:\\Users\\pruth\\OpenClawPAD\\backups\\package146147-reader-6ab68ef24c4f461ba7db8bd27b992081",
+  "provenance": {
+    "146": {
+      "schema": 1,
+      "job_id": "1418753.mmaster02",
+      "remote_directory": "/scratch9/pr21vyci/runs/mode1_c3_fine_package146_donor",
+      "retrieved_at": "2026-10-29T17:48:39.5706296+00:00",
+      "transport": "Invoke-GuardedSsh.ps1; noninteractive BatchMode; exact paths; base64 byte-preserving transfer; independent remote SHA256 comparison",
+      "files": {
+        "M1_C3_FINE_PACKAGE146_DONOR.sta": "faaa9098aef2cb001ef4bd75cd99d033afa518edd032f10cdcf8b4d89d2d0846",
+        "qstat.txt": "07a14704f909fafd629ef9b8797303699e593e995747db4bfd1c9eafa9993168",
+        "uel_energy_balance.csv": "f02f6b0097dfabb80265c21a093e7a875dec44fb901e48996b971ab997cd8a89",
+        "M1_C3_FINE_PACKAGE146_DONOR.msg": "51c50840399a7f508dda2a35cff39cdde94d41f4960b6ab3a2b8da3b9b83fc22",
+        "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+        "snapshot.json.gz": "5cb0672a40e353ebf02e655c228d6cec044dac8148d028201a8cf71c43647fab",
+        "M1_C3_FINE_PACKAGE146_DONOR.dat": "9451ad5a0ea920b133353da33a51836fdb9da9f0ac99661731a8a8a58af96950",
+        "M1_C3_FINE_PACKAGE146_DONOR.inp": "9f93419a4f1e090286007a7291693bd3b783d984ce276e102d22d404ad4c5475",
+        "pbs_execution.log": "69c506c1fb121c77e2d76e613e72e2568456250b36939d61131a021303b7619b"
+      },
+      "remote_sha256": {
+        "M1_C3_FINE_PACKAGE146_DONOR.sta": "faaa9098aef2cb001ef4bd75cd99d033afa518edd032f10cdcf8b4d89d2d0846",
+        "pbs_execution.log": "69c506c1fb121c77e2d76e613e72e2568456250b36939d61131a021303b7619b",
+        "uel_energy_balance.csv": "f02f6b0097dfabb80265c21a093e7a875dec44fb901e48996b971ab997cd8a89",
+        "M1_C3_FINE_PACKAGE146_DONOR.msg": "51c50840399a7f508dda2a35cff39cdde94d41f4960b6ab3a2b8da3b9b83fc22",
+        "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+        "snapshot.json.gz": "5cb0672a40e353ebf02e655c228d6cec044dac8148d028201a8cf71c43647fab",
+        "M1_C3_FINE_PACKAGE146_DONOR.dat": "9451ad5a0ea920b133353da33a51836fdb9da9f0ac99661731a8a8a58af96950",
+        "M1_C3_FINE_PACKAGE146_DONOR.inp": "9f93419a4f1e090286007a7291693bd3b783d984ce276e102d22d404ad4c5475"
+      },
+      "odb_sha256": "4546699b1212d4611434ec98d944b96c2b924b6c4dee200da0de0471943cad74",
+      "extractor_sha256": "d9e80a1f192d3d494f3a3cd69efbafc787dfe39ed7bc460628efb6600fd668f5"
+    },
+    "147": {
+      "schema": 1,
+      "job_id": "1418768.mmaster02",
+      "remote_directory": "/scratch9/pr21vyci/runs/mode1_c4_corrected_package147_ref",
+      "retrieved_at": "2026-10-29T17:48:39.6363529+00:00",
+      "transport": "Invoke-GuardedSsh.ps1; noninteractive BatchMode; exact paths; base64 byte-preserving transfer; independent remote SHA256 comparison",
+      "files": {
+        "pbs_execution.log": "2b5ebd87e550c9ac51bbe78634afaa3c2e22abc9b4cf528b2ad84b3958fc80d9",
+        "qstat.txt": "9b37a1bcce666bac39be8ae21d405bc0f7d86c22101e9f417016f6c1733a5642",
+        "M1_C4_CORRECTED_PACKAGE147_REF.sta": "ba1a07e43dc415081f68eeef6dde58636f6e27a67e0d89d89494985223b2ccd7",
+        "uel_energy_balance.csv": "1475d291d19885d32ee48876de1dcc376a5d4fd316668184aef48bafdc977f44",
+        "M1_C4_CORRECTED_PACKAGE147_REF.inp": "fffe51d5348f6e4b5e9b4742d783ca1645b480b229189168493aeda10c91722a",
+        "M1_C4_CORRECTED_PACKAGE147_REF.msg": "0940acba08bb3e17b812478c83a5b4c8139de717315d149a12583417c0435eb0",
+        "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+        "M1_C4_CORRECTED_PACKAGE147_REF.dat": "df857c2319398c0d3906a8b45966ea41a5c20d7ad75a78792a106f162098a952",
+        "snapshot.json.gz": "52e9f0d74a8080346e3e9b44e49c3808171a5aca37708a5641b7929012c0cd65"
+      },
+      "remote_sha256": {
+        "pbs_execution.log": "2b5ebd87e550c9ac51bbe78634afaa3c2e22abc9b4cf528b2ad84b3958fc80d9",
+        "M1_C4_CORRECTED_PACKAGE147_REF.sta": "ba1a07e43dc415081f68eeef6dde58636f6e27a67e0d89d89494985223b2ccd7",
+        "uel_energy_balance.csv": "1475d291d19885d32ee48876de1dcc376a5d4fd316668184aef48bafdc977f44",
+        "M1_C4_CORRECTED_PACKAGE147_REF.inp": "fffe51d5348f6e4b5e9b4742d783ca1645b480b229189168493aeda10c91722a",
+        "M1_C4_CORRECTED_PACKAGE147_REF.msg": "0940acba08bb3e17b812478c83a5b4c8139de717315d149a12583417c0435eb0",
+        "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+        "M1_C4_CORRECTED_PACKAGE147_REF.dat": "df857c2319398c0d3906a8b45966ea41a5c20d7ad75a78792a106f162098a952",
+        "snapshot.json.gz": "52e9f0d74a8080346e3e9b44e49c3808171a5aca37708a5641b7929012c0cd65"
+      },
+      "odb_sha256": "8ef0ca4fed8230718db120ed7c65c8dcda2f2e0fa8c8b7e13e6def7ebe8f496e",
+      "extractor_sha256": "d9e80a1f192d3d494f3a3cd69efbafc787dfe39ed7bc460628efb6600fd668f5"
+    }
+  },
+  "report_sha256": "74f4bbbb8b0e5af52f0ff9328fe8cdc8ac5742ac80f75a7a98a3d1e6fdea8565",
+  "test_receipt_sha256": "39ca8042d1af61821db868d89c908c6ae554ef1f99be798e890bc26f2ac1ab29"
+}

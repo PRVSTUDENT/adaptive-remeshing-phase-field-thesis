@@ -1,9 +1,9 @@
 {
-    "operation_review": {"operation":"evaluate_mode1_package146_donor_and_package147_reference","decision":"TECHNICAL_REVIEW_REJECTED_IMPLEMENTATION_INCOMPLETE","reviewer":"codex","report":"project_coordination/sessions/2026-10-29_codex_package146_147_registration_review.md","new_experiment":false,"permission_blocker":false},
+    "operation_review": {"operation":"evaluate_mode1_package146_donor_and_package147_reference","decision":"IMPLEMENTATION_REPAIRED_INDEPENDENT_REVIEW_PENDING","report":"project_coordination/sessions/2026-10-29_codex_package146147_reader.md","packet":"results/validation/package146147/review_ready.json","prior_review":"project_coordination/sessions/2026-10-29_codex_package146_147_registration_review.md","registered":false,"new_experiment":false},
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "status":  "OPERATION_IMPLEMENTATION_INCOMPLETE",
+    "status":  "EVALUATOR_READY_FOR_INDEPENDENT_REVIEW",
     "agent":  "gemini-antigravity",
-    "phase":  "Executable registration review rejected on technical evidence: Package146/147 candidate is an input/ledger readiness audit, with no actual solver-result reader or invoked numerical checks. Eight legacy tests pass but do not establish the stated evaluator contract. No new scientific result or job action.",
+    "phase":  "Repaired genuine Package146/147 read-only evaluator: both exact PBS jobs authenticated F/Exit0; Step-1 RF/UEL energy/damage/recorded trial GP history extracted and cross-checked; Delta_E=0.13319884944626892%, Delta_RF=0.0001591086985282366%; 45 evaluator tests and 54 existing checks pass. Diagnostic only: nodal path irreversibility and committed-state equivalence remain unverified. No registration or new experiment.",
     "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED",
     "active_pbs_job_ids":  [
                                "1418732.mmaster02"
@@ -21,6 +21,8 @@
                                     "PK_M1_COARSE_FINE_CONT (Package 46, 4,900 CPE4 quads, h=14.3 um, input deck 219ACDF2..., Abaqus 2023 datacheck Exit 0, completed Exit 0 Job 1415074)"
                                 ],
     "completed_pbs_job_ids":  [
+                                  "1418753.mmaster02",
+                                  "1418768.mmaster02",
                                   "1418722.mmaster02",
                                   "1418703.mmaster02",
                                   "1418650.mmaster02",
@@ -228,7 +230,7 @@
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
     "last_updated":  "2026-10-29T18:25:20.6811037+01:00",
-    "next_safe_action":  "Direct coding task: implement authentic result ingestion and finite/coverage/terminal-evidence checks in evaluate_package146_package147_results.py; add artifact-based regressions, then qualify/register through the existing dynamic operation mechanism. Do not repeat review-intake preparation or request supervisor credential activation.",
+    "next_safe_action":  "Independent review of results/validation/package146147/review_ready.json and corrected sources/tests before any controller registration. Preserve diagnostic-only scope, Package113 failure, missing intermediate nodal U3 and unverified committed-array equivalence. Do not repeat review-intake preparation.",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
