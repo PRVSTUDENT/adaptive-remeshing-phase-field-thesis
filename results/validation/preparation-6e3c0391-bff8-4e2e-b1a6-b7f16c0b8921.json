@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Critical geometry audit of C3-Fine donor (Package 146, 5,112 quads, 5,290 nodes) vs C4 receiver (Package 145, 4,422 quads, 4,588 nodes) proves C3-Fine to C4 is NOT pure refinement: 2,386 receiver quads (53.96%) are coarser than donor elements (h_rec/h_donor up to 1.6975) while 2,036 quads (46.04%) are refined (h_rec/h_donor down to 0.4535). With Job 1418753 queued in normal_imfdfkmq and prohibited coarsening detected, Package 147 submission is blocked on governance.",
+  "evidence_sources": {
+    "scripts/validation/audit_h55_refinement_only_geometry.py": "3A7686123799260FCA693D183C32C7931CBC7C6E5577F6FA1A1979F58BC7A0BE",
+    "tests/unit/test_mode1_f1597_h55_refinement_only_geometry.py": "B4DF26A54628946FC623E11A86B5F4D67EC8E9C8FB88888B701512E3E1246F62",
+    "results/validation/h55_refinement_only_geometry_audit.json": "30EA65A241885865A7CF7306B24D2C746658EDAC43328A0BF94B34ABD82BCBC8",
+    "models/pandey_kumar_mode1/146_c3_fine_donor/M1_C3_FINE_PACKAGE146_DONOR.inp": "9F93419A4F1E090286007A7291693BD3B783D984CE276E102D22D404AD4C5475",
+    "models/pandey_kumar_mode1/145_c4_continuous_reference/M1_C4_PACKAGE145_CONTINUOUS_REFERENCE.inp": "973AD6A2E480DBBB7A66F9919D4C3ABB9521DAF52D6F3CE992A1F8C8B5CD9518"
+  },
+  "verification_passed": true
+}
