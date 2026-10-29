@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "package_name": "140_c4_inc92_h31_underrelaxed_forward_continuation",
+  "batch_name": "MODE1_C4_INC92_H31_CONT",
+  "pbs_job_id": "1418600.mmaster02",
+  "verdict": "H31_PASSED",
+  "governing_gate_retained": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED",
+  "p113_gate_valid_failure_retained": "+2.00803158%",
+  "h24_reference_audit_pending_retained": true,
+  "pbs_execution": {
+    "exit_code": 0,
+    "walltime_seconds": 79,
+    "cput_seconds": 54,
+    "cycles_completed": 5,
+    "status": "CONVERGED_STATIONARY_STATE",
+    "under_relaxation_omega": 0.7
+  },
+  "acceptance_criteria": {
+    "c1_raw_stationarity": {
+      "value": 0.00053363774756221,
+      "threshold": 0.001,
+      "pass": true
+    },
+    "c2_reaction_force_drift": {
+      "value": 0.07180869579315186,
+      "threshold": 0.1,
+      "pass": true
+    },
+    "c3_free_phase_kkt_residual": {
+      "value": 5.712280760573565e-09,
+      "threshold": 1e-06,
+      "pass": true
+    },
+    "c4_active_multiplier_bound": {
+      "value": -9.953927844732523e-10,
+      "threshold": -1e-09,
+      "pass": true
+    },
+    "c5_reported_healing_violations": {
+      "value": 0,
+      "threshold": 0,
+      "pass": true
+    },
+    "c6_partition_consistency": {
+      "active_nodes": 382,
+      "free_nodes": 4206,
+      "total_nodes": 4588,
+      "expected_total": 4588,
+      "pass": true
+    },
+    "c7_donor_rf2_tolerance": {
+      "computed_N": 183.13969671726227,
+      "donor_ref_N": 180.059254,
+      "error_pct": 1.7107938908056668,
+      "threshold_pct": 5.0,
+      "pass": true
+    },
+    "c8_donor_etot_tolerance": {
+      "computed_mJ": 0.2575032123958027,
+      "donor_ref_mJ": 0.25357917,
+      "error_pct": 1.5474624338437124,
+      "threshold_pct": 2.0,
+      "pass": true
+    }
+  },
+  "pointwise_monotonicity": {
+    "independent_healing_violations": 0,
+    "max_healing_violation": 0.0,
+    "independent_history_loss_violations": 0,
+    "max_history_loss_violation": 0.0
+  },
+  "physical_bounds": {
+    "d0_min": 0.00336084,
+    "d0_max": 0.73490491,
+    "h0_min_MPa": 2.31719031e-08,
+    "h0_max_MPa": 13.6276433,
+    "d_max": 0.7349049054348782,
+    "separation_valid": true
+  },
+  "round_trip_restoration": {
+    "max_disp_restoration_err_mm": 4.9969793927684414e-14,
+    "max_damage_restoration_err": 0.0,
+    "lossless": true
+  },
+  "incremental_energetics": {
+    "u_init_mm": 0.0020401075,
+    "u_target_mm": 0.00206510746,
+    "delta_u_nm": 24.99996000000001,
+    "rf2_inc91_N": 184.31004881858826,
+    "rf2_inc92_N": 183.13969671726227,
+    "delta_w_ext_mJ": 0.004593114470203222,
+    "delta_e_tot_mJ": 0.0043724806979150155,
+    "delta_e_elas_mJ": 0.001080052749895588,
+    "delta_e_frac_mJ": 0.0032924279480193858,
+    "energy_work_residual_mJ": 0.00022063377228820694,
+    "energy_work_residual_pct": 4.803576608410654
+  },
+  "file_hashes": {
+    "checkpoint_json": "B9E07ACE33AFB91F1CD46EF58D3EA6C782D37B26365E1A776B627763C2FBCA87",
+    "bounds_csv": "D85E57E596482A040878CE8B5109EE94628C2E721C5C6C28FE0F998A7062B816",
+    "disp_csv": "38368669524EDA14BFDB81CBE88FE982707F6680D852348EC0153BCDF9CCFD88",
+    "cards_inc": "466EA42500DF4FE7D484728A9228F20A1DC01C0E154251BC37DCD358F5846351",
+    "receipt_json": "14AAD98FC3BE4CE6D683F95602FACFA3AC80F33255FA0E3B17D8EA2B1822792F",
+    "continuation_summary": "2E04D966819EF528DA7655EE40C4D99A0D5A23AB1D5F8EF51B51D62B99FBA2EC"
+  }
+}
