@@ -873,6 +873,32 @@ function Test-ControllerScientificCheckpoint([string]$Workspace,$State,[switch]$
 function Assert-ControllerDispatchCheckpoint([string]$Workspace,$State) {
     if(-not $State){return}
     if($State.state -eq 'BLOCKED'){throw ('BLOCKED: historical checkpoint requires evidence-based reconciliation; '+$State.block_reason)}
+    if ($State.reconciliation.status -eq 'INTERRUPTED_TURN294_EVIDENCE_ONLY_READY') {
+        $r = $State.reconciliation
+        if ($State.state -ne 'RECOVERY_REQUIRED' -or $State.turn -ne 294 -or
+            $State.run_id -ne '77c4cf2d-e740-4737-bb8a-a858fc0afd5a' -or
+            $r.completed_turn -ne 293 -or $r.resume_scope -ne 'EVIDENCE_ONLY' -or
+            $r.scientific_completion -ne $false -or $State.conversation_id -or
+            $State.next_instruction -or $State.recovery_count -ne 0) {
+            throw 'BLOCKED: invalid Turn294 evidence-only recovery transition'
+        }
+        foreach ($item in $r.evidence) {
+            if (-not (Test-Path -LiteralPath $item.path -PathType Leaf) -or
+                (Get-FileHash -LiteralPath $item.path -Algorithm SHA256).Hash -ne $item.sha256) {
+                throw 'BLOCKED: Turn294 recovery evidence missing or changed'
+            }
+        }
+        if (-not $r.evidence -or -not ($r.evidence | Where-Object { $_.path -eq $r.original_checkpoint -and $_.sha256 -eq $r.original_sha256 })) {
+            throw 'BLOCKED: original Turn294 checkpoint is not bound to evidence'
+        }
+        $original = Read-ControllerCheckpoint $r.original_checkpoint
+        if ($original.state -ne 'BLOCKED' -or $original.run_id -ne $State.run_id -or
+            $original.turn -ne 294 -or $original.original_instruction_hash -ne $State.original_instruction_hash -or
+            $original.partial_sha256 -ne $State.partial_sha256) {
+            throw 'BLOCKED: original Turn294 identity or pending instruction changed'
+        }
+        $null = Get-ControllerRecoveryInstruction $State
+    }
     if($State.reconciliation.status -eq 'COMPLETED_SCIENCE_CREDENTIAL_REPAIR_VERIFIED'){
         $r=$State.reconciliation
         if($State.state -ne 'COMPLETED' -or -not(Test-Path -LiteralPath $r.original_checkpoint) -or
