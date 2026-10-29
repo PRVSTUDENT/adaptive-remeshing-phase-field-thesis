@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Hypothesis H43 Runtime State-Injection Validation & Traceability Audit establishes: 1. UMAT Companion Element Analysis: Formally proven to be read-only diagnostic visualizers; STATEV(1..20) are populated from COMMON /CB_STATE_TRANS/ and do not serve as initialization inputs for the solver. 2. Production UEL History Ingestion (f42_mixed_uel.for, CE8D5EDC...): Initialized strictly at KSTEP=1, KINC<=1 via SVARS(8+KPT) = SVARS(9..12). UEXTERNALDB(LOP=0) zeroes state arrays and does NOT read external CSV files. To initialize history in pure Abaqus, *INITIAL CONDITIONS, TYPE=SOLUTION cards must be embedded in the input deck. 3. Decoupled AM Driver Ingestion: Ingests d_lower_bounds.csv directly into Python memory for phase QP assembly, while injecting nodal damage d into Abaqus via active_set_boundary_cards.inc (*BOUNDARY cards). 4. Critical Generator Defects Isolated: Package142DeckGenerator produces CSV tables but omits: (a) formatting active_set_boundary_cards.inc (*BOUNDARY cards for d), (b) embedding *INITIAL CONDITIONS, TYPE=SOLUTION cards, and (c) generating the executable M1_C4_PACKAGE142_STATE_TRANSFER.inp deck. 5. Unit test verification: Authored tests/unit/test_mode1_f1597_h43_runtime_injection_audit.py (6/6 tests PASS, 26/26 combined nonmatching transfer suite PASS in 35.769s). Scheduler Status: Job 1418650 (Package 141) remains queued in normal_imfdfkmq; Package 142 submission remains withheld pending authentic solver checkpoint extraction. Classification: H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED. Governing gates STAGE_C1_2_STEP2_ENERGY_GATE_FAILED (+2.00803158%), P113_GATE_VALID_FAILURE, and H24_REFERENCE_AUDIT_PENDING remain strictly invariant.",
+  "evidence_sources": {
+    "scripts/validation/audit_h43_runtime_state_injection.py": "226BBB7C8E9C6AE95F1EACCF8EFDE9464AC1D410E18298806428D7102AF3FAE3",
+    "tests/unit/test_mode1_f1597_h43_runtime_injection_audit.py": "8B5E25B97C71D48D4CC92A97CBCEAE09F67C05DF536DB78269118AA543F90606",
+    "results/validation/c3_int_to_c4_runtime_injection_audit.json": "2146946ED4BCF56B77D6BC8607304017017BD8AD93577EAE57A1CC7595629176",
+    "scripts/state_transfer/build_package142_transfer_deck.py": "FA7188079911B2BCB0417483E0F046FCBA87CA27B06884136277FB6F2F5635AA",
+    "models/pandey_kumar_mode1/141_c3_int_donor_monotonic/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/111_r2_c4_frame77_pre_instability/f42_unified_12dof_active_set_uel.for": "AB0A5A71335ECB445E91EC13A645E280FF3310B561A5E78ABA4A49C8E81DD8AC"
+  },
+  "verification_passed": true,
+  "metadata": {
+    "pbs_job_id": "1418650.mmaster02",
+    "job_name": "M1_C3_INT_DONOR_MONOTONIC",
+    "job_state": "QUEUED",
+    "queue": "normal_imfdfkmq",
+    "run_id": "54b3d6dc-8b79-4510-82ce-dbe222342c7d",
+    "evaluated_nodes": 4588,
+    "evaluated_gps": 17688,
+    "receiver_elements": 4422,
+    "defects_identified": 3,
+    "unit_tests_passed": 6,
+    "total_transfer_tests_passed": 26,
+    "hypothesis": "H43",
+    "classification": "H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED"
+  }
+}
