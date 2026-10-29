@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "f8520a79-00f2-47a0-873f-1dca7d712d58",
+  "finding": "Hypothesis H49 Coupled Mechanical-Phase PDAS Re-Equilibration completed: 1. Implemented and executed full alternating minimization (PDAS) coupling on Candidate C4 (4,422 elements, 4,588 nodes) at authentic Frame-77 displacement (u_RP = 0.001800312544 mm). 2. Converged monotonically in 10 alternating cycles to Delta d_max = 8.13e-4 <= 1.0e-3 in 31.74 s with zero healing violations (d >= d0 everywhere). 3. Proved that localized crack-tip damage growth increases crack-tip compliance and relaxes structural stresses: reaction force relaxed by -4.76% (194.08 N -> 184.84 N) and elastic strain energy relaxed by -4.76% (0.174705 mJ -> 0.166381 mJ), while fracture energy increased from 0.039093 mJ to 0.047028 mJ (+20.30%). 4. Equilibrated state achieves RF2 = 184.8360 N (-0.2992% vs donor 185.3907 N, passing <= 5.0% Force Gate) and total energy E_tot = 0.213409 mJ (-1.7000% vs donor 0.217100 mJ, passing <= 2.0% Total Energy Gate). 5. Resolves the Stage C1-1 state transfer paradox: the previous +2.434% failure in Package 142 was caused by artificial clamping of the phase field at d0, which prevented compliance relaxation; full coupled variational equilibrium satisfies both Stage C1-1 force and energy continuity thresholds. Preserved governing invariants STAGE_C1_2_STEP2_ENERGY_GATE_FAILED (+2.00803158%), P113_GATE_VALID_FAILURE, and H24_REFERENCE_AUDIT_PENDING.",
+  "evidence_sources": {
+    "results/validation/h49_coupled_pdas_equilibration_audit.json": "3417299F6AEE02AAE12FD431DE5C3E1FC0440A705F9D6FE1BF534B08C7114D42",
+    "scripts/validation/solve_coupled_pdas_equilibration_package144.py": "F68C586FA45E6A3E62A3F6E2B49FD9BE5F87506E7FB05B897BF7C66C109ED489",
+    "tests/unit/test_mode1_f1597_package144_coupled_pdas.py": "13BDC2E2111CEADB13152B7645487E9B8C7F9E0214365C3BC1A6E49225F4453D",
+    "models/pandey_kumar_mode1/142_c4_c3_int_state_transfer/M1_C4_PACKAGE142_STATE_TRANSFER.inp": "0BFD4C134912EFE0C3F6FD43972DF1E7297EC8BB79C7D1350211BBFD67F49264",
+    "models/pandey_kumar_mode1/142_c4_c3_int_state_transfer/d_lower_bounds.csv": "CEB7F108121C62C6DFBB4407EF28C084FC8DEAEAA75109C6EE6586776FD25F37",
+    "models/pandey_kumar_mode1/142_c4_c3_int_state_transfer/nodal_phase_field_initial.csv": "C3BF9835AC47E3513FD5028F8B9091571A9342977351F7A6FE4E10482A81B61D"
+  },
+  "verification_passed": true,
+  "classification": "H49_COUPLED_EQUILIBRATION_EVALUATED"
+}
