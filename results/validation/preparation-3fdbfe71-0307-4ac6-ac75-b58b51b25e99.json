@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Hypothesis H40 C3-Intermediate to C4 Nonmatching Spatial Transfer Geometry Qualification establishes: 1. Complete spatial containment: All 4,588 receiver physical nodes (100.0%) and all 17,688 receiver Gauss points (100.0%) map deterministically to interior donor C3-Int elements with maximum coordinate reconstruction error 3.469e-17 mm and RMS error 7.643e-18 mm. 2. Strict slit flank isolation: Exactly 32 receiver seam pairs (64 nodes) along y = 0.05 mm, x <= 0.04 mm remain partitioned, with zero flank violations across the crack face (0 nodes / 0 GPs cross-interpolated). 3. Mathematical operator exactness: Bilinear inverse isoparametric Newton-Raphson solver confirms partition of unity error < 2.220e-16. Linear displacement patch test passed with max error 1.570e-16 mm; constant phase damage reproduced exactly; conservative host-nearest GP mapping satisfies strict non-negativity (0 violations). Unit test suite tests/unit/test_mode1_f1597_c3_to_c4_spatial_transfer_qualification.py verified 8/8 tests PASS. Classification: H40_JOB_PENDING_MAPPING_QUALIFIED. Job 1418650 remains queued in normal_imfdfkmq. Governing gates STAGE_C1_2_STEP2_ENERGY_GATE_FAILED (+2.00803158%), P113_GATE_VALID_FAILURE, and H24_REFERENCE_AUDIT_PENDING remain strictly invariant.",
+  "evidence_sources": {
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "6ABE8E9D597C3D0BAC172A04DF445BFB1121371754F155FC457E702D2D47BDAB",
+    "scripts/validation/run_h40_transfer_qualification.py": "18A77FE4B6D19E526AB78A0AE6A25199D85A228E24221A1D79975943E60795FC",
+    "tests/unit/test_mode1_f1597_c3_to_c4_spatial_transfer_qualification.py": "5E34864748F275CBD0205077A853150A70053113588F8AAEC181CB97924EC983",
+    "results/validation/c3_int_to_c4_spatial_transfer_qualification.json": "F5DD7CCEB8C205163B02500CBCF0B639228B19896FC9E2F40219FD06B12B07BB",
+    "models/pandey_kumar_mode1/141_c3_int_donor_monotonic/M1_C3_INT_DONOR_MONOTONIC.inp": "997F554DEFBDCAC9FA0C1494E0F10994F51A1AB5716B1F6FAC1D226B8BA3090C",
+    "models/pandey_kumar_mode1/111_r2_c4_frame77_pre_instability/M1_C4_FRAME77_CONTINUATION.inp": "25764F5FC91CA895B4D9E1B50B4DAD98229FD8A2CF27EA9F68B52E103190A7E5"
+  },
+  "verification_passed": true,
+  "metadata": {
+    "pbs_job_id": "1418650.mmaster02",
+    "job_name": "M1_C3_INT_DONOR_MONOTONIC",
+    "job_state": "QUEUED",
+    "queue": "normal_imfdfkmq",
+    "run_id": "3fdbfe71-0307-4ac6-ac75-b58b51b25e99",
+    "donor_mesh": "C3-Intermediate (2,610 nodes, 2,484 quads, 25 seam pairs)",
+    "receiver_mesh": "C4-Receiver (4,588 nodes, 4,422 quads, 32 seam pairs, 17,688 GPs)",
+    "node_coverage_pct": 100.0,
+    "gp_coverage_pct": 100.0,
+    "flank_violations": 0,
+    "max_coord_recon_error_mm": 3.469446951953614e-17,
+    "patch_tests_passed": true,
+    "unit_tests_passed": 8,
+    "hypothesis": "H40",
+    "classification": "H40_JOB_PENDING_MAPPING_QUALIFIED"
+  }
+}
