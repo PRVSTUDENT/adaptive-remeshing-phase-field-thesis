@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Hypothesis H37 refined-donor nonmatching state transfer qualification establishes: 1. Comprehensive audit of Package 116 / 116 R1 (Job 1417818) demonstrates that Candidate C3-Intermediate was solved solely as an isolated receiver re-equilibration at Increment 79 (u_RP = 0.00184250 mm) receiving an interpolated state from coarse C3 Increment 79. 2. No continuous monotonic simulation has ever been executed on C3-Int from initial virgin conditions (u = 0), and no authentic, history-consistent donor checkpoint exists at Frame 77 (u = 0.00180031 mm). 3. Under strict scientific governance, substituting Increment-79 fields or interpolating history across non-identical load levels is prohibited. Transfer candidate qualification is strictly blocked on authentic state availability (H37_BLOCKED_AUTHENTIC_STATE). 4. Hypothesis H37 is formalized with predeclared quantitative criteria: reducing resolution mismatch from h_donor/h_target = 4.125 (coarse C3, h/l0 = 0.333) to 1.980 (intermediate C3-Int, h/l0 = 0.160, 2,484 quads) is hypothesized to reduce damage attenuation to < 0.25% and bring Gate C1-2 Step 2 total energy discrepancy within the original <= 2.00000% threshold. 5. In accordance with single-operation discipline and governance rules, no speculative transfer is submitted. Governing gates STAGE_C1_2_STEP2_ENERGY_GATE_FAILED (+2.00803158%) and P113_GATE_VALID_FAILURE remain strictly invariant.",
+  "classification": "H37_BLOCKED_AUTHENTIC_STATE",
+  "evidence_sources": {
+    "results/validation/h37_refined_donor_transfer_audit.json": "202CA2536E4A47ED00E72ECB226D930D04DED725A724EBD264F6C226FD93AA99",
+    "scripts/audit_h37_refined_donor_transfer.py": "CB127C9AA5AA5DDF9A0C017E2B7383B60FF4D0C4699652BA7897EBD28DDAEEDB",
+    "tests/unit/test_mode1_f1597_h37_refined_donor_transfer.py": "87FF21C49A9B64964D4E33DA8702B5B3AA340BCF658359A4669F087CB968F8C3",
+    "results/validation/c3_int_r1_inc79_direct_transfer_summary.json": "E58409C06E7D23428C791670B2DF15F5967C604B408BF46FDC9DA555F5695F14",
+    "models/pandey_kumar_mode1/116_r1_c3_int_inc79_direct_transfer/M1_C3_INT_R1_INC79_DIRECT_TRANSFER.inp": "EBB991AFBA89053E2EBFC08E67BE801AA193AAB71AC7AC3AE43F4919EACD22B7",
+    "models/pandey_kumar_mode1/116_r1_c3_int_inc79_direct_transfer/PACKAGE_MANIFEST.json": "9C064C2EF334667CCA20AFB339C04B6C105AB29F54B74D8D4AEC6B42E7659DD9",
+    "results/validation/c4_frame77_mapping_audit.json": "5D616F03F05CC41C8C9C2A008261C35855D03257B1A7DD332E21B00D92DB4ADD",
+    "results/validation/h36_path_consistent_transfer_audit.json": "1723829A39C324615E5454F0885DD86B9243CCA058B510EC0D96A74C9ECEA4D4"
+  },
+  "verification_passed": true
+}
