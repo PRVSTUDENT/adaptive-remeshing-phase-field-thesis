@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Reconciliation of Hypothesis H38 Package 141 establishes that Job 1418650.mmaster02 (M1_C3_INT_DONOR, 1 CPU, 16 GB, 8h, 2,484 quads, 2,610 nodes) is queued in normal_imfdfkmq. Pursuant to the QUEUED branch of single-operation governance, the job is verified once and left untouched without polling or speculative execution. The independent bounded preparation task has been completed: authored and qualified the dedicated Abaqus Python 2.7 checkpoint extractor scripts/extract_c3_int_donor_frame77_checkpoint.py tailored to the Package 141 two-step output structure. The extractor deterministically locates the Step 1 termination increment at exact displacement u_top = 0.0018003125442191958 mm (t = 0.36006251 s), extracts physical nodal displacements (2,610 nodes), retrieves companion UMAT SDVs (SDV1=d, SDV2=H, SDV17=E_frac, SDV18=E_elas across 9,936 Gauss points), verifies slit topology across 50 split flank nodes (25 upper, 25 lower), and atomic serialization. Focused unit test suite tests/unit/test_mode1_f1597_package141_extractor_qualification.py verified 5/5 tests PASS. Classification: H38_JOB_PENDING_EXTRACTOR_PREPARED. Governing gates STAGE_C1_2_STEP2_ENERGY_GATE_FAILED (+2.00803158%) and P113_GATE_VALID_FAILURE remain invariant.",
+  "evidence_sources": {
+    "scripts/extract_c3_int_donor_frame77_checkpoint.py": "5D5FF6ADCC7F1A0BEA2C2F256605F2B29CCB7791F53200A79456CD68856880C2",
+    "tests/unit/test_mode1_f1597_package141_extractor_qualification.py": "94112B39F13EC8E909B1863032CDA858F736812C3D49A6FC352F3F34C28D685A",
+    "models/pandey_kumar_mode1/141_c3_int_donor_monotonic/M1_C3_INT_DONOR_MONOTONIC.inp": "997F554DEFBDCAC9FA0C1494E0F10994F51A1AB5716B1F6FAC1D226B8BA3090C",
+    "models/pandey_kumar_mode1/141_c3_int_donor_monotonic/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/141_c3_int_donor_monotonic/submit_M1_C3_INT_DONOR_MONOTONIC.pbs": "604EFFD8CD78A471A1699C454D28D1E5E3593E7EB1039B8B77233E5092FD0D9E",
+    "models/pandey_kumar_mode1/141_c3_int_donor_monotonic/PACKAGE_MANIFEST.json": "E692EAA52168014469AF1106CA5397B515A88F06124517ECD3519686DE57DA4E",
+    "models/pandey_kumar_mode1/141_c3_int_donor_monotonic/M1_C3_INT_DONOR_MONOTONIC_AUTHORIZATION.json": "B3A2C43369D5D58ADA9D32D75C1650E326C4629DB5349CFC6BE49CCD78C7BF49"
+  },
+  "verification_passed": true,
+  "metadata": {
+    "pbs_job_id": "1418650.mmaster02",
+    "job_name": "M1_C3_INT_DONOR_MONOTONIC",
+    "job_state": "QUEUED",
+    "queue": "normal_imfdfkmq",
+    "package_id": "141_c3_int_donor_monotonic",
+    "run_id": "9e1fca8a-b36e-41df-8548-e49d81c1fe00",
+    "extractor_script": "scripts/extract_c3_int_donor_frame77_checkpoint.py",
+    "extractor_tests": "tests/unit/test_mode1_f1597_package141_extractor_qualification.py",
+    "extractor_tests_passed": 5,
+    "target_displacement_step1_mm": 0.0018003125442191958,
+    "physical_nodes": 2610,
+    "physical_quads": 2484,
+    "slit_nodes": 50,
+    "upper_flank_nodes": 25,
+    "lower_flank_nodes": 25,
+    "hypothesis": "H38",
+    "classification": "H38_JOB_PENDING_EXTRACTOR_PREPARED"
+  }
+}
