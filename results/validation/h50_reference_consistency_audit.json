@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "investigation": "H50_COUPLED_PDAS_REFERENCE_CONSISTENCY_AND_PHYSICAL_VALIDATION",
+  "classification": "H50_REFERENCE_MISMATCH_CONFIRMED",
+  "secondary_classification": "H50_OFFLINE_PDAS_CORRECTED_EVALUATED",
+  "acceptance_overall": false,
+  "donor_comparison": {
+    "authentic_reference": {
+      "source_file": "results/validation/package142_c1_1_evaluation.json",
+      "job_name": "M1_C3_INT_DONOR_MONITORED",
+      "pbs_job_id": "1418703.mmaster02",
+      "step": 1,
+      "increment": 76,
+      "frame": 77,
+      "u_rp_mm": 0.0018003125442191958,
+      "rf2_n": 188.45704197883606,
+      "e_elastic_knmm": 0.00016963481,
+      "e_fracture_knmm": 3.9117135e-05,
+      "e_total_knmm": 0.00020875195
+    },
+    "h49_spurious_reference": {
+      "source_file": "scripts/validation/solve_coupled_pdas_equilibration_package144.py",
+      "notes": "Spurious reference derived from historical Increment-79 / Package 115 plateau (u_rp ~ 0.00185 mm, E_tot ~ 0.2171 mJ)",
+      "u_rp_mm": 0.0018003125442191958,
+      "rf2_n": 185.39068,
+      "e_elastic_knmm": 0.000169572,
+      "e_fracture_knmm": 4.7528e-05,
+      "e_total_knmm": 0.0002171
+    },
+    "reference_discrepancy_pct": {
+      "rf2": -1.627088033770801,
+      "e_elastic": -0.037026598491203794,
+      "e_fracture": 21.501740861134135,
+      "e_total": 3.999028512068989
+    }
+  },
+  "receiver_evaluations": {
+    "cycle_1_clamped": {
+      "values": {
+        "cycle": 1,
+        "condition": "Clamped damage d0 (Package 142 solver replica)",
+        "rf2_n": 194.083492,
+        "e_elastic_knmm": 0.000174705473,
+        "e_fracture_knmm": 3.9093387e-05,
+        "e_total_knmm": 0.00021379886
+      },
+      "error_vs_authentic_donor_pct": {
+        "rf2": 2.9855345080688487,
+        "e_elastic": 2.989164193363369,
+        "e_fracture": -0.06070996763950752,
+        "e_total": 2.4176588530071226
+      }
+    },
+    "cycle_10_equilibrated": {
+      "values": {
+        "cycle": 10,
+        "condition": "Equilibrated damage (AM / PDAS stationary at Delta_d = 8.13e-4)",
+        "rf2_n": 184.836,
+        "e_elastic_knmm": 0.00016638127,
+        "e_fracture_knmm": 4.702799e-05,
+        "e_total_knmm": 0.00021340926
+      },
+      "error_vs_authentic_donor_pct": {
+        "rf2": -1.9214150560862002,
+        "e_elastic": -1.9179671908141973,
+        "e_fracture": 20.22350307608161,
+        "e_total": 2.23102586586617
+      }
+    }
+  },
+  "stage_c1_1_gate_results": {
+    "force_gate_5pct": {
+      "error_pct": -1.9214150560862002,
+      "threshold_pct": 5.0,
+      "gate_pass": true,
+      "status": "PASS"
+    },
+    "total_energy_gate_2pct": {
+      "error_pct": 2.23102586586617,
+      "threshold_pct": 2.0,
+      "gate_pass": false,
+      "status": "FAIL"
+    },
+    "overall_gate_pass": false
+  },
+  "coupled_relaxation_mechanics": {
+    "delta_rf2_n": -9.247491999999994,
+    "delta_rf2_pct": -4.764697865184739,
+    "delta_elas_knmm": -8.324202999999985e-06,
+    "delta_elas_pct": -4.764706484037844,
+    "delta_frac_knmm": 7.934602999999998e-06,
+    "delta_frac_pct": 20.296535063590163,
+    "delta_tot_knmm": -3.895999999999869e-07,
+    "delta_tot_pct": -0.1822273514461148,
+    "compensation_ratio": 1.0491013854127278
+  },
+  "acceptance_formulas": {
+    "force_continuity_formula": "Err_RF = ((RF2_receiver - RF2_donor) / RF2_donor) * 100%",
+    "energy_continuity_formula": "Err_E = ((E_tot_receiver - E_tot_donor) / E_tot_donor) * 100%",
+    "force_criterion": "|Err_RF| <= 5.0%",
+    "energy_criterion": "|Err_E| <= 2.0%"
+  },
+  "governing_invariants_preserved": {
+    "H47_PACKAGE142_C1_1_FAILED": true,
+    "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED": true,
+    "P113_GATE_VALID_FAILURE": true,
+    "H24_REFERENCE_AUDIT_PENDING": true,
+    "FROZEN_UEL_HASH": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "scientific_conclusion": "H49's reported simultaneous gate acceptance is REFUTED. H49 mistakenly benchmarked the receiver against an unauthenticated Increment-79 baseline (0.217100 mJ) rather than the authenticated Package 143 Frame-77 donor (0.208752 mJ). When correctly benchmarked, the equilibrated total energy is 0.213409 mJ, yielding a raw discrepancy of +2.2310%, which strictly exceeds the <= 2.000% threshold. The physical reason is proven: in displacement control, damage growth increases fracture energy by +0.007935 mJ while relaxing elastic strain energy by -0.008324 mJ, yielding a net total energy relaxation of only -0.000389 mJ (-0.18%). Thus, coupled PDAS cannot eliminate the +2.43% mesh-refinement energy excess."
+}
