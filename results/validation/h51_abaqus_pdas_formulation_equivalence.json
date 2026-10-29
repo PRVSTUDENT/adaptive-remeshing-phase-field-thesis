@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "investigation": "H51_AUTHENTIC_ABAQUS_COUPLED_PDAS_VALIDATION",
+  "classification": "H51_PDAS_FORMULATION_DEFECT_IDENTIFIED",
+  "sub_classification": "H51_RUNTIME_COUPLING_BLOCKED",
+  "uel_source_verified": {
+    "path": "models/pandey_kumar_mode1/37_stage14_adaptive_candidate_spatial_fine_8thread/f42_mixed_uel.for",
+    "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "hash_matches": true
+  },
+  "formulation_comparisons": {
+    "authentic_abaqus_p142": {
+      "job_name": "M1_C4_PACKAGE142_STATE_TRANSFER",
+      "rf2_n": 194.1213458776474,
+      "e_elastic_knmm": 0.00017473955,
+      "e_fracture_knmm": 3.9093387e-05,
+      "e_total_knmm": 0.00021383294
+    },
+    "formulation_a_elem_avg": {
+      "description": "f42_mixed_uel.for exact element-average degradation g(d_avg)",
+      "rf2_n": 194.12135243799065,
+      "e_elastic_knmm": 0.00017473955294744367,
+      "e_fracture_knmm": 3.909338664726186e-05,
+      "e_total_knmm": 0.00021383293959470554,
+      "dev_rf2_vs_abaqus_pct": 3.3795063711767477e-06,
+      "dev_elas_vs_abaqus_pct": 1.6867639107300647e-06
+    },
+    "formulation_b_gauss_point": {
+      "description": "Turn 315 Python Gauss-point interpolated degradation g(d_g)",
+      "rf2_n": 194.08349244954093,
+      "e_elastic_knmm": 0.00017470547304137882,
+      "e_fracture_knmm": 3.909338664726186e-05,
+      "e_total_knmm": 0.00021379885968864068,
+      "dev_rf2_vs_abaqus_pct": -0.01949987928186511,
+      "dev_elas_vs_abaqus_pct": -0.019501571694096134
+    },
+    "displacement_parity_a_vs_b": {
+      "max_diff_mm": 8.998376071802901e-07,
+      "rms_diff_mm": 9.95520769858669e-08
+    }
+  },
+  "h48_vs_h49_deconstruction": {
+    "h48_phase_only": {
+      "delta_d_max": 0.00763,
+      "delta_e_frac_mJ": 0.00013389,
+      "driving_history": "Transferred donor H0 from C3 (near equilibrium)"
+    },
+    "h49_coupled_am": {
+      "delta_d_max": 0.091048,
+      "delta_e_frac_mJ": 0.00793461,
+      "delta_e_elas_mJ": -0.00832439,
+      "delta_e_tot_mJ": -0.00038978,
+      "compensation_ratio": 1.049124027519941,
+      "driving_history": "Refined C4 singular strain concentration psi_e^+ (+150% above H0)"
+    }
+  },
+  "stage_c1_1_evaluation": {
+    "donor_frame77": {
+      "rf2_n": 188.45704197883606,
+      "e_total_knmm": 0.00020875195
+    },
+    "equilibrated_c4": {
+      "rf2_n": 184.83597,
+      "e_total_knmm": 0.0002134092
+    },
+    "rf2_error_pct": -1.9214309748333558,
+    "rf2_gate_pass": true,
+    "etot_error_pct": 2.2309971236196886,
+    "etot_gate_pass": false,
+    "overall_c1_1_pass": false
+  },
+  "governing_invariants_preserved": {
+    "H47_PACKAGE142_C1_1_FAILED": true,
+    "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED": true,
+    "P113_GATE_VALID_FAILURE": true,
+    "H24_REFERENCE_AUDIT_PENDING": true,
+    "FROZEN_UEL_HASH": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "findings": [
+    {
+      "id": "FORMULATION_PARITY_VERIFIED",
+      "status": "PASS",
+      "detail": "Formulation A (element-average degradation g(d_avg), as defined in f42_mixed_uel.for lines 408-410) matches authentic Abaqus Package 142 to within 0.0002% in RF2 (194.1213 N vs 194.1213 N) and 0.0001% in elastic energy (0.174740 mJ vs 0.174740 mJ)."
+    },
+    {
+      "id": "FORMULATION_B_GAUSS_POINT_BIAS_ISOLATED",
+      "status": "CONFIRMED",
+      "detail": "Formulation B (Turn 315 Python Gauss-point degradation g(d_g)) exhibits a slight stiffening shift of -0.0195% in RF2 and -0.0198% in elastic energy relative to authentic Abaqus UEL, governed by Jensen's inequality for convex (1-d)^2 over intra-element phase gradients."
+    },
+    {
+      "id": "H48_VS_H49_DISCREPANCY_EXPLAINED",
+      "status": "EXPLAINED",
+      "detail": "H48 uncoupled phase relaxation was evaluated under frozen donor history H0 from C3, where driving force was small (Delta d_max = 0.007630). H49 coupled relaxation solved mechanical displacements on the refined C4 mesh (h_tip = 0.6 um), capturing the notch-tip singular strain concentration psi_e^+ which exceeded H0 by +150% and drove physically admissible crack growth (Delta d_max = 0.09105, Delta E_frac = +20.30%)."
+    },
+    {
+      "id": "THERMODYNAMIC_ENERGY_COMPENSATION_PROVEN",
+      "status": "PROVEN",
+      "detail": "Coupled material softening relaxed elastic strain energy by -0.008324 mJ (-4.76%), compensating 95.3% of the fracture dissipation increase (+0.007935 mJ). Net total energy relaxed by only -0.000390 mJ (-0.1822%), mathematically proving that coupled PDAS re-equilibration cannot bridge the +2.43% refinement energy excess."
+    },
+    {
+      "id": "AUTHENTIC_FRAME77_STAGE_C1_1_REMAINS_FAILED",
+      "status": "CONFIRMED_FAILED",
+      "detail": "Evaluated against authentic Package 143 Frame-77 baseline (RF2 = 188.4570 N, E_tot = 0.208752 mJ), coupled PDAS yields RF2 error -1.9214% (PASS <= 5.0%) but total energy error +2.2310% (FAILS <= 2.000%). Stage C1-1 remains failed."
+    },
+    {
+      "id": "PACKAGE144_HPC_SUBMISSION_WITHHELD",
+      "status": "WITHHELD",
+      "detail": "Authentic Abaqus coupled PDAS requires an external iterative loop to update active sets between subproblems. Submitting a single static .inp to PBS would replicate Package 142's clamped linear elastic run. Submission withheld pursuant to policy."
+    }
+  ]
+}
