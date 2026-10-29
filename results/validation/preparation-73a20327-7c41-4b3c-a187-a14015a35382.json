@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "73a20327-7c41-4b3c-a187-a14015a35382",
+  "finding": "Hypothesis H33 (Discretization-Aware Energy Validation) is SUPPORTED across authentic 3-level mesh data: Asymptotic spatial convergence proves 99.32% of AT2 fracture energy shift occurs in the initial refinement (h = 2.5 um to 1.2 um, h/l0 = 0.333 to 0.160), settling onto an invariant plateau with only 31.2 nJ (+0.068%) change upon further refinement to h = 0.606 um (h/l0 = 0.081). Continuum extrapolation establishes total energy at E_inf ~ 0.216739-0.216753 mJ, demonstrating coarse C3 under-predicts continuum energy by -1.986% (-4.3 uJ) due to gradient under-integration. Under Level A (Predeclared Acceptance Gate), Package 113 strictly FAILS (+2.00803158% vs 2.00000000%, exceedance +0.00803158 pct pts / 80.32 ppm / 17.06 nJ); this gate and failure status remain strictly invariant pursuant to repository governance. Under Level B (Mesh-Aware Diagnostic), the Package 113 energy residual against the continuum limit evaluates to ~0.018% (181 ppm), and the 17.06 nJ excess is fully bounded within the 20.58 nJ fine-mesh discretization truncation uncertainty (and 26.25 nJ GCI). In accordance with governance rules, submission of an artificial HPC job is WITHHELD. The governing gate STAGE_C1_2_STEP2_ENERGY_GATE_FAILED and classification P113_GATE_VALID_FAILURE remain strictly retained.",
+  "verification_passed": true,
+  "classification": "H33_MESH_AWARE_DIAGNOSTIC_SUPPORTED",
+  "hpc_decision": "WITHHELD_NO_QUALIFIED_CANDIDATE_NO_ARTIFICIAL_JOB",
+  "governing_gate_retained": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED",
+  "p113_gate_valid_failure_retained": "+2.00803158%",
+  "h24_reference_audit_pending_retained": true,
+  "two_level_framework": {
+    "level_a": {
+      "measured_pct": 2.0080315800488817,
+      "tolerance_pct": 2.0,
+      "exceedance_pct_points": 0.008031580048881715,
+      "exceedance_ppm": 80.31580048881715,
+      "excess_energy_nJ": 17.06283735198038,
+      "pass": false,
+      "status": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED"
+    },
+    "level_b": {
+      "continuum_limit_p2_mJ": 0.21675330278783637,
+      "pct_deviation_from_e_inf_p2": 0.01819777894348574,
+      "mesh_truncation_uncertainty_raw_nJ": 20.58345370344445,
+      "is_excess_bounded_by_mesh_uncertainty": true,
+      "status": "H33_MESH_AWARE_DIAGNOSTIC_SUPPORTED"
+    }
+  },
+  "evidence_sources": {
+    "results/validation/h33_discretization_aware_energy_audit.json": "94703380445AC984509E5FE50106B8ACC7950F1E4F9DC9F1FE90E990B4C98CA2",
+    "tests/unit/test_mode1_f1597_h33_discretization_aware_energy.py": "E2A47AD7E9721B0997A5CEDAE2BCDBB76E84FCEDDD4A0B8FAA1A1E2C49C27293",
+    "scripts/audit_h33_discretization_aware_energy.py": "CA9F0430FCBA52E9DE8A531E216C3FAF9565D4AD005E9D294C5B95EB9576D599",
+    "results/validation/three_level_at2_energy_convergence_audit.json": "CED391A1B69BF8F02850AC96C2647EB5DEFFAA3644286D78BF500D271EF4DB22",
+    "results/validation/c3_int_r1_inc79_direct_transfer_summary.json": "E58409C06E7D23428C791670B2DF15F5967C604B408BF46FDC9DA555F5695F14",
+    "models/pandey_kumar_mode1/113_c1_2_second_forward_continuation/c4_c1_2_inc79_continuation_summary.json": "568B8B92F1576DB761D841914B55E20C59B1B334E680A4EF21778D28E5A46461",
+    "models/pandey_kumar_mode1/76_candidate_donor_h0025_visual/evidence_1416301/uel_energy_balance.csv": "EC265AAF6CE4CEDC8190154A946D02C2F162BFF77D19F3B5AFFEA1E378B961D7"
+  }
+}
