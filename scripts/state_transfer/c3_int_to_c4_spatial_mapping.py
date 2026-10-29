@@ -532,3 +532,108 @@ class SpatialTransferMapper(object):
             "patch_tests_passed": (max(disp_errs) < 1e-10 and max(pou_errs) < 1e-12 and history_non_negativity_violations == 0)
         }
         return results
+
+    def transfer_history_host_nearest(self, donor_gp_history, gp_map):
+        """
+        Operator A: Host-Nearest Gauss Point (HN-GP).
+        Transfers GP history by selecting the nearest Gauss point in the host donor element.
+        Enforces strict non-negativity H >= 0.
+        """
+        target_history = {}
+        for (teid, tgp), mapping in gp_map.items():
+            host_eid = mapping["host_eid"]
+            host_gp = mapping["host_nearest_gp"]
+            h_val = donor_gp_history.get((host_eid, host_gp), 0.0)
+            target_history[(teid, tgp)] = max(0.0, float(h_val))
+        return target_history
+
+    def transfer_history_bilinear_gp(self, donor_gp_history, gp_map):
+        """
+        Operator B: Bilinear Gauss Point Interpolation/Extrapolation (Bilinear-GP).
+        Transfers GP history by interpolating the 4 host Gauss points via scaled isoparametric coordinates:
+        xi' = sqrt(3)*xi, eta' = sqrt(3)*eta.
+        Enforces strict non-negativity H >= 0.
+        """
+        sqrt3 = math.sqrt(3.0)
+        target_history = {}
+        for (teid, tgp), mapping in gp_map.items():
+            host_eid = mapping["host_eid"]
+            xi = mapping["xi"]
+            eta = mapping["eta"]
+
+            xi_p = sqrt3 * xi
+            eta_p = sqrt3 * eta
+
+            # Bilinear weights over the 4 GPs: GP1:(-1,-1), GP2:(+1,-1), GP3:(-1,+1), GP4:(+1,+1)
+            w1 = 0.25 * (1.0 - xi_p) * (1.0 - eta_p)
+            w2 = 0.25 * (1.0 + xi_p) * (1.0 - eta_p)
+            w3 = 0.25 * (1.0 - xi_p) * (1.0 + eta_p)
+            w4 = 0.25 * (1.0 + xi_p) * (1.0 + eta_p)
+
+            h1 = donor_gp_history.get((host_eid, 1), 0.0)
+            h2 = donor_gp_history.get((host_eid, 2), 0.0)
+            h3 = donor_gp_history.get((host_eid, 3), 0.0)
+            h4 = donor_gp_history.get((host_eid, 4), 0.0)
+
+            interp_h = w1 * h1 + w2 * h2 + w3 * h3 + w4 * h4
+            target_history[(teid, tgp)] = max(0.0, float(interp_h))
+        return target_history
+
+    def evaluate_history_field_benchmark(self, field_func, gp_map, field_name="custom_field"):
+        """
+        Evaluates a specified analytical history field function on donor GPs and receiver GPs,
+        executes both transfer operators, and computes comparative error metrics.
+        field_func: callable (x, y, flank) -> float >= 0.0
+        """
+        # Evaluate donor GPs
+        donor_gp_history = {}
+        for (eid, gp_idx), (x, y, flank) in self.donor.gauss_points.items():
+            donor_gp_history[(eid, gp_idx)] = max(0.0, float(field_func(x, y, flank)))
+
+        # Evaluate exact target GPs
+        target_exact = {}
+        for (teid, tgp), (x, y, flank) in self.receiver.gauss_points.items():
+            target_exact[(teid, tgp)] = max(0.0, float(field_func(x, y, flank)))
+
+        # Apply operators
+        hist_hn = self.transfer_history_host_nearest(donor_gp_history, gp_map)
+        hist_bi = self.transfer_history_bilinear_gp(donor_gp_history, gp_map)
+
+        def compute_metrics(transferred):
+            errs = []
+            underest = []
+            overest = []
+            non_neg_viol = 0
+
+            for key, exact_val in target_exact.items():
+                t_val = transferred[key]
+                if t_val < 0.0:
+                    non_neg_viol += 1
+                diff = t_val - exact_val
+                errs.append(abs(diff))
+                if diff < -1e-12:
+                    underest.append(abs(diff))
+                elif diff > 1e-12:
+                    overest.append(diff)
+
+            max_e = max(errs) if errs else 0.0
+            rms_e = math.sqrt(sum(e * e for e in errs) / len(errs)) if errs else 0.0
+            return {
+                "max_error": max_e,
+                "rms_error": rms_e,
+                "max_underestimation": max(underest) if underest else 0.0,
+                "max_overestimation": max(overest) if overest else 0.0,
+                "underestimation_count": len(underest),
+                "overestimation_count": len(overest),
+                "non_negativity_violations": non_neg_viol
+            }
+
+        metrics_hn = compute_metrics(hist_hn)
+        metrics_bi = compute_metrics(hist_bi)
+
+        return {
+            "field_name": field_name,
+            "host_nearest_gp": metrics_hn,
+            "bilinear_gp": metrics_bi
+        }
+

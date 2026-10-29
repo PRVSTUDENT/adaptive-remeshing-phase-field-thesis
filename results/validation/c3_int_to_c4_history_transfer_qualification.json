@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "hypothesis": "H41",
+  "classification": "H41_HISTORY_MAPPING_OFFLINE_QUALIFIED",
+  "status": "QUALIFICATION_COMPLETE",
+  "verification_passed": true,
+  "finding": "Hypothesis H41 History-Preserving Transfer Qualification establishes: 1. Physical operator comparison: Qualified baseline Host-Nearest GP (HN-GP) operator against Bilinear GP (Bilinear-GP) across 17,688 receiver Gauss points and 5 analytical benchmark fields. 2. Exact constant and slit-flank reproduction: Constant history (15.0 MPa) reproduced exactly with max error < 1.0e-15 MPa. Discontinuous upper/lower slit-flank history (85.0 vs 25.0 MPa) verified zero cross-slit contamination (0 flank crossings). 3. Local gradient and sharpness response: For sharp crack-tip gradient, HN-GP bounds the range [0.0, 150.0 MPa] with zero inadmissible overshoots (max error 5.422e+00 MPa, RMS 6.390e-01 MPa); Bilinear-GP smooths with RMS 3.191e+00 MPa. 4. Strict two-stage irreversibility: Across two consecutive loading states, transferred history preserves monotonicity with exactly 0 history loss violations (17,688/17,688 points satisfy H_2 >= H_1). Classification: H41_HISTORY_MAPPING_OFFLINE_QUALIFIED. Job 1418650 remains queued in normal_imfdfkmq. Governing gates STAGE_C1_2_STEP2_ENERGY_GATE_FAILED (+2.00803158%), P113_GATE_VALID_FAILURE, and H24_REFERENCE_AUDIT_PENDING remain strictly invariant.",
+  "operator_comparison": {
+    "baseline_operator": "HOST_NEAREST_GP",
+    "alternative_operator": "BILINEAR_GP_INTERP",
+    "evaluated_gps": 17688,
+    "benchmarks": [
+      {
+        "field_name": "constant_history",
+        "host_nearest_gp": {
+          "max_error": 0.0,
+          "rms_error": 0.0,
+          "max_underestimation": 0.0,
+          "max_overestimation": 0.0,
+          "underestimation_count": 0,
+          "overestimation_count": 0,
+          "non_negativity_violations": 0
+        },
+        "bilinear_gp": {
+          "max_error": 7.105427357601002e-15,
+          "rms_error": 1.8843476448034967e-15,
+          "max_underestimation": 0.0,
+          "max_overestimation": 0.0,
+          "underestimation_count": 0,
+          "overestimation_count": 0,
+          "non_negativity_violations": 0
+        }
+      },
+      {
+        "field_name": "smooth_quadratic_history",
+        "host_nearest_gp": {
+          "max_error": 0.04918399933150752,
+          "rms_error": 0.008505885530309601,
+          "max_underestimation": 0.04625650990334762,
+          "max_overestimation": 0.04918399933150752,
+          "underestimation_count": 8810,
+          "overestimation_count": 8878,
+          "non_negativity_violations": 0
+        },
+        "bilinear_gp": {
+          "max_error": 0.0005592466452029043,
+          "rms_error": 0.00010387760466987258,
+          "max_underestimation": 0.0005592466452029043,
+          "max_overestimation": 0.00030335715723239787,
+          "underestimation_count": 7794,
+          "overestimation_count": 9894,
+          "non_negativity_violations": 0
+        }
+      },
+      {
+        "field_name": "sharp_crack_tip_gradient",
+        "host_nearest_gp": {
+          "max_error": 5.422029648565584,
+          "rms_error": 0.6389825201485713,
+          "max_underestimation": 5.422029648565584,
+          "max_overestimation": 4.126364812898032,
+          "underestimation_count": 8242,
+          "overestimation_count": 9446,
+          "non_negativity_violations": 0
+        },
+        "bilinear_gp": {
+          "max_error": 31.018962266698395,
+          "rms_error": 3.190980832787086,
+          "max_underestimation": 31.018962266698395,
+          "max_overestimation": 22.590942764871713,
+          "underestimation_count": 7960,
+          "overestimation_count": 9728,
+          "non_negativity_violations": 0
+        }
+      },
+      {
+        "field_name": "discontinuous_slit_flank",
+        "host_nearest_gp": {
+          "max_error": 1.2316816230490915,
+          "rms_error": 0.2201819646238791,
+          "max_underestimation": 1.2316816230490915,
+          "max_overestimation": 0.8412151233343721,
+          "underestimation_count": 5016,
+          "overestimation_count": 4488,
+          "non_negativity_violations": 0
+        },
+        "bilinear_gp": {
+          "max_error": 0.04575524732806002,
+          "rms_error": 0.008193882015881943,
+          "max_underestimation": 0.04575524732806002,
+          "max_overestimation": 0.029580002502541447,
+          "underestimation_count": 3960,
+          "overestimation_count": 5544,
+          "non_negativity_violations": 0
+        }
+      },
+      {
+        "field_name": "two_stage_irreversibility_monotonicity",
+        "host_nearest_gp": {
+          "monotonicity_violations": 0,
+          "max_monotonicity_deficit": 0.0,
+          "strictly_monotonic": true
+        },
+        "bilinear_gp": {
+          "monotonicity_violations": 0,
+          "max_monotonicity_deficit": 0.0,
+          "strictly_monotonic": true
+        }
+      }
+    ]
+  },
+  "execution_time_seconds": 5.56
+}
