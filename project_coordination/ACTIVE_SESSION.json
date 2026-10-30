@@ -1,26 +1,21 @@
-{
+﻿{
     "active":  false,
-    "agent":  "gemini-antigravity",
-    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "starting_commit":  "20082dd555dcd77e893dc3d0069a15b5f8fb58c8",
-    "claimed_at":  "2026-10-30T08:09:53.0767027+01:00",
-    "last_updated":  "2026-10-30T08:15:40.2819107+01:00",
-    "last_released":  "2026-10-30T08:15:40.2819107+01:00",
+    "agent":  "codex",
+    "task_id":  "AGY-RESTORE-ALL-FIVE-ACCOUNTS",
+    "starting_commit":  "f055c6dbb17190fd7934aef4e0ff11068eae8031",
+    "claimed_at":  "2026-10-30T08:16:29.6319133+01:00",
+    "last_updated":  "2026-10-30T08:24:07.9279288+01:00",
+    "last_released":  "2026-10-30T08:24:07.9279288+01:00",
     "controller_run_id":  "d9edfd58-ccb3-4ce3-9751-ec67cdc4d22a",
-    "session_report":  "project_coordination/sessions/2026-10-30_gemini-antigravity_F1597_d9edfd58-ccb3-4ce3-9751-ec67cdc4d22a.md",
+    "session_report":  "project_coordination/sessions/2026-10-30_codex_agy_five_account_recovery.md",
     "allowed_write_scope":  [
-                                "project_coordination/sessions/2026-10-30_gemini-antigravity_F1597_d9edfd58-ccb3-4ce3-9751-ec67cdc4d22a.md",
-                                "project_coordination/controller/turn-d9edfd58-ccb3-4ce3-9751-ec67cdc4d22a.json",
-                                "results/validation/mode1_f1597/d9edfd58-ccb3-4ce3-9751-ec67cdc4d22a.json",
-                                "results/validation/preparation-d9edfd58-ccb3-4ce3-9751-ec67cdc4d22a.json",
-                                "results/validation/*",
-                                "scripts/validation/*",
-                                "tests/unit/*",
-                                "models/pandey_kumar_mode1/*",
                                 "project_coordination/ACTIVE_SESSION.json",
-                                "project_coordination/ACTIVE_TASK.json",
-                                "project_coordination/CURRENT_STATE.md",
                                 "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/ARTIFACT_REGISTRY.csv"
+                                "project_coordination/ARTIFACT_REGISTRY.csv",
+                                "project_coordination/sessions/2026-10-30_codex_agy_five_account_recovery.md",
+                                "normal AGY native and CLI credential switch/authentication",
+                                "identity-verified saves for account1 account2 account4 account5 only if recovery succeeds",
+                                "new encrypted backups of refreshed profiles without modifying existing backups",
+                                "OpenClawPAD account-recovery controller pause/resume receipt and token-free result table"
                             ]
 }
