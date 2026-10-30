@@ -1,0 +1,38 @@
+{
+  "operation_id": "evaluate_mode1_package148_state_transfer",
+  "source_hashes": {
+    "scripts/state_transfer/build_package146_147_transfer_deck.py": "6B22E3AE9D3D870EC9DDA6BA7FA36514B2E5BF045EEF41938576A1DD8AE2F1BA",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "AF7021E88BB366C4DDB578E36F72B22E12F2985C5C9ECBABA9AA1FD7787F9175",
+    "tests/unit/test_mode1_f1597_package146_147_transfer_driver.py": "D9804F19E74E72EB01BDE2F88E1D6448803F192CFFEEEA328CEAA9470589C74F",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/PACKAGE_MANIFEST.json": "0FA2F82631AC554626D0FF457D61A946EF2CB7DA10D59B791D7CF5B2CD056CFA",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/M1_C4_PACKAGE148_STATE_TRANSFER.inp": "77D4C5D992940AAC761599F41E68EEE3C965FC92D6183C78ECB8D9E48BDB3138",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/submit_M1_C4_P148_ST.pbs": "3930686EDDCDAC60A52C49CA4EF7D5487581AE6EF24BC62D4DB91B8DBC4DD71D",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/nodal_displacements_initial.csv": "C41BA31CD518D776778173BACDF6F0F52F642AFD5E9317582013A5689FA1BB40",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/nodal_phase_field_initial.csv": "CEFBCA24A309F7099416E4D4D596CE8DA01F1A12F137224ED0038134DFF2E15C",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/d_lower_bounds.csv": "73CDE472CD4487CD58530862647E9F8F07C0ED2B96AB3A521D4A6A07FDB6ABB5",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/initial_conditions_solution.inc": "42EBC18C0BC6BB35FCEDA3F2473003D47C93F05F23BA60AE1428F460C709A45B",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/active_set_boundary_cards.inc": "8F5A269FD25763291C9954334C23A552C8B14458A3A2E9EF44B45B553B7FAE7D"
+  },
+  "tests_bound": true,
+  "tests_passed": true,
+  "test_count": 15,
+  "genuine_result_evidence_bound": false,
+  "verification_passed": true,
+  "registration_status": "NOT_REGISTERED",
+  "executable_in_current_scope": false,
+  "review_status": "DEFINITION_REVIEW_REQUIRED",
+  "decision": "DEFINITION_REVIEW_REQUIRED",
+  "outstanding_limitations": [
+    "Operation registration in Controller-Operations.ps1 or dynamic qualification pending authorized review",
+    "Preflight cluster scratch staging to /scratch9 and Abaqus 2023 datacheck pending",
+    "Physical equilibrium, history preservation, and KKT convergence unverified until authentic solver completion"
+  ],
+  "scientific_acceptance": false,
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "provenance": {
+    "package146_donor_job_id": "1418753.mmaster02",
+    "package147_reference_job_id": "1418768.mmaster02",
+    "checkpoint": "results/validation/f1597_package148_overnight_restart_checkpoint.json"
+  }
+}
