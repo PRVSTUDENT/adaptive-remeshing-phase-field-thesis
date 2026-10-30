@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "run_id": "4627d41e-c2d9-4c1c-84b7-d87ca6ff6aed",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "finding": "Package 148 R5 runtime cutoff resolved: R5 completed 15 coupled alternating PDAS iterations with monotonic geometric residual contraction (delta_d dropping to 2.01e-5, delta_u to 8.67e-9 mm = 8.67 pm, zero dual error) and passed all physical acceptance gates (RF2 deficit 0.74% <= 5%, energy deficit 0.14% <= 2%, zero healing), with termination caused solely by an internal 780 s driver timeout cap during outer 15 extraction. Package 148 R6 independently constructed and qualified: driver timeout extended to 7200 s (2h, safely within 8h PBS walltime), max_outer raised to 25, 7+8+3 solution card encoding and all 28,224 Gauss point histories strictly preserved. Cluster hardware datachecks for P148_MECHANICAL_DC and P148_PHASE_DC both verified Exit 0 under Abaqus 2023 and Intel ifort with frozen UEL CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6.",
+  "qualified_operation": "evaluate_mode1_package148_state_transfer_r6",
+  "qualified_operation_id": "evaluate_mode1_package148_state_transfer_r6",
+  "next_operation": "Submit qualified package M1_C4_P148_R6 via Invoke-Mode1Execution.ps1 for complete coupled convergence",
+  "operation_preparation": {
+    "status": "QUALIFIED_EXECUTION_READY",
+    "dispatch_ready": true,
+    "operation_id": "evaluate_mode1_package148_state_transfer_r6",
+    "path": "scripts/validation/execute_package148_state_transfer.py",
+    "qualification_artifact": "scripts/validation/evaluate_mode1_package148_state_transfer_r6.qualification.json"
+  },
+  "execution_mode": "HPC_PRE_SUBMISSION",
+  "dispatch_ready": true,
+  "manifest": "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r6/EXECUTION_MANIFEST.json",
+  "verification_passed": true,
+  "evidence_sources": {
+    "results/validation/package148_r5_terminal_evaluation.json": "D56FC27EB5D4554E3BCBE3E5C1666036EEC14E37D9D4A5D4B11A14649257336C",
+    "results/validation/package148_r5_terminal_runtime.json": "E6E7EADCB6B7D58644227EECC094E9CEC8A7702D03D46BD909C1004E3390DBBD",
+    "results/validation/package148_r6_execution_review.json": "65970F35D09E8A8A34049C0BB35A4A0C6EC583B70342840BAE474F2BB8B91491",
+    "scripts/validation/evaluate_mode1_package148_state_transfer_r6.qualification.json": "FA6392379A2E6772B4623EFD822D992738476766C0DB314AAF0D4B9E4C3FBFFF",
+    "scripts/validation/diagnose_r5_runtime.py": "7DD5CF82901D79F3DCA8E09054A3F074B0976CAB53D31955DF70999190DB1E9C",
+    "scripts/validation/prepare_package148_r6.py": "3AB66895461A4D55436478088E0D95C00ED5B4CFEE95853C7C7FE3D9DEEBEBDF",
+    "scripts/validation/stage_package148_r6.py": "F642DF19E85D38844196FA6176AFA1C91CF0B422571455B448D6D17128F3D6DD",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "6C333ED0AB334FD212EE45BEAE4CC8A0328D08708739B3EF5319AE30A3988C01",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r6/submit_M1_C4_P148_R6.pbs": "622A87C63843AA7F674AE65A9AD1B7E759BA6A56F17DC78306A46A960669BEAF",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r6/run_datacheck.sh": "9E03303988121D9D225E68E7EE5DCE42BE3EA091DE61A5B8D48AAF26CB3491A9",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r6/PACKAGE_MANIFEST.json": "4332CE38D0843A5CEAA6CA145F6B8BDD636F85451AA22FBB6BBCB95BEBF7E4BE",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r6/EXECUTION_MANIFEST.json": "248AB11398DD7503E67B28F8A5504FBF7C7082D857A73586083C2DA87646AAB0",
+    "tests/unit/test_mode1_f1597_turn362_package148_r6_qualification.py": "C51054957AA1531B53C4FA20E98A759EFFCB947ADD1A3BEBAFB4E53E51D1DFCC"
+  },
+  "tests": {
+    "test_turn362_qualification_passed": true,
+    "mechanical_datacheck": "PASS",
+    "phase_datacheck": "PASS",
+    "staged_remote_hashes": "ALL_REMOTE_HASHES_VERIFIED_PASS"
+  }
+}
