@@ -1,0 +1,86 @@
+{
+    "schema":  1,
+    "task_id":  "R4-COMPLETION-PROTOCOL-DIAGNOSIS",
+    "checked_at":  "2026-10-30T16:34:02.3785084+01:00",
+    "starting_commit":  "845b5ae22df68fb97372902f2ee3032c89bae82a",
+    "run_id":  "8beba6cd-fad9-4b50-b7b1-c62258b7b3e7",
+    "turn":  354,
+    "original_block_reason":  "Response incomplete, explicitly blocked, or repository session not released",
+    "conditions":  {
+                       "scientific_receipt":  false,
+                       "appended_background_acknowledgement":  true,
+                       "explicit_blocked_line":  false,
+                       "absolute_terminal_marker":  false,
+                       "standalone_finished":  true,
+                       "session_active":  false
+                   },
+    "stream":  {
+                   "notification_answer_step":  619,
+                   "status":  "SUCCESS",
+                   "completed_answer_step":  617,
+                   "system_message_step":  618
+               },
+    "original_session":  {
+                             "active":  false,
+                             "orphan_recovery_required":  false,
+                             "last_released":  "2026-10-30T16:13:00+01:00",
+                             "agy_pid_23324_present":  false
+                         },
+    "submission":  {
+                       "history_retention_limit_acknowledged":  true,
+                       "execution_r4_matches":  0,
+                       "job_name":  "M1_C4_P148_R4",
+                       "predecessors":  [
+                                            "1418787.mmaster02",
+                                            "1418843.mmaster02",
+                                            "1418872.mmaster02"
+                                        ],
+                       "pbs_id":  null,
+                       "batch_r4_matches":  0,
+                       "hpc_ledger_matches":  0,
+                       "execution_manifest_key_present":  false,
+                       "live_queries":  [
+                                            {
+                                                "stdout":  "",
+                                                "command":  "qselect -x -u pr21vyci -N M1_C4_P148_R4",
+                                                "exit_code":  0
+                                            },
+                                            {
+                                                "stdout":  "",
+                                                "command":  "qstat -u pr21vyci",
+                                                "exit_code":  0
+                                            }
+                                        ],
+                       "status":  "NOT_SUBMITTED_IN_RECONCILED_EVIDENCE",
+                       "batch_manifest_key_present":  false
+                   },
+    "tests":  {
+                  "total":  78,
+                  "powershell_syntax_errors":  0,
+                  "non_submitting_replay":  "PASS",
+                  "completed_science_receipt":  8,
+                  "punctuated_marker":  8,
+                  "notification_and_original_response_replay":  20,
+                  "controller_recovery":  42,
+                  "evidence_refresh_stubbed_in_replay":  true,
+                  "isolated_index_candidate_repeated_checks":  36
+              },
+    "restart":  "HOLD_R4_REGISTRATION_QUALIFICATION_AND_ADAPTER_BINDING_MISSING",
+    "loop_restarted":  false,
+    "hpc_submission_performed":  false,
+    "live_checkpoint_modified":  false,
+    "original_evidence_backup":  "C:\\Users\\pruth\\OpenClawPAD\\backups\\r4-completion-diagnosis-46b59f7c6f69420a898c3efeb6a746c8",
+    "original_evidence_sha256":  {
+                                     "controller-turn-8beba6cd-fad9-4b50-b7b1-c62258b7b3e7.jsonl":  "7637B3FAB2DF3CC9B5A2935646815D51BBAD187AF10872CA7F7A580E87BC2B4D",
+                                     "controller-turn-8beba6cd-fad9-4b50-b7b1-c62258b7b3e7.jsonl.cli.log":  "BDED4947CA913A667DE6C4FA876D18B46B18F80A3AEA718EC61929A75BC84787",
+                                     "controller_last_agy_result.log":  "907AA48CF724F596FF9809CD89E2991FFB9268C523C91A06CDBF4939BB74F560",
+                                     "controller_turn_checkpoint.json":  "85E4EAF8A08AC8FFF8C9669E94F4E8E16B8DA4C74B9455B2DD26545C070D204B"
+                                 },
+    "preserved_artifact_sha256":  {
+                                      "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r4/EXECUTION_MANIFEST.json":  "401819D3999A1089115355351A72AAB8FDDB8ED9A8A388A2B2A164B3CF3A7D7A",
+                                      "project_coordination/MODE1_BATCH_SUBMISSIONS.json":  "8E093E0DCDAF3535ED08D7737143F84EC8BCFA4FBB68458FEA4A046747109F05",
+                                      "project_coordination/MODE1_EXECUTION_LEDGER.json":  "B8DF908FAA6C969AF2E5D5AF5F6AAE8D0F1D76855D77839FEA6929A664E618AE",
+                                      "project_coordination/HPC_JOB_LEDGER.csv":  "347713E00F56856118DE8490A5F50C78FA07FA3758DA02A46A9F544AD86C77E1",
+                                      "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r4/f42_mixed_uel.for":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+                                  }
+}

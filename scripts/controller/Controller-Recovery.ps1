@@ -562,21 +562,33 @@ function Test-ControllerCompletedScienceReceipt([string]$Workspace,$State) {
         return $true
     } catch { return $false }
 }
+function Test-ControllerResponseFinished([string]$Response,[int]$Turn) {
+    if ($Response -match '(?s)Finished[.\s]*$') { return $true }
+    # AGY can append a separate background-task acknowledgement after its final
+    # answer (Turn 354, stream steps 617/619). Accept only this successful,
+    # same-turn closeout acknowledgement, never arbitrary text after Finished.
+    $ack = 'Notification received; background [^\r\n.]+ task-\d+ exited with code 0\. Turn ' +
+        [regex]::Escape([string]$Turn) +
+        ' remains fully closed out, session lock released, and state synchronized to remote repository\. Awaiting next controller instruction\.'
+    return $Response -match ('(?m)^\s*Finished\.?[\t ]*\r?\n' + $ack + '\s*\z')
+}
+
 function Complete-ControllerTurn([string]$Workspace,[string]$Path,$State,[string]$Response,[switch]$VerifiedReceipt) {
     Update-ControllerEvidence $Workspace $Path $State
     $receiptAccepted = [bool]$VerifiedReceipt
+    $responseFinished = Test-ControllerResponseFinished $Response $State.turn
     # A normal successful AGY run may omit a final chat marker after independently
     # committing and releasing a valid scientific result. Accept only a verified
     # receipt tied to THIS controller run, never a stale report or active session.
     if (-not $receiptAccepted -and -not $State.session.active -and
         $Response -notmatch '(?im)^\s*BLOCKED\b' -and
-        $Response -notmatch '(?s)Finished[.\s]*$') {
+        -not $responseFinished) {
         $receiptAccepted = Test-ControllerCompletedScienceReceipt $Workspace $State
         if ($receiptAccepted) {
             Write-Host ('[RECEIPT] Verified completed scientific turn ' + $State.turn + ' / ' + $State.run_id + ' without terminal chat marker.')
         }
     }
-    if ($State.session.active -or $Response -match '(?im)^\s*BLOCKED\b' -or (-not $receiptAccepted -and $Response -notmatch '(?s)Finished[.\s]*$')) {
+    if ($State.session.active -or $Response -match '(?im)^\s*BLOCKED\b' -or (-not $receiptAccepted -and -not $responseFinished)) {
         $State.state='BLOCKED'; $State.block_reason='Response incomplete, explicitly blocked, or repository session not released'
     } else {
         $State.state='COMPLETED'
