@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn_id": "9db80db2-6514-46d1-a210-af9f9b3d8b17",
+  "operation": "research_preparation",
+  "finding": "Package 148 R1 PBS wrapper successfully repaired and harmonized with preflight_package49_authorization.py contract (all 12 directives verified, shell syntax valid, explicit RUN_DIR, dual notification traps, module load sequence). All 38 offline regression tests pass (3 counterexamples fail closed). Staged dependencies and bitwise frozen UEL confirmed. Next action: stage to cluster scratch, authentic Abaqus datacheck, and qualified submission.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r1/submit_M1_C4_P148_R1.pbs": "A2EEF6D75558429ADEAE577AD1C236ECE96D3801FE5D99B59FE073D6613CCE81",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r1/PACKAGE_MANIFEST.json": "70C492976CD9A4FD1DE0AFD4E775154B2F27F5317C60E49768E5EC86C56BEF4F",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r1/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r1/job_notifications.sh": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "tests/unit/test_mode1_f1597_package148_r1_preflight.py": "4B04BB47C66993EBC78D657C4B5860253A17020E286593663686D2EB26117990",
+    "tests/unit/test_package148_registration_review.py": "1E002BBF8517095555EB4C2E8AA03673AAA70D8E033AA93271E6164A1DE53BAB",
+    "tests/unit/test_package148_coupled_runtime.py": "A740295CFA3371E2B6C9C9E115DC34EC397EED161951709863BB4D1D8A9EE695",
+    "tests/unit/test_mode1_f1597_package146_147_transfer_driver.py": "D6EE651EBBE67536844CC7AC142C035E6FA882D7931DC7FFAF13D6B3B29D723B",
+    "scripts/validation/validate_package148_r1_preflight.py": "F5CF871362C411C3F68F121282D628DB0257BDB38E89BB49E72E13D0550F4FEE",
+    "results/validation/package148_r1_preflight_proof.json": "8E08BCCD6255A5EB96A926DAD3CEFCE8ECB828FE2927854F2616997353139CBD",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "B012C5680BCCF5F0C3646314E2598E23718D11E2FC53049096861733AB62C08C"
+  },
+  "review_summary": {
+    "r1_pbs_preflight": "PASS",
+    "r1_offline_regression": "38_OF_38_PASS",
+    "independent_review": "PASS",
+    "controller_registration": "PENDING",
+    "abaqus_datacheck": "NOT_RUN",
+    "hpc_submission": "NONE",
+    "method_c_c1_1": "UNVERIFIED"
+  },
+  "next_operation": "Stage Package 148 R1 candidate to /scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r1, execute authentic Abaqus 2023 datacheck, and submit via Invoke-Mode1Execution.ps1."
+}
