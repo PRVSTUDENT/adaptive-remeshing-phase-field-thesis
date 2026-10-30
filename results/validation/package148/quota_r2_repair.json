@@ -1,0 +1,137 @@
+﻿{
+    "instruction_sha256":  "AC33B1F4E3AB00869B08E325FC0F1BF22ED98327BF9378B427E3B9F990C22FAB",
+    "repair_commit":  "02a148f7",
+    "compute_node_delivery":  "UNRESOLVED",
+    "r2_manifest_sha256":  "68e49384a2f4d6bc9836e9cd5eef4fb9a57013c89257d899f4a22c54894611d5",
+    "saved_profiles_written":  false,
+    "attempts":  1,
+    "tests":  {
+                  "profile_guard_cases":  6,
+                  "python_passed":  44,
+                  "python_syntax_files":  5,
+                  "subtests_passed":  12,
+                  "powershell_syntax_files":  7,
+                  "powershell_registration_cases":  10,
+                  "operation_cases":  9,
+                  "credential_fixture":  "PASS"
+              },
+    "telegram_notification_contract":  "PASS_LOGIN_NODE",
+    "base_commit":  "8e90b402ecfe31601b0c6b63c09547f3922583f0",
+    "pbs_job_id":  "1418843.mmaster02",
+    "controller_selector":  "account3",
+    "task":  "AGY-QUOTA-AND-PACKAGE148-R2",
+    "schema":  1,
+    "original_refresh_error":  "HTTP401 invalid_client",
+    "profiles_verified_unchanged":  true,
+    "r2_registration":  "QUALIFIED_EXECUTION",
+    "remaining_blocker":  {
+                              "stage":  "first mechanical endpoint extraction",
+                              "unique_nodes":  7265,
+                              "U_components":  2,
+                              "extractor_requires_U_components":  3,
+                              "mechanical_solver_completed":  true,
+                              "coupled_physical_acceptance":  "UNVERIFIED",
+                              "error":  "RuntimeError: Duplicate node or missing U3 damage",
+                              "node_values":  7265
+                          },
+    "quota_root_cause":  "OAUTH_CLIENT_ID_FIRST_EMBEDDED_SECRET_MISMATCH",
+    "automatic_controller_restarted":  false,
+    "accounts":  [
+                     {
+                         "eligible":  false,
+                         "account":  "account1",
+                         "weekly":  19.59,
+                         "five_hour":  100,
+                         "identity_verified":  true
+                     },
+                     {
+                         "eligible":  false,
+                         "account":  "account2",
+                         "weekly":  17.75,
+                         "five_hour":  100,
+                         "identity_verified":  true
+                     },
+                     {
+                         "eligible":  true,
+                         "account":  "account3",
+                         "weekly":  44.76,
+                         "five_hour":  100,
+                         "identity_verified":  true
+                     },
+                     {
+                         "eligible":  true,
+                         "account":  "account4",
+                         "weekly":  97.02,
+                         "five_hour":  89.58,
+                         "identity_verified":  true
+                     },
+                     {
+                         "eligible":  false,
+                         "account":  "account5",
+                         "weekly":  15.59,
+                         "five_hour":  100,
+                         "identity_verified":  true
+                     }
+                 ],
+    "r2_operation":  "evaluate_mode1_package148_state_transfer_r2",
+    "r1_job_preserved":  "1418787.mmaster02",
+    "preflight":  {
+                      "active_job_count":  0,
+                      "adapter_contract":  "mode1-qualified-batch-v2",
+                      "datachecks":  {
+                                         "M1_C4_P148_R2":  {
+                                                               "status":  "PASS",
+                                                               "input_sha256":  "3df912a56b0eae5faf68308229978b66081dc69efdf506ad203048e69a9c21cd",
+                                                               "dat_sha256":  "6a5a94445b07d1911e206df2afa6761bb670f252a36aaa5e8546b56cbc87c5c6",
+                                                               "additional":  {
+                                                                                  "P148_PHASE_DC.dat":  {
+                                                                                                            "status":  "PASS",
+                                                                                                            "input_sha256":  "dfc4ce7603a15cb4238093dba331059c789c3544e4f5a9dedbc4c05c59889652",
+                                                                                                            "dat_sha256":  "25d08e77ba437847f790c34707607676d06964e17c25734711f3e985b73cf45b"
+                                                                                                        }
+                                                                              }
+                                                           }
+                                     },
+                      "batch_spec_sha256":  "12374b8dbad555d8f20d93397a3a4a753b99c9108c289d840070486b55ed14bf",
+                      "passed":  true,
+                      "pbs_email_verified":  true,
+                      "telegram_verified":  true,
+                      "submission_queue":  "entry_imfdfkmq",
+                      "queue_access_preflight":  "PASS",
+                      "compiler_environment":  "PASS_LOGIN_NODE",
+                      "datacheck_verified":  "PASS_BOTH",
+                      "candidate_manifest_sha256":  "68e49384a2f4d6bc9836e9cd5eef4fb9a57013c89257d899f4a22c54894611d5",
+                      "authorized_command_sha256":  "c634a45f58d64778094cd6e5f0516304075c6715bda42cfeab201275179583c1",
+                      "checked_at":  "2026-10-30T10:54:05.742897+00:00",
+                      "config_path":  "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+                      "config_mode":  "600",
+                      "file_hashes":  {
+                                          "M1_C4_PACKAGE148_STATE_TRANSFER.inp":  "fcd4e4b5c52c23268196782e7f4bce2a9bbc767357651095da5236151d106114",
+                                          "P148_MECHANICAL_DC.inp":  "3df912a56b0eae5faf68308229978b66081dc69efdf506ad203048e69a9c21cd",
+                                          "P148_PHASE_DC.inp":  "dfc4ce7603a15cb4238093dba331059c789c3544e4f5a9dedbc4c05c59889652",
+                                          "PACKAGE_MANIFEST.json":  "674c890a26165ba2c28229267e6bcabc1fb702727103d6d0a6a42fe18bd04114",
+                                          "active_set_boundary_cards.inc":  "8f5a269fd25763291c9954334c23a552c8b14458a3a2e9ef44b45b553b7fae7d",
+                                          "d_lower_bounds.csv":  "2a7ba758d7af189498da96718edd19ace8e45e4f35ac684505c17b8b7505c574",
+                                          "f42_mixed_uel.for":  "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+                                          "initial_conditions_solution.inc":  "80f0c3c7c7c141bccad2979f1b982ef86f0ca7acd699791ca8cf4fcbece7b6fb",
+                                          "job_notifications.sh":  "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+                                          "nodal_displacements_initial.csv":  "c41ba31cd518d776778173bacdf6f0f52f642afd5e9317582013a5689fa1bb40",
+                                          "nodal_phase_field_initial.csv":  "cefbca24a309f7099416e4d4d596ce8da01f1a12f137224ed0038134dff2e15c",
+                                          "run_datacheck.sh":  "baa5429ece0dc73fc94820bc05e77659bb3dda1a1a86e4aaf72bd23463c44c0d",
+                                          "submit_M1_C4_P148_R2.pbs":  "e0c982da11d4789fea08c58d3d57dd512f4d449ebc34fbbd11ef3bec373b1ec3"
+                                      },
+                      "helper_sha256":  "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+                      "email_evidence":  "sendmail accepted test message; PBS abe directives verified",
+                      "telegram_notification_contract":  "PASS_LOGIN_NODE",
+                      "compute_node_delivery":  "UNRESOLVED",
+                      "lifecycle_tests":  "PASS"
+                  },
+    "scheduler":  {
+                      "walltime":  "00:00:17",
+                      "host":  "mnode103/0",
+                      "queue":  "normal_imfdfkmq",
+                      "exit_status":  1,
+                      "state":  "F"
+                  },
+    "repair":  "Bounded embedded client-pair validation; fallback only on invalid_client; refreshed/live Google subject must match saved identity"
+}
