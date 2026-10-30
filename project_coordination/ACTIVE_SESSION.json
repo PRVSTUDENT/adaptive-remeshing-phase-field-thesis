@@ -1,20 +1,26 @@
-﻿{
+{
     "active":  false,
-    "agent":  "codex",
-    "task_id":  "PACKAGE148-R3-FRESH-DISPATCH",
-    "starting_commit":  "590ff56e4249d8ff6ffe85d6db66ebf47acd0adc",
-    "claimed_at":  "2026-10-30T15:04:28.6047489+01:00",
-    "last_updated":  "2026-10-30T15:11:10.1258520+01:00",
-    "last_released":  "2026-10-30T15:11:10.1258520+01:00",
-    "controller_run_id":  "4ff13a54-7da4-4680-a033-a6f614eec4a8",
-    "session_report":  "project_coordination/sessions/2026-10-30_codex_r3_fresh_dispatch.md",
+    "agent":  "gemini-antigravity",
+    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "starting_commit":  "981aeaa882128ae37081b914e075027f7d366abf",
+    "claimed_at":  "2026-10-30T15:12:34.5208216+01:00",
+    "last_updated":  "2026-10-30T15:13:41.7032396+01:00",
+    "last_released":  "2026-10-30T15:13:41.7032396+01:00",
+    "controller_run_id":  "29b2c3e4-b715-4cdb-b130-8cb1058f998b",
+    "session_report":  "project_coordination/sessions/2026-10-30_gemini-antigravity_F1597_29b2c3e4-b715-4cdb-b130-8cb1058f998b.md",
     "allowed_write_scope":  [
-                                "scripts/controller/ closeout routing freshness and bounded restart handling",
-                                "tests/unit/ dispatch closeout and restart regression fixtures",
-                                "R3 qualification source bindings only; no numerical candidate modifications",
-                                "project_coordination/ owned session and interrupted Turn347 reconciliation and submission ledgers",
-                                "results/validation/ safe R3 dispatch and execution evidence",
-                                "OpenClawPAD/ controller deployment checkpoint archive and fresh-process receipts; preserve INITIAL_PROMPT"
-                            ],
-    "interruption_checkpoint":  "C:\\Users\\pruth\\OpenClawPAD\\controller_turn_checkpoint.json"
+                                "project_coordination/sessions/2026-10-30_gemini-antigravity_F1597_29b2c3e4-b715-4cdb-b130-8cb1058f998b.md",
+                                "project_coordination/controller/turn-29b2c3e4-b715-4cdb-b130-8cb1058f998b.json",
+                                "results/validation/mode1_f1597/29b2c3e4-b715-4cdb-b130-8cb1058f998b.json",
+                                "results/validation/preparation-29b2c3e4-b715-4cdb-b130-8cb1058f998b.json",
+                                "results/validation/*",
+                                "scripts/validation/*",
+                                "tests/unit/*",
+                                "models/pandey_kumar_mode1/*",
+                                "project_coordination/ACTIVE_SESSION.json",
+                                "project_coordination/ACTIVE_TASK.json",
+                                "project_coordination/CURRENT_STATE.md",
+                                "project_coordination/TASK_LEDGER.csv",
+                                "project_coordination/ARTIFACT_REGISTRY.csv"
+                            ]
 }
