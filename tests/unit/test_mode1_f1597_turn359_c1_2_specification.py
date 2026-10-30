@@ -13,15 +13,18 @@ class TestPackage149StageC12Specification(unittest.TestCase):
         data = json.loads(self.spec_path.read_text(encoding='utf-8'))
         self.assertEqual(data.get('schema'), 1)
         self.assertEqual(data.get('stage'), 'STAGE_C1_2_SEQUENTIAL_CYCLES')
-        self.assertEqual(data.get('status'), 'PROVISIONAL_SPECIFICATION_PENDING_R5_ACCEPTANCE')
+        self.assertEqual(data.get('status'), 'AUDITED_SPECIFICATION_PENDING_R5_ACCEPTANCE')
 
-    def test_displacement_intervals(self):
+    def test_audited_displacement_intervals(self):
         data = json.loads(self.spec_path.read_text(encoding='utf-8'))
         intervals = data['displacement_intervals']
-        self.assertAlmostEqual(intervals['cycle_1']['u_start_mm'], 0.0050)
-        self.assertAlmostEqual(intervals['cycle_1']['u_end_mm'], 0.0055)
-        self.assertAlmostEqual(intervals['cycle_2']['u_start_mm'], 0.0055)
-        self.assertAlmostEqual(intervals['cycle_2']['u_end_mm'], 0.0060)
+        # Verified against authentic Package 146 donor endpoint increment 76: 0.0018003125 mm
+        self.assertAlmostEqual(intervals['cycle_1']['u_start_mm'], 0.0018003125442191958, places=6)
+        self.assertAlmostEqual(intervals['cycle_1']['u_end_mm'], 0.0020000000, places=6)
+        self.assertAlmostEqual(intervals['cycle_2']['u_start_mm'], 0.0020000000, places=6)
+        self.assertAlmostEqual(intervals['cycle_2']['u_end_mm'], 0.0022000000, places=6)
+        # Ensure no unjustified loading jump from donor state
+        self.assertLess(intervals['cycle_1']['delta_u_total_mm'], 0.0003)
 
     def test_mesh_refinement_invariants(self):
         data = json.loads(self.spec_path.read_text(encoding='utf-8'))

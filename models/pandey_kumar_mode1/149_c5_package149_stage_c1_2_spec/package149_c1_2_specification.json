@@ -2,26 +2,40 @@
   "schema": 1,
   "stage": "STAGE_C1_2_SEQUENTIAL_CYCLES",
   "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-  "title": "Stage C1-2 Sequential Adaptive Cycles Quantitative Specification",
-  "status": "PROVISIONAL_SPECIFICATION_PENDING_R5_ACCEPTANCE",
+  "title": "Stage C1-2 Sequential Adaptive Cycles Quantitative Specification (Corrected Loading Endpoint)",
+  "status": "AUDITED_SPECIFICATION_PENDING_R5_ACCEPTANCE",
+  "audit_record": {
+    "audit_turn": 360,
+    "audit_finding": "Identified and corrected unjustified loading jump from legacy 0.0050 mm baseline. The authentic Package 146 donor endpoint is uRP = 0.0018003125 mm. Corrected Cycle 1 to [0.0018003125, 0.0020000000] mm and Cycle 2 to [0.0020000000, 0.0022000000] mm.",
+    "prior_flawed_intervals": {
+      "cycle_1": [0.0050, 0.0055],
+      "cycle_2": [0.0055, 0.0060]
+    }
+  },
   "predecessor": {
     "package": "Package 148 Revision 5",
     "pbs_job_id": "1418909.mmaster02",
-    "donor_displacement_mm": 0.0050,
+    "donor_step": "Step-1",
+    "donor_increment": 76,
+    "donor_displacement_mm": 0.0018003125442191958,
     "donor_rf2_kN": 0.1873079389333725,
-    "donor_energy_mJ": 0.00021270454
+    "donor_energy_total_kNmm": 0.00021270454,
+    "donor_energy_elastic_kNmm": 0.0001686048,
+    "donor_energy_fracture_kNmm": 4.409974e-05
   },
   "displacement_intervals": {
     "cycle_1": {
-      "u_start_mm": 0.0050,
-      "u_end_mm": 0.0055,
-      "delta_u_nominal_mm": 0.0001,
+      "u_start_mm": 0.0018003125442191958,
+      "u_end_mm": 0.0020000000,
+      "delta_u_total_mm": 0.0001996874557808042,
+      "delta_u_nominal_mm": 2.0e-5,
       "delta_u_min_mm": 1.0e-6
     },
     "cycle_2": {
-      "u_start_mm": 0.0055,
-      "u_end_mm": 0.0060,
-      "delta_u_nominal_mm": 0.0001,
+      "u_start_mm": 0.0020000000,
+      "u_end_mm": 0.0022000000,
+      "delta_u_total_mm": 0.0002000000,
+      "delta_u_nominal_mm": 2.0e-5,
       "delta_u_min_mm": 1.0e-6
     }
   },
