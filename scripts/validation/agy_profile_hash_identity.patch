@@ -1,0 +1,22 @@
+--- a/agy-profile.ps1
++++ b/agy-profile.ps1
+@@ -147,0 +148,3 @@
++    if ($null -eq $bytes -or $bytes.Length -eq 0) {
++        throw 'AGY_BLOB_HASH_INPUT_MISSING: credential contents suppressed.'
++    }
+@@ -150 +153 @@
+-        ([BitConverter]::ToString($sha.ComputeHash($bytes)) -replace '-', '').ToLowerInvariant()
++        ([BitConverter]::ToString($sha.ComputeHash([byte[]]$bytes, 0, $bytes.Length)) -replace '-', '').ToLowerInvariant()
+@@ -257 +260,2 @@
+-    $tag  = $hmac.ComputeHash($salt + $iv + $cipherBytes)
++    [byte[]]$macBytes = $salt + $iv + $cipherBytes
++    $tag  = $hmac.ComputeHash($macBytes, 0, $macBytes.Length)
+@@ -277 +281,2 @@
+-    $expectedTag = $hmac.ComputeHash($salt + $iv + $cipherBytes)
++    [byte[]]$macBytes = $salt + $iv + $cipherBytes
++    $expectedTag = $hmac.ComputeHash($macBytes, 0, $macBytes.Length)
+@@ -313,4 +317,0 @@
+-    $live = Get-CurrentCred
+-    if ($null -eq $live -or (Get-BlobHash $live.Blob) -ne (Get-BlobHash $nativeSnapshot)) {
+-        throw 'AGY_PROFILE_SAVE_IDENTITY source=native-store stage=NATIVE_CONCURRENT_CHANGE; profile not written; credential contents suppressed.'
+-    }

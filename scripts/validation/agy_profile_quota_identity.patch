@@ -1,0 +1,49 @@
+--- a/agy_profile_quota.py
++++ b/agy_profile_quota.py
+@@ -64,2 +64,7 @@
+-    blob = base64.b64decode(envelope['blobB64'])
+-    data = json.loads(blob)
++    blob = base64.b64decode(envelope['blobB64'], validate=True)
++    data = json.loads(blob.decode('utf-8-sig'))
++    if not isinstance(data, dict):
++        raise ValueError('invalid credential shape')
++    token = data.get('token', data)
++    if not isinstance(token, dict) or not token.get('refresh_token'):
++        raise ValueError('missing refresh grant')
+@@ -67,2 +72,11 @@
+-    encoded = data['id_token'].split('.')[1]
+-    identity = json.loads(base64.urlsafe_b64decode(encoded + '=' * (-len(encoded) % 4)))
++    def claims(jwt):
++        if not isinstance(jwt, str) or len(jwt.split('.')) != 3:
++            raise ValueError('invalid identity metadata')
++        encoded = jwt.split('.')[1]
++        return json.loads(base64.b64decode(encoded + '=' * (-len(encoded) % 4),
++                                          altchars=b'-_', validate=True).decode('utf-8'))
++    nested_id, root_id = token.get('id_token'), data.get('id_token')
++    selected_id = nested_id or root_id
++    if not selected_id:
++        raise ValueError('missing identity metadata')
++    identity = claims(selected_id)
+@@ -70 +84,18 @@
+-    if not subject:
++    canonical = canonical_identity(subject)
++    if nested_id and root_id and canonical_identity(claims(root_id).get('sub')) != canonical:
++        raise ValueError('conflicting identity metadata')
++    # The checker expects a wrapped Windows blob. Normalize only in memory;
++    # support legacy root metadata and the current nested save layout alike.
++    normalized = dict(token)
++    normalized['id_token'] = selected_id
++    wrapped = dict(data) if 'token' in data else {}
++    wrapped.update(token=normalized, id_token=selected_id,
++                   auth_method=data.get('auth_method', 'consumer'))
++    return (json.dumps(wrapped, ensure_ascii=False).encode('utf-8'),
++            canonical, identity.get('email', ''))
++
++
++def canonical_identity(subject):
++    # Same contract as Get-AgyCanonicalIdentity: exact UTF-8 subject, case
++    # sensitive, no whitespace trimming/case folding, first 16 lowercase hex.
++    if not isinstance(subject, str) or not subject.strip():
+@@ -73 +104 @@
+-    return blob, hashlib.sha256(subject.encode()).hexdigest()[:16], identity.get('email', '')
++    return hashlib.sha256(subject.encode('utf-8')).hexdigest()[:16]

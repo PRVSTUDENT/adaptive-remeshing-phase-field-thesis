@@ -1,21 +1,25 @@
 {
     "active":  false,
     "agent":  "codex",
-    "task_id":  "AGY-PROFILE-CREDENTIAL-NORMALIZATION",
-    "starting_commit":  "29b2ff991f6cd06539e297dc14b7dc647b757bae",
-    "claimed_at":  "2026-10-30T07:17:41.2956566+01:00",
-    "last_updated":  "2026-10-30T07:26:37.4515441+01:00",
-    "last_released":  "2026-10-30T07:26:37.4515441+01:00",
+    "task_id":  "AGY-HASH-IDENTITY-VALIDATION",
+    "starting_commit":  "8988fe3e0eacc6be33f9ba9fb21aac678e0c24a3",
+    "claimed_at":  "2026-10-30T07:31:36.3042760+01:00",
+    "last_updated":  "2026-10-30T07:41:40.8766128+01:00",
+    "last_released":  "2026-10-30T07:41:40.8766128+01:00",
     "controller_run_id":  "e2f85a5c-78c4-4b8e-b82f-0540496dfafe",
-    "session_report":  "project_coordination/sessions/2026-10-30_codex_agy_profile_normalization.md",
+    "session_report":  "project_coordination/sessions/2026-10-30_codex_agy_hash_identity.md",
     "allowed_write_scope":  [
                                 "scripts/validation/AgyCredentialStores.ps1",
-                                "tests/unit/*agy*",
+                                "scripts/validation/agy_profile_hash_identity.patch",
+                                "scripts/validation/agy_profile_quota_identity.patch",
+                                "tests/unit/test_agy_profile_identity.ps1",
+                                "tests/unit/test_agy_profile_save.ps1",
+                                "tests/unit/test_agy_quota_identity.py",
                                 "project_coordination/ACTIVE_SESSION.json",
                                 "project_coordination/TASK_LEDGER.csv",
                                 "project_coordination/ARTIFACT_REGISTRY.csv",
-                                "project_coordination/sessions/2026-10-30_codex_agy_profile_normalization.md",
+                                "project_coordination/sessions/2026-10-30_codex_agy_hash_identity.md",
                                 "C:/Users/pruth/AppData/Local/agy-profile/agy-profile.ps1",
-                                "scripts/validation/agy_profile_save_identity.patch"
+                                "C:/Users/pruth/OpenClawPAD/agy_profile_quota.py"
                             ]
 }

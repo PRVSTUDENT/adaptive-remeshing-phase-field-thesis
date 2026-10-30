@@ -1,3 +1,15 @@
+function Get-AgyCanonicalIdentity {
+    param([Parameter(Mandatory)][string]$Subject)
+    # Exact UTF-8 subject, case-sensitive, no trim/case folding. Matches the quota
+    # reader's sha256(subject.encode('utf-8')).hexdigest()[:16]. Not a blob hash.
+    if ([string]::IsNullOrWhiteSpace($Subject)) { throw 'AGY_IDENTITY_SUBJECT_MISSING' }
+    [byte[]]$subjectBytes=[Text.Encoding]::UTF8.GetBytes($Subject)
+    $sha=[Security.Cryptography.SHA256]::Create()
+    try {
+        return ([BitConverter]::ToString($sha.ComputeHash($subjectBytes,0,$subjectBytes.Length))).Replace('-','').ToLowerInvariant().Substring(0,16)
+    } finally { $sha.Dispose() }
+}
+
 function ConvertTo-AgyCredentialToken {
     param([Parameter(Mandatory)][byte[]]$Bytes,
           [ValidateSet('unspecified','saved-profile','native-store','cli-file','sync-input','sync-verify')][string]$SourceName='unspecified',
@@ -25,8 +37,8 @@ function ConvertTo-AgyCredentialToken {
         function Get-Subject([string]$jwt) {
             $part = $jwt.Split('.')[1].Replace('-','+').Replace('_','/')
             $part = $part.PadRight($part.Length + ((4-$part.Length%4)%4),'=')
-            $claims = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($part)) | ConvertFrom-Json
-            if (-not $claims.sub) { throw 'Missing subject' }
+            $claims = ([Text.UTF8Encoding]::new($false,$true)).GetString([Convert]::FromBase64String($part)) | ConvertFrom-Json
+            if ($claims.sub -isnot [string] -or [string]::IsNullOrWhiteSpace($claims.sub)) { throw 'Missing subject' }
             return [string]$claims.sub
         }
         $identity=$null
@@ -36,9 +48,7 @@ function ConvertTo-AgyCredentialToken {
             $stage='ID_TOKEN_CONFLICT'
             if ($nestedId -and $rootId -and (Get-Subject $nestedId) -ne (Get-Subject $rootId)) { throw 'Conflicting identity claims' }
             $token | Add-Member -NotePropertyName id_token -NotePropertyValue $id -Force
-            $hash = [Security.Cryptography.SHA256]::Create()
-            try { $identity = ([BitConverter]::ToString($hash.ComputeHash([Text.Encoding]::UTF8.GetBytes($subject)))).Replace('-','').ToLowerInvariant().Substring(0,16) }
-            finally { $hash.Dispose() }
+            $identity = Get-AgyCanonicalIdentity -Subject $subject
         }
         $method=Get-Field $data 'auth_method'
         return [pscustomobject]@{Identity=$identity; Token=$token; AuthMethod=$(if($method){$method}else{'consumer'})}
@@ -183,10 +193,8 @@ function Get-AgyProviderIdentity {
         try {
             $reply = Invoke-RestMethod -Uri $uri -Headers $headers -TimeoutSec 15 -ErrorAction Stop
             $stopwatch.Stop()
-            if (-not $reply.sub) { throw 'Missing provider subject' }
-            $hash = [Security.Cryptography.SHA256]::Create()
-            try { return ([BitConverter]::ToString($hash.ComputeHash([Text.Encoding]::UTF8.GetBytes([string]$reply.sub)))).Replace('-','').ToLowerInvariant().Substring(0,16) }
-            finally { $hash.Dispose() }
+            if ($reply.sub -isnot [string] -or [string]::IsNullOrWhiteSpace($reply.sub)) { throw 'Missing provider subject' }
+            return Get-AgyCanonicalIdentity -Subject $reply.sub
         } catch {
             $stopwatch.Stop()
             $elapsedMs = [int]$stopwatch.ElapsedMilliseconds
