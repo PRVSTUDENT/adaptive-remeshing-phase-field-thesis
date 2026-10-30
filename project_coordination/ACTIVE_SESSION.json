@@ -1,20 +1,26 @@
-﻿{
+{
     "active":  false,
-    "agent":  "codex",
-    "task_id":  "AGY-QUOTA-AND-PACKAGE148-R2",
-    "starting_commit":  "8e90b402ecfe31601b0c6b63c09547f3922583f0",
-    "claimed_at":  "2026-10-30T09:35:06.6009536+01:00",
-    "last_updated":  "2026-10-30T11:58:55.2785444+01:00",
-    "last_released":  "2026-10-30T11:58:55.2785444+01:00",
-    "controller_run_id":  "7ed08264-996b-4503-a660-907fbff49ad8",
-    "session_report":  "project_coordination/sessions/2026-10-30_codex_quota_r2_execution.md",
+    "agent":  "gemini-antigravity",
+    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "starting_commit":  "00ff8ff02e1a3eb938c55adaf4457c0f6793f268",
+    "claimed_at":  "2026-10-30T12:03:58.1630002+01:00",
+    "last_updated":  "2026-10-30T12:29:08.8139232+01:00",
+    "last_released":  "2026-10-30T12:29:08.8139232+01:00",
+    "controller_run_id":  "6bd48fc9-09da-4404-a024-4e35e7f6e2e3",
+    "session_report":  "project_coordination/sessions/2026-10-30_gemini-antigravity_F1597_6bd48fc9-09da-4404-a024-4e35e7f6e2e3.md",
     "allowed_write_scope":  [
-                                "scripts/controller/ quota adapter and R2 registration",
-                                "scripts/validation/ quota implementation deployment and R2 adapter",
-                                "tests/unit/ quota and registration regressions",
-                                "OpenClawPAD installed quota worker and refresh script if proven necessary; no profile writes",
-                                "project_coordination/ owned task session ledgers and new current-state section",
-                                "results/validation/ sanitized quota and R2 execution evidence",
-                                "Package148 R2 execution qualification metadata only; preserve frozen scientific artifacts"
+                                "project_coordination/sessions/2026-10-30_gemini-antigravity_F1597_6bd48fc9-09da-4404-a024-4e35e7f6e2e3.md",
+                                "project_coordination/controller/turn-6bd48fc9-09da-4404-a024-4e35e7f6e2e3.json",
+                                "results/validation/mode1_f1597/6bd48fc9-09da-4404-a024-4e35e7f6e2e3.json",
+                                "results/validation/preparation-6bd48fc9-09da-4404-a024-4e35e7f6e2e3.json",
+                                "results/validation/*",
+                                "scripts/validation/*",
+                                "tests/unit/*",
+                                "models/pandey_kumar_mode1/*",
+                                "project_coordination/ACTIVE_SESSION.json",
+                                "project_coordination/ACTIVE_TASK.json",
+                                "project_coordination/CURRENT_STATE.md",
+                                "project_coordination/TASK_LEDGER.csv",
+                                "project_coordination/ARTIFACT_REGISTRY.csv"
                             ]
 }
