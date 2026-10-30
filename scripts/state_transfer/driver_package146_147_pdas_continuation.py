@@ -748,7 +748,7 @@ class CoupledAbaqusRuntime(object):
     """
 
     def __init__(self, package, output, extractor, donor_rf2, donor_energy,
-                 abaqus='abaqus', max_outer=20, max_phase=20, timeout=780,
+                 abaqus='abaqus', max_outer=25, max_phase=20, timeout=7200,
                  memory_gb=16, runner=None):
         self.package = Path(package).resolve()
         self.output = Path(output).resolve()
@@ -756,7 +756,7 @@ class CoupledAbaqusRuntime(object):
         self.evaluator = StageC1GateEvaluator(donor_rf2, donor_energy)
         if not 2 <= max_outer <= 30 or not 1 <= max_phase <= 30:
             raise ValueError('Unreviewed iteration bounds')
-        if not 1 <= timeout <= 780 or not 1 <= memory_gb <= 16:
+        if not 1 <= timeout <= 25200 or not 1 <= memory_gb <= 16:
             raise ValueError('Unreviewed runtime resources')
         self.abaqus, self.max_outer, self.max_phase = abaqus, max_outer, max_phase
         self.timeout, self.memory_gb = timeout, memory_gb
@@ -1029,6 +1029,9 @@ def main():
     parser.add_argument('--donor-energy', type=float, required=True)
     parser.add_argument('--abaqus', default='abaqus')
     parser.add_argument('--memory-gb', type=int, default=16)
+    parser.add_argument('--timeout', type=int, default=7200)
+    parser.add_argument('--max-outer', type=int, default=25)
+    parser.add_argument('--max-phase', type=int, default=20)
     args = parser.parse_args()
     report = CoupledAbaqusRuntime(**vars(args)).run()
     return 0 if report['status'] == 'EQUILIBRIUM_PASS' else 2

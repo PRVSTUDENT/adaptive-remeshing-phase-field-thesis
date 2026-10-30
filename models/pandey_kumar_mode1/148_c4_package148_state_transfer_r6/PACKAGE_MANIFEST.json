@@ -1,0 +1,44 @@
+{
+  "batch_name": "MODE1_PACKAGE148_R6_STATE_TRANSFER",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "configuration": "MODE1_BASELINE",
+  "files": {
+    "M1_C4_PACKAGE148_STATE_TRANSFER.inp": "fcd4e4b5c52c23268196782e7f4bce2a9bbc767357651095da5236151d106114",
+    "P148_MECHANICAL_DC.inp": "c34f4ab71063cd310cf98dfdf9c66e6e69b39aa56884e4e88b712c01f893f3c8",
+    "P148_PHASE_DC.inp": "38d9e2b0ab76e52087c326cbc38c56532c01b859493c25d340b40609c4712b83",
+    "active_set_boundary_cards.inc": "8f5a269fd25763291c9954334c23a552c8b14458a3a2e9ef44b45b553b7fae7d",
+    "d_lower_bounds.csv": "2a7ba758d7af189498da96718edd19ace8e45e4f35ac684505c17b8b7505c574",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "initial_conditions_solution.inc": "5e6bff895c2057c6cd552b43a25e1f0a2e9759ff44a77e816b4106ec959bf5dc",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "nodal_displacements_initial.csv": "c41ba31cd518d776778173bacdf6f0f52f642afd5e9317582013a5689fa1bb40",
+    "nodal_phase_field_initial.csv": "cefbca24a309f7099416e4d4d596ce8da01f1a12f137224ed0038134dff2e15c",
+    "run_datacheck.sh": "9e03303988121d9d225e68e7ee5dce42be3ea091de61a5b8d48aaf26cb3491a9",
+    "submit_M1_C4_P148_R6.pbs": "622a87c63843aa7f674ae65a9ad1b7e759ba6a56f17dc78306a46a960669beaf"
+  },
+  "jobs": [
+    {
+      "id": "M1_C4_P148_R6",
+      "purpose": "Corrected nonmatching state transfer coupled alternating PDAS (R6 driver timeout extended to 7200 s, max outer iterations 25, 7+8+3 solution card encoding)",
+      "input": "P148_MECHANICAL_DC.inp",
+      "datacheck": "P148_MECHANICAL_DC.dat",
+      "additional_datachecks": [
+        "P148_PHASE_DC.dat"
+      ],
+      "pbs": "submit_M1_C4_P148_R6.pbs",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "depends_on": []
+    }
+  ],
+  "acceptance": {
+    "M1_C4_P148_R6": "Authentic coupled convergence and signed KKT; complete finite damage in [0,1], no healing beyond 1e-6; force jump <=5%, raw total energy jump <=2%; committed donor history preserved; no continuation until independent physical acceptance."
+  },
+  "scientific_predecessor_review": "results/validation/package148_r5_terminal_evaluation.json"
+}

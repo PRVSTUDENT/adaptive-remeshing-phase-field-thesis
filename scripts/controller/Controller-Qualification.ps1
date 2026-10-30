@@ -26,7 +26,7 @@ function Get-ControllerDynamicQualification([string]$Workspace, [string]$Path = 
     if(-not $Workspace){throw 'Workspace path is required for dynamic qualification'}
     $root = [IO.Path]::GetFullPath($Workspace).TrimEnd([char[]]'\/') + [IO.Path]::DirectorySeparatorChar
 
-    if($Path -cin @('evaluate_mode1_package148_state_transfer','evaluate_mode1_package148_state_transfer_r2','evaluate_mode1_package148_state_transfer_r3','evaluate_mode1_package148_state_transfer_r4','evaluate_mode1_package148_state_transfer_r5')){
+    if($Path -cin @('evaluate_mode1_package148_state_transfer','evaluate_mode1_package148_state_transfer_r2','evaluate_mode1_package148_state_transfer_r3','evaluate_mode1_package148_state_transfer_r4','evaluate_mode1_package148_state_transfer_r5','evaluate_mode1_package148_state_transfer_r6')){
         if(-not $ArtifactId){ $ArtifactId = $Path }
         $Path = 'scripts/validation/execute_package148_state_transfer.py'
     }
@@ -163,7 +163,7 @@ function Get-ControllerDynamicQualification([string]$Workspace, [string]$Path = 
     }
 
     if($q.execution_mode -eq 'HPC_PRE_SUBMISSION'){
-        $revision=if($opId -ceq 'evaluate_mode1_package148_state_transfer_r5'){5}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r4'){4}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r3'){3}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r2'){2}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer'){1}else{throw 'INVALID_PRESUBMISSION_OPERATION'}
+        $revision=if($opId -ceq 'evaluate_mode1_package148_state_transfer_r6'){6}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r5'){5}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r4'){4}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r3'){3}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r2'){2}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer'){1}else{throw 'INVALID_PRESUBMISSION_OPERATION'}
         $expectedJob='M1_C4_P148_R'+$revision
         $expectedManifest='models/pandey_kumar_mode1/148_c4_package148_state_transfer_r'+$revision+'/EXECUTION_MANIFEST.json'
         if($q.manifest -cne $expectedManifest){throw 'PRESUBMISSION_REVISION_MISMATCH'}

@@ -28,6 +28,9 @@ def operation_contract(operation_id):
     if operation_id == OPERATION+'_r5':
         return (MANIFEST.replace('_r1/','_r5/'), 'M1_C4_P148_R5',
                 'scripts/validation/evaluate_mode1_package148_state_transfer_r5.qualification.json')
+    if operation_id == OPERATION+'_r6':
+        return (MANIFEST.replace('_r1/','_r6/'), 'M1_C4_P148_R6',
+                'scripts/validation/evaluate_mode1_package148_state_transfer_r6.qualification.json')
     raise ValueError('Unregistered Package148 revision')
 
 
