@@ -24,6 +24,7 @@ def main():
     # 1. Tests dict
     test_files = [
         'tests/unit/test_controller_presubmission.ps1',
+        'tests/unit/test_mode1_controller_dispatch_routing.ps1',
         'tests/unit/test_mode1_f1597_package148_r3_preflight.py',
         'tests/unit/test_mode1_f1597_package148_r3_extraction.py',
         'tests/unit/test_mode1_execution_gate.py',
@@ -90,6 +91,7 @@ def main():
         'scripts/validation/evaluate_mode1_package148_state_transfer_r3.qualification.json',
         'results/validation/r3_qualification_verification.json',
         'tests/unit/test_controller_presubmission.ps1',
+        'tests/unit/test_mode1_controller_dispatch_routing.ps1',
         'tests/unit/test_package148_submission_adapter.py',
         'tests/unit/test_mode1_f1597_package148_r3_extraction.py',
         'tests/unit/test_mode1_f1597_package148_r3_preflight.py',

@@ -68,7 +68,7 @@ if($Stage -eq 'Bootstrap'){
     $operation=$null
     if($taskType.task_type -eq 'QUALIFIED_EXECUTION'){
         $operation=$taskType.operation
-        if($operation.path -cne $state.scientific_operation){throw 'Dispatch operation changed after controller preflight'}
+        if($operation.path -cne $state.scientific_operation -and $operation.id -cne $state.scientific_operation){throw 'Dispatch operation changed after controller preflight'}
         $opId=$operation.id
         $opPath=$operation.path
         $nextStage='Scientific'
@@ -116,7 +116,7 @@ if($Stage -eq 'Scientific'){
     if($record.scientific_checkpoint){Write-Output 'SCIENTIFIC_CHECKPOINT_ALREADY_EXISTS; use Complete';return}
     $task=Get-Content -LiteralPath $taskPath -Raw|ConvertFrom-Json
     $operation=Resolve-ControllerOperation $task $Workspace
-    if($record.operation_id -cne $operation.id -or $record.operation_path -cne $operation.path -or $state.scientific_operation -cne $operation.path){throw 'Dispatch operation changed after bootstrap'}
+    if($record.operation_id -cne $operation.id -or ($record.operation_path -cne $operation.path -and $record.operation_path -cne $operation.id) -or ($state.scientific_operation -cne $operation.path -and $state.scientific_operation -cne $operation.id)){throw 'Dispatch operation changed after bootstrap'}
     foreach($source in $state.sources.PSObject.Properties){if($source.Name -match '^(scripts/|models/|results/)'){if(-not(Test-Path -LiteralPath (Join-Path $Workspace $source.Name)) -or (Get-FileHash -LiteralPath (Join-Path $Workspace $source.Name)).Hash -ne $source.Value){throw 'Scientific basis/source changed after dispatch'}}}
     $probe=$operation.path
     $pinned=$state.sources.$probe

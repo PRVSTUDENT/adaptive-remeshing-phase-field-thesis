@@ -32,6 +32,12 @@ function Get-ControllerDynamicQualification([string]$Workspace, [string]$Path = 
     }
 
     $candidates = @()
+    if($ArtifactId){
+        $candidates += "scripts/validation/$ArtifactId.qualification.json"
+        $candidates += "scripts/validation/$ArtifactId.json"
+        $candidates += "project_coordination/qualifications/$ArtifactId.json"
+        $candidates += "project_coordination/qualifications/$ArtifactId.qualification.json"
+    }
     if($Path){
         $cleanPath = $Path.Replace('\', '/')
         if($cleanPath -match '(?:\.\.[/\\]|[/\\]\.\.)'){ throw "PATH_ESCAPE_REJECTED: Script path escapes workspace: $Path" }
@@ -45,12 +51,6 @@ function Get-ControllerDynamicQualification([string]$Workspace, [string]$Path = 
         $scriptBase = [IO.Path]::GetFileNameWithoutExtension($cleanPath)
         $candidates += "project_coordination/qualifications/$scriptBase.json"
         $candidates += "project_coordination/qualifications/$scriptBase.qualification.json"
-    }
-    if($ArtifactId){
-        $candidates += "scripts/validation/$ArtifactId.qualification.json"
-        $candidates += "scripts/validation/$ArtifactId.json"
-        $candidates += "project_coordination/qualifications/$ArtifactId.json"
-        $candidates += "project_coordination/qualifications/$ArtifactId.qualification.json"
     }
 
     $activeTaskPath = Join-Path $Workspace 'project_coordination/ACTIVE_TASK.json'

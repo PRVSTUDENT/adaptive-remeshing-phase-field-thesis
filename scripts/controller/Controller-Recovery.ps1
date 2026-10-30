@@ -143,7 +143,9 @@ function Get-ControllerEvidence([string]$Workspace) {
 
 function Resolve-ControllerInstruction([string]$Workspace, [string]$Instruction) {
     $e = Get-ControllerEvidence $Workspace
-    $taskType = Resolve-ControllerTaskType $e.task $Workspace
+    $requestedOpMatch = [regex]::Match($Instruction, '(?im)^\s*OPERATION_ID\s*:\s*([a-zA-Z0-9_.-]+)')
+    $requestedOp = if ($requestedOpMatch.Success) { $requestedOpMatch.Groups[1].Value.Trim() } else { '' }
+    $taskType = Resolve-ControllerTaskType $e.task $Workspace $requestedOp
     $terminal = [string]$e.task.status -match '(?i)(completed|classified|closed|^done$)'
     $heading = ($Instruction -split "`n")[0]
     $id = [regex]::Match($heading,'\bF\d+\b').Value
@@ -213,7 +215,9 @@ Create the owned session report and record an initial verified research artifact
 
 function New-ControllerTurnState($Evidence, [int]$Turn, [string]$Instruction, [int]$RecoveryCount = 0) {
     $runId=[guid]::NewGuid().ToString()
-    $taskType = Resolve-ControllerTaskType $Evidence.task $Evidence.workspace
+    $requestedOpMatch = [regex]::Match($Instruction, '(?im)^\s*OPERATION_ID\s*:\s*([a-zA-Z0-9_.-]+)')
+    $requestedOp = if ($requestedOpMatch.Success) { $requestedOpMatch.Groups[1].Value.Trim() } else { '' }
+    $taskType = Resolve-ControllerTaskType $Evidence.task $Evidence.workspace $requestedOp
     return [pscustomobject]@{
         schema=1
         run_id=$runId
@@ -223,7 +227,7 @@ function New-ControllerTurnState($Evidence, [int]$Turn, [string]$Instruction, [i
         requires_scientific_checkpoint=[bool]$Evidence.task.scientific_checkpoint_required
         task_type=$taskType.task_type
         scientific_operation=$(if($taskType.operation){$taskType.operation.path}elseif($Evidence.task.scientific_operation){[string]$Evidence.task.scientific_operation}else{''})
-        operation_id=$(if($taskType.operation){$taskType.operation.id}else{'research_preparation'})
+        operation_id=$(if($taskType.operation){$taskType.operation.id}elseif($requestedOp -and $requestedOp -ne 'research_preparation'){$requestedOp}else{'research_preparation'})
         scientific_basis_artifact=[string]$Evidence.task.scientific_checkpoint.artifact
         task_id=[string]$Evidence.task.task_id
         predecessor_task_id=[string]$Evidence.task.task_id

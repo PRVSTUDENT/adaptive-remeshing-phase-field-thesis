@@ -3558,6 +3558,10 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
 
 :MainLoop while ($CurrentTurn -le ($StartTurn + $MaxTurns - 1)) {
     # Reconcile every dispatch, including router-generated follow-up instructions.
+    . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Qualification.ps1')
+    . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Operations.ps1')
+    . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Recovery.ps1')
+    . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Preparation.ps1')
     $resolved = Resolve-ControllerInstruction $WorkspaceDir $CurrentInstruction
     if (-not $script:ControllerRecoveryMode) { $CurrentInstruction=$resolved.instruction }
     if ($resolved.evidence.session.active) { throw 'BLOCKED: another repository session is active' }
