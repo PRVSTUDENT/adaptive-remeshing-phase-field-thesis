@@ -9,9 +9,9 @@
                              "new_experiment":  false
                          },
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "status":  "PREPARATION_COMPLETE",
+    "status":  "QUALIFIED_OPERATION_EXECUTION",
     "agent":  "codex",
-    "phase":  "Package 148 R5 runtime cutoff resolved: R5 completed 15 coupled alternating PDAS iterations with monotonic geometric residual contraction (delta_d dropping to 2.01e-5, delta_u to 8.67e-9 mm = 8.67 pm, zero dual error) and passed all physical acceptance gates (RF2 deficit 0.74% \u003c= 5%, energy deficit 0.14% \u003c= 2%, zero healing), with termination caused solely by an internal 780 s driver timeout cap during outer 15 extraction. Package 148 R6 independently constructed and qualified: driver timeout extended to 7200 s (2h, safely within 8h PBS walltime), max_outer raised to 25, 7+8+3 solution card encoding and all 28,224 Gauss point histories strictly preserved. Cluster hardware datachecks for P148_MECHANICAL_DC and P148_PHASE_DC both verified Exit 0 under Abaqus 2023 and Intel ifort with frozen UEL CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6.",
+    "phase":  "evaluate_mode1_package148_state_transfer_r6 submitted; physical acceptance pending authentic solver results.",
     "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED",
     "active_pbs_job_ids":  [
 
@@ -217,7 +217,7 @@
                              "last_updated":  "2026-10-19T18:46:00+02:00"
                          },
     "scientific_checkpoint_required":  true,
-    "scientific_operation":  "evaluate_mode1_package148_state_transfer_r6",
+    "scientific_operation":  "",
     "operation_preparation":  {
                                   "status":  "QUALIFIED_EXECUTION_READY",
                                   "dispatch_ready":  true,
@@ -233,6 +233,16 @@
                                            "automatic_retry":  false
                                        },
     "scientific_operation_id":  "evaluate_mode1_package148_state_transfer_r6",
+    "last_updated":  "2026-10-30T19:58:08.5131584+01:00",
+    "next_safe_action":  "Collect authentic M1_C4_P148_R6 coupled results and independently evaluate predeclared physical gates.",
+    "scientific_checkpoint":  {
+                                  "kind":  "HPC_SUBMISSION",
+                                  "operation":  "evaluate_mode1_package148_state_transfer_r6",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/mode1_f1597/8412f8cc-d26e-4674-a12b-f9af5c91d0f4.json",
+                                  "sha256":  "025A545710CD48D78A467375D7A2FE0E5AE1E837BAA76064CE38A62F5443DBA7",
+                                  "created_at":  "2026-10-30T19:57:57.8479802+01:00"
+                              },
     "completed_operations":  [
                                  "mapped_frozen_history_lower_bound_kkt_probe",
                                  "mapped_mechanical_history_call_order_probe",
@@ -244,16 +254,7 @@
                                  "evaluate_mode1_package148_state_transfer_r2",
                                  "evaluate_mode1_package148_state_transfer_r3",
                                  "evaluate_mode1_package148_state_transfer_r4",
-                                 "evaluate_mode1_package148_state_transfer_r5"
-                             ],
-    "last_updated":  "2026-10-30T19:48:43.7305625+01:00",
-    "next_safe_action":  "Submit qualified package M1_C4_P148_R6 via Invoke-Mode1Execution.ps1 for complete coupled convergence",
-    "scientific_checkpoint":  {
-                                  "kind":  "PREPARATION_CHECKPOINT",
-                                  "operation":  "research_preparation",
-                                  "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-4627d41e-c2d9-4c1c-84b7-d87ca6ff6aed.json",
-                                  "sha256":  "44380ACDCE97B4D98661C0149AA238711CE58C5525C19FF87184A9CA31651B96",
-                                  "created_at":  "2026-10-30T19:47:55.0367773+01:00"
-                              }
+                                 "evaluate_mode1_package148_state_transfer_r5",
+                                 "evaluate_mode1_package148_state_transfer_r6"
+                             ]
 }

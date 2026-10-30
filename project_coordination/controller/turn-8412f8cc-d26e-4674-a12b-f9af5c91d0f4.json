@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "8412f8cc-d26e-4674-a12b-f9af5c91d0f4",
+    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "repository_commit":  "0ec007b205cfed51669ee3cd5d0578a365e10461",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "evaluate_mode1_package148_state_transfer_r6",
+    "operation_path":  "scripts/validation/execute_package148_state_transfer.py",
+    "task_type":  "QUALIFIED_EXECUTION",
+    "bootstrap_completed_at":  "2026-10-30T19:51:58.4332695+01:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "B9754754AB0B9F372E9B2A70E0AAAB250F5D5A082E8FBCB0CE600428BB0BF8C6",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "6D72341E3C5D45402C49760B8790966CC15A50BD2ECF1772FCA1154F9AF1A5EC",
+                            "project_coordination/ACTIVE_SESSION.json":  "A0D121AD9F3D23DFC3CD3B03412F1063A7F38BFF889F2D0CE538476DEDA92C0B",
+                            "project_coordination/ACTIVE_TASK.json":  "E7114681CBDC436CDE1D8B3242085FD9EF63B906F1752E3DD54BDAF651DB97ED",
+                            "project_coordination/TASK_LEDGER.csv":  "6FB6A61C3D8E4C38D7F5069BE932F603FDDD93D91E8F01C371304CB14741E18C",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "D29F37688F880A35C0926F6B23DBC6DE4F1E3D369049745CFFB3F653BD6698EA",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "FC626B1E21B7482D460605525BC5BE797F0C50022BEBDC98DA29DB4CC83D1BB4",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "E7114681CBDC436CDE1D8B3242085FD9EF63B906F1752E3DD54BDAF651DB97ED",
+                          "project_coordination/CURRENT_STATE.md":  "6D72341E3C5D45402C49760B8790966CC15A50BD2ECF1772FCA1154F9AF1A5EC",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "D29F37688F880A35C0926F6B23DBC6DE4F1E3D369049745CFFB3F653BD6698EA",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "55E35CE8C4BF04064BDD326F863FCB0C1003BFFEF77DBD2F532FDA5E15282098"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-10-30_gemini-antigravity_F1597_8412f8cc-d26e-4674-a12b-f9af5c91d0f4.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "HPC_SUBMISSION",
+                                  "operation":  "evaluate_mode1_package148_state_transfer_r6",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/mode1_f1597/8412f8cc-d26e-4674-a12b-f9af5c91d0f4.json",
+                                  "sha256":  "025A545710CD48D78A467375D7A2FE0E5AE1E837BAA76064CE38A62F5443DBA7",
+                                  "created_at":  "2026-10-30T19:57:57.8479802+01:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Collect authentic M1_C4_P148_R6 coupled results and independently evaluate predeclared physical gates."
+}
