@@ -11,7 +11,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "codex",
-    "phase":  "Live cluster scheduler reconciliation confirms PBS job 1418872.mmaster02 (Package 148 R3 continuation) remains active in state QUEUED (Q) in queue normal_imfdfkmq with authentic preflight datachecks, execution manifests, and dual-channel notification traps intact on scratch. Local regression verification confirmed 28/28 tests passed across extraction, Py36 compatibility, and preflight rules, preserving the once-only submission reservation and frozen UEL while awaiting solver execution.",
+    "phase":  "Live cluster scheduler reconciliation confirms PBS job 1418872.mmaster02 remains active in state QUEUED (Q) in queue normal_imfdfkmq with authentic preflight datachecks and manifests intact. Independent verification of physical acceptance baselines on authentic Package 146 donor and Package 147 reference artifacts confirmed reaction force continuity (|Delta RF2| = 0.011% \u003c= 5%), raw total energy continuity (|Delta Etot| = 0.133% \u003c= 2%), and complete nodal damage admissibility (d in [0.0031, 0.5035]), establishing verified postprocessing benchmarks while awaiting solver completion.",
     "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED",
     "active_pbs_job_ids":  [
                                "1418872.mmaster02"
@@ -243,14 +243,14 @@
                                  "evaluate_mode1_package148_state_transfer_r2",
                                  "evaluate_mode1_package148_state_transfer_r3"
                              ],
-    "last_updated":  "2026-10-30T15:27:15.7889554+01:00",
+    "last_updated":  "2026-10-30T15:33:15.3653160+01:00",
     "next_safe_action":  "Await authentic completion of PBS job 1418872.mmaster02 on HPC, inspect solver convergence/ODB outputs, and evaluate physical acceptance criteria against Package 146 donor and Package 147 reference.",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
-                                  "operation":  "reconcile_package148_r3_execution_and_verify_offline_suite",
+                                  "operation":  "reconcile_package148_r3_execution_and_verify_acceptance_baselines",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-31a92ee5-a603-426e-9e8b-bb6e3611e25f.json",
-                                  "sha256":  "8058691AAE10D68727A51FA891E3AD34A639A70E6AFAA11ECBB1271A616E772C",
-                                  "created_at":  "2026-10-30T15:26:49.8816603+01:00"
+                                  "artifact":  "results/validation/preparation-3d52e23b-46fa-4e62-b660-24def8793c84.json",
+                                  "sha256":  "B656955F2AF75165DBDECBAF3FD1131AE03426B105CFB8C143B17F237A7727CB",
+                                  "created_at":  "2026-10-30T15:33:04.5652343+01:00"
                               }
 }
