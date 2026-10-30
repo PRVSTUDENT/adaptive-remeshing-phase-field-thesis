@@ -78,7 +78,8 @@ class IdentityCompatibility(unittest.TestCase):
                 "[Convert]::FromBase64String('"+encoded+"'))|ConvertFrom-Json; "
                 "@($items|ForEach-Object{Get-AgyCanonicalIdentity -Subject $_})|ConvertTo-Json -Compress")
         result = subprocess.run(['powershell', '-NoProfile', '-Command', code],
-                                capture_output=True, text=True, timeout=20, check=True)
+                                stdin=subprocess.DEVNULL, capture_output=True,
+                                text=True, timeout=20, check=True)
         self.assertEqual(json.loads(result.stdout),
                          [self.worker.canonical_identity(s) for s in subjects])
 

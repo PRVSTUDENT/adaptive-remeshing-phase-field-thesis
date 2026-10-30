@@ -2583,7 +2583,11 @@ function Get-AgyQuotaProviderJson {
             $output = $request | & $python $worker 2>$null
             if ($LASTEXITCODE -ne 0) { throw 'Saved-profile quota worker failed.' }
             $result = $output | ConvertFrom-Json
-            if ($result.antigravity.status -ne 'ok') { throw 'Saved-profile quota unavailable; account login may be required.' }
+            if ($result.antigravity.status -ne 'ok') {
+                $category=[string]$result.antigravity.error_code
+                if($category -notmatch '^(OAUTH_CLIENT_REJECTED|OAUTH_CLIENT_DISCOVERY_INVALID|AUTHENTICATION_FAILED|TOKEN_REFRESH_FAILED|PROVIDER_IDENTITY_MISMATCH|PROVIDER_IDENTITY_UNAVAILABLE|QUOTA_API_FAILED)$'){$category='QUOTA_UNAVAILABLE'}
+                throw ('Saved-profile quota unavailable: '+$category+'; quota remains unknown.')
+            }
             $result.antigravity | Add-Member -NotePropertyName profile_identity -NotePropertyValue $result.identity
             return $result.antigravity
         } finally { $bytes=$null; $credential=$null; $request=$null; $output=$null }

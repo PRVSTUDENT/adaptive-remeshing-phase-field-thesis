@@ -92,7 +92,7 @@ function Get-ControllerEvidence([string]$Workspace) {
             $sources[$probeRel] = (Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash
         }
         try {
-            $dq = Get-ControllerDynamicQualification -Workspace $Workspace -Path $probeRel
+            $dq = Get-ControllerDynamicQualification -Workspace $Workspace -Path $probeRel -ArtifactId $task.scientific_operation_id
             if($dq){
                 $sources[$dq.qualification_artifact] = (Get-FileHash -LiteralPath (Join-Path $Workspace $dq.qualification_artifact)).Hash
                 if($dq.scientific_dependencies){
@@ -812,7 +812,8 @@ function Test-ControllerScientificCheckpoint([string]$Workspace,$State,[switch]$
                $data.status -ne 'SUBMITTED_AWAITING_PHYSICAL_VALIDATION' -or $data.physical_acceptance -ne 'UNVERIFIED') {return $false}
             $key=(Get-FileHash -LiteralPath (Join-Path $Workspace $op.qualification.manifest)).Hash.ToLowerInvariant()
             $receipts=Get-Content -LiteralPath (Join-Path $Workspace 'project_coordination/MODE1_BATCH_SUBMISSIONS.json') -Raw|ConvertFrom-Json
-            $receipt=$receipts.$key.M1_C4_P148_R1
+            $qualifiedBatch=Get-Content -LiteralPath (Join-Path $Workspace $op.qualification.manifest) -Raw|ConvertFrom-Json
+            $receipt=$receipts.$key.($qualifiedBatch.jobs[0].id)
             if($data.pbs_job_id -notmatch '^\d+\.mmaster02$' -or $receipt.pbs_job_id -cne $data.pbs_job_id){return $false}
         }elseif($op.qualification.execution_mode -eq 'HPC_PRE_SUBMISSION'){return $false}
         if(-not $Historical -and ($State.scientific_operation -cne $op.path -or $record.operation_id -cne $op.id)){return $false}

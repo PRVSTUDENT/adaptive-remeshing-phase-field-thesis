@@ -1,0 +1,62 @@
+﻿{
+    "tests":  {
+                  "tests/unit/test_controller_presubmission.ps1":  "F37D1AF75BFFF73C20F80B1D1E1B70923C58FDAD4491AE5AD58BCF6B9EAD4DD0",
+                  "tests/unit/test_mode1_f1597_package148_r2_preflight.py":  "55A0DAB280FB78DD5DC670B16B230879F7CA64E68D6D56B9EA6B75A8B3E3D63F",
+                  "tests/unit/test_mode1_execution_gate.py":  "E9D5DA51F5C708A79CBC810CE3C6D4D72849C6F4E942622EB34536BDDA5FCC37",
+                  "tests/unit/test_package148_submission_adapter.py":  "F9C79F7EED09847014E82176660DE1418B5762A9AFAECB150467C01945A7A05B",
+                  "tests/unit/test_mode1_f1597_package148_py36_compatibility.py":  "19C38A0EF3B4AFF00D29A9D0963D4B966849428C108582EC92FC2BB755C3104E"
+              },
+    "manifest":  "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/EXECUTION_MANIFEST.json",
+    "dispatch_ready":  true,
+    "production_uel_sha256":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "limitation":  "R2 reviewed compatibility correction; technical submission is not physical acceptance. R1 job1418787 and its accounting remain immutable.",
+    "script_sha256":  "3147FF422F6464661FC2A9C361900E0018BC236D8519604D1DD5851FE12CDAF2",
+    "canonical_path":  "scripts/validation/execute_package148_state_transfer.py",
+    "schema":  1,
+    "verification_criteria":  {
+                                  "required_measurements":  [
+                                                                "submitted_jobs"
+                                                            ]
+                              },
+    "status":  "QUALIFIED_FOR_PREFLIGHT",
+    "execution_mode":  "HPC_PRE_SUBMISSION",
+    "operation":  "evaluate_mode1_package148_state_transfer_r2",
+    "independent_review":  "results/validation/preparation-546bbf13-16c4-46f8-bfaf-942bd8d46add.json",
+    "execution_adapter":  "scripts/hpc/Invoke-Mode1Execution.ps1",
+    "scientific_dependencies":  {
+                                    "results/validation/package148_r2_py36_cluster_verification.json":  "AFA070A1CB4B46B984C1B1F1039563A5F66FA6EBD06C530CEFFE2096A6250C6F",
+                                    "scripts/controller/Controller-Qualification.ps1":  "4964B7EBB52D7DBBEFA1F97F6570F0285AF9334E7C648CD63148DF2A907A83C6",
+                                    "results/validation/preparation-546bbf13-16c4-46f8-bfaf-942bd8d46add.json":  "DB1DEF0E751420EDE3385290AA99D86F516AE89BB9C116FE862C3045A9EB0371",
+                                    "tests/fixtures/package146147/146_step1_dat.txt.gz":  "7AD9A8D92A2E9DCF69489AC573ED6D29394A7D1E907A6A2FFB7F0E752DB29504",
+                                    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/P148_PHASE_DC.inp":  "DFC4CE7603A15CB4238093DBA331059C789C3544E4F5A9DEDBC4C05C59889652",
+                                    "scripts/hpc/preflight_package49_authorization.py":  "033FF6F12E071CCBE2233670776FF97F0B54C4831A5BEF801C5DA90E7AB959ED",
+                                    "scripts/state_transfer/build_package146_147_transfer_deck.py":  "EF7EBFA646402E28460108FD9860B7AD269B609874AEFDD6268EDEA791CE529F",
+                                    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/submit_M1_C4_P148_R2.pbs":  "E0C982DA11D4789FEA08C58D3D57DD512F4D449EBC34FBBD11EF3BEC373B1EC3",
+                                    "scripts/validation/extract_package148_iteration.py":  "9637B327521249CC2F42A73DEF7F3AD53B28FE7F7258D28948AA2800EC0EC195",
+                                    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/nodal_displacements_initial.csv":  "C41BA31CD518D776778173BACDF6F0F52F642AFD5E9317582013A5689FA1BB40",
+                                    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py":  "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8",
+                                    "scripts/controller/Controller-Operations.ps1":  "5C8EC37120B386CA9592CA7C61C048379AE6052473F3BA05D3374A1A642B883F",
+                                    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/f42_mixed_uel.for":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+                                    "scripts/hpc/mode1_execution_gate.py":  "0DB80F090AF96785DB6DC94902C04D5B9B548FE26F5626A168955BE063F89B2E",
+                                    "scripts/hpc/Invoke-Mode1Execution.ps1":  "670F32418CB0D02A4E2F5511DF42B20982F27146DDB8459C38AAB88ECA6E6DB1",
+                                    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/active_set_boundary_cards.inc":  "8F5A269FD25763291C9954334C23A552C8B14458A3A2E9EF44B45B553B7FAE7D",
+                                    "scripts/controller/Controller-Recovery.ps1":  "41AF98BF761DB33AB472F0215A15F2139D7521619A1E4593B1EC65D453CDC037",
+                                    "scripts/hpc/Submit-Mode1Batch.ps1":  "47C2A4887452A1A74833D52A8EE29D94E1E18E0A5E33BE24D610ED73AEC46F65",
+                                    "scripts/state_transfer/driver_package146_147_pdas_continuation.py":  "250A101DBB23259B5932EB220835E6A03EC4B28B57B2008080F1A4981CFC9063",
+                                    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/initial_conditions_solution.inc":  "80F0C3C7C7C141BCCAD2979F1B982EF86F0CA7ACD699791CA8CF4FCBECE7B6FB",
+                                    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/nodal_phase_field_initial.csv":  "CEFBCA24A309F7099416E4D4D596CE8DA01F1A12F137224ED0038134DFF2E15C",
+                                    "scripts/controller/Invoke-ControllerTurn.ps1":  "7692F5776EF5A6077549829C29F5DF810F0448C68411BC4CE2BE681A78781127",
+                                    "models/pandey_kumar_mode1/146_c3_fine_donor/M1_C3_FINE_PACKAGE146_DONOR.inp":  "9F93419A4F1E090286007A7291693BD3B783D984CE276E102D22D404AD4C5475",
+                                    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/M1_C4_PACKAGE148_STATE_TRANSFER.inp":  "FCD4E4B5C52C23268196782E7F4BCE2A9BBC767357651095DA5236151D106114",
+                                    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/d_lower_bounds.csv":  "2A7BA758D7AF189498DA96718EDD19ACE8E45E4F35AC684505C17B8B7505C574",
+                                    "results/validation/preparation-7ed08264-996b-4503-a660-907fbff49ad8.json":  "81D363E18707B659D5A4B3B1E3ABEDC2B6C2A72886C4B4A5D801036D3E0E14B3",
+                                    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/PACKAGE_MANIFEST.json":  "674C890A26165BA2C28229267E6BCABC1FB702727103D6D0A6A42FE18BD04114",
+                                    "results/validation/package146147/evaluation.json":  "74F4BBBB8B0E5AF52F0FF9328FE8CDC8AC5742AC80F75A7A98A3D1E6FDEA8565",
+                                    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/EXECUTION_MANIFEST.json":  "68E49384A2F4D6BC9836E9CD5EEF4FB9A57013C89257D899F4A22C54894611D5",
+                                    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/run_datacheck.sh":  "BAA5429ECE0DC73FC94820BC05E77659BB3DDA1A1A86E4AAF72BD23463C44C0D",
+                                    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/P148_MECHANICAL_DC.inp":  "3DF912A56B0EAE5FAF68308229978B66081DC69EFDF506AD203048E69A9C21CD",
+                                    "models/pandey_kumar_mode1/147_c4_corrected_reference/M1_C4_CORRECTED_PACKAGE147_REF.inp":  "FFFE51D5348F6E4B5E9B4742D783CA1645B480B229189168493AEDA10C91722A",
+                                    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/job_notifications.sh":  "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11"
+                                },
+    "tests_passed":  true
+}

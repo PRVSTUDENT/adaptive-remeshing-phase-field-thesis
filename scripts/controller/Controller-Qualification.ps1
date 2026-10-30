@@ -158,6 +158,10 @@ function Get-ControllerDynamicQualification([string]$Workspace, [string]$Path = 
     }
 
     if($q.execution_mode -eq 'HPC_PRE_SUBMISSION'){
+        $revision=if($opId -ceq 'evaluate_mode1_package148_state_transfer_r2'){2}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer'){1}else{throw 'INVALID_PRESUBMISSION_OPERATION'}
+        $expectedJob='M1_C4_P148_R'+$revision
+        $expectedManifest='models/pandey_kumar_mode1/148_c4_package148_state_transfer_r'+$revision+'/EXECUTION_MANIFEST.json'
+        if($q.manifest -cne $expectedManifest){throw 'PRESUBMISSION_REVISION_MISMATCH'}
         # Registration qualifies a guarded preflight entrypoint, not a completed
         # experiment. A PBS ID is created only by the once-only submission gate.
         if($q.status -ne 'QUALIFIED_FOR_PREFLIGHT' -or $q.pbs_job_id -or
@@ -174,7 +178,8 @@ function Get-ControllerDynamicQualification([string]$Workspace, [string]$Path = 
         }
         $review=Get-Content -LiteralPath (Join-Path $Workspace $q.independent_review) -Raw|ConvertFrom-Json
         if($review.verification_passed -isnot [bool] -or -not $review.verification_passed -or
-           $review.review_summary.r1_independent_review -ne 'PASS'){
+           (($revision -eq 1 -and $review.review_summary.r1_independent_review -ne 'PASS') -or
+            ($revision -eq 2 -and ($review.independent_r2_qualification -ne 'PASS' -or $review.python_36_compatibility -ne 'PASS')))){
             throw 'PRESUBMISSION_REVIEW_REQUIRED: independent numerical runtime review must pass'
         }
         foreach($source in $review.evidence_sources.PSObject.Properties){
@@ -186,7 +191,7 @@ function Get-ControllerDynamicQualification([string]$Workspace, [string]$Path = 
         }
         $batch=Get-Content -LiteralPath (Join-Path $Workspace $q.manifest) -Raw|ConvertFrom-Json
         if($batch.scientific_scope -ne 'MODE1' -or $batch.automatic_retry -isnot [bool] -or $batch.automatic_retry -or
-           $batch.max_submissions -ne 1 -or @($batch.jobs).Count -ne 1 -or $batch.jobs[0].id -cne 'M1_C4_P148_R1'){
+           $batch.max_submissions -ne 1 -or @($batch.jobs).Count -ne 1 -or $batch.jobs[0].id -cne $expectedJob){
             throw 'PRESUBMISSION_MANIFEST_REQUIRED: exact once-only reviewed Mode-I job required'
         }
     } elseif($q.status -eq 'QUALIFIED_FOR_PREFLIGHT'){

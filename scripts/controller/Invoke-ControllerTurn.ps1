@@ -124,7 +124,9 @@ if($Stage -eq 'Scientific'){
     $relative='results/validation/mode1_f1597/'+$RunId+'.json'
     $output=Join-Path $Workspace $relative
     $operationTimeout=if($operation.qualification.execution_mode -eq 'HPC_PRE_SUBMISSION'){660}else{120}
-    $result=Invoke-BoundedAgyProcess -FilePath (Get-Command python.exe).Source -ArgumentList @((Join-Path $Workspace $probe),'--workspace',$Workspace,'--output',$output) -WorkingDirectory $Workspace -TimeoutSeconds $operationTimeout
+    $operationArgs=@((Join-Path $Workspace $probe),'--workspace',$Workspace,'--output',$output)
+    if($operation.qualification.execution_mode -eq 'HPC_PRE_SUBMISSION'){$operationArgs+=@('--operation-id',$operation.id)}
+    $result=Invoke-BoundedAgyProcess -FilePath (Get-Command python.exe).Source -ArgumentList $operationArgs -WorkingDirectory $Workspace -TimeoutSeconds $operationTimeout
     if($result.ExitCode -ne 0){throw ('SCIENTIFIC_OPERATION_FAILED exit='+$result.ExitCode+': '+$result.Output)}
     if(-not(Test-Path -LiteralPath $output)){throw 'Scientific operation produced no result'}
     $payload=Get-Content -LiteralPath $output -Raw|ConvertFrom-Json

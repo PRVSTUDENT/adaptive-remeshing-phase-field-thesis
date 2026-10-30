@@ -5,7 +5,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
-from scripts.validation.execute_package148_state_transfer import MANIFEST, execute, verified_receipt
+from scripts.validation.execute_package148_state_transfer import MANIFEST, OPERATION, execute, verified_receipt, operation_contract
 
 
 class SubmissionAdapterTests(unittest.TestCase):
@@ -55,3 +55,24 @@ class SubmissionAdapterTests(unittest.TestCase):
         output.parent.mkdir(parents=True);output.write_text('preserve')
         with self.assertRaises(ValueError): execute(self.root, output)
         self.assertEqual(output.read_text(),'preserve')
+
+    def test_r2_receipt_cannot_reuse_r1(self):
+        relative, job, qualification=operation_contract(OPERATION+'_r2')
+        self.assertIn('_r2/',relative);self.assertEqual(job,'M1_C4_P148_R2')
+        self.receipt()
+        target=self.root/relative;target.parent.mkdir(parents=True);target.write_bytes((self.root/MANIFEST).read_bytes())
+        with self.assertRaises(ValueError):verified_receipt(self.root,OPERATION+'_r2')
+
+    def test_unknown_revision_rejected(self):
+        with self.assertRaises(ValueError):operation_contract(OPERATION+'_r3')
+
+    def test_authentic_r2_receipt_and_changed_manifest(self):
+        relative, job, _=operation_contract(OPERATION+'_r2')
+        target=self.root/relative;target.parent.mkdir(parents=True)
+        target.write_text(json.dumps({'jobs':[{'command_sha256':'b'*64}]}))
+        key=hashlib.sha256(target.read_bytes()).hexdigest()
+        (self.root/'project_coordination/MODE1_BATCH_SUBMISSIONS.json').write_text(json.dumps({key:{job:{'pbs_job_id':'456.mmaster02','command_sha256':'b'*64}}}))
+        (self.root/'project_coordination/HPC_JOB_LEDGER.csv').write_text('Job_ID,Job_Name\n456.mmaster02,'+job+'\n')
+        self.assertEqual(verified_receipt(self.root,OPERATION+'_r2'),'456.mmaster02')
+        target.write_text(target.read_text()+' ')
+        with self.assertRaises(ValueError):verified_receipt(self.root,OPERATION+'_r2')
