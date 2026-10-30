@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "job_id": "1418872.mmaster02",
+  "package": "M1_C4_P148_R3",
+  "exec_host": "mnode104/1",
+  "queue": "normal_imfdfkmq",
+  "walltime_used": "00:00:39",
+  "cput_used": "00:00:13",
+  "exit_status": 1,
+  "mechanical_solve": {
+    "job_name": "P148_01_00_mechanical",
+    "abaqus_exit": 0,
+    "increments": 1,
+    "equilibrium_iterations": 2,
+    "u_rp_mm": 0.0018003125442191958,
+    "rf2_kN": 0.1876726597547531,
+    "donor_rf2_kN": 0.1873079389333725,
+    "delta_rf2_rel": 0.0019471727339798485,
+    "delta_rf2_percent": 0.19471727339798485,
+    "rf2_gate_pass": true,
+    "rf2_gate_threshold_percent": 5.0,
+    "energy": {
+      "elastic_kNmm": 0.00016893472,
+      "fracture_kNmm": 4.4057204e-05,
+      "total_kNmm": 0.00021299192,
+      "donor_total_kNmm": 0.00021270454,
+      "delta_energy_rel": 0.0013510759885829974,
+      "delta_energy_percent": 0.13510759885829974,
+      "energy_gate_pass": true,
+      "energy_gate_threshold_percent": 2.0
+    }
+  },
+  "failure_root_cause": {
+    "exception_type": "ValueError",
+    "exception_message": "Prescribed mechanical damage not retained",
+    "failing_file": "scripts/state_transfer/driver_package146_147_pdas_continuation.py",
+    "line": 920,
+    "tolerance_used": 1e-10,
+    "max_discrepancy": 4.9996653206374475e-09,
+    "failing_node": 4155,
+    "extracted_d_dat": 0.18641211,
+    "prescribed_d0": 0.1864121149996653,
+    "mechanism": "Abaqus .dat file formats node fields with 8 significant digits (1PE15.8), resulting in half-LSB truncation error of 5.0e-9 against double precision d0. The hardcoded tolerance of 1e-10 in driver_package146_147_pdas_continuation.py line 920 was tighter than ASCII .dat precision, triggering an unhandled exception after the successful Abaqus mechanical solve."
+  },
+  "classification": "C1_1_INCOMPLETE__DRIVER_PRECISION_DEFECT_IDENTIFIED",
+  "scientific_acceptance": false,
+  "stage_c1_1_verdict": "INCOMPLETE"
+}

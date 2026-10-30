@@ -1,0 +1,32 @@
+{
+    "schema":  1,
+    "pbs_job_id":  "1418902.mmaster02",
+    "job_name":  "M1_C4_P148_R4",
+    "scheduler_state":  "F",
+    "exit_status":  1,
+    "walltime":  "00:07:12",
+    "exec_host":  "mnode104/2",
+    "classification":  "PHASE_KKT_ITERATION_LIMIT_EXCEEDED_NO_PHYSICAL_ACCEPTANCE_NO_RETRY",
+    "physical_acceptance":  false,
+    "error":  "Phase KKT iteration limit exceeded",
+    "iterations":  [
+                       {
+                           "outer":  1,
+                           "delta_d":  4.9996653206374475E-09,
+                           "delta_u":  null,
+                           "delta_h":  null,
+                           "free_error":  2.4655327566243177E-07,
+                           "dual_error":  1.6632206308580877E-07,
+                           "phase_iterations":  20
+                       }
+                   ],
+    "pbs_execution_log":  "/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifort\nTraceback (most recent call last):\n  File \"/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r4/runtime/scripts/state_transfer/driver_package146_147_pdas_continuation.py\", line 1038, in \u003cmodule\u003e\n    sys.exit(main())\n  File \"/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r4/runtime/scripts/state_transfer/driver_package146_147_pdas_continuation.py\", line 1033, in main\n    report = CoupledAbaqusRuntime(**vars(args)).run()\n  File \"/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r4/runtime/scripts/state_transfer/driver_package146_147_pdas_continuation.py\", line 1014, in run\n    raise RuntimeError(\u0027Phase KKT iteration limit exceeded\u0027)\nRuntimeError: Phase KKT iteration limit exceeded",
+    "runtime_report":  "results/validation/package148_r4_terminal_runtime.json",
+    "remote_runtime_report":  "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r4/coupled_1418902.mmaster02/runtime_report.json",
+    "remote_pbs_log":  "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r4/pbs_execution.log",
+    "automatic_retry":  false,
+    "scientific_diagnosis_required":  true,
+    "scope_limit":  "No R5 or C1-2; no convergence tolerance or iteration cap changes",
+    "remote_runtime_sha256":  "89E1DCE3DA3CCC7417AEF4DEDC15437119A6818FE59E28D42D800B578094D26C",
+    "remote_pbs_log_sha256":  "48749CCD7E0B550C918BDB052B7A88BC6070707775602F3746FEC25D9CE39325"
+}

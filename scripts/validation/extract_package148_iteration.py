@@ -15,6 +15,32 @@ def sha(path):
     return h.hexdigest()
 
 
+def parse_dat_nodal_u(dat_path):
+    """Parses nodal U table from Abaqus .dat file if present."""
+    if not os.path.isfile(dat_path):
+        return {}
+    results = {}
+    with open(dat_path, 'r') as f:
+        in_table = False
+        for line in f:
+            if 'NODE FOOT-' in line:
+                in_table = True
+                continue
+            if in_table:
+                line_s = line.strip()
+                if not line_s or 'NOTE' in line_s or line_s.startswith('-'):
+                    continue
+                if line_s.startswith('MAXIMUM') or line_s.startswith('MINIMUM'):
+                    in_table = False
+                    continue
+                parts = line_s.split()
+                if parts and parts[0].isdigit():
+                    nid = int(parts[0])
+                    vals = [float(x) for x in parts[1:]]
+                    results[nid] = vals
+    return results
+
+
 def export(odb_path, output, physical_nodes, physical_elements):
     from odbAccess import openOdb
     if os.path.exists(output):
@@ -25,26 +51,45 @@ def export(odb_path, output, physical_nodes, physical_elements):
         if list(odb.steps.keys()) != ['C1-1-ReEquil']:
             raise RuntimeError('Unexpected step identity')
         frame = odb.steps['C1-1-ReEquil'].frames[-1]
-        if frame.incrementNumber != 1 or abs(frame.frameValue-1.0) > 1e-12:
+        if frame.incrementNumber != 1 or abs(frame.frameValue - 1.0) > 1e-12:
             raise RuntimeError('Incomplete/wrong endpoint')
+
+        # Check for .dat companion table for U3 (phase field damage) if present
+        dat_path = os.path.splitext(odb_path)[0] + '.dat'
+        dat_u = parse_dat_nodal_u(dat_path) if os.path.isfile(dat_path) else {}
+
         nodes, rp, instances = {}, {}, set()
         for v in frame.fieldOutputs['U'].values:
             if v.nodeLabel == 999999:
                 rp['rp_u2'] = float(v.data[1])
             else:
-                if v.nodeLabel in nodes or len(v.data) != 3:
-                    raise RuntimeError('Duplicate node or missing U3 damage')
-                nodes[v.nodeLabel] = [int(v.nodeLabel)]+[float(x) for x in v.data]
+                if v.nodeLabel in nodes:
+                    raise RuntimeError('Duplicate node in fieldOutputs[U]')
+                u_data = [float(x) for x in v.data]
+                if len(u_data) == 2:
+                    # 2D planar mechanical displacement
+                    # If dat file has U3 for this node, append it
+                    if v.nodeLabel in dat_u and len(dat_u[v.nodeLabel]) >= 3:
+                        u_data.append(float(dat_u[v.nodeLabel][2]))
+                elif len(u_data) == 3:
+                    pass
+                else:
+                    raise RuntimeError('Invalid U dimension: %d' % len(u_data))
+
+                nodes[v.nodeLabel] = [int(v.nodeLabel)] + u_data
                 instances.add(v.instance.name)
+
         if len(nodes) != physical_nodes or len(instances) != 1:
             raise RuntimeError('Incomplete/ambiguous physical node coverage')
+
         for v in frame.fieldOutputs['RF'].values:
             if v.nodeLabel == 999999:
                 if 'rf2_kN' in rp:
                     raise RuntimeError('Duplicate reference reaction')
                 rp['rf2_kN'] = float(v.data[1])
+
         totals = {}
-        expected = set((e, g) for e in range(2*physical_elements+1, 3*physical_elements+1)
+        expected = set((e, g) for e in range(2 * physical_elements + 1, 3 * physical_elements + 1)
                        for g in range(1, 5))
         for field, key in [('SDV17', 'fracture_kNmm'), ('SDV18', 'elastic_kNmm')]:
             values = {}
@@ -62,13 +107,14 @@ def export(odb_path, output, physical_nodes, physical_elements):
             if set(values) != expected:
                 raise RuntimeError('Incomplete energy IP coverage')
             total = 0.
-            for e in range(2*physical_elements+1, 3*physical_elements+1):
+            for e in range(2 * physical_elements + 1, 3 * physical_elements + 1):
                 reference = values[e, 1]
-                if any(abs(values[e, g]-reference) > max(1e-14, abs(reference)*1e-6)
+                if any(abs(values[e, g] - reference) > max(1e-14, abs(reference) * 1e-6)
                        for g in range(2, 5)):
                     raise RuntimeError('Repeated element energy IP values disagree')
                 total += reference  # Element totals: count each exactly once.
             totals[key] = total
+
         result = dict(schema=1, increment=int(frame.incrementNumber),
                       step_time=float(frame.frameValue), nodes=[nodes[n] for n in sorted(nodes)],
                       odb_sha256=before, extractor_sha256=sha(__file__), **totals)

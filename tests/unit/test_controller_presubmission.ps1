@@ -56,3 +56,41 @@ $task.completed_operations+=$q.operation
 $denied=$false;try{$null=Resolve-ControllerOperation $task $root}catch{$denied=$_.Exception.Message -match 'COMPLETED_OPERATION_REJECTED'}
 if(-not $denied){throw 'Completed R3 replay accepted'}
 'PASS: R3 independently resolves with completed R1 and R2; completed R3 replay rejected (2 cases).'
+$r4='models/pandey_kumar_mode1/148_c4_package148_state_transfer_r4/EXECUTION_MANIFEST.json'
+$r4text='{"scientific_scope":"MODE1","automatic_retry":false,"max_submissions":1,"jobs":[{"id":"M1_C4_P148_R4"}]}'
+$r4review='{"verification_passed":true,"independent_r4_qualification":"PASS","python_36_compatibility":"PASS"}'
+Put $r4 $r4text; Put $review $r4review
+$q.operation='evaluate_mode1_package148_state_transfer_r4';$q.manifest=$r4
+$q.scientific_dependencies.Remove($r3);$q.scientific_dependencies[$r4]=Hash $r4;$q.scientific_dependencies[$review]=Hash $review
+function SaveR4 {Put 'scripts/validation/evaluate_mode1_package148_state_transfer_r4.qualification.json' ($q|ConvertTo-Json -Depth 10)}
+function RejectR4([string]$label) {
+    SaveR4; $rejected=$false
+    try {$null=Get-ControllerOperation -ArtifactId $q.operation -Workspace $root} catch {$rejected=$true}
+    if(-not $rejected){throw "R4 accepted $label"}
+    Write-Host "PASS: R4 rejects $label"
+}
+SaveR4
+$task.scientific_operation_id=$q.operation
+$resolved=Resolve-ControllerTaskType $task $root
+if($resolved.task_type -ne 'QUALIFIED_EXECUTION' -or $resolved.operation.id -cne $q.operation){throw 'R4 dispatched as predecessor/preparation'}
+'PASS: R4 path/ID binding selects QUALIFIED_EXECUTION despite completed R1/R2/R3'
+$task.scientific_operation=$q.operation
+if((Resolve-ControllerTaskType $task $root).operation.id -cne $q.operation){throw 'R4 ID-form dispatch failed'}
+'PASS: R4 ID-form binding selects exact R4 operation'
+$task.completed_operations+=$q.operation
+$denied=$false;try{$null=Resolve-ControllerOperation $task $root}catch{$denied=$_.Exception.Message -match 'COMPLETED_OPERATION_REJECTED'}
+if(-not $denied){throw 'Completed R4 replay accepted'}
+'PASS: completed R4 replay rejected'
+Put $review '{"verification_passed":true,"independent_r3_qualification":"PASS","python_36_compatibility":"PASS"}'
+$q.scientific_dependencies[$review]=Hash $review; RejectR4 'R3 review relabelled as R4'
+Put $review '{"verification_passed":true,"independent_r4_qualification":"PASS","python_36_compatibility":"FAIL"}'
+$q.scientific_dependencies[$review]=Hash $review; RejectR4 'failed Python compatibility'
+Put $review $r4review;$q.scientific_dependencies[$review]=Hash $review
+$q.manifest=$r3;RejectR4 'R3 manifest';$q.manifest=$r4
+Put $r4 'changed manifest';RejectR4 'changed manifest hash';Put $r4 $r4text
+Put $r4 ($r4text.Replace('"automatic_retry":false','"automatic_retry":true'));$q.scientific_dependencies[$r4]=Hash $r4
+RejectR4 'automatic retry';Put $r4 $r4text;$q.scientific_dependencies[$r4]=Hash $r4
+Put 'scripts/state_transfer/driver.py' '# original driver'
+$q.scientific_dependencies['scripts/state_transfer/driver.py']=Hash 'scripts/state_transfer/driver.py'
+Put 'scripts/state_transfer/driver.py' '# changed driver';RejectR4 'changed driver hash'
+'PASS: 9 R4 registration/dispatch/failure-closure cases; no scheduler invocation.'

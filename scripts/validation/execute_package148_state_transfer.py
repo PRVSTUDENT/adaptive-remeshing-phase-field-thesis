@@ -22,6 +22,9 @@ def operation_contract(operation_id):
     if operation_id == OPERATION+'_r3':
         return (MANIFEST.replace('_r1/','_r3/'), 'M1_C4_P148_R3',
                 'scripts/validation/evaluate_mode1_package148_state_transfer_r3.qualification.json')
+    if operation_id == OPERATION+'_r4':
+        return (MANIFEST.replace('_r1/','_r4/'), 'M1_C4_P148_R4',
+                'scripts/validation/evaluate_mode1_package148_state_transfer_r4.qualification.json')
     raise ValueError('Unregistered Package148 revision')
 
 
@@ -76,6 +79,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--workspace', required=True)
     parser.add_argument('--output', required=True)
-    parser.add_argument('--operation-id', default=OPERATION, choices=[OPERATION, OPERATION+'_r2', OPERATION+'_r3'])
+    parser.add_argument('--operation-id', default=OPERATION, choices=[OPERATION, OPERATION+'_r2', OPERATION+'_r3', OPERATION+'_r4'])
     args = parser.parse_args()
     print(json.dumps(execute(args.workspace, args.output, operation_id=args.operation_id)))

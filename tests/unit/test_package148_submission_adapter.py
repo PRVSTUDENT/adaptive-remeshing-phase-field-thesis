@@ -70,7 +70,30 @@ class SubmissionAdapterTests(unittest.TestCase):
         self.assertEqual(qualification, 'scripts/validation/evaluate_mode1_package148_state_transfer_r3.qualification.json')
 
     def test_unknown_revision_rejected(self):
-        with self.assertRaises(ValueError):operation_contract(OPERATION+'_r4')
+        with self.assertRaises(ValueError):operation_contract(OPERATION+'_r5')
+
+    def test_r4_distinct_contract_and_no_predecessor_receipt(self):
+        relative, job, qualification = operation_contract(OPERATION+'_r4')
+        self.assertIn('_r4/', relative)
+        self.assertEqual(job, 'M1_C4_P148_R4')
+        self.assertEqual(qualification, 'scripts/validation/evaluate_mode1_package148_state_transfer_r4.qualification.json')
+        self.receipt()
+        target = self.root/relative
+        target.parent.mkdir(parents=True)
+        target.write_bytes((self.root/MANIFEST).read_bytes())
+        with self.assertRaises(ValueError): verified_receipt(self.root, OPERATION+'_r4')
+
+    def test_r4_exact_receipt_and_changed_manifest_rejected(self):
+        relative, job, _ = operation_contract(OPERATION+'_r4')
+        target = self.root/relative
+        target.parent.mkdir(parents=True)
+        target.write_text(json.dumps({'jobs':[{'command_sha256':'c'*64}]}))
+        key = hashlib.sha256(target.read_bytes()).hexdigest()
+        (self.root/'project_coordination/MODE1_BATCH_SUBMISSIONS.json').write_text(json.dumps({key:{job:{'pbs_job_id':'789.mmaster02','command_sha256':'c'*64}}}))
+        (self.root/'project_coordination/HPC_JOB_LEDGER.csv').write_text('Job_ID,Job_Name\n789.mmaster02,'+job+'\n')
+        self.assertEqual(verified_receipt(self.root, OPERATION+'_r4'), '789.mmaster02')
+        target.write_text(target.read_text()+' ')
+        with self.assertRaises(ValueError): verified_receipt(self.root, OPERATION+'_r4')
 
     def test_authentic_r2_receipt_and_changed_manifest(self):
         relative, job, _=operation_contract(OPERATION+'_r2')

@@ -1,0 +1,103 @@
+{
+    "schema":  1,
+    "task":  "PACKAGE148-R4-QUALIFIED-EXECUTION",
+    "starting_commit":  "92043ab695a85c8b1d0b08fb39c109d81cdd3154",
+    "registration":  "QUALIFIED_EXECUTION",
+    "operation":  "evaluate_mode1_package148_state_transfer_r4",
+    "manifest_sha256":  "401819D3999A1089115355351A72AAB8FDDB8ED9A8A388A2B2A164B3CF3A7D7A",
+    "driver_sha256":  "1096221DC04425101F70A43AB3574AA8CD591C5F294D3CC17F0D253914FC3497",
+    "production_uel_sha256":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "pbs_job_id":  "1418902.mmaster02",
+    "scheduler_query":  "qstat -xf 1418902.mmaster02",
+    "scheduler_exit_code":  0,
+    "scheduler":  {
+                      "Job_Name":  "M1_C4_P148_R4",
+                      "job_state":  "F",
+                      "queue":  "normal_imfdfkmq",
+                      "exec_host":  "mnode104/2",
+                      "Resource_List.mem":  "16gb",
+                      "Resource_List.ncpus":  "1",
+                      "Resource_List.walltime":  "08:00:00",
+                      "run_count":  "1",
+                      "Exit_status":  "1",
+                      "resources_used.walltime":  "00:07:12"
+                  },
+    "submission_receipt":  "results/validation/package148_r4_submission.json",
+    "reservation_count":  1,
+    "remaining_ready_jobs":  0,
+    "exact_name_scheduler_matches":  [
+                                         "1418902.mmaster02"
+                                     ],
+    "replay_routing":  "COMPLETED_OPERATION_REJECTED",
+    "tests":  {
+                  "python":  84,
+                  "python_subtests":  8,
+                  "presubmission":  21,
+                  "routing":  6,
+                  "closeout":  13,
+                  "completion":  17,
+                  "punctuated_marker":  8,
+                  "scientific_receipt":  8,
+                  "recovery":  42,
+                  "total":  202,
+                  "powershell_syntax_errors":  0,
+                  "cluster_python":  "3.6.8",
+                  "cluster_compile":  "PASS",
+                  "source_map_closeout":  3
+              },
+    "notifications":  {
+                          "config_path":  "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+                          "config_mode":  "600",
+                          "login_telegram":  "PASS_HTTP_200_OK_TRUE",
+                          "email":  "SENDMAIL_ACCEPTED_AND_PBS_ABE_VERIFIED",
+                          "submitted_wrapper":  "EXIT_0_AFTER_GENUINE_QSUB",
+                          "compute_started_delivery":  "UNRESOLVED",
+                          "compute_terminal_delivery":  "UNRESOLVED",
+                          "telegram_notification_contract":  "PASS_LOGIN_NODE; UNRESOLVED_COMPUTE_NODE"
+                      },
+    "quota":  {
+                  "account1":  {
+                                   "weekly":  19.59,
+                                   "five_hour":  100,
+                                   "eligible":  false
+                               },
+                  "account2":  {
+                                   "weekly":  17.75,
+                                   "five_hour":  100,
+                                   "eligible":  false
+                               },
+                  "account3":  {
+                                   "weekly":  24.11,
+                                   "five_hour":  28.97,
+                                   "eligible":  true
+                               },
+                  "account4":  {
+                                   "weekly":  97.02,
+                                   "five_hour":  100,
+                                   "eligible":  true
+                               },
+                  "account5":  {
+                                   "weekly":  15.59,
+                                   "five_hour":  100,
+                                   "eligible":  false
+                               },
+                  "thresholds_unchanged":  true,
+                  "profiles_modified":  false
+              },
+    "loop_started":  false,
+    "active_controller_pid":  null,
+    "session_release":  "see ACTIVE_SESSION.json; released at closeout",
+    "runtime_checkpoint":  "Original Turn354 BLOCKED checkpoint retained unchanged; no fabricated scientific closeout",
+    "restart_blockers":  [
+                             "R4 Phase KKT iteration limit exceeded: independent numerical diagnosis required; no retry/R5/C1-2",
+                             "Compute-node STARTED and terminal delivery unverified",
+                             "Governed reconciliation of preserved historical BLOCKED checkpoint needed before later loop restart"
+                         ],
+    "physical_acceptance":  "UNVERIFIED",
+    "continuation_allowed":  false,
+    "automatic_retry":  false,
+    "preexisting_backup":  "C:/Users/pruth/AppData/Local/Temp/r4-ready-before-4446c8a95b7841309033d8f593687465",
+    "metadata_revalidation":  "results/validation/package148_r4_submission_validation.json",
+    "checked_at":  "2026-10-30T17:04:06.1574751+01:00",
+    "terminal_evaluation":  "results/validation/package148_r4_terminal_evaluation.json"
+}

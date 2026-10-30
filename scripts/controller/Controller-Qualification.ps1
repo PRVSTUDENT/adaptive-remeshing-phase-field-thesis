@@ -26,7 +26,7 @@ function Get-ControllerDynamicQualification([string]$Workspace, [string]$Path = 
     if(-not $Workspace){throw 'Workspace path is required for dynamic qualification'}
     $root = [IO.Path]::GetFullPath($Workspace).TrimEnd([char[]]'\/') + [IO.Path]::DirectorySeparatorChar
 
-    if($Path -cin @('evaluate_mode1_package148_state_transfer','evaluate_mode1_package148_state_transfer_r2','evaluate_mode1_package148_state_transfer_r3')){
+    if($Path -cin @('evaluate_mode1_package148_state_transfer','evaluate_mode1_package148_state_transfer_r2','evaluate_mode1_package148_state_transfer_r3','evaluate_mode1_package148_state_transfer_r4')){
         if(-not $ArtifactId){ $ArtifactId = $Path }
         $Path = 'scripts/validation/execute_package148_state_transfer.py'
     }
@@ -163,7 +163,7 @@ function Get-ControllerDynamicQualification([string]$Workspace, [string]$Path = 
     }
 
     if($q.execution_mode -eq 'HPC_PRE_SUBMISSION'){
-        $revision=if($opId -ceq 'evaluate_mode1_package148_state_transfer_r3'){3}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r2'){2}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer'){1}else{throw 'INVALID_PRESUBMISSION_OPERATION'}
+        $revision=if($opId -ceq 'evaluate_mode1_package148_state_transfer_r4'){4}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r3'){3}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r2'){2}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer'){1}else{throw 'INVALID_PRESUBMISSION_OPERATION'}
         $expectedJob='M1_C4_P148_R'+$revision
         $expectedManifest='models/pandey_kumar_mode1/148_c4_package148_state_transfer_r'+$revision+'/EXECUTION_MANIFEST.json'
         if($q.manifest -cne $expectedManifest){throw 'PRESUBMISSION_REVISION_MISMATCH'}
@@ -185,7 +185,8 @@ function Get-ControllerDynamicQualification([string]$Workspace, [string]$Path = 
         if($review.verification_passed -isnot [bool] -or -not $review.verification_passed -or
            (($revision -eq 1 -and $review.review_summary.r1_independent_review -ne 'PASS') -or
             ($revision -eq 2 -and ($review.independent_r2_qualification -ne 'PASS' -or $review.python_36_compatibility -ne 'PASS')) -or
-            ($revision -eq 3 -and ($review.independent_r3_qualification -ne 'PASS' -or $review.python_36_compatibility -ne 'PASS')))){
+            ($revision -eq 3 -and ($review.independent_r3_qualification -ne 'PASS' -or $review.python_36_compatibility -ne 'PASS')) -or
+            ($revision -eq 4 -and ($review.independent_r4_qualification -ne 'PASS' -or $review.python_36_compatibility -ne 'PASS')))){
             throw 'PRESUBMISSION_REVIEW_REQUIRED: independent numerical runtime review must pass'
         }
         foreach($source in $review.evidence_sources.PSObject.Properties){

@@ -41,7 +41,7 @@ $manifestHash=(Get-FileHash $ManifestPath).Hash.ToLowerInvariant()
 $payload=@{files=$batch.files;manifest_sha256=$manifestHash;command_sha256=$batch.jobs[0].command_sha256;submission_queue=$selectedQueue;batch=$batch}|ConvertTo-Json -Depth 30 -Compress
 $code64=Compress64 ([IO.File]::ReadAllBytes((Join-Path $repo 'scripts/hpc/preflight_package49_authorization.py')))
 $data64=Compress64 ([Text.Encoding]::UTF8.GetBytes($payload))
-$remote="python3 -c 'import base64,gzip,sys;exec(gzip.decompress(base64.b64decode(sys.argv.pop(1))))' $code64 $data64"
+$remote="python3 /scratch9/pr21vyci/preflight_package49_authorization.py $data64"
 Push-Location $repo
 try {
  $output=& powershell -NoProfile -ExecutionPolicy Bypass -File .\.agents\scripts\Invoke-GuardedSsh.ps1 -RemoteCommand $remote

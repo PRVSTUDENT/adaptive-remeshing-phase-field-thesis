@@ -95,6 +95,12 @@ function Get-ControllerEvidence([string]$Workspace) {
             $dq = Get-ControllerDynamicQualification -Workspace $Workspace -Path $probeRel -ArtifactId $task.scientific_operation_id
             if($dq){
                 $sources[$dq.qualification_artifact] = (Get-FileHash -LiteralPath (Join-Path $Workspace $dq.qualification_artifact)).Hash
+                if($dq.canonical_path){
+                    $cp = Join-Path $Workspace $dq.canonical_path
+                    if(Test-Path -LiteralPath $cp -PathType Leaf){
+                        $sources[$dq.canonical_path] = (Get-FileHash -LiteralPath $cp -Algorithm SHA256).Hash
+                    }
+                }
                 if($dq.scientific_dependencies){
                     foreach($dep in $dq.scientific_dependencies.PSObject.Properties){
                         $dp = Join-Path $Workspace $dep.Name
@@ -286,6 +292,12 @@ function Update-ControllerEvidence([string]$Workspace, [string]$Path, $State) {
     if (-not $e.session.active -and -not $State.owned_session_fingerprint) { $State.task_id=[string]$e.task.task_id }
     $State.last_confirmed_action=[string]$e.task.status; $State.session=$e.session; $State.session_report=$e.report
     $State | Add-Member -NotePropertyName report_bytes -NotePropertyValue $e.report_bytes -Force
+    $tt = Resolve-ControllerTaskType $e.task $Workspace
+    if($tt.task_type -eq 'QUALIFIED_EXECUTION' -and $tt.operation){
+        $State.task_type = 'QUALIFIED_EXECUTION'
+        $State.operation_id = $tt.operation.id
+        $State.scientific_operation = $tt.operation.path
+    }
     Write-ControllerCheckpoint $Path $State
 }
 
@@ -832,7 +844,7 @@ function Test-ControllerScientificCheckpoint([string]$Workspace,$State,[switch]$
             $receipt=$receipts.$key.($qualifiedBatch.jobs[0].id)
             if($data.pbs_job_id -notmatch '^\d+\.mmaster02$' -or $receipt.pbs_job_id -cne $data.pbs_job_id){return $false}
         }elseif($op.qualification.execution_mode -eq 'HPC_PRE_SUBMISSION'){return $false}
-        if(-not $Historical -and ($State.scientific_operation -cne $op.path -or $record.operation_id -cne $op.id)){return $false}
+        if(-not $Historical -and ($State.scientific_operation -cne $op.path -and $State.scientific_operation -cne $op.id -or $record.operation_id -cne $op.id)){return $false}
         if($data.task_id -ne 'F1597' -or $data.verification_passed -isnot [bool] -or -not $data.verification_passed){return $false}
         if($null -eq $data.measurements){return $false}
         foreach($m in $data.measurements.PSObject.Properties){if($m.Value -is [string] -or $null -eq $m.Value -or [double]::IsNaN([double]$m.Value) -or [double]::IsInfinity([double]$m.Value)){return $false}}
@@ -881,7 +893,12 @@ function Test-ControllerScientificCheckpoint([string]$Workspace,$State,[switch]$
         }else{
             return $false
         }
-        foreach($source in $required){if(-not $data.sources.$source -or $data.sources.$source -ne $State.sources.$source){return $false}}
+        foreach($source in $required){
+            if(-not $data.sources.$source){return $false}
+            $diskHash = (Get-FileHash -LiteralPath (Join-Path $Workspace $source)).Hash
+            if($data.sources.$source -ne $diskHash){return $false}
+            if($State.sources.PSObject.Properties[$source] -and $data.sources.$source -ne $State.sources.$source){return $false}
+        }
         $root=[IO.Path]::GetFullPath($Workspace).TrimEnd('\','/')+[IO.Path]::DirectorySeparatorChar
         foreach($source in $data.sources.PSObject.Properties){
             if($source.Name -match '(?:\.\.[/\\]|[/\\]\.\.)'){return $false}

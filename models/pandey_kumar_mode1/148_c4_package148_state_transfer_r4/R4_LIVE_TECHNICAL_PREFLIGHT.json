@@ -1,0 +1,51 @@
+{
+    "active_job_count":  0,
+    "adapter_contract":  "mode1-qualified-batch-v2",
+    "datachecks":  {
+                       "M1_C4_P148_R4":  {
+                                             "status":  "PASS",
+                                             "input_sha256":  "3df912a56b0eae5faf68308229978b66081dc69efdf506ad203048e69a9c21cd",
+                                             "dat_sha256":  "7bf4146c2557909fcb6ed9427969c034ba6b5f7363c8bb498f542eb34702d9c2",
+                                             "additional":  {
+                                                                "P148_PHASE_DC.dat":  {
+                                                                                          "status":  "PASS",
+                                                                                          "input_sha256":  "dfc4ce7603a15cb4238093dba331059c789c3544e4f5a9dedbc4c05c59889652",
+                                                                                          "dat_sha256":  "ba5c874e7798392ddc70904eef68042387e4eb492e189fd8d9fc68c65e0da773"
+                                                                                      }
+                                                            }
+                                         }
+                   },
+    "batch_spec_sha256":  "3090d9da64aafeafbb2fac4043617c066b3fbf6cd84b61dfc34f3c0b695dd238",
+    "passed":  true,
+    "pbs_email_verified":  true,
+    "telegram_verified":  true,
+    "submission_queue":  "entry_imfdfkmq",
+    "queue_access_preflight":  "PASS",
+    "compiler_environment":  "PASS_LOGIN_NODE",
+    "datacheck_verified":  "PASS_BOTH",
+    "candidate_manifest_sha256":  "401819d3999a1089115355351a72aab8fddb8ed9a8a388a2b2a164b3cf3a7d7a",
+    "authorized_command_sha256":  "288448953ecd89f6deeaa6fce8fdbfaf668996e96ac43bdb48c68b935e88e039",
+    "checked_at":  "2026-10-30T15:47:10.651349+00:00",
+    "config_path":  "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+    "config_mode":  "600",
+    "file_hashes":  {
+                        "M1_C4_PACKAGE148_STATE_TRANSFER.inp":  "fcd4e4b5c52c23268196782e7f4bce2a9bbc767357651095da5236151d106114",
+                        "P148_MECHANICAL_DC.inp":  "3df912a56b0eae5faf68308229978b66081dc69efdf506ad203048e69a9c21cd",
+                        "P148_PHASE_DC.inp":  "dfc4ce7603a15cb4238093dba331059c789c3544e4f5a9dedbc4c05c59889652",
+                        "PACKAGE_MANIFEST.json":  "7a0e010fd3f3baafd99dfa4ef4464611df5168104967b5be5c17a1d89550d675",
+                        "active_set_boundary_cards.inc":  "8f5a269fd25763291c9954334c23a552c8b14458a3a2e9ef44b45b553b7fae7d",
+                        "d_lower_bounds.csv":  "2a7ba758d7af189498da96718edd19ace8e45e4f35ac684505c17b8b7505c574",
+                        "f42_mixed_uel.for":  "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+                        "initial_conditions_solution.inc":  "80f0c3c7c7c141bccad2979f1b982ef86f0ca7acd699791ca8cf4fcbece7b6fb",
+                        "job_notifications.sh":  "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+                        "nodal_displacements_initial.csv":  "c41ba31cd518d776778173bacdf6f0f52f642afd5e9317582013a5689fa1bb40",
+                        "nodal_phase_field_initial.csv":  "cefbca24a309f7099416e4d4d596ce8da01f1a12f137224ed0038134dff2e15c",
+                        "run_datacheck.sh":  "a5195b715674c6b22a632ab0d4fecdad57d506abe45b12c740c108784ed68417",
+                        "submit_M1_C4_P148_R4.pbs":  "1cbcd604ceb3a80a8cdf603de8d1a5f4ce362d2263b51bdcd5bb0a5e370b652f"
+                    },
+    "helper_sha256":  "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "email_evidence":  "sendmail accepted test message; PBS abe directives verified",
+    "telegram_notification_contract":  "PASS_LOGIN_NODE",
+    "compute_node_delivery":  "UNRESOLVED",
+    "lifecycle_tests":  "PASS"
+}
