@@ -1,0 +1,77 @@
+{
+    "schema":  1,
+    "task_id":  "PACKAGE148-R4-KKT-INDEPENDENT-DIAGNOSIS",
+    "starting_commit":  "0cd237719992c532b0bf930c7415829ae7a29e2b",
+    "checked_at":  "2026-10-30T17:39:49.1795432+01:00",
+    "pbs_job_id":  "1418902.mmaster02",
+    "root_cause":  "TYPE_SOLUTION_FIRST_LINE_9_FIELDS_SHIFTS_SVARS9_12_TO_H2_H3_H4_ZERO",
+    "classification":  "OPERATOR_MISMATCH_WITH_PERSISTENT_NEAR_TWO_CYCLE",
+    "phase_iterations":  20,
+    "first_unclamped_failure_iteration":  1,
+    "earliest_defect":  "mechanical solve00 state initialization before phase1",
+    "bad_state_records":  148176,
+    "phase_odb_history_exact_predictions_per_iteration":  28224,
+    "phase_observed_below_committed_count":  12323,
+    "max_history_loss":  0.35938978195190452,
+    "max_nodal_healing":  0.035049099999999889,
+    "max_consecutive_damage_change":  0.0350491,
+    "shifted_operator_bc_free_residual_max":  1.2447719634474337E-12,
+    "counterfactual_phase_steps":  8,
+    "counterfactual_abaqus_verified":  false,
+    "production_repaired":  false,
+    "physical_acceptance":  false,
+    "hypothesis":  "Serialize 18 SVARS with 7+8+3 state values, retaining slot9-12 mapping and all existing numerical/physical gates",
+    "unchanged_gates":  {
+                            "force":  0.05,
+                            "max_phase":  20,
+                            "dual":  1E-09,
+                            "healing":  1E-06,
+                            "free":  1E-06,
+                            "energy":  0.02,
+                            "complementarity":  1E-06
+                        },
+    "tests":  {
+                  "subtests_passed":  11,
+                  "existing_coupled_tests":  13,
+                  "new_tests":  11,
+                  "passed":  24
+              },
+    "artifacts":  {
+                      "summary":  "results/validation/package148_r4_kkt/iterations.csv",
+                      "read_only_odb_fields":  "results/validation/package148_r4_kkt/odb_fields.json.gz",
+                      "sentinels":  "results/validation/package148_r4_kkt/state_card_fixture.json",
+                      "all_145300_nodal_records":  "results/validation/package148_r4_kkt/nodal_kkt.csv.gz",
+                      "reconstruction":  "results/validation/package148_r4_kkt/reconstruction.json"
+                  },
+    "evidence":  {
+                     "text_files":  189,
+                     "text_archive_sha256":  "AD595198544217136ED9C9FF326623F782CFACFAEAEA457CCC04C9D4F21D1CD1",
+                     "local_text_archive":  "C:/Users/pruth/AppData/Local/Temp/r4-forensics-1832600cd4f14ef8a1c4ff99b7f3aa23/r4-solver-text.tar.gz",
+                     "unchanged_odb_files":  21,
+                     "frozen_uel_copies":  21
+                 },
+    "specification":  "https://docs.software.vt.edu/abaqusv2025/English/SIMACAEKEYRefMap/simakey-r-initialconditions.htm",
+    "next_qualification_target":  "Frozen-UEL one-quad nonuniform history initialization/phase-operator parity; not a full R5 transfer experiment",
+    "loop_started":  false,
+    "new_hpc_jobs":  0,
+    "active_controller_pid":  null,
+    "historical_checkpoint_sha256":  "85E4EAF8A08AC8FFF8C9669E94F4E8E16B8DA4C74B9455B2DD26545C070D204B",
+    "unattended_blockers":  [
+                                "Semantic state-slot/phase-operator parity must be verified on corrected encoding",
+                                "Historical diagnostic checkpoint requires governed reconciliation; no fabricated science receipt or R4 replay",
+                                "Compute-node STARTED/terminal API acknowledgements unverified; durable notifications or verified relay required",
+                                "Fresh dual-window authenticated quota and normal watchdog/cleanup/once-only controls required at future launch"
+                            ],
+    "sha256":  {
+                   "scripts/state_transfer/driver_package146_147_pdas_continuation.py":  "1096221DC04425101F70A43AB3574AA8CD591C5F294D3CC17F0D253914FC3497",
+                   "scripts/validation/extract_package148_iteration.py":  "1C0D1A33729E1EE746C3C5B9EA10694BD7059D19FA47B8F8B3C639BC8F6D2D98",
+                   "scripts/validation/diagnose_package148_r4_kkt.py":  "B02072520A824AA17D4D46C37FA9A4C67E1AEF215360E5C747037DC08B93403A",
+                   "scripts/validation/extract_package148_r4_odb_diagnostics.py":  "E4BCEF534524C8EE0286E0656BB3C97E07238157BEC17432510B6E13594E0BA7",
+                   "tests/unit/test_package148_r4_state_card_diagnosis.py":  "92BD86E3CBDC2E3286A32517DCD598F92698E6D0F4C6C99C47BD261993824A82",
+                   "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r4/EXECUTION_MANIFEST.json":  "401819D3999A1089115355351A72AAB8FDDB8ED9A8A388A2B2A164B3CF3A7D7A",
+                   "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r4/f42_mixed_uel.for":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+                   "project_coordination/HPC_JOB_LEDGER.csv":  "E7B359727C52AF7396709D4F9EA5F40BFA854B967566DAC94300A6B581A361DC",
+                   "project_coordination/MODE1_BATCH_SUBMISSIONS.json":  "496C2E97211ABF33585F9EA88A5CE9FBE6770BE93943BF5A2DAB83416F8673C0",
+                   "project_coordination/MODE1_EXECUTION_LEDGER.json":  "6E51A22046277657AE8965B1D51CC950990ACBC36DE1F7A03CFAD3EE3B9B8B96"
+               }
+}

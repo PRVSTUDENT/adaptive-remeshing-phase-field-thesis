@@ -1,19 +1,17 @@
 {
     "active":  false,
     "agent":  "codex",
-    "task_id":  "PACKAGE148-R4-QUALIFIED-EXECUTION",
-    "starting_commit":  "92043ab695a85c8b1d0b08fb39c109d81cdd3154",
-    "claimed_at":  "2026-10-30T16:45:23.7221972+01:00",
-    "last_updated":  "2026-10-30T17:04:44.0807623+01:00",
-    "last_released":  "2026-10-30T17:04:44.0807623+01:00",
+    "task_id":  "PACKAGE148-R4-KKT-INDEPENDENT-DIAGNOSIS",
+    "starting_commit":  "0cd237719992c532b0bf930c7415829ae7a29e2b",
+    "claimed_at":  "2026-10-30T17:08:14.7325471+01:00",
+    "last_updated":  "2026-10-30T17:43:50.4259661+01:00",
+    "last_released":  "2026-10-30T17:43:50.4259661+01:00",
     "controller_run_id":  null,
-    "session_report":  "project_coordination/sessions/2026-10-30_codex_package148_r4_execution.md",
+    "session_report":  "project_coordination/sessions/2026-10-30_codex_package148_r4_kkt_diagnosis.md",
     "allowed_write_scope":  [
-                                "scripts/controller/ R4 registration only; preserve dirty recovery hunks",
-                                "scripts/validation/ R4 qualification and execution adapter",
-                                "tests/unit/ R4 registration dispatch and once-only regressions",
-                                "results/validation/ R4 qualification and live evidence",
-                                "project_coordination/ governed state ledgers and session report; preserve prior reservations",
-                                "OpenClawPAD/ safe read-only diagnostics and supervised launch only if all reliability gates pass"
+                                "scripts/validation/ bounded offline R4 forensic analyzer only",
+                                "tests/unit/ falsifiable R4 numerical regression fixtures",
+                                "results/validation/ R4 lightweight signed-iteration evidence and analysis",
+                                "project_coordination/ current diagnosis, ledgers and session report; preserve all execution reservations"
                             ]
 }
