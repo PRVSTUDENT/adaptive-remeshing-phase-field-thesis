@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Independently verified extraction repair against authentic Abaqus solver output: 2D planar mechanical ODB contains [U1, U2] while nodal phase damage U3 is recovered from .dat via parse_dat_nodal_u. Test on cluster phase solve confirmed 7265/7265 nodes extracted with finite bounded damage in [0.00245, 0.40420]. Distinct candidate Package 148 R3 prepared with all 14 files, updated manifests, bitwise frozen UEL, and 35/35 passing unit tests.",
+  "evidence_sources": {
+    "scripts/validation/extract_package148_iteration.py": "1C0D1A33729E1EE746C3C5B9EA10694BD7059D19FA47B8F8B3C639BC8F6D2D98",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "86B561C8A24B409FB9B18E8A2B5E643341A2A1280D921F9A01540A78964F109B",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r3/PACKAGE_MANIFEST.json": "93EF68009EB3E5950D8C1FCB98F50E4A38EB0898D8629D417AF13F6040EB4AB4",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r3/EXECUTION_MANIFEST.json": "3E297F640C0AFB2D186B7B4A3614409AB0A015895DE9005E5DB8962F7717A1B9",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r3/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r3/submit_M1_C4_P148_R3.pbs": "CEC5527825F859DBADEB69453F93E3F757BC6F7A80F8B0F8669A9A6564DF93F5",
+    "tests/unit/test_mode1_f1597_package148_r3_extraction.py": "139869E5FEBEA07C0AD710D5FEEF6B95CE7E87F52B3DAE141393F09D25F48969",
+    "tests/unit/test_mode1_f1597_package148_r3_preflight.py": "B9DE58427E8C9F817C3F6E06F939287AAD511B3270A51AF463385F8AA91C8CA9",
+    "results/validation/package148_r2_extracted_endpoint.json": "7CC2AEAB430C5DBAACB995E2EBE449D72FA98621BA36D5693BD566EC1E711F04"
+  },
+  "verification_passed": true
+}
