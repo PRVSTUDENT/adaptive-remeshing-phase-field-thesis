@@ -1,26 +1,15 @@
-{
+﻿{
     "active":  false,
-    "agent":  "gemini-antigravity",
-    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "starting_commit":  "981aeaa882128ae37081b914e075027f7d366abf",
-    "claimed_at":  "2026-10-30T15:12:34.5208216+01:00",
-    "last_updated":  "2026-10-30T15:13:41.7032396+01:00",
-    "last_released":  "2026-10-30T15:13:41.7032396+01:00",
+    "agent":  "codex",
+    "task_id":  "PACKAGE148-R3-FRESH-DISPATCH-CLOSEOUT",
+    "starting_commit":  "8ddc2a0e4292514717cd64640275864711638ca6",
+    "claimed_at":  "2026-10-30T15:16:24.8638019+01:00",
+    "last_updated":  "2026-10-30T15:16:25.2740374+01:00",
+    "last_released":  "2026-10-30T15:16:25.2740374+01:00",
     "controller_run_id":  "29b2c3e4-b715-4cdb-b130-8cb1058f998b",
-    "session_report":  "project_coordination/sessions/2026-10-30_gemini-antigravity_F1597_29b2c3e4-b715-4cdb-b130-8cb1058f998b.md",
+    "session_report":  "project_coordination/sessions/2026-10-30_codex_r3_fresh_dispatch.md",
     "allowed_write_scope":  [
-                                "project_coordination/sessions/2026-10-30_gemini-antigravity_F1597_29b2c3e4-b715-4cdb-b130-8cb1058f998b.md",
-                                "project_coordination/controller/turn-29b2c3e4-b715-4cdb-b130-8cb1058f998b.json",
-                                "results/validation/mode1_f1597/29b2c3e4-b715-4cdb-b130-8cb1058f998b.json",
-                                "results/validation/preparation-29b2c3e4-b715-4cdb-b130-8cb1058f998b.json",
-                                "results/validation/*",
-                                "scripts/validation/*",
-                                "tests/unit/*",
-                                "models/pandey_kumar_mode1/*",
-                                "project_coordination/ACTIVE_SESSION.json",
-                                "project_coordination/ACTIVE_TASK.json",
-                                "project_coordination/CURRENT_STATE.md",
-                                "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/ARTIFACT_REGISTRY.csv"
+                                "project_coordination/ restart session report ledger and exact R3 submission accounting",
+                                "results/validation/r3_fresh_dispatch.json"
                             ]
 }

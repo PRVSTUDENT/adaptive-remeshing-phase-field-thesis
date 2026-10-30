@@ -1,4 +1,4 @@
-{
+﻿{
     "operation_review":  {
                              "operation":  "evaluate_mode1_package148_state_transfer_r2",
                              "decision":  "R2_REGISTERED_DATACHECKS_PASS_SUBMITTED_ENDPOINT_EXTRACTION_FAILED",
@@ -9,12 +9,12 @@
                              "new_experiment":  false
                          },
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "status":  "QUALIFIED_OPERATION_EXECUTION",
+    "status":  "PACKAGE148_R3_SUBMITTED_PENDING_PHYSICAL_REVIEW",
     "agent":  "codex",
-    "phase":  "evaluate_mode1_package148_state_transfer_r3 submitted; physical acceptance pending authentic solver results.",
+    "phase":  "Fresh qualified controller Turn348 submitted R3 once as1418872.mmaster02; Stage Complete passed; queued at last scheduler check. Physical acceptance pending.",
     "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED",
     "active_pbs_job_ids":  [
-
+                               "1418872.mmaster02"
                            ],
     "dependent_pbs_job_ids":  [
 
@@ -232,8 +232,8 @@
                                            "automatic_retry":  false
                                        },
     "scientific_operation_id":  "evaluate_mode1_package148_state_transfer_r3",
-    "last_updated":  "2026-10-30T15:13:41.6684321+01:00",
-    "next_safe_action":  "Collect authentic M1_C4_P148_R3 coupled results and independently evaluate predeclared physical gates.",
+    "last_updated":  "2026-10-30T15:16:25.2740374+01:00",
+    "next_safe_action":  "Collect authentic R3 coupled solver results for1418872.mmaster02 and independently evaluate physical gates; never replay the submitted operation.",
     "scientific_checkpoint":  {
                                   "kind":  "HPC_SUBMISSION",
                                   "operation":  "evaluate_mode1_package148_state_transfer_r3",
