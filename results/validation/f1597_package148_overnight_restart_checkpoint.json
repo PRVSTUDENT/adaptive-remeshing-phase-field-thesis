@@ -1,0 +1,151 @@
+{
+  "schema": 1,
+  "checkpoint_id": "F1597_PACKAGE148_OVERNIGHT_RESTART_CHECKPOINT",
+  "created_at": "2026-10-29T21:00:00+01:00",
+  "last_updated": "2026-10-30T06:15:00+01:00",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "agent": "gemini-antigravity",
+  "controller_turn": 332,
+  "execution_decision": {
+    "status": "NO-GO",
+    "hpc_submission": "NONE",
+    "science": "QUALIFIED_OFFLINE",
+    "controller_registration": "DEFINITION_REVIEW_REQUIRED",
+    "overnight_status": "SAFELY_CHECKPOINTED",
+    "rationale": "Package 148 state-transfer deck generator, PDAS continuation driver, and Abaqus iteration controller are fully implemented and passed 15/15 unit and regression tests offline. Reconciled HPC accounting confirms Package 145 Job 1418732 completed Exit 0 with 0 active jobs on cluster. Formal operation registration for evaluate_mode1_package148_state_transfer remains absent (DEFINITION_REVIEW_REQUIRED). Preflight Abaqus 2023 cluster datacheck remains pending. Pursuant to execution governance (do not infer execution rights from research_preparation; do not submit untested solver loops), submission is withheld until formal registration review and cluster preflight.",
+    "prerequisite": "Formal operation registration for evaluate_mode1_package148_state_transfer in Controller-Operations.ps1 or via dynamic qualification binding, followed by scratch staging, real Abaqus 2023 datacheck, and preflight verification before production execution.",
+    "tomorrows_first_action": "Verify approved operation registration for evaluate_mode1_package148_state_transfer, stage Package 148 to /scratch9/pr21vyci/runs/mode1_package148_state_transfer, run preflight Abaqus 2023 datacheck, and submit qualified PBS job via Invoke-Mode1Execution.ps1."
+  },
+  "hpc_job_states": {
+    "package146_donor": {
+      "pbs_job_id": "1418753.mmaster02",
+      "model_name": "M1_C3_P146_DON",
+      "exit_status": 0,
+      "physical_quads": 5112,
+      "nodes": 5290,
+      "endpoint_increment": 76,
+      "endpoint_uRP_mm": 0.0018003125442191958,
+      "endpoint_rf2_kN": 0.1873079389333725,
+      "endpoint_energy_kNmm": 0.00021270454
+    },
+    "package147_reference": {
+      "pbs_job_id": "1418768.mmaster02",
+      "model_name": "M1_C4_P147_REF",
+      "exit_status": 0,
+      "physical_quads": 7056,
+      "nodes": 7265,
+      "endpoint_increment": 79,
+      "endpoint_uRP_mm": 0.0018003125442191958,
+      "endpoint_rf2_kN": 0.18730823695659637,
+      "endpoint_energy_kNmm": 0.00021298786
+    },
+    "continuous_baseline_comparison": {
+      "delta_rf2_rel": 0.000001591086985282366,
+      "delta_energy_rel": 0.0013319884944626892,
+      "gate_status": "PASS"
+    },
+    "active_cluster_jobs": 0
+  },
+  "package148_source_files_and_hashes": {
+    "scripts/state_transfer/build_package146_147_transfer_deck.py": "6B22E3AE9D3D870EC9DDA6BA7FA36514B2E5BF045EEF41938576A1DD8AE2F1BA",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "AF7021E88BB366C4DDB578E36F72B22E12F2985C5C9ECBABA9AA1FD7787F9175",
+    "tests/unit/test_mode1_f1597_package146_147_transfer_driver.py": "D9804F19E74E72EB01BDE2F88E1D6448803F192CFFEEEA328CEAA9470589C74F",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/nodal_displacements_initial.csv": "C41BA31CD518D776778173BACDF6F0F52F642AFD5E9317582013A5689FA1BB40",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/nodal_phase_field_initial.csv": "CEFBCA24A309F7099416E4D4D596CE8DA01F1A12F137224ED0038134DFF2E15C",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/d_lower_bounds.csv": "73CDE472CD4487CD58530862647E9F8F07C0ED2B96AB3A521D4A6A07FDB6ABB5",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/initial_conditions_solution.inc": "42EBC18C0BC6BB35FCEDA3F2473003D47C93F05F23BA60AE1428F460C709A45B",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/active_set_boundary_cards.inc": "8F5A269FD25763291C9954334C23A552C8B14458A3A2E9EF44B45B553B7FAE7D",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/M1_C4_PACKAGE148_STATE_TRANSFER.inp": "77D4C5D992940AAC761599F41E68EEE3C965FC92D6183C78ECB8D9E48BDB3138",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/PACKAGE_MANIFEST.json": "0FA2F82631AC554626D0FF457D61A946EF2CB7DA10D59B791D7CF5B2CD056CFA",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/submit_M1_C4_P148_ST.pbs": "3930686EDDCDAC60A52C49CA4EF7D5487581AE6EF24BC62D4DB91B8DBC4DD71D"
+  },
+  "package148_technical_checks": {
+    "1_receiver_nodal_interpolation_and_flank_separation": {
+      "status": "PASS",
+      "nodes": 7265,
+      "split_nodes_donor": 34,
+      "split_nodes_receiver": 40,
+      "seam_location": "y=0.050 mm, x<=0.040 mm",
+      "cross_slit_violations": 0
+    },
+    "2_gauss_point_history_mapping": {
+      "status": "PASS",
+      "gauss_points": 28224,
+      "negative_history_count": 0,
+      "mapping_operator": "HOST_NEAREST_GP"
+    },
+    "3_initial_conditions_solution_cards": {
+      "status": "PASS",
+      "element_count": 7056,
+      "lines_per_element": 3,
+      "svars_per_element": 18,
+      "target_svars": "SVARS(9..12) via frozen UEL lines 248-262"
+    },
+    "4_active_set_decoupling_cards": {
+      "status": "PASS",
+      "mechanism": "DOF 3 Dirichlet cards clamp only active nodes A; inactive nodes I remain unconstrained",
+      "package142_clamping_defect_resolved": true
+    },
+    "5_committed_state_preservation": {
+      "status": "PASS",
+      "mechanism": "PDASReEquilibrationSolver.enforce_state_preservation enforces H_k = max(H0, psi_e^+)",
+      "ratchet_loss_prevented": true
+    },
+    "6_coupled_abaqus_controller": {
+      "status": "PASS",
+      "controller_class": "AbaqusPDASIterationController",
+      "pbs_wrapper_generation": "PASS",
+      "output_parsing": "PASS"
+    },
+    "7_canonical_kkt_sign_convention": {
+      "status": "PASS",
+      "multiplier_definition": "lambda_i = r_i = (K_d d - f_d)_i >= 0 on active set",
+      "pdas_criterion": "node i in A if d_i - c * lambda_i <= d0_i"
+    },
+    "8_multi_gate_acceptance_criteria": {
+      "status": "PASS",
+      "max_rf2_discrepancy": "<= 5%",
+      "max_energy_discrepancy": "<= 2%",
+      "healing_tolerance": "min(delta_d) >= -1e-6",
+      "damage_bounds": "0 <= d <= 1"
+    },
+    "9_offline_regression_tests": {
+      "status": "PASS",
+      "total_tests": 15,
+      "passed_tests": 15,
+      "failed_tests": 0,
+      "runtime_seconds": 36.87
+    },
+    "10_real_cluster_datacheck": {
+      "status": "PENDING",
+      "action_required": "Stage package to /scratch9 and run abaqus datacheck"
+    },
+    "11_controller_operation_registration": {
+      "status": "DEFINITION_REVIEW_REQUIRED",
+      "action_required": "Independent scientific review and formal operation registration for evaluate_mode1_package148_state_transfer in Controller-Operations.ps1 or dynamic qualification binding before execution dispatch."
+    }
+  },
+  "remaining_blockers_and_actions": [
+    {
+      "blocker": "CONTROLLER_OPERATION_REGISTRATION_ABSENT__DEFINITION_REVIEW_REQUIRED",
+      "file": "scripts/controller/Controller-Operations.ps1",
+      "action": "Complete independent review and register evaluate_mode1_package148_state_transfer with validated qualification bindings."
+    },
+    {
+      "blocker": "CLUSTER_DATACHECK_PREFLIGHT_REQUIRED",
+      "file": "models/pandey_kumar_mode1/148_c4_package148_state_transfer/submit_M1_C4_P148_ST.pbs",
+      "action": "Stage package to /scratch9/pr21vyci/runs/mode1_package148_state_transfer and execute Abaqus 2023 datacheck on cluster before production PBS dispatch."
+    }
+  ],
+  "historical_failure_classifications": {
+    "PACKAGE72_C1_1_FAIL": "Force deficit -77.73%, 291 healing nodes",
+    "PACKAGE113_STAGE_C1_2_STEP2_FAIL": "H43 runtime injection defect, history loss",
+    "PACKAGE142_CLAMPING_DEFECT": "All receiver nodes permanently clamped to d0, freezing crack"
+  },
+  "frozen_uel": {
+    "canonical_path": "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for",
+    "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "status": "BITWISE_FROZEN"
+  }
+}
