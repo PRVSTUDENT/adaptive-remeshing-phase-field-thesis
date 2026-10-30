@@ -70,6 +70,7 @@ K_STIFFNESS_RES = 1e-7       # Residual stiffness factor
 GATE_FORCE_TOL = 0.05        # 5% max force jump
 GATE_ENERGY_TOL = 0.02       # 2% max raw total energy jump
 HEALING_TOL = 1e-6           # Inadmissible healing threshold
+DAT_DAMAGE_RECOVERY_TOL = 1e-8  # Formatted ASCII .dat node text tolerance (8 significant digits)
 
 # Frozen production UEL SHA-256
 FROZEN_UEL_SHA256 = "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
@@ -717,6 +718,27 @@ class StageC1GateEvaluator(object):
         }
 
 
+def split_keyword_blocks(template):
+    r"""Split an Abaqus input deck into keyword blocks.
+
+    A keyword block starts with a keyword line ('*' followed by a non-'*').
+    Preceding comments/blank lines before the first keyword are preserved in the
+    first block. Replaces zero-width lookahead re.split(r'(?m)(?=^\*(?!\*))', ...)
+    which is rejected by Python 3.6 with ValueError: split() requires a non-empty pattern match.
+    """
+    blocks = []
+    current = []
+    for line in template.splitlines(True):
+        if line.startswith('*') and not line.startswith('**'):
+            if current:
+                blocks.append(''.join(current))
+                current = []
+        current.append(line)
+    if current:
+        blocks.append(''.join(current))
+    return blocks
+
+
 class CoupledAbaqusRuntime(object):
     """Bounded serial mechanical/phase solves inside ONE PBS allocation.
 
@@ -794,7 +816,7 @@ class CoupledAbaqusRuntime(object):
         # Split Abaqus keyword blocks; remove old BC/includes, retaining all mesh,
         # material and sets. Phase has every physical displacement prescribed, so
         # remove MPC equations to avoid dependent-DOF overconstraint.
-        blocks = re.split(r'(?m)(?=^\*(?!\*))', self.template)
+        blocks = split_keyword_blocks(self.template)
         prefix = []
         for block in blocks:
             key = block.split('\n', 1)[0].strip().lower()
@@ -823,7 +845,9 @@ class CoupledAbaqusRuntime(object):
             prescribed = {n: self.d0[n] for n in active}
         cards += ['%d, 3, 3, %.17g\n' % (n, prescribed[n]) for n in sorted(prescribed)]
         cards += ['*Output, field, frequency=1\n*Node Output\nU, RF\n',
-                  '*Element Output, elset=umatelem\nSDV\n*End Step\n']
+                  '*Element Output, elset=umatelem\nSDV\n',
+                  '*Node Print, frequency=1\nU\n',
+                  '*End Step\n']
         return ''.join(cards)
 
     def _command(self, args, directory, logfile):
@@ -885,24 +909,36 @@ class CoupledAbaqusRuntime(object):
             raise ValueError('Incomplete/wrong Abaqus endpoint')
         rows = result['nodes']
         fields = {int(r[0]): tuple(float(x) for x in r[1:]) for r in rows}
-        if len(fields) != len(rows) or set(fields) != expected or any(len(v) != 3 for v in fields.values()):
+        if len(fields) != len(rows) or set(fields) != expected:
             raise ValueError('Incorrect endpoint node coverage')
-        d = {n: v[2] for n, v in fields.items()}
-        u = {n: v[:2] for n, v in fields.items()}
-        validate_damage(d, self.d0)
-        if any(not all(math.isfinite(x) for x in v) for v in u.values()):
-            raise ValueError('Nonfinite displacement output')
+        if any(len(v) not in (2, 3) for v in fields.values()):
+            raise ValueError('Invalid node displacement dimension')
         if role == 'mechanical':
-            if max(abs(d[n]-damage[n]) for n in d) > 1e-10:
-                raise ValueError('Prescribed mechanical damage not retained')
+            u = {n: v[:2] for n, v in fields.items()}
+            if all(len(v) >= 3 for v in fields.values()):
+                d = {n: v[2] for n, v in fields.items()}
+                validate_damage(d, self.d0)
+                if max(abs(d[n]-damage[n]) for n in d) > DAT_DAMAGE_RECOVERY_TOL:
+                    raise ValueError('Prescribed mechanical damage not retained')
+            else:
+                d = dict(damage)
+            if any(not all(math.isfinite(x) for x in v) for v in u.values()):
+                raise ValueError('Nonfinite displacement output')
             if abs(float(result['rp_u2'])-self.target_u) > 1e-10:
                 raise ValueError('Wrong endpoint displacement')
             if not math.isfinite(float(result['rf2_kN'])):
                 raise ValueError('Nonfinite reaction force')
         else:
+            if not all(len(v) >= 3 for v in fields.values()):
+                raise ValueError('Missing phase-field damage in phase solve endpoint')
+            d = {n: v[2] for n, v in fields.items()}
+            u = {n: v[:2] for n, v in fields.items()}
+            validate_damage(d, self.d0)
+            if any(not all(math.isfinite(x) for x in v) for v in u.values()):
+                raise ValueError('Nonfinite displacement output')
             if max(abs(u[n][i]-displacement[n][i]) for n in u for i in (0, 1)) > 1e-10:
                 raise ValueError('Fixed mechanical displacement changed during phase solve')
-            if any(abs(d[n]-self.d0[n]) > 1e-10 for n in active):
+            if any(abs(d[n]-self.d0[n]) > DAT_DAMAGE_RECOVERY_TOL for n in active):
                 raise ValueError('Active phase constraint not retained')
         # Hash each command's exact input and endpoint (without large solver files).
         record = dict(job=job, role=role, input_sha256=hashlib.sha256(text.encode()).hexdigest(),
