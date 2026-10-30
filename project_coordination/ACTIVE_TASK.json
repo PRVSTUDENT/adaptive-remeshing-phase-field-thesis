@@ -11,7 +11,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "status":  "PREPARATION_COMPLETE",
     "agent":  "codex",
-    "phase":  "Package 148 R1 PBS wrapper successfully repaired and harmonized with preflight_package49_authorization.py contract (all 12 directives verified, shell syntax valid, explicit RUN_DIR, dual notification traps, module load sequence). All 38 offline regression tests pass (3 counterexamples fail closed). Staged dependencies and bitwise frozen UEL confirmed. Next action: stage to cluster scratch, authentic Abaqus datacheck, and qualified submission.",
+    "phase":  "Registration of target operation evaluate_mode1_package148_state_transfer requires a separately privileged reviewer; autonomous self-registration under research_preparation is disqualified by Controller-Qualification.ps1 governance and controller turn preflight constraints. Automated preparation sequence terminated with ESCALATION_UNRESOLVED, identifying direct independent developer session action to register operation and initiate qualified cluster datacheck and execution.",
     "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED",
     "active_pbs_job_ids":  [
 
@@ -237,14 +237,14 @@
                                  "package89_state_transfer_submission",
                                  "probe_mode1_f1597_r20_active_set_audit"
                              ],
-    "last_updated":  "2026-10-30T08:07:08.3789412+01:00",
-    "next_safe_action":  "Stage Package 148 R1 candidate to /scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r1, execute authentic Abaqus 2023 datacheck, and submit via Invoke-Mode1Execution.ps1.",
+    "last_updated":  "2026-10-30T08:15:40.2349471+01:00",
+    "next_safe_action":  "Direct independent developer session to perform controller registration for evaluate_mode1_package148_state_transfer, followed by cluster staging to /scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r1, authentic Abaqus 2023 datachecks, and execution via Invoke-Mode1Execution.ps1.",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-9db80db2-6514-46d1-a210-af9f9b3d8b17.json",
-                                  "sha256":  "BA60B2AA4BE58C4E3532E5D1C53001924002A4CBE891253028C1CF7E193CBCBD",
-                                  "created_at":  "2026-10-30T08:06:30.2625677+01:00"
+                                  "artifact":  "results/validation/preparation-d9edfd58-ccb3-4ce3-9751-ec67cdc4d22a.json",
+                                  "sha256":  "5ABACBDA7A6C03393FBA6967E66C98ABDA3F24D8A83108088B1F552843D4852A",
+                                  "created_at":  "2026-10-30T08:15:04.2219914+01:00"
                               }
 }
