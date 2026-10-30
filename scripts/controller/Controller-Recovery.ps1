@@ -798,7 +798,7 @@ function Test-ControllerScientificCheckpoint([string]$Workspace,$State,[switch]$
             }
             return $true
         }
-        if($checkpoint.kind -ne 'NUMERICAL_FINDING' -or $checkpoint.exit_code -ne 0){return $false}
+        if($checkpoint.kind -notin @('NUMERICAL_FINDING','HPC_SUBMISSION') -or $checkpoint.exit_code -ne 0){return $false}
         $expected='results/validation/mode1_f1597/'+$State.run_id+'.json'
         if($checkpoint.artifact -ne $expected){return $false}
         $artifact=Join-Path $Workspace $expected
@@ -807,6 +807,14 @@ function Test-ControllerScientificCheckpoint([string]$Workspace,$State,[switch]$
         if($checkpoint.operation -cne $data.operation){return $false}
         $opPath = if($record.operation_path){ [string]$record.operation_path } elseif($State.scientific_operation){ [string]$State.scientific_operation } else { '' }
         $op=Get-ControllerOperation -ArtifactId $data.operation -Path $opPath -Historical:$Historical -Workspace $Workspace
+        if($checkpoint.kind -eq 'HPC_SUBMISSION'){
+            if($op.qualification.execution_mode -ne 'HPC_PRE_SUBMISSION' -or
+               $data.status -ne 'SUBMITTED_AWAITING_PHYSICAL_VALIDATION' -or $data.physical_acceptance -ne 'UNVERIFIED') {return $false}
+            $key=(Get-FileHash -LiteralPath (Join-Path $Workspace $op.qualification.manifest)).Hash.ToLowerInvariant()
+            $receipts=Get-Content -LiteralPath (Join-Path $Workspace 'project_coordination/MODE1_BATCH_SUBMISSIONS.json') -Raw|ConvertFrom-Json
+            $receipt=$receipts.$key.M1_C4_P148_R1
+            if($data.pbs_job_id -notmatch '^\d+\.mmaster02$' -or $receipt.pbs_job_id -cne $data.pbs_job_id){return $false}
+        }elseif($op.qualification.execution_mode -eq 'HPC_PRE_SUBMISSION'){return $false}
         if(-not $Historical -and ($State.scientific_operation -cne $op.path -or $record.operation_id -cne $op.id)){return $false}
         if($data.task_id -ne 'F1597' -or $data.verification_passed -isnot [bool] -or -not $data.verification_passed){return $false}
         if($null -eq $data.measurements){return $false}

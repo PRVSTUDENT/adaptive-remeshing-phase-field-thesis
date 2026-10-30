@@ -29,7 +29,7 @@ def run_shell(body, expected_status=0):
 
 def check(payload):
     global RUN
-    if payload.get('batch', {}).get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1', 'mode1-continuum-preanalysis-v1', 'mode1-pdas-iterative-v1', 'mode1-experimental-irrev-v1'):
+    if payload.get('batch', {}).get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1', 'mode1-continuum-preanalysis-v1', 'mode1-pdas-iterative-v1', 'mode1-experimental-irrev-v1', 'mode1-experimental-12dof-v1'):
         target=payload['batch'].get('remote_run_dir','')
         require(re.fullmatch(r'/scratch9/pr21vyci/runs/mode1_[a-z0-9_/]+',target) and '..' not in target, 'Unsafe Mode-I scratch path')
         RUN=Path(target)
@@ -61,6 +61,12 @@ def check(payload):
 
     batch = payload.get('batch')
     require(batch is not None, 'Batch specification required')
+    if batch.get('runtime_source_hashes'):
+        require(batch.get('runtime_root') == str(RUN / 'runtime'), 'Runtime must be isolated within exact package')
+        for name, expected in batch['runtime_source_hashes'].items():
+            require(not Path(name).is_absolute() and '..' not in Path(name).parts, 'Unsafe runtime dependency')
+            source = RUN / 'runtime' / name
+            require(source.is_file() and hashlib.sha256(source.read_bytes()).hexdigest().upper() == expected.upper(), 'Staged runtime dependency changed: '+name)
     require(batch['batch_name'].startswith('MODE1_') and batch.get('scientific_scope') == 'MODE1', 'Outside Mode-I scope')
     require(1 <= len(batch['jobs']) == batch['max_submissions'] <= 2, 'Invalid batch size')
 
@@ -148,6 +154,17 @@ notification_send_email_once 'Package 49 authorization PREFLIGHT TEST' 'No PBS j
         require('ANALYSIS DATACHECK COMPLETE' in text and '***ERROR' not in text, 'Datacheck failed')
         require(job['input'] in facts,'Unbound datacheck input')
         datachecks[job['id']]={'status':'PASS','input_sha256':facts[job['input']], 'dat_sha256':hashlib.sha256(data).hexdigest()}
+        for extra in job.get('additional_datachecks', []):
+            require(Path(extra).name == extra, 'Unsafe additional datacheck')
+            require(extra.endswith('.dat'), 'Additional datacheck must be a DAT file')
+            inp = extra[:-4] + '.inp'
+            require(inp in facts, 'Unbound additional datacheck input')
+            extra_path = RUN / extra
+            require(extra_path.is_file(), 'Additional datacheck missing: '+extra)
+            extra_data = extra_path.read_bytes()
+            extra_text = extra_data.decode(errors='replace')
+            require('ANALYSIS DATACHECK COMPLETE' in extra_text and '***ERROR' not in extra_text, 'Additional datacheck failed')
+            datachecks[job['id']].setdefault('additional', {})[extra] = {'status':'PASS', 'input_sha256':facts[inp], 'dat_sha256':hashlib.sha256(extra_data).hexdigest()}
 
     adapter_name = payload.get('batch', {}).get('adapter', 'mode1-qualified-batch-v2')
     return dict(active_job_count=active_count, adapter_contract=adapter_name, datachecks=datachecks,

@@ -123,12 +123,14 @@ if($Stage -eq 'Scientific'){
     if(-not $pinned -or (Get-FileHash -LiteralPath (Join-Path $Workspace $probe)).Hash -ne $pinned){throw 'Scientific verifier source changed after dispatch'}
     $relative='results/validation/mode1_f1597/'+$RunId+'.json'
     $output=Join-Path $Workspace $relative
-    $result=Invoke-BoundedAgyProcess -FilePath (Get-Command python.exe).Source -ArgumentList @((Join-Path $Workspace $probe),'--workspace',$Workspace,'--output',$output) -WorkingDirectory $Workspace -TimeoutSeconds 120
+    $operationTimeout=if($operation.qualification.execution_mode -eq 'HPC_PRE_SUBMISSION'){660}else{120}
+    $result=Invoke-BoundedAgyProcess -FilePath (Get-Command python.exe).Source -ArgumentList @((Join-Path $Workspace $probe),'--workspace',$Workspace,'--output',$output) -WorkingDirectory $Workspace -TimeoutSeconds $operationTimeout
     if($result.ExitCode -ne 0){throw ('SCIENTIFIC_OPERATION_FAILED exit='+$result.ExitCode+': '+$result.Output)}
     if(-not(Test-Path -LiteralPath $output)){throw 'Scientific operation produced no result'}
     $payload=Get-Content -LiteralPath $output -Raw|ConvertFrom-Json
     if(-not $payload.verification_passed){throw 'Scientific gradient verification failed'}
-    $record.scientific_checkpoint=[pscustomobject]@{kind='NUMERICAL_FINDING';operation=$payload.operation;exit_code=0;artifact=$relative;sha256=(Get-FileHash -LiteralPath $output).Hash;created_at=[datetimeoffset]::Now.ToString('o')}
+    $checkpointKind=if($operation.qualification.execution_mode -eq 'HPC_PRE_SUBMISSION'){'HPC_SUBMISSION'}else{'NUMERICAL_FINDING'}
+    $record.scientific_checkpoint=[pscustomobject]@{kind=$checkpointKind;operation=$payload.operation;exit_code=0;artifact=$relative;sha256=(Get-FileHash -LiteralPath $output).Hash;created_at=[datetimeoffset]::Now.ToString('o')}
     $record.stage='SCIENTIFIC_CHECKPOINT_VERIFIED';$record.next_action='Complete';Save-Record
     if(-not(Test-ControllerScientificCheckpoint $Workspace $state)){throw 'Scientific measurement/source verification failed'}
     $report=Join-Path $Workspace $record.session_report
@@ -187,7 +189,7 @@ if($record.scientific_checkpoint.kind -eq 'PREPARATION_CHECKPOINT'){
     $operation=Resolve-ControllerOperation $task $Workspace
     if($operation.id -cne $record.operation_id -or $operation.path -cne $state.scientific_operation){throw 'Closeout operation mismatch'}
     $task.status=$operation.status
-    $task.phase=('F1597: '+$operation.title+' measured; transfer correction remains unqualified.')
+    $task.phase=if($record.scientific_checkpoint.kind -eq 'HPC_SUBMISSION'){'Package 148 R1 submitted; physical acceptance pending authentic solver results.'}else{('F1597: '+$operation.title+' measured; transfer correction remains unqualified.')}
     $task|Add-Member -NotePropertyName last_updated -NotePropertyValue ([datetimeoffset]::Now.ToString('o')) -Force
     $task|Add-Member -NotePropertyName next_safe_action -NotePropertyValue $payload.next_operation -Force
     $task|Add-Member -NotePropertyName scientific_checkpoint -NotePropertyValue $record.scientific_checkpoint -Force

@@ -162,6 +162,11 @@ def prepare(request,root=ROOT):
     for job in batch['jobs']:
         dc=proof.get('datachecks',{}).get(job['id'],{})
         require(dc.get('status')=='PASS' and dc.get('input_sha256')==files[job['input']] and re.fullmatch(r'[0-9a-f]{64}',dc.get('dat_sha256','')),'Input-bound datacheck required')
+        for name in job.get('additional_datachecks', []):
+            require(name.endswith('.dat') and Path(name).name == name, 'Unsafe additional datacheck')
+            extra=dc.get('additional',{}).get(name,{})
+            require(extra.get('status')=='PASS' and extra.get('input_sha256')==files.get(name[:-4]+'.inp') and
+                    re.fullmatch(r'[0-9a-f]{64}',extra.get('dat_sha256','')), 'Additional input-bound datacheck required')
         if batch.get('adapter')=='mode1-uel-trace-v1':
             require(dc.get('source_sha256')==files[job['user_subroutine']] and proof.get('trace_datacheck_binding')=='PASS','Source-bound trace datacheck required')
     with locked(root):

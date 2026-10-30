@@ -68,6 +68,15 @@ class ExecutionGateTests(unittest.TestCase):
  def test_unbound_datacheck_denied(self):
   self.proof['datachecks']['equil_test']['input_sha256']='bad'
   with self.assertRaisesRegex(ValueError,'datacheck'):self.prepare()
+ def test_additional_phase_datacheck_required(self):
+  self.batch['jobs'][0]['additional_datachecks']=['phase.dat']
+  (self.path.parent/'phase.inp').write_bytes(b'phase fixture')
+  self.batch['files']['phase.inp']=engine.digest(b'phase fixture');self.refresh()
+  with self.assertRaisesRegex(ValueError,'Additional input-bound'):self.prepare()
+  self.proof['datachecks']['equil_test']['additional']={'phase.dat':{'status':'PASS','input_sha256':self.batch['files']['phase.inp'],'dat_sha256':'b'*64}}
+  self.prepare()
+  self.proof['datachecks']['equil_test']['additional']['phase.dat']['input_sha256']='c'*64
+  with self.assertRaisesRegex(ValueError,'Additional input-bound'):self.prepare()
  def test_stale_technical_preflight_requires_refresh(self):
   self.proof['checked_at']=(datetime.now(timezone.utc)-timedelta(minutes=6)).isoformat()
   with self.assertRaisesRegex(ValueError,'Refresh technical'):self.prepare()

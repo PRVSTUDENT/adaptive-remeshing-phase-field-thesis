@@ -91,7 +91,7 @@ function Get-ControllerDynamicQualification([string]$Workspace, [string]$Path = 
     if($q.schema -ne 1){
         throw "INVALID_QUALIFICATION_SCHEMA: schema must be 1 in $qualRel"
     }
-    if($q.status -notin @('QUALIFIED', 'READY_FOR_EXECUTION', 'READY_FOR_TRACE_ANALYSIS')){
+    if($q.status -notin @('QUALIFIED', 'READY_FOR_EXECUTION', 'READY_FOR_TRACE_ANALYSIS', 'QUALIFIED_FOR_PREFLIGHT')){
         throw "INVALID_QUALIFICATION_STATUS: status '$($q.status)' is not qualified in $qualRel"
     }
     if($q.dispatch_ready -isnot [bool] -or -not $q.dispatch_ready){
@@ -157,6 +157,41 @@ function Get-ControllerDynamicQualification([string]$Workspace, [string]$Path = 
         throw "QUALIFICATION_CRITERIA_REQUIRED: verification_criteria.required_measurements required in $qualRel"
     }
 
+    if($q.execution_mode -eq 'HPC_PRE_SUBMISSION'){
+        # Registration qualifies a guarded preflight entrypoint, not a completed
+        # experiment. A PBS ID is created only by the once-only submission gate.
+        if($q.status -ne 'QUALIFIED_FOR_PREFLIGHT' -or $q.pbs_job_id -or
+           $scriptRel -cne 'scripts/validation/execute_package148_state_transfer.py' -or
+           $q.execution_adapter -cne 'scripts/hpc/Invoke-Mode1Execution.ps1' -or
+           $q.production_uel_sha256 -cne 'CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6'){
+            throw 'INVALID_PRESUBMISSION_CONTRACT: guarded adapter, frozen UEL and no PBS ID required'
+        }
+        foreach($binding in @($q.execution_adapter,$q.manifest,$q.independent_review)){
+            if(-not $binding -or -not $q.scientific_dependencies.PSObject.Properties[$binding] -or
+               $q.scientific_dependencies.PSObject.Properties[$binding].Value -notmatch '^[A-F0-9]{64}$'){
+                throw 'PRESUBMISSION_BINDING_REQUIRED: adapter, manifest and independent review must be hash bound'
+            }
+        }
+        $review=Get-Content -LiteralPath (Join-Path $Workspace $q.independent_review) -Raw|ConvertFrom-Json
+        if($review.verification_passed -isnot [bool] -or -not $review.verification_passed -or
+           $review.review_summary.r1_independent_review -ne 'PASS'){
+            throw 'PRESUBMISSION_REVIEW_REQUIRED: independent numerical runtime review must pass'
+        }
+        foreach($source in $review.evidence_sources.PSObject.Properties){
+            if($source.Name -match '^scripts/state_transfer/' -or $source.Name -eq 'scripts/validation/extract_package148_iteration.py'){
+                if($q.scientific_dependencies.($source.Name) -cne $source.Value){
+                    throw 'PRESUBMISSION_REVIEW_STALE: numerical runtime differs from independent review'
+                }
+            }
+        }
+        $batch=Get-Content -LiteralPath (Join-Path $Workspace $q.manifest) -Raw|ConvertFrom-Json
+        if($batch.scientific_scope -ne 'MODE1' -or $batch.automatic_retry -isnot [bool] -or $batch.automatic_retry -or
+           $batch.max_submissions -ne 1 -or @($batch.jobs).Count -ne 1 -or $batch.jobs[0].id -cne 'M1_C4_P148_R1'){
+            throw 'PRESUBMISSION_MANIFEST_REQUIRED: exact once-only reviewed Mode-I job required'
+        }
+    } elseif($q.status -eq 'QUALIFIED_FOR_PREFLIGHT'){
+        throw 'INVALID_PRESUBMISSION_MODE'
+    }
     $isHpc = ($q.execution_mode -eq 'HPC') -or ($q.pbs_job_id)
     if($isHpc){
         if($q.pbs_job_id -notmatch '^\d+\.mmaster02$'){

@@ -1,0 +1,61 @@
+{
+  "batch_name": "MODE1_PACKAGE148_R1_STATE_TRANSFER",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r1",
+  "files": {
+    "nodal_displacements_initial.csv": "c41ba31cd518d776778173bacdf6f0f52f642afd5e9317582013a5689fa1bb40",
+    "nodal_phase_field_initial.csv": "cefbca24a309f7099416e4d4d596ce8da01f1a12f137224ed0038134dff2e15c",
+    "d_lower_bounds.csv": "2a7ba758d7af189498da96718edd19ace8e45e4f35ac684505c17b8b7505c574",
+    "initial_conditions_solution.inc": "80f0c3c7c7c141bccad2979f1b982ef86f0ca7acd699791ca8cf4fcbece7b6fb",
+    "active_set_boundary_cards.inc": "8f5a269fd25763291c9954334c23a552c8b14458a3a2e9ef44b45b553b7fae7d",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_C4_PACKAGE148_STATE_TRANSFER.inp": "fcd4e4b5c52c23268196782e7f4bce2a9bbc767357651095da5236151d106114",
+    "submit_M1_C4_P148_R1.pbs": "7b11cfdde2c5c0ba2c21c293da66a8979654a9990ee1b862dffb8179839e09c5",
+    "PACKAGE_MANIFEST.json": "596a34482e49a9814794a576e5db00617efe72ef91620ac8d60e15dd866f50c8",
+    "P148_MECHANICAL_DC.inp": "3df912a56b0eae5faf68308229978b66081dc69efdf506ad203048e69a9c21cd",
+    "P148_PHASE_DC.inp": "dfc4ce7603a15cb4238093dba331059c789c3544e4f5a9dedbc4c05c59889652",
+    "run_datacheck.sh": "2ec35236f2513301aa8681f3b725bb520b8c1a64820a008ff64c92ea6991adc4"
+  },
+  "jobs": [
+    {
+      "id": "M1_C4_P148_R1",
+      "purpose": "Reviewed genuine nonmatching state transfer with bounded alternating Abaqus mechanical/phase PDAS; no continuation",
+      "input": "P148_MECHANICAL_DC.inp",
+      "datacheck": "P148_MECHANICAL_DC.dat",
+      "additional_datachecks": [
+        "P148_PHASE_DC.dat"
+      ],
+      "pbs": "submit_M1_C4_P148_R1.pbs",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "depends_on": [],
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r1/submit_M1_C4_P148_R1.pbs\"",
+      "command_sha256": "f921baca74e9d4eea08490f766126aa5463233d3df6ad41ca7d5143480b002e0"
+    }
+  ],
+  "acceptance": {
+    "M1_C4_P148_R1": "Authentic coupled convergence and signed KKT; complete finite damage in [0,1], no healing beyond 1e-6; force jump <=5%, raw total energy jump <=2%; committed donor history preserved; no continuation until independent physical acceptance."
+  },
+  "scientific_predecessor_review": "results/validation/package146147/evaluation.json",
+  "runtime_root": "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r1/runtime",
+  "runtime_source_hashes": {
+    "models/pandey_kumar_mode1/146_c3_fine_donor/M1_C3_FINE_PACKAGE146_DONOR.inp": "9F93419A4F1E090286007A7291693BD3B783D984CE276E102D22D404AD4C5475",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/M1_C4_CORRECTED_PACKAGE147_REF.inp": "FFFE51D5348F6E4B5E9B4742D783CA1645B480B229189168493AEDA10C91722A",
+    "tests/fixtures/package146147/146_step1_dat.txt.gz": "7AD9A8D92A2E9DCF69489AC573ED6D29394A7D1E907A6A2FFB7F0E752DB29504",
+    "results/validation/package146147/evaluation.json": "74F4BBBB8B0E5AF52F0FF9328FE8CDC8AC5742AC80F75A7A98A3D1E6FDEA8565",
+    "scripts/state_transfer/build_package146_147_transfer_deck.py": "EF7EBFA646402E28460108FD9860B7AD269B609874AEFDD6268EDEA791CE529F",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "B012C5680BCCF5F0C3646314E2598E23718D11E2FC53049096861733AB62C08C",
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8",
+    "scripts/validation/extract_package148_iteration.py": "9637B327521249CC2F42A73DEF7F3AD53B28FE7F7258D28948AA2800EC0EC195"
+  }
+}
