@@ -1253,3 +1253,7 @@ ormal_imfdfkmq (1 CPU, 16 GB, 8h walltime).
   * Generated [`results/validation/h51_abaqus_pdas_formulation_equivalence.json`](file:///D:/Master%20thesis/Adaptive%20remeshing/results/validation/h51_abaqus_pdas_formulation_equivalence.json) (`280AA9BF...`).
   * Generated [`scripts/validation/audit_h51_abaqus_pdas_formulation_equivalence.py`](file:///D:/Master%20thesis/Adaptive%20remeshing/scripts/validation/audit_h51_abaqus_pdas_formulation_equivalence.py) (`824ED103...`).
   * Test suite [`tests/unit/test_mode1_f1597_h51_abaqus_pdas_formulation_equivalence.py`](file:///D:/Master%20thesis/Adaptive%20remeshing/tests/unit/test_mode1_f1597_h51_abaqus_pdas_formulation_equivalence.py) passed all 7 unit tests in 0.64 s (28/28 full regression suite passing).
+
+## Package 148 independent registration review (2026-10-30, Codex)
+
+REJECTED_IMPLEMENTATION_INCOMPLETE: 15 existing tests pass; 3 independent counterexamples reproduce false convergence, missing-output acceptance and negative-damage acceptance. PBS runs one all-clamped solve; no executable coupled runtime loop exists. Registration, datacheck and submission withheld for technical/scientific qualification. No authorization blocker. See project_coordination/sessions/2026-10-30_codex_package148_registration_review.md. Next: reviewed bounded coupled runtime, strict complete-field/KKT checks, proper execution manifest and real datacheck. Historical scientific failures remain retained.
