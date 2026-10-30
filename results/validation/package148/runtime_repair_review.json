@@ -1,0 +1,39 @@
+{
+    "schema":  1,
+    "operation_id":  "evaluate_mode1_package148_state_transfer",
+    "decision":  "REPAIRED_OFFLINE_PENDING_INDEPENDENT_ABAQUS_RUNTIME_REVIEW",
+    "offline_tests_passed":  31,
+    "tests_bound":  true,
+    "source_hashes":  {
+                          "scripts/state_transfer/build_package146_147_transfer_deck.py":  "EF7EBFA646402E28460108FD9860B7AD269B609874AEFDD6268EDEA791CE529F",
+                          "scripts/state_transfer/driver_package146_147_pdas_continuation.py":  "B012C5680BCCF5F0C3646314E2598E23718D11E2FC53049096861733AB62C08C",
+                          "scripts/validation/extract_package148_iteration.py":  "9637B327521249CC2F42A73DEF7F3AD53B28FE7F7258D28948AA2800EC0EC195",
+                          "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py":  "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8",
+                          "tests/unit/test_package148_registration_review.py":  "1E002BBF8517095555EB4C2E8AA03673AAA70D8E033AA93271E6164A1DE53BAB",
+                          "tests/unit/test_package148_coupled_runtime.py":  "A740295CFA3371E2B6C9C9E115DC34EC397EED161951709863BB4D1D8A9EE695",
+                          "tests/unit/test_mode1_f1597_package146_147_transfer_driver.py":  "D6EE651EBBE67536844CC7AC142C035E6FA882D7931DC7FFAF13D6B3B29D723B",
+                          "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r1/active_set_boundary_cards.inc":  "8F5A269FD25763291C9954334C23A552C8B14458A3A2E9EF44B45B553B7FAE7D",
+                          "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r1/d_lower_bounds.csv":  "2A7BA758D7AF189498DA96718EDD19ACE8E45E4F35AC684505C17B8B7505C574",
+                          "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r1/f42_mixed_uel.for":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+                          "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r1/initial_conditions_solution.inc":  "80F0C3C7C7C141BCCAD2979F1B982EF86F0CA7ACD699791CA8CF4FCBECE7B6FB",
+                          "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r1/M1_C4_PACKAGE148_STATE_TRANSFER.inp":  "FCD4E4B5C52C23268196782E7F4BCE2A9BBC767357651095DA5236151D106114",
+                          "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r1/nodal_displacements_initial.csv":  "C41BA31CD518D776778173BACDF6F0F52F642AFD5E9317582013A5689FA1BB40",
+                          "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r1/nodal_phase_field_initial.csv":  "CEFBCA24A309F7099416E4D4D596CE8DA01F1A12F137224ED0038134DFF2E15C",
+                          "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r1/PACKAGE_MANIFEST.json":  "E71198CD75E1E4344BFC568C2E2ADDE62AFF29360A7ED01D6E6A06AD410C4298",
+                          "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r1/submit_M1_C4_P148_R1.pbs":  "46809F548BCB75A9E1842337A037CB3E49130F73431D26456687C15B2AF36739"
+                      },
+    "genuine_result_evidence_bound":  false,
+    "scientific_acceptance":  false,
+    "registration_status":  "NOT_REGISTERED",
+    "datacheck":  "NOT_RUN",
+    "submission_count":  0,
+    "telegram_notification_contract":  "UNRESOLVED",
+    "candidate":  "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r1",
+    "report":  "project_coordination/sessions/2026-10-30_codex_package148_runtime_repair.md",
+    "limitations":  [
+                        "Synthetic solver/ODB fixtures do not qualify authentic Abaqus execution",
+                        "Donor committed-history equivalence remains unverified",
+                        "Independent numerical/runtime review and real Abaqus 2023 datacheck required",
+                        "Exact once-only execution manifest and end-to-end notifications remain unqualified"
+                    ]
+}

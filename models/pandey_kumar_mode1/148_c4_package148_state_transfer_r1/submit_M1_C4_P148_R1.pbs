@@ -1,0 +1,19 @@
+#!/bin/bash
+#PBS -N M1_C4_P148_R1
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=00:15:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+cd "${PBS_O_WORKDIR:?}"
+source "$HOME/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh"
+notification_load_config
+notification_install_terminal_trap
+notify_start "${PBS_JOBNAME:?}"
+
+# Load Abaqus environment
+module load abaqus/2023 intel/2024.2
+repo="$HOME/projects/adaptive-remeshing"
+python3 "$repo/scripts/state_transfer/driver_package146_147_pdas_continuation.py" --package "$PBS_O_WORKDIR" --output "$PBS_O_WORKDIR/coupled_${PBS_JOBID:?}" --extractor "$repo/scripts/validation/extract_package148_iteration.py" --donor-rf2 0.1873079389333725 --donor-energy 0.00021270454000000001 --memory-gb 16

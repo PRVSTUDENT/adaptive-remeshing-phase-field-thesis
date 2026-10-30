@@ -1,0 +1,48 @@
+{
+    "schema":  1,
+    "history_gp_order":  "MAPPER_ROW_FROM_UEL_PERIMETER",
+    "runtime_source_hashes":  {
+                                  "scripts/state_transfer/build_package146_147_transfer_deck.py":  "EF7EBFA646402E28460108FD9860B7AD269B609874AEFDD6268EDEA791CE529F",
+                                  "scripts/state_transfer/driver_package146_147_pdas_continuation.py":  "B012C5680BCCF5F0C3646314E2598E23718D11E2FC53049096861733AB62C08C",
+                                  "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py":  "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8",
+                                  "scripts/validation/extract_package148_iteration.py":  "9637B327521249CC2F42A73DEF7F3AD53B28FE7F7258D28948AA2800EC0EC195"
+                              },
+    "execution_status":  "OFFLINE_CANDIDATE_REQUIRES_INDEPENDENT_RUNTIME_REVIEW",
+    "derived_from":  "models/pandey_kumar_mode1/148_c4_package148_state_transfer/PACKAGE_MANIFEST.json",
+    "source_hashes":  {
+                          "models/pandey_kumar_mode1/146_c3_fine_donor/M1_C3_FINE_PACKAGE146_DONOR.inp":  "9F93419A4F1E090286007A7291693BD3B783D984CE276E102D22D404AD4C5475",
+                          "models/pandey_kumar_mode1/147_c4_corrected_reference/M1_C4_CORRECTED_PACKAGE147_REF.inp":  "FFFE51D5348F6E4B5E9B4742D783CA1645B480B229189168493AEDA10C91722A",
+                          "tests/fixtures/package146147/146_step1_dat.txt.gz":  "7AD9A8D92A2E9DCF69489AC573ED6D29394A7D1E907A6A2FFB7F0E752DB29504",
+                          "results/validation/package146147/evaluation.json":  "74F4BBBB8B0E5AF52F0FF9328FE8CDC8AC5742AC80F75A7A98A3D1E6FDEA8565"
+                      },
+    "package":  148,
+    "model_name":  "M1_C4_PACKAGE148_STATE_TRANSFER",
+    "donor":  {
+                  "package":  146,
+                  "model_name":  "M1_C3_FINE_PACKAGE146_DONOR",
+                  "physical_quads":  5112,
+                  "nodes":  5290,
+                  "gauss_points":  20448,
+                  "target_u_rp_mm":  0.0018003125442191958
+              },
+    "receiver":  {
+                     "package":  147,
+                     "model_name":  "M1_C4_CORRECTED_PACKAGE147_REF",
+                     "physical_quads":  7056,
+                     "nodes":  7265,
+                     "gauss_points":  28224
+                 },
+    "files":  {
+                  "nodal_displacements_initial.csv":  "C41BA31CD518D776778173BACDF6F0F52F642AFD5E9317582013A5689FA1BB40",
+                  "nodal_phase_field_initial.csv":  "CEFBCA24A309F7099416E4D4D596CE8DA01F1A12F137224ED0038134DFF2E15C",
+                  "d_lower_bounds.csv":  "2A7BA758D7AF189498DA96718EDD19ACE8E45E4F35AC684505C17B8B7505C574",
+                  "initial_conditions_solution.inc":  "80F0C3C7C7C141BCCAD2979F1B982EF86F0CA7ACD699791CA8CF4FCBECE7B6FB",
+                  "active_set_boundary_cards.inc":  "8F5A269FD25763291C9954334C23A552C8B14458A3A2E9EF44B45B553B7FAE7D",
+                  "f42_mixed_uel.for":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+                  "M1_C4_PACKAGE148_STATE_TRANSFER.inp":  "FCD4E4B5C52C23268196782E7F4BCE2A9BBC767357651095DA5236151D106114",
+                  "submit_M1_C4_P148_R1.pbs":  "46809F548BCB75A9E1842337A037CB3E49130F73431D26456687C15B2AF36739"
+              },
+    "frozen_uel_sha256":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "active_set_strategy":  "ALTERNATING_PDAS_ACTIVE_SET_DECOUPLING",
+    "derived_from_sha256":  "0FA2F82631AC554626D0FF457D61A946EF2CB7DA10D59B791D7CF5B2CD056CFA"
+}
