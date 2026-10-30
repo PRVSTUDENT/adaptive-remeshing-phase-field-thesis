@@ -1,17 +1,17 @@
 {
     "active":  false,
-    "agent":  "codex",
-    "task_id":  "PACKAGE148-R4-KKT-INDEPENDENT-DIAGNOSIS",
-    "starting_commit":  "0cd237719992c532b0bf930c7415829ae7a29e2b",
-    "claimed_at":  "2026-10-30T17:08:14.7325471+01:00",
-    "last_updated":  "2026-10-30T17:43:50.4259661+01:00",
-    "last_released":  "2026-10-30T17:43:50.4259661+01:00",
+    "agent":  "gemini-antigravity",
+    "task_id":  "RECONCILE-BLOCKED-HISTORICAL-CONTROLLER-CHECKPOINT",
+    "starting_commit":  "cd1b1ce3b59baa846895040a42514572f5665793",
+    "claimed_at":  "2026-10-30T18:04:00.0000000+01:00",
+    "last_updated":  "2026-10-30T18:08:15.0000000+01:00",
+    "last_released":  "2026-10-30T18:08:15.0000000+01:00",
     "controller_run_id":  null,
-    "session_report":  "project_coordination/sessions/2026-10-30_codex_package148_r4_kkt_diagnosis.md",
+    "session_report":  "project_coordination/sessions/2026-10-30_gemini-antigravity_reconcile_turn354_blocked_checkpoint.md",
     "allowed_write_scope":  [
-                                "scripts/validation/ bounded offline R4 forensic analyzer only",
-                                "tests/unit/ falsifiable R4 numerical regression fixtures",
-                                "results/validation/ R4 lightweight signed-iteration evidence and analysis",
-                                "project_coordination/ current diagnosis, ledgers and session report; preserve all execution reservations"
+                                "scripts/controller/ dedicated reconciliation script",
+                                "tests/unit/ test_controller_turn354_reconciliation.ps1",
+                                "project_coordination/ session report, ledgers, task state",
+                                "OpenClawPAD/ controller checkpoint and loop state reconciliation archive"
                             ]
 }
