@@ -1,4 +1,4 @@
-﻿{
+{
     "operation_review":  {
                              "operation":  "evaluate_mode1_package148_state_transfer_r2",
                              "decision":  "R2_REGISTERED_DATACHECKS_PASS_SUBMITTED_ENDPOINT_EXTRACTION_FAILED",
@@ -9,9 +9,9 @@
                              "new_experiment":  false
                          },
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "status":  "PACKAGE148_R3_SUBMITTED_PENDING_PHYSICAL_REVIEW",
+    "status":  "PREPARATION_COMPLETE",
     "agent":  "codex",
-    "phase":  "Fresh qualified controller Turn348 submitted R3 once as1418872.mmaster02; Stage Complete passed; queued at last scheduler check. Physical acceptance pending.",
+    "phase":  "Live cluster scheduler reconciliation confirms PBS job 1418872.mmaster02 (Package 148 R3 continuation) remains active in state QUEUED (Q) in queue normal_imfdfkmq with authentic preflight datachecks, execution manifests, and dual-channel notification traps intact on scratch. Local regression verification confirmed 28/28 tests passed across extraction, Py36 compatibility, and preflight rules, preserving the once-only submission reservation and frozen UEL while awaiting solver execution.",
     "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED",
     "active_pbs_job_ids":  [
                                "1418872.mmaster02"
@@ -232,16 +232,6 @@
                                            "automatic_retry":  false
                                        },
     "scientific_operation_id":  "evaluate_mode1_package148_state_transfer_r3",
-    "last_updated":  "2026-10-30T15:16:25.2740374+01:00",
-    "next_safe_action":  "Collect authentic R3 coupled solver results for1418872.mmaster02 and independently evaluate physical gates; never replay the submitted operation.",
-    "scientific_checkpoint":  {
-                                  "kind":  "HPC_SUBMISSION",
-                                  "operation":  "evaluate_mode1_package148_state_transfer_r3",
-                                  "exit_code":  0,
-                                  "artifact":  "results/validation/mode1_f1597/29b2c3e4-b715-4cdb-b130-8cb1058f998b.json",
-                                  "sha256":  "9601B10D34F8D46AB3C3A5D2B13DF79960BA9AB393B006D1E66D5E077F222CB4",
-                                  "created_at":  "2026-10-30T15:12:56.5885938+01:00"
-                              },
     "completed_operations":  [
                                  "mapped_frozen_history_lower_bound_kkt_probe",
                                  "mapped_mechanical_history_call_order_probe",
@@ -252,5 +242,15 @@
                                  "evaluate_mode1_package148_state_transfer",
                                  "evaluate_mode1_package148_state_transfer_r2",
                                  "evaluate_mode1_package148_state_transfer_r3"
-                             ]
+                             ],
+    "last_updated":  "2026-10-30T15:27:15.7889554+01:00",
+    "next_safe_action":  "Await authentic completion of PBS job 1418872.mmaster02 on HPC, inspect solver convergence/ODB outputs, and evaluate physical acceptance criteria against Package 146 donor and Package 147 reference.",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "reconcile_package148_r3_execution_and_verify_offline_suite",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-31a92ee5-a603-426e-9e8b-bb6e3611e25f.json",
+                                  "sha256":  "8058691AAE10D68727A51FA891E3AD34A639A70E6AFAA11ECBB1271A616E772C",
+                                  "created_at":  "2026-10-30T15:26:49.8816603+01:00"
+                              }
 }
