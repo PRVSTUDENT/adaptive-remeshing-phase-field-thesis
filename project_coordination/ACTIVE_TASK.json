@@ -9,9 +9,9 @@
                              "new_experiment":  false
                          },
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "status":  "PREPARATION_COMPLETE",
+    "status":  "QUALIFIED_OPERATION_EXECUTION",
     "agent":  "codex",
-    "phase":  "Package 148 R5 state-transfer candidate successfully constructed with verified 7+8+3 solution card encoding restoring SVARS(9..12) history mapping; authentic Abaqus 2023 mechanical and phase datachecks passed Exit 0 on cluster hardware; independent review and preflight qualification recorded; TECHNICAL_PREFLIGHT_PASS verified under Invoke-Mode1Execution.ps1.",
+    "phase":  "evaluate_mode1_package148_state_transfer_r5 submitted; physical acceptance pending authentic solver results.",
     "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED",
     "active_pbs_job_ids":  [
 
@@ -219,11 +219,11 @@
     "scientific_checkpoint_required":  true,
     "scientific_operation":  "",
     "operation_preparation":  {
-                                  "status":  "SUBMITTED_ONCE",
-                                  "dispatch_ready":  false,
-                                  "operation_id":  "evaluate_mode1_package148_state_transfer_r4",
+                                  "status":  "QUALIFIED_EXECUTION_READY",
+                                  "dispatch_ready":  true,
+                                  "operation_id":  "evaluate_mode1_package148_state_transfer_r5",
                                   "path":  "scripts/validation/execute_package148_state_transfer.py",
-                                  "qualification_artifact":  "scripts/validation/evaluate_mode1_package148_state_transfer_r4.qualification.json"
+                                  "qualification_artifact":  "scripts/validation/evaluate_mode1_package148_state_transfer_r5.qualification.json"
                               },
     "trace_qualification_experiment":  {
                                            "status":  "R2_EXIT0_TRACE_CAPTURED_PARITY_PASS",
@@ -232,7 +232,17 @@
                                            "prior_revision_result":  "EXIT0_TRACE_MISSING_AT_PROMISED_OUTPUT_PATH",
                                            "automatic_retry":  false
                                        },
-    "scientific_operation_id":  "",
+    "scientific_operation_id":  "evaluate_mode1_package148_state_transfer_r5",
+    "last_updated":  "2026-10-30T19:17:05.6353461+01:00",
+    "next_safe_action":  "Collect authentic M1_C4_P148_R5 coupled results and independently evaluate predeclared physical gates.",
+    "scientific_checkpoint":  {
+                                  "kind":  "HPC_SUBMISSION",
+                                  "operation":  "evaluate_mode1_package148_state_transfer_r5",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/mode1_f1597/25f53885-f3d6-47f5-9d1f-194e1c6290f1.json",
+                                  "sha256":  "B5BCC232F6F1AE3FB7BAAD79A2EEB56CD60675786B2BFC51BA46AFA5C7FF5906",
+                                  "created_at":  "2026-10-30T19:16:31.6475254+01:00"
+                              },
     "completed_operations":  [
                                  "mapped_frozen_history_lower_bound_kkt_probe",
                                  "mapped_mechanical_history_call_order_probe",
@@ -243,16 +253,7 @@
                                  "evaluate_mode1_package148_state_transfer",
                                  "evaluate_mode1_package148_state_transfer_r2",
                                  "evaluate_mode1_package148_state_transfer_r3",
-                                 "evaluate_mode1_package148_state_transfer_r4"
-                             ],
-    "last_updated":  "2026-10-30T19:07:05.6595808+01:00",
-    "next_safe_action":  "Submit M1_C4_P148_R5 once-only execution via scripts/hpc/Invoke-Mode1Execution.ps1 in the immediate next qualified execution turn.",
-    "scientific_checkpoint":  {
-                                  "kind":  "PREPARATION_CHECKPOINT",
-                                  "operation":  "research_preparation",
-                                  "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-6105baf2-a927-458e-bc37-d1f0d1ccad8d.json",
-                                  "sha256":  "FFC74A2BB819BFC2906A6E1086063A98798B8339D4A204C4219EC85BD567D1E9",
-                                  "created_at":  "2026-10-30T19:06:41.4718329+01:00"
-                              }
+                                 "evaluate_mode1_package148_state_transfer_r4",
+                                 "evaluate_mode1_package148_state_transfer_r5"
+                             ]
 }
