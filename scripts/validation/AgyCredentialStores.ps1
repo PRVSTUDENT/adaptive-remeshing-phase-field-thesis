@@ -48,6 +48,46 @@ function ConvertTo-AgyCredentialToken {
     }
 }
 
+function Get-AgyProfileSaveBytes {
+    param([Parameter(Mandatory)][byte[]]$Bytes,
+          [Parameter(Mandatory)][string]$TokenPath)
+    # Save preparation only: no native/CLI/profile writes and no token refresh.
+    # AGY can legitimately drop ID metadata while retaining a live OAuth grant.
+    $native=ConvertTo-AgyCredentialToken -Bytes $Bytes -SourceName native-store -AllowMissingIdentity
+    if ($native.Identity) { return ,([byte[]]$Bytes.Clone()) }
+    $stage='CLI_IDENTITY_METADATA'
+    $cliBytes=$null
+    try {
+        if (-not (Test-Path -LiteralPath $TokenPath -PathType Leaf)) { throw 'Missing CLI metadata' }
+        $cliBytes=[IO.File]::ReadAllBytes($TokenPath)
+        $cli=ConvertTo-AgyCredentialToken -Bytes $cliBytes -SourceName cli-file
+        $stage='ACCESS_TOKEN_MISSING'
+        if ([string]::IsNullOrWhiteSpace([string]$native.Token.access_token)) { throw 'No live grant' }
+        $stage='AUTH_METHOD_CONFLICT'
+        if ($native.AuthMethod -ne $cli.AuthMethod) { throw 'Authentication methods differ' }
+        $stage='PROVIDER_IDENTITY_UNPROVEN'
+        # Do not infer identity from active markers, quota, refresh-token equality
+        # or a possibly stale CLI account. Prove the native access grant at Google.
+        $providerIdentity=Get-AgyProviderIdentity -AccessToken $native.Token.access_token
+        $stage='PROVIDER_IDENTITY_CONFLICT'
+        if (-not $providerIdentity -or $providerIdentity -ne $cli.Identity) { throw 'Account mismatch' }
+        $stage='CLI_CONCURRENT_CHANGE'
+        if ([Convert]::ToBase64String([IO.File]::ReadAllBytes($TokenPath)) -cne
+            [Convert]::ToBase64String($cliBytes)) { throw 'CLI changed during verification' }
+        $native.Token | Add-Member -NotePropertyName id_token -NotePropertyValue $cli.Token.id_token -Force
+        $candidate=[Text.Encoding]::UTF8.GetBytes((@{token=$native.Token;auth_method=$native.AuthMethod}|ConvertTo-Json -Depth 12 -Compress))
+        $stage='CANDIDATE_VERIFICATION'
+        $verified=ConvertTo-AgyCredentialToken -Bytes $candidate -SourceName sync-verify
+        if ($verified.Identity -ne $providerIdentity) { throw 'Candidate identity mismatch' }
+        return ,$candidate
+    } catch {
+        # Provider/JSON exceptions can contain HTTP context; do not relay their text.
+        throw "AGY_PROFILE_SAVE_IDENTITY source=native-store stage=$stage; profile not written; credential contents suppressed."
+    } finally {
+        if ($cliBytes) { [Array]::Clear($cliBytes,0,$cliBytes.Length) }
+    }
+}
+
 function Read-AgyCredentialManagerBytes {
     if (-not ('AgyLocalCredentialReader' -as [type])) {
         Add-Type -TypeDefinition @'

@@ -1,0 +1,29 @@
+--- a/agy-profile.ps1
++++ b/agy-profile.ps1
+@@ -312,0 +313,4 @@
++    $live = Get-CurrentCred
++    if ($null -eq $live -or (Get-BlobHash $live.Blob) -ne (Get-BlobHash $nativeSnapshot)) {
++        throw 'AGY_PROFILE_SAVE_IDENTITY source=native-store stage=NATIVE_CONCURRENT_CHANGE; profile not written; credential contents suppressed.'
++    }
+@@ -329,2 +333,2 @@
+-function Get-CredentialSubject([byte[]]$blob) {
+-    return (ConvertTo-AgyCredentialToken -Bytes $blob).Identity
++function Get-CredentialSubject([byte[]]$blob,[string]$sourceName='unspecified') {
++    return (ConvertTo-AgyCredentialToken -Bytes $blob -SourceName $sourceName).Identity
+@@ -338,0 +343,3 @@
++    # Normalize only an in-memory copy; Google must prove missing native identity.
++    $nativeSnapshot = [byte[]]$cred.Blob.Clone()
++    $cred.Blob = Get-AgyProfileSaveBytes -Bytes $nativeSnapshot -TokenPath (Join-Path $CLI_DIR 'antigravity-oauth-token')
+@@ -342,2 +349,2 @@
+-        $oldSubject = Get-CredentialSubject ([Convert]::FromBase64String($previous.blobB64))
+-        $newSubject = Get-CredentialSubject $cred.Blob
++        $oldSubject = Get-CredentialSubject ([Convert]::FromBase64String($previous.blobB64)) 'saved-profile'
++        $newSubject = Get-CredentialSubject $cred.Blob 'native-store'
+@@ -349,0 +357,4 @@
++    }
++    $live = Get-CurrentCred
++    if ($null -eq $live -or (Get-BlobHash $live.Blob) -ne (Get-BlobHash $nativeSnapshot)) {
++        throw 'AGY_PROFILE_SAVE_IDENTITY source=native-store stage=NATIVE_CONCURRENT_CHANGE; profile not written; credential contents suppressed.'
+@@ -496 +507 @@
+-            $currentSubject = Get-CredentialSubject $cred.Blob
++            $currentSubject = Get-CredentialSubject $cred.Blob 'native-store'
