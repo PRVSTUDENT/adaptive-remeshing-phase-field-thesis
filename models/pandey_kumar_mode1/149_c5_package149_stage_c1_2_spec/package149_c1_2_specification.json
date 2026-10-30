@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "stage": "STAGE_C1_2_SEQUENTIAL_CYCLES",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "title": "Stage C1-2 Sequential Adaptive Cycles Quantitative Specification",
+  "status": "PROVISIONAL_SPECIFICATION_PENDING_R5_ACCEPTANCE",
+  "predecessor": {
+    "package": "Package 148 Revision 5",
+    "pbs_job_id": "1418909.mmaster02",
+    "donor_displacement_mm": 0.0050,
+    "donor_rf2_kN": 0.1873079389333725,
+    "donor_energy_mJ": 0.00021270454
+  },
+  "displacement_intervals": {
+    "cycle_1": {
+      "u_start_mm": 0.0050,
+      "u_end_mm": 0.0055,
+      "delta_u_nominal_mm": 0.0001,
+      "delta_u_min_mm": 1.0e-6
+    },
+    "cycle_2": {
+      "u_start_mm": 0.0055,
+      "u_end_mm": 0.0060,
+      "delta_u_nominal_mm": 0.0001,
+      "delta_u_min_mm": 1.0e-6
+    }
+  },
+  "mesh_transition": {
+    "donor_mesh": "C4_QUAD_7056_ELEMENTS",
+    "receiver_mesh": "C5_REFINED_QUAD_PROJECTED",
+    "refinement_policy": "REFINEMENT_ONLY_NO_COARSENING_IN_PROCESS_ZONE",
+    "refinement_criterion": "d >= 0.1 OR grad_d >= 0.05 / um",
+    "target_h_min_um": 7.15,
+    "donor_h_min_um": 14.3
+  },
+  "transfer_fields": {
+    "nodal_displacements": "u_x, u_y (CPE4 bilinear interpolation)",
+    "nodal_phase_field": "d in [0, 1]",
+    "gauss_point_history": {
+      "mapping": "H_1..H_4 -> SVARS(9..12)",
+      "card_format": "7+8+3 (8 tokens line 1, 8 tokens line 2, 3 tokens line 3)",
+      "line1": "eid, SVAR1..7",
+      "line2": "SVAR8=0, SVAR9=H1, SVAR10=H2, SVAR11=H3, SVAR12=H4, SVAR13..15=0",
+      "line3": "SVAR16..18=0"
+    },
+    "active_set_irreversibility": "d_lower = max(d_old, 0) via boundary card injection"
+  },
+  "acceptance_criteria": {
+    "kkt_residual_tolerance_kN_mm": 1.0e-6,
+    "pdas_alternating_delta_d_tolerance": 1.0e-4,
+    "phase_bounds": [0.0, 1.0],
+    "irreversibility_tolerance": -1.0e-6,
+    "allowed_healing_nodes": 0,
+    "reaction_force_relative_tolerance_pct": 5.0,
+    "total_energy_relative_tolerance_pct": 2.0,
+    "crack_flank_interpenetration_allowed": false
+  },
+  "cost_metrics": {
+    "mechanical_walltime_tracking": true,
+    "phase_walltime_tracking": true,
+    "active_set_iterations_limit": 50,
+    "peak_memory_gb_limit": 16.0,
+    "projection_overhead_seconds_limit": 60.0
+  }
+}
