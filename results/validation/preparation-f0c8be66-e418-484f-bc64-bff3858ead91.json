@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn_id": "f0c8be66-e418-484f-bc64-bff3858ead91",
+  "operation": "research_preparation",
+  "title": "Package 148 Serializer Correction and Parity Qualification",
+  "finding": "Independently verified that R4 9-field TYPE=SOLUTION encoding shifted committed history H9..H12 into slots H2..H4 zeroing slot 4, exactly predicting authentic ODB history across all 28,224 Gauss points; the corrected 7+8+3 format restores exact history-to-slot mapping and achieves float64 operator parity (<1e-15) with frozen UEL lines 248-262 and converges in 8 PDAS iterations.",
+  "classification": "RESEARCH_PREPARATION_VERIFIED",
+  "verification_passed": true,
+  "evidence_sources": {
+    "tests/unit/test_mode1_f1597_turn355_serializer_and_operator_parity.py": "BD60679E8ED888201F824AE77B9763910316B3CDF3A7A320DA25C426ACAFF24A",
+    "tests/unit/test_package148_r4_state_card_diagnosis.py": "92BD86E3CBDC2E3286A32517DCD598F92698E6D0F4C6C99C47BD261993824A82",
+    "results/validation/package148_r4_kkt/diagnosis.json": "6E1448F20DB08C6CCF1B0D9CCC9C9E4B18356C1353DE5867AA488197830D404F",
+    "results/validation/package148_r4_kkt/reconstruction.json": "02B00B20229117127E503984403406171D062FD6FB2C6A84A850C7F3A50BC04A",
+    "results/validation/package148_r4_kkt/state_card_fixture.json": "C1FA028E282DDB4A5B8D5E47C8EFEF4D3588CD0E95509435B1CCE271FBFB46AB",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r4/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "measurements": {
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "r4_history_shift_observed_count": 28224,
+    "r4_history_shift_float32_exact_count": 28224,
+    "one_quad_stiffness_parity_diff_max": 0.0,
+    "one_quad_residual_parity_diff_max": 0.0,
+    "shifted_operator_relative_force_divergence": 0.6404381544594295,
+    "counterfactual_pdas_iterations": 8,
+    "counterfactual_converged": true,
+    "subtests_passed": 18
+  },
+  "limitation": "Offline unit and counterfactual qualification complete; corrected transfer driver execution on HPC compute nodes requires authenticated quota and clean notification verification.",
+  "next_operation": "Prepare and qualify Package 148 R5 transfer deck and execution manifest using the verified 7+8+3 serializer."
+}

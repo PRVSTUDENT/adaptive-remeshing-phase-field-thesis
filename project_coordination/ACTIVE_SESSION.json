@@ -1,17 +1,26 @@
 {
     "active":  false,
     "agent":  "gemini-antigravity",
-    "task_id":  "RECONCILE-BLOCKED-HISTORICAL-CONTROLLER-CHECKPOINT",
-    "starting_commit":  "cd1b1ce3b59baa846895040a42514572f5665793",
-    "claimed_at":  "2026-10-30T18:04:00.0000000+01:00",
-    "last_updated":  "2026-10-30T18:08:15.0000000+01:00",
-    "last_released":  "2026-10-30T18:08:15.0000000+01:00",
-    "controller_run_id":  null,
-    "session_report":  "project_coordination/sessions/2026-10-30_gemini-antigravity_reconcile_turn354_blocked_checkpoint.md",
+    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "starting_commit":  "2b83e6414d91ff464f61d295d7128938524a8ca0",
+    "claimed_at":  "2026-10-30T18:17:59.7484074+01:00",
+    "last_updated":  "2026-10-30T18:25:43.3597244+01:00",
+    "last_released":  "2026-10-30T18:25:43.3597244+01:00",
+    "controller_run_id":  "f0c8be66-e418-484f-bc64-bff3858ead91",
+    "session_report":  "project_coordination/sessions/2026-10-30_gemini-antigravity_F1597_f0c8be66-e418-484f-bc64-bff3858ead91.md",
     "allowed_write_scope":  [
-                                "scripts/controller/ dedicated reconciliation script",
-                                "tests/unit/ test_controller_turn354_reconciliation.ps1",
-                                "project_coordination/ session report, ledgers, task state",
-                                "OpenClawPAD/ controller checkpoint and loop state reconciliation archive"
+                                "project_coordination/sessions/2026-10-30_gemini-antigravity_F1597_f0c8be66-e418-484f-bc64-bff3858ead91.md",
+                                "project_coordination/controller/turn-f0c8be66-e418-484f-bc64-bff3858ead91.json",
+                                "results/validation/mode1_f1597/f0c8be66-e418-484f-bc64-bff3858ead91.json",
+                                "results/validation/preparation-f0c8be66-e418-484f-bc64-bff3858ead91.json",
+                                "results/validation/*",
+                                "scripts/validation/*",
+                                "tests/unit/*",
+                                "models/pandey_kumar_mode1/*",
+                                "project_coordination/ACTIVE_SESSION.json",
+                                "project_coordination/ACTIVE_TASK.json",
+                                "project_coordination/CURRENT_STATE.md",
+                                "project_coordination/TASK_LEDGER.csv",
+                                "project_coordination/ARTIFACT_REGISTRY.csv"
                             ]
 }
