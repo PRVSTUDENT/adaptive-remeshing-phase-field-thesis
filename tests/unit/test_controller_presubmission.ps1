@@ -43,3 +43,16 @@ $task.completed_operations+=$q.operation
 $denied=$false;try{$null=Resolve-ControllerOperation $task $root}catch{$denied=$_.Exception.Message -match 'COMPLETED_OPERATION_REJECTED'}
 if(-not $denied){throw 'Completed R2 replay accepted'}
 'PASS: R2 independently resolves with completed R1; completed R2 replay rejected (2 cases).'
+$r3='models/pandey_kumar_mode1/148_c4_package148_state_transfer_r3/EXECUTION_MANIFEST.json'
+Put $r3 '{"scientific_scope":"MODE1","automatic_retry":false,"max_submissions":1,"jobs":[{"id":"M1_C4_P148_R3"}]}'
+Put $review '{"verification_passed":true,"independent_r3_qualification":"PASS","python_36_compatibility":"PASS"}'
+$q.operation='evaluate_mode1_package148_state_transfer_r3';$q.manifest=$r3
+$q.scientific_dependencies.Remove($r2);$q.scientific_dependencies[$r3]=Hash $r3;$q.scientific_dependencies[$review]=Hash $review
+Put 'scripts/validation/evaluate_mode1_package148_state_transfer_r3.qualification.json' ($q|ConvertTo-Json -Depth 10)
+$task.scientific_operation_id=$q.operation
+$resolved=Resolve-ControllerTaskType $task $root
+if($resolved.task_type -ne 'QUALIFIED_EXECUTION' -or $resolved.operation.id -ne $q.operation){throw 'R3 dispatched as R1/R2/preparation'}
+$task.completed_operations+=$q.operation
+$denied=$false;try{$null=Resolve-ControllerOperation $task $root}catch{$denied=$_.Exception.Message -match 'COMPLETED_OPERATION_REJECTED'}
+if(-not $denied){throw 'Completed R3 replay accepted'}
+'PASS: R3 independently resolves with completed R1 and R2; completed R3 replay rejected (2 cases).'

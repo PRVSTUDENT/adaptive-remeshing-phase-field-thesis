@@ -63,8 +63,14 @@ class SubmissionAdapterTests(unittest.TestCase):
         target=self.root/relative;target.parent.mkdir(parents=True);target.write_bytes((self.root/MANIFEST).read_bytes())
         with self.assertRaises(ValueError):verified_receipt(self.root,OPERATION+'_r2')
 
+    def test_r3_contract(self):
+        relative, job, qualification = operation_contract(OPERATION+'_r3')
+        self.assertIn('_r3/', relative)
+        self.assertEqual(job, 'M1_C4_P148_R3')
+        self.assertEqual(qualification, 'scripts/validation/evaluate_mode1_package148_state_transfer_r3.qualification.json')
+
     def test_unknown_revision_rejected(self):
-        with self.assertRaises(ValueError):operation_contract(OPERATION+'_r3')
+        with self.assertRaises(ValueError):operation_contract(OPERATION+'_r4')
 
     def test_authentic_r2_receipt_and_changed_manifest(self):
         relative, job, _=operation_contract(OPERATION+'_r2')

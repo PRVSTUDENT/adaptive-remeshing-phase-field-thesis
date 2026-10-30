@@ -184,6 +184,12 @@ if($record.scientific_checkpoint.kind -eq 'PREPARATION_CHECKPOINT'){
     } else {
         $task.scientific_operation=''
     }
+    if($payload.qualified_operation_id){
+        $task.scientific_operation_id=$payload.qualified_operation_id
+    }
+    if($payload.operation_preparation){
+        $task.operation_preparation=$payload.operation_preparation
+    }
     $opTitle=if($payload.title){$payload.title}else{'Research preparation'}
     $opId=if($payload.operation){$payload.operation}else{'research_preparation'}
     $classification=if($payload.classification){$payload.classification}else{'RESEARCH_PREPARATION_VERIFIED'}
@@ -217,6 +223,9 @@ if($operation -and $operation.qualification -and $operation.qualification.qualif
         $newPaths += $qArt
     }
 }
+if($payload.qualification_artifact -and (Test-Path -LiteralPath (Join-Path $Workspace $payload.qualification_artifact))){
+    $newPaths += $payload.qualification_artifact
+}
 $newPaths = @($newPaths | Select-Object -Unique)
 foreach($relative in $newPaths){
     $row=[pscustomobject]@{artifact_id=('F1597-'+$RunId+'-'+[IO.Path]::GetFileName($relative));stage='Mode-I';canonical_path=$relative;type='verified_diagnostic_evidence';status='verified';created_by='gemini-antigravity';source_commit=$record.repository_commit;sha256=(Get-FileHash -LiteralPath (Join-Path $Workspace $relative)).Hash;supersedes='';notes=($opTitle+'; not a transfer qualification')}
@@ -227,7 +236,16 @@ $row=[pscustomobject]@{task_id=($TaskId+'-'+$opId);stage='Mode-I';title=$opTitle
 $csv=$row|ConvertTo-Csv -NoTypeInformation;[IO.File]::AppendAllText($ledger,$csv[1]+"`n")
 $staged=Invoke-LocalGit @('diff','--cached','--name-only')
 if($staged){throw 'Pre-existing staged paths must be preserved; closeout will not include them'}
-Invoke-LocalGit (@('add','--')+$newPaths+@('project_coordination/ACTIVE_SESSION.json','project_coordination/ACTIVE_TASK.json','project_coordination/ARTIFACT_REGISTRY.csv','project_coordination/TASK_LEDGER.csv'))
+$commitPaths = @($newPaths)
+if($payload.registered_paths){
+    foreach($rp in $payload.registered_paths){
+        if(Test-Path -LiteralPath (Join-Path $Workspace $rp)){
+            $commitPaths += $rp
+        }
+    }
+}
+$commitPaths = @($commitPaths | Select-Object -Unique)
+Invoke-LocalGit (@('add','--')+$commitPaths+@('project_coordination/ACTIVE_SESSION.json','project_coordination/ACTIVE_TASK.json','project_coordination/ARTIFACT_REGISTRY.csv','project_coordination/TASK_LEDGER.csv'))
 Invoke-LocalGit @('diff','--cached','--check')
 Invoke-LocalGit @('commit','-m',('research(mode1): record '+$opId))
 Invoke-LocalGit @('push','origin','HEAD:main','HEAD:mode2-pandey-kumar-reproduction')
