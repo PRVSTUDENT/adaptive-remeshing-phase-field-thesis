@@ -829,8 +829,8 @@ class CoupledAbaqusRuntime(object):
             prefix.append(block)
         cards = [''.join(prefix), '*Initial Conditions, type=SOLUTION\n']
         for eid in sorted(self.mesh.elements):
-            cards.append('%d, 0, 0, 0, 0, 0, 0, 0, 0\n' % eid)
-            cards.append(', '.join('%.17g' % history[eid, g] for g in range(1, 5)) + ', 0, 0, 0, 0\n0, 0\n')
+            cards.append('%d, 0, 0, 0, 0, 0, 0, 0\n' % eid)
+            cards.append('0, ' + ', '.join('%.17g' % history[eid, g] for g in range(1, 5)) + ', 0, 0, 0\n0, 0, 0\n')
         cards += ['*Amplitude, name=FIXED\n0., 1., 1., 1.\n',
                   '*Step, name=C1-1-ReEquil, nlgeom=NO, inc=1\n',
                   '*Static\n1., 1., 1., 1.\n*Boundary, amplitude=FIXED\n']

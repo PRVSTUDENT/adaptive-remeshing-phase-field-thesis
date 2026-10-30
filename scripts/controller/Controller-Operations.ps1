@@ -19,7 +19,7 @@ function Get-ControllerPinnedOperationHash($Operation,$State,[string]$Workspace)
 }
 # Closed operation registry with dynamic qualified operation support. Retired KKT artifacts remain verifiable, never executable.
 function Get-ControllerOperation([string]$Path,[string]$ArtifactId,[switch]$Historical,[switch]$Proposed,[string]$Workspace='') {
-    if(($Path -cin @('evaluate_mode1_package148_state_transfer','evaluate_mode1_package148_state_transfer_r2','evaluate_mode1_package148_state_transfer_r3','evaluate_mode1_package148_state_transfer_r4')) -or (-not $Path -and $ArtifactId -cin @('evaluate_mode1_package148_state_transfer','evaluate_mode1_package148_state_transfer_r2','evaluate_mode1_package148_state_transfer_r3','evaluate_mode1_package148_state_transfer_r4'))){
+    if(($Path -cin @('evaluate_mode1_package148_state_transfer','evaluate_mode1_package148_state_transfer_r2','evaluate_mode1_package148_state_transfer_r3','evaluate_mode1_package148_state_transfer_r4','evaluate_mode1_package148_state_transfer_r5')) -or (-not $Path -and $ArtifactId -cin @('evaluate_mode1_package148_state_transfer','evaluate_mode1_package148_state_transfer_r2','evaluate_mode1_package148_state_transfer_r3','evaluate_mode1_package148_state_transfer_r4','evaluate_mode1_package148_state_transfer_r5'))){
         if(-not $ArtifactId){ $ArtifactId = $Path }
         $Path='scripts/validation/execute_package148_state_transfer.py'
     }

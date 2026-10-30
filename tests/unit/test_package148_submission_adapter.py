@@ -70,7 +70,13 @@ class SubmissionAdapterTests(unittest.TestCase):
         self.assertEqual(qualification, 'scripts/validation/evaluate_mode1_package148_state_transfer_r3.qualification.json')
 
     def test_unknown_revision_rejected(self):
-        with self.assertRaises(ValueError):operation_contract(OPERATION+'_r5')
+        with self.assertRaises(ValueError):operation_contract(OPERATION+'_r6')
+
+    def test_r5_contract(self):
+        relative, job, qualification = operation_contract(OPERATION+'_r5')
+        self.assertIn('_r5/', relative)
+        self.assertEqual(job, 'M1_C4_P148_R5')
+        self.assertEqual(qualification, 'scripts/validation/evaluate_mode1_package148_state_transfer_r5.qualification.json')
 
     def test_r4_distinct_contract_and_no_predecessor_receipt(self):
         relative, job, qualification = operation_contract(OPERATION+'_r4')

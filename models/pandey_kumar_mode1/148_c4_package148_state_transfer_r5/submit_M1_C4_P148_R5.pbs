@@ -1,0 +1,41 @@
+#!/bin/bash
+#PBS -N M1_C4_P148_R5
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=08:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r5/pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r5"
+cd "${RUN_DIR}"
+
+export JOB_NAME="M1_C4_P148_R5"
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+source "${RUN_DIR}/job_notifications.sh"
+notification_load_config
+notification_install_terminal_trap
+notify_start
+
+if ! type module >/dev/null 2>&1; then
+    source /etc/profile.d/lmod.sh 2>/dev/null || source /usr/share/Modules/init/bash 2>/dev/null || true
+fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+
+repo="${RUN_DIR}/runtime"
+python3 "${repo}/scripts/state_transfer/driver_package146_147_pdas_continuation.py" \
+    --package "${RUN_DIR}" \
+    --output "${RUN_DIR}/coupled_${PBS_JOBID}" \
+    --extractor "${repo}/scripts/validation/extract_package148_iteration.py" \
+    --donor-rf2 0.1873079389333725 \
+    --donor-energy 0.00021270454000000001 \
+    --memory-gb 16
+EXIT_CODE=$?
+
+echo "Coupled PDAS finished with exit code: ${EXIT_CODE}"
+exit ${EXIT_CODE}

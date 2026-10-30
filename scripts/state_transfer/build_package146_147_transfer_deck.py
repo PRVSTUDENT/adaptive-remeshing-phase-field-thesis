@@ -332,10 +332,10 @@ class Package146To147DeckGenerator(object):
             for eid in sorted(self.receiver_mesh.elements.keys()):
                 # Convert mapper row order to the frozen UEL SVARS perimeter order.
                 h_vals = [target_gp_h[(eid, k)] for k in (1, 2, 4, 3)]
-                f.write("%8d, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0\n" % eid)
-                f.write("  %.8e, %.8e, %.8e, %.8e, 0.0, 0.0, 0.0, 0.0\n" %
+                f.write("%8d, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0\n" % eid)
+                f.write("  0.0, %.8e, %.8e, %.8e, %.8e, 0.0, 0.0, 0.0\n" %
                         (h_vals[0], h_vals[1], h_vals[2], h_vals[3]))
-                f.write("  0.0, 0.0\n")
+                f.write("  0.0, 0.0, 0.0\n")
 
         # 5. active_set_boundary_cards.inc (Initial Stage A re-equilibration clamps all d0)
         active_inc = self.output_dir / "active_set_boundary_cards.inc"

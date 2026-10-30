@@ -94,3 +94,41 @@ Put 'scripts/state_transfer/driver.py' '# original driver'
 $q.scientific_dependencies['scripts/state_transfer/driver.py']=Hash 'scripts/state_transfer/driver.py'
 Put 'scripts/state_transfer/driver.py' '# changed driver';RejectR4 'changed driver hash'
 'PASS: 9 R4 registration/dispatch/failure-closure cases; no scheduler invocation.'
+
+# R5 registration, independent qualification and dispatch failure-closure
+$r5='models/pandey_kumar_mode1/148_c4_package148_state_transfer_r5/EXECUTION_MANIFEST.json'
+$r5text='{"scientific_scope":"MODE1","automatic_retry":false,"max_submissions":1,"jobs":[{"id":"M1_C4_P148_R5"}]}'
+$r5review='{"verification_passed":true,"independent_r5_qualification":"PASS","python_36_compatibility":"PASS"}'
+Put $r5 $r5text; Put $review $r5review
+$q.operation='evaluate_mode1_package148_state_transfer_r5';$q.manifest=$r5
+$q.scientific_dependencies.Remove($r4);$q.scientific_dependencies.Remove('scripts/state_transfer/driver.py');$q.scientific_dependencies[$r5]=Hash $r5;$q.scientific_dependencies[$review]=Hash $review
+function SaveR5 {Put 'scripts/validation/evaluate_mode1_package148_state_transfer_r5.qualification.json' ($q|ConvertTo-Json -Depth 10)}
+function RejectR5([string]$label) {
+    SaveR5; $rejected=$false
+    try {$null=Get-ControllerOperation -ArtifactId $q.operation -Workspace $root} catch {$rejected=$true}
+    if(-not $rejected){throw "R5 accepted $label"}
+    Write-Host "PASS: R5 rejects $label"
+}
+SaveR5
+$task.scientific_operation=$scriptPath
+$task.scientific_operation_id=$q.operation
+$resolved=Resolve-ControllerTaskType $task $root
+if($resolved.task_type -ne 'QUALIFIED_EXECUTION' -or $resolved.operation.id -cne $q.operation){throw 'R5 dispatched as predecessor/preparation'}
+'PASS: R5 path/ID binding selects QUALIFIED_EXECUTION despite completed R1/R2/R3/R4'
+$task.scientific_operation=$q.operation
+if((Resolve-ControllerTaskType $task $root).operation.id -cne $q.operation){throw 'R5 ID-form dispatch failed'}
+'PASS: R5 ID-form binding selects exact R5 operation'
+$task.completed_operations+=$q.operation
+$denied=$false;try{$null=Resolve-ControllerOperation $task $root}catch{$denied=$_.Exception.Message -match 'COMPLETED_OPERATION_REJECTED'}
+if(-not $denied){throw 'Completed R5 replay accepted'}
+'PASS: completed R5 replay rejected'
+Put $review '{"verification_passed":true,"independent_r4_qualification":"PASS","python_36_compatibility":"PASS"}'
+$q.scientific_dependencies[$review]=Hash $review; RejectR5 'R4 review relabelled as R5'
+Put $review '{"verification_passed":true,"independent_r5_qualification":"PASS","python_36_compatibility":"FAIL"}'
+$q.scientific_dependencies[$review]=Hash $review; RejectR5 'failed Python compatibility'
+Put $review $r5review;$q.scientific_dependencies[$review]=Hash $review
+$q.manifest=$r4;RejectR5 'R4 manifest';$q.manifest=$r5
+Put $r5 'changed manifest';RejectR5 'changed manifest hash';Put $r5 $r5text
+Put $r5 ($r5text.Replace('"automatic_retry":false','"automatic_retry":true'));$q.scientific_dependencies[$r5]=Hash $r5
+RejectR5 'automatic retry';Put $r5 $r5text;$q.scientific_dependencies[$r5]=Hash $r5
+'PASS: 9 R5 registration/dispatch/failure-closure cases; no scheduler invocation.'
