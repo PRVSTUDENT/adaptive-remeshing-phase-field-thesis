@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 346,
+  "controller_run_id": "d0cef1bf-1cdf-485a-a47c-e24ca83ef058",
+  "status": "DISPATCH_REJECTED__CONTROLLER_PROCESS_MEMORY_DESYNCHRONIZATION",
+  "reproducible_execution_dispatch_failure": {
+    "live_checkpoint_path": "C:/Users/pruth/OpenClawPAD/controller_turn_checkpoint.json",
+    "checkpoint_actual": {
+      "task_type": "RESEARCH_PREPARATION",
+      "operation_id": "research_preparation",
+      "scientific_operation": "evaluate_mode1_package148_state_transfer_r3"
+    },
+    "checkpoint_required": {
+      "task_type": "QUALIFIED_EXECUTION",
+      "operation_id": "evaluate_mode1_package148_state_transfer_r3",
+      "scientific_operation": "scripts/validation/execute_package148_state_transfer.py"
+    },
+    "discrepancy": "Controller runner process PID 27092 entered research_preparation despite Turn 343 routing fixes, causing checkpoint task_type/operation_id mismatch and dispatch of preparation commands instead of qualified execution.",
+    "root_cause_diagnosis": {
+      "runner_process_id": 27092,
+      "runner_start_time": "2026-10-30T08:51:15+01:00",
+      "routing_fix_commit": "ffe73b6a10c13e2c7b8c1b02623b932a55908120",
+      "routing_fix_commit_time": "2026-10-30T14:03:20+01:00",
+      "mechanism": "PID 27092 has run continuously since 08:51:15. PowerShell does not re-parse in-memory script functions during a running loop. Consequently, PID 27092 executed the 08:51:15 in-memory versions of Resolve-ControllerTaskType and Get-ControllerOperation, which lacked evaluate_mode1_package148_state_transfer_r3 and threw UNQUALIFIED_OR_RETIRED_OPERATION, defaulting to RESEARCH_PREPARATION. In a fresh process with disk sources, Resolve-ControllerTaskType evaluates to QUALIFIED_EXECUTION deterministically.",
+      "secondary_defect": "Invoke-ControllerTurn.ps1 line 198 (Stage Complete) has an asymmetric check: it checks '$operation.path -cne $state.scientific_operation' without the '-and $operation.id -cne $state.scientific_operation' allowance present on line 119 (Stage Scientific). This would cause closeout to reject with 'Closeout operation mismatch' even if Stage Scientific succeeded."
+    },
+    "direct_developer_corrections_required": [
+      "1. Terminate stale PowerShell controller runner process PID 27092.",
+      "2. Patch Invoke-ControllerTurn.ps1 line 198 to match line 119: if($operation.id -cne $record.operation_id -or ($operation.path -cne $state.scientific_operation -and $operation.id -cne $state.scientific_operation)){throw 'Closeout operation mismatch'}.",
+      "3. Restart Antigravity-Autonomous-Loop.ps1 freshly so all disk sources are loaded into process memory."
+    ]
+  },
+  "package148_r3_status": {
+    "manifest": "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r3/EXECUTION_MANIFEST.json",
+    "qualification_record": "scripts/validation/evaluate_mode1_package148_state_transfer_r3.qualification.json",
+    "uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "regression_tests": "62/62 PASS",
+    "mechanical_datacheck": "PASS (Exit 0, 0 errors)",
+    "phase_datacheck": "PASS (Exit 0, 0 errors)",
+    "notification_contract": "PASS_LOGIN_NODE",
+    "pbs_job_id": null,
+    "method_c_stage_c1_1": "UNVERIFIED"
+  },
+  "evidence_sources": {
+    "scripts/controller/Antigravity-Autonomous-Loop.ps1": "A3F3DA75FDDCF8C92D77FF93109BBF674BD600A9B2BB5E39A2406C36C716BB0F",
+    "scripts/controller/Controller-Operations.ps1": "98D5CDD5184A05E415B71CD823D4239DC7BAFCE65C3F05BD44C0D30DBA76B75E",
+    "scripts/controller/Controller-Recovery.ps1": "3D169AD73F80F67A78B4ACB2D407CFBDF26F59C6CB0A659FE322E2D18DF37083",
+    "scripts/controller/Invoke-ControllerTurn.ps1": "6C0D17D4B034815BAC822762A3572960A2A3C4311EC6DF7C29AB7C705187B39E",
+    "scripts/validation/evaluate_mode1_package148_state_transfer_r3.qualification.json": "74FEDBF39B4A0664A5FEDD4BFB80F4786519D2B4276F1FDEB87A5743A6EDB205"
+  }
+}
