@@ -1,0 +1,108 @@
+﻿{
+    "operation":  "evaluate_mode1_package148_state_transfer",
+    "staged_commit":  "c3f8febad2d46e04d7db05edb0640aca7682665e",
+    "automatic_retry":  false,
+    "continuation_enabled":  false,
+    "submission_attempts":  1,
+    "preflight":  {
+                      "active_job_count":  0,
+                      "adapter_contract":  "mode1-qualified-batch-v2",
+                      "datachecks":  {
+                                         "M1_C4_P148_R1":  {
+                                                               "status":  "PASS",
+                                                               "input_sha256":  "3df912a56b0eae5faf68308229978b66081dc69efdf506ad203048e69a9c21cd",
+                                                               "dat_sha256":  "b5cbaf4819f140c702aa5dfd763dc03ee2b009dea4affc7d76151e915b973786",
+                                                               "additional":  {
+                                                                                  "P148_PHASE_DC.dat":  {
+                                                                                                            "status":  "PASS",
+                                                                                                            "input_sha256":  "dfc4ce7603a15cb4238093dba331059c789c3544e4f5a9dedbc4c05c59889652",
+                                                                                                            "dat_sha256":  "9637b0c2623db7a6ac4e10bbaa5efdbf6474a3723a5065d965d2aab862307c47"
+                                                                                                        }
+                                                                              }
+                                                           }
+                                     },
+                      "batch_spec_sha256":  "1ea09aebe7fd649921de9c26c490063d2f0e78325143db3e0c3e697daf3125e4",
+                      "passed":  true,
+                      "pbs_email_verified":  true,
+                      "telegram_verified":  true,
+                      "submission_queue":  "entry_imfdfkmq",
+                      "queue_access_preflight":  "PASS",
+                      "compiler_environment":  "PASS_LOGIN_NODE",
+                      "datacheck_verified":  "PASS_BOTH",
+                      "candidate_manifest_sha256":  "632f29fd163e935043254491d5006d6dcbc2fa08fde53c6df0f27291676025aa",
+                      "authorized_command_sha256":  "f921baca74e9d4eea08490f766126aa5463233d3df6ad41ca7d5143480b002e0",
+                      "checked_at":  "2026-10-30T07:41:44.017015+00:00",
+                      "config_path":  "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+                      "config_mode":  "600",
+                      "file_hashes":  {
+                                          "nodal_displacements_initial.csv":  "c41ba31cd518d776778173bacdf6f0f52f642afd5e9317582013a5689fa1bb40",
+                                          "nodal_phase_field_initial.csv":  "cefbca24a309f7099416e4d4d596ce8da01f1a12f137224ed0038134dff2e15c",
+                                          "d_lower_bounds.csv":  "2a7ba758d7af189498da96718edd19ace8e45e4f35ac684505c17b8b7505c574",
+                                          "initial_conditions_solution.inc":  "80f0c3c7c7c141bccad2979f1b982ef86f0ca7acd699791ca8cf4fcbece7b6fb",
+                                          "active_set_boundary_cards.inc":  "8f5a269fd25763291c9954334c23a552c8b14458a3a2e9ef44b45b553b7fae7d",
+                                          "f42_mixed_uel.for":  "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+                                          "job_notifications.sh":  "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+                                          "M1_C4_PACKAGE148_STATE_TRANSFER.inp":  "fcd4e4b5c52c23268196782e7f4bce2a9bbc767357651095da5236151d106114",
+                                          "submit_M1_C4_P148_R1.pbs":  "7b11cfdde2c5c0ba2c21c293da66a8979654a9990ee1b862dffb8179839e09c5",
+                                          "PACKAGE_MANIFEST.json":  "596a34482e49a9814794a576e5db00617efe72ef91620ac8d60e15dd866f50c8",
+                                          "P148_MECHANICAL_DC.inp":  "3df912a56b0eae5faf68308229978b66081dc69efdf506ad203048e69a9c21cd",
+                                          "P148_PHASE_DC.inp":  "dfc4ce7603a15cb4238093dba331059c789c3544e4f5a9dedbc4c05c59889652",
+                                          "run_datacheck.sh":  "2ec35236f2513301aa8681f3b725bb520b8c1a64820a008ff64c92ea6991adc4"
+                                      },
+                      "helper_sha256":  "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+                      "email_evidence":  "sendmail accepted test message; PBS abe directives verified",
+                      "telegram_notification_contract":  "PASS_LOGIN_NODE",
+                      "compute_node_delivery":  "UNRESOLVED",
+                      "lifecycle_tests":  "PASS"
+                  },
+    "scheduler":  {
+                      "exec_host":  "mnode101/0",
+                      "walltime":  "00:00:03",
+                      "queue":  "normal_imfdfkmq",
+                      "exit_status":  1,
+                      "state":  "F"
+                  },
+    "limitations":  [
+                        "PBS acceptance and datachecks do not prove physical acceptance",
+                        "R1 artifacts retained; no repair or replacement submission after terminal failure"
+                    ],
+    "telegram_notification_contract":  "PASS_LOGIN_NODE",
+    "manifest_sha256":  "632f29fd163e935043254491d5006d6dcbc2fa08fde53c6df0f27291676025aa",
+    "schema":  1,
+    "scientific_acceptance":  "UNVERIFIED",
+    "datachecks":  {
+                       "M1_C4_P148_R1":  {
+                                             "status":  "PASS",
+                                             "input_sha256":  "3df912a56b0eae5faf68308229978b66081dc69efdf506ad203048e69a9c21cd",
+                                             "dat_sha256":  "b5cbaf4819f140c702aa5dfd763dc03ee2b009dea4affc7d76151e915b973786",
+                                             "additional":  {
+                                                                "P148_PHASE_DC.dat":  {
+                                                                                          "status":  "PASS",
+                                                                                          "input_sha256":  "dfc4ce7603a15cb4238093dba331059c789c3544e4f5a9dedbc4c05c59889652",
+                                                                                          "dat_sha256":  "9637b0c2623db7a6ac4e10bbaa5efdbf6474a3723a5065d965d2aab862307c47"
+                                                                                      }
+                                                            }
+                                         }
+                   },
+    "pbs_job_id":  "1418787.mmaster02",
+    "registration":  "PASS",
+    "tests":  {
+                  "legacy_bootstrap":  "9 checks passed; stale watchdog-string assertion failed in unchanged controller code",
+                  "package_and_adapter_passed":  44,
+                  "controller_presubmission_cases_passed":  8,
+                  "gate_and_adapter_passed":  30,
+                  "preparation_cases_passed":  11,
+                  "operation_cases_passed":  9,
+                  "subtests_passed":  8
+              },
+    "failure":  {
+                    "message":  "ValueError: split() requires a non-empty pattern match.",
+                    "source":  "scripts/state_transfer/driver_package146_147_pdas_continuation.py",
+                    "log_path":  "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r1/pbs_execution.log",
+                    "classification":  "PYTHON36_ZERO_WIDTH_REGEX_SPLIT_BEFORE_FIRST_SOLVE",
+                    "solver_started":  false,
+                    "runtime_python":  "3.6.8",
+                    "line":  797
+                },
+    "compute_node_delivery":  "UNRESOLVED"
+}

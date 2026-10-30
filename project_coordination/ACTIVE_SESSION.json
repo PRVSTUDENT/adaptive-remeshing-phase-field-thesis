@@ -1,21 +1,21 @@
 ﻿{
     "active":  false,
     "agent":  "codex",
-    "task_id":  "AGY-RESTORE-ALL-FIVE-ACCOUNTS",
-    "starting_commit":  "f055c6dbb17190fd7934aef4e0ff11068eae8031",
-    "claimed_at":  "2026-10-30T08:16:29.6319133+01:00",
-    "last_updated":  "2026-10-30T08:24:07.9279288+01:00",
-    "last_released":  "2026-10-30T08:24:07.9279288+01:00",
+    "task_id":  "PACKAGE148-PRESUBMISSION-QUALIFICATION",
+    "starting_commit":  "d85d2c7532d07794f179e690db5e96032d1fca7b",
+    "claimed_at":  "2026-10-30T08:28:03.8488470+01:00",
+    "last_updated":  "2026-10-30T08:47:13.9541213+01:00",
+    "last_released":  "2026-10-30T08:47:13.9541213+01:00",
     "controller_run_id":  "d9edfd58-ccb3-4ce3-9751-ec67cdc4d22a",
-    "session_report":  "project_coordination/sessions/2026-10-30_codex_agy_five_account_recovery.md",
+    "session_report":  "project_coordination/sessions/2026-10-30_codex_package148_presubmission_qualification.md",
     "allowed_write_scope":  [
-                                "project_coordination/ACTIVE_SESSION.json",
-                                "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/ARTIFACT_REGISTRY.csv",
-                                "project_coordination/sessions/2026-10-30_codex_agy_five_account_recovery.md",
-                                "normal AGY native and CLI credential switch/authentication",
-                                "identity-verified saves for account1 account2 account4 account5 only if recovery succeeds",
-                                "new encrypted backups of refreshed profiles without modifying existing backups",
-                                "OpenClawPAD account-recovery controller pause/resume receipt and token-free result table"
+                                "scripts/controller/Controller-Qualification.ps1",
+                                "scripts/controller/Controller-Operations.ps1",
+                                "scripts/controller/ related qualification entrypoints if required",
+                                "scripts/hpc/ exact qualification and execution adapters if required",
+                                "tests/ controller qualification regression tests",
+                                "results/validation/package148/ technical evidence",
+                                "project_coordination/ session report and coordination ledgers",
+                                "Package148 R1 manifest and staging metadata only with fresh technical qualification; scientific runtime and frozen UEL unchanged"
                             ]
 }
