@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn_id": "6105baf2-a927-458e-bc37-d1f0d1ccad8d",
+  "operation": "research_preparation",
+  "registered_operation": "evaluate_mode1_package148_state_transfer_r5",
+  "title": "Package 148 R5 State-Transfer Construction, Cluster Datachecks, and Preflight Qualification",
+  "finding": "Package 148 R5 state-transfer candidate successfully constructed with verified 7+8+3 solution card encoding restoring SVARS(9..12) history mapping; authentic Abaqus 2023 mechanical and phase datachecks passed Exit 0 on cluster hardware; independent review and preflight qualification recorded; TECHNICAL_PREFLIGHT_PASS verified under Invoke-Mode1Execution.ps1.",
+  "classification": "RESEARCH_PREPARATION_VERIFIED",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r5/M1_C4_PACKAGE148_STATE_TRANSFER.inp": "FCD4E4B5C52C23268196782E7F4BCE2A9BBC767357651095DA5236151D106114",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r5/initial_conditions_solution.inc": "5E6BFF895C2057C6CD552B43A25E1F0A2E9759FF44A77E816B4106EC959BF5DC",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r5/active_set_boundary_cards.inc": "8F5A269FD25763291C9954334C23A552C8B14458A3A2E9EF44B45B553B7FAE7D",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r5/d_lower_bounds.csv": "2A7BA758D7AF189498DA96718EDD19ACE8E45E4F35AC684505C17B8B7505C574",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r5/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r5/P148_MECHANICAL_DC.inp": "C34F4AB71063CD310CF98DFDF9C66E6E69B39AA56884E4E88B712C01F893F3C8",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r5/P148_PHASE_DC.inp": "38D9E2B0AB76E52087C326CBC38C56532C01B859493C25D340B40609C4712B83",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r5/submit_M1_C4_P148_R5.pbs": "E909D1C4A27B034A7383E1C412F9B8AB246C3BF6B68528C23A1ED905E9F1F64E",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r5/run_datacheck.sh": "B451FF7AEBDE55042C6AECB09F1D883677405599B526A4E218035E8AEB43B768",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r5/PACKAGE_MANIFEST.json": "1BAD4DA51ADEBBFC863626B9E6A38150086516C811C7CDBFE889A086CA75FCE5",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r5/EXECUTION_MANIFEST.json": "5384DBFACE2F7D9AD271B1A2DAA61DE16E81820E8A722A4BCB9F9EB48FB85356",
+    "results/validation/package148_r5_execution_review.json": "9C42EF99B912A4179ECBB87A01B504EAAA36EC0BA1B1A0A75128BFE2343BF37E",
+    "scripts/validation/evaluate_mode1_package148_state_transfer_r5.qualification.json": "225C62187AFBB2873EE40A37F65032C6ED0FEA2656798C027060EB94B6BAF567",
+    "tests/unit/test_mode1_f1597_turn357_package148_r5_qualification.py": "C570172A5B272F86DD80A8F45E930F982A504BA6720F9C60D805CEB0BA9F7445"
+  },
+  "measurements": {
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "r5_elements": 7056,
+    "r5_nodes": 7265,
+    "r5_gauss_points": 28224,
+    "solution_card_format": "7+8+3 (tokens: 8, 8, 3 per element)",
+    "mechanical_datacheck": "ANALYSIS DATACHECK COMPLETE (Exit 0)",
+    "phase_datacheck": "ANALYSIS DATACHECK COMPLETE (Exit 0)",
+    "technical_preflight": "TECHNICAL_PREFLIGHT_PASS",
+    "active_project_jobs": 0
+  },
+  "limitation": "Preparation and qualification verify technical deck integrity, slot mapping, cluster compilation, and datacheck execution; forward physical convergence and acceptance remain to be evaluated upon live coupled execution.",
+  "next_operation": "Submit M1_C4_P148_R5 once-only execution via scripts/hpc/Invoke-Mode1Execution.ps1 in the immediate next qualified execution turn."
+}
