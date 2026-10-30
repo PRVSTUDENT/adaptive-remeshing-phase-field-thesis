@@ -1,4 +1,22 @@
 . (Join-Path $PSScriptRoot 'Controller-Qualification.ps1')
+function Test-ControllerOperationBinding($Operation,$Record,$State) {
+    return ($Operation.id -ceq $Record.operation_id -and
+        $State.operation_id -ceq $Operation.id -and $State.task_type -ceq 'QUALIFIED_EXECUTION' -and
+        $Record.operation_path -cin @($Operation.path,$Operation.id) -and
+        $State.scientific_operation -cin @($Operation.path,$Operation.id))
+}
+function Get-ControllerPinnedOperationHash($Operation,$State,[string]$Workspace) {
+    $pin=$State.sources.($Operation.path)
+    if($pin){return $pin}
+    # Legacy ID-form checkpoints may omit the path, but must still pin the
+    # exact qualification artifact. Never accept the current file as its own pin.
+    $q=$Operation.qualification
+    if($q -and $q.script_sha256 -and $q.qualification_artifact){
+        $recordPin=$State.sources.($q.qualification_artifact)
+        if($recordPin -and (Get-FileHash -LiteralPath (Join-Path $Workspace $q.qualification_artifact)).Hash -ceq $recordPin){return $q.script_sha256}
+    }
+    throw 'Scientific verifier source was not pinned before dispatch'
+}
 # Closed operation registry with dynamic qualified operation support. Retired KKT artifacts remain verifiable, never executable.
 function Get-ControllerOperation([string]$Path,[string]$ArtifactId,[switch]$Historical,[switch]$Proposed,[string]$Workspace='') {
     if(($Path -cin @('evaluate_mode1_package148_state_transfer','evaluate_mode1_package148_state_transfer_r2','evaluate_mode1_package148_state_transfer_r3')) -or (-not $Path -and $ArtifactId -cin @('evaluate_mode1_package148_state_transfer','evaluate_mode1_package148_state_transfer_r2','evaluate_mode1_package148_state_transfer_r3'))){

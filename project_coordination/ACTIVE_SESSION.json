@@ -1,26 +1,20 @@
-{
+﻿{
     "active":  false,
-    "agent":  "gemini-antigravity",
-    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "starting_commit":  "14807c87ca2fdcf26a432d3cccadb18c0acaf496",
-    "claimed_at":  "2026-10-30T14:40:33.5186527+01:00",
-    "last_updated":  "2026-10-30T14:52:36.0747923+01:00",
-    "last_released":  "2026-10-30T14:52:36.0747923+01:00",
-    "controller_run_id":  "d0cef1bf-1cdf-485a-a47c-e24ca83ef058",
-    "session_report":  "project_coordination/sessions/2026-10-30_gemini-antigravity_F1597_d0cef1bf-1cdf-485a-a47c-e24ca83ef058.md",
+    "agent":  "codex",
+    "task_id":  "PACKAGE148-R3-FRESH-DISPATCH",
+    "starting_commit":  "590ff56e4249d8ff6ffe85d6db66ebf47acd0adc",
+    "claimed_at":  "2026-10-30T15:04:28.6047489+01:00",
+    "last_updated":  "2026-10-30T15:11:10.1258520+01:00",
+    "last_released":  "2026-10-30T15:11:10.1258520+01:00",
+    "controller_run_id":  "4ff13a54-7da4-4680-a033-a6f614eec4a8",
+    "session_report":  "project_coordination/sessions/2026-10-30_codex_r3_fresh_dispatch.md",
     "allowed_write_scope":  [
-                                "project_coordination/sessions/2026-10-30_gemini-antigravity_F1597_d0cef1bf-1cdf-485a-a47c-e24ca83ef058.md",
-                                "project_coordination/controller/turn-d0cef1bf-1cdf-485a-a47c-e24ca83ef058.json",
-                                "results/validation/mode1_f1597/d0cef1bf-1cdf-485a-a47c-e24ca83ef058.json",
-                                "results/validation/preparation-d0cef1bf-1cdf-485a-a47c-e24ca83ef058.json",
-                                "results/validation/*",
-                                "scripts/validation/*",
-                                "tests/unit/*",
-                                "models/pandey_kumar_mode1/*",
-                                "project_coordination/ACTIVE_SESSION.json",
-                                "project_coordination/ACTIVE_TASK.json",
-                                "project_coordination/CURRENT_STATE.md",
-                                "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/ARTIFACT_REGISTRY.csv"
-                            ]
+                                "scripts/controller/ closeout routing freshness and bounded restart handling",
+                                "tests/unit/ dispatch closeout and restart regression fixtures",
+                                "R3 qualification source bindings only; no numerical candidate modifications",
+                                "project_coordination/ owned session and interrupted Turn347 reconciliation and submission ledgers",
+                                "results/validation/ safe R3 dispatch and execution evidence",
+                                "OpenClawPAD/ controller deployment checkpoint archive and fresh-process receipts; preserve INITIAL_PROMPT"
+                            ],
+    "interruption_checkpoint":  "C:\\Users\\pruth\\OpenClawPAD\\controller_turn_checkpoint.json"
 }

@@ -116,10 +116,10 @@ if($Stage -eq 'Scientific'){
     if($record.scientific_checkpoint){Write-Output 'SCIENTIFIC_CHECKPOINT_ALREADY_EXISTS; use Complete';return}
     $task=Get-Content -LiteralPath $taskPath -Raw|ConvertFrom-Json
     $operation=Resolve-ControllerOperation $task $Workspace
-    if($record.operation_id -cne $operation.id -or ($record.operation_path -cne $operation.path -and $record.operation_path -cne $operation.id) -or ($state.scientific_operation -cne $operation.path -and $state.scientific_operation -cne $operation.id)){throw 'Dispatch operation changed after bootstrap'}
+    if(-not (Test-ControllerOperationBinding $operation $record $state)){throw 'Dispatch operation changed after bootstrap'}
     foreach($source in $state.sources.PSObject.Properties){if($source.Name -match '^(scripts/|models/|results/)'){if(-not(Test-Path -LiteralPath (Join-Path $Workspace $source.Name)) -or (Get-FileHash -LiteralPath (Join-Path $Workspace $source.Name)).Hash -ne $source.Value){throw 'Scientific basis/source changed after dispatch'}}}
     $probe=$operation.path
-    $pinned=$state.sources.$probe
+    $pinned=Get-ControllerPinnedOperationHash $operation $state $Workspace
     if(-not $pinned -or (Get-FileHash -LiteralPath (Join-Path $Workspace $probe)).Hash -ne $pinned){throw 'Scientific verifier source changed after dispatch'}
     $relative='results/validation/mode1_f1597/'+$RunId+'.json'
     $output=Join-Path $Workspace $relative
@@ -195,9 +195,9 @@ if($record.scientific_checkpoint.kind -eq 'PREPARATION_CHECKPOINT'){
     $classification=if($payload.classification){$payload.classification}else{'RESEARCH_PREPARATION_VERIFIED'}
 } else {
     $operation=Resolve-ControllerOperation $task $Workspace
-    if($operation.id -cne $record.operation_id -or $operation.path -cne $state.scientific_operation){throw 'Closeout operation mismatch'}
+    if(-not (Test-ControllerOperationBinding $operation $record $state)){throw 'Closeout operation mismatch'}
     $task.status=$operation.status
-    $task.phase=if($record.scientific_checkpoint.kind -eq 'HPC_SUBMISSION'){'Package 148 R1 submitted; physical acceptance pending authentic solver results.'}else{('F1597: '+$operation.title+' measured; transfer correction remains unqualified.')}
+    $task.phase=if($record.scientific_checkpoint.kind -eq 'HPC_SUBMISSION'){($operation.id+' submitted; physical acceptance pending authentic solver results.')}else{('F1597: '+$operation.title+' measured; transfer correction remains unqualified.')}
     $task|Add-Member -NotePropertyName last_updated -NotePropertyValue ([datetimeoffset]::Now.ToString('o')) -Force
     $task|Add-Member -NotePropertyName next_safe_action -NotePropertyValue $payload.next_operation -Force
     $task|Add-Member -NotePropertyName scientific_checkpoint -NotePropertyValue $record.scientific_checkpoint -Force
