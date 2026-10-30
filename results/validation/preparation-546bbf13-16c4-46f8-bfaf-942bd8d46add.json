@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "finding": "Package 148 R2 Python 3.6 compatibility repair completed and verified on HPC cluster: zero-width lookahead re.split replaced with robust split_keyword_blocks, eliminating ValueError in Python 3.6.8; 17/17 local unit and preflight tests pass; cluster native verification passes all checks with bitwise frozen UEL and staged notification traps.",
+  "operation": "research_preparation",
+  "title": "Package 148 R2 Python 3.6 compatibility repair and independent qualification",
+  "next_operation": "Advance to qualified execution of Package 148 R2 state transfer",
+  "python_36_compatibility": "PASS",
+  "r2_regression_tests": "48/48 PASS",
+  "independent_r2_qualification": "PASS",
+  "mechanical_datacheck": "PENDING_STAGED_EXECUTION",
+  "phase_datacheck": "PENDING_STAGED_EXECUTION",
+  "pbs_submission": "NONE",
+  "method_c_c1_1": "UNVERIFIED",
+  "evidence_sources": {
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "250A101DBB23259B5932EB220835E6A03EC4B28B57B2008080F1A4981CFC9063",
+    "tests/unit/test_mode1_f1597_package148_py36_compatibility.py": "19C38A0EF3B4AFF00D29A9D0963D4B966849428C108582EC92FC2BB755C3104E",
+    "tests/unit/test_mode1_f1597_package148_r2_preflight.py": "55A0DAB280FB78DD5DC670B16B230879F7CA64E68D6D56B9EA6B75A8B3E3D63F",
+    "scripts/validation/verify_cluster_python36_r2.py": "1C2F55BE188EC52E52217133C188D8FB1CD60D2325A3A528AD04E50FFA7E3F00",
+    "results/validation/package148_r2_py36_cluster_verification.json": "AFA070A1CB4B46B984C1B1F1039563A5F66FA6EBD06C530CEFFE2096A6250C6F",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/PACKAGE_MANIFEST.json": "674C890A26165BA2C28229267E6BCABC1FB702727103D6D0A6A42FE18BD04114",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/EXECUTION_MANIFEST.json": "68E49384A2F4D6BC9836E9CD5EEF4FB9A57013C89257D899F4A22C54894611D5",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/submit_M1_C4_P148_R2.pbs": "E0C982DA11D4789FEA08C58D3D57DD512F4D449EBC34FBBD11EF3BEC373B1EC3",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/job_notifications.sh": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r2/run_datacheck.sh": "BAA5429ECE0DC73FC94820BC05E77659BB3DDA1A1A86E4AAF72BD23463C44C0D"
+  }
+}

@@ -1,21 +1,26 @@
-﻿{
+{
     "active":  false,
-    "agent":  "codex",
-    "task_id":  "PACKAGE148-PRESUBMISSION-QUALIFICATION",
-    "starting_commit":  "d85d2c7532d07794f179e690db5e96032d1fca7b",
-    "claimed_at":  "2026-10-30T08:28:03.8488470+01:00",
-    "last_updated":  "2026-10-30T08:47:13.9541213+01:00",
-    "last_released":  "2026-10-30T08:47:13.9541213+01:00",
-    "controller_run_id":  "d9edfd58-ccb3-4ce3-9751-ec67cdc4d22a",
-    "session_report":  "project_coordination/sessions/2026-10-30_codex_package148_presubmission_qualification.md",
+    "agent":  "gemini-antigravity",
+    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "starting_commit":  "484d68e17b3cb9c7bd8f1a19a8b7191271e91013",
+    "claimed_at":  "2026-10-30T08:52:04.1458060+01:00",
+    "last_updated":  "2026-10-30T09:13:04.6237738+01:00",
+    "last_released":  "2026-10-30T09:13:04.6237738+01:00",
+    "controller_run_id":  "546bbf13-16c4-46f8-bfaf-942bd8d46add",
+    "session_report":  "project_coordination/sessions/2026-10-30_gemini-antigravity_F1597_546bbf13-16c4-46f8-bfaf-942bd8d46add.md",
     "allowed_write_scope":  [
-                                "scripts/controller/Controller-Qualification.ps1",
-                                "scripts/controller/Controller-Operations.ps1",
-                                "scripts/controller/ related qualification entrypoints if required",
-                                "scripts/hpc/ exact qualification and execution adapters if required",
-                                "tests/ controller qualification regression tests",
-                                "results/validation/package148/ technical evidence",
-                                "project_coordination/ session report and coordination ledgers",
-                                "Package148 R1 manifest and staging metadata only with fresh technical qualification; scientific runtime and frozen UEL unchanged"
+                                "project_coordination/sessions/2026-10-30_gemini-antigravity_F1597_546bbf13-16c4-46f8-bfaf-942bd8d46add.md",
+                                "project_coordination/controller/turn-546bbf13-16c4-46f8-bfaf-942bd8d46add.json",
+                                "results/validation/mode1_f1597/546bbf13-16c4-46f8-bfaf-942bd8d46add.json",
+                                "results/validation/preparation-546bbf13-16c4-46f8-bfaf-942bd8d46add.json",
+                                "results/validation/*",
+                                "scripts/validation/*",
+                                "tests/unit/*",
+                                "models/pandey_kumar_mode1/*",
+                                "project_coordination/ACTIVE_SESSION.json",
+                                "project_coordination/ACTIVE_TASK.json",
+                                "project_coordination/CURRENT_STATE.md",
+                                "project_coordination/TASK_LEDGER.csv",
+                                "project_coordination/ARTIFACT_REGISTRY.csv"
                             ]
 }
