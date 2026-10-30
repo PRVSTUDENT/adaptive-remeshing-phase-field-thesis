@@ -1,0 +1,47 @@
+{
+    "schema":  1,
+    "status":  "PREPARATION_COMPLETE",
+    "verification_passed":  true,
+    "finding":  "Package 148 R3 independent preflight qualification verified: 62/62 unit and presubmission regression tests pass, bitwise frozen UEL preserved (CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6), Python 3.6 compatibility confirmed, and guarded preflight registration aligned for autonomous controller turn execution.",
+    "operation":  "research_preparation",
+    "title":  "Package 148 R3 preflight qualification and execution harmonization",
+    "next_operation":  "Advance to qualified execution of Package 148 R3 state transfer",
+    "qualified_operation":  "evaluate_mode1_package148_state_transfer_r3",
+    "qualified_operation_id":  "evaluate_mode1_package148_state_transfer_r3",
+    "qualification_artifact":  "scripts/validation/evaluate_mode1_package148_state_transfer_r3.qualification.json",
+    "operation_preparation":  {
+                                  "status":  "REGISTERED",
+                                  "dispatch_ready":  true,
+                                  "operation_id":  "evaluate_mode1_package148_state_transfer_r3",
+                                  "path":  "scripts/validation/execute_package148_state_transfer.py",
+                                  "qualification_artifact":  "scripts/validation/evaluate_mode1_package148_state_transfer_r3.qualification.json"
+                              },
+    "python_36_compatibility":  "PASS",
+    "r3_regression_tests":  "62/62 PASS",
+    "independent_r3_qualification":  "PASS",
+    "mechanical_datacheck":  "PENDING_STAGED_EXECUTION",
+    "phase_datacheck":  "PENDING_STAGED_EXECUTION",
+    "pbs_submission":  "NONE",
+    "method_c_c1_1":  "UNVERIFIED",
+    "registered_paths":  [
+                             "results/validation/preparation-8ea66841-2d2a-4f1d-a6e1-e9d839535827.json"
+                         ],
+    "evidence_sources":  {
+                             "scripts/state_transfer/driver_package146_147_pdas_continuation.py":  "86B561C8A24B409FB9B18E8A2B5E643341A2A1280D921F9A01540A78964F109B",
+                             "scripts/validation/extract_package148_iteration.py":  "1C0D1A33729E1EE746C3C5B9EA10694BD7059D19FA47B8F8B3C639BC8F6D2D98",
+                             "scripts/validation/execute_package148_state_transfer.py":  "E1B16A95709DCBC1B8CBBE357BA9A963DA5265324C1E1C51A391E430C8D63052",
+                             "tests/unit/test_mode1_f1597_package148_r3_extraction.py":  "139869E5FEBEA07C0AD710D5FEEF6B95CE7E87F52B3DAE141393F09D25F48969",
+                             "tests/unit/test_mode1_f1597_package148_r3_preflight.py":  "331ABFE4B2651E5439D12250F4D44A7BCB3712C7AADD6E944C5F6024F0D84CBC",
+                             "tests/unit/test_mode1_f1597_package148_py36_compatibility.py":  "19C38A0EF3B4AFF00D29A9D0963D4B966849428C108582EC92FC2BB755C3104E",
+                             "tests/unit/test_package148_submission_adapter.py":  "A74BC3B802939C8359C1C793D2CE7BC65CA0A1857034D848E7735AFC8AF3E8C9",
+                             "tests/unit/test_mode1_execution_gate.py":  "E9D5DA51F5C708A79CBC810CE3C6D4D72849C6F4E942622EB34536BDDA5FCC37",
+                             "tests/unit/test_controller_presubmission.ps1":  "345A815178A93275BA5E7DBA4793BA5DD4E7A717B587A490D1544E7B1EB8673D",
+                             "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r3/EXECUTION_MANIFEST.json":  "3E297F640C0AFB2D186B7B4A3614409AB0A015895DE9005E5DB8962F7717A1B9",
+                             "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r3/PACKAGE_MANIFEST.json":  "93EF68009EB3E5950D8C1FCB98F50E4A38EB0898D8629D417AF13F6040EB4AB4",
+                             "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r3/P148_MECHANICAL_DC.inp":  "3DF912A56B0EAE5FAF68308229978B66081DC69EFDF506AD203048E69A9C21CD",
+                             "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r3/P148_PHASE_DC.inp":  "DFC4CE7603A15CB4238093DBA331059C789C3544E4F5A9DEDBC4C05C59889652",
+                             "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r3/f42_mixed_uel.for":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+                             "scripts/validation/evaluate_mode1_package148_state_transfer_r3.qualification.json":  "180E9B62135288F500BD2510BD63492815C2F43894BB1284F9E3374F9C2F2208",
+                             "results/validation/r3_qualification_verification.json":  "6160EF38B800F269DC8431B8AE3D05C3D8F330E254427236802C7D2CCBD25C34"
+                         }
+}
