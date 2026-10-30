@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn_id": "1af42b82-d084-4661-a195-2b8411a5ba38",
+  "operation": "research_preparation",
+  "title": "Package 148 R5 Terminal Coupled Evaluation and Physical Acceptance Assessment",
+  "finding": "Package 148 R5 (Job 1418909.mmaster02) verified terminal after completing 15 coupled alternating PDAS iterations with geometric residual contraction (delta_d dropping to 2.01e-5, delta_u to 8.67e-9 mm, zero dual error); physical metrics at matched donor state pass all predeclared tolerances (RF2 deficit 0.74% <= 5%, total energy deficit 0.14% <= 2%, zero healing), while full convergence flag was prevented by an internal driver timeout cap (780 s) during outer 15 extraction.",
+  "classification": "RESEARCH_PREPARATION_VERIFIED",
+  "verification_passed": true,
+  "evidence_sources": {
+    "results/validation/package148_r5_terminal_evaluation.json": "D56FC27EB5D4554E3BCBE3E5C1666036EEC14E37D9D4A5D4B11A14649257336C",
+    "results/validation/package148_r5_terminal_runtime.json": "E6E7EADCB6B7D58644227EECC094E9CEC8A7702D03D46BD909C1004E3390DBBD",
+    "tests/unit/test_mode1_f1597_turn361_r5_terminal_evaluation.py": "B2F3E87D720926AB76947EF6D94EB4BEB67FCF8AA91200BAA363362F12951286",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r5/EXECUTION_MANIFEST.json": "5384DBFACE2F7D9AD271B1A2DAA61DE16E81820E8A722A4BCB9F9EB48FB85356",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r5/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "registered_paths": [
+    "results/validation/package148_r5_terminal_evaluation.json",
+    "results/validation/package148_r5_terminal_runtime.json",
+    "tests/unit/test_mode1_f1597_turn361_r5_terminal_evaluation.py"
+  ],
+  "measurements": {
+    "pbs_job_id": 1418909,
+    "outer_iterations_completed": 15,
+    "delta_d_outer_15": 2.0079999999977893e-05,
+    "delta_u_outer_15_mm": 8.672941476106644e-09,
+    "delta_h_outer_15": 0.00032574213394997997,
+    "dual_error_outer_15": 0.0,
+    "free_error_outer_15": 2.5398789114339234e-09,
+    "rf2_outer_15_kN": 0.1859247088432312,
+    "donor_rf2_kN": 0.1873079389333725,
+    "rf2_deficit_pct": 0.7384790184469736,
+    "total_energy_outer_15_kNmm": 0.00021300295846727484,
+    "donor_total_energy_kNmm": 0.00021270454,
+    "total_energy_deficit_pct": 0.14029717904739564,
+    "driver_timeout_seconds": 780
+  },
+  "limitation": "While physical state preservation passes all quantitative tolerances (force 0.74%, energy 0.14%, irreversibility 0 healing nodes), driver execution status recorded FAILED due to subprocess.TimeoutExpired during outer 15 extraction. Stage C1-2 driver must raise internal timeout to >= 7200 s.",
+  "next_operation": "Prepare Stage C1-2 sequential adaptive remeshing execution package with driver timeout aligned to PBS queue limit (>= 7200 s)."
+}
