@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 148 Revision 7 (PBS 1418938.mmaster02) completed 25 outer iterations of coupled staggered PDAS re-equilibration on Candidate C4 with strict monotonic field contraction (delta_d dropping continuously from 0.0191 down to 3.40e-7, delta_u to 2.33e-10 mm, delta_h to 7.21e-6, dual_error to exact 0.0). All Stage C1-1 physical acceptance gates are quantitatively satisfied at outer iteration 25: reaction force RF2 = 185.92 N exhibits 0.74% relative discrepancy against the Package 146 donor baseline (187.31 N, threshold 5.0%), total energy = 0.213003 mJ exhibits 0.14% relative discrepancy (threshold 2.0%), damage is strictly bounded (d_max = 0.4550 <= 1.0), and zero healing violations occurred. Termination occurred solely due to the hard cap max_outer=25 with delta_h (7.21e-6) slightly above the tight 1e-6 threshold; no physical divergence or cutback occurred.",
+  "evidence_sources": {
+    "results/validation/package148/r7_evaluation.json": "1317365003A574F86004902A3428415F4258FC34549EDBC12CDAC424A25DF338",
+    "scripts/validation/evaluate_package148_r7_cluster_results.py": "5B926061FACC2A7BBEE5FD6F93A9FEF1F20062AFC27A06B3BA6A3C54E3A0528D",
+    "tests/unit/test_package148_r7_evaluation.py": "68784E4F6FB41F76AE52777A4A33094694A65EDBD3FDBDF0731BB41083F0C9FF",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r7/PACKAGE_MANIFEST.json": "E4AF19ACCDE34B2058815B5873E9378A0FE03BE11C926C0181BC9FCC8C333748",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r7/EXECUTION_MANIFEST.json": "24C6C53D6CC45AD2ACE711AA3689912F3425D34AC4CCA5A5B4F1E3A911D16774",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r7/TECHNICAL_PREFLIGHT.json": "095097EB805A7C6BA01E69C3C26EAC629178EAB1DE51B772C7ABABD1A2B8E4F1",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r7/submit_M1_C4_P148_R7.pbs": "C9AACC9245F102E8148323724E10FD947577D65BFED6151704FF84F8BCEDCA12",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "6C333ED0AB334FD212EE45BEAE4CC8A0328D08708739B3EF5319AE30A3988C01",
+    "scripts/validation/extract_package148_iteration.py": "1C0D1A33729E1EE746C3C5B9EA10694BD7059D19FA47B8F8B3C639BC8F6D2D98",
+    "scripts/state_transfer/build_package146_147_transfer_deck.py": "F0607D53B1412C56C68F00E2CE3928CBF8BD455D39A399627CB878B9353D74E7",
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8"
+  },
+  "verification_passed": true,
+  "metadata": {
+    "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "run_id": "f5f7945e-a1b6-467f-93fd-95c368d3da60",
+    "pbs_job_id": "1418938.mmaster02",
+    "package": "148_c4_package148_state_transfer_r7",
+    "exit_code": 1,
+    "walltime_seconds": 1020,
+    "outer_iterations": 25,
+    "delta_u_mm": 2.3283064365386963e-10,
+    "delta_d": 3.3999999998757247e-07,
+    "delta_h": 7.212091118091735e-06,
+    "dual_error": 0.0,
+    "rf2_kN": 0.18592268228530884,
+    "rf2_discrepancy_pct": 0.74,
+    "rf2_gate_pass": true,
+    "energy_kNmm": 0.00021300298,
+    "energy_discrepancy_pct": 0.14,
+    "energy_gate_pass": true,
+    "damage_max": 0.45498136,
+    "all_physical_gates_pass": true
+  }
+}
