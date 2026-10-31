@@ -24,9 +24,9 @@ def test_authoritative_artifacts_exist():
     assert RECON_JSON.exists(), f"{RECON_JSON} must exist"
 
 
-def test_registration_absence_in_controller_operations():
+def test_reviewed_registration_now_present_preserving_historical_blocker():
     text = CONTROLLER_OPS.read_text(encoding="utf-8")
-    assert "execute_mode1_package157_c1_2_r4_adaptive_continuation" not in text
+    assert "execute_mode1_package157_c1_2_r4_adaptive_continuation" in text
 
 
 def test_registration_blocker_status():

@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "operation_id": "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+  "registration_status": "REVIEWED_FOR_TECHNICAL_QUALIFICATION",
+  "reviewed_by": "codex-controller-maintenance",
+  "execution_script": "scripts/validation/execute_package157_r4.py",
+  "preparation_script": "scripts/validation/qualify_package157_r4.py",
+  "manifest": "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r4/EXECUTION_MANIFEST.json",
+  "candidate_job": "M1_C4_P157_C1_2_R4",
+  "historical_alias": "M1_C4_P150_C1_2_R4; never submitted under this alias",
+  "evidence_sources": {
+    "results/validation/package157_r4_scientific_review_and_registration_handoff.json": "856B53AB7EC8F5CA79D9299F130DDDDF35C2A2DAD13E3811AFA1AC806012CD32",
+    "results/validation/package157_r4_registration_status_receipt.json": "C71CD7BDA2EE2AC11080196D2336E2D0815BA419352311DCE6A7606037F8A091",
+    "results/validation/authentic_step1_history_audit.json": "1D3C75675E1F6CBF61DED73991E01D40983C8923AE022F95E4D084E6DE0C541C",
+    "results/validation/step1_committed_solution_initial.inc": "306ABF3C09FAA9CB9CEA37F48B8E93A8509C0FF0D0258E9B47667367D9808F60",
+    "results/validation/step1_equilibrium_checkpoint_1419113_endpoint.json": "FD75727BFDF8B83E03F067E0AC341ED91FB4FFE1A704B16E712714B38F300DDC",
+    "results/validation/step1_equilibrium_checkpoint_1419113_full_history.json": "1640388AA1831CF896A980DC0228CF7F72B38B9077ECEB97207664927C0D1980",
+    "scripts/state_transfer/build_package157_r4.py": "E9D6A11C2F18AEFBD54B114F94731800132EC7665D052C8271A06E0F474AE746",
+    "scripts/validation/qualify_package157_r4.py": "A3F533C98B050E6FC03AE90DE88AE32D3D56C3584062B3DF6B93EB6D2DDB35A4",
+    "scripts/validation/execute_package157_r4.py": "D53963A12B392FE05B57335057433514019CEF96081FE34AA0A7FD5A769391AF"
+  },
+  "scope": "Serial Mode-I R4 loading subdivision only; exact reviewed checkpoint/limits; no C5 transfer",
+  "physical_acceptance": "UNVERIFIED"
+}

@@ -1,4 +1,4 @@
-{
+﻿{
     "operation_review":  {
                              "operation":  "evaluate_mode1_package148_state_transfer_r4",
                              "decision":  "R4_STATE_CARD_HISTORY_SLOT_SHIFT_INDEPENDENTLY_REPRODUCED_NO_PRODUCTION_REPAIR",
@@ -11,7 +11,7 @@
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "agent":  "gemini-antigravity",
     "phase":  "Terminal execution-registration blocker re-verified for Package 157 R4: all scientific preparation is verified and complete (authentic Step-1 cards 306ABF3C..., 28,224 GPs, max diff 8.9706e-14 MPa, holding equilibrium uy=0.00185031 mm, RP Node 999999, peak damage Node 3612 at x=0.04136 mm, y=0.05000 mm, locked 5x10 nm continuation schedule, frozen UEL CE8D5EDC...). Inspection confirms execute_mode1_package157_c1_2_r4_adaptive_continuation remains unregistered in scripts/controller/Controller-Operations.ps1. Final decision is DEFINITION_REVIEW_REQUIRED. Automated preparation cycle is terminated; external independent registration is required before dispatch.",
-    "gate_status":  "P152_R2_STEP1_HISTORY_CONVERGENCE_FAILED__C1_2_UNACCEPTED",
+    "gate_status":  "P154_R3_STEP2_FAILED__P157_R4_RUNNING__C1_2_UNACCEPTED",
     "active_pbs_job_ids":  [
 
                            ],
@@ -226,13 +226,13 @@
                                            "automatic_retry":  false
                                        },
     "operation_preparation":  {
-                                  "qualification_artifact":  "scripts/validation/evaluate_mode1_package148_state_transfer_r8.qualification.json",
-                                  "status":  "QUALIFIED_FOR_PREFLIGHT",
-                                  "path":  "scripts/validation/execute_package148_state_transfer.py",
-                                  "operation_id":  "evaluate_mode1_package148_state_transfer_r8",
-                                  "dispatch_ready":  true
+                                  "qualification_artifact":  "scripts/validation/execute_mode1_package157_c1_2_r4_adaptive_continuation.qualification.json",
+                                  "path":  "scripts/validation/execute_package157_r4.py",
+                                  "operation_id":  "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+                                  "status":  "SUBMITTED_ONCE",
+                                  "dispatch_ready":  false
                               },
-    "scientific_operation_id":  "evaluate_mode1_package148_state_transfer_r8",
+    "scientific_operation_id":  "execute_mode1_package157_c1_2_r4_adaptive_continuation",
     "latest_technical_recovery":  {
                                       "schema":  1,
                                       "pbs_job_id":  "1418938.mmaster02",
@@ -250,7 +250,7 @@
                                       "controller_loop_restarted":  false,
                                       "automatic_retry":  false
                                   },
-    "status":  "PREPARATION_COMPLETE",
+    "status":  "P157_R4_SUBMITTED_AWAITING_PHYSICAL_VALIDATION",
     "next_action":  "Dispatch qualified operation evaluate_mode1_package148_state_transfer_r8 once via Invoke-Mode1Execution.ps1; monitor for authentic coupled convergence at outer iteration ~31; verify all Stage C1-1 physical acceptance gates.",
     "autonomous_restart_authorized":  true,
     "completed_operations":  [
@@ -267,12 +267,13 @@
                                  "evaluate_mode1_package148_state_transfer_r5",
                                  "evaluate_mode1_package148_state_transfer_r6",
                                  "evaluate_mode1_package148_state_transfer_r7",
-                                 "evaluate_mode1_package148_state_transfer_r8"
+                                 "evaluate_mode1_package148_state_transfer_r8",
+                                 "execute_mode1_package157_c1_2_r4_adaptive_continuation"
                              ],
     "historical_gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED",
     "closeout_reconciliation":  "results/validation/turn381_receipt_reconciliation/controller_verification.json",
-    "last_updated":  "2026-10-31T16:41:17.5444057+01:00",
-    "next_safe_action":  "Advance to qualified execution or next research task",
+    "last_updated":  "2026-10-31T16:06:06.8018380+00:00",
+    "next_safe_action":  "Evaluate live P157 R4 1419147.mmaster02. If running, prepare only independent extraction/reference checks; if terminal, review genuine substep convergence, damage/history preservation and matching-load force/energy gates. Never resubmit R4 or advance P156 before physical acceptance.",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
@@ -280,5 +281,21 @@
                                   "artifact":  "results/validation/preparation-41c0425d-6f64-4d48-b59b-cb88d042cd5b.json",
                                   "sha256":  "F9B0E2829E0A0C6C51BD8DD05DADC125AE76B4CB65BD196175724EC5B530B161",
                                   "created_at":  "2026-10-31T16:41:11.1401611+01:00"
-                              }
+                              },
+    "operation_transition":  {
+                                 "status":  "SUBMITTED",
+                                 "operation_id":  "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+                                 "definition":  "project_coordination/operation_definitions/execute_mode1_package157_c1_2_r4_adaptive_continuation.json",
+                                 "scientific_review":  "results/validation/package157_r4_scientific_review_and_registration_handoff.json",
+                                 "pbs_job_id":  "1419147.mmaster02"
+                             },
+    "latest_execution":  {
+                             "scientific_review":  "results/validation/package157_maintenance/execution_review.json",
+                             "once_only":  true,
+                             "operation_id":  "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+                             "pbs_job_id":  "1419147.mmaster02",
+                             "physical_acceptance":  "UNVERIFIED",
+                             "compute_qualification_job_id":  "1419146.mmaster02",
+                             "manifest_sha256":  "ac186eeaf426bc6f39499df2664a38b81dd66fbd4a0f3fd41faa1fb073faa62f"
+                         }
 }

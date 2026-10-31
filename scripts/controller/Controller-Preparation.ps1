@@ -1,6 +1,31 @@
 # Bridge text is a proposal, never code or an execution permission.
+function Get-ControllerRegistrationDispatchPlan([string]$Workspace,[string]$Instruction,$Task) {
+    # Existing operations keep their normal resolver and replay checks. Only an
+    # explicit NEW definition request enters the maintenance/event gate.
+    if(-not $Task.operation_transition.operation_id -and -not $Task.requested_operation_id){
+        $m=[regex]::Match($Instruction,'(?im)^\s*(?:REQUESTED_)?OPERATION_ID\s*:\s*([a-z][a-z0-9_]+)')
+        if($m.Success){
+            $id=$m.Groups[1].Value
+            if($id -eq 'research_preparation'){return $null}
+            try{
+                $existing=Get-ControllerOperation -ArtifactId $id -Workspace $Workspace
+                if($existing){return $null}
+            }catch{}
+        }
+    }
+    $plan=Get-ControllerRegistrationPlan $Workspace $Instruction $Task
+    if($plan -and $plan.status -eq 'DEFINITION_REVIEW_REQUIRED' -and $Task.operation_transition.scientific_review){
+        $root=[IO.Path]::GetFullPath($Workspace).TrimEnd('\')+'\'
+        $evidence=[IO.Path]::GetFullPath((Join-Path $Workspace $Task.operation_transition.scientific_review))
+        if(-not $evidence.StartsWith($root,[StringComparison]::OrdinalIgnoreCase)){throw 'Registration evidence outside workspace'}
+        if(Test-Path -LiteralPath $evidence){$plan.event_fingerprint+=':'+(Get-FileHash -LiteralPath $evidence).Hash}
+    }
+    return $plan
+}
 function Get-ControllerPreparationPlan([string]$Workspace,[string]$Instruction) {
     $task=Get-Content -LiteralPath (Join-Path $Workspace 'project_coordination/ACTIVE_TASK.json') -Raw -Encoding UTF8|ConvertFrom-Json
+    $registration=Get-ControllerRegistrationDispatchPlan $Workspace $Instruction $task
+    if($registration){return $registration}
     if(-not $task.scientific_checkpoint_required){
         return [pscustomobject]@{status='READY';dispatch_ready=$true;task_type='GENERAL_RESEARCH';operation_id='';path='';blocked_on=@();recipe=''}
     }
@@ -58,6 +83,10 @@ function Get-ControllerPreparationPlan([string]$Workspace,[string]$Instruction) 
 
 function Invoke-ControllerOperationPreparation([string]$Workspace,[string]$Instruction) {
     $plan=Get-ControllerPreparationPlan $Workspace $Instruction
+    if($plan.status -eq 'DEFINITION_REVIEW_REQUIRED'){
+        Write-ControllerDefinitionReviewEvent $Workspace $plan
+        return $plan
+    }
     if($plan.dispatch_ready -or $plan.status -ne 'PREPARATION_REQUIRED' -or -not $plan.recipe){return $plan}
     $preparationMutex=[Threading.Mutex]::new($false,'Local\AdaptiveRemeshingOperationPreparation')
     $locked=$false

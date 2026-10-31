@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "verification_passed": true,
+  "compute_datacheck_pbs_id": "1419146.mmaster02",
+  "compute_node_datachecks": "PASS",
+  "compute_node_startup": "PASS",
+  "compute_host": "mnode101.cluster",
+  "history_values_verified": 28224,
+  "maximum_history_difference_MPa": 8.970602038971265e-14,
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "review_method": "Separate technical/rollback regression and exact authentic checkpoint/card comparison; no second-agent review claimed",
+  "numerical_solver": "Unmodified R3 StageC12ContinuationController.solve_step and frozen UEL",
+  "scientific_change": "Reviewed loading schedule only; five 10 nm steps across the failed span, bounded bisection floor5nm/depth2 and 50 outers per attempt",
+  "raw_physical_gates": "Force <=5%, raw total energy <=2% against authentic matching-load reference; never inferred from numerical convergence",
+  "physical_acceptance": "UNVERIFIED",
+  "telegram_notification_contract": "PASS_LOGIN_NODE",
+  "compute_node_notification_delivery": "UNRESOLVED",
+  "local_recovery": "Initial preflight rejected absent command -v ifort before reservation; added explicit resolution and rehashed exact pre-submission files. First regression run completed 42 tests then hit inaccessible shared pytest-current cleanup; tests now use isolated basetemp. A nested Windows test launch raised WinError50 with inherited stdin; explicit DEVNULL input repairs the launch. Clean isolated regression now passes.",
+  "evidence_sources": {
+    "scripts/state_transfer/driver_package157_r4.py": "F6E75B82B89771F3E7478532AD170EA5251ACB5C7FC93012D2FA05C13DFFE6FE",
+    "scripts/state_transfer/driver_package150_c1_2_continuation.py": "724C57EC1936C201A42803A329A4D961FFB26911225C28B54D598BF91257492D",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "9EDE833668340A41AD590CB2387F8CB72A6C9C63DE9DF6B2185A3CABD1B21265",
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8",
+    "scripts/validation/extract_package148_iteration.py": "01875DBA715C24789421766B5B81A56BDD69F3F6A21A6F2D30D64B016416C738"
+  }
+}

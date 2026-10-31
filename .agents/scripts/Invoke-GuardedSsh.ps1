@@ -3,11 +3,16 @@
     Guarded, non-interactive SSH execution wrapper with stdin isolation,
     safety validation, and bounded per-command timeout.
 #>
-[CmdletBinding()]
+[CmdletBinding(DefaultParameterSetName = 'Command')]
 param(
-    [Parameter(Mandatory = $true)]
+    [Parameter(Mandatory = $true, ParameterSetName = 'Command')]
     [ValidateNotNullOrEmpty()]
     [string]$RemoteCommand,
+
+    [Parameter(Mandatory = $true, ParameterSetName = 'Upload')]
+    [string]$UploadFile,
+    [Parameter(Mandatory = $true, ParameterSetName = 'Upload')]
+    [string]$RemotePath,
 
     [string]$HostAlias = 'tu_freiberg',
 
@@ -25,6 +30,36 @@ $ErrorActionPreference = 'Stop'
 if ($env:ADAPTIVE_REMESHING_OFFLINE_MODE -eq '1' -or $env:OFFLINE_RESEARCH_ONLY -eq '1') {
     [Console]::Error.WriteLine('FAIL_CLOSED_OFFLINE_MODE: Cluster SSH and remote execution are disabled during offline mode.')
     exit 72
+}
+if ($PSCmdlet.ParameterSetName -eq 'Upload') {
+    $root = [IO.Path]::GetFullPath('D:\Master thesis\Adaptive remeshing').TrimEnd('\') + '\'
+    $source = [IO.Path]::GetFullPath($UploadFile)
+    if (-not $source.StartsWith($root, [StringComparison]::OrdinalIgnoreCase) -or
+        -not (Test-Path -LiteralPath $source -PathType Leaf) -or
+        $RemotePath -notmatch '^/scratch9/pr21vyci/runs/mode1_[a-z0-9_/]+/[A-Za-z0-9_.\-/]+$' -or
+        $RemotePath.Contains('..') -or -not (Test-Path -LiteralPath $ConfigPath)) {
+        throw 'FAIL_CLOSED_UNSAFE_UPLOAD: explicit workspace file and bounded Mode-I scratch destination required'
+    }
+    $scp = (Get-Command scp.exe -ErrorAction Stop).Source
+    $argsText = '-B -o BatchMode=yes -o ConnectTimeout=20 -F "' + $ConfigPath + '" "' + $source + '" ' + $HostAlias + ':' + $RemotePath
+    $uploadInfo = [Diagnostics.ProcessStartInfo]::new($scp, $argsText)
+    $uploadInfo.UseShellExecute = $false
+    $uploadInfo.CreateNoWindow = $true
+    $uploadInfo.RedirectStandardInput = $true
+    $uploadInfo.RedirectStandardOutput = $true
+    $uploadInfo.RedirectStandardError = $true
+    $upload = [Diagnostics.Process]::Start($uploadInfo)
+    $upload.StandardInput.Close()
+    $uploadOut = $upload.StandardOutput.ReadToEndAsync()
+    $uploadErr = $upload.StandardError.ReadToEndAsync()
+    if (-not $upload.WaitForExit($TimeoutSeconds * 1000)) {
+        Stop-Process -Id $upload.Id -Force
+        throw 'GUARDED_UPLOAD_TIMEOUT: only the spawned transfer process was terminated'
+    }
+    [Threading.Tasks.Task]::WaitAll($uploadOut, $uploadErr)
+    if ($upload.ExitCode -ne 0) { throw ('GUARDED_UPLOAD_FAILED: ' + $uploadErr.Result) }
+    Write-Output 'GUARDED_UPLOAD_COMPLETE'
+    exit 0
 }
 $trimmedCmd = $RemoteCommand.Trim()
 if ([string]::IsNullOrWhiteSpace($trimmedCmd)) {

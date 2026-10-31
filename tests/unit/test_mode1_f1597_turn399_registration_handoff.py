@@ -13,8 +13,9 @@ INC_PATH = REPO_ROOT / "results/validation/step1_committed_solution_initial.inc"
 
 @pytest.fixture(scope="module", autouse=True)
 def run_verification():
-    from scripts.validation.verify_package157_r4_registration_handoff import main
-    main()
+    # Historical receipt is frozen evidence; tests must never rewrite it after
+    # the operation becomes registered. Current qualification has separate tests.
+    assert RECEIPT_JSON.is_file()
 
 
 def test_receipt_exists():

@@ -163,6 +163,30 @@ function Get-ControllerDynamicQualification([string]$Workspace, [string]$Path = 
     }
 
     if($q.execution_mode -eq 'HPC_PRE_SUBMISSION'){
+        if($opId -ceq 'execute_mode1_package157_c1_2_r4_adaptive_continuation'){
+            $expected='models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r4/EXECUTION_MANIFEST.json'
+            if($q.status -ne 'QUALIFIED_FOR_PREFLIGHT' -or $q.pbs_job_id -or
+               $scriptRel -cne 'scripts/validation/execute_package157_r4.py' -or $q.manifest -cne $expected -or
+               $q.execution_adapter -cne 'scripts/hpc/Invoke-Mode1Execution.ps1' -or
+               $q.production_uel_sha256 -cne 'CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6'){
+                throw 'INVALID_P157_PRESUBMISSION_CONTRACT'
+            }
+            foreach($binding in @($q.manifest,$q.execution_adapter,$q.independent_review,$q.operation_definition)){
+                if(-not $q.scientific_dependencies.PSObject.Properties[$binding]){throw 'P157_BINDING_REQUIRED'}
+            }
+            $review=Get-Content -LiteralPath (Join-Path $Workspace $q.independent_review) -Raw|ConvertFrom-Json
+            if($review.verification_passed -ne $true -or $review.history_values_verified -ne 28224 -or
+               $review.compute_node_datachecks -ne 'PASS' -or $review.compute_node_startup -ne 'PASS'){
+                throw 'P157_AUTHENTIC_QUALIFICATION_REQUIRED'
+            }
+            $rows=@(Import-Csv (Join-Path $Workspace 'project_coordination/HPC_JOB_LEDGER.csv')|Where-Object {
+                $_.Job_ID -eq $review.compute_datacheck_pbs_id -and $_.Job_Name -eq 'M1_C4_P157_R4_DC' -and
+                $_.Status -eq 'COMPLETED' -and $_.Exit_Status -eq '0'})
+            if($rows.Count -ne 1){throw 'P157_COMPUTE_QUALIFICATION_RECEIPT_REQUIRED'}
+            $batch=Get-Content -LiteralPath (Join-Path $Workspace $q.manifest) -Raw|ConvertFrom-Json
+            if($batch.jobs.Count -ne 1 -or $batch.jobs[0].id -cne 'M1_C4_P157_C1_2_R4' -or
+               $batch.max_submissions -ne 1 -or $batch.automatic_retry -ne $false){throw 'P157_EXACT_ONCE_ONLY_MANIFEST_REQUIRED'}
+        } else {
         $revision=if($opId -ceq 'evaluate_mode1_package148_state_transfer_r8'){8}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r7'){7}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r6'){6}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r5'){5}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r4'){4}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r3'){3}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r2'){2}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer'){1}else{throw 'INVALID_PRESUBMISSION_OPERATION'}
         $expectedJob='M1_C4_P148_R'+$revision
         $expectedManifest='models/pandey_kumar_mode1/148_c4_package148_state_transfer_r'+$revision+'/EXECUTION_MANIFEST.json'
@@ -201,6 +225,7 @@ function Get-ControllerDynamicQualification([string]$Workspace, [string]$Path = 
         if($batch.scientific_scope -ne 'MODE1' -or $batch.automatic_retry -isnot [bool] -or $batch.automatic_retry -or
            $batch.max_submissions -ne 1 -or @($batch.jobs).Count -ne 1 -or $batch.jobs[0].id -cne $expectedJob){
             throw 'PRESUBMISSION_MANIFEST_REQUIRED: exact once-only reviewed Mode-I job required'
+        }
         }
     } elseif($q.status -eq 'QUALIFIED_FOR_PREFLIGHT'){
         throw 'INVALID_PRESUBMISSION_MODE'

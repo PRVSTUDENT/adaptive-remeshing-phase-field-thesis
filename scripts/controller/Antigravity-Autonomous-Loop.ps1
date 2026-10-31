@@ -3562,6 +3562,13 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
     . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Operations.ps1')
     . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Recovery.ps1')
     . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Preparation.ps1')
+    $registrationTask=(Get-ControllerEvidence $WorkspaceDir).task
+    $registrationPlan=Get-ControllerRegistrationDispatchPlan $WorkspaceDir $CurrentInstruction $registrationTask
+    if($registrationPlan -and -not $registrationPlan.dispatch_ready){
+        Write-ControllerDefinitionReviewEvent $WorkspaceDir $registrationPlan
+        Write-Output ('DEFINITION_REVIEW_REQUIRED: '+$registrationPlan.operation_id+'; no repeated AGY preparation dispatch')
+        break MainLoop
+    }
     $resolved = Resolve-ControllerInstruction $WorkspaceDir $CurrentInstruction
     if (-not $script:ControllerRecoveryMode) { $CurrentInstruction=$resolved.instruction }
     if ($resolved.evidence.session.active) { throw 'BLOCKED: another repository session is active' }
