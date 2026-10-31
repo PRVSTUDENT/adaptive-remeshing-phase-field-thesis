@@ -1,0 +1,30 @@
+{
+  "package_number": 153,
+  "job_name": "M1_C4_COMPANION_MISESERI",
+  "purpose": "Production C4 companion continuum static-elastic model (7,056 CPE4 quads, 7,265 nodes) to extract authentic MISESERI/MISESAVG error indicators for Method C C4->C5 adaptive remeshing.",
+  "mesh_provenance": {
+    "source_deck": "models/pandey_kumar_mode1/147_c4_corrected_reference/M1_C4_CORRECTED_PACKAGE147_REF.inp",
+    "source_sha256": "FFFE51D5348F6E4B5E9B4742D783CA1645B480B229189168493AEDA10C91722A",
+    "elements": 7056,
+    "nodes": 7265,
+    "element_type": "CPE4",
+    "duplicate_slit_flank_pairs": 40,
+    "ligament_nodes": 45
+  },
+  "loading": {
+    "step_name": "STATIC_ELASTIC",
+    "perturbation": true,
+    "prescribed_u2_mm": 0.002
+  },
+  "output_fields_requested": [
+    "S",
+    "MISESERI",
+    "MISESAVG",
+    "EVOL",
+    "U",
+    "RF"
+  ],
+  "files": {
+    "M1_C4_COMPANION_MISESERI.inp": "4302BCD1ED3E2FF75D0DD398AB0BA85EB10F5D8C97A0EC3703EC3091C7D02964"
+  }
+}

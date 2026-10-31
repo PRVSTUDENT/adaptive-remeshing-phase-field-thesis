@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "package_number": 153,
+  "job_name": "M1_C4_COMPANION_MISESERI",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "input_deck": "M1_C4_COMPANION_MISESERI.inp",
+  "input_deck_sha256": "4302BCD1ED3E2FF75D0DD398AB0BA85EB10F5D8C97A0EC3703EC3091C7D02964",
+  "execution_mode": "SERIAL_STANDALONE_CONTINUUM",
+  "cpus": 1,
+  "memory_gb": 8,
+  "walltime_hours": 1,
+  "queue": "normal_imfdfkmq",
+  "dependency": "C1_2_TERMINAL_EQUILIBRIUM_ACCEPTANCE"
+}

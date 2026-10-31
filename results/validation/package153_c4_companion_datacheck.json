@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "adb80513-57eb-4987-8c40-35801e04348e",
+  "created_at": "2026-10-31T11:22:30+01:00",
+  "package_number": 153,
+  "job_name": "M1_C4_COMPANION_MISESERI",
+  "model_type": "SERIAL_STANDALONE_CONTINUUM",
+  "status": "DATACHECK_VERIFIED_EXIT0",
+  "cluster_staging_directory": "/scratch9/pr21vyci/runs/mode1_c4_package153_companion_miseseri",
+  "input_deck": "M1_C4_COMPANION_MISESERI.inp",
+  "input_deck_sha256": "4302BCD1ED3E2FF75D0DD398AB0BA85EB10F5D8C97A0EC3703EC3091C7D02964",
+  "mesh_specifications": {
+    "quad_elements": 7056,
+    "element_type": "CPE4",
+    "elset": "ALL_QUADS",
+    "nodes_total": 7266,
+    "physical_domain_nodes": 7265,
+    "reference_point_node": 999999,
+    "slit_flank_duplicate_pairs": 40,
+    "ligament_shared_nodes": 45,
+    "top_kinematic_tie_equations": 85
+  },
+  "datacheck_evidence": {
+    "solver": "Abaqus 2023 Standard",
+    "job_name": "M1_C4_COMPANION_MISESERI_DC",
+    "datacheck_exit_code": 0,
+    "analysis_input_file_processor_exit": "SUCCESS",
+    "datacheck_analysis_exit": "SUCCESS",
+    "total_cpu_time_sec": 0.21,
+    "fatal_errors": 0,
+    "benign_warnings": 1,
+    "warning_summary": "DEGREE OF FREEDOM 1 IS NOT ACTIVE ON NODE 999999 (Benign, boundary condition on uncoupled DOF 1 ignored)"
+  },
+  "scientific_dependency": {
+    "governing_predecessor_job": "1419097.mmaster02",
+    "predecessor_package": "PACKAGE_152_C1_2_CONTINUATION_R2",
+    "current_predecessor_state": "RUNNING (Step 1 Outer 58 contracting monotonically toward equilibrium at RF2 = 185.010 N)",
+    "submission_status": "WITHHELD_PENDING_PREDECESSOR_PHYSICAL_ACCEPTANCE",
+    "target_displacement_uy_mm": 0.002000
+  },
+  "verification_passed": true
+}
