@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "status": "SEGMENT2_RESTART_TECHNICALLY_PREPARED",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "checkpoint_ingestion_summary": {
+    "checkpoint_schema": 1,
+    "physical_nodes": 7265,
+    "physical_elements": 7056,
+    "gauss_points": 28224,
+    "solution_card_format": "7+8+3 canonical cards",
+    "solution_card_max_history_error_MPa": 0.0,
+    "damage_bounds": [
+      0.0,
+      1.0
+    ],
+    "healing_tolerance": 1e-06,
+    "negative_invariant_test_cases_passed": 9
+  },
+  "segment_2_continuation_specification": {
+    "baseline_uy_mm": 0.0019003125442191959,
+    "targets_mm": [
+      0.001910312544219196,
+      0.001920312544219196,
+      0.001930312544219196,
+      0.001940312544219196,
+      0.0019503125442191958
+    ],
+    "substep_count": 5,
+    "increment_span_nm": 50.0,
+    "substep_increment_nm": 10.0,
+    "max_outer": 100,
+    "max_phase": 20,
+    "timeout_seconds": 27000,
+    "walltime_hours_ceiling": 8.0,
+    "estimated_runtime_hours": 4.22,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "state_continuity_contract": {
+    "displacement_continuity": "Exact nodal matching with zero unintended unloading",
+    "damage_continuity": "Active-set lower bounds strictly enforce non-healing d_next >= d_prev - 1e-6",
+    "history_continuity": "Canonical solution card injection guarantees non-decreasing history H_next >= H_prev",
+    "coupled_convergence_criteria": "Delta_H <= 1e-6 MPa, Delta_d <= 1e-5, Delta_u <= 1e-9 mm",
+    "physical_acceptance_criteria": "Reaction force <= 5%, Raw total energy <= 2% against matching-load reference"
+  },
+  "live_predecessor_status": {
+    "job_id": "1419162.mmaster02",
+    "job_name": "M1_C4_P157_C1_2_R5_SEG1",
+    "status": "RUNNING",
+    "execution_policy": "NO_DEPENDENT_SUBMISSION_WHILE_PREDECESSOR_RUNNING"
+  },
+  "evidence_sources": {
+    "scripts/state_transfer/checkpoint_ingestion.py": "9224051FEC32191F6143A3D5543B7EA43D6BB17E099A76DEE12FA810D2CC3E82",
+    "scripts/state_transfer/driver_package157_r5_seg2.py": "F9A4A9B1EF550D44D06E854332A720992E680FE5CEBE2036EFEDF821D1B58C72",
+    "scripts/state_transfer/build_package157_r5_seg2.py": "13686156B139A123662CB19F236FD6D5A7A092871CDD47BA391F733AC528890D",
+    "results/validation/package157_r5_seg2_preparation/test_fixture_checkpoint_step1.json": "203C5838F95C4A9CE97B3464F2ED7CCCC98BD770E623A71BA71894314B3C22FB",
+    "results/validation/step1_equilibrium_checkpoint_1419113_endpoint.json": "FD75727BFDF8B83E03F067E0AC341ED91FB4FFE1A704B16E712714B38F300DDC",
+    "results/validation/step1_equilibrium_checkpoint_1419113_full_history.json": "1640388AA1831CF896A980DC0228CF7F72B38B9077ECEB97207664927C0D1980",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}
