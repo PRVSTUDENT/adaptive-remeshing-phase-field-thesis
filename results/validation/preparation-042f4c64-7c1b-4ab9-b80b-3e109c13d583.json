@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "042f4c64-7c1b-4ab9-b80b-3e109c13d583",
+  "finding": "Authentic telemetry audit of Job 1419113 (Package 154 R3 Step 2) at outer 97 reveals imminent iteration budget exhaustion: while KKT active-set compliance is fully satisfied (dual error = 0.0, free error = 4.16e-7 <= 1e-6), the coupled staggered residuals (delta_H = 28.83 MPa, delta_d = 0.00810, delta_u = 3.32e-5 mm) exceed tolerances by orders of magnitude. Extrapolation at the measured late-stage contraction rate (rho_H ~ 0.9818) indicates delta_H will be ~27.27 MPa at outer 100, where driver_package150_c1_2_continuation.py line 313 will raise a hard RuntimeError. An evidence-based, falsifiable numerical recovery proposal is formulated: subdivide forward displacement increment Delta_uy from 100 nm into 5 x 20 nm adaptive sub-increments rolling back to the verified Step 1 checkpoint (uy = 0.00180031 mm), preserving frozen UEL f42_mixed_uel.for (CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6) and all convergence tolerances bitwise without premature execution.",
+  "evidence_sources": {
+    "results/validation/live_iteration_telemetry_1419113.json": "EE922096CF201AF5BEEEA7B20B00D22573E4A1B406E73BC2EB232F1D5DEA8583",
+    "results/validation/step2_convergence_risk_assessment.json": "29057C6FCAFB399A707AD49D5C17CFB04A7DC4A1A4C19061783EE143E887D5B7",
+    "scripts/validation/assess_step2_convergence_failure_risk.py": "05142E65874F42B6A6E8C5A09ABBD12D4563A738ABB20653B4E940610E902E85",
+    "tests/unit/test_mode1_f1597_turn392_convergence_risk.py": "933BBF2FA1C866D14500E55BC292144E4DB17A5AD79601F0412DB6A277C41860",
+    "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true,
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "risk_assessment": {
+    "pbs_job_id": "1419113.mmaster02",
+    "step_examined": 2,
+    "latest_outer": 97,
+    "max_outer_configured": 100,
+    "remaining_budget": 3,
+    "latest_delta_h_mpa": 28.83,
+    "latest_delta_d": 0.00810,
+    "latest_delta_u_mm": 3.32e-05,
+    "extrapolated_delta_h_at_100_mpa": 27.27,
+    "risk_classification": "IMMINENT_ITERATION_BUDGET_EXHAUSTION",
+    "hard_failure_mechanism": "RuntimeError at driver_package150_c1_2_continuation.py:313"
+  },
+  "falsifiable_correction_proposal": {
+    "rollback_checkpoint": "Step 1 (uy = 0.001800312544 mm, 74 outers, converged)",
+    "proposed_sub_increments_nm": [20.0, 20.0, 20.0, 20.0, 20.0],
+    "target_uy_end_mm": 0.001900312544,
+    "invariants_preserved": "Production UEL CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6, PDAS solver, exact tolerances",
+    "unit_tests_passing": 4,
+    "unit_tests_total": 4
+  }
+}
