@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "run_id": "e48247d8-c456-4154-b0ff-f1be122e8cad",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "finding": "Package 148 R7 (PBS 1418938.mmaster02) monitored live on cluster mnode101: staggered PDAS solver actively executing outer iterations with strict monotonic contraction (delta_d dropping continuously from 0.0191 down to 3.02e-5, delta_u to 1.31e-8 mm, delta_h to 0.000487, dual_error=0.0). Method C Stage C1-2 forward continuation contract independently developed and offline-validated: governs subsequent forward mechanical displacement increments (Delta u = 0.0001 mm) on Candidate C4; establishes strict multi-gate criteria (RF2 continuity <= 5%, total energy jump <= 2%, healing limit <= 1e-6, damage bound <= 1.0, 4-GP history monotonicity); enforces strict fail-closed dependency prohibiting C1-2 dispatch until C1-1 achieves full physical acceptance.",
+  "next_operation": "Reconcile R7 terminal results or continue Stage C1-2 pre-generation upon C1-1 physical acceptance",
+  "verification_passed": true,
+  "evidence_sources": {
+    "scripts/validation/validate_method_c_stage_c1_2_contract.py": "BF55451795C97D3B831FD3EDDD10AB1ECBAF423F50C8C66AD3B38F388142EA88",
+    "tests/unit/test_method_c_stage_c1_2_contract.py": "D58FBC641FE0C8900B0CB816870AFADCF258512AEA5A6B3EA96A40624B808723",
+    "results/validation/stage_c1_2_contract_specification.json": "6275004429FDCB7366CE1A4C47F73FBEAB2996D443BFDBC42D2E1CDBD3DAEA85",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "6C333ED0AB334FD212EE45BEAE4CC8A0328D08708739B3EF5319AE30A3988C01",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r7/PACKAGE_MANIFEST.json": "E4AF19ACCDE34B2058815B5873E9378A0FE03BE11C926C0181BC9FCC8C333748",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r7/EXECUTION_MANIFEST.json": "24C6C53D6CC45AD2ACE711AA3689912F3425D34AC4CCA5A5B4F1E3A911D16774",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r7/submit_M1_C4_P148_R7.pbs": "C9AACC9245F102E8148323724E10FD947577D65BFED6151704FF84F8BCEDCA12"
+  },
+  "stage_c1_2_contract": {
+    "status": "OFFLINE_VALIDATED",
+    "dispatch_status": "PENDING_PREDECESSOR_ACCEPTANCE",
+    "tests_passed": true
+  }
+}

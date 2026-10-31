@@ -1,21 +1,26 @@
-﻿{
+{
     "active":  false,
-    "agent":  "codex",
+    "agent":  "gemini-antigravity",
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "starting_commit":  "9fd321744a2458e11e46da3db576934d0e7f9fcc",
-    "claimed_at":  "2026-10-31T05:21:39.0567164+00:00",
-    "last_updated":  "2026-10-31T05:22:53.2931062+00:00",
-    "last_released":  "2026-10-31T05:22:53.2931062+00:00",
-    "controller_run_id":  "codex-20261031-r7-loop-restart",
-    "session_report":  "project_coordination/sessions/2026-10-31_codex_r7_loop_restart.md",
+    "starting_commit":  "83fabe6050a71645633044ac3f6971d521e23f4e",
+    "claimed_at":  "2026-10-31T06:24:46.4277118+01:00",
+    "last_updated":  "2026-10-31T06:32:49.1721947+01:00",
+    "last_released":  "2026-10-31T06:32:49.1721947+01:00",
+    "controller_run_id":  "e48247d8-c456-4154-b0ff-f1be122e8cad",
+    "session_report":  "project_coordination/sessions/2026-10-31_gemini-antigravity_F1597_e48247d8-c456-4154-b0ff-f1be122e8cad.md",
     "allowed_write_scope":  [
-                                ".agents/INITIAL_PROMPT.txt",
+                                "project_coordination/sessions/2026-10-31_gemini-antigravity_F1597_e48247d8-c456-4154-b0ff-f1be122e8cad.md",
+                                "project_coordination/controller/turn-e48247d8-c456-4154-b0ff-f1be122e8cad.json",
+                                "results/validation/mode1_f1597/e48247d8-c456-4154-b0ff-f1be122e8cad.json",
+                                "results/validation/preparation-e48247d8-c456-4154-b0ff-f1be122e8cad.json",
+                                "results/validation/*",
+                                "scripts/validation/*",
+                                "tests/unit/*",
+                                "models/pandey_kumar_mode1/*",
                                 "project_coordination/ACTIVE_SESSION.json",
                                 "project_coordination/ACTIVE_TASK.json",
                                 "project_coordination/CURRENT_STATE.md",
                                 "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/ARTIFACT_REGISTRY.csv",
-                                "project_coordination/controller/restart-2026-10-31-r7/*",
-                                "project_coordination/sessions/2026-10-31_codex_r7_loop_restart.md"
+                                "project_coordination/ARTIFACT_REGISTRY.csv"
                             ]
 }
