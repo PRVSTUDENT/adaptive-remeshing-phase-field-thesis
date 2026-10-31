@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "run_id": "f84eb720-cb66-462f-8379-96ddf3badca3",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 378,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Turn 378 tolerance-consistency audit completed with 7/7 unit tests passing. Resolved the displacement tolerance interpretation discrepancy: confirmed the driver predicate enforces delta_u <= 1.0e-9 mm (1.0 pm = 0.001 nm), which correctly rejected Outer 30 (delta_u = 3.109e-8 mm = 31.09 pm, factor of 31 above tolerance). Audited field convergence hierarchy and confirmed all 3 fields converge simultaneously at outer ~73 within max_outer=80. Cluster Job 1419097 (Package 152 / Revision 2) is actively solving on mnode101/0 with Outer 4 mechanical solve completed (RF2 = 186.757 N).",
+  "evidence_sources": {
+    "results/validation/initial_finding_turn378_f84eb720.json": "CE2EB21BE92FF0E7544D0CD2D002CD8935B8946140B31BDF2664F9EFB8C15A0D",
+    "tests/unit/test_package150_r2_continuation.py": "0294A9E37BB063FCEF786A44BEB11FCF9205C35A38C4FA4FE48FC39D3E2D2246",
+    "scripts/state_transfer/driver_package150_c1_2_continuation.py": "59F58B6CAAA71EC77C2B55616B3378C04AF08E83F739CF9044A2447A3F7E2FBB",
+    "models/pandey_kumar_mode1/152_c4_package150_c1_2_continuation_r2/PACKAGE_MANIFEST.json": "F7F81288FA0E7B39FF76C53A68F9E1EF95FAD1464D7152DCB943856A0C76BFB3",
+    "models/pandey_kumar_mode1/152_c4_package150_c1_2_continuation_r2/EXECUTION_MANIFEST.json": "D288F687443A418171B48B0AC9E9732177CA32673F274597D82A4AE9703BDCC9"
+  },
+  "verification_passed": true
+}
