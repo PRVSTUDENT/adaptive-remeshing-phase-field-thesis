@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "turn": 388,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "f73c92e6-cd89-4665-a3c8-f61bc2892ab7",
+  "created_at": "2026-10-31T14:06:00+01:00",
+  "status": "INITIAL_FINDING_ESTABLISHED",
+  "hpc_job_reconciliation": {
+    "pbs_job_id": "1419113.mmaster02",
+    "job_name": "M1_C4_P150_C1_2_R3",
+    "queue": "normal_imfdfkmq",
+    "node": "mnode101",
+    "scheduler_state": "RUNNING",
+    "elapsed_walltime_seconds": 4920,
+    "step_1_convergence": {
+      "status": "CONVERGED",
+      "outer_iteration": 74,
+      "delta_d": 4.000000008996807e-08,
+      "delta_u_mm": 1.8260664898586687e-11,
+      "delta_h_mpa": 9.132884466467317e-07,
+      "free_residual": 1.1576464282962566e-12,
+      "dual_error": 0.0
+    },
+    "step_2_status": {
+      "status": "ACTIVE_COMPUTING",
+      "target_uy_mm": 0.0019003125442191959,
+      "latest_outer": 3
+    },
+    "action": "LEAVE_UNTOUCHED_CONTINUE_INDEPENDENT_PACKAGE156_PREPARATION"
+  },
+  "package156_receiver_architecture": {
+    "mesh": "models/pandey_kumar_mode1/155_c5_candidate_mesh/M1_C5_CANDIDATE_MESH.inp",
+    "elements": 12996,
+    "physical_nodes": 13278,
+    "reference_node": 999999,
+    "integration_points": 51984,
+    "duplicate_slit_pairs": 53,
+    "element_offset_u2": 12996,
+    "transfer_policy": "POLICY_1_BILINEAR_GP_NON_NEGATIVE_CLAMP",
+    "validation_fixture": "results/validation/package148/r8_equilibrium_checkpoint.json",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  }
+}

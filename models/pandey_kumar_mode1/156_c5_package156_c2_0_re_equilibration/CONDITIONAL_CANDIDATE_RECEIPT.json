@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "package_id": "PACKAGE_156_C5_C2_0_RE_EQUILIBRATION",
+  "status": "STAGED_AS_CONDITIONAL_CANDIDATE",
+  "donor_dependency": {
+    "status": "UNRESOLVED_PENDING_PACKAGE154_R3_COMPLETION",
+    "active_pbs_job": "1419113.mmaster02",
+    "required_donor_state": "PACKAGE_154_C1_2_R3_STEP4_CONVERGED_AT_UY_0P0020MM",
+    "validation_fixture_used": "r8_equilibrium_checkpoint.json"
+  },
+  "qualification_checks": {
+    "receiver_node_coverage": true,
+    "receiver_gp_coverage": true,
+    "slit_flank_isolation": true,
+    "frozen_uel_sha256_verified": true,
+    "svars_7_8_3_contract_verified": true,
+    "same_load_holding_verified": true
+  },
+  "submission_disposition": "WITHHELD_PENDING_PREDECESSOR_PHYSICAL_ACCEPTANCE",
+  "created_at": "2026-10-31T14:07:00+01:00"
+}

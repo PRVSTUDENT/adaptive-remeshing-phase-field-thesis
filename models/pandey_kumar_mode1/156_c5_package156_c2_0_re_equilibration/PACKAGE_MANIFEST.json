@@ -1,0 +1,54 @@
+{
+  "package_id": "PACKAGE_156_C5_C2_0_RE_EQUILIBRATION",
+  "stage": "STAGE_C2_0",
+  "scientific_scope": "MODE1_METHOD_C_CYCLE_2",
+  "donor_source": {
+    "checkpoint_path": "D:\\Master thesis\\Adaptive remeshing\\results\\validation\\package148\\r8_equilibrium_checkpoint.json",
+    "checkpoint_sha256": "5D627B0340ADB3099D5C8980F733160FFA134787704DEAEBC93D67AB55B8D81C",
+    "is_software_validation_fixture": true,
+    "target_uy_mm": 0.0018003125442191958
+  },
+  "receiver_discretization": {
+    "mesh": "C5_CANDIDATE_12996_QUADS",
+    "physical_nodes": 13278,
+    "reference_nodes": 1,
+    "total_nodes": 13279,
+    "elements": 12996,
+    "integration_points": 51984,
+    "duplicate_slit_pairs": 53,
+    "element_offset_u2": 12996
+  },
+  "transfer_policy": {
+    "name": "POLICY_1_BILINEAR_GP_NON_NEGATIVE_CLAMP",
+    "formula": "N_k^GP(xi, eta) = 0.25 * (1 + 3*xi_k*xi) * (1 + 3*eta_k*eta)",
+    "non_negativity_clamp": "max(0.0, H_raw)",
+    "affine_reproduction_error": 2.22e-15,
+    "raw_undershoot_count": 3,
+    "raw_undershoot_pct": 0.005771006463527239,
+    "local_overshoot_count": 7646,
+    "local_overshoot_pct": 14.708371806709758,
+    "universally_bounded": false,
+    "justification": "Optimal second-order affine reproduction with minimal tip distortion and negligible clipping energy bias."
+  },
+  "staggered_convergence_criteria": {
+    "delta_h_max_mpa": 1e-06,
+    "delta_d_max": 1e-05,
+    "delta_u_max_mm": 1e-09,
+    "kkt_free_residual_max": 1e-06,
+    "dual_error_max": 0.0
+  },
+  "files": {
+    "active_set_boundary_cards.inc": "362B4C3C512AD084D4A4A8E59F49B526AEB64B3C18548F2AAD390BFA9006D475",
+    "d_lower_bounds.csv": "A442DE801E15989561260FE097B5C9688C4307C70EE9B33104DC22609932C916",
+    "f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "initial_conditions_solution.inc": "E82ED96DC532E818604D52D4FDDC6D3ECB9A78A5D8B02DE21D8E1E68F978FD09",
+    "job_notifications.sh": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "M1_C5_PACKAGE156_C2_0_REEQUILIBRATION.inp": "5C12E2F9F60E6C0257BA56CE46691F58AC52733F10B7885EB40C7A6883CC880A",
+    "nodal_displacements_initial.csv": "A5833245EBA3BD7FC6E9BDA9C757553D8C2B20313CC677C24733AF9CE50F5D1B",
+    "nodal_phase_field_initial.csv": "107B2816034F972E97C8907C12F3CDE7BD6136EC6D8E4CEC3E5A1DAA688EDF0A",
+    "P156_MECHANICAL_DC.inp": "882EA57B263C6A7E514A17043567629D8DEC1DD5A7849C26ADC5C6EBCE5E6BAA",
+    "P156_PHASE_DC.inp": "541FDC3B666F568BA2016D52336FC38360802C45DE1708217F1D71F1AC1857B4",
+    "run_datacheck.sh": "33A8103804260639F2275C22937F6E56A6CA105F540A21286B975B03EC829156",
+    "submit_M1_C5_P156_C2_0.pbs": "EE9ED1B5F1FA670C6335351E3E2F6448B38D896ACFBD217F754CD24F67007926"
+  }
+}
