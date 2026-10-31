@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "9e9f841b-84bc-4106-9732-b25377ace884",
+  "finding": "Package 158 R4 autonomous error-driven receiver re-equilibration pilot (12,544 quads, 12,821 nodes, 50,176 GPs, 52 duplicate slit pairs) technically qualified (both mechanical/phase datachecks PASS, dedicated pure-UEL extractor verified with initial RF2 discrepancy 0.22% <= 5% and total energy discrepancy 0.15% <= 2% vs authentic Step 1 reference) and submitted once under Invoke-Mode1Execution.ps1 as PBS Job 1419174.mmaster02; actively RUNNING on cluster scratch at holding displacement uy=0.0018503125 mm.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/EXECUTION_MANIFEST_R4.json": "E0EB9AD0671062EE8CDA538268A21B5CB31DA4EFE35C8669DFEBEB228BD63E70",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/submit_M1_P158_C2_0_R4.pbs": "7D0BB72B4494F755415D1AAAF90A74CC2CDD618084AD127021D5E748ACA009A7",
+    "scripts/validation/extract_package158_iteration.py": "38B8F8BCCECA8C684901729F141A82F90E5414D83E98E2A53C47DEDE7C280C4A",
+    "scripts/state_transfer/driver_package158_error_driven_re_equilibration.py": "90CE70502A54642B52F6C121382F2ADB8C6ACB19B5707E46EBFF40652F8399FA",
+    "tests/unit/test_package158_re_equilibration.py": "7D96D398692B7A8F568D7F1933378454DF739EEF6E39CFCC9E07255BA4398435",
+    "results/validation/package158_r4_pilot_submission_receipt.json": "FE3C6695FB09474C1FF39603C7E43E29D26E97C8A5BAF54062992AE16ECE9F95"
+  },
+  "verification_passed": true
+}

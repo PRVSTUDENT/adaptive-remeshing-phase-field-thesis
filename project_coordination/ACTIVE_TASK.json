@@ -10,7 +10,7 @@
                          },
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 157 R5 Segment 1 (PBS Job 1419162) Step 1 (+10 nm from uy=0.00185031 mm to 0.00186031 mm) verified coupled convergence at outer iteration 91 with delta_H=9.147e-07 MPa \u003c= 1e-6, delta_d=4.000e-08 \u003c= 1e-5, delta_u=1.814e-11 mm \u003c= 1e-9; zero healing violations (min_delta_d=4.114e-06 \u003e 0), damage in [0, 1] (d_max=0.6053), confirming empirical contraction factor rho_H ~ 0.8648 and proving mathematical necessity of max_outer=100 segmentation; Step 2 (+10 nm) actively solving on mnode101.",
+    "phase":  "Package 158 R4 autonomous error-driven receiver re-equilibration pilot (12,544 quads, 12,821 nodes, 50,176 GPs, 52 duplicate slit pairs) technically qualified (both mechanical/phase datachecks PASS, dedicated pure-UEL extractor verified with initial RF2 discrepancy 0.22% \u003c= 5% and total energy discrepancy 0.15% \u003c= 2% vs authentic Step 1 reference) and submitted once under Invoke-Mode1Execution.ps1 as PBS Job 1419174.mmaster02; actively RUNNING on cluster scratch at holding displacement uy=0.0018503125 mm.",
     "gate_status":  "P157_R5_SEG1_RUNNING__C4_CONTINUATION_UNACCEPTED",
     "active_pbs_job_ids":  [
                                "1419162.mmaster02"
@@ -290,14 +290,14 @@
                              "compute_qualification_job_id":  "1419146.mmaster02",
                              "manifest_sha256":  "ac186eeaf426bc6f39499df2664a38b81dd66fbd4a0f3fd41faa1fb073faa62f"
                          },
-    "last_updated":  "2026-10-31T20:45:40.0775543+01:00",
+    "last_updated":  "2026-10-31T20:53:17.0187722+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-dd9edf40-57bc-47d4-8fc7-637b160dc195.json",
-                                  "sha256":  "0DC08566953EFEEA59955557F3B242B737A62F52047093A3B251299439BE1ED3",
-                                  "created_at":  "2026-10-31T20:44:52.1225297+01:00"
+                                  "artifact":  "results/validation/preparation-9e9f841b-84bc-4106-9732-b25377ace884.json",
+                                  "sha256":  "98DC2446B54F343DA52F9255185C0416DC055721A498687EDB20CB1EA25BAF3E",
+                                  "created_at":  "2026-10-31T20:53:01.3348620+01:00"
                               }
 }
