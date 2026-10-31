@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "run_id": "5d1a1e5d-1d89-4aad-8af3-549e9c8fe923",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 379,
+  "status": "EARLY_RESEARCH_FINDING_RECORDED",
+  "finding": "Verified cluster Job 1419097 (Package 152 / Revision 2) is actively executing on mnode101/0 with 25 mechanical outer iterations completed in Step 1 (RF2 = 185.052 N). Built and independently validated the production C4 mesh refinement-marking interface (scripts/remeshing/c4_refinement_marking_interface.py), verifying 7,056 quads, 7,265 nodes, 40 duplicate coincident slit-flank node pairs (nodes 3571..3610 and 7226..7265), and 45 ligament nodes. Proved fail-closed rejection of historical 4,422-element Package 114 data (IncompatibleMeshError) and non-positive denominators. Serialized candidate-marking artifact to results/validation/c4_refinement_candidate_marking.json with 11/11 unit tests passing.",
+  "evidence_sources": {
+    "scripts/remeshing/c4_refinement_marking_interface.py": "8D2A57CAD2D958E8E6AEADB1531C578194473957DE18C0711C51F0F6C8DE6914",
+    "tests/unit/test_c4_refinement_marking_interface.py": "6A8ADB953216A8ABAE9D45395639F4EEB46A196D5B84F5647F492211E038A980",
+    "results/validation/c4_refinement_candidate_marking.json": "32E81121553E3074E775D7B632B734BC4DB7DD01E7E28A6A956CD153A2725E2C"
+  },
+  "unit_tests_passed": 11,
+  "cluster_job": {
+    "job_id": "1419097.mmaster02",
+    "job_name": "M1_C4_P150_C1_2_R2",
+    "job_state": "R",
+    "exec_host": "mnode101/0",
+    "current_stage": "Step 1 Outer 25 completed (RF2 = 185.052 N)"
+  },
+  "verification_passed": true
+}
