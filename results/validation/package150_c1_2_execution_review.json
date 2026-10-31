@@ -59,5 +59,16 @@
     "history_monotonicity": "H_step(x) >= H_prev(x) pointwise across all 28,224 GPs"
   },
   "unit_tests_passed": true,
-  "dispatch_status": "READY_FOR_QUALIFIED_EXECUTION"
+  "dispatch_status": "SUBMITTED",
+  "submission": {
+    "pbs_job_id": "1418949.mmaster02",
+    "job_name": "M1_C4_P150_C1_2",
+    "submitted_at": "2026-10-31T08:24:28.7905523+00:00",
+    "manifest_sha256": "7ac1857c6e2159d8e609ea46be2db5454552f52e6e0835e8fd44ee19d3f749e2",
+    "command_sha256": "a45e308b32c8929ca84fd275c0687007e191525233fa622fc2b11081937ac88a",
+    "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_package150_c1_2_continuation",
+    "queue": "entry_imfdfkmq -> normal_imfdfkmq",
+    "initial_job_state": "R",
+    "exec_host": "mnode101/0"
+  }
 }

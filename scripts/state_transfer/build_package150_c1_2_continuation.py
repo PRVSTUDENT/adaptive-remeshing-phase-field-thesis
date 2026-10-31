@@ -233,7 +233,6 @@ SDV
 *Boundary
 N_BOTTOM, 1, 2, 0.0
 N_TOP, 1, 2, 0.0
-N_RP, 1, 2, 0.0
 *INCLUDE, INPUT=active_set_boundary_cards.inc
 *Output, field, frequency=1
 *Node Output

@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "operation": "evaluate_mode1_package150_stage_c1_2_continuation",
+  "status": "JOB_SUBMITTED",
+  "dispatch_ready": true,
+  "canonical_path": "scripts/validation/execute_package150_continuation.py",
+  "script_sha256": "BF5E9EC5103BA0CA20E00433F91AE16ED5CA2B9DFE3B12CCFABD0C0A8476778E",
+  "execution_mode": "HPC_PRE_SUBMISSION",
+  "execution_adapter": "scripts/hpc/Invoke-Mode1Execution.ps1",
+  "production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "manifest": "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/EXECUTION_MANIFEST.json",
+  "independent_review": "results/validation/package150_c1_2_execution_review.json",
+  "tests": {
+    "tests/unit/test_package150_c1_2_continuation.py": "FA24ECF2552F9F07E76E16FDE18A24602EB3B2094BF87B30F61D45E26BA5FA86",
+    "tests/unit/test_stage_c1_2_readiness.py": "D7504B467A1BA89DB65BADD44660EBA2DA93B4BB068860279C48F3000DF00596"
+  },
+  "tests_passed": true,
+  "verification_criteria": {
+    "required_measurements": [
+      "submitted_jobs"
+    ]
+  },
+  "scientific_dependencies": {
+    "results/validation/package148/r8_equilibrium_checkpoint.json": "5D627B0340ADB3099D5C8980F733160FFA134787704DEAEBC93D67AB55B8D81C",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/M1_C4_CORRECTED_PACKAGE147_REF.inp": "FFFE51D5348F6E4B5E9B4742D783CA1645B480B229189168493AEDA10C91722A",
+    "scripts/state_transfer/build_package150_c1_2_continuation.py": "AB28B64A4708492DACE52666BD33D65A44239BD3BE51F98D4F4CDE17E7A6B6B8",
+    "scripts/state_transfer/driver_package150_c1_2_continuation.py": "59F58B6CAAA71EC77C2B55616B3378C04AF08E83F739CF9044A2447A3F7E2FBB",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/active_set_boundary_cards.inc": "0BE74F501FA6B6BAE81DB8A006B8BF2CFE4CFC12B05251AA3EE173F731C1D79B",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/d_lower_bounds.csv": "0F680E1C4F24A3116AE0D89BECDF3D219DA2E740A226E768BB647656DD4D49C8",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/initial_conditions_solution.inc": "E807DA7396B600AA3C70D3B8854CC420CC7D42370B3EB12E28B301CE5A5D0C09",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/job_notifications.sh": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/M1_C4_PACKAGE150_C1_2_CONTINUATION.inp": "8C54E3D18EBBB238FDF79F773BC7C1E854AA6A681E2881D6BA15B977C58FAFCD",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/nodal_displacements_initial.csv": "E1AC117DF6CB05F0F20DFDC576B593A6F68B8490E08F28BA6349CE2EECF17B77",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/nodal_phase_field_initial.csv": "5BCD2C4E773A95D56F319C8ACE5C1C0E7235CED3FEAAF4C2A28A9CAF254AE958",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/P150_MECHANICAL_DC.inp": "0B1A48AF91F1DB935D7E44E46B91DA5B753D47FBDE5D9AFB706A5A2780F9108C",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/P150_PHASE_DC.inp": "E9A47F058098E7731709053B555B38153FE4B1ED506948ECF6E5231BDAD17BBD",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/PACKAGE_MANIFEST.json": "E682B75C358CCD6879DB5643E6F586BAB07DA549BDD29B3FFADA201EEF69A4A3",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/run_datacheck.sh": "16CFE3FBAACBC921F19BFDD4BA3F73CD8C26F7ED4FD9BA38A802926F3690DB90",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/submit_M1_C4_P150_C1_2.pbs": "030AFAD63FA21F467937BCFC349087CE7B1F24CF6CE5879A86D78A532100BF5F",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/EXECUTION_MANIFEST.json": "7AC1857C6E2159D8E609EA46BE2DB5454552F52E6E0835E8FD44EE19D3F749E2",
+    "scripts/hpc/Invoke-Mode1Execution.ps1": "670F32418CB0D02A4E2F5511DF42B20982F27146DDB8459C38AAB88ECA6E6DB1",
+    "results/validation/package150_c1_2_execution_review.json": "08FC54286340755EDDD59938A391F86A69010A6666EEF10160E2E296C4440531",
+    "results/validation/package148/r8_terminal_evaluation.json": "60161194DE9BB56997CC59912B8EE592BF7FE0F931FA15C99491A7310C4EBEE3"
+  },
+  "limitation": "Preflight qualification verifies deck syntax, state serialization, and loading schedule; coupled continuation solve requires execution.",
+  "pbs_job_id": "1418949.mmaster02"
+}

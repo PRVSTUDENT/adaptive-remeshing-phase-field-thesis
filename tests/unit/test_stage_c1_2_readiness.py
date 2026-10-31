@@ -2,8 +2,14 @@
 """Unit test for Stage C1-2 Forward Continuation Contract and Readiness Validator."""
 
 import json
+import sys
 from pathlib import Path
 import pytest
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 from scripts.validation.validate_method_c_stage_c1_2_contract import (
     evaluate_c1_1_checkpoint_for_c1_2,
     generate_stage_c1_2_specification,
