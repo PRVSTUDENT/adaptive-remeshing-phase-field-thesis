@@ -27,11 +27,6 @@ def quad_shape_functions(xi, eta):
 def inverse_isoparametric_quad(vertices, x_target, y_target, tol=1e-12, max_iter=30):
     """Solves for (xi, eta) given physical quad vertices and target point."""
     xi, eta = 0.0, 0.0
-    x1, y1 = vertices[0]
-    x2, y2 = vertices[1]
-    x3, y3 = vertices[2]
-    x4, y4 = vertices[3]
-
     for _ in range(max_iter):
         n = quad_shape_functions(xi, eta)
         x_calc = sum(ni * vi[0] for ni, vi in zip(n, vertices))
@@ -93,6 +88,8 @@ def test_contract_schema_and_completeness():
     assert c["source_mesh_c4"]["gauss_points"] == 28224
     assert c["domain_geometry"]["sharp_slit"]["y_coordinate_mm"] == 0.05
     assert c["domain_geometry"]["sharp_slit"]["x_max_crack_tip_mm"] == 0.04
+    assert c["domain_geometry"]["sharp_slit"]["duplicate_node_pairs_count"] == 32
+    assert c["domain_geometry"]["ligament"]["single_shared_nodes_count"] == 36
     assert c["mesh_adaptation_governance"]["refinement_policy"] == "REFINEMENT_ONLY"
     assert not c["mesh_adaptation_governance"]["coarsening_allowed"]
 
@@ -106,13 +103,31 @@ def test_miseseri_companion_evidence_consistency():
         contract = json.load(f)
 
     empirical = contract["companion_continuum_error_indicator"]["empirical_evidence"]
+    hist = empirical["historical_mesh_denominator"]
+    active = empirical["active_mesh_reconciliation"]
+
+    # Historical denominator consistency (4422 elements)
     assert audit["refinement_metrics"]["threshold_eta"] == 0.15
-    assert audit["refinement_metrics"]["elements_above_threshold"] == empirical["elements_marked_above_threshold"]
-    assert audit["total_elements"] == empirical["total_elements_audited"]
-    assert abs(audit["refinement_metrics"]["pct_above_threshold"] - empirical["pct_marked_above_threshold"]) < 1e-4
+    assert audit["refinement_metrics"]["elements_above_threshold"] == hist["elements_marked_above_threshold"]
+    assert audit["total_elements"] == hist["elements_in_audit_job"]
+    assert abs(audit["refinement_metrics"]["pct_above_threshold"] - hist["historical_percentage"]) < 1e-4
+
+    # Active mesh reconciliation (7056 elements)
+    assert active["active_c4_total_quads"] == 7056
+    assert active["candidate_marked_elements"] == 284
+    expected_pct = (284.0 / 7056.0) * 100.0
+    assert abs(active["active_mesh_percentage"] - round(expected_pct, 3)) < 1e-3
+
+    # Peak values
     assert abs(audit["peak_relative_error"]["eta"] - empirical["peak_eta"]) < 1e-4
     assert abs(audit["peak_relative_error"]["centroid_mm"]["x"] - empirical["peak_eta_centroid_mm"][0]) < 1e-6
     assert abs(audit["peak_relative_error"]["centroid_mm"]["y"] - empirical["peak_eta_centroid_mm"][1]) < 1e-6
+
+    # Unit and normalization definitions
+    ind = contract["companion_continuum_error_indicator"]
+    assert ind["miseseri_units"] == "kN/mm^2"
+    assert ind["misesavg_units"] == "kN/mm^2"
+    assert ind["trajectory_prescription"] == "NONE"
 
 
 def test_flank_isolation_and_no_cross_slit_interpolation():
@@ -137,7 +152,6 @@ def test_flank_isolation_and_no_cross_slit_interpolation():
     pt_lower = (0.015, 0.04995)
     assert pt_lower[0] <= seam_x_max and pt_lower[1] < seam_y
 
-    # Function evaluating whether donor is allowed for target
     def is_donor_allowed(donor_cy, pt_x, pt_y):
         if pt_x <= seam_x_max:
             if pt_y <= seam_y:
@@ -163,31 +177,26 @@ def test_refinement_only_governance():
     assert gov["refinement_policy"] == "REFINEMENT_ONLY"
     assert not gov["coarsening_allowed"]
 
-    # Test validator: candidate elements in target mesh must not be coarsened relative to donor
     def validate_candidate_mesh(donor_sizes, candidate_sizes):
         for eid, h_cand in candidate_sizes.items():
             h_donor = donor_sizes.get(eid, h_cand)
-            if h_cand > h_donor * 1.01:  # Coarsened by more than 1% tolerance
+            if h_cand > h_donor * 1.01:
                 return False, "Element %s coarsened: h_cand=%f > h_donor=%f" % (eid, h_cand, h_donor)
         return True, "Valid"
 
     donor_sizes = {1: 0.0010, 2: 0.0020, 3: 0.0050}
-    # Valid refined mesh
     valid_target = {1: 0.0005, 2: 0.0010, 3: 0.0050}
     ok, msg = validate_candidate_mesh(donor_sizes, valid_target)
     assert ok, msg
 
-    # Invalid coarsened mesh
     invalid_target = {1: 0.0015, 2: 0.0010, 3: 0.0050}
     ok, msg = validate_candidate_mesh(donor_sizes, invalid_target)
     assert not ok, "Validator must reject coarsened elements under REFINEMENT_ONLY"
 
 
 def test_inverse_isoparametric_quad_and_partition_of_unity():
-    # Regular square quad: [0.0, 0.01] x [0.0, 0.01]
     quad_nodes = [(0.0, 0.0), (0.01, 0.0), (0.01, 0.01), (0.0, 0.01)]
 
-    # Test centroid
     xi, eta, conv, res = inverse_isoparametric_quad(quad_nodes, 0.005, 0.005)
     assert conv, "Newton-Raphson failed to converge at centroid"
     assert abs(xi) < 1e-11 and abs(eta) < 1e-11
@@ -196,7 +205,6 @@ def test_inverse_isoparametric_quad_and_partition_of_unity():
     for w in weights:
         assert abs(w - 0.25) < 1e-11
 
-    # Test an arbitrary interior point
     xi, eta, conv, res = inverse_isoparametric_quad(quad_nodes, 0.0025, 0.0075)
     assert conv
     assert abs(xi - (-0.5)) < 1e-11 and abs(eta - 0.5) < 1e-11
@@ -205,13 +213,8 @@ def test_inverse_isoparametric_quad_and_partition_of_unity():
 
 
 def test_history_variable_non_negativity_and_monotonicity():
-    with open(str(CONTRACT_PATH), "r") as f:
-        contract = json.load(f)
-
-    # Simulated host Gauss point history values
     source_h = [0.125, 0.450, 1.875, 0.0]
 
-    # Host-nearest GP history mapping
     def map_history(source_h_list, nearest_idx):
         h_val = source_h_list[nearest_idx]
         assert h_val >= 0.0, "Thermodynamic violation: H < 0"
@@ -231,11 +234,10 @@ def test_7_plus_8_plus_3_svar_encoding():
     assert "7+8+3" in svar_spec["encoding"]
     assert "SVARS 9 to 12" in svar_spec["svars_history_slots"]
 
-    # Total SVARS per Gauss point = 18
     svar_layout = {
-        "state_flags": list(range(1, 8)),        # SVARS 1-7
-        "gp_history_h": list(range(8, 16)),       # SVARS 8-15 (including H slots 9-12)
-        "auxiliary": list(range(16, 19))          # SVARS 16-18
+        "state_flags": list(range(1, 8)),
+        "gp_history_h": list(range(8, 16)),
+        "auxiliary": list(range(16, 19))
     }
     total_slots = len(svar_layout["state_flags"]) + len(svar_layout["gp_history_h"]) + len(svar_layout["auxiliary"])
     assert total_slots == 18, "Expected 18 total SVAR slots, got %d" % total_slots

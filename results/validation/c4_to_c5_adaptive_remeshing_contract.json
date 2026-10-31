@@ -3,7 +3,8 @@
   "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
   "contract_id": "C4_TO_C5_ADAPTIVE_REMESHING_INTERFACE_SPECIFICATION",
   "created_at": "2026-10-31T08:52:00Z",
-  "status": "OFFLINE_AUDITED_AND_QUALIFIED",
+  "last_audited": "2026-10-31T10:04:00Z",
+  "status": "OFFLINE_AUDITED_AND_RECONCILED",
   "purpose": "Governing specification and interface contract for next genuine adaptive remeshing cycle (C4 -> C5) under Method C.",
   "domain_geometry": {
     "dimensions_mm": [0.1, 0.1],
@@ -14,12 +15,14 @@
       "x_max_crack_tip_mm": 0.04,
       "initial_crack_length_a0_mm": 0.04,
       "slit_width_mm": 0.0,
-      "topology": "Zero-width sharp seam with coincident duplicate node pairs along flanks"
+      "duplicate_node_pairs_count": 32,
+      "topology": "Zero-width sharp seam with coincident duplicate node pairs along flanks (x in [0.0, 0.04] mm)"
     },
     "ligament": {
       "y_coordinate_mm": 0.05,
-      "x_range_mm": [0.04, 0.1],
-      "topology": "Continuous solid ligament with shared single nodes"
+      "x_range_mm": [0.040606, 0.1],
+      "single_shared_nodes_count": 36,
+      "topology": "Continuous solid ligament with shared single nodes (x in [0.040606, 0.1] mm)"
     }
   },
   "source_mesh_c4": {
@@ -29,22 +32,43 @@
     "quad_type": "4-node bilinear isoparametric quadrilateral (UEL Type U1/U2)",
     "gps_per_element": 4,
     "min_element_size_mm": 0.00068,
-    "max_element_size_mm": 0.0050
+    "max_element_size_mm": 0.0050,
+    "active_package_reference": "PACKAGE_147_C4_CORRECTED_CONTINUOUS_REFERENCE"
   },
   "companion_continuum_error_indicator": {
     "formulation": "Zienkiewicz-Zhu Superconvergent Patch Recovery (SPR) of Cauchy stresses",
-    "indicator_name": "MISESERI",
-    "normalization": "eta = MISESERI / MISESAVG",
-    "marking_strategy": "Threshold marking with eta >= 0.15 for refinement-candidate elements",
+    "indicator_field_in_odb": "MISESERI",
+    "miseseri_units": "kN/mm^2",
+    "normalization_field_in_odb": "MISESAVG",
+    "misesavg_units": "kN/mm^2",
+    "relative_error_formula": "eta_e = MISESERI_e / MISESAVG_e (dimensionless)",
+    "marking_strategy": "Threshold marking with eta_e >= 0.15 for refinement-candidate elements",
+    "trajectory_prescription": "NONE",
+    "trajectory_notes": "Autonomous error-driven marking; no geometric crack path is assumed or prescribed",
     "empirical_evidence": {
       "companion_job": "M1_C4_INC79_COMPANION",
+      "companion_step": "STATIC_ELASTIC",
+      "companion_frame": "Last frame (Step Time 1.0)",
       "audit_path": "models/pandey_kumar_mode1/114_c4_inc79_companion_miseseri/c4_inc79_miseseri_audit.json",
-      "total_elements_audited": 4422,
-      "elements_marked_above_threshold": 284,
-      "pct_marked_above_threshold": 6.4224,
+      "historical_mesh_denominator": {
+        "elements_in_audit_job": 4422,
+        "elements_marked_above_threshold": 284,
+        "historical_percentage": 6.4224,
+        "note": "Package 114 companion run was conducted on the initial 4,422-element mesh prior to Turn 322 refinement-only reconciliation."
+      },
+      "active_mesh_reconciliation": {
+        "active_c4_total_quads": 7056,
+        "candidate_marked_elements": 284,
+        "active_mesh_percentage": 4.025,
+        "formula": "284 / 7056 = 0.04024985 (4.025%)",
+        "note": "When mapped to the active 7,056-element C4 mesh, the 284 marked elements represent 4.025% of the total domain population, concentrating exclusively within the crack tip process corridor."
+      },
       "peak_eta": 1.87727,
+      "peak_eta_element_id": 2078,
       "peak_eta_centroid_mm": [0.0012496, 0.04886],
-      "spatial_localization": "Marks crack tip process zone and high-shear flank boundary without manual path bias"
+      "peak_miseseri_kNmm2": 6.02264,
+      "peak_miseseri_element_id": 2176,
+      "peak_miseseri_centroid_mm": [0.040303, 0.04962]
     }
   },
   "mesh_adaptation_governance": {
