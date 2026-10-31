@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "ea386956-6cf9-4812-b6a7-c574be4b84dc",
+  "finding": "Package 157 R4 restart checkpoint qualification and readiness evaluation resolves the apparent damage discrepancy: Node 7265 (damage = 0.5059708, reported in Turn 394) is the final entry of the endpoint JSON array, whereas exhaustive sorting across all 7,265 nodes proves the true crack-tip maximum is Node 3612 (damage = 0.5823235, reported in Turn 396), with zero damage healing verified across the entire mesh. The reconstructed history field H_step1 = max(H0, psi+(u_step1)) is mathematically and thermodynamically admissible (min Delta H = 0.0 MPa, max Delta H = 1.4676 MPa, zero healing), but because authentic compute-node UEL internal state variables (SVARS) for Job 1419113 Step 1 were not dumped to an on-disk artifact, pointwise equivalence to the solver's internal state cannot be validated against a committed reference. Checkpoint outcome is definitively classified as R4_CHECKPOINT_UNVERIFIED. Operation registration check establishes DEFINITION_REVIEW_REQUIRED: execute_mode1_package157_c1_2_r4_adaptive_continuation is not registered in Controller-Operations.ps1 and cannot be dispatched without prior formal operation addition and compute-node Abaqus datacheck.",
+  "evidence_sources": {
+    "scripts/validation/evaluate_package157_r4_checkpoint_decision.py": "C61C16D899A71094ADDF84237CE68278F2CD649F5DF3E6A804F75A9D7D1C61C4",
+    "results/validation/package157_r4_checkpoint_decision.json": "9058D9F19EEBA972B1763EE26F15A627DE0E93F29DDDE8EBFDEBBB75CF6D0063",
+    "tests/unit/test_mode1_f1597_turn397_checkpoint_decision.py": "F38B083086A6EB3C9608E744E6E1AAF474DE2180928FDDC4DEEAD0ECA7839AED",
+    "results/validation/step1_equilibrium_checkpoint_1419113_full_history.json": "1640388AA1831CF896A980DC0228CF7F72B38B9077ECEB97207664927C0D1980",
+    "results/validation/step1_equilibrium_checkpoint_1419113_endpoint.json": "FD75727BFDF8B83E03F067E0AC341ED91FB4FFE1A704B16E712714B38F300DDC",
+    "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/M1_C4_PACKAGE150_C1_2_CONTINUATION.inp": "8C54E3D18EBBB238FDF79F773BC7C1E854AA6A681E2881D6BA15B977C58FAFCD"
+  },
+  "verification_passed": true,
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "checkpoint_decision": "R4_CHECKPOINT_UNVERIFIED",
+  "registration_decision": "DEFINITION_REVIEW_REQUIRED",
+  "damage_discrepancy_resolved": {
+    "node_3612_max_damage": 0.58232352,
+    "node_7265_tail_damage": 0.50597076,
+    "zero_healing_verified": true,
+    "healing_node_count": 0
+  },
+  "history_admissibility": {
+    "total_gps": 28224,
+    "rule": "H_step1 = max(H0, psi+(u_step1))",
+    "monotonicity_pass": true,
+    "min_delta_H_MPa": 0.0,
+    "max_delta_H_MPa": 1.4676494819783983,
+    "reconstruction_status": "ADMISSIBLE_BUT_UNVERIFIED_AGAINST_COMMITTED_SOLVER_SVARS"
+  },
+  "operation_registration": {
+    "operation_id": "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+    "status": "DEFINITION_REVIEW_REQUIRED",
+    "dispatch_allowed_this_turn": false
+  }
+}
