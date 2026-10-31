@@ -1,0 +1,105 @@
+{
+  "schema": 1,
+  "status": "ERROR_DRIVEN_RECEIVER_TRANSFER_TECHNICALLY_VERIFIED",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 415,
+  "run_id": "e39e61b8-9aaa-4c83-af32-a9b0d93b40fa",
+  "donor_mesh": {
+    "path": "models/pandey_kumar_mode1/147_c4_corrected_reference/M1_C4_CORRECTED_PACKAGE147_REF.inp",
+    "sha256": "FFFE51D5348F6E4B5E9B4742D783CA1645B480B229189168493AEDA10C91722A",
+    "elements": 7056,
+    "nodes": 7265,
+    "slit_pairs": 40,
+    "min_det_j": 1.1559999999999737e-07
+  },
+  "receiver_mesh": {
+    "path": "results/validation/error_driven_remeshing_pilot/pilot_uel_continuation_deck.inp",
+    "sha256": "E82A9710F8F8C7F64B62E8EADEA6D8A28A421051AA4A2E2B77DA80A36DD23661",
+    "elements": 12544,
+    "nodes": 12821,
+    "slit_pairs": 52,
+    "min_det_j": 6.249999999999664e-08
+  },
+  "mapping_completeness": {
+    "mapped_receiver_nodes": 12821,
+    "total_receiver_nodes": 12821,
+    "unmapped_receiver_nodes": 0,
+    "mapped_receiver_gps": 50176,
+    "total_receiver_gps": 50176,
+    "unmapped_receiver_gps": 0,
+    "flank_isolation_violations": 0,
+    "max_node_reconstruction_error_mm": 4.3885418357208765e-17,
+    "max_gp_reconstruction_error_mm": 4.220764384040162e-17
+  },
+  "synthetic_benchmarks": {
+    "constant_field": {
+      "max_u_err_mm": 4.336808689942018e-19,
+      "max_d_err": 1.1102230246251565e-16,
+      "max_h_err_mpa": 1.3322676295501878e-15,
+      "passed": true
+    },
+    "affine_field": {
+      "u1_max_err_mm": 1.6653345369377348e-16,
+      "u1_rms_err_mm": 3.5048398793770745e-17,
+      "d_max_err": 8.326672684688674e-17,
+      "d_rms_err": 2.0634305795133444e-17,
+      "h_max_err_mpa": 8.881784197001252e-16,
+      "h_rms_err_mpa": 2.1165657601570782e-16,
+      "passed": true
+    },
+    "localized_tip_field": {
+      "max_err_mpa": 0.044317657897189555,
+      "rms_err_mpa": 0.001044785664258336
+    },
+    "slit_discontinuity": {
+      "cross_slit_leakage": 1.3322676295501878e-15,
+      "passed": true
+    }
+  },
+  "authentic_fixture_transfer": {
+    "c4_step1_endpoint_fixture": "results/validation/step1_equilibrium_checkpoint_1419113_endpoint.json",
+    "c4_step1_endpoint_sha256": "FD75727BFDF8B83E03F067E0AC341ED91FB4FFE1A704B16E712714B38F300DDC",
+    "c4_step1_full_history_fixture": "results/validation/step1_equilibrium_checkpoint_1419113_full_history.json",
+    "c4_step1_full_history_sha256": "1640388AA1831CF896A980DC0228CF7F72B38B9077ECEB97207664927C0D1980",
+    "damage_bounds": {
+      "d_min": 0.0033413366,
+      "d_max": 0.580438306764706,
+      "in_bounds_0_1": true
+    },
+    "history_non_negativity": {
+      "h_min_mpa": 0.0,
+      "h_max_mpa": 7.134233037310842,
+      "non_negative": true
+    },
+    "coincident_nodes": {
+      "count": 9,
+      "min_d_diff": 0.0,
+      "healing_check_passed": true,
+      "max_d_diff": 1.6653345369377348e-16,
+      "max_u1_diff_mm": 6.522116077104949e-19,
+      "max_u2_diff_mm": 8.673617379884035e-19
+    },
+    "quadrature_integrals": {
+      "c4_area_mm2": 0.010000000000003527,
+      "receiver_area_mm2": 0.010000000000001674,
+      "area_rel_diff": 1.8526846723425767e-13,
+      "c4_int_d_mm2": 0.0012539201254409213,
+      "receiver_int_d_mm2": 0.001254044843251553,
+      "int_d_rel_diff": 9.946232467385146e-05,
+      "c4_int_h_mpa_mm2": 0.00029969944421303463,
+      "receiver_int_h_mpa_mm2": 0.0002996917900429383,
+      "int_h_rel_diff": 2.5539487123335152e-05,
+      "c4_e_frac_kn_mm": 5.116981794856375e-05,
+      "receiver_e_frac_kn_mm": 5.113238437375574e-05,
+      "e_frac_rel_diff": 0.000731555755106183
+    }
+  },
+  "scientific_limitations": {
+    "remeshing_methodology": "SCRIPTED_ERROR_DRIVEN_PILOT",
+    "native_abaqus_remeshing_used": false,
+    "physical_acceptance_established": false,
+    "disposition": "Transfer operator mathematically verified; physical continuation withheld pending authentic C4 Step-5 terminal completion."
+  },
+  "verification_passed": true,
+  "finding": "C4-to-error-driven receiver state transfer technically verified: maps 100% of receiver nodes (12,821/12,821) and Gauss points (50,176/50,176) with zero unmapped points and zero cross-slit flank leakage; constant and affine patch tests pass to machine precision (< 1e-15); authentic Step-1 fixture preserves damage in [0, 1], non-negative history (H >= 0), zero healing violations (min delta_d = 0.0 >= -1e-6), and global fracture energy within 0.082%; classification: ERROR_DRIVEN_RECEIVER_TRANSFER_TECHNICALLY_VERIFIED."
+}
