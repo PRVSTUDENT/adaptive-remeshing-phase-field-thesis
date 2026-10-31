@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "2da78656-4c16-463e-a1b5-20f7c64ce7c8",
+  "finding": "Package 150 forward continuation was fully qualified across authentic Abaqus 2023 cluster datachecks (mechanical and phase subproblems passed with zero errors), validated against 12 regression unit tests, and successfully submitted to PBS queue entry_imfdfkmq as Job 1418949.mmaster02 (currently running on mnode101) under once-only accounting.",
+  "pbs_job_id": "1418949.mmaster02",
+  "job_name": "M1_C4_P150_C1_2",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/EXECUTION_MANIFEST.json": "7AC1857C6E2159D8E609EA46BE2DB5454552F52E6E0835E8FD44EE19D3F749E2",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/PACKAGE_MANIFEST.json": "E682B75C358CCD6879DB5643E6F586BAB07DA549BDD29B3FFADA201EEF69A4A3",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/submit_M1_C4_P150_C1_2.pbs": "030AFAD63FA21F467937BCFC349087CE7B1F24CF6CE5879A86D78A532100BF5F",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/P150_MECHANICAL_DC.inp": "0B1A48AF91F1DB935D7E44E46B91DA5B753D47FBDE5D9AFB706A5A2780F9108C",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/P150_PHASE_DC.inp": "E9A47F058098E7731709053B555B38153FE4B1ED506948ECF6E5231BDAD17BBD",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "scripts/state_transfer/driver_package150_c1_2_continuation.py": "59F58B6CAAA71EC77C2B55616B3378C04AF08E83F739CF9044A2447A3F7E2FBB",
+    "results/validation/package150_c1_2_datachecks.json": "55FC187F737CFD669942D127767954F35F2D6A48FEEF02CB1A329B5E09DDEE81",
+    "results/validation/package150_c1_2_execution_review.json": "08FC54286340755EDDD59938A391F86A69010A6666EEF10160E2E296C4440531",
+    "scripts/validation/evaluate_mode1_package150_stage_c1_2_continuation.qualification.json": "C0DA19143738B47F0FCD3A4FBF874E834E4D20927A21F095292FB93CF18F9015",
+    "tests/unit/test_package150_c1_2_continuation.py": "FA24ECF2552F9F07E76E16FDE18A24602EB3B2094BF87B30F61D45E26BA5FA86",
+    "tests/unit/test_stage_c1_2_readiness.py": "D7504B467A1BA89DB65BADD44660EBA2DA93B4BB068860279C48F3000DF00596"
+  }
+}
