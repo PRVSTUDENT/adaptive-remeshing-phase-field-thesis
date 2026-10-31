@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "controller_run_id": "0d61268a-c7c6-49b3-84ab-769406b62d13",
+  "finding": "C5 adaptive remeshing provenance audited and classified as SCRIPTED_REFINEMENT_WITH_LIMITATIONS; refinement is authentically driven by 266 marked C4 elements (eta >= 0.15) from Job 1419101 companion MISESERI stress recovery achieving 1.77x area refinement across high-error zone with zero coarsened elements (7056 to 12996 quads, 7265 to 13278 nodes); generator uses 1D graded tensor-product Cartesian quads anchored at specimen symmetry line (y=0.05 mm), strictly valid for Mode-I straight propagation; live predecessor Job 1419162 (Segment 1) running cleanly on cluster mnode101 with zero dependent submission.",
+  "evidence_sources": {
+    "scripts/validation/audit_c5_remeshing_provenance.py": "9F6620D6EB6D9915544775A93630D995EDD7EFEF3C482CF47368C5DA1EA5F6E9",
+    "tests/unit/test_c5_remeshing_provenance.py": "2EA7D5DE1C1FD671B8E5E877B4930AF667E37E48D7BE6D443116622952F37E93",
+    "results/validation/c5_remeshing_provenance_audit.json": "7C14AA52F7E64F8CCD79284E6E5F939D6E9BA1C2CAF6B043C8D45F797F4E6EAE",
+    "models/pandey_kumar_mode1/153_c4_companion_miseseri/c4_package153_companion_miseseri_distribution.csv": "DA662457D4DFD43BC0C24E9E3E3821AC47F46477ED6BFA051510F958EEB4EB28",
+    "models/pandey_kumar_mode1/153_c4_companion_miseseri/c4_package153_miseseri_audit.json": "213241FC3A8D8467A6A27F3D834EBE4EF4536963933B5754D012904FECBC7849",
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/PACKAGE_MANIFEST.json": "6100933A82E429207BA5D5ECA08943BB4366880B54807E56FD7C440D4DB397AE",
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/c4_to_c5_correspondence.json": "76376D3C4C32DAC2AB9FA6487F549586B86C4B3C80556E6FF16A61076626769B",
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/M1_C5_CANDIDATE_MESH.inp": "DB261F26D34352DB743432A47FC929BF6B4B4E808A1D4C13146FF4902776D197"
+  },
+  "verification_passed": true
+}
