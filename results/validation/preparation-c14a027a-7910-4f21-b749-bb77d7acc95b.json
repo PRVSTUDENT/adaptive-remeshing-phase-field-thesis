@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "c14a027a-7910-4f21-b749-bb77d7acc95b",
+  "finding": "Authentic Step-1 committed history provenance for Job 1419113 successfully resolved: located and extracted the authentic 21,170-line SOLUTION initial condition card block from Job 1419113 Step 2 deck (P150_S2_01_00_mechanical.inp, SHA-256: 306ABF3C09FAA9CB9CEA37F48B8E93A8509C0FF0D0258E9B47667367D9808F60), which was serialized directly upon Step-1 coupled convergence at outer iteration 74. Exhaustive point-by-point audit across all 28,224 integration points proves that the reconstructed history in step1_equilibrium_checkpoint_1419113_full_history.json matches authentic committed solver history to machine precision: maximum absolute difference is 8.9706e-14 MPa, RMS difference is 1.1607e-15 MPa, with exactly zero irreversibility or monotonicity violations. Outcome is definitively classified as AUTHENTIC_HISTORY_VERIFIED. Operation registration audit establishes DEFINITION_REVIEW_REQUIRED: execute_mode1_package157_c1_2_r4_adaptive_continuation is not registered in Controller-Operations.ps1 and cannot be dispatched without prior formal operation addition and compute-node Abaqus datacheck.",
+  "evidence_sources": {
+    "scripts/validation/audit_authentic_history_provenance.py": "0F473E6EC4C3A67DE1842BB04F3C77EA61765316C55B0AF07495ADA3EC94DB03",
+    "results/validation/authentic_step1_history_audit.json": "1D3C75675E1F6CBF61DED73991E01D40983C8923AE022F95E4D084E6DE0C541C",
+    "results/validation/step1_committed_solution_initial.inc": "306ABF3C09FAA9CB9CEA37F48B8E93A8509C0FF0D0258E9B47667367D9808F60",
+    "tests/unit/test_mode1_f1597_turn398_authentic_history.py": "D1EAD514CD95A27C5CC3ECD0D18BC8FE4307F8B3ECBFDD0DA9343E9AD96B9BF6",
+    "results/validation/step1_equilibrium_checkpoint_1419113_full_history.json": "1640388AA1831CF896A980DC0228CF7F72B38B9077ECEB97207664927C0D1980",
+    "results/validation/step1_equilibrium_checkpoint_1419113_endpoint.json": "FD75727BFDF8B83E03F067E0AC341ED91FB4FFE1A704B16E712714B38F300DDC",
+    "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true,
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "provenance_outcome": "AUTHENTIC_HISTORY_VERIFIED",
+  "registration_decision": "DEFINITION_REVIEW_REQUIRED",
+  "comparison_metrics": {
+    "total_gauss_points": 28224,
+    "max_absolute_difference_MPa": 8.970602038971265e-14,
+    "rms_difference_MPa": 1.1607291872360347e-15,
+    "max_relative_difference": 2.3454333486463124e-12,
+    "pointwise_irreversibility_pass": true,
+    "exact_numerical_equivalence": true
+  },
+  "operation_registration": {
+    "operation_id": "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+    "status": "DEFINITION_REVIEW_REQUIRED",
+    "dispatch_allowed_this_turn": false
+  }
+}
