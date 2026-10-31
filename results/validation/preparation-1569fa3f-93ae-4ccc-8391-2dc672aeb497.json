@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "1569fa3f-93ae-4ccc-8391-2dc672aeb497",
+  "turn": 387,
+  "finding": "Mathematical and spatial audit of Gauss-point history interpolation across 51,984 receiver Gauss points confirms that 68.73% lie outside the donor GP convex hull requiring negative weights under affine reproduction (Farkas separation theorem). On authentic Package 148 R8 fields, only 12 GPs (0.023%) experience raw negative undershoot (max 0.00662 MPa). Policy 1 (Bilinear + max(0, H)) achieves machine-precision affine reproduction (error 2.22e-15) and lowest crack-tip error (1.36e-4 MPa), with negligible clipping energy adjustment (+0.000727 nJ) and +0.0493% integral discrepancy (+0.134 nJ). Step 1 of HPC Job 1419113 converged in 74 outer iterations and Step 2 is actively computing.",
+  "evidence_sources": {
+    "results/validation/initial_finding_turn387_1569fa3f.json": "D13C17A620C307EE2516EA986F9C92110E1C9CB78AACCE90ECCD93C3D3AB1EAA",
+    "results/validation/history_interpolation_boundedness_audit.json": "EA563820644C828D59FA4FFEC6BC36EA505DB3E0EB36CE30BD0B40840BDA441F",
+    "scripts/state_transfer/audit_gp_interpolation_boundedness.py": "40D1E90A101E9BC02F2F690AF720CCB7FA75296EE89D71535A0F6ADD002023D7"
+  },
+  "verification_passed": true
+}

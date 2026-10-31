@@ -1,0 +1,100 @@
+{
+  "schema": 1,
+  "status": "GP_INTERPOLATION_BOUNDEDNESS_AUDITED",
+  "mathematical_theorem": {
+    "theorem": "Farkas Hyperplane Separation & Nonnegative Affine Impossibility Theorem",
+    "statement": "An affine-reproducing interpolant f(x) = sum_k w_k(x) f_k satisfying sum w_k = 1 and sum w_k x_k = x CANNOT have non-negative weights w_k >= 0 for points x strictly outside the convex hull of the sampling nodes C = Conv({x_1, ..., x_m}).",
+    "implication_for_quad_uel": "For 2x2 Gauss quadrature with nodes at (+/- 1/sqrt3, +/- 1/sqrt3), C is [-0.577, 0.577]^2. At least one interpolation weight must become negative for any receiver GP located in the outer perimeter of the parent quad element."
+  },
+  "weight_census": {
+    "total_receiver_gps": 51984,
+    "gps_outside_convex_hull": 35728,
+    "fraction_outside_hull": 0.6872883964296707,
+    "gps_with_negative_weights": 35728,
+    "fraction_negative_weights": 0.6872883964296707,
+    "min_interpolation_weight": -0.47522670138204276,
+    "max_interpolation_weight": 1.826829132908644
+  },
+  "authentic_r8_unclipped_impact": {
+    "unclipped_undershoot_count": 12,
+    "unclipped_undershoot_fraction": 0.00023084025854108956,
+    "max_undershoot_mpa": 0.006620248122515148,
+    "unclipped_overshoot_count": 7607,
+    "unclipped_overshoot_fraction": 0.14633348722683903,
+    "max_overshoot_mpa": 0.5244436771213752,
+    "clipping_energy_adjustment_nj": 0.0007270965488221683
+  },
+  "policy_comparison": {
+    "policy_1_bilinear_pos": {
+      "description": "Bilinear GP shape functions with non-negativity clamp max(0, H)",
+      "integral_h_mpa_mm2": 0.0002730219576258081,
+      "rel_discrepancy_pct": 0.04928048442553846,
+      "energy_discrepancy_nj": 0.1344802707771908,
+      "affine_mean_error_mpa": 2.7914044660772008e-16,
+      "tip_mean_error_mpa": 0.0001362628083019023,
+      "unconditionally_positive": true
+    },
+    "policy_2_bilinear_bounded": {
+      "description": "Bilinear GP shape functions clamped to local donor bounds [min_k H_k, max_k H_k]",
+      "integral_h_mpa_mm2": 0.0002729007935801571,
+      "rel_discrepancy_pct": 0.004879749431990295,
+      "energy_discrepancy_nj": 0.013316225126204766,
+      "affine_mean_error_mpa": 0.0005509028299412797,
+      "tip_mean_error_mpa": 0.00047378450690484394,
+      "unconditionally_positive": true
+    },
+    "policy_3_local_convex_idw": {
+      "description": "Inverse-Distance-Weighted local convex interpolation (w_k >= 0, sum w_k = 1)",
+      "integral_h_mpa_mm2": 0.00027288399282603115,
+      "rel_discrepancy_pct": -0.0012769105543186997,
+      "energy_discrepancy_nj": -0.0034845289997604417,
+      "affine_mean_error_mpa": 0.00219929896654617,
+      "tip_mean_error_mpa": 0.0014384044683265773,
+      "unconditionally_positive": true
+    },
+    "policy_4_nearest_donor_gp": {
+      "description": "Nearest-Donor-GP association with corrected counter-clockwise indexing",
+      "integral_h_mpa_mm2": 0.0002727872641935154,
+      "rel_discrepancy_pct": -0.036723254026469955,
+      "energy_discrepancy_nj": -0.10021316151551368,
+      "affine_mean_error_mpa": 0.0035173639071865892,
+      "tip_mean_error_mpa": 0.002082658449447389,
+      "unconditionally_positive": true
+    }
+  },
+  "regional_breakdown": {
+    "CRACK_FLANK": {
+      "total_gps": 3532,
+      "neg_weight_gps": 2324,
+      "neg_weight_pct": 65.79841449603624,
+      "undershoot_gps": 5,
+      "undershoot_pct": 0.14156285390713477
+    },
+    "CRACK_TIP": {
+      "total_gps": 1256,
+      "neg_weight_gps": 792,
+      "neg_weight_pct": 63.05732484076433,
+      "undershoot_gps": 7,
+      "undershoot_pct": 0.5573248407643312
+    },
+    "FAR_FIELD": {
+      "total_gps": 42864,
+      "neg_weight_gps": 29656,
+      "neg_weight_pct": 69.18626353116835,
+      "undershoot_gps": 0,
+      "undershoot_pct": 0.0
+    },
+    "LIGAMENT_PROCESS_ZONE": {
+      "total_gps": 4332,
+      "neg_weight_gps": 2956,
+      "neg_weight_pct": 68.23638042474607,
+      "undershoot_gps": 0,
+      "undershoot_pct": 0.0
+    }
+  },
+  "dimensional_consistency": {
+    "thickness_mm": 1.0,
+    "formula": "E_H (nJ) = Integral_H (MPa*mm^2) * Thickness (mm) * 1.0e6",
+    "donor_baseline_energy_nj": 272.8874773550309
+  }
+}
