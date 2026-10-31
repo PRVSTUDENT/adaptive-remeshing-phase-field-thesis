@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "c042400a-5b2f-4f91-ad8b-70692f756f36",
+  "finding": "Repaired ODB extraction step identity contract in extract_package148_iteration.py, verified on authentic Job 1418949 mechanical solve ODB (RF2=0.191086 kN, 7265 nodes) and R8 backward compatibility; built distinct corrected Package 150 R1, passed authentic Abaqus 2023 cluster datachecks, and submitted Job 1418950.mmaster02 to normal_imfdfkmq on mnode101/0 under once-only accounting.",
+  "pbs_job_id": "1418950.mmaster02",
+  "job_name": "M1_C4_P150_C1_2_R1",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/151_c4_package150_c1_2_continuation_r1/EXECUTION_MANIFEST.json": "FF16B92698AFB021F900828DB33AA693B5BC972288A783ECEC9A85FBAEA57772",
+    "models/pandey_kumar_mode1/151_c4_package150_c1_2_continuation_r1/PACKAGE_MANIFEST.json": "BB71F9E7C257504046B9D50C3CC87A153167F0B6F3DAF5B8438A36EC6D808627",
+    "models/pandey_kumar_mode1/151_c4_package150_c1_2_continuation_r1/submit_M1_C4_P150_C1_2_R1.pbs": "4FA41D644115D27CBE50ED82B872A3464177018E0CA93D29D8656EF17978F8D2",
+    "models/pandey_kumar_mode1/151_c4_package150_c1_2_continuation_r1/P150_MECHANICAL_DC.inp": "0B1A48AF91F1DB935D7E44E46B91DA5B753D47FBDE5D9AFB706A5A2780F9108C",
+    "models/pandey_kumar_mode1/151_c4_package150_c1_2_continuation_r1/P150_PHASE_DC.inp": "E9A47F058098E7731709053B555B38153FE4B1ED506948ECF6E5231BDAD17BBD",
+    "models/pandey_kumar_mode1/151_c4_package150_c1_2_continuation_r1/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "scripts/validation/extract_package148_iteration.py": "C57AF5C79AEA92E2F29F05B489A7460B68DC5D4F0BB024F2718308B07CE6DD2F",
+    "scripts/state_transfer/driver_package150_c1_2_continuation.py": "59F58B6CAAA71EC77C2B55616B3378C04AF08E83F739CF9044A2447A3F7E2FBB",
+    "results/validation/package150_repaired_extractor_evidence.json": "A85BA1B146C4F706333211DD628B1F6329C7265E43F0E27E5B1669A83A251B5A",
+    "results/validation/package150_r1_datachecks.json": "E5FA5AF7CDF4E9F0747C045E73A851DB39C154B3A6734F34768A5A8FCAF195E0",
+    "results/validation/package150_r1_execution_review.json": "55281C248DFF1EF588C3CC230FE9D648A75A03730BD466BF66B483A85A2905CA",
+    "scripts/validation/evaluate_mode1_package150_r1_stage_c1_2_continuation.qualification.json": "04068A247BE2F6E4AE7DAEA5DE0FDC9CC83CF1E5D1281D342577C2460EC3F0E7",
+    "tests/unit/test_package150_c1_2_continuation.py": "3653E44F5371D9BA0AD660FA6158461F12D0172859D21B67D12CCB249A2F5155",
+    "tests/unit/test_stage_c1_2_readiness.py": "D7504B467A1BA89DB65BADD44660EBA2DA93B4BB068860279C48F3000DF00596"
+  }
+}
