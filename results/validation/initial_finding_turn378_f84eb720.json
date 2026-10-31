@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "run_id": "f84eb720-cb66-462f-8379-96ddf3badca3",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 378,
+  "status": "EARLY_RESEARCH_FINDING_RECORDED",
+  "finding": "Audited displacement tolerance and unit consistency across driver stopping logic. Clarified that 1.0e-9 mm tolerance equals 1.0 pm (0.001 nm), not 1.0 nm. Confirmed Outer 30 delta_u = 3.109e-8 mm (31.09 pm = 0.03109 nm) failed by a factor of 31.09 above tolerance. Driver executable logic delta_u <= 1e-9 mm is uncorrupted and physically sound. All three fields are projected to converge within max_outer=80 (delta_d at outer ~41, delta_u at outer ~51, delta_h at outer ~73). Cluster Job 1419097 (Package 152 / Revision 2) is actively executing on mnode101/0 with Outer 4 mechanical solve completed (RF2 = 186.757 N).",
+  "evidence_sources": {
+    "scripts/state_transfer/driver_package150_c1_2_continuation.py": "59F58B6CAAA71EC77C2B55616B3378C04AF08E83F739CF9044A2447A3F7E2FBB",
+    "tests/unit/test_package150_r2_continuation.py": "0294A9E37BB063FCEF786A44BEB11FCF9205C35A38C4FA4FE48FC39D3E2D2246"
+  },
+  "unit_tests_passed": 7,
+  "cluster_job": {
+    "job_id": "1419097.mmaster02",
+    "job_name": "M1_C4_P150_C1_2_R2",
+    "job_state": "R",
+    "exec_host": "mnode101/0",
+    "current_stage": "Step 1 Outer 4 progressing"
+  },
+  "verification_passed": true
+}
