@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "0cb23a4a-ece6-4050-828b-3535025b37ed",
+  "turn": 414,
+  "finding": "Autonomous error-indicator-driven remeshing pilot verified: L2 error energy norm (||e||^2 ~= sum MISESERI_e^2) accurately pinpoints the crack tip to (0.040124, 0.050000) mm within 124 nm without hardcoding; constructs conforming quad mesh (12544 quads, 12821 nodes, min det(J) > 0, aspect ratio <= 4.0) preserving physical slit seam (y=0.050 mm, x <= 0.040 mm); trajectory invariance test proves refinement zone shifts autonomously from x=0.040 to x=0.060 mm following crack advance; live predecessor Job 1419162 (Segment 1) actively solving at outer 30 on mnode101 with steady contraction rho=0.882.",
+  "evidence_sources": {
+    "scripts/remeshing/error_driven_remeshing_pilot.py": "8C1C20F1E65B79AF2FE3041AC3EB11957F4E177EEAA9F371BCBDA46A47A6AE15",
+    "scripts/validation/audit_error_driven_remeshing_pilot.py": "968F4907D0416C5B2EBF919DBB03E88F7B3046B641FDB853E0746D3AD016C75E",
+    "tests/unit/test_error_driven_remeshing_pilot.py": "9FFA5BB05B35BF90298544AC2285A85AC35FFBA80E7D5DA4EB8726E30D0D0465",
+    "results/validation/error_driven_remeshing_pilot_audit.json": "A4F553F888A9F1F41227DACDE444732912A79CA10D19E7C2C457E0AC8ACF60D9",
+    "results/validation/error_driven_remeshing_pilot/pilot_companion_deck.inp": "372B0D9585E5321C30BF1D21235548DDB5A3915CCC9DDABB6C944E4EE5B2CE77",
+    "results/validation/error_driven_remeshing_pilot/pilot_uel_continuation_deck.inp": "E82A9710F8F8C7F64B62E8EADEA6D8A28A421051AA4A2E2B77DA80A36DD23661",
+    "results/validation/error_driven_remeshing_pilot/pilot_shifted_crack_deck.inp": "A9AD8CD9309B61368EA7A48B1AE4D21625174B29E4F9A9BCDDFCB5B40EC9499E",
+    "models/pandey_kumar_mode1/153_c4_companion_miseseri/c4_package153_companion_miseseri_distribution.csv": "DA662457D4DFD43BC0C24E9E3E3821AC47F46477ED6BFA051510F958EEB4EB28",
+    "models/pandey_kumar_mode1/153_c4_companion_miseseri/M1_C4_COMPANION_MISESERI.inp": "4302BCD1ED3E2FF75D0DD398AB0BA85EB10F5D8C97A0EC3703EC3091C7D02964"
+  },
+  "verification_passed": true
+}
