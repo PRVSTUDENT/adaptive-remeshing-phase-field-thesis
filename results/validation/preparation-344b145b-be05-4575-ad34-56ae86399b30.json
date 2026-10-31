@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "344b145b-be05-4575-ad34-56ae86399b30",
+  "title": "Turn 419 Physical Reference Evidence Compatibility Qualification Checkpoint",
+  "finding": "Physical reference evidence compatibility qualification successfully completed: (1) Reference 1 (R3 Step-1 endpoint checkpoint 1419113 at uy=0.00185031 mm, RF2=0.185010 kN, Etot=0.00022233 kN*mm) is classified as MATCHING_LOAD_REFERENCE_VERIFIED for Package 158 same-load re-equilibration, providing an exact zero-discontinuity physical baseline; (2) Reference 2 (candidate donor h0025 uniform simulation Job 1416259) is classified as MATCHING_LOAD_REFERENCE_VERIFIED for Package 157 R5 continuation, demonstrating 0.57% RF2 agreement at anchor with smooth bracketing across uy in [0.00185031, 0.00190031] mm; (3) Coarse mesh baselines are classified as REFERENCE_INCOMPATIBLE due to artificial hardening and diffuse localization; (4) Quantitative physical evaluation reveals that raw domain total energy across different discretizations differs by ~3.9% due to mesh compliance differences, while reaction forces match within 0.57% to 1.05%, establishing rigorous quantitative baseline boundaries for continuation acceptance.",
+  "evidence_sources": {
+    "scripts/validation/audit_physical_reference_compatibility.py": "91B323FD81DD3DEEABDD2B8768EFBAF2FE2ED1DF1F5C71A306411A22E0BD6777",
+    "tests/unit/test_physical_reference_compatibility.py": "23A3485331F9D68A720FB6A62C55F9C21D622B42A74633B6B112DC02FA181F0C",
+    "results/validation/physical_reference_compatibility_audit.json": "542B1FC5936EE563E2E3F78AB70DF6BC287C1E663B4B341E545C020D624F1D69",
+    "results/validation/step1_equilibrium_checkpoint_1419113_endpoint.json": "FD75727BFDF8B83E03F067E0AC341ED91FB4FFE1A704B16E712714B38F300DDC",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/evidence_1416259/donor_h0025_rf_curve.csv": "8CEFAF0727CA2A16650F435AC88190C975F469000760F228733CDB39E46E403F",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/evidence_1416259/uel_energy_balance.csv": "5D0FD1157C5E1EB2AF29F09EF0AE98D772FE30463B1D94EF8BB11A7CFDC7F50B"
+  },
+  "verification_passed": true
+}
