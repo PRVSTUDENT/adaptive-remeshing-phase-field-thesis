@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "contract_id": "C4_TO_C5_ADAPTIVE_REMESHING_INTERFACE_SPECIFICATION",
+  "created_at": "2026-10-31T08:52:00Z",
+  "status": "OFFLINE_AUDITED_AND_QUALIFIED",
+  "purpose": "Governing specification and interface contract for next genuine adaptive remeshing cycle (C4 -> C5) under Method C.",
+  "domain_geometry": {
+    "dimensions_mm": [0.1, 0.1],
+    "x_range_mm": [0.0, 0.1],
+    "y_range_mm": [0.0, 0.1],
+    "sharp_slit": {
+      "y_coordinate_mm": 0.05,
+      "x_max_crack_tip_mm": 0.04,
+      "initial_crack_length_a0_mm": 0.04,
+      "slit_width_mm": 0.0,
+      "topology": "Zero-width sharp seam with coincident duplicate node pairs along flanks"
+    },
+    "ligament": {
+      "y_coordinate_mm": 0.05,
+      "x_range_mm": [0.04, 0.1],
+      "topology": "Continuous solid ligament with shared single nodes"
+    }
+  },
+  "source_mesh_c4": {
+    "quad_elements": 7056,
+    "nodes": 7265,
+    "gauss_points": 28224,
+    "quad_type": "4-node bilinear isoparametric quadrilateral (UEL Type U1/U2)",
+    "gps_per_element": 4,
+    "min_element_size_mm": 0.00068,
+    "max_element_size_mm": 0.0050
+  },
+  "companion_continuum_error_indicator": {
+    "formulation": "Zienkiewicz-Zhu Superconvergent Patch Recovery (SPR) of Cauchy stresses",
+    "indicator_name": "MISESERI",
+    "normalization": "eta = MISESERI / MISESAVG",
+    "marking_strategy": "Threshold marking with eta >= 0.15 for refinement-candidate elements",
+    "empirical_evidence": {
+      "companion_job": "M1_C4_INC79_COMPANION",
+      "audit_path": "models/pandey_kumar_mode1/114_c4_inc79_companion_miseseri/c4_inc79_miseseri_audit.json",
+      "total_elements_audited": 4422,
+      "elements_marked_above_threshold": 284,
+      "pct_marked_above_threshold": 6.4224,
+      "peak_eta": 1.87727,
+      "peak_eta_centroid_mm": [0.0012496, 0.04886],
+      "spatial_localization": "Marks crack tip process zone and high-shear flank boundary without manual path bias"
+    }
+  },
+  "mesh_adaptation_governance": {
+    "refinement_policy": "REFINEMENT_ONLY",
+    "coarsening_allowed": false,
+    "coarsening_factor_rule": "coarseningFactor = NOT_ALLOWED (pre-refined corridor elements must never be coarsened)",
+    "h_min_limit_mm": 0.0005,
+    "h_max_limit_mm": 0.0050,
+    "aspect_ratio_max": 4.0,
+    "transition_smoothing": "Gradual element sizing grading <= 1.5 across adjacent element layers",
+    "target_mesh_c5_requirements": {
+      "expected_quads": "> 7056",
+      "expected_nodes": "> 7265",
+      "expected_gps": "> 28224",
+      "crack_tip_resolution_target_mm": "<= 0.0005"
+    }
+  },
+  "state_transfer_operator_contract": {
+    "flank_isolation_rule": {
+      "description": "Cross-slit interpolation is strictly forbidden. Upper-flank target entities must only sample from upper-flank donor elements, and lower-flank target entities must only sample from lower-flank donor elements.",
+      "slit_y_mm": 0.05,
+      "slit_x_max_mm": 0.04,
+      "lower_flank_element_condition": "cy < 0.05",
+      "upper_flank_element_condition": "cy >= 0.05"
+    },
+    "nodal_displacement_transfer": {
+      "method": "Bilinear quad shape function evaluation inside containing donor element",
+      "inverse_solver": "Newton-Raphson inverse isoparametric solver to tolerance 1e-12",
+      "partition_of_unity_tolerance": 1e-14,
+      "continuity_requirement": "Strict C0 continuity across non-slit boundaries"
+    },
+    "nodal_phase_field_transfer": {
+      "method": "Bilinear quad shape function evaluation inside containing donor element",
+      "phase_bounds": [0.0, 1.0],
+      "irreversibility_requirement": "d_target(x) >= d_source(x) - eps (zero crack healing, eps <= 1e-9)"
+    },
+    "gauss_point_history_transfer": {
+      "method": "Host-nearest Gauss point transfer with conservative lower bound",
+      "history_field": "Maximum historical crack-driving energy H",
+      "non_negativity": "H_target >= 0.0 MPa (strict thermodynamic requirement)",
+      "monotonicity": "H_target >= H_source_nearest (irreversible crack damage progression)"
+    },
+    "active_set_and_initialization_format": {
+      "encoding": "7+8+3 format in Abaqus UEL f42_mixed_uel.for (total 18 SVARS per GP)",
+      "svars_history_slots": "SVARS 9 to 12 hold historical H at 4 integration points",
+      "solution_cards": "*INITIAL CONDITIONS, TYPE=SOLUTION cards specifying SVARS for each element",
+      "active_set_boundary_cards": "*BOUNDARY, OP=NEW cards clamping fully damaged nodes (d >= 0.9999) to 1.0"
+    }
+  },
+  "physical_acceptance_criteria": {
+    "reaction_force_continuity": {
+      "threshold_pct": 5.0,
+      "formula": "|RF2_target - RF2_source| / RF2_source <= 0.05"
+    },
+    "total_energy_continuity": {
+      "threshold_pct": 2.0,
+      "formula": "|E_tot_target - E_tot_source| / E_tot_source <= 0.02"
+    },
+    "crack_healing": {
+      "allowed_healing_nodes": 0,
+      "max_negative_delta_d": 0.0
+    },
+    "kkt_complementarity": {
+      "dual_error_tolerance": 1e-5
+    }
+  }
+}
