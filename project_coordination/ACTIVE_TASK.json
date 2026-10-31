@@ -10,7 +10,7 @@
                          },
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 157 R4 execution-registration handoff and formal review status resolved: the restart evidence package is complete with authentic Step-1 solution cards (306ABF3C..., 21,170 lines, 28,224 GPs, max discrepancy 8.9706e-14 MPa), verified Step-1 equilibrium holding baseline (uy = 0.00185031 mm, RF2 = 0.18501 kN, crack-tip Node 3612 damage = 0.58232352, zero healing), and locked R4 adaptive continuation definition (M1_C4_P150_C1_2_R4, 5 x 10 nm forward sub-steps from 0.00185031 to 0.00190031 mm, ceiling 0.002000 mm, 5 nm bisection floor). Inspection of Controller-Operations.ps1 confirms candidate operation execute_mode1_package157_c1_2_r4_adaptive_continuation is not yet registered; definitive registration status receipt is REGISTRATION_PENDING_REVIEW with prerequisite DEFINITION_REVIEW_REQUIRED. All 17 regression tests pass 100%.",
+    "phase":  "Reconciled C4 input deck kinematics and coordinate conventions: authentic deck M1_C4_PACKAGE150_C1_2_CONTINUATION.inp (8C54E3D1...) strictly defines Reference Point RP as Node 999999 at (0.05, 0.10) mm tied to 85 top nodes (7141..7225) in DOF 2 via *EQUATION (narrative claim 1000001 is reconciled as a typographical discrepancy; 1000001 does not exist in the model). Verified crack-tip benchmark geometry: domain is 0.1 x 0.1 mm with horizontal slit at y=0.05 mm (a0=0.04 mm); peak damage Node 3612 is at (0.04136, 0.05000) mm (narrative claim x=1.0 mm is refuted by actual mesh coordinates). Authoritative registration status remains REGISTRATION_PENDING_REVIEW with DEFINITION_REVIEW_REQUIRED for execute_mode1_package157_c1_2_r4_adaptive_continuation. Quota safety gate confirmed (account4 at 18.910%, transition to account1 required). Full regression suite passed 21/21 tests.",
     "gate_status":  "P152_R2_STEP1_HISTORY_CONVERGENCE_FAILED__C1_2_UNACCEPTED",
     "active_pbs_job_ids":  [
 
@@ -271,14 +271,14 @@
                              ],
     "historical_gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED",
     "closeout_reconciliation":  "results/validation/turn381_receipt_reconciliation/controller_verification.json",
-    "last_updated":  "2026-10-31T16:15:01.3076544+01:00",
+    "last_updated":  "2026-10-31T16:30:06.1820287+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-885e4ba5-38dc-432e-abf2-4aaee364f925.json",
-                                  "sha256":  "B78A0D9D518D8AB2E8D93C4427B908253A96D679260392A11DA6BF12AF8D98BF",
-                                  "created_at":  "2026-10-31T16:14:54.3385634+01:00"
+                                  "artifact":  "results/validation/preparation-a47366ae-52c9-4194-a429-d77ed750da94.json",
+                                  "sha256":  "9C8A4E2DFC6FE47760028AA8FE5E6905B1DCD004305FD4D20B9C4486508F512C",
+                                  "created_at":  "2026-10-31T16:29:30.8508224+01:00"
                               }
 }

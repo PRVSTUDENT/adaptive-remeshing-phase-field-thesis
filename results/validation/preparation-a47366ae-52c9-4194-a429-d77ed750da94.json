@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "a47366ae-52c9-4194-a429-d77ed750da94",
+  "finding": "Reconciled C4 input deck kinematics and coordinate conventions: authentic deck M1_C4_PACKAGE150_C1_2_CONTINUATION.inp (8C54E3D1...) strictly defines Reference Point RP as Node 999999 at (0.05, 0.10) mm tied to 85 top nodes (7141..7225) in DOF 2 via *EQUATION (narrative claim 1000001 is reconciled as a typographical discrepancy; 1000001 does not exist in the model). Verified crack-tip benchmark geometry: domain is 0.1 x 0.1 mm with horizontal slit at y=0.05 mm (a0=0.04 mm); peak damage Node 3612 is at (0.04136, 0.05000) mm (narrative claim x=1.0 mm is refuted by actual mesh coordinates). Authoritative registration status remains REGISTRATION_PENDING_REVIEW with DEFINITION_REVIEW_REQUIRED for execute_mode1_package157_c1_2_r4_adaptive_continuation. Quota safety gate confirmed (account4 at 18.910%, transition to account1 required). Full regression suite passed 21/21 tests.",
+  "evidence_sources": {
+    "scripts/validation/audit_mode1_c4_deck_coordinates_and_kinematics.py": "52B569723D1F572EFE34E4C31CA6AF3B4B8A195A99D25D451943A7F6F136C012",
+    "tests/unit/test_mode1_f1597_turn400_deck_reconciliation.py": "2D23762F290CF3B2E1E7DCC2C9594A615A520A440887328AD9C63035ECB70A64",
+    "results/validation/mode1_c4_deck_kinematics_and_coordinate_reconciliation.json": "77FB4C203166E4FBC258E9B882C653AC612907627DCC5CC74AE73BC30396D22A",
+    "results/validation/package157_r4_registration_status_receipt.json": "C71CD7BDA2EE2AC11080196D2336E2D0815BA419352311DCE6A7606037F8A091",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/M1_C4_PACKAGE150_C1_2_CONTINUATION.inp": "8C54E3D18EBBB238FDF79F773BC7C1E854AA6A681E2881D6BA15B977C58FAFCD",
+    "results/validation/step1_committed_solution_initial.inc": "306ABF3C09FAA9CB9CEA37F48B8E93A8509C0FF0D0258E9B47667367D9808F60",
+    "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true,
+  "reconciled_kinematics": {
+    "reference_point_node_id": 999999,
+    "reference_point_coordinates_mm": [0.05, 0.1],
+    "tied_top_node_range": "7141..7225 (85 nodes)",
+    "equation_form": "1.0 * uy(top) - 1.0 * uy(RP) = 0.0"
+  },
+  "reconciled_coordinates": {
+    "domain_dimensions_mm": [0.1, 0.1],
+    "initial_slit_length_a0_mm": 0.04,
+    "initial_slit_plane_y_mm": 0.05,
+    "slit_tip_node_7265_coords_mm": [0.04, 0.05],
+    "peak_damage_node_3612_coords_mm": [0.04136, 0.05],
+    "distance_from_slit_tip_to_node_3612_mm": 0.00136
+  },
+  "prerequisites_for_r4_dispatch": {
+    "registration_status": "REGISTRATION_PENDING_REVIEW",
+    "operation_id": "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+    "required_registration_file": "scripts/controller/Controller-Operations.ps1",
+    "quota_safety_verified": true,
+    "profile_switch": "account4 -> account1"
+  }
+}
