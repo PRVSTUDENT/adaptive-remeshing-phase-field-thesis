@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "review_title": "Scientific Review & Operation-Registration Handoff for Package 157 R4 Adaptive Continuation",
+  "candidate_operation": {
+    "operation_id": "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+    "candidate_experiment_id": "M1_C4_P157_C1_2_R4",
+    "package_path": "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r4",
+    "task_type": "QUALIFIED_EXECUTION",
+    "registration_status": "REVIEWED_READY_FOR_REGISTRATION"
+  },
+  "predecessor_terminal_evidence": {
+    "pbs_job_id": "1419113.mmaster02",
+    "package": "mode1_c4_package150_c1_2_continuation_r3",
+    "terminal_status": "FAILED_MAX_ITERATIONS_EXCEEDED",
+    "exit_code": 1,
+    "failed_step": 2,
+    "failed_outer": 100,
+    "final_residuals": {
+      "delta_h_mpa": 25.040967,
+      "delta_d": 0.00767797,
+      "delta_u_mm": 2.42572e-05,
+      "free_error": 4.0718e-07,
+      "dual_error": 0.0
+    },
+    "kkt_active_set_passed": true,
+    "failure_cause": "Step 2 attempted a single 50 nm forward displacement increment (from 0.00185031 to 0.00190031 mm) on a highly refined crack-tip mesh (h = 1.25 um, l0 = 7.5 um). Crack propagation initiated, producing a 143.14 MPa surge in history strain energy. The alternate-minimization contraction rate degenerated to rho_H ~ 0.98, requiring >900 iterations to reach 1e-6 MPa. Outer 100 budget was exhausted."
+  },
+  "critical_boundary_displacement_resolution": {
+    "convention_clarification": "In all continuation decks, N_TOP nodes are tied via *EQUATION to N_RP (node 999999) with 1.0 * uy(top) - 1.0 * uy(RP) = 0. There is ZERO physical offset between RP and top boundary nodes. The initial donor state (Frame 77) was at uy = 0.001800312544 mm. Package 154 Step 1 advanced the top boundary by +50 nm to uy = 0.001850312544 mm and CONVERGED in 74 outers. The accepted Step 1 checkpoint is therefore at uy = 0.001850312544 mm. The failed Step 2 was advancing from 0.001850312544 to 0.001900312544 mm (a 50 nm span). The R4 recovery schedule MUST start from 0.001850312544 mm and advance in positive increments (e.g. +10 nm or +25 nm), reaching 0.001900312544 mm without any backward retraction or unrequested offset.",
+    "step1_equilibrium_uy_mm": 0.0018503125442191958,
+    "step2_target_uy_mm": 0.0019003125442191959,
+    "failed_span_nm": 50.00000000000013,
+    "verified_top_nodes_tied_count": 85
+  },
+  "step1_checkpoint_verification": {
+    "status": "ACCEPTED_EQUILIBRIUM",
+    "endpoint_file": "results/validation/step1_equilibrium_checkpoint_1419113_endpoint.json",
+    "endpoint_sha256": "FD75727BFDF8B83E03F067E0AC341ED91FB4FFE1A704B16E712714B38F300DDC",
+    "receipt_file": "results/validation/step1_equilibrium_checkpoint_1419113_receipt.json",
+    "receipt_sha256": "EE9BC634DA6918805040B2E7AFBFB9AB8EF79C7FE48FE588A8323EE9773A35BE",
+    "holding_displacement_uy_mm": 0.0018503125442191958,
+    "reaction_force_rf2_kN": 0.18500999876019894,
+    "elastic_energy_kNmm": 0.00017116316075598597,
+    "fracture_energy_kNmm": 5.1169817948563804e-05,
+    "nodal_damage_range": [
+      0.0033413366,
+      0.58232352
+    ],
+    "total_nodes_preserved": 7265,
+    "state_recoverability": "Nodal displacements u and damage d are stored for all 7,265 nodes. Full integration-point history H(e, g) across all 28,420 Gauss points is exactly reconstructible from nodal u and mesh coordinates using driving_history(mesh, u, H0) without loss or distortion."
+  },
+  "corrected_r4_schedule": {
+    "recommended_primary_schedule": {
+      "description": "5 x 10 nm adaptive sub-steps spanning the failed 50 nm increment",
+      "sub_steps": [
+        {
+          "sub_step": 1,
+          "target_uy_mm": 0.0018603125442191958,
+          "delta_uy_nm": 10.0,
+          "max_outer": 50,
+          "cumulative_forward_displacement_from_donor_nm": 60.0
+        },
+        {
+          "sub_step": 2,
+          "target_uy_mm": 0.0018703125442191958,
+          "delta_uy_nm": 10.0,
+          "max_outer": 50,
+          "cumulative_forward_displacement_from_donor_nm": 70.0
+        },
+        {
+          "sub_step": 3,
+          "target_uy_mm": 0.0018803125442191958,
+          "delta_uy_nm": 10.0,
+          "max_outer": 50,
+          "cumulative_forward_displacement_from_donor_nm": 80.0
+        },
+        {
+          "sub_step": 4,
+          "target_uy_mm": 0.0018903125442191959,
+          "delta_uy_nm": 10.0,
+          "max_outer": 50,
+          "cumulative_forward_displacement_from_donor_nm": 90.0
+        },
+        {
+          "sub_step": 5,
+          "target_uy_mm": 0.0019003125442191957,
+          "delta_uy_nm": 10.0,
+          "max_outer": 50,
+          "cumulative_forward_displacement_from_donor_nm": 100.0
+        }
+      ]
+    },
+    "alternative_schedule": {
+      "description": "2 x 25 nm sub-steps spanning the failed 50 nm increment",
+      "sub_steps": [
+        {
+          "sub_step": 1,
+          "target_uy_mm": 0.0018753125442191958,
+          "delta_uy_nm": 25.0,
+          "max_outer": 50,
+          "cumulative_forward_displacement_from_donor_nm": 75.0
+        },
+        {
+          "sub_step": 2,
+          "target_uy_mm": 0.0019003125442191959,
+          "delta_uy_nm": 25.0,
+          "max_outer": 50,
+          "cumulative_forward_displacement_from_donor_nm": 100.0
+        }
+      ]
+    },
+    "subsequent_continuation": [
+      {
+        "step": 3,
+        "target_uy_mm": 0.0019503125442191958,
+        "delta_uy_nm": 50.0,
+        "max_outer": 50
+      },
+      {
+        "step": 4,
+        "target_uy_mm": 0.002,
+        "delta_uy_nm": 49.6874557808042,
+        "max_outer": 50
+      }
+    ]
+  },
+  "driver_and_governance_invariants": {
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "pdas_active_set_solver": "EXACT_REUSE_UNMODIFIED",
+    "convergence_tolerances": {
+      "delta_d": 1e-05,
+      "delta_u_mm": 1e-09,
+      "delta_h_mpa": 1e-06,
+      "signed_kkt": 1e-06
+    },
+    "subdivision_controls": {
+      "max_outers_per_sub_step": 50,
+      "automated_rollback_on_failure": true,
+      "bisection_on_rejection": true,
+      "minimum_subdivision_increment_nm": 5.0,
+      "max_subdivision_level": 2
+    },
+    "resource_limits": {
+      "ncpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "normal_imfdfkmq",
+      "execution_mode": "SERIAL_MODE1"
+    }
+  },
+  "execution_registration_decision": {
+    "action": "ROUTE_FOR_OPERATION_REGISTRATION",
+    "registration_blocker": "CURRENT_TASK_OPERATION_IS_RESEARCH_PREPARATION",
+    "readiness": "PACKAGE157_R4_SCIENTIFICALLY_REVIEWED_AND_READY",
+    "required_next_step": "In the next controller dispatch, register operation execute_mode1_package157_c1_2_r4_adaptive_continuation under task_type QUALIFIED_EXECUTION, construct Package 157, run authentic Abaqus 2023 compute-node datachecks, verify notification integration, and submit via scripts/hpc/Invoke-Mode1Execution.ps1 with once-only accounting."
+  }
+}
