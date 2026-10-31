@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "audit_name": "mode1_c4_deck_kinematics_and_coordinate_reconciliation",
+  "reference_point_reconciliation": {
+    "deck_reference_point_node_id": 999999,
+    "deck_reference_point_coordinates_mm": [
+      0.05,
+      0.1
+    ],
+    "narrative_claim_node_id": 1000001,
+    "reconciliation_verdict": "Node 1000001 is a narrative typographical discrepancy; the authentic Abaqus deck exclusively uses Node 999999 as Reference Point RP tied to 85 top nodes (7141..7225) in DOF 2 via *EQUATION.",
+    "tied_top_node_count": 85
+  },
+  "crack_tip_coordinate_reconciliation": {
+    "domain_dimensions_mm": [
+      0.1,
+      0.1
+    ],
+    "initial_slit_length_a0_mm": 0.04,
+    "initial_slit_y_mm": 0.05,
+    "slit_tip_node_7265_coords_mm": [
+      0.04,
+      0.05
+    ],
+    "peak_damage_node_3612_coords_mm": [
+      0.04136,
+      0.05
+    ],
+    "distance_from_slit_tip_to_node_3612_mm": 0.00136,
+    "narrative_claim_crack_tip_mm": [
+      1.0,
+      0.0
+    ],
+    "reconciliation_verdict": "The narrative claim of crack-tip at (x = 1.0 mm, y = 0.0 mm) was an erroneous unit/coordinate statement. The authentic Pandey-Kumar Mode-I benchmark domain is 0.1 mm x 0.1 mm with horizontal symmetry/slit at y = 0.05 mm. Node 3612 is situated at x = 0.04136 mm, y = 0.05000 mm, exactly 0.00136 mm (1.36 um) ahead of the initial slit tip Node 7265 (x = 0.04000 mm, y = 0.05000 mm)."
+  },
+  "prerequisites_for_r4_dispatch": {
+    "registration_status": "REGISTRATION_PENDING_REVIEW",
+    "operation_id": "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+    "required_binding_file": "scripts/controller/Controller-Operations.ps1",
+    "quota_safety_gate": "Account4 quota (18.910%) is below the mandatory 20% stop threshold. Active execution requires selection of an eligible profile (account1).",
+    "scientific_baseline_reconciled": true
+  }
+}
