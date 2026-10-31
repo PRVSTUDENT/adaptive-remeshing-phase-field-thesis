@@ -1,0 +1,163 @@
+﻿# PRV ADAPTIVE REMESHING — AUTONOMOUS MODE-I RESEARCH CONTINUATION
+
+## PRIMARY OBJECTIVE
+
+Complete a scientifically defensible Mode-I Method C sequential adaptive remeshing demonstration using Abaqus 2023 and the existing frozen phase-field fracture UEL.
+
+**Target research completion: December 13, 2026.**
+
+Operate autonomously within established scientific, HPC, controller, quota and repository safety rules.
+
+**Use Antigravity/Gemini only. Do not invoke Codex or consume Codex credits.**
+
+## 1. RESTORE AUTHORITATIVE PROJECT STATE
+
+Follow `AGENTS.md` and all mandatory repository bootstrap, coordination and session-lock procedures.
+
+The historical Turn 354 checkpoint has been reconciled:
+
+- Reconciliation commit: `2b83e641`.
+- Checkpoint state: `COMPLETED`.
+- Recovery dry run: PASS, Exit 0.
+- Session lock: released.
+- Next planned controller turn: 355.
+
+Read the current task, session records, scientific artifacts, controller operations and HPC submission ledgers before taking action.
+
+Resume existing work. Do not restart historical experiments or repeat completed investigations.
+
+## 2. CURRENT SCIENTIFIC STATE
+
+Active task: `F1597-CORRECT-PACKAGE72-STATE-TRANSFER`.
+
+Package 148 experiments:
+
+- R1, PBS `1418787.mmaster02`: Python compatibility failure.
+- R2, PBS `1418843.mmaster02`: ODB extraction failure.
+- R3, PBS `1418872.mmaster02`: ASCII damage recovery tolerance defect.
+- R4, PBS `1418902.mmaster02`: Phase KKT failed after 20 iterations.
+
+All four experiments are historical. Preserve their evidence and once-only reservations.
+
+**The R4 numerical failure has been diagnosed.**
+
+The initial-state writer placed history variables into incorrect state slots. The proposed corrected serialization for 18 state variables is `7 + 8 + 3`.
+
+Evidence:
+
+- The incorrect history arrangement matches 28,224 Gauss-point histories.
+- Maximum reconstructed free-node residual: `1.25e-12`.
+- Corrected offline phase replay converged in 8 iterations.
+- The corrected behavior has NOT yet been validated by authentic Abaqus execution.
+
+Do not repeat this diagnosis unless new contradictory evidence emerges.
+
+## 3. NEXT SCIENTIFIC ACTION — TURN 355
+
+Begin with an independently reviewed serializer-only correction.
+
+1. Inspect the original R4 serializer and the actual Abaqus `*INITIAL CONDITIONS` data layout.
+2. Correct the 18-state serialization according to the verified Abaqus input contract.
+3. Preserve state ordering, element labels, integration-point mapping, damage and history variables.
+4. Run focused regression tests against the known R4 failure evidence.
+5. Perform a small authentic Abaqus initialization/phase-operator parity experiment using distinguishable, nonuniform integration-point history values.
+6. Verify that Abaqus reconstructs the intended state slots, signed KKT operator, history preservation and damage irreversibility.
+7. If these checks succeed, prepare the distinct R5 corrected continuation experiment.
+8. Independently qualify R5, register its controller operation and bind the execution adapter.
+9. Once qualified, submit R5 exactly once using `scripts/hpc/Invoke-Mode1Execution.ps1`.
+10. Preserve the genuine PBS receipt and return without waiting for solver completion.
+
+Do not bypass independent qualification or substitute offline replay for authentic Abaqus evidence.
+
+## 4. SCIENTIFIC ACCEPTANCE
+
+Method C C1-1 is not yet physically accepted.
+
+Require genuine coupled mechanical/phase convergence, including:
+
+- Signed KKT residuals and complementarity.
+- Damage bounds: `0 <= d <= 1`.
+- Irreversibility: `min(d_new - d_old) >= -1e-6`.
+- Preservation of committed Gauss-point history.
+- Crack-flank topology and admissible displacement.
+- Reaction-force relative discrepancy <= 5%.
+- Raw total-energy relative discrepancy <= 2%.
+- Complete alternating mechanical/phase solver evidence.
+
+No artificial damage clipping, false convergence declarations, arbitrary weakening of tolerances or unreviewed iteration-cap increases.
+
+Advance to Stage C1-2 sequential cycles only after C1-1 passes every required gate.
+
+## 5. EXECUTION PRIORITY
+
+Numerical research takes priority over administrative work.
+
+For each controller turn:
+
+1. Identify ONE bounded, scientifically useful investigation or one independently qualified HPC batch.
+2. Reconcile existing results before creating new experiments.
+3. Immediately submit genuinely qualified jobs when permitted by predecessor gates and execution controls.
+4. Do not postpone qualified execution for documentation polishing.
+5. Do not launch speculative experiments merely to keep the cluster busy.
+6. Do not wait or repeatedly poll while PBS jobs execute.
+7. Preserve the frozen UEL, source hashes, original results and execution history.
+
+Respect serial Mode-I limits: 1 CPU, <=16 GB RAM, <=8 hours, and governed active-job limits.
+
+## 6. AI CREDIT EFFICIENCY
+
+- Use existing Antigravity/Gemini profiles only.
+- Never call Codex.
+- Retain intelligent profile selection.
+- Respect the configured 20% remaining-quota stop threshold.
+- Avoid duplicate scientific analysis, repeated broad test suites and redundant documentation.
+- Do not spend AI turns simply checking the PBS scheduler.
+- Do not create meaningless preparation-only cycles.
+- Use deterministic scripts for routine validation wherever possible.
+
+A blocked experiment is not permission to retry it blindly.
+
+## 7. UNATTENDED SAFETY
+
+The autonomous loop may continue only while its controller, session and execution safeguards remain valid.
+
+Before and after each operation:
+
+- Verify the real controller state and correct task/operation registration.
+- Preserve single-agent session ownership.
+- Prevent duplicate PBS submissions.
+- Preserve immutable run artifacts and frozen production UEL.
+- Respect the real HPC scheduler and submission ledger.
+- Record authentic execution and failure evidence.
+- Stop on unexpected controller errors, unresolved historical checkpoints or inconsistent session ownership.
+- Do not bypass safety checks using forced resume.
+- Do not modify credentials or weaken quota protection.
+- Treat compute-node notification delivery as UNVERIFIED until independently proven.
+
+If a numerical experiment fails, diagnose the actual mechanism before authorizing another revision. Do not automatically generate an unlimited chain of R5/R6/R7 attempts.
+
+## 8. REPORTING AND CONTINUATION
+
+Every completed controller turn must report exactly:
+
+1. HPC STATUS
+2. NEW EXPERIMENT
+3. SCIENTIFIC PROGRESS
+4. DOCUMENTATION
+5. NEXT ACTION
+
+Provide actual PBS IDs, numerical measurements, convergence evidence, test counts, failure reasons, scientific status and the next dependent action.
+
+Preserve unrelated repository work, selectively commit validated changes, synchronize forward-only and release the session lock.
+
+The scientific progression is:
+
+**Serializer correction → authentic Abaqus parity validation → qualified R5 continuation → C1-1 physical acceptance → C1-2 sequential adaptive remeshing.**
+
+Continue automatically only when the next action is scientifically justified and technically qualified.
+
+Do not claim Method C success prematurely.
+
+Finish each bounded controller operation with:
+
+Finished

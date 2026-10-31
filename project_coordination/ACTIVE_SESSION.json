@@ -1,27 +1,21 @@
-{
+﻿{
     "active":  false,
     "agent":  "codex",
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "starting_commit":  "173fb3c5c6026c1da3aa280e6744b5289c71413c",
-    "claimed_at":  "2026-10-31T05:08:28.2449002+00:00",
-    "last_updated":  "2026-10-31T05:18:42.2164339+00:00",
-    "last_released":  "2026-10-31T05:18:42.2164339+00:00",
-    "controller_run_id":  "codex-2026-10-31-package148-r7",
-    "session_report":  "project_coordination/sessions/2026-10-31_codex_package148_r7_recovery.md",
+    "starting_commit":  "9fd321744a2458e11e46da3db576934d0e7f9fcc",
+    "claimed_at":  "2026-10-31T05:21:39.0567164+00:00",
+    "last_updated":  "2026-10-31T05:22:53.2931062+00:00",
+    "last_released":  "2026-10-31T05:22:53.2931062+00:00",
+    "controller_run_id":  "codex-20261031-r7-loop-restart",
+    "session_report":  "project_coordination/sessions/2026-10-31_codex_r7_loop_restart.md",
     "allowed_write_scope":  [
-                                "project_coordination/sessions/*",
-                                "project_coordination/controller/*",
-                                "results/validation/*",
-                                "scripts/validation/*",
-                                "scripts/controller/*",
-                                "scripts/state_transfer/*",
-                                "tests/unit/*",
-                                "models/pandey_kumar_mode1/*",
+                                ".agents/INITIAL_PROMPT.txt",
                                 "project_coordination/ACTIVE_SESSION.json",
                                 "project_coordination/ACTIVE_TASK.json",
                                 "project_coordination/CURRENT_STATE.md",
                                 "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/HPC_JOB_LEDGER.csv",
-                                "project_coordination/ARTIFACT_REGISTRY.csv"
+                                "project_coordination/ARTIFACT_REGISTRY.csv",
+                                "project_coordination/controller/restart-2026-10-31-r7/*",
+                                "project_coordination/sessions/2026-10-31_codex_r7_loop_restart.md"
                             ]
 }

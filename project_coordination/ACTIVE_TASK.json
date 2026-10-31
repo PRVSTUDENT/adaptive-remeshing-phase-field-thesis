@@ -1,4 +1,4 @@
-{
+﻿{
     "operation_review":  {
                              "operation":  "evaluate_mode1_package148_state_transfer_r4",
                              "decision":  "R4_STATE_CARD_HISTORY_SLOT_SHIFT_INDEPENDENTLY_REPRODUCED_NO_PRODUCTION_REPAIR",
@@ -224,7 +224,7 @@
                                            "prior_revision_result":  "EXIT0_TRACE_MISSING_AT_PROMISED_OUTPUT_PATH",
                                            "automatic_retry":  false
                                        },
-    "next_safe_action":  "Collect authentic M1_C4_P148_R6 coupled results and independently evaluate predeclared physical gates.",
+    "next_safe_action":  "Reconcile R7 1418938.mmaster02 with live PBS and once-only ledger. If running, prepare independent next-cycle contracts and validations; if terminal, evaluate genuine C1-1 physical gates. No R7 resubmission or running-package modification; C1-2 waits for all physical gates.",
     "scientific_checkpoint":  {
                                   "kind":  "HPC_SUBMISSION",
                                   "operation":  "evaluate_mode1_package148_state_transfer_r6",
@@ -245,7 +245,8 @@
                                  "evaluate_mode1_package148_state_transfer_r3",
                                  "evaluate_mode1_package148_state_transfer_r4",
                                  "evaluate_mode1_package148_state_transfer_r5",
-                                 "evaluate_mode1_package148_state_transfer_r6"
+                                 "evaluate_mode1_package148_state_transfer_r6",
+                                 "evaluate_mode1_package148_state_transfer_r7"
                              ],
     "operation_preparation":  {
                                   "qualification_artifact":  "scripts/validation/evaluate_mode1_package148_state_transfer_r7.qualification.json",
@@ -272,7 +273,8 @@
                                       "controller_loop_restarted":  false,
                                       "automatic_retry":  false
                                   },
-    "next_action":  "Collect authentic R7 1418938.mmaster02 terminal evidence and independently evaluate unchanged C1-1 physical gates; never repeat R6 or R7; controller remains stopped.",
-    "last_updated":  "2026-10-31T05:18:29.3883893+00:00",
-    "status":  "R7_SUBMITTED_AWAITING_PHYSICAL_VALIDATION"
+    "last_updated":  "2026-10-31T05:22:22.0981463+00:00",
+    "status":  "R7_SUBMITTED_AWAITING_PHYSICAL_VALIDATION",
+    "next_action":  "Reconcile R7 1418938.mmaster02 with live PBS and once-only ledger. If running, prepare independent next-cycle contracts and validations; if terminal, evaluate genuine C1-1 physical gates. No R7 resubmission or running-package modification; C1-2 waits for all physical gates.",
+    "autonomous_restart_authorized":  true
 }

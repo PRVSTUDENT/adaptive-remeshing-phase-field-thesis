@@ -1,24 +1,74 @@
-TURN 216 — METHOD C: GOVERNANCE REVIEW OF DISCRETIZATION-AWARE ENERGY BASELINE BEFORE NEXT REMESHING CYCLE
+# PRV ADAPTIVE REMESHING — AUTONOMOUS MODE-I RESEARCH CONTINUATION
 
-Continue F1597-CORRECT-PACKAGE72-STATE-TRANSFER.
+## PRIMARY OBJECTIVE
 
-ONE BOUNDED SCIENTIFIC INVESTIGATION: Synthesize the quantitative Package 115 state-transfer and Package 113/114 energy deconstruction evidence for supervisor/governance review to formalize the discretization-aware energy baseline (accounting for mesh convergence of the regularized AT2 fracture energy functional) prior to initiating downstream adaptive remeshing cycles.
+Complete a scientifically defensible Mode-I Method C sequential adaptive remeshing demonstration using Abaqus 2023 and the frozen phase-field fracture UEL. Target research completion: December 13, 2026.
 
-JOB-FIRST / REPORT-AFTER. Reconcile all existing jobs first. Preserve immutable Method C threshold discipline: retain C1_2_STEP2_ENERGY_GATE_FAILED without post-hoc relaxation. Zero duplicate PBS submissions.
+Use Antigravity/Gemini only. Do not invoke Codex or consume Codex credits. Preserve intelligent profile selection, the 20% quota threshold, single-agent ownership, and all technical execution safeguards.
 
-1. Bootstrap and reconcile
-Follow AGENTS.md; acquire the exclusive lock. Read live project_coordination task/session/ledger records, Package 113, 114, and 115 complete solver summaries, authentic Package 76 Increment-79 donor evidence and immutable source hashes.
-Verified predecessors:
-- Package 113 Job 1417682.mmaster02: Exit 0, RF2 = 187.39 N (+0.71%), E_tot = 0.216714 mJ (+2.008%), C1_2_STEP2_ENERGY_GATE_FAILED.
-- Package 114 Job 1417689.mmaster02: Exit 0, MISESERI companion recovered (4422 elems, 284 marked, pre-peak valid).
-- Package 115 Job 1417751.mmaster02: Exit 0, 7 cycles converged stationary state, RF2 = 185.79 N (-0.15%), 0 healing nodes, E_tot = 0.216760 mJ (+2.030%).
+## 1. RESTORE AUTHORITATIVE STATE
 
-2. Formalize Discretization-Aware Energy Baseline
-Structure the multi-mesh energy baseline formalization distinguishing:
-- Elastic strain energy continuity (virtually identical: -0.153% difference between transferred and donor states).
-- AT2 regularized fracture energy functional scaling with element size h (accounting for over 100% of the observed net energy increase from C3 h=2.5 um to C4 h_min=0.606 um).
-- Document why post-hoc threshold relaxation is avoided while physical conservation holds.
+Follow AGENTS.md and the canonical controller bootstrap exactly. Dynamic state lives under project_coordination/. Read its current state, task, session, HPC ledger and once-only submission records before acting. Preserve all pre-existing dirty paths.
 
-3. Closeout
-Record verified findings in the session report, update coordination ledgers, run unit tests, and cleanly release the session lock.
-End with: Finished
+The user authorized restarting the autonomous loop on 31 October 2026. Reference milestone: commit 9fd321744a2458e11e46da3db576934d0e7f9fcc contains the distinct R7 correction and submission. Treat this as provenance, not a replacement for live state.
+
+R7 is M1_C4_P148_R7, PBS 1418938.mmaster02. Its submission is already consumed. Never submit it again or alter its running package, driver, inputs, sources, resources, timeout, iteration bounds or acceptance criteria. Reconcile the exact PBS ID against the live scheduler, HPC ledger and manifest-bound receipt first.
+
+Preserve R1–R6 evidence and reservations. R5 demonstrated substantial coupled numerical progress before its driver timeout. R6 1418910.mmaster02 failed at startup with zero outer iterations because PACKAGE_MANIFEST.json lacked required GP-order and source-hash metadata; it supplies no new numerical convergence evidence. Do not reinterpret R6 as a physical nonconvergence result or repeat that diagnosis without contradictory evidence.
+
+R7 repairs the runtime manifest contract only. Actual cluster Python 3.6.8 startup passed; both Abaqus datachecks passed; 64 regression tests passed. All 28,224 donor-to-receiver history transfers were recomputed with full coverage and zero flank violations. Frozen UEL, corrected 7+8+3 state serialization, 7200-second driver timeout, max_outer=25 and original physical gates were preserved. These technical passes do not establish C1-1 physical acceptance.
+
+## 2. FIRST BOUNDED ACTION AND RUNNING-JOB BRANCH
+
+Reconcile 1418938.mmaster02 using guarded noninteractive SSH and authentic submission evidence. Never infer terminal status from a missing local output, launch a replacement blindly, or repeat a reserved command. Establish exact runtime-file existence before reading it.
+
+If R7 is queued or running, independently prepare the next Method C refinement-and-continuation stage using authentic existing checkpoints and results. Develop the bounded cycle specification, transfer/checkpoint contracts, quantitative gates, reusable extraction/evaluation code and focused offline validations that do not depend on R7 passing. Clearly label all R7-dependent state and execution as pending. Do not create fictional checkpoints or claim C1-1 acceptance. Do not queue or execute C1-2 while its predecessor is unaccepted.
+
+Prepare useful numerical work while R7 runs. Do not stop solely because an HPC job is active, spend turns repeatedly polling, perform idle waiting, or create redundant experiments or documentation-only cycles. Do not freeze a downstream executable package against an unavailable accepted R7 checkpoint.
+
+## 3. TERMINAL R7 BRANCH AND PHYSICAL ACCEPTANCE
+
+If R7 has finished, collect lightweight authentic scheduler, driver, solver, extraction and notification evidence together. Reconcile its terminal status without changing its once-only reservation. Evaluate complete coupled mechanical/phase convergence and every original gate:
+
+- Signed KKT residuals and complementarity, using the predeclared limits.
+- Complete finite damage with 0 <= d <= 1.
+- Damage irreversibility: min(d_new - d_old) >= -1e-6.
+- Preservation of committed integration-point histories and full required state.
+- Crack-flank topology and admissible displacement.
+- Reaction-force relative discrepancy <= 5%.
+- Raw total-energy relative discrepancy <= 2%, using the authentic matching donor/reference state.
+- Complete alternating mechanical/phase solver and endpoint evidence.
+
+An Exit 0, partial numerical progress, startup pass or passing datacheck alone is insufficient. Missing evidence remains UNVERIFIED. No clipping, false convergence, weakened tolerances, changed baselines or unreviewed iteration-cap increases.
+
+If any physical gate fails, preserve the genuine result and review the numerical hypothesis before considering a distinct candidate. A technical failure requires an identified, bounded correction and fresh exact qualification; automatic_retry=false. No unlimited chain of revisions.
+
+Advance to C1-2 and the first genuine sequential remeshing cycle only after independent quantitative acceptance of every C1-1 gate and authentic accepted-state checkpoint verification. Then qualify exact dependent packages and submit scientifically ready work through scripts/hpc/Invoke-Mode1Execution.ps1 once.
+
+## 4. EXECUTION PRIORITY AND LIMITS
+
+For each controller turn, choose one bounded, scientifically useful investigation or independently qualified batch. Reconcile existing results before proposing experiments. Immediately execute qualified independent ready jobs; administrative permissions, issuer upgrades, enrollment and machine permits are not execution gates.
+
+Preserve technical manifest/command integrity, frozen UEL, real notification checks, live scheduler/resource limits, once-only accounting and quantitative predecessor review. Current serial Mode-I limits: at most two named jobs per batch, 1 CPU, <=16 GB, <=8 hours each, <=4 active user jobs. Keep existing formulation and parallelism restrictions. Preserve Git history and scheduler jobs; never delete or move jobs.
+
+All cluster operations use the guarded SSH wrapper, noninteractive stdin isolation, explicit targets and bounded timeouts. No broad remote tree scans. Preserve authentic failure evidence and bulky solver outputs at their existing HPC/scratch locations.
+
+## 5. CREDIT EFFICIENCY AND CONTROLLER SAFETY
+
+Use existing Antigravity/Gemini profiles and configured smart quota selection. Respect the configured 20% remaining-quota stop threshold. Unknown quota is not spare capacity. Do not modify credentials or weaken quota protection. Use deterministic scripts for routine validation and avoid duplicate investigations and unnecessarily broad tests.
+
+Maintain normal session claim/release and a fresh controller run ID for each new operation. Do not reuse a completed run ID for a successor session. Do not restart through forced resume, manual lock reset or the obsolete hardcoded-turn recovery script. On a real ownership/controller error, preserve evidence and use supported evidence-based reconciliation.
+
+Treat compute-node notification delivery as UNRESOLVED until proven by real acknowledgements. Login-node notification delivery and static hooks alone do not establish compute-node delivery.
+
+## 6. REPORTING AND CONTINUATION
+
+Every completed turn reports HPC STATUS, NEW EXPERIMENT, SCIENTIFIC PROGRESS, DOCUMENTATION and NEXT ACTION, with actual PBS IDs, measured gates, tests, failure mechanisms and a precise next action. Record substantive evidence early enough for the existing watchdog. Reports follow real work; do only essential scientific/technical unblocking when blocked.
+
+Use selective Git staging, preserve unrelated dirty work, commit meaningful governed progress, push forward-only to origin/main and release the owned session normally. Do not commit bulky solver artifacts, runtime traces, caches or credentials.
+
+Scientific progression: accepted C1-1 reconstruction/re-equilibration -> genuine C1-2 continuation -> accepted nonmatching transfer -> first genuine sequential refinement/remeshing cycle -> further controlled cycles and thesis validation. Never claim Method C success prematurely.
+
+End each bounded controller operation with:
+
+Finished
