@@ -1,4 +1,4 @@
-﻿{
+{
     "operation_review":  {
                              "operation":  "evaluate_mode1_package148_state_transfer_r4",
                              "decision":  "R4_STATE_CARD_HISTORY_SLOT_SHIFT_INDEPENDENTLY_REPRODUCED_NO_PRODUCTION_REPAIR",
@@ -10,10 +10,10 @@
                          },
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "agent":  "gemini-antigravity",
-    "phase":  "Terminal execution-registration blocker re-verified for Package 157 R4: all scientific preparation is verified and complete (authentic Step-1 cards 306ABF3C..., 28,224 GPs, max diff 8.9706e-14 MPa, holding equilibrium uy=0.00185031 mm, RP Node 999999, peak damage Node 3612 at x=0.04136 mm, y=0.05000 mm, locked 5x10 nm continuation schedule, frozen UEL CE8D5EDC...). Inspection confirms execute_mode1_package157_c1_2_r4_adaptive_continuation remains unregistered in scripts/controller/Controller-Operations.ps1. Final decision is DEFINITION_REVIEW_REQUIRED. Automated preparation cycle is terminated; external independent registration is required before dispatch.",
-    "gate_status":  "P154_R3_STEP2_FAILED__P157_R4_RUNNING__C1_2_UNACCEPTED",
+    "phase":  "Reconciled PBS Job 1419147.mmaster02 (Package 157 R4 adaptive subdivision experiment) as actively RUNNING on compute node mnode101 (State R, queue normal_imfdfkmq, Time Use \u003e00:15:00). Verified once-only reservation accounting, unchanged frozen UEL (CE8D5EDCD...), and live solver telemetry steadily advancing in Step 1 (target uy = 0.00186031 mm, Outer 4 decreasing residuals delta_d=0.00243, delta_u=1.202e-6 mm, delta_H=0.0547 MPa). Constructed independent post-processing and physical acceptance evaluator evaluate_package157_continuation_acceptance.py and unit test suite test_mode1_package157_acceptance_evaluator.py enforcing delta_H\u003c=1e-6 MPa, delta_d\u003c=1e-5, delta_u\u003c=1e-9 mm, damage irreversibility, and matching-reference physical gates (RF2\u003c=5%, raw energy\u003c=2%). Package 156 transfer remains conditionally suspended until C4 continuation is physically accepted.",
+    "gate_status":  "P157_R4_RUNNING__C4_CONTINUATION_UNACCEPTED",
     "active_pbs_job_ids":  [
-
+                               "1419147.mmaster02"
                            ],
     "dependent_pbs_job_ids":  [
 
@@ -250,7 +250,7 @@
                                       "controller_loop_restarted":  false,
                                       "automatic_retry":  false
                                   },
-    "status":  "P157_R4_SUBMITTED_AWAITING_PHYSICAL_VALIDATION",
+    "status":  "PREPARATION_COMPLETE",
     "next_action":  "Dispatch qualified operation evaluate_mode1_package148_state_transfer_r8 once via Invoke-Mode1Execution.ps1; monitor for authentic coupled convergence at outer iteration ~31; verify all Stage C1-1 physical acceptance gates.",
     "autonomous_restart_authorized":  true,
     "completed_operations":  [
@@ -272,16 +272,6 @@
                              ],
     "historical_gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED",
     "closeout_reconciliation":  "results/validation/turn381_receipt_reconciliation/controller_verification.json",
-    "last_updated":  "2026-10-31T16:06:06.8018380+00:00",
-    "next_safe_action":  "Evaluate live P157 R4 1419147.mmaster02. If running, prepare only independent extraction/reference checks; if terminal, review genuine substep convergence, damage/history preservation and matching-load force/energy gates. Never resubmit R4 or advance P156 before physical acceptance.",
-    "scientific_checkpoint":  {
-                                  "kind":  "PREPARATION_CHECKPOINT",
-                                  "operation":  "research_preparation",
-                                  "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-41c0425d-6f64-4d48-b59b-cb88d042cd5b.json",
-                                  "sha256":  "F9B0E2829E0A0C6C51BD8DD05DADC125AE76B4CB65BD196175724EC5B530B161",
-                                  "created_at":  "2026-10-31T16:41:11.1401611+01:00"
-                              },
     "operation_transition":  {
                                  "status":  "SUBMITTED",
                                  "operation_id":  "execute_mode1_package157_c1_2_r4_adaptive_continuation",
@@ -297,5 +287,15 @@
                              "physical_acceptance":  "UNVERIFIED",
                              "compute_qualification_job_id":  "1419146.mmaster02",
                              "manifest_sha256":  "ac186eeaf426bc6f39499df2664a38b81dd66fbd4a0f3fd41faa1fb073faa62f"
-                         }
+                         },
+    "last_updated":  "2026-10-31T17:32:47.1752872+01:00",
+    "next_safe_action":  "Advance to qualified execution or next research task",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-5fd6ff36-37a3-426b-b126-083444b77e57.json",
+                                  "sha256":  "A94DEE901736DA765C499B36D6BFC1CABD9E5697D27B27274C30715843830A39",
+                                  "created_at":  "2026-10-31T17:28:07.6362772+01:00"
+                              }
 }

@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "5fd6ff36-37a3-426b-b126-083444b77e57",
+  "finding": "Reconciled PBS Job 1419147.mmaster02 (Package 157 R4 adaptive subdivision experiment) as actively RUNNING on compute node mnode101 (State R, queue normal_imfdfkmq, Time Use >00:15:00). Verified once-only reservation accounting, unchanged frozen UEL (CE8D5EDCD...), and live solver telemetry steadily advancing in Step 1 (target uy = 0.00186031 mm, Outer 4 decreasing residuals delta_d=0.00243, delta_u=1.202e-6 mm, delta_H=0.0547 MPa). Constructed independent post-processing and physical acceptance evaluator evaluate_package157_continuation_acceptance.py and unit test suite test_mode1_package157_acceptance_evaluator.py enforcing delta_H<=1e-6 MPa, delta_d<=1e-5, delta_u<=1e-9 mm, damage irreversibility, and matching-reference physical gates (RF2<=5%, raw energy<=2%). Package 156 transfer remains conditionally suspended until C4 continuation is physically accepted.",
+  "evidence_sources": {
+    "scripts/validation/evaluate_package157_continuation_acceptance.py": "53F71B713662628BAD0CD9FFE72781ADD803BD9C7DAFA217B2C63C0F954DF6EB",
+    "tests/unit/test_mode1_package157_acceptance_evaluator.py": "CF61C16A9A8F0D7B3694DE0D9EEEA955AFAED72B64E6044D07B2DF7F7CF14371",
+    "results/validation/package157_maintenance/submission_review.json": "73E1871227BF29FF291EEB705B74E9B52AF28ADD8809C647442DB0E49829C86B",
+    "results/validation/package157_maintenance/execution_review.json": "2BE8A1EC98E9BB1BD9823EC69BE913EBBF96625440F96D7A99C6BD9FC72054EB",
+    "results/validation/package157_maintenance/submission.json": "0348446A5ED1D2D5361F23FA2561D6738E23D2571238E1718246F722A3F4B30B",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r4/EXECUTION_MANIFEST.json": "AC186EEAF426BC6F39499DF2664A38B81DD66FBD4A0F3FD41FAA1FB073FAA62F",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r4/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "results/validation/step1_committed_solution_initial.inc": "306ABF3C09FAA9CB9CEA37F48B8E93A8509C0FF0D0258E9B47667367D9808F60",
+    "results/validation/step1_equilibrium_checkpoint_1419113_endpoint.json": "FD75727BFDF8B83E03F067E0AC341ED91FB4FFE1A704B16E712714B38F300DDC",
+    "results/validation/step1_equilibrium_checkpoint_1419113_full_history.json": "1640388AA1831CF896A980DC0228CF7F72B38B9077ECEB97207664927C0D1980"
+  },
+  "verification_passed": true,
+  "pbs_reconciliation": {
+    "pbs_job_id": "1419147.mmaster02",
+    "scheduler_state": "R",
+    "compute_node": "mnode101",
+    "queue": "normal_imfdfkmq",
+    "time_used": ">00:15:00",
+    "once_only_receipt": "VERIFIED",
+    "active_substep": "Step 1 (+10 nm, uy = 0.00186031 mm), Outer 4",
+    "residuals": {
+      "delta_d": 0.00243287,
+      "delta_u_mm": 1.20179e-06,
+      "delta_h_MPa": 0.054688,
+      "free_error": 1.7393e-08,
+      "dual_error": 1.0585e-08
+    }
+  },
+  "physical_gates_status": "INDEPENDENT_EVALUATOR_PREPARED__AWAITING_TERMINAL_CHECKPOINT"
+}
