@@ -26,7 +26,7 @@ function Get-ControllerDynamicQualification([string]$Workspace, [string]$Path = 
     if(-not $Workspace){throw 'Workspace path is required for dynamic qualification'}
     $root = [IO.Path]::GetFullPath($Workspace).TrimEnd([char[]]'\/') + [IO.Path]::DirectorySeparatorChar
 
-    if($Path -cin @('evaluate_mode1_package148_state_transfer','evaluate_mode1_package148_state_transfer_r2','evaluate_mode1_package148_state_transfer_r3','evaluate_mode1_package148_state_transfer_r4','evaluate_mode1_package148_state_transfer_r5','evaluate_mode1_package148_state_transfer_r6','evaluate_mode1_package148_state_transfer_r7')){
+    if($Path -cin @('evaluate_mode1_package148_state_transfer','evaluate_mode1_package148_state_transfer_r2','evaluate_mode1_package148_state_transfer_r3','evaluate_mode1_package148_state_transfer_r4','evaluate_mode1_package148_state_transfer_r5','evaluate_mode1_package148_state_transfer_r6','evaluate_mode1_package148_state_transfer_r7','evaluate_mode1_package148_state_transfer_r8')){
         if(-not $ArtifactId){ $ArtifactId = $Path }
         $Path = 'scripts/validation/execute_package148_state_transfer.py'
     }

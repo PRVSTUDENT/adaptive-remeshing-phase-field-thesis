@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "operation": "evaluate_mode1_package148_state_transfer_r8",
+  "qualified_operation": "evaluate_mode1_package148_state_transfer_r8",
+  "pbs_job_id": "1418939.mmaster02",
+  "finding": "Package 148 Revision 8 (Method C Stage C1-1 nonmatching-mesh coupled state transfer with max_outer=40) submitted once to HPC cluster as Job 1418939.mmaster02; technical preflight verified with PASS_BOTH Abaqus 2023 datachecks and active running state confirmed.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r8/EXECUTION_MANIFEST.json": "BAE19C8589CCA2A68448943A630ECE95F24D7F34F57FDD8855A031D65053EB22",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r8/PACKAGE_MANIFEST.json": "E64E62BEA7421DBF68B207945A48F63A32A716CE7F263752532347F95B7006FB",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r8/submit_M1_C4_P148_R8.pbs": "33BDB7DE1DB03FDE62AE8A0954AC1053A6EA0BF60DEBCCAB7A3CF14B98423131",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "9EDE833668340A41AD590CB2387F8CB72A6C9C63DE9DF6B2185A3CABD1B21265",
+    "scripts/validation/execute_package148_state_transfer.py": "6C1D49082CEC0216F08E0AA17601CEC82D3E120A14F4E0708386770FECCA1670",
+    "scripts/validation/evaluate_mode1_package148_state_transfer_r8.qualification.json": "A1E46DB1C59D47A34090326A1149FD9CA331E016C10F0668E215AEC512406EA9",
+    "project_coordination/HPC_JOB_LEDGER.csv": "E6CD773C2D4BE03F61DE888535825604037D7BC9BC63F2C526824538BDE2B99E",
+    "project_coordination/MODE1_BATCH_SUBMISSIONS.json": "352EF7FECE32C8B339BD6270A713A33B682556BCE72C905AF1C8479BC48A54A4"
+  },
+  "registered_paths": [
+    "scripts/validation/execute_package148_state_transfer.py",
+    "scripts/validation/evaluate_mode1_package148_state_transfer_r8.qualification.json",
+    "scripts/controller/Controller-Qualification.ps1",
+    "project_coordination/HPC_JOB_LEDGER.csv",
+    "project_coordination/MODE1_BATCH_SUBMISSIONS.json"
+  ],
+  "next_operation": "Collect authentic M1_C4_P148_R8 coupled results upon solver completion and independently evaluate all Method C Stage C1-1 physical acceptance gates."
+}

@@ -91,6 +91,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--workspace', required=True)
     parser.add_argument('--output', required=True)
-    parser.add_argument('--operation-id', default=OPERATION, choices=[OPERATION, OPERATION+'_r2', OPERATION+'_r3', OPERATION+'_r4', OPERATION+'_r5', OPERATION+'_r6', OPERATION+'_r7'])
+    parser.add_argument('--operation-id', default=OPERATION, choices=[OPERATION, OPERATION+'_r2', OPERATION+'_r3', OPERATION+'_r4', OPERATION+'_r5', OPERATION+'_r6', OPERATION+'_r7', OPERATION+'_r8'])
     args = parser.parse_args()
     print(json.dumps(execute(args.workspace, args.output, operation_id=args.operation_id)))
