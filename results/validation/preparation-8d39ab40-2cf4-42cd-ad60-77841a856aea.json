@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "8d39ab40-2cf4-42cd-ad60-77841a856aea",
+  "finding": "Constructed Package 155 C5 candidate finite-element mesh (12,996 quads, 13,278 nodes) resolving Package 153's 266 MISESERI marks (eta >= 0.15) with zero coarsening across the entire domain (0/7,056 quads coarsened, mean marked area ratio 0.5653). Passed all three authentic Abaqus 2023 compute-node datachecks exit 0 with frozen UEL hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6 and verified 8/8 unit tests pass.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/M1_C5_CANDIDATE_MESH.inp": "DB261F26D34352DB743432A47FC929BF6B4B4E808A1D4C13146FF4902776D197",
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/P155_MECHANICAL_DC.inp": "2C26C2A9CA919A6EACEF94EDCDD8654B122CE68561928D4B3AD7A2C1F6A2011C",
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/P155_PHASE_DC.inp": "40F6C0D5DB7939F0D4D9EDE7E7302264B52FAFD06811996D935F26B5986EDCC0",
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/P155_COMPANION_DC.inp": "1B4620B2D84A77CD83C83C4EBBFCCFC50CC910E62122312BA446D04BA0312444",
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/PACKAGE_MANIFEST.json": "6100933A82E429207BA5D5ECA08943BB4366880B54807E56FD7C440D4DB397AE",
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/c4_to_c5_correspondence.json": "76376D3C4C32DAC2AB9FA6487F549586B86C4B3C80556E6FF16A61076626769B",
+    "results/validation/package155_candidate_datachecks.json": "D1DCA2D67748029797855E25AFE077F19A3D0A21EB35A517497EEE71DB30BD08",
+    "tests/unit/test_package155_c5_candidate_mesh.py": "6885B6E909D1BCB4BB189DCA160FDC1D1DDB4B8846ADD75E90815CD83EC8A567",
+    "results/validation/initial_finding_turn384_8d39ab40.json": "688DC0CBE732323959D79CB786238A7671E6EAC8F767D9265DB353A4A8F59916"
+  },
+  "verification_passed": true
+}
