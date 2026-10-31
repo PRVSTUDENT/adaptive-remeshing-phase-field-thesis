@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "40bbe1e5-ac37-465b-b6be-baae72abbf14",
+  "finding": "Package 157 R4 restart history integrity investigation resolves the 196 Gauss-point reporting discrepancy: C4 continuation model contains exactly 7,056 physical quadrilateral elements and 28,224 Gauss points (4 GPs/element), confirming Turn 394's stated 28,420 was a clerical reporting error with zero mesh or model defect. Irreversible history recoverability from Step 1 equilibrium displacement u and H0 baseline demonstrates that in 17,519 of 28,224 Gauss points (62.07%), pure elastic strain energy density psi(u) is strictly less than the transferred H0 baseline (deficit up to 0.1476 MPa), proving that displacement u alone cannot determine history; however, with committed baseline H0 evaluated via driving_history(mesh, u, H0) = max(H0, psi(u)), all 28,224 GP histories are 100% physically preserved, strictly monotonic (min Delta H = 0.0 MPa, max Delta H = 1.4676 MPa), and zero damage healing occurs. Complete 28,224-GP irreversible history state serialized into step1_equilibrium_checkpoint_1419113_full_history.json. All 5/5 unit tests pass.",
+  "evidence_sources": {
+    "scripts/validation/investigate_r4_restart_history_integrity.py": "5762129A5552A7F5EB1B90179720696BAEF196185F7EAB3210680F421C416110",
+    "results/validation/r4_restart_history_integrity_audit.json": "1291E469F2DAD6B01C334A321D2163F8A42CBB89212B4E8B698CFFD2BA86338F",
+    "results/validation/step1_equilibrium_checkpoint_1419113_full_history.json": "1640388AA1831CF896A980DC0228CF7F72B38B9077ECEB97207664927C0D1980",
+    "tests/unit/test_mode1_f1597_turn395_history_integrity.py": "70753241868B9C6786512DE80DE4DB4B5A776709180C6EEC1660B568051642DF",
+    "results/validation/step1_equilibrium_checkpoint_1419113_endpoint.json": "FD75727BFDF8B83E03F067E0AC341ED91FB4FFE1A704B16E712714B38F300DDC",
+    "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/M1_C4_PACKAGE150_C1_2_CONTINUATION.inp": "8C54E3D18EBBB238FDF79F773BC7C1E854AA6A681E2881D6BA15B977C58FAFCD"
+  },
+  "verification_passed": true,
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "mesh_census": {
+    "physical_mesh_quad_count": 7056,
+    "physical_node_count": 7265,
+    "gauss_points_per_quad": 4,
+    "actual_mesh_gauss_points": 28224,
+    "turn_394_reported_gauss_points": 28420,
+    "reporting_discrepancy_gps": 196,
+    "reporting_discrepancy_quads": 49,
+    "classification": "CLERICAL_REPORTING_ERROR__NO_PHYSICAL_ELEMENT_DISCREPANCY"
+  },
+  "history_recoverability": {
+    "step1_loading_target_uy_mm": 0.0018503125442191958,
+    "step1_reaction_force_rf2_kN": 0.18500999876019894,
+    "damage_field_bounds": [
+      0.0033413366,
+      0.58232352
+    ],
+    "zero_damage_healing_verified": true,
+    "total_gauss_points_evaluated": 28224,
+    "pointwise_irreversibility_pass": true,
+    "min_history_delta_MPa": 0.0,
+    "max_history_delta_MPa": 1.4676494819783983,
+    "gps_where_psi_less_than_h0": 17519,
+    "gps_where_psi_less_than_h0_pct": 62.07128684807256,
+    "max_psi_deficit_under_h0_MPa": 0.14764411524645238,
+    "recoverability_verdict": "VERIFIED_IRREVERSIBLE_WITH_COMMITTED_BASELINE"
+  },
+  "registration_handoff": {
+    "candidate_operation_id": "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+    "candidate_experiment_id": "M1_C4_P157_C1_2_R4",
+    "target_package": "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r4",
+    "decision": "ROUTE_FOR_OPERATION_REGISTRATION",
+    "actual_gp_count": 28224,
+    "unit_tests_passing": 5,
+    "unit_tests_total": 5
+  }
+}
