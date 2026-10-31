@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "a9234901-2551-4d13-9ea7-db20c9324000",
+  "finding": "Forensic audit of Package 157 R4 establishes VALID_REJECTED_TRIAL_AND_BISECTION with ZERO convergence-gate breach. Step 1 outer 50 residuals (delta_u=3.07e-9 mm > 1e-9 mm, delta_H=1.52e-4 MPa > 1e-6 MPa) correctly triggered coupled convergence rejection and RuntimeError; no un-converged state or checkpoint was committed. Adaptive bisection dispatched Step 2 at uy=0.001855312544 mm as a +5 nm forward loading advance from the authentic baseline state (d0, u0, h0) without contamination or physical unloading. Discrepancy was isolated to Turn 407 narrative reporting text.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "scripts/validation/audit_r4_convergence_and_rollback.py": "6626F694B43610C187E4010695D5079775DE2A1D50C453DF89EEBBF7E752366D",
+    "tests/unit/test_mode1_r4_convergence_forensics.py": "72ADD8C6A37E103F284C60F9620E2166BDC12C323FDA3F980F7B3E5E948E9588",
+    "results/validation/r4_convergence_and_rollback_forensics.json": "DFE2ECFB52AC43BFCDDB0E74EB51877D07D27F84B0FA9B248307120B306DB215",
+    "results/validation/r4_live_iteration_telemetry_turn408.json": "C981D3EC94249F75D343045E4A7E58CAA6315C518469CADDE180C9EDAAC8738F"
+  }
+}
