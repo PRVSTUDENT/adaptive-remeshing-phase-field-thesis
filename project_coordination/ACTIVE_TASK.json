@@ -10,10 +10,10 @@
                          },
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "agent":  "gemini-antigravity",
-    "phase":  "Comprehensive walltime feasibility audit proves that single-step continuation converges in 74 outer iterations under contraction ratio rho=0.8648 (requiring max_outer=100-120), consuming 50.7 minutes per converged substep; however, traversing the full 150 nm continuation schedule (15 nominal substeps) requires 12.7 to 17.7 hours, exceeding any single 8-hour PBS allocation and establishing that checkpointed continuation segmentation (3 segments of 5 substeps each, \u003c=4.2 hours per segment) is mathematically mandatory while strictly preserving all 7,265 nodal states and 28,224 integration-point driving histories.",
-    "gate_status":  "P157_R4_RUNNING__C4_CONTINUATION_UNACCEPTED",
+    "phase":  "Package 157 Revision 5 Segment 1 continuation assembled with max_outer=100 (superseding the truncated 50-outer limit) and 5 x 10 nm forward substeps (0.00185031 to 0.00190031 mm); compute-node mechanical/phase datachecks and runtime startup passed with Exit 0 on mnode101 under PBS 1419161.mmaster02; production continuation job actively executing on cluster mnode101 under once-only PBS submission 1419162.mmaster02 while strictly preserving all 7,265 nodal states and 28,224 integration-point driving histories.",
+    "gate_status":  "P157_R5_SEG1_RUNNING__C4_CONTINUATION_UNACCEPTED",
     "active_pbs_job_ids":  [
-                               "1419147.mmaster02"
+                               "1419162.mmaster02"
                            ],
     "dependent_pbs_job_ids":  [
 
@@ -28,6 +28,8 @@
                                     "PK_M1_COARSE_FINE_CONT (Package 46, 4,900 CPE4 quads, h=14.3 um, input deck 219ACDF2..., Abaqus 2023 datacheck Exit 0, completed Exit 0 Job 1415074)"
                                 ],
     "completed_pbs_job_ids":  [
+                                  "1419161.mmaster02",
+                                  "1419147.mmaster02",
                                   "1418938.mmaster02",
                                   "1418872.mmaster02",
                                   "1418732.mmaster02",
@@ -288,14 +290,14 @@
                              "compute_qualification_job_id":  "1419146.mmaster02",
                              "manifest_sha256":  "ac186eeaf426bc6f39499df2664a38b81dd66fbd4a0f3fd41faa1fb073faa62f"
                          },
-    "last_updated":  "2026-10-31T18:55:54.6895273+01:00",
+    "last_updated":  "2026-10-31T19:13:12.7833637+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-29305f48-1e42-435f-acd8-77c121a22d7a.json",
-                                  "sha256":  "B6E2425A6EE99CFD362BC0DCC9D81A4259FFBF8C958FE54635586B743C7BA2CD",
-                                  "created_at":  "2026-10-31T18:53:45.8892487+01:00"
+                                  "artifact":  "results/validation/preparation-fc38d18e-aeee-48af-bb58-f37f3efa0719.json",
+                                  "sha256":  "A00D5983D2A29C563F76EF5FBB9A12BFD2B7D1594010ED976FD103692ECBAE76",
+                                  "created_at":  "2026-10-31T19:10:12.2106020+01:00"
                               }
 }

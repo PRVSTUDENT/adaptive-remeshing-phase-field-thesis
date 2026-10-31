@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "controller_run_id": "fc38d18e-aeee-48af-bb58-f37f3efa0719",
+  "finding": "Package 157 Revision 5 Segment 1 continuation assembled with max_outer=100 (superseding the truncated 50-outer limit) and 5 x 10 nm forward substeps (0.00185031 to 0.00190031 mm); compute-node mechanical/phase datachecks and runtime startup passed with Exit 0 on mnode101 under PBS 1419161.mmaster02; production continuation job actively executing on cluster mnode101 under once-only PBS submission 1419162.mmaster02 while strictly preserving all 7,265 nodal states and 28,224 integration-point driving histories.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/PACKAGE_MANIFEST.json": "627D839B5194AB89C5797A028545487EB2E8C42DAB6C877188DEB93AD8FAAAD7",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/EXECUTION_MANIFEST.json": "54C0E0FDA59778142232D4287DD6256BE1457065D9ABCF0D25344DF12757FA1F",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/QUALIFICATION_EXECUTION_MANIFEST.json": "73C5D38686C70CB4B74A6AA806C4F3A986F23AE983AFBAD4CA6E3438747F7CEE",
+    "scripts/state_transfer/build_package157_r5.py": "0FD4F38F166EC2FB6F46F8DAF63ABD3C1CF3D216349CBF3426B3F65A0D977BDA",
+    "scripts/state_transfer/driver_package157_r5_seg1.py": "6DC471B3278E4EF465C0049500FFE8307512158ACFD5AC0DB6697317E129A7B2",
+    "scripts/validation/stage_package157_r5.py": "565FD80B0C9F08950613C16F1856F489CDDCD73ADCBE880660E3D38C3E1E9FE9",
+    "scripts/validation/qualify_package157_r5.py": "2EBF3DD1B8770C5C28090DA9893345C779C8166D2B563A9BC23F0AAD16B8C3C3",
+    "scripts/validation/execute_package157_r5.py": "A4ECEA9610FD34C0B5608BBFB40A8D2A5BB8A12F3AAA3E2F733EAB657F7CD22B",
+    "tests/unit/test_package157_r5.py": "DC0452052AC5D91E36685E39FD95F6481479D567708C5DB6EB66809C242640B6",
+    "results/validation/package157_r5_maintenance/compute_terminal.json": "F5A91337494F72AF2E7B7A6D227779AB7054DDBB9B62B5CA062DF024A423AEDB"
+  },
+  "verification_passed": true
+}
