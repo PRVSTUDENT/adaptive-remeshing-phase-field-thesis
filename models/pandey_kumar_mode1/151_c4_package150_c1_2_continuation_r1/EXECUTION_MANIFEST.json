@@ -1,0 +1,58 @@
+{
+  "batch_name": "MODE1_PACKAGE150_STAGE_C1_2_CONTINUATION_R1",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-2",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_package150_c1_2_continuation_r1",
+  "files": {
+    "active_set_boundary_cards.inc": "0be74f501fa6b6bae81db8a006b8bf2cfe4cfc12b05251aa3ee173f731c1d79b",
+    "d_lower_bounds.csv": "0f680e1c4f24a3116ae0d89becdf3d219da2e740a226e768bb647656dd4d49c8",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "initial_conditions_solution.inc": "e807da7396b600aa3c70d3b8854cc420cc7d42370b3eb12e28b301ce5a5d0c09",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_C4_PACKAGE150_C1_2_CONTINUATION.inp": "8c54e3d18ebbb238fdf79f773bc7c1e854aa6a681e2881d6ba15b977c58fafcd",
+    "nodal_displacements_initial.csv": "e1ac117df6cb05f0f20dfdc576b593a6f68b8490e08f28ba6349ce2eecf17b77",
+    "nodal_phase_field_initial.csv": "5bcd2c4e773a95d56f319c8ace5c1c0e7235ced3feaaf4c2a28a9caf254ae958",
+    "P150_MECHANICAL_DC.inp": "0b1a48af91f1db935d7e44e46b91da5b753d47fbde5d9afb706a5a2780f9108c",
+    "P150_PHASE_DC.inp": "e9a47f058098e7731709053b555b38153fe4b1ed506948ecf6e5231bdad17bbd",
+    "run_datacheck.sh": "428b2a9d1ac725a7c3cfa8f46b147887d22722cd4c56879dfe2e586899a1a7cc",
+    "submit_M1_C4_P150_C1_2_R1.pbs": "4fa41d644115d27cbe50ed82b872a3464177018e0ca93d29d8656ef17978f8d2"
+  },
+  "jobs": [
+    {
+      "id": "M1_C4_P150_C1_2_R1",
+      "purpose": "Executes Stage C1-2 forward-loading continuation R1 from accepted R8 equilibrium checkpoint (uy=0.0018003125 to 0.002000 mm in 4 steps <= 0.00005 mm) using repaired ODB extractor; preserves 7+8+3 state, frozen UEL, and irreversibility.",
+      "input": "P150_MECHANICAL_DC.inp",
+      "datacheck": "P150_MECHANICAL_DC.dat",
+      "additional_datachecks": [
+        "P150_PHASE_DC.dat"
+      ],
+      "pbs": "submit_M1_C4_P150_C1_2_R1.pbs",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "depends_on": [],
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c4_package150_c1_2_continuation_r1/submit_M1_C4_P150_C1_2_R1.pbs\"",
+      "command_sha256": "1746c2e2ed4d210f678bf7e741f264228c328839c30a457c4acfd5b1094a5c38"
+    }
+  ],
+  "acceptance": {
+    "M1_C4_P150_C1_2_R1": "Coupled convergence at all 4 loading states; signed KKT; damage in [0,1], no healing beyond 1e-6; monotonic H at all 28,224 GPs; finite physical RF2 and total energy."
+  },
+  "scientific_predecessor_review": "results/validation/package148/r8_terminal_evaluation.json",
+  "runtime_root": "/scratch9/pr21vyci/runs/mode1_c4_package150_c1_2_continuation_r1/runtime",
+  "runtime_source_hashes": {
+    "scripts/state_transfer/driver_package150_c1_2_continuation.py": "59F58B6CAAA71EC77C2B55616B3378C04AF08E83F739CF9044A2447A3F7E2FBB",
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "9EDE833668340A41AD590CB2387F8CB72A6C9C63DE9DF6B2185A3CABD1B21265",
+    "scripts/validation/extract_package148_iteration.py": "C57AF5C79AEA92E2F29F05B489A7460B68DC5D4F0BB024F2718308B07CE6DD2F",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/M1_C4_CORRECTED_PACKAGE147_REF.inp": "FFFE51D5348F6E4B5E9B4742D783CA1645B480B229189168493AEDA10C91722A",
+    "results/validation/package148/r8_equilibrium_checkpoint.json": "5D627B0340ADB3099D5C8980F733160FFA134787704DEAEBC93D67AB55B8D81C"
+  }
+}

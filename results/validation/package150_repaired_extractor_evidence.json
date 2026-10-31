@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "EXTRACTOR_REPAIR_VERIFIED",
+  "p150_mechanical_step1": {
+    "odb_path": "/scratch9/pr21vyci/runs/mode1_c4_package150_c1_2_continuation/continuation_1418949.mmaster02/P150_S1_01_00_mechanical/P150_S1_01_00_mechanical.odb",
+    "step_name": "C1_2_Step1",
+    "increment": 1,
+    "step_time": 1.0,
+    "rp_u2_mm": 0.0018503125756978989,
+    "rf2_kN": 0.1910862773656845,
+    "elastic_kNmm": 0.00017678466476449574,
+    "fracture_kNmm": 4.5643543431537125e-05,
+    "nodes_extracted": 7265,
+    "odb_sha256": "d93494fb421036da78151cb316701ad31895671be5ca5131d36b3f29adca5539",
+    "extractor_sha256": "c57af5c79aea92e2f29f05b489a7460b68dc5d4f0bb024f2718308b07ce6dd2f"
+  },
+  "backward_compatibility": "PASS_C1_1_ReEquil",
+  "error_rejection": "PASS_STRICT_STEP_VALIDATION",
+  "timestamp": "2026-10-31T08:35:00Z"
+}

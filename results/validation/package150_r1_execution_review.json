@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "verification_passed": true,
+  "c1_2_continuation_r1_qualification": "PASS",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "stage": "STAGE_C1_2_FORWARD_CONTINUATION_R1",
+  "predecessor": {
+    "package": "mode1_c4_package148_state_transfer_r8",
+    "job_id": "1418939.mmaster02",
+    "status": "TERMINAL_EXIT0_EQUILIBRIUM_PASS",
+    "checkpoint": "results/validation/package148/r8_equilibrium_checkpoint.json",
+    "checkpoint_sha256": "5D627B0340ADB3099D5C8980F733160FFA134787704DEAEBC93D67AB55B8D81C",
+    "c1_1_acceptance": "PASSED"
+  },
+  "prior_revision_audit": {
+    "job_id": "1418949.mmaster02",
+    "terminal_status": "EXIT_1_EXTRACTOR_DEFECT",
+    "physical_solve_outcome": "Step 1 mechanical solve completed successfully in 2 equilibrium iterations (P150_S1_01_00_mechanical.sta: THE ANALYSIS HAS COMPLETED SUCCESSFULLY)",
+    "extracted_physical_properties": {
+      "step_name": "C1_2_Step1",
+      "rp_u2_mm": 0.0018503125756978989,
+      "rf2_kN": 0.1910862773656845,
+      "elastic_kNmm": 0.00017678466476449574,
+      "fracture_kNmm": 4.5643543431537125e-05,
+      "nodes_extracted": 7265
+    },
+    "root_cause": "extract_package148_iteration.py hardcoded list(odb.steps.keys()) == ['C1-1-ReEquil'], rejecting C1_2_Step1",
+    "repair": "extract_package148_iteration.py generalized to support C1-1 and C1-2 step names and explicit --step argument; backward compatibility verified on Job 1418939; strict rejection verified"
+  },
+  "loading_schedule": {
+    "initial_uy_mm": 0.0018003125442191958,
+    "target_uy_mm": 0.0020000000000000000,
+    "delta_uy_total_mm": 0.0001996874557808042,
+    "steps": [
+      {
+        "step": 1,
+        "target_uy_mm": 0.0018503125442191958,
+        "delta_uy_mm": 0.000050000000
+      },
+      {
+        "step": 2,
+        "target_uy_mm": 0.0019003125442191958,
+        "delta_uy_mm": 0.000050000000
+      },
+      {
+        "step": 3,
+        "target_uy_mm": 0.0019503125442191958,
+        "delta_uy_mm": 0.000050000000
+      },
+      {
+        "step": 4,
+        "target_uy_mm": 0.0020000000000000000,
+        "delta_uy_mm": 0.0000496874557808042
+      }
+    ],
+    "max_delta_uy_step_mm": 0.000050000000,
+    "monotonic": true
+  },
+  "state_serialization": {
+    "format": "7+8+3",
+    "physical_nodes": 7265,
+    "reference_nodes": 1,
+    "total_model_nodes": 7266,
+    "elements": 7056,
+    "integration_points": 28224,
+    "reference_point_treatment": "Node 999999 coupled via *EQUATION constraint cards, not interpolated as physical continuum node",
+    "frozen_production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "acceptance_criteria": {
+    "convergence": "Delta H <= 1e-6 MPa, Delta d <= 1e-5, Delta u <= 1e-9 mm at each loading step",
+    "kkt": "Signed KKT complementarity, dual_error == 0",
+    "damage_bounds": "0 <= d <= 1",
+    "irreversibility": "min(d_step - d_prev) >= -1e-6",
+    "history_monotonicity": "H_step(x) >= H_prev(x) pointwise across all 28,224 GPs"
+  },
+  "unit_tests_passed": true,
+  "dispatch_status": "SUBMITTED",
+  "submission": {
+    "pbs_job_id": "1418950.mmaster02",
+    "job_name": "M1_C4_P150_C1_2_R1",
+    "submitted_at": "2026-10-31T08:41:59.6015870+00:00",
+    "manifest": "models/pandey_kumar_mode1/151_c4_package150_c1_2_continuation_r1/EXECUTION_MANIFEST.json",
+    "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_package150_c1_2_continuation_r1",
+    "queue": "entry_imfdfkmq -> normal_imfdfkmq",
+    "initial_job_state": "R",
+    "exec_host": "mnode101/0"
+  }
+}

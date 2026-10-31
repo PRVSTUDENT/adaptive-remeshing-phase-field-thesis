@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "operation": "evaluate_mode1_package150_r1_stage_c1_2_continuation",
+  "status": "JOB_SUBMITTED",
+  "dispatch_ready": true,
+  "canonical_path": "scripts/validation/stage_package150_r1.py",
+  "script_sha256": "DEBAC9B33EBDE69ABA9C0804870599A9D2FF52978A474C0FFCC9ADAE6C54A182",
+  "execution_mode": "HPC_PRE_SUBMISSION",
+  "execution_adapter": "scripts/hpc/Invoke-Mode1Execution.ps1",
+  "production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "manifest": "models/pandey_kumar_mode1/151_c4_package150_c1_2_continuation_r1/EXECUTION_MANIFEST.json",
+  "independent_review": "results/validation/package150_r1_execution_review.json",
+  "tests": {
+    "tests/unit/test_package150_c1_2_continuation.py": "3653E44F5371D9BA0AD660FA6158461F12D0172859D21B67D12CCB249A2F5155",
+    "tests/unit/test_stage_c1_2_readiness.py": "D7504B467A1BA89DB65BADD44660EBA2DA93B4BB068860279C48F3000DF00596"
+  },
+  "tests_passed": true,
+  "verification_criteria": {
+    "required_measurements": [
+      "submitted_jobs"
+    ]
+  },
+  "scientific_dependencies": {
+    "models\\pandey_kumar_mode1\\151_c4_package150_c1_2_continuation_r1\\active_set_boundary_cards.inc": "0BE74F501FA6B6BAE81DB8A006B8BF2CFE4CFC12B05251AA3EE173F731C1D79B",
+    "models\\pandey_kumar_mode1\\151_c4_package150_c1_2_continuation_r1\\d_lower_bounds.csv": "0F680E1C4F24A3116AE0D89BECDF3D219DA2E740A226E768BB647656DD4D49C8",
+    "models\\pandey_kumar_mode1\\151_c4_package150_c1_2_continuation_r1\\EXECUTION_MANIFEST.json": "FF16B92698AFB021F900828DB33AA693B5BC972288A783ECEC9A85FBAEA57772",
+    "models\\pandey_kumar_mode1\\151_c4_package150_c1_2_continuation_r1\\f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models\\pandey_kumar_mode1\\151_c4_package150_c1_2_continuation_r1\\initial_conditions_solution.inc": "E807DA7396B600AA3C70D3B8854CC420CC7D42370B3EB12E28B301CE5A5D0C09",
+    "models\\pandey_kumar_mode1\\151_c4_package150_c1_2_continuation_r1\\job_notifications.sh": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "models\\pandey_kumar_mode1\\151_c4_package150_c1_2_continuation_r1\\M1_C4_PACKAGE150_C1_2_CONTINUATION.inp": "8C54E3D18EBBB238FDF79F773BC7C1E854AA6A681E2881D6BA15B977C58FAFCD",
+    "models\\pandey_kumar_mode1\\151_c4_package150_c1_2_continuation_r1\\nodal_displacements_initial.csv": "E1AC117DF6CB05F0F20DFDC576B593A6F68B8490E08F28BA6349CE2EECF17B77",
+    "models\\pandey_kumar_mode1\\151_c4_package150_c1_2_continuation_r1\\nodal_phase_field_initial.csv": "5BCD2C4E773A95D56F319C8ACE5C1C0E7235CED3FEAAF4C2A28A9CAF254AE958",
+    "models\\pandey_kumar_mode1\\151_c4_package150_c1_2_continuation_r1\\P150_MECHANICAL_DC.inp": "0B1A48AF91F1DB935D7E44E46B91DA5B753D47FBDE5D9AFB706A5A2780F9108C",
+    "models\\pandey_kumar_mode1\\151_c4_package150_c1_2_continuation_r1\\P150_PHASE_DC.inp": "E9A47F058098E7731709053B555B38153FE4B1ED506948ECF6E5231BDAD17BBD",
+    "models\\pandey_kumar_mode1\\151_c4_package150_c1_2_continuation_r1\\PACKAGE_MANIFEST.json": "BB71F9E7C257504046B9D50C3CC87A153167F0B6F3DAF5B8438A36EC6D808627",
+    "models\\pandey_kumar_mode1\\151_c4_package150_c1_2_continuation_r1\\run_datacheck.sh": "428B2A9D1AC725A7C3CFA8F46B147887D22722CD4C56879DFE2E586899A1A7CC",
+    "models\\pandey_kumar_mode1\\151_c4_package150_c1_2_continuation_r1\\submit_M1_C4_P150_C1_2_R1.pbs": "4FA41D644115D27CBE50ED82B872A3464177018E0CA93D29D8656EF17978F8D2",
+    "results/validation/package148/r8_equilibrium_checkpoint.json": "5D627B0340ADB3099D5C8980F733160FFA134787704DEAEBC93D67AB55B8D81C",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/M1_C4_CORRECTED_PACKAGE147_REF.inp": "FFFE51D5348F6E4B5E9B4742D783CA1645B480B229189168493AEDA10C91722A",
+    "scripts/state_transfer/build_package150_r1_continuation.py": "6B55F7B3CFE73CFDE610057A303F0B8E38CE670D5A0355F1B4E43306837599A2",
+    "scripts/state_transfer/driver_package150_c1_2_continuation.py": "59F58B6CAAA71EC77C2B55616B3378C04AF08E83F739CF9044A2447A3F7E2FBB",
+    "scripts/validation/extract_package148_iteration.py": "C57AF5C79AEA92E2F29F05B489A7460B68DC5D4F0BB024F2718308B07CE6DD2F",
+    "scripts/hpc/Invoke-Mode1Execution.ps1": "670F32418CB0D02A4E2F5511DF42B20982F27146DDB8459C38AAB88ECA6E6DB1",
+    "results/validation/package150_r1_execution_review.json": "55281C248DFF1EF588C3CC230FE9D648A75A03730BD466BF66B483A85A2905CA",
+    "results/validation/package148/r8_terminal_evaluation.json": "60161194DE9BB56997CC59912B8EE592BF7FE0F931FA15C99491A7310C4EBEE3"
+  },
+  "limitation": "Preflight qualification verifies deck syntax, state serialization, loading schedule, and repaired ODB extractor; coupled continuation solve requires execution.",
+  "pbs_job_id": "1418950.mmaster02"
+}

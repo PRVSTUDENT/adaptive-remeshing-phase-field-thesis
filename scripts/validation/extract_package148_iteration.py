@@ -41,18 +41,28 @@ def parse_dat_nodal_u(dat_path):
     return results
 
 
-def export(odb_path, output, physical_nodes, physical_elements):
+def export(odb_path, output, physical_nodes, physical_elements, expected_step=None):
     from odbAccess import openOdb
     if os.path.exists(output):
         raise RuntimeError('Refusing to overwrite endpoint evidence')
     before = sha(odb_path)
     odb = openOdb(path=odb_path, readOnly=True)
     try:
-        if list(odb.steps.keys()) != ['C1-1-ReEquil']:
-            raise RuntimeError('Unexpected step identity')
-        frame = odb.steps['C1-1-ReEquil'].frames[-1]
+        step_keys = list(odb.steps.keys())
+        if expected_step:
+            if expected_step not in odb.steps:
+                raise RuntimeError('Specified step not found in ODB: %s (available: %s)' % (expected_step, str(step_keys)))
+            step_name = expected_step
+        else:
+            if len(step_keys) != 1:
+                raise RuntimeError('Expected exactly one step in subproblem iteration ODB, found: %s' % str(step_keys))
+            step_name = step_keys[0]
+            if not (step_name == 'C1-1-ReEquil' or step_name.startswith('C1_2_Step') or step_name.startswith('C1-2-Step')):
+                raise RuntimeError('Unexpected step identity: %s (expected C1-1-ReEquil or C1_2_Step*)' % step_name)
+
+        frame = odb.steps[step_name].frames[-1]
         if frame.incrementNumber != 1 or abs(frame.frameValue - 1.0) > 1e-12:
-            raise RuntimeError('Incomplete/wrong endpoint')
+            raise RuntimeError('Incomplete/wrong endpoint in step %s: inc %d, time %g' % (step_name, frame.incrementNumber, frame.frameValue))
 
         # Check for .dat companion table for U3 (phase field damage) if present
         dat_path = os.path.splitext(odb_path)[0] + '.dat'
@@ -115,7 +125,7 @@ def export(odb_path, output, physical_nodes, physical_elements):
                 total += reference  # Element totals: count each exactly once.
             totals[key] = total
 
-        result = dict(schema=1, increment=int(frame.incrementNumber),
+        result = dict(schema=1, step_name=str(step_name), increment=int(frame.incrementNumber),
                       step_time=float(frame.frameValue), nodes=[nodes[n] for n in sorted(nodes)],
                       odb_sha256=before, extractor_sha256=sha(__file__), **totals)
         result.update(rp)
@@ -133,5 +143,6 @@ if __name__ == '__main__':
     p.add_argument('--output', required=True)
     p.add_argument('--physical-nodes', type=int, required=True)
     p.add_argument('--physical-elements', type=int, required=True)
+    p.add_argument('--step', default=None, help='Optional explicit step name')
     a = p.parse_args()
-    export(a.odb, a.output, a.physical_nodes, a.physical_elements)
+    export(a.odb, a.output, a.physical_nodes, a.physical_elements, expected_step=a.step)
