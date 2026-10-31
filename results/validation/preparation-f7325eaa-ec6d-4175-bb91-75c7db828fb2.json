@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "f7325eaa-ec6d-4175-bb91-75c7db828fb2",
+  "finding": "C4 to C5 nonmatching state transfer operator technically verified across 13,278 nodes and 51,984 GPs with zero flank crossings, exact affine reproduction, and 0.076% energy transfer agreement on authentic Step-1 fixture.",
+  "evidence_sources": {
+    "scripts/validation/audit_c4_to_c5_transfer_feasibility.py": "DC5ACB6D5AE46287EC68008BCCBA695EC91C162CE4336B61D852DCFFF45CC43D",
+    "tests/unit/test_mode1_c4_c5_transfer_operator.py": "ADFBD85BFBDCCEBBA372BBB927DE93CB9E92369C3DB499B0E7623824C1407033",
+    "results/validation/c4_c5_transfer_feasibility_audit.json": "D2377F9BE8A5E318D2FFECD888033A602A1253AA65957147A4C52DE3AC47089D",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/M1_C4_CORRECTED_PACKAGE147_REF.inp": "FFFE51D5348F6E4B5E9B4742D783CA1645B480B229189168493AEDA10C91722A",
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/M1_C5_CANDIDATE_MESH.inp": "DB261F26D34352DB743432A47FC929BF6B4B4E808A1D4C13146FF4902776D197",
+    "results/validation/step1_equilibrium_checkpoint_1419113_endpoint.json": "FD75727BFDF8B83E03F067E0AC341ED91FB4FFE1A704B16E712714B38F300DDC",
+    "results/validation/step1_equilibrium_checkpoint_1419113_full_history.json": "1640388AA1831CF896A980DC0228CF7F72B38B9077ECEB97207664927C0D1980"
+  },
+  "verification_passed": true,
+  "details": {
+    "pbs_job_id": "1419147.mmaster02",
+    "pbs_status": "RUNNING (Step 1 Outer 36 converging)",
+    "transfer_status": "TRANSFER_OPERATOR_TECHNICALLY_VERIFIED",
+    "c4_elements": 7056,
+    "c4_nodes": 7265,
+    "c5_elements": 12996,
+    "c5_nodes": 13278,
+    "node_coverage_pct": 100.0,
+    "gp_coverage_pct": 100.0,
+    "flank_isolation_violations": 0,
+    "max_node_recon_error_mm": 4.3885e-17,
+    "max_gp_recon_error_mm": 3.1032e-17,
+    "fracture_energy_transfer_discrepancy_pct": 0.0762,
+    "package156_execution_disposition": "WITHHELD_PENDING_FINAL_C4_ACCEPTANCE"
+  }
+}
