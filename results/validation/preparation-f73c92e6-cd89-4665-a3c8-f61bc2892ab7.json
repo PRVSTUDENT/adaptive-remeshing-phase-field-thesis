@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "f73c92e6-cd89-4665-a3c8-f61bc2892ab7",
+  "turn": 388,
+  "finding": "Package 156 C5 candidate receiver workflow constructed, validated, and staged as a conditional candidate for Stage C2-0 coupled re-equilibration. Full spatial mapping across 13,278 nodes and 51,984 integration points achieves 100% coverage with zero cross-slit flank leakage across all 53 duplicate seam pairs. State initialization enforces strict damage bounds d in [0, 1], non-negative history H >= 0 via Policy 1 (Bilinear GP + non-negativity clamp), canonical 7+8+3 SVARS serialization for all 12,996 quads, and mechanical U2 element offset 12,996 with same-load holding. All 10 unit tests pass. Active cluster Job 1419113.mmaster02 (Package 154 R3) confirmed running with Step 1 converged in 74 outer iterations and Step 2 actively computing (outer 4 contracting). Package 156 is staged conditionally withholding submission pending physical acceptance of predecessor C1-2.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/PACKAGE_MANIFEST.json": "7A8A7661DEFF59EC45136BA9ACC9E81F8DC5163AD21D3CD4D259A17F31F2339D",
+    "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/CONDITIONAL_CANDIDATE_RECEIPT.json": "8AF3B3EEFD85200E963AE0A99D0134385FAE7E73657E7697B9D3341E1BDB176D",
+    "scripts/state_transfer/build_package156_c5_receiver.py": "F0636C9C1D438F85F9CC071924CDB1C9064FF0096D9DD2F3DDC5D99FC1668F81",
+    "scripts/state_transfer/driver_package156_c2_0_re_equilibration.py": "4D991989566DF93A029312D18E053D8DDC3A5EF3DEFAF4C8C0A096718EE8C401",
+    "tests/unit/test_package156_c5_receiver_workflow.py": "DE2E48D583335D157223E3C3087F5C12DE8572FFA6174D706D8130EC0FFC0537",
+    "results/validation/initial_finding_turn388_f73c92e6.json": "0813F01C3A4F480621E555E0A2A51628FCB11EF919310682470C0A4D59865A31"
+  },
+  "verification_passed": true
+}
