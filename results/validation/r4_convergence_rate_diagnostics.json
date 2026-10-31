@@ -1,0 +1,156 @@
+{
+  "schema": 1,
+  "audit_name": "R4 Convergence Rate Diagnostics and Iteration Budget Feasibility",
+  "reference_job": "1419113.mmaster02 (Package 154 R3)",
+  "evaluated_job": "1419147.mmaster02 (Package 157 R4)",
+  "comparisons": {
+    "r3_step1_50nm_converged": {
+      "step": 1,
+      "increment_nm": 50.0,
+      "target_uy_mm": 0.001850312544,
+      "converged": true,
+      "total_outers": 74,
+      "metrics": {
+        "outer_count": 74,
+        "initial_delta_h": 0.2191700203193605,
+        "initial_delta_u": 7.464526447366923e-06,
+        "initial_delta_d": 0.012819470000000055,
+        "final_delta_h": 9.132884466467317e-07,
+        "final_delta_u": 1.8260664898586687e-11,
+        "final_delta_d": 4.000000008996807e-08,
+        "final_free_error": 1.1576464282962566e-12,
+        "final_dual_error": 0.0,
+        "mean_tail_rho_h": 0.8494066579208613,
+        "mean_tail_rho_u": 0.8446122622746668,
+        "mean_tail_rho_d": 0.8505722827495397,
+        "std_tail_rho_h": 0.024471955062721668,
+        "projected_outers_to_delta_h_target": 74,
+        "projected_outers_to_delta_u_target": 74
+      },
+      "outer_50_status": {
+        "delta_h": 4.820886498357879e-05,
+        "delta_u": 1.0439107675074694e-09,
+        "passed_at_outer_50": false,
+        "finding": "R3 Step 1 required 74 outers to converge; at outer 50 delta_H was 4.82e-5 MPa (> 1e-6 MPa)."
+      }
+    },
+    "r3_step2_50nm_diverged": {
+      "step": 2,
+      "increment_nm": 50.0,
+      "target_uy_mm": 0.001900312544,
+      "converged": false,
+      "total_outers": 100,
+      "max_delta_h": 143.1446335342667,
+      "metrics": {
+        "outer_count": 100,
+        "initial_delta_h": 0.34826898871427314,
+        "initial_delta_u": 9.085473294960229e-06,
+        "initial_delta_d": 0.01330360999999991,
+        "final_delta_h": 25.040967213381634,
+        "final_delta_u": 2.425721764220349e-05,
+        "final_delta_d": 0.007677970000000034,
+        "final_free_error": 4.0718487755176e-07,
+        "final_dual_error": 0.0,
+        "mean_tail_rho_h": 0.9861317423527871,
+        "mean_tail_rho_u": 0.9707541802634552,
+        "mean_tail_rho_d": 0.980621796585792,
+        "std_tail_rho_h": 0.054494323719066914,
+        "projected_outers_to_delta_h_target": 1320,
+        "projected_outers_to_delta_u_target": 441
+      },
+      "classification": "NONLINEAR_DIVERGENCE",
+      "finding": "R3 Step 2 experienced true nonlinear divergence with delta_H exploding to 143.14 MPa at outer 40."
+    },
+    "r4_step1_10nm_rejected_trial": {
+      "step": 1,
+      "increment_nm": 10.0,
+      "target_uy_mm": 0.001860312544,
+      "converged": false,
+      "total_outers": 50,
+      "metrics": {
+        "outer_count": 50,
+        "initial_delta_h": 0.06386299044516974,
+        "initial_delta_u": 1.7313506477145734e-06,
+        "initial_delta_d": 0.002519629999999995,
+        "final_delta_h": 0.00015186439107583993,
+        "final_delta_u": 3.071319633731265e-09,
+        "final_delta_d": 5.870000000074427e-06,
+        "final_free_error": 4.685523936074146e-11,
+        "final_dual_error": 0.0,
+        "mean_tail_rho_h": 0.8822532796719866,
+        "mean_tail_rho_u": 0.882234615035171,
+        "mean_tail_rho_d": 0.8821862240456088,
+        "std_tail_rho_h": 0.0003501340618746215,
+        "projected_outers_to_delta_h_target": 91,
+        "projected_outers_to_delta_u_target": 59
+      },
+      "contraction_stability": {
+        "mean_rho_h": 0.8822532796719866,
+        "std_rho_h": 0.0003501340618746215,
+        "is_geometric_contraction": true,
+        "stagnation_detected": false,
+        "divergence_detected": false
+      },
+      "projected_convergence": {
+        "outers_for_delta_u": 59,
+        "outers_for_delta_h": 91,
+        "additional_outers_needed": 41
+      },
+      "classification": "ITERATION_CAP_LIMITED",
+      "finding": "R4 Step 1 (+10 nm) exhibited strictly monotonic geometric contraction (rho ~ 0.8822, std < 0.0003) but was truncated by max_outer=50 when delta_H reached 1.52e-4 MPa."
+    },
+    "r4_step2_5nm_active_bisection": {
+      "step": 2,
+      "increment_nm": 5.0,
+      "target_uy_mm": 0.001855312544,
+      "converged": null,
+      "total_outers_recorded": 20,
+      "metrics": {
+        "outer_count": 20,
+        "initial_delta_h": 0.03108239716999428,
+        "initial_delta_u": 8.402477306467589e-07,
+        "initial_delta_d": 0.001239120000000038,
+        "final_delta_h": 0.0024198471038250347,
+        "final_delta_u": 5.125339536094474e-08,
+        "final_delta_d": 0.00010113000000000483,
+        "final_free_error": 7.683503373272942e-10,
+        "final_dual_error": 0.0,
+        "mean_tail_rho_h": 0.8614023291726057,
+        "mean_tail_rho_u": 0.8596938710702255,
+        "mean_tail_rho_d": 0.8591557542718771,
+        "std_tail_rho_h": 0.004411326480332356,
+        "projected_outers_to_delta_h_target": 73,
+        "projected_outers_to_delta_u_target": 47
+      },
+      "initial_perturbation_reduction": {
+        "r4_step1_initial_delta_h": 0.06386299044516974,
+        "r4_step2_initial_delta_h": 0.03108239716999428,
+        "reduction_fraction": 0.5132956199932353
+      },
+      "classification": "SUBDIVISION_HELPFUL__ITERATION_CAP_VULNERABLE",
+      "finding": "Subdivision to +5 nm halved the initial delta_H perturbation (0.0311 vs 0.0638 MPa) and improved asymptotic contraction (rho ~ 0.8646), but projected convergence at outer ~74 remains capped by max_outer=50."
+    }
+  },
+  "budget_feasibility": {
+    "estimated_sec_per_outer": 54.0,
+    "walltime_at_50_outers_min": 45.0,
+    "walltime_at_100_outers_min": 90.0,
+    "walltime_at_120_outers_min": 108.0,
+    "pbs_walltime_limit_hours": 8.0,
+    "pbs_walltime_headroom_at_100_outers_hours": 6.5,
+    "feasibility_verdict": "HIGHLY_FEASIBLE",
+    "finding": "Expanding max_outer to 100-120 iterations consumes <= 1.8 hours, leaving > 6.2 hours (> 77%) of PBS walltime headroom."
+  },
+  "classification_summary": {
+    "primary_classification": "ITERATION_CAP_LIMITED",
+    "secondary_classification": "SUBDIVISION_HELPFUL",
+    "stagnation_detected": false,
+    "divergence_detected": false,
+    "spectral_radius_summary": {
+      "r3_step1_50nm": 0.8494066579208613,
+      "r4_step1_10nm": 0.8822532796719866,
+      "r4_step2_5nm": 0.8614023291726057
+    }
+  },
+  "falsifiable_hypothesis": "The rejection of R4 Step 1 (+10 nm) and potential cutback of Step 2 (+5 nm) are governed by an insufficient outer iteration cap (max_outer=50) truncating a stable geometric contraction (rho ~ 0.86-0.88), rather than nonlinear stagnation. Increasing max_outer to 100-120 will permit full convergence to delta_H <= 1e-6 MPa in approximately 74-90 iterations within 2 hours of walltime without changing the UEL formulation."
+}

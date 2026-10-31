@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Audited empirical convergence trajectories and contraction ratios across R3 and R4: R4 Step 1 (+10 nm trial) exhibited steady geometric contraction (rho ~ 0.8822, std < 0.0004) without nonlinear stagnation, truncated prematurely by max_outer=50 when delta_H reached 1.52e-4 MPa; R3 Step 1 required 74 outers to converge (unconverged at outer 50 with delta_H = 4.82e-5 MPa); R4 Step 2 (+5 nm) halved initial perturbation by 51.3% (rho ~ 0.8614) with projected convergence at outer ~73; walltime feasibility confirms 100-120 outer iterations consume <= 1.8 hours, leaving > 6.2 hours of PBS walltime headroom.",
+  "evidence_sources": {
+    "scripts/validation/audit_r4_convergence_rate_diagnostics.py": "41523968A134077D829621A8D35000F1B59D106E1D3C6D113501253A1117C948",
+    "results/validation/r4_convergence_rate_diagnostics.json": "328B299CC4BB10943D7D5E8C25D9A3976148F4CBD0113A50AFC82A783D8CB211",
+    "tests/unit/test_mode1_r4_convergence_rate_diagnostics.py": "0A76CE11B8B48B742836F459C11263AB37DA6BD960687F8D44F179C39A0C7F85",
+    "results/validation/r4_live_iteration_telemetry_turn408.json": "2B7DFE26EDD6830364E0579F8B31F08E1C3D343F8221264C703A0045A6E7E2A0",
+    "results/validation/live_iteration_telemetry_1419113.json": "B83DE36AEFA580F881E355FE028758BBD000F073FAB2B82D62768AEB5E104CD5"
+  },
+  "verification_passed": true
+}
