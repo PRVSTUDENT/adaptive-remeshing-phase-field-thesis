@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "ff52a6d7-03c6-4338-aa49-0e2e89691653",
+  "title": "Turn 422 Fracture-Energy Provenance & Donor-State Validity Checkpoint",
+  "finding": "Independent fracture-energy provenance audit CONFIRMS root cause (ROOT_CAUSE_CONFIRMED / PHYSICAL_DAMAGE_HISTORY_DIFFERENCE): (1) Positive diffuse bulk damage (d in [0.0031, 0.4953], mean 0.1318) was already present in the authentic donor simulation (Package 146 dat) prior to state transfer, ruling out spatial mapping artifacts and restart serialization defects; (2) This diffuse field is an intrinsic physical characteristic of the AT2 phase-field formulation, which possesses no elastic threshold and generates d > 0 under any tensile straining; (3) Spatial partitioning reveals that 64.25% (3.2877e-5 kN*mm) of C4 fracture energy resides in the bulk domain (Region 3), while the crack process zone accounts for only 26.71% (1.3667e-5 kN*mm); (4) Accumulated historical tensile straining across sequential external cycles accounts for the Delta E_frac = +9.401e-6 kN*mm (+22.51%) excess over the monolithic uniform h0025 reference; (5) While reaction force continuity passes (RF2 diff = -0.87% <= 5.0%), RAW total energy discrepancy (+4.49%) exceeds the strict 2.0% uncorrected threshold, maintaining C4 forward continuation as UNACCEPTED pending supervisor review.",
+  "evidence_sources": {
+    "scripts/validation/verify_fracture_energy_provenance.py": "750D121BA89ACC896ABDAB55E20DC164B2EE850145FE128ACC9820DA75DCC607",
+    "tests/unit/test_fracture_energy_provenance.py": "6F0BE786F8F0481211395BC2BED5A0A4C5979DD143F82A0AF0347E69A63DCA3D",
+    "results/validation/fracture_energy_provenance_verification.json": "AE462BCFA1C1C3D1E11BFA5192F201A5E2307E37866D2E9EE58A4B604D0AE4A5",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/M1_C4_PACKAGE150_C1_2_CONTINUATION.inp": "8C54E3D18EBBB238FDF79F773BC7C1E854AA6A681E2881D6BA15B977C58FAFCD",
+    "tests/fixtures/package146147/146_step1_dat.txt.gz": "7AD9A8D92A2E9DCF69489AC573ED6D29394A7D1E907A6A2FFB7F0E752DB29504",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer/nodal_phase_field_initial.csv": "CEFBCA24A309F7099416E4D4D596CE8DA01F1A12F137224ED0038134DFF2E15C",
+    "results/validation/step1_equilibrium_checkpoint_1419113_endpoint.json": "FD75727BFDF8B83E03F067E0AC341ED91FB4FFE1A704B16E712714B38F300DDC",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/evidence_1416259/uel_energy_balance.csv": "5D0FD1157C5E1EB2AF29F09EF0AE98D772FE30463B1D94EF8BB11A7CFDC7F50B"
+  },
+  "verification_passed": true
+}
