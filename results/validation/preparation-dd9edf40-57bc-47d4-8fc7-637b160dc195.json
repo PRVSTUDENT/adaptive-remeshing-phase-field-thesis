@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "dd9edf40-57bc-47d4-8fc7-637b160dc195",
+  "finding": "Package 157 R5 Segment 1 (PBS Job 1419162) Step 1 (+10 nm from uy=0.00185031 mm to 0.00186031 mm) verified coupled convergence at outer iteration 91 with delta_H=9.147e-07 MPa <= 1e-6, delta_d=4.000e-08 <= 1e-5, delta_u=1.814e-11 mm <= 1e-9; zero healing violations (min_delta_d=4.114e-06 > 0), damage in [0, 1] (d_max=0.6053), confirming empirical contraction factor rho_H ~ 0.8648 and proving mathematical necessity of max_outer=100 segmentation; Step 2 (+10 nm) actively solving on mnode101.",
+  "evidence_sources": {
+    "scripts/validation/audit_package157_r5_step1_convergence.py": "22D88AF5B1DBE3D2C008DD153855461BB2F85AB5EB1A1637D6E67ADEE068AE3C",
+    "tests/unit/test_package157_r5_step1_convergence.py": "B40CA61C016E04C6825C6ACE689C42602E03EE409DB1B86199A7E1E7C3C58282",
+    "results/validation/package157_r5_step1_runtime_report_1419162.json": "0C674812BB779DC63C9EFD2DAA078A9375036A3CEAE8BFBBB2E2BAD4BCB4EE02",
+    "results/validation/package157_r5_step1_convergence_audit.json": "2B191FD91E330FB5BBFD3B7848ABFB18250E1F6B71CD778BCF5742C941590656",
+    "results/validation/step1_equilibrium_checkpoint_1419113_endpoint.json": "FD75727BFDF8B83E03F067E0AC341ED91FB4FFE1A704B16E712714B38F300DDC"
+  },
+  "verification_passed": true
+}
