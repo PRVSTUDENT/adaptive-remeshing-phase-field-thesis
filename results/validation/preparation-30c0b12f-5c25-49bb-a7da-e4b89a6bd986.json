@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "run_id": "30c0b12f-5c25-49bb-a7da-e4b89a6bd986",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "finding": "Package 156 staged to cluster scratch and technically qualified with authentic Abaqus 2023 compute-node mechanical and phase datachecks passing exit 0; solution state initialization verified across 12,996 elements and 51,984 integration points; Job 1419113 active on mnode101 at Step 2 outer 37.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/PACKAGE_MANIFEST.json": "19029553BF087D31F318D0A20CBA2517E38A8A5DFE0A54B9D7A6C69A7F86DD0B",
+    "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/CONDITIONAL_CANDIDATE_RECEIPT.json": "8AF3B3EEFD85200E963AE0A99D0134385FAE7E73657E7697B9D3341E1BDB176D",
+    "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/M1_C5_PACKAGE156_C2_0_REEQUILIBRATION.inp": "EEA383D514F1A330EC226CCA80C5DA657E83FD17795C46202713E27898D572F3",
+    "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/P156_MECHANICAL_DC.inp": "0CA09FFBEAB987AA3A10086C690B1A2865B06553BBF1BBC5EA341AD76F76319E",
+    "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/P156_PHASE_DC.inp": "E3C9C5DDBA7DFE413F782016C7F77FD8EEA3DDE6F7395BD54C8D0FD7742885FF",
+    "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "results/validation/initial_finding_turn389_30c0b12f.json": "B8D0B41D7746929FE246D3EE9483CBD939246BB05D28520B83D607A9A032335B",
+    "results/validation/package156_candidate_datachecks.json": "37DAE7F6BAED21156F012F09FDD1904C4724C66538922DD5CA4E81E947703265",
+    "tests/unit/test_package156_c5_receiver_workflow.py": "DE2E48D583335D157223E3C3087F5C12DE8572FFA6174D706D8130EC0FFC0537",
+    "tests/unit/test_package156_initialization_recovery.py": "71B97C768820C37BBF300E0062E83561349BBA8E18FA5AF791C7C945F893DA49"
+  },
+  "verification_passed": true
+}
