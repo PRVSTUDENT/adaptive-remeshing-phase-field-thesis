@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "41c0425d-6f64-4d48-b59b-cb88d042cd5b",
+  "finding": "Terminal execution-registration blocker re-verified for Package 157 R4: all scientific preparation is verified and complete (authentic Step-1 cards 306ABF3C..., 28,224 GPs, max diff 8.9706e-14 MPa, holding equilibrium uy=0.00185031 mm, RP Node 999999, peak damage Node 3612 at x=0.04136 mm, y=0.05000 mm, locked 5x10 nm continuation schedule, frozen UEL CE8D5EDC...). Inspection confirms execute_mode1_package157_c1_2_r4_adaptive_continuation remains unregistered in scripts/controller/Controller-Operations.ps1. Final decision is DEFINITION_REVIEW_REQUIRED. Automated preparation cycle is terminated; external independent registration is required before dispatch.",
+  "evidence_sources": {
+    "results/validation/package157_r4_registration_status_receipt.json": "C71CD7BDA2EE2AC11080196D2336E2D0815BA419352311DCE6A7606037F8A091",
+    "results/validation/package157_r4_scientific_review_and_registration_handoff.json": "856B53AB7EC8F5CA79D9299F130DDDDF35C2A2DAD13E3811AFA1AC806012CD32",
+    "results/validation/authentic_step1_history_audit.json": "1D3C75675E1F6CBF61DED73991E01D40983C8923AE022F95E4D084E6DE0C541C",
+    "results/validation/step1_committed_solution_initial.inc": "306ABF3C09FAA9CB9CEA37F48B8E93A8509C0FF0D0258E9B47667367D9808F60",
+    "results/validation/mode1_c4_deck_kinematics_and_coordinate_reconciliation.json": "77FB4C203166E4FBC258E9B882C653AC612907627DCC5CC74AE73BC30396D22A",
+    "tests/unit/test_mode1_f1597_turn401_registration_blocker.py": "E45806A219CB0C1AED7DAC2F7BB2A7B655900ED7729E44B4B887940701EB0C75",
+    "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true,
+  "registration_decision": {
+    "target_operation_id": "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+    "registered_in_controller_operations": false,
+    "controller_decision": "DEFINITION_REVIEW_REQUIRED",
+    "prerequisite_action": "External authorized registry maintainer must add execute_mode1_package157_c1_2_r4_adaptive_continuation to scripts/controller/Controller-Operations.ps1 with execution script and package bindings."
+  },
+  "quota_safety_verified": true,
+  "active_profile": "account1",
+  "remaining_quota_pct": 97.11
+}

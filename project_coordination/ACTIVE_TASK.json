@@ -10,7 +10,7 @@
                          },
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "agent":  "gemini-antigravity",
-    "phase":  "Terminal execution-registration blocker confirmed for Package 157 R4: all scientific preparation is verified and complete (authentic Step-1 cards 306ABF3C..., 28,224 GPs, max diff 8.9706e-14 MPa, holding equilibrium uy=0.00185031 mm, RP Node 999999, peak damage Node 3612 at x=0.04136 mm, y=0.05000 mm, locked 5x10 nm continuation schedule, frozen UEL CE8D5EDC...). Inspection confirms execute_mode1_package157_c1_2_r4_adaptive_continuation is not registered in scripts/controller/Controller-Operations.ps1. Decision is DEFINITION_REVIEW_REQUIRED. Preparation cycle is closed; external independent registration is required before dispatch.",
+    "phase":  "Terminal execution-registration blocker re-verified for Package 157 R4: all scientific preparation is verified and complete (authentic Step-1 cards 306ABF3C..., 28,224 GPs, max diff 8.9706e-14 MPa, holding equilibrium uy=0.00185031 mm, RP Node 999999, peak damage Node 3612 at x=0.04136 mm, y=0.05000 mm, locked 5x10 nm continuation schedule, frozen UEL CE8D5EDC...). Inspection confirms execute_mode1_package157_c1_2_r4_adaptive_continuation remains unregistered in scripts/controller/Controller-Operations.ps1. Final decision is DEFINITION_REVIEW_REQUIRED. Automated preparation cycle is terminated; external independent registration is required before dispatch.",
     "gate_status":  "P152_R2_STEP1_HISTORY_CONVERGENCE_FAILED__C1_2_UNACCEPTED",
     "active_pbs_job_ids":  [
 
@@ -271,14 +271,14 @@
                              ],
     "historical_gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED",
     "closeout_reconciliation":  "results/validation/turn381_receipt_reconciliation/controller_verification.json",
-    "last_updated":  "2026-10-31T16:38:08.6426370+01:00",
+    "last_updated":  "2026-10-31T16:41:17.5444057+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-6146a4ae-2caa-418e-932c-255838479761.json",
-                                  "sha256":  "E405C4405A7B540F70BB608EFDDF3BF9F248D8DAA501611E4DE11402096E14BF",
-                                  "created_at":  "2026-10-31T16:37:56.4590285+01:00"
+                                  "artifact":  "results/validation/preparation-41c0425d-6f64-4d48-b59b-cb88d042cd5b.json",
+                                  "sha256":  "F9B0E2829E0A0C6C51BD8DD05DADC125AE76B4CB65BD196175724EC5B530B161",
+                                  "created_at":  "2026-10-31T16:41:11.1401611+01:00"
                               }
 }
