@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "cf96a17a-230c-46b4-8a4b-268fb685f423",
+  "finding": "Rigorous iteration-by-iteration analysis of the authentic live telemetry for Job 1419113 (Package 154 R3 Step 2) resolves the apparent contradiction between early iterations (Outer 4: delta_H = 0.338 MPa) and later iterations (Outer 62: delta_H = 70.06 MPa, Outer 81: delta_H = 41.76 MPa). Outers 1-4 represent pre-localization trial states prior to the physical activation of crack growth in the refined zone. Outers 5-38 captured the physical damage localization event, peaking at Outer 38 with delta_H = 143.14 MPa and delta_d = 0.031. Subsequent iterations (Outers 39-81) demonstrate textbook asymptotic geometric contraction with late-stage mean contraction ratios rho_H = 0.9731, rho_d = 0.9794, rho_u = 0.9786, and exact active-set compliance (dual error = 0.0 for all Outers >= 6). The trajectory is conclusively classified as TRANSIENT_PHYSICAL_LOCALIZATION_FOLLOWED_BY_GEOMETRIC_CONTRACTION, not numerical divergence or instability. Production UEL f42_mixed_uel.for hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6 is preserved bitwise. All 3/3 regression tests pass.",
+  "evidence_sources": {
+    "results/validation/live_iteration_telemetry_1419113.json": "B5B86830C06246699EDD1A571141419D058DC6F0401DDB09F18263947BA8164E",
+    "results/validation/step2_convergence_trajectory_analysis.json": "8A468D8CBA153AC5C893EB3CDF9D4BAE1F6ACC784B9348A3CED3816D78B568C3",
+    "scripts/validation/analyze_step2_convergence_trajectory.py": "432BEF1FBFA4DB9CC0EB8B1843F40F212995B38A1421B8ADB0825C3DA6268618",
+    "tests/unit/test_mode1_f1597_turn391_step2_convergence.py": "6535C011A95D29856E71910C6658B7170805673E6267D743B7C26BE726E22C97",
+    "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true,
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "trajectory_classification": "TRANSIENT_PHYSICAL_LOCALIZATION_FOLLOWED_BY_GEOMETRIC_CONTRACTION",
+  "hpc_job_reconciliation": {
+    "pbs_job_id": "1419113.mmaster02",
+    "job_name": "M1_C4_P150_C1_2_R3",
+    "queue": "normal_imfdfkmq",
+    "node": "mnode101",
+    "scheduler_state": "R",
+    "current_step": 2,
+    "current_outer": 81,
+    "target_uy_mm": 0.0019003125442191959,
+    "delta_d": 0.01126952,
+    "delta_u_mm": 4.644477e-05,
+    "delta_h_mpa": 41.755809,
+    "free_error": 5.38655e-07,
+    "dual_error": 0.0,
+    "action": "PRESERVE_UNTOUCHED_MONITOR_CONTINUATION"
+  },
+  "convergence_trajectory_metrics": {
+    "step_examined": 2,
+    "pre_localization_outer_4_delta_h_mpa": 0.338006,
+    "peak_outer": 38,
+    "peak_delta_h_mpa": 143.1415,
+    "peak_delta_d": 0.030616,
+    "latest_outer": 81,
+    "latest_delta_h_mpa": 41.755809,
+    "latest_delta_d": 0.01126952,
+    "mean_contraction_ratio_delta_h": 0.9731,
+    "mean_contraction_ratio_delta_d": 0.9794,
+    "mean_contraction_ratio_delta_u": 0.9786,
+    "strictly_contracting": true,
+    "active_set_status": "EXACT_COMPLIANCE",
+    "unit_tests_passing": 3,
+    "unit_tests_total": 3
+  }
+}
