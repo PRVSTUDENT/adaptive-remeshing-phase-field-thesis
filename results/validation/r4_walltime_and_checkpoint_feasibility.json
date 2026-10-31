@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "status": "AUDIT_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "r4_job_evidence": {
+    "pbs_job_id": "1419147.mmaster02",
+    "cluster_node": "mnode101.cluster",
+    "exit_status": "SUBDIVISION_LIMIT_REACHED",
+    "substep_1_result": {
+      "start_uy_mm": 0.0018503125442191958,
+      "target_uy_mm": 0.0018603125442191958,
+      "outers_executed": 50,
+      "final_delta_h_MPa": 0.00015186439107583993,
+      "final_delta_d": 5.870000000074427e-06,
+      "final_delta_u_mm": 3.071319633731265e-09,
+      "status": "REJECTED"
+    },
+    "substep_2_result": {
+      "start_uy_mm": 0.0018503125442191958,
+      "target_uy_mm": 0.0018553125442191958,
+      "outers_executed": 50,
+      "final_delta_h_MPa": 3.097907036142544e-05,
+      "final_delta_d": 1.290000000042646e-06,
+      "final_delta_u_mm": 6.569983767093501e-10,
+      "status": "REJECTED"
+    }
+  },
+  "convergence_rate_diagnostics": {
+    "asymptotic_contraction_ratio_rho_H": 0.8648,
+    "contraction_ratio_std": 0.000978,
+    "delta_h_at_outer_50_MPa": 3.097907036142544e-05,
+    "target_delta_h_MPa": 1e-06,
+    "additional_outers_needed": 24,
+    "total_outers_to_converge": 74,
+    "single_step_converges_within_100_outers": true,
+    "single_step_converges_within_120_outers": true
+  },
+  "authentic_timing_measurements": {
+    "mechanical_subproblem_mean_s": 16.55,
+    "phase_subproblem_mean_s": 18.19,
+    "steady_outer_iteration_s": 32.0,
+    "active_set_discovery_overhead_s": 800.0,
+    "converged_substep_duration_s": 3040.0,
+    "converged_substep_duration_min": 50.7,
+    "converged_substep_duration_hours": 0.844
+  },
+  "schedule_walltime_feasibility": {
+    "schedule_span_nm": 149.6875,
+    "nominal_substeps": 15,
+    "pbs_walltime_limit_hours": 8.0,
+    "pbs_safe_budget_hours": 7.5,
+    "ideal_full_schedule_hours": 12.67,
+    "full_schedule_with_bisections_hours": 17.73,
+    "fits_in_single_8h_pbs_job": false,
+    "verdict": "SINGLE_PBS_JOB_INFEASIBLE_SEGMENTATION_MANDATORY"
+  },
+  "segmented_execution_strategy": {
+    "recommended_max_outer": 100,
+    "safety_margin_outers": 26,
+    "recommended_substeps_per_segment": 5,
+    "max_substeps_pbs_ceiling": 8,
+    "total_segments_required": 3,
+    "segment_budget_hours": 4.22,
+    "segment_1_span_mm": [
+      0.0018503125,
+      0.0019003125
+    ],
+    "segment_2_span_mm": [
+      0.0019003125,
+      0.0019503125
+    ],
+    "segment_3_span_mm": [
+      0.0019503125,
+      0.002
+    ]
+  },
+  "checkpoint_preservation_contract": {
+    "nodal_count": 7265,
+    "quad_element_count": 7056,
+    "integration_point_count": 28224,
+    "preservation_fields": [
+      "displacement_ux_uy",
+      "damage_d",
+      "history_variable_H",
+      "damage_lower_bounds_dk",
+      "loading_displacement_uy"
+    ],
+    "damage_bounds_invariant": "0.0 <= d_k <= d_step <= 1.0",
+    "healing_tolerance": 1e-06,
+    "monotonicity_invariant": "H_step(e, g) >= H_prev(e, g)",
+    "displacement_boundary_continuity": "u_top starts at committed u_y without returning to 0.0"
+  },
+  "evidence_sources": {
+    "results/validation/r4_live_iteration_telemetry_turn410.json": "D7FC5AB26ABF16E6E2261BC574F0104ECDB1BCD67E9110C5EB089B61410328C1",
+    "results/validation/r4_live_runtime_report_turn410.json": "76EE6D8DBAC664DBA21865DE9B6BF75EEE5F7F5A04BD005CE50898F7E290CE1A",
+    "scripts/state_transfer/driver_package157_r4.py": "F6E75B82B89771F3E7478532AD170EA5251ACB5C7FC93012D2FA05C13DFFE6FE",
+    "scripts/state_transfer/driver_package150_c1_2_continuation.py": "724C57EC1936C201A42803A329A4D961FFB26911225C28B54D598BF91257492D"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "status": "SUBDIVISION_LIMIT_REACHED",
+  "attempts": [
+    {
+      "attempt": 1,
+      "start": 0.0018503125442191958,
+      "target": 0.0018603125442191958,
+      "level": 0,
+      "status": "REJECTED",
+      "reason": "Step 1 did not achieve coupled convergence within 50 iterations"
+    },
+    {
+      "attempt": 2,
+      "start": 0.0018503125442191958,
+      "target": 0.0018553125442191958,
+      "level": 1,
+      "status": "REJECTED",
+      "reason": "Step 2 did not achieve coupled convergence within 50 iterations"
+    }
+  ],
+  "converged_steps": [],
+  "physical_acceptance": "UNVERIFIED",
+  "automatic_retry": false
+}
