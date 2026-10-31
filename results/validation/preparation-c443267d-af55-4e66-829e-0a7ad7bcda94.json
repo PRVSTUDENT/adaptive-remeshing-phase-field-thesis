@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "c443267d-af55-4e66-829e-0a7ad7bcda94",
+  "finding": "Rigorous scientific review and execution-registration handoff for Package 157 R4 adaptive load-subdivision continuation resolves the critical boundary displacement convention: all top nodes (7141..7225) are tied via *EQUATION to RP 999999 (zero offset), with Step 1 equilibrium confirmed at uy = 0.00185031 mm (+50 nm from donor Frame 77). The failed Step 2 interval is exactly 50 nm (0.00185031 to 0.00190031 mm); the corrected R4 schedule defines 5 x 10 nm forward sub-steps starting strictly from 0.00185031 mm without unrequested retraction or offset. Step 1 checkpoint (FD75727BFDF8B83E03F067E0AC341ED91FB4FFE1A704B16E712714B38F300DDC) contains all 7,265 nodal states from which 28,420 GP histories are exactly reconstructible. Governed execution-registration handoff ROUTE_FOR_OPERATION_REGISTRATION is established for operation execute_mode1_package157_c1_2_r4_adaptive_continuation without premature submission. All 4/4 tests pass.",
+  "evidence_sources": {
+    "results/validation/package157_r4_scientific_review_and_registration_handoff.json": "856B53AB7EC8F5CA79D9299F130DDDDF35C2A2DAD13E3811AFA1AC806012CD32",
+    "scripts/validation/review_package157_r4_recovery_and_registration_handoff.py": "984B0B575B85D8B2D22BA9DAB04725B611CFFBADA27D92A27DCF2D8200240432",
+    "tests/unit/test_mode1_f1597_turn394_review_and_registration.py": "D827651F9DDF50ABDCD142E2F9DD4CA0547EA79D7911DD7B2D73692DEB7D8D33",
+    "results/validation/step1_equilibrium_checkpoint_1419113_endpoint.json": "FD75727BFDF8B83E03F067E0AC341ED91FB4FFE1A704B16E712714B38F300DDC",
+    "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true,
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "displacement_convention_resolution": {
+    "step1_equilibrium_uy_mm": 0.0018503125442191958,
+    "step2_target_uy_mm": 0.0019003125442191958,
+    "failed_interval_span_nm": 50.0,
+    "tied_top_boundary_nodes": 85,
+    "equation_constraint": "1.0 * uy(top) - 1.0 * uy(RP) = 0.0 (zero offset)",
+    "corrected_sub_increment_schedule": "5 x 10 nm forward sub-steps (0.00186031, 0.00187031, 0.00188031, 0.00189031, 0.00190031 mm)"
+  },
+  "registration_handoff": {
+    "candidate_operation_id": "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+    "candidate_experiment_id": "M1_C4_P157_C1_2_R4",
+    "target_package": "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r4",
+    "decision": "ROUTE_FOR_OPERATION_REGISTRATION",
+    "readiness": "PACKAGE157_R4_SCIENTIFICALLY_REVIEWED_AND_READY",
+    "task_type_for_dispatch": "QUALIFIED_EXECUTION",
+    "unit_tests_passing": 4,
+    "unit_tests_total": 4
+  }
+}
