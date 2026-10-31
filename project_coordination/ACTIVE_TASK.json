@@ -10,7 +10,7 @@
                          },
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "agent":  "gemini-antigravity",
-    "phase":  "Audited Package 151 (Job 1418950.mmaster02) convergence across 15 completed outer iterations: established Picard contraction rates (rho_u=0.8337, rho_d=0.8327, rho_h=0.8364), RF2 monotonic relaxation (-3.06%), strict crack irreversibility and monotonic history (min dh \u003e= 0), and confirmed walltime feasibility (~2.16 h for 4 steps vs 8 h limit), while identifying that max_outer=30 cap necessitates Revision 2 with max_outer=80 for full convergence.",
+    "phase":  "Diagnosed Package 151 terminal status (Job 1418950.mmaster02, Exit 1 strictly due to max_outer=30 cap with active geometric contraction down to du=0.031 nm, dd=6.1e-5, dh=1.39e-3 MPa); quantitatively confirmed projected convergence floor at outer 73; constructed and qualified Package 152 / Revision 2 with max_outer=80, bitwise frozen UEL, full remote staging and passing dual datachecks, and submitted once-only via Invoke-Mode1Execution.ps1 as Job 1419097.mmaster02.",
     "gate_status":  "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED",
     "active_pbs_job_ids":  [
 
@@ -269,14 +269,14 @@
                                  "evaluate_mode1_package148_state_transfer_r7",
                                  "evaluate_mode1_package148_state_transfer_r8"
                              ],
-    "last_updated":  "2026-10-31T10:19:30.6718695+01:00",
+    "last_updated":  "2026-10-31T10:33:22.8561483+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-44d61612-8dd4-49b4-ac75-fe46c44fc93f.json",
-                                  "sha256":  "682357AE159C36B3D792A0325F6DBC5244BD6B46EC4D53EAF1AE077E20AE5F75",
-                                  "created_at":  "2026-10-31T10:18:46.4705879+01:00"
+                                  "artifact":  "results/validation/preparation-5591680e-8112-4cac-b03c-a321ca03c3ed.json",
+                                  "sha256":  "898C72BE890F9F222A16E65448A4D1F03263A1E137AD123797E7B3BF24DA1EEB",
+                                  "created_at":  "2026-10-31T10:32:53.4337127+01:00"
                               }
 }

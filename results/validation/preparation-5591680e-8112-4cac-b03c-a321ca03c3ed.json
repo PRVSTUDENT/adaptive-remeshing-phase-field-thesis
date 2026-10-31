@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Diagnosed Package 151 terminal status (Job 1418950.mmaster02, Exit 1 strictly due to max_outer=30 cap with active geometric contraction down to du=0.031 nm, dd=6.1e-5, dh=1.39e-3 MPa); quantitatively confirmed projected convergence floor at outer 73; constructed and qualified Package 152 / Revision 2 with max_outer=80, bitwise frozen UEL, full remote staging and passing dual datachecks, and submitted once-only via Invoke-Mode1Execution.ps1 as Job 1419097.mmaster02.",
+  "evidence_sources": {
+    "results/validation/initial_finding_turn377_5591680e.json": "5B7601076572F78AE30C16213EFA2C8E79E4B911EC3BE0ADC7FDDD6DE4B87C45",
+    "scripts/state_transfer/build_package150_r2_continuation.py": "D67C3D3B4A25800173FB8CD61E22A4257A161B69C6199BC2E352BFEE02DEECB3",
+    "scripts/validation/stage_package150_r2.py": "F3ADD1BD2BE2FB97BC0FD499A952F2BD4B35616B8BCD12838CD0315D65AD891D",
+    "models/pandey_kumar_mode1/152_c4_package150_c1_2_continuation_r2/PACKAGE_MANIFEST.json": "F7F81288FA0E7B39FF76C53A68F9E1EF95FAD1464D7152DCB943856A0C76BFB3",
+    "models/pandey_kumar_mode1/152_c4_package150_c1_2_continuation_r2/EXECUTION_MANIFEST.json": "D288F687443A418171B48B0AC9E9732177CA32673F274597D82A4AE9703BDCC9",
+    "results/validation/package150_r2_datachecks.json": "CB5ADBFD4CA7B3E3F0B075389A34ED04C58EBDEC0DE53D622C9AE76F50E0D5E6",
+    "tests/unit/test_package150_r2_continuation.py": "F49CB2DC50F30477DDAC3FD73F70C6C8728243397E5AA3D74A6A7D99A57EA3D7"
+  },
+  "verification_passed": true
+}
