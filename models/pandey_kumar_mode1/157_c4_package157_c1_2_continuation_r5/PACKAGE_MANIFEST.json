@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "package": 157,
+  "revision": "R5_SEG1",
+  "files": {
+    "active_set_boundary_cards.inc": "1667eea638b0de8e228d3bd059c608b4302a183af31545729710bb9e43fd09fb",
+    "d_lower_bounds.csv": "1eb43622beeaa038db718e2f40068056537626e3520238a077dce00e3bc1dbb0",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "initial_conditions_solution.inc": "306abf3c09faa9cb9cea37f48b8e93a8509c0ff0d0258e9b47667367d9808f60",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_C4_PACKAGE150_C1_2_CONTINUATION.inp": "8c54e3d18ebbb238fdf79f773bc7c1e854aa6a681e2881d6ba15b977c58fafcd",
+    "nodal_displacements_initial.csv": "c75d6c3e53fb78a3712160ccfa9046ef8cc4b1dab1b030042c1acc8e604becfb",
+    "nodal_phase_field_initial.csv": "b9c9365225e2f1cc6c2f3db5a20c5f7dafba02d7c762619460346bf8609c6547",
+    "P157_MECHANICAL_DC.inp": "7d0ca94cf8b6798a1aafa321ab19bb645f1310178bde0e66c2e1d1dbc6cf653a",
+    "P157_PHASE_DC.inp": "9a14adab56aaf0c280f2ab1fab758aec51f595741a9bdc1d9be72c0e46ec5acb",
+    "run_datacheck.sh": "46bb7f25e4ff45eb772578637ab122b258cbbd6adbf439c62598d8aa9bc0d055",
+    "submit_M1_C4_P157_C1_2_R5_SEG1.pbs": "6e10ea6006e597ccb3f71ee7a25b63ab5a2d901785b12d3c5a398b7258bfac8b",
+    "submit_M1_C4_P157_R5_DC.pbs": "cecfc25b3856899661434ab3a029b40f71edd6435a02da82240370e2c8567a55"
+  },
+  "runtime_source_hashes": {
+    "scripts/state_transfer/driver_package157_r5_seg1.py": "6DC471B3278E4EF465C0049500FFE8307512158ACFD5AC0DB6697317E129A7B2",
+    "scripts/state_transfer/driver_package150_c1_2_continuation.py": "724C57EC1936C201A42803A329A4D961FFB26911225C28B54D598BF91257492D",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "9EDE833668340A41AD590CB2387F8CB72A6C9C63DE9DF6B2185A3CABD1B21265",
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8",
+    "scripts/validation/extract_package148_iteration.py": "01875DBA715C24789421766B5B81A56BDD69F3F6A21A6F2D30D64B016416C738"
+  },
+  "baseline_uy_mm": 0.0018503125442191958,
+  "targets_mm": [
+    0.0018603125442191958,
+    0.0018703125442191958,
+    0.0018803125442191958,
+    0.0018903125442191959,
+    0.0019003125442191957
+  ],
+  "history_gp_order": "MAPPER_ROW_FROM_UEL_PERIMETER",
+  "history_card_max_difference_MPa": 8.970602038971265e-14,
+  "restart_provenance": {
+    "results/validation/step1_committed_solution_initial.inc": "306ABF3C09FAA9CB9CEA37F48B8E93A8509C0FF0D0258E9B47667367D9808F60",
+    "results/validation/authentic_step1_history_audit.json": "1D3C75675E1F6CBF61DED73991E01D40983C8923AE022F95E4D084E6DE0C541C",
+    "results/validation/step1_equilibrium_checkpoint_1419113_full_history.json": "1640388AA1831CF896A980DC0228CF7F72B38B9077ECEB97207664927C0D1980",
+    "results/validation/step1_equilibrium_checkpoint_1419113_endpoint.json": "FD75727BFDF8B83E03F067E0AC341ED91FB4FFE1A704B16E712714B38F300DDC",
+    "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "max_outer": 100,
+  "max_phase": 20,
+  "minimum_increment_mm": 5e-06,
+  "maximum_subdivision_level": 2,
+  "physical_acceptance": "UNVERIFIED",
+  "force_discrepancy_pct_max": 5.0,
+  "raw_energy_discrepancy_pct_max": 2.0
+}
