@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "4de08b3f-ef8a-4d3a-9288-42222ed3eb15",
+  "title": "Turn 421 Fracture-Energy Discrepancy Root-Cause Checkpoint",
+  "finding": "Fracture-energy root-cause analysis successfully verified: (1) Independent parsing of C4 and h0025 input decks proves identical physical geometry (0.1 mm x 0.1 mm square plate, horizontal slit at y=0.05 mm with length a0=0.04 mm, l0=0.0075 mm, plane strain thickness B=1.0 mm), resolving previous historical report text (which cited 1x2 mm Molnar Phase 1 benchmark) as non-physical documentation boilerplate; (2) Spatial numerical reconstruction of the Bourdin fracture energy functional reproduces the recorded solver fracture energy (5.11698e-5 kN*mm) to 0.000000% closure error, ruling out energy-integration defects; (3) Spatial partitioning demonstrates that 64.25% (3.2877e-5 kN*mm) of C4 fracture energy resides in the bulk domain (Region 3) outside the slit flank and crack-tip process zone, caused by diffuse phase-field damage (d in [0.01, 0.41]) inherited from prior nonmatching state transfer, whereas the crack process zone accounts for only 26.71% (1.3667e-5 kN*mm); (4) This diffuse bulk background dissipation completely accounts for the Delta E_frac = 9.401e-6 kN*mm (+22.5064%) excess over the virgin uniform h0025 reference, classifying the outcome as FRACTURE_ENERGY_ROOT_CAUSE_VERIFIED.",
+  "evidence_sources": {
+    "scripts/validation/investigate_fracture_energy_root_cause.py": "A61BCC56AB4BCF81ABBE9DA3E5F1DB593F2A7C8F221DEB5185992271B1E1EDAE",
+    "tests/unit/test_fracture_energy_root_cause.py": "D72116CE878EF296B9EE85F2061F85813A097C090D9DEC7702202ADFD2EB4B7A",
+    "results/validation/fracture_energy_root_cause_analysis.json": "E1DD4CB16F10FA09265E85A86A70EB05904801562080DE312513338A0B596928",
+    "models/pandey_kumar_mode1/150_c4_package150_c1_2_continuation/M1_C4_PACKAGE150_C1_2_CONTINUATION.inp": "8C54E3D18EBBB238FDF79F773BC7C1E854AA6A681E2881D6BA15B977C58FAFCD",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/candidate_donor_h0025_corrected.inp": "0C313809D1711E0CF241D987D89756FAE3B9AC300A5F4B67196F6E5B388F0D86",
+    "results/validation/step1_equilibrium_checkpoint_1419113_endpoint.json": "FD75727BFDF8B83E03F067E0AC341ED91FB4FFE1A704B16E712714B38F300DDC",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/evidence_1416259/uel_energy_balance.csv": "5D0FD1157C5E1EB2AF29F09EF0AE98D772FE30463B1D94EF8BB11A7CFDC7F50B"
+  },
+  "verification_passed": true
+}
