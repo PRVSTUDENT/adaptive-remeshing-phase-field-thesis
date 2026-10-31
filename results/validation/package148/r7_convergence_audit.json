@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "status": "CONVERGENCE_ANALYSIS_COMPLETE",
+  "verification_passed": true,
+  "finding": "R7 completed 25 outer iterations with geometric contraction rate rho_h=0.6852 (overall) and rho_h=0.7169 (last 5 iterations). Predicted iterations to reach delta_h <= 1.0e-6 MPa from 7.21e-6 MPa is 5.23 to 5.94 iterations (converging at iteration 31). The existing cap max_outer=30 is quantitatively insufficient (projected delta_h at iter 30 is 1.089e-6 to 1.365e-6 MPa > 1.0e-6 MPa). An operational bound extension to max_outer=40 is narrowly justified and required.",
+  "evidence_sources": {
+    "scripts/validation/evaluate_package148_r7_convergence.py": "67b8c806bc203541e29a7168d24097bfab34c8cb83297ff72885c47f7c93551e",
+    "results/validation/package148/r7_runtime_report.json": "7b6c63373985da58093f5bc1f1c59296a065d4c1f20e51a58cec391a5434349b"
+  },
+  "metrics": {
+    "delta_h_iter25_MPa": 7.212091118091735e-06,
+    "delta_d_iter25": 3.3999999998757247e-07,
+    "delta_u_iter25_mm": 2.3283064365386963e-10,
+    "contraction_factor_geom9_delta_h": 0.6852,
+    "contraction_factor_geom5_delta_h": 0.7169,
+    "contraction_factor_conservative_delta_h": 0.8546,
+    "stagnation_detected": "delta_u reached double-precision diff floor (2.33e-10 mm), satisfying delta_u <= 1e-9 mm gate",
+    "predicted_convergence_iteration_geom9": 30.23,
+    "predicted_convergence_iteration_geom5": 30.94,
+    "predicted_convergence_iteration_conservative": 37.58,
+    "projected_delta_h_at_iter30_MPa": 1.0892e-06,
+    "sufficiency_of_max_outer_30": false,
+    "recommended_max_outer": 40
+  }
+}

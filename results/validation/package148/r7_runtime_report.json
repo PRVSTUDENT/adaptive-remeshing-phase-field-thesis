@@ -1,0 +1,257 @@
+{
+  "schema": 1,
+  "status": "FAILED",
+  "scientific_acceptance": false,
+  "sources": {
+    "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r7/runtime/scripts/validation/extract_package148_iteration.py": "1C0D1A33729E1EE746C3C5B9EA10694BD7059D19FA47B8F8B3C639BC8F6D2D98",
+    "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r7/runtime/scripts/state_transfer/driver_package146_147_pdas_continuation.py": "6C333ED0AB334FD212EE45BEAE4CC8A0328D08708739B3EF5319AE30A3988C01",
+    "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r7/active_set_boundary_cards.inc": "8F5A269FD25763291C9954334C23A552C8B14458A3A2E9EF44B45B553B7FAE7D",
+    "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r7/d_lower_bounds.csv": "2A7BA758D7AF189498DA96718EDD19ACE8E45E4F35AC684505C17B8B7505C574",
+    "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r7/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r7/initial_conditions_solution.inc": "5E6BFF895C2057C6CD552B43A25E1F0A2E9759FF44A77E816B4106EC959BF5DC",
+    "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r7/job_notifications.sh": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r7/M1_C4_PACKAGE148_STATE_TRANSFER.inp": "FCD4E4B5C52C23268196782E7F4BCE2A9BBC767357651095DA5236151D106114",
+    "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r7/nodal_displacements_initial.csv": "C41BA31CD518D776778173BACDF6F0F52F642AFD5E9317582013A5689FA1BB40",
+    "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r7/nodal_phase_field_initial.csv": "CEFBCA24A309F7099416E4D4D596CE8DA01F1A12F137224ED0038134DFF2E15C",
+    "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r7/P148_MECHANICAL_DC.inp": "C34F4AB71063CD310CF98DFDF9C66E6E69B39AA56884E4E88B712C01F893F3C8",
+    "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r7/P148_PHASE_DC.inp": "38D9E2B0AB76E52087C326CBC38C56532C01B859493C25D340B40609C4712B83",
+    "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r7/run_datacheck.sh": "095AEF20AE0A96442B278F2553DDF68EAD42367D761722B7813469CF4A877A82",
+    "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r7/submit_M1_C4_P148_R7.pbs": "C9AACC9245F102E8148323724E10FD947577D65BFED6151704FF84F8BCEDCA12",
+    "models/pandey_kumar_mode1/146_c3_fine_donor/M1_C3_FINE_PACKAGE146_DONOR.inp": "9F93419A4F1E090286007A7291693BD3B783D984CE276E102D22D404AD4C5475",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/M1_C4_CORRECTED_PACKAGE147_REF.inp": "FFFE51D5348F6E4B5E9B4742D783CA1645B480B229189168493AEDA10C91722A",
+    "tests/fixtures/package146147/146_step1_dat.txt.gz": "7AD9A8D92A2E9DCF69489AC573ED6D29394A7D1E907A6A2FFB7F0E752DB29504",
+    "results/validation/package146147/evaluation.json": "74F4BBBB8B0E5AF52F0FF9328FE8CDC8AC5742AC80F75A7A98A3D1E6FDEA8565",
+    "scripts/state_transfer/build_package146_147_transfer_deck.py": "F0607D53B1412C56C68F00E2CE3928CBF8BD455D39A399627CB878B9353D74E7",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "6C333ED0AB334FD212EE45BEAE4CC8A0328D08708739B3EF5319AE30A3988C01",
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8",
+    "scripts/validation/extract_package148_iteration.py": "1C0D1A33729E1EE746C3C5B9EA10694BD7059D19FA47B8F8B3C639BC8F6D2D98"
+  },
+  "iterations": [
+    {
+      "outer": 1,
+      "delta_d": 4.9996653206374475e-09,
+      "delta_u": null,
+      "delta_h": null,
+      "free_error": 2.4655327566243177e-07,
+      "dual_error": 1.6632206308580877e-07,
+      "phase_iterations": 8
+    },
+    {
+      "outer": 2,
+      "delta_d": 0.01910683000000002,
+      "delta_u": 5.881302058696747e-06,
+      "delta_h": 0.20318652355399625,
+      "free_error": 7.228595883418581e-08,
+      "dual_error": 3.7279947309898803e-10,
+      "phase_iterations": 2
+    },
+    {
+      "outer": 3,
+      "delta_d": 0.006727110000000036,
+      "delta_u": 2.434884663671255e-06,
+      "delta_h": 0.09154395906841284,
+      "free_error": 3.3035225874501935e-08,
+      "dual_error": 8.755276248957168e-10,
+      "phase_iterations": 2
+    },
+    {
+      "outer": 4,
+      "delta_d": 0.003150629999999932,
+      "delta_u": 1.2283562682569027e-06,
+      "delta_h": 0.04609808330074738,
+      "free_error": 1.6688725094752765e-08,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 5,
+      "delta_d": 0.0016971100000000572,
+      "delta_u": 6.962800398468971e-07,
+      "delta_h": 0.02576722442792967,
+      "free_error": 9.38184160346688e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 6,
+      "delta_d": 0.000997179999999931,
+      "delta_u": 4.203757271170616e-07,
+      "delta_h": 0.0154764132675691,
+      "free_error": 5.641886252264307e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 7,
+      "delta_d": 0.0006129100000000776,
+      "delta_u": 2.619926817715168e-07,
+      "delta_h": 0.009638552592837968,
+      "free_error": 3.5122579213689205e-09,
+      "dual_error": 5.423864495250998e-13,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 8,
+      "delta_d": 0.00038604999999991563,
+      "delta_u": 1.6612466424703598e-07,
+      "delta_h": 0.006115653541719723,
+      "free_error": 2.6069030741250546e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 9,
+      "delta_d": 0.00024719000000006375,
+      "delta_u": 1.0686926543712616e-07,
+      "delta_h": 0.003941386873664854,
+      "free_error": 2.5890073173769156e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 10,
+      "delta_d": 0.0001598400000000222,
+      "delta_u": 6.920890882611275e-08,
+      "delta_h": 0.0025563897504046196,
+      "free_error": 2.5733168230656875e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 11,
+      "delta_d": 0.00010472999999999733,
+      "delta_u": 4.528556019067764e-08,
+      "delta_h": 0.0016868174630007005,
+      "free_error": 2.561446315343268e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 12,
+      "delta_d": 6.885999999994841e-05,
+      "delta_u": 2.9744114726781845e-08,
+      "delta_h": 0.0011093733758116286,
+      "free_error": 2.5528416934829357e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 13,
+      "delta_d": 4.5500000000031626e-05,
+      "delta_u": 1.9674189388751984e-08,
+      "delta_h": 0.000736338505003431,
+      "free_error": 2.5468321518306845e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 14,
+      "delta_d": 3.0219999999969716e-05,
+      "delta_u": 1.3096723705530167e-08,
+      "delta_h": 0.00048660669278000057,
+      "free_error": 2.5426160568807853e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 15,
+      "delta_d": 2.0079999999977893e-05,
+      "delta_u": 8.672941476106644e-09,
+      "delta_h": 0.00032574213394997997,
+      "free_error": 2.5398789114339234e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 16,
+      "delta_d": 1.3370000000012539e-05,
+      "delta_u": 5.762558430433273e-09,
+      "delta_h": 0.00021664865997372829,
+      "free_error": 2.537959773228349e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 17,
+      "delta_d": 8.879999999988897e-06,
+      "delta_u": 3.841705620288849e-09,
+      "delta_h": 0.00014287683589842004,
+      "free_error": 2.5368071029481523e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 18,
+      "delta_d": 5.919999999992598e-06,
+      "delta_u": 2.561137080192566e-09,
+      "delta_h": 0.00010044736553371791,
+      "free_error": 2.5359258062971836e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 19,
+      "delta_d": 3.900000000056636e-06,
+      "delta_u": 1.6880221664905548e-09,
+      "delta_h": 6.428110885803306e-05,
+      "free_error": 2.535400525413754e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 20,
+      "delta_d": 2.6199999999532153e-06,
+      "delta_u": 1.1641532182693481e-09,
+      "delta_h": 4.534416267176766e-05,
+      "free_error": 2.534841579532367e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 21,
+      "delta_d": 1.7500000000225668e-06,
+      "delta_u": 8.149072527885437e-10,
+      "delta_h": 2.7309304097222764e-05,
+      "free_error": 2.5346694440447998e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 22,
+      "delta_d": 1.1500000000053134e-06,
+      "delta_u": 5.238689482212067e-10,
+      "delta_h": 1.9251376095930084e-05,
+      "free_error": 2.534572477551483e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 23,
+      "delta_d": 7.700000000943064e-07,
+      "delta_u": 3.4924596548080444e-10,
+      "delta_h": 1.4512579142866855e-05,
+      "free_error": 2.534358815621673e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 24,
+      "delta_d": 5.299999999985872e-07,
+      "delta_u": 2.3283064365386963e-10,
+      "delta_h": 8.438786499809225e-06,
+      "free_error": 2.5343001509576736e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    },
+    {
+      "outer": 25,
+      "delta_d": 3.3999999998757247e-07,
+      "delta_u": 2.3283064365386963e-10,
+      "delta_h": 7.212091118091735e-06,
+      "free_error": 2.5343000039375297e-09,
+      "dual_error": 0.0,
+      "phase_iterations": 1
+    }
+  ],
+  "error": "Coupled outer iteration limit exceeded"
+}

@@ -754,7 +754,7 @@ class CoupledAbaqusRuntime(object):
         self.output = Path(output).resolve()
         self.extractor = Path(extractor).resolve()
         self.evaluator = StageC1GateEvaluator(donor_rf2, donor_energy)
-        if not 2 <= max_outer <= 30 or not 1 <= max_phase <= 30:
+        if not 2 <= max_outer <= 50 or not 1 <= max_phase <= 30:
             raise ValueError('Unreviewed iteration bounds')
         if not 1 <= timeout <= 25200 or not 1 <= memory_gb <= 16:
             raise ValueError('Unreviewed runtime resources')

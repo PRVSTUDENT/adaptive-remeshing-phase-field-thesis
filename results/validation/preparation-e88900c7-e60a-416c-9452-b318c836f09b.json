@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "finding": "Package 148 R7 nonconvergence was diagnosed as an operational stopping cap artifact (max_outer=25). Contraction factor analysis proves max_outer=30 is insufficient (predicted delta_h at iter 30 is 1.089e-6 to 1.365e-6 MPa > 1.0e-6 MPa); convergence to delta_h <= 1.0e-6 MPa is predicted at iteration 31. Package 148 Revision 8 is formulated and qualified with max_outer=40, preserving all physical gates, 7+8+3 encoding, frozen UEL, and 7200s timeout. Remote file hashes, cluster Python 3.6 startup, and both Abaqus 2023 datachecks passed with zero defects.",
+  "evidence_sources": {
+    "scripts/validation/evaluate_package148_r7_convergence.py": "67B8C806BC203541E29A7168D24097BFAB34C8CB83297FF72885C47F7C93551E",
+    "results/validation/package148/r7_runtime_report.json": "7B6C63373985DA58093F5BC1F1C59296A065D4C1F20E51A58CEC391A5434349B",
+    "results/validation/package148/r7_convergence_audit.json": "6E9898B178C16E0782233DD766D35996AA54F097EBBB7321C130CE9786E338AD",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "9EDE833668340A41AD590CB2387F8CB72A6C9C63DE9DF6B2185A3CABD1B21265",
+    "scripts/validation/execute_package148_state_transfer.py": "E0C2ECA109242CB96280DACB1D152B46A7D37988BEEDA1F27F327D70750721AB",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r8/PACKAGE_MANIFEST.json": "E64E62BEA7421DBF68B207945A48F63A32A716CE7F263752532347F95B7006FB",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r8/EXECUTION_MANIFEST.json": "BAE19C8589CCA2A68448943A630ECE95F24D7F34F57FDD8855A031D65053EB22",
+    "models/pandey_kumar_mode1/148_c4_package148_state_transfer_r8/submit_M1_C4_P148_R8.pbs": "33BDB7DE1DB03FDE62AE8A0954AC1053A6EA0BF60DEBCCAB7A3CF14B98423131",
+    "scripts/validation/validate_package148_r8_startup.py": "C2F5FCDF0405D8D02630FA625CA0EB55330E5B5B11CC1A4A0D1B83A322B3A25B",
+    "results/validation/package148_r8_execution_review.json": "FBC0BA70FAD251E3BF1F6B3ABFF21945758BD83DA76F364CD7A4A2AEEA7D2BFB",
+    "results/validation/package148_r8_cluster_startup.json": "4377FF53F355FE8A10FCED6902BF37B91FA36019EA608046405962A604B1F71C",
+    "results/validation/package148_r8_datachecks.json": "8F6ACF1D228548268C9C73EB0854F5E57022C088168EA26E6090EB09585FA251",
+    "results/validation/package148_r8_tests.json": "0DA77A8C4E952619ABED0354511C1510F721C01E5D44CD070DBE1EA5A5A3FFF2",
+    "scripts/validation/evaluate_mode1_package148_state_transfer_r8.qualification.json": "BF7FCE7EF98C9405125617D3D057D72843D42D6FFB23B47DBEBF73374D55F932"
+  }
+}

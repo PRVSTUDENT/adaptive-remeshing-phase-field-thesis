@@ -163,7 +163,7 @@ function Get-ControllerDynamicQualification([string]$Workspace, [string]$Path = 
     }
 
     if($q.execution_mode -eq 'HPC_PRE_SUBMISSION'){
-        $revision=if($opId -ceq 'evaluate_mode1_package148_state_transfer_r7'){7}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r6'){6}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r5'){5}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r4'){4}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r3'){3}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r2'){2}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer'){1}else{throw 'INVALID_PRESUBMISSION_OPERATION'}
+        $revision=if($opId -ceq 'evaluate_mode1_package148_state_transfer_r8'){8}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r7'){7}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r6'){6}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r5'){5}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r4'){4}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r3'){3}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer_r2'){2}elseif($opId -ceq 'evaluate_mode1_package148_state_transfer'){1}else{throw 'INVALID_PRESUBMISSION_OPERATION'}
         $expectedJob='M1_C4_P148_R'+$revision
         $expectedManifest='models/pandey_kumar_mode1/148_c4_package148_state_transfer_r'+$revision+'/EXECUTION_MANIFEST.json'
         if($q.manifest -cne $expectedManifest){throw 'PRESUBMISSION_REVISION_MISMATCH'}
