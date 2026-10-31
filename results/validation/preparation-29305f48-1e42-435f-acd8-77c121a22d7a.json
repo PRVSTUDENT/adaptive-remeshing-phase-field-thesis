@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "controller_run_id": "29305f48-1e42-435f-acd8-77c121a22d7a",
+  "finding": "Comprehensive walltime feasibility audit proves that single-step continuation converges in 74 outer iterations under contraction ratio rho=0.8648 (requiring max_outer=100-120), consuming 50.7 minutes per converged substep; however, traversing the full 150 nm continuation schedule (15 nominal substeps) requires 12.7 to 17.7 hours, exceeding any single 8-hour PBS allocation and establishing that checkpointed continuation segmentation (3 segments of 5 substeps each, <=4.2 hours per segment) is mathematically mandatory while strictly preserving all 7,265 nodal states and 28,224 integration-point driving histories.",
+  "evidence_sources": {
+    "results/validation/r4_walltime_and_checkpoint_feasibility.json": "BEC6E250E1D01FD7580C2297EFC76EDA8A3D525E9D3FC3AA78B7A41D416BAC4F",
+    "scripts/validation/audit_r4_walltime_and_checkpoint_feasibility.py": "09464C3F725DE534E0EB73BD294FC74D08B63019C3C9BE85ABDF92E5DE2FA960",
+    "tests/unit/test_mode1_r4_walltime_and_checkpoint_feasibility.py": "30EDEC6DC3CF5043F4431A46EA5E3B8DE3669CE87E44564696F6B5E98D812FE8",
+    "results/validation/r4_live_iteration_telemetry_turn410.json": "D7FC5AB26ABF16E6E2261BC574F0104ECDB1BCD67E9110C5EB089B61410328C1",
+    "results/validation/r4_live_runtime_report_turn410.json": "76EE6D8DBAC664DBA21865DE9B6BF75EEE5F7F5A04BD005CE50898F7E290CE1A"
+  },
+  "verification_passed": true
+}
