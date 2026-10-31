@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "controller_run_id": "d8027709-31cc-4e6d-82cd-ce3af2136d2b",
+  "finding": "Segment 2 continuation restart readiness technically qualified and verified; modular checkpoint ingestion preserves all 7,265 nodal displacement states, 7,265 phase-field values, and 28,224 GP driving histories with exact 7+8+3 solution card roundtrip fidelity (error < 1e-12 MPa); Segment 2 continuation driver verified for 5 x 10 nm substeps (0.00190031 to 0.00195031 mm) under max_outer=100 and frozen UEL; live predecessor Job 1419162 (Segment 1) running cleanly on cluster mnode101 with zero dependent submission prior to physical acceptance.",
+  "evidence_sources": {
+    "scripts/state_transfer/checkpoint_ingestion.py": "9224051FEC32191F6143A3D5543B7EA43D6BB17E099A76DEE12FA810D2CC3E82",
+    "scripts/state_transfer/driver_package157_r5_seg2.py": "F9A4A9B1EF550D44D06E854332A720992E680FE5CEBE2036EFEDF821D1B58C72",
+    "scripts/state_transfer/build_package157_r5_seg2.py": "13686156B139A123662CB19F236FD6D5A7A092871CDD47BA391F733AC528890D",
+    "scripts/validation/audit_package157_r5_seg2_readiness.py": "1EE87B3B40D24B71BF262A2794A3AFE63E6D9162F68E98262ED716EC3ED58250",
+    "tests/unit/test_package157_r5_seg2_restart.py": "58F34637ED0AFACAFE6DE0BE22BF53A31E0D2372B6608F73E7BDEF4A0F30C505",
+    "results/validation/package157_r5_seg2_preparation/segment2_restart_readiness.json": "990E85FD3299876E30BCECFF5CEB984F00A923E17A6063868D7DA5475D59B69F",
+    "results/validation/package157_r5_seg2_preparation/test_fixture_checkpoint_step1.json": "203C5838F95C4A9CE97B3464F2ED7CCCC98BD770E623A71BA71894314B3C22FB"
+  },
+  "verification_passed": true
+}
