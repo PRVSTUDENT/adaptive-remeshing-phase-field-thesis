@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "ccdabd62-f135-46b0-bc02-e04e0db15759",
+  "created_at": "2026-10-31T11:32:45+01:00",
+  "title": "Package 153 Scientific Independence and Indicator Field Assessment",
+  "status": "SCIENTIFIC_INDEPENDENCE_VERIFIED",
+  "assessment": {
+    "question_1_surrogate_nature": {
+      "finding": "UNDAMAGED_LINEAR_ELASTIC_SURROGATE_CONFIRMED",
+      "basis": "In Pandey & Kumar (2025) and throughout Thesis Gates 3, 4, 6B, Package 95, and Package 114, MISESERI is evaluated exclusively on an undamaged linear-elastic continuum model sharing the exact crack slit geometry and discretization. UEL phase-field elements do not support Abaqus native patch recovery. The companion model does not misrepresent phase-field damage, but provides the authentic Zienkiewicz-Zhu continuum stress recovery field.",
+      "verified": true
+    },
+    "question_2_step_and_displacement": {
+      "finding": "APPROPRIATE_PERTURBATION_STEP_CONFIRMED",
+      "basis": "Static perturbation step to uy = 0.002000 mm corresponds exactly to the Stage C1-2 target continuation displacement. Linear elasticity ensures that relative spatial error distribution eta_e / bar_eta across all 7,056 elements is invariant under scaling, while matching the physical displacement scale.",
+      "verified": true
+    },
+    "question_3_field_output_validity": {
+      "finding": "GENUINE_ABAQUS_MISESERI_OUTPUT_CONFIRMED",
+      "basis": "Demonstrated empirically in Package 114 (Job 1417689), where Abaqus Standard produced authentic MISESERI, MISESAVG, EVOL, S, U, RF in the ODB in 2 seconds. Package 153 datacheck confirmed zero pre-processor errors and zero matrix singularities.",
+      "verified": true
+    },
+    "question_4_mesh_bijection": {
+      "finding": "EXACT_1_TO_1_ELEMENT_MAPPING_VERIFIED",
+      "basis": "All 7,056 CPE4 elements have identical labels 1..7056 to the C4 reference mesh. 40 duplicate slit-flank node pairs (3571..3610 and 7226..7265) and 45 ligament nodes (3611..3655) are strictly preserved with zero flank leakage.",
+      "verified": true
+    },
+    "question_5_dependency_nature": {
+      "finding": "ADMINISTRATIVE_NOT_COMPUTATIONAL_DEPENDENCY",
+      "basis": "Package 153 reads zero files from Package 152 (no restart, no ODB, no state vector). It is computationally self-contained. Evaluating Package 153 independently produces the authentic C4 error indicator distribution required by scripts/remeshing/c4_refinement_marking_interface.py without violating physical governance. Forward C4->C5 state transfer remains strictly conditional on accepted predecessor equilibrium.",
+      "verified": true
+    }
+  },
+  "decision": "PACKAGE153_QUALIFIED_AS_INDEPENDENT_SURROGATE",
+  "verification_passed": true
+}

@@ -1,0 +1,35 @@
+{
+  "peak_relative_error": {
+    "misesavg_kNmm2": 0.0036453665234148502,
+    "element_id": 3361,
+    "eta": 2.103443311598271,
+    "centroid_mm": {
+      "y": 0.048980001360177994,
+      "x": 0.0008265151991508901
+    },
+    "miseseri_kNmm2": 0.007667821832001209
+  },
+  "total_elements": 7056,
+  "refinement_metrics": {
+    "threshold_eta": 0.15,
+    "adaptation_recommendation": "ADVANCE_CYCLE_C5_REFINEMENT",
+    "pct_above_threshold": 3.7698412698412698,
+    "elements_above_threshold": 266
+  },
+  "loading_state": {
+    "state_description": "Package 153 C4 Companion Continuum Model for Stage C1-2 Target State",
+    "prescribed_u2_mm": 0.002
+  },
+  "peak_miseseri": {
+    "misesavg_kNmm2": 16.21752166748047,
+    "element_id": 3484,
+    "eta": 0.36756670154206006,
+    "centroid_mm": {
+      "y": 0.04966000095009804,
+      "x": 0.04033999890089035
+    },
+    "miseseri_kNmm2": 5.9610209465026855
+  },
+  "pbs_job_id": "1419101.mmaster02",
+  "job_name": "M1_C4_COMPANION_MISESERI"
+}

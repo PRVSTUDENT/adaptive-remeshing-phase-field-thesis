@@ -286,67 +286,67 @@ def test_assess_companion_status_detects_missing_prerequisite(marking_interface:
 def test_generate_candidate_marking_artifact(marking_interface: C4RefinementMarkingInterface):
     """
     Generates and serializes the candidate-marking artifact to
-    results/validation/c4_refinement_candidate_marking.json, verifying its schema,
+    a temporary path, verifying its schema,
     exact element IDs, source ODB provenance, marked fraction, and statistics.
     """
-    output_path = os.path.join(
-        REPO_ROOT, "results", "validation", "c4_refinement_candidate_marking.json"
-    )
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmpdir:
+        output_path = os.path.join(tmpdir, "c4_refinement_candidate_marking.json")
 
-    # Check companion status for historical Package 114
-    pkg114_audit_path = os.path.join(
-        REPO_ROOT, "models", "pandey_kumar_mode1", "114_c4_inc79_companion_miseseri", "c4_inc79_miseseri_audit.json"
-    )
-    historical_summary = None
-    if os.path.isfile(pkg114_audit_path):
+        # Check companion status for historical Package 114
+        pkg114_audit_path = os.path.join(
+            REPO_ROOT, "models", "pandey_kumar_mode1", "114_c4_inc79_companion_miseseri", "c4_inc79_miseseri_audit.json"
+        )
+        historical_summary = None
+        if os.path.isfile(pkg114_audit_path):
+            import json
+            with open(pkg114_audit_path, "r") as f:
+                historical_summary = json.load(f)
+
+        companion_status = marking_interface.assess_companion_status(historical_summary)
+
+        element_data = {}
+        crack_tip_x, crack_tip_y = 0.04, 0.05
+
+        for eid in range(1, len(marking_interface.mesh.phase_elements) + 1):
+            xc, yc = marking_interface.mesh.element_centroids[eid]
+            dist = math.hypot(xc - crack_tip_x, yc - crack_tip_y)
+            misesavg = 1.0
+            miseseri = 0.005 + 0.35 / (1.0 + (dist / 0.004) ** 1.8)
+            element_data[eid] = {"MISESERI": miseseri, "MISESAVG": misesavg}
+
+        source_provenance = {
+            "c4_inp_path": os.path.relpath(C4_INP_PATH, REPO_ROOT),
+            "c4_inp_sha256": marking_interface.mesh.inp_sha256,
+            "companion_status": companion_status,
+            "indicator_origin": "BENCHMARK_CRACK_TIP_INDICATOR_FUNCTION",
+            "governing_policy": "REFINEMENT_ONLY_NO_COARSENING"
+        }
+
+        marking_result = marking_interface.generate_candidate_marks(
+            element_data,
+            threshold_eta=0.15,
+            source_provenance=source_provenance,
+            source_mesh_label="C4_7056_QUADS"
+        )
+
+        marking_result["flank_topology"] = {
+            "duplicate_slit_node_pairs_count": len(marking_interface.mesh.duplicate_slit_node_pairs),
+            "duplicate_slit_node_pairs": marking_interface.mesh.duplicate_slit_node_pairs,
+            "ligament_nodes_count": len(marking_interface.mesh.ligament_nodes),
+            "ligament_nodes": marking_interface.mesh.ligament_nodes,
+            "slit_y_mm": 0.05,
+            "crack_tip_x_mm": 0.04
+        }
+
         import json
-        with open(pkg114_audit_path, "r") as f:
-            historical_summary = json.load(f)
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        with open(output_path, "w") as f:
+            json.dump(marking_result, f, indent=2)
 
-    companion_status = marking_interface.assess_companion_status(historical_summary)
-
-    element_data = {}
-    crack_tip_x, crack_tip_y = 0.04, 0.05
-
-    for eid in range(1, len(marking_interface.mesh.phase_elements) + 1):
-        xc, yc = marking_interface.mesh.element_centroids[eid]
-        dist = math.hypot(xc - crack_tip_x, yc - crack_tip_y)
-        misesavg = 1.0
-        miseseri = 0.005 + 0.35 / (1.0 + (dist / 0.004) ** 1.8)
-        element_data[eid] = {"MISESERI": miseseri, "MISESAVG": misesavg}
-
-    source_provenance = {
-        "c4_inp_path": os.path.relpath(C4_INP_PATH, REPO_ROOT),
-        "c4_inp_sha256": marking_interface.mesh.inp_sha256,
-        "companion_status": companion_status,
-        "indicator_origin": "BENCHMARK_CRACK_TIP_INDICATOR_FUNCTION",
-        "governing_policy": "REFINEMENT_ONLY_NO_COARSENING"
-    }
-
-    marking_result = marking_interface.generate_candidate_marks(
-        element_data,
-        threshold_eta=0.15,
-        source_provenance=source_provenance,
-        source_mesh_label="C4_7056_QUADS"
-    )
-
-    marking_result["flank_topology"] = {
-        "duplicate_slit_node_pairs_count": len(marking_interface.mesh.duplicate_slit_node_pairs),
-        "duplicate_slit_node_pairs": marking_interface.mesh.duplicate_slit_node_pairs,
-        "ligament_nodes_count": len(marking_interface.mesh.ligament_nodes),
-        "ligament_nodes": marking_interface.mesh.ligament_nodes,
-        "slit_y_mm": 0.05,
-        "crack_tip_x_mm": 0.04
-    }
-
-    import json
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    with open(output_path, "w") as f:
-        json.dump(marking_result, f, indent=2)
-
-    assert os.path.isfile(output_path)
-    assert marking_result["marked_elements_count"] > 0
-    assert marking_result["total_elements"] == 7056
-    assert marking_result["flank_topology"]["duplicate_slit_node_pairs_count"] == 40
-    assert marking_result["flank_topology"]["ligament_nodes_count"] == 45
+        assert os.path.isfile(output_path)
+        assert marking_result["marked_elements_count"] > 0
+        assert marking_result["total_elements"] == 7056
+        assert marking_result["flank_topology"]["duplicate_slit_node_pairs_count"] == 40
+        assert marking_result["flank_topology"]["ligament_nodes_count"] == 45
 
