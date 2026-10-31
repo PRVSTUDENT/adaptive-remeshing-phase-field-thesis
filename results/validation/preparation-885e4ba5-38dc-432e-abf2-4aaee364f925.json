@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "885e4ba5-38dc-432e-abf2-4aaee364f925",
+  "finding": "Package 157 R4 execution-registration handoff and formal review status resolved: the restart evidence package is complete with authentic Step-1 solution cards (306ABF3C..., 21,170 lines, 28,224 GPs, max discrepancy 8.9706e-14 MPa), verified Step-1 equilibrium holding baseline (uy = 0.00185031 mm, RF2 = 0.18501 kN, crack-tip Node 3612 damage = 0.58232352, zero healing), and locked R4 adaptive continuation definition (M1_C4_P150_C1_2_R4, 5 x 10 nm forward sub-steps from 0.00185031 to 0.00190031 mm, ceiling 0.002000 mm, 5 nm bisection floor). Inspection of Controller-Operations.ps1 confirms candidate operation execute_mode1_package157_c1_2_r4_adaptive_continuation is not yet registered; definitive registration status receipt is REGISTRATION_PENDING_REVIEW with prerequisite DEFINITION_REVIEW_REQUIRED. All 17 regression tests pass 100%.",
+  "evidence_sources": {
+    "scripts/validation/verify_package157_r4_registration_handoff.py": "5E2C4ACC015821B469BACD3687AC51957E45243C3CF9E3107FB533289A962EBB",
+    "results/validation/package157_r4_registration_status_receipt.json": "C71CD7BDA2EE2AC11080196D2336E2D0815BA419352311DCE6A7606037F8A091",
+    "tests/unit/test_mode1_f1597_turn399_registration_handoff.py": "FF6CAF694681FA13C76FBFFB6526DB03AF489740B7A606C3007D615283D3732B",
+    "results/validation/step1_committed_solution_initial.inc": "306ABF3C09FAA9CB9CEA37F48B8E93A8509C0FF0D0258E9B47667367D9808F60",
+    "results/validation/authentic_step1_history_audit.json": "1D3C75675E1F6CBF61DED73991E01D40983C8923AE022F95E4D084E6DE0C541C",
+    "results/validation/step1_equilibrium_checkpoint_1419113_full_history.json": "1640388AA1831CF896A980DC0228CF7F72B38B9077ECEB97207664927C0D1980",
+    "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true,
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "registration_status": "REGISTRATION_PENDING_REVIEW",
+  "target_operation_id": "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+  "candidate_experiment_id": "M1_C4_P150_C1_2_R4",
+  "locked_experiment_definition": {
+    "baseline_displacement_uy_mm": 0.0018503125442191958,
+    "initial_forward_substeps_nm": [10.0, 10.0, 10.0, 10.0, 10.0],
+    "minimum_subdivision_increment_nm": 5.0,
+    "acceptance_criteria": {
+      "delta_H_tol_MPa": 1e-6,
+      "delta_d_tol": 1e-5,
+      "delta_u_tol_mm": 1e-9,
+      "signed_kkt_tol_MPa": 1e-6,
+      "zero_damage_healing_enforced": true,
+      "monotonic_history_enforced": true
+    }
+  },
+  "operation_registration": {
+    "operation_id": "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+    "status": "DEFINITION_REVIEW_REQUIRED",
+    "dispatch_allowed_this_turn": false
+  }
+}
