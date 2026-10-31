@@ -200,7 +200,7 @@ class StageC12ContinuationController(object):
         self._command(
             [self.abaqus, "job=" + job, "input=" + job + ".inp",
              "user=f42_mixed_uel.for", "cpus=1", "memory=%d gb" % self.memory_gb,
-             "interactive"], directory, directory / "solver.stdout.txt"
+             "output_precision=full", "interactive"], directory, directory / "solver.stdout.txt"
         )
         sta = directory / (job + ".sta")
         if not sta.is_file() or "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" not in sta.read_text():
@@ -286,6 +286,10 @@ class StageC12ContinuationController(object):
             }
             step_records.append(rec)
             self.iteration_records.append(rec)
+            try:
+                (self.output / "live_iteration_telemetry.json").write_text(json.dumps(self.iteration_records, indent=2))
+            except Exception:
+                pass
 
             if (previous_u is not None and delta_d <= 1e-5 and delta_u <= 1e-9
                     and delta_h <= 1e-6 and kkt["passed"]):

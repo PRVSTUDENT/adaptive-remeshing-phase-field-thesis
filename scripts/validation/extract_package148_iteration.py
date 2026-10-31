@@ -15,6 +15,17 @@ def sha(path):
     return h.hexdigest()
 
 
+def _field_data(v):
+    """Safely extracts data tuple/array honoring DOUBLE_PRECISION when present."""
+    try:
+        from abaqusConstants import DOUBLE_PRECISION
+        if getattr(v, 'precision', None) == DOUBLE_PRECISION:
+            return v.dataDouble
+    except Exception:
+        pass
+    return v.data
+
+
 def parse_dat_nodal_u(dat_path):
     """Parses nodal U table from Abaqus .dat file if present."""
     if not os.path.isfile(dat_path):
@@ -71,11 +82,11 @@ def export(odb_path, output, physical_nodes, physical_elements, expected_step=No
         nodes, rp, instances = {}, {}, set()
         for v in frame.fieldOutputs['U'].values:
             if v.nodeLabel == 999999:
-                rp['rp_u2'] = float(v.data[1])
+                rp['rp_u2'] = float(_field_data(v)[1])
             else:
                 if v.nodeLabel in nodes:
                     raise RuntimeError('Duplicate node in fieldOutputs[U]')
-                u_data = [float(x) for x in v.data]
+                u_data = [float(x) for x in _field_data(v)]
                 if len(u_data) == 2:
                     # 2D planar mechanical displacement
                     # If dat file has U3 for this node, append it
@@ -96,24 +107,26 @@ def export(odb_path, output, physical_nodes, physical_elements, expected_step=No
             if v.nodeLabel == 999999:
                 if 'rf2_kN' in rp:
                     raise RuntimeError('Duplicate reference reaction')
-                rp['rf2_kN'] = float(v.data[1])
+                rp['rf2_kN'] = float(_field_data(v)[1])
 
         totals = {}
         expected = set((e, g) for e in range(2 * physical_elements + 1, 3 * physical_elements + 1)
                        for g in range(1, 5))
         for field, key in [('SDV17', 'fracture_kNmm'), ('SDV18', 'elastic_kNmm')]:
             values = {}
-            for v in frame.fieldOutputs[field].values:
-                index = (int(v.elementLabel), int(v.integrationPoint))
-                if index in values or v.instance.name not in instances:
-                    raise RuntimeError('Duplicate/ambiguous energy output')
-                try:
-                    value = float(v.data)
-                except (TypeError, ValueError):
-                    value = float(v.data[0])
-                if math.isnan(value) or math.isinf(value) or value < 0:
-                    raise RuntimeError('Invalid endpoint energy')
-                values[index] = value
+            if field in frame.fieldOutputs:
+                for v in frame.fieldOutputs[field].values:
+                    index = (int(v.elementLabel), int(v.integrationPoint))
+                    if index in values or v.instance.name not in instances:
+                        raise RuntimeError('Duplicate/ambiguous energy output')
+                    raw_e = _field_data(v)
+                    try:
+                        value = float(raw_e)
+                    except (TypeError, ValueError):
+                        value = float(raw_e[0])
+                    if math.isnan(value) or math.isinf(value) or value < 0:
+                        raise RuntimeError('Invalid endpoint energy')
+                    values[index] = value
             if set(values) != expected:
                 raise RuntimeError('Incomplete energy IP coverage')
             total = 0.
@@ -125,8 +138,10 @@ def export(odb_path, output, physical_nodes, physical_elements, expected_step=No
                 total += reference  # Element totals: count each exactly once.
             totals[key] = total
 
+        precision_u = str(getattr(frame.fieldOutputs['U'].values[0], 'precision', 'UNKNOWN')) if frame.fieldOutputs['U'].values else 'UNKNOWN'
         result = dict(schema=1, step_name=str(step_name), increment=int(frame.incrementNumber),
-                      step_time=float(frame.frameValue), nodes=[nodes[n] for n in sorted(nodes)],
+                      step_time=float(frame.frameValue), precision=precision_u,
+                      nodes=[nodes[n] for n in sorted(nodes)],
                       odb_sha256=before, extractor_sha256=sha(__file__), **totals)
         result.update(rp)
     finally:

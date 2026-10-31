@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PRECISION_MECHANISM_VERIFIED",
+  "single_precision_ulps_diff_uy": 1,
+  "single_precision_ulps_diff_ux": -1,
+  "single_precision_1bit_displacement_mm": 1.1999816708318134e-10,
+  "single_precision_irreducible_delta_h_MPa": 4.066441e-06,
+  "double_precision_ulps_displacement_mm": 2.997602166487923e-19,
+  "double_precision_irreducible_delta_h_MPa": 3.7470027081099033e-13,
+  "precision_headroom_ratio": 10852516.84285873,
+  "test_odb_verified": true,
+  "abaqus_command_line_option": "output_precision=full",
+  "odb_api_precision_constant": "DOUBLE_PRECISION",
+  "odb_api_data_attribute": "dataDouble"
+}
