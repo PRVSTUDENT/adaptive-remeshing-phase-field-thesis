@@ -1,0 +1,53 @@
+{
+  "package_id": "PACKAGE_150_C1_2_CONTINUATION",
+  "stage": "STAGE_C1_2",
+  "predecessor_checkpoint": "results/validation/package148/r8_equilibrium_checkpoint.json",
+  "predecessor_checkpoint_sha256": "5D627B0340ADB3099D5C8980F733160FFA134787704DEAEBC93D67AB55B8D81C",
+  "loading_schedule": {
+    "initial_uy_mm": 0.0018003125442191958,
+    "target_uy_mm": 0.002,
+    "steps": [
+      {
+        "step": 1,
+        "target_uy": 0.0018503125442191958,
+        "delta_uy": 5e-05
+      },
+      {
+        "step": 2,
+        "target_uy": 0.0019003125442191959,
+        "delta_uy": 5e-05
+      },
+      {
+        "step": 3,
+        "target_uy": 0.0019503125442191958,
+        "delta_uy": 5e-05
+      },
+      {
+        "step": 4,
+        "target_uy": 0.002,
+        "delta_uy": 4.96874557808042e-05
+      }
+    ]
+  },
+  "discretization": {
+    "physical_nodes": 7265,
+    "reference_nodes": 1,
+    "total_nodes": 7266,
+    "elements": 7056,
+    "integration_points": 28224
+  },
+  "files": {
+    "active_set_boundary_cards.inc": "0be74f501fa6b6bae81db8a006b8bf2cfe4cfc12b05251aa3ee173f731c1d79b",
+    "d_lower_bounds.csv": "0f680e1c4f24a3116ae0d89becdf3d219da2e740a226e768bb647656dd4d49c8",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "initial_conditions_solution.inc": "e807da7396b600aa3c70d3b8854cc420cc7d42370b3eb12e28b301ce5a5d0c09",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_C4_PACKAGE150_C1_2_CONTINUATION.inp": "8c54e3d18ebbb238fdf79f773bc7c1e854aa6a681e2881d6ba15b977c58fafcd",
+    "nodal_displacements_initial.csv": "e1ac117df6cb05f0f20dfdc576b593a6f68b8490e08f28ba6349ce2eecf17b77",
+    "nodal_phase_field_initial.csv": "5bcd2c4e773a95d56f319c8ace5c1c0e7235ced3feaaf4c2a28a9caf254ae958",
+    "P150_MECHANICAL_DC.inp": "0b1a48af91f1db935d7e44e46b91da5b753d47fbde5d9afb706a5a2780f9108c",
+    "P150_PHASE_DC.inp": "25060654f3c634effefab20bdc0377a4191fb7111a8ec3e94fc2d37f23337487",
+    "run_datacheck.sh": "dcc8fe70c6a7c2935fded8da9eb19cc27a1826e3613037e5410515b106a3eec1",
+    "submit_M1_C4_P150_C1_2.pbs": "00e828748bb0be9fbf4804b86dc378893eea65a3a835431a00887713dc4336e7"
+  }
+}
