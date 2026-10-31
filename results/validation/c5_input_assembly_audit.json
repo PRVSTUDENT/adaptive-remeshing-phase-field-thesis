@@ -1,0 +1,84 @@
+{
+  "schema": 1,
+  "status": "C5_INPUT_ASSEMBLY_TECHNICALLY_VERIFIED",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "donor_source": {
+    "endpoint_checkpoint": "step1_equilibrium_checkpoint_1419113_endpoint.json",
+    "endpoint_sha256": "FD75727BFDF8B83E03F067E0AC341ED91FB4FFE1A704B16E712714B38F300DDC",
+    "full_history_checkpoint": "step1_equilibrium_checkpoint_1419113_full_history.json",
+    "full_history_sha256": "1640388AA1831CF896A980DC0228CF7F72B38B9077ECEB97207664927C0D1980",
+    "holding_displacement_uy_mm": 0.0018503125442191958,
+    "fracture_energy_kn_mm": 5.1169817948563804e-05
+  },
+  "receiver_discretization": {
+    "mesh": "C5_CANDIDATE_12996_QUADS",
+    "physical_quads": 12996,
+    "physical_nodes": 13278,
+    "gauss_points": 51984,
+    "duplicate_slit_pairs": 53,
+    "u1_phase_elements": 12996,
+    "u2_mechanical_elements": 12996,
+    "element_offset": 12996
+  },
+  "assembly_verification": {
+    "u1_u2_element_correspondence": {
+      "verified": true,
+      "mismatch_count": 0
+    },
+    "dof_ordering": {
+      "u1_phase_dof": 3,
+      "u2_mechanical_dofs": [
+        1,
+        2
+      ],
+      "active_set_dof_range": "3,3",
+      "active_set_card_count": 13278,
+      "dof_violations": 0,
+      "damage_bounds_violations": 0
+    },
+    "solution_variable_serialization": {
+      "element_blocks": 12996,
+      "svars_per_element": 18,
+      "total_svars": 233928,
+      "gauss_points": 51984,
+      "negative_h_count": 0,
+      "nan_inf_count": 0,
+      "h_min_mpa": 0.0,
+      "h_max_mpa": 7.134233037310842,
+      "nodal_displacements_count": 13278,
+      "nodal_phase_field_count": 13278,
+      "d_lower_bounds_count": 12996
+    },
+    "boundary_coupling": {
+      "top_edge_mpc_equations": 115,
+      "coupled_top_nodes": 115,
+      "reference_point_node": 999999,
+      "mpc_violations": 0
+    },
+    "slit_face_isolation": {
+      "duplicate_slit_pairs": 53,
+      "cross_slit_elements": 0,
+      "upper_crack_tip_node": 6608,
+      "lower_crack_tip_node": 13278,
+      "independent_crack_tips_verified": true
+    },
+    "same_load_holding_conditions": {
+      "prescribed_uy_mm": 0.0018503125442191958,
+      "displacement_advance_increment": 0.0,
+      "step_name": "C2_0_REEQUILIBRATION",
+      "verified": true
+    },
+    "jacobian_positivity": {
+      "all_positive": true,
+      "min_det_j": 6.249999999999664e-08,
+      "max_det_j": 1.0000000000000156e-06,
+      "total_area_mm2": 0.010000000000001685
+    },
+    "frozen_uel_preservation": {
+      "expected_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "actual_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "verified": true
+    }
+  },
+  "submission_disposition": "WITHHELD_PENDING_FINAL_C4_ACCEPTANCE"
+}

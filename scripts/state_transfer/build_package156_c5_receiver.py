@@ -88,13 +88,29 @@ def build_package156(donor_checkpoint_path=None, target_dir=None, is_fixture_tes
     assert len(c5.seam_pairs) == 53, f"Expected 53 C5 duplicate slit pairs, got {len(c5.seam_pairs)}"
 
     # Extract donor state arrays
-    donor_disp = {r[0]: (float(r[1]), float(r[2])) for r in cp_data["displacement"]}
-    donor_damage = {r[0]: float(r[1]) for r in cp_data["damage"]}
-    donor_history = {(int(r[0]), int(r[1])): float(r[2]) for r in cp_data["history"]}
-    donor_active_nodes = set(cp_data.get("active_nodes", []))
-
-    # Read target displacement (holding load level)
-    target_uy = float(cp_data.get("loading", {}).get("target_uy_mm", 0.0018003125442191958))
+    if "nodes" in cp_data:
+        donor_disp = {int(r[0]): (float(r[1]), float(r[2])) for r in cp_data["nodes"]}
+        donor_damage = {int(r[0]): float(r[3]) for r in cp_data["nodes"]}
+        donor_active_nodes = set(cp_data.get("active_nodes", []))
+        target_uy = float(cp_data.get("rp_u2", 0.0018503125442191958))
+        if "history" in cp_data:
+            donor_history = {(int(r[0]), int(r[1])): float(r[2]) for r in cp_data["history"]}
+        else:
+            full_hist_path = donor_checkpoint_path.parent / donor_checkpoint_path.name.replace("_endpoint.json", "_full_history.json")
+            if not full_hist_path.is_file():
+                full_hist_path = REPO_ROOT / "results/validation/step1_equilibrium_checkpoint_1419113_full_history.json"
+            if full_hist_path.is_file():
+                with open(full_hist_path, "r", encoding="utf-8") as fh_f:
+                    fh_data = json.load(fh_f)
+                donor_history = {(int(rec["element_id"]), int(rec["gp"])): float(rec["h_MPa"]) for rec in fh_data["history_gp_records"]}
+            else:
+                raise FileNotFoundError(f"Missing companion history file for {donor_checkpoint_path}")
+    else:
+        donor_disp = {r[0]: (float(r[1]), float(r[2])) for r in cp_data["displacement"]}
+        donor_damage = {r[0]: float(r[1]) for r in cp_data["damage"]}
+        donor_history = {(int(r[0]), int(r[1])): float(r[2]) for r in cp_data["history"]}
+        donor_active_nodes = set(cp_data.get("active_nodes", []))
+        target_uy = float(cp_data.get("loading", {}).get("target_uy_mm", 0.0018003125442191958))
     print(f"Donor holding displacement (same-load): target_uy = {target_uy:.17g} mm")
 
     # Build transfer maps
