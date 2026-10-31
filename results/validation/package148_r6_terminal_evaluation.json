@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "pbs_job_id": "1418910.mmaster02",
+  "job_name": "M1_C4_P148_R6",
+  "scheduler_state": "F",
+  "exit_status": 1,
+  "classification": "PACKAGE_MANIFEST_GP_ORDER_METADATA_DEFECT_NO_PHYSICAL_ACCEPTANCE_NO_RETRY",
+  "physical_acceptance": false,
+  "outer_iterations_completed": 0,
+  "root_cause": "In prepare_package148_r6.py, PACKAGE_MANIFEST.json was generated with batch execution manifest fields rather than Package 148 runtime manifest fields, omitting history_gp_order: 'MAPPER_ROW_FROM_UEL_PERIMETER' and 4-entry source_hashes and runtime_source_hashes dictionaries required by CoupledAbaqusRuntime.load(). CoupledAbaqusRuntime raised ValueError: 'Unreviewed legacy GP ordering; regenerate a distinct candidate revision' at startup.",
+  "remedy": "Prepare Package 148 R7 with PACKAGE_MANIFEST.json containing schema: 1, history_gp_order: 'MAPPER_ROW_FROM_UEL_PERIMETER', 4 donor source hashes, and 4 runtime source hashes, while batch execution scheduling fields reside exclusively in EXECUTION_MANIFEST.json.",
+  "remote_pbs_log": "/scratch9/pr21vyci/runs/mode1_c4_package148_state_transfer_r6/pbs_execution.log",
+  "automatic_retry": false,
+  "scientific_diagnosis_required": false
+}

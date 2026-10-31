@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "verification_passed": true,
+  "independent_r7_qualification": "PASS",
+  "review_method": "Separate actual-loader and fixed-field card decoder; byte parity against R6 scientific artifacts; no independent-agent review claimed.",
+  "cluster_startup": "PASS",
+  "history_mappings": 28224,
+  "physical_acceptance": "UNVERIFIED",
+  "predecessor": "R6 failed before first iteration; technical manifest correction only, no identical retry",
+  "original_failure": "Unreviewed legacy GP ordering; regenerate a distinct candidate revision",
+  "check_development": "Initial 1e-14 card comparison rejected existing %.8e rounding; corrected to exact declared encoding without data changes.",
+  "staging_repair": "Legacy Windows wrapper stripped nested shell quotes; encoded upload commands now use escaped single-quoted hex. No scheduler action occurred.",
+  "regression_update": "First post-registration suite: 63/64 passed; obsolete unknown-revision test expected R7 rejection. Updated unknown revision to R8; R7 now explicitly registered. Initial datacheck receipt capture through local stdin produced no file; repaired with read-only --record-datachecks entrypoint, no Abaqus rerun.",
+  "scientific_files_unchanged": true,
+  "solver_tolerances_unchanged": true,
+  "timeout": 7200,
+  "max_outer": 25,
+  "automatic_retry": false,
+  "telegram_notification_contract": "PENDING_GUARDED_PREFLIGHT",
+  "compute_node_delivery": "UNRESOLVED",
+  "evidence_sources": {
+    "scripts/state_transfer/build_package146_147_transfer_deck.py": "F0607D53B1412C56C68F00E2CE3928CBF8BD455D39A399627CB878B9353D74E7",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "6C333ED0AB334FD212EE45BEAE4CC8A0328D08708739B3EF5319AE30A3988C01",
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8",
+    "scripts/validation/extract_package148_iteration.py": "1C0D1A33729E1EE746C3C5B9EA10694BD7059D19FA47B8F8B3C639BC8F6D2D98"
+  }
+}

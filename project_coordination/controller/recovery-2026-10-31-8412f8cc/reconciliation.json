@@ -1,0 +1,14 @@
+﻿{
+    "schema":  1,
+    "run_id":  "8412f8cc-d26e-4674-a12b-f9af5c91d0f4",
+    "turn":  363,
+    "status":  "INTERRUPTED_SESSION_RECONCILED_CONTROLLER_REMAINS_STOPPED",
+    "checkpoint_sha256":  "B08B47F5F710AABD74EA9BE1A32142391EE6372BA1160D66909931C6F05B362F",
+    "session_sha256":  "6129E5231A4E79E4B74EC916CD6463B4501D59EAB154BBEB2907988A128A360C",
+    "r7_report_exists":  false,
+    "finding":  "Checkpoint contains released R6 session; later R7 claim reused run ID, no report or R7 artifacts found. No live controller process found. Explicit user-directed evidence reconciliation; no turn rewind or loop restart.",
+    "controller_running":  false,
+    "original_checkpoint_preserved_locally":  true,
+    "replacement_pbs_job_id":  "1418938.mmaster02",
+    "session_report":  "project_coordination/sessions/2026-10-31_codex_package148_r7_recovery.md"
+}
