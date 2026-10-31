@@ -1,56 +1,58 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 validate_method_c_stage_c1_2_contract.py
-=========================================
-Method C Stage C1-2 Forward Continuation Contract Specification and Offline Validator.
+Mode-I Method C: Stage C1-2 Forward Continuation Contract and Readiness Validator.
+Task: F1597-CORRECT-PACKAGE72-STATE-TRANSFER
+Protocol Version: 2
 
-Governs the transition from Stage C1-1 (Coupled Fixed-Displacement State Transfer &
-Re-Equilibration on Candidate C4) to Stage C1-2 (Forward Mechanical Displacement
-Continuation and Crack Propagation on Candidate C4).
+Enforces the strict fail-closed contract for advancing from Stage C1-1 (coupled state
+transfer and re-equilibration at uy = 0.001800312544 mm) to Stage C1-2 (forward displacement
+loading continuation from uy = 0.001800312544 mm toward uy = 0.002000 mm).
 
-Enforces:
-1. Strict Predecessor Acceptance Dependency: Stage C1-2 dispatch is strictly prohibited
-   unless Stage C1-1 achieves full multi-gate physical acceptance:
-   - RF2 reaction force continuity <= 5%
-   - Raw total energy discrepancy <= 2%
-   - Strict damage irreversibility: min(d_new - d_old) >= -1e-6
-   - Physical phase bounds: 0 <= d <= 1
-   - Complete 4-GP committed history H0 preservation across all 28,224 integration points.
-2. Forward Loading Kinematics:
-   - Preserves 7+8+3 solution card state serialization (displacement, phase, committed history).
-   - Enforces forward displacement loading increments (Delta u = 0.0001 mm steps).
-   - Preserves frozen production UEL SHA-256 (CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6).
-3. Fail-Closed Preflight:
-   - Reconciles active predecessor job (M1_C4_P148_R7, PBS 1418938.mmaster02).
-   - Classifies Stage C1-2 execution as PENDING_PREDECESSOR_ACCEPTANCE while R7 iterates.
+Governing Principles:
+1. Strict predecessor dependency: Stage C1-2 must not be submitted or declared qualified
+   until Stage C1-1 achieves verified terminal acceptance (Delta H <= 1e-6 MPa,
+   Delta d <= 1e-5, Delta u <= 1e-9 mm, signed KKT complementarity, RF2 <= 5%,
+   Etot <= 2%, no healing min(d - d0) >= -1e-6, damage in [0, 1]).
+2. Complete 7+8+3 state serialization:
+   - 7 nodal solution cards per node (DISP UX, UY, UR3, etc.)
+   - 8 nodal SDV solution cards per node (phase field d at SDV1)
+   - 3 integration point solution cards per integration point (H0 history)
+   across all 7,265 continuum mesh nodes (+1 reference point 999999) and 28,224 Gauss points.
+3. Production UEL frozen hash preservation:
+   f42_mixed_uel.for must match CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6.
 """
-
+from __future__ import print_function, division
 import os
 import sys
 import json
-import math
 import hashlib
 import argparse
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
 
 FROZEN_UEL_SHA256 = "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
-GATE_FORCE_TOL = 0.05       # 5% max RF2 deficit
-GATE_ENERGY_TOL = 0.02      # 2% max raw total energy discrepancy
-HEALING_TOL = 1e-6          # Strict damage irreversibility limit
-MAX_DAMAGE_LIMIT = 1.0 + 1e-9
+DONOR_RF2 = 0.1873079389333725  # kN
+DONOR_ENERGY = 0.00021270454    # kN*mm
+GATE_FORCE_TOL = 0.05
+GATE_ENERGY_TOL = 0.02
+HEALING_TOL = 1e-6
+MAX_DAMAGE_LIMIT = 1.0
 
 
-def sha256_file(path):
-    if not os.path.exists(path):
-        return None
+def compute_file_sha256(filepath):
     h = hashlib.sha256()
-    with open(path, "rb") as f:
-        while chunk := f.read(65536):
+    with open(filepath, "rb") as f:
+        while True:
+            chunk = f.read(65536)
+            if not chunk:
+                break
             h.update(chunk)
     return h.hexdigest().upper()
 
 
-def evaluate_c1_1_checkpoint_for_c1_2(checkpoint_dict):
+def evaluate_c1_1_checkpoint_for_c1_2(checkpoint_dict, runtime_report_dict=None):
     """
     Evaluates whether an authentic C1-1 equilibrium checkpoint satisfies all
     physical gates required to permit Stage C1-2 forward continuation.
@@ -78,9 +80,9 @@ def evaluate_c1_1_checkpoint_for_c1_2(checkpoint_dict):
     else:
         d_vals = [d[1] for d in damage]
         if min(d_vals) < -1e-12:
-            reasons.append(f"Negative damage detected: {min(d_vals)}")
+            reasons.append("Negative damage detected: %f" % min(d_vals))
         if max(d_vals) > MAX_DAMAGE_LIMIT:
-            reasons.append(f"Damage exceeds 1.0: {max(d_vals)}")
+            reasons.append("Damage exceeds 1.0: %f" % max(d_vals))
 
     # 5. History field
     hist = checkpoint_dict.get("history", [])
@@ -89,16 +91,19 @@ def evaluate_c1_1_checkpoint_for_c1_2(checkpoint_dict):
     else:
         h_vals = [h[2] for h in hist]
         if min(h_vals) < -1e-12:
-            reasons.append(f"Negative committed history detected: {min(h_vals)}")
+            reasons.append("Negative committed history detected: %f" % min(h_vals))
 
     # 6. Physical gates evaluation
     gates = checkpoint_dict.get("gates", {})
+    if not gates and runtime_report_dict:
+        gates = runtime_report_dict.get("gates", {})
+
     if not gates:
-        reasons.append("Physical gates record missing from checkpoint")
+        reasons.append("Physical gates record missing from checkpoint and runtime report")
     else:
         if not gates.get("pass_all", False):
             failed_gates = [k for k, v in gates.items() if v is False]
-            reasons.append(f"Physical gates not passed: {failed_gates}")
+            reasons.append("Physical gates not passed: %s" % failed_gates)
 
     eligible = len(reasons) == 0
     return {
@@ -149,8 +154,9 @@ def generate_stage_c1_2_specification(workspace):
             "r7_status": "TERMINAL_EXIT1_DELTA_H_CAP_EXCEEDED",
             "r8_job_id": "1418939.mmaster02",
             "r8_job_name": "M1_C4_P148_R8",
-            "r8_status": "RUNNING_STAGGERED_EQUILIBRATION",
-            "stage_c1_2_dispatch": "STRICTLY_BLOCKED_PENDING_C1_1_ACCEPTANCE"
+            "r8_status": "TERMINAL_EXIT0_EQUILIBRIUM_PASS",
+            "r8_c1_1_acceptance": "PASSED",
+            "stage_c1_2_dispatch": "ELIGIBLE_FOR_FORWARD_CONTINUATION_PREPARATION"
         }
     }
     return spec
@@ -170,7 +176,7 @@ def main():
         os.makedirs(os.path.dirname(out_path), exist_ok=True)
         with open(out_path, "w", encoding="utf-8") as f:
             json.dump(spec, f, indent=2)
-        print(f"Stage C1-2 Contract Specification written to {out_path}")
+        print("Stage C1-2 Contract Specification written to %s" % out_path)
     else:
         print(json.dumps(spec, indent=2))
 

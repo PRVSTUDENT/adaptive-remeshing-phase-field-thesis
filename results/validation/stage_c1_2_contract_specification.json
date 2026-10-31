@@ -26,7 +26,7 @@
     "gate_force_tol": 0.05,
     "gate_energy_tol": 0.02,
     "healing_tol": 1e-06,
-    "max_damage_limit": 1.000000001,
+    "max_damage_limit": 1.0,
     "history_monotonicity": "H_{k+1}(x) >= H_k(x) - 1e-9"
   },
   "current_predecessor_status": {
@@ -34,7 +34,8 @@
     "r7_status": "TERMINAL_EXIT1_DELTA_H_CAP_EXCEEDED",
     "r8_job_id": "1418939.mmaster02",
     "r8_job_name": "M1_C4_P148_R8",
-    "r8_status": "RUNNING_STAGGERED_EQUILIBRATION",
-    "stage_c1_2_dispatch": "STRICTLY_BLOCKED_PENDING_C1_1_ACCEPTANCE"
+    "r8_status": "TERMINAL_EXIT0_EQUILIBRIUM_PASS",
+    "r8_c1_1_acceptance": "PASSED",
+    "stage_c1_2_dispatch": "ELIGIBLE_FOR_FORWARD_CONTINUATION_PREPARATION"
   }
 }

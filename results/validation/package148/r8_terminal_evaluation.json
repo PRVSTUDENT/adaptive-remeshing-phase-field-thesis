@@ -1,0 +1,130 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "job_id": "1418939.mmaster02",
+  "package": "mode1_c4_package148_state_transfer_r8",
+  "status": "STAGE_C1_1_ACCEPTED",
+  "c1_1_acceptance": "PASSED",
+  "terminal_outer_iteration": 36,
+  "convergence": {
+    "converged": true,
+    "delta_h_MPa": 8.436607346201663e-07,
+    "delta_h_tol_MPa": 1e-06,
+    "delta_h_pass": true,
+    "delta_d": 1.0000000050247593e-08,
+    "delta_d_tol": 1e-05,
+    "delta_d_pass": true,
+    "delta_u_mm": 1.1641532182693481e-10,
+    "delta_u_tol_mm": 1e-09,
+    "delta_u_pass": true,
+    "free_error": 2.534223476714725e-09,
+    "dual_error": 0.0,
+    "kkt_passed": true
+  },
+  "physical_gates": {
+    "all_gates_pass": true,
+    "rf2_receiver_kN": 0.18592265248298645,
+    "rf2_donor_kN": 0.1873079389333725,
+    "delta_rf2_rel": 0.007395770079338757,
+    "delta_rf2_tol": 0.05,
+    "rf2_pass": true,
+    "energy_receiver_kNmm": 0.00021300298498970618,
+    "energy_donor_kNmm": 0.00021270454,
+    "delta_energy_rel": 0.001403096472252847,
+    "delta_energy_tol": 0.02,
+    "energy_pass": true,
+    "min_delta_d": -4.394105690419536e-09,
+    "healing_tol": 1e-06,
+    "no_healing_pass": true,
+    "damage_min": 0.00319694,
+    "damage_max": 0.52050462,
+    "bounds_pass": true
+  },
+  "state_serialization": {
+    "nodes_physical": 7265,
+    "reference_nodes": 1,
+    "total_model_nodes": 7266,
+    "integration_points": 28224,
+    "active_nodes_count": 26,
+    "checkpoint_sha256": "5d627b0340adb3099d5c8980f733160ffa134787704deaebc93d67ab55b8d81c",
+    "history_semantics": "max(authentic transferred H0, frozen UEL POS_M at converged endpoint)"
+  },
+  "history_investigation": {
+    "finding": "Outer iterations 26-30 exhibited bounded nonmonotonic Delta H fluctuations (4.16e-6 -> 4.46e-6 -> 8.32e-6 -> 2.88e-6 -> 3.01e-6 MPa) before monotonic descent resumed in iterations 31-36 (2.28e-6 -> 1.93e-6 -> 1.52e-6 -> 1.48e-6 -> 1.19e-6 -> 0.84e-6 MPa). Root cause: In the coupled staggered solve, Delta H measures the maximum Chebyshev residual |H^(k) - H^(k-1)| across all 28,224 Gauss points where H^(k) = max(H0, psi_e^+(u^(k))). Because u^(k) is an un-converged iterate, subtle compliance shifts during sub-nanometer damage adjustments (Delta d < 1e-7) produce local elastic strain energy density variations on the order of 10^-6 MPa (~1 Pa, or Delta psi / E ~ 10^-11). These fluctuations are purely iterative numerical residuals of the alternating fixed-point mapping; they do NOT violate physical history monotonicity (H_checkpoint >= H0 pointwise), cause phase healing (min Delta d = -4.39e-9 >= -1e-6), or degrade KKT complementarity (dual_error = 0.0 throughout). Convergence was achieved at iteration 36 without relaxing any physical or numerical tolerance.",
+    "delta_h_iterations_25_to_36": [
+      {
+        "outer": 25,
+        "delta_h_MPa": 7.212091118091735e-06,
+        "delta_d": 3.3999999998757247e-07,
+        "delta_u_mm": 2.3283064365386963e-10
+      },
+      {
+        "outer": 26,
+        "delta_h_MPa": 4.163812509894171e-06,
+        "delta_d": 2.4000000004020805e-07,
+        "delta_u_mm": 1.1641532182693481e-10
+      },
+      {
+        "outer": 27,
+        "delta_h_MPa": 4.456971755439909e-06,
+        "delta_d": 1.5000000003206893e-07,
+        "delta_u_mm": 1.1641532182693481e-10
+      },
+      {
+        "outer": 28,
+        "delta_h_MPa": 8.321713199421765e-06,
+        "delta_d": 1.200000000478596e-07,
+        "delta_u_mm": 1.1641532182693481e-10
+      },
+      {
+        "outer": 29,
+        "delta_h_MPa": 2.8811493117952836e-06,
+        "delta_d": 7.999999995789153e-08,
+        "delta_u_mm": 1.1641532182693481e-10
+      },
+      {
+        "outer": 30,
+        "delta_h_MPa": 3.0141856939280842e-06,
+        "delta_d": 7.000000001866624e-08,
+        "delta_u_mm": 1.1641532182693481e-10
+      },
+      {
+        "outer": 31,
+        "delta_h_MPa": 2.284905287308625e-06,
+        "delta_d": 3.0000000039720476e-08,
+        "delta_u_mm": 1.1641532182693481e-10
+      },
+      {
+        "outer": 32,
+        "delta_h_MPa": 1.93070279808083e-06,
+        "delta_d": 3.0000000039720476e-08,
+        "delta_u_mm": 1.1641532182693481e-10
+      },
+      {
+        "outer": 33,
+        "delta_h_MPa": 1.5191695820759854e-06,
+        "delta_d": 3.00000000119649e-08,
+        "delta_u_mm": 1.1641532182693481e-10
+      },
+      {
+        "outer": 34,
+        "delta_h_MPa": 1.4843281596899072e-06,
+        "delta_d": 2.0000000044984034e-08,
+        "delta_u_mm": 1.1641532182693481e-10
+      },
+      {
+        "outer": 35,
+        "delta_h_MPa": 1.1873702916442852e-06,
+        "delta_d": 2.000000001722846e-08,
+        "delta_u_mm": 1.1641532182693481e-10
+      },
+      {
+        "outer": 36,
+        "delta_h_MPa": 8.436607346201663e-07,
+        "delta_d": 1.0000000050247593e-08,
+        "delta_u_mm": 1.1641532182693481e-10
+      }
+    ]
+  },
+  "next_operation": "STAGE_C1_2_FORWARD_CONTINUATION_READY"
+}
