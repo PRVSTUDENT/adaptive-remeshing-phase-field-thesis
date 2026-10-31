@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "stage": "Stage_C1_2_Forward_Continuation",
+  "predecessor_stage": "Stage_C1_1_Coupled_State_Transfer_ReEquilibration",
+  "target_model": "Candidate_C4_Mesh",
+  "production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "state_serialization": {
+    "format": "7+8+3",
+    "components": [
+      "nodal_displacements (UX, UY)",
+      "nodal_phase_field (PHI, d)",
+      "integration_point_history (4 GP per CPE4 element, H0)"
+    ],
+    "total_integration_points": 28224,
+    "total_nodes": 7266,
+    "total_elements": 7056
+  },
+  "continuation_loading": {
+    "mode": "displacement_control",
+    "initial_uy_mm": 0.001800312544,
+    "target_uy_mm": 0.002,
+    "step_increment_uy_mm": 5e-05,
+    "solver": "staggered_mechanical_phase_pdas"
+  },
+  "acceptance_gates": {
+    "gate_force_tol": 0.05,
+    "gate_energy_tol": 0.02,
+    "healing_tol": 1e-06,
+    "max_damage_limit": 1.000000001,
+    "history_monotonicity": "H_{k+1}(x) >= H_k(x) - 1e-9"
+  },
+  "current_predecessor_status": {
+    "r7_job_id": "1418938.mmaster02",
+    "r7_status": "TERMINAL_EXIT1_DELTA_H_CAP_EXCEEDED",
+    "r8_job_id": "1418939.mmaster02",
+    "r8_job_name": "M1_C4_P148_R8",
+    "r8_status": "RUNNING_STAGGERED_EQUILIBRATION",
+    "stage_c1_2_dispatch": "STRICTLY_BLOCKED_PENDING_C1_1_ACCEPTANCE"
+  }
+}
