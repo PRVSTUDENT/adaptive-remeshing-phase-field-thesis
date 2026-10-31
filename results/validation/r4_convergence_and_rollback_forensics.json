@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "investigation_type": "PACKAGE157_R4_CONVERGENCE_AND_ROLLBACK_FORENSICS",
+  "classification": "VALID_REJECTED_TRIAL_AND_BISECTION",
+  "secondary_classification": "REPORTING_ONLY_DISCREPANCY",
+  "convergence_gate_breach": false,
+  "authentic_telemetry_source": {
+    "path": "results\\validation\\r4_live_iteration_telemetry_turn408.json",
+    "sha256": "C981D3EC94249F75D343045E4A7E58CAA6315C518469CADDE180C9EDAAC8738F",
+    "step1_records_count": 50,
+    "step2_records_count": 4
+  },
+  "step1_attempt_evaluation": {
+    "attempt_id": 1,
+    "start_uy_mm": 0.0018503125442191958,
+    "target_uy_mm": 0.0018603125442191958,
+    "load_increment_nm": 10.0,
+    "outer_iterations_performed": 50,
+    "max_outer_configured": 50,
+    "final_residuals": {
+      "delta_d": 5.870000000074427e-06,
+      "delta_d_tol": 1e-05,
+      "delta_d_pass": true,
+      "delta_u_mm": 3.071319633731265e-09,
+      "delta_u_tol_mm": 1e-09,
+      "delta_u_pass": false,
+      "delta_u_exceedance_ratio": 3.0713196337312647,
+      "delta_h_mpa": 0.00015186439107583993,
+      "delta_h_tol_mpa": 1e-06,
+      "delta_h_pass": false,
+      "delta_h_exceedance_ratio": 151.86439107583993,
+      "kkt_free_error": 4.685523936074146e-11,
+      "kkt_free_tol": 1e-06,
+      "kkt_free_pass": true,
+      "kkt_dual_error": 0.0,
+      "kkt_dual_pass": true
+    },
+    "coupled_convergence_satisfied": false,
+    "runtime_exception_thrown": "RuntimeError: Step 1 did not achieve coupled convergence within 50 iterations",
+    "acceptance_decision": "REJECTED",
+    "state_committed": false,
+    "checkpoint_emitted": false
+  },
+  "adaptive_bisection_evaluation": {
+    "attempt_id": 2,
+    "level": 1,
+    "subdivision_floor_nm": 5.0,
+    "bisection_formula": "midpoint = (start + target) / 2",
+    "start_uy_mm": 0.0018503125442191958,
+    "target_uy_mm": 0.0018553125442191958,
+    "advance_from_last_committed_state_nm": 5.0,
+    "nature_of_step": "FORWARD_LOADING_TRIAL",
+    "physical_unloading": false,
+    "state_rollback_verified": true,
+    "state_contamination": false
+  },
+  "root_cause_of_prior_discrepancy": {
+    "source": "Turn 407 session report narrative text",
+    "error_description": "Narrative colloquially described Step 1 outer 50 completion as 'converged' and the +5 nm bisection target as a '-5 nm decrement', mistaking the attempt termination at max_outer=50 for acceptance and the bisection for physical unloading.",
+    "impact_on_cluster_solver": "ZERO. Cluster solver correctly raised RuntimeError, recorded REJECTED, emitted zero checkpoints, and bisected with clean baseline state."
+  },
+  "scientific_implications": {
+    "r4_solver_validity": "UNCOMPROMISED",
+    "package156_disposition": "WITHHELD_PENDING_FINAL_C4_ACCEPTANCE",
+    "governing_rules_adherence": "Strict simultaneous enforcement of delta_d <= 1e-5, delta_u <= 1e-9 mm, delta_H <= 1e-6 MPa and KKT limits verified in code and live execution."
+  }
+}
