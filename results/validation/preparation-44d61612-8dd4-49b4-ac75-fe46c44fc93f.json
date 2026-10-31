@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Audited Package 151 (Job 1418950.mmaster02) convergence across 15 completed outer iterations: established Picard contraction rates (rho_u=0.8337, rho_d=0.8327, rho_h=0.8364), RF2 monotonic relaxation (-3.06%), strict crack irreversibility and monotonic history (min dh >= 0), and confirmed walltime feasibility (~2.16 h for 4 steps vs 8 h limit), while identifying that max_outer=30 cap necessitates Revision 2 with max_outer=80 for full convergence.",
+  "evidence_sources": {
+    "results/validation/package151_convergence_telemetry.json": "41DBBDF497D111CAF41329996E47B00A59C2C46B49E7AA727FCDE0734EE9F9C9",
+    "tests/unit/test_package151_convergence_telemetry.py": "2DAF158941C41F9EC1F9015200BAA93B025C8772653E35BF68BA131D882837EA",
+    "results/validation/initial_finding_turn376_44d61612.json": "AAF0FC64CFB638FE8D08100FEF3BB8F6A9AC83AA5305DA3C5AACDDE987AD19B2",
+    "scripts/validation/audit_package151_convergence_analysis.py": "CEB83DE17DE21D29EA0DCFD041857E3F545EEF852B65F7789B55DD5D12255C97"
+  },
+  "verification_passed": true
+}
