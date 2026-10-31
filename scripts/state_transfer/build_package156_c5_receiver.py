@@ -253,8 +253,6 @@ N_RP, 2, 2, {target_uy:.17g}
 *Output, field, frequency=1
 *Node Output
 U, RF
-*Element Output, elset=umatelem
-SDV
 *Node Print, frequency=1
 U
 *End Step
@@ -279,44 +277,35 @@ N_RP, 2, 2, {target_uy:.17g}
 *Output, field, frequency=1
 *Node Output
 U, RF
-*Element Output, elset=umatelem
-SDV
 *End Step
 """
     dc_mech.write_text(dc_mech_content, encoding="utf-8")
     print(f"  Wrote {dc_mech.name}")
 
     # 10. Build Phase Datacheck Deck: P156_PHASE_DC.inp
-    # Strips *EQUATION cards and mechanical BCs; prescribes displacements on nodes
-    c5_lines = c5_header.splitlines()
-    clean_lines = []
-    skip_eq = False
-    for line in c5_lines:
-        u = line.strip().upper()
-        if u.startswith("*EQUATION"):
-            skip_eq = True
-            continue
-        if skip_eq:
-            if line.strip().startswith("*") and not line.strip().startswith("**"):
-                skip_eq = False
-                clean_lines.append(line)
-            continue
-        clean_lines.append(line)
+    # Derives from P155_PHASE_DC.inp template (isolated U1 phase elements, zero mechanical BCs)
+    # Slices before model-level *Boundary to avoid duplicate/conflicting node-set boundary definitions
+    p155_dc_phase = REPO_ROOT / "models/pandey_kumar_mode1/155_c5_candidate_mesh/P155_PHASE_DC.inp"
+    p155_phase_text = p155_dc_phase.read_text(encoding="utf-8")
+    bnd_pos = p155_phase_text.find("*Boundary")
+    if bnd_pos != -1:
+        phase_header = p155_phase_text[:bnd_pos].rstrip()
+    else:
+        phase_step_pos = p155_phase_text.find("*Step")
+        if phase_step_pos == -1:
+            raise ValueError("Could not find *Step or *Boundary in P155_PHASE_DC template")
+        phase_header = p155_phase_text[:phase_step_pos].rstrip()
 
     dc_phase = target_dir / "P156_PHASE_DC.inp"
-    dc_phase_content = "\n".join(clean_lines).rstrip() + "\n*INCLUDE, INPUT=initial_conditions_solution.inc\n"
-    dc_phase_content += f"""*Step, name=P156_DC_PHASE, nlgeom=NO, inc=1
+    dc_phase_content = phase_header + "\n*INCLUDE, INPUT=initial_conditions_solution.inc\n"
+    dc_phase_content += """*Step, name=P156_DC_PHASE, nlgeom=NO, inc=1
 *Static
 1.0, 1.0, 1.0, 1.0
 *Boundary
-N_BOTTOM, 1, 2, 0.0
-N_TOP, 1, 2, 0.0
 *INCLUDE, INPUT=active_set_boundary_cards.inc
 *Output, field, frequency=1
 *Node Output
-U, RF
-*Element Output, elset=umatelem
-SDV
+U
 *End Step
 """
     dc_phase.write_text(dc_phase_content, encoding="utf-8")
