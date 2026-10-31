@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "e103c3d9-db89-4c1c-bf43-565b49c04e1e",
+  "finding": "Authentic matching-reference interpolation from candidate donor h0025 replaces heuristic scaling in Package 157 R4 continuation physical acceptance evaluator, passing all 7 unit regression tests.",
+  "evidence_sources": {
+    "scripts/validation/evaluate_package157_continuation_acceptance.py": "6CACBE8B4A63F2DC9995D60715AD0C78BBF5A560BA1A05C39244BBEEA6F710D6",
+    "tests/unit/test_mode1_package157_acceptance_evaluator.py": "CDB1848C4175CC9D9139DE12C541BF4585A9988B797650E96468ACB58F4814FB",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/evidence_1416259/donor_h0025_rf_curve.csv": "8CEFAF0727CA2A16650F435AC88190C975F469000760F228733CDB39E46E403F",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/evidence_1416259/uel_energy_balance.csv": "5D0FD1157C5E1EB2AF29F09EF0AE98D772FE30463B1D94EF8BB11A7CFDC7F50B",
+    "results/validation/step1_equilibrium_checkpoint_1419113_endpoint.json": "FD75727BFDF8B83E03F067E0AC341ED91FB4FFE1A704B16E712714B38F300DDC",
+    "results/validation/c3_donor_curve_inspection.json": "4D04F53C5E41C9A4AC7850987DEA4AB7E4CAF4DF7F6D40C2BDF4089FF9E4DFA0"
+  },
+  "verification_passed": true,
+  "details": {
+    "pbs_job_id": "1419147.mmaster02",
+    "live_solver_state": "RUNNING (Step 1 Outer 26, delta_d=1.19e-4, delta_u=6.23e-8 mm, delta_h=0.00308 MPa, free_error=9.5e-10, dual_error=0.0)",
+    "unit_tests_passed": 7,
+    "authentic_reference_rows": 195,
+    "donor_peak_displacement_mm": 0.00188205077,
+    "donor_peak_rf2_kN": 0.186230943,
+    "donor_rupture_limit_mm": 0.00254010735
+  }
+}
