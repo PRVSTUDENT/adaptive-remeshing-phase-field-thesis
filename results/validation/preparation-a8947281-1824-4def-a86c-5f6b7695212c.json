@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "a8947281-1824-4def-a86c-5f6b7695212c",
+  "finding": "Audited Package 155 C5 candidate adaptivity against 266 Package 153 MISESERI marks (eta >= 0.15) and proved zero coarsening domain-wide (0/10,000 spatial probes coarsened). Regional area ratios show marked quads refined to A_C5/A_C4 = 0.5653 with 53 slit-flank node pairs preserving exact crack topology along y=0.05 mm, x <= 0.04 mm. Qualified C4->C5 nonmatching state transfer engine (c4_to_c5_spatial_mapping.py) achieving 100% nodal and Gauss-point coverage, zero cross-slit flank violations, and exact machine-precision linear patch test preservation (error < 2.3e-16 mm). All 15 unit tests pass.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/PACKAGE_MANIFEST.json": "6100933A82E429207BA5D5ECA08943BB4366880B54807E56FD7C440D4DB397AE",
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/c4_to_c5_correspondence.json": "76376D3C4C32DAC2AB9FA6487F549586B86C4B3C80556E6FF16A61076626769B",
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/M1_C5_CANDIDATE_MESH.inp": "DB261F26D34352DB743432A47FC929BF6B4B4E808A1D4C13146FF4902776D197",
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/P155_MECHANICAL_DC.inp": "2C26C2A9CA919A6EACEF94EDCDD8654B122CE68561928D4B3AD7A2C1F6A2011C",
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/P155_PHASE_DC.inp": "40F6C0D5DB7939F0D4D9EDE7E7302264B52FAFD06811996D935F26B5986EDCC0",
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/P155_COMPANION_DC.inp": "1B4620B2D84A77CD83C83C4EBBFCCFC50CC910E62122312BA446D04BA0312444",
+    "results/validation/package155_adaptivity_audit_rigorous.json": "D183A215AB2C76F71D593FE5D2986924621EBDD704AA3DDAB8611E5D719AA8BE",
+    "results/validation/c4_to_c5_transfer_qualification.json": "CD2417FF1A7DEDDB7E69B21126AC456463DCF3213A7189F33E6077EECD9D7CAD",
+    "scripts/state_transfer/c4_to_c5_spatial_mapping.py": "B55BD8272ADB89635720FE8AD7B55A7CC81C3E18CACBD009BDB49B63D1F594FB",
+    "tests/unit/test_c4_to_c5_transfer_operator.py": "15C1C7D9914E9DBB9704E85E4F3B60710039D06BE4F82D66DD0AEE8A3A4E63C6",
+    "tests/unit/test_package155_c5_candidate_mesh.py": "6885B6E909D1BCB4BB189DCA160FDC1D1DDB4B8846ADD75E90815CD83EC8A567",
+    "results/validation/initial_finding_turn385_a8947281.json": "26CD7F017962AFA125CCF62AAEAEA67CA772BE190E7B58DD699631DE2FE5EAFC"
+  },
+  "verification_passed": true
+}
