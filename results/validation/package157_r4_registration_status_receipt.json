@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "run_id": "885e4ba5-38dc-432e-abf2-4aaee364f925",
+  "registration_status": "REGISTRATION_PENDING_REVIEW",
+  "target_operation_id": "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+  "present_in_controller_operations": false,
+  "scientific_review_ref": "results/validation/package157_r4_scientific_review_and_registration_handoff.json",
+  "authentic_history_audit_ref": "results/validation/authentic_step1_history_audit.json",
+  "authentic_solution_cards": "results/validation/step1_committed_solution_initial.inc",
+  "authentic_solution_cards_sha256": "306ABF3C09FAA9CB9CEA37F48B8E93A8509C0FF0D0258E9B47667367D9808F60",
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "frozen_uel_verified": true,
+  "locked_experiment_definition": {
+    "candidate_experiment_id": "M1_C4_P150_C1_2_R4",
+    "target_package": "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r4",
+    "baseline_displacement_uy_mm": 0.0018503125442191958,
+    "reaction_force_rf2_kN": 0.18500999876,
+    "initial_forward_substeps_nm": [
+      10.0,
+      10.0,
+      10.0,
+      10.0,
+      10.0
+    ],
+    "initial_forward_targets_mm": [
+      0.0018603125442191958,
+      0.0018703125442191958,
+      0.0018803125442191958,
+      0.0018903125442191959,
+      0.0019003125442191957
+    ],
+    "final_continuation_ceiling_mm": 0.002,
+    "minimum_subdivision_increment_nm": 5.0,
+    "acceptance_criteria": {
+      "delta_H_tol_MPa": 1e-06,
+      "delta_d_tol": 1e-05,
+      "delta_u_tol_mm": 1e-09,
+      "signed_kkt_tol_MPa": 1e-06,
+      "zero_damage_healing_enforced": true,
+      "monotonic_history_enforced": true,
+      "reaction_force_discrepancy_pct_max": 5.0,
+      "energy_discrepancy_pct_max": 2.0
+    }
+  },
+  "registration_prerequisite": "Add execute_mode1_package157_c1_2_r4_adaptive_continuation to scripts/controller/Controller-Operations.ps1 with its manifest and execution script binding prior to execution turn dispatch.",
+  "verified_hashes": {
+    "results/validation/step1_committed_solution_initial.inc": "306ABF3C09FAA9CB9CEA37F48B8E93A8509C0FF0D0258E9B47667367D9808F60",
+    "results/validation/authentic_step1_history_audit.json": "1D3C75675E1F6CBF61DED73991E01D40983C8923AE022F95E4D084E6DE0C541C",
+    "results/validation/step1_equilibrium_checkpoint_1419113_full_history.json": "1640388AA1831CF896A980DC0228CF7F72B38B9077ECEB97207664927C0D1980",
+    "results/validation/step1_equilibrium_checkpoint_1419113_endpoint.json": "FD75727BFDF8B83E03F067E0AC341ED91FB4FFE1A704B16E712714B38F300DDC",
+    "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  }
+}
