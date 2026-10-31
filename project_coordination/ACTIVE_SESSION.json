@@ -1,26 +1,23 @@
-{
+﻿{
     "active":  false,
-    "agent":  "gemini-antigravity",
+    "agent":  "codex",
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "starting_commit":  "5aea092c996af869df97915311458a1500d89004",
-    "claimed_at":  "2026-10-31T11:30:00.0040559+01:00",
-    "last_updated":  "2026-10-31T11:50:15.4131769+01:00",
-    "last_released":  "2026-10-31T11:50:15.4131769+01:00",
-    "controller_run_id":  "ccdabd62-f135-46b0-bc02-e04e0db15759",
-    "session_report":  "project_coordination/sessions/2026-10-31_gemini-antigravity_F1597_ccdabd62-f135-46b0-bc02-e04e0db15759.md",
+    "starting_commit":  "b951e88bd19b9769d8fd85cb62a2316a7ae195bc",
+    "claimed_at":  "2026-10-31T11:00:24.8977893+00:00",
+    "last_updated":  "2026-10-31T11:02:13.9540476+00:00",
+    "last_released":  "2026-10-31T11:02:13.9540476+00:00",
+    "controller_run_id":  "codex-turn381-receipt-reconciliation",
+    "session_report":  "project_coordination/sessions/2026-10-31_codex_turn381_receipt_reconciliation.md",
     "allowed_write_scope":  [
-                                "project_coordination/sessions/2026-10-31_gemini-antigravity_F1597_ccdabd62-f135-46b0-bc02-e04e0db15759.md",
+                                "scripts/validation/reconcile_turn381_receipt.py",
+                                "tests/unit/test_turn381_receipt_reconciliation.py",
+                                "results/validation/turn381_receipt_reconciliation/*",
                                 "project_coordination/controller/turn-ccdabd62-f135-46b0-bc02-e04e0db15759.json",
-                                "results/validation/mode1_f1597/ccdabd62-f135-46b0-bc02-e04e0db15759.json",
-                                "results/validation/preparation-ccdabd62-f135-46b0-bc02-e04e0db15759.json",
-                                "results/validation/*",
-                                "scripts/validation/*",
-                                "tests/unit/*",
-                                "models/pandey_kumar_mode1/*",
                                 "project_coordination/ACTIVE_SESSION.json",
                                 "project_coordination/ACTIVE_TASK.json",
                                 "project_coordination/CURRENT_STATE.md",
+                                "project_coordination/ARTIFACT_REGISTRY.csv",
                                 "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/ARTIFACT_REGISTRY.csv"
+                                "project_coordination/sessions/2026-10-31_codex_turn381_receipt_reconciliation.md"
                             ]
 }

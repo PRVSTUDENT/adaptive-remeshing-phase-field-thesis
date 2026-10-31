@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "verification_passed": true,
+  "status": "INVESTIGATION_COMPLETE",
+  "finding": "Turn381 fallback receipt fails solely on stale Package153 audit byte hash; all audit fields independently reproduced from the original hash-bound 7056-row CSV. Final response lacks Finished. No numerical result changed.",
+  "original_run_id": "ccdabd62-f135-46b0-bc02-e04e0db15759",
+  "mismatches": [
+    {
+      "path": "models/pandey_kumar_mode1/153_c4_companion_miseseri/c4_package153_miseseri_audit.json",
+      "expected": "2FF65297E1B94B5A7840C4793F88E72CB4EE482C328E8764CBDFEB0BE399B821",
+      "actual": "213241FC3A8D8467A6A27F3D834EBE4EF4536963933B5754D012904FECBC7849"
+    }
+  ],
+  "audit_semantic_reconstruction": "PASS_ALL_FIELDS",
+  "mutation_writer": "UNESTABLISHED; current audit is the committed blob, not an uncommitted local change",
+  "elements": 7056,
+  "marked_elements": 266,
+  "numerical_assumptions_changed": false,
+  "scientific_limitations": "P152 R2 Step1 history stopping criterion failed; C1-2 remains unaccepted. C5 transfer/continuation remains dependent. Original marking contains old audit byte hash and needs fresh provenance qualification before downstream execution.",
+  "tests": ".................                                                        [100%]\n17 passed in 0.76s\n"
+}

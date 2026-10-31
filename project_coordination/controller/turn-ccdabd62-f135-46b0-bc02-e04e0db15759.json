@@ -31,10 +31,18 @@
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-ccdabd62-f135-46b0-bc02-e04e0db15759.json",
-                                  "sha256":  "0702A209DBF9BF476EC71566C17352399B5D7CCF131A4E6CBE10C0368C9569CF",
+                                  "artifact":  "results/validation/turn381_receipt_reconciliation/corrected_preparation.json",
+                                  "sha256":  "593E24BB925F78A79A96F7BF6B5AB26B3AA3FBF6E45FD4EC7A48E3D230F89930",
                                   "created_at":  "2026-10-31T11:48:10.0953843+01:00"
                               },
     "stage":  "COMPLETE",
-    "next_action":  "Advance to qualified execution or next research task"
+    "next_action":  "Advance to qualified execution or next research task",
+    "closeout_receipt_correction":  {
+                                        "original_bootstrap_sha256":  "519FAD01EFDCDE3C570462C7F8F6B8F90DB2E19044BFB6E360460F13DECB79AF",
+                                        "original_bootstrap":  "results/validation/turn381_receipt_reconciliation/original_bootstrap.json",
+                                        "reason":  "Distinct corrected byte provenance after complete audit reconstruction; no scientific data change",
+                                        "original_preparation_sha256":  "0702A209DBF9BF476EC71566C17352399B5D7CCF131A4E6CBE10C0368C9569CF",
+                                        "original_preparation":  "results/validation/preparation-ccdabd62-f135-46b0-bc02-e04e0db15759.json",
+                                        "review":  "results/validation/turn381_receipt_reconciliation/review.json"
+                                    }
 }
