@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "turn": 390,
+  "run_id": "58228402-7069-4d7d-941d-17e6af41dd12",
+  "timestamp": "2026-10-31T14:45:00+01:00",
+  "status": "PACKAGE156_RUNTIME_INTERFACE_VERIFIED_PASS",
+  "frozen_uel_verification": {
+    "path": "models/pandey_kumar_mode1/156_c5_package156_c2_0_re_equilibration/f42_mixed_uel.for",
+    "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "expected_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "preservation_pass": true
+  },
+  "gauss_point_history_verification": {
+    "total_elements": 12996,
+    "total_gauss_points": 51984,
+    "min_history_mpa": 0.0,
+    "max_history_mpa": 5.470839300154904,
+    "max_discrepancy_vs_csv": 0.0,
+    "non_negativity_pass": true,
+    "exact_bounds_agreement_pass": true,
+    "quadrature_ordering": "COUNTER_CLOCKWISE_(-s,-s)_(+s,-s)_(+s,+s)_(-s,+s)",
+    "svars_slots": "SVARS_9_10_11_12"
+  },
+  "svars_783_card_layout": {
+    "card_structure": "7_PLUS_8_PLUS_3_CARDS_PER_QUAD",
+    "total_data_lines": 38988,
+    "sequential_ids_pass": true,
+    "padding_zeros_pass": true,
+    "unintended_slot_shift_detected": false,
+    "unintended_state_override_detected": false
+  },
+  "nodal_damage_verification": {
+    "total_physical_nodes": 13278,
+    "min_damage": 0.00319694,
+    "max_damage": 0.5185887405882353,
+    "physical_bounds_pass": true,
+    "active_set_constrained_nodes": 13277
+  },
+  "kinematics_and_boundary_conditions": {
+    "bottom_roller_max_uy_error_mm": 0.0,
+    "pinned_node_max_ux_error_mm": 0.0,
+    "boundary_consistency_pass": true,
+    "holding_displacement_rp999999_mm": 0.0018003125442191958,
+    "slit_seam_pairs": 53,
+    "slit_flank_isolation_pass": true
+  },
+  "uel_interface_contract": {
+    "lop0_zeroes_arrays": true,
+    "inc1_reads_svars_9_12": true,
+    "lop1_restores_trial_from_committed": true,
+    "lop2_commits_trial_to_committed": true,
+    "mechanical_reads_sv_phase_trial": true,
+    "mechanical_updates_sv_h_trial": true,
+    "phase_reads_sv_h_trial": true,
+    "n_phys_props6_parameterization": true
+  },
+  "runtime_admissibility_verdict": "VERIFIED_PASS_READY_FOR_C2_0_EXECUTION_UPON_PREDECESSOR_ACCEPTANCE"
+}
