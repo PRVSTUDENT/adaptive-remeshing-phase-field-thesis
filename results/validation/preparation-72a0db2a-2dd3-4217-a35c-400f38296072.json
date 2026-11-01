@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Authentic fracture-energy provenance and state-transfer consistency confirmed: the apparent 63% discrepancy between offline pilot donor energy (1.96041e-5 kN*mm) and Abaqus Checkpoint 01 (5.29309e-5 kN*mm) is an exact unit normalisation mismatch (pilot assumed unit Gc = 0.001 kN/mm while the Pandey-Kumar Mode-I deck prescribes physical Gc = 0.0027 kN/mm). Scaled by 2.7000, Python quadrature matches Abaqus UEL output to machine precision (diff: 2.71e-20 kN*mm, 5.12e-14%). Using physical parameters, transferred receiver fracture energy is 5.28890e-5 kN*mm vs authentic donor 5.29309e-5 kN*mm (diff: 0.0792% <= 2.0% PASS), elastic energy diff is 0.5412% (PASS), and RAW total energy diff is 0.3947% (PASS). Damage peak drop from 0.60525 to 0.60337 (0.31%) reflects standard convex bilinear interpolation smoothing on non-coincident receiver coordinates. Package 158 R5 canonical operation identity confirmed as execute_mode1_package158_c2_0_r5_re_equilibration.",
+  "evidence_sources": {
+    "scripts/validation/audit_authentic_fracture_energy_consistency.py": "05DA09D5AFD68792F4E95D084CE5C3138018F018A528E440D49D560ADCF62771",
+    "tests/unit/test_authentic_fracture_energy_audit.py": "F964B4F8A99E4D43CDA990911FEC07F91391D871D903F78BE834F97E67536040",
+    "results/validation/authentic_fracture_energy_audit.json": "B1BEBB0480ACEEA83B7AA6B095FF4DB257422A143ED910667186C9860F499F84"
+  },
+  "verification_passed": true
+}

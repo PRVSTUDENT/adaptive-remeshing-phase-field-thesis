@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "package_name": "PACKAGE_159_COMBINED_INDICATOR_RECEIVER_CANDIDATE",
+  "investigation": "COMBINED_INDICATOR_RECEIVER_RESTART_READINESS",
+  "status": "RECEIVER_INPUT_OFFLINE_VERIFIED",
+  "anchor_state": {
+    "donor_source": "converged_checkpoint_01.json (Job 1419162.mmaster02)",
+    "target_uy_mm": 0.0018603125442191958,
+    "max_damage_donor": 0.60525042,
+    "max_damage_receiver": 0.603370355882353,
+    "damage_peak_drop_percent": 0.31062582619058116
+  },
+  "mesh_topology": {
+    "physical_quads": 13924,
+    "total_uel_elements": 27848,
+    "physical_nodes": 14216,
+    "reference_node_rp": 999999,
+    "duplicate_slit_flank_pairs": 55,
+    "min_det_jacobian": 6.249999999999756e-08,
+    "positive_jacobians_verified": true,
+    "min_element_size_mm": 0.0004999999999999935,
+    "resolution_ratio_to_l0": 0.0666666666666658
+  },
+  "energy_verification": {
+    "material_parameters": {
+      "l0_mm": 0.0075,
+      "Gc_kN_per_mm": 0.0027,
+      "E_kN_per_mm2": 210.0,
+      "nu": 0.3,
+      "k_res": 1e-07
+    },
+    "energies_kNmm": {
+      "donor_fracture": 5.293094563540548e-05,
+      "receiver_fracture": 5.288901248226904e-05,
+      "fracture_discrepancy_percent": 0.07922237668921107,
+      "donor_elastic": 0.00017117708414604024,
+      "receiver_elastic": 0.0001721035541916303,
+      "elastic_discrepancy_percent": 0.5412348564131675,
+      "donor_total_raw": 0.00022410802978144572,
+      "receiver_total_raw": 0.00022499256667389935,
+      "total_discrepancy_percent": 0.3946921907779247
+    },
+    "energy_gates_satisfied": {
+      "fracture_gate_pass": true,
+      "elastic_gate_pass": true,
+      "total_raw_gate_pass": true
+    }
+  },
+  "transfer_integrity": {
+    "mapped_nodes": 14216,
+    "unmapped_nodes": 0,
+    "mapped_gps": 55696,
+    "unmapped_gps": 0,
+    "cross_slit_violations": 0,
+    "active_damage_nodes_count": 119,
+    "damage_monotonicity_satisfied": true,
+    "damage_bounds_satisfied": true
+  },
+  "comparison_with_package158": {
+    "p158_elements": 12544,
+    "p159_elements": 13924,
+    "element_delta": 1380,
+    "element_delta_percent": 11.001275510204081,
+    "p158_nodes": 12821,
+    "p159_nodes": 14216,
+    "node_delta": 1395,
+    "p158_seam_pairs": 52,
+    "p159_seam_pairs": 55,
+    "marking_strategy_comparison": {
+      "p158_strategy": "Companion linear-elastic MISESERI error indicator alone (stationary corridor)",
+      "p159_strategy": "Unified MISESERI (stress error) U Damage Process Zone (d >= 0.5)",
+      "additional_fracture_elements_captured": 73,
+      "crack_path_bias": "STRICTLY_NONE (autonomous state-dependent marking)"
+    }
+  },
+  "deck_hashes": {
+    "P159_MECHANICAL_DC.inp": "53C1D62BE1CF7EF81545CA882AE8B2CFE02F4847DF4AAF7A1890969B5BD4B52D",
+    "P159_PHASE_DC.inp": "63D117AD866863001942AA22BA88C6E5C62517DE1EB540D77338DFA55CCD6BDA",
+    "M1_P159_COMBINED_RECEIVER_CONTINUATION.inp": "EFDC270B82CB582C62929ED1BACB97F4F32E70E884B068B2F8356FC32C131999",
+    "initial_conditions_solution.inc": "090C41C1FF73DE27F6750D50A8F147AAEB4A630123835ECB58F918E78142E7AF",
+    "active_set_boundary_cards.inc": "77C04F50C82D428DE83D7B8CB8BEA5AA621DF7FB7A7B107B7AF45AB7213F2E6F",
+    "nodal_displacements_initial.csv": "CA7F277CB45E386150FB69E0DEC6677E992EC3E9C456606B1356DAAD795D99A3",
+    "nodal_phase_field_initial.csv": "F6AB9A9F47148AE4ACF667CE721EB62B10A4CD93A4589E4C3B09B4C3D8A5448C",
+    "d_lower_bounds.csv": "B53BFA9B1385D2B5719907D49888B9D9F6C2581B25533624DB66F82A2F08B68E",
+    "f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "canonical_operation_identity_resolution": {
+    "package158_canonical_operation": "execute_mode1_package158_c2_0_r5_re_equilibration",
+    "package159_recommended_operation": "execute_mode1_package159_c2_0_r1_combined_re_equilibration"
+  }
+}
