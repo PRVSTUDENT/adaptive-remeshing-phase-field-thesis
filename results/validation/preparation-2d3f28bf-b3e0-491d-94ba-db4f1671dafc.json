@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Coupled iteration contraction analysis of Package 157 R5 (Job 1419162) authentic telemetry establishes SLOW_GEOMETRIC_CONTRACTION_CONFIRMED. Staggered coupling exhibits monotonic geometric decay (tail mean rho_H = 0.907-0.933) with zero active-set chatter and vanishing KKT residuals (free_error < 1.8e-11, dual_error = 0.0). Step 3 (+5 nm) was only 8 iterations away from reaching delta_H <= 1.0e-6 MPa when truncated by max_outer = 100, ruling out active-set or nonlinear divergence defects.",
+  "evidence_sources": {
+    "results/validation/package157_r5_telemetry_1419162.json": "C821CA0BBD06B4423C0FC2E18635DCE8D8084C8B9E253CBFF8D22B1D475FF333",
+    "scripts/validation/analyze_package157_r5_contraction.py": "B58B0B3E3D33492F4494EB038CC6C78147A8C83AF579ECE471991FD46AE65AC7",
+    "results/validation/package157_r5_contraction_analysis.json": "1075B877DCE9C6BD93D4B3FEB9A70764DB8726A00E42327BA8BC81D36FB7AB4F",
+    "tests/unit/test_package157_r5_contraction_analysis.py": "3462CD0740AAE362540B6604259599E22B8584347FD32A4542524BC68DD305EF"
+  },
+  "verification_passed": true,
+  "details": {
+    "job_id": "1419162.mmaster02",
+    "package": "package157_c1_2_continuation_r5",
+    "overall_classification": "SLOW_GEOMETRIC_CONTRACTION_CONFIRMED",
+    "tolerance_delta_h_MPa": 1.0e-6,
+    "step1": {
+      "target_uy_mm": 0.0018603125442191958,
+      "converged": true,
+      "converged_outer_iteration": 91,
+      "final_delta_h_MPa": 9.146627117928574e-07,
+      "tail_mean_rho_h": 0.8831728395087645
+    },
+    "step2": {
+      "target_uy_mm": 0.0018703125442191958,
+      "converged": false,
+      "total_outer_iterations": 100,
+      "final_delta_h_MPa": 6.172375428015187e-05,
+      "tail_mean_rho_h": 0.9331741883810686,
+      "estimated_extra_iterations_needed": 60,
+      "projected_total_iterations": 160
+    },
+    "step3": {
+      "target_uy_mm": 0.0018653125442191958,
+      "converged": false,
+      "total_outer_iterations": 100,
+      "final_delta_h_MPa": 2.0427325377880834e-06,
+      "tail_mean_rho_h": 0.9066707073342885,
+      "estimated_extra_iterations_needed": 8,
+      "projected_total_iterations": 108
+    },
+    "kkt_residuals": {
+      "final_dual_error": 0.0,
+      "step2_free_error": 1.7708931726362256e-11,
+      "step3_free_error": 1.1769893379012927e-12
+    },
+    "active_set_stability": {
+      "tail_chatter_detected": false,
+      "active_set_stationary": true
+    },
+    "unit_test_status": "4_OF_4_PASSED"
+  }
+}
