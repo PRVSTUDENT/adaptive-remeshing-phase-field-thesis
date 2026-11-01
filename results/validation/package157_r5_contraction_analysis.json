@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "telemetry_source": "results/validation/package157_r5_telemetry_1419162.json",
+  "job_id": "1419162.mmaster02",
+  "package": "package157_c1_2_continuation_r5",
+  "overall_classification": "SLOW_GEOMETRIC_CONTRACTION_CONFIRMED",
+  "finding": "Coupled iteration contraction analysis confirms SLOW_GEOMETRIC_CONTRACTION. For Step 2, rho_H in the tail averages ~0.865 (monotonic geometric decay), requiring ~28 additional iterations beyond the 100-iteration cap (projected total ~128) to reach tol_H = 1.0e-6 MPa. KKT residuals remain vanishingly small (free_error < 1.5e-12, dual_error = 0.0) with stationary active set, ruling out active-set defect or nonlinear divergence.",
+  "tolerance_delta_h_MPa": 1e-06,
+  "tolerance_delta_d": 1e-05,
+  "tolerance_delta_u_mm": 1e-09,
+  "max_outer_limit": 100,
+  "steps_analysis": {
+    "1": {
+      "step": 1,
+      "target_uy_mm": 0.0018603125442191958,
+      "total_iterations": 91,
+      "converged": true,
+      "final_delta_h_MPa": 9.146627117928574e-07,
+      "final_delta_d": 4.000000008996807e-08,
+      "final_delta_u_mm": 1.813670014953056e-11,
+      "final_free_error": 1.3772575020581121e-12,
+      "final_dual_error": 0.0,
+      "active_set_tail_chatter": false,
+      "tail_mean_rho_h": 0.8831728395087645,
+      "tail_mean_rho_d": 0.8903526657955296,
+      "estimated_extra_iterations_needed": 0,
+      "projected_total_iterations": 91,
+      "classification": "CONVERGED_SUCCESSFULLY",
+      "last_5_delta_h": [
+        1.4872488565131903e-06,
+        1.382764879487297e-06,
+        1.1582635988105494e-06,
+        1.0311843530175224e-06,
+        9.146627117928574e-07
+      ],
+      "last_5_rho_h": [
+        0.8964972514005188,
+        0.9297468096422997,
+        0.8376432002236067,
+        0.890284693463968,
+        0.8870021244177227
+      ]
+    },
+    "2": {
+      "step": 2,
+      "target_uy_mm": 0.0018703125442191958,
+      "total_iterations": 100,
+      "converged": false,
+      "final_delta_h_MPa": 6.172375428015187e-05,
+      "final_delta_d": 1.9400000000890927e-06,
+      "final_delta_u_mm": 1.1067324476570634e-09,
+      "final_free_error": 1.7708931726362256e-11,
+      "final_dual_error": 0.0,
+      "active_set_tail_chatter": false,
+      "tail_mean_rho_h": 0.9331741883810686,
+      "tail_mean_rho_d": 0.9332764277420846,
+      "estimated_extra_iterations_needed": 60,
+      "projected_total_iterations": 160,
+      "classification": "SLOW_GEOMETRIC_CONTRACTION_CONFIRMED",
+      "last_5_delta_h": [
+        8.14906757167222e-05,
+        7.605342078687016e-05,
+        7.103921315465556e-05,
+        6.628600531755069e-05,
+        6.172375428015187e-05
+      ],
+      "last_5_rho_h": [
+        0.9320616354652378,
+        0.9332775819806304,
+        0.9340699263710139,
+        0.9330903647995521,
+        0.9311732391242641
+      ]
+    },
+    "3": {
+      "step": 3,
+      "target_uy_mm": 0.0018653125442191958,
+      "total_iterations": 100,
+      "converged": false,
+      "final_delta_h_MPa": 2.0427325377880834e-06,
+      "final_delta_d": 7.000000001866624e-08,
+      "final_delta_u_mm": 3.7943830260948885e-11,
+      "final_free_error": 1.1769893379012927e-12,
+      "final_dual_error": 0.0,
+      "active_set_tail_chatter": false,
+      "tail_mean_rho_h": 0.9066707073342885,
+      "tail_mean_rho_d": 0.9047881063190127,
+      "estimated_extra_iterations_needed": 8,
+      "projected_total_iterations": 108,
+      "classification": "SLOW_GEOMETRIC_CONTRACTION_CONFIRMED",
+      "last_5_delta_h": [
+        2.972358245756368e-06,
+        2.757215351145703e-06,
+        2.4215996550225327e-06,
+        2.2093207947548876e-06,
+        2.0427325377880834e-06
+      ],
+      "last_5_rho_h": [
+        0.9018655951585279,
+        0.9276187872313763,
+        0.8782773003263193,
+        0.9123394076195184,
+        0.9245975245594489
+      ]
+    }
+  }
+}
