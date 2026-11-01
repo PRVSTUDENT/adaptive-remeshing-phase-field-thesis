@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "classification": "P159_SCIENTIFICALLY_CONSISTENT_OFFLINE",
+  "finding": "Package 159 scientific consistency and Abaqus readiness audit completed (P159_SCIENTIFICALLY_CONSISTENT_OFFLINE): (1) Refinement threshold discrepancy resolved: Package 159 strictly implements M = {eta >= 0.15} U {d_e >= 0.5} (339 marked elements, 4.80% of donor domain); the mention of 'd >= 0.15' in Turn 435 narrative text was an isolated typographical error, as d >= 0.15 marks 3643 elements (51.6%). (2) Fracture energy units reconciled: Gc = 0.0027 kN/mm in the Abaqus deck corresponds to physical Gc = 2.7 N/mm (2700 J/m^2) in the mm-kN-GPa system, yielding authentic Checkpoint 01 fracture energy 5.29309e-5 kN*mm with 0.0792% continuity. (3) Receiver integrity verified offline across 13924 quads, 27848 UEL elements, 14216 nodes, 55 seam pairs, positive Jacobians, complete state transfer, and active-set lower obstacle enforcement without healing. (4) Canonical Package 158 R5 identity confirmed as execute_mode1_package158_c2_0_r5_re_equilibration.",
+  "evidence_sources": {
+    "scripts/validation/audit_package159_consistency_and_readiness.py": "D69E6E79362F85F2EFA152A477FBE3D56E1C0FA1275D47FCDDF352B4D394E76F",
+    "tests/unit/test_package159_consistency_and_readiness.py": "9AE84898FE9856EAA4C118F335B19DC7AAF9E63D62FDF05154E526A12878A211",
+    "results/validation/package159_scientific_consistency_audit.json": "C7AD9044395F1A1E2D0B2B5F4A1DF090CA580DC438807FC373175B86D49A1EF4",
+    "models/pandey_kumar_mode1/159_combined_indicator_receiver_candidate/candidate_receiver_manifest.json": "FC3D3E3798CBC57274590340A202CDBC8997E3DCA7269292F0114DC806330C4F"
+  },
+  "verification_passed": true
+}
