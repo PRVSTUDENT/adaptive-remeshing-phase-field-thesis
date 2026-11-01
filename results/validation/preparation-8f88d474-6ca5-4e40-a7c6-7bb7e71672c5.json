@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
+  "controller_run_id": "8f88d474-6ca5-4e40-a7c6-7bb7e71672c5",
+  "operation": "research_preparation",
+  "finding": "Package 157 Revision 6 (Job 1419359.mmaster02) physically accepted after authentic coupled convergence at outer iteration 108 with Delta H = 9.12e-7 MPa <= 1e-6 MPa, Delta d = 3.00e-8 <= 1e-5, Delta u = 1.66e-11 mm <= 1e-9 mm, RF2 drift = -0.35% <= 5%, total energy drift = +0.41% <= 2%, 0 healing violations across 7,265 nodes, and 0 history violations across 28,224 GPs. Package 157 Revision 7 (+10 nm continuation, uy = 0.00186531 mm to 0.00187531 mm, max_outer = 120) qualified with authentic Abaqus 2023 mechanical and phase datachecks and dispatched to cluster as Job 1419365.mmaster02 in active RUNNING state on mnode097/0.",
+  "evidence_sources": {
+    "results/validation/package157_r6_convergence_evaluation.json": "9C11A6DC96F429312D541D06FEAC189BB1CC7E67DB3F77DF3602CF793ECFB4C8",
+    "results/validation/package157_r7_datachecks.json": "2613FAA5469245E4FCD570C3080D7A4F36B296FAC8A5780B93CB0084D51A0FC1",
+    "tests/unit/test_package157_r6_physical_acceptance.py": "ECD81ED9E654337F153BB5A7888A8A54B2BC7768F10AD7073321ABD625AF729E",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r7/PACKAGE_MANIFEST.json": "9CE6FD970058DC9C6CDEF99BB3053C8255A943F3892F010333E4C8AAC4DBAE72",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r7/EXECUTION_MANIFEST.json": "FD081139C449E0D2CF2E610651C7F2BE5884C69AB3E2B12F8704347BD8237999"
+  },
+  "verification_passed": true,
+  "r6_physical_acceptance": {
+    "job_id": "1419359.mmaster02",
+    "converged_outer_iteration": 108,
+    "delta_h_MPa": 9.116691579436065e-07,
+    "delta_d": 3.0000000039720476e-08,
+    "delta_u_mm": 1.6579433897816187e-11,
+    "rf2_drift_pct": -0.3524234257813794,
+    "total_energy_drift_pct": 0.4127875226244261,
+    "healing_violations_count": 0,
+    "history_violations_count": 0,
+    "damage_max": 0.61985709
+  },
+  "r7_submission": {
+    "pbs_job_id": "1419365.mmaster02",
+    "job_name": "M1_C4_P157_C1_2_R7",
+    "queue": "normal_imfdfkmq",
+    "host": "mnode097/0",
+    "job_state": "R",
+    "baseline_uy_mm": 0.0018653125442191958,
+    "target_uy_mm": 0.0018753125442191958,
+    "delta_uy_nm": 10.0,
+    "max_outer": 120
+  }
+}
