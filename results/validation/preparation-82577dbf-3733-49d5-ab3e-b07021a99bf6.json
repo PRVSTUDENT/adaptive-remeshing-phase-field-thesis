@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 165 C5 coupled PDAS re-equilibration under Contract A converged at outer iteration 21 with Exit 0 in Job 1419477.mmaster02. Reaction force discrepancy is 0.168% and energy discrepancy is 0.156% vs donor (both passing the <= 2% physical gate), with 0 healing violations. Thermodynamic consistency audit of all 51,984 integration points revealed 7,895 points where psi*(u*) > H0 (peak diff 3,865.9 MPa), concentrated strictly at the refined crack tip (x ~ 0.0403 to 0.0408 mm, y ~ 0.0498 to 0.0503 mm) where C5 resolves higher singular strain than coarse donor C4. The virgin elastic domain exhibits negative mean diff (-0.62 MPa) with only 1 point outside the crack tip.",
+  "evidence_sources": {
+    "results/validation/package165_thermodynamic_analysis.json": "DFB60DB9A42DC5C6BA882B2C8F3BCD678851E78F77BE5BADF72F098B4AA093D3",
+    "models/pandey_kumar_mode1/165_c5_package165_c2_0_contract_a/re_equilibration_summary.json": "D4154229B141FDBE4B4CBFA86F23BAF29CBFEBE00AEFE0A8CC45C624EF65330D",
+    "models/pandey_kumar_mode1/165_c5_package165_c2_0_contract_a/live_iteration_telemetry.json": "E283007D047646DAC0648B034AC7BAC77373BA888280FB0F3BEFEBC72192BC10",
+    "models/pandey_kumar_mode1/165_c5_package165_c2_0_contract_a/converged_checkpoint_01.json": "569CEE49353363BD6CFB43ABC316B38BDC6F8E8614D336838B951BE0EB369C44",
+    "models/pandey_kumar_mode1/165_c5_package165_c2_0_contract_a/pbs_execution.log": "8F7C04219A721FDAEAB58FBF8573857FAD87D866C96C7F42A39EF9698094F39D",
+    "scripts/validation/analyze_package165_thermodynamic_state.py": "0BCA17674F2EE85655C6F6F568F3DE8C301F55554C623DD84001D4FEF2BCC247"
+  },
+  "verification_passed": true
+}
