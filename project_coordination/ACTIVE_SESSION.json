@@ -1,18 +1,17 @@
 ﻿{
     "active":  false,
     "agent":  "codex",
-    "task_id":  "RECOVER-ORIGINAL-PAD-LOOP",
-    "starting_commit":  "2a3caed765b17465a5925539b392e3bc895ddab5",
-    "claimed_at":  "2026-11-01T17:36:31.1312198+01:00",
-    "last_updated":  "2026-11-01T17:44:29.6799393+01:00",
-    "session_report":  "project_coordination/sessions/2026-11-01_codex_original_pad_recovery.md",
+    "task_id":  "PAD-SINGLE-HANDOFF-ACTIVATION",
+    "starting_commit":  "74db0f7d40f24e1aa96ac24a62fa065f46cd6c65",
+    "claimed_at":  "2026-11-01T17:51:31.2542646+01:00",
+    "last_updated":  "2026-11-01T17:51:31.4042983+01:00",
+    "session_report":  "project_coordination/sessions/2026-11-01_codex_pad_single_handoff_activation.md",
     "allowed_write_scope":  [
-                                "C:\\Users\\pruth\\PAD-Recovery-20261101-173631",
                                 "project_coordination/ACTIVE_SESSION.json",
                                 "project_coordination/CURRENT_STATE.md",
                                 "project_coordination/TASK_LEDGER.csv",
                                 "project_coordination/ARTIFACT_REGISTRY.csv",
-                                "project_coordination/sessions/2026-11-01_codex_original_pad_recovery.md"
+                                "project_coordination/sessions/2026-11-01_codex_pad_single_handoff_activation.md"
                             ],
     "stale_claim_archive":  "C:\\Users\\pruth\\OpenClawPAD\\backups\\ownership-recovery-4040433d-9c04-40c6-916b-0dcc8abb6555\\ACTIVE_SESSION.json"
 }
