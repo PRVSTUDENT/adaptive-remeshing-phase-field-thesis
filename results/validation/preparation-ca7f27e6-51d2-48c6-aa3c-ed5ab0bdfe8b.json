@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "classification": "R6_NUMERICALLY_JUSTIFIED_OFFLINE",
+  "finding": "Package 157 R6 candidate restart continuation is prepared and verified offline (status: R6_NUMERICALLY_JUSTIFIED_OFFLINE). Re-starts from authentic Checkpoint 01 (uy = 0.001860312544 mm, 7265 nodes, 28224 GPs) targeting uy = 0.001865312544 mm (+5 nm) with max_outer = 130 (+22 iteration margin over projected 108). Exact UEL (CE8D5EDC...), material parameters, and convergence tolerances preserved; 7/7 unit tests pass. Execution definition prepared for independent registration review.",
+  "evidence_sources": {
+    "results/validation/package157_r6_restart_candidate_projection.json": "65C4CF3575583777E90640C7DCAF1DBC0E87377F78C63176A62D0EC3384E5868",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/initial_checkpoint_01.json": "200BB2B03C8C9599A2B41FC43A88CCE4EEBC7B4195A20EB0F8E132D3D7925083",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/PACKAGE_MANIFEST.json": "7093DDB752854EF47D55D4F8F3357C33C097D776FA491672D38ABFB06D318D85",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/EXECUTION_MANIFEST.json": "2D4EE64A07DAC9FD3C4108B9D574C79B2B7CB2BAAAAEF63AB8F30A4C6B5E8E89",
+    "scripts/state_transfer/driver_package157_r6.py": "EC57875E34971EDEA198FA70378D157041392084CEBE81BE71E5864E9DDD8D65",
+    "scripts/state_transfer/build_package157_r6.py": "169343BF5AD60384BC24FB1BE01EBFFE57341CE7025024C1AF8F842B63A9ED80",
+    "project_coordination/operation_definitions/execute_mode1_package157_c1_2_r6_adaptive_continuation.json": "55E2B6541F2182DAA7F40595C5F2AACCBF4AE337FF20589FEF0EC340CD031228",
+    "tests/unit/test_package157_r6_candidate.py": "953F9292C2F95F3BEAB1BBE7921FA0CE2D82695453FDB2027D3C5421C1A4B343"
+  },
+  "verification_passed": true,
+  "details": {
+    "candidate": "package157_r6_restart_continuation",
+    "restart_source": "converged_checkpoint_01.json",
+    "start_uy_mm": 0.0018603125442191958,
+    "target_uy_mm": 0.0018653125442191958,
+    "step_increment_nm": 5.0,
+    "proposed_max_outer": 130,
+    "projected_outer": 108,
+    "safety_margin_iterations": 22,
+    "estimated_runtime_hours": 2.96,
+    "walltime_limit_hours": 8.0,
+    "memory_limit_gb": 16.0,
+    "cpus": 1,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "unit_tests_status": "7_OF_7_PASSED",
+    "registration_prerequisite": "Awaiting independent registration review in scripts/controller/Controller-Operations.ps1"
+  }
+}

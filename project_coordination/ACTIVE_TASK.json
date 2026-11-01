@@ -10,7 +10,7 @@
                          },
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "agent":  "gemini-antigravity",
-    "phase":  "Coupled iteration contraction analysis of Package 157 R5 (Job 1419162) authentic telemetry establishes SLOW_GEOMETRIC_CONTRACTION_CONFIRMED. Staggered coupling exhibits monotonic geometric decay (tail mean rho_H = 0.907-0.933) with zero active-set chatter and vanishing KKT residuals (free_error \u003c 1.8e-11, dual_error = 0.0). Step 3 (+5 nm) was only 8 iterations away from reaching delta_H \u003c= 1.0e-6 MPa when truncated by max_outer = 100, ruling out active-set or nonlinear divergence defects.",
+    "phase":  "Package 157 R6 candidate restart continuation is prepared and verified offline (status: R6_NUMERICALLY_JUSTIFIED_OFFLINE). Re-starts from authentic Checkpoint 01 (uy = 0.001860312544 mm, 7265 nodes, 28224 GPs) targeting uy = 0.001865312544 mm (+5 nm) with max_outer = 130 (+22 iteration margin over projected 108). Exact UEL (CE8D5EDC...), material parameters, and convergence tolerances preserved; 7/7 unit tests pass. Execution definition prepared for independent registration review.",
     "gate_status":  "P157_R5_SEG1_RUNNING__C4_CONTINUATION_UNACCEPTED",
     "active_pbs_job_ids":  [
                                "1419162.mmaster02"
@@ -290,14 +290,14 @@
                              "compute_qualification_job_id":  "1419146.mmaster02",
                              "manifest_sha256":  "ac186eeaf426bc6f39499df2664a38b81dd66fbd4a0f3fd41faa1fb073faa62f"
                          },
-    "last_updated":  "2026-11-01T06:52:17.7483645+01:00",
+    "last_updated":  "2026-11-01T06:58:45.5092202+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-2d3f28bf-b3e0-491d-94ba-db4f1671dafc.json",
-                                  "sha256":  "CF72EE2FAAE2D3708805FD2FE58EA25FA2239FBE96D3FDC6B3E68B27E2D8E3D7",
-                                  "created_at":  "2026-11-01T06:51:15.9515268+01:00"
+                                  "artifact":  "results/validation/preparation-ca7f27e6-51d2-48c6-aa3c-ed5ab0bdfe8b.json",
+                                  "sha256":  "DE235814213A5EFE90A3E4241B6408CE2194CCBAB58EFFB8EFB24602E011A95A",
+                                  "created_at":  "2026-11-01T06:58:36.5933927+01:00"
                               }
 }
