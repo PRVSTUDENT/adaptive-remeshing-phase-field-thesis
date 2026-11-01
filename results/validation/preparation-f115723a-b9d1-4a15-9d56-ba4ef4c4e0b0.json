@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "task_id": "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
+  "controller_run_id": "f115723a-b9d1-4a15-9d56-ba4ef4c4e0b0",
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "verification_passed": true,
+  "finding": "Decisive Method C Mode-I C1-1 adaptation trigger and Package 160 C5 preflight qualification completed: 1) Objective ZZ recovered stress discretization error indicator (MISESERI/MISESAVG >= 0.15 on Job 1419101.mmaster02) marks 266 elements (3.77%) ahead of notch tip, satisfying the adaptation trigger criterion and justifying refinement to C5 mesh (12,996 quads, 13,278 nodes, h_fine = 500 nm). 2) Package 160 technical preflight verifies 0 thermodynamic history violations across 51,984 GPs, variational active-set partition (11,253 clamped nodes, 2,025 free nodes), positive COD across 53 crack seam pairs, and bitwise frozen production UEL SHA-256 match. 3) Predecessor Job 1419359.mmaster02 (R6) is Exit 0 and physically accepted (force drift -0.35%, energy drift +0.41%), and R7 Job 1419365.mmaster02 is running. 4) Authentic cluster Abaqus 2023 Mechanical and Phase datachecks both execute Exit 0 (0 errors, ANALYSIS DATACHECK COMPLETE) on mlogin01.cluster with verified startup; all 5 blockers resolved. 5) Stage C2-0 zero-increment re-equilibration job authentically submitted and active on scheduler as Job 1419370.mmaster02 in normal_imfdfkmq.",
+  "evidence_sources": {
+    "results/validation/c5_remeshing_provenance_audit.json": "7C14AA52F7E64F8CCD79284E6E5F939D6E9BA1C2CAF6B043C8D45F797F4E6EAE",
+    "results/validation/package160_technical_preflight_audit.json": "D437EADB1EB0B7CA0970E4B82EC88F7E63DCB1A2BAD22FD8BDEB142729503607",
+    "results/validation/package160_donor_dependency_and_pdas_audit.json": "16401D392B9737252E32E520AE44747C7E49C11DA95155B4EB94F0B811B931A4",
+    "results/validation/package160_datachecks.json": "E0FE7D0E20A8C6334ABD38D1F4185686120C42FA1411E152795BC179265ABD5F",
+    "models/pandey_kumar_mode1/160_c5_package160_c2_0_re_equilibration/EXECUTION_MANIFEST.json": "D741DF1586434226F7202090F303125677811C6D6C7B8EFB820C2E2A795E1269"
+  }
+}
