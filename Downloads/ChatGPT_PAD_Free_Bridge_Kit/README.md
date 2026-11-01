@@ -138,3 +138,23 @@ no transport_error.txt, response.txt or decision.json. It is uncertain, not a
 proven failed transaction. No pending markers were archived. Reconcile that
 original transaction from authentic controller/bridge evidence before testing.
 Do not start 40 research turns while these prerequisites remain unresolved.
+
+## Explicit retirement of the five historical maintenance exchanges
+
+`Retire-OldSupervisorMaintenanceHandoffs.ps1` implements the user's separate
+1-November abandonment instruction. It pins all five exact filenames AND IDs,
+supports the original SUP IDs without renaming, and preserves uncertain outcomes
+rather than certifying timeouts. Preview is the default; `-Apply` moves only the
+five original marker files under an immutable manifest. Request/response evidence,
+scientific files, HPC receipts and controller checkpoints stay unchanged. The
+controller/bridge mutexes, inactive project session, no Gemini/controller process,
+no conflicting handshake and no validated decision are mandatory guards.
+
+Eight temporary-fixture regression checks pass. The real preview and application
+completed on 1 November after Antigravity was closed. Original markers and
+SHA256 pins are under
+`ChatGPTBridge/supervisor/retired_planning_handoffs/explicit_abandon_1a7f3929832b4aa4be9d3e1c4e21755f`.
+The previously uncertain a818 record is explicitly abandoned, not marked failed
+or successful. All five historical markers are absent from the pending root.
+This resolves historical-state blocking only; browser polling and a fresh live
+two-turn exchange still require verification.

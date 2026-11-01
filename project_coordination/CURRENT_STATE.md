@@ -1,3 +1,5 @@
+1 November: five explicitly named historical supervisor maintenance transactions retired under immutable abandonment manifest; zero pending handoffs and no legacy handshake files. Original evidence/checkpoint/HPC receipts preserved. Direct server health PASS; browser polling and fresh read-only two-turn test still pending. No 40-turn or PBS execution. See sessions/2026-11-01_codex_retire_maintenance_handoffs.md.
+
 1 November PAD-free bridge: reviewed kit installed; authenticated localhost health/IDLE PASS; 13 Python tests and browser guards PASS. Browser activation/live exchange unverified (browser host unavailable). Pending HND-SUP-a818a6a8255b4e4c95f9bf7f4fd5d389 lacks failure/response evidence and remains untouched. No 40-turn restart or new PBS jobs. See sessions/2026-11-01_codex_pad_free_bridge.md.
 
 1 November follow-up: installed Tampermonkey HND-only trigger mismatch fixed in 0ac04377; controller now emits HND-SUP IDs. Actual supplied JS trigger test PASS; 11 supervisor tests PASS. Corrected live PAD handoff still returned no response within 180 seconds; 40-turn execution remains withheld.
