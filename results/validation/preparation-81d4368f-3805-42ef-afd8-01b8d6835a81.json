@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "investigation": "METHOD_C1_MODE1_PREFLIGHT_AND_CHECKPOINT_VERIFICATION",
+  "finding": "Mandatory pre-flight evaluation confirms live PAD transport remains incomplete: although PAD_TRANSPORT_CANARY_PASS was achieved (37.3s), full PAD_SINGLE_HANDOFF_PASS awaits browser single-send observation, and active production PAD flow retains request deletion without verified permanent in-flow request archiving. Therefore, autonomous 40-turn loop execution is strictly blocked under fail-closed governance. Scientifically, Mode-I Method C1 state transfer and equilibrium progress is verified through Package 158 R5 (PBS 1419269.mmaster02, Exit 0, 69 outers, 1.33% force continuity, 0.16% energy continuity) and Package 160 exact-load reference (PBS 1419305.mmaster02, Exit 0, uy=0.00186031 mm, RF2=0.184308 kN, RAW energy=0.000224186 kN*mm). Package 157 R6 scalar force (0.104% discrepancy) and energy (0.0009% discrepancy) continuity pass matching-load reference checks, but complete independent review remains mandatory before continuation execution.",
+  "classification": "PREFLIGHT_BLOCKED_AND_PACKAGE160_REFERENCE_VERIFIED",
+  "evidence_sources": {
+    "project_coordination/sessions/2026-11-01_codex_pad_live_single_canary.md": "73383B29F9C7D0A35BDE8196929A65928DFCA9E7F0EDAFC6462BBC2ED0C4E0A1",
+    "project_coordination/sessions/2026-11-01_codex_controller_recovery_4040433d.md": "AC9399F66A58C32A6AFF3562B34C5EFCF5CCEFD2A6630C9756CE80313106F64E",
+    "results/validation/controller_recovery_4040433d.json": "DD0E99B72842DBB07E8DEBE7D7C21FA77261F7C22E85EE14DD68C289203AD280",
+    "results/validation/package157_r6_checkpoint_scientific_review.json": "E7A59BCE6F2596DA138E97668EEE74EA182CC274A126BBBF6B67E8789BD66D9B",
+    "models/pandey_kumar_mode1/160_c4_exact_load_reference/EXECUTION_MANIFEST_REF.json": "890B61193FC8F9002F5ED4B9ABFB4969D2C358BFF58F297203A0EF380B452ECF",
+    "models/pandey_kumar_mode1/160_c4_exact_load_reference/PACKAGE_MANIFEST.json": "17836893DDBA2F28F4985003DA28462222420306F0E077653DA64666E976E3CD"
+  },
+  "verification_passed": true,
+  "preflight_gates": {
+    "gate_1_pad_single_handoff_pass": {
+      "status": "FAIL_CLOSED",
+      "detail": "Observed result is PAD_TRANSPORT_CANARY_PASS; full PAD_SINGLE_HANDOFF_PASS awaits browser single-send/new-turn observation which remains pending due to inaccessible desktop pipe."
+    },
+    "gate_2_production_pad_flow_archiving": {
+      "status": "FAIL_CLOSED",
+      "detail": "Original request deletion remains in active production flow; external pre-paste archive verified in isolated test harness but permanent in-flow repair not established."
+    },
+    "gate_3_browser_userscript_configuration": {
+      "status": "UNVERIFIED_REMOTELY",
+      "detail": "Direct Local Bridge reported disabled and Paste + Auto Send v1.5.0 reported enabled, but live browser execution host is unobservable."
+    },
+    "gate_4_controller_versions_and_single_owner": {
+      "status": "PASS",
+      "detail": "Installed and canonical controller SHA256 match (0A209A80AFF903B510CC119E3E297DCE0E03E7A525B7498B6425B6CCDC559BE4), single owner lock claimed by gemini-antigravity for run 81d4368f-3805-42ef-afd8-01b8d6835a81."
+    }
+  },
+  "scientific_status": {
+    "historical_package_80_81": "Historical Stage C2 re-equilibration and stabilization diagnostics (Packages 80-81, 2026-10-22) superseded by Packages 148, 154, 157, 158, 160.",
+    "package_158_r5_status": "COMPLETED_EXIT0 (Job 1419269.mmaster02, 69 outers, force error 1.33% <= 5%, energy error 0.16% <= 2%, unit corrected to 0.22269253 mJ).",
+    "package_160_reference_status": "COMPLETED_EXIT0 (Job 1419305.mmaster02, uy=0.00186031 mm, RF2=0.184308 kN, RAW energy=0.000224186 kN*mm).",
+    "package_157_r6_continuity": "PASS (force discrepancy 0.104% <= 5%, raw energy discrepancy 0.0009% <= 2%). Full independent scientific eligibility review pending."
+  },
+  "next_action": "STOP cleanly pursuant to mandatory fail-closed pre-flight governance; report blocker on PAD in-flow archiving and browser single-send confirmation before autonomous 40-turn execution can be released."
+}
