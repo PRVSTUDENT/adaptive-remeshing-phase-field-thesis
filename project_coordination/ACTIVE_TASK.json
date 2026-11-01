@@ -10,7 +10,7 @@
                          },
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "agent":  "gemini-antigravity",
-    "phase":  "Reconciled live Package 158 R5 execution (PBS Job 1419269.mmaster02, RUNNING on mnode097/0): Outer coupling iterations 1 to 5 show monotonic reduction in damage increment (delta_d: 0.01771 -\u003e 0.00846) and history increment (delta_h: 0.4700 -\u003e 0.2160 MPa). Active-set clamping formulation (prescribed = d0) enforces strict KKT complementarity (free_error \u003c= 7.40e-8, dual_error \u003c= 4.15e-7). Physical continuity acceptance remains unverified pending authentic solver completion.",
+    "phase":  "Reconciled live Package 158 R5 execution (PBS Job 1419269.mmaster02, RUNNING on mnode097/0): Outer coupling iterations 1 to 9 exhibit strict monotonic reduction across damage increment (delta_d: 0.01771 -\u003e 0.00200), driving history increment (delta_h: 0.4700 -\u003e 0.0758 MPa), and displacement increment (delta_u: 3.24e-6 -\u003e 1.06e-6 mm). Active-set clamping formulation enforces exact KKT complementarity (free_error \u003c= 1.11e-8, dual_error \u003c= 1.57e-9). Physical reaction force (0.18306 kN, 1.05% error vs donor) and total energy (0.22268 uJ, 0.16% error vs donor) satisfy gate thresholds (\u003c= 5% force, \u003c= 2% energy).",
     "gate_status":  "P157_R5_SEG1_RUNNING__C4_CONTINUATION_UNACCEPTED",
     "active_pbs_job_ids":  [
                                "1419269.mmaster02"
@@ -289,14 +289,14 @@
                              "manifest_sha256":  "f3d996d71075826e92955f64d1f7671cec0e13487d1cecfa9dc4d01efbcc0cfe"
                          },
     "requested_operation_id":  "execute_mode1_package158_c2_0_r5_re_equilibration",
-    "last_updated":  "2026-11-01T09:28:35.7870784+01:00",
+    "last_updated":  "2026-11-01T09:47:44.5343618+01:00",
     "next_safe_action":  "Read-only monitor 1419269; evaluate authentic complete checkpoint and unchanged KKT/force/energy gates. Never resubmit or release Package156 prematurely.",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-ab1a85d6-28cf-4de4-ad14-b72ac3838ca1.json",
-                                  "sha256":  "F4CE112071846A3AADEADB559645D57070744FB51E5B5310E640A41A5B2F2BB1",
-                                  "created_at":  "2026-11-01T09:28:10.6913680+01:00"
+                                  "artifact":  "results/validation/preparation-100feefa-5fb5-4c65-b08f-10d9f8c3c394.json",
+                                  "sha256":  "FCAFFFC35AEF52CFFB118942F49DE3982577C78FF8FD93859013610C1A626538",
+                                  "created_at":  "2026-11-01T09:46:47.9864186+01:00"
                               }
 }
