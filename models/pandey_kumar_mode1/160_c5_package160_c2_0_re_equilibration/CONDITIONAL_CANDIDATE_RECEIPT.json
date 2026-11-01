@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "task_id": "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
+  "package_id": "PACKAGE_160_C5_C2_0_RE_EQUILIBRATION",
+  "status": "STAGED_AS_CONDITIONAL_CANDIDATE",
+  "donor_dependency": {
+    "status": "PENDING_RUNNING_PREDECESSOR_COMPLETION",
+    "active_pbs_job": "1419359.mmaster02",
+    "required_donor_state": "CONVERGED_CHECKPOINT_AT_UY_0.00186031MM",
+    "authentic_checkpoint": "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/converged_checkpoint_01.json"
+  },
+  "qualification_checks": {
+    "receiver_node_coverage": true,
+    "receiver_gp_coverage": true,
+    "slit_flank_isolation": true,
+    "frozen_uel_sha256_verified": true,
+    "svars_7_8_3_contract_verified": true,
+    "holding_load_verified": true,
+    "thermodynamic_history_monotonicity_verified": true,
+    "damage_lower_bounds_verified": true
+  },
+  "predeclared_acceptance_criteria": {
+    "mechanical_residual_max_relative_to_rf": 0.005,
+    "phase_residual_infinity_norm_kN": 1e-06,
+    "kkt_active_multiplier_violations": 0,
+    "reaction_force_drift_pct_limit": 2.0,
+    "damage_monotonicity": "d >= d_0"
+  },
+  "submission_disposition": "WITHHELD_PENDING_PREDECESSOR_PHYSICAL_ACCEPTANCE",
+  "manifest_sha256": "5FC02DEDF11E905A1B9F12C651700E60E6FE79EA25AE0331B0BC6802DE0B8149"
+}

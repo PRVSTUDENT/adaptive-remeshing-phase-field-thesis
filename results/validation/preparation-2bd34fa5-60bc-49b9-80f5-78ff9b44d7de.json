@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
+  "run_id": "2bd34fa5-60bc-49b9-80f5-78ff9b44d7de",
+  "finding": "Live PBS Job 1419359.mmaster02 (M1_C4_P157_C1_2_R6) is actively executing on mnode097 with monotonic convergence confirmed through outer iteration 49 (delta_d=1.156e-5, delta_u=6.28e-9 mm, delta_H=0.000326 MPa, free_error=9.72e-11, dual_error=0.0), approaching the coupled stopping criterion. Per condition 3, independent preparation of Package 160 (C5 fixed-displacement re-equilibration candidate) was completed on the 12,996-quad receiver mesh: 1) Enforced thermodynamic history monotonicity H_committed = max(H_trans, psi_0^+(u_trans)) across all 51,984 GPs, correcting all 638 singularity points where refined strain energy reaches 27.63 MPa. 2) Generated 7+8+3 SVARS include, initial condition CSVs, and active-set boundary cards for 11,253 initial active nodes. 3) Assembled full coupled re-equilibration deck, datacheck decks, and serial PBS script with verified frozen production UEL. 4) Validated via 6 passing unit tests, with candidate staged as WITHHELD pending predecessor physical acceptance.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/160_c5_package160_c2_0_re_equilibration/PACKAGE_MANIFEST.json": "5FC02DEDF11E905A1B9F12C651700E60E6FE79EA25AE0331B0BC6802DE0B8149",
+    "models/pandey_kumar_mode1/160_c5_package160_c2_0_re_equilibration/CONDITIONAL_CANDIDATE_RECEIPT.json": "CA575743923B543DBC22D7AA79EFC8236133686AD39DDFF23E5C539AE385ED25",
+    "models/pandey_kumar_mode1/160_c5_package160_c2_0_re_equilibration/M1_C5_PACKAGE160_C2_0_REEQUILIBRATION.inp": "32D77BF2717D9B2E4B77A7AA57FFBAFFF83BEF9CD02B0F5C2D34675708B3DC94",
+    "scripts/generation/build_package160_c5_re_equilibration.py": "D7E670BB44E884AA11A93E053A119A1FE9655A769C9C82C01C5A041EEFD041E4",
+    "tests/unit/test_package160_c5_re_equilibration_candidate.py": "8B1BED9280C8A11803774808152E3985441585BFE543AD6C17FC34274FCF7EEA",
+    "results/validation/c4_to_c5_irreversible_transfer_qualification.json": "0F5E17073B4C40226598D4116449A92C04566DCF1BBDE5BE4B4D87B2A4F8643A",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/converged_checkpoint_01.json": "200BB2B03C8C9599A2B41FC43A88CCE4EEBC7B4195A20EB0F8E132D3D7925083"
+  },
+  "registered_paths": [
+    "models/pandey_kumar_mode1/160_c5_package160_c2_0_re_equilibration/PACKAGE_MANIFEST.json",
+    "models/pandey_kumar_mode1/160_c5_package160_c2_0_re_equilibration/CONDITIONAL_CANDIDATE_RECEIPT.json",
+    "models/pandey_kumar_mode1/160_c5_package160_c2_0_re_equilibration/M1_C5_PACKAGE160_C2_0_REEQUILIBRATION.inp",
+    "scripts/generation/build_package160_c5_re_equilibration.py",
+    "tests/unit/test_package160_c5_re_equilibration_candidate.py"
+  ],
+  "verification_passed": true
+}

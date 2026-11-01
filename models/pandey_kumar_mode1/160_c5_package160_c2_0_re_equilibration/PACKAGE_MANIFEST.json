@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "package_name": "package160_c5_c2_0_re_equilibration",
+  "stage": "C2-0",
+  "scientific_objective": "Coupled PDAS re-equilibration on C5 receiver mesh (12,996 quads, 13,278 nodes) at authentic donor holding load uy = 1.8603125442191958e-03 mm",
+  "donor_source": {
+    "checkpoint": "converged_checkpoint_01.json",
+    "checkpoint_sha256": "200BB2B03C8C9599A2B41FC43A88CCE4EEBC7B4195A20EB0F8E132D3D7925083",
+    "target_uy_mm": 0.0018603125442191958,
+    "c4_elements": 7056,
+    "c4_nodes": 7265,
+    "c4_slit_pairs": 40,
+    "c4_donor_package": "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5"
+  },
+  "receiver_mesh": {
+    "mesh_source": "models/pandey_kumar_mode1/155_c5_candidate_mesh/M1_C5_CANDIDATE_MESH.inp",
+    "mesh_sha256": "DB261F26D34352DB743432A47FC929BF6B4B4E808A1D4C13146FF4902776D197",
+    "elements": 12996,
+    "nodes": 13278,
+    "slit_pairs": 53,
+    "integration_points": 51984
+  },
+  "transfer_policy": "Thermodynamically consistent irreversible transfer: H_committed = max(H_trans, psi_0^+(u_trans))",
+  "material_parameters": {
+    "E_GPa": 210.0,
+    "nu": 0.3,
+    "Gc_N_mm": 2.7,
+    "l0_mm": 0.0075,
+    "k_res": 1e-07
+  },
+  "files": {
+    "M1_C5_PACKAGE160_C2_0_REEQUILIBRATION.inp": "32D77BF2717D9B2E4B77A7AA57FFBAFFF83BEF9CD02B0F5C2D34675708B3DC94",
+    "P160_MECHANICAL_DC.inp": "31E49E1A3591B6A008BB8BAF8BFFF4237975918B5075EDDFE42979159F9EF420",
+    "P160_PHASE_DC.inp": "5C711292CFF665CCA5B29CBFE51AFAA9A56A5FF792E0A8145F3692F5F61A3547",
+    "initial_conditions_solution.inc": "7EF60CA47382507A295B2E2A30423834CF52CCD5FC2C0C829DE675BFA93C6F07",
+    "active_set_boundary_cards.inc": "B97F81D41CE73390B63CA6F2C487EDC5A39E56A00831EA9A24FAEB28AC3ECADC",
+    "nodal_displacements_initial.csv": "D935DA0A5321B3042B16CA7B00FABAFCD5FA98D3466ECD0E6D6FE0F502C24827",
+    "nodal_phase_field_initial.csv": "2BA4B36CB59537C142E6C3294012631C042B579DACB352C06453C3C7DB3DE055",
+    "d_lower_bounds.csv": "BD7793F8D46258AC33A5FB38653AC82F4E163D4D88FB5E6AFC0E26315387203D",
+    "f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "job_notifications.sh": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "run_datacheck.sh": "449301CE6A2DB16E741DD403C977BB3C50B8BF3FEE9369929A3CBFE7E4F8BEC5",
+    "submit_M1_C5_P160_C2_0.pbs": "D802BEB5B53E5E4166BD11288D587DCF1C817D4E23753CA240D2A8B08B6AFE16"
+  }
+}
