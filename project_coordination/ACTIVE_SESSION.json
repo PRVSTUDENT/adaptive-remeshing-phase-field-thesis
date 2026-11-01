@@ -1,22 +1,26 @@
 {
-  "active": false,
-  "agent": "gemini-antigravity",
-  "task_id": "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
-  "starting_commit": "750b90d125245af553a83aa110402492ef83a1f8",
-  "claimed_at": "2026-11-01T11:46:00.0000000+01:00",
-  "last_updated": "2026-11-01T12:22:00.0000000+01:00",
-  "last_released": "2026-11-01T12:22:00.0000000+01:00",
-  "controller_run_id": null,
-  "session_report": "project_coordination/sessions/2026-11-01_gemini-antigravity_trusted_review_boundary_and_package160.md",
-  "allowed_write_scope": [
-    "project_coordination/*",
-    "scripts/controller/*",
-    "scripts/validation/*",
-    "tests/unit/*",
-    "models/pandey_kumar_mode1/160_c4_exact_load_reference/*",
-    "results/validation/*",
-    "docs/project/*",
-    "C:\\Users\\pruth\\OpenClawPAD\\*"
-  ],
-  "interruption_checkpoint": "C:\\Users\\pruth\\OpenClawPAD\\controller_turn_checkpoint.json"
+    "active":  false,
+    "agent":  "gemini-antigravity",
+    "task_id":  "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
+    "starting_commit":  "e9d6cc7e9f9b0ab4c32043707afff1c5bad14760",
+    "claimed_at":  "2026-11-01T12:42:36.2775528+01:00",
+    "last_updated":  "2026-11-01T13:06:41.1665709+01:00",
+    "last_released":  "2026-11-01T13:06:41.1665709+01:00",
+    "controller_run_id":  "4040433d-9c04-40c6-916b-0dcc8abb6555",
+    "session_report":  "project_coordination/sessions/2026-11-01_gemini-antigravity_F1597_4040433d-9c04-40c6-916b-0dcc8abb6555.md",
+    "allowed_write_scope":  [
+                                "project_coordination/sessions/2026-11-01_gemini-antigravity_F1597_4040433d-9c04-40c6-916b-0dcc8abb6555.md",
+                                "project_coordination/controller/turn-4040433d-9c04-40c6-916b-0dcc8abb6555.json",
+                                "results/validation/mode1_f1597/4040433d-9c04-40c6-916b-0dcc8abb6555.json",
+                                "results/validation/preparation-4040433d-9c04-40c6-916b-0dcc8abb6555.json",
+                                "results/validation/*",
+                                "scripts/validation/*",
+                                "tests/unit/*",
+                                "models/pandey_kumar_mode1/*",
+                                "project_coordination/ACTIVE_SESSION.json",
+                                "project_coordination/ACTIVE_TASK.json",
+                                "project_coordination/CURRENT_STATE.md",
+                                "project_coordination/TASK_LEDGER.csv",
+                                "project_coordination/ARTIFACT_REGISTRY.csv"
+                            ]
 }

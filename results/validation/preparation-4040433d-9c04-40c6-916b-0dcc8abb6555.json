@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "investigation": "FIX_STALE_HPC_LEDGER_RECOVERY_HASH_AND_VERIFY_PACKAGE160",
+  "finding": "Narrowly corrected Controller-Recovery.ps1 stale HPC ledger recovery hash defect by implementing Assert-ControllerHpcLedgerGrowth to permit verified append-only ledger growth while strictly failing closed on altered, deleted, reordered, or unverifiable job receipts. Added comprehensive unit regression tests in test_controller_hpc_ledger_growth.ps1. Reconciled authentic Package 160 C4 continuous exact-load reference simulation (Job 1419305.mmaster02) which completed with exit code 0 on HPC, providing an authentic reference benchmark for Mode-I Method C.",
+  "classification": "HPC_LEDGER_GROWTH_RECONCILED_AND_PACKAGE160_COMPLETED",
+  "evidence_sources": {
+    "scripts/controller/Controller-Recovery.ps1": "96DED6EA26029ACA0523947E7F04364D08508AF054DBC30E3E00EF1D7082A2B9",
+    "tests/unit/test_controller_hpc_ledger_growth.ps1": "DBD17AADEE4F4F804F09120FF010C313D1DDABBC1650FB6AA24F224988339DB3",
+    "models/pandey_kumar_mode1/160_c4_exact_load_reference/EXECUTION_MANIFEST_REF.json": "890B61193FC8F9002F5ED4B9ABFB4969D2C358BFF58F297203A0EF380B452ECF",
+    "models/pandey_kumar_mode1/160_c4_exact_load_reference/PACKAGE_MANIFEST.json": "17836893DDBA2F28F4985003DA28462222420306F0E077653DA64666E976E3CD"
+  },
+  "verification_passed": true,
+  "measurements": {
+    "stale_hpc_ledger_recovery_hash_fixed": true,
+    "append_only_ledger_growth_permitted": true,
+    "corruption_guards_retained": true,
+    "package160_job_id": "1419305.mmaster02",
+    "package160_exit_code": 0
+  },
+  "next_operation": "Advance Mode-I Method C using authentic Package 160 reference results."
+}
