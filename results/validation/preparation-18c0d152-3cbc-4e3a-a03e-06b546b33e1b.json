@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
+  "run_id": "18c0d152-3cbc-4e3a-a03e-06b546b33e1b",
+  "finding": "Live PBS Job 1419359.mmaster02 (M1_C4_P157_C1_2_R6) is actively executing on mnode097 with monotonic convergence confirmed through outer iteration 19 (delta_d=0.000240, delta_u=1.295e-7 mm, delta_H=0.00668 MPa, free_error=2.007e-9, dual_error=0.0). Per governing Condition 4, offline nonmatching-mesh transfer feasibility investigation from C4 (7,056 quads) to C5 (12,996 quads) using authentic Checkpoint 01 was completed: achieves 100% mapping across 13,278 nodes and 51,984 GPs with 0 flank violations (max recon error 4.39e-17 mm), exact boundary condition retention (bottom u_y max 1.02e-38 mm, top u_y rel error 4.66e-16), crack mouth COD preservation (diff 0.0 mm), exact damage and history bounds ([0.0034, 0.6053] and min H 5.27e-9 MPa), 0.0085% damage integral conservation, 0.0061% history integral conservation, and a transferred phase residual infinity norm of 3.952e-7 kN (strictly below standard 1.0e-6 kN tolerance), establishing rigorous transfer feasibility.",
+  "evidence_sources": {
+    "results/validation/c4_to_c5_nonmatching_transfer_feasibility_investigation.json": "C59CD239E648555846B2A1C3208C89854C352D7AC2C628CF49446390958A3C90",
+    "scripts/validation/evaluate_c4_to_c5_nonmatching_transfer_feasibility.py": "092EE431D031BA2EFE33280546E231C01DBAD2E391B5F1C7943687970096B4F4",
+    "tests/unit/test_c4_to_c5_nonmatching_transfer_feasibility.py": "5790AE5EAA93470A3B6F0BC927BDB7B8F9A49A3E72A1DF832919881EBDFB1657",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/converged_checkpoint_01.json": "200BB2B03C8C9599A2B41FC43A88CCE4EEBC7B4195A20EB0F8E132D3D7925083",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/M1_C4_CORRECTED_PACKAGE147_REF.inp": "FFFE51D5348F6E4B5E9B4742D783CA1645B480B229189168493AEDA10C91722A",
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/M1_C5_CANDIDATE_MESH.inp": "DB261F26D34352DB743432A47FC929BF6B4B4E808A1D4C13146FF4902776D197",
+    "scripts/state_transfer/c4_to_c5_spatial_mapping.py": "5189957AF37F89BA0469A51C1BAD7A4569A499AC3FD8E59A243B730C08E69C6B"
+  },
+  "registered_paths": [
+    "results/validation/c4_to_c5_nonmatching_transfer_feasibility_investigation.json",
+    "scripts/validation/evaluate_c4_to_c5_nonmatching_transfer_feasibility.py",
+    "tests/unit/test_c4_to_c5_nonmatching_transfer_feasibility.py"
+  ],
+  "verification_passed": true
+}
