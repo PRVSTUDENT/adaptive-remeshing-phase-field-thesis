@@ -1,18 +1,20 @@
 ﻿{
     "active":  false,
     "agent":  "codex",
-    "task_id":  "PAD-PRESERVE-REFERENCE-WAIT",
-    "starting_commit":  "d2bc3683a89c01a787eef9fb651404e3e4d56d8d",
+    "task_id":  "PAD-LIVE-SINGLE-CANARY",
+    "starting_commit":  "fd656c968bd799fc6b19c176a598d94d5d681132",
     "claimed_at":  "2026-11-01T18:03:20.2830763+01:00",
-    "last_updated":  "2026-11-01T18:20:02.6290550+01:00",
-    "session_report":  "project_coordination/sessions/2026-11-01_codex_pad_reference_wait.md",
+    "last_updated":  "2026-11-01T18:27:53.9252257+01:00",
+    "session_report":  "project_coordination/sessions/2026-11-01_codex_pad_live_single_canary.md",
     "allowed_write_scope":  [
-                                "scripts/controller/pad_canary/MANUAL_ACTIVATION.md",
+                                "C:\\Users\\pruth\\PAD-Canary-R1-20261101\\canary-state",
+                                "C:\\Users\\pruth\\OpenClawPAD\\ChatGPTBridge\\bridge_request.tmp",
+                                "C:\\Users\\pruth\\OpenClawPAD\\ChatGPTBridge\\bridge_request.ready",
                                 "project_coordination/ACTIVE_SESSION.json",
                                 "project_coordination/CURRENT_STATE.md",
                                 "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/sessions/2026-11-01_codex_pad_reference_wait.md",
-                                "C:\\Users\\pruth\\PAD-Canary-R1-20261101\\MANUAL_ACTIVATION.md"
+                                "project_coordination/ARTIFACT_REGISTRY.csv",
+                                "project_coordination/sessions/2026-11-01_codex_pad_live_single_canary.md"
                             ],
     "stale_claim_archive":  "C:\\Users\\pruth\\OpenClawPAD\\backups\\ownership-recovery-4040433d-9c04-40c6-916b-0dcc8abb6555\\ACTIVE_SESSION.json"
 }
