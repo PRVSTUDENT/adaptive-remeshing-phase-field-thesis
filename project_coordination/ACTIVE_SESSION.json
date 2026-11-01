@@ -1,24 +1,16 @@
 ﻿{
     "active":  false,
     "agent":  "codex",
-    "task_id":  "RECOVER-4040433D-OWNERSHIP",
-    "starting_commit":  "d428ddb3e0bf57e56cd4b69273544223905ce391",
-    "claimed_at":  "2026-11-01T13:44:44.184473+00:00",
-    "last_updated":  "2026-11-01T15:13:58.9002009+01:00",
+    "task_id":  "FIX-SUPERVISOR-HND-TRIGGER",
+    "starting_commit":  "46cbc176d6c4388ed060f2b24d69b7180eb6e5c4",
+    "claimed_at":  "2026-11-01T15:16:35.1443546+01:00",
+    "last_updated":  "2026-11-01T15:20:19.4224020+01:00",
     "session_report":  "project_coordination/sessions/2026-11-01_codex_controller_recovery_4040433d.md",
     "allowed_write_scope":  [
-                                "scripts/controller/Controller-Recovery.ps1",
-                                "scripts/controller/Antigravity-Autonomous-Loop.ps1",
-                                "scripts/controller/Recover-CompletedControllerTurn.ps1",
-                                "tests/unit/test_controller_hpc_ledger_growth.ps1",
-                                "tests/unit/test_controller_completed_recovery.ps1",
-                                "project_coordination/*",
-                                "results/validation/package160*",
-                                "scripts/validation/extract_package160*",
                                 "scripts/controller/Controller-Supervisor.ps1",
                                 "tests/unit/test_controller_supervisor.ps1",
-                                "results/validation/controller_recovery*",
-                                ".agents/scripts/Invoke-ChatGPTBridge.ps1"
+                                "project_coordination/*",
+                                "results/validation/controller_recovery*"
                             ],
     "stale_claim_archive":  "C:\\Users\\pruth\\OpenClawPAD\\backups\\ownership-recovery-4040433d-9c04-40c6-916b-0dcc8abb6555\\ACTIVE_SESSION.json"
 }
