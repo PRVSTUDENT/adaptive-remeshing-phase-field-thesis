@@ -3776,6 +3776,12 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
     }
     if ($agyExitCode -eq 0) { $script:PendingSmartProfileContext = '' }
 
+    if (($agyExitCode -ne 0 -or $agyInvocationException) -and
+        (Complete-ControllerAfterCliFailure $WorkspaceDir $controllerCheckpointPath $script:ControllerState)) {
+        Save-LoopState -Turn $CurrentTurn -Status 'COMPLETED' -LastInstruction $CurrentInstruction -LastResponse $script:ControllerState.response -NextInstruction $script:ControllerState.next_safe_action -Duration $turnDurationSeconds -Usage $null -Tier 'CONTROLLER' -Action 'CLI_FAILURE_COMPLETED_RECEIPT'
+        Write-Output 'CLI_FAILURE_COMPLETED_RECEIPT: completed work preserved; no model retry'
+        break MainLoop
+    }
     if (($script:ControllerRecoveryMode -or $ControlledSingleTurn) -and ($agyExitCode -ne 0 -or $agyInvocationException)) { throw 'BLOCKED: recovery process failure; no retry' }
     if ($agyExitCode -ne 0 -or $agyInvocationException) {
 

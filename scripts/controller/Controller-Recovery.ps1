@@ -268,7 +268,7 @@ function New-ControllerTurnState($Evidence, [int]$Turn, [string]$Instruction, [i
 }
 
 function Sync-ControllerOwnedSession($Evidence,$State) {
-    if(-not $Evidence.session.active){return}
+    if(-not $Evidence.session.active -and -not $State.owned_session_fingerprint){return}
     $s=$Evidence.session; $claim=[datetimeoffset]::MinValue
     $fingerprint=Get-ControllerTextHash ((@($s.agent,$s.task_id,$s.claimed_at,$s.starting_commit)) -join '|')
     if($State.owned_session_fingerprint){
@@ -583,6 +583,54 @@ function Test-ControllerResponseFinished([string]$Response,[int]$Turn) {
         [regex]::Escape([string]$Turn) +
         ' remains fully closed out, session lock released, and state synchronized to remote repository\. Awaiting next controller instruction\.'
     return $Response -match ('(?m)^\s*Finished\.?[\t ]*\r?\n' + $ack + '\s*\z')
+}
+
+function Get-ControllerCompletedPreparationEvidence([string]$Workspace,$State,$SourceArchives=@{}) {
+    # Evidence-only reconciliation: hashes are checked, never rewritten. The
+    # original released identity is taken from the checksummed old checkpoint.
+    $s=$State.session
+    $fp=Get-ControllerTextHash ((@($s.agent,$s.task_id,$s.claimed_at,$s.starting_commit)) -join '|')
+    if($s.active -ne $false -or $s.controller_run_id -cne $State.run_id -or
+       $s.task_id -cne $State.task_id -or $fp -cne $State.owned_session_fingerprint){throw 'BLOCKED: completed owner identity not verified'}
+    $record=Get-Content -LiteralPath $State.bootstrap_record_path -Raw|ConvertFrom-Json
+    $cp=$record.scientific_checkpoint
+    if($record.controller_run_id -cne $State.run_id -or $record.task_id -cne $State.task_id -or
+       $record.repository_commit -cne $State.repository_commit -or $record.stage -cne 'COMPLETE' -or
+       $record.bootstrap_status -cne 'COMPLETE' -or $cp.kind -cne 'PREPARATION_CHECKPOINT' -or $cp.exit_code -ne 0){throw 'BLOCKED: completed preparation identity missing'}
+    $artifact=Join-Path $Workspace $cp.artifact
+    if(-not $State.sources.($cp.artifact) -or $State.sources.($cp.artifact) -cne $cp.sha256 -or
+       (Get-FileHash -LiteralPath $artifact).Hash -cne $cp.sha256){throw 'BLOCKED: preparation checkpoint changed'}
+    $report=Join-Path $Workspace $record.session_report
+    if($record.session_report -cne $s.session_report -or $record.session_report -notmatch [regex]::Escape($State.run_id) -or
+       -not $State.sources.($record.session_report) -or (Get-FileHash -LiteralPath $report).Hash -cne $State.sources.($record.session_report) -or
+       (Get-Content -LiteralPath $report -Raw) -notmatch '(?s)Finished[.\s]*$'){throw 'BLOCKED: completed report not verified'}
+    $prep=Get-Content -LiteralPath $artifact -Raw|ConvertFrom-Json
+    if($prep.status -ne 'PREPARATION_COMPLETE' -or $prep.verification_passed -ne $true -or
+       -not $prep.evidence_sources){throw 'BLOCKED: no verified preparation evidence'}
+    $evidence=@()
+    foreach($source in $prep.evidence_sources.PSObject.Properties){
+        $root=[IO.Path]::GetFullPath($Workspace).TrimEnd([char[]]'\/')+[IO.Path]::DirectorySeparatorChar
+        $path=[IO.Path]::GetFullPath((Join-Path $Workspace $source.Name))
+        if(-not $path.StartsWith($root,[StringComparison]::OrdinalIgnoreCase)){throw 'BLOCKED: evidence path escape'}
+        if(-not(Test-Path -LiteralPath $path) -or (Get-FileHash -LiteralPath $path).Hash -cne $source.Value){
+            $path=[string]$SourceArchives.($source.Name)
+        }
+        if(-not $path -or -not(Test-Path -LiteralPath $path) -or (Get-FileHash -LiteralPath $path).Hash -cne $source.Value){throw ('BLOCKED: completed source unavailable: '+$source.Name)}
+        $evidence+=@{source=$source.Name;path=$path;sha256=$source.Value}
+    }
+    return [pscustomobject]@{run_id=$State.run_id;task_id=$State.task_id;artifact=$cp.artifact;artifact_sha256=$cp.sha256;report=$record.session_report;report_sha256=(Get-FileHash $report).Hash;bootstrap_sha256=(Get-FileHash $State.bootstrap_record_path).Hash;sources=$evidence}
+}
+
+function Complete-ControllerAfterCliFailure([string]$Workspace,[string]$Path,$State) {
+    $e=Get-ControllerEvidence $Workspace
+    # Never steal/release another claim, even if a past scientific result exists.
+    if($e.session.active){return $false}
+    Sync-ControllerOwnedSession $e $State
+    Update-ControllerEvidence $Workspace $Path $State
+    if(-not(Test-ControllerCompletedScienceReceipt $Workspace $State)){return $false}
+    $report=Get-Content -LiteralPath (Join-Path $Workspace $State.session.session_report) -Raw
+    $null=Complete-ControllerTurn $Workspace $Path $State $report -VerifiedReceipt
+    return $true
 }
 
 function Complete-ControllerTurn([string]$Workspace,[string]$Path,$State,[string]$Response,[switch]$VerifiedReceipt) {
@@ -912,9 +960,86 @@ function Test-ControllerScientificCheckpoint([string]$Workspace,$State,[switch]$
 # AGY stream events are telemetry, never permission to terminate a normal shell command.
 # Session ownership, source verification and execution safeguards remain in the canonical stages.
 
+function Assert-ControllerHpcLedgerGrowth([string]$Workspace, [string]$HistoricalHash, $State) {
+    if (-not $HistoricalHash) { return }
+    $hpcPath = Join-Path $Workspace 'project_coordination/HPC_JOB_LEDGER.csv'
+    if (-not (Test-Path -LiteralPath $hpcPath)) { throw 'BLOCKED: HPC job ledger changed unexpectedly' }
+    $currHash = (Get-FileHash -LiteralPath $hpcPath -Algorithm SHA256).Hash
+    if ($currHash -eq $HistoricalHash) { return }
+
+    # Verify append-only growth from historical state
+    $bytes = [IO.File]::ReadAllBytes($hpcPath)
+    $sha = [Security.Cryptography.SHA256]::Create()
+    $prefixMatched = $false
+    $matchedOffset = -1
+
+    for ($i = 0; $i -lt $bytes.Length; $i++) {
+        if ($bytes[$i] -eq 10) { # \n
+            $h = [BitConverter]::ToString($sha.ComputeHash($bytes, 0, $i + 1)).Replace('-', '')
+            if ($h -eq $HistoricalHash) {
+                $prefixMatched = $true
+                $matchedOffset = $i + 1
+                break
+            }
+        }
+    }
+
+    # A remembered hash or list of job IDs cannot prove historical row identity.
+    # Only a byte-identical, complete-row prefix is acceptable.
+    $sha.Dispose()
+    if (-not $prefixMatched) { throw 'BLOCKED: HPC job ledger changed unexpectedly' }
+    $allLines = [IO.File]::ReadAllLines($hpcPath)
+    $appendedText = [Text.Encoding]::UTF8.GetString($bytes, $matchedOffset, $bytes.Length - $matchedOffset)
+    $appendedLines = @($appendedText -split "`r?`n" | Where-Object { $_.Trim().Length -gt 0 })
+    if ($appendedLines.Count -eq 0) { throw 'BLOCKED: HPC job ledger changed unexpectedly' }
+    $execLedgerPath = Join-Path $Workspace 'project_coordination/MODE1_EXECUTION_LEDGER.json'
+    $execLedgerText = if (Test-Path -LiteralPath $execLedgerPath) { [IO.File]::ReadAllText($execLedgerPath) } else { '' }
+    $batchSubPath = Join-Path $Workspace 'project_coordination/MODE1_BATCH_SUBMISSIONS.json'
+    $batchSubText = if (Test-Path -LiteralPath $batchSubPath) { [IO.File]::ReadAllText($batchSubPath) } else { '' }
+
+    $batchSub = if ($batchSubText) { $batchSubText | ConvertFrom-Json } else { $null }
+    $historicalText = [Text.Encoding]::UTF8.GetString($bytes,0,$matchedOffset)
+    $priorRows = @($historicalText | ConvertFrom-Csv)
+    foreach ($line in $appendedLines) {
+        $row = @(@($allLines[0],$line) | ConvertFrom-Csv)[0]
+        $jobId = [string]$row.Job_ID
+        if ($jobId -notmatch '^\d+\.mmaster02$') {
+            throw "BLOCKED: invalid job receipt: $jobId"
+        }
+        $isAccounted = $false
+        if ($batchSub) {
+            foreach ($batch in $batchSub.PSObject.Properties) {
+                foreach ($job in $batch.Value.PSObject.Properties) {
+                    if ($job.Value.pbs_job_id -ceq $jobId -and $job.Name -ceq $row.Job_Name) { $isAccounted=$true }
+                }
+            }
+        }
+        $prior = @($priorRows | Where-Object { $_.Job_ID -ceq $jobId -and $_.Job_Name -ceq $row.Job_Name -and
+            $_.Status -eq 'SUBMITTED' -and $_.Verification_Hash -ceq $row.Verification_Hash })
+        $isCompletion = $row.Status -in @('COMPLETED','Exit0_scientific_FAIL','FAILED')
+        if (-not $isAccounted -and -not ($isCompletion -and $prior.Count)) {
+            throw "BLOCKED: unverifiable historical job receipt in ledger: $jobId"
+        }
+        $priorRows += $row
+    }
+}
+
 function Assert-ControllerDispatchCheckpoint([string]$Workspace,$State) {
     if(-not $State){return}
     if($State.state -eq 'BLOCKED'){throw ('BLOCKED: historical checkpoint requires evidence-based reconciliation; '+$State.block_reason)}
+    if($State.reconciliation.status -eq 'COMPLETED_RELEASED_TURN_RECONCILED'){
+        $r=$State.reconciliation
+        if($State.state -ne 'COMPLETED' -or $State.conversation_id -or $State.next_instruction -or
+           -not(Test-Path -LiteralPath $r.original_checkpoint) -or
+           (Get-FileHash -LiteralPath $r.original_checkpoint).Hash -cne $r.original_sha256){throw 'BLOCKED: completed recovery archive changed'}
+        $original=Read-ControllerCheckpoint $r.original_checkpoint
+        if($original.run_id -cne $State.run_id -or $original.original_instruction_hash -cne $State.original_instruction_hash -or
+           $original.state -notin @('BLOCKED','RUNNING','CHECKPOINTED')){throw 'BLOCKED: completed recovery identity changed'}
+        $proof=Get-ControllerCompletedPreparationEvidence $Workspace $original $r.source_archives
+        if($proof.artifact_sha256 -cne $r.proof.artifact_sha256 -or $proof.report_sha256 -cne $r.proof.report_sha256 -or
+           $proof.bootstrap_sha256 -cne $r.proof.bootstrap_sha256){throw 'BLOCKED: completed recovery evidence changed'}
+        Assert-ControllerHpcLedgerGrowth $Workspace $r.hpc_ledger_sha256 $original
+    }
     if ($State.reconciliation.status -eq 'INTERRUPTED_TURN294_EVIDENCE_ONLY_READY') {
         $r = $State.reconciliation
         if ($State.state -ne 'RECOVERY_REQUIRED' -or $State.turn -ne 294 -or
@@ -961,6 +1086,6 @@ function Assert-ControllerDispatchCheckpoint([string]$Workspace,$State) {
             (Get-FileHash -LiteralPath (Join-Path $Workspace $r.session_report)).Hash -ne $r.session_report_sha256)){throw 'BLOCKED: session report evidence changed'}
         if($r.bootstrap_record -and (-not(Test-Path -LiteralPath (Join-Path $Workspace $r.bootstrap_record)) -or
             (Get-FileHash -LiteralPath (Join-Path $Workspace $r.bootstrap_record)).Hash -ne $r.bootstrap_record_sha256)){throw 'BLOCKED: bootstrap record evidence changed'}
-        if($r.hpc_ledger_sha256 -and (Get-FileHash -LiteralPath (Join-Path $Workspace 'project_coordination/HPC_JOB_LEDGER.csv')).Hash -ne $r.hpc_ledger_sha256){throw 'BLOCKED: HPC job ledger changed unexpectedly'}
+        if($r.hpc_ledger_sha256){ Assert-ControllerHpcLedgerGrowth $Workspace $r.hpc_ledger_sha256 $State }
     }
 }
