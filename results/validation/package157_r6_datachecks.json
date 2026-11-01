@@ -1,0 +1,36 @@
+{
+    "frozen_uel_sha256":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "verified_at":  "2026-11-01T09:06:12.8873834+00:00",
+    "remote_run_dir":  "/scratch9/pr21vyci/runs/mode1_c4_package157_c1_2_continuation_r6",
+    "command_exit_status":  0,
+    "bundle_sha256":  "03941028BE49AC3B966D5BC013D0E2E5EC5E2021227F2402E76888963B3D760E",
+    "schema":  1,
+    "manifest_sha256":  "2D4EE64A07DAC9FD3C4108B9D574C79B2B7CB2BAAAAEF63AB8F30A4C6B5E8E89",
+    "datacheck_status":  "AUTHENTIC_DATACHECK_PASS_BOTH",
+    "new_pbs_submissions":  0,
+    "physical_acceptance":  "UNVERIFIED",
+    "proof":  {
+                  "schema":  1,
+                  "files":  "PASS",
+                  "runtime":  "PASS",
+                  "host":  "mlogin01.cluster",
+                  "datachecks":  {
+                                     "P157_MECHANICAL_DC.dat":  "6072af8adb51315a59b256c33cba44cf4ec820bd37e788ec1fbca1f4ef679457",
+                                     "P157_PHASE_DC.dat":  "8e9f71a1734362c8814eb746899bad37dfd07f7ac8bdf8adb87740689ffc7d16"
+                                 }
+              },
+    "operation":  "stage_package157_r6",
+    "startup":  {
+                    "status":  "PASS",
+                    "nodes":  7265,
+                    "history":  28224,
+                    "baseline":  0.0018603125442191958,
+                    "targets":  [
+                                    0.0018653125442191958
+                                ],
+                    "solver_executed":  false,
+                    "max_outer":  130
+                },
+    "telegram_notification_contract":  "UNRESOLVED_NOT_TESTED_THIS_TASK",
+    "independent_registration":  "PENDING"
+}

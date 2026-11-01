@@ -1,26 +1,18 @@
 {
-    "active":  false,
-    "agent":  "gemini-antigravity",
-    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "starting_commit":  "ecfbff2ef75eebc22c5f4a235cf1a5268bc0ef8e",
-    "claimed_at":  "2026-11-01T09:54:18.7998379+01:00",
-    "last_updated":  "2026-11-01T09:58:49.7083837+01:00",
-    "last_released":  "2026-11-01T09:58:49.7083837+01:00",
-    "controller_run_id":  "6572edcf-3b5f-4dc9-9c75-94e57266482d",
-    "session_report":  "project_coordination/sessions/2026-11-01_gemini-antigravity_F1597_6572edcf-3b5f-4dc9-9c75-94e57266482d.md",
-    "allowed_write_scope":  [
-                                "project_coordination/sessions/2026-11-01_gemini-antigravity_F1597_6572edcf-3b5f-4dc9-9c75-94e57266482d.md",
-                                "project_coordination/controller/turn-6572edcf-3b5f-4dc9-9c75-94e57266482d.json",
-                                "results/validation/mode1_f1597/6572edcf-3b5f-4dc9-9c75-94e57266482d.json",
-                                "results/validation/preparation-6572edcf-3b5f-4dc9-9c75-94e57266482d.json",
-                                "results/validation/*",
-                                "scripts/validation/*",
-                                "tests/unit/*",
-                                "models/pandey_kumar_mode1/*",
-                                "project_coordination/ACTIVE_SESSION.json",
-                                "project_coordination/ACTIVE_TASK.json",
-                                "project_coordination/CURRENT_STATE.md",
-                                "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/ARTIFACT_REGISTRY.csv"
-                            ]
+  "active": false,
+  "agent": "codex",
+  "task_id": "P157-R6-STAGING-DATACHECK",
+  "starting_commit": "d147fbfa29f7b8848d5581fe9d09ac221a449498",
+  "claimed_at": "2026-11-01T10:03:52.9627495+01:00",
+  "last_updated": "2026-11-01T09:03:29.6881273+00:00",
+  "last_released": "2026-11-01T09:06:51.708729+00:00",
+  "controller_run_id": "5ae4e704-5b51-4673-a07b-7a828deda499",
+  "session_report": "project_coordination/sessions/2026-11-01_codex_package157_r6_staging_datachecks.md",
+  "allowed_write_scope": [
+    "project_coordination/*",
+    "results/validation/package157_r6*",
+    "scripts/validation/*157*r6*",
+    "models/pandey_kumar_mode1/157*"
+  ],
+  "interruption_checkpoint": "C:\\Users\\pruth\\OpenClawPAD\\controller_turn_checkpoint.json"
 }
