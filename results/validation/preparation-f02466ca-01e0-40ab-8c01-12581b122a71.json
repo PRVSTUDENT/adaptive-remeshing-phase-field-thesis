@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
+  "run_id": "f02466ca-01e0-40ab-8c01-12581b122a71",
+  "finding": "Live PBS Job 1419359.mmaster02 (M1_C4_P157_C1_2_R6) continues execution on mnode097 with monotonic coupled convergence confirmed through outer iteration 34 (delta_d=5.22e-5, delta_u=2.83e-8 mm, delta_H=0.00147 MPa, free_error=4.397e-10, dual_error=0.0). Per condition 3, independent C4 -> C5 irreversible state-transfer and equilibrium qualification was completed: 1) Boundary reaction continuity is 0.782% (183.99 N vs 185.43 N), but unconstrained mechanical out-of-balance force reaches 3.88% of reaction force (7.20 N), exceeding the 0.5% standard solver tolerance. 2) Localized crack-tip strain energy on finer C5 reaches 27.63 MPa, which under strict thermodynamic irreversibility H_committed = max(H_trans, psi_0^+(u_trans)) creates a 1.81e-6 kN phase residual defect. 3) Seam kinematics maintain strictly positive COD across all 53 pairs. Fixed-load zero-increment re-equilibration is mathematically mandatory before forward stepping, and its acceptance criteria are established.",
+  "evidence_sources": {
+    "results/validation/c4_to_c5_irreversible_transfer_qualification.json": "0F5E17073B4C40226598D4116449A92C04566DCF1BBDE5BE4B4D87B2A4F8643A",
+    "scripts/validation/evaluate_c4_to_c5_irreversible_transfer_qualification.py": "96CB643F223C5EB224452A4038B750536786D374E6520611A3E2393D91D75DA4",
+    "tests/unit/test_c4_to_c5_irreversible_transfer_qualification.py": "3FAE870539BA755EB7EDFE2CEDE3E39935E07D132BE841E887F774CFEF27E0F7",
+    "results/validation/c4_to_c5_nonmatching_transfer_feasibility_investigation.json": "C59CD239E648555846B2A1C3208C89854C352D7AC2C628CF49446390958A3C90",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/converged_checkpoint_01.json": "200BB2B03C8C9599A2B41FC43A88CCE4EEBC7B4195A20EB0F8E132D3D7925083",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/M1_C4_CORRECTED_PACKAGE147_REF.inp": "FFFE51D5348F6E4B5E9B4742D783CA1645B480B229189168493AEDA10C91722A",
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/M1_C5_CANDIDATE_MESH.inp": "DB261F26D34352DB743432A47FC929BF6B4B4E808A1D4C13146FF4902776D197"
+  },
+  "registered_paths": [
+    "results/validation/c4_to_c5_irreversible_transfer_qualification.json",
+    "scripts/validation/evaluate_c4_to_c5_irreversible_transfer_qualification.py",
+    "tests/unit/test_c4_to_c5_irreversible_transfer_qualification.py"
+  ],
+  "verification_passed": true
+}

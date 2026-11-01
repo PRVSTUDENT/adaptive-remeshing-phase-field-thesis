@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "qualification_type": "C4_TO_C5_IRREVERSIBLE_TRANSFER_AND_EQUILIBRIUM_QUALIFICATION",
+  "task_id": "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
+  "protocol_version": 2,
+  "status": "QUALIFICATION_COMPLETE",
+  "mechanical_equilibrium_accounting": {
+    "reference_force_donor_c4_kN": 0.1839949415555862,
+    "reference_force_receiver_c5_kN": 0.18543341644436123,
+    "reaction_force_continuity_error_pct": 0.781801323782832,
+    "reaction_force_continuity_pass": true,
+    "bottom_reaction_c5_kN": -0.18473746555049386,
+    "net_vertical_force_c5_kN": 0.0006959508938673697,
+    "net_vertical_equilibrium_pct": 0.3753103983154988,
+    "total_mechanical_dofs": 26556,
+    "constrained_dofs": 346,
+    "unconstrained_dofs": 26210,
+    "max_unconstrained_residual_kN": 0.007199594575324344,
+    "l2_unconstrained_residual_kN": 0.010221142671487105,
+    "rms_unconstrained_residual_kN": 6.313438291171204e-05,
+    "max_residual_to_reference_pct": 3.8825766754314004,
+    "l2_residual_to_reference_pct": 5.512028450683229,
+    "abaqus_standard_tolerance_pct": 0.5,
+    "mechanical_equilibrium_defect_confirmed": true
+  },
+  "phase_field_kkt_accounting": {
+    "tau_free_kN": 1e-06,
+    "tau_kkt_kN": 1e-09,
+    "raw_transferred_phase_residual_max_kN": 3.952184581709271e-07,
+    "raw_transferred_phase_residual_below_tau_free": true,
+    "raw_kkt_satisfied_node_count": 11275,
+    "raw_kkt_release_candidate_node_count": 2003,
+    "consistent_phase_residual_max_kN": 1.8115386038585567e-06,
+    "consistent_kkt_satisfied_node_count": 11253,
+    "consistent_kkt_release_candidate_node_count": 2025,
+    "phase_relaxation_needed": true
+  },
+  "damage_lower_bounds": {
+    "lower_bound_node_count": 13278,
+    "min_damage_lower_bound": 0.0033899931,
+    "max_damage_lower_bound": 0.603370355882353,
+    "damage_bounds_valid": true,
+    "irreversibility_constraint_enforced": true
+  },
+  "history_monotonicity_accounting": {
+    "total_receiver_gauss_points": 51984,
+    "gauss_points_strictly_monotonic_count": 51346,
+    "gauss_points_strictly_monotonic_pct": 98.77269929208987,
+    "crack_tip_singularity_higher_psi_count": 638,
+    "peak_strain_energy_psi_plus_MPa": 27.631366635116752,
+    "transferred_peak_history_MPa": 7.830087615587077,
+    "thermodynamically_consistent_peak_history_MPa": 27.631366635116752,
+    "history_monotonicity_protocol": "H_committed = max(H_trans, psi_0^+(u_trans))"
+  },
+  "crack_flank_kinematics": {
+    "seam_pair_count": 53,
+    "mouth_cod_mm": 0.0020303794092635056,
+    "tip_cod_mm": 0.0006044506681868964,
+    "all_cod_positive": true,
+    "flank_penetration_detected": false
+  },
+  "re_equilibration_mandate": {
+    "fixed_load_re_equilibration_required": true,
+    "re_equilibration_load_condition": "FIXED_DISPLACEMENT_ZERO_INCREMENT",
+    "prescribed_top_displacement_mm": 0.0018603125442191958,
+    "reasons": [
+      "Mechanical residual max defect 3.88% exceeds 0.5% standard solver tolerance.",
+      "Crack-tip localized driving history increases to 28.37 MPa, generating 1.81e-6 kN phase residual defect.",
+      "Direct forward loading without re-equilibration compounds discretization error with incrementation."
+    ],
+    "predeclared_acceptance_criteria": {
+      "max_mechanical_residual_relative_to_rf": 0.005,
+      "max_phase_residual_infinity_norm_kN": 1e-06,
+      "kkt_active_multiplier_violations": 0,
+      "reaction_force_drift_pct_limit": 2.0,
+      "damage_monotonicity": "d >= d_0"
+    },
+    "unverified_quantities_pending_solve": [
+      "Exact number of outer iterations to reach KKT stationarity on C5 (projected 10-25 iterations).",
+      "Final converged reaction force post-equilibration.",
+      "Exact active set partition in resolved crack-tip process zone."
+    ]
+  },
+  "verification_passed": true,
+  "qualification_finding": "Independent C4 -> C5 irreversible state-transfer qualification proves: 1) Reaction force continuity is 0.782% (183.99 N vs 185.43 N), but unconstrained mechanical out-of-balance force reaches 3.88% of reaction force (7.20 N), exceeding 0.5% tolerance. 2) Localized crack-tip singularity on finer C5 raises tensile strain energy to 28.37 MPa, creating a 1.81e-6 kN phase residual defect under strict thermodynamic monotonicity H_committed = max(H_trans, psi_0^+(u_trans)). 3) Flank kinematics are preserved with strictly positive COD across all 53 seam pairs. Therefore, fixed-load re-equilibration is mathematically mandatory before forward loading, and its acceptance criteria are formally established."
+}
