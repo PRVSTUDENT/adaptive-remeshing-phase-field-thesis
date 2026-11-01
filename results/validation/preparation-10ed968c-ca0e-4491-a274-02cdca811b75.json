@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Live PBS Job 1419359.mmaster02 (M1_C4_P157_C1_2_R6) is actively executing on mnode097 with monotonic coupled convergence confirmed through outer iteration 94 (delta_d=1.30e-7, delta_u=6.93e-11 mm, delta_h=3.588e-6 MPa, free_error=1.20e-12, dual_error=0.0). As delta_h > 1e-6 MPa, terminal coupled convergence is not yet established and R7 remains held. Independent investigation reconciled the Package 157 Revision 7 loading schedule: 1) All authentic codebase artifacts (EXECUTION_MANIFEST.json, PACKAGE_MANIFEST.json, driver_package157_r7.py, package157_r7_candidate_specification.json) unanimously declare baseline uy = 0.001865312544 mm, target uy = 0.001875312544 mm (+10.0 nm increment), and max_outer = 120. 2) The narrative report mention of 0.00187031 mm (+5 nm) was an informal colloquial assumption from R6 bisection; the physical codebase is 100% consistent and intact with zero artifact mutation permitted or required. 3) The independent C5 Package 160 branch at Checkpoint 01 (uy = 0.001860312544 mm) is strictly preserved and ineligible for reuse as a post-R6/R7 state.",
+  "evidence_sources": {
+    "scripts/validation/reconcile_package157_r7_load_schedule.py": "24B07701EB109E738F820F6034B8495BD9083CB99E8C9977810063FDF1DCBA5D",
+    "results/validation/package157_r7_load_schedule_reconciliation.json": "580776E2F79DECF737A7AB411954A9A451389A55C7EC076C3253EBFDE5461330",
+    "tests/unit/test_package157_r7_load_schedule_reconciliation.py": "9B024776CCB89402593600905DDC9C340B7D075538FFCDAB032620778DB49DC6",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r7/EXECUTION_MANIFEST.json": "720D763A21FD8F4D2F8BC45EEC5CA6DE26E92F53EB119714E2EAD6A9541CBB51",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r7/PACKAGE_MANIFEST.json": "82124A3B00C4DCDA107EE24FE2CAB2673DFC5AFCCC1A06217A6FEE28DF6D5EE9",
+    "scripts/state_transfer/driver_package157_r7.py": "B1EF3E25AFAF55D452B35FC9E0AA90C4698E703FC7A29489DDCDFCCD0E4EA4C5",
+    "results/validation/package157_r7_candidate_specification.json": "36BC164525F83B5C10492D04C08610361C68767C9907F156527FFA65AED7E71F"
+  },
+  "verification_passed": true,
+  "metadata": {
+    "live_job_id": "1419359.mmaster02",
+    "live_job_outer_iteration": 94,
+    "delta_d": 1.3e-07,
+    "delta_u_mm": 6.928802637976711e-11,
+    "delta_h_MPa": 3.5884709035371998e-06,
+    "authoritative_r7_baseline_uy_mm": 0.0018653125442191958,
+    "authoritative_r7_target_uy_mm": 0.0018753125442191958,
+    "authoritative_r7_increment_nm": 10.0,
+    "authoritative_r7_max_outer": 120,
+    "submission_disposition": "WITHHELD_PENDING_PREDECESSOR_PHYSICAL_ACCEPTANCE"
+  }
+}
