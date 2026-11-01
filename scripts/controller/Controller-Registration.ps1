@@ -18,6 +18,11 @@ function Get-ControllerRegistrationPlan([string]$Workspace,[string]$Instruction,
         return [pscustomobject]@{status='DEFINITION_REVIEW_REQUIRED';dispatch_ready=$false;task_type='CONTROLLER_MAINTENANCE';operation_id=$id;path='';recipe='review-operation-definition';blocked_on=@('Reviewed operation definition missing');event_fingerprint=$id+':'+$fingerprint;receipt=$relative}
     }
     $definition=Get-Content -LiteralPath $path -Raw|ConvertFrom-Json
+    if($definition.registration_status -eq 'REVIEW_REQUIRED' -or $definition.reviewed_by -eq 'ChatGPT-independent-review'){
+        # Immutable definition stays unchanged. The external dispatcher archives
+        # and authenticates the separate review; Gemini never self-registers.
+        return [pscustomobject]@{status='DEFINITION_REVIEW_REQUIRED';dispatch_ready=$false;task_type='EXTERNAL_REVIEW_DISPATCH';operation_id=$id;path='';recipe='authenticated-chatgpt-review';blocked_on=@('External authenticated scientific review/qualification pipeline');event_fingerprint=$id+':'+$fingerprint;receipt=$relative}
+    }
     if($definition.schema -ne 1 -or $definition.operation_id -cne $id -or
        $definition.registration_status -ne 'REVIEWED_FOR_TECHNICAL_QUALIFICATION' -or
        -not $definition.reviewed_by -or -not $definition.evidence_sources){throw 'Unreviewed operation definition'}
@@ -44,5 +49,7 @@ function Write-ControllerDefinitionReviewEvent([string]$Workspace,$Plan) {
     }
     $null=New-Item -ItemType Directory -Path $directory -Force
     $event=[ordered]@{schema=1;status='DEFINITION_REVIEW_REQUIRED';operation_id=$Plan.operation_id;event_fingerprint=$Plan.event_fingerprint;next_action='Maintainer review/registration; resume only on registry or scientific-evidence change';model_dispatches=0;created_at=[DateTimeOffset]::UtcNow.ToString('o')}
-    [IO.File]::WriteAllText($path,($event|ConvertTo-Json),[Text.UTF8Encoding]::new($false))
+    $tmp=$path+'.'+[guid]::NewGuid().ToString('N')+'.tmp'
+    [IO.File]::WriteAllText($tmp,($event|ConvertTo-Json),[Text.UTF8Encoding]::new($false))
+    Move-Item -LiteralPath $tmp -Destination $path -Force
 }

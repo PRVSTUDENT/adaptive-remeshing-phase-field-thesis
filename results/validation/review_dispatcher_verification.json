@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "tests": {
+    "command": "py -3 -m pytest -q tests/unit/test_review_dispatcher.py tests/unit/test_controller_registration_transition.py tests/unit/test_mode1_execution_gate.py --basetemp scratch/review-dispatcher-tests-final",
+    "passed": 47,
+    "seconds": 5.84
+  },
+  "mocked_cycle": {
+    "first": {
+      "operation_id": "execute_test_review",
+      "status": "SUBMITTED",
+      "transitions": [
+        "PREPARED",
+        "REVIEW_PENDING",
+        "REVIEWED",
+        "TECH_QUALIFIED",
+        "SUBMITTING",
+        "SUBMITTED"
+      ],
+      "fingerprint": "85326C7EE3FDBDC4E3388B75DB5D6D4EB7D231B40F22EEB08058B60C3B821504",
+      "correlation_id": "HND-29f09a29f3d44fe68720142683c44145",
+      "dispatch_started": true,
+      "review": {
+        "decision": {
+          "reviewer": "ChatGPT-independent-review",
+          "author": "gemini-antigravity",
+          "correlation_id": "HND-29f09a29f3d44fe68720142683c44145",
+          "operation_id": "execute_test_review",
+          "fingerprint": "85326C7EE3FDBDC4E3388B75DB5D6D4EB7D231B40F22EEB08058B60C3B821504",
+          "reviewed_hashes": {
+            "project_coordination/operation_definitions/execute_test_review.json": "BA8B276564BE482BE27511ACDED5A9F29CC1007208BDB2AB5B8A91FBE31AD038",
+            "models/pandey_kumar_mode1/test/manifest.json": "F9965673F9A6EC4F10A69E3C3A33FEC76C4A81ED85C78446A47CF7D4572C8136",
+            "models/pandey_kumar_mode1/test/source.py": "FC17AFE4AF56FCA9D2943B7901E7517611B37A36DB7A7775B3E341E7D20A6BA0"
+          },
+          "decision": "APPROVE",
+          "rationale": "Full source and numerical evidence reviewed",
+          "assistant_message_id": "test-assistant-message",
+          "conversation_url": "https://chatgpt.com/c/test"
+        },
+        "signature": "+XT8wKj2b1IqButDKKYb1nTxrs1lSSXMe/IXcYKHiwe77En/2k96q5mmZxudfc2kxjiGbgoIJyep0yVoCcccAQ=="
+      },
+      "accounting": {
+        "status": "SUBMITTED",
+        "pbs_job_id": "999999.mmaster02"
+      }
+    },
+    "recovered": {
+      "operation_id": "execute_test_review",
+      "status": "SUBMITTED",
+      "transitions": [
+        "PREPARED",
+        "REVIEW_PENDING",
+        "REVIEWED",
+        "TECH_QUALIFIED",
+        "SUBMITTING",
+        "SUBMITTED",
+        "SUBMITTED"
+      ],
+      "fingerprint": "85326C7EE3FDBDC4E3388B75DB5D6D4EB7D231B40F22EEB08058B60C3B821504",
+      "correlation_id": "HND-29f09a29f3d44fe68720142683c44145",
+      "dispatch_started": true,
+      "review": {
+        "decision": {
+          "reviewer": "ChatGPT-independent-review",
+          "author": "gemini-antigravity",
+          "correlation_id": "HND-29f09a29f3d44fe68720142683c44145",
+          "operation_id": "execute_test_review",
+          "fingerprint": "85326C7EE3FDBDC4E3388B75DB5D6D4EB7D231B40F22EEB08058B60C3B821504",
+          "reviewed_hashes": {
+            "project_coordination/operation_definitions/execute_test_review.json": "BA8B276564BE482BE27511ACDED5A9F29CC1007208BDB2AB5B8A91FBE31AD038",
+            "models/pandey_kumar_mode1/test/manifest.json": "F9965673F9A6EC4F10A69E3C3A33FEC76C4A81ED85C78446A47CF7D4572C8136",
+            "models/pandey_kumar_mode1/test/source.py": "FC17AFE4AF56FCA9D2943B7901E7517611B37A36DB7A7775B3E341E7D20A6BA0"
+          },
+          "decision": "APPROVE",
+          "rationale": "Full source and numerical evidence reviewed",
+          "assistant_message_id": "test-assistant-message",
+          "conversation_url": "https://chatgpt.com/c/test"
+        },
+        "signature": "+XT8wKj2b1IqButDKKYb1nTxrs1lSSXMe/IXcYKHiwe77En/2k96q5mmZxudfc2kxjiGbgoIJyep0yVoCcccAQ=="
+      },
+      "accounting": {
+        "status": "SUBMITTED",
+        "pbs_job_id": "999999.mmaster02"
+      }
+    },
+    "review_calls": 1,
+    "submission_calls": 1
+  },
+  "existing_r5_read_only_dryrun": {
+    "status": "DRY_RUN_NO_DISPATCH",
+    "operation_id": "execute_mode1_package158_c2_0_r5_re_equilibration",
+    "accounting": {
+      "status": "RUNNING",
+      "pbs_job_id": "1419269.mmaster02",
+      "physical_acceptance": "UNVERIFIED"
+    }
+  },
+  "live_review_provenance": "UNAVAILABLE_UNSIGNED_LEGACY_BRIDGE",
+  "new_scientific_submissions": 0,
+  "sources": {
+    "scripts/controller/review_dispatcher.py": "A52C8054FEF5B177F5B3217BCBC904A664F5574266610F30E7E9DAB535CE0E57",
+    "scripts/controller/Invoke-ReviewDispatcher.ps1": "1987990BF489E1AA087D6333CB5C192E3F25BCD6A78FC2529FD073A8735A95FE",
+    "scripts/controller/Invoke-IndependentReviewBridge.ps1": "8C36AEAC3AF028C928C870FE0C33946D43E5A3E1363765A719235060488DA7D7",
+    "scripts/controller/Test-IndependentReviewQualification.ps1": "512EB2C5FF6BE705346F23A7CC36A307B7C05A6F638B46EA33B02E9A6BEFF302",
+    "scripts/controller/Controller-Registration.ps1": "E91D0D4D6DCA685B8D369C817DF8B031001A2278650A411E746AE78B4D20113D",
+    "scripts/controller/Antigravity-Autonomous-Loop.ps1": "F176E4DD106F669B2078AA7C8D0FD9BA0BFF04E0BF29E79194C80AE9E4E08249",
+    ".agents/scripts/Invoke-ChatGPTBridge.ps1": "3E2EE51F8E6EF1A709DA8BF7B39992AD076D81A6B6D37BDC7601F7612B6A64BB",
+    ".agents/scripts/bridge_rules.txt": "76015C3E232950D48519BD4DA2602B772A6758FF54703FDF254A28C74EC8F630",
+    "AGENTS.md": "EC25457C58D573BE6298FA7F42785F26216DDE4F3F98E8F0F26DC4866CA6B04A",
+    "tests/unit/test_review_dispatcher.py": "3610C4DB94E737F478F96AA725506F77CF40D89D0BA48E8BCDC15DE4AC8398D3",
+    "docs/project/CHATGPT_REVIEW_DISPATCH.md": "5F707F20A4135D07F1F0A0865A0C3F4D36B448BF1465754E16C66E7FFBCA83E3"
+  }
+}

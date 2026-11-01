@@ -259,6 +259,9 @@ $preparationPrompt = if ($InitialPromptFile) { Get-Content -LiteralPath $Initial
 $preparation = Invoke-ControllerOperationPreparation $WorkspaceDir $preparationPrompt
 if(-not $preparation.dispatch_ready -and $preparation.status -ne 'DEFINITION_REJECTED'){
     Write-Output ('NEXT_OPERATION_PREPARATION: '+($preparation|ConvertTo-Json -Depth 8 -Compress))
+    if($preparation.status -eq 'DEFINITION_REVIEW_REQUIRED'){
+        & (Join-Path $WorkspaceDir 'scripts/controller/Invoke-ReviewDispatcher.ps1') -Workspace $WorkspaceDir -Once
+    }
     return # No profile selection, model call, timeout retry or completed-operation replay.
 }
 $preflightCheckpoint = Read-ControllerCheckpoint $controllerCheckpointPath
@@ -3567,6 +3570,9 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
     if($registrationPlan -and -not $registrationPlan.dispatch_ready){
         Write-ControllerDefinitionReviewEvent $WorkspaceDir $registrationPlan
         Write-Output ('DEFINITION_REVIEW_REQUIRED: '+$registrationPlan.operation_id+'; no repeated AGY preparation dispatch')
+        # External deterministic route: never return pending review to Gemini.
+        & (Join-Path $WorkspaceDir 'scripts/controller/Invoke-ReviewDispatcher.ps1') -Workspace $WorkspaceDir -Once
+
         break MainLoop
     }
     $resolved = Resolve-ControllerInstruction $WorkspaceDir $CurrentInstruction

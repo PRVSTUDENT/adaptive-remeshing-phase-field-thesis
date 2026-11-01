@@ -313,3 +313,9 @@ All noninteractive cluster SSH inspection and query commands MUST follow these r
 
 
 
+
+## Independent review routing policy — 1 November 2026
+
+ChatGPT-independent-review is an accepted independent scientific reviewer for Gemini-authored work; Codex review remains optional. A reviewer label or Gemini assertion is never an approval. Pending definitions route to scripts/controller/Invoke-ReviewDispatcher.ps1 through the existing bridge, with immutable source/evidence hashes and correlation IDs. The dispatcher accepts only APPROVE, REJECT or INSUFFICIENT_EVIDENCE decisions with verified bridge provenance; unchanged definitions/evidence may reuse the same archived decision. Unsigned legacy bridge responses fail closed and cannot trigger submission. Preserve historical Codex reviews and all numerical thresholds.
+
+The review dispatcher stores durable state under project_coordination/review_dispatch. Review failure produces one durable REVIEW_DISPATCH_UNAVAILABLE alert and prevents Gemini preparation re-entry. Recover the same correlation; do not manufacture a replacement approval. Execution still uses Invoke-Mode1Execution.ps1, its live technical/notification/resource checks and once-only accounting. Reserved/ambiguous or lost receipts require scheduler reconciliation and never automatic resubmission. Scheduler Exit0 does not confer scientific acceptance. See docs/project/CHATGPT_REVIEW_DISPATCH.md for the implementation and current bridge provenance limitation.

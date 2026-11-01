@@ -1,0 +1,24 @@
+# ChatGPT scientific review dispatcher
+
+The new route is Gemini candidate -> authenticated ChatGPT-independent-review -> deterministic package/live technical checks -> canonical once-only executor. Codex is optional. Historical independently qualified operations remain valid; this route does not rewrite their definitions or reviews.
+
+Run from the repository:
+
+    powershell -NoProfile -File scripts/controller/Invoke-ReviewDispatcher.ps1 -Once -DryRun
+    powershell -NoProfile -File scripts/controller/Invoke-ReviewDispatcher.ps1
+
+The second command is the external watcher (30-second infrastructure event interval, no solver wait). The existing Antigravity loop invokes one bounded dispatcher pass on a pending review at startup and at turn boundaries. Only one dispatcher owns its OS lock. It pauses while ACTIVE_SESSION is active. No arbitrary definition-provided shell command is run. Only the fixed existing bridge and Mode-I executor are invoked. No Codex process is launched.
+
+Persistent state is keyed by exact operation and manifest digest; review requests additionally bind full definition and source/evidence bytes. Each request contains the complete bounded text evidence, hypothesis/criteria in the definition, and explicit parent differences when supplied. Missing differences/evidence must yield INSUFFICIENT_EVIDENCE. Large/binary artifacts require authentic bounded extracted evidence, never invented contents. Correlation is persisted before bridge dispatch. Review states, rejection/blocked outcomes, submit intent and actual accounting are atomically replaced. A crash during uncertain dispatch resumes only the same signed archive; it does not post another request. A changed immutable packet archives the previous review and requires a fresh review.
+
+On restart, canonical MODE1_BATCH_SUBMISSIONS and MODE1_EXECUTION_LEDGER precede any review or execution. Existing exact PBS receipts are reconciled with guarded qstat; reserved-without-receipt, orphan scheduler names, malformed receipts and unavailable scheduler reconciliation fail closed. SUBMITTING without an accounting receipt is never automatically retried. The executor retains its own atomic reservation as the final duplicate guard. Actual submission always uses Invoke-Mode1Execution.ps1, which repeats the necessary current scheduler/notification/hash check; it does not repeat Abaqus datachecks merely for review. Identical review packets are not sent again. PBS terminal/Exit0 remains TERMINAL and physical acceptance UNVERIFIED; actual scientific evaluator evidence remains a separate predecessor gate.
+
+## Provenance contract and current live limitation
+
+The current bridge archives arbitrary local JSON/clipboard text; correlation alone does not authenticate independent origin. Therefore the live bridge is not yet qualified to issue independent approvals. This implementation deliberately does not claim otherwise.
+
+The dispatcher accepts an Ed25519 envelope {decision, signature}. Signature is base64 over UTF-8 canonical JSON of decision (sorted keys, compact separators, Unicode unescaped). Decision must include reviewer=ChatGPT-independent-review, actual scientific author (definition.author, default gemini-antigravity), operation_id, correlation_id, fingerprint, reviewed_hashes, decision, rationale, actual assistant_message_id and https://chatgpt.com/c/<id> conversation_url. Tests use ephemeral keys and mocked bridge provenance only. No signing key is generated or stored in production, and the author cannot self-issue approval by editing a reviewer label.
+
+PRV_REVIEW_BRIDGE_PUBLIC_KEY identifies the public PEM of a separately controlled bridge worker. Its private signing key and attestation process MUST be outside the scientific author's control. The transport must extract and authenticate the assistant message, preserve the exact request/archive and sign its decision; a caller-supplied key, self-signed Gemini response, fabricated URL or message ID is not independent provenance. The existing UI/localhost bridge does not currently implement that trusted signer. Until it does, the first live new-review operation blocks with REVIEW_DISPATCH_UNAVAILABLE and one durable actionable alert. This is a bridge capability limitation, not a human job permit or another Codex dependency. Existing qualified R5 is reconciled before this requirement and never resubmitted.
+
+Full mocked cycle: py -3 -m pytest -q tests/unit/test_review_dispatcher.py. The signed approve -> qualify -> submit -> recover path is operational under the specified transport contract; production authenticated approval has not been demonstrated. Do not describe mocked signing as live ChatGPT verification. The watcher was not installed or launched persistently during infrastructure maintenance. No scientific jobs were submitted by this task.

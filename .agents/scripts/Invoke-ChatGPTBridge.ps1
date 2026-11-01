@@ -125,7 +125,7 @@ function Invoke-ChatGPTBridge {
         }
     }
 
-    if ($authoritativeGuard) {
+    if ($authoritativeGuard -and $PromptText -notmatch '(?m)^INDEPENDENT_STRUCTURED_REVIEW_V1') {
         $script:ProjectAlignmentGuard = $authoritativeGuard
         $global:ProjectAlignmentGuard = $authoritativeGuard
 
@@ -183,6 +183,7 @@ Determine the next instruction to send to Antigravity.
         }
     }
 
+    if($PromptText -notmatch '(?m)^INDEPENDENT_STRUCTURED_REVIEW_V1'){
     # --- 2c. Sanity Guard: Verify and sanitize any superseded strings ---
     $stalePatterns = @(
         "01 October 2026",
@@ -303,6 +304,11 @@ Determine the next instruction to send to Antigravity.
                 $assembledPrompt = $assembledPrompt.Replace($gtp, "(1 MPI rank x 8 threads qualified SMP, or 16 threads for authorized qualification)")
             }
         }
+    }
+
+    } else {
+        # Immutable source packets must never pass through historical string rewrites.
+        $assembledPrompt=$PromptText
     }
 
             # Re-source Controller-Preparation to ensure running controller loop has latest plan logic

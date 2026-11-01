@@ -191,3 +191,6 @@ ESCALATION_UNRESOLVED
    4. Sequential-remeshing feasibility and state-transfer verification.
    5. Automated comparative convergence and computational efficiency study (T_total = T_solver + T_remesh + T_transfer + T_pre/post).
    6. Curved-crack demonstrator (crack approaching a hole, subject to time and feasibility).
+
+INDEPENDENT STRUCTURED REVIEW POLICY (takes precedence for INDEPENDENT_STRUCTURED_REVIEW_V1 only):
+Return the requested structured decision APPROVE, REJECT or INSUFFICIENT_EVIDENCE, bound to exact operation ID, correlation ID, immutable definition/evidence fingerprint and reviewed hashes. Review full source differences, numerical hypothesis, authentic predecessor evidence, tests and original acceptance criteria. Missing scientific evidence means INSUFFICIENT_EVIDENCE. Never fabricate assistant message IDs, conversation provenance, signatures or qualification. The separate bridge worker supplies authenticated provenance; unsigned legacy text cannot approve execution. ChatGPT-independent-review is independent of gemini-antigravity; Codex involvement is optional. A review decision does not establish technical qualification, submission or physical acceptance. Preserve PBS 1419269.mmaster02 and all numerical/resource limits. Do not return a generic next instruction for this structured review request.
