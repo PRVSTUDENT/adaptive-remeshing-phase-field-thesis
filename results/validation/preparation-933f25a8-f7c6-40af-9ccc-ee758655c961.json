@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "investigation": "PACKAGE157_R6_SCIENTIFIC_ELIGIBILITY_REVIEW",
+  "finding": "Independent scientific eligibility review of Package 157 R6 against authentic Package 160 continuous exact-load reference reproduces identical load prescription (uy = 0.0018603125442191958 mm) and verifies global scalar continuity: reaction force discrepancy is 0.1040763% (<= 5.0% threshold) and RAW total strain energy discrepancy is 0.00090888% (<= 2.0% threshold). Internal numerical verification of Package 157 R6 across 7,265 nodes and 28,224 integration points strictly satisfies all mathematical conditions: coupled equilibrium (delta_H = 9.15e-7 MPa <= 1e-6, delta_d = 4.00e-8 <= 1e-5, delta_u = 1.81e-11 mm <= 1e-9), signed KKT/active-set conditions (dual_error = 0.0, free_error = 1.38e-12, complementarity = 1.03e-14), damage irreversibility (min_delta_d = +4.11e-6 >= -1e-6), committed history monotonicity (min_delta_H = 0.0 MPa >= 0.0), and physical damage bounds (0.00339 <= d <= 0.60525 <= 1.0). However, full pointwise field validation against Package 160 is classified as INSUFFICIENT_EVIDENCE because pointwise nodal field difference tables (u, d, H) have not been extracted from the remote ODB. In addition, production PAD communication maintenance gates remain fail-closed, precluding autonomous forward continuation.",
+  "classification": "PACKAGE157_R6_SCALAR_PASS_POINTWISE_INSUFFICIENT_EVIDENCE",
+  "evidence_sources": {
+    "results/validation/package157_r6_checkpoint_scientific_review.json": "E7A59BCE6F2596DA138E97668EEE74EA182CC274A126BBBF6B67E8789BD66D9B",
+    "results/validation/package160_r6_recovery_comparison.json": "5C9BDB9B0398F6DEC26B102BA98F7083C029BF6D9D450B82FCD9ECFD8D146623",
+    "results/validation/package160_recovery_endpoint.json": "76CF31F30458A4D946F42DE8A871A4207CAA47C20799916564543B637A13109E",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/initial_checkpoint_01.json": "200BB2B03C8C9599A2B41FC43A88CCE4EEBC7B4195A20EB0F8E132D3D7925083",
+    "models/pandey_kumar_mode1/160_c4_exact_load_reference/EXECUTION_MANIFEST_REF.json": "890B61193FC8F9002F5ED4B9ABFB4969D2C358BFF58F297203A0EF380B452ECF"
+  },
+  "verification_passed": true,
+  "metrics": {
+    "prescribed_uy_mm": 0.0018603125442191958,
+    "r6_reaction_force_kN": 0.18411666272311777,
+    "p160_reaction_force_kN": 0.1843084841966629,
+    "force_discrepancy_percent": 0.10407631226593399,
+    "force_threshold_percent": 5.0,
+    "r6_raw_energy_kNmm": 0.00022418821426719904,
+    "p160_raw_energy_kNmm": 0.00022418617669132577,
+    "raw_energy_discrepancy_percent": 0.0009088766771185534,
+    "raw_energy_threshold_percent": 2.0,
+    "nodes_checked": 7265,
+    "integration_points_checked": 28224,
+    "delta_h_MPa": 9.14662710904679e-07,
+    "delta_d": 4.000000008996807e-08,
+    "delta_u_mm": 1.813670014953056e-11,
+    "kkt_dual_error": 0.0,
+    "kkt_free_error": 1.3772575067167933e-12,
+    "kkt_complementarity": 1.0263868465452098e-14,
+    "min_delta_d": 4.113600000000238e-06,
+    "min_delta_h_MPa": 0.0,
+    "min_damage": 0.0033899931,
+    "max_damage": 0.60525042
+  },
+  "verdict": {
+    "internal_checkpoint_gates": "PASS",
+    "global_scalar_continuity": "PASS",
+    "pointwise_field_comparison_vs_reference": "INSUFFICIENT_EVIDENCE",
+    "overall_scientific_verdict": "INSUFFICIENT_EVIDENCE_FOR_UNSUPERVISED_DISPATCH",
+    "unresolved_conditions": [
+      "Pointwise nodal field extraction (u, d, H) from remote Package 160 ODB has not been performed to compute pointwise error norms against R6.",
+      "Production PAD flow request archiving before paste remains unverified in-flow; browser single-send observation pending.",
+      "Forward continuation past uy = 0.00186031 mm is segmented into 3 PBS jobs to satisfy the 8-hour walltime ceiling, requiring supervised review before execution."
+    ]
+  },
+  "next_operation": "Complete pointwise field extraction from remote Package 160 ODB and maintain fail-closed halt until communication and field gates pass."
+}

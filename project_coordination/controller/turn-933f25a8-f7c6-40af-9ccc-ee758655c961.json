@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "933f25a8-f7c6-40af-9ccc-ee758655c961",
+    "task_id":  "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
+    "repository_commit":  "970648ed4f7e757e6c6ca99eda643d481571514d",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-11-01T18:45:56.8940086+01:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "EC25457C58D573BE6298FA7F42785F26216DDE4F3F98E8F0F26DC4866CA6B04A",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "200CFB327CFBB8FB5853BCAC7FE7ADE96717CC990442B4612B132DF1E5670C4D",
+                            "project_coordination/ACTIVE_SESSION.json":  "17196135AE08D797BA55EB7BFA8DB699DEFB9BBEE3FE01D74101C31D35CB0DCC",
+                            "project_coordination/ACTIVE_TASK.json":  "5F1C4FBC66FFC8706C5BE0F53F309442B3FF7D81690608758B156194DB090255",
+                            "project_coordination/TASK_LEDGER.csv":  "02F3C12CF6C09023B9EA242F539D88BD7EA88E51379257856501D6F570A78491",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "B6B1A9066B4D566011A03C7DA1F1F7CAC40A9131202120F936825F365E1737AC",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "35B5C4E7D1383381B777A94754F09121AB4857BE123BB1561AE8033FE8039D82",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "5F1C4FBC66FFC8706C5BE0F53F309442B3FF7D81690608758B156194DB090255",
+                          "project_coordination/CURRENT_STATE.md":  "200CFB327CFBB8FB5853BCAC7FE7ADE96717CC990442B4612B132DF1E5670C4D",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "B6B1A9066B4D566011A03C7DA1F1F7CAC40A9131202120F936825F365E1737AC",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "BCDFE2F3541EC8244AFFC514A57EAE41CC0B3322C5461155EA3BCC56F66230D2"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-11-01_gemini-antigravity_F1597_933f25a8-f7c6-40af-9ccc-ee758655c961.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-933f25a8-f7c6-40af-9ccc-ee758655c961.json",
+                                  "sha256":  "B02E8BCECD1783F8A224AA1D12778F68576FB9DEA8FFEB65B7299625C2ED5E78",
+                                  "created_at":  "2026-11-01T18:48:27.5451812+01:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Complete pointwise field extraction from remote Package 160 ODB and maintain fail-closed halt until communication and field gates pass."
+}
