@@ -1,4 +1,7 @@
-﻿# PAD single-handoff R1 manual activation
+> SUPERSEDED activation instructions: do not install `Main.repaired.robin` or replace/rebind the working wait. The user's existing `Antigravity_ChatGPT_Bridge` flow is the reference; preserve its clipboard, focus, paste, OCR wait and response-return actions exactly. The instructions below are historical R1 evidence, not the current activation procedure.
+>
+> Current blocker: the accessible cached source is identical to the recovered image-wait version, not a verified current OCR reference. Desktop native pipe is unavailable. Obtain the named flow's Main action source/export (including its OCR wait and error handlers) before modifying a separate duplicate or running a canary. No live canary has been run. Add only request archival/retention and matching-handoff-ID validation around the existing actions; retain the original timing and return path. A successful offline guard test cannot qualify the uninspected flow.
+# PAD single-handoff R1 manual activation
 
 Status: offline repair ready; not imported or executed in PAD. No live canary ID exists yet. Do not start the scientific controller.
 

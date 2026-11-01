@@ -1,3 +1,5 @@
+1 November PAD reference correction: preserve existing Antigravity_ChatGPT_Bridge OCR wait and all working GUI/return actions. Prior R1 generated source must not replace it. Cached recovered source uses image wait; current named OCR definition inaccessible; native desktop pipe unavailable. No canary attempted. See sessions/2026-11-01_codex_pad_reference_wait.md.
+
 1 November PAD activation resumed: user-verified userscript configuration; separate R1 source and transaction guard ready at C:\Users\pruth\PAD-Canary-R1-20261101. 14 offline checks and 71 recovery hashes PASS. Native GUI unavailable; no live canary attempted. Follow scripts/controller/pad_canary/MANUAL_ACTIVATION.md for one isolated canary only; no scientific controller released. See sessions/2026-11-01_codex_pad_copied_flow_r1.md.
 
 1 November controlled PAD activation: BLOCKED_STAGE_1_GUI_ACCESS. All 71 recovery hashes pass; desktop native pipe and browser host unavailable. Live script enablement cannot be verified. No flow repair/activation, canary prompt or HPC operation attempted; preserved pending handoffs/request unchanged. See sessions/2026-11-01_codex_pad_single_handoff_activation.md.
