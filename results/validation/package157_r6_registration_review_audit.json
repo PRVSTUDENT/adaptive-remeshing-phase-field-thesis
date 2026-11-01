@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "status": "INITIAL_RESEARCH_ARTIFACT_RECORDED",
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "requested_operation_id": "execute_mode1_package157_c1_2_r6_adaptive_continuation",
+  "definition_review_audit": {
+    "definition_file": "project_coordination/operation_definitions/execute_mode1_package157_c1_2_r6_adaptive_continuation.json",
+    "definition_sha256": "55E2B6541F2182DAA7F40595C5F2AACCBF4AE337FF20589FEF0EC340CD031228",
+    "event_file": "project_coordination/controller/definition-review-execute_mode1_package157_c1_2_r6_adaptive_continuation.json",
+    "event_sha256": "66BEE1EA97F70D445DECD28633B52D4B4CA38D1EA612788C74CDA2BF2523E3A8",
+    "event_fingerprint": "execute_mode1_package157_c1_2_r6_adaptive_continuation:55E2B6541F2182DAA7F40595C5F2AACCBF4AE337FF20589FEF0EC340CD031228:2D4EE64A07DAC9FD3C4108B9D574C79B2B7CB2BAAAAEF63AB8F30A4C6B5E8E89",
+    "resolver_status": "DEFINITION_REVIEW_REQUIRED",
+    "registration_status": "REVIEW_REQUIRED",
+    "dispatch_ready": false,
+    "review_action_needed": "Independent supervisory/maintainer review and registration of execute_mode1_package157_c1_2_r6_adaptive_continuation in Controller-Operations.ps1 to transition registration_status to REVIEWED_FOR_TECHNICAL_QUALIFICATION"
+  },
+  "verified_evidence_hashes": {
+    "project_coordination/operation_definitions/execute_mode1_package157_c1_2_r6_adaptive_continuation.json": "55E2B6541F2182DAA7F40595C5F2AACCBF4AE337FF20589FEF0EC340CD031228",
+    "project_coordination/controller/definition-review-execute_mode1_package157_c1_2_r6_adaptive_continuation.json": "66BEE1EA97F70D445DECD28633B52D4B4CA38D1EA612788C74CDA2BF2523E3A8",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/initial_checkpoint_01.json": "200BB2B03C8C9599A2B41FC43A88CCE4EEBC7B4195A20EB0F8E132D3D7925083",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/PACKAGE_MANIFEST.json": "7093DDB752854EF47D55D4F8F3357C33C097D776FA491672D38ABFB06D318D85",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/EXECUTION_MANIFEST.json": "2D4EE64A07DAC9FD3C4108B9D574C79B2B7CB2BAAAAEF63AB8F30A4C6B5E8E89",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/submit_M1_C4_P157_C1_2_R6.pbs": "1EB5DDCBBD38A2A9C63BB7E4A0A2A22826C1449EB36307A6708FFCFAE820E24B",
+    "scripts/state_transfer/driver_package157_r6.py": "EC57875E34971EDEA198FA70378D157041392084CEBE81BE71E5864E9DDD8D65",
+    "scripts/state_transfer/build_package157_r6.py": "169343BF5AD60384BC24FB1BE01EBFFE57341CE7025024C1AF8F842B63A9ED80",
+    "tests/unit/test_package157_r6_candidate.py": "953F9292C2F95F3BEAB1BBE7921FA0CE2D82695453FDB2027D3C5421C1A4B343",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  }
+}
