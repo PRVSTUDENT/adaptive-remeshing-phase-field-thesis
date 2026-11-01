@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Formulated, staged, datacheck-qualified, and submitted Package 165 C5 coupled re-equilibration under Contract A (Frozen Transferred History baseline H = H0) to PBS scheduler as Job 1419477.mmaster02. Contract A successfully suppressed artificial history ratcheting, reducing peak dual defect to 8.53e-08 kN*mm with 10,401 active clamped nodes.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/165_c5_package165_c2_0_contract_a/EXECUTION_MANIFEST.json": "60E8224EB2E3073E1FA496E00BE85C13AEA3D907E0F0EADFB28F03C4805B1C1F",
+    "models/pandey_kumar_mode1/165_c5_package165_c2_0_contract_a/PACKAGE_MANIFEST.json": "635E96304C874F2814A8180EF96EC7778ECA6CA1E5EE582138103607B67D2BA8",
+    "models/pandey_kumar_mode1/165_c5_package165_c2_0_contract_a/P165_MECHANICAL_DC.inp": "ED80F49AD84B977AA45A6E320B1862CA38A18F5CC9D0A83A036D3EABDA4ACD70",
+    "models/pandey_kumar_mode1/165_c5_package165_c2_0_contract_a/P165_PHASE_DC.inp": "6322986FF305F48C0920B16EED7B86837D031EF3BFB952B558D940AB1852383D",
+    "models/pandey_kumar_mode1/165_c5_package165_c2_0_contract_a/P165_MECHANICAL_DC.dat": "2777033245193B69C101A04E3680C2B5490C683D8D90D0E0BCEDC62F26D2700B",
+    "models/pandey_kumar_mode1/165_c5_package165_c2_0_contract_a/P165_PHASE_DC.dat": "4533AAA00B5CB25B02B4ECD0F0D03290E3966286B2B3839FE56D497C0D5A5D1E",
+    "models/pandey_kumar_mode1/165_c5_package165_c2_0_contract_a/submit_M1_C5_P165_C2_0.pbs": "98E9C95B9BC1BE80428124D5E6B272885A065207671578CBFDA2E10147CF051F",
+    "scripts/state_transfer/driver_package165_c5_contract_a.py": "FED96BEC916C51E87EFCAD60D1BE63A1696C4D33CCFF646F4C87683E47A8B4C1",
+    "tests/unit/test_package165_contract_a_candidate.py": "4475B39C76E501C0E78F6AD15C09A9A8DEF2E2BD85DDE487AC1ED1686C423B20"
+  },
+  "registered_paths": [
+    "models/pandey_kumar_mode1/165_c5_package165_c2_0_contract_a/EXECUTION_MANIFEST.json",
+    "models/pandey_kumar_mode1/165_c5_package165_c2_0_contract_a/PACKAGE_MANIFEST.json",
+    "models/pandey_kumar_mode1/165_c5_package165_c2_0_contract_a/submit_M1_C5_P165_C2_0.pbs",
+    "scripts/state_transfer/driver_package165_c5_contract_a.py",
+    "tests/unit/test_package165_contract_a_candidate.py",
+    "scripts/validation/stage_package165_c5.py",
+    "scripts/validation/generate_package165_manifests.py",
+    "scripts/generation/build_package165_c5_contract_a.py",
+    "project_coordination/HPC_JOB_LEDGER.csv",
+    "project_coordination/MODE1_BATCH_SUBMISSIONS.json"
+  ],
+  "verification_passed": true
+}

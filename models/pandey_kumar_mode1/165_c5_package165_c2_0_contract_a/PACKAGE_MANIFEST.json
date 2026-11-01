@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "package": "package_165",
+  "package_name": "165_c5_package165_c2_0_contract_a",
+  "stage": "C2-0",
+  "target_mesh": "c5_candidate_40k",
+  "quad_elements": 12996,
+  "physical_nodes": 13278,
+  "integration_points": 51984,
+  "scientific_objective": "Coupled PDAS re-equilibration on C5 receiver mesh (12,996 quads, 13,278 nodes, 51,984 GPs) under Contract A (Frozen H = H0) at authentic donor holding load uy = 1.8603125442191958e-03 mm; eliminating artificial pre-relaxation strain singularity (6,488.35 MPa vs spiked 27,631.37 MPa) and suppressing trial ratcheting.",
+  "donor_source": {
+    "checkpoint": "converged_checkpoint_01.json",
+    "checkpoint_sha256": "200BB2B03C8C9599A2B41FC43A88CCE4EEBC7B4195A20EB0F8E132D3D7925083",
+    "donor_target_uy_mm": 0.0018603125442191958,
+    "c4_elements": 7056,
+    "c4_nodes": 7265,
+    "c4_slit_pairs": 40,
+    "c4_donor_package": "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5",
+    "donor_max_history_MPa": 6868.951434128797,
+    "receiver_max_history_MPa": 6868.951434128797,
+    "artificial_amplification_eliminated": true
+  },
+  "receiver_mesh": {
+    "mesh_source": "models/pandey_kumar_mode1/155_c5_candidate_mesh/M1_C5_CANDIDATE_MESH.inp",
+    "mesh_sha256": "DB261F26D34352DB743432A47FC929BF6B4B4E808A1D4C13146FF4902776D197",
+    "elements": 12996,
+    "nodes": 13278,
+    "slit_pairs": 53,
+    "integration_points": 51984
+  },
+  "contract": "Contract A: Frozen Transferred History H = H0 during re-equilibration iterations; post-convergence verification of H0 >= psi+(u*)",
+  "pdas_active_set_formulation": "Canonical Hintermuller-Ito-Kunisch: A = {i : d_i - c * lambda_i <= d0_i + eps_pdas}, c=1.0e3 (kN*mm)^-1, eps_pdas=1.0e-6, lambda_i = r_i = (K_d d - f_d)_i. Nodes with r_i < -1.0e-9 kN*mm released into free set.",
+  "initial_active_set": {
+    "active_node_count": 11275,
+    "free_node_count": 2003,
+    "peak_dual_defect_kNmm": -3.952184581709271e-07,
+    "peak_dual_defect_node": 13109
+  },
+  "material_parameters": {
+    "E_GPa": 210.0,
+    "nu": 0.3,
+    "Gc_N_mm": 2.7,
+    "l0_mm": 0.0075,
+    "k_res": 1e-07
+  },
+  "files": {
+    "M1_C5_PACKAGE165_C2_0_REEQUILIBRATION.inp": "1a8730e789025260e34deff467a91e9a8839627402b126aae27f5297d5fc3693",
+    "P165_MECHANICAL_DC.inp": "ed80f49ad84b977aa45a6e320b1862ca38a18f5cc9d0a83a036d3eabda4acd70",
+    "P165_PHASE_DC.inp": "6322986ff305f48c0920b16eed7b86837d031ef3bfb952b558d940ab1852383d",
+    "P165_MECHANICAL_DC.dat": "2777033245193b69c101a04e3680c2b5490c683d8d90d0e0bcedc62f26d2700b",
+    "P165_PHASE_DC.dat": "4533aaa00b5cb25b02b4ecd0f0d03290e3966286b2b3839fe56d497c0d5a5d1e",
+    "initial_conditions_solution.inc": "959cf645f87c824a287594dde85741929368376b572840af42a5844be9fe3632",
+    "active_set_boundary_cards.inc": "8d8d273f1288cb26c426f4cf3afadb158a531fde81d4de3806e0c8a15708535a",
+    "nodal_displacements_initial.csv": "d935da0a5321b3042b16ca7b00fabafcd5fa98d3466ecd0e6d6fe0f502c24827",
+    "nodal_phase_field_initial.csv": "2ba4b36cb59537c142e6c3294012631c042b579dacb352c06453c3c7db3de055",
+    "d_lower_bounds.csv": "53db6a21aadd35dbb57e7622ee2b4d99b569993785c9f17cc4f03a2af6e96985",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "run_datacheck.sh": "5c2fb5463a9b8329d3147bf59b38862e58f8f4a2e4ce48de920ad72457849a2a",
+    "submit_M1_C5_P165_C2_0.pbs": "770edb58733a48b817946e1cd928318a2d2c7c11dcc5b4c1c21f3206abf9ce21"
+  },
+  "file_digests": {
+    "M1_C5_PACKAGE165_C2_0_REEQUILIBRATION.inp": "1a8730e789025260e34deff467a91e9a8839627402b126aae27f5297d5fc3693",
+    "P165_MECHANICAL_DC.inp": "ed80f49ad84b977aa45a6e320b1862ca38a18f5cc9d0a83a036d3eabda4acd70",
+    "P165_PHASE_DC.inp": "6322986ff305f48c0920b16eed7b86837d031ef3bfb952b558d940ab1852383d",
+    "P165_MECHANICAL_DC.dat": "2777033245193b69c101a04e3680c2b5490c683d8d90d0e0bcedc62f26d2700b",
+    "P165_PHASE_DC.dat": "4533aaa00b5cb25b02b4ecd0f0d03290e3966286b2b3839fe56d497c0d5a5d1e",
+    "initial_conditions_solution.inc": "959cf645f87c824a287594dde85741929368376b572840af42a5844be9fe3632",
+    "active_set_boundary_cards.inc": "8d8d273f1288cb26c426f4cf3afadb158a531fde81d4de3806e0c8a15708535a",
+    "nodal_displacements_initial.csv": "d935da0a5321b3042b16ca7b00fabafcd5fa98d3466ecd0e6d6fe0f502c24827",
+    "nodal_phase_field_initial.csv": "2ba4b36cb59537c142e6c3294012631c042b579dacb352c06453c3c7db3de055",
+    "d_lower_bounds.csv": "53db6a21aadd35dbb57e7622ee2b4d99b569993785c9f17cc4f03a2af6e96985",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "run_datacheck.sh": "5c2fb5463a9b8329d3147bf59b38862e58f8f4a2e4ce48de920ad72457849a2a",
+    "submit_M1_C5_P165_C2_0.pbs": "770edb58733a48b817946e1cd928318a2d2c7c11dcc5b4c1c21f3206abf9ce21"
+  }
+}
