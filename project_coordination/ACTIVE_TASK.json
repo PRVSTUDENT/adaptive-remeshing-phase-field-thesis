@@ -10,7 +10,7 @@
                          },
     "task_id":  "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 163 C5 +5 nm forward continuation candidate prepared and verified pursuant to instruction 5 while Job 1419458.mmaster02 remains running on HPC: 1) Live scheduler audit confirmed Job 1419458.mmaster02 (Package 162 C5 re-equilibration) actively running on mnode097 (elapsed 11m, solving coupled staggered iterations). Predecessor Job 1419365.mmaster02 (Package 157 R7) reached terminal state (MAX_OUTER_EXCEEDED at outer 120, CPU time 01:07:01; +10 nm jump rejected; no blind resubmission). Authentic R7 runtime report and execution log retrieved to results/validation/mode1_f1597/; HPC_JOB_LEDGER.csv reconciled. 2) Built Package 163 C5 continuation candidate generator build_package163_c5_continuation.py and driver driver_package163_c5_continuation.py advancing C5 mesh (12,996 quads, 13,278 nodes, 51,984 history GPs) from Checkpoint 01 (uy=0.00186031 mm) to uy=0.00186531 mm (+5 nm, exactly matching accepted C4 R6 reference load level for direct same-load physical comparison). 3) State contracts enforced: strict schema validation, monotonic damage bound update d0_new=max(d0_old, d_conv) (zero healing \u003e= -1e-6), nondecreasing driving history H0_new=max(H0_old, H_conv), and frozen UEL bitwise verification (SHA-256: CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6). 4) Unit test suite test_package163_c5_continuation_contract.py verified 4/4 passing tests (schema rejection, exact +5 nm increment, mock package execution, and source hash integrity). 5) Execution marked WITHHELD_PREDECESSOR_RUNNING pending Package 162 completion without fabricating or substituting un-converged checkpoint data.",
+    "phase":  "C5 PDAS active-set stagnation forensically diagnosed, localized, and proven by regression tests while Job 1419458.mmaster02 remains active on HPC: 1) HPC reconciliation confirmed Job 1419458.mmaster02 (Package 162 C5 re-equilibration) actively running on mnode097 (elapsed 20m, cycling outer 43). Predecessor Job 1419365.mmaster02 (Package 157 R7) reconciled as terminal FAILED (MAX_OUTER_EXCEEDED at outer 120); ledger and active task updated. 2) Active-set stagnation root cause isolated: in driver_package160_c5_re_equilibration.py line 390, the phase subproblem was invoked with kkt[\u0027active\u0027]. Because kkt() defines active = {n for n in d if d[n]-d0[n] \u003c= 1e-10}, all 13,278 nodes were classified as active and clamped to d0 in the Abaqus phase input deck. This caused Abaqus to return identical d=d0 on every iteration, producing artificial zero state updates (delta_d=0, delta_u=0, delta_h=0, r_free=0) while preventing relief of the crack-tip dual defect (1.95e-6 kN*mm). 3) Quantitative residual analysis localized the peak negative residual (-1.81e-6 to -1.95e-6 kN*mm) strictly to the crack tip process zone (nodes 6724, 6609, 6725, 6610, 13278 around x=0.040, y=0.050 mm with damage d0=0.52-0.60). 4) Proven via 4/4 passing unit tests in test_c5_pdas_active_set_diagnosis.py that canonical PDAS active-set criteria (d - c*lambda \u003c= d0) correctly release the violating crack-tip nodes into the free set to evolve damage and resolve the dual defect. 5) Formulated falsifiable candidate correction for a future distinct package; active Job 1419458 preserved without interference.",
     "gate_status":  "PACKAGE160_REFERENCE_VERIFIED__R6_FULL_REVIEW_REQUIRED__LIVE_PAD_RESPONSE_MISSING",
     "active_pbs_job_ids":  [
                                "1419458.mmaster02"
@@ -301,14 +301,14 @@
                                           "scientific_review":  "results/validation/package158_r5_codex_execution_review.json",
                                           "pbs_job_id":  "1419269.mmaster02"
                                       },
-    "last_updated":  "2026-11-01T22:18:21.3590571+01:00",
+    "last_updated":  "2026-11-01T22:25:25.5385786+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-16acfc4f-49ea-4c2e-a618-6a71e6974634.json",
-                                  "sha256":  "7E4755E4F445A7F98AB2C96DF017CFBF43719E43B791C4328DC629886A5AA75D",
-                                  "created_at":  "2026-11-01T22:17:35.6921483+01:00"
+                                  "artifact":  "results/validation/preparation-e26363a5-686a-4d58-8aff-7aa925a49a52.json",
+                                  "sha256":  "4208C43EE4530FAFA85F23E734CADB0DED4BBD9AD6240069FC0BFD9B2E6690FF",
+                                  "created_at":  "2026-11-01T22:24:44.7769033+01:00"
                               }
 }

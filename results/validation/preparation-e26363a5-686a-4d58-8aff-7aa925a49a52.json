@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "task_id": "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
+  "controller_run_id": "e26363a5-686a-4d58-8aff-7aa925a49a52",
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "verification_passed": true,
+  "finding": "C5 PDAS active-set stagnation forensically diagnosed, localized, and proven by regression tests while Job 1419458.mmaster02 remains active on HPC: 1) HPC reconciliation confirmed Job 1419458.mmaster02 (Package 162 C5 re-equilibration) actively running on mnode097 (elapsed 20m, cycling outer 43). Predecessor Job 1419365.mmaster02 (Package 157 R7) reconciled as terminal FAILED (MAX_OUTER_EXCEEDED at outer 120); ledger and active task updated. 2) Active-set stagnation root cause isolated: in driver_package160_c5_re_equilibration.py line 390, the phase subproblem was invoked with kkt['active']. Because kkt() defines active = {n for n in d if d[n]-d0[n] <= 1e-10}, all 13,278 nodes were classified as active and clamped to d0 in the Abaqus phase input deck. This caused Abaqus to return identical d=d0 on every iteration, producing artificial zero state updates (delta_d=0, delta_u=0, delta_h=0, r_free=0) while preventing relief of the crack-tip dual defect (1.95e-6 kN*mm). 3) Quantitative residual analysis localized the peak negative residual (-1.81e-6 to -1.95e-6 kN*mm) strictly to the crack tip process zone (nodes 6724, 6609, 6725, 6610, 13278 around x=0.040, y=0.050 mm with damage d0=0.52-0.60). 4) Proven via 4/4 passing unit tests in test_c5_pdas_active_set_diagnosis.py that canonical PDAS active-set criteria (d - c*lambda <= d0) correctly release the violating crack-tip nodes into the free set to evolve damage and resolve the dual defect. 5) Formulated falsifiable candidate correction for a future distinct package; active Job 1419458 preserved without interference.",
+  "evidence_sources": {
+    "tests/unit/test_c5_pdas_active_set_diagnosis.py": "DB5400CE378760DBDB6AA3ABF6069C3C6520FA056517B1A76FFF79E8F4F495B5",
+    "results/validation/mode1_f1597/c5_pdas_active_set_diagnosis.json": "63730E3D9DE8A3354EE5577ACDB5AA05108B6679A7D1704EC8062EEA126799F5",
+    "scripts/validation/diagnose_c5_pdas_active_set.py": "627CA1F9BB63D7A6C28A1C17BB0E60669EB9B65DF47E45E418D871C949B2D8BD",
+    "project_coordination/HPC_JOB_LEDGER.csv": "FC199EE6C441E43F53B67E7E644DAC53117FD39B69F8E197967212FFED4CE82B",
+    "project_coordination/ACTIVE_TASK.json": "BE932991051E63AB3183CE2BEB2480378E0EE82BD47F8DF6C0E8189EA35AA9AB"
+  }
+}
