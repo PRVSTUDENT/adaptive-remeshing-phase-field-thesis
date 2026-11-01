@@ -10,7 +10,7 @@
                          },
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "agent":  "gemini-antigravity",
-    "phase":  "Forensic audit of Package 158 R4 (Job 1419174.mmaster02) identified that outer iteration 69 satisfied all reported coupled convergence tolerances (delta_d=2.1226e-8 \u003c= 1e-5, delta_u=1.1531e-11 mm \u003c= 1e-9, delta_h=8.5505e-7 MPa \u003c= 1e-6, free_error=1.2283e-13 \u003c= 1e-6, dual_error=0.0 \u003c= 1e-9) and physical acceptance gates (RF2=0.18254 kN vs 0.18501 kN, 1.33% \u003c= 5%; RAW total energy=0.00022269 kNmm vs 0.00022233 kNmm, 0.16% \u003c= 2%), but failed commitment because driver_package158_error_driven_re_equilibration.py line 188 prescribed damage[n] rather than self.d0[n] for active set nodes. This locked an unhealed continuous-Galerkin numerical undershoot of -4.8264e-06 into the Dirichlet BC, violating the -1.0e-06 healing tolerance, which forced kkt[\u0027passed\u0027]=False, dispatched 20 redundant phase sub-solves, advanced to outer 70, and hit the 25,200 s walltime deadline before checkpoint commitment. Outer 69 cannot be certified as an authentic equilibrium checkpoint due to this unhealed -4.8e-6 damage violation. Disposition classified as CONVERGENCE_COMMIT_DEFECT_IDENTIFIED.",
+    "phase":  "Offline verification of Package 158 R5 driver candidate confirmed: (1) Active-set Dirichlet clamp repair (prescribing self.d0[n] rather than damage[n]) resolves continuous-Galerkin numerical undershoot (-4.8264e-6), satisfying the -1.0e-6 damage irreversibility gate and permitting KKT convergence commit; (2) Immediate atomic checkpoint serialization within the convergence break block guarantees atomic state commitment and SHA-256 integrity receipt prior to any subsequent outer dispatch, preventing checkpoint loss on walltime timeout; (3) All 7 regression tests in test_package158_r5_driver_correction.py and all 7 tests in test_package158_re_equilibration.py passed (14/14 passed); (4) R4 source and manifests preserved unchanged. Disposition: DRIVER_CORRECTION_OFFLINE_VERIFIED.",
     "gate_status":  "P157_R5_SEG1_RUNNING__C4_CONTINUATION_UNACCEPTED",
     "active_pbs_job_ids":  [
                                "1419162.mmaster02"
@@ -290,14 +290,14 @@
                              "compute_qualification_job_id":  "1419146.mmaster02",
                              "manifest_sha256":  "ac186eeaf426bc6f39499df2664a38b81dd66fbd4a0f3fd41faa1fb073faa62f"
                          },
-    "last_updated":  "2026-11-01T06:17:35.8304826+01:00",
+    "last_updated":  "2026-11-01T06:30:23.0507829+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-1a3e27b8-76b5-4c71-b434-9f4c5725b765.json",
-                                  "sha256":  "FE77721FA495122E4913665836E443C660EA903227E7FB2D9B170BF872ED6DC6",
-                                  "created_at":  "2026-11-01T06:17:15.1624344+01:00"
+                                  "artifact":  "results/validation/preparation-ee5a86f0-2d6a-4f0e-b053-820c0a8d5b47.json",
+                                  "sha256":  "200CBA8F3CEBC0708C8F318D763A0C99B3F9131D78BA0BBAA77781EBAA65EB63",
+                                  "created_at":  "2026-11-01T06:29:01.7604874+01:00"
                               }
 }
