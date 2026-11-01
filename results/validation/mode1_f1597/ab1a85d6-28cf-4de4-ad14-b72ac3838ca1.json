@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "operation": "execute_mode1_package158_c2_0_r5_re_equilibration",
+  "investigation": "PACKAGE_158_R5_LIVE_EXECUTION_AND_CONVERGENCE_AUDIT",
+  "classification": "R5_RUNNING_MONOTONIC_CONVERGENCE_PROGRESS",
+  "finding": "Reconciled live Package 158 R5 execution (PBS Job 1419269.mmaster02, RUNNING on mnode097/0): Outer coupling iterations 1 to 5 show monotonic reduction in damage increment (delta_d: 0.01771 -> 0.00846) and history increment (delta_h: 0.4700 -> 0.2160 MPa). Active-set clamping formulation (prescribed = d0) enforces strict KKT complementarity (free_error <= 7.40e-8, dual_error <= 4.15e-7). Physical continuity acceptance remains unverified pending authentic solver completion.",
+  "pbs_job_id": "1419269.mmaster02",
+  "scheduler_state": "RUNNING",
+  "exec_host": "mnode097/0",
+  "run_count": 1,
+  "measurements": {
+    "outer_iterations_completed": 5,
+    "outer_5_delta_d": 0.008461485382054712,
+    "outer_5_delta_u_mm": 3.2393098183018058e-06,
+    "outer_5_delta_h_MPa": 0.21603773407684912,
+    "outer_5_free_error": 3.211098804143317e-08,
+    "outer_5_dual_error": 4.197944360622397e-08,
+    "delta_d_monotonic_reduction": true,
+    "delta_h_monotonic_reduction": true,
+    "kkt_complementarity_satisfied": true
+  },
+  "live_telemetry": [
+    {
+      "step": 1,
+      "outer": 1,
+      "target_uy": 0.0018503125442191958,
+      "delta_d": 0.0,
+      "delta_u": null,
+      "delta_h": null,
+      "free_error": 0.0,
+      "dual_error": 4.1539163832909795e-07,
+      "phase_iterations": 20
+    },
+    {
+      "step": 1,
+      "outer": 2,
+      "target_uy": 0.0018503125442191958,
+      "delta_d": 0.01770727725294452,
+      "delta_u": 5.0272469795307985e-06,
+      "delta_h": 0.46998682641512346,
+      "free_error": 7.396745548185698e-08,
+      "dual_error": 2.359434802011609e-07,
+      "phase_iterations": 20
+    },
+    {
+      "step": 1,
+      "outer": 3,
+      "target_uy": 0.0018503125442191958,
+      "delta_d": 0.015867974657126305,
+      "delta_u": 4.85894156155946e-06,
+      "delta_h": 0.360263227218347,
+      "free_error": 5.331126428334287e-08,
+      "dual_error": 2.4741896701058096e-07,
+      "phase_iterations": 20
+    },
+    {
+      "step": 1,
+      "outer": 4,
+      "target_uy": 0.0018503125442191958,
+      "delta_d": 0.014151786089387719,
+      "delta_u": 5.03744012273486e-06,
+      "delta_h": 0.31638624815109573,
+      "free_error": 4.6987371857374126e-08,
+      "dual_error": 8.986369818625112e-08,
+      "phase_iterations": 20
+    },
+    {
+      "step": 1,
+      "outer": 5,
+      "target_uy": 0.0018503125442191958,
+      "delta_d": 0.008461485382054712,
+      "delta_u": 3.2393098183018058e-06,
+      "delta_h": 0.21603773407684912,
+      "free_error": 3.211098804143317e-08,
+      "dual_error": 4.197944360622397e-08
+    }
+  ],
+  "evidence_sources": {
+    "scripts/validation/audit_package158_r5_live_progress.py": "EBED35E567F228BB662AF2C68A14289C19D1236E22DDB200DCE62D767D8DFE63",
+    "scripts/state_transfer/driver_package158_r5_error_driven_re_equilibration.py": "1A239A7EC279F50BD45021AA29D4C7116A82C631AFEEAE6C99ED03FDDD9D93AF",
+    "scripts/state_transfer/package158_r5_driver_correction.patch": "4FA7D10C56CC7C17AFB55764E725E0476F2D1AA620DEDF78E704682D1BA08CDE",
+    "tests/unit/test_package158_r5_driver_correction.py": "579149E1A8AFA70E6389FA4B895AC450FD172177FE53FDBE6B6C60629C280DD5",
+    "tests/unit/test_package158_re_equilibration.py": "912C7F6AA453DB64189CA4812DE17B8C6C001455B9D159BF6F69F751A4DB99C1",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/EXECUTION_MANIFEST_R5.json": "F3D996D71075826E92955F64D1F7671CEC0E13487D1CECFA9DC4D01EFBCC0CFE",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/submit_M1_P158_C2_0_R5.pbs": "EC8ACE9F65E6FB4B6EE3E17EBEA8B4B28C4ECF2C69FACE071CF3D267C5A5AD7A",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "project_coordination/operation_definitions/execute_mode1_package158_c2_0_r5_re_equilibration.json": "CEED50E7922372D32DFCE161E6DEDE418A1F51099A2395E7BC2BC7BCC6660AE8",
+    "results/validation/package158_r5_codex_submission.json": "1FDAD9554DD2CC8287FC2FDA4C0F8F11F96A7E11B7B40C1C8264BEC4E922982E",
+    "results/validation/package158_r5_codex_execution_review.json": "5A779A204EB5D03EFE9EA9F402264E05EFC17A742FD393FBF74D102BFDD8378B"
+  },
+  "verification_passed": true,
+  "physical_acceptance": "UNVERIFIED"
+}

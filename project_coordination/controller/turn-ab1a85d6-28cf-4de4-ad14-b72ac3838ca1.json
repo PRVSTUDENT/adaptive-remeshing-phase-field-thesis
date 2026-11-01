@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "ab1a85d6-28cf-4de4-ad14-b72ac3838ca1",
+    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "repository_commit":  "023b8c2fd0d78d548e2073afcf2fbbdb0ee6b487",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "scripts/validation/execute_package158_r5.py",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-11-01T09:19:03.4354114+01:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "EC25457C58D573BE6298FA7F42785F26216DDE4F3F98E8F0F26DC4866CA6B04A",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "82FAD616E24AD94E16BCD4DD95114B5D9B11DA09A155A27E2B6C979184FD18BD",
+                            "project_coordination/ACTIVE_SESSION.json":  "71159D26BE37866A1054E4807699FAC9CE13E244F3BA625CEDBC8024E5D0C114",
+                            "project_coordination/ACTIVE_TASK.json":  "4BF120C89B911BB6E1E196BE8AD83A80ACEDC4AFF375F8C4286B85B993CF419B",
+                            "project_coordination/TASK_LEDGER.csv":  "744B528DDB530A544A7FEF0E09ACDCA98778766A1D8D8057B743CB0081A33890",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "8E32E2B54961F2A7C4895B0E9213CCC713496A56E5D8A0B79B5CBDDBD6FA2E37",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "3AD40742D393C9447836A3AC755B555B79C398E9CA878209712907055FB29CB6",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "4BF120C89B911BB6E1E196BE8AD83A80ACEDC4AFF375F8C4286B85B993CF419B",
+                          "project_coordination/CURRENT_STATE.md":  "82FAD616E24AD94E16BCD4DD95114B5D9B11DA09A155A27E2B6C979184FD18BD",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "8E32E2B54961F2A7C4895B0E9213CCC713496A56E5D8A0B79B5CBDDBD6FA2E37",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "D055FA64617C7C0DBD51B242B7683E4CA267B024EAED8A4EA822E53199B06ECD"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-11-01_gemini-antigravity_F1597_ab1a85d6-28cf-4de4-ad14-b72ac3838ca1.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-ab1a85d6-28cf-4de4-ad14-b72ac3838ca1.json",
+                                  "sha256":  "F4CE112071846A3AADEADB559645D57070744FB51E5B5310E640A41A5B2F2BB1",
+                                  "created_at":  "2026-11-01T09:28:10.6913680+01:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Read-only monitor 1419269; evaluate authentic complete checkpoint and unchanged KKT/force/energy gates. Never resubmit or release Package156 prematurely."
+}

@@ -1,21 +1,26 @@
 {
-  "active": false,
-  "agent": "codex",
-  "task_id": "CONTROLLER-CHATGPT-REVIEW-DISPATCH",
-  "starting_commit": "b9b8d7d03f5287f30a916bdf0e40fa124d09f019",
-  "claimed_at": "2026-11-01T08:54:19.8317854+01:00",
-  "last_updated": "2026-11-01T08:13:08.366895+00:00",
-  "last_released": "2026-11-01T08:13:08.366895+00:00",
-  "controller_run_id": "0f7cdeed-260d-4f28-87b3-6f0692933783",
-  "session_report": "project_coordination/sessions/2026-11-01_codex_chatgpt_review_dispatch.md",
-  "allowed_write_scope": [
-    "scripts/controller/*",
-    "tests/unit/test_review_dispatcher.py",
-    "project_coordination/*",
-    "results/validation/review_dispatcher*",
-    "AGENTS.md",
-    ".agents/scripts/bridge_rules.txt",
-    ".agents/scripts/Invoke-ChatGPTBridge.ps1",
-    "docs/project/CHATGPT_REVIEW_DISPATCH.md"
-  ]
+    "active":  false,
+    "agent":  "gemini-antigravity",
+    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+    "starting_commit":  "023b8c2fd0d78d548e2073afcf2fbbdb0ee6b487",
+    "claimed_at":  "2026-11-01T09:19:03.4354114+01:00",
+    "last_updated":  "2026-11-01T09:28:35.8289584+01:00",
+    "last_released":  "2026-11-01T09:28:35.8289584+01:00",
+    "controller_run_id":  "ab1a85d6-28cf-4de4-ad14-b72ac3838ca1",
+    "session_report":  "project_coordination/sessions/2026-11-01_gemini-antigravity_F1597_ab1a85d6-28cf-4de4-ad14-b72ac3838ca1.md",
+    "allowed_write_scope":  [
+                                "project_coordination/sessions/2026-11-01_gemini-antigravity_F1597_ab1a85d6-28cf-4de4-ad14-b72ac3838ca1.md",
+                                "project_coordination/controller/turn-ab1a85d6-28cf-4de4-ad14-b72ac3838ca1.json",
+                                "results/validation/mode1_f1597/ab1a85d6-28cf-4de4-ad14-b72ac3838ca1.json",
+                                "results/validation/preparation-ab1a85d6-28cf-4de4-ad14-b72ac3838ca1.json",
+                                "results/validation/*",
+                                "scripts/validation/*",
+                                "tests/unit/*",
+                                "models/pandey_kumar_mode1/*",
+                                "project_coordination/ACTIVE_SESSION.json",
+                                "project_coordination/ACTIVE_TASK.json",
+                                "project_coordination/CURRENT_STATE.md",
+                                "project_coordination/TASK_LEDGER.csv",
+                                "project_coordination/ARTIFACT_REGISTRY.csv"
+                            ]
 }
