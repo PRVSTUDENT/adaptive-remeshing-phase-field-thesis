@@ -1,0 +1,57 @@
+﻿{
+    "live_acceptance":  {
+                            "initial_correlation":  "SUP-15ee2535c73d4cfdb4a5848b5435697c",
+                            "response_received":  false,
+                            "error_correlation":  "SUP-9e36baf46c1140ce9c5f37458852ff14",
+                            "pad_launch_attempted":  true,
+                            "error_timeout_seconds":  120,
+                            "gemini_executed":  false,
+                            "native_ui_probe":  "native pipe unavailable",
+                            "initial_timeout_seconds":  60,
+                            "status":  "BLOCKED_NO_PAD_RESPONSE"
+                        },
+    "new_pbs_submissions":  0,
+    "startup":  {
+                    "source_sha256":  "C1830AA852848E8C34C320451D696C4EF3F6F8FC8DA405A7F7F949BCA677B668",
+                    "active_session":  false,
+                    "checkpoint_state":  "COMPLETED",
+                    "mode":  "DRY_RUN_NO_EXECUTION",
+                    "reconciliation":  "COMPLETED_RELEASED_TURN_RECONCILED"
+                },
+    "deployment":  [
+                       {
+                           "installed_sha256":  "C1830AA852848E8C34C320451D696C4EF3F6F8FC8DA405A7F7F949BCA677B668",
+                           "file":  "Antigravity-Autonomous-Loop.ps1",
+                           "canonical_sha256":  "C1830AA852848E8C34C320451D696C4EF3F6F8FC8DA405A7F7F949BCA677B668"
+                       },
+                       {
+                           "installed_sha256":  "0B3B5E9346F357124C510331153AFD0999A77BB9FCA34DCA1451732F01622F91",
+                           "file":  "Controller-Recovery.ps1",
+                           "canonical_sha256":  "0B3B5E9346F357124C510331153AFD0999A77BB9FCA34DCA1451732F01622F91"
+                       },
+                       {
+                           "installed_sha256":  "987F48B9175782A7AAED3724193E300C622437FA4F26CC68935EEBABB7512E3A",
+                           "file":  "Recover-CompletedControllerTurn.ps1",
+                           "canonical_sha256":  "987F48B9175782A7AAED3724193E300C622437FA4F26CC68935EEBABB7512E3A"
+                       },
+                       {
+                           "installed_sha256":  "3F91A6B1436E13F68CF8725A63E7F39FDC59A62446B221712C6DB2BD2AE59703",
+                           "file":  "Controller-Supervisor.ps1",
+                           "canonical_sha256":  "3F91A6B1436E13F68CF8725A63E7F39FDC59A62446B221712C6DB2BD2AE59703"
+                       },
+                       {
+                           "installed_sha256":  "AB2F3EB53FFA1A1924F8585B71FD50424C9ECA590E02A7F3CF32E081012A771C",
+                           "file":  ".agents/scripts/Invoke-ChatGPTBridge.ps1",
+                           "canonical_sha256":  "AB2F3EB53FFA1A1924F8585B71FD50424C9ECA590E02A7F3CF32E081012A771C"
+                       }
+                   ],
+    "production_ready":  false,
+    "tests":  {
+                  "controller_recovery":  42,
+                  "supervisor":  9,
+                  "science_receipt":  8,
+                  "completed_recovery":  9,
+                  "ledger_growth":  8
+              },
+    "code_commit":  "4c7d8a24af3992c4de95f587dae44d41abc2f48a"
+}

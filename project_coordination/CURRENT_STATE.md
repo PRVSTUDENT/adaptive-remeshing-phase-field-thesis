@@ -1,3 +1,5 @@
+Updated 1 November 2026: completed turn 4040433d recovered without replay; installed read-only startup passed. Package160 1419305.mmaster02 independently verified F/Exit0. Matching-load R6 scalar force (0.1040763% <=5%) and RAW energy (0.000908877% <=2%) comparisons PASS; complete independent scientific eligibility remains required. ChatGPT supervisor live acceptance BLOCKED_NO_PAD_RESPONSE after bounded initial/error probes; no 40-turn restart and no new PBS jobs. See sessions/2026-11-01_codex_controller_recovery_4040433d.md and results/validation/controller_recovery_4040433d.json. Earlier dated state below is historical where superseded by this update.
+
 # Current Mode-I research state
 
 Updated 31 October 2026 by the Package157 controller-maintenance task. This file is the current summary; historical status blocks are archived rather than treated as current instructions.
