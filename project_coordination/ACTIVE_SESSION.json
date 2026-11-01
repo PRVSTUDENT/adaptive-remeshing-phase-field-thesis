@@ -1,17 +1,20 @@
 ﻿{
     "active":  false,
     "agent":  "codex",
-    "task_id":  "PAD-SINGLE-HANDOFF-ACTIVATION",
-    "starting_commit":  "74db0f7d40f24e1aa96ac24a62fa065f46cd6c65",
-    "claimed_at":  "2026-11-01T17:51:31.2542646+01:00",
-    "last_updated":  "2026-11-01T17:51:31.4042983+01:00",
-    "session_report":  "project_coordination/sessions/2026-11-01_codex_pad_single_handoff_activation.md",
+    "task_id":  "PAD-COPIED-FLOW-R1-REPAIR",
+    "starting_commit":  "28979d4310f67dc7d1dd0d21a83d3f4040fddb51",
+    "claimed_at":  "2026-11-01T18:03:20.2830763+01:00",
+    "last_updated":  "2026-11-01T18:10:41.5611975+01:00",
+    "session_report":  "project_coordination/sessions/2026-11-01_codex_pad_copied_flow_r1.md",
     "allowed_write_scope":  [
+                                "C:\\Users\\pruth\\PAD-Canary-R1-20261101",
+                                "scripts/controller/pad_canary/*",
+                                "tests/unit/test_pad_canary_guard.ps1",
                                 "project_coordination/ACTIVE_SESSION.json",
                                 "project_coordination/CURRENT_STATE.md",
                                 "project_coordination/TASK_LEDGER.csv",
                                 "project_coordination/ARTIFACT_REGISTRY.csv",
-                                "project_coordination/sessions/2026-11-01_codex_pad_single_handoff_activation.md"
+                                "project_coordination/sessions/2026-11-01_codex_pad_copied_flow_r1.md"
                             ],
     "stale_claim_archive":  "C:\\Users\\pruth\\OpenClawPAD\\backups\\ownership-recovery-4040433d-9c04-40c6-916b-0dcc8abb6555\\ACTIVE_SESSION.json"
 }
