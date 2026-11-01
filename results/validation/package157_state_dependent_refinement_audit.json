@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "investigation": "STATE_DEPENDENT_ADAPTIVE_REFINEMENT_FEASIBILITY",
+  "status": "STATE_DEPENDENT_MARKING_FEASIBLE_OFFLINE",
+  "finding": "State-dependent refinement marking combining native Abaqus MISESERI (eta >= 0.15) with an authentic damage threshold (d >= 0.5) is feasible offline. Native MISESERI is mathematically invariant under proportional scaling (reproducing exactly 266/7056 elements, Jaccard = 1.0, zero centroid shift), whereas phase-field damage evolves monotonically (d_max = 0.60525 at crack tip). A combined criterion captures process-zone expansion without prescribing the crack path. In the current pre-peak states (+10 nm), crack advancement is sub-grid, confirming this as an indicator-sensitivity audit rather than dynamic crack-tracking.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/153_c4_companion_miseseri/c4_package153_companion_miseseri_distribution.csv": "DA662457D4DFD43BC0C24E9E3E3821AC47F46477ED6BFA051510F958EEB4EB28",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/nodal_phase_field_initial.csv": "B9C9365225E2F1CC6C2F3DB5A20C5F7DAFBA02D7C762619460346BF8609C6547",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/converged_checkpoint_01.json": "200BB2B03C8C9599A2B41FC43A88CCE4EEBC7B4195A20EB0F8E132D3D7925083"
+  },
+  "verification_passed": true,
+  "miseseri_baseline": {
+    "total_mesh_elements": 7056,
+    "relative_error_threshold_eta": 0.15,
+    "marked_elements_count": 266,
+    "marked_percentage": 3.7698412698412698,
+    "marked_centroid_mm": {
+      "x": 0.021754764854606885,
+      "y": 0.049999999968664145
+    },
+    "distance_to_slit_tip_mm": 0.018245235145393116,
+    "proportional_load_jaccard_invariance": 1.0,
+    "proportional_load_centroid_shift_mm": 0.0
+  },
+  "damage_evolution": {
+    "anchor_load_uy_mm": 0.0018503125442191958,
+    "continuation_load_uy_mm": 0.0018603125442191958,
+    "load_increment_nm": 10.0,
+    "anchor_max_damage": 0.58232352,
+    "continuation_max_damage": 0.60525042,
+    "max_delta_d": 0.022951909999999964,
+    "damage_monotonicity_satisfied": true,
+    "damage_threshold_analysis": {
+      "0.2": {
+        "threshold": 0.2,
+        "marked_count": 2228,
+        "marked_fraction": 0.3157596371882086,
+        "jaccard_overlap_with_miseseri": 0.021294021294021293
+      },
+      "0.5": {
+        "threshold": 0.5,
+        "marked_count": 85,
+        "marked_fraction": 0.012046485260770975,
+        "jaccard_overlap_with_miseseri": 0.035398230088495575
+      },
+      "0.8": {
+        "threshold": 0.8,
+        "marked_count": 0,
+        "marked_fraction": 0.0,
+        "jaccard_overlap_with_miseseri": 0.0
+      }
+    }
+  },
+  "combined_marking_strategy": {
+    "miseseri_0.15_or_d_0.2": {
+      "criterion": "eta >= 0.15 or elem_max_d >= 0.2",
+      "total_marked": 2442,
+      "percentage_total": 34.60884353741496,
+      "baseline_miseseri_marked": 266,
+      "additionally_marked_count": 2176,
+      "spatially_localized": false,
+      "prescribed_crack_path": false
+    },
+    "miseseri_0.15_or_d_0.5": {
+      "criterion": "eta >= 0.15 or elem_max_d >= 0.5",
+      "total_marked": 339,
+      "percentage_total": 4.804421768707483,
+      "baseline_miseseri_marked": 266,
+      "additionally_marked_count": 73,
+      "spatially_localized": true,
+      "prescribed_crack_path": false
+    }
+  },
+  "mesh_resolution_compatibility": {
+    "phase_field_length_scale_l0_mm": 0.0075,
+    "mean_refined_element_size_mm": 0.0012653218789473685,
+    "element_size_to_l0_ratio": 0.16870958385964913,
+    "elements_in_regularization_zone_2l0": 11.854691086570496,
+    "resolution_adequate": true
+  },
+  "scientific_limitations": {
+    "measurable_macroscopic_crack_extension": false,
+    "increment_nature": "PRE_CRITICAL_MICROCRACK_PROCESS_ZONE_INITIATION",
+    "study_type": "INDICATOR_SENSITIVITY_AUDIT_NOT_DYNAMIC_TRACKING",
+    "recommendation": "Retain native MISESERI companion for elastic stress error while augmenting remeshing criteria with damage threshold d >= 0.5 for subsequent evolving cycles"
+  }
+}
