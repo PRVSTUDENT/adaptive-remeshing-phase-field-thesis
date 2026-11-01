@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "investigation": "METHOD_C1_PACKAGE157_R6_CONTINUATION_QUALIFICATION_AND_HPC_SUBMISSION",
+  "finding": "Technical and scientific qualification of the first genuine Method C1 forward-continuation experiment (Package 157 R6) is fully established following pointwise spatial validation against Package 160. Predecessor convergence projection demonstrates geometric contraction rho_H = 0.9067 with projected convergence at outer ~108 within the allocated 130-iteration budget. Pre-flight datacheck passed both mechanical and phase checks on cluster compute nodes. All technical, predecessor, once-only, and resource gates verified, leading to successful PBS submission of Job 1419359.mmaster02 (M1_C4_P157_C1_2_R6, queue normal_imfdfkmq, 1 CPU serial, 16 GB memory, 8.0 h limit, baseline uy=0.00186031 mm to target uy=0.00186531 mm). Live scheduler confirms job is running. Unattended PAD instruction in INITIAL_PROMPT.txt successfully removed.",
+  "classification": "PACKAGE157_R6_SUBMITTED_AND_RUNNING_JOB_1419359",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/EXECUTION_MANIFEST.json": "2D4EE64A07DAC9FD3C4108B9D574C79B2B7CB2BAAAAEF63AB8F30A4C6B5E8E89",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/PACKAGE_MANIFEST.json": "7093DDB752854EF47D55D4F8F3357C33C097D776FA491672D38ABFB06D318D85",
+    "results/validation/package157_r6_restart_candidate_projection.json": "65C4CF3575583777E90640C7DCAF1DBC0E87377F78C63176A62D0EC3384E5868",
+    "results/validation/package157_r6_pointwise_field_comparison.json": "DE85DF164CF0037D8FFE3B60AF4EBC2455383674ED57BB1202276DB2446B8C68",
+    "project_coordination/HPC_JOB_LEDGER.csv": "F9E89A5FB056C7EA37330CEE6D3A14934C86DBD7C9E05ED5219DC4BD0308E809",
+    "project_coordination/MODE1_BATCH_SUBMISSIONS.json": "EE553BABAA4D8B36C7761025088455EED6CBFED378653D3BBC76CAFBCB0C01A1"
+  },
+  "verification_passed": true,
+  "hpc_submission": {
+    "pbs_job_id": "1419359.mmaster02",
+    "job_name": "M1_C4_P157_C1_2_R6",
+    "queue": "normal_imfdfkmq",
+    "scheduler_state": "R",
+    "baseline_uy_mm": 0.0018603125442191958,
+    "target_uy_mm": 0.0018653125442191958,
+    "step_increment_nm": 5.0,
+    "max_outer": 130,
+    "resource_allocation": "1 CPU serial, 16 GB RAM, 8.0 h walltime",
+    "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_package157_c1_2_continuation_r6"
+  },
+  "next_operation": "Monitor running PBS Job 1419359.mmaster02 on cluster and evaluate terminal convergence, reaction force, and strain energy upon solver completion."
+}
