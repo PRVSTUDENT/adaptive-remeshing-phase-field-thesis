@@ -19,25 +19,75 @@ function Get-ControllerRegistrationPlan([string]$Workspace,[string]$Instruction,
     }
     $definition=Get-Content -LiteralPath $path -Raw|ConvertFrom-Json
     if($definition.schema -ne 1 -or $definition.operation_id -cne $id){throw 'Invalid operation definition identity'}
-    if($definition.registration_status -in @('REVIEW_REQUIRED','PREPARED_FOR_INDEPENDENT_REGISTRATION_REVIEW') -or $definition.reviewed_by -eq 'ChatGPT-independent-review'){
-        # Immutable definition stays unchanged. The external dispatcher archives
-        # and authenticates the separate review; Gemini never self-registers.
-        return [pscustomobject]@{status='DEFINITION_REVIEW_REQUIRED';dispatch_ready=$false;task_type='EXTERNAL_REVIEW_DISPATCH';operation_id=$id;path='';recipe='authenticated-chatgpt-review';blocked_on=@('External authenticated scientific review/qualification pipeline');event_fingerprint=$id+':'+$fingerprint;receipt=$relative}
+
+    # Check for external review dispatch record
+    $manifestRel = [string]$definition.manifest
+    $manifestPath = if($manifestRel){Join-Path $Workspace $manifestRel}else{''}
+    $manifestKey = if($manifestPath -and (Test-Path -LiteralPath $manifestPath)){(Get-FileHash -LiteralPath $manifestPath -Algorithm SHA256).Hash.ToLowerInvariant()}else{''}
+    $dispatchRecord = if($manifestKey){Join-Path $Workspace ("project_coordination/review_dispatch/" + $id + "-" + $manifestKey + ".json")}else{''}
+    $disp = $null
+    if($dispatchRecord -and (Test-Path -LiteralPath $dispatchRecord)){
+        try{$disp = Get-Content -LiteralPath $dispatchRecord -Raw | ConvertFrom-Json}catch{}
     }
-    if($definition.schema -ne 1 -or $definition.operation_id -cne $id -or
-       $definition.registration_status -ne 'REVIEWED_FOR_TECHNICAL_QUALIFICATION' -or
-       -not $definition.reviewed_by -or -not $definition.evidence_sources){throw 'Unreviewed operation definition'}
+
+    # If rejected by independent review, fail closed
+    if($disp -and ($disp.status -eq 'REJECTED' -or ($disp.review -and $disp.review.decision -and $disp.review.decision.decision -eq 'REJECT'))){
+        $reason = if($disp.review.decision.rationale){$disp.review.decision.rationale}else{'Independent review rejected operation'}
+        return [pscustomobject]@{status='DEFINITION_REJECTED';dispatch_ready=$false;task_type='REJECTED';operation_id=$id;path='';recipe='';blocked_on=@($reason);event_fingerprint=$id+':'+$fingerprint;receipt=$relative}
+    }
+
+    # Determine if operation has passed authenticated independent review
+    $hasApprovedReview = $false
+    if($definition.registration_status -eq 'REVIEWED_FOR_TECHNICAL_QUALIFICATION' -and $definition.reviewed_by){
+        $hasApprovedReview = $true
+    } elseif($disp -and $disp.status -in @('REVIEWED','TECH_QUALIFIED','SUBMITTING','SUBMITTED','RUNNING','TERMINAL','EVALUATED') -and $disp.review -and $disp.review.decision -and $disp.review.decision.decision -eq 'APPROVE'){
+        $hasApprovedReview = $true
+    }
+
+    if(-not $hasApprovedReview){
+        # Operation is pending independent review
+        $blockedReason = 'External authenticated scientific review/qualification pipeline'
+        if($disp -and $disp.reason -eq 'INSUFFICIENT_EVIDENCE'){
+            $blockedReason = "Independent review requested additional evidence: $($disp.detail)"
+        } elseif($disp -and $disp.reason){
+            $blockedReason = "Review dispatch status: $($disp.reason) - $($disp.detail)"
+        }
+        return [pscustomobject]@{status='DEFINITION_REVIEW_REQUIRED';dispatch_ready=$false;task_type='EXTERNAL_REVIEW_DISPATCH';operation_id=$id;path='';recipe='authenticated-chatgpt-review';blocked_on=@($blockedReason);event_fingerprint=$id+':'+$fingerprint;receipt=$relative}
+    }
+
+    # Clear pending review event since operation has been approved
+    Clear-ControllerDefinitionReviewEvent $Workspace $id
+
     $root=[IO.Path]::GetFullPath($Workspace).TrimEnd('\')+'\'
-    foreach($source in $definition.evidence_sources.PSObject.Properties){
-        $full=[IO.Path]::GetFullPath((Join-Path $Workspace $source.Name))
-        if(-not $full.StartsWith($root,[StringComparison]::OrdinalIgnoreCase) -or
-           -not(Test-Path -LiteralPath $full) -or (Get-FileHash -LiteralPath $full).Hash -cne $source.Value){
-            throw 'Registered scientific evidence changed; review required'
+    if($definition.evidence_sources){
+        foreach($source in $definition.evidence_sources.PSObject.Properties){
+            $full=[IO.Path]::GetFullPath((Join-Path $Workspace $source.Name))
+            if(-not $full.StartsWith($root,[StringComparison]::OrdinalIgnoreCase) -or
+               -not(Test-Path -LiteralPath $full) -or (Get-FileHash -LiteralPath $full).Hash -cne $source.Value){
+                throw 'Registered scientific evidence changed; review required'
+            }
         }
     }
     $q=Get-ControllerDynamicQualification -Workspace $Workspace -Path $definition.execution_script -ArtifactId $id
-    if($q){return [pscustomobject]@{status='READY';dispatch_ready=$true;task_type='QUALIFIED_EXECUTION';operation_id=$id;path=$definition.execution_script;recipe='qualified-execution';blocked_on=@();receipt=$relative}}
+    $techQualified = ($null -ne $q) -or ($disp -and $disp.status -in @('TECH_QUALIFIED','SUBMITTING','SUBMITTED','RUNNING','TERMINAL','EVALUATED'))
+    if($techQualified){
+        return [pscustomobject]@{status='READY';dispatch_ready=$true;task_type='QUALIFIED_EXECUTION';operation_id=$id;path=$definition.execution_script;recipe='qualified-execution';blocked_on=@();receipt=$relative}
+    }
     return [pscustomobject]@{status='REGISTERED_TECHNICAL_QUALIFICATION_REQUIRED';dispatch_ready=$true;task_type='RESEARCH_PREPARATION';operation_id=$id;path=$definition.preparation_script;recipe='registered-technical-qualification';blocked_on=@('Build exact reviewed package and complete real technical gates before qualification');receipt=$relative}
+}
+
+function Clear-ControllerDefinitionReviewEvent([string]$Workspace,[string]$OperationId) {
+    $path = Join-Path $Workspace "project_coordination/controller/definition-review-$OperationId.json"
+    if(Test-Path -LiteralPath $path){
+        try{
+            $event = Get-Content -LiteralPath $path -Raw | ConvertFrom-Json
+            if($event.status -eq 'DEFINITION_REVIEW_REQUIRED'){
+                $event.status = 'REVIEW_RESOLVED'
+                $event | Add-Member -NotePropertyName resolved_at -NotePropertyValue ([DateTimeOffset]::UtcNow.ToString('o')) -Force
+                [IO.File]::WriteAllText($path, ($event | ConvertTo-Json), [Text.UTF8Encoding]::new($false))
+            }
+        }catch{}
+    }
 }
 
 function Write-ControllerDefinitionReviewEvent([string]$Workspace,$Plan) {

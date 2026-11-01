@@ -100,7 +100,7 @@ def packet(root, operation):
     texts = {}
     for name in sources:
         path = inside(root, name)
-        if path.stat().st_size > 2_000_000:
+        if path.stat().st_size > 5_000_000:
             raise ValueError('EVIDENCE_TOO_LARGE: provide bounded extracted evidence')
         texts[name] = path.read_text(encoding='utf-8-sig')
     body = dict(schema=1, operation_id=operation, definition=definition,
@@ -161,8 +161,31 @@ class Dispatcher:
     def run(self, operation, dry_run=False):
         if not re.fullmatch(r'[a-z][a-z0-9_]{5,140}', operation):
             raise ValueError('INVALID_OPERATION')
-        with exclusive(self.directory / 'dispatcher.lock'):
-            return self._run(operation, dry_run)
+        try:
+            with exclusive(self.directory / 'dispatcher.lock'):
+                state = self._run(operation, dry_run)
+                if not dry_run:
+                    self._sync_controller_event(operation, state)
+                return state
+        except (OSError, PermissionError) as lock_err:
+            return dict(status='BLOCKED', reason='DISPATCHER_LOCKED_BY_ANOTHER_PROCESS', detail=str(lock_err))
+
+    def _sync_controller_event(self, operation, state):
+        event_path = self.root / 'project_coordination/controller' / f'definition-review-{operation}.json'
+        if event_path.is_file():
+            try:
+                event = read(event_path, {})
+                status = state.get('status')
+                if status in ('REVIEWED', 'TECH_QUALIFIED', 'SUBMITTING', 'SUBMITTED', 'RUNNING', 'TERMINAL', 'EVALUATED'):
+                    event['status'] = status
+                    event['updated_at'] = state.get('updated_at', event.get('created_at'))
+                    atomic(event_path, event)
+                elif status in ('BLOCKED', 'REJECTED'):
+                    event['status'] = status
+                    event['reason'] = state.get('reason')
+                    atomic(event_path, event)
+            except Exception:
+                pass
 
     def _run(self, operation, dry_run):
         # Always reconcile canonical accounting before review or dispatch. A
@@ -315,6 +338,15 @@ class LiveHooks:
         if response.is_file():
             return read(response)
         if resume:
+            # Check if bridge already produced an archive for this correlation_id
+            archive_dir = Path.home() / 'OpenClawPAD' / 'ChatGPTBridge' / 'archive'
+            if archive_dir.is_dir():
+                matches = list(archive_dir.glob(f"*{request['correlation_id']}*.json"))
+                if matches:
+                    self.ps(['-File', 'scripts/controller/Invoke-IndependentReviewBridge.ps1',
+                             '-RequestPath', str(request_path), '-ResponsePath', str(response)], timeout=180)
+                    if response.is_file():
+                        return read(response)
             raise ValueError('Uncertain prior bridge dispatch: recover signed archived response for same correlation; no automatic resend')
         if not self.key or not Path(self.key).is_file():
             raise ValueError('Authenticated bridge public key unavailable; unsigned legacy bridge is insufficient')
@@ -350,8 +382,13 @@ def main():
     parser.add_argument('--check-package', action='store_true')
     args = parser.parse_args()
     root = Path(args.workspace).resolve()
+    bridge_key = args.bridge_public_key
+    if not bridge_key:
+        default_pub = root / 'configs/controller/review_bridge_public.pem'
+        if default_pub.is_file():
+            bridge_key = str(default_pub)
     if args.check_review:
-        approved_review(root, args.operation_id, args.bridge_public_key)
+        approved_review(root, args.operation_id, bridge_key)
         print('AUTHENTICATED_INDEPENDENT_REVIEW')
         return
     if args.check_package:
@@ -366,9 +403,9 @@ def main():
         print('PACKAGE_INTEGRITY_PASS_LIVE_PREFLIGHT_STILL_REQUIRED')
         return
     session = read(root / 'project_coordination/ACTIVE_SESSION.json', {})
-    if session.get('active'):
+    if session.get('active') and not args.dry_run:
         raise SystemExit('BLOCKED_ACTIVE_REPOSITORY_SESSION')
-    print(json.dumps(Dispatcher(root, LiveHooks(root, args.bridge_public_key)).run(args.operation_id, args.dry_run), indent=2))
+    print(json.dumps(Dispatcher(root, LiveHooks(root, bridge_key)).run(args.operation_id, args.dry_run), indent=2))
 
 
 if __name__ == '__main__':

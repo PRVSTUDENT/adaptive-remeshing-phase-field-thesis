@@ -1,13 +1,22 @@
 {
   "active": false,
-  "agent": null,
-  "task_id": null,
-  "starting_commit": "325fed0092933a1d13b43cf0c466ca8c5f02765d",
-  "claimed_at": null,
-  "last_updated": "2026-11-01T11:06:00.0000000+01:00",
-  "last_released": "2026-11-01T11:06:00.0000000+01:00",
+  "agent": "gemini-antigravity",
+  "task_id": "F1597-CONTROLLER-PERMANENT-REPAIR",
+  "starting_commit": "7162b54982a3fd636ed2731d4b8a4ae0426face7",
+  "claimed_at": "2026-11-01T11:20:00.0000000+01:00",
+  "last_updated": "2026-11-01T11:45:00.0000000+01:00",
+  "last_released": "2026-11-01T11:45:00.0000000+01:00",
   "controller_run_id": null,
-  "session_report": "project_coordination/sessions/2026-11-01_gemini-antigravity_c4_exact_load_reference_preparation.md",
-  "allowed_write_scope": [],
+  "session_report": "project_coordination/sessions/2026-11-01_gemini-antigravity_controller_permanent_repair.md",
+  "allowed_write_scope": [
+    "project_coordination/*",
+    "scripts/controller/*",
+    "scripts/validation/*",
+    "tests/unit/*",
+    "models/pandey_kumar_mode1/160_c4_exact_load_reference/*",
+    "results/validation/*",
+    "docs/project/*",
+    "C:\\Users\\pruth\\OpenClawPAD\\*"
+  ],
   "interruption_checkpoint": "C:\\Users\\pruth\\OpenClawPAD\\controller_turn_checkpoint.json"
 }

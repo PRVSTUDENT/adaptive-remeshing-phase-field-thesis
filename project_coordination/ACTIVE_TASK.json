@@ -12,9 +12,7 @@
   "agent": "gemini-antigravity",
   "phase": "R6 technical datachecks PASS_BOTH; all full-state/numerical checkpoint gates pass; physical acceptance UNVERIFIED because exact-load reference unavailable. Eligibility policy candidate not independently activated/protected. R5 preserved.",
   "gate_status": "P157_R5_SEG1_RUNNING__C4_CONTINUATION_UNACCEPTED",
-  "active_pbs_job_ids": [
-    "1419269.mmaster02"
-  ],
+  "active_pbs_job_ids": [],
   "dependent_pbs_job_ids": [],
   "deferred_candidate_jobs": [
     "M1_DONOR_SAMEMESH_STAGGERED_CONTROL (Package 83 donor positive control, authentic binary restart database absent, submission withheld pursuant to mandatory recovery policy)",
@@ -26,6 +24,7 @@
     "PK_M1_COARSE_FINE_CONT (Package 46, 4,900 CPE4 quads, h=14.3 um, input deck 219ACDF2..., Abaqus 2023 datacheck Exit 0, completed Exit 0 Job 1415074)"
   ],
   "completed_pbs_job_ids": [
+    "1419269.mmaster02",
     "1419161.mmaster02",
     "1419147.mmaster02",
     "1418938.mmaster02",
