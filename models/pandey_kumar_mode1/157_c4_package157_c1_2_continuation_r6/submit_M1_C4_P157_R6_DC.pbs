@@ -1,0 +1,31 @@
+#!/bin/bash
+#PBS -N M1_C4_P157_R6_DC
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratch9/pr21vyci/runs/mode1_c4_package157_c1_2_continuation_r6/M1_C4_P157_R6_DC.pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+set -euo pipefail
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_c4_package157_c1_2_continuation_r6"
+cd "${RUN_DIR}"
+export JOB_NAME="M1_C4_P157_R6_DC"
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+source "${RUN_DIR}/job_notifications.sh"
+notification_load_config
+notification_install_terminal_trap
+notify_start
+if ! type module >/dev/null 2>&1; then
+ source /etc/profile.d/lmod.sh 2>/dev/null || source /usr/share/Modules/init/bash
+fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+test ! -e compute_datacheck
+mkdir compute_datacheck
+cp P157_MECHANICAL_DC.inp P157_PHASE_DC.inp f42_mixed_uel.for compute_datacheck/
+bash "${RUN_DIR}/run_datacheck.sh" "${RUN_DIR}/compute_datacheck"
+python3 "${RUN_DIR}/runtime/scripts/state_transfer/driver_package157_r6.py" --package "${RUN_DIR}" --output "${RUN_DIR}/continuation_${PBS_JOBID}" --extractor "${RUN_DIR}/runtime/scripts/validation/extract_package148_iteration.py" --startup-only > "${RUN_DIR}/compute_startup.json"
+hostname > "${RUN_DIR}/compute_datacheck_host.txt"

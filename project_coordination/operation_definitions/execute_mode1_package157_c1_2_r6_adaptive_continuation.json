@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "operation_id": "execute_mode1_package157_c1_2_r6_adaptive_continuation",
+  "registration_status": "PREPARED_FOR_INDEPENDENT_REGISTRATION_REVIEW",
+  "reviewed_by": "gemini-antigravity",
+  "manifest": "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/EXECUTION_MANIFEST.json",
+  "candidate_job": "M1_C4_P157_C1_2_R6",
+  "evidence_sources": {
+    "results/validation/package157_r6_restart_candidate_projection.json": "65C4CF3575583777E90640C7DCAF1DBC0E87377F78C63176A62D0EC3384E5868",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/converged_checkpoint_01.json": "200BB2B03C8C9599A2B41FC43A88CCE4EEBC7B4195A20EB0F8E132D3D7925083",
+    "results/validation/package157_r5_contraction_analysis.json": "1075B877DCE9C6BD93D4B3FEB9A70764DB8726A00E42327BA8BC81D36FB7AB4F",
+    "scripts/state_transfer/driver_package157_r6.py": "EC57875E34971EDEA198FA70378D157041392084CEBE81BE71E5864E9DDD8D65",
+    "scripts/state_transfer/build_package157_r6.py": "169343BF5AD60384BC24FB1BE01EBFFE57341CE7025024C1AF8F842B63A9ED80"
+  },
+  "scope": "Serial Mode-I R6 continuation (+5 nm increment from authentic Checkpoint 01 to uy=0.00186531 mm, max_outer=130); exact reviewed checkpoint/limits; no C5 transfer",
+  "physical_acceptance": "UNVERIFIED"
+}

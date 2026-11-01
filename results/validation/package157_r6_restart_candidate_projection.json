@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "candidate": "package157_r6_restart_continuation",
+  "status": "R6_NUMERICALLY_JUSTIFIED_OFFLINE",
+  "finding": "Package 157 R6 candidate restart from authentic Checkpoint 01 (uy = 0.001860312544 mm) to target uy = 0.001865312544 mm (+5 nm) with max_outer = 130 is numerically justified offline. Independent analytical projection confirms N_additional = ln(1e-6 / 2.0427e-6) / ln(0.9067) = 7.30 iterations (projected convergence at outer ~108). The 130-iteration budget provides a 22-iteration margin (+20.4%) while preserving exact formulation, tolerances, and remaining well within serial HPC limits (estimated 2.96 h <= 8.0 h walltime, ~1.8 GB <= 16 GB memory).",
+  "authentic_checkpoint_01": {
+    "source_path": "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/converged_checkpoint_01.json",
+    "sha256": "200BB2B03C8C9599A2B41FC43A88CCE4EEBC7B4195A20EB0F8E132D3D7925083",
+    "target_uy_mm": 0.0018603125442191958,
+    "displacement_nodes_count": 7265,
+    "damage_nodes_count": 7265,
+    "history_integration_points_count": 28224,
+    "coupled_convergence": true
+  },
+  "authentic_step3_evidence": {
+    "job_id": "1419162.mmaster02",
+    "outer_limit_reached": 100,
+    "delta_h_at_100_MPa": 2.0427325377880834e-06,
+    "required_tol_h_MPa": 1.0e-06,
+    "tail_mean_contraction_factor_rho_h": 0.9066707073342885,
+    "exact_additional_iterations_projected": 7.300696349544719,
+    "projected_convergence_iteration": 108,
+    "delta_d_at_100": 7.000000001866624e-08,
+    "delta_u_at_100_mm": 3.7943830260948885e-11,
+    "free_error_at_100": 1.1769893379012927e-12,
+    "dual_error_at_100": 0.0,
+    "active_set_tail_chatter": false
+  },
+  "proposed_r6_configuration": {
+    "restart_source": "converged_checkpoint_01.json",
+    "baseline_uy_mm": 0.0018603125442191958,
+    "target_uy_mm": 0.0018653125442191958,
+    "step_size_mm": 5.0e-06,
+    "step_size_nm": 5.0,
+    "proposed_max_outer": 130,
+    "margin_iterations_above_projection": 22,
+    "budget_safety_factor": 1.2037,
+    "max_phase": 20,
+    "tolerances": {
+      "delta_h_MPa": 1.0e-06,
+      "delta_d": 1.0e-05,
+      "delta_u_mm": 1.0e-09
+    },
+    "damage_healing_gate": -1.0e-06,
+    "history_monotonicity_gate": true
+  },
+  "execution_cost_feasibility": {
+    "per_iteration_walltime_seconds": 82.0,
+    "projected_runtime_108_iters_seconds": 8856.0,
+    "projected_runtime_108_iters_hours": 2.46,
+    "budget_runtime_130_iters_seconds": 10660.0,
+    "budget_runtime_130_iters_hours": 2.961,
+    "max_allowed_walltime_hours": 8.0,
+    "walltime_margin_percent": 62.99,
+    "projected_memory_gb": 1.8,
+    "max_allowed_memory_gb": 16.0,
+    "cpus_requested": 1,
+    "queue": "normal_imfdfkmq",
+    "execution_mode": "SERIAL_1CPU"
+  },
+  "physical_acceptance_criteria": {
+    "reaction_force_discrepancy_limit_percent": 5.0,
+    "total_energy_discrepancy_limit_percent": 2.0,
+    "signed_kkt_admissibility": "dual_error == 0.0 and free_error <= 1.0e-6",
+    "matched_reference_source": "models/pandey_kumar_mode1/146_c4_package146_c1_2_continuation/converged_checkpoint_01.json"
+  }
+}

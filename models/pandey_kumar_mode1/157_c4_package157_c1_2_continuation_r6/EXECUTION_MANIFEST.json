@@ -1,0 +1,60 @@
+{
+  "batch_name": "MODE1_PACKAGE157_M1_C4_P157_C1_2_R6",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-2",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_package157_c1_2_continuation_r6",
+  "runtime_root": "/scratch9/pr21vyci/runs/mode1_c4_package157_c1_2_continuation_r6/runtime",
+  "runtime_source_hashes": {
+    "scripts/state_transfer/driver_package157_r6.py": "EC57875E34971EDEA198FA70378D157041392084CEBE81BE71E5864E9DDD8D65",
+    "scripts/state_transfer/driver_package150_c1_2_continuation.py": "724C57EC1936C201A42803A329A4D961FFB26911225C28B54D598BF91257492D",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "9EDE833668340A41AD590CB2387F8CB72A6C9C63DE9DF6B2185A3CABD1B21265",
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8",
+    "scripts/validation/extract_package148_iteration.py": "01875DBA715C24789421766B5B81A56BDD69F3F6A21A6F2D30D64B016416C738"
+  },
+  "files": {
+    "active_set_boundary_cards.inc": "966e373f988cde5c3e2956c597976ff4d04dd507c33e93d3582bf6e7fd28c1bd",
+    "d_lower_bounds.csv": "3527102df9cb27be6ec194f50cc40bfbe1706c93f2530210b4377333e019a62b",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "initial_checkpoint_01.json": "200bb2b03c8c9599a2b41fc43a88cce4eebc7b4195a20eb0f8e132d3d7925083",
+    "initial_conditions_solution.inc": "109c71f53f4a48494c27ccd49f6431bfac77e939bde289a4b2e2c14a26271fec",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_C4_PACKAGE150_C1_2_CONTINUATION.inp": "8c54e3d18ebbb238fdf79f773bc7c1e854aa6a681e2881d6ba15b977c58fafcd",
+    "nodal_displacements_initial.csv": "9ab80d941b634dab217627a8adc5faf2714bdfb718d69c358b67dd986b166ed3",
+    "nodal_phase_field_initial.csv": "91881f5034eaef26cb4de707c8e5e11e7b0ba9010f90555dc4a6d41f3c301bb0",
+    "P157_MECHANICAL_DC.inp": "338a05c996c3022384a3da33cc58bba53f04912a4a50a0f844e5caf60a53fd09",
+    "P157_PHASE_DC.inp": "0ab3e5d2e9c5f346fd31fa23ea1458d8b8fd988954c83f8dcd8a9429eb32a15a",
+    "PACKAGE_MANIFEST.json": "7093ddb752854ef47d55d4f8f3357c33c097d776fa491672d38abfb06d318d85",
+    "run_datacheck.sh": "46bb7f25e4ff45eb772578637ab122b258cbbd6adbf439c62598d8aa9bc0d055",
+    "submit_M1_C4_P157_C1_2_R6.pbs": "1eb5ddcbbd38a2a9c63bb7e4a0a2a22826c1449eb36307a6708ffcfae820e24b",
+    "submit_M1_C4_P157_R6_DC.pbs": "97eec38676b5994776fc21f5a896c1e211607019bbd194f331c9c6a49fd80c35"
+  },
+  "scientific_predecessor_review": "results/validation/package157_r6_restart_candidate_projection.json",
+  "jobs": [
+    {
+      "id": "M1_C4_P157_C1_2_R6",
+      "purpose": "Reviewed R6 restart continuation (+5 nm increment to uy=0.00186531 mm, max_outer=130) from authentic Checkpoint 01; convergence and full state preservation required; physical PASS only after matching-load force <=5% and raw energy <=2% review. No C5 execution or automatic PBS retry.",
+      "input": "P157_MECHANICAL_DC.inp",
+      "datacheck": "P157_MECHANICAL_DC.dat",
+      "additional_datachecks": [
+        "P157_PHASE_DC.dat"
+      ],
+      "pbs": "submit_M1_C4_P157_C1_2_R6.pbs",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "depends_on": [],
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c4_package157_c1_2_continuation_r6/submit_M1_C4_P157_C1_2_R6.pbs\"",
+      "command_sha256": "a6d8d91647cfe19e62f16ecb28303d028a8a1307af8c4b65174519a03ca8a5e5"
+    }
+  ],
+  "acceptance": {
+    "M1_C4_P157_C1_2_R6": "Reviewed R6 restart continuation (+5 nm increment to uy=0.00186531 mm, max_outer=130) from authentic Checkpoint 01; convergence and full state preservation required; physical PASS only after matching-load force <=5% and raw energy <=2% review. No C5 execution or automatic PBS retry."
+  }
+}
