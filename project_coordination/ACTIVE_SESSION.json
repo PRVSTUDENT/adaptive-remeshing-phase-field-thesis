@@ -1,18 +1,20 @@
 ﻿{
     "active":  false,
     "agent":  "codex",
-    "task_id":  "PAD-FREE-BRIDGE-KIT",
-    "starting_commit":  "df5f93aead44fc0c1d86b6c291e5b6416c2310ce",
-    "claimed_at":  "2026-11-01T16:06:13.5306835+01:00",
-    "last_updated":  "2026-11-01T16:15:02.8517546+01:00",
-    "session_report":  "project_coordination/sessions/2026-11-01_codex_pad_free_bridge.md",
+    "task_id":  "RETIRE-FIVE-MAINTENANCE-HANDOFFS",
+    "starting_commit":  "718bbd9755739a12f7bb5c05ddb968e5efc30def",
+    "claimed_at":  "2026-11-01T16:27:02.9826053+01:00",
+    "last_updated":  "2026-11-01T16:33:04.4496334+01:00",
+    "session_report":  "project_coordination/sessions/2026-11-01_codex_retire_maintenance_handoffs.md",
     "allowed_write_scope":  [
-                                "Downloads/ChatGPT_PAD_Free_Bridge_Kit/*",
+                                "Downloads/ChatGPT_PAD_Free_Bridge_Kit/Retire-OldSupervisorMaintenanceHandoffs.ps1",
+                                "Downloads/ChatGPT_PAD_Free_Bridge_Kit/test_retire_handoffs.ps1",
+                                "Downloads/ChatGPT_PAD_Free_Bridge_Kit/README.md",
                                 "project_coordination/ACTIVE_SESSION.json",
                                 "project_coordination/CURRENT_STATE.md",
                                 "project_coordination/TASK_LEDGER.csv",
                                 "project_coordination/ARTIFACT_REGISTRY.csv",
-                                "project_coordination/sessions/2026-11-01_codex_pad_free_bridge.md"
+                                "project_coordination/sessions/2026-11-01_codex_retire_maintenance_handoffs.md"
                             ],
     "stale_claim_archive":  "C:\\Users\\pruth\\OpenClawPAD\\backups\\ownership-recovery-4040433d-9c04-40c6-916b-0dcc8abb6555\\ACTIVE_SESSION.json"
 }
