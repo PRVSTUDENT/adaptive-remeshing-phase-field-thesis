@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "title": "Companion MISESERI Indicator State-Dependence and Invariance Analysis",
+  "classification": "STATIC_COMPANION_INDICATOR_CONFIRMED",
+  "finding": "Linear elasticity implies exact proportional scaling of MISESERI and MISESAVG under proportional displacement loading, rendering normalized relative error eta identically invariant (Jaccard similarity = 1.000000, 266 marked elements, centroid shift = 0.000000 mm across multipliers 0.50, 0.75, 1.00, 1.25). Because the companion continuum model lacks the phase-field damage variable, its refinement field is completely uncoupled from authentic damage evolution (observed in C4 R3 anchor to R5 Checkpoint 01 from d_max=0.5823 to 0.6053, with peak delta_d=0.0230 advancing forward along the crack plane to x=0.04204 mm) and remains permanently anchored to the initial notch tip at (0.040, 0.050) mm. Geometrically adaptive refinement on an unchanged linear companion mesh cannot autonomously track spontaneous crack propagation without explicit damage-dependent stiffness degradation or damage-gradient marking.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/153_c4_companion_miseseri/c4_package153_companion_miseseri_distribution.csv": "DA662457D4DFD43BC0C24E9E3E3821AC47F46477ED6BFA051510F958EEB4EB28",
+    "models/pandey_kumar_mode1/153_c4_companion_miseseri/c4_package153_miseseri_audit.json": "213241FC3A8D8467A6A27F3D834EBE4EF4536963933B5754D012904FECBC7849",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/nodal_phase_field_initial.csv": "B9C9365225E2F1CC6C2F3DB5A20C5F7DAFBA02D7C762619460346BF8609C6547",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/converged_checkpoint_01.json": "200BB2B03C8C9599A2B41FC43A88CCE4EEBC7B4195A20EB0F8E132D3D7925083",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/runtime_report.json": "8C8FA61A61E8408DEF03A83CB6821F626429ADB1DFAB531EE195164B7F014A18",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/live_iteration_telemetry_1419174.json": "EE0E7C598BE3D3496129234D237943A3688402D17343A7C3F32FDDA9ACC61B9B",
+    "scripts/validation/verify_miseseri_state_dependence.py": "46C21BC75029D3D3545F84504565F83A88AC587D3859D2117740DDE5C6DF4B4F",
+    "tests/unit/test_miseseri_state_dependence.py": "B0BBF587BF05D1F9FFF1688BD5CD718796647A0078D91C76968295B8FD76AB2B",
+    "results/validation/miseseri_state_dependence_analysis.json": "1D9F7E05F853B74714C6D917306958B5DDADBCF6211D6499DF9E599573339591"
+  },
+  "verification_passed": true,
+  "next_operation": "Advance to physical review of Package 158 re-equilibration convergence and formulation review of state-dependent refinement mechanisms"
+}
