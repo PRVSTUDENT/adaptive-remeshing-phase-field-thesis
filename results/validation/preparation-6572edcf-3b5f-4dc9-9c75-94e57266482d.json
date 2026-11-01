@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "investigation": "PACKAGE_157_R6_QUALIFICATION_AND_REGISTRATION_AUDIT",
+  "finding": "Audited Package 157 R6 continuation candidate: scientifically independent of running Package 158 R5 (C4 forward loading vs C5 receiver re-equilibration). Submission is strictly WITHHELD because (1) registration gate remains DEFINITION_REVIEW_REQUIRED (ChatGPT review bridge unexercised for R6; Gemini self-registration prohibited) and (2) technical datachecks and remote staging directory are absent. Active PBS Job 1419269.mmaster02 preserved running on mnode097 with 30 outer iterations completed.",
+  "classification": "R6_SUBMISSION_WITHHELD_REVIEW_AND_DATACHECK_BLOCKED",
+  "evidence_sources": {
+    "scripts/validation/audit_package157_r6_turn446.py": "0E2534EF1A5550B3A39459073EA3438C20425BD43BDB7C6C96D8963E47DFF8BA",
+    "tests/unit/test_mode1_f1597_turn446_r6_qualification.py": "0D8B782798DF1254D0DDC7CD692F13981E15C79E4DCBF9AEFA0D6D12667315AA",
+    "project_coordination/operation_definitions/execute_mode1_package157_c1_2_r6_adaptive_continuation.json": "55E2B6541F2182DAA7F40595C5F2AACCBF4AE337FF20589FEF0EC340CD031228",
+    "project_coordination/controller/definition-review-execute_mode1_package157_c1_2_r6_adaptive_continuation.json": "66BEE1EA97F70D445DECD28633B52D4B4CA38D1EA612788C74CDA2BF2523E3A8",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/EXECUTION_MANIFEST.json": "2D4EE64A07DAC9FD3C4108B9D574C79B2B7CB2BAAAAEF63AB8F30A4C6B5E8E89",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/initial_checkpoint_01.json": "200BB2B03C8C9599A2B41FC43A88CCE4EEBC7B4195A20EB0F8E132D3D7925083",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/PACKAGE_MANIFEST.json": "7093DDB752854EF47D55D4F8F3357C33C097D776FA491672D38ABFB06D318D85",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/submit_M1_C4_P157_C1_2_R6.pbs": "1EB5DDCBBD38A2A9C63BB7E4A0A2A22826C1449EB36307A6708FFCFAE820E24B",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "scripts/state_transfer/driver_package157_r6.py": "EC57875E34971EDEA198FA70378D157041392084CEBE81BE71E5864E9DDD8D65",
+    "scripts/state_transfer/build_package157_r6.py": "169343BF5AD60384BC24FB1BE01EBFFE57341CE7025024C1AF8F842B63A9ED80",
+    "tests/unit/test_package157_r6_candidate.py": "953F9292C2F95F3BEAB1BBE7921FA0CE2D82695453FDB2027D3C5421C1A4B343",
+    "results/validation/package157_r6_registration_review_audit.json": "91C355313AD47ABCD364A23E9408C9F2216028051F4EC747F50E085B097CCC77",
+    "results/validation/package157_r6_restart_candidate_projection.json": "65C4CF3575583777E90640C7DCAF1DBC0E87377F78C63176A62D0EC3384E5868",
+    "results/validation/package157_r6_turn446_audit.json": "C86D0AAB59F50375AFF8E4C2A83AFCE00A75BBFEB453E929575FE25D06975DC5"
+  },
+  "verification_passed": true,
+  "measurements": {
+    "scientific_independence": true,
+    "registration_gate_passed": false,
+    "technical_gate_passed": false,
+    "submission_withheld": true,
+    "running_job_1419269_preserved": true,
+    "running_job_outer_iterations": 30
+  },
+  "registered_paths": [
+    "scripts/validation/audit_package157_r6_turn446.py",
+    "tests/unit/test_mode1_f1597_turn446_r6_qualification.py",
+    "results/validation/package157_r6_turn446_audit.json",
+    "results/validation/mode1_f1597/6572edcf-3b5f-4dc9-9c75-94e57266482d.json"
+  ],
+  "next_operation": "Read-only monitor 1419269; require external ChatGPT review bridge dispatch before qualifying Package 157 R6. Do not self-register or launch unqualified HPC simulations."
+}
