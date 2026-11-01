@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "task_id": "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
+  "controller_run_id": "929c8538-cdf6-4772-abc3-23a495e02ba5",
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "verification_passed": true,
+  "finding": "Package 162 C5 re-equilibration qualified, submitted, and authentically executing on HPC as Job 1419458.mmaster02 following extraction defect resolution: 1) Forensic recovery of Job 1419375 demonstrated that the Abaqus 2023 mechanical boundary value problem solved to complete convergence in 2 equilibrium iterations on mnode097, establishing unconditional stability and state transfer fidelity on the 12,996-quad C5 mesh. 2) Extraction failure was conclusively isolated to a hardcoded step-name whitelist in extract_package148_iteration.py that rejected C2_0_Step1; repaired step whitelist to accept C2_0_Step* and incorporated direct uel_energy_balance.csv fallback parsing. 3) Extractor validated against authentic cluster scratch ODB from Job 1419375: confirmed 13,278 double-precision nodal displacements, holding load uy=0.00186031 mm, reaction force Fy=0.18454 kN (0.231% drift vs reference), and total energy Etot=0.00022454 kN mm (0.157% drift vs reference); 4/4 unit tests passed in test_package161_iteration_extractor.py. 4) Formulated clean candidate Package 162 with identical physical state and repaired runtime extractor, verified manifests, and preflight qualified with PASS_BOTH datachecks. 5) Job-first HPC dispatch executed via Invoke-Mode1Execution.ps1: assigned PBS Job ID 1419458.mmaster02 in normal_imfdfkmq, running staggered re-equilibration iterations concurrently with predecessor R7 Job 1419365.mmaster02 (elapsed >75m).",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/1419375_endpoint.json": "E728A7C5D203C7621C5EA6E36556C5D274F3BD04F2667D0050CEF0411FC85EC7",
+    "scripts/validation/extract_package148_iteration.py": "24C916740F737435612B751B839331131CB30526E6E9C5B31110BB8A463C69CF",
+    "tests/unit/test_package161_iteration_extractor.py": "A3157F23CDCDEEC4CFAA3708928B3D1962580DC66EDE025F55423ABBA87DD954",
+    "models/pandey_kumar_mode1/162_c5_package162_c2_0_re_equilibration/EXECUTION_MANIFEST.json": "110FDDD96236292E2201082D5414C174DFB8BC19ACFB85A02EAFDC38D86C01D7",
+    "models/pandey_kumar_mode1/162_c5_package162_c2_0_re_equilibration/PACKAGE_MANIFEST.json": "6A28DC4ADF3BF1207468AE6BF3ED0C2982187B143A89D647586E2A7F7A3DE24B",
+    "project_coordination/HPC_JOB_LEDGER.csv": "2BC827BD4C3C773C29AD54B6C9BAA0DF88726F8F1010334B989399071C72C1D7"
+  }
+}
