@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "kind": "SAVED_SOLVER_CHECKPOINT_ASSESSMENT",
+  "physical_acceptance": "FAIL",
+  "measurements": {
+    "target_uy_mm": 0.0018603125442191958,
+    "nodes_checked": 7265,
+    "displacement_values_checked": 14530,
+    "history_values_checked": 28224,
+    "checkpoint_displacement_max_difference": 0.0,
+    "checkpoint_damage_max_difference": 0.0,
+    "checkpoint_history_max_difference": 1.0391687510491465e-13,
+    "delta_h_MPa": 9.14662710904679e-07,
+    "delta_d": 4.000000008996807e-08,
+    "delta_u_mm": 1.813670014953056e-11,
+    "dual_error": 0.0,
+    "free_error": 1.3772575067167933e-12,
+    "complementarity": 1.0263868465452098e-14,
+    "min_delta_d": 4.113600000000238e-06,
+    "min_delta_h_MPa": 0.0,
+    "min_damage": 0.0033899931,
+    "max_damage": 0.60525042,
+    "reaction_force_kN": 0.18411666272311777,
+    "raw_total_energy_kNmm": 0.00022418821426719904
+  },
+  "gates": {
+    "full_state_coverage": true,
+    "checkpoint_matches_saved_solver_state": false,
+    "delta_h": true,
+    "delta_d": true,
+    "delta_u": true,
+    "signed_dual_zero": true,
+    "free_residual": true,
+    "complementarity": true,
+    "no_healing": true,
+    "history_monotone": true,
+    "damage_bounds": true,
+    "force": null,
+    "raw_energy": null
+  },
+  "reference": {
+    "status": "EXACT_LOAD_REFERENCE_MISSING",
+    "source": "models/pandey_kumar_mode1/75_candidate_donor_h0025/evidence_1416259/donor_h0025_rf_curve.csv",
+    "exact_matches": 0,
+    "interpolation_used": false,
+    "nearest_saved_rows": [
+      {
+        "inc": "80",
+        "step_time": "3.72718751e-01",
+        "u_top_mm": "1.86359370e-03",
+        "rf2_kN": "1.86073601e-01",
+        "rf2_N": "1.86073601e+02"
+      },
+      {
+        "inc": "81",
+        "step_time": "3.73773426e-01",
+        "u_top_mm": "1.86886720e-03",
+        "rf2_kN": "1.86189383e-01",
+        "rf2_N": "1.86189383e+02"
+      }
+    ]
+  },
+  "sources": {
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/initial_checkpoint_01.json": "200BB2B03C8C9599A2B41FC43A88CCE4EEBC7B4195A20EB0F8E132D3D7925083",
+    "results/validation/package157_r6_saved_endpoints/outer_90_endpoint.json": "472E86A2EEA89D96AF589FD8D364559A8A8E35B45E7792ACBFB7B8FB35625C18",
+    "results/validation/package157_r6_saved_endpoints/outer_91_endpoint.json": "0FA7D8468123CDE157152A9D14B4DA7C0648CCFF3AA1C887A706CC9FAE6877A8",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/evidence_1416259/donor_h0025_rf_curve.csv": "8CEFAF0727CA2A16650F435AC88190C975F469000760F228733CDB39E46E403F",
+    "models/pandey_kumar_mode1/75_candidate_donor_h0025/evidence_1416259/uel_energy_balance.csv": "5D0FD1157C5E1EB2AF29F09EF0AE98D772FE30463B1D94EF8BB11A7CFDC7F50B",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/d_lower_bounds.csv": "1EB43622BEEAA038DB718E2F40068056537626E3520238A077DCE00E3BC1DBB0",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/M1_C4_PACKAGE150_C1_2_CONTINUATION.inp": "8C54E3D18EBBB238FDF79F773BC7C1E854AA6A681E2881D6BA15B977C58FAFCD",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/nodal_phase_field_initial.csv": "B9C9365225E2F1CC6C2F3DB5A20C5F7DAFBA02D7C762619460346BF8609C6547",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/PACKAGE_MANIFEST.json": "627D839B5194AB89C5797A028545487EB2E8C42DAB6C877188DEB93AD8FAAAD7",
+    "scripts/validation/evaluate_package157_r6_checkpoint.py": "5AB66FCB7F8F98DEB5B7EEB7708C3835CBB75658CE5C5F214F4E5C8C728338E9",
+    "scripts/state_transfer/driver_package150_c1_2_continuation.py": "724C57EC1936C201A42803A329A4D961FFB26911225C28B54D598BF91257492D",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "9EDE833668340A41AD590CB2387F8CB72A6C9C63DE9DF6B2185A3CABD1B21265",
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8"
+  },
+  "solver_odb_hashes": [
+    "69f76a682ed8493e3c765c33e16e760a4e62e25ac62f47ed45e7431b73d602c4",
+    "c96af02914308cfa4f93324ebf6b7d4db7b235c266131fccfb780786453065b2"
+  ],
+  "numerical_approval": false,
+  "scientific_review": "Independent review still required; this tool never signs a review"
+}

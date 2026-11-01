@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "task": "TURN447-R6-SCIENTIFIC-ELIGIBILITY",
+  "base_commit": "fb17c37e15606a08febfa25324e4ab8ae4e2d80a",
+  "tests": {
+    "passed": 54,
+    "seconds": 7.88,
+    "command": "py -3 -m pytest -q tests/unit/test_method_c_eligibility.py tests/unit/test_controller_registration_transition.py tests/unit/test_review_dispatcher.py tests/unit/test_mode1_execution_gate.py --basetemp scratch/turn447-eligibility-final"
+  },
+  "registration": {
+    "status": "DEFINITION_REVIEW_REQUIRED",
+    "task_type": "EXTERNAL_REVIEW_DISPATCH",
+    "dispatch_ready": false,
+    "repeated_event_rewrite": false
+  },
+  "policy": {
+    "status": "CANDIDATE_NOT_ACTIVATED",
+    "live_result": "POLICY_INDEPENDENT_ACTIVATION_MISSING",
+    "independent_review_issued": false,
+    "protected_deployment_verified": false
+  },
+  "scientific": {
+    "result": "UNVERIFIED",
+    "numerical_state_gates": "PASS",
+    "exact_load_reference": "MISSING_FROM_INSPECTED_SAVED_TABLE",
+    "acceptance": "results/validation/package157_r6_checkpoint_scientific_review.json"
+  },
+  "existing_r5": {
+    "pbs_job_id": "1419269.mmaster02",
+    "state": "R",
+    "host": "mnode097",
+    "run_count": 1,
+    "observed_walltime": "01:16:41"
+  },
+  "real_eligible_execution_demonstrated": false,
+  "new_pbs_submissions": 0,
+  "sources": {
+    "scripts/controller/Controller-Registration.ps1": "A6FF0377F3C3FCA5A6C1FA72D73122D8EF62DE8CE650DE4F0F485D36B11E18AF",
+    "scripts/controller/method_c_eligibility.py": "788C65206CD3A665E0E5681EBCF060360D71362BFA20F8E14E067F8D11DC1506",
+    "scripts/controller/Invoke-MethodCEligibleExecution.ps1": "C1760BC23A29DE2367F2489C2E1907C73FE8BFF425784F3C7D9A65896B5125D2",
+    "scripts/validation/evaluate_package157_r6_checkpoint.py": "0EC3C3DF66F3BBB96FF0C9D029D3A2549F0D3DC0D8BFF59F4149CFD9AACD8767",
+    "project_coordination/policies/method_c_serial_continuation_v1.json": "D8E33B932A77154A80AB291ACA82B7C0805A34462AB9CA328CDA7F6495486DCB",
+    "tests/unit/test_method_c_eligibility.py": "79EA6EFCA396A6942D847D3E49B327E96BC968220117AA67C6893869C18C189A",
+    "results/validation/package157_r6_checkpoint_scientific_review.json": "E7A59BCE6F2596DA138E97668EEE74EA182CC274A126BBBF6B67E8789BD66D9B",
+    "results/validation/package157_r6_eligibility_policy_review_request.json": "82343D4B18FF2F3FE304EDAD706064AE4C504E9120AB2C4F1668D7CE4B859DC6",
+    "docs/project/METHOD_C_ELIGIBILITY.md": "E2FCC245A276AD054618FED949591FF6F390840CC1886EA39033AFF3F18A7084"
+  }
+}

@@ -18,7 +18,8 @@ function Get-ControllerRegistrationPlan([string]$Workspace,[string]$Instruction,
         return [pscustomobject]@{status='DEFINITION_REVIEW_REQUIRED';dispatch_ready=$false;task_type='CONTROLLER_MAINTENANCE';operation_id=$id;path='';recipe='review-operation-definition';blocked_on=@('Reviewed operation definition missing');event_fingerprint=$id+':'+$fingerprint;receipt=$relative}
     }
     $definition=Get-Content -LiteralPath $path -Raw|ConvertFrom-Json
-    if($definition.registration_status -eq 'REVIEW_REQUIRED' -or $definition.reviewed_by -eq 'ChatGPT-independent-review'){
+    if($definition.schema -ne 1 -or $definition.operation_id -cne $id){throw 'Invalid operation definition identity'}
+    if($definition.registration_status -in @('REVIEW_REQUIRED','PREPARED_FOR_INDEPENDENT_REGISTRATION_REVIEW') -or $definition.reviewed_by -eq 'ChatGPT-independent-review'){
         # Immutable definition stays unchanged. The external dispatcher archives
         # and authenticates the separate review; Gemini never self-registers.
         return [pscustomobject]@{status='DEFINITION_REVIEW_REQUIRED';dispatch_ready=$false;task_type='EXTERNAL_REVIEW_DISPATCH';operation_id=$id;path='';recipe='authenticated-chatgpt-review';blocked_on=@('External authenticated scientific review/qualification pipeline');event_fingerprint=$id+':'+$fingerprint;receipt=$relative}

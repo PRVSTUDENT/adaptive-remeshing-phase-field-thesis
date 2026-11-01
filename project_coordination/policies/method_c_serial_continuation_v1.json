@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "version": 1,
+  "id": "review_method_c_serial_continuation_policy_v1",
+  "author": "codex",
+  "status": "CANDIDATE_NOT_ACTIVATED",
+  "review_correlation_id": "HND-POLICY-METHOD-C-SERIAL-V1",
+  "scope": "Candidate unchanged C4 serial small-load continuation procedure; v1 restricted to existing R6; no C5 transfer or new formulation",
+  "operation_ids": [
+    "execute_mode1_package157_c1_2_r6_adaptive_continuation"
+  ],
+  "max_increment_mm": 5e-06,
+  "max_outer": 130,
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "thresholds": {
+    "force_relative": 0.05,
+    "raw_energy_relative": 0.02,
+    "delta_h_MPa": 1e-06,
+    "delta_d": 1e-05,
+    "delta_u_mm": 1e-09,
+    "signed_dual_error": 0,
+    "free_error": 1e-06,
+    "complementarity": 1e-06,
+    "min_delta_d": -1e-06,
+    "history_decrease_allowed": 0
+  },
+  "state_coverage": {
+    "nodes": 7265,
+    "history_gp": 28224
+  },
+  "pinned_sources": {
+    "scripts/state_transfer/driver_package157_r6.py": "EC57875E34971EDEA198FA70378D157041392084CEBE81BE71E5864E9DDD8D65",
+    "scripts/state_transfer/driver_package150_c1_2_continuation.py": "724C57EC1936C201A42803A329A4D961FFB26911225C28B54D598BF91257492D",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "9EDE833668340A41AD590CB2387F8CB72A6C9C63DE9DF6B2185A3CABD1B21265",
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8",
+    "scripts/validation/extract_package148_iteration.py": "01875DBA715C24789421766B5B81A56BDD69F3F6A21A6F2D30D64B016416C738"
+  },
+  "activation": "Independent signed review of exact policy, validator, evaluator and execution wrapper required. No policy review has been issued; candidate is inactive.",
+  "limitations": "No genuinely eligible operation or execution/recovery validation yet; not production ready.",
+  "acceptance_receipts": {
+    "execute_mode1_package157_c1_2_r6_adaptive_continuation": "results/validation/package157_r6_checkpoint_scientific_review.json"
+  }
+}

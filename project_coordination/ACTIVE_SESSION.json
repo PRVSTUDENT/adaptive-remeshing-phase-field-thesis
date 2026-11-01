@@ -1,18 +1,20 @@
 {
   "active": false,
   "agent": "codex",
-  "task_id": "P157-R6-STAGING-DATACHECK",
-  "starting_commit": "d147fbfa29f7b8848d5581fe9d09ac221a449498",
-  "claimed_at": "2026-11-01T10:03:52.9627495+01:00",
+  "task_id": "TURN447-R6-SCIENTIFIC-ELIGIBILITY",
+  "starting_commit": "fb17c37e15606a08febfa25324e4ab8ae4e2d80a",
+  "claimed_at": "2026-11-01T10:14:33.0371150+01:00",
   "last_updated": "2026-11-01T09:03:29.6881273+00:00",
-  "last_released": "2026-11-01T09:06:51.708729+00:00",
+  "last_released": "2026-11-01T09:24:37.749399+00:00",
   "controller_run_id": "5ae4e704-5b51-4673-a07b-7a828deda499",
-  "session_report": "project_coordination/sessions/2026-11-01_codex_package157_r6_staging_datachecks.md",
+  "session_report": "project_coordination/sessions/2026-11-01_codex_turn447_r6_scientific_eligibility.md",
   "allowed_write_scope": [
     "project_coordination/*",
+    "scripts/controller/*",
+    "scripts/validation/evaluate_package157_r6_checkpoint.py",
+    "tests/unit/test_method_c_eligibility.py",
     "results/validation/package157_r6*",
-    "scripts/validation/*157*r6*",
-    "models/pandey_kumar_mode1/157*"
+    "docs/project/METHOD_C_ELIGIBILITY.md"
   ],
   "interruption_checkpoint": "C:\\Users\\pruth\\OpenClawPAD\\controller_turn_checkpoint.json"
 }
