@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "task_id": "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
+  "controller_run_id": "11c839f8-d734-4014-8c7f-9d4e97c235ec",
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "verification_passed": true,
+  "finding": "Forensic reconciliation and C5 acceptance evaluator verification completed: 1) HPC Job 1419370.mmaster02 (M1_C5_P160_C2_0) terminated at t=0 (Exit 1) due to uppercase/lowercase hex digest comparison mismatch in driver startup; defect successfully isolated and repaired with case-insensitive matching; finite element model, Abaqus input deck, and datacheck remain verified and uncompromised. 2) Active cluster scheduler reconciled: predecessor R7 Job 1419365.mmaster02 remains running on mnode097/0 in queue normal_imfdfkmq, preserved without duplicate submissions. 3) Independent C5 post-re-equilibration scientific acceptance evaluator (scripts/validation/evaluate_package160_c5_acceptance.py) implemented with full multi-gate criteria covering coupled PDAS convergence, KKT active-set stationarity, pointwise damage irreversibility, history monotonicity, and Checkpoint 01 reference parity. 4) Complete unit test suite (tests/unit/test_package160_c5_acceptance_evaluator.py) authored and verified passing all 7/7 tests, bringing total Package 160 test coverage to 24/24 passing tests.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/1419370_pbs_execution.log": "AB7D11B20D259E01643668283EE08F0105D26EDCB4F25BA4B936220F7A8188ED",
+    "scripts/validation/evaluate_package160_c5_acceptance.py": "BA319B48E6753A2BAC35114744767584A8F8F8C486D775256CCBC9E563E6455E",
+    "tests/unit/test_package160_c5_acceptance_evaluator.py": "844428631E2498CF438ABE015E9B5CDDCC767FAED66F886CEF144945F1DF6A62",
+    "scripts/state_transfer/driver_package160_c5_re_equilibration.py": "15BE8032A0972920B0A9D6D16CEA08427ED81044B86517B323EF7397427DA38E",
+    "project_coordination/HPC_JOB_LEDGER.csv": "86C18B96B9F63AB388DA75306D1030A269102A2BE96CDAB63733299574B93C89"
+  }
+}
