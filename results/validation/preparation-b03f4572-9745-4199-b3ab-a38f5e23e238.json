@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Candidate Package 165 constructed and offline qualified under Contract A (H = H0), completely eliminating the artificial pre-relaxation strain singularity at the slit tip (6,488.35 MPa vs spiked 27,631.37 MPa at Elem 6552 GP 1) and suppressing trial ratcheting. Peak dual defect dropped 78.18% from -1.81e-6 to -3.95e-7 kN*mm. Predecessor Job 1419469 (Package 164) remains actively running near outer 91 with -44.75% reaction force drift; submission of Package 165 is withheld pending terminal predecessor completion pursuant to single-job scheduler rules.",
+  "evidence_sources": {
+    "scripts/validation/verify_package165_history_contract.py": "37D21656EAF846EA5969D8D94A4E567765F4C63F087C5632A07EE382912A7D3F",
+    "results/validation/c5_package165_history_contract_audit.json": "2BE653E01A6D6CDD6763C6670A2B20D99844C4178CFF919330A860423E60AEEE",
+    "scripts/generation/build_package165_c5_contract_a.py": "0866995C117DEB6603A9F867432604A6B2FA0A5CE7DD046E4A0E4CDC6ABD80BB",
+    "scripts/state_transfer/driver_package165_c5_contract_a.py": "49E0F20654BA7AD89E95391F9C6CAE4D0569D789F72FEBF857FA37EEA6FF3DAD",
+    "models/pandey_kumar_mode1/165_c5_package165_c2_0_contract_a/PACKAGE_MANIFEST.json": "6ACBC9C42A63273DB3DF71F551982BFE73E6932A57D9A03C1790DC3128B3CA8B",
+    "models/pandey_kumar_mode1/165_c5_package165_c2_0_contract_a/EXECUTION_MANIFEST.json": "B07031042727B2B5D0C8A41829A8C01EAAAF52003C30F270D10039B521A379F6",
+    "tests/unit/test_package165_contract_a_candidate.py": "661150216DD46A8A60D076EA002678254A88F49A11B9E46F615826B59659BF73"
+  },
+  "verification_passed": true,
+  "details": {
+    "job_1419469_status": "RUNNING",
+    "job_1419469_latest_outer": 91,
+    "job_1419469_rf_drift_pct": -44.7463,
+    "package_165_status": "OFFLINE_QUALIFIED_READY",
+    "c4_donor_max_history_MPa": 6868.951434128797,
+    "package160_spiked_max_history_MPa": 27631.366635116752,
+    "package165_clean_max_history_MPa": 6868.951434128797,
+    "package165_elem_6552_gp1_MPa": 6488.354453119683,
+    "peak_dual_defect_clean_kNmm": -3.952184581709271e-07,
+    "node_6724_dual_defect_reduction_pct": 90.29758728578724,
+    "overall_peak_dual_defect_reduction_pct": -78.18327153894947,
+    "all_tests_passed": true,
+    "test_suite_count": 21,
+    "package163_status": "WITHHELD_PREDECESSOR_RUNNING"
+  }
+}
