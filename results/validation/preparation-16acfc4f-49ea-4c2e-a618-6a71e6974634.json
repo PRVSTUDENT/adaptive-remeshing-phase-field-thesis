@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "task_id": "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
+  "controller_run_id": "16acfc4f-49ea-4c2e-a618-6a71e6974634",
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "verification_passed": true,
+  "finding": "Package 163 C5 +5 nm forward continuation candidate prepared and verified pursuant to instruction 5 while Job 1419458.mmaster02 remains running on HPC: 1) Live scheduler audit confirmed Job 1419458.mmaster02 (Package 162 C5 re-equilibration) actively running on mnode097 (elapsed 11m, solving coupled staggered iterations). Predecessor Job 1419365.mmaster02 (Package 157 R7) reached terminal state (MAX_OUTER_EXCEEDED at outer 120, CPU time 01:07:01; +10 nm jump rejected; no blind resubmission). Authentic R7 runtime report and execution log retrieved to results/validation/mode1_f1597/; HPC_JOB_LEDGER.csv reconciled. 2) Built Package 163 C5 continuation candidate generator build_package163_c5_continuation.py and driver driver_package163_c5_continuation.py advancing C5 mesh (12,996 quads, 13,278 nodes, 51,984 history GPs) from Checkpoint 01 (uy=0.00186031 mm) to uy=0.00186531 mm (+5 nm, exactly matching accepted C4 R6 reference load level for direct same-load physical comparison). 3) State contracts enforced: strict schema validation, monotonic damage bound update d0_new=max(d0_old, d_conv) (zero healing >= -1e-6), nondecreasing driving history H0_new=max(H0_old, H_conv), and frozen UEL bitwise verification (SHA-256: CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6). 4) Unit test suite test_package163_c5_continuation_contract.py verified 4/4 passing tests (schema rejection, exact +5 nm increment, mock package execution, and source hash integrity). 5) Execution marked WITHHELD_PREDECESSOR_RUNNING pending Package 162 completion without fabricating or substituting un-converged checkpoint data.",
+  "evidence_sources": {
+    "scripts/state_transfer/build_package163_c5_continuation.py": "7E5D4D63A72B97A9DC5B4B45FD380554B1D592E15FB712C84EE823F98CCA8F10",
+    "scripts/state_transfer/driver_package163_c5_continuation.py": "AE5A8AF060DAA8DB1A1ACBC4099886A0F8F4C1FA5CCBBC228CB53D10A96D891E",
+    "tests/unit/test_package163_c5_continuation_contract.py": "1CF019C24C51D3EC7CECF68CE7769DB26EF2FA3B9474B336F14F26E8732E7243",
+    "results/validation/mode1_f1597/1419365_runtime_report.json": "91B4D0539FFB8EECA7D2C15583FE44FD7E6E62121E174D592EE36FA167055900",
+    "results/validation/mode1_f1597/1419365_pbs_execution.log": "1C2ED3FCD50BBB9A4FD8F1F3F56CACB6BBA55E96224E0876AE40874ADA49A830",
+    "project_coordination/HPC_JOB_LEDGER.csv": "FC199EE6C441E43F53B67E7E644DAC53117FD39B69F8E197967212FFED4CE82B"
+  }
+}
