@@ -10,10 +10,10 @@
   },
   "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
   "agent": "gemini-antigravity",
-  "phase": "External Codex review dispatch handoff recorded (INDEPENDENT_REVIEW_DISPATCH_UNAVAILABLE): (1) Orchestration blocker confirmed: Gemini Antigravity cannot execute or invoke Codex-controller-maintenance from within an autonomous AGY session. (2) Anti-self-certification governance preserved: Operation definition execute_mode1_package158_c2_0_r5_re_equilibration remains REVIEW_REQUIRED; Gemini will not fabricate qualification or self-register. (3) Technical readiness complete: Scratch staged at /scratch9/pr21vyci/runs/mode1_c5_package158_c2_0_re_equilibration, datachecks PASS_BOTH (Mechanical and Phase Exit 0), frozen UEL verified (CE8D5EDC...), holding displacement uy=0.00185031 mm, single-rank serial envelope (1 CPU, 16 GB, 8 h), and ready_jobs contains M1_P158_C2_0_R5. (4) Explicit handoff action: Terminate autonomous preparation loop, classify as INDEPENDENT_REVIEW_DISPATCH_UNAVAILABLE, release session lock, and direct external orchestrator to assign next controller turn directly to Codex-controller-maintenance.",
+  "phase": "R5 independently registered and submitted once; observed RUNNING on mnode097 with run_count=1. Physical acceptance pending.",
   "gate_status": "P157_R5_SEG1_RUNNING__C4_CONTINUATION_UNACCEPTED",
   "active_pbs_job_ids": [
-    "1419162.mmaster02"
+    "1419269.mmaster02"
   ],
   "dependent_pbs_job_ids": [],
   "deferred_candidate_jobs": [
@@ -226,9 +226,8 @@
     "automatic_retry": false
   },
   "operation_preparation": {
-    "qualification_artifact": "scripts/validation/execute_mode1_package157_c1_2_r4_adaptive_continuation.qualification.json",
-    "path": "scripts/validation/execute_package157_r4.py",
-    "operation_id": "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+    "operation_id": "execute_mode1_package158_c2_0_r5_re_equilibration",
+    "path": "scripts/validation/execute_package158_r5.py",
     "status": "SUBMITTED_ONCE",
     "dispatch_ready": false
   },
@@ -251,7 +250,7 @@
     "automatic_retry": false
   },
   "status": "PREPARATION_COMPLETE",
-  "next_action": "Execute independently registered serial R5 once through Invoke-Mode1Execution; preserve all physical gates.",
+  "next_action": "Read-only monitor 1419269; evaluate authentic complete checkpoint and unchanged KKT/force/energy gates. Never resubmit or release Package156 prematurely.",
   "autonomous_restart_authorized": true,
   "completed_operations": [
     "mapped_frozen_history_lower_bound_kkt_probe",
@@ -268,24 +267,24 @@
     "evaluate_mode1_package148_state_transfer_r6",
     "evaluate_mode1_package148_state_transfer_r7",
     "evaluate_mode1_package148_state_transfer_r8",
-    "execute_mode1_package157_c1_2_r4_adaptive_continuation"
+    "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+    "execute_mode1_package158_c2_0_r5_re_equilibration"
   ],
   "historical_gate_status": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED",
   "closeout_reconciliation": "results/validation/turn381_receipt_reconciliation/controller_verification.json",
   "operation_transition": {
-    "status": "READY",
+    "status": "SUBMITTED",
     "operation_id": "execute_mode1_package158_c2_0_r5_re_equilibration",
     "definition": "project_coordination/operation_definitions/execute_mode1_package158_c2_0_r5_re_equilibration.json",
-    "scientific_review": "results/validation/package158_r5_codex_execution_review.json"
+    "scientific_review": "results/validation/package158_r5_codex_execution_review.json",
+    "pbs_job_id": "1419269.mmaster02"
   },
   "latest_execution": {
-    "scientific_review": "results/validation/package157_maintenance/execution_review.json",
+    "operation_id": "execute_mode1_package158_c2_0_r5_re_equilibration",
+    "pbs_job_id": "1419269.mmaster02",
     "once_only": true,
-    "operation_id": "execute_mode1_package157_c1_2_r4_adaptive_continuation",
-    "pbs_job_id": "1419147.mmaster02",
     "physical_acceptance": "UNVERIFIED",
-    "compute_qualification_job_id": "1419146.mmaster02",
-    "manifest_sha256": "ac186eeaf426bc6f39499df2664a38b81dd66fbd4a0f3fd41faa1fb073faa62f"
+    "manifest_sha256": "f3d996d71075826e92955f64d1f7671cec0e13487d1cecfa9dc4d01efbcc0cfe"
   },
   "last_updated": "2026-11-01T08:52:38.0694915+01:00",
   "next_safe_action": "Advance to qualified execution or next research task",

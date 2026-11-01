@@ -9529,6 +9529,76 @@
         "lifecycle_tests": "PASS"
       },
       "qualified_at": "2026-10-31T15:59:54.072946+00:00"
+    },
+    "f3d996d71075826e92955f64d1f7671cec0e13487d1cecfa9dc4d01efbcc0cfe": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\158_error_driven_receiver_re_equilibration\\EXECUTION_MANIFEST_R5.json",
+      "attempts": {
+        "M1_P158_C2_0_R5": 1
+      },
+      "audit": [
+        {
+          "job": "M1_P158_C2_0_R5",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-11-01T07:55:58.668743+00:00",
+          "command_sha256": "ceb49cab4e7bf9934fbe928c8c68f1a50eb527f641971360e2172c8d3ea517f0"
+        }
+      ],
+      "preflight": {
+        "active_job_count": 0,
+        "adapter_contract": "mode1-qualified-batch-v2",
+        "datachecks": {
+          "M1_P158_C2_0_R5": {
+            "status": "PASS",
+            "input_sha256": "14f3623087fb3ab24a696c8894cb2674542d214df561aba0cd59bbfcfd57ab4d",
+            "dat_sha256": "7a2bd0908206933eaac77808421d767041bca803c7cca04bc4e69397cc37ed59",
+            "additional": {
+              "P158_PHASE_DC.dat": {
+                "status": "PASS",
+                "input_sha256": "1b246d5e8c01844c874d1435de7d0df3900bc91abd07bdba9dc4c0bb118a6f7c",
+                "dat_sha256": "5122f7117828544ab121f528a3aec0c48a689b3694c39c1ff49d78b1f30eddc1"
+              }
+            }
+          }
+        },
+        "batch_spec_sha256": "76af943b83901921ef24a36e9c9165ca22bbec4544ba70d96cee05760512bec6",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "f3d996d71075826e92955f64d1f7671cec0e13487d1cecfa9dc4d01efbcc0cfe",
+        "authorized_command_sha256": "ceb49cab4e7bf9934fbe928c8c68f1a50eb527f641971360e2172c8d3ea517f0",
+        "checked_at": "2026-11-01T07:55:55.482836+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "M1_P158_ERROR_DRIVEN_REEQUILIBRATION.inp": "035435014634a54e873631c39bdfff3427866a5fbabdb7dfd68fc4f15974254e",
+          "P158_MECHANICAL_DC.inp": "14f3623087fb3ab24a696c8894cb2674542d214df561aba0cd59bbfcfd57ab4d",
+          "P158_PHASE_DC.inp": "1b246d5e8c01844c874d1435de7d0df3900bc91abd07bdba9dc4c0bb118a6f7c",
+          "initial_conditions_solution.inc": "8ca5342f2fc70a53ad851f4de364f2efb3e0942cd539d9567f58e31e7886a4d9",
+          "active_set_boundary_cards.inc": "c6d5bcd32fd506d94d9e796e4f29f0e64f80a94068854ca4f19902ac2f3e8811",
+          "nodal_displacements_initial.csv": "40541da379e30ce1b90fbf709dd8ff14ec456855729d387169e6f7ade84a6a79",
+          "nodal_phase_field_initial.csv": "6061e845ab06761bc07d8113ba42d6cf64669889e392d0dd5c9218f0e364cdfa",
+          "d_lower_bounds.csv": "f2ae3212caf352fef177f6c9176e4c110ee72de32e0e98e73fab0ac3fe31bdf7",
+          "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+          "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+          "run_datacheck.sh": "2a260ea0a8354865fa2bfd036870f82628138c9301473b92039e525b44048fd6",
+          "submit_M1_P158_C2_0.pbs": "1c328713d73a5b1b4efbbc3178db542eef3c6359fd0ec5e6555bbb09322ec5f7",
+          "submit_M1_P158_C2_0_R1.pbs": "3e0083b82bf58a9c169d0c11e4fee4f2c38d5c2783aaf21b36e514eb05b6c1b2",
+          "submit_M1_P158_C2_0_R2.pbs": "cd8b8c7351500c9e7f2f0defca921221a84550b748b86e320e28ae950905d80d",
+          "submit_M1_P158_C2_0_R3.pbs": "6c0aa34e42bec7c090ddda563f37a58345b043880809b49c822e7305cd2e31fe",
+          "submit_M1_P158_C2_0_R4.pbs": "7d0bb72b4494f755415d1aaaf90a74cc2cdd618084ad127021d5e748aca009a7",
+          "submit_M1_P158_C2_0_R5.pbs": "ec8ace9f65e6fb4b6ee3e17ebea8b4b28c4ecf2c69face071cf3d267c5a5ad7a"
+        },
+        "helper_sha256": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-11-01T07:55:55.910251+00:00"
     }
   }
 }

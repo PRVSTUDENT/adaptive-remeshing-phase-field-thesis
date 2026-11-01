@@ -1,26 +1,20 @@
 {
-    "active":  false,
-    "agent":  "gemini-antigravity",
-    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "starting_commit":  "4cec2da3a8fef624cd13c0a72ea4c976bbc7fd53",
-    "claimed_at":  "2026-11-01T08:51:32.3872414+01:00",
-    "last_updated":  "2026-11-01T08:52:38.1146050+01:00",
-    "last_released":  "2026-11-01T08:52:38.1146050+01:00",
-    "controller_run_id":  "0f7cdeed-260d-4f28-87b3-6f0692933783",
-    "session_report":  "project_coordination/sessions/2026-11-01_gemini-antigravity_F1597_0f7cdeed-260d-4f28-87b3-6f0692933783.md",
-    "allowed_write_scope":  [
-                                "project_coordination/sessions/2026-11-01_gemini-antigravity_F1597_0f7cdeed-260d-4f28-87b3-6f0692933783.md",
-                                "project_coordination/controller/turn-0f7cdeed-260d-4f28-87b3-6f0692933783.json",
-                                "results/validation/mode1_f1597/0f7cdeed-260d-4f28-87b3-6f0692933783.json",
-                                "results/validation/preparation-0f7cdeed-260d-4f28-87b3-6f0692933783.json",
-                                "results/validation/*",
-                                "scripts/validation/*",
-                                "tests/unit/*",
-                                "models/pandey_kumar_mode1/*",
-                                "project_coordination/ACTIVE_SESSION.json",
-                                "project_coordination/ACTIVE_TASK.json",
-                                "project_coordination/CURRENT_STATE.md",
-                                "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/ARTIFACT_REGISTRY.csv"
-                            ]
+  "active": false,
+  "agent": "codex",
+  "task_id": "F1597-P158-R5-REGISTRATION-EXECUTION",
+  "starting_commit": "0142a5f66efa8b96bf315582e61399566945b8e1",
+  "claimed_at": "2026-11-01T08:54:19.8317854+01:00",
+  "last_updated": "2026-11-01T08:52:38.1146050+01:00",
+  "last_released": "2026-11-01T07:56:56.398979+00:00",
+  "controller_run_id": "0f7cdeed-260d-4f28-87b3-6f0692933783",
+  "session_report": "project_coordination/sessions/2026-11-01_codex_package158_r5_registration_execution.md",
+  "allowed_write_scope": [
+    "project_coordination/*",
+    "scripts/validation/*158*",
+    "scripts/controller/*",
+    "scripts/hpc/*",
+    "results/validation/*158*",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/*",
+    "tests/unit/*158*"
+  ]
 }
