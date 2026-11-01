@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Live solver telemetry of Package 164 Job 1419469.mmaster02 through outer 30 reveals that while KKT dual defect contracts to 9.15e-9 kN*mm, displacement and history increments diverge exponentially (delta_u=1.08e-5 mm, delta_h=2.12 MPa, contraction factor rho=1.07-1.14 > 1.0) because the unconstrained PDAS release criterion frees 11,711 nodes (88.2% of mesh) across the entire specimen bounding box [0, 0.1]x[0, 0.1] mm, causing unphysical bulk damage growth and severe reaction force degradation (rf2=0.1694 kN, drift -8.02% violating the 2% physical gate). Package 163 continuation must remain withheld (WITHHELD_PREDECESSOR_RUNNING) until job termination and physical defect remediation.",
+  "evidence_sources": {
+    "tests/unit/test_package164_convergence_triage.py": "8ED05F3146026941922E0A5DC96F82BFC170F51A97CC8145238314BDF023FA86",
+    "scripts/validation/remote_inspect_package164.py": "218CFFB8D445770C2E021E85DBB16A8341C58C5D5233404ED64273F52B730283",
+    "scripts/state_transfer/driver_package164_c5_pdas_corrected.py": "8070B98DE72B8EE6AF792741070259DD4A4AD2509668726535F0462A6AC2012C"
+  },
+  "verification_passed": true,
+  "details": {
+    "job_id": "1419469.mmaster02",
+    "job_state": "RUNNING",
+    "latest_outer": 30,
+    "max_outer": 100,
+    "delta_u_mm": 1.0766150006780379e-05,
+    "delta_h_MPa": 2.1190191110715446,
+    "kkt_dual_error_kNmm": 9.14922033558449e-09,
+    "kkt_free_error_kNmm": 1.256266412739191e-07,
+    "pdas_free_count": 11711,
+    "pdas_active_count": 1567,
+    "total_mesh_nodes": 13278,
+    "free_node_fraction_pct": 88.20,
+    "healing_violations": 0,
+    "rf2_latest_kN": 0.169358959259865,
+    "rf2_donor_kN": 0.184117075783354,
+    "rf2_drift_pct": -8.015615314711237,
+    "damage_bounding_box": {
+      "min_x": 0.0,
+      "max_x": 0.1,
+      "min_y": 0.0,
+      "max_y": 0.1
+    },
+    "max_distance_from_crack_tip_mm": 0.07810249675906655,
+    "package163_status": "WITHHELD_PREDECESSOR_RUNNING"
+  }
+}
