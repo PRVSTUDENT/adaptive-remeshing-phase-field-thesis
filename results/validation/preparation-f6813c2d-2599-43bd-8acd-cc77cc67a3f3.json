@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "task_id": "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
+  "controller_run_id": "f6813c2d-2599-43bd-8acd-cc77cc67a3f3",
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "verification_passed": true,
+  "finding": "Package 164 Scientific Qualification & Dimensional Consistency Fully Validated: 1) Scheduler reconciliation confirmed Job 1419458.mmaster02 (Package 162) actively running on compute node mnode097 (cycling outer iteration 87/100, delta_d=0, delta_u=0, delta_h=0, dual_error=1.9501e-6); job preserved without interference. 2) Completed dimensional consistency verification of canonical Hintermüller-Ito-Kunisch PDAS criterion A_k = {i : d_i - c*lambda_i <= d0_i + eps_pdas}. Proved multiplier lambda_i = r_i = (K_d d - f_d)_i has units [kN*mm]; penalty parameter c = 1.0e3 (kN*mm)^-1 scales dual residual to dimensionless damage; eps_pdas = 1.0e-6 is an authentic dimensionless damage tolerance. Proved that at d = d0, -c*r_i <= eps_pdas simplifies to r_i >= -eps_pdas/c = -1.0e-9 kN*mm, which yields exactly 11,253 active nodes (clamped to d0) and releases exactly 2,025 crack-tip nodes. 3) Validated dynamic active-set evolution and reactivation across 5/5 passing unit tests in tests/unit/test_package164_c5_pdas_correction.py (plus 4/4 passing diagnosis tests, 9/9 total), proving that unconstrained free nodes remain free as damage evolves (d > d0), while unloaded nodes (r >= 0) are dynamically reactivated to enforce irreversibility. 4) Verified Package 164 HPC readiness: authentic C4 Checkpoint 01 donor, 12,996 quads, 13,278 nodes, 51,984 GPs, holding uy=0.001860312544 mm, bitwise frozen production UEL SHA-256 CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6, and authentic Abaqus 2023 mechanical/phase datachecks (PASS_BOTH). 5) Submission decision marked WITHHELD_ACTIVE_PREDECESSOR pending completion of running Job 1419458.",
+  "evidence_sources": {
+    "scripts/state_transfer/driver_package164_c5_pdas_corrected.py": "8070B98DE72B8EE6AF792741070259DD4A4AD2509668726535F0462A6AC2012C",
+    "scripts/state_transfer/build_package164_c5_pdas_corrected.py": "D39590F4138FAFEFB0CD4CE342DDED5B36ADB2CDB43B88C4C40E5080D828C06C",
+    "tests/unit/test_package164_c5_pdas_correction.py": "3AB1A59C939712033173CFE10BB8DA4C9916CC1DB13658112E0A8138F115B93D",
+    "models/pandey_kumar_mode1/164_c5_package164_c2_0_pdas_corrected/PACKAGE_MANIFEST.json": "8B0EEE8BBDB20564264EDE8FDB2450780834CE98DFF1C11F1454E8E4ADC272B1",
+    "models/pandey_kumar_mode1/164_c5_package164_c2_0_pdas_corrected/EXECUTION_MANIFEST.json": "3B822E312DB721C038D02F2C7603DBEA843C69234D207CD9F8E3C506FCD3A91C",
+    "models/pandey_kumar_mode1/164_c5_package164_c2_0_pdas_corrected/P160_MECHANICAL_DC.dat": "BC4550CF562632362B84A44A8938D5224EF310DFCAD076E3A6E20648CF4A6D55",
+    "models/pandey_kumar_mode1/164_c5_package164_c2_0_pdas_corrected/P160_PHASE_DC.dat": "27366320A42764CC5E5C9A17F9D499FEFA50C25A5F6235EA7BF5B9FD93A8A9D3"
+  }
+}
