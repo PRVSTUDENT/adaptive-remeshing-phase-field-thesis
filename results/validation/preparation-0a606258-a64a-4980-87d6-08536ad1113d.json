@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Live PBS Job 1419359.mmaster02 (M1_C4_P157_C1_2_R6) is actively executing on mnode097 with monotonic coupled convergence confirmed through outer iteration 82 (delta_d=4.20e-7, delta_u=2.30e-10 mm, delta_h=1.196e-5 MPa, free_error=3.84e-12, dual_error=0.0). As delta_h > 1e-6 MPa, terminal convergence is not yet established and R7 remains held. Independent qualification of Package 160 established: 1) Donor provenance is strictly grounded in C4 Checkpoint 01 (uy=0.00186031 mm), preceding R6 (+5 nm) and R7 (+10 nm). If adaptation triggers at Checkpoint 01, Package 160 is valid; if intended post-R6/R7, Package 160 cannot be reused and a fresh transfer rebuild is required. 2) Active-set cards (11,253 clamped nodes, 2,025 free nodes) show 100% agreement with initial transferred damage. Source-level audit proves the iterative PDAS driver dynamically updates the active set, whereas bare standalone Abaqus execution would permanently freeze the 11,253 nodes. 3) All 4 submission blockers are registered; C5 physical re-equilibration and datacheck remain strictly withheld.",
+  "evidence_sources": {
+    "scripts/validation/audit_package160_donor_dependency_and_pdas_constraints.py": "907AE1D8F8E2EE56E4A6C067DB94B803FC9DF45E5DED8F3A594932728B28AE06",
+    "results/validation/package160_donor_dependency_and_pdas_audit.json": "24F78B953EBBB81B20D39F5D31F59C86E4884C03F8AC833F10700FD38332B0F4",
+    "tests/unit/test_package160_donor_dependency_and_pdas.py": "C13A769F339EEAA04368E3E9CABAA7006E942FACEEFD7DAF882A5E6E8501DBF0",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/converged_checkpoint_01.json": "200BB2B03C8C9599A2B41FC43A88CCE4EEBC7B4195A20EB0F8E132D3D7925083",
+    "models/pandey_kumar_mode1/160_c5_package160_c2_0_re_equilibration/active_set_boundary_cards.inc": "B97F81D41CE73390B63CA6F2C487EDC5A39E56A00831EA9A24FAEB28AC3ECADC",
+    "models/pandey_kumar_mode1/160_c5_package160_c2_0_re_equilibration/M1_C5_PACKAGE160_C2_0_REEQUILIBRATION.inp": "32D77BF2717D9B2E4B77A7AA57FFBAFFF83BEF9CD02B0F5C2D34675708B3DC94",
+    "scripts/state_transfer/driver_package156_c2_0_re_equilibration.py": "4D991989566DF93A029312D18E053D8DDC3A5EF3DEFAF4C8C0A096718EE8C401"
+  },
+  "verification_passed": true,
+  "metadata": {
+    "live_job_id": "1419359.mmaster02",
+    "live_job_outer_iteration": 82,
+    "delta_d": 4.2e-07,
+    "delta_u_mm": 2.2982567476730054e-10,
+    "delta_h_MPa": 1.1963759400934748e-05,
+    "package160_donor_uy_mm": 0.0018603125442191958,
+    "r6_target_uy_mm": 0.0018653125442191958,
+    "r7_target_uy_mm": 0.0018703125442191958,
+    "package160_active_nodes": 11253,
+    "package160_free_nodes": 2025,
+    "blocker_count": 4,
+    "submission_disposition": "WITHHELD_PENDING_PREDECESSOR_PHYSICAL_ACCEPTANCE"
+  }
+}
