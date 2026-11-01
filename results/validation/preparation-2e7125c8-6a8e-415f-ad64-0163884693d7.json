@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "investigation": "PACKAGE_158_R5_CODEX_ROUTING_EVALUATION",
+  "classification": "INDEPENDENT_REVIEW_DISPATCH_UNAVAILABLE",
+  "finding": "Package 158 R5 Codex maintainer routing evaluation completed (INDEPENDENT_REVIEW_DISPATCH_UNAVAILABLE): (1) Controller dispatch inspection confirms Antigravity-Autonomous-Loop.ps1 binds exclusively to agy.exe; no automated inter-agent RPC, subprocess launcher, or bridge mechanism exists to invoke Codex from within a running Gemini Antigravity turn. (2) Anti-self-certification governance prevents authoring agent Gemini Antigravity from certifying execute_mode1_package158_c2_0_r5_re_equilibration. (3) Canonical operation definition (A00D7099...) and definition-review event (5353E81E...) are preserved without mutation or duplication. (4) Technical preflight remains verified: scratch directory staged, datachecks PASS_BOTH (Mechanical and Phase Exit 0), frozen UEL verified (CE8D5EDC...), authentic donor displacement uy=0.00185031 mm, and ready_jobs contains M1_P158_C2_0_R5. (5) Actionable routing resolution: Terminate internal preparation loop and return INDEPENDENT_REVIEW_DISPATCH_UNAVAILABLE so that the bridge/orchestrator can assign the next controller turn directly to Codex-controller-maintenance.",
+  "evidence_sources": {
+    "scripts/validation/evaluate_package158_r5_codex_routing.py": "AA3A11E38FF00CCB07757C5B8E3C21F0AB055582205CBA33428DCA6D4F98F1B0",
+    "tests/unit/test_package158_r5_codex_routing.py": "2466CC5D96905CE91CCFE5C9E324F3A7919B43D78D28FFDD1EEFC1AE505B206F",
+    "results/validation/package158_r5_codex_routing_evaluation.json": "CAF65D74BCA92B4FDF22C0E963D3B9AFDC7D1367A1642EC72E47B9B76B17F7B3",
+    "results/validation/package158_r5_independent_review_dispatch_audit.json": "A7F815BFA0B1FC656AEF587C8A39F824738312E1B0F8C781F3C1011ABEEE1C62",
+    "project_coordination/operation_definitions/execute_mode1_package158_c2_0_r5_re_equilibration.json": "A00D70991B40FF1140A125D713A9C89DFFB69923EEB33B503D6D0A4C338E3F22",
+    "project_coordination/controller/definition-review-execute_mode1_package158_c2_0_r5_re_equilibration.json": "5353E81E639B6CC84632DF3BF2127BD8E663712982A9585484E4DB6F0A8ED013",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/EXECUTION_MANIFEST_R5.json": "F3D996D71075826E92955F64D1F7671CEC0E13487D1CECFA9DC4D01EFBCC0CFE",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/submit_M1_P158_C2_0_R5.pbs": "EC8ACE9F65E6FB4B6EE3E17EBEA8B4B28C4ECF2C69FACE071CF3D267C5A5AD7A",
+    "scripts/state_transfer/driver_package158_r5_error_driven_re_equilibration.py": "1A239A7EC279F50BD45021AA29D4C7116A82C631AFEEAE6C99ED03FDDD9D93AF"
+  },
+  "registered_paths": [
+    "scripts/validation/evaluate_package158_r5_codex_routing.py",
+    "tests/unit/test_package158_r5_codex_routing.py",
+    "results/validation/package158_r5_codex_routing_evaluation.json"
+  ],
+  "verification_passed": true
+}

@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "investigation": "PACKAGE_158_R5_CODEX_ROUTING_EVALUATION",
+  "classification": "INDEPENDENT_REVIEW_DISPATCH_UNAVAILABLE",
+  "verification_passed": true,
+  "dispatch_inspection": {
+    "controller_loop_script": "scripts/controller/Antigravity-Autonomous-Loop.ps1",
+    "codex_launcher_present": false,
+    "interagent_rpc_present": false,
+    "supported_internal_routing_available": false,
+    "dispatch_outcome": "INDEPENDENT_REVIEW_DISPATCH_UNAVAILABLE",
+    "root_cause_blocker": "Antigravity-Autonomous-Loop.ps1 binds exclusively to agy.exe (gemini-3.8-flash-high). Codex runs as an independent sequential external agent process without an automated inter-agent RPC or child-process dispatch hook. Internal programmatic routing from Gemini Antigravity to Codex is unsupported."
+  },
+  "target_operation": {
+    "operation_id": "execute_mode1_package158_c2_0_r5_re_equilibration",
+    "registration_status": "REVIEW_REQUIRED",
+    "reviewed_by": "gemini-antigravity",
+    "definition_review_status": "DEFINITION_REVIEW_REQUIRED",
+    "definition_sha256": "A00D70991B40FF1140A125D713A9C89DFFB69923EEB33B503D6D0A4C338E3F22",
+    "review_event_sha256": "5353E81E639B6CC84632DF3BF2127BD8E663712982A9585484E4DB6F0A8ED013",
+    "review_event_reference": "project_coordination/controller/definition-review-execute_mode1_package158_c2_0_r5_re_equilibration.json"
+  },
+  "technical_and_scientific_invariants": {
+    "uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "uel_valid": true,
+    "donor_holding_displacement_uy_mm": 0.0018503125442191958,
+    "driver_sha256": "1A239A7EC279F50BD45021AA29D4C7116A82C631AFEEAE6C99ED03FDDD9D93AF",
+    "manifest_sha256": "F3D996D71075826E92955F64D1F7671CEC0E13487D1CECFA9DC4D01EFBCC0CFE",
+    "pbs_sha256": "EC8ACE9F65E6FB4B6EE3E17EBEA8B4B28C4ECF2C69FACE071CF3D267C5A5AD7A",
+    "falsifiable_correction": "prescribed = {n: self.d0[n] for n in active} to remedy R4 healing violation (-4.8264e-6)",
+    "physical_acceptance_criteria": "reaction force continuity <= 5%, total energy continuity <= 2%",
+    "execution_resources": "1 CPU, 16 GB memory, 8 h walltime, queue entry_imfdfkmq, single-rank serial"
+  },
+  "finding": "Package 158 R5 Codex maintainer routing evaluation complete (INDEPENDENT_REVIEW_DISPATCH_UNAVAILABLE): (1) Controller dispatch inspection confirms Antigravity-Autonomous-Loop.ps1 only invokes agy.exe; no internal inter-agent RPC or Codex subprocess dispatch mechanism exists. (2) Anti-self-certification governance prevents authoring agent Gemini Antigravity from certifying the operation. (3) Reusable definition and review event remain preserved with verified hashes (definition A00D7099..., review event 5353E81E...). (4) Scratch staging and authentic Abaqus preflight remain verified (datachecks PASS_BOTH, UEL CE8D5EDC..., holding uy=0.00185031 mm). (5) Immediate actionable dispatch: External bridge/orchestrator must route next turn directly to Codex-controller-maintenance.",
+  "next_required_action": "Handoff to Codex-controller-maintenance for independent technical review and registration."
+}
