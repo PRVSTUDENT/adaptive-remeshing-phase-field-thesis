@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "investigation": "PACKAGE_159_HPC_FEASIBILITY_AND_EXECUTION_READINESS",
+  "classification": "P159_SERIAL_WALLTIME_RISK",
+  "finding": "Package 159 HPC feasibility audit completed (P159_SERIAL_WALLTIME_RISK): (1) Authentic P158 R4 telemetry (Job 1419174, 12544 quads) measured 25200 s across 69 outers (365.2 s/outer, 17.39 s/sub-solve) with asymptotic contraction rho = 0.8286 requiring 70 outers to reach delta_H <= 1e-6 MPa. (2) For Package 159 (13924 quads, +11.0%), sub-solve duration scales to 19.65 s. Under the uncorrected driver (20 inner phase solves/outer), Package 159 requires 412.6 s/outer, projecting 28885 s (8.02 h), which exceeds the 8.0-hour PBS walltime ceiling (max 69 outers feasible). (3) Root-cause mitigation: Prescribing active-set lower obstacles (self.d0[n]) reduces inner solves from 20 to 1-3, lowering outer duration to 59-78 s and full coupled convergence to 1.15-1.53 h (well within 8 h). (4) Recommendation: Verify and qualify the active-set remedy on Package 158 R5 before scheduling Package 159 execution.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/live_iteration_telemetry_1419174.json": "EE0E7C598BE3D3496129234D237943A3688402D17343A7C3F32FDDA9ACC61B9B",
+    "results/validation/package158_driver_defect_forensic_analysis.json": "F9DE0622D8C59F0583FC02C417EBE02C8A3493A3333218880BF61D6968066FEC",
+    "models/pandey_kumar_mode1/159_combined_indicator_receiver_candidate/candidate_receiver_manifest.json": "FC3D3E3798CBC57274590340A202CDBC8997E3DCA7269292F0114DC806330C4F",
+    "project_coordination/operation_definitions/execute_mode1_package158_c2_0_r5_re_equilibration.json": "A00D70991B40FF1140A125D713A9C89DFFB69923EEB33B503D6D0A4C338E3F22",
+    "project_coordination/operation_definitions/execute_mode1_package157_c1_2_r6_adaptive_continuation.json": "55E2B6541F2182DAA7F40595C5F2AACCBF4AE337FF20589FEF0EC340CD031228"
+  },
+  "telemetry_provenance": {
+    "job_id": "1419174.mmaster02",
+    "package": "Package 158 R4",
+    "physical_quads": 12544,
+    "continuum_nodes": 12821,
+    "integration_points": 50176,
+    "completed_outer_iterations": 69,
+    "measured_walltime_seconds": 25200.0,
+    "sub_solves_per_outer": 21,
+    "mean_sub_solve_seconds": 17.39,
+    "mean_outer_iteration_seconds": 365.22,
+    "asymptotic_contraction_ratio_rho": 0.8286,
+    "outer_iterations_to_delta_h_1e6": 69
+  },
+  "package159_scaling": {
+    "physical_quads": 13924,
+    "continuum_nodes": 14216,
+    "integration_points": 55696,
+    "quad_increase_pct": 11.0,
+    "node_increase_pct": 10.88,
+    "projected_sub_solve_seconds": 19.58,
+    "projected_memory_gb": 2.44,
+    "memory_headroom_vs_16gb": 6.6
+  },
+  "walltime_feasibility_analysis": {
+    "pbs_walltime_ceiling_seconds": 28800.0,
+    "pbs_walltime_ceiling_hours": 8.0,
+    "uncorrected_regime": {
+      "inner_phase_solves_per_outer": 20,
+      "seconds_per_outer": 411.3,
+      "total_projected_seconds_70_outers": 28678.2,
+      "total_projected_hours": 7.97,
+      "max_feasible_outers_in_8h": 69,
+      "feasibility_status": "EXCEEDS_8H_WALLTIME_CEILING"
+    },
+    "corrected_regime": {
+      "inner_phase_solves_per_outer": "1 to 3 (mean 2.5)",
+      "seconds_per_outer": 68.5,
+      "total_projected_seconds_70_outers": 5029.7,
+      "total_projected_hours": 1.4,
+      "walltime_headroom_hours": 6.6,
+      "feasibility_status": "FEASIBLE_WITH_SUBSTANTIAL_HEADROOM"
+    }
+  },
+  "operation_registration_status": {
+    "package157_r6": {
+      "operation_id": "execute_mode1_package157_c1_2_r6_adaptive_continuation",
+      "status": "PREPARED_FOR_INDEPENDENT_REGISTRATION_REVIEW"
+    },
+    "package158_r5": {
+      "operation_id": "execute_mode1_package158_c2_0_r5_re_equilibration",
+      "status": "REVIEW_REQUIRED",
+      "active_set_remedy": "prescribed = {n: self.d0[n] for n in active}"
+    },
+    "package159": {
+      "status": "NO_PREEXISTING_EXECUTION_OPERATION",
+      "recommended_action": "Qualify P158 R5 active-set remedy before generating P159 operation definition"
+    }
+  },
+  "verification_passed": true
+}
