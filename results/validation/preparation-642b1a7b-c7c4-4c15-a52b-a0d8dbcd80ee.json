@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Live PBS Job 1419359.mmaster02 (M1_C4_P157_C1_2_R6) is actively executing on mnode097 with monotonic coupled convergence confirmed through outer iteration 65 (delta_d=2.32e-6, delta_u=1.26e-9 mm, delta_h=6.54e-5 MPa, free_error=1.95e-11, dual_error=0.0). In accordance with Condition 3, Package 160 (C5 re-equilibration candidate) underwent exhaustive independent preflight verification: 100% manifest and frozen production UEL SHA-256 match, 7+8+3 SVARS contract across 12,996 elements (51,984 GPs) with zero negative histories, zero thermodynamic irreversibility violations (H >= psi_0^+ verified everywhere), exact KKT stationarity partition (11,253 active vs 2,025 free nodes), machine-precision boundary conditions (< 1e-15 mm), and strictly positive COD across all 53 crack-flank seam pairs. All 8 preflight unit tests pass. Package 160 submission remains strictly held pending predecessor physical acceptance.",
+  "evidence_sources": {
+    "scripts/validation/preflight_package160_c5_re_equilibration.py": "FEF16A66B8F82ACB3D80789FF2DF1E4DE4239F7D04DCDF9B0CA42D4F7979BBA8",
+    "results/validation/package160_technical_preflight_audit.json": "9C8B9F484A34AE0133F4F679907701197ED863EF128A2C6C72830AC18D52E3C6",
+    "tests/unit/test_package160_technical_preflight.py": "4182F57D1C1E40CD66AA49222051034355D08B02A60CD1CC9A937064A2FDF5E5",
+    "models/pandey_kumar_mode1/160_c5_package160_c2_0_re_equilibration/PACKAGE_MANIFEST.json": "5FC02DEDF11E905A1B9F12C651700E60E6FE79EA25AE0331B0BC6802DE0B8149",
+    "models/pandey_kumar_mode1/160_c5_package160_c2_0_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true,
+  "metadata": {
+    "live_job_id": "1419359.mmaster02",
+    "live_job_outer_iteration": 65,
+    "delta_d": 2.32e-06,
+    "delta_u_mm": 1.2616004427127084e-09,
+    "delta_h_MPa": 6.543907123734982e-05,
+    "package160_elements": 12996,
+    "package160_gauss_points": 51984,
+    "package160_thermodynamic_violations": 0,
+    "package160_active_nodes": 11253,
+    "package160_free_nodes": 2025,
+    "package160_seam_pairs": 53,
+    "submission_disposition": "WITHHELD_PENDING_PREDECESSOR_PHYSICAL_ACCEPTANCE"
+  }
+}
