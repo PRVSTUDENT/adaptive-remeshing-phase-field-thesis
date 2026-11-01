@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "investigation": "PACKAGE_158_R5_EXTERNAL_CODEX_REVIEW_DISPATCH_HANDOFF",
+  "classification": "INDEPENDENT_REVIEW_DISPATCH_UNAVAILABLE",
+  "finding": "External Codex review dispatch handoff recorded (INDEPENDENT_REVIEW_DISPATCH_UNAVAILABLE): (1) Orchestration blocker confirmed: Gemini Antigravity cannot execute or invoke Codex-controller-maintenance from within an autonomous AGY session. (2) Anti-self-certification governance preserved: Operation definition execute_mode1_package158_c2_0_r5_re_equilibration remains REVIEW_REQUIRED; Gemini will not fabricate qualification or self-register. (3) Technical readiness complete: Scratch staged at /scratch9/pr21vyci/runs/mode1_c5_package158_c2_0_re_equilibration, datachecks PASS_BOTH (Mechanical and Phase Exit 0), frozen UEL verified (CE8D5EDC...), holding displacement uy=0.00185031 mm, single-rank serial envelope (1 CPU, 16 GB, 8 h), and ready_jobs contains M1_P158_C2_0_R5. (4) Explicit handoff action: Terminate autonomous preparation loop, classify as INDEPENDENT_REVIEW_DISPATCH_UNAVAILABLE, release session lock, and direct external orchestrator to assign next controller turn directly to Codex-controller-maintenance.",
+  "evidence_sources": {
+    "results/validation/package158_r5_codex_routing_evaluation.json": "CAF65D74BCA92B4FDF22C0E963D3B9AFDC7D1367A1642EC72E47B9B76B17F7B3",
+    "results/validation/package158_r5_independent_review_dispatch_audit.json": "A7F815BFA0B1FC656AEF587C8A39F824738312E1B0F8C781F3C1011ABEEE1C62",
+    "project_coordination/operation_definitions/execute_mode1_package158_c2_0_r5_re_equilibration.json": "A00D70991B40FF1140A125D713A9C89DFFB69923EEB33B503D6D0A4C338E3F22",
+    "project_coordination/controller/definition-review-execute_mode1_package158_c2_0_r5_re_equilibration.json": "5353E81E639B6CC84632DF3BF2127BD8E663712982A9585484E4DB6F0A8ED013",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/EXECUTION_MANIFEST_R5.json": "F3D996D71075826E92955F64D1F7671CEC0E13487D1CECFA9DC4D01EFBCC0CFE",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/submit_M1_P158_C2_0_R5.pbs": "EC8ACE9F65E6FB4B6EE3E17EBEA8B4B28C4ECF2C69FACE071CF3D267C5A5AD7A",
+    "scripts/state_transfer/driver_package158_r5_error_driven_re_equilibration.py": "1A239A7EC279F50BD45021AA29D4C7116A82C631AFEEAE6C99ED03FDDD9D93AF",
+    "scripts/validation/evaluate_package158_r5_codex_routing.py": "AA3A11E38FF00CCB07757C5B8E3C21F0AB055582205CBA33428DCA6D4F98F1B0",
+    "tests/unit/test_package158_r5_codex_routing.py": "2466CC5D96905CE91CCFE5C9E324F3A7919B43D78D28FFDD1EEFC1AE505B206F"
+  },
+  "verification_passed": true
+}
