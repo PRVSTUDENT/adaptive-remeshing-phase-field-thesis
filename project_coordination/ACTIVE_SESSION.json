@@ -1,18 +1,18 @@
 ﻿{
     "active":  false,
     "agent":  "codex",
-    "task_id":  "BRIDGE-TIMEOUT-15MIN",
-    "starting_commit":  "c02efaddbc505884bcf9c2b7c6981ea7beac6561",
-    "claimed_at":  "2026-11-01T15:32:10.4033737+01:00",
-    "last_updated":  "2026-11-01T15:32:28.0326548+01:00",
-    "session_report":  "project_coordination/sessions/2026-11-01_codex_bridge_timeout_15min.md",
+    "task_id":  "PAD-FREE-BRIDGE-KIT",
+    "starting_commit":  "df5f93aead44fc0c1d86b6c291e5b6416c2310ce",
+    "claimed_at":  "2026-11-01T16:06:13.5306835+01:00",
+    "last_updated":  "2026-11-01T16:15:02.8517546+01:00",
+    "session_report":  "project_coordination/sessions/2026-11-01_codex_pad_free_bridge.md",
     "allowed_write_scope":  [
-                                "scripts/controller/Controller-Supervisor.ps1",
-                                "scripts/controller/Antigravity-Autonomous-Loop.ps1",
+                                "Downloads/ChatGPT_PAD_Free_Bridge_Kit/*",
                                 "project_coordination/ACTIVE_SESSION.json",
+                                "project_coordination/CURRENT_STATE.md",
                                 "project_coordination/TASK_LEDGER.csv",
                                 "project_coordination/ARTIFACT_REGISTRY.csv",
-                                "project_coordination/sessions/2026-11-01_codex_bridge_timeout_15min.md"
+                                "project_coordination/sessions/2026-11-01_codex_pad_free_bridge.md"
                             ],
     "stale_claim_archive":  "C:\\Users\\pruth\\OpenClawPAD\\backups\\ownership-recovery-4040433d-9c04-40c6-916b-0dcc8abb6555\\ACTIVE_SESSION.json"
 }
