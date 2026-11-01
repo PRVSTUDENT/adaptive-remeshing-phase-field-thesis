@@ -1,26 +1,18 @@
 {
     "active":  false,
-    "agent":  "gemini-antigravity",
-    "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
-    "starting_commit":  "6ef5298480248cf235a968ca42021325bf2b37ca",
-    "claimed_at":  "2026-11-01T06:21:15.5572051+01:00",
-    "last_updated":  "2026-11-01T06:30:23.1022441+01:00",
-    "last_released":  "2026-11-01T06:30:23.1022441+01:00",
+    "agent":  "codex",
+    "task_id":  "F1597-P158-DRIVER-SMP-REVIEW",
+    "starting_commit":  "3e8211764f29b73a46bcae7a207cafb9f7bd9321",
+    "claimed_at":  "2026-11-01T06:31:07.0977543+01:00",
+    "last_updated":  "2026-11-01T06:31:50.2974358+01:00",
+    "last_released":  "2026-11-01T06:31:50.2974358+01:00",
     "controller_run_id":  "ee5a86f0-2d6a-4f0e-b053-820c0a8d5b47",
-    "session_report":  "project_coordination/sessions/2026-11-01_gemini-antigravity_F1597_ee5a86f0-2d6a-4f0e-b053-820c0a8d5b47.md",
+    "session_report":  "project_coordination/sessions/2026-11-01_codex_package158_smp_review.md",
     "allowed_write_scope":  [
-                                "project_coordination/sessions/2026-11-01_gemini-antigravity_F1597_ee5a86f0-2d6a-4f0e-b053-820c0a8d5b47.md",
-                                "project_coordination/controller/turn-ee5a86f0-2d6a-4f0e-b053-820c0a8d5b47.json",
-                                "results/validation/mode1_f1597/ee5a86f0-2d6a-4f0e-b053-820c0a8d5b47.json",
-                                "results/validation/preparation-ee5a86f0-2d6a-4f0e-b053-820c0a8d5b47.json",
-                                "results/validation/*",
-                                "scripts/validation/*",
-                                "tests/unit/*",
-                                "models/pandey_kumar_mode1/*",
                                 "project_coordination/ACTIVE_SESSION.json",
-                                "project_coordination/ACTIVE_TASK.json",
                                 "project_coordination/CURRENT_STATE.md",
                                 "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/ARTIFACT_REGISTRY.csv"
+                                "project_coordination/ARTIFACT_REGISTRY.csv",
+                                "project_coordination/sessions/2026-11-01_codex_package158_smp_review.md"
                             ]
 }
