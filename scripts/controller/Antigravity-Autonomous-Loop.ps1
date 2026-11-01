@@ -87,6 +87,8 @@ param(
     # When $true, every substantive turn is sent to ChatGPT for review
     # and next-step instruction generation.
     [bool]$EnableChatGPTBridge = $true,
+    # Opt-in until the real PAD/Gemini acceptance transaction has passed.
+    [switch]$ChatGPTSupervisorMode,
 
     # HTTP bridge timeout is NOT the PBS scheduler wait.
     # Keep this short so a broken localhost bridge does not block
@@ -213,6 +215,18 @@ function ConvertTo-SafeUtf8String {
 if($ControlledSingleTurn -and $MaxTurns -ne 1){throw 'ControlledSingleTurn requires MaxTurns=1; no research loop allowed'}
 # Offline validation exits before credential/profile/bridge or AGY side effects.
 . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Recovery.ps1')
+. (Join-Path $WorkspaceDir 'scripts/controller/Controller-Supervisor.ps1')
+trap {
+    if ($ChatGPTSupervisorMode -and -not $ControllerDryRun -and -not $script:SupervisorEscalating) {
+        $originalError = $_ | Out-String
+        $script:SupervisorEscalating = $true
+        try {
+            $diagnostic = Invoke-ControllerSupervisor -Workspace $WorkspaceDir -Kind ERROR -Evidence $originalError -SafetyBlocked -RunId 'fatal' -Turn 0 -LaunchPad:$ChatGPTBridgeLaunchPad
+            Write-Warning ("SUPERVISOR_DIAGNOSTIC_ONLY: " + $diagnostic.instruction)
+        } catch { Write-Warning ("SUPERVISOR_DISPATCH_UNAVAILABLE: " + $_.Exception.Message) }
+    }
+    break # Retain the original terminating error; never authorize execution from a diagnostic.
+}
 . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Preparation.ps1')
 . (Join-Path $WorkspaceDir 'scripts/controller/Controller-DefinitionRecovery.ps1')
 $canonicalController = Join-Path $WorkspaceDir 'scripts/controller/Antigravity-Autonomous-Loop.ps1'
@@ -256,7 +270,7 @@ if ($ControllerDryRun) {
 
 Assert-ControllerDispatchCheckpoint $WorkspaceDir (Read-ControllerCheckpoint $controllerCheckpointPath)
 $preparationPrompt = if ($InitialPromptFile) { Get-Content -LiteralPath $InitialPromptFile -Raw -Encoding UTF8 } else { $InitialPrompt }
-$preparation = Invoke-ControllerOperationPreparation $WorkspaceDir $preparationPrompt
+$preparation = if($ChatGPTSupervisorMode){[pscustomobject]@{dispatch_ready=$true}}else{Invoke-ControllerOperationPreparation $WorkspaceDir $preparationPrompt}
 if(-not $preparation.dispatch_ready -and $preparation.status -ne 'DEFINITION_REJECTED'){
     Write-Output ('NEXT_OPERATION_PREPARATION: '+($preparation|ConvertTo-Json -Depth 8 -Compress))
     if($preparation.status -eq 'DEFINITION_REVIEW_REQUIRED'){
@@ -288,6 +302,15 @@ try {
     if (-not $controllerLockHeld) {
         throw 'Another Antigravity controller is already running for this Windows user. This invocation stopped before profile selection or AGY execution. Close the existing controller before starting another.'
     }
+if($ChatGPTSupervisorMode){
+    if(-not $EnableChatGPTBridge){throw 'Supervisor mode requires the live bridge'}
+    $decision=Invoke-ControllerSupervisor -Workspace $WorkspaceDir -Kind INITIAL -Evidence $preparationPrompt -RunId 'initial' -Turn 0 -LaunchPad:$ChatGPTBridgeLaunchPad
+    if(-not $decision.execution_allowed){Write-Output ($decision|ConvertTo-Json); return}
+    $InitialPrompt=$decision.instruction
+    $InitialPromptFile=''
+    $preparation=Invoke-ControllerOperationPreparation $WorkspaceDir $InitialPrompt
+    if(-not $preparation.dispatch_ready){throw ('TECHNICAL_OR_SCIENTIFIC_GATE_BLOCKED: '+($preparation|ConvertTo-Json -Compress -Depth 8))}
+}
 . (Join-Path $WorkspaceDir 'scripts/validation/AgyControllerPolicy.ps1')
 . (Join-Path $WorkspaceDir 'scripts/validation/AgyCredentialStores.ps1')
 $script:RequestedAgyProfile = $AuthoritativeAgyProfile
@@ -3178,6 +3201,11 @@ function Invoke-ChatGPTBridgeWithManualFallback {
         [string]$HandoffId = '',
         [switch]$SingleDispatch
     )
+    if($ChatGPTSupervisorMode){
+        $decision=Invoke-ControllerSupervisor -Workspace $WorkspaceDir -Kind RESULT -Evidence $Prompt -RunId ('handoff-'+$ContextLabel) -Turn $CurrentTurn -LaunchPad:$ChatGPTBridgeLaunchPad
+        if(-not $decision.execution_allowed){throw ('SUPERVISOR_'+$decision.action+': '+$decision.instruction)}
+        return $decision.instruction
+    }
 
     if ($script:PreferManualChatGPTBridge -and $EnableManualClipboardFallback) {
         if($SingleDispatch){throw 'CHATGPT_BRIDGE_FAIL_CLOSED: definition recovery requires automatic bridge'}
@@ -3282,6 +3310,11 @@ function Invoke-DefinitionCorrectionChatGPT([string]$Instruction,[string]$Recove
 }
 
 function Invoke-EscalationChatGPT($AntigravityResponse, $QuotaSnapshotText = "") {
+    if($ChatGPTSupervisorMode){
+        $decision=Invoke-ControllerSupervisor -Workspace $WorkspaceDir -Kind RESULT -Evidence ([string]$AntigravityResponse+"`nQUOTA: "+$QuotaSnapshotText) -RunId $script:ControllerState.run_id -Turn $CurrentTurn -LaunchPad:$ChatGPTBridgeLaunchPad
+        if(-not $decision.execution_allowed){throw ('SUPERVISOR_'+$decision.action+': '+$decision.instruction)}
+        return $decision.instruction
+    }
     $stateFile = Join-Path $WorkspaceDir 'project_coordination/CURRENT_STATE.md'
     $stateText = if (Test-Path -LiteralPath $stateFile) { Get-AgyBoundedText -Text (Get-Content -LiteralPath $stateFile -Raw) -Limit 5000 } else { 'Current state unavailable: require artifact reconciliation before action.' }
     $resultText = Get-AgyBoundedText -Text ([string]$AntigravityResponse) -Limit 7000
@@ -3485,9 +3518,8 @@ if ($null -ne $script:ControllerState) {
     }
 }
 
-if ([string]::IsNullOrWhiteSpace($CurrentInstruction)) {
-    $CurrentInstruction = $InitialPrompt
-}
+if($ChatGPTSupervisorMode -and -not $script:ControllerRecoveryMode){$CurrentInstruction=$InitialPrompt}
+if ([string]::IsNullOrWhiteSpace($CurrentInstruction)) { $CurrentInstruction = $InitialPrompt }
 
 if ([string]::IsNullOrWhiteSpace($CurrentInstruction)) {
     if (Test-Path $StateFile) {
@@ -3535,6 +3567,7 @@ if (-not $script:ControllerRecoveryMode) {
         $CurrentInstruction=Invoke-DefinitionCorrectionChatGPT $CurrentInstruction ('initial:'+ (Get-DefinitionProposalHash $CurrentInstruction))
     }
     $resolved = Resolve-ControllerInstruction $WorkspaceDir $CurrentInstruction
+    if($ChatGPTSupervisorMode -and $resolved.stale_replaced){throw 'SUPERVISOR_INSTRUCTION_STALE: request a fresh bounded instruction; do not substitute a controller plan'}
     $CurrentInstruction = $resolved.instruction
 }
 $session = (Get-ControllerEvidence $WorkspaceDir).session
@@ -3780,8 +3813,13 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
         (Complete-ControllerAfterCliFailure $WorkspaceDir $controllerCheckpointPath $script:ControllerState)) {
         Save-LoopState -Turn $CurrentTurn -Status 'COMPLETED' -LastInstruction $CurrentInstruction -LastResponse $script:ControllerState.response -NextInstruction $script:ControllerState.next_safe_action -Duration $turnDurationSeconds -Usage $null -Tier 'CONTROLLER' -Action 'CLI_FAILURE_COMPLETED_RECEIPT'
         Write-Output 'CLI_FAILURE_COMPLETED_RECEIPT: completed work preserved; no model retry'
+        if($ChatGPTSupervisorMode){
+            $diagnostic=Invoke-ControllerSupervisor -Workspace $WorkspaceDir -Kind ERROR -Evidence ("Completed receipt preserved; no replay. CLI exit="+$agyExitCode+"`n"+$agyText) -RunId $script:ControllerState.run_id -Turn $CurrentTurn -SafetyBlocked
+            Write-Output ($diagnostic|ConvertTo-Json)
+        }
         break MainLoop
     }
+    if($ChatGPTSupervisorMode -and ($agyExitCode -ne 0 -or $agyInvocationException)){throw ("SUPERVISOR_EXECUTION_FAILURE: exit="+$agyExitCode+"`n"+$agyText)}
     if (($script:ControllerRecoveryMode -or $ControlledSingleTurn) -and ($agyExitCode -ne 0 -or $agyInvocationException)) { throw 'BLOCKED: recovery process failure; no retry' }
     if ($agyExitCode -ne 0 -or $agyInvocationException) {
 

@@ -125,7 +125,7 @@ function Invoke-ChatGPTBridge {
         }
     }
 
-    if ($authoritativeGuard -and $PromptText -notmatch '(?m)^INDEPENDENT_STRUCTURED_REVIEW_V1') {
+    if ($authoritativeGuard -and $PromptText -notmatch '(?m)^(INDEPENDENT_STRUCTURED_REVIEW_V1|CHATGPT_SUPERVISOR_V1)') {
         $script:ProjectAlignmentGuard = $authoritativeGuard
         $global:ProjectAlignmentGuard = $authoritativeGuard
 
@@ -155,7 +155,7 @@ function Invoke-ChatGPTBridge {
     }
 
     $assembledPrompt = $PromptText
-    if (-not [string]::IsNullOrWhiteSpace($RulesPath) -and (Test-Path -LiteralPath $RulesPath) -and ($PromptText -notmatch '(?m)^INDEPENDENT_STRUCTURED_REVIEW_V1')) {
+    if (-not [string]::IsNullOrWhiteSpace($RulesPath) -and (Test-Path -LiteralPath $RulesPath) -and ($PromptText -notmatch '(?m)^(INDEPENDENT_STRUCTURED_REVIEW_V1|CHATGPT_SUPERVISOR_V1)')) {
         $rulesContent = [System.IO.File]::ReadAllText($RulesPath, [System.Text.UTF8Encoding]::new($false)).Trim()
         if ($rulesContent -notmatch 'JOB-FIRST / REPORT-AFTER POLICY') {
             throw 'Job-first execution policy missing; refusing stale bridge prompt.'
@@ -183,7 +183,7 @@ Determine the next instruction to send to Antigravity.
         }
     }
 
-    if($PromptText -notmatch '(?m)^INDEPENDENT_STRUCTURED_REVIEW_V1'){
+    if($PromptText -notmatch '(?m)^(INDEPENDENT_STRUCTURED_REVIEW_V1|CHATGPT_SUPERVISOR_V1)'){
     # --- 2c. Sanity Guard: Verify and sanitize any superseded strings ---
     $stalePatterns = @(
         "01 October 2026",
@@ -368,7 +368,7 @@ Determine the next instruction to send to Antigravity.
 
     $isResumed = ($Resume -or $ForceResume -or ($env:RESUME_AFTER_SSO -eq '1'))
 
-    if ($isBlocked -and -not $isResumed) {
+    if ($isBlocked -and -not $isResumed -and $PromptText -notmatch '(?m)^CHATGPT_SUPERVISOR_V1') {
         # Check if live authenticated network connectivity to the cluster is restored
         $networkRestored = $false
         try {
