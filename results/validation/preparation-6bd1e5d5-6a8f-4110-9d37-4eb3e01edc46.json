@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Resolved operation status for execute_mode1_package158_c2_0_r5_re_equilibration through canonical resolver; confirmed definition review remains unresolved (registration_status: REVIEW_REQUIRED). Emitted fingerprinted definition-review event project_coordination/controller/definition-review-execute_mode1_package158_c2_0_r5_re_equilibration.json. Verified 14/14 offline unit tests, authentic Abaqus datachecks, unchanged frozen UEL (CE8D5EDC...), candidate manifest R5, and serial 1-CPU baseline with optional 8-core SMP benchmark requirements. Solver execution withheld pending maintainer registration. Status: DEFINITION_REVIEW_REQUIRED.",
+  "evidence_sources": {
+    "project_coordination/operation_definitions/execute_mode1_package158_c2_0_r5_re_equilibration.json": "A00D70991B40FF1140A125D713A9C89DFFB69923EEB33B503D6D0A4C338E3F22",
+    "project_coordination/controller/definition-review-execute_mode1_package158_c2_0_r5_re_equilibration.json": "5353E81E639B6CC84632DF3BF2127BD8E663712982A9585484E4DB6F0A8ED013",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/EXECUTION_MANIFEST_R5.json": "F3D996D71075826E92955F64D1F7671CEC0E13487D1CECFA9DC4D01EFBCC0CFE",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/submit_M1_P158_C2_0_R5.pbs": "EC8ACE9F65E6FB4B6EE3E17EBEA8B4B28C4ECF2C69FACE071CF3D267C5A5AD7A",
+    "scripts/state_transfer/driver_package158_r5_error_driven_re_equilibration.py": "1A239A7EC279F50BD45021AA29D4C7116A82C631AFEEAE6C99ED03FDDD9D93AF",
+    "scripts/state_transfer/package158_r5_driver_correction.patch": "4FA7D10C56CC7C17AFB55764E725E0476F2D1AA620DEDF78E704682D1BA08CDE",
+    "tests/unit/test_package158_r5_driver_correction.py": "579149E1A8AFA70E6389FA4B895AC450FD172177FE53FDBE6B6C60629C280DD5",
+    "tests/unit/test_package158_re_equilibration.py": "912C7F6AA453DB64189CA4812DE17B8C6C001455B9D159BF6F69F751A4DB99C1",
+    "results/validation/package158_candidate_datachecks.json": "A8D043BC8D2DD739563EEE88F26F37D40C30666E4F77A219C4968E94D00953E7",
+    "results/validation/package158_r5_registration_review_audit.json": "6F4EE945D80C468B7C9C5E7EE5534C63AE1FAB094CF30E17BD75095196F1CEEF",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}
