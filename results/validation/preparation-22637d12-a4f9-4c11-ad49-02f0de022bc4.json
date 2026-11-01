@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "classification": "STATE_DEPENDENT_MARKING_FEASIBLE_OFFLINE",
+  "finding": "State-dependent adaptive refinement feasibility audit establishes STATE_DEPENDENT_MARKING_FEASIBLE_OFFLINE. Native companion MISESERI (eta >= 0.15) reproduces exactly 266/7056 elements and is mathematically invariant under proportional load scaling (Jaccard = 1.0). In contrast, authentic phase-field damage evolves monotonically (d_max = 0.60525 at crack tip). Combining MISESERI with a state-dependent damage threshold (d >= 0.5) marks 339 elements (4.80% of mesh), capturing process-zone evolution without prescribing the crack path. In pre-peak states (+10 nm), crack advancement is sub-grid, classifying this as an indicator-sensitivity audit.",
+  "evidence_sources": {
+    "results/validation/package157_state_dependent_refinement_audit.json": "147E98128073A58C39526873A4E94F92150B05BE53A70110C59A9277AD07F656",
+    "scripts/validation/audit_state_dependent_refinement.py": "321A0AB55D6ADEAC5C4AD5681C27DBFDDF2AA0871B8D736AA133D8FABA7AECA2",
+    "tests/unit/test_state_dependent_refinement_audit.py": "48908E9124763FBD8F23AEE48F64EDCF9269F13AD28FAA2564C03471BC55419C",
+    "models/pandey_kumar_mode1/153_c4_companion_miseseri/c4_package153_companion_miseseri_distribution.csv": "DA662457D4DFD43BC0C24E9E3E3821AC47F46477ED6BFA051510F958EEB4EB28",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/converged_checkpoint_01.json": "200BB2B03C8C9599A2B41FC43A88CCE4EEBC7B4195A20EB0F8E132D3D7925083"
+  },
+  "verification_passed": true,
+  "details": {
+    "investigation": "STATE_DEPENDENT_ADAPTIVE_REFINEMENT_FEASIBILITY",
+    "miseseri_baseline": {
+      "elements_count": 7056,
+      "threshold_eta": 0.15,
+      "marked_count": 266,
+      "percentage": 3.77,
+      "proportional_load_jaccard": 1.0,
+      "centroid_shift_mm": 0.0
+    },
+    "damage_evolution": {
+      "anchor_load_uy_mm": 0.0018503125442191958,
+      "continuation_load_uy_mm": 0.0018603125442191958,
+      "max_damage_anchor": 0.58232,
+      "max_damage_chkpt01": 0.60525,
+      "elements_d_ge_0.5": 85
+    },
+    "combined_marking": {
+      "criterion": "eta >= 0.15 or elem_max_d >= 0.5",
+      "total_marked": 339,
+      "percentage": 4.80,
+      "additionally_marked": 73,
+      "spatially_localized": true,
+      "prescribed_crack_path": false
+    },
+    "mesh_resolution": {
+      "l0_mm": 0.0075,
+      "mean_h_refined_mm": 0.001265,
+      "h_over_l0": 0.1687,
+      "resolution_adequate": true
+    },
+    "scientific_limitations": {
+      "measurable_crack_extension": false,
+      "classification": "INDICATOR_SENSITIVITY_AUDIT_NOT_DYNAMIC_TRACKING"
+    }
+  }
+}
