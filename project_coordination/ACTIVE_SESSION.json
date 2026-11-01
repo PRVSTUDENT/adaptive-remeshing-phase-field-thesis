@@ -1,16 +1,18 @@
 ﻿{
     "active":  false,
     "agent":  "codex",
-    "task_id":  "FIX-SUPERVISOR-HND-TRIGGER",
-    "starting_commit":  "46cbc176d6c4388ed060f2b24d69b7180eb6e5c4",
-    "claimed_at":  "2026-11-01T15:16:35.1443546+01:00",
-    "last_updated":  "2026-11-01T15:20:19.4224020+01:00",
-    "session_report":  "project_coordination/sessions/2026-11-01_codex_controller_recovery_4040433d.md",
+    "task_id":  "BRIDGE-TIMEOUT-15MIN",
+    "starting_commit":  "c02efaddbc505884bcf9c2b7c6981ea7beac6561",
+    "claimed_at":  "2026-11-01T15:32:10.4033737+01:00",
+    "last_updated":  "2026-11-01T15:32:28.0326548+01:00",
+    "session_report":  "project_coordination/sessions/2026-11-01_codex_bridge_timeout_15min.md",
     "allowed_write_scope":  [
                                 "scripts/controller/Controller-Supervisor.ps1",
-                                "tests/unit/test_controller_supervisor.ps1",
-                                "project_coordination/*",
-                                "results/validation/controller_recovery*"
+                                "scripts/controller/Antigravity-Autonomous-Loop.ps1",
+                                "project_coordination/ACTIVE_SESSION.json",
+                                "project_coordination/TASK_LEDGER.csv",
+                                "project_coordination/ARTIFACT_REGISTRY.csv",
+                                "project_coordination/sessions/2026-11-01_codex_bridge_timeout_15min.md"
                             ],
     "stale_claim_archive":  "C:\\Users\\pruth\\OpenClawPAD\\backups\\ownership-recovery-4040433d-9c04-40c6-916b-0dcc8abb6555\\ACTIVE_SESSION.json"
 }

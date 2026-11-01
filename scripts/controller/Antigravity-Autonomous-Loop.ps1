@@ -91,9 +91,8 @@ param(
     [switch]$ChatGPTSupervisorMode,
 
     # HTTP bridge timeout is NOT the PBS scheduler wait.
-    # Keep this short so a broken localhost bridge does not block
-    # the autonomous workflow for 30 minutes.
-    [int]$ChatGPTBridgeTimeoutSeconds = 1800,
+    # Allow up to 15 minutes for the real ChatGPT response.
+    [int]$ChatGPTBridgeTimeoutSeconds = 900,
 
     # Retry exactly the same handoff once if localhost delivery fails.
     [int]$ChatGPTBridgeMaxAttempts = 2,

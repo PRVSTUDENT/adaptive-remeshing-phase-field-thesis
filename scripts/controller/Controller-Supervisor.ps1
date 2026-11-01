@@ -8,7 +8,7 @@ function Invoke-ControllerSupervisor {
         [string]$RunId = 'startup',
         [int]$Turn = 0,
         [switch]$SafetyBlocked,
-        [int]$TimeoutMinutes = 2,
+        [int]$TimeoutMinutes = 15,
         [switch]$LaunchPad,
         [scriptblock]$Transport,
         [string]$ArchiveRoot = (Join-Path $env:USERPROFILE 'OpenClawPAD/ChatGPTBridge/supervisor')
