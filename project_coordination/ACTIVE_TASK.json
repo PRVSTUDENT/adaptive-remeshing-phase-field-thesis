@@ -10,7 +10,7 @@
                          },
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "agent":  "gemini-antigravity",
-    "phase":  "Package 159 driver readiness audit completed (P159_CORRECTED_DRIVER_OFFLINE_VERIFIED): (1) Active-set obstacle clamp verified: Prescribing self.d0[n] on active nodes eliminates continuous-Galerkin undershoots (healing \u003e= -1e-6 satisfied), resolving the root cause of the 20-inner-solve stall in Job 1419174. (2) KKT stopping criteria verified: When obstacle is respected, dual error \u003c= 1e-9 and free error \u003c= 1e-6 terminate inner phase iterations in 1-3 solves without cycling or premature termination. (3) Atomic checkpoint safety confirmed: Serialization occurs immediately inside the convergence block with .tmp and atomic replace, guarded by force (\u003c=5%) and energy (\u003c=2%) physical acceptance gates. (4) Isolated P159 driver created and verified offline on 13924 quads, 14216 nodes, and 55696 GP histories. (5) Walltime scenarios: Feasible for 1, 3, and 10 inner solves (0.85 h, 1.61 h, 4.29 h); exceeds 8 h only if inner solves hit the 20-solve ceiling (8.11 h, 69 outers max). (6) Operation blocker: execute_mode1_package158_c2_0_r5_re_equilibration remains REVIEW_REQUIRED; P159 driver is preserved as an isolated candidate pending empirical cluster demonstration of P158 R5.",
+    "phase":  "Package 158 R5 execution and registration audit completed (P158_R5_REGISTRATION_GATE_IDENTIFIED_PREFLIGHT_VERIFIED): (1) Registration blocker identified: execute_mode1_package158_c2_0_r5_re_equilibration remains REVIEW_REQUIRED because Controller-Registration.ps1 requires registration_status == \u0027REVIEWED_FOR_TECHNICAL_QUALIFICATION\u0027 by an independent maintainer (Codex-controller-maintenance). As the authoring agent, Gemini Antigravity is prohibited from self-certifying. (2) Technical preflight PASS: submit_M1_P158_C2_0_R5.pbs, EXECUTION_MANIFEST_R5.json, PACKAGE_MANIFEST.json, and the R5 driver were staged to scratch; Invoke-Mode1Execution.ps1 -VerifyOnly passed Exit 0 with datachecks=PASS_BOTH (Mechanical + Phase Exit 0), login notifications verified (Telegram HTTP 200 + sendmail), and live queue capacity verified. (3) Prerequisites verified: Driver SHA-256 (1A239A7E...), frozen production UEL (CE8D5EDC...), authentic donor displacement (uy=0.00185031 mm), resource allocation (1 CPU, 16 GB, 8 h), and 14 unit tests pass. (4) Actionable review route: Maintainer Codex must review the R5 definition, bind an execution adapter, and emit the formal qualification record before execution dispatch.",
     "gate_status":  "P157_R5_SEG1_RUNNING__C4_CONTINUATION_UNACCEPTED",
     "active_pbs_job_ids":  [
                                "1419162.mmaster02"
@@ -290,14 +290,14 @@
                              "compute_qualification_job_id":  "1419146.mmaster02",
                              "manifest_sha256":  "ac186eeaf426bc6f39499df2664a38b81dd66fbd4a0f3fd41faa1fb073faa62f"
                          },
-    "last_updated":  "2026-11-01T08:10:09.8030460+01:00",
+    "last_updated":  "2026-11-01T08:27:28.8326365+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-aab1b60c-a353-44a1-a5e4-100532f4e587.json",
-                                  "sha256":  "2FD0C6DD1F86393888A0B6F53231EA9DCC0037584D60D11241BF22805FFA1398",
-                                  "created_at":  "2026-11-01T08:08:51.1135801+01:00"
+                                  "artifact":  "results/validation/preparation-bdf07d4c-fff2-4448-b60d-076e67f1af6b.json",
+                                  "sha256":  "AD1F6CBFE5A55377F7EF7E1DE13BBBBEE9E57599A906303B533A1568CEFED40C",
+                                  "created_at":  "2026-11-01T08:27:17.6033974+01:00"
                               }
 }

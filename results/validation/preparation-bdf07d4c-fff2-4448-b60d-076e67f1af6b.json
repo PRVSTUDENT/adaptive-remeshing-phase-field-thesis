@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "investigation": "PACKAGE_158_R5_REGISTRATION_AND_EXECUTION_AUDIT",
+  "classification": "P158_R5_REGISTRATION_GATE_IDENTIFIED_PREFLIGHT_VERIFIED",
+  "finding": "Package 158 R5 execution and registration audit completed (P158_R5_REGISTRATION_GATE_IDENTIFIED_PREFLIGHT_VERIFIED): (1) Registration blocker identified: execute_mode1_package158_c2_0_r5_re_equilibration remains REVIEW_REQUIRED because Controller-Registration.ps1 requires registration_status == 'REVIEWED_FOR_TECHNICAL_QUALIFICATION' by an independent maintainer (Codex-controller-maintenance). As the authoring agent, Gemini Antigravity is prohibited from self-certifying. (2) Technical preflight PASS: submit_M1_P158_C2_0_R5.pbs, EXECUTION_MANIFEST_R5.json, PACKAGE_MANIFEST.json, and the R5 driver were staged to scratch; Invoke-Mode1Execution.ps1 -VerifyOnly passed Exit 0 with datachecks=PASS_BOTH (Mechanical + Phase Exit 0), login notifications verified (Telegram HTTP 200 + sendmail), and live queue capacity verified. (3) Prerequisites verified: Driver SHA-256 (1A239A7E...), frozen production UEL (CE8D5EDC...), authentic donor displacement (uy=0.00185031 mm), resource allocation (1 CPU, 16 GB, 8 h), and 14 unit tests pass. (4) Actionable review route: Maintainer Codex must review the R5 definition, bind an execution adapter, and emit the formal qualification record before execution dispatch.",
+  "evidence_sources": {
+    "scripts/state_transfer/driver_package158_r5_error_driven_re_equilibration.py": "1A239A7EC279F50BD45021AA29D4C7116A82C631AFEEAE6C99ED03FDDD9D93AF",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/EXECUTION_MANIFEST_R5.json": "F3D996D71075826E92955F64D1F7671CEC0E13487D1CECFA9DC4D01EFBCC0CFE",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/submit_M1_P158_C2_0_R5.pbs": "EC8ACE9F65E6FB4B6EE3E17EBEA8B4B28C4ECF2C69FACE071CF3D267C5A5AD7A",
+    "project_coordination/operation_definitions/execute_mode1_package158_c2_0_r5_re_equilibration.json": "A00D70991B40FF1140A125D713A9C89DFFB69923EEB33B503D6D0A4C338E3F22",
+    "project_coordination/controller/definition-review-execute_mode1_package158_c2_0_r5_re_equilibration.json": "5353E81E639B6CC84632DF3BF2127BD8E663712982A9585484E4DB6F0A8ED013",
+    "scripts/validation/audit_package158_r5_registration_gate.py": "F504AB9FA10E7EF565F673B8F1D1BAE1479526CEF35AA7BF33A953C124426F43",
+    "tests/unit/test_package158_r5_registration_gate.py": "9FDE48A50B5041F4EDCC3EA44A952079B9BB4E7223BED42278C0A34EBBFD8663",
+    "results/validation/package158_r5_registration_gate_audit.json": "4DC9440C99BC32B5B9B26B5767B3B2CC370639A1F034CCD17801CF5F399C6DF3"
+  },
+  "registered_paths": [
+    "scripts/validation/audit_package158_r5_registration_gate.py",
+    "tests/unit/test_package158_r5_registration_gate.py",
+    "results/validation/package158_r5_registration_gate_audit.json"
+  ],
+  "verification_passed": true
+}
