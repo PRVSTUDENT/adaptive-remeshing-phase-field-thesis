@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "investigation": "COMBINED_INDICATOR_REMESH_AND_STATE_TRANSFER_PILOT",
+  "status": "COMBINED_REMESH_TRANSFER_OFFLINE_VERIFIED",
+  "finding": "Combined-indicator conforming remeshing and state transfer verified offline (COMBINED_REMESH_TRANSFER_OFFLINE_VERIFIED). Combined marking M = {eta >= 0.15} U {d_e >= 0.5} selects 339/7056 elements (266 MISESERI + 85 damage - 12 overlap = 339 elements, 4.80%), capturing both notch stress error and evolving fracture process zone without prescribing a crack corridor. Conforming receiver mesh (13924 quads, 14216 nodes) achieves h_fine = 0.00050 mm (l0/15) with zero negative Jacobians (min det(J) = 6.2500e-08) and 55 duplicate crack-flank pairs. Spatial state transfer mapped 100% of nodes and GPs with zero cross-slit violations and verified fracture-energy discrepancy of 0.08%.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/153_c4_companion_miseseri/c4_package153_companion_miseseri_distribution.csv": "DA662457D4DFD43BC0C24E9E3E3821AC47F46477ED6BFA051510F958EEB4EB28",
+    "models/pandey_kumar_mode1/147_c4_corrected_reference/M1_C4_CORRECTED_PACKAGE147_REF.inp": "FFFE51D5348F6E4B5E9B4742D783CA1645B480B229189168493AEDA10C91722A",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/converged_checkpoint_01.json": "200BB2B03C8C9599A2B41FC43A88CCE4EEBC7B4195A20EB0F8E132D3D7925083"
+  },
+  "verification_passed": true,
+  "marking_statistics": {
+    "total_donor_elements": 7056,
+    "miseseri_marked_count": 266,
+    "damage_marked_count": 85,
+    "intersection_count": 12,
+    "union_combined_count": 339,
+    "newly_marked_count": 73,
+    "percentage_of_total_mesh": 4.804421768707483
+  },
+  "mesh_topology_checks": {
+    "receiver_elements_count": 13924,
+    "receiver_nodes_count": 14216,
+    "grid_nx": 118,
+    "grid_ny": 118,
+    "min_det_jacobian": 6.249999999999756e-08,
+    "positive_jacobians_verified": true,
+    "slit_seam_pairs_count": 55,
+    "duplicate_crack_flank_nodes_verified": true,
+    "min_element_size_mm": 0.0004999999999999935,
+    "element_size_to_l0_ratio": 0.0666666666666658
+  },
+  "transfer_integrity": {
+    "mapped_receiver_nodes": 14216,
+    "total_receiver_nodes": 14216,
+    "unmapped_nodes_count": 0,
+    "mapped_receiver_gps": 55696,
+    "total_receiver_gps": 55696,
+    "unmapped_gps_count": 0,
+    "flank_cross_slit_violations": 0,
+    "max_node_reconstruction_error_mm": 4.3885418357208765e-17,
+    "max_gp_reconstruction_error_mm": 3.1031676915590914e-17,
+    "damage_monotonicity_satisfied": true,
+    "max_transferred_damage": 0.603370355882353,
+    "max_transferred_history_MPa": 7.830087615587077
+  },
+  "energy_diagnostics": {
+    "donor_fracture_energy_kNmm": 1.960405393903908e-05,
+    "receiver_fracture_energy_kNmm": 1.9588523141580954e-05,
+    "fracture_energy_discrepancy_percent": 0.07922237669015644,
+    "fracture_energy_gate_satisfied": true,
+    "preservation_status": "FRACTURE_ENERGY_CONSERVED_WITHIN_GATE"
+  },
+  "package158_comparison": {
+    "package158_receiver_elements": 12544,
+    "combined_pilot_receiver_elements": 13924,
+    "additional_elements": 1380,
+    "relative_cost_factor": 1.110012755102041,
+    "crack_path_independence": true,
+    "refinement_mechanism": "UNIFIED_MISESERI_AND_DAMAGE_PROCESS_ZONE"
+  },
+  "recommendation": "The combined marking criterion eta >= 0.15 U d >= 0.5 successfully captures advancing damage while preserving complete state transfer without prescribing the crack path. Proceed with independent maintainer registration of Package 157 R6 and Package 158 R5 for physical HPC solver validation."
+}
