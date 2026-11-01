@@ -163,7 +163,27 @@ function Get-ControllerDynamicQualification([string]$Workspace, [string]$Path = 
     }
 
     if($q.execution_mode -eq 'HPC_PRE_SUBMISSION'){
-        if($opId -ceq 'execute_mode1_package157_c1_2_r4_adaptive_continuation'){
+        if($opId -ceq 'execute_mode1_package158_c2_0_r5_re_equilibration'){
+            $expected='models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/EXECUTION_MANIFEST_R5.json'
+            if($q.status -ne 'QUALIFIED_FOR_PREFLIGHT' -or $q.pbs_job_id -or
+               $q.manifest -cne $expected -or $scriptRel -cne 'scripts/validation/execute_package158_r5.py' -or
+               $q.execution_adapter -cne 'scripts/hpc/Invoke-Mode1Execution.ps1' -or
+               $q.production_uel_sha256 -cne 'CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6'){throw 'INVALID_P158_PRESUBMISSION_CONTRACT'}
+            foreach($binding in @($q.execution_adapter,$q.manifest,$q.independent_review,$q.operation_definition)){
+                if(-not $binding -or -not $q.scientific_dependencies.PSObject.Properties[$binding]){throw 'P158_BINDING_REQUIRED'}
+            }
+            $review=Get-Content -LiteralPath (Join-Path $Workspace $q.independent_review) -Raw|ConvertFrom-Json
+            $definition=Get-Content -LiteralPath (Join-Path $Workspace $q.operation_definition) -Raw|ConvertFrom-Json
+            if($review.verification_passed -ne $true -or $review.reviewed_by -cne 'codex-controller-maintenance' -or
+               $definition.registration_status -cne 'REVIEWED_FOR_TECHNICAL_QUALIFICATION' -or
+               $definition.reviewed_by -cne 'codex-controller-maintenance'){throw 'P158_INDEPENDENT_REVIEW_REQUIRED'}
+            $batch=Get-Content -LiteralPath (Join-Path $Workspace $q.manifest) -Raw|ConvertFrom-Json
+            if($batch.scientific_scope -cne 'MODE1' -or $batch.jobs.Count -ne 1 -or
+               $batch.jobs[0].id -cne 'M1_P158_C2_0_R5' -or $batch.jobs[0].cpus -ne 1 -or
+               $batch.jobs[0].memory_gb -gt 16 -or $batch.jobs[0].walltime_hours -gt 8 -or
+               $batch.max_submissions -ne 1 -or $batch.automatic_retry -ne $false){throw 'P158_EXACT_ONCE_ONLY_MANIFEST_REQUIRED'}
+        } elseif($opId -ceq 'execute_mode1_package157_c1_2_r4_adaptive_continuation'){
+
             $expected='models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r4/EXECUTION_MANIFEST.json'
             if($q.status -ne 'QUALIFIED_FOR_PREFLIGHT' -or $q.pbs_job_id -or
                $scriptRel -cne 'scripts/validation/execute_package157_r4.py' -or $q.manifest -cne $expected -or
