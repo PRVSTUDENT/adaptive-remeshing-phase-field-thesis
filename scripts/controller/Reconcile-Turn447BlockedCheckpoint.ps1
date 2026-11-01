@@ -135,3 +135,4 @@ Write-Host "Checkpoint $RunId reconciled successfully." -ForegroundColor Green
 Write-Host "Archive: $archivePath (SHA: $archiveHash)"
 Write-Host "Reconciliation Status: $($checkRead.reconciliation.status)"
 Write-Host "Verified Completed Turn: $($checkRead.turn), Next Turn: $([int]$checkRead.turn + 1)"
+

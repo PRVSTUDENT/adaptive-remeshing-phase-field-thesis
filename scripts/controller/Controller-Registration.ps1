@@ -37,10 +37,10 @@ function Get-ControllerRegistrationPlan([string]$Workspace,[string]$Instruction,
     }
 
     # Determine if operation has passed authenticated independent review
+    # Every transition to REVIEWED / QUALIFIED MUST cryptographically verify signature & file hashes
     $hasApprovedReview = $false
-    if($definition.registration_status -eq 'REVIEWED_FOR_TECHNICAL_QUALIFICATION' -and $definition.reviewed_by){
-        $hasApprovedReview = $true
-    } elseif($disp -and $disp.status -in @('REVIEWED','TECH_QUALIFIED','SUBMITTING','SUBMITTED','RUNNING','TERMINAL','EVALUATED') -and $disp.review -and $disp.review.decision -and $disp.review.decision.decision -eq 'APPROVE'){
+    $checkReviewCmd = & py -3 (Join-Path $PSScriptRoot 'review_dispatcher.py') --workspace $Workspace --operation-id $id --check-review 2>&1
+    if ($LASTEXITCODE -eq 0 -and ($checkReviewCmd | Out-String) -match 'AUTHENTICATED_INDEPENDENT_REVIEW') {
         $hasApprovedReview = $true
     }
 

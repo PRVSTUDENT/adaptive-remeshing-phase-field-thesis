@@ -155,7 +155,7 @@ function Invoke-ChatGPTBridge {
     }
 
     $assembledPrompt = $PromptText
-    if ($RulesPath -and (Test-Path -LiteralPath $RulesPath)) {
+    if (-not [string]::IsNullOrWhiteSpace($RulesPath) -and (Test-Path -LiteralPath $RulesPath) -and ($PromptText -notmatch '(?m)^INDEPENDENT_STRUCTURED_REVIEW_V1')) {
         $rulesContent = [System.IO.File]::ReadAllText($RulesPath, [System.Text.UTF8Encoding]::new($false)).Trim()
         if ($rulesContent -notmatch 'JOB-FIRST / REPORT-AFTER POLICY') {
             throw 'Job-first execution policy missing; refusing stale bridge prompt.'

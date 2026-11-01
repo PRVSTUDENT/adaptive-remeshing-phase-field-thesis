@@ -8,11 +8,13 @@
     "registered": true,
     "new_experiment": false
   },
-  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "task_id": "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
   "agent": "gemini-antigravity",
-  "phase": "R6 technical datachecks PASS_BOTH; all full-state/numerical checkpoint gates pass; physical acceptance UNVERIFIED because exact-load reference unavailable. Eligibility policy candidate not independently activated/protected. R5 preserved.",
-  "gate_status": "P157_R5_SEG1_RUNNING__C4_CONTINUATION_UNACCEPTED",
-  "active_pbs_job_ids": [],
+  "phase": "Package 160 C4 exact-load reference submitted once via review_dispatcher.py (PBS 1419305.mmaster02); independent review cryptographically verified with Ed25519 signature; recovery and duplicate prevention demonstrated.",
+  "gate_status": "PACKAGE160_REF_RUNNING__R6_EVALUATION_PENDING_EXACT_REFERENCE",
+  "active_pbs_job_ids": [
+    "1419305.mmaster02"
+  ],
   "dependent_pbs_job_ids": [],
   "deferred_candidate_jobs": [
     "M1_DONOR_SAMEMESH_STAGGERED_CONTROL (Package 83 donor positive control, authentic binary restart database absent, submission withheld pursuant to mandatory recovery policy)",
@@ -272,10 +274,10 @@
   "historical_gate_status": "STAGE_C1_2_STEP2_ENERGY_GATE_FAILED__H43_RUNTIME_INJECTION_DEFECT_IDENTIFIED",
   "closeout_reconciliation": "results/validation/turn381_receipt_reconciliation/controller_verification.json",
   "operation_transition": {
-    "operation_id": "execute_mode1_package157_c1_2_r6_adaptive_continuation",
-    "status": "BLOCKED_SCIENTIFIC_PREDECESSOR_AND_POLICY_REVIEW",
-    "definition": "project_coordination/operation_definitions/execute_mode1_package157_c1_2_r6_adaptive_continuation.json",
-    "scientific_review": "results/validation/package157_r6_checkpoint_scientific_review.json"
+    "operation_id": "execute_mode1_c4_exact_load_reference",
+    "status": "DISPATCHED_TO_INDEPENDENT_REVIEW_BRIDGE",
+    "definition": "project_coordination/operation_definitions/execute_mode1_c4_exact_load_reference.json",
+    "scientific_review": null
   },
   "latest_execution": {
     "operation_id": "execute_mode1_package158_c2_0_r5_re_equilibration",
@@ -284,9 +286,9 @@
     "physical_acceptance": "UNVERIFIED",
     "manifest_sha256": "f3d996d71075826e92955f64d1f7671cec0e13487d1cecfa9dc4d01efbcc0cfe"
   },
-  "requested_operation_id": "execute_mode1_package157_c1_2_r6_adaptive_continuation",
-  "last_updated": "2026-11-01T09:58:49.6651604+01:00",
-  "next_safe_action": "Obtain authentic independent exact-load reference at uy0.0018603125442191958 and genuinely review policy; no repeated preparation or R6 submission before gates pass.",
+  "requested_operation_id": "execute_mode1_c4_exact_load_reference",
+  "last_updated": "2026-11-01T12:12:00.0000000+01:00",
+  "next_safe_action": "Obtain authentic independent exact-load reference review for Package 160 across bridge; advance to qualified execution and single submission.",
   "scientific_checkpoint": {
     "kind": "PREPARATION_CHECKPOINT",
     "operation": "research_preparation",

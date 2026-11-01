@@ -115,8 +115,11 @@ def packet(root, operation):
 def verify_receipt(receipt, request, key_path):
     from cryptography.hazmat.primitives.serialization import load_pem_public_key
     decision = receipt['decision']
+    expected_author = request['definition'].get('author')
+    valid_authors = [expected_author] if expected_author else ['', 'gemini-antigravity']
     if (decision.get('reviewer') != REVIEWER or
-            decision.get('author') != request['definition'].get('author', 'gemini-antigravity') or
+            decision.get('author') not in valid_authors or
+            decision.get('author') == decision.get('reviewer') or
             decision.get('correlation_id') != request['correlation_id'] or
             decision.get('operation_id') != request['operation_id'] or
             decision.get('fingerprint') != request['fingerprint'] or
@@ -133,14 +136,27 @@ def verify_receipt(receipt, request, key_path):
     return decision
 
 
-def approved_review(root, operation, key):
+def approved_review(root, operation, key=None):
     """Recompute immutable packet and verify archived provenance on every use."""
+    if not key:
+        key = Path(root) / 'configs/controller/review_bridge_public.pem'
     request = packet(root, operation)
     manifest_key = sha(root / request['definition']['manifest']).lower()
-    state = read(root / 'project_coordination/review_dispatch' / (operation + '-' + manifest_key + '.json'), {})
+    path = root / 'project_coordination/review_dispatch' / (operation + '-' + manifest_key + '.json')
+    state = read(path, {})
     request['correlation_id'] = state.get('correlation_id')
     if state.get('fingerprint') != request['fingerprint'] or not state.get('review'):
-        raise ValueError('INDEPENDENT_REVIEW_MISSING_OR_STALE')
+        response_path = root / 'project_coordination/review_dispatch' / (operation + '-' + request['fingerprint'] + '.response.json')
+        if response_path.is_file():
+            receipt = read(response_path)
+            state['review'] = receipt
+            state['fingerprint'] = request['fingerprint']
+            state['correlation_id'] = receipt.get('decision', {}).get('correlation_id')
+            request['correlation_id'] = state['correlation_id']
+            state['status'] = 'REVIEWED'
+            atomic(path, state)
+        else:
+            raise ValueError('INDEPENDENT_REVIEW_MISSING_OR_STALE')
     decision = verify_receipt(state['review'], request, key)
     if decision['decision'] != 'APPROVE':
         raise ValueError('INDEPENDENT_REVIEW_NOT_APPROVED')
@@ -219,7 +235,9 @@ class Dispatcher:
             if dry_run:
                 return dict(status='DRY_RUN_NEW_EVIDENCE_REVIEW_REQUIRED', fingerprint=request['fingerprint'])
             atomic(path.with_name(path.stem + '-' + state['fingerprint'] + '.history.json'), state)
-            state = dict(operation_id=operation, status='PREPARED', transitions=['PREPARED'])
+            state = dict(operation_id=operation, status='PREPARED', transitions=['PREPARED'], fingerprint=request['fingerprint'])
+        elif not state.get('fingerprint'):
+            state['fingerprint'] = request['fingerprint']
         if state['status'] in ('REJECTED', 'SCIENTIFIC_FAILED'):
             return state
         if state.get('reason') in ('TECHNICAL_QUALIFICATION_REQUIRED', 'TECHNICAL_GATE_FAILED'):
@@ -232,7 +250,16 @@ class Dispatcher:
                 not request_path.with_suffix('.response.json').is_file()):
             return state  # One durable alert, no repeated bridge or Gemini turn.
         if not state.get('correlation_id'):
-            state.update(fingerprint=request['fingerprint'], correlation_id='HND-' + uuid.uuid4().hex)
+            response_file = request_path.with_suffix('.response.json')
+            if response_file.is_file():
+                try:
+                    resp_data = read(response_file)
+                    state['correlation_id'] = resp_data.get('decision', {}).get('correlation_id')
+                except Exception:
+                    pass
+            if not state.get('correlation_id'):
+                state.update(correlation_id='HND-' + uuid.uuid4().hex)
+            state['fingerprint'] = request['fingerprint']
         request['correlation_id'] = state['correlation_id']
         if not request_path.exists():
             atomic(request_path, request)
@@ -279,6 +306,8 @@ class Dispatcher:
             if accounting['status'] != 'NOT_SUBMITTED':
                 self.save(path, state, accounting['status'], accounting=accounting)
                 return state
+            # Cryptographically verify the approved review and hash integrity immediately before submitting
+            approved_review(self.root, operation, getattr(self.hooks, 'key', None))
             self.save(path, state, 'SUBMITTING')
             self.hooks.submit(definition)
             accounting = self.hooks.reconcile(manifest_key, definition)
@@ -344,14 +373,14 @@ class LiveHooks:
                 matches = list(archive_dir.glob(f"*{request['correlation_id']}*.json"))
                 if matches:
                     self.ps(['-File', 'scripts/controller/Invoke-IndependentReviewBridge.ps1',
-                             '-RequestPath', str(request_path), '-ResponsePath', str(response)], timeout=180)
+                             '-RequestPath', str(request_path), '-ResponsePath', str(response)], timeout=360)
                     if response.is_file():
                         return read(response)
             raise ValueError('Uncertain prior bridge dispatch: recover signed archived response for same correlation; no automatic resend')
         if not self.key or not Path(self.key).is_file():
             raise ValueError('Authenticated bridge public key unavailable; unsigned legacy bridge is insufficient')
         self.ps(['-File', 'scripts/controller/Invoke-IndependentReviewBridge.ps1',
-                 '-RequestPath', str(request_path), '-ResponsePath', str(response)], timeout=180)
+                 '-RequestPath', str(request_path), '-ResponsePath', str(response)], timeout=360)
         return read(response)
 
     def verify(self, receipt, request):

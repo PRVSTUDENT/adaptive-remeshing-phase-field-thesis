@@ -8,6 +8,7 @@
   "candidate_job": "M1_C4_EXACT_REF",
   "manifest": "models/pandey_kumar_mode1/160_c4_exact_load_reference/EXECUTION_MANIFEST_REF.json",
   "scope": "Serial Mode-I continuous C4 exact-load reference simulation only",
+  "source_differences": "Package 160 is derived directly from verified baseline Package 147 (continuous C4 reference mesh, 7,056 quads, 7,265 nodes, fine crack-tip element size h = 0.68 um, frozen UEL). Step 1 is bitwise identical to Package 147 loading to uy = 0.0018003125442192 mm (Frame 77). Step 2 continues monotonic displacement from uy = 0.0018003125442192 mm to exactly uy = 0.0018603125442191958 mm (delta uy = 0.0000600000000000 mm, velocity 0.005 mm/s, step time 0.012 s) terminating at the Abaqus step boundary to provide an exact, non-interpolated reference frame for R6 reaction force and RAW total energy. All material parameters (E=210 kN/mm2, nu=0.3, Gc=0.0027 kN/mm, l0=0.0075 mm, k=1e-7) and boundary conditions are identical. Compute-node mechanical and phase datachecks verified Exit 0 (PASS_BOTH).",
   "physical_acceptance": "UNVERIFIED",
   "scientific_hypothesis": "Independently solving the verified C4 continuous reference formulation with Step 2 explicitly terminated at uy = 0.0018603125442191958 mm provides an authentic, non-interpolated reference frame for reaction force and RAW total energy to verify R6 physical acceptance without modifying the frozen UEL or relaxing continuity thresholds.",
   "mathematical_formulation": {

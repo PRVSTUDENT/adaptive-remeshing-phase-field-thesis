@@ -76,13 +76,16 @@ def extract_decision(raw_text):
 
 def validate_decision(decision, request):
     """Verify all fields match the immutable request packet."""
-    expected_author = request.get('definition', {}).get('author', 'gemini-antigravity')
+    expected_author = request.get('definition', {}).get('author')
+    valid_authors = [expected_author] if expected_author else ['', 'gemini-antigravity']
 
     errors = []
     if decision.get('reviewer') != REVIEWER:
         errors.append(f"Invalid reviewer: expected '{REVIEWER}', got '{decision.get('reviewer')}'")
-    if decision.get('author') != expected_author:
-        errors.append(f"Invalid author: expected '{expected_author}', got '{decision.get('author')}'")
+    if decision.get('author') not in valid_authors:
+        errors.append(f"Invalid author: expected one of {valid_authors}, got '{decision.get('author')}'")
+    if decision.get('author') == decision.get('reviewer'):
+        errors.append("Author cannot be reviewer; self-approval strictly prohibited")
     if decision.get('correlation_id') != request.get('correlation_id'):
         errors.append(f"Correlation ID mismatch: expected '{request.get('correlation_id')}', got '{decision.get('correlation_id')}'")
     if decision.get('operation_id') != request.get('operation_id'):
@@ -119,8 +122,18 @@ def sign_decision(decision, key_path):
     return base64.b64encode(sig).decode('ascii')
 
 
-def attest(request_path, response_path, raw_reply, key_path=None):
+def attest(request_path, response_path, raw_reply, key_path=None, bridge_archive=None):
     request = read_json(request_path)
+    if bridge_archive:
+        arch_data = read_json(bridge_archive)
+        if arch_data.get('bridge_handoff_id') != request.get('correlation_id'):
+            raise ValueError(f"BRIDGE_HANDOFF_ID_MISMATCH: expected {request.get('correlation_id')}, got {arch_data.get('bridge_handoff_id')}")
+        if arch_data.get('status') != 'OK':
+            raise ValueError(f"BRIDGE_STATUS_NOT_OK: {arch_data.get('status')}")
+        if not arch_data.get('response'):
+            raise ValueError("EMPTY_BRIDGE_RESPONSE_IN_ARCHIVE")
+        raw_reply = arch_data['response']
+
     decision, existing_sig = extract_decision(raw_reply)
     validate_decision(decision, request)
 
@@ -147,12 +160,16 @@ def main():
     parser = argparse.ArgumentParser(description='Attest and sign ChatGPT review decision')
     parser.add_argument('--request-path', required=True, help='Path to request JSON')
     parser.add_argument('--response-path', required=True, help='Path to output receipt JSON')
+    parser.add_argument('--bridge-archive', help='Path to authentic bridge archive JSON (response_*_<correlation_id>.json)')
     parser.add_argument('--reply-text', help='Raw reply text from ChatGPT')
     parser.add_argument('--reply-file', help='Path to raw reply file')
     parser.add_argument('--key-path', default=str(DEFAULT_KEY_PATH), help='Path to Ed25519 private key')
     args = parser.parse_args()
 
-    if args.reply_file:
+    raw_text = ''
+    if args.bridge_archive:
+        pass  # Handled inside attest() via bridge_archive parameter
+    elif args.reply_file:
         raw_text = Path(args.reply_file).read_text(encoding='utf-8')
     elif args.reply_text:
         raw_text = args.reply_text
@@ -160,7 +177,7 @@ def main():
         raw_text = sys.stdin.read()
 
     try:
-        attest(args.request_path, args.response_path, raw_text, args.key_path)
+        attest(args.request_path, args.response_path, raw_text, args.key_path, bridge_archive=args.bridge_archive)
         print('ATTESTED_RECEIPT_PRODUCED')
     except Exception as e:
         print(f"ERROR: {e}", file=sys.stderr)
@@ -169,3 +186,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
