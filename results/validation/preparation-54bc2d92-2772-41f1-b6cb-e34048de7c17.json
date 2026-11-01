@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "task_id": "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
+  "controller_run_id": "54bc2d92-2772-41f1-b6cb-e34048de7c17",
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "verification_passed": true,
+  "finding": "Mode-I C5 PDAS Active-Set Correction & Candidate Package 164 Qualified: 1) HPC reconciliation confirmed Job 1419458.mmaster02 (Package 162 C5 re-equilibration) actively executing on compute node mnode097 (cycling outer iteration 69/100) with stagnated zero state increments (delta_d=0, delta_u=0, delta_h=0, dual_error=1.9501e-6); job preserved without interference. 2) Implemented canonical Hintermüller-Ito-Kunisch PDAS active-set update in scripts/state_transfer/driver_package164_c5_pdas_corrected.py: A = {i : d_i - c * lambda_i <= d0_i + eps_pdas} with c=1.0 and eps_pdas=1e-9. Nodes with r_i < -1e-9 (crack driving force exceeding resistance) are released into the free set I to evolve on DOF 3, resolving the crack-tip dual defect. 3) Validated 4/4 passing unit tests in tests/unit/test_package164_c5_pdas_correction.py, confirming 11,253 nodes clamped to d0, exactly 2,025 crack-tip nodes released (r_i < -1e-9, peak dual defect -1.81e-6 to -1.95e-6 kN*mm at x=0.040, y=0.050 mm), and strict state bounds (0 <= d <= 1, H >= 0). 4) Formulated and built candidate Package 164 in models/pandey_kumar_mode1/164_c5_package164_c2_0_pdas_corrected with 12,996 quads, 13,278 nodes, 51,984 GPs, verified manifests, and frozen UEL. 5) Marked submission decision WITHHELD_ACTIVE_PREDECESSOR pending completion of running Job 1419458.",
+  "evidence_sources": {
+    "scripts/state_transfer/driver_package164_c5_pdas_corrected.py": "19F95FC4D33E38E28BFC08BE853A3B5E4B8E299466F2AF11B654EFC2A48C540E",
+    "scripts/state_transfer/build_package164_c5_pdas_corrected.py": "D39590F4138FAFEFB0CD4CE342DDED5B36ADB2CDB43B88C4C40E5080D828C06C",
+    "tests/unit/test_package164_c5_pdas_correction.py": "D5CF716EBC12E35A348B96A51F131267B16B2CFA26289B3E6500E5ADB90C47A1",
+    "models/pandey_kumar_mode1/164_c5_package164_c2_0_pdas_corrected/PACKAGE_MANIFEST.json": "8B0EEE8BBDB20564264EDE8FDB2450780834CE98DFF1C11F1454E8E4ADC272B1",
+    "models/pandey_kumar_mode1/164_c5_package164_c2_0_pdas_corrected/EXECUTION_MANIFEST.json": "3B822E312DB721C038D02F2C7603DBEA843C69234D207CD9F8E3C506FCD3A91C"
+  }
+}
