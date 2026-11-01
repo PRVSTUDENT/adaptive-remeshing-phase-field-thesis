@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Live PBS Job 1419359.mmaster02 (M1_C4_P157_C1_2_R6) is actively executing on mnode097 with monotonic coupled convergence confirmed through outer iteration 102 (delta_d=6.00e-8, delta_u=3.15e-11 mm, delta_h=1.660e-6 MPa, free_error=1.13e-12, dual_error=0.0). As delta_h > 1e-6 MPa, terminal coupled convergence is not yet established and R7 remains held. Independent quantitative convergence analysis across multiple iteration windows (10, 20, 30 iterations) yields robust geometric contraction: rho_H = 0.9068 +/- 0.0010 (R^2 = 0.9987), rho_d = 0.9092, rho_u = 0.9061. Extrapolation establishes that R6 requires approximately 6 additional iterations, projecting terminal convergence at outer iteration 108 (well before outer 130 and comfortably within the allocated max_outer = 150 budget). R7's +10 nm increment is budgeted for max_outer = 120, which provides an empirical safety margin of 12 to 29 iterations (historical P157 Step 1 required 91 outers at 10 nm), backed by driver bisection safeguards. Independent C5 Package 160 remains strictly preserved at Checkpoint 01.",
+  "evidence_sources": {
+    "scripts/validation/assess_r6_convergence_and_r7_budget.py": "E3E6954B207A243107362601ECC7AFE39D73A343A9822CCC759FD6E9FAA24C0E",
+    "results/validation/r6_convergence_and_r7_budget_assessment.json": "7655C5E8FFEA74FF8E40B51DD4CA6B87A9F3DC2368EA5FEA581EAA560234B4C3",
+    "tests/unit/test_r6_convergence_and_r7_budget_assessment.py": "A7E20C118FE9282FADABEEFF2794964768EF0CE1AFF8047253941EEAE7E90914",
+    "results/validation/r6_live_iteration_telemetry_snapshot.json": "5272EF3CE8862F7C2C17CA24B190D071115D623F48960D1B3FE003EF07A74788",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r7/PACKAGE_MANIFEST.json": "82124A3B00C4DCDA107EE24FE2CAB2673DFC5AFCCC1A06217A6FEE28DF6D5EE9",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r7/EXECUTION_MANIFEST.json": "720D763A21FD8F4D2F8BC45EEC5CA6DE26E92F53EB119714E2EAD6A9541CBB51",
+    "scripts/state_transfer/driver_package157_r7.py": "B1EF3E25AFAF55D452B35FC9E0AA90C4698E703FC7A29489DDCDFCCD0E4EA4C5"
+  },
+  "verification_passed": true,
+  "metadata": {
+    "live_job_id": "1419359.mmaster02",
+    "live_job_outer_iteration": 102,
+    "delta_d": 6.0e-08,
+    "delta_u_mm": 3.1514786765461655e-11,
+    "delta_h_MPa": 1.660475216880286e-06,
+    "empirical_rho_h": 0.9068,
+    "projected_terminal_outer": 108,
+    "r6_budget_max_outer": 150,
+    "r7_budget_max_outer": 120,
+    "r7_safety_margin_iters": 12,
+    "submission_disposition": "WITHHELD_PENDING_PREDECESSOR_PHYSICAL_ACCEPTANCE"
+  }
+}
