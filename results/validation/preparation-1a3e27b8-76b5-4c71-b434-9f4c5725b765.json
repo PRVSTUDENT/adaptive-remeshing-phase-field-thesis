@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Forensic audit of Package 158 R4 (Job 1419174.mmaster02) identified that outer iteration 69 satisfied all reported coupled convergence tolerances (delta_d=2.1226e-8 <= 1e-5, delta_u=1.1531e-11 mm <= 1e-9, delta_h=8.5505e-7 MPa <= 1e-6, free_error=1.2283e-13 <= 1e-6, dual_error=0.0 <= 1e-9) and physical acceptance gates (RF2=0.18254 kN vs 0.18501 kN, 1.33% <= 5%; RAW total energy=0.00022269 kNmm vs 0.00022233 kNmm, 0.16% <= 2%), but failed commitment because driver_package158_error_driven_re_equilibration.py line 188 prescribed damage[n] rather than self.d0[n] for active set nodes. This locked an unhealed continuous-Galerkin numerical undershoot of -4.8264e-06 into the Dirichlet BC, violating the -1.0e-06 healing tolerance, which forced kkt['passed']=False, dispatched 20 redundant phase sub-solves, advanced to outer 70, and hit the 25,200 s walltime deadline before checkpoint commitment. Outer 69 cannot be certified as an authentic equilibrium checkpoint due to this unhealed -4.8e-6 damage violation. Disposition classified as CONVERGENCE_COMMIT_DEFECT_IDENTIFIED.",
+  "evidence_sources": {
+    "scripts/state_transfer/driver_package158_error_driven_re_equilibration.py": "90CE70502A54642B52F6C121382F2ADB8C6ACB19B5707E46EBFF40652F8399FA",
+    "tests/unit/test_package158_re_equilibration.py": "912C7F6AA453DB64189CA4812DE17B8C6C001455B9D159BF6F69F751A4DB99C1",
+    "results/validation/package158_r4_pilot_submission_receipt.json": "FE3C6695FB09474C1FF39603C7E43E29D26E97C8A5BAF54062992AE16ECE9F95",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/PACKAGE_MANIFEST.json": "F7C490F29D35CAE6AAC137EFDE8AF6A60830A59607163ED32A35851A059A5FA9",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/nodal_phase_field_initial.csv": "6061E845AB06761BC07D8113BA42D6CF64669889E392D0DD5C9218F0E364CDFA",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/d_lower_bounds.csv": "F2AE3212CAF352FEF177F6C9176E4C110EE72DE32E0E98E73FAB0AC3FE31BDF7",
+    "scripts/validation/remote_audit_package158.py": "DCBE78B4A620E2649DFEE4062DD737D7D4B76CB13C666CF73F7D038BB7CA0744"
+  },
+  "verification_passed": true
+}
