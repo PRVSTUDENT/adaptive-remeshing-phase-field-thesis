@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "classification": "P159_SERIAL_WALLTIME_RISK",
+  "finding": "Package 159 HPC feasibility audit completed (P159_SERIAL_WALLTIME_RISK): (1) Authentic P158 R4 telemetry (Job 1419174, 12544 quads) measured 25200 s across 69 outers (365.2 s/outer, 17.39 s/sub-solve) with asymptotic contraction rho = 0.8286 requiring 69-70 outers to reach delta_H <= 1e-6 MPa. (2) For Package 159 (13924 quads, +11.0%), sub-solve duration scales to 19.65 s. Under the uncorrected driver (20 inner phase solves/outer due to active-set undershoot), Package 159 requires 412.6 s/outer, projecting 28885 s (8.02 h), which exceeds the 8.0-hour PBS walltime ceiling (max 69 outers feasible in 8 h with zero safety margin). (3) Root-cause mitigation: Prescribing active-set lower obstacles (self.d0[n]) reduces inner solves from 20 to 1-3, lowering outer duration to 59-78 s and full coupled convergence to 1.15-1.53 h (well within 8 h). (4) Recommendation: Verify and qualify the active-set remedy on Package 158 R5 before scheduling Package 159 execution.",
+  "evidence_sources": {
+    "scripts/validation/audit_package159_hpc_feasibility.py": "AF0F9E4E97C9EC601FA49614AD2B638ADFEEBE4AF19FC1DDE8A6BAA2C414FA99",
+    "tests/unit/test_package159_hpc_feasibility.py": "70AD86A868891BBB1BD0C90E6A1D7C3FA27247494837A0F9B307588A7424A2C3",
+    "results/validation/package159_hpc_feasibility_analysis.json": "47F6E4FB30BD1D8B705608E2A39270A40A26E1D283D6FE405307C13406154DB4",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/live_iteration_telemetry_1419174.json": "EE0E7C598BE3D3496129234D237943A3688402D17343A7C3F32FDDA9ACC61B9B",
+    "results/validation/package158_driver_defect_forensic_analysis.json": "F9DE0622D8C59F0583FC02C417EBE02C8A3493A3333218880BF61D6968066FEC"
+  },
+  "verification_passed": true
+}
