@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "task_id": "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
+  "controller_run_id": "515a647d-33ba-4b5f-90d5-3eb05235f81d",
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "verification_passed": true,
+  "finding": "Package 161 C5 re-equilibration qualified, submitted, and authentically executed on HPC as Job 1419375.mmaster02: 1) Clean versioned Package 161 created and verified with all 12 files matching lowercase hex digests in PACKAGE_MANIFEST.json and EXECUTION_MANIFEST.json; 6/6 unit tests passed in test_package161_correction_and_preflight.py. 2) Startup verification succeeded locally and on mlogin01.cluster: all 12,996 quads, 13,278 nodes, 51,984 history GPs, and holding load uy=0.00186031 mm verified. 3) Dispatched via Invoke-Mode1Execution.ps1; accepted by scheduler as Job 1419375.mmaster02 in normal_imfdfkmq alongside running predecessor R7 Job 1419365.mmaster02. 4) Authentic compute execution confirmed: Abaqus 2023 solved the mechanical subproblem P160_S1_01_00_mechanical to completion in 2 equilibrium iterations (THE ANALYSIS HAS COMPLETED SUCCESSFULLY). 5) Terminal postprocessing failure isolated: iteration extractor extract_package148_iteration.py raised RuntimeError on step identity C2_0_Step1 due to hardcoded step-name whitelist. Defect isolated and evidenced; predecessor R7 Job 1419365.mmaster02 actively running on mnode097/0.",
+  "evidence_sources": {
+    "results/validation/mode1_f1597/1419375_pbs_execution.log": "7E93E904992E8111046700AAEEB90C9CF5B85013053FE77697B29CB5667D7111",
+    "results/validation/mode1_f1597/1419375_extractor_stdout.txt": "4E15C5DB33B5CF827389FFCF60F9CE00B388675D54E6360B6DA0B5229B2CD792",
+    "results/validation/mode1_f1597/1419375_P160_S1_01_00_mechanical.sta": "292244F55E0BD0C139BE68639E94A36AC555A29337DAE249D5AB9209EFC33489",
+    "models/pandey_kumar_mode1/161_c5_package161_c2_0_re_equilibration/EXECUTION_MANIFEST.json": "06C50B879222B7B3AC2FFA3ED8AA75EDE6BCA93AE04A309DE1C54ABD032EB6E5",
+    "tests/unit/test_package161_correction_and_preflight.py": "C9A3FC2794177CF0249831CBDF540257DC95E97CE726E5B25CE4EDCDD0FF6B40"
+  }
+}

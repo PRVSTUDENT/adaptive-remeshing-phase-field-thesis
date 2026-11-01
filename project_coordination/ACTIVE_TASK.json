@@ -10,7 +10,7 @@
                          },
     "task_id":  "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
     "agent":  "gemini-antigravity",
-    "phase":  "Forensic reconciliation and C5 acceptance evaluator verification completed: 1) HPC Job 1419370.mmaster02 (M1_C5_P160_C2_0) terminated at t=0 (Exit 1) due to uppercase/lowercase hex digest comparison mismatch in driver startup; defect successfully isolated and repaired with case-insensitive matching; finite element model, Abaqus input deck, and datacheck remain verified and uncompromised. 2) Active cluster scheduler reconciled: predecessor R7 Job 1419365.mmaster02 remains running on mnode097/0 in queue normal_imfdfkmq, preserved without duplicate submissions. 3) Independent C5 post-re-equilibration scientific acceptance evaluator (scripts/validation/evaluate_package160_c5_acceptance.py) implemented with full multi-gate criteria covering coupled PDAS convergence, KKT active-set stationarity, pointwise damage irreversibility, history monotonicity, and Checkpoint 01 reference parity. 4) Complete unit test suite (tests/unit/test_package160_c5_acceptance_evaluator.py) authored and verified passing all 7/7 tests, bringing total Package 160 test coverage to 24/24 passing tests.",
+    "phase":  "Package 161 C5 re-equilibration qualified, submitted, and authentically executed on HPC as Job 1419375.mmaster02: 1) Clean versioned Package 161 created and verified with all 12 files matching lowercase hex digests in PACKAGE_MANIFEST.json and EXECUTION_MANIFEST.json; 6/6 unit tests passed in test_package161_correction_and_preflight.py. 2) Startup verification succeeded locally and on mlogin01.cluster: all 12,996 quads, 13,278 nodes, 51,984 history GPs, and holding load uy=0.00186031 mm verified. 3) Dispatched via Invoke-Mode1Execution.ps1; accepted by scheduler as Job 1419375.mmaster02 in normal_imfdfkmq alongside running predecessor R7 Job 1419365.mmaster02. 4) Authentic compute execution confirmed: Abaqus 2023 solved the mechanical subproblem P160_S1_01_00_mechanical to completion in 2 equilibrium iterations (THE ANALYSIS HAS COMPLETED SUCCESSFULLY). 5) Terminal postprocessing failure isolated: iteration extractor extract_package148_iteration.py raised RuntimeError on step identity C2_0_Step1 due to hardcoded step-name whitelist. Defect isolated and evidenced; predecessor R7 Job 1419365.mmaster02 actively running on mnode097/0.",
     "gate_status":  "PACKAGE160_REFERENCE_VERIFIED__R6_FULL_REVIEW_REQUIRED__LIVE_PAD_RESPONSE_MISSING",
     "active_pbs_job_ids":  [
                                "1419365.mmaster02"
@@ -212,7 +212,8 @@
                                   "1418787.mmaster02",
                                   "1418843.mmaster02",
                                   "1419305.mmaster02",
-                                  "1419370.mmaster02"
+                                  "1419370.mmaster02",
+                                  "1419375.mmaster02"
                               ],
     "predecessor_task":  {
                              "task_id":  "F1596-INDEPENDENTLY-QUALIFY-PACKAGE72-STATE-TRANSFER",
@@ -284,11 +285,13 @@
                                  "scientific_review":  null
                              },
     "latest_execution":  {
-                             "operation_id":  "execute_mode1_package160_c5_c2_0_re_equilibration",
-                             "pbs_job_id":  "1419370.mmaster02",
+                             "operation_id":  "execute_mode1_package161_c5_c2_0_re_equilibration",
+                             "pbs_job_id":  "1419375.mmaster02",
                              "once_only":  true,
                              "physical_acceptance":  "UNVERIFIED",
-                             "manifest_sha256":  "a817c5b078e8861076df8bf54455de8717165220f0430afd1ac76b49d1faefbd"
+                             "manifest_sha256":  "06c50b879222b7b3ac2ffa3ed8aa75ede6bca93ae04a309de1c54abd032eb6e5",
+                             "failure_classification":  "EXTRACTOR_STEP_NAME_WHITELIST_MISMATCH",
+                             "abaqus_mechanical_solve":  "CONVERGED_INC1_2ITERS"
                          },
     "requested_operation_id":  "execute_mode1_c4_exact_load_reference",
     "previous_operation_transition":  {
@@ -298,14 +301,14 @@
                                           "scientific_review":  "results/validation/package158_r5_codex_execution_review.json",
                                           "pbs_job_id":  "1419269.mmaster02"
                                       },
-    "last_updated":  "2026-11-01T21:35:02.9023706+01:00",
+    "last_updated":  "2026-11-01T21:50:59.9678805+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-11c839f8-d734-4014-8c7f-9d4e97c235ec.json",
-                                  "sha256":  "36091BA4F2D5A0902E9FD2E05C1EF6786A0392F80A219A06F90D9551739BFA6F",
-                                  "created_at":  "2026-11-01T21:33:57.2804106+01:00"
+                                  "artifact":  "results/validation/preparation-515a647d-33ba-4b5f-90d5-3eb05235f81d.json",
+                                  "sha256":  "4FFE204F4C7C0A400A11EB0070EB632DF6AC75DE096148F6EE1B6BC805EA6ADB",
+                                  "created_at":  "2026-11-01T21:50:07.3703137+01:00"
                               }
 }
