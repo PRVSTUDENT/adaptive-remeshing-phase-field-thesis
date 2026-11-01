@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Resolved operation status for execute_mode1_package157_c1_2_r6_adaptive_continuation through canonical resolver; confirmed definition review remains unresolved (registration_status: REVIEW_REQUIRED). Emitted fingerprinted definition-review event project_coordination/controller/definition-review-execute_mode1_package157_c1_2_r6_adaptive_continuation.json. Verified 7/7 offline unit tests, authentic Checkpoint 01 restart state (200BB2B0...), unchanged frozen UEL (CE8D5EDC...), candidate manifest R6, and serial 1-CPU baseline requirements. Solver execution withheld pending maintainer registration. Status: DEFINITION_REVIEW_REQUIRED.",
+  "evidence_sources": {
+    "results/validation/package157_r6_registration_review_audit.json": "91C355313AD47ABCD364A23E9408C9F2216028051F4EC747F50E085B097CCC77",
+    "project_coordination/operation_definitions/execute_mode1_package157_c1_2_r6_adaptive_continuation.json": "55E2B6541F2182DAA7F40595C5F2AACCBF4AE337FF20589FEF0EC340CD031228",
+    "project_coordination/controller/definition-review-execute_mode1_package157_c1_2_r6_adaptive_continuation.json": "66BEE1EA97F70D445DECD28633B52D4B4CA38D1EA612788C74CDA2BF2523E3A8",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/initial_checkpoint_01.json": "200BB2B03C8C9599A2B41FC43A88CCE4EEBC7B4195A20EB0F8E132D3D7925083",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/EXECUTION_MANIFEST.json": "2D4EE64A07DAC9FD3C4108B9D574C79B2B7CB2BAAAAEF63AB8F30A4C6B5E8E89",
+    "scripts/state_transfer/driver_package157_r6.py": "EC57875E34971EDEA198FA70378D157041392084CEBE81BE71E5864E9DDD8D65",
+    "tests/unit/test_package157_r6_candidate.py": "953F9292C2F95F3BEAB1BBE7921FA0CE2D82695453FDB2027D3C5421C1A4B343",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true,
+  "details": {
+    "requested_operation_id": "execute_mode1_package157_c1_2_r6_adaptive_continuation",
+    "resolver_status": "DEFINITION_REVIEW_REQUIRED",
+    "registration_status": "REVIEW_REQUIRED",
+    "event_fingerprint": "execute_mode1_package157_c1_2_r6_adaptive_continuation:55E2B6541F2182DAA7F40595C5F2AACCBF4AE337FF20589FEF0EC340CD031228:2D4EE64A07DAC9FD3C4108B9D574C79B2B7CB2BAAAAEF63AB8F30A4C6B5E8E89",
+    "candidate_package": "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6",
+    "baseline_uy_mm": 0.0018603125442191958,
+    "target_uy_mm": 0.0018653125442191958,
+    "proposed_max_outer": 130,
+    "unit_tests_status": "7_OF_7_PASSED",
+    "solver_execution": "WITHHELD_PENDING_MAINTAINER_REGISTRATION"
+  }
+}
