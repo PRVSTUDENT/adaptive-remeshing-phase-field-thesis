@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "investigation": "PACKAGE_159_DRIVER_READINESS_AND_ACTIVE_SET_AUDIT",
+  "classification": "P159_CORRECTED_DRIVER_OFFLINE_VERIFIED",
+  "finding": "Package 159 driver readiness audit completed (P159_CORRECTED_DRIVER_OFFLINE_VERIFIED): (1) Active-set obstacle clamp verified: Prescribing self.d0[n] on active nodes eliminates continuous-Galerkin undershoots (healing >= -1e-6 satisfied), resolving the root cause of the 20-inner-solve stall in Job 1419174. (2) KKT stopping criteria verified: When obstacle is respected, dual error <= 1e-9 and free error <= 1e-6 terminate inner phase iterations in 1-3 solves without cycling or premature termination. (3) Atomic checkpoint safety confirmed: Serialization occurs immediately inside the convergence block with .tmp and atomic replace, guarded by force (<=5%) and energy (<=2%) physical acceptance gates. (4) Isolated P159 driver created and verified offline on 13924 quads, 14216 nodes, and 55696 GP histories. (5) Walltime scenarios: Feasible for 1, 3, and 10 inner solves (0.85 h, 1.61 h, 4.29 h); exceeds 8 h only if inner solves hit the 20-solve ceiling (8.11 h, 69 outers max). (6) Operation blocker: execute_mode1_package158_c2_0_r5_re_equilibration remains REVIEW_REQUIRED; P159 driver is preserved as an isolated candidate pending empirical cluster demonstration of P158 R5.",
+  "evidence_sources": {
+    "scripts/state_transfer/driver_package158_error_driven_re_equilibration.py": "90CE70502A54642B52F6C121382F2ADB8C6ACB19B5707E46EBFF40652F8399FA",
+    "scripts/state_transfer/driver_package158_r5_error_driven_re_equilibration.py": "1A239A7EC279F50BD45021AA29D4C7116A82C631AFEEAE6C99ED03FDDD9D93AF",
+    "scripts/state_transfer/driver_package159_combined_indicator_re_equilibration.py": "49D1B8931134A00B46C1347E30B0133FEDE90D83B225B336C033C99B5BDB1D7D",
+    "scripts/validation/audit_package159_driver_readiness.py": "5FE0BA24D3D80500622107DE9FD6C9D9364E51A0E665B80647F651ED63BB1A5A",
+    "tests/unit/test_package159_driver_readiness.py": "DB8337F12CAB627312A2903280A5FD1BB5D48E9618B8C43CA350CB39D20889A6",
+    "results/validation/package159_driver_readiness_audit.json": "AF545F5AD221D227E54FE6485DDA6F9625E1B50A1CE290FCA8761CE202A08167",
+    "models/pandey_kumar_mode1/159_combined_indicator_receiver_candidate/candidate_receiver_manifest.json": "FC3D3E3798CBC57274590340A202CDBC8997E3DCA7269292F0114DC806330C4F",
+    "project_coordination/operation_definitions/execute_mode1_package158_c2_0_r5_re_equilibration.json": "A00D70991B40FF1140A125D713A9C89DFFB69923EEB33B503D6D0A4C338E3F22",
+    "project_coordination/operation_definitions/execute_mode1_package157_c1_2_r6_adaptive_continuation.json": "55E2B6541F2182DAA7F40595C5F2AACCBF4AE337FF20589FEF0EC340CD031228"
+  },
+  "registered_paths": [
+    "scripts/state_transfer/driver_package159_combined_indicator_re_equilibration.py",
+    "scripts/validation/audit_package159_driver_readiness.py",
+    "tests/unit/test_package159_driver_readiness.py",
+    "results/validation/package159_driver_readiness_audit.json"
+  ],
+  "verification_passed": true
+}

@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "investigation": "PACKAGE_159_DRIVER_READINESS_AND_ACTIVE_SET_AUDIT",
+  "classification": "P159_CORRECTED_DRIVER_OFFLINE_VERIFIED",
+  "finding": "Package 159 driver readiness audit completed (P159_CORRECTED_DRIVER_OFFLINE_VERIFIED): (1) Active-set obstacle clamp verified: Prescribing self.d0[n] on active nodes eliminates continuous-Galerkin undershoots (healing >= -1e-6 satisfied), resolving the root cause of the 20-inner-solve stall in Job 1419174. (2) KKT stopping criteria verified: When obstacle is respected, dual error <= 1e-9 and free error <= 1e-6 terminate inner phase iterations in 1-3 solves without cycling or premature termination. (3) Atomic checkpoint safety confirmed: Serialization occurs immediately inside the convergence block with .tmp and atomic replace, guarded by force (<=5%) and energy (<=2%) physical acceptance gates. (4) Isolated P159 driver created and verified offline on 13924 quads, 14216 nodes, and 55696 GP histories. (5) Walltime scenarios: Feasible for 1, 3, and 10 inner solves (0.85 h, 1.61 h, 4.29 h); exceeds 8 h only if inner solves hit the 20-solve ceiling (8.11 h, 69 outers max). (6) Operation blocker: execute_mode1_package158_c2_0_r5_re_equilibration remains REVIEW_REQUIRED; P159 driver is preserved as an isolated candidate pending empirical cluster demonstration of P158 R5.",
+  "evidence_sources": {
+    "scripts/state_transfer/driver_package158_error_driven_re_equilibration.py": "90CE70502A54642B52F6C121382F2ADB8C6ACB19B5707E46EBFF40652F8399FA",
+    "scripts/state_transfer/driver_package158_r5_error_driven_re_equilibration.py": "1A239A7EC279F50BD45021AA29D4C7116A82C631AFEEAE6C99ED03FDDD9D93AF",
+    "scripts/state_transfer/driver_package159_combined_indicator_re_equilibration.py": "49D1B8931134A00B46C1347E30B0133FEDE90D83B225B336C033C99B5BDB1D7D",
+    "models/pandey_kumar_mode1/159_combined_indicator_receiver_candidate/candidate_receiver_manifest.json": "FC3D3E3798CBC57274590340A202CDBC8997E3DCA7269292F0114DC806330C4F",
+    "project_coordination/operation_definitions/execute_mode1_package158_c2_0_r5_re_equilibration.json": "A00D70991B40FF1140A125D713A9C89DFFB69923EEB33B503D6D0A4C338E3F22",
+    "project_coordination/operation_definitions/execute_mode1_package157_c1_2_r6_adaptive_continuation.json": "55E2B6541F2182DAA7F40595C5F2AACCBF4AE337FF20589FEF0EC340CD031228"
+  },
+  "driver_comparison": {
+    "r4_defect_identified": "prescribed = {n: damage[n] for n in active} locks continuous-Galerkin undershoot (-4.8e-6) into Dirichlet BCs",
+    "r5_p159_clamp_remedy": "prescribed = {n: self.d0[n] for n in active} strictly enforces d >= d0 on obstacle nodes",
+    "healing_unclamped_value": -4.800000000000117e-06,
+    "healing_clamped_value": 0.0,
+    "healing_tolerance": 1e-06,
+    "stopping_criteria_audit": "When self.d0[n] is clamped, healing >= -1e-6 is satisfied by definition. Dual multipliers <= 1e-9 and free residual <= 1e-6 terminate inner solves in 1 to 3 iterations. No other stopping condition forces 20 inner solves."
+  },
+  "checkpoint_safety_audit": {
+    "immediate_commitment_verified": true,
+    "atomic_tmp_replace_verified": true,
+    "coupled_tolerance_enforced": true,
+    "physical_gates_enforced": {
+      "force_discrepancy_gate_pct": 5.0,
+      "energy_discrepancy_gate_pct": 2.0,
+      "donor_reference_force_kN": 0.18411666272311777,
+      "donor_reference_energy_kNmm": 0.00022418821426719904
+    },
+    "no_commitment_on_failure": true
+  },
+  "package159_driver_candidate": {
+    "script_path": "scripts/state_transfer/driver_package159_combined_indicator_re_equilibration.py",
+    "physical_quads": 13924,
+    "continuum_nodes": 14216,
+    "integration_points": 55696,
+    "holding_displacement_uy_mm": 0.0018603125442191958,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "frozen_uel_preserved": true
+  },
+  "walltime_scenarios": {
+    "inner_solves_1": {
+      "inner_phase_solves": 1,
+      "sub_solves_per_outer": 2,
+      "seconds_per_outer": 39.3,
+      "total_walltime_seconds": 3051.0,
+      "total_walltime_hours": 0.85,
+      "headroom_hours": 7.15,
+      "max_complete_outers_in_8h": 725,
+      "feasibility_under_8h_ceiling": "FEASIBLE"
+    },
+    "inner_solves_3": {
+      "inner_phase_solves": 3,
+      "sub_solves_per_outer": 4,
+      "seconds_per_outer": 78.6,
+      "total_walltime_seconds": 5802.0,
+      "total_walltime_hours": 1.61,
+      "headroom_hours": 6.39,
+      "max_complete_outers_in_8h": 362,
+      "feasibility_under_8h_ceiling": "FEASIBLE"
+    },
+    "inner_solves_10": {
+      "inner_phase_solves": 10,
+      "sub_solves_per_outer": 11,
+      "seconds_per_outer": 216.1,
+      "total_walltime_seconds": 15430.5,
+      "total_walltime_hours": 4.29,
+      "headroom_hours": 3.71,
+      "max_complete_outers_in_8h": 131,
+      "feasibility_under_8h_ceiling": "FEASIBLE"
+    },
+    "inner_solves_20": {
+      "inner_phase_solves": 20,
+      "sub_solves_per_outer": 21,
+      "seconds_per_outer": 412.6,
+      "total_walltime_seconds": 29185.5,
+      "total_walltime_hours": 8.11,
+      "headroom_hours": -0.11,
+      "max_complete_outers_in_8h": 69,
+      "feasibility_under_8h_ceiling": "WALLTIME_CEILING_EXCEEDED"
+    }
+  },
+  "operation_blocker_status": {
+    "package158_r5": {
+      "operation_id": "execute_mode1_package158_c2_0_r5_re_equilibration",
+      "status": "REVIEW_REQUIRED",
+      "action_needed": "Independent maintainer registration review to unlock Invoke-Mode1Execution.ps1 submission"
+    },
+    "package157_r6": {
+      "operation_id": "execute_mode1_package157_c1_2_r6_adaptive_continuation",
+      "status": "PREPARED_FOR_INDEPENDENT_REGISTRATION_REVIEW",
+      "action_needed": "Independent maintainer registration review"
+    },
+    "package159": {
+      "status": "ISOLATED_CANDIDATE_OFFLINE_VERIFIED",
+      "action_needed": "Maintain as candidate; do not schedule until P158 R5 validates active-set performance on cluster"
+    }
+  },
+  "verification_passed": true
+}
