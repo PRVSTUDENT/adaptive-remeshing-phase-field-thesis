@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "operation_id": "execute_mode1_c4_exact_load_reference",
+  "registration_status": "PREPARED_FOR_INDEPENDENT_REGISTRATION_REVIEW",
+  "reviewed_by": null,
+  "task_id": "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
+  "stage": "C4-REF",
+  "candidate_job": "M1_C4_EXACT_REF",
+  "manifest": "models/pandey_kumar_mode1/160_c4_exact_load_reference/EXECUTION_MANIFEST_REF.json",
+  "scope": "Serial Mode-I continuous C4 exact-load reference simulation only",
+  "physical_acceptance": "UNVERIFIED",
+  "scientific_hypothesis": "Independently solving the verified C4 continuous reference formulation with Step 2 explicitly terminated at uy = 0.0018603125442191958 mm provides an authentic, non-interpolated reference frame for reaction force and RAW total energy to verify R6 physical acceptance without modifying the frozen UEL or relaxing continuity thresholds.",
+  "mathematical_formulation": {
+    "target_displacement_mm": 0.0018603125442191958,
+    "mesh": "7,056 quads, 7,265 physical nodes + RP 999999, fine crack-tip refinement h = 0.68 um",
+    "material_parameters": {
+      "E_kN_mm2": 210.0,
+      "nu": 0.3,
+      "Gc_kN_mm": 0.0027,
+      "l0_mm": 0.0075,
+      "k": 1e-07
+    },
+    "step_1": {
+      "name": "Step-1",
+      "target_displacement_mm": 0.0018003125442192,
+      "step_time_s": 0.36006251,
+      "purpose": "Monotonic loading to Frame 77, bitwise identical to Package 147"
+    },
+    "step_2": {
+      "name": "Step-2",
+      "target_displacement_mm": 0.0018603125442191958,
+      "delta_displacement_mm": 0.0000600000000000,
+      "velocity_mm_s": 0.005,
+      "step_time_s": 0.0120000000,
+      "purpose": "Monotonic loading to exact target displacement; Abaqus step boundary guarantees exact terminal frame"
+    }
+  },
+  "resource_limits": {
+    "baseline_execution": {
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution_mode": "single-rank serial shared-memory anchor",
+      "adapter": "mode1-qualified-batch-v2",
+      "queue": "entry_imfdfkmq"
+    }
+  },
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/160_c4_exact_load_reference/M1_C4_EXACT_LOAD_REF.inp": "38F0F32D6B17312811AC6EF20C0C24564D143001E5A621E67DC4A5CF0910FAF1",
+    "models/pandey_kumar_mode1/160_c4_exact_load_reference/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/160_c4_exact_load_reference/P160_MECHANICAL_DC.inp": "338A05C996C3022384A3DA33CC58BBA53F04912A4A50A0F844E5CAF60A53FD09",
+    "models/pandey_kumar_mode1/160_c4_exact_load_reference/P160_PHASE_DC.inp": "0AB3E5D2E9C5F346FD31FA23EA1458D8B8FD988954C83F8DCD8A9429EB32A15A",
+    "models/pandey_kumar_mode1/160_c4_exact_load_reference/PACKAGE_MANIFEST.json": "A06904049A9F5FDA609ED458A6877DFEFB6F769C772412241F20BF792D5F4047",
+    "models/pandey_kumar_mode1/160_c4_exact_load_reference/EXECUTION_MANIFEST_REF.json": "62D3369A9A000585307692E66DC75C80E1ECAC9EDC89B56CBDEB8F976FD90307",
+    "models/pandey_kumar_mode1/160_c4_exact_load_reference/submit_M1_C4_EXACT_REF.pbs": "F03E664030EDD05B054086BFCB5820E7543BCF817174C92D681720157CB9C270",
+    "models/pandey_kumar_mode1/160_c4_exact_load_reference/job_notifications.sh": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "models/pandey_kumar_mode1/160_c4_exact_load_reference/run_datacheck.sh": "74F2E2CC92663E0912B8846C94078220570AFF6851030902A8FA22F5E316915C",
+    "results/validation/c4_exact_load_reference_datachecks.json": "511C212617A7D4DCC698006441B03AAF686387E2B82B5BFCACB044463211FDF7",
+    "scripts/validation/execute_c4_exact_load_reference.py": "87B5A675BAB96AA9C934CD30C441C7C1CA184868D9789BC75863B57BAE142F77",
+    "tests/unit/test_c4_exact_load_reference.py": "21D75DF28C91CF0125E3382A787891B459CFD291C98D3C687A02345C76739043"
+  },
+  "once_only_accounting": {
+    "max_submissions": 1,
+    "automatic_retry": false,
+    "reserved_job_id": null
+  },
+  "execution_prerequisites": [
+    "Independent technical review and registration commit",
+    "Real Abaqus 2023 datachecks Exit 0 for mechanical and phase input decks (VERIFIED: PASS_BOTH)",
+    "Submission strictly via scripts/hpc/Invoke-Mode1Execution.ps1; 1 CPU, 16 GB, <= 8 hours"
+  ],
+  "execution_script": "scripts/validation/execute_c4_exact_load_reference.py",
+  "preparation_script": "scripts/validation/execute_c4_exact_load_reference.py"
+}

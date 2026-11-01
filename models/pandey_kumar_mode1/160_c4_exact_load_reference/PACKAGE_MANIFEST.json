@@ -1,0 +1,13 @@
+{
+  "package_number": 160,
+  "purpose": "Authentic Mode-I candidate C4-corrected exact-load continuous reference simulation (7056 quads, 7265 nodes, f42_mixed_uel.for) terminating strictly at uy = 0.0018603125442191958 mm to provide an authentic, independently solved reference for R6 physical acceptance without interpolation.",
+  "files": {
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_C4_EXACT_LOAD_REF.inp": "38f0f32d6b17312811ac6ef20c0c24564d143001e5a621e67dc4a5cf0910faf1",
+    "P160_MECHANICAL_DC.inp": "338a05c996c3022384a3da33cc58bba53f04912a4a50a0f844e5caf60a53fd09",
+    "P160_PHASE_DC.inp": "0ab3e5d2e9c5f346fd31fa23ea1458d8b8fd988954c83f8dcd8a9429eb32a15a",
+    "run_datacheck.sh": "74f2e2cc92663e0912b8846c94078220570aff6851030902a8fa22f5e316915c",
+    "submit_M1_C4_EXACT_REF.pbs": "f03e664030edd05b054086bfcbf5820e7543bcf817174c92d681720157cb9c270"
+  }
+}
