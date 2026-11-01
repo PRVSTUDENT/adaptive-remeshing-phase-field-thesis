@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Thermodynamic history audit proves the 4x history amplification (6,868.95 -> 27,631.37 MPa) was an artificial pre-relaxation artifact generated in build_package160 by evaluating psi+(u_trans) on refined C5 crack-tip elements (h~0.5 um), producing the peak dual defect of -1.81e-6 kN*mm at Node 6724. In Package 164, Contract B unconstrained staggered updates permanently burned trial strain spikes into history, ratcheting H from 0.46 to 55.02 MPa and causing runaway damage. Mathematical analysis establishes Contract A (freezing H = H0 during re-equilibration, verifying H0 >= psi+(u*) at convergence) as the only contract that eliminates trial ratcheting while preserving AT2 variational consistency. Package 163 continuation remains withheld.",
+  "evidence_sources": {
+    "tests/unit/test_history_thermodynamic_audit.py": "ABFC683528B099524769319FF5C000E8F4FA7B1891C8FDF7F87EA0C7441DE6F6",
+    "scripts/validation/audit_history_transfer_amplification.py": "1D47457498C286A12554AB504F1769AB5F0AFC641C40419E401806358B59B982",
+    "results/validation/history_transfer_amplification_audit.json": "F2D07D0BF77815733F7A82059C3868AD9D855D020A8C1BD665D84A0AB03E6297",
+    "scripts/validation/evaluate_re_equilibration_contracts.py": "F7AE408BDE4336FC2BECFEA24C748D1ADB23D3C65DEBF53F5EAB05765756A154",
+    "results/validation/re_equilibration_contracts_audit.json": "E5D3530E13F71C47E8F28B8260823045DCE033EDDCF36982108AC1D1C47EB5D4"
+  },
+  "verification_passed": true,
+  "details": {
+    "c4_max_history_MPa": 6868.9514,
+    "c5_max_history_MPa": 27631.3666,
+    "c4_c5_integrated_history_diff_pct": 2.1487,
+    "points_exceeding_c4_max": 8,
+    "points_exceeding_fraction_pct": 0.0154,
+    "exceeding_radius_from_tip_mm": 0.000977,
+    "peak_dual_error_node": 6724,
+    "peak_dual_error_kNmm": -1.811539e-06,
+    "peak_dual_error_coords": [0.0405, 0.0505],
+    "contract_comparison": {
+      "contract_a_frozen_h0": "Mathematically consistent, eliminates ratcheting feedback loop, enforces H0 >= psi+(u*) at convergence",
+      "contract_b_ratcheting": "Unstable, burns non-equilibrium trial states into history, diverged to -15.2% RF2 drift"
+    },
+    "job_1419469_status": "RUNNING",
+    "package163_status": "WITHHELD_PREDECESSOR_RUNNING"
+  }
+}
