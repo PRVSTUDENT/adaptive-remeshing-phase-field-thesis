@@ -8,6 +8,11 @@ function Check($condition,$message){if(-not $condition){throw $message};$script:
 $transport={param($prompt,$id) @{correlation_id=$id;action='DIAGNOSE';instruction='Inspect preserved evidence; no HPC submission.'}|ConvertTo-Json}
 $r=Invoke-ControllerSupervisor -Workspace $workspace -Kind INITIAL -Evidence 'Maintenance objective' -ArchiveRoot $root -Transport $transport
 Check ($r.execution_allowed -and !$r.approval) 'Bounded planning reply is never scientific approval'
+# Consumer contract from the supplied installed Tampermonkey v1.5.0 script.
+$trigger='(?m)^\s*\[BRIDGE_HANDOFF_ID=(HND-[A-Za-z0-9_-]+)\]\s*$'
+$request=Get-Content (Join-Path (Join-Path $root $r.correlation_id) 'request.txt') -Raw
+Check ([regex]::Match($request,$trigger).Groups[1].Value -ceq $r.correlation_id) 'Actual supervisor request arms the installed HND-only paste listener'
+Check (![regex]::IsMatch('[BRIDGE_HANDOFF_ID=SUP-old-invalid]',$trigger)) 'Former SUP-only handoff reproduces the installed trigger failure'
 $r2=Invoke-ControllerSupervisor -Workspace $workspace -Kind RESULT -Evidence 'Completed authentic read-only test' -RunId result -Turn 1 -ArchiveRoot $root -Transport $transport
 Check ($r.correlation_id -ne $r2.correlation_id) 'Each result handoff has a unique correlation'
 $r3=Invoke-ControllerSupervisor -Workspace $workspace -Kind ERROR -Evidence 'HARMLESS_TEST_ERROR: missing fixture; completed work preserved' -RunId error -SafetyBlocked -ArchiveRoot $root -Transport $transport

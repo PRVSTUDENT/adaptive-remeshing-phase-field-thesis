@@ -18,7 +18,8 @@ function Invoke-ControllerSupervisor {
     $key = ($RunId + '-' + $Turn + '-' + $Kind) -replace '[^a-zA-Z0-9_-]', '_'
     $pending = Join-Path $ArchiveRoot ($key + '.pending.json')
     if (Test-Path -LiteralPath $pending) { throw "SUPERVISOR_RECONCILIATION_REQUIRED: $pending" }
-    $id = 'SUP-' + [guid]::NewGuid().ToString('N')
+    # The installed Tampermonkey v1.5 paste listener only arms on HND- IDs.
+    $id = 'HND-SUP-' + [guid]::NewGuid().ToString('N')
     $dir = Join-Path $ArchiveRoot $id
     [IO.Directory]::CreateDirectory($dir) | Out-Null
     $utf8 = [Text.UTF8Encoding]::new($false)
