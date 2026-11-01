@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Audited project coordination and confirmed absence of registered Package 158 R5 execution operation. Prepared complete scientific operation definition execute_mode1_package158_c2_0_r5_re_equilibration specifying: (1) candidate driver driver_package158_r5_error_driven_re_equilibration.py with active-set obstacle clamp self.d0[n] and immediate atomic checkpoint commitment; (2) full state coverage across 12,821 nodes and 50,176 integration points at holding load uy=0.001850312544 mm; (3) unchanged physical continuity thresholds (force <= 5%, total energy <= 2%); (4) 1-CPU serial Mode-I baseline with optional reviewed 8-core shared-memory SMP benchmark path requiring thread-safety, bitwise/tight parity, and demonstrated speedup (MPI disqualified); (5) once-only reservation accounting. Status: DEFINITION_REVIEW_REQUIRED.",
+  "evidence_sources": {
+    "project_coordination/operation_definitions/execute_mode1_package158_c2_0_r5_re_equilibration.json": "A00D70991B40FF1140A125D713A9C89DFFB69923EEB33B503D6D0A4C338E3F22",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/EXECUTION_MANIFEST_R5.json": "F3D996D71075826E92955F64D1F7671CEC0E13487D1CECFA9DC4D01EFBCC0CFE",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/submit_M1_P158_C2_0_R5.pbs": "EC8ACE9F65E6FB4B6EE3E17EBEA8B4B28C4ECF2C69FACE071CF3D267C5A5AD7A",
+    "scripts/state_transfer/driver_package158_r5_error_driven_re_equilibration.py": "1A239A7EC279F50BD45021AA29D4C7116A82C631AFEEAE6C99ED03FDDD9D93AF",
+    "scripts/state_transfer/package158_r5_driver_correction.patch": "4FA7D10C56CC7C17AFB55764E725E0476F2D1AA620DEDF78E704682D1BA08CDE",
+    "tests/unit/test_package158_r5_driver_correction.py": "579149E1A8AFA70E6389FA4B895AC450FD172177FE53FDBE6B6C60629C280DD5",
+    "results/validation/package158_r5_execution_definition_gap_analysis.json": "CE3EDF6B615CE4157DE1237D95182A5E6FB434F762E2678E4AD209AECD88496B",
+    "results/validation/package158_r5_execution_definition_review.json": "B040A8EAED89945EEDC417457E7F2BDA6027EE06CF92D0954DF8735F57C1CD16",
+    "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}
