@@ -1,0 +1,176 @@
+{
+  "schema": 1,
+  "kind": "EXACT_LOAD_REFERENCE_RECOVERY_INVESTIGATION",
+  "investigation_timestamp": "2026-11-01T10:40:00+01:00",
+  "target_uy_mm": 0.0018603125442191958,
+  "verified_r6_predecessor": {
+    "reaction_force_kN": 0.18411666272311777,
+    "raw_total_energy_kNmm": 0.00022418821426719904,
+    "source_checkpoint": "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/initial_checkpoint_01.json",
+    "source_hash": "200BB2B03C8C9599A2B41FC43A88CCE4EEBC7B4195A20EB0F8E132D3D7925083",
+    "scientific_review_report": "results/validation/package157_r6_checkpoint_scientific_review.json",
+    "gates": {
+      "full_state_coverage": true,
+      "checkpoint_matches_saved_solver_state": true,
+      "delta_h_pass": true,
+      "delta_d_pass": true,
+      "delta_u_pass": true,
+      "signed_dual_zero": true,
+      "free_residual_pass": true,
+      "complementarity_pass": true,
+      "no_healing": true,
+      "history_monotone": true,
+      "damage_bounds_pass": true,
+      "force_gate_status": "UNVERIFIED_REFERENCE_MISSING",
+      "raw_energy_gate_status": "UNVERIFIED_REFERENCE_MISSING"
+    }
+  },
+  "sources_inspected": [
+    {
+      "job_id": "1398090",
+      "model_path": "models/pandey_kumar_mode1/01_standard_pfm_reference",
+      "mesh": "standard uniform 0.005 mm",
+      "stepping": "uniform du = 2.5e-6 mm",
+      "exact_match_found": false,
+      "discrepancy_reason": "0.0018603125442191958 / 2.5e-6 = 744.125017 is non-integer; no discrete frame at target load"
+    },
+    {
+      "job_id": "1416259",
+      "model_path": "models/pandey_kumar_mode1/75_candidate_donor_h0025",
+      "evidence_dir": "models/pandey_kumar_mode1/75_candidate_donor_h0025/evidence_1416259",
+      "rf_curve_hash": "8CEFAF0727CA2A16650F435AC88190C975F469000760F228733CDB39E46E403F",
+      "energy_table_hash": "5D0FD1157C5E1EB2AF29F09EF0AE98D772FE30463B1D94EF8BB11A7CFDC7F50B",
+      "exact_match_found": false,
+      "nearest_rows": [
+        {
+          "increment": 80,
+          "step_time": 0.372718751,
+          "u_top_mm": 0.0018635937,
+          "rf2_kN": 0.186073601
+        },
+        {
+          "increment": 81,
+          "step_time": 0.373773426,
+          "u_top_mm": 0.0018688672,
+          "rf2_kN": 0.186189383
+        }
+      ],
+      "discrepancy_reason": "Solver stepped from u = 0.00185832 mm to 0.00186359 mm, jumping over exact target load"
+    },
+    {
+      "job_id": "1418732",
+      "model_path": "models/pandey_kumar_mode1/145_c4_continuous_reference",
+      "scratch_dir": "/scratch9/pr21vyci/runs/mode1_c4_continuous_reference",
+      "exact_match_found": false,
+      "nearest_rows": [
+        {
+          "step": 2,
+          "increment": 5,
+          "step_time": 0.009125,
+          "u_top_mm": 0.0018459375,
+          "e_total_kNmm": 0.000221379
+        },
+        {
+          "step": 2,
+          "increment": 6,
+          "step_time": 0.014125,
+          "u_top_mm": 0.0018709375,
+          "e_total_kNmm": 0.000226027
+        }
+      ],
+      "discrepancy_reason": "Adaptive time step delta_t = 0.005 s stepped over exact target step_time t2 = 0.0120000 s"
+    },
+    {
+      "job_id": "1418768",
+      "model_path": "models/pandey_kumar_mode1/147_c4_corrected_reference",
+      "scratch_dir": "/scratch9/pr21vyci/runs/mode1_c4_corrected_package147_ref",
+      "exact_match_found": false,
+      "nearest_rows": [
+        {
+          "step": 2,
+          "increment": 7,
+          "step_time": 0.0097578125,
+          "u_top_mm": 0.0018491016,
+          "e_total_kNmm": 0.00022210533
+        },
+        {
+          "step": 2,
+          "increment": 8,
+          "step_time": 0.012605469,
+          "u_top_mm": 0.00186334,
+          "e_total_kNmm": 0.00022474676
+        }
+      ],
+      "discrepancy_reason": "Adaptive time stepping jumped from step_time 0.0097578 s to 0.0126055 s, bypassing exact t2 = 0.0120000 s"
+    },
+    {
+      "job_id": "1418753",
+      "model_path": "models/pandey_kumar_mode1/146_c3_fine_donor",
+      "scratch_dir": "/scratch9/pr21vyci/runs/mode1_c3_fine_package146_donor",
+      "exact_match_found": false,
+      "nearest_rows": [
+        {
+          "step": 2,
+          "increment": 5,
+          "step_time": 0.009125,
+          "u_top_mm": 0.0018459375,
+          "e_total_kNmm": 0.00022123263
+        },
+        {
+          "step": 2,
+          "increment": 6,
+          "step_time": 0.014125,
+          "u_top_mm": 0.0018709375,
+          "e_total_kNmm": 0.00022586978
+        }
+      ],
+      "discrepancy_reason": "Adaptive time stepping jumped from step_time 0.009125 s to 0.014125 s, bypassing exact t2 = 0.0120000 s"
+    },
+    {
+      "projected_path": "146_c4_package146_c1_2_continuation/converged_checkpoint_01.json",
+      "exact_match_found": false,
+      "discrepancy_reason": "Projected simulation directory was never executed; absent locally and on cluster scratch"
+    }
+  ],
+  "scientific_classification": "REFERENCE_MISSING",
+  "missing_evidence_summary": "No authentic Abaqus ODB, saved frame, or checkpoint table in the project history landed on the exact displacement uy = 0.0018603125442191958 mm. Nearest points lie at uy = 0.00184910 mm and uy = 0.00186334 mm (Package 147) and uy = 0.00186359 mm (Donor 1416259). Pursuant to project governance, interpolation, nearest-row substitution, and curve fitting are strictly prohibited.",
+  "proposed_minimal_reference_computation": {
+    "mesh": "C4 reference mesh (identical 7,056 quad discretization)",
+    "approach": "Single-step continuous solve or restart from Step 1 (u = 0.0018003125442192 mm) with step endpoint explicitly defined as uy = 0.0018603125442191958 mm",
+    "justification": "In Abaqus static analysis, the final increment of a step is mathematically constrained to terminate exactly at the step time period and boundary value. Terminating the step at uy = 0.0018603125442191958 mm guarantees an exact, authentic reference frame without interpolation."
+  },
+  "r5_read_only_reconciliation": {
+    "pbs_job_id": "1419269.mmaster02",
+    "job_name": "M1_P158_C2_0_R5",
+    "queue": "normal_imfdfkmq",
+    "exec_host": "mnode097/0",
+    "exit_status": 0,
+    "cpu_time": "00:56:52",
+    "walltime": "01:22:53",
+    "solver_status": "CONVERGED",
+    "converged_outer_iteration": 69,
+    "target_uy_mm": 0.0018503125442191958,
+    "physical_acceptance": "PASS",
+    "metrics": {
+      "reaction_force_kN": 0.1825436560101358,
+      "donor_reference_force_kN": 0.185010025983796,
+      "force_discrepancy_pct": 1.3331,
+      "force_limit_pct": 5.0,
+      "force_gate_pass": true,
+      "elastic_energy_kNmm": 0.00016888141,
+      "fracture_energy_kNmm": 0.00005381112,
+      "total_energy_kNmm": 0.00022269253,
+      "donor_reference_energy_kNmm": 0.00022233068945209,
+      "energy_discrepancy_pct": 0.1627,
+      "energy_limit_pct": 2.0,
+      "energy_gate_pass": true,
+      "final_delta_h_MPa": 8.55016e-07,
+      "final_delta_d": 2.12251e-08,
+      "final_delta_u_mm": 1.15302e-11,
+      "min_delta_d": -1.38778e-17
+    },
+    "preservation_status": "TERMINAL_READ_ONLY_PRESERVED_NO_MODIFICATION"
+  },
+  "policy_status": "INACTIVE_PENDING_INDEPENDENT_EXTERNAL_REVIEW",
+  "execution_status": "R6_SUBMISSION_WITHHELD_ON_MISSING_REFERENCE"
+}

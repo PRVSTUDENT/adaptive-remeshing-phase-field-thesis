@@ -1,20 +1,13 @@
 {
   "active": false,
-  "agent": "codex",
-  "task_id": "TURN447-R6-SCIENTIFIC-ELIGIBILITY",
-  "starting_commit": "fb17c37e15606a08febfa25324e4ab8ae4e2d80a",
-  "claimed_at": "2026-11-01T10:14:33.0371150+01:00",
-  "last_updated": "2026-11-01T09:03:29.6881273+00:00",
-  "last_released": "2026-11-01T09:24:37.749399+00:00",
-  "controller_run_id": "5ae4e704-5b51-4673-a07b-7a828deda499",
-  "session_report": "project_coordination/sessions/2026-11-01_codex_turn447_r6_scientific_eligibility.md",
-  "allowed_write_scope": [
-    "project_coordination/*",
-    "scripts/controller/*",
-    "scripts/validation/evaluate_package157_r6_checkpoint.py",
-    "tests/unit/test_method_c_eligibility.py",
-    "results/validation/package157_r6*",
-    "docs/project/METHOD_C_ELIGIBILITY.md"
-  ],
+  "agent": null,
+  "task_id": null,
+  "starting_commit": "d7ece9c629cbddc05b4194ddee2cd5c801e28af6",
+  "claimed_at": null,
+  "last_updated": "2026-11-01T10:43:00.0000000+01:00",
+  "last_released": "2026-11-01T10:43:00.0000000+01:00",
+  "controller_run_id": null,
+  "session_report": "project_coordination/sessions/2026-11-01_gemini-antigravity_r6_exact_load_reference_recovery.md",
+  "allowed_write_scope": [],
   "interruption_checkpoint": "C:\\Users\\pruth\\OpenClawPAD\\controller_turn_checkpoint.json"
 }
