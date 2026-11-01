@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Discrete phase-field consistency audit proves the formulation is strictly AT2 with zero initiation threshold (psi_c = 0). While C4 donor Checkpoint 01 is in exact machine-precision equilibrium (dual error 1.38e-12 kN*mm, zero violating nodes), nonmatching C4->C5 transfer creates spatial interpolation mismatch (r in [-1.81e-6, 1.39e-7] kN*mm, 2,025 violating nodes). Unconstrained PDAS release on nodes with r < 0 triggers an unphysical staggered ratcheting instability where damage relaxation increases strains, inflating H from 0.46 to 55.02 MPa and dropping RF2 by -15.24%. Scientific classification is FORMULATION_CONSISTENT_BUT_PHYSICALLY_UNSUITABLE. Package 163 continuation remains strictly withheld.",
+  "evidence_sources": {
+    "tests/unit/test_c5_phase_field_formulation_audit.py": "B9BD062AA9F327A9467BE2EB84D91AE83B258AB2DF99A471166FEA00F9E7FA27",
+    "scripts/validation/audit_phase_field_consistency.py": "3094404C0120F447B480419212E006340F16838E92D567BDA46E0355A74B4E4D",
+    "results/validation/c5_phase_field_consistency_audit.json": "7EBE70D0C2E4280C422A80208CAB2B073AF9B3904950BEE0009F85B39225896B",
+    "scripts/validation/inspect_c4_donor_checkpoint.py": "FB6D881FBC97C0EDBF9130D5509A87F4A5A1939DAEEDDF14D42E13E167C3D985"
+  },
+  "verification_passed": true,
+  "details": {
+    "formulation_variant": "AT2",
+    "initiation_threshold": "ZERO (psi_c = 0)",
+    "scientific_classification": "FORMULATION_CONSISTENT_BUT_PHYSICALLY_UNSUITABLE",
+    "c4_donor_kkt_passed": true,
+    "c4_donor_dual_error_kNmm": 1.377258e-12,
+    "c4_violating_nodes_count": 0,
+    "c5_receiver_initial_dual_error_kNmm": 1.811539e-06,
+    "c5_violating_nodes_initial_count": 2025,
+    "c5_violating_nodes_process_zone": 1210,
+    "c5_violating_nodes_far_field": 815,
+    "job_1419469_status": "RUNNING",
+    "job_1419469_latest_outer": 39,
+    "job_1419469_rf2_drift_pct": -15.23617,
+    "job_1419469_pdas_free_count": 12416,
+    "package163_continuation_status": "WITHHELD_PREDECESSOR_RUNNING"
+  }
+}
