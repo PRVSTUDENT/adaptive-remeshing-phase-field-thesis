@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "investigation": "METHOD_C1_PACKAGE157_R6_RUNNING_AUDIT_AND_R7_CANDIDATE_QUALIFICATION",
+  "finding": "Authoritative scheduler reconciliation confirms PBS Job 1419359.mmaster02 (M1_C4_P157_C1_2_R6, queue normal_imfdfkmq, 1 CPU serial) is actively executing on the cluster with coupled alternating solver progressing through outer iterations towards target uy=0.00186531 mm. Pursuant to single-operation discipline and non-polling rules, the turn was utilized offline to qualify the successor candidate Package 157 Revision 7 (R7, uy=0.00186531 mm to 0.00187531 mm, +10 nm increment, max_outer=120). Offline validation confirmed frozen UEL hash preservation, C4 mesh topology (7,265 nodes, 28,224 GPs), predeclared force/energy/KKT acceptance gates, and unit test pass. Dispatch of R7 is withheld pending authentic completion and physical verification of predecessor Job 1419359.mmaster02.",
+  "classification": "PREDECESSOR_RUNNING_AND_R7_CANDIDATE_OFFLINE_QUALIFIED",
+  "evidence_sources": {
+    "results/validation/package157_r7_candidate_specification.json": "36BC164525F83B5C10492D04C08610361C68767C9907F156527FFA65AED7E71F",
+    "scripts/validation/prepare_and_test_package157_r7_candidate.py": "38905023DF376E4C5D940B4AE14ECA420B589A5A26B24CD341DE6668E902D325",
+    "tests/unit/test_package157_r7_candidate_qualification.py": "96BD80190A45C100655C799A099B6BE8F84413B4EC36111C3E38A8C215FFA535",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/EXECUTION_MANIFEST.json": "2D4EE64A07DAC9FD3C4108B9D574C79B2B7CB2BAAAAEF63AB8F30A4C6B5E8E89",
+    "project_coordination/HPC_JOB_LEDGER.csv": "F9E89A5FB056C7EA37330CEE6D3A14934C86DBD7C9E05ED5219DC4BD0308E809",
+    "project_coordination/MODE1_BATCH_SUBMISSIONS.json": "EE553BABAA4D8B36C7761025088455EED6CBFED378653D3BBC76CAFBCB0C01A1"
+  },
+  "verification_passed": true,
+  "hpc_job_status": {
+    "pbs_job_id": "1419359.mmaster02",
+    "job_name": "M1_C4_P157_C1_2_R6",
+    "scheduler_state": "R",
+    "queue": "normal_imfdfkmq",
+    "current_status": "RUNNING_OBSERVED",
+    "active_outer_iteration": "progressing"
+  },
+  "registered_paths": [
+    "results/validation/package157_r7_candidate_specification.json",
+    "scripts/validation/prepare_and_test_package157_r7_candidate.py",
+    "tests/unit/test_package157_r7_candidate_qualification.py"
+  ],
+  "next_operation": "Await completion of active PBS Job 1419359.mmaster02 and evaluate coupled convergence, reaction force (<=5%), and strain energy (<=2%) continuity."
+}
