@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Combined-indicator conforming remeshing and state transfer verified offline: combined marking criterion M = {eta >= 0.15} U {d_e >= 0.5} selects 339/7056 elements (4.80%), adding 73 fracture process zone elements to 266 stress-error elements without crack-path bias. Conforming quad receiver mesh (13924 quads, 14216 nodes) achieves h_fine = 0.00050 mm (l0/15) with strictly positive Jacobians (min det(J) = 6.25e-8) and 55 duplicate crack-flank seam pairs. Spatial mapping transferred 100% of nodes and GPs with zero unmapped points, zero cross-slit flank violations, damage monotonicity preserved, and numerical fracture energy matching authentic donor within 0.08% discrepancy.",
+  "evidence_sources": {
+    "scripts/state_transfer/run_combined_remesh_pilot.py": "709A0FEEDDE955D062CBAC29173EBD8EFCDED58F673FA1C6F68D7DB1468C0321",
+    "tests/unit/test_combined_remesh_pilot.py": "A2FE0E2A6D4F8834B57D75907E1FE0D95021C20CD01D19D749747CDC9B38E1FF",
+    "results/validation/package157_combined_remesh_pilot.json": "5A352C60DF4C5D3304B417E4CE61DE606E0FBE6C2651AAB234F59B2F55665AA9"
+  },
+  "verification_passed": true
+}

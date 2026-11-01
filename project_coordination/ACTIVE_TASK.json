@@ -10,7 +10,7 @@
                          },
     "task_id":  "F1597-CORRECT-PACKAGE72-STATE-TRANSFER",
     "agent":  "gemini-antigravity",
-    "phase":  "State-dependent adaptive refinement feasibility audit establishes STATE_DEPENDENT_MARKING_FEASIBLE_OFFLINE. Native companion MISESERI (eta \u003e= 0.15) reproduces exactly 266/7056 elements and is mathematically invariant under proportional load scaling (Jaccard = 1.0). In contrast, authentic phase-field damage evolves monotonically (d_max = 0.60525 at crack tip). Combining MISESERI with a state-dependent damage threshold (d \u003e= 0.5) marks 339 elements (4.80% of mesh), capturing process-zone evolution without prescribing the crack path. In pre-peak states (+10 nm), crack advancement is sub-grid, classifying this as an indicator-sensitivity audit.",
+    "phase":  "Combined-indicator conforming remeshing and state transfer verified offline: combined marking criterion M = {eta \u003e= 0.15} U {d_e \u003e= 0.5} selects 339/7056 elements (4.80%), adding 73 fracture process zone elements to 266 stress-error elements without crack-path bias. Conforming quad receiver mesh (13924 quads, 14216 nodes) achieves h_fine = 0.00050 mm (l0/15) with strictly positive Jacobians (min det(J) = 6.25e-8) and 55 duplicate crack-flank seam pairs. Spatial mapping transferred 100% of nodes and GPs with zero unmapped points, zero cross-slit flank violations, damage monotonicity preserved, and numerical fracture energy matching authentic donor within 0.08% discrepancy.",
     "gate_status":  "P157_R5_SEG1_RUNNING__C4_CONTINUATION_UNACCEPTED",
     "active_pbs_job_ids":  [
                                "1419162.mmaster02"
@@ -290,14 +290,14 @@
                              "compute_qualification_job_id":  "1419146.mmaster02",
                              "manifest_sha256":  "ac186eeaf426bc6f39499df2664a38b81dd66fbd4a0f3fd41faa1fb073faa62f"
                          },
-    "last_updated":  "2026-11-01T07:08:18.9286026+01:00",
+    "last_updated":  "2026-11-01T07:19:34.6837391+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-22637d12-a4f9-4c11-ad49-02f0de022bc4.json",
-                                  "sha256":  "EBFF95469863BD30935831A2D223FA7E784174BBDF5114B9D577D273F00AD78B",
-                                  "created_at":  "2026-11-01T07:08:08.1701606+01:00"
+                                  "artifact":  "results/validation/preparation-9ea9719c-f1c0-476f-a056-5dd2a3782340.json",
+                                  "sha256":  "37DC12FF0317345606E1B5DC149E501CDDE6B8D677C3D89838BA48F18E5F56A4",
+                                  "created_at":  "2026-11-01T07:19:27.7571610+01:00"
                               }
 }
