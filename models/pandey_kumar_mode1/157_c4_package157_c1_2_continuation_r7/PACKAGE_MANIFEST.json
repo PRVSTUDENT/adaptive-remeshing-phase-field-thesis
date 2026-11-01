@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "package": 157,
+  "revision": "R7",
+  "files": {
+    "M1_C4_PACKAGE150_C1_2_CONTINUATION.inp": "8c54e3d18ebbb238fdf79f773bc7c1e854aa6a681e2881d6ba15b977c58fafcd",
+    "P157_MECHANICAL_DC.inp": "338a05c996c3022384a3da33cc58bba53f04912a4a50a0f844e5caf60a53fd09",
+    "P157_PHASE_DC.inp": "0ab3e5d2e9c5f346fd31fa23ea1458d8b8fd988954c83f8dcd8a9429eb32a15a",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "run_datacheck.sh": "46bb7f25e4ff45eb772578637ab122b258cbbd6adbf439c62598d8aa9bc0d055",
+    "submit_M1_C4_P157_C1_2_R7.pbs": "4274ba769b3962684df33dc32b506596e37a5c87d12712b9a734f4723df95410",
+    "submit_M1_C4_P157_R7_DC.pbs": "8c9cbfc655c0faef4adf8984479d104410bd22d6e101888fae41b0caec3f35bf"
+  },
+  "runtime_source_hashes": {
+    "scripts/state_transfer/driver_package157_r7.py": "B1EF3E25AFAF55D452B35FC9E0AA90C4698E703FC7A29489DDCDFCCD0E4EA4C5",
+    "scripts/state_transfer/driver_package150_c1_2_continuation.py": "724C57EC1936C201A42803A329A4D961FFB26911225C28B54D598BF91257492D",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "9EDE833668340A41AD590CB2387F8CB72A6C9C63DE9DF6B2185A3CABD1B21265",
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8",
+    "scripts/validation/extract_package148_iteration.py": "01875DBA715C24789421766B5B81A56BDD69F3F6A21A6F2D30D64B016416C738"
+  },
+  "baseline_uy_mm": 0.0018653125442191958,
+  "targets_mm": [
+    0.0018753125442191958
+  ],
+  "restart_checkpoint_source": "converged_checkpoint_01.json (from R6)",
+  "history_gp_order": "MAPPER_ROW_FROM_UEL_PERIMETER",
+  "max_outer": 120,
+  "max_phase": 20,
+  "substep_size_mm": 1e-05,
+  "physical_acceptance": "UNVERIFIED",
+  "force_discrepancy_pct_max": 5.0,
+  "raw_energy_discrepancy_pct_max": 2.0
+}
