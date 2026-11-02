@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 163-R2 (Job 1419489.mmaster02) terminated at outer 200 with MAX_OUTER_EXCEEDED (exit code 1, PHYSICAL_FAIL, no Checkpoint 02). Qualified contingency solve Package 163-R3 with max_outer=300 assembled from authentic Checkpoint 01 (SHA-256 DCFD31186061FA81111DA18071CF8ADFB9BAF2C5CB343CB60F08416741C1B64A), staged to cluster scratch, qualified with compute-node mechanical and phase datachecks (PASS_BOTH), verified by 4/4 passing unit tests, and successfully dispatched as PBS Job 1419499.mmaster02 actively executing outer iteration 1 on compute node mnode097. Independent C4 reference Job 1419490.mmaster02 continues actively computing at outer 7.",
+  "evidence_sources": {
+    "results/validation/package163_r2_terminal_acceptance.json": "E50357B3B88A5A8798F706B23C09B42286AD5EE3ABA4A495DC52702F83845BEB",
+    "results/validation/package163_r3_qualification.json": "7267DC62F5AA01B48E275899CC3B53FC63B972DC87DE5AC421EE6496DC648B02",
+    "models/pandey_kumar_mode1/163_c5_package163_r3_c2_1_continuation/PACKAGE_MANIFEST.json": "03CD311962F33B58C1376AD36C5468FCCAE68F18CFCD8626BA4C6B920B319E7C",
+    "models/pandey_kumar_mode1/163_c5_package163_r3_c2_1_continuation/EXECUTION_MANIFEST.json": "FADBE999EE7A6F3DC380D18A83E254F32A8175A791B7B96BCCB9BC4A17CFBF6E",
+    "tests/unit/test_package163_r3_qualification.py": "ABC49377F558E61637C2B3B8350D98805E520198714A802955FC8E57AEA2C69B"
+  },
+  "verification_passed": true
+}

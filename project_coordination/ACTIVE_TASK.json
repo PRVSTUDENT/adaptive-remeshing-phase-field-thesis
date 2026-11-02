@@ -2,7 +2,7 @@
     "task_id":  "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
     "agent":  "gemini-antigravity",
     "status":  "READY_READ_ONLY_EVALUATION",
-    "phase":  "Convergence recovery strategy formulated and qualified: under measured contraction rates (rho_u=0.9767, rho_h=0.9765 at outer 181), simultaneous coupled convergence is projected at outer 235, confirming high risk of nonconvergence at the 200 outer budget ceiling. Strategy 1 (intermediate hot-restart) is disqualified due to unreviewed driver modification risk and history state corruption risk. Strategy 2 (clean 300-outer contingency solve initialized from authentic Checkpoint 01 with max_outer=300) is fully qualified, requiring ~3.04h walltime (well within the 8.0h limit), strictly preserving the non-accumulating history contract and frozen UEL. Running jobs 1419489 (outer 181) and 1419490 (outer 4) continue to compute in PBS.",
+    "phase":  "Package 163-R2 (Job 1419489.mmaster02) terminated at outer 200 with MAX_OUTER_EXCEEDED (exit code 1, PHYSICAL_FAIL, no Checkpoint 02). Qualified contingency solve Package 163-R3 with max_outer=300 assembled from authentic Checkpoint 01 (SHA-256 DCFD31186061FA81111DA18071CF8ADFB9BAF2C5CB343CB60F08416741C1B64A), staged to cluster scratch, qualified with compute-node mechanical and phase datachecks (PASS_BOTH), verified by 4/4 passing unit tests, and successfully dispatched as PBS Job 1419499.mmaster02 actively executing outer iteration 1 on compute node mnode097. Independent C4 reference Job 1419490.mmaster02 continues actively computing at outer 7.",
     "gate_status":  "REGISTERED_SUCCESSOR__NUMERICAL_EXECUTION_NOT_QUALIFIED",
     "predecessor_task":  {
                              "run_id":  "19280009-42f4-4897-8d3a-9b52d2e5168a",
@@ -273,14 +273,14 @@
                                    "monitoring_closeout_verified":  false
                                },
     "last_step_status":  "PREPARATION_COMPLETE",
-    "last_updated":  "2026-11-02T08:26:28.4208391+01:00",
+    "last_updated":  "2026-11-02T08:40:37.8530595+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-687fe250-9ccf-4295-bdd9-f1d66ac55f3c.json",
-                                  "sha256":  "A0125F9C4046E65F30D01F14572BB813EF90AD8355D1CB9EDBCEDBE7F6F53F98",
-                                  "created_at":  "2026-11-02T08:25:44.5141976+01:00"
+                                  "artifact":  "results/validation/preparation-ee92d168-f1d8-46dc-9675-092631bd3697.json",
+                                  "sha256":  "CB06C4FD2B759C2FA94EA35A6CF263D6F4436A0CA7576EE3728AA52EA0BB806B",
+                                  "created_at":  "2026-11-02T08:39:53.6490725+01:00"
                               }
 }
