@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "evaluation_name": "PACKAGE_171_R1_C6_STAGGERED_PDAS_ASSEMBLY_VALIDATION",
+  "status": "PACKAGE_171_R1_ASSEMBLED__AWAITING_DATACHECK",
+  "mesh_stats": {
+    "elements": 15252,
+    "nodes": 15559,
+    "duplicate_slit_pairs": 59,
+    "min_det_jac": 1.5625e-08
+  },
+  "transferred_state": {
+    "min_damage": 0.003390097726359051,
+    "max_damage": 0.6909813083162544,
+    "min_history": 2.9482787889150137e-08,
+    "elastic_continuity_pct": 0.0,
+    "fracture_continuity_pct": 0.0018047915309605488,
+    "total_energy_continuity_pct": 0.00046313426767590865
+  },
+  "runtime_closure": {
+    "c3_mapping_included": true,
+    "transitive_dependencies": [
+      "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py",
+      "scripts/state_transfer/c4_to_c5_spatial_mapping.py",
+      "scripts/state_transfer/driver_package146_147_pdas_continuation.py",
+      "scripts/state_transfer/driver_package171_c6_coupled_pdas.py",
+      "scripts/validation/extract_package148_iteration.py"
+    ]
+  },
+  "uel_preserved": true,
+  "verification_passed": true
+}
