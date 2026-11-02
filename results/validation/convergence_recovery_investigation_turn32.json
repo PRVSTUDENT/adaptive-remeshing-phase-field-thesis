@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "investigation_type": "CONVERGENCE_RECOVERY_STRATEGY_ASSESSMENT",
+  "job_1419489_p163_r2": {
+    "latest_outer": 181,
+    "latest_delta_d": 1.3076986390803125e-05,
+    "latest_delta_u_mm": 3.554646174196846e-09,
+    "latest_delta_h_MPa": 0.00034760967072067217,
+    "latest_pdas_active_nodes": 2939,
+    "latest_kkt_dual_error": 1.0000845997835628e-09,
+    "latest_kkt_free_error": 4.5669753650492625e-11,
+    "rho_u_20iter": 0.97671,
+    "rho_h_20iter": 0.97646,
+    "projected_converged_outer_u": 235,
+    "projected_converged_outer_h": 234,
+    "simultaneous_projected_outer": 235,
+    "projected_u_at_outer_200": 2.271697367249015e-09,
+    "projected_h_at_outer_200": 0.00022106022120148503,
+    "budget_ceiling_outer": 200,
+    "budget_exceeded_risk": true,
+    "status": "RUNNING_APPROACHING_BUDGET_CEILING"
+  },
+  "job_1419490_p157_r8": {
+    "count": 4,
+    "latest_outer": 4,
+    "target_uy_mm": 0.0018703125442191958,
+    "delta_d": 0.0014036900000000685,
+    "delta_u_mm": 7.523414749374333e-07,
+    "delta_h_MPa": 0.038501859815548656,
+    "dual_error": 5.40651007366803e-09,
+    "free_error": 1.1322300831417263e-08,
+    "active_contraction": true
+  },
+  "strategies": {
+    "strategy_1_intermediate_hot_restart": {
+      "description": "Hot-start from unconverged subproblem intermediate directory (e.g. outer 180 or 200)",
+      "driver_support": false,
+      "technical_risks": [
+        "Driver driver_package163_r2_c5_continuation.py lacks CLI argument for intermediate resume.",
+        "Intermediate state lacks converged checkpoint certification and committed history manifest.",
+        "Non-accumulating history evaluation from an unconverged iterate risks state corruption.",
+        "Modifying driver code in-flight breaches code immutability protocols."
+      ],
+      "recommendation": "DISQUALIFIED_UNREVIEWED_CODE_MODIFICATION"
+    },
+    "strategy_2_clean_300_outer_contingency": {
+      "description": "Clean contingency solve (Package 163-R3) initialized from authentic Checkpoint 01 with max_outer=300",
+      "driver_support": true,
+      "driver_flag": "--max-outer 300",
+      "initial_state": "converged_checkpoint_01.json (Job 1419485.mmaster02, SHA-256 DCFD31186061FA81111DA18071CF8ADFB9BAF2C5CB343CB60F08416741C1B64A)",
+      "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "estimated_walltime_hours": 3.04,
+      "walltime_ceiling_hours": 8.0,
+      "walltime_headroom_hours": 4.96,
+      "pbs_queue": "entry_imfdfkmq -> normal_imfdfkmq",
+      "resource_conformance": "1 CPU, 16 GB RAM, <=8h (COMPLIANT)",
+      "scientific_justification": [
+        "Initializes from bitwise certified, physically accepted Checkpoint 01.",
+        "Preserves exact non-accumulating history contract H*(x) = max(H0(x), psi_+(u*(x))).",
+        "Requires zero driver source modifications (CLI parameter max_outer=300).",
+        "Well within 8h PBS walltime limit (~3.04h estimated for 300 iterations).",
+        "Full deterministic audit trail from Checkpoint 01 to Checkpoint 02."
+      ],
+      "recommendation": "QUALIFIED_PREFERRED_CONTINGENCY"
+    }
+  },
+  "recommended_action": "Allow Job 1419489.mmaster02 to reach authentic terminal completion. If terminal status is NONCONVERGED (outer 200), immediately dispatch Package 163-R3 with max_outer=300 from authentic Checkpoint 01 under Strategy 2."
+}
