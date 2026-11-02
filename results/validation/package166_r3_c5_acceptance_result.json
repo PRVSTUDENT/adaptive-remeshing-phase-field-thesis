@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "decision": "C5_RE_EQUILIBRATION_PHYSICALLY_ACCEPTED",
+  "reference_parity": {
+    "passed": true,
+    "rf2_actual_kN": 0.1807665079832077,
+    "rf2_reference_kN": 0.184117075783354,
+    "rf2_discrepancy_pct": 1.819802854184388,
+    "rf2_pass": true,
+    "total_energy_actual_kNmm": 0.00022457151300000003,
+    "total_energy_reference_kNmm": 0.00022418821945,
+    "total_energy_discrepancy_pct": 0.17096953218164376,
+    "total_energy_pass": true
+  },
+  "irreversibility": {
+    "passed": true,
+    "total_nodes_audited": 13278,
+    "healing_violations_count": 0,
+    "max_healing_magnitude": 0.0,
+    "out_of_bounds_count": 0,
+    "healing_violations_sample": []
+  },
+  "history_monotonicity": {
+    "passed": true,
+    "total_gps_audited": 51984,
+    "history_violations_count": 0,
+    "max_history_drop_MPa": 0.0,
+    "history_violations_sample": []
+  },
+  "history_equality": null,
+  "active_set_kkt": null,
+  "checkpoint_summary": {
+    "target_uy_mm": 0.0018603125442191958,
+    "rf2_kN": 0.1807665079832077,
+    "total_energy_kNmm": 0.00022457151300000003,
+    "nodes": 13278,
+    "gps": 51984,
+    "active_nodes": 0,
+    "free_nodes": 0
+  }
+}

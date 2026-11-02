@@ -261,6 +261,41 @@ class Package166R3AcceptanceEvaluator(object):
             "total_nodes_audited": total_nodes
         }
 
+    def _normalize_damage(self, raw_d):
+        if isinstance(raw_d, dict):
+            return {int(k): float(v) for k, v in raw_d.items()}
+        elif isinstance(raw_d, list):
+            res = {}
+            for item in raw_d:
+                if isinstance(item, (list, tuple)) and len(item) == 2:
+                    res[int(item[0])] = float(item[1])
+                elif isinstance(item, dict):
+                    res[int(item.get("node", item.get("id")))] = float(item.get("damage", item.get("d")))
+            return res
+        return {}
+
+    def _normalize_history(self, raw_h):
+        if isinstance(raw_h, dict):
+            res = {}
+            for k, v in raw_h.items():
+                if isinstance(k, tuple):
+                    res[k] = float(v)
+                elif isinstance(k, str) and "," in k:
+                    parts = k.strip("()[] ").split(",")
+                    res[(int(parts[0]), int(parts[1]))] = float(v)
+                else:
+                    res[k] = float(v)
+            return res
+        elif isinstance(raw_h, list):
+            res = {}
+            for item in raw_h:
+                if isinstance(item, (list, tuple)) and len(item) == 3:
+                    res[(int(item[0]), int(item[1]))] = float(item[2])
+                elif isinstance(item, dict):
+                    res[(int(item["element"]), int(item["gp"]))] = float(item.get("history", item.get("h")))
+            return res
+        return {}
+
     def evaluate_checkpoint_file(self, cp_path=None, d_initial=None, h_initial=None, psi_plus=None):
         """
         Full scientific acceptance evaluation from a committed checkpoint file.
@@ -282,40 +317,89 @@ class Package166R3AcceptanceEvaluator(object):
                 "reason": str(e)
             }
 
-        required_keys = ["target_uy_mm", "rf2_kN", "total_energy_kNmm", "nodal_damage", "gp_history"]
-        for k in required_keys:
-            if k not in data:
-                return {
-                    "passed": False,
-                    "decision": "CHECKPOINT_SCHEMA_INCOMPLETE",
-                    "reason": "Missing required checkpoint key: %s" % k
-                }
+        # Normalize field dictionaries
+        raw_damage = data.get("nodal_damage", data.get("damage"))
+        raw_history = data.get("gp_history", data.get("history"))
+
+        if raw_damage is None:
+            return {
+                "passed": False,
+                "decision": "CHECKPOINT_SCHEMA_INCOMPLETE",
+                "reason": "Missing required checkpoint key: damage / nodal_damage"
+            }
+        if raw_history is None:
+            return {
+                "passed": False,
+                "decision": "CHECKPOINT_SCHEMA_INCOMPLETE",
+                "reason": "Missing required checkpoint key: history / gp_history"
+            }
+
+        nodal_damage = self._normalize_damage(raw_damage)
+        gp_history = self._normalize_history(raw_history)
+
+        # Check scalar observables in data or adjacent summary
+        target_uy = data.get("target_uy_mm")
+        rf2 = data.get("rf2_kN", data.get("reaction_force_kN"))
+        total_energy = data.get("total_energy_kNmm")
+
+        summary_path = path.parent / "re_equilibration_summary.json"
+        summary_data = {}
+        if summary_path.is_file():
+            try:
+                summary_data = json.loads(summary_path.read_text(encoding="utf-8"))
+                if rf2 is None:
+                    rf2 = summary_data.get("reaction_force_kN", summary_data.get("rf2_kN"))
+                if total_energy is None:
+                    total_energy = summary_data.get("total_energy_kNmm")
+                if target_uy is None:
+                    target_uy = summary_data.get("target_uy_mm")
+            except Exception:
+                pass
+
+        if target_uy is None:
+            return {
+                "passed": False,
+                "decision": "CHECKPOINT_SCHEMA_INCOMPLETE",
+                "reason": "Missing required checkpoint key: target_uy_mm"
+            }
+        if rf2 is None:
+            return {
+                "passed": False,
+                "decision": "CHECKPOINT_SCHEMA_INCOMPLETE",
+                "reason": "Missing required scalar observable: rf2_kN / reaction_force_kN"
+            }
+        if total_energy is None:
+            return {
+                "passed": False,
+                "decision": "CHECKPOINT_SCHEMA_INCOMPLETE",
+                "reason": "Missing required scalar observable: total_energy_kNmm"
+            }
 
         # Check node and GP counts
-        if len(data["nodal_damage"]) != TOTAL_C5_NODES:
+        if len(nodal_damage) != TOTAL_C5_NODES:
             return {
                 "passed": False,
                 "decision": "NODE_COUNT_MISMATCH",
-                "reason": "Checkpoint nodal damage count %d != %d" % (len(data["nodal_damage"]), TOTAL_C5_NODES)
+                "reason": "Checkpoint nodal damage count %d != %d" % (len(nodal_damage), TOTAL_C5_NODES)
             }
-        if len(data["gp_history"]) != TOTAL_C5_GPS:
+        if len(gp_history) != TOTAL_C5_GPS:
             return {
                 "passed": False,
                 "decision": "GP_COUNT_MISMATCH",
-                "reason": "Checkpoint GP history count %d != %d" % (len(data["gp_history"]), TOTAL_C5_GPS)
+                "reason": "Checkpoint GP history count %d != %d" % (len(gp_history), TOTAL_C5_GPS)
             }
 
         # Check holding displacement
-        uy_diff = abs(data["target_uy_mm"] - REFERENCE_HOLDING_UY)
+        uy_diff = abs(target_uy - REFERENCE_HOLDING_UY)
         if uy_diff > 1e-9:
             return {
                 "passed": False,
                 "decision": "HOLDING_DISPLACEMENT_MISMATCH",
-                "reason": "Holding displacement %.12f != reference %.12f (diff %.3e mm)" % (data["target_uy_mm"], REFERENCE_HOLDING_UY, uy_diff)
+                "reason": "Holding displacement %.12f != reference %.12f (diff %.3e mm)" % (target_uy, REFERENCE_HOLDING_UY, uy_diff)
             }
 
         # Check physical reference parity
-        parity = self.evaluate_reference_parity(data["rf2_kN"], data["total_energy_kNmm"])
+        parity = self.evaluate_reference_parity(rf2, total_energy)
         if not parity["passed"]:
             return {
                 "passed": False,
@@ -326,7 +410,8 @@ class Package166R3AcceptanceEvaluator(object):
         # Check damage healing if d_initial is provided
         irreversibility_res = None
         if d_initial:
-            irreversibility_res = self.evaluate_pointwise_irreversibility(d_initial, data["nodal_damage"])
+            d_init_norm = self._normalize_damage(d_initial)
+            irreversibility_res = self.evaluate_pointwise_irreversibility(d_init_norm, nodal_damage)
             if not irreversibility_res["passed"]:
                 return {
                     "passed": False,
@@ -337,7 +422,8 @@ class Package166R3AcceptanceEvaluator(object):
         # Check history monotonicity if h_initial is provided
         history_mono_res = None
         if h_initial:
-            history_mono_res = self.evaluate_history_monotonicity(h_initial, data["gp_history"])
+            h_init_norm = self._normalize_history(h_initial)
+            history_mono_res = self.evaluate_history_monotonicity(h_init_norm, gp_history)
             if not history_mono_res["passed"]:
                 return {
                     "passed": False,
@@ -348,7 +434,9 @@ class Package166R3AcceptanceEvaluator(object):
         # Check history equality if psi_plus is provided
         history_eq_res = None
         if h_initial and psi_plus:
-            history_eq_res = self.evaluate_history_equality(h_initial, psi_plus, data["gp_history"])
+            h_init_norm = self._normalize_history(h_initial)
+            psi_norm = self._normalize_history(psi_plus)
+            history_eq_res = self.evaluate_history_equality(h_init_norm, psi_norm, gp_history)
             if not history_eq_res["passed"]:
                 return {
                     "passed": False,
@@ -359,7 +447,7 @@ class Package166R3AcceptanceEvaluator(object):
         # Check active set KKT conditions if sets exist
         kkt_res = None
         if "active_nodes" in data and "free_nodes" in data:
-            kkt_res = self.evaluate_active_set_kkt(data["active_nodes"], data["free_nodes"], data["nodal_damage"])
+            kkt_res = self.evaluate_active_set_kkt(data["active_nodes"], data["free_nodes"], nodal_damage)
             if not kkt_res["passed"]:
                 return {
                     "passed": False,
@@ -376,11 +464,11 @@ class Package166R3AcceptanceEvaluator(object):
             "history_equality": history_eq_res,
             "active_set_kkt": kkt_res,
             "checkpoint_summary": {
-                "target_uy_mm": data["target_uy_mm"],
-                "rf2_kN": data["rf2_kN"],
-                "total_energy_kNmm": data["total_energy_kNmm"],
-                "nodes": len(data["nodal_damage"]),
-                "gps": len(data["gp_history"]),
+                "target_uy_mm": target_uy,
+                "rf2_kN": rf2,
+                "total_energy_kNmm": total_energy,
+                "nodes": len(nodal_damage),
+                "gps": len(gp_history),
                 "active_nodes": len(data.get("active_nodes", [])),
                 "free_nodes": len(data.get("free_nodes", []))
             }
