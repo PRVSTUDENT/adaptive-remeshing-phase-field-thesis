@@ -1,27 +1,19 @@
-﻿{
+{
     "active":  false,
     "agent":  "codex",
-    "task_id":  "CONTROLLER-SUCCESSOR-REGISTRATION-ACCEPTANCE",
-    "starting_commit":  "5372fb528416c570e6afdff0fab7c9edee724953",
-    "claimed_at":  "2026-11-02T02:18:08.5945435+01:00",
-    "last_updated":  "2026-11-02T02:35:48.8761921+01:00",
-    "last_released":  "2026-11-02T02:35:48.8761921+01:00",
+    "task_id":  "CONTROLLER-REPORTING-RESUME-F1598",
+    "starting_commit":  "3b84256c36669c7af9f06c79b101af5870cba459",
+    "claimed_at":  "2026-11-02T02:46:17.9309368+01:00",
+    "last_updated":  "2026-11-02T02:52:34.4789570+01:00",
+    "last_released":  "2026-11-02T02:52:34.4789570+01:00",
     "controller_run_id":  "19280009-42f4-4897-8d3a-9b52d2e5168a",
-    "session_report":  "project_coordination/sessions/2026-11-02_codex_successor_registration.md",
+    "session_report":  "project_coordination/sessions/2026-11-02_codex_reporting_resume_f1598.md",
     "allowed_write_scope":  [
                                 "project_coordination/ACTIVE_SESSION.json",
-                                "project_coordination/ACTIVE_TASK.json",
-                                "project_coordination/TASK_LEDGER.csv",
                                 "project_coordination/CURRENT_STATE.md",
-                                "project_coordination/ARTIFACT_REGISTRY.csv",
-                                "project_coordination/task_definitions/F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE.json",
-                                "project_coordination/sessions/2026-11-02_codex_successor_registration.md",
-                                "tests/unit/test_controller_successor_registration.ps1",
-                                "scripts/controller/Controller-TaskLifecycle.ps1",
-                                "C:\\Users\\pruth\\OpenClawPAD\\failure_recovery\\successor-maintenance-20261102",
-                                "scripts/controller/Antigravity-Autonomous-Loop.ps1",
-                                "scripts/controller/Controller-Preparation.ps1",
-                                "project_coordination/task_definitions/F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE.INITIAL_PROMPT.md",
-                                "C:\\Users\\pruth\\OpenClawPAD\\Antigravity-Autonomous-Loop.ps1"
+                                "project_coordination/TASK_LEDGER.csv",
+                                "project_coordination/sessions/2026-11-02_codex_reporting_resume_f1598.md",
+                                "C:\\Users\\pruth\\OpenClawPAD\\ChatGPTBridge",
+                                "C:\\Users\\pruth\\OpenClawPAD\\failure_recovery\\f1598-reporting-resume-20261102"
                             ]
 }
