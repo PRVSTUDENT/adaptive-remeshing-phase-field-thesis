@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "run_id": "aa1da205-6151-409a-a135-62c22ec7b024",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 166-R3 Job 1419485.mmaster02 actively running on mnode097/0 in queue normal_imfdfkmq, progressing to outer iteration 65 (CPU time 00:24:32). Critical convergence milestone achieved: coupled displacement increment delta_u breached the tolerance threshold (delta_u = 9.313e-10 mm <= 1.0e-9 mm). Phase increment delta_d contracted from 2.453e-5 (outer 62) to 1.904e-5 (outer 63) and 2.129e-5 (outer 65), closing in on the 1.0e-5 threshold. Driving history increment contracted to delta_h = 7.577e-5 MPa (0.0758 kPa). Free phase residual (3.447e-9 kN) and dual defect (9.907e-10 kN*mm) remain well within 1.0e-6 tolerances. PDAS active nodes contracted to 1,853 with 35 iterations remaining before the max_outer=100 ceiling. Offline continuation candidate Package 163 (+5 nm continuation to uy=0.00186531 mm) verified fully qualified with 4/4 passing unit tests.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "scripts/validation/evaluate_package166_r3_c5_acceptance.py": "7F47FC3490BD2325551C23AACE1A27B06E6F14BF165918C498A1173B6CAF250E",
+    "tests/unit/test_package166_r3_acceptance_evaluator.py": "0201EB4D73AE309DAC455D52D616C912B431264E2C1C2FB3913ACB0086EA3CFD",
+    "scripts/state_transfer/build_package163_c5_continuation.py": "16F1E9C99C5C9028302EF5328E8C3D21CBDDB883E7585D094641B8F7FA7D7497",
+    "tests/unit/test_package163_c5_continuation_contract.py": "65108423121BA6E1E52076141621267200B69B29FA7F18B37B04BB4CA1134718",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/submit_M1_C5_P166_R3_C2_0.pbs": "BCE7CC17FD0AF2C42AE21CB67123E313FD869DA3872EFB7360BDD8548602240E",
+    "project_coordination/ACTIVE_TASK.json": "62B95344C03629AEC03BBBE19CAE8EC8A9DF5C3DC6B7BE8D755BFF3922E8ADEA",
+    "project_coordination/ACTIVE_SESSION.json": "3D451AA8665E7F44075122BAABA421027E982C089053D537A398039BA8494451"
+  }
+}
