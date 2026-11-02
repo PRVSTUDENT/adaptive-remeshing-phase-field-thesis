@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "run_id": "e04c21fb-e81a-47fa-8878-5446d7b7f4b4",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "operation": "research_preparation",
+  "finding": "Qualified and submitted Package 167 (Job 1419547.mmaster02): authentic Stage C2-2 forward continuation on Candidate C5 mesh advancing +5 nm (uy = 0.00186531 mm to 0.00187031 mm) from accepted Checkpoint 02, verified with authentic compute-node Abaqus datachecks.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/167_c5_package167_c2_2_continuation/EXECUTION_MANIFEST.json": "9D7D20C063CFA7E00ADCE57B394C5677966CDA43BEE9A07FBBF44DA7E5281DF4",
+    "models/pandey_kumar_mode1/167_c5_package167_c2_2_continuation/PACKAGE_MANIFEST.json": "658BAFCFDCE700AF67086AC5D0CBB4F27DCB32F95EB4CA18F65E63D006BCD36D",
+    "models/pandey_kumar_mode1/167_c5_package167_c2_2_continuation/M1_C5_PACKAGE167_C2_2_CONTINUATION.inp": "E183CF78C580A91231960B380DAAF18CD2C415D43BF14D20319E6D18CB6D40C6",
+    "models/pandey_kumar_mode1/167_c5_package167_c2_2_continuation/P167_MECHANICAL_DC.dat": "D96C368F8E3D4D579D948C052207DA1E8EE8268F6ED12DA0765EBD082235FD3F",
+    "models/pandey_kumar_mode1/167_c5_package167_c2_2_continuation/P167_PHASE_DC.dat": "D465E28B37C75D6E7098A384A20FF5B96EB63C64374E59C2585A042A0D40ED69",
+    "models/pandey_kumar_mode1/167_c5_package167_c2_2_continuation/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/167_c5_package167_c2_2_continuation/initial_checkpoint_02.json": "8201D8200A12C8A493ABA8550DA7D66DB9301C2389A9EA1409BCB5B9E57B4FEA",
+    "results/validation/mode1_f1597/package169_reference_evaluation.json": "9D8FB532E1884C429BABE28E835C8870234E54FB214B8A943B1292514DED3C4B",
+    "results/validation/package163_r3_c5_continuation_acceptance_report.json": "C5F68CF5FF2C2F9F384235DE23ACD1DFDB550E632D13A33CEABBEC7A766D72A7",
+    "results/validation/package157_r8_c1_2_continuation_acceptance_report.json": "A2A0D7703CC2916313ED3CBCB1B32752631D233B51F54FC2779B5354D79AF08E"
+  },
+  "verification_passed": true,
+  "job_submission": {
+    "pbs_job_id": "1419547.mmaster02",
+    "job_name": "M1_C5_P167_C2_2",
+    "batch_name": "MODE1_PACKAGE167_M1_C5_P167_C2_2",
+    "queue": "entry_imfdfkmq",
+    "resources": "1 CPU, 16 GB RAM, 8h walltime",
+    "predecessor_checkpoint_02_sha256": "8201D8200A12C8A493ABA8550DA7D66DB9301C2389A9EA1409BCB5B9E57B4FEA",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "reference_b_comparator_job_id": "1419543.mmaster02"
+  }
+}
