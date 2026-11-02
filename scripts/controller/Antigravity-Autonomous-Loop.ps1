@@ -229,6 +229,7 @@ trap {
 }
 . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Preparation.ps1')
 . (Join-Path $WorkspaceDir 'scripts/controller/Controller-DefinitionRecovery.ps1')
+. (Join-Path $WorkspaceDir 'scripts/controller/Controller-AuthRecovery.ps1')
 $canonicalController = Join-Path $WorkspaceDir 'scripts/controller/Antigravity-Autonomous-Loop.ps1'
 if ((Get-FileHash -LiteralPath $PSCommandPath).Hash -ne (Get-FileHash -LiteralPath $canonicalController).Hash) { throw 'Installed controller differs from canonical tested source; redeploy.' }
 $controllerCheckpointPath = Join-Path $env:USERPROFILE 'OpenClawPAD/controller_turn_checkpoint.json'
@@ -245,6 +246,10 @@ if ($ControllerDryRun) {
         Get-Content -LiteralPath $InitialPromptFile -Raw -Encoding UTF8
     } else {
         $InitialPrompt
+    }
+    if($checkpoint -and $checkpoint.state -eq 'PENDING' -and -not $checkpoint.next_instruction){
+        $pendingAuth=Get-ControllerPendingAuthResumePlan -State $checkpoint -Instruction $prompt -NonExecuting
+        $prompt=$pendingAuth.instruction
     }
     $preparation=Get-ControllerPreparationPlan $WorkspaceDir $prompt
     if(-not $preparation.dispatch_ready){
@@ -609,7 +614,7 @@ function Test-AgyProfileLocked {
     return $false
 }
 
-function Set-AndVerifyAgyRunProfile {
+function Set-AndVerifyAgyRunProfileCore {
     param(
         [Parameter(Mandatory)]
         [string]$Context
@@ -823,6 +828,22 @@ $($verify.Raw)
     }
 
     Write-Host "[PROFILE-GUARD] Verified '$expected' [$Context]." -ForegroundColor Green
+}
+
+function Set-AndVerifyAgyRunProfile {
+    param([string]$Context)
+    if($Context -in @('STARTUP','TURN_START')){
+        # Recover before the legacy verifier can attempt its own token refresh.
+        $null=Invoke-AgyAuthenticationFailover
+        Set-AndVerifyAgyRunProfileCore -Context $Context
+        return
+    }
+    try { Set-AndVerifyAgyRunProfileCore -Context $Context }
+    catch {
+        if($Context -notin @('STARTUP','TURN_START','PRE_AGY') -or $_.Exception.Message -notmatch 'AGY_PROVIDER_IDENTITY_UNPROVEN|AGY_CREDENTIAL_EXPIRED|HTTP\s*401'){throw}
+        $null=Invoke-AgyAuthenticationFailover
+        Set-AndVerifyAgyRunProfileCore -Context $Context
+    }
 }
 
 function Ensure-AuthoritativeAgyProfile {
@@ -2913,6 +2934,9 @@ function Invoke-AgySmartSelection {
     }
     catch {
         $failure = [string]$_.Exception.Message
+        if($failure -match 'AGY_PROVIDER_IDENTITY_UNPROVEN|HTTP\s*401'){
+            return (Invoke-AgyAuthenticationFailover)
+        }
         # Only inventory telemetry failures qualify. A real (measured) low
         # quota, identity drift, syntax error, or other problem never does.
         $inventoryFailed = $failure -match '^No verified account with long quota' -and
@@ -3512,6 +3536,12 @@ if ($null -ne $script:ControllerState) {
         $ConversationId = $null
         $StartTurn = if ($script:ControllerState.turn) { [int]$script:ControllerState.turn } else { 1 }
         Write-Host "[RESUME] Resuming recovery turn from checkpoint (Turn $StartTurn)." -ForegroundColor Yellow
+    }
+    elseif ($script:ControllerState.state -eq 'PENDING' -and -not $script:ControllerState.next_instruction) {
+        $resumeInstruction=if($CurrentInstruction){$CurrentInstruction}else{$InitialPrompt}
+        $pendingAuth=Get-ControllerPendingAuthResumePlan -State $script:ControllerState -Instruction $resumeInstruction -ProviderVerified:($script:ControllerAuthVerifiedForCheckpoint -ceq (Get-FileHash $controllerCheckpointPath).Hash)
+        $CurrentInstruction=$pendingAuth.instruction;$StartTurn=$pendingAuth.turn;$ConversationId=$null
+        Write-Host "[RESUME] Provider-verified unstarted pending operation; exact instruction hash; Turn $StartTurn."
     }
     elseif ($script:ControllerState.state -eq 'PENDING' -and $script:ControllerState.next_instruction) {
         $resolved = Resolve-ControllerInstruction $WorkspaceDir $script:ControllerState.next_instruction

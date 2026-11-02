@@ -77,8 +77,8 @@ try {
             $tokens=$null;$errors=$null
             $ast=[Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot '../../scripts/controller/Antigravity-Autonomous-Loop.ps1'),[ref]$tokens,[ref]$errors)
             if($errors.Count){throw 'Controller parse regression'}
-            $node=$ast.Find({param($n)$n -is [Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -eq 'Set-AndVerifyAgyRunProfile'},$true)
-            . ([scriptblock]::Create($node.Extent.Text))
+            $node=$ast.Find({param($n)$n -is [Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -eq 'Set-AndVerifyAgyRunProfileCore'},$true)
+            . ([scriptblock]::Create($node.Extent.Text.Replace('function Set-AndVerifyAgyRunProfileCore','function Set-AndVerifyAgyRunProfile')))
             function global:Get-AgySavedCredentialBytes {param($Profile) return ,([byte[]]$source.Clone())}
             function global:Get-AgyProfileState {return [pscustomobject]@{ActiveProfile='account3';ActiveFile='account3';LastSwitch='account3';Raw='fixture'}}
             function global:agy-profile {throw 'Profile rollback must never occur'}
