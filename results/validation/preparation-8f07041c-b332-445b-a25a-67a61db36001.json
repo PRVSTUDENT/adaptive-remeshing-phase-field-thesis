@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "run_id": "8f07041c-b332-445b-a25a-67a61db36001",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 166-R3 Job 1419485.mmaster02 verified actively running on mnode097/0 in queue normal_imfdfkmq, reaching outer iteration 30 with CPU time 00:11:23. Monotonic contraction confirmed: delta_d reduced to 6.578e-4, delta_u reduced to 1.313e-7 mm, delta_h reduced to 0.01067 MPa, with free residual (1.212e-8 kN) and dual defect (8.921e-9 kN*mm) well within 1e-6 tolerances. Offline inspection of the +5 nm forward continuation package completed: build_package163_c5_continuation.py generalized to seamlessly consume the accepted Package 166-R3 C5 checkpoint, with 4/4 passing unit tests in test_package163_c5_continuation_contract.py.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "scripts/state_transfer/build_package163_c5_continuation.py": "33212255F62A66D906F66DD3ADC747914B26C6D731F870D195C77A2D45EB7B59",
+    "tests/unit/test_package163_c5_continuation_contract.py": "1CF019C24C51D3EC7CECF68CE7769DB26EF2FA3B9474B336F14F26E8732E7243",
+    "scripts/validation/evaluate_package166_r3_c5_acceptance.py": "BB95B379BA3F47B2F9F0B4D70A4BC91DBEE856BB4A950BA091693C0BB31E933B",
+    "tests/unit/test_package166_r3_acceptance_evaluator.py": "7C2768D183877A68DC7703CDB39DDC14D22CD07E8E33B480D1E82A1754D4082C",
+    "project_coordination/HPC_JOB_LEDGER.csv": "5D4AC7284D3D4860570C53192E04B6A152A8C73889AA7AF616121F72FE25619D",
+    "project_coordination/ACTIVE_TASK.json": "11B7F9AA81E3B6F3D7FC91699735DCC73BA22373368F21DC64CD4043477D1616"
+  }
+}
