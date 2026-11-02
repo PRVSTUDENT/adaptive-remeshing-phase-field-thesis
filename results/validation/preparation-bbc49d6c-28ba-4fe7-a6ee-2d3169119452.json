@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "run_id": "bbc49d6c-28ba-4fe7-a6ee-2d3169119452",
+  "finding": "Telemetry consistency investigation resolved: authentic solver telemetry in Job 1419489 was genuinely contracting at all iterations (delta_u decayed from 1.833e-08 mm at outer 119 to 1.142e-08 mm at outer 135 and 7.021e-09 mm at outer 153; delta_H decayed from 1.821e-03 MPa to 1.120e-03 MPa and 6.802e-04 MPa; active set stabilized at 2,951 nodes with delta_d dropping to 1.045e-05, within 5% of coupled threshold). The Turn 29 identical values were proven to be narrative report reuse, not a solver plateau. Simultaneously, Package 157-R8 (Job 1419490) is confirmed computing on mnode097 with verified dual/free residuals.",
+  "evidence_sources": {
+    "results/validation/r2_telemetry_consistency_investigation.json": "3F5FF67D87D7F75A5AF577907C174D4EE104D5B94BD6B68A915EACBF8D332364",
+    "results/validation/package163_r2_live_telemetry_turn30.json": "D0D0C3E2E1E0938B9D1BBE55E9FB1D1F4B97F7C5C247709435D605F36612C1D8",
+    "results/validation/package157_r8_live_telemetry_turn30.json": "F86308E6EB6CF2CC0E5FB300B068BC3491B4F77618E9AF0C77C0D0746C4DA44D",
+    "scripts/validation/investigate_r2_telemetry_consistency.py": "19664F8FCC5295B444B497B7FF9C72FAA14AF7106A9D58BC194AA1EEE929D718",
+    "scripts/validation/fetch_and_analyze_r8_telemetry.py": "24A45E0412617C3CBA7E5659314DE01D78E71A63F5BFE703A27D4001105798B8",
+    "tests/unit/test_r2_telemetry_reporting_regression.py": "F3045BE35D148528942D6978BF052A8D1E6EC295335E300B6C3EEE83B3494DBA"
+  },
+  "verification_passed": true
+}
