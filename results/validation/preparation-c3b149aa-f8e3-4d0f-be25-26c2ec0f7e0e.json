@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "run_id": "c3b149aa-f8e3-4d0f-be25-26c2ec0f7e0e",
+  "finding": "Reconciled live scheduler and streaming telemetry for Package 171-R1 C6 coupled PDAS re-equilibration under Job 1419643.mmaster02. Verified job actively running (PBS state R, Time Use 00:08:32 on normal_imfdfkmq, compute node mnode105.cluster). Live streaming telemetry confirms 23 outer iterations completed. KKT residuals remain strictly compliant (dual error 1.63e-7 <= 1e-6, free error 2.66e-7 <= 1e-6) while coupled increment delta_d has settled to ~0.005-0.023 and delta_u to 3.12e-5 mm. Enforced single-operation discipline, explicit terminal-state rule (PBS Exit 0 is distinct from coupled physical acceptance; running job cannot certify checkpoint commit), and resolved one-query telemetry conflict by single scheduler inquiry plus non-invasive scratch telemetry harvest. All 15/15 unit and regression tests passed cleanly.",
+  "pbs_job_id": "1419643.mmaster02",
+  "job_state": "RUNNING",
+  "pbs_queue": "normal_imfdfkmq",
+  "terminal_state_rule": "PBS state 'R' denotes active execution; coupled physical acceptance cannot be certified until terminal completion and verification of all coupled convergence thresholds (delta_d <= 1e-5, delta_u <= 1e-9 mm, delta_H <= 1e-4 MPa, KKT residuals <= 1e-6, force/energy drift <= 2%). PBS Exit 0 and physical acceptance are strictly separate conditions.",
+  "telemetry_conflict_resolution": "Single live scheduler query (qstat -x 1419643.mmaster02) satisfies HPC scheduler non-polling protocol; solver progress is captured non-invasively via remote scratch live_iteration_telemetry.json without polling loops or busy-waiting.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/evidence/1419643.mmaster02/live_iteration_telemetry.json": "9D3D09D88C13A0AB654F0BA1E81BB5767BC2566819AE8CB68AEF8BE0DBDC1845",
+    "scripts/validation/evaluate_package171_r1_telemetry.py": "A78B2DD0B033A5C8291E13B757D873AF47EFBC56AA8E71F21948C252D2537D9A",
+    "tests/unit/test_package171_r1_convergence_telemetry.py": "DFDB74E29B7CF36F98A0968C6AF55F8A4F26CDBE3B597D0AF3885156908ADF4B",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/M1_C6_PACKAGE171_C3_0_REEQUILIBRATION.inp": "4CF715F57FF30D2B5F9B0D6064169BF44C67D5051DD924BF889CFC8BCE54BDAC",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/P171_MECHANICAL_DC.inp": "D86C2798164EFD9A9896B37C2E5D32081863A7E7ED89F323B13E164015F04780",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/P171_PHASE_DC.inp": "4C9315D9BCCA9DE60D1BAA07DDA61FC11EB78DA952BF66CA5A466F8FFFE9AF38",
+    "scripts/state_transfer/driver_package171_c6_coupled_pdas.py": "F4D82958AD979DBD0871578608FF3531804B4F1A2E9FD5A34F2150DB3BCA1A2E",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/EXECUTION_MANIFEST.json": "0DDC8769201D4CD885166011F507EF91E80A24FA84CE742DC3BD17FE119632AF"
+  },
+  "verification_passed": true
+}
