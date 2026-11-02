@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "operation": "research_preparation",
+  "title": "Package 163-R2 C5 Forward Continuation Qualification and PBS Submission (1419489.mmaster02)",
+  "finding": "Package 163-R2 (+5 nm forward continuation on C5 mesh with max_outer=200, Job M1_C5_P163_R2_C2_1) was constructed, verified against frozen UEL CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6, staged to cluster scratch, qualified through technical preflight PASS_BOTH, and submitted to PBS as Job 1419489.mmaster02 (queue entry_imfdfkmq, running on mnode097, walltime 08:00:00, 16 GB, 1 CPU).",
+  "submission_receipt": {
+    "job_id": "1419489.mmaster02",
+    "job_name": "M1_C5_P163_R2_C2_1",
+    "batch_name": "MODE1_PACKAGE163_R2_M1_C5_P163_R2_C2_1",
+    "submission_queue": "entry_imfdfkmq",
+    "execution_queue": "normal_imfdfkmq",
+    "exec_host": "mnode097/0",
+    "job_state": "R",
+    "resources": {
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8
+    },
+    "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c5_package163_r2_c2_1_continuation",
+    "single_falsifiable_hypothesis": "Package 163 failed solely because the 100-iteration budget was insufficient for an otherwise steadily contracting coupled staggered iteration (rho ~ 0.9675); extending max_outer to 200 enables coupled convergence under unchanged physical tolerances (delta_d <= 1e-5, delta_u <= 1e-9 mm, delta_H <= 1e-4 MPa, force <= 2%, energy <= 2%)."
+  },
+  "next_operation": "Monitor job 1419489.mmaster02 to terminal completion and evaluate authentic Checkpoint02 against unchanged physical acceptance criteria",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/163_c5_package163_r2_c2_1_continuation/EXECUTION_MANIFEST.json": "F2DB4B15C212FE7FCE4028B2DAA9746F79EDF119A449B452B8985A5A925BFCCE",
+    "models/pandey_kumar_mode1/163_c5_package163_r2_c2_1_continuation/PACKAGE_MANIFEST.json": "08AB99CF484D93668E0F316755BB59FD7EF55FA2151475D0651CF044F668C609",
+    "models/pandey_kumar_mode1/163_c5_package163_r2_c2_1_continuation/submit_M1_C5_P163_R2_C2_1.pbs": "246B25114267AAE49D89B8952F67FEB2A7D5B9328FFEF7FA13B23A5E75B34947",
+    "scripts/state_transfer/driver_package163_r2_c5_continuation.py": "828943A17B419D14828C94E0272EF1BB431EE88C56DCF65498D5CCD7CE29097F",
+    "scripts/state_transfer/build_package163_r2_c5_continuation.py": "3F168FA3E27A9374911E0EE63605814894E1B8E155D5BE8251BA78EF9AC1A180",
+    "scripts/hpc/stage_package163_r2.py": "70D538027762AA8B17779C39D2FB14FA06E220C745973689590A6FE3C331A5F4",
+    "tests/unit/test_build_package163_r2.py": "7C10F4A8AA067BC815E94A18810B63766D956B8A2B083E42193B0E2EC10DBC59",
+    "tests/unit/test_package163_r2_manifest.py": "6BC4038B95C21AC4B3CB3CC7A6ADF2C623A06BDF0450B688D2C8AAEBD6E01DBE",
+    "tests/unit/test_stage_package163_r2.py": "095CA1A312FCE277B7694EAE2979B84966730FA25BCD5F205EA1C3F4F664A5F5",
+    "results/validation/package163_convergence_diagnosis.json": "7E7448D02F9248A76C023AAA15C8893A123EEC147C9BA72BADF72F3A90DF12E1"
+  },
+  "registered_paths": [
+    "models/pandey_kumar_mode1/163_c5_package163_r2_c2_1_continuation/EXECUTION_MANIFEST.json",
+    "models/pandey_kumar_mode1/163_c5_package163_r2_c2_1_continuation/PACKAGE_MANIFEST.json",
+    "models/pandey_kumar_mode1/163_c5_package163_r2_c2_1_continuation/submit_M1_C5_P163_R2_C2_1.pbs",
+    "scripts/state_transfer/driver_package163_r2_c5_continuation.py",
+    "scripts/state_transfer/build_package163_r2_c5_continuation.py",
+    "scripts/hpc/stage_package163_r2.py",
+    "tests/unit/test_build_package163_r2.py",
+    "tests/unit/test_package163_r2_manifest.py",
+    "tests/unit/test_stage_package163_r2.py"
+  ]
+}
