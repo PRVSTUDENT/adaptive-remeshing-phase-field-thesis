@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Convergence recovery strategy formulated and qualified: under measured contraction rates (rho_u=0.9767, rho_h=0.9765 at outer 181), simultaneous coupled convergence is projected at outer 235, confirming high risk of nonconvergence at the 200 outer budget ceiling. Strategy 1 (intermediate hot-restart) is disqualified due to unreviewed driver modification risk and history state corruption risk. Strategy 2 (clean 300-outer contingency solve initialized from authentic Checkpoint 01 with max_outer=300) is fully qualified, requiring ~3.04h walltime (well within the 8.0h limit), strictly preserving the non-accumulating history contract and frozen UEL. Running jobs 1419489 (outer 181) and 1419490 (outer 4) continue to compute in PBS.",
+  "evidence_sources": {
+    "scripts/validation/investigate_convergence_recovery_strategy.py": "BF7D8AD9A7488302F10E745512E369BC011906C7629005180F7B83A579B77E67",
+    "tests/unit/test_convergence_recovery_qualification.py": "1F1B11979E61C84CECAEF2335863C1D1C7C33895B42598AAEC319A7D22C97C4A",
+    "results/validation/convergence_recovery_investigation_turn32.json": "E646B27A4F18C2EECE3D4263A38920571D199F3FA5F72BB1AD81B01B3C1A934C",
+    "results/validation/p163_r2_live_iteration_telemetry.json": "D517E67746405D48018D5F1ADC9B3692649F3B8ADE2E259F40BECC8C55D8BFCB",
+    "results/validation/p157_r8_live_iteration_telemetry.json": "84531943D3FC9F04BE933BFB7DAD9095664D257356D473AD713B87117F8DFC52"
+  },
+  "verification_passed": true
+}
