@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "evaluation_name": "PACKAGE157_R8_C1_2_CONTINUATION_PHYSICAL_ACCEPTANCE",
+  "job_id": "1419490.mmaster02",
+  "target_uy_mm": 0.0018703125442191958,
+  "reference_comparator": {
+    "source_package": "Package 169 (Job 1419543.mmaster02)",
+    "reference_name": "Reference B (Step 4 Inc 6, continuous C4 monotonic loading)",
+    "target_uy_mm": 0.0018703125442191958,
+    "rf2_reference_kN": 0.18302963,
+    "etot_reference_kNmm": 0.00022603386
+  },
+  "c4_r8_observables": {
+    "rf2_actual_kN": 0.182516,
+    "etot_actual_kNmm": 0.000226038
+  },
+  "physical_gate_evaluation": {
+    "energy_discrepancy_pct": 0.0018315839936509776,
+    "energy_gate_threshold_pct": 2.0,
+    "energy_pass": true,
+    "force_discrepancy_pct": 0.2806266941587475,
+    "force_gate_threshold_pct": 5.0,
+    "force_pass": true,
+    "coupled_convergence_pass": true
+  },
+  "acceptance_decision": "PHYSICAL_ACCEPTANCE_PASS",
+  "verification_passed": true,
+  "summary": "Independent C4-R8 reference at target displacement uy=0.001870312544 mm is 100% physically accepted against continuous monotonic C4 Reference B from Package 169. Energy discrepancy 0.0018% <= 2.0%, Force discrepancy 0.281% <= 5.0%."
+}

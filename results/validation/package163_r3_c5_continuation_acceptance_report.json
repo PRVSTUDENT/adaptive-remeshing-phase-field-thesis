@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "evaluation_name": "PACKAGE163_R3_C5_CONTINUATION_PHYSICAL_ACCEPTANCE",
+  "job_id": "1419499.mmaster02",
+  "checkpoint_target_uy_mm": 0.0018653125442191958,
+  "converged_outer_iteration": 235,
+  "checkpoint_02_path": "models/pandey_kumar_mode1/163_c5_package163_r3_c2_1_continuation/evidence/1419499.mmaster02/converged_checkpoint_02.json",
+  "checkpoint_02_sha256": "8201D8200A12C8A493ABA8550DA7D66DB9301C2389A9EA1409BCB5B9E57B4FEA",
+  "reference_comparator": {
+    "source_package": "Package 169 (Job 1419543.mmaster02)",
+    "reference_name": "Reference A (Step 3 Inc 9, continuous C4 monotonic loading)",
+    "target_uy_mm": 0.0018653125442191958,
+    "rf2_reference_kN": 0.18291074,
+    "etot_reference_kNmm": 0.00022511709
+  },
+  "c5_r3_observables": {
+    "rf2_actual_kN": 0.179443,
+    "etot_actual_kNmm": 0.000225501,
+    "elastic_energy_kNmm": 0.000170977,
+    "fracture_energy_kNmm": 5.4524e-05
+  },
+  "physical_gate_evaluation": {
+    "force_discrepancy_pct": 1.8958646168070814,
+    "force_gate_threshold_pct": 2.0,
+    "force_pass": true,
+    "energy_discrepancy_pct": 0.17053791873374957,
+    "energy_gate_threshold_pct": 2.0,
+    "energy_pass": true,
+    "damage_irreversibility_pass": true,
+    "history_monotonicity_pass": true,
+    "coupled_convergence_pass": true
+  },
+  "acceptance_decision": "PHYSICAL_ACCEPTANCE_PASS",
+  "verification_passed": true,
+  "summary": "Package 163-R3 Checkpoint 02 at uy=0.001865312544 mm is 100% physically accepted against continuous monotonic C4 Reference A from Package 169. Force discrepancy 1.896% <= 2.0%, Energy discrepancy 0.171% <= 2.0%."
+}
