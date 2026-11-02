@@ -120,11 +120,19 @@ class C5ForwardContinuationController(object):
             raise ValueError(f"Frozen UEL hash violation: {actual_uel} != {FROZEN_UEL_SHA256}")
 
         # Load receiver mesh template from package deck
-        deck_path = self.package / "M1_C5_PACKAGE163_R2_C2_1_CONTINUATION.inp"
-        if not deck_path.is_file():
-            deck_path = self.package / "M1_C5_PACKAGE163_C2_1_CONTINUATION.inp"
-        if not deck_path.is_file():
-            deck_path = self.package / "M1_C5_PACKAGE160_C2_0_REEQUILIBRATION.inp"
+        deck_path = None
+        for candidate_name in [
+            "M1_C5_PACKAGE163_R3_C2_1_CONTINUATION.inp",
+            "M1_C5_PACKAGE163_R2_C2_1_CONTINUATION.inp",
+            "M1_C5_PACKAGE163_C2_1_CONTINUATION.inp",
+            "M1_C5_PACKAGE160_C2_0_REEQUILIBRATION.inp",
+        ]:
+            p = self.package / candidate_name
+            if p.is_file():
+                deck_path = p
+                break
+        if deck_path is None:
+            raise FileNotFoundError(f"No valid receiver mesh deck found in {self.package}")
         self.template = deck_path.read_text(encoding="utf-8")
         self.mesh = Mesh2D.from_inp(deck_path, name="C5_Receiver", max_physical_node=13278)
         if len(self.mesh.elements) != 12996 or len(self.mesh.nodes) != 13278:

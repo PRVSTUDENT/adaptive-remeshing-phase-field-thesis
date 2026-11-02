@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "evaluation_type": "PACKAGE_163_R2_TERMINAL_ACCEPTANCE",
+  "job_id": "1419489.mmaster02",
+  "terminal_state": "MAX_OUTER_EXCEEDED",
+  "exit_code": 1,
+  "physical_acceptance_decision": "PHYSICAL_FAIL",
+  "checkpoint_02_committed": false,
+  "final_outer_iteration": 200,
+  "final_residuals": {
+    "delta_d": 3.3703476191027093e-06,
+    "delta_d_tol": 1.0e-05,
+    "delta_d_pass": true,
+    "delta_u_mm": 2.249936315599013e-09,
+    "delta_u_tol_mm": 1.0e-09,
+    "delta_u_pass": false,
+    "delta_h_MPa": 0.0002200983723739114,
+    "delta_h_tol_MPa": 0.0001,
+    "delta_h_pass": false,
+    "kkt_dual_error": 9.954556655224682e-10,
+    "kkt_dual_tol": 1.0e-06,
+    "kkt_dual_pass": true,
+    "kkt_free_error": 2.890963740896272e-11,
+    "kkt_free_tol": 1.0e-06,
+    "kkt_free_pass": true,
+    "pdas_active_nodes": 2938,
+    "pdas_free_nodes": 10340
+  },
+  "causal_finding": "Coupled kinematic and driving history increments contracted steadily (rho_u=0.9767, rho_h=0.9765) reaching within 2.25x of coupled tolerances, but exhausted the 200 outer budget ceiling before reaching simultaneous convergence (projected at outer ~235).",
+  "successor_action": "Package 163-R3 with max_outer=300 submitted as PBS Job 1419496.mmaster02 to complete coupled convergence from authentic Checkpoint 01."
+}

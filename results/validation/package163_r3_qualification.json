@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "qualification_status": "PACKAGE163_R3_QUALIFIED_READY_FOR_EXECUTION",
+  "package_name": "Package 163-R3 Stage C2-1 +5 nm Forward Continuation",
+  "local_package_dir": "models/pandey_kumar_mode1/163_c5_package163_r3_c2_1_continuation",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c5_package163_r3_c2_1_continuation",
+  "predecessor_checkpoint_01_sha256": "DCFD31186061FA81111DA18071CF8ADFB9BAF2C5CB343CB60F08416741C1B64A",
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "solver_controls": {
+    "baseline_uy_mm": 0.0018603125442191958,
+    "target_uy_mm": 0.0018653125442191958,
+    "increment_nm": 5.0,
+    "max_outer": 300,
+    "tolerances": {
+      "delta_d": 1e-05,
+      "delta_u_mm": 1e-09,
+      "delta_h_MPa": 0.0001,
+      "kkt_dual_error": 1e-06,
+      "kkt_free_error": 1e-06,
+      "reaction_force_discrepancy_pct": 2.0,
+      "raw_total_energy_discrepancy_pct": 2.0
+    }
+  },
+  "resource_allocation": {
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime_hours": 8,
+    "queue": "entry_imfdfkmq",
+    "execution_mode": "single-rank serial"
+  },
+  "compute_node_qualification": {
+    "mechanical_datacheck": {
+      "job": "P163_R3_MECHANICAL_DC",
+      "status": "AUTHENTIC_DATACHECK_PASS",
+      "exit_code": 0
+    },
+    "phase_datacheck": {
+      "job": "P163_R3_PHASE_DC",
+      "status": "AUTHENTIC_DATACHECK_PASS",
+      "exit_code": 0
+    },
+    "overall_datacheck": "AUTHENTIC_DATACHECK_PASS_BOTH"
+  },
+  "unit_tests": {
+    "test_suite": "tests/unit/test_package163_r3_qualification.py",
+    "passed": 4,
+    "failed": 0,
+    "status": "ALL_TESTS_PASSED"
+  },
+  "execution_eligibility": {
+    "status": "ELIGIBLE_PENDING_R2_TERMINAL_EXIT",
+    "condition": "Must submit immediately via Invoke-Mode1Execution.ps1 once Job 1419489 terminates with MAX_OUTER_EXCEEDED"
+  }
+}
