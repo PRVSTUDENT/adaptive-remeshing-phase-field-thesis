@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "controller_run_id": "2f5a30e3-5662-4b2f-aad3-6eb9c391d1b3",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 163 Stage C2-1 +5 nm forward continuation Job 1419488.mmaster02 actively running on mnode097/0 (Outer 13, free error 1.739e-9 kN, dual error 7.346e-9 kN*mm, PDAS free count 1,540 nodes). Implemented and verified dedicated Stage C2-1 Physical Acceptance Evaluator and unit test suite with 8/8 passing tests.",
+  "evidence_sources": {
+    "scripts/validation/evaluate_package163_c5_continuation_acceptance.py": "4C3F85E4CBF777C4BF029B15177C58BCE4F308827E5C800842D10D8A5C935309",
+    "tests/unit/test_package163_c5_continuation_acceptance.py": "F52603A8788B041E2A070755FCC3D73BAA7C88300B26E7412756BA2E02A1327B",
+    "scripts/validation/extract_package148_iteration.py": "41879C0B5055A053B4B389591042231CC595D3F0F8C3AF707884F413E755823C",
+    "tests/unit/test_package161_iteration_extractor.py": "CADAA6F24249768F013F6F8023990A41251A981CD9C50244A24BC0C82BDD5CC9",
+    "models/pandey_kumar_mode1/163_c5_package163_c2_1_continuation/EXECUTION_MANIFEST.json": "A5476617892A0F49F7D9CE107AB967A99DEDC36955A796B28AB5DB2654CAE48F",
+    "models/pandey_kumar_mode1/163_c5_package163_c2_1_continuation/PACKAGE_MANIFEST.json": "74EF58FABD7E3D4A6D5910B9DB77951DC1826663B40CAA6CEC7ADA7B7286C30C"
+  },
+  "verification_passed": true,
+  "pbs_job_id": "1419488.mmaster02",
+  "queue": "normal_imfdfkmq",
+  "compute_host": "mnode097/0",
+  "latest_outer_iteration": 13,
+  "latest_delta_d": 0.00033874726678084777,
+  "latest_delta_u_mm": 1.5505327213599825e-07,
+  "latest_delta_h_MPa": 0.01269780706942214,
+  "latest_free_error_kN": 1.7387938856889138e-09,
+  "latest_dual_error_kNmm": 7.345965201083184e-09,
+  "pdas_active_count": 11738,
+  "pdas_free_count": 1540
+}
