@@ -1,0 +1,30 @@
+{
+  "package_number": "171-R1",
+  "package_name": "MODE1_PACKAGE_171_R1_C6_STAGE_C3_0_REEQUILIBRATION",
+  "discretization": "C6_CONFORMAL_QUAD",
+  "num_elements": 15252,
+  "num_nodes": 15559,
+  "duplicate_slit_pairs": 59,
+  "donor_source": {
+    "checkpoint": "CheckPoint03_Job1419566",
+    "target_uy_mm": 0.0018703125442191958,
+    "reference_force_kN": 0.17992419004440308,
+    "reference_total_energy_kNmm": 0.00022639903
+  },
+  "files": {
+    "M1_C6_PACKAGE171_C3_0_REEQUILIBRATION.inp": "4cf715f57ff30d2b5f9b0d6064169bf44c67d5051dd924bf889cfc8bce54bdac",
+    "P171_MECHANICAL_DC.inp": "d86c2798164efd9a9896b37c2e5d32081863a7e7ed89f323b13e164015f04780",
+    "P171_PHASE_DC.inp": "4c9315d9bcca9de60d1baa07dda61fc11eb78da952bf66ca5a466f8fffe9af38",
+    "nodal_displacements_initial.csv": "a90a6a315b09049611857702a13496057cfdf7520eb3158ee6c8aede44a193ab",
+    "nodal_phase_field_initial.csv": "afe56919b5b5494d72e14307a6c078460e538466c80318225aaba7433258bb6c",
+    "d_lower_bounds.csv": "fe415819566b5f7d44d02d5152d31492b4cb19f076eeb4fdef85d3f8797fa08d",
+    "initial_conditions_solution.inc": "897c12ece3fe0665fa369b0154039b119ae875d901f51c1b38dd866b3133c196",
+    "active_set_boundary_cards.inc": "fa63aa5d376063ee278e661629ee25c7a8faa8fa7a203a696979a1f3f327d9be",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_M1_C6_P171_R1_C3_0.pbs": "430a82c1565d5ca550712b54368fd38ff8b6f58c41ba40412725a9783e260a81",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "run_datacheck.sh": "93ce6a566debe4c1384d9ae040ec1a75c1ff9caaa6973f8b0f4c884f58e72912",
+    "P171_MECHANICAL_DC.dat": "f78c6b02716f63500f9517f8b0c2ba9ba1db16907f250ef67cdc3d4930840113",
+    "P171_PHASE_DC.dat": "4ff6650330fdab9a2511bd6add0587179f2214b779d79dfa44965e7dae273acc"
+  }
+}

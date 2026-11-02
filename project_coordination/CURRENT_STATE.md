@@ -1,3 +1,44 @@
+## 2 November Package 171-R1 C6 Stage C3-0 Coupled PDAS Driver Qualified & Dispatched: Job 1419643.mmaster02
+
+1. **Package 171-R1 Immutable Assembly & Runtime Closure Verification**:
+   - Objective: Repair the confirmed Package 171 startup defect (Job 1419604.mmaster02 Exit 1: `ModuleNotFoundError: No module named 'scripts.state_transfer.c3_int_to_c4_spatial_mapping'`) by incorporating full transitive runtime dependency closure while strictly preserving the accepted non-coarsened C6 mesh (15,252 quads, 15,559 physical nodes + RP 999999, 59 duplicate slit pairs, 30,504 dual user elements: 15,252 phase U1 + 15,252 mechanical U2) initialized with authentic transferred non-zero damage $d \in [0.003390, 0.690981]$ and driving history $H \ge 2.948\times 10^{-8}$ from accepted Checkpoint 03 (Job 1419566).
+   - Preserved frozen production UEL `f42_mixed_uel.for` bitwise identical to SHA-256 `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`.
+   - Transitive Dependency Closure: Added `scripts/state_transfer/c3_int_to_c4_spatial_mapping.py` to `runtime_source_hashes` in `M1_C6_PACKAGE171_R1_AUTHORIZATION.json` and `EXECUTION_MANIFEST.json` as well as the staged runtime archive.
+   - Isolated Sandbox Verification: Verified recursive import closure in isolated local sandbox without access to full repo (`test_isolated_sandbox_import_smoke` passed).
+   - Remote Compute-Node Import Smoke Test: Verified clean runtime import directly on cluster scratch (`smoke_import.py`: `REMOTE_IMPORT_SUCCESS: True`).
+   - Cluster Compute-Node Datachecks: Both `P171_MECHANICAL_DC.inp` (DAT SHA-256 `F78C6B02716F63500F9517F8B0C2BA9BA1DB16907F250EF67CDC3D4930840113`) and `P171_PHASE_DC.inp` (DAT SHA-256 `4FF6650330FDAB9A2511BD6ADD0587179F2214B779D79DFA44965E7DAE273ACC`) executed on cluster compute node with Exit 0 and 0 errors.
+   - Regression Testing: All 8/8 tests passed in `tests/unit/test_package171_r1_c6_coupled_driver_readiness.py`. All 3/3 tests passed in `tests/unit/test_package171_r1_runtime_closure.py`.
+
+2. **Job 1419643.mmaster02 Execution & Live Telemetry**:
+   - Qualified and dispatched via `Invoke-Mode1Execution.ps1` to `entry_imfdfkmq` -> `normal_imfdfkmq` on compute node `mnode105.cluster`.
+   - Resources: 1 CPU, 16 GB RAM, 8 h walltime (single-rank serial).
+   - Live Telemetry: Coupled PDAS driver actively iterating through staggered subproblems:
+     * Outer 1: target $u_y = 0.00187031\text{ mm}$, $\Delta d = 0.01787$, dual error $5.88\times 10^{-7}$, 13,803 active / 1,756 free nodes.
+     * Outer 2: $\Delta d = 0.01586$, $\Delta u = 4.99\times 10^{-6}\text{ mm}$, dual error $2.93\times 10^{-7}$, free error $2.82\times 10^{-7}$, 13,277 active / 2,282 free nodes.
+     * Outer 3: $\Delta d = 0.02238$, $\Delta u = 5.78\times 10^{-6}\text{ mm}$, dual error $2.37\times 10^{-7}$, free error $1.89\times 10^{-7}$, 12,971 active / 2,588 free nodes.
+     * Outer 4: $\Delta d = 0.01566$, $\Delta u = 1.14\times 10^{-5}\text{ mm}$, dual error $9.28\times 10^{-8}$, free error $1.21\times 10^{-7}$, 12,695 active / 2,864 free nodes.
+   - Dual error has dropped below $10^{-7}$ (well within KKT tolerance $\le 10^{-6}$), free error below $1.3\times 10^{-7}$, and active sets are settling.
+   - Single-operation discipline enforced: Returning promptly while job continues autonomous execution. No polling in loop.
+
+## 2 November Package 171 C6 Stage C3-0 Coupled PDAS Driver Qualified & Dispatched: Job 1419604.mmaster02
+
+1. **Package 171 Assembly & Multi-Subproblem Datacheck Qualification**:
+   - Objective: Stage genuine coupled PDAS re-equilibration on non-coarsened C6 mesh (15,252 quads, 15,559 physical nodes + RP 999999, 59 duplicate slit pairs, 30,504 dual user elements: 15,252 phase U1 + 15,252 mechanical U2) using authentic transferred nonzero damage d in [0.003390, 0.690981] and driving history H >= 2.948e-8 from accepted Checkpoint 03 (Job 1419566).
+   - Preserved frozen production UEL f42_mixed_uel.for bitwise identical to SHA-256 CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6.
+   - Staggered PDAS driver driver_package171_c6_coupled_pdas.py incorporates non-accumulating history updates (H* = max(H0, psi+(u*))), Hintermueller-Ito-Kunisch active-set updates, and pointwise damage irreversibility.
+   - Local test qualification: 7/7 regression tests passed in test_package171_c6_coupled_driver_readiness.py.
+   - Cluster compute-node datachecks: Both P171_MECHANICAL_DC.inp (SHA-256 D4C6042DF430077314E60905AF0F6C61F3A8C040084A29E4688C96141DA92A75) and P171_PHASE_DC.inp (SHA-256 19DE18AE645CB41782B76DC6007F9322119E4DC4B62E7B49C8A3F50EABC1F3F0) compiled with ifort and executed with Exit 0 and 0 errors.
+
+2. **Job 1419604.mmaster02 Execution & Terminal Accounting**:
+   - Qualified and dispatched via Invoke-Mode1Execution.ps1 to entry_imfdfkmq -> normal_imfdfkmq on mnode098.cluster.
+   - Resources: 1 CPU, 16 GB RAM, 8 h walltime.
+   - Accounting: State F, Exit status 1, Walltime 00:00:03, CPUT 00:00:00.
+   - Deliverable fetched: pbs_execution.log (Exit 1 due to ModuleNotFoundError: No module named scripts.state_transfer.c3_int_to_c4_spatial_mapping).
+   - Root cause diagnosed: driver_package146_147_pdas_continuation.py imports c3_int_to_c4_spatial_mapping.py, which was omitted from the staged runtime/ tarball.
+   - Terminal status recorded in project_coordination/HPC_JOB_LEDGER.csv as FAILED, exit code 1, FAILED_STARTUP_MISSING_RUNTIME_C3_INT_TO_C4_SPATIAL_MAPPING.
+   - Single-operation discipline enforced: No blind resubmissions in this turn.
+   - Next Required Action: Include scripts/state_transfer/c3_int_to_c4_spatial_mapping.py in Package 171-R1 runtime dependencies, regenerate manifest, stage, and dispatch Package 171-R1.
+
 ## 2 November Package 170 C6 Stage C3-0 Direct UEL Solve Complete (Job 1419586.mmaster02) & Staggered PDAS Architecture Established
 
 1. **Job 1419586.mmaster02 (Package 170) Execution & Accounting Reconciled**:

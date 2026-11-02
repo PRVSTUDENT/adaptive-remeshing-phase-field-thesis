@@ -114,6 +114,7 @@ def stage_and_datacheck():
     runtime_files = [
         "scripts/__init__.py",
         "scripts/state_transfer/__init__.py",
+        "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py",
         "scripts/state_transfer/c4_to_c5_spatial_mapping.py",
         "scripts/state_transfer/driver_package146_147_pdas_continuation.py",
         "scripts/state_transfer/driver_package171_c6_coupled_pdas.py",
