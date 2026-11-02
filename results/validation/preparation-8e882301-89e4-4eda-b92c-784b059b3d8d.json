@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "run_id": "8e882301-89e4-4eda-b92c-784b059b3d8d",
+  "finding": "Package 170 direct UEL solve (Job 1419586.mmaster02) completed on mnode097 with Exit Code 0 in 1.2s CPU time. Authentic Abaqus deliverables fetched and verified: 15,252-quad C6 mesh (15,559 nodes, 59 duplicate slit pairs, 115 kinematic ties, 30,504 dual UEL elements) compiled cleanly with ifort and solved with 0 errors. Diagnostic evaluation established that direct single-step solve evaluated pure linear-elastic deformation (E_elastic=0.274e-3 kN mm, E_fracture=0.0 kN mm) without staggered PDAS iterations. Non-conflation gate enforced: C6 transferred damage d and history H remain CANDIDATE_ONLY pending authentic staggered PDAS re-equilibration (Package 171).",
+  "evidence_sources": {
+    "results/validation/c6_stage_c3_0_solver_evaluation.json": "5DE66E86114CCEA5533B1C34D286B19E8B4C12DA5C9CB29D163798DBC9E8CA4D",
+    "models/pandey_kumar_mode1/170_c6_stage_c3_0_reequilibration/evidence/1419586.mmaster02/pbs_execution.log": "2DB7539C780DC48D8440AD271CCD9E4128A779DCE4E503642D3602ED995320A2",
+    "models/pandey_kumar_mode1/170_c6_stage_c3_0_reequilibration/evidence/1419586.mmaster02/M1_C6_STAGE_C3_0_REEQUILIBRATION.sta": "DA7A22A3B97832C4595C3CCF7DECA3B88FCEE53F4809B8940BBCA33167C47F15",
+    "models/pandey_kumar_mode1/170_c6_stage_c3_0_reequilibration/evidence/1419586.mmaster02/M1_C6_STAGE_C3_0_REEQUILIBRATION.msg": "3F814152D4AD3A237144C4D4C5BD7002F5E83D2F4E4CFE244334A41E8FA20CDF",
+    "models/pandey_kumar_mode1/170_c6_stage_c3_0_reequilibration/evidence/1419586.mmaster02/M1_C6_STAGE_C3_0_REEQUILIBRATION.dat": "003B43F913B1E0D32C2EA6741670586E2EF3FBFD316BD9EC4EB6B58E46C2E361",
+    "models/pandey_kumar_mode1/170_c6_stage_c3_0_reequilibration/evidence/1419586.mmaster02/uel_energy_balance.csv": "29B84188C58C6BF8451FB3AFA3F076315582357C3B17982E9F742744D238DFB4",
+    "models/pandey_kumar_mode1/170_c6_stage_c3_0_reequilibration/M1_C6_STAGE_C3_0_REEQUILIBRATION.inp": "EDD89EFACFD9F76EA0BCCCA20E8680DAB1958E224EF06F3637F8BA783D5A2B3A",
+    "models/pandey_kumar_mode1/170_c6_stage_c3_0_reequilibration/PACKAGE_MANIFEST.json": "709FA6545E55E3BB910DE3BD14F88F082BDCABC9DD6DF1DB2AD5CE093A6B69A1",
+    "models/pandey_kumar_mode1/170_c6_stage_c3_0_reequilibration/M1_C6_STAGE_C3_0_AUTHORIZATION.json": "E33D9984A4496562A99A8E2CE943055E3F6FDEA2E59CE3723E98BAB16C1F57F6",
+    "models/pandey_kumar_mode1/170_c6_stage_c3_0_reequilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/170_c6_stage_c3_0_reequilibration/submit_M1_C6_STAGE_C3_0_REEQUILIBRATION.pbs": "380CED7FB78EB9AD61DF0BF6CEDCC7A5B26424B0EFEEDEC82126B157B971FAEE",
+    "scripts/validation/evaluate_package170_job1419586.py": "73295B2987B08FD667EC2323C3DE391E4D273DA96A7A84FFC461DDDAC38F73DE",
+    "scripts/hpc/fetch_package170_results.ps1": "CEDC614034B1770065D6E97456D651FB7175D84EF291E6FDDB9FCD1E300175A6"
+  },
+  "registered_paths": [
+    "results/validation/c6_stage_c3_0_solver_evaluation.json",
+    "models/pandey_kumar_mode1/170_c6_stage_c3_0_reequilibration/evidence/1419586.mmaster02/uel_energy_balance.csv",
+    "scripts/validation/evaluate_package170_job1419586.py",
+    "scripts/hpc/fetch_package170_results.ps1",
+    "project_coordination/HPC_JOB_LEDGER.csv"
+  ],
+  "verification_passed": true,
+  "metadata": {
+    "job_id": "1419586.mmaster02",
+    "exit_code": 0,
+    "host": "mnode097.cluster",
+    "queue": "normal_imfdfkmq",
+    "solver_status": "COMPLETED_SUCCESSFULLY",
+    "c6_quads": 15252,
+    "c6_nodes": 15559,
+    "duplicate_slit_pairs": 59,
+    "dual_uel_elements": 30504,
+    "elastic_energy_kNmm": 0.00027402273,
+    "fracture_energy_kNmm": 0.0,
+    "staggered_pdas_driver_required": true
+  }
+}

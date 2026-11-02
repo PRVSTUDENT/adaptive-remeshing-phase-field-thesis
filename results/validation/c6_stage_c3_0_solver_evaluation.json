@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "job_id": "1419586.mmaster02",
+  "host": "mnode097.cluster",
+  "queue": "normal_imfdfkmq",
+  "exit_code": 0,
+  "solver_completed": true,
+  "error_count": 0,
+  "wallclock_sec": 1,
+  "cpu_time_sec": 1.2,
+  "energy_balance": {
+    "Step": 1.0,
+    "Increment": 1.0,
+    "TotalTime": 1.0,
+    "StepTime": 1.0,
+    "E_elastic_kNmm": 0.00027402273,
+    "E_fracture_kNmm": 0.0,
+    "E_total_kNmm": 0.00027402273
+  },
+  "evidence_hashes": {
+    "pbs_execution.log": "2DB7539C780DC48D8440AD271CCD9E4128A779DCE4E503642D3602ED995320A2",
+    "M1_C6_STAGE_C3_0_REEQUILIBRATION.sta": "DA7A22A3B97832C4595C3CCF7DECA3B88FCEE53F4809B8940BBCA33167C47F15",
+    "M1_C6_STAGE_C3_0_REEQUILIBRATION.msg": "3F814152D4AD3A237144C4D4C5BD7002F5E83D2F4E4CFE244334A41E8FA20CDF",
+    "M1_C6_STAGE_C3_0_REEQUILIBRATION.dat": "003B43F913B1E0D32C2EA6741670586E2EF3FBFD316BD9EC4EB6B58E46C2E361",
+    "uel_energy_balance.csv": "29B84188C58C6BF8451FB3AFA3F076315582357C3B17982E9F742744D238DFB4"
+  },
+  "scientific_findings": {
+    "mesh_and_uel_qualification": "The 15,252-quad C6 mesh (15,559 nodes, 59 duplicate slit pairs, kinematic ties, and 30,504 dual user elements: 15,252 phase U1 + 15,252 mechanical U2) with frozen production UEL compiled cleanly with ifort 2021.13.0, linked with GNU ld, and executed to completion in 1.2s CPU time with 0 errors on compute node mnode097, confirming full structural and numerical validity of the non-coarsened C6 deck.",
+    "stage_c3_0_re_equilibration_requirement": "The single-step direct input deck solved pure linear-elastic deformation from zero state (E_elastic = 0.274e-3 kN mm, E_fracture = 0.0 kN mm) without invoking the staggered PDAS driver or applying transferred damage d and history H. Therefore, authentic coupled re-equilibration acceptance (Delta d < 1e-6, KKT satisfied) strictly requires staging a coupled PDAS driver package (Package 171) mirroring the validated Package 166-R3 architecture."
+  },
+  "verification_passed": true
+}
