@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "turn": "4ded7886-64a4-48aa-8ed7-1e67a4ac6b3d",
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "verification_passed": true,
+  "title": "Package 166-R3 Construction, Preflight Qualification, and Physical/Technical Schema Alignment",
+  "finding": "Package 166-R3 directory and assets successfully constructed at models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history with all 14 package files verified against SHA-256 digests. Production UEL (CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6) strictly preserved. PACKAGE_MANIFEST.json restored donor_source schema (target_uy_mm = 0.0018603125442191958 mm, Checkpoint 01) and non-accumulating history contract H^(k) = max(H0, psi+(u^(k))), resolving the startup crash of Job 1419483 while maintaining corrected post-phase damage increment evaluation delta_d <= 1.0e-5.",
+  "next_operation": "F1598 turn closeout; successor task F1599-PACKAGE166-R3-SCHEMA-REPAIR ready for dispatch; zero unrequested HPC submissions",
+  "registered_paths": [
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/PACKAGE_MANIFEST.json",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/EXECUTION_MANIFEST.json",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/f42_mixed_uel.for",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/submit_M1_C5_P166_R3_C2_0.pbs",
+    "tests/unit/test_package166_r3_schema_repair.ps1",
+    "tests/unit/test_package166_r3_schema_repair.py",
+    "scripts/generation/build_package166_r3.ps1",
+    "project_coordination/task_definitions/F1599-PACKAGE166-R3-SCHEMA-REPAIR.json"
+  ],
+  "repair_specification": {
+    "package_name": "Package 166-R3",
+    "stage": "C2-0",
+    "target_mesh": "C5 (12996 quads, 13278 nodes, 51984 GPs)",
+    "donor_source_restoration": {
+      "checkpoint": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\157_c4_package157_c1_2_continuation_r5\\converged_checkpoint_01.json",
+      "target_uy_mm": 0.0018603125442191958,
+      "c4_max_history_MPa": 6868.951434128797
+    },
+    "non_accumulating_history_contract": {
+      "update_rule": "H^(k) = max(H0, psi+(u^(k)))",
+      "immutable_baseline": "H0 = min(H_trans, H_donor_max)",
+      "ratcheting_suppression": "Strictly non-accumulating from predecessor H0; rejected trials cannot corrupt baseline",
+      "post_convergence_thermo": "H* >= psi+(u*) at all 51984 GPs",
+      "post_convergence_monotonicity": "H* >= H0 at all 51984 GPs"
+    },
+    "convergence_gates": {
+      "post_phase_delta_d_max": 1e-05,
+      "delta_u_mm_max": 1e-09,
+      "force_drift_pct_max": 2.0,
+      "raw_energy_drift_pct_max": 2.0,
+      "kkt_complementarity_kNmm_max": 1e-06
+    },
+    "frozen_production_uel": {
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "status": "PRESERVED"
+    },
+    "verification_results": {
+      "pytest_unit_tests": "4 passed in test_package166_r3_schema_repair.py",
+      "powershell_digest_checks": "ALL_R3_SCHEMA_AND_DIGEST_CHECKS_PASS"
+    }
+  },
+  "evidence_sources": {
+    "tests/unit/test_package166_r3_schema_repair.ps1": "9E29019D275E810FE498143014262E16FC488F16DDF89400A07B674D24D5E718",
+    "tests/unit/test_package166_r3_schema_repair.py": "8D8C2ABA91F0AEB059B94DD1CA62E6C65FF6A7F9E6651448D8215817A87106EB",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/PACKAGE_MANIFEST.json": "0E23B27408062D93DD0703B65415B3EDC7C68ABEC836F4BF1C242B75525A29CD",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/EXECUTION_MANIFEST.json": "2BA7069C4450A239AF67692C6D854B3F8EE143CFC98992C403DD9DE8BB328760",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/submit_M1_C5_P166_R3_C2_0.pbs": "BCE7CC17FD0AF2C42AE21CB67123E313FD869DA3872EFB7360BDD8548602240E",
+    "scripts/generation/build_package166_r3.ps1": "305600B4C26969730A1CEC35734AD8A51F4760095BCC8D91C2EF76672F26C884",
+    "project_coordination/task_definitions/F1599-PACKAGE166-R3-SCHEMA-REPAIR.json": "F2B1D50253A57AD0E61F7ED4AF13C96C20FC9EC93F26C036E5F9EFC53B6B5D5A",
+    "results/validation/package166_authentic_terminal_audit.json": "410267AA3D4086E794CFC7A85D83266E02C4EB6E2C1CAA4F0D4618EC21AA91A8",
+    "results/validation/package166_independent_audit.json": "14968653A20EA3EAC3EE149DA57444C3E7C7B1BDCBF8DF2CA8A58DFEADEFEAA5"
+  }
+}

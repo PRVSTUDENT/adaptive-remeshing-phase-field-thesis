@@ -1,0 +1,39 @@
+{
+    "schema":  1,
+    "package_name":  "Package 166-R3 (Non-Accumulating History H* = max(H0, psi+(u*)) with Corrected Manifest \u0026 Damage Gate)",
+    "stage":  "C2-0",
+    "mesh":  "C5 (12996 quads, 13278 nodes, 51984 GPs)",
+    "predecessors":  [
+                         "Package 166 (Job 1419480 rejected for premature false convergence delta_d=3.01e-5 \u003e 1e-5)",
+                         "Package 166-R2 (Job 1419483 aborted on startup due to missing donor_source in manifest)"
+                     ],
+    "correction":  "Package 166-R3 restores donor_source and history contract while preserving post-phase damage gate repair from R2 driver",
+    "donor_source":  {
+                         "checkpoint":  "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\157_c4_package157_c1_2_continuation_r5\\converged_checkpoint_01.json",
+                         "target_uy_mm":  0.0018603125442191958,
+                         "c4_max_history_MPa":  6868.9514341287968
+                     },
+    "non_accumulating_history_contract":  {
+                                              "update_rule":  "H^(k) = max(H0, psi+(u^(k)))",
+                                              "immutable_baseline":  "H0 = min(H_trans, H_donor_max)",
+                                              "ratcheting_suppression":  "Strictly non-accumulating from predecessor H0; rejected trials cannot corrupt baseline",
+                                              "post_convergence_thermo":  "H* \u003e= psi+(u*) at all 51984 GPs",
+                                              "post_convergence_monotonicity":  "H* \u003e= H0 at all 51984 GPs"
+                                          },
+    "file_digests":  {
+                         "M1_C5_PACKAGE166_C2_0_REEQUILIBRATION.inp":  "1A8730E789025260E34DEFF467A91E9A8839627402B126AAE27F5297D5FC3693",
+                         "P166_MECHANICAL_DC.dat":  "E59C282B3EDFD73516E03F89185F82D853EA8E3E666C14AFDEFCAA689CFAF192",
+                         "P166_MECHANICAL_DC.inp":  "ED80F49AD84B977AA45A6E320B1862CA38A18F5CC9D0A83A036D3EABDA4ACD70",
+                         "P166_PHASE_DC.dat":  "1BCEFD4EB05BCDC470D5AB3220B677BC8B8327D6D908AEEC54282CB3678319E1",
+                         "P166_PHASE_DC.inp":  "4380902F1DAD30BDA07DFA05682D9802849087EE86A810D7903AC5FDE7A48E08",
+                         "active_set_boundary_cards.inc":  "8D8D273F1288CB26C426F4CF3AFADB158A531FDE81D4DE3806E0C8A15708535A",
+                         "d_lower_bounds.csv":  "53DB6A21AADD35DBB57E7622EE2B4D99B569993785C9F17CC4F03A2AF6E96985",
+                         "f42_mixed_uel.for":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+                         "initial_conditions_solution.inc":  "959CF645F87C824A287594DDE85741929368376B572840AF42A5844BE9FE3632",
+                         "job_notifications.sh":  "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+                         "nodal_displacements_initial.csv":  "D935DA0A5321B3042B16CA7B00FABAFCD5FA98D3466ECD0E6D6FE0F502C24827",
+                         "nodal_phase_field_initial.csv":  "2BA4B36CB59537C142E6C3294012631C042B579DACB352C06453C3C7DB3DE055",
+                         "run_datacheck.sh":  "284C0B1F5C71DCBE820BDE61C7DFEDB4F1E62DA743EA52C5EC582A622D821465",
+                         "submit_M1_C5_P166_R3_C2_0.pbs":  "BCE7CC17FD0AF2C42AE21CB67123E313FD869DA3872EFB7360BDD8548602240E"
+                     }
+}

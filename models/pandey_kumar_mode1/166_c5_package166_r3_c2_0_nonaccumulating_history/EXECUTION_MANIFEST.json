@@ -1,0 +1,62 @@
+{
+    "batch_name":  "MODE1_PACKAGE166_R3_M1_C5_P166_R3_C2_0",
+    "adapter":  "mode1-qualified-batch-v2",
+    "scientific_scope":  "MODE1",
+    "technical_stage":  "MODE1_BASELINE",
+    "configuration":  "MODE1_BASELINE",
+    "max_submissions":  1,
+    "automatic_retry":  false,
+    "remote_run_dir":  "/scratch9/pr21vyci/runs/mode1_c5_package166_r3_c2_0_nonaccumulating_history",
+    "runtime_root":  "/scratch9/pr21vyci/runs/mode1_c5_package166_r3_c2_0_nonaccumulating_history/runtime",
+    "runtime_source_hashes":  {
+                                  "scripts/state_transfer/c4_to_c5_spatial_mapping.py":  "BD2E115514C8672B07CBD85AEF6135C386B8C70A8044E378C6CCCEC910BD2699",
+                                  "scripts/state_transfer/driver_package146_147_pdas_continuation.py":  "9EDE833668340A41AD590CB2387F8CB72A6C9C63DE9DF6B2185A3CABD1B21265",
+                                  "scripts/state_transfer/driver_package166_r2_c5_nonaccumulating_history.py":  "A8EC8AD11188AC2D054AB366EB05B489D80EF9F9C8129B73EB21B6582B794513",
+                                  "scripts/validation/extract_package148_iteration.py":  "24C916740F737435612B751B839331131CB30526E6E9C5B31110BB8A463C69CF",
+                                  "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py":  "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8"
+                              },
+    "files":  {
+                  "M1_C5_PACKAGE166_C2_0_REEQUILIBRATION.inp":  "1a8730e789025260e34deff467a91e9a8839627402b126aae27f5297d5fc3693",
+                  "P166_MECHANICAL_DC.dat":  "e59c282b3edfd73516e03f89185f82d853ea8e3e666c14afdefcaa689cfaf192",
+                  "P166_MECHANICAL_DC.inp":  "ed80f49ad84b977aa45a6e320b1862ca38a18f5cc9d0a83a036d3eabda4acd70",
+                  "P166_PHASE_DC.dat":  "1bcefd4eb05bcdc470d5ab3220b677bc8b8327d6d908aeec54282cb3678319e1",
+                  "P166_PHASE_DC.inp":  "4380902f1dad30bda07dfa05682d9802849087ee86a810d7903ac5fde7a48e08",
+                  "active_set_boundary_cards.inc":  "8d8d273f1288cb26c426f4cf3afadb158a531fde81d4de3806e0c8a15708535a",
+                  "d_lower_bounds.csv":  "53db6a21aadd35dbb57e7622ee2b4d99b569993785c9f17cc4f03a2af6e96985",
+                  "f42_mixed_uel.for":  "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+                  "initial_conditions_solution.inc":  "959cf645f87c824a287594dde85741929368376b572840af42a5844be9fe3632",
+                  "job_notifications.sh":  "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+                  "nodal_displacements_initial.csv":  "d935da0a5321b3042b16ca7b00fabafcd5fa98d3466ecd0e6d6fe0f502c24827",
+                  "nodal_phase_field_initial.csv":  "2ba4b36cb59537c142e6c3294012631c042b579dacb352c06453c3c7db3de055",
+                  "run_datacheck.sh":  "284c0b1f5c71dcbe820bde61c7dfedb4f1e62da743ea52c5ec582a622d821465",
+                  "submit_M1_C5_P166_R3_C2_0.pbs":  "bce7cc17fd0af2c42ae21cb67123e313fd869da3872efb7360bdd8548602240e",
+                  "PACKAGE_MANIFEST.json":  "0e23b27408062d93dd0703b65415b3edc7c68abec836f4bf1c242b75525a29cd"
+              },
+    "scientific_predecessor_review":  "results/validation/package166_authentic_terminal_audit.json",
+    "jobs":  [
+                 {
+                     "id":  "M1_C5_P166_R3_C2_0",
+                     "purpose":  "Stage C2-0 coupled re-equilibration on Candidate C5 mesh with restored donor_source manifest schema and verified post-phase damage stopping logic delta_d \u003c= 1e-5.",
+                     "input":  "P166_MECHANICAL_DC.inp",
+                     "datacheck":  "P166_MECHANICAL_DC.dat",
+                     "additional_datachecks":  [
+                                                   "P166_PHASE_DC.dat"
+                                               ],
+                     "pbs":  "submit_M1_C5_P166_R3_C2_0.pbs",
+                     "queue":  "entry_imfdfkmq",
+                     "cpus":  1,
+                     "memory_gb":  16,
+                     "walltime_hours":  8,
+                     "execution":  "single-rank serial",
+                     "max_submissions":  1,
+                     "depends_on":  [
+
+                                    ],
+                     "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c5_package166_r3_c2_0_nonaccumulating_history/submit_M1_C5_P166_R3_C2_0.pbs\"",
+                     "command_sha256":  "placeholder"
+                 }
+             ],
+    "acceptance":  {
+                       "M1_C5_P166_R3_C2_0":  "Stage C2-0 coupled re-equilibration on Candidate C5 mesh (12,996 quads, 13,278 nodes, 51,984 GPs) with restored donor_source manifest schema and verified post-phase damage stopping logic delta_d \u003c= 1e-5."
+                   }
+}
