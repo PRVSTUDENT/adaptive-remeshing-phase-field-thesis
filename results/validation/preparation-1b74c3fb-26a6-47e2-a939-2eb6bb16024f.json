@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Quantitative root cause of Package 157-R8 energy acceptance failure resolved: coupled PDAS converged (outer 156, delta_d=3.00e-8, 0 healing violations) and matched donor reaction force within 1.98% (gate 5%) and elastic energy within 1.97%, but raw total energy discrepancy of 3.86% (exceeding strict 2% gate) is driven entirely by a +27.23% crack surface energy integral difference between the refined non-uniform C4 mesh (7056 elements) and coarse uniform C3 donor mesh (1600 elements). Evidence from continuous solve M1_C4_EXACT_REF (Job 1419305) proves C4 intrinsically exhibits +22.68% elevated fracture energy over C3, which continuation reproduces to within 0.001% total energy. Under unchanged project criteria, R8 is strictly marked FAIL, the 2% gate is unrelaxed, and Package 167 remains blocked under dual-predecessor policy pending an authentic like-for-like C4 continuous reference.",
+  "evidence_sources": {
+    "scripts/validation/evaluate_r8_energy_root_cause.py": "F06644F0D013A2DF63F2DD2E3468BE07FE07443A7A8B2E8BC79C7D97BA074F7E",
+    "tests/unit/test_r8_energy_root_cause.py": "1A8C21E56CDCED2285CC7A0D9C1C351AE5587FBF355DB3935459E0B32D8C642A",
+    "results/validation/r8_energy_failure_root_cause.json": "FEEDBC8D40CCCD4566F9F00F20C8B2336A27E957BE0CC2E4C6D902111EAA58D6",
+    "models/pandey_kumar_mode1/160_c4_exact_load_reference/evidence_1419305/package160_recovery_endpoint.json": "41A3A3C6F6EA40803437B763B42D2047A8CFEF6F5DF57A2A1554BB7BBB8D8EFC",
+    "models/pandey_kumar_mode1/160_c4_exact_load_reference/evidence_1419305/uel_energy_balance.csv": "98D29AE0BDA776AEDFBDEF582CFFADADBC03974B1953C356FE212045FCF8EFFA"
+  },
+  "verification_passed": true
+}
