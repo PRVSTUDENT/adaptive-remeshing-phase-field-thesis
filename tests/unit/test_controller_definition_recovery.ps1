@@ -53,6 +53,13 @@ Assert ($recovered.plan.dispatch_ready -and $calls -eq 1) 'authentic archived br
 RunCase 'unauthorized' @("OPERATION_ID: invented_operation`nExecute an invented registered operation",$good)
 $r=Invoke-ControllerDefinitionRecovery @caseArgs
 Assert ($calls -eq 2 -and $r.instruction -eq $good) 'ChatGPT cannot self-register an unknown operation'
+$unknownState=Read-DefinitionRecoveryState $caseArgs.StatePath
+Assert ($unknownState.chains[0].attempts[1].rejection.status -eq 'DEFINITION_REJECTED' -and
+    -not(Test-Path "$fixture/project_coordination/operation_definitions/invented_operation.json")) 'Unknown correction is rejected without writing a registration or weakening external review'
+RunCase 'original-new-definition' @()
+$caseArgs.Instruction="OPERATION_ID: proposed_new_operation`nPrepare a genuinely new definition for separate scientific review"
+$newDefinition=Invoke-ControllerDefinitionRecovery @caseArgs
+Assert ($newDefinition.plan.status -eq 'DEFINITION_REVIEW_REQUIRED' -and $calls -eq 0) 'An original new-definition request still stops at review with zero corrective consultations'
 RunCase 'review' @('DEFINITION_REVIEW_REQUIRED: missing predecessor scientific review')
 Throws {Invoke-ControllerDefinitionRecovery @caseArgs} 'Review/registration required' 'missing review is explicit actionable stop'
 RunCase 'service' @()

@@ -24,6 +24,10 @@ function Get-ControllerRegistrationDispatchPlan([string]$Workspace,[string]$Inst
 }
 function Get-ControllerPreparationPlan([string]$Workspace,[string]$Instruction) {
     $task=Get-Content -LiteralPath (Join-Path $Workspace 'project_coordination/ACTIVE_TASK.json') -Raw -Encoding UTF8|ConvertFrom-Json
+    if(Test-Path -LiteralPath (Join-Path $Workspace 'project_coordination/TASK_LEDGER.csv')){
+        $life=Get-ControllerTaskLifecycle $Workspace
+        if($life.terminal){return [pscustomobject]@{status='TASK_SUCCESSOR_REQUIRED';dispatch_ready=$false;task_type='LIFECYCLE_RECONCILIATION';operation_id='';path='';blocked_on=@($life.reason);recipe='';lifecycle=$life}}
+    }
     $registration=Get-ControllerRegistrationDispatchPlan $Workspace $Instruction $task
     if($registration){return $registration}
     if(-not $task.scientific_checkpoint_required){

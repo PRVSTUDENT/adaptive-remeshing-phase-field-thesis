@@ -1,5 +1,6 @@
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'Controller-Operations.ps1')
+. (Join-Path $PSScriptRoot 'Controller-TaskLifecycle.ps1')
 
 function Get-ControllerTextHash([string]$Text) {
     $sha = [Security.Cryptography.SHA256]::Create()
@@ -216,7 +217,8 @@ Select one next scientifically useful executable action from current evidence. I
 Create the owned session report and record an initial verified research artifact early (within 120 seconds); update it after each substantive action and at least every 180 seconds. The controller progress watchdog resets upon verified intermediate scientific artifacts (new/modified analysis or test code, passing test receipts, or substantive JSON findings with verified hashes); metadata, conversation chatter, and unchanged stubs do not reset the 600-second deadline. Do not spend the turn rereading broad history. Close the owned session truthfully and return evidence, actual PBS receipts if any, and the exact next safe action. End with Finished.
 "@
     }
-    return [pscustomobject]@{instruction=$Instruction; stale_replaced=[bool]$stale; evidence=$e; task_type=$taskType.task_type; operation=$taskType.operation}
+    $life=Get-ControllerTaskLifecycle $Workspace
+    return [pscustomobject]@{instruction=$Instruction; stale_replaced=[bool]$stale; evidence=$e; task_type=$taskType.task_type; operation=$taskType.operation; task_lifecycle=$life; dispatch_ready=$life.dispatch_ready; next_authoritative_task=$life.next_authoritative_task}
 }
 
 function New-ControllerTurnState($Evidence, [int]$Turn, [string]$Instruction, [int]$RecoveryCount = 0) {

@@ -1,10 +1,6 @@
 # Durable planning transport. Never executes reviewer text or modifies scientific accounting.
 function Assert-ControllerActiveTaskDispatch([string]$Workspace) {
-    $task=Get-Content -LiteralPath (Join-Path $Workspace 'project_coordination/ACTIVE_TASK.json') -Raw|ConvertFrom-Json
-    $closed=@(Import-Csv -LiteralPath (Join-Path $Workspace 'project_coordination/TASK_LEDGER.csv')|Where-Object {
-        $_.task_id -eq $task.task_id -and $_.status -match '^(?i:complete|completed|closed|done)$'
-    })
-    if($closed.Count){throw ('COMPLETED_TASK_REJECTED: '+$task.task_id+'; authoritative active-file/ledger conflict; do not reactivate or guess a successor')}
+    Assert-ControllerTaskLifecycle $Workspace
 }
 
 function Write-ControllerRecoveryNewFile([string]$Path, [string]$Text) {

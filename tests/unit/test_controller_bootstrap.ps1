@@ -8,7 +8,7 @@ function Put($Name,$Text){[IO.File]::WriteAllText((Join-Path $fixture $Name),$Te
 $script:checks=0
 function Assert($Value,$Message){if(-not $Value){throw "FAIL: $Message"};$script:checks++;"PASS $script:checks`: $Message"}
 try{
-    foreach($relative in @('scripts/controller/Controller-Recovery.ps1','scripts/controller/Controller-Operations.ps1','scripts/controller/Controller-Qualification.ps1','scripts/validation/probe_mode1_f1597_mechanical_history.py','scripts/validation/Invoke-BoundedAgyProcess.ps1','scripts/validation/probe_mode1_f1597_kkt.py')){
+    foreach($relative in @('scripts/controller/Controller-Recovery.ps1','scripts/controller/Controller-TaskLifecycle.ps1','scripts/controller/Controller-Operations.ps1','scripts/controller/Controller-Registration.ps1','scripts/controller/Controller-Qualification.ps1','scripts/validation/probe_mode1_f1597_mechanical_history.py','scripts/validation/Invoke-BoundedAgyProcess.ps1','scripts/validation/probe_mode1_f1597_kkt.py')){
         Copy-Item -LiteralPath (Join-Path $repo $relative) -Destination (Join-Path $fixture $relative)
     }
     foreach($relative in @('AGENTS.md','project_coordination/START_HERE.md','project_coordination/CURRENT_STATE.md','docs/project/PROJECT_PHASE_CHECKLIST.md')){Put $relative 'Required prerequisite fixture, not a scientific finding.'}
@@ -57,7 +57,7 @@ try{
     }
     Assert (-not $state.stop_reason -and $state.bootstrap_repeat_reads -eq 0) 'AGY telemetry cannot reject ordinary git status or file inspection commands'
     $controllerSource=[IO.File]::ReadAllText((Join-Path $repo 'scripts/controller/Antigravity-Autonomous-Loop.ps1'))
-    Assert ($controllerSource.Contains('scientific inactivity cutoff disabled') -and $controllerSource.Contains('-NoProgressSeconds $watchdogSeconds') -and $controllerSource.Contains('$hardTimeout = $controllerBudget.work')) 'scientific inactivity cutoff removed, finite hard deadline preserved'
+    Assert ($controllerSource.Contains('$watchdogSeconds = if($script:ControllerState.requires_scientific_checkpoint){0}else{$NoProgressSeconds}') -and $controllerSource.Contains('-NoProgressSeconds $watchdogSeconds') -and $controllerSource.Contains('$hardTimeout = $controllerBudget.work') -and $controllerSource.Contains('$streamInactivitySeconds = 360') -and $controllerSource.Contains('-InactivityTimeoutSeconds $streamInactivitySeconds')) 'scientific progress probe disabled by executable branch; finite work and stream-stall deadlines preserved'
     $failed=$false;try{$null=Resolve-ControllerInstruction $fixture '# F1596: run audit again'}catch{$failed=$_.Exception.Message -match 'COMPLETED_TASK_REJECTED'}
     Assert $failed 'closed predecessor rejected even when authoritative active task is F1597'
     Assert (-not(Test-ControllerScientificCheckpoint $fixture $state)) 'no measurement artifact means no verified checkpoint'

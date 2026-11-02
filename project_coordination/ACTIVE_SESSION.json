@@ -1,25 +1,25 @@
 ﻿{
     "active":  false,
     "agent":  "codex",
-    "task_id":  "CONTROLLER-TURN35-DURABLE-FAILURE-HANDOFF",
-    "starting_commit":  "0589d36ee15068a42a2e70c917c95c7c4c02a8ea",
-    "claimed_at":  "2026-11-02T01:48:37.1577756+01:00",
-    "last_updated":  "2026-11-02T01:57:23.2629333+01:00",
-    "last_released":  "2026-11-02T01:57:23.2629333+01:00",
+    "task_id":  "CONTROLLER-TASK-LIFECYCLE-RECONCILIATION",
+    "starting_commit":  "36c29c680b7f33a162242781d84ae4f6a367c9aa",
+    "claimed_at":  "2026-11-02T02:00:24.9312339+01:00",
+    "last_updated":  "2026-11-02T02:11:31.7872803+01:00",
+    "last_released":  "2026-11-02T02:11:31.7872803+01:00",
     "controller_run_id":  "19280009-42f4-4897-8d3a-9b52d2e5168a",
-    "session_report":  "project_coordination/sessions/2026-11-02_codex_turn35_failure_handoff.md",
+    "session_report":  "project_coordination/sessions/2026-11-02_codex_task_lifecycle_reconciliation.md",
     "allowed_write_scope":  [
                                 "scripts/controller/*",
-                                "tests/unit/test_controller_failure_handoff.ps1",
+                                "tests/unit/test_controller_task_lifecycle.ps1",
+                                "tests/unit/test_controller_definition_recovery.ps1",
                                 "project_coordination/ACTIVE_SESSION.json",
-                                "project_coordination/CURRENT_STATE.md",
+                                "project_coordination/ACTIVE_TASK.json",
                                 "project_coordination/TASK_LEDGER.csv",
+                                "project_coordination/CURRENT_STATE.md",
                                 "project_coordination/ARTIFACT_REGISTRY.csv",
-                                "project_coordination/sessions/2026-11-02_codex_turn35_failure_handoff.md",
+                                "project_coordination/sessions/2026-11-02_codex_task_lifecycle_reconciliation.md",
                                 "C:\\Users\\pruth\\OpenClawPAD\\failure_recovery",
                                 "C:\\Users\\pruth\\OpenClawPAD\\Antigravity-Autonomous-Loop.ps1",
-                                "C:\\Users\\pruth\\OpenClawPAD\\ChatGPTBridge\\supervisor",
-                                "C:\\Users\\pruth\\OpenClawPAD\\ChatGPTBridge\\archive",
-                                "C:\\Users\\pruth\\OpenClawPAD\\ChatGPTBridge\\bridge_request.ready"
+                                "tests/unit/test_controller_bootstrap.ps1"
                             ]
 }

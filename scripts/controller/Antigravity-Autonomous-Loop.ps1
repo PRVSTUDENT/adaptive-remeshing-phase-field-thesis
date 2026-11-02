@@ -270,7 +270,8 @@ if ($ControllerDryRun) {
 
 Assert-ControllerDispatchCheckpoint $WorkspaceDir (Read-ControllerCheckpoint $controllerCheckpointPath)
 $preparationPrompt = if ($InitialPromptFile) { Get-Content -LiteralPath $InitialPromptFile -Raw -Encoding UTF8 } else { $InitialPrompt }
-$preparation = if($ChatGPTSupervisorMode){[pscustomobject]@{dispatch_ready=$true}}else{Invoke-ControllerOperationPreparation $WorkspaceDir $preparationPrompt}
+$taskLifecycle=Get-ControllerTaskLifecycle $WorkspaceDir
+$preparation = if($taskLifecycle.terminal){Get-ControllerPreparationPlan $WorkspaceDir $preparationPrompt}elseif($ChatGPTSupervisorMode){[pscustomobject]@{dispatch_ready=$true}}else{Invoke-ControllerOperationPreparation $WorkspaceDir $preparationPrompt}
 if(-not $preparation.dispatch_ready -and $preparation.status -ne 'DEFINITION_REJECTED'){
     Write-Output ('NEXT_OPERATION_PREPARATION: '+($preparation|ConvertTo-Json -Depth 8 -Compress))
     if($preparation.status -eq 'DEFINITION_REVIEW_REQUIRED'){
@@ -3599,6 +3600,7 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
     . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Operations.ps1')
     . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Recovery.ps1')
     . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Preparation.ps1')
+    Assert-ControllerActiveTaskDispatch $WorkspaceDir
     $registrationTask=(Get-ControllerEvidence $WorkspaceDir).task
     $registrationPlan=Get-ControllerRegistrationDispatchPlan $WorkspaceDir $CurrentInstruction $registrationTask
     if($registrationPlan -and -not $registrationPlan.dispatch_ready){
@@ -3612,7 +3614,6 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
     $resolved = Resolve-ControllerInstruction $WorkspaceDir $CurrentInstruction
     if (-not $script:ControllerRecoveryMode) { $CurrentInstruction=$resolved.instruction }
     if ($resolved.evidence.session.active) { throw 'BLOCKED: another repository session is active' }
-    Assert-ControllerActiveTaskDispatch $WorkspaceDir
     $recoveryCount = if ($script:ControllerRecoveryMode) { 1 } else { 0 }
     $script:ControllerState = New-ControllerTurnState $resolved.evidence $CurrentTurn $CurrentInstruction $recoveryCount
     Write-ControllerCheckpoint $controllerCheckpointPath $script:ControllerState

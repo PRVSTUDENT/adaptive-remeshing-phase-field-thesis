@@ -63,6 +63,7 @@ if($Stage -eq 'Bootstrap'){
     $session=$content['project_coordination/ACTIVE_SESSION.json']|ConvertFrom-Json
     $task=$content['project_coordination/ACTIVE_TASK.json']|ConvertFrom-Json
     if($session.active){throw 'Another agent owns the project session'}
+    Assert-ControllerTaskLifecycle $Workspace
     if($task.task_id -ne $TaskId -or $task.status -match '(?i)^(complete|closed|PACKAGE72_C1_1_AUDIT_COMPLETED)'){throw 'Completed or mismatched task rejected before claim'}
     $taskType=Resolve-ControllerTaskType $task $Workspace
     $operation=$null
@@ -112,6 +113,7 @@ if($Stage -eq 'Bootstrap'){
 if(-not $record -or $record.bootstrap_status -ne 'COMPLETE'){throw 'Bootstrap receipt required'}
 if($record.stage -eq 'COMPLETE'){Write-Output 'TURN_ALREADY_COMPLETE; no repeat scientific operation';return}
 Assert-Owner
+Assert-ControllerTaskLifecycle $Workspace
 if($Stage -eq 'Scientific'){
     if($record.scientific_checkpoint){Write-Output 'SCIENTIFIC_CHECKPOINT_ALREADY_EXISTS; use Complete';return}
     $task=Get-Content -LiteralPath $taskPath -Raw|ConvertFrom-Json
@@ -173,7 +175,7 @@ if(-not(Test-ControllerScientificCheckpoint $Workspace $state)){throw 'A verifie
 $payload=Get-Content -LiteralPath (Join-Path $Workspace $record.scientific_checkpoint.artifact) -Raw|ConvertFrom-Json
 $task=Get-Content -LiteralPath $taskPath -Raw|ConvertFrom-Json
 if($record.scientific_checkpoint.kind -eq 'PREPARATION_CHECKPOINT'){
-    $task.status=if($payload.status){$payload.status}else{'RESEARCH_PREPARATION_COMPLETE'}
+    $task=Set-ControllerPreparationStepStatus $task $(if($payload.status){$payload.status}else{'PREPARATION_COMPLETE'})
     $task.phase=if($payload.finding){$payload.finding}else{'Research preparation complete'}
     $task|Add-Member -NotePropertyName last_updated -NotePropertyValue ([datetimeoffset]::Now.ToString('o')) -Force
     $nextAction=if($payload.next_operation){$payload.next_operation}else{'Advance to qualified execution or next research task'}

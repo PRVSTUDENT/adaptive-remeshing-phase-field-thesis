@@ -263,7 +263,7 @@
                                       "controller_loop_restarted":  false,
                                       "automatic_retry":  false
                                   },
-    "status":  "PREPARATION_COMPLETE",
+    "status":  "COMPLETED",
     "next_action":  "Obtain authentic independent exact-load reference at uy0.0018603125442191958 and genuinely review policy; no repeated preparation or R6 submission before gates pass.",
     "autonomous_restart_authorized":  true,
     "completed_operations":  [
@@ -309,7 +309,7 @@
                                           "pbs_job_id":  "1419269.mmaster02"
                                       },
     "last_updated":  "2026-11-02T01:27:12.3588338+01:00",
-    "next_safe_action":  "Advance to qualified execution or next research task",
+    "next_safe_action":  "Select an explicitly recorded existing successor from authoritative task evidence; retain completed predecessor, submissions and operations. No scientific dispatch while successor is absent.",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
@@ -317,5 +317,19 @@
                                   "artifact":  "results/validation/preparation-15a0b3bb-1cd3-4f35-bcec-da0e9268f043.json",
                                   "sha256":  "6038BF63C2213951322535CD7F0E439096D14E7199571765D96D1B46ABCD5EF0",
                                   "created_at":  "2026-11-02T01:24:57.5137965+01:00"
-                              }
+                              },
+    "last_step_status":  "PREPARATION_COMPLETE",
+    "lifecycle":  {
+                      "schema":  1,
+                      "state":  "COMPLETED_AWAITING_SUCCESSOR",
+                      "scientific_execution_blocked":  true,
+                      "successor_task_id":  null,
+                      "previous_recorded_status":  "PREPARATION_COMPLETE",
+                      "closure_source":  "project_coordination/TASK_LEDGER.csv",
+                      "closure_task_id":  "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
+                      "closure_status":  "completed",
+                      "closure_updated_at":  "2026-11-01T12:12:00+01:00",
+                      "reason":  "Exact parent task closed in ledger. Preparation checkpoint status is not a task reopening. Existing next_task text is prose about already-submitted Package160; no exact open successor recorded.",
+                      "reconciled_at":  "2026-11-02T02:05:19.7470845+01:00"
+                  }
 }

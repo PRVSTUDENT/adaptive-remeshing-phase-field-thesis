@@ -96,6 +96,15 @@ function Invoke-ControllerDefinitionRecovery {
                 throw ('DEFINITION_RECOVERY_RESTRICTED: '+$candidate)
             }
             $plan=Get-ControllerPreparationPlan $Workspace $candidate
+            # A correction proposing an unknown ID is invalid response text, not
+            # an explicit request to register a new operation. Keep genuine
+            # external review/service gates intact for original requests.
+            $candidateRef=[regex]::Match($candidate,'(?im)^\s*OPERATION_ID:\s*([a-zA-Z0-9_.-]+)\s*$').Groups[1].Value
+            if($chain.status -eq 'RESPONSE_SAVED' -and $candidateRef -and
+                @($catalog|Where-Object {$_.id -ceq $candidateRef}).Count -eq 0 -and
+                $plan.status -eq 'DEFINITION_REVIEW_REQUIRED'){
+                $plan=[pscustomobject]@{status='DEFINITION_REJECTED';dispatch_ready=$false;blocked_on=@('RECOVERY_REFERENCE_UNKNOWN: correction must name an existing catalog entry; no operation registered')}
+            }
             # Auth/service/security states are never converted into definition consultations.
             if($plan.status -ne 'DEFINITION_REJECTED' -and -not $plan.dispatch_ready){return [pscustomobject]@{instruction=$candidate;plan=$plan;recovered=$false;attempts=@($chain.attempts).Count}}
             if($plan.dispatch_ready){
