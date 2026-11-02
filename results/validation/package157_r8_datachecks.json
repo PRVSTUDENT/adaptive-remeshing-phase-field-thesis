@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "operation": "stage_package157_r8",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "candidate": "MODE1_PACKAGE157_M1_C4_P157_C1_2_R8",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_package157_c1_2_continuation_r8",
+  "host": "mlogin01.cluster",
+  "files_verified": true,
+  "runtime_verified": true,
+  "datachecks": {
+    "P157_MECHANICAL_DC.dat": {
+      "sha256": "704F168B617875C408337DAD0257BDAE0396E663B44C80F3B28D7F9CB5C80C3B",
+      "status": "ANALYSIS DATACHECK COMPLETE",
+      "errors": 0
+    },
+    "P157_PHASE_DC.dat": {
+      "sha256": "25D62CC2FB5D59FEFCD8265175BF4F868F86BD2E05DC0ABF13C3187DE9165089",
+      "status": "ANALYSIS DATACHECK COMPLETE",
+      "errors": 0
+    }
+  },
+  "startup": {
+    "status": "PASS",
+    "nodes": 7265,
+    "history": 28224,
+    "baseline": 0.0018653125442191958,
+    "targets": [
+      0.0018703125442191958
+    ],
+    "solver_executed": false,
+    "max_outer": 200
+  },
+  "uel_frozen_hash": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "technical_preflight_ready": true
+}

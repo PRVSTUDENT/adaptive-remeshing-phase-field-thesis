@@ -1,0 +1,53 @@
+{
+    "active_job_count":  0,
+    "adapter_contract":  "mode1-qualified-batch-v2",
+    "datachecks":  {
+                       "M1_C4_P157_C1_2_R8":  {
+                                                  "status":  "PASS",
+                                                  "input_sha256":  "5f1dfef77df45f86da995d04a90a9c5ff1efe322e29374ccf092d67430cbdd92",
+                                                  "dat_sha256":  "704f168b617875c408337dad0257bdae0396e663b44c80f3b28d7f9cb5c80c3b",
+                                                  "additional":  {
+                                                                     "P157_PHASE_DC.dat":  {
+                                                                                               "status":  "PASS",
+                                                                                               "input_sha256":  "60f1972c31f92dc323176c5e48e0a60c66be9f6123b85c34dc3e2fda80490fba",
+                                                                                               "dat_sha256":  "25d62cc2fb5d59fefcd8265175bf4f868f86bd2e05dc0abf13c3187de9165089"
+                                                                                           }
+                                                                 }
+                                              }
+                   },
+    "batch_spec_sha256":  "b7a83712d95ae0f543ff3882b31eb96e65fe86e2f7a3fa3e4a8f0bec6a3b70c1",
+    "passed":  true,
+    "pbs_email_verified":  true,
+    "telegram_verified":  true,
+    "submission_queue":  "entry_imfdfkmq",
+    "queue_access_preflight":  "PASS",
+    "compiler_environment":  "PASS_LOGIN_NODE",
+    "datacheck_verified":  "PASS_BOTH",
+    "candidate_manifest_sha256":  "4e6263af0ac87b5c751c9693e7dc03c8b5df6eac56fe192ad4616ccd1771ffb8",
+    "authorized_command_sha256":  "b848f35523652c8ac4414a49d875267e38ed38397ca25b7e55ea673aa6c24365",
+    "checked_at":  "2026-11-02T06:57:41.098402+00:00",
+    "config_path":  "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+    "config_mode":  "600",
+    "file_hashes":  {
+                        "active_set_boundary_cards.inc":  "bd8db2048dc6620e6cedf0c9e610b603cafa03acf11da4ea843b64066f57a007",
+                        "d_lower_bounds.csv":  "9e7165a9cbe770601377581f6e9fee27c3f71f6dd3d073817c8d78b28b984fce",
+                        "f42_mixed_uel.for":  "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+                        "initial_checkpoint_01.json":  "49ba6d5f041f84f17004ba71abf3edc8293f6e8adc6c86d9695186b7d3d281d5",
+                        "initial_conditions_solution.inc":  "aa130ff7c67b11abd551d20283afb097b16a2134578315ccff93a829de8cbbbc",
+                        "job_notifications.sh":  "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+                        "M1_C4_PACKAGE150_C1_2_CONTINUATION.inp":  "8c54e3d18ebbb238fdf79f773bc7c1e854aa6a681e2881d6ba15b977c58fafcd",
+                        "nodal_displacements_initial.csv":  "b57acc0f4efffccd4d7cf2f8e9832f736bd965b25573aaaea1b8502d998c6167",
+                        "nodal_phase_field_initial.csv":  "c4c625615cf20d787e078412689154c024e25e47f7cdf9837a0191efbd79e4de",
+                        "P157_MECHANICAL_DC.inp":  "5f1dfef77df45f86da995d04a90a9c5ff1efe322e29374ccf092d67430cbdd92",
+                        "P157_PHASE_DC.inp":  "60f1972c31f92dc323176c5e48e0a60c66be9f6123b85c34dc3e2fda80490fba",
+                        "PACKAGE_MANIFEST.json":  "5dab56333ccb95bac3b4b907b127cd116e8a5af35ce45dcf0c703c4a4c4d4020",
+                        "run_datacheck.sh":  "46bb7f25e4ff45eb772578637ab122b258cbbd6adbf439c62598d8aa9bc0d055",
+                        "submit_M1_C4_P157_C1_2_R8.pbs":  "f61e51df8675fc6a208e056e2b5d004f5976612bde251ceab1eb4b6402a9c6f9",
+                        "submit_M1_C4_P157_R8_DC.pbs":  "3848149ae96c38fe27763d963e5ed2cc910ccd43937583f5ee87fadaa1e313c9"
+                    },
+    "helper_sha256":  "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "email_evidence":  "sendmail accepted test message; PBS abe directives verified",
+    "telegram_notification_contract":  "PASS_LOGIN_NODE",
+    "compute_node_delivery":  "UNRESOLVED",
+    "lifecycle_tests":  "PASS"
+}
