@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "run_id": "1751626c-cd84-4ff7-93bb-18601a91ec55",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 166-R3 Job 1419485.mmaster02 verified actively running on mnode097/0 in queue normal_imfdfkmq, reaching outer iteration 40 with CPU time 00:14:06. Monotonic contraction confirmed: delta_d reduced to 7.382e-5 (approaching the 1e-5 threshold), delta_u reduced to 3.137e-8 mm (0.031 nm), delta_h reduced to 0.00267 MPa, with free residual (3.447e-9 kN) and dual defect (2.560e-9 kN*mm) well within 1e-6 tolerances. Offline continuation engineering finalized: build_package163_c5_continuation.py repaired to emit mode1-qualified-batch-v2 execution manifest adhering to MODE1_BASELINE technical stage and canonical command hash, with 4/4 passing unit tests in test_package163_c5_continuation_contract.py.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "scripts/state_transfer/build_package163_c5_continuation.py": "16F1E9C99C5C9028302EF5328E8C3D21CBDDB883E7585D094641B8F7FA7D7497",
+    "tests/unit/test_package163_c5_continuation_contract.py": "65108423121BA6E1E52076141621267200B69B29FA7F18B37B04BB4CA1134718",
+    "scripts/validation/evaluate_package166_r3_c5_acceptance.py": "BB95B379BA3F47B2F9F0B4D70A4BC91DBEE856BB4A950BA091693C0BB31E933B",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/EXECUTION_MANIFEST.json": "D80DEC9D3470EC71D4564D19BD278AA69A90D795C7B18D80982FEEA45CBB71F2",
+    "project_coordination/HPC_JOB_LEDGER.csv": "5D4AC7284D3D4860570C53192E04B6A152A8C73889AA7AF616121F72FE25619D",
+    "project_coordination/ACTIVE_TASK.json": "29D4477A827BA0642A50FF37ACF2EA11A274B3142A005DB61D48C8DF96BC409A"
+  }
+}
