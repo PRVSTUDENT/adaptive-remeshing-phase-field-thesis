@@ -234,7 +234,8 @@ if ((Get-FileHash -LiteralPath $PSCommandPath).Hash -ne (Get-FileHash -LiteralPa
 $controllerCheckpointPath = Join-Path $env:USERPROFILE 'OpenClawPAD/controller_turn_checkpoint.json'
 if ($ControllerDryRun) {
     $checkpoint = Read-ControllerCheckpoint $controllerCheckpointPath
-    $prompt = if ($checkpoint -and $checkpoint.state -eq 'PENDING' -and $checkpoint.next_instruction) {
+    $successorCheckpoint=Get-ControllerSuccessorCheckpointPlan $WorkspaceDir $controllerCheckpointPath $checkpoint
+    $prompt = if($successorCheckpoint.fresh_successor){$successorCheckpoint.instruction}elseif ($checkpoint -and $checkpoint.state -eq 'PENDING' -and $checkpoint.next_instruction) {
         $checkpoint.next_instruction
     } elseif ($checkpoint -and $checkpoint.state -eq 'RECOVERY_REQUIRED') {
         Get-ControllerRecoveryInstruction $checkpoint
@@ -3478,6 +3479,15 @@ $script:ControllerState = Read-ControllerCheckpoint $controllerCheckpointPath
 $script:ControllerRecoveryMode = $false
 $CurrentInstruction = ''
 $StartTurn = 1
+
+# A registered successor may retain a completed predecessor as immutable evidence.
+# Its stale saved instruction is never a successor instruction, and is not rewritten.
+$successorCheckpoint=Get-ControllerSuccessorCheckpointPlan $WorkspaceDir $controllerCheckpointPath $script:ControllerState
+if($successorCheckpoint.fresh_successor){
+    $CurrentInstruction=$successorCheckpoint.instruction
+    $script:ControllerState=$null
+    $ConversationId=$null
+}
 
 # Reconcile a rejected durable successor before ordinary resume resolution. No
 # completed research turn or bridge consultation is replayed after a restart.

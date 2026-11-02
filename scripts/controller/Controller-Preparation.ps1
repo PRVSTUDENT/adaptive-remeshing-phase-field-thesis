@@ -28,6 +28,8 @@ function Get-ControllerPreparationPlan([string]$Workspace,[string]$Instruction) 
         $life=Get-ControllerTaskLifecycle $Workspace
         if($life.terminal){return [pscustomobject]@{status='TASK_SUCCESSOR_REQUIRED';dispatch_ready=$false;task_type='LIFECYCLE_RECONCILIATION';operation_id='';path='';blocked_on=@($life.reason);recipe='';lifecycle=$life}}
     }
+    $taskRegistration=Get-ControllerTaskRegistrationPlan $Workspace
+    if(-not $taskRegistration.dispatch_ready){return [pscustomobject]@{status='TASK_REGISTRATION_BLOCKED';dispatch_ready=$false;task_type='LIFECYCLE_RECONCILIATION';operation_id='';path='';blocked_on=@($taskRegistration.reason);recipe=''}}
     $registration=Get-ControllerRegistrationDispatchPlan $Workspace $Instruction $task
     if($registration){return $registration}
     if(-not $task.scientific_checkpoint_required){

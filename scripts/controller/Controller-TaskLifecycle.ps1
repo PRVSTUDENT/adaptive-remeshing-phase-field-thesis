@@ -46,6 +46,51 @@ function Assert-ControllerTaskLifecycle([string]$Workspace) {
     $life=Get-ControllerTaskLifecycle $Workspace
     if($life.terminal){throw ('COMPLETED_TASK_REJECTED: '+$life.task_id+'; '+$life.transition+'; '+$life.reason)}
     if(-not $life.ledger_available){throw 'TASK_LIFECYCLE_LEDGER_MISSING'}
+    $registration=Get-ControllerTaskRegistrationPlan $Workspace
+    if(-not $registration.dispatch_ready){throw ('TASK_REGISTRATION_REJECTED: '+$registration.reason)}
+}
+
+function Get-ControllerTaskRegistrationPlan([string]$Workspace) {
+    $task=Get-Content -LiteralPath (Join-Path $Workspace 'project_coordination/ACTIVE_TASK.json') -Raw|ConvertFrom-Json
+    if(-not $task.registration){
+        $ledger=Join-Path $Workspace 'project_coordination/TASK_LEDGER.csv'
+        if(Test-Path -LiteralPath $ledger){
+            $registered=@(Import-Csv -LiteralPath $ledger|Where-Object {$_.task_id -ceq $task.task_id -and $_.classification -eq 'REGISTERED_NOT_EXECUTED'})
+            if($registered.Count){return [pscustomobject]@{status='TASK_REGISTRATION_BLOCKED';dispatch_ready=$false;reason='Registered successor cannot become legacy by removing its definition binding'}}
+        }
+        return [pscustomobject]@{status='LEGACY_TASK';dispatch_ready=$true;reason='Existing task has no successor registration'}
+    }
+    try {
+        $rel=[string]$task.registration.definition
+        if($rel -notmatch '^project_coordination/task_definitions/[A-Za-z0-9_-]+\.json$'){throw 'Unsafe task definition path'}
+        $path=Join-Path $Workspace $rel
+        if(-not(Test-Path -LiteralPath $path) -or (Get-FileHash -LiteralPath $path).Hash -cne $task.registration.sha256){throw 'Task definition missing or changed'}
+        $d=Get-Content -LiteralPath $path -Raw|ConvertFrom-Json
+        if($d.schema -ne 1 -or $d.task_id -cne $task.task_id -or $d.predecessor.task_id -cne $task.predecessor_task.task_id){throw 'Task/predecessor definition mismatch'}
+        $rows=@(Import-Csv -LiteralPath (Join-Path $Workspace 'project_coordination/TASK_LEDGER.csv'))
+        if(@($rows|Where-Object {$_.task_id -ceq $d.task_id}).Count -ne 1){throw 'Duplicate or missing task registration'}
+        if(-not @($rows|Where-Object {$_.task_id -ceq $d.predecessor.task_id -and $_.status -match '^(?i:complete|completed|closed|done)$'}).Count){throw 'Predecessor is not closed'}
+        if($d.operation.id -cne 'research_preparation' -or $d.operation.mode -cne 'READ_ONLY_SCIENTIFIC_EVALUATION' -or $d.max_new_pbs_submissions -ne 0 -or $task.scientific_operation -or $task.scientific_operation_id -cne 'research_preparation' -or -not $task.scientific_checkpoint_required){throw 'Successor definition is not the bounded evidence-evaluation operation'}
+        foreach($op in $d.inherited_completed_operations){if($op -cnotin @($task.completed_operations)){throw 'Completed-operation accounting was lost'}}
+        foreach($pin in $d.evidence_sources.PSObject.Properties){
+            if($pin.Name -match '(?:^[/\\]|\.\.)'){throw 'Unsafe evidence path'}
+            $p=Join-Path $Workspace $pin.Name
+            if(-not(Test-Path -LiteralPath $p) -or (Get-FileHash -LiteralPath $p).Hash -cne $pin.Value){throw ('Task evidence changed: '+$pin.Name)}
+        }
+        return [pscustomobject]@{status='REGISTERED_READ_ONLY_EVALUATION';dispatch_ready=$true;reason='No numerical execution qualification conferred';definition=$d}
+    }catch{return [pscustomobject]@{status='TASK_REGISTRATION_BLOCKED';dispatch_ready=$false;reason=$_.Exception.Message}}
+}
+
+function Get-ControllerSuccessorCheckpointPlan([string]$Workspace,[string]$CheckpointPath,$State) {
+    $task=Get-Content -LiteralPath (Join-Path $Workspace 'project_coordination/ACTIVE_TASK.json') -Raw|ConvertFrom-Json
+    if(-not $State -or $State.task_id -ceq $task.task_id){return [pscustomobject]@{fresh_successor=$false}}
+    if($State.state -cne 'COMPLETED'){throw 'SUCCESSOR_CHECKPOINT_BLOCKED: foreign nonterminal checkpoint requires reconciliation'}
+    Assert-ControllerTaskLifecycle $Workspace
+    $r=Get-ControllerTaskRegistrationPlan $Workspace
+    if(-not $r.definition -or $r.definition.predecessor.task_id -cne $State.task_id -or
+        $r.definition.predecessor.run_id -cne $State.run_id -or
+        (Get-FileHash -LiteralPath $CheckpointPath).Hash -cne $r.definition.predecessor.checkpoint_sha256){throw 'SUCCESSOR_CHECKPOINT_BLOCKED: completed predecessor binding missing or changed'}
+    return [pscustomobject]@{fresh_successor=$true;instruction=$r.definition.initial_instruction;predecessor_run_id=$State.run_id}
 }
 
 function Set-ControllerPreparationStepStatus($Task,[string]$Status) {
