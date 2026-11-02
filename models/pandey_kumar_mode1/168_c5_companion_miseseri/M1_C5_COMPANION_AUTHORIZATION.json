@@ -1,0 +1,39 @@
+{
+  "batch_name": "MODE1_PACKAGE_168_C5_COMPANION_MISESERI",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c5_package168_companion_miseseri",
+  "files": {
+    "M1_C5_COMPANION_MISESERI.inp": "e4ec7892036477fd5cdcd46fc6d65eb115d193ed30d0196f59a3e903fbb25c53",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "submit_M1_C5_COMPANION_MISESERI.pbs": "4e76202aad934e007ac41aedf27c8df706ead39a1b0be06ebbc8fdd60788e6d5",
+    "PACKAGE_MANIFEST.json": "b5f0796dafa53a0751dfc97c86142095a2ee4a4a45844ffb7ae45f27cd2be7a7"
+  },
+  "jobs": [
+    {
+      "id": "M1_C5_COMPANION_MISESERI",
+      "pbs": "submit_M1_C5_COMPANION_MISESERI.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c5_package168_companion_miseseri/submit_M1_C5_COMPANION_MISESERI.pbs\"",
+      "command_sha256": "dc4a84745486afd0d2e4797068d97e9b5307cfcd06be3cce336fe963a754cf53",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Package 168: Companion continuum linear elastic solve on C5 mesh at prescribed displacement uy = 0.0018703125 mm for authentic MISESERI error recovery",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 1,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "M1_C5_COMPANION_MISESERI.inp",
+      "datacheck": "M1_C5_COMPANION_MISESERI_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "M1_C5_COMPANION_MISESERI": "Exit code 0; authentic field outputs MISESERI, MISESAVG, S, EVOL captured in ODB for error-driven adaptation."
+  }
+}

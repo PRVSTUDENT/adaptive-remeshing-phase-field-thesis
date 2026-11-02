@@ -5,7 +5,7 @@
   "purpose": "Companion continuum linear-elastic static model on Candidate C5 discretization (12,996 CPE4 quads, 13,278 nodes) to recover authentic Abaqus MISESERI/MISESAVG error indicators for causal, same-load Method C C5->C6 adaptive remeshing.",
   "mesh_provenance": {
     "source_deck": "models\\pandey_kumar_mode1\\155_c5_candidate_mesh\\M1_C5_CANDIDATE_MESH.inp",
-    "source_sha256": "DB261F26D34352DB743432A47FC929BF6B4B4E808A1D4C13146FF4902776D197",
+    "source_sha256": "db261f26d34352db743432a47fc929bf6b4b4e808a1d4c13146ff4902776d197",
     "elements": 12996,
     "nodes": 13278,
     "element_type": "CPE4",
@@ -33,7 +33,11 @@
     "RF"
   ],
   "files": {
-    "M1_C5_COMPANION_MISESERI.inp": "E4EC7892036477FD5CDCD46FC6D65EB115D193ED30D0196F59A3E903FBB25C53"
+    "M1_C5_COMPANION_MISESERI.inp": "e4ec7892036477fd5cdcd46fc6d65eb115d193ed30d0196f59a3e903fbb25c53",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "submit_M1_C5_COMPANION_MISESERI.pbs": "4e76202aad934e007ac41aedf27c8df706ead39a1b0be06ebbc8fdd60788e6d5",
+    "M1_C5_COMPANION_MISESERI_DC.dat": "32a56f329c493c7e0946674117a09384682d478d439e63f2535a1666cdf1bbaf"
   },
   "checkpoint_lineage": {
     "consumed_checkpoint_path": "models\\pandey_kumar_mode1\\167_c5_package167_r3_c2_2_continuation\\evidence\\1419566.mmaster02\\converged_checkpoint_03.json",

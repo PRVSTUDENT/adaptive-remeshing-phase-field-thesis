@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "title": "Turn 46: Package 168 C5 Companion MISESERI Qualified & Dispatched to HPC",
+  "finding": "Technically qualified and successfully submitted Package 168 (Job 1419573.mmaster02) to entry_imfdfkmq -> normal_imfdfkmq to execute authentic Abaqus companion-continuum linear-elastic solution on C5 mesh (12,996 CPE4 quads, 13,278 nodes) at authentic Checkpoint 03 load (uy = 0.0018703125 mm). Compute-node Abaqus datacheck verified with Exit 0 and 0 errors. Frozen production UEL hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6 and dual-channel notification transports verified. Regression test suite test_package168_c5_miseseri_readiness.py (5/5) and integration suite test_c5_to_c6_adaptive_integration.py (5/5) passed cleanly.",
+  "operation": "stage_and_dispatch_package168_c5_miseseri",
+  "verification_passed": true,
+  "pbs_job_id": "1419573.mmaster02",
+  "submission_queue": "entry_imfdfkmq",
+  "execution_queue": "normal_imfdfkmq",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/converged_checkpoint_03.json": "EAA122B911FDFC353D230C4BFFCCD60F75D7FAF4A9FBBEC9E5CF6A8B51C0A476",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/M1_C5_COMPANION_MISESERI.inp": "E4EC7892036477FD5CDCD46FC6D65EB115D193ED30D0196F59A3E903FBB25C53",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/PACKAGE_MANIFEST.json": "B5F0796DAFA53A0751DFC97C86142095A2EE4A4A45844FFB7AE45F27CD2BE7A7",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/M1_C5_COMPANION_AUTHORIZATION.json": "AA519975E2270DCFE26140913418BDD54A5EDB576F3BFF18D0BFC75E9D7BABF2",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/submit_M1_C5_COMPANION_MISESERI.pbs": "4E76202AAD934E007AC41AEDF27C8DF706EAD39A1B0BE06EBBC8FDD60788E6D5",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/run_datacheck.sh": "D48FED561CDC176BABCF6874F56A5232206E4D1581BD904999F9A052FB026FD2",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/M1_C5_COMPANION_MISESERI_DC.dat": "32A56F329C493C7E0946674117A09384682D478D439E63F2535A1666CDF1BBAF",
+    "tests/unit/test_package168_c5_miseseri_readiness.py": "518BA0B8BE7376A97D9C73A4337E7E1BE7004641A492E636CD0701164D60AA18",
+    "tests/unit/test_c5_to_c6_adaptive_integration.py": "B0CA7EB4656C44ED30BA8BE80516B2192BB105E39078C621309F38F6F466C1A1"
+  },
+  "registered_paths": [
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/converged_checkpoint_03.json",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/M1_C5_COMPANION_MISESERI.inp",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/PACKAGE_MANIFEST.json",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/M1_C5_COMPANION_AUTHORIZATION.json",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/submit_M1_C5_COMPANION_MISESERI.pbs",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/M1_C5_COMPANION_MISESERI_DC.dat",
+    "scripts/remeshing/prepare_package168_manifest.py",
+    "tests/unit/test_package168_c5_miseseri_readiness.py",
+    "tests/unit/test_c5_to_c6_adaptive_integration.py",
+    "project_coordination/HPC_JOB_LEDGER.csv",
+    "project_coordination/MODE1_BATCH_SUBMISSIONS.json"
+  ]
+}
