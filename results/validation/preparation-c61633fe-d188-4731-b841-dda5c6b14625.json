@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
+  "finding": "Package 166 damage-convergence defect resolved: independent audit and regression tests prove telemetry delta_d=0 was caused by updating previous_d immediately post-phase, masking true damage relaxation (1.63e-2 down to 5.33e-5 at outer 44). The defect compromises stopping-logic by trivially satisfying delta_d<=1e-5 while delta_u<=1e-9 alone delayed termination. Distinct corrected driver Package 166-R2 evaluates true post-phase damage increment. Package 165 defect discrepancy reconciled: true peak local crack-tip defect is 3,865.9 MPa (3.866 kN/mm^2) at element 6437 GP3, whereas 0.457 MPa represents the diffuse bulk-domain average defect across 7,163 non-crack-tip GPs. Job 1419480.mmaster02 remains running at outer 47; forward continuation remains strictly WITHHELD_PREDECESSOR_RUNNING.",
+  "evidence_sources": {
+    "scripts/state_transfer/driver_package166_r2_c5_nonaccumulating_history.py": "A8EC8AD11188AC2D054AB366EB05B489D80EF9F9C8129B73EB21B6582B794513",
+    "tests/unit/test_package166_delta_d_regression.py": "736BBFC9517D8CCC5B2FE18691892B90E3D101D45B9544E404F80A6B68D8305C",
+    "scripts/validation/reconcile_package165_defect_units.py": "2552D289C53F9EC622A015992204C56658D2AD8EC38343A71D16F48454C5F54B",
+    "results/validation/reconcile_package165_defect_units.json": "59F434B804881A0F5AFB6F3787A39FAF6FA2FF63C9D4DD1A346440CA6372CDF3",
+    "results/validation/package166_independent_audit.json": "9CB91A810C7513848365489686CDBE3535AD8EE79870EC4D7579B6DCCE497D17",
+    "scripts/validation/audit_package166_remote.py": "67F2203A0DBF58E86C52BE8583437F21C560F3310655FD9BE3CD9ECA357AB797",
+    "tests/unit/test_package166_convergence_telemetry.py": "5F532C5B5BAA3A26BB09825B2AE2345AEBF77930F1EE55BA2D3D3F9430DA17D7",
+    "tests/unit/test_package166_history_consistency_hypothesis.py": "2BBD06B3AB4318D8386C7487B8EB35BE7834740423D9871B0912D848762BD466"
+  },
+  "verification_passed": true
+}
