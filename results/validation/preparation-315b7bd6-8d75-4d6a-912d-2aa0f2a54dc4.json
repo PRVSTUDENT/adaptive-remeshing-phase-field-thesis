@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "controller_run_id": "315b7bd6-8d75-4d6a-912d-2aa0f2a54dc4",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 163 Stage C2-1 continuation Job 1419488.mmaster02 actively executing on mnode097/0 (Outer 24, free error 2.332e-9 kN, dual error 7.637e-9 kN*mm, PDAS free count 3,184 nodes). Completed quantitative baseline spatial analysis of accepted Checkpoint 01: established damage field percentiles (p50=0.1415, p99=0.5313), crack-tip localization (Node 6610 at x=0.0410, y=0.0500 mm with d_max=0.6670), crack-plane front (x_front=0.0475 mm with 7.5 um extension), and ready-to-evaluate comparison metrics for Checkpoint 02.",
+  "evidence_sources": {
+    "scripts/validation/analyze_c5_checkpoint_baseline.py": "19E59B517C5B97062CAF6F012A63BF5FA0E2C9AFC1107ECD90788E0D1BAD450F",
+    "results/validation/c5_checkpoint_01_baseline_metrics.json": "9B304D7CB14E2EE3AE40D4E25E3C0F0118FAD35BCB1E83B1D32B1C6B44C6289E",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/evidence/1419485.mmaster02/converged_checkpoint_01.json": "DCFD31186061FA81111DA18071CF8ADFB9BAF2C5CB343CB60F08416741C1B64A",
+    "scripts/validation/evaluate_package163_c5_continuation_acceptance.py": "4C3F85E4CBF777C4BF029B15177C58BCE4F308827E5C800842D10D8A5C935309"
+  },
+  "verification_passed": true,
+  "pbs_job_id": "1419488.mmaster02",
+  "queue": "normal_imfdfkmq",
+  "compute_host": "mnode097/0",
+  "latest_outer_iteration": 24,
+  "latest_delta_d": 0.0003571777684160393,
+  "latest_delta_u_mm": 1.9847031766022458e-07,
+  "latest_delta_h_MPa": 0.01682938327614103,
+  "latest_free_error_kN": 2.3322063552228575e-09,
+  "latest_dual_error_kNmm": 7.637361474405409e-09,
+  "pdas_active_count": 10094,
+  "pdas_free_count": 3184,
+  "baseline_checkpoint_01_max_damage": 0.6670186519622803,
+  "baseline_checkpoint_01_crack_front_x_mm": 0.0475
+}
