@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "run_id": "3f288331-4725-4a4b-9629-ad9e21de3904",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 166-R3 Mode-I Stage C2-0 coupled re-equilibration submitted to PBS scheduler as Job 1419485.mmaster02 via Invoke-Mode1Execution.ps1; running on mnode097/0 under single-rank serial limits (1 CPU, 16 GB RAM, 8 h walltime, queue entry_imfdfkmq -> normal_imfdfkmq). Once-only submission receipt verified on disk in HPC_JOB_LEDGER.csv and MODE1_BATCH_SUBMISSIONS.json, with zero duplicate submissions and frozen production UEL preserved bit-for-bit.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/EXECUTION_MANIFEST.json": "D80DEC9D3470EC71D4564D19BD278AA69A90D795C7B18D80982FEEA45CBB71F2",
+    "project_coordination/HPC_JOB_LEDGER.csv": "5D4AC7284D3D4860570C53192E04B6A152A8C73889AA7AF616121F72FE25619D",
+    "project_coordination/MODE1_BATCH_SUBMISSIONS.json": "1F5C3DB6E16278F0A26A9B271693A9DBFCF2817423FE33712071D4530EEA3143",
+    "project_coordination/ACTIVE_TASK.json": "8DBE495F513EEF6459F6C6D2FFAEE5D81268FE638BFACD7FF2C269381519C9E9",
+    "project_coordination/task_definitions/F1600-PACKAGE166-R3-EXECUTION.json": "EC0E3D43EA3B89A0B3014E2BC0E0B1D812F91F89BECCA0A2F5944D82F07079C8"
+  }
+}

@@ -3,7 +3,7 @@
     "successor_task_id":  "F1600-PACKAGE166-R3-EXECUTION",
     "agent":  "gemini-antigravity",
     "status":  "READY_READ_ONLY_EVALUATION",
-    "phase":  "Package 166-R3 staging to remote cluster scratch and technical execution preflight verification succeeded: verified remote directory /scratch9/pr21vyci/runs/mode1_c5_package166_r3_c2_0_nonaccumulating_history has all 15 package files with exact SHA-256 match, 4 datacheck warnings evaluated as benign standard UEL notices with zero fatal errors, command digest populated and verified in EXECUTION_MANIFEST.json, and Invoke-Mode1Execution.ps1 -VerifyOnly exited 0 confirming datacheck PASS_BOTH, zero active unrequested jobs, verified notifications, and read-only non-submission execution qualification.",
+    "phase":  "Package 166-R3 Mode-I Stage C2-0 coupled re-equilibration submitted to PBS scheduler as Job 1419485.mmaster02 via Invoke-Mode1Execution.ps1; running on mnode097/0 under single-rank serial limits (1 CPU, 16 GB RAM, 8 h walltime, queue entry_imfdfkmq -\u003e normal_imfdfkmq). Once-only submission receipt verified on disk in HPC_JOB_LEDGER.csv and MODE1_BATCH_SUBMISSIONS.json, with zero duplicate submissions and frozen production UEL preserved bit-for-bit.",
     "gate_status":  "REGISTERED_SUCCESSOR__NUMERICAL_EXECUTION_NOT_QUALIFIED",
     "predecessor_task":  {
                              "run_id":  "19280009-42f4-4897-8d3a-9b52d2e5168a",
@@ -237,17 +237,18 @@
                                   "1419375.mmaster02"
                               ],
     "active_pbs_job_ids":  [
-
+                               "1419485.mmaster02"
                            ],
     "dependent_pbs_job_ids":  [
 
                               ],
-    "pbs_status_note":  "No new live scheduler status: guarded query failed DNS; references retained as history only",
+    "pbs_status_note":  "Job 1419485.mmaster02 RUNNING on mnode097/0 (normal_imfdfkmq, 1 CPU, 16 GB, walltime limit 08:00:00)",
     "referenced_pbs_job_ids":  [
                                    "1419478.mmaster02",
                                    "1419479.mmaster02",
                                    "1419480.mmaster02",
-                                   "1419483.mmaster02"
+                                   "1419483.mmaster02",
+                                   "1419485.mmaster02"
                                ],
     "frozen_uel_sha256":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "max_new_pbs_submissions":  0,
@@ -262,14 +263,14 @@
                                   "active_task_source_commit":  "5372fb528416c570e6afdff0fab7c9edee724953"
                               },
     "last_step_status":  "PREPARATION_COMPLETE",
-    "last_updated":  "2026-11-02T03:44:01.8270151+01:00",
+    "last_updated":  "2026-11-02T03:52:48.6188134+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-219a1485-acee-4c53-bedb-882efe19fa9a.json",
-                                  "sha256":  "3E162C289B0AF7FC1BEB8A02D35F3F9D5B8DE81EDFA2F76147EB948F940743A9",
-                                  "created_at":  "2026-11-02T03:43:48.4939931+01:00"
+                                  "artifact":  "results/validation/preparation-3f288331-4725-4a4b-9629-ad9e21de3904.json",
+                                  "sha256":  "F468C60453351514156AA5DDFD69D15F3B223C6515BBBB9F5931F9EA52F15A9C",
+                                  "created_at":  "2026-11-02T03:52:41.6173220+01:00"
                               }
 }
