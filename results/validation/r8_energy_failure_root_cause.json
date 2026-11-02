@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "investigation": "R8_ENERGY_FAILURE_ROOT_CAUSE",
+  "job_id": "1419490.mmaster02",
+  "package": "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r8",
+  "target_uy_mm": 0.0018703125442191958,
+  "component_wise_comparison_vs_c3_donor": {
+    "target_uy_mm": 0.0018703125442191958,
+    "reaction_force": {
+      "r8_observed_kN": 0.18251580299838358,
+      "donor_ref_kN": 0.1861980456697473,
+      "discrepancy_rel": 0.01977594693928623,
+      "discrepancy_pct": 1.977594693928623,
+      "gate_tol_pct": 5.0,
+      "pass": true
+    },
+    "elastic_energy": {
+      "r8_observed_kNmm": 0.00017068079793305553,
+      "donor_ref_kNmm": 0.00017411917216848187,
+      "discrepancy_rel": 0.019747246627725118,
+      "discrepancy_pct": 1.9747246627725117
+    },
+    "fracture_energy": {
+      "r8_observed_kNmm": 5.535742071549135e-05,
+      "donor_ref_kNmm": 4.351120735562095e-05,
+      "discrepancy_rel": 0.27225659961697324,
+      "discrepancy_pct": 27.225659961697325
+    },
+    "total_energy": {
+      "r8_observed_kNmm": 0.00022603821864854688,
+      "donor_ref_kNmm": 0.00021763037544268436,
+      "discrepancy_rel": 0.03863359234095898,
+      "discrepancy_pct": 3.8633592340958978,
+      "gate_tol_pct": 2.0,
+      "pass": false
+    }
+  },
+  "discretization_comparability_evidence": {
+    "c4_continuous_solve_vs_c3_donor_at_1860nm": {
+      "displacement_mm": 0.0018603125442191958,
+      "c4_rf2_kN": 0.1843084841966629,
+      "donor_rf2_kN": 0.1860727156036219,
+      "rf2_discrepancy_pct": 0.9481408390455385,
+      "c4_e_fracture_kNmm": 5.2753414699424975e-05,
+      "donor_e_fracture_kNmm": 4.269677315139924e-05,
+      "fracture_energy_discrepancy_pct": 23.553633695843278,
+      "c4_e_total_kNmm": 0.00022418617669132577,
+      "donor_e_total_kNmm": 0.00021576691184484537,
+      "total_energy_discrepancy_pct": 3.9020185136331578
+    },
+    "r5_continuation_solve_vs_c4_continuous_at_1860nm": {
+      "displacement_mm": 0.0018603125442191958,
+      "r5_continuation_rf2_kN": 0.18411666272311777,
+      "c4_exact_rf2_kN": 0.1843084841966629,
+      "rf2_discrepancy_pct": 0.10407631226593399,
+      "r5_continuation_e_fracture_kNmm": 5.2930945635405494e-05,
+      "c4_exact_e_fracture_kNmm": 5.2753414699424975e-05,
+      "fracture_energy_discrepancy_pct": 0.3365297526085154,
+      "r5_continuation_e_total_kNmm": 0.00022418821426719904,
+      "c4_exact_e_total_kNmm": 0.00022418617669132577,
+      "total_energy_discrepancy_pct": 0.0009088766771185534
+    }
+  },
+  "root_cause_analysis": {
+    "primary_driver": "SPATIAL_DISCRETIZATION_CRACK_SURFACE_ENERGY_OFFSET",
+    "mechanism": "The 3.86% raw total energy discrepancy is entirely driven by a +27.23% difference in integrated fracture energy (5.536e-5 vs 4.351e-5 kN*mm), whereas elastic strain energy (1.7068e-4 vs 1.7412e-4 kN*mm, -1.97%) and reaction force (0.1825 vs 0.1862 kN, -1.98%) match the donor within the 2.0% and 5.0% thresholds. The fracture energy integral psi_f = G_c * [d^2/(2*l0) + (l0/2)*|grad(d)|^2] on the locally refined C4 mesh (7056 elements) resolves steeper phase-field gradients than the coarse uniform C3 mesh (1600 elements). Evidence from Job 1419305 proves that the continuous C4 solve itself exhibits a +22.68% elevated fracture energy over C3 (5.275e-5 vs 4.300e-5 kN*mm at uy = 0.001860 mm), which the continuation algorithm reproduces to 0.34% fracture energy and 0.001% total energy. Thus, the continuation solve is accurate, but the C3 uniform donor is an unsuitable baseline.",
+    "solver_integrity": {
+      "coupled_pdas_converged": true,
+      "converged_outer": 156,
+      "delta_d": 3.0000000039720476e-08,
+      "delta_u_mm": 1.5565511119614017e-11,
+      "delta_h_MPa": 8.573565661862403e-07,
+      "damage_healing_violations": 0,
+      "history_monotonicity_violations": 0
+    }
+  },
+  "authoritative_gate_decision": {
+    "decision": "FAIL",
+    "threshold_relaxed": false,
+    "gate_energy_tol_pct": 2.0,
+    "observed_discrepancy_pct": 3.8633592340958978,
+    "predecessor_status": "PHYSICALLY_REJECTED",
+    "package167_gate_status": "BLOCKED_PENDING_VALID_C4_REFERENCE",
+    "justification": "Under the strict, unchanged project criteria (GATE_ENERGY_TOL = 2.0%), Package 157-R8 failed with 3.86% discrepancy. In strict accordance with AGENTS.md, criteria are never retroactively relaxed, nor is a failed result declared accepted. Package 167 remains blocked under the dual-predecessor policy until an authentic like-for-like C4 reference is established."
+  },
+  "prescribed_corrective_action": "Execute an authentic continuous C4 simulation terminating at target uy = 0.0018703125442191958 mm (analogous to Job 1419305 for uy = 0.00186031 mm) to provide an authoritative, like-for-like C4 reference dataset for R8 physical acceptance."
+}
