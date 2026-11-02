@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "run_id": "219a1485-acee-4c53-bedb-882efe19fa9a",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 166-R3 staging to remote cluster scratch and technical execution preflight verification succeeded: verified remote directory /scratch9/pr21vyci/runs/mode1_c5_package166_r3_c2_0_nonaccumulating_history has all 15 package files with exact SHA-256 match, 4 datacheck warnings evaluated as benign standard UEL notices with zero fatal errors, command digest populated and verified in EXECUTION_MANIFEST.json, and Invoke-Mode1Execution.ps1 -VerifyOnly exited 0 confirming datacheck PASS_BOTH, zero active unrequested jobs, verified notifications, and read-only non-submission execution qualification.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/EXECUTION_MANIFEST.json": "D80DEC9D3470EC71D4564D19BD278AA69A90D795C7B18D80982FEEA45CBB71F2",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/PACKAGE_MANIFEST.json": "0E23B27408062D93DD0703B65415B3EDC7C68ABEC836F4BF1C242B75525A29CD",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/submit_M1_C5_P166_R3_C2_0.pbs": "BCE7CC17FD0AF2C42AE21CB67123E313FD869DA3872EFB7360BDD8548602240E",
+    "tests/unit/test_package166_r3_full_qualification.py": "161DB88BDD288B0F8DB0E6205C4C9D74A143873EEC61D3EAAA5F53629404184B",
+    "scripts/hpc/stage_package166_r3.py": "48D6CF195489D459E1F25CA74FD7B9C590662AE18B678F604D486401A1E5AF39"
+  }
+}
