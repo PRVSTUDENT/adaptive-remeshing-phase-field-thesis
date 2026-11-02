@@ -2,7 +2,7 @@
     "task_id":  "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
     "agent":  "gemini-antigravity",
     "status":  "READY_READ_ONLY_EVALUATION",
-    "phase":  "Package 163-R2 (Job 1419489.mmaster02) terminated at outer 200 with MAX_OUTER_EXCEEDED (exit code 1, PHYSICAL_FAIL, no Checkpoint 02). Qualified contingency solve Package 163-R3 with max_outer=300 assembled from authentic Checkpoint 01 (SHA-256 DCFD31186061FA81111DA18071CF8ADFB9BAF2C5CB343CB60F08416741C1B64A), staged to cluster scratch, qualified with compute-node mechanical and phase datachecks (PASS_BOTH), verified by 4/4 passing unit tests, and successfully dispatched as PBS Job 1419499.mmaster02 actively executing outer iteration 1 on compute node mnode097. Independent C4 reference Job 1419490.mmaster02 continues actively computing at outer 7.",
+    "phase":  "Package 163-R3 runtime integrity rigorously verified: decision R3_RUNTIME_INTEGRITY_PASS confirmed across all 7 criteria. Executable PBS script strictly applies --max-outer 300 under single-rank serial limits (1 CPU, 16 GB, 8h). Subproblem prefix \u0027P163_R2_\u0027 is proven to be a harmless internal job-name template in driver line 269, with all subproblem directories and checkpoint outputs isolated in continuation_1419499.mmaster02 with zero collision risk. Exact +5 nm load step (0.00186031 -\u003e 0.00186531 mm), authentic Checkpoint 01 initialization (SHA-256 DCFD31186061FA81111DA18071CF8ADFB9BAF2C5CB343CB60F08416741C1B64A), non-accumulating history law H*=max(H0, psi+), and frozen production UEL (SHA-256 CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6) verified bit-for-bit. Running jobs 1419499 (outer 10) and 1419490 (outer 27) actively computing in PBS.",
     "gate_status":  "REGISTERED_SUCCESSOR__NUMERICAL_EXECUTION_NOT_QUALIFIED",
     "predecessor_task":  {
                              "run_id":  "19280009-42f4-4897-8d3a-9b52d2e5168a",
@@ -273,14 +273,14 @@
                                    "monitoring_closeout_verified":  false
                                },
     "last_step_status":  "PREPARATION_COMPLETE",
-    "last_updated":  "2026-11-02T08:40:37.8530595+01:00",
+    "last_updated":  "2026-11-02T08:48:23.5244249+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-ee92d168-f1d8-46dc-9675-092631bd3697.json",
-                                  "sha256":  "CB06C4FD2B759C2FA94EA35A6CF263D6F4436A0CA7576EE3728AA52EA0BB806B",
-                                  "created_at":  "2026-11-02T08:39:53.6490725+01:00"
+                                  "artifact":  "results/validation/preparation-8e44c550-059f-4a26-adff-f7b6f9566f59.json",
+                                  "sha256":  "1EC99C1644672FC9244A714BA7B48F54442A0B248D35B96CD60ACCE588F23017",
+                                  "created_at":  "2026-11-02T08:47:39.4059628+01:00"
                               }
 }
