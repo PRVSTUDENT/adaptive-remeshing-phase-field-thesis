@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "verification_type": "PACKAGE_163_R3_RUNTIME_INTEGRITY",
+  "decision": "R3_RUNTIME_INTEGRITY_PASS",
+  "active_job_id": "1419499.mmaster02",
+  "max_outer_300_verified": true,
+  "pbs_resources": {
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime_hours": 8,
+    "queue": "entry_imfdfkmq",
+    "job_name": "M1_C5_P163_R3_C2_1"
+  },
+  "subproblem_naming_audit": {
+    "prefix_string": "P163_R2_S{step}_{outer}_{inner}_{role}",
+    "defined_in_driver": true,
+    "directory_isolation_verified": true,
+    "finding": "The 'P163_R2_' prefix is a harmless inherited internal job name string template inside driver_package163_r2_c5_continuation.py (line 269). All subproblem directories are created strictly under self.output (/scratch9/.../continuation_1419499.mmaster02/), completely isolated from Package 163-R2 outputs."
+  },
+  "load_schedule": {
+    "baseline_uy_mm": 0.0018603125442191958,
+    "target_uy_mm": 0.0018653125442191958,
+    "increment_nm": 5.0,
+    "exact_5nm_continuation": true
+  },
+  "predecessor_binding": {
+    "expected_sha256": "DCFD31186061FA81111DA18071CF8ADFB9BAF2C5CB343CB60F08416741C1B64A",
+    "actual_sha256": "DCFD31186061FA81111DA18071CF8ADFB9BAF2C5CB343CB60F08416741C1B64A",
+    "matched": true,
+    "origin_job": "1419485.mmaster02",
+    "origin_status": "PHYSICALLY_ACCEPTED"
+  },
+  "history_formulation_and_tolerances": {
+    "non_accumulating_history_verified": true,
+    "tolerances": {
+      "delta_d_tol": 1e-05,
+      "delta_u_tol_mm": 1e-09,
+      "delta_h_tol_MPa": 0.0001,
+      "kkt_dual_tol": 1e-06,
+      "kkt_free_tol": 1e-06,
+      "force_parity_tol_pct": 2.0,
+      "energy_parity_tol_pct": 2.0,
+      "verified_in_driver": true
+    }
+  },
+  "frozen_uel_verification": {
+    "expected_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "actual_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "matched": true
+  },
+  "directory_isolation": {
+    "r2_run_dir": "/scratch9/pr21vyci/runs/mode1_c5_package163_r2_c2_1_continuation",
+    "r3_run_dir": "/scratch9/pr21vyci/runs/mode1_c5_package163_r3_c2_1_continuation",
+    "r2_job_output": "continuation_1419489.mmaster02",
+    "r3_job_output": "continuation_1419499.mmaster02",
+    "paths_disjoint": true,
+    "artifact_collision_risk": "ZERO"
+  },
+  "verification_passed": true
+}
