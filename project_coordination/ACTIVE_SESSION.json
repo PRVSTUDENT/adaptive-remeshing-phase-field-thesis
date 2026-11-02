@@ -1,32 +1,26 @@
 {
     "active":  false,
-    "agent":  "codex",
-    "task_id":  "TURN17-EVIDENCE-RECONCILIATION",
-    "starting_commit":  "f07b92f67eb8c6247b5ac87c4a001641516be294",
-    "claimed_at":  "2026-11-02T05:57:15.6919992+01:00",
-    "last_updated":  "2026-11-02T06:03:11.7737408+01:00",
-    "last_released":  "2026-11-02T06:03:11.7737408+01:00",
-    "controller_run_id":  "operator-maintenance-20261102",
-    "session_report":  "project_coordination/sessions/2026-11-02_codex_turn17_reconciliation.md",
+    "agent":  "gemini-antigravity",
+    "task_id":  "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+    "starting_commit":  "4b17155d878bad9de57c53bd571c28e8f54e247a",
+    "claimed_at":  "2026-11-02T06:04:55.4458197+01:00",
+    "last_updated":  "2026-11-02T06:10:49.8655408+01:00",
+    "last_released":  "2026-11-02T06:10:49.8655408+01:00",
+    "controller_run_id":  "3df6c49a-adc1-402e-bf43-35cebe688025",
+    "session_report":  "project_coordination/sessions/2026-11-02_gemini-antigravity_F1597_3df6c49a-adc1-402e-bf43-35cebe688025.md",
     "allowed_write_scope":  [
+                                "project_coordination/sessions/2026-11-02_gemini-antigravity_F1597_3df6c49a-adc1-402e-bf43-35cebe688025.md",
+                                "project_coordination/controller/turn-3df6c49a-adc1-402e-bf43-35cebe688025.json",
+                                "results/validation/mode1_f1597/3df6c49a-adc1-402e-bf43-35cebe688025.json",
+                                "results/validation/preparation-3df6c49a-adc1-402e-bf43-35cebe688025.json",
+                                "results/validation/*",
+                                "scripts/validation/*",
+                                "tests/unit/*",
+                                "models/pandey_kumar_mode1/*",
                                 "project_coordination/ACTIVE_SESSION.json",
                                 "project_coordination/ACTIVE_TASK.json",
                                 "project_coordination/CURRENT_STATE.md",
                                 "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/ARTIFACT_REGISTRY.csv",
-                                "project_coordination/sessions/2026-11-02_codex_turn17_reconciliation.md",
-                                "scripts/controller/Reconcile-InterruptedTurn.ps1",
-                                "tests/unit/test_controller_turn17_reconciliation.ps1",
-                                "results/validation/turn17_reconciliation.json",
-                                "C:\\Users\\pruth\\OpenClawPAD\\failure_recovery\\turn17-final-20261102",
-                                "C:\\Users\\pruth\\OpenClawPAD\\controller_turn_checkpoint.json",
-                                "scripts/controller/Controller-Recovery.ps1"
-                            ],
-    "recovery":  {
-                     "reason":  "OPERATOR_AUTHORIZED_ORPHAN_RECOVERY",
-                     "original_sha256":  "D1DC256735DD227BBCDD8E18A6B9C501252DEEA7397BF196AC1746AFDED95762",
-                     "original_claim":  "C:\\Users\\pruth\\OpenClawPAD\\failure_recovery\\operator-stale-f1598-20261102\\ACTIVE_SESSION.json",
-                     "recovered_at":  "2026-11-02T05:48:18.3093911+01:00",
-                     "monitoring_closeout_verified":  false
-                 }
+                                "project_coordination/ARTIFACT_REGISTRY.csv"
+                            ]
 }
