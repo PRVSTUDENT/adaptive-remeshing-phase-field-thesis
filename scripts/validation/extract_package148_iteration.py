@@ -103,7 +103,7 @@ def export(odb_path, output, physical_nodes, physical_elements, expected_step=No
             if len(step_keys) != 1:
                 raise RuntimeError('Expected exactly one step in subproblem iteration ODB, found: %s' % str(step_keys))
             step_name = step_keys[0]
-            if not (step_name == 'C1-1-ReEquil' or step_name.startswith(('C1_2_Step', 'C1-2-Step', 'C2_0_Step', 'C2-0-Step', 'C2_1_Step', 'C2-1-Step'))):
+            if not (step_name == 'C1-1-ReEquil' or step_name.startswith(('C1_2_Step', 'C1-2-Step', 'C2_0_Step', 'C2-0-Step', 'C2_1_Step', 'C2-1-Step', 'C3_0_Step', 'C3-0-Step'))):
                 raise RuntimeError('Unexpected step identity: %s (expected C1-1-ReEquil, C1_2_Step*, C2_0_Step*, or C2_1_Step*)' % step_name)
 
         frame = odb.steps[step_name].frames[-1]

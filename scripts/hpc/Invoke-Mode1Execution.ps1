@@ -1,5 +1,5 @@
 [CmdletBinding()]
-param([string]$ManifestPath='', [switch]$VerifyOnly, [switch]$DryRun, [switch]$PrepareOnly, [switch]$AutoQueue, [string]$PreflightReport='')
+param([string]$ManifestPath='', [switch]$VerifyOnly, [switch]$DryRun, [switch]$PrepareOnly, [switch]$AutoQueue, [string]$PreflightReport='', [switch]$StopAfterPreflight)
 $ErrorActionPreference='Stop'
 if ($env:ADAPTIVE_REMESHING_OFFLINE_MODE -eq '1' -or $env:OFFLINE_RESEARCH_ONLY -eq '1') {
     throw 'BLOCKED_OFFLINE_MODE: HPC submission and remote execution are disabled during offline research maintenance.'
@@ -56,6 +56,7 @@ try {
  }
 
  Write-Output "TECHNICAL_PREFLIGHT_PASS: datachecks=$($proof.datacheck_verified); active jobs=$($proof.active_job_count); login notifications verified; compute delivery=$($proof.compute_node_delivery)"
+ if($StopAfterPreflight){Write-Output "PREFLIGHT_STOP_CONDITION_MET: Technical preflight passed; stopping before batch submission per explicit preflight stop condition.";return}
  if($VerifyOnly){Write-Output 'VERIFY_ONLY: no submission or execution-state change';return}
  . (Join-Path $repo 'scripts/hpc/Invoke-Mode1Engine.ps1')
  $request=@{manifest_path=$ManifestPath;preflight=$proof}|ConvertTo-Json -Depth 30 -Compress
