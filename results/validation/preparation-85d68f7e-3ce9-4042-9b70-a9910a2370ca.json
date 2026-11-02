@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "run_id": "85d68f7e-3ce9-4042-9b70-a9910a2370ca",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 166-R3 Job 1419485.mmaster02 completed with Exit Code 0 and achieved definitive PHYSICAL PASS at Outer Iteration 69 in 26m40s on compute node mnode097/0. All physical gates verified independently: post-phase delta_d = 7.153e-7 <= 1.0e-5, coupled delta_u = 5.821e-10 mm <= 1.0e-9 mm, driving history delta_h = 3.736e-5 MPa <= 1.0e-4 MPa, free phase residual = 3.447e-9 kN <= 1.0e-6 kN, dual obstacle defect = 9.910e-10 kN*mm <= 1.0e-6 kN*mm, zero damage healing violations (0 / 13,278 nodes), zero history monotonicity violations (0 / 51,984 GPs), donor reaction force discrepancy 1.820% <= 2.0% (0.180767 vs 0.184117 kN), and donor total energy discrepancy 0.171% <= 2.0% (0.000224572 vs 0.000224188 kN*mm). Full authentic evidence bundle retrieved and archived locally; Stage C2-1 genuine +5 nm continuation (Package 163, uy=0.00186531 mm) is unblocked and verified ready.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "results/validation/package166_r3_c5_acceptance_result.json": "AA72E8FD854AF5964BCBFD9FDC0F17007E191575B623F8C6BE452D30953A967F",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/evidence/1419485.mmaster02/converged_checkpoint_01.json": "DCFD31186061FA81111DA18071CF8ADFB9BAF2C5CB343CB60F08416741C1B64A",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/evidence/1419485.mmaster02/re_equilibration_summary.json": "5ED1C64FEF927D7F180D55F11575F3D6C8B3C25AB136536AF86F58ABA047B68F",
+    "scripts/validation/evaluate_package166_r3_c5_acceptance.py": "D1E693A3DBFBAEFFD4D261FE5CB3EB172DED65034EAD14770599F4835395863A",
+    "scripts/state_transfer/build_package163_c5_continuation.py": "16F1E9C99C5C9028302EF5328E8C3D21CBDDB883E7585D094641B8F7FA7D7497",
+    "project_coordination/ACTIVE_TASK.json": "DA52C97105F2144B8CB592B81B9A15CBD62BF53411663185A29D6BF181A2DC94",
+    "project_coordination/HPC_JOB_LEDGER.csv": "13EB40F87D57A65BB007AEE0BCDFDD12CEE34C8D01E3DD0EC604F7B479512937"
+  }
+}
