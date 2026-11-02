@@ -401,12 +401,13 @@ exit ${{EXIT_CODE}}
     }
 
     command_str = f'powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand "qsub -q entry_imfdfkmq {REMOTE_RUN_DIR}/{PBS_NAME}"'
+    canonical_cmd = " ".join(command_str.strip().split())
     exec_manifest = {
         "batch_name": f"MODE1_PACKAGE163_{JOB_NAME}",
         "adapter": "mode1-qualified-batch-v2",
         "scientific_scope": "MODE1",
-        "technical_stage": "C2-1",
-        "configuration": "MODE1_C5_REFINED_CONTINUATION",
+        "technical_stage": "MODE1_BASELINE",
+        "configuration": "MODE1_BASELINE",
         "max_submissions": 1,
         "automatic_retry": False,
         "remote_run_dir": REMOTE_RUN_DIR,
@@ -429,7 +430,7 @@ exit ${{EXIT_CODE}}
                 "max_submissions": 1,
                 "depends_on": [],
                 "command": command_str,
-                "command_sha256": hashlib.sha256(command_str.encode()).hexdigest()
+                "command_sha256": hashlib.sha256(canonical_cmd.encode()).hexdigest()
             }
         ],
         "acceptance": {
