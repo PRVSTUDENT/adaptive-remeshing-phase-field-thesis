@@ -1,11 +1,27 @@
-## 2 November Package 166-R3 HPC Execution: Job 1419485.mmaster02 Submitted and Running
+## 2 November Package 163 Stage C2-1 +5 nm Continuation Dispatched: Job 1419487.mmaster02 RUNNING
 
-Package 166-R3 Mode-I Method C Stage C2-0 coupled re-equilibration on Candidate C5 mesh (12,996 elements, 13,278 nodes, 51,984 integration points, 207,936 history SVARs) successfully submitted to PBS scheduler as Job `1419485.mmaster02`.
-- Scheduler state: `job_state = R` (running on `mnode097/0`, queue `normal_imfdfkmq`, routed from `entry_imfdfkmq`).
-- Limits enforced: 1 CPU, 16 GB RAM, 08:00:00 walltime limit, single-rank serial execution, frozen production UEL preserved bit-for-bit (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`).
-- Preflight verification: PASS_BOTH datachecks, zero errors, login notifications verified. Staged at `/scratch9/pr21vyci/runs/mode1_c5_package166_r3_c2_0_nonaccumulating_history`.
-- Exact once-only submission receipt recorded in `project_coordination/MODE1_BATCH_SUBMISSIONS.json` and `project_coordination/HPC_JOB_LEDGER.csv`. No duplicate submissions, zero queue manipulation.
-- Forward continuation (+5 nm) strictly withheld until authentic physical PASS on post-phase $\Delta d \le 1\times 10^{-5}$, coupled $\Delta u \le 1\times 10^{-9}\text{ mm}$, reaction force / energy drift $\le 2\%$, and zero KKT/healing violations.
+Package 163 Mode-I Method C Stage C2-1 forward continuation on Candidate C5 mesh (12,996 elements, 13,278 nodes, 51,984 integration points, advancing $u_y$ from $0.001860312544$ to $0.001865312544\text{ mm}$, $+5\text{ nm}$) was assembled, qualified with dual compute-node datachecks (`P163_MECHANICAL_DC` and `P163_PHASE_DC` both `AUTHENTIC_DATACHECK_PASS`), and submitted to PBS queue `entry_imfdfkmq` as Job `1419487.mmaster02`.
+- Predecessor binding: Accepted Checkpoint 01 from Job `1419485.mmaster02` (`converged_checkpoint_01.json`, SHA-256 `DCFD31186061FA81111DA18071CF8ADFB9BAF2C5CB343CB60F08416741C1B64A`).
+- Frozen production UEL: `f42_mixed_uel.for` bitwise SHA-256 `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`.
+- Single-rank serial execution: 1 CPU, 16 GB RAM, 8h walltime on `normal_imfdfkmq`.
+- Active scheduler state: Observed RUNNING (`R 00:00`) on `mmaster02`.
+
+## 2 November Package 166-R3 HPC Execution Complete: Job 1419485.mmaster02 PHYSICALLY ACCEPTED (Exit Code 0)
+
+Package 166-R3 Mode-I Method C Stage C2-0 coupled re-equilibration on Candidate C5 mesh (12,996 elements, 13,278 nodes, 51,984 integration points, 207,936 history SVARs) completed with Exit Code 0 and achieved definitive PHYSICAL PASS at Outer Iteration 69 in 26m40s on `mnode097/0`.
+- All 7 Physical Acceptance Gates Verified:
+  1. Post-phase damage increment: $\Delta d = 7.1526\times 10^{-7} \le 1.0\times 10^{-5}$ (PASS).
+  2. Coupled displacement increment: $\Delta u = 5.8208\times 10^{-10}\text{ mm} \le 1.0\times 10^{-9}\text{ mm}$ (PASS).
+  3. Driving history increment: $\Delta H = 3.7356\times 10^{-5}\text{ MPa} \le 1.0\times 10^{-4}\text{ MPa}$ (PASS).
+  4. Free phase residual: $3.4472\times 10^{-9}\text{ kN} \le 1.0\times 10^{-6}\text{ kN}$ (PASS).
+  5. Dual obstacle defect: $9.9096\times 10^{-10}\text{ kN mm} \le 1.0\times 10^{-6}\text{ kN mm}$ (PASS).
+  6. Damage healing violations: 0 across all 13,278 nodes; $0 \le d \le 1$ preserved (PASS).
+  7. Pointwise driving history monotonicity: 0 violations across all 51,984 integration points (PASS).
+  8. Pointwise history equality $H^*(e,g) = \max(H_0, \psi_+(u^*))$: 0 violations across all 51,984 points (PASS).
+  9. Donor reaction force parity: $F = 0.180767\text{ kN}$ vs reference $0.184117\text{ kN}$ (discrepancy $1.820\% \le 2.0\%$ PASS).
+  10. Donor total raw energy parity: $E = 0.000224572\text{ kN mm}$ vs reference $0.000224188\text{ kN mm}$ (discrepancy $0.171\% \le 2.0\%$ PASS).
+- Authentic committed artifacts: `converged_checkpoint_01.json` (4,955,853 bytes), `re_equilibration_summary.json` (1,150 bytes), `live_iteration_telemetry.json` (27,254 bytes), and `pbs_execution.log` (10,952 bytes) retrieved and archived at `models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/evidence/1419485.mmaster02/`.
+- Immediate Successor: Stage C2-1 genuine $+5\text{ nm}$ forward continuation (Package 163, advancing $u_y$ from $0.00186031$ to $0.00186531\text{ mm}$ on Candidate C5 mesh) is now unblocked and ready for assembly.
 
 2 November F1598 reporting restored through existing PAD: live correlated ERROR and RESULT replies received while science blocked. DNS/guarded scheduler restored; original1419480 Exit0 but independently PHYSICAL_FAIL (true delta_d3.0122697353363037e-5); R2 1419483 Exit1 donor_source schema defect. No new jobs or scientific edits; accounting and historical handoffs preserved. See sessions/2026-11-02_codex_reporting_resume_f1598.md.
 
