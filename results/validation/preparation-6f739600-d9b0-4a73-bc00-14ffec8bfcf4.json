@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "run_id": "6f739600-d9b0-4a73-bc00-14ffec8bfcf4",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "operation": "research_preparation",
+  "finding": "Repaired Package 167 Abaqus deck serialization defect in driver_package167_c5_continuation.py by eliminating extraneous newlines between keyword blocks and resolving phase boundary overconstraints; verified by 7/7 passing regression tests and authentic compute-node datachecks on both mechanical and phase subproblem decks (P167_R2_MECHANICAL_DC and P167_R2_PHASE_DC); staged immutable Package 167-R2 ready for qualified submission.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/167_c5_package167_r2_c2_2_continuation/EXECUTION_MANIFEST.json": "DCB204E9A5B655761142EC1FAF52E56D4D63B36EA3BD64E7D9EE1E34B4536C03",
+    "models/pandey_kumar_mode1/167_c5_package167_r2_c2_2_continuation/PACKAGE_MANIFEST.json": "89E8CAD1FB37C5EA0DCABD6B5EA41D625050D966F1AADF84178415FE77093EA1",
+    "models/pandey_kumar_mode1/167_c5_package167_r2_c2_2_continuation/M1_C5_PACKAGE167_C2_2_CONTINUATION.inp": "E183CF78C580A91231960B380DAAF18CD2C415D43BF14D20319E6D18CB6D40C6",
+    "models/pandey_kumar_mode1/167_c5_package167_r2_c2_2_continuation/P167_R2_MECHANICAL_DC.inp": "379863AFCCE3DFFC44A2DA8CB8971AEBA1C984C8A11F2A0A248877994FC601CA",
+    "models/pandey_kumar_mode1/167_c5_package167_r2_c2_2_continuation/P167_R2_MECHANICAL_DC.dat": "AE1BDA3F0BAF0FF21DB294E8DE9860C24D789224D5A62C9852DB8A528CDB4E30",
+    "models/pandey_kumar_mode1/167_c5_package167_r2_c2_2_continuation/P167_R2_PHASE_DC.inp": "1628ADB0B73EED344A1D298AF381489C1998A765E33D6C7CFEDFD32251F9AA19",
+    "models/pandey_kumar_mode1/167_c5_package167_r2_c2_2_continuation/P167_R2_PHASE_DC.dat": "7D5C23636560A2C88DEC3733438117E1EA7D0CFEED3068E48D2B11E3F1226C14",
+    "models/pandey_kumar_mode1/167_c5_package167_r2_c2_2_continuation/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/167_c5_package167_r2_c2_2_continuation/initial_checkpoint_02.json": "8201D8200A12C8A493ABA8550DA7D66DB9301C2389A9EA1409BCB5B9E57B4FEA",
+    "models/pandey_kumar_mode1/167_c5_package167_r2_c2_2_continuation/submit_M1_C5_P167_R2_C2_2.pbs": "9E574C65DB5E8A068CF147655C01F7131D0CE8861C0AD75EB8378DA5E8752623",
+    "scripts/state_transfer/driver_package167_c5_continuation.py": "0C2AE0A67FB28AEBBEC47CD0A3FE7EEDAC1B53214A196EA78EEF11BD85C873FD",
+    "scripts/state_transfer/build_package167_r2_continuation.py": "AC60D943118DDA0BEBF28A9481D6A3D033D6AAE48EA0F7D3C10726B35792F870",
+    "scripts/hpc/stage_package167_r2_c2_2.py": "48FE47D964D4C426DF50D76C289A25605B8E49FE244DC24BE2086F020EEB1AD5",
+    "tests/unit/test_mode1_f1598_turn43_package167_r2_deck_generator.py": "33D356A2DAA2A6BF10FF2DF0DAF55E9AC544F705318E17D7867439E608ECF11F",
+    "results/validation/mode1_f1597/package169_reference_evaluation.json": "9D8FB532E1884C429BABE28E835C8870234E54FB214B8A943B1292514DED3C4B"
+  },
+  "verification_passed": true,
+  "reconciliation": {
+    "failed_job_id": "1419549.mmaster02",
+    "failure_reason": "Abaqus preprocessor syntax error (234 fatal errors) due to extraneous blank lines inserted by driver string join",
+    "failed_job_exit_code": 1,
+    "failed_job_walltime_seconds": 15
+  }
+}
