@@ -145,6 +145,7 @@ def test_driver_startup_and_dimensions():
 
 
 def test_execution_manifest_limits():
+    from scripts.hpc.mode1_execution_gate import validate_manifest, canonical, digest
     exec_manifest = json.loads(EXEC_MANIFEST_PATH.read_text(encoding="utf-8"))
     assert exec_manifest["batch_name"] == "MODE1_PACKAGE166_R3_M1_C5_P166_R3_C2_0"
     assert len(exec_manifest["jobs"]) == 1
@@ -156,6 +157,15 @@ def test_execution_manifest_limits():
     assert "single-rank" in job["execution"].lower()
     assert job["max_submissions"] == 1
     assert job["queue"] in ("entry_imfdfkmq", "normal_imfdfkmq")
+
+    cmd = job["command"]
+    expected_hash = digest(canonical(cmd).encode())
+    assert job["command_sha256"] == expected_hash
+
+    # Full mode1_execution_gate validation
+    batch, m_digest, files = validate_manifest(EXEC_MANIFEST_PATH, root=REPO_ROOT)
+    assert batch["batch_name"] == "MODE1_PACKAGE166_R3_M1_C5_P166_R3_C2_0"
+    assert len(files) == 15  # 14 package files + PACKAGE_MANIFEST.json
 
 
 if __name__ == "__main__":

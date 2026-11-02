@@ -53,7 +53,7 @@
 
                                     ],
                      "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c5_package166_r3_c2_0_nonaccumulating_history/submit_M1_C5_P166_R3_C2_0.pbs\"",
-                     "command_sha256":  "placeholder"
+                     "command_sha256":  "c84634e35bbabece2f070741552bef7f91fca1984903af5923815fdfb2af197c"
                  }
              ],
     "acceptance":  {
