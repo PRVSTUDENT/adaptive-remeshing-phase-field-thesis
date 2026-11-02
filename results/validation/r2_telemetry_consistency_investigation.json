@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "investigation": "R2_TELEMETRY_CONSISTENCY_OUTER_119_VS_135",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "job_id": "1419489.mmaster02",
+  "total_records": 153,
+  "latest_outer": 153,
+  "comparison_119_vs_135": {
+    "outer_119": {
+      "delta_d": 3.1923289982731945e-05,
+      "delta_u_mm": 1.83323939841485e-08,
+      "delta_h_MPa": 0.0018206260438304867,
+      "pdas_active": 3115
+    },
+    "outer_135": {
+      "delta_d": 3.536697463932259e-05,
+      "delta_u_mm": 1.1422861182007298e-08,
+      "delta_h_MPa": 0.0011196971219717966,
+      "pdas_active": 3011
+    },
+    "ratio_135_over_119": {
+      "delta_d_ratio": 1.1079,
+      "delta_u_ratio": 0.6231,
+      "delta_h_ratio": 0.615,
+      "per_outer_contraction_rho_u": 0.9709,
+      "per_outer_contraction_rho_h": 0.9701
+    },
+    "discrepancy_verdict": "NARRATIVE_REUSE_IN_REPORT"
+  },
+  "latest_telemetry_snapshot": {
+    "outer": 153,
+    "delta_d": 1.045348087203024e-05,
+    "delta_u_mm": 7.020749268082417e-09,
+    "delta_h_MPa": 0.0006802438826198909,
+    "dual_error_kNmm": 9.987565489186257e-10,
+    "free_error_kN": 8.957412769772032e-11,
+    "pdas_active_count": 2951,
+    "pdas_free_count": 10327
+  },
+  "finding": "DISCREPANCY RESOLVED AS TURN-29 NARRATIVE REUSE: In authentic solver telemetry, delta_u decayed from 1.8332e-08 mm at outer 119 to 1.1423e-08 mm at outer 135 (rho_u ~ 0.9709), and delta_h decayed from 1.8206e-03 MPa to 1.1197e-03 MPa (rho_h ~ 0.9701). The matching values in Turn 29 report were due to a narrative text copy from outer 119, while solver telemetry was genuinely contracting."
+}
