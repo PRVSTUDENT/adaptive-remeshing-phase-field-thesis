@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "verification_name": "PACKAGE167_R3_PREDECESSOR_COMPATIBILITY_VERIFICATION",
+  "decision": "PACKAGE167_R3_PREDECESSOR_COMPATIBILITY_PASS",
+  "all_criteria_passed": true,
+  "active_predecessors": {
+    "r3_c5_continuation": {
+      "job_id": "1419499.mmaster02",
+      "target_uy_mm": 0.0018653125442191958,
+      "run_dir": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\163_c5_package163_r3_c2_1_continuation"
+    },
+    "r8_c4_reference": {
+      "job_id": "1419490.mmaster02",
+      "target_uy_mm": 0.0018703125442191958,
+      "run_dir": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\157_c4_package157_c1_2_continuation_r8"
+    }
+  },
+  "criteria": {
+    "criterion_1_r2_rejection": {
+      "passed": true,
+      "detail": "Simulated R2 checkpoint strictly rejected with REJECTED_DISQUALIFIED_R2_PREDECESSOR",
+      "disqualified_job_ids": [
+        "1419489.mmaster02"
+      ]
+    },
+    "criterion_2_r3_resolution": {
+      "passed": true,
+      "active_predecessor_job_id": "1419499.mmaster02",
+      "r3_source_directory": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\163_c5_package163_r3_c2_1_continuation",
+      "unaccepted_r3_checkpoint_blocks_submission": true,
+      "detail": "Checkpoint 02 resolves strictly from Job 1419499.mmaster02; unaccepted checkpoint fails closed"
+    },
+    "criterion_3_discretization_invariants": {
+      "passed": true,
+      "elements": 12996,
+      "nodes": 13278,
+      "gauss_points": 51984,
+      "history_svars": 207936,
+      "healing_tolerance": 1e-06,
+      "detail": "All 13,278 C5 nodes, 51,984 integration-point histories, and strict zero-healing bound preserved"
+    },
+    "criterion_4_step_scope_invariants": {
+      "passed": true,
+      "initial_uy_mm": 0.0018653125442191958,
+      "increment_uy_mm": 5e-06,
+      "target_uy_mm": 0.0018703125442191958,
+      "max_outer_iterations": 200,
+      "detail": "Advances exactly 0.0018653125442191958 -> 0.0018703125442191958 mm (+5 nm) on C5"
+    },
+    "criterion_5_reference_benchmark_lineage": {
+      "passed": true,
+      "reference_benchmark_job_id": "1419490.mmaster02",
+      "target_displacement_uy_mm": 0.0018703125442191958,
+      "r8_run_dir": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\157_c4_package157_c1_2_continuation_r8",
+      "detail": "Independent C4-R8 reference from Job 1419490.mmaster02 strictly bound at target uy=0.001870312544 mm"
+    },
+    "criterion_6_fail_closed_guard": {
+      "passed": true,
+      "live_eligibility_status": "NO_SUBMISSION_FALLBACK",
+      "live_builder_status": "NO_SUBMISSION_FALLBACK",
+      "live_gates_status": "SUBMISSION_BLOCKED_BY_PREDECESSOR_DEPENDENCY",
+      "blocking_gates": [
+        "GATE_1_PREDECESSOR_CHECKPOINT_02",
+        "GATE_8_INDEPENDENT_C4_REFERENCE"
+      ],
+      "detail": "Both running predecessors actively block submission; zero speculative execution"
+    },
+    "criterion_7_frozen_production_uel": {
+      "passed": true,
+      "canonical_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "actual_r3_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "bitwise_identical": true,
+      "detail": "Bitwise match with canonical SHA-256 CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+    }
+  },
+  "summary": "Package 167 predecessor compatibility with Package 163-R3 and Package 157-R8 is 100%% verified. All 7 criteria PASS: R2 terminal artifacts are strictly rejected; Checkpoint 02 resolves exclusively from R3; all 13,278 nodes and 51,984 integration-point histories are preserved; exact +5 nm load step (0.00186531 -> 0.00187031 mm) is enforced; C4-R8 reference is bound at target displacement; dual predecessor fail-closed guard active; and frozen UEL verified bit-for-bit."
+}

@@ -57,14 +57,35 @@ def test_c2_2_solver_parameters():
     assert spec["frozen_uel_sha256"] == "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
 
 
-def test_no_submission_fallback_while_r2_running():
+def test_no_submission_fallback_while_r3_running():
     """
-    While Job 1419489.mmaster02 is running on cluster, Checkpoint 02 does not exist locally.
+    While Job 1419499.mmaster02 is running on cluster, Checkpoint 02 does not exist locally.
     Submission eligibility MUST evaluate to False with status NO_SUBMISSION_FALLBACK.
     """
     eligibility = evaluate_c2_2_submission_eligibility()
     assert eligibility["eligible_for_submission"] is False
     assert eligibility["status"] == "NO_SUBMISSION_FALLBACK"
     assert eligibility["block_reason"] == "PREDECESSOR_CHECKPOINT_02_MISSING"
-    assert eligibility["running_predecessor_job_id"] == "1419489.mmaster02"
+    assert eligibility["running_predecessor_job_id"] == "1419499.mmaster02"
     assert "Stage C2-2 forward continuation strictly requires" in eligibility["explanation"]
+
+
+def test_rejection_of_disqualified_r2_artifacts():
+    """
+    Any Checkpoint 02 artifact originating from disqualified Package 163-R2 / Job 1419489.mmaster02
+    must be strictly rejected with REJECTED_DISQUALIFIED_R2_PREDECESSOR.
+    """
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmpdir:
+        fake_r2_cp = Path(tmpdir) / "package163_r2_converged_checkpoint_02.json"
+        fake_r2_cp.write_text(json.dumps({
+            "target_uy_mm": BASELINE_UY_MM,
+            "job_id": "1419489.mmaster02"
+        }), encoding="utf-8")
+        
+        eligibility = evaluate_c2_2_submission_eligibility(checkpoint_override=str(fake_r2_cp))
+        assert eligibility["eligible_for_submission"] is False
+        assert eligibility["status"] == "NO_SUBMISSION_FALLBACK"
+        assert eligibility["block_reason"] == "REJECTED_DISQUALIFIED_R2_PREDECESSOR"
+
+

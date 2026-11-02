@@ -1,0 +1,94 @@
+{
+  "audit_name": "STAGE_C2_2_INTEGRATION_READINESS_AUDIT",
+  "task": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "running_job_id": "1419499.mmaster02",
+  "running_reference_job_id": "1419490.mmaster02",
+  "independent_components_verified_all_pass": true,
+  "submission_allowed": false,
+  "verdict": "INTEGRATION_READINESS_CONFIRMED_PENDING_CHECKPOINT_02_AND_C4_REFERENCE",
+  "summary": "All independent components for Stage C2-2 (C5 mesh geometry, frozen production UEL SHA-256, notification scripts, builder logic, driver specifications, and submission adapter gates) are 100% verified and ready. The dual dependencies are authentic Checkpoint 02 from running Job 1419499.mmaster02 (Package 163-R3) and authentic C4 reference from running Job 1419490.mmaster02 (Package 157-R8). The predecessor guard actively prevents speculative submission.",
+  "audit_components": {
+    "c5_mesh_integrity": {
+      "verified_independent": true,
+      "status": "PASS",
+      "mesh_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\163_c5_package163_r3_c2_1_continuation\\M1_C5_PACKAGE163_R3_C2_1_CONTINUATION.inp",
+      "sha256": "F05CE3C9D115C7C58F3CE91ADF8FFA5629F62DE157757433DF5C84E95ECB1773",
+      "elements": 12996,
+      "nodes": 13278
+    },
+    "frozen_production_uel": {
+      "verified_independent": true,
+      "status": "PASS",
+      "uel_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\163_c5_package163_r3_c2_1_continuation\\f42_mixed_uel.for",
+      "canonical_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "actual_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "bitwise_identical": true
+    },
+    "notification_script": {
+      "verified_independent": true,
+      "status": "PASS",
+      "notif_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\163_c5_package163_r3_c2_1_continuation\\job_notifications.sh",
+      "sha256": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11"
+    },
+    "builder_and_predecessor_guard": {
+      "verified_independent": true,
+      "status": "PASS",
+      "builder_status": "NO_SUBMISSION_FALLBACK",
+      "reason": "PREDECESSOR_CHECKPOINT_02_MISSING",
+      "guard_enforces_no_submission": true
+    },
+    "driver_specification": {
+      "verified_independent": true,
+      "status": "PASS",
+      "initial_uy_mm": 0.0018653125442191958,
+      "increment_uy_mm": 5e-06,
+      "target_uy_mm": 0.0018703125442191958,
+      "max_outer_iterations": 200,
+      "tolerances_match_method_c": true,
+      "predecessor_job_id": "1419499.mmaster02",
+      "reference_job_id": "1419490.mmaster02"
+    },
+    "submission_adapter_gates": {
+      "verified_independent": true,
+      "status": "PASS",
+      "overall_status": "SUBMISSION_BLOCKED_BY_PREDECESSOR_DEPENDENCY",
+      "blocking_gates": [
+        "GATE_1_PREDECESSOR_CHECKPOINT_02",
+        "GATE_8_INDEPENDENT_C4_REFERENCE"
+      ],
+      "submission_prevented": true
+    }
+  },
+  "unresolved_dependencies": [
+    {
+      "dependency": "PREDECESSOR_CHECKPOINT_02",
+      "source_job": "1419499.mmaster02",
+      "status": "PENDING_RUNNING_SOLVER",
+      "target_artifact": "converged_checkpoint_02.json",
+      "target_load_uy_mm": 0.0018653125442191958,
+      "physical_acceptance_required": true,
+      "criteria": [
+        "delta_d <= 1e-5",
+        "delta_u <= 1e-9 mm",
+        "delta_H <= 1e-4 MPa",
+        "Force discrepancy <= 2% vs C4 R6 (0.183468 kN)",
+        "Energy discrepancy <= 2% vs C4 R6 (0.000225114 kN*mm)",
+        "Zero damage healing",
+        "Pointwise monotonic history"
+      ]
+    },
+    {
+      "dependency": "INDEPENDENT_C4_REFERENCE",
+      "source_job": "1419490.mmaster02",
+      "status": "PENDING_RUNNING_SOLVER",
+      "target_artifact": "package157_r8_c1_2_continuation_acceptance_report.json",
+      "target_load_uy_mm": 0.0018703125442191958,
+      "physical_acceptance_required": true,
+      "criteria": [
+        "Physical convergence at target uy = 0.0018703125442191958 mm",
+        "Monotonic history and damage irreversibility",
+        "Authentic force and energy extraction for Stage C2-2 parity evaluation"
+      ]
+    }
+  ]
+}

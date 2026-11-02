@@ -21,15 +21,17 @@ from scripts.validation.analyze_package163_r2_live_progress import (
 
 
 def test_submission_gates_running_job_contradiction_resolution():
-    res = evaluate_submission_gates("1419489.mmaster02")
+    res = evaluate_submission_gates("1419499.mmaster02", "1419490.mmaster02")
     assert res["eligible_for_immediate_submission"] is False
     assert res["overall_status"] == "SUBMISSION_BLOCKED_BY_PREDECESSOR_DEPENDENCY"
-    assert res["blocking_gate"] == "GATE_1_PREDECESSOR_CHECKPOINT_02"
+    assert "GATE_1_PREDECESSOR_CHECKPOINT_02" in res["blocking_gates"]
+    assert "GATE_8_INDEPENDENT_C4_REFERENCE" in res["blocking_gates"]
     assert res["gates"]["GATE_1_PREDECESSOR_CHECKPOINT_02"]["status"] == "BLOCKED"
     assert res["gates"]["GATE_2_C5_MESH_INTEGRITY"]["status"] == "PASS"
     assert res["gates"]["GATE_3_FROZEN_UEL_SHA256"]["status"] == "PASS"
     assert res["gates"]["GATE_6_ONCE_ONLY_QUOTA"]["status"] == "ELIGIBLE"
     assert res["gates"]["GATE_7_PHYSICAL_ACCEPTANCE_CRITERIA"]["status"] == "PASS"
+    assert res["gates"]["GATE_8_INDEPENDENT_C4_REFERENCE"]["status"] == "BLOCKED"
 
 
 def test_asymptotic_convergence_forecast():
