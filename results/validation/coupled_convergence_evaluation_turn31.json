@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "evaluation": "COUPLED_CONVERGENCE_ASSESSMENT_TURN31",
+  "package163_r2": {
+    "job_id": "1419489.mmaster02",
+    "total_records": 165,
+    "current_outer": 165,
+    "current_residuals": {
+      "delta_d": 1.8600331801206862e-05,
+      "delta_u_mm": 5.211036563953879e-09,
+      "delta_h_MPa": 0.0005081463514216011,
+      "dual_error_kNmm": 1.0072868916795068e-09,
+      "free_error_kN": 6.678363464081565e-11,
+      "active_nodes": 2941
+    },
+    "tolerances": {
+      "tol_d": 1e-05,
+      "tol_u_mm": 1e-09,
+      "tol_h_MPa": 0.0001
+    },
+    "distance_to_target": {
+      "delta_d_ratio_to_tol": 1.86,
+      "delta_u_ratio_to_tol": 5.211,
+      "delta_h_ratio_to_tol": 5.0815
+    },
+    "contraction_rates": {
+      "robust_rho_u": 0.973,
+      "robust_rho_h": 0.9726,
+      "window5_rho_u": 0.9791,
+      "window5_rho_h": 0.9759,
+      "nominal_rho_d": 0.95
+    },
+    "individual_projections": {
+      "projected_outer_delta_d": 178,
+      "projected_outer_delta_u": 226,
+      "projected_outer_delta_h": 224
+    },
+    "coupled_convergence_projection": {
+      "simultaneous_outer_target": 226,
+      "budget_limit": 200,
+      "budget_sufficient": false,
+      "headroom_outers": -26,
+      "projected_delta_u_at_200_mm": 2.0010817647585896e-09,
+      "projected_delta_h_at_200_MPa": 0.0001924378946485848
+    },
+    "coupled_status": "IN_PROGRESS"
+  },
+  "package157_r8": {
+    "job_id": "1419490.mmaster02",
+    "total_records": 3,
+    "latest_outer": 3,
+    "target_uy_mm": 0.0018703125442191958,
+    "latest_residuals": {
+      "step": 1,
+      "outer": 3,
+      "target_uy": 0.0018703125442191958,
+      "delta_d": 0.0014355999999999813,
+      "delta_u": 8.604805774428464e-07,
+      "delta_h": 0.04006901471272517,
+      "free_error": 1.1994536286539103e-08,
+      "dual_error": 9.260927495533431e-09
+    }
+  }
+}
