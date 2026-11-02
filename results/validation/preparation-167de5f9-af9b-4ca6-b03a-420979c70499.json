@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "run_id": "167de5f9-af9b-4ca6-b03a-420979c70499",
+  "finding": "Rigorous simultaneous multi-variable convergence assessment established: while delta_d repeatedly dips below tolerance (8.17e-06 at outer 163), coupled convergence requires simultaneous satisfaction of delta_u <= 1e-9 mm (currently 5.21e-09 mm, 5.2x ratio) and delta_H <= 1e-4 MPa (currently 5.08e-04 MPa, 5.1x ratio). Under measured steady contraction rates (rho_u = 0.9730, rho_H = 0.9726), simultaneous coupled convergence is projected at outer ~226, indicating that the 200 outer budget risks terminating near ~2x tolerance without acceleration. Package 167 remains held while Job 1419489 (outer 165) and Job 1419490 (outer 3) compute concurrently in PBS.",
+  "evidence_sources": {
+    "results/validation/coupled_convergence_evaluation_turn31.json": "A48CC50E13F73984B515E348DB2115F96E22B3694911771857B62A7D31E0BD2F",
+    "results/validation/package163_r2_live_telemetry_turn31.json": "6879B2B5921A0E583BA78D924CD67619EFC009FEFBD139CE2CD6F40DB09F6322",
+    "results/validation/package157_r8_live_telemetry_turn31.json": "4A726BDE9C9640EC0C80E085ED932F1D6572571CC8E0D9C69C8F48D395AF9389",
+    "scripts/validation/evaluate_coupled_convergence_turn31.py": "681ABEF9B0BCDCCFD242FC91B8CF4C25908BBAABD6CD16EF1FB65A4D3E336BB2",
+    "tests/unit/test_coupled_convergence_rates_and_budget.py": "85D5E58AA9F15D3D93C800C77180F75C8D69216F57708A0FFD9A9AF4C7AA772A"
+  },
+  "verification_passed": true
+}
