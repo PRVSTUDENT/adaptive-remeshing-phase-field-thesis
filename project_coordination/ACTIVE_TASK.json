@@ -2,7 +2,7 @@
     "task_id":  "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
     "agent":  "gemini-antigravity",
     "status":  "READY_READ_ONLY_EVALUATION",
-    "phase":  "Evaluate original Package166 and already-submitted R2 evidence before first +5 nm C5 decision",
+    "phase":  "Package 166 Job 1419480 achieved mechanical convergence and passed force (1.820%), raw energy (0.171%), KKT, and non-accumulating history consistency, but suffered premature false convergence (true delta_d = 3.0123e-5 \u003e 1e-5) due to driver pre-phase delta_d evaluation; Package 166-R2 Job 1419483 corrected the damage gate logic but failed on startup with KeyError: \u0027donor_source\u0027 in PACKAGE_MANIFEST.json. Neither run achieves physical acceptance, and continuation requires a reviewed defect correction.",
     "gate_status":  "REGISTERED_SUCCESSOR__NUMERICAL_EXECUTION_NOT_QUALIFIED",
     "predecessor_task":  {
                              "run_id":  "19280009-42f4-4897-8d3a-9b52d2e5168a",
@@ -250,7 +250,6 @@
                                ],
     "frozen_uel_sha256":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "max_new_pbs_submissions":  0,
-    "next_safe_action":  "Evaluate original Package166 and already-submitted R2 evidence before first +5 nm C5 decision",
     "lifecycle":  {
                       "scientific_execution_started":  false,
                       "predecessor_replay_allowed":  false,
@@ -260,5 +259,16 @@
                                   "local_snapshot":  "C:\\Users\\pruth\\OpenClawPAD\\failure_recovery\\successor-maintenance-20261102\\completed-predecessor-task.json",
                                   "sha256":  "57AD34DAE9C8C82E059D88864419C4CA9D349E38E160D2D6CEFD5F22F1E6FB0F",
                                   "active_task_source_commit":  "5372fb528416c570e6afdff0fab7c9edee724953"
+                              },
+    "last_step_status":  "PREPARATION_COMPLETE",
+    "last_updated":  "2026-11-02T02:58:47.3922695+01:00",
+    "next_safe_action":  "Evaluate distinct schema correction for Package 166-R2 manifest or await reviewed hypothesis before any further submission",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-dea7478c-6291-4378-88d3-523bba5857e1.json",
+                                  "sha256":  "94209176AFCF160610797FFFFBF1D809A3AB0AC8822B4CF1F87A90857D120F0E",
+                                  "created_at":  "2026-11-02T02:58:37.6543823+01:00"
                               }
 }

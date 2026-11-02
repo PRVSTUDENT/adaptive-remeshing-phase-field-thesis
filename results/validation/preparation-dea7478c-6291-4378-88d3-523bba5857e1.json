@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "turn": "dea7478c-6291-4378-88d3-523bba5857e1",
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "verification_passed": true,
+  "title": "Package 166 and Package 166-R2 Bounded Scientific Convergence Evaluation",
+  "finding": "Package 166 Job 1419480 achieved mechanical convergence and passed force (1.820%), raw energy (0.171%), KKT, and non-accumulating history consistency, but suffered premature false convergence (true delta_d = 3.0123e-5 > 1e-5) due to driver pre-phase delta_d evaluation; Package 166-R2 Job 1419483 corrected the damage gate logic but failed on startup with KeyError: 'donor_source' in PACKAGE_MANIFEST.json. Neither run achieves physical acceptance, and continuation requires a reviewed defect correction.",
+  "next_operation": "Evaluate distinct schema correction for Package 166-R2 manifest or await reviewed hypothesis before any further submission",
+  "evaluation_details": {
+    "package166_job_1419480": {
+      "job_id": "1419480.mmaster02",
+      "terminal_state": "Exit 0 at outer iteration 65",
+      "driver_reported_delta_d": 0.0,
+      "actual_true_post_phase_delta_d": 3.0123e-05,
+      "delta_d_gate_pass": false,
+      "delta_d_tolerance": 1.0e-05,
+      "delta_u_mm": 9.313225746154785e-10,
+      "delta_u_gate_pass": true,
+      "delta_u_tolerance_mm": 1.0e-09,
+      "delta_h_inf_MPa": 7.577385824930616e-05,
+      "history_contract": "H^(k) = max(H0, psi+(u^(k))), strictly non-accumulating from immutable predecessor H0",
+      "reaction_force_kN": 0.18076679110527039,
+      "donor_reference_force_kN": 0.184117075783354,
+      "force_discrepancy_pct": 1.8196490813409523,
+      "force_gate_pass": true,
+      "force_tolerance_pct": 2.0,
+      "raw_total_energy_kNmm": 0.000224571501,
+      "donor_reference_energy_kNmm": 0.00022418821945,
+      "energy_discrepancy_pct": 0.17096417953642642,
+      "energy_gate_pass": true,
+      "energy_tolerance_pct": 2.0,
+      "kkt_free_error_kNmm": 3.4471746858365822e-09,
+      "kkt_dual_error_kNmm": 9.907135745577906e-10,
+      "kkt_tolerance_kNmm": 1.0e-06,
+      "damage_healing_violations": 0,
+      "max_healing_measured": 7.41e-09,
+      "thermodynamic_violations": 0,
+      "history_monotonicity_violations": 0,
+      "overall_physical_pass": false,
+      "disqualification_reason": "Premature false convergence unmasked by independent audit: true delta_d = 3.0123e-5 exceeds physical tolerance 1e-5 caused by line 277 ordering flaw in driver_package166_c5_nonaccumulating_history.py."
+    },
+    "package166_r2_job_1419483": {
+      "job_id": "1419483.mmaster02",
+      "terminal_state": "Execution aborted with Python traceback (Exit 1)",
+      "manifest_verification": "Matches 14 listed file digests",
+      "driver_gate_repair": "driver_package166_r2_c5_nonaccumulating_history.py lines 279-289 evaluates true delta_d post-phase solve",
+      "failure_root_cause": "KeyError: 'donor_source' in load() at line 117 because models/pandey_kumar_mode1/166_c5_package166_r2_c2_0_nonaccumulating_history/PACKAGE_MANIFEST.json omitted the 'donor_source' object containing 'target_uy_mm'",
+      "iterations_completed": 0,
+      "overall_physical_pass": false
+    },
+    "preserved_submission_receipts": [
+      {
+        "job_id": "1419478.mmaster02",
+        "status": "SUBMITTED",
+        "submitted_at": "2026-11-01T23:50:37.5747528+00:00",
+        "package": "Package 166 original earlier receipt"
+      },
+      {
+        "job_id": "1419479.mmaster02",
+        "status": "SUBMITTED",
+        "submitted_at": "2026-11-01T23:51:47.4716036+00:00",
+        "package": "Package 166 original earlier receipt"
+      },
+      {
+        "job_id": "1419480.mmaster02",
+        "status": "COMPLETED (FALSE CONVERGENCE)",
+        "submitted_at": "2026-11-01T23:53:08.7237873+00:00",
+        "package": "Package 166 original"
+      },
+      {
+        "job_id": "1419483.mmaster02",
+        "status": "FAILED (KEY_ERROR_SCHEMA)",
+        "submitted_at": "2026-11-02T00:42:14.4095991+00:00",
+        "package": "Package 166-R2"
+      }
+    ],
+    "frozen_production_uel": {
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "status": "STRICTLY_PRESERVED"
+    },
+    "c5_continuation_governance": {
+      "continuation_eligible": false,
+      "rationale": "A first +5 nm C5 continuation proposal can only be reviewed after an authentic physically accepted C5 predecessor is established; blind retry or execution without physical acceptance is prohibited."
+    }
+  },
+  "evidence_sources": {
+    "results/validation/package166_authentic_terminal_audit.json": "410267AA3D4086E794CFC7A85D83266E02C4EB6E2C1CAA4F0D4618EC21AA91A8",
+    "results/validation/package166_independent_audit.json": "14968653A20EA3EAC3EE149DA57444C3E7C7B1BDCBF8DF2CA8A58DFEADEFEAA5",
+    "models/pandey_kumar_mode1/166_c5_package166_c2_0_nonaccumulating_history/PACKAGE_MANIFEST.json": "5B7201754A1D6ED002E1EB7EBAFB8EBE65E767F58478EB9C518A582167D40E04",
+    "models/pandey_kumar_mode1/166_c5_package166_r2_c2_0_nonaccumulating_history/PACKAGE_MANIFEST.json": "87C09E2F811DB60B55CE7EAC1269A58AEB6BE24885A0EF82A5CA095FB255FF0D",
+    "models/pandey_kumar_mode1/166_c5_package166_c2_0_nonaccumulating_history/EXECUTION_MANIFEST.json": "F0ADDD9D2FBF24567270906BE2ECD764B9C12A043D5D16377C256E182110E8AB",
+    "scripts/state_transfer/driver_package166_c5_nonaccumulating_history.py": "4AF8E9EAE42D0CFCA0702699FE7B14EC56529E95EBFF6B20F66144E0FC80E4D0",
+    "scripts/state_transfer/driver_package166_r2_c5_nonaccumulating_history.py": "A8EC8AD11188AC2D054AB366EB05B489D80EF9F9C8129B73EB21B6582B794513",
+    "models/pandey_kumar_mode1/166_c5_package166_c2_0_nonaccumulating_history/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/166_c5_package166_r2_c2_0_nonaccumulating_history/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  }
+}

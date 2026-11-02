@@ -1,19 +1,26 @@
 {
     "active":  false,
-    "agent":  "codex",
-    "task_id":  "CONTROLLER-REPORTING-RESUME-F1598",
-    "starting_commit":  "3b84256c36669c7af9f06c79b101af5870cba459",
-    "claimed_at":  "2026-11-02T02:46:17.9309368+01:00",
-    "last_updated":  "2026-11-02T02:52:34.4789570+01:00",
-    "last_released":  "2026-11-02T02:52:34.4789570+01:00",
-    "controller_run_id":  "19280009-42f4-4897-8d3a-9b52d2e5168a",
-    "session_report":  "project_coordination/sessions/2026-11-02_codex_reporting_resume_f1598.md",
+    "agent":  "gemini-antigravity",
+    "task_id":  "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+    "starting_commit":  "5bca17cd15154217f47f8dff8e7e94ac89411377",
+    "claimed_at":  "2026-11-02T02:54:03.7222170+01:00",
+    "last_updated":  "2026-11-02T02:58:47.4312662+01:00",
+    "last_released":  "2026-11-02T02:58:47.4312662+01:00",
+    "controller_run_id":  "dea7478c-6291-4378-88d3-523bba5857e1",
+    "session_report":  "project_coordination/sessions/2026-11-02_gemini-antigravity_F1597_dea7478c-6291-4378-88d3-523bba5857e1.md",
     "allowed_write_scope":  [
+                                "project_coordination/sessions/2026-11-02_gemini-antigravity_F1597_dea7478c-6291-4378-88d3-523bba5857e1.md",
+                                "project_coordination/controller/turn-dea7478c-6291-4378-88d3-523bba5857e1.json",
+                                "results/validation/mode1_f1597/dea7478c-6291-4378-88d3-523bba5857e1.json",
+                                "results/validation/preparation-dea7478c-6291-4378-88d3-523bba5857e1.json",
+                                "results/validation/*",
+                                "scripts/validation/*",
+                                "tests/unit/*",
+                                "models/pandey_kumar_mode1/*",
                                 "project_coordination/ACTIVE_SESSION.json",
+                                "project_coordination/ACTIVE_TASK.json",
                                 "project_coordination/CURRENT_STATE.md",
                                 "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/sessions/2026-11-02_codex_reporting_resume_f1598.md",
-                                "C:\\Users\\pruth\\OpenClawPAD\\ChatGPTBridge",
-                                "C:\\Users\\pruth\\OpenClawPAD\\failure_recovery\\f1598-reporting-resume-20261102"
+                                "project_coordination/ARTIFACT_REGISTRY.csv"
                             ]
 }
