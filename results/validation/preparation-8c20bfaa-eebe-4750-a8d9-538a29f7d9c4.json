@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "run_id": "8c20bfaa-eebe-4750-a8d9-538a29f7d9c4",
+  "finding": "Package 157 Revision 8 candidate deck successfully synthesized and verified to provide the missing independent C4 reference at target uy=0.001870312544 mm (+5.0 nm increment from R6 Checkpoint 01) with max_outer=200; discovery is decoupled from execution gates with exact blockers (cluster staging and compute-node datacheck) cleanly cataloged while live Job 1419489 maintains healthy monotonic contraction at outer 119.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r8/PACKAGE_MANIFEST.json": "5DAB56333CCB95BAC3B4B907B127CD116E8A5AF35CE45DCF0C703C4A4C4D4020",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r8/EXECUTION_MANIFEST.json": "4E6263AF0AC87B5C751C9693E7DC03C8B5DF6EAC56FE192AD4616CCD1771FFB8",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r8/QUALIFICATION_EXECUTION_MANIFEST.json": "66A0BD4CE37B1756102590ADE46694580142CEE9D6CB7F3D74AABDD9D4D15F3D",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r8/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "scripts/state_transfer/build_package157_r8.py": "7F77DA434964432E6A1B4C45C0EC2B37FF1386CC0818D2DAB174FACB4B9D1475",
+    "scripts/state_transfer/driver_package157_r8.py": "97E622587EA6F947FCD3612856B1076FBF89523C53C6F63028E539300A1E0AF9",
+    "scripts/validation/evaluate_package157_r8_reference_gates.py": "FAA345EF371DF5E851AC1FC43FB77123334961D3982BB87F8717DF201ED9C2BB",
+    "tests/unit/test_package157_r8_qualification.py": "80655DABE80789E560D6379125E1090B0B9FBEA8EFA2728C150A86C44BCE64D5",
+    "results/validation/package157_r8_reference_gates_evaluation.json": "708D524EE211C522B278A566CCB495D45CCAB11F5F4543A6CDB184243E99CE49",
+    "results/validation/package163_r2_trajectory_analysis_turn22.json": "AD0A182E543383D5694A4FB2C47622E876B15ECE9C09A8637EEF244CAF64A20B"
+  },
+  "verification_passed": true
+}
