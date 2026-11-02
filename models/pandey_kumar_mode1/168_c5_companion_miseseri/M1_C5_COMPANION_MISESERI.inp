@@ -1,6 +1,6 @@
 *Heading
 ** Mode-I C5 Companion Continuum Linear-Elastic Model for MISESERI Recovery
-** Prescribed Load Target: uy = 0.0018653125 mm
+** Prescribed Load Target: uy = 0.0018703125 mm
 ** Discretization: 12,996 CPE4 Continuum Quads, 13,278 Nodes + RP 999999
 ** Slit Topology: 53 coincident split pairs (x <= 0.040, y = 0.050 mm)
 ** Protocol Version: 2 (Task F1598)
@@ -26679,7 +26679,7 @@ N_BOTTOM, 2, 2, 0.0
 *Step, name=STATIC_ELASTIC, perturb
 *Static
 *Boundary
-999999, 2, 2, 0.0018653125
+999999, 2, 2, 0.0018703125
 ** ----------------------------------------------------------
 ** ELEMENT OUTPUT FOR AUTHENTIC MISESERI RECOVERY
 ** ----------------------------------------------------------

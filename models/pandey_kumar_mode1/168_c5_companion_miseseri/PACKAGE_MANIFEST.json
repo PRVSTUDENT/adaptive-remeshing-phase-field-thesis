@@ -16,8 +16,8 @@
   "loading": {
     "step_name": "STATIC_ELASTIC",
     "perturbation": true,
-    "prescribed_u2_mm": 0.0018653125442191958,
-    "load_source_fixture": "Validated checkpoint models\\pandey_kumar_mode1\\167_c5_package167_r1_c2_2_continuation\\initial_checkpoint_02.json at uy = 0.0018653125 mm"
+    "prescribed_u2_mm": 0.0018703125442191958,
+    "load_source_fixture": "Validated checkpoint models\\pandey_kumar_mode1\\167_c5_package167_r3_c2_2_continuation\\evidence\\1419566.mmaster02\\converged_checkpoint_03.json at uy = 0.0018703125 mm"
   },
   "material": {
     "name": "STEEL",
@@ -33,17 +33,17 @@
     "RF"
   ],
   "files": {
-    "M1_C5_COMPANION_MISESERI.inp": "325023E2B1A3611F9E215B37EEDB79752B765155E810FB982F50F7513A401912"
+    "M1_C5_COMPANION_MISESERI.inp": "E4EC7892036477FD5CDCD46FC6D65EB115D193ED30D0196F59A3E903FBB25C53"
   },
   "checkpoint_lineage": {
-    "consumed_checkpoint_path": "models\\pandey_kumar_mode1\\167_c5_package167_r1_c2_2_continuation\\initial_checkpoint_02.json",
-    "consumed_checkpoint_sha256": "8201D8200A12C8A493ABA8550DA7D66DB9301C2389A9EA1409BCB5B9E57B4FEA",
-    "target_uy_mm": 0.0018653125442191958,
-    "baseline_uy_mm": 0.0018603125442191958,
-    "reaction_force_kN": 0.17944329015383154,
-    "total_energy_kNmm": 0.000225500612,
-    "outer_iteration": 235,
+    "consumed_checkpoint_path": "models\\pandey_kumar_mode1\\167_c5_package167_r3_c2_2_continuation\\evidence\\1419566.mmaster02\\converged_checkpoint_03.json",
+    "consumed_checkpoint_sha256": "EAA122B911FDFC353D230C4BFFCCD60F75D7FAF4A9FBBEC9E5CF6A8B51C0A476",
+    "target_uy_mm": 0.0018703125442191958,
+    "baseline_uy_mm": 0.0018653125442191958,
+    "reaction_force_kN": 0.17992419004440308,
+    "total_energy_kNmm": 0.00022639903,
+    "outer_iteration": 2,
     "coupled_convergence": true,
-    "contract": "Package 163-R2 Stage C2-1 Forward Continuation"
+    "contract": "Package 167 Stage C2-2 Forward Continuation"
   }
 }
