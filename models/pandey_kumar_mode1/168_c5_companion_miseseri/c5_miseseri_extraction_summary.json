@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "job_name": "M1_C5_COMPANION_MISESERI",
+  "odb_path": "models/pandey_kumar_mode1/168_c5_companion_miseseri/M1_C5_COMPANION_MISESERI_upgraded.odb",
+  "step_name": "STATIC_ELASTIC",
+  "total_elements": 12996,
+  "sig_peak_kNmm2": 17.60997772216797,
+  "sig_floor_kNmm2": 1.7609977722167969,
+  "denominator_guard_formula": "denom = max(MISESAVG, 0.10 * sig_peak)",
+  "threshold_eta": 0.15,
+  "marked_elements_count": 38,
+  "marked_percentage": 0.29239766081871343,
+  "peak_miseseri": {
+    "element_id": 6437,
+    "miseseri_kNmm2": 6.493066787719727,
+    "centroid_mm": {
+      "x": 0.04024999961256981,
+      "y": 0.04975000023841858
+    }
+  },
+  "peak_relative_error": {
+    "element_id": 6435,
+    "eta_guarded": 0.9564287126192771,
+    "centroid_mm": {
+      "x": 0.039250001311302185,
+      "y": 0.04975000023841858
+    }
+  },
+  "distribution_statistics": {
+    "miseseri": {
+      "p25": 0.004942751955240965,
+      "p50": 0.008390869945287704,
+      "p75": 0.01640979014337063,
+      "p90": 0.028515992686152458,
+      "p95": 0.05079452972859144,
+      "p99": 0.18396092131733863,
+      "min": 0.0005521028651855886,
+      "max": 6.493066787719727,
+      "mean": 0.02030363126218291,
+      "median": 0.008390869945287704,
+      "zero_count": 0,
+      "count": 12996
+    },
+    "misesavg": {
+      "p25": 1.1120723485946655,
+      "p50": 3.340230703353882,
+      "p75": 3.9522852897644043,
+      "p90": 4.21287727355957,
+      "p95": 4.557311058044434,
+      "p99": 6.042551827430711,
+      "min": 0.0024671268183737993,
+      "max": 17.60997772216797,
+      "mean": 2.7334381643739043,
+      "median": 3.340230703353882,
+      "zero_count": 0,
+      "count": 12996
+    },
+    "eta_guarded": {
+      "p25": 0.0013934730296521303,
+      "p50": 0.002597961555024806,
+      "p75": 0.007840821553307356,
+      "p90": 0.012686989818626999,
+      "p95": 0.02139672394354892,
+      "p99": 0.06693159189483033,
+      "min": 0.0001345464947565899,
+      "max": 0.9564287126192771,
+      "mean": 0.00723952099041422,
+      "median": 0.002597961555024806,
+      "zero_count": 0,
+      "count": 12996
+    }
+  },
+  "spatial_localization_marked": {
+    "bbox_x": [
+      0.03725000098347664,
+      0.041749998927116394
+    ],
+    "bbox_y": [
+      0.048250000923871994,
+      0.051750000566244125
+    ],
+    "centroid_mean": [
+      0.038960526550286693,
+      0.05000000025488829
+    ],
+    "dist_crack_tip_min": 0.00035355289536784164,
+    "dist_crack_tip_max": 0.003259600676882708,
+    "dist_crack_tip_mean": 0.0016621559288302313
+  },
+  "refinement_metrics": {
+    "threshold_eta": 0.15,
+    "elements_above_threshold": 38,
+    "pct_above_threshold": 0.29239766081871343,
+    "adaptation_recommendation": "ADVANCE_CYCLE_C6_REFINEMENT"
+  }
+}

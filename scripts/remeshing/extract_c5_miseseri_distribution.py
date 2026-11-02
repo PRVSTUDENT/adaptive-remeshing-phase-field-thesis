@@ -9,10 +9,11 @@ from the C5 companion-continuum linear-elastic ODB (M1_C5_COMPANION_MISESERI.odb
 Evaluates:
 - Elementwise MISESERI (recovered stress error indicator in kN/mm^2)
 - Elementwise MISESAVG (average Mises stress in kN/mm^2)
-- Relative error indicator eta_e = MISESERI_e / MISESAVG_e
+- Relative error indicator eta_g = MISESERI_e / max(MISESAVG_e, 0.10 * sig_peak)
 - Element centroids (xc, yc) from authentic 12,996 C5 quads
-- High-error elements for refinement marking in Cycle C6 (eta >= 0.15)
-- Spatial distribution, peak error coordinates, and element quality diagnostics.
+- High-error elements for refinement marking in Cycle C6 (eta_g >= 0.15)
+- Quantitative distribution statistics (min, max, mean, median, percentiles, zero counts)
+- Spatial localization and distance from crack tip (x=0.040, y=0.050 mm).
 
 Usage:
     abaqus python extract_c5_miseseri_distribution.py [--odb PATH] [--out-dir PATH] [--threshold 0.15]
@@ -27,6 +28,27 @@ import json
 import math
 import os
 import sys
+
+
+def compute_percentiles(values, percentiles=[25, 50, 75, 90, 95, 99]):
+    """Computes percentiles for a list of floats."""
+    if not values:
+        return {}
+    s = sorted(values)
+    n = len(s)
+    res = {}
+    for p in percentiles:
+        k = (len(s) - 1) * (p / 100.0)
+        f = math.floor(k)
+        c = math.ceil(k)
+        if f == c:
+            res["p%d" % p] = float(s[int(k)])
+        else:
+            d0 = s[int(f)] * (c - k)
+            d1 = s[int(c)] * (k - f)
+            res["p%d" % p] = float(d0 + d1)
+    return res
+
 
 def extract_miseseri(odb_path, output_dir, threshold_eta=0.15):
     from odbAccess import openOdb
@@ -74,7 +96,7 @@ def extract_miseseri(odb_path, output_dir, threshold_eta=0.15):
 
     miseseri_field = frame.fieldOutputs['MISESERI']
     misesavg_field = frame.fieldOutputs['MISESAVG']
-    evol_field = frame.fieldOutputs.get('EVOL', None)
+    evol_field = frame.fieldOutputs['EVOL'] if 'EVOL' in frame.fieldOutputs else None
 
     miseseri_map = {}
     for val in miseseri_field.values:
@@ -89,29 +111,45 @@ def extract_miseseri(odb_path, output_dir, threshold_eta=0.15):
         for val in evol_field.values:
             evol_map[val.elementLabel] = float(val.data)
 
+    # Denominator guard calculation
+    sig_peak = max(misesavg_map.values()) if misesavg_map else 0.0
+    sig_floor = 0.10 * sig_peak if sig_peak > 1e-6 else 1e-6
+
     records = []
     max_eri = -1.0
     max_eri_elem = None
     max_eta = -1.0
     max_eta_elem = None
     marked_count = 0
+    marked_centroids = []
+
+    all_eri = []
+    all_avg = []
+    all_eta = []
 
     for elabel in sorted(miseseri_map.keys()):
         eri = miseseri_map[elabel]
         avg = misesavg_map.get(elabel, 0.0)
         evol = evol_map.get(elabel, 0.0)
-        eta = (eri / avg) if avg > 1e-6 else 0.0
+
+        denom = max(avg, sig_floor)
+        eta_guarded = eri / denom if denom > 1e-12 else 0.0
         cent = elem_centroids.get(elabel, (0.0, 0.0))
-        refine_mark = 1 if eta >= threshold_eta else 0
+        refine_mark = 1 if eta_guarded >= threshold_eta else 0
+
+        all_eri.append(eri)
+        all_avg.append(avg)
+        all_eta.append(eta_guarded)
 
         if refine_mark == 1:
             marked_count += 1
+            marked_centroids.append(cent)
 
         if eri > max_eri:
             max_eri = eri
             max_eri_elem = elabel
-        if eta > max_eta:
-            max_eta = eta
+        if eta_guarded > max_eta:
+            max_eta = eta_guarded
             max_eta_elem = elabel
 
         records.append({
@@ -120,13 +158,54 @@ def extract_miseseri(odb_path, output_dir, threshold_eta=0.15):
             "yc": cent[1],
             "miseseri_kNmm2": eri,
             "misesavg_kNmm2": avg,
-            "eta_relative_error": eta,
+            "eta_relative_error": eta_guarded,
             "evol_mm3": evol,
             "refine_mark": refine_mark
         })
 
     total_elems = len(records)
     pct_marked = (marked_count / float(total_elems) * 100.0) if total_elems > 0 else 0.0
+
+    # Statistics
+    def stats_dict(vals):
+        n = len(vals)
+        if n == 0:
+            return {}
+        s_min = min(vals)
+        s_max = max(vals)
+        s_mean = sum(vals) / float(n)
+        s_sorted = sorted(vals)
+        s_med = s_sorted[n // 2] if n % 2 != 0 else 0.5 * (s_sorted[n // 2 - 1] + s_sorted[n // 2])
+        zero_cnt = sum(1 for v in vals if abs(v) < 1e-12)
+        p = compute_percentiles(vals)
+        p.update({
+            "min": s_min,
+            "max": s_max,
+            "mean": s_mean,
+            "median": s_med,
+            "zero_count": zero_cnt,
+            "count": n
+        })
+        return p
+
+    eri_stats = stats_dict(all_eri)
+    avg_stats = stats_dict(all_avg)
+    eta_stats = stats_dict(all_eta)
+
+    # Spatial localization of marked elements
+    spatial_marked = {}
+    if marked_centroids:
+        xs = [c[0] for c in marked_centroids]
+        ys = [c[1] for c in marked_centroids]
+        dists = [math.hypot(c[0] - 0.040, c[1] - 0.050) for c in marked_centroids]
+        spatial_marked = {
+            "bbox_x": [min(xs), max(xs)],
+            "bbox_y": [min(ys), max(ys)],
+            "centroid_mean": [sum(xs) / float(len(xs)), sum(ys) / float(len(ys))],
+            "dist_crack_tip_min": min(dists),
+            "dist_crack_tip_max": max(dists),
+            "dist_crack_tip_mean": sum(dists) / float(len(dists))
+        }
 
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -147,6 +226,9 @@ def extract_miseseri(odb_path, output_dir, threshold_eta=0.15):
         "odb_path": odb_path,
         "step_name": step_name,
         "total_elements": total_elems,
+        "sig_peak_kNmm2": sig_peak,
+        "sig_floor_kNmm2": sig_floor,
+        "denominator_guard_formula": "denom = max(MISESAVG, 0.10 * sig_peak)",
         "threshold_eta": threshold_eta,
         "marked_elements_count": marked_count,
         "marked_percentage": pct_marked,
@@ -160,12 +242,18 @@ def extract_miseseri(odb_path, output_dir, threshold_eta=0.15):
         },
         "peak_relative_error": {
             "element_id": max_eta_elem,
-            "eta": max_eta,
+            "eta_guarded": max_eta,
             "centroid_mm": {
                 "x": elem_centroids.get(max_eta_elem, (0.0, 0.0))[0],
                 "y": elem_centroids.get(max_eta_elem, (0.0, 0.0))[1]
             }
         },
+        "distribution_statistics": {
+            "miseseri": eri_stats,
+            "misesavg": avg_stats,
+            "eta_guarded": eta_stats
+        },
+        "spatial_localization_marked": spatial_marked,
         "refinement_metrics": {
             "threshold_eta": threshold_eta,
             "elements_above_threshold": marked_count,
@@ -181,15 +269,26 @@ def extract_miseseri(odb_path, output_dir, threshold_eta=0.15):
     odb.close()
     print("MISESERI extraction complete.")
     print("  Total elements: %d" % total_elems)
-    print("  Marked elements (eta >= %.2f): %d (%.2f%%)" % (threshold_eta, marked_count, pct_marked))
+    print("  sig_peak: %.4f kN/mm^2, sig_floor: %.4f kN/mm^2" % (sig_peak, sig_floor))
+    print("  Marked elements (eta_g >= %.2f): %d (%.2f%%)" % (threshold_eta, marked_count, pct_marked))
     print("  Peak MISESERI: %.4f kN/mm^2 at elem %s" % (max_eri, max_eri_elem))
-    print("  Peak eta: %.4f at elem %s" % (max_eta, max_eta_elem))
+    print("  Peak eta_g: %.4f at elem %s" % (max_eta, max_eta_elem))
+    if spatial_marked:
+        print("  Marked bbox X: [%.4f, %.4f], Y: [%.4f, %.4f]" % (
+            spatial_marked["bbox_x"][0], spatial_marked["bbox_x"][1],
+            spatial_marked["bbox_y"][0], spatial_marked["bbox_y"][1]
+        ))
+        print("  Marked dist to crack tip (0.040, 0.050): min=%.5f mm, max=%.5f mm, mean=%.5f mm" % (
+            spatial_marked["dist_crack_tip_min"],
+            spatial_marked["dist_crack_tip_max"],
+            spatial_marked["dist_crack_tip_mean"]
+        ))
     return summary
 
 
 if __name__ == "__main__":
-    odb_arg = "M1_C5_COMPANION_MISESERI.odb"
-    out_arg = "."
+    odb_arg = "models/pandey_kumar_mode1/168_c5_companion_miseseri/M1_C5_COMPANION_MISESERI_upgraded.odb"
+    out_arg = "models/pandey_kumar_mode1/168_c5_companion_miseseri"
     thresh_arg = 0.15
 
     for i, a in enumerate(sys.argv):

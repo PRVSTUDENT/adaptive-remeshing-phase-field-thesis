@@ -111,13 +111,20 @@ def load_c5_mesh() -> Dict[str, Any]:
 
 
 def validate_c5_indicator_distribution(
-    records: List[Dict[str, Any]],
+    records: Any,
     expected_count: int = 12996
 ) -> Dict[str, Any]:
     """
     Validates unique element-label mapping across all 12,996 C5 elements.
+    Accepts a list of record dicts or a Path/str to a CSV file.
     Rejects incomplete, duplicated, nonfinite, or mismatched indicator data.
     """
+    if isinstance(records, (str, Path)):
+        with open(records, "r", encoding="utf-8") as f:
+            records = list(csv.DictReader(f))
+    elif not isinstance(records, list):
+        records = list(records)
+
     if len(records) != expected_count:
         raise ValueError(f"Indicator record count mismatch: expected {expected_count}, got {len(records)}")
 
@@ -284,7 +291,12 @@ def generate_graded_1d_coords(
     while cur_x > x_min:
         cur_h = min(max_h, cur_h * growth_ratio)
         next_x = cur_x - cur_h
-        if next_x <= x_min + 0.3 * cur_h:
+        if next_x <= x_min + 1e-6:
+            rem = cur_x - x_min
+            if rem > 1e-6:
+                k = max(1, int(math.ceil(rem / max_h)))
+                for m in range(1, k):
+                    left_coords.append(cur_x - m * (rem / float(k)))
             break
         left_coords.append(next_x)
         cur_x = next_x
@@ -296,7 +308,12 @@ def generate_graded_1d_coords(
     while cur_x < x_max:
         cur_h = min(max_h, cur_h * growth_ratio)
         next_x = cur_x + cur_h
-        if next_x >= x_max - 0.3 * cur_h:
+        if next_x >= x_max - 1e-6:
+            rem = x_max - cur_x
+            if rem > 1e-6:
+                k = max(1, int(math.ceil(rem / max_h)))
+                for m in range(1, k):
+                    right_coords.append(cur_x + m * (rem / float(k)))
             break
         right_coords.append(next_x)
         cur_x = next_x

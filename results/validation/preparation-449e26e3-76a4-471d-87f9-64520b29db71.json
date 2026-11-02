@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "title": "Turn 47: Package 168 MISESERI Evaluated & C5->C6 Causal Refinement Feasible",
+  "finding": "Package 168 companion linear-elastic solve (Job 1419573.mmaster02) completed on mnode101 with exit code 0. Authentic Abaqus MISESERI and MISESAVG extracted for all 12,996 C5 elements. Denominator-guarded indicator (eta_g = MISESERI / max(MISESAVG, 0.10 * sig_peak) >= 0.15) marked 38 elements (0.29%) tightly clustered within 0.0033 mm of the crack tip without prescribed corridors. Conformal C6 quad mesh (6020 quads, 6217 nodes) generated with positive Jacobians (min det(J)=2.805e-08), 40 duplicate slit pairs, h_min=0.00021 mm, and coarsening strictly disabled (h_max=0.00250 mm). Labeled CANDIDATE_ONLY. Regression test suite (13/13) passed cleanly.",
+  "operation": "evaluate_package168_miseseri_and_qualify_c5_to_c6_refinement",
+  "verification_passed": true,
+  "pbs_job_id": "1419573.mmaster02",
+  "scheduler_status": "COMPLETED",
+  "exit_code": 0,
+  "candidate_designation": "CANDIDATE_ONLY",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/converged_checkpoint_03.json": "EAA122B911FDFC353D230C4BFFCCD60F75D7FAF4A9FBBEC9E5CF6A8B51C0A476",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/M1_C5_COMPANION_MISESERI.inp": "E4EC7892036477FD5CDCD46FC6D65EB115D193ED30D0196F59A3E903FBB25C53",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/c5_companion_miseseri_distribution.csv": "5C1D5451D0A67A6CFB81FF09B45A695BC2DE9D58AFF142C6C02A49FFDA598AA1",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/c5_miseseri_extraction_summary.json": "2F72FAE224C730ADE05D82B5C484C7ADE4B8EA21627C7A93B08283A549C4F39E",
+    "results/validation/c5_to_c6_causal_refinement_evaluation.json": "13A9A6A1CE06FB794D4B22F28EFDA8CDD8AC5DC9B2380914D1E13D25508D6818",
+    "scripts/remeshing/extract_c5_miseseri_distribution.py": "2DAAB90C100C05C50080DC09D902CFBC2BDC9ECA664F253C5E97DECCF70ED2F3",
+    "scripts/remeshing/c5_to_c6_adaptive_integration.py": "6071EE9C3539039F4C8FE54EC192C2F8CCCCE395F66EFAC9FAF8A3A28E879E95",
+    "scripts/remeshing/evaluate_c5_to_c6_causal_refinement.py": "25E4176FB6732999B73AF01A2B2702D68385B94F3EDC88B5D7E47164EF28227D",
+    "tests/unit/test_c5_to_c6_causal_refinement.py": "07621FF44D960D4C9D5DD82CD09B24680CC0A81610B997FF84DABAF629383B3B"
+  },
+  "registered_paths": [
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/converged_checkpoint_03.json",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/M1_C5_COMPANION_MISESERI.inp",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/c5_companion_miseseri_distribution.csv",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/c5_miseseri_extraction_summary.json",
+    "results/validation/c5_to_c6_causal_refinement_evaluation.json",
+    "scripts/remeshing/extract_c5_miseseri_distribution.py",
+    "scripts/remeshing/c5_to_c6_adaptive_integration.py",
+    "scripts/remeshing/evaluate_c5_to_c6_causal_refinement.py",
+    "scripts/hpc/fetch_package168_results.ps1",
+    "tests/unit/test_c5_to_c6_causal_refinement.py",
+    "project_coordination/CURRENT_STATE.md",
+    "project_coordination/HPC_JOB_LEDGER.csv"
+  ]
+}
