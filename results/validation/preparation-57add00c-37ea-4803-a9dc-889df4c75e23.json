@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "run_id": "57add00c-37ea-4803-a9dc-889df4c75e23",
+  "finding": "Package 163-R2 (Job 1419489.mmaster02) monitored at outer iteration 61 on mnode097: active set has pruned to 4,495 nodes (8,630 nodes released, -65.75% pruning, strictly monotonic with 0 oscillations). Contraction rates accelerated to rho_d = 0.9534, rho_u = 0.9563, and rho_H = 0.9539. Asymptotic extrapolation confirms nominal 200 outer budget is fully sufficient (projected convergence at outer 173 for delta_u <= 1e-9 mm, delta_H <= 1e-4 MPa, and delta_d <= 1e-5). Contingency plan for max_outer = 300 offline-qualified in driver templates without interrupting running job.",
+  "evidence_sources": {
+    "results/validation/package163_r2_live_telemetry_turn23.json": "26D8E702D7E7F389696EE0A541B1DD9F4EEBE7E5571BA19AD8C485EFBB62D71D",
+    "results/validation/package163_r2_trajectory_analysis_turn23.json": "3E8BEA5EFDB05742EE1E50BC0C0516B0B325A1221F1BBFFA601E65FB5602846E",
+    "scripts/validation/analyze_package163_r2_trajectory_turn23.py": "114E87AAF5E3F29C2260B4F6697BED052343C2B6300DE52734E0DF060FDFC895",
+    "tests/unit/test_package163_r2_trajectory_and_contingency.py": "1B5FCB9B917CF225E3EBFD35264C001AB48BD8DA9E6946672FFF429F40073FA6"
+  },
+  "verification_passed": true
+}
