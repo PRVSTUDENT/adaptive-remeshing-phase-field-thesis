@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "job_id": "1419488.mmaster02",
+  "scheduler_observation": {
+    "state": "F",
+    "exit_status": 1,
+    "run_count": 1,
+    "walltime": "00:53:50",
+    "source": "single guarded qstat -xf invocation, recorded tool output"
+  },
+  "classification": "PHYSICAL_FAIL",
+  "full_acceptance": "INCOMPLETE_EVIDENCE: no Checkpoint02 produced; cannot evaluate final continuity, irreversibility or reference parity",
+  "convergence": {
+    "passed": false,
+    "violations": [
+      "delta_d 5.062e-05 > tol 1.0e-05",
+      "delta_u 3.318e-08 > tol 1.0e-09",
+      "delta_h 3.283e-03 > tol 1.0e-04"
+    ],
+    "outer_iteration": 100,
+    "delta_d": 5.061598289701763e-05,
+    "delta_u": 3.318322594762953e-08,
+    "delta_h": 0.003282968410896814,
+    "free_error": 4.3327196293936577e-10,
+    "dual_error": 2.177929145337131e-09,
+    "pdas_active_count": 3263,
+    "pdas_free_count": 10015,
+    "kkt_active_count": 3276,
+    "kkt_free_count": 10002
+  },
+  "last_iteration": {
+    "step": 1,
+    "outer": 100,
+    "target_uy": 0.0018653125442191958,
+    "delta_d": 5.061598289701763e-05,
+    "delta_u": 3.318322594762953e-08,
+    "delta_h": 0.003282968410896814,
+    "free_error": 4.3327196293936577e-10,
+    "dual_error": 2.177929145337131e-09,
+    "pdas_active_count": 3263,
+    "pdas_free_count": 10015,
+    "kkt_active_count": 3276,
+    "kkt_free_count": 10002
+  },
+  "predecessor": {
+    "passed": true,
+    "actual_sha256": "DCFD31186061FA81111DA18071CF8ADFB9BAF2C5CB343CB60F08416741C1B64A",
+    "expected_sha256": "DCFD31186061FA81111DA18071CF8ADFB9BAF2C5CB343CB60F08416741C1B64A"
+  },
+  "summary": {
+    "schema": 1,
+    "status": "NONCONVERGED",
+    "reason": "Maximum outer iterations (100) reached without meeting coupled tolerances."
+  }
+}

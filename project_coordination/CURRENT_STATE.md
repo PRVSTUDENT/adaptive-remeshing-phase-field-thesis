@@ -1,3 +1,5 @@
+2 November turn17 reconciled from authentic Package1631419488 terminal F/Exit1: NONCONVERGED after100 outers; no Checkpoint02. PHYSICAL_FAIL; accepted R3 preserved. Existing controller preflight passes for fresh F1598 read-only numerical diagnosis; no resubmission or numerical execution. Historical AGY failure archived and unchanged. See sessions/2026-11-02_codex_turn17_reconciliation.md.
+
 ## 2 November Package 163 Stage C2-1 +5 nm Continuation Actively Running: Job 1419488.mmaster02 on mnode097/0
 
 Package 163 Mode-I Method C Stage C2-1 forward continuation on Candidate C5 mesh (12,996 elements, 13,278 nodes, 51,984 integration points, advancing $u_y$ from $0.001860312544$ to $0.001865312544\text{ mm}$, $+5\text{ nm}$) is actively executing staggered coupled PDAS iterations on compute node `mnode097/0`.

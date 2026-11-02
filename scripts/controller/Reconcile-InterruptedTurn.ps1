@@ -3,13 +3,16 @@ param(
     [string]$Workspace = "D:\Master thesis\Adaptive remeshing",
     [string]$RunId = "dbb0e4b9-d64c-4385-87fb-3ad0a3321a6e",
     [string]$Status = "INTERRUPTED_TURN_PROGRESS_WATCHDOG_RECONCILED",
-    [string]$NextAction = "Dispatch Turn 13 in fresh AGY conversation: verify executable Abaqus UEL state-initialization pathway on Candidate C2; never duplicate PBS submissions"
+    [string]$NextAction = "Dispatch Turn 13 in fresh AGY conversation: verify executable Abaqus UEL state-initialization pathway on Candidate C2; never duplicate PBS submissions",
+    [string]$MonitoringEvidence = '',
+    [string]$MonitoringReport = '',
+    [string]$CheckpointPath = ''
 )
 
 $ErrorActionPreference = 'Stop'
 . (Join-Path $Workspace 'scripts/controller/Controller-Recovery.ps1')
 
-$checkpointPath = Join-Path $env:USERPROFILE 'OpenClawPAD/controller_turn_checkpoint.json'
+if(-not $CheckpointPath){$CheckpointPath=Join-Path $env:USERPROFILE 'OpenClawPAD/controller_turn_checkpoint.json'}
 if (-not (Test-Path -LiteralPath $checkpointPath)) {
     throw "Checkpoint file not found: $checkpointPath"
 }
@@ -24,6 +27,36 @@ if ($existing.run_id -ne $RunId) {
 }
 if ($existing.state -ne 'BLOCKED') {
     throw "Checkpoint is not in BLOCKED state: $($existing.state)"
+}
+
+if($MonitoringEvidence){
+    $owner=Get-Content (Join-Path $Workspace 'project_coordination/ACTIVE_SESSION.json') -Raw|ConvertFrom-Json
+    if(-not $owner.active -or $owner.agent -ne 'codex' -or $owner.task_id -ne 'TURN17-EVIDENCE-RECONCILIATION'){throw 'Owned Turn17 reconciliation required'}
+    if($RunId -cne '315b7bd6-8d75-4d6a-912d-2aa0f2a54dc4' -or $existing.turn -ne 17 -or $existing.task_id -cne 'F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE'){throw 'Exact interrupted monitoring identity required'}
+    $e=Get-Content -LiteralPath $MonitoringEvidence -Raw|ConvertFrom-Json
+    if($e.job_id -cne '1419488.mmaster02' -or $e.scheduler_observation.run_count -ne 1 -or $e.scheduler_observation.state -ne 'F' -or $e.classification -notin @('PHYSICAL_PASS','PHYSICAL_FAIL','INSUFFICIENT_EVIDENCE')){throw 'Authentic terminal monitoring evidence required'}
+    $reportPath=Join-Path $Workspace $MonitoringReport
+    if(-not(Test-Path $reportPath)){throw 'Monitoring reconciliation report required'}
+    $archive=Join-Path (Split-Path $MonitoringEvidence -Parent) 'original-blocked-checkpoint.json'
+    if(-not(Test-Path $archive) -or (Get-FileHash $archive).Hash -cne (Get-FileHash $CheckpointPath).Hash){throw 'Original blocked checkpoint backup mismatch'}
+    $existing.state='COMPLETED' # Maintenance monitoring closeout only, never solver acceptance.
+    $existing.conversation_id=''
+    $existing|Add-Member response '' -Force
+    $existing.block_reason=''
+    $existing.next_safe_action=$NextAction
+    $existing|Add-Member next_instruction $NextAction -Force
+    $existing|Add-Member reconciliation ([pscustomobject]@{
+        status='INTERRUPTED_TURN_PROGRESS_WATCHDOG_RECONCILED';original_checkpoint=$archive;original_sha256=(Get-FileHash $archive).Hash
+        original_status='BLOCKED';original_failure='AGY_EMPTY_OUTPUT';scientific_completion=$false;antigravity_response_fabricated=$false
+        monitoring_outcome=$e.classification;monitoring_job_id=$e.job_id;session_report=$MonitoringReport;session_report_sha256=(Get-FileHash $reportPath).Hash
+        monitoring_evidence=$MonitoringEvidence;monitoring_evidence_sha256=(Get-FileHash $MonitoringEvidence).Hash
+        hpc_ledger_sha256=(Get-FileHash (Join-Path $Workspace 'project_coordination/HPC_JOB_LEDGER.csv')).Hash;reconciled_by='codex';reconciled_at=[DateTimeOffset]::Now.ToString('o')
+    }) -Force
+    Assert-ControllerDispatchCheckpoint $Workspace $existing
+    Write-ControllerCheckpoint $CheckpointPath $existing
+    Assert-ControllerDispatchCheckpoint $Workspace (Read-ControllerCheckpoint $CheckpointPath)
+    Write-Output 'TURN17_MONITORING_RECONCILED_WITHOUT_REPLAY'
+    return
 }
 
 # 2. Archive original blocked checkpoint

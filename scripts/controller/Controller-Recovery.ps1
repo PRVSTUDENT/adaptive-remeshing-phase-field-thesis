@@ -1090,6 +1090,10 @@ function Assert-ControllerDispatchCheckpoint([string]$Workspace,$State) {
     }
     if($State.reconciliation.status -in @('INTERRUPTED_TURN_CREDENTIAL_REPAIR_VERIFIED','INTERRUPTED_TURN_PROGRESS_WATCHDOG_RECONCILED','INTERRUPTED_TURN_UTF8_CRASH_RECONCILED','INTERRUPTED_TURN_FILE_REPLACE_RECONCILED')){
         $r=$State.reconciliation
+        if($r.monitoring_evidence -and (-not(Test-Path -LiteralPath $r.monitoring_evidence) -or
+            (Get-FileHash -LiteralPath $r.monitoring_evidence).Hash -cne $r.monitoring_evidence_sha256)){
+            throw 'BLOCKED: monitoring reconciliation evidence changed'
+        }
         if($State.state -ne 'COMPLETED' -or -not(Test-Path -LiteralPath $r.original_checkpoint) -or
             (Get-FileHash -LiteralPath $r.original_checkpoint).Hash -ne $r.original_sha256){throw 'BLOCKED: reconciled historical evidence missing or changed'}
         $original=Read-ControllerCheckpoint $r.original_checkpoint
