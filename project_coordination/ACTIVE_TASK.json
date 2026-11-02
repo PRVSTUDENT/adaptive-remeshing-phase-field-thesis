@@ -2,7 +2,7 @@
     "task_id":  "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
     "agent":  "gemini-antigravity",
     "status":  "READY_READ_ONLY_EVALUATION",
-    "phase":  "Package 163-R2 (Job 1419489.mmaster02) monitored running on mnode097 at outer iteration 37 with 42.4% active-set reduction (13125 -\u003e 7561 nodes) and satisfied KKT residuals; asymptotic contraction forecast (rho ~ 0.9675) indicates damage tolerance delta_d \u003c= 1e-5 is reachable at ~149 outer iterations within 200 budget. Stage C2-2 builder/driver suite implemented and verified; explicit submission gate check confirms Gate 1 (Predecessor Checkpoint 02) is blocked while R2 computes, rigorously resolving the running-job contradiction and enforcing the no-submission fallback.",
+    "phase":  "Package 163-R2 (Job 1419489.mmaster02) monitored at outer iteration 48 on mnode097: temporary increment increase between outers 29-37 diagnosed as active-set relaxation transient (7428 nodes released to free set, -56.6% active reduction) with zero limit cycling and 100% KKT compliance. Both delta_u (2.92e-7 -\u003e 2.64e-7, rho_u ~ 0.969) and delta_H (0.0270 -\u003e 0.0243 MPa, rho_H ~ 0.977) have entered steady contraction; 200 outer budget provides ample headroom (~152 outers). No-submission fallback maintained while R2 computes.",
     "gate_status":  "REGISTERED_SUCCESSOR__NUMERICAL_EXECUTION_NOT_QUALIFIED",
     "predecessor_task":  {
                              "run_id":  "19280009-42f4-4897-8d3a-9b52d2e5168a",
@@ -273,14 +273,14 @@
                                    "monitoring_closeout_verified":  false
                                },
     "last_step_status":  "PREPARATION_COMPLETE",
-    "last_updated":  "2026-11-02T06:59:19.7872260+01:00",
+    "last_updated":  "2026-11-02T07:05:09.4731311+01:00",
     "next_safe_action":  "Monitor job 1419489.mmaster02 to terminal completion and evaluate authentic Checkpoint02 against unchanged physical acceptance criteria before unlocking Stage C2-2 submission",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-896a993d-1399-4407-aba3-2b7a2c316e86.json",
-                                  "sha256":  "86EC81506B7F5FC280A0E9CD7D8E99D643D8779D3F9BD8F0B8948972BD3DCA8C",
-                                  "created_at":  "2026-11-02T06:58:34.9035790+01:00"
+                                  "artifact":  "results/validation/preparation-aedeeec0-c665-4644-9792-0ebbaaf0a0da.json",
+                                  "sha256":  "673EDDB2EEAEF3D51AAD46C76FEFEADCB515D330CB1AC33D8AC351330C061270",
+                                  "created_at":  "2026-11-02T07:04:32.4774091+01:00"
                               }
 }

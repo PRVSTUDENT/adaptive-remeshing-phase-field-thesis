@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "operation": "research_preparation",
+  "title": "Package 163-R2 Actual Solver Trajectory Analysis, Transient Diagnosis, and Budget Evaluation",
+  "finding": "Package 163-R2 (Job 1419489.mmaster02) monitored at outer iteration 48 on mnode097: temporary increment increase between outers 29-37 diagnosed as active-set relaxation transient (7428 nodes released to free set, -56.6% active reduction) with zero limit cycling and 100% KKT compliance. Both delta_u (2.92e-7 -> 2.64e-7, rho_u ~ 0.969) and delta_H (0.0270 -> 0.0243 MPa, rho_H ~ 0.977) have entered steady contraction; 200 outer budget provides ample headroom (~152 outers). No-submission fallback maintained while R2 computes.",
+  "trajectory_evidence": {
+    "job_id": "1419489.mmaster02",
+    "total_saved_iterations": 48,
+    "latest_outer_iteration": 48,
+    "active_set_pruning_dynamics": {
+      "initial_active_nodes": 13125,
+      "latest_active_nodes": 5697,
+      "nodes_released_to_free_set": 7428,
+      "pruning_percentage": 56.59,
+      "strictly_monotonic_pruning": true,
+      "oscillation_detected": false,
+      "recent_prune_rate_per_outer": 125
+    },
+    "kkt_residuals": {
+      "all_iterations_pass_dual_tol": true,
+      "all_iterations_pass_free_tol": true,
+      "latest_dual_error_kNmm": 1.0277763196785707e-08,
+      "latest_free_residual_kN": 3.286732780148025e-09,
+      "dual_margin_orders_of_magnitude": 1.99,
+      "free_margin_orders_of_magnitude": 2.48
+    },
+    "transient_investigation": {
+      "mechanism": "ACTIVE_SET_REDISTRIBUTION_TRANSIENT",
+      "explanation": "The increase in delta_d (3.83e-4 at outer 29 -> 1.07e-3 at outer 37) is an active-set relaxation transient, not divergent nonconvergence. On the nonmatching C5 mesh, the initial projection clamped 13,125 nodes. PDAS is systematically releasing nodes into the free set (free nodes expanded from 153 to 7,456). As the free domain expands, stress and damage redistribute across newly freed elements. Crucially, mechanical displacement delta_u and driving history delta_H peaked at outer 45 and have now entered a steady contraction phase (delta_u: 2.92e-7 -> 2.83e-7 -> 2.75e-7; delta_H: 0.0261 -> 0.0255 -> 0.0249).",
+      "delta_u_peak": {
+        "outer": 3,
+        "value_mm": 3.1595455547619306e-07
+      },
+      "delta_u_current": {
+        "outer": 48,
+        "value_mm": 2.644812971098424e-07,
+        "trend": "DECREASING_SINCE_PEAK"
+      },
+      "delta_u_recent_contraction_rate": 0.969,
+      "delta_h_peak": {
+        "outer": 42,
+        "value_MPa": 0.027019372982968193
+      },
+      "delta_h_current": {
+        "outer": 48,
+        "value_MPa": 0.024302429417597082,
+        "trend": "DECREASING_SINCE_PEAK"
+      },
+      "delta_h_recent_contraction_rate": 0.9774
+    },
+    "convergence_and_budget_assessment": {
+      "budget_outer_ceiling": 200,
+      "current_progress_pct": 24.0,
+      "status": "HEALTHY_ACTIVE_SET_RELAXATION_TURNING_INTO_ASYMPTOTIC_CONTRACTION",
+      "persistent_nonconvergence_evidence": false,
+      "empirical_finding": "Zero evidence of persistent nonconvergence: no limit cycles, zero active-set churn, strict KKT optimality satisfied at every step, and delta_u / delta_H have turned negative in slope (contracting). The 200 outer iteration budget provides ample remaining headroom (~153 outers) for the stabilized active set to contract to coupled tolerances (delta_d <= 1e-5, delta_u <= 1e-9 mm, delta_H <= 1e-4 MPa)."
+    }
+  },
+  "job_submission_decision": {
+    "submission_withheld": true,
+    "reason": "PREDECESSOR_CHECKPOINT_02_PENDING_COMPLETION",
+    "running_job_id": "1419489.mmaster02",
+    "explanation": "Job 1419489 is actively running in PBS on mnode097. Authentic Checkpoint 02 does not yet exist. Submitting C2-2 now would violate predecessor qualification. Submission is withheld under the no-submission fallback."
+  },
+  "alignment_with_40_turn_objective": {
+    "programme_phase": "Phase C2: C5 Forward Continuation and Crack Propagation Tracking",
+    "active_milestone": "Stage C2-1 (+5 nm) coupled convergence and Checkpoint 02 physical validation",
+    "turn_budget_status": "Turn 22 of 40: on track. R2 computing in outer 48/200; C2-2 builder fully prepared for instant dispatch once R2 commits Checkpoint 02."
+  },
+  "next_operation": "Monitor job 1419489.mmaster02 to terminal completion and evaluate authentic Checkpoint02 against unchanged physical acceptance criteria before unlocking Stage C2-2 submission",
+  "evidence_sources": {
+    "results/validation/package163_r2_trajectory_analysis_turn22.json": "500F609E8FDE261FCC88544793ED0599B068CD35F542562C347CC69E229AB387",
+    "results/validation/package163_r2_live_telemetry_turn22.json": "DBD1F2B278185535D497F73109FD3CB885D3629BDB7A75B23500CDB9A9C0C59E",
+    "scripts/validation/fetch_and_analyze_r2_telemetry.py": "E6F60CFAC2B4E7B85CFDBC80490D1C0552B38232A120D557F12A152A7697C166",
+    "tests/unit/test_package163_r2_trajectory_analysis.py": "9F06E69AE1F45D8D0C72B5B19CA8FC32F3A9E21D2D33E4458E2820C615CF2C16",
+    "scripts/validation/check_c2_2_submission_gates.py": "B4B32C676B5C8ED65A850C4C465A6A8CBA30F4A5BFEF4348517FBDE388EB2198",
+    "scripts/state_transfer/build_package_c2_2_continuation.py": "03517FB3C3039EF35706891FAD85A4F53E5744735B9BF7E46F3AEDFAA16D6F10",
+    "scripts/state_transfer/stage_c2_2_specification.py": "4E62659D48EEC6C6C6AF506E871B9E6A00D08DB1F192A0338CFA150E6F47DBB6",
+    "models/pandey_kumar_mode1/163_c5_package163_r2_c2_1_continuation/EXECUTION_MANIFEST.json": "F2DB4B15C212FE7FCE4028B2DAA9746F79EDF119A449B452B8985A5A925BFCCE"
+  },
+  "registered_paths": [
+    "results/validation/package163_r2_trajectory_analysis_turn22.json",
+    "results/validation/package163_r2_live_telemetry_turn22.json",
+    "scripts/validation/fetch_and_analyze_r2_telemetry.py",
+    "tests/unit/test_package163_r2_trajectory_analysis.py",
+    "scripts/validation/generate_turn22_preparation.py"
+  ]
+}

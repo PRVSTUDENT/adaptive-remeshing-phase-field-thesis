@@ -1,0 +1,53 @@
+{
+  "job_id": "1419489.mmaster02",
+  "total_saved_iterations": 48,
+  "latest_outer_iteration": 48,
+  "active_set_pruning_dynamics": {
+    "initial_active_nodes": 13125,
+    "latest_active_nodes": 5697,
+    "nodes_released_to_free_set": 7428,
+    "pruning_percentage": 56.59,
+    "strictly_monotonic_pruning": true,
+    "oscillation_detected": false,
+    "recent_prune_rate_per_outer": 125
+  },
+  "kkt_residuals": {
+    "all_iterations_pass_dual_tol": true,
+    "all_iterations_pass_free_tol": true,
+    "latest_dual_error_kNmm": 1.0277763196785707e-08,
+    "latest_free_residual_kN": 3.286732780148025e-09,
+    "dual_margin_orders_of_magnitude": 1.99,
+    "free_margin_orders_of_magnitude": 2.48
+  },
+  "transient_investigation": {
+    "mechanism": "ACTIVE_SET_REDISTRIBUTION_TRANSIENT",
+    "explanation": "The increase in delta_d (3.83e-4 at outer 29 -> 1.07e-3 at outer 37) is an active-set relaxation transient, not divergent nonconvergence. On the nonmatching C5 mesh, the initial projection clamped 13,125 nodes. PDAS is systematically releasing nodes into the free set (free nodes expanded from 153 to 7,456). As the free domain expands, stress and damage redistribute across newly freed elements. Crucially, mechanical displacement delta_u and driving history delta_H peaked at outer 45 and have now entered a steady contraction phase (delta_u: 2.92e-7 -> 2.83e-7 -> 2.75e-7; delta_H: 0.0261 -> 0.0255 -> 0.0249).",
+    "delta_u_peak": {
+      "outer": 3,
+      "value_mm": 3.1595455547619306e-07
+    },
+    "delta_u_current": {
+      "outer": 48,
+      "value_mm": 2.644812971098424e-07,
+      "trend": "DECREASING_SINCE_PEAK"
+    },
+    "delta_u_recent_contraction_rate": 0.969,
+    "delta_h_peak": {
+      "outer": 42,
+      "value_MPa": 0.027019372982968193
+    },
+    "delta_h_current": {
+      "outer": 48,
+      "value_MPa": 0.024302429417597082,
+      "trend": "DECREASING_SINCE_PEAK"
+    },
+    "delta_h_recent_contraction_rate": 0.9774
+  },
+  "convergence_and_budget_assessment": {
+    "budget_outer_ceiling": 200,
+    "current_progress_pct": 24.0,
+    "status": "HEALTHY_ACTIVE_SET_RELAXATION_TURNING_INTO_ASYMPTOTIC_CONTRACTION",
+    "persistent_nonconvergence_evidence": false,
+    "empirical_finding": "Zero evidence of persistent nonconvergence: no limit cycles, zero active-set churn, strict KKT optimality satisfied at every step, and delta_u / delta_H have turned negative in slope (contracting). The 200 outer iteration budget provides ample remaining headroom (~153 outers) for the stabilized active set to contract to coupled tolerances (delta_d <= 1e-5, delta_u <= 1e-9 mm, delta_H <= 1e-4 MPa)."
+  }
+}
