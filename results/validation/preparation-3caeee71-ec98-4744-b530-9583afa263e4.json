@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "run_id": "3caeee71-ec98-4744-b530-9583afa263e4",
+  "finding": "Package 171 assembled and qualified for genuine C5->C6 Stage C3-0 coupled PDAS re-equilibration. Non-coarsened C6 mesh (15,252 CPE4 quads, 15,559 physical nodes + RP 999999, 59 duplicate slit pairs, 30,504 dual user elements: 15,252 phase U1 + 15,252 mechanical U2) initialized with authentic transferred non-zero damage d in [0.003390, 0.690981] and strictly positive driving history H >= 2.948e-8 from accepted Checkpoint 03. Staggered PDAS driver enforces non-accumulating history update H* = max(H0, psi+(u*)), Hintermuller-Ito-Kunisch active set, and pointwise damage irreversibility. All 7 focused regression tests passed. Compute-node datachecks on P171_MECHANICAL_DC.inp and P171_PHASE_DC.inp passed with Exit 0. Job 1419604.mmaster02 dispatched; startup execution halted with Exit 1 due to missing runtime module c3_int_to_c4_spatial_mapping. Next action: Package 171-R1 runtime import closure.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/M1_C6_PACKAGE171_C3_0_REEQUILIBRATION.inp": "4CF715F57FF30D2B5F9B0D6064169BF44C67D5051DD924BF889CFC8BCE54BDAC",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/P171_MECHANICAL_DC.inp": "D86C2798164EFD9A9896B37C2E5D32081863A7E7ED89F323B13E164015F04780",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/P171_MECHANICAL_DC.dat": "D4C6042DF430077314E60905AF0F6C61F3A8C040084A29E4688C96141DA92A75",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/P171_PHASE_DC.inp": "4C9315D9BCCA9DE60D1BAA07DDA61FC11EB78DA952BF66CA5A466F8FFFE9AF38",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/P171_PHASE_DC.dat": "19DE18AE645CB41782B76DC6007F9322119E4DC4B62E7B49C8A3F50EABC1F3F0",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/nodal_displacements_initial.csv": "A90A6A315B09049611857702A13496057CFDF7520EB3158EE6C8AEDE44A193AB",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/nodal_phase_field_initial.csv": "AFE56919B5B5494D72E14307A6C078460E538466C80318225AABA7433258BB6C",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/d_lower_bounds.csv": "FE415819566B5F7D44D02D5152D31492B4CB19F076EEB4FDEF85D3F8797FA08D",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/initial_conditions_solution.inc": "897C12ECE3FE0665FA369B0154039B119AE875D901F51C1B38DD866B3133C196",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/active_set_boundary_cards.inc": "FA63AA5D376063EE278E661629EE25C7A8FAA8FA7A203A696979A1F3F327D9BE",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/submit_M1_C6_P171_C3_0.pbs": "D7D2539BA04872AD6493A66B26C7BA65B8AD217148F8CBD54D7213B9CD737951",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/job_notifications.sh": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/run_datacheck.sh": "2CA5DB79F161B37CAE24306BC16599AD9AC9770A80E30213D0684388FB51895A",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/PACKAGE_MANIFEST.json": "F2BCB166D8A6FB4230B196DD158121B92492C1A7F441021FE574EBA8A63586E3",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/M1_C6_PACKAGE171_AUTHORIZATION.json": "535AB502B289E52F422454B842F2BE1A225639CD07ABDF9324C0FA938A63C8A1",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/EXECUTION_MANIFEST.json": "535AB502B289E52F422454B842F2BE1A225639CD07ABDF9324C0FA938A63C8A1",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/evidence/1419604.mmaster02/pbs_execution.log": "97546ACBBCD640F0ACCBD25AF764BCD6C308C61172A0863D8E5D13191B9D3A89",
+    "scripts/state_transfer/driver_package171_c6_coupled_pdas.py": "F4D82958AD979DBD0871578608FF3531804B4F1A2E9FD5A34F2150DB3BCA1A2E",
+    "scripts/remeshing/build_package171_c6_stage_c3_0.py": "3B1B3D6F67E8B2B0366721CC6EC04BA682FF50BF4FCB420A9C0B03C057F463C8",
+    "scripts/hpc/stage_package171.py": "575A3D221C20C567243C00A821F5FA80BFF47DF1A94341F019FF66B721DDDAD9",
+    "tests/unit/test_package171_c6_coupled_driver_readiness.py": "A58F3C7769C0A13CE16150D0136AE87EB4080114F4C3D0DF97F62C36791611E2",
+    "results/validation/c6_package171_assembly_validation.json": "EA55F6FB61EAF8159A162827FEEE303E6E64C289F1A98F19CE9DA64949E98249"
+  },
+  "registered_paths": [
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/M1_C6_PACKAGE171_C3_0_REEQUILIBRATION.inp",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/P171_MECHANICAL_DC.inp",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/P171_PHASE_DC.inp",
+    "scripts/state_transfer/driver_package171_c6_coupled_pdas.py",
+    "tests/unit/test_package171_c6_coupled_driver_readiness.py",
+    "results/validation/c6_package171_assembly_validation.json"
+  ],
+  "verification_passed": true,
+  "metadata": {
+    "discretization": "C6_NONCOARSENED_CONFORMAL_QUAD",
+    "num_elements": 15252,
+    "num_nodes": 15559,
+    "duplicate_slit_pairs": 59,
+    "dual_uel_elements": 30504,
+    "target_uy_mm": 0.0018703125442191958,
+    "donor_source": "Checkpoint03_Job1419566",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "regression_tests_passed": "7/7",
+    "transferred_state_verified": true
+  }
+}

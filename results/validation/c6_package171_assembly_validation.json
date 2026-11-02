@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "evaluation_name": "PACKAGE_171_C6_STAGGERED_PDAS_ASSEMBLY_VALIDATION",
+  "status": "PACKAGE_171_ASSEMBLED__AWAITING_DATACHECK",
+  "mesh_stats": {
+    "elements": 15252,
+    "nodes": 15559,
+    "duplicate_slit_pairs": 59,
+    "min_det_jac": 1.5624999999999165e-08
+  },
+  "transferred_state": {
+    "min_damage": 0.0033899929840117693,
+    "max_damage": 0.6909814476966858,
+    "min_history": 2.948380472282011e-08,
+    "elastic_continuity_pct": 5.699287648439321e-06,
+    "fracture_continuity_pct": 0.0018348857817706845,
+    "total_energy_continuity_pct": 0.00046698343800341086
+  },
+  "uel_preserved": true,
+  "verification_passed": true
+}
