@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "run_id": "f508e67f-30e9-492f-86d6-47c7ac8894e1",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 166-R3 Job 1419485.mmaster02 actively running on mnode097/0 in queue normal_imfdfkmq, progressing through outer iterations 66-68 with CPU time 00:25:40. Coupled kinematic displacement increment delta_u achieved strict monotonic satisfaction across three consecutive outers: 9.313e-10 mm (outer 65) -> 8.149e-10 mm (outer 66) -> 6.985e-10 mm (outer 67) <= 1.0e-9 mm. Damage increment delta_d contracted to 1.549e-5 (outer 66) and 2.922e-5 (outer 67), approaching the 1.0e-5 threshold. Driving history increment contracted monotonically to delta_h = 5.601e-5 MPa (0.056 kPa). Free phase residual (3.447e-9 kN) and dual obstacle defect (1.568e-9 kN*mm) remain well within 1.0e-6 tolerances. PDAS active nodes contracted to 1,851 (11,427 free) with 33 outer iterations remaining in the budget. Full physical acceptance evaluator and forward continuation builder Package 163 (+5 nm continuation to uy=0.00186531 mm) verified ready on disk.",
+  "verification_passed": true,
+  "evidence_sources": {
+    "scripts/validation/evaluate_package166_r3_c5_acceptance.py": "7F47FC3490BD2325551C23AACE1A27B06E6F14BF165918C498A1173B6CAF250E",
+    "tests/unit/test_package166_r3_acceptance_evaluator.py": "0201EB4D73AE309DAC455D52D616C912B431264E2C1C2FB3913ACB0086EA3CFD",
+    "scripts/state_transfer/build_package163_c5_continuation.py": "16F1E9C99C5C9028302EF5328E8C3D21CBDDB883E7585D094641B8F7FA7D7497",
+    "tests/unit/test_package163_c5_continuation_contract.py": "65108423121BA6E1E52076141621267200B69B29FA7F18B37B04BB4CA1134718",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/submit_M1_C5_P166_R3_C2_0.pbs": "BCE7CC17FD0AF2C42AE21CB67123E313FD869DA3872EFB7360BDD8548602240E",
+    "project_coordination/ACTIVE_TASK.json": "7578E53BFE1E49BCC20ECFD0CEFC1C32932EF6E7D11E12AFB7EA3D566D8D3C4F",
+    "project_coordination/ACTIVE_SESSION.json": "E1D6BBD656B28230CEA23A94712675DC5106094A6ACA67F5FF03402786A642EB"
+  }
+}
