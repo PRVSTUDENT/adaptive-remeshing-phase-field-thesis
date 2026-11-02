@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "run_id": "03b0da4b-5002-4715-8028-7957354832ed",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "operation": "research_preparation",
+  "finding": "Reconciled startup import failure of PBS 1419547.mmaster02; repaired transitive runtime import closure with scripts/state_transfer/c3_int_to_c4_spatial_mapping.py verified by 3/3 passing regression tests; qualified and submitted Package 167-R1 as Job 1419549.mmaster02, actively executing Step 1 Outer Iteration 1 on compute node.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/167_c5_package167_r1_c2_2_continuation/EXECUTION_MANIFEST.json": "48E9E6FD9D1F5E958B1484534AA4823BF974A58EDE6B5186764A94331D49531E",
+    "models/pandey_kumar_mode1/167_c5_package167_r1_c2_2_continuation/PACKAGE_MANIFEST.json": "AECADE12A6E83B84F4B8ECB587E6C568E7C1DD65A838951585AC9B424A5FE0BE",
+    "models/pandey_kumar_mode1/167_c5_package167_r1_c2_2_continuation/M1_C5_PACKAGE167_C2_2_CONTINUATION.inp": "E183CF78C580A91231960B380DAAF18CD2C415D43BF14D20319E6D18CB6D40C6",
+    "models/pandey_kumar_mode1/167_c5_package167_r1_c2_2_continuation/P167_MECHANICAL_DC.dat": "06A4EDB0EEB250BE21864B441BDE44EA41B1856DE5122E45F18CA83E79E9DAB5",
+    "models/pandey_kumar_mode1/167_c5_package167_r1_c2_2_continuation/P167_PHASE_DC.dat": "454AE2897F20FEBBFA92EC9B942D06BF3FDA7FCAD2DFA9D226826A9F98EDB23D",
+    "models/pandey_kumar_mode1/167_c5_package167_r1_c2_2_continuation/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/167_c5_package167_r1_c2_2_continuation/initial_checkpoint_02.json": "8201D8200A12C8A493ABA8550DA7D66DB9301C2389A9EA1409BCB5B9E57B4FEA",
+    "models/pandey_kumar_mode1/167_c5_package167_r1_c2_2_continuation/submit_M1_C5_P167_R1_C2_2.pbs": "CB5F7FFDCF41880320DD319F5F6454F3E6B7F9F15C6C19BC010D1CA6904E9D99",
+    "scripts/state_transfer/build_package167_r1_continuation.py": "8346BC4D2BF46BEF49A83EF67D9586978D286F477707A110C3322EED3D3FA081",
+    "scripts/hpc/stage_package167_r1_c2_2.py": "F9B20F9A06B66348095DCA4B3023A15EF4C4F7322D979FE7B7314A7F3F7C9F8B",
+    "scripts/validation/verify_package167_runtime_imports.py": "192A75E8944C9BECFF647A7B8F18B4008382A9E3B9B61C88B392D1F3059F67CC",
+    "tests/unit/test_package167_r1_runtime_import_regression.py": "EE8AAC6C0974C8561075987C1FAD201C2FD36504A4859582508827E97EC3854F",
+    "results/validation/mode1_f1597/package169_reference_evaluation.json": "9D8FB532E1884C429BABE28E835C8870234E54FB214B8A943B1292514DED3C4B",
+    "results/validation/package163_r3_c5_continuation_acceptance_report.json": "C5F68CF5FF2C2F9F384235DE23ACD1DFDB550E632D13A33CEABBEC7A766D72A7",
+    "results/validation/package157_r8_c1_2_continuation_acceptance_report.json": "A2A0D7703CC2916313ED3CBCB1B32752631D233B51F54FC2779B5354D79AF08E"
+  },
+  "verification_passed": true,
+  "job_submission": {
+    "pbs_job_id": "1419549.mmaster02",
+    "job_name": "M1_C5_P167_R1_C2_2",
+    "batch_name": "MODE1_PACKAGE167_R1_M1_C5_P167_R1_C2_2",
+    "queue": "entry_imfdfkmq",
+    "execution_queue": "normal_imfdfkmq",
+    "resources": "1 CPU, 16 GB RAM, 8h walltime",
+    "solver_status": "RUNNING (s1_o1_mechanical active)",
+    "predecessor_checkpoint_02_sha256": "8201D8200A12C8A493ABA8550DA7D66DB9301C2389A9EA1409BCB5B9E57B4FEA",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "reference_b_comparator_job_id": "1419543.mmaster02"
+  },
+  "reconciliation": {
+    "failed_job_id": "1419547.mmaster02",
+    "failure_reason": "ModuleNotFoundError: No module named 'scripts.state_transfer.c3_int_to_c4_spatial_mapping'",
+    "failed_job_exit_code": 1,
+    "failed_job_walltime_seconds": 2
+  }
+}
