@@ -16,8 +16,8 @@
   "loading": {
     "step_name": "STATIC_ELASTIC",
     "perturbation": true,
-    "prescribed_u2_mm": 0.0018603125442191958,
-    "load_source_fixture": "Checkpoint 01 (Job 1419485.mmaster02) at uy = 0.001860312544 mm"
+    "prescribed_u2_mm": 0.0018653125442191958,
+    "load_source_fixture": "Validated checkpoint models\\pandey_kumar_mode1\\167_c5_package167_r1_c2_2_continuation\\initial_checkpoint_02.json at uy = 0.0018653125 mm"
   },
   "material": {
     "name": "STEEL",
@@ -33,6 +33,17 @@
     "RF"
   ],
   "files": {
-    "M1_C5_COMPANION_MISESERI.inp": "B05795FD8B92C219A2E28D30A4065453B8FAE31192FC562050DEDFAB7C10DC97"
+    "M1_C5_COMPANION_MISESERI.inp": "325023E2B1A3611F9E215B37EEDB79752B765155E810FB982F50F7513A401912"
+  },
+  "checkpoint_lineage": {
+    "consumed_checkpoint_path": "models\\pandey_kumar_mode1\\167_c5_package167_r1_c2_2_continuation\\initial_checkpoint_02.json",
+    "consumed_checkpoint_sha256": "8201D8200A12C8A493ABA8550DA7D66DB9301C2389A9EA1409BCB5B9E57B4FEA",
+    "target_uy_mm": 0.0018653125442191958,
+    "baseline_uy_mm": 0.0018603125442191958,
+    "reaction_force_kN": 0.17944329015383154,
+    "total_energy_kNmm": 0.000225500612,
+    "outer_iteration": 235,
+    "coupled_convergence": true,
+    "contract": "Package 163-R2 Stage C2-1 Forward Continuation"
   }
 }

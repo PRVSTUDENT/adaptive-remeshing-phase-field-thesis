@@ -27,6 +27,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import os
 import sys
 from pathlib import Path
@@ -35,8 +36,16 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 C5_SOURCE_INP = REPO_ROOT / "models" / "pandey_kumar_mode1" / "155_c5_candidate_mesh" / "M1_C5_CANDIDATE_MESH.inp"
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "models" / "pandey_kumar_mode1" / "168_c5_companion_miseseri"
 
-# Development fixture: Checkpoint 01 from physically accepted Job 1419485.mmaster02
+# Canonical Checkpoint 03 target displacement
+CHECKPOINT_03_TARGET_UY = 0.0018703125442191958
+
+# Development fallback fixture: Checkpoint 01 from physically accepted Job 1419485.mmaster02
 DEFAULT_TARGET_UY = 0.0018603125442191958
+
+
+class DependencyBlockedError(RuntimeError):
+    """Raised when a required predecessor dependency (e.g. Checkpoint 03) is missing or unaccepted."""
+    pass
 
 
 def sha256_file(path: Path) -> str:
@@ -48,6 +57,61 @@ def sha256_file(path: Path) -> str:
                 break
             h.update(chunk)
     return h.hexdigest().upper()
+
+
+def load_and_validate_checkpoint(
+    checkpoint_path: Path,
+    require_checkpoint_03: bool = False
+) -> dict:
+    """
+    Validates that a provided checkpoint JSON file is physically converged and complete
+    on the 12,996-quad Candidate C5 mesh (13,278 nodes).
+    Enforces Checkpoint 03 parameters if require_checkpoint_03 is True.
+    """
+    cp_path = Path(checkpoint_path)
+    if not cp_path.is_file():
+        raise DependencyBlockedError(f"Checkpoint file does not exist: {cp_path}")
+
+    chk_sha = sha256_file(cp_path)
+    try:
+        data = json.loads(cp_path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        raise ValueError(f"Failed to parse checkpoint JSON at {cp_path}: {exc}")
+
+    # Verify coupled convergence
+    if not data.get("coupled_convergence", False):
+        raise ValueError(f"Checkpoint {cp_path} is not converged: coupled_convergence={data.get('coupled_convergence')}")
+
+    target_uy = data.get("target_uy_mm")
+    if target_uy is None or not math.isfinite(target_uy):
+        raise ValueError(f"Invalid target_uy_mm in checkpoint: {target_uy}")
+
+    disp = data.get("displacement", [])
+    dmg = data.get("damage", [])
+    if len(disp) != 13278:
+        raise ValueError(f"Expected 13,278 nodal displacements on C5 mesh, got {len(disp)}")
+    if len(dmg) != 13278:
+        raise ValueError(f"Expected 13,278 nodal damage values on C5 mesh, got {len(dmg)}")
+
+    # Checkpoint 03 specific requirements
+    if require_checkpoint_03:
+        if not math.isclose(target_uy, CHECKPOINT_03_TARGET_UY, rel_tol=1e-8):
+            raise DependencyBlockedError(
+                f"FAIL_CLOSED: Checkpoint at {cp_path} has uy={target_uy:.10f} mm; "
+                f"expected Checkpoint 03 at uy={CHECKPOINT_03_TARGET_UY:.10f} mm"
+            )
+
+    return {
+        "path": str(cp_path),
+        "sha256": chk_sha,
+        "target_uy_mm": float(target_uy),
+        "baseline_uy_mm": float(data.get("baseline_uy_mm", 0.0)),
+        "reaction_force_kN": float(data.get("reaction_force_kN", 0.0)),
+        "total_energy_kNmm": float(data.get("total_energy_kNmm", 0.0)),
+        "outer_iteration": int(data.get("outer_iteration", 0)),
+        "coupled_convergence": bool(data.get("coupled_convergence", False)),
+        "contract": data.get("contract", "")
+    }
 
 
 def extract_c5_mesh_components(inp_path: Path):
@@ -82,19 +146,35 @@ def extract_c5_mesh_components(inp_path: Path):
 
 def build_c5_companion_deck(
     output_dir: Path = DEFAULT_OUTPUT_DIR,
-    displacement_target: float = DEFAULT_TARGET_UY,
+    displacement_target: float | None = None,
+    checkpoint_path: Path | None = None,
+    require_checkpoint_03: bool = False,
     job_name: str = "M1_C5_COMPANION_MISESERI"
 ) -> dict:
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     out_inp = output_dir / f"{job_name}.inp"
 
+    cp_info = None
+    if checkpoint_path is not None:
+        cp_info = load_and_validate_checkpoint(checkpoint_path, require_checkpoint_03=require_checkpoint_03)
+        actual_target_uy = cp_info["target_uy_mm"]
+    elif require_checkpoint_03:
+        raise DependencyBlockedError(
+            "FAIL_CLOSED: Checkpoint 03 (uy=0.001870312544 mm) is strictly required for Package 168 execution, "
+            "but no checkpoint path was provided."
+        )
+    elif displacement_target is not None:
+        actual_target_uy = float(displacement_target)
+    else:
+        actual_target_uy = DEFAULT_TARGET_UY
+
     node_lines, elem_lines, nset_lines, eq_lines = extract_c5_mesh_components(C5_SOURCE_INP)
 
     with out_inp.open("w", encoding="utf-8") as f:
         f.write("*Heading\n")
         f.write(f"** Mode-I C5 Companion Continuum Linear-Elastic Model for MISESERI Recovery\n")
-        f.write(f"** Prescribed Load Target: uy = {displacement_target:.10f} mm\n")
+        f.write(f"** Prescribed Load Target: uy = {actual_target_uy:.10f} mm\n")
         f.write(f"** Discretization: 12,996 CPE4 Continuum Quads, 13,278 Nodes + RP 999999\n")
         f.write(f"** Slit Topology: 53 coincident split pairs (x <= 0.040, y = 0.050 mm)\n")
         f.write(f"** Protocol Version: 2 (Task F1598)\n")
@@ -143,7 +223,7 @@ def build_c5_companion_deck(
         f.write("*Step, name=STATIC_ELASTIC, perturb\n")
         f.write("*Static\n")
         f.write("*Boundary\n")
-        f.write(f"999999, 2, 2, {displacement_target:.10f}\n")
+        f.write(f"999999, 2, 2, {actual_target_uy:.10f}\n")
         f.write("** ----------------------------------------------------------\n")
         f.write("** ELEMENT OUTPUT FOR AUTHENTIC MISESERI RECOVERY\n")
         f.write("** ----------------------------------------------------------\n")
@@ -182,8 +262,11 @@ def build_c5_companion_deck(
         "loading": {
             "step_name": "STATIC_ELASTIC",
             "perturbation": True,
-            "prescribed_u2_mm": displacement_target,
-            "load_source_fixture": "Checkpoint 01 (Job 1419485.mmaster02) at uy = 0.001860312544 mm"
+            "prescribed_u2_mm": actual_target_uy,
+            "load_source_fixture": (
+                f"Validated checkpoint {cp_info['path']} at uy = {actual_target_uy:.10f} mm"
+                if cp_info else f"Parameterized displacement target uy = {actual_target_uy:.10f} mm"
+            )
         },
         "material": {
             "name": "STEEL",
@@ -196,6 +279,19 @@ def build_c5_companion_deck(
         }
     }
 
+    if cp_info is not None:
+        manifest["checkpoint_lineage"] = {
+            "consumed_checkpoint_path": cp_info["path"],
+            "consumed_checkpoint_sha256": cp_info["sha256"],
+            "target_uy_mm": cp_info["target_uy_mm"],
+            "baseline_uy_mm": cp_info["baseline_uy_mm"],
+            "reaction_force_kN": cp_info["reaction_force_kN"],
+            "total_energy_kNmm": cp_info["total_energy_kNmm"],
+            "outer_iteration": cp_info["outer_iteration"],
+            "coupled_convergence": cp_info["coupled_convergence"],
+            "contract": cp_info["contract"]
+        }
+
     manifest_path = output_dir / "PACKAGE_MANIFEST.json"
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     print(f"Generated C5 companion deck: {out_inp} (SHA-256: {inp_sha})")
@@ -207,8 +303,17 @@ def build_c5_companion_deck(
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Build C5 Companion Continuum Deck")
     parser.add_argument("--output-dir", type=str, default=str(DEFAULT_OUTPUT_DIR))
-    parser.add_argument("--uy", type=float, default=DEFAULT_TARGET_UY)
+    parser.add_argument("--uy", type=float, default=None, help="Explicit target displacement (testing fallback)")
+    parser.add_argument("--checkpoint", type=str, default=None, help="Path to validated accepted checkpoint JSON")
+    parser.add_argument("--require-checkpoint-03", action="store_true", help="Strictly enforce Checkpoint 03 dependency")
     parser.add_argument("--job-name", type=str, default="M1_C5_COMPANION_MISESERI")
     args = parser.parse_args()
 
-    build_c5_companion_deck(Path(args.output_dir), args.uy, args.job_name)
+    checkpoint_arg = Path(args.checkpoint) if args.checkpoint else None
+    build_c5_companion_deck(
+        Path(args.output_dir),
+        displacement_target=args.uy,
+        checkpoint_path=checkpoint_arg,
+        require_checkpoint_03=args.require_checkpoint_03,
+        job_name=args.job_name
+    )

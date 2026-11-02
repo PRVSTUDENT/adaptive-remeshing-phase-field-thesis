@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Reconciled PBS Job 1419549.mmaster02 terminal failure at 15s walltime (Exit 1) caused by Abaqus preprocessor syntax errors (234 fatal errors) due to newline delimiters in driver keyword join. Checkpoint 03 was not produced. Advanced Package 168 C5 MISESERI pipeline readiness: upgraded build_c5_companion_deck.py to support parameterized checkpoint consumption, SHA-256 validation, and fail-closed Checkpoint 03 prerequisite enforcement. Verified exact C5 topology (12,996 CPE4 quads, 13,278 nodes, 53 duplicate slit pairs, 115 kinematic ties), zero blank lines in data blocks, and eta >= 0.15 refinement marking via 5/5 passing unit tests. Package 168 execution is held pending physically accepted Checkpoint 03 from repaired Package 167 forward continuation.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/155_c5_candidate_mesh/M1_C5_CANDIDATE_MESH.inp": "DB261F26D34352DB743432A47FC929BF6B4B4E808A1D4C13146FF4902776D197",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/M1_C5_COMPANION_MISESERI.inp": "325023E2B1A3611F9E215B37EEDB79752B765155E810FB982F50F7513A401912",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/PACKAGE_MANIFEST.json": "77DA9C4FBB034D9EAF07AB25C42701B7CCF0C32AF9964546EEE9902BED312145",
+    "scripts/remeshing/build_c5_companion_deck.py": "10589E6C592E8908FB41D2E1F1B7E9A89412463623D1FB78C56200A6ED99AB32",
+    "scripts/remeshing/extract_c5_miseseri_distribution.py": "F9F59D03F766B593E824C0ED1B0F550457B5364B8C904ADF94361EF521C61D9F",
+    "scripts/remeshing/evaluate_c5_miseseri_refinement.py": "ECDB6DC34CAC6681562E274A0F0BCBB8A6E746841E56D3DCBB35B3B0279E6E29",
+    "results/validation/c5_miseseri_pipeline_specification.json": "EC1B195B1FC748241FB79742E7C3D57176A0CEAC3C9353971EE256178F6D857E",
+    "tests/unit/test_package168_c5_miseseri_readiness.py": "518BA0B8BE7376A97D9C73A4337E7E1BE7004641A492E636CD0701164D60AA18",
+    "models/pandey_kumar_mode1/167_c5_package167_r1_c2_2_continuation/initial_checkpoint_02.json": "8201D8200A12C8A493ABA8550DA7D66DB9301C2389A9EA1409BCB5B9E57B4FEA",
+    "models/pandey_kumar_mode1/167_c5_package167_r1_c2_2_continuation/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "project_coordination/HPC_JOB_LEDGER.csv": "4A223F7AD1AD23B7798B5D375A42D1315003AE74973EA9B98E5E925CEA3398CB"
+  },
+  "verification_passed": true,
+  "metadata": {
+    "run_id": "b93af13d-f7d1-4df3-b8cc-a64f63b01e54",
+    "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+    "job_reconciled": "1419549.mmaster02",
+    "job_exit_code": 1,
+    "job_walltime_s": 15,
+    "failure_mode": "ABAQUS_PREPROCESSOR_BLANK_LINE_SYNTAX_ERROR",
+    "failure_root_cause": "driver_package167_c5_continuation.py joined split keyword blocks with newline, generating blank lines inside element and equation blocks resulting in 234 fatal errors in Abaqus preprocessor",
+    "checkpoint_03_available": false,
+    "package_168_status": "OFFLINE_PREPARATION_COMPLETE__EXECUTION_WITHHELD",
+    "package_168_deck_sha256": "325023E2B1A3611F9E215B37EEDB79752B765155E810FB982F50F7513A401912",
+    "package_168_tests_passed": "5/5",
+    "dependency_gate_enforced": true,
+    "exact_remaining_dependency": "Physically accepted Checkpoint 03 from repaired Package 167 forward continuation at uy = 0.0018703125442191958 mm"
+  }
+}
