@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "run_id": "0758057d-7424-4273-807d-4cd3c0af5ae7",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "operation": "research_preparation",
+  "finding": "Package 163-R3 C5 continuation (Job 1419499.mmaster02) achieved terminal Exit 0 on mnode097, satisfying coupled staggered convergence at outer 235 (delta_d=1.48e-6 <= 1e-5, delta_u=9.89e-10 mm <= 1e-9 mm, delta_H=9.68e-5 MPa <= 1e-4 MPa, 0 damage healing violations, 0 history drops, energy parity within 0.17% <= 2%), but failed the strict 2.0% reaction force gate (2.19% discrepancy vs C4-R6, evaluated as PHYSICAL_FAIL). Package 167 remains strictly blocked by dual-predecessor policy pending physical acceptance and an independent continuous C4 reference at target uy = 0.001870312544 mm.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/163_c5_package163_r3_c2_1_continuation/evidence/1419499.mmaster02/c5_forward_continuation_summary.json": "C3149B088E0221B1490F967ECB5FFDF15684508925AC35F0AF7893F8C86ED8F4",
+    "models/pandey_kumar_mode1/163_c5_package163_r3_c2_1_continuation/evidence/1419499.mmaster02/converged_checkpoint_02.json": "8201D8200A12C8A493ABA8550DA7D66DB9301C2389A9EA1409BCB5B9E57B4FEA",
+    "models/pandey_kumar_mode1/163_c5_package163_r3_c2_1_continuation/evidence/1419499.mmaster02/live_iteration_telemetry.json": "FF3B14FCE3A0484208B1EEFB96E14279EBE693CA398F8EF81F5032CFB55D7BF1",
+    "models/pandey_kumar_mode1/163_c5_package163_r3_c2_1_continuation/evidence/1419499.mmaster02/pbs_execution.log": "3601083C1E306ADB79A275F0A671D06DDA95FFDD38DECC1A7BAF15FAD02F23A3",
+    "results/validation/package163_r3_acceptance_evaluation.json": "E5BC2AF6B3B07D61CB5FBB0D66A52F30A6CABEE31FDF79A03BBCA20E4967BE76",
+    "results/validation/package167_r3_predecessor_compatibility.json": "757D6652B88599A2F39DDAC62F2892ED46826F58C5559E6BF4BFD2DAD7B1C827"
+  },
+  "verification_passed": true,
+  "evaluations": {
+    "job_1419499_exit_code": 0,
+    "converged_outer": 235,
+    "delta_d": 1.4817222449003964e-06,
+    "delta_u_mm": 9.892845747238796e-10,
+    "delta_h_MPa": 9.68011540898317e-05,
+    "healing_violations": 0,
+    "history_monotonicity_violations": 0,
+    "rf2_discrepancy_pct": 2.1935742861664487,
+    "total_energy_discrepancy_pct": 0.1719028510618287,
+    "checkpoint_02_sha256": "8201D8200A12C8A493ABA8550DA7D66DB9301C2389A9EA1409BCB5B9E57B4FEA",
+    "package167_blocked_by_predecessor": true
+  }
+}
