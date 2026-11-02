@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Causal C5->C6 MISESERI error-indicator pipeline successfully specified, built, and verified under strict chronological causality and physical separation discipline. Reusable companion deck M1_C5_COMPANION_MISESERI.inp preserves all 12,996 CPE4 continuum quads, 13,278 nodes, 53 duplicate slit-flank pairs, and 115 kinematic ties with isotropic linear elasticity (E=210 kN/mm^2, nu=0.3). Abaqus extractor extract_c5_miseseri_distribution.py parameterizes eta >= 0.15 threshold without prescribed corridors. Reconciled terminal Job 1419490.mmaster02 (Package 157-R8): coupled PDAS converged at outer 156 with delta_d=3.00e-8, delta_u=1.56e-11 mm, delta_H=8.57e-7 MPa; RF2 passed at 1.98% discrepancy vs donor, while raw total energy (3.86% discrepancy) failed the strict 2.0% donor tolerance. Job 1419499.mmaster02 (Package 163-R3) actively and stably computing on cluster (outer 198/300 budget) toward Checkpoint 02. All 23 unit tests pass 100%.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r8/evidence/1419490.mmaster02/converged_checkpoint_01.json": "E7BAD0FFC8E8D228105793A2441897B90185564A54DF4146007319A9F436BD38",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r8/evidence/1419490.mmaster02/runtime_report.json": "965BDD77A2A8A683C3B5EC4D6051583EA1A1010EECBE26E6737451390AA258D5",
+    "results/validation/package157_r8_physical_acceptance.json": "E0C44711A3615767FFCA0D2F381FDA84FC2B476B1D217DEDBBC2D2718EB90E24",
+    "scripts/validation/evaluate_package157_r8_acceptance.py": "15E2A8A50D8D2B203F6C4CF71BA2D997EFF1EBBDBE833B2D0CD7005BE19355AE",
+    "tests/unit/test_package157_r8_acceptance.py": "D19A8ADCC3A02233939ADD7748892EB3FB71F041BD51EDC48525FD7504C0C50E",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/M1_C5_COMPANION_MISESERI.inp": "B05795FD8B92C219A2E28D30A4065453B8FAE31192FC562050DEDFAB7C10DC97",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/PACKAGE_MANIFEST.json": "0D03E0C96C5828135BE6B1877F74674F2CC0C62B81D3EB27591A7FA44F17ABF7",
+    "scripts/remeshing/build_c5_companion_deck.py": "CE021D3C265B9C45D352EC75EF26CD21970AE88853E4118F2E3685D1D5AF0580",
+    "scripts/remeshing/extract_c5_miseseri_distribution.py": "5618EE1C03457FE828CF1FCFA13CAB2DBFAE70DFE0015837E1518F1C52E31BBF",
+    "scripts/remeshing/evaluate_c5_miseseri_refinement.py": "ECDB6DC34CAC6681562E274A0F0BCBB8A6E746841E56D3DCBB35B3B0279E6E29",
+    "results/validation/c5_miseseri_pipeline_specification.json": "052653921AC60A43946DB328A98A73E46638C9F643F03D1C94739A4F1D317898",
+    "tests/unit/test_c5_miseseri_pipeline.py": "E7AADBFFB12D58AA80FCF0B92380ACD669FE35A0BAB21E3BABAEBA8091530B86"
+  },
+  "verification_passed": true
+}

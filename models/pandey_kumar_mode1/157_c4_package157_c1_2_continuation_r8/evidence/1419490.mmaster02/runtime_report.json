@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "status": "COUPLED_CONTINUATION_COMPLETE_PHYSICAL_REVIEW_REQUIRED",
+  "attempts": [
+    {
+      "attempt": 1,
+      "start": 0.0018653125442191958,
+      "target": 0.0018703125442191958,
+      "level": 0,
+      "status": "CONVERGED",
+      "summary": {
+        "step": 1,
+        "target_uy_mm": 0.0018703125442191958,
+        "rf2_kN": 0.18251580299838358,
+        "elastic_energy_kNmm": 0.00017068079793305553,
+        "fracture_energy_kNmm": 5.535742071549135e-05,
+        "total_energy_kNmm": 0.00022603821864854688,
+        "damage_max": 0.63923957,
+        "min_delta_d": 3.0989999999994633e-06,
+        "converged_outer_iteration": 156,
+        "final_delta_h_MPa": 8.573565661862403e-07,
+        "final_delta_d": 3.0000000039720476e-08,
+        "final_delta_u_mm": 1.5565511119614017e-11
+      }
+    }
+  ],
+  "converged_steps": [
+    {
+      "step": 1,
+      "target_uy_mm": 0.0018703125442191958,
+      "rf2_kN": 0.18251580299838358,
+      "elastic_energy_kNmm": 0.00017068079793305553,
+      "fracture_energy_kNmm": 5.535742071549135e-05,
+      "total_energy_kNmm": 0.00022603821864854688,
+      "damage_max": 0.63923957,
+      "min_delta_d": 3.0989999999994633e-06,
+      "converged_outer_iteration": 156,
+      "final_delta_h_MPa": 8.573565661862403e-07,
+      "final_delta_d": 3.0000000039720476e-08,
+      "final_delta_u_mm": 1.5565511119614017e-11
+    }
+  ],
+  "physical_acceptance": "UNVERIFIED",
+  "automatic_retry": false
+}

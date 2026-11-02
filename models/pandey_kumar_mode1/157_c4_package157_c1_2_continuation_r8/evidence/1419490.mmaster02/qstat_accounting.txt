@@ -1,0 +1,59 @@
+Job Id: 1419490.mmaster02
+    Job_Name = M1_C4_P157_C1_2_R8
+    Job_Owner = pr21vyci@mlogin01.cluster
+    resources_used.cpupercent = 80
+    resources_used.cput = 01:26:29
+    resources_used.mem = 5459852kb
+    resources_used.ncpus = 1
+    resources_used.vmem = 169156kb
+    resources_used.walltime = 02:14:25
+    job_state = F
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Mon Nov  2 07:58:00 2026
+    Error_Path = mlogin01.cluster:/home/pr21vyci/M1_C4_P157_C1_2_R8.e1419490
+    exec_host = mnode097/1
+    exec_vnode = (mnode097[0]:ncpus=1:mem=16777216kb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = pr21vyci@mailserver.tu-freiberg.de
+    mtime = Mon Nov  2 10:12:33 2026
+    Output_Path = mlogin01.cluster:/scratch9/pr21vyci/runs/mode1_c4_package157_
+	c1_2_continuation_r8/M1_C4_P157_C1_2_R8.pbs_execution.log
+    Priority = 0
+    qtime = Mon Nov  2 07:58:00 2026
+    Rerunable = False
+    Resource_List.mem = 16gb
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=16gb
+    Resource_List.walltime = 08:00:00
+    stime = Mon Nov  2 07:58:02 2026
+    obittime = Mon Nov  2 10:12:33 2026
+    session_id = 2833609
+    sandbox = PRIVATE
+    jobdir = /home/pr21vyci/pbs.1419490.mmaster02.x8z
+    substate = 92
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci,PBS_O_SYSTEM=Linux,
+	PBS_O_QUEUE=entry_imfdfkmq
+    comment = Job run at Mon Nov 02 at 07:58 on (mnode097[0]:ncpus=1:mem=167772
+	16kb) and finished
+    etime = Mon Nov  2 07:58:00 2026
+    run_count = 1
+    eligible_time = 00:00:05
+    Stageout_status = 1
+    Exit_status = 0
+    Submit_arguments = -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c4_packa
+	ge157_c1_2_continuation_r8/submit_M1_C4_P157_C1_2_R8.pbs
+    history_timestamp = 1793610753
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster

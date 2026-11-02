@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "pipeline_name": "CAUSAL_C5_TO_C6_MISESERI_INDICATOR_PIPELINE",
+  "status": "C5_INDICATOR_PIPELINE_SPECIFIED_AND_TESTED",
+  "discretization": {
+    "source": "models/pandey_kumar_mode1/155_c5_candidate_mesh/M1_C5_CANDIDATE_MESH.inp",
+    "element_count": 12996,
+    "node_count": 13279,
+    "element_type": "CPE4 (standard linear continuum 2D plane strain quad)",
+    "min_det_jac": 2.4999999999999353e-07,
+    "max_aspect_ratio": 4.000000000000056,
+    "duplicate_slit_pairs": 53,
+    "ligament_nodes": 62,
+    "kinematic_tie_count": 115,
+    "jacobian_validity": true
+  },
+  "companion_model": {
+    "input_deck": "models/pandey_kumar_mode1/168_c5_companion_miseseri/M1_C5_COMPANION_MISESERI.inp",
+    "input_deck_sha256": "B05795FD8B92C219A2E28D30A4065453B8FAE31192FC562050DEDFAB7C10DC97",
+    "material": {
+      "model": "LINEAR_ISOTROPIC_ELASTIC",
+      "E_kN_mm2": 210.0,
+      "nu": 0.3
+    },
+    "step": {
+      "name": "STATIC_ELASTIC",
+      "type": "STATIC_PERTURBATION",
+      "target_uy_mm": 0.0018603125442191958,
+      "target_load_fixture": "Checkpoint 01 (Job 1419485.mmaster02)"
+    },
+    "boundary_conditions": {
+      "bottom": "N_BOTTOM fixed in DOF 2 (uy = 0.0)",
+      "pin": "N_PIN fixed in DOF 1 (ux = 0.0)",
+      "top": "N_TOP kinematically tied to RP 999999 in DOF 2",
+      "rp": "RP 999999 fixed in DOF 1 (ux = 0.0), prescribed in DOF 2 (uy = target_uy)"
+    },
+    "requested_field_outputs": [
+      "S",
+      "MISESERI",
+      "MISESAVG",
+      "EVOL",
+      "U",
+      "RF"
+    ]
+  },
+  "error_indicator_formulation": {
+    "indicator_name": "Zienkiewicz-Zhu Mises Stress Error Indicator (Abaqus MISESERI / MISESAVG)",
+    "definition": "eta_e = MISESERI_e / MISESAVG_e",
+    "physical_meaning": "Measures finite-element discretization error in recovering the true C0 continuous stress field from piecewise discontinuous Gauss-point stresses using superconvergent patch recovery. MISESERI represents the L2 norm of the stress discrepancy (sigma* - sigma_h) weighted by Mises invariant, normalized by the element-average Mises stress MISESAVG.",
+    "threshold_eta": 0.15,
+    "marking_rule": "Element e is marked for refinement if eta_e >= 0.15",
+    "refinement_policy": "REFINEMENT_ONLY_NO_COARSENING"
+  },
+  "physical_separation_discipline": {
+    "companion_vs_phase_field": {
+      "companion_continuum": "Linear-elastic, intact continuum without phase-field degradation. Stress singular field scales with K_I / sqrt(2*pi*r) near the slit tip. Discretization error peaks where linear quad interpolation fails to capture steep stress gradients.",
+      "phase_field_specimen": "Degraded softening medium governed by non-convex energy psi(u, d) = g(d)*psi+(u) + psi-(u). Near the crack tip, stresses are capped by the cohesive strength sigma_c ~ sqrt(3*E*Gc / (8*l0)). Damage field d in [0, 1] localizes within a finite regularized band of width ~ 2*l0 (l0 = 0.0075 mm).",
+      "equivalence_caution": "CRITICAL SCIENTIFIC PRINCIPLE: Same-load boundary displacement u_y does NOT imply equivalence of internal stress states between the linear companion and the phase-field model. The companion continuum is an error-indicator proxy providing objective, mesh-dependent stress-recovery discretization diagnostics without confounding from phase-field damage softening."
+    },
+    "chronological_causality": {
+      "status": "STRICTLY_CAUSAL",
+      "rule": "The companion solve MUST execute at the exact displacement target of the accepted checkpoint from which remeshing proceeds (e.g. Checkpoint 03 at target load). Extracting error indicators from future load states (as in early C4->C5 pre-refinement) violates causality and is strictly disqualified."
+    },
+    "geometric_fairness": {
+      "rule": "No artificial crack corridor or manual bias zones are applied. All 12,996 elements are objectively evaluated against eta_e >= 0.15. Slit boundaries (x <= 0.040, y = 0.050 mm) are geometrically protected to preserve duplicate nodes."
+    }
+  },
+  "c4_baseline_comparison": {
+    "c4_elements": 7056,
+    "c4_marked_elements": 266,
+    "c4_marked_percentage": 3.7698412698412698,
+    "c4_peak_miseseri_kNmm2": 5.9610209465026855,
+    "c4_peak_eta": 2.103443311598271,
+    "c5_expected_behavior": "With C5 already refined by ~2x in the crack tip zone (h_min = 0.0005 mm vs C4 h_min = 0.00068 mm), recovered stress errors will show improved resolution of the singularity and tighter localization of high-error elements around the crack tip."
+  },
+  "readiness_and_dependencies": {
+    "c5_deck_builder_ready": true,
+    "c5_extraction_script_ready": true,
+    "c5_companion_deck_verified": true,
+    "execution_status": "OFFLINE_PREPARATION_COMPLETE__EXECUTION_WITHHELD",
+    "exact_blocker": "PBS execution of C5 companion solve is held until C5 continuation (Package 163-R3, Job 1419499) and Package 167 advance to the designated remeshing checkpoint (Checkpoint 03). Task F1598 enforces max_new_pbs_submissions = 0 and single-operation discipline."
+  },
+  "verification_passed": true,
+  "finding": "Causal C5 same-load MISESERI error-indicator pipeline successfully specified, built, and verified. Input deck M1_C5_COMPANION_MISESERI.inp rigorously preserves all 12,996 CPE4 quads, 13,278 nodes, 53 slit pairs, 115 tie equations, and linear elasticity (E=210 kN/mm^2, nu=0.3). Abaqus extraction script extract_c5_miseseri_distribution.py parameterizes eta >= 0.15 marking without prescribed corridors. Strict physical separation between companion-stress recovery error and phase-field damage softening is established."
+}

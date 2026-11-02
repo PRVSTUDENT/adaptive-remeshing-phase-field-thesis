@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "job_id": "1419490.mmaster02",
+  "package": "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r8",
+  "role": "INDEPENDENT_C4_CONTINUATION_REFERENCE",
+  "target_uy_mm": 0.0018703125442191958,
+  "coupled_convergence": {
+    "passed": true,
+    "converged_outer_iteration": 156,
+    "final_delta_d": 3.0000000039720476e-08,
+    "delta_d_tol": 1e-05,
+    "final_delta_u_mm": 1.5565511119614017e-11,
+    "delta_u_tol_mm": 1e-09,
+    "final_delta_h_MPa": 8.573565661862403e-07,
+    "delta_h_tol_MPa": 1e-06
+  },
+  "state_preservation": {
+    "passed": true,
+    "min_delta_d": 0.0,
+    "max_d": 0.63923957,
+    "min_delta_h": 0.0,
+    "nodes_checked": 7265,
+    "gps_checked": 28224,
+    "reasons": []
+  },
+  "physical_acceptance_vs_donor": {
+    "passed": false,
+    "gate_status": "FAIL",
+    "target_uy_mm": 0.0018703125442191958,
+    "observed_rf2_kN": 0.18251580299838358,
+    "ref_rf2_kN": 0.1861980456697473,
+    "delta_rf2_rel": 0.01977594693928623,
+    "rf2_gate_pass": true,
+    "observed_energy_kNmm": 0.00022603821864854688,
+    "ref_energy_kNmm": 0.00021763037544268436,
+    "delta_energy_rel": 0.03863359234095898,
+    "energy_gate_pass": false,
+    "reasons": [
+      "Raw energy discrepancy 3.86% exceeds gate 2.00% (observed=2.26038e-04, ref=2.17630e-04)"
+    ]
+  },
+  "overall_verdict": "COUPLED_CONVERGED__PHYSICAL_ACCEPTANCE_FAIL",
+  "finding": "Package 157-R8 (Job 1419490.mmaster02) achieved coupled PDAS convergence at outer 156 at target uy=0.001870313 mm (delta_d=3.000e-08, delta_u=1.557e-11 mm, delta_H=8.574e-07 MPa). Strict irreversibility (0 healing violations across 7265 nodes) and history monotonicity across 28224 GPs preserved. RF2 discrepancy is 1.98% (<= 5.0% PASS), but raw total energy discrepancy is 3.86% (> 2.0% FAIL: 2.26038e-04 vs ref 2.17630e-04 kN*mm) due to elevated fracture energy in continuation."
+}
