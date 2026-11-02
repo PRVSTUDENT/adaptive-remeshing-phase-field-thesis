@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "verification_passed": true,
+  "operation": "research_preparation",
+  "title": "Mode-I C4 Same-Load Reference Validation and Preservation for Package 163-R2 Parity",
+  "finding": "Authentic C4 same-load reference at exact displacement uy = 0.0018653125442191958 mm (+5 nm) was validated and preserved from Package 157 Revision 6 (PBS Job 1419359.mmaster02, exit 0, RF2 = 0.183468 kN, total energy = 0.000225114 kN*mm, zero healing, outer 108). Package 160 C4 candidate (Job 1419305.mmaster02) terminated at baseline Checkpoint01 uy = 0.0018603125442191958 mm and was already completed once. No duplicate submission is required; R6 is confirmed as the ground-truth parity reference for Package 163-R2 physical acceptance.",
+  "reference_validation": {
+    "source_experiment": "Package 157 Revision 6",
+    "pbs_job_id": "1419359.mmaster02",
+    "mesh": "C4 (7056 elements, 7265 nodes, 28224 GPs)",
+    "target_displacement_mm": 0.0018653125442191958,
+    "reaction_force_kN": 0.18346779247291461,
+    "total_raw_energy_kNmm": 0.00022511363524288855,
+    "elastic_energy_kNmm": 0.00017111238737996302,
+    "fracture_energy_kNmm": 5.4001247862925524e-05,
+    "damage_max": 0.61985709,
+    "healing_violations": 0,
+    "history_monotonicity_violations": 0,
+    "outer_iterations": 108,
+    "acceptance_tolerances": {
+      "force_discrepancy_pct_max": 2.0,
+      "energy_discrepancy_pct_max": 2.0
+    }
+  },
+  "package_160_assessment": {
+    "candidate_path": "models/pandey_kumar_mode1/160_c4_exact_load_reference",
+    "job_id": "1419305.mmaster02",
+    "target_displacement_mm": 0.0018603125442191958,
+    "status": "COMPLETED_ONCE",
+    "scope": "Donor baseline frame at Checkpoint01 (+0 nm); does not solve +5 nm forward increment",
+    "eligibility": "Exhausted once-only quota; no resubmission eligible or necessary"
+  },
+  "running_job_status": {
+    "job_id": "1419489.mmaster02",
+    "job_name": "M1_C5_P163_R2_C2_1",
+    "state": "R",
+    "host": "mnode097/0",
+    "objective": "Stage C2-1 +5 nm forward continuation on C5 mesh with max_outer=200"
+  },
+  "next_operation": "Monitor job 1419489.mmaster02 to terminal completion and evaluate authentic Checkpoint02 against unchanged physical acceptance criteria using preserved C4 R6 reference parity",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/converged_checkpoint_01.json": "49BA6D5F041F84F17004BA71ABF3EDC8293F6E8ADC6C86D9695186B7D3D281D5",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r6/runtime_report.json": "4890F125EA7A55EF5EE571D66C5EAE114028F2C32477A03ACFD60F9967FCDEE6",
+    "results/validation/package157_r6_convergence_evaluation.json": "9C11A6DC96F429312D541D06FEAC189BB1CC7E67DB3F77DF3602CF793ECFB4C8",
+    "scripts/validation/evaluate_package163_c5_continuation_acceptance.py": "4C3F85E4CBF777C4BF029B15177C58BCE4F308827E5C800842D10D8A5C935309",
+    "tests/unit/test_package163_c5_continuation_acceptance.py": "F52603A8788B041E2A070755FCC3D73BAA7C88300B26E7412756BA2E02A1327B",
+    "models/pandey_kumar_mode1/160_c4_exact_load_reference/PACKAGE_MANIFEST.json": "17836893DDBA2F28F4985003DA28462222420306F0E077653DA64666E976E3CD",
+    "models/pandey_kumar_mode1/160_c4_exact_load_reference/EXECUTION_MANIFEST_REF.json": "890B61193FC8F9002F5ED4B9ABFB4969D2C358BFF58F297203A0EF380B452ECF",
+    "project_coordination/sessions/2026-11-01_gemini-antigravity_r6_exact_load_reference_recovery.md": "0E47BD06DE417B739EBA5DA4827EE96ECE7E736EE3A04450FA94A17F729A7057"
+  },
+  "registered_paths": [
+    "scripts/validation/generate_turn19_preparation.py",
+    "tests/unit/test_turn19_preparation.py"
+  ]
+}

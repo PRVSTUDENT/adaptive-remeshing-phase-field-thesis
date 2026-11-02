@@ -2,7 +2,7 @@
     "task_id":  "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
     "agent":  "gemini-antigravity",
     "status":  "READY_READ_ONLY_EVALUATION",
-    "phase":  "Package 163-R2 (+5 nm forward continuation on C5 mesh with max_outer=200, Job M1_C5_P163_R2_C2_1) was constructed, verified against frozen UEL CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6, staged to cluster scratch, qualified through technical preflight PASS_BOTH, and submitted to PBS as Job 1419489.mmaster02 (queue entry_imfdfkmq, running on mnode097, walltime 08:00:00, 16 GB, 1 CPU).",
+    "phase":  "Authentic C4 same-load reference at exact displacement uy = 0.0018653125442191958 mm (+5 nm) was validated and preserved from Package 157 Revision 6 (PBS Job 1419359.mmaster02, exit 0, RF2 = 0.183468 kN, total energy = 0.000225114 kN*mm, zero healing, outer 108). Package 160 C4 candidate (Job 1419305.mmaster02) terminated at baseline Checkpoint01 uy = 0.0018603125442191958 mm and was already completed once. No duplicate submission is required; R6 is confirmed as the ground-truth parity reference for Package 163-R2 physical acceptance.",
     "gate_status":  "REGISTERED_SUCCESSOR__NUMERICAL_EXECUTION_NOT_QUALIFIED",
     "predecessor_task":  {
                              "run_id":  "19280009-42f4-4897-8d3a-9b52d2e5168a",
@@ -273,14 +273,14 @@
                                    "monitoring_closeout_verified":  false
                                },
     "last_step_status":  "PREPARATION_COMPLETE",
-    "last_updated":  "2026-11-02T06:36:48.1390309+01:00",
-    "next_safe_action":  "Monitor job 1419489.mmaster02 to terminal completion and evaluate authentic Checkpoint02 against unchanged physical acceptance criteria",
+    "last_updated":  "2026-11-02T06:46:44.8536387+01:00",
+    "next_safe_action":  "Monitor job 1419489.mmaster02 to terminal completion and evaluate authentic Checkpoint02 against unchanged physical acceptance criteria using preserved C4 R6 reference parity",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-b3e1bf7e-bd59-4310-9999-e3e46d75859f.json",
-                                  "sha256":  "6EC4384E6E9DBED1357CB19F9925393BB9EB08C587870F9A8435AE5F0BE5C840",
-                                  "created_at":  "2026-11-02T06:34:17.5986693+01:00"
+                                  "artifact":  "results/validation/preparation-a7f33358-1694-4ddb-9c8c-18dcea562643.json",
+                                  "sha256":  "F2E01FF9D08D0EF7B58B538EAD6D1AA151F85BE85034FBA2C737EAD2A58E4B94",
+                                  "created_at":  "2026-11-02T06:45:58.7451791+01:00"
                               }
 }
