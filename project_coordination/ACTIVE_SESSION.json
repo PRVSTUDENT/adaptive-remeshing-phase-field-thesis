@@ -1,26 +1,29 @@
 {
     "active":  false,
-    "agent":  "gemini-antigravity",
-    "task_id":  "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
-    "starting_commit":  "4e76d418ae8d0e65c7369403851032c7fab13a75",
-    "claimed_at":  "2026-11-02T05:09:06.5971334+01:00",
-    "last_updated":  "2026-11-02T05:12:29.6887888+01:00",
-    "last_released":  "2026-11-02T05:12:29.6887888+01:00",
-    "controller_run_id":  "315b7bd6-8d75-4d6a-912d-2aa0f2a54dc4",
-    "session_report":  "project_coordination/sessions/2026-11-02_gemini-antigravity_F1597_315b7bd6-8d75-4d6a-912d-2aa0f2a54dc4.md",
+    "agent":  "codex",
+    "task_id":  "F1598-CONTROLLER-OUTPUT-MAINTENANCE",
+    "starting_commit":  "9b0e964e26017e022a534b6aab4a778ccd5a86d7",
+    "claimed_at":  "2026-11-02T05:48:18.5353871+01:00",
+    "last_updated":  "2026-11-02T05:52:26.6913751+01:00",
+    "last_released":  "2026-11-02T05:52:26.6913751+01:00",
+    "controller_run_id":  "operator-maintenance-20261102",
+    "session_report":  "project_coordination/sessions/2026-11-02_codex_orphan_output_repair.md",
     "allowed_write_scope":  [
-                                "project_coordination/sessions/2026-11-02_gemini-antigravity_F1597_315b7bd6-8d75-4d6a-912d-2aa0f2a54dc4.md",
-                                "project_coordination/controller/turn-315b7bd6-8d75-4d6a-912d-2aa0f2a54dc4.json",
-                                "results/validation/mode1_f1597/315b7bd6-8d75-4d6a-912d-2aa0f2a54dc4.json",
-                                "results/validation/preparation-315b7bd6-8d75-4d6a-912d-2aa0f2a54dc4.json",
-                                "results/validation/*",
-                                "scripts/validation/*",
-                                "tests/unit/*",
-                                "models/pandey_kumar_mode1/*",
+                                "scripts/controller/*",
+                                "scripts/validation/Invoke-BoundedAgyProcess.ps1",
+                                "tests/unit/test_controller_output_evidence.ps1",
+                                "tests/unit/test_controller_stale_session.ps1",
+                                "project_coordination/AGENT_PROTOCOL.md",
                                 "project_coordination/ACTIVE_SESSION.json",
                                 "project_coordination/ACTIVE_TASK.json",
-                                "project_coordination/CURRENT_STATE.md",
                                 "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/ARTIFACT_REGISTRY.csv"
-                            ]
+                                "project_coordination/sessions/2026-11-02_codex_orphan_output_repair.md"
+                            ],
+    "recovery":  {
+                     "reason":  "OPERATOR_AUTHORIZED_ORPHAN_RECOVERY",
+                     "original_sha256":  "D1DC256735DD227BBCDD8E18A6B9C501252DEEA7397BF196AC1746AFDED95762",
+                     "original_claim":  "C:\\Users\\pruth\\OpenClawPAD\\failure_recovery\\operator-stale-f1598-20261102\\ACTIVE_SESSION.json",
+                     "recovered_at":  "2026-11-02T05:48:18.3093911+01:00",
+                     "monitoring_closeout_verified":  false
+                 }
 }

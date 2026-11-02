@@ -3756,7 +3756,15 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
             $script:ControllerState | Add-Member -NotePropertyName captured_raw_output -NotePropertyValue $boundedRun.Output -Force
             if($script:ControllerState.conversation_id){$ConversationId=$script:ControllerState.conversation_id}
             $agyRawOutput = ConvertFrom-ControllerStream $boundedRun.Output
+            $outputEvidence=Get-ControllerOutputEvidence -Stdout $boundedRun.Stdout -Converted $agyRawOutput -ReaderError $boundedRun.ReaderError
+            $script:ControllerState | Add-Member output_evidence $outputEvidence -Force
+            $script:ControllerState | Add-Member process_exit_code $boundedRun.ExitCode -Force
+            [IO.File]::WriteAllText(($livePath+'.terminal.json'),($outputEvidence|ConvertTo-Json),[Text.UTF8Encoding]::new($false))
+            Write-ControllerCheckpoint $controllerCheckpointPath $script:ControllerState
             $agyExitCode = $boundedRun.ExitCode
+            if(-not $boundedRun.TimedOut -and $outputEvidence.classification -ne 'TERMINAL_RESPONSE_CAPTURED'){
+                throw ('AGY_OUTPUT_INCOMPLETE: '+$outputEvidence.classification+'; raw evidence='+$livePath)
+            }
             if ($boundedRun.TimedOut) {
                 [IO.File]::WriteAllText((Join-Path $PadDir 'controller_watchdog_last_partial.log'), [string]$boundedRun.Output, [Text.UTF8Encoding]::new($false))
                 $completedReceipt = Get-AgyCompletedReceipt -WorkspaceDir $WorkspaceDir -Since $turnStartTime
@@ -4051,7 +4059,7 @@ The controller will not continue using another account.
     if ([string]::IsNullOrWhiteSpace($agyText)) {
         Write-LoopLog -Turn $CurrentTurn -Tier "CONTROLLER" -Action "AGY_EMPTY_FAIL_CLOSED" -Message "Empty stdout from agy"
         Save-LoopStatus -Turn $CurrentTurn -Status "FAILED" -Tier "CONTROLLER" -Action "AGY_EMPTY_OUTPUT" -Details "No output"
-        break MainLoop
+        throw 'AGY_EMPTY_OUTPUT: raw capture preserved; recovery required; no replay'
     }
 
     # Parse the result envelope without treating stderr warnings as JSON.
@@ -4063,7 +4071,7 @@ The controller will not continue using another account.
         Write-LoopLog -Turn $CurrentTurn -Tier "CONTROLLER" -Action "AGY_PARSE_ERROR" -Message "No complete AGY envelope: $_"
         Save-LoopState -Turn ($CurrentTurn - 1) -Status 'AGY_PARSE_ERROR' -LastInstruction $CurrentInstruction -LastResponse $agyText -NextInstruction 'Inspect existing session, ledgers and scheduler before further work. Recover incomplete CLI output; never replay submissions.' -Duration $turnDurationSeconds -Usage $null -Tier 'CONTROLLER' -Action 'AGY_PARSE_ERROR'
         Save-LoopStatus -Turn $CurrentTurn -Status "FAILED" -Tier "CONTROLLER" -Action "JSON_PARSE_ERROR" -Details $_.Exception.Message
-        break MainLoop
+        throw ('AGY_TERMINAL_PARSE_FAILURE: '+$_.Exception.Message)
     }
 
     # If this was a new workflow, agy created the real conversation. Capture it

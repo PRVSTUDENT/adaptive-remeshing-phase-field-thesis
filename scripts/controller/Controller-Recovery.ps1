@@ -832,6 +832,16 @@ function Write-ControllerStreamEvent($State,[string]$Chunk) {
     }
 }
 
+function Get-ControllerOutputEvidence([string]$Stdout,[string]$Converted,[string]$ReaderError='') {
+    $terminal=$false
+    foreach($line in ($Stdout -split "`n")){
+        try{$e=$line|ConvertFrom-Json -ErrorAction Stop}catch{continue}
+        if(($e.event -eq 'result' -and $e.result.status) -or ($e.status -and $e.conversation_id -and ($e.PSObject.Properties['response'] -or $e.PSObject.Properties['error']))){$terminal=$true}
+    }
+    $kind=if($ReaderError){'CAPTURE_READ_FAILURE'}elseif([string]::IsNullOrWhiteSpace($Stdout)){'EMPTY_STDOUT'}elseif(-not $terminal){'MISSING_TERMINAL_RESPONSE'}elseif([string]::IsNullOrWhiteSpace($Converted)){'STREAM_CONVERSION_FAILURE'}else{'TERMINAL_RESPONSE_CAPTURED'}
+    [pscustomobject]@{classification=$kind;terminal_response_present=$terminal;stdout_chars=$Stdout.Length;converted_chars=$Converted.Length;reader_error=$ReaderError}
+}
+
 function ConvertFrom-ControllerStream([string]$Raw) {
     $conversation=''
     foreach($line in ($Raw -split "`n")){

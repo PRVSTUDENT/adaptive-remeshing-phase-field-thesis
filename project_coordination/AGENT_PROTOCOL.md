@@ -102,3 +102,19 @@ Update:
 - inventory metadata
 
 Forbidden inside this folder: `.for`, `.inp`, model copies, ODB, scratch dumps.
+
+## One-time operator exception — 2 November 2026
+
+The operator explicitly authorized recovery only of Gemini F1598's orphaned
+`live_monitoring_1419488` claim with claimed_at `2026-11-02T05:16:00.0000000+01:00`.
+This exception is not a general stale-lock timeout or active-owner override.
+Require no matching AGY/Antigravity/controller process, acquisition of the existing
+controller mutex, exact original-claim SHA-256, verified read-only backups of the
+claim/checkpoint/coordination ledgers, and an unchanged exact claim immediately
+before atomic compare-and-replace. Abort on any guard failure. Record original
+identity/timestamps and hashes in an immutable recovery event; mark monitoring
+closeout unverified. Never represent this as Gemini's successful release. Only
+then may Codex claim a separate bounded maintenance session normally. No HPC
+operations, replay, scientific changes or autonomous-loop launch are authorized.
+Implementation: scripts/controller/Controller-StaleSession.ps1. Private evidence:
+C:\Users\pruth\OpenClawPAD\failure_recovery\operator-stale-f1598-20261102.

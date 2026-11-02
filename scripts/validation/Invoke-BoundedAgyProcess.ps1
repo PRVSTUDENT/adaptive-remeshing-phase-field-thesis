@@ -78,6 +78,12 @@ function Invoke-BoundedAgyProcess {
     $out=[Text.StringBuilder]::new(); $err=[Text.StringBuilder]::new()
     $reason=''; $nextCheckpoint=0.0; $nextStatus=[double]$StatusIntervalSeconds; $lastProgress=0.0; $lastActivity=0.0
     $pump=$null; $failure=$null
+    if($OutputLogPath){
+        foreach($suffix in @('.stdout.txt','.stderr.txt')){
+            if(Test-Path ($OutputLogPath+$suffix)){throw 'CAPTURE_PATH_ALREADY_EXISTS'}
+            [IO.File]::WriteAllText(($OutputLogPath+$suffix),'',[Text.UTF8Encoding]::new($false))
+        }
+    }
     try {
         [void]$proc.Start(); $started=$true
         & $OnStarted $proc.Id | Out-Null
@@ -88,6 +94,7 @@ function Invoke-BoundedAgyProcess {
                 while($queue.TryDequeue([ref]$chunk)) {
                     if([object]::ReferenceEquals($queue,$pump.Out)){[void]$out.Append($chunk)}else{[void]$err.Append($chunk)}
                     if($OutputLogPath){[IO.File]::AppendAllText($OutputLogPath,$chunk,[Text.UTF8Encoding]::new($false))}
+                    if($OutputLogPath){$suffix=if([object]::ReferenceEquals($queue,$pump.Out)){'.stdout.txt'}else{'.stderr.txt'};[IO.File]::AppendAllText(($OutputLogPath+$suffix),$chunk,[Text.UTF8Encoding]::new($false))}
                     & $OnOutput $chunk | Out-Null
                     $lastActivity=$clock.Elapsed.TotalSeconds
                     $chunk=$null
@@ -125,13 +132,21 @@ function Invoke-BoundedAgyProcess {
                 while($queue.TryDequeue([ref]$chunk)){
                     if([object]::ReferenceEquals($queue,$pump.Out)){[void]$out.Append($chunk)}else{[void]$err.Append($chunk)}
                     if($OutputLogPath){[IO.File]::AppendAllText($OutputLogPath,$chunk,[Text.UTF8Encoding]::new($false))}
+                    if($OutputLogPath){$suffix=if([object]::ReferenceEquals($queue,$pump.Out)){'.stdout.txt'}else{'.stderr.txt'};[IO.File]::AppendAllText(($OutputLogPath+$suffix),$chunk,[Text.UTF8Encoding]::new($false))}
                     $chunk=$null
                 }
             }
         }
+        $nativeExitCode=if($started -and $proc.HasExited){$proc.ExitCode}else{$null}
         $exitCode=if($reason){124}elseif($failure){1}elseif($started){$proc.ExitCode}else{1}
+        if($OutputLogPath){
+            [IO.File]::WriteAllText(($OutputLogPath+'.stdout.txt'),$out.ToString(),[Text.UTF8Encoding]::new($false))
+            [IO.File]::WriteAllText(($OutputLogPath+'.stderr.txt'),$err.ToString(),[Text.UTF8Encoding]::new($false))
+            $capture=@{exit_code=$exitCode;native_exit_code=$nativeExitCode;stop_reason=$(if($reason){$reason}elseif($failure){'CAPTURE_EXCEPTION'}else{'PROCESS_EXIT'});failure=[string]$failure;stdout_chars=$out.Length;stderr_chars=$err.Length;reader_error=$(if($pump){[string]$pump.ReadError}else{''});input_error=$(if($pump){[string]$pump.InputError}else{''});readers_completed=$(if($pump){$pump.OutDone -and $pump.ErrDone}else{$false})}
+            [IO.File]::WriteAllText(($OutputLogPath+'.process.json'),($capture|ConvertTo-Json),[Text.UTF8Encoding]::new($false))
+        }
         $proc.Dispose()
     }
     if($failure){throw $failure}
-    [pscustomobject]@{ExitCode=$exitCode;TimedOut=[bool]$reason;StopReason=$reason;Output=($out.ToString()+"`r`n"+$err.ToString());DurationSeconds=$clock.Elapsed.TotalSeconds}
+    [pscustomobject]@{ExitCode=$exitCode;NativeExitCode=$nativeExitCode;TimedOut=[bool]$reason;StopReason=$(if($reason){$reason}else{'PROCESS_EXIT'});Stdout=$out.ToString();Stderr=$err.ToString();ReaderError=$(if($pump){[string]$pump.ReadError}else{''});Output=($out.ToString()+"`r`n"+$err.ToString());DurationSeconds=$clock.Elapsed.TotalSeconds}
 }

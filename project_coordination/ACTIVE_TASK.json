@@ -247,7 +247,7 @@
     "dependent_pbs_job_ids":  [
 
                               ],
-    "pbs_status_note":  "Job 1419485.mmaster02 RUNNING on mnode097/0 (normal_imfdfkmq, 1 CPU, 16 GB, walltime limit 08:00:00)",
+    "pbs_status_note":  "Historical submission 1419488.mmaster02 preserved; current scheduler outcome NOT checked in controller maintenance.",
     "referenced_pbs_job_ids":  [
                                    "1419478.mmaster02",
                                    "1419479.mmaster02",
@@ -269,7 +269,7 @@
                               },
     "last_step_status":  "PREPARATION_COMPLETE",
     "last_updated":  "2026-11-02T05:12:29.6518425+01:00",
-    "next_safe_action":  "Advance to qualified execution or next research task",
+    "next_safe_action":  "Maintenance blocked the autonomous loop; evaluate existing Package163 receipt 1419488.mmaster02 and preserved Package166-R3 accepted evidence before selecting further work. No resubmission or completed-operation replay.",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
@@ -278,4 +278,6 @@
                                   "sha256":  "1A08B7EA06DBBAE44E9307440B24A40085FDEA8523B4FCD76CBC765F14C899B1",
                                   "created_at":  "2026-11-02T05:12:14.3380923+01:00"
                               }
+,
+    "controller_maintenance": {"status":"REPAIRED_TESTED_DEPLOYED__HISTORICAL_CHECKPOINT_RECONCILIATION_REQUIRED","operator_orphan_recovery":"C:\\Users\\pruth\\OpenClawPAD\\failure_recovery\\operator-stale-f1598-20261102\\recovery-event.json","automatic_restart_allowed":false,"monitoring_closeout_verified":false}
 }
