@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "run_id": "e124397f-6a55-4bb7-b4a1-d78c9960f0e3",
+  "finding": "Package 157 Revision 8 candidate staged to cluster scratch (/scratch9/pr21vyci/runs/mode1_c4_package157_c1_2_continuation_r8), passed authentic Abaqus mechanical and phase datachecks (AUTHENTIC_DATACHECK_PASS_BOTH, 0 errors), startup-only verification (7,265 nodes, 28,224 histories, target uy=0.001870312544 mm), and was successfully submitted to PBS under Job 1419490.mmaster02 in serial Mode-I (1 CPU, 16gb, 8h) with dual notifications verified.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r8/EXECUTION_MANIFEST.json": "4E6263AF0AC87B5C751C9693E7DC03C8B5DF6EAC56FE192AD4616CCD1771FFB8",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r8/PREFLIGHT_PROOF.json": "7E70FF7A102EED73FF49A66D4B9EF715D90E3FBCC0537E5B506DD1483D812187",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r8/login_startup.json": "337A2F8B06088AA4D08E4838F95F48501072BF03577981C0BEDE025682A0E7ED",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r8/P157_MECHANICAL_DC.dat": "704F168B617875C408337DAD0257BDAE0396E663B44C80F3B28D7F9CB5C80C3B",
+    "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r8/P157_PHASE_DC.dat": "25D62CC2FB5D59FEFCD8265175BF4F868F86BD2E05DC0ABF13C3187DE9165089",
+    "results/validation/package157_r8_datachecks.json": "6BD0FA35A40A83A18434E7FE8502CB486C73F68C3729CD974204AD3CD3BCCCCF",
+    "scripts/validation/stage_package157_r8.py": "C1AE9692183CBE34CE5122796B900772312F94B206E768B1807F0762DE68099A",
+    "scripts/validation/package157_r8_login_datachecks.sh": "26F2A77840F3C374D44E886F2940F18AA0A0E796243F6AAAFFB1696AE3E785D8"
+  },
+  "verification_passed": true
+}
