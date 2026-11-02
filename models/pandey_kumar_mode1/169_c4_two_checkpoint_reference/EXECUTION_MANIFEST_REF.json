@@ -1,0 +1,46 @@
+{
+    "batch_name": "MODE1_PACKAGE169_C4_TWO_CHECKPOINT_REF",
+    "adapter": "mode1-qualified-batch-v2",
+    "scientific_scope": "MODE1",
+    "technical_stage": "MODE1_BASELINE",
+    "configuration": "MODE1_BASELINE",
+    "max_submissions": 1,
+    "hours_valid": 24,
+    "automatic_retry": false,
+    "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_two_checkpoint_reference",
+    "files": {
+        "M1_C4_TWO_CHECKPOINT_REF.inp": "efc38d9644296a0fe8c4219c471b213213ffe8b0535c71d36d885313b886220a",
+        "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+        "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "submit_M1_C4_TWO_CHECKPOINT_REF.pbs": "470d9bb5bf45afe15a9d3f835b484742a017b7bd9dec86d337e43f510500f61c",
+        "P169_MECHANICAL_DC.inp": "338a05c996c3022384a3da33cc58bba53f04912a4a50a0f844e5caf60a53fd09",
+        "P169_PHASE_DC.inp": "0ab3e5d2e9c5f346fd31fa23ea1458d8b8fd988954c83f8dcd8a9429eb32a15a",
+        "run_datacheck.sh": "8c451a5c37f37f493b45721ea34b21db71e4b31786238bdc479e699509dd7880",
+        "PACKAGE_MANIFEST.json": "db370e5e98a184ae9254877559f5f6b9569cc6191341ff1169907a17a0eb1692"
+    },
+    "jobs": [
+        {
+            "id": "M1_C4_TWO_CHECKPOINT_REF",
+            "purpose": "Abaqus 2023 Candidate C4 Two-Checkpoint Continuous Reference Calculation (7056 quads, 7265 nodes, f42_mixed_uel.for) evaluating Reference A (uy = 0.0018653125442191958 mm) and Reference B (uy = 0.0018703125442191958 mm) to provide authentic, un-interpolated comparators for C5-R3 and C4-R8 physical acceptance.",
+            "input": "M1_C4_TWO_CHECKPOINT_REF.inp",
+            "datacheck": "M1_C4_TWO_CHECKPOINT_REF_DC.dat",
+            "additional_datachecks": [
+                "P169_MECHANICAL_DC.dat",
+                "P169_PHASE_DC.dat"
+            ],
+            "pbs": "submit_M1_C4_TWO_CHECKPOINT_REF.pbs",
+            "queue": "entry_imfdfkmq",
+            "cpus": 1,
+            "memory_gb": 16,
+            "walltime_hours": 8,
+            "execution": "single-rank serial",
+            "max_submissions": 1,
+            "depends_on": [],
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c4_two_checkpoint_reference/submit_M1_C4_TWO_CHECKPOINT_REF.pbs\"",
+            "command_sha256": "af584e42f601a017edf82936d19f66fed06ed18f76e39e2f3178a24156dbfbf3"
+        }
+    ],
+    "acceptance": {
+        "M1_C4_TWO_CHECKPOINT_REF": "Exit code 0; coupled convergence; Step 1 lands on uy = 0.0018003125442192 mm; Step 2 reaches Checkpoint 01 at uy = 0.0018603125442191958 mm; Step 3 terminates at Reference A uy = 0.0018653125442191958 mm (matching C5-R3); Step 4 terminates at Reference B uy = 0.0018703125442191958 mm (matching C4-R8 and Package 167); provides authentic reaction force, elastic energy, fracture energy, and total energy for dual-gate resolution."
+    }
+}

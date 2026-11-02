@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "evaluation_name": "PACKAGE169_TWO_CHECKPOINT_REFERENCE_EVALUATION",
+  "job_id": "1419543.mmaster02",
+  "execution_node": "mnode097[0]",
+  "run_directory": "/scratch9/pr21vyci/runs/mode1_c4_two_checkpoint_reference",
+  "exit_code": 0,
+  "c4_mesh_elements": 7056,
+  "c4_mesh_nodes": 7265,
+  "predeclared_gates": {
+    "ref_a_force_gate_pct": 2.0,
+    "ref_a_energy_gate_pct": 2.0,
+    "ref_b_force_gate_pct": 5.0,
+    "ref_b_energy_gate_pct": 2.0
+  },
+  "extracted_observables": {
+    "reference_a": {
+      "target_uy_mm": 0.0018653125442191958,
+      "step": 3,
+      "increment": 9,
+      "step_time_s": 0.001,
+      "total_time_s": 0.37306251,
+      "reaction_force_rf2_kN": 0.18291074,
+      "elastic_strain_energy_Eel_kNmm": 0.00017059292,
+      "crack_fracture_energy_Efr_kNmm": 5.4524172e-05,
+      "total_raw_energy_Etot_kNmm": 0.00022511709
+    },
+    "reference_b": {
+      "target_uy_mm": 0.0018703125442191958,
+      "step": 4,
+      "increment": 6,
+      "step_time_s": 0.001,
+      "total_time_s": 0.37406251,
+      "reaction_force_rf2_kN": 0.18302963,
+      "elastic_strain_energy_Eel_kNmm": 0.00017116117,
+      "crack_fracture_energy_Efr_kNmm": 5.4872692e-05,
+      "total_raw_energy_Etot_kNmm": 0.00022603386
+    }
+  },
+  "comparisons": {
+    "Reference_A_vs_C5_R3": {
+      "target_uy_mm": 0.0018653125442191958,
+      "c5_r3_force_kN": 0.179443,
+      "ref_a_force_kN": 0.18291074,
+      "force_discrepancy_pct": 1.8958646168070814,
+      "force_gate_pct": 2.0,
+      "force_pass": true,
+      "c5_r3_energy_kNmm": 0.000225501,
+      "ref_a_energy_kNmm": 0.00022511709,
+      "energy_discrepancy_pct": 0.17053791873374957,
+      "energy_gate_pct": 2.0,
+      "energy_pass": true,
+      "scientific_verdict": "PHYSICAL_ACCEPTANCE_PASS"
+    },
+    "Reference_B_vs_C4_R8": {
+      "target_uy_mm": 0.0018703125442191958,
+      "c4_r8_force_kN": 0.182516,
+      "ref_b_force_kN": 0.18302963,
+      "force_discrepancy_pct": 0.2806266941587475,
+      "force_gate_pct": 5.0,
+      "force_pass": true,
+      "c4_r8_energy_kNmm": 0.000226038,
+      "ref_b_energy_kNmm": 0.00022603386,
+      "energy_discrepancy_pct": 0.0018315839936509776,
+      "energy_gate_pct": 2.0,
+      "energy_pass": true,
+      "scientific_verdict": "PHYSICAL_ACCEPTANCE_PASS"
+    }
+  },
+  "findings": "Reference A (uy=1.8653 um): Force disc=1.896% <= 2.0%, Energy disc=0.171% <= 2.0% -> C5-R3 Checkpoint02 physically qualified. Reference B (uy=1.8703 um): Same-mesh C4-R8 Energy disc=0.0018% <= 2.0%, Force disc=0.281% <= 5.0% -> Package 167 matching-load reference qualified.",
+  "unblocking_status": {
+    "checkpoint_02_physically_accepted": true,
+    "matching_load_reference_accepted": true,
+    "package_167_unblocked": true
+  }
+}

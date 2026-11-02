@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "job_id": "1419543.mmaster02",
+  "status": "COMPLETED",
+  "exit_code": 0,
+  "queue": "normal_imfdfkmq",
+  "node": "mnode097[0]",
+  "walltime_used": "00:03:06",
+  "reference_a": {
+    "target_uy_mm": 0.0018653125442191958,
+    "step": 3,
+    "increment": 9,
+    "F_y_kN": 0.18291074,
+    "E_el_kNmm": 0.00017059292,
+    "E_fr_kNmm": 0.000054524172,
+    "E_tot_kNmm": 0.00022511709
+  },
+  "reference_b": {
+    "target_uy_mm": 0.0018703125442191958,
+    "step": 4,
+    "increment": 6,
+    "F_y_kN": 0.18302963,
+    "E_el_kNmm": 0.00017116117,
+    "E_fr_kNmm": 0.000054872692,
+    "E_tot_kNmm": 0.00022603386
+  }
+}
