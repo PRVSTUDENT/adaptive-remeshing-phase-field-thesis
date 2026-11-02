@@ -1,0 +1,60 @@
+{
+  "batch_name": "MODE1_PACKAGE157_M1_C4_P157_R8_DC",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-2",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c4_package157_c1_2_continuation_r8",
+  "runtime_root": "/scratch9/pr21vyci/runs/mode1_c4_package157_c1_2_continuation_r8/runtime",
+  "runtime_source_hashes": {
+    "scripts/state_transfer/driver_package157_r8.py": "97E622587EA6F947FCD3612856B1076FBF89523C53C6F63028E539300A1E0AF9",
+    "scripts/state_transfer/driver_package150_c1_2_continuation.py": "724C57EC1936C201A42803A329A4D961FFB26911225C28B54D598BF91257492D",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "9EDE833668340A41AD590CB2387F8CB72A6C9C63DE9DF6B2185A3CABD1B21265",
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8",
+    "scripts/validation/extract_package148_iteration.py": "41879C0B5055A053B4B389591042231CC595D3F0F8C3AF707884F413E755823C"
+  },
+  "files": {
+    "active_set_boundary_cards.inc": "bd8db2048dc6620e6cedf0c9e610b603cafa03acf11da4ea843b64066f57a007",
+    "d_lower_bounds.csv": "9e7165a9cbe770601377581f6e9fee27c3f71f6dd3d073817c8d78b28b984fce",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "initial_checkpoint_01.json": "49ba6d5f041f84f17004ba71abf3edc8293f6e8adc6c86d9695186b7d3d281d5",
+    "initial_conditions_solution.inc": "aa130ff7c67b11abd551d20283afb097b16a2134578315ccff93a829de8cbbbc",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_C4_PACKAGE150_C1_2_CONTINUATION.inp": "8c54e3d18ebbb238fdf79f773bc7c1e854aa6a681e2881d6ba15b977c58fafcd",
+    "nodal_displacements_initial.csv": "b57acc0f4efffccd4d7cf2f8e9832f736bd965b25573aaaea1b8502d998c6167",
+    "nodal_phase_field_initial.csv": "c4c625615cf20d787e078412689154c024e25e47f7cdf9837a0191efbd79e4de",
+    "P157_MECHANICAL_DC.inp": "5f1dfef77df45f86da995d04a90a9c5ff1efe322e29374ccf092d67430cbdd92",
+    "P157_PHASE_DC.inp": "60f1972c31f92dc323176c5e48e0a60c66be9f6123b85c34dc3e2fda80490fba",
+    "PACKAGE_MANIFEST.json": "5dab56333ccb95bac3b4b907b127cd116e8a5af35ce45dcf0c703c4a4c4d4020",
+    "run_datacheck.sh": "46bb7f25e4ff45eb772578637ab122b258cbbd6adbf439c62598d8aa9bc0d055",
+    "submit_M1_C4_P157_C1_2_R8.pbs": "f61e51df8675fc6a208e056e2b5d004f5976612bde251ceab1eb4b6402a9c6f9",
+    "submit_M1_C4_P157_R8_DC.pbs": "3848149ae96c38fe27763d963e5ed2cc910ccd43937583f5ee87fadaa1e313c9"
+  },
+  "scientific_predecessor_review": "results/validation/package157_r6_convergence_evaluation.json",
+  "jobs": [
+    {
+      "id": "M1_C4_P157_R8_DC",
+      "purpose": "Required authentic COMPUTE-NODE Abaqus mechanical/phase datachecks and actual R8 runtime startup; zero numerical continuation.",
+      "input": "P157_MECHANICAL_DC.inp",
+      "datacheck": "P157_MECHANICAL_DC.dat",
+      "additional_datachecks": [
+        "P157_PHASE_DC.dat"
+      ],
+      "pbs": "submit_M1_C4_P157_R8_DC.pbs",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 1,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "depends_on": [],
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c4_package157_c1_2_continuation_r8/submit_M1_C4_P157_R8_DC.pbs\"",
+      "command_sha256": "54694ebab402c2f322406f2ef06a00231bea19fb8487ba676707213bb965ed75"
+    }
+  ],
+  "acceptance": {
+    "M1_C4_P157_R8_DC": "Required authentic COMPUTE-NODE Abaqus mechanical/phase datachecks and actual R8 runtime startup; zero numerical continuation."
+  }
+}

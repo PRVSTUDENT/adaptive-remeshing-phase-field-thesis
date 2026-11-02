@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "evaluation_name": "PACKAGE157_R8_REFERENCE_GATES",
+  "package": "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r8",
+  "scientific_role": "INDEPENDENT_C4_CONTINUATION_REFERENCE",
+  "reference_purpose": "Provides authentic C4 benchmark at uy=0.001870312544 mm for quantitative validation of Stage C2-2 (Package 167)",
+  "predecessor": {
+    "source": "converged_checkpoint_01.json (from Package 157 R6)",
+    "baseline_uy_mm": 0.0018653125442191958,
+    "target_uy_mm": 0.0018703125442191958,
+    "substep_increment_mm": 5e-06,
+    "sha256": "49BA6D5F041F84F17004BA71ABF3EDC8293F6E8ADC6C86D9695186B7D3D281D5"
+  },
+  "gates": {
+    "gate1_discovery_and_lineage": {
+      "passed": true,
+      "detail": "Authentic predecessor Checkpoint 01 verified with 7265 disp/damage nodes and 28224 history points"
+    },
+    "gate2_local_deck_integrity": {
+      "passed": true,
+      "missing_files": [],
+      "detail": "All 14 required cards, decks, manifests, and scripts built and verified"
+    },
+    "gate3_frozen_uel_integrity": {
+      "passed": true,
+      "uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "expected_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+    },
+    "gate4_cluster_staging": {
+      "passed": false,
+      "status": "BLOCKED_PENDING_STAGING",
+      "detail": "Candidate files built locally; remote rsync/staging to cluster scratch pending authorization"
+    },
+    "gate5_compute_node_datacheck": {
+      "passed": false,
+      "status": "BLOCKED_PENDING_DATACHECK",
+      "detail": "Compute-node datacheck job M1_C4_P157_R8_DC pending cluster staging"
+    },
+    "gate6_scheduler_capacity": {
+      "passed": true,
+      "active_project_jobs": 1,
+      "max_capacity": 4,
+      "detail": "Scheduler capacity confirmed (1 active of 4 baseline slots)"
+    }
+  },
+  "submission_decision": "SUBMISSION_HELD_PENDING_STAGING_AND_DATACHECK",
+  "exact_blockers": [
+    "Gate 4: Cluster staging of Package 157 R8 deck to scratch9 pending",
+    "Gate 5: Compute-node mechanical and phase datacheck execution (submit_M1_C4_P157_R8_DC.pbs) pending"
+  ],
+  "verification_passed": true,
+  "finding": "Package 157 R8 candidate deck successfully synthesized and verified; discovery separated from submission gates with exact blockers cleanly cataloged."
+}
