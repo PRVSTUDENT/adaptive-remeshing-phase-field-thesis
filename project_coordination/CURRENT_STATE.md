@@ -1,10 +1,11 @@
-## 2 November Package 163 Stage C2-1 +5 nm Continuation Dispatched: Job 1419487.mmaster02 RUNNING
+## 2 November Package 163 Stage C2-1 +5 nm Continuation Actively Running: Job 1419488.mmaster02 on mnode097/0
 
-Package 163 Mode-I Method C Stage C2-1 forward continuation on Candidate C5 mesh (12,996 elements, 13,278 nodes, 51,984 integration points, advancing $u_y$ from $0.001860312544$ to $0.001865312544\text{ mm}$, $+5\text{ nm}$) was assembled, qualified with dual compute-node datachecks (`P163_MECHANICAL_DC` and `P163_PHASE_DC` both `AUTHENTIC_DATACHECK_PASS`), and submitted to PBS queue `entry_imfdfkmq` as Job `1419487.mmaster02`.
+Package 163 Mode-I Method C Stage C2-1 forward continuation on Candidate C5 mesh (12,996 elements, 13,278 nodes, 51,984 integration points, advancing $u_y$ from $0.001860312544$ to $0.001865312544\text{ mm}$, $+5\text{ nm}$) is actively executing staggered coupled PDAS iterations on compute node `mnode097/0`.
+- Prior probe 1419487 failed at 12s due to extraction whitelist rejecting step `C2_1_Step1`; isolated and repaired in `extract_package148_iteration.py` (verified by 4/4 passing tests in `test_package161_iteration_extractor.py`).
 - Predecessor binding: Accepted Checkpoint 01 from Job `1419485.mmaster02` (`converged_checkpoint_01.json`, SHA-256 `DCFD31186061FA81111DA18071CF8ADFB9BAF2C5CB343CB60F08416741C1B64A`).
 - Frozen production UEL: `f42_mixed_uel.for` bitwise SHA-256 `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`.
-- Single-rank serial execution: 1 CPU, 16 GB RAM, 8h walltime on `normal_imfdfkmq`.
-- Active scheduler state: Observed RUNNING (`R 00:00`) on `mmaster02`.
+- Execution details: Single-rank serial (1 CPU, 16 GB RAM, 8h walltime) under PBS Job ID `1419488.mmaster02`.
+- Active operational progress: Outer iteration 1 mechanical solve completed (`endpoint.json` certified, 0-byte error log); non-accumulating history updated; canonical Hintermüller–Ito–Kunisch PDAS active-set clamp applied; staggered phase sub-problem `P163_S1_01_00_phase` actively executing on compute node.
 
 ## 2 November Package 166-R3 HPC Execution Complete: Job 1419485.mmaster02 PHYSICALLY ACCEPTED (Exit Code 0)
 

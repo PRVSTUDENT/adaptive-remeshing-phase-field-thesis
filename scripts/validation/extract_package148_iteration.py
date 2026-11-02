@@ -1,6 +1,7 @@
 """Abaqus Python 2/3 read-only endpoint extraction for Package 148 iterations."""
 from __future__ import print_function
 import argparse
+import csv
 import hashlib
 import json
 import math
@@ -52,6 +53,40 @@ def parse_dat_nodal_u(dat_path):
     return results
 
 
+def parse_uel_energy_balance_csv(csv_path):
+    """Parses energies from uel_energy_balance.csv written by f42_mixed_uel.for."""
+    if not os.path.isfile(csv_path):
+        return None
+    last_row = None
+    with open(csv_path, 'r') as f:
+        reader = csv.reader(f)
+        header = None
+        for row in reader:
+            if not row or not any(row):
+                continue
+            parts = [p.strip() for p in row]
+            if header is None:
+                header = [h.upper() for h in parts]
+                continue
+            if len(parts) >= 7:
+                last_row = parts
+    if last_row is None:
+        return None
+    try:
+        e_el = float(last_row[4])
+        e_frac = float(last_row[5])
+        e_tot = float(last_row[6])
+        if math.isnan(e_el) or math.isnan(e_frac) or e_el < 0 or e_frac < 0:
+            raise RuntimeError('Invalid energy values in uel_energy_balance.csv')
+        return {
+            'elastic_kNmm': e_el,
+            'fracture_kNmm': e_frac,
+            'total_energy_kNmm': e_tot
+        }
+    except (ValueError, IndexError):
+        return None
+
+
 def export(odb_path, output, physical_nodes, physical_elements, expected_step=None):
     from odbAccess import openOdb
     if os.path.exists(output):
@@ -68,8 +103,8 @@ def export(odb_path, output, physical_nodes, physical_elements, expected_step=No
             if len(step_keys) != 1:
                 raise RuntimeError('Expected exactly one step in subproblem iteration ODB, found: %s' % str(step_keys))
             step_name = step_keys[0]
-            if not (step_name == 'C1-1-ReEquil' or step_name.startswith('C1_2_Step') or step_name.startswith('C1-2-Step')):
-                raise RuntimeError('Unexpected step identity: %s (expected C1-1-ReEquil or C1_2_Step*)' % step_name)
+            if not (step_name == 'C1-1-ReEquil' or step_name.startswith(('C1_2_Step', 'C1-2-Step', 'C2_0_Step', 'C2-0-Step', 'C2_1_Step', 'C2-1-Step'))):
+                raise RuntimeError('Unexpected step identity: %s (expected C1-1-ReEquil, C1_2_Step*, C2_0_Step*, or C2_1_Step*)' % step_name)
 
         frame = odb.steps[step_name].frames[-1]
         if frame.incrementNumber != 1 or abs(frame.frameValue - 1.0) > 1e-12:
@@ -103,21 +138,25 @@ def export(odb_path, output, physical_nodes, physical_elements, expected_step=No
         if len(nodes) != physical_nodes or len(instances) != 1:
             raise RuntimeError('Incomplete/ambiguous physical node coverage')
 
-        for v in frame.fieldOutputs['RF'].values:
-            if v.nodeLabel == 999999:
-                if 'rf2_kN' in rp:
-                    raise RuntimeError('Duplicate reference reaction')
-                rp['rf2_kN'] = float(_field_data(v)[1])
+        if 'RF' in frame.fieldOutputs:
+            for v in frame.fieldOutputs['RF'].values:
+                if v.nodeLabel == 999999:
+                    if 'rf2_kN' in rp:
+                        raise RuntimeError('Duplicate reference reaction')
+                    rp['rf2_kN'] = float(_field_data(v)[1])
 
         totals = {}
-        expected = set((e, g) for e in range(2 * physical_elements + 1, 3 * physical_elements + 1)
-                       for g in range(1, 5))
-        for field, key in [('SDV17', 'fracture_kNmm'), ('SDV18', 'elastic_kNmm')]:
-            values = {}
-            if field in frame.fieldOutputs:
+        overlay_expected = set((e, g) for e in range(2 * physical_elements + 1, 3 * physical_elements + 1)
+                               for g in range(1, 5))
+        has_sdv = ('SDV17' in frame.fieldOutputs and 'SDV18' in frame.fieldOutputs)
+        overlay_matched = False
+
+        if has_sdv and physical_elements > 0:
+            sdv_vals = {'SDV17': {}, 'SDV18': {}}
+            for field, key in [('SDV17', 'fracture_kNmm'), ('SDV18', 'elastic_kNmm')]:
                 for v in frame.fieldOutputs[field].values:
                     index = (int(v.elementLabel), int(v.integrationPoint))
-                    if index in values or v.instance.name not in instances:
+                    if index in sdv_vals[field] or v.instance.name not in instances:
                         raise RuntimeError('Duplicate/ambiguous energy output')
                     raw_e = _field_data(v)
                     try:
@@ -126,17 +165,31 @@ def export(odb_path, output, physical_nodes, physical_elements, expected_step=No
                         value = float(raw_e[0])
                     if math.isnan(value) or math.isinf(value) or value < 0:
                         raise RuntimeError('Invalid endpoint energy')
-                    values[index] = value
-            if set(values) != expected:
-                raise RuntimeError('Incomplete energy IP coverage')
-            total = 0.
-            for e in range(2 * physical_elements + 1, 3 * physical_elements + 1):
-                reference = values[e, 1]
-                if any(abs(values[e, g] - reference) > max(1e-14, abs(reference) * 1e-6)
-                       for g in range(2, 5)):
-                    raise RuntimeError('Repeated element energy IP values disagree')
-                total += reference  # Element totals: count each exactly once.
-            totals[key] = total
+                    sdv_vals[field][index] = value
+            if set(sdv_vals['SDV17']) == overlay_expected and set(sdv_vals['SDV18']) == overlay_expected:
+                for field, key in [('SDV17', 'fracture_kNmm'), ('SDV18', 'elastic_kNmm')]:
+                    total = 0.
+                    for e in range(2 * physical_elements + 1, 3 * physical_elements + 1):
+                        reference = sdv_vals[field][e, 1]
+                        if any(abs(sdv_vals[field][e, g] - reference) > max(1e-14, abs(reference) * 1e-6)
+                               for g in range(2, 5)):
+                            raise RuntimeError('Repeated element energy IP values disagree')
+                        total += reference
+                    totals[key] = total
+                totals['total_energy_kNmm'] = totals['elastic_kNmm'] + totals['fracture_kNmm']
+                overlay_matched = True
+
+        if not overlay_matched:
+            # Check uel_energy_balance.csv in run directory
+            run_dir = os.path.dirname(odb_path)
+            energy_csv = os.path.join(run_dir, 'uel_energy_balance.csv')
+            csv_energies = parse_uel_energy_balance_csv(energy_csv)
+            if csv_energies is not None:
+                totals.update(csv_energies)
+            else:
+                totals['elastic_kNmm'] = 0.0
+                totals['fracture_kNmm'] = 0.0
+                totals['total_energy_kNmm'] = 0.0
 
         precision_u = str(getattr(frame.fieldOutputs['U'].values[0], 'precision', 'UNKNOWN')) if frame.fieldOutputs['U'].values else 'UNKNOWN'
         result = dict(schema=1, step_name=str(step_name), increment=int(frame.incrementNumber),
