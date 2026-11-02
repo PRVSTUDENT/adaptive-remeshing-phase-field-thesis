@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "controller_run_id": "c3710e7a-9f31-43e4-a89f-926c0f198a74",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 163 Stage C2-1 +5 nm forward continuation successfully assembled, staged to remote cluster scratch, dual datacheck qualified (P163_MECHANICAL_DC and P163_PHASE_DC both AUTHENTIC_DATACHECK_PASS), and submitted as Job 1419487.mmaster02 actively RUNNING in normal_imfdfkmq. Staggered coupled solver gap resolved with non-accumulating history update and canonical PDAS active set update.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/163_c5_package163_c2_1_continuation/EXECUTION_MANIFEST.json": "D0CE4E1BDE4148B908F960899032466DA10E905BA6A84A3625C206EC5DD169CF",
+    "models/pandey_kumar_mode1/163_c5_package163_c2_1_continuation/PACKAGE_MANIFEST.json": "74EF58FABD7E3D4A6D5910B9DB77951DC1826663B40CAA6CEC7ADA7B7286C30C",
+    "models/pandey_kumar_mode1/163_c5_package163_c2_1_continuation/P163_MECHANICAL_DC.dat": "377A1412458EAC8CADBFFC83B7C5A0320D3597C37CE8BBA77C346F903E5EEA98",
+    "models/pandey_kumar_mode1/163_c5_package163_c2_1_continuation/P163_PHASE_DC.dat": "4AAD94F641C2D3A09AB6FC67C67315219D2DCDDC4CA7D766188130022DA3F504",
+    "scripts/state_transfer/driver_package163_c5_continuation.py": "532803AB27DB08B3A380E40ECC77559C8284644A0FE11AE15B52F79262BCEB97",
+    "scripts/state_transfer/build_package163_c5_continuation.py": "6F62BAE924592B1A7BE60884DB1843DC548C7F602AF953FED4F5F298A736E101",
+    "scripts/hpc/stage_package163.py": "F9A91319C08A3E95D42C360B95F51F655FB0D80DF8E92653E925AA0F2B6D5D8B"
+  },
+  "verification_passed": true,
+  "pbs_job_id": "1419487.mmaster02",
+  "queue": "normal_imfdfkmq",
+  "target_uy_mm": 0.0018653125442191958,
+  "baseline_uy_mm": 0.0018603125442191958,
+  "displacement_increment_mm": 5.0e-6
+}
