@@ -2,7 +2,7 @@
     "task_id":  "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
     "agent":  "gemini-antigravity",
     "status":  "READY_READ_ONLY_EVALUATION",
-    "phase":  "Reconciled Job 1419547.mmaster02 startup import failure; repaired runtime dependency graph with c3_int_to_c4_spatial_mapping; qualified, staged, and submitted Package 167-R1 as Job 1419549.mmaster02, actively solving outer iteration 1 on cluster compute node.",
+    "phase":  "Reconciled startup import failure of PBS 1419547.mmaster02; repaired transitive runtime import closure with scripts/state_transfer/c3_int_to_c4_spatial_mapping.py verified by 3/3 passing regression tests; qualified and submitted Package 167-R1 as Job 1419549.mmaster02, actively executing Step 1 Outer Iteration 1 on compute node.",
     "gate_status":  "REGISTERED_SUCCESSOR__NUMERICAL_EXECUTION_NOT_QUALIFIED",
     "predecessor_task":  {
                              "run_id":  "19280009-42f4-4897-8d3a-9b52d2e5168a",
@@ -273,14 +273,14 @@
                                    "monitoring_closeout_verified":  false
                                },
     "last_step_status":  "PREPARATION_COMPLETE",
-    "last_updated":  "2026-11-02T12:35:26.6404925+01:00",
+    "last_updated":  "2026-11-02T12:58:07.3187453+01:00",
     "next_safe_action":  "Advance to qualified execution or next research task",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
-                                  "operation":  "execute_mode1_package167_c2_2_continuation",
+                                  "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-e04c21fb-e81a-47fa-8878-5446d7b7f4b4.json",
-                                  "sha256":  "659A38A9265858BAA8027AD83E093365B9F9F01159CF82135F66F2D317E4B142",
-                                  "created_at":  "2026-11-02T12:29:34.6372294+01:00"
+                                  "artifact":  "results/validation/preparation-03b0da4b-5002-4715-8028-7957354832ed.json",
+                                  "sha256":  "D7127917ACA269414DEA36F077DE18163312C914FE661D17D3DAC39E07EE4E88",
+                                  "created_at":  "2026-11-02T12:56:40.0363635+01:00"
                               }
 }
