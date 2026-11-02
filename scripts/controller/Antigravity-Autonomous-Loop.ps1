@@ -215,13 +215,14 @@ if($ControlledSingleTurn -and $MaxTurns -ne 1){throw 'ControlledSingleTurn requi
 # Offline validation exits before credential/profile/bridge or AGY side effects.
 . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Recovery.ps1')
 . (Join-Path $WorkspaceDir 'scripts/controller/Controller-Supervisor.ps1')
+. (Join-Path $WorkspaceDir 'scripts/controller/Controller-FailureHandoff.ps1')
 trap {
-    if ($ChatGPTSupervisorMode -and -not $ControllerDryRun -and -not $script:SupervisorEscalating) {
+    if (-not $ControllerDryRun -and -not $script:SupervisorEscalating) {
         $originalError = $_ | Out-String
         $script:SupervisorEscalating = $true
         try {
-            $diagnostic = Invoke-ControllerSupervisor -Workspace $WorkspaceDir -Kind ERROR -Evidence $originalError -SafetyBlocked -RunId 'fatal' -Turn 0 -LaunchPad:$ChatGPTBridgeLaunchPad
-            Write-Warning ("SUPERVISOR_DIAGNOSTIC_ONLY: " + $diagnostic.instruction)
+            $diagnostic = Invoke-ControllerFailureHandoff -Workspace $WorkspaceDir -CheckpointPath (Join-Path $env:USERPROFILE 'OpenClawPAD/controller_turn_checkpoint.json') -State $script:ControllerState -ErrorText $originalError -Stage 'startup_or_cleanup' -NoTransport:(-not $EnableChatGPTBridge) -LaunchPad:$ChatGPTBridgeLaunchPad
+            Write-Warning ($diagnostic | ConvertTo-Json -Compress)
         } catch { Write-Warning ("SUPERVISOR_DISPATCH_UNAVAILABLE: " + $_.Exception.Message) }
     }
     break # Retain the original terminating error; never authorize execution from a diagnostic.
@@ -1815,6 +1816,7 @@ function Save-LoopStatus($Turn, $Status, $Tier, $Action, $Details) {
     }
     $json = $obj | ConvertTo-Json -Compress
     [System.IO.File]::WriteAllText($StatusFile, $json, [System.Text.UTF8Encoding]::new($false))
+    if($Status -eq 'FAILED') { throw ('CONTROLLER_STAGE_FAILED: '+$Action+'; '+$Details) }
 }
 
 function Get-LivePbsJobs {
@@ -3610,6 +3612,7 @@ $AgyTimeoutRecoveryAttemptsByTurn = @{}
     $resolved = Resolve-ControllerInstruction $WorkspaceDir $CurrentInstruction
     if (-not $script:ControllerRecoveryMode) { $CurrentInstruction=$resolved.instruction }
     if ($resolved.evidence.session.active) { throw 'BLOCKED: another repository session is active' }
+    Assert-ControllerActiveTaskDispatch $WorkspaceDir
     $recoveryCount = if ($script:ControllerRecoveryMode) { 1 } else { 0 }
     $script:ControllerState = New-ControllerTurnState $resolved.evidence $CurrentTurn $CurrentInstruction $recoveryCount
     Write-ControllerCheckpoint $controllerCheckpointPath $script:ControllerState
@@ -4099,8 +4102,9 @@ The controller will not continue using another account.
                 $CurrentInstruction = $detRecovery.NextInstruction
                 Save-LoopState -Turn $CurrentTurn -Status 'COMPLETED' -LastInstruction $CurrentInstruction -LastResponse $preservedResponse -NextInstruction $detRecovery.NextInstruction -Duration $turnDurationSeconds -Usage $null -Tier 'CONTROLLER' -Action 'AGY_DETERMINISTIC_RECOVERED'
                 $script:ControllerRecoveryMode = $false
-                $CurrentTurn++
-                continue MainLoop
+                # A recovered turn is evidence, not a fresh scientific instruction.
+                # Route it through the same durable review boundary as other interruptions.
+                throw 'RECOVERED_TURN_REVIEW_REQUIRED: preserved interrupted work; do not replay the completed operation'
             }
             $script:ControllerState = Set-ControllerInterrupted $WorkspaceDir $controllerCheckpointPath $script:ControllerState $(if($script:ControllerState.captured_raw_output){$script:ControllerState.captured_raw_output}else{$agyText})
             $recovery = if ($script:ControllerState.state -eq 'BLOCKED') { $script:ControllerState.next_safe_action } else { Get-ControllerRecoveryInstruction $script:ControllerState }
@@ -5578,7 +5582,18 @@ if ($CurrentTurn -gt ($StartTurn + $MaxTurns - 1)) {
 
 
 
+ } catch {
+    # Covers task validation, watchdog/recovery, completion and synchronization failures,
+    # independently of optional supervisor mode. Never require the failed stage to complete.
+    $script:SupervisorEscalating=$true
+    $script:ControllerFailureHandled=$true
+    try {
+        $diagnostic=Invoke-ControllerFailureHandoff -Workspace $WorkspaceDir -CheckpointPath $controllerCheckpointPath -State $script:ControllerState -ErrorText ($_|Out-String) -Stage 'main_controller' -NoTransport:(-not $EnableChatGPTBridge) -LaunchPad:$ChatGPTBridgeLaunchPad
+        Write-Warning ($diagnostic|ConvertTo-Json -Compress)
+    } catch { Write-Warning ('RECOVERY_PACKET_OR_DISPATCH_BLOCKED: '+($_|Out-String)) }
+    # Intentionally stop at the maintenance boundary. Reviewer text is never executed here.
  } finally {
+    try {
     if ($null -ne $script:ControllerState -and $script:ControllerState.state -in @('RUNNING','CHECKPOINTED')) {
         # Release only proven owned sessions on abnormal closeout, never a live/foreign process.
         if(-not $script:ControllerState.process_id -or -not(Get-Process -Id $script:ControllerState.process_id -ErrorAction SilentlyContinue)){
@@ -5589,6 +5604,15 @@ if ($CurrentTurn -gt ($StartTurn + $MaxTurns - 1)) {
         $script:ControllerState.block_reason='Controller exited before a verified completed response; inspect loop status, credential/quota and preserved evidence'
         Write-ControllerCheckpoint $controllerCheckpointPath $script:ControllerState
     }
-    if ($controllerLockHeld) { $controllerMutex.ReleaseMutex() }
-    $controllerMutex.Dispose()
+    } catch {
+        $script:ControllerFailureHandled=$true
+        try {
+            $diagnostic=Invoke-ControllerFailureHandoff -Workspace $WorkspaceDir -CheckpointPath $controllerCheckpointPath -State $script:ControllerState -ErrorText ($_|Out-String) -Stage 'controller_finally' -NoTransport:(-not $EnableChatGPTBridge) -LaunchPad:$ChatGPTBridgeLaunchPad
+            Write-Warning ($diagnostic|ConvertTo-Json -Compress)
+        } catch { Write-Warning ('RECOVERY_CLEANUP_BLOCKED: '+($_|Out-String)) }
+    } finally {
+        if ($controllerLockHeld) { $controllerMutex.ReleaseMutex() }
+        $controllerMutex.Dispose()
+    }
 }
+if($script:ControllerFailureHandled){exit 75} # Durable stopped/pending outcome, never false success.

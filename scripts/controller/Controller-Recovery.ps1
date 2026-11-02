@@ -487,7 +487,7 @@ Finished
 
     $hpcHash = (Get-FileHash -LiteralPath (Join-Path $Workspace 'project_coordination/HPC_JOB_LEDGER.csv') -Algorithm SHA256).Hash
 
-    $nextInst = if (-not [string]::IsNullOrWhiteSpace($NextInstruction)) { $NextInstruction } else { "Advance $($State.task_id): Proceed to next numerical operation based on verified on-disk deliverables." }
+    $nextInst = if (-not [string]::IsNullOrWhiteSpace($NextInstruction)) { $NextInstruction } else { "CONTROLLER_TASK: RECOVERED_PROGRESS_REVIEW`nPreserved predecessor: $($State.task_id). Request a bounded ChatGPT recovery instruction against the authoritative active task and exact ledgers; never replay the completed operation." }
 
     $updates = @{
         state = 'COMPLETED'
