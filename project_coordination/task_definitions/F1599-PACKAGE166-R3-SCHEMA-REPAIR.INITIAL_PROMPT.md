@@ -1,0 +1,3 @@
+TASK: F1599-PACKAGE166-R3-SCHEMA-REPAIR
+OPERATION_ID: research_preparation
+Execute bounded offline preparation and schema repair for Package 166-R3 on Candidate C5 mesh. Restore manifest donor_source.target_uy_mm = 0.0018603125442191958 mm, donor checkpoint provenance, and non-accumulating history contract H = max(H0, psi+(u)). Preserve corrected post-phase damage increment evaluation (delta_d <= 1e-5), mechanical convergence (delta_u <= 1e-9 mm), and frozen production UEL CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6. Do not resubmit Job 1419480 or Job 1419483. Perform offline technical preflight and regression tests before requesting execution qualification. End with Finished.

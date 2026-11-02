@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "turn": "3729a45f-a26e-41be-a215-151fb458167a",
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "verification_passed": true,
+  "title": "Package 166-R3 Minimal Schema Repair Specification & Successor Registration",
+  "finding": "F1598 evidence evaluation finalized: Package 166 (1419480.mmaster02) physically rejected (true delta_d = 3.0123e-5 > 1e-5); Package 166-R2 (1419483.mmaster02) technically failed on startup due to missing donor_source in PACKAGE_MANIFEST.json. Successor task F1599-PACKAGE166-R3-SCHEMA-REPAIR registered with minimal manifest schema restoring donor_source (target_uy_mm = 0.0018603125442191958 mm) while preserving corrected post-phase damage gate, non-accumulating history contract, and frozen production UEL.",
+  "next_operation": "Advance to F1599-PACKAGE166-R3-SCHEMA-REPAIR for offline manifest generation and technical preflight; zero HPC submissions in this turn",
+  "registered_paths": [
+    "tests/unit/test_package166_r3_schema_repair.py",
+    "project_coordination/task_definitions/F1599-PACKAGE166-R3-SCHEMA-REPAIR.json",
+    "project_coordination/task_definitions/F1599-PACKAGE166-R3-SCHEMA-REPAIR.INITIAL_PROMPT.md"
+  ],
+  "repair_specification": {
+    "package_name": "Package 166-R3",
+    "stage": "C2-0",
+    "target_mesh": "C5 (12996 quads, 13278 nodes, 51984 GPs)",
+    "donor_source_restoration": {
+      "checkpoint": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\157_c4_package157_c1_2_continuation_r5\\converged_checkpoint_01.json",
+      "target_uy_mm": 0.0018603125442191958,
+      "c4_max_history_MPa": 6868.951434128797
+    },
+    "non_accumulating_history_contract": {
+      "update_rule": "H^(k) = max(H0, psi+(u^(k)))",
+      "immutable_baseline": "H0 = min(H_trans, H_donor_max)",
+      "ratcheting_suppression": "Strictly non-accumulating from predecessor H0; rejected trials cannot corrupt baseline",
+      "post_convergence_thermo": "H* >= psi+(u*) at all 51984 GPs",
+      "post_convergence_monotonicity": "H* >= H0 at all 51984 GPs"
+    },
+    "convergence_gates": {
+      "post_phase_delta_d_max": 1e-05,
+      "delta_u_mm_max": 1e-09,
+      "force_drift_pct_max": 2.0,
+      "raw_energy_drift_pct_max": 2.0,
+      "kkt_complementarity_kNmm_max": 1e-06
+    },
+    "frozen_production_uel": {
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "status": "PRESERVED"
+    },
+    "targeted_regression_tests": [
+      "tests/unit/test_package166_r3_schema_repair.py",
+      "tests/unit/test_package166_delta_d_regression.py",
+      "tests/unit/test_package166_history_consistency_hypothesis.py"
+    ]
+  },
+  "evidence_sources": {
+    "results/validation/package166_authentic_terminal_audit.json": "410267AA3D4086E794CFC7A85D83266E02C4EB6E2C1CAA4F0D4618EC21AA91A8",
+    "results/validation/package166_independent_audit.json": "14968653A20EA3EAC3EE149DA57444C3E7C7B1BDCBF8DF2CA8A58DFEADEFEAA5",
+    "models/pandey_kumar_mode1/166_c5_package166_c2_0_nonaccumulating_history/PACKAGE_MANIFEST.json": "5B7201754A1D6ED002E1EB7EBAFB8EBE65E767F58478EB9C518A582167D40E04",
+    "models/pandey_kumar_mode1/166_c5_package166_r2_c2_0_nonaccumulating_history/PACKAGE_MANIFEST.json": "87C09E2F811DB60B55CE7EAC1269A58AEB6BE24885A0EF82A5CA095FB255FF0D",
+    "models/pandey_kumar_mode1/166_c5_package166_c2_0_nonaccumulating_history/EXECUTION_MANIFEST.json": "F0ADDD9D2FBF24567270906BE2ECD764B9C12A043D5D16377C256E182110E8AB",
+    "scripts/state_transfer/driver_package166_c5_nonaccumulating_history.py": "4AF8E9EAE42D0CFCA0702699FE7B14EC56529E95EBFF6B20F66144E0FC80E4D0",
+    "scripts/state_transfer/driver_package166_r2_c5_nonaccumulating_history.py": "A8EC8AD11188AC2D054AB366EB05B489D80EF9F9C8129B73EB21B6582B794513",
+    "models/pandey_kumar_mode1/166_c5_package166_c2_0_nonaccumulating_history/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/166_c5_package166_r2_c2_0_nonaccumulating_history/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "tests/unit/test_package166_r3_schema_repair.py": "3BE3082D22021EEB8ACAB9882789FC18E308D25BB7745C2DBF54AD5460BF5467",
+    "project_coordination/task_definitions/F1599-PACKAGE166-R3-SCHEMA-REPAIR.json": "F2B1D50253A57AD0E61F7ED4AF13C96C20FC9EC93F26C036E5F9EFC53B6B5D5A"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "task_id": "F1599-PACKAGE166-R3-SCHEMA-REPAIR",
+  "title": "Repair Package 166-R3 manifest donor_source schema and qualify Stage C2-0 execution",
+  "predecessor": {
+    "run_id": "3729a45f-a26e-41be-a215-151fb458167a",
+    "status": "COMPLETED",
+    "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+    "source_commit": "8f8fb60b8766241231897d6af5d6ee171ea15546"
+  },
+  "operation": {
+    "checkpoint_kind": "PREPARATION_CHECKPOINT",
+    "id": "research_preparation",
+    "mode": "READ_ONLY_SCIENTIFIC_EVALUATION",
+    "registration": "Package 166-R3 manifest donor_source schema repair and offline qualification"
+  },
+  "max_new_pbs_submissions": 0,
+  "automatic_retry": false,
+  "job_references": {
+    "remote_dir": "/scratch9/pr21vyci/runs/mode1_c5_package166_r3_c2_0_nonaccumulating_history",
+    "job_id": "UNSUBMITTED",
+    "live_status": "OFFLINE_QUALIFICATION_PENDING"
+  },
+  "acceptance": {
+    "acceptance_requires_original_files": true,
+    "raw_energy_discrepancy_pct_max": 2,
+    "true_post_phase_delta_d_max": 1e-05,
+    "signed_kkt_dual_kNmm_max": 1e-06,
+    "signed_kkt_free_kNmm_max": 1e-06,
+    "delta_u_mm_max": 1e-09,
+    "force_discrepancy_pct_max": 2,
+    "max_healing_tolerance": 1e-06,
+    "history": "H=max(immutable H0, psi+); zero history-monotonicity and thermodynamic violations under original tolerances",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "schema_repair": "PACKAGE_MANIFEST.json must contain donor_source.target_uy_mm, checkpoint, c4_max_history_MPa and non_accumulating_history_contract"
+  },
+  "decision_branches": [
+    "REPAIR_VERIFIED: Package 166-R3 manifest restores donor_source and history contract without altering frozen UEL",
+    "OFFLINE_QUALIFICATION: Build R3 directory, verify 14 file digests and offline test suite before any submission proposal",
+    "NO_BLIND_RETRY: No submission of Package 166 or R2; existing receipts 1419478, 1419479, 1419480, 1419483 remain historical evidence",
+    "CONTINUATION_GATE: No +5 nm C5 continuation proposal until R3 achieves authentic physical convergence"
+  ],
+  "evidence_sources": {
+    "results/validation/package166_authentic_terminal_audit.json": "410267AA3D4086E794CFC7A85D83266E02C4EB6E2C1CAA4F0D4618EC21AA91A8",
+    "results/validation/package166_independent_audit.json": "14968653A20EA3EAC3EE149DA57444C3E7C7B1BDCBF8DF2CA8A58DFEADEFEAA5",
+    "models/pandey_kumar_mode1/166_c5_package166_c2_0_nonaccumulating_history/PACKAGE_MANIFEST.json": "5B7201754A1D6ED002E1EB7EBAFB8EBE65E767F58478EB9C518A582167D40E04",
+    "models/pandey_kumar_mode1/166_c5_package166_r2_c2_0_nonaccumulating_history/PACKAGE_MANIFEST.json": "87C09E2F811DB60B55CE7EAC1269A58AEB6BE24885A0EF82A5CA095FB255FF0D",
+    "scripts/state_transfer/driver_package166_r2_c5_nonaccumulating_history.py": "A8EC8AD11188AC2D054AB366EB05B489D80EF9F9C8129B73EB21B6582B794513",
+    "tests/unit/test_package166_r3_schema_repair.py": "3BE3082D22021EEB8ACAB9882789FC18E308D25BB7745C2DBF54AD5460BF5467",
+    "models/pandey_kumar_mode1/166_c5_package166_r2_c2_0_nonaccumulating_history/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "inherited_completed_operations": [
+    "mapped_frozen_history_lower_bound_kkt_probe",
+    "mapped_mechanical_history_call_order_probe",
+    "authentic_uel_history_call_trace",
+    "morning_scientific_audit_packages87_88",
+    "package89_state_transfer_submission",
+    "probe_mode1_f1597_r20_active_set_audit",
+    "evaluate_mode1_package148_state_transfer",
+    "evaluate_mode1_package148_state_transfer_r2",
+    "evaluate_mode1_package148_state_transfer_r3",
+    "evaluate_mode1_package148_state_transfer_r4",
+    "evaluate_mode1_package148_state_transfer_r5",
+    "evaluate_mode1_package148_state_transfer_r6",
+    "evaluate_mode1_package148_state_transfer_r7",
+    "evaluate_mode1_package148_state_transfer_r8",
+    "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+    "execute_mode1_package158_c2_0_r5_re_equilibration"
+  ],
+  "initial_instruction": "TASK: F1599-PACKAGE166-R3-SCHEMA-REPAIR\nOPERATION_ID: research_preparation\nExecute bounded offline preparation and schema repair for Package 166-R3 on Candidate C5 mesh. Restore manifest donor_source.target_uy_mm = 0.0018603125442191958 mm, donor checkpoint provenance, and non-accumulating history contract H = max(H0, psi+(u)). Preserve corrected post-phase damage increment evaluation (delta_d <= 1e-5), mechanical convergence (delta_u <= 1e-9 mm), and frozen production UEL CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6. Do not resubmit Job 1419480 or Job 1419483. Perform offline technical preflight and regression tests before requesting execution qualification. End with Finished."
+}
