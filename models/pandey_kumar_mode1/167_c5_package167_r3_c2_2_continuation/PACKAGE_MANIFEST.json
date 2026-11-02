@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "package": "Package 167-R3 Stage C2-2 +5 nm Forward Continuation",
+  "mesh": "Candidate C5 Mesh (12,996 quads, 13,278 nodes, 51,984 GPs)",
+  "baseline_uy_mm": 0.0018653125442191958,
+  "target_uy_mm": 0.0018703125442191958,
+  "increment_nm": 5.0,
+  "max_outer": 300,
+  "predecessor_checkpoint_02_sha256": "8201D8200A12C8A493ABA8550DA7D66DB9301C2389A9EA1409BCB5B9E57B4FEA",
+  "reference_b_comparator_job_id": "1419543.mmaster02",
+  "files": {
+    "M1_C5_PACKAGE167_C2_2_CONTINUATION.inp": "e183cf78c580a91231960b380daaf18cd2c415d43bf14d20319e6d18cb6d40c6",
+    "P167_R3_MECHANICAL_DC.dat": "6d9e53c4992d61b5fc1cdad6d8560d038613fddedfa62994f04f39c16ba387fb",
+    "P167_R3_MECHANICAL_DC.inp": "379863afcce3dffc44a2da8cb8971aeba1c984c8a11f2a0a248877994fc601ca",
+    "P167_R3_PHASE_DC.dat": "e09726a096ea3828b06b5703ed14c624743d3950f9455db8257c4f3a396a5713",
+    "P167_R3_PHASE_DC.inp": "1628adb0b73eed344a1d298af381489c1998a765e33d6c7cfedfd32251f9aa19",
+    "active_set_boundary_cards.inc": "ab2d34b2c9ed8e880b9b87b6c66b9599e573186d7901c5797f71ca8c31c02112",
+    "d_lower_bounds.csv": "493fb4b8c415607044e36dddac1f37a6754ed0bcd32523e61eff061c85543e86",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "initial_checkpoint_02.json": "8201d8200a12c8a493aba8550da7d66db9301c2389a9ea1409bcb5b9e57b4fea",
+    "initial_conditions_solution.inc": "0c9d7df05ca1fcf2fd1a0ec850210a999fd91f0034981036285249cf75b23197",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "nodal_displacements_initial.csv": "d7761be149d26a65c2ebbe87c70c002635ce4f05a6e5e04686c04b45a0824bb4",
+    "nodal_phase_field_initial.csv": "3b640a8b70dfb4d8c49d36acdc3853ac3683a6155377ece02c78dd7d1c0468ce",
+    "run_datacheck.sh": "41b9aec3bb5dd4338ce06222765351721bf89104816d0cbb2f2184bda28acf47",
+    "submit_M1_C5_P167_R3_C2_2.pbs": "9a22f562e7af714f863a2c2fec2eab5a983e348cac70d2363a4e46b7f96fb45a"
+  }
+}

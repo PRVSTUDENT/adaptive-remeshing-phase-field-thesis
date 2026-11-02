@@ -176,39 +176,53 @@ class C5ForwardContinuationControllerC2_2(object):
             key = block.split("\n", 1)[0].strip().lower()
             if key.startswith("*step"):
                 break
+            if role == "phase" and key.startswith("*equation"):
+                continue
             prefix.append(block)
 
-        lines = prefix + [
+        # split_keyword_blocks retains existing line terminators; concatenate
+        # template blocks directly with "" so extraneous blank lines are not introduced.
+        prefix_str = "".join(prefix)
+        if prefix_str and not prefix_str.endswith("\n"):
+            prefix_str += "\n"
+
+        step_lines = [
             f"*Step, name=StageC2_2_Step{step_idx}_{role}, nlgeom=NO, inc=1",
             "*Static",
             "1.0, 1.0, 1.0, 1.0",
-            "*Boundary, amplitude=FIXED",
-            "N_BOTTOM, 2, 2, 0.0",
-            "N_PIN, 1, 1, 0.0",
-            "N_TOP, 1, 1, 0.0",
-            "N_RP, 1, 1, 0.0",
-            f"N_RP, 2, 2, {target_u:.17g}",
         ]
 
         if role == "mechanical":
-            lines.append("** Fixed phase field on all physical nodes")
-            lines.append("*Boundary, amplitude=FIXED")
+            step_lines.extend([
+                "*Boundary, amplitude=FIXED",
+                "N_BOTTOM, 2, 2, 0.0",
+                "N_PIN, 1, 1, 0.0",
+                "N_TOP, 1, 1, 0.0",
+                "N_RP, 1, 1, 0.0",
+                f"N_RP, 2, 2, {target_u:.17g}",
+                "** Fixed phase field on all physical nodes",
+                "*Boundary, amplitude=FIXED",
+            ])
             for nid in sorted(damage):
-                lines.append(f"{nid}, 3, 3, {damage[nid]:.17g}")
+                step_lines.append(f"{nid}, 3, 3, {damage[nid]:.17g}")
         else:
-            lines.append("** Frozen displacement field from mechanical subproblem")
-            lines.append("*Boundary, amplitude=FIXED")
+            step_lines.extend([
+                "** Frozen displacement field from mechanical subproblem",
+                "*Boundary, amplitude=FIXED",
+            ])
             for nid in sorted(displacement):
                 u1, u2 = displacement[nid]
-                lines.append(f"{nid}, 1, 1, {u1:.17g}")
-                lines.append(f"{nid}, 2, 2, {u2:.17g}")
+                step_lines.append(f"{nid}, 1, 1, {u1:.17g}")
+                step_lines.append(f"{nid}, 2, 2, {u2:.17g}")
             if active:
-                lines.append("** Active set clamped to previous damage baseline self.d0")
-                lines.append("*Boundary, amplitude=FIXED")
+                step_lines.extend([
+                    "** Active set clamped to previous damage baseline self.d0",
+                    "*Boundary, amplitude=FIXED",
+                ])
                 for nid in sorted(active):
-                    lines.append(f"{nid}, 3, 3, {self.d0[nid]:.17g}")
+                    step_lines.append(f"{nid}, 3, 3, {self.d0[nid]:.17g}")
 
-        lines.extend([
+        step_lines.extend([
             "*Output, field, frequency=1",
             "*Node Output",
             "U, RF",
@@ -216,9 +230,10 @@ class C5ForwardContinuationControllerC2_2(object):
             "SDV",
             "*Node Print, frequency=1",
             "U",
-            "*End Step\n"
+            "*End Step",
+            ""
         ])
-        return "\n".join(lines)
+        return prefix_str + "\n".join(step_lines)
 
     def _run_command(self, cmd, cwd, timeout):
         proc = subprocess.run(cmd, cwd=str(cwd), stdout=subprocess.PIPE,
@@ -241,7 +256,7 @@ class C5ForwardContinuationControllerC2_2(object):
         shutil.copyfile(self.package / "f42_mixed_uel.for", directory / "f42_mixed_uel.for")
         shutil.copyfile(self.package / "initial_conditions_solution.inc", directory / "initial_conditions_solution.inc")
 
-        time_left = max(60, int(self.deadline - time.monotonic()))
+        time_left = max(60, int(self.deadline - time.monotonic())) if self.deadline is not None else 300
         cmd = [
             self.abaqus, f"job={job}", f"input={job}.inp", "user=f42_mixed_uel.for",
             "interactive", f"memory={self.memory_gb} gb", "cpus=1"
@@ -250,15 +265,17 @@ class C5ForwardContinuationControllerC2_2(object):
         self.runner(cmd, directory, time_left)
 
         extract_cmd = [
-            sys.executable, str(self.extractor),
+            self.abaqus, "python", str(self.extractor),
             "--odb", str(directory / f"{job}.odb"),
             "--output", str(directory / "endpoint.json"),
-            "--csv", str(directory / "endpoint_fields.csv")
+            "--physical-nodes", str(len(self.mesh.nodes)),
+            "--physical-elements", str(len(self.mesh.elements)),
+            "--step", f"StageC2_2_Step{step_idx}_{role}",
         ]
         self.runner(extract_cmd, directory, 300)
 
         result = json.loads((directory / "endpoint.json").read_text(encoding="utf-8"))
-        rows = list(csv.reader((directory / "endpoint_fields.csv").read_text(encoding="utf-8").splitlines()))[1:]
+        rows = result["nodes"]
         expected = set(self.mesh.nodes)
         fields = {int(r[0]): tuple(float(x) for x in r[1:]) for r in rows}
         if len(fields) != len(rows) or set(fields) != expected:

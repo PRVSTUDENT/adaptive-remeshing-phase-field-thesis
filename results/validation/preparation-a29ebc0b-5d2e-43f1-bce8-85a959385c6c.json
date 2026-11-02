@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "run_id": "a29ebc0b-5d2e-43f1-bce8-85a959385c6c",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "operation": "research_preparation",
+  "finding": "Reconciled Job 1419560 (Package 167-R2) which solved mechanical Stage C2-2 step 1 in 2 iterations but failed post-solve extraction due to missing CLI arguments in extract_package148_iteration.py; repaired driver to invoke abaqus python with required physical nodes, elements, and step parameters, verified via 4/4 passing unit tests and authentic compute-node datachecks (P167_R3_MECHANICAL_DC and P167_R3_PHASE_DC both passing with Exit 0), staging Package 167-R3 ready for qualified execution.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/EXECUTION_MANIFEST.json": "498B540CC30D11E793A24F1000B36AA0D32DB508CA5D451A7D009F9A059E4620",
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/PACKAGE_MANIFEST.json": "2E128B5D840C80520CC36D2B1F1FCC41257DD5D07CB398BCC20DEA2755339964",
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/M1_C5_PACKAGE167_C2_2_CONTINUATION.inp": "E183CF78C580A91231960B380DAAF18CD2C415D43BF14D20319E6D18CB6D40C6",
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/P167_R3_MECHANICAL_DC.inp": "379863AFCCE3DFFC44A2DA8CB8971AEBA1C984C8A11F2A0A248877994FC601CA",
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/P167_R3_MECHANICAL_DC.dat": "6D9E53C4992D61B5FC1CDAD6D8560D038613FDDEDFA62994F04F39C16BA387FB",
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/P167_R3_PHASE_DC.inp": "1628ADB0B73EED344A1D298AF381489C1998A765E33D6C7CFEDFD32251F9AA19",
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/P167_R3_PHASE_DC.dat": "E09726A096EA3828B06B5703ED14C624743D3950F9455DB8257C4F3A396A5713",
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/initial_checkpoint_02.json": "8201D8200A12C8A493ABA8550DA7D66DB9301C2389A9EA1409BCB5B9E57B4FEA",
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/submit_M1_C5_P167_R3_C2_2.pbs": "9A22F562E7AF714F863A2C2FEC2EAB5A983E348CAC70D2363A4E46B7F96FB45A",
+    "scripts/state_transfer/driver_package167_c5_continuation.py": "D5AA8D73D07234E8F57F1BFB3E37AC363ED1A6C1824BEC9A87D7B6E50B160D0F",
+    "scripts/state_transfer/build_package167_r3_continuation.py": "121DC7AE9A31E1766164B992741325AB11FF2DD35F5BA60EA51E369F4C8AEB8F",
+    "scripts/hpc/stage_package167_r3_c2_2.py": "330C53CBE0C3120F1DD243903CD6076CB2F0C3A4181DC27B8B4F1631A033D8A8",
+    "tests/unit/test_mode1_f1598_turn44_package167_extractor_regression.py": "E96BC9F9D7A0223A93C7EF4AD89CEC18357E6500B370B452287303A3254B9099",
+    "results/validation/mode1_f1597/package169_reference_evaluation.json": "9D8FB532E1884C429BABE28E835C8870234E54FB214B8A943B1292514DED3C4B"
+  },
+  "verification_passed": true,
+  "reconciliation": {
+    "failed_job_id": "1419560.mmaster02",
+    "failure_reason": "Post-solve extractor CLI argument mismatch (missing --physical-nodes and --physical-elements, unrecognized --csv)",
+    "failed_job_exit_code": 1,
+    "solver_status": "MECHANICAL_SUBPROBLEM_SOLVED_SUCCESSFULLY"
+  }
+}

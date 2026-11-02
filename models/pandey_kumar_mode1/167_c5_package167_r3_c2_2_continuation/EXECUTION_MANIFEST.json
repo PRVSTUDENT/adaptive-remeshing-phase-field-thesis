@@ -1,0 +1,61 @@
+{
+  "batch_name": "MODE1_PACKAGE167_R3_M1_C5_P167_R3_C2_2",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c5_package167_r3_c2_2_continuation",
+  "runtime_root": "/scratch9/pr21vyci/runs/mode1_c5_package167_r3_c2_2_continuation/runtime",
+  "runtime_source_hashes": {
+    "scripts/state_transfer/driver_package167_c5_continuation.py": "D5AA8D73D07234E8F57F1BFB3E37AC363ED1A6C1824BEC9A87D7B6E50B160D0F",
+    "scripts/validation/extract_package148_iteration.py": "41879C0B5055A053B4B389591042231CC595D3F0F8C3AF707884F413E755823C",
+    "scripts/state_transfer/c4_to_c5_spatial_mapping.py": "BD2E115514C8672B07CBD85AEF6135C386B8C70A8044E378C6CCCEC910BD2699",
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "9EDE833668340A41AD590CB2387F8CB72A6C9C63DE9DF6B2185A3CABD1B21265"
+  },
+  "files": {
+    "M1_C5_PACKAGE167_C2_2_CONTINUATION.inp": "e183cf78c580a91231960b380daaf18cd2c415d43bf14d20319e6d18cb6d40c6",
+    "P167_R3_MECHANICAL_DC.dat": "6d9e53c4992d61b5fc1cdad6d8560d038613fddedfa62994f04f39c16ba387fb",
+    "P167_R3_MECHANICAL_DC.inp": "379863afcce3dffc44a2da8cb8971aeba1c984c8a11f2a0a248877994fc601ca",
+    "P167_R3_PHASE_DC.dat": "e09726a096ea3828b06b5703ed14c624743d3950f9455db8257c4f3a396a5713",
+    "P167_R3_PHASE_DC.inp": "1628adb0b73eed344a1d298af381489c1998a765e33d6c7cfedfd32251f9aa19",
+    "active_set_boundary_cards.inc": "ab2d34b2c9ed8e880b9b87b6c66b9599e573186d7901c5797f71ca8c31c02112",
+    "d_lower_bounds.csv": "493fb4b8c415607044e36dddac1f37a6754ed0bcd32523e61eff061c85543e86",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "initial_checkpoint_02.json": "8201d8200a12c8a493aba8550da7d66db9301c2389a9ea1409bcb5b9e57b4fea",
+    "initial_conditions_solution.inc": "0c9d7df05ca1fcf2fd1a0ec850210a999fd91f0034981036285249cf75b23197",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "nodal_displacements_initial.csv": "d7761be149d26a65c2ebbe87c70c002635ce4f05a6e5e04686c04b45a0824bb4",
+    "nodal_phase_field_initial.csv": "3b640a8b70dfb4d8c49d36acdc3853ac3683a6155377ece02c78dd7d1c0468ce",
+    "run_datacheck.sh": "41b9aec3bb5dd4338ce06222765351721bf89104816d0cbb2f2184bda28acf47",
+    "submit_M1_C5_P167_R3_C2_2.pbs": "9a22f562e7af714f863a2c2fec2eab5a983e348cac70d2363a4e46b7f96fb45a",
+    "PACKAGE_MANIFEST.json": "2e128b5d840c80520cc36d2b1f1fcc41257dd5d07cb398bcc20dea2755339964"
+  },
+  "scientific_predecessor_review": "results/validation/mode1_f1597/package169_reference_evaluation.json",
+  "jobs": [
+    {
+      "id": "M1_C5_P167_R3_C2_2",
+      "purpose": "Mode-I Stage C2-2 Package 167-R3 +5 nm forward continuation on C5 receiver mesh advancing from Checkpoint 02 to target uy=0.001870312544 mm with max_outer=300",
+      "input": "P167_R3_MECHANICAL_DC.inp",
+      "datacheck": "P167_R3_MECHANICAL_DC.dat",
+      "additional_datachecks": [
+        "P167_R3_PHASE_DC.dat"
+      ],
+      "pbs": "submit_M1_C5_P167_R3_C2_2.pbs",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "execution": "single-rank serial",
+      "max_submissions": 1,
+      "depends_on": [],
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c5_package167_r3_c2_2_continuation/submit_M1_C5_P167_R3_C2_2.pbs\"",
+      "command_sha256": "075dd63cc4cc39fb4b1a65016d77af09ad28c98010777b01789a2b8fe2698a0b"
+    }
+  ],
+  "acceptance": {
+    "M1_C5_P167_R3_C2_2": "Mode-I Stage C2-2 Package 167-R3 +5 nm forward continuation meeting coupled PDAS convergence (delta_d <= 1e-5, delta_u <= 1e-9 mm, delta_h <= 1e-4 MPa, force <= 2%, energy <= 2% against Package 169 Reference B) and physical acceptance with max_outer=300"
+  }
+}
