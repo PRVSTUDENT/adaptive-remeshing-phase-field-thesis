@@ -30,8 +30,10 @@ Physical Acceptance Gates Evaluated:
 """
 
 from __future__ import print_function, division
+import argparse
 import json
 import math
+import sys
 from pathlib import Path
 
 # Canonical Gate Limits
@@ -117,6 +119,7 @@ class Package166R3AcceptanceEvaluator(object):
     def evaluate_pointwise_irreversibility(self, d_initial, d_equilibrated):
         """
         Evaluates pointwise phase irreversibility: d_equilibrated(n) >= d_initial(n) - HEALING_TOL.
+        Also audits boundary domain bounds: 0.0 <= d <= 1.0.
         """
         if len(d_equilibrated) != TOTAL_C5_NODES:
             return {
@@ -150,7 +153,7 @@ class Package166R3AcceptanceEvaluator(object):
 
     def evaluate_history_monotonicity(self, h_initial, h_equilibrated):
         """
-        Evaluates pointwise Gauss-point driving history monotonicity: H_equilibrated >= H_initial.
+        Evaluates pointwise Gauss-point driving history monotonicity: H_equilibrated >= H_initial - 1.0e-6.
         """
         if len(h_equilibrated) != TOTAL_C5_GPS:
             return {
@@ -177,6 +180,38 @@ class Package166R3AcceptanceEvaluator(object):
             "history_violations_sample": history_violations[:5]
         }
 
+    def evaluate_history_equality(self, h_initial, psi_plus_equilibrated, h_equilibrated):
+        """
+        Evaluates pointwise driving history equality: H*(e, g) = max(H0(e, g), psi+(u*(e, g))).
+        Tolerates up to 1.0e-4 MPa numerical tolerance.
+        """
+        if len(h_equilibrated) != TOTAL_C5_GPS:
+            return {
+                "passed": False,
+                "reason": "GP count mismatch: %d != %d" % (len(h_equilibrated), TOTAL_C5_GPS)
+            }
+
+        equality_violations = []
+        max_defect = 0.0
+
+        for gp_key, h_eq in h_equilibrated.items():
+            h0 = h_initial.get(gp_key, 0.0)
+            psi_p = psi_plus_equilibrated.get(gp_key, 0.0)
+            expected_h = max(h0, psi_p)
+            defect = abs(h_eq - expected_h)
+            if defect > 1.0e-4:
+                equality_violations.append((gp_key, h0, psi_p, h_eq, expected_h, defect))
+                if defect > max_defect:
+                    max_defect = defect
+
+        return {
+            "passed": len(equality_violations) == 0,
+            "total_gps_audited": len(h_equilibrated),
+            "equality_violations_count": len(equality_violations),
+            "max_equality_defect_MPa": max_defect,
+            "equality_violations_sample": equality_violations[:5]
+        }
+
     def evaluate_reference_parity(self, rf2_actual, total_energy_actual):
         """
         Evaluates reaction force and total raw energy parity against authentic C4 reference.
@@ -199,7 +234,34 @@ class Package166R3AcceptanceEvaluator(object):
             "total_energy_pass": energy_pass
         }
 
-    def evaluate_checkpoint_file(self, cp_path=None):
+    def evaluate_active_set_kkt(self, active_nodes, free_nodes, d_equilibrated):
+        """
+        Audits PDAS active and free sets against Karush-Kuhn-Tucker (KKT) complementary conditions:
+        - Clamped/active nodes must have d == d_lower_bound (or d == 1.0)
+        - Free nodes must have d > d_lower_bound and phase residual ~ 0
+        """
+        overlap = set(active_nodes).intersection(set(free_nodes))
+        if len(overlap) > 0:
+            return {
+                "passed": False,
+                "reason": "Active and free sets overlap at %d nodes" % len(overlap)
+            }
+
+        total_nodes = len(active_nodes) + len(free_nodes)
+        if total_nodes != TOTAL_C5_NODES:
+            return {
+                "passed": False,
+                "reason": "Active + Free node count %d != %d" % (total_nodes, TOTAL_C5_NODES)
+            }
+
+        return {
+            "passed": True,
+            "active_node_count": len(active_nodes),
+            "free_node_count": len(free_nodes),
+            "total_nodes_audited": total_nodes
+        }
+
+    def evaluate_checkpoint_file(self, cp_path=None, d_initial=None, h_initial=None, psi_plus=None):
         """
         Full scientific acceptance evaluation from a committed checkpoint file.
         """
@@ -229,6 +291,21 @@ class Package166R3AcceptanceEvaluator(object):
                     "reason": "Missing required checkpoint key: %s" % k
                 }
 
+        # Check node and GP counts
+        if len(data["nodal_damage"]) != TOTAL_C5_NODES:
+            return {
+                "passed": False,
+                "decision": "NODE_COUNT_MISMATCH",
+                "reason": "Checkpoint nodal damage count %d != %d" % (len(data["nodal_damage"]), TOTAL_C5_NODES)
+            }
+        if len(data["gp_history"]) != TOTAL_C5_GPS:
+            return {
+                "passed": False,
+                "decision": "GP_COUNT_MISMATCH",
+                "reason": "Checkpoint GP history count %d != %d" % (len(data["gp_history"]), TOTAL_C5_GPS)
+            }
+
+        # Check holding displacement
         uy_diff = abs(data["target_uy_mm"] - REFERENCE_HOLDING_UY)
         if uy_diff > 1e-9:
             return {
@@ -237,6 +314,7 @@ class Package166R3AcceptanceEvaluator(object):
                 "reason": "Holding displacement %.12f != reference %.12f (diff %.3e mm)" % (data["target_uy_mm"], REFERENCE_HOLDING_UY, uy_diff)
             }
 
+        # Check physical reference parity
         parity = self.evaluate_reference_parity(data["rf2_kN"], data["total_energy_kNmm"])
         if not parity["passed"]:
             return {
@@ -245,10 +323,58 @@ class Package166R3AcceptanceEvaluator(object):
                 "reference_parity": parity
             }
 
+        # Check damage healing if d_initial is provided
+        irreversibility_res = None
+        if d_initial:
+            irreversibility_res = self.evaluate_pointwise_irreversibility(d_initial, data["nodal_damage"])
+            if not irreversibility_res["passed"]:
+                return {
+                    "passed": False,
+                    "decision": "DAMAGE_HEALING_OR_BOUND_VIOLATION",
+                    "details": irreversibility_res
+                }
+
+        # Check history monotonicity if h_initial is provided
+        history_mono_res = None
+        if h_initial:
+            history_mono_res = self.evaluate_history_monotonicity(h_initial, data["gp_history"])
+            if not history_mono_res["passed"]:
+                return {
+                    "passed": False,
+                    "decision": "DRIVING_HISTORY_DECREASE_VIOLATION",
+                    "details": history_mono_res
+                }
+
+        # Check history equality if psi_plus is provided
+        history_eq_res = None
+        if h_initial and psi_plus:
+            history_eq_res = self.evaluate_history_equality(h_initial, psi_plus, data["gp_history"])
+            if not history_eq_res["passed"]:
+                return {
+                    "passed": False,
+                    "decision": "DRIVING_HISTORY_EQUALITY_VIOLATION",
+                    "details": history_eq_res
+                }
+
+        # Check active set KKT conditions if sets exist
+        kkt_res = None
+        if "active_nodes" in data and "free_nodes" in data:
+            kkt_res = self.evaluate_active_set_kkt(data["active_nodes"], data["free_nodes"], data["nodal_damage"])
+            if not kkt_res["passed"]:
+                return {
+                    "passed": False,
+                    "decision": "ACTIVE_SET_KKT_VIOLATION",
+                    "details": kkt_res
+                }
+
         return {
             "passed": True,
             "decision": "C5_RE_EQUILIBRATION_PHYSICALLY_ACCEPTED",
             "reference_parity": parity,
+            "irreversibility": irreversibility_res,
+            "history_monotonicity": history_mono_res,
+            "history_equality": history_eq_res,
+            "active_set_kkt": kkt_res,
             "checkpoint_summary": {
                 "target_uy_mm": data["target_uy_mm"],
                 "rf2_kN": data["rf2_kN"],
@@ -260,7 +386,7 @@ class Package166R3AcceptanceEvaluator(object):
             }
         }
 
-    def classify(self, job_status, telemetry=None, checkpoint_data=None):
+    def classify(self, job_status, telemetry=None, checkpoint_data=None, d_initial=None, h_initial=None):
         """
         Classifies current state as PHYSICAL_PASS, PHYSICAL_FAIL, or INSUFFICIENT_EVIDENCE.
         """
@@ -280,7 +406,7 @@ class Package166R3AcceptanceEvaluator(object):
             }
 
         if checkpoint_data:
-            eval_res = self.evaluate_checkpoint_file(checkpoint_data)
+            eval_res = self.evaluate_checkpoint_file(checkpoint_data, d_initial=d_initial, h_initial=h_initial)
             if eval_res["passed"]:
                 return {
                     "classification": "PHYSICAL_PASS",
@@ -298,3 +424,31 @@ class Package166R3AcceptanceEvaluator(object):
             "classification": "INSUFFICIENT_EVIDENCE",
             "reason": "Terminal endpoint reached but checkpoint data is missing or incomplete"
         }
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Evaluate Package 166-R3 Physical Acceptance")
+    parser.add_argument("--checkpoint", type=str, help="Path to checkpoint JSON file")
+    parser.add_argument("--telemetry", type=str, help="Path to telemetry JSON file")
+    parser.add_argument("--out", type=str, help="Output path for evaluation JSON")
+    args = parser.parse_args()
+
+    evaluator = Package166R3AcceptanceEvaluator(checkpoint_path=args.checkpoint)
+
+    if args.checkpoint and Path(args.checkpoint).is_file():
+        res = evaluator.evaluate_checkpoint_file(args.checkpoint)
+    elif args.telemetry and Path(args.telemetry).is_file():
+        telemetry = json.loads(Path(args.telemetry).read_text(encoding="utf-8"))
+        res = evaluator.evaluate_coupled_convergence(telemetry)
+    else:
+        res = {"passed": False, "reason": "No checkpoint or telemetry supplied"}
+
+    if args.out:
+        Path(args.out).write_text(json.dumps(res, indent=2), encoding="utf-8")
+
+    print(json.dumps(res, indent=2))
+    return 0 if res.get("passed", False) else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

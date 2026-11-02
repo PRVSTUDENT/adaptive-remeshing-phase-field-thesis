@@ -88,6 +88,23 @@ def test_history_monotonicity(evaluator):
     assert res_drop["history_violations_count"] == 1
 
 
+def test_history_equality_evaluation(evaluator):
+    h_init = {i: 100.0 for i in range(1, TOTAL_C5_GPS + 1)}
+    psi_plus = {i: 90.0 if i % 2 == 0 else 120.0 for i in range(1, TOTAL_C5_GPS + 1)}
+    h_equil = {i: max(h_init[i], psi_plus[i]) for i in range(1, TOTAL_C5_GPS + 1)}
+
+    res = evaluator.evaluate_history_equality(h_init, psi_plus, h_equil)
+    assert res["passed"] is True
+    assert res["equality_violations_count"] == 0
+
+    # Introduce defect
+    h_equil_bad = dict(h_equil)
+    h_equil_bad[10] = 50.0  # severely violates equality
+    res_bad = evaluator.evaluate_history_equality(h_init, psi_plus, h_equil_bad)
+    assert res_bad["passed"] is False
+    assert res_bad["equality_violations_count"] == 1
+
+
 def test_reference_parity(evaluator):
     res_exact = evaluator.evaluate_reference_parity(REFERENCE_RF2, REFERENCE_TOTAL_ENERGY)
     assert res_exact["passed"] is True
@@ -106,6 +123,20 @@ def test_reference_parity(evaluator):
     assert res_excess["rf2_pass"] is False
 
 
+def test_active_set_kkt(evaluator):
+    d_equil = {i: 0.5 for i in range(1, TOTAL_C5_NODES + 1)}
+    active = list(range(1, 1001))
+    free = list(range(1001, TOTAL_C5_NODES + 1))
+    res = evaluator.evaluate_active_set_kkt(active, free, d_equil)
+    assert res["passed"] is True
+
+    # Overlapping sets fail
+    active_overlap = list(range(1, 1005))
+    res_overlap = evaluator.evaluate_active_set_kkt(active_overlap, free, d_equil)
+    assert res_overlap["passed"] is False
+    assert "overlap" in res_overlap["reason"]
+
+
 def test_classification_running(evaluator):
     telemetry = [
         {"outer": 1, "delta_d": 0.0189, "delta_u": 5.89e-6, "free_error": 1.9e-7, "dual_error": 1.5e-7, "pdas_active_count": 10049, "kkt_active_count": 6023},
@@ -118,7 +149,7 @@ def test_classification_running(evaluator):
     assert res["pdas_active_count"] == 3919
 
 
-def test_checkpoint_acceptance_pass(evaluator, tmp_path):
+def test_checkpoint_acceptance_pass_and_failures(evaluator, tmp_path):
     cp_path = tmp_path / "committed_checkpoint.json"
     cp_data = {
         "target_uy_mm": REFERENCE_HOLDING_UY,
@@ -131,6 +162,18 @@ def test_checkpoint_acceptance_pass(evaluator, tmp_path):
     }
     cp_path.write_text(json.dumps(cp_data), encoding="utf-8")
 
-    res = evaluator.evaluate_checkpoint_file(cp_path)
+    d_init = {i: 0.5 for i in range(1, TOTAL_C5_NODES + 1)}
+    h_init = {i: 100.0 for i in range(1, TOTAL_C5_GPS + 1)}
+
+    res = evaluator.evaluate_checkpoint_file(cp_path, d_initial=d_init, h_initial=h_init)
     assert res["passed"] is True
     assert res["decision"] == "C5_RE_EQUILIBRATION_PHYSICALLY_ACCEPTED"
+
+    # Count mismatch failure
+    bad_cp = dict(cp_data)
+    bad_cp["nodal_damage"] = {1: 0.5}
+    cp_bad_path = tmp_path / "bad_cp.json"
+    cp_bad_path.write_text(json.dumps(bad_cp), encoding="utf-8")
+    res_bad = evaluator.evaluate_checkpoint_file(cp_bad_path)
+    assert res_bad["passed"] is False
+    assert res_bad["decision"] == "NODE_COUNT_MISMATCH"
