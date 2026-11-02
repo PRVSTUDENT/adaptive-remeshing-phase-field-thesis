@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "task_id": "F1600-PACKAGE166-R3-EXECUTION",
+  "title": "Execute qualified Stage C2-0 Package 166-R3 coupled re-equilibration on Candidate C5 mesh",
+  "predecessor": {
+    "run_id": "d4380e84-8ecf-4034-a2b2-7ef0ed86ba1f",
+    "status": "COMPLETED",
+    "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+    "source_commit": "d1b1bae1c458dc0186a128f8cc0d1e319e406fe9"
+  },
+  "operation": {
+    "checkpoint_kind": "HPC_SUBMISSION",
+    "id": "execute_mode1_package166_r3_c2_0_re_equilibration",
+    "mode": "HPC_EXECUTION_QUALIFIED",
+    "registration": "Execute qualified Package 166-R3 on Candidate C5 mesh under serial Mode-I limits"
+  },
+  "max_new_pbs_submissions": 1,
+  "automatic_retry": false,
+  "job_references": {
+    "remote_dir": "/scratch9/pr21vyci/runs/mode1_c5_package166_r3_c2_0_nonaccumulating_history",
+    "job_id": "UNSUBMITTED",
+    "live_status": "EXECUTION_READY",
+    "pbs_script": "submit_M1_C5_P166_R3_C2_0.pbs",
+    "batch_name": "MODE1_PACKAGE166_R3_M1_C5_P166_R3_C2_0"
+  },
+  "resource_limits": {
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime_hours": 8,
+    "queue": "entry_imfdfkmq",
+    "execution_architecture": "single-rank serial"
+  },
+  "acceptance": {
+    "acceptance_requires_original_files": true,
+    "raw_energy_discrepancy_pct_max": 2,
+    "true_post_phase_delta_d_max": 1e-05,
+    "signed_kkt_dual_kNmm_max": 1e-06,
+    "signed_kkt_free_kNmm_max": 1e-06,
+    "delta_u_mm_max": 1e-09,
+    "force_discrepancy_pct_max": 2,
+    "max_healing_tolerance": 1e-06,
+    "history": "H=max(immutable H0, psi+); zero history-monotonicity and thermodynamic violations under original tolerances",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "continuation_gate": "+5 nm continuation strictly withheld until authentic physical acceptance"
+  },
+  "decision_branches": [
+    "EXECUTION_AUTHORIZED: Package 166-R3 preflight passed; submit exactly one PBS job using scripts/hpc/Invoke-Mode1Execution.ps1",
+    "NO_BLIND_RETRY: No submission of Package 166 or R2; existing receipts 1419480 and 1419483 remain historical evidence",
+    "CONTINUATION_GATE: No +5 nm C5 continuation proposal until R3 achieves authentic physical convergence"
+  ],
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/PACKAGE_MANIFEST.json": "0E23B27408062D93DD0703B65415B3EDC7C68ABEC836F4BF1C242B75525A29CD",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/EXECUTION_MANIFEST.json": "2BA7069C4450A239AF67692C6D854B3F8EE143CFC98992C403DD9DE8BB328760",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/submit_M1_C5_P166_R3_C2_0.pbs": "BCE7CC17FD0AF2C42AE21CB67123E313FD869DA3872EFB7360BDD8548602240E",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/P166_MECHANICAL_DC.dat": "E59C282B3EDFD73516E03F89185F82D853EA8E3E666C14AFDEFCAA689CFAF192",
+    "models/pandey_kumar_mode1/166_c5_package166_r3_c2_0_nonaccumulating_history/P166_PHASE_DC.dat": "1BCEFD4EB05BCDC470D5AB3220B677BC8B8327D6D908AEEC54282CB3678319E1",
+    "tests/unit/test_package166_r3_full_qualification.py": "129C8ABD2B2EB254ECAFCAE5F16BB1DFBF4E4990D856096CDF103B1E0F0FB320",
+    "tests/unit/test_package166_r3_schema_repair.py": "8D8C2ABA91F0AEB059B94DD1CA62E6C65FF6A7F9E6651448D8215817A87106EB",
+    "tests/unit/test_package166_r3_schema_repair.ps1": "9E29019D275E810FE498143014262E16FC488F16DDF89400A07B674D24D5E718",
+    "results/validation/package166_authentic_terminal_audit.json": "410267AA3D4086E794CFC7A85D83266E02C4EB6E2C1CAA4F0D4618EC21AA91A8",
+    "results/validation/package166_independent_audit.json": "14968653A20EA3EAC3EE149DA57444C3E7C7B1BDCBF8DF2CA8A58DFEADEFEAA5"
+  },
+  "inherited_completed_operations": [
+    "mapped_frozen_history_lower_bound_kkt_probe",
+    "mapped_mechanical_history_call_order_probe",
+    "authentic_uel_history_call_trace",
+    "morning_scientific_audit_packages87_88",
+    "package89_state_transfer_submission",
+    "probe_mode1_f1597_r20_active_set_audit",
+    "evaluate_mode1_package148_state_transfer",
+    "evaluate_mode1_package148_state_transfer_r2",
+    "evaluate_mode1_package148_state_transfer_r3",
+    "evaluate_mode1_package148_state_transfer_r4",
+    "evaluate_mode1_package148_state_transfer_r5",
+    "evaluate_mode1_package148_state_transfer_r6",
+    "evaluate_mode1_package148_state_transfer_r7",
+    "evaluate_mode1_package148_state_transfer_r8",
+    "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+    "execute_mode1_package158_c2_0_r5_re_equilibration"
+  ],
+  "initial_instruction": "TASK: F1600-PACKAGE166-R3-EXECUTION\nOPERATION_ID: execute_mode1_package166_r3_c2_0_re_equilibration\nExecute qualified Stage C2-0 Package 166-R3 coupled re-equilibration on Candidate C5 mesh (12,996 quads, 13,278 nodes, 51,984 GPs). Deploy package directory to cluster scratch /scratch9/pr21vyci/runs/mode1_c5_package166_r3_c2_0_nonaccumulating_history and submit exactly ONE job via scripts/hpc/Invoke-Mode1Execution.ps1 under serial Mode-I limits (1 CPU, <=16 GB RAM, <=8 hours, queue entry_imfdfkmq). Verify real dual notifications, once-only submission protection, and record actual PBS job ID. Enforce convergence criteria: true post-phase delta_d <= 1e-5, delta_u <= 1e-9 mm, reaction force / energy drift <= 2%, zero healing and KKT violations. Do not resubmit Job 1419480 or Job 1419483. Withhold +5 nm continuation until authentic physical PASS. End with Finished."
+}
