@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "09c52c3d-f715-49b0-a064-47e296440737",
+    "task_id":  "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
+    "repository_commit":  "575bcae9540bb97a1b03c5a5aa26c789c387fe0b",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-11-03T11:26:02.0900843+01:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "EC25457C58D573BE6298FA7F42785F26216DDE4F3F98E8F0F26DC4866CA6B04A",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "17FA6703A468B1FC2827C29EAFFEB4BC9AD2EBDEA1B4FCB227DD0E561905F3CB",
+                            "project_coordination/ACTIVE_SESSION.json":  "E49CC1EAA469947BBAAA911294F8BD9918416D91521889E1D2250C88955F5054",
+                            "project_coordination/ACTIVE_TASK.json":  "09258B1CF246BB04D6CADE8CFD4083CA27FE246A9F760E8F1AC20F7032B8A1BE",
+                            "project_coordination/TASK_LEDGER.csv":  "58D55C1D19A1E17B9DB61A2666A42AA3667784A8413D05FCDAA66B640464A25E",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "0F1CC7E2801298F57C6B3FB05A06BA5ECB8E248E9F3BB430121009C300EFD835",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "60AACD2582C1A45BECACDA3B9F1813164DB913324BF17885C8EFC0A4E28DCC74",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "09258B1CF246BB04D6CADE8CFD4083CA27FE246A9F760E8F1AC20F7032B8A1BE",
+                          "project_coordination/CURRENT_STATE.md":  "17FA6703A468B1FC2827C29EAFFEB4BC9AD2EBDEA1B4FCB227DD0E561905F3CB",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "0F1CC7E2801298F57C6B3FB05A06BA5ECB8E248E9F3BB430121009C300EFD835",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "A45DB5E38AAA627D4D54DF7339560852794D78B5903C36754081DC838C043467"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-11-03_gemini-antigravity_F1597_09c52c3d-f715-49b0-a064-47e296440737.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-09c52c3d-f715-49b0-a064-47e296440737.json",
+                                  "sha256":  "955774187600782DE148E5C8019916CFBCC47FFF4D35E6C27B57FDD604FEBECA",
+                                  "created_at":  "2026-11-03T11:39:33.0790450+01:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Advance to F1602 qualified execution of Package 171-R2 on cluster"
+}
