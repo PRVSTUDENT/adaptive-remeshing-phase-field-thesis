@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "operation_id": "evaluate_mode1_package171_r1_c6_reconciled_evidence",
+  "task_id": "F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE",
+  "author": "codex",
+  "registration_status": "PROPOSED_FOR_INDEPENDENT_REVIEW",
+  "operation_mode": "READ_ONLY_SCIENTIFIC_EVALUATION",
+  "scientific_hypothesis": "Terminal C6 failed coupled convergence despite KKT compliance; original references and history gate require explicit reconciliation.",
+  "source_differences": "See package171_to_r1_manifest.diff.txt and parent_source_audit.json: original/R1 coupled driver hashes identical, runtime closure added mapping dependency. No executable changes in this review revision. Review-only successor replaces iteration23 telemetry, corrects donor references, and independently checks delta_h. Original package remains frozen.",
+  "evidence_sources": {
+    "results/validation/f1599_reconciled/acquisition.json": "30232649CDC2C2CB8BFCE4220E4E8C108B0FD668D08E159F0218C092BA1C71A8",
+    "results/validation/f1599_reconciled/driver_worktree_diff.txt": "F224E3D6F4B77A47103875259E158603FD5D7913979859B8740283D4351B22F2",
+    "results/validation/f1599_reconciled/original_review_hash_audit.json": "912878572C060211FD8FA75C6AA0AB34305F8E86E9FC38953EAB47D901B62EA4",
+    "results/validation/f1599_reconciled/package171_to_r1_manifest.diff.txt": "F3B3B9D3506DAFF44FC5C55315CADCEE4A42BDF8DD415758C2D417F052A827A2",
+    "results/validation/f1599_reconciled/parent_source_audit.json": "B6631CE2CD4FA19E033DED0E8012A6585EB15ECA6D1633D4CC49AD285318CE32",
+    "results/validation/f1599_reconciled/reference_and_convergence_audit.json": "72125C28AB249107B0A594819D8B41D5D2D6C8A3407F79277BF02C13A3927421",
+    "results/validation/f1599_reconciled/scheduler_terminal.json": "AE589837756C0D67389030DA89D8429E2DEE8EA9AE276DBFD5C7B2B019A93680",
+    "results/validation/f1599_reconciled/terminal_execution.txt": "1009FAB3F68A35C4EDD8930DEBDEE791493554F6CD007B38273F5CA5A1993E5E",
+    "results/validation/f1599_reconciled/terminal_iterations.json": "086C3334B40F1807AA66D9401A5663F0143E4068EFAC156F5C5BD013C36FE7B4",
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/c5_forward_continuation_c2_2_summary.json": "A2EAF0B4BF28969474E619F3B9768E4A144D6C2FD2F2DEDCD7ED742B4539C921",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/PACKAGE_MANIFEST.json": "CA79ECAEC1A9B9C275236EC8F5E29E27D2044AA948E172A15C182FF3B6D93341",
+    "scripts/state_transfer/driver_package171_c6_coupled_pdas.py": "F4D82958AD979DBD0871578608FF3531804B4F1A2E9FD5A34F2150DB3BCA1A2E",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/EXECUTION_MANIFEST.json": "535AB502B289E52F422454B842F2BE1A225639CD07ABDF9324C0FA938A63C8A1",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/EXECUTION_MANIFEST.json": "0DDC8769201D4CD885166011F507EF91E80A24FA84CE742DC3BD17FE119632AF",
+    "results/validation/f1599_reconciled/review_packet.json": "3B53CC6819278B6FC9932191C8BFE83D93102415FCC21BAA1885E37A6DBC6FAF"
+  },
+  "acceptance_criteria": {
+    "delta_d_max": 1e-05,
+    "delta_u_mm_max": 1e-09,
+    "delta_h_MPa_max": 0.0001,
+    "kkt_dual_kNmm_max": 1e-06,
+    "kkt_free_kNmm_max": 1e-06,
+    "damage_healing_tolerance": 1e-06,
+    "history_monotonicity_violations_max": 0,
+    "force_discrepancy_pct_max": 2.0,
+    "total_energy_discrepancy_pct_max": 2.0,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "authoritative_references": {
+    "donor_force_kN": 0.17992419004440308,
+    "donor_total_energy_kNmm": 0.00022639903
+  },
+  "donor_summary": "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/c5_forward_continuation_c2_2_summary.json",
+  "package_manifest": "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/PACKAGE_MANIFEST.json",
+  "driver_constants": {
+    "DONOR_REFERENCE_FORCE_KN": "0.17992419004440308",
+    "DONOR_REFERENCE_TOTAL_ENERGY_KNMM": "0.00022639903",
+    "DONOR_REFERENCE_ELASTIC_ENERGY_KNMM": "0.00016825724",
+    "DONOR_REFERENCE_FRACTURE_ENERGY_KNMM": "5.814179e-05"
+  },
+  "obsolete_definition_references": {
+    "donor_reference_force_kN": 0.185010025983796,
+    "force_discrepancy_gate_pct": 2.0,
+    "donor_reference_total_energy_kNmm": 0.00022233068945209,
+    "energy_discrepancy_gate_pct": 2.0
+  },
+  "obsolete_force_reference_error_pct": 2.826654902899839,
+  "obsolete_energy_reference_error_pct": 1.796977905740138,
+  "history_change_gate": {
+    "required": 0.0001,
+    "enforced_in_original_driver": false,
+    "evaluation_rule": "Independent postprocessing requires delta_h <= 1e-4; never infer from driver success"
+  },
+  "terminal_record": {
+    "step": 1,
+    "outer": 100,
+    "target_uy": 0.0018703125442191958,
+    "delta_d": 0.00716632604598999,
+    "delta_u": 4.507217090576887e-05,
+    "delta_h": 271.54271707358976,
+    "free_error": 3.573836381520622e-07,
+    "dual_error": 9.782413348184107e-10,
+    "pdas_active_count": 35,
+    "pdas_free_count": 15524,
+    "kkt_active_count": 27,
+    "kkt_free_count": 15532
+  },
+  "iterations": 100,
+  "physical_acceptance": "FAIL_COUPLED_NONCONVERGENCE",
+  "driver_changed": false,
+  "numerical_experiment_proposed": false
+}

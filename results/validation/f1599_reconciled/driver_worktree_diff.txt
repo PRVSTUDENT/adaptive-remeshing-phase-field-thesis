@@ -1,0 +1,20 @@
+--- HEAD/driver_package171_c6_coupled_pdas.py
++++ scripts/state_transfer/driver_package171_c6_coupled_pdas.py
+@@ -12,7 +12,7 @@
+ - Dual UEL layers: 15,252 phase U1 (DOF 3) + 15,252 mechanical U2 (DOF 1, 2).
+ - Transferred initial state from accepted Checkpoint 03 (Job 1419566.mmaster02) at target uy = 0.0018703125442191958 mm.
+ - Non-accumulating history formulation: H^(k) = max(H0, psi+(u^(k))).
+-- Hintermüller-Ito-Kunisch PDAS active-set update with c_pdas = 1000.0 (kN mm)^-1, eps_pdas = 1e-6.
++- HintermÃ¼ller-Ito-Kunisch PDAS active-set update with c_pdas = 1000.0 (kN mm)^-1, eps_pdas = 1e-6.
+ - Enforces damage irreversibility d >= d0 pointwise.
+ - Physical acceptance: reaction force drift <= 2%, total energy drift <= 2% vs Checkpoint 03.
+ """
+@@ -282,7 +282,7 @@
+             # 3. Evaluate KKT residuals with consistent tolerances under current history
+             kkt = solver.kkt(damage, tau_active=1e-6, tau_free=1e-6)
+ 
+-            # 4. Canonical Hintermüller-Ito-Kunisch active-set update:
++            # 4. Canonical HintermÃ¼ller-Ito-Kunisch active-set update:
+             c_pdas = 1.0e3    # (kN*mm)^-1
+             eps_pdas = 1.0e-6 # dimensionless
+             pdas_active = {

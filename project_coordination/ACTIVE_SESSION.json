@@ -1,21 +1,21 @@
 {
     "active":  false,
     "agent":  "codex",
-    "task_id":  "CONTROLLER-MAINTENANCE-F1599-REVIEW-INTAKE",
-    "starting_commit":  "751e91044cf22eea6e12c8f52233ae6f53d9e3b6",
-    "claimed_at":  "2026-11-03T08:44:21.0187718+01:00",
-    "last_updated":  "2026-11-03T08:45:20.0796429+01:00",
-    "last_released":  "2026-11-03T08:45:20.0796429+01:00",
+    "task_id":  "F1599-EVIDENCE-RECONCILIATION",
+    "starting_commit":  "70872920db46e464058bd93716c9558763974b22",
+    "claimed_at":  "2026-11-03T08:52:53.0431109+01:00",
+    "last_updated":  "2026-11-03T08:55:24.4530914+01:00",
+    "last_released":  "2026-11-03T08:55:24.4530914+01:00",
     "controller_run_id":  "ae8660dc-363a-4847-854c-93f9e08c0212",
-    "session_report":  "project_coordination/sessions/2026-11-03_codex_f1599_maintenance.md",
+    "session_report":  "project_coordination/sessions/2026-11-03_codex_f1599_evidence_reconciliation.md",
     "allowed_write_scope":  [
-                                "scripts/controller/review_dispatcher.py",
-                                "tests/unit/test_review_dispatcher.py",
                                 "project_coordination/ACTIVE_SESSION.json",
                                 "project_coordination/TASK_LEDGER.csv",
                                 "project_coordination/ARTIFACT_REGISTRY.csv",
-                                "project_coordination/sessions/2026-11-03_codex_f1599_maintenance.md",
+                                "project_coordination/sessions/2026-11-03_codex_f1599_evidence_reconciliation.md",
+                                "project_coordination/candidate_definitions/*reconciled*.json",
                                 "project_coordination/review_dispatch/*",
-                                "C:/Users/pruth/OpenClawPAD/*"
+                                "results/validation/f1599_reconciled/*",
+                                "scripts/validation/reconcile_f1599_evidence.py"
                             ]
 }

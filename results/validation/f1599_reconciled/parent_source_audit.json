@@ -1,0 +1,22 @@
+{
+  "parent": "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/EXECUTION_MANIFEST.json",
+  "revision": "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/EXECUTION_MANIFEST.json",
+  "driver_sha256": "F4D82958AD979DBD0871578608FF3531804B4F1A2E9FD5A34F2150DB3BCA1A2E",
+  "driver_changed": false,
+  "added_runtime_sources": {
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8"
+  },
+  "changed_runtime_sources": {},
+  "actual_coupled_checks": [
+    "delta_d <= 1e-5",
+    "delta_u <= 1e-9",
+    "kkt passed"
+  ],
+  "required_independent_checks": [
+    "delta_h <= 1e-4 MPa",
+    "irreversibility",
+    "history monotonicity",
+    "force and energy continuity <=2%"
+  ],
+  "independent_convergence_pass": false
+}
