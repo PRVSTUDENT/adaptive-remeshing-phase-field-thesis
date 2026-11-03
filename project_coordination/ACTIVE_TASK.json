@@ -2,7 +2,7 @@
     "task_id":  "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
     "agent":  "gemini-antigravity",
     "status":  "READY_READ_ONLY_EVALUATION",
-    "phase":  "Package 171-R3 under-relaxation candidate prepared and dispatched to automated independent review bridge (correlation ID HND-F1602-R3-REVIEW-FD31DC83, fingerprint FD31DC83BD252879EB2120AEA38C8D247102037131100CD18B70C1439106D313). Signed Ed25519 receipt returned REJECT: acknowledged resolution of post-update KKT check, physical healing check in physical_pass, and scientific hypothesis framing, but identified that max_consistency_delta_u was computed without being tested against \u003c= 1e-9 mm or included in physical_pass, and final history consistency was not checked against delta_H \u003c= 1e-4 MPa before checkpoint serialization. HPC execution remains blocked pending driver-level failure-path regression tests and corrected candidate re-review.",
+    "phase":  "Package 171-R4 candidate prepared, verified, and evaluated by automated independent review bridge (correlation ID HND-F1602-R4-REVIEW-BEA4445A, fingerprint BEA4445A4F13F11F26CAD5454812659D7E19AD6876F4029F135956433A0BDAF3). Signed Ed25519 receipt returned REJECT: acknowledged explicit enforcement of final displacement (\u003c= 1e-9 mm) and history (\u003c= 1e-4 MPa) consistency, post-update KKT compliance (\u003c= 1e-6), and physical checkpoint gating with meaningful failure-path tests, but identified regressions in the full driver outside the acceptance method: (1) load() populated all 4 GP history values from r[1] instead of r[4+g]; (2) _deck() unpacked split_keyword_blocks as tuples instead of string blocks; (3) _deck() emitted solution records under initial conditions instead of element solution formatting; (4) runner() invoked extractor with --role rather than required CLI flags. HPC execution remains blocked pending full driver contract reconciliation and independent re-review of a corrected candidate.",
     "gate_status":  "REGISTERED_SUCCESSOR__NUMERICAL_EXECUTION_NOT_QUALIFIED",
     "predecessor_task":  {
                              "run_id":  "ae8660dc-363a-4847-854c-93f9e08c0212",
@@ -284,14 +284,14 @@
                                },
     "scientific_acceptance":  "NOT_YET_EVALUATED",
     "last_step_status":  "PREPARATION_COMPLETE",
-    "last_updated":  "2026-11-03T12:26:22.7804250+01:00",
-    "next_safe_action":  "Enforce max_consistency_delta_u \u003c= 1e-9 mm and final delta_H \u003c= 1e-4 MPa in physical_pass, add driver failure tests, and prepare corrected candidate for independent review",
+    "last_updated":  "2026-11-03T12:44:54.3624260+01:00",
+    "next_safe_action":  "Reconcile driver_package171_r4_c6_coupled_pdas.py with verified R3 I/O, deck construction, and extractor contracts while preserving R4 acceptance logic; add integration tests for GP history loading, deck formatting, and extractor CLI; prepare and submit corrected candidate for independent re-review.",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-081fe140-34e9-4b40-bbdc-6e49b409cf08.json",
-                                  "sha256":  "CB1287ACAFDBB7D419D47A6BC1D121364DDE87364E560123468355E75B0D9AF6",
-                                  "created_at":  "2026-11-03T12:25:57.4670887+01:00"
+                                  "artifact":  "results/validation/preparation-e35821db-ba80-42bf-9aab-0c39ff89cab6.json",
+                                  "sha256":  "E63B384B0CFEDEE5486B42CC7929B399CF9B9928E4CCEB6F489C498D06CA3870",
+                                  "created_at":  "2026-11-03T12:44:45.0031525+01:00"
                               }
 }

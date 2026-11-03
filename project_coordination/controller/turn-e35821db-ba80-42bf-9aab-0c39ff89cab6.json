@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "e35821db-ba80-42bf-9aab-0c39ff89cab6",
+    "task_id":  "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
+    "repository_commit":  "b950b67980365bbfe3edb91be14ce5613b74bf26",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-11-03T12:29:52.4206166+01:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "EC25457C58D573BE6298FA7F42785F26216DDE4F3F98E8F0F26DC4866CA6B04A",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "6DCA1CF57819614EC6D46010113DA1FA3DA37BF4EB4F302BB289DF51804DEBD4",
+                            "project_coordination/ACTIVE_SESSION.json":  "DB859005F91D5AF555D8CF0D846CED71A2C5EBDA1FF4931A905EB0D4F9F234F7",
+                            "project_coordination/ACTIVE_TASK.json":  "4E2C73E845542CB422E661CA79DEE17AB33236C8518CA3B44609C8EDC0A35723",
+                            "project_coordination/TASK_LEDGER.csv":  "71F8BFA485FB2DBC44F72A5CE57EAABE58774D756415F9AAFD2A8789B509AF1D",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "0F1CC7E2801298F57C6B3FB05A06BA5ECB8E248E9F3BB430121009C300EFD835",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "7DD6B41086F64C49D87FB9D484C8ED7A2AA5D1C5D926677EA22BB8CAF5A24D8E",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "4E2C73E845542CB422E661CA79DEE17AB33236C8518CA3B44609C8EDC0A35723",
+                          "project_coordination/CURRENT_STATE.md":  "6DCA1CF57819614EC6D46010113DA1FA3DA37BF4EB4F302BB289DF51804DEBD4",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "0F1CC7E2801298F57C6B3FB05A06BA5ECB8E248E9F3BB430121009C300EFD835",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "A45DB5E38AAA627D4D54DF7339560852794D78B5903C36754081DC838C043467"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-11-03_gemini-antigravity_F1597_e35821db-ba80-42bf-9aab-0c39ff89cab6.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-e35821db-ba80-42bf-9aab-0c39ff89cab6.json",
+                                  "sha256":  "E63B384B0CFEDEE5486B42CC7929B399CF9B9928E4CCEB6F489C498D06CA3870",
+                                  "created_at":  "2026-11-03T12:44:45.0031525+01:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Reconcile driver_package171_r4_c6_coupled_pdas.py with verified R3 I/O, deck construction, and extractor contracts while preserving R4 acceptance logic; add integration tests for GP history loading, deck formatting, and extractor CLI; prepare and submit corrected candidate for independent re-review."
+}
