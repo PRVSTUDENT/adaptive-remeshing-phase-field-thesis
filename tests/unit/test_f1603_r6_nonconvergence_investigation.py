@@ -100,21 +100,26 @@ def test_f1603_active_task_json_binding():
     with open(task_path, "r", encoding="utf-8") as f:
         task = json.load(f)
 
-    assert task.get("task_id") == "F1603-MODE1-C6-R6-NONCONVERGENCE-INVESTIGATION"
-    assert task.get("status") == "READY_READ_ONLY_EVALUATION"
-    assert task.get("max_new_pbs_submissions") == 0
-    assert task.get("scientific_checkpoint_required") is True
-    assert task.get("scientific_operation_id") == "research_preparation"
-    assert task.get("scientific_operation") == ""
+    # Validates either active F1603 or successor F1604 preserving F1603 predecessor
+    if task.get("task_id") == "F1603-MODE1-C6-R6-NONCONVERGENCE-INVESTIGATION":
+        assert task.get("status") == "READY_READ_ONLY_EVALUATION"
+        assert task.get("max_new_pbs_submissions") == 0
+        assert task.get("scientific_checkpoint_required") is True
+        assert task.get("scientific_operation_id") == "research_preparation"
+        assert task.get("scientific_operation") == ""
 
-    reg = task.get("registration", {})
-    assert reg.get("definition") == "project_coordination/task_definitions/F1603-MODE1-C6-R6-NONCONVERGENCE-INVESTIGATION.json"
-    assert reg.get("schema") == 1
+        reg = task.get("registration", {})
+        assert reg.get("definition") == "project_coordination/task_definitions/F1603-MODE1-C6-R6-NONCONVERGENCE-INVESTIGATION.json"
+        assert reg.get("schema") == 1
 
-    def_path = WORKSPACE / reg["definition"]
-    with open(def_path, "rb") as f:
-        expected_def_hash = hashlib.sha256(f.read()).hexdigest().upper()
-    assert reg.get("sha256") == expected_def_hash
+        def_path = WORKSPACE / reg["definition"]
+        with open(def_path, "rb") as f:
+            expected_def_hash = hashlib.sha256(f.read()).hexdigest().upper()
+        assert reg.get("sha256") == expected_def_hash
+    else:
+        assert task.get("task_id") == "F1604-PACKAGE171-R7-C6-ADAPTIVE-PREPARATION"
+        assert task.get("predecessor_task", {}).get("task_id") == "F1603-MODE1-C6-R6-NONCONVERGENCE-INVESTIGATION"
+        assert task.get("preserved_predecessor", {}).get("task_id") == "F1603-MODE1-C6-R6-NONCONVERGENCE-INVESTIGATION"
 
 
 def test_f1603_task_ledger_linkage_and_uniqueness():
@@ -124,9 +129,8 @@ def test_f1603_task_ledger_linkage_and_uniqueness():
         rows = list(reader)
 
     f1603_rows = [r for r in rows if r["task_id"] == "F1603-MODE1-C6-R6-NONCONVERGENCE-INVESTIGATION"]
-    assert len(f1603_rows) == 1, f"Expected exactly 1 open row for F1603, found {len(f1603_rows)}"
-    assert f1603_rows[0]["status"] == "ready"
-    assert f1603_rows[0]["classification"] == "REGISTERED_NOT_EXECUTED"
+    assert len(f1603_rows) == 1, f"Expected exactly 1 parent row for F1603, found {len(f1603_rows)}"
+    assert f1603_rows[0]["status"] in ("ready", "completed")
 
     f1601_rows = [r for r in rows if r["task_id"] == "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION" and r["status"].lower() == "completed"]
     assert len(f1601_rows) >= 1

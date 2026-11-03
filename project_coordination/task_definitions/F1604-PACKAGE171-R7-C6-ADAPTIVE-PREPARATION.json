@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "task_id": "F1604-PACKAGE171-R7-C6-ADAPTIVE-PREPARATION",
+  "title": "Preparation, independent review intake, and technical qualification for Candidate M1_C6_P171_R7_ADAPTIVE_DAMPED",
+  "predecessor": {
+    "run_id": "01d7cf07-37de-473d-86eb-5fff96e01e31",
+    "status": "COMPLETED",
+    "task_id": "F1603-MODE1-C6-R6-NONCONVERGENCE-INVESTIGATION",
+    "source_commit": "9261070a72c1c69996d997f74ea778844ebbf3fa",
+    "checkpoint_sha256": "AF5C19F444B1BCFDFE1B28E242CD12FCB6714D04BD02AC979BC0DFF14E909C8B"
+  },
+  "operation": {
+    "checkpoint_kind": "PREPARATION_CHECKPOINT",
+    "id": "research_preparation",
+    "mode": "READ_ONLY_SCIENTIFIC_EVALUATION",
+    "registration": "Preparation, independent review intake, and technical qualification for Candidate M1_C6_P171_R7_ADAPTIVE_DAMPED; no numerical execution qualified"
+  },
+  "max_new_pbs_submissions": 0,
+  "automatic_retry": false,
+  "job_references": {
+    "predecessor_job_id": "1419807.mmaster02",
+    "predecessor_status": "TERMINAL_FAILED_COUPLED_NONCONVERGENCE",
+    "remote_dir": "/scratch9/pr21vyci/runs/mode1_c6_package171_r6_c3_0_reequilibration",
+    "target_package": "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration",
+    "candidate_job": "M1_C6_P171_R7_ADAPTIVE_DAMPED",
+    "scientific_scope": "Independent review intake, technical qualification, and driver implementation for Candidate M1_C6_P171_R7_ADAPTIVE_DAMPED (two-phase safeguarded relaxation, active-set membership telemetry, 5% residual growth rollback safeguard); zero PBS submissions until fully qualified"
+  },
+  "acceptance": {
+    "acceptance_requires_original_files": true,
+    "delta_d_max": 1e-05,
+    "delta_u_mm_max": 1e-09,
+    "delta_h_MPa_max": 0.0001,
+    "signed_kkt_dual_kNmm_max": 1e-06,
+    "signed_kkt_free_kNmm_max": 1e-06,
+    "max_healing_tolerance": 1e-06,
+    "history_monotonicity_violations_max": 0,
+    "force_discrepancy_pct_max": 2.0,
+    "total_energy_discrepancy_pct_max": 2.0,
+    "donor_reference_force_kN": 0.17992419004440308,
+    "donor_reference_total_energy_kNmm": 0.00022639903,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "decision_branches": [
+    "REVIEW_INTAKE_AND_QUALIFICATION: intake independent review response for Candidate M1_C6_P171_R7_ADAPTIVE_DAMPED; verify driver implementation contracts before qualification",
+    "NO_UNQUALIFIED_DISPATCH: no PBS submissions authorized until driver is technically qualified and real Abaqus datachecks pass Exit 0",
+    "NO_C6_CHECKPOINT: no unverified C6 state can be promoted to an accepted checkpoint"
+  ],
+  "evidence_sources": {
+    "results/validation/preparation-01d7cf07-37de-473d-86eb-5fff96e01e31.json": "AF5C19F444B1BCFDFE1B28E242CD12FCB6714D04BD02AC979BC0DFF14E909C8B",
+    "results/validation/r7_adaptive_relaxation_specification.json": "C02F9CB071574D1425285E5E318EBA79B71B65D31528257DADE96549E3733EA3",
+    "results/validation/r7_adaptive_damping_evaluation.json": "BD8EB291A1726AE601FA9EFFDF92DCEFE121396663E1ECDB8A147BFA7FDAD725",
+    "scripts/validation/evaluate_r7_adaptive_damping_candidate.py": "94873C412D385227A2FD76B2125F8EBC5F184DAEEE08128F0C9C1B8D0A5A7445",
+    "project_coordination/candidate_definitions/execute_mode1_package171_r7_c6_coupled_reequilibration.json": "D3C38263FC4026AC1ACB752CD4FB7B8C3C59B9B1466721BD29B7B87B8A8CBFE3",
+    "results/validation/f1603_c6_r6_numerical_diagnosis.json": "65634B3EEF26C9EAE10B66B75BD89DBB8A1C32CE2E830A59B180D9FF04D32A6D",
+    "results/validation/r6_active_set_contraction_analysis.json": "C4AF27247EF856C857D6BA6494B98C3A62A927822B71E3963B9A4CD63BB54BC7"
+  },
+  "inherited_completed_operations": [
+    "mapped_frozen_history_lower_bound_kkt_probe",
+    "mapped_mechanical_history_call_order_probe",
+    "authentic_uel_history_call_trace",
+    "morning_scientific_audit_packages87_88",
+    "package89_state_transfer_submission",
+    "probe_mode1_f1597_r20_active_set_audit",
+    "evaluate_mode1_package148_state_transfer",
+    "evaluate_mode1_package148_state_transfer_r2",
+    "evaluate_mode1_package148_state_transfer_r3",
+    "evaluate_mode1_package148_state_transfer_r4",
+    "evaluate_mode1_package148_state_transfer_r5",
+    "evaluate_mode1_package148_state_transfer_r6",
+    "evaluate_mode1_package148_state_transfer_r7",
+    "evaluate_mode1_package148_state_transfer_r8",
+    "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+    "execute_mode1_package158_c2_0_r5_re_equilibration"
+  ],
+  "initial_instruction": "TASK: F1604-PACKAGE171-R7-C6-ADAPTIVE-PREPARATION\nOPERATION_ID: research_preparation\nIntake independent review response, verify driver implementation contracts with node-resolved active-set membership telemetry, run focused unit tests and real Abaqus datachecks for Candidate M1_C6_P171_R7_ADAPTIVE_DAMPED. No PBS submissions until technical qualification is complete.",
+  "scientific_acceptance": "NOT_YET_EVALUATED",
+  "registration_authority": "Explicit lifecycle transition on 2026-11-03 closing F1603 numerical diagnosis and registering candidate M1_C6_P171_R7_ADAPTIVE_DAMPED for independent review"
+}
