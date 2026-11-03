@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "task_id": "F1604-PACKAGE171-R7-C6-ADAPTIVE-PREPARATION",
+  "run_id": "15fbf6cd-f1ee-4a4c-bc58-f657e7b19191",
+  "title": "Package 171-R7 Independent Review Approval and Technical Qualification",
+  "finding": "Candidate M1_C6_P171_R7_ADAPTIVE_DAMPED independent scientific review successfully completed under canonical review dispatcher mechanism (request fingerprint: 3F62E95084FC05AEB1101C3E5081DFB8FB0EA7B43F8823A54831C2A5A5463822, correlation ID: HND-F1604-R7-REVIEW-3F62E950). Verified cryptographic Ed25519 attestation signature: zAMXtB4Vj1M2FrfZ3LC1PeKsy0r70Udz7tt3LTFgSEQdPV3vV9Cv+ODwJZd7tQVqXzLsBNqj62Zze4s4If2JCg==. Independent review decision: APPROVE. Technical qualification confirmed: distinct R7 driver driver_package171_r7_c6_coupled_pdas.py (SHA-256 3CC41F517217BDCA2FC2474AA7D8000919ACD4480085D7534E6F29DE40C52E29), distinct authorization manifest M1_C6_PACKAGE171_R7_AUTHORIZATION.json (SHA-256 9000A9E4CD9CD2EB3B93C35F0EC0B9FF0744FA09A1E1E82D90B26235F78BE185), frozen UEL f42_mixed_uel.for (SHA-256 CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6), Abaqus 2023 mechanical and phase datachecks passed Exit 0, 22/22 unit regression tests passed (100%), and live technical preflight verified (TECHNICAL_PREFLIGHT_PASS). F1604 read-only preparation scope successfully completed with zero PBS submissions.",
+  "evidence_sources": {
+    "results/validation/package171_r7_technical_qualification_receipt.json": "681E648E586F3631501A90F3D1453F1285FC38601E5EA218CF9A6D1D7BBB4BBF",
+    "results/validation/package171_r7_unit_test_receipt.json": "91AFCC42FADB0B59E352113BF53A27474E2060FCBC08875A4F7C5EE1F7B5DBFC",
+    "scripts/state_transfer/driver_package171_r7_c6_coupled_pdas.py": "3CC41F517217BDCA2FC2474AA7D8000919ACD4480085D7534E6F29DE40C52E29",
+    "results/validation/r7_adaptive_relaxation_specification.json": "C02F9CB071574D1425285E5E318EBA79B71B65D31528257DADE96549E3733EA3",
+    "results/validation/r7_adaptive_damping_evaluation.json": "BD8EB291A1726AE601FA9EFFDF92DCEFE121396663E1ECDB8A147BFA7FDAD725",
+    "scripts/validation/evaluate_r7_adaptive_damping_candidate.py": "94873C412D385227A2FD76B2125F8EBC5F184DAEEE08128F0C9C1B8D0A5A7445",
+    "results/validation/f1603_c6_r6_numerical_diagnosis.json": "65634B3EEF26C9EAE10B66B75BD89DBB8A1C32CE2E830A59B180D9FF04D32A6D",
+    "results/validation/r6_active_set_contraction_analysis.json": "C4AF27247EF856C857D6BA6494B98C3A62A927822B71E3963B9A4CD63BB54BC7",
+    "project_coordination/candidate_definitions/execute_mode1_package171_r7_c6_coupled_reequilibration.json": "E1232C384596633F61CD2A9B0C8EC74B20BCA3EF688ED1E4A6147E24DDB8D451",
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/M1_C6_PACKAGE171_R7_AUTHORIZATION.json": "9000A9E4CD9CD2EB3B93C35F0EC0B9FF0744FA09A1E1E82D90B26235F78BE185",
+    "project_coordination/review_dispatch/execute_mode1_package171_r7_c6_coupled_reequilibration-3F62E95084FC05AEB1101C3E5081DFB8FB0EA7B43F8823A54831C2A5A5463822.request.response.json": "A9A321B0BE8FA08B9B79B51EBDD79308FCE3D8FFB0EC55581561066D6069E668"
+  },
+  "registered_paths": [
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/PACKAGE_MANIFEST.json",
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/M1_C6_PACKAGE171_R7_AUTHORIZATION.json",
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/EXECUTION_MANIFEST.json",
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/submit_M1_C6_P171_R7_C3_0.pbs",
+    "results/validation/package171_r7_technical_qualification_receipt.json",
+    "project_coordination/review_dispatch/execute_mode1_package171_r7_c6_coupled_reequilibration-3F62E95084FC05AEB1101C3E5081DFB8FB0EA7B43F8823A54831C2A5A5463822.request.response.json"
+  ],
+  "verification_passed": true,
+  "execution_budget": {
+    "max_outer_iterations": 100,
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime_hours": 8,
+    "queue": "entry_imfdfkmq",
+    "execution_mode": "single-rank serial"
+  },
+  "next_operation": "execute_mode1_package171_r7_c6_coupled_reequilibration",
+  "next_safe_action": "Register and dispatch execution-authorized successor task F1605-PACKAGE171-R7-C6-ADAPTIVE-REEQUILIBRATION for 1 qualified PBS submission"
+}
