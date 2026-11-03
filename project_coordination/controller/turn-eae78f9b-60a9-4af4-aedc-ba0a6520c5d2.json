@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "eae78f9b-60a9-4af4-aedc-ba0a6520c5d2",
+    "task_id":  "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
+    "repository_commit":  "09d433ac6b6d5006e7e0e7a0687d4dbcc605eac7",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-11-03T11:44:16.4661851+01:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "EC25457C58D573BE6298FA7F42785F26216DDE4F3F98E8F0F26DC4866CA6B04A",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "17FA6703A468B1FC2827C29EAFFEB4BC9AD2EBDEA1B4FCB227DD0E561905F3CB",
+                            "project_coordination/ACTIVE_SESSION.json":  "15636ECFBEA5243EC5EB28CF8830E3C830D6972D31F643A6A84CF7CAD3227AD1",
+                            "project_coordination/ACTIVE_TASK.json":  "8B40947B1AA7985FB20DAFB10BD9650ECC64A003BD59F6C95E95ECB2E1B63B1B",
+                            "project_coordination/TASK_LEDGER.csv":  "986753B901BE7FA6A8339A0BBF02C3DB9C3909E557E39699DAD33E56541F6FED",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "0F1CC7E2801298F57C6B3FB05A06BA5ECB8E248E9F3BB430121009C300EFD835",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "32A577F732872104E40DA036CDB8F4D305E01F0EF7E7AA8E5A135DD194C64C87",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "8B40947B1AA7985FB20DAFB10BD9650ECC64A003BD59F6C95E95ECB2E1B63B1B",
+                          "project_coordination/CURRENT_STATE.md":  "17FA6703A468B1FC2827C29EAFFEB4BC9AD2EBDEA1B4FCB227DD0E561905F3CB",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "0F1CC7E2801298F57C6B3FB05A06BA5ECB8E248E9F3BB430121009C300EFD835",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "A45DB5E38AAA627D4D54DF7339560852794D78B5903C36754081DC838C043467"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-11-03_gemini-antigravity_F1597_eae78f9b-60a9-4af4-aedc-ba0a6520c5d2.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-eae78f9b-60a9-4af4-aedc-ba0a6520c5d2.json",
+                                  "sha256":  "80E3ADB1E03CFE147B85D1F4BFBBDA7FFCF6C0C2567B612D94F8CF5F793DA00E",
+                                  "created_at":  "2026-11-03T12:00:09.1949271+01:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Repair driver KKT stationarity evaluation on final relaxed state and gate checkpoint on physical healing before resubmission"
+}

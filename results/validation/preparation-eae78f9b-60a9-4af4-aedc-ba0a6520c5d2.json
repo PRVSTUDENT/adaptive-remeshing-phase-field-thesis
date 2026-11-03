@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "task_id": "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
+  "status": "PREPARATION_COMPLETE",
+  "finding": "Package 171-R2 under-relaxation candidate dispatched to external independent review bridge (correlation ID HND-F1602-R2-REVIEW-197845D6, fingerprint 197845D6712D4C0598D94823A59E858603D9E022628FB1015E6C4E3B1DCED18F). Signed Ed25519 review receipt returned REJECT due to 3 defects: (1) Stale KKT stationarity evaluated before relaxed damage update; (2) Checkpoint serialization committed without physical healing check; (3) Unmeasured spectral radius claims. Immediate R2 PBS submission is strictly rejected; driver repair and corrected R3 candidate required.",
+  "operation": "research_preparation",
+  "title": "Turn 4: Package 171-R2 External Review Dispatched & Evaluated (REJECT: KKT/Checkpoint Defects Identified)",
+  "classification": "RESEARCH_PREPARATION_VERIFIED",
+  "next_operation": "Repair driver KKT stationarity evaluation on final relaxed state and gate checkpoint on physical healing before resubmission",
+  "evidence_sources": {
+    "project_coordination/candidate_definitions/execute_mode1_package171_r2_c6_coupled_reequilibration.json": "F42A694421F27D2BBCDCC01D46F282457F0D2ED9C9A8CA00077AA5073AD0CD1D",
+    "project_coordination/review_dispatch/execute_mode1_package171_r2_c6_coupled_reequilibration-197845D6712D4C0598D94823A59E858603D9E022628FB1015E6C4E3B1DCED18F.request.json": "D5DD0A1FFA166D69B50D75AE34D182A284B40F8CFECB9FF88631C8C6AB337D66",
+    "project_coordination/review_dispatch/execute_mode1_package171_r2_c6_coupled_reequilibration-197845D6712D4C0598D94823A59E858603D9E022628FB1015E6C4E3B1DCED18F.response.json": "7320969AD551C5708F4116FE55B8B59C8AEACD51EA0FF4A9C67083D274DFD523",
+    "results/validation/c6_r2_falsifiable_damping_hypothesis_offline_evaluation.json": "5373A8881D408471A5B71D66F3251E6762C8530C3CF6A1E04789F13112D82115",
+    "results/validation/c6_r2_coupled_limit_cycle_diagnosis.json": "04133B2E9B67A8F72310DE792DB510AFC0D317C9486CB48D733D8C8A2BAFE3C1",
+    "results/validation/c6_r2_under_relaxation_viability_analysis.json": "419382A81AE04B08B407DFD7A7FE7B9B082A7FEB517CA25DC1263DBF914905E7",
+    "tests/unit/test_package171_r2_damping_offline_qualification.py": "DC58B49F08E2C67571B0170F6950DB388CCFD489FF0544C3F2D5B61695E5179A",
+    "tests/unit/test_package171_r2_c6_coupled_driver_readiness.py": "9D9E731C3C2709550BD56053DD7510AC548869A9C2C4D2E1B5804BE7A793D532",
+    "scripts/state_transfer/driver_package171_r2_c6_coupled_pdas.py": "4AE8098BB2DA2852519187A3F77F6F49D5F815174605B741957E747B89917A6C",
+    "models/pandey_kumar_mode1/171_c6_package171_r2_c3_0_reequilibration/PACKAGE_MANIFEST.json": "3C36F84E2193D25AB6522DA18E7B7BD0E3734F8D2063247332D6352AD872D19D",
+    "models/pandey_kumar_mode1/171_c6_package171_r2_c3_0_reequilibration/M1_C6_PACKAGE171_R2_AUTHORIZATION.json": "895114474E3ADCADA515F88B0AFF4FCBB8915045347AC5436DF0EEA7BBF9F26F",
+    "models/pandey_kumar_mode1/171_c6_package171_r2_c3_0_reequilibration/EXECUTION_MANIFEST.json": "446A303FAC87FC63D7EA3D767809F666EE0DBC91AEB8A415D793A17D4F5EA7FA",
+    "models/pandey_kumar_mode1/171_c6_package171_r2_c3_0_reequilibration/submit_M1_C6_P171_R2_C3_0.pbs": "A1547A7523043365EE316BBC78D08CDEFE7EA6891BE284FFAD3D14B601B98EC7"
+  },
+  "review_dispatch": {
+    "operation_id": "execute_mode1_package171_r2_c6_coupled_reequilibration",
+    "correlation_id": "HND-F1602-R2-REVIEW-197845D6",
+    "fingerprint": "197845D6712D4C0598D94823A59E858603D9E022628FB1015E6C4E3B1DCED18F",
+    "status": "REJECTED",
+    "decision": "REJECT",
+    "reviewer": "ChatGPT-independent-review",
+    "signature": "dZmq8ziIpzQFm/xNjPMAMEysQtgQ8ts6LUhk9rfGN5e4SZT7GRVHPzhBGJctxfFGdJTZB8WJJqz1G6L0VaDfDg==",
+    "rationale": "Stale KKT computed before relaxed damage update; checkpoint serialization commits without physical healing verification; unmeasured spectral radius claims must be testable predictions. Correct final-state KKT and checkpoint-acceptance logic before HPC qualification."
+  },
+  "verification_passed": true
+}
