@@ -1,0 +1,40 @@
+{
+    "schema": 1,
+    "controller_run_id": "6eaefbae-d621-414d-b481-43a5bc689a3d",
+    "task_id": "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
+    "repository_commit": "dbfdf325e2b5923dbfbc2b11076c47fce14689e6",
+    "bootstrap_status": "COMPLETE",
+    "operation_id": "research_preparation",
+    "operation_path": "",
+    "task_type": "RESEARCH_PREPARATION",
+    "bootstrap_completed_at": "2026-11-03T17:27:19.4098577+01:00",
+    "ordered_sources": {
+        "AGENTS.md": "EC25457C58D573BE6298FA7F42785F26216DDE4F3F98E8F0F26DC4866CA6B04A",
+        "project_coordination/START_HERE.md": "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+        "project_coordination/CURRENT_STATE.md": "BE54F47CB4067BC0213A794C1263A2E9D29C72B732C866FE1881C048C28BAB2D",
+        "project_coordination/ACTIVE_SESSION.json": "21D5FF73527FFA1FE53CC4B03B1D491A6AE0EF98F7141D3AB6D68FDF2F98E311",
+        "project_coordination/ACTIVE_TASK.json": "ED897D7F5A88C0D5A61721CBC74F38931897A3842E691E3ADFE551643D2DF035",
+        "project_coordination/TASK_LEDGER.csv": "5EFA9C6676EC185184BEF4887274E7695466E21DB14F3367EE7CFB5FFA6F8D78",
+        "project_coordination/HPC_JOB_LEDGER.csv": "DF4BA7D8738059D6CA74D04B1DE0FC34EE34D213B3304820B4A55D036F3BB2E3",
+        "project_coordination/ARTIFACT_REGISTRY.csv": "6066C596836DF08BE581E62636BC5ACA8F48538FE5BB0A482740EB1CA1DAFF4C",
+        "docs/project/PROJECT_PHASE_CHECKLIST.md": "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+    },
+    "basis_sources": {
+        "project_coordination/ACTIVE_TASK.json": "ED897D7F5A88C0D5A61721CBC74F38931897A3842E691E3ADFE551643D2DF035",
+        "project_coordination/CURRENT_STATE.md": "BE54F47CB4067BC0213A794C1263A2E9D29C72B732C866FE1881C048C28BAB2D",
+        "project_coordination/HPC_JOB_LEDGER.csv": "DF4BA7D8738059D6CA74D04B1DE0FC34EE34D213B3304820B4A55D036F3BB2E3",
+        "project_coordination/MODE1_EXECUTION_LEDGER.json": "2546CC3FEA63F4EA7217A680951F8B242491C2751801C4FABFEDEBB0B092CA3C"
+    },
+    "repeat_count": 0,
+    "session_report": "project_coordination/sessions/2026-11-03_gemini-antigravity_F1597_6eaefbae-d621-414d-b481-43a5bc689a3d.md",
+    "scientific_checkpoint": {
+        "kind": "PREPARATION_CHECKPOINT",
+        "operation": "research_preparation",
+        "exit_code": 0,
+        "artifact": "results/validation/preparation-6eaefbae-d621-414d-b481-43a5bc689a3d.json",
+        "sha256": "8A4514ACCC61CDCB2E978B8A381CF34A7919C9F58E7B280C980C15BA907D8F3B",
+        "created_at": "2026-11-03T17:41:39.9732369+01:00"
+    },
+    "stage": "COMPLETE",
+    "next_action": "Formulate revised C6 re-equilibration numerical strategy addressing fine-mesh damage redistribution and active-set non-convergence."
+}

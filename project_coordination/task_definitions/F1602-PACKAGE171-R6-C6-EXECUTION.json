@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "task_id": "F1602-PACKAGE171-R6-C6-EXECUTION",
+  "title": "Mode-I C6 Stage C3-0 Package 171-R6 Coupled PDAS Re-Equilibration Execution with Fail-Closed Phase Decoding (omega_d = 0.5)",
+  "predecessor": {
+    "run_id": "158e8df8-db39-4d5e-8033-0f22b618fbf4",
+    "status": "COMPLETED",
+    "task_id": "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
+    "checkpoint_artifact": "results/validation/preparation-158e8df8-db39-4d5e-8033-0f22b618fbf4.json"
+  },
+  "operation": {
+    "checkpoint_kind": "HPC_SUBMISSION",
+    "id": "execute_mode1_package171_r6_c6_coupled_reequilibration",
+    "mode": "QUALIFIED_EXECUTION",
+    "registration": "Package 171-R6 C6 Coupled PDAS Re-Equilibration with Fail-Closed Phase Decoding and Damage Under-Relaxation (omega_d = 0.5); authorized for 1 PBS submission",
+    "manifest": "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/M1_C6_PACKAGE171_R6_AUTHORIZATION.json"
+  },
+  "max_new_pbs_submissions": 1,
+  "automatic_retry": false,
+  "job_references": {
+    "predecessor_job_id": "1419643.mmaster02",
+    "predecessor_status": "FAILED_COUPLED_NONCONVERGENCE_OUTER100",
+    "submitted_job_id": "1419807.mmaster02",
+    "remote_dir": "/scratch9/pr21vyci/runs/mode1_c6_package171_r6_c3_0_reequilibration",
+    "target_package": "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration",
+    "scientific_scope": "Stage C3-0 authentic coupled PDAS re-equilibration on C6 mesh (15,252 quads) at target_uy = 0.0018703125 mm with fail-closed phase decoding, convex damage under-relaxation (omega_d = 0.5), non-accumulating history, and <=2% force/energy continuity"
+  },
+  "acceptance": {
+    "acceptance_requires_original_files": true,
+    "delta_d_max": 1e-05,
+    "delta_u_mm_max": 1e-09,
+    "delta_h_MPa_max": 0.0001,
+    "final_consistency_delta_u_mm_max": 1e-09,
+    "final_consistency_delta_h_MPa_max": 0.0001,
+    "signed_kkt_dual_kNmm_max": 1e-06,
+    "signed_kkt_free_kNmm_max": 1e-06,
+    "max_healing_tolerance": 1e-06,
+    "healing_violations_max": 0,
+    "history_monotonicity_violations_max": 0,
+    "force_discrepancy_pct_max": 2.0,
+    "total_energy_discrepancy_pct_max": 2.0,
+    "donor_reference_force_kN": 0.17992419004440308,
+    "donor_reference_total_energy_kNmm": 0.00022639903,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "decision_branches": [
+    "EXECUTE_R6_SUBMISSION: submit exactly 1 PBS job (M1_C6_P171_R6_C3_0) to entry_imfdfkmq -> normal_imfdfkmq under 1 CPU, 16 GB, 8h",
+    "COUPLED_CONVERGENCE_GATES: delta_d <= 1e-5, delta_u <= 1e-9 mm, delta_h <= 1e-4 MPa, consistency delta_u <= 1e-9 mm, consistency delta_H <= 1e-4 MPa, KKT errors <= 1e-6, force/energy drift <= 2%",
+    "FALSIFIABLE_HYPOTHESIS: evaluate whether omega_d = 0.5 achieves coupled contraction within 100 outer iterations without stalling"
+  ],
+  "evidence_sources": {
+    "results/validation/c6_r6_independent_review_remediation_analysis.json": "D6FD9C3E5842CF7E579ADF55C9C53B5C28A6DE39A615F127C438332221DE7B48",
+    "results/validation/c6_r3_falsifiable_damping_hypothesis_offline_evaluation.json": "A5B66712E1892AD130A591D3FC41B837E71D68E231B0D339C90C8DDCB6B59AD0",
+    "tests/unit/test_package171_r6_c6_coupled_driver_phase_decoding.py": "5B5D5842C81EA8EBDC77D11EC748326DF5D9A49F91CF205A00974601B93D3085",
+    "tests/unit/test_package171_r6_c6_coupled_driver_gates.py": "8CE17D2D773A5924B613816DD4DB93419EFC495A5812552A7F1B3FFB0BC2DA09",
+    "tests/unit/test_package171_r6_c6_coupled_driver_readiness.py": "B6C9B5C8EA902CD19342A51C026C98E5CFFED9D7A848A3C9FDF510455D20F3E4",
+    "tests/unit/test_package171_r6_c6_coupled_driver_integration.py": "9B1A25FCADA25B3CB2E8A927EA862B60BA6F3CDE34DD620D364CE6DFBBDA8262",
+    "tests/unit/test_package171_r6_pbs_syntax.py": "BB851C366BCD0B6C713E55345C4276E0AE91D63263580D248278D8358C481D75",
+    "scripts/state_transfer/driver_package171_r6_c6_coupled_pdas.py": "0D2A6851B14CFD3D311CC427971C816F8EBB6048A69BD08F4B8DADC0BE83F086",
+    "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/PACKAGE_MANIFEST.json": "01AE3DEA81E54ED17EF97776654D71DA41385DB4F2511D1B7CCA92D1C357445D",
+    "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/M1_C6_PACKAGE171_R6_AUTHORIZATION.json": "629E4D097415DB35408F822EC25D96C8C5AA9BF2CEF7CE95A9FFDB88C9E46FF5",
+    "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/EXECUTION_MANIFEST.json": "F595BCD834DA42EC0F4F8FAC2DC2A0C8E87EEBBF893CE7829ACFAC75C3484D84",
+    "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/submit_M1_C6_P171_R6_C3_0.pbs": "5107FA939FA0A7BC7AA003D9CAE94EBDC3EC117D639FB873C2D9D8D2F0A0B9B7"
+  },
+  "inherited_completed_operations": [
+    "mapped_frozen_history_lower_bound_kkt_probe",
+    "mapped_mechanical_history_call_order_probe",
+    "authentic_uel_history_call_trace",
+    "morning_scientific_audit_packages87_88",
+    "package89_state_transfer_submission",
+    "probe_mode1_f1597_r20_active_set_audit",
+    "evaluate_mode1_package148_state_transfer",
+    "evaluate_mode1_package148_state_transfer_r2",
+    "evaluate_mode1_package148_state_transfer_r3",
+    "evaluate_mode1_package148_state_transfer_r4",
+    "evaluate_mode1_package148_state_transfer_r5",
+    "evaluate_mode1_package148_state_transfer_r6",
+    "evaluate_mode1_package148_state_transfer_r7",
+    "evaluate_mode1_package148_state_transfer_r8",
+    "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+    "execute_mode1_package158_c2_0_r5_re_equilibration"
+  ],
+  "initial_instruction": "TASK: F1602-PACKAGE171-R6-C6-EXECUTION\nOPERATION_ID: execute_mode1_package171_r6_c6_coupled_reequilibration\nAudit running Package 171-R6 Stage C3-0 genuine coupled PDAS re-equilibration job 1419807.mmaster02 on C6 mesh. Enforce strict convergence gates upon termination: delta_d <= 1e-5, delta_u <= 1e-9 mm, delta_h <= 1e-4 MPa, consistency delta_u <= 1e-9 mm, consistency delta_h <= 1e-4 MPa, KKT satisfied.",
+  "scientific_acceptance": "NOT_YET_EVALUATED",
+  "registration_authority": "Explicit user successor-registration instruction on 2026-11-03 following qualified F1601 preparation receipt results/validation/preparation-158e8df8-db39-4d5e-8033-0f22b618fbf4.json"
+}
