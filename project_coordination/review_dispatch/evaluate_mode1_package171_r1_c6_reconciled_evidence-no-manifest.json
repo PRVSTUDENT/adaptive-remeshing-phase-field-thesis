@@ -1,0 +1,44 @@
+{
+  "operation_id": "evaluate_mode1_package171_r1_c6_reconciled_evidence",
+  "status": "REVIEWED",
+  "transitions": [
+    "PREPARED",
+    "REVIEW_PENDING",
+    "REVIEWED"
+  ],
+  "fingerprint": "63A56EF5838D3EAADBB6FA1BC8D48FA100AA7CA2D61F99ADE7581D203A0F8AA0",
+  "correlation_id": "HND-c8b01c2cdb5246d598b0e81df090b494",
+  "dispatch_started": true,
+  "review": {
+    "decision": {
+      "reviewer": "ChatGPT-independent-review",
+      "author": "codex",
+      "operation_id": "evaluate_mode1_package171_r1_c6_reconciled_evidence",
+      "correlation_id": "HND-c8b01c2cdb5246d598b0e81df090b494",
+      "fingerprint": "63A56EF5838D3EAADBB6FA1BC8D48FA100AA7CA2D61F99ADE7581D203A0F8AA0",
+      "reviewed_hashes": {
+        "results/validation/f1599_reconciled/acquisition.json": "30232649CDC2C2CB8BFCE4220E4E8C108B0FD668D08E159F0218C092BA1C71A8",
+        "results/validation/f1599_reconciled/driver_worktree_diff.txt": "F224E3D6F4B77A47103875259E158603FD5D7913979859B8740283D4351B22F2",
+        "results/validation/f1599_reconciled/original_review_hash_audit.json": "912878572C060211FD8FA75C6AA0AB34305F8E86E9FC38953EAB47D901B62EA4",
+        "results/validation/f1599_reconciled/package171_to_r1_manifest.diff.txt": "F3B3B9D3506DAFF44FC5C55315CADCEE4A42BDF8DD415758C2D417F052A827A2",
+        "results/validation/f1599_reconciled/parent_source_audit.json": "B6631CE2CD4FA19E033DED0E8012A6585EB15ECA6D1633D4CC49AD285318CE32",
+        "results/validation/f1599_reconciled/reference_and_convergence_audit.json": "72125C28AB249107B0A594819D8B41D5D2D6C8A3407F79277BF02C13A3927421",
+        "results/validation/f1599_reconciled/scheduler_terminal.json": "AE589837756C0D67389030DA89D8429E2DEE8EA9AE276DBFD5C7B2B019A93680",
+        "results/validation/f1599_reconciled/terminal_execution.txt": "1009FAB3F68A35C4EDD8930DEBDEE791493554F6CD007B38273F5CA5A1993E5E",
+        "results/validation/f1599_reconciled/terminal_iterations.json": "086C3334B40F1807AA66D9401A5663F0143E4068EFAC156F5C5BD013C36FE7B4",
+        "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/c5_forward_continuation_c2_2_summary.json": "A2EAF0B4BF28969474E619F3B9768E4A144D6C2FD2F2DEDCD7ED742B4539C921",
+        "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/PACKAGE_MANIFEST.json": "CA79ECAEC1A9B9C275236EC8F5E29E27D2044AA948E172A15C182FF3B6D93341",
+        "scripts/state_transfer/driver_package171_c6_coupled_pdas.py": "F4D82958AD979DBD0871578608FF3531804B4F1A2E9FD5A34F2150DB3BCA1A2E",
+        "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/EXECUTION_MANIFEST.json": "535AB502B289E52F422454B842F2BE1A225639CD07ABDF9324C0FA938A63C8A1",
+        "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/EXECUTION_MANIFEST.json": "0DDC8769201D4CD885166011F507EF91E80A24FA84CE742DC3BD17FE119632AF",
+        "results/validation/f1599_reconciled/review_packet.json": "3B53CC6819278B6FC9932191C8BFE83D93102415FCC21BAA1885E37A6DBC6FAF",
+        "project_coordination/candidate_definitions/evaluate_mode1_package171_r1_c6_reconciled_evidence.json": "D9903D8A432B0CFF4376987E62CF2F350758B74AA2D6341043928B32820D6673"
+      },
+      "decision": "APPROVE",
+      "rationale": "APPROVE only the explicitly bounded read-only scientific evaluation, not physical acceptance or numerical execution. The reconciled packet supplies original PBS terminal evidence and the complete 100-iteration trajectory, resolves the C5 donor reference discrepancies using accepted Job 1419566.mmaster02, and documents parent-to-revision source differences without executable changes. Job 1419643.mmaster02 terminated with Exit 1. At iteration 100, delta_d = 0.007166326 exceeds 1e-5, delta_u = 4.507217e-5 mm exceeds 1e-9 mm, and delta_h = 271.542717 MPa exceeds 1e-4 MPa. Both reported PDAS KKT errors satisfy 1e-6, but KKT compliance does not establish coupled convergence. The original driver omits delta_h from its internal convergence condition; independent evaluation must enforce that criterion. The proposed investigation is therefore scientifically justified and adequately supported for read-only execution. Pointwise damage irreversibility, history monotonicity, reaction-force continuity and energy continuity must be independently evaluated from authentic final field outputs where available, otherwise explicitly marked unverified. No converged C6 checkpoint is accepted. This approval does not authorize any PBS submission, Package171-R2 experiment, solver modification, signature creation, or automatic registration. Registration and execution remain subject to the separate authenticated review and controller gates.",
+      "assistant_message_id": "msg-HND-c8b01c2cdb5246d598b0e81df090b494",
+      "conversation_url": "https://chatgpt.com/c/independent-review-bridge"
+    },
+    "signature": "xWJ/flAi96wvoE2hYEJ15Ef7SuXKhNQMHKV/Pm/zqFhoPr7Xbb9oKjrCO0cOya7UQmA4vQGWY9vxYyZOOFFCAA=="
+  }
+}
