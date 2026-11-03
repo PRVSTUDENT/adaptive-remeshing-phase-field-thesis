@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "status": "REJECTED",
+  "operation_id": "execute_mode1_package171_r2_c6_coupled_reequilibration",
+  "event_fingerprint": "execute_mode1_package171_r2_c6_coupled_reequilibration:197845D6712D4C0598D94823A59E858603D9E022628FB1015E6C4E3B1DCED18F",
+  "reason": "REJECT",
+  "rationale": "Independent review rejected R2 candidate due to stale KKT evaluation on unrelaxed damage, checkpoint commitment without physical healing check, and unmeasured spectral claims. Driver repair and distinct candidate required before HPC qualification.",
+  "next_action": "Repair driver KKT stationarity evaluation on final relaxed state, gate checkpoint serialization on physical healing pass, and submit corrected R3 candidate.",
+  "model_dispatches": 1,
+  "created_at": "2026-11-03T10:52:00.0000000Z",
+  "resolved_at": "2026-11-03T10:58:42.0000000Z"
+}

@@ -1,3 +1,17 @@
+## 3 November Package 171-R2 C6 Stage C3-0 External Independent Review Dispatched & REJECT Evaluated
+
+1. **Independent Review Dispatch & Authenticated Ed25519 Decision**:
+   - **Candidate Operation**: `execute_mode1_package171_r2_c6_coupled_reequilibration` (Candidate definition: `project_coordination/candidate_definitions/execute_mode1_package171_r2_c6_coupled_reequilibration.json`, SHA-256 `F42A694421F27D2BBCDCC01D46F282457F0D2ED9C9A8CA00077AA5073AD0CD1D`).
+   - **Dispatch Pipeline**: Automated PAD ChatGPT bridge with correlation ID `HND-F1602-R2-REVIEW-197845D6` and fingerprint `197845D6712D4C0598D94823A59E858603D9E022628FB1015E6C4E3B1DCED18F`. Response received and verified in 86 seconds.
+   - **Cryptographic Attestation**: Ed25519 signature verified (`dZmq8ziIpzQFm/xNjPMAMEysQtgQ8ts6LUhk9rfGN5e4SZT7GRVHPzhBGJctxfFGdJTZB8WJJqz1G6L0VaDfDg==`). Response artifact archived at `project_coordination/review_dispatch/execute_mode1_package171_r2_c6_coupled_reequilibration-197845D6712D4C0598D94823A59E858603D9E022628FB1015E6C4E3B1DCED18F.response.json`.
+   - **Review Decision**: **REJECT**.
+
+2. **Identifiable Acceptance Defects & Actionable Scientific Findings**:
+   - **Defect 1 (Stale KKT Stationarity)**: `driver_package171_r2_c6_coupled_pdas.py` computed `kkt = solver.kkt(damage)` before the phase solve and relaxed damage update, then declared convergence on this stale result. While convex damage blending strictly preserves bounds ($d \ge d_0, d \le 1.0$), it does not preserve KKT stationarity; residuals and complementarity must be evaluated on the final relaxed state with corresponding history.
+   - **Defect 2 (Ungated Checkpoint Commitment)**: Driver committed `converged_checkpoint_01.json` even when physical acceptance returned `FAIL`, without checking healing-violation count in `physical_pass`. A physically failed state must never be committed as an accepted continuation checkpoint.
+   - **Defect 3 (Spectral Claim Discipline)**: The asserted crack-tip eigenvalue $\lambda = -1.0$, deadbeat collapse, and full-system $\rho \le 0.875$ were illustrative rather than measured from the authentic coupled Jacobian; late-stage damage increments decrease rather than establishing an exact period-2 orbit. Claims must be recast as testable predictions.
+   - **Binding Directive**: Do not submit the presently reviewed Package 171-R2. Driver repair, regression failure tests, and a distinct hash-bound corrected candidate (R3) are required for independent re-review before HPC qualification.
+
 ## 3 November F1598 → F1599 → F1601 Autonomous Controller Checkpoint Transition Resolved
 
 1. **Autonomous Controller Checkpoint Transition Resolved**:

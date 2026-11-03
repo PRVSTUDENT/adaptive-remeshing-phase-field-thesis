@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "operation_id": "execute_mode1_package171_r2_c6_coupled_reequilibration",
+  "registration_status": "PROPOSED_FOR_INDEPENDENT_REVIEW",
+  "task_id": "F1602-PACKAGE171-R2-C6-EXECUTION",
+  "author": "gemini-antigravity",
+  "stage": "C3-0",
+  "operation_mode": "QUALIFIED_EXECUTION",
+  "candidate_job": "M1_C6_P171_R2_C3_0",
+  "scope": "Genuine coupled staggered PDAS re-equilibration execution on non-coarsened C6 mesh (15,252 CPE4 quads, 15,559 physical nodes) at target uy = 0.0018703125 mm using convex damage under-relaxation (omega_d = 0.5) to collapse crack-tip limit cycle. Authorized for exactly 1 PBS submission; serial 1 CPU, 16 GB, 8 h.",
+  "physical_acceptance": "UNVERIFIED",
+  "scientific_hypothesis": "Package 171-R1 exhibited a period-2 alternating limit-cycle instability at Outer 100 (delta_d ~ 7.17e-3, delta_u ~ 4.51e-5 mm, delta_h ~ 271.5 MPa) due to crack-tip strain-damage feedback with negative eigenvalue lambda = -1.0. Convex damage under-relaxation with omega_d = 0.5 deadbeat-collapses the limit cycle (lambda_damped = 0.0) and contracts the coupled spectrum to rho <= 0.875 while strictly preserving d >= d0, d <= 1.0, discrete KKT complementarity, and non-accumulating history.",
+  "mathematical_formulation": {
+    "mesh_level": "C6 (15,252 CPE4 elements, 15,559 physical nodes + RP 999999, 59 duplicate seam-slit pairs)",
+    "damping_formulation": "d^{k+1} = (1 - omega_d)*d^k + omega_d*d_tilde^{k+1} with omega_d = 0.5",
+    "obstacle_enforcement": "Pointwise active-set Dirichlet clamp prescribed = {n: d0[n] for n in active} ensuring min(d - d0) >= -1.0e-6",
+    "kkt_tolerances": {
+      "delta_d": 1e-05,
+      "delta_u_mm": 1e-09,
+      "delta_h_MPa": 0.0001,
+      "free_residual": 1e-06,
+      "dual_error": 1e-06,
+      "complementarity": 1e-06,
+      "healing_tolerance": 1e-06
+    },
+    "state_coverage": {
+      "physical_nodes": 15559,
+      "physical_elements": 15252,
+      "integration_points": 61008,
+      "seam_slit_pairs": 59
+    },
+    "holding_displacement_mm": 0.0018703125442191958,
+    "physical_continuity_gates": {
+      "donor_reference_force_kN": 0.17992419004440308,
+      "force_discrepancy_gate_pct": 2.0,
+      "donor_reference_total_energy_kNmm": 0.00022639903,
+      "energy_discrepancy_gate_pct": 2.0
+    }
+  },
+  "acceptance_criteria": {
+    "delta_d_max": 1e-05,
+    "delta_u_mm_max": 1e-09,
+    "delta_h_MPa_max": 0.0001,
+    "signed_kkt_dual_kNmm_max": 1e-06,
+    "signed_kkt_free_kNmm_max": 1e-06,
+    "max_healing_tolerance": 1e-06,
+    "history_monotonicity_violations_max": 0,
+    "force_discrepancy_pct_max": 2.0,
+    "total_energy_discrepancy_pct_max": 2.0,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "source_differences": "Package 171-R2 introduces convex damage under-relaxation (omega_d = 0.5) in driver_package171_r2_c6_coupled_pdas.py and enforces delta_h <= 1e-4 MPa in convergence predicate, preserving frozen UEL and all mesh/boundary definitions.",
+  "evidence_sources": {
+    "results/validation/c6_r2_coupled_limit_cycle_diagnosis.json": "04133B2E9B67A8F72310DE792DB510AFC0D317C9486CB48D733D8C8A2BAFE3C1",
+    "results/validation/c6_r2_under_relaxation_viability_analysis.json": "419382A81AE04B08B407DFD7A7FE7B9B082A7FEB517CA25DC1263DBF914905E7",
+    "results/validation/c6_r2_falsifiable_damping_hypothesis_offline_evaluation.json": "5373A8881D408471A5B71D66F3251E6762C8530C3CF6A1E04789F13112D82115",
+    "tests/unit/test_package171_r2_damping_offline_qualification.py": "DC58B49F08E2C67571B0170F6950DB388CCFD489FF0544C3F2D5B61695E5179A",
+    "tests/unit/test_package171_r2_c6_coupled_driver_readiness.py": "9D9E731C3C2709550BD56053DD7510AC548869A9C2C4D2E1B5804BE7A793D532",
+    "scripts/state_transfer/driver_package171_r2_c6_coupled_pdas.py": "4AE8098BB2DA2852519187A3F77F6F49D5F815174605B741957E747B89917A6C",
+    "models/pandey_kumar_mode1/171_c6_package171_r2_c3_0_reequilibration/PACKAGE_MANIFEST.json": "3C36F84E2193D25AB6522DA18E7B7BD0E3734F8D2063247332D6352AD872D19D",
+    "models/pandey_kumar_mode1/171_c6_package171_r2_c3_0_reequilibration/EXECUTION_MANIFEST.json": "446A303FAC87FC63D7EA3D767809F666EE0DBC91AEB8A415D793A17D4F5EA7FA",
+    "models/pandey_kumar_mode1/171_c6_package171_r2_c3_0_reequilibration/submit_M1_C6_P171_R2_C3_0.pbs": "A1547A7523043365EE316BBC78D08CDEFE7EA6891BE284FFAD3D14B601B98EC7"
+  },
+  "execution_prerequisites": [
+    "Independent technical review and signed approval",
+    "Real Abaqus 2023 datachecks Exit 0 for mechanical and phase input decks",
+    "Dual-channel notification end-to-end delivery verified (Telegram + PBS mail)",
+    "Strictly 1 PBS job submission on single-rank serial 1 CPU, 16 GB, 8 h",
+    "Frozen UEL SHA-256 unchanged: CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  ]
+}
