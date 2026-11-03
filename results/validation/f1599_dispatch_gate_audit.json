@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "turn_id": "32bd2728-f60e-40cb-9e1e-a32b21706ba4",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "candidate_task_id": "F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE",
+  "candidate_operation_id": "evaluate_mode1_package171_r1_c6_coupled_convergence",
+  "review_packet_verification": {
+    "path": "results/validation/c6_package171_r1_definition_review_packet.json",
+    "exists": true,
+    "expected_sha256": "33F58E71FDF8E2F2DFDA1CF9978D09DF329F5A9E32E2ADA1D7760E968AA39341",
+    "actual_sha256": "33F58E71FDF8E2F2DFDA1CF9978D09DF329F5A9E32E2ADA1D7760E968AA39341",
+    "sha256_matches": true,
+    "scope": "Independently evaluate authentic terminal convergence, KKT compliance, damage irreversibility, history monotonicity, and force/energy discrepancy of Package 171-R1 C6 coupled PDAS re-equilibration from Job 1419643.mmaster02 outputs.",
+    "predecessors": [
+      "Accepted C5 Checkpoint 03 (Job 1419566.mmaster02, Package 167-R3 C2-2)",
+      "Authentic C5 companion MISESERI recovery (Job 1419573.mmaster02, Package 168)",
+      "Verified C5 to C6 non-coarsened adaptive mesh integration (15,252 CPE4 quads, 59 slit pairs, 0.00% coarsening)",
+      "Stage C3-0 direct UEL solve qualification (Job 1419586.mmaster02, Package 170)"
+    ],
+    "acceptance_criteria": {
+      "delta_d_max": 1e-05,
+      "delta_u_mm_max": 1e-09,
+      "delta_h_MPa_max": 0.0001,
+      "kkt_dual_kNmm_max": 1e-06,
+      "kkt_free_kNmm_max": 1e-06,
+      "damage_healing_tolerance": 1e-06,
+      "history_monotonicity_violations_max": 0,
+      "force_discrepancy_pct_max": 2.0,
+      "total_energy_discrepancy_pct_max": 2.0,
+      "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+    }
+  },
+  "review_dispatch_audit": {
+    "dispatch_dir": "project_coordination/review_dispatch",
+    "existing_records_count": 5,
+    "matching_f1599_records": [],
+    "matching_fingerprint_records": [],
+    "pending_request_exists": false,
+    "authenticated_decision_exists": false,
+    "dispatch_status": "NONE_RECORDED"
+  },
+  "dispatcher_capability_audit": {
+    "operation_definition_exists": false,
+    "operation_definition_path": "project_coordination/operation_definitions/evaluate_mode1_package171_r1_c6_coupled_convergence.json",
+    "dry_run_exit_code": 1,
+    "dry_run_finding": "ValueError: DEFINITION_MISSING",
+    "scope_permits_dispatch": false,
+    "dispatch_blocker_reason": "Active task F1598 is scoped to Package 166 (C5); evaluate_mode1_package171_r1_c6_coupled_convergence lacks an operation definition file in project_coordination/operation_definitions/ and cannot be dispatched under research_preparation without prior formal definition and successor task establishment."
+  },
+  "frozen_uel_verification": {
+    "path": "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/f42_mixed_uel.for",
+    "expected_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "actual_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "matches": true
+  },
+  "scientific_predecessors_reconciliation": {
+    "1419566.mmaster02": "Accepted C5 Checkpoint03",
+    "1419573.mmaster02": "Authentic C5 companion MISESERI recovery",
+    "1419586.mmaster02": "C6 Stage C3-0 direct UEL qualification only",
+    "1419643.mmaster02": {
+      "pbs_state": "F",
+      "exit_status": 1,
+      "time_use": "00:39:48",
+      "outer_iterations": 100,
+      "delta_d": 0.0071663,
+      "delta_d_tol": 1e-05,
+      "delta_u_mm": 4.5072e-05,
+      "delta_h_MPa": 271.54,
+      "kkt_dual_error": 9.7824e-10,
+      "kkt_free_error": 3.5738e-07,
+      "active_nodes": 35,
+      "free_nodes": 15524,
+      "verdict": "Coupled nonconvergence; no accepted C6 checkpoint"
+    }
+  },
+  "closeout_verdict": {
+    "review_status": "DEFINITION_REVIEW_REQUIRED",
+    "missing_prerequisites": [
+      "Operation definition evaluate_mode1_package171_r1_c6_coupled_convergence.json not yet created in project_coordination/operation_definitions/",
+      "Task F1598 scope is restricted to Package 166 (C5); Package 171-R1 (C6) evaluation requires successor task F1599",
+      "Independent review request must be dispatched via bridge dispatcher to obtain authenticated Ed25519 approval",
+      "Formal registration of F1599 in task_definitions/ and TASK_LEDGER.csv strictly blocked until independent review approval is granted"
+    ],
+    "new_pbs_submissions": 0,
+    "no_fabricated_approvals": true
+  },
+  "verification_passed": true
+}
