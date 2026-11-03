@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "turn_id": "da03e599-cfc8-41af-bd10-966cd056e95c",
+  "task_id": "F1603-MODE1-C6-R6-NONCONVERGENCE-INVESTIGATION",
+  "operation": "research_preparation",
+  "qualified_operation": "",
+  "qualified_operation_id": "research_preparation",
+  "next_operation": "Independent review and qualification of candidate M1_C6_P171_R7_ADAPTIVE_DAMPED",
+  "finding": "Completed bounded numerical diagnosis of Package 171-R6 convergence plateau and R1 comparison. Demonstrated that contraction ratio rho ~ 0.9892 reflects coupled active-set boundary shifting (shedding 8.7 nodes/iter across tail 20 iterations down to 160 nodes) under uniform damping omega_d = 0.5, rather than a stationary asymptotic operator spectral radius. Identified absence of spatial coordinates in scalar solver telemetry. Formulated reviewable candidate M1_C6_P171_R7_ADAPTIVE_DAMPED with two-phase safeguarded relaxation and strict non-healing rollback criteria.",
+  "evidence_sources": {
+    "results/validation/f1603_c6_r6_numerical_diagnosis.json": "65634B3EEF26C9EAE10B66B75BD89DBB8A1C32CE2E830A59B180D9FF04D32A6D",
+    "scripts/validation/diagnose_f1603_r6_convergence_mechanisms.py": "91DC935F28E182DAD2449D12991593DC62A0A3FB8105C129AEE75985906037B7",
+    "tests/unit/test_f1603_numerical_diagnosis.py": "C7C93AAF6D65235256F57F7E1A287B466431D7CAFCEDA3F5559D40715ED787DC",
+    "results/validation/r6_active_set_contraction_analysis.json": "C4AF27247EF856C857D6BA6494B98C3A62A927822B71E3963B9A4CD63BB54BC7",
+    "scripts/validation/analyze_r6_active_set_contraction.py": "7A90166784CD2A13A067FB8878B1CF83C8850E0067C11C659C6C6CCDC21ECC75",
+    "tests/unit/test_f1603_r6_nonconvergence_investigation.py": "21D6CCB1378A61FED614B6A05ECA6971E4FBB800BE0BFC992AFCE1B5D97B1023",
+    "project_coordination/task_definitions/F1603-MODE1-C6-R6-NONCONVERGENCE-INVESTIGATION.json": "303C16B67250E0ACC60E44EC7892B0E5EF15485BF665A2E0D8826AA7BA6028AC",
+    "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/evidence/1419807.mmaster02/live_iteration_telemetry.json": "4A444B5BDBA18119723FC0B087985CFB66B0CE48FC0C12BFA4EFFB3D33490C3E",
+    "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/evidence/1419807.mmaster02/re_equilibration_summary.json": "6C7FAD15511E67CBF7CC471E978A64C23912B168DDEB9BD3CCC81E7676B6C6F6",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/evidence/1419643.mmaster02/live_iteration_telemetry.json": "9D3D09D88C13A0AB654F0BA1E81BB5767BC2566819AE8CB68AEF8BE0DBDC1845"
+  },
+  "registered_paths": [
+    "scripts/validation/diagnose_f1603_r6_convergence_mechanisms.py",
+    "results/validation/f1603_c6_r6_numerical_diagnosis.json",
+    "tests/unit/test_f1603_numerical_diagnosis.py",
+    "results/validation/r6_active_set_contraction_analysis.json",
+    "scripts/validation/analyze_r6_active_set_contraction.py",
+    "tests/unit/test_f1603_r6_nonconvergence_investigation.py"
+  ],
+  "verification_passed": true,
+  "pbs_job_id": "1419807.mmaster02",
+  "pbs_job_state": "TERMINAL_FAILED_COUPLED_NONCONVERGENCE",
+  "scientific_acceptance": "FAIL_COUPLED_NONCONVERGENCE"
+}

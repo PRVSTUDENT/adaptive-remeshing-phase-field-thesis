@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "task_id": "F1603-MODE1-C6-R6-NONCONVERGENCE-INVESTIGATION",
+  "analysis_title": "Quantitative Investigation of R6 Plateau and Contrast with R1 Undamped Oscillations",
+  "pbs_job_ids": {
+    "r1_job_id": "1419643.mmaster02",
+    "r6_job_id": "1419807.mmaster02"
+  },
+  "r1_undamped_benchmark": {
+    "omega_d": 1.0,
+    "total_iterations": 23,
+    "initial_delta_d": 0.017872467637062073,
+    "minimum_delta_d": 0.005265951156616211,
+    "minimum_delta_d_iteration": 9,
+    "final_delta_d": 0.023363828659057617,
+    "final_delta_u_mm": 3.116636071354151e-05,
+    "final_delta_h_MPa": 18.35977446400713,
+    "divergent_growth_factor": 4.436772762258342,
+    "termination_reason": "Monotonic coupled divergence from iteration 9 to 23; walltime / timeout exhaustion",
+    "active_set_trajectory": "Contracted from 13803 to 5664 but remained large (>5600 nodes) with escalating coupled oscillations"
+  },
+  "r6_damped_investigation": {
+    "omega_d": 0.5,
+    "total_iterations": 100,
+    "initial_delta_d": 0.008936233818531036,
+    "terminal_delta_d": 0.008308360875374343,
+    "terminal_delta_u_mm": 5.642068572342396e-05,
+    "terminal_delta_h_MPa": 378.7354716594414,
+    "terminal_kkt_free_error": 2.8516789340133494e-07,
+    "terminal_kkt_dual_error": 1.86726762663041e-09,
+    "active_set_contraction": {
+      "initial_count": 13803,
+      "final_count": 160,
+      "reduction_percentage": 98.84083170325292,
+      "is_substantially_contracted": true
+    },
+    "tail_30_iterations": {
+      "iteration_range": [
+        71,
+        100
+      ],
+      "mean_contraction_ratio_d": 0.9892066422938404,
+      "min_contraction_ratio_d": 0.9858427099262586,
+      "max_contraction_ratio_d": 0.9920924236249625,
+      "mean_contraction_ratio_h": 0.9895257749735369
+    },
+    "tail_20_iterations": {
+      "iteration_range": [
+        81,
+        100
+      ],
+      "mean_delta_d": 0.009121141409997762,
+      "std_delta_d": 0.0005211218520370846,
+      "coefficient_of_variation": 0.05713340344289349,
+      "active_set_changes_total": 174,
+      "mean_active_set_drop_per_iter": 8.7,
+      "is_active_set_stabilized": false
+    }
+  },
+  "spatial_evidence_evaluation": {
+    "spatial_telemetry_logged_in_records": false,
+    "spatial_status_note": "EXPLICIT LIMITATION: Solver telemetry in live_iteration_telemetry.json logs only scalar max-norms (delta_d, delta_u, delta_h, KKT errors) and cardinalities (|A|, |F|). Per-node spatial coordinates and spatial localization maps of unconverged damage increments are NOT recorded in the authentic telemetry stream. While fracture mechanics indicates that active-set nodes are localized to the notch root / crack tip, no direct node-resolved spatial evidence exists in the authentic execution log."
+  },
+  "mathematical_diagnosis": {
+    "operator_nature": "NON_STATIONARY_ACTIVE_SET_CONVERGENCE_PLATEAU: The observed empirical contraction ratio rho_d ~ 0.9892 cannot be interpreted as an asymptotic spectral radius of a stationary linear operator, because the active set |A_k| is actively shedding nodes at 8.7 nodes/iteration across the final 20 iterations (decreasing monotonically from 334 to 160 nodes). Each active set change alters the Dirichlet/Neumann boundary partition in the phase-field solver. Therefore, the slow convergence is driven by the coupled evolution of the active set boundary rather than asymptotic eigenspace contraction of a fixed map.",
+    "is_true_spectral_radius": false,
+    "spectral_radius_qualification": "rho ~ 0.989 reflects transient active-set shedding combined with under-relaxed coupled Picard iterations, NOT a static operator spectral radius.",
+    "damping_assessment": "Uniform damping omega_d = 0.5 successfully eliminated the catastrophic divergence observed in R1, enabling 98.84% active set contraction. However, retaining uniform omega_d = 0.5 indefinitely causes extreme convergence deceleration once |A_k| enters the crack-tip plateau."
+  },
+  "falsifiable_successor_proposal": {
+    "candidate_id": "M1_C6_P171_R7_ADAPTIVE_DAMPED",
+    "description": "Two-phase safeguarded relaxation: Stage 1 maintains uniform omega_d = 0.5 until active-set stabilization (|A_k - A_{k-1}| <= 2 for 3 consecutive iterations); Stage 2 activates safeguarded dynamic acceleration (omega_d = 0.85 or Anderson depth m=2) with strict non-healing and residual monotonicity safeguards.",
+    "hypothesis": "Uniform damping omega_d = 0.5 is necessary during the rapid active-set contraction phase (|A|: 13,803 -> ~150) to prevent R1-style divergence, but acts as an artificial bottleneck once |A_k| stabilizes near the crack tip, where rho ~ 0.989 would require >700 iterations. Controlled transition to higher relaxation or Anderson acceleration will accelerate convergence to delta_d <= 1e-5 while preserving KKT and coupled equilibrium.",
+    "safeguards": [
+      "Preserve production UEL (CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6).",
+      "Strict non-healing check: max(d_0 - d) <= 1e-6 at every relaxed step.",
+      "Rollback mechanism: if delta_d_{k} > 1.05 * delta_d_{k-1} in Stage 2, revert immediately to omega_d = 0.5.",
+      "Retain identical coupled equilibrium acceptance criteria: Delta d <= 1e-5, Delta u <= 1e-9 mm, Delta H <= 1e-4 MPa, Force drift <= 2%, Energy drift <= 2%."
+    ],
+    "predicted_iterations_to_convergence": "35-50 iterations with acceleration vs >700 iterations under uniform omega_d=0.5."
+  },
+  "verification_passed": true
+}
