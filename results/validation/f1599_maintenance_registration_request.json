@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "task_id": "CONTROLLER-MAINTENANCE-F1599-REVIEW-INTAKE",
+  "title": "Controller Maintenance: Deploy Verified F1599 Candidate Review Intake Repair to review_dispatcher.py",
+  "requested_by": "gemini-antigravity",
+  "requested_maintainer": "codex-controller-maintenance",
+  "predecessor_task": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "verdict": "MAINTENANCE_REGISTRATION_REQUIRED",
+  "status": "MAINTENANCE_HANDOFF_ACTIONABLE",
+  "rationale": "Active task F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE operates strictly under RESEARCH_PREPARATION scope where scripts/controller/* modifications are prohibited. The tested F1599 candidate-intake dispatcher patch requires an authorized controller-maintenance session to deploy.",
+  "target_component": {
+    "file": "scripts/controller/review_dispatcher.py",
+    "base_sha256": "16B7365335037E4975FFBAE159E0778FC7A5D78B4ECA7F5351EDFA6B528DC8E5",
+    "target_installed_destination": "C:\\Users\\pruth\\OpenClawPAD\\review_dispatcher.py",
+    "deployer_script": "scripts/controller/Deploy-Controller.ps1"
+  },
+  "patch_specification": {
+    "path": "scripts/validation/f1599_candidate_intake_dispatcher.patch",
+    "sha256": "C082FB1253CA40426C6346E9E0D8B59497DC5FD6896D19E8A4457CDC5B8B8E11",
+    "modifications": [
+      "1. Resolve definitions from candidate_definitions/ solely for immutable review packet construction",
+      "2. For read-only evaluations (operation_mode == 'READ_ONLY_SCIENTIFIC_EVALUATION' or is_candidate), bypass execution manifest file requirements and terminal-state solver reconciliation",
+      "3. Enforce candidate execution guard: staged candidates remain inactive and strictly ineligible for solver execution",
+      "4. Preserve Ed25519 review verification, request fingerprints, once-only dispatch and session-ownership checks"
+    ]
+  },
+  "immutable_scientific_anchors": {
+    "canonical_review_packet": {
+      "path": "results/validation/c6_package171_r1_definition_review_packet.json",
+      "sha256": "33F58E71FDF8E2F2DFDA1CF9978D09DF329F5A9E32E2ADA1D7760E968AA39341"
+    },
+    "candidate_definition": {
+      "path": "project_coordination/candidate_definitions/evaluate_mode1_package171_r1_c6_coupled_convergence.json",
+      "sha256": "A499EA0DC1E31B1F5A59BEAC71D8209448B9BBB041CB8BC40C92316320A86770"
+    },
+    "frozen_production_uel": {
+      "path": "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/f42_mixed_uel.for",
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+    },
+    "terminal_telemetry": {
+      "job_id": "1419643.mmaster02",
+      "exit_code": 1,
+      "outer_iteration": 100,
+      "delta_d": 7.1663e-3,
+      "delta_u_mm": 4.5072e-5,
+      "delta_h_MPa": 271.54,
+      "dual_error": 9.7824e-10,
+      "free_error": 3.5738e-7,
+      "status": "NONCONVERGED_TERMINAL_EXIT_1"
+    }
+  },
+  "verified_test_suites": {
+    "candidate_intake_suite": {
+      "path": "tests/unit/test_f1599_candidate_intake.py",
+      "sha256": "CA73FBF035FB7F54BE2FDCBD7FD0CF62DB37EEB1F3ED7F863D3E08DF572602B6",
+      "tests_passed": "8/8"
+    },
+    "dispatch_gate_suite": {
+      "path": "tests/unit/test_turn56_f1599_dispatch_gate.py",
+      "sha256": "988A1799F48D767A43975D3E751CD110589F32E7477A747698F183F8F6FCBEC4",
+      "tests_passed": "6/6"
+    },
+    "deadlock_resolution_suite": {
+      "path": "tests/unit/test_f1599_review_deadlock_resolution.py",
+      "sha256": "6A3C2D81757B6B39E70256DF864C9B99BF35C510EDCB4D16BD06CE1F75BB73DC",
+      "tests_passed": "5/5"
+    },
+    "review_gate_suite": {
+      "path": "tests/unit/test_turn55_f1599_review_gate.py",
+      "sha256": "F157904289F0CCBF4E3F8535002FBB31FFF70B6F7BBA91896C0D3C71CBEB471B",
+      "tests_passed": "5/5"
+    },
+    "controller_regression_suite": {
+      "path": "tests/unit/test_controller_permanent_repair.py",
+      "sha256": "635A78991BAE0679B099A5521E99816EC0F5CEF9EA4DF6D541FDC94E35EDC398",
+      "tests_passed": "12/12"
+    },
+    "total_regression_tests_passing": 36
+  },
+  "actionable_maintenance_steps": [
+    "1. Claim dedicated maintenance session under task_id='CONTROLLER-MAINTENANCE-F1599-REVIEW-INTAKE' by agent='codex' with allowed_write_scope including scripts/controller/*",
+    "2. Apply unified patch scripts/validation/f1599_candidate_intake_dispatcher.patch (SHA-256 C082FB1253CA40426C6346E9E0D8B59497DC5FD6896D19E8A4457CDC5B8B8E11) to scripts/controller/review_dispatcher.py",
+    "3. Execute Deploy-Controller.ps1 to copy updated review_dispatcher.py to OpenClawPAD",
+    "4. Run regression suite: pytest tests/unit/test_f1599_*.py and test_controller_permanent_repair.py to ensure 36/36 tests pass",
+    "5. Execute dry-run: python scripts/controller/review_dispatcher.py --workspace . --operation-id evaluate_mode1_package171_r1_c6_coupled_convergence --dry-run",
+    "6. Cleanly release maintenance session (active=false) to allow live bridge execution without BLOCKED_ACTIVE_REPOSITORY_SESSION",
+    "7. Next scientific turn: Invoke-ReviewDispatcher.ps1 live bridge dispatch of candidate evaluate_mode1_package171_r1_c6_coupled_convergence"
+  ],
+  "verification_passed": true
+}

@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "run_id": "813d9baa-9ec0-4a8a-ba82-cbbce425b92f",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "title": "Turn 60: Actionable Maintenance Registration Request for F1599 Review Intake Repair",
+  "finding": "Turn 60 actionable maintenance handoff prepared and verified: (1) Diagnosed governance prerequisite: active task F1598 operates strictly under RESEARCH_PREPARATION scope where scripts/controller/* modifications are prohibited; deploying the tested review-intake dispatcher patch requires an authorized controller-maintenance session. (2) Formulated actionable maintenance registration request results/validation/f1599_maintenance_registration_request.json specifying task_id='CONTROLLER-MAINTENANCE-F1599-REVIEW-INTAKE', maintainer='codex-controller-maintenance', target component scripts/controller/review_dispatcher.py (base SHA-256 16B7365335037E4975FFBAE159E0778FC7A5D78B4ECA7F5351EDFA6B528DC8E5), verified patch scripts/validation/f1599_candidate_intake_dispatcher.patch (SHA-256 C082FB1253CA40426C6346E9E0D8B59497DC5FD6896D19E8A4457CDC5B8B8E11), and 7-step deployment recipe. (3) Verified bitwise preservation of immutable canonical review packet results/validation/c6_package171_r1_definition_review_packet.json (SHA-256 33F58E71FDF8E2F2DFDA1CF9978D09DF329F5A9E32E2ADA1D7760E968AA39341), candidate definition project_coordination/candidate_definitions/evaluate_mode1_package171_r1_c6_coupled_convergence.json (SHA-256 A499EA0DC1E31B1F5A59BEAC71D8209448B9BBB041CB8BC40C92316320A86770), and frozen production UEL f42_mixed_uel.for (SHA-256 CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6). (4) Preserved Job 1419643.mmaster02 terminal nonconvergence telemetry (Exit 1, Outer 100, delta_d = 7.1663e-3, delta_u = 4.5072e-5 mm, delta_H = 271.54 MPa, dual_error = 9.7824e-10, free_error = 3.5738e-7). (5) Executed regression tests with 32/32 unit tests passing (including 8/8 in test_f1599_maintenance_handoff.py) and 12/12 controller regression tests passing. (6) Required verdict: MAINTENANCE_REGISTRATION_REQUIRED; clean session release enables Codex to claim maintenance task, deploy patch via Deploy-Controller.ps1, and unlock live independent-review dispatch. Strictly zero new PBS submissions.",
+  "evidence_sources": {
+    "results/validation/f1599_maintenance_registration_request.json": "E02F2DBC5F14F3D98CCAFDE53648C55C434FC4BB510801F3FD5F6BA99C84CE89",
+    "tests/unit/test_f1599_maintenance_handoff.py": "6CC15877361BE0317EAF716A83BF8C0C546AC1A879CDD5445497B86DADE36C12",
+    "results/validation/c6_package171_r1_definition_review_packet.json": "33F58E71FDF8E2F2DFDA1CF9978D09DF329F5A9E32E2ADA1D7760E968AA39341",
+    "project_coordination/candidate_definitions/evaluate_mode1_package171_r1_c6_coupled_convergence.json": "A499EA0DC1E31B1F5A59BEAC71D8209448B9BBB041CB8BC40C92316320A86770",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "scripts/validation/f1599_candidate_intake_dispatcher.patch": "C082FB1253CA40426C6346E9E0D8B59497DC5FD6896D19E8A4457CDC5B8B8E11",
+    "scripts/controller/review_dispatcher.py": "16B7365335037E4975FFBAE159E0778FC7A5D78B4ECA7F5351EDFA6B528DC8E5",
+    "tests/unit/test_f1599_candidate_intake.py": "CA73FBF035FB7F54BE2FDCBD7FD0CF62DB37EEB1F3ED7F863D3E08DF572602B6",
+    "tests/unit/test_turn56_f1599_dispatch_gate.py": "988A1799F48D767A43975D3E751CD110589F32E7477A747698F183F8F6FCBEC4",
+    "tests/unit/test_f1599_review_deadlock_resolution.py": "6A3C2D81757B6B39E70256DF864C9B99BF35C510EDCB4D16BD06CE1F75BB73DC",
+    "tests/unit/test_turn55_f1599_review_gate.py": "F157904289F0CCBF4E3F8535002FBB31FFF70B6F7BBA91896C0D3C71CBEB471B",
+    "project_coordination/task_definitions/F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE.json": "D4D5964E1ED2E860E14C2B5A22589675AA5AD4D594BACA5A91FA0DA60BEB08FA"
+  },
+  "verification_passed": true,
+  "registered_paths": [
+    "results/validation/f1599_maintenance_registration_request.json",
+    "tests/unit/test_f1599_maintenance_handoff.py"
+  ],
+  "maintenance_handoff_details": {
+    "proposed_task_id": "CONTROLLER-MAINTENANCE-F1599-REVIEW-INTAKE",
+    "maintainer": "codex-controller-maintenance",
+    "target_component": "scripts/controller/review_dispatcher.py",
+    "base_sha256": "16B7365335037E4975FFBAE159E0778FC7A5D78B4ECA7F5351EDFA6B528DC8E5",
+    "patch_path": "scripts/validation/f1599_candidate_intake_dispatcher.patch",
+    "patch_sha256": "C082FB1253CA40426C6346E9E0D8B59497DC5FD6896D19E8A4457CDC5B8B8E11",
+    "governance_verdict": "MAINTENANCE_REGISTRATION_REQUIRED",
+    "missing_prerequisites": [
+      "Explicit maintenance session registration under task_id='CONTROLLER-MAINTENANCE-F1599-REVIEW-INTAKE' with maintainer='codex-controller-maintenance'",
+      "Deployment of patched review_dispatcher.py to OpenClawPAD via Deploy-Controller.ps1",
+      "Release of active session lock so review dispatcher can run without BLOCKED_ACTIVE_REPOSITORY_SESSION"
+    ]
+  },
+  "scientific_boundary": {
+    "pbs_job_id": "1419643.mmaster02",
+    "exit_code": 1,
+    "outer_iterations": 100,
+    "delta_d": 7.1663e-3,
+    "delta_u_mm": 4.5072e-5,
+    "delta_h_MPa": 271.54,
+    "kkt_dual_error": 9.7824e-10,
+    "kkt_free_error": 3.5738e-7,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "new_pbs_submissions": 0
+  },
+  "next_operation": "Advance to dedicated controller maintenance session for F1599 review intake repair deployment"
+}
