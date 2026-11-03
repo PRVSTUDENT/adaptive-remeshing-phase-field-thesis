@@ -64,15 +64,47 @@ $caught=$false;try{Invoke-ControllerReadOnlyProfileCheck -CheckpointPath $cp -Cu
 $caught=$false;try{Invoke-ControllerReadOnlyProfileCheck -CheckpointPath $cp -CurrentProfile account5 -AssertOwnerFree {} -Verify {'changed'|Set-Content $cp; $true}|Out-Null}catch{$caught=$_.Exception.Message -eq 'AUTH_RECOVERY_CHECKPOINT_CHANGED'};Check $caught 'checkpoint race rejected'
 & {
  function Read-ControllerCheckpoint {param($path) [pscustomobject]@{workspace=$repo;process_id=$script:workerPid}}
- function Get-Content {param($LiteralPath,[switch]$Raw) '{"active":false}'}
- $script:workerPid=0; $script:hubCommand='agy.exe --hub --hub-port=123';$script:ownerMatches=$true
+ function Get-Content {param($LiteralPath,[switch]$Raw) $(if($script:sessionActive){'{"active":true}'}else{'{"active":false}'})}
+ $script:sessionActive=$false;$script:workerPid=0; $script:hubCommand='agy.exe --hub --hub-port=123';$script:ownerMatches=$true
+ $script:exePath=(Join-Path $env:USERPROFILE '.gemini/bin/agy.exe')
+ $script:parentName='Code.exe';$script:parentCreationDate=[datetime]'2026-11-02'
  function Get-CimInstance {param($ClassName,$Filter,$ErrorAction)
-  if($Filter -eq "Name = 'agy.exe'"){[pscustomobject]@{ExecutablePath=(Join-Path $env:USERPROFILE '.gemini/bin/agy.exe');CommandLine=$script:hubCommand;ParentProcessId=123;CreationDate=[datetime]'2026-11-03'}}
-  else{[pscustomobject]@{Name='Code.exe';CreationDate=[datetime]'2026-11-02'}}
+  if($Filter -eq "Name = 'agy.exe'"){[pscustomobject]@{ProcessId=456;ExecutablePath=$script:exePath;CommandLine=$script:hubCommand;ParentProcessId=123;CreationDate=[datetime]'2026-11-03'}}
+  else{[pscustomobject]@{ProcessId=123;Name=$script:parentName;CreationDate=$script:parentCreationDate}}
  }
  function Invoke-CimMethod {param($InputObject,$MethodName,$ErrorAction) [pscustomobject]@{ReturnValue=0;Sid=$(if($script:ownerMatches){[Security.Principal.WindowsIdentity]::GetCurrent().User.Value}else{'different'})}}
  Assert-ControllerBackgroundHubsOnly fixture;Check $true 'verified same-user VS Code hub allows read-only check'
  $script:hubCommand='agy.exe --input-format text';$caught=$false;try{Assert-ControllerBackgroundHubsOnly fixture}catch{$caught=$true};Check $caught 'CLI worker is never mistaken for background hub'
  $script:hubCommand='agy.exe --hub';$script:ownerMatches=$false;$caught=$false;try{Assert-ControllerBackgroundHubsOnly fixture}catch{$caught=$true};Check $caught 'foreign hub owner rejected'
  $script:ownerMatches=$true;$script:workerPid=123;$caught=$false;try{Assert-ControllerBackgroundHubsOnly fixture}catch{$caught=$true};Check $caught 'checkpoint-owned worker rejected'
+
+ # Tests for interactive agy sessions (e.g. PID 30476 with AppData\Local\agy\bin\agy.exe)
+ $script:workerPid=0
+ $script:exePath=(Join-Path $env:LOCALAPPDATA 'agy/bin/agy.exe')
+ $script:parentName='powershell.exe'
+ $script:hubCommand='"C:\Users\pruth\AppData\Local\agy\bin\agy.exe" --dangerously-skip-permissions'
+ Assert-ControllerBackgroundHubsOnly fixture;Check $true 'interactive powershell agy session allows read-only check'
+
+ # Unauthorized executable path
+ $script:exePath='C:\unauthorized\agy.exe'
+ $caught=$false;try{Assert-ControllerBackgroundHubsOnly fixture}catch{$caught=$true};Check $caught 'unauthorized executable path rejected'
+ $script:exePath=(Join-Path $env:LOCALAPPDATA 'agy/bin/agy.exe')
+
+ # Worker flags combined with interactive session
+ $script:hubCommand='"C:\Users\pruth\AppData\Local\agy\bin\agy.exe" --dangerously-skip-permissions --print-timeout 100s'
+ $caught=$false;try{Assert-ControllerBackgroundHubsOnly fixture}catch{$caught=$true};Check $caught 'interactive session with print timeout rejected as worker'
+
+ $script:hubCommand='"C:\Users\pruth\AppData\Local\agy\bin\agy.exe" --conversation abc-123'
+ $caught=$false;try{Assert-ControllerBackgroundHubsOnly fixture}catch{$caught=$true};Check $caught 'interactive session with conversation id rejected as worker'
+
+ # Foreign owner on interactive session
+ $script:hubCommand='"C:\Users\pruth\AppData\Local\agy\bin\agy.exe" --dangerously-skip-permissions'
+ $script:ownerMatches=$false
+ $caught=$false;try{Assert-ControllerBackgroundHubsOnly fixture}catch{$caught=$true};Check $caught 'foreign interactive session owner rejected'
+ $script:ownerMatches=$true
+
+ # Active repository session blocks
+ $script:sessionActive=$true
+ $caught=$false;try{Assert-ControllerBackgroundHubsOnly fixture}catch{$caught=$true};Check $caught 'active repository session blocks read-only check'
+ $script:sessionActive=$false
 }

@@ -95,14 +95,20 @@ function Assert-ControllerBackgroundHubsOnly {
     $session=Get-Content -LiteralPath (Join-Path $workspace 'project_coordination/ACTIVE_SESSION.json') -Raw|ConvertFrom-Json
     if($session.active -or $state.process_id){throw 'AUTH_RECOVERY_LIVE_AGY'}
     $sid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+    $validPaths=@(
+        [IO.Path]::GetFullPath((Join-Path $env:USERPROFILE '.gemini/bin/agy.exe')),
+        [IO.Path]::GetFullPath((Join-Path $env:LOCALAPPDATA 'agy/bin/agy.exe')),
+        [IO.Path]::GetFullPath((Join-Path $env:USERPROFILE 'AppData/Local/agy/bin/agy.exe'))
+    )
     foreach($p in @(Get-CimInstance Win32_Process -Filter "Name = 'agy.exe'" -ErrorAction Stop)){
         $parent=Get-CimInstance Win32_Process -Filter ("ProcessId = "+$p.ParentProcessId) -ErrorAction Stop
         $owner=Invoke-CimMethod -InputObject $p -MethodName GetOwnerSid -ErrorAction Stop
-        if($p.ExecutablePath -ine (Join-Path $env:USERPROFILE '.gemini/bin/agy.exe') -or
-           $p.CommandLine -notmatch '(?:^|\s)--hub(?:\s|$)' -or
-           $p.CommandLine -match '(?:^|\s)--(?:print|conversation|input-format)(?:[=\s]|$)' -or
-           -not $parent -or $parent.Name -ine 'Code.exe' -or $parent.CreationDate -gt $p.CreationDate -or
-           $owner.ReturnValue -ne 0 -or $owner.Sid -cne $sid){throw 'AUTH_RECOVERY_LIVE_AGY'}
+        $exeFull=try{[IO.Path]::GetFullPath($p.ExecutablePath)}catch{''}
+        if($exeFull -notin $validPaths -or $owner.ReturnValue -ne 0 -or $owner.Sid -cne $sid){throw 'AUTH_RECOVERY_LIVE_AGY'}
+        if($p.CommandLine -match '(?:^|\s)--(?:print|conversation|input-format|output-format)' -or ($state.process_id -and $p.ProcessId -eq $state.process_id)){throw 'AUTH_RECOVERY_LIVE_AGY'}
+        $isHub=($p.CommandLine -match '(?:^|\s)--hub(?:\s|$)') -and ($parent -and $parent.Name -ieq 'Code.exe' -and $parent.CreationDate -le $p.CreationDate)
+        $isInteractive=($p.CommandLine -notmatch '(?:^|\s)--hub(?:\s|$)') -and ($parent -and $parent.Name -match '^(?:powershell|pwsh|cmd|wt|Code)\.exe$' -and $parent.CreationDate -le $p.CreationDate)
+        if(-not $isHub -and -not $isInteractive){throw 'AUTH_RECOVERY_LIVE_AGY'}
     }
 }
 
