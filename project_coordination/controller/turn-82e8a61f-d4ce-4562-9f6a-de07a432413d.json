@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "82e8a61f-d4ce-4562-9f6a-de07a432413d",
+    "task_id":  "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
+    "repository_commit":  "1885f345a819f8bab911d29fad7c624be733fcd5",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-11-03T17:58:09.5709341+01:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "EC25457C58D573BE6298FA7F42785F26216DDE4F3F98E8F0F26DC4866CA6B04A",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "BE54F47CB4067BC0213A794C1263A2E9D29C72B732C866FE1881C048C28BAB2D",
+                            "project_coordination/ACTIVE_SESSION.json":  "72D816F935DD2CD0376E232A897AC5E1F801DD11F9892DA087DC8E4155DAD881",
+                            "project_coordination/ACTIVE_TASK.json":  "495344D3805D48845FD4D7885C3F3FADC747AB5D23BE29AC2BF69D676A56E44B",
+                            "project_coordination/TASK_LEDGER.csv":  "F1368FD19B94DDCF293CAF8DD0821320EDEE85FC0EF21416419E5B404E731C81",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "A98362D2CA34B40B48758FF0A37AC1B2F62182CA0F9434EB3214C03B5A05DF4C",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "9D1497497F48EA5B10B8E4E5FD9B56E2E1E4338B2253D7F9A93EDE1714C2C906",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "495344D3805D48845FD4D7885C3F3FADC747AB5D23BE29AC2BF69D676A56E44B",
+                          "project_coordination/CURRENT_STATE.md":  "BE54F47CB4067BC0213A794C1263A2E9D29C72B732C866FE1881C048C28BAB2D",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "A98362D2CA34B40B48758FF0A37AC1B2F62182CA0F9434EB3214C03B5A05DF4C",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "2546CC3FEA63F4EA7217A680951F8B242491C2751801C4FABFEDEBB0B092CA3C"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-11-03_gemini-antigravity_F1597_82e8a61f-d4ce-4562-9f6a-de07a432413d.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-82e8a61f-d4ce-4562-9f6a-de07a432413d.json",
+                                  "sha256":  "97EAF328A2DB39FB1887B605E1B6ABB2FD85A7C2BE4EE8BE8680ED44ADCEA22C",
+                                  "created_at":  "2026-11-03T18:15:32.4171218+01:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Advance to F1603 bounded R6 nonconvergence investigation on cluster"
+}

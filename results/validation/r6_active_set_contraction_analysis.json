@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "pbs_job_id": "1419807.mmaster02",
+  "job_name": "M1_C6_P171_R6_C3_0",
+  "analysis_type": "active_set_contraction_and_residual_plateau_investigation",
+  "total_outer_iterations": 100,
+  "active_set_metrics": {
+    "initial_pdas_active_count": 13803,
+    "final_pdas_active_count": 160,
+    "pdas_active_reduction_pct": 98.84,
+    "initial_kkt_active_count": 11776,
+    "final_kkt_active_count": 140,
+    "tail_active_changes_iters_80_100": 174,
+    "is_active_set_substantially_contracted": true
+  },
+  "terminal_metrics": {
+    "last_delta_d": 0.008308360875374343,
+    "last_delta_u_mm": 5.642068572342396e-05,
+    "last_delta_h_MPa": 378.7354716594414,
+    "last_kkt_free_error": 2.8516789340133494e-07,
+    "last_kkt_dual_error": 1.86726762663041e-09
+  },
+  "convergence_rate_diagnostics": {
+    "mean_contraction_ratio_d_tail": 0.9882188916903499,
+    "tail_mean_delta_d": 0.009169862461631508,
+    "tail_std_delta_d": 0.0005532729826430038,
+    "tail_coefficient_of_variation": 0.060336017574746166,
+    "is_residual_plateau": true
+  },
+  "scientific_diagnosis": {
+    "classification": "LOCALIZED_NONLINEAR_REDISTRIBUTION_PLATEAU",
+    "finding": "Active set contracted by 98.8% (from 13803 down to 160 nodes), but delta_d plateaued at 9.1699e-03 +/- 5.5327e-04 (CV=0.060). This demonstrates localized nonlinear damage redistribution at the crack-tip nodes rather than divergent oscillation or uniform geometric contraction. Damping parameter omega_d=0.5 alone is insufficient to contract the crack-tip boundary without localized acceleration.",
+    "falsified_hypothesis": "Uniform convex damage under-relaxation (omega_d=0.5) induces geometric contraction of the coupled system across all mesh nodes.",
+    "next_investigation_recommendation": "Test localized adaptive damping / Anderson acceleration specifically targeting the 160 active crack-tip nodes under strict non-healing constraints."
+  },
+  "verification_passed": true
+}
