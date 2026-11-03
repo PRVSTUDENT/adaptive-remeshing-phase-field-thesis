@@ -1,3 +1,17 @@
+## 3 November Controller Registration Blocker Reconciled for Turn 11 Dispatch
+
+1. **Root Cause & Concrete Resolution**:
+   - Following receipt of Turn 11 instruction via ChatGPT Bridge (`HND-198832422a4c`, 134s), controller registration halted with `TASK_REGISTRATION_BLOCKED` (`Successor definition is not the bounded evidence-evaluation operation`).
+   - Root Cause: In Turn 10 commit `c8736a2c`, `ACTIVE_TASK.json` set `"scientific_operation_id": "execute_mode1_package171_r6_c6_coupled_reequilibration"`, which conflicted with registered task definition `F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION` requiring bounded operation ID `"research_preparation"`.
+   - Resolution: Restored `"scientific_operation_id": "research_preparation"`, updated `"active_pbs_job_ids": ["1419807.mmaster02"]`, prepended `1419807.mmaster02` to `"referenced_pbs_job_ids"`, and updated `"pbs_status_note"`.
+   - Verification: `Get-ControllerTaskRegistrationPlan` returns `REGISTERED_READ_ONLY_EVALUATION` (`dispatch_ready = True`). `Antigravity-Autonomous-Loop.ps1 -ControllerDryRun` passes cleanly (`mode = DRY_RUN_NO_EXECUTION`, `task_type = RESEARCH_PREPARATION`), resolving to Turn 11. All 18 lifecycle tests, 14 successor tests, and 9 predecessor transition tests pass.
+
+2. **Scheduler & Running Job Verification**:
+   - Confirmed controller background process was terminated (`Get-CimInstance Win32_Process`).
+   - Live scheduler query (`qstat -x 1419807.mmaster02`) confirmed PBS job `1419807.mmaster02` actively running (`R`, `normal_imfdfkmq`, 1 CPU, 16 GB, 8h).
+   - Scratch telemetry audit (`equilibration_1419807.mmaster02/live_iteration_telemetry.json` outer 27): $\Delta d = 0.004808$, $\Delta u = 4.115\times 10^{-6}\text{ mm}$, $\Delta H = 1.342\text{ MPa}$, dual error $2.59\times 10^{-8}$, free error $3.05\times 10^{-8}$, complementarity $3.66\times 10^{-9}$, `kkt_post_passed = true`, active nodes 6,385, free nodes 9,174, damping $\omega_d = 0.5$.
+   - Job is completely preserved and undisturbed.
+
 ## 3 November Package 171-R3 C6 Stage C3-0 External Independent Review Dispatched & Evaluated
 
 1. **Independent Review Dispatch & Authenticated Ed25519 Decision**:

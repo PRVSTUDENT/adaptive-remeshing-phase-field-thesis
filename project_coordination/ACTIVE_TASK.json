@@ -20,7 +20,7 @@
                      },
     "scientific_checkpoint_required":  true,
     "scientific_operation":  "",
-    "scientific_operation_id":  "execute_mode1_package171_r6_c6_coupled_reequilibration",
+    "scientific_operation_id":  "research_preparation",
     "completed_operations":  [
                                  "mapped_frozen_history_lower_bound_kkt_probe",
                                  "mapped_mechanical_history_call_order_probe",
@@ -248,13 +248,14 @@
                                   "1419375.mmaster02"
                               ],
     "active_pbs_job_ids":  [
-
+                               "1419807.mmaster02"
                            ],
     "dependent_pbs_job_ids":  [
 
                               ],
-    "pbs_status_note":  "Job 1419643.mmaster02 terminated at Outer 100 with Exit 1; failed coupled convergence (delta_d=0.007166, delta_u=4.507e-5 mm, delta_h=271.54 MPa; KKT satisfied). 0 active PBS jobs. No new PBS submissions authorized.",
+    "pbs_status_note":  "Job 1419807.mmaster02 submitted and running (M1_C6_P171_R6_C3_0 on normal_imfdfkmq, 1 CPU, 16 GB, 8h). Outer iterations actively executing with damping omega_d=0.5. 0 new PBS submissions authorized.",
     "referenced_pbs_job_ids":  [
+                                   "1419807.mmaster02",
                                    "1419643.mmaster02",
                                    "1419478.mmaster02",
                                    "1419479.mmaster02",
