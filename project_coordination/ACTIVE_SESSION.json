@@ -1,23 +1,21 @@
 {
     "active":  false,
     "agent":  "gemini-antigravity",
-    "task_id":  "F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE",
-    "starting_commit":  "004296120db211e9737a00b2f199e8422cea573d",
-    "claimed_at":  "2026-11-03T09:20:00+01:00",
-    "last_updated":  "2026-11-03T09:27:00+01:00",
-    "last_released":  "2026-11-03T09:27:00+01:00",
+    "task_id":  "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
+    "starting_commit":  "50d6d5b5a5971f99cdb88c5b038e8857857132a4",
+    "claimed_at":  "2026-11-03T10:15:00+01:00",
+    "last_updated":  "2026-11-03T10:28:00+01:00",
+    "last_released":  "2026-11-03T10:28:00+01:00",
     "controller_run_id":  "ae8660dc-363a-4847-854c-93f9e08c0212",
-    "session_report":  "project_coordination/sessions/2026-11-03_gemini-antigravity_f1599_c6_convergence_acceptance.md",
+    "session_report":  "project_coordination/sessions/2026-11-03_gemini-antigravity_f1601_c6_r2_diagnosis_preparation.md",
     "allowed_write_scope":  [
                                 "project_coordination/ACTIVE_SESSION.json",
                                 "project_coordination/ACTIVE_TASK.json",
                                 "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/HPC_JOB_LEDGER.csv",
                                 "project_coordination/ARTIFACT_REGISTRY.csv",
                                 "project_coordination/CURRENT_STATE.md",
-                                "project_coordination/task_definitions/F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE.json",
-                                "project_coordination/sessions/2026-11-03_gemini-antigravity_f1599_c6_convergence_acceptance.md",
-                                "results/validation/f1599_c6_coupled_convergence_evaluation.json",
-                                "results/validation/f1599_bridge_delivery_receipt.json"
+                                "project_coordination/task_definitions/F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION.json",
+                                "project_coordination/sessions/2026-11-03_gemini-antigravity_f1601_c6_r2_diagnosis_preparation.md",
+                                "tests/unit/test_f1601_successor_registration.py"
                             ]
 }

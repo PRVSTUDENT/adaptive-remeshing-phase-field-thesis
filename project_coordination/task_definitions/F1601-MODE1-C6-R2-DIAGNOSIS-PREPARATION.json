@@ -1,0 +1,79 @@
+{
+    "schema": 1,
+    "task_id": "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
+    "title": "Bounded Mode-I C6/R2 numerical diagnosis and qualification preparation",
+    "predecessor": {
+        "run_id": "ae8660dc-363a-4847-854c-93f9e08c0212",
+        "status": "COMPLETED",
+        "task_id": "F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE",
+        "source_commit": "50d6d5b5a5971f99cdb88c5b038e8857857132a4",
+        "checkpoint_sha256": "06AB99DBBE0419C6C9D16EE82F18EED9FE6B22ED3617138D9360A04815DCD07A"
+    },
+    "operation": {
+        "checkpoint_kind": "PREPARATION_CHECKPOINT",
+        "id": "research_preparation",
+        "mode": "READ_ONLY_SCIENTIFIC_EVALUATION",
+        "registration": "Bounded Mode-I C6/R2 numerical diagnosis and qualification preparation; no numerical execution qualified"
+    },
+    "max_new_pbs_submissions": 0,
+    "automatic_retry": false,
+    "job_references": {
+        "predecessor_job_id": "1419643.mmaster02",
+        "predecessor_status": "FAILED_COUPLED_NONCONVERGENCE_OUTER100",
+        "remote_dir": "/scratch9/pr21vyci/runs/mode1_c6_package171_r1_c3_0_reequilibration",
+        "target_package": "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration",
+        "scientific_scope": "Bounded numerical diagnosis of C6 alternating iteration nonconvergence; investigate under-relaxation or damped damage update; no PBS submission or solver execution"
+    },
+    "acceptance": {
+        "acceptance_requires_original_files": true,
+        "delta_d_max": 1e-05,
+        "delta_u_mm_max": 1e-09,
+        "delta_h_MPa_max": 0.0001,
+        "signed_kkt_dual_kNmm_max": 1e-06,
+        "signed_kkt_free_kNmm_max": 1e-06,
+        "max_healing_tolerance": 1e-06,
+        "history_monotonicity_violations_max": 0,
+        "force_discrepancy_pct_max": 2.0,
+        "total_energy_discrepancy_pct_max": 2.0,
+        "donor_reference_force_kN": 0.17992419004440308,
+        "donor_reference_total_energy_kNmm": 0.00022639903,
+        "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+    },
+    "decision_branches": [
+        "NUMERICAL_DIAGNOSIS_ONLY: analyze mathematical cause of limit cycle (delta_d ~ 7.17e-3, delta_u ~ 4.51e-5 mm, delta_h ~ 271.5 MPa); do not execute solver",
+        "NO_R2_DISPATCH: Package 171-R2 is not qualified or dispatched by this registration",
+        "NO_C6_CHECKPOINT: no unverified C6 state can be promoted to an accepted checkpoint"
+    ],
+    "evidence_sources": {
+        "results/validation/f1599_c6_coupled_convergence_evaluation.json": "06AB99DBBE0419C6C9D16EE82F18EED9FE6B22ED3617138D9360A04815DCD07A",
+        "results/validation/f1599_bridge_delivery_receipt.json": "9BBD13B4755F44E806FBEAC580F79A6FE55912C01CC6A01E79A8E51DFA90EB76",
+        "results/validation/f1599_reconciled/terminal_iterations.json": "086C3334B40F1807AA66D9401A5663F0143E4068EFAC156F5C5BD013C36FE7B4",
+        "results/validation/f1599_reconciled/terminal_execution.txt": "1009FAB3F68A35C4EDD8930DEBDEE791493554F6CD007B38273F5CA5A1993E5E",
+        "results/validation/f1599_reconciled/scheduler_terminal.json": "AE589837756C0D67389030DA89D8429E2DEE8EA9AE276DBFD5C7B2B019A93680",
+        "scripts/state_transfer/driver_package171_c6_coupled_pdas.py": "F4D82958AD979DBD0871578608FF3531804B4F1A2E9FD5A34F2150DB3BCA1A2E",
+        "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/PACKAGE_MANIFEST.json": "CA79ECAEC1A9B9C275236EC8F5E29E27D2044AA948E172A15C182FF3B6D93341",
+        "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/EXECUTION_MANIFEST.json": "0DDC8769201D4CD885166011F507EF91E80A24FA84CE742DC3BD17FE119632AF",
+        "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/c5_forward_continuation_c2_2_summary.json": "A2EAF0B4BF28969474E619F3B9768E4A144D6C2FD2F2DEDCD7ED742B4539C921"
+    },
+    "inherited_completed_operations": [
+        "mapped_frozen_history_lower_bound_kkt_probe",
+        "mapped_mechanical_history_call_order_probe",
+        "authentic_uel_history_call_trace",
+        "morning_scientific_audit_packages87_88",
+        "package89_state_transfer_submission",
+        "probe_mode1_f1597_r20_active_set_audit",
+        "evaluate_mode1_package148_state_transfer",
+        "evaluate_mode1_package148_state_transfer_r2",
+        "evaluate_mode1_package148_state_transfer_r3",
+        "evaluate_mode1_package148_state_transfer_r4",
+        "evaluate_mode1_package148_state_transfer_r5",
+        "evaluate_mode1_package148_state_transfer_r6",
+        "evaluate_mode1_package148_state_transfer_r7",
+        "evaluate_mode1_package148_state_transfer_r8",
+        "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+        "execute_mode1_package158_c2_0_r5_re_equilibration"
+    ],
+    "initial_instruction": "TASK: F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION\nOPERATION_ID: research_preparation\nPerform ONE bounded read-only numerical diagnosis and qualification preparation for Mode-I C6/R2. Investigate the mathematical cause of coupled nonconvergence in Package 171-R1 (Outer 100 limit cycle: delta_d ~ 7.17e-3, delta_u ~ 4.51e-5 mm, delta_h ~ 271.5 MPa despite discrete KKT satisfaction). Test whether staggered damage under-relaxation / damping formulation is mathematically viable. No solver execution, no PBS submission, no accepted C6 checkpoint.",
+    "scientific_acceptance": "NOT_YET_EVALUATED",
+    "registration_authority": "Explicit user successor-registration instruction on 2026-11-03 following completed F1599 evaluation receipt 06AB99DBBE0419C6C9D16EE82F18EED9FE6B22ED3617138D9360A04815DCD07A"
+}

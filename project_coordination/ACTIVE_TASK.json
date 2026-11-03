@@ -1,22 +1,22 @@
 {
-    "task_id": "F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE",
+    "task_id": "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
     "agent": "gemini-antigravity",
-    "status": "COMPLETED",
-    "phase": "Registered for bounded read-only evaluation of Package 171-R1 C6 re-equilibration terminal evidence (Job 1419643.mmaster02) under approved review HND-c8b01c2cdb5246d598b0e81df090b494. Physical acceptance criteria: delta_d<=1e-5, delta_u<=1e-9 mm, delta_h<=1e-4 MPa, KKT<=1e-6, force/energy drift<=2% vs donor references 0.17992419004440308 kN and 0.00022639903 kN mm. No Package 171-R2 qualification, no solver run, no PBS submission, no accepted C6 checkpoint.",
+    "status": "READY_READ_ONLY_EVALUATION",
+    "phase": "Registered for bounded Mode-I C6/R2 numerical diagnosis and qualification preparation following completed F1599 nonconvergence evaluation (FAIL_COUPLED_NONCONVERGENCE). Allowed scope: read-only diagnosis of coupled limit-cycle behavior and under-relaxation formulation. No PBS submission, no solver execution, no accepted C6 checkpoint.",
     "gate_status": "REGISTERED_SUCCESSOR__NUMERICAL_EXECUTION_NOT_QUALIFIED",
     "predecessor_task": {
         "run_id": "ae8660dc-363a-4847-854c-93f9e08c0212",
         "status": "COMPLETED",
-        "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
-        "source_commit": "70872920db46e464058bd93716c9558763974b22",
-        "checkpoint_sha256": "6ED69A5D3D20FE790F4FB4B0F6B93173AC214838078CD5C6C141D13C16839B09"
+        "task_id": "F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE",
+        "source_commit": "50d6d5b5a5971f99cdb88c5b038e8857857132a4",
+        "checkpoint_sha256": "06AB99DBBE0419C6C9D16EE82F18EED9FE6B22ED3617138D9360A04815DCD07A"
     },
     "registration": {
-        "sha256": "9DE931D9F852AD9C7754C8E5E8389F1B76C052789886F9F0B75F01DF80E8F68D",
+        "sha256": "BC137DE86B9271F307A6883031E89550B128C912D642748110AAFBAE4D2545E1",
         "schema": 1,
-        "definition": "project_coordination/task_definitions/F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE.json",
+        "definition": "project_coordination/task_definitions/F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION.json",
         "registered_by": "gemini-antigravity",
-        "registered_at": "2026-11-03T09:20:00+01:00"
+        "registered_at": "2026-11-03T10:15:00+01:00"
     },
     "scientific_checkpoint_required": true,
     "scientific_operation": "",
@@ -249,7 +249,7 @@
     ],
     "active_pbs_job_ids": [],
     "dependent_pbs_job_ids": [],
-    "pbs_status_note": "Job 1419643.mmaster02 terminated at Outer 100 with Exit 1; failed coupled convergence (delta_d=0.007166, delta_u=4.507e-5 mm, delta_h=271.54 MPa; KKT satisfied). 0 active PBS jobs.",
+    "pbs_status_note": "Job 1419643.mmaster02 terminated at Outer 100 with Exit 1; failed coupled convergence (delta_d=0.007166, delta_u=4.507e-5 mm, delta_h=271.54 MPa; KKT satisfied). 0 active PBS jobs. No new PBS submissions authorized.",
     "referenced_pbs_job_ids": [
         "1419643.mmaster02",
         "1419478.mmaster02",
@@ -266,9 +266,11 @@
         "state": "ACTIVE"
     },
     "preserved_predecessor": {
-        "local_snapshot": "C:\\Users\\pruth\\OpenClawPAD\\failure_recovery\\successor-maintenance-20261102\\completed-predecessor-task.json",
-        "sha256": "57AD34DAE9C8C82E059D88864419C4CA9D349E38E160D2D6CEFD5F22F1E6FB0F",
-        "active_task_source_commit": "5372fb528416c570e6afdff0fab7c9edee724953"
+        "task_id": "F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE",
+        "status": "COMPLETED",
+        "scientific_acceptance": "FAIL_COUPLED_NONCONVERGENCE",
+        "artifact": "results/validation/f1599_c6_coupled_convergence_evaluation.json",
+        "sha256": "06AB99DBBE0419C6C9D16EE82F18EED9FE6B22ED3617138D9360A04815DCD07A"
     },
     "controller_maintenance": {
         "status": "REPAIRED_DEPLOYED__TURN17_MONITORING_RECONCILED",
@@ -276,16 +278,8 @@
         "automatic_restart_allowed": false,
         "monitoring_closeout_verified": false
     },
-    "last_step_status": "EVALUATION_COMPLETE",
-    "last_updated": "2026-11-03T09:25:00+01:00",
-    "next_safe_action": "Stop for ChatGPT next numerical decision; no Package 171-R2",
-    "scientific_checkpoint": {
-        "kind": "PREPARATION_CHECKPOINT",
-        "operation": "evaluate_mode1_package171_r1_c6_reconciled_evidence",
-        "exit_code": 0,
-        "artifact": "results/validation/f1599_c6_coupled_convergence_evaluation.json",
-        "sha256": "06AB99DBBE0419C6C9D16EE82F18EED9FE6B22ED3617138D9360A04815DCD07A",
-        "created_at": "2026-11-03T09:22:00+01:00"
-    },
-    "scientific_acceptance": "FAIL_COUPLED_NONCONVERGENCE"
+    "last_step_status": "SUCCESSOR_REGISTERED",
+    "last_updated": "2026-11-03T10:15:00+01:00",
+    "next_safe_action": "Bounded Mode-I C6/R2 numerical diagnosis; investigate under-relaxation formulation; zero PBS submissions",
+    "scientific_acceptance": "NOT_YET_EVALUATED"
 }
