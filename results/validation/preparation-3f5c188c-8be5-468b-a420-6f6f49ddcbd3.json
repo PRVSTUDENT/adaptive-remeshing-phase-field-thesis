@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "task_id": "F1604-PACKAGE171-R7-C6-ADAPTIVE-PREPARATION",
+  "run_id": "3f5c188c-8be5-468b-a420-6f6f49ddcbd3",
+  "title": "Package 171-R7 Assembly and Technical Qualification",
+  "finding": "Package 171-R7 (Candidate M1_C6_P171_R7_ADAPTIVE_DAMPED) fully assembled and technically validated: distinct R7 package created at models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration with verified PACKAGE_MANIFEST.json (SHA-256 2418968416C55E111615345A3E70C1186E5A95F8AF519505BFC5967FED401FC9), M1_C6_PACKAGE171_R7_AUTHORIZATION.json (SHA-256 9000A9E4CD9CD2EB3B93C35F0EC0B9FF0744FA09A1E1E82D90B26235F78BE185), and EXECUTION_MANIFEST.json (SHA-256 31F5DADA7A16051C56D6B9B9A76C2D8E3F7936AA8B0BAB7E2EA0ADDE9157FC1C). Bound to exact R7 driver hash 3CC41F517217BDCA2FC2474AA7D8000919ACD4480085D7534E6F29DE40C52E29 and frozen production UEL hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6. Real Abaqus 2023 mechanical and phase datachecks executed on mlogin01.cluster passed Exit 0 (ANALYSIS DATACHECK COMPLETE, zero errors). 22/22 unit regression tests passed (100% pass rate). Technical qualification receipt package171_r7_technical_qualification_receipt.json confirmed R7_PACKAGE_TECHNICALLY_VALIDATED_FOR_REVIEW. Revised independent review request packet prepared under correlation HND-F1604-R7-REVIEW-A498E2F8 (fingerprint A498E2F833AA86E4EB33A25D17CA438552DFF59933EC0BCD95A44D63E8A28FB1). Zero PBS submissions executed under F1604 scope.",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/PACKAGE_MANIFEST.json": "2418968416C55E111615345A3E70C1186E5A95F8AF519505BFC5967FED401FC9",
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/M1_C6_PACKAGE171_R7_AUTHORIZATION.json": "9000A9E4CD9CD2EB3B93C35F0EC0B9FF0744FA09A1E1E82D90B26235F78BE185",
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/EXECUTION_MANIFEST.json": "31F5DADA7A16051C56D6B9B9A76C2D8E3F7936AA8B0BAB7E2EA0ADDE9157FC1C",
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/P171_MECHANICAL_DC.dat": "069E94B45E99C6C06D3830D8E70636AD0DEEC26B1D5EB830BFEC50C767FE2612",
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/P171_PHASE_DC.dat": "4F92A86B879CC2052B3BF6618F6C7E0F711FF0FC44568EB6E9686024DCF71AD7",
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "scripts/state_transfer/driver_package171_r7_c6_coupled_pdas.py": "3CC41F517217BDCA2FC2474AA7D8000919ACD4480085D7534E6F29DE40C52E29",
+    "results/validation/package171_r7_technical_qualification_receipt.json": "681E648E586F3631501A90F3D1453F1285FC38601E5EA218CF9A6D1D7BBB4BBF",
+    "results/validation/package171_r7_unit_test_receipt.json": "91AFCC42FADB0B59E352113BF53A27474E2060FCBC08875A4F7C5EE1F7B5DBFC",
+    "results/validation/r7_revised_review_packet_receipt.json": "6DF7EF7B371FFA1CDA5846B2F4D609627DE8C2F05BCBDDDA7B46C19572152EEF",
+    "project_coordination/candidate_definitions/execute_mode1_package171_r7_c6_coupled_reequilibration.json": "D3C38263FC4026AC1ACB752CD4FB7B8C3C59B9B1466721BD29B7B87B8A8CBFE3"
+  },
+  "registered_paths": [
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/PACKAGE_MANIFEST.json",
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/M1_C6_PACKAGE171_R7_AUTHORIZATION.json",
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/EXECUTION_MANIFEST.json",
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/submit_M1_C6_P171_R7_C3_0.pbs",
+    "results/validation/package171_r7_technical_qualification_receipt.json",
+    "results/validation/r7_revised_review_packet_receipt.json",
+    "project_coordination/review_dispatch/execute_mode1_package171_r7_c6_coupled_reequilibration-A498E2F833AA86E4EB33A25D17CA438552DFF59933EC0BCD95A44D63E8A28FB1.request.json",
+    "scripts/validation/validate_package171_r7_technical_qualification.py",
+    "scripts/validation/prepare_r7_revised_review_packet.py"
+  ],
+  "verification_passed": true,
+  "execution_budget": {
+    "max_outer_iterations": 100,
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime_hours": 8,
+    "queue": "entry_imfdfkmq",
+    "execution_mode": "single-rank serial"
+  },
+  "next_operation": "Submit revised review packet under correlation HND-F1604-R7-REVIEW-A498E2F8 for independent scientific review and register execution lifecycle upon approval",
+  "next_safe_action": "Submit revised review packet under correlation HND-F1604-R7-REVIEW-A498E2F8 for independent scientific review in next turn"
+}

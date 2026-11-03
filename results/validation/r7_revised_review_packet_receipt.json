@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "operation": "independent_review_packet_revision",
+  "task_id": "F1604-PACKAGE171-R7-C6-ADAPTIVE-PREPARATION",
+  "candidate_job": "M1_C6_P171_R7_ADAPTIVE_DAMPED",
+  "operation_id": "execute_mode1_package171_r7_c6_coupled_reequilibration",
+  "correlation_id": "HND-F1604-R7-REVIEW-A498E2F8",
+  "fingerprint": "A498E2F833AA86E4EB33A25D17CA438552DFF59933EC0BCD95A44D63E8A28FB1",
+  "status": "REVISED_PACKET_PREPARED_FOR_REVIEW",
+  "predecessor_review": {
+    "correlation_id": "HND-F1604-R7-REVIEW-0639CEEF",
+    "fingerprint": "0639CEEFF9C2F1E14034B95DFADEF089A247723F6C914D8028BC7ADFD3BEED5E",
+    "decision": "INSUFFICIENT_EVIDENCE",
+    "remediation_verified": true
+  },
+  "technical_qualification": {
+    "status": "R7_PACKAGE_TECHNICALLY_VALIDATED_FOR_REVIEW",
+    "datacheck_mechanical": "PASS_EXIT_0",
+    "datacheck_phase": "PASS_EXIT_0",
+    "unit_regression_tests": "22/22 PASS (100%)",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "r7_driver_sha256": "3CC41F517217BDCA2FC2474AA7D8000919ACD4480085D7534E6F29DE40C52E29"
+  },
+  "evidence_sources": {
+    "project_coordination\\review_dispatch\\execute_mode1_package171_r7_c6_coupled_reequilibration-A498E2F833AA86E4EB33A25D17CA438552DFF59933EC0BCD95A44D63E8A28FB1.request.json": "255C7D2DCEC339A358BC4A93E8BB16CC79ED6F7A9FEB44FC363B803F0E8CD78C",
+    "results/validation/package171_r7_technical_qualification_receipt.json": "681E648E586F3631501A90F3D1453F1285FC38601E5EA218CF9A6D1D7BBB4BBF",
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/M1_C6_PACKAGE171_R7_AUTHORIZATION.json": "9000A9E4CD9CD2EB3B93C35F0EC0B9FF0744FA09A1E1E82D90B26235F78BE185",
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/PACKAGE_MANIFEST.json": "2418968416C55E111615345A3E70C1186E5A95F8AF519505BFC5967FED401FC9",
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/EXECUTION_MANIFEST.json": "31F5DADA7A16051C56D6B9B9A76C2D8E3F7936AA8B0BAB7E2EA0ADDE9157FC1C",
+    "scripts/state_transfer/driver_package171_r7_c6_coupled_pdas.py": "3CC41F517217BDCA2FC2474AA7D8000919ACD4480085D7534E6F29DE40C52E29"
+  },
+  "verification_passed": true
+}
