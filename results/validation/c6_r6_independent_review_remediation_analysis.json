@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "analysis_id": "c6_r6_independent_review_remediation_analysis",
+  "task_id": "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
+  "author": "gemini-antigravity",
+  "created_at": "2026-11-03T13:20:00+01:00",
+  "candidate_job": "M1_C6_P171_R6_C3_0",
+  "status": "REMEDIATION_COMPLETE_VERIFIED",
+  "review_remediation": {
+    "rejected_candidate": "Package 171-R5 (HND-F1602-R5-REVIEW-FD983824)",
+    "rejection_fingerprint": "FD98382477F364F829842ACD463312160D0891320A3C49829C14632F1E51FCE2",
+    "identified_defects": [
+      {
+        "defect_id": "R5_DEFECT_PHASE_FIELD_DATA_INTEGRITY_EXTRACTION",
+        "description": "In driver solve_subproblem(), falling through to v[-1] on 2-component nodal U output interprets U2 displacement as U3 damage. The extractor can legitimately return 2-component results when U3 is unavailable. Subsequent clamping against d0 conceals this extraction failure rather than rejecting it.",
+        "remediation": "Require exactly 15,559 unique physical-node records matching receiver mesh nodes. Reject missing, duplicated, unexpected, or nonfinite values. For the phase subproblem, accept only explicitly verified damage-output layouts: documented 1-component scalar damage field or complete >=3 component displacement field with damage in U3 (index 2). Reject 2-component output (U1, U2), mixed component counts, incomplete U3 coverage, and ambiguous extractor output. Never interpret v[-1] as damage by default. Fail closed before clipping to d0, updating damage field, or evaluating convergence. Add comprehensive unit and integration tests exercising valid U3, verified 1-component output, and rejection of all defect classes."
+      }
+    ]
+  },
+  "acceptance_logic_preservation": {
+    "displacement_consistency_mm_max": 1e-09,
+    "history_consistency_MPa_max": 0.0001,
+    "final_kkt_stationarity_max": 1e-06,
+    "zero_healing_tolerance": 1e-06,
+    "force_discrepancy_pct_max": 2.0,
+    "total_energy_discrepancy_pct_max": 2.0,
+    "physical_checkpoint_gating": "STRICT_COMMITMENT_ONLY_ON_PASS"
+  },
+  "preserved_anchors": {
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "donor_force_kN": 0.17992419004440308,
+    "donor_energy_kNmm": 0.00022639903,
+    "mesh_elements": 15252,
+    "mesh_nodes": 15559,
+    "damping_omega_d": 0.5,
+    "max_outer_iterations": 100
+  },
+  "test_suite_coverage": {
+    "phase_decoding_tests": 10,
+    "driver_gates_tests": 4,
+    "driver_readiness_tests": 7,
+    "driver_integration_tests": 5,
+    "total_tests_passed": 26
+  },
+  "verification_passed": true
+}

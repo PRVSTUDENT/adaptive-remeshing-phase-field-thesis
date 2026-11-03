@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "operation_id": "execute_mode1_package171_r6_c6_coupled_reequilibration",
+  "registration_status": "PROPOSED_FOR_INDEPENDENT_REVIEW",
+  "task_id": "F1602-PACKAGE171-R6-C6-EXECUTION",
+  "author": "gemini-antigravity",
+  "stage": "C3-0",
+  "operation_mode": "QUALIFIED_EXECUTION",
+  "candidate_job": "M1_C6_P171_R6_C3_0",
+  "scope": "Genuine coupled staggered PDAS re-equilibration execution on non-coarsened C6 mesh (15,252 CPE4 quads, 15,559 physical nodes) at target uy = 0.0018703125 mm with fail-closed phase-field decoding (validating exactly 15,559 physical nodes and rejecting 2-component/mixed output) while preserving R4/R5 rigorous acceptance gates (omega_d = 0.5). Authorized for exactly 1 PBS submission; serial 1 CPU, 16 GB, 8 h.",
+  "physical_acceptance": "UNVERIFIED",
+  "scientific_hypothesis": "Package 171-R1 exhibited nonconvergent alternating oscillations at Outer 100 (delta_d ~ 7.17e-3, delta_u ~ 4.51e-5 mm, delta_h ~ 271.5 MPa). Under the falsifiable numerical hypothesis omega_d = 0.5, convex damage relaxation dampens crack-tip strain-damage oscillatory feedback while strictly preserving d >= d0, d <= 1.0, post-relaxation KKT stationarity, coupled-field consistency (delta_u <= 1e-9 mm, delta_H <= 1e-4 MPa), fail-closed phase decoding, and non-accumulating history.",
+  "mathematical_formulation": {
+    "mesh_level": "C6 (15,252 CPE4 elements, 15,559 physical nodes + RP 999999, 59 duplicate seam-slit pairs)",
+    "damping_formulation": "d^{k+1} = (1 - omega_d)*d^k + omega_d*d_tilde^{k+1} with omega_d = 0.5",
+    "kkt_evaluation": "Explicit post-relaxation KKT stationarity recomputation: solver.kkt(d^{k+1}, tau_active=1e-6, tau_free=1e-6) evaluated under corresponding H^{k+1}",
+    "coupled_field_consistency": "Final mechanical subproblem resolution on converged damage state to ensure u, d, H, RF, and energies refer to a mutually equilibrated state with delta_u <= 1e-9 mm and delta_H <= 1e-4 MPa",
+    "phase_decoding": "Strict fail-closed validation of exactly 15,559 unique physical-node records. Only documented 1-component damage or >=3-component U with damage in U3 accepted; 2-component (U1, U2), mixed counts, missing nodes, duplicate nodes, and nonfinite values rejected before clipping to d0",
+    "obstacle_enforcement": "Pointwise active-set Dirichlet clamp prescribed = {n: d0[n] for n in active} ensuring min(d - d0) >= -1.0e-6",
+    "kkt_tolerances": {
+      "delta_d": 1e-05,
+      "delta_u_mm": 1e-09,
+      "delta_h_MPa": 0.0001,
+      "consistency_delta_u_mm": 1e-09,
+      "consistency_delta_h_MPa": 0.0001,
+      "free_residual": 1e-06,
+      "dual_error": 1e-06,
+      "complementarity": 1e-06,
+      "healing_tolerance": 1e-06
+    },
+    "state_coverage": {
+      "physical_nodes": 15559,
+      "physical_elements": 15252,
+      "integration_points": 61008,
+      "seam_slit_pairs": 59
+    },
+    "holding_displacement_mm": 0.0018703125442191958,
+    "physical_continuity_gates": {
+      "donor_reference_force_kN": 0.17992419004440308,
+      "force_discrepancy_gate_pct": 2.0,
+      "donor_reference_total_energy_kNmm": 0.00022639903,
+      "energy_discrepancy_gate_pct": 2.0
+    }
+  },
+  "acceptance_criteria": {
+    "delta_d_max": 1e-05,
+    "delta_u_mm_max": 1e-09,
+    "delta_h_MPa_max": 0.0001,
+    "final_consistency_delta_u_mm_max": 1e-09,
+    "final_consistency_delta_h_MPa_max": 0.0001,
+    "signed_kkt_dual_kNmm_max": 1e-06,
+    "signed_kkt_free_kNmm_max": 1e-06,
+    "max_healing_tolerance": 1e-06,
+    "healing_violations_max": 0,
+    "history_monotonicity_violations_max": 0,
+    "force_discrepancy_pct_max": 2.0,
+    "total_energy_discrepancy_pct_max": 2.0,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "source_differences": "Package 171-R6 remediates the phase-field extraction data-integrity defect identified in Independent Review HND-F1602-R5-REVIEW-FD983824: (1) In solve_subproblem(), enforces fail-closed validation of exactly 15,559 unique physical-node records matching receiver mesh nodes, rejecting missing, duplicated, unexpected, or nonfinite (NaN/Inf) values; (2) In solve_subproblem(), for the phase subproblem, accepts strictly documented 1-component damage scalar output or >=3 component displacement output with damage in U3 (index 2); (3) In solve_subproblem(), strictly rejects 2-component phase output (U1, U2), mixed component counts, incomplete U3 coverage, and ambiguous extractor output, never interpreting v[-1] as damage by default; (4) Fails closed before clipping against d0, updating the damage field, or evaluating convergence, preserving the original endpoint and providing exact failure diagnostics; (5) Retains all verified R5 remediations: distinct 4 GP history loading from r[4+g] (61,008 GP histories), string-based keyword parsing, element-level *Initial Conditions SOLUTION serialization (16 SDVs), and extractor CLI arguments; (6) Retains all R4/R5 acceptance logic: consistency delta_u <= 1e-9 mm, consistency delta_H <= 1e-4 MPa, post-relaxation KKT <= 1e-6, zero healing, and force/energy drift <= 2.0%; (7) Adds comprehensive unit test suite test_package171_r6_c6_coupled_driver_phase_decoding.py (10 tests) covering valid U3, valid 1-component damage, 2-component rejection, mixed count rejection, duplicate/missing node rejection, and nonfinite rejection.",
+  "manifest": "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/M1_C6_PACKAGE171_R6_AUTHORIZATION.json",
+  "evidence_sources": {
+    "results/validation/c6_r6_independent_review_remediation_analysis.json": "D6FD9C3E5842CF7E579ADF55C9C53B5C28A6DE39A615F127C438332221DE7B48",
+    "results/validation/c6_r3_falsifiable_damping_hypothesis_offline_evaluation.json": "A5B66712E1892AD130A591D3FC41B837E71D68E231B0D339C90C8DDCB6B59AD0",
+    "tests/unit/test_package171_r6_c6_coupled_driver_phase_decoding.py": "5B5D5842C81EA8EBDC77D11EC748326DF5D9A49F91CF205A00974601B93D3085",
+    "tests/unit/test_package171_r6_c6_coupled_driver_gates.py": "8CE17D2D773A5924B613816DD4DB93419EFC495A5812552A7F1B3FFB0BC2DA09",
+    "tests/unit/test_package171_r6_c6_coupled_driver_readiness.py": "B6C9B5C8EA902CD19342A51C026C98E5CFFED9D7A848A3C9FDF510455D20F3E4",
+    "tests/unit/test_package171_r6_c6_coupled_driver_integration.py": "9B1A25FCADA25B3CB2E8A927EA862B60BA6F3CDE34DD620D364CE6DFBBDA8262",
+    "scripts/state_transfer/driver_package171_r6_c6_coupled_pdas.py": "0D2A6851B14CFD3D311CC427971C816F8EBB6048A69BD08F4B8DADC0BE83F086",
+    "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/PACKAGE_MANIFEST.json": "8A2CC9F31B3EF2092268DF2F15E91FD0AEB873179221FEF429EEC78CED403911",
+    "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/M1_C6_PACKAGE171_R6_AUTHORIZATION.json": "E2071E74DA5BCBB1FE2055319F6F51EFA18BA14ED9348BE2E6735C127ABB1756",
+    "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/EXECUTION_MANIFEST.json": "F3842C0095E8F2708DA50B373D460A64372E7B5ACA68B3B460D9131936F48C7D",
+    "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/submit_M1_C6_P171_R6_C3_0.pbs": "7AF8CB56A2300195E5D4DF50DB50343A907850BF0AEBB6EA2E8EFFCF0FC11236"
+  },
+  "execution_prerequisites": [
+    "Independent technical review and signed approval",
+    "Real Abaqus 2023 datachecks Exit 0 for mechanical and phase input decks",
+    "Dual-channel notification end-to-end delivery verified (Telegram + PBS mail)",
+    "Strictly 1 PBS job submission on single-rank serial 1 CPU, 16 GB, 8 h",
+    "Frozen UEL SHA-256 unchanged: CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "b427ef32-d897-4c15-a543-cdaec6b5f404",
+    "task_id":  "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
+    "repository_commit":  "9dd1fcf298ff811d94aa65678e95c7f03b7ed9a7",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-11-03T13:12:13.7046907+01:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "EC25457C58D573BE6298FA7F42785F26216DDE4F3F98E8F0F26DC4866CA6B04A",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "6DCA1CF57819614EC6D46010113DA1FA3DA37BF4EB4F302BB289DF51804DEBD4",
+                            "project_coordination/ACTIVE_SESSION.json":  "239BE0E112119863D6E3C4647F552EB9E7CE7ACB281073F80975D4C0FF89DD95",
+                            "project_coordination/ACTIVE_TASK.json":  "71408A9526F66D5EBDC276CEF6A448358BE945F1F03B9D07625D58CDFC3FA71F",
+                            "project_coordination/TASK_LEDGER.csv":  "536D851FA8CAB2952C06A4BF2E255E56775D483D48CB1C697FBE8935BCA54A98",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "0F1CC7E2801298F57C6B3FB05A06BA5ECB8E248E9F3BB430121009C300EFD835",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "29A4D0B387BD640BC4EC3BE2B8D0FDC0DAE1648FEDA44D8DBAEC5611EDD3C877",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "71408A9526F66D5EBDC276CEF6A448358BE945F1F03B9D07625D58CDFC3FA71F",
+                          "project_coordination/CURRENT_STATE.md":  "6DCA1CF57819614EC6D46010113DA1FA3DA37BF4EB4F302BB289DF51804DEBD4",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "0F1CC7E2801298F57C6B3FB05A06BA5ECB8E248E9F3BB430121009C300EFD835",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "A45DB5E38AAA627D4D54DF7339560852794D78B5903C36754081DC838C043467"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-11-03_gemini-antigravity_F1597_b427ef32-d897-4c15-a543-cdaec6b5f404.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-b427ef32-d897-4c15-a543-cdaec6b5f404.json",
+                                  "sha256":  "F7BFEC79B67FFB785B5480FB9DF303534C57995F0C7BA3E5F2F1F900F292D2DE",
+                                  "created_at":  "2026-11-03T13:42:26.2976588+01:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Transition to legitimate execution successor task to perform live Abaqus technical qualification and once-only PBS submission of M1_C6_P171_R6_C3_0"
+}

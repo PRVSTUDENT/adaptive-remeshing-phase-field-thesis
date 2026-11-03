@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "analysis": "R5 Phase-Field Extraction Defect Root Cause and R6 Specification",
+  "task_id": "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
+  "predecessor_review": {
+    "correlation_id": "HND-F1602-R5-REVIEW-FD983824",
+    "fingerprint": "FD98382477F364F829842ACD463312160D0891320A3C49829C14632F1E51FCE2",
+    "decision": "REJECT",
+    "defect_location": "scripts/state_transfer/driver_package171_r5_c6_coupled_pdas.py:solve_subproblem",
+    "defect_mechanism": "Falling through to v[-1] on 2-component nodal U output interprets U2 displacement as U3 damage, which subsequent clamping against d0 conceals instead of failing closed."
+  },
+  "r6_specification": {
+    "node_count_required": 15559,
+    "unique_nodes_required": true,
+    "valid_layouts": [
+      "1-component scalar damage field (d)",
+      ">=3 component displacement field with damage in U3 (index 2)"
+    ],
+    "rejected_layouts": [
+      "2-component displacement field (U1, U2)",
+      "mixed component counts across nodes",
+      "incomplete node coverage (< 15559 nodes)",
+      "duplicate node records",
+      "nonfinite values (NaN, Inf)"
+    ],
+    "fail_closed_behavior": "Raise explicit ValueError with diagnostic before clipping against d0 or updating damage field",
+    "preserved_anchors": {
+      "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "damping_omega_d": 0.5,
+      "mesh_elements": 15252,
+      "mesh_nodes": 15559,
+      "gp_histories": 61008,
+      "max_outer_iterations": 100
+    }
+  },
+  "status": "INITIAL_SPECIFICATION_VERIFIED",
+  "verification_passed": true
+}
