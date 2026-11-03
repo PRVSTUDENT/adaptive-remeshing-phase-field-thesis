@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "8240a59b-3b75-42cb-8639-6e5523970f3b",
+    "task_id":  "F1604-PACKAGE171-R7-C6-ADAPTIVE-PREPARATION",
+    "repository_commit":  "0e9f17889b5d6ab99157f43bc89b03a3fbcd4a9b",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-11-03T19:23:56.5282298+01:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "EC25457C58D573BE6298FA7F42785F26216DDE4F3F98E8F0F26DC4866CA6B04A",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "FEF59C258C0B7B45839882652E528E37EFA9F1E5F35132F48F5A404893D333B6",
+                            "project_coordination/ACTIVE_SESSION.json":  "B02DFC0FEBF68757B66ECFEB050B7750DE000E8587DADB6D86263C662EC51674",
+                            "project_coordination/ACTIVE_TASK.json":  "59EADC281929FD294F2F3FB328AFF62E1EAD9F12C11F86C49F7F44961C980AE3",
+                            "project_coordination/TASK_LEDGER.csv":  "52EE22327FC50E6997ED302E98A588E5BE607346D29F539560F83FCE9E81A80B",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "A98362D2CA34B40B48758FF0A37AC1B2F62182CA0F9434EB3214C03B5A05DF4C",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "93A687B39CB24BEEAEF0C4B0C9B455438AEF530935B8F06161DA3A84E13D3C50",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "59EADC281929FD294F2F3FB328AFF62E1EAD9F12C11F86C49F7F44961C980AE3",
+                          "project_coordination/CURRENT_STATE.md":  "FEF59C258C0B7B45839882652E528E37EFA9F1E5F35132F48F5A404893D333B6",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "A98362D2CA34B40B48758FF0A37AC1B2F62182CA0F9434EB3214C03B5A05DF4C",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "2546CC3FEA63F4EA7217A680951F8B242491C2751801C4FABFEDEBB0B092CA3C"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-11-03_gemini-antigravity_F1597_8240a59b-3b75-42cb-8639-6e5523970f3b.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "execute_mode1_package171_r7_c6_coupled_reequilibration",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-8240a59b-3b75-42cb-8639-6e5523970f3b.json",
+                                  "sha256":  "0209A62A470571BED907A7C07354FA5F3AAC7DA670EF3353169AF034EDC07B82",
+                                  "created_at":  "2026-11-03T19:38:49.5516540+01:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Implement R7 coupled driver with explicit active-set membership telemetry and unit tests before re-review"
+}
