@@ -1,0 +1,150 @@
+{
+  "schema": 1,
+  "task_id": "F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE",
+  "operation_id": "evaluate_mode1_package171_r1_c6_reconciled_evidence",
+  "job_id": "1419643.mmaster02",
+  "evaluator": "gemini-antigravity",
+  "evaluated_at": "2026-11-03T09:22:00+01:00",
+  "approval_reference": {
+    "correlation_id": "HND-c8b01c2cdb5246d598b0e81df090b494",
+    "fingerprint": "63A56EF5838D3EAADBB6FA1BC8D48FA100AA7CA2D61F99ADE7581D203A0F8AA0",
+    "decision": "APPROVE",
+    "reviewer": "ChatGPT-independent-review",
+    "author": "codex",
+    "review_receipt": "project_coordination/review_dispatch/evaluate_mode1_package171_r1_c6_reconciled_evidence-no-manifest.json",
+    "bridge_public_key": "configs/controller/review_bridge_public.pem"
+  },
+  "source_hashes": {
+    "results/validation/f1599_reconciled/acquisition.json": "30232649CDC2C2CB8BFCE4220E4E8C108B0FD668D08E159F0218C092BA1C71A8",
+    "results/validation/f1599_reconciled/driver_worktree_diff.txt": "F224E3D6F4B77A47103875259E158603FD5D7913979859B8740283D4351B22F2",
+    "results/validation/f1599_reconciled/original_review_hash_audit.json": "912878572C060211FD8FA75C6AA0AB34305F8E86E9FC38953EAB47D901B62EA4",
+    "results/validation/f1599_reconciled/package171_to_r1_manifest.diff.txt": "F3B3B9D3506DAFF44FC5C55315CADCEE4A42BDF8DD415758C2D417F052A827A2",
+    "results/validation/f1599_reconciled/parent_source_audit.json": "B6631CE2CD4FA19E033DED0E8012A6585EB15ECA6D1633D4CC49AD285318CE32",
+    "results/validation/f1599_reconciled/reference_and_convergence_audit.json": "72125C28AB249107B0A594819D8B41D5D2D6C8A3407F79277BF02C13A3927421",
+    "results/validation/f1599_reconciled/scheduler_terminal.json": "AE589837756C0D67389030DA89D8429E2DEE8EA9AE276DBFD5C7B2B019A93680",
+    "results/validation/f1599_reconciled/terminal_execution.txt": "1009FAB3F68A35C4EDD8930DEBDEE791493554F6CD007B38273F5CA5A1993E5E",
+    "results/validation/f1599_reconciled/terminal_iterations.json": "086C3334B40F1807AA66D9401A5663F0143E4068EFAC156F5C5BD013C36FE7B4",
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/c5_forward_continuation_c2_2_summary.json": "A2EAF0B4BF28969474E619F3B9768E4A144D6C2FD2F2DEDCD7ED742B4539C921",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/PACKAGE_MANIFEST.json": "CA79ECAEC1A9B9C275236EC8F5E29E27D2044AA948E172A15C182FF3B6D93341",
+    "scripts/state_transfer/driver_package171_c6_coupled_pdas.py": "F4D82958AD979DBD0871578608FF3531804B4F1A2E9FD5A34F2150DB3BCA1A2E",
+    "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/EXECUTION_MANIFEST.json": "535AB502B289E52F422454B842F2BE1A225639CD07ABDF9324C0FA938A63C8A1",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/EXECUTION_MANIFEST.json": "0DDC8769201D4CD885166011F507EF91E80A24FA84CE742DC3BD17FE119632AF",
+    "results/validation/f1599_reconciled/review_packet.json": "3B53CC6819278B6FC9932191C8BFE83D93102415FCC21BAA1885E37A6DBC6FAF",
+    "project_coordination/candidate_definitions/evaluate_mode1_package171_r1_c6_reconciled_evidence.json": "D9903D8A432B0CFF4376987E62CF2F350758B74AA2D6341043928B32820D6673"
+  },
+  "authoritative_references": {
+    "donor_force_kN": 0.17992419004440308,
+    "donor_total_energy_kNmm": 0.00022639903,
+    "donor_source": "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/c5_forward_continuation_c2_2_summary.json",
+    "stale_candidate_references_rejected": {
+      "stale_force_kN": 0.185010025983796,
+      "stale_force_discrepancy_pct": 2.826654902899839,
+      "stale_total_energy_kNmm": 0.00022233068945209,
+      "stale_energy_discrepancy_pct": 1.796977905740138
+    }
+  },
+  "driver_audit": {
+    "source_path": "scripts/state_transfer/driver_package171_c6_coupled_pdas.py",
+    "sha256": "F4D82958AD979DBD0871578608FF3531804B4F1A2E9FD5A34F2150DB3BCA1A2E",
+    "omitted_delta_h_in_internal_convergence_check": true,
+    "internal_convergence_condition": "previous_u is not None and delta_d <= 1e-5 and delta_u <= 1e-9 and kkt['passed']",
+    "enforced_independently": true,
+    "source_altered": false
+  },
+  "scheduler_accounting": {
+    "job_id": "1419643.mmaster02",
+    "queue": "normal_imfdfkmq",
+    "state": "F",
+    "exit_status": 1,
+    "walltime": "00:56:59",
+    "cput": "00:39:48",
+    "mem": "2174188kb",
+    "terminal_exception": "RuntimeError: Package 171 C6 coupled re-equilibration failed to converge within 100 iterations"
+  },
+  "measured_terminal_findings": {
+    "step": 1,
+    "outer": 100,
+    "target_uy_mm": 0.0018703125442191958,
+    "delta_d": 0.00716632604598999,
+    "delta_u_mm": 4.507217090576887e-05,
+    "delta_h_MPa": 271.54271707358976,
+    "dual_error": 9.782413348184107e-10,
+    "free_error": 3.573836381520622e-07,
+    "pdas_active_count": 35,
+    "pdas_free_count": 15524,
+    "kkt_active_count": 27,
+    "kkt_free_count": 15532
+  },
+  "trajectory_statistics": {
+    "total_iterations": 100,
+    "delta_d_min": 0.005265951,
+    "delta_d_max": 0.03103369,
+    "delta_u_min_mm": 3.869238e-06,
+    "delta_u_max_mm": 0.0002089358,
+    "delta_h_min_MPa": 1.087143,
+    "delta_h_max_MPa": 1322.999,
+    "dual_error_min": 9.782413e-10,
+    "dual_error_max": 5.877567e-07,
+    "free_error_min": 0.0,
+    "free_error_max": 8.48184e-07
+  },
+  "criteria_evaluations": {
+    "delta_d": {
+      "threshold": 1e-05,
+      "measured": 0.00716632604598999,
+      "status": "FAIL",
+      "ratio_to_threshold": 716.6326
+    },
+    "delta_u": {
+      "threshold_mm": 1e-09,
+      "measured_mm": 4.507217090576887e-05,
+      "status": "FAIL",
+      "ratio_to_threshold": 45072.17
+    },
+    "delta_h": {
+      "threshold_MPa": 0.0001,
+      "measured_MPa": 271.54271707358976,
+      "status": "FAIL",
+      "ratio_to_threshold": 2715427.17
+    },
+    "kkt_dual_error": {
+      "threshold": 1e-06,
+      "measured": 9.782413348184107e-10,
+      "status": "PASS"
+    },
+    "kkt_free_error": {
+      "threshold": 1e-06,
+      "measured": 3.573836381520622e-07,
+      "status": "PASS"
+    },
+    "damage_irreversibility": {
+      "tolerance": 1e-06,
+      "status": "UNVERIFIED",
+      "rationale": "Solver aborted at outer iteration 100 before committing converged checkpoint. Authentic pointwise damage field uncommitted."
+    },
+    "history_monotonicity": {
+      "violations_max": 0,
+      "status": "UNVERIFIED",
+      "rationale": "Authentic driving history field uncommitted at terminal step."
+    },
+    "reaction_force_continuity": {
+      "donor_reference_force_kN": 0.17992419004440308,
+      "threshold_pct": 2.0,
+      "status": "UNVERIFIED",
+      "rationale": "Reaction force was not evaluated at a converged equilibrium state due to coupled nonconvergence."
+    },
+    "total_energy_continuity": {
+      "donor_reference_total_energy_kNmm": 0.00022639903,
+      "threshold_pct": 2.0,
+      "status": "UNVERIFIED",
+      "rationale": "Total energy was not evaluated at a converged equilibrium state."
+    }
+  },
+  "physical_acceptance": "FAIL_COUPLED_NONCONVERGENCE",
+  "checkpoint_accepted": false,
+  "diagnostic_synthesis": {
+    "finding": "Job 1419643.mmaster02 demonstrates discrete PDAS KKT complementarity pass (dual error <= 9.78e-10, free error <= 3.57e-7) but decisive coupled alternating system divergence across 100 iterations (delta_d ~ 7.17e-3 vs 1e-5, delta_u ~ 4.51e-5 mm vs 1e-9 mm, delta_h ~ 271.5 MPa vs 1e-4 MPa).",
+    "r2_qualification": "PROHIBITED: Package 171-R2 is not qualified, selected, or dispatched in this turn. Requires external reviewed scientific hypothesis.",
+    "next_decision": "STOP for ChatGPT's next numerical decision."
+  }
+}

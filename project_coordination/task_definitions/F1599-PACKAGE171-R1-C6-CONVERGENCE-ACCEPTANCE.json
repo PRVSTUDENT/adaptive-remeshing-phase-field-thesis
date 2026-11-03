@@ -1,0 +1,85 @@
+{
+    "schema": 1,
+    "task_id": "F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE",
+    "title": "Evaluate authentic Package 171-R1 C6 re-equilibration terminal evidence and coupled nonconvergence",
+    "predecessor": {
+        "run_id": "ae8660dc-363a-4847-854c-93f9e08c0212",
+        "status": "COMPLETED",
+        "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+        "source_commit": "70872920db46e464058bd93716c9558763974b22",
+        "checkpoint_sha256": "6ED69A5D3D20FE790F4FB4B0F6B93173AC214838078CD5C6C141D13C16839B09"
+    },
+    "operation": {
+        "checkpoint_kind": "PREPARATION_CHECKPOINT",
+        "id": "research_preparation",
+        "mode": "READ_ONLY_SCIENTIFIC_EVALUATION",
+        "registration": "Approved read-only scientific evaluation of Package 171-R1 C6 re-equilibration evidence; no numerical execution qualified"
+    },
+    "max_new_pbs_submissions": 0,
+    "automatic_retry": false,
+    "job_references": {
+        "job_id": "1419643.mmaster02",
+        "live_status": "TERMINAL_EXIT1_FAILED_COUPLED_NONCONVERGENCE",
+        "remote_dir": "/scratch9/pr21vyci/runs/mode1_c6_package171_r1_c3_0_reequilibration",
+        "local_terminal_audit": "Reported FAILED Exit1 at Outer 100 with coupled nonconvergence; KKT residuals satisfied"
+    },
+    "acceptance": {
+        "acceptance_requires_original_files": true,
+        "delta_d_max": 1e-05,
+        "delta_u_mm_max": 1e-09,
+        "delta_h_MPa_max": 0.0001,
+        "signed_kkt_dual_kNmm_max": 1e-06,
+        "signed_kkt_free_kNmm_max": 1e-06,
+        "max_healing_tolerance": 1e-06,
+        "history_monotonicity_violations_max": 0,
+        "force_discrepancy_pct_max": 2.0,
+        "total_energy_discrepancy_pct_max": 2.0,
+        "donor_reference_force_kN": 0.17992419004440308,
+        "donor_reference_total_energy_kNmm": 0.00022639903,
+        "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+    },
+    "decision_branches": [
+        "COUPLED_NONCONVERGENCE_CONFIRMED: report terminal trajectory and stop for next numerical decision",
+        "NO_R2_QUALIFICATION: do not qualify or dispatch Package 171-R2 without independent review",
+        "NO_C6_CHECKPOINT: unverified final fields cannot produce an accepted C6 checkpoint"
+    ],
+    "evidence_sources": {
+        "results/validation/f1599_reconciled/acquisition.json": "30232649CDC2C2CB8BFCE4220E4E8C108B0FD668D08E159F0218C092BA1C71A8",
+        "results/validation/f1599_reconciled/driver_worktree_diff.txt": "F224E3D6F4B77A47103875259E158603FD5D7913979859B8740283D4351B22F2",
+        "results/validation/f1599_reconciled/original_review_hash_audit.json": "912878572C060211FD8FA75C6AA0AB34305F8E86E9FC38953EAB47D901B62EA4",
+        "results/validation/f1599_reconciled/package171_to_r1_manifest.diff.txt": "F3B3B9D3506DAFF44FC5C55315CADCEE4A42BDF8DD415758C2D417F052A827A2",
+        "results/validation/f1599_reconciled/parent_source_audit.json": "B6631CE2CD4FA19E033DED0E8012A6585EB15ECA6D1633D4CC49AD285318CE32",
+        "results/validation/f1599_reconciled/reference_and_convergence_audit.json": "72125C28AB249107B0A594819D8B41D5D2D6C8A3407F79277BF02C13A3927421",
+        "results/validation/f1599_reconciled/scheduler_terminal.json": "AE589837756C0D67389030DA89D8429E2DEE8EA9AE276DBFD5C7B2B019A93680",
+        "results/validation/f1599_reconciled/terminal_execution.txt": "1009FAB3F68A35C4EDD8930DEBDEE791493554F6CD007B38273F5CA5A1993E5E",
+        "results/validation/f1599_reconciled/terminal_iterations.json": "086C3334B40F1807AA66D9401A5663F0143E4068EFAC156F5C5BD013C36FE7B4",
+        "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/c5_forward_continuation_c2_2_summary.json": "A2EAF0B4BF28969474E619F3B9768E4A144D6C2FD2F2DEDCD7ED742B4539C921",
+        "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/PACKAGE_MANIFEST.json": "CA79ECAEC1A9B9C275236EC8F5E29E27D2044AA948E172A15C182FF3B6D93341",
+        "scripts/state_transfer/driver_package171_c6_coupled_pdas.py": "F4D82958AD979DBD0871578608FF3531804B4F1A2E9FD5A34F2150DB3BCA1A2E",
+        "models/pandey_kumar_mode1/171_c6_package171_c3_0_reequilibration/EXECUTION_MANIFEST.json": "535AB502B289E52F422454B842F2BE1A225639CD07ABDF9324C0FA938A63C8A1",
+        "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/EXECUTION_MANIFEST.json": "0DDC8769201D4CD885166011F507EF91E80A24FA84CE742DC3BD17FE119632AF",
+        "results/validation/f1599_reconciled/review_packet.json": "3B53CC6819278B6FC9932191C8BFE83D93102415FCC21BAA1885E37A6DBC6FAF",
+        "project_coordination/candidate_definitions/evaluate_mode1_package171_r1_c6_reconciled_evidence.json": "D9903D8A432B0CFF4376987E62CF2F350758B74AA2D6341043928B32820D6673"
+    },
+    "inherited_completed_operations": [
+        "mapped_frozen_history_lower_bound_kkt_probe",
+        "mapped_mechanical_history_call_order_probe",
+        "authentic_uel_history_call_trace",
+        "morning_scientific_audit_packages87_88",
+        "package89_state_transfer_submission",
+        "probe_mode1_f1597_r20_active_set_audit",
+        "evaluate_mode1_package148_state_transfer",
+        "evaluate_mode1_package148_state_transfer_r2",
+        "evaluate_mode1_package148_state_transfer_r3",
+        "evaluate_mode1_package148_state_transfer_r4",
+        "evaluate_mode1_package148_state_transfer_r5",
+        "evaluate_mode1_package148_state_transfer_r6",
+        "evaluate_mode1_package148_state_transfer_r7",
+        "evaluate_mode1_package148_state_transfer_r8",
+        "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+        "execute_mode1_package158_c2_0_r5_re_equilibration"
+    ],
+    "initial_instruction": "TASK: F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE\nOPERATION_ID: research_preparation\nPerform ONE bounded read-only scientific evidence evaluation of Package 171-R1 C6 re-equilibration job 1419643.mmaster02. Evaluate terminal coupled convergence, KKT residuals, delta_d, delta_u, and delta_h against authoritative tolerances. Pointwise irreversibility, history monotonicity, and force/energy continuity must remain UNVERIFIED in the absence of authentic final field snapshots. No C6 accepted checkpoint and no R2 qualification.",
+    "scientific_acceptance": "NOT_YET_EVALUATED",
+    "registration_authority": "Explicit user successor-registration instruction on 2026-11-03; authenticated ChatGPT independent review APPROVE HND-c8b01c2cdb5246d598b0e81df090b494"
+}

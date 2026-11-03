@@ -1,21 +1,23 @@
 {
     "active":  false,
-    "agent":  "codex",
-    "task_id":  "F1599-EVIDENCE-RECONCILIATION",
-    "starting_commit":  "70872920db46e464058bd93716c9558763974b22",
-    "claimed_at":  "2026-11-03T08:52:53.0431109+01:00",
-    "last_updated":  "2026-11-03T08:55:24.4530914+01:00",
-    "last_released":  "2026-11-03T08:55:24.4530914+01:00",
+    "agent":  "gemini-antigravity",
+    "task_id":  "F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE",
+    "starting_commit":  "004296120db211e9737a00b2f199e8422cea573d",
+    "claimed_at":  "2026-11-03T09:20:00+01:00",
+    "last_updated":  "2026-11-03T09:27:00+01:00",
+    "last_released":  "2026-11-03T09:27:00+01:00",
     "controller_run_id":  "ae8660dc-363a-4847-854c-93f9e08c0212",
-    "session_report":  "project_coordination/sessions/2026-11-03_codex_f1599_evidence_reconciliation.md",
+    "session_report":  "project_coordination/sessions/2026-11-03_gemini-antigravity_f1599_c6_convergence_acceptance.md",
     "allowed_write_scope":  [
                                 "project_coordination/ACTIVE_SESSION.json",
+                                "project_coordination/ACTIVE_TASK.json",
                                 "project_coordination/TASK_LEDGER.csv",
+                                "project_coordination/HPC_JOB_LEDGER.csv",
                                 "project_coordination/ARTIFACT_REGISTRY.csv",
-                                "project_coordination/sessions/2026-11-03_codex_f1599_evidence_reconciliation.md",
-                                "project_coordination/candidate_definitions/*reconciled*.json",
-                                "project_coordination/review_dispatch/*",
-                                "results/validation/f1599_reconciled/*",
-                                "scripts/validation/reconcile_f1599_evidence.py"
+                                "project_coordination/CURRENT_STATE.md",
+                                "project_coordination/task_definitions/F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE.json",
+                                "project_coordination/sessions/2026-11-03_gemini-antigravity_f1599_c6_convergence_acceptance.md",
+                                "results/validation/f1599_c6_coupled_convergence_evaluation.json",
+                                "results/validation/f1599_bridge_delivery_receipt.json"
                             ]
 }
