@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "status": "DEFINITION_REVIEW_REQUIRED",
+  "operation_id": "execute_mode1_package171_r4_c6_coupled_reequilibration",
+  "event_fingerprint": "execute_mode1_package171_r4_c6_coupled_reequilibration:BEA4445A4F13F11F26CAD5454812659D7E19AD6876F4029F135956433A0BDAF3",
+  "correlation_id": "HND-F1602-R4-REVIEW-BEA4445A",
+  "created_at": "2026-11-03T12:40:00.0000000Z",
+  "rationale": "Package 171-R4 remediates all review defects from R3: enforces ||u_final - u_staggered||_inf <= 1e-9 mm and ||H_final - H_staggered||_inf <= 1e-4 MPa directly in physical_pass, enforces final KKT stationarity <= 1e-6 on relaxed damage with H*, and adds driver failure-path regression tests."
+}

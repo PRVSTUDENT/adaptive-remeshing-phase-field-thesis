@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "operation_id": "execute_mode1_package171_r4_c6_coupled_reequilibration",
+  "registration_status": "PROPOSED_FOR_INDEPENDENT_REVIEW",
+  "task_id": "F1602-PACKAGE171-R4-C6-EXECUTION",
+  "author": "gemini-antigravity",
+  "stage": "C3-0",
+  "operation_mode": "QUALIFIED_EXECUTION",
+  "candidate_job": "M1_C6_P171_R4_C3_0",
+  "scope": "Genuine coupled staggered PDAS re-equilibration execution on non-coarsened C6 mesh (15,252 CPE4 quads, 15,559 physical nodes) at target uy = 0.0018703125 mm using convex damage under-relaxation (omega_d = 0.5) with post-relaxation KKT stationarity evaluation, joint displacement consistency (<= 1e-9 mm), history consistency (<= 1e-4 MPa), and gated checkpoint serialization. Authorized for exactly 1 PBS submission; serial 1 CPU, 16 GB, 8 h.",
+  "physical_acceptance": "UNVERIFIED",
+  "scientific_hypothesis": "Package 171-R1 exhibited nonconvergent alternating oscillations at Outer 100 (delta_d ~ 7.17e-3, delta_u ~ 4.51e-5 mm, delta_h ~ 271.5 MPa). Under the falsifiable numerical hypothesis omega_d = 0.5, convex damage relaxation dampens crack-tip strain-damage oscillatory feedback while strictly preserving d >= d0, d <= 1.0, post-relaxation KKT stationarity, coupled-field consistency (delta_u <= 1e-9 mm, delta_H <= 1e-4 MPa), and non-accumulating history.",
+  "mathematical_formulation": {
+    "mesh_level": "C6 (15,252 CPE4 elements, 15,559 physical nodes + RP 999999, 59 duplicate seam-slit pairs)",
+    "damping_formulation": "d^{k+1} = (1 - omega_d)*d^k + omega_d*d_tilde^{k+1} with omega_d = 0.5",
+    "kkt_evaluation": "Explicit post-relaxation KKT stationarity recomputation: solver.kkt(d^{k+1}, tau_active=1e-6, tau_free=1e-6) evaluated under corresponding H^{k+1}",
+    "coupled_field_consistency": "Final mechanical subproblem resolution on converged damage state to ensure u, d, H, RF, and energies refer to a mutually equilibrated state with delta_u <= 1e-9 mm and delta_H <= 1e-4 MPa",
+    "obstacle_enforcement": "Pointwise active-set Dirichlet clamp prescribed = {n: d0[n] for n in active} ensuring min(d - d0) >= -1.0e-6",
+    "kkt_tolerances": {
+      "delta_d": 1e-05,
+      "delta_u_mm": 1e-09,
+      "delta_h_MPa": 0.0001,
+      "consistency_delta_u_mm": 1e-09,
+      "consistency_delta_h_MPa": 0.0001,
+      "free_residual": 1e-06,
+      "dual_error": 1e-06,
+      "complementarity": 1e-06,
+      "healing_tolerance": 1e-06
+    },
+    "state_coverage": {
+      "physical_nodes": 15559,
+      "physical_elements": 15252,
+      "integration_points": 61008,
+      "seam_slit_pairs": 59
+    },
+    "holding_displacement_mm": 0.0018703125442191958,
+    "physical_continuity_gates": {
+      "donor_reference_force_kN": 0.17992419004440308,
+      "force_discrepancy_gate_pct": 2.0,
+      "donor_reference_total_energy_kNmm": 0.00022639903,
+      "energy_discrepancy_gate_pct": 2.0
+    }
+  },
+  "acceptance_criteria": {
+    "delta_d_max": 1e-05,
+    "delta_u_mm_max": 1e-09,
+    "delta_h_MPa_max": 0.0001,
+    "final_consistency_delta_u_mm_max": 1e-09,
+    "final_consistency_delta_h_MPa_max": 0.0001,
+    "signed_kkt_dual_kNmm_max": 1e-06,
+    "signed_kkt_free_kNmm_max": 1e-06,
+    "max_healing_tolerance": 1e-06,
+    "healing_violations_max": 0,
+    "history_monotonicity_violations_max": 0,
+    "force_discrepancy_pct_max": 2.0,
+    "total_energy_discrepancy_pct_max": 2.0,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "source_differences": "Package 171-R4 remediates the remaining consistency review defect from HND-F1602-R3-REVIEW-FD31DC83: (1) Enforces final mechanical displacement consistency ||u_final - u_staggered||_inf <= 1e-9 mm directly within the physical_pass acceptance predicate; (2) Recomputes final driving history and enforces ||H_final - H_staggered||_inf <= 1e-4 MPa directly within physical_pass; (3) Evaluates final KKT stationarity on relaxed damage under final history H* (free, dual, comp <= 1e-6); (4) Suppresses checkpoint commitment if any consistency or physical gate fails; (5) Adds driver-level failure-path regression tests proving that excessive delta_u, excessive delta_H, and failed KKT independently prevent checkpoint serialization.",
+  "evidence_sources": {
+    "results/validation/c6_r4_independent_review_remediation_analysis.json": "E02959A6590B8F085462A5D0414CF77ADF3B53D35F25FFDB757AD1B8730DE2D0",
+    "results/validation/c6_r3_falsifiable_damping_hypothesis_offline_evaluation.json": "A5B66712E1892AD130A591D3FC41B837E71D68E231B0D339C90C8DDCB6B59AD0",
+    "tests/unit/test_package171_r4_c6_coupled_driver_gates.py": "2F21EC582B1143362F486D172D261F81A47901D60CE827561B1783AA4139866A",
+    "tests/unit/test_package171_r4_c6_coupled_driver_readiness.py": "D1A7074F0C0D942405C81D8CD07523A25AF2D6FE8B179219FB29561C1F345116",
+    "scripts/state_transfer/driver_package171_r4_c6_coupled_pdas.py": "8C576AAEA89C5B4E7CE56D70ACC41BD57724C9CC64ACC8684B7274D5AF11F29A",
+    "models/pandey_kumar_mode1/171_c6_package171_r4_c3_0_reequilibration/PACKAGE_MANIFEST.json": "C194E3DF66C77E022DA0F717E33D8C0B9107EF05CCB1B14B1F4C6DD1BA88682B",
+    "models/pandey_kumar_mode1/171_c6_package171_r4_c3_0_reequilibration/M1_C6_PACKAGE171_R4_AUTHORIZATION.json": "1F1599914EACF0AC3DA25D330B64CB86BAEB29F8B0009A161380901AB1F29ADE",
+    "models/pandey_kumar_mode1/171_c6_package171_r4_c3_0_reequilibration/EXECUTION_MANIFEST.json": "E7A0523D4DE5AC56C7DBE3AD45BF21AB844A1A3CF8F93E5BFF51D2537C84C9F3",
+    "models/pandey_kumar_mode1/171_c6_package171_r4_c3_0_reequilibration/submit_M1_C6_P171_R4_C3_0.pbs": "22C3AFA0F291786D4AE90164051148D300FFEBD8FBE474F5A04057B2107AE5BF"
+  },
+  "execution_prerequisites": [
+    "Independent technical review and signed approval",
+    "Real Abaqus 2023 datachecks Exit 0 for mechanical and phase input decks",
+    "Dual-channel notification end-to-end delivery verified (Telegram + PBS mail)",
+    "Strictly 1 PBS job submission on single-rank serial 1 CPU, 16 GB, 8 h",
+    "Frozen UEL SHA-256 unchanged: CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  ]
+}
