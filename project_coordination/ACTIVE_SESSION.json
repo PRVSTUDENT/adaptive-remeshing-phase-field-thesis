@@ -1,18 +1,26 @@
 {
     "active":  false,
-    "agent":  "codex",
-    "task_id":  "CONTROLLER-TURN10-EXACT-RESUME",
-    "starting_commit":  "319769c2d0d5b715de34583dbabe40655dd6423b",
-    "claimed_at":  "2026-11-03T14:52:41.6168832+01:00",
-    "last_updated":  "2026-11-03T14:53:41.7978766+01:00",
-    "last_released":  "2026-11-03T14:53:41.7978766+01:00",
-    "controller_run_id":  "8dab19ad-66b7-40eb-85b0-8d1df95e92cb",
-    "session_report":  "project_coordination/sessions/2026-11-03_codex_turn10_exact_resume.md",
+    "agent":  "gemini-antigravity",
+    "task_id":  "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
+    "starting_commit":  "a8db546d1c5cd87eb018ae0089c1e05ecad54c64",
+    "claimed_at":  "2026-11-03T14:54:55.4905845+01:00",
+    "last_updated":  "2026-11-03T15:19:14.4370503+01:00",
+    "last_released":  "2026-11-03T15:19:14.4370503+01:00",
+    "controller_run_id":  "158e8df8-db39-4d5e-8033-0f22b618fbf4",
+    "session_report":  "project_coordination/sessions/2026-11-03_gemini-antigravity_F1597_158e8df8-db39-4d5e-8033-0f22b618fbf4.md",
     "allowed_write_scope":  [
+                                "project_coordination/sessions/2026-11-03_gemini-antigravity_F1597_158e8df8-db39-4d5e-8033-0f22b618fbf4.md",
+                                "project_coordination/controller/turn-158e8df8-db39-4d5e-8033-0f22b618fbf4.json",
+                                "results/validation/mode1_f1597/158e8df8-db39-4d5e-8033-0f22b618fbf4.json",
+                                "results/validation/preparation-158e8df8-db39-4d5e-8033-0f22b618fbf4.json",
+                                "results/validation/*",
+                                "scripts/validation/*",
+                                "tests/unit/*",
+                                "models/pandey_kumar_mode1/*",
                                 "project_coordination/ACTIVE_SESSION.json",
+                                "project_coordination/ACTIVE_TASK.json",
+                                "project_coordination/CURRENT_STATE.md",
                                 "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/ARTIFACT_REGISTRY.csv",
-                                "project_coordination/sessions/2026-11-03_codex_turn10_exact_resume.md",
-                                "C:/Users/pruth/OpenClawPAD/turn10-exact-resume.*"
+                                "project_coordination/ARTIFACT_REGISTRY.csv"
                             ]
 }

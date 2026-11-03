@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "158e8df8-db39-4d5e-8033-0f22b618fbf4",
+    "task_id":  "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
+    "repository_commit":  "a8db546d1c5cd87eb018ae0089c1e05ecad54c64",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-11-03T14:54:55.4905845+01:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "EC25457C58D573BE6298FA7F42785F26216DDE4F3F98E8F0F26DC4866CA6B04A",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "6DCA1CF57819614EC6D46010113DA1FA3DA37BF4EB4F302BB289DF51804DEBD4",
+                            "project_coordination/ACTIVE_SESSION.json":  "B8A7603483AE17926BDF9D83DD61C386FB26B46541D3220963ED86C325D81A86",
+                            "project_coordination/ACTIVE_TASK.json":  "66658FF828418DBECE32FBF081DC999092257D69F5F0DF6A7E7674E7E6495A74",
+                            "project_coordination/TASK_LEDGER.csv":  "F4A75BB671AB4666A990B2E03851D7EC017C710987C748787CF615EADB3F3AE2",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "0F1CC7E2801298F57C6B3FB05A06BA5ECB8E248E9F3BB430121009C300EFD835",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "01141F6D0F19448C47235EEE6E1E662C2C86229DD7D463BBFD8FB44860535E12",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "66658FF828418DBECE32FBF081DC999092257D69F5F0DF6A7E7674E7E6495A74",
+                          "project_coordination/CURRENT_STATE.md":  "6DCA1CF57819614EC6D46010113DA1FA3DA37BF4EB4F302BB289DF51804DEBD4",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "0F1CC7E2801298F57C6B3FB05A06BA5ECB8E248E9F3BB430121009C300EFD835",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "A45DB5E38AAA627D4D54DF7339560852794D78B5903C36754081DC838C043467"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-11-03_gemini-antigravity_F1597_158e8df8-db39-4d5e-8033-0f22b618fbf4.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-158e8df8-db39-4d5e-8033-0f22b618fbf4.json",
+                                  "sha256":  "A4F23898B2DB4B88C11D4CB65ED7E819236561A33FA8E648307CC002C946536B",
+                                  "created_at":  "2026-11-03T15:17:51.6316208+01:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Audit live running Package 171-R6 Stage C3-0 coupled PDAS job 1419807.mmaster02; evaluate coupled convergence upon solver termination."
+}
