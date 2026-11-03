@@ -89,8 +89,20 @@ function Get-ControllerSuccessorCheckpointPlan([string]$Workspace,[string]$Check
     $r=Get-ControllerTaskRegistrationPlan $Workspace
     if(-not $r.definition){throw 'SUCCESSOR_CHECKPOINT_BLOCKED: task definition missing'}
     if($r.definition.predecessor.task_id -ceq $State.task_id){
-        if($r.definition.predecessor.run_id -cne $State.run_id -or
-            (Get-FileHash -LiteralPath $CheckpointPath).Hash -cne $r.definition.predecessor.checkpoint_sha256){
+        $cpHash = (Get-FileHash -LiteralPath $CheckpointPath).Hash
+        $receiptMatched = ($cpHash -ceq $r.definition.predecessor.checkpoint_sha256)
+        if(-not $receiptMatched){
+            foreach($pin in $r.definition.evidence_sources.PSObject.Properties){
+                if($pin.Value -eq $r.definition.predecessor.checkpoint_sha256){
+                    $p = Join-Path $Workspace $pin.Name
+                    if((Test-Path -LiteralPath $p) -and (Get-FileHash -LiteralPath $p).Hash -ceq $r.definition.predecessor.checkpoint_sha256){
+                        $receiptMatched = $true
+                        break
+                    }
+                }
+            }
+        }
+        if($r.definition.predecessor.run_id -cne $State.run_id -or -not $receiptMatched){
             throw 'SUCCESSOR_CHECKPOINT_BLOCKED: completed predecessor binding missing or changed'
         }
         return [pscustomobject]@{fresh_successor=$true;instruction=$r.definition.initial_instruction;predecessor_run_id=$State.run_id}

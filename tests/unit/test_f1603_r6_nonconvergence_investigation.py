@@ -8,8 +8,11 @@ Validates:
 3. Pinned evidence sources on disk and exact SHA-256 digests.
 4. Retention of all 16 inherited completed operations.
 5. Strict zero PBS submission authorization.
+6. ACTIVE_TASK.json binding and task definition hash alignment.
+7. TASK_LEDGER.csv closed predecessor F1601 pointing to open successor F1603.
 """
 
+import csv
 import hashlib
 import json
 from pathlib import Path
@@ -90,3 +93,41 @@ def test_f1603_evidence_sources_hashes():
         with open(file_path, "rb") as f:
             actual_hash = hashlib.sha256(f.read()).hexdigest().upper()
         assert actual_hash == expected_hash.upper(), f"Hash mismatch for {rel_path}: expected {expected_hash}, got {actual_hash}"
+
+
+def test_f1603_active_task_json_binding():
+    task_path = WORKSPACE / "project_coordination/ACTIVE_TASK.json"
+    with open(task_path, "r", encoding="utf-8") as f:
+        task = json.load(f)
+
+    assert task.get("task_id") == "F1603-MODE1-C6-R6-NONCONVERGENCE-INVESTIGATION"
+    assert task.get("status") == "READY_READ_ONLY_EVALUATION"
+    assert task.get("max_new_pbs_submissions") == 0
+    assert task.get("scientific_checkpoint_required") is True
+    assert task.get("scientific_operation_id") == "research_preparation"
+    assert task.get("scientific_operation") == ""
+
+    reg = task.get("registration", {})
+    assert reg.get("definition") == "project_coordination/task_definitions/F1603-MODE1-C6-R6-NONCONVERGENCE-INVESTIGATION.json"
+    assert reg.get("schema") == 1
+
+    def_path = WORKSPACE / reg["definition"]
+    with open(def_path, "rb") as f:
+        expected_def_hash = hashlib.sha256(f.read()).hexdigest().upper()
+    assert reg.get("sha256") == expected_def_hash
+
+
+def test_f1603_task_ledger_linkage_and_uniqueness():
+    ledger_path = WORKSPACE / "project_coordination/TASK_LEDGER.csv"
+    with open(ledger_path, "r", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
+
+    f1603_rows = [r for r in rows if r["task_id"] == "F1603-MODE1-C6-R6-NONCONVERGENCE-INVESTIGATION"]
+    assert len(f1603_rows) == 1, f"Expected exactly 1 open row for F1603, found {len(f1603_rows)}"
+    assert f1603_rows[0]["status"] == "ready"
+    assert f1603_rows[0]["classification"] == "REGISTERED_NOT_EXECUTED"
+
+    f1601_rows = [r for r in rows if r["task_id"] == "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION" and r["status"].lower() == "completed"]
+    assert len(f1601_rows) >= 1
+    assert f1601_rows[-1]["next_task"] == "F1603-MODE1-C6-R6-NONCONVERGENCE-INVESTIGATION"

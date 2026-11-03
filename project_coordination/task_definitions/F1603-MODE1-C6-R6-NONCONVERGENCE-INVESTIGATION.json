@@ -6,8 +6,8 @@
     "run_id": "82e8a61f-d4ce-4562-9f6a-de07a432413d",
     "status": "COMPLETED",
     "task_id": "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
-    "source_commit": "1885f345a819f8bab911d29fad7c624be733fcd5",
-    "checkpoint_sha256": "C4AF27247EF856C857D6BA6494B98C3A62A927822B71E3963B9A4CD63BB54BC7"
+    "source_commit": "90c94dfc3c38d4c7dc73b50d879150c2b467cc8d",
+    "checkpoint_sha256": "97EAF328A2DB39FB1887B605E1B6ABB2FD85A7C2BE4EE8BE8680ED44ADCEA22C"
   },
   "operation": {
     "checkpoint_kind": "PREPARATION_CHECKPOINT",
@@ -45,6 +45,7 @@
     "NO_C6_CHECKPOINT: no unverified C6 state can be promoted to an accepted checkpoint"
   ],
   "evidence_sources": {
+    "results/validation/preparation-82e8a61f-d4ce-4562-9f6a-de07a432413d.json": "97EAF328A2DB39FB1887B605E1B6ABB2FD85A7C2BE4EE8BE8680ED44ADCEA22C",
     "results/validation/c6_r6_execution_reconciliation_and_acceptance.json": "6F8774BBA8B76291122687FA9C2C8F8B260690083087FD3771A0CDE1A1671E3C",
     "results/validation/r6_active_set_contraction_analysis.json": "C4AF27247EF856C857D6BA6494B98C3A62A927822B71E3963B9A4CD63BB54BC7",
     "scripts/validation/analyze_r6_active_set_contraction.py": "7A90166784CD2A13A067FB8878B1CF83C8850E0067C11C659C6C6CCDC21ECC75",
