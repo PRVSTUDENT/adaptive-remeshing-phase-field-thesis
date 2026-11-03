@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "title": "Package 171-R6 Live Preflight and Execution Successor Registration Audit",
+  "finding": "Live PBS scheduler queue verified empty (0 active jobs for pr21vyci). Independent review candidate execute_mode1_package171_r6_c6_coupled_reequilibration (fingerprint 2F85F0FE7550C5FF3290AAB40B0DE6AD4CF4B85F02ED03366D141F0FE053444B) was approved with cryptographic Ed25519 signature under correlation ID HND-F1602-R6-REVIEW-2F85F0FE. Remote scratch deployment of Package 171-R6 to /scratch9/pr21vyci/runs/mode1_c6_package171_r6_c3_0_reequilibration completed and verified (remote smoke import PASS). Real technical preflight via scripts/hpc/Invoke-Mode1Execution.ps1 -VerifyOnly failed at the PBS syntax check: submit_M1_C6_P171_R6_C3_0.pbs contains Windows CRLF line terminators causing bash -n to fail with syntax error at line 43. Because submit_M1_C6_P171_R6_C3_0.pbs has frozen SHA-256 7AF8CB56A2300195E5D4DF50DB50343A907850BF0AEBB6EA2E8EFFCF0FC11236 bound into the immutable signed review, local modification would invalidate review provenance. Per mandatory governance rules ('If registration or technical preflight fails, do not submit. Report the precise failed gate and supporting evidence, without another generic preparation cycle'), PBS submission of M1_C6_P171_R6_C3_0 is strictly withheld.",
+  "evidence_sources": {
+    "results/validation/c6_r6_live_preflight_and_registration_audit.json": "8D99C03038E7E29879A736806DCB9072A4CF87309E3237CE06675A27377D7799",
+    "scripts/validation/stage_package171_r6.py": "AECE97EDD6EAF861E503A09AF953A98E14E9E62644617927213E2624245FA91A",
+    "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/submit_M1_C6_P171_R6_C3_0.pbs": "7AF8CB56A2300195E5D4DF50DB50343A907850BF0AEBB6EA2E8EFFCF0FC11236",
+    "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/M1_C6_PACKAGE171_R6_AUTHORIZATION.json": "E2071E74DA5BCBB1FE2055319F6F51EFA18BA14ED9348BE2E6735C127ABB1756",
+    "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/PACKAGE_MANIFEST.json": "8A2CC9F31B3EF2092268DF2F15E91FD0AEB873179221FEF429EEC78CED403911",
+    "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/EXECUTION_MANIFEST.json": "F3842C0095E8F2708DA50B373D460A64372E7B5ACA68B3B460D9131936F48C7D",
+    "project_coordination/candidate_definitions/execute_mode1_package171_r6_c6_coupled_reequilibration.json": "7E1E72DEDD284C9BC15B31A527F027C7FEEE4E04280061908981BDC5C43C92C2",
+    "project_coordination/review_dispatch/execute_mode1_package171_r6_c6_coupled_reequilibration-2F85F0FE7550C5FF3290AAB40B0DE6AD4CF4B85F02ED03366D141F0FE053444B.response.json": "97CE5052711DC7C1CC8667F5C329DA29FA87DFF2616490D8AA92783E488DE0D6"
+  },
+  "registered_paths": [
+    "results/validation/c6_r6_live_preflight_and_registration_audit.json",
+    "scripts/validation/stage_package171_r6.py"
+  ],
+  "verification_passed": true,
+  "next_operation": "Awaiting supervisor/controller line-ending and registration intake reconciliation for Package 171-R6 execution; PBS submission withheld"
+}

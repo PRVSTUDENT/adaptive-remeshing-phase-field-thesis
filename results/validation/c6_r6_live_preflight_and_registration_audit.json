@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "task_id": "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
+  "turn_run_id": "8dab19ad-66b7-40eb-85b0-8d1df95e92cb",
+  "status": "PREFLIGHT_DIAGNOSTIC_COMPLETE",
+  "operation": "research_preparation",
+  "title": "Package 171-R6 Live Preflight and Execution Registration Audit",
+  "scheduler_status": {
+    "active_pbs_jobs": 0,
+    "user": "pr21vyci",
+    "query": "qstat -u pr21vyci",
+    "exit_code": 0,
+    "notes": "Scheduler queue is empty; zero active or queued PBS jobs."
+  },
+  "independent_review_status": {
+    "operation_id": "execute_mode1_package171_r6_c6_coupled_reequilibration",
+    "correlation_id": "HND-F1602-R6-REVIEW-2F85F0FE",
+    "fingerprint": "2F85F0FE7550C5FF3290AAB40B0DE6AD4CF4B85F02ED03366D141F0FE053444B",
+    "decision": "APPROVE",
+    "signature": "HmEDQyKYG+Pzg0/DttktMY0gtbQtgZtpjw3F14vAuNqzDpX+RhbyG6LaH5c5hMRpGMf26nWojXNigBb5VhbvDg==",
+    "status": "AUTHENTICATED_INDEPENDENT_REVIEW"
+  },
+  "remote_staging_status": {
+    "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c6_package171_r6_c3_0_reequilibration",
+    "staging_script": "scripts/validation/stage_package171_r6.py",
+    "smoke_import_result": "REMOTE_IMPORT_SUCCESS: True",
+    "staged_status": "PASS"
+  },
+  "technical_preflight_gate": {
+    "manifest": "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/M1_C6_PACKAGE171_R6_AUTHORIZATION.json",
+    "adapter": "mode1-qualified-batch-v2",
+    "preflight_execution": "scripts/hpc/Invoke-Mode1Execution.ps1 -VerifyOnly",
+    "gate_result": "FAIL_PREFLIGHT_PBS_SYNTAX",
+    "failure_reason": "Batch PBS syntax failure: submit_M1_C6_P171_R6_C3_0.pbs",
+    "diagnostics": "/scratch9/pr21vyci/runs/mode1_c6_package171_r6_c3_0_reequilibration/submit_M1_C6_P171_R6_C3_0.pbs: line 43: syntax error: unexpected end of file",
+    "mechanism": "The PBS submission script was serialized with Windows CRLF (\\r\\n) line terminators. When bash on Linux parses backslash line continuations (\\) immediately preceding \\r\\n, it escapes the \\r rather than continuing to the next line, triggering a syntax error at line 43 during bash -n verification.",
+    "immutable_package_constraint": "File submit_M1_C6_P171_R6_C3_0.pbs has frozen SHA-256 7AF8CB56A2300195E5D4DF50DB50343A907850BF0AEBB6EA2E8EFFCF0FC11236 bound into signed review HND-F1602-R6-REVIEW-2F85F0FE. Any local dos2unix line-ending modification alters the file hash, invalidating the cryptographic Ed25519 review approval.",
+    "policy_enforcement": "Per governance rules ('If registration or technical preflight fails, do not submit. Report the precise failed gate and supporting evidence, without another generic preparation cycle.'), job submission M1_C6_P171_R6_C3_0 is strictly withheld."
+  },
+  "registration_gap_analysis": {
+    "candidate_definition_present": true,
+    "candidate_path": "project_coordination/candidate_definitions/execute_mode1_package171_r6_c6_coupled_reequilibration.json",
+    "candidate_sha256": "7E1E72DEDD284C9BC15B31A527F027C7FEEE4E04280061908981BDC5C43C92C2",
+    "execution_task_definition": "project_coordination/task_definitions/F1602-PACKAGE171-R6-C6-EXECUTION.json",
+    "operation_definition": "project_coordination/operation_definitions/execute_mode1_package171_r6_c6_coupled_reequilibration.json",
+    "architectural_blocker": "Creating operation_definitions/execute_mode1_package171_r6_c6_coupled_reequilibration.json changes packet() intake from cand_rel to reg_rel in review_dispatcher.py, shifting the computed request fingerprint from 2F85... to 489D... and failing verify_receipt with INDEPENDENT_REVIEW_MISSING_OR_STALE. Staged candidate review was signed specifically over cand_rel.",
+    "governance_status": "Controlled non-submission; detailed evidence recorded without mutating protected controller code or creating unauthorized bypass definitions."
+  },
+  "evidence_sources": {
+    "scripts/validation/stage_package171_r6.py": "AECE97EDD6EAF861E503A09AF953A98E14E9E62644617927213E2624245FA91A",
+    "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/submit_M1_C6_P171_R6_C3_0.pbs": "7AF8CB56A2300195E5D4DF50DB50343A907850BF0AEBB6EA2E8EFFCF0FC11236",
+    "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/M1_C6_PACKAGE171_R6_AUTHORIZATION.json": "E2071E74DA5BCBB1FE2055319F6F51EFA18BA14ED9348BE2E6735C127ABB1756",
+    "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/PACKAGE_MANIFEST.json": "8A2CC9F31B3EF2092268DF2F15E91FD0AEB873179221FEF429EEC78CED403911",
+    "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/EXECUTION_MANIFEST.json": "F3842C0095E8F2708DA50B373D460A64372E7B5ACA68B3B460D9131936F48C7D",
+    "project_coordination/candidate_definitions/execute_mode1_package171_r6_c6_coupled_reequilibration.json": "7E1E72DEDD284C9BC15B31A527F027C7FEEE4E04280061908981BDC5C43C92C2",
+    "project_coordination/review_dispatch/execute_mode1_package171_r6_c6_coupled_reequilibration-2F85F0FE7550C5FF3290AAB40B0DE6AD4CF4B85F02ED03366D141F0FE053444B.response.json": "97CE5052711DC7C1CC8667F5C329DA29FA87DFF2616490D8AA92783E488DE0D6"
+  },
+  "verification_passed": true
+}
