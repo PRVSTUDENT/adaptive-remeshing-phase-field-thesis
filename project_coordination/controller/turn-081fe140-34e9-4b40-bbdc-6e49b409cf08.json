@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "081fe140-34e9-4b40-bbdc-6e49b409cf08",
+    "task_id":  "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
+    "repository_commit":  "f80cd4adec3f159ecae352da96579f2883d13c9c",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-11-03T12:04:54.7176280+01:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "EC25457C58D573BE6298FA7F42785F26216DDE4F3F98E8F0F26DC4866CA6B04A",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "2EF66546479D30CBCD0B8F0858DBD1CE69618A157A6BB9C2F2ED90F1CAC99CCB",
+                            "project_coordination/ACTIVE_SESSION.json":  "D582045F26F9F4A5BCD967D81D98E44A9D412341ABEC1D6FF8F1DC4DC48C28CC",
+                            "project_coordination/ACTIVE_TASK.json":  "7E8750E962AB2A00B7AD2BC9A3F8115BE38F07E4AC0E8CF0C86CB279F557E6CF",
+                            "project_coordination/TASK_LEDGER.csv":  "9E4DCD5EFB241AD486D256BD0FB4A7C2D40319EE012C37CE1DA29679708BD48B",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "0F1CC7E2801298F57C6B3FB05A06BA5ECB8E248E9F3BB430121009C300EFD835",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "90C681C3999C733225F2E032271BB23107AB2160FC5C06A99DFCD135B4C729AE",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "7E8750E962AB2A00B7AD2BC9A3F8115BE38F07E4AC0E8CF0C86CB279F557E6CF",
+                          "project_coordination/CURRENT_STATE.md":  "2EF66546479D30CBCD0B8F0858DBD1CE69618A157A6BB9C2F2ED90F1CAC99CCB",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "0F1CC7E2801298F57C6B3FB05A06BA5ECB8E248E9F3BB430121009C300EFD835",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "A45DB5E38AAA627D4D54DF7339560852794D78B5903C36754081DC838C043467"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-11-03_gemini-antigravity_F1597_081fe140-34e9-4b40-bbdc-6e49b409cf08.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-081fe140-34e9-4b40-bbdc-6e49b409cf08.json",
+                                  "sha256":  "CB1287ACAFDBB7D419D47A6BC1D121364DDE87364E560123468355E75B0D9AF6",
+                                  "created_at":  "2026-11-03T12:25:57.4670887+01:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Enforce max_consistency_delta_u \u003c= 1e-9 mm and final delta_H \u003c= 1e-4 MPa in physical_pass, add driver failure tests, and prepare corrected candidate for independent review"
+}

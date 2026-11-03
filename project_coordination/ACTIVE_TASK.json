@@ -2,7 +2,7 @@
     "task_id":  "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
     "agent":  "gemini-antigravity",
     "status":  "READY_READ_ONLY_EVALUATION",
-    "phase":  "Package 171-R2 under-relaxation candidate dispatched to external independent review bridge (correlation ID HND-F1602-R2-REVIEW-197845D6, fingerprint 197845D6712D4C0598D94823A59E858603D9E022628FB1015E6C4E3B1DCED18F). Signed Ed25519 review receipt returned REJECT due to 3 defects: (1) Stale KKT stationarity evaluated before relaxed damage update; (2) Checkpoint serialization committed without physical healing check; (3) Unmeasured spectral radius claims. Immediate R2 PBS submission is strictly rejected; driver repair and corrected R3 candidate required.",
+    "phase":  "Package 171-R3 under-relaxation candidate prepared and dispatched to automated independent review bridge (correlation ID HND-F1602-R3-REVIEW-FD31DC83, fingerprint FD31DC83BD252879EB2120AEA38C8D247102037131100CD18B70C1439106D313). Signed Ed25519 receipt returned REJECT: acknowledged resolution of post-update KKT check, physical healing check in physical_pass, and scientific hypothesis framing, but identified that max_consistency_delta_u was computed without being tested against \u003c= 1e-9 mm or included in physical_pass, and final history consistency was not checked against delta_H \u003c= 1e-4 MPa before checkpoint serialization. HPC execution remains blocked pending driver-level failure-path regression tests and corrected candidate re-review.",
     "gate_status":  "REGISTERED_SUCCESSOR__NUMERICAL_EXECUTION_NOT_QUALIFIED",
     "predecessor_task":  {
                              "run_id":  "ae8660dc-363a-4847-854c-93f9e08c0212",
@@ -284,14 +284,14 @@
                                },
     "scientific_acceptance":  "NOT_YET_EVALUATED",
     "last_step_status":  "PREPARATION_COMPLETE",
-    "last_updated":  "2026-11-03T12:01:04.5637401+01:00",
-    "next_safe_action":  "Repair driver KKT stationarity evaluation on final relaxed state and gate checkpoint on physical healing before resubmission",
+    "last_updated":  "2026-11-03T12:26:22.7804250+01:00",
+    "next_safe_action":  "Enforce max_consistency_delta_u \u003c= 1e-9 mm and final delta_H \u003c= 1e-4 MPa in physical_pass, add driver failure tests, and prepare corrected candidate for independent review",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-eae78f9b-60a9-4af4-aedc-ba0a6520c5d2.json",
-                                  "sha256":  "80E3ADB1E03CFE147B85D1F4BFBBDA7FFCF6C0C2567B612D94F8CF5F793DA00E",
-                                  "created_at":  "2026-11-03T12:00:09.1949271+01:00"
+                                  "artifact":  "results/validation/preparation-081fe140-34e9-4b40-bbdc-6e49b409cf08.json",
+                                  "sha256":  "CB1287ACAFDBB7D419D47A6BC1D121364DDE87364E560123468355E75B0D9AF6",
+                                  "created_at":  "2026-11-03T12:25:57.4670887+01:00"
                               }
 }
