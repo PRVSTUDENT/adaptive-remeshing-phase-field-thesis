@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "status": "REJECTED",
+  "operation_id": "execute_mode1_package171_r3_c6_coupled_reequilibration",
+  "event_fingerprint": "execute_mode1_package171_r3_c6_coupled_reequilibration:FD31DC83BD252879EB2120AEA38C8D247102037131100CD18B70C1439106D313",
+  "correlation_id": "HND-F1602-R3-REVIEW-FD31DC83",
+  "reason": "REJECT",
+  "rationale": "Independent review evaluated R3 candidate: acknowledged corrections for post-update KKT check, physical checkpoint gating, and hypothesis framing, but identified that max_consistency_delta_u was calculated without being gated against <= 1e-9 mm or tested in physical_pass, and final history consistency was not checked against delta_H <= 1e-4 MPa before checkpoint serialization. Required: enforce final displacement consistency <= 1e-9 mm and final history consistency <= 1e-4 MPa in physical_pass, add driver failure-path tests, and resubmit corrected R4 candidate for independent re-review.",
+  "next_action": "Enforce max_consistency_delta_u <= 1e-9 mm and final delta_H <= 1e-4 MPa in physical_pass, add driver failure tests, and prepare corrected candidate for independent review.",
+  "model_dispatches": 1,
+  "created_at": "2026-11-03T12:20:00.0000000Z",
+  "resolved_at": "2026-11-03T12:24:23.0000000Z"
+}

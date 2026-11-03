@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "analysis_id": "c6_r3_independent_review_remediation_analysis",
+  "task_id": "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
+  "target_candidate": "execute_mode1_package171_r3_c6_coupled_reequilibration",
+  "review_predecessor": {
+    "correlation_id": "HND-F1602-R2-REVIEW-197845D6",
+    "fingerprint": "197845D6712D4C0598D94823A59E858603D9E022628FB1015E6C4E3B1DCED18F",
+    "decision": "REJECT",
+    "reviewer": "ChatGPT-independent-review"
+  },
+  "remediation_specifications": {
+    "defect_1_post_update_kkt": {
+      "finding": "R2 evaluated KKT stationarity before phase solve and before convex damage relaxation d_{k+1} = (1 - omega_d)*d_k + omega_d*d_{PDAS}. Convex combination preserves bounds d >= d0, d <= 1, but does not guarantee stationarity.",
+      "remediation": "Recompute free error, dual error, and complementarity on actual relaxed damage field d_{k+1} using the corresponding history H_{k+1}. Gate convergence and telemetry strictly on post-update KKT residuals.",
+      "regression_requirement": "Add a unit test case where pre-update KKT passes but post-update KKT fails to prevent regression."
+    },
+    "defect_2_gated_checkpoint_commitment": {
+      "finding": "R2 serialized converged_checkpoint_01.json even when physical_acceptance was FAIL, and physical_pass omitted checking healing_violations_count == 0.",
+      "remediation": "Atomic checkpoint serialization of converged_checkpoint_01.json must strictly require: (1) coupled convergence (delta_d <= 1e-5, delta_u <= 1e-9 mm, delta_h <= 1e-4 MPa, post-update kkt_passed), (2) zero healing violations (healing_violations_count == 0), (3) thermodynamic consistency (H >= psi+), (4) history monotonicity (H >= H0), (5) force discrepancy <= 2%, (6) total energy discrepancy <= 2%. A failed physical state must never produce an accepted continuation checkpoint.",
+      "regression_requirement": "Test that physical acceptance failure blocks checkpoint creation completely."
+    },
+    "defect_3_coupled_field_consistency": {
+      "finding": "Confirm that displacement, damage, history, reaction force, and energy refer to a mutually consistent equilibrated state, not incompatible mechanical and phase subiterations.",
+      "remediation": "In staggered outer iteration, if coupled convergence is attained at outer iteration k with delta_d <= 1e-5, ensure that displacement u and reaction force RF are mutually consistent with d_{k+1} within the tolerance, and verify that post-convergence mechanical equilibrium discrepancy is bounded by delta_u <= 1e-9 mm."
+    },
+    "defect_4_scientific_claims_discipline": {
+      "finding": "Claims of crack-tip eigenvalue lambda = -1.0, deadbeat collapse, and full-system rho <= 0.875 were asserted as measured rather than predicted from coupled Jacobian.",
+      "remediation": "Remove assertions of measured eigenvalues and spectral radius from all candidate definitions, hypotheses, and manifests. Retain omega_d = 0.5 as a falsifiable experimental hypothesis."
+    }
+  },
+  "preserved_scientific_anchors": {
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "c5_donor_reaction_force_kN": 0.17992419004440308,
+    "c5_donor_total_energy_kNmm": 0.00022639903,
+    "mesh_quads": 15252,
+    "physical_nodes": 15559,
+    "duplicate_slit_flank_pairs": 59,
+    "dual_uel_elements": 30504,
+    "max_outer_iterations": 100,
+    "damping_omega_d": 0.5
+  },
+  "status": "INITIAL_SPECIFICATION_VERIFIED",
+  "created_at": "2026-11-03T12:09:40+01:00"
+}
