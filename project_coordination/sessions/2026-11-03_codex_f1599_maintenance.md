@@ -11,3 +11,9 @@ Review dispatched once after session release through Invoke-ReviewDispatcher.ps1
 No HPC jobs, checkpoint acceptance, F1599 registration or Package171-R2 qualification performed. Authentic independent approval is required before scientific registration/evaluation. Frozen UEL and all thresholds preserved.
 
 Finished.
+
+## Final review transport outcome
+
+Dispatcher ended BLOCKED / REVIEW_DISPATCH_UNAVAILABLE. Response archive exists at C:/Users/pruth/OpenClawPAD/ChatGPTBridge/archive/response_20261103_084525_HND-d0a07103a3ba42f1a3db175a2cc77b78.json. Recovery of the SAME correlation through Invoke-IndependentReviewBridge.ps1 found that archive without another transport request. Attestation failed deterministically: VALIDATION_FAILED: Reviewed hashes do not match request hashes. No response bytes or hashes were repaired and no signature/approval was manufactured.
+
+The unverified archived response states INSUFFICIENT_EVIDENCE: original terminal Outer100/Exit1 logs absent; attached telemetry covers only iterations 1–23; parent source diff absent; force reference 0.18501002598 kN differs from cited accepted C5 value 0.17992419004 kN by about 2.83%; energy references differ about 1.80%; declared delta_H criterion is not enforced by coupled driver. These are preserved reviewer claims, not an authenticated decision. Required dependency: recover a request-bound verifiable independent decision and resolve requested scientific evidence before F1599 registration. Do not resume F1598 preparation or automatically redispatch. No HPC operations performed.

@@ -1,0 +1,15 @@
+{
+  "operation_id": "evaluate_mode1_package171_r1_c6_coupled_convergence",
+  "status": "BLOCKED",
+  "transitions": [
+    "PREPARED",
+    "REVIEW_PENDING",
+    "BLOCKED"
+  ],
+  "fingerprint": "23EAA6165EFC021C4EA4F9FABE911A14DEB493C742B37259F65B8DB74C469956",
+  "correlation_id": "HND-d0a07103a3ba42f1a3db175a2cc77b78",
+  "dispatch_started": true,
+  "reason": "REVIEW_DISPATCH_UNAVAILABLE",
+  "detail": "Command '['powershell', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', 'scripts/controller/Invoke-IndependentReviewBridge.ps1', '-RequestPath', 'D:\\\\Master thesis\\\\Adaptive remeshing\\\\project_coordination\\\\review_dispatch\\\\evaluate_mode1_package171_r1_c6_coupled_convergence-23EAA6165EFC021C4EA4F9FABE911A14DEB493C742B37259F65B8DB74C469956.request.json', '-ResponsePath', 'D:\\\\Master thesis\\\\Adaptive remeshing\\\\project_coordination\\\\review_dispatch\\\\evaluate_mode1_package171_r1_c6_coupled_convergence-23EAA6165EFC021C4EA4F9FABE911A14DEB493C742B37259F65B8DB74C469956.request.response.json']' returned non-zero exit status 1.",
+  "alert": "Configure authenticated bridge receipt producer; resume same correlation. Gemini re-entry prohibited."
+}
