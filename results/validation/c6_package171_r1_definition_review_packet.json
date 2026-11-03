@@ -1,0 +1,84 @@
+{
+  "schema": 1,
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "review_status": "DEFINITION_REVIEW_REQUIRED",
+  "investigation_title": "Package 171-R1 C6 Stage C3-0 Coupled PDAS Re-equilibration Definition and Evidence Packet",
+  "registration_mismatch_diagnosis": {
+    "active_task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+    "active_task_scope": "Evaluate original Package 166 (C5 Stage C2-0, PBS 1419480) and already-submitted Package 166-R2 (PBS 1419483) before first +5 nm C5 decision",
+    "requested_investigation": "Package 171-R1 C6 Stage C3-0 coupled PDAS re-equilibration convergence acceptance (PBS 1419643.mmaster02)",
+    "permitted_operation_in_active_task": "research_preparation (read-only evaluation; no numerical operation registered)",
+    "mismatch_finding": "Package 171-R1 belongs to mesh level C6 (15,252 CPE4 quads, 15,559 physical nodes, 59 duplicate slit pairs, Stage C3-0), which is outside the registered scope of task F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE. Attempting to qualify or evaluate Package 171-R1 under task F1598 triggered DEFINITION_REJECTED. A dedicated successor task definition (F1599) must be independently reviewed and registered before evaluating Package 171-R1 terminal results."
+  },
+  "proposed_operation_definition": {
+    "proposed_task_id": "F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE",
+    "proposed_operation_id": "evaluate_mode1_package171_r1_c6_coupled_convergence",
+    "proposed_operation_mode": "READ_ONLY_SCIENTIFIC_EVALUATION",
+    "proposed_job_id": "1419643.mmaster02",
+    "proposed_remote_dir": "/scratch9/pr21vyci/runs/mode1_c6_package171_r1_c3_0_reequilibration",
+    "objective": "Independently evaluate authentic terminal convergence, KKT compliance, damage irreversibility, history monotonicity, and force/energy discrepancy of Package 171-R1 C6 coupled PDAS re-equilibration from Job 1419643.mmaster02 outputs.",
+    "scientific_predecessor_dependencies": [
+      "Accepted C5 Checkpoint 03 (Job 1419566.mmaster02, Package 167-R3 C2-2)",
+      "Authentic C5 companion MISESERI recovery (Job 1419573.mmaster02, Package 168)",
+      "Verified C5 to C6 non-coarsened adaptive mesh integration (15,252 CPE4 quads, 59 slit pairs, 0.00% coarsening)",
+      "Stage C3-0 direct UEL solve qualification (Job 1419586.mmaster02, Package 170)"
+    ],
+    "acceptance_criteria": {
+      "delta_d_max": 1e-05,
+      "delta_u_mm_max": 1e-09,
+      "delta_h_MPa_max": 0.0001,
+      "kkt_dual_kNmm_max": 1e-06,
+      "kkt_free_kNmm_max": 1e-06,
+      "damage_healing_tolerance": 1e-06,
+      "history_monotonicity_violations_max": 0,
+      "force_discrepancy_pct_max": 2.0,
+      "total_energy_discrepancy_pct_max": 2.0,
+      "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+    }
+  },
+  "scheduler_reconciliation": {
+    "pbs_job_id": "1419643.mmaster02",
+    "job_name": "M1_C6_P171_R1_C3_0",
+    "queue": "normal_imfdfkmq",
+    "compute_node": "mnode105.cluster",
+    "pbs_state": "F",
+    "exit_status": 1,
+    "time_use": "00:39:48",
+    "terminal_log_finding": "Driver executed 100 outer iterations. At Outer 100: delta_d = 7.1663e-3, delta_u = 4.5072e-5 mm, delta_h = 271.54 MPa, dual_error = 9.7824e-10, free_error = 3.5738e-7, active_nodes = 35, free_nodes = 15,524. Driver raised RuntimeError: Package 171 C6 coupled re-equilibration failed to converge within 100 iterations (delta_d > 1e-5 tolerance)."
+  },
+  "iteration_23_telemetry_audit": {
+    "outer_iteration": 23,
+    "target_uy_mm": 0.0018703125442191958,
+    "delta_d": 0.023363828659057617,
+    "delta_u_mm": 3.116636071354151e-05,
+    "delta_h_MPa": 18.35977446400713,
+    "dual_error_kNmm": 1.6281047016263734e-07,
+    "free_error_kNmm": 2.656808186141001e-07,
+    "pdas_active_nodes": 5664,
+    "pdas_free_nodes": 9895,
+    "kkt_dual_compliant": true,
+    "kkt_free_compliant": true
+  },
+  "evidence_sources": {
+    "project_coordination/task_definitions/F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE.json": "D4D5964E1ED2E860E14C2B5A22589675AA5AD4D594BACA5A91FA0DA60BEB08FA",
+    "project_coordination/ACTIVE_TASK.json": "FDC4828918D549394A5B0E25C27942401298AA7BC2A8F86200DBE486E1C35D29",
+    "project_coordination/CURRENT_STATE.md": "D867EAC09D737CDF1774D7772DE0C60CA70EB683423305473ED4589DDA6BC112",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/PACKAGE_MANIFEST.json": "CA79ECAEC1A9B9C275236EC8F5E29E27D2044AA948E172A15C182FF3B6D93341",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/EXECUTION_MANIFEST.json": "0DDC8769201D4CD885166011F507EF91E80A24FA84CE742DC3BD17FE119632AF",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/evidence/1419643.mmaster02/live_iteration_telemetry.json": "9D3D09D88C13A0AB654F0BA1E81BB5767BC2566819AE8CB68AEF8BE0DBDC1845",
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/c5_forward_continuation_c2_2_summary.json": "A2EAF0B4BF28969474E619F3B9768E4A144D6C2FD2F2DEDCD7ED742B4539C921",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/c5_miseseri_extraction_summary.json": "2F72FAE224C730ADE05D82B5C484C7ADE4B8EA21627C7A93B08283A549C4F39E",
+    "results/validation/c5_c6_mesh_fidelity_audit.json": "DFF983D540AEDE9A58EAE526C843976C19ED387C19E521CE9802EB13F079B0DA",
+    "results/validation/c6_state_transfer_validation.json": "2F882C61A61F40808EF1132D461C24D9085DDC159F88C842667F4D4BA61DBE36",
+    "results/validation/c6_package171_r1_assembly_validation.json": "A3C1F1CCCA6ED69874D6FFDFA4447968931C3E71402738499ADF5385DC34FE28"
+  },
+  "unresolved_evidence_gaps_and_hypotheses": [
+    "Gap 1: Full terminal ODB and field outputs from Job 1419643.mmaster02 remain on cluster scratch (/scratch9/pr21vyci/runs/mode1_c6_package171_r1_c3_0_reequilibration) and have not yet been transferred locally for detailed field post-processing.",
+    "Gap 2: Pointwise irreversibility min(d - d0) and exact holding force/energy balances at Outer 100 cannot be certified without local ODB field extraction.",
+    "Hypothesis A (Iteration Budget Truncation): The driver monotonically reduced active nodes from 13,803 (Outer 1) to 35 (Outer 100) and delta_d from 0.023 (Outer 23) to 0.0071 (Outer 100). The fixed limit of 100 outer iterations was insufficient for the larger 15,252-quad C6 mesh to reach the tight 1e-5 tolerance.",
+    "Hypothesis B (Fixed-Point Damping / Under-relaxation): In the vicinity of the crack tip where history changes remain non-zero (delta_h = 271 MPa), slight alternating oscillations between mechanical and phase subproblems may benefit from an under-relaxation parameter (e.g. omega = 0.7-0.9) to accelerate contraction.",
+    "Hypothesis C (Active-Set Boundary Settling): The 35 remaining active nodes represent a highly localized crack-tip boundary layer; a tiered tolerance or focused local solver step may be necessary for full coupled contraction."
+  ],
+  "verification_passed": true
+}

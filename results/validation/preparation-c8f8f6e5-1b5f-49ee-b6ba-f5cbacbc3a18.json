@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "turn_run_id": "c8f8f6e5-1b5f-49ee-b6ba-f5cbacbc3a18",
+  "finding": "Reconciled live scheduler and streaming telemetry for Package 171-R1 C6 re-equilibration (PBS 1419643.mmaster02) and resolved task registration mismatch. Task F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE specifically governs Package 166 (C5 Stage C2-0) evaluation, whereas Package 171-R1 addresses C6 Stage C3-0 coupled PDAS re-equilibration. Evaluation of Package 171-R1 is outside the registered task scope and requires formal independent review and registration of successor task F1599. Live scheduler confirmed job 1419643.mmaster02 reached terminal state F (Exit 1) at Outer 100 with delta_d = 7.17e-3 > 1e-5 while active sets settled to 35 active nodes with strict KKT compliance (dual error 9.78e-10, free error 3.57e-7 <= 1e-6). Prepared review-ready operation definition packet preserving original acceptance gates, predecessor evidence, and frozen UEL.",
+  "evidence_sources": {
+    "project_coordination/task_definitions/F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE.json": "D4D5964E1ED2E860E14C2B5A22589675AA5AD4D594BACA5A91FA0DA60BEB08FA",
+    "project_coordination/ACTIVE_TASK.json": "FDC4828918D549394A5B0E25C27942401298AA7BC2A8F86200DBE486E1C35D29",
+    "project_coordination/CURRENT_STATE.md": "D867EAC09D737CDF1774D7772DE0C60CA70EB683423305473ED4589DDA6BC112",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/PACKAGE_MANIFEST.json": "CA79ECAEC1A9B9C275236EC8F5E29E27D2044AA948E172A15C182FF3B6D93341",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/EXECUTION_MANIFEST.json": "0DDC8769201D4CD885166011F507EF91E80A24FA84CE742DC3BD17FE119632AF",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/evidence/1419643.mmaster02/live_iteration_telemetry.json": "9D3D09D88C13A0AB654F0BA1E81BB5767BC2566819AE8CB68AEF8BE0DBDC1845",
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/c5_forward_continuation_c2_2_summary.json": "A2EAF0B4BF28969474E619F3B9768E4A144D6C2FD2F2DEDCD7ED742B4539C921",
+    "models/pandey_kumar_mode1/168_c5_companion_miseseri/c5_miseseri_extraction_summary.json": "2F72FAE224C730ADE05D82B5C484C7ADE4B8EA21627C7A93B08283A549C4F39E",
+    "results/validation/c5_c6_mesh_fidelity_audit.json": "DFF983D540AEDE9A58EAE526C843976C19ED387C19E521CE9802EB13F079B0DA",
+    "results/validation/c6_state_transfer_validation.json": "2F882C61A61F40808EF1132D461C24D9085DDC159F88C842667F4D4BA61DBE36",
+    "results/validation/c6_package171_r1_assembly_validation.json": "A3C1F1CCCA6ED69874D6FFDFA4447968931C3E71402738499ADF5385DC34FE28",
+    "results/validation/c6_package171_r1_definition_review_packet.json": "33F58E71FDF8E2F2DFDA1CF9978D09DF329F5A9E32E2ADA1D7760E968AA39341"
+  },
+  "registered_paths": [
+    "results/validation/c6_package171_r1_definition_review_packet.json"
+  ],
+  "decision": "DEFINITION_REVIEW_REQUIRED",
+  "next_operation": "Formal review and registration of successor task F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE before evaluating Package 171-R1 terminal evidence",
+  "verification_passed": true
+}

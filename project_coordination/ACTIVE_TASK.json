@@ -2,7 +2,7 @@
     "task_id":  "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
     "agent":  "gemini-antigravity",
     "status":  "READY_READ_ONLY_EVALUATION",
-    "phase":  "Reconciled live scheduler and streaming telemetry for Package 171-R1 C6 coupled PDAS re-equilibration under Job 1419643.mmaster02. Verified job actively running (PBS state R, Time Use 00:08:32 on normal_imfdfkmq, compute node mnode105.cluster). Live streaming telemetry confirms 23 outer iterations completed. KKT residuals remain strictly compliant (dual error 1.63e-7 \u003c= 1e-6, free error 2.66e-7 \u003c= 1e-6) while coupled increment delta_d has settled to ~0.005-0.023 and delta_u to 3.12e-5 mm. Enforced single-operation discipline, explicit terminal-state rule (PBS Exit 0 is distinct from coupled physical acceptance; running job cannot certify checkpoint commit), and resolved one-query telemetry conflict by single scheduler inquiry plus non-invasive scratch telemetry harvest. All 15/15 unit and regression tests passed cleanly.",
+    "phase":  "Reconciled live scheduler and streaming telemetry for Package 171-R1 C6 re-equilibration (PBS 1419643.mmaster02) and resolved task registration mismatch. Task F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE specifically governs Package 166 (C5 Stage C2-0) evaluation, whereas Package 171-R1 addresses C6 Stage C3-0 coupled PDAS re-equilibration. Evaluation of Package 171-R1 is outside the registered task scope and requires formal independent review and registration of successor task F1599. Live scheduler confirmed job 1419643.mmaster02 reached terminal state F (Exit 1) at Outer 100 with delta_d = 7.17e-3 \u003e 1e-5 while active sets settled to 35 active nodes with strict KKT compliance (dual error 9.78e-10, free error 3.57e-7 \u003c= 1e-6). Prepared review-ready operation definition packet preserving original acceptance gates, predecessor evidence, and frozen UEL.",
     "gate_status":  "REGISTERED_SUCCESSOR__NUMERICAL_EXECUTION_NOT_QUALIFIED",
     "predecessor_task":  {
                              "run_id":  "19280009-42f4-4897-8d3a-9b52d2e5168a",
@@ -279,14 +279,14 @@
                                    "monitoring_closeout_verified":  false
                                },
     "last_step_status":  "PREPARATION_COMPLETE",
-    "last_updated":  "2026-11-02T17:00:12.0634931+01:00",
-    "next_safe_action":  "Advance to qualified execution or next research task",
+    "last_updated":  "2026-11-03T06:29:02.9692222+01:00",
+    "next_safe_action":  "Formal review and registration of successor task F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE before evaluating Package 171-R1 terminal evidence",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-c3b149aa-f8e3-4d0f-be25-26c2ec0f7e0e.json",
-                                  "sha256":  "58B22BE2CCF8350507AF8CD9AF327F9DA937B997F5B9EE8A432AC954FEDDF720",
-                                  "created_at":  "2026-11-02T16:58:50.5800701+01:00"
+                                  "artifact":  "results/validation/preparation-c8f8f6e5-1b5f-49ee-b6ba-f5cbacbc3a18.json",
+                                  "sha256":  "D2EDC116B2A0F9F42CC13C53B6879BF2EAD07AD836EA8D3BF188DB025A620B17",
+                                  "created_at":  "2026-11-03T06:28:39.7408430+01:00"
                               }
 }
