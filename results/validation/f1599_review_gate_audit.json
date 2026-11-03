@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "turn_id": "75a21282-2b60-4d20-b2c3-112947350700",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "target_task_id": "F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE",
+  "turn_54_controller_recovery": {
+    "status": "RECOVERY_VERIFIED",
+    "root_cause": "agent response trailing text after Finished ('Clarify the scope of this recovery task')",
+    "fix_applied": "targeted persistent fix in Controller-Recovery.ps1 allowing coordination ledgers to match authoritative bootstrap snapshot; deployed to OpenClawPAD via Deploy-Controller.ps1",
+    "regression_tests": "8/8 passed"
+  },
+  "hpc_status_reconciliation": {
+    "pbs_job_id": "1419643.mmaster02",
+    "job_name": "M1_C6_P171_R1_C3_0",
+    "scheduler_state": "F",
+    "exit_status": 1,
+    "time_use": "00:39:48",
+    "queue": "normal_imfdfkmq",
+    "outer_iterations": 100,
+    "delta_d": 0.0071663,
+    "delta_d_tol": 1e-05,
+    "delta_u_mm": 4.5072e-05,
+    "delta_h_MPa": 271.54,
+    "kkt_dual_error": 9.7824e-10,
+    "kkt_dual_tol": 1e-06,
+    "kkt_free_error": 3.5738e-07,
+    "kkt_free_tol": 1e-06,
+    "active_nodes": 35,
+    "free_nodes": 15524,
+    "total_nodes": 15559,
+    "scientific_verdict": "Coupled nonconvergence (delta_d > 1e-5) after 100 iterations despite PDAS KKT compliance; no accepted C6 checkpoint exists",
+    "predecessors_preserved": {
+      "1419566.mmaster02": "Accepted C5 Checkpoint03",
+      "1419573.mmaster02": "Authentic C5 companion MISESERI recovery",
+      "1419586.mmaster02": "C6 Stage C3-0 direct UEL qualification only"
+    }
+  },
+  "review_packet_audit": {
+    "path": "results/validation/c6_package171_r1_definition_review_packet.json",
+    "exists": true,
+    "sha256": "33F58E71FDF8E2F2DFDA1CF9978D09DF329F5A9E32E2ADA1D7760E968AA39341",
+    "evidence_sources_verified": {
+      "project_coordination/task_definitions/F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE.json": "D4D5964E1ED2E860E14C2B5A22589675AA5AD4D594BACA5A91FA0DA60BEB08FA",
+      "project_coordination/ACTIVE_TASK.json": "4172011B18C2ECFA96CC3821DD9514526F99683883E2FF286CD0ABA42A3A1666",
+      "project_coordination/CURRENT_STATE.md": "D867EAC09D737CDF1774D7772DE0C60CA70EB683423305473ED4589DDA6BC112",
+      "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/PACKAGE_MANIFEST.json": "CA79ECAEC1A9B9C275236EC8F5E29E27D2044AA948E172A15C182FF3B6D93341",
+      "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/EXECUTION_MANIFEST.json": "0DDC8769201D4CD885166011F507EF91E80A24FA84CE742DC3BD17FE119632AF",
+      "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/evidence/1419643.mmaster02/live_iteration_telemetry.json": "9D3D09D88C13A0AB654F0BA1E81BB5767BC2566819AE8CB68AEF8BE0DBDC1845",
+      "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/c5_forward_continuation_c2_2_summary.json": "A2EAF0B4BF28969474E619F3B9768E4A144D6C2FD2F2DEDCD7ED742B4539C921",
+      "models/pandey_kumar_mode1/168_c5_companion_miseseri/c5_miseseri_extraction_summary.json": "2F72FAE224C730ADE05D82B5C484C7ADE4B8EA21627C7A93B08283A549C4F39E",
+      "results/validation/c5_c6_mesh_fidelity_audit.json": "DFF983D540AEDE9A58EAE526C843976C19ED387C19E521CE9802EB13F079B0DA",
+      "results/validation/c6_state_transfer_validation.json": "2F882C61A61F40808EF1132D461C24D9085DDC159F88C842667F4D4BA61DBE36",
+      "results/validation/c6_package171_r1_assembly_validation.json": "A3C1F1CCCA6ED69874D6FFDFA4447968931C3E71402738499ADF5385DC34FE28"
+    },
+    "evidence_sources_missing": [],
+    "evidence_sources_mismatched": [
+      {
+        "path": "project_coordination/ACTIVE_TASK.json",
+        "expected": "FDC4828918D549394A5B0E25C27942401298AA7BC2A8F86200DBE486E1C35D29",
+        "actual": "4172011B18C2ECFA96CC3821DD9514526F99683883E2FF286CD0ABA42A3A1666"
+      }
+    ]
+  },
+  "review_and_registration_boundary": {
+    "recovery_prerequisite_explicit": true,
+    "separate_review_from_registration": true,
+    "current_review_status": "DEFINITION_REVIEW_REQUIRED",
+    "authenticated_review_exists": false,
+    "registration_permitted_in_this_turn": false,
+    "execution_permitted_in_this_turn": false,
+    "new_pbs_submissions": 0,
+    "matching_dispatches": [],
+    "note": "No authenticated review approval exists for F1599 / Package 171-R1. Under the registration boundary rule, review and registration are strictly separated. F1599 cannot be registered or executed until independent review is complete and approved."
+  },
+  "verification_passed": false,
+  "uel_verification": {
+    "path": "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/f42_mixed_uel.for",
+    "expected_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "actual_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "matches": true
+  }
+}
