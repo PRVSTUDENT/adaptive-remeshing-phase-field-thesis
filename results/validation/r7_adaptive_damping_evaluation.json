@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "candidate_id": "M1_C6_P171_R7_ADAPTIVE_DAMPED",
+  "predecessor_r6_metrics": {
+    "initial_active_nodes": 13803,
+    "terminal_active_nodes": 160,
+    "reduction_percentage": 98.84083170325292,
+    "mean_tail20_rho_d": 0.9900677152609942,
+    "mean_cardinality_drop_per_iter": 8.7
+  },
+  "adaptive_damping_formulation": {
+    "stage_1_omega_d": 0.5,
+    "stage_2_candidate_omega_d": 0.85,
+    "stabilization_condition": "active-set membership changes <= 2 for 3 consecutive iterations",
+    "rollback_trigger_growth_pct": 5.0,
+    "telemetry_requirement": "node-resolved symmetric difference logging |A_k \\ A_{k-1}| + |A_{k-1} \\ A_k|"
+  },
+  "scientific_discipline_checks": {
+    "cardinality_vs_membership_distinguished": true,
+    "spatial_telemetry_limitation_recognized": true,
+    "iteration_count_unproven_conjecture_recognized": true,
+    "strict_acceptance_criteria_preserved": true,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}

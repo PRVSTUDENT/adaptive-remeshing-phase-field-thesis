@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "operation_id": "execute_mode1_package171_r7_c6_coupled_reequilibration",
+  "registration_status": "PROPOSED_FOR_INDEPENDENT_REVIEW",
+  "task_id": "F1604-PACKAGE171-R7-C6-ADAPTIVE-PREPARATION",
+  "author": "gemini-antigravity",
+  "stage": "C3-0",
+  "operation_mode": "QUALIFIED_EXECUTION",
+  "candidate_job": "M1_C6_P171_R7_ADAPTIVE_DAMPED",
+  "scope": "Coupled staggered PDAS re-equilibration execution on non-coarsened C6 mesh (15,252 CPE4 quads, 15,559 physical nodes) at target uy = 0.0018703125 mm with two-phase safeguarded relaxation: Stage 1 maintains conservative damping omega_d = 0.5 until active-set membership stabilizes (|Delta A_k| <= 2 for 3 consecutive iterations); Stage 2 activates candidate relaxation omega_d = 0.85 with automatic rollback if delta_d_{k+1} > 1.05 * delta_d_k; node-resolved active-set membership telemetry; preserving zero healing, signed KKT, and force/energy discrepancy <= 2.0%.",
+  "physical_acceptance": "UNVERIFIED",
+  "scientific_hypothesis": "Package 171-R6 demonstrated that uniform damping omega_d = 0.5 effectively suppresses oscillatory divergence (active set contracted by 98.84% to 160 nodes), but encounters an empirical contraction plateau (rho ~ 0.9892, delta_d = 8.31e-3, shedding 8.7 nodes/iter) requiring >700 iterations. Under the falsifiable numerical hypothesis, active-set boundary shifting governs the plateau. Transitioning to safeguarded relaxation omega_d = 0.85 only after active-set membership stabilizes (|Delta A_k| <= 2 for 3 consecutive iterations), coupled with a 5% residual growth rollback safeguard and strict bounds [d0, 1.0], accelerates convergence toward delta_d <= 1e-5 while preserving coupled equilibrium, KKT stationarity, and physical non-healing.",
+  "mathematical_formulation": {
+    "mesh_level": "C6 (15,252 CPE4 elements, 15,559 physical nodes + RP 999999, 59 duplicate seam-slit pairs)",
+    "damping_formulation": "Two-phase: Stage 1 omega_d = 0.5; Stage 2 candidate omega_d = 0.85 activated upon active-set membership stabilization (|Delta A_k| <= 2 for 3 consecutive iterations)",
+    "rollback_criterion": "If delta_d_{k+1} > 1.05 * delta_d_k in Stage 2, trial update is reverted to omega_d = 0.5 state and Stage 1 resumes",
+    "membership_telemetry": "Explicit node-resolved active-set symmetric difference |Delta A_k| = |A_k \\ A_{k-1}| + |A_{k-1} \\ A_k| recorded in telemetry, distinct from scalar cardinalities |A_k|",
+    "kkt_evaluation": "Explicit post-relaxation KKT stationarity recomputation: solver.kkt(d^{k+1}, tau_active=1e-6, tau_free=1e-6) evaluated under corresponding H^{k+1}",
+    "coupled_field_consistency": "Final mechanical subproblem resolution on converged damage state to ensure u, d, H, RF, and energies refer to a mutually equilibrated state with delta_u <= 1e-9 mm and delta_H <= 1e-4 MPa",
+    "phase_decoding": "Strict fail-closed validation of exactly 15,559 unique physical-node records. Only documented 1-component damage or >=3-component U with damage in U3 accepted; 2-component (U1, U2), mixed counts, missing nodes, duplicate nodes, and nonfinite values rejected before clipping to d0",
+    "obstacle_enforcement": "Pointwise active-set Dirichlet clamp prescribed = {n: d0[n] for n in active} ensuring min(d - d0) >= -1.0e-6",
+    "kkt_tolerances": {
+      "delta_d": 1e-05,
+      "delta_u_mm": 1e-09,
+      "delta_h_MPa": 0.0001,
+      "consistency_delta_u_mm": 1e-09,
+      "consistency_delta_h_MPa": 0.0001,
+      "free_residual": 1e-06,
+      "dual_error": 1e-06,
+      "complementarity": 1e-06,
+      "healing_tolerance": 1e-06
+    },
+    "state_coverage": {
+      "physical_nodes": 15559,
+      "physical_elements": 15252,
+      "integration_points": 61008,
+      "seam_slit_pairs": 59
+    },
+    "holding_displacement_mm": 0.0018703125442191958,
+    "physical_continuity_gates": {
+      "donor_reference_force_kN": 0.17992419004440308,
+      "force_discrepancy_gate_pct": 2.0,
+      "donor_reference_total_energy_kNmm": 0.00022639903,
+      "energy_discrepancy_gate_pct": 2.0
+    }
+  },
+  "acceptance_criteria": {
+    "delta_d_max": 1e-05,
+    "delta_u_mm_max": 1e-09,
+    "delta_h_MPa_max": 0.0001,
+    "final_consistency_delta_u_mm_max": 1e-09,
+    "final_consistency_delta_h_MPa_max": 0.0001,
+    "signed_kkt_dual_kNmm_max": 1e-06,
+    "signed_kkt_free_kNmm_max": 1e-06,
+    "max_healing_tolerance": 1e-06,
+    "healing_violations_max": 0,
+    "history_monotonicity_violations_max": 0,
+    "force_discrepancy_pct_max": 2.0,
+    "total_energy_discrepancy_pct_max": 2.0,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "source_differences": "Package 171-R7 introduces two-phase safeguarded relaxation and active-set membership telemetry: (1) Replaces static uniform damping omega_d = 0.5 with a two-phase controller: Phase 1 maintains conservative damping omega_d = 0.5 during initial active-set contraction; Phase 2 activates candidate relaxation omega_d = 0.85 once active-set membership stabilizes; (2) Implements node-resolved active-set membership tracking measuring symmetric difference |Delta A_k| = |A_k \\ A_{k-1}| + |A_{k-1} \\ A_k|, requiring |Delta A_k| <= 2 for 3 consecutive iterations before transition, preventing premature acceleration during boundary shifting; (3) Adds residual growth rollback safeguard: if delta_d_{k+1} > 1.05 * delta_d_k in Phase 2, the trial state is reverted to omega_d = 0.5 damping; (4) Distinguishes scalar cardinality stability from true node membership stability in telemetry logging; (5) Retains all verified R6 fail-closed phase-field decoding logic (exactly 15,559 physical nodes, strict U3 extraction, rejection of 2-component/mixed output); (6) Retains all verified R5/R6 mechanical subproblem resolution, GP history loading (61,008 points), element-level SOLUTION serialization, and extractor CLI contracts; (7) Preserves strict acceptance criteria: delta_d <= 1e-5, delta_u <= 1e-9 mm, delta_H <= 1e-4 MPa, post-relaxation KKT <= 1e-6, zero healing, force and energy drift <= 2.0%, and frozen UEL CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6.",
+  "manifest": "models/pandey_kumar_mode1/171_c6_package171_r6_c3_0_reequilibration/M1_C6_PACKAGE171_R6_AUTHORIZATION.json",
+  "evidence_sources": {
+    "results/validation/r7_adaptive_relaxation_specification.json": "C02F9CB071574D1425285E5E318EBA79B71B65D31528257DADE96549E3733EA3",
+    "results/validation/r7_adaptive_damping_evaluation.json": "BD8EB291A1726AE601FA9EFFDF92DCEFE121396663E1ECDB8A147BFA7FDAD725",
+    "scripts/validation/evaluate_r7_adaptive_damping_candidate.py": "94873C412D385227A2FD76B2125F8EBC5F184DAEEE08128F0C9C1B8D0A5A7445",
+    "results/validation/f1603_c6_r6_numerical_diagnosis.json": "65634B3EEF26C9EAE10B66B75BD89DBB8A1C32CE2E830A59B180D9FF04D32A6D",
+    "results/validation/r6_active_set_contraction_analysis.json": "C4AF27247EF856C857D6BA6494B98C3A62A927822B71E3963B9A4CD63BB54BC7"
+  },
+  "execution_prerequisites": [
+    "Independent technical review and signed approval",
+    "Real Abaqus 2023 datachecks Exit 0 for mechanical and phase input decks",
+    "Dual-channel notification end-to-end delivery verified (Telegram + PBS mail)",
+    "Strictly 1 PBS job submission on single-rank serial 1 CPU, 16 GB, 8 h",
+    "Frozen UEL SHA-256 unchanged: CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  ]
+}

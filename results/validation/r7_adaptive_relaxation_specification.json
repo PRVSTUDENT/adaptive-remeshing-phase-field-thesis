@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "candidate_id": "M1_C6_P171_R7_ADAPTIVE_DAMPED",
+  "task_id": "F1603-MODE1-C6-R6-NONCONVERGENCE-INVESTIGATION",
+  "title": "Falsifiable Adaptive-Relaxation Method Specification for Package 171-R7",
+  "predecessor_job_id": "1419807.mmaster02",
+  "baseline_comparison_job_id": "1419643.mmaster02",
+  "scientific_hypothesis": {
+    "problem_statement": "Package 171-R1 undamped Picard iterations (omega_d = 1.0) exhibited monotonic coupled divergence (delta_d grew by 4.44x from iter 9 to 23). Package 171-R6 convex damping (omega_d = 0.5) eliminated divergent oscillations and enabled 98.84% active-set contraction (13,803 -> 160 nodes), but stalled at a slow linear contraction plateau (rho ~ 0.9892, delta_d = 8.31e-3, shedding 8.7 nodes/iter) requiring >700 iterations to achieve delta_d <= 1e-5.",
+    "falsifiable_solution": "Two-phase safeguarded relaxation: Phase 1 maintains conservative convex damping (omega_d = 0.5) during rapid active-set boundary shedding. Upon verified active-set membership stabilization (|Delta A_k| <= 2 for 3 consecutive iterations), Phase 2 activates candidate relaxation omega_d = 0.85. If damage-increment growth exceeds 5% (delta_d_{k+1} > 1.05 * delta_d_k), the trial state is reverted to omega_d = 0.5, enforcing strict damage bounds, zero healing, and history consistency.",
+    "falsification_conditions": [
+      "If Phase 2 relaxation omega_d = 0.85 triggers non-convergent oscillations or residual divergence despite rollback safeguards.",
+      "If active-set membership fails to stabilize (|Delta A_k| > 2 indefinitely) even after cardinality reaches <200 nodes.",
+      "If force or energy discrepancy exceeds 2.0% relative to donor reference."
+    ]
+  },
+  "mathematical_formulation": {
+    "phase_1_relaxation": {
+      "damping_factor": 0.5,
+      "objective": "Suppress crack-tip strain-damage oscillatory feedback during large active-set contraction",
+      "formula": "d^{k+1} = 0.5 * d^k + 0.5 * d_tilde^{k+1}"
+    },
+    "phase_2_candidate_relaxation": {
+      "candidate_damping_factor": 0.85,
+      "activation_condition": "Measured active-set membership changes |Delta A_k| <= 2 for 3 consecutive iterations (k, k-1, k-2)",
+      "formula": "d^{k+1} = 0.15 * d^k + 0.85 * d_tilde^{k+1}"
+    },
+    "active_set_telemetry_and_membership_criterion": {
+      "telemetry_requirement": "Telemetry stream must record node-resolved active-set membership changes (symmetric difference count |Delta A_k| = |A_k \\ A_{k-1}| + |A_{k-1} \\ A_k|) in addition to scalar cardinalities |A_k| and |F_k|.",
+      "cardinality_vs_membership_distinction": "Cardinality stability (|A_k| = |A_{k-1}|) is insufficient because internal node churning can preserve cardinality while shifting boundaries. Membership stability explicitly bounds symmetric difference.",
+      "stabilization_threshold": 2,
+      "consecutive_iterations_required": 3
+    },
+    "safeguard_rollback_mechanism": {
+      "growth_threshold_factor": 1.05,
+      "trigger_condition": "delta_d_{k+1} > 1.05 * delta_d_k",
+      "rollback_action": "Revert trial update d^{k+1} to conservative relaxation (omega_d = 0.5), reset Phase 2 counter, and resume Phase 1 damping."
+    },
+    "bounds_and_physical_continuity": {
+      "damage_clipping": "d = max(d0, min(1.0, d))",
+      "healing_tolerance": 1e-06,
+      "max_healing_allowed": 0,
+      "history_monotonicity": "H^{k+1} >= H^k pointwise across all 61,008 integration points",
+      "kkt_evaluation": "Explicit post-relaxation KKT stationarity recomputation under corresponding H^{k+1}"
+    }
+  },
+  "epistemic_limits_and_scientific_discipline": {
+    "spatial_coordinates_logging": "Scalar telemetry stream logs only max-norms and set sizes; per-node spatial coordinates are absent. Notch-root localization is a mechanics-based physical expectation, NOT an authenticated direct empirical observation in the solver log.",
+    "convergence_rate_conjecture": "Convergence in 35-50 iterations under omega_d = 0.85 is an empirical acceleration target, NOT a proven mathematical guarantee. Actual iteration count remains to be observed experimentally."
+  },
+  "acceptance_criteria": {
+    "delta_d_max": 1e-05,
+    "delta_u_mm_max": 1e-09,
+    "delta_h_MPa_max": 0.0001,
+    "final_consistency_delta_u_mm_max": 1e-09,
+    "final_consistency_delta_h_MPa_max": 0.0001,
+    "signed_kkt_dual_kNmm_max": 1e-06,
+    "signed_kkt_free_kNmm_max": 1e-06,
+    "max_healing_tolerance": 1e-06,
+    "healing_violations_max": 0,
+    "history_monotonicity_violations_max": 0,
+    "force_discrepancy_pct_max": 2.0,
+    "total_energy_discrepancy_pct_max": 2.0,
+    "donor_reference_force_kN": 0.17992419004440308,
+    "donor_reference_total_energy_kNmm": 0.00022639903,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}
