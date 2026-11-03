@@ -64,6 +64,7 @@ $caught=$false;try{Invoke-ControllerReadOnlyProfileCheck -CheckpointPath $cp -Cu
 $caught=$false;try{Invoke-ControllerReadOnlyProfileCheck -CheckpointPath $cp -CurrentProfile account5 -AssertOwnerFree {} -Verify {'changed'|Set-Content $cp; $true}|Out-Null}catch{$caught=$_.Exception.Message -eq 'AUTH_RECOVERY_CHECKPOINT_CHANGED'};Check $caught 'checkpoint race rejected'
 & {
  function Read-ControllerCheckpoint {param($path) [pscustomobject]@{workspace=$repo;process_id=$script:workerPid}}
+ function Get-Content {param($LiteralPath,[switch]$Raw) '{"active":false}'}
  $script:workerPid=0; $script:hubCommand='agy.exe --hub --hub-port=123';$script:ownerMatches=$true
  function Get-CimInstance {param($ClassName,$Filter,$ErrorAction)
   if($Filter -eq "Name = 'agy.exe'"){[pscustomobject]@{ExecutablePath=(Join-Path $env:USERPROFILE '.gemini/bin/agy.exe');CommandLine=$script:hubCommand;ParentProcessId=123;CreationDate=[datetime]'2026-11-03'}}

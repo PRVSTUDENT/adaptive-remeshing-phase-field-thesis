@@ -271,10 +271,13 @@ function Update-AgyNativeAccessToken {
 }
 
 function Repair-AgyRefreshedNativeCredential {
-    param([Parameter(Mandatory)][byte[]]$ExpectedBytes,[Parameter(Mandatory)][string]$TokenPath,[switch]$SkipTokenRefresh)
+    param([Parameter(Mandatory)][byte[]]$ExpectedBytes,[Parameter(Mandatory)][string]$TokenPath,[switch]$SkipTokenRefresh,[string]$CheckpointPath='')
     $cliBytes=$null;$nativeBytes=$null;$candidate=$null;$readback=$null
     try {
-        if (Get-Process -Name agy -ErrorAction SilentlyContinue) { throw 'AGY_CREDENTIAL_REPAIR_BUSY' }
+        if (Get-Process -Name agy -ErrorAction SilentlyContinue) {
+            if (-not (Get-Command Assert-ControllerBackgroundHubsOnly -ErrorAction SilentlyContinue) -or -not $CheckpointPath) { throw 'AGY_CREDENTIAL_REPAIR_BUSY' }
+            Assert-ControllerBackgroundHubsOnly $CheckpointPath
+        }
         $expected=ConvertTo-AgyCredentialToken $ExpectedBytes -SourceName saved-profile
         $cliBytes=[IO.File]::ReadAllBytes($TokenPath)
         $cli=ConvertTo-AgyCredentialToken $cliBytes -SourceName cli-file

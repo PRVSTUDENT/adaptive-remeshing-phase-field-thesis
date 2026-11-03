@@ -1,19 +1,21 @@
 {
     "active":  false,
     "agent":  "codex",
-    "task_id":  "CONTROLLER-AUTH-STARTUP-FIX",
-    "starting_commit":  "643605fb25b78214a42cc5431e57e13b95916849",
-    "claimed_at":  "2026-11-03T14:22:05.9661183+01:00",
-    "last_updated":  "2026-11-03T14:23:02.3461556+01:00",
-    "last_released":  "2026-11-03T14:23:02.3461556+01:00",
+    "task_id":  "CONTROLLER-IDLE-HUB-RECOVERY",
+    "starting_commit":  "bd542088a21c12a5cee94e0e78b9a867521bb0e7",
+    "claimed_at":  "2026-11-03T14:38:06.2746038+01:00",
+    "last_updated":  "2026-11-03T14:39:46.0748431+01:00",
+    "last_released":  "2026-11-03T14:39:46.0748431+01:00",
     "controller_run_id":  "8dab19ad-66b7-40eb-85b0-8d1df95e92cb",
-    "session_report":  "project_coordination/sessions/2026-11-03_codex_auth_startup_fix.md",
+    "session_report":  "project_coordination/sessions/2026-11-03_codex_idle_hub_recovery.md",
     "allowed_write_scope":  [
                                 "scripts/controller/Controller-AuthRecovery.ps1",
+                                "scripts/validation/AgyCredentialStores.ps1",
                                 "tests/unit/test_controller_auth_recovery.ps1",
                                 "project_coordination/ACTIVE_SESSION.json",
                                 "project_coordination/TASK_LEDGER.csv",
                                 "project_coordination/ARTIFACT_REGISTRY.csv",
-                                "project_coordination/sessions/2026-11-03_codex_auth_startup_fix.md"
+                                "project_coordination/sessions/2026-11-03_codex_idle_hub_recovery.md",
+                                "tests/unit/test_agy_credentials.ps1"
                             ]
 }

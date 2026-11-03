@@ -1,5 +1,7 @@
 $ErrorActionPreference='Stop'
 . "$PSScriptRoot/../../scripts/validation/AgyCredentialStores.ps1"
+# Synthetic credential tests must not depend on the workstation's live sidebar.
+function Get-Process {param($Name,$ErrorAction) return $null}
 function New-TestToken([string]$subject) {
     $part=[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes((@{sub=$subject}|ConvertTo-Json -Compress))).TrimEnd('=').Replace('+','-').Replace('/','_')
     return "test.$part.fake-signature"
@@ -198,6 +200,7 @@ try {
             try { Set-AndVerifyAgyRunProfile -Context TURN_START } catch { $failedBusy=$_.Exception.Message -match 'AGY_CREDENTIAL_RESYNC_BUSY' }
             if (-not $failedBusy) { throw 'TURN_START resync did not fail closed when AGY process was active' }
             Remove-Item Function:\Get-Process
+            function global:Get-Process {param($Name,$ErrorAction) return $null}
             $script:fixtureNative=[byte[]]$source.Clone()
             Sync-AgyCliCredentialFile -Bytes $source -TokenPath $fixturePath
             Write-Output 'PASS: TURN_START resynchronization fails closed when active AGY process is detected'

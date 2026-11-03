@@ -119,10 +119,11 @@ function Invoke-ControllerReadOnlyProfileCheck {
 
 function Invoke-ControllerExistingProfileRecovery {
     param([string]$CheckpointPath,[string[]]$Profiles,[string]$CurrentProfile)
-    if(Get-Process agy -ErrorAction SilentlyContinue){
-        # A VS Code hub is not a print worker. It still forbids ALL credential
-        # writes: only prove that the already-selected profile is healthy.
-        return Invoke-ControllerReadOnlyProfileCheck -CheckpointPath $CheckpointPath -CurrentProfile $CurrentProfile -AssertOwnerFree {
+    $backgroundHub=[bool](Get-Process agy -ErrorAction SilentlyContinue)
+    if($backgroundHub){
+        # Prefer read-only proof. A verified idle sidebar permits recovery of
+        # its current account, but never profile rotation or a live worker.
+        try{return Invoke-ControllerReadOnlyProfileCheck -CheckpointPath $CheckpointPath -CurrentProfile $CurrentProfile -AssertOwnerFree {
             Assert-ControllerBackgroundHubsOnly $CheckpointPath
         } -Verify {
             param($profile)
@@ -143,6 +144,13 @@ function Invoke-ControllerExistingProfileRecovery {
                 }
                 return $true
             }finally{foreach($bytes in @($saved,$cli,$native)){if($bytes){[Array]::Clear($bytes,0,$bytes.Length)}}}
+        }}catch{
+            if($_.Exception.Message -notmatch 'current profile needs recovery'){throw}
+            # The idle sidebar is not a research worker. Recover only the SAME
+            # selected account; never rotate credentials underneath the sidebar.
+            Assert-ControllerBackgroundHubsOnly $CheckpointPath
+            if($CurrentProfile -notmatch '^account[1-5]$'){throw 'AUTH_RECOVERY_LIVE_AGY'}
+            $Profiles=@($CurrentProfile)
         }
     }
     $hash=(Get-FileHash -LiteralPath $CheckpointPath).Hash
@@ -159,8 +167,16 @@ function Invoke-ControllerExistingProfileRecovery {
     $activate={param($p)
         $marker=(Get-Content (Join-Path $env:USERPROFILE '.gemini/agy-profiles/_active.txt') -Raw).Trim()
         if($marker -ceq $p){return} # Never restore an old saved access token over a freshly verified one.
+        if($backgroundHub){throw 'AUTH_RECOVERY_HUB_PROFILE_SWITCH_FORBIDDEN'}
         $null=& agy-profile switch $p -Force *>&1;if($LASTEXITCODE -ne 0){throw 'AUTH_PROFILE_SWITCH_FAILED'}
     }
-    $verify={param($p) $b=Get-AgySavedCredentialBytes $p;try{Repair-AgyRefreshedNativeCredential -ExpectedBytes $b -TokenPath $tokenPath -SkipTokenRefresh; (ConvertTo-AgyCredentialToken $b -SourceName saved-profile).Identity}finally{[Array]::Clear($b,0,$b.Length)}}
-    Invoke-ControllerAuthRecovery -StatePath $path -CheckpointHash $hash -Profiles $eligible -Identity $identity -Activate $activate -Verify $verify -Refresh {param($p) Update-AgyNativeAccessToken}
+    $verify={param($p) $b=Get-AgySavedCredentialBytes $p;try{Repair-AgyRefreshedNativeCredential -ExpectedBytes $b -TokenPath $tokenPath -SkipTokenRefresh -CheckpointPath $CheckpointPath; (ConvertTo-AgyCredentialToken $b -SourceName saved-profile).Identity}finally{[Array]::Clear($b,0,$b.Length)}}
+    $result=Invoke-ControllerAuthRecovery -StatePath $path -CheckpointHash $hash -Profiles $eligible -Identity $identity -Activate $activate -Verify $verify -Refresh {
+        param($p)
+        if($backgroundHub){Assert-ControllerBackgroundHubsOnly $CheckpointPath}
+        Update-AgyNativeAccessToken
+        if($backgroundHub){Assert-ControllerBackgroundHubsOnly $CheckpointPath}
+    }
+    if((Get-FileHash -LiteralPath $CheckpointPath).Hash -cne $hash){throw 'AUTH_RECOVERY_CHECKPOINT_CHANGED'}
+    return $result
 }
