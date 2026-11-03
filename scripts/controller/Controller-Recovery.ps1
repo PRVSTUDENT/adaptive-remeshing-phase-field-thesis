@@ -1073,6 +1073,15 @@ function Assert-ControllerDispatchCheckpoint([string]$Workspace,$State) {
            $proof.bootstrap_sha256 -cne $r.proof.bootstrap_sha256){throw 'BLOCKED: completed recovery evidence changed'}
         Assert-ControllerHpcLedgerGrowth $Workspace $r.hpc_ledger_sha256 $original
     }
+    if($State.reconciliation.status -eq 'COMPLETED_WORKER_PID_RECONCILED'){
+        $r=$State.reconciliation
+        if($State.state -ne 'COMPLETED' -or $State.process_id -ne 0 -or -not $State.next_instruction -or
+           -not(Test-Path -LiteralPath $r.original_checkpoint) -or
+           (Get-FileHash -LiteralPath $r.original_checkpoint).Hash -cne $r.original_sha256){throw 'BLOCKED: completed worker reconciliation archive changed'}
+        $original=Read-ControllerCheckpoint $r.original_checkpoint
+        if($original.run_id -cne $State.run_id -or $original.original_instruction_hash -cne $State.original_instruction_hash -or
+           $original.state -ne 'COMPLETED' -or (Get-ControllerTextHash $State.next_instruction) -cne $r.next_instruction_sha256){throw 'BLOCKED: completed worker reconciliation identity changed'}
+    }
     if ($State.reconciliation.status -eq 'INTERRUPTED_TURN294_EVIDENCE_ONLY_READY') {
         $r = $State.reconciliation
         if ($State.state -ne 'RECOVERY_REQUIRED' -or $State.turn -ne 294 -or
