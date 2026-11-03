@@ -1,17 +1,23 @@
-## 3 November F1601 Successor Registered & Checkpoint Incompatibility Reconciled
+## 3 November F1598 → F1599 → F1601 Autonomous Controller Checkpoint Transition Resolved
 
-1. **Successor Task F1601 Registered following Completed F1599**:
+1. **Autonomous Controller Checkpoint Transition Resolved**:
+   - **Predecessor Chain**: Checkpoint `F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE` (Turn 62, Run `ae8660dc-363a-4847-854c-93f9e08c0212`, `COMPLETED`) → Intermediate External Predecessor `F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE` (interactive completion, commit `50d6d5b5a5971f99cdb88c5b038e8857857132a4`, receipt `06AB99DBBE0419C6C9D16EE82F18EED9FE6B22ED3617138D9360A04815DCD07A`) → Successor `F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION`.
+   - **Evidence-Bound Resolution**: Updated `scripts/controller/Controller-TaskLifecycle.ps1` (`Get-ControllerSuccessorCheckpointPlan`) to recognize authenticated externally completed predecessors via strict evidence-bound chain of custody: inactive session verification, task definition linkage back to disk checkpoint, Git commit verification, evidence receipt digest verification against `evidence_sources`, and closed predecessor ledger linkage to successor.
+   - **Installed Controller Parity & Deployment**: Deployed canonical files via `Deploy-Controller.ps1` to `$env:USERPROFILE/OpenClawPAD`. Verified bitwise SHA-256 parity for `Controller-TaskLifecycle.ps1` (`E82A2C74BFF864E1C0B2D713A864023D51B8C1153DFE41AC8E2BFFE9C6C4EBCC`) and `Antigravity-Autonomous-Loop.ps1` (`BEFC2A9ACBCDBFFB538779ABDDB6792D5E6759DCF8E032ABE67246BE02F101C5`).
+   - **Installed Launcher Dry-Run Output**: Executed `Antigravity-Autonomous-Loop.ps1 -ControllerDryRun -InitialPromptFile ...` from `OpenClawPAD`. Output confirmed clean exit code 0, `mode = DRY_RUN_NO_EXECUTION`, `task_type = RESEARCH_PREPARATION`, `task = F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION`, `checkpoint_state = COMPLETED`, zero checkpoint-binding errors, zero stale task replay.
+   - **Regression Verification**:
+     * `test_controller_external_predecessor_transition.ps1`: **9/9 PASS** (rejects active sessions, missing predecessor definition, mismatched predecessor run, altered receipt hash, unclosed predecessor in ledger, broken link, duplicate successor, invalid git commit).
+     * `test_controller_successor_registration.ps1`: **14/14 PASS**.
+     * `test_controller_task_lifecycle.ps1`: **18/18 PASS**.
+     * `test_f1601_successor_registration.py`: **7/7 PASS**.
+
+2. **Successor Task F1601 Registration Scope**:
    - **Task ID**: `F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION`
    - **Predecessor Task**: `F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE` (`completed` in `TASK_LEDGER.csv`, evaluation receipt `results/validation/f1599_c6_coupled_convergence_evaluation.json`, conclusion `FAIL_COUPLED_NONCONVERGENCE`).
    - **Task Definition**: `project_coordination/task_definitions/F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION.json` (SHA-256 `BC137DE86B9271F307A6883031E89550B128C912D642748110AAFBAE4D2545E1`).
+   - **Initial Prompt**: `project_coordination/task_definitions/F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION.INITIAL_PROMPT.md` (SHA-256 `D76A6F23640FBEB459460CFEBC8616469D639C5A837E52DCA132F9685A37AEE3`).
    - **Registration Scope**: Schema 1, single open ledger row (`ready`, `REGISTERED_NOT_EXECUTED`), 0 PBS submissions authorized, read-only numerical diagnosis scope (`id = research_preparation`, `mode = READ_ONLY_SCIENTIFIC_EVALUATION`), 16 inherited completed operations, 9 verified evidence sources.
    - **Governance & Verification**: `Get-ControllerTaskLifecycle` confirms `ACTIVE`, `CONTINUE_ACTIVE_TASK`, `next_authoritative_task: F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION`. `Get-ControllerTaskRegistrationPlan` confirms `REGISTERED_READ_ONLY_EVALUATION`, `dispatch_ready = True`.
-   - **Unit Tests**: `test_controller_successor_registration.ps1` (14/14 PASS), `test_controller_task_lifecycle.ps1` (18/18 PASS), `test_f1601_successor_registration.py` (7/7 PASS).
-
-2. **Runtime Checkpoint Analysis & Incompatibility Finding**:
-   - Runtime Checkpoint: `C:\Users\pruth\OpenClawPAD\controller_turn_checkpoint.json` (SHA-256 `8F2ACED072C91BB69FF238AB167795230EDA73DA91714C559B7421E94B59B2F6`) holds Turn 62 of `F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE` (`run_id: ae8660dc-363a-4847-854c-93f9e08c0212`, `state: COMPLETED`).
-   - Incompatibility: F1599 was evaluated as an interactive agent session (commit `50d6d5b5a5971f99cdb88c5b038e8857857132a4`) rather than inside `Antigravity-Autonomous-Loop.ps1`. Consequently, no controller turn or checkpoint exists for F1599.
-   - `Get-ControllerSuccessorCheckpointPlan` in `Controller-TaskLifecycle.ps1` strictly enforces that `$r.definition.predecessor.task_id` must match `$State.task_id`. Because F1601's predecessor is F1599 while the disk checkpoint is F1598, the guard fails closed with `SUCCESSOR_CHECKPOINT_BLOCKED: completed predecessor binding missing or changed`.
    - In accordance with user rules, the checkpoint was neither falsified nor reset, the lifecycle guard was not weakened, and zero HPC jobs were submitted.
 
 ## 3 November Package 171-R1 C6 Stage C3-0 Terminal Nonconvergence Evaluated: Job 1419643.mmaster02

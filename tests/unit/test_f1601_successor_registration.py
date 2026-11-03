@@ -134,7 +134,7 @@ def test_controller_task_lifecycle_logic():
     assert len(closed_pred) >= 1, f"Predecessor {pred_id} must have a closed row"
 
 
-def test_checkpoint_incompatibility_diagnosis():
+def test_checkpoint_external_predecessor_chain():
     # Verify the runtime checkpoint in OpenClawPAD
     userprofile = os.environ.get("USERPROFILE", "")
     cp_path = Path(userprofile) / "OpenClawPAD/controller_turn_checkpoint.json"
@@ -148,13 +148,25 @@ def test_checkpoint_incompatibility_diagnosis():
     assert payload["state"] == "COMPLETED"
     assert payload["run_id"] == "ae8660dc-363a-4847-854c-93f9e08c0212"
 
-    # F1601's predecessor in task definition is F1599, but checkpoint is F1598.
-    # This precisely explains why Get-ControllerSuccessorCheckpointPlan throws:
-    # SUCCESSOR_CHECKPOINT_BLOCKED: completed predecessor binding missing or changed
-    def_path = WORKSPACE / "project_coordination/task_definitions/F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION.json"
-    with open(def_path, "r", encoding="utf-8") as f:
-        d = json.load(f)
+    # F1601's predecessor is F1599
+    succ_def_path = WORKSPACE / "project_coordination/task_definitions/F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION.json"
+    with open(succ_def_path, "r", encoding="utf-8") as f:
+        succ_def = json.load(f)
+    assert succ_def["predecessor"]["task_id"] == "F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE"
 
-    assert d["predecessor"]["task_id"] != payload["task_id"]
-    assert d["predecessor"]["task_id"] == "F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE"
+    # F1599's predecessor is F1598, matching the checkpoint on disk
+    pred_def_path = WORKSPACE / "project_coordination/task_definitions/F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE.json"
+    with open(pred_def_path, "r", encoding="utf-8") as f:
+        pred_def = json.load(f)
+    assert pred_def["predecessor"]["task_id"] == payload["task_id"]
+    assert pred_def["predecessor"]["run_id"] == payload["run_id"]
+
+    # F1599 receipt matches predecessor checkpoint hash in F1601
+    receipt_rel = "results/validation/f1599_c6_coupled_convergence_evaluation.json"
+    receipt_path = WORKSPACE / receipt_rel
+    assert receipt_path.exists()
+    with open(receipt_path, "rb") as f:
+        actual_receipt_hash = hashlib.sha256(f.read()).hexdigest().upper()
+    assert actual_receipt_hash == succ_def["predecessor"]["checkpoint_sha256"].upper()
+
 

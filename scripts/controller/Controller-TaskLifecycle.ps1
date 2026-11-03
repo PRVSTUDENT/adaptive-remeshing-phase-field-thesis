@@ -87,10 +87,82 @@ function Get-ControllerSuccessorCheckpointPlan([string]$Workspace,[string]$Check
     if($State.state -cne 'COMPLETED'){throw 'SUCCESSOR_CHECKPOINT_BLOCKED: foreign nonterminal checkpoint requires reconciliation'}
     Assert-ControllerTaskLifecycle $Workspace
     $r=Get-ControllerTaskRegistrationPlan $Workspace
-    if(-not $r.definition -or $r.definition.predecessor.task_id -cne $State.task_id -or
-        $r.definition.predecessor.run_id -cne $State.run_id -or
-        (Get-FileHash -LiteralPath $CheckpointPath).Hash -cne $r.definition.predecessor.checkpoint_sha256){throw 'SUCCESSOR_CHECKPOINT_BLOCKED: completed predecessor binding missing or changed'}
-    return [pscustomobject]@{fresh_successor=$true;instruction=$r.definition.initial_instruction;predecessor_run_id=$State.run_id}
+    if(-not $r.definition){throw 'SUCCESSOR_CHECKPOINT_BLOCKED: task definition missing'}
+    if($r.definition.predecessor.task_id -ceq $State.task_id){
+        if($r.definition.predecessor.run_id -cne $State.run_id -or
+            (Get-FileHash -LiteralPath $CheckpointPath).Hash -cne $r.definition.predecessor.checkpoint_sha256){
+            throw 'SUCCESSOR_CHECKPOINT_BLOCKED: completed predecessor binding missing or changed'
+        }
+        return [pscustomobject]@{fresh_successor=$true;instruction=$r.definition.initial_instruction;predecessor_run_id=$State.run_id}
+    }
+    # Authenticated external predecessor transition (e.g. F1598 [checkpoint] -> F1599 [interactive evaluation] -> F1601 [successor])
+    $sessionPath = Join-Path $Workspace 'project_coordination/ACTIVE_SESSION.json'
+    if(Test-Path -LiteralPath $sessionPath){
+        $session = Get-Content -LiteralPath $sessionPath -Raw|ConvertFrom-Json
+        if($session.active){throw 'SUCCESSOR_CHECKPOINT_BLOCKED: active session exists'}
+    }
+    $predId = [string]$r.definition.predecessor.task_id
+    if(-not $predId){throw 'SUCCESSOR_CHECKPOINT_BLOCKED: completed predecessor binding missing or changed'}
+    $predDefRel = "project_coordination/task_definitions/$predId.json"
+    $predDefPath = Join-Path $Workspace $predDefRel
+    if(-not(Test-Path -LiteralPath $predDefPath)){
+        throw 'SUCCESSOR_CHECKPOINT_BLOCKED: completed predecessor binding missing or changed'
+    }
+    $predDef = Get-Content -LiteralPath $predDefPath -Raw|ConvertFrom-Json
+    if($predDef.predecessor.task_id -cne $State.task_id -or
+        $predDef.predecessor.run_id -cne $State.run_id){
+        throw 'SUCCESSOR_CHECKPOINT_BLOCKED: completed predecessor binding missing or changed'
+    }
+    if($r.definition.predecessor.source_commit){
+        $commit = [string]$r.definition.predecessor.source_commit
+        if(Test-Path -LiteralPath (Join-Path $Workspace '.git')){
+            $gitCheck = (& git -C $Workspace rev-parse --verify "$commit^{commit}" 2>$null)
+            if(-not $gitCheck -or $LASTEXITCODE -ne 0){
+                throw 'SUCCESSOR_CHECKPOINT_BLOCKED: predecessor source commit not found'
+            }
+        } else {
+            if($commit -notmatch '^[0-9a-fA-F]{40}$' -or $commit -eq '0000000000000000000000000000000000000000'){
+                throw 'SUCCESSOR_CHECKPOINT_BLOCKED: predecessor source commit not found'
+            }
+        }
+    }else{
+        throw 'SUCCESSOR_CHECKPOINT_BLOCKED: predecessor source commit missing'
+    }
+    $receiptHash = [string]$r.definition.predecessor.checkpoint_sha256
+    if(-not $receiptHash){
+        throw 'SUCCESSOR_CHECKPOINT_BLOCKED: completed predecessor receipt missing or altered'
+    }
+    $receiptMatched = $false
+    foreach($pin in $r.definition.evidence_sources.PSObject.Properties){
+        if($pin.Value -eq $receiptHash){
+            $p = Join-Path $Workspace $pin.Name
+            if((Test-Path -LiteralPath $p) -and (Get-FileHash -LiteralPath $p).Hash -ceq $receiptHash){
+                $receiptMatched = $true
+                break
+            }
+        }
+    }
+    if(-not $receiptMatched){
+        throw 'SUCCESSOR_CHECKPOINT_BLOCKED: completed predecessor receipt missing or altered'
+    }
+    $rows = @(Import-Csv -LiteralPath (Join-Path $Workspace 'project_coordination/TASK_LEDGER.csv'))
+    $predRows = @($rows|Where-Object {$_.task_id -ceq $predId -and $_.status -match '^(?i:complete|completed|closed|done)$'})
+    if(-not $predRows.Count){
+        throw 'SUCCESSOR_CHECKPOINT_BLOCKED: predecessor is not closed in ledger'
+    }
+    if($predRows[-1].next_task -cne $r.definition.task_id){
+        throw 'SUCCESSOR_CHECKPOINT_BLOCKED: predecessor does not link to successor in ledger'
+    }
+    $succRows = @($rows|Where-Object {$_.task_id -ceq $r.definition.task_id})
+    if($succRows.Count -ne 1){
+        throw 'SUCCESSOR_CHECKPOINT_BLOCKED: duplicate or missing successor in ledger'
+    }
+    return [pscustomobject]@{
+        fresh_successor = $true
+        instruction = $r.definition.initial_instruction
+        predecessor_run_id = $State.run_id
+        external_predecessor = $predId
+    }
 }
 
 function Set-ControllerPreparationStepStatus($Task,[string]$Status) {
