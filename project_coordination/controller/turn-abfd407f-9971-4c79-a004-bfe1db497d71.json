@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "abfd407f-9971-4c79-a004-bfe1db497d71",
+    "task_id":  "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
+    "repository_commit":  "29edcc2afcb4ca5b12b8bea844dd00b10fc24a40",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-11-03T12:48:24.6712674+01:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "EC25457C58D573BE6298FA7F42785F26216DDE4F3F98E8F0F26DC4866CA6B04A",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "6DCA1CF57819614EC6D46010113DA1FA3DA37BF4EB4F302BB289DF51804DEBD4",
+                            "project_coordination/ACTIVE_SESSION.json":  "163390A5DE020852F9004ADA70B51C95A17AC589CC7F69A687C542D39A5D8082",
+                            "project_coordination/ACTIVE_TASK.json":  "8B9855F4952FC27DD474DD2F885CA6F025BC4C23D44273D7B97CB67D0E11C011",
+                            "project_coordination/TASK_LEDGER.csv":  "7762AA92C3CF39DA127C596A129694F618214D09FB9D73260A834CAFD11971D2",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "0F1CC7E2801298F57C6B3FB05A06BA5ECB8E248E9F3BB430121009C300EFD835",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "A25C2B78B8E8EDF4CAFA7CC6E347978CEFDBE69345C68F7CFE1701F4EA2748B3",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "8B9855F4952FC27DD474DD2F885CA6F025BC4C23D44273D7B97CB67D0E11C011",
+                          "project_coordination/CURRENT_STATE.md":  "6DCA1CF57819614EC6D46010113DA1FA3DA37BF4EB4F302BB289DF51804DEBD4",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "0F1CC7E2801298F57C6B3FB05A06BA5ECB8E248E9F3BB430121009C300EFD835",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "A45DB5E38AAA627D4D54DF7339560852794D78B5903C36754081DC838C043467"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-11-03_gemini-antigravity_F1597_abfd407f-9971-4c79-a004-bfe1db497d71.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-abfd407f-9971-4c79-a004-bfe1db497d71.json",
+                                  "sha256":  "3C928EF4B89403B406FD8DA6A8B555A4EFF3C1B2079A778FCDEB19F425E6BC54",
+                                  "created_at":  "2026-11-03T13:07:24.7048334+01:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Update driver solve_subproblem() with fail-closed phase decoding (validate exactly 15,559 nodes, accept only 1-component d or \u003e=3 component with U3, reject 2-component or inconsistent output), add regression tests for missing/mixed phase output, build R6 candidate, and submit for independent review."
+}
