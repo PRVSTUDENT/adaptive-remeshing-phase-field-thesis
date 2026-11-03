@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "task_id": "F1604-PACKAGE171-R7-C6-ADAPTIVE-PREPARATION",
+  "candidate_id": "M1_C6_P171_R7_ADAPTIVE_DAMPED",
+  "status": "UNIT_TESTS_PASSED",
+  "summary": {
+    "total_tests": 22,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "elapsed_seconds": 3.0671,
+    "was_successful": true
+  },
+  "tested_safeguards": {
+    "cardinality_vs_membership_distinction": "VERIFIED",
+    "early_switching_rejection": "VERIFIED",
+    "three_stable_memberships_activate_stage_2": "VERIFIED",
+    "growth_violation_5pct_transactional_rollback": "VERIFIED",
+    "unstable_membership_continuous_churn_nonconverged": "VERIFIED",
+    "phase_decoding_fail_closed": "VERIFIED",
+    "coupled_convergence_and_kkt_independent_gates": "VERIFIED"
+  },
+  "evidence_sources": {
+    "scripts/state_transfer/driver_package171_r7_c6_coupled_pdas.py": "3CC41F517217BDCA2FC2474AA7D8000919ACD4480085D7534E6F29DE40C52E29",
+    "tests/unit/test_package171_r7_c6_coupled_driver_switching.py": "BE689F8C8AC7F766B1C4114E35D20DBE67ED0906D5E0771BF905F70096906794",
+    "tests/unit/test_package171_r7_c6_coupled_driver_phase_decoding.py": "8BA5D169D34302B130DFD5C897E2976059FEB78114663684ED992850025446A2",
+    "tests/unit/test_package171_r7_c6_coupled_driver_gates.py": "679802FFE95CD431516F75453A242598E6329145D47A76A10C4B870C762DAD6D"
+  },
+  "verification_passed": true
+}

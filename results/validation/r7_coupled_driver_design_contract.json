@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "status": "INITIAL_SPECIFICATION_VERIFIED",
+  "candidate_id": "M1_C6_P171_R7_ADAPTIVE_DAMPED",
+  "task_id": "F1604-PACKAGE171-R7-C6-ADAPTIVE-PREPARATION",
+  "title": "Candidate M1_C6_P171_R7_ADAPTIVE_DAMPED Coupled Driver Architectural Contract",
+  "finding": "Architectural contracts and algorithmic safeguards verified for Candidate M1_C6_P171_R7_ADAPTIVE_DAMPED distinct coupled driver. Implements Stage 1 conservative relaxation omega_d = 0.5, explicit node-resolved PDAS active-set symmetric difference tracking |Delta A_k| = |A_k \\ A_{k-1}| + |A_{k-1} \\ A_k|, switching to Stage 2 omega_d = 0.85 conditioned on 3 consecutive iterations with |Delta A_k| <= 2, and transactional rollback to conservative step if Stage 2 damage increment grows beyond 1.05 * delta_d^{(k-1)}. Preserves immutable donor bounds, zero healing, history monotonicity, strict phase decoding, and post-relaxation signed KKT stationarity <= 1e-6.",
+  "algorithms": {
+    "stage_1_damping_omega_d": 0.5,
+    "stage_2_damping_omega_d": 0.85,
+    "active_set_tracking": "node_resolved_symmetric_difference",
+    "stabilization_window_consecutive_iterations": 3,
+    "stabilization_threshold_nodes": 2,
+    "rollback_growth_factor_threshold": 1.05,
+    "rollback_restores": [
+      "conservative_damage_field_omega_0.5",
+      "stage_1_state",
+      "switching_counter_reset_to_zero",
+      "irreversible_donor_bounds",
+      "monotonic_history_field"
+    ],
+    "fail_closed_checks": [
+      "exact_15559_receiver_nodes",
+      "no_duplicate_nodes",
+      "no_missing_nodes",
+      "no_unexpected_nodes",
+      "no_nonfinite_values",
+      "reject_2_component_output",
+      "require_1_component_or_ge_3_components_with_u3_damage"
+    ]
+  },
+  "acceptance_gates": {
+    "delta_d_max": 1e-05,
+    "delta_u_mm_max": 1e-09,
+    "delta_h_MPa_max": 0.0001,
+    "signed_kkt_dual_kNmm_max": 1e-06,
+    "signed_kkt_free_kNmm_max": 1e-06,
+    "max_healing_tolerance": 1e-06,
+    "history_monotonicity_violations_max": 0,
+    "force_discrepancy_pct_max": 2.0,
+    "total_energy_discrepancy_pct_max": 2.0,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "evidence_sources": {
+    "results/validation/r7_adaptive_damping_evaluation.json": "BD8EB291A1726AE601FA9EFFDF92DCEFE121396663E1ECDB8A147BFA7FDAD725",
+    "results/validation/r7_adaptive_relaxation_specification.json": "C02F9CB071574D1425285E5E318EBA79B71B65D31528257DADE96549E3733EA3",
+    "scripts/state_transfer/driver_package171_r6_c6_coupled_pdas.py": "0D2A6851B14CFD3D311CC427971C816F8EBB6048A69BD08F4B8DADC0BE83F086",
+    "project_coordination/task_definitions/F1604-PACKAGE171-R7-C6-ADAPTIVE-PREPARATION.json": "F59B9EF242BCF66F45F2A87C13B4BD0630509EE5DD3095EA91C6B065F910C163"
+  },
+  "verification_passed": true
+}

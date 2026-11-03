@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "50ccd1d3-caf4-4b32-bb26-8750901a4a99",
+    "task_id":  "F1604-PACKAGE171-R7-C6-ADAPTIVE-PREPARATION",
+    "repository_commit":  "76687902aca19fd56bde32627e0b91483d227116",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-11-03T19:43:42.8380420+01:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "EC25457C58D573BE6298FA7F42785F26216DDE4F3F98E8F0F26DC4866CA6B04A",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "FEF59C258C0B7B45839882652E528E37EFA9F1E5F35132F48F5A404893D333B6",
+                            "project_coordination/ACTIVE_SESSION.json":  "7E9151157457BA3E937D7972DCC67ACECAC003D1F0914B7FEDC1DA612F7C893B",
+                            "project_coordination/ACTIVE_TASK.json":  "06852AE257E10D974E05B21C8CDE57D5B3702DA40F282D9D7C9A98067765B2DF",
+                            "project_coordination/TASK_LEDGER.csv":  "DA8828BD7151AC9B650CC3E1400510331A665A15BCE64EAC9FAA997489CAF14F",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "A98362D2CA34B40B48758FF0A37AC1B2F62182CA0F9434EB3214C03B5A05DF4C",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "178C65A4350A09939E325EF496C19E37EF1CFA5ED066624BEE7FE2A00DCD9455",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "06852AE257E10D974E05B21C8CDE57D5B3702DA40F282D9D7C9A98067765B2DF",
+                          "project_coordination/CURRENT_STATE.md":  "FEF59C258C0B7B45839882652E528E37EFA9F1E5F35132F48F5A404893D333B6",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "A98362D2CA34B40B48758FF0A37AC1B2F62182CA0F9434EB3214C03B5A05DF4C",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "2546CC3FEA63F4EA7217A680951F8B242491C2751801C4FABFEDEBB0B092CA3C"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-11-03_gemini-antigravity_F1597_50ccd1d3-caf4-4b32-bb26-8750901a4a99.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-50ccd1d3-caf4-4b32-bb26-8750901a4a99.json",
+                                  "sha256":  "5C775483E84CB9DC5339D844BE274743CEC13BE154A1CA4AC97D44DC379487BC",
+                                  "created_at":  "2026-11-03T19:56:20.4547728+01:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Assemble Package 171-R7 execution package (manifests, PBS script) and run local Abaqus datachecks Exit 0 before independent review re-submission"
+}
