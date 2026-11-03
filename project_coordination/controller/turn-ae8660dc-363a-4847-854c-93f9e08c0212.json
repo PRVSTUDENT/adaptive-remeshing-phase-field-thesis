@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "ae8660dc-363a-4847-854c-93f9e08c0212",
+    "task_id":  "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+    "repository_commit":  "f58f70462aca80a5ca142a8c9f49af9d1503c2bf",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-11-03T08:34:46.0850926+01:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "EC25457C58D573BE6298FA7F42785F26216DDE4F3F98E8F0F26DC4866CA6B04A",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "D867EAC09D737CDF1774D7772DE0C60CA70EB683423305473ED4589DDA6BC112",
+                            "project_coordination/ACTIVE_SESSION.json":  "7A6CFBCE04CC5D632129D4D7045F589B1A0EEA6DE8897C5E9D4D8D03E2E54EEA",
+                            "project_coordination/ACTIVE_TASK.json":  "B1ABD6A6716F1B54C7EF6F46E08630B79F117FD8184B7732E8B82FF658A0B2AD",
+                            "project_coordination/TASK_LEDGER.csv":  "D2DAA7498BCC078E3E1A47E844CE7CB1557B28FEE7C2258F4ABE29C307D38EB4",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "1B7CD3C328BBA5D0323E745D70DD1A57EA4D47E0FE41B8EB34D0B18612A49070",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "ABEF44341978922F4F889BAA973473602CA1C59E1E50E1CE56899B760E79795E",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "B1ABD6A6716F1B54C7EF6F46E08630B79F117FD8184B7732E8B82FF658A0B2AD",
+                          "project_coordination/CURRENT_STATE.md":  "D867EAC09D737CDF1774D7772DE0C60CA70EB683423305473ED4589DDA6BC112",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "1B7CD3C328BBA5D0323E745D70DD1A57EA4D47E0FE41B8EB34D0B18612A49070",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "A45DB5E38AAA627D4D54DF7339560852794D78B5903C36754081DC838C043467"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-11-03_gemini-antigravity_F1597_ae8660dc-363a-4847-854c-93f9e08c0212.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-ae8660dc-363a-4847-854c-93f9e08c0212.json",
+                                  "sha256":  "6ED69A5D3D20FE790F4FB4B0F6B93173AC214838078CD5C6C141D13C16839B09",
+                                  "created_at":  "2026-11-03T08:38:46.2506408+01:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Advance to dedicated controller maintenance session for F1599 review intake repair deployment"
+}

@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "run_id": "ae8660dc-363a-4847-854c-93f9e08c0212",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "title": "Turn 62: Reconciliation of Governance Routing and Hand-off for Controller Maintenance Deployment",
+  "finding": "Turn 62 governance routing and hand-off verification complete: (1) ChatGPT directive and corrected decision-making reconciled: recognized that maintenance operation CONTROLLER-MAINTENANCE-F1599-REVIEW-INTAKE cannot be executed under active research preparation task F1598 (write scope strictly excludes scripts/controller/*). (2) Hand-off route verified: deploying patch scripts/validation/f1599_candidate_intake_dispatcher.patch requires formal registration in task_definitions and TASK_LEDGER.csv for maintenance executor Codex ('codex-controller-maintenance'). (3) Verified bitwise preservation of immutable anchors: patch scripts/validation/f1599_candidate_intake_dispatcher.patch (SHA-256 C082FB1253CA40426C6346E9E0D8B59497DC5FD6896D19E8A4457CDC5B8B8E11), target base scripts/controller/review_dispatcher.py (SHA-256 16B7365335037E4975FFBAE159E0778FC7A5D78B4ECA7F5351EDFA6B528DC8E5), canonical review packet results/validation/c6_package171_r1_definition_review_packet.json (SHA-256 33F58E71FDF8E2F2DFDA1CF9978D09DF329F5A9E32E2ADA1D7760E968AA39341), candidate definition project_coordination/candidate_definitions/evaluate_mode1_package171_r1_c6_coupled_convergence.json (SHA-256 A499EA0DC1E31B1F5A59BEAC71D8209448B9BBB041CB8BC40C92316320A86770), and frozen UEL f42_mixed_uel.for (SHA-256 CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6). (4) Preserved Job 1419643.mmaster02 terminal nonconvergence telemetry (Exit 1, Outer 100, delta_d = 7.1663e-3, delta_u = 4.5072e-5 mm, delta_H = 271.54 MPa, dual_error = 9.7824e-10, free_error = 3.5738e-7); strictly 0 new PBS submissions pending independent review. (5) Clean session release enables maintenance executor to claim registered maintenance role, deploy tested patch via Deploy-Controller.ps1, and dispatch F1599 review.",
+  "evidence_sources": {
+    "tests/unit/test_turn62_governance_reconciliation.py": "09A85E2CB55E4C3F9909ECA509C36DDEAABB64AD24FBEB21937C648B7761A1DB",
+    "results/validation/f1599_maintenance_registration_request.json": "E02F2DBC5F14F3D98CCAFDE53648C55C434FC4BB510801F3FD5F6BA99C84CE89",
+    "tests/unit/test_f1599_maintenance_handoff.py": "6CC15877361BE0317EAF716A83BF8C0C546AC1A879CDD5445497B86DADE36C12",
+    "results/validation/c6_package171_r1_definition_review_packet.json": "33F58E71FDF8E2F2DFDA1CF9978D09DF329F5A9E32E2ADA1D7760E968AA39341",
+    "project_coordination/candidate_definitions/evaluate_mode1_package171_r1_c6_coupled_convergence.json": "A499EA0DC1E31B1F5A59BEAC71D8209448B9BBB041CB8BC40C92316320A86770",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "scripts/validation/f1599_candidate_intake_dispatcher.patch": "C082FB1253CA40426C6346E9E0D8B59497DC5FD6896D19E8A4457CDC5B8B8E11",
+    "scripts/controller/review_dispatcher.py": "16B7365335037E4975FFBAE159E0778FC7A5D78B4ECA7F5351EDFA6B528DC8E5",
+    "project_coordination/task_definitions/F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE.json": "D4D5964E1ED2E860E14C2B5A22589675AA5AD4D594BACA5A91FA0DA60BEB08FA"
+  },
+  "verification_passed": true,
+  "registered_paths": [
+    "results/validation/preparation-ae8660dc-363a-4847-854c-93f9e08c0212.json",
+    "tests/unit/test_turn62_governance_reconciliation.py"
+  ],
+  "governance_verdict": "MAINTENANCE_REGISTRATION_REQUIRED",
+  "assigned_maintenance_role": "codex-controller-maintenance",
+  "missing_prerequisites": [
+    "1. Formal registration of task CONTROLLER-MAINTENANCE-F1599-REVIEW-INTAKE in task_definitions and TASK_LEDGER.csv with write_scope allowing scripts/controller/*",
+    "2. Claim of maintenance task by assigned role 'codex-controller-maintenance' following clean release of F1598 session lock",
+    "3. Deployment of verified patch scripts/validation/f1599_candidate_intake_dispatcher.patch (SHA-256 C082FB1253CA40426C6346E9E0D8B59497DC5FD6896D19E8A4457CDC5B8B8E11) to scripts/controller/review_dispatcher.py and OpenClawPAD via Deploy-Controller.ps1",
+    "4. Clean maintenance session release to enable Invoke-ReviewDispatcher.ps1 live bridge dispatch without active session lock"
+  ],
+  "scientific_boundary": {
+    "job_id": "1419643.mmaster02",
+    "exit_code": 1,
+    "outer_iterations": 100,
+    "delta_d": 7.1663e-3,
+    "delta_u_mm": 4.5072e-5,
+    "delta_h_MPa": 271.54,
+    "kkt_dual_error": 9.7824e-10,
+    "kkt_free_error": 3.5738e-7,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "new_pbs_submissions": 0
+  },
+  "next_operation": "Advance to dedicated controller maintenance session for F1599 review intake repair deployment"
+}
