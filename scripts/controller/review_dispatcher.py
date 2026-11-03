@@ -78,20 +78,28 @@ def exclusive(path):
 def packet(root, operation):
     if not re.fullmatch(r'[a-z][a-z0-9_]{5,140}', operation):
         raise ValueError('INVALID_OPERATION')
-    rel = 'project_coordination/operation_definitions/' + operation + '.json'
+    reg_rel = 'project_coordination/operation_definitions/' + operation + '.json'
+    cand_rel = 'project_coordination/candidate_definitions/' + operation + '.json'
+    if (root / reg_rel).is_file():
+        rel = reg_rel
+    elif (root / cand_rel).is_file():
+        rel = cand_rel
+    else:
+        raise ValueError('DEFINITION_MISSING')
     definition = read(root / rel)
     if not definition or definition.get('operation_id') != operation:
         raise ValueError('DEFINITION_MISSING')
-    manifest_rel = definition['manifest']
-    manifest = read(inside(root, manifest_rel))
+    manifest_rel = definition.get('manifest')
+    manifest = read(inside(root, manifest_rel)) if manifest_rel else {}
     sources = dict(definition.get('evidence_sources', {}))
     sources[rel] = sha(root / rel)
-    sources[manifest_rel] = sha(root / manifest_rel)
-    sources.update(manifest.get('runtime_source_hashes', {}))
-    for name, digest in manifest['files'].items():
-        if Path(name).name != name:
-            raise ValueError('UNSAFE_FILE')
-        sources[str(Path(manifest_rel).parent / name).replace('\\', '/')] = digest
+    if manifest_rel and manifest:
+        sources[manifest_rel] = sha(root / manifest_rel)
+        sources.update(manifest.get('runtime_source_hashes', {}))
+        for name, digest in manifest.get('files', {}).items():
+            if Path(name).name != name:
+                raise ValueError('UNSAFE_FILE')
+            sources[str(Path(manifest_rel).parent / name).replace('\\', '/')] = digest
     for name, digest in sources.items():
         if sha(inside(root, name)) != digest.upper():
             raise ValueError('STALE_EVIDENCE: ' + name)
@@ -206,15 +214,28 @@ class Dispatcher:
     def _run(self, operation, dry_run):
         # Always reconcile canonical accounting before review or dispatch. A
         # lost local review record must never erase a submission reservation.
-        definition = read(self.root / ('project_coordination/operation_definitions/' + operation + '.json'))
+        reg_rel = 'project_coordination/operation_definitions/' + operation + '.json'
+        cand_rel = 'project_coordination/candidate_definitions/' + operation + '.json'
+        is_candidate = False
+        if (self.root / reg_rel).is_file():
+            definition = read(self.root / reg_rel)
+        elif (self.root / cand_rel).is_file():
+            definition = read(self.root / cand_rel)
+            is_candidate = True
+        else:
+            raise ValueError('DEFINITION_MISSING')
         if not definition:
             raise ValueError('DEFINITION_MISSING')
-        manifest_path = inside(self.root, definition['manifest'])
-        manifest_key = sha(manifest_path).lower()
+        manifest_rel = definition.get('manifest')
+        manifest_path = inside(self.root, manifest_rel) if manifest_rel else None
+        manifest_key = sha(manifest_path).lower() if manifest_path and manifest_path.is_file() else 'no-manifest'
         path = self.directory / (operation + '-' + manifest_key + '.json')
         state = read(path, dict(operation_id=operation, status='PREPARED', transitions=['PREPARED']))
-        accounting = self.hooks.reconcile(manifest_key, definition)
-        if accounting['status'] != 'NOT_SUBMITTED':
+        accounting = self.hooks.reconcile(manifest_key, definition) if manifest_path else dict(status='NOT_SUBMITTED')
+        is_read_only = (is_candidate or
+                        definition.get('operation_mode') == 'READ_ONLY_SCIENTIFIC_EVALUATION' or
+                        definition.get('registration_status') == 'PROPOSED_FOR_INDEPENDENT_REVIEW')
+        if not is_read_only and accounting['status'] != 'NOT_SUBMITTED':
             status = accounting['status']
             if dry_run:
                 return dict(status='DRY_RUN_NO_DISPATCH', operation_id=operation, accounting=accounting)
@@ -293,6 +314,9 @@ class Dispatcher:
         # Recheck bytes after browser wait, before any executable gate.
         if packet(self.root, operation)['fingerprint'] != request['fingerprint']:
             self.save(path, state, 'BLOCKED', reason='STALE_EVIDENCE_AFTER_REVIEW')
+            return state
+        if is_candidate or is_read_only:
+            # Staged candidates remain inactive and ineligible for scientific execution.
             return state
         try:
             if not self.hooks.qualify(definition, state, request_path):

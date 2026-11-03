@@ -217,3 +217,23 @@ def test_archived_signed_response_resumes_same_correlation(fixture):
     recovered = dispatcher.run(op)
     assert recovered['status'] == 'SUBMITTED'
     assert recovered['correlation_id'] == state['correlation_id']
+
+@pytest.mark.parametrize('decision', ['APPROVE', 'REJECT', 'INSUFFICIENT_EVIDENCE'])
+def test_manifestless_candidate_review_never_executes(fixture, decision):
+    root, op, hooks, dispatcher = fixture
+    registered = root / 'project_coordination/operation_definitions' / (op + '.json')
+    candidate = root / 'project_coordination/candidate_definitions' / (op + '.json')
+    candidate.parent.mkdir(parents=True)
+    atomic(candidate, dict(operation_id=op, registration_status='PROPOSED_FOR_INDEPENDENT_REVIEW',
+                          operation_mode='READ_ONLY_SCIENTIFIC_EVALUATION', evidence_sources={}))
+    registered.unlink()
+    hooks.decision = decision
+    first = dispatcher.run(op)
+    assert first['status'] == {'APPROVE': 'REVIEWED', 'REJECT': 'REJECTED',
+                               'INSUFFICIENT_EVIDENCE': 'BLOCKED'}[decision]
+    fingerprint = first['fingerprint']
+    again = dispatcher.run(op)
+    assert again['fingerprint'] == fingerprint
+    assert hooks.reviews == 1
+    assert hooks.qualifications == hooks.submissions == 0
+    assert not registered.exists()
