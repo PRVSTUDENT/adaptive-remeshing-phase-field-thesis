@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "run_id": "a12dc5f8-cb17-4c1c-b335-588a14de10b8",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "proposed_task_id": "F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE",
+  "proposed_operation_id": "evaluate_mode1_package171_r1_c6_coupled_convergence",
+  "canonical_packet": {
+    "path": "results/validation/c6_package171_r1_definition_review_packet.json",
+    "sha256": "33F58E71FDF8E2F2DFDA1CF9978D09DF329F5A9E32E2ADA1D7760E968AA39341",
+    "verified": true
+  },
+  "frozen_uel": {
+    "path": "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/f42_mixed_uel.for",
+    "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "verified": true
+  },
+  "candidate_definition": {
+    "path": "project_coordination/candidate_definitions/evaluate_mode1_package171_r1_c6_coupled_convergence.json",
+    "sha256": "A499EA0DC1E31B1F5A59BEAC71D8209448B9BBB041CB8BC40C92316320A86770",
+    "registration_status": "PROPOSED_FOR_INDEPENDENT_REVIEW",
+    "operation_mode": "READ_ONLY_SCIENTIFIC_EVALUATION",
+    "candidate_job": "M1_C6_P171_R1_C3_0",
+    "pbs_job_id": "1419643.mmaster02",
+    "verified": true
+  },
+  "patch_artifact": {
+    "path": "scripts/validation/f1599_candidate_intake_dispatcher.patch",
+    "sha256": "C082FB1253CA40426C6346E9E0D8B59497DC5FD6896D19E8A4457CDC5B8B8E11",
+    "ready_to_apply": true
+  },
+  "total_verified_evidence_sources": 29,
+  "terminal_telemetry_reconciliation": {
+    "pbs_job_id": "1419643.mmaster02",
+    "exit_code": 1,
+    "outer_iterations": 100,
+    "delta_d": 0.0071663,
+    "delta_u_mm": 4.5072e-05,
+    "delta_h_MPa": 271.54,
+    "kkt_dual_error": 9.7824e-10,
+    "kkt_free_error": 3.5738e-07,
+    "active_nodes": 35,
+    "free_nodes": 15524,
+    "total_nodes": 15559
+  },
+  "scope_separation": {
+    "current_scope": "RESEARCH_PREPARATION",
+    "maintenance_scope_required": true,
+    "governance_verdict": "FAIL_CLOSED_SEPARATE_MAINTENANCE_FROM_DISPATCH_AUTHORITY",
+    "missing_prerequisites": [
+      "Separate controller maintenance turn to apply f1599_candidate_intake_dispatcher.patch to scripts/controller/review_dispatcher.py",
+      "Deployment via Deploy-Controller.ps1 to sync authoritative and installed controller",
+      "Release of active session lock before live bridge worker invocation to avoid BLOCKED_ACTIVE_REPOSITORY_SESSION"
+    ]
+  },
+  "verification_passed": true
+}

@@ -20,7 +20,7 @@ FROZEN_UEL_SHA = "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACD
 
 def test_verify_script_execution():
     """Verify script runs with exit code 0."""
-    res = subprocess.run([sys.executable, str(VERIFY_SCRIPT)], capture_output=True, text=True)
+    res = subprocess.run([sys.executable, str(VERIFY_SCRIPT)], capture_output=True, text=True, stdin=subprocess.DEVNULL)
     assert res.returncode == 0, f"Script failed: {res.stderr}\n{res.output if hasattr(res, 'output') else ''}"
     assert "Verification passed: True" in res.stdout
 
