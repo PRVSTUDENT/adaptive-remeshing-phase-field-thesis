@@ -52,3 +52,26 @@ $caught=$false;try{Get-ControllerPendingAuthResumePlan -State $s -Instruction 'd
 $caught=$false;try{Get-ControllerPendingAuthResumePlan -State $s -Instruction 'exact saved operation'|Out-Null}catch{$caught=$true};Check $caught 'provider proof required before resume'
 $s.process_id=123;$caught=$false;try{Get-ControllerPendingAuthResumePlan -State $s -Instruction 'exact saved operation' -ProviderVerified|Out-Null}catch{$caught=$true};Check $caught 'started model operation cannot use unstarted resume path'
 "FINAL $n AUTH CHECKS PASSED"
+
+# Healthy-profile verification is read-only even when background hubs exist.
+$p=PathForTest; $cp=$p+'.checkpoint'; 'pending'|Set-Content $cp
+$hash=(Get-FileHash $cp).Hash; $script:ownerChecks=0
+$r=Invoke-ControllerReadOnlyProfileCheck -CheckpointPath $cp -CurrentProfile account5 -AssertOwnerFree {$script:ownerChecks++} -Verify {param($profile) $profile -eq 'account5'}
+Check ($r.read_only -and $r.selected_profile -eq 'account5' -and $script:ownerChecks -eq 2) 'healthy current profile verified without activation or refresh'
+Check ((Get-FileHash $cp).Hash -eq $hash) 'read-only profile verification preserves checkpoint'
+$caught=$false;try{Invoke-ControllerReadOnlyProfileCheck -CheckpointPath $cp -CurrentProfile account5 -AssertOwnerFree {throw 'AUTH_RECOVERY_LIVE_AGY'} -Verify {throw 'must not run'}|Out-Null}catch{$caught=$true};Check $caught 'live or uncertain owner blocks even read-only resume'
+$caught=$false;try{Invoke-ControllerReadOnlyProfileCheck -CheckpointPath $cp -CurrentProfile account5 -AssertOwnerFree {} -Verify {$false}|Out-Null}catch{$caught=$_.Exception.Message -match 'credential mutation remains blocked'};Check $caught 'failed provider proof never falls through to credential mutation'
+$caught=$false;try{Invoke-ControllerReadOnlyProfileCheck -CheckpointPath $cp -CurrentProfile account5 -AssertOwnerFree {} -Verify {'changed'|Set-Content $cp; $true}|Out-Null}catch{$caught=$_.Exception.Message -eq 'AUTH_RECOVERY_CHECKPOINT_CHANGED'};Check $caught 'checkpoint race rejected'
+& {
+ function Read-ControllerCheckpoint {param($path) [pscustomobject]@{workspace=$repo;process_id=$script:workerPid}}
+ $script:workerPid=0; $script:hubCommand='agy.exe --hub --hub-port=123';$script:ownerMatches=$true
+ function Get-CimInstance {param($ClassName,$Filter,$ErrorAction)
+  if($Filter -eq "Name = 'agy.exe'"){[pscustomobject]@{ExecutablePath=(Join-Path $env:USERPROFILE '.gemini/bin/agy.exe');CommandLine=$script:hubCommand;ParentProcessId=123;CreationDate=[datetime]'2026-11-03'}}
+  else{[pscustomobject]@{Name='Code.exe';CreationDate=[datetime]'2026-11-02'}}
+ }
+ function Invoke-CimMethod {param($InputObject,$MethodName,$ErrorAction) [pscustomobject]@{ReturnValue=0;Sid=$(if($script:ownerMatches){[Security.Principal.WindowsIdentity]::GetCurrent().User.Value}else{'different'})}}
+ Assert-ControllerBackgroundHubsOnly fixture;Check $true 'verified same-user VS Code hub allows read-only check'
+ $script:hubCommand='agy.exe --input-format text';$caught=$false;try{Assert-ControllerBackgroundHubsOnly fixture}catch{$caught=$true};Check $caught 'CLI worker is never mistaken for background hub'
+ $script:hubCommand='agy.exe --hub';$script:ownerMatches=$false;$caught=$false;try{Assert-ControllerBackgroundHubsOnly fixture}catch{$caught=$true};Check $caught 'foreign hub owner rejected'
+ $script:ownerMatches=$true;$script:workerPid=123;$caught=$false;try{Assert-ControllerBackgroundHubsOnly fixture}catch{$caught=$true};Check $caught 'checkpoint-owned worker rejected'
+}

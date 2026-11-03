@@ -1,26 +1,19 @@
 {
     "active":  false,
-    "agent":  "gemini-antigravity",
-    "task_id":  "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
-    "starting_commit":  "43f3125dfe65e6245961c37ae6c24b4080a6b0ec",
-    "claimed_at":  "2026-11-03T13:46:29.8365156+01:00",
-    "last_updated":  "2026-11-03T14:07:05.4260592+01:00",
-    "last_released":  "2026-11-03T14:07:05.4260592+01:00",
+    "agent":  "codex",
+    "task_id":  "CONTROLLER-AUTH-STARTUP-FIX",
+    "starting_commit":  "643605fb25b78214a42cc5431e57e13b95916849",
+    "claimed_at":  "2026-11-03T14:22:05.9661183+01:00",
+    "last_updated":  "2026-11-03T14:23:02.3461556+01:00",
+    "last_released":  "2026-11-03T14:23:02.3461556+01:00",
     "controller_run_id":  "8dab19ad-66b7-40eb-85b0-8d1df95e92cb",
-    "session_report":  "project_coordination/sessions/2026-11-03_gemini-antigravity_F1597_8dab19ad-66b7-40eb-85b0-8d1df95e92cb.md",
+    "session_report":  "project_coordination/sessions/2026-11-03_codex_auth_startup_fix.md",
     "allowed_write_scope":  [
-                                "project_coordination/sessions/2026-11-03_gemini-antigravity_F1597_8dab19ad-66b7-40eb-85b0-8d1df95e92cb.md",
-                                "project_coordination/controller/turn-8dab19ad-66b7-40eb-85b0-8d1df95e92cb.json",
-                                "results/validation/mode1_f1597/8dab19ad-66b7-40eb-85b0-8d1df95e92cb.json",
-                                "results/validation/preparation-8dab19ad-66b7-40eb-85b0-8d1df95e92cb.json",
-                                "results/validation/*",
-                                "scripts/validation/*",
-                                "tests/unit/*",
-                                "models/pandey_kumar_mode1/*",
+                                "scripts/controller/Controller-AuthRecovery.ps1",
+                                "tests/unit/test_controller_auth_recovery.ps1",
                                 "project_coordination/ACTIVE_SESSION.json",
-                                "project_coordination/ACTIVE_TASK.json",
-                                "project_coordination/CURRENT_STATE.md",
                                 "project_coordination/TASK_LEDGER.csv",
-                                "project_coordination/ARTIFACT_REGISTRY.csv"
+                                "project_coordination/ARTIFACT_REGISTRY.csv",
+                                "project_coordination/sessions/2026-11-03_codex_auth_startup_fix.md"
                             ]
 }

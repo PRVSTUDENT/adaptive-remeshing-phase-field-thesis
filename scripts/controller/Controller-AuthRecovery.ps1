@@ -87,9 +87,64 @@ function Invoke-AgyAuthenticationFailover {
     return [pscustomobject]@{new_profile=$r.selected_profile;new_conversation_policy='agy-create-on-first-turn'}
 }
 
+function Assert-ControllerBackgroundHubsOnly {
+    param([string]$CheckpointPath)
+    $state=Read-ControllerCheckpoint $CheckpointPath
+    $workspace=[string]$state.workspace
+    if(-not $workspace){throw 'AUTH_RECOVERY_OWNER_UNRESOLVED'}
+    $session=Get-Content -LiteralPath (Join-Path $workspace 'project_coordination/ACTIVE_SESSION.json') -Raw|ConvertFrom-Json
+    if($session.active -or $state.process_id){throw 'AUTH_RECOVERY_LIVE_AGY'}
+    $sid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+    foreach($p in @(Get-CimInstance Win32_Process -Filter "Name = 'agy.exe'" -ErrorAction Stop)){
+        $parent=Get-CimInstance Win32_Process -Filter ("ProcessId = "+$p.ParentProcessId) -ErrorAction Stop
+        $owner=Invoke-CimMethod -InputObject $p -MethodName GetOwnerSid -ErrorAction Stop
+        if($p.ExecutablePath -ine (Join-Path $env:USERPROFILE '.gemini/bin/agy.exe') -or
+           $p.CommandLine -notmatch '(?:^|\s)--hub(?:\s|$)' -or
+           $p.CommandLine -match '(?:^|\s)--(?:print|conversation|input-format)(?:[=\s]|$)' -or
+           -not $parent -or $parent.Name -ine 'Code.exe' -or $parent.CreationDate -gt $p.CreationDate -or
+           $owner.ReturnValue -ne 0 -or $owner.Sid -cne $sid){throw 'AUTH_RECOVERY_LIVE_AGY'}
+    }
+}
+
+function Invoke-ControllerReadOnlyProfileCheck {
+    param([string]$CheckpointPath,[string]$CurrentProfile,[scriptblock]$AssertOwnerFree,[scriptblock]$Verify)
+    if($CurrentProfile -notmatch '^account[1-5]$'){throw 'AUTH_RECOVERY_LIVE_AGY'}
+    $hash=(Get-FileHash -LiteralPath $CheckpointPath).Hash
+    & $AssertOwnerFree
+    try{if(-not (& $Verify $CurrentProfile)){throw 'Unverified'}}catch{throw 'AUTH_RECOVERY_LIVE_AGY: current profile needs recovery; credential mutation remains blocked'}
+    & $AssertOwnerFree
+    if((Get-FileHash -LiteralPath $CheckpointPath).Hash -cne $hash){throw 'AUTH_RECOVERY_CHECKPOINT_CHANGED'}
+    [pscustomobject]@{status='VERIFIED_PROFILE';selected_profile=$CurrentProfile;safety_blocked=$false;read_only=$true}
+}
+
 function Invoke-ControllerExistingProfileRecovery {
     param([string]$CheckpointPath,[string[]]$Profiles,[string]$CurrentProfile)
-    if(Get-Process agy -ErrorAction SilentlyContinue){throw 'AUTH_RECOVERY_LIVE_AGY'}
+    if(Get-Process agy -ErrorAction SilentlyContinue){
+        # A VS Code hub is not a print worker. It still forbids ALL credential
+        # writes: only prove that the already-selected profile is healthy.
+        return Invoke-ControllerReadOnlyProfileCheck -CheckpointPath $CheckpointPath -CurrentProfile $CurrentProfile -AssertOwnerFree {
+            Assert-ControllerBackgroundHubsOnly $CheckpointPath
+        } -Verify {
+            param($profile)
+            $marker=(Get-Content (Join-Path $env:USERPROFILE '.gemini/agy-profiles/_active.txt') -Raw).Trim()
+            if($marker -cne $profile){return $false}
+            $saved=$null;$cli=$null;$native=$null
+            try{
+                $saved=Get-AgySavedCredentialBytes $profile
+                $tokenPath=Join-Path $env:USERPROFILE '.gemini/antigravity-cli/antigravity-oauth-token'
+                Assert-AgyCredentialStores -ExpectedBytes $saved -TokenPath $tokenPath
+                $expected=ConvertTo-AgyCredentialToken $saved -SourceName saved-profile
+                $cli=[IO.File]::ReadAllBytes($tokenPath);$native=Read-AgyCredentialManagerBytes
+                foreach($bytes in @($cli,$native)){
+                    $token=ConvertTo-AgyCredentialToken $bytes -SourceName unspecified
+                    $expiry=[datetimeoffset]::MinValue
+                    if(-not $token.Token.access_token -or -not [datetimeoffset]::TryParse([string]$token.Token.expiry,[ref]$expiry) -or $expiry -le [datetimeoffset]::UtcNow){return $false}
+                    if((Get-AgyProviderIdentity -AccessToken $token.Token.access_token) -cne $expected.Identity){return $false}
+                }
+                return $true
+            }finally{foreach($bytes in @($saved,$cli,$native)){if($bytes){[Array]::Clear($bytes,0,$bytes.Length)}}}
+        }
+    }
     $hash=(Get-FileHash -LiteralPath $CheckpointPath).Hash
     $root=Join-Path $env:USERPROFILE 'OpenClawPAD/auth_recovery';[IO.Directory]::CreateDirectory($root)|Out-Null
     $eligible=@(@($CurrentProfile)+$Profiles|Where-Object {$_ -match '^account[1-5]$' -and (Test-Path (Join-Path $env:USERPROFILE ".gemini/agy-profiles/$_/credential.dpapi"))}|Select-Object -Unique)
