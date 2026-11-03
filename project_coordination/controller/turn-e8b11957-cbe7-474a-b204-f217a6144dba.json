@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "e8b11957-cbe7-474a-b204-f217a6144dba",
+    "task_id":  "F1604-PACKAGE171-R7-C6-ADAPTIVE-PREPARATION",
+    "repository_commit":  "2134781820139b736d2b3f58b8fdfd57e1119ee8",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-11-03T19:09:40.0135635+01:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "EC25457C58D573BE6298FA7F42785F26216DDE4F3F98E8F0F26DC4866CA6B04A",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "FEF59C258C0B7B45839882652E528E37EFA9F1E5F35132F48F5A404893D333B6",
+                            "project_coordination/ACTIVE_SESSION.json":  "C7F4AE1D6B165F2F41179FE23C4865DEE31CE665B693A4434E9572F12A9CDAF9",
+                            "project_coordination/ACTIVE_TASK.json":  "438BE254F8B707E95997BEE975010EEAED652E038FF623D7AA7161E5CE779D7C",
+                            "project_coordination/TASK_LEDGER.csv":  "9A966A026BE562A59D6914535D38F746E1D6E4B5B3B5820E5D16CD161B472509",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "A98362D2CA34B40B48758FF0A37AC1B2F62182CA0F9434EB3214C03B5A05DF4C",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "7920773447EE0A2D9EFEDF2BFEDFE04062BC747779BE998597B9514B25DC2359",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "438BE254F8B707E95997BEE975010EEAED652E038FF623D7AA7161E5CE779D7C",
+                          "project_coordination/CURRENT_STATE.md":  "FEF59C258C0B7B45839882652E528E37EFA9F1E5F35132F48F5A404893D333B6",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "A98362D2CA34B40B48758FF0A37AC1B2F62182CA0F9434EB3214C03B5A05DF4C",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "2546CC3FEA63F4EA7217A680951F8B242491C2751801C4FABFEDEBB0B092CA3C"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-11-03_gemini-antigravity_F1597_e8b11957-cbe7-474a-b204-f217a6144dba.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-e8b11957-cbe7-474a-b204-f217a6144dba.json",
+                                  "sha256":  "51CB6E6E85ECC86A7A64DBA5784EECDCEC3E94EE7DADA05B1E70BE55F387CDE7",
+                                  "created_at":  "2026-11-03T19:19:56.8363075+01:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Upon receipt of authenticated external Ed25519 review approval for HND-F1604-R7-REVIEW-0639CEEF, advance to technical qualification and driver implementation under registered execution successor task."
+}

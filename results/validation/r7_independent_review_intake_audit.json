@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "operation": "independent_review_intake_audit",
+  "task_id": "F1604-PACKAGE171-R7-C6-ADAPTIVE-PREPARATION",
+  "candidate_job": "M1_C6_P171_R7_ADAPTIVE_DAMPED",
+  "operation_id": "execute_mode1_package171_r7_c6_coupled_reequilibration",
+  "correlation_id": "HND-F1604-R7-REVIEW-0639CEEF",
+  "fingerprint": "0639CEEFF9C2F1E14034B95DFADEF089A247723F6C914D8028BC7ADFD3BEED5E",
+  "status": "REVIEW_PENDING",
+  "scientific_hypothesis": {
+    "initial_damping_omega_d": 0.5,
+    "membership_stabilization_threshold": 2,
+    "consecutive_iterations_required": 3,
+    "candidate_relaxation_omega_d": 0.85,
+    "residual_growth_rollback_threshold_pct": 5.0,
+    "coupled_convergence": {
+      "delta_d_max": 1e-05,
+      "delta_u_mm_max": 1e-09,
+      "delta_h_MPa_max": 0.0001
+    },
+    "force_discrepancy_gate_pct": 2.0,
+    "energy_discrepancy_gate_pct": 2.0,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "epistemic_limits": {
+      "spatial_coordinates_telemetry": "ABSENT_IN_SOLVER_RECORDS",
+      "convergence_in_35_to_50_iterations": "UNPROVEN_EMPIRICAL_TARGET"
+    }
+  },
+  "validation_checks": {
+    "candidate_definition_verified": true,
+    "relaxation_hypothesis_verified": true,
+    "active_set_membership_distinguished_from_cardinality": true,
+    "rollback_safeguard_verified": true,
+    "kkt_and_irreversibility_verified": true,
+    "coupled_convergence_tolerances_verified": true,
+    "epistemic_limits_acknowledged": true,
+    "packet_fingerprint_verified": true,
+    "review_correlation_id_matched": true,
+    "review_fingerprint_matched": true,
+    "review_outcome": "REVIEW_PENDING",
+    "no_unqualified_submission": true
+  },
+  "evidence_sources": {
+    "project_coordination/candidate_definitions/execute_mode1_package171_r7_c6_coupled_reequilibration.json": "D3C38263FC4026AC1ACB752CD4FB7B8C3C59B9B1466721BD29B7B87B8A8CBFE3",
+    "results/validation/r7_adaptive_relaxation_specification.json": "C02F9CB071574D1425285E5E318EBA79B71B65D31528257DADE96549E3733EA3",
+    "project_coordination/review_dispatch/execute_mode1_package171_r7_c6_coupled_reequilibration-0639CEEFF9C2F1E14034B95DFADEF089A247723F6C914D8028BC7ADFD3BEED5E.request.json": "5C266FD9DB42BBC1382B6FF04220CBCC13DE031B2F221C8D4B5DA2A8AD99BE37",
+    "project_coordination/review_dispatch/execute_mode1_package171_r7_c6_coupled_reequilibration-629e4d097415db35408f822ec25d96c8c5aa9bf2cef7ce95a9ffdb88c9e46ff5.json": "D5CDFF10CC0E0E58784B51571D178112173BFF7446857128C1A06AFE3C0F329F"
+  },
+  "next_permissible_action": "Wait for external bridge signed review receipt under correlation HND-F1604-R7-REVIEW-0639CEEF. Upon authenticated APPROVE, advance directly to technical qualification and driver implementation under an execution-authorized successor task.",
+  "verification_passed": true
+}
