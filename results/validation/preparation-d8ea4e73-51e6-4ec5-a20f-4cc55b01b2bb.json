@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "turn_run_id": "d8ea4e73-51e6-4ec5-a20f-4cc55b01b2bb",
+  "finding": "Turn 54 controller recovery and self-repair verified. Diagnosed root cause: agent response appended trailing text after Finished ('Clarify the scope of this recovery task'), causing Test-ControllerResponseFinished to return false; the fallback Test-ControllerCompletedScienceReceipt then failed because Test-ControllerScientificCheckpoint verified on-disk hashes of coordination ledgers (ACTIVE_TASK.json) that had been updated post-closeout. Implemented targeted persistent fix in Controller-Recovery.ps1 allowing coordination ledgers to match their authoritative bootstrap snapshot. Deployed fix and Controller-TaskLifecycle.ps1 to OpenClawPAD via Deploy-Controller.ps1. All 8 regression cases and existing test suites passed. Package171-R1 physical nonconvergence (terminal state F, Exit 1 at Outer 100 with delta_d=7.17e-3 > 1e-5) preserved; F1599 definition review and registration remains separate prerequisite.",
+  "evidence_sources": {
+    "tests/unit/test_controller_turn54_regression.ps1": "20A21EA18B000D75CCDC214AD2EAAB71B86CDDE3BA258AC0E185FAC63475DDFA",
+    "scripts/controller/Controller-Recovery.ps1": "CD14F855BCC8C8127BC36FA829C4EA0549F387284F99E65048DE2CACE271B63F",
+    "scripts/controller/Deploy-Controller.ps1": "9AC9690AF225C284C4DEC0C11F766D3EDF0732941FD757F793F7308FEF78EE16",
+    "results/validation/c6_package171_r1_definition_review_packet.json": "33F58E71FDF8E2F2DFDA1CF9978D09DF329F5A9E32E2ADA1D7760E968AA39341",
+    "project_coordination/task_definitions/F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE.json": "D4D5964E1ED2E860E14C2B5A22589675AA5AD4D594BACA5A91FA0DA60BEB08FA",
+    "results/validation/preparation-c8f8f6e5-1b5f-49ee-b6ba-f5cbacbc3a18.json": "D2EDC116B2A0F9F42CC13C53B6879BF2EAD07AD836EA8D3BF188DB025A620B17",
+    "project_coordination/controller/turn-c8f8f6e5-1b5f-49ee-b6ba-f5cbacbc3a18.json": "D09C22251B8E99DBA9EC5A346DBDA15396D6F14E57EECF19FC401F293D008CA1"
+  },
+  "registered_paths": [
+    "tests/unit/test_controller_turn54_regression.ps1",
+    "scripts/controller/Controller-Recovery.ps1",
+    "scripts/controller/Deploy-Controller.ps1"
+  ],
+  "decision": "RECOVERY_VERIFIED",
+  "next_operation": "Controlled resumption ready; F1599 definition review/registration remains separate scientific prerequisite",
+  "verification_passed": true
+}

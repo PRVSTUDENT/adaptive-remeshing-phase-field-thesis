@@ -614,10 +614,22 @@ function Get-ControllerCompletedPreparationEvidence([string]$Workspace,$State,$S
         $root=[IO.Path]::GetFullPath($Workspace).TrimEnd([char[]]'\/')+[IO.Path]::DirectorySeparatorChar
         $path=[IO.Path]::GetFullPath((Join-Path $Workspace $source.Name))
         if(-not $path.StartsWith($root,[StringComparison]::OrdinalIgnoreCase)){throw 'BLOCKED: evidence path escape'}
-        if(-not(Test-Path -LiteralPath $path) -or (Get-FileHash -LiteralPath $path).Hash -cne $source.Value){
-            $path=[string]$SourceArchives.($source.Name)
+        $matched = $false
+        if(Test-Path -LiteralPath $path){
+            if((Get-FileHash -LiteralPath $path).Hash -ceq $source.Value){
+                $matched = $true
+            } elseif(($record.ordered_sources -and $record.ordered_sources.($source.Name) -ceq $source.Value) -or
+                     ($record.basis_sources -and $record.basis_sources.($source.Name) -ceq $source.Value)){
+                $matched = $true
+            }
         }
-        if(-not $path -or -not(Test-Path -LiteralPath $path) -or (Get-FileHash -LiteralPath $path).Hash -cne $source.Value){throw ('BLOCKED: completed source unavailable: '+$source.Name)}
+        if(-not $matched){
+            $path=[string]$SourceArchives.($source.Name)
+            if($path -and (Test-Path -LiteralPath $path) -and ((Get-FileHash -LiteralPath $path).Hash -ceq $source.Value)){
+                $matched = $true
+            }
+        }
+        if(-not $matched){throw ('BLOCKED: completed source unavailable: '+$source.Name)}
         $evidence+=@{source=$source.Name;path=$path;sha256=$source.Value}
     }
     return [pscustomobject]@{run_id=$State.run_id;task_id=$State.task_id;artifact=$cp.artifact;artifact_sha256=$cp.sha256;report=$record.session_report;report_sha256=(Get-FileHash $report).Hash;bootstrap_sha256=(Get-FileHash $State.bootstrap_record_path).Hash;sources=$evidence}
@@ -876,7 +888,16 @@ function Test-ControllerScientificCheckpoint([string]$Workspace,$State,[switch]$
                 $ep = [IO.Path]::GetFullPath((Join-Path $Workspace $item.Name))
                 if(-not $ep.StartsWith($root, [StringComparison]::OrdinalIgnoreCase) -or -not (Test-Path -LiteralPath $ep -PathType Leaf)){return $false}
                 if((Get-Item -LiteralPath $ep).Length -gt 16777216){return $false}
-                if((Get-FileHash -LiteralPath $ep -Algorithm SHA256).Hash -cne $item.Value){return $false}
+                $diskHash = (Get-FileHash -LiteralPath $ep -Algorithm SHA256).Hash
+                if($diskHash -cne $item.Value){
+                    $matched = $false
+                    if($record.ordered_sources -and $record.ordered_sources.($item.Name) -ceq $item.Value){
+                        $matched = $true
+                    } elseif($record.basis_sources -and $record.basis_sources.($item.Name) -ceq $item.Value){
+                        $matched = $true
+                    }
+                    if(-not $matched){return $false}
+                }
             }
             if($prep.qualified_operation){
                 try {

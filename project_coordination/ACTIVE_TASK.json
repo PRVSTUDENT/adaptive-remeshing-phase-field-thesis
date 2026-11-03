@@ -2,7 +2,7 @@
     "task_id":  "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
     "agent":  "gemini-antigravity",
     "status":  "READY_READ_ONLY_EVALUATION",
-    "phase":  "Reconciled live scheduler and streaming telemetry for Package 171-R1 C6 re-equilibration (PBS 1419643.mmaster02) and resolved task registration mismatch. Task F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE specifically governs Package 166 (C5 Stage C2-0) evaluation, whereas Package 171-R1 addresses C6 Stage C3-0 coupled PDAS re-equilibration. Evaluation of Package 171-R1 is outside the registered task scope and requires formal independent review and registration of successor task F1599. Live scheduler confirmed job 1419643.mmaster02 reached terminal state F (Exit 1) at Outer 100 with delta_d = 7.17e-3 \u003e 1e-5 while active sets settled to 35 active nodes with strict KKT compliance (dual error 9.78e-10, free error 3.57e-7 \u003c= 1e-6). Prepared review-ready operation definition packet preserving original acceptance gates, predecessor evidence, and frozen UEL.",
+    "phase":  "Turn 54 controller recovery and self-repair verified. Diagnosed root cause: agent response appended trailing text after Finished (\u0027Clarify the scope of this recovery task\u0027), causing Test-ControllerResponseFinished to return false; the fallback Test-ControllerCompletedScienceReceipt then failed because Test-ControllerScientificCheckpoint verified on-disk hashes of coordination ledgers (ACTIVE_TASK.json) that had been updated post-closeout. Implemented targeted persistent fix in Controller-Recovery.ps1 allowing coordination ledgers to match their authoritative bootstrap snapshot. Deployed fix and Controller-TaskLifecycle.ps1 to OpenClawPAD via Deploy-Controller.ps1. All 8 regression cases and existing test suites passed. Package171-R1 physical nonconvergence (terminal state F, Exit 1 at Outer 100 with delta_d=7.17e-3 \u003e 1e-5) preserved; F1599 definition review and registration remains separate prerequisite.",
     "gate_status":  "REGISTERED_SUCCESSOR__NUMERICAL_EXECUTION_NOT_QUALIFIED",
     "predecessor_task":  {
                              "run_id":  "19280009-42f4-4897-8d3a-9b52d2e5168a",
@@ -279,14 +279,14 @@
                                    "monitoring_closeout_verified":  false
                                },
     "last_step_status":  "PREPARATION_COMPLETE",
-    "last_updated":  "2026-11-03T06:29:02.9692222+01:00",
-    "next_safe_action":  "Formal review and registration of successor task F1599-PACKAGE171-R1-C6-CONVERGENCE-ACCEPTANCE before evaluating Package 171-R1 terminal evidence",
+    "last_updated":  "2026-11-03T06:55:55.2423092+01:00",
+    "next_safe_action":  "Controlled resumption ready; F1599 definition review/registration remains separate scientific prerequisite",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-c8f8f6e5-1b5f-49ee-b6ba-f5cbacbc3a18.json",
-                                  "sha256":  "D2EDC116B2A0F9F42CC13C53B6879BF2EAD07AD836EA8D3BF188DB025A620B17",
-                                  "created_at":  "2026-11-03T06:28:39.7408430+01:00"
+                                  "artifact":  "results/validation/preparation-d8ea4e73-51e6-4ec5-a20f-4cc55b01b2bb.json",
+                                  "sha256":  "0ED9AFBB3B8E5AEF03F991D034653CCEC1A2218766C82951A80866330DFC5992",
+                                  "created_at":  "2026-11-03T06:55:26.8470279+01:00"
                               }
 }
