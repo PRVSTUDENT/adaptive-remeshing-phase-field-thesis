@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "task_id": "F1601-MODE1-C6-R2-DIAGNOSIS-PREPARATION",
+  "status": "R5_REMEDIATION_COMPLETE_PREPARED_FOR_REVIEW",
+  "operation_id": "execute_mode1_package171_r5_c6_coupled_reequilibration",
+  "fingerprint": "FD98382477F364F829842ACD463312160D0891320A3C49829C14632F1E51FCE2",
+  "correlation_id": "HND-F1602-R5-REVIEW-FD983824",
+  "regressions_remediated": {
+    "defect_1_gauss_point_history_loading": {
+      "status": "VERIFIED_PASS",
+      "integration_test": "test_load_distinct_four_gauss_point_histories"
+    },
+    "defect_2_split_keyword_blocks_parsing": {
+      "status": "VERIFIED_PASS",
+      "integration_test": "test_mechanical_deck_syntax_and_solution_state"
+    },
+    "defect_3_uel_solution_state_initialization": {
+      "status": "VERIFIED_PASS",
+      "integration_test": "test_phase_deck_syntax_and_solution_state"
+    },
+    "defect_4_odb_extractor_cli_arguments": {
+      "status": "VERIFIED_PASS",
+      "integration_test": "test_runner_argument_construction_and_extractor_cli"
+    }
+  },
+  "preserved_anchors": {
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "donor_force_kN": 0.17992419004440308,
+    "donor_energy_kNmm": 0.00022639903,
+    "mesh_elements": 15252,
+    "mesh_nodes": 15559,
+    "slit_pairs": 59
+  },
+  "request_packet_path": "project_coordination/review_dispatch/execute_mode1_package171_r5_c6_coupled_reequilibration-FD98382477F364F829842ACD463312160D0891320A3C49829C14632F1E51FCE2.request.json",
+  "request_packet_sha256": "E64C884CCBFF699C7A8A5C329C6B066289498A975C7981E0B9101B345D643C0D",
+  "verification_passed": true
+}

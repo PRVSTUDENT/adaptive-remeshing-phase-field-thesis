@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "status": "DEFINITION_REVIEW_REQUIRED",
+  "operation_id": "execute_mode1_package171_r5_c6_coupled_reequilibration",
+  "event_fingerprint": "execute_mode1_package171_r5_c6_coupled_reequilibration:FD98382477F364F829842ACD463312160D0891320A3C49829C14632F1E51FCE2",
+  "correlation_id": "HND-F1602-R5-REVIEW-FD983824",
+  "created_at": "2026-11-03T13:00:00.0000000Z",
+  "rationale": "Package 171-R5 remediates all 4 regressions identified in R4 review (HND-F1602-R4-REVIEW-BEA4445A): restores 4 distinct GP history loading from r[4+g], restores string-based split_keyword_blocks parsing, restores element-level *Initial Conditions, type=SOLUTION serialization, restores verified extractor CLI flags (--physical-nodes 15559, --physical-elements 15252, --step), preserves R4 rigorous acceptance logic (consistency u <= 1e-9 mm, consistency H <= 1e-4 MPa, KKT <= 1e-6, force/energy within 2%), and adds comprehensive integration tests."
+}

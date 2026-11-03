@@ -1,0 +1,64 @@
+{
+  "batch_name": "MODE1_PACKAGE_171_R5_C6_STAGE_C3_0_REEQUILIBRATION",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c6_package171_r5_c3_0_reequilibration",
+  "runtime_root": "/scratch9/pr21vyci/runs/mode1_c6_package171_r5_c3_0_reequilibration/runtime",
+  "runtime_source_hashes": {
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8",
+    "scripts/state_transfer/c4_to_c5_spatial_mapping.py": "BD2E115514C8672B07CBD85AEF6135C386B8C70A8044E378C6CCCEC910BD2699",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "9EDE833668340A41AD590CB2387F8CB72A6C9C63DE9DF6B2185A3CABD1B21265",
+    "scripts/state_transfer/driver_package171_r5_c6_coupled_pdas.py": "8BFD12EFD835B22B893BA450BFDBF8EB531203241E8B0BB9D5A9F0C5F7613046",
+    "scripts/validation/extract_package148_iteration.py": "4EB4B445A6CC35650A6E3A14FA79B48FDF37B4AE1E27BDFC1499C751DF403CEC"
+  },
+  "files": {
+    "active_set_boundary_cards.inc": "fa63aa5d376063ee278e661629ee25c7a8faa8fa7a203a696979a1f3f327d9be",
+    "d_lower_bounds.csv": "fe415819566b5f7d44d02d5152d31492b4cb19f076eeb4fdef85d3f8797fa08d",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "initial_conditions_solution.inc": "897c12ece3fe0665fa369b0154039b119ae875d901f51c1b38dd866b3133c196",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_C6_PACKAGE171_C3_0_REEQUILIBRATION.inp": "4cf715f57ff30d2b5f9b0d6064169bf44c67d5051dd924bf889cfc8bce54bdac",
+    "nodal_displacements_initial.csv": "a90a6a315b09049611857702a13496057cfdf7520eb3158ee6c8aede44a193ab",
+    "nodal_phase_field_initial.csv": "afe56919b5b5494d72e14307a6c078460e538466c80318225aaba7433258bb6c",
+    "P171_MECHANICAL_DC.dat": "f78c6b02716f63500f9517f8b0c2ba9ba1db16907f250ef67cdc3d4930840113",
+    "P171_MECHANICAL_DC.inp": "d86c2798164efd9a9896b37c2e5d32081863a7e7ed89f323b13e164015f04780",
+    "P171_MECHANICAL_DC.msg": "e5e6124829f61b048dcc1869eb4c09b95458c0b3b1098e0c914292b3ca1b5561",
+    "P171_PHASE_DC.dat": "4ff6650330fdab9a2511bd6add0587179f2214b779d79dfa44965e7dae273acc",
+    "P171_PHASE_DC.inp": "4c9315d9bcca9de60d1baa07dda61fc11eb78da952bf66ca5a466f8fffe9af38",
+    "P171_PHASE_DC.msg": "1af2f630615f3cb6a724511566ab41a521f1f515ed5b89ee4f1d05b70787acb3",
+    "run_datacheck.sh": "93ce6a566debe4c1384d9ae040ec1a75c1ff9caaa6973f8b0f4c884f58e72912",
+    "smoke_import.py": "24e05dd34ad405f342c6d163ba1369f2f8177f997cf30e67148f1f20bb447604",
+    "submit_M1_C6_P171_R5_C3_0.pbs": "88a760bc52faabe3958900e8c07c781c2d09f6103fd27a2d4fbc6bdcf83e2d25",
+    "PACKAGE_MANIFEST.json": "047e972b90128eb86dd87a6cbcb41c323511919293743beea7624a17c1a15bd3"
+  },
+  "scientific_predecessor_review": "results/validation/c6_r5_independent_review_remediation_analysis.json",
+  "jobs": [
+    {
+      "id": "M1_C6_P171_R5_C3_0",
+      "pbs": "submit_M1_C6_P171_R5_C3_0.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c6_package171_r5_c3_0_reequilibration/submit_M1_C6_P171_R5_C3_0.pbs\"",
+      "command_sha256": "67f8e0502573cd123207fa62cae4199e58d461e6618c24076ae82be47d123f8d",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Package 171-R5: Stage C3-0 authentic coupled PDAS re-equilibration on C6 mesh (15,252 quads) at uy = 0.0018703125 mm restoring verified R3 solver I/O with post-update KKT evaluation, displacement consistency (<= 1e-9 mm), history consistency (<= 1e-4 MPa), and gated checkpointing (omega_d = 0.5)",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "P171_MECHANICAL_DC.inp",
+      "datacheck": "P171_MECHANICAL_DC.dat",
+      "additional_datachecks": [
+        "P171_PHASE_DC.dat"
+      ]
+    }
+  ],
+  "acceptance": {
+    "M1_C6_P171_R5_C3_0": "Stage C3-0 genuine coupled re-equilibration (R5): Delta d <= 1e-5, Delta u <= 1e-9 mm, Delta H <= 1e-4 MPa, consistency Delta u <= 1e-9 mm, consistency Delta H <= 1e-4 MPa, final KKT <= 1e-6, zero healing, reaction force drift <= 2%, total energy drift <= 2% vs Checkpoint 03."
+  }
+}
