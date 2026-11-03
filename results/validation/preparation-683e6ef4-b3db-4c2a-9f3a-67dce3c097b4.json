@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "run_id": "683e6ef4-b3db-4c2a-9f3a-67dce3c097b4",
+  "task_id": "F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE",
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "title": "Turn 57: F1599 Review-Registration Deadlock Resolution and Candidate Intake Staging",
+  "finding": "Turn 57 review-registration deadlock audit and resolution completed: (1) Preserved immutable canonical review packet results/validation/c6_package171_r1_definition_review_packet.json (SHA-256 33F58E71FDF8E2F2DFDA1CF9978D09DF329F5A9E32E2ADA1D7760E968AA39341) and frozen production UEL f42_mixed_uel.for (SHA-256 CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6). (2) Diagnosed 5 exact source-code conditions in review_dispatcher.py and Controller-Registration.ps1 causing deadlock: hardcoded path to project_coordination/operation_definitions/ raising DEFINITION_MISSING, mandatory execution manifest assumption incompatible with read-only evaluations, reconcile() aborting on terminal status (Job 1419643.mmaster02 exit 1), session lock requirement, and task-definition scope boundary under F1598. (3) Staged complete immutable candidate definition project_coordination/candidate_definitions/evaluate_mode1_package171_r1_c6_coupled_convergence.json (SHA-256 A499EA0DC1E31B1F5A59BEAC71D8209448B9BBB041CB8BC40C92316320A86770) with status PROPOSED_FOR_INDEPENDENT_REVIEW and operation_mode READ_ONLY_SCIENTIFIC_EVALUATION. (4) Regression suite tests/unit/test_f1599_review_deadlock_resolution.py verified 5/5 tests passing. Status returns DEFINITION_REVIEW_REQUIRED with smallest non-breaking workflow repair proposed; zero new PBS submissions.",
+  "evidence_sources": {
+    "results/validation/c6_package171_r1_definition_review_packet.json": "33F58E71FDF8E2F2DFDA1CF9978D09DF329F5A9E32E2ADA1D7760E968AA39341",
+    "models/pandey_kumar_mode1/171_c6_package171_r1_c3_0_reequilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "project_coordination/candidate_definitions/evaluate_mode1_package171_r1_c6_coupled_convergence.json": "A499EA0DC1E31B1F5A59BEAC71D8209448B9BBB041CB8BC40C92316320A86770",
+    "scripts/validation/audit_f1599_deadlock_and_workflow_repair.py": "7884298E77005A8DF4F321B3B0C8DCA278E4BAB5FD845AB36EE32542A762E65F",
+    "results/validation/f1599_deadlock_resolution_audit.json": "B2ECEE746B7D969147FA52E7CD46A1C0A5015D146D2BCACA9F20F9A2E6CCDBFC",
+    "tests/unit/test_f1599_review_deadlock_resolution.py": "6A3C2D81757B6B39E70256DF864C9B99BF35C510EDCB4D16BD06CE1F75BB73DC",
+    "project_coordination/task_definitions/F1598-PACKAGE166-CONVERGENCE-ACCEPTANCE.json": "D4D5964E1ED2E860E14C2B5A22589675AA5AD4D594BACA5A91FA0DA60BEB08FA"
+  },
+  "verification_passed": true,
+  "deadlock_diagnosis": {
+    "circular_dependency": "F1599 review packet exists and is verified, but review_dispatcher.py strictly requires an existing file in project_coordination/operation_definitions/ with an execution manifest. Placing an unreviewed definition in operation_definitions/ would falsely appear active/registered, while keeping it out raises DEFINITION_MISSING. Furthermore, reconcile() halts because Job 1419643.mmaster02 has already run to completion (terminal Exit 1), preventing review dispatch for read-only evaluations.",
+    "source_code_conditions": [
+      "scripts/controller/review_dispatcher.py:81 hardcoding project_coordination/operation_definitions/ lookup",
+      "scripts/controller/review_dispatcher.py:85-86 requiring manifest['files'] for batch execution",
+      "scripts/controller/review_dispatcher.py:216-223 halting on accounting status != 'NOT_SUBMITTED'",
+      "scripts/controller/review_dispatcher.py:434-436 failing with BLOCKED_ACTIVE_REPOSITORY_SESSION during active sessions",
+      "scripts/controller/Controller-Registration.ps1:17-18 returning CONTROLLER_MAINTENANCE when absent from operation_definitions/"
+    ],
+    "smallest_workflow_repair": [
+      "1. Stage candidate definitions in project_coordination/candidate_definitions/ with registration_status='PROPOSED_FOR_INDEPENDENT_REVIEW'.",
+      "2. Enable review_dispatcher.py to intake candidate definitions for operation_mode='READ_ONLY_SCIENTIFIC_EVALUATION', bypassing batch submission reconciliation.",
+      "3. Promote reviewed candidate definitions into operation_definitions/ and register successor task F1599 only after authenticated Ed25519 review approval."
+    ]
+  },
+  "scientific_boundary": {
+    "c5_checkpoint03_preserved": true,
+    "genuine_miseseri_preserved": true,
+    "c6_transferred_state_preserved": true,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "f1599_self_approval_prevented": true,
+    "new_pbs_submissions": 0
+  },
+  "closeout_outcome": "DEFINITION_REVIEW_REQUIRED",
+  "next_action": "Execute smallest proposed workflow correction to allow review_dispatcher.py candidate intake for read-only evaluation, dispatch F1599 review request to ChatGPT bridge, and obtain authenticated Ed25519 decision."
+}
