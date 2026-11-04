@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "bd489c84-a68e-4b2b-8137-cb99eda0953a",
+    "task_id":  "F1606-MODE1-C6-R7-NONCONVERGENCE-INVESTIGATION",
+    "repository_commit":  "0a33c08c2f08b9ba1e8dc0429d9ad9acdac67ea0",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-11-04T08:34:42.5719531+01:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "EC25457C58D573BE6298FA7F42785F26216DDE4F3F98E8F0F26DC4866CA6B04A",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "8B9E6450819D99A686428B93574E304B8552715B780A799CFD5923CEC957D593",
+                            "project_coordination/ACTIVE_SESSION.json":  "D44F3470CC33CE92581046575346D199FEDF4E7CCA230DC5AE83861C512B172F",
+                            "project_coordination/ACTIVE_TASK.json":  "76A8D4FA23F8F7C90695F810A7F055D1F3947692CFF719C6DE75D49FA0429DFF",
+                            "project_coordination/TASK_LEDGER.csv":  "047F8E02A66737BB472A2B215EE26F7CE65D16BF61299BF0CA56E486E12FC3B9",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "8F7A3010A94550D40A22D3B68DE32F407AF830F9DDF6C1108A8E737796CDAD3C",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "71F87F65CE6505AC229456EE873F1E79601C54970C124FD911ADDC4421B2DF1C",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "76A8D4FA23F8F7C90695F810A7F055D1F3947692CFF719C6DE75D49FA0429DFF",
+                          "project_coordination/CURRENT_STATE.md":  "8B9E6450819D99A686428B93574E304B8552715B780A799CFD5923CEC957D593",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "8F7A3010A94550D40A22D3B68DE32F407AF830F9DDF6C1108A8E737796CDAD3C",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "C9A08B7D3C871734D9D6863C49953386B2D9D77128C8DE48E41AA6BC24881C44"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-11-04_gemini-antigravity_F1597_bd489c84-a68e-4b2b-8137-cb99eda0953a.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-bd489c84-a68e-4b2b-8137-cb99eda0953a.json",
+                                  "sha256":  "A602A541ECA7E8364701D2A83BF4F0A84D9DC08FAB50B5F47778AF5A05A937D4",
+                                  "created_at":  "2026-11-04T08:40:57.8278836+01:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Register successor task F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION and advance independent scientific review"
+}

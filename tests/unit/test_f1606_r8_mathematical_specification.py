@@ -53,14 +53,29 @@ def test_r8_specification_assessment_artifact():
 
     # Iteration budget & runtime feasibility checks
     ib = result["iteration_budget_qualification"]
-    assert ib["proposed_max_outer"] == 120
+    assert ib["proposed_max_outer"] == 140
     assert ib["trigger_iteration"] in [82, 89]
-    assert ib["available_relaxation_iterations"] >= 30
+    assert ib["available_relaxation_iterations"] >= 50
+    assert ib["estimated_iterations_required_to_converge"] == 40
+    assert ib["estimated_total_iterations_to_convergence"] == 129
+
+    # Prove that 120 iterations was insufficient (extrapolation delta_d > 1e-5)
+    assert ib["convergence_feasible_within_120"] is False
+    assert ib["projected_delta_d_at_iteration_120"] > 1.0e-5
+
+    # Prove that 140 iterations is qualified and sufficient (projected delta_d <= 1e-5)
+    assert ib["convergence_feasible_within_140"] is True
+    assert ib["projected_delta_d_at_iteration_140"] <= 1.0e-5
 
     rf = result["runtime_feasibility"]
     assert rf["feasible"] is True
-    assert rf["projected_walltime_120_iters_h"] < 24.0
-    assert rf["walltime_headroom_pct"] > 80.0
+    assert rf["feasible_within_8h"] is True
+    assert rf["projected_walltime_140_iters_h"] < 8.0
+    assert rf["walltime_headroom_8h_pct"] > 75.0
+
+    # Offline hypothesis disclaimer check
+    assert "offline_telemetry_hypothesis_disclaimer" in result
+    assert len(result["offline_telemetry_hypothesis_disclaimer"]) >= 50
 
     # Safeguards
     sg = result["safeguards_and_rollback"]

@@ -42,24 +42,61 @@
     }
   },
   "iteration_budget_qualification": {
-    "proposed_max_outer": 120,
+    "evaluation_120_iters": {
+      "max_outer": 120,
+      "trigger_iteration": 89,
+      "available_relaxation_iterations": 31,
+      "spectral_contraction_rate_assumed": 0.84,
+      "projected_delta_d_at_iteration_120": 4.1479828891318986e-05,
+      "convergence_threshold": 1e-05,
+      "convergence_feasible": false,
+      "evaluation_note": "120 iterations is INSUFFICIENT: delta_d decays only to 4.15e-5, exceeding the 1.0e-5 convergence threshold by a factor of 4.15."
+    },
+    "convergence_requirements": {
+      "delta_d_at_trigger": 0.009229519427227606,
+      "spectral_contraction_rate_assumed": 0.84,
+      "convergence_threshold": 1e-05,
+      "relaxation_iterations_required": 40,
+      "estimated_total_iterations_to_convergence": 129,
+      "note": "With trigger at iteration 89, crossing 1.0e-5 requires 40 relaxation iterations, reaching threshold at iteration 129."
+    },
+    "qualified_140_budget": {
+      "proposed_max_outer": 140,
+      "trigger_iteration": 89,
+      "available_relaxation_iterations": 51,
+      "margin_iterations": 11,
+      "projected_delta_d_at_iteration_140": 1.2688862096034867e-06,
+      "convergence_threshold": 1e-05,
+      "convergence_feasible": true,
+      "evaluation_note": "140 iterations is SUFFICIENT: provides 51 relaxation iterations (11 margin iterations), projecting delta_d=1.37e-6 <= 1.0e-5."
+    },
+    "proposed_max_outer": 140,
     "trigger_iteration": 89,
-    "available_relaxation_iterations": 31,
+    "available_relaxation_iterations": 51,
     "spectral_contraction_rate_assumed": 0.84,
     "estimated_iterations_required_to_converge": 40,
     "estimated_total_iterations_to_convergence": 129,
     "projected_delta_d_at_iteration_120": 4.1479828891318986e-05,
+    "projected_delta_d_at_iteration_140": 1.2688862096034867e-06,
     "convergence_threshold": 1e-05,
-    "convergence_feasible_within_120": false
+    "convergence_feasible_within_120": false,
+    "convergence_feasible_within_140": true
   },
   "runtime_feasibility": {
     "avg_walltime_per_iteration_s": 34.23,
     "projected_walltime_120_iters_s": 4107.599999999999,
     "projected_walltime_120_iters_h": 1.1409999999999998,
-    "pbs_queue_walltime_limit_h": 24.0,
-    "walltime_headroom_pct": 95.24583333333332,
+    "projected_walltime_140_iters_s": 4792.2,
+    "projected_walltime_140_iters_h": 1.3311666666666666,
+    "pbs_serial_mode1_walltime_limit_h": 8.0,
+    "pbs_queue_max_limit_h": 24.0,
+    "walltime_headroom_8h_pct": 83.36041666666667,
+    "walltime_headroom_24h_pct": 94.45347222222222,
+    "feasible_within_8h": true,
+    "feasible_within_24h": true,
     "feasible": true
   },
+  "offline_telemetry_hypothesis_disclaimer": "Offline trigger simulation on R7 telemetry (predicting switch at outer 89 for M=10 or outer 82 for M=12) is an empirical hypothesis from past solver telemetry, not a proof of coupled stability or convergence for R8. Active coupled convergence requires simultaneous satisfaction of all displacement, phase-field, history, KKT, force, and energy acceptance gates under live solver execution.",
   "safeguards_and_rollback": {
     "divergence_safeguard": {
       "factor_gamma": 1.5,
@@ -86,6 +123,6 @@
     }
   },
   "verification_passed": true,
-  "finding": "R8 mathematical specification verified: Compound transition trigger (|A_k|<=500, |Delta A_k|<=10, Delta A^+=0, N=3) activates safely at outer 89 on authentic R7 telemetry, providing 31 relaxation iterations (or 38 iterations if triggering near outer 82 with M=12). With contraction rate rho=0.84, delta_d reduces from 9.23e-03 to 4.15e-05 by outer 120 (and reaches 1e-5 by iteration 129). Runtime at 120 iterations is 1.14h, well within the 24h PBS queue limit (95.2% headroom). UEL hash and physical thresholds strictly preserved.",
+  "finding": "Candidate Package 171-R8 mathematical specification verified: corrected convergence extrapolation shows that max_outer=120 leaves only 31 relaxation iterations after trigger at outer 89, yielding delta_d=4.15e-05 which fails the required delta_d<=1.0e-5 threshold. With conservative contraction rate rho=0.84, achieving delta_d<=1.0e-5 requires 40 relaxation iterations (total 129 iterations). Therefore, max_outer is budgeted to 140 iterations, providing 51 relaxation iterations (11 margin iterations) and projecting delta_d=1.27e-06<=1.0e-5. Runtime at 140 iterations is 1.33h, well within the 8h PBS limit (83.4% headroom). Compound trigger (|A_k|<=500, |Delta A_k|<=10, Delta A^+=0, N=3) and divergence/healing safeguards verified; frozen UEL and physical acceptance thresholds strictly preserved.",
   "next_safe_action": "Complete F1606 and register successor task F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION"
 }

@@ -2,7 +2,7 @@
     "task_id":  "F1606-MODE1-C6-R7-NONCONVERGENCE-INVESTIGATION",
     "agent":  "gemini-antigravity",
     "status":  "READY_FOR_EXECUTION",
-    "phase":  "Permanently resolved controller startup AUTH_RECOVERY_LIVE_AGY failure by requiring verified process identity and executable matching before treating process_id as live, allowing completed predecessor checkpoints and idle hubs to start safely. Formulated and numerically qualified Candidate Package 171-R8 mathematical specification: compound transition trigger (|A_k|\u003c=500, |Delta A_k|\u003c=10, Delta A^+=0, N=3) activates safely at outer 89 on authentic R7 telemetry (or outer 82 with M=12), providing 31-38 accelerated relaxation iterations. With spectral contraction rate rho=0.84, delta_d reduces from 9.23e-3 to 4.15e-5 by outer 120, achieving coupled convergence. Projected walltime is 1.14h, well within the 24h PBS queue limit (95.2% headroom). Frozen UEL hash and physical acceptance thresholds strictly preserved.",
+    "phase":  "Candidate Package 171-R8 mathematical specification verified and convergence extrapolation corrected: max_outer=120 leaves only 31 relaxation iterations after trigger at outer 89, yielding delta_d=4.15e-5 which fails the required delta_d\u003c=1.0e-5 threshold. With conservative contraction rate rho=0.84, crossing 1.0e-5 requires 40 relaxation iterations (total 129 iterations). Therefore, max_outer is budgeted to 140 iterations, providing 51 relaxation iterations (11 margin iterations) and projecting delta_d=1.27e-6\u003c=1.0e-5. Runtime at 140 iterations is 1.33h, well within the 8h PBS limit (83.4% headroom). Compound trigger (|A_k|\u003c=500, |Delta A_k|\u003c=10, Delta A^+=0, N=3) and divergence/healing safeguards verified; frozen UEL and physical acceptance thresholds strictly preserved.",
     "gate_status":  "READY_FOR_EVALUATION",
     "predecessor_task":  {
                              "run_id":  "06642f83-a72a-48d0-962e-953f109183bb",
@@ -289,14 +289,14 @@
                                },
     "scientific_acceptance":  "NOT_YET_EVALUATED",
     "last_step_status":  "PREPARATION_COMPLETE",
-    "last_updated":  "2026-11-04T07:56:37.6909739+01:00",
+    "last_updated":  "2026-11-04T08:41:07.0711546+01:00",
     "next_safe_action":  "Register successor task F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION and advance independent scientific review",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-2219aa12-1ee1-47ce-b661-6f526929ef3d.json",
-                                  "sha256":  "66EB993BAF81F72CBE7792B63978F82C5AC6F7A267D1DE8F5737C26E3B0337FE",
-                                  "created_at":  "2026-11-04T07:56:12.0297387+01:00"
+                                  "artifact":  "results/validation/preparation-bd489c84-a68e-4b2b-8137-cb99eda0953a.json",
+                                  "sha256":  "A602A541ECA7E8364701D2A83BF4F0A84D9DC08FAB50B5F47778AF5A05A937D4",
+                                  "created_at":  "2026-11-04T08:40:57.8278836+01:00"
                               }
 }
