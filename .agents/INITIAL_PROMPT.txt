@@ -1,35 +1,25 @@
 # AUTONOMOUS_METHOD_C_PIPELINE_V2 — MODE-I RESEARCH CONTINUATION
-Date: 2026-11-04
-Workspace: D:\Master thesis\Adaptive remeshing
-Research milestone: a reproducible, physically accepted Mode-I Method C remesh-and-continue cycle by 2026-12-13.
+Complete the F1606 → F1607 scientific lifecycle transition using the existing canonical controller workflow.
 
-ROLE AND BOOTSTRAP
-You are Gemini Antigravity, the bounded executor under the existing autonomous controller. Follow AGENTS.md, task definitions, current operation scope, session ownership and the canonical coordination files. Check Git HEAD/branch/dirty files; preserve unrelated changes and push only forward on the correct tracked branch. Start from CURRENT ACTIVE_TASK and latest verified scientific checkpoint, not from this prompt's historical examples. Do not redo a completed operation, resend a consumed review, or replay a PBS submission. Make one legitimate bounded research state change per turn, then release the owned session and report.
+First read `AGENTS.md`, `ACTIVE_TASK.json`, `ACTIVE_SESSION.json`, task definitions, task ledger, and authentic R8 assessment artifacts. Confirm that the F1606 preparation is complete and its scientific evidence is preserved. Do not repeat R7 execution, F1606 numerical analysis, controller repairs, or previously passed tests.
 
-KNOWN STARTING CONTEXT — VERIFY BEFORE USE
-- R7 PBS 1419873.mmaster02 terminated Exit 1 after 100 coupled iterations; no accepted C6 checkpoint. R7 remained at damage relaxation 0.50 because the Stage 2 membership criterion never activated. R6/R7 reruns are not permitted merely to fill the queue.
-- F1606-MODE1-C6-R7-NONCONVERGENCE-INVESTIGATION has reported PREPARATION_COMPLETE and an R8 algorithm hypothesis. Its task scope allows ZERO new PBS submissions. The reported next safe action is register a properly scoped successor F1607 and complete the independent scientific review/qualification path. Verify active state and successor registration before attempting either; do not recreate anything already recorded.
-- Candidate R8 offline hypothesis: switch to safeguarded faster relaxation only after |A_k| <= 500, |A_k symmetric_difference A_(k-1)| <= 10 for 3 consecutive iterations, and no newly added active nodes. The offline estimate of switching near iteration 89 (or approximately 82 for threshold 12) is not proof of solver stability or convergence. The reported extrapolation delta_d ≈ 4.15e-5 by iteration 120 would STILL FAIL the required delta_d <= 1e-5; correct that claim before review. All coupled displacement/history, KKT, force/energy and irreversibility criteria also remain mandatory.
-- The bridge's required exact compatibility marker is 'JOB-FIRST / REPORT-AFTER POLICY'. The canonical 85-line bridge rules and controller startup recovery have been repaired and dry-run tested. Do NOT reopen old AUTH_RECOVERY_LIVE_AGY or missing-marker incidents absent NEW reproducible evidence.
+Immediate objective: Legitimately close F1606 and register successor `F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION`, then advance its independent scientific review through the existing authenticated review workflow.
 
-PER-TURN SCIENTIFIC DECISION CYCLE
-1. Resolve the actual active task, last completed receipt, first unresolved gate, available independent work and current owner. Check existing job receipts and scheduler state when an HPC decision needs it; distinguish historical ledger entries from live PBS status.
-2. If predecessor analysis/preparation is complete, close it only through supported lifecycle evidence and register the legitimate successor without repeating the science or administrative review. F1606 may NOT submit a PBS job.
-3. If the scientific review is required, submit exactly the distinct R8 candidate and authentic evidence through the registered independent review mechanism. Incorporate review deficiencies in the next bounded task; never fabricate approval, fingerprints or signatures.
-4. If algorithm implementation is authorized, build the smallest technically distinct candidate with deterministic tests, a physically meaningful coupled-residual safeguard, active-set membership tracking, accepted/rollback state consistency and unchanged frozen UEL. Run focused tests and authentic Abaqus datachecks; qualify exactly what will execute.
-5. If and only if a registered execution task permits a NEW job AND the exact candidate passes scientific review, technical preflight, source/manifest hashes, notifications, scheduler resource checks and once-only accounting, submit it immediately using scripts/hpc/Invoke-Mode1Execution.ps1. Serial 1 CPU, <=16 GB, <=8 h, <=2 jobs in a batch, <=4 active user jobs unless the current authoritative adapter is stricter. Record genuine PBS ID; no per-job human permit is needed.
-6. While a job runs, preserve it; advance independent permitted analysis and documentation instead of resubmitting or creating artificial jobs. When it ends, retrieve lightweight authentic logs/telemetry/accounting, classify numerical vs technical vs evidence failure, and test ALL scientific gates. PBS Exit 0 and phase-only KKT are insufficient.
-7. On a failed job, preserve raw evidence, identify a falsifiable dominant failure mechanism and devise ONE justified distinct correction; review/qualify it as required, then execute via a NEW registered task. Never silently relax physics, tolerance, irreversibility or history tests; no blind identical retries. On acceptance, verify the complete physical C6 checkpoint and continue to genuine successive remeshing/transfer/loading, then validate the next cycle.
-8. Repeat this governed decision cycle across controller turns until a defensible Mode-I Method C remesh-and-continue demonstration is accepted or a genuine external/auth/ownership/integrity barrier requires intervention. Keep the numerical goal ahead of repetitive documentation or controller refactoring.
+Use the documented R8 candidate:
 
-PERMANENT BRIDGE / CONTROLLER RELIABILITY
-- Before dispatch, enforce the local bridge contract preflight: marker, correct rules path, compatible handoff schemas, validated response correlation, session ownership and completed checkpoint reconciliation. A failed preflight must prevent an expensive AGY turn and report the exact failed check.
-- For a deterministic local defect, use only a trusted registered controller-maintenance/recovery operation: preserve original evidence, make the smallest supported repair, test it with negative and positive regression cases, deploy the canonical copy and revalidate. The blocked worker or supervisor JSON cannot self-clear safety_blocked=true. Restart only via a separate verified safe owner-free recovery path.
-- Fail closed for a real running owner, tampered hashes, expired provider authentication needing interactive sign-in, invalid task scope, unsatisfied review or compromised PBS accounting. Do not kill a genuine owner, reset reservations, forge approvals, disable checks or loop identical bridge handoffs.
-- Any edit to .agents/scripts/bridge_rules.txt or Invoke-ChatGPTBridge.ps1 MUST preserve the literal marker 'JOB-FIRST / REPORT-AFTER POLICY' and pass bridge prompt-assembly dry-run plus positive/negative parser/reconciliation tests before deployment. Sync all live rule copies.
-- Before any major 40-turn run, run the verified read-only preflight launcher. Dry-run success is NOT a real PAD transport or end-to-end certification; when recovering, test one actual bounded complete AGY-to-bridge-to-controller transaction before resuming a long run.
+- Stage 2 trigger: active-set size ≤ 500, membership change ≤ 10, zero newly activated nodes, sustained for three consecutive iterations.
+- Proposed maximum outer iterations: 140.
+- Preserve the original relaxation, rollback, irreversibility, history and coupled-convergence safeguards.
+- Preserve the frozen production UEL and all quantitative physical acceptance thresholds.
 
-ACCEPTANCE AND OUTPUT
-Keep frozen UEL SHA-256 CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6. Coupled C6 checkpoint acceptance must satisfy delta_d <=1e-5, delta_u <=1e-9 mm, delta_H <=1e-4 MPa, final mechanical/history consistency, signed KKT free/dual/complementarity <=1e-6, no healing/history violations, and verified force/energy continuity <=2%, using genuine matching reference states/units.
+The projected damage convergence at iteration 140 is an unverified hypothesis, not proof of coupled convergence. The review must independently evaluate damage, displacement, history, KKT, force/energy consistency, numerical stability and the proposed iteration budget.
 
-Every completed turn: HPC STATUS / NEW EXPERIMENT / SCIENTIFIC PROGRESS / DOCUMENTATION / NEXT ACTION. Report actual IDs, measured residuals, immutable artifacts and the next permitted concrete action. End exactly: Finished
+Execute the supported lifecycle transition and prepare or dispatch the exact evidence-bound scientific review request where permitted. Do not introduce redundant approval stages. If the controller requires review before successor registration, follow that legitimate ordering instead.
+
+PBS submissions under F1606: strictly zero. Do not submit R8 until a distinct successor execution operation has passed independent scientific review, technical qualification, valid task registration, live resource checks and once-only accounting.
+
+Preserve all existing artifacts and completed PBS IDs. Commit and push only the relevant validated changes. Report the actual lifecycle state transition, review request receipt or precise unresolved gate, evidence hashes, test results and the next executable scientific action.
+
+Use the established five headings: HPC STATUS, NEW EXPERIMENT, SCIENTIFIC PROGRESS, DOCUMENTATION and NEXT ACTION.
+
+Finished

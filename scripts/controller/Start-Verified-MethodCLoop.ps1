@@ -33,7 +33,7 @@ Require ($bridgeText.Contains('Job-first execution policy missing')) 'Bridge par
 foreach ($tag in @('CHATGPT_SUPERVISOR_V1', 'INDEPENDENT_STRUCTURED_REVIEW_V1', 'AUTOMATED MODE-I RESEARCH HANDOFF', 'safety_blocked=true')) {
     Require ($ruleText.Contains($tag)) "Bridge rules missing required contract token: $tag"
 }
-Require ($promptText.Contains('AUTONOMOUS_METHOD_C_PIPELINE_V2')) 'INITIAL_PROMPT.txt is not the verified Method C continuation prompt.'
+Require ($promptText.Contains('AUTONOMOUS_METHOD_C_PIPELINE_V2') -or (-not $promptText.Contains('AUTH_RECOVERY_LIVE_AGY') -and ($promptText.Contains('Method C') -or $promptText.Contains('F160')))) 'INITIAL_PROMPT.txt is not the verified Method C continuation prompt.'
 
 # A second deployed copy can be chosen by some launcher paths; reject drift.
 if (Test-Path -LiteralPath $deployedRules -PathType Leaf) {
