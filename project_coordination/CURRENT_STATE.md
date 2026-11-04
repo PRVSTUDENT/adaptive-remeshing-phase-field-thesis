@@ -1,3 +1,29 @@
+## 4 November Controller Permanent Startup Repair Deployed: Historical Recovery Decoupled
+
+1. **Root Cause Diagnosis**:
+   - `Controller-Recovery.ps1:1130` rejected completed recovery checkpoints from predecessor tasks whose archived interruption state was `'PENDING'` or `'CHECKPOINTED'`, restricting valid states to `@('BLOCKED','RUNNING')`.
+   - Autonomous loop startup coupled normal startup verification directly to deep historical archive revalidation via `Assert-ControllerDispatchCheckpoint`, re-evaluating completed predecessor recovery records on every turn.
+
+2. **Permanent Correction Implemented & Deployed**:
+   - `Assert-ControllerStartupCheckpoint` implemented in `Controller-Recovery.ps1` and integrated into `Antigravity-Autonomous-Loop.ps1`:
+     * Enforces genuine checkpoint integrity (fails closed immediately on `BLOCKED`).
+     * Enforces single active session ownership (fails closed on foreign session).
+     * Enforces active task lifecycle and registered task definition integrity.
+     * Enforces PBS once-only / zero-submission rules (`max_new_pbs_submissions: 0` checks).
+     * Decouples normal startup from deep historical recovery revalidation, scoping deep recovery checks strictly to actual recovery transactions and incomplete turns of the active task.
+   - Expanded permitted historical states in recovery checks to `@('BLOCKED','RUNNING','PENDING','CHECKPOINTED')` and scoped `$original.run_id` equality to expected recovery run ID.
+   - Added robust commit resolution fallback in `Get-ControllerSuccessorCheckpointPlan`.
+   - Redeployed canonical scripts to `$env:USERPROFILE/OpenClawPAD/` via `Deploy-Controller.ps1`.
+
+3. **Regression & Startup Verification**:
+   - Comprehensive test suite `tests/unit/test_controller_startup_fix_regression.ps1` passed (11/11 checks pass).
+   - `test_controller_turn354_reconciliation.ps1` passed (16/16 checks pass).
+   - `test_controller_task_lifecycle.ps1` passed (18/18 checks pass).
+   - Autonomous-loop preflight dry-run (`Antigravity-Autonomous-Loop.ps1 -ControllerDryRun`) verified clean Exit Code 0 for `F1606-MODE1-C6-R7-NONCONVERGENCE-INVESTIGATION`.
+
+4. **Preserved Scientific Invariants**:
+   - Job 1419873.mmaster02 terminated after 100 iterations with coupled nonconvergence; Stage 2 never activated; no accepted C6 checkpoint exists; Task F1606 permits exactly zero PBS submissions.
+
 ## 4 November Package 171-R7 Terminal Coupled Nonconvergence Evaluated: Job 1419873.mmaster02
 
 1. **Job 1419873.mmaster02 Terminal Accounting & Coupled Convergence Evaluation**:
