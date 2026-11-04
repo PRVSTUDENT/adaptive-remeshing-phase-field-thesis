@@ -1,74 +1,207 @@
-# PRV ADAPTIVE REMESHING — AUTONOMOUS MODE-I RESEARCH CONTINUATION
+﻿# PRV ADAPTIVE REMESHING — AUTONOMOUS RECOVERY AND RESEARCH RESTART
 
-## PRIMARY OBJECTIVE
+**Date:** 4 November 2026  
+**Workspace:** `D:\Master thesis\Adaptive remeshing`  
+**Agent:** Gemini Antigravity  
+**Objective:** Recover the controller safely and resume scientifically productive Mode-I Method C research without unnecessary human intervention.
 
-Complete a scientifically defensible Mode-I Method C sequential adaptive remeshing demonstration using Abaqus 2023 and the frozen phase-field fracture UEL. Target research completion: December 13, 2026.
+## 1. IMMEDIATE PRIORITY — RECOVER THE CONTROLLER
 
-Use Antigravity/Gemini only. Do not invoke Codex or consume Codex credits. Preserve intelligent profile selection, the 20% quota threshold, single-agent ownership, and all technical execution safeguards.
+The controller encountered:
 
-## 1. RESTORE AUTHORITATIVE STATE
+`AUTH_RECOVERY_LIVE_AGY`
 
-Follow AGENTS.md and the canonical controller bootstrap exactly. Dynamic state lives under project_coordination/. Read its current state, task, session, HPC ledger and once-only submission records before acting. Preserve all pre-existing dirty paths.
+Location:
 
-The user authorized restarting the autonomous loop on 31 October 2026. Reference milestone: commit 9fd321744a2458e11e46da3db576934d0e7f9fcc contains the distinct R7 correction and submission. Treat this as provenance, not a replacement for live state.
+`scripts/controller/Controller-AuthRecovery.ps1:96`
 
-R7 is M1_C4_P148_R7, PBS 1418938.mmaster02. Its submission is already consumed. Never submit it again or alter its running package, driver, inputs, sources, resources, timeout, iteration bounds or acceptance criteria. Reconcile the exact PBS ID against the live scheduler, HPC ledger and manifest-bound receipt first.
+Previous historical checkpoint startup repairs were completed and validated in commits `f157d28b` and `96bd91f5`.
 
-Preserve R1–R6 evidence and reservations. R5 demonstrated substantial coupled numerical progress before its driver timeout. R6 1418910.mmaster02 failed at startup with zero outer iterations because PACKAGE_MANIFEST.json lacked required GP-order and source-hash metadata; it supplies no new numerical convergence evidence. Do not reinterpret R6 as a physical nonconvergence result or repeat that diagnosis without contradictory evidence.
+Do not repeat those investigations without new evidence.
 
-R7 repairs the runtime manifest contract only. Actual cluster Python 3.6.8 startup passed; both Abaqus datachecks passed; 64 regression tests passed. All 28,224 donor-to-receiver history transfers were recomputed with full coverage and zero flank violations. Frozen UEL, corrected 7+8+3 state serialization, 7200-second driver timeout, max_outer=25 and original physical gates were preserved. These technical passes do not establish C1-1 physical acceptance.
+**Your task is to resolve the current failure automatically when the evidence establishes a safe recovery path.**
 
-## 2. FIRST BOUNDED ACTION AND RUNNING-JOB BRANCH
+Follow `AGENTS.md` and inspect the current Git state, task ownership, checkpoint and recovery state.
 
-Reconcile 1418938.mmaster02 using guarded noninteractive SSH and authentic submission evidence. Never infer terminal status from a missing local output, launch a replacement blindly, or repeat a reserved command. Establish exact runtime-file existence before reading it.
+Determine the exact cause of `AUTH_RECOVERY_LIVE_AGY`, checking:
 
-If R7 is queued or running, independently prepare the next Method C refinement-and-continuation stage using authentic existing checkpoints and results. Develop the bounded cycle specification, transfer/checkpoint contracts, quantitative gates, reusable extraction/evaluation code and focused offline validations that do not depend on R7 passing. Clearly label all R7-dependent state and execution as pending. Do not create fictional checkpoints or claim C1-1 acceptance. Do not queue or execute C1-2 while its predecessor is unaccepted.
+- `controller_turn_checkpoint.json`
+- `ACTIVE_SESSION.json`
+- Checkpoint `process_id`
+- Current and archived `run_id`
+- Windows AGY process IDs, owners, command lines and creation times
+- Actual controller-owned worker versus idle background hub
+- Stale PID versus genuinely active AGY process
+- Current authenticated profile and legitimate provider verification
 
-Prepare useful numerical work while R7 runs. Do not stop solely because an HPC job is active, spend turns repeatedly polling, perform idle waiting, or create redundant experiments or documentation-only cycles. Do not freeze a downstream executable package against an unavailable accepted R7 checkpoint.
+Do not assume that every `agy.exe` process means an active research worker.
 
-## 3. TERMINAL R7 BRANCH AND PHYSICAL ACCEPTANCE
+### Automatic recovery rules
 
-If R7 has finished, collect lightweight authentic scheduler, driver, solver, extraction and notification evidence together. Reconcile its terminal status without changing its once-only reservation. Evaluate complete coupled mechanical/phase convergence and every original gate:
+**A. Stale worker or completed checkpoint**
 
-- Signed KKT residuals and complementarity, using the predeclared limits.
-- Complete finite damage with 0 <= d <= 1.
-- Damage irreversibility: min(d_new - d_old) >= -1e-6.
-- Preservation of committed integration-point histories and full required state.
-- Crack-flank topology and admissible displacement.
-- Reaction-force relative discrepancy <= 5%.
-- Raw total-energy relative discrepancy <= 2%, using the authentic matching donor/reference state.
-- Complete alternating mechanical/phase solver and endpoint evidence.
+If the checkpoint identifies a completed turn, its process is no longer alive, session ownership has been released, and evidence is internally consistent:
 
-An Exit 0, partial numerical progress, startup pass or passing datacheck alone is insufficient. Missing evidence remains UNVERIFIED. No clipping, false convergence, weakened tolerances, changed baselines or unreviewed iteration-cap increases.
+Use the existing supported checkpoint reconciliation procedure. Preserve historical data, verify identities and restore a valid startup state.
 
-If any physical gate fails, preserve the genuine result and review the numerical hypothesis before considering a distinct candidate. A technical failure requires an identified, bounded correction and fresh exact qualification; automatic_retry=false. No unlimited chain of revisions.
+**B. Idle AGY process incorrectly classified as active**
 
-Advance to C1-2 and the first genuine sequential remeshing cycle only after independent quantitative acceptance of every C1-1 gate and authentic accepted-state checkpoint verification. Then qualify exact dependent packages and submit scientifically ready work through scripts/hpc/Invoke-Mode1Execution.ps1 once.
+If a verified idle AGY hub or otherwise safe process is incorrectly triggering the live-worker guard:
 
-## 4. EXECUTION PRIORITY AND LIMITS
+Correct the process classification using exact ownership and execution evidence.
 
-For each controller turn, choose one bounded, scientifically useful investigation or independently qualified batch. Reconcile existing results before proposing experiments. Immediately execute qualified independent ready jobs; administrative permissions, issuer upgrades, enrollment and machine permits are not execution gates.
+Implement a minimal, durable fix rather than disabling the guard.
 
-Preserve technical manifest/command integrity, frozen UEL, real notification checks, live scheduler/resource limits, once-only accounting and quantitative predecessor review. Current serial Mode-I limits: at most two named jobs per batch, 1 CPU, <=16 GB, <=8 hours each, <=4 active user jobs. Keep existing formulation and parallelism restrictions. Preserve Git history and scheduler jobs; never delete or move jobs.
+**C. Real active AGY worker**
 
-All cluster operations use the guarded SSH wrapper, noninteractive stdin isolation, explicit targets and bounded timeouts. No broad remote tree scans. Preserve authentic failure evidence and bulky solver outputs at their existing HPC/scratch locations.
+If another legitimate AGY worker actually owns the session:
 
-## 5. CREDIT EFFICIENCY AND CONTROLLER SAFETY
+Do not kill it, steal ownership or start a competing controller.
 
-Use existing Antigravity/Gemini profiles and configured smart quota selection. Respect the configured 20% remaining-quota stop threshold. Unknown quota is not spare capacity. Do not modify credentials or weaken quota protection. Use deterministic scripts for routine validation and avoid duplicate investigations and unnecessarily broad tests.
+Use the supported orderly completion and session-release mechanism. Resume only after exclusive ownership is established.
 
-Maintain normal session claim/release and a fresh controller run ID for each new operation. Do not reuse a completed run ID for a successor session. Do not restart through forced resume, manual lock reset or the obsolete hardcoded-turn recovery script. On a real ownership/controller error, preserve evidence and use supported evidence-based reconciliation.
+**D. Authentication issue**
 
-Treat compute-node notification delivery as UNRESOLVED until proven by real acknowledgements. Login-node notification delivery and static hooks alone do not establish compute-node delivery.
+If authentication is genuinely invalid:
 
-## 6. REPORTING AND CONTINUATION
+Attempt only supported recovery using eligible existing authenticated profiles.
 
-Every completed turn reports HPC STATUS, NEW EXPERIMENT, SCIENTIFIC PROGRESS, DOCUMENTATION and NEXT ACTION, with actual PBS IDs, measured gates, tests, failure mechanisms and a precise next action. Record substantive evidence early enough for the existing watchdog. Reports follow real work; do only essential scientific/technical unblocking when blocked.
+Do not alter credential identities, forge authentication, bypass provider verification or repeatedly cycle exhausted profiles.
 
-Use selective Git staging, preserve unrelated dirty work, commit meaningful governed progress, push forward-only to origin/main and release the owned session normally. Do not commit bulky solver artifacts, runtime traces, caches or credentials.
+If legitimate interactive sign-in is genuinely required, preserve the checkpoint and report that specific prerequisite.
 
-Scientific progression: accepted C1-1 reconstruction/re-equilibration -> genuine C1-2 continuation -> accepted nonmatching transfer -> first genuine sequential refinement/remeshing cycle -> further controlled cycles and thesis validation. Never claim Method C success prematurely.
+## 2. MAKE THE REPAIR PERMANENT
 
-End each bounded controller operation with:
+Fix the underlying defect, not merely its current symptom.
+
+Normal controller startup must:
+
+- Accept an authentic completed checkpoint from a predecessor task.
+- Reject actual concurrent execution.
+- Distinguish idle AGY hubs from active controlled workers.
+- Identify stale PIDs using verified process identity rather than PID alone.
+- Preserve session ownership and checkpoint integrity.
+- Preserve scheduler and once-only submission accounting.
+- Avoid redundant historical recovery checks.
+
+Add focused regression tests for the identified failure.
+
+Run the affected existing test suites.
+
+Deploy any verified fix using the canonical controller deployment mechanism.
+
+Perform a real nonexecuting controller startup preflight.
+
+If validation fails, diagnose and repair the specific deterministic defect automatically within the existing scope, without repeating identical unsuccessful attempts.
+
+**Do not stop after writing a diagnosis if a safe, supported repair can be completed.**
+
+## 3. RESUME FROM THE LATEST SCIENTIFIC CHECKPOINT
+
+After recovery, restore authoritative state from `project_coordination/`.
+
+Current research task:
+
+`F1606-MODE1-C6-R7-NONCONVERGENCE-INVESTIGATION`
+
+Completed experiment:
+
+`1419873.mmaster02`
+
+R7 completed 100 iterations but failed coupled convergence.
+
+Important findings:
+
+- Δd = 8.3084e-3
+- Δu = 5.6421e-5 mm
+- ΔH = 378.74 MPa
+- Final active set = 160 nodes
+- Stage 2 activation count = 0
+- Rollback count = 0
+- Accepted C6 checkpoint = NONE
+
+The R7 acceleration switch never activated because its membership-stability threshold was too restrictive.
+
+**Do not rerun R7 or repeat its completed terminal evaluation.**
+
+F1606 has already produced a candidate R8 numerical hypothesis:
+
+- Active-set cardinality ≤ 500 nodes.
+- Symmetric membership change ≤ 10 nodes.
+- Three consecutive qualifying iterations.
+- Zero added active nodes.
+- Proposed maximum outer iterations = 120.
+- Offline R7 telemetry suggests the switching condition would first activate near iteration 82.
+
+Treat this as a hypothesis, not proven R8 convergence.
+
+## 4. ADVANCE METHOD C TOWARD AN R8 EXPERIMENT
+
+Continue the unfinished research from the last verified artifact.
+
+Evaluate and finalize the R8 mathematical specification, including the residual-based safeguard, coupled-equilibrium checks, active-set stability logic and irreversibility constraints.
+
+Do not treat a nominal 120-iteration cap as an automatic solution. Qualify its necessity and runtime feasibility.
+
+Preserve the frozen UEL:
+
+`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`
+
+Preserve every existing physical acceptance threshold.
+
+Complete the F1606 scientific investigation and register the appropriate successor through the existing lifecycle.
+
+F1606 permits zero new PBS submissions.
+
+For a materially different executable R8 candidate:
+
+1. Implement and test the distinct algorithm under the appropriate successor task.
+2. Complete independent scientific review using the canonical review process.
+3. Validate the exact executable package and authentic Abaqus datachecks.
+4. Verify notifications, scheduler limits, source hashes and once-only accounting.
+5. Submit the qualified R8 job using `scripts/hpc/Invoke-Mode1Execution.ps1` only under a valid execution task permitting that submission.
+
+Do not replay previous review requests, submit the old R7 package or create a dependent continuation from an unaccepted C6 checkpoint.
+
+## 5. AUTONOMOUS EXECUTION POLICY
+
+Continue through legitimate bounded controller turns rather than repeatedly requesting human instructions for routine implementation issues.
+
+Resolve deterministic local errors automatically when safe.
+
+Avoid:
+
+- Repeated administrative audits.
+- Duplicate reviews or PBS submissions.
+- Restarting already completed scientific operations.
+- Controller architecture rewrites unrelated to the actual defect.
+- Endless repair loops.
+- Premature physical-success claims.
+
+Keep each turn scientifically meaningful.
+
+Never disable integrity checks, take over an active worker, fabricate receipts or circumvent authentication.
+
+If the current AGY process itself prevents a valid exclusive-ownership check, finish its recovery work, release its owned session, and use the supported external controller relaunch mechanism only after the worker has exited. Do not attempt nested competing controllers.
+
+## 6. DELIVERABLES
+
+Report:
+
+**CONTROLLER RECOVERY:** Root cause, repair and actual startup-validation result.
+
+**SCIENTIFIC STATUS:** Current authoritative task and accepted checkpoint status.
+
+**R8 PROGRESS:** Completed numerical analysis, algorithm specification, tests and review status.
+
+**HPC STATUS:** Actual jobs submitted, or exact reason none was eligible.
+
+**NEXT ACTION:** The next scientifically useful executable operation.
+
+Preserve authentic evidence, use selective Git staging, push valid changes forward-only to the correct branch and release session ownership.
+
+**Success means the controller is demonstrably able to resume F1606, and research progresses toward an independently reviewed R8 experiment without repeating R7.**
+
+End with:
 
 Finished

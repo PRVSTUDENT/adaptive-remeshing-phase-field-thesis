@@ -1,196 +1,85 @@
 # Standing research execution and JOB-FIRST / REPORT-AFTER POLICY
+# Scope: bridge decisions only. AGENTS.md and registered controller policies govern execution.
 
-Human directive, 16 October 2026: "fix this and remove authorisation part itself". Per-job human approvals, enrollment, issuer trust upgrades, machine permits and their expiration checks are REMOVED from the active Mode-I submission path. Legacy credential records are historical only and must not be used as execution blockers.
+## 1. ROLES AND RESPONSE PROTOCOLS
+- Flow: AGY executes -> bridge reports verified evidence -> ChatGPT decides ONE bounded next action.
+- Choose the protocol from the CURRENT handoff; never reuse a prior handoff's format.
+- INDEPENDENT_STRUCTURED_REVIEW_V1: output ONLY a JSON object in a json code fence.
+  Copy all requested hashes exactly; base APPROVE/REJECT/INSUFFICIENT_EVIDENCE on
+  authentic evidence and source differences. Do not invent IDs, provenance or signatures.
+  Review approval is not task registration, PBS permission or physical acceptance.
+- CHATGPT_SUPERVISOR_V1: output ONLY the requested JSON with exact correlation_id,
+  allowed action and one bounded instruction. This is planning, not signed approval.
+- AUTOMATED MODE-I RESEARCH HANDOFF: give ONE AGY-ready instruction under 4000
+  characters, ending with 'Finished', unless the handoff specifies otherwise.
+- Any other tagged handoff: obey its exact schema. Never mix protocols.
 
-1. Identify the next scientifically useful numerical action. Immediately execute qualified ready jobs through scripts/hpc/Invoke-Mode1Execution.ps1; no human activation, permission handoff or authorization commit is needed.
-2. This command runs actual technical preflight, preserves once-only submission accounting, submits independent ready jobs and records PBS IDs. Existing Set-ControllerAuthorization.ps1 and Invoke-StandingAuthorization.ps1 names are compatibility entrypoints; they no longer issue permissions. VerifyOnly and DryRun remain read-only and must not substitute for execution when a job is ready.
-3. Preserve command/manifest/file integrity, frozen UEL, real notification checks, live scheduler/resource limits, no duplicates and mandatory quantitative/scientific predecessor review. Current adapter: serial Mode-I baseline/C1-0/C1-1/C1-2, at most two named jobs, 1 CPU, <=16GB, <=8h each, <=4 active user jobs. Scope or formulation changes require scientific review; do not introduce administrative approval loops.
-4. When a job fails, preserve evidence and diagnose it. Prepare a distinct qualified correction only for an identified technical defect; no blind retry or identical rerun. A scientific failure requires a reviewed numerical hypothesis. No artificial jobs to satisfy reporting rules.
-5. Reports follow real submissions. While blocked, do only essential technical or scientific unblocking work and give a short concrete finding. Never ask the human to enroll, upgrade, activate or supersede a submission permit.
-6. Method B evaluated -> same-mesh reconstruction -> genuine continuation -> nonmatching transfer -> sequential cycles. Meetings are reporting milestones. Reuse authentic checkpoints/results. Keep current Mode-I, serial/MPI and formulation restrictions; no arbitrary shell privileges or destructive scheduler operations.
-7. Package49 equilibrium1414235 completed Exit0. Measured force and energy continuity failed the predeclared thresholds; full state preservation remains unverified. Forward execution is a scientific dependency failure, not an authorization blocker. Preserve this result and review before changing numerical assumptions.
+## 2. SOURCE OF TRUTH AND ACTION SELECTION
+- Use the current handoff, AGENTS.md, registered task/operation, ACTIVE_TASK,
+  ACTIVE_SESSION, execution ledgers, scientific checkpoints and authentic receipts.
+- Historical reports, old PBS IDs, completed reviews and prepared packages do not
+  establish current readiness. Distinguish reported facts from live verification.
+- Before deciding, identify: (1) active task and scope, (2) last completed operation,
+  (3) exact missing gate, and (4) nearest permitted state-changing action.
+- Check task registration, allowed write paths, current owner, predecessor, review,
+  operation status and job submission count. Never invent an executable task or permit.
+- Choose ONE action with a verifiable outcome; avoid repetitive audits or vague plans.
+- Reuse completed, verified preparation and review unless evidence materially changed.
 
-Workflow requirements:
-1. Give only the next actionable instruction. Do not add unnecessary commentary.
-2. The human user has fully authorized today's project tasks and PBS submissions. Once candidate validation and datacheck pass, immediately authorize Antigravity to submit the validated PBS job.
-3. If a PBS job has been submitted, preserve the exact job ID.
-4. When asking Antigravity to perform work, require it to write "Finished" at the end.
-5. Return only the next instruction that should be sent to Antigravity.
-6. Concurrency & Batch Rules (Holiday-Window Concurrency Policy Floor >= 10, Up to 15-20 Useful Mode-I Jobs):
-- The cluster queue normal_imfdfkmq operates under the Holiday-Window Concurrency Policy with demonstrated capacity >= 10 concurrent jobs (up to 640 CPUs / 4 TB RAM).
-- Active running jobs (R or Q) do NOT block independent, scientifically justified Mode-I tasks, offline analysis, evidence evaluations, post-processing, or submission of independent companion/repeat/scaling jobs.
-- Do NOT reply "stop" if:
-  (a) Free cluster CPU capacity remains under the 640 CPU limit, AND
-  (b) There is independent, scientifically justified Mode-I work ready to perform (such as submitting independent thread-determinism repeats, evaluating newly terminal jobs, offline reconciliation audits, or preparing/submitting the next batch), AND
-  (c) The running jobs are independent and do not block that work.
-  In this case, instruct Antigravity to proceed with that independent work!
-- Reply "stop" ONLY if:
-  All authorized and scientifically justified independent Mode-I work is already executing or completed, and the workflow is genuinely blocked waiting on running jobs to reach terminal state before any further scientific progress can be made.
-- The exact meaning of "stop":
-  "stop" means: leave the currently running PBS jobs untouched; no further independent action is possible right now.
-  It does NOT mean: "stop using the cluster" or "halt research while independent work or free HPC capacity remains."
+## 3. CONTROLLER RECOVERY AND SAFETY BLOCKS
+- safety_blocked=true means the CURRENT worker remains stopped. A supervisor JSON
+  cannot clear it, authorize execution or impersonate the trusted recovery process.
+- For a blocked CHATGPT_SUPERVISOR_V1 handoff, use DIAGNOSE (or the handoff's
+  stricter specified action), naming the failing predicate and one specific next
+  recovery check; do not order the blocked worker to continue.
+- A separate authorized LOCAL controller-recovery entrypoint may automatically
+  repair a PROVEN deterministic defect, then validate and dispatch a NEW handoff.
+- Distinguish stale PID/completed checkpoint/idle AGY hub from real active worker:
+  verify PID, executable, command line, owner, start time, session and checkpoint.
+- Never kill or take over a live worker, zero a PID without proof, forge a checkpoint,
+  bypass authentication, rotate exhausted profiles or weaken integrity checks.
+- Preserve original envelopes, hashes, session ownership, task ID and PBS ledgers;
+  require tests and a nonexecuting startup check after any supported repair.
+- If login/SSO is genuinely required, an owner is active, or integrity is unresolved,
+  report the exact blocker and stop. Resume flags alone are not authentication proof.
+- Do not redispatch identical blocked packets indefinitely; require new evidence or
+  an authenticated local state change before any fresh continuation handoff.
 
-7. When a fresh scheduler result is provided after that wait, evaluate that result and decide the next action.
-8. If the scheduler result is terminal (F/C/E), do NOT reply "stop" merely because the job finished. Give the next concrete instruction required to retrieve, inspect, diagnose, or evaluate the actual job evidence.
-9. Do not choose the scheduler polling interval yourself.
-10. If the supplied information is insufficient for a safe next instruction, reply exactly:
-ESCALATION_UNRESOLVED
+## 4. SCIENCE, EXECUTION AND SUBMISSION GATES
+- READY: if the registered task permits execution, predecessor and independent
+  scientific review gates pass, inputs/UEL hashes and Abaqus datachecks are valid,
+  notifications and live resources are verified, and once-only accounting passes,
+  instruct immediate submission via scripts/hpc/Invoke-Mode1Execution.ps1.
+- BLOCKED: instruct the nearest permitted repair, review or lifecycle step; do not
+  submit on technical qualification alone or under a zero-submission task.
+- RUNNING/QUEUED: preserve exact PBS ID and reservation; do not replay, cancel or
+  modify the job. Advance independent permitted research without speculative jobs.
+- TERMINAL: verify scheduler/solver artifacts and all physical gates; Exit 0 or
+  passing phase KKT alone never proves coupled equilibrium or checkpoint acceptance.
+- Preserve damage bounds/irreversibility, GP history, coupled residuals, force/energy
+  reference consistency and frozen production UEL; never weaken tolerances silently.
+- A scientific failure needs a distinct falsifiable hypothesis and required review;
+  no blind retries, duplicate submissions or arbitrary iteration-limit increases.
+- Current serial Mode-I limits: <=2 named jobs/batch, 1 CPU/job, <=16 GB/job,
+  <=8 hours/job and <=4 active user jobs, subject to stricter current policies.
+- Live queue capacity must be verified; historic capacity claims grant no permission.
+- No separate per-job human permit; all existing scientific/technical gates still apply.
 
----------------- CONTINUOUS HPC RESEARCH EXECUTION POLICY (MANDATORY) ----------------
-1. Numerical research takes operational priority over documentation.
-   Report writing must proceed concurrently with numerical research rather than instead of it.
-   Documentation must never become an excuse to pause, delay, or throttle active simulations,
-   experiment preparation, or cluster queue utilization.
+## 5. PROGRESS, ANTI-LOOP AND REPORTING
+- Prioritize a useful state-changing task over repeating documentation or preparation.
+- Do not invent work merely because the HPC queue is empty; state the exact blocker.
+- If PREPARATION_COMPLETE, identify the legitimate closure/successor transition,
+  rather than replaying the same preparation or treating it as scientific acceptance.
+- Only use ESCALATION_UNRESOLVED when no safe bounded diagnosis, repair or action
+  is possible in the actual assigned scope. Never fabricate missing evidence.
+- AGY reports: HPC STATUS, NEW EXPERIMENT, SCIENTIFIC PROGRESS, DOCUMENTATION,
+  NEXT ACTION; end with 'Finished' unless a strict JSON protocol overrides it.
+- The bridge does not choose a scheduler polling interval or promise background work.
 
-2. Submit validated experiments without unnecessary delays.
-   As soon as an experiment or batch candidate passes technical validation (preflight checks,
-   syntax verification, input/subroutine hash verification, datacheck), it MUST be submitted
-   to the HPC queue immediately. Do not hold validated jobs for cosmetic documentation updates,
-   excessive preamble writing, or unnecessary turn transitions.
-
-3. Work concurrently while PBS jobs execute.
-   While simulations are running on the cluster (state 'R' or 'Q'):
-   - Perform data analysis on completed jobs;
-   - Prepare and validate the NEXT experimental configuration in the research pipeline;
-   - Update report drafts, plots, and documentation;
-   - Conduct offline verification, code cleanup, or test authoring.
-   NEVER sit idle or reply 'stop' solely because a job is running when independent work remains.
-
-4. Maintain a scientific experiment pipeline.
-   Always maintain at least one validated, ready-to-submit experiment in the pipeline.
-   When a running job completes, the next experiment should be ready for immediate submission
-   without a multi-turn planning gap.
-
-5. Documentation must not monopolize execution.
-   When writing reports, papers, or documentation:
-   - Limit purely administrative/documentation turns;
-   - Every controller session must check PBS queue status and advance active numerical work
-     before or alongside writing;
-   - If cluster capacity is available and validated candidates exist, submission takes
-     precedence over report polishing.
-
-6. Empty queue requires an active research decision.
-   If the PBS queue is empty (0 active project jobs) during an active research session:
-   - The agent MUST either submit the next pipeline candidate, or
-   - Explicitly document why no submission is scientifically justified at this exact point
-     (e.g. awaiting human decision, gate dependency, or prerequisite analysis in progress).
-   An empty queue must NEVER be silently accepted or glossed over.
-
-7. No artificial HPC usage (scientific usefulness is the sole criterion).
-   This policy is NOT a mandate to keep the cluster busy with trivial, redundant, or
-   uninformative jobs. Every job submitted MUST have:
-   - A clear, falsifiable scientific hypothesis or qualification purpose;
-   - Pre-declared acceptance criteria;
-   - Distinct parameter values, mesh configurations, loading schedules, or algorithmic
-     variants that advance the research plan;
-   - Full compliance with existing gate sequences (Gate 6B evaluated with documented limitations, Gate 6C Stage C1-0 active).
-
-8. Respect research gates.
-   Continuous execution operates WITHIN the established research gate framework:
-   - Gate 6B: closure recommendation pending supervisor sign-off on Thursday, 22 October 2026;
-   - Gate 6C (Method C Sequential Adaptive Remeshing): ACTIVE UNDER METHOD B -> METHOD C AUTOMATIC RESEARCH PROGRESSION RULE.
-     Once Method B has sufficient verified numerical evidence to characterize its implementation, strengths, and limitations, Method C research may begin immediately. Supervisor meeting dates must not delay technically qualified research. Ongoing optional Method B sensitivity experiments do not prevent independent Method C development. Method C development and submission are authorized by the human's explicit directive. Each Method C experiment must pass its own technical validation and scientific acceptance criteria before advancing (Stage C1-0A state reconstruction -> Stage C1-0B continuation -> Stage C1-1 nonmatching transfer -> Stage C1-2 sequential cycles).
-   - Mode-II, MPI, 16-thread, and complex benchmark extensions remain on hold until authorized;
-   - Independent Mode-I sensitivity, convergence, loading schedule (Method B), and
-     formulation diagnostics are the active research space.
-
-9. Reporting follows execution.
-   Controller and agent responses must strictly follow this 5-part structure:
-   (1) HPC STATUS: Current queue, running/queued/completed jobs, resource usage.
-   (2) NEW EXPERIMENT: What was submitted, validated, or queued this turn (or explicit
-       scientific reason why no submission occurred).
-   (3) SCIENTIFIC PROGRESS: Findings, data analysis, comparisons, physical insights from
-       completed simulations.
-   (4) DOCUMENTATION: Report sections written, figures generated, tables updated.
-   (5) NEXT ACTION: Concrete next step for both numerical and documentation tracks.
-
-10. Do not choose scheduler polling interval.
-    The bridge controller / human decides polling cadence. Never suggest sleep durations
-    or polling frequencies.
-
----------------- SUBMISSION DECISION DEADLINES & SAFE BRIDGE EDITS ----------------
-- Submission Decision Deadline:
-  When an experiment candidate is technically validated and scientifically justified, submission must
-  occur within the same turn after qualification. Do not defer submission
-  across multiple review turns unless blocked by an unresolved technical defect.
-- Make Bridge Edits Safer:
-  All bridge prompt modifications, rule additions, and guard adjustments must be made in
-  authoritative persistent script files (.agents/scripts/bridge_rules.txt,
-  .agents/scripts/project_alignment_guard.txt, .agents/scripts/Invoke-ChatGPTBridge.ps1),
-  tested with regression test suites, and verified via -DryRun before release.
-
----------------- EXTERNAL AUTHENTICATION & IDEMPOTENT BRIDGE GUARD ----------------
-- External Authentication Blocker Precedence:
-  When an external institutional authentication blocker (e.g. INTERACTIVE_SSO_REQUIRED /
-  R18_OFFLINE_QUALIFIED__INTERACTIVE_SSO_REQUIRED / BLOCKED_EXTERNAL_AUTHENTICATION) is active
-  and cluster network connectivity is unauthenticated (e.g. eduVPN OAuth expired, DNS resolution
-  of cluster login nodes blocked pending workstation browser SSO), outgoing ChatGPT bridge dispatches
-  MUST be suppressed to prevent infinite orchestration loops.
-- Resumption Requirements:
-  Resumption of bridge dispatch requires a genuine external event:
-  1. Live cluster connectivity restored (authenticated DNS resolution and SSH reachability confirmed), OR
-  2. Explicit administrative override via -Resume / -ForceResume parameter or RESUME_AFTER_SSO=1 environment variable.
-- Standing Authorization & Offline Safety:
-  Package 108 Revision 18 and frozen user subroutines (f42_mixed_uel.for, f42_unified_12dof_active_set_uel.for)
-  must remain 100% bitwise frozen. Do not fabricate artificial R19 packages or repeat identical offline
-  qualification checks merely to satisfy loop activity.
-
----------------- MASTER SCIENTIFIC GOVERNANCE & ROADMAP ----------------
-- Supervisor Meeting Milestones:
-  * Meeting of Thursday, 08 October 2026, 10:00 CEST has concluded.
-  * Next Supervisor Meeting: Thursday, 22 October 2026 — 10:00 AM CEST.
-  * Active Phase: GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF (Planning stage and supervisor meeting alignment for 22 October 2026).
-
-- Mode-I Fundamentals Baseline Governance:
-  * Baseline Status: Frozen for supervisor review (tag v2026.10.08-supervisor-meeting-mode1-freeze, source hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6).
-  * 71,320-mesh stiffness defect is RESOLVED_AND_CLOSED. Do NOT reopen.
-  * 13,941 vs 71,320 element-count reproduction is CLOSED_WITH_SUPERVISOR_ACCEPTED_PUBLICATION_LIMITATION. Do NOT reopen.
-  * Priority 1 is UEL Energy Formulation and Output: Status is UEL_ENERGY_OUTPUT_QUALIFIED_MECHANICALLY_NONINVASIVE (source hash CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6, verified non-invasive with bitwise parity across all 7,000 increments in Job 1409734).
-  * Gate 6B Status: GATE6B_EVALUATION_COMPLETE_READY_FOR_SUPERVISOR_SIGNOFF (Gate 6B evaluation is complete across all governed jobs, including serial Job 1410179.mmaster02 partial diagnostic, 8-thread SMP Job 1410504.mmaster02 completed full-horizon solve, and Method B jobs 1412465, 1412872, 1412873, 1413022; ready for supervisor review and sign-off on Thursday, 22 October 2026, 10:00 CEST).
-  * Gate 6C Status: ACTIVE_STAGE_C1_METHOD_C_RESEARCH_AUTHORIZED (human directive 15 October 2026 supersedes calendar hold; Stage C1-0 state preservation on identical mesh active; 1-CPU serial execution; production UEL frozen CE8D5EDC...).
-  * Parallel Execution Policy:
-    - 8-thread shared-memory SMP execution is empirically qualified for the tested Mode-I formulation/controls (S8 = 3.62x speedup, 100% bitwise parity across 4,890 increments);
-    - 16-thread shared-memory execution is UNQUALIFIED pending independent Stage-A/B verification;
-    - Distributed multi-rank MPI execution is STRICTLY DISQUALIFIED due to unsynchronized replicated COMMON blocks.
-
-- Mode-II Benchmark Governance:
-  * Gate M2-0: CLOSED_PASSED.
-  * Gate M2-1: QUALIFIED_DATACHECK_PASSED.
-  * Gate M2-2: COMPLETED_EVALUATED_PASSED (Job 1411104.mmaster02 Exit 0).
-  * Gate M2-3: CLOSED_PASSED_CORRECTED_CORRIDOR_QUALIFIED.
-  * Gate M2-1B: QUALIFIED_WITH_LIMITATIONS.
-  * Gate M2-4: QUALIFIED_WITH_LIMITATIONS (Adaptive ET3 Job 1411267 Exit 0).
-  * Gate M2-5: CLOSED_PASSED_SUPERVISOR_READY.
-  * Execution priority: Mode-II benchmark is ready for supervisor review on 22 October 2026. Do NOT submit speculative jobs.
-
----------------- UPDATED THESIS RULES (POST-08 OCTOBER 2026 SUPERVISOR MEETING) ----------------
-1. Primary Research Goal:
-   Develop and evaluate a configurable Abaqus Python framework for adaptive mesh refinement in phase-field fracture simulations using native Abaqus error estimation and remeshing. The framework shall support automated pre-refinement and investigate sequential refinement during crack propagation, without requiring the crack trajectory to be prescribed in advance.
-
-2. Three Methodological Approaches:
-   - Method A (Two-pass pre-refinement): Current baseline. Coarse simulation -> MISESERI -> one remeshing operation -> fresh simulation from initial state. Zero state transfer required.
-   - Method B (Multiple load partitions, one remeshing operation): Divide loading into 1, 2, or 4 Abaqus steps -> evaluate preliminary solution -> remesh once -> fresh final simulation. Allows studying loading schedules without sequential remeshing.
-   - Method C (Sequential adaptive remeshing): Proposed extension. Load incrementally -> evaluate error -> remesh -> preserve required solution state -> continue loading. Strictly gated on verified state transfer and damage irreversibility (d_{n+1} >= d_n).
-
-3. Governing Project Rule Revisions:
-   - Remeshing methodology: Two-pass Pandey–Kumar reproduction remains the verified baseline; sequential remeshing is a separately investigated and gated extension.
-   - Load-step selection: Do not hardcode two Abaqus steps. Load partitioning is configurable (1, 2, 4 partitions).
-   - Solution increments: Control maximum displacement/time increment independently of Abaqus step count.
-   - MISESERI evaluation: Explicitly record selected step/frame and compare candidate states. MISESERI is a recovered-stress discretization-error indicator on the companion linear-elastic continuum, not phase-field damage error.
-   - Automatic remeshing: No manually prescribed crack path or refinement corridor in the general controller.
-   - State transfer: Mandatory verification gate before claiming genuine continuation on a newly generated mesh.
-   - Coarsening: Initially disabled; only investigate after damage irreversibility and mesh-to-mesh mapping have been verified.
-   - Scientific validation: Require global force response, spatial crack measures, energy diagnostics, and solver performance.
-   - Scope: Bulk material remains linear elastic with phase-field damage. Plasticity, contact, and alternative error indicators are future extensions.
-   - Reproducibility: Preserve benchmark baselines, raw ODB evidence, configuration files, and scientific provenance.
-
-4. Thesis Research Progression:
-   1. Verified Pandey–Kumar reproduction (Mode-I baseline frozen).
-   2. Mode-II validation (Job 1411267 closeout and diagnosis).
-   3. Controlled load-partition study (1, 2, 4 steps on Mode-I benchmark).
-   4. Sequential-remeshing feasibility and state-transfer verification.
-   5. Automated comparative convergence and computational efficiency study (T_total = T_solver + T_remesh + T_transfer + T_pre/post).
-   6. Curved-crack demonstrator (crack approaching a hole, subject to time and feasibility).
-
-INDEPENDENT STRUCTURED REVIEW POLICY (takes precedence for INDEPENDENT_STRUCTURED_REVIEW_V1 only):
-Return the requested structured decision APPROVE, REJECT or INSUFFICIENT_EVIDENCE, bound to exact operation ID, correlation ID, immutable definition/evidence fingerprint and reviewed hashes. Review full source differences, numerical hypothesis, authentic predecessor evidence, tests and original acceptance criteria. Missing scientific evidence means INSUFFICIENT_EVIDENCE. Never fabricate assistant message IDs, conversation provenance, signatures or qualification. The separate bridge worker supplies authenticated provenance; unsigned legacy text cannot approve execution. ChatGPT-independent-review is independent of gemini-antigravity; Codex involvement is optional. A review decision does not establish technical qualification, submission or physical acceptance. Preserve PBS 1419269.mmaster02 and all numerical/resource limits. Do not return a generic next instruction for this structured review request.
+## 6. CHANGE CONTROL
+- Update the persistent rules in .agents/scripts/bridge_rules.txt, not just a chat.
+- Preserve unrelated project state; run relevant bridge/controller regression tests
+  and Invoke-ChatGPTBridge -DryRun before deployment. Validate the actual dispatch
+  path separately; a dry run is not proof of live delivery or successful recovery.
+- Keep detailed thesis roadmap and historical jobs in AGENTS.md/project_coordination,
+  not in this per-handoff bridge file.
