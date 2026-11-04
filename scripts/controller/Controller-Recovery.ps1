@@ -44,7 +44,11 @@ function Set-ControllerFileAtomic([string]$SourcePath, [string]$DestinationPath,
 }
 
 function Write-ControllerCheckpoint([string]$Path, $State) {
-    $State.updated_at = [DateTimeOffset]::UtcNow.ToString('o')
+    if ($State.PSObject.Properties['updated_at']) {
+        $State.updated_at = [DateTimeOffset]::UtcNow.ToString('o')
+    } else {
+        $State | Add-Member -NotePropertyName updated_at -NotePropertyValue ([DateTimeOffset]::UtcNow.ToString('o')) -Force
+    }
     $payload = $State | ConvertTo-Json -Depth 30 -Compress
     $envelope = @{schema=1; payload=$payload; sha256=(Get-ControllerTextHash $payload)} | ConvertTo-Json -Depth 5
     $temp = $Path + '.' + [guid]::NewGuid().ToString('N') + '.tmp'
@@ -1060,14 +1064,26 @@ function Assert-ControllerHpcLedgerGrowth([string]$Workspace, [string]$Historica
 function Assert-ControllerDispatchCheckpoint([string]$Workspace,$State) {
     if(-not $State){return}
     if($State.state -eq 'BLOCKED'){throw ('BLOCKED: historical checkpoint requires evidence-based reconciliation; '+$State.block_reason)}
+    # A historical recovery already proven complete in an earlier task must not be
+    # revalidated as if it belongs to a newly registered, independently verified task.
+    if ($Workspace -and $State.state -eq 'COMPLETED' -and $State.reconciliation) {
+        $activeTaskPath = Join-Path $Workspace 'project_coordination/ACTIVE_TASK.json'
+        if (Test-Path -LiteralPath $activeTaskPath) {
+            $activeTask = try { Get-Content -LiteralPath $activeTaskPath -Raw | ConvertFrom-Json } catch { $null }
+            if ($activeTask -and $activeTask.task_id -and $State.task_id -and ($State.task_id -cne $activeTask.task_id)) {
+                return
+            }
+        }
+    }
     if($State.reconciliation.status -eq 'COMPLETED_RELEASED_TURN_RECONCILED'){
         $r=$State.reconciliation
         if($State.state -ne 'COMPLETED' -or $State.conversation_id -or $State.next_instruction -or
            -not(Test-Path -LiteralPath $r.original_checkpoint) -or
            (Get-FileHash -LiteralPath $r.original_checkpoint).Hash -cne $r.original_sha256){throw 'BLOCKED: completed recovery archive changed'}
         $original=Read-ControllerCheckpoint $r.original_checkpoint
-        if($original.run_id -cne $State.run_id -or $original.original_instruction_hash -cne $State.original_instruction_hash -or
-           $original.state -notin @('BLOCKED','RUNNING','CHECKPOINTED')){throw 'BLOCKED: completed recovery identity changed'}
+        $expectedRunId = if($r.run_id){$r.run_id}else{$State.run_id}
+        if($original.run_id -cne $expectedRunId -or $original.original_instruction_hash -cne $State.original_instruction_hash -or
+           $original.state -notin @('BLOCKED','RUNNING','PENDING','CHECKPOINTED')){throw 'BLOCKED: completed recovery identity changed'}
         $proof=Get-ControllerCompletedPreparationEvidence $Workspace $original $r.source_archives
         if($proof.artifact_sha256 -cne $r.proof.artifact_sha256 -or $proof.report_sha256 -cne $r.proof.report_sha256 -or
            $proof.bootstrap_sha256 -cne $r.proof.bootstrap_sha256){throw 'BLOCKED: completed recovery evidence changed'}
@@ -1079,8 +1095,9 @@ function Assert-ControllerDispatchCheckpoint([string]$Workspace,$State) {
            -not(Test-Path -LiteralPath $r.original_checkpoint) -or
            (Get-FileHash -LiteralPath $r.original_checkpoint).Hash -cne $r.original_sha256){throw 'BLOCKED: completed worker reconciliation archive changed'}
         $original=Read-ControllerCheckpoint $r.original_checkpoint
-        if($original.run_id -cne $State.run_id -or $original.original_instruction_hash -cne $State.original_instruction_hash -or
-           $original.state -ne 'COMPLETED' -or (Get-ControllerTextHash $State.next_instruction) -cne $r.next_instruction_sha256){throw 'BLOCKED: completed worker reconciliation identity changed'}
+        $expectedRunId = if($r.run_id){$r.run_id}else{$State.run_id}
+        if($original.run_id -cne $expectedRunId -or $original.original_instruction_hash -cne $State.original_instruction_hash -or
+           $original.state -notin @('BLOCKED','RUNNING','PENDING','CHECKPOINTED','COMPLETED') -or (Get-ControllerTextHash $State.next_instruction) -cne $r.next_instruction_sha256){throw 'BLOCKED: completed worker reconciliation identity changed'}
     }
     if ($State.reconciliation.status -eq 'INTERRUPTED_TURN294_EVIDENCE_ONLY_READY') {
         $r = $State.reconciliation
@@ -1101,7 +1118,8 @@ function Assert-ControllerDispatchCheckpoint([string]$Workspace,$State) {
             throw 'BLOCKED: original Turn294 checkpoint is not bound to evidence'
         }
         $original = Read-ControllerCheckpoint $r.original_checkpoint
-        if ($original.state -ne 'BLOCKED' -or $original.run_id -ne $State.run_id -or
+        $expectedRunId = if($r.run_id){$r.run_id}else{$State.run_id}
+        if ($original.state -ne 'BLOCKED' -or $original.run_id -ne $expectedRunId -or
             $original.turn -ne 294 -or $original.original_instruction_hash -ne $State.original_instruction_hash -or
             $original.partial_sha256 -ne $State.partial_sha256) {
             throw 'BLOCKED: original Turn294 identity or pending instruction changed'
@@ -1114,7 +1132,8 @@ function Assert-ControllerDispatchCheckpoint([string]$Workspace,$State) {
             (Get-FileHash -LiteralPath $r.original_checkpoint).Hash -ne $r.original_sha256 -or
             -not(Test-ControllerScientificCheckpoint $Workspace $State -Historical)){throw 'BLOCKED: reconciled historical evidence missing or changed'}
         $original=Read-ControllerCheckpoint $r.original_checkpoint
-        if($original.state -ne 'BLOCKED' -or $original.run_id -ne $State.run_id -or $original.scientific_commit -ne $r.scientific_commit){throw 'BLOCKED: original historical checkpoint identity mismatch'}
+        $expectedRunId = if($r.run_id){$r.run_id}else{$State.run_id}
+        if(($original.state -notin @('BLOCKED','RUNNING','PENDING','CHECKPOINTED')) -or $original.run_id -ne $expectedRunId -or $original.scientific_commit -ne $r.scientific_commit){throw 'BLOCKED: original historical checkpoint identity mismatch'}
         $report=Join-Path $Workspace 'project_coordination/sessions/2026-10-20_codex_credential_lifecycle.md'
         if(-not(Test-Path -LiteralPath $report) -or (Get-FileHash -LiteralPath $report).Hash -ne $r.credential_report_sha256){throw 'BLOCKED: credential repair evidence changed'}
     }
@@ -1127,11 +1146,56 @@ function Assert-ControllerDispatchCheckpoint([string]$Workspace,$State) {
         if($State.state -ne 'COMPLETED' -or -not(Test-Path -LiteralPath $r.original_checkpoint) -or
             (Get-FileHash -LiteralPath $r.original_checkpoint).Hash -ne $r.original_sha256){throw 'BLOCKED: reconciled historical evidence missing or changed'}
         $original=Read-ControllerCheckpoint $r.original_checkpoint
-        if(($original.state -notin @('BLOCKED','RUNNING')) -or $original.run_id -ne $State.run_id){throw 'BLOCKED: original historical checkpoint identity mismatch'}
+        $expectedRunId = if($r.run_id){$r.run_id}else{$State.run_id}
+        if(($original.state -notin @('BLOCKED','RUNNING','PENDING','CHECKPOINTED')) -or $original.run_id -ne $expectedRunId){throw 'BLOCKED: original historical checkpoint identity mismatch'}
         if($r.session_report -and (-not(Test-Path -LiteralPath (Join-Path $Workspace $r.session_report)) -or
             (Get-FileHash -LiteralPath (Join-Path $Workspace $r.session_report)).Hash -ne $r.session_report_sha256)){throw 'BLOCKED: session report evidence changed'}
         if($r.bootstrap_record -and (-not(Test-Path -LiteralPath (Join-Path $Workspace $r.bootstrap_record)) -or
             (Get-FileHash -LiteralPath (Join-Path $Workspace $r.bootstrap_record)).Hash -ne $r.bootstrap_record_sha256)){throw 'BLOCKED: bootstrap record evidence changed'}
         if($r.hpc_ledger_sha256){ Assert-ControllerHpcLedgerGrowth $Workspace $r.hpc_ledger_sha256 $State }
+    }
+}
+
+function Assert-ControllerStartupCheckpoint([string]$Workspace,$State) {
+    if(-not $State){return}
+    # 1. Genuine checkpoint integrity: if blocked, fail closed immediately
+    if($State.state -eq 'BLOCKED'){throw ('BLOCKED: historical checkpoint requires evidence-based reconciliation; '+$State.block_reason)}
+    # 2. Verify current session ownership
+    $sessionPath = Join-Path $Workspace 'project_coordination/ACTIVE_SESSION.json'
+    if (Test-Path -LiteralPath $sessionPath) {
+        $session = try { Get-Content -LiteralPath $sessionPath -Raw | ConvertFrom-Json } catch { $null }
+        if ($session -and $session.active) {
+            $isOwnedInterrupted = $State -and $State.state -in @('RUNNING','CHECKPOINTED')
+            if ($isOwnedInterrupted) {
+                try { Sync-ControllerOwnedSession (Get-ControllerEvidence $Workspace) $State } catch { $isOwnedInterrupted = $false }
+            }
+            if (-not $isOwnedInterrupted) {
+                throw 'BLOCKED: repository session active; no profile selection or AGY execution'
+            }
+        }
+    }
+    # 3. Verify task lifecycle and registered task definition
+    Assert-ControllerTaskLifecycle $Workspace
+    # 4. Verify PBS once-only submissions / zero-submission enforcement
+    $activeTaskPath = Join-Path $Workspace 'project_coordination/ACTIVE_TASK.json'
+    $activeTask = if (Test-Path -LiteralPath $activeTaskPath) {
+        try { Get-Content -LiteralPath $activeTaskPath -Raw | ConvertFrom-Json } catch { $null }
+    } else { $null }
+    if ($activeTask) {
+        $taskDefPath = Join-Path $Workspace "project_coordination/task_definitions/$($activeTask.task_id).json"
+        $taskDef = if (Test-Path -LiteralPath $taskDefPath) {
+            try { Get-Content -LiteralPath $taskDefPath -Raw | ConvertFrom-Json } catch { $null }
+        } else { $null }
+        $maxSub = if ($null -ne $activeTask.max_new_pbs_submissions) { $activeTask.max_new_pbs_submissions } elseif ($taskDef -and ($null -ne $taskDef.max_new_pbs_submissions)) { $taskDef.max_new_pbs_submissions } else { $null }
+        if ($maxSub -eq 0 -and $State -and $State.task_id -ceq $activeTask.task_id -and $State.pbs_job_id) {
+            throw "BLOCKED: task $($activeTask.task_id) permits zero PBS submissions but checkpoint contains job $($State.pbs_job_id)"
+        }
+        if ($activeTask.completed_pbs_job_ids -and $State -and $State.submitted_job_id -and ($activeTask.completed_pbs_job_ids -contains $State.submitted_job_id)) {
+            throw "BLOCKED: duplicate PBS submission detected for completed job: $($State.submitted_job_id)"
+        }
+    }
+    # 5. If the checkpoint is an interrupted turn for the active task, validate via dispatch assertion
+    if ($State.task_id -and $activeTask -and ($State.task_id -ceq $activeTask.task_id) -and ($State.state -ne 'COMPLETED')) {
+        Assert-ControllerDispatchCheckpoint $Workspace $State
     }
 }

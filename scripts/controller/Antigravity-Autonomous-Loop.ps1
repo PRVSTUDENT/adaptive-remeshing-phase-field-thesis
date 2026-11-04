@@ -253,13 +253,13 @@ if ($ControllerDryRun) {
     }
     $preparation=Get-ControllerPreparationPlan $WorkspaceDir $prompt
     if(-not $preparation.dispatch_ready){
-        Assert-ControllerDispatchCheckpoint $WorkspaceDir $checkpoint
+        Assert-ControllerStartupCheckpoint $WorkspaceDir $checkpoint
         $budget=Get-ControllerBudget $PrintTimeout $ScientificTurnSeconds
         [pscustomobject]@{mode='DRY_RUN_NO_EXECUTION';task=(Get-ControllerEvidence $WorkspaceDir).task.task_id;proposed_operation=$preparation.operation_id;scientific_operation=$preparation.path;dispatch_ready=$false;preparation_status=$preparation.status;blocked_on=$preparation.blocked_on;checkpoint_state=$(if($checkpoint){$checkpoint.state}else{'NONE'});active_session=(Get-ControllerEvidence $WorkspaceDir).session.active;budget=$budget;no_progress_seconds=$NoProgressSeconds;source_sha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash}|ConvertTo-Json -Depth 8
         return
     }
     $resolved = Resolve-ControllerInstruction $WorkspaceDir $prompt
-    Assert-ControllerDispatchCheckpoint $WorkspaceDir $checkpoint
+    Assert-ControllerStartupCheckpoint $WorkspaceDir $checkpoint
     $operation=if($resolved.evidence.task.scientific_checkpoint_required){
         if($resolved.task_type -eq 'QUALIFIED_EXECUTION'){
             $resolved.operation
@@ -274,7 +274,7 @@ if ($ControllerDryRun) {
     return
 }
 
-Assert-ControllerDispatchCheckpoint $WorkspaceDir (Read-ControllerCheckpoint $controllerCheckpointPath)
+Assert-ControllerStartupCheckpoint $WorkspaceDir (Read-ControllerCheckpoint $controllerCheckpointPath)
 $preparationPrompt = if ($InitialPromptFile) { Get-Content -LiteralPath $InitialPromptFile -Raw -Encoding UTF8 } else { $InitialPrompt }
 $taskLifecycle=Get-ControllerTaskLifecycle $WorkspaceDir
 $preparation = if($taskLifecycle.terminal){Get-ControllerPreparationPlan $WorkspaceDir $preparationPrompt}elseif($ChatGPTSupervisorMode){[pscustomobject]@{dispatch_ready=$true}}else{Invoke-ControllerOperationPreparation $WorkspaceDir $preparationPrompt}
@@ -286,7 +286,7 @@ if(-not $preparation.dispatch_ready -and $preparation.status -ne 'DEFINITION_REJ
     return # No profile selection, model call, timeout retry or completed-operation replay.
 }
 $preflightCheckpoint = Read-ControllerCheckpoint $controllerCheckpointPath
-Assert-ControllerDispatchCheckpoint $WorkspaceDir $preflightCheckpoint
+Assert-ControllerStartupCheckpoint $WorkspaceDir $preflightCheckpoint
 $preflightEvidence = Get-ControllerEvidence $WorkspaceDir
 if ($preflightEvidence.session.active) {
     $ownedInterrupted = $null -ne $preflightCheckpoint -and $preflightCheckpoint.state -in @('RUNNING','CHECKPOINTED')

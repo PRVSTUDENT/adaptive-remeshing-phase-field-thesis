@@ -90,12 +90,18 @@ function Get-ControllerSuccessorCheckpointPlan([string]$Workspace,[string]$Check
     if(-not $r.definition){throw 'SUCCESSOR_CHECKPOINT_BLOCKED: task definition missing'}
     if($r.definition.predecessor.task_id -ceq $State.task_id){
         $cpHash = (Get-FileHash -LiteralPath $CheckpointPath).Hash
-        $receiptMatched = ($cpHash -ceq $r.definition.predecessor.checkpoint_sha256)
+        $expectedHash = if($r.definition.predecessor.checkpoint_sha256){ $r.definition.predecessor.checkpoint_sha256 }
+                        elseif($task.predecessor_task.checkpoint_sha256){ $task.predecessor_task.checkpoint_sha256 }
+                        elseif($r.definition.evidence_sources -and $r.definition.predecessor.checkpoint_artifact -and $r.definition.evidence_sources.PSObject.Properties[$r.definition.predecessor.checkpoint_artifact]){
+                            [string]$r.definition.evidence_sources.PSObject.Properties[$r.definition.predecessor.checkpoint_artifact].Value
+                        }
+                        else{ $null }
+        $receiptMatched = ($expectedHash -and $cpHash -ceq $expectedHash)
         if(-not $receiptMatched){
             foreach($pin in $r.definition.evidence_sources.PSObject.Properties){
-                if($pin.Value -eq $r.definition.predecessor.checkpoint_sha256){
+                if($expectedHash -and $pin.Value -eq $expectedHash){
                     $p = Join-Path $Workspace $pin.Name
-                    if((Test-Path -LiteralPath $p) -and (Get-FileHash -LiteralPath $p).Hash -ceq $r.definition.predecessor.checkpoint_sha256){
+                    if((Test-Path -LiteralPath $p) -and (Get-FileHash -LiteralPath $p).Hash -ceq $expectedHash){
                         $receiptMatched = $true
                         break
                     }
@@ -125,8 +131,10 @@ function Get-ControllerSuccessorCheckpointPlan([string]$Workspace,[string]$Check
         $predDef.predecessor.run_id -cne $State.run_id){
         throw 'SUCCESSOR_CHECKPOINT_BLOCKED: completed predecessor binding missing or changed'
     }
-    if($r.definition.predecessor.source_commit){
-        $commit = [string]$r.definition.predecessor.source_commit
+    $commit = if($r.definition.predecessor.source_commit){ [string]$r.definition.predecessor.source_commit }
+              elseif($task.predecessor_task.source_commit){ [string]$task.predecessor_task.source_commit }
+              else{ $null }
+    if($commit){
         if(Test-Path -LiteralPath (Join-Path $Workspace '.git')){
             $gitCheck = (& git -C $Workspace rev-parse --verify "$commit^{commit}" 2>$null)
             if(-not $gitCheck -or $LASTEXITCODE -ne 0){
@@ -140,7 +148,12 @@ function Get-ControllerSuccessorCheckpointPlan([string]$Workspace,[string]$Check
     }else{
         throw 'SUCCESSOR_CHECKPOINT_BLOCKED: predecessor source commit missing'
     }
-    $receiptHash = [string]$r.definition.predecessor.checkpoint_sha256
+    $receiptHash = if($r.definition.predecessor.checkpoint_sha256){ [string]$r.definition.predecessor.checkpoint_sha256 }
+                   elseif($task.predecessor_task.checkpoint_sha256){ [string]$task.predecessor_task.checkpoint_sha256 }
+                   elseif($r.definition.evidence_sources -and $r.definition.predecessor.checkpoint_artifact -and $r.definition.evidence_sources.PSObject.Properties[$r.definition.predecessor.checkpoint_artifact]){
+                       [string]$r.definition.evidence_sources.PSObject.Properties[$r.definition.predecessor.checkpoint_artifact].Value
+                   }
+                   else{ $null }
     if(-not $receiptHash){
         throw 'SUCCESSOR_CHECKPOINT_BLOCKED: completed predecessor receipt missing or altered'
     }
