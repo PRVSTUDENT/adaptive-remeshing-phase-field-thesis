@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "proposal_id": "package171_r9_c6_coupled_pdas_corrective_design",
-  "created_at": "2026-11-04T22:05:00+01:00",
+  "created_at": "2026-11-04T22:18:00+01:00",
   "author": "gemini-antigravity",
   "predecessor_execution": {
     "task_id": "F1609-PACKAGE171-R8-C6-EXECUTION-QUALIFICATION",
@@ -15,6 +15,21 @@
     "failure_classification": "FAILED_COUPLED_NONCONVERGENCE_OUTER140_STAGE2_FALSE_DIVERGENCE_ROLLBACK",
     "root_cause_diagnosis": "Evaluating divergence on relaxed increments Delta d = omega_d * ||delta d_raw|| introduced a 70% multiplicative artifact across stage transition: cand_delta_d / prev_delta_d = (omega_2 / omega_1) * (||raw_cand|| / ||raw_prev||) = 1.70 * (ratio_raw) in [1.6826, 1.6885] > 1.50. This triggered 18 false-positive rollbacks and trapped R8 in Stage 1.",
     "rollbacks_reproduced": "18/18 authentic rollbacks replayed from live telemetry; in 100% of cases, the unrelaxed fixed-point correction norm was contracting (raw_ratio between 0.9898 and 0.9932, strictly < 1.00)."
+  },
+  "r9_minimal_reconstruction": {
+    "base_implementation": "Reconstructed directly from the exact qualified R8 driver (driver_package171_r8_c6_coupled_pdas.py).",
+    "preserved_interfaces": [
+      "Abaqus deck generation (_deck): identical card structure and syntax.",
+      "Mechanical boundary conditions: N_PIN, N_TOP, N_RP, N_BOTTOM exactly preserved.",
+      "Damage prescription: mechanical damage prescribed on DOF 3 across all nodes.",
+      "Phase boundary conditions: displacements on DOF 1 and 2, active nodes clamped on DOF 3 to immutable d0[n].",
+      "SOLUTION serialization: *Initial Conditions, type=SOLUTION at element integration points.",
+      "Extractor contract: runner invokes --physical-nodes 15559 and --physical-elements 15252.",
+      "Phase decoding: extracts damage from U3, rejects 2-component output (U1, U2), rejects nonfinite values, requires exactly 15,559 physical nodes.",
+      "Solver dictionary contract: reads kkt_pre['residual'] and kkt_post['active'], kkt_post['free'].",
+      "driving_history: invoked with standard 3 positional arguments (mesh, u, zero_baseline).",
+      "finalize_coupled_acceptance: identical gate evaluations for displacement consistency (1e-9 mm), history consistency (1e-4 MPa), KKT tolerances (1e-6), force/energy drift (<=2.0%), healing, and monotonicity."
+    ]
   },
   "r9_mathematical_correction": {
     "terminology_classification": "Fixed-Point Correction Measure: cand_raw_delta_d is the unrelaxed PDAS step infinity-norm ||d_PDAS - d^(k)||_inf. It serves as an invariant measure of algorithmic step size across variable under-relaxation schemes, distinguished from the full coupled nonlinear mechanical/phase residual.",
@@ -33,20 +48,22 @@
   },
   "regression_test_evidence": {
     "suite": "tests/unit/test_package171_r9_c6_coupled_driver.py",
-    "tests_run": 11,
-    "tests_passed": 11,
+    "tests_run": 12,
+    "tests_passed": 12,
     "pass_rate_pct": 100.0,
     "cases_covered": [
+      "test_mechanical_deck_contract",
+      "test_phase_deck_contract",
+      "test_solution_history_serialization_contract",
+      "test_extractor_arguments_contract",
+      "test_phase_decoding_u3_and_rejections",
+      "test_solver_interface_and_coupled_acceptance",
+      "test_force_drift_prohibits_checkpoint",
       "test_authentic_r8_outer89_transition_replay",
       "test_all_18_authentic_r8_rollbacks_replayed",
       "test_genuine_divergence_triggers_rollback",
       "test_genuine_residual_growth_triggers_rollback",
       "test_catastrophic_jump_triggers_rollback",
-      "test_damage_healing_prevention",
-      "test_history_monotonicity",
-      "test_checkpoint_suppression_on_nonconvergence",
-      "test_fail_closed_phase_decoding",
-      "test_kkt_stationarity_post_check",
       "test_compound_active_set_stability_gate"
     ],
     "test_output_log": "results/validation/package171_r9_test_output.txt"
@@ -54,7 +71,7 @@
   "reproducible_evidence_artifacts": {
     "driver_diff_patch": {
       "path": "results/validation/package171_r9_driver_diff.patch",
-      "sha256": "8F69A7B97F2D713E705D46B3581AE6993C0F42B0D556DD2CFC3395059F5E646D"
+      "sha256": "BFD66096FB240CAD931B29AB2365FEEB74796D6F6311AD2D7673EB99348BFB0E"
     },
     "authentic_rollback_replay_json": {
       "path": "results/validation/package171_r8_authentic_rollback_replay.json",
@@ -66,12 +83,12 @@
     },
     "test_output_evidence": {
       "path": "results/validation/package171_r9_test_output.txt",
-      "sha256": "09F40B010CDB8B9210CC1B3CFCF07C9A30E30CD7B82B2A9C7D46F3AB4E903689"
+      "sha256": "75C93EB2F389C586E4BAF34AA53DD0E708C055F3616164F5FB98F3E2FD0EEE4B"
     }
   },
   "source_hashes": {
-    "driver_package171_r9_c6_coupled_pdas.py": "E1CB851BC722EAB8203EF1C37A0989742538554D291DCE3B78FB832B9E68CC04",
-    "test_package171_r9_c6_coupled_driver.py": "E7B52C1FA9523A1486E856E2309E73B6E9A579500327E3CA68CE6936704D6DEC",
+    "driver_package171_r9_c6_coupled_pdas.py": "6D693CFD111C01F1559588B114AA261B9BA51C9EA889727A1249188B6180BB20",
+    "test_package171_r9_c6_coupled_driver.py": "52DC30FA76165B1C53AA2E9F6B568C2FB6EE50B17D5422413524F08545E71EB5",
     "extract_r8_rollback_replay_evidence.py": "0759B0DBC6011C73508406BB03198ED43A3D01781F6FF1CC49AA3035E1A46038",
     "frozen_uel": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
   },

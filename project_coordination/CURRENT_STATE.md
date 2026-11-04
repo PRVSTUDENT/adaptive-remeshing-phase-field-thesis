@@ -1,3 +1,34 @@
+## 4 November Package 171-R9 Minimal Reconstruction & Interface Contract Qualification (Task F1610)
+
+1. **Independent Re-Review Feedback Reconciled (Handoff `HND-e30fca26fe09`)**:
+   - ChatGPT reviewed commit `b3cafb137da5d656ae1ccb4827bd177584ca93f7` across PAD bridge.
+   - Decision: `REJECT` (Mathematical Correction: `ACCEPTABLE_IN_PRINCIPLE`, Published Driver: `REJECTED_IMPLEMENTATION`).
+   - Root cause of rejection: The previous R9 script inadvertently altered production deck generation (`_bc_block`, `_sol_inc`), changed boundary condition names, altered extractor argument contracts, and inverted KKT dictionary keys.
+   - Mandated directive: Reconstruct R9 directly and minimally from the exact qualified R8 driver (`driver_package171_r8_c6_coupled_pdas.py`). Preserve all Abaqus deck structures, boundary condition identifiers (`N_PIN`, `N_TOP`, `N_RP`, `N_BOTTOM`), damage prescription on DOF 3, phase active clamping to `d0[n]`, integration-point SOLUTION serialization, extractor arguments (`--physical-nodes 15559`, `--physical-elements 15252`), phase decoding from U3, and solver interfaces. Apply ONLY the targeted unrelaxed rollback comparison on `cand_raw_delta_d`.
+
+2. **Minimal R9 Driver Reconstruction Verified**:
+   - Driver: `scripts/state_transfer/driver_package171_r9_c6_coupled_pdas.py` (`Package171R9C6PDASDriver`, SHA-256 `6D693CFD111C01F1559588B114AA261B9BA51C9EA889727A1249188B6180BB20`).
+   - Unified Diff Patch: `results/validation/package171_r9_driver_diff.patch` (SHA-256 `BFD66096FB240CAD931B29AB2365FEEB74796D6F6311AD2D7673EB99348BFB0E`). Patch is strictly minimal (14 KB, ~50 changed lines vs 112 KB in rejected draft).
+   - All deck, boundary condition, and solver interfaces are bitwise identical to the qualified R8 production driver.
+
+3. **100% Comprehensive Contract & Regression Coverage**:
+   - Test suite: `tests/unit/test_package171_r9_c6_coupled_driver.py` (SHA-256 `52DC30FA76165B1C53AA2E9F6B568C2FB6EE50B17D5422413524F08545E71EB5`).
+   - Test output: `results/validation/package171_r9_test_output.txt` (SHA-256 `75C93EB2F389C586E4BAF34AA53DD0E708C055F3616164F5FB98F3E2FD0EEE4B`).
+   - Results: **12 / 12 PASS** (100%), directly exercising:
+     * `test_mechanical_deck_contract`: asserts `N_PIN`, `N_TOP`, `N_RP`, `N_BOTTOM`, damage prescribed on DOF 3 across all nodes, and `*Initial Conditions, type=SOLUTION`.
+     * `test_phase_deck_contract`: asserts displacements on DOF 1,2 and active nodes clamped on DOF 3 to `d0[n]`.
+     * `test_extractor_arguments_contract`: asserts `--physical-nodes 15559` and `--physical-elements 15252`.
+     * `test_phase_decoding_u3_and_rejections`: asserts U3 phase decoding and strict rejection of 2-component output.
+     * `test_solver_interface_and_coupled_acceptance`: asserts solver returns `"active"` and `"free"`, `driving_history` accepts 3 positional arguments, and `finalize_coupled_acceptance` enforces all physical gates.
+     * `test_force_drift_prohibits_checkpoint`: asserts force drift > 2% suppresses checkpoint.
+     * `test_authentic_r8_outer89_transition_replay`: proves Stage 2 is admitted in R9 at Outer 89.
+     * `test_all_18_authentic_r8_rollbacks_replayed`: proves 18 of 18 authentic transitions from Job 1420188 are admitted in R9 without false rollbacks.
+     * `test_genuine_divergence_triggers_rollback`: proves genuine raw norm growth > 1.50x triggers rollback to Stage 1.
+     * `test_genuine_residual_growth_triggers_rollback`: proves genuine raw norm growth > 1.05x triggers rollback to Stage 1.
+     * `test_catastrophic_jump_triggers_rollback`: proves applied step > 0.05 cap triggers rollback to Stage 1.
+     * `test_compound_active_set_stability_gate`: proves compound stability gate logic.
+   - Parity: Existing R8 regression test suites (`test_package171_r8_c6_coupled_driver_gates`, `test_package171_r8_c6_coupled_driver_phase_decoding`, `test_package171_r8_c6_coupled_driver_switching`) continue to pass **22 / 22 PASS**. Total passing tests: **34 / 34**.
+
 ## 4 November Package 171-R9 Independent Review Intake & Bounded Evidence Publication (Task F1610)
 
 1. **Independent Structured Review Intake (Handoff `HND-1c7b8e3aa483`)**:

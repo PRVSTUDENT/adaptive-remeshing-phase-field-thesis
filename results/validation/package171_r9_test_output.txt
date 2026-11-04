@@ -1,27 +1,37 @@
-test_all_18_authentic_r8_rollbacks_replayed (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9Driver.test_all_18_authentic_r8_rollbacks_replayed)
-Verify that ALL 18 authentic R8 rollbacks from live telemetry ... ok
-test_authentic_r8_outer89_transition_replay (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9Driver.test_authentic_r8_outer89_transition_replay)
-Replay authentic R8 Outer 88/89 telemetry: ... ok
-test_catastrophic_jump_triggers_rollback (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9Driver.test_catastrophic_jump_triggers_rollback)
+test_all_18_authentic_r8_rollbacks_replayed (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_all_18_authentic_r8_rollbacks_replayed)
+Verify that ALL 18 authentic R8 rollbacks from live telemetry are admitted in R9. ... ok
+test_authentic_r8_outer89_transition_replay (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_authentic_r8_outer89_transition_replay)
+Replay authentic R8 Outer 88/89 telemetry: R9 admits Stage 2 without rollback. ... ok
+test_catastrophic_jump_triggers_rollback (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_catastrophic_jump_triggers_rollback)
 Verify that applied step > 0.05 cap triggers catastrophic rollback. ... ok
-test_checkpoint_suppression_on_nonconvergence (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9Driver.test_checkpoint_suppression_on_nonconvergence)
-Verify that unverified/nonconverged runs never write an accepted checkpoint. ... ok
-test_compound_active_set_stability_gate (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9Driver.test_compound_active_set_stability_gate)
+test_compound_active_set_stability_gate (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_compound_active_set_stability_gate)
 Verify compound stability requires |A| <= 500, |Delta A| <= 10, added == 0. ... ok
-test_damage_healing_prevention (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9Driver.test_damage_healing_prevention)
-Verify pointwise lower bound d >= d0 holds strictly. ... ok
-test_fail_closed_phase_decoding (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9Driver.test_fail_closed_phase_decoding)
-Verify phase decoding strictly rejects 2-component mixed outputs. ... ok
-test_genuine_divergence_triggers_rollback (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9Driver.test_genuine_divergence_triggers_rollback)
+test_extractor_arguments_contract (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_extractor_arguments_contract)
+Verify extractor invocation uses --physical-nodes 15559 and --physical-elements 15252. ... ok
+test_force_drift_prohibits_checkpoint (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_force_drift_prohibits_checkpoint)
+Verify excessive force drift (> 2.0%) suppresses checkpoint. ... ok
+test_genuine_divergence_triggers_rollback (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_genuine_divergence_triggers_rollback)
 Verify that genuine solver divergence (raw norm grows > 1.50x) triggers rollback. ... ok
-test_genuine_residual_growth_triggers_rollback (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9Driver.test_genuine_residual_growth_triggers_rollback)
+test_genuine_residual_growth_triggers_rollback (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_genuine_residual_growth_triggers_rollback)
 Verify that genuine residual growth (raw norm grows > 1.05x but <= 1.50x) triggers rollback. ... ok
-test_history_monotonicity (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9Driver.test_history_monotonicity)
-Verify history field monotonicity H >= H0 is enforced. ... ok
-test_kkt_stationarity_post_check (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9Driver.test_kkt_stationarity_post_check)
-Verify KKT tolerances tau_active and tau_free <= 1e-6. ... ok
+test_mechanical_deck_contract (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_mechanical_deck_contract)
+Verify mechanical boundary conditions and DOF 3 damage prescription match R8. ... ok
+test_phase_deck_contract (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_phase_deck_contract)
+Verify phase boundary conditions: displacement on DOF 1,2 and active nodes clamped on DOF 3 to d0. ... ok
+test_phase_decoding_u3_and_rejections (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_phase_decoding_u3_and_rejections)
+Verify phase decoding extracts damage from U3 and rejects invalid component counts. ... ok
+test_solver_interface_and_coupled_acceptance (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_solver_interface_and_coupled_acceptance)
+Verify solver KKT dictionary contract and finalize_coupled_acceptance gate enforcement. ... ok
 
 ----------------------------------------------------------------------
-Ran 11 tests in 0.034s
+Ran 12 tests in 0.038s
 
 OK
+  Coupled-field displacement consistency: max delta_u = 0.0000e+00 mm (pass=True)
+  Coupled-field history consistency: max delta_H = 0.0000e+00 MPa (pass=True)
+  Final-state KKT stationarity: free_err=1.0000e-07, dual_err=1.0000e-07, comp=1.0000e-07 (pass=True)
+  PHYSICAL ACCEPTANCE FAILED! Checkpoint C:\Users\pruth\AppData\Local\Temp\tmpykr0p956\converged_checkpoint_01.json suppressed.
+  Coupled-field displacement consistency: max delta_u = 0.0000e+00 mm (pass=True)
+  Coupled-field history consistency: max delta_H = 0.0000e+00 MPa (pass=True)
+  Final-state KKT stationarity: free_err=1.0000e-07, dual_err=1.0000e-07, comp=1.0000e-07 (pass=True)
+  Physical acceptance verified: committed accepted checkpoint C:\Users\pruth\AppData\Local\Temp\tmp5okqgrh2\converged_checkpoint_01.json
