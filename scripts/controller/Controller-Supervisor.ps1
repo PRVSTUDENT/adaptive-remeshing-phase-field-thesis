@@ -51,7 +51,14 @@ NEXT DECISION: Return ONLY a JSON object with correlation_id exactly "$id", acti
             $raw = Invoke-ChatGPTBridge -PromptText $prompt -HandoffId $id -TimeoutMinutes $TimeoutMinutes -RequireHeartbeat -LaunchPad:$LaunchPad
         } else { $raw = & $Transport $prompt $id }
         [IO.File]::WriteAllText((Join-Path $dir 'response.txt'),[string]$raw,$utf8)
-        $clean = ([string]$raw).Trim() -replace '^```(?:json)?\s*','' -replace '\s*```$',''
+        $rawStr = [string]$raw
+        $firstBrace = $rawStr.IndexOf('{')
+        $lastBrace = $rawStr.LastIndexOf('}')
+        if ($firstBrace -ge 0 -and $lastBrace -gt $firstBrace) {
+            $clean = $rawStr.Substring($firstBrace, $lastBrace - $firstBrace + 1)
+        } else {
+            $clean = $rawStr.Trim() -replace '^\s*(?:```(?:json)?|json)\s*','' -replace '\s*```\s*$',''
+        }
         $reply = $clean | ConvertFrom-Json -ErrorAction Stop
         if ($reply.correlation_id -cne $id) { throw 'SUPERVISOR_STALE_RESPONSE: correlation mismatch' }
         if ($reply.action -cnotin @('DIAGNOSE','CONTINUE','WAIT','STOP')) { throw 'SUPERVISOR_INVALID_ACTION' }

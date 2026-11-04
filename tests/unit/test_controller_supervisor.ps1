@@ -35,5 +35,8 @@ Check $invalid 'Approval-shaped action is rejected'
 $packet="[BRIDGE_HANDOFF_ID=SUP-OFFLINE]`nCHATGPT_SUPERVISOR_V1`nExact error: INTERACTIVE_SSO_REQUIRED; 1 CPU; historical words are evidence."
 $assembled=Invoke-ChatGPTBridge -PromptText $packet -HandoffId SUP-OFFLINE -DryRun
 Check ($assembled -ceq $packet) 'Supervisor packet bypasses legacy text rewrites while execution gates remain separate'
+$bareJsonTransport = { param($p,$id) "JSON`n" + (@{correlation_id=$id;action='DIAGNOSE';instruction='Bare JSON prefix test'}|ConvertTo-Json) }
+$rBare = Invoke-ControllerSupervisor -Workspace $workspace -Kind RESULT -Evidence 'Bare JSON test' -RunId barejson -Turn 2 -ArchiveRoot $root -Transport $bareJsonTransport
+Check ($rBare.instruction -eq 'Bare JSON prefix test' -and $rBare.action -eq 'DIAGNOSE') 'Supervisor response with bare JSON prefix parses cleanly'
 Write-Output "ALL $count SUPERVISOR TESTS PASSED (MOCKED TRANSPORT; NOT LIVE ACCEPTANCE)."
 # Keep the small archived fixtures for diagnostic inspection.

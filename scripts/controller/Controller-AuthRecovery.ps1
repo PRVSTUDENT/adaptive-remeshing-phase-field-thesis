@@ -42,7 +42,26 @@ function Invoke-ControllerAuthRecovery {
     # Persist intent BEFORE every external action. Interrupted attempts are not repeated.
     foreach($p in @($Profiles|Select-Object -Unique)){
         if($p -notmatch '^account[1-5]$'){throw 'UNREGISTERED_AUTH_PROFILE'}
-        if(@($state.attempts|Where-Object {$_.profile -ceq $p}).Count){continue}
+        $prevAttempt = @($state.attempts|Where-Object {$_.profile -ceq $p})
+        if($prevAttempt.Count -gt 0){
+            $isStale = $false
+            try {
+                $expected = & $Identity $p
+                if ($expected) {
+                    $actual = & $Verify $p
+                    if ($actual -ceq $expected) { $isStale = $true }
+                }
+            } catch {}
+            if ($isStale) {
+                $prevAttempt[0].outcome = 'VERIFIED_PROFILE'
+                $state.status = 'VERIFIED_PROFILE'
+                $state.selected_profile = $p
+                $state.safety_blocked = $false
+                Save-AuthState
+                return $state
+            }
+            continue
+        }
         $a=[pscustomobject]@{profile=$p;stage='AUTH_RECOVERY';refresh_attempted=$false;outcome='IN_PROGRESS';identity=''}
         $state.attempts+=@($a);$state.status='AUTH_RECOVERY';Save-AuthState
         try{
@@ -70,10 +89,11 @@ function Invoke-ControllerAuthRecovery {
 }
 
 function Invoke-AgyAuthenticationFailover {
-    $current=(Get-Content (Join-Path $env:USERPROFILE '.gemini/agy-profiles/_active.txt') -Raw).Trim()
+    $marker=(Get-Content (Join-Path $env:USERPROFILE '.gemini/agy-profiles/_active.txt') -Raw).Trim()
     $profiles=@($AgyProfileRotationOrder|Where-Object {-not(Get-AgySmartCooldownActive -Profile $_)})
-    if($script:RunLockedAgyProfile -in $profiles){$current=$script:RunLockedAgyProfile}
-    if($current -notin $profiles){$current=''}
+    $current=$marker
+    if(-not (Get-Process agy -ErrorAction SilentlyContinue) -and $script:RunLockedAgyProfile -in $profiles){$current=$script:RunLockedAgyProfile}
+    if($current -notin $profiles){$current=if($marker -in $profiles){$marker}elseif($profiles.Count -gt 0){$profiles[0]}else{''}}
     $r=Invoke-ControllerExistingProfileRecovery -CheckpointPath $controllerCheckpointPath -Profiles $profiles -CurrentProfile $current
     if($r.safety_blocked){throw 'AUTH_RECOVERY_REQUIRED: eligible existing profiles exhausted; legitimate interactive sign-in required'}
     $script:RunLockedAgyProfile=$r.selected_profile
@@ -141,34 +161,43 @@ function Invoke-ControllerExistingProfileRecovery {
     if($backgroundHub){
         # Prefer read-only proof. A verified idle sidebar permits recovery of
         # its current account, but never profile rotation or a live worker.
-        try{return Invoke-ControllerReadOnlyProfileCheck -CheckpointPath $CheckpointPath -CurrentProfile $CurrentProfile -AssertOwnerFree {
-            Assert-ControllerBackgroundHubsOnly $CheckpointPath
-        } -Verify {
-            param($profile)
-            $marker=(Get-Content (Join-Path $env:USERPROFILE '.gemini/agy-profiles/_active.txt') -Raw).Trim()
-            if($marker -cne $profile){return $false}
-            $saved=$null;$cli=$null;$native=$null
-            try{
-                $saved=Get-AgySavedCredentialBytes $profile
-                $tokenPath=Join-Path $env:USERPROFILE '.gemini/antigravity-cli/antigravity-oauth-token'
-                Assert-AgyCredentialStores -ExpectedBytes $saved -TokenPath $tokenPath
-                $expected=ConvertTo-AgyCredentialToken $saved -SourceName saved-profile
-                $cli=[IO.File]::ReadAllBytes($tokenPath);$native=Read-AgyCredentialManagerBytes
-                foreach($bytes in @($cli,$native)){
-                    $token=ConvertTo-AgyCredentialToken $bytes -SourceName unspecified
-                    $expiry=[datetimeoffset]::MinValue
-                    if(-not $token.Token.access_token -or -not [datetimeoffset]::TryParse([string]$token.Token.expiry,[ref]$expiry) -or $expiry -le [datetimeoffset]::UtcNow){return $false}
-                    if((Get-AgyProviderIdentity -AccessToken $token.Token.access_token) -cne $expected.Identity){return $false}
-                }
-                return $true
-            }finally{foreach($bytes in @($saved,$cli,$native)){if($bytes){[Array]::Clear($bytes,0,$bytes.Length)}}}
-        }}catch{
-            if($_.Exception.Message -notmatch 'current profile needs recovery'){throw}
-            # The idle sidebar is not a research worker. Recover only the SAME
-            # selected account; never rotate credentials underneath the sidebar.
-            Assert-ControllerBackgroundHubsOnly $CheckpointPath
-            if($CurrentProfile -notmatch '^account[1-5]$'){throw 'AUTH_RECOVERY_LIVE_AGY'}
-            $Profiles=@($CurrentProfile)
+        $marker=(Get-Content (Join-Path $env:USERPROFILE '.gemini/agy-profiles/_active.txt') -Raw).Trim()
+        $candidateProfile = if ($marker -in $Profiles) { $marker } elseif ($CurrentProfile -in $Profiles) { $CurrentProfile } else { '' }
+        if ($candidateProfile) {
+            try{return Invoke-ControllerReadOnlyProfileCheck -CheckpointPath $CheckpointPath -CurrentProfile $candidateProfile -AssertOwnerFree {
+                Assert-ControllerBackgroundHubsOnly $CheckpointPath
+            } -Verify {
+                param($profile)
+                $activeMarker=(Get-Content (Join-Path $env:USERPROFILE '.gemini/agy-profiles/_active.txt') -Raw).Trim()
+                if($activeMarker -cne $profile){return $false}
+                $saved=$null;$cli=$null;$native=$null
+                try{
+                    $saved=Get-AgySavedCredentialBytes $profile
+                    $tokenPath=Join-Path $env:USERPROFILE '.gemini/antigravity-cli/antigravity-oauth-token'
+                    if (-not (Test-Path -LiteralPath $tokenPath)) { return $false }
+                    $expected=ConvertTo-AgyCredentialToken $saved -SourceName saved-profile
+                    $cli=[IO.File]::ReadAllBytes($tokenPath);$native=Read-AgyCredentialManagerBytes
+                    if (-not $cli -or -not $native) { return $false }
+                    foreach($bytes in @($cli,$native)){
+                        $token=ConvertTo-AgyCredentialToken $bytes -SourceName unspecified -AllowMissingIdentity
+                        $expiry=[datetimeoffset]::MinValue
+                        if(-not $token.Token.access_token -or -not [datetimeoffset]::TryParse([string]$token.Token.expiry,[ref]$expiry) -or $expiry -le [datetimeoffset]::UtcNow){return $false}
+                        if((Get-AgyProviderIdentity -AccessToken $token.Token.access_token) -cne $expected.Identity){return $false}
+                    }
+                    if (-not (ConvertTo-AgyCredentialToken $native -SourceName native-store -AllowMissingIdentity).Identity) {
+                        Repair-AgyRefreshedNativeCredential -ExpectedBytes $saved -TokenPath $tokenPath -SkipTokenRefresh -CheckpointPath $CheckpointPath
+                    }
+                    Assert-AgyCredentialStores -ExpectedBytes $saved -TokenPath $tokenPath
+                    return $true
+                }finally{foreach($bytes in @($saved,$cli,$native)){if($bytes){[Array]::Clear($bytes,0,$bytes.Length)}}}
+            }}catch{
+                if($_.Exception.Message -notmatch 'current profile needs recovery'){throw}
+                # The idle sidebar is not a research worker. Recover only the SAME
+                # selected account; never rotate credentials underneath the sidebar.
+                Assert-ControllerBackgroundHubsOnly $CheckpointPath
+                if($candidateProfile -notmatch '^account[1-5]$'){throw 'AUTH_RECOVERY_LIVE_AGY'}
+                $Profiles=@($candidateProfile)
+            }
         }
     }
     $hash=(Get-FileHash -LiteralPath $CheckpointPath).Hash

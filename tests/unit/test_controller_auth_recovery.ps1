@@ -21,6 +21,10 @@ $r=Invoke-ControllerAuthRecovery @args
 Check ($r.status -eq 'AUTH_RECOVERY_REQUIRED' -and $r.safety_blocked -and $script:refreshCount -eq 2) 'bounded exhaustion across existing profiles'
 $r=Invoke-ControllerAuthRecovery @args
 Check ($script:refreshCount -eq 2 -and $r.attempts.Count -eq 2) 'restart cannot repeat exhausted refresh attempts'
+$argsRecovered=@{StatePath=$p;CheckpointHash='fixture';Profiles=@('account1','account2');Identity={param($p) 'registered-'+$p};Activate={};Verify={param($p) if($p -eq 'account1'){'registered-account1'}else{throw 'HTTP 401'}};Refresh={throw 'not needed'}}
+$rRec=Invoke-ControllerAuthRecovery @argsRecovered
+Check ($rRec.status -eq 'VERIFIED_PROFILE' -and $rRec.selected_profile -eq 'account1' -and -not $rRec.safety_blocked) 'stale attempt reconciled when profile is proven authenticated'
+Check ($rRec.attempts.Count -eq 2) 'attempt history preserved without deletion'
 $caught=$false;try{Invoke-ControllerAuthRecovery -StatePath $p -CheckpointHash 'changed' -Profiles @('account1') -Identity {} -Activate {} -Verify {} -Refresh {}|Out-Null}catch{$caught=$true}
 Check $caught 'checkpoint identity cannot change under recovery'
 $caught=$false;try{Invoke-ControllerAuthRecovery -StatePath (PathForTest) -CheckpointHash 'fixture' -Profiles @('unregistered') -Identity {} -Activate {} -Verify {} -Refresh {}|Out-Null}catch{$caught=$true}

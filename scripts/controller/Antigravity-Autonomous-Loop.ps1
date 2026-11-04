@@ -236,6 +236,7 @@ $controllerCheckpointPath = Join-Path $env:USERPROFILE 'OpenClawPAD/controller_t
 if ($ControllerDryRun) {
     $checkpoint = Read-ControllerCheckpoint $controllerCheckpointPath
     $successorCheckpoint=Get-ControllerSuccessorCheckpointPlan $WorkspaceDir $controllerCheckpointPath $checkpoint
+    $loopStatePath = Join-Path $env:USERPROFILE 'OpenClawPAD/antigravity_loop_state.json'
     $prompt = if($successorCheckpoint.fresh_successor){$successorCheckpoint.instruction}elseif ($checkpoint -and $checkpoint.state -eq 'PENDING' -and $checkpoint.next_instruction) {
         $checkpoint.next_instruction
     } elseif ($checkpoint -and $checkpoint.state -eq 'RECOVERY_REQUIRED') {
@@ -244,8 +245,12 @@ if ($ControllerDryRun) {
         $checkpoint.next_instruction
     } elseif ($InitialPromptFile) {
         Get-Content -LiteralPath $InitialPromptFile -Raw -Encoding UTF8
-    } else {
+    } elseif ($InitialPrompt) {
         $InitialPrompt
+    } elseif (Test-Path $loopStatePath) {
+        try { ([IO.File]::ReadAllText($loopStatePath, [Text.Encoding]::UTF8) | ConvertFrom-Json).next_instruction } catch { '' }
+    } else {
+        ''
     }
     if($checkpoint -and $checkpoint.state -eq 'PENDING' -and -not $checkpoint.next_instruction){
         $pendingAuth=Get-ControllerPendingAuthResumePlan -State $checkpoint -Instruction $prompt -NonExecuting
@@ -275,7 +280,15 @@ if ($ControllerDryRun) {
 }
 
 Assert-ControllerStartupCheckpoint $WorkspaceDir (Read-ControllerCheckpoint $controllerCheckpointPath)
-$preparationPrompt = if ($InitialPromptFile) { Get-Content -LiteralPath $InitialPromptFile -Raw -Encoding UTF8 } else { $InitialPrompt }
+$preparationPrompt = if ($InitialPromptFile) {
+    Get-Content -LiteralPath $InitialPromptFile -Raw -Encoding UTF8
+} elseif ($InitialPrompt) {
+    $InitialPrompt
+} elseif (Test-Path $loopStatePath) {
+    try { ([IO.File]::ReadAllText($loopStatePath, [Text.Encoding]::UTF8) | ConvertFrom-Json).next_instruction } catch { '' }
+} else {
+    ''
+}
 $taskLifecycle=Get-ControllerTaskLifecycle $WorkspaceDir
 $preparation = if($taskLifecycle.terminal){Get-ControllerPreparationPlan $WorkspaceDir $preparationPrompt}elseif($ChatGPTSupervisorMode){[pscustomobject]@{dispatch_ready=$true}}else{Invoke-ControllerOperationPreparation $WorkspaceDir $preparationPrompt}
 if(-not $preparation.dispatch_ready -and $preparation.status -ne 'DEFINITION_REJECTED'){
@@ -3538,7 +3551,15 @@ if ($null -ne $script:ControllerState) {
         Write-Host "[RESUME] Resuming recovery turn from checkpoint (Turn $StartTurn)." -ForegroundColor Yellow
     }
     elseif ($script:ControllerState.state -eq 'PENDING' -and -not $script:ControllerState.next_instruction) {
-        $resumeInstruction=if($CurrentInstruction){$CurrentInstruction}else{$InitialPrompt}
+        $resumeInstruction = if ($CurrentInstruction) {
+            $CurrentInstruction
+        } elseif ($InitialPrompt) {
+            $InitialPrompt
+        } elseif (Test-Path $StateFile) {
+            try { ([IO.File]::ReadAllText($StateFile, [Text.Encoding]::UTF8) | ConvertFrom-Json).next_instruction } catch { '' }
+        } else {
+            ''
+        }
         $pendingAuth=Get-ControllerPendingAuthResumePlan -State $script:ControllerState -Instruction $resumeInstruction -ProviderVerified:($script:ControllerAuthVerifiedForCheckpoint -ceq (Get-FileHash $controllerCheckpointPath).Hash)
         $CurrentInstruction=$pendingAuth.instruction;$StartTurn=$pendingAuth.turn;$ConversationId=$null
         Write-Host "[RESUME] Provider-verified unstarted pending operation; exact instruction hash; Turn $StartTurn."
