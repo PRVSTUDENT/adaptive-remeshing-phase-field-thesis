@@ -706,3 +706,14 @@ Gemini Antigravity executed the comprehensive controller repair:
 5. All 11 controller scripts deployed and verified bit-for-bit with SHA-256 in `OpenClawPAD`.
 6. Package 158 R5 (PBS 1419269.mmaster02) verified terminal Exit 0 on mnode097 (69 outer iterations, force discrepancy 1.33%, energy discrepancy 0.16%, unit corrected to 0.22269253 mJ, physical continuity passed). Recorded in `HPC_JOB_LEDGER.csv` and `ACTIVE_TASK.json`.
 7. Package 160 (`execute_mode1_c4_exact_load_reference`) verified with `--check-package` (`PACKAGE_INTEGRITY_PASS_LIVE_PREFLIGHT_STILL_REQUIRED`) and dry run (`DRY_RUN_NO_DISPATCH`, fingerprint `CA9D0A9EAF8EE1728122F5087E0B45E72529E7ED61907C6FD8525434B5CC7D1D`). 29 unit/regression tests PASS.
+
+
+### Lifecycle Milestone: F1607 -> F1608 Transition (2026-11-04)
+- **Closed Task**: `F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION` (classification: `EVALUATED_INDEPENDENT_REVIEW_APPROVED`)
+- **Registered Successor**: `F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION`
+- **Reviewed Operation**: `research_preparation`
+- **Correlation**: `HND-F1607-R8-REVIEW-8D0545A3` (fingerprint `8D0545A3A733B1368DBA705880C71FD8E2D797B09AF4920FDB1E76688EA52D1F`)
+- **Predecessor Checkpoint**: `results/validation/preparation-50098952-dcad-4686-94e2-1ca422f14dd1.json` (`15E2F794647A1B65CFB8A3066BACAC01F344A12B58F964F1A1E88BBBA25360D0`)
+- **Scope**: Technical qualification and driver implementation for Candidate M1_C6_P171_R8_ADAPTIVE_DAMPED on non-coarsened C6 mesh (15,252 quads);
+  compound active-set condition (|A_k| <= 500, |Delta A_k| <= 10, Delta A^+ = 0 for 3 iterations), two-phase damping (0.50 -> 0.85), 140 outer budget, 5% residual growth rollback;
+  strictly 0 PBS submissions until technical qualification and authentic Abaqus datachecks pass.
