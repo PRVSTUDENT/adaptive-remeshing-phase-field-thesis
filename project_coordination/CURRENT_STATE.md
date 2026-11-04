@@ -1,3 +1,24 @@
+## 4 November F1606 Closed & Successor F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION Registered
+
+1. **Candidate Package 171-R8 Independent Review Packet Prepared**:
+   - Canonical review request generated under correlation `HND-F1607-R8-REVIEW-8D0545A3` (fingerprint `8D0545A3A733B1368DBA705880C71FD8E2D797B09AF4920FDB1E76688EA52D1F`).
+   - Request artifact: `project_coordination/review_dispatch/execute_mode1_package171_r8_c6_coupled_reequilibration-8D0545A3A733B1368DBA705880C71FD8E2D797B09AF4920FDB1E76688EA52D1F.request.json`.
+   - Verified candidate definition: `project_coordination/candidate_definitions/execute_mode1_package171_r8_c6_coupled_reequilibration.json` (SHA-256 `B6F418D26A9CD38BA1AFB236EC09731F06D0FD538BC4AB13B9D750713A29556E`).
+   - Review packet receipt: `results/validation/r8_review_packet_receipt.json` (SHA-256 `37F18A0DE26029ACE0797E8109F0A8BA4D0FA94C48D69F49F9A78A7EA64D096D`).
+
+2. **Candidate R8 Scientific Specification & Budget Qualification**:
+   - Compound Transition Criteria: Active-set cardinality $|A_k| \le 500$, symmetric difference $|\Delta A_k| \le 10$, and zero newly activated nodes ($\Delta A^+ = 0$) sustained for 3 consecutive iterations. Simulated trigger activates at Outer 89 ($|A| = 188$, $|\Delta A| = 8$, $\Delta A^+ = 0$).
+   - Iteration Budget: 140 outer iterations budgeted (providing 51 relaxation iterations, 11 margin iterations, projecting $\Delta d = 1.27 \times 10^{-6} \le 10^{-5}$ under conservative contraction rate $\rho = 0.84$). Proves 120 iterations was insufficient (leaves only 31 relaxation iterations, projecting $\Delta d = 4.15 \times 10^{-5} > 10^{-5}$).
+   - Runtime Feasibility: Estimated runtime 1.33 h at 140 iterations, well within the 8.0 h PBS ceiling (83.4% headroom).
+   - Strict Epistemic Discipline: Explicitly documented that projected damage convergence at iteration 140 is an unverified hypothesis, not proof of coupled convergence. The independent review must evaluate damage, displacement, history, KKT, force/energy consistency, and numerical stability.
+   - Preserved Safeguards: 5% residual growth rollback ($\Delta d_{k+1} > 1.05 \Delta d_k$), divergence factor threshold ($\gamma = 1.5$ over 2 iterations), zero healing tolerance ($10^{-6}$), signed KKT stationarity ($< 10^{-6}$), and frozen UEL hash `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`.
+
+3. **Lifecycle Transition & Successor Registration**:
+   - Task `F1606-MODE1-C6-R7-NONCONVERGENCE-INVESTIGATION` legitimately closed in `TASK_LEDGER.csv` with status `completed`, classification `EVALUATED_NONCONVERGENCE_DIAGNOSIS_COMPLETE`, and link to successor `F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION`.
+   - Successor Registered: `F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION` in `project_coordination/task_definitions/F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION.json` (SHA-256 `6B553860D503E88529DC8AC54E0C3EEB7D2975F682DAF88F2A102B25B40E4D70`).
+   - Controller Lifecycle Verification: `Get-ControllerTaskLifecycle` confirms active state (`terminal: False`, `task: F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION`), `Get-ControllerTaskRegistrationPlan` confirms `dispatch_ready: True` (`status: REGISTERED_READ_ONLY_EVALUATION`).
+   - Governance: Strictly zero PBS submissions authorized under F1607 (`max_new_pbs_submissions: 0`) until independent review approval, technical qualification, and authentic Abaqus datachecks pass Exit 0.
+
 ## 4 November Controller Permanent Startup Repair Deployed: Historical Recovery Decoupled
 
 1. **Root Cause Diagnosis**:
