@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "task_id": "F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION",
+  "title": "Package 171-R8 C6 Coupled PDAS Re-Equilibration Implementation and Technical Qualification",
+  "predecessor": {
+    "run_id": "50098952-dcad-4686-94e2-1ca422f14dd1",
+    "status": "COMPLETED",
+    "task_id": "F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION",
+    "checkpoint_artifact": "results/validation/preparation-50098952-dcad-4686-94e2-1ca422f14dd1.json"
+  },
+  "operation": {
+    "checkpoint_kind": "PREPARATION_CHECKPOINT",
+    "id": "research_preparation",
+    "mode": "READ_ONLY_SCIENTIFIC_EVALUATION",
+    "registration": "Technical qualification, coupled driver implementation, and authentic Abaqus datachecks for Candidate M1_C6_P171_R8_ADAPTIVE_DAMPED; zero PBS submissions until fully qualified"
+  },
+  "max_new_pbs_submissions": 0,
+  "automatic_retry": false,
+  "job_references": {
+    "predecessor_job_id": "1419873.mmaster02",
+    "predecessor_status": "TERMINAL_FAILED_COUPLED_NONCONVERGENCE",
+    "remote_dir": "/scratch9/pr21vyci/runs/mode1_c6_package171_r8_c3_0_adaptive_reequilibration",
+    "target_package": "models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration",
+    "candidate_job": "M1_C6_P171_R8_ADAPTIVE_DAMPED",
+    "scientific_scope": "Technical qualification, coupled driver implementation, and authentic Abaqus datachecks for Candidate M1_C6_P171_R8_ADAPTIVE_DAMPED (compound active-set transition criteria |A_k| <= 500, |Delta A_k| <= 10, Delta A^+ = 0 for 3 consecutive iterations; Stage 1 omega_d = 0.50, Stage 2 omega_d = 0.85; 140 outer iteration budget; 5% residual growth rollback and divergence factor 1.5 safeguards); zero PBS submissions until fully qualified"
+  },
+  "acceptance": {
+    "acceptance_requires_original_files": true,
+    "delta_d_max": 1e-05,
+    "delta_u_mm_max": 1e-09,
+    "delta_h_MPa_max": 0.0001,
+    "signed_kkt_dual_kNmm_max": 1e-06,
+    "signed_kkt_free_kNmm_max": 1e-06,
+    "max_healing_tolerance": 1e-06,
+    "history_monotonicity_violations_max": 0,
+    "force_discrepancy_pct_max": 2.0,
+    "total_energy_discrepancy_pct_max": 2.0,
+    "donor_reference_force_kN": 0.17992419004440308,
+    "donor_reference_total_energy_kNmm": 0.00022639903,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "decision_branches": [
+    "REVIEW_APPROVED_TECHNICAL_QUALIFICATION: build package171_r8 on non-coarsened C6 mesh (15,252 quads), implement driver_package171_r8_c6_coupled_pdas.py, and run authentic Abaqus 2023 mechanical and phase datachecks Exit 0",
+    "NO_UNQUALIFIED_DISPATCH: zero PBS submissions authorized until driver and datachecks pass and live scheduler capacity is verified",
+    "NO_C6_CHECKPOINT: no unverified C6 state can be promoted to an accepted checkpoint"
+  ],
+  "evidence_sources": {
+    "results/validation/r8_independent_review_intake_audit.json": "B534AA436D6DBC635C2C80568A0E415AC30ABD824ED70AE6FC02769C7BD5844F",
+    "project_coordination/candidate_definitions/execute_mode1_package171_r8_c6_coupled_reequilibration.json": "B6F418D26A9CD38BA1AFB236EC09731F06D0FD538BC4AB13B9D750713A29556E",
+    "project_coordination/review_dispatch/execute_mode1_package171_r8_c6_coupled_reequilibration-8D0545A3A733B1368DBA705880C71FD8E2D797B09AF4920FDB1E76688EA52D1F.request.json": "51AB1AF8E72926919BBE8E26B8BFCC1830B2454CCF221FC385CFFA3862530CD4",
+    "project_coordination/review_dispatch/execute_mode1_package171_r8_c6_coupled_reequilibration-8D0545A3A733B1368DBA705880C71FD8E2D797B09AF4920FDB1E76688EA52D1F.response.json": "F70218A9287B082266ADAD3DDBB69CC74C3FF0F983AD5AF7B7CD2D504C9AA65D",
+    "project_coordination/review_dispatch/execute_mode1_package171_r8_c6_coupled_reequilibration-no-manifest.json": "63BDD9DA0DFF441BF6C830C4797A3D3253577C68664EFB6814F35C50722A3AC4",
+    "results/validation/mode1_r8_mathematical_specification_assessment.json": "A7416592643172C8B5126CD804FEFC1CED54A6741268FE6537336CFF472FA3D8",
+    "scripts/validation/evaluate_mode1_r8_mathematical_specification.py": "3F31188CC7CC29CB4423079C6875DC1E870CDDC45AD2750863F4DD8D6E9901F1",
+    "tests/unit/test_f1606_r8_mathematical_specification.py": "F215FAB45F5E78B1A6DCF18DA0FFB511F852945E217939559C919EAD97B1EF3E",
+    "results/validation/r7_active_set_stabilization_analysis.json": "46D8AC09F9F30F29CAC3B015EF6A2E4FCA7745A32D6B733245173BB01B3ABD8A",
+    "results/validation/c6_r7_execution_reconciliation_and_acceptance.json": "F7C208726B769374488998E662F9FFA033D9F7379BAE6545D546DE1C7D0AA17A",
+    "results/validation/f1605_c6_r7_terminal_evaluation.json": "5539C4A4C5D1931BB6452E0DA0A2B2C44CE2409F4A4E51BFADF0C5381741A7C8",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "inherited_completed_operations": [
+    "mapped_frozen_history_lower_bound_kkt_probe",
+    "mapped_mechanical_history_call_order_probe",
+    "authentic_uel_history_call_trace",
+    "morning_scientific_audit_packages87_88",
+    "package89_state_transfer_submission",
+    "probe_mode1_f1597_r20_active_set_audit",
+    "evaluate_mode1_package148_state_transfer",
+    "evaluate_mode1_package148_state_transfer_r2",
+    "evaluate_mode1_package148_state_transfer_r3",
+    "evaluate_mode1_package148_state_transfer_r4",
+    "evaluate_mode1_package148_state_transfer_r5",
+    "evaluate_mode1_package148_state_transfer_r6",
+    "evaluate_mode1_package148_state_transfer_r7",
+    "evaluate_mode1_package148_state_transfer_r8",
+    "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+    "execute_mode1_package158_c2_0_r5_re_equilibration",
+    "execute_mode1_package171_r7_c6_coupled_reequilibration"
+  ],
+  "initial_instruction": "TASK: F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION\nOPERATION_ID: research_preparation\nImplement R8 coupled driver with compound active-set transition criteria (|A_k| <= 500, |Delta A_k| <= 10, Delta A^+ = 0 for 3 consecutive iterations; 140 outer iterations), run unit tests, assemble Package 171-R8, and run authentic Abaqus datachecks Exit 0. No PBS submissions until technical qualification is complete.",
+  "scientific_acceptance": "NOT_YET_EVALUATED",
+  "registration_authority": "Authenticated Ed25519 signed independent review APPROVE decision under correlation HND-F1607-R8-REVIEW-8D0545A3 (fingerprint 8D0545A3A733B1368DBA705880C71FD8E2D797B09AF4920FDB1E76688EA52D1F) and canonical lifecycle transition closing F1607 on 2026-11-04"
+}

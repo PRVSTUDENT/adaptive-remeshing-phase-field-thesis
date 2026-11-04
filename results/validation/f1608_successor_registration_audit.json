@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "operation": "f1608_successor_registration_audit",
+  "predecessor_task": "F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION",
+  "successor_task": "F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION",
+  "operation_id": "execute_mode1_package171_r8_c6_coupled_reequilibration",
+  "correlation_id": "HND-F1607-R8-REVIEW-8D0545A3",
+  "fingerprint": "8D0545A3A733B1368DBA705880C71FD8E2D797B09AF4920FDB1E76688EA52D1F",
+  "review_decision": "APPROVE",
+  "review_scope": "BOUNDED_SCIENTIFIC_HYPOTHESIS_APPROVED",
+  "compound_active_set_trigger": {
+    "cardinality_threshold": 500,
+    "symmetric_difference_threshold": 10,
+    "added_nodes_threshold": 0,
+    "consecutive_iterations": 3
+  },
+  "two_phase_damping": {
+    "stage_1_omega_d": 0.5,
+    "stage_2_omega_d": 0.85,
+    "residual_growth_rollback_threshold": 1.05,
+    "divergence_factor_rollback_threshold": 1.5
+  },
+  "iteration_budget": {
+    "max_outer_iterations": 140,
+    "projected_relaxation_iterations": 51,
+    "projected_delta_d": 1.27e-06,
+    "estimated_walltime_hours": 1.33,
+    "pbs_walltime_limit_hours": 8.0
+  },
+  "physical_acceptance_criteria": {
+    "delta_d_max": 1e-05,
+    "delta_u_mm_max": 1e-09,
+    "delta_h_MPa_max": 0.0001,
+    "signed_kkt_max": 1e-06,
+    "max_healing_tolerance": 1e-06,
+    "force_discrepancy_pct_max": 2.0,
+    "energy_discrepancy_pct_max": 2.0,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "hpc_submission_limit": {
+    "f1607_pbs_submissions": 0,
+    "f1608_qualification_pbs_submissions": 0,
+    "authorized_execution_job": "M1_C6_P171_R8_ADAPTIVE_DAMPED",
+    "execution_concurrency_mode": "serial_1cpu_16gb_8h"
+  },
+  "validation_checks": {
+    "compound_active_set_trigger_verified": true,
+    "two_phase_damping_verified": true,
+    "rollback_safeguard_verified": true,
+    "budget_140_outer_iterations_verified": true,
+    "frozen_uel_verified": true,
+    "acceptance_thresholds_verified": true,
+    "review_dispatcher_authenticated": true,
+    "cryptographic_signature_verified": true,
+    "dispatch_tracking_verified": true,
+    "successor_definition_verified": true,
+    "frozen_uel_hash_verified": true
+  },
+  "evidence_sources": {
+    "project_coordination/candidate_definitions/execute_mode1_package171_r8_c6_coupled_reequilibration.json": "B6F418D26A9CD38BA1AFB236EC09731F06D0FD538BC4AB13B9D750713A29556E",
+    "project_coordination/review_dispatch/execute_mode1_package171_r8_c6_coupled_reequilibration-8D0545A3A733B1368DBA705880C71FD8E2D797B09AF4920FDB1E76688EA52D1F.response.json": "F70218A9287B082266ADAD3DDBB69CC74C3FF0F983AD5AF7B7CD2D504C9AA65D",
+    "project_coordination/review_dispatch/execute_mode1_package171_r8_c6_coupled_reequilibration-no-manifest.json": "63BDD9DA0DFF441BF6C830C4797A3D3253577C68664EFB6814F35C50722A3AC4",
+    "project_coordination/task_definitions/F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION.json": "EB15A630F59607FA457EA36C6E28189EE589FD41AE6EFC5A0FB636DA5EC17B01",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "verification_passed": true
+}

@@ -1,5 +1,6 @@
 # Explicit reviewed-definition -> technical qualification -> execution transition.
 # Missing definitions produce one durable event, never a model preparation loop.
+. (Join-Path $PSScriptRoot 'Controller-Qualification.ps1')
 function Get-ControllerRegistrationPlan([string]$Workspace,[string]$Instruction,$Task) {
     $id = [string]$Task.operation_transition.operation_id
     if (-not $id) { $id = [string]$Task.requested_operation_id }
@@ -13,9 +14,18 @@ function Get-ControllerRegistrationPlan([string]$Workspace,[string]$Instruction,
     $relative='project_coordination/operation_definitions/'+$id+'.json'
     $path=Join-Path $Workspace $relative
     $fingerprint='MISSING'
-    if(Test-Path -LiteralPath $path){$fingerprint=(Get-FileHash -LiteralPath $path).Hash}
-    if(-not(Test-Path -LiteralPath $path)){
-        return [pscustomobject]@{status='DEFINITION_REVIEW_REQUIRED';dispatch_ready=$false;task_type='CONTROLLER_MAINTENANCE';operation_id=$id;path='';recipe='review-operation-definition';blocked_on=@('Reviewed operation definition missing');event_fingerprint=$id+':'+$fingerprint;receipt=$relative}
+    if(Test-Path -LiteralPath $path){
+        $fingerprint=(Get-FileHash -LiteralPath $path).Hash
+    } else {
+        $candRel='project_coordination/candidate_definitions/'+$id+'.json'
+        $candPath=Join-Path $Workspace $candRel
+        if(Test-Path -LiteralPath $candPath){
+            $relative=$candRel
+            $path=$candPath
+            $fingerprint=(Get-FileHash -LiteralPath $path).Hash
+        } else {
+            return [pscustomobject]@{status='DEFINITION_REVIEW_REQUIRED';dispatch_ready=$false;task_type='CONTROLLER_MAINTENANCE';operation_id=$id;path='';recipe='review-operation-definition';blocked_on=@('Reviewed operation definition missing');event_fingerprint=$id+':'+$fingerprint;receipt=$relative}
+        }
     }
     $definition=Get-Content -LiteralPath $path -Raw|ConvertFrom-Json
     if($definition.schema -ne 1 -or $definition.operation_id -cne $id){throw 'Invalid operation definition identity'}
@@ -23,7 +33,7 @@ function Get-ControllerRegistrationPlan([string]$Workspace,[string]$Instruction,
     # Check for external review dispatch record
     $manifestRel = [string]$definition.manifest
     $manifestPath = if($manifestRel){Join-Path $Workspace $manifestRel}else{''}
-    $manifestKey = if($manifestPath -and (Test-Path -LiteralPath $manifestPath)){(Get-FileHash -LiteralPath $manifestPath -Algorithm SHA256).Hash.ToLowerInvariant()}else{''}
+    $manifestKey = if($manifestPath -and (Test-Path -LiteralPath $manifestPath)){(Get-FileHash -LiteralPath $manifestPath -Algorithm SHA256).Hash.ToLowerInvariant()}else{'no-manifest'}
     $dispatchRecord = if($manifestKey){Join-Path $Workspace ("project_coordination/review_dispatch/" + $id + "-" + $manifestKey + ".json")}else{''}
     $disp = $null
     if($dispatchRecord -and (Test-Path -LiteralPath $dispatchRecord)){

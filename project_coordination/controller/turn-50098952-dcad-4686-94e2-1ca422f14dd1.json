@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "50098952-dcad-4686-94e2-1ca422f14dd1",
+    "task_id":  "F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION",
+    "repository_commit":  "60592a4b0ba8011af019f578884762ac4d6c0df9",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-11-04T11:46:31.6602896+01:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "EC25457C58D573BE6298FA7F42785F26216DDE4F3F98E8F0F26DC4866CA6B04A",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "F4015AB3C66DF57B3711AA06289A7A37D25AFADC1313676888F36821C8FCA2D9",
+                            "project_coordination/ACTIVE_SESSION.json":  "976FBEFE754F097799F6485F16767303BC56975705EE38DC152B00853BD5A52E",
+                            "project_coordination/ACTIVE_TASK.json":  "F3481CC86CFB4651ACD2CF99CDE19CF724E5BB50AF5A9462865348FE9B04A8F9",
+                            "project_coordination/TASK_LEDGER.csv":  "AF611A562C8106A71C41DEC36716555C2B9ACB1911D28852AAD5802A59DC7CF1",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "8F7A3010A94550D40A22D3B68DE32F407AF830F9DDF6C1108A8E737796CDAD3C",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "DA40EDEFDDFDD42F504062F8265663C3B77043EAC891516707699416DC16D1B3",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "F3481CC86CFB4651ACD2CF99CDE19CF724E5BB50AF5A9462865348FE9B04A8F9",
+                          "project_coordination/CURRENT_STATE.md":  "F4015AB3C66DF57B3711AA06289A7A37D25AFADC1313676888F36821C8FCA2D9",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "8F7A3010A94550D40A22D3B68DE32F407AF830F9DDF6C1108A8E737796CDAD3C",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "C9A08B7D3C871734D9D6863C49953386B2D9D77128C8DE48E41AA6BC24881C44"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-11-04_gemini-antigravity_F1597_50098952-dcad-4686-94e2-1ca422f14dd1.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-50098952-dcad-4686-94e2-1ca422f14dd1.json",
+                                  "sha256":  "15E2F794647A1B65CFB8A3066BACAC01F344A12B58F964F1A1E88BBBA25360D0",
+                                  "created_at":  "2026-11-04T12:07:35.3683254+01:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Advance to technical qualification, driver implementation, unit tests, and real Abaqus datachecks for Candidate M1_C6_P171_R8_ADAPTIVE_DAMPED under successor task F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION"
+}

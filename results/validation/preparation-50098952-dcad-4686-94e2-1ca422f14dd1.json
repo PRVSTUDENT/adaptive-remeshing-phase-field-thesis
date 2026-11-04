@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "task_id": "F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION",
+  "title": "F1607 Review Intake Closeout and Successor F1608 Registration",
+  "finding": "Completed F1607 read-only independent review intake and formulated registered successor task F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION. Verified candidate M1_C6_P171_R8_ADAPTIVE_DAMPED specifications: compound active-set transition criteria (|A_k|<=500, |Delta A_k|<=10, Delta A^+=0 for 3 consecutive iterations), two-phase damping (Stage 1 omega_d=0.50, Stage 2 omega_d=0.85), 140 outer iteration budget, 5% residual growth rollback, frozen UEL CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6, unchanged displacement/damage/history/KKT/force/energy continuity acceptance criteria, and 0 PBS submissions authorized until technical qualification.",
+  "classification": "RESEARCH_PREPARATION_VERIFIED",
+  "next_operation": "Advance to technical qualification, driver implementation, unit tests, and real Abaqus datachecks for Candidate M1_C6_P171_R8_ADAPTIVE_DAMPED under successor task F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION",
+  "evidence_sources": {
+    "results/validation/f1608_successor_registration_audit.json": "F7218411D5ED7EEB356BF01622203AA286968F1CA571DE79994660F8BC237204",
+    "scripts/validation/audit_f1608_successor_registration.py": "1A0449955269ED3E16A0B62599309140BD9F8CEB1B002E7E7AB2E21BFAA9C7C5",
+    "tests/unit/test_f1608_successor_registration.py": "D4B3C287ADD261901DB00B4B66379ABFD4233322B0D54B0C46E37A2B7D0CFA98",
+    "project_coordination/task_definitions/F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION.json": "EB15A630F59607FA457EA36C6E28189EE589FD41AE6EFC5A0FB636DA5EC17B01",
+    "project_coordination/task_definitions/F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION.INITIAL_PROMPT.md": "99ACE91D05C4BF88CD4AE047306EA247001F44D56750E01EB53BE0E1350968BB",
+    "scripts/validation/transition_f1607_to_f1608.py": "3830F1D67DC9B4E780C79FFA70EAB7967467666983AD5A0A24798CD874872005",
+    "project_coordination/candidate_definitions/execute_mode1_package171_r8_c6_coupled_reequilibration.json": "B6F418D26A9CD38BA1AFB236EC09731F06D0FD538BC4AB13B9D750713A29556E",
+    "project_coordination/review_dispatch/execute_mode1_package171_r8_c6_coupled_reequilibration-8D0545A3A733B1368DBA705880C71FD8E2D797B09AF4920FDB1E76688EA52D1F.response.json": "F70218A9287B082266ADAD3DDBB69CC74C3FF0F983AD5AF7B7CD2D504C9AA65D",
+    "project_coordination/review_dispatch/execute_mode1_package171_r8_c6_coupled_reequilibration-no-manifest.json": "63BDD9DA0DFF441BF6C830C4797A3D3253577C68664EFB6814F35C50722A3AC4",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "registered_paths": [
+    "scripts/controller/review_dispatcher.py",
+    "scripts/controller/Controller-Registration.ps1",
+    "scripts/validation/audit_f1608_successor_registration.py",
+    "tests/unit/test_f1608_successor_registration.py",
+    "results/validation/f1608_successor_registration_audit.json",
+    "project_coordination/task_definitions/F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION.json",
+    "project_coordination/task_definitions/F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION.INITIAL_PROMPT.md",
+    "scripts/validation/transition_f1607_to_f1608.py"
+  ],
+  "verification_passed": true
+}

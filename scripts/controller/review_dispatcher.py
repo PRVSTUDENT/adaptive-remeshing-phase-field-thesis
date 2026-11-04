@@ -149,7 +149,9 @@ def approved_review(root, operation, key=None):
     if not key:
         key = Path(root) / 'configs/controller/review_bridge_public.pem'
     request = packet(root, operation)
-    manifest_key = sha(root / request['definition']['manifest']).lower()
+    manifest_rel = request['definition'].get('manifest')
+    manifest_path = inside(root, manifest_rel) if manifest_rel else None
+    manifest_key = sha(manifest_path).lower() if manifest_path and manifest_path.is_file() else 'no-manifest'
     path = root / 'project_coordination/review_dispatch' / (operation + '-' + manifest_key + '.json')
     state = read(path, {})
     request['correlation_id'] = state.get('correlation_id')
