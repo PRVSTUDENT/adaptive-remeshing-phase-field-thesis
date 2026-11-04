@@ -188,6 +188,7 @@ function Invoke-SupervisorReconciliationStep {
     switch ($Classification.action) {
         "RECONCILE_AUTH_AND_RESUME" {
             # Load auth recovery tools
+            . (Join-Path $Workspace "scripts/controller/Controller-Recovery.ps1")
             . (Join-Path $Workspace "scripts/validation/AgyCredentialStores.ps1")
             . (Join-Path $Workspace "scripts/controller/Controller-AuthRecovery.ps1")
 
@@ -446,4 +447,8 @@ function Start-ControllerSupervisedLoop {
     } finally {
         $supMutex.Mutex.Dispose()
     }
+}
+
+if ($MyInvocation.InvocationName -ne '.' -and $MyInvocation.Line -notmatch '^\s*\.\s+') {
+    Start-ControllerSupervisedLoop -Workspace $WorkspaceDir -Pad $PadDir -SinglePass:$SinglePass -DryRun:$DryRun
 }

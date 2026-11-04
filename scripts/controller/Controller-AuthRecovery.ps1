@@ -89,21 +89,33 @@ function Invoke-ControllerAuthRecovery {
 }
 
 function Invoke-AgyAuthenticationFailover {
+    param(
+        [string]$CheckpointPath = (Join-Path $env:USERPROFILE 'OpenClawPAD/controller_turn_checkpoint.json'),
+        [string[]]$RotationOrder = @('account1', 'account2', 'account3', 'account4', 'account5')
+    )
+    if ($AgyProfileRotationOrder -and $AgyProfileRotationOrder.Count -gt 0) {
+        $RotationOrder = $AgyProfileRotationOrder
+    }
+    if ($controllerCheckpointPath) {
+        $CheckpointPath = $controllerCheckpointPath
+    }
     $marker=(Get-Content (Join-Path $env:USERPROFILE '.gemini/agy-profiles/_active.txt') -Raw).Trim()
-    $profiles=@($AgyProfileRotationOrder|Where-Object {-not(Get-AgySmartCooldownActive -Profile $_)})
+    $hasCooldown = (Get-Command Get-AgySmartCooldownActive -ErrorAction SilentlyContinue)
+    $profiles=@($RotationOrder|Where-Object {-not $hasCooldown -or -not (& Get-AgySmartCooldownActive -Profile $_)})
     $current=$marker
     if(-not (Get-Process agy -ErrorAction SilentlyContinue) -and $script:RunLockedAgyProfile -in $profiles){$current=$script:RunLockedAgyProfile}
     if($current -notin $profiles){$current=if($marker -in $profiles){$marker}elseif($profiles.Count -gt 0){$profiles[0]}else{''}}
-    $r=Invoke-ControllerExistingProfileRecovery -CheckpointPath $controllerCheckpointPath -Profiles $profiles -CurrentProfile $current
+    $r=Invoke-ControllerExistingProfileRecovery -CheckpointPath $CheckpointPath -Profiles $profiles -CurrentProfile $current
     if($r.safety_blocked){throw 'AUTH_RECOVERY_REQUIRED: eligible existing profiles exhausted; legitimate interactive sign-in required'}
     $priorProfile = $script:RunLockedAgyProfile
     $script:RunLockedAgyProfile=$r.selected_profile
     $script:AuthoritativeAgyProfile=$r.selected_profile
     $script:SelectedAgyProfile=$r.selected_profile
     $script:PinnedAgyProfile=$r.selected_profile
-    $script:ControllerAuthVerifiedForCheckpoint=(Get-FileHash $controllerCheckpointPath).Hash
+    $script:ControllerAuthVerifiedForCheckpoint=(Get-FileHash $CheckpointPath).Hash
     $script:ConversationId='';$script:ConversationIdSource='auth-recovery-fresh-conversation'
-    [IO.File]::WriteAllText($SelectionFile,(@{selected_profile=$r.selected_profile;source='verified-auth-recovery';reconciled_from=$marker;prior_profile=$priorProfile;switched_at_utc=[DateTimeOffset]::UtcNow.ToString('o')}|ConvertTo-Json),[Text.UTF8Encoding]::new($false))
+    $selFile = if ($SelectionFile) { $SelectionFile } else { Join-Path $env:USERPROFILE 'OpenClawPAD/selected_profile.json' }
+    [IO.File]::WriteAllText($selFile,(@{selected_profile=$r.selected_profile;source='verified-auth-recovery';reconciled_from=$marker;prior_profile=$priorProfile;switched_at_utc=[DateTimeOffset]::UtcNow.ToString('o')}|ConvertTo-Json),[Text.UTF8Encoding]::new($false))
     if($r.selected_profile -and $r.selected_profile -ne $marker){
         $activeFile = Join-Path $env:USERPROFILE '.gemini/agy-profiles/_active.txt'
         [IO.File]::WriteAllText($activeFile, $r.selected_profile, [Text.UTF8Encoding]::new($false))
@@ -228,13 +240,13 @@ function Invoke-ControllerExistingProfileRecovery {
                     if(-not $nativeTok.Token.access_token -or -not [datetimeoffset]::TryParse([string]$nativeTok.Token.expiry,[ref]$expiry) -or $expiry -le [datetimeoffset]::UtcNow){return $false}
                     if((Get-AgyProviderIdentity -AccessToken $nativeTok.Token.access_token) -cne $expected.Identity){return $false}
                     
-                    if (-not (ConvertTo-AgyCredentialToken $native -SourceName native-store -AllowMissingIdentity).Identity) {
-                        Repair-AgyRefreshedNativeCredential -ExpectedBytes $saved -TokenPath $tokenPath -SkipTokenRefresh -CheckpointPath $CheckpointPath
-                    }
                     $cli=[IO.File]::ReadAllBytes($tokenPath)
                     $cliTok=ConvertTo-AgyCredentialToken $cli -SourceName cli-file -AllowMissingIdentity
                     if($cliTok.Identity -ne $expected.Identity){
                         Sync-AgyCliCredentialFile -Bytes $saved -TokenPath $tokenPath
+                    }
+                    if (-not (ConvertTo-AgyCredentialToken $native -SourceName native-store -AllowMissingIdentity).Identity) {
+                        Repair-AgyRefreshedNativeCredential -ExpectedBytes $saved -TokenPath $tokenPath -SkipTokenRefresh -CheckpointPath $CheckpointPath
                     }
                     Assert-AgyCredentialStores -ExpectedBytes $saved -TokenPath $tokenPath
                     return $true
