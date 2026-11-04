@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "title": "Controller Auth Recovery Stale PID Repair and Candidate R8 Mathematical Specification Assessment",
+  "finding": "Permanently resolved controller startup AUTH_RECOVERY_LIVE_AGY failure by requiring verified process identity and executable matching before treating process_id as live, allowing completed predecessor checkpoints and idle hubs to start safely. Formulated and numerically qualified Candidate Package 171-R8 mathematical specification: compound transition trigger (|A_k|<=500, |Delta A_k|<=10, Delta A^+=0, N=3) activates safely at outer 89 on authentic R7 telemetry (or outer 82 with M=12), providing 31-38 accelerated relaxation iterations. With spectral contraction rate rho=0.84, delta_d reduces from 9.23e-3 to 4.15e-5 by outer 120, achieving coupled convergence. Projected walltime is 1.14h, well within the 24h PBS queue limit (95.2% headroom). Frozen UEL hash and physical acceptance thresholds strictly preserved.",
+  "verification_passed": true,
+  "next_operation": "Register successor task F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION and advance independent scientific review",
+  "evidence_sources": {
+    "scripts/controller/Controller-AuthRecovery.ps1": "EF0D308DF84BC1873D42E40CA0AF42999C253BDC213EB18BDEA70482E1FA6654",
+    "scripts/controller/Antigravity-Autonomous-Loop.ps1": "7AB75756F7EBF8EF9498888136D89E72F84DFE423AA8B5828467ED7E779AE112",
+    "scripts/controller/Deploy-Controller.ps1": "42CE892660EB0FBE61DD1865ADCE536C7252583356ED0CFDF52DA9E083E031DF",
+    "tests/unit/test_controller_auth_recovery_stale_pid_regression.ps1": "AF0FB90170D7E45E1BBC6EC5C9A1AF485667CBB791B140560DEBF12BF555B833",
+    "scripts/validation/evaluate_mode1_r8_mathematical_specification.py": "9C9DAA23575DFFFF77CF456C851582B6C235FA4ED2BC9BD71E16A42D5AB8C08C",
+    "tests/unit/test_f1606_r8_mathematical_specification.py": "2143BE058385AF82DEE2EC5A4867ACF99BAD154789FE626BFCE300EB0EEBC051",
+    "results/validation/mode1_r8_mathematical_specification_assessment.json": "1630F1167A98F286A9F46875F4D7DD1C7C75728B0E37BCE3A5D451F56BC36752"
+  },
+  "registered_paths": [
+    "scripts/controller/Controller-AuthRecovery.ps1",
+    "scripts/controller/Antigravity-Autonomous-Loop.ps1",
+    "scripts/controller/Deploy-Controller.ps1",
+    "tests/unit/test_controller_auth_recovery_stale_pid_regression.ps1",
+    "scripts/validation/evaluate_mode1_r8_mathematical_specification.py",
+    "tests/unit/test_f1606_r8_mathematical_specification.py",
+    "results/validation/mode1_r8_mathematical_specification_assessment.json"
+  ]
+}

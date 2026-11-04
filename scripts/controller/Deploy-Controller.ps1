@@ -19,6 +19,7 @@ $filesToDeploy = @(
     'Controller-Recovery.ps1',
     'Controller-Qualification.ps1',
     'Controller-TaskLifecycle.ps1',
+    'Controller-AuthRecovery.ps1',
     'Test-IndependentReviewQualification.ps1',
     'Invoke-IndependentReviewBridge.ps1'
 )

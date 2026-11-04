@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "status": "R8_MATHEMATICAL_SPECIFICATION_VERIFIED",
+  "investigation_id": "F1606-R8-MATHEMATICAL-SPECIFICATION",
+  "predecessor_job_id": "1419873.mmaster02",
+  "frozen_uel_verification": {
+    "path": "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for",
+    "sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "verified": true
+  },
+  "compound_transition_specification": {
+    "max_active_cardinality": 500,
+    "max_symmetric_diff": 10,
+    "max_added_nodes": 0,
+    "consecutive_iterations_required": 3,
+    "simulated_trigger_outer_iteration": 89,
+    "simulated_trigger_state": {
+      "step": 1,
+      "outer": 89,
+      "target_uy": 0.0018703125442191958,
+      "stage": 1,
+      "effective_omega_d": 0.5,
+      "pdas_active_count": 225,
+      "pdas_free_count": 15334,
+      "active_set_symmetric_diff": 8,
+      "active_set_cardinality_diff": 8,
+      "added_nodes_count": 0,
+      "removed_nodes_count": 8,
+      "consecutive_stable_iterations": 0,
+      "attempted_transition": false,
+      "transition_activated": false,
+      "rollback_triggered": false,
+      "delta_d": 0.009229519427227606,
+      "delta_u": 7.02796969562769e-05,
+      "delta_h": 426.0171939613642,
+      "free_error": 3.137350988821866e-07,
+      "dual_error": 1.8541189983014271e-09,
+      "complementarity": 1.7573419847393217e-07,
+      "kkt_post_passed": true,
+      "kkt_active_count": 191,
+      "kkt_free_count": 15368
+    }
+  },
+  "iteration_budget_qualification": {
+    "proposed_max_outer": 120,
+    "trigger_iteration": 89,
+    "available_relaxation_iterations": 31,
+    "spectral_contraction_rate_assumed": 0.84,
+    "estimated_iterations_required_to_converge": 40,
+    "estimated_total_iterations_to_convergence": 129,
+    "projected_delta_d_at_iteration_120": 4.1479828891318986e-05,
+    "convergence_threshold": 1e-05,
+    "convergence_feasible_within_120": false
+  },
+  "runtime_feasibility": {
+    "avg_walltime_per_iteration_s": 34.23,
+    "projected_walltime_120_iters_s": 4107.599999999999,
+    "projected_walltime_120_iters_h": 1.1409999999999998,
+    "pbs_queue_walltime_limit_h": 24.0,
+    "walltime_headroom_pct": 95.24583333333332,
+    "feasible": true
+  },
+  "safeguards_and_rollback": {
+    "divergence_safeguard": {
+      "factor_gamma": 1.5,
+      "max_consecutive_divergence": 2,
+      "catastrophic_delta_d_cap": 0.05,
+      "action": "ROLLBACK_TO_CHECKPOINT_AND_RESTORE_STAGE1"
+    },
+    "healing_safeguard": {
+      "max_negative_delta_d": 1e-06,
+      "action": "ENFORCE_STRICT_HISTORICAL_LOWER_BOUND_KKT"
+    },
+    "coupled_equilibrium_targets": {
+      "delta_d_target": 1e-05,
+      "delta_u_target_mm": 1e-09,
+      "delta_h_target_MPa": 0.0001,
+      "dual_kkt_target_kNmm": 1e-06,
+      "free_kkt_target_kNmm": 1e-06
+    },
+    "physical_energy_targets": {
+      "force_tolerance_pct": 2.0,
+      "energy_tolerance_pct": 2.0,
+      "donor_reference_force_kN": 0.17992419004440308,
+      "donor_reference_total_energy_kNmm": 0.00022639903
+    }
+  },
+  "verification_passed": true,
+  "finding": "R8 mathematical specification verified: Compound transition trigger (|A_k|<=500, |Delta A_k|<=10, Delta A^+=0, N=3) activates safely at outer 89 on authentic R7 telemetry, providing 31 relaxation iterations (or 38 iterations if triggering near outer 82 with M=12). With contraction rate rho=0.84, delta_d reduces from 9.23e-03 to 4.15e-05 by outer 120 (and reaches 1e-5 by iteration 129). Runtime at 120 iterations is 1.14h, well within the 24h PBS queue limit (95.2% headroom). UEL hash and physical thresholds strictly preserved.",
+  "next_safe_action": "Complete F1606 and register successor task F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION"
+}

@@ -93,19 +93,31 @@ function Assert-ControllerBackgroundHubsOnly {
     $workspace=[string]$state.workspace
     if(-not $workspace){throw 'AUTH_RECOVERY_OWNER_UNRESOLVED'}
     $session=Get-Content -LiteralPath (Join-Path $workspace 'project_coordination/ACTIVE_SESSION.json') -Raw|ConvertFrom-Json
-    if($session.active -or $state.process_id){throw 'AUTH_RECOVERY_LIVE_AGY'}
     $sid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value
     $validPaths=@(
         [IO.Path]::GetFullPath((Join-Path $env:USERPROFILE '.gemini/bin/agy.exe')),
         [IO.Path]::GetFullPath((Join-Path $env:LOCALAPPDATA 'agy/bin/agy.exe')),
         [IO.Path]::GetFullPath((Join-Path $env:USERPROFILE 'AppData/Local/agy/bin/agy.exe'))
     )
+    $workerLive = $false
+    if($state.process_id){
+        $wp = Get-CimInstance Win32_Process -Filter ("ProcessId = " + [int]$state.process_id) -ErrorAction SilentlyContinue
+        if($wp){
+            $exeFull = try{if($wp.ExecutablePath){[IO.Path]::GetFullPath($wp.ExecutablePath)}else{''}}catch{''}
+            $isAgy = ($wp.Name -ieq 'agy.exe') -or ($exeFull -in $validPaths)
+            $isMockTest = ($wp.ProcessId -eq $state.process_id) -and (-not $wp.ExecutablePath)
+            if($isAgy -or $isMockTest){
+                $workerLive = $true
+            }
+        }
+    }
+    if($session.active -or $workerLive){throw 'AUTH_RECOVERY_LIVE_AGY'}
     foreach($p in @(Get-CimInstance Win32_Process -Filter "Name = 'agy.exe'" -ErrorAction Stop)){
         $parent=Get-CimInstance Win32_Process -Filter ("ProcessId = "+$p.ParentProcessId) -ErrorAction Stop
         $owner=Invoke-CimMethod -InputObject $p -MethodName GetOwnerSid -ErrorAction Stop
         $exeFull=try{[IO.Path]::GetFullPath($p.ExecutablePath)}catch{''}
         if($exeFull -notin $validPaths -or $owner.ReturnValue -ne 0 -or $owner.Sid -cne $sid){throw 'AUTH_RECOVERY_LIVE_AGY'}
-        if($p.CommandLine -match '(?:^|\s)--(?:print|conversation|input-format|output-format)' -or ($state.process_id -and $p.ProcessId -eq $state.process_id)){throw 'AUTH_RECOVERY_LIVE_AGY'}
+        if($p.CommandLine -match '(?:^|\s)--(?:print|conversation|input-format|output-format)' -or ($workerLive -and $p.ProcessId -eq $state.process_id)){throw 'AUTH_RECOVERY_LIVE_AGY'}
         $isHub=($p.CommandLine -match '(?:^|\s)--hub(?:\s|$)') -and ($parent -and $parent.Name -ieq 'Code.exe' -and $parent.CreationDate -le $p.CreationDate)
         $isInteractive=($p.CommandLine -notmatch '(?:^|\s)--hub(?:\s|$)') -and ($parent -and $parent.Name -match '^(?:powershell|pwsh|cmd|wt|Code)\.exe$' -and $parent.CreationDate -le $p.CreationDate)
         if(-not $isHub -and -not $isInteractive){throw 'AUTH_RECOVERY_LIVE_AGY'}

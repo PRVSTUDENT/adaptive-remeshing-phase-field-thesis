@@ -5610,6 +5610,7 @@ Finished
 
     # Durably preserve the router's next instruction before profile verification; a new prompt cannot override it.
     $script:ControllerState.state='PENDING'
+    $script:ControllerState.process_id=0
     $script:ControllerState | Add-Member -NotePropertyName next_instruction -NotePropertyValue $NextInstruction -Force
     $script:ControllerState.next_safe_action=$NextInstruction
     Write-ControllerCheckpoint $controllerCheckpointPath $script:ControllerState
