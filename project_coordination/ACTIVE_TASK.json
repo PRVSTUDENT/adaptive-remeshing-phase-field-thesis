@@ -2,7 +2,7 @@
     "task_id":  "F1606-MODE1-C6-R7-NONCONVERGENCE-INVESTIGATION",
     "agent":  "gemini-antigravity",
     "status":  "READY_FOR_EXECUTION",
-    "phase":  "Candidate Package 171-R8 mathematical specification verified and convergence extrapolation corrected: max_outer=120 leaves only 31 relaxation iterations after trigger at outer 89, yielding delta_d=4.15e-5 which fails the required delta_d\u003c=1.0e-5 threshold. With conservative contraction rate rho=0.84, crossing 1.0e-5 requires 40 relaxation iterations (total 129 iterations). Therefore, max_outer is budgeted to 140 iterations, providing 51 relaxation iterations (11 margin iterations) and projecting delta_d=1.27e-6\u003c=1.0e-5. Runtime at 140 iterations is 1.33h, well within the 8h PBS limit (83.4% headroom). Compound trigger (|A_k|\u003c=500, |Delta A_k|\u003c=10, Delta A^+=0, N=3) and divergence/healing safeguards verified; frozen UEL and physical acceptance thresholds strictly preserved.",
+    "phase":  "Candidate Package 171-R8 review packet prepared under correlation HND-F1607-R8-REVIEW-8D0545A3 (fingerprint 8D0545A3A733B1368DBA705880C71FD8E2D797B09AF4920FDB1E76688EA52D1F). Verified candidate definition with compound active-set transition criteria (|A_k|\u003c=500, |Delta A_k|\u003c=10, Delta A^+=0 sustained for 3 consecutive iterations) and 140 outer iteration budget providing 51 relaxation iterations and projecting delta_d=1.27e-6\u003c=1.0e-5 at 1.33h runtime within the 8h PBS limit. Explicitly documented that projected damage convergence at iteration 140 is an unverified hypothesis, not proof of coupled convergence, requiring independent review of damage, displacement, history, KKT, force/energy consistency, and numerical stability. Frozen UEL and quantitative physical acceptance criteria strictly preserved.",
     "gate_status":  "READY_FOR_EVALUATION",
     "predecessor_task":  {
                              "run_id":  "06642f83-a72a-48d0-962e-953f109183bb",
@@ -289,14 +289,14 @@
                                },
     "scientific_acceptance":  "NOT_YET_EVALUATED",
     "last_step_status":  "PREPARATION_COMPLETE",
-    "last_updated":  "2026-11-04T08:41:07.0711546+01:00",
+    "last_updated":  "2026-11-04T09:48:15.7342472+01:00",
     "next_safe_action":  "Register successor task F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION and advance independent scientific review",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-bd489c84-a68e-4b2b-8137-cb99eda0953a.json",
-                                  "sha256":  "A602A541ECA7E8364701D2A83BF4F0A84D9DC08FAB50B5F47778AF5A05A937D4",
-                                  "created_at":  "2026-11-04T08:40:57.8278836+01:00"
+                                  "artifact":  "results/validation/preparation-c050a5a1-d54a-4c57-b6ca-e3cb755e052d.json",
+                                  "sha256":  "2382AC8E5B3595CED69D5CCEC08E35FC8A002B7F9BF0CF45B5EF5DB264CEE2DA",
+                                  "created_at":  "2026-11-04T09:48:07.8713445+01:00"
                               }
 }

@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "operation_id": "execute_mode1_package171_r8_c6_coupled_reequilibration",
+  "registration_status": "PROPOSED_FOR_INDEPENDENT_REVIEW",
+  "task_id": "F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION",
+  "author": "gemini-antigravity",
+  "stage": "C3-0",
+  "operation_mode": "QUALIFIED_EXECUTION",
+  "candidate_job": "M1_C6_P171_R8_ADAPTIVE_DAMPED",
+  "scope": "Coupled staggered PDAS re-equilibration execution on non-coarsened C6 mesh (15,252 CPE4 quads, 15,559 physical nodes) at target uy = 0.0018703125 mm with two-phase safeguarded relaxation: Stage 1 maintains conservative damping omega_d = 0.5 until compound active-set condition is met (|A_k| <= 500, |Delta A_k| <= 10, Delta A^+ = 0 for 3 consecutive iterations); Stage 2 activates candidate relaxation omega_d = 0.85 with automatic rollback if delta_d_{k+1} > 1.05 * delta_d_k or divergence factor > 1.5; proposed budget of 140 outer iterations; node-resolved active-set membership telemetry; preserving zero healing, signed KKT, and force/energy discrepancy <= 2.0%.",
+  "physical_acceptance": "UNVERIFIED",
+  "scientific_hypothesis": "Package 171-R7 demonstrated that uniform damping omega_d = 0.5 contracted the active set monotonically to 160 nodes, but the strict threshold (|Delta A_k| <= 2) was never activated because of persistent boundary shifting (|Delta A_k| = 4-6). Transitioning to Stage 2 with a compound trigger (|A_k| <= 500, |Delta A_k| <= 10, Delta A^+ = 0 for 3 consecutive iterations) enables relaxation acceleration while strictly preventing premature switching during expansion. With conservative contraction rate rho = 0.84, crossing delta_d <= 1e-5 requires 40 relaxation iterations after trigger at outer 89, demanding an expanded budget of 140 outer iterations (51 relaxation iterations, 11 margin iterations, projected delta_d = 1.27e-6). The projected damage convergence at iteration 140 is an unverified hypothesis, not proof of coupled convergence, and must be independently evaluated for damage, displacement, history, KKT, force/energy consistency, numerical stability, and the proposed iteration budget.",
+  "mathematical_formulation": {
+    "mesh_level": "C6 (15,252 CPE4 elements, 15,559 physical nodes + RP 999999, 59 duplicate seam-slit pairs)",
+    "damping_formulation": "Two-phase: Stage 1 omega_d = 0.5; Stage 2 candidate omega_d = 0.85 activated upon compound active-set condition (|A_k| <= 500, |Delta A_k| <= 10, Delta A^+ = 0 sustained for 3 consecutive iterations)",
+    "rollback_criterion": "If delta_d_{k+1} > 1.05 * delta_d_k or divergence factor > 1.5 in Stage 2, trial update is reverted to omega_d = 0.5 state and Stage 1 resumes",
+    "membership_telemetry": "Explicit node-resolved active-set symmetric difference |Delta A_k| = |A_k \\ A_{k-1}| + |A_{k-1} \\ A_k| and added nodes Delta A^+ = |A_k \\ A_{k-1}| recorded in telemetry, distinct from scalar cardinalities |A_k|",
+    "kkt_evaluation": "Explicit post-relaxation KKT stationarity recomputation: solver.kkt(d^{k+1}, tau_active=1e-6, tau_free=1e-6) evaluated under corresponding H^{k+1}",
+    "coupled_field_consistency": "Final mechanical subproblem resolution on converged damage state to ensure u, d, H, RF, and energies refer to a mutually equilibrated state with delta_u <= 1e-9 mm and delta_H <= 1e-4 MPa",
+    "phase_decoding": "Strict fail-closed validation of exactly 15,559 unique physical-node records. Only documented 1-component damage or >=3-component U with damage in U3 accepted; 2-component (U1, U2), mixed counts, missing nodes, duplicate nodes, and nonfinite values rejected before clipping to d0",
+    "obstacle_enforcement": "Pointwise active-set Dirichlet clamp prescribed = {n: d0[n] for n in active} ensuring min(d - d0) >= -1.0e-6",
+    "kkt_tolerances": {
+      "delta_d": 1e-05,
+      "delta_u_mm": 1e-09,
+      "delta_h_MPa": 0.0001,
+      "consistency_delta_u_mm": 1e-09,
+      "consistency_delta_h_MPa": 0.0001,
+      "free_residual": 1e-06,
+      "dual_error": 1e-06,
+      "complementarity": 1e-06,
+      "healing_tolerance": 1e-06
+    },
+    "state_coverage": {
+      "physical_nodes": 15559,
+      "physical_elements": 15252,
+      "integration_points": 61008,
+      "seam_slit_pairs": 59
+    },
+    "holding_displacement_mm": 0.0018703125442191958,
+    "physical_continuity_gates": {
+      "donor_reference_force_kN": 0.17992419004440308,
+      "force_discrepancy_gate_pct": 2.0,
+      "donor_reference_total_energy_kNmm": 0.00022639903,
+      "energy_discrepancy_gate_pct": 2.0
+    }
+  },
+  "acceptance_criteria": {
+    "delta_d_max": 1e-05,
+    "delta_u_mm_max": 1e-09,
+    "delta_h_MPa_max": 0.0001,
+    "final_consistency_delta_u_mm_max": 1e-09,
+    "final_consistency_delta_h_MPa_max": 0.0001,
+    "signed_kkt_dual_kNmm_max": 1e-06,
+    "signed_kkt_free_kNmm_max": 1e-06,
+    "max_healing_tolerance": 1e-06,
+    "healing_violations_max": 0,
+    "history_monotonicity_violations_max": 0,
+    "force_discrepancy_pct_max": 2.0,
+    "total_energy_discrepancy_pct_max": 2.0,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "source_differences": "Package 171-R8 introduces compound active-set transition criteria and recalibrated iteration budgeting: (1) Replaces the overly restrictive R7 transition criterion (|Delta A_k| <= 2) with a compound active-set criterion: |A_k| <= 500, |Delta A_k| <= 10, and zero newly activated nodes (Delta A^+ = 0) sustained for 3 consecutive iterations; (2) Expands outer iteration budget from 100 to 140 iterations, providing 51 relaxation iterations after simulated trigger at outer 89, which projects crossing delta_d <= 1e-5 (projected delta_d = 1.27e-6) with 11 margin iterations, whereas 120 iterations left only 31 relaxation iterations and failed with projected delta_d = 4.15e-5; (3) Preserves two-tier safeguards: 5% residual growth rollback (delta_d_{k+1} > 1.05 * delta_d_k) and divergence factor safeguard (gamma = 1.5 over 2 consecutive iterations) reverting to Stage 1; (4) Strictly maintains zero healing tolerance (1.0e-6), signed KKT stationarity (< 1.0e-6), GP history loading (61,008 points), element-level SOLUTION serialization, and force/energy continuity <= 2.0%; (5) Preserves unchanged frozen production UEL CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6.",
+  "evidence_sources": {
+    "results/validation/mode1_r8_mathematical_specification_assessment.json": "A7416592643172C8B5126CD804FEFC1CED54A6741268FE6537336CFF472FA3D8",
+    "scripts/validation/evaluate_mode1_r8_mathematical_specification.py": "3F31188CC7CC29CB4423079C6875DC1E870CDDC45AD2750863F4DD8D6E9901F1",
+    "tests/unit/test_f1606_r8_mathematical_specification.py": "F215FAB45F5E78B1A6DCF18DA0FFB511F852945E217939559C919EAD97B1EF3E",
+    "results/validation/r7_active_set_stabilization_analysis.json": "46D8AC09F9F30F29CAC3B015EF6A2E4FCA7745A32D6B733245173BB01B3ABD8A",
+    "results/validation/c6_r7_execution_reconciliation_and_acceptance.json": "F7C208726B769374488998E662F9FFA033D9F7379BAE6545D546DE1C7D0AA17A",
+    "results/validation/f1605_c6_r7_terminal_evaluation.json": "5539C4A4C5D1931BB6452E0DA0A2B2C44CE2409F4A4E51BFADF0C5381741A7C8",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "execution_prerequisites": [
+    "Independent technical review and signed approval",
+    "Real Abaqus 2023 datachecks Exit 0 for mechanical and phase input decks",
+    "Dual-channel notification end-to-end delivery verified (Telegram + PBS mail)",
+    "Strictly 1 PBS job submission on single-rank serial 1 CPU, 16 GB, 8 h",
+    "Frozen UEL SHA-256 unchanged: CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "operation": "research_preparation",
+  "title": "Candidate Package 171-R8 Independent Review Packet Preparation and Scientific Specification",
+  "finding": "Candidate Package 171-R8 review packet prepared under correlation HND-F1607-R8-REVIEW-8D0545A3 (fingerprint 8D0545A3A733B1368DBA705880C71FD8E2D797B09AF4920FDB1E76688EA52D1F). Verified candidate definition with compound active-set transition criteria (|A_k|<=500, |Delta A_k|<=10, Delta A^+=0 sustained for 3 consecutive iterations) and 140 outer iteration budget providing 51 relaxation iterations and projecting delta_d=1.27e-6<=1.0e-5 at 1.33h runtime within the 8h PBS limit. Explicitly documented that projected damage convergence at iteration 140 is an unverified hypothesis, not proof of coupled convergence, requiring independent review of damage, displacement, history, KKT, force/energy consistency, and numerical stability. Frozen UEL and quantitative physical acceptance criteria strictly preserved.",
+  "verification_passed": true,
+  "next_operation": "Register successor task F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION and advance independent scientific review",
+  "evidence_sources": {
+    "project_coordination/candidate_definitions/execute_mode1_package171_r8_c6_coupled_reequilibration.json": "B6F418D26A9CD38BA1AFB236EC09731F06D0FD538BC4AB13B9D750713A29556E",
+    "project_coordination/review_dispatch/execute_mode1_package171_r8_c6_coupled_reequilibration-8D0545A3A733B1368DBA705880C71FD8E2D797B09AF4920FDB1E76688EA52D1F.request.json": "51AB1AF8E72926919BBE8E26B8BFCC1830B2454CCF221FC385CFFA3862530CD4",
+    "results/validation/r8_review_packet_receipt.json": "37F18A0DE26029ACE0797E8109F0A8BA4D0FA94C48D69F49F9A78A7EA64D096D",
+    "scripts/validation/prepare_r8_review_packet.py": "CAA0AF59EEBF70F1D83714D92A17AD00F1468A64393353150997049E00DB61CB",
+    "tests/unit/test_f1606_r8_review_packet_and_candidate_definition.py": "060F88BD4CCB148142DDB56ED9B9CECDAC5209B782673ECF3CD61A08166AC311",
+    "results/validation/mode1_r8_mathematical_specification_assessment.json": "A7416592643172C8B5126CD804FEFC1CED54A6741268FE6537336CFF472FA3D8",
+    "scripts/validation/evaluate_mode1_r8_mathematical_specification.py": "3F31188CC7CC29CB4423079C6875DC1E870CDDC45AD2750863F4DD8D6E9901F1",
+    "tests/unit/test_f1606_r8_mathematical_specification.py": "F215FAB45F5E78B1A6DCF18DA0FFB511F852945E217939559C919EAD97B1EF3E",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "registered_paths": [
+    "project_coordination/candidate_definitions/execute_mode1_package171_r8_c6_coupled_reequilibration.json",
+    "project_coordination/review_dispatch/execute_mode1_package171_r8_c6_coupled_reequilibration-8D0545A3A733B1368DBA705880C71FD8E2D797B09AF4920FDB1E76688EA52D1F.request.json",
+    "results/validation/r8_review_packet_receipt.json",
+    "scripts/validation/prepare_r8_review_packet.py",
+    "tests/unit/test_f1606_r8_review_packet_and_candidate_definition.py",
+    "results/validation/mode1_r8_mathematical_specification_assessment.json",
+    "scripts/validation/evaluate_mode1_r8_mathematical_specification.py",
+    "tests/unit/test_f1606_r8_mathematical_specification.py",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for"
+  ]
+}
