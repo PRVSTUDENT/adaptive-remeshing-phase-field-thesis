@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "task_id": "F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION",
+  "operation": "research_preparation",
+  "title": "Independent Review Intake and Verification for Candidate M1_C6_P171_R8_ADAPTIVE_DAMPED",
+  "finding": "Dispatched Candidate M1_C6_P171_R8_ADAPTIVE_DAMPED review packet across canonical ChatGPT review bridge under correlation HND-F1607-R8-REVIEW-8D0545A3 (fingerprint 8D0545A3A733B1368DBA705880C71FD8E2D797B09AF4920FDB1E76688EA52D1F). Authenticated and cryptographically verified Ed25519 signed review receipt approving R8 as a bounded, falsifiable scientific experiment hypothesis. Review confirms compound active-set condition (|A_k|<=500, |Delta A_k|<=10, Delta A^+=0 for 3 consecutive iterations), Stage 2 candidate relaxation omega_d=0.85, rollback safeguard, 140 outer iteration budget, and unchanged frozen UEL CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6. Review explicitly notes projected damage convergence delta_d=1.27e-6 at iteration 140 is a mathematical extrapolation requiring empirical solver verification. Task remains strictly read-only; 0 PBS jobs submitted.",
+  "candidate_job": "M1_C6_P171_R8_ADAPTIVE_DAMPED",
+  "operation_id": "execute_mode1_package171_r8_c6_coupled_reequilibration",
+  "review_correlation": "HND-F1607-R8-REVIEW-8D0545A3",
+  "review_fingerprint": "8D0545A3A733B1368DBA705880C71FD8E2D797B09AF4920FDB1E76688EA52D1F",
+  "review_decision": "APPROVE",
+  "next_operation": "Advance to technical qualification, driver implementation, unit tests, and real Abaqus datachecks for Candidate M1_C6_P171_R8_ADAPTIVE_DAMPED under a distinct execution-authorized task",
+  "evidence_sources": {
+    "results/validation/r8_independent_review_intake_audit.json": "B534AA436D6DBC635C2C80568A0E415AC30ABD824ED70AE6FC02769C7BD5844F",
+    "project_coordination/review_dispatch/execute_mode1_package171_r8_c6_coupled_reequilibration-8D0545A3A733B1368DBA705880C71FD8E2D797B09AF4920FDB1E76688EA52D1F.response.json": "F70218A9287B082266ADAD3DDBB69CC74C3FF0F983AD5AF7B7CD2D504C9AA65D",
+    "project_coordination/review_dispatch/execute_mode1_package171_r8_c6_coupled_reequilibration-8D0545A3A733B1368DBA705880C71FD8E2D797B09AF4920FDB1E76688EA52D1F.request.json": "51AB1AF8E72926919BBE8E26B8BFCC1830B2454CCF221FC385CFFA3862530CD4",
+    "project_coordination/review_dispatch/execute_mode1_package171_r8_c6_coupled_reequilibration-no-manifest.json": "63BDD9DA0DFF441BF6C830C4797A3D3253577C68664EFB6814F35C50722A3AC4",
+    "project_coordination/candidate_definitions/execute_mode1_package171_r8_c6_coupled_reequilibration.json": "B6F418D26A9CD38BA1AFB236EC09731F06D0FD538BC4AB13B9D750713A29556E",
+    "scripts/validation/audit_r8_independent_review_intake.py": "8D61F4D97619923566398060AEE9638D67296D9C1B45D7647CC957C28447C33F",
+    "tests/unit/test_f1607_r8_independent_review_intake.py": "ED595B25E15023A7CB2B1028CFE59696821C980A627C02E0E78177F7D52624F0",
+    "models/pandey_kumar_mode1/15_energy_qualification_small/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "registered_paths": [
+    "results/validation/r8_independent_review_intake_audit.json",
+    "project_coordination/review_dispatch/execute_mode1_package171_r8_c6_coupled_reequilibration-8D0545A3A733B1368DBA705880C71FD8E2D797B09AF4920FDB1E76688EA52D1F.response.json",
+    "project_coordination/review_dispatch/execute_mode1_package171_r8_c6_coupled_reequilibration-no-manifest.json",
+    "scripts/validation/audit_r8_independent_review_intake.py",
+    "tests/unit/test_f1607_r8_independent_review_intake.py"
+  ],
+  "verification_passed": true
+}
