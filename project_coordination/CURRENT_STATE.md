@@ -1,3 +1,16 @@
+## 4 November Controller Normal-Startup LoopState Defect Repaired & Deployed
+
+1. **Root Cause Resolved**:
+   - In `Antigravity-Autonomous-Loop.ps1`, `$loopStatePath` was initialized solely within the `-ControllerDryRun` conditional branch.
+   - Normal launch without `-InitialPromptFile` evaluated `Test-Path $loopStatePath` where `$loopStatePath` was `$null`, producing `Cannot bind argument to parameter 'Path' because it is null`.
+   - Initialized `$loopStatePath = Join-Path $env:USERPROFILE 'OpenClawPAD/antigravity_loop_state.json'` unconditionally before the `$ControllerDryRun` check, removing duplicate inner assignment.
+
+2. **Verification & Deployment**:
+   - Created dedicated regression test `tests/unit/test_controller_normal_startup_loopstate.ps1` covering AST assignment scoping, non-null evaluation, missing state file fallback, defect reproduction, and Turn 6 PENDING resume planning (17/17 PASS).
+   - All standard regression suites verified: `test_controller_startup_fix_regression.ps1` (11/11 PASS), `test_controller_auth_recovery.ps1` (PASS), `test_controller_supervisor.ps1` (12/12 PASS), `test_controller_task_lifecycle.ps1` (18/18 PASS), and `test_controller_turn354_reconciliation.ps1` (16/16 PASS).
+   - Deployed canonical files via `Deploy-Controller.ps1` and verified bitwise SHA-256 parity (`ACE7E80F...`).
+   - Turn 6 PENDING checkpoint, authentication recovery state, signed R8 review, and zero-PBS governance under Task F1607 strictly preserved.
+
 ## 4 November F1606 Closed & Successor F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION Registered
 
 1. **Candidate Package 171-R8 Independent Review Packet Prepared**:

@@ -233,10 +233,10 @@ trap {
 $canonicalController = Join-Path $WorkspaceDir 'scripts/controller/Antigravity-Autonomous-Loop.ps1'
 if ((Get-FileHash -LiteralPath $PSCommandPath).Hash -ne (Get-FileHash -LiteralPath $canonicalController).Hash) { throw 'Installed controller differs from canonical tested source; redeploy.' }
 $controllerCheckpointPath = Join-Path $env:USERPROFILE 'OpenClawPAD/controller_turn_checkpoint.json'
+$loopStatePath = Join-Path $env:USERPROFILE 'OpenClawPAD/antigravity_loop_state.json'
 if ($ControllerDryRun) {
     $checkpoint = Read-ControllerCheckpoint $controllerCheckpointPath
     $successorCheckpoint=Get-ControllerSuccessorCheckpointPlan $WorkspaceDir $controllerCheckpointPath $checkpoint
-    $loopStatePath = Join-Path $env:USERPROFILE 'OpenClawPAD/antigravity_loop_state.json'
     $prompt = if($successorCheckpoint.fresh_successor){$successorCheckpoint.instruction}elseif ($checkpoint -and $checkpoint.state -eq 'PENDING' -and $checkpoint.next_instruction) {
         $checkpoint.next_instruction
     } elseif ($checkpoint -and $checkpoint.state -eq 'RECOVERY_REQUIRED') {
