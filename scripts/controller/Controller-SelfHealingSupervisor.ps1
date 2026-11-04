@@ -154,6 +154,10 @@ function Audit-InterruptedTurnSideEffects {
         has_scientific_side_effects = $false
         has_bridge_side_effects = $false
         has_file_write_side_effects = $false
+        has_receipt = $false
+        receipt_valid = $false
+        receipt_path = ""
+        receipt_error = ""
         pbs_jobs = @()
         completed_operations = @()
         bridge_transactions = @()
@@ -205,6 +209,9 @@ function Audit-InterruptedTurnSideEffects {
                     }
                 }
             }
+            if ($task.status -in @('TECHNICAL_QUALIFICATION_COMPLETE', 'COMPLETED', 'QUALIFIED') -and $task.task_id -eq $Checkpoint.task_id) {
+                $report.has_scientific_side_effects = $true
+            }
         } catch {}
     }
 
@@ -232,33 +239,106 @@ function Audit-InterruptedTurnSideEffects {
         } catch {}
     }
 
-    # 4. Audit File Writes (Deliverables and partial files):
+    # 4. Audit File Writes (Deliverables, Receipts, and partial files):
     $valDir = Join-Path $Workspace "results/validation"
     if (Test-Path -LiteralPath $valDir) {
         try {
             $files = Get-ChildItem -LiteralPath $valDir -File -ErrorAction SilentlyContinue
             foreach ($f in $files) {
-                if ($turnStarted -gt [DateTimeOffset]::MinValue -and $f.LastWriteTimeUtc -ge $turnStarted.UtcDateTime.AddSeconds(-30)) {
+                $isTurnArtifact = ($turnStarted -gt [DateTimeOffset]::MinValue -and $f.LastWriteTimeUtc -ge $turnStarted.UtcDateTime.AddSeconds(-30))
+
+                # Check if file is a receipt relevant to this task
+                $isRelevantReceipt = $false
+                if ($f.Name -match 'receipt.*\.json$') {
+                    if ($isTurnArtifact) {
+                        $isRelevantReceipt = $true
+                    } elseif ($Checkpoint.state -eq 'PENDING') {
+                        # For PENDING checkpoints, only check if referenced by active task or matching task_id
+                        if ($task -and $task.scientific_checkpoint -and $task.scientific_checkpoint.artifact) {
+                            $normArtifact = ($task.scientific_checkpoint.artifact -replace '[/\\]', '/')
+                            $normFile = ($f.FullName -replace '[/\\]', '/')
+                            if ($normFile.EndsWith($normArtifact, [StringComparison]::OrdinalIgnoreCase) -and ($task.task_id -eq $Checkpoint.task_id)) {
+                                $isRelevantReceipt = $true
+                            }
+                        }
+                    }
+                }
+
+                if ($isRelevantReceipt) {
+                    $report.has_receipt = $true
+                    $report.receipt_path = $f.FullName
+                    try {
+                        $rData = Get-Content -LiteralPath $f.FullName -Raw | ConvertFrom-Json
+                        $statusPass = ($rData.overall_status -in @('PASSED_TECHNICAL_QUALIFICATION', 'PASS', 'SUCCESS')) -or
+                                      ($rData.status -in @('PASSED_TECHNICAL_QUALIFICATION', 'PASS', 'SUCCESS'))
+                        $taskMatches = (-not $rData.task_id) -or ($rData.task_id -eq $Checkpoint.task_id)
+
+                        $hashMatches = $true
+                        if (Test-Path -LiteralPath $ActiveTaskPath) {
+                            $tData = Get-Content -LiteralPath $ActiveTaskPath -Raw | ConvertFrom-Json
+                            if ($tData.scientific_checkpoint -and $tData.scientific_checkpoint.artifact) {
+                                $normArtifact = ($tData.scientific_checkpoint.artifact -replace '[/\\]', '/')
+                                $normFile = ($f.FullName -replace '[/\\]', '/')
+                                if ($normFile.EndsWith($normArtifact, [StringComparison]::OrdinalIgnoreCase)) {
+                                    $fileHash = (Get-FileHash -LiteralPath $f.FullName -Algorithm SHA256).Hash
+                                    if ($fileHash -cne $tData.scientific_checkpoint.sha256) {
+                                        $hashMatches = $false
+                                        $report.receipt_error = "Hash mismatch: actual $fileHash vs task checkpoint $($tData.scientific_checkpoint.sha256)"
+                                    }
+                                }
+                            }
+                        }
+
+                        if ($statusPass -and $taskMatches -and $hashMatches) {
+                            $report.receipt_valid = $true
+                            $report.has_scientific_side_effects = $true
+                            if ($rData.candidate_job -and ($report.completed_operations -notcontains $rData.candidate_job)) {
+                                $report.completed_operations += [string]$rData.candidate_job
+                            }
+                            if ($rData.package_id -and ($report.completed_operations -notcontains $rData.package_id)) {
+                                $report.completed_operations += [string]$rData.package_id
+                            }
+                        } else {
+                            $report.receipt_valid = $false
+                            if (-not $report.receipt_error) {
+                                $report.receipt_error = "Receipt status not passed ($($rData.overall_status)) or task mismatch ($($rData.task_id) vs $($Checkpoint.task_id))"
+                            }
+                        }
+                    } catch {
+                        $report.receipt_valid = $false
+                        $report.receipt_error = "Unparseable receipt JSON: $($_.Exception.Message)"
+                    }
+                } elseif ($isTurnArtifact) {
                     $report.modified_files += $f.Name
                     $report.has_file_write_side_effects = $true
                 }
             }
         } catch {}
     }
+
     if (Test-Path -LiteralPath $Workspace) {
-        $tmpFiles = Get-ChildItem -LiteralPath $Workspace -Filter "*.tmp" -File -Recurse -ErrorAction SilentlyContinue | Select-Object -First 10
-        foreach ($tf in $tmpFiles) {
-            $report.partial_files += $tf.FullName
-            $report.has_file_write_side_effects = $true
+        $searchDirs = @(
+            (Join-Path $Workspace "results/validation"),
+            (Join-Path $Workspace "project_coordination")
+        )
+        foreach ($sd in $searchDirs) {
+            if (Test-Path -LiteralPath $sd) {
+                $tmpFiles = Get-ChildItem -LiteralPath $sd -Filter "*.tmp" -File -Recurse -ErrorAction SilentlyContinue | Select-Object -First 10
+                foreach ($tf in $tmpFiles) {
+                    $report.partial_files += $tf.FullName
+                    $report.has_file_write_side_effects = $true
+                }
+            }
         }
     }
 
-    $report.has_side_effects = ($report.has_pbs_side_effects -or $report.has_scientific_side_effects -or $report.has_bridge_side_effects -or $report.has_file_write_side_effects)
+    $report.has_side_effects = ($report.has_pbs_side_effects -or $report.has_scientific_side_effects -or $report.has_bridge_side_effects -or $report.has_file_write_side_effects -or ($report.has_receipt -and -not $report.receipt_valid))
     $detailsList = @()
     if ($report.has_pbs_side_effects) { $detailsList += "PBS jobs ($($report.pbs_jobs -join ', '))" }
     if ($report.has_scientific_side_effects) { $detailsList += "Operations ($($report.completed_operations -join ', '))" }
     if ($report.has_bridge_side_effects) { $detailsList += "Bridge ($($report.bridge_transactions -join ', '))" }
     if ($report.has_file_write_side_effects) { $detailsList += "Files ($($report.modified_files -join ', '))" }
+    if ($report.has_receipt -and -not $report.receipt_valid) { $detailsList += "Invalid receipt ($($report.receipt_error))" }
     $report.details = $detailsList -join '; '
 
     return [pscustomobject]$report
@@ -440,12 +520,59 @@ function Classify-ControllerFailure {
         $classification.fingerprint = "AUTH_MISMATCH"
     }
     elseif ($Checkpoint.state -eq 'PENDING' -and $Checkpoint.process_id -eq 0) {
-        # Clean unstarted turn interrupted before worker launch
-        $classification.category = "CLEAN_INTERRUPTED_CHECKPOINT"
-        $classification.recoverable = $true
-        $classification.action = "RESUME_PENDING_INSTRUCTION"
-        $classification.reason = "Turn preserved in unstarted PENDING state with verified instruction hash."
-        $classification.fingerprint = "CLEAN_PENDING"
+        # Checkpoint is in PENDING state with process_id=0. MUST audit side effects before classifying as safely unstarted!
+        $sideEffects = Audit-InterruptedTurnSideEffects -Workspace $Workspace -Checkpoint $Checkpoint
+
+        if ($sideEffects.has_receipt -and -not $sideEffects.receipt_valid) {
+            $classification.category = "INVALID_RECEIPT_BLOCKED"
+            $classification.recoverable = $false
+            $classification.action = "BLOCK"
+            $classification.reason = "Technical qualification receipt invalid or mismatched: $($sideEffects.receipt_error)"
+            $classification.fingerprint = "INVALID_RECEIPT"
+        }
+        elseif ($sideEffects.has_pbs_side_effects) {
+            $classification.category = "INTERRUPTED_TURN_PBS_SUBMITTED"
+            $classification.recoverable = $true
+            $classification.action = "RECONCILE_PARTIAL_EVIDENCE"
+            $classification.reason = "PENDING checkpoint has recorded PBS jobs ($($sideEffects.pbs_jobs -join ', ')); cannot submit twice (once-only rule)."
+            $classification.fingerprint = "PBS_SUBMITTED_PENDING"
+        }
+        elseif ($sideEffects.has_scientific_side_effects -or ($sideEffects.has_receipt -and $sideEffects.receipt_valid)) {
+            $classification.category = "COMPLETED_OPERATION_PENDING_RECONCILIATION"
+            $classification.recoverable = $true
+            $classification.action = "RECONCILE_COMPLETED_OPERATION"
+            $classification.reason = "PENDING checkpoint has completed and verified scientific work ($($sideEffects.completed_operations -join ', ')); reconciling without replay."
+            $classification.fingerprint = "OPERATION_COMPLETED_PENDING"
+        }
+        elseif ($sideEffects.has_bridge_side_effects) {
+            $classification.category = "INTERRUPTED_TURN_BRIDGE_TRANSACTION"
+            $classification.recoverable = $true
+            $classification.action = "RECONCILE_BRIDGE_TRANSACTION"
+            $classification.reason = "PENDING checkpoint has pending bridge transaction ($($sideEffects.bridge_transactions -join ', ')); duplicate request prevented."
+            $classification.fingerprint = "BRIDGE_TRANSACTION_PENDING"
+        }
+        elseif ($sideEffects.has_file_write_side_effects) {
+            $classification.category = "INTERRUPTED_TURN_PARTIAL_FILES"
+            $classification.recoverable = $true
+            $classification.action = "RECONCILE_PARTIAL_EVIDENCE"
+            $classification.reason = "PENDING checkpoint has partial or unverified file side effects ($($sideEffects.modified_files -join ', ')); requires evidence reconciliation before re-arming."
+            $classification.fingerprint = "PARTIAL_FILES_PENDING"
+        }
+        elseif ($Checkpoint.PSObject.Properties['original_instruction_hash'] -and [string]::IsNullOrWhiteSpace($Checkpoint.original_instruction_hash)) {
+            $classification.category = "UNVERIFIED_INSTRUCTION_BLOCKED"
+            $classification.recoverable = $false
+            $classification.action = "BLOCK"
+            $classification.reason = "PENDING checkpoint has blank original_instruction_hash; cannot establish instruction provenance."
+            $classification.fingerprint = "MISSING_INSTRUCTION_HASH"
+        }
+        else {
+            # Positively established: zero side effects, valid instruction hash, ownership verified
+            $classification.category = "CLEAN_INTERRUPTED_CHECKPOINT"
+            $classification.recoverable = $true
+            $classification.action = "RESUME_PENDING_INSTRUCTION"
+            $classification.reason = "Turn preserved in unstarted PENDING state with verified instruction hash and zero side effects."
+            $classification.fingerprint = "CLEAN_PENDING"
+        }
     }
     elseif ($Checkpoint.state -in @('RUNNING', 'CHECKPOINTED') -and -not $workerAlive -and [string]::IsNullOrWhiteSpace($errorText)) {
         # Worker crashed mid-turn without recording an unhandled error! Audit partial side effects before classifying resumption
@@ -548,75 +675,112 @@ function Invoke-SupervisorReconciliationStep {
         }
 
         "RECONCILE_PARTIAL_EVIDENCE" {
-            . (Resolve-ControllerScriptPath $Workspace "scripts/controller/Controller-Recovery.ps1")
-            $state = Read-SupervisorCheckpoint $Workspace $CheckpointPath
-            # Clean temporary files if present
             try {
-                $tmpFiles = Get-ChildItem -LiteralPath $Workspace -Filter "*.tmp" -File -Recurse -ErrorAction SilentlyContinue
-                foreach ($tf in $tmpFiles) {
-                    Remove-Item -LiteralPath $tf.FullName -Force -ErrorAction SilentlyContinue
-                }
-            } catch {}
-
-            Set-StateProperty $state 'state' 'CHECKPOINTED'
-            Set-StateProperty $state 'process_id' 0
-            Set-StateProperty $state 'owned_session_fingerprint' ''
-            Set-StateProperty $state 'conversation_id' ''
-            $recCount = if ($state.recovery_count) { $state.recovery_count + 1 } else { 1 }
-            Set-StateProperty $state 'recovery_count' $recCount
-            Set-StateProperty $state 'updated_at' ([DateTimeOffset]::UtcNow.ToString('o'))
-            Set-StateProperty $state 'next_safe_action' "Evidence-only reconciliation in a fresh conversation; no solver, submission, or scientific changes"
-            Write-ControllerCheckpoint $CheckpointPath $state
-
-            # Release orphaned session lock if owned by crashed run
-            $sessFile = Join-Path $Workspace "project_coordination/ACTIVE_SESSION.json"
-            if (Test-Path -LiteralPath $sessFile) {
+                . (Resolve-ControllerScriptPath $Workspace "scripts/controller/Controller-Recovery.ps1")
+                $state = Read-SupervisorCheckpoint $Workspace $CheckpointPath
+                # Clean scoped temporary files in validation / coordination dirs only
                 try {
-                    $s = Get-Content -LiteralPath $sessFile -Raw | ConvertFrom-Json
-                    if ($s.active -and $s.controller_run_id -eq $state.run_id) {
-                        $s.active = $false
-                        $s.last_released = [DateTimeOffset]::UtcNow.ToString('o')
-                        [IO.File]::WriteAllText($sessFile, (($s | ConvertTo-Json -Depth 8).Replace("`r`n","`n")), [Text.UTF8Encoding]::new($false))
+                    $candidateTmpDirs = @(
+                        (Join-Path $Workspace "results/validation"),
+                        (Join-Path $Workspace "project_coordination")
+                    )
+                    foreach ($td in $candidateTmpDirs) {
+                        if (Test-Path -LiteralPath $td) {
+                            $tmpFiles = Get-ChildItem -LiteralPath $td -Filter "*.tmp" -File -ErrorAction SilentlyContinue
+                            foreach ($tf in $tmpFiles) {
+                                Remove-Item -LiteralPath $tf.FullName -Force -ErrorAction SilentlyContinue
+                            }
+                        }
                     }
                 } catch {}
-            }
 
-            $result.success = $true
-            $result.action_taken = "Interrupted turn side effects reconciled: partial files cleaned and converted to bounded evidence recovery."
+                Set-StateProperty $state 'state' 'CHECKPOINTED'
+                Set-StateProperty $state 'process_id' 0
+                Set-StateProperty $state 'owned_session_fingerprint' ''
+                Set-StateProperty $state 'conversation_id' ''
+                $recCount = if ($state.recovery_count) { $state.recovery_count + 1 } else { 1 }
+                Set-StateProperty $state 'recovery_count' $recCount
+                Set-StateProperty $state 'updated_at' ([DateTimeOffset]::UtcNow.ToString('o'))
+                Set-StateProperty $state 'next_safe_action' "Evidence-only reconciliation in a fresh conversation; no solver, submission, or scientific changes"
+                Write-ControllerCheckpoint $CheckpointPath $state
+
+                # Release orphaned session lock if owned by crashed run
+                $sessFile = Join-Path $Workspace "project_coordination/ACTIVE_SESSION.json"
+                if (Test-Path -LiteralPath $sessFile) {
+                    try {
+                        $s = Get-Content -LiteralPath $sessFile -Raw | ConvertFrom-Json
+                        if ($s.active -and $s.controller_run_id -eq $state.run_id) {
+                            $s.active = $false
+                            $s.last_released = [DateTimeOffset]::UtcNow.ToString('o')
+                            [IO.File]::WriteAllText($sessFile, (($s | ConvertTo-Json -Depth 8).Replace("`r`n","`n")), [Text.UTF8Encoding]::new($false))
+                        }
+                    } catch {}
+                }
+
+                $result.success = $true
+                $result.action_taken = "Interrupted turn side effects reconciled: partial files cleaned and converted to bounded evidence recovery."
+            } catch {
+                $result.success = $false
+                $result.error = $_.Exception.Message
+            }
         }
 
         "RECONCILE_COMPLETED_OPERATION" {
-            . (Resolve-ControllerScriptPath $Workspace "scripts/controller/Controller-Recovery.ps1")
-            $state = Read-SupervisorCheckpoint $Workspace $CheckpointPath
-            Set-StateProperty $state 'state' 'CHECKPOINTED'
-            Set-StateProperty $state 'process_id' 0
-            Set-StateProperty $state 'owned_session_fingerprint' ''
-            Set-StateProperty $state 'conversation_id' ''
-            $recCount = if ($state.recovery_count) { $state.recovery_count + 1 } else { 1 }
-            Set-StateProperty $state 'recovery_count' $recCount
-            Set-StateProperty $state 'updated_at' ([DateTimeOffset]::UtcNow.ToString('o'))
-            Set-StateProperty $state 'next_safe_action' "Advance task lifecycle: scientific operation already completed, do not replay"
-            Write-ControllerCheckpoint $CheckpointPath $state
+            try {
+                . (Resolve-ControllerScriptPath $Workspace "scripts/controller/Controller-Recovery.ps1")
+                $state = Read-SupervisorCheckpoint $Workspace $CheckpointPath
+                Set-StateProperty $state 'state' 'COMPLETED'
+                Set-StateProperty $state 'process_id' 0
+                Set-StateProperty $state 'owned_session_fingerprint' ''
+                Set-StateProperty $state 'conversation_id' ''
+                $recCount = if ($state.recovery_count) { $state.recovery_count + 1 } else { 1 }
+                Set-StateProperty $state 'recovery_count' $recCount
+                Set-StateProperty $state 'updated_at' ([DateTimeOffset]::UtcNow.ToString('o'))
+                Set-StateProperty $state 'stop_reason' 'OPERATION_COMPLETED'
+                Set-StateProperty $state 'next_safe_action' "Advance task lifecycle: scientific operation already completed, do not replay"
+                Write-ControllerCheckpoint $CheckpointPath $state
 
-            $result.success = $true
-            $result.action_taken = "Scientific operation completion confirmed: state checkpointed to advance lifecycle without replaying operation."
+                # Release orphaned session lock if owned by crashed run
+                $sessFile = Join-Path $Workspace "project_coordination/ACTIVE_SESSION.json"
+                if (Test-Path -LiteralPath $sessFile) {
+                    try {
+                        $s = Get-Content -LiteralPath $sessFile -Raw | ConvertFrom-Json
+                        if ($s.active -and $s.controller_run_id -eq $state.run_id) {
+                            $s.active = $false
+                            $s.last_released = [DateTimeOffset]::UtcNow.ToString('o')
+                            [IO.File]::WriteAllText($sessFile, (($s | ConvertTo-Json -Depth 8).Replace("`r`n","`n")), [Text.UTF8Encoding]::new($false))
+                        }
+                    } catch {}
+                }
+
+                $result.success = $true
+                $result.action_taken = "Scientific operation completion confirmed: checkpoint transitioned to COMPLETED to advance lifecycle without replaying operation."
+            } catch {
+                $result.success = $false
+                $result.error = $_.Exception.Message
+            }
         }
 
         "RECONCILE_BRIDGE_TRANSACTION" {
-            . (Resolve-ControllerScriptPath $Workspace "scripts/controller/Controller-Recovery.ps1")
-            $state = Read-SupervisorCheckpoint $Workspace $CheckpointPath
-            Set-StateProperty $state 'state' 'CHECKPOINTED'
-            Set-StateProperty $state 'process_id' 0
-            Set-StateProperty $state 'owned_session_fingerprint' ''
-            Set-StateProperty $state 'conversation_id' ''
-            $recCount = if ($state.recovery_count) { $state.recovery_count + 1 } else { 1 }
-            Set-StateProperty $state 'recovery_count' $recCount
-            Set-StateProperty $state 'updated_at' ([DateTimeOffset]::UtcNow.ToString('o'))
-            Set-StateProperty $state 'next_safe_action' "Await or reconcile existing bridge response; do not resend transaction"
-            Write-ControllerCheckpoint $CheckpointPath $state
+            try {
+                . (Resolve-ControllerScriptPath $Workspace "scripts/controller/Controller-Recovery.ps1")
+                $state = Read-SupervisorCheckpoint $Workspace $CheckpointPath
+                Set-StateProperty $state 'state' 'CHECKPOINTED'
+                Set-StateProperty $state 'process_id' 0
+                Set-StateProperty $state 'owned_session_fingerprint' ''
+                Set-StateProperty $state 'conversation_id' ''
+                $recCount = if ($state.recovery_count) { $state.recovery_count + 1 } else { 1 }
+                Set-StateProperty $state 'recovery_count' $recCount
+                Set-StateProperty $state 'updated_at' ([DateTimeOffset]::UtcNow.ToString('o'))
+                Set-StateProperty $state 'next_safe_action' "Await or reconcile existing bridge response; do not resend transaction"
+                Write-ControllerCheckpoint $CheckpointPath $state
 
-            $result.success = $true
-            $result.action_taken = "Pending bridge transaction preserved: duplicate request prevented."
+                $result.success = $true
+                $result.action_taken = "Pending bridge transaction preserved: duplicate request prevented."
+            } catch {
+                $result.success = $false
+                $result.error = $_.Exception.Message
+            }
         }
 
         "RESUME_PENDING_INSTRUCTION" {
@@ -818,6 +982,7 @@ function Start-ControllerSupervisedLoop {
             if (-not $classification.recoverable) {
                 Write-Warning "[SUPERVISOR] Non-recoverable failure detected: $($classification.reason). Fails closed safely."
                 $supState.state = "BLOCKED_NEEDS_INTERVENTION"
+                Set-StateProperty $supState 'last_error' $classification.reason
                 Write-SupervisorState $supervisorStateFile $supState
                 break
             }
@@ -827,13 +992,26 @@ function Start-ControllerSupervisedLoop {
             $supState.state = "RECOVERY_IN_PROGRESS"
             Write-SupervisorState $supervisorStateFile $supState
 
-            $reconciliation = Invoke-SupervisorReconciliationStep -Workspace $Workspace -PadPath $Pad -Classification $classification -CheckpointPath $checkpointFile
+            try {
+                $reconciliation = Invoke-SupervisorReconciliationStep -Workspace $Workspace -PadPath $Pad -Classification $classification -CheckpointPath $checkpointFile
+            } catch {
+                $reconciliation = [pscustomobject]@{
+                    success = $false
+                    action_taken = "Reconciliation threw unhandled exception"
+                    error = $_.Exception.Message
+                    new_profile = ""
+                }
+            }
+
             if (-not $reconciliation.success) {
                 Write-Warning "[SUPERVISOR] Recovery action failed: $($reconciliation.error)"
-                if ($retryCounts[$fp] -ge $MaxSelfRepairRetries) {
-                    $supState.circuit_broken = $true
-                    $supState.state = "BLOCKED_NEEDS_INTERVENTION"
+                $supState.state = "BLOCKED_NEEDS_INTERVENTION"
+                if ($supState.PSObject.Properties['last_error']) {
+                    $supState.last_error = $reconciliation.error
+                } else {
+                    $supState | Add-Member -NotePropertyName 'last_error' -NotePropertyValue $reconciliation.error -Force
                 }
+                $supState.circuit_broken = $true
                 Write-SupervisorState $supervisorStateFile $supState
                 if ($SinglePass) { break }
                 Start-Sleep -Seconds $PollIntervalSec
@@ -849,12 +1027,19 @@ function Start-ControllerSupervisedLoop {
             $validCheckpoint = $false
             try {
                 $postCp = Read-SupervisorCheckpoint $Workspace $checkpointFile
-                if ($postCp.state -in @('PENDING', 'RUNNING', 'CHECKPOINTED')) { $validCheckpoint = $true }
+                if ($postCp.state -in @('PENDING', 'RUNNING', 'CHECKPOINTED', 'COMPLETED')) { $validCheckpoint = $true }
             } catch {}
 
             if (-not $validCheckpoint) {
                 Write-Warning "[SUPERVISOR] Post-recovery checkpoint validation failed."
                 $supState.state = "BLOCKED_NEEDS_INTERVENTION"
+                Write-SupervisorState $supervisorStateFile $supState
+                break
+            }
+
+            if ($postCp -and $postCp.state -eq 'COMPLETED') {
+                Write-Host "[SUPERVISOR] Execution reconciled as COMPLETED. Halting supervisor cleanly." -ForegroundColor Green
+                $supState.state = "COMPLETED"
                 Write-SupervisorState $supervisorStateFile $supState
                 break
             }

@@ -1,3 +1,24 @@
+## 4 November F1608 Reconciled, Supervisor Classification Repaired, and Method C R8 Dispatched (PBS Job 1420188)
+
+1. **Supervisor Recovery Classification Repaired & F1608 Reconciled**:
+   - Resolved `CANNOT_REARM_WITH_SIDE_EFFECTS` crash in `Controller-SelfHealingSupervisor.ps1` by auditing scientific, file, and PBS side effects prior to failure classification.
+   - For `PENDING` checkpoints with verified completed operations or receipts, `Classify-ControllerFailure` selects `COMPLETED_OPERATION_PENDING_RECONCILIATION` / `RECONCILE_COMPLETED_OPERATION`, retiring stale checkpoints as `COMPLETED` without replaying scientific operations.
+   - Exception boundary protection added to prevent unhandled supervisor process exits.
+   - 100% regression tests passed across all 8 controller test suites (219/219 tests).
+   - Deployed canonical controller files to `$env:USERPROFILE/OpenClawPAD/` with bitwise SHA-256 match.
+
+2. **Successor Task F1609-PACKAGE171-R8-C6-EXECUTION-QUALIFICATION Registered**:
+   - Task F1608 closed in `TASK_LEDGER.csv` as `completed` (`EVALUATED_TECHNICAL_QUALIFICATION_COMPLETE`).
+   - Task definition `project_coordination/task_definitions/F1609-PACKAGE171-R8-C6-EXECUTION-QUALIFICATION.json` registered (SHA-256 `67B1C4FB950AED269FF57C2BEDC7E9C5067366BDE7B53D9944204958F6C6724A`), authorizing exactly 1 once-only PBS submission.
+   - `ACTIVE_TASK.json` transitioned to `F1609-PACKAGE171-R8-C6-EXECUTION-QUALIFICATION`.
+
+3. **Package 171-R8 Staged & Once-Only Execution Dispatched (PBS Job 1420188.mmaster02)**:
+   - Generated `M1_C6_PACKAGE171_R8_AUTHORIZATION.json` and `EXECUTION_MANIFEST.json`.
+   - Staged package and runtime closures to cluster scratch `/scratch9/pr21vyci/runs/mode1_c6_package171_r8_c3_0_adaptive_reequilibration` via `stage_package171_r8.py`.
+   - Cluster preflight verified (`datachecks=PASS_BOTH`, 0 active jobs).
+   - Dispatched Candidate `M1_C6_P171_R8_ADAPTIVE_DAMPED` via `Invoke-Mode1Execution.ps1`.
+   - PBS Job **`1420188.mmaster02`** running on `mnode103/1` in `normal_imfdfkmq`. Live telemetry confirms outer iterations actively solving with KKT post-checks passing and active-set anti-expansion holding.
+
 ## 4 November Self-Healing Acceptance Complete & Package 171-R8 Technical Qualification Verified
 
 1. **Self-Healing Supervisor Final Acceptance & Live Governance Reconciled**:

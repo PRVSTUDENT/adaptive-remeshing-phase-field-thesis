@@ -292,7 +292,7 @@ try {
     $instHash = (Get-ControllerTextHash $inst)
     $pendingCp = [ordered]@{
         state = "PENDING"
-        task_id = "F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION"
+        task_id = "F1699-TEST-UNSTARTED-TASK"
         run_id = $activeRunId
         turn = 12
         recovery_count = 0
@@ -333,7 +333,7 @@ try {
     # Case 5.6: Crashed worker in RUNNING state re-arms to PENDING and reaches RESUME_READY
     $crashedCp = [ordered]@{
         state = "RUNNING"
-        task_id = "F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION"
+        task_id = "F1699-TEST-UNSTARTED-TASK"
         run_id = $activeRunId
         turn = 12
         recovery_count = 0
@@ -355,7 +355,7 @@ try {
     # Case 5.7: Interrupted PENDING turn with stale owned_session_fingerprint re-arms cleanly
     $pendingStaleFingerprintCp = [ordered]@{
         state = "PENDING"
-        task_id = "F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION"
+        task_id = "F1699-TEST-UNSTARTED-TASK"
         run_id = $activeRunId
         turn = 12
         recovery_count = 0
@@ -507,6 +507,166 @@ try {
     $taskGov = Get-Content (Join-Path $repoRoot "project_coordination/ACTIVE_TASK.json") -Raw | ConvertFrom-Json
     Assert-Check "Governance maintains unattended_operation_allowed = false" ($taskGov.controller_maintenance.unattended_operation_allowed -eq $false)
     Assert-Check "Governance maintains max_new_pbs_submissions = 0" ($taskGov.max_new_pbs_submissions -eq 0)
+
+    # -------------------------------------------------------------------------
+    # Test Group 9: PENDING Turn Side Effects Audit & Reconciliation (F1608 Defect Repair)
+    # -------------------------------------------------------------------------
+    Write-Host "`n--- Test Group 9: PENDING Turn Side Effects Audit & Reconciliation ---" -ForegroundColor Yellow
+
+    $mockPendingWs = Join-Path $tmpDir "mock_pending_ws"
+    New-Item -ItemType Directory -Path (Join-Path $mockPendingWs "project_coordination/review_dispatch") -Force | Out-Null
+    New-Item -ItemType Directory -Path (Join-Path $mockPendingWs "results/validation") -Force | Out-Null
+    $pendingHpcLedger = Join-Path $mockPendingWs "project_coordination/HPC_JOB_LEDGER.csv"
+    $pendingActiveTask = Join-Path $mockPendingWs "project_coordination/ACTIVE_TASK.json"
+
+    # Base task with no completed operations
+    $basePendingTask = [ordered]@{
+        task_id = "F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION"
+        completed_operations = @()
+        scientific_checkpoint = $null
+        controller_maintenance = [ordered]@{ automatic_restart_allowed = $true; unattended_operation_allowed = $false }
+    }
+    Set-Content -LiteralPath $pendingActiveTask -Value ($basePendingTask | ConvertTo-Json -Depth 5)
+
+    "job_id,job_name,run_dir,node_list,queue_name,submission_timestamp,status,exit_code,classification,manifest_sha256" | Set-Content -LiteralPath $pendingHpcLedger
+    "1400001.mmaster02,OLD_JOB,/scratch,,normal,$oldTime,COMPLETED,0,STANDING_MODE1_V2_ACCEPTED_ONCE,abc" | Add-Content -LiteralPath $pendingHpcLedger
+
+    $testInstHash = (Get-ControllerTextHash "Execute Turn 7 instruction")
+    $pendingTestCp = [ordered]@{
+        state = "PENDING"
+        task_id = "F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION"
+        run_id = "run-pending-test"
+        turn = 7
+        process_id = 0
+        recovery_count = 0
+        started_at = [DateTimeOffset]::UtcNow.AddMinutes(-5).ToString("o")
+        original_instruction_hash = $testInstHash
+        completed_operations = @()
+    }
+
+    # 9.1 Scenario 1: PENDING checkpoint, zero side effects -> genuine pending resume
+    $c9_1 = Classify-ControllerFailure -Workspace $mockPendingWs -PadPath $mockPad -Checkpoint $pendingTestCp
+    Assert-Check "9.1 PENDING checkpoint with zero side effects classified as CLEAN_INTERRUPTED_CHECKPOINT" ($c9_1.category -eq "CLEAN_INTERRUPTED_CHECKPOINT" -and $c9_1.action -eq "RESUME_PENDING_INSTRUCTION" -and $c9_1.recoverable -eq $true)
+
+    # 9.2 Scenario 2: PENDING checkpoint, completed scientific operation in ACTIVE_TASK -> reconcile; do not replay
+    $taskWithSciOp = [ordered]@{
+        task_id = "F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION"
+        completed_operations = @("execute_mode1_package171_r8_c6_coupled_reequilibration")
+        scientific_checkpoint = $null
+        controller_maintenance = [ordered]@{ automatic_restart_allowed = $true; unattended_operation_allowed = $false }
+    }
+    Set-Content -LiteralPath $pendingActiveTask -Value ($taskWithSciOp | ConvertTo-Json -Depth 5)
+    $c9_2 = Classify-ControllerFailure -Workspace $mockPendingWs -PadPath $mockPad -Checkpoint $pendingTestCp
+    Assert-Check "9.2 PENDING checkpoint with completed scientific operation classified as COMPLETED_OPERATION_PENDING_RECONCILIATION" ($c9_2.category -eq "COMPLETED_OPERATION_PENDING_RECONCILIATION" -and $c9_2.action -eq "RECONCILE_COMPLETED_OPERATION" -and $c9_2.recoverable -eq $true)
+
+    # 9.3 Scenario 3: PENDING checkpoint, verified technical-qualification receipt -> preserve receipt and advance lifecycle
+    # Reset active task to base
+    Set-Content -LiteralPath $pendingActiveTask -Value ($basePendingTask | ConvertTo-Json -Depth 5)
+    $receiptPath = Join-Path $mockPendingWs "results/validation/package171_r8_technical_qualification_receipt.json"
+    $validReceiptData = [ordered]@{
+        schema = 1
+        package_id = "mode1_c6_package171_r8_c3_0_adaptive_reequilibration"
+        task_id = "F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION"
+        candidate_job = "M1_C6_P171_R8_ADAPTIVE_DAMPED"
+        overall_status = "PASSED_TECHNICAL_QUALIFICATION"
+    }
+    [IO.File]::WriteAllText($receiptPath, ($validReceiptData | ConvertTo-Json -Depth 5), [Text.UTF8Encoding]::new($false))
+    $c9_3 = Classify-ControllerFailure -Workspace $mockPendingWs -PadPath $mockPad -Checkpoint $pendingTestCp
+    Assert-Check "9.3 PENDING checkpoint with verified receipt classified as COMPLETED_OPERATION_PENDING_RECONCILIATION" ($c9_3.category -eq "COMPLETED_OPERATION_PENDING_RECONCILIATION" -and $c9_3.action -eq "RECONCILE_COMPLETED_OPERATION")
+
+    # Verify reconciliation advances checkpoint to COMPLETED and preserves receipt
+    $reconcileCpFile = Join-Path $mockPad "pending_reconcile_cp.json"
+    Write-ControllerCheckpoint $reconcileCpFile $pendingTestCp
+    $recOpResult = Invoke-SupervisorReconciliationStep -Workspace $mockPendingWs -PadPath $mockPad -Classification $c9_3 -CheckpointPath $reconcileCpFile
+    Assert-Check "9.3 RECONCILE_COMPLETED_OPERATION succeeds" ($recOpResult.success -eq $true)
+    $postRecCp = Read-SupervisorCheckpoint $repoRoot $reconcileCpFile
+    Assert-Check "9.3 Checkpoint state advanced to COMPLETED" ($postRecCp.state -eq "COMPLETED")
+    Assert-Check "9.3 Checkpoint stop_reason is OPERATION_COMPLETED" ($postRecCp.stop_reason -eq "OPERATION_COMPLETED")
+    Assert-Check "9.3 Original instruction hash preserved" ($postRecCp.original_instruction_hash -eq $testInstHash)
+    Assert-Check "9.3 Technical qualification receipt preserved untouched" (Test-Path -LiteralPath $receiptPath)
+
+    # 9.4 Scenario 4: PENDING checkpoint, PBS submission already recorded -> never submit twice
+    Remove-Item -LiteralPath $receiptPath -Force
+    $pbsTime = [DateTimeOffset]::UtcNow.AddMinutes(-2).ToString("o")
+    "1420002.mmaster02,M1_C6_P171_R8_JOB,/scratch,,normal,$pbsTime,SUBMITTED,,STANDING_MODE1_V2_ACCEPTED_ONCE,def" | Add-Content -LiteralPath $pendingHpcLedger
+    $c9_4 = Classify-ControllerFailure -Workspace $mockPendingWs -PadPath $mockPad -Checkpoint $pendingTestCp
+    Assert-Check "9.4 PENDING checkpoint with recorded PBS job classified as INTERRUPTED_TURN_PBS_SUBMITTED (never submit twice)" ($c9_4.category -eq "INTERRUPTED_TURN_PBS_SUBMITTED" -and $c9_4.action -eq "RECONCILE_PARTIAL_EVIDENCE")
+
+    # 9.5 Scenario 5: PENDING checkpoint, unresolved bridge transaction -> preserve transaction without replay
+    "job_id,job_name,run_dir,node_list,queue_name,submission_timestamp,status,exit_code,classification,manifest_sha256" | Set-Content -LiteralPath $pendingHpcLedger
+    $pendingBridgeReq = Join-Path $mockPendingWs "project_coordination/review_dispatch/test_pending.request.json"
+    [IO.File]::WriteAllText($pendingBridgeReq, '{"request_id":"pending_req"}', [Text.UTF8Encoding]::new($false))
+    $c9_5 = Classify-ControllerFailure -Workspace $mockPendingWs -PadPath $mockPad -Checkpoint $pendingTestCp
+    Assert-Check "9.5 PENDING checkpoint with unresolved bridge transaction classified as INTERRUPTED_TURN_BRIDGE_TRANSACTION" ($c9_5.category -eq "INTERRUPTED_TURN_BRIDGE_TRANSACTION" -and $c9_5.action -eq "RECONCILE_BRIDGE_TRANSACTION")
+
+    # 9.6 Scenario 6: Invalid or mismatched receipt -> block
+    Remove-Item -LiteralPath $pendingBridgeReq -Force
+    $invalidReceiptData = [ordered]@{
+        schema = 1
+        package_id = "mode1_c6_package171_r8_c3_0_adaptive_reequilibration"
+        task_id = "F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION"
+        candidate_job = "M1_C6_P171_R8_ADAPTIVE_DAMPED"
+        overall_status = "FAILED_QUALIFICATION_ERRORS"
+    }
+    [IO.File]::WriteAllText($receiptPath, ($invalidReceiptData | ConvertTo-Json -Depth 5), [Text.UTF8Encoding]::new($false))
+    $c9_6 = Classify-ControllerFailure -Workspace $mockPendingWs -PadPath $mockPad -Checkpoint $pendingTestCp
+    Assert-Check "9.6 PENDING checkpoint with invalid receipt status classified as INVALID_RECEIPT_BLOCKED / BLOCK" ($c9_6.category -eq "INVALID_RECEIPT_BLOCKED" -and $c9_6.action -eq "BLOCK" -and $c9_6.recoverable -eq $false)
+
+    # 9.6b Mismatched receipt task_id -> block
+    $mismatchedReceiptData = [ordered]@{
+        schema = 1
+        package_id = "mode1_c6_package171_r8_c3_0_adaptive_reequilibration"
+        task_id = "F9999-WRONG-TASK"
+        candidate_job = "M1_C6_P171_R8_ADAPTIVE_DAMPED"
+        overall_status = "PASSED_TECHNICAL_QUALIFICATION"
+    }
+    [IO.File]::WriteAllText($receiptPath, ($mismatchedReceiptData | ConvertTo-Json -Depth 5), [Text.UTF8Encoding]::new($false))
+    $c9_6b = Classify-ControllerFailure -Workspace $mockPendingWs -PadPath $mockPad -Checkpoint $pendingTestCp
+    Assert-Check "9.6b PENDING checkpoint with mismatched receipt task_id classified as INVALID_RECEIPT_BLOCKED / BLOCK" ($c9_6b.category -eq "INVALID_RECEIPT_BLOCKED" -and $c9_6b.action -eq "BLOCK" -and $c9_6b.recoverable -eq $false)
+
+    # 9.7 Scenario 7: Reconciliation exception -> persist a controlled blocked state
+    Remove-Item -LiteralPath $receiptPath -Force
+    $excPadEnv = Join-Path $tmpDir "exc_pad"
+    New-Item -ItemType Directory -Path $excPadEnv -Force | Out-Null
+    $excCpPath = Join-Path $excPadEnv "controller_turn_checkpoint.json"
+    Write-ControllerCheckpoint $excCpPath $pendingTestCp
+
+    # Lock checkpoint file exclusively so Invoke-SupervisorReconciliationStep encounters an IOException
+    $lockStream = [System.IO.File]::Open($excCpPath, [System.IO.FileMode]::Open, [System.IO.FileAccess]::ReadWrite, [System.IO.FileShare]::None)
+    try {
+        Start-ControllerSupervisedLoop -Workspace $mockPendingWs -Pad $excPadEnv -SinglePass -DryRun
+    } finally {
+        $lockStream.Close()
+    }
+    $excSupState = Read-SupervisorState (Join-Path $excPadEnv "supervisor_recovery_state.json")
+    Assert-Check "9.7 Reconciliation exception caught at supervisor boundary and persists BLOCKED_NEEDS_INTERVENTION" ($excSupState.state -eq "BLOCKED_NEEDS_INTERVENTION")
+    Assert-Check "9.7 Supervisor recorded durable last_error evidence" ($null -ne $excSupState.last_error -and $excSupState.last_error.Length -gt 0)
+
+    # 9.8 Scenario 8: Reproduce the reported F1608 condition and prove clean reconciliation without replay
+    $liveF1608Cp = [ordered]@{
+        state = "PENDING"
+        task_id = "F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION"
+        run_id = $activeRunId
+        turn = 7
+        process_id = 0
+        recovery_count = 1
+        started_at = [DateTimeOffset]::UtcNow.AddHours(-1).ToString("o")
+        original_instruction_hash = "3245eb12ad47819343fd06d9b72096891ca063214a48c02719c81314e06633da"
+    }
+    $f1608Class = Classify-ControllerFailure -Workspace $repoRoot -PadPath $mockPad -Checkpoint $liveF1608Cp
+    Assert-Check "9.8 Reported F1608 condition classified as COMPLETED_OPERATION_PENDING_RECONCILIATION" ($f1608Class.category -eq "COMPLETED_OPERATION_PENDING_RECONCILIATION" -and $f1608Class.action -eq "RECONCILE_COMPLETED_OPERATION")
+    Assert-Check "9.8 F1608 failure classification avoids RESUME_PENDING_INSTRUCTION (no Turn 7 replay)" ($f1608Class.action -ne "RESUME_PENDING_INSTRUCTION")
+
+    # Execute supervisor loop on F1608 checkpoint in DryRun: halts cleanly in COMPLETED without replaying worker
+    $f1608PadEnv = Join-Path $tmpDir "f1608_pad"
+    New-Item -ItemType Directory -Path $f1608PadEnv -Force | Out-Null
+    $f1608CpPath = Join-Path $f1608PadEnv "controller_turn_checkpoint.json"
+    Write-ControllerCheckpoint $f1608CpPath $liveF1608Cp
+    Start-ControllerSupervisedLoop -Workspace $repoRoot -Pad $f1608PadEnv -SinglePass -DryRun
+    $f1608SupState = Read-SupervisorState (Join-Path $f1608PadEnv "supervisor_recovery_state.json")
+    Assert-Check "9.8 Supervised loop cleanly completes F1608 reconciliation with state COMPLETED" ($f1608SupState.state -eq "COMPLETED")
+    $f1608PostCp = Read-SupervisorCheckpoint $repoRoot $f1608CpPath
+    Assert-Check "9.8 F1608 checkpoint transitioned to COMPLETED without process spawn" ($f1608PostCp.state -eq "COMPLETED")
 
     Write-Host "`n==================================================================" -ForegroundColor Cyan
     Write-Host " ALL SUPERVISOR TESTS PASSED: $passedTests / $totalTests" -ForegroundColor Green
