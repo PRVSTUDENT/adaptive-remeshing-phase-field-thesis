@@ -33,14 +33,26 @@ Check $caught 'unregistered profile rejected'
 $tokens=$null;$errors=$null;$ast=[Management.Automation.Language.Parser]::ParseFile("$repo/scripts/controller/Antigravity-Autonomous-Loop.ps1",[ref]$tokens,[ref]$errors)
 & {
  $script:order=[Collections.Generic.List[string]]::new()
- function Invoke-AgyAuthenticationFailover {$script:order.Add('verify')}
- function Set-AndVerifyAgyRunProfileCore {param($Context) $script:order.Add('legacy')}
+ function Invoke-AgyAuthenticationFailover {$script:order.Add('failover')}
+ function Set-AndVerifyAgyRunProfileCore {param($Context) $script:order.Add('core')}
  $node=$ast.Find({param($x)$x -is [Management.Automation.Language.FunctionDefinitionAst] -and $x.Name -eq 'Set-AndVerifyAgyRunProfile'},$true)
  . ([scriptblock]::Create($node.Extent.Text))
  Set-AndVerifyAgyRunProfile -Context STARTUP
- if(($script:order -join ',') -ne 'verify,legacy'){throw 'Legacy refresh preceded bounded verification'}
+ if(($script:order -join ',') -ne 'core'){throw 'Normal verification did not run first'}
 }
-Check $true 'production startup verifies through bounded recovery before legacy refresh'
+Check $true 'production startup verifies current profile before failover'
+
+& {
+ $script:order=[Collections.Generic.List[string]]::new()
+ function Invoke-AgyAuthenticationFailover {$script:order.Add('failover')}
+ $script:failCount = 0
+ function Set-AndVerifyAgyRunProfileCore {param($Context) $script:order.Add('core'); if($script:failCount -eq 0){$script:failCount++; throw 'AGY_CREDENTIAL_EXPIRED'}}
+ $node=$ast.Find({param($x)$x -is [Management.Automation.Language.FunctionDefinitionAst] -and $x.Name -eq 'Set-AndVerifyAgyRunProfile'},$true)
+ . ([scriptblock]::Create($node.Extent.Text))
+ Set-AndVerifyAgyRunProfile -Context STARTUP
+ if(($script:order -join ',') -ne 'core,failover,core'){throw 'Failover not invoked on verified failure'}
+}
+Check $true 'failover invoked only after verified authentication failure'
 "FINAL $n AUTH RECOVERY CHECKS PASS"
 $p=PathForTest;$cp=$p+'.checkpoint';'fixture pending operation'|Set-Content $cp;$hash=(Get-FileHash $cp).Hash
 New-ControllerAuthResumeReservation -CheckpointPath $cp -ExpectedHash $hash -ReservationPath $p -Verify {$true} -AssertOwnerFree {}

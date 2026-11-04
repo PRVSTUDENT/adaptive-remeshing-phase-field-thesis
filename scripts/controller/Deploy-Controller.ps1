@@ -22,6 +22,7 @@ $filesToDeploy = @(
     'Controller-AuthRecovery.ps1',
     'Controller-Supervisor.ps1',
     'Controller-FailureHandoff.ps1',
+    'Controller-SelfHealingSupervisor.ps1',
     'Test-IndependentReviewQualification.ps1',
     'Invoke-IndependentReviewBridge.ps1'
 )

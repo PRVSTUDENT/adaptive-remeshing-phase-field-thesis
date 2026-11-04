@@ -1,3 +1,31 @@
+## 4 November Turn 7 Authentication-State Architectural Repair & Permanent Self-Healing Supervisor Deployed
+
+1. **Root Causes Diagnosed & Eliminated**:
+   - `Antigravity-Autonomous-Loop.ps1`: Unconditional `Invoke-AgyAuthenticationFailover` calls at `STARTUP` and `TURN_START` removed; controller now verifies current intended profile non-destructively first, failing over only upon verified provider authentication failure.
+   - Profile marker / native credential store disagreement reconciled: under background IDE process (`agy.exe`), native Google OAuth token for `account4` is resolved against the saved profile registry via fresh `userinfo` provider verification, safely reconciling `_active.txt` and token cache without clobbering native credentials or cross-account conversation reuse.
+   - In-place repair added in `Set-AndVerifyAgyRunProfileCore` for transient `ID_TOKEN_MISSING` store errors without forcing an invalid profile switch.
+   - Authentication recovery journals made resistant to transient lockout: stale attempts re-evaluated when a profile is newly proven valid while preserving complete attempt history.
+
+2. **Permanent Self-Healing Supervisor (`Controller-SelfHealingSupervisor.ps1`)**:
+   - Implemented persistent, out-of-process supervisor with exclusive mutex lock (`Local\AntigravitySelfHealingSupervisorLock`).
+   - Deterministic failure classification: `TRANSIENT_AUTH_MISMATCH`, `DETERMINISTIC_CODE_DEFECT`, `TRANSIENT_TRANSPORT_ERROR`, `AUTHENTICATION_EXHAUSTED` (safe fail-closed BLOCK), `FOREIGN_SESSION_ACTIVE` (BLOCK), and `CLEAN_INTERRUPTED_CHECKPOINT`.
+   - Structured state progression: `RUNNING` -> `FAILURE_DETECTED` -> `CLASSIFIED` -> `RECOVERY_IN_PROGRESS` -> `VALIDATION` -> `RESUME_READY` -> `RUNNING`.
+   - Circuit breaker enforces maximum 3 self-repair attempts per failure fingerprint before tripping to `BLOCKED_NEEDS_INTERVENTION`.
+   - Automated non-destructive dry-run resumption engine validates checkpoint before process launch.
+
+3. **Comprehensive Regression & Deployment Parity**:
+   - 159 / 159 tests passed cleanly across all unit and regression suites:
+     * `test_controller_self_healing_supervisor.ps1` (18/18 PASS)
+     * `test_controller_multi_turn_auth_lifecycle.ps1` (33/33 PASS)
+     * `test_controller_auth_recovery.ps1` (34/34 PASS)
+     * `test_controller_normal_startup_loopstate.ps1` (17/17 PASS)
+     * `test_controller_startup_fix_regression.ps1` (11/11 PASS)
+     * `test_controller_supervisor.ps1` (12/12 PASS)
+     * `test_controller_task_lifecycle.ps1` (18/18 PASS)
+     * `test_controller_turn354_reconciliation.ps1` (16/16 PASS)
+   - Deployed to `$env:USERPROFILE/OpenClawPAD/` via `Deploy-Controller.ps1` with 100% bitwise SHA-256 parity.
+   - Preserved Turn 7 PENDING checkpoint (SHA-256 `8C780F284BA7E2AE034970D1301624F7E16EBFF083D8E31DCD22BE0726FA2DDF`) and zero-PBS governance under Task F1608 strictly maintained.
+
 ## 4 November Controller Normal-Startup LoopState Defect Repaired & Deployed
 
 1. **Root Cause Resolved**:

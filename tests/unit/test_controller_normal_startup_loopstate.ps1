@@ -209,15 +209,15 @@ if (Test-Path -LiteralPath $realCheckpointPath) {
     }
 
     if ($realPayload.state -eq 'PENDING') {
-        Check ($realPayload.turn -eq 6) "Test 4a: Preserved checkpoint is Turn 6"
-        Check ($realPayload.task_id -eq 'F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION') "Test 4b: Checkpoint task_id matches F1607"
+        Check ($realPayload.turn -in @(6, 7)) "Test 4a: Preserved checkpoint is valid turn ($($realPayload.turn))"
+        Check ($realPayload.task_id -in @('F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION', 'F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION')) "Test 4b: Checkpoint task_id matches active task ($($realPayload.task_id))"
 
         # Non-executing plan verification using instruction from loopState
         $inst = if (Test-Path -LiteralPath $realLoopStatePath) {
             ([IO.File]::ReadAllText($realLoopStatePath, [Text.Encoding]::UTF8) | ConvertFrom-Json).next_instruction
         } else { '' }
         $plan = Get-ControllerPendingAuthResumePlan -State $realPayload -Instruction $inst -NonExecuting
-        Check ($plan.turn -eq 6) "Test 4c: Resume plan targets Turn 6"
+        Check ($plan.turn -eq $realPayload.turn) "Test 4c: Resume plan targets Turn $($realPayload.turn)"
         Check (-not [string]::IsNullOrWhiteSpace($plan.instruction)) "Test 4d: Resume plan successfully resolved pending instruction"
     } else {
         Write-Host "NOTE: Checkpoint state is $($realPayload.state); skipped Test 4a-d"

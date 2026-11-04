@@ -654,6 +654,14 @@ function Set-AndVerifyAgyRunProfileCore {
         } catch {
             $verificationFailure = $_
             if ($Context -in @('STARTUP', 'TURN_START')) {
+                if ($verificationFailure.Exception.Message -match 'source=native-store stage=ID_TOKEN_MISSING') {
+                    try {
+                        Repair-AgyRefreshedNativeCredential -ExpectedBytes $expectedBytes -TokenPath $tokenPath -SkipTokenRefresh -CheckpointPath $controllerCheckpointPath
+                        Assert-AgyCredentialStores -ExpectedBytes $expectedBytes -TokenPath $tokenPath
+                        Write-Host "[PROFILE-GUARD] Verified refreshed native grant with provider and synchronized CLI cache [$Context]."
+                        return
+                    } catch {}
+                }
                 if (Get-Process -Name agy -ErrorAction SilentlyContinue) { throw 'AGY_CREDENTIAL_RESYNC_BUSY: active AGY process prevents profile resynchronization.' }
                 $null = & agy-profile switch $expected -Force *>&1
                 $expectedToken = ConvertTo-AgyCredentialToken $expectedBytes -SourceName saved-profile
@@ -845,16 +853,21 @@ $($verify.Raw)
 
 function Set-AndVerifyAgyRunProfile {
     param([string]$Context)
-    if($Context -in @('STARTUP','TURN_START')){
-        # Recover before the legacy verifier can attempt its own token refresh.
-        $null=Invoke-AgyAuthenticationFailover
+    try {
         Set-AndVerifyAgyRunProfileCore -Context $Context
         return
     }
-    try { Set-AndVerifyAgyRunProfileCore -Context $Context }
     catch {
-        if($Context -notin @('STARTUP','TURN_START','PRE_AGY') -or $_.Exception.Message -notmatch 'AGY_PROVIDER_IDENTITY_UNPROVEN|AGY_CREDENTIAL_EXPIRED|HTTP\s*401'){throw}
-        $null=Invoke-AgyAuthenticationFailover
+        $verificationFailure = $_
+        if ($Context -notin @('STARTUP', 'TURN_START', 'PRE_AGY')) {
+            throw $verificationFailure
+        }
+        $msg = $verificationFailure.Exception.Message
+        if ($msg -match 'AUTH_RECOVERY_LIVE_AGY|Controlled single turn') {
+            throw $verificationFailure
+        }
+        Write-Warning ("[PROFILE-GUARD] Profile verification failed in context '$Context' ($msg); invoking bounded authentication failover...")
+        $null = Invoke-AgyAuthenticationFailover
         Set-AndVerifyAgyRunProfileCore -Context $Context
     }
 }

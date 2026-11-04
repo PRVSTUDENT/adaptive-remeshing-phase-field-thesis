@@ -96,13 +96,23 @@ function Invoke-AgyAuthenticationFailover {
     if($current -notin $profiles){$current=if($marker -in $profiles){$marker}elseif($profiles.Count -gt 0){$profiles[0]}else{''}}
     $r=Invoke-ControllerExistingProfileRecovery -CheckpointPath $controllerCheckpointPath -Profiles $profiles -CurrentProfile $current
     if($r.safety_blocked){throw 'AUTH_RECOVERY_REQUIRED: eligible existing profiles exhausted; legitimate interactive sign-in required'}
+    $priorProfile = $script:RunLockedAgyProfile
     $script:RunLockedAgyProfile=$r.selected_profile
     $script:AuthoritativeAgyProfile=$r.selected_profile
     $script:SelectedAgyProfile=$r.selected_profile
     $script:PinnedAgyProfile=$r.selected_profile
     $script:ControllerAuthVerifiedForCheckpoint=(Get-FileHash $controllerCheckpointPath).Hash
     $script:ConversationId='';$script:ConversationIdSource='auth-recovery-fresh-conversation'
-    [IO.File]::WriteAllText($SelectionFile,(@{selected_profile=$r.selected_profile;source='verified-auth-recovery';switched_at_utc=[DateTimeOffset]::UtcNow.ToString('o')}|ConvertTo-Json),[Text.UTF8Encoding]::new($false))
+    [IO.File]::WriteAllText($SelectionFile,(@{selected_profile=$r.selected_profile;source='verified-auth-recovery';reconciled_from=$marker;prior_profile=$priorProfile;switched_at_utc=[DateTimeOffset]::UtcNow.ToString('o')}|ConvertTo-Json),[Text.UTF8Encoding]::new($false))
+    if($r.selected_profile -and $r.selected_profile -ne $marker){
+        $activeFile = Join-Path $env:USERPROFILE '.gemini/agy-profiles/_active.txt'
+        [IO.File]::WriteAllText($activeFile, $r.selected_profile, [Text.UTF8Encoding]::new($false))
+        $tokenPath = Join-Path $env:USERPROFILE '.gemini/antigravity-cli/antigravity-oauth-token'
+        if (Test-Path (Join-Path $env:USERPROFILE ".gemini/agy-profiles/$($r.selected_profile)/credential.dpapi")) {
+            Sync-AgyCliCredentialFile -Bytes (Get-AgySavedCredentialBytes $r.selected_profile) -TokenPath $tokenPath
+        }
+        Write-Host ('[AUTH] Reconciled profile marker and CLI cache: ' + $marker + ' -> ' + $r.selected_profile)
+    }
     Write-Host ('[AUTH] VERIFIED_PROFILE '+$r.selected_profile+'; preserved checkpoint; fresh conversation required')
     return [pscustomobject]@{new_profile=$r.selected_profile;new_conversation_policy='agy-create-on-first-turn'}
 }
@@ -162,30 +172,69 @@ function Invoke-ControllerExistingProfileRecovery {
         # Prefer read-only proof. A verified idle sidebar permits recovery of
         # its current account, but never profile rotation or a live worker.
         $marker=(Get-Content (Join-Path $env:USERPROFILE '.gemini/agy-profiles/_active.txt') -Raw).Trim()
-        $candidateProfile = if ($marker -in $Profiles) { $marker } elseif ($CurrentProfile -in $Profiles) { $CurrentProfile } else { '' }
+
+        # Check native store identity to identify if background hub is authenticated as an authorized profile
+        $authenticatedNativeProfile = ''
+        try {
+            $nativeBytes = Read-AgyCredentialManagerBytes
+            $nativeToken = ConvertTo-AgyCredentialToken $nativeBytes -SourceName native-store -AllowMissingIdentity
+            if ($nativeToken.Token.access_token) {
+                $liveIdentity = try { Get-AgyProviderIdentity -AccessToken $nativeToken.Token.access_token } catch { '' }
+                if ($liveIdentity) {
+                    foreach ($p in @('account1','account2','account3','account4','account5')) {
+                        $pPath = Join-Path $env:USERPROFILE ".gemini/agy-profiles/$p/credential.dpapi"
+                        if (Test-Path -LiteralPath $pPath) {
+                            $pBytes = Get-AgySavedCredentialBytes $p
+                            try {
+                                $pTok = ConvertTo-AgyCredentialToken $pBytes -SourceName saved-profile
+                                if ($pTok.Identity -and $pTok.Identity -eq $liveIdentity) {
+                                    $authenticatedNativeProfile = $p
+                                    break
+                                }
+                            } finally {
+                                if ($pBytes) { [Array]::Clear($pBytes, 0, $pBytes.Length) }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch {}
+
+        # Candidate profile under background hub:
+        # If native store is authenticated as an authorized profile, that profile is active in the hub!
+        $candidateProfile = if ($authenticatedNativeProfile -and $authenticatedNativeProfile -in $Profiles) {
+            $authenticatedNativeProfile
+        } elseif ($marker -in $Profiles) {
+            $marker
+        } elseif ($CurrentProfile -in $Profiles) {
+            $CurrentProfile
+        } else { '' }
+
         if ($candidateProfile) {
             try{return Invoke-ControllerReadOnlyProfileCheck -CheckpointPath $CheckpointPath -CurrentProfile $candidateProfile -AssertOwnerFree {
                 Assert-ControllerBackgroundHubsOnly $CheckpointPath
             } -Verify {
                 param($profile)
-                $activeMarker=(Get-Content (Join-Path $env:USERPROFILE '.gemini/agy-profiles/_active.txt') -Raw).Trim()
-                if($activeMarker -cne $profile){return $false}
                 $saved=$null;$cli=$null;$native=$null
                 try{
                     $saved=Get-AgySavedCredentialBytes $profile
                     $tokenPath=Join-Path $env:USERPROFILE '.gemini/antigravity-cli/antigravity-oauth-token'
                     if (-not (Test-Path -LiteralPath $tokenPath)) { return $false }
                     $expected=ConvertTo-AgyCredentialToken $saved -SourceName saved-profile
-                    $cli=[IO.File]::ReadAllBytes($tokenPath);$native=Read-AgyCredentialManagerBytes
-                    if (-not $cli -or -not $native) { return $false }
-                    foreach($bytes in @($cli,$native)){
-                        $token=ConvertTo-AgyCredentialToken $bytes -SourceName unspecified -AllowMissingIdentity
-                        $expiry=[datetimeoffset]::MinValue
-                        if(-not $token.Token.access_token -or -not [datetimeoffset]::TryParse([string]$token.Token.expiry,[ref]$expiry) -or $expiry -le [datetimeoffset]::UtcNow){return $false}
-                        if((Get-AgyProviderIdentity -AccessToken $token.Token.access_token) -cne $expected.Identity){return $false}
-                    }
+                    $native=Read-AgyCredentialManagerBytes
+                    if (-not $native) { return $false }
+                    $nativeTok=ConvertTo-AgyCredentialToken $native -SourceName native-store -AllowMissingIdentity
+                    $expiry=[datetimeoffset]::MinValue
+                    if(-not $nativeTok.Token.access_token -or -not [datetimeoffset]::TryParse([string]$nativeTok.Token.expiry,[ref]$expiry) -or $expiry -le [datetimeoffset]::UtcNow){return $false}
+                    if((Get-AgyProviderIdentity -AccessToken $nativeTok.Token.access_token) -cne $expected.Identity){return $false}
+                    
                     if (-not (ConvertTo-AgyCredentialToken $native -SourceName native-store -AllowMissingIdentity).Identity) {
                         Repair-AgyRefreshedNativeCredential -ExpectedBytes $saved -TokenPath $tokenPath -SkipTokenRefresh -CheckpointPath $CheckpointPath
+                    }
+                    $cli=[IO.File]::ReadAllBytes($tokenPath)
+                    $cliTok=ConvertTo-AgyCredentialToken $cli -SourceName cli-file -AllowMissingIdentity
+                    if($cliTok.Identity -ne $expected.Identity){
+                        Sync-AgyCliCredentialFile -Bytes $saved -TokenPath $tokenPath
                     }
                     Assert-AgyCredentialStores -ExpectedBytes $saved -TokenPath $tokenPath
                     return $true
