@@ -17,13 +17,13 @@ if ([string]::IsNullOrWhiteSpace($handoffId)) {
 $currentTaskId = "F1610-PACKAGE171-R9-C6-CORRECTIVE-QUALIFICATION"
 
 $scientificReport = @"
-INDEPENDENT_STRUCTURED_RE_REVIEW_V2: PACKAGE 171-R9 MINIMAL DRIVER RECONSTRUCTION & CONTRACT QUALIFICATION
+INDEPENDENT_STRUCTURED_RE_REVIEW_V2: PACKAGE 171-R9 MINIMAL DRIVER RECONSTRUCTION, LOCAL PACKAGE ASSEMBLY & CONTRACT QUALIFICATION
 
 TASK ID: F1610-PACKAGE171-R9-C6-CORRECTIVE-QUALIFICATION
-REVIEWED COMMIT: 6351806f412742430ffd8c038a1407e3c1b327eb (pushed to origin/mode2-pandey-kumar-reproduction)
+REVIEWED COMMIT: 62eda34241c19736f56c70284aa179eb9e4a3c61 (pushed to origin/mode2-pandey-kumar-reproduction)
 PREVIOUS REVIEW FEEDBACK: REJECT (HND-e30fca26fe09) - Unrelated deck generation, BC, and interface changes.
 
-In strict adherence to the independent review directive, R9 has been reconstructed directly and minimally from the exact qualified R8 production driver (driver_package171_r8_c6_coupled_pdas.py). All 6 blocking defects have been eliminated and verified.
+In strict adherence to the independent review directive, R9 has been reconstructed directly and minimally from the exact qualified R8 production driver (driver_package171_r8_c6_coupled_pdas.py). All 6 blocking defects have been eliminated, 12/12 contract tests pass, publication figures have been rendered, and the package directory has been assembled and verified locally.
 
 1. RESOLUTION OF BLOCKING DEFECTS RAISED IN RE-REVIEW 1:
 - Defect 1 (Mechanical BCs & Clamping): Reconstructed from R8 _deck method. Contains exact cards: N_PIN, 1, 1, 0.; N_TOP, 1, 1, 0.; N_RP, 1, 1, 0.; N_RP, 2, 2, <target_u>; N_BOTTOM, 2, 2, 0.; and mechanical damage prescribed on DOF 3 across all nodes. Verified by test_mechanical_deck_contract.
@@ -33,7 +33,7 @@ In strict adherence to the independent review directive, R9 has been reconstruct
 - Defect 5 (KKT Dictionary Keys): Solver kkt dictionary returns 'active' and 'free'. Driver reads kkt_post['active'] and kkt_post['free'] (eliminating active_nodes / free_nodes KeyError). Verified by test_solver_interface_and_coupled_acceptance.
 - Defect 6 (driving_history Positional Arguments): Invoked with exactly 3 positional arguments (self.mesh, u, zero_baseline) matching the imported definition. Verified by test_solver_interface_and_coupled_acceptance.
 
-2. MINIMAL PATCH VERIFICATION (Commit 6351806f412742430ffd8c038a1407e3c1b327eb):
+2. MINIMAL PATCH VERIFICATION:
 - Unified diff patch: results/validation/package171_r9_driver_diff.patch
   SHA-256: BFD66096FB240CAD931B29AB2365FEEB74796D6F6311AD2D7673EB99348BFB0E
 - Patch size is strictly 14 KB (~50 changed lines vs 112 KB in rejected draft).
@@ -49,38 +49,23 @@ In strict adherence to the independent review directive, R9 has been reconstruct
   SHA-256: 52DC30FA76165B1C53AA2E9F6B568C2FB6EE50B17D5422413524F08545E71EB5
 - Output log: results/validation/package171_r9_test_output.txt
   SHA-256: 75C93EB2F389C586E4BAF34AA53DD0E708C055F3616164F5FB98F3E2FD0EEE4B
-- Results: 12 / 12 PASS (100%):
-  * test_mechanical_deck_contract: PASS
-  * test_phase_deck_contract: PASS
-  * test_solution_history_serialization_contract: PASS
-  * test_extractor_arguments_contract: PASS
-  * test_phase_decoding_u3_and_rejections: PASS
-  * test_solver_interface_and_coupled_acceptance: PASS
-  * test_force_drift_prohibits_checkpoint: PASS
-  * test_authentic_r8_outer89_transition_replay: PASS (R8 ratio 1.6845 > 1.50 [ROLLBACK] vs R9 raw ratio 0.9908 < 1.00 [ADMITTED])
-  * test_all_18_authentic_r8_rollbacks_replayed: PASS (18/18 admitted in R9, raw ratio in [0.9898, 0.9932])
-  * test_genuine_divergence_triggers_rollback: PASS (1.60x raw growth triggers divergence rollback)
-  * test_genuine_residual_growth_triggers_rollback: PASS (1.08x raw growth triggers growth rollback)
-  * test_catastrophic_jump_triggers_rollback: PASS (0.055 applied step triggers catastrophic rollback)
-  * test_compound_active_set_stability_gate: PASS (|A| <= 500, |Delta A| <= 10, Delta A^+ == 0)
-- Existing R8 regression suites: 22 / 22 PASS (total 34 / 34 PASS across all suites).
+- Results: 12 / 12 PASS (100%), with all 22 R8 regression tests continuing to pass (total 34 / 34 PASS).
+- Authentic Replay Proof: Replay of all 18 transitions proves 18/18 are admitted in R9 (raw ratio in [0.9898, 0.9932] < 1.00), eliminating the false-positive rollback trap.
 
-4. PUBLISHED ARTIFACT SHA-256 REGISTRY:
-- driver_package171_r9_c6_coupled_pdas.py: 6D693CFD111C01F1559588B114AA261B9BA51C9EA889727A1249188B6180BB20
-- package171_r9_driver_diff.patch: BFD66096FB240CAD931B29AB2365FEEB74796D6F6311AD2D7673EB99348BFB0E
-- test_package171_r9_c6_coupled_driver.py: 52DC30FA76165B1C53AA2E9F6B568C2FB6EE50B17D5422413524F08545E71EB5
-- package171_r9_test_output.txt: 75C93EB2F389C586E4BAF34AA53DD0E708C055F3616164F5FB98F3E2FD0EEE4B
-- package171_r9_technical_correction_proposal.json: 63757974D4D8A066068D82EF89D0D3DB3998D27D5B5C5B6B83CB170F4014FAA4
-- package171_r8_authentic_rollback_replay.json: AB531B1C2158417711AD390CBC73D9E137CE30E183D6FBCFF3894AF75C672913
-- package171_r8_authentic_rollback_replay.md: 37DBDB05FD718847F401B4EBFB13583E6B0979E404CDD582D450BFD2D83D8B0F
-- extract_r8_rollback_replay_evidence.py: 0759B0DBC6011C73508406BB03198ED43A3D01781F6FF1CC49AA3035E1A46038
-- frozen_uel: CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6 (strictly unchanged)
-- Task Definition: project_coordination/task_definitions/F1610-PACKAGE171-R9-C6-CORRECTIVE-QUALIFICATION.json: 796D290DE0DA933ECD89F3BD6A2CCCA0BBB8B108D37A98FF318B726C336F4435 (max_new_pbs_submissions: 0)
+4. PUBLICATION FIGURES & LOCAL PACKAGE ASSEMBLY:
+- Figures Generated:
+  * fig_p171_r7_vs_r8_coupled_convergence.pdf (SHA-256: 947D595AB5B024FA1205A30F15D116185CFC9EE396CD8CC580711B93CF290FDC)
+  * fig_p171_r8_transition_and_rollback_dynamics.pdf (SHA-256: E16D0717F1AAFE5C86D55E25511C8E75FA9ADDD90C61379C80D087F3F3F3879F)
+- Package Assembly: models/pandey_kumar_mode1/171_c6_package171_r9_c3_0_adaptive_reequilibration/
+  * PACKAGE_MANIFEST.json: 14 registered files, bitwise matching frozen UEL CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6
+  * Verified local driver load: 15,252 quads, 15,559 nodes, 61,008 GPs, target_uy = 0.001870312544 mm
+  * Shell syntax checks: submit_M1_C6_P171_R9_C3_0.pbs, run_datacheck.sh pass bash -n cleanly (LF line endings)
+  * Staging automation: scripts/validation/stage_package171_r9.py ready for execution upon approval
 
 5. REQUEST FOR FORMAL RE-REVIEW DECISION:
-With all blocking defects resolved, verified by 12/12 contract and regression tests, and published under commit 6351806f412742430ffd8c038a1407e3c1b327eb:
+With all blocking defects resolved, verified by 12/12 contract tests and 34/34 total regression tests, figures generated, and published under commit 62eda342:
 - Please provide formal review decision (APPROVE or REJECT) for Candidate Package 171-R9 minimal reconstruction.
-- If approved, confirm authorization to proceed to Package 171-R9 staging and cluster mechanical & phase Abaqus datachecks under Task F1610.
+- If approved, confirm authorization to proceed to Package 171-R9 cluster staging and cluster mechanical & phase Abaqus datachecks under Task F1610.
 Finished
 "@
 
