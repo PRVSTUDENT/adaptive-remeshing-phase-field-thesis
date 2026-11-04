@@ -1,26 +1,26 @@
 {
-    "task_id":  "F1605-PACKAGE171-R7-C6-ADAPTIVE-REEQUILIBRATION",
+    "task_id":  "F1606-MODE1-C6-R7-NONCONVERGENCE-INVESTIGATION",
     "agent":  "gemini-antigravity",
     "status":  "READY_FOR_EXECUTION",
-    "phase":  "Package 171-R7 (Candidate M1_C6_P171_R7_ADAPTIVE_DAMPED) approved by external independent review (Ed25519 signature verified) under Operation execute_mode1_package171_r7_c6_coupled_reequilibration. Registered successor task F1605-PACKAGE171-R7-C6-ADAPTIVE-REEQUILIBRATION authorized for exactly 1 PBS submission of job M1_C6_P171_R7_C3_0 (1 CPU, 16 GB, 8h) on non-coarsened C6 mesh (15,252 CPE4 quads, 15,559 physical nodes) with two-phase safeguarded relaxation (omega_d = 0.5 -> 0.85), node-resolved active-set membership telemetry, 5% residual growth rollback, fail-closed phase decoding, and strict physical acceptance gates.",
-    "gate_status":  "QUALIFIED_EXECUTION_AUTHORIZED",
+    "phase":  "Package 171-R7 (Job 1419873.mmaster02) completed 100 outer iterations on compute node mnode105 (cput=00:48:47, walltime=00:57:03, exit status 1) with coupled nonconvergence: delta_d=8.3084e-3 > 1e-5, delta_u=5.6421e-5 mm > 1e-9 mm, delta_H=378.74 MPa > 1e-4 MPa. Post-relaxation KKT stationarity satisfied (free=2.852e-7 <= 1e-6, dual=1.867e-9 <= 1e-6, comp=1.736e-7 <= 1e-6). Active set contracted by 98.84% (13,803 -> 160 nodes). Stage 2 relaxation (omega_d=0.85) was never activated because symmetric difference |Delta A_k| only reached 4 at outer 100 (threshold <= 2 for 3 consecutive iterations unmet). Registered successor task F1606-MODE1-C6-R7-NONCONVERGENCE-INVESTIGATION for bounded read-only investigation and recalibration of transition criteria.",
+    "gate_status":  "READY_FOR_EVALUATION",
     "predecessor_task":  {
-                             "run_id":  "15fbf6cd-f1ee-4a4c-bc58-f657e7b19191",
+                             "run_id":  "06642f83-a72a-48d0-962e-953f109183bb",
                              "status":  "COMPLETED",
-                             "task_id":  "F1604-PACKAGE171-R7-C6-ADAPTIVE-PREPARATION",
-                             "source_commit":  "5065cda35e0f19f9fdc83f1cbfd23bd75ac83eaa",
-                             "checkpoint_sha256":  "CB28CA82AE88E6C8A219E3032D741904444513800A7BBDE5EA5EAE3014F3F89C"
+                             "task_id":  "F1605-PACKAGE171-R7-C6-ADAPTIVE-REEQUILIBRATION",
+                             "source_commit":  "7b6a5de1bcbd9bab9580f7abdf4a9a854db9ef22",
+                             "checkpoint_sha256":  "59C179A2EBD4C9B65E472B08C291EB6A936D1A9B6E04658D9272C267DF6BC270"
                          },
     "registration":  {
-                         "sha256":  "18EED8842709F33F7D9BFA200B51DF43F9647D0B1170BF90555B55D7998BBD6D",
+                         "sha256":  "B83D0446472442D05C65186958530B2887BA36726D53613CA04281097D67011B",
                          "schema":  1,
-                         "definition":  "project_coordination/task_definitions/F1605-PACKAGE171-R7-C6-ADAPTIVE-REEQUILIBRATION.json",
+                         "definition":  "project_coordination/task_definitions/F1606-MODE1-C6-R7-NONCONVERGENCE-INVESTIGATION.json",
                          "registered_by":  "gemini-antigravity",
-                         "registered_at":  "2026-11-03T21:10:00+01:00"
+                         "registered_at":  "2026-11-04T06:25:00+01:00"
                      },
     "scientific_checkpoint_required":  true,
     "scientific_operation":  "",
-    "scientific_operation_id":  "execute_mode1_package171_r7_c6_coupled_reequilibration",
+    "scientific_operation_id":  "research_preparation",
     "completed_operations":  [
                                  "mapped_frozen_history_lower_bound_kkt_probe",
                                  "mapped_mechanical_history_call_order_probe",
@@ -37,9 +37,11 @@
                                  "evaluate_mode1_package148_state_transfer_r7",
                                  "evaluate_mode1_package148_state_transfer_r8",
                                  "execute_mode1_package157_c1_2_r4_adaptive_continuation",
-                                 "execute_mode1_package158_c2_0_r5_re_equilibration"
+                                 "execute_mode1_package158_c2_0_r5_re_equilibration",
+                                 "execute_mode1_package171_r7_c6_coupled_reequilibration"
                              ],
     "completed_pbs_job_ids":  [
+                                  "1419873.mmaster02",
                                   "1419807.mmaster02",
                                   "1419643.mmaster02",
                                   "1419604.mmaster02",
@@ -249,12 +251,12 @@
                                   "1419375.mmaster02"
                               ],
     "active_pbs_job_ids":  [
-                               "1419873.mmaster02"
+
                            ],
     "dependent_pbs_job_ids":  [
 
                               ],
-    "pbs_status_note":  "Job 1419873.mmaster02 actively running on normal_imfdfkmq (1 CPU, 16 GB, 8h) executing Package 171-R7 Stage C3-0 coupled PDAS re-equilibration with two-phase safeguarded damping (omega_d = 0.5 -> 0.85).",
+    "pbs_status_note":  "Job 1419873.mmaster02 completed 100 outer iterations with terminal Exit 1 on mnode105; nonconvergence evaluated and archived.",
     "referenced_pbs_job_ids":  [
                                    "1419873.mmaster02",
                                    "1419807.mmaster02",
@@ -266,18 +268,18 @@
                                    "1419485.mmaster02"
                                ],
     "frozen_uel_sha256":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-    "max_new_pbs_submissions":  1,
+    "max_new_pbs_submissions":  0,
     "lifecycle":  {
-                      "scientific_execution_started":  true,
+                      "scientific_execution_started":  false,
                       "predecessor_replay_allowed":  false,
                       "state":  "ACTIVE"
                   },
     "preserved_predecessor":  {
-                                  "task_id":  "F1604-PACKAGE171-R7-C6-ADAPTIVE-PREPARATION",
+                                  "task_id":  "F1605-PACKAGE171-R7-C6-ADAPTIVE-REEQUILIBRATION",
                                   "status":  "COMPLETED",
-                                  "scientific_acceptance":  "EVALUATED_INDEPENDENT_REVIEW_APPROVED",
-                                  "artifact":  "results/validation/preparation-15fbf6cd-f1ee-4a4c-bc58-f657e7b19191.json",
-                                  "sha256":  "CB28CA82AE88E6C8A219E3032D741904444513800A7BBDE5EA5EAE3014F3F89C"
+                                  "scientific_acceptance":  "FAIL_COUPLED_NONCONVERGENCE",
+                                  "artifact":  "results/validation/preparation-06642f83-a72a-48d0-962e-953f109183bb.json",
+                                  "sha256":  "59C179A2EBD4C9B65E472B08C291EB6A936D1A9B6E04658D9272C267DF6BC270"
                               },
     "controller_maintenance":  {
                                    "status":  "REPAIRED_DEPLOYED__TURN17_MONITORING_RECONCILED",
@@ -286,15 +288,15 @@
                                    "monitoring_closeout_verified":  false
                                },
     "scientific_acceptance":  "NOT_YET_EVALUATED",
-    "last_step_status":  "JOB_SUBMITTED_TO_PBS",
-    "last_updated":  "2026-11-03T21:17:00+01:00",
-    "next_safe_action":  "Monitor running PBS job 1419873.mmaster02 non-invasively; evaluate coupled physical convergence upon solver termination.",
+    "last_step_status":  "TERMINAL_EVALUATION_COMPLETED",
+    "last_updated":  "2026-11-04T06:25:00+01:00",
+    "next_safe_action":  "Perform bounded numerical diagnosis of active-set stabilization threshold and recalibrate for R8 candidate.",
     "scientific_checkpoint":  {
                                   "kind":  "PREPARATION_CHECKPOINT",
                                   "operation":  "research_preparation",
                                   "exit_code":  0,
-                                  "artifact":  "results/validation/preparation-15fbf6cd-f1ee-4a4c-bc58-f657e7b19191.json",
-                                  "sha256":  "CB28CA82AE88E6C8A219E3032D741904444513800A7BBDE5EA5EAE3014F3F89C",
-                                  "created_at":  "2026-11-03T21:10:00.0000000+01:00"
+                                  "artifact":  "results/validation/preparation-06642f83-a72a-48d0-962e-953f109183bb.json",
+                                  "sha256":  "59C179A2EBD4C9B65E472B08C291EB6A936D1A9B6E04658D9272C267DF6BC270",
+                                  "created_at":  "2026-11-04T06:25:00.0000000+01:00"
                               }
 }

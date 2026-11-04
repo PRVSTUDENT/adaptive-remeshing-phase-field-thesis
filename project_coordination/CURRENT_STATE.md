@@ -1,3 +1,28 @@
+## 4 November Package 171-R7 Terminal Coupled Nonconvergence Evaluated: Job 1419873.mmaster02
+
+1. **Job 1419873.mmaster02 Terminal Accounting & Coupled Convergence Evaluation**:
+   - Objective: Terminal evaluation of Package 171-R7 Stage C3-0 coupled PDAS re-equilibration with two-phase safeguarded relaxation ($\omega_d = 0.5 \to 0.85$) on non-coarsened C6 mesh (15,252 CPE4 quads, 15,559 physical nodes + RP 999999, 59 duplicate slit pairs, 30,504 dual UEL elements) at target load $u_y = 0.001870312544\text{ mm}$ under Task `F1605-PACKAGE171-R7-C6-ADAPTIVE-REEQUILIBRATION`.
+   - Scheduler Accounting: Executed on compute node `mnode105/1` in queue `normal_imfdfkmq`. Terminal Exit status 1, Walltime 00:57:03, CPUT 00:48:47, Memory 1,921,228 KB.
+   - 100 Outer Iterations Completed: Terminal solver crash at Outer 100 (`RuntimeError: Package 171-R7 C6 coupled re-equilibration failed to converge within 100 iterations`).
+   - Terminal Residuals:
+     * $\Delta d = 8.3084 \times 10^{-3} > 10^{-5}$ (**FAIL**, 830.8x over tolerance).
+     * $\Delta u = 5.6421 \times 10^{-5}\text{ mm} > 10^{-9}\text{ mm}$ (**FAIL**, 56,421x over tolerance).
+     * $\Delta H = 378.74\text{ MPa} > 10^{-4}\text{ MPa}$ (**FAIL**, 3,787,355x over tolerance).
+   - KKT Error Compliance: Free residual ($2.852 \times 10^{-7} \le 10^{-6}$), dual bound ($1.867 \times 10^{-9} \le 10^{-6}$), and complementarity ($1.736 \times 10^{-7} \le 10^{-6}$) all strictly **PASS**.
+   - Physical Acceptance: **FAIL_COUPLED_NONCONVERGENCE**. Accepted C6 Checkpoint: **NONE**.
+
+2. **Active-Set Membership Trajectory & Stage 2 Relaxation Inactivity**:
+   - Monotonic Active-Set Contraction: Contracted by 98.84% from 13,803 active nodes at Outer 1 down to 160 active nodes at Outer 100. Over the final 20 iterations (Outer 81–100), 174 nodes were removed with strictly 0 added nodes (zero boundary chattering).
+   - Stage 2 Relaxation Gate Failure: The transition criterion required measured symmetric difference $|\Delta A_k| = |A_k \setminus A_{k-1}| + |A_{k-1} \setminus A_k| \le 2$ for 3 consecutive iterations. While $|\Delta A_k|$ decreased monotonically from 130 at Outer 50 to 12 at Outer 80, 8 at Outer 88, 5 at Outer 92, and 4 at Outer 100, it never reached $\le 2$.
+   - Consequence: Stage 2 relaxation ($\omega_d = 0.85$) was **never activated** (`stage_2_reached = false`, `transition_count = 0`, `rollback_count = 0`). The solver remained in Stage 1 with uniform damping $\omega_d = 0.50$ across all 100 iterations.
+   - R6 vs R7 Equivalence: Because Stage 2 never engaged, R7 executed with identical dynamics to R6, arriving at the exact same 160-node crack-tip plateau and identical terminal residuals.
+   - Scientific Finding: The criterion $|\Delta A_k| \le 2$ for 3 consecutive iterations was overly restrictive for the 100-iteration budget.
+
+3. **Task Closeout & Registration of Successor F1606**:
+   - Task `F1605-PACKAGE171-R7-C6-ADAPTIVE-REEQUILIBRATION` closed in `TASK_LEDGER.csv` with status `completed` and classification `EVALUATED_FAILED_COUPLED_NONCONVERGENCE`.
+   - Successor Task Registered: `F1606-MODE1-C6-R7-NONCONVERGENCE-INVESTIGATION` in `project_coordination/task_definitions/F1606-MODE1-C6-R7-NONCONVERGENCE-INVESTIGATION.json` (SHA-256 `B83D0446472442D05C65186958530B2887BA36726D53613CA04281097D67011B`).
+   - Governance: 0 PBS jobs authorized (`max_new_pbs_submissions: 0`), read-only scientific evaluation scope (`id = research_preparation`, `mode = READ_ONLY_SCIENTIFIC_EVALUATION`).
+
 ## 3 November Package 171-R7 Independent Review Approved & Job 1419873.mmaster02 Dispatched to PBS
 
 1. **Package 171-R7 Independent Scientific Review Approved**:

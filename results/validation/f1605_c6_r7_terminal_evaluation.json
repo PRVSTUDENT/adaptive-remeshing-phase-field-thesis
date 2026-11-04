@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "pbs_job_id": "1419873.mmaster02",
+  "job_name": "M1_C6_P171_R7_C3_0",
+  "classification": "NUMERICALLY_NONCONVERGED",
+  "scientific_acceptance": "FAIL_COUPLED_NONCONVERGENCE",
+  "accepted_checkpoint": "NONE",
+  "outer_iterations_completed": 100,
+  "terminal_delta_d": 0.008308360875374343,
+  "terminal_delta_u_mm": 5.642068572342396e-05,
+  "terminal_delta_h_MPa": 378.7354716594414,
+  "terminal_kkt_free_error": 2.8516789340133494e-07,
+  "terminal_kkt_dual_error": 1.86726762663041e-09,
+  "terminal_active_nodes": 160,
+  "stage_2_reached": false,
+  "transition_count": 0,
+  "rollback_count": 0,
+  "failure_mechanism": "STAGE_2_NEVER_ACTIVATED_STABILIZATION_CRITERION_UNMET",
+  "next_action": "F1606 read-only diagnosis and successor qualification"
+}

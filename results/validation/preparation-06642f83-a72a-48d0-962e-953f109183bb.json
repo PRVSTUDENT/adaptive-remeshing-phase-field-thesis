@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "status": "PREPARATION_COMPLETE",
+  "turn_id": "06642f83-a72a-48d0-962e-953f109183bb",
+  "task_id": "F1605-PACKAGE171-R7-C6-ADAPTIVE-REEQUILIBRATION",
+  "operation": "research_preparation",
+  "qualified_operation": "",
+  "qualified_operation_id": "research_preparation",
+  "next_operation": "Advance to F1606 bounded R7 nonconvergence investigation on cluster",
+  "finding": "Completed F1605 terminal R7 diagnosis and reconciliation for PBS Job 1419873.mmaster02. Coupled nonconvergence confirmed at Outer 100 (delta_d=8.3084e-3, delta_u=5.6421e-5 mm, delta_H=378.74 MPa; KKT free=2.852e-7, dual=1.867e-9, comp=1.736e-7). Active set contracted monotonically from 13,803 to 160 nodes (|Delta A|=4 at outer 100). Stage 2 relaxation (omega_d=0.85) was never activated because the stabilization criterion (|Delta A_k| <= 2 for 3 iterations) was not met. Formulated and registered distinct successor task F1606-MODE1-C6-R7-NONCONVERGENCE-INVESTIGATION to calibrate the active-set transition criterion.",
+  "evidence_sources": {
+    "results/validation/c6_r7_execution_reconciliation_and_acceptance.json": "F7C208726B769374488998E662F9FFA033D9F7379BAE6545D546DE1C7D0AA17A",
+    "results/validation/f1605_c6_r7_terminal_evaluation.json": "5539C4A4C5D1931BB6452E0DA0A2B2C44CE2409F4A4E51BFADF0C5381741A7C8",
+    "results/validation/r7_active_set_stabilization_analysis.json": "46D8AC09F9F30F29CAC3B015EF6A2E4FCA7745A32D6B733245173BB01B3ABD8A",
+    "scripts/validation/evaluate_package171_r7_results.py": "A2BFF96612819938A5EAF409A5273B2A6DA6F2A7E766AFE0DDA5DD55B680D5AF",
+    "scripts/validation/analyze_r7_active_set_stabilization.py": "D82CD2C23501CFDB57E8C89EF1EFB27D00DC9BF36AA23454449D10C4E0D2BB65",
+    "tests/unit/test_f1606_r7_terminal_evaluation.py": "7A3FE10B0304738441E896892022FBED186E2F89726034645E7F5633654AAFB7",
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/evidence/1419873.mmaster02/re_equilibration_summary.json": "D95ED91B2553BDA6512AF50D783FFEA07751C9FB2C30F7CCD1B8BDEA54FAFD37",
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/evidence/1419873.mmaster02/live_iteration_telemetry.json": "96488DAEE9C8E6DB41125B52A9A85190BC8F75BFF278A6F8BCA3DAAE24185301",
+    "models/pandey_kumar_mode1/171_c6_package171_r7_c3_0_adaptive_reequilibration/evidence/1419873.mmaster02/pbs_execution.log": "1DFD946607544ACF48677294083415D90B26A353117591E9A0E01E8C4363198C"
+  },
+  "registered_paths": [
+    "results/validation/c6_r7_execution_reconciliation_and_acceptance.json",
+    "results/validation/f1605_c6_r7_terminal_evaluation.json",
+    "results/validation/r7_active_set_stabilization_analysis.json",
+    "scripts/validation/evaluate_package171_r7_results.py",
+    "scripts/validation/analyze_r7_active_set_stabilization.py",
+    "tests/unit/test_f1606_r7_terminal_evaluation.py"
+  ],
+  "verification_passed": true,
+  "pbs_job_id": "1419873.mmaster02",
+  "pbs_job_state": "TERMINAL_FAILED_COUPLED_NONCONVERGENCE",
+  "scientific_acceptance": "FAIL_COUPLED_NONCONVERGENCE"
+}

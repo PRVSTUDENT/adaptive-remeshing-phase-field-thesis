@@ -1,18 +1,17 @@
 {
     "active":  false,
     "agent":  "gemini-antigravity",
-    "task_id":  "F1605-PACKAGE171-R7-C6-ADAPTIVE-REEQUILIBRATION",
-    "starting_commit":  "5065cda35e0f19f9fdc83f1cbfd23bd75ac83eaa",
-    "claimed_at":  "2026-11-03T20:50:00.0000000+01:00",
-    "last_updated":  "2026-11-03T21:20:00.0000000+01:00",
-    "last_released":  "2026-11-03T21:20:00.0000000+01:00",
-    "controller_run_id":  "15fbf6cd-f1ee-4a4c-bc58-f657e7b19191",
-    "session_report":  "project_coordination/sessions/2026-11-03_gemini-antigravity_F1597_15fbf6cd-f1ee-4a4c-bc58-f657e7b19191.md",
+    "task_id":  "F1606-MODE1-C6-R7-NONCONVERGENCE-INVESTIGATION",
+    "starting_commit":  "7b6a5de1bcbd9bab9580f7abdf4a9a854db9ef22",
+    "claimed_at":  "2026-11-04T06:15:00.0000000+01:00",
+    "last_updated":  "2026-11-04T06:28:00.0000000+01:00",
+    "last_released":  "2026-11-04T06:28:00.0000000+01:00",
+    "controller_run_id":  "06642f83-a72a-48d0-962e-953f109183bb",
+    "session_report":  "project_coordination/sessions/2026-11-04_gemini-antigravity_F1605_06642f83-a72a-48d0-962e-953f109183bb.md",
     "allowed_write_scope":  [
-                                "project_coordination/sessions/2026-11-03_gemini-antigravity_F1597_15fbf6cd-f1ee-4a4c-bc58-f657e7b19191.md",
-                                "project_coordination/controller/turn-15fbf6cd-f1ee-4a4c-bc58-f657e7b19191.json",
-                                "results/validation/mode1_f1597/15fbf6cd-f1ee-4a4c-bc58-f657e7b19191.json",
-                                "results/validation/preparation-15fbf6cd-f1ee-4a4c-bc58-f657e7b19191.json",
+                                "project_coordination/sessions/2026-11-04_gemini-antigravity_F1605_06642f83-a72a-48d0-962e-953f109183bb.md",
+                                "project_coordination/controller/turn-06642f83-a72a-48d0-962e-953f109183bb.json",
+                                "results/validation/mode1_f1597/*",
                                 "results/validation/*",
                                 "scripts/validation/*",
                                 "tests/unit/*",
@@ -21,6 +20,7 @@
                                 "project_coordination/ACTIVE_TASK.json",
                                 "project_coordination/CURRENT_STATE.md",
                                 "project_coordination/TASK_LEDGER.csv",
+                                "project_coordination/HPC_JOB_LEDGER.csv",
                                 "project_coordination/ARTIFACT_REGISTRY.csv"
                             ]
 }
