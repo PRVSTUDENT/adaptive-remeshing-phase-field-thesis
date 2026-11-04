@@ -37,7 +37,25 @@
 
 ---
 
-## 3. Bridge State & Current Qualification Status
+## 3. Publication Figures & Local Package Assembly (Commit ce3f8970)
+
+- **Publication-Quality Figures Generated:**
+  - `results/figures/mode1_package171/fig_p171_r7_vs_r8_coupled_convergence.pdf` (SHA-256 `947D595AB5B024FA1205A30F15D116185CFC9EE396CD8CC580711B93CF290FDC`) and `.png`: 4-panel comparison of damage, displacement, history, and active-set cardinality contraction.
+  - `results/figures/mode1_package171/fig_p171_r8_transition_and_rollback_dynamics.pdf` (SHA-256 `E16D0717F1AAFE5C86D55E25511C8E75FA9ADDD90C61379C80D087F3F3F3879F`) and `.png`: 4-panel analysis of stabilization ($k \geq 50$), 18-transition relaxation trapping, ratio contrast (R8 relaxed $1.685 > 1.50$ vs R9 raw $0.991 < 1.00$), and KKT admissibility ($< 10^{-6}$).
+  - All 4 artifacts registered in `project_coordination/ARTIFACT_REGISTRY.csv`.
+
+- **Package 171-R9 Assembled Locally:**
+  - Location: `models/pandey_kumar_mode1/171_c6_package171_r9_c3_0_adaptive_reequilibration`
+  - Invariants preserved: CPE4 mesh (15,252 elements, 15,559 nodes), transferred state, initial conditions solution, boundary cards.
+  - Frozen UEL hash `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` bitwise verified.
+  - Manifest generated: `PACKAGE_MANIFEST.json` with 14 registered files.
+  - Driver verification: `Package171R9C6PDASDriver` initialized and loaded authentic transferred state cleanly (15,252 quads, 15,559 nodes, 61,008 GPs, $u_y = 0.001870312544$ mm).
+  - Shell scripts verified: `submit_M1_C6_P171_R9_C3_0.pbs`, `run_datacheck.sh`, and `job_notifications.sh` pass `bash -n` syntax check cleanly with LF line endings.
+  - Staging automation: `scripts/validation/stage_package171_r9.py` verified and ready for cluster deployment upon review approval.
+
+---
+
+## 4. Bridge State & Current Qualification Status
 
 - **Handoff ID:** `HND-1118e52d02be`
 - **Bridge File:** `C:\Users\pruth\OpenClawPAD\ChatGPTBridge\bridge_request.ready` (12,549 chars) staged and intact on disk.
