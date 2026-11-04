@@ -1,3 +1,36 @@
+## 4 November Self-Healing Supervisor Safety Gaps Resolved & Controlled Live Crash-and-Resume Test Verified
+
+1. **Safety Gaps Resolved & Hardened**:
+   - **Gap 1 (Authentication Fail-Closed)**: `Classify-ControllerFailure` gives absolute precedence to genuine credential exhaustion (`HTTP 401`, `invalid_grant`, `interactive sign-in required`, `AUTHENTICATION_FAILED`, `profiles exhausted`), immediately failing closed to `AUTHENTICATION_EXHAUSTED` / `BLOCK` (`recoverable: false`) and halting supervisor in `BLOCKED_NEEDS_INTERVENTION`.
+   - **Gap 2 (Cryptographic Integrity Validation)**: `Read-SupervisorCheckpoint` strictly validates checkpoint schema (`schema: 1`) and payload cryptographic hash (`Get-ControllerTextHash($envelope.payload) -ceq $envelope.sha256`). Any tampering, truncation, or envelope corruption flags `is_corrupted = true` and classifies as `CORRUPTED_CHECKPOINT` / `BLOCK` (`recoverable: false`).
+   - **Gap 3 (Stale PID Protection & Governed Resumption)**: `Test-IsControllerWorkerProcess` verifies process existence, process name (`powershell`, `pwsh`, `agy`), and process start time against expected turn minimum start time, rejecting stale or recycled PIDs. Active workers return `WORKER_STILL_ACTIVE` / `WAIT_FOR_WORKER`. Crashed workers are governed by `controller_maintenance.automatic_restart_allowed` in `ACTIVE_TASK.json`: if false, returns `AUTOMATIC_RESTART_RESTRICTED` / `BLOCK`; if true under supervised scope, returns `CRASHED_WORKER_RESUMPTION` (`recoverable: true`, action: `RESUME_PENDING_INSTRUCTION`).
+   - **Re-Arming Hardening**: Re-arming a crashed worker checkpoint to `PENDING` cleanly clears `owned_session_fingerprint`, `conversation_id`, and `next_instruction`, sets `state = 'PENDING'`, `process_id = 0`, increments `recovery_count`, and releases orphaned session locks.
+
+2. **Comprehensive Regression Coverage**:
+   - 184 / 184 tests passed cleanly across all 8 controller regression test suites:
+     * `test_controller_self_healing_supervisor.ps1` (**43/43 PASS**, covering Gaps 1, 2, 3, circuit breaker, clean pending, re-arming, lifecycle, and binary checks)
+     * `test_controller_multi_turn_auth_lifecycle.ps1` (**33/33 PASS**)
+     * `test_controller_auth_recovery.ps1` (**34/34 PASS**)
+     * `test_controller_normal_startup_loopstate.ps1` (**17/17 PASS**)
+     * `test_controller_startup_fix_regression.ps1` (**11/11 PASS**)
+     * `test_controller_supervisor.ps1` (**12/12 PASS**)
+     * `test_controller_task_lifecycle.ps1` (**18/18 PASS**)
+     * `test_controller_turn354_reconciliation.ps1` (**16/16 PASS**)
+   - Deployed all canonical scripts to `$env:USERPROFILE/OpenClawPAD/` via `Deploy-Controller.ps1` with 100% bitwise SHA-256 parity.
+
+3. **Controlled Live Crash-and-Resume Test Verified**:
+   - Pre-Crash Supervisor PID: `60744`
+   - Worker PID 1: `64084` (`powershell.exe` `50948`, `agy.exe` `20604`)
+   - Pre-Crash Running Checkpoint SHA-256: `98A53A5FE507D586F208A33CBA7DBAD702F37F90A1D3A90E374A2559E0FDBF6E`
+   - Abrupt worker crash simulated (processes terminated).
+   - Resumption Supervisor PID: `68136`
+   - Supervisor classified dead worker as `CRASHED_WORKER_RESUMPTION`, re-armed checkpoint cleanly to `PENDING` (`process_id: 0`, `owned_session_fingerprint: ""`, `recovery_count: 1`, Checkpoint SHA-256 `7985732C2DEF50C0C8C1FA3D04DDD1DD9E195CD4DE10286607D7126A17D88E70`).
+   - Supervisor verified resume plan without duplication: `Get-ControllerPendingAuthResumePlan` verified exact Turn 7 instruction hash `3245eb12ad47819343fd06d9b72096891ca063214a48c02719c81314e06633da` (`Plan Turn: 7`).
+   - Resumed Worker PID 2: `66480` (`agy.exe` PID `56032`) spawned under Run ID `eafbcb25-94a8-4e65-b01f-66314e00e34c`.
+   - Resumed Checkpoint: State `RUNNING`, Turn `7`, Process ID `56032`, SHA-256 `D8D9D279652527861EDDC7A7FD90653926FE017BBC2BEB7F80F558DB9C2AE654`.
+   - Resumed Turn 7 claimed session in `ACTIVE_SESSION.json`, verified Bootstrap (9/9 ordered sources), and is actively executing scientific implementation for Candidate R8 under F1608 in conversation `3375ca7d-0f45-4423-bec4-ec55c1cd9c8c`.
+   - Governance strictly preserved: `max_new_pbs_submissions: 0`, `unattended_operation_allowed: false`.
+
 ## 4 November Turn 7 Authentication-State Architectural Repair & Permanent Self-Healing Supervisor Deployed
 
 1. **Root Causes Diagnosed & Eliminated**:

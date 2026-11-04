@@ -28,16 +28,45 @@ function Get-SupervisorMutex {
     return [pscustomobject]@{ Mutex = $mutex; CreatedNew = $createdNew }
 }
 
+function Test-IsControllerWorkerProcess {
+    param(
+        [int]$ProcessId,
+        [datetimeoffset]$ExpectedMinStartTime = [datetimeoffset]::MinValue
+    )
+    if ($ProcessId -le 0) { return $false }
+    $proc = Get-Process -Id $ProcessId -ErrorAction SilentlyContinue
+    if (-not $proc -or $proc.HasExited) { return $false }
+
+    # Process must be a PowerShell interpreter or Antigravity research worker
+    if ($proc.ProcessName -notin @('powershell', 'pwsh', 'agy')) { return $false }
+
+    # If an expected minimum start time is provided, verify process was not started long before
+    if ($ExpectedMinStartTime -gt [datetimeoffset]::MinValue) {
+        try {
+            $pStart = [datetimeoffset]$proc.StartTime
+            if ($pStart -lt $ExpectedMinStartTime.AddMinutes(-5)) {
+                # Process was started long before expected turn; stale recycled PID
+                return $false
+            }
+        } catch {}
+    }
+    return $true
+}
+
 function Read-SupervisorCheckpoint([string]$Workspace, [string]$Path) {
     if (-not (Test-Path -LiteralPath $Path)) { return $null }
     try {
         . (Join-Path $Workspace "scripts/controller/Controller-Recovery.ps1")
         return (Read-ControllerCheckpoint $Path)
     } catch {
-        try {
-            return (Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json)
-        } catch {
-            return $null
+        # Corrupted checkpoint envelope or invalid state fields MUST NOT be bypassed.
+        return [pscustomobject]@{
+            is_corrupted = $true
+            error = $_.Exception.Message
+            path = $Path
+            state = "CORRUPTED"
+            process_id = 0
+            run_id = ""
         }
     }
 }
@@ -81,7 +110,7 @@ function Classify-ControllerFailure {
         fingerprint = ""
     }
 
-    # 1. Inspect checkpoint state
+    # 1. Inspect checkpoint state & corruption
     if (-not $Checkpoint) {
         $classification.category = "MISSING_CHECKPOINT"
         $classification.reason = "No controller checkpoint available for evaluation."
@@ -89,7 +118,32 @@ function Classify-ControllerFailure {
         return [pscustomobject]$classification
     }
 
-    # 2. Check for active/foreign repository session ownership
+    if ($Checkpoint.is_corrupted) {
+        $classification.category = "CORRUPTED_CHECKPOINT"
+        $classification.recoverable = $false
+        $classification.action = "BLOCK"
+        $classification.reason = "Checkpoint envelope corrupted or failed cryptographic verification: $($Checkpoint.error)"
+        $classification.fingerprint = "CHECKPOINT_CORRUPTION"
+        return [pscustomobject]$classification
+    }
+
+    # 2. Check worker PID state (Stale PID vs Active Worker)
+    $workerAlive = $false
+    if ($Checkpoint.process_id -gt 0) {
+        $turnStartedAt = [datetimeoffset]::MinValue
+        if ($Checkpoint.started_at) { [datetimeoffset]::TryParse([string]$Checkpoint.started_at, [ref]$turnStartedAt) | Out-Null }
+        $workerAlive = Test-IsControllerWorkerProcess -ProcessId $Checkpoint.process_id -ExpectedMinStartTime $turnStartedAt
+        if ($workerAlive) {
+            $classification.category = "WORKER_STILL_ACTIVE"
+            $classification.recoverable = $false
+            $classification.action = "WAIT_FOR_WORKER"
+            $classification.reason = "Worker process (PID $($Checkpoint.process_id)) is still actively executing."
+            $classification.fingerprint = "WORKER_ACTIVE"
+            return [pscustomobject]$classification
+        }
+    }
+
+    # 3. Check for active/foreign repository session ownership
     $sessionFile = Join-Path $Workspace "project_coordination/ACTIVE_SESSION.json"
     if (Test-Path -LiteralPath $sessionFile) {
         try {
@@ -103,25 +157,42 @@ function Classify-ControllerFailure {
         } catch {}
     }
 
-    # 3. Read failure packet error if available
-    $errorText = ""
-    if ($FailurePacketDir -and (Test-Path -LiteralPath (Join-Path $FailurePacketDir "packet.json"))) {
+    # 4. Check automatic-restart restriction from ACTIVE_TASK.json governance
+    $activeTaskFile = Join-Path $Workspace "project_coordination/ACTIVE_TASK.json"
+    $automaticRestartAllowed = $false
+    if (Test-Path -LiteralPath $activeTaskFile) {
         try {
-            $packet = Get-Content -LiteralPath (Join-Path $FailurePacketDir "packet.json") -Raw | ConvertFrom-Json
-            $errorText = [string]$packet.error
+            $taskData = Get-Content -LiteralPath $activeTaskFile -Raw | ConvertFrom-Json
+            if ($taskData.controller_maintenance -and $null -ne $taskData.controller_maintenance.automatic_restart_allowed) {
+                $automaticRestartAllowed = [bool]$taskData.controller_maintenance.automatic_restart_allowed
+            }
         } catch {}
+    }
+
+    # 5. Read failure packet error if available
+    $errorText = ""
+    if ($FailurePacketDir) {
+        $packetPath = Join-Path $FailurePacketDir "packet.json"
+        $isReconciled = (Test-Path -LiteralPath (Join-Path $FailurePacketDir "reconciled.json")) -or
+                        (Test-Path -LiteralPath (Join-Path $FailurePacketDir "packet.reconciled.json"))
+        if ((Test-Path -LiteralPath $packetPath) -and (-not $isReconciled)) {
+            try {
+                $packet = Get-Content -LiteralPath $packetPath -Raw | ConvertFrom-Json
+                $errorText = [string]$packet.error
+            } catch {}
+        }
     }
     if (-not $errorText -and $LastLogText) {
         $errorText = $LastLogText
     }
 
-    # 4. Pattern classification
-    if ($errorText -match 'AUTH_RECOVERY_REQUIRED|IDENTITY_MISMATCH|AGY_CREDENTIAL_REPAIR_PROVIDER_MISMATCH|profile marker') {
-        $classification.category = "TRANSIENT_AUTH_MISMATCH"
-        $classification.recoverable = $true
-        $classification.action = "RECONCILE_AUTH_AND_RESUME"
-        $classification.reason = "Profile marker and native credential store disagree or require reconciliation."
-        $classification.fingerprint = "AUTH_MISMATCH"
+    # 6. Pattern classification: Genuine authentication exhaustion takes absolute precedence
+    if ($errorText -match 'HTTP\s*401|invalid_grant|interactive sign-in required|AUTHENTICATION_FAILED|eligible existing profiles exhausted|profiles exhausted') {
+        $classification.category = "AUTHENTICATION_EXHAUSTED"
+        $classification.recoverable = $false
+        $classification.action = "BLOCK"
+        $classification.reason = "Legitimate credentials expired or exhausted; interactive sign-in required."
+        $classification.fingerprint = "CREDENTIALS_EXHAUSTED"
     }
     elseif ($errorText -match 'Cannot bind argument to parameter .Path. because it is null|\$loopStatePath') {
         $classification.category = "DETERMINISTIC_CODE_DEFECT"
@@ -137,19 +208,12 @@ function Classify-ControllerFailure {
         $classification.reason = "Transient transport error communicating with supervisor or provider."
         $classification.fingerprint = "TRANSPORT_TIMEOUT"
     }
-    elseif ($errorText -match 'AUTH_RECOVERY_LIVE_AGY: current profile needs recovery; credential mutation remains blocked') {
+    elseif ($errorText -match 'AUTH_RECOVERY_REQUIRED|IDENTITY_MISMATCH|AGY_CREDENTIAL_REPAIR_PROVIDER_MISMATCH|profile marker|AUTH_RECOVERY_LIVE_AGY') {
         $classification.category = "TRANSIENT_AUTH_MISMATCH"
         $classification.recoverable = $true
         $classification.action = "RECONCILE_AUTH_AND_RESUME"
-        $classification.reason = "Background IDE process active with mismatched active marker; safe reconciliation required."
-        $classification.fingerprint = "HUB_MARKER_DISAGREEMENT"
-    }
-    elseif ($errorText -match 'HTTP\s*401|invalid_grant|interactive sign-in required|AUTHENTICATION_FAILED') {
-        $classification.category = "AUTHENTICATION_EXHAUSTED"
-        $classification.recoverable = $false
-        $classification.action = "BLOCK"
-        $classification.reason = "Legitimate credentials expired and no valid profile is available. User sign-in required."
-        $classification.fingerprint = "CREDENTIALS_EXHAUSTED"
+        $classification.reason = "Profile marker and native credential store disagree or require reconciliation."
+        $classification.fingerprint = "AUTH_MISMATCH"
     }
     elseif ($Checkpoint.state -eq 'PENDING' -and $Checkpoint.process_id -eq 0) {
         # Clean unstarted turn interrupted before worker launch
@@ -158,6 +222,22 @@ function Classify-ControllerFailure {
         $classification.action = "RESUME_PENDING_INSTRUCTION"
         $classification.reason = "Turn preserved in unstarted PENDING state with verified instruction hash."
         $classification.fingerprint = "CLEAN_PENDING"
+    }
+    elseif ($Checkpoint.state -in @('RUNNING', 'CHECKPOINTED') -and -not $workerAlive -and [string]::IsNullOrWhiteSpace($errorText)) {
+        # Worker crashed mid-turn without recording an unhandled error! Check if automatic restart is authorized by governance
+        if (-not $automaticRestartAllowed) {
+            $classification.category = "AUTOMATIC_RESTART_RESTRICTED"
+            $classification.recoverable = $false
+            $classification.action = "BLOCK"
+            $classification.reason = "Automatic restart of crashed turn is restricted by ACTIVE_TASK.json governance (automatic_restart_allowed=false)."
+            $classification.fingerprint = "RESTART_RESTRICTED"
+        } else {
+            $classification.category = "CRASHED_WORKER_RESUMPTION"
+            $classification.recoverable = $true
+            $classification.action = "RESUME_PENDING_INSTRUCTION"
+            $classification.reason = "Worker process terminated unexpectedly; governance authorizes resumption of turn."
+            $classification.fingerprint = "CRASHED_WORKER"
+        }
     }
     else {
         $classification.category = "UNCLASSIFIED_FAILURE"
@@ -211,12 +291,36 @@ function Invoke-SupervisorReconciliationStep {
             $inst = ""
             if (Test-Path -LiteralPath $loopStatePath) {
                 try {
-                    $ls = Get-Content -LiteralPath $loopStatePath -Raw | ConvertFrom-Json
+                    $ls = [System.IO.File]::ReadAllText($loopStatePath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
                     $inst = [string]$ls.next_instruction
                 } catch {}
             }
             if (-not $inst -and $state.original_instruction_hash) {
                 $inst = "Execute pending turn $($state.turn)"
+            }
+            if ($state.state -in @('RUNNING', 'CHECKPOINTED') -or ($state.state -eq 'PENDING' -and ($state.owned_session_fingerprint -or $state.process_id -ne 0 -or $state.conversation_id))) {
+                # Re-arm crashed or partially owned worker turn to clean PENDING with process_id=0
+                $state.state = 'PENDING'
+                $state.process_id = 0
+                if ($state.PSObject.Properties['owned_session_fingerprint']) { $state.owned_session_fingerprint = '' }
+                if ($state.PSObject.Properties['next_instruction']) { $state.next_instruction = '' }
+                if ($state.PSObject.Properties['conversation_id']) { $state.conversation_id = '' }
+                if ($state.PSObject.Properties['recovery_count']) { $state.recovery_count++ }
+                $state.updated_at = [DateTimeOffset]::UtcNow.ToString('o')
+                Write-ControllerCheckpoint $CheckpointPath $state
+
+                # Release orphaned session lock if owned by the crashed run
+                $sessFile = Join-Path $Workspace "project_coordination/ACTIVE_SESSION.json"
+                if (Test-Path -LiteralPath $sessFile) {
+                    try {
+                        $s = Get-Content -LiteralPath $sessFile -Raw | ConvertFrom-Json
+                        if ($s.active -and $s.controller_run_id -eq $state.run_id) {
+                            $s.active = $false
+                            $s.last_released = [DateTimeOffset]::UtcNow.ToString('o')
+                            [IO.File]::WriteAllText($sessFile, (($s | ConvertTo-Json -Depth 8).Replace("`r`n","`n")), [Text.UTF8Encoding]::new($false))
+                        }
+                    } catch {}
+                }
             }
             try {
                 $plan = Get-ControllerPendingAuthResumePlan -State $state -Instruction $inst -NonExecuting
@@ -301,10 +405,7 @@ function Start-ControllerSupervisedLoop {
             # 2. Check if a worker process is currently active
             $workerRunning = $false
             if ($supState.active_pid -gt 0) {
-                $p = Get-Process -Id $supState.active_pid -ErrorAction SilentlyContinue
-                if ($p -and -not $p.HasExited) {
-                    $workerRunning = $true
-                }
+                $workerRunning = Test-IsControllerWorkerProcess -ProcessId $supState.active_pid
             }
 
             # Check if any PBS job is running before classifying controller inactivity
@@ -426,7 +527,13 @@ function Start-ControllerSupervisedLoop {
             }
 
             # Spawn trusted controller process
-            $controllerArgs = "-NoProfile -ExecutionPolicy Bypass -File `"$loopScriptPath`" -MaxTurns $MaxTurns -PrintTimeout $PrintTimeout -QuotaStopThresholdPct $QuotaStopPct"
+            $prof = if ($reconciliation -and $reconciliation.new_profile) {
+                $reconciliation.new_profile
+            } else {
+                $actFile = Join-Path $env:USERPROFILE ".gemini/agy-profiles/_active.txt"
+                if (Test-Path -LiteralPath $actFile) { (Get-Content -LiteralPath $actFile -Raw).Trim() } else { "account2" }
+            }
+            $controllerArgs = "-NoProfile -ExecutionPolicy Bypass -File `"$loopScriptPath`" -AuthoritativeAgyProfile `"$prof`" -MaxTurns $MaxTurns -PrintTimeout $PrintTimeout -QuotaStopThresholdPct $QuotaStopPct"
             $psi = New-Object System.Diagnostics.ProcessStartInfo
             $psi.FileName = "powershell.exe"
             $psi.Arguments = $controllerArgs
