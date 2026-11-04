@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "proposal_id": "package171_r9_c6_coupled_pdas_corrective_design",
+  "created_at": "2026-11-04T22:05:00+01:00",
+  "author": "gemini-antigravity",
+  "predecessor_execution": {
+    "task_id": "F1609-PACKAGE171-R8-C6-EXECUTION-QUALIFICATION",
+    "pbs_job_id": "1420188.mmaster02",
+    "queue": "normal_imfdfkmq",
+    "exec_host": "mnode103/1",
+    "walltime": "01:09:38",
+    "cpu_time": "00:57:10",
+    "exit_status": 1,
+    "outer_iterations_completed": 140,
+    "failure_classification": "FAILED_COUPLED_NONCONVERGENCE_OUTER140_STAGE2_FALSE_DIVERGENCE_ROLLBACK",
+    "root_cause_diagnosis": "Evaluating divergence on relaxed increments Delta d = omega_d * ||delta d_raw|| introduced a 70% multiplicative artifact across stage transition: cand_delta_d / prev_delta_d = (omega_2 / omega_1) * (||raw_cand|| / ||raw_prev||) = 1.70 * (ratio_raw) in [1.6826, 1.6885] > 1.50. This triggered 18 false-positive rollbacks and trapped R8 in Stage 1.",
+    "rollbacks_reproduced": "18/18 authentic rollbacks replayed from live telemetry; in 100% of cases, the unrelaxed fixed-point correction norm was contracting (raw_ratio between 0.9898 and 0.9932, strictly < 1.00)."
+  },
+  "r9_mathematical_correction": {
+    "terminology_classification": "Fixed-Point Correction Measure: cand_raw_delta_d is the unrelaxed PDAS step infinity-norm ||d_PDAS - d^(k)||_inf. It serves as an invariant measure of algorithmic step size across variable under-relaxation schemes, distinguished from the full coupled nonlinear mechanical/phase residual.",
+    "intrinsic_unrelaxed_norm": "cand_raw_delta_d = max(abs(new_damage_pdas[n] - damage[n]) for n in new_damage_pdas)",
+    "applied_relaxed_increment": "cand_delta_d = max(abs(cand_damage[n] - damage[n]) for n in cand_damage)",
+    "growth_safeguard": "cand_raw_delta_d > 1.05 * prev_raw_delta_d",
+    "divergence_safeguard": "cand_raw_delta_d > 1.50 * prev_raw_delta_d",
+    "catastrophic_safeguard": "cand_delta_d > 0.05",
+    "reversion_mechanism": "On genuine growth or divergence of the unrelaxed step norm, reverts candidate step to conservative relaxation (omega_d = 0.50), restores stage = 1, and resets stability counters."
+  },
+  "iteration_budget_and_convergence_hypothesis": {
+    "budget": 140,
+    "walltime_per_iteration_seconds": 29.84,
+    "total_estimated_walltime": "01:10:00",
+    "scientific_qualification": "In a linear scalar relaxation, an under-relaxation factor omega_d = 0.85 yields a 0.15 step reduction factor. In the coupled staggered Abaqus phase-field system, the effective contraction factor is governed by non-linear phase-mechanical-history interactions. Outer 89 transition leaves 51 iterations before Outer 140. Whether the coupled solver converges within these 51 iterations under omega_d = 0.85 is an empirical scientific hypothesis to be tested by execution, not an a priori guarantee. Budget is preserved at 140 outer iterations without arbitrary inflation."
+  },
+  "regression_test_evidence": {
+    "suite": "tests/unit/test_package171_r9_c6_coupled_driver.py",
+    "tests_run": 11,
+    "tests_passed": 11,
+    "pass_rate_pct": 100.0,
+    "cases_covered": [
+      "test_authentic_r8_outer89_transition_replay",
+      "test_all_18_authentic_r8_rollbacks_replayed",
+      "test_genuine_divergence_triggers_rollback",
+      "test_genuine_residual_growth_triggers_rollback",
+      "test_catastrophic_jump_triggers_rollback",
+      "test_damage_healing_prevention",
+      "test_history_monotonicity",
+      "test_checkpoint_suppression_on_nonconvergence",
+      "test_fail_closed_phase_decoding",
+      "test_kkt_stationarity_post_check",
+      "test_compound_active_set_stability_gate"
+    ],
+    "test_output_log": "results/validation/package171_r9_test_output.txt"
+  },
+  "reproducible_evidence_artifacts": {
+    "driver_diff_patch": {
+      "path": "results/validation/package171_r9_driver_diff.patch",
+      "sha256": "8F69A7B97F2D713E705D46B3581AE6993C0F42B0D556DD2CFC3395059F5E646D"
+    },
+    "authentic_rollback_replay_json": {
+      "path": "results/validation/package171_r8_authentic_rollback_replay.json",
+      "sha256": "AB531B1C2158417711AD390CBC73D9E137CE30E183D6FBCFF3894AF75C672913"
+    },
+    "authentic_rollback_replay_markdown": {
+      "path": "results/validation/package171_r8_authentic_rollback_replay.md",
+      "sha256": "37DBDB05FD718847F401B4EBFB13583E6B0979E404CDD582D450BFD2D83D8B0F"
+    },
+    "test_output_evidence": {
+      "path": "results/validation/package171_r9_test_output.txt",
+      "sha256": "09F40B010CDB8B9210CC1B3CFCF07C9A30E30CD7B82B2A9C7D46F3AB4E903689"
+    }
+  },
+  "source_hashes": {
+    "driver_package171_r9_c6_coupled_pdas.py": "E1CB851BC722EAB8203EF1C37A0989742538554D291DCE3B78FB832B9E68CC04",
+    "test_package171_r9_c6_coupled_driver.py": "E7B52C1FA9523A1486E856E2309E73B6E9A579500327E3CA68CE6936704D6DEC",
+    "extract_r8_rollback_replay_evidence.py": "0759B0DBC6011C73508406BB03198ED43A3D01781F6FF1CC49AA3035E1A46038",
+    "frozen_uel": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "lifecycle_transition": {
+    "current_task": "F1610-PACKAGE171-R9-C6-CORRECTIVE-QUALIFICATION",
+    "gate_status": "CORRECTIVE_DESIGN_VERIFIED__AWAITING_INDEPENDENT_REVIEW",
+    "next_action": "Seek focused independent re-review from ChatGPT with published repository artifacts."
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "task_id": "F1610-PACKAGE171-R9-C6-CORRECTIVE-QUALIFICATION",
+  "title": "Mode-I C6 Stage C3-0 Package 171-R9 Coupled PDAS Re-Equilibration Corrective Design and Independent Review Intake",
+  "predecessor": {
+    "run_id": "continuous-method-c-direct-bridge-20261104",
+    "status": "COMPLETED_FAILED_EVALUATION",
+    "task_id": "F1609-PACKAGE171-R8-C6-EXECUTION-QUALIFICATION",
+    "checkpoint_artifact": "results/validation/package171_r9_technical_correction_proposal.json"
+  },
+  "operation": {
+    "checkpoint_kind": "RESEARCH_PREPARATION",
+    "id": "qualify_mode1_package171_r9_c6_coupled_reequilibration",
+    "mode": "READ_ONLY_QUALIFICATION",
+    "registration": "Package 171-R9 C6 Coupled PDAS Re-Equilibration with Consistent Residual Rollback; zero PBS submissions authorized",
+    "manifest": "results/validation/package171_r9_technical_correction_proposal.json"
+  },
+  "max_new_pbs_submissions": 0,
+  "automatic_retry": false,
+  "job_references": {
+    "predecessor_job_id": "1420188.mmaster02",
+    "predecessor_status": "FAILED_COUPLED_NONCONVERGENCE_OUTER140_STAGE2_FALSE_DIVERGENCE_ROLLBACK",
+    "candidate_job": "M1_C6_P171_R9_C3_0",
+    "remote_dir": "/scratch9/pr21vyci/runs/mode1_c6_package171_r9_c3_0_adaptive_reequilibration",
+    "target_package": "models/pandey_kumar_mode1/171_c6_package171_r9_c3_0_adaptive_reequilibration",
+    "scientific_scope": "Stage C3-0 authentic coupled PDAS re-equilibration on C6 mesh (15,252 quads) with consistent residual rollback safeguards: evaluates residual growth (cand_raw > 1.05 * prev_raw) and divergence (cand_raw > 1.50 * prev_raw) on the intrinsic unrelaxed PDAS correction norm ||d_PDAS - d^(k)||_inf to eliminate the relaxation-step discontinuity artifact across Stage 1 (omega_d = 0.50) -> Stage 2 (omega_d = 0.85); strictly 0 PBS submissions authorized under F1610 pending independent scientific review"
+  },
+  "acceptance": {
+    "acceptance_requires_original_files": true,
+    "delta_d_max": 1e-05,
+    "delta_u_mm_max": 1e-09,
+    "delta_h_MPa_max": 0.0001,
+    "final_consistency_delta_u_mm_max": 1e-09,
+    "final_consistency_delta_h_MPa_max": 0.0001,
+    "signed_kkt_dual_kNmm_max": 1e-06,
+    "signed_kkt_free_kNmm_max": 1e-06,
+    "max_healing_tolerance": 1e-06,
+    "healing_violations_max": 0,
+    "history_monotonicity_violations_max": 0,
+    "force_discrepancy_pct_max": 2.0,
+    "total_energy_discrepancy_pct_max": 2.0,
+    "donor_reference_force_kN": 0.17992419004440308,
+    "donor_reference_total_energy_kNmm": 0.00022639903,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "decision_branches": [
+    "SEEK_INDEPENDENT_REVIEW: submit R9 corrective proposal to ChatGPT via PAD bridge for formal independent scientific review",
+    "OFFLINE_REGRESSION_TESTS: verify 100% pass across all 11 unit tests in test_package171_r9_c6_coupled_driver.py",
+    "PREVENT_PREMATURE_HPC_SUBMISSION: max_new_pbs_submissions = 0 strictly enforced until review signoff"
+  ],
+  "evidence_sources": {
+    "results/validation/package171_r9_technical_correction_proposal.json": "90A90522112BE30690DC8D3065EA5ED26697FA412EC196D2D1F973037EDE8377",
+    "scripts/state_transfer/driver_package171_r9_c6_coupled_pdas.py": "E1CB851BC722EAB8203EF1C37A0989742538554D291DCE3B78FB832B9E68CC04",
+    "tests/unit/test_package171_r9_c6_coupled_driver.py": "E7B52C1FA9523A1486E856E2309E73B6E9A579500327E3CA68CE6936704D6DEC"
+  }
+}

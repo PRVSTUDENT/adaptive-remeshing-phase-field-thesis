@@ -1,26 +1,26 @@
 {
-    "task_id": "F1609-PACKAGE171-R8-C6-EXECUTION-QUALIFICATION",
+    "task_id": "F1610-PACKAGE171-R9-C6-CORRECTIVE-QUALIFICATION",
     "agent": "gemini-antigravity",
-    "status": "RUNNING",
-    "phase": "Executing Candidate M1_C6_P171_R8_ADAPTIVE_DAMPED under Task F1609-PACKAGE171-R8-C6-EXECUTION-QUALIFICATION. PBS Job 1420188.mmaster02 dispatched to entry_imfdfkmq -> normal_imfdfkmq (1 CPU, 16 GB, 8h). Scientific target: compound active-set transition criteria (|A_k| <= 500, |Delta A_k| <= 10, Delta A^+ = 0 for 3 consecutive iterations), two-phase accelerated relaxation (omega_d = 0.85), multi-tier rollback safeguards, and 140 outer iteration budget. Once-only submission quota satisfied.",
-    "gate_status": "EXECUTION_DISPATCHED__MONITORING_ACTIVE",
+    "status": "READY_FOR_INDEPENDENT_REVIEW",
+    "phase": "Package 171-R9 C6 Coupled PDAS Re-Equilibration Corrective Design and Independent Review Intake. Root cause diagnosed: R8 evaluated divergence on relaxed damage increments across stage transition (omega_2/omega_1 = 1.70 > 1.50), causing 18 false-positive rollbacks. R9 evaluates residual growth and divergence on the intrinsic unrelaxed PDAS correction norm ||d_PDAS - d^(k)||_inf, strictly preserving 5% growth and 1.50 divergence thresholds. 11/11 unit tests passed, including exact replay of all 18 authentic R8 rollbacks. Zero PBS submissions authorized under F1610 pending independent scientific review.",
+    "gate_status": "CORRECTIVE_DESIGN_VERIFIED__AWAITING_INDEPENDENT_REVIEW",
     "predecessor_task": {
-        "run_id": "eafbcb25-94a8-4e65-b01f-66314e00e34c",
-        "status": "COMPLETED",
-        "task_id": "F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION",
-        "source_commit": "ae2a0423b803c136928507a40bf5c0160dc6c2a8",
-        "checkpoint_sha256": "BAA43538D6343D71EFDDE9F428B4ADCC6A9948F26D9ACB464C1EB7AF1D3FDF2B"
+        "run_id": "continuous-method-c-direct-bridge-20261104",
+        "status": "COMPLETED_FAILED_EVALUATION",
+        "task_id": "F1609-PACKAGE171-R8-C6-EXECUTION-QUALIFICATION",
+        "source_commit": "187c9aef744bac3609b10aa203cee6c8f0855c39",
+        "checkpoint_sha256": "9350300F1263961733EF7E96D5C02B2B643CD74F0A66183BBE5ADAA6A5EDD10C"
     },
     "registration": {
-        "sha256": "67B1C4FB950AED269FF57C2BEDC7E9C5067366BDE7B53D9944204958F6C6724A",
+        "sha256": "796D290DE0DA933ECD89F3BD6A2CCCA0BBB8B108D37A98FF318B726C336F4435",
         "schema": 1,
-        "definition": "project_coordination/task_definitions/F1609-PACKAGE171-R8-C6-EXECUTION-QUALIFICATION.json",
+        "definition": "project_coordination/task_definitions/F1610-PACKAGE171-R9-C6-CORRECTIVE-QUALIFICATION.json",
         "registered_by": "gemini-antigravity",
-        "registered_at": "2026-11-04T20:25:00+01:00"
+        "registered_at": "2026-11-04T21:55:00+01:00"
     },
     "scientific_checkpoint_required": true,
-    "scientific_operation": "execute_mode1_package171_r8_c6_coupled_reequilibration",
-    "scientific_operation_id": "execute_mode1_package171_r8_c6_coupled_reequilibration",
+    "scientific_operation": "qualify_mode1_package171_r9_c6_coupled_reequilibration",
+    "scientific_operation_id": "qualify_mode1_package171_r9_c6_coupled_reequilibration",
     "completed_operations": [
         "mapped_frozen_history_lower_bound_kkt_probe",
         "mapped_mechanical_history_call_order_probe",
@@ -38,9 +38,11 @@
         "evaluate_mode1_package148_state_transfer_r8",
         "execute_mode1_package157_c1_2_r4_adaptive_continuation",
         "execute_mode1_package158_c2_0_r5_re_equilibration",
-        "execute_mode1_package171_r7_c6_coupled_reequilibration"
+        "execute_mode1_package171_r7_c6_coupled_reequilibration",
+        "evaluate_mode1_package171_r8_c6_coupled_reequilibration"
     ],
     "completed_pbs_job_ids": [
+        "1420188.mmaster02",
         "1419873.mmaster02",
         "1419807.mmaster02",
         "1419643.mmaster02",
@@ -250,11 +252,9 @@
         "1419370.mmaster02",
         "1419375.mmaster02"
     ],
-    "active_pbs_job_ids": [
-        "1420188.mmaster02"
-    ],
+    "active_pbs_job_ids": [],
     "dependent_pbs_job_ids": [],
-    "pbs_status_note": "Job 1420188.mmaster02 submitted to entry_imfdfkmq -> normal_imfdfkmq (Candidate M1_C6_P171_R8_ADAPTIVE_DAMPED, 1 CPU, 16 GB, 8h).",
+    "pbs_status_note": "Job 1420188.mmaster02 finished with Exit 1 on mnode103 (140 outer iterations completed; nonconverged at Delta d=5.86e-3 due to Stage 2 false-positive rollback trap).",
     "referenced_pbs_job_ids": [
         "1420188.mmaster02",
         "1419873.mmaster02",
@@ -289,8 +289,8 @@
         "supervised_resumption_scope": "CONTROLLED_LIVE_VERIFICATION_ONLY",
         "reconciled_at": "2026-11-04T15:46:00+01:00"
     },
-    "scientific_acceptance": "NOT_YET_EVALUATED",
-    "last_step_status": "SUBMITTED_RUNNING",
-    "last_updated": "2026-11-04T20:25:00+01:00",
-    "next_safe_action": "Monitor PBS Job 1420188.mmaster02 on mnode/normal_imfdfkmq; await completion and evaluate coupled convergence, KKT stationarity, and physical continuity."
+    "scientific_acceptance": "EVALUATED_NONCONVERGED_FALSE_DIVERGENCE_ROLLBACK_DIAGNOSED",
+    "last_step_status": "EVALUATED_NONCONVERGED",
+    "last_updated": "2026-11-04T22:06:00+01:00",
+    "next_safe_action": "Publish R9 driver, test suite, proposal, diff patch, and 18-transition authentic replay evidence to main branch; commit and push forward to origin main; dispatch focused independent re-review across PAD bridge."
 }

@@ -1,3 +1,40 @@
+## 4 November Package 171-R9 Independent Review Intake & Bounded Evidence Publication (Task F1610)
+
+1. **Independent Structured Review Intake (Handoff `HND-1c7b8e3aa483`)**:
+   - ChatGPT reviewed Candidate Package 171-R9 technical correction proposal across the PAD bridge.
+   - Decision: `INSUFFICIENT_EVIDENCE` (Design Assessment: `MATHEMATICALLY_PLAUSIBLE`).
+   - Verified findings confirmed: R8 relaxation-factor shift ($\omega_1 = 0.50 \to \omega_2 = 0.85$) introduced a $1.70\times$ multiplicative artifact into the relaxed increment comparison; comparing unrelaxed PDAS correction norms removes this artifact; preserving irreversibility, history monotonicity, KKT tolerances, and checkpoint suppression is correct.
+   - Directive: Publish the exact R9 driver, unified diff patch, regression tests, technical proposal, and authentic 18-transition replay evidence to the authoritative repository branch; verify SHA-256 hashes; provide commit SHA and clean test output; qualify the non-linear contraction hypothesis; return for a single focused re-review prior to any execution qualification.
+
+2. **Authentic 18-Transition Replay Evidence Generated**:
+   - Script: `scripts/state_transfer/extract_r8_rollback_replay_evidence.py` (SHA-256 `0759B0DBC6011C73508406BB03198ED43A3D01781F6FF1CC49AA3035E1A46038`).
+   - Artifacts: `results/validation/package171_r8_authentic_rollback_replay.json` (SHA-256 `AB531B1C2158417711AD390CBC73D9E137CE30E183D6FBCFF3894AF75C672913`) and `package171_r8_authentic_rollback_replay.md` (SHA-256 `37DBDB05FD718847F401B4EBFB13583E6B0979E404CDD582D450BFD2D83D8B0F`).
+   - Proof: Across all 18 authentic transitions (Outer 89 through 140), the relaxed increment ratio was inflated to $[1.6826, 1.6885] > 1.50$, whereas the unrelaxed PDAS fixed-point step norm was contracting in 100% of cases ($\text{ratio}_{\text{raw}} \in [0.9898, 0.9932] < 1.00$). R9 admits Stage 2 in 18 of 18 cases with zero false-positive rollbacks.
+
+3. **Mathematical Precision & Scientific Qualifications**:
+   - Corrected terminology: $\|\delta d_{\text{raw}}\|_\infty = \|\tilde{d}_{PDAS} - d^{(k)}\|_\infty$ is accurately classified as an unrelaxed fixed-point step norm, distinct from the coupled nonlinear mechanical/phase residual.
+   - Qualified contraction: In the coupled staggered Abaqus system, effective contraction is governed by nonlinear mechanical and history interactions; convergence within 51 post-transition iterations under $\omega_d = 0.85$ is an empirical hypothesis to be tested by execution, not an a priori guarantee. Budget preserved at `max_outer = 140`.
+   - Artifacts generated: Unified diff patch `results/validation/package171_r9_driver_diff.patch` (SHA-256 `8F69A7B97F2D713E705D46B3581AE6993C0F42B0D556DD2CFC3395059F5E646D`) and clean test output `results/validation/package171_r9_test_output.txt` (SHA-256 `09F40B010CDB8B9210CC1B3CFCF07C9A30E30CD7B82B2A9C7D46F3AB4E903689`, 11/11 tests PASS).
+   - Proposal updated: `results/validation/package171_r9_technical_correction_proposal.json` (SHA-256 `9350300F1263961733EF7E96D5C02B2B643CD74F0A66183BBE5ADAA6A5EDD10C`).
+
+## 4 November Package 171-R8 Execution Evaluated: Stage 2 False-Positive Rollback Diagnosed (PBS Job 1420188)
+
+1. **PBS Job 1420188.mmaster02 Terminal Execution & Artifact Retrieval**:
+   - Dispatched candidate `M1_C6_P171_R8_ADAPTIVE_DAMPED` completed on `mnode103/1` (`normal_imfdfkmq`) after 01:09:38 walltime (00:57:10 CPU time).
+   - Exit status 1 (reached maximum outer iteration budget of 140 iterations without meeting $\Delta d \le 10^{-5}$).
+   - Authentic telemetry (`live_iteration_telemetry.json`, `re_equilibration_summary.json`, `pbs_execution.log`) fetched to `models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration/evidence/1420188.mmaster02/`.
+
+2. **Authentic Numerical Telemetry Findings**:
+   - **Compound Active-Set Triggering**: Successfully activated Stage 2 acceleration ($\omega_d = 0.85$) at Outer 89 ($|A| = 225 \le 500$, $|\Delta A| = 8 \le 10$, $\Delta A^+ = 0$) and re-triggered 17 subsequent times (18 total activations).
+   - **Stage 2 Rollback Trap (Root Cause Diagnosed)**: All 18 transitions were immediately rolled back due to the divergence guard `cand_delta_d > 1.50 * prev_delta_d`. Because candidate relaxed displacement $\Delta d^{(cand)} = \omega_{S2} \cdot \|\delta d_{PDAS}\| \approx 0.85 \cdot \|\delta d\|$ is compared against previous damped displacement $\Delta d^{(prev)} = \omega_{S1} \cdot \|\delta d_{prev}\| \approx 0.50 \cdot \|\delta d\|$, the ratio across transition is $\approx \frac{0.85}{0.50} = 1.70 > 1.50$, falsely flagging physical divergence and resetting to Stage 1 ($\omega_d = 0.50$). Consequently, Stage 2 was never allowed to execute a single step.
+   - **Monotonic Contraction Under Stage 1**: Even under constant $\omega_d = 0.50$, active set shrank monotonically from 13,803 nodes to 35 nodes; anti-expansion held ($\Delta A^+ = 0$ for 52 consecutive iterations); $\Delta d$ decreased from $1.50 \times 10^{-2}$ to $5.86 \times 10^{-3}$; $\Delta u$ dropped to $4.10 \times 10^{-5}\text{ mm}$; $\Delta H$ dropped to $245.74\text{ MPa}$.
+   - **KKT & Irreversibility Integrity**: KKT free error $= 2.51 \times 10^{-7} \le 10^{-6}$; dual error $= 9.80 \times 10^{-10} \le 10^{-6}$; zero pointwise damage healing ($d \ge d_0$ satisfied across all 15,559 nodes); history monotonicity strictly held ($H^* \ge H_0$).
+   - **Terminal Mechanics (Outer 140)**: $F = 0.10149\text{ kN}$, $E_{\text{elas}} = 0.9491 \times 10^{-4}\text{ kN}\cdot\text{mm}$, $E_{\text{frac}} = 0.1256 \times 10^{-3}\text{ kN}\cdot\text{mm}$, $E_{\text{total}} = 0.2205 \times 10^{-3}\text{ kN}\cdot\text{mm}$ (vs donor reference $0.2264 \times 10^{-3}\text{ kN}\cdot\text{mm}$, discrepancy 2.58%).
+
+3. **Remediation Recommendation for Candidate R9**:
+   - Correct the divergence rollback guard to evaluate either the unrelaxed PDAS step $\|\delta d_{PDAS}\|$ directly or scale the threshold by $\frac{\omega_{S2}}{\omega_{S1}} = 1.70$ during transition steps.
+   - Once Stage 2 ($\omega_d = 0.85$) is permitted to execute, the $(1 - \omega_d) = 0.15$ contraction factor will drive $\Delta d$ from $\sim 10^{-2}$ to $\le 10^{-5}$ within 5–10 iterations.
+
 ## 4 November F1608 Reconciled, Supervisor Classification Repaired, and Method C R8 Dispatched (PBS Job 1420188)
 
 1. **Supervisor Recovery Classification Repaired & F1608 Reconciled**:
