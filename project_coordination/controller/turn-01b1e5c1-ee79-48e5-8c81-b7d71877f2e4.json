@@ -1,0 +1,40 @@
+{
+    "schema":  1,
+    "controller_run_id":  "01b1e5c1-ee79-48e5-8c81-b7d71877f2e4",
+    "task_id":  "F1606-MODE1-C6-R7-NONCONVERGENCE-INVESTIGATION",
+    "repository_commit":  "96bd91f523d03bb031416733ef8d784acad7e3fc",
+    "bootstrap_status":  "COMPLETE",
+    "operation_id":  "research_preparation",
+    "operation_path":  "",
+    "task_type":  "RESEARCH_PREPARATION",
+    "bootstrap_completed_at":  "2026-11-04T07:07:34.1546226+01:00",
+    "ordered_sources":  {
+                            "AGENTS.md":  "EC25457C58D573BE6298FA7F42785F26216DDE4F3F98E8F0F26DC4866CA6B04A",
+                            "project_coordination/START_HERE.md":  "0390C3EBF56163B6F8D1F4CAAF15B45A78B0FD695CAA3834F08A006683A96254",
+                            "project_coordination/CURRENT_STATE.md":  "8B9E6450819D99A686428B93574E304B8552715B780A799CFD5923CEC957D593",
+                            "project_coordination/ACTIVE_SESSION.json":  "1D3A55EC573362A81335417883D9D3AE7F5BDF595329F62EE90F1089A979B630",
+                            "project_coordination/ACTIVE_TASK.json":  "8224872772381455945CD7395FA9B47614001AAAA6396F8D784FAFD0C157B209",
+                            "project_coordination/TASK_LEDGER.csv":  "53A35F135F0E3DD5AFD638ADDABD4A119E6BA1B7EC6ABDDBEBF374123FF66C15",
+                            "project_coordination/HPC_JOB_LEDGER.csv":  "8F7A3010A94550D40A22D3B68DE32F407AF830F9DDF6C1108A8E737796CDAD3C",
+                            "project_coordination/ARTIFACT_REGISTRY.csv":  "99E4213F6CA1FA893D3F1AF8B77CEF0E06B8D2A6BCA3274E2AADF1B9309B3DBC",
+                            "docs/project/PROJECT_PHASE_CHECKLIST.md":  "D9D75A70555C4ABDC313A2707FD2DA4A8796E98488C428A3B3D8695EAE34669F"
+                        },
+    "basis_sources":  {
+                          "project_coordination/ACTIVE_TASK.json":  "8224872772381455945CD7395FA9B47614001AAAA6396F8D784FAFD0C157B209",
+                          "project_coordination/CURRENT_STATE.md":  "8B9E6450819D99A686428B93574E304B8552715B780A799CFD5923CEC957D593",
+                          "project_coordination/HPC_JOB_LEDGER.csv":  "8F7A3010A94550D40A22D3B68DE32F407AF830F9DDF6C1108A8E737796CDAD3C",
+                          "project_coordination/MODE1_EXECUTION_LEDGER.json":  "C9A08B7D3C871734D9D6863C49953386B2D9D77128C8DE48E41AA6BC24881C44"
+                      },
+    "repeat_count":  0,
+    "session_report":  "project_coordination/sessions/2026-11-04_gemini-antigravity_F1597_01b1e5c1-ee79-48e5-8c81-b7d71877f2e4.md",
+    "scientific_checkpoint":  {
+                                  "kind":  "PREPARATION_CHECKPOINT",
+                                  "operation":  "research_preparation",
+                                  "exit_code":  0,
+                                  "artifact":  "results/validation/preparation-01b1e5c1-ee79-48e5-8c81-b7d71877f2e4.json",
+                                  "sha256":  "1941E43185CF1E30DE86460F7EADB6214C9096BE6BC4156592315C7D11FFB377",
+                                  "created_at":  "2026-11-04T07:12:09.5726583+01:00"
+                              },
+    "stage":  "COMPLETE",
+    "next_action":  "Formulate R8 candidate with compound active-set transition criteria and submit for scientific review"
+}
