@@ -78,12 +78,15 @@ if ($VerifyOnly) {
 }
 
 # Handoff to canonical controller only AFTER local read-only gates pass.
+# PowerShell.exe -File stringifies the $true argument and [bool] binding fails.
+# -EncodedCommand preserves PowerShell expression types and process isolation.
 Write-Host '[PREFLIGHT] Starting existing autonomous controller; all runtime permissions remain enforced by that controller.'
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $controller `
-    -InitialPromptFile $prompt `
-    -MaxTurns $MaxTurns `
-    -PrintTimeout '2400s' `
-    -EnableSmartAgyProfileSelection $true `
-    -QuotaCheckEveryTurns 1 `
-    -QuotaStopThresholdPct $QuotaStopThresholdPct
+$controllerLiteral = "'" + $controller.Replace("'", "''") + "'"
+$promptLiteral = "'" + $prompt.Replace("'", "''") + "'"
+$command = @"
+& $controllerLiteral -InitialPromptFile $promptLiteral -MaxTurns $MaxTurns -PrintTimeout '2400s' -EnableSmartAgyProfileSelection `$true -QuotaCheckEveryTurns 1 -QuotaStopThresholdPct $QuotaStopThresholdPct
+if (-not `$?) { exit 1 }
+"@
+$encodedCommand = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($command))
+& powershell.exe -NoProfile -ExecutionPolicy Bypass -EncodedCommand $encodedCommand
 exit $LASTEXITCODE
