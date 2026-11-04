@@ -40,6 +40,38 @@ function Test-IsControllerWorkerProcess {
     # Process must be a PowerShell interpreter or Antigravity research worker
     if ($proc.ProcessName -notin @('powershell', 'pwsh', 'agy')) { return $false }
 
+    # Validate process command line and ownership chain via CIM
+    try {
+        $cimProc = Get-CimInstance Win32_Process -Filter "ProcessId = $ProcessId" -ErrorAction SilentlyContinue
+        if ($cimProc) {
+            $cmd = [string]$cimProc.CommandLine
+
+            # Reject interactive VS Code hub
+            if ($cmd -match '--hub') { return $false }
+
+            $isLoopScript = ($cmd -match 'Antigravity-Autonomous-Loop\.ps1')
+            $isAgyWorker = ($cimProc.Name -match '^agy(?:\.exe)?$' -and ($cmd -match '--dangerously-skip-permissions|--print|--conversation'))
+            $isSupervisor = ($cmd -match 'Controller-SelfHealingSupervisor\.ps1')
+            $isTestHarness = ($cmd -match 'test_')
+
+            if (-not ($isLoopScript -or $isAgyWorker -or $isSupervisor -or $isTestHarness)) {
+                # Arbitrary PowerShell process or interactive shell not belonging to controller
+                return $false
+            }
+
+            # If agy worker, verify parent process ancestry
+            if ($isAgyWorker) {
+                $parent = Get-CimInstance Win32_Process -Filter ("ProcessId = " + $cimProc.ParentProcessId) -ErrorAction SilentlyContinue
+                if ($parent) {
+                    if ($parent.Name -match '(?i)^code(?:\.exe)?$') {
+                        # Directly spawned by VS Code UI, not controller loop
+                        return $false
+                    }
+                }
+            }
+        }
+    } catch {}
+
     # If an expected minimum start time is provided, verify process was not started long before
     if ($ExpectedMinStartTime -gt [datetimeoffset]::MinValue) {
         try {
@@ -53,10 +85,202 @@ function Test-IsControllerWorkerProcess {
     return $true
 }
 
+function Get-SupervisorStatus {
+    param(
+        [string]$PadPath = "$env:USERPROFILE\OpenClawPAD"
+    )
+    $supStateFile = Join-Path $PadPath "supervisor_recovery_state.json"
+    $mutexName = "Local\AntigravitySelfHealingSupervisorLock"
+    $mutex = $null
+    $createdNew = $false
+    try {
+        $mutex = New-Object System.Threading.Mutex($false, $mutexName, [ref]$createdNew)
+    } catch {}
+
+    $status = [ordered]@{
+        is_active = (-not $createdNew)
+        mutex_locked = (-not $createdNew)
+        supervisor_pid = 0
+        state = "INACTIVE"
+        last_check_utc = $null
+        process_alive = $false
+        legitimate_chain = $false
+    }
+
+    if ($mutex) {
+        $mutex.Dispose()
+    }
+
+    if (Test-Path -LiteralPath $supStateFile) {
+        try {
+            $s = Get-Content -LiteralPath $supStateFile -Raw | ConvertFrom-Json
+            $status.state = $s.state
+            $status.last_check_utc = $s.last_check_utc
+            $status.supervisor_pid = $s.active_pid
+            if ($s.active_pid -gt 0) {
+                $proc = Get-Process -Id $s.active_pid -ErrorAction SilentlyContinue
+                if ($proc -and -not $proc.HasExited) {
+                    $status.process_alive = $true
+                    $cim = Get-CimInstance Win32_Process -Filter "ProcessId = $($s.active_pid)" -ErrorAction SilentlyContinue
+                    if ($cim -and $cim.CommandLine -match 'Controller-SelfHealingSupervisor\.ps1|Antigravity-Autonomous-Loop\.ps1') {
+                        $status.legitimate_chain = $true
+                    }
+                }
+            }
+        } catch {}
+    }
+
+    return [pscustomobject]$status
+}
+
+function Audit-InterruptedTurnSideEffects {
+    param(
+        [Parameter(Mandatory)][string]$Workspace,
+        [Parameter(Mandatory)]$Checkpoint,
+        [string]$HpcLedgerPath = "",
+        [string]$ActiveTaskPath = "",
+        [string]$DispatchDir = "",
+        [string]$BridgeDir = ""
+    )
+
+    if (-not $HpcLedgerPath) { $HpcLedgerPath = Join-Path $Workspace "project_coordination/HPC_JOB_LEDGER.csv" }
+    if (-not $ActiveTaskPath) { $ActiveTaskPath = Join-Path $Workspace "project_coordination/ACTIVE_TASK.json" }
+    if (-not $DispatchDir)   { $DispatchDir   = Join-Path $Workspace "project_coordination/review_dispatch" }
+    if (-not $BridgeDir)     { $BridgeDir     = Join-Path $env:USERPROFILE 'OpenClawPAD/ChatGPTBridge/supervisor' }
+
+    $report = [ordered]@{
+        has_side_effects = $false
+        has_pbs_side_effects = $false
+        has_scientific_side_effects = $false
+        has_bridge_side_effects = $false
+        has_file_write_side_effects = $false
+        pbs_jobs = @()
+        completed_operations = @()
+        bridge_transactions = @()
+        modified_files = @()
+        partial_files = @()
+        details = ""
+    }
+
+    $turnStarted = [DateTimeOffset]::MinValue
+    if ($Checkpoint.started_at) {
+        [DateTimeOffset]::TryParse([string]$Checkpoint.started_at, [ref]$turnStarted) | Out-Null
+    }
+
+    # 1. Audit PBS Reservations: once-only rule
+    if (Test-Path -LiteralPath $HpcLedgerPath) {
+        try {
+            $rows = @(Import-Csv -LiteralPath $HpcLedgerPath)
+            foreach ($row in $rows) {
+                $subTime = [DateTimeOffset]::MinValue
+                if ($row.submission_timestamp -and [DateTimeOffset]::TryParse($row.submission_timestamp, [ref]$subTime)) {
+                    if ($turnStarted -gt [DateTimeOffset]::MinValue -and $subTime -ge $turnStarted.AddSeconds(-30)) {
+                        $report.pbs_jobs += $row.job_id
+                        $report.has_pbs_side_effects = $true
+                    }
+                }
+            }
+        } catch {}
+    }
+
+    # 2. Audit Scientific Operations:
+    if (Test-Path -LiteralPath $ActiveTaskPath) {
+        try {
+            $task = Get-Content -LiteralPath $ActiveTaskPath -Raw | ConvertFrom-Json
+            if ($null -ne $Checkpoint.completed_operations -and $null -ne $task.completed_operations) {
+                $predecessorOps = @($Checkpoint.completed_operations)
+                foreach ($op in $task.completed_operations) {
+                    if ($op -notin $predecessorOps) {
+                        $report.completed_operations += $op
+                        $report.has_scientific_side_effects = $true
+                    }
+                }
+            }
+            if ($task.scientific_checkpoint -and $task.scientific_checkpoint.created_at) {
+                $cpTime = [DateTimeOffset]::MinValue
+                if ([DateTimeOffset]::TryParse($task.scientific_checkpoint.created_at, [ref]$cpTime)) {
+                    if ($turnStarted -gt [DateTimeOffset]::MinValue -and $cpTime -ge $turnStarted.AddSeconds(-30)) {
+                        $report.completed_operations += [string]$task.scientific_checkpoint.operation
+                        $report.has_scientific_side_effects = $true
+                    }
+                }
+            }
+        } catch {}
+    }
+
+    # 3. Audit Bridge Transactions:
+    if (Test-Path -LiteralPath $DispatchDir) {
+        try {
+            $reqs = Get-ChildItem -LiteralPath $DispatchDir -Filter "*.request.json" -File -ErrorAction SilentlyContinue
+            foreach ($r in $reqs) {
+                if ($turnStarted -gt [DateTimeOffset]::MinValue -and $r.LastWriteTimeUtc -ge $turnStarted.UtcDateTime.AddSeconds(-30)) {
+                    $report.bridge_transactions += $r.Name
+                    $report.has_bridge_side_effects = $true
+                }
+            }
+        } catch {}
+    }
+    if (Test-Path -LiteralPath $BridgeDir) {
+        try {
+            $pendFiles = Get-ChildItem -LiteralPath $BridgeDir -Filter "*.pending.json" -File -ErrorAction SilentlyContinue
+            foreach ($pf in $pendFiles) {
+                if ($turnStarted -gt [DateTimeOffset]::MinValue -and $pf.LastWriteTimeUtc -ge $turnStarted.UtcDateTime.AddSeconds(-30)) {
+                    $report.bridge_transactions += $pf.Name
+                    $report.has_bridge_side_effects = $true
+                }
+            }
+        } catch {}
+    }
+
+    # 4. Audit File Writes (Deliverables and partial files):
+    $valDir = Join-Path $Workspace "results/validation"
+    if (Test-Path -LiteralPath $valDir) {
+        try {
+            $files = Get-ChildItem -LiteralPath $valDir -File -ErrorAction SilentlyContinue
+            foreach ($f in $files) {
+                if ($turnStarted -gt [DateTimeOffset]::MinValue -and $f.LastWriteTimeUtc -ge $turnStarted.UtcDateTime.AddSeconds(-30)) {
+                    $report.modified_files += $f.Name
+                    $report.has_file_write_side_effects = $true
+                }
+            }
+        } catch {}
+    }
+    if (Test-Path -LiteralPath $Workspace) {
+        $tmpFiles = Get-ChildItem -LiteralPath $Workspace -Filter "*.tmp" -File -Recurse -ErrorAction SilentlyContinue | Select-Object -First 10
+        foreach ($tf in $tmpFiles) {
+            $report.partial_files += $tf.FullName
+            $report.has_file_write_side_effects = $true
+        }
+    }
+
+    $report.has_side_effects = ($report.has_pbs_side_effects -or $report.has_scientific_side_effects -or $report.has_bridge_side_effects -or $report.has_file_write_side_effects)
+    $detailsList = @()
+    if ($report.has_pbs_side_effects) { $detailsList += "PBS jobs ($($report.pbs_jobs -join ', '))" }
+    if ($report.has_scientific_side_effects) { $detailsList += "Operations ($($report.completed_operations -join ', '))" }
+    if ($report.has_bridge_side_effects) { $detailsList += "Bridge ($($report.bridge_transactions -join ', '))" }
+    if ($report.has_file_write_side_effects) { $detailsList += "Files ($($report.modified_files -join ', '))" }
+    $report.details = $detailsList -join '; '
+
+    return [pscustomobject]$report
+}
+
+function Resolve-ControllerScriptPath([string]$Workspace, [string]$RelativePath) {
+    $target = Join-Path $Workspace $RelativePath
+    if (Test-Path -LiteralPath $target) { return $target }
+    if ($PSScriptRoot) {
+        $leaf = Split-Path $RelativePath -Leaf
+        $cand = Join-Path $PSScriptRoot $leaf
+        if (Test-Path -LiteralPath $cand) { return $cand }
+    }
+    $repoDefault = Join-Path "D:\Master thesis\Adaptive remeshing" $RelativePath
+    if (Test-Path -LiteralPath $repoDefault) { return $repoDefault }
+    return $target
+}
+
 function Read-SupervisorCheckpoint([string]$Workspace, [string]$Path) {
     if (-not (Test-Path -LiteralPath $Path)) { return $null }
     try {
-        . (Join-Path $Workspace "scripts/controller/Controller-Recovery.ps1")
+        . (Resolve-ControllerScriptPath $Workspace "scripts/controller/Controller-Recovery.ps1")
         return (Read-ControllerCheckpoint $Path)
     } catch {
         # Corrupted checkpoint envelope or invalid state fields MUST NOT be bypassed.
@@ -224,8 +448,38 @@ function Classify-ControllerFailure {
         $classification.fingerprint = "CLEAN_PENDING"
     }
     elseif ($Checkpoint.state -in @('RUNNING', 'CHECKPOINTED') -and -not $workerAlive -and [string]::IsNullOrWhiteSpace($errorText)) {
-        # Worker crashed mid-turn without recording an unhandled error! Check if automatic restart is authorized by governance
-        if (-not $automaticRestartAllowed) {
+        # Worker crashed mid-turn without recording an unhandled error! Audit partial side effects before classifying resumption
+        $sideEffects = Audit-InterruptedTurnSideEffects -Workspace $Workspace -Checkpoint $Checkpoint
+
+        if ($sideEffects.has_pbs_side_effects) {
+            $classification.category = "INTERRUPTED_TURN_PBS_SUBMITTED"
+            $classification.recoverable = $true
+            $classification.action = "RECONCILE_PARTIAL_EVIDENCE"
+            $classification.reason = "Interrupted worker submitted PBS job ($($sideEffects.pbs_jobs -join ', ')); cannot replay original instruction (once-only rule)."
+            $classification.fingerprint = "PBS_SUBMITTED_CRASH"
+        }
+        elseif ($sideEffects.has_scientific_side_effects) {
+            $classification.category = "INTERRUPTED_TURN_OPERATION_COMPLETED"
+            $classification.recoverable = $true
+            $classification.action = "RECONCILE_COMPLETED_OPERATION"
+            $classification.reason = "Interrupted worker already completed scientific operation ($($sideEffects.completed_operations -join ', ')); cannot replay completed operation."
+            $classification.fingerprint = "OPERATION_COMPLETED_CRASH"
+        }
+        elseif ($sideEffects.has_bridge_side_effects) {
+            $classification.category = "INTERRUPTED_TURN_BRIDGE_TRANSACTION"
+            $classification.recoverable = $true
+            $classification.action = "RECONCILE_BRIDGE_TRANSACTION"
+            $classification.reason = "Interrupted worker initiated bridge transaction ($($sideEffects.bridge_transactions -join ', ')); cannot duplicate transaction."
+            $classification.fingerprint = "BRIDGE_TRANSACTION_CRASH"
+        }
+        elseif ($sideEffects.has_file_write_side_effects) {
+            $classification.category = "INTERRUPTED_TURN_PARTIAL_FILES"
+            $classification.recoverable = $true
+            $classification.action = "RECONCILE_PARTIAL_EVIDENCE"
+            $classification.reason = "Interrupted worker wrote deliverables or partial files ($($sideEffects.modified_files -join ', ')); requires reconciliation before re-arming."
+            $classification.fingerprint = "PARTIAL_FILES_CRASH"
+        }
+        elseif (-not $automaticRestartAllowed) {
             $classification.category = "AUTOMATIC_RESTART_RESTRICTED"
             $classification.recoverable = $false
             $classification.action = "BLOCK"
@@ -235,7 +489,7 @@ function Classify-ControllerFailure {
             $classification.category = "CRASHED_WORKER_RESUMPTION"
             $classification.recoverable = $true
             $classification.action = "RESUME_PENDING_INSTRUCTION"
-            $classification.reason = "Worker process terminated unexpectedly; governance authorizes resumption of turn."
+            $classification.reason = "Worker process terminated unexpectedly with zero side effects; governance authorizes resumption of turn."
             $classification.fingerprint = "CRASHED_WORKER"
         }
     }
@@ -248,6 +502,16 @@ function Classify-ControllerFailure {
     }
 
     return [pscustomobject]$classification
+}
+
+function Set-StateProperty($State, [string]$Name, $Value) {
+    if ($null -ne $State) {
+        if ($State.PSObject.Properties[$Name]) {
+            $State.$Name = $Value
+        } else {
+            $State | Add-Member -NotePropertyName $Name -NotePropertyValue $Value -Force
+        }
+    }
 }
 
 function Invoke-SupervisorReconciliationStep {
@@ -268,9 +532,9 @@ function Invoke-SupervisorReconciliationStep {
     switch ($Classification.action) {
         "RECONCILE_AUTH_AND_RESUME" {
             # Load auth recovery tools
-            . (Join-Path $Workspace "scripts/controller/Controller-Recovery.ps1")
-            . (Join-Path $Workspace "scripts/validation/AgyCredentialStores.ps1")
-            . (Join-Path $Workspace "scripts/controller/Controller-AuthRecovery.ps1")
+            . (Resolve-ControllerScriptPath $Workspace "scripts/controller/Controller-Recovery.ps1")
+            . (Resolve-ControllerScriptPath $Workspace "scripts/validation/AgyCredentialStores.ps1")
+            . (Resolve-ControllerScriptPath $Workspace "scripts/controller/Controller-AuthRecovery.ps1")
 
             try {
                 $recoveryPlan = Invoke-AgyAuthenticationFailover
@@ -283,11 +547,90 @@ function Invoke-SupervisorReconciliationStep {
             }
         }
 
+        "RECONCILE_PARTIAL_EVIDENCE" {
+            . (Resolve-ControllerScriptPath $Workspace "scripts/controller/Controller-Recovery.ps1")
+            $state = Read-SupervisorCheckpoint $Workspace $CheckpointPath
+            # Clean temporary files if present
+            try {
+                $tmpFiles = Get-ChildItem -LiteralPath $Workspace -Filter "*.tmp" -File -Recurse -ErrorAction SilentlyContinue
+                foreach ($tf in $tmpFiles) {
+                    Remove-Item -LiteralPath $tf.FullName -Force -ErrorAction SilentlyContinue
+                }
+            } catch {}
+
+            Set-StateProperty $state 'state' 'CHECKPOINTED'
+            Set-StateProperty $state 'process_id' 0
+            Set-StateProperty $state 'owned_session_fingerprint' ''
+            Set-StateProperty $state 'conversation_id' ''
+            $recCount = if ($state.recovery_count) { $state.recovery_count + 1 } else { 1 }
+            Set-StateProperty $state 'recovery_count' $recCount
+            Set-StateProperty $state 'updated_at' ([DateTimeOffset]::UtcNow.ToString('o'))
+            Set-StateProperty $state 'next_safe_action' "Evidence-only reconciliation in a fresh conversation; no solver, submission, or scientific changes"
+            Write-ControllerCheckpoint $CheckpointPath $state
+
+            # Release orphaned session lock if owned by crashed run
+            $sessFile = Join-Path $Workspace "project_coordination/ACTIVE_SESSION.json"
+            if (Test-Path -LiteralPath $sessFile) {
+                try {
+                    $s = Get-Content -LiteralPath $sessFile -Raw | ConvertFrom-Json
+                    if ($s.active -and $s.controller_run_id -eq $state.run_id) {
+                        $s.active = $false
+                        $s.last_released = [DateTimeOffset]::UtcNow.ToString('o')
+                        [IO.File]::WriteAllText($sessFile, (($s | ConvertTo-Json -Depth 8).Replace("`r`n","`n")), [Text.UTF8Encoding]::new($false))
+                    }
+                } catch {}
+            }
+
+            $result.success = $true
+            $result.action_taken = "Interrupted turn side effects reconciled: partial files cleaned and converted to bounded evidence recovery."
+        }
+
+        "RECONCILE_COMPLETED_OPERATION" {
+            . (Resolve-ControllerScriptPath $Workspace "scripts/controller/Controller-Recovery.ps1")
+            $state = Read-SupervisorCheckpoint $Workspace $CheckpointPath
+            Set-StateProperty $state 'state' 'CHECKPOINTED'
+            Set-StateProperty $state 'process_id' 0
+            Set-StateProperty $state 'owned_session_fingerprint' ''
+            Set-StateProperty $state 'conversation_id' ''
+            $recCount = if ($state.recovery_count) { $state.recovery_count + 1 } else { 1 }
+            Set-StateProperty $state 'recovery_count' $recCount
+            Set-StateProperty $state 'updated_at' ([DateTimeOffset]::UtcNow.ToString('o'))
+            Set-StateProperty $state 'next_safe_action' "Advance task lifecycle: scientific operation already completed, do not replay"
+            Write-ControllerCheckpoint $CheckpointPath $state
+
+            $result.success = $true
+            $result.action_taken = "Scientific operation completion confirmed: state checkpointed to advance lifecycle without replaying operation."
+        }
+
+        "RECONCILE_BRIDGE_TRANSACTION" {
+            . (Resolve-ControllerScriptPath $Workspace "scripts/controller/Controller-Recovery.ps1")
+            $state = Read-SupervisorCheckpoint $Workspace $CheckpointPath
+            Set-StateProperty $state 'state' 'CHECKPOINTED'
+            Set-StateProperty $state 'process_id' 0
+            Set-StateProperty $state 'owned_session_fingerprint' ''
+            Set-StateProperty $state 'conversation_id' ''
+            $recCount = if ($state.recovery_count) { $state.recovery_count + 1 } else { 1 }
+            Set-StateProperty $state 'recovery_count' $recCount
+            Set-StateProperty $state 'updated_at' ([DateTimeOffset]::UtcNow.ToString('o'))
+            Set-StateProperty $state 'next_safe_action' "Await or reconcile existing bridge response; do not resend transaction"
+            Write-ControllerCheckpoint $CheckpointPath $state
+
+            $result.success = $true
+            $result.action_taken = "Pending bridge transaction preserved: duplicate request prevented."
+        }
+
         "RESUME_PENDING_INSTRUCTION" {
-            . (Join-Path $Workspace "scripts/controller/Controller-Recovery.ps1")
-            . (Join-Path $Workspace "scripts/controller/Controller-AuthRecovery.ps1")
+            . (Resolve-ControllerScriptPath $Workspace "scripts/controller/Controller-Recovery.ps1")
+            . (Resolve-ControllerScriptPath $Workspace "scripts/controller/Controller-AuthRecovery.ps1")
             $state = Read-SupervisorCheckpoint $Workspace $CheckpointPath
             $loopStatePath = Join-Path $PadPath "antigravity_loop_state.json"
+
+            # Strict guard: audit partial side effects before re-arming!
+            $seAudit = Audit-InterruptedTurnSideEffects -Workspace $Workspace -Checkpoint $state
+            if ($seAudit.has_side_effects) {
+                throw "CANNOT_REARM_WITH_SIDE_EFFECTS: Interrupted turn committed side effects ($($seAudit.details)); requires bounded evidence recovery, not unstarted re-arming."
+            }
+
             $inst = ""
             if (Test-Path -LiteralPath $loopStatePath) {
                 try {

@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "package_id": "mode1_c6_package171_r8_c3_0_adaptive_reequilibration",
+  "task_id": "F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION",
+  "candidate_job": "M1_C6_P171_R8_ADAPTIVE_DAMPED",
+  "checks": {
+    "manifest_cross_integrity": "PASS",
+    "package_file_hashes": "PASS (17 files verified)",
+    "frozen_uel_integrity": "PASS",
+    "driver_execution_wiring": {
+      "compute_active_set_symmetric_difference": "PASS",
+      "compound_stability_logic": "PASS",
+      "compound_cardinality_gate": "PASS",
+      "compound_symmetric_diff_gate": "PASS",
+      "compound_anti_expansion_gate": "PASS",
+      "stage_transition_logic": "PASS",
+      "growth_rollback_logic": "PASS",
+      "divergence_rollback_logic": "PASS",
+      "catastrophic_rollback_logic": "PASS",
+      "max_outer_budget_140": "PASS",
+      "healing_irreversibility_enforcement": "PASS",
+      "history_monotonicity_enforcement": "PASS",
+      "post_relaxation_kkt_stationarity": "PASS",
+      "final_mechanical_reequilibration": "PASS",
+      "fail_closed_phase_decoding": "PASS",
+      "continuity_gates": "PASS"
+    },
+    "datacheck_evidence": {
+      "mechanical_datacheck": "PASS (Exit 0, ANALYSIS DATACHECK COMPLETE, 0 errors)",
+      "phase_datacheck": "PASS (Exit 0, ANALYSIS DATACHECK COMPLETE, 0 errors)",
+      "mechanical_dat_sha256": "069E94B45E99C6C06D3830D8E70636AD0DEEC26B1D5EB830BFEC50C767FE2612",
+      "phase_dat_sha256": "4F92A86B879CC2052B3BF6618F6C7E0F711FF0FC44568EB6E9686024DCF71AD7"
+    }
+  },
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration/active_set_boundary_cards.inc": "FA63AA5D376063EE278E661629EE25C7A8FAA8FA7A203A696979A1F3F327D9BE",
+    "models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration/d_lower_bounds.csv": "FE415819566B5F7D44D02D5152D31492B4CB19F076EEB4FDEF85D3F8797FA08D",
+    "models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration/initial_conditions_solution.inc": "897C12ECE3FE0665FA369B0154039B119AE875D901F51C1B38DD866B3133C196",
+    "models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration/job_notifications.sh": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+    "models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration/M1_C6_PACKAGE171_C3_0_REEQUILIBRATION.inp": "4CF715F57FF30D2B5F9B0D6064169BF44C67D5051DD924BF889CFC8BCE54BDAC",
+    "models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration/M1_C6_PACKAGE171_R8_C3_0_ADAPTIVE_REEQUILIBRATION.inp": "4CF715F57FF30D2B5F9B0D6064169BF44C67D5051DD924BF889CFC8BCE54BDAC",
+    "models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration/nodal_displacements_initial.csv": "A90A6A315B09049611857702A13496057CFDF7520EB3158EE6C8AEDE44A193AB",
+    "models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration/nodal_phase_field_initial.csv": "AFE56919B5B5494D72E14307A6C078460E538466C80318225AABA7433258BB6C",
+    "models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration/P171_MECHANICAL_DC.dat": "069E94B45E99C6C06D3830D8E70636AD0DEEC26B1D5EB830BFEC50C767FE2612",
+    "models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration/P171_MECHANICAL_DC.inp": "D86C2798164EFD9A9896B37C2E5D32081863A7E7ED89F323B13E164015F04780",
+    "models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration/P171_MECHANICAL_DC.msg": "B75AB4A65693EB86971C077C0B9C91252E205D00B152FEC8513823BA91D6C58E",
+    "models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration/P171_PHASE_DC.dat": "4F92A86B879CC2052B3BF6618F6C7E0F711FF0FC44568EB6E9686024DCF71AD7",
+    "models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration/P171_PHASE_DC.inp": "4C9315D9BCCA9DE60D1BAA07DDA61FC11EB78DA952BF66CA5A466F8FFFE9AF38",
+    "models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration/P171_PHASE_DC.msg": "823839F2E1C5DDD3DAD394BF3EE87465F75041B7AAB3366B8C9CDD5A9CDCBD87",
+    "models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration/run_datacheck.sh": "D45EFB82F0AA7D8603B46B974193520F592D5F6AC2649595EE36111655A8842F",
+    "models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration/smoke_import.py": "DBBA693C38CEA4B5833B19AF736F3D0CC4232A5D1864C05D95521723A457EF67",
+    "scripts/state_transfer/driver_package171_r8_c6_coupled_pdas.py": "4D56CFA0A51CFE23B1AC2AF2BBBA2612E58A82DE049519315832F007D8A83D9A"
+  },
+  "overall_status": "PASSED_TECHNICAL_QUALIFICATION",
+  "manifest_hashes": {
+    "PACKAGE_MANIFEST.json": "6DD6B9F7431D048593D29DE69E1D6181BD00776D16F91B2FFF72BE3B1AB0D940"
+  }
+}

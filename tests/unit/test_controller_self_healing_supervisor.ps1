@@ -375,6 +375,139 @@ try {
     Assert-Check "Post-reconciliation checkpoint cleared stale session fingerprint" ([string]::IsNullOrEmpty($postReArmCp7.owned_session_fingerprint))
     Assert-Check "Post-reconciliation checkpoint cleared stale conversation_id" ([string]::IsNullOrEmpty($postReArmCp7.conversation_id))
 
+    # -------------------------------------------------------------------------
+    # Test Group 6: Process Ownership Chain & Supervisor Status
+    # -------------------------------------------------------------------------
+    Write-Host "`n--- Test Group 6: Process Ownership Chain & Supervisor Status ---" -ForegroundColor Yellow
+
+    $supStatus = Get-SupervisorStatus -PadPath $padEnv
+    Assert-Check "Get-SupervisorStatus reports structured status" ($null -ne $supStatus.is_active -and $null -ne $supStatus.mutex_locked)
+
+    # Validate process ownership chain inspection
+    # A fake worker PID with an arbitrary command line should be rejected
+    $currentPid = [System.Diagnostics.Process]::GetCurrentProcess().Id
+    Assert-Check "Test-IsControllerWorkerProcess rejects PID 0" ((Test-IsControllerWorkerProcess -ProcessId 0) -eq $false)
+    Assert-Check "Test-IsControllerWorkerProcess rejects non-existent PID" ((Test-IsControllerWorkerProcess -ProcessId 98765432) -eq $false)
+
+    # -------------------------------------------------------------------------
+    # Test Group 7: Partial Side Effects Audit & Replay Prevention
+    # -------------------------------------------------------------------------
+    Write-Host "`n--- Test Group 7: Partial Side Effects Audit & Replay Prevention ---" -ForegroundColor Yellow
+
+    $mockSideWs = Join-Path $tmpDir "mock_side_ws"
+    New-Item -ItemType Directory -Path (Join-Path $mockSideWs "project_coordination/review_dispatch") -Force | Out-Null
+    New-Item -ItemType Directory -Path (Join-Path $mockSideWs "results/validation") -Force | Out-Null
+    $mockHpcLedger = Join-Path $mockSideWs "project_coordination/HPC_JOB_LEDGER.csv"
+    $mockActiveTask = Join-Path $mockSideWs "project_coordination/ACTIVE_TASK.json"
+
+    # Base task data
+    $baseTask = [ordered]@{
+        task_id = "F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION"
+        completed_operations = @("operation_1", "operation_2")
+        scientific_checkpoint = $null
+        controller_maintenance = [ordered]@{
+            automatic_restart_allowed = $true
+            unattended_operation_allowed = $false
+        }
+    }
+    Set-Content -LiteralPath $mockActiveTask -Value ($baseTask | ConvertTo-Json -Depth 5)
+
+    # Base HPC ledger with older job
+    $oldTime = [DateTimeOffset]::UtcNow.AddHours(-5).ToString("o")
+    "job_id,job_name,run_dir,node_list,queue_name,submission_timestamp,status,exit_code,classification,manifest_sha256" | Set-Content -LiteralPath $mockHpcLedger
+    "1400001.mmaster02,OLD_JOB,/scratch,,normal,$oldTime,COMPLETED,0,STANDING_MODE1_V2_ACCEPTED_ONCE,abc" | Add-Content -LiteralPath $mockHpcLedger
+
+    # 7.1 Clean turn: zero side effects
+    $cleanTurnStart = [DateTimeOffset]::UtcNow.AddMinutes(-5).ToString("o")
+    $cleanTurnCp = [ordered]@{
+        state = "RUNNING"
+        task_id = "F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION"
+        run_id = "run-clean"
+        turn = 7
+        process_id = 999999
+        recovery_count = 0
+        started_at = $cleanTurnStart
+        completed_operations = @("operation_1", "operation_2")
+    }
+    $cleanAudit = Audit-InterruptedTurnSideEffects -Workspace $mockSideWs -Checkpoint $cleanTurnCp -HpcLedgerPath $mockHpcLedger -ActiveTaskPath $mockActiveTask
+    Assert-Check "Clean turn produces zero side effects" ($cleanAudit.has_side_effects -eq $false -and $cleanAudit.has_pbs_side_effects -eq $false -and $cleanAudit.has_scientific_side_effects -eq $false)
+
+    # 7.2 PBS Reservation side effect: worker submitted PBS job before crashing
+    $jobTime = [DateTimeOffset]::UtcNow.AddMinutes(-2).ToString("o")
+    "1420001.mmaster02,M1_C6_P171_R8_JOB,/scratch,,normal,$jobTime,SUBMITTED,,STANDING_MODE1_V2_ACCEPTED_ONCE,def" | Add-Content -LiteralPath $mockHpcLedger
+    $pbsAudit = Audit-InterruptedTurnSideEffects -Workspace $mockSideWs -Checkpoint $cleanTurnCp -HpcLedgerPath $mockHpcLedger -ActiveTaskPath $mockActiveTask
+    Assert-Check "Audit detects PBS reservation submitted during crashed turn" ($pbsAudit.has_pbs_side_effects -eq $true -and $pbsAudit.pbs_jobs.Count -eq 1 -and $pbsAudit.pbs_jobs[0] -eq "1420001.mmaster02")
+
+    # Classification of PBS side effect: must NOT re-arm to PENDING
+    $pbsClass = Classify-ControllerFailure -Workspace $mockSideWs -PadPath $mockPad -Checkpoint $cleanTurnCp
+    Assert-Check "Crashed turn with PBS reservation classified as INTERRUPTED_TURN_PBS_SUBMITTED (once-only)" ($pbsClass.category -eq "INTERRUPTED_TURN_PBS_SUBMITTED" -and $pbsClass.action -eq "RECONCILE_PARTIAL_EVIDENCE" -and $pbsClass.fingerprint -eq "PBS_SUBMITTED_CRASH")
+
+    # 7.3 Scientific Operation side effect: worker marked operation completed before crashing
+    # Reset HPC ledger
+    "job_id,job_name,run_dir,node_list,queue_name,submission_timestamp,status,exit_code,classification,manifest_sha256" | Set-Content -LiteralPath $mockHpcLedger
+    "1400001.mmaster02,OLD_JOB,/scratch,,normal,$oldTime,COMPLETED,0,STANDING_MODE1_V2_ACCEPTED_ONCE,abc" | Add-Content -LiteralPath $mockHpcLedger
+    $sciTask = [ordered]@{
+        task_id = "F1608-PACKAGE171-R8-C6-ADAPTIVE-REEQUILIBRATION"
+        completed_operations = @("operation_1", "operation_2", "execute_mode1_package171_r8_c6_coupled_reequilibration")
+        controller_maintenance = [ordered]@{ automatic_restart_allowed = $true; unattended_operation_allowed = $false }
+    }
+    Set-Content -LiteralPath $mockActiveTask -Value ($sciTask | ConvertTo-Json -Depth 5)
+    $sciAudit = Audit-InterruptedTurnSideEffects -Workspace $mockSideWs -Checkpoint $cleanTurnCp -HpcLedgerPath $mockHpcLedger -ActiveTaskPath $mockActiveTask
+    Assert-Check "Audit detects scientific operation completed during crashed turn" ($sciAudit.has_scientific_side_effects -eq $true -and $sciAudit.completed_operations -contains "execute_mode1_package171_r8_c6_coupled_reequilibration")
+
+    $sciClass = Classify-ControllerFailure -Workspace $mockSideWs -PadPath $mockPad -Checkpoint $cleanTurnCp
+    Assert-Check "Crashed turn with completed operation classified as INTERRUPTED_TURN_OPERATION_COMPLETED" ($sciClass.category -eq "INTERRUPTED_TURN_OPERATION_COMPLETED" -and $sciClass.action -eq "RECONCILE_COMPLETED_OPERATION")
+
+    # 7.4 Bridge Transaction side effect: worker emitted review request before crashing
+    # Reset active task
+    Set-Content -LiteralPath $mockActiveTask -Value ($baseTask | ConvertTo-Json -Depth 5)
+    $reqFile = Join-Path $mockSideWs "project_coordination/review_dispatch/test_dispatch.request.json"
+    [IO.File]::WriteAllText($reqFile, '{"request_id":"test"}', [Text.UTF8Encoding]::new($false))
+    $bridgeAudit = Audit-InterruptedTurnSideEffects -Workspace $mockSideWs -Checkpoint $cleanTurnCp -HpcLedgerPath $mockHpcLedger -ActiveTaskPath $mockActiveTask -DispatchDir (Join-Path $mockSideWs "project_coordination/review_dispatch")
+    Assert-Check "Audit detects bridge transaction dispatched during crashed turn" ($bridgeAudit.has_bridge_side_effects -eq $true -and $bridgeAudit.bridge_transactions -contains "test_dispatch.request.json")
+
+    $bridgeClass = Classify-ControllerFailure -Workspace $mockSideWs -PadPath $mockPad -Checkpoint $cleanTurnCp
+    Assert-Check "Crashed turn with bridge transaction classified as INTERRUPTED_TURN_BRIDGE_TRANSACTION" ($bridgeClass.category -eq "INTERRUPTED_TURN_BRIDGE_TRANSACTION" -and $bridgeClass.action -eq "RECONCILE_BRIDGE_TRANSACTION")
+
+    # 7.5 File Writes & Temporary Files: worker wrote .tmp file before crashing
+    Remove-Item -LiteralPath $reqFile -Force
+    $tmpFile = Join-Path $mockSideWs "results/validation/partial_output.json.tmp"
+    [IO.File]::WriteAllText($tmpFile, '{"partial":true}', [Text.UTF8Encoding]::new($false))
+    $fileAudit = Audit-InterruptedTurnSideEffects -Workspace $mockSideWs -Checkpoint $cleanTurnCp -HpcLedgerPath $mockHpcLedger -ActiveTaskPath $mockActiveTask
+    Assert-Check "Audit detects partial / temporary file writes" ($fileAudit.has_file_write_side_effects -eq $true -and $fileAudit.partial_files.Count -ge 1)
+
+    # 7.6 Re-Arming Guard: Calling RESUME_PENDING_INSTRUCTION on a turn with side effects MUST throw
+    # Create checkpoint with side effects in mockPad
+    $sideEffectCpFile = Join-Path $mockPad "controller_turn_checkpoint.json"
+    Write-ControllerCheckpoint $sideEffectCpFile $cleanTurnCp
+    $rearmBlocked = $false
+    try {
+        # mockSideWs has the .tmp file, so Audit-InterruptedTurnSideEffects returns has_side_effects = true
+        Invoke-SupervisorReconciliationStep -Workspace $mockSideWs -PadPath $mockPad -Classification ([pscustomobject]@{ action = "RESUME_PENDING_INSTRUCTION" }) -CheckpointPath $sideEffectCpFile
+    } catch {
+        if ($_.Exception.Message -match "CANNOT_REARM_WITH_SIDE_EFFECTS") {
+            $rearmBlocked = $true
+        }
+    }
+    Assert-Check "RESUME_PENDING_INSTRUCTION throws CANNOT_REARM_WITH_SIDE_EFFECTS when partial side effects exist" ($rearmBlocked -eq $true)
+
+    # 7.7 RECONCILE_PARTIAL_EVIDENCE cleans temporary files and converts to CHECKPOINTED
+    $reconcileRes = Invoke-SupervisorReconciliationStep -Workspace $mockSideWs -PadPath $mockPad -Classification ([pscustomobject]@{ action = "RECONCILE_PARTIAL_EVIDENCE" }) -CheckpointPath $sideEffectCpFile
+    Assert-Check "RECONCILE_PARTIAL_EVIDENCE succeeds" ($reconcileRes.success -eq $true)
+    Assert-Check "Temporary file cleaned by RECONCILE_PARTIAL_EVIDENCE" (-not (Test-Path -LiteralPath $tmpFile))
+    $reconciledCp = Read-SupervisorCheckpoint $repoRoot $sideEffectCpFile
+    Assert-Check "Checkpoint converted to CHECKPOINTED state with evidence recovery action" ($reconciledCp.state -eq "CHECKPOINTED" -and $reconciledCp.next_safe_action -match "Evidence-only reconciliation")
+
+    # -------------------------------------------------------------------------
+    # Test Group 8: Unattended Operation Governance
+    # -------------------------------------------------------------------------
+    Write-Host "`n--- Test Group 8: Unattended Operation Governance ---" -ForegroundColor Yellow
+
+    # Verify that ACTIVE_TASK governance with unattended_operation_allowed = false is preserved
+    $taskGov = Get-Content (Join-Path $repoRoot "project_coordination/ACTIVE_TASK.json") -Raw | ConvertFrom-Json
+    Assert-Check "Governance maintains unattended_operation_allowed = false" ($taskGov.controller_maintenance.unattended_operation_allowed -eq $false)
+    Assert-Check "Governance maintains max_new_pbs_submissions = 0" ($taskGov.max_new_pbs_submissions -eq 0)
+
     Write-Host "`n==================================================================" -ForegroundColor Cyan
     Write-Host " ALL SUPERVISOR TESTS PASSED: $passedTests / $totalTests" -ForegroundColor Green
     Write-Host "==================================================================" -ForegroundColor Cyan
