@@ -1,0 +1,58 @@
+{
+  "task_id": "F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR",
+  "task_name": "Method C Paired C6 R12 Controlled Overnight Production Execution (Picard Baseline vs Safeguarded Anderson M2)",
+  "phase": "Method C Paired C6 R12 Controlled Overnight Production Execution",
+  "objective": "Execute the paired C6 adaptive receiver mesh (15,252 quads, 15,559 physical nodes, 61,008 Gauss points, held uy = 0.0018703125442191958 mm) re-equilibration experiment with gradient-preserving isoparametric bilinear Gauss-point state transfer under strict parameter invariance, comparing Arm A (M1_C6_R12_PICARD_BASELINE, Anderson disabled) vs Arm B (M1_C6_R12_ANDERSON_M2, safeguarded Anderson depth 2, beta 0.85, reg 1e-6, gamma_max 200, step_cap 0.045). Authorizes exactly two once-only production PBS solver submissions.",
+  "predecessor": "F1628-METHOD-C-ISOPARAMETRIC-C6-ADAPTIVE-REEQUILIBRATION",
+  "authorized_scope": {
+    "max_new_pbs_submissions": 2,
+    "remaining_pbs_submissions": 2,
+    "named_jobs": [
+      {
+        "candidate": "M1_C6_R12_PICARD_BASELINE",
+        "package_dir": "models/pandey_kumar_mode1/174_c6_r12_picard_baseline",
+        "cluster_scratch_dir": "/scratch9/pr21vyci/runs/mode1_c6_r12_picard_baseline",
+        "submit_script": "submit_M1_C6_R12_PICARD_BASELINE.pbs",
+        "resources": {
+          "nodes": 1,
+          "ppn": 1,
+          "pmem": "16gb",
+          "walltime": "08:00:00",
+          "queue": "entry_imfdfkmq"
+        },
+        "description": "Arm A: Qualified C6 R12 re-equilibration with gradient-preserving isoparametric bilinear GP transfer, Anderson acceleration DISABLED (pure damped Picard baseline)"
+      },
+      {
+        "candidate": "M1_C6_R12_ANDERSON_M2",
+        "package_dir": "models/pandey_kumar_mode1/175_c6_r12_anderson_m2",
+        "cluster_scratch_dir": "/scratch9/pr21vyci/runs/mode1_c6_r12_anderson_m2",
+        "submit_script": "submit_M1_C6_R12_ANDERSON_M2.pbs",
+        "resources": {
+          "nodes": 1,
+          "ppn": 1,
+          "pmem": "16gb",
+          "walltime": "08:00:00",
+          "queue": "entry_imfdfkmq"
+        },
+        "description": "Arm B: Qualified C6 R12 re-equilibration with gradient-preserving isoparametric bilinear GP transfer, safeguarded Anderson acceleration ENABLED (m=2, beta=0.85, reg=1e-6, gamma_max=200, step_cap=0.045)"
+      }
+    ]
+  },
+  "governance": {
+    "max_new_pbs_submissions": 2,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "driver_sha256": "282690AB37E8592309B19A6B73BF07758FFEFDF568D6F538267F62A3E93B5B6E",
+    "zero_pbs_enforced": false,
+    "automatic_retry_allowed": false,
+    "max_outer_iterations": 140
+  },
+  "acceptance_criteria": [
+    "Verify remote cluster staging and confirm driver hash 282690AB37E8592309B19A6B73BF07758FFEFDF568D6F538267F62A3E93B5B6E across both packages",
+    "Verify exact bitwise match of frozen production UEL CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "Verify live cluster scheduler capacity via qstat before submission",
+    "Submit Job A (M1_C6_R12_PICARD_BASELINE) via Invoke-Mode1Execution.ps1 and record authentic PBS ID",
+    "Submit Job B (M1_C6_R12_ANDERSON_M2) via Invoke-Mode1Execution.ps1 and record authentic PBS ID",
+    "Record authentic PBS job IDs in HPC_JOB_LEDGER.csv and ACTIVE_TASK.json",
+    "Configure notifications and monitoring across outer iterations 1-140 to capture comparative convergence telemetry"
+  ]
+}

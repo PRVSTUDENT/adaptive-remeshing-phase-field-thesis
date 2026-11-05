@@ -1,0 +1,71 @@
+{
+  "batch_name": "MODE1_M1_C6_R12_ANDERSON_M2",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c6_r12_anderson_m2",
+  "runtime_root": "/scratch9/pr21vyci/runs/mode1_c6_r12_anderson_m2/runtime",
+  "runtime_source_hashes": {
+    "scripts/state_transfer/anderson_acceleration.py": "57D004E81F97B504FD185C22AF1EB1F9176A9BEFBB6D485B0D1056AE4A44A3EE",
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8",
+    "scripts/state_transfer/c4_to_c5_spatial_mapping.py": "BD2E115514C8672B07CBD85AEF6135C386B8C70A8044E378C6CCCEC910BD2699",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "9EDE833668340A41AD590CB2387F8CB72A6C9C63DE9DF6B2185A3CABD1B21265",
+    "scripts/state_transfer/driver_package171_r12_c6_coupled_pdas.py": "282690AB37E8592309B19A6B73BF07758FFEFDF568D6F538267F62A3E93B5B6E",
+    "scripts/validation/extract_package148_iteration.py": "4EB4B445A6CC35650A6E3A14FA79B48FDF37B4AE1E27BDFC1499C751DF403CEC"
+  },
+  "files": {
+    "active_set_boundary_cards.inc": "fa63aa5d376063ee278e661629ee25c7a8faa8fa7a203a696979a1f3f327d9be",
+    "d_lower_bounds.csv": "521d9bed1542431ed78a49bc6d0f6b9d48cecaa35412c22a306cf4d595e1fd73",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "initial_conditions_solution.inc": "22b331f3f55521f06d9f5e25ad653ffa13fde10287d331375e6cf8a390bda101",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_C6_PACKAGE171_R12_C3_0_ADAPTIVE_REEQUILIBRATION.inp": "4cf715f57ff30d2b5f9b0d6064169bf44c67d5051dd924bf889cfc8bce54bdac",
+    "nodal_displacements_initial.csv": "a90a6a315b09049611857702a13496057cfdf7520eb3158ee6c8aede44a193ab",
+    "nodal_phase_field_initial.csv": "afe56919b5b5494d72e14307a6c078460e538466c80318225aaba7433258bb6c",
+    "P171_ITER1_MECH.dat": "bf5569f94bfbc366e97eb96624fdeb546e2e30d37d8e7be30f6cac59b300f191",
+    "P171_ITER1_MECH.inp": "c5f81ae967685618756ad2c88974290f6f28ecfde6f1aae14c668a3ae996fad4",
+    "P171_ITER1_MECH.msg": "6f4bfe52043c3c1cdca5586cda2581469fc5e30671679ca0cc8f90b4e16a2785",
+    "P171_ITER1_PHASE.dat": "647eec69008fb1400f5eaf22304c34e3169e6dc81613ac1c05b7cda34d7b05d5",
+    "P171_ITER1_PHASE.inp": "d797267315d441c8272bcb0241bf6720cd877d1b1b8f1827770708f946ee1c13",
+    "P171_ITER1_PHASE.msg": "84f3828710c8fcd366e4cb0cc8bb19c1c8e0c521c918e729aefeb2b4bc5be7d0",
+    "P171_MECHANICAL_DC.dat": "e67ef7625d6d3fe7db3ac29faca2a570cf4416f038d016d156a7447a9f2acd50",
+    "P171_MECHANICAL_DC.inp": "d86c2798164efd9a9896b37c2e5d32081863a7e7ed89f323b13e164015f04780",
+    "P171_MECHANICAL_DC.msg": "e0bfeb968f0938403018420fad09aa0e2f6c65fced22959d9f56841de16fe28e",
+    "P171_PHASE_DC.dat": "c5118c865e301f78a4117ef40a0d86ab48e7fcbe03f78c765eea16300b3c83df",
+    "P171_PHASE_DC.inp": "4c9315d9bcca9de60d1baa07dda61fc11eb78da952bf66ca5a466f8fffe9af38",
+    "P171_PHASE_DC.msg": "0dd53da2c4533a5de07b78a061bb76019d518d8bf94dcb9a14ae243d437ee8e6",
+    "PACKAGE_MANIFEST.json": "34c3b25eda99c63efd9c5a9fd77adefa8232fed14f689d585aa7efd2b1c19fd1",
+    "run_datacheck.sh": "5dd07a6490b3b66934ce2060b83153b934e77adda3a2b0639033e16a5ad6128f",
+    "smoke_import.py": "3439904bd411521cd45734c10662420e8bd102e47cc50bad2fe2271ec648c6a2",
+    "submit_M1_C6_R12_ANDERSON_M2.pbs": "88358085545b263edb162eced3fea8eb9e8663efcefe5640ac247bd6c07bbf98"
+  },
+  "scientific_predecessor_review": "Independent supervisor review ACCEPT decision under correlation HND-0dae3f598efb closing F1628 and activating F1629",
+  "jobs": [
+    {
+      "id": "M1_C6_R12_ANDERSON_M2",
+      "pbs": "submit_M1_C6_R12_ANDERSON_M2.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c6_r12_anderson_m2/submit_M1_C6_R12_ANDERSON_M2.pbs\"",
+      "command_sha256": "53eb03268e1735be4d26ea75b5c91c4eed959132c3e76d32bd931d1dd2d427e4",
+      "input": "P171_MECHANICAL_DC.inp",
+      "datacheck": "P171_MECHANICAL_DC.dat",
+      "additional_datachecks": [
+        "P171_PHASE_DC.dat"
+      ],
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Arm B: C6 R12 adaptive re-equilibration with gradient-preserving isoparametric GP transfer, safeguarded Anderson ENABLED (m=2, beta=0.85)",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial"
+    }
+  ],
+  "acceptance": {
+    "M1_C6_R12_ANDERSON_M2": "C6 R12 adaptive re-equilibration (Arm B): Delta d <= 1e-5, Delta u <= 1e-9 mm, Delta H <= 1e-4 MPa, final KKT <= 1e-6, zero healing, reaction force drift <= 2%, total energy drift <= 2% vs Checkpoint 03."
+  }
+}

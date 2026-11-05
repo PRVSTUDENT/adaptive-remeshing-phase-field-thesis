@@ -1,3 +1,27 @@
+## 5 November Method C Paired C6 R12 Controlled Overnight Production Execution Submitted (Task F1629 Active)
+
+1. **Paired Production PBS Submissions Executed (Jobs 1420391.mmaster02 & 1420392.mmaster02)**:
+   - **Task ID:** `F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR`
+   - **Supervisor Directive:** Authorized under correlation `HND-0dae3f598efb` for exactly two once-only production PBS submissions before 21:00 CET cutoff.
+   - **Arm A (Package 174 / Picard Baseline)**: PBS `1420391.mmaster02` (`M1_C6_R12_PICARD_BASELINE`), submitted to `normal_imfdfkmq` queue, status `Q`, 1 CPU serial, 16 GB, 8h walltime. Gradient-preserving isoparametric bilinear GP history transfer with Anderson acceleration DISABLED (`anderson_enabled = False`).
+   - **Arm B (Package 175 / Safeguarded Anderson M2)**: PBS `1420392.mmaster02` (`M1_C6_R12_ANDERSON_M2`), submitted to `normal_imfdfkmq` queue, status `Q`, 1 CPU serial, 16 GB, 8h walltime. Identical isoparametric transfer state with safeguarded Anderson acceleration ENABLED ($m=2, \beta=0.85, \text{reg}=10^{-6}, \gamma_{\max}=200, \text{step\_cap}=0.045$).
+
+2. **Controlled Experimental Parity Verified**:
+   - Both arms share 100% bitwise identical initial conditions:
+     * C6 nonmatching receiver mesh: 15,252 CPE4 quads, 15,559 physical nodes, 61,008 Gauss points.
+     * Crack seam: 59 duplicate node pairs along $y = 0.050$ mm.
+     * Held displacement: $u_y = 0.0018703125442191958$ mm.
+     * Isoparametric bilinear GP driving history: peak $H_{\max} = 14.0474$ MPa, domain integral 4,419.28 MPa, non-negative ($H \ge 0.0$ everywhere).
+     * Frozen production UEL SHA-256: `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`.
+     * Convergence criteria: $\Delta d \le 10^{-5}$, $\Delta u \le 10^{-9}$ mm, $\Delta H \le 10^{-4}$ MPa, force drift $\le 2\%$, energy drift $\le 2\%$.
+   - The single controlled variable is Anderson acceleration depth $m=2$ vs pure Picard.
+
+3. **Governed Accounting & Active Monitoring Active**:
+   - Authorized submissions consumed: 2 of 2 (`remaining_pbs_submissions = 0`).
+   - Staged scratch paths: `/scratch9/pr21vyci/runs/mode1_c6_r12_picard_baseline` & `mode1_c6_r12_anderson_m2`.
+   - Monitoring tool configured: `scripts/validation/monitor_paired_f1629_execution.py`.
+   - Reconciled in `HPC_JOB_LEDGER.csv` lines 556–557 as `SUBMITTED`.
+
 ## 5 November Method C Isoparametric Bilinear GP Transfer Package 171-R12 C6 Adaptive Re-Equilibration Qualification Completed (Task F1628 Closed)
 
 1. **Zero-PBS Technical Qualification & Offline Integration Completed (Task F1628 Closed)**:
