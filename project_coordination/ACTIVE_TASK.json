@@ -1,14 +1,14 @@
 {
     "task_id": "F1616-PACKAGE171-R10-C6-EXECUTION-QUALIFICATION",
     "agent": "gemini-antigravity",
-    "status": "READY",
-    "phase": "Mode-I C6 Package 171-R10 Coupled PDAS Re-Equilibration Execution with Two-Phase Adaptive Safeguarded Relaxation and Isolated Displacement Under-Relaxation (omega_u = 0.85). Authorized for exactly 1 PBS submission.",
-    "gate_status": "REGISTERED_AUTHORIZED_1_PBS_SUBMISSION",
+    "status": "RUNNING",
+    "phase": "Package 171-R10 C6 Coupled PDAS Re-Equilibration Execution with Two-Phase Adaptive Safeguarded Relaxation and Isolated Displacement Under-Relaxation (omega_u = 0.85). Production job 1420261.mmaster02 submitted to entry_imfdfkmq -> normal_imfdfkmq; actively running / monitoring.",
+    "gate_status": "DATACHECKS_VERIFIED__EXECUTION_SUBMITTED_AND_RUNNING",
     "predecessor_task": {
         "run_id": "continuous-method-c-direct-bridge-20261104",
         "status": "DATACHECKS_PASSED_BOTH_EXIT_0",
         "task_id": "F1615-PACKAGE171-R10-C6-STAGE-AND-DATACHECK-QUALIFICATION",
-        "source_commit": "f7fdd46487e834927ebcc9cf7ef92db6fe597c5e",
+        "source_commit": "87245885a80f70753f6309ad73fce46e2eee440f",
         "checkpoint_sha256": "5EAE8A00A26918CD5954DAFD64362956FE19189250C14392A73DCE33792317C8"
     },
     "registration": {
@@ -262,11 +262,12 @@
         "1419375.mmaster02"
     ],
     "active_pbs_job_ids": [
-        "1420215.mmaster02"
+        "1420261.mmaster02"
     ],
     "dependent_pbs_job_ids": [],
-    "pbs_status_note": "Job 1420215.mmaster02 submitted to entry_imfdfkmq -> normal_imfdfkmq; actively running / monitoring.",
+    "pbs_status_note": "Job 1420261.mmaster02 submitted to entry_imfdfkmq -> normal_imfdfkmq; actively running / monitoring.",
     "referenced_pbs_job_ids": [
+        "1420261.mmaster02",
         "1420215.mmaster02",
         "1420188.mmaster02",
         "1419873.mmaster02",
@@ -280,17 +281,18 @@
     ],
     "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "max_new_pbs_submissions": 0,
+    "remaining_pbs_submissions": 0,
     "lifecycle": {
         "scientific_execution_started": true,
         "predecessor_replay_allowed": false,
         "state": "ACTIVE"
     },
     "preserved_predecessor": {
-        "task_id": "F1611-PACKAGE171-R9-C6-STAGE-AND-DATACHECK-QUALIFICATION",
+        "task_id": "F1615-PACKAGE171-R10-C6-STAGE-AND-DATACHECK-QUALIFICATION",
         "status": "COMPLETED",
         "scientific_acceptance": "DATACHECKS_PASSED_BOTH_EXIT_0",
-        "artifact": "results/validation/package171_r9_datacheck_receipt.json",
-        "sha256": "DC4C72792872D14034D4239F66EADB324D381691BDD264AA6F2FF32DAF1867BB"
+        "artifact": "results/validation/package171_r10_datacheck_receipt.json",
+        "sha256": "5EAE8A00A26918CD5954DAFD64362956FE19189250C14392A73DCE33792317C8"
     },
     "controller_maintenance": {
         "status": "RECONCILED_SUPERVISED_SELF_HEALING_DEPLOYED",
@@ -301,8 +303,8 @@
         "supervised_resumption_scope": "CONTROLLED_LIVE_VERIFICATION_ONLY",
         "reconciled_at": "2026-11-04T15:46:00+01:00"
     },
-    "scientific_acceptance": "DIAGNOSIS_AND_R10_FORMULATION_COMPLETE",
-    "last_step_status": "DIAGNOSIS_REPORT_PUBLISHED",
-    "last_updated": "2026-11-05T08:31:00+01:00",
-    "next_safe_action": "Submit diagnosis report and R10 dual relaxation specification to ChatGPT via PAD bridge for independent scientific review."
+    "scientific_acceptance": "RUNNING_EXECUTION",
+    "last_step_status": "JOB_SUBMITTED_AND_RUNNING",
+    "last_updated": "2026-11-05T09:44:00+01:00",
+    "next_safe_action": "Monitor live execution of Job 1420261.mmaster02 on cluster scratch. Inspect live_iteration_telemetry.json for Stage 2 admission, displacement relaxation dynamics, and coupled convergence."
 }
