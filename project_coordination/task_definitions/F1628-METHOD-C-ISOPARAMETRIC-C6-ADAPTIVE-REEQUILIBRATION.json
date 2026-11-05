@@ -1,0 +1,47 @@
+{
+  "task_id": "F1628-METHOD-C-ISOPARAMETRIC-C6-ADAPTIVE-REEQUILIBRATION",
+  "task_name": "Method C Isoparametric Bilinear Gauss-Point Transfer Package 171-R12 C6 Adaptive Re-Equilibration Qualification",
+  "phase": "Method C Nonmatching Remeshed Receiver History Integration and Zero-PBS Datacheck Qualification",
+  "objective": "Integrate the validated isoparametric bilinear Gauss-point history transfer operator into the C6 nonmatching remeshed receiver (Package 171-R12, 15,252 CPE4 quads, 15,559 physical nodes, 61,008 GP histories) from accepted C5 donor Checkpoint 03 (Job 1419566.mmaster02, uy = 0.0018703125 mm). Conduct rigorous quantitative comparison against legacy element-averaged transfer, separate transfer from acceleration effects, implement fail-closed regression tests, and execute permitted zero-PBS Abaqus 2023 datachecks.",
+  "predecessor": "F1626-METHOD-C-SAME-MESH-REPAIRED-CONTROL-EXECUTION",
+  "authorized_scope": {
+    "max_new_pbs_submissions": 0,
+    "remaining_pbs_submissions": 0,
+    "zero_pbs_enforced": true,
+    "named_jobs": [
+      {
+        "candidate": "M1_C6_P171_R12_C3_0",
+        "package_dir": "models/pandey_kumar_mode1/171_c6_package171_r12_c3_0_adaptive_reequilibration",
+        "cluster_scratch_dir": "/scratch9/pr21vyci/runs/mode1_c6_package171_r12_c3_0_adaptive_reequilibration",
+        "submit_script": "submit_M1_C6_P171_R12_C3_0.pbs",
+        "resources": {
+          "nodes": 1,
+          "ppn": 1,
+          "pmem": "16gb",
+          "walltime": "08:00:00"
+        },
+        "description": "Package 171 Revision 12: C6 nonmatching receiver re-equilibration with gradient-preserving isoparametric bilinear GP history transfer"
+      }
+    ]
+  },
+  "governance": {
+    "max_new_pbs_submissions": 0,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "zero_pbs_enforced": true,
+    "automatic_retry_allowed": false,
+    "anderson_enabled_baseline": false,
+    "anderson_switchable": true,
+    "max_outer_iterations": 140
+  },
+  "acceptance_criteria": [
+    "Preserve bitwise frozen UEL SHA-256 CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "Verify 15,252 C6 quadrilaterals, 15,559 physical nodes, correct crack-seam topology, complete nodal displacement/damage, and all 61,008 receiver GP histories",
+    "Execute isoparametric bilinear GP transfer from C5 Checkpoint 03 onto C6 receiver with convex clamping and slit topology (slit_y=0.050, slit_a0=0.040)",
+    "Perform quantitative transfer comparison against legacy element-averaged transfer (max/RMS field differences, near-tip gradients, extrapolation/clamping counts, thermodynamic admissibility)",
+    "Implement Package 171-R12 coupled PDAS driver with isolated transfer baseline (anderson_enabled=False by default) and switchable Anderson option",
+    "Add fail-closed unit and regression tests verifying source provenance, GP coverage, boundary/seam conformance, and extractor contract",
+    "Deploy Package 171-R12 to cluster scratch and execute permitted zero-PBS Abaqus 2023 datachecks across all subproblems (Exit 0, 0 errors)",
+    "Preserve unresolved observation that C5 history transfer alone did not recover coupled equilibrium, avoiding unsupported convergence assumptions",
+    "Strictly consume 0 production PBS job submissions"
+  ]
+}

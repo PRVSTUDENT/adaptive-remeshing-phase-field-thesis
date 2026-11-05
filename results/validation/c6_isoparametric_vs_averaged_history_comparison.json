@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "task_id": "F1628-METHOD-C-ISOPARAMETRIC-C6-ADAPTIVE-REEQUILIBRATION",
+  "donor_source": {
+    "checkpoint": "converged_checkpoint_03.json",
+    "job_id": "1419566.mmaster02",
+    "elements": 12996,
+    "gp_count": 51984
+  },
+  "receiver_mesh": {
+    "name": "C6_Receiver",
+    "elements": 15252,
+    "physical_nodes": 15559,
+    "gp_count": 61008
+  },
+  "transfer_telemetry": {
+    "limiter_mode": "convex_clamp",
+    "slit_tip_x_mm": 0.04,
+    "slit_tip_y_mm": 0.05,
+    "extrapolation_count": 26412,
+    "clamped_count": 11994,
+    "negative_prevented_count": 7,
+    "max_extrapolation_distance": 0.21132486540522522,
+    "non_uniform_elements_count": 15214,
+    "non_uniform_elements_pct": 99.75085234723315
+  },
+  "history_field_ranges": {
+    "original_averaged": {
+      "min_MPa": 2.948380472282011e-08,
+      "max_MPa": 8.805541886661029,
+      "sum_MPa": 4419.877712443956
+    },
+    "corrected_isoparametric": {
+      "min_MPa": 7.69768664333234e-09,
+      "max_MPa": 14.047374982502223,
+      "sum_MPa": 4419.284921488598
+    }
+  },
+  "discrepancy_metrics": {
+    "whole_domain": {
+      "max_absolute_diff_MPa": 6.349108515722316,
+      "mean_absolute_diff_MPa": 0.006233453062849666,
+      "rms_diff_MPa": 0.11146442868528815
+    },
+    "near_tip_zone_r_10um": {
+      "sample_points_count": 8448,
+      "max_absolute_diff_MPa": 6.349108515722316,
+      "mean_absolute_diff_MPa": 0.04233971612503214
+    }
+  },
+  "thermodynamic_admissibility": {
+    "strictly_nonnegative": true,
+    "min_history_value": 7.69768664333234e-09,
+    "max_history_value": 14.047374982502223,
+    "finite_values_only": true
+  }
+}

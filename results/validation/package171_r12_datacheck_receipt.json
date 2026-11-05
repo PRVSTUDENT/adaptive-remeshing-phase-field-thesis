@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "task_id": "F1628-METHOD-C-ISOPARAMETRIC-C6-ADAPTIVE-REEQUILIBRATION",
+  "package_id": "package171_r12_c3_0_adaptive_reequilibration",
+  "status": "DATACHECKS_PASSED_ALL_4_SUBPROBLEMS_EXIT_0",
+  "production_pbs_submissions": 0,
+  "zero_pbs_enforced": true,
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "receiver_mesh": {
+    "name": "C6_Receiver",
+    "elements_quad": 15252,
+    "physical_nodes": 15559,
+    "reference_point_id": 999999,
+    "crack_seam_pairs": 59,
+    "target_uy_mm": 0.0018703125442191958
+  },
+  "history_transfer": {
+    "donor_checkpoint": "converged_checkpoint_03.json",
+    "donor_job_id": "1419566.mmaster02",
+    "transfer_operator": "isoparametric_bilinear_convex_clamped",
+    "non_uniform_elements_count": 15214,
+    "non_uniform_elements_pct": 99.75,
+    "peak_history_MPa": 14.047375,
+    "thermodynamic_admissibility": "STRICTLY_NON_NEGATIVE",
+    "min_history_MPa": 7.697687e-09
+  },
+  "datachecks": {
+    "P171_MECHANICAL_DC": {
+      "job": "P171_MECHANICAL_DC",
+      "status": "PASS",
+      "exit_code": 0,
+      "errors": 0,
+      "dat_sha256": "E67EF7625D6D3FE7DB3AC29FACA2A570CF4416F038D016D156A7447A9F2ACD50",
+      "dat_size_bytes": 10649,
+      "msg_sha256": "E0BFEB968F0938403018420FAD09AA0E2F6C65FCED22959D9F56841DE16FE28E",
+      "msg_size_bytes": 1423,
+      "stdout_sha256": "EC7724344784230E2F5B8556BE5E1BFD398AF0C2AF8EED836EB2ABEDADFEA40E",
+      "stdout_size_bytes": 2574
+    },
+    "P171_PHASE_DC": {
+      "job": "P171_PHASE_DC",
+      "status": "PASS",
+      "exit_code": 0,
+      "errors": 0,
+      "dat_sha256": "C5118C865E301F78A4117EF40A0D86AB48E7FCBE03F78C765EEA16300B3C83DF",
+      "dat_size_bytes": 9666,
+      "msg_sha256": "0DD53DA2C4533A5DE07B78A061BB76019D518D8BF94DCB9A14AE243D437EE8E6",
+      "msg_size_bytes": 1423,
+      "stdout_sha256": "42167151FA7FA44AF2697DDC21754B6D9F7A9ED7C709515991E85564F7951732",
+      "stdout_size_bytes": 2564
+    },
+    "P171_ITER1_MECH": {
+      "job": "P171_ITER1_MECH",
+      "status": "PASS",
+      "exit_code": 0,
+      "errors": 0,
+      "dat_sha256": "BF5569F94BFBC366E97EB96624FDEB546E2E30D37D8E7BE30F6CAC59B300F191",
+      "dat_size_bytes": 10676,
+      "msg_sha256": "6F4BFE52043C3C1CDCA5586CDA2581469FC5E30671679CA0CC8F90B4E16A2785",
+      "msg_size_bytes": 1423,
+      "stdout_sha256": "5D43177DDB57D048B7D0145230224D58727A711B57066D3AFC20BB86C695ED6A",
+      "stdout_size_bytes": 2568
+    },
+    "P171_ITER1_PHASE": {
+      "job": "P171_ITER1_PHASE",
+      "status": "PASS",
+      "exit_code": 0,
+      "errors": 0,
+      "dat_sha256": "647EEC69008FB1400F5EAF22304C34E3169E6DC81613AC1C05B7CDA34D7B05D5",
+      "dat_size_bytes": 9693,
+      "msg_sha256": "84F3828710C8FCD366E4CB0CC8BB19C1C8E0C521C918E729AEFEB2B4BC5BE7D0",
+      "msg_size_bytes": 1423,
+      "stdout_sha256": "0909252FAB589B58B6285EB11679949D3767CB1F8CAF0FDC592D06ACFB3EE140",
+      "stdout_size_bytes": 2570
+    }
+  }
+}
