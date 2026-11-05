@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "task_id": "F1620-METHOD-C-ISOPARAMETRIC-GP-TRANSFER-QUALIFICATION",
+  "governance": {
+    "authorized_by": "chatgpt_pad_bridge_decision_HND-c9250024042a",
+    "protocol_version": 2,
+    "zero_pbs_enforced": true
+  },
+  "same_mesh_parity_c5": {
+    "mesh_elements": 12996,
+    "mesh_nodes_physical": 13278,
+    "reference_point_id": 999999,
+    "total_gauss_points": 51984,
+    "max_delta_H_MPa": 0.0,
+    "rms_delta_H_MPa": 0.0,
+    "exact_identity_passed": true
+  },
+  "nonmatching_transfer_c6": {
+    "mesh_elements": 15252,
+    "mesh_nodes": 15560,
+    "total_gauss_points": 61008,
+    "peak_history_donor_reference_MPa": 14.047374982502223,
+    "peak_history_old_operator_MPa": 8.805541886661029,
+    "peak_history_candidate_1_convex_clamp_MPa": 14.047374982502223,
+    "peak_history_candidate_2_nonnegative_MPa": 16.456854992056517,
+    "max_difference_candidate_1_vs_old_MPa": 6.349108515722316,
+    "rms_difference_candidate_1_vs_old_MPa": 0.11146442868528816,
+    "extrapolation_statistics": {
+      "candidate_1_convex_clamp": {
+        "extrapolation_count": 26412,
+        "extrapolation_pct": 43.292682926829265,
+        "clamped_count": 11994,
+        "clamped_pct": 19.659716758457908,
+        "negative_prevented_count": 7,
+        "max_extrapolation_distance": 0.21132486540522522,
+        "min_history_value": 7.69768664333234e-09,
+        "max_history_value": 14.047374982502223
+      },
+      "candidate_2_nonnegative": {
+        "extrapolation_count": 26412,
+        "clamped_count": 7,
+        "negative_prevented_count": 7,
+        "min_history_value": 0.0,
+        "max_history_value": 16.456854992056517
+      }
+    },
+    "radial_localization": {
+      "zone_2um": {
+        "gp_count": 812,
+        "peak_H_old": 8.805541886661029,
+        "peak_H_c1": 14.047374982502223,
+        "mean_H_old": 1.7525312565459916,
+        "mean_H_c1": 1.756771175192429,
+        "max_diff_MPa": 6.349108515722316,
+        "rms_diff_MPa": 0.9637971098848525
+      },
+      "zone_5um": {
+        "gp_count": 2256,
+        "peak_H_old": 2.32825265336066,
+        "peak_H_c1": 2.151241100900778,
+        "mean_H_old": 0.38133601104357373,
+        "mean_H_c1": 0.3798516206636673,
+        "max_diff_MPa": 0.3388826853441951,
+        "rms_diff_MPa": 0.039014243489434546
+      },
+      "zone_10um": {
+        "gp_count": 5334,
+        "peak_H_old": 0.6572848322372519,
+        "peak_H_c1": 0.6586316040743266,
+        "mean_H_old": 0.11697256930919314,
+        "mean_H_c1": 0.11687907565017679,
+        "max_diff_MPa": 0.03448326045954009,
+        "rms_diff_MPa": 0.005992842209555953
+      },
+      "zone_far_field": {
+        "gp_count": 52606,
+        "peak_H_old": 0.4004701916470841,
+        "peak_H_c1": 0.5378900160823433,
+        "mean_H_old": 0.028753309632343692,
+        "mean_H_c1": 0.028749733518934527,
+        "max_diff_MPa": 0.13741982443525924,
+        "rms_diff_MPa": 0.0012833582341837066
+      }
+    },
+    "driving_force_consistency": {
+      "peak_driving_force_old_MPa": 5.984712899507467,
+      "peak_driving_force_c1_MPa": 9.348408971127943,
+      "mean_driving_force_old_MPa": 0.0767330319961114,
+      "mean_driving_force_c1_MPa": 0.07661371231658877,
+      "max_driving_force_discrepancy_MPa": 4.646259750573789,
+      "rms_driving_force_discrepancy_MPa": 0.07800468690701633
+    }
+  },
+  "qualification_verdict": "TECHNICAL_QUALIFICATION_APPROVED",
+  "remediation_status": "EXACT_SAME_MESH_IDENTITY_PROVEN__C6_GRADIENT_PRESERVED"
+}

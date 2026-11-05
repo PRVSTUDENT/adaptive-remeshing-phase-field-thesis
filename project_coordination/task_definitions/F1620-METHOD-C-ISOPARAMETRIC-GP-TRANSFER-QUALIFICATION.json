@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "task_id": "F1620-METHOD-C-ISOPARAMETRIC-GP-TRANSFER-QUALIFICATION",
+  "name": "Method C Isoparametric Bilinear Gauss-Point Transfer Implementation and Offline Parity Qualification",
+  "description": "Formulation, implementation, and offline qualification of a gradient-preserving bilinear Gauss-point history transfer operator on Mode-I C5 donor state (Job 1419566 Checkpoint 03, 12,996 elements). Strictly 0 PBS submissions authorized.",
+  "agent": "gemini-antigravity",
+  "status": "ACTIVE",
+  "created_at": "2026-11-05T13:35:00+01:00",
+  "governance": {
+    "protocol_version": 2,
+    "authorized_by": "chatgpt_pad_bridge_decision_HND-c9250024042a",
+    "directive": "OPTION 1 — APPROVE THE DIAGNOSTIC FINDING AND AUTHORIZE OFFLINE GP-TRANSFER REMEDIATION QUALIFICATION",
+    "supervisor_meeting_anchor": "2026-11-05 Supervisor Meeting Priority Directive",
+    "max_new_pbs_submissions": 0,
+    "zero_pbs_enforced": true
+  },
+  "predecessor": {
+    "task_id": "F1619-METHOD-C-SAME-MESH-TRANSFER-DIAGNOSTIC-FORMULATION",
+    "status": "COMPLETED",
+    "scientific_acceptance": "DIAGNOSTIC_COMPLETED_OPERATOR_PERMANENT_PERTURBATION_PROVEN",
+    "verified_commit": "4b73e5c25dacf96d3727260b6f6377d8b2da69e2",
+    "summary_json": "results/validation/same_mesh_transfer_diagnostic_summary.json",
+    "summary_sha256": "777931ED667A53A58DDCDE667FE8EFB15173FECAD4354DE573168BB25E6A7DE4"
+  },
+  "qualification_scope": {
+    "donor_state": {
+      "job_id": "1419566.mmaster02",
+      "checkpoint": "converged_checkpoint_03.json",
+      "mesh_elements": 12996,
+      "nodes_physical": 13278,
+      "reference_point_id": 999999,
+      "target_uy_mm": 0.0018703125442191958
+    },
+    "requirements": [
+      "Establish authentic donor GP numbering and isoparametric coordinates",
+      "Calculate receiver-GP physical coordinates and donor-element local coordinates via verified inverse isoparametric mapping",
+      "Demonstrate exact C5-to-C5 GP history identity to numerical precision (max |Delta H| <= 1e-4 MPa across all 51,984 GP values)",
+      "Evaluate C5-to-C6 receiver mapping with slit-flank isolation and host-element boundary checks",
+      "Implement safeguarded extrapolation limiting outside the donor GP rectangle preserving nonnegativity (H >= 0) and physical driving bounds",
+      "Preserve historical irreversibility and verify consistency with tensile-energy driving force",
+      "Compare old element-mean and proposed GP reconstruction using field-error statistics and crack-tip profiles",
+      "Verify production-path regression: zero silent changes to nodal displacement, damage, donor checkpoints, UEL constitutive behavior, or acceptance tolerances",
+      "Keep corrected candidate separate from frozen production transfer and qualified R11 package until independent review"
+    ]
+  },
+  "deliverables": [
+    "scripts/state_transfer/isoparametric_gp_transfer.py",
+    "tests/unit/test_isoparametric_gp_transfer.py",
+    "results/validation/isoparametric_gp_transfer_qualification_report.md",
+    "results/validation/isoparametric_gp_transfer_qualification_summary.json"
+  ]
+}

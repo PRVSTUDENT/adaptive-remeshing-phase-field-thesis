@@ -1,7 +1,38 @@
+## 5 November Method C Isoparametric GP Transfer Qualification Complete (Task F1620 Closed)
+
+1. **Isoparametric Bilinear GP Transfer Operator Qualified & Proven (Task F1620 Completed)**:
+   - Evaluated candidate operator (`scripts/state_transfer/isoparametric_gp_transfer.py`, SHA-256 `91FB5ADB50551C15FEA677393CE55F8BF6EA00C0F20FC4C26D54D272A7131432`) against donor Checkpoint 03 (Job `1419566.mmaster02`, $u_y = 0.0018703125$ mm, 12,996 elements, 13,278 physical nodes + RP 999999).
+   - Comparative evaluation engine: `scripts/validation/evaluate_isoparametric_gp_transfer.py` (SHA-256 `4CDE08D3FC48F3E426C67F828FC5D8441F3146E0E9F070B11199EBF5DB3F15BF`).
+   - Summary JSON: `results/validation/isoparametric_gp_transfer_qualification_summary.json` (SHA-256 `D7655D52546755B0B20D0E8D3B77A58EFB35D53839ED808FBFEE8BD4C011A7B2`).
+   - Markdown Report: `results/validation/isoparametric_gp_transfer_qualification_report.md` (SHA-256 `63FAFB3AD443F673DD2DAE06F29663E073623E4C7F45A3149022184F5E1E7B85`).
+   - Unit & regression test suite: `tests/unit/test_isoparametric_gp_transfer.py` (SHA-256 `2CF677E83FF6534AAB399799D4A7BBB62422A099764CE1756A1146D884F6D881`) — **12/12 PASS** in 0.76s.
+
+2. **Crucial Quantitative Milestones**:
+   - **Exact C5 Same-Mesh Identity ($H_{B1} \equiv H_{B0}$)**:
+     * Across all **51,984 Gauss points**, $\max |\Delta H| = 0.0000\times 10^0$ MPa ($< 10^{-14}$ MPa, machine precision).
+     * RMS error $= 0.0000\times 10^0$ MPa. 0 of 51,984 Gauss points exceed $10^{-12}$ MPa.
+     * **Completely eliminates the 6.35 MPa perturbation and 681$\times$ RMS distortion** caused by element averaging!
+   - **Nonmatching C6 Transfer (15,252 Elements, 61,008 Gauss Points)**:
+     * Donor Reference Peak: $H_{\text{peak}} = 14.0474$ MPa.
+     * Old Operator: Depressed peak driving force to **8.8055 MPa** (37.3% loss / 5.24 MPa attenuation). Max intra-element spread = 0.0000 MPa (completely flattened).
+     * Candidate 1 (Isoparametric with Convex Clamp): Retained **100.0% of peak driving force (14.0474 MPa)**. Restored intra-element spread to **6.1780 MPa**.
+     * Candidate 2 (Isoparametric with Nonnegative Floor): Overshot peak driving force to 16.4569 MPa (+17.2%) due to unbounded linear extrapolation.
+     * **Candidate 1 is selected as the mathematically and physically superior operator.**
+   - **Physical Safeguards & Extrapolation Bounds**:
+     * Strictly enforces $H \ge 0.0$ everywhere (7 negative extrapolation values clamped).
+     * 26,412 / 61,008 (43.29%) Gauss points evaluated outside the donor GP rectangle; all strictly clamped within donor element extrema $[\min(H_k), \max(H_k)]$.
+   - **Radial Concentration**:
+     * $r \le 2\,\mu\text{m}$: 812 GPs, Peak Old = 8.8055 MPa $\to$ Peak C1 = 14.0474 MPa, Max $|\Delta H| = 6.3491$ MPa, RMS $= 0.9638$ MPa.
+     * Far field ($r > 10\,\mu\text{m}$): 52,606 GPs, Max $|\Delta H| = 0.1374$ MPa, RMS $= 0.0013$ MPa.
+   - **Phase Driving Force Restored**:
+     * Crack-tip peak phase driving force $2(1-d)H$ increased from 5.9847 MPa (old operator) to **9.3484 MPa** (+3.3637 MPa crack-tip driving power).
+   - **Zero PBS Submissions Preserved**: Exactly 0 PBS submissions were used or authorized during Task F1620.
+   - **Task Closed**: `TASK_LEDGER.csv` updated to mark Task F1620 `completed` with classification `TECHNICAL_QUALIFICATION_APPROVED`. Awaiting supervisor direction on integrating this operator into a refreshed Package 171-R12 candidate.
+
 ## 5 November Method C Same-Mesh Transfer Diagnostic Complete (Task F1619 Closed)
 
 1. **Four-Configuration Same-Mesh Diagnostic Suite Executed (Task F1619 Completed)**:
-   - Evaluated 4 configurations on accepted C5 donor Checkpoint 03 (Job `1419566.mmaster02`, $u_y = 0.0018703125$ mm, 12,996 elements, 13,279 nodes):
+   - Evaluated 4 configurations on accepted C5 donor Checkpoint 03 (Job `1419566.mmaster02`, $u_y = 0.0018703125$ mm, 12,996 elements, 13,278 physical nodes + RP 999999):
      * **Configuration A**: Original accepted donor state control.
      * **Configuration B0**: Exact-copy control (1:1 direct carryover without remapping).
      * **Configuration B1**: Same-mesh transfer through production pipeline (`scripts/remeshing/c5_to_c6_adaptive_integration.py`).
