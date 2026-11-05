@@ -709,5 +709,176 @@ class TestPackage171R11C6CoupledDriver(unittest.TestCase):
             self.assertAlmostEqual(r10["delta_u_raw"], r11["delta_u_raw"])
 
 
+
+    # --------------------------------------------------------------------------
+    # 11. Blocker 1 Regression: Oversized Anderson Step Rejected with Safe Fallback
+    # --------------------------------------------------------------------------
+    def test_production_path_oversized_step_rejected_with_safe_fallback(self):
+        """Verify that an oversized Anderson candidate (> cap) falls back to Picard and prevents rollback (< 0.05)."""
+        self.driver.load = lambda: None
+        self.driver.max_outer = 3
+        self.driver.stage = 2
+        self.driver.consecutive_stable_iterations = 3
+        self.driver.previous_raw_delta_d = 0.010
+        self.driver.anderson_max_step_cap = 0.020
+        self.driver.catastrophic_delta_d_cap = 0.05
+
+        self.driver.previous_u_trial = {n: (0.0001, 0.001870) for n in range(1, 5)}
+        mock_u = {n: (0.0001, 0.001870) for n in range(1, 5)}
+        mock_ep = dict(self.consistent_endpoint)
+
+        def mock_subproblem(step_idx, outer, inner, role, damage, active, displacement, history, target_u):
+            if role == "mechanical":
+                return damage, mock_u, mock_ep
+            else:
+                if outer == 1:
+                    return {n: 0.110 for n in range(1, 5)}, None, None
+                elif outer == 2:
+                    return {n: 0.116 for n in range(1, 5)}, None, None
+                else:
+                    return {n: 0.123 for n in range(1, 5)}, None, None
+
+        self.driver.solve_subproblem = mock_subproblem
+
+        try:
+            self.driver.solve_coupled_equilibration()
+        except RuntimeError:
+            pass
+
+        telem_file = self.out_path / "live_iteration_telemetry.json"
+        telem = json.loads(telem_file.read_text(encoding="utf-8"))
+
+        # In Outer 2: proposed step exceeds 0.020 cap -> rejected -> falls back to Picard -> no catastrophic rollback (< 0.05)
+        t2 = telem[1]
+        self.assertFalse(t2["anderson_accelerated"])
+        self.assertIn("oversized_step", t2["anderson_reason"])
+        self.assertGreater(t2["anderson_proposed_step"], 0.020)
+        self.assertLessEqual(t2["anderson_accepted_step"], 0.020)
+        self.assertFalse(t2["rollback_triggered"])
+        self.assertEqual(t2["stage"], 2)
+
+    # --------------------------------------------------------------------------
+    # 12. Blocker 2 Regression: Topology Reset and Re-Entry Sequence
+    # --------------------------------------------------------------------------
+    def test_production_path_topology_reset_and_reentry_sequence(self):
+        """Verify the sequence: acceleration active -> topology change -> memory cleared -> new history accumulated -> acceleration resumed."""
+        self.driver.load = lambda: None
+        self.driver.max_outer = 6
+        self.driver.stage = 2
+        self.driver.consecutive_stable_iterations = 3
+        self.driver.previous_raw_delta_d = 0.010
+        self.driver.anderson_max_active_diff = 2
+        self.driver.rollback_factor = 50.0
+        self.driver.divergence_factor = 50.0
+
+        self.driver.previous_u_trial = {n: (0.0001, 0.001870) for n in range(1, 5)}
+        mock_u = {n: (0.0001, 0.001870) for n in range(1, 5)}
+        mock_ep = dict(self.consistent_endpoint)
+
+        class MockSolverTopology:
+            def __init__(self):
+                self.outer = 1
+                self.h_gp = {}
+            def kkt(self, damage, **kwargs):
+                if self.outer <= 3:
+                    res = {1: 1.0, 2: -1.0, 3: -1.0, 4: -1.0}
+                    act = {1}
+                    fre = {2, 3, 4}
+                else:
+                    res = {1: -1.0, 2: 1.0, 3: 1.0, 4: 1.0}
+                    act = {2, 3, 4}
+                    fre = {1}
+                return {
+                    "passed": True,
+                    "free_error": 1e-7,
+                    "dual_error": 1e-7,
+                    "complementarity": 1e-7,
+                    "active": act,
+                    "free": fre,
+                    "residual": res
+                }
+
+        mock_solver = MockSolverTopology()
+        self.driver.solver = mock_solver
+
+        def mock_subproblem(step_idx, outer, inner, role, damage, active, displacement, history, target_u):
+            mock_solver.outer = outer
+            if role == "mechanical":
+                return damage, mock_u, mock_ep
+            else:
+                d_val = 0.1 + (0.004 * (0.98 ** outer))
+                return {n: d_val for n in range(1, 5)}, None, None
+
+        self.driver.solve_subproblem = mock_subproblem
+
+        try:
+            self.driver.solve_coupled_equilibration()
+        except RuntimeError:
+            pass
+
+        telem_file = self.out_path / "live_iteration_telemetry.json"
+        telem = json.loads(telem_file.read_text(encoding="utf-8"))
+
+        # Outer 1: insufficient history
+        self.assertFalse(telem[0]["anderson_accelerated"])
+        self.assertEqual(telem[0]["anderson_reason"], "insufficient_history")
+
+        # Outer 2: accelerated (m_k = 1)
+        self.assertTrue(telem[1]["anderson_accelerated"])
+        self.assertEqual(telem[1]["anderson_m_k"], 1)
+
+        # Outer 3: accelerated (m_k = 2)
+        self.assertTrue(telem[2]["anderson_accelerated"])
+        self.assertEqual(telem[2]["anderson_m_k"], 2)
+
+        # Outer 4: Topology shift (|Delta A| = 4 > 2) -> memory reset, Picard branch taken
+        self.assertGreater(telem[3]["active_set_symmetric_diff"], 2)
+        self.assertFalse(telem[3]["anderson_accelerated"])
+        self.assertEqual(telem[3]["anderson_reason"], "active_set_diff_exceeded")
+
+        # Outer 5: Restabilized on new set (|Delta A| = 0), memory accumulated (m_k = 0 -> 1)
+        self.assertEqual(telem[4]["active_set_symmetric_diff"], 0)
+        self.assertFalse(telem[4]["anderson_accelerated"])
+        self.assertEqual(telem[4]["anderson_reason"], "insufficient_history")
+
+        # Outer 6: Anderson acceleration successfully resumed!
+        self.assertEqual(telem[5]["active_set_symmetric_diff"], 0)
+        self.assertTrue(telem[5]["anderson_accelerated"])
+        self.assertEqual(telem[5]["anderson_m_k"], 1)
+
+    # --------------------------------------------------------------------------
+    # 13. Blocker 3 Regression: Intrinsic Residual Construction Verification
+    # --------------------------------------------------------------------------
+    def test_production_path_intrinsic_residual_construction(self):
+        """Verify that intrinsic fixed-point residual r_k = d_PDAS - d_k is evaluated, not relaxed increment."""
+        acc = AndersonAccelerator(memory_depth=2, beta=0.85)
+        d_curr = {1: 0.10, 2: 0.20}
+        d_pdas = {1: 0.12, 2: 0.25}
+        d0 = {1: 0.0, 2: 0.0}
+
+        # In intrinsic residual: r = d_pdas - d_curr = {1: 0.02, 2: 0.05}
+        _, m1 = acc.compute_step(d_curr, d_pdas, d0, damped_omega=0.85)
+        expected_linf = 0.05
+        expected_l2 = math.sqrt(0.02**2 + 0.05**2)
+        self.assertAlmostEqual(m1["residual_linf"], expected_linf)
+        self.assertAlmostEqual(m1["residual_l2"], expected_l2)
+
+    # --------------------------------------------------------------------------
+    # 14. Blocker 3 Regression: Missing Evidence Fails Closed
+    # --------------------------------------------------------------------------
+    def test_missing_authentic_evidence_fails_closed(self):
+        """Verify that missing authentic endpoint or d0 evidence files fail closed with FileNotFoundError."""
+        from scripts.validation.test_anderson_on_authentic_r10_data import (
+            load_damage_from_endpoint, load_d0
+        )
+        nonexistent = Path("models/nonexistent_evidence_dir_xyz/endpoint_o999.json")
+        with self.assertRaises(FileNotFoundError):
+            load_damage_from_endpoint(nonexistent)
+
+        nonexistent_d0 = Path("models/nonexistent_d0_xyz.csv")
+        with self.assertRaises(FileNotFoundError):
+            load_d0(nonexistent_d0)
+
+
 if __name__ == "__main__":
     unittest.main()

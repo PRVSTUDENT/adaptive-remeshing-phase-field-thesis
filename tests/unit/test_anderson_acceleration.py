@@ -143,7 +143,7 @@ def test_convergence_acceleration_on_mock_problem():
         iters_picard += 1
 
     # 2. Anderson Accelerated (m = 2, beta = 0.85)
-    acc = AndersonAccelerator(memory_depth=2, beta=0.85, regularization=1e-8)
+    acc = AndersonAccelerator(memory_depth=2, beta=0.85, regularization=1e-8, max_step_cap=0.50)
     d0 = {i: 0.0 for i in range(dim)}
     x_anderson = {i: 0.0 for i in range(dim)}
     iters_anderson = 0
@@ -174,7 +174,7 @@ def test_convergence_acceleration_on_mock_problem():
 
 def test_gamma_cap_and_fallback_safeguard():
     """Verify that an extreme ill-conditioned step triggers gamma cap fallback to Picard."""
-    acc = AndersonAccelerator(memory_depth=2, beta=0.85, gamma_max=2.0)
+    acc = AndersonAccelerator(memory_depth=2, beta=0.85, gamma_max=2.0, max_step_cap=1.0)
     nodes = [1, 2]
     d0 = {1: 0.0, 2: 0.0}
 
@@ -203,10 +203,44 @@ def test_gamma_cap_and_fallback_safeguard():
     print("test_gamma_cap_and_fallback_safeguard PASS")
 
 
+def test_oversized_step_rejected_with_safe_picard_fallback():
+    """Verify that a proposed Anderson step exceeding max_step_cap falls back safely to damped Picard."""
+    acc = AndersonAccelerator(memory_depth=2, beta=0.85, max_step_cap=0.020)
+    nodes = [1, 2]
+    d0 = {1: 0.0, 2: 0.0}
+
+    # Iterate 1
+    d1 = {1: 0.10, 2: 0.10}
+    g1 = {1: 0.11, 2: 0.11}
+    acc.compute_step(d1, g1, d0)
+
+    # Iterate 2
+    d2 = {1: 0.108, 2: 0.108}
+    g2 = {1: 0.116, 2: 0.116}
+    acc.compute_step(d2, g2, d0)
+
+    # Iterate 3: will attempt acceleration with proposed step ~0.0292 > 0.020
+    d3 = {1: 0.115, 2: 0.115}
+    g3 = {1: 0.123, 2: 0.123}  # Damped Picard step is 0.85 * 0.008 = 0.0068 <= 0.020
+    next_d, meta = acc.compute_step(d3, g3, d0)
+
+    # Must fall back to damped Picard because step > 0.020
+    assert meta["accelerated"] is False, "Oversized candidate should not be marked as accelerated"
+    assert "oversized_step" in meta["reason"], f"Unexpected reason: {meta['reason']}"
+    assert meta["proposed_step"] > 0.020, f"Proposed step {meta['proposed_step']} should exceed cap 0.020"
+    assert meta["accepted_step"] == meta["picard_step"], "Should fall back to Picard step"
+    assert meta["accepted_step"] <= 0.020, f"Accepted step {meta['accepted_step']} should be <= cap 0.020"
+    for n in nodes:
+        assert next_d[n] >= d0[n]
+        assert next_d[n] <= 1.0
+    print("test_oversized_step_rejected_with_safe_picard_fallback PASS")
+
+
 if __name__ == "__main__":
     test_small_system_solver()
     test_physical_projection_and_bounds()
     test_active_set_change_reset()
     test_convergence_acceleration_on_mock_problem()
     test_gamma_cap_and_fallback_safeguard()
-    print("\nALL 5 ANDERSON ACCELERATION TESTS PASSED SUCCESSFULLY!")
+    test_oversized_step_rejected_with_safe_picard_fallback()
+    print("\nALL 6 ANDERSON ACCELERATION TESTS PASSED SUCCESSFULLY!")

@@ -22,8 +22,12 @@ Mathematical formulation:
     d_{k+1}^{cand} = d_bar + beta * r_bar
   Safeguards:
     - Pointwise physical projection: d_{k+1} = clip(d_{k+1}^{cand}, d0, 1.0)
-    - Rejection / rollback: if ||gamma|| > gamma_max or matrix ill-conditioned, fallback to damped Picard step.
-    - Active-set reset: if active set changes topology, clear history.
+    - Oversized step rejection: if ||d_cand - d_current||_inf > max_step_cap (0.045),
+      fall back to safe damped Picard step d_k + beta * r_k before committing to driver.
+      This preserves an explicit safety margin below the 0.05 catastrophic rollback threshold.
+    - Growth safeguard: if ||r_bar||_2 > 1.50 ||r_k||_2, fall back to damped Picard.
+    - Conditioning safeguard: if ||gamma||_2 > gamma_max (200.0) or singular, fall back to damped Picard.
+    - Active-set reset: if active set changes topology (|Delta A| > 5), clear history.
 """
 from typing import Dict, List, Optional, Tuple
 import math
@@ -39,7 +43,7 @@ class AndersonAccelerator:
         beta: float = 0.85,
         regularization: float = 1e-6,
         gamma_max: float = 200.0,
-        max_step_cap: float = 0.20,
+        max_step_cap: float = 0.045,
     ):
         if memory_depth < 1:
             raise ValueError("memory_depth must be at least 1")
@@ -106,6 +110,7 @@ class AndersonAccelerator:
         for n in nodes:
             val = (1.0 - damped_omega) * d_current[n] + damped_omega * d_pdas[n]
             d_picard[n] = min(1.0, max(d0[n], val))
+        picard_step = max(abs(d_picard[n] - d_current[n]) for n in nodes)
 
         # Topology change resets memory
         if active_set_changed:
@@ -129,7 +134,11 @@ class AndersonAccelerator:
                 "m_k": 0,
                 "residual_l2": r_k_norm,
                 "residual_linf": r_k_inf,
-                "gamma": []
+                "gamma": [],
+                "gamma_norm": 0.0,
+                "proposed_step": picard_step,
+                "accepted_step": picard_step,
+                "picard_step": picard_step,
             }
 
         # Build difference matrices: Delta D and Delta R (size N x m_k)
@@ -165,7 +174,11 @@ class AndersonAccelerator:
                 "m_k": m_k,
                 "residual_l2": r_k_norm,
                 "residual_linf": r_k_inf,
-                "gamma": []
+                "gamma": [],
+                "gamma_norm": 0.0,
+                "proposed_step": 0.0,
+                "accepted_step": picard_step,
+                "picard_step": picard_step,
             }
 
         gamma_norm = math.sqrt(sum(g ** 2 for g in gamma))
@@ -174,11 +187,15 @@ class AndersonAccelerator:
             self.fallbacks_triggered += 1
             return d_picard, {
                 "accelerated": False,
-                "reason": f"gamma_norm_exceeded ({gamma_norm:.2f} > {self.gamma_max})",
+                "reason": f"gamma_norm_exceeded ({gamma_norm:.2f} > {self.gamma_max:.2f})",
                 "m_k": m_k,
                 "residual_l2": r_k_norm,
                 "residual_linf": r_k_inf,
-                "gamma": gamma
+                "gamma": gamma,
+                "gamma_norm": gamma_norm,
+                "proposed_step": 0.0,
+                "accepted_step": picard_step,
+                "picard_step": picard_step,
             }
 
         # Form accelerated iterate
@@ -198,6 +215,9 @@ class AndersonAccelerator:
             val = d_bar[n] + self.beta * r_bar[n]
             d_cand[n] = min(1.0, max(d0[n], val))
 
+        # Proposed accelerated step norm
+        cand_step = max(abs(d_cand[n] - d_current[n]) for n in nodes)
+
         # 1. Predicted mixed residual norm safeguard: ||r_bar|| should not blow up relative to ||r_k||
         r_bar_norm = math.sqrt(sum(r_bar[n] ** 2 for n in nodes))
         if r_k_norm > 0 and r_bar_norm > 1.5 * r_k_norm:
@@ -208,23 +228,32 @@ class AndersonAccelerator:
                 "m_k": m_k,
                 "residual_l2": r_k_norm,
                 "residual_linf": r_k_inf,
-                "gamma": gamma
+                "gamma": gamma,
+                "gamma_norm": gamma_norm,
+                "proposed_step": cand_step,
+                "accepted_step": picard_step,
+                "picard_step": picard_step,
             }
 
-        # 2. Physical maximum step cap safeguard
-        cand_step = max(abs(d_cand[n] - d_current[n]) for n in nodes)
-        picard_step = max(abs(d_picard[n] - d_current[n]) for n in nodes)
+        # 2. Oversized step rejection safeguard:
+        # If the proposed Anderson step exceeds max_step_cap (0.045), reject it BEFORE committing
+        # and fall back safely to damped Picard. This prevents triggering the 0.05 catastrophic rollback.
         if cand_step > self.max_step_cap:
             self.fallbacks_triggered += 1
             return d_picard, {
                 "accelerated": False,
-                "reason": f"step_exceeds_cap ({cand_step:.4e} > {self.max_step_cap:.4e})",
+                "reason": f"oversized_step ({cand_step:.4e} > {self.max_step_cap:.4e})",
                 "m_k": m_k,
                 "residual_l2": r_k_norm,
                 "residual_linf": r_k_inf,
-                "gamma": gamma
+                "gamma": gamma,
+                "gamma_norm": gamma_norm,
+                "proposed_step": cand_step,
+                "accepted_step": picard_step,
+                "picard_step": picard_step,
             }
 
+        # All safeguards passed: accept accelerated step
         self.accelerations_applied += 1
         return d_cand, {
             "accelerated": True,
@@ -234,8 +263,9 @@ class AndersonAccelerator:
             "residual_linf": r_k_inf,
             "gamma": gamma,
             "gamma_norm": gamma_norm,
-            "cand_step": cand_step,
-            "picard_step": picard_step
+            "proposed_step": cand_step,
+            "accepted_step": cand_step,
+            "picard_step": picard_step,
         }
 
     @staticmethod
