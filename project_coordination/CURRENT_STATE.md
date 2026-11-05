@@ -1,3 +1,46 @@
+## 5 November Method C Same-Mesh Transfer Diagnostic Complete (Task F1619 Closed)
+
+1. **Four-Configuration Same-Mesh Diagnostic Suite Executed (Task F1619 Completed)**:
+   - Evaluated 4 configurations on accepted C5 donor Checkpoint 03 (Job `1419566.mmaster02`, $u_y = 0.0018703125$ mm, 12,996 elements, 13,279 nodes):
+     * **Configuration A**: Original accepted donor state control.
+     * **Configuration B0**: Exact-copy control (1:1 direct carryover without remapping).
+     * **Configuration B1**: Same-mesh transfer through production pipeline (`scripts/remeshing/c5_to_c6_adaptive_integration.py`).
+     * **Configuration C**: Production C5-to-C6 nonmatching transfer baseline (15,252 elements, Package 171).
+   - Execution script: `scripts/validation/diagnose_same_mesh_transfer.py` (SHA-256 `EF09647EAB5E8628ED2FD9E0A82E4B8CAE80AC5F172E04381916B9730463E295`).
+   - Summary JSON: `results/validation/same_mesh_transfer_diagnostic_summary.json` (SHA-256 `67321F325A34BC97BAF98866A774A691A044F357307AD5D93D435FDC48266FB7`).
+   - Markdown Report: `results/validation/same_mesh_transfer_diagnostic_report.md` (SHA-256 `AB59F512A4401EDDEAC355D338A01FDA0C400A48CCA1C3F4571BCD7794AFA917`).
+   - Automated unit test suite: `tests/unit/test_same_mesh_transfer_diagnostic.py` (SHA-256 `D7EE21E9577C2CD81F9ADBFAE214F9B7B0A7D30AAA31E52DF366D2AAFF46E39B`) — **7/7 PASS** in 0.34s.
+
+2. **Crucial Causal Discovery — History Intra-Element Averaging Defect**:
+   - **Nodal Fields Are Exact**:
+     * Displacement: $\max \|\Delta u\| = 0.0000$ mm, $\text{RMS} = 0.0000$ mm ($\le 10^{-9}$ mm tolerance satisfied at 100% of 13,278 nodes).
+     * Damage: $\max |\Delta d| = 0.0000$, $\text{RMS} = 0.0000$ ($\le 10^{-5}$ tolerance satisfied at 100% of 13,278 nodes).
+     * 0 healing violations, 0 bounds violations. Nodal interpolation is completely conservative.
+   - **Gauss-Point History Is Severely Perturbed (The Root Cause)**:
+     * In `c5_to_c6_adaptive_integration.py` (lines 638–651 and 810–812), the 4 Gauss-point history values of each quad are averaged to a single scalar $\bar{H} = \frac{1}{4}\sum_{i=1}^4 H_i$, and this scalar is assigned to all 4 Gauss points of the receiver: $[\bar{H}, \bar{H}, \bar{H}, \bar{H}]$.
+     * Near the crack tip, donor Gauss points within a single element differ by up to **12.3560 MPa**!
+     * Replacing this intra-element distribution with the scalar mean creates an immediate point-wise history error of up to **6.3491 MPa** (at Element 6437, GP 3, $(x=0.04039, y=0.04989)$ mm). This is **63,491$\times$ larger** than the coupled convergence tolerance of $10^{-4}$ MPa!
+     * Peak driving force is artificially depressed ($H_{\text{peak}} - \bar{H} = 6.3491$ MPa loss), while lower-bound flank points are artificially elevated ($\bar{H} - H_{\min} = 6.0069$ MPa gain).
+     * **34,720 out of 51,984 (66.79%)** of all Gauss points exceed the $10^{-4}$ MPa convergence tolerance!
+   - **Spatial Localization Verified**:
+     * Zone $r \le 2\,\mu\text{m}$: 208 GPs, $\max |\Delta H| = 6.3491$ MPa, $\text{RMS} = 1.0725$ MPa.
+     * Zone $2 < r \le 5\,\mu\text{m}$: 1,048 GPs, $\max |\Delta H| = 0.3389$ MPa, $\text{RMS} = 0.0380$ MPa.
+     * Zone $5 < r \le 10\,\mu\text{m}$: 3,776 GPs, $\max |\Delta H| = 0.0345$ MPa, $\text{RMS} = 0.0057$ MPa.
+     * Far field ($r > 10\,\mu\text{m}$): 46,952 GPs, $\max |\Delta H| = 0.1374$ MPa, $\text{RMS} = 0.0013$ MPa.
+     * The history perturbation is concentrated right at the crack tip.
+   - **Direct Implication for Re-Equilibration**:
+     * At outer iteration 1 of restart, the material is thrown far out of equilibrium: the phase solve detects that $d$ is inconsistent with the flattened $H$, while the mechanical solve detects that stiffness degraded by $d$ is inconsistent with the un-averaged strain field.
+     * This explains why re-equilibration required 140+ iterations with slow asymptotic contraction ($\rho \approx 0.985 - 0.994$) in R7, R8, R9, and R10!
+   - **Rigorous Remedy Formulated**:
+     * Replace element averaging with true isoparametric bilinear Gauss-point interpolation:
+       $$H(\xi, \eta) = \sum_{k=1}^4 N_k^{\text{GP}}(\xi, \eta) H_k^{\text{donor}}, \quad N_k^{\text{GP}}(\xi, \eta) = \frac{1}{4}(1 + 3\xi_k\xi)(1 + 3\eta_k\eta)$$
+     * On the identical mesh, this achieves exact 1:1 identity ($H_{B1} \equiv H_{B0}$) to machine precision, and on nonmatching meshes it preserves the steep intra-element driving force gradient.
+
+3. **Task F1619 Closed & Ledgers Synchronized**:
+   - `TASK_LEDGER.csv` updated: Task F1619 marked `completed` with classification `DIAGNOSTIC_COMPLETED_OPERATOR_PERMANENT_PERTURBATION_PROVEN`.
+   - `ARTIFACT_REGISTRY.csv` updated with all 4 diagnostic deliverables.
+   - Strictly 0 production PBS submissions consumed (`max_new_pbs_submissions: 0` maintained).
+
 ## 5 November Method C Same-Mesh Transfer Diagnostic Formulation Active (Task F1619)
 
 1. **Independent Supervisor Review & Directive Intake (Handoff HND-aab573d5c0bd)**:
