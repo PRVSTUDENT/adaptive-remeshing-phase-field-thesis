@@ -375,8 +375,8 @@ index 9a48cb18..f4a5927b 100644
 +            # 4. Pre-update KKT residuals for PDAS active-set partitioning
              kkt_pre = solver.kkt(damage, tau_active=1e-6, tau_free=1e-6)
  
--            # 4. Canonical HintermÃ¼ller-Ito-Kunisch active-set update:
-+            # 5. Canonical HintermÃ¼ller-Ito-Kunisch active-set update:
+-            # 4. Canonical Hintermüller-Ito-Kunisch active-set update:
++            # 5. Canonical Hintermüller-Ito-Kunisch active-set update:
              c_pdas = 1.0e3    # (kN*mm)^-1
              eps_pdas = 1.0e-6 # dimensionless
              pdas_active = {

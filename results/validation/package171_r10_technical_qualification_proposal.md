@@ -38,7 +38,7 @@ The production driver `scripts/state_transfer/driver_package171_r10_c6_coupled_p
 | **Displacement Relaxation $\omega_u$** | $1.00$ | $0.85$ | Isolated R10 hypothesis (mitigates 5–6 iter mechanical ringing) |
 | **Switching Criteria** | Cardinality $|A_k| \le 500$<br>Symmetric diff $|\Delta A_k| \le 10$<br>Anti-expansion $\Delta A^+ = 0$ | Maintained if $|A_k| \le 500$ and no divergence | Compound condition sustained for 3 consecutive iterations |
 | **Rollback Safeguard Basis** | Unrelaxed PDAS step norm $\|\delta d_{\text{raw}}\|_\infty = \|d_{\text{PDAS}} - d^{(k)}\|_\infty$ | Residual growth $> 1.05\times$<br>Divergence $> 1.50\times$<br>Applied step cap $> 0.05$ | Evaluated on invariant solver step norm, eliminating scaling artifacts |
-| **Rollback Action** | N/A | Revert to $\omega_d = 0.50$, $\omega_u = 1.00$; reset stage to 1; reset switching counter | Restores conservative state immediately upon genuine residual growth |
+| **Rollback Action** | N/A | For current iteration $k$: atomically retain evaluated $u_{\text{trial}}$ (applied $\omega_u = 0.85$) and history; revert candidate phase step to conservative $\omega_d = 0.50$. For subsequent iteration $k+1$: reset `self.stage = 1` and switching counter so conservative $\omega_u = 1.00$ and $\omega_d = 0.50$ apply. | Preserves coupled field evaluation consistency for iteration $k$ while restoring conservative relaxation for iteration $k+1$. |
 
 ### 2.2 Raw versus Relaxed Displacement Accounting
 
@@ -88,9 +88,9 @@ All artifacts have been created, bitwise validated, and hashed:
 | **Frozen Production UEL** | `models/pandey_kumar_mode1/f42_mixed_uel.for` | `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` | Bitwise Untouched (29,722 bytes) |
 | **R10 Driver Source** | `scripts/state_transfer/driver_package171_r10_c6_coupled_pdas.py` | `2C3399CC74270F08AA7321939AB802E10DF1A32C992A264B17481B5C70842EC6` | 53,723 bytes |
 | **R10 Unit Test Suite** | `tests/unit/test_package171_r10_c6_coupled_driver.py` | `6001224046582CA407B12FCF8C6D69E7CFC6D9A0DD6D0087BDBAFB66C1E18763` | 32,645 bytes |
-| **Unified Diff Patch** | `results/validation/package171_r10_driver_diff.patch` | `9349A225E0646A526F8935A2523BD45ABE69320B4FF06F32410CF33AB3D7033D` | 43,169 bytes |
+| **Unified Diff Patch** | `results/validation/package171_r10_driver_diff.patch` | `41C4C3F95B5FBD5CDBDB7C29F0AC820062DD932E92AB37E442BB74488004804F` | 43,165 bytes |
 | **Combined Test Log** | `results/validation/package171_r10_test_output.txt` | `15FD506AC70ABDB7D2E91DAC5E00CC43969D83E9E3581ABF8E2C172F4046DC4D` | 17,370 bytes (26/26 PASS) |
-| **Technical Proposal JSON** | `results/validation/package171_r10_technical_qualification_proposal.json` | `FA97FA05636E92E28AB3A4C0C6B64AAA321627FBBB486239A21F4552F0871A48` | 4,921 bytes |
+| **Technical Proposal JSON** | `results/validation/package171_r10_technical_qualification_proposal.json` | `797CB8A0E507CB29BBE4E44256661737E71836ACEC1127D47A8200EE3F9C4578` | 5,119 bytes |
 | **Task Definition JSON** | `project_coordination/task_definitions/F1614-PACKAGE171-R10-C6-ISOLATED-DISPLACEMENT-RELAXATION-QUALIFICATION.json` | `083EC611F0552821C0244E278FDD831C15E2A9003411570E34F097B5B1CFA7DA` | Schema 1 |
 
 ---

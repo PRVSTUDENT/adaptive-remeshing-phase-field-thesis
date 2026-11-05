@@ -52,7 +52,7 @@
       "residual_growth_factor": 1.05,
       "divergence_factor": 1.50,
       "catastrophic_delta_d_cap": 0.05,
-      "rollback_action": "revert candidate step to conservative omega_d=0.50, omega_u=1.00, reset stage=1, reset switching window"
+      "rollback_action": "atomically retain evaluated u_trial (using current iteration applied omega_u=0.85) and evaluated history for iteration k; revert candidate phase step to conservative omega_d=0.50; reset stage=1 and switching counter so that subsequent iteration (k+1) applies conservative omega_u=1.00 and omega_d=0.50"
     },
     "independent_post_convergence_re_equilibration": {
       "mechanical_solve": "K(d*) u_consistent = f_ext",
@@ -81,8 +81,8 @@
     },
     "diff_patch": {
       "path": "results/validation/package171_r10_driver_diff.patch",
-      "sha256": "9349A225E0646A526F8935A2523BD45ABE69320B4FF06F32410CF33AB3D7033D",
-      "size_bytes": 43169
+      "sha256": "41C4C3F95B5FBD5CDBDB7C29F0AC820062DD932E92AB37E442BB74488004804F",
+      "size_bytes": 43165
     },
     "test_output_log": {
       "path": "results/validation/package171_r10_test_output.txt",
