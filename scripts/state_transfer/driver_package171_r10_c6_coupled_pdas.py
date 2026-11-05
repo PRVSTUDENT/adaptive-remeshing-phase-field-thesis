@@ -22,9 +22,12 @@ Implements Isolated Mechanical Displacement Under-Relaxation (Candidate R10):
    - Strictly prevents premature Stage 2 acceleration during active-set expansion or boundary churning.
 
 3. Stage 2 Isolated Mechanical Displacement Under-Relaxation (R10 Hypothesis):
-   - Transitions to phase omega_d = 0.85 AND isolated mechanical displacement under-relaxation:
+   - Transitions to Stage 2 acceleration: in the transition iteration (where compound criteria are first
+     met for stabilization_window consecutive iterations), phase relaxation accelerates to omega_d = 0.85
+     while displacement relaxation was applied with omega_u = 1.00; starting from the following outer
+     iteration, both phase relaxation (omega_d = 0.85) and isolated mechanical displacement under-relaxation:
        u_trial^{(k)} = (1 - omega_u) * u_trial^{(k-1)} + omega_u * u_Abaqus^{(k)}
-     with omega_u = 0.85 (configurable via omega_u_stage2).
+     with omega_u = 0.85 (configurable via omega_u_stage2) are actively executed.
    - Preserves raw mechanical solve solution u_Abaqus^{(k)} separately to account for raw mechanical equilibrium.
    - Tracks both raw mechanical increments:
        Delta u_raw^{(k)} = ||u_Abaqus^{(k)} - u_trial^{(k-1)}||_inf
@@ -32,6 +35,7 @@ Implements Isolated Mechanical Displacement Under-Relaxation (Candidate R10):
        Delta u_relaxed^{(k)} = ||u_trial^{(k)} - u_trial^{(k-1)}||_inf
    - Rejects false convergence caused by under-relaxation smoothing by requiring BOTH:
        Delta u_relaxed <= 1e-9 mm AND Delta u_raw <= 1e-9 mm.
+   - Telemetry truthfully records applied_omega_u and applied_omega_d for each iteration.
 
 4. Qualified History Construction Without Heuristic Filtering (Preserved Strictly):
    - Direct physical history relaxation H_new = (1-w)H_prev + w*psi+ is REJECTED to avoid
@@ -41,7 +45,7 @@ Implements Isolated Mechanical Displacement Under-Relaxation (Candidate R10):
        H_trial^{(k)} = max(H0, psi+^{(k)})
      guaranteeing H >= psi+ and H >= H0 at all 61,008 Gauss points.
 
-5. Consistent Residual-Based Rollback Safeguards (Preserved from R9):
+5. Consistent Residual-Based Rollback Safeguards with Atomic State Preservation:
    - Evaluates residual growth and divergence on the intrinsic unrelaxed PDAS correction norm:
        delta_d_raw^{(cand)} = ||d_PDAS^{(cand)} - d^{(k)}||_inf
        delta_d_raw^{(prev)} = ||d_PDAS^{(prev)} - d^{(k-1)}||_inf
@@ -51,8 +55,10 @@ Implements Isolated Mechanical Displacement Under-Relaxation (Candidate R10):
        delta_d_raw^{(cand)} > 1.50 * delta_d_raw^{(prev)}
    - Catastrophic cap safeguard (preserved applied step cap):
        delta_d^{(cand)} > 0.05
-   - Reverts candidate step to conservative relaxation (omega_d = 0.50, omega_u = 1.00) upon
-     genuine unrelaxed step growth or divergence, resetting Stage 1.
+   - Reverts candidate step to conservative phase relaxation (omega_d = 0.50) upon genuine unrelaxed
+     step growth or divergence, and resets Stage 1 for the following outer iteration.
+   - The evaluated u_trial and history for iteration k are atomically retained, guaranteeing that
+     no combination of displacement, history, and phase damage is committed that was not evaluated together.
 
 6. Rigorous Physical Acceptance, Post-Convergence Re-Equilibration, and Gate Enforcement:
    - Independent final mechanical solve with converged damage d* and history H*:
@@ -638,12 +644,25 @@ class Package171R10C6PDASDriver(object):
         step_idx = 1
         target_uy = self.target_uy
 
-        solver = PDASReEquilibrationSolver(self.mesh, self.d0, self.h0)
+        solver = getattr(self, "solver", None) or PDASReEquilibrationSolver(self.mesh, self.d0, self.h0)
         damage = dict(self.d0)
         history = dict(self.h0)
         previous_u_trial = dict(self.previous_u_trial) if self.previous_u_trial is not None else None
         previous_u_abaqus = dict(self.previous_u_abaqus) if self.previous_u_abaqus is not None else None
         previous_h_trial = None
+
+        applied_omega_u = self.omega_u_stage1
+        applied_omega_d = self.omega_d_stage1
+        delta_d = None
+        raw_delta_d = None
+        delta_u_relaxed = None
+        delta_u_raw = None
+        delta_h = None
+        delta_active_sym = None
+        added_nodes = None
+        pdas_active = set()
+        pdas_free = set()
+        kkt_post = {"passed": False, "free_error": None, "dual_error": None, "complementarity": None}
 
         step_records = []
         step_converged = False
@@ -659,13 +678,14 @@ class Package171R10C6PDASDriver(object):
                 None, self.h0, target_uy
             )
 
-            # Determine effective relaxation parameters for this iteration
-            effective_omega_d = self.omega_d_stage2 if self.stage == 2 else self.omega_d_stage1
-            effective_omega_u = self.omega_u_stage2 if self.stage == 2 else self.omega_u_stage1
+            # Determine applied mechanical displacement relaxation factor for this outer iteration.
+            # In Stage 1: applied_omega_u = omega_u_stage1 (1.00)
+            # In Stage 2: applied_omega_u = omega_u_stage2 (0.85)
+            applied_omega_u = self.omega_u_stage2 if self.stage == 2 else self.omega_u_stage1
 
             # 2. Isolated Mechanical Displacement Under-Relaxation:
             # In outer 1: u_trial = u_abaqus
-            # In subsequent outer: u_trial = (1 - omega_u) * u_trial^{(k-1)} + omega_u * u_abaqus^{(k)}
+            # In subsequent outer: u_trial = (1 - applied_omega_u) * u_trial^{(k-1)} + applied_omega_u * u_abaqus^{(k)}
             if previous_u_trial is None:
                 u_trial = dict(u_abaqus)
                 delta_u_relaxed = None
@@ -674,8 +694,8 @@ class Package171R10C6PDASDriver(object):
                 u_trial = {}
                 for n in u_abaqus:
                     u_trial[n] = (
-                        (1.0 - effective_omega_u) * previous_u_trial[n][0] + effective_omega_u * u_abaqus[n][0],
-                        (1.0 - effective_omega_u) * previous_u_trial[n][1] + effective_omega_u * u_abaqus[n][1]
+                        (1.0 - applied_omega_u) * previous_u_trial[n][0] + applied_omega_u * u_abaqus[n][0],
+                        (1.0 - applied_omega_u) * previous_u_trial[n][1] + applied_omega_u * u_abaqus[n][1]
                     )
                 # Compute raw mechanical correction against prior trial state:
                 delta_u_raw = max(abs(u_abaqus[n][i] - previous_u_trial[n][i]) for n in u_abaqus for i in (0, 1))
@@ -731,11 +751,12 @@ class Package171R10C6PDASDriver(object):
                 self.stage = 2
                 transition_activated = True
                 self.transition_count += 1
-                effective_omega_d = self.omega_d_stage2
-                effective_omega_u = self.omega_u_stage2
                 print(f"  [STAGE TRANSITION] Activated Stage 2 acceleration (omega_d={self.omega_d_stage2:.2f}, omega_u={self.omega_u_stage2:.2f}) at outer {outer:02d}: "
                       f"{self.consecutive_stable_iterations} consecutive iterations meeting compound criteria "
                       f"(|A|={len(pdas_active)}<={self.max_active_cardinality}, |Delta A|={delta_active_sym}<={self.max_symmetric_diff}, added={len(added_nodes)}==0)")
+
+            # Applied phase relaxation factor for candidate step in this outer iteration:
+            applied_omega_d = self.omega_d_stage2 if self.stage == 2 else self.omega_d_stage1
 
             # 7. Staggered phase solve with canonical PDAS active set and relaxed displacement u_trial
             new_damage_pdas, _, _ = self.solve_subproblem(
@@ -747,10 +768,10 @@ class Package171R10C6PDASDriver(object):
             # Intrinsic unrelaxed PDAS fixed-point step norm: ||d_PDAS - d^(k)||_inf
             cand_raw_delta_d = max(abs(new_damage_pdas[n] - damage[n]) for n in new_damage_pdas)
 
-            # Relaxed update: d^{(cand)} = (1 - omega_d) * d^{(k)} + omega_d * d_PDAS^{(k+1)}
+            # Relaxed update: d^{(cand)} = (1 - applied_omega_d) * d^{(k)} + applied_omega_d * d_PDAS^{(k+1)}
             cand_damage = {}
             for n in new_damage_pdas:
-                val = (1.0 - effective_omega_d) * damage[n] + effective_omega_d * new_damage_pdas[n]
+                val = (1.0 - applied_omega_d) * damage[n] + applied_omega_d * new_damage_pdas[n]
                 cand_damage[n] = min(1.0, max(self.d0[n], val))
             cand_delta_d = max(abs(cand_damage[n] - damage[n]) for n in cand_damage)
 
@@ -779,28 +800,19 @@ class Package171R10C6PDASDriver(object):
                 if rollback_triggered:
                     self.rollback_count += 1
                     print(f"  [ROLLBACK] Outer {outer:02d}: Stage 2 {rollback_reason}. "
-                          f"Reverting to conservative step (omega_d={self.omega_d_stage1:.2f}, omega_u={self.omega_u_stage1:.2f}) and resetting Stage 1.")
+                          f"Reverting phase step to conservative (omega_d={self.omega_d_stage1:.2f}) and resetting Stage 1 for subsequent iteration.")
                     # Revert candidate step using conservative relaxation factor
-                    effective_omega_d = self.omega_d_stage1
-                    effective_omega_u = self.omega_u_stage1
+                    applied_omega_d = self.omega_d_stage1
                     cand_damage = {}
                     for n in new_damage_pdas:
-                        val = (1.0 - effective_omega_d) * damage[n] + effective_omega_d * new_damage_pdas[n]
+                        val = (1.0 - applied_omega_d) * damage[n] + applied_omega_d * new_damage_pdas[n]
                         cand_damage[n] = min(1.0, max(self.d0[n], val))
                     cand_delta_d = max(abs(cand_damage[n] - damage[n]) for n in cand_damage)
                     cand_raw_delta_d = max(abs(new_damage_pdas[n] - damage[n]) for n in new_damage_pdas)
 
-                    # Recompute u_trial under conservative omega_u if previous_u_trial is available
-                    if previous_u_trial is not None:
-                        u_trial = {}
-                        for n in u_abaqus:
-                            u_trial[n] = (
-                                (1.0 - effective_omega_u) * previous_u_trial[n][0] + effective_omega_u * u_abaqus[n][0],
-                                (1.0 - effective_omega_u) * previous_u_trial[n][1] + effective_omega_u * u_abaqus[n][1]
-                            )
-                        delta_u_relaxed = max(abs(u_trial[n][i] - previous_u_trial[n][i]) for n in u_trial for i in (0, 1))
-
-                    # Reset stage state and switching counters
+                    # Atomically preserve coupled field consistency:
+                    # u_trial and history evaluated together with new_damage_pdas are RETAINED for iteration k.
+                    # Stage 1 is reset so that the NEXT iteration applies conservative omega_u=1.00 and omega_d=0.50.
                     self.stage = 1
                     self.consecutive_stable_iterations = 0
 
@@ -827,8 +839,10 @@ class Package171R10C6PDASDriver(object):
                 "outer": outer,
                 "target_uy": target_uy,
                 "stage": self.stage,
-                "effective_omega_d": effective_omega_d,
-                "effective_omega_u": effective_omega_u,
+                "applied_omega_d": applied_omega_d,
+                "applied_omega_u": applied_omega_u,
+                "effective_omega_d": applied_omega_d,
+                "effective_omega_u": applied_omega_u,
                 "pdas_active_count": len(pdas_active),
                 "pdas_free_count": len(pdas_free),
                 "active_set_symmetric_diff": delta_active_sym,
@@ -867,7 +881,7 @@ class Package171R10C6PDASDriver(object):
             added_str = f"{len(added_nodes)}" if added_nodes is not None else "N/A"
             u_rel_str = f"{delta_u_relaxed:.4e}" if delta_u_relaxed is not None else "N/A"
             u_raw_str = f"{delta_u_raw:.4e}" if delta_u_raw is not None else "N/A"
-            print(f"  Outer {outer:02d} [Stage {self.stage}, wd={effective_omega_d:.2f}, wu={effective_omega_u:.2f}]: "
+            print(f"  Outer {outer:02d} [Stage {self.stage}, wd={applied_omega_d:.2f}, wu={applied_omega_u:.2f}]: "
                   f"delta_d={delta_d:.4e}, delta_u_rel={u_rel_str}, delta_u_raw={u_raw_str}, delta_h={delta_h or 0.0:.4e}, "
                   f"|Delta A|={sym_str} (card={card_str}, added={added_str}), stable_count={self.consecutive_stable_iterations}, "
                   f"post_kkt_pass={kkt_post['passed']}, PDAS active={len(pdas_active)}")
@@ -930,6 +944,8 @@ class Package171R10C6PDASDriver(object):
             previous_h_trial = dict(history)
 
         if not step_converged:
+            applied_omega_d = self.omega_d_stage2 if self.stage == 2 else self.omega_d_stage1
+            applied_omega_u = self.omega_u_stage2 if self.stage == 2 else self.omega_u_stage1
             summary = {
                 "schema": 1,
                 "contract": f"Package 171-R10 (C6 Coupled PDAS Re-Equilibration Isolated Displacement Relaxation omega_u: S1={self.omega_u_stage1:.2f}, S2={self.omega_u_stage2:.2f}, omega_d: S1={self.omega_d_stage1:.2f}, S2={self.omega_d_stage2:.2f})",
@@ -942,8 +958,10 @@ class Package171R10C6PDASDriver(object):
                 "last_delta_u_relaxed": delta_u_relaxed,
                 "last_delta_u_raw": delta_u_raw,
                 "last_delta_h": delta_h,
-                "effective_omega_d": effective_omega_d,
-                "effective_omega_u": effective_omega_u,
+                "applied_omega_d": applied_omega_d,
+                "applied_omega_u": applied_omega_u,
+                "effective_omega_d": applied_omega_d,
+                "effective_omega_u": applied_omega_u,
                 "transition_count": self.transition_count,
                 "rollback_count": self.rollback_count,
                 "growth_rollback_count": self.growth_rollback_count,

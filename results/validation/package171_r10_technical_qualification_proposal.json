@@ -69,26 +69,28 @@
     },
     "driver": {
       "path": "scripts/state_transfer/driver_package171_r10_c6_coupled_pdas.py",
-      "sha256": "0A8953721479CF80CC6153933B5C5F24DE093808DDF94415018A3D7A9E6CB3DC",
-      "size_bytes": 38780
+      "sha256": "2C3399CC74270F08AA7321939AB802E10DF1A32C992A264B17481B5C70842EC6",
+      "size_bytes": 53723
     },
     "test_suite": {
       "path": "tests/unit/test_package171_r10_c6_coupled_driver.py",
-      "sha256": "17F6D9792D53A8BADE5256E800792169198738CE8EFFAB8A613A8C4D454F5981",
-      "tests_count": 17,
-      "tests_passed": 17
+      "sha256": "6001224046582CA407B12FCF8C6D69E7CFC6D9A0DD6D0087BDBAFB66C1E18763",
+      "size_bytes": 32645,
+      "tests_count": 13,
+      "tests_passed": 13
     },
     "diff_patch": {
       "path": "results/validation/package171_r10_driver_diff.patch",
-      "sha256": "91B4991C940CE4B41637A3F06D3B1CEE973E55DDC58DD43DB6A60E12B1273E30",
-      "size_bytes": 41105
+      "sha256": "9349A225E0646A526F8935A2523BD45ABE69320B4FF06F32410CF33AB3D7033D",
+      "size_bytes": 43169
     },
     "test_output_log": {
       "path": "results/validation/package171_r10_test_output.txt",
-      "sha256": "E2052BFD494392205AB16FE2921194CA87CC4CAE0BA377736919D88C225B17EE",
-      "total_tests_run": 30,
-      "total_tests_passed": 30,
-      "r10_contract_tests_passed": 17,
+      "sha256": "15FD506AC70ABDB7D2E91DAC5E00CC43969D83E9E3581ABF8E2C172F4046DC4D",
+      "size_bytes": 17370,
+      "total_tests_run": 26,
+      "total_tests_passed": 26,
+      "r10_contract_tests_passed": 13,
       "r9_regression_tests_passed": 13
     }
   },

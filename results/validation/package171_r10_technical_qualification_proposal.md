@@ -85,43 +85,37 @@ All artifacts have been created, bitwise validated, and hashed:
 
 | Artifact Description | Canonical File Path | SHA-256 Hash | Size / Status |
 | :--- | :--- | :---: | :---: |
-| **Frozen Production UEL** | `models/pandey_kumar_mode1/f42_mixed_uel.for` | `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` | Bitwise Untouched |
-| **R10 Driver Source** | `scripts/state_transfer/driver_package171_r10_c6_coupled_pdas.py` | `0A8953721479CF80CC6153933B5C5F24DE093808DDF94415018A3D7A9E6CB3DC` | 38,780 bytes |
-| **R10 Unit Test Suite** | `tests/unit/test_package171_r10_c6_coupled_driver.py` | `17F6D9792D53A8BADE5256E800792169198738CE8EFFAB8A613A8C4D454F5981` | 26,944 bytes |
-| **Unified Diff Patch** | `results/validation/package171_r10_driver_diff.patch` | `91B4991C940CE4B41637A3F06D3B1CEE973E55DDC58DD43DB6A60E12B1273E30` | 41,105 bytes |
-| **Combined Test Log** | `results/validation/package171_r10_test_output.txt` | `E2052BFD494392205AB16FE2921194CA87CC4CAE0BA377736919D88C225B17EE` | 30/30 PASS (100%) |
-| **Technical Proposal JSON** | `results/validation/package171_r10_technical_qualification_proposal.json` | `9980A03665419791E692F0819CE3B3AE1725882B5CEA472CAD4367E651F5B914` | Verified |
+| **Frozen Production UEL** | `models/pandey_kumar_mode1/f42_mixed_uel.for` | `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` | Bitwise Untouched (29,722 bytes) |
+| **R10 Driver Source** | `scripts/state_transfer/driver_package171_r10_c6_coupled_pdas.py` | `2C3399CC74270F08AA7321939AB802E10DF1A32C992A264B17481B5C70842EC6` | 53,723 bytes |
+| **R10 Unit Test Suite** | `tests/unit/test_package171_r10_c6_coupled_driver.py` | `6001224046582CA407B12FCF8C6D69E7CFC6D9A0DD6D0087BDBAFB66C1E18763` | 32,645 bytes |
+| **Unified Diff Patch** | `results/validation/package171_r10_driver_diff.patch` | `9349A225E0646A526F8935A2523BD45ABE69320B4FF06F32410CF33AB3D7033D` | 43,169 bytes |
+| **Combined Test Log** | `results/validation/package171_r10_test_output.txt` | `15FD506AC70ABDB7D2E91DAC5E00CC43969D83E9E3581ABF8E2C172F4046DC4D` | 17,370 bytes (26/26 PASS) |
+| **Technical Proposal JSON** | `results/validation/package171_r10_technical_qualification_proposal.json` | `FA97FA05636E92E28AB3A4C0C6B64AAA321627FBBB486239A21F4552F0871A48` | 4,921 bytes |
 | **Task Definition JSON** | `project_coordination/task_definitions/F1614-PACKAGE171-R10-C6-ISOLATED-DISPLACEMENT-RELAXATION-QUALIFICATION.json` | `083EC611F0552821C0244E278FDD831C15E2A9003411570E34F097B5B1CFA7DA` | Schema 1 |
 
 ---
 
 ## 4. Controlled Offline Regression Suite Results
 
-The combined regression test suite executed both the new R10 isolated displacement under-relaxation contract tests and the complete R9 regression suite:
+The combined regression test suite executed both the new R10 isolated displacement under-relaxation contract tests and the complete R9 regression suite via `py.exe -3 -m unittest tests/unit/test_package171_r10_c6_coupled_driver.py tests/unit/test_package171_r9_c6_coupled_driver.py -v`:
 
 ```
-=== PACKAGE 171-R10 ISOLATED DISPLACEMENT RELAXATION UNIT REGRESSION ===
-test_all_18_authentic_r8_rollbacks_replayed ... ok
-test_authentic_r8_outer89_transition_replay ... ok
-test_clean_stage2_admission_tracks_both_displacements ... ok
-test_compound_active_set_stability_gate ... ok
-test_displacement_relaxation_mathematics_stage1_vs_stage2 ... ok
-test_divergence_rollback_reverts_omega_u_and_stage ... ok
-test_exact_equivalence_to_r9_when_omega_u_is_unity ... ok
+=== PACKAGE 171-R10 PRODUCTION-PATH REGRESSION & UNIT SUITE (13 TESTS) ===
 test_extractor_arguments_contract ... ok
 test_force_and_energy_drift_suppresses_checkpoint ... ok
-test_independent_re_equilibration_gate ... ok
+test_independent_re_equilibration_gate_clean_and_failures ... ok
 test_mechanical_deck_contract ... ok
 test_phase_deck_contract ... ok
 test_phase_decoding_u3_and_rejections ... ok
+test_production_path_admit_convergence_when_both_raw_and_relaxed_satisfy_tolerance ... ok
+test_production_path_exact_equivalence_to_r9_when_omega_u_is_unity ... ok
+test_production_path_reject_false_convergence_on_unsatisfied_raw_displacement ... ok
+test_production_path_rollback_atomic_coupled_fields ... ok
+test_production_path_stage_transition_and_applied_coefficients ... ok
 test_qualified_history_construction_preserves_thermodynamic_consistency ... ok
-test_raw_vs_relaxed_displacement_increments ... ok
-test_reject_false_convergence_on_unsatisfied_raw_displacement ... ok
 test_rejection_of_heuristic_history_filter ... ok
-----------------------------------------------------------------------
-Ran 17 tests in 0.204s - OK
 
-=== PACKAGE 171-R9 REGRESSION PRESERVATION ===
+=== PACKAGE 171-R9 REGRESSION PRESERVATION SUITE (13 TESTS) ===
 test_all_18_authentic_r8_rollbacks_replayed ... ok
 test_authentic_r8_outer89_transition_replay ... ok
 test_catastrophic_jump_triggers_rollback ... ok
@@ -135,14 +129,18 @@ test_phase_deck_contract ... ok
 test_phase_decoding_u3_and_rejections ... ok
 test_solver_interface_and_coupled_acceptance ... ok
 test_stage2_clean_contraction_admitted ... ok
+
 ----------------------------------------------------------------------
-Ran 13 tests in 0.249s - OK
+Ran 26 tests in 0.337s - OK
 ```
 
 **Key Verification Outcomes:**
-1. **Mathematical Under-Relaxation Verified**: Confirmed that in Stage 2, $u_{\text{trial}} = 0.15 u_{\text{prev}} + 0.85 u_{\text{Abaqus}}$, and $\Delta u_{\text{relaxed}} = 0.85 \Delta u_{\text{raw}}$.
-2. **False Convergence Prevention Verified**: A test with $\Delta u_{\text{relaxed}} = 0.935 \times 10^{-9}$ mm ($\le 10^{-9}$) and $\Delta u_{\text{raw}} = 1.10 \times 10^{-9}$ mm ($> 10^{-9}$) correctly rejected convergence.
-3. **Thermodynamic Consistency Preserved**: Confirmed that $H_{\text{trial}} = \max(H_0, \psi_+(u_{\text{trial}}))$ strictly satisfies $H \ge \psi_+$ at all points, whereas the rejected heuristic filter produced negative margins up to $1.5$ MPa.
+1. **Production-Path Stage Transition Ordering Verified**: In Outer 4 (transition iteration), the outer step starts in Stage 1 applying $\omega_u = 1.00$; compound stabilization triggers `self.stage = 2`, the phase step applies candidate $\omega_d = 0.85$, and telemetry records `applied_omega_u = 1.00`, `applied_omega_d = 0.85`. In Outer 5, mechanical relaxation begins in Stage 2 with $\omega_u = 0.85$ and $\omega_d = 0.85$.
+2. **Atomic Rollback Preservation Verified**: Under Stage 2 with $\omega_u = 0.85$, when candidate phase damage exhibits divergence, the driver reverts the candidate phase step using conservative $\omega_d = 0.50$, resets `self.stage = 1` for the subsequent iteration, and atomically preserves the evaluated $u_{\text{trial}}$ and history for iteration $k$ (no hybrid or un-evaluated coupled states).
+3. **False Convergence Prevention Verified**: A controlled production run with $\Delta u_{\text{relaxed}} = 0.935 \times 10^{-9}$ mm ($\le 10^{-9}$) and $\Delta u_{\text{raw}} = 1.10 \times 10^{-9}$ mm ($> 10^{-9}$) correctly rejected convergence and suppressed checkpoint commitment. Conversely, when both raw and relaxed increments satisfied the $10^{-9}$ mm tolerance, coupled convergence was cleanly admitted.
+4. **Thermodynamic Consistency Preserved**: Confirmed that $H_{\text{trial}} = \max(H_0, \psi_+(u_{\text{trial}}))$ strictly satisfies $H \ge \psi_+$ at all points, whereas the rejected heuristic filter produced negative margins up to $1.5$ MPa.
+5. **Mechanical Re-Equilibration Gate Verified**: Demonstrated that if re-equilibrated solution $u_{\text{consistent}}$ deviates from $u_{\text{trial}}$ by $> 10^{-9}$ mm or history drifts by $> 10^{-4}$ MPa, physical acceptance is failed and checkpoint creation is suppressed.
+6. **Backwards Compatibility Confirmed**: Running identical multi-iteration production solves on R10 ($\omega_u = 1.00$) and R9 confirmed exact numerical equivalence across all field increments, active set counts, and stage telemetry.
 4. **Mechanical Re-Equilibration Gate Verified**: Demonstrated that if re-equilibrated solution $u_{\text{consistent}}$ deviates from $u_{\text{trial}}$ by $> 10^{-9}$ mm, physical acceptance is failed and checkpoint creation is suppressed.
 5. **Backwards Compatibility Confirmed**: When $\omega_u = 1.00$, the driver identically reproduces unrelaxed mechanical coupling.
 

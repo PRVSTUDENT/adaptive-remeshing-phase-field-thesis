@@ -63,3 +63,20 @@
 - **Lock Status:** `bridge.lock` is cleanly released; no orphaned locks or mutexes held.
 - **HPC Governance:** 0 active PBS jobs on cluster; `max_new_pbs_submissions: 0` strictly enforced under Task F1610 pending review approval.
 - **Next Safe Action:** User triggers the `Antigravity_ChatGPT_Bridge` flow in Power Automate Desktop to deliver `bridge_request.ready` to ChatGPT and receive `bridge_response.ready`.
+
+---
+
+## 5. Task F1614 Isolated Displacement Relaxation Driver Qualification & Re-Review Remediation
+
+- **Task ID:** `F1614-PACKAGE171-R10-C6-ISOLATED-DISPLACEMENT-RELAXATION-QUALIFICATION`
+- **Candidate Identifier:** `M1_C6_P171_R10_C3_0`
+- **Re-Review Intake (Handoff HND-d1bce2442a67):**
+  - Decision: `REJECT — MINIMAL PRODUCTION-PATH CORRECTION REQUIRED`.
+  - Blockers Remediated:
+    1. *Stage Transition Displacement Ordering:* In outer 4 (transition iteration), the outer step starts in Stage 1 applying $\omega_u = 1.00$; compound stabilization triggers `self.stage = 2`, the phase step applies candidate $\omega_d = 0.85$, and telemetry records `applied_omega_u = 1.00`, `applied_omega_d = 0.85`. In outer 5, mechanical relaxation begins in Stage 2 with $\omega_u = 0.85$ and $\omega_d = 0.85$.
+    2. *Atomic Rollback Field Preservation:* Under Stage 2 with $\omega_u = 0.85$, candidate phase damage divergence triggers rollback: reverts phase step using conservative $\omega_d = 0.50$, resets `self.stage = 1` for subsequent outer iteration, and atomically preserves evaluated $u_{\text{trial}}$ and history for iteration $k$ (zero hybrid or un-evaluated state combinations).
+    3. *Production-Path Test Suite:* Upgraded `tests/unit/test_package171_r10_c6_coupled_driver.py` from mathematical expression checks to production-path tests directly executing `solve_coupled_equilibration()`. 100% PASS across 13 R10 tests and 13 R9 regression tests (26/26 PASS total).
+    4. *Exact Hash and Byte Integrity:* All 7 artifacts verified bitwise exact against disk files.
+- **Governed PBS Submissions:** Strictly 0 (`max_new_pbs_submissions: 0` enforced).
+- **Next Safe Action:** Re-dispatch review packet to ChatGPT via PAD bridge under unique handoff ID for formal qualification signoff.
+
