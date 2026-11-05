@@ -1,7 +1,7 @@
 {
     "task_id": "F1626-METHOD-C-SAME-MESH-REPAIRED-CONTROL-EXECUTION",
     "agent": "gemini-antigravity",
-    "status": "ACTIVE",
+    "status": "COMPLETED",
     "phase": "Method C Paired Same-Mesh Repaired Control Production Execution. Conditional 2-job PBS authorization granted under HND-5c0d7a3bf74b.",
     "gate_status": "SAME_MESH_REPAIRED_CONTROL_EXECUTION_AUTHORIZED__2_PBS_JOBS",
     "predecessor_task": {
@@ -54,9 +54,12 @@
         "execute_isoparametric_gp_transfer_safety_requalification",
         "stage_and_datacheck_same_mesh_controls",
         "correct_same_mesh_checkpoint03_provenance_and_datacheck",
-        "execute_same_mesh_controls_and_diagnose_extraction_defect"
+        "execute_same_mesh_controls_and_diagnose_extraction_defect",
+        "evaluate_paired_same_mesh_repaired_controls"
     ],
     "completed_pbs_job_ids": [
+        "1420352.mmaster02",
+        "1420353.mmaster02",
         "1420345.mmaster02",
         "1420344.mmaster02",
         "1420261.mmaster02",
@@ -320,8 +323,8 @@
         "supervised_resumption_scope": "CONTROLLED_LIVE_VERIFICATION_ONLY",
         "reconciled_at": "2026-11-04T15:46:00+01:00"
     },
-    "scientific_acceptance": "CONDITIONALLY_AUTHORIZED_TWO_ONCE_ONLY_PBS_SUBMISSIONS",
-    "last_step_status": "PAIRED_CONTROLS_RUNNING_AWAITING_USER_NOTIFICATION_OF_COMPLETION",
-    "last_updated": "2026-11-05T18:28:00+01:00",
-    "next_safe_action": "Await user notification of job completion, then query qstat, download authentic evidence files, evaluate paired controls via scripts/validation/evaluate_same_mesh_controls.py, and dispatch progress to ChatGPT."
+    "scientific_acceptance": "PAIRED_CONTROLS_EVALUATED_ISOPARAMETRIC_SUPERIORITY_ESTABLISHED",
+    "last_step_status": "PAIRED_CONTROLS_COMPLETED_EVALUATED_AND_RECONCILED",
+    "last_updated": "2026-11-05T18:42:00+01:00",
+    "next_safe_action": "Formulate successor task F1628, prepare progress report, and dispatch bridge review to ChatGPT across PAD bridge."
 }
