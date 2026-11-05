@@ -1,0 +1,72 @@
+{
+  "batch_name": "MODE1_M1_C5_P173_CORRECTED_CONTROL_STAGE_C5_SAME_MESH_CONTROL",
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "configuration": "MODE1_BASELINE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_c5_package173_corrected_control",
+  "runtime_root": "/scratch9/pr21vyci/runs/mode1_c5_package173_corrected_control/runtime",
+  "runtime_source_hashes": {
+    "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py": "109B01623F2C24FE1B66C17F62812D575FEFB72AB700F8979B829B85D2DDBBD8",
+    "scripts/state_transfer/c4_to_c5_spatial_mapping.py": "BD2E115514C8672B07CBD85AEF6135C386B8C70A8044E378C6CCCEC910BD2699",
+    "scripts/state_transfer/isoparametric_gp_transfer.py": "A39FFB230F42983E96C8EB0B48958E8F7A4B2C6954638AAAFAED7FC30303B244",
+    "scripts/state_transfer/driver_package146_147_pdas_continuation.py": "9EDE833668340A41AD590CB2387F8CB72A6C9C63DE9DF6B2185A3CABD1B21265",
+    "scripts/state_transfer/driver_same_mesh_control_pdas.py": "BFB007ED4D91F9C5E01D826DEB3DE1E3F000EC51748AA9A8FC5097EEF534F65B",
+    "scripts/validation/extract_package148_iteration.py": "4EB4B445A6CC35650A6E3A14FA79B48FDF37B4AE1E27BDFC1499C751DF403CEC"
+  },
+  "files": {
+    "active_set_boundary_cards.inc": "0320fda07b7573af5cc1e7116c25c5a1219bffab976bb1a6721e9985f99afec5",
+    "d_lower_bounds.csv": "d16b8dad927337a00ade70d6f30f411b30417cad7282415d79c651cfffde44b3",
+    "driver_same_mesh_control_pdas.py": "bfb007ed4d91f9c5e01d826deb3de1e3f000ec51748aa9a8fc5097eef534f65b",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "initial_conditions_solution.inc": "470ccd837d70855373b5c9dcab1653d8b1815c79578c1dcff3b3be1481f990d7",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_C5_PACKAGE173_CORRECTED_CONTROL_REEQUILIBRATION.inp": "23557438ae4682359b924cac805d642fffc489510fc5d5a38011edb1b3feafc6",
+    "nodal_displacements_initial.csv": "cbd47def1af34376257ddf6f7bac84be4c5b209848d43cb1b9c57ecf39ac7020",
+    "nodal_phase_field_initial.csv": "2b4e4a8a1da096f4ebd4cf7e6b20febd41945adad5d056a3582d40d5148dbb81",
+    "P173_ITER1_MECH.dat": "c28e4fddd0f975fec1a87f2650a434193466bc562edb87ee2e6c1a972aa4ae20",
+    "P173_ITER1_MECH.inp": "9f6715ce3f6dbad4717a7f852ce5ba800ca1b74cd8a5aad37cf6b07b05690aed",
+    "P173_ITER1_MECH.msg": "a59f903ef9494d90912937f8b4dd845877a836707c32876a4b75c20e8d7c5334",
+    "P173_ITER1_PHASE.dat": "0b822876836f2c93946e1e91dc6348074fd40c927d6dff9207efbd71580654a6",
+    "P173_ITER1_PHASE.inp": "8495c2cf9e4c94b19fad211cd15721c0bd9a4d01d2bca27e600b125ae8aff853",
+    "P173_ITER1_PHASE.msg": "749edddd856dc342ceff861ad46ea4bebc85ac7e16890541a9bcf230703dd75b",
+    "P173_MECHANICAL_DC.dat": "3fc4d7b461abf22c029936f6cd72714c3c89396507a6498b88a3f19667e9c27d",
+    "P173_MECHANICAL_DC.inp": "2357a16b0fe73461b1b2f2f3d6273f62967ed7b4849896b35c79b1fa8926af84",
+    "P173_MECHANICAL_DC.msg": "6f4fe93bc3708f66119b5132e58c79b9ba3252b49c8f0c3305bcd0a6aa970226",
+    "P173_PHASE_DC.dat": "4f82a997eb2793c6d36752f326d8e77b78b59d2e43dbb1fbc62780291c90a78c",
+    "P173_PHASE_DC.inp": "f378c080a825dcccfe3d44e44de1a3da7a9030af80381ba0516dd5149d202720",
+    "P173_PHASE_DC.msg": "e867591f9e79b2afcbfa19d61822aef8de425af56b2616e8f1c165bc3987f7d4",
+    "PACKAGE_MANIFEST.json": "07663421da95747eb7c95181e59582629d5d75046e7e52d7d6804e1bd19af082",
+    "run_datacheck.sh": "aa20a378f7734f34e3ef7f6cf5f19a6ae070e0e12902787795ca95d20058fb26",
+    "smoke_import.py": "5e2689297e7f7b5f33b5e4ba54f594c94cb1d57c9a6cfcb79ace3b9e2435d7f9",
+    "submit_M1_C5_P173_CORRECTED_CONTROL.pbs": "56b23b836e8c94fb7df078f1eb4bf11fb1f3536ff636ceb57a0cabc8a8a6754d"
+  },
+  "scientific_predecessor_review": "Independent supervisor review APPROVE decision under correlation HND-9b12785dd10e at commit d13d88daa3a11096ace16717776e4aaa2378a9c0 closing F1624",
+  "jobs": [
+    {
+      "id": "M1_C5_P173_CORRECTED_CONTROL",
+      "pbs": "submit_M1_C5_P173_CORRECTED_CONTROL.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c5_package173_corrected_control/submit_M1_C5_P173_CORRECTED_CONTROL.pbs\"",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Package 173 (Arm 2): Stage C5 same-mesh control re-equilibration with corrected isoparametric bilinear GP history operator at uy = 0.0018703125 mm (max 140 outer iterations, 1 CPU serial, 16 GB, 8h, Anderson disabled)",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "P173_MECHANICAL_DC.inp",
+      "datacheck": "P173_MECHANICAL_DC.dat",
+      "additional_datachecks": [
+        "P173_PHASE_DC.dat"
+      ],
+      "command_sha256": "e88f0709121686ae3da05bee77c52b584233991ff6d108145618c08ed3fa2492"
+    }
+  ],
+  "acceptance": {
+    "M1_C5_P173_CORRECTED_CONTROL": "Stage C5 same-mesh control re-equilibration (Arm 2): Delta d <= 1e-5, Delta u <= 1e-9 mm, Delta H <= 1e-4 MPa, final KKT <= 1e-6, zero healing, reaction force drift <= 2%, total energy drift <= 2% vs Checkpoint 03."
+  }
+}

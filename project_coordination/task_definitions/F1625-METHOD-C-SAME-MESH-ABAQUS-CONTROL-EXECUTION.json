@@ -1,0 +1,55 @@
+{
+  "task_id": "F1625-METHOD-C-SAME-MESH-ABAQUS-CONTROL-EXECUTION",
+  "task_name": "Method C Paired Same-Mesh Abaqus Control Production Execution and Comparative Evaluation",
+  "phase": "Method C Paired Same-Mesh Abaqus Control Production Execution",
+  "objective": "Execute the paired same-mesh Abaqus control experiment on accepted C5 donor Checkpoint 03 (Job 1419566.mmaster02, uy = 0.0018703125 mm) comparing element-averaged history transfer (Arm 1 / Package 172) vs hardened isoparametric bilinear history transfer (Arm 2 / Package 173) under strict parameter invariance. Authorizes exactly two once-only production PBS solver submissions.",
+  "predecessor": "F1624-METHOD-C-SAME-MESH-RUNTIME-PREFLIGHT-CORRECTION",
+  "authorized_scope": {
+    "max_new_pbs_submissions": 2,
+    "remaining_pbs_submissions": 2,
+    "named_jobs": [
+      {
+        "candidate": "M1_C5_P172_OLD_CONTROL",
+        "package_dir": "models/pandey_kumar_mode1/172_c5_same_mesh_old_control",
+        "cluster_scratch_dir": "/scratch9/pr21vyci/runs/mode1_c5_package172_old_control",
+        "submit_script": "submit_M1_C5_P172_OLD_CONTROL.pbs",
+        "resources": {
+          "nodes": 1,
+          "ppn": 1,
+          "pmem": "16gb",
+          "walltime": "08:00:00"
+        },
+        "description": "Arm 1: Element-averaged Gauss-point history transfer control"
+      },
+      {
+        "candidate": "M1_C5_P173_CORRECTED_CONTROL",
+        "package_dir": "models/pandey_kumar_mode1/173_c5_same_mesh_corrected_control",
+        "cluster_scratch_dir": "/scratch9/pr21vyci/runs/mode1_c5_package173_corrected_control",
+        "submit_script": "submit_M1_C5_P173_CORRECTED_CONTROL.pbs",
+        "resources": {
+          "nodes": 1,
+          "ppn": 1,
+          "pmem": "16gb",
+          "walltime": "08:00:00"
+        },
+        "description": "Arm 2: Corrected isoparametric bilinear Gauss-point history transfer control"
+      }
+    ]
+  },
+  "governance": {
+    "max_new_pbs_submissions": 2,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "zero_pbs_enforced": false,
+    "automatic_retry_allowed": false,
+    "anderson_enabled": false,
+    "max_outer_iterations": 140
+  },
+  "acceptance_criteria": [
+    "Verify remote cluster staging and confirm driver hash 7591BF098A0CFA2F9761B7C748F0D60EC6A94F52B05A66C086AEDB0EA3740BBA",
+    "Execute remote smoke tests confirming deterministic master-deck selection and mesh integrity (12,996 elements, 13,278 nodes, 51,984 GPs)",
+    "Verify cluster scheduler capacity via qstat before submission",
+    "Submit Job 1 (M1_C5_P172_OLD_CONTROL) and Job 2 (M1_C5_P173_CORRECTED_CONTROL) sequentially via Invoke-Mode1Execution.ps1",
+    "Record authentic PBS job IDs in HPC_JOB_LEDGER.csv and ACTIVE_TASK.json",
+    "Monitor execution and evaluate paired convergence telemetry (Delta d, Delta u, Delta H, active set, KKT residuals, force, energy)"
+  ]
+}

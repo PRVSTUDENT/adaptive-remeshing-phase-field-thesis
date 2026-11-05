@@ -304,6 +304,7 @@ class SameMeshControlPDASDriver(object):
         cards += [
             "*Output, field, frequency=1\n*Node Output\nU, RF\n",
             "*Element Output, elset=MECH_QUADS\nSDV\n",
+            "*Node Print, frequency=1\nU\n",
             "*End Step\n"
         ]
         return "".join(cards)
@@ -394,9 +395,9 @@ class SameMeshControlPDASDriver(object):
                 comp_lengths = set(len(v) for v in fields.values())
                 comp_len = next(iter(comp_lengths))
                 if comp_len == 1:
-                    new_d = {n: v[0] for n, v in fields.items()}
+                    raw_d = {n: v[0] for n, v in fields.items()}
                 elif comp_len >= 3:
-                    new_d = {n: v[2] for n, v in fields.items()}
+                    raw_d = {n: v[2] for n, v in fields.items()}
                 elif comp_len == 2:
                     raise ValueError(
                         f"solve_subproblem(phase): rejected two-component phase output (U1, U2); "
@@ -405,10 +406,25 @@ class SameMeshControlPDASDriver(object):
                 else:
                     raise ValueError(f"solve_subproblem(phase): unsupported phase component count {comp_len}")
 
-                # Enforce damage irreversibility clipping against d0
-                for n in new_d:
-                    if new_d[n] < self.d0[n]:
-                        new_d[n] = self.d0[n]
+                # Validate raw phase field bounds and finiteness
+                for n, val in raw_d.items():
+                    if not math.isfinite(val):
+                        raise ValueError(f"solve_subproblem(phase): non-finite raw damage at node {n}: {val}")
+                    if val < -0.05 or val > 1.05:
+                        raise ValueError(
+                            f"solve_subproblem(phase): unphysical raw damage out of bounds at node {n}: {val:.6e} "
+                            f"(valid physical range [-0.05, 1.05])"
+                        )
+
+                # Record raw healing diagnostics BEFORE projection
+                raw_healing_min = min(raw_d[n] - self.d0[n] for n in raw_d)
+                raw_healing_violations = sum(1 for n in raw_d if raw_d[n] < (self.d0[n] - HEALING_TOL))
+                res["raw_damage"] = dict(raw_d)
+                res["raw_healing_min"] = raw_healing_min
+                res["raw_healing_violations"] = raw_healing_violations
+
+                # Enforce documented damage irreversibility projection against d0
+                new_d = {n: min(1.0, max(self.d0[n], raw_d[n])) for n in raw_d}
                 validate_damage(new_d, self.d0)
         # 2. Legacy fallback format: "nodal_displacement" and "nodal_damage" dicts
         elif role == "mechanical" and "nodal_displacement" in res:
@@ -417,13 +433,22 @@ class SameMeshControlPDASDriver(object):
                 if nid in self.mesh.nodes:
                     new_u[nid] = (u1, u2)
         elif role == "phase" and "nodal_damage" in res:
+            raw_d = {}
             for n_str, d_val in res.get("nodal_damage", {}).items():
                 nid = int(n_str)
                 if nid in self.mesh.nodes:
-                    new_d[nid] = d_val
-            for n in new_d:
-                if new_d[n] < self.d0[n]:
-                    new_d[n] = self.d0[n]
+                    raw_d[nid] = float(d_val)
+            for n, val in raw_d.items():
+                if not math.isfinite(val):
+                    raise ValueError(f"solve_subproblem(phase): non-finite raw damage at node {n}: {val}")
+                if val < -0.05 or val > 1.05:
+                    raise ValueError(f"solve_subproblem(phase): unphysical raw damage out of bounds at node {n}: {val:.6e}")
+            raw_healing_min = min(raw_d[n] - self.d0[n] for n in raw_d)
+            raw_healing_violations = sum(1 for n in raw_d if raw_d[n] < (self.d0[n] - HEALING_TOL))
+            res["raw_damage"] = dict(raw_d)
+            res["raw_healing_min"] = raw_healing_min
+            res["raw_healing_violations"] = raw_healing_violations
+            new_d = {n: min(1.0, max(self.d0[n], raw_d[n])) for n in raw_d}
             validate_damage(new_d, self.d0)
         else:
             raise KeyError(
@@ -453,10 +478,57 @@ class SameMeshControlPDASDriver(object):
         pdas_free_count
     ):
         print("\nEvaluating comprehensive physical acceptance criteria:")
-        rf_consistent = abs(float(consistent_endpoint.get("reaction_force_kn", 0.0)))
-        energy_consistent = float(consistent_endpoint.get("total_energy_knmm", 0.0))
-        elastic_consistent = float(consistent_endpoint.get("strain_energy_knmm", 0.0))
-        fracture_consistent = float(consistent_endpoint.get("fracture_energy_knmm", 0.0))
+
+        # 1. Authentic extractor field names from extract_package148_iteration.py
+        raw_rf = (
+            consistent_endpoint.get("rf2_kN")
+            if "rf2_kN" in consistent_endpoint
+            else consistent_endpoint.get("reaction_force_kn")
+        )
+        if raw_rf is None and "reaction_force_kN" in consistent_endpoint:
+            raw_rf = consistent_endpoint["reaction_force_kN"]
+
+        raw_energy = (
+            consistent_endpoint.get("total_energy_kNmm")
+            if "total_energy_kNmm" in consistent_endpoint
+            else consistent_endpoint.get("total_energy_knmm")
+        )
+
+        raw_elastic = (
+            consistent_endpoint.get("elastic_kNmm")
+            if "elastic_kNmm" in consistent_endpoint
+            else consistent_endpoint.get("strain_energy_knmm")
+        )
+
+        raw_fracture = (
+            consistent_endpoint.get("fracture_kNmm")
+            if "fracture_kNmm" in consistent_endpoint
+            else consistent_endpoint.get("fracture_energy_knmm")
+        )
+
+        # Fail-closed validation: reject missing or nonfinite force/energy rather than defaulting to 0.0
+        if raw_rf is None:
+            raise KeyError(
+                f"finalize_coupled_acceptance: missing reaction force in consistent_endpoint; "
+                f"expected 'rf2_kN' (found: {list(consistent_endpoint.keys())})"
+            )
+        rf_val = float(raw_rf)
+        if not math.isfinite(rf_val):
+            raise ValueError(f"finalize_coupled_acceptance: non-finite reaction force: {rf_val}")
+
+        if raw_energy is None:
+            raise KeyError(
+                f"finalize_coupled_acceptance: missing total energy in consistent_endpoint; "
+                f"expected 'total_energy_kNmm' (found: {list(consistent_endpoint.keys())})"
+            )
+        energy_val = float(raw_energy)
+        if not math.isfinite(energy_val):
+            raise ValueError(f"finalize_coupled_acceptance: non-finite total energy: {energy_val}")
+
+        rf_consistent = abs(rf_val)
+        energy_consistent = energy_val
+        elastic_consistent = float(raw_elastic) if (raw_elastic is not None and math.isfinite(float(raw_elastic))) else 0.0
+        fracture_consistent = float(raw_fracture) if (raw_fracture is not None and math.isfinite(float(raw_fracture))) else 0.0
 
         force_drift_pct = abs(rf_consistent - DONOR_REFERENCE_FORCE_KN) / DONOR_REFERENCE_FORCE_KN * 100.0
         energy_drift_pct = abs(energy_consistent - DONOR_REFERENCE_TOTAL_ENERGY_KNMM) / DONOR_REFERENCE_TOTAL_ENERGY_KNMM * 100.0
@@ -510,7 +582,7 @@ class SameMeshControlPDASDriver(object):
 
         summary = {
             "schema": 1,
-            "task_id": "F1622-METHOD-C-SAME-MESH-ABAQUS-CONTROL-STAGING",
+            "task_id": manifest.get("task_id", "F1626-METHOD-C-SAME-MESH-REPAIRED-CONTROL-EXECUTION"),
             "package_id": pkg_id,
             "label": manifest.get("label", "Same-Mesh Control"),
             "status": "CONVERGED" if all_physical_pass else "CONVERGED_PHYSICAL_ACCEPTANCE_FAILED",
@@ -533,6 +605,7 @@ class SameMeshControlPDASDriver(object):
             "last_delta_u_raw": delta_u_raw,
             "last_delta_h": delta_h,
             "reaction_force_kN": rf_consistent,
+            "rf2_kN": rf_consistent,
             "donor_reference_force_kN": DONOR_REFERENCE_FORCE_KN,
             "force_drift_pct": force_drift_pct,
             "force_gate_pass": force_gate_pass,
@@ -859,7 +932,7 @@ class SameMeshControlPDASDriver(object):
 
             summary = {
                 "schema": 1,
-                "task_id": "F1622-METHOD-C-SAME-MESH-ABAQUS-CONTROL-STAGING",
+                "task_id": manifest.get("task_id", "F1626-METHOD-C-SAME-MESH-REPAIRED-CONTROL-EXECUTION"),
                 "package_id": pkg_id,
                 "label": manifest.get("label", "Same-Mesh Control"),
                 "status": "NONCONVERGED",

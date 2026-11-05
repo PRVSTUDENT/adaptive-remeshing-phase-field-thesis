@@ -1,0 +1,29 @@
+{
+  "task_id": "F1627-METHOD-C-SAME-MESH-EXTRACTOR-CONTRACT-QUALIFICATION",
+  "task_name": "Method C Same-Mesh End-to-End Extractor Contract Qualification and Field-Mapping Remediation",
+  "phase": "Method C Paired Same-Mesh Extractor Contract Qualification",
+  "objective": "Resolve confirmed extractor schema discrepancies in finalize_coupled_acceptance() (exact field names rf2_kN, total_energy_kNmm, elastic_kNmm, fracture_kNmm and fail-closed non-zero validation), restore *Node Print, frequency=1 output card in _deck() for companion .dat U3 phase extraction, preserve raw phase-field healing diagnostics before projection, and qualify the complete coupled execution pipeline offline with mocked solver execution and authentic endpoint fixtures. Strictly zero production PBS submissions.",
+  "predecessor": "F1626-METHOD-C-SAME-MESH-REPAIRED-CONTROL-EXECUTION",
+  "authorized_scope": {
+    "max_new_pbs_submissions": 0,
+    "remaining_pbs_submissions": 0,
+    "named_jobs": []
+  },
+  "governance": {
+    "max_new_pbs_submissions": 0,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "zero_pbs_enforced": true,
+    "automatic_retry_allowed": false,
+    "anderson_enabled": false,
+    "max_outer_iterations": 140
+  },
+  "acceptance_criteria": [
+    "Correct finalize_coupled_acceptance() to use exact authentic extractor field names (rf2_kN, total_energy_kNmm, elastic_kNmm, fracture_kNmm) and fail closed on missing/non-finite values",
+    "Add regression tests using authentic F1625 mechanical endpoint (Job 1420344) verifying reaction force ~0.179924 kN and total energy ~0.000226399 kN*mm are parsed correctly with drift <= 2%",
+    "Restore *Node Print, frequency=1 card in SameMeshControlPDASDriver._deck() ensuring .dat companion table generation for U3 phase damage extraction",
+    "Preserve raw phase-field output for healing diagnostics before documented irreversibility projection",
+    "Qualify complete end-to-end sequence: mechanical endpoint -> displacement -> GP history -> phase damage -> convergence metrics -> final acceptance schema with mocked solver execution",
+    "Reconcile package manifests, dynamic iteration decks, and execute zero-PBS datachecks for changed Abaqus decks on cluster",
+    "Correct metadata records (evaluation summary size = 3,770 bytes, verified repo HEAD commit) while strictly preserving authentic evidence and zero-PBS boundary"
+  ]
+}

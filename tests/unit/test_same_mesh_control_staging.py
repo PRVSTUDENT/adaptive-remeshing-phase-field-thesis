@@ -239,7 +239,10 @@ def test_datacheck_receipt_validity():
     with open(RECEIPT_PATH, "r", encoding="utf-8") as f:
         rec = json.load(f)
 
-    assert rec["task_id"] == "F1623-METHOD-C-SAME-MESH-CHECKPOINT03-PROVENANCE-CORRECTION"
+    assert rec["task_id"] in [
+        "F1623-METHOD-C-SAME-MESH-CHECKPOINT03-PROVENANCE-CORRECTION",
+        "F1627-METHOD-C-SAME-MESH-EXTRACTOR-CONTRACT-QUALIFICATION"
+    ]
     assert rec["status"] == "DATACHECKS_PASSED_ALL_8_SUBPROBLEMS_EXIT_0"
     assert rec["production_pbs_submissions"] == 0
     assert rec["zero_pbs_enforced"] is True
@@ -469,3 +472,305 @@ def test_driver_extractor_nodes_unpacking():
     assert len(new_d2) == 13278, f"Expected 13,278 damage values, got {len(new_d2)}"
     assert all(math.isfinite(v) and 0.0 <= v <= 1.0 for v in new_d2.values())
     assert all(new_d2[n] >= driver.d0[n] for n in new_d2), "Damage irreversibility violated"
+
+
+def test_deck_node_print_output_restored():
+    """Verify that _deck() writes *Node Print, frequency=1\\nU\\n for companion .dat table."""
+    sys.path.insert(0, str(REPO_ROOT))
+    from scripts.state_transfer.driver_same_mesh_control_pdas import SameMeshControlPDASDriver
+
+    for pkg_dir in [PKG172_DIR, PKG173_DIR]:
+        driver = SameMeshControlPDASDriver(
+            package=pkg_dir,
+            output=pkg_dir / "test_out",
+            extractor=REPO_ROOT / "scripts/validation/extract_package148_iteration.py"
+        )
+        driver.load()
+
+        mech_deck = driver._deck(
+            step_idx=1, role="mechanical", damage=driver.d0, active=set(driver.d0),
+            displacement=None, history=driver.h0, target_u=driver.target_uy
+        )
+        assert "*Node Print, frequency=1\nU\n" in mech_deck, "Mechanical deck missing *Node Print"
+
+        disp = {n: (0.0, 0.0) for n in driver.mesh.nodes}
+        phase_deck = driver._deck(
+            step_idx=1, role="phase", damage=driver.d0, active=set(driver.d0),
+            displacement=disp, history=driver.h0, target_u=driver.target_uy
+        )
+        assert "*Node Print, frequency=1\nU\n" in phase_deck, "Phase deck missing *Node Print"
+
+        # Verify on-disk dynamic iteration decks
+        prefix = "P172" if "172" in str(pkg_dir) else "P173"
+        for deck_name in [f"{prefix}_ITER1_MECH.inp", f"{prefix}_ITER1_PHASE.inp"]:
+            deck_path = pkg_dir / deck_name
+            assert deck_path.is_file(), f"Deck missing: {deck_path}"
+            assert "*Node Print" in deck_path.read_text(encoding="utf-8"), f"*Node Print missing in {deck_name}"
+
+
+def test_phase_raw_healing_diagnostics_and_bounds_validation():
+    """Verify raw phase-field preservation, healing telemetry, and bounds fail-closed checks."""
+    sys.path.insert(0, str(REPO_ROOT))
+    from scripts.state_transfer.driver_same_mesh_control_pdas import SameMeshControlPDASDriver
+
+    driver = SameMeshControlPDASDriver(
+        package=PKG172_DIR,
+        output=PKG172_DIR / "test_out",
+        extractor=REPO_ROOT / "scripts/validation/extract_package148_iteration.py"
+    )
+    driver.load()
+
+    endpoint_p = PKG172_DIR / "evidence" / "1420344.mmaster02" / "endpoint.json"
+    base_endpoint = json.loads(endpoint_p.read_text(encoding="utf-8"))
+
+    # Case A: Slight raw healing on node 10 before projection
+    modified_endpoint = dict(base_endpoint)
+    mod_nodes = []
+    target_node = 10
+    d0_val = driver.d0[target_node]
+    healed_raw_d = max(0.0, d0_val - 0.005)
+    for row in base_endpoint["nodes"]:
+        nid = row[0]
+        if nid == target_node:
+            mod_nodes.append([nid, row[1], row[2], healed_raw_d])
+        else:
+            mod_nodes.append(list(row))
+    modified_endpoint["nodes"] = mod_nodes
+
+    driver.runner = lambda directory, job, role, step_idx: dict(modified_endpoint)
+    disp = {n: (0.0, 0.0) for n in driver.mesh.nodes}
+
+    new_d, new_u, res = driver.solve_subproblem(
+        step_idx=1, outer=1, sub_idx=0, role="phase",
+        damage=driver.d0, active=set(driver.d0), displacement=disp,
+        history=driver.h0, target_u=driver.target_uy
+    )
+
+    # Assert raw healing was preserved and diagnosed
+    assert "raw_damage" in res, "raw_damage missing from subproblem results"
+    assert res["raw_damage"][target_node] == healed_raw_d, "Raw healing damage was not preserved"
+    assert res["raw_healing_violations"] >= 1, "Expected raw healing violation count >= 1"
+    assert res["raw_healing_min"] < 0.0, f"Expected negative raw_healing_min, got {res['raw_healing_min']}"
+
+    # Assert documented projection enforced irreversibility
+    assert new_d[target_node] == d0_val, f"Projected damage should equal d0: {new_d[target_node]} vs {d0_val}"
+    assert all(new_d[n] >= driver.d0[n] for n in new_d), "Projected damage violated irreversibility"
+
+    # Case B: Two-component phase output rejected fail-closed
+    two_comp_endpoint = dict(base_endpoint)
+    two_comp_endpoint["nodes"] = [[r[0], r[1], r[2]] for r in base_endpoint["nodes"]]
+    driver.runner = lambda directory, job, role, step_idx: dict(two_comp_endpoint)
+
+    with pytest.raises(ValueError, match="rejected two-component phase output"):
+        driver.solve_subproblem(
+            step_idx=1, outer=1, sub_idx=0, role="phase",
+            damage=driver.d0, active=set(driver.d0), displacement=disp,
+            history=driver.h0, target_u=driver.target_uy
+        )
+
+    # Case C: Unphysical raw damage out of bounds rejected fail-closed
+    unphysical_endpoint = dict(base_endpoint)
+    unphysical_endpoint["nodes"] = [
+        [r[0], r[1], r[2], 1.5 if r[0] == 1 else r[3]] for r in base_endpoint["nodes"]
+    ]
+    driver.runner = lambda directory, job, role, step_idx: dict(unphysical_endpoint)
+
+    with pytest.raises(ValueError, match="unphysical raw damage out of bounds"):
+        driver.solve_subproblem(
+            step_idx=1, outer=1, sub_idx=0, role="phase",
+            damage=driver.d0, active=set(driver.d0), displacement=disp,
+            history=driver.h0, target_u=driver.target_uy
+        )
+
+
+def test_finalize_coupled_acceptance_authentic_schema():
+    """Verify finalize_coupled_acceptance() reads authentic rf2_kN/total_energy_kNmm and fails closed."""
+    sys.path.insert(0, str(REPO_ROOT))
+    from scripts.state_transfer.driver_same_mesh_control_pdas import (
+        SameMeshControlPDASDriver,
+        PDASReEquilibrationSolver,
+        DONOR_REFERENCE_FORCE_KN,
+        DONOR_REFERENCE_TOTAL_ENERGY_KNMM
+    )
+
+    driver = SameMeshControlPDASDriver(
+        package=PKG172_DIR,
+        output=PKG172_DIR / "test_out",
+        extractor=REPO_ROOT / "scripts/validation/extract_package148_iteration.py"
+    )
+    driver.load()
+
+    endpoint_p = PKG172_DIR / "evidence" / "1420344.mmaster02" / "endpoint.json"
+    authentic_endpoint = json.loads(endpoint_p.read_text(encoding="utf-8"))
+
+    # Initial consistent displacement
+    disp_csv = PKG172_DIR / "nodal_displacements_initial.csv"
+    disp = {}
+    with open(disp_csv, "r") as f:
+        reader = csv.reader(f)
+        next(reader)
+        for r in reader:
+            if r:
+                disp[int(r[0])] = (float(r[1]), float(r[2]))
+
+    solver = PDASReEquilibrationSolver(driver.mesh, driver.d0, driver.h0)
+
+    # 1. Authentic endpoint: verify successful parsing and drift <= 2%
+    summary, passed = driver.finalize_coupled_acceptance(
+        u_trial=disp,
+        u_abaqus=disp,
+        history_trial=driver.h0,
+        damage_relaxed=driver.d0,
+        consistent_u=disp,
+        consistent_endpoint=authentic_endpoint,
+        solver=solver,
+        step_idx=1,
+        outer=1,
+        target_uy=driver.target_uy,
+        delta_d=1e-6,
+        delta_u_relaxed=1e-10,
+        delta_u_raw=1e-10,
+        delta_h=1e-5,
+        pdas_active_count=0,
+        pdas_free_count=13278
+    )
+
+    assert math.isclose(summary["reaction_force_kN"], 0.17992419004440308, rel_tol=1e-6)
+    assert math.isclose(summary["rf2_kN"], 0.17992419004440308, rel_tol=1e-6)
+    assert math.isclose(summary["total_energy_kNmm"], 0.00022639903, rel_tol=1e-6)
+    assert summary["force_drift_pct"] <= 2.0, f"Force drift {summary['force_drift_pct']}% exceeds 2%"
+    assert summary["energy_drift_pct"] <= 2.0, f"Energy drift {summary['energy_drift_pct']}% exceeds 2%"
+    assert summary["force_gate_pass"] is True
+    assert summary["energy_gate_pass"] is True
+
+    # 2. Fail closed on missing reaction force
+    missing_rf = dict(authentic_endpoint)
+    missing_rf.pop("rf2_kN", None)
+    missing_rf.pop("reaction_force_kn", None)
+    missing_rf.pop("reaction_force_kN", None)
+    with pytest.raises(KeyError, match="missing reaction force"):
+        driver.finalize_coupled_acceptance(
+            u_trial=disp, u_abaqus=disp, history_trial=driver.h0, damage_relaxed=driver.d0,
+            consistent_u=disp, consistent_endpoint=missing_rf, solver=solver,
+            step_idx=1, outer=1, target_uy=driver.target_uy,
+            delta_d=1e-6, delta_u_relaxed=1e-10, delta_u_raw=1e-10, delta_h=1e-5,
+            pdas_active_count=0, pdas_free_count=13278
+        )
+
+    # 3. Fail closed on missing total energy
+    missing_energy = dict(authentic_endpoint)
+    missing_energy.pop("total_energy_kNmm", None)
+    missing_energy.pop("total_energy_knmm", None)
+    with pytest.raises(KeyError, match="missing total energy"):
+        driver.finalize_coupled_acceptance(
+            u_trial=disp, u_abaqus=disp, history_trial=driver.h0, damage_relaxed=driver.d0,
+            consistent_u=disp, consistent_endpoint=missing_energy, solver=solver,
+            step_idx=1, outer=1, target_uy=driver.target_uy,
+            delta_d=1e-6, delta_u_relaxed=1e-10, delta_u_raw=1e-10, delta_h=1e-5,
+            pdas_active_count=0, pdas_free_count=13278
+        )
+
+    # 4. Fail closed on non-finite force or energy
+    nan_rf = dict(authentic_endpoint, rf2_kN=float("nan"))
+    with pytest.raises(ValueError, match="non-finite reaction force"):
+        driver.finalize_coupled_acceptance(
+            u_trial=disp, u_abaqus=disp, history_trial=driver.h0, damage_relaxed=driver.d0,
+            consistent_u=disp, consistent_endpoint=nan_rf, solver=solver,
+            step_idx=1, outer=1, target_uy=driver.target_uy,
+            delta_d=1e-6, delta_u_relaxed=1e-10, delta_u_raw=1e-10, delta_h=1e-5,
+            pdas_active_count=0, pdas_free_count=13278
+        )
+
+
+def test_end_to_end_coupled_pipeline_qualification(tmp_path):
+    """Verify complete end-to-end execution pipeline from solve to final checkpoint serialization."""
+    sys.path.insert(0, str(REPO_ROOT))
+    from scripts.state_transfer.driver_same_mesh_control_pdas import (
+        SameMeshControlPDASDriver,
+        driving_history
+    )
+
+    driver = SameMeshControlPDASDriver(
+        package=PKG172_DIR,
+        output=tmp_path / "run_out",
+        extractor=REPO_ROOT / "scripts/validation/extract_package148_iteration.py"
+    )
+    driver.load()
+
+    endpoint_p = PKG172_DIR / "evidence" / "1420344.mmaster02" / "endpoint.json"
+    authentic_endpoint = json.loads(endpoint_p.read_text(encoding="utf-8"))
+
+    # Mock runner simulating both mechanical and phase subproblems
+    def mock_runner(directory, job, role, step_idx):
+        if role == "mechanical":
+            return dict(authentic_endpoint)
+        else:
+            # Phase subproblem returns authentic nodes with valid damage component
+            phase_endpoint = dict(authentic_endpoint)
+            phase_endpoint["nodes"] = [
+                [r[0], r[1], r[2], driver.d0[r[0]]] for r in authentic_endpoint["nodes"]
+            ]
+            return phase_endpoint
+
+    driver.runner = mock_runner
+
+    # 1. Step 1 Mechanical: unpacks displacements
+    _, u1, res_mech = driver.solve_subproblem(
+        step_idx=1, outer=1, sub_idx=0, role="mechanical",
+        damage=driver.d0, active=set(driver.d0), displacement=None,
+        history=driver.h0, target_u=driver.target_uy
+    )
+    assert len(u1) == 13278
+
+    # 2. Driving history: 51,984 GP histories
+    zero_baseline = {(e, g): 0.0 for e in driver.mesh.elements for g in range(1, 5)}
+    psi_1 = driving_history(driver.mesh, u1, zero_baseline)
+    assert len(psi_1) == 51984
+    h_updated = {k: max(driver.h0[k], psi_1[k]) for k in driver.h0}
+
+    # 3. Step 1 Phase: unpacks damage with raw healing telemetry
+    d1, _, res_phase = driver.solve_subproblem(
+        step_idx=1, outer=1, sub_idx=0, role="phase",
+        damage=driver.d0, active=set(driver.d0), displacement=u1,
+        history=h_updated, target_u=driver.target_uy
+    )
+    assert len(d1) == 13278
+    assert "raw_healing_min" in res_phase
+
+    # 4. Final acceptance with authentic consistent endpoint
+    from scripts.state_transfer.driver_same_mesh_control_pdas import PDASReEquilibrationSolver
+    solver = PDASReEquilibrationSolver(driver.mesh, d1, h_updated)
+
+    summary, passed = driver.finalize_coupled_acceptance(
+        u_trial=u1,
+        u_abaqus=u1,
+        history_trial=h_updated,
+        damage_relaxed=d1,
+        consistent_u=u1,
+        consistent_endpoint=authentic_endpoint,
+        solver=solver,
+        step_idx=1,
+        outer=1,
+        target_uy=driver.target_uy,
+        delta_d=1e-6,
+        delta_u_relaxed=1e-10,
+        delta_u_raw=1e-10,
+        delta_h=1e-5,
+        pdas_active_count=0,
+        pdas_free_count=13278
+    )
+
+    # 5. Assert checkpoint and summary serialization
+    summary_file = tmp_path / "run_out" / "same_mesh_control_equilibration_summary.json"
+    ckpt_file = tmp_path / "run_out" / "converged_same_mesh_control_checkpoint.json"
+
+    assert summary_file.is_file(), "Summary file was not created"
+    assert ckpt_file.is_file(), "Checkpoint file was not created"
+
+    saved_ckpt = json.loads(ckpt_file.read_text(encoding="utf-8"))
+    assert saved_ckpt["reaction_force_kN"] == summary["reaction_force_kN"]
+    assert saved_ckpt["total_energy_kNmm"] == summary["total_energy_kNmm"]
+    assert len(saved_ckpt["displacement"]) == 13278
+    assert len(saved_ckpt["damage"]) == 13278
+    assert len(saved_ckpt["history"]) == 51984
+
