@@ -1,5 +1,5 @@
 diff --git a/scripts/state_transfer/driver_package171_r10_c6_coupled_pdas.py b/scripts/state_transfer/driver_package171_r11_c6_coupled_pdas.py
-index f4a5927b..a535e014 100644
+index f4a5927b..99c6ca1f 100644
 --- a/scripts/state_transfer/driver_package171_r10_c6_coupled_pdas.py
 +++ b/scripts/state_transfer/driver_package171_r11_c6_coupled_pdas.py
 @@ -1,19 +1,19 @@
@@ -107,11 +107,10 @@ index f4a5927b..a535e014 100644
 +     and bitwise identical frozen production UEL.
  """
  
--from __future__ import print_function, division
+ from __future__ import print_function, division
 -import os
 -import sys
 -import math
-+from __future__ import annotations
 +
 +import argparse
 +import csv

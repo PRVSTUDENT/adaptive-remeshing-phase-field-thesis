@@ -93,8 +93,8 @@
     },
     "driver": {
       "path": "scripts/state_transfer/driver_package171_r11_c6_coupled_pdas.py",
-      "sha256": "849A5D0AD54FB649DAEED561CF7B3E691E1534D3B08355CACC7CC4B1022BE058",
-      "size_bytes": 58931
+      "sha256": "D50FB76C030295A6BE00D0D30B5C8918BB558A5CA8592245BE4B81BBE83AFAEA",
+      "size_bytes": 58946
     },
     "anderson_module": {
       "path": "scripts/state_transfer/anderson_acceleration.py",
@@ -125,14 +125,15 @@
     },
     "diff_patch": {
       "path": "results/validation/package171_r11_driver_diff.patch",
-      "sha256": "57D38D12E756BE0CAF6D8A52FB6F79F9F078027BA3E68FA9DEBD03A5F9FC2F04",
-      "size_bytes": 37912,
+      "sha256": "3E7D7C0E14234FBA974E1DBC10327BE8EFBE45530B99DF700E15982985E532D1",
+      "size_bytes": 37876,
       "git_apply_check_exit": 0
     },
     "test_output_log": {
       "path": "results/validation/package171_r11_test_output.txt",
-      "sha256": "899019C0D48EA49D50A38555D92CB4FF6BE92CA41BF8F36A40251D15D84C962E",
+      "sha256": "0FC524C1C1781BEEF57DBA7992F4FC8B1D9850300B07E25DD52E0A32BA39CEFE",
       "size_bytes": 8197,
+      "duration_seconds": 2.59,
       "total_tests_run": 54,
       "total_tests_passed": 54,
       "r11_driver_tests_passed": 21,

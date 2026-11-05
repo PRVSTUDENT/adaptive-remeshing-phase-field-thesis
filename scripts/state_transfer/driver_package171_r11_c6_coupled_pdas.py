@@ -44,7 +44,7 @@ Implements Safeguarded Limited-Memory Anderson Acceleration (Candidate R11):
      and bitwise identical frozen production UEL.
 """
 
-from __future__ import annotations
+from __future__ import print_function, division
 
 import argparse
 import csv

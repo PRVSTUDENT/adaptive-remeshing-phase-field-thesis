@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "package_id": "mode1_c6_package171_r11_c3_0_adaptive_reequilibration",
+  "task_id": "F1618-PACKAGE171-R11-C6-STAGE-AND-DATACHECK-QUALIFICATION",
+  "candidate_job": "M1_C6_P171_R11_C3_0",
+  "cluster_staging": {
+    "remote_dir": "/scratch9/pr21vyci/runs/mode1_c6_package171_r11_c3_0_adaptive_reequilibration",
+    "staging_script": "scripts/validation/stage_package171_r11.py",
+    "staging_status": "PASS",
+    "smoke_import_status": "PASS"
+  },
+  "datachecks": {
+    "mechanical": {
+      "input": "P171_MECHANICAL_DC.inp",
+      "output_dat": "P171_MECHANICAL_DC.dat",
+      "output_msg": "P171_MECHANICAL_DC.msg",
+      "exit_code": 0,
+      "status": "PASS",
+      "datacheck_message": "ANALYSIS DATACHECK COMPLETE",
+      "errors": 0,
+      "input_sha256": "D86C2798164EFD9A9896B37C2E5D32081863A7E7ED89F323B13E164015F04780",
+      "dat_sha256": "DF0D8B10F6E2EDD3F24C357D445164DC8C4E0C94442D17938A0608CE4D2B434A",
+      "msg_sha256": "E692AA70BF577890A12D62542BDCFE32724DA2FBB11D16D9899BF19F9E631965"
+    },
+    "phase": {
+      "input": "P171_PHASE_DC.inp",
+      "output_dat": "P171_PHASE_DC.dat",
+      "output_msg": "P171_PHASE_DC.msg",
+      "exit_code": 0,
+      "status": "PASS",
+      "datacheck_message": "ANALYSIS DATACHECK COMPLETE",
+      "errors": 0,
+      "input_sha256": "4C9315D9BCCA9DE60D1BAA07DDA61FC11EB78DA952BF66CA5A466F8FFFE9AF38",
+      "dat_sha256": "1FEC9C6126677AF708B0571199EF56F9F39714E0DDB9F6F1AF9548AB0F1A0348",
+      "msg_sha256": "B3E6A68B683283348AA7D7B77C763F792CF5746B31FAF5AC628225B3C2E2A152"
+    }
+  },
+  "checks": {
+    "manifest_cross_integrity": "PASS",
+    "package_file_hashes": "PASS",
+    "frozen_uel_integrity": "PASS",
+    "driver_execution_wiring": {
+      "anderson_acceleration_m2_beta0p85": "PASS",
+      "anderson_regularization_1e-6": "PASS",
+      "anderson_gamma_max_cap_200": "PASS",
+      "anderson_step_cap_0p045": "PASS",
+      "raw_damage_fixed_point_residual_false_convergence_safeguard": "PASS",
+      "picard_fallback_rollback_safeguards": "PASS",
+      "stage_transition_logic": "PASS",
+      "growth_rollback_logic": "PASS",
+      "divergence_rollback_logic": "PASS",
+      "catastrophic_rollback_logic": "PASS",
+      "max_outer_budget_140": "PASS",
+      "healing_irreversibility_enforcement": "PASS",
+      "history_monotonicity_enforcement": "PASS",
+      "isolated_displacement_under_relaxation_omega_u_0p85": "PASS",
+      "atomic_rollback_field_preservation": "PASS",
+      "dual_raw_and_relaxed_displacement_convergence_gates": "PASS",
+      "independent_post_convergence_mechanical_reequilibration": "PASS"
+    }
+  },
+  "evidence_sources": {
+    "PACKAGE_MANIFEST.json": "73ADDA67CF2C741A588F6493D08CFF3C9A1AE82C56B878BC4868066A41113A2A",
+    "M1_C6_PACKAGE171_R11_AUTHORIZATION.json": "D64563B959B9ADF73EFA7071085C647669934FCE97C5A0B27E79BF01D8B1FF91",
+    "EXECUTION_MANIFEST.json": "D9ECBEB98464D4A851FF985ED8B904B14C046919D06C4065C9EF31D84598B3A3",
+    "driver_package171_r11_c6_coupled_pdas.py": "D50FB76C030295A6BE00D0D30B5C8918BB558A5CA8592245BE4B81BBE83AFAEA",
+    "anderson_acceleration.py": "57D004E81F97B504FD185C22AF1EB1F9176A9BEFBB6D485B0D1056AE4A44A3EE",
+    "f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "package171_r11_driver_diff.patch": "3E7D7C0E14234FBA974E1DBC10327BE8EFBE45530B99DF700E15982985E532D1",
+    "package171_r11_test_output.txt": "0FC524C1C1781BEEF57DBA7992F4FC8B1D9850300B07E25DD52E0A32BA39CEFE",
+    "package171_r11_technical_qualification_proposal.json": "1B1C7124460B4AB549705E6E4A9B96A50952C2FFB39F06B7B123933985F8156A"
+  },
+  "overall_status": "PASSED_DATACHECKS_BOTH_EXIT_0",
+  "qualification": "READY_FOR_SUPERVISOR_CONSULTATION_ON_SAME_MESH_TRANSFER_DIAGNOSTIC"
+}
