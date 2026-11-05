@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "task_id": "F1616-PACKAGE171-R10-C6-EXECUTION-QUALIFICATION",
+  "job_id": "1420261.mmaster02",
+  "candidate": "M1_C6_P171_R10_C3_0",
+  "verdict": "FAILED_COUPLED_NONCONVERGENCE",
+  "total_outer_iterations": 140,
+  "checkpoint_committed": false,
+  "convergence_gates": {
+    "delta_d": {
+      "value": 0.007019141363879933,
+      "threshold": 1e-05,
+      "pass": false
+    },
+    "delta_u_raw_mm": {
+      "value": 5.974119315107162e-05,
+      "threshold": 1e-09,
+      "pass": false
+    },
+    "delta_u_relaxed_mm": {
+      "value": 5.0780014178410885e-05,
+      "threshold": 1e-09,
+      "pass": false
+    },
+    "delta_h_MPa": {
+      "value": 279.0206364896353,
+      "threshold": 0.0001,
+      "pass": false
+    },
+    "kkt_free": {
+      "value": 5.7343890016846677e-08,
+      "threshold": 1e-06,
+      "pass": true
+    },
+    "kkt_dual": {
+      "value": 9.784445455353083e-10,
+      "threshold": 1e-06,
+      "pass": true
+    },
+    "kkt_complementarity": {
+      "value": 4.1467560532350926e-08,
+      "threshold": 1e-06,
+      "pass": true
+    },
+    "reaction_force_kN": {
+      "value": null,
+      "reference": 0.17992419004440308,
+      "error_pct": null,
+      "pass": false
+    },
+    "total_energy_kNmm": {
+      "value": null,
+      "reference": 0.00022639903,
+      "error_pct": null,
+      "pass": false
+    },
+    "damage_healing_violations": 0,
+    "history_monotonicity_violations": 0
+  },
+  "relaxation_dynamics": {
+    "stage2_reached": true,
+    "stage2_first_iter": 89,
+    "omega_u_active": true,
+    "total_transitions_activated": 1,
+    "total_rollbacks": 0,
+    "rollback_reasons": [],
+    "initial_active_count": 13803,
+    "terminal_active_count": 35,
+    "total_added_nodes_across_solve": 4,
+    "contraction_metrics": {
+      "stage2_iterations_count": 52,
+      "rho_delta_d": 0.9843512955947015,
+      "rho_delta_u_raw": 0.9968195552973714,
+      "rho_delta_h": 0.991736411895021
+    }
+  },
+  "comparative_summary_vs_r9": {
+    "r9_terminal_delta_d": 0.00726,
+    "r9_terminal_delta_u": 2.457e-06,
+    "r9_terminal_delta_h": 0.6812,
+    "r10_terminal_delta_d": 0.007019141363879933,
+    "r10_terminal_delta_u_raw": 5.974119315107162e-05,
+    "r10_terminal_delta_h": 279.0206364896353,
+    "displacement_relaxation_efficacy": "EVALUATED"
+  }
+}
