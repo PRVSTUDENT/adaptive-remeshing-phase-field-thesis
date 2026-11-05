@@ -1,8 +1,8 @@
 {
     "task_id": "F1612-PACKAGE171-R9-C6-EXECUTION-QUALIFICATION",
     "agent": "gemini-antigravity",
-    "status": "READY_FOR_EXECUTION",
-    "phase": "Package 171-R9 C6 Coupled PDAS Re-Equilibration Execution with Two-Phase Adaptive Safeguarded Relaxation. Staging and authentic remote datachecks verified (P171_MECHANICAL_DC, P171_PHASE_DC both Exit 0, 0 errors). Execution authorization manifest and preflight verified. Authorized for exactly 1 once-only PBS production solver submission.",
+    "status": "RUNNING",
+    "phase": "Package 171-R9 C6 Coupled PDAS Re-Equilibration Execution with Two-Phase Adaptive Safeguarded Relaxation. Production job 1420215.mmaster02 submitted to entry_imfdfkmq -> normal_imfdfkmq; actively running / monitoring.",
     "gate_status": "DATACHECKS_VERIFIED__EXECUTION_AUTHORIZED_1_PBS_SUBMISSION",
     "predecessor_task": {
         "run_id": "continuous-method-c-direct-bridge-20261104",
@@ -255,10 +255,13 @@
         "1419370.mmaster02",
         "1419375.mmaster02"
     ],
-    "active_pbs_job_ids": [],
+    "active_pbs_job_ids": [
+        "1420215.mmaster02"
+    ],
     "dependent_pbs_job_ids": [],
-    "pbs_status_note": "Package 171-R9 staging and datachecks verified. 1 PBS production submission authorized under F1612.",
+    "pbs_status_note": "Job 1420215.mmaster02 submitted to entry_imfdfkmq -> normal_imfdfkmq; actively running / monitoring.",
     "referenced_pbs_job_ids": [
+        "1420215.mmaster02",
         "1420188.mmaster02",
         "1419873.mmaster02",
         "1419807.mmaster02",
@@ -270,7 +273,7 @@
         "1419485.mmaster02"
     ],
     "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-    "max_new_pbs_submissions": 1,
+    "max_new_pbs_submissions": 0,
     "lifecycle": {
         "scientific_execution_started": true,
         "predecessor_replay_allowed": false,
@@ -292,8 +295,8 @@
         "supervised_resumption_scope": "CONTROLLED_LIVE_VERIFICATION_ONLY",
         "reconciled_at": "2026-11-04T15:46:00+01:00"
     },
-    "scientific_acceptance": "DATACHECKS_VERIFIED",
-    "last_step_status": "DATACHECKS_VERIFIED",
-    "last_updated": "2026-11-05T06:53:00+01:00",
-    "next_safe_action": "Execute Invoke-Mode1Execution.ps1 with -ManifestPath models/pandey_kumar_mode1/171_c6_package171_r9_c3_0_adaptive_reequilibration/M1_C6_PACKAGE171_R9_AUTHORIZATION.json to dispatch candidate M1_C6_P171_R9_C3_0. Capture authentic PBS job ID."
+    "scientific_acceptance": "RUNNING_EXECUTION",
+    "last_step_status": "JOB_SUBMITTED_AND_RUNNING",
+    "last_updated": "2026-11-05T06:57:00+01:00",
+    "next_safe_action": "Monitor live execution of Job 1420215.mmaster02 on cluster scratch. Inspect live_iteration_telemetry.json for Stage 2 admission and contraction dynamics."
 }
