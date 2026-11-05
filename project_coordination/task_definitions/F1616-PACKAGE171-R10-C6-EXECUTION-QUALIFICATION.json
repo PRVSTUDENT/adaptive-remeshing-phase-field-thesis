@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "task_id": "F1616-PACKAGE171-R10-C6-EXECUTION-QUALIFICATION",
+  "title": "Mode-I C6 Stage C3-0 Package 171-R10 Coupled PDAS Re-Equilibration Execution with Two-Phase Safeguarded Relaxation and Isolated Displacement Under-Relaxation",
+  "predecessor": {
+    "run_id": "continuous-method-c-direct-bridge-20261104",
+    "status": "COMPLETED",
+    "task_id": "F1615-PACKAGE171-R10-C6-STAGE-AND-DATACHECK-QUALIFICATION",
+    "checkpoint_artifact": "results/validation/package171_r10_datacheck_receipt.json",
+    "checkpoint_sha256": "5EAE8A00A26918CD5954DAFD64362956FE19189250C14392A73DCE33792317C8"
+  },
+  "operation": {
+    "checkpoint_kind": "HPC_SUBMISSION",
+    "id": "execute_mode1_package171_r10_c6_coupled_reequilibration",
+    "mode": "QUALIFIED_EXECUTION",
+    "registration": "Package 171-R10 C6 Coupled PDAS Re-Equilibration with Two-Phase Adaptive Safeguarded Relaxation and Isolated Displacement Under-Relaxation; authorized for 1 PBS submission",
+    "manifest": "models/pandey_kumar_mode1/171_c6_package171_r10_c3_0_adaptive_reequilibration/M1_C6_PACKAGE171_R10_AUTHORIZATION.json"
+  },
+  "max_new_pbs_submissions": 1,
+  "automatic_retry": false,
+  "job_references": {
+    "predecessor_job_id": "1420215.mmaster02",
+    "predecessor_status": "FAILED_COUPLED_NONCONVERGENCE_OUTER140_STAGE2_SUSTAINED_ZERO_ROLLBACK_DELTA_D_0P00726_KKT_PASS",
+    "candidate_job": "M1_C6_P171_R10_C3_0",
+    "remote_dir": "/scratch9/pr21vyci/runs/mode1_c6_package171_r10_c3_0_adaptive_reequilibration",
+    "target_package": "models/pandey_kumar_mode1/171_c6_package171_r10_c3_0_adaptive_reequilibration",
+    "scientific_scope": "Stage C3-0 authentic coupled PDAS re-equilibration on C6 mesh (15,252 quads) at target_uy = 0.0018703125 mm with two-phase safeguarded relaxation: Stage 1 omega_d = 0.50, omega_u = 1.00; Stage 2 omega_d = 0.85, omega_u = 0.85 conditioned on compound active-set criteria (|A_k| <= 500, |Delta A_k| <= 10, Delta A^+ = 0 for 3 consecutive iterations), unrelaxed candidate step norm rollback guards, atomic rollback field preservation, dual raw and relaxed displacement convergence gates (<= 1e-9 mm), and independent post-convergence mechanical re-equilibration gate"
+  },
+  "acceptance": {
+    "acceptance_requires_original_files": true,
+    "delta_d_max": 1e-05,
+    "delta_u_mm_max": 1e-09,
+    "delta_h_MPa_max": 0.0001,
+    "final_consistency_delta_u_mm_max": 1e-09,
+    "final_consistency_delta_h_MPa_max": 0.0001,
+    "signed_kkt_dual_kNmm_max": 1e-06,
+    "signed_kkt_free_kNmm_max": 1e-06,
+    "max_healing_tolerance": 1e-06,
+    "healing_violations_max": 0,
+    "history_monotonicity_violations_max": 0,
+    "force_discrepancy_pct_max": 2.0,
+    "total_energy_discrepancy_pct_max": 2.0,
+    "donor_reference_force_kN": 0.17992419004440308,
+    "donor_reference_total_energy_kNmm": 0.00022639903,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "decision_branches": [
+    "EXECUTE_R10_SUBMISSION: submit exactly 1 PBS job (M1_C6_P171_R10_C3_0) to entry_imfdfkmq -> normal_imfdfkmq under 1 CPU, 16 GB, 8h via guarded qsub",
+    "COUPLED_CONVERGENCE_GATES: delta_d <= 1e-5, raw delta_u <= 1e-9 mm, relaxed delta_u <= 1e-9 mm, delta_h <= 1e-4 MPa, consistency delta_u <= 1e-9 mm, consistency delta_H <= 1e-4 MPa, KKT errors <= 1e-6, force/energy drift <= 2%",
+    "FALSIFIABLE_HYPOTHESIS: evaluate whether isolated mechanical displacement under-relaxation (omega_u = 0.85 in Stage 2) damps mechanical oscillations, contracts raw and relaxed displacement increments below 1e-9 mm, enables monotonic history contraction below 1e-4 MPa, and achieves physically verified coupled re-equilibration within 140 outer iterations"
+  ],
+  "evidence_sources": {
+    "results/validation/package171_r10_datacheck_receipt.json": "5EAE8A00A26918CD5954DAFD64362956FE19189250C14392A73DCE33792317C8",
+    "scripts/state_transfer/driver_package171_r10_c6_coupled_pdas.py": "2C3399CC74270F08AA7321939AB802E10DF1A32C992A264B17481B5C70842EC6",
+    "models/pandey_kumar_mode1/171_c6_package171_r10_c3_0_adaptive_reequilibration/PACKAGE_MANIFEST.json": "879705CC84D17327D01E9C99579889CCBBEFFE4F0C35A09F7DA1AFFD13F744E1",
+    "models/pandey_kumar_mode1/171_c6_package171_r10_c3_0_adaptive_reequilibration/M1_C6_PACKAGE171_R10_AUTHORIZATION.json": "0AA911411F41514BC936F135560A0934129941DEE6A06733EE29C64935369CB6",
+    "models/pandey_kumar_mode1/171_c6_package171_r10_c3_0_adaptive_reequilibration/EXECUTION_MANIFEST.json": "85B9B68197FCAF44014AB47150053E1E5F6A55FF47230BC9D849A855E05BE62D",
+    "models/pandey_kumar_mode1/171_c6_package171_r10_c3_0_adaptive_reequilibration/submit_M1_C6_P171_R10_C3_0.pbs": "5EB718680A1C0F96FC949FA86E2CC87BF9F26ED6D7A3AE27DBBC336B99239BB3",
+    "results/validation/package171_r10_driver_diff.patch": "41C4C3F95B5FBD5CDBDB7C29F0AC820062DD932E92AB37E442BB74488004804F",
+    "results/validation/package171_r10_test_output.txt": "15FD506AC70ABDB7D2E91DAC5E00CC43969D83E9E3581ABF8E2C172F4046DC4D",
+    "results/validation/package171_r10_technical_qualification_proposal.json": "797CB8A0E507CB29BBE4E44256661737E71836ACEC1127D47A8200EE3F9C4578"
+  },
+  "inherited_completed_operations": [
+    "mapped_frozen_history_lower_bound_kkt_probe",
+    "mapped_mechanical_history_call_order_probe",
+    "authentic_uel_history_call_trace",
+    "morning_scientific_audit_packages87_88",
+    "package89_state_transfer_submission",
+    "probe_mode1_f1597_r20_active_set_audit",
+    "evaluate_mode1_package148_state_transfer",
+    "evaluate_mode1_package148_state_transfer_r2",
+    "evaluate_mode1_package148_state_transfer_r3",
+    "evaluate_mode1_package148_state_transfer_r4",
+    "evaluate_mode1_package148_state_transfer_r5",
+    "evaluate_mode1_package148_state_transfer_r6",
+    "evaluate_mode1_package148_state_transfer_r7",
+    "evaluate_mode1_package148_state_transfer_r8",
+    "execute_mode1_package157_c1_2_r4_adaptive_continuation",
+    "execute_mode1_package158_c2_0_r5_re_equilibration",
+    "execute_mode1_package171_r7_c6_coupled_reequilibration",
+    "evaluate_mode1_package171_r8_c6_coupled_reequilibration",
+    "qualify_mode1_package171_r9_c6_coupled_reequilibration",
+    "stage_and_datacheck_package171_r9",
+    "execute_mode1_package171_r9_c6_coupled_reequilibration",
+    "evaluate_mode1_package171_r9_c6_coupled_reequilibration",
+    "diagnose_mode1_package171_r9_coupled_convergence",
+    "qualify_mode1_package171_r10_c6_isolated_displacement_relaxation",
+    "stage_and_datacheck_package171_r10"
+  ],
+  "initial_instruction": "TASK: F1616-PACKAGE171-R10-C6-EXECUTION-QUALIFICATION\nOPERATION_ID: execute_mode1_package171_r10_c6_coupled_reequilibration\nDispatch and monitor Package 171-R10 Stage C3-0 genuine coupled PDAS re-equilibration job M1_C6_P171_R10_C3_0 on C6 mesh. Enforce strict convergence gates upon termination: delta_d <= 1e-5, raw delta_u <= 1e-9 mm, relaxed delta_u <= 1e-9 mm, delta_h <= 1e-4 MPa, consistency delta_u <= 1e-9 mm, consistency delta_h <= 1e-4 MPa, KKT satisfied.",
+  "scientific_acceptance": "NOT_YET_EVALUATED",
+  "registration_authority": "Independent review APPROVE decision under correlation HND-5547a186b0e0 (protocol INDEPENDENT_STRUCTURED_RE_REVIEW_V4), verified technical qualification receipt results/validation/package171_r10_datacheck_receipt.json with both datachecks Exit 0 and 0 errors, and canonical task closeout of F1615 on 2026-11-05"
+}

@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "package_name": "package171_r10_c6_c3_0_adaptive_reequilibration",
+  "description": "Package 171-R10 C6 Coupled PDAS Re-Equilibration with Two-Phase Adaptive Relaxation, Isolated Displacement Under-Relaxation (omega_u=0.85 in Stage 2), Atomic Rollback Field Preservation, and Dual Raw/Relaxed Convergence Safeguards",
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "donor_source": {
+    "checkpoint": "Checkpoint 03 (Job 1419566.mmaster02)",
+    "target_uy_mm": 0.0018703125442191958,
+    "donor_reference_force_kN": 0.17992419004440308,
+    "donor_reference_total_energy_kNmm": 0.00022639903
+  },
+  "receiver_mesh": {
+    "name": "C6_Receiver",
+    "elements_quad": 15252,
+    "physical_nodes": 15559,
+    "slit_pairs": 59
+  },
+  "numerical_parameters": {
+    "damping_omega_d_stage1": 0.5,
+    "damping_omega_d_stage2": 0.85,
+    "damping_omega_u_stage1": 1.0,
+    "damping_omega_u_stage2": 0.85,
+    "max_active_cardinality": 500,
+    "max_symmetric_diff": 10,
+    "max_added_nodes": 0,
+    "stabilization_window": 3,
+    "rollback_factor": 1.05,
+    "divergence_factor": 1.5,
+    "catastrophic_delta_d_cap": 0.05,
+    "max_outer_iterations": 140,
+    "delta_d_tol": 1e-05,
+    "delta_u_tol_mm": 1e-09,
+    "delta_h_tol_MPa": 0.0001,
+    "consistency_delta_u_tol_mm": 1e-09,
+    "consistency_delta_h_tol_MPa": 0.0001,
+    "kkt_tol": 1e-06
+  },
+  "files": {
+    "active_set_boundary_cards.inc": {
+      "sha256": "FA63AA5D376063EE278E661629EE25C7A8FAA8FA7A203A696979A1F3F327D9BE",
+      "size_bytes": 507613
+    },
+    "d_lower_bounds.csv": {
+      "sha256": "FE415819566B5F7D44D02D5152D31492B4CB19F076EEB4FDEF85D3F8797FA08D",
+      "size_bytes": 3024094
+    },
+    "f42_mixed_uel.for": {
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "size_bytes": 29722
+    },
+    "initial_conditions_solution.inc": {
+      "sha256": "897C12ECE3FE0665FA369B0154039B119AE875D901F51C1B38DD866B3133C196",
+      "size_bytes": 2053137
+    },
+    "job_notifications.sh": {
+      "sha256": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+      "size_bytes": 11258
+    },
+    "M1_C6_PACKAGE171_C3_0_REEQUILIBRATION.inp": {
+      "sha256": "4CF715F57FF30D2B5F9B0D6064169BF44C67D5051DD924BF889CFC8BCE54BDAC",
+      "size_bytes": 2172843
+    },
+    "M1_C6_PACKAGE171_R10_C3_0_ADAPTIVE_REEQUILIBRATION.inp": {
+      "sha256": "073EBEEB625B8DEB9E3939D2DF470C84CA9C4CDCB21E64B40BEC6D7337D5CBE9",
+      "size_bytes": 2219363
+    },
+    "nodal_displacements_initial.csv": {
+      "sha256": "A90A6A315B09049611857702A13496057CFDF7520EB3158EE6C8AEDE44A193AB",
+      "size_bytes": 859090
+    },
+    "nodal_phase_field_initial.csv": {
+      "sha256": "AFE56919B5B5494D72E14307A6C078460E538466C80318225AABA7433258BB6C",
+      "size_bytes": 471234
+    },
+    "P171_MECHANICAL_DC.dat": {
+      "sha256": "6F14ACA46A8FD6B07F0F014AFE45FA71BD58DF8715F16609746779494FCB434C",
+      "size_bytes": 10649
+    },
+    "P171_MECHANICAL_DC.inp": {
+      "sha256": "D86C2798164EFD9A9896B37C2E5D32081863A7E7ED89F323B13E164015F04780",
+      "size_bytes": 2172564
+    },
+    "P171_MECHANICAL_DC.msg": {
+      "sha256": "4F14FCBEA8645A4D3EAA06B35EF58E63E09BC5ED561AB5B591F5DA2067E4F2F2",
+      "size_bytes": 1423
+    },
+    "P171_PHASE_DC.dat": {
+      "sha256": "41069A95F864810C40BDF1C80E9A85C42D1D0734C568EF0C0A0AB556A69BFD27",
+      "size_bytes": 9666
+    },
+    "P171_PHASE_DC.inp": {
+      "sha256": "4C9315D9BCCA9DE60D1BAA07DDA61FC11EB78DA952BF66CA5A466F8FFFE9AF38",
+      "size_bytes": 3263287
+    },
+    "P171_PHASE_DC.msg": {
+      "sha256": "6E46F4B4353E8C52C9581A933CCF5FB8BC08E301EC4B3CD97B14F74FD9232193",
+      "size_bytes": 1423
+    },
+    "run_datacheck.sh": {
+      "sha256": "21A3A924C5AB4E7BCFB6DBF8C51743D0B0BE40A1AB4CC1736E2D8C33E44C33E1",
+      "size_bytes": 1374
+    },
+    "smoke_import.py": {
+      "sha256": "20C5661401BA45878412B9079D0861237E97FCF6EBCCB6A58D96C3AE602B38B4",
+      "size_bytes": 656
+    },
+    "submit_M1_C6_P171_R10_C3_0.pbs": {
+      "sha256": "5EB718680A1C0F96FC949FA86E2CC87BF9F26ED6D7A3AE27DBBC336B99239BB3",
+      "size_bytes": 1807
+    },
+    "M1_C6_PACKAGE171_R10_AUTHORIZATION.json": {
+      "sha256": "0AA911411F41514BC936F135560A0934129941DEE6A06733EE29C64935369CB6",
+      "size_bytes": 4935
+    }
+  }
+}
