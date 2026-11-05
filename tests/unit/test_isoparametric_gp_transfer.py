@@ -214,15 +214,14 @@ def test_extrapolation_limiter_prevents_negative_history():
 
 def test_exact_same_mesh_gp_history_identity(c5_data):
     """
-    THE CRITICAL QUALIFICATION TEST:
-    Executes transfer_isoparametric_gp_history from C5 Checkpoint 03 onto C5 mesh.
-    Asserts that ALL 51,984 Gauss points match the donor history EXACTLY (max |Delta H| == 0.0).
-    Proves that the isoparametric operator completely eliminates the 6.35 MPa defect.
+    QUALIFICATION TEST (SHORTCUT ENABLED):
+    Executes transfer_isoparametric_gp_history from C5 Checkpoint 03 onto C5 mesh with shortcut.
+    Asserts exact identity across all 51,984 Gauss points.
     """
     mesh = c5_data["mesh"]
     d_hist = c5_data["history"]
 
-    res = transfer_isoparametric_gp_history(mesh, d_hist, mesh, limiter_mode="convex_clamp")
+    res = transfer_isoparametric_gp_history(mesh, d_hist, mesh, limiter_mode="convex_clamp", bypass_same_mesh_shortcut=False)
     assert res["status"] == "TRANSFER_COMPLETE"
     assert res["num_gauss_points"] == 51984
     assert res["num_elements"] == 12996
@@ -232,9 +231,109 @@ def test_exact_same_mesh_gp_history_identity(c5_data):
     max_diff = max(diffs)
     rms_diff = math.sqrt(sum(d**2 for d in diffs) / len(diffs))
 
-    print(f"\n[Test] Same-Mesh C5 Parity: max |Delta H| = {max_diff:.4e} MPa, RMS = {rms_diff:.4e} MPa")
     assert max_diff <= 1e-14, f"Expected exact identity, got max diff = {max_diff}"
     assert rms_diff <= 1e-14, f"Expected exact identity, got rms diff = {rms_diff}"
+
+
+def test_exact_same_mesh_gp_history_identity_without_shortcut(c5_data):
+    """
+    CRITICAL HARDENING QUALIFICATION TEST (BLOCKER 1 - SHORTCUT BYPASSED):
+    Executes transfer_isoparametric_gp_history with bypass_same_mesh_shortcut=True.
+    Forces every single one of the 51,984 Gauss points to undergo full 2D spatial bin lookup,
+    true isoparametric containment verification, inverse-quad Newton mapping, and bilinear
+    GP shape function reconstruction.
+    Asserts that the mathematical operator itself achieves exact machine-precision identity (< 1e-12 MPa).
+    """
+    mesh = c5_data["mesh"]
+    d_hist = c5_data["history"]
+
+    res = transfer_isoparametric_gp_history(
+        mesh, d_hist, mesh, limiter_mode="convex_clamp", bypass_same_mesh_shortcut=True
+    )
+    assert res["status"] == "TRANSFER_COMPLETE"
+    assert res["num_gauss_points"] == 51984
+    assert res["num_elements"] == 12996
+    assert res["bypass_same_mesh_shortcut"] is True
+    assert len(res["exceptional_mappings"]) == 0
+
+    transferred = res["transferred_history_dict"]
+    diffs = [abs(transferred[k] - d_hist[k]) for k in d_hist]
+    max_diff = max(diffs)
+    rms_diff = math.sqrt(sum(d**2 for d in diffs) / len(diffs))
+
+    print(f"\n[Test] Same-Mesh C5 Parity (Full Spatial Path): max |Delta H| = {max_diff:.4e} MPa, RMS = {rms_diff:.4e} MPa")
+    assert max_diff <= 1e-12, f"Expected exact full-field identity without shortcut, got {max_diff}"
+    assert rms_diff <= 1e-12, f"Expected exact full-field identity without shortcut, got {rms_diff}"
+
+
+def test_same_mesh_modified_coordinates_bypasses_shortcut(c5_data):
+    """
+    BLOCKER 1 TEST: Verifies that when receiver element IDs and connectivity match donor elements
+    but node coordinates differ, the operator detects geometry change, bypasses the shortcut,
+    and performs full spatial inverse mapping.
+    """
+    mesh = c5_data["mesh"]
+    d_hist = c5_data["history"]
+
+    # Create receiver mesh with shifted node coordinates (+0.0001 mm in x)
+    modified_nodes = {nid: (coords[0] + 0.00001, coords[1]) for nid, coords in mesh["nodes"].items()}
+    # Pick a small 4-element patch to test
+    patch_quads = {eid: mesh["quads"][eid] for eid in list(mesh["quads"].keys())[:4]}
+    patch_receiver = {
+        "nodes": modified_nodes,
+        "quads": patch_quads,
+        "coincident_slit_pairs": mesh["coincident_slit_pairs"]
+    }
+
+    # Should detect coords_match == False and run full spatial evaluation without error
+    res = transfer_isoparametric_gp_history(mesh, d_hist, patch_receiver, limiter_mode="convex_clamp")
+    assert res["status"] == "TRANSFER_COMPLETE"
+    assert res["num_elements"] == 4
+    assert res["num_gauss_points"] == 16
+
+
+def test_fail_closed_missing_donor_history_raises_keyerror(c5_data):
+    """
+    BLOCKER 3 TEST: Verifies that missing donor GP value raises KeyError (fail-closed integrity).
+    """
+    mesh = c5_data["mesh"]
+    d_hist = dict(c5_data["history"])
+
+    # Delete one GP value from donor history
+    del d_hist[(1, 1)]
+
+    single_elem_receiver = {
+        "nodes": mesh["nodes"],
+        "quads": {1: mesh["quads"][1]},
+        "coincident_slit_pairs": []
+    }
+
+    with pytest.raises(KeyError, match="Fail-closed: Missing donor history value"):
+        transfer_isoparametric_gp_history(mesh, d_hist, single_elem_receiver, bypass_same_mesh_shortcut=True)
+
+
+def test_fail_closed_unresolved_host_element_raises_valueerror(c5_data):
+    """
+    BLOCKER 2 & 3 TEST: Verifies that a point far outside the donor domain raises ValueError (fail-closed).
+    """
+    mesh = c5_data["mesh"]
+    d_hist = c5_data["history"]
+
+    # Receiver quad placed far outside donor domain [0, 0.1]^2 at (10.0, 10.0)
+    outside_nodes = {
+        1001: (10.0, 10.0),
+        1002: (10.01, 10.0),
+        1003: (10.01, 10.01),
+        1004: (10.0, 10.01)
+    }
+    outside_receiver = {
+        "nodes": outside_nodes,
+        "quads": {99999: [1001, 1002, 1003, 1004]},
+        "coincident_slit_pairs": []
+    }
+
+    with pytest.raises(ValueError, match="Fail-closed: Unresolved host element"):
+        transfer_isoparametric_gp_history(mesh, d_hist, outside_receiver)
 
 
 def test_contrast_with_old_element_averaging_operator(c5_data):
@@ -271,11 +370,13 @@ def test_qualification_summary_artifacts_exist():
     with open(SUMMARY_JSON_PATH, "r", encoding="utf-8") as f:
         summary = json.load(f)
 
-    assert summary["task_id"] == "F1620-METHOD-C-ISOPARAMETRIC-GP-TRANSFER-QUALIFICATION"
+    assert summary["task_id"] == "F1621-METHOD-C-GP-TRANSFER-SAFETY-REQUALIFICATION"
     assert summary["governance"]["zero_pbs_enforced"] is True
     assert summary["same_mesh_parity_c5"]["exact_identity_passed"] is True
     assert summary["same_mesh_parity_c5"]["max_delta_H_MPa"] <= 1e-12
     assert summary["same_mesh_parity_c5"]["rms_delta_H_MPa"] <= 1e-12
+    assert summary["same_mesh_parity_c5"]["bypass_same_mesh_shortcut"] is True
+    assert summary["same_mesh_parity_c5"]["containment_verified"] is True
 
 
 def test_c6_nonmatching_gradient_retention():

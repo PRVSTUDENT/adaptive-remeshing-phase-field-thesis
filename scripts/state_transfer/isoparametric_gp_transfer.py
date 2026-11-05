@@ -223,10 +223,24 @@ def transfer_isoparametric_gp_history(
     limiter_mode: str = "convex_clamp",
     slit_y: float = 0.050,
     slit_a0: float = 0.040,
-    bin_size: float = 0.005
+    bin_size: float = 0.005,
+    bypass_same_mesh_shortcut: bool = False,
+    containment_tol: float = 1e-5
 ) -> Dict[str, Any]:
     """
     Performs full isoparametric bilinear Gauss-point history transfer from donor_mesh to receiver_mesh.
+
+    Hardened Safeguards (Task F1621):
+    1. Bypasses same-mesh shortcut when bypass_same_mesh_shortcut=True to force full inverse-quad
+       mapping and shape-function reconstruction path.
+    2. Validates true isoparametric containment (|xi| <= 1.0 + tol, |eta| <= 1.0 + tol) before
+       accepting candidate host donor element.
+    3. Deterministic boundary handling: resolves shared edges/nodes by selecting host with minimal
+       isoparametric containment distance and minimal distance to element centroid.
+    4. Fail-closed transfer integrity: rejects missing/incomplete donor history data or unresolved
+       host mappings with explicit errors; records any boundary-extrapolated mappings.
+    5. Physical history safeguards: validates H is finite and nonnegative (H >= 0.0) at all points;
+       guarantees exact GP quadrature indexing (1..4).
 
     donor_history_dict: map (donor_eid, gp_idx) -> H_val (1-based gp_idx in {1, 2, 3, 4})
     Returns dict containing:
@@ -236,11 +250,17 @@ def transfer_isoparametric_gp_history(
       - 'clamped_count': number of GPs clamped by limiter
       - 'negative_prevented_count': number of raw evaluations that would have been < 0
       - 'max_extrapolation_distance': max distance outside donor GP rectangle
+      - 'exceptional_mappings': list of points requiring boundary tolerance or fallback
     """
     d_nodes = donor_mesh["nodes"]
     d_quads = donor_mesh.get("quads", donor_mesh.get("elements", {}))
     r_nodes = receiver_mesh["nodes"]
     r_quads = receiver_mesh.get("elements", receiver_mesh.get("quads", {}))
+
+    # Pre-validate donor history integrity (fail-closed guard)
+    for (deid, g), h_val in donor_history_dict.items():
+        if not math.isfinite(h_val) or h_val < 0.0:
+            raise ValueError(f"Fail-closed: Donor history value at element {deid}, GP {g} is invalid: {h_val}")
 
     # Pre-organize donor quads by upper and lower slit flanks
     upper_quads = {}
@@ -258,11 +278,13 @@ def transfer_isoparametric_gp_history(
         for eid, conn in quad_dict.items():
             xs = [d_nodes[n][0] for n in conn]
             ys = [d_nodes[n][1] for n in conn]
-            bboxes.append((eid, min(xs), max(xs), min(ys), max(ys), conn))
+            cx = sum(xs) / 4.0
+            cy = sum(ys) / 4.0
+            bboxes.append((eid, min(xs), max(xs), min(ys), max(ys), cx, cy, conn))
 
         bins = defaultdict(list)
         for item in bboxes:
-            eid, xmin, xmax, ymin, ymax, conn = item
+            eid, xmin, xmax, ymin, ymax, cx, cy, conn = item
             bx0 = max(0, int(xmin / bin_size))
             bx1 = int(math.ceil(xmax / bin_size))
             by0 = max(0, int(ymin / bin_size))
@@ -286,6 +308,7 @@ def transfer_isoparametric_gp_history(
     clamped_count = 0
     negative_prevented_count = 0
     max_extrap_dist = 0.0
+    exceptional_mappings: List[Dict[str, Any]] = []
 
     for r_eid, r_conn in r_quads.items():
         r_coords = [r_nodes[n] for n in r_conn]
@@ -303,55 +326,121 @@ def transfer_isoparametric_gp_history(
             gx = sum(N_r[i] * r_coords[i][0] for i in range(4))
             gy = sum(N_r[i] * r_coords[i][1] for i in range(4))
 
-            # Shortcut: if identical mesh and element exists directly in donor
-            if r_eid in d_quads and r_conn == d_quads[r_eid]:
-                # Exact same mesh shortcut
-                d_gp_key = (r_eid, gp_idx)
-                if d_gp_key in donor_history_dict:
-                    val = float(donor_history_dict[d_gp_key])
-                    elem_h.append(val)
-                    result_history_dict[(r_eid, gp_idx)] = val
-                    continue
+            # Shortcut: only if NOT bypassed and element exists in donor with identical geometry
+            if not bypass_same_mesh_shortcut and (r_eid in d_quads and r_conn == d_quads[r_eid]):
+                # Verify coordinates match exactly before taking shortcut
+                coords_match = all(
+                    abs(r_nodes[n][0] - d_nodes[n][0]) < 1e-12 and abs(r_nodes[n][1] - d_nodes[n][1]) < 1e-12
+                    for n in r_conn
+                )
+                if coords_match:
+                    d_gp_key = (r_eid, gp_idx)
+                    if d_gp_key in donor_history_dict:
+                        val = float(donor_history_dict[d_gp_key])
+                        if not math.isfinite(val) or val < 0.0:
+                            raise ValueError(f"Fail-closed: Non-finite or negative donor history at ({r_eid}, {gp_idx}): {val}")
+                        elem_h.append(val)
+                        result_history_dict[(r_eid, gp_idx)] = val
+                        continue
 
-            # 2. Locate host donor element containing (gx, gy)
+            # 2. Locate host donor element containing (gx, gy) with true isoparametric containment
             bx = max(0, int(gx / bin_size))
             by = max(0, int(gy / bin_size))
-            candidates = target_bins.get((bx, by), [])
+
+            # Gather candidates from bin and adjacent bins
+            candidate_items = []
+            seen_eids = set()
+            for dbx in (-1, 0, 1):
+                for dby in (-1, 0, 1):
+                    for item in target_bins.get((bx + dbx, by + dby), []):
+                        if item[0] not in seen_eids:
+                            seen_eids.add(item[0])
+                            candidate_items.append(item)
 
             best_eid = None
             best_conn = None
-            for deid, xmin, xmax, ymin, ymax, conn in candidates:
-                if (xmin - 1e-7 <= gx <= xmax + 1e-7) and (ymin - 1e-7 <= gy <= ymax + 1e-7):
-                    best_eid = deid
-                    best_conn = conn
-                    break
+            best_xi = 0.0
+            best_eta = 0.0
+            best_containment_dist = float("inf")
+            best_center_dist = float("inf")
 
-            if best_eid is None:
-                # Fallback to searching nearest bbox
-                best_dist = float("inf")
-                for deid, xmin, xmax, ymin, ymax, conn in fallback_bboxes:
-                    cx = (xmin + xmax) / 2.0
-                    cy = (ymin + ymax) / 2.0
-                    dist = (gx - cx)**2 + (gy - cy)**2
-                    if dist < best_dist:
-                        best_dist = dist
+            # Check true isoparametric containment for candidates
+            for deid, xmin, xmax, ymin, ymax, cx, cy, conn in candidate_items:
+                # Fast AABB rejection with small tolerance
+                if not ((xmin - 1e-5 <= gx <= xmax + 1e-5) and (ymin - 1e-5 <= gy <= ymax + 1e-5)):
+                    continue
+
+                d_vertices = [d_nodes[n] for n in conn]
+                xi_c, eta_c, conv = inverse_isoparametric_quad(d_vertices, gx, gy)
+                if not conv:
+                    continue
+
+                # Containment distance: 0.0 if strictly inside [-1, 1]^2
+                c_dist = max(0.0, abs(xi_c) - 1.0, abs(eta_c) - 1.0)
+                center_dist = (gx - cx)**2 + (gy - cy)**2
+
+                # If strictly contained within tolerance, evaluate deterministic criteria
+                if c_dist <= containment_tol:
+                    if (c_dist < best_containment_dist - 1e-12) or (
+                        abs(c_dist - best_containment_dist) <= 1e-12 and center_dist < best_center_dist
+                    ):
+                        best_containment_dist = c_dist
+                        best_center_dist = center_dist
                         best_eid = deid
                         best_conn = conn
+                        best_xi = xi_c
+                        best_eta = eta_c
 
-            assert best_eid is not None, f"Failed to locate host element for GP at ({gx}, {gy})"
+            # Fallback if point is near outer domain boundary or small discretization mismatch
+            if best_eid is None:
+                # Search all fallback bboxes for closest isoparametric element
+                for deid, xmin, xmax, ymin, ymax, cx, cy, conn in fallback_bboxes:
+                    d_vertices = [d_nodes[n] for n in conn]
+                    xi_c, eta_c, conv = inverse_isoparametric_quad(d_vertices, gx, gy)
+                    if not conv:
+                        continue
+                    c_dist = max(0.0, abs(xi_c) - 1.0, abs(eta_c) - 1.0)
+                    center_dist = (gx - cx)**2 + (gy - cy)**2
+                    if c_dist < best_containment_dist:
+                        best_containment_dist = c_dist
+                        best_center_dist = center_dist
+                        best_eid = deid
+                        best_conn = conn
+                        best_xi = xi_c
+                        best_eta = eta_c
 
-            # 3. Inverse isoparametric mapping: find (xi, eta) in host donor element
-            d_vertices = [d_nodes[n] for n in best_conn]
-            d_xi, d_eta, conv = inverse_isoparametric_quad(d_vertices, gx, gy)
-            if not conv:
-                # Clamp coordinates to [-1, 1] if slightly outside due to floating point
-                d_xi = max(-1.0, min(1.0, d_xi))
-                d_eta = max(-1.0, min(1.0, d_eta))
+                if best_eid is not None and best_containment_dist <= 0.05:
+                    exceptional_mappings.append({
+                        "receiver_eid": r_eid,
+                        "gp_idx": gp_idx,
+                        "gx": gx,
+                        "gy": gy,
+                        "donor_eid": best_eid,
+                        "containment_dist": float(best_containment_dist),
+                        "reason": "boundary_tolerance_extrapolation"
+                    })
+                else:
+                    raise ValueError(
+                        f"Fail-closed: Unresolved host element for receiver GP ({r_eid}, {gp_idx}) "
+                        f"at ({gx:.6f}, {gy:.6f}). Min containment distance = {best_containment_dist:.6e}"
+                    )
 
-            # 4. Fetch the 4 donor GP values for this host element
-            donor_vals = [float(donor_history_dict.get((best_eid, g), 0.0)) for g in range(1, 5)]
+            # Clamp coordinates to [-1, 1] if slightly outside due to floating point
+            d_xi = max(-1.0, min(1.0, best_xi))
+            d_eta = max(-1.0, min(1.0, best_eta))
 
-            # 5. Check extrapolation
+            # 3. Fetch the 4 donor GP values (fail-closed check)
+            donor_vals = []
+            for g in range(1, 5):
+                key = (best_eid, g)
+                if key not in donor_history_dict:
+                    raise KeyError(f"Fail-closed: Missing donor history value for element {best_eid}, GP {g}")
+                val = float(donor_history_dict[key])
+                if not math.isfinite(val) or val < 0.0:
+                    raise ValueError(f"Fail-closed: Invalid donor history value {val} at ({best_eid}, {g})")
+                donor_vals.append(val)
+
+            # 4. Check extrapolation relative to Gauss rectangle [-q, q]^2
             is_outside = (abs(d_xi) > Q_GAUSS + 1e-9) or (abs(d_eta) > Q_GAUSS + 1e-9)
             if is_outside:
                 extrapolation_count += 1
@@ -359,9 +448,14 @@ def transfer_isoparametric_gp_history(
                 if dist_out > max_extrap_dist:
                     max_extrap_dist = dist_out
 
-            # 6. Reconstruct with limiter
+            # 5. Reconstruct with limiter and verify physical safeguards
             h_raw = reconstruct_gp_history(donor_vals, d_xi, d_eta, limiter_mode="none")
             h_lim = reconstruct_gp_history(donor_vals, d_xi, d_eta, limiter_mode=limiter_mode)
+
+            if not math.isfinite(h_lim):
+                raise ValueError(f"Fail-closed: Non-finite reconstructed history {h_lim} at receiver ({r_eid}, {gp_idx})")
+            if h_lim < 0.0:
+                raise ValueError(f"Fail-closed: Negative reconstructed history {h_lim} at receiver ({r_eid}, {gp_idx})")
 
             if h_raw < 0.0:
                 negative_prevented_count += 1
@@ -384,4 +478,7 @@ def transfer_isoparametric_gp_history(
         "clamped_count": clamped_count,
         "negative_prevented_count": negative_prevented_count,
         "max_extrapolation_distance": float(max_extrap_dist),
+        "exceptional_mappings": exceptional_mappings,
+        "exceptional_mapping_count": len(exceptional_mappings),
+        "bypass_same_mesh_shortcut": bypass_same_mesh_shortcut,
     }

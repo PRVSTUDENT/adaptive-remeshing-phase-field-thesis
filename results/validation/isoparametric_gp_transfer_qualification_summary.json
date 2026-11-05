@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "task_id": "F1620-METHOD-C-ISOPARAMETRIC-GP-TRANSFER-QUALIFICATION",
+  "task_id": "F1621-METHOD-C-GP-TRANSFER-SAFETY-REQUALIFICATION",
   "governance": {
-    "authorized_by": "chatgpt_pad_bridge_decision_HND-c9250024042a",
+    "authorized_by": "chatgpt_pad_bridge_decision_HND-279a1c9be88f",
     "protocol_version": 2,
     "zero_pbs_enforced": true
   },
@@ -11,9 +11,12 @@
     "mesh_nodes_physical": 13278,
     "reference_point_id": 999999,
     "total_gauss_points": 51984,
-    "max_delta_H_MPa": 0.0,
-    "rms_delta_H_MPa": 0.0,
-    "exact_identity_passed": true
+    "max_delta_H_MPa": 2.708944180085382e-13,
+    "rms_delta_H_MPa": 2.2205932177827746e-15,
+    "exact_identity_passed": true,
+    "bypass_same_mesh_shortcut": true,
+    "containment_verified": true,
+    "exceptional_mappings": 0
   },
   "nonmatching_transfer_c6": {
     "mesh_elements": 15252,
@@ -89,8 +92,10 @@
       "mean_driving_force_c1_MPa": 0.07661371231658877,
       "max_driving_force_discrepancy_MPa": 4.646259750573789,
       "rms_driving_force_discrepancy_MPa": 0.07800468690701633
-    }
+    },
+    "containment_verified": true,
+    "exceptional_mappings": 0
   },
-  "qualification_verdict": "TECHNICAL_QUALIFICATION_APPROVED",
-  "remediation_status": "EXACT_SAME_MESH_IDENTITY_PROVEN__C6_GRADIENT_PRESERVED"
+  "qualification_verdict": "SAFETY_REQUALIFICATION_APPROVED",
+  "remediation_status": "EXACT_SAME_MESH_IDENTITY_PROVEN_WITHOUT_SHORTCUT__C6_GRADIENT_PRESERVED"
 }

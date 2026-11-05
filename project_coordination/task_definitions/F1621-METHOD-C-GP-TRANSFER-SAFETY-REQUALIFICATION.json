@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "task_id": "F1621-METHOD-C-GP-TRANSFER-SAFETY-REQUALIFICATION",
+  "name": "Method C Isoparametric Bilinear Gauss-Point Transfer Safety Requalification and Host-Identification Hardening",
+  "description": "Five targeted offline hardening corrections for isoparametric GP transfer operator: bypass same-mesh shortcut in full-field identity test, true isoparametric containment host identification, fail-closed transfer integrity, physical history safeguards verification, and artifact metadata reconciliation. Strictly 0 PBS submissions authorized.",
+  "agent": "gemini-antigravity",
+  "status": "ACTIVE",
+  "created_at": "2026-11-05T13:55:00+01:00",
+  "governance": {
+    "protocol_version": 2,
+    "authorized_by": "chatgpt_pad_bridge_decision_HND-279a1c9be88f",
+    "directive": "OPTION 3 — ACCEPT THE GP-RECONSTRUCTION FEASIBILITY RESULT; REQUIRE ONE BOUNDED OFFLINE HARDENING STEP BEFORE PRODUCTION INTEGRATION.",
+    "supervisor_meeting_anchor": "2026-11-05 Supervisor Meeting Directive & Bridge Review HND-279a1c9be88f",
+    "max_new_pbs_submissions": 0,
+    "zero_pbs_enforced": true
+  },
+  "predecessor": {
+    "task_id": "F1620-METHOD-C-ISOPARAMETRIC-GP-TRANSFER-QUALIFICATION",
+    "status": "COMPLETED",
+    "scientific_acceptance": "TECHNICAL_QUALIFICATION_APPROVED",
+    "verified_commit": "e138857be1b7876fc349378d4e8b6fce5e163229",
+    "summary_json": "results/validation/isoparametric_gp_transfer_qualification_summary.json",
+    "summary_sha256": "D7655D52546755B0B20D0E8D3B77A58EFB35D53839ED808FBFEE8BD4C011A7B2"
+  },
+  "qualification_scope": {
+    "donor_state": {
+      "job_id": "1419566.mmaster02",
+      "checkpoint": "converged_checkpoint_03.json",
+      "mesh_elements": 12996,
+      "nodes_physical": 13278,
+      "reference_point_id": 999999,
+      "target_uy_mm": 0.0018703125442191958
+    },
+    "requirements": [
+      "Blocker 1: Disable same-mesh identity shortcut in full-field C5 test to force full inverse-quad mapping and bilinear GP reconstruction path; verify exact identity (< 1e-12 MPa); add test where element IDs/connectivity match but coordinates differ",
+      "Blocker 2: Validate true isoparametric containment (|xi| <= 1.0 + tol, |eta| <= 1.0 + tol) before accepting host donor element; implement deterministic boundary handling and slit-flank isolation; explicitly report/reject points outside donor domain",
+      "Blocker 3: Fail-closed transfer integrity: reject missing/incomplete donor history and unresolved host mappings instead of silently manufacturing values or defaulting to zero; record all exceptional mappings",
+      "Blocker 4: Physical history safeguards: verify H is finite and nonnegative (H >= 0.0); verify exact GP ordering (1..4) and donor history provenance; ensure crack-tip limiting does not introduce smoothing or artificial peaks",
+      "Blocker 5: Evidence metadata reconciliation: update artifact registry with exact byte counts and SHA-256 hashes for all deliverables",
+      "Run complete GP-transfer unit test suite and production-path regressions",
+      "Preserve frozen UEL CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6 and qualified R11 package unchanged",
+      "Strictly 0 PBS submissions authorized"
+    ]
+  },
+  "deliverables": [
+    "scripts/state_transfer/isoparametric_gp_transfer.py",
+    "scripts/validation/evaluate_isoparametric_gp_transfer.py",
+    "tests/unit/test_isoparametric_gp_transfer.py",
+    "results/validation/isoparametric_gp_transfer_qualification_report.md",
+    "results/validation/isoparametric_gp_transfer_qualification_summary.json"
+  ]
+}

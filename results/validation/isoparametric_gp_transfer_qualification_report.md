@@ -1,21 +1,26 @@
-# Method C Isoparametric GP Transfer Qualification Report (Task F1620)
+# Method C Isoparametric GP Transfer Safety Requalification Report (Task F1621)
 
 **Protocol Version**: 2  
-**Task ID**: `F1620-METHOD-C-ISOPARAMETRIC-GP-TRANSFER-QUALIFICATION`  
-**Supervisory Directive**: Handoff `HND-c9250024042a` (Option 1 — Approve GP-transfer remediation qualification)  
+**Task ID**: `F1621-METHOD-C-GP-TRANSFER-SAFETY-REQUALIFICATION`  
+**Supervisory Directive**: Handoff `HND-279a1c9be88f` (Option 3 — Hardening Requalification Required)  
 **Execution Boundary**: Strictly 0 PBS submissions authorized. Offline numerical qualification only.  
 
 ---
 
 ## 1. Executive Summary & Verification Objectives
 
-In accordance with the 5 November 2026 supervisor directive (`HND-c9250024042a`), this study implements and qualifies a gradient-preserving bilinear Gauss-point history transfer operator (`scripts/state_transfer/isoparametric_gp_transfer.py`) to replace the element-averaging mechanism.
+In accordance with supervisory directive `HND-279a1c9be88f`, this study executes five targeted hardening corrections for the gradient-preserving bilinear Gauss-point history transfer operator (`scripts/state_transfer/isoparametric_gp_transfer.py`):
+1. **Shortcut Bypassed**: Evaluated the full spatial inverse-quad mapping and bilinear GP shape function path on all 51,984 Gauss points of C5 with the same-mesh identity shortcut explicitly bypassed.
+2. **True Isoparametric Containment**: Enforced natural coordinate containment ($|\xi| \le 1.0 + \epsilon, |\eta| \le 1.0 + \epsilon$) across candidate donor elements with deterministic boundary resolution.
+3. **Fail-Closed Integrity**: Rejects missing donor history values or unresolved host mappings; records boundary-extrapolated mappings.
+4. **Physical Safeguards**: Verified finite non-negativity ($H \ge 0.0$), exact quadrature indexing (1..4), and driving force preservation.
+5. **Metadata Reconciliation**: Ledger byte counts and SHA-256 hashes reconciled with committed files.
 
 ### Key Qualification Milestones:
 1. **Mathematical Rigor**: Gauss-point shape functions $M_k(\xi, \eta) = \frac14(1 + 3\xi_k\xi)(1 + 3\eta_k\eta)$ satisfy the Kronecker delta property $M_k(\xi_j, \eta_j) = \delta_{kj}$ and partition of unity $\sum M_k \equiv 1.0$.
-2. **Exact Same-Mesh Identity (C5-to-C5)**:
-   - On all **51,984 Gauss points** of the accepted C5 donor mesh (12,996 quads, 13,278 physical nodes + RP 999999), $\max |\Delta H| = 0.0000e+00$ MPa and $\text{RMS} = 0.0000e+00$ MPa.
-   - Exact identity is satisfied to machine precision ($< 10^{-12}$ MPa), completely eliminating the **6.35 MPa** perturbation caused by element averaging.
+2. **Exact Same-Mesh Identity Without Shortcut (C5-to-C5)**:
+   - On all **51,984 Gauss points** of the accepted C5 donor mesh (12,996 quads, 13,278 physical nodes + RP 999999), $\max |\Delta H| = 2.7089e-13$ MPa and $\text{RMS} = 2.2206e-15$ MPa.
+   - Exact identity is satisfied to machine precision ($< 10^{-12}$ MPa), completely eliminating the **6.35 MPa** perturbation caused by element averaging without relying on identity shortcuts.
 3. **Nonmatching Mesh Transfer (C5-to-C6)**:
    - Evaluated on the 15,252-element C6 receiver mesh (61,008 Gauss points).
    - Old operator artificially depressed peak crack-tip driving force to **8.8055 MPa** (a 37.3% loss relative to donor peak of 14.0474 MPa).
@@ -25,6 +30,7 @@ In accordance with the 5 November 2026 supervisor directive (`HND-c9250024042a`)
    - Strictly enforces $H \ge 0.0$ everywhere.
    - Out of 61,008 Gauss points on C6, 26412 (43.29%) evaluated outside the donor GP rectangle.
    - The convex clamp limiter strictly bounded all values within the donor element extrema, with zero negative values permitted (7 prevented).
+   - Exceptional boundary mappings count: 0.
 
 ---
 
@@ -32,8 +38,8 @@ In accordance with the 5 November 2026 supervisor directive (`HND-c9250024042a`)
 
 | Metric | Donor Reference (C5) | Old Element-Averaged Operator | Candidate 1 (Isoparametric Convex Clamp) | Candidate 2 (Isoparametric Nonnegative) | Status / Impact |
 | :--- | :---: | :---: | :---: | :---: | :--- |
-| **Same-Mesh Max Error (C5)** | `0.0000 MPa` | `6.3491 MPa` | `0.0000e+00 MPa` | `0.0000e+00 MPa` | **Exact identity to machine precision** |
-| **Same-Mesh RMS Error (C5)** | `0.0000 MPa` | `0.0681 MPa` | `0.0000e+00 MPa` | `0.0000e+00 MPa` | Completely eliminates 681x error |
+| **Same-Mesh Max Error (C5)** | `0.0000 MPa` | `6.3491 MPa` | `2.7089e-13 MPa` | `2.7089e-13 MPa` | **Exact identity to machine precision** |
+| **Same-Mesh RMS Error (C5)** | `0.0000 MPa` | `0.0681 MPa` | `2.2206e-15 MPa` | `2.2206e-15 MPa` | Completely eliminates 681x error |
 | **C6 Peak Driving History** $H$ | `14.0474 MPa` | `8.8055 MPa` | `14.0474 MPa` | `16.4569 MPa` | **Preserves localized crack-tip driving force** |
 | **C6 Min Driving History** $H$ | `0.0000 MPa` | `0.000000 MPa` | `0.000000 MPa` | `0.000000 MPa` | Non-negativity strictly preserved |
 | **C6 Max Intra-Element Spread** | `14.0474 MPa` | `0.0000 MPa` (Flattened) | `6.1780 MPa` | `6.1780 MPa` | Restores intra-element gradient |
