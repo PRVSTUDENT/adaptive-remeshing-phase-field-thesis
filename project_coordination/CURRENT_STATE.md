@@ -1,3 +1,29 @@
+## 5 November Package 171-R9 Datachecks Verified & Successor Task F1612 Registered
+
+1. **Package 171-R9 Cluster Staging & Datachecks Verified (Task F1611 Completed)**:
+   - Cluster staging to `/scratch9/pr21vyci/runs/mode1_c6_package171_r9_c3_0_adaptive_reequilibration` completed via `scripts/validation/stage_package171_r9.py`.
+   - Staging tarball (3.07 MB) and runtime tarball (57.86 KB) extracted on cluster scratch.
+   - Remote smoke test verified runtime driver imports and donor constants.
+   - Authentic Abaqus 2023 datachecks executed via `run_datacheck.sh`:
+     * `P171_MECHANICAL_DC.inp`: Exit 0, 0 errors, `ANALYSIS DATACHECK COMPLETE`.
+     * `P171_PHASE_DC.inp`: Exit 0, 0 errors, `ANALYSIS DATACHECK COMPLETE`.
+   - Datacheck outputs fetched and bitwise verified:
+     * `P171_MECHANICAL_DC.dat`: SHA-256 `9D42132C3315CD818A19076C80AD7AA5E2AEDDBEA7814D92A9F6846DADF7DFB2`
+     * `P171_MECHANICAL_DC.msg`: SHA-256 `6F916CAFD1025EB507BE86DA20A1B6276B4763771B3E69D9FAC2C66D2B98DD90`
+     * `P171_PHASE_DC.dat`: SHA-256 `8A70C8B085BA5F0368E66313455B152822416D34508AE5729DB152201E38DE38`
+     * `P171_PHASE_DC.msg`: SHA-256 `CFE03E319558E5CED963359207230642AD2511894FD50D94C7C7EA9F4AFCE0D5`
+   - Technical datacheck qualification receipt published: `results/validation/package171_r9_datacheck_receipt.json` (SHA-256 `DC4C72792872D14034D4239F66EADB324D381691BDD264AA6F2FF32DAF1867BB`).
+   - Task `F1611-PACKAGE171-R9-C6-STAGE-AND-DATACHECK-QUALIFICATION` closed in `TASK_LEDGER.csv` as `completed` with classification `DATACHECKS_PASSED_BOTH_EXIT_0`.
+
+2. **Successor Task F1612 Registered & Execution Authorized**:
+   - Registered Task: `F1612-PACKAGE171-R9-C6-EXECUTION-QUALIFICATION` (`project_coordination/task_definitions/F1612-PACKAGE171-R9-C6-EXECUTION-QUALIFICATION.json`, SHA-256 `0F28587D6D71CC7218D2992E0B7221129F800EEC26B5DF5EFAF64BE3D6FBD404`).
+   - Batch Authorization Manifest: `models/pandey_kumar_mode1/171_c6_package171_r9_c3_0_adaptive_reequilibration/M1_C6_PACKAGE171_R9_AUTHORIZATION.json` (SHA-256 `D6D49B0D00C2E47A5E5321C792802C37B9F5D8E466E5921758E83BDD94CD4E5E`).
+   - Execution Manifest: `models/pandey_kumar_mode1/171_c6_package171_r9_c3_0_adaptive_reequilibration/EXECUTION_MANIFEST.json` (SHA-256 `7CA7C84A7761278924E81BF2C6EF352EF0BED7239D93F9BC9C981292087DBDD3`).
+   - Package Manifest: `models/pandey_kumar_mode1/171_c6_package171_r9_c3_0_adaptive_reequilibration/PACKAGE_MANIFEST.json` (SHA-256 `FB3EC055BE72447BAEFDAB9A28BF2E7AD0871F121A5E266379657FCBFDB88846`).
+   - Governed Preflight: Verified 100% PASS via `scripts/hpc/Invoke-Mode1Execution.ps1 -ManifestPath ... -VerifyOnly` (datachecks `PASS_BOTH`, active jobs 0, login notifications verified).
+   - Authorized Scope: Exactly 1 once-only PBS production solver submission (`max_new_pbs_submissions: 1`) for Candidate `M1_C6_P171_R9_C3_0`.
+   - Synchronized Ledgers: `ACTIVE_TASK.json`, `ACTIVE_SESSION.json`, `TASK_LEDGER.csv`, `ARTIFACT_REGISTRY.csv`.
+
 ## 5 November Package 171-R9 Independent Approval & Successor Task F1611 Registration
 
 1. **Formal Independent Review Approval Reconciled (Handoff `HND-2641788b57c8`)**:
