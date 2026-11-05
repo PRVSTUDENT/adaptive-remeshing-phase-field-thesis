@@ -1,0 +1,123 @@
+=== PACKAGE 171-R10 ISOLATED DISPLACEMENT RELAXATION UNIT REGRESSION ===
+
+Starting R10 coupled PDAS re-equilibration (Isolated Displacement Under-Relaxation S1_wd=0.5, S2_wd=0.85, S1_wu=1.0, S2_wu=0.85) on 15,252-quad C6 mesh (target_uy = 0.001870312544 mm)...
+  Outer 01 [Stage 2, wd=0.85, wu=0.85]: delta_d=7.6500e-03, delta_u_rel=2.6566e-07, delta_u_raw=3.1254e-07, delta_h=0.0000e+00, |Delta A|=0 (card=N/A, added=0), stable_count=0, post_kkt_pass=False, PDAS active=0
+
+Coupled PDAS re-equilibration nonconverged after 1 iterations. Checkpoint suppressed.
+
+Starting R10 coupled PDAS re-equilibration (Isolated Displacement Under-Relaxation S1_wd=0.5, S2_wd=0.85, S1_wu=1.0, S2_wu=0.85) on 15,252-quad C6 mesh (target_uy = 0.001870312544 mm)...
+  [ROLLBACK] Outer 01: Stage 2 divergence factor exceeded: cand_raw_delta_d=1.6000e-02 > 1.50 * prev_raw_delta_d. Reverting to conservative step (omega_d=0.50, omega_u=1.00) and resetting Stage 1.
+  Outer 01 [Stage 1, wd=0.50, wu=1.00]: delta_d=8.0000e-03, delta_u_rel=3.1254e-07, delta_u_raw=3.1254e-07, delta_h=0.0000e+00, |Delta A|=0 (card=N/A, added=0), stable_count=0, post_kkt_pass=False, PDAS active=0
+
+Coupled PDAS re-equilibration nonconverged after 1 iterations. Checkpoint suppressed.
+  Coupled-field displacement consistency: max delta_u (vs trial) = 0.0000e+00 mm (pass=True), vs abaqus = 0.0000e+00 mm
+  Coupled-field history consistency: max delta_H = 0.0000e+00 MPa (pass=True)
+  Final-state KKT stationarity: free_err=1.0000e-07, dual_err=1.0000e-07, comp=1.0000e-07 (pass=True)
+  PHYSICAL ACCEPTANCE FAILED! Checkpoint C:\Users\pruth\AppData\Local\Temp\tmpj_r95fur\converged_checkpoint_01.json suppressed.
+  Coupled-field displacement consistency: max delta_u (vs trial) = 0.0000e+00 mm (pass=True), vs abaqus = 0.0000e+00 mm
+  Coupled-field history consistency: max delta_H = 0.0000e+00 MPa (pass=True)
+  Final-state KKT stationarity: free_err=1.0000e-07, dual_err=1.0000e-07, comp=1.0000e-07 (pass=True)
+  PHYSICAL ACCEPTANCE FAILED! Checkpoint C:\Users\pruth\AppData\Local\Temp\tmpj_r95fur\converged_checkpoint_01.json suppressed.
+  Coupled-field displacement consistency: max delta_u (vs trial) = 0.0000e+00 mm (pass=True), vs abaqus = 0.0000e+00 mm
+  Coupled-field history consistency: max delta_H = 0.0000e+00 MPa (pass=True)
+  Final-state KKT stationarity: free_err=1.0000e-07, dual_err=1.0000e-07, comp=1.0000e-07 (pass=True)
+  Physical acceptance verified: committed accepted checkpoint C:\Users\pruth\AppData\Local\Temp\tmp18griner\converged_checkpoint_01.json
+  Coupled-field displacement consistency: max delta_u (vs trial) = 1.0000e-07 mm (pass=False), vs abaqus = 1.0000e-07 mm
+  Coupled-field history consistency: max delta_H = 0.0000e+00 MPa (pass=True)
+  Final-state KKT stationarity: free_err=1.0000e-07, dual_err=1.0000e-07, comp=1.0000e-07 (pass=True)
+  PHYSICAL ACCEPTANCE FAILED! Checkpoint C:\Users\pruth\AppData\Local\Temp\tmp18griner\converged_checkpoint_01.json suppressed.
+test_all_18_authentic_r8_rollbacks_replayed (tests.unit.test_package171_r10_c6_coupled_driver.TestPackage171R10C6CoupledDriver.test_all_18_authentic_r8_rollbacks_replayed)
+Verify that ALL 18 authentic R8 rollbacks from live telemetry are admitted in R10. ... ok
+test_authentic_r8_outer89_transition_replay (tests.unit.test_package171_r10_c6_coupled_driver.TestPackage171R10C6CoupledDriver.test_authentic_r8_outer89_transition_replay)
+Replay authentic R8 Outer 88/89 telemetry: R10 admits Stage 2 without rollback. ... ok
+test_clean_stage2_admission_tracks_both_displacements (tests.unit.test_package171_r10_c6_coupled_driver.TestPackage171R10C6CoupledDriver.test_clean_stage2_admission_tracks_both_displacements)
+Verify clean Stage 2 admission tracks delta_u_relaxed and delta_u_raw in telemetry. ... ok
+test_compound_active_set_stability_gate (tests.unit.test_package171_r10_c6_coupled_driver.TestPackage171R10C6CoupledDriver.test_compound_active_set_stability_gate)
+Verify compound stability requires |A| <= 500, |Delta A| <= 10, added == 0. ... ok
+test_displacement_relaxation_mathematics_stage1_vs_stage2 (tests.unit.test_package171_r10_c6_coupled_driver.TestPackage171R10C6CoupledDriver.test_displacement_relaxation_mathematics_stage1_vs_stage2)
+Verify that u_trial = (1 - omega_u) * u_trial^{(k-1)} + omega_u * u_abaqus^{(k)}. ... ok
+test_divergence_rollback_reverts_omega_u_and_stage (tests.unit.test_package171_r10_c6_coupled_driver.TestPackage171R10C6CoupledDriver.test_divergence_rollback_reverts_omega_u_and_stage)
+Verify divergence rollback reverts stage to 1 and effective_omega_u to Stage 1 factor. ... ok
+test_exact_equivalence_to_r9_when_omega_u_is_unity (tests.unit.test_package171_r10_c6_coupled_driver.TestPackage171R10C6CoupledDriver.test_exact_equivalence_to_r9_when_omega_u_is_unity)
+Verify that setting omega_u_stage1=1.0 and omega_u_stage2=1.0 identically reproduces unrelaxed u. ... ok
+test_extractor_arguments_contract (tests.unit.test_package171_r10_c6_coupled_driver.TestPackage171R10C6CoupledDriver.test_extractor_arguments_contract)
+Verify extractor invocation uses --physical-nodes 15559 and --physical-elements 15252. ... ok
+test_force_and_energy_drift_suppresses_checkpoint (tests.unit.test_package171_r10_c6_coupled_driver.TestPackage171R10C6CoupledDriver.test_force_and_energy_drift_suppresses_checkpoint)
+Verify force drift > 2% or energy drift > 2% suppresses checkpoint. ... ok
+test_independent_re_equilibration_gate (tests.unit.test_package171_r10_c6_coupled_driver.TestPackage171R10C6CoupledDriver.test_independent_re_equilibration_gate)
+Verify that finalize_coupled_acceptance checks consistent_u against u_trial and u_abaqus. ... ok
+test_mechanical_deck_contract (tests.unit.test_package171_r10_c6_coupled_driver.TestPackage171R10C6CoupledDriver.test_mechanical_deck_contract)
+Verify mechanical boundary conditions and DOF 3 damage prescription match canonical contract. ... ok
+test_phase_deck_contract (tests.unit.test_package171_r10_c6_coupled_driver.TestPackage171R10C6CoupledDriver.test_phase_deck_contract)
+Verify phase boundary conditions: displacement on DOF 1,2 and active nodes clamped on DOF 3 to d0. ... ok
+test_phase_decoding_u3_and_rejections (tests.unit.test_package171_r10_c6_coupled_driver.TestPackage171R10C6CoupledDriver.test_phase_decoding_u3_and_rejections)
+Directly invoke solve_subproblem to exercise production U3 extraction and all fail-closed checks. ... ok
+test_qualified_history_construction_preserves_thermodynamic_consistency (tests.unit.test_package171_r10_c6_coupled_driver.TestPackage171R10C6CoupledDriver.test_qualified_history_construction_preserves_thermodynamic_consistency)
+Verify that H_trial = max(H0, psi+(u_trial)) strictly satisfies H >= psi+ at all points. ... ok
+test_raw_vs_relaxed_displacement_increments (tests.unit.test_package171_r10_c6_coupled_driver.TestPackage171R10C6CoupledDriver.test_raw_vs_relaxed_displacement_increments)
+Verify Delta u_relaxed = omega_u * Delta u_raw and tracking in telemetry. ... ok
+test_reject_false_convergence_on_unsatisfied_raw_displacement (tests.unit.test_package171_r10_c6_coupled_driver.TestPackage171R10C6CoupledDriver.test_reject_false_convergence_on_unsatisfied_raw_displacement)
+Verify that if delta_u_relaxed <= 1e-9 but delta_u_raw > 1e-9, convergence is REJECTED. ... ok
+test_rejection_of_heuristic_history_filter (tests.unit.test_package171_r10_c6_coupled_driver.TestPackage171R10C6CoupledDriver.test_rejection_of_heuristic_history_filter)
+Demonstrate that heuristic filter H_new = (1-w)H_prev + w*psi+ can violate H >= psi+. ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.233s
+
+OK
+
+=== PACKAGE 171-R9 REGRESSION PRESERVATION ===
+
+Starting R9 coupled PDAS re-equilibration (Two-Phase Safeguarded Relaxation S1=0.5, S2=0.85) on 15,252-quad C6 mesh (target_uy = 0.001870312544 mm)...
+  [ROLLBACK] Outer 01: Stage 2 catastrophic jump: cand_delta_d=5.9500e-02 > cap=0.05. Reverting to conservative step (omega_d=0.50) and resetting Stage 1.
+  Outer 01 [Stage 1, w=0.50]: delta_d=3.5000e-02, delta_u=0.0000e+00, delta_h=0.0000e+00, |Delta A|=0 (card=N/A, added=0), stable_count=0, post_kkt_pass=False, PDAS active=0
+  Coupled-field displacement consistency: max delta_u = 0.0000e+00 mm (pass=True)
+  Coupled-field history consistency: max delta_H = 0.0000e+00 MPa (pass=True)
+  Final-state KKT stationarity: free_err=1.0000e-07, dual_err=1.0000e-07, comp=1.0000e-07 (pass=True)
+  PHYSICAL ACCEPTANCE FAILED! Checkpoint C:\Users\pruth\AppData\Local\Temp\tmp48whahdg\converged_checkpoint_01.json suppressed.
+
+Starting R9 coupled PDAS re-equilibration (Two-Phase Safeguarded Relaxation S1=0.5, S2=0.85) on 15,252-quad C6 mesh (target_uy = 0.001870312544 mm)...
+  [ROLLBACK] Outer 01: Stage 2 divergence factor exceeded: cand_raw_delta_d=1.6000e-02 > 1.50 * prev_raw_delta_d. Reverting to conservative step (omega_d=0.50) and resetting Stage 1.
+  Outer 01 [Stage 1, w=0.50]: delta_d=8.0000e-03, delta_u=0.0000e+00, delta_h=0.0000e+00, |Delta A|=0 (card=N/A, added=0), stable_count=0, post_kkt_pass=False, PDAS active=0
+
+Starting R9 coupled PDAS re-equilibration (Two-Phase Safeguarded Relaxation S1=0.5, S2=0.85) on 15,252-quad C6 mesh (target_uy = 0.001870312544 mm)...
+  [ROLLBACK] Outer 01: Stage 2 residual growth: cand_raw_delta_d=1.0800e-02 > 1.05 * prev_raw_delta_d. Reverting to conservative step (omega_d=0.50) and resetting Stage 1.
+  Outer 01 [Stage 1, w=0.50]: delta_d=5.4000e-03, delta_u=0.0000e+00, delta_h=0.0000e+00, |Delta A|=0 (card=N/A, added=0), stable_count=0, post_kkt_pass=False, PDAS active=0
+  Coupled-field displacement consistency: max delta_u = 0.0000e+00 mm (pass=True)
+  Coupled-field history consistency: max delta_H = 0.0000e+00 MPa (pass=True)
+  Final-state KKT stationarity: free_err=1.0000e-07, dual_err=1.0000e-07, comp=1.0000e-07 (pass=True)
+  Physical acceptance verified: committed accepted checkpoint C:\Users\pruth\AppData\Local\Temp\tmp5bidhqa8\converged_checkpoint_01.json
+
+Starting R9 coupled PDAS re-equilibration (Two-Phase Safeguarded Relaxation S1=0.5, S2=0.85) on 15,252-quad C6 mesh (target_uy = 0.001870312544 mm)...
+  Outer 01 [Stage 2, w=0.85]: delta_d=7.6500e-03, delta_u=0.0000e+00, delta_h=0.0000e+00, |Delta A|=0 (card=N/A, added=0), stable_count=0, post_kkt_pass=False, PDAS active=0
+test_all_18_authentic_r8_rollbacks_replayed (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_all_18_authentic_r8_rollbacks_replayed)
+Verify that ALL 18 authentic R8 rollbacks from live telemetry are admitted in R9. ... ok
+test_authentic_r8_outer89_transition_replay (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_authentic_r8_outer89_transition_replay)
+Replay authentic R8 Outer 88/89 telemetry: R9 admits Stage 2 without rollback. ... ok
+test_catastrophic_jump_triggers_rollback (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_catastrophic_jump_triggers_rollback)
+Exercise production rollback branch when applied candidate step exceeds 0.05 cap. ... ok
+test_compound_active_set_stability_gate (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_compound_active_set_stability_gate)
+Verify compound stability requires |A| <= 500, |Delta A| <= 10, added == 0. ... ok
+test_extractor_arguments_contract (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_extractor_arguments_contract)
+Verify extractor invocation uses --physical-nodes 15559 and --physical-elements 15252. ... ok
+test_force_drift_prohibits_checkpoint (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_force_drift_prohibits_checkpoint)
+Verify excessive force drift (> 2.0%) suppresses checkpoint. ... ok
+test_genuine_divergence_triggers_rollback (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_genuine_divergence_triggers_rollback)
+Exercise production rollback branch when raw norm grows > 1.50x; verify state reset and telemetry. ... ok
+test_genuine_residual_growth_triggers_rollback (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_genuine_residual_growth_triggers_rollback)
+Exercise production rollback branch when raw norm grows > 1.05x but <= 1.50x; verify state reset and telemetry. ... ok
+test_mechanical_deck_contract (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_mechanical_deck_contract)
+Verify mechanical boundary conditions and DOF 3 damage prescription match R8. ... ok
+test_phase_deck_contract (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_phase_deck_contract)
+Verify phase boundary conditions: displacement on DOF 1,2 and active nodes clamped on DOF 3 to d0. ... ok
+test_phase_decoding_u3_and_rejections (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_phase_decoding_u3_and_rejections)
+Directly invoke solve_subproblem to exercise production U3 extraction and all fail-closed checks. ... ok
+test_solver_interface_and_coupled_acceptance (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_solver_interface_and_coupled_acceptance)
+Verify solver KKT dictionary contract and finalize_coupled_acceptance gate enforcement. ... ok
+test_stage2_clean_contraction_admitted (tests.unit.test_package171_r9_c6_coupled_driver.TestPackage171R9C6CoupledDriver.test_stage2_clean_contraction_admitted)
+Exercise production path when candidate step contracts (< prev_raw_norm); verify Stage 2 admission. ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.180s
+
+OK

@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "task_id": "F1614-PACKAGE171-R10-C6-ISOLATED-DISPLACEMENT-RELAXATION-QUALIFICATION",
+  "title": "Mode-I C6 Package 171-R10 Isolated Displacement Under-Relaxation Driver Implementation and Technical Qualification",
+  "predecessor": {
+    "run_id": "continuous-method-c-direct-bridge-20261104",
+    "status": "COMPLETED_DIAGNOSIS_APPROVED",
+    "task_id": "F1613-PACKAGE171-R10-C6-COUPLED-CONVERGENCE-DIAGNOSIS",
+    "source_commit": "3129ae37c7534de5261796b6084e5e57ebcb2807",
+    "checkpoint_artifact": "results/validation/package171_r9_coupled_diagnosis.json"
+  },
+  "operation": {
+    "checkpoint_kind": "RESEARCH_PREPARATION",
+    "id": "qualify_mode1_package171_r10_c6_isolated_displacement_relaxation",
+    "mode": "OFFLINE_QUALIFICATION_ONLY",
+    "registration": "Package 171-R10 C6 Isolated Displacement Under-Relaxation Offline Qualification; zero PBS submissions authorized",
+    "manifest": "results/validation/package171_r10_technical_qualification_proposal.json"
+  },
+  "max_new_pbs_submissions": 0,
+  "automatic_retry": false,
+  "job_references": {
+    "predecessor_job_id": "1420215.mmaster02",
+    "predecessor_status": "FAILED_COUPLED_NONCONVERGENCE_OUTER140_STAGE2_SUSTAINED_ZERO_ROLLBACK",
+    "candidate_job": "M1_C6_P171_R10_C3_0",
+    "remote_dir": "/scratch9/pr21vyci/runs/mode1_c6_package171_r10_c3_0_adaptive_reequilibration",
+    "target_package": "models/pandey_kumar_mode1/171_c6_package171_r10_c3_0_adaptive_reequilibration",
+    "scientific_scope": "Offline driver implementation and controlled unit regression testing for Candidate R10 isolated mechanical displacement under-relaxation (omega_u = 0.85 in Stage 2). Strict preservation of qualified R9 phase relaxation (omega_d=0.50 Stage 1, omega_d=0.85 Stage 2, unrelaxed step norm rollback safeguards), bitwise frozen UEL, and physical acceptance thresholds. Rejection of physical history relaxation (H_trial = max(H0, psi+(u_trial)) strictly preserved). Deferral of Stage 3 phase acceleration (omega_d = 0.95 deferred). Tracking raw-versus-relaxed mechanical displacement and independent re-equilibration gate before physical acceptance. Strictly 0 PBS submissions authorized under F1614."
+  },
+  "acceptance": {
+    "acceptance_requires_original_files": true,
+    "delta_d_max": 1e-05,
+    "delta_u_mm_max": 1e-09,
+    "delta_h_MPa_max": 0.0001,
+    "final_consistency_delta_u_mm_max": 1e-09,
+    "final_consistency_delta_h_MPa_max": 0.0001,
+    "signed_kkt_dual_kNmm_max": 1e-06,
+    "signed_kkt_free_kNmm_max": 1e-06,
+    "max_healing_tolerance": 1e-06,
+    "healing_violations_max": 0,
+    "history_monotonicity_violations_max": 0,
+    "force_discrepancy_pct_max": 2.0,
+    "total_energy_discrepancy_pct_max": 2.0,
+    "donor_reference_force_kN": 0.17992419004440308,
+    "donor_reference_total_energy_kNmm": 0.00022639903,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "decision_branches": [
+    "ISOLATED_DISPLACEMENT_RELAXATION: implement u_trial = (1-omega_u)*u_prev + omega_u*u_Abaqus with omega_u = 0.85 in Stage 2 while tracking raw u_Abaqus",
+    "PRESERVE_QUALIFIED_HISTORY_CONSTRUCTION: H_trial = max(H0, psi+(u_trial)) without heuristic relaxation",
+    "DEFER_STAGE3_PHASE_ACCELERATION: keep omega_d = 0.85 in Stage 2 to prevent confounded attribution",
+    "OFFLINE_UNIT_REGRESSION: 100% pass across R10 isolated relaxation contract, R9 regression, and checkpoint suppression",
+    "SUPERVISORY_HANDOFF: submit complete technical qualification proposal and regression evidence to ChatGPT across PAD bridge",
+    "PREVENT_PREMATURE_HPC_SUBMISSION: max_new_pbs_submissions = 0 strictly enforced"
+  ],
+  "governance": {
+    "authorized_by": "chatgpt_pad_bridge_instruction_HND-6d9558004ed5",
+    "governing_instruction": "APPROVE A SCOPED OFFLINE R10 QUALIFICATION TASK — NOT THE FULL PROPOSED R10 ALGORITHM",
+    "zero_pbs_submissions_enforced": true
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "contract": "Package 171-R10 C6 Coupled PDAS Re-Equilibration Technical Qualification Proposal",
+  "task_id": "F1614-PACKAGE171-R10-C6-ISOLATED-DISPLACEMENT-RELAXATION-QUALIFICATION",
+  "candidate_id": "M1_C6_P171_R10_C3_0",
+  "status": "TECHNICAL_QUALIFICATION_PROPOSAL_PREPARED",
+  "governance": {
+    "protocol_version": 2,
+    "authorized_by": "chatgpt_pad_bridge_instruction_HND-6d9558004ed5",
+    "governing_instruction": "APPROVE A SCOPED OFFLINE R10 QUALIFICATION TASK — NOT THE FULL PROPOSED R10 ALGORITHM",
+    "zero_pbs_submissions_enforced": true,
+    "max_new_pbs_submissions": 0
+  },
+  "predecessor": {
+    "task_id": "F1613-PACKAGE171-R10-C6-COUPLED-CONVERGENCE-DIAGNOSIS",
+    "status": "COMPLETED_DIAGNOSIS_APPROVED",
+    "verified_commit": "3129ae37c7534de5261796b6084e5e57ebcb2807",
+    "checkpoint_artifact": "results/validation/package171_r9_coupled_diagnosis.json",
+    "predecessor_job_id": "1420215.mmaster02",
+    "predecessor_exit_code": 1
+  },
+  "mathematical_specification": {
+    "stage_1_phase_relaxation_omega_d": 0.50,
+    "stage_1_displacement_relaxation_omega_u": 1.00,
+    "compound_transition_criteria": {
+      "max_active_cardinality": 500,
+      "max_symmetric_diff": 10,
+      "max_added_nodes": 0,
+      "stabilization_window_iterations": 3
+    },
+    "stage_2_phase_relaxation_omega_d": 0.85,
+    "stage_2_displacement_relaxation_omega_u": 0.85,
+    "displacement_update_formula": "u_trial^{(k)} = (1 - omega_u) * u_trial^{(k-1)} + omega_u * u_abaqus^{(k)}",
+    "raw_versus_relaxed_accounting": {
+      "delta_u_raw_definition": "||u_abaqus^{(k)} - u_trial^{(k-1)}||_inf",
+      "delta_u_relaxed_definition": "||u_trial^{(k)} - u_trial^{(k-1)}||_inf",
+      "relaxed_to_raw_ratio": 0.85,
+      "convergence_gates": {
+        "delta_u_raw_max_mm": 1e-09,
+        "delta_u_relaxed_max_mm": 1e-09,
+        "false_convergence_prevention": "BOTH raw and relaxed increments must satisfy 1e-09 mm to eliminate under-relaxation smoothing artifacts"
+      }
+    },
+    "history_construction": {
+      "formula": "H_trial^{(k)} = max(H0, psi+(u_trial^{(k)}))",
+      "heuristic_relaxation_status": "REJECTED (violates thermodynamic bound H >= psi+)",
+      "thermodynamic_guarantee": "H >= psi+ and H >= H0 strictly satisfied by construction at all 61,008 Gauss points"
+    },
+    "stage_3_phase_acceleration_status": "DEFERRED (omega_d = 0.95 deferred to prevent confounded attribution)",
+    "rollback_safeguards": {
+      "step_norm_basis": "unrelaxed PDAS step norm ||d_PDAS - d^{(k)}||_inf",
+      "residual_growth_factor": 1.05,
+      "divergence_factor": 1.50,
+      "catastrophic_delta_d_cap": 0.05,
+      "rollback_action": "revert candidate step to conservative omega_d=0.50, omega_u=1.00, reset stage=1, reset switching window"
+    },
+    "independent_post_convergence_re_equilibration": {
+      "mechanical_solve": "K(d*) u_consistent = f_ext",
+      "displacement_consistency_tolerance_mm": 1e-09,
+      "history_consistency_tolerance_MPa": 0.0001,
+      "checkpoint_suppression_on_failure": true
+    }
+  },
+  "evidence_and_hashes": {
+    "frozen_uel": {
+      "path": "models/pandey_kumar_mode1/f42_mixed_uel.for",
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "status": "BITWISE_IDENTICAL"
+    },
+    "driver": {
+      "path": "scripts/state_transfer/driver_package171_r10_c6_coupled_pdas.py",
+      "sha256": "0A8953721479CF80CC6153933B5C5F24DE093808DDF94415018A3D7A9E6CB3DC",
+      "size_bytes": 38780
+    },
+    "test_suite": {
+      "path": "tests/unit/test_package171_r10_c6_coupled_driver.py",
+      "sha256": "17F6D9792D53A8BADE5256E800792169198738CE8EFFAB8A613A8C4D454F5981",
+      "tests_count": 17,
+      "tests_passed": 17
+    },
+    "diff_patch": {
+      "path": "results/validation/package171_r10_driver_diff.patch",
+      "sha256": "91B4991C940CE4B41637A3F06D3B1CEE973E55DDC58DD43DB6A60E12B1273E30",
+      "size_bytes": 41105
+    },
+    "test_output_log": {
+      "path": "results/validation/package171_r10_test_output.txt",
+      "sha256": "E2052BFD494392205AB16FE2921194CA87CC4CAE0BA377736919D88C225B17EE",
+      "total_tests_run": 30,
+      "total_tests_passed": 30,
+      "r10_contract_tests_passed": 17,
+      "r9_regression_tests_passed": 13
+    }
+  },
+  "acceptance_thresholds": {
+    "delta_d_max": 1e-05,
+    "delta_u_relaxed_max_mm": 1e-09,
+    "delta_u_raw_max_mm": 1e-09,
+    "delta_h_max_MPa": 0.0001,
+    "signed_kkt_dual_kNmm_max": 1e-06,
+    "signed_kkt_free_kNmm_max": 1e-06,
+    "signed_kkt_comp_kNmm_max": 1e-06,
+    "healing_tolerance": 1e-06,
+    "healing_violations_max": 0,
+    "history_monotonicity_violations_max": 0,
+    "force_discrepancy_pct_max": 2.0,
+    "total_energy_discrepancy_pct_max": 2.0,
+    "donor_reference_force_kN": 0.17992419004440308,
+    "donor_reference_total_energy_kNmm": 0.00022639903
+  }
+}
