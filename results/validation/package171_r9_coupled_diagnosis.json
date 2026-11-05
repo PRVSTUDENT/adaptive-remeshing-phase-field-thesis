@@ -1,0 +1,155 @@
+{
+  "schema": 1,
+  "task_id": "F1613-PACKAGE171-R10-C6-COUPLED-CONVERGENCE-DIAGNOSIS",
+  "job_id": "1420215.mmaster02",
+  "receiver_discretization": {
+    "mesh": "C6 non-coarsened locally refined",
+    "cpe4_elements": 15252,
+    "physical_nodes": 15559,
+    "slit_pairs": 59,
+    "gauss_points": 61008,
+    "held_displacement_uy_mm": 0.0018703125442191958
+  },
+  "terminal_metrics_outer_140": {
+    "delta_d": 0.007263925847055042,
+    "delta_u_mm": 5.2053481340408325e-05,
+    "delta_h_MPa": 271.74823789645734,
+    "kkt_free_error": 6.479787526824413e-08,
+    "kkt_dual_error": 9.7836679439672e-10,
+    "kkt_complementarity": 4.724832318819496e-08,
+    "pdas_active_nodes": 35,
+    "stationary_iterations_count": 15
+  },
+  "contraction_factors": {
+    "stage2_window_90_to_140": {
+      "steps_count": 51,
+      "delta_d_contraction_rho": {
+        "mean": 0.9850152962159388,
+        "std": 0.0020575413667752837,
+        "geom_mean": 0.9850131475094214,
+        "min": 0.980916443733875,
+        "max": 0.9891249255108648,
+        "cv": 0.0020888420460875986
+      },
+      "delta_u_contraction_rho": {
+        "mean": 1.0015617360645155,
+        "std": 0.12991977273543,
+        "geom_mean": 0.994130795901151,
+        "min": 0.7784402761572192,
+        "max": 1.6368697593830028,
+        "cv": 0.1297171887236128
+      },
+      "delta_h_contraction_rho": {
+        "mean": 0.9977257543570084,
+        "std": 0.1325621455527299,
+        "geom_mean": 0.9912229867165588,
+        "min": 0.8565116531470416,
+        "max": 1.8261183694253262,
+        "cv": 0.1328643116345739
+      }
+    },
+    "stationary_active_set_window_126_to_140": {
+      "steps_count": 15,
+      "delta_d_contraction_rho": {
+        "mean": 0.9848288816835683,
+        "std": 0.002582116883452836,
+        "geom_mean": 0.9848254982572862,
+        "min": 0.980916443733875,
+        "max": 0.9891249255108648,
+        "cv": 0.0026218939467318406
+      },
+      "delta_u_contraction_rho": {
+        "mean": 1.0116756186351832,
+        "std": 0.12747800058909842,
+        "geom_mean": 1.0032486774239762,
+        "min": 0.7784402761572192,
+        "max": 1.1765120226906127,
+        "cv": 0.12600679332479575
+      },
+      "delta_h_contraction_rho": {
+        "mean": 0.9901507932486129,
+        "std": 0.09346829530200206,
+        "geom_mean": 0.9857643401162887,
+        "min": 0.8565116531470416,
+        "max": 1.1261733639371305,
+        "cv": 0.09439804112597776
+      }
+    }
+  },
+  "coupling_ratios": {
+    "du_over_dd_mm": {
+      "mean": 0.006658264557788529,
+      "std": 0.0007195428846333488,
+      "geom_mean": 0.006615963290559717,
+      "min": 0.004479214604350522,
+      "max": 0.007948609949852518,
+      "cv": 0.10806763209666413
+    },
+    "dh_over_dd_MPa": {
+      "mean": 41525.20223316462,
+      "std": 5307.97145125536,
+      "geom_mean": 41160.224769794324,
+      "min": 27151.830749687695,
+      "max": 50297.324241688075,
+      "cv": 0.1278253004392615
+    }
+  },
+  "oscillation_characterization": {
+    "displacement_peaks": [
+      [
+        127,
+        6.380048580467701e-05
+      ],
+      [
+        133,
+        5.867425352334976e-05
+      ]
+    ],
+    "displacement_troughs": [
+      [
+        130,
+        4.302768502384424e-05
+      ],
+      [
+        137,
+        3.744882997125387e-05
+      ]
+    ],
+    "observed_period_outer_iterations": 6,
+    "amplitude_spread_mm": 2.6351655833423138e-05
+  },
+  "root_cause_synthesis": {
+    "mechanism_1_active_set_stationarity": "The active set is 100% stationary (|A|=35, |Delta A|=0 for 15 iters), proving active-set cycling is NOT the cause of nonconvergence.",
+    "mechanism_2_phase_kkt_satisfaction": "Within each subproblem, PDAS achieves machine precision (free error 6.48e-8 <= 1e-6), proving phase subproblem solver failure is NOT the cause.",
+    "mechanism_3_unrelaxed_mechanical_overshoot": "Mechanical solve u^(k) is executed with omega_u = 1.0 (unrelaxed) against moving damage d^(k-1). Because d changes by ~0.008, elastic stiffness shifts, forcing u to shift by ~5e-5 mm.",
+    "mechanism_4_history_amplification": "Driving history H = max(H0, psi+) is quadratic in strain (psi+ ~ eps^2). A 5e-5 mm displacement fluctuation induces a 250-350 MPa swing in driving force H.",
+    "mechanism_5_contraction_asymmetry": "Damage contracts steadily at rho_d = 0.9848 per step, but displacement increments oscillate with geometric mean rho_u = 1.0032 because they are slave to delta_d. Reaching delta_u <= 1e-9 mm requires delta_d to reach ~1.5e-7."
+  },
+  "proposed_r10_falsifiable_correction": {
+    "name": "Candidate Package 171-R10: Dual Under-Relaxation with Asymptotic Stage 3 Damping",
+    "hypothesis": "Introducing under-relaxation on the mechanical displacement field (omega_u = 0.85) or history field (omega_H = 0.85) once active-set stationarity (|Delta A| <= 1) is achieved, together with an accelerated asymptotic Stage 3 relaxation (omega_d = 0.95), will suppress the cyclic 5-iteration mechanical oscillation, compress the fixed-point spectral radius from rho ~ 0.985 down to rho ~ 0.70-0.80, and drive Delta d <= 1e-5, Delta u <= 1e-9 mm, and Delta H <= 1e-4 MPa within an allocated budget of 250 outer iterations.",
+    "algorithmic_modifications": [
+      "1. Mechanical displacement relaxation: u^(k) = (1 - omega_u) u^(k-1) + omega_u u_Abaqus^(k), with omega_u = 0.85 in Stage 2/3.",
+      "2. Driving history relaxation: H^(k) = (1 - omega_H) H^(k-1) + omega_H max(H0, psi+(u^(k))), with omega_H = 0.85.",
+      "3. Asymptotic Stage 3 trigger: When |A| <= 50 and |Delta A| == 0 for >= 10 consecutive iterations, admit omega_d = 0.95 under unrelaxed step norm safeguard.",
+      "4. Safeguarded budget: max_outer = 250 iterations (estimated CPU time ~1.8 hours)."
+    ],
+    "explicit_acceptance_gates": {
+      "delta_d_max": 1e-05,
+      "delta_u_mm_max": 1e-09,
+      "delta_h_MPa_max": 0.0001,
+      "kkt_free_max": 1e-06,
+      "kkt_dual_max": 1e-06,
+      "kkt_complementarity_max": 1e-06,
+      "healing_violations_max": 0,
+      "history_monotonicity_violations_max": 0,
+      "force_discrepancy_pct_max": 2.0,
+      "total_energy_discrepancy_pct_max": 2.0
+    },
+    "offline_regression_qualification_requirements": [
+      "Contract test for Stage 3 transition trigger and rollback logic in unit test suite.",
+      "Parity test confirming unrelaxed fixed-point step norm safeguard preserves bitwise identity on Stage 1/2 inputs.",
+      "Mock coupled convergence regression proving monotone contraction of Delta u and Delta H under dual relaxation."
+    ]
+  }
+}

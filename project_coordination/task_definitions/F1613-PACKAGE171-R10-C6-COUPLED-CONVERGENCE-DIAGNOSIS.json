@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "task_id": "F1613-PACKAGE171-R10-C6-COUPLED-CONVERGENCE-DIAGNOSIS",
+  "title": "Mode-I C6 Package 171-R10 Coupled Convergence Diagnosis and Correction Formulation",
+  "predecessor": {
+    "run_id": "continuous-method-c-direct-bridge-20261104",
+    "status": "COMPLETED_FAILED_EVALUATION",
+    "task_id": "F1612-PACKAGE171-R9-C6-EXECUTION-QUALIFICATION",
+    "checkpoint_artifact": "results/validation/package171_r9_evaluation_summary.json"
+  },
+  "operation": {
+    "checkpoint_kind": "RESEARCH_PREPARATION",
+    "id": "diagnose_mode1_package171_r9_coupled_convergence",
+    "mode": "READ_ONLY_QUALIFICATION",
+    "registration": "Package 171-R10 C6 Targeted Offline Coupled Convergence Diagnosis; zero PBS submissions authorized",
+    "manifest": "results/validation/package171_r9_coupled_diagnosis.json"
+  },
+  "max_new_pbs_submissions": 0,
+  "automatic_retry": false,
+  "job_references": {
+    "predecessor_job_id": "1420215.mmaster02",
+    "predecessor_status": "FAILED_COUPLED_NONCONVERGENCE_OUTER140_STAGE2_SUSTAINED_ZERO_ROLLBACK",
+    "candidate_job": "M1_C6_P171_R10_C3_0",
+    "remote_dir": "/scratch9/pr21vyci/runs/mode1_c6_package171_r9_c3_0_adaptive_reequilibration",
+    "target_package": "models/pandey_kumar_mode1/171_c6_package171_r9_c3_0_adaptive_reequilibration",
+    "scientific_scope": "Offline diagnosis of coupled mechanical/phase-field contraction dynamics for candidate R10 based on authentic R9 telemetry (Job 1420215): separate observed contraction factors for Delta d, Delta u, Delta H across iterations 90-140 and stationary active set 126-140; investigation of why phase-field KKT passes while staggered coupled fixed point remains unconverged; inspection of mechanical solve, phase solve, transferred history, and residual coupling; development of one falsifiable, minimally invasive R10 correction hypothesis; strictly 0 PBS submissions authorized under F1613"
+  },
+  "acceptance": {
+    "acceptance_requires_original_files": true,
+    "delta_d_max": 1e-05,
+    "delta_u_mm_max": 1e-09,
+    "delta_h_MPa_max": 0.0001,
+    "final_consistency_delta_u_mm_max": 1e-09,
+    "final_consistency_delta_h_MPa_max": 0.0001,
+    "signed_kkt_dual_kNmm_max": 1e-06,
+    "signed_kkt_free_kNmm_max": 1e-06,
+    "max_healing_tolerance": 1e-06,
+    "healing_violations_max": 0,
+    "history_monotonicity_violations_max": 0,
+    "force_discrepancy_pct_max": 2.0,
+    "total_energy_discrepancy_pct_max": 2.0,
+    "donor_reference_force_kN": 0.17992419004440308,
+    "donor_reference_total_energy_kNmm": 0.00022639903,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "decision_branches": [
+    "OFFLINE_COUPLING_DIAGNOSIS: compute separate contraction rates for Delta d, Delta u, Delta H and assess spectral radius of staggered iteration",
+    "FORMULATE_R10_HYPOTHESIS: construct minimal, evidence-backed corrective mechanism with explicit numerical acceptance gates",
+    "INDEPENDENT_SUPERVISOR_REVIEW: submit diagnostic findings and R10 proposal to ChatGPT via PAD bridge before any execution staging",
+    "PREVENT_PREMATURE_HPC_SUBMISSION: max_new_pbs_submissions = 0 strictly enforced"
+  ],
+  "governance": {
+    "authorized_by": "chatgpt_pad_bridge_instruction_HND-1dd6caca394f",
+    "governing_instruction": "COMPLETE R9 FAILURE DIAGNOSIS AND PREPARE ONE EVIDENCE-BASED R10 CORRECTIVE STRATEGY",
+    "zero_pbs_submissions_enforced": true
+  }
+}
