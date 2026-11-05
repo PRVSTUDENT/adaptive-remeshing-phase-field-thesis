@@ -504,8 +504,18 @@ Action Required: User must connect university eduVPN on workstation and complete
         $archResponse = Join-Path $archiveDir ("response_{0}_{1}.json" -f $timestamp, $HandoffId)
         [System.IO.File]::WriteAllText($archResponse, $responseRaw, [System.Text.UTF8Encoding]::new($false))
 
-        $responseObj = $responseRaw | ConvertFrom-Json
-        $replyText = $responseObj.response
+        $replyText = $null
+        try {
+            $responseObj = $responseRaw | ConvertFrom-Json -ErrorAction Stop
+            if ($responseObj -and $responseObj.response) {
+                $replyText = $responseObj.response
+            } else {
+                $replyText = $responseRaw.Trim()
+            }
+        } catch {
+            Write-Warning "[Bridge] Response is raw text rather than JSON; using raw content."
+            $replyText = $responseRaw.Trim()
+        }
 
         # --- 9. Clean Handshake Files ---
         Remove-Item -LiteralPath $responseReady -Force -ErrorAction SilentlyContinue
