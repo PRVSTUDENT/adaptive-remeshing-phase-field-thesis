@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "task_id": "F1612-PACKAGE171-R9-C6-EXECUTION-QUALIFICATION",
+  "job_id": "1420215.mmaster02",
+  "candidate": "M1_C6_P171_R9_C3_0",
+  "verdict": "FAILED_COUPLED_NONCONVERGENCE",
+  "total_outer_iterations": 140,
+  "convergence_gates": {
+    "delta_d": {
+      "value": 0.007263925847055042,
+      "threshold": 1e-05,
+      "pass": false
+    },
+    "delta_u_mm": {
+      "value": 5.2053481340408325e-05,
+      "threshold": 1e-09,
+      "pass": false
+    },
+    "delta_h_MPa": {
+      "value": 271.74823789645734,
+      "threshold": 0.0001,
+      "pass": false
+    },
+    "kkt_free": {
+      "value": 6.479787526824413e-08,
+      "threshold": 1e-06,
+      "pass": true
+    },
+    "kkt_dual": {
+      "value": 9.7836679439672e-10,
+      "threshold": 1e-06,
+      "pass": true
+    },
+    "kkt_complementarity": {
+      "value": 4.724832318819496e-08,
+      "threshold": 1e-06,
+      "pass": true
+    },
+    "reaction_force_kN": {
+      "value": null,
+      "reference": 0.17992419004440308,
+      "error_pct": null,
+      "pass": false
+    },
+    "total_energy_kNmm": {
+      "value": null,
+      "reference": 0.00022639903,
+      "error_pct": null,
+      "pass": false
+    },
+    "damage_healing_violations": 0,
+    "history_monotonicity_violations": 0
+  },
+  "stage2_relaxation_dynamics": {
+    "stage2_reached": true,
+    "total_transitions_attempted": 1,
+    "total_transitions_activated": 1,
+    "total_rollbacks": 0,
+    "rollback_reasons": [],
+    "initial_active_count": 13803,
+    "terminal_active_count": 35,
+    "total_added_nodes_across_solve": 4
+  },
+  "r8_contrast_analysis": {
+    "r8_failure_reason": "STAGE2_FALSE_POSITIVE_DIVERGENCE_ROLLBACK_AT_OUTER89",
+    "r9_unrelaxed_step_norm_comparison": "ADMITTED_STAGE2_WITHOUT_FALSE_DIVERGENCE"
+  }
+}
