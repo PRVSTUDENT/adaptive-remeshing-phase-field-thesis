@@ -1,3 +1,40 @@
+## 5 November Method C Same-Mesh Checkpoint-03 Provenance Correction Complete (Task F1623 Closed)
+
+1. **Donor-State Provenance Remediation Completed**:
+   - Replaced Package 167 (Checkpoint 02) derivative files with 100% direct extraction from authentic accepted C5 Checkpoint 03 (`converged_checkpoint_03.json`, Job `1419566.mmaster02`, $u_y = 0.0018703125442191958$ mm, 12,996 elements, 13,278 nodes):
+     * Quantified Checkpoint 02 vs Checkpoint 03 baseline discrepancy (`results/validation/checkpoint_02_vs_03_discrepancy_analysis.json`): $\max \|\Delta u\| = 5.22\times 10^{-6}$ mm (5,220$\times$ tolerance), $\max |\Delta d| = 2.44\times 10^{-4}$ (24.4$\times$ tolerance), $\max |\Delta H| = 0.0751$ MPa (751$\times$ tolerance). Eliminating CP02 contamination guarantees complete kinematic consistency.
+     * Regenerated `nodal_displacements_initial.csv` (13,278 physical nodes + RP 999999) directly from `cp03["displacement"]`.
+     * Regenerated `nodal_phase_field_initial.csv` (13,278 physical nodes + RP 999999) directly from `cp03["damage"]`.
+     * Regenerated `active_set_boundary_cards.inc` (13,278 boundary cards) directly from Checkpoint 03 damage threshold ($d \ge 0.95$).
+     * Regenerated `d_lower_bounds.csv` with Checkpoint 03 nodal damage lower bounds and arm-specific GP histories:
+       - Arm 1 (Package 172 / Control Old): Element-averaged GP history ($\max |\Delta H| = 6.3491$ MPa).
+       - Arm 2 (Package 173 / Control Corrected): Exact Checkpoint 03 GP history ($\max |\Delta H| = 0.0000$ MPa to machine precision).
+
+2. **Authentic Dynamic First-Iteration Decks Qualified via Driver**:
+   - Dynamically generated authentic first-iteration mechanical and phase subproblem decks directly via `SameMeshControlPDASDriver._deck()`:
+     * `P172_ITER1_MECH.inp` (91,942 lines) & `P172_ITER1_PHASE.inp` (117,824 lines)
+     * `P173_ITER1_MECH.inp` (91,942 lines) & `P173_ITER1_PHASE.inp` (117,953 lines)
+   - Complete package trees assembled locally with 23 verified files each under `models/pandey_kumar_mode1/172_c5_same_mesh_old_control` and `173_c5_same_mesh_corrected_control`.
+
+3. **Authentic Cluster Staging & Abaqus Datachecks (All 8 Subproblems Exit 0)**:
+   - Deployed tarballs to `/scratch9/pr21vyci/runs/mode1_c5_package172_old_control` and `mode1_c5_package173_corrected_control`.
+   - Remote bash syntax check (`bash -n`) and Python smoke test (`smoke_import.py`) passed cleanly.
+   - Interactive Abaqus 2023 datachecks executed on compute cluster via guarded SSH across **all 8 subproblems**:
+     * `P172_MECHANICAL_DC`: **Exit 0**, 0 errors, `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`
+     * `P172_PHASE_DC`: **Exit 0**, 0 errors, `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`
+     * `P172_ITER1_MECH`: **Exit 0**, 0 errors, `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`
+     * `P172_ITER1_PHASE`: **Exit 0**, 0 errors, `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`
+     * `P173_MECHANICAL_DC`: **Exit 0**, 0 errors, `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`
+     * `P173_PHASE_DC`: **Exit 0**, 0 errors, `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`
+     * `P173_ITER1_MECH`: **Exit 0**, 0 errors, `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`
+     * `P173_ITER1_PHASE`: **Exit 0**, 0 errors, `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`
+   - Downloaded and verified all 24 receipt files (`.dat`, `.msg`, `.stdout.txt`).
+   - Unit test suite expanded to 11 tests (`tests/unit/test_same_mesh_control_staging.py`): **11/11 PASS** in 0.51s; full regression suite **34/34 PASS** in 16.48s.
+   - Formal datacheck receipt: `results/validation/same_mesh_control_datacheck_receipt.json` (SHA-256 `8AFD7FC6A98C969F42FDA01EB6D935DA2D7B5A565FB69E75D4071E4FED697456`).
+   - Formal report: `results/validation/same_mesh_control_staging_report.md` (SHA-256 `B89F3C34BFEEF1854E70EE65BB23BE2E8F50B75BC6221799B6A0C75BC8BD9B25`).
+   - Strictly 0 production PBS submissions consumed (`max_new_pbs_submissions: 0` maintained).
+   - Task F1623 closed in `TASK_LEDGER.csv` as `completed` with classification `PROVENANCE_CORRECTION_VERIFIED_DATACHECKS_PASSED`. Successor task: `F1624-METHOD-C-SAME-MESH-ABAQUS-CONTROL-EXECUTION`.
+
 ## 5 November Method C Same-Mesh Abaqus Control Staging Complete (Task F1622 Closed)
 
 1. **Paired Same-Mesh Control Packages Staged and Qualified (Task F1622 Completed)**:

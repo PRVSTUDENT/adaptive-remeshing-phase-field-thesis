@@ -1,15 +1,17 @@
 {
   "schema": 1,
-  "task_id": "F1622-METHOD-C-SAME-MESH-ABAQUS-CONTROL-STAGING",
-  "status": "DATACHECKS_PASSED_BOTH_EXIT_0",
+  "task_id": "F1623-METHOD-C-SAME-MESH-CHECKPOINT03-PROVENANCE-CORRECTION",
+  "status": "DATACHECKS_PASSED_ALL_8_SUBPROBLEMS_EXIT_0",
   "production_pbs_submissions": 0,
   "zero_pbs_enforced": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-  "donor_source": {
+  "donor_provenance": {
     "checkpoint": "Checkpoint 03 (Job 1419566.mmaster02)",
     "target_uy_mm": 0.0018703125442191958,
     "donor_reference_force_kN": 0.17992419004440308,
-    "donor_reference_total_energy_kNmm": 0.00022639903
+    "donor_reference_total_energy_kNmm": 0.00022639903,
+    "extraction_coverage": "100% direct extraction for u, d, H (13,278 nodes, 51,984 GPs)",
+    "checkpoint_02_contamination_eliminated": true
   },
   "receiver_mesh": {
     "name": "C5_Identical_Receiver",
@@ -27,21 +29,37 @@
       "history_perturbation_peak_MPa": 6.3491085,
       "history_perturbation_rms_MPa": 0.0680823,
       "anderson_enabled": false,
-      "mechanical_datacheck": {
+      "preliminary_mechanical_datacheck": {
         "job": "P172_MECHANICAL_DC",
         "status": "PASS",
         "exit_code": 0,
         "errors": 0,
-        "dat_sha256": "F8B1562D4766C4A107BCE7DEEB98CD63E8891A5EE87C9999F4219A3A685B0CEE",
-        "msg_sha256": "287476174EDF7A959327A40648A7D750DCD9CA6ED716FA5777DFAD9A678C1386"
+        "dat_sha256": "10F3CEB0CB9F6F0356BC35E84B3D77108B31DB38673375972A9675D0DF7A5564",
+        "msg_sha256": "BD83CFAB3CC82297D4AD7B7ABFCB1B3EF0A6A55DAEE53E3486040B7759A9E66B"
       },
-      "phase_datacheck": {
+      "preliminary_phase_datacheck": {
         "job": "P172_PHASE_DC",
         "status": "PASS",
         "exit_code": 0,
         "errors": 0,
-        "dat_sha256": "6E8A7EB023A20901B6AD77EE3EEC5612088EC9156607078EC4AFA731E968A36F",
-        "msg_sha256": "553B7AD9F9A3AD5DE829371988D5377382576E0378A2336A8619881331DDC893"
+        "dat_sha256": "F8926BC801735ED1909DBA14ED1B813A4C947DBDACB1F9E3595250E30E0201F2",
+        "msg_sha256": "F4A921227923E3B4795AD1DC3D57049B62A0A8D3E32E3857E7EC34EDA44573CC"
+      },
+      "dynamic_iter1_mechanical_datacheck": {
+        "job": "P172_ITER1_MECH",
+        "status": "PASS",
+        "exit_code": 0,
+        "errors": 0,
+        "dat_sha256": "A8240074995FAC0503FDB4EE304B108B6E8AEDF2A4D7CCE07C9051DE1D486061",
+        "msg_sha256": "CAFBC246F48B56433D4F1A8E4CE1E706ED65CEDB80917DD5AC8CB224CB6A27D2"
+      },
+      "dynamic_iter1_phase_datacheck": {
+        "job": "P172_ITER1_PHASE",
+        "status": "PASS",
+        "exit_code": 0,
+        "errors": 0,
+        "dat_sha256": "6C0DE7AFB494875A51D35382A2E98E5BF9D014E4B8A3D36EBE512D2F1B02D93E",
+        "msg_sha256": "2AFB95D7B847863D605615EA4559EB06442F32C632E7730FB01AD6286CD3CDCB"
       }
     },
     "arm_2_control_corrected": {
@@ -52,21 +70,37 @@
       "history_perturbation_peak_MPa": 2.7089e-13,
       "history_perturbation_rms_MPa": 2.2206e-15,
       "anderson_enabled": false,
-      "mechanical_datacheck": {
+      "preliminary_mechanical_datacheck": {
         "job": "P173_MECHANICAL_DC",
         "status": "PASS",
         "exit_code": 0,
         "errors": 0,
-        "dat_sha256": "AE794AC4FC4A9A739176134645D4CDCB350402077A8E5A6E2FA82653A6C23815",
-        "msg_sha256": "FAA0BAF5F2960C368181BBDAF3E2255179EA89093BD469DE556033BB241A8B24"
+        "dat_sha256": "04CAD91DD1E5589DC112A2288BE3073FEE06679FC11CFFA80E1AA354319B8E96",
+        "msg_sha256": "3CE577FDD7613A615DC61E6FE92C8ACACF4FB18F8EBB83E170764E559F562F72"
       },
-      "phase_datacheck": {
+      "preliminary_phase_datacheck": {
         "job": "P173_PHASE_DC",
         "status": "PASS",
         "exit_code": 0,
         "errors": 0,
-        "dat_sha256": "174EF0C0EC7CC9E942294C5DA93B27B9C88C342291176EE88085AD0AF4AB2DE9",
-        "msg_sha256": "A4731E500112C63CFCCCFFB53937F9477151E048ED8E340B456B6A9D7605E2E2"
+        "dat_sha256": "2F9E479D896E5A7E69489A538B6759FD76E51323FEA043CC2B902CA3EA76EDBB",
+        "msg_sha256": "B0E7AC694D7419B07D7E642A55769CFAC18BB14710A2FA43CFB797FB7715041F"
+      },
+      "dynamic_iter1_mechanical_datacheck": {
+        "job": "P173_ITER1_MECH",
+        "status": "PASS",
+        "exit_code": 0,
+        "errors": 0,
+        "dat_sha256": "910A19A2ECCE2CA152A6218D2CD87258DB695932D78506638E0BDED460B354BF",
+        "msg_sha256": "A261016D01D026B23813EC0169920369B9494D4F9D36DA7EB2D533ACC1DD8B6B"
+      },
+      "dynamic_iter1_phase_datacheck": {
+        "job": "P173_ITER1_PHASE",
+        "status": "PASS",
+        "exit_code": 0,
+        "errors": 0,
+        "dat_sha256": "531EB5725F80998D5C5D826B99CBDFB54A13ACBB200A43CD00820503FD1AEB55",
+        "msg_sha256": "3FEA09F53E090DA24A5C2AF2227A081BC158522100C294CDE7B7510F0AE43F88"
       }
     }
   }

@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "task_id": "F1623-METHOD-C-SAME-MESH-CHECKPOINT03-PROVENANCE-CORRECTION",
+  "name": "Method C Paired Same-Mesh Control Checkpoint-03 Provenance Correction and Dynamic First-Iteration Datachecks",
+  "description": "Corrects donor-state provenance by extracting nodal displacement u, damage d, and history H directly from authentic accepted C5 Checkpoint 03 (Job 1419566, uy=0.0018703125 mm), eliminates Checkpoint-02 initialization contamination, regenerates Packages 172 and 173, generates authentic first-iteration mechanical/phase decks via SameMeshControlPDASDriver._deck(), executes interactive Abaqus datachecks on compute cluster, and adds fail-closed checkpoint provenance tests. Zero PBS production submissions authorized.",
+  "agent": "gemini-antigravity",
+  "status": "ACTIVE",
+  "created_at": "2026-11-05T14:42:00+01:00",
+  "governance": {
+    "protocol_version": 2,
+    "authorized_by": "chatgpt_pad_bridge_decision_HND-568381d9d20e",
+    "directive": "OPTION 3 — BLOCK PAIRED PBS EXECUTION PENDING ONE BOUNDED DONOR-STATE CORRECTION.",
+    "supervisor_meeting_anchor": "2026-11-05 Supervisor Review HND-568381d9d20e",
+    "max_new_pbs_submissions": 0,
+    "zero_pbs_enforced": true
+  },
+  "predecessor": {
+    "task_id": "F1622-METHOD-C-SAME-MESH-ABAQUS-CONTROL-STAGING",
+    "status": "COMPLETED",
+    "scientific_acceptance": "DATACHECKS_PASSED_BOTH_EXIT_0",
+    "verified_commit": "c36a49fcbe80bf539d48fcd786e5fd8cc38b07c4",
+    "summary_json": "results/validation/same_mesh_control_datacheck_receipt.json",
+    "summary_sha256": "CC1BB221A0222FF7AC04E057A8A43E916C7B5BFE9BF19FADE3679B8BE37BA232"
+  },
+  "qualification_scope": {
+    "donor_state": {
+      "job_id": "1419566.mmaster02",
+      "checkpoint": "converged_checkpoint_03.json",
+      "mesh_elements": 12996,
+      "nodes_physical": 13278,
+      "reference_point_id": 999999,
+      "target_uy_mm": 0.0018703125442191958,
+      "donor_reference_force_kN": 0.17992419004440308,
+      "donor_reference_total_energy_kNmm": 0.00022639903
+    },
+    "requirements": [
+      "Extract u, d, and H directly from authentic Checkpoint 03 (Job 1419566), verifying 100% coverage across 13,278 nodes and 51,984 GPs",
+      "Quantify baseline discrepancy between Checkpoint 02 (from Package 167) and Checkpoint 03 (displacement drift, damage growth, history evolution)",
+      "Regenerate nodal_displacements_initial.csv and nodal_phase_field_initial.csv directly from Checkpoint 03",
+      "Regenerate d_lower_bounds.csv using Checkpoint 03 damage as lower bounds (d0) and package-specific history (element-averaged for P172, exact for P173)",
+      "Generate authentic first-iteration mechanical and phase decks via SameMeshControlPDASDriver._deck() for both arms",
+      "Deploy corrected packages to compute cluster scratch and execute authentic Abaqus 2023 interactive datachecks on both first-iteration decks",
+      "Add fail-closed unit tests rejecting packages whose nodal fields do not match the declared donor checkpoint",
+      "Strictly 0 production solver PBS submissions authorized under Task F1623"
+    ]
+  },
+  "deliverables": [
+    "models/pandey_kumar_mode1/172_c5_same_mesh_old_control",
+    "models/pandey_kumar_mode1/173_c5_same_mesh_corrected_control",
+    "scripts/state_transfer/build_same_mesh_control_packages.py",
+    "scripts/validation/stage_and_datacheck_same_mesh_controls.py",
+    "results/validation/checkpoint_02_vs_03_discrepancy_analysis.json",
+    "results/validation/same_mesh_control_datacheck_receipt.json",
+    "results/validation/same_mesh_control_staging_report.md",
+    "tests/unit/test_same_mesh_control_staging.py"
+  ]
+}

@@ -10,11 +10,11 @@ Deploys and qualifies the paired same-mesh control experiment packages on comput
   Remote: /scratch9/pr21vyci/runs/mode1_c5_package173_corrected_control
 
 Execution Policy:
-- Strictly 0 production solver PBS submissions authorized under Task F1622 (zero_pbs_enforced = True).
+- Strictly 0 production solver PBS submissions authorized under Task F1623 (zero_pbs_enforced = True).
 - Executes authentic Abaqus 2023 interactive mechanical and phase datachecks on compute cluster.
-- Verifies Exit 0, 0 errors, and authentic completion banners for all 4 subproblems:
-  * P172_MECHANICAL_DC & P172_PHASE_DC
-  * P173_MECHANICAL_DC & P173_PHASE_DC
+- Verifies Exit 0, 0 errors, and authentic completion banners for all 8 subproblems (preliminary + dynamic iter1):
+  * P172_MECHANICAL_DC, P172_PHASE_DC, P172_ITER1_MECH, P172_ITER1_PHASE
+  * P173_MECHANICAL_DC, P173_PHASE_DC, P173_ITER1_MECH, P173_ITER1_PHASE
 - Fetches authentic receipts (.dat, .msg, .stdout.txt) and generates formal JSON qualification receipt.
 """
 
@@ -195,27 +195,26 @@ def stage_and_datacheck():
         print("Bash syntax and Python import smoke test passed.")
 
         # Execute datacheck
-        print("Executing authentic Abaqus 2023 datachecks for Package 172...")
+        print("Executing authentic Abaqus 2023 datachecks for Package 172 (preliminary + dynamic iter1)...")
         dc_out_172 = run_remote_ssh(f"bash {REMOTE_DIR_172}/run_datacheck.sh", timeout=300)
         print("Datacheck Output (P172):\n", dc_out_172)
         assert "P172_MECHANICAL_DC: AUTHENTIC_DATACHECK_PASS" in dc_out_172, "P172 mechanical DC failed"
         assert "P172_PHASE_DC: AUTHENTIC_DATACHECK_PASS" in dc_out_172, "P172 phase DC failed"
+        assert "P172_ITER1_MECH: AUTHENTIC_DATACHECK_PASS" in dc_out_172, "P172 iter1 mech failed"
+        assert "P172_ITER1_PHASE: AUTHENTIC_DATACHECK_PASS" in dc_out_172, "P172 iter1 phase failed"
 
         # Download receipts
         print("Downloading Package 172 receipts...")
-        for fn in [
-            "P172_MECHANICAL_DC.dat", "P172_MECHANICAL_DC.msg", "P172_MECHANICAL_DC.stdout.txt",
-            "P172_PHASE_DC.dat", "P172_PHASE_DC.msg", "P172_PHASE_DC.stdout.txt"
-        ]:
-            scp_download_file(f"{REMOTE_DIR_172}/{fn}", PKG172_DIR / fn)
+        p172_jobs = ["P172_MECHANICAL_DC", "P172_PHASE_DC", "P172_ITER1_MECH", "P172_ITER1_PHASE"]
+        for j in p172_jobs:
+            for ext in [".dat", ".msg", ".stdout.txt"]:
+                scp_download_file(f"{REMOTE_DIR_172}/{j}{ext}", PKG172_DIR / f"{j}{ext}")
 
-        mech_dat_172 = (PKG172_DIR / "P172_MECHANICAL_DC.dat").read_text(encoding="utf-8", errors="replace")
-        phase_dat_172 = (PKG172_DIR / "P172_PHASE_DC.dat").read_text(encoding="utf-8", errors="replace")
-        assert "***ERROR" not in mech_dat_172, "Error in P172_MECHANICAL_DC.dat"
-        assert "***ERROR" not in phase_dat_172, "Error in P172_PHASE_DC.dat"
-        assert ("ANALYSIS DATACHECK COMPLETE" in mech_dat_172 or "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" in mech_dat_172)
-        assert ("ANALYSIS DATACHECK COMPLETE" in phase_dat_172 or "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" in phase_dat_172)
-        print("Package 172 Datachecks Verified: Exit 0, 0 errors, authentic completion banners.")
+        for j in p172_jobs:
+            dat_text = (PKG172_DIR / f"{j}.dat").read_text(encoding="utf-8", errors="replace")
+            assert "***ERROR" not in dat_text, f"Error in {j}.dat"
+            assert ("ANALYSIS DATACHECK COMPLETE" in dat_text or "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" in dat_text), f"Missing completion in {j}.dat"
+        print("Package 172 Datachecks Verified: All 4 subproblems Exit 0, 0 errors, authentic completion banners.")
 
         # 4. Stage and Datacheck Arm 2: Package 173 (Control Corrected)
         print("\n" + "-" * 70)
@@ -247,27 +246,26 @@ def stage_and_datacheck():
         print("Bash syntax and Python import smoke test passed.")
 
         # Execute datacheck
-        print("Executing authentic Abaqus 2023 datachecks for Package 173...")
+        print("Executing authentic Abaqus 2023 datachecks for Package 173 (preliminary + dynamic iter1)...")
         dc_out_173 = run_remote_ssh(f"bash {REMOTE_DIR_173}/run_datacheck.sh", timeout=300)
         print("Datacheck Output (P173):\n", dc_out_173)
         assert "P173_MECHANICAL_DC: AUTHENTIC_DATACHECK_PASS" in dc_out_173, "P173 mechanical DC failed"
         assert "P173_PHASE_DC: AUTHENTIC_DATACHECK_PASS" in dc_out_173, "P173 phase DC failed"
+        assert "P173_ITER1_MECH: AUTHENTIC_DATACHECK_PASS" in dc_out_173, "P173 iter1 mech failed"
+        assert "P173_ITER1_PHASE: AUTHENTIC_DATACHECK_PASS" in dc_out_173, "P173 iter1 phase failed"
 
         # Download receipts
         print("Downloading Package 173 receipts...")
-        for fn in [
-            "P173_MECHANICAL_DC.dat", "P173_MECHANICAL_DC.msg", "P173_MECHANICAL_DC.stdout.txt",
-            "P173_PHASE_DC.dat", "P173_PHASE_DC.msg", "P173_PHASE_DC.stdout.txt"
-        ]:
-            scp_download_file(f"{REMOTE_DIR_173}/{fn}", PKG173_DIR / fn)
+        p173_jobs = ["P173_MECHANICAL_DC", "P173_PHASE_DC", "P173_ITER1_MECH", "P173_ITER1_PHASE"]
+        for j in p173_jobs:
+            for ext in [".dat", ".msg", ".stdout.txt"]:
+                scp_download_file(f"{REMOTE_DIR_173}/{j}{ext}", PKG173_DIR / f"{j}{ext}")
 
-        mech_dat_173 = (PKG173_DIR / "P173_MECHANICAL_DC.dat").read_text(encoding="utf-8", errors="replace")
-        phase_dat_173 = (PKG173_DIR / "P173_PHASE_DC.dat").read_text(encoding="utf-8", errors="replace")
-        assert "***ERROR" not in mech_dat_173, "Error in P173_MECHANICAL_DC.dat"
-        assert "***ERROR" not in phase_dat_173, "Error in P173_PHASE_DC.dat"
-        assert ("ANALYSIS DATACHECK COMPLETE" in mech_dat_173 or "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" in mech_dat_173)
-        assert ("ANALYSIS DATACHECK COMPLETE" in phase_dat_173 or "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" in phase_dat_173)
-        print("Package 173 Datachecks Verified: Exit 0, 0 errors, authentic completion banners.")
+        for j in p173_jobs:
+            dat_text = (PKG173_DIR / f"{j}.dat").read_text(encoding="utf-8", errors="replace")
+            assert "***ERROR" not in dat_text, f"Error in {j}.dat"
+            assert ("ANALYSIS DATACHECK COMPLETE" in dat_text or "THE ANALYSIS HAS COMPLETED SUCCESSFULLY" in dat_text), f"Missing completion in {j}.dat"
+        print("Package 173 Datachecks Verified: All 4 subproblems Exit 0, 0 errors, authentic completion banners.")
 
         # 5. Update manifests with downloaded receipts
         update_manifest_files(PKG172_DIR)
@@ -277,16 +275,18 @@ def stage_and_datacheck():
         # 6. Generate Formal Receipt JSON
         receipt = {
             "schema": 1,
-            "task_id": "F1622-METHOD-C-SAME-MESH-ABAQUS-CONTROL-STAGING",
-            "status": "DATACHECKS_PASSED_BOTH_EXIT_0",
+            "task_id": "F1623-METHOD-C-SAME-MESH-CHECKPOINT03-PROVENANCE-CORRECTION",
+            "status": "DATACHECKS_PASSED_ALL_8_SUBPROBLEMS_EXIT_0",
             "production_pbs_submissions": 0,
             "zero_pbs_enforced": True,
             "frozen_uel_sha256": FROZEN_UEL_HASH,
-            "donor_source": {
+            "donor_provenance": {
                 "checkpoint": "Checkpoint 03 (Job 1419566.mmaster02)",
                 "target_uy_mm": 0.0018703125442191958,
                 "donor_reference_force_kN": 0.17992419004440308,
-                "donor_reference_total_energy_kNmm": 0.00022639903
+                "donor_reference_total_energy_kNmm": 0.00022639903,
+                "extraction_coverage": "100% direct extraction for u, d, H (13,278 nodes, 51,984 GPs)",
+                "checkpoint_02_contamination_eliminated": True
             },
             "receiver_mesh": {
                 "name": "C5_Identical_Receiver",
@@ -304,7 +304,7 @@ def stage_and_datacheck():
                     "history_perturbation_peak_MPa": 6.3491085,
                     "history_perturbation_rms_MPa": 0.0680823,
                     "anderson_enabled": False,
-                    "mechanical_datacheck": {
+                    "preliminary_mechanical_datacheck": {
                         "job": "P172_MECHANICAL_DC",
                         "status": "PASS",
                         "exit_code": 0,
@@ -312,13 +312,29 @@ def stage_and_datacheck():
                         "dat_sha256": sha256_file(PKG172_DIR / "P172_MECHANICAL_DC.dat"),
                         "msg_sha256": sha256_file(PKG172_DIR / "P172_MECHANICAL_DC.msg"),
                     },
-                    "phase_datacheck": {
+                    "preliminary_phase_datacheck": {
                         "job": "P172_PHASE_DC",
                         "status": "PASS",
                         "exit_code": 0,
                         "errors": 0,
                         "dat_sha256": sha256_file(PKG172_DIR / "P172_PHASE_DC.dat"),
                         "msg_sha256": sha256_file(PKG172_DIR / "P172_PHASE_DC.msg"),
+                    },
+                    "dynamic_iter1_mechanical_datacheck": {
+                        "job": "P172_ITER1_MECH",
+                        "status": "PASS",
+                        "exit_code": 0,
+                        "errors": 0,
+                        "dat_sha256": sha256_file(PKG172_DIR / "P172_ITER1_MECH.dat"),
+                        "msg_sha256": sha256_file(PKG172_DIR / "P172_ITER1_MECH.msg"),
+                    },
+                    "dynamic_iter1_phase_datacheck": {
+                        "job": "P172_ITER1_PHASE",
+                        "status": "PASS",
+                        "exit_code": 0,
+                        "errors": 0,
+                        "dat_sha256": sha256_file(PKG172_DIR / "P172_ITER1_PHASE.dat"),
+                        "msg_sha256": sha256_file(PKG172_DIR / "P172_ITER1_PHASE.msg"),
                     }
                 },
                 "arm_2_control_corrected": {
@@ -329,7 +345,7 @@ def stage_and_datacheck():
                     "history_perturbation_peak_MPa": 2.7089e-13,
                     "history_perturbation_rms_MPa": 2.2206e-15,
                     "anderson_enabled": False,
-                    "mechanical_datacheck": {
+                    "preliminary_mechanical_datacheck": {
                         "job": "P173_MECHANICAL_DC",
                         "status": "PASS",
                         "exit_code": 0,
@@ -337,13 +353,29 @@ def stage_and_datacheck():
                         "dat_sha256": sha256_file(PKG173_DIR / "P173_MECHANICAL_DC.dat"),
                         "msg_sha256": sha256_file(PKG173_DIR / "P173_MECHANICAL_DC.msg"),
                     },
-                    "phase_datacheck": {
+                    "preliminary_phase_datacheck": {
                         "job": "P173_PHASE_DC",
                         "status": "PASS",
                         "exit_code": 0,
                         "errors": 0,
                         "dat_sha256": sha256_file(PKG173_DIR / "P173_PHASE_DC.dat"),
                         "msg_sha256": sha256_file(PKG173_DIR / "P173_PHASE_DC.msg"),
+                    },
+                    "dynamic_iter1_mechanical_datacheck": {
+                        "job": "P173_ITER1_MECH",
+                        "status": "PASS",
+                        "exit_code": 0,
+                        "errors": 0,
+                        "dat_sha256": sha256_file(PKG173_DIR / "P173_ITER1_MECH.dat"),
+                        "msg_sha256": sha256_file(PKG173_DIR / "P173_ITER1_MECH.msg"),
+                    },
+                    "dynamic_iter1_phase_datacheck": {
+                        "job": "P173_ITER1_PHASE",
+                        "status": "PASS",
+                        "exit_code": 0,
+                        "errors": 0,
+                        "dat_sha256": sha256_file(PKG173_DIR / "P173_ITER1_PHASE.dat"),
+                        "msg_sha256": sha256_file(PKG173_DIR / "P173_ITER1_PHASE.msg"),
                     }
                 }
             }

@@ -1,22 +1,22 @@
 {
-    "task_id": "F1622-METHOD-C-SAME-MESH-ABAQUS-CONTROL-STAGING",
+    "task_id": "F1623-METHOD-C-SAME-MESH-CHECKPOINT03-PROVENANCE-CORRECTION",
     "agent": "gemini-antigravity",
     "status": "COMPLETED",
-    "phase": "Method C Paired Same-Mesh Abaqus Control Experiment Staging and Datacheck Qualification. Strictly 0 production solver PBS submissions authorized.",
-    "gate_status": "SAME_MESH_CONTROL_DATACHECKS_PASSED__ZERO_PBS_ENFORCED",
+    "phase": "Method C Paired Same-Mesh Control Checkpoint-03 Provenance Correction and Dynamic First-Iteration Datachecks. Strictly 0 production solver PBS submissions authorized.",
+    "gate_status": "SAME_MESH_PROVENANCE_CORRECTION_COMPLETED__READY_FOR_EXECUTION_APPROVAL",
     "predecessor_task": {
         "run_id": "continuous-method-c-direct-bridge-20261104",
-        "status": "SAFETY_REQUALIFICATION_APPROVED",
-        "task_id": "F1621-METHOD-C-GP-TRANSFER-SAFETY-REQUALIFICATION",
-        "source_commit": "101a2f7622a617718e9484e7857f713745b204ff",
-        "checkpoint_sha256": "90EB9F3B995138E44A14C2EE0D142AC667A45950CEB8E0FDC35591F615A091DE"
+        "status": "DATACHECKS_PASSED_BOTH_EXIT_0",
+        "task_id": "F1622-METHOD-C-SAME-MESH-ABAQUS-CONTROL-STAGING",
+        "source_commit": "c36a49fcbe80bf539d48fcd786e5fd8cc38b07c4",
+        "checkpoint_sha256": "CC1BB221A0222FF7AC04E057A8A43E916C7B5BFE9BF19FADE3679B8BE37BA232"
     },
     "registration": {
-        "sha256": "249A8E76AB04E121730B4D186DD661C686551B1C2E46C986DC32CF7058BA3355",
+        "sha256": "3CD79A2DF52279A7BA172C9F2AFBB7A8BD25B5A96092137D3E85AC062A06A4ED",
         "schema": 1,
-        "definition": "project_coordination/task_definitions/F1622-METHOD-C-SAME-MESH-ABAQUS-CONTROL-STAGING.json",
+        "definition": "project_coordination/task_definitions/F1623-METHOD-C-SAME-MESH-CHECKPOINT03-PROVENANCE-CORRECTION.json",
         "registered_by": "gemini-antigravity",
-        "registered_at": "2026-11-05T14:10:00+01:00"
+        "registered_at": "2026-11-05T14:42:00+01:00"
     },
     "scientific_checkpoint_required": true,
     "scientific_operation": "qualify_isoparametric_gp_transfer_operator",
@@ -53,7 +53,8 @@
         "stage_and_datacheck_package171_r11",
         "qualify_isoparametric_gp_transfer_operator",
         "execute_isoparametric_gp_transfer_safety_requalification",
-        "stage_and_datacheck_same_mesh_controls"
+        "stage_and_datacheck_same_mesh_controls",
+        "correct_same_mesh_checkpoint03_provenance_and_datacheck"
     ],
     "completed_pbs_job_ids": [
         "1420261.mmaster02",
@@ -309,8 +310,8 @@
         "supervised_resumption_scope": "CONTROLLED_LIVE_VERIFICATION_ONLY",
         "reconciled_at": "2026-11-04T15:46:00+01:00"
     },
-    "scientific_acceptance": "DATACHECKS_PASSED_BOTH_EXIT_0",
-    "last_step_status": "F1622_COMPLETED_DATACHECKS_PASSED_BOTH_EXIT_0",
-    "last_updated": "2026-11-05T14:30:00+01:00",
-    "next_safe_action": "Request supervisory authorization via PAD bridge to execute paired same-mesh solver jobs (Arm 1: Package 172 vs Arm 2: Package 173)."
+    "scientific_acceptance": "PROVENANCE_CORRECTION_VERIFIED_DATACHECKS_PASSED",
+    "last_step_status": "F1623_COMPLETED_PROVENANCE_CORRECTION_AND_DATACHECKS_PASSED",
+    "last_updated": "2026-11-05T15:12:00+01:00",
+    "next_safe_action": "Request ChatGPT approval across PAD bridge to register and activate successor task F1624-METHOD-C-SAME-MESH-ABAQUS-CONTROL-EXECUTION authorizing exactly 2 production PBS solver submissions (Arm 1 Package 172 and Arm 2 Package 173)."
 }

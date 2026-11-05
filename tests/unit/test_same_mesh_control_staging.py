@@ -4,11 +4,13 @@
 test_same_mesh_control_staging.py
 =================================
 Unit and regression test suite verifying the paired same-mesh control experiment
-staging and authentic datacheck qualification under Task F1622.
+Checkpoint 03 provenance correction, dynamic first-iteration deck generation,
+and authentic cluster datacheck qualification under Task F1623.
 """
 
 from __future__ import annotations
 
+import csv
 import hashlib
 import json
 import math
@@ -19,9 +21,11 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PKG172_DIR = REPO_ROOT / "models" / "pandey_kumar_mode1" / "172_c5_same_mesh_old_control"
 PKG173_DIR = REPO_ROOT / "models" / "pandey_kumar_mode1" / "173_c5_same_mesh_corrected_control"
+CP03_PATH = REPO_ROOT / "models" / "pandey_kumar_mode1" / "167_c5_package167_r3_c2_2_continuation" / "evidence" / "1419566.mmaster02" / "converged_checkpoint_03.json"
+PKG167_DIR = REPO_ROOT / "models" / "pandey_kumar_mode1" / "167_c5_package167_r3_c2_2_continuation"
 RECEIPT_PATH = REPO_ROOT / "results" / "validation" / "same_mesh_control_datacheck_receipt.json"
 REPORT_PATH = REPO_ROOT / "results" / "validation" / "same_mesh_control_staging_report.md"
-TASK_DEF_PATH = REPO_ROOT / "project_coordination" / "task_definitions" / "F1622-METHOD-C-SAME-MESH-ABAQUS-CONTROL-STAGING.json"
+TASK_DEF_PATH = REPO_ROOT / "project_coordination" / "task_definitions" / "F1623-METHOD-C-SAME-MESH-CHECKPOINT03-PROVENANCE-CORRECTION.json"
 
 FROZEN_UEL_HASH = "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
 
@@ -53,11 +57,95 @@ def test_package_structure_and_files():
         "nodal_phase_field_initial.csv",
         "PACKAGE_MANIFEST.json",
         "run_datacheck.sh",
-        "smoke_import.py"
+        "smoke_import.py",
+        "P172_ITER1_MECH.inp" if "172" in str(PKG172_DIR) else "P173_ITER1_MECH.inp",
+        "P172_ITER1_PHASE.inp" if "172" in str(PKG172_DIR) else "P173_ITER1_PHASE.inp"
     ]
-    for fn in required_files:
+    for fn in [
+        "active_set_boundary_cards.inc", "d_lower_bounds.csv", "driver_same_mesh_control_pdas.py",
+        "f42_mixed_uel.for", "initial_conditions_solution.inc", "job_notifications.sh",
+        "nodal_displacements_initial.csv", "nodal_phase_field_initial.csv", "PACKAGE_MANIFEST.json",
+        "run_datacheck.sh", "smoke_import.py", "P172_ITER1_MECH.inp", "P172_ITER1_PHASE.inp"
+    ]:
         assert (PKG172_DIR / fn).is_file(), f"Missing {fn} in Package 172"
+
+    for fn in [
+        "active_set_boundary_cards.inc", "d_lower_bounds.csv", "driver_same_mesh_control_pdas.py",
+        "f42_mixed_uel.for", "initial_conditions_solution.inc", "job_notifications.sh",
+        "nodal_displacements_initial.csv", "nodal_phase_field_initial.csv", "PACKAGE_MANIFEST.json",
+        "run_datacheck.sh", "smoke_import.py", "P173_ITER1_MECH.inp", "P173_ITER1_PHASE.inp"
+    ]:
         assert (PKG173_DIR / fn).is_file(), f"Missing {fn} in Package 173"
+
+
+def test_checkpoint03_provenance_and_cp02_rejection():
+    """
+    Fail-closed test: asserts 100% agreement with Checkpoint 03 across all 13,278 nodes,
+    and explicitly rejects Checkpoint 02 initial conditions.
+    """
+    assert CP03_PATH.is_file(), f"Checkpoint 03 missing at {CP03_PATH}"
+    with open(CP03_PATH, "r", encoding="utf-8") as f:
+        cp03 = json.load(f)
+
+    cp03_u = {int(item[0]): (float(item[1]), float(item[2])) for item in cp03["displacement"]}
+    cp03_d = {int(item[0]): float(item[1]) for item in cp03["damage"]}
+    assert len(cp03_u) == 13278
+    assert len(cp03_d) == 13278
+
+    # Load CP02 (Package 167) initial conditions to prove separation
+    pkg167_u_csv = PKG167_DIR / "nodal_displacements_initial.csv"
+    pkg167_u = {}
+    with open(pkg167_u_csv, "r", encoding="utf-8") as f:
+        reader = csv.reader(f)
+        next(reader)
+        for r in reader:
+            if r:
+                pkg167_u[int(r[0])] = (float(r[1]), float(r[2]))
+
+    # Test both Package 172 and 173
+    for pkg_dir, label in [(PKG172_DIR, "Package 172"), (PKG173_DIR, "Package 173")]:
+        # 1. Displacement verification
+        u_csv = pkg_dir / "nodal_displacements_initial.csv"
+        pkg_u = {}
+        with open(u_csv, "r", encoding="utf-8") as f:
+            reader = csv.reader(f)
+            next(reader)
+            for r in reader:
+                if r:
+                    pkg_u[int(r[0])] = (float(r[1]), float(r[2]))
+        assert len(pkg_u) == 13278
+
+        # Max error against CP03 must be <= 1e-12 mm
+        max_err_cp03 = max(math.hypot(pkg_u[n][0] - cp03_u[n][0], pkg_u[n][1] - cp03_u[n][1]) for n in cp03_u)
+        assert max_err_cp03 <= 1.0e-12, f"{label} displacement differs from Checkpoint 03: {max_err_cp03:.4e} mm"
+
+        # Fail-closed check: verify displacement is NOT Checkpoint 02 (must differ by ~5.22e-6 mm)
+        max_diff_cp02 = max(math.hypot(pkg_u[n][0] - pkg167_u[n][0], pkg_u[n][1] - pkg167_u[n][1]) for n in cp03_u)
+        assert max_diff_cp02 > 5.0e-6, f"{label} improperly matches Checkpoint 02: diff = {max_diff_cp02:.4e} mm"
+
+        # 2. Damage verification
+        d_csv = pkg_dir / "nodal_phase_field_initial.csv"
+        pkg_d = {}
+        with open(d_csv, "r", encoding="utf-8") as f:
+            reader = csv.reader(f)
+            next(reader)
+            for r in reader:
+                if r:
+                    pkg_d[int(r[0])] = float(r[1])
+        assert len(pkg_d) == 13278
+        max_err_d = max(abs(pkg_d[n] - cp03_d[n]) for n in cp03_d)
+        assert max_err_d <= 1.0e-12, f"{label} damage differs from Checkpoint 03: {max_err_d:.4e}"
+
+        # 3. Active set boundary cards
+        inc_file = pkg_dir / "active_set_boundary_cards.inc"
+        with open(inc_file, "r", encoding="utf-8") as f:
+            lines = [l.strip() for l in f if l.strip() and not l.startswith("**")]
+        assert len(lines) == 13278
+        for line in lines:
+            parts = [p.strip() for p in line.split(",")]
+            nid = int(parts[0])
+            d_val = float(parts[3])
+            assert abs(d_val - cp03_d[nid]) <= 1.0e-12, f"Active set card mismatch at node {nid}"
 
 
 def test_identical_nodal_and_boundary_assets():
@@ -73,6 +161,32 @@ def test_identical_nodal_and_boundary_assets():
         assert hash_172 == hash_173, f"Shared asset {fn} differs between Package 172 and 173"
 
 
+def test_dynamic_first_iteration_decks_conformance():
+    """
+    Verifies that authentic dynamic first-iteration decks exist, have complete quadrature cards,
+    and incorporate the verified Checkpoint 03 boundary conditions.
+    """
+    for pkg_dir, pfx in [(PKG172_DIR, "P172"), (PKG173_DIR, "P173")]:
+        mech_inp = pkg_dir / f"{pfx}_ITER1_MECH.inp"
+        phase_inp = pkg_dir / f"{pfx}_ITER1_PHASE.inp"
+        assert mech_inp.is_file(), f"Missing {mech_inp.name}"
+        assert phase_inp.is_file(), f"Missing {phase_inp.name}"
+
+        mech_text = mech_inp.read_text(encoding="utf-8")
+        phase_text = phase_inp.read_text(encoding="utf-8")
+
+        # Must have Initial Conditions SOLUTION cards
+        assert "*Initial Conditions, type=SOLUTION" in mech_text
+        assert "*Initial Conditions, type=SOLUTION" in phase_text
+
+        # Target displacement uy = 0.0018703125442191958 mm
+        assert "0.0018703125442191958" in mech_text
+
+        # Step names
+        assert f"*Step, name=C5_Control_Step1_mechanical" in mech_text
+        assert f"*Step, name=C5_Control_Step1_phase" in phase_text
+
+
 def test_manifest_verification_and_anderson_disabled():
     with open(PKG172_DIR / "PACKAGE_MANIFEST.json", "r", encoding="utf-8") as f:
         m172 = json.load(f)
@@ -82,6 +196,11 @@ def test_manifest_verification_and_anderson_disabled():
     # Anderson disabled in both arms
     assert m172["numerical_parameters"]["anderson_enabled"] is False
     assert m173["numerical_parameters"]["anderson_enabled"] is False
+
+    # Checkpoint 03 provenance recorded
+    assert "Checkpoint 03" in m172["donor_source"]["checkpoint"]
+    assert "Checkpoint 03" in m173["donor_source"]["checkpoint"]
+    assert m172["donor_source"]["target_uy_mm"] == 0.0018703125442191958
 
     # Identical numerical solver settings
     for key in ["damping_omega_d_stage1", "damping_omega_d_stage2", "damping_omega_u_stage1", "damping_omega_u_stage2",
@@ -120,39 +239,41 @@ def test_datacheck_receipt_validity():
     with open(RECEIPT_PATH, "r", encoding="utf-8") as f:
         rec = json.load(f)
 
-    assert rec["task_id"] == "F1622-METHOD-C-SAME-MESH-ABAQUS-CONTROL-STAGING"
-    assert rec["status"] == "DATACHECKS_PASSED_BOTH_EXIT_0"
+    assert rec["task_id"] == "F1623-METHOD-C-SAME-MESH-CHECKPOINT03-PROVENANCE-CORRECTION"
+    assert rec["status"] == "DATACHECKS_PASSED_ALL_8_SUBPROBLEMS_EXIT_0"
     assert rec["production_pbs_submissions"] == 0
     assert rec["zero_pbs_enforced"] is True
     assert rec["frozen_uel_sha256"] == FROZEN_UEL_HASH
 
-    # Check Arm 1 datachecks
+    # Check Arm 1 all 4 datachecks
     arm1 = rec["experimental_matrix"]["arm_1_control_old"]
     assert arm1["anderson_enabled"] is False
-    assert arm1["mechanical_datacheck"]["exit_code"] == 0
-    assert arm1["mechanical_datacheck"]["errors"] == 0
-    assert arm1["mechanical_datacheck"]["status"] == "PASS"
-    assert arm1["phase_datacheck"]["exit_code"] == 0
-    assert arm1["phase_datacheck"]["errors"] == 0
-    assert arm1["phase_datacheck"]["status"] == "PASS"
+    for sub in ["preliminary_mechanical_datacheck", "preliminary_phase_datacheck",
+                "dynamic_iter1_mechanical_datacheck", "dynamic_iter1_phase_datacheck"]:
+        assert arm1[sub]["exit_code"] == 0, f"Arm 1 {sub} exit code non-zero"
+        assert arm1[sub]["errors"] == 0, f"Arm 1 {sub} had errors"
+        assert arm1[sub]["status"] == "PASS", f"Arm 1 {sub} status not PASS"
 
-    # Check Arm 2 datachecks
+    # Check Arm 2 all 4 datachecks
     arm2 = rec["experimental_matrix"]["arm_2_control_corrected"]
     assert arm2["anderson_enabled"] is False
-    assert arm2["mechanical_datacheck"]["exit_code"] == 0
-    assert arm2["mechanical_datacheck"]["errors"] == 0
-    assert arm2["mechanical_datacheck"]["status"] == "PASS"
-    assert arm2["phase_datacheck"]["exit_code"] == 0
-    assert arm2["phase_datacheck"]["errors"] == 0
-    assert arm2["phase_datacheck"]["status"] == "PASS"
+    for sub in ["preliminary_mechanical_datacheck", "preliminary_phase_datacheck",
+                "dynamic_iter1_mechanical_datacheck", "dynamic_iter1_phase_datacheck"]:
+        assert arm2[sub]["exit_code"] == 0, f"Arm 2 {sub} exit code non-zero"
+        assert arm2[sub]["errors"] == 0, f"Arm 2 {sub} had errors"
+        assert arm2[sub]["status"] == "PASS", f"Arm 2 {sub} status not PASS"
 
 
 def test_dat_files_zero_errors_and_completion_banners():
     dat_files = [
         PKG172_DIR / "P172_MECHANICAL_DC.dat",
         PKG172_DIR / "P172_PHASE_DC.dat",
+        PKG172_DIR / "P172_ITER1_MECH.dat",
+        PKG172_DIR / "P172_ITER1_PHASE.dat",
         PKG173_DIR / "P173_MECHANICAL_DC.dat",
-        PKG173_DIR / "P173_PHASE_DC.dat"
+        PKG173_DIR / "P173_PHASE_DC.dat",
+        PKG173_DIR / "P173_ITER1_MECH.dat",
+        PKG173_DIR / "P173_ITER1_PHASE.dat"
     ]
     for df in dat_files:
         assert df.is_file(), f"Missing {df.name}"
@@ -166,6 +287,6 @@ def test_task_definition_conformance():
     assert TASK_DEF_PATH.is_file(), "Task definition missing"
     with open(TASK_DEF_PATH, "r", encoding="utf-8") as f:
         tdef = json.load(f)
-    assert tdef["task_id"] == "F1622-METHOD-C-SAME-MESH-ABAQUS-CONTROL-STAGING"
+    assert tdef["task_id"] == "F1623-METHOD-C-SAME-MESH-CHECKPOINT03-PROVENANCE-CORRECTION"
     assert tdef["governance"]["max_new_pbs_submissions"] == 0
     assert tdef["governance"]["zero_pbs_enforced"] is True
