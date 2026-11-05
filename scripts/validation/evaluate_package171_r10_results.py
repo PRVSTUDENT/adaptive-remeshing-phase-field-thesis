@@ -180,13 +180,20 @@ def evaluate_r10_results(evidence_dir: Path, output_json: Path, output_md: Path)
             "contraction_metrics": contraction_analysis
         },
         "comparative_summary_vs_r9": {
-            "r9_terminal_delta_d": 7.260e-03,
-            "r9_terminal_delta_u": 2.457e-06,
-            "r9_terminal_delta_h": 6.812e-01,
+            "r9_terminal_delta_d": 0.007263925847055042,
+            "r9_terminal_delta_u": 0.000052053481340408325,
+            "r9_terminal_delta_h": 271.74823789645734,
             "r10_terminal_delta_d": last_delta_d,
             "r10_terminal_delta_u_raw": last_delta_u_raw,
+            "r10_terminal_delta_u_relaxed": last_delta_u_relaxed,
             "r10_terminal_delta_h": last_delta_h,
-            "displacement_relaxation_efficacy": "REDUCED_OSCILLATIONS" if (last_delta_u_raw is not None and last_delta_u_raw < 2.457e-06) else "EVALUATED"
+            "displacement_relaxation_efficacy": "REDUCED_TRANSIENT_SPIKE_AT_STAGE2_BUT_UNIMPROVED_ASYMPTOTIC_RATE"
+        },
+        "scheduler_and_accounting_reconciliation": {
+            "hpc_process_exit_status": 0,
+            "scientific_acceptance_verdict": "FAILED_COUPLED_NONCONVERGENCE",
+            "accounting_exit_status": 1,
+            "status_explanation": "Abaqus and Python execution processes completed normally without crashing (HPC Exit 0), but coupled fixed-point increments failed physical tolerances (Scientific Exit 1 / FAILED_COUPLED_NONCONVERGENCE)."
         }
     }
 
@@ -243,11 +250,32 @@ def evaluate_r10_results(evidence_dir: Path, output_json: Path, output_md: Path)
 
     if contraction_analysis:
         md_lines.extend([
-            f"### Stage 2 Contraction Factors",
+            f"### Stage 2 Net Contraction Factors",
             f"",
-            f"- **$\\rho(\\Delta d)$:** {fmt_val(contraction_analysis.get('rho_delta_d'), '.5f')}",
-            f"- **$\\rho(\\Delta u_{{\\text{{raw}}}})$:** {fmt_val(contraction_analysis.get('rho_delta_u_raw'), '.5f')}",
-            f"- **$\\rho(\\Delta H)$:** {fmt_val(contraction_analysis.get('rho_delta_h'), '.5f')}",
+            f"- **$\\rho(\\Delta d)$:** {fmt_val(contraction_analysis.get('rho_delta_d'), '.5f')} (net reduction across Stage 2)",
+            f"- **$\\rho(\\Delta u_{{\\text{{raw}}}})$:** {fmt_val(contraction_analysis.get('rho_delta_u_raw'), '.5f')} (net reduction across Stage 2)",
+            f"- **$\\rho(\\Delta H)$:** {fmt_val(contraction_analysis.get('rho_delta_h'), '.5f')} (net reduction across Stage 2)",
+            f"",
+            f"> [!NOTE]",
+            f"> A geometric mean ratio $\\rho < 1.0$ establishes net reduction over the 52-iteration Stage 2 window,",
+            f"> not strictly pointwise monotonic contraction everywhere. Individual iteration-to-iteration ratios",
+            f"> for displacement and history exhibit periodic oscillations, reflecting the coupled nature of the system.",
+            f"",
+            f"## 3. Comparison with Authentic Predecessor R9 (PBS 1420215)",
+            f"",
+            f"| Metric | R9 (Outer 140) | R10 (Outer 140) | Observed Delta |",
+            f"| :--- | :--- | :--- | :---: |",
+            f"| Phase Increment $\\Delta d$ | $7.2639 \\times 10^{{-3}}$ | {fmt_val(last_delta_d, '.4e')} | -3.4% (slight improvement) |",
+            f"| Raw Displacement Increment $\\Delta u_{{\\text{{raw}}}}$ | $5.2053 \\times 10^{{-5}}\\,\\text{{mm}}$ | {fmt_val(last_delta_u_raw, '.4e')} | +14.8% (slightly higher) |",
+            f"| Relaxed Displacement Increment $\\Delta u_{{\\text{{rel}}}}$ | N/A ($\\omega_u=1.0$) | {fmt_val(last_delta_u_relaxed, '.4e')} | -2.4% vs R9 raw |",
+            f"| History Increment $\\Delta H$ | $2.7175 \\times 10^{{2}}\\,\\text{{MPa}}$ | {fmt_val(last_delta_h, '.4e')} | +2.7% (slightly higher) |",
+            f"",
+            f"- **Finding**: Isolated displacement under-relaxation ($\\omega_u = 0.85$) dampened the initial Stage 2 transient spike (reducing $\\Delta H$ by 16% at Outer 90), but did not improve the asymptotic fixed-point contraction rate.",
+            f"",
+            f"## 4. Scheduler Process vs Scientific Accounting Reconciliation",
+            f"",
+            f"- **HPC Scheduler Exit Status**: `0` (normal solver termination without system/environment abort)",
+            f"- **Scientific Repository Accounting**: `1` / `FAILED_COUPLED_NONCONVERGENCE` (strict physical acceptance gates failed; zero unvalidated checkpoint commitment)",
             f""
         ])
 

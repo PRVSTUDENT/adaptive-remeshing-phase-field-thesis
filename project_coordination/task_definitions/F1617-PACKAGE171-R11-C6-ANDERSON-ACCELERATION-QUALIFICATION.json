@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "task_id": "F1617-PACKAGE171-R11-C6-ANDERSON-ACCELERATION-QUALIFICATION",
+  "title": "Mode-I C6 Package 171-R11 Safeguarded Limited-Memory Anderson Acceleration Driver Implementation and Technical Qualification",
+  "predecessor": {
+    "run_id": "continuous-method-c-direct-bridge-20261104",
+    "status": "EVALUATED_NONCONVERGED",
+    "task_id": "F1616-PACKAGE171-R10-C6-EXECUTION-QUALIFICATION",
+    "source_commit": "4ec9afb472cb63dd58dd3d733f1e73682b48ce96",
+    "checkpoint_artifact": "results/validation/package171_r10_evaluation_summary.json"
+  },
+  "operation": {
+    "checkpoint_kind": "RESEARCH_PREPARATION",
+    "id": "qualify_mode1_package171_r11_c6_anderson_acceleration",
+    "mode": "OFFLINE_QUALIFICATION_ONLY",
+    "registration": "Package 171-R11 C6 Safeguarded Limited-Memory Anderson Acceleration Offline Qualification; strictly 0 PBS submissions authorized",
+    "manifest": "results/validation/package171_r11_technical_qualification_proposal.json"
+  },
+  "max_new_pbs_submissions": 0,
+  "automatic_retry": false,
+  "job_references": {
+    "predecessor_job_id": "1420261.mmaster02",
+    "predecessor_status": "FAILED_COUPLED_NONCONVERGENCE_OUTER140_STAGE2_SUSTAINED_ZERO_ROLLBACK",
+    "candidate_job": "M1_C6_P171_R11_C3_0",
+    "remote_dir": "/scratch9/pr21vyci/runs/mode1_c6_package171_r11_c3_0_adaptive_reequilibration",
+    "target_package": "models/pandey_kumar_mode1/171_c6_package171_r11_c3_0_adaptive_reequilibration",
+    "scientific_scope": "Offline driver implementation and controlled unit regression testing for Candidate R11 safeguarded limited-memory Anderson acceleration applied to the coupled staggered damage fixed-point sequence after active-set stabilization. Memory depth m = 2 or 3 with regularized least-squares coefficients. Intrinsic raw damage fixed-point residual r_k = d_PDAS - d_current used for mixing. Preservation of physical damage bounds 0 <= d <= 1, historical lower bound d >= d0, frozen UEL, C6 mesh, crack-seam mapping, donor state, and physical acceptance thresholds. Explicit projection and rejection/rollback safeguards. Consistent recomputation of displacement and driving history without hybrid state mixing. Strictly 0 PBS submissions authorized under F1617."
+  },
+  "acceptance": {
+    "acceptance_requires_original_files": true,
+    "delta_d_max": 1e-05,
+    "delta_u_mm_max": 1e-09,
+    "delta_h_MPa_max": 0.0001,
+    "final_consistency_delta_u_mm_max": 1e-09,
+    "final_consistency_delta_h_MPa_max": 0.0001,
+    "signed_kkt_dual_kNmm_max": 1e-06,
+    "signed_kkt_free_kNmm_max": 1e-06,
+    "max_healing_tolerance": 1e-06,
+    "healing_violations_max": 0,
+    "history_monotonicity_violations_max": 0,
+    "force_discrepancy_pct_max": 2.0,
+    "total_energy_discrepancy_pct_max": 2.0,
+    "donor_reference_force_kN": 0.17992419004440308,
+    "donor_reference_total_energy_kNmm": 0.00022639903,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "decision_branches": [
+    "SAFEGUARDED_ANDERSON_ACCELERATION: apply limited-memory Anderson mixing (m=2 or 3) to the damage fixed-point sequence after active set stabilizes",
+    "INTRINSIC_RESIDUAL_FORMULATION: compute residual as raw fixed point difference r = d_PDAS - d_current",
+    "PROJECTION_AND_SAFEGUARDED_ROLLBACK: enforce physical bounds [d0, 1.0] and fallback to damped Picard step if residual increases",
+    "CONSISTENT_COUPLED_EVALUATION: recompute displacement and driving history consistently from accelerated damage",
+    "OFFLINE_UNIT_REGRESSION: test on controlled mock problems and verify convergence, stability, and rollback behavior before cluster staging",
+    "PREVENT_PREMATURE_HPC_SUBMISSION: max_new_pbs_submissions = 0 strictly enforced"
+  ],
+  "governance": {
+    "authorized_by": "chatgpt_pad_bridge_instruction_HND-36a95b64ebae",
+    "governing_instruction": "ACCEPT R10 AS A VALID FAILED EXPERIMENT. SELECT OPTION A — SAFEGUARDED ANDERSON ACCELERATION FOR OFFLINE R11 INVESTIGATION.",
+    "zero_pbs_submissions_enforced": true
+  }
+}
