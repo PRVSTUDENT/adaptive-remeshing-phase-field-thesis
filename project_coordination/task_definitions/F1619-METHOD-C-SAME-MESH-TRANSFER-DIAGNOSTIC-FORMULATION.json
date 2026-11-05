@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "task_id": "F1619-METHOD-C-SAME-MESH-TRANSFER-DIAGNOSTIC-FORMULATION",
+  "name": "Method C Same-Mesh Transfer Diagnostic Formulation and Offline Comparison",
+  "description": "Formulation, offline execution, and verification of Method C same-mesh transfer diagnostic (Configurations A, B0, B1, and C) on the accepted C5 donor state (Job 1419566 Checkpoint 03, 12,996 elements) to decouple transfer/reinitialization perturbations from receiver-mesh changes. Strictly 0 PBS submissions authorized.",
+  "agent": "gemini-antigravity",
+  "status": "ACTIVE",
+  "created_at": "2026-11-05T13:10:00+01:00",
+  "governance": {
+    "protocol_version": 2,
+    "authorized_by": "chatgpt_pad_bridge_decision_HND-aab573d5c0bd",
+    "directive": "OPTION 1 — ACCEPT F1618 DATACHECK QUALIFICATION AND PRIORITIZE THE SAME-MESH TRANSFER DIAGNOSTIC",
+    "supervisor_meeting_anchor": "2026-11-05 Supervisor Meeting Priority Directive",
+    "max_new_pbs_submissions": 0,
+    "zero_pbs_enforced": true
+  },
+  "predecessor": {
+    "task_id": "F1618-PACKAGE171-R11-C6-STAGE-AND-DATACHECK-QUALIFICATION",
+    "status": "COMPLETED",
+    "scientific_acceptance": "DATACHECKS_PASSED_BOTH_EXIT_0",
+    "verified_commit": "0e9664ac0bbefd73d2c67f4ba6c8aea6d1f44e4b",
+    "receipt": "results/validation/package171_r11_datacheck_receipt.json",
+    "receipt_sha256": "110834759043BD99CA869DF5FCFA839A4EE9C6899C1B3C7DDC9B9922263474F8"
+  },
+  "configurations": {
+    "A": {
+      "name": "Original-State Control",
+      "description": "Accepted C5 Checkpoint 03 on original 12,996-element discretization (Job 1419566) without remapping",
+      "mesh_elements": 12996,
+      "source_job": "1419566.mmaster02",
+      "displacement_uy_mm": 0.0018703125442191958
+    },
+    "B0": {
+      "name": "Exact-Copy Control",
+      "description": "Same 12,996-element C5 mesh with exact matching nodal and Gauss-point states carried over directly without spatial interpolation",
+      "mesh_elements": 12996,
+      "purpose": "Establish whether restarting/reinitializing an otherwise unchanged state introduces solver/input deck discrepancies"
+    },
+    "B1": {
+      "name": "Actual Transfer-Pipeline Control",
+      "description": "Same 12,996-element C5 mesh, but processed through the production spatial-transfer and GP history reconstruction workflow",
+      "mesh_elements": 12996,
+      "purpose": "Isolate the intrinsic numerical perturbation (smoothing, GP element averaging, lower bounds) introduced by the transfer operator itself"
+    },
+    "C": {
+      "name": "Nonmatching-Mesh Comparison",
+      "description": "Production C5-to-C6 nonmatching transferred state on 15,252-element C6 receiver mesh and authentic R9/R10 evidence",
+      "mesh_elements": 15252,
+      "purpose": "Provide reference baseline of the coupled re-equilibration dynamics observed on changed discretization"
+    }
+  },
+  "investigation_targets": [
+    "Maximum and RMS differences in nodal damage d and displacement u between B0, B1, and C",
+    "Maximum and RMS differences in Gauss-point driving history H, including crack-tip localization",
+    "Exact donor/receiver node and element correspondences",
+    "Explicit test of GP history element averaging (scripts/remeshing/c5_to_c6_adaptive_integration.py mechanism)",
+    "Crack seam node duplication and topological isolation",
+    "Initial fixed-point residuals and KKT complementarity before re-equilibration",
+    "Differences between applied damage increments and intrinsic raw PDAS residuals"
+  ],
+  "deliverables": [
+    "Controlled same-mesh transfer diagnostic execution script",
+    "Comprehensive comparison dataset and quantitative evaluation metrics",
+    "Unit and contract regression tests for same-mesh transfer parity",
+    "Diagnostic evaluation report and machine-readable JSON summary"
+  ]
+}
