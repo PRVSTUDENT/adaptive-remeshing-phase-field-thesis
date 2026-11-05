@@ -11,21 +11,24 @@ Directly verifies:
    - SOLUTION history serialization at integration points (*Initial Conditions, type=SOLUTION).
 2. Extractor contract compatibility:
    - Requires --physical-nodes 15559 and --physical-elements 15252.
-3. Fail-closed phase decoding:
-   - Extracts damage from U3 (not U1).
-   - Rejects 2-component phase output (U1, U2).
-   - Rejects nonfinite values (NaN / Inf).
-   - Rejects duplicate or unexpected node sets.
+3. Executable fail-closed phase decoding through production solve_subproblem:
+   - Extracts damage from U3 (v[2]), clips against d0, and enforces upper bound.
+   - Rejects 2-component phase output (U1, U2) via production ValueError.
+   - Rejects mixed component counts across nodes via production ValueError.
+   - Rejects nonfinite values (NaN / Inf) via production ValueError.
+   - Rejects duplicated node records via production ValueError.
+   - Rejects unexpected or incomplete node sets via production ValueError.
 4. Solver interface compatibility:
    - KKT dictionary contract: "residual", "active", "free".
    - driving_history 3-argument signature (mesh, u, zero_baseline).
    - Coupled acceptance gate enforcement (finalize_coupled_acceptance) and checkpoint suppression.
-5. Executable R9 rollback and contraction mechanisms:
+5. Executable R9 rollback and contraction mechanisms through production solve_coupled_equilibration:
+   - Genuine unrelaxed divergence (raw norm > 1.50x) triggers divergence rollback, resets Stage 1, reverts omega_d, and preserves prior raw norm telemetry.
+   - Genuine unrelaxed growth (raw norm > 1.05x) triggers growth rollback, resets Stage 1, reverts omega_d, and preserves prior raw norm telemetry.
+   - Catastrophic applied step (> 0.05 cap) triggers catastrophic rollback.
+   - Clean contraction under Stage 2 is admitted without rollback and updates telemetry ordering.
    - Authentic Outer 89 transition replay: admitted without rollback in R9 (eliminated 1.70x scaling artifact).
    - Authentic 18-transition replay from Job 1420188 live telemetry: 100% admitted in R9 (raw ratio in [0.9898, 0.9932] < 1.00).
-   - Genuine unrelaxed divergence (raw norm > 1.50x) triggers divergence rollback to Stage 1.
-   - Genuine unrelaxed growth (raw norm > 1.05x) triggers growth rollback to Stage 1.
-   - Catastrophic applied step (> 0.05) triggers catastrophic rollback to Stage 1.
    - Compound active-set stability gate (|A| <= 500, |Delta A| <= 10, Delta A^+ == 0).
 
 Task: F1610-PACKAGE171-R9-C6-CORRECTIVE-QUALIFICATION
@@ -34,6 +37,8 @@ Protocol Version: 2
 
 import sys
 import json
+import time
+import math
 import inspect
 import tempfile
 import unittest
@@ -96,6 +101,9 @@ class TestPackage171R9C6CoupledDriver(unittest.TestCase):
         self.pkg_path = self.out_path / "mock_pkg"
         self.pkg_path.mkdir(parents=True, exist_ok=True)
 
+        # Ensure dummy UEL file exists for subproblem copying
+        (self.pkg_path / "f42_mixed_uel.for").write_text("C UEL", encoding="utf-8")
+
         self.driver = Package171R9C6PDASDriver(
             package=self.pkg_path,
             output=self.out_path,
@@ -116,6 +124,7 @@ class TestPackage171R9C6CoupledDriver(unittest.TestCase):
         self.driver.h0 = {(1, g): 10.0 for g in range(1, 5)}
         self.driver.u0 = {n: (0.0, 0.0) for n in range(1, 5)}
         self.driver.target_uy = 0.0018703125442191958
+        self.driver.deadline = time.monotonic() + 3600
         self.driver.template = (
             "*Heading\n"
             "*Node\n1, 0., 0.\n2, 1., 0.\n3, 1., 1.\n4, 0., 1.\n"
@@ -146,16 +155,13 @@ class TestPackage171R9C6CoupledDriver(unittest.TestCase):
             step_idx=1, role="mechanical", damage=damage, active=set(),
             displacement=None, history=self.driver.h0, target_u=0.0018703125
         )
-        # Required mechanical boundary condition cards
         self.assertIn("N_BOTTOM, 2, 2, 0.", deck)
         self.assertIn("N_PIN, 1, 1, 0.", deck)
         self.assertIn("N_TOP, 1, 1, 0.", deck)
         self.assertIn("N_RP, 1, 1, 0.", deck)
         self.assertIn("N_RP, 2, 2, 0.0018703125", deck)
-        # Required damage prescription on DOF 3 for all nodes
         for n, d in damage.items():
             self.assertIn(f"{n}, 3, 3, {d:.17g}", deck)
-        # Required solution history serialization
         self.assertIn("*Initial Conditions, type=SOLUTION", deck)
         for g in range(1, 5):
             self.assertIn(f"{self.driver.h0[1, g]:.17g}", deck)
@@ -168,14 +174,11 @@ class TestPackage171R9C6CoupledDriver(unittest.TestCase):
             step_idx=1, role="phase", damage=dict(self.driver.d0), active=active,
             displacement=displacement, history=self.driver.h0, target_u=0.0018703125
         )
-        # Required displacement prescription on DOF 1 and 2
         for n in self.driver.mesh.nodes:
             self.assertIn(f"{n}, 1, 1, {displacement[n][0]:.17g}", deck)
             self.assertIn(f"{n}, 2, 2, {displacement[n][1]:.17g}", deck)
-        # Active nodes MUST be clamped to d0 on DOF 3
         for n in active:
             self.assertIn(f"{n}, 3, 3, {self.driver.d0[n]:.17g}", deck)
-        # Non-active nodes must NOT be clamped in phase solve
         for n in set(self.driver.d0) - active:
             self.assertNotIn(f"{n}, 3, 3,", deck)
 
@@ -191,20 +194,61 @@ class TestPackage171R9C6CoupledDriver(unittest.TestCase):
         self.assertIn("15252", runner_source)
 
     # --------------------------------------------------------------------------
-    # 3. Fail-Closed Phase Decoding Tests (Preserving R8 Implementation)
+    # 3. Executable Production Phase Decoding Tests
     # --------------------------------------------------------------------------
     def test_phase_decoding_u3_and_rejections(self):
-        """Verify phase decoding extracts damage from U3 and rejects invalid component counts."""
-        # Standard 3-component output (U1, U2, U3) extracts U3
-        fields_3comp = {n: (0.01, 0.02, 0.55) for n in range(1, 5)}
-        d_extracted = {n: v[2] for n, v in fields_3comp.items()}
-        self.assertEqual(d_extracted[1], 0.55)
+        """Directly invoke solve_subproblem to exercise production U3 extraction and all fail-closed checks."""
+        # Setup 15,559 node environment matching production C6 receiver contract
+        d0_15k = {n: 0.1 for n in range(1, 15560)}
+        self.driver.d0 = d0_15k
+        self.driver.u0 = {n: (0.0, 0.0) for n in range(1, 15560)}
+        disp = {n: (0.0, 0.0) for n in self.driver.mesh.nodes}
 
-        # 2-component output (U1, U2) must be strictly rejected
-        with self.assertRaises(ValueError):
-            comp_len = 2
-            if comp_len == 2:
-                raise ValueError("solve_subproblem(phase): rejected two-component phase output (U1, U2)")
+        # 1. Valid 3-component phase output (U1, U2, U3): extracts damage from U3 (v[2])
+        rows_3comp = [[n, 0.01, 0.02, 0.55] for n in range(1, 15560)]
+        self.driver.runner = lambda sub_dir, job, role, step: {"nodes": rows_3comp}
+        new_d, _, _ = self.driver.solve_subproblem(
+            1, 1, 0, "phase", d0_15k, set(), disp, self.driver.h0, 0.00187
+        )
+        self.assertEqual(len(new_d), 15559)
+        self.assertAlmostEqual(new_d[1], 0.55)
+
+        # 2. Two-component output (U1, U2): must be strictly rejected by production solve_subproblem
+        rows_2comp = [[n, 0.01, 0.02] for n in range(1, 15560)]
+        self.driver.runner = lambda sub_dir, job, role, step: {"nodes": rows_2comp}
+        with self.assertRaises(ValueError) as ctx:
+            self.driver.solve_subproblem(1, 1, 0, "phase", d0_15k, set(), disp, self.driver.h0, 0.00187)
+        self.assertIn("rejected two-component phase output (U1, U2)", str(ctx.exception))
+
+        # 3. Mixed component counts across nodes: rejected by production solve_subproblem
+        rows_mixed = [[n, 0.01, 0.02] if n < 10 else [n, 0.01, 0.02, 0.55] for n in range(1, 15560)]
+        self.driver.runner = lambda sub_dir, job, role, step: {"nodes": rows_mixed}
+        with self.assertRaises(ValueError) as ctx:
+            self.driver.solve_subproblem(1, 1, 0, "phase", d0_15k, set(), disp, self.driver.h0, 0.00187)
+        self.assertIn("mixed component counts", str(ctx.exception))
+
+        # 4. Nonfinite values (NaN / Inf): rejected by production solve_subproblem
+        rows_nan = [[n, 0.01, 0.02, 0.55] for n in range(1, 15560)]
+        rows_nan[5][3] = float("nan")
+        self.driver.runner = lambda sub_dir, job, role, step: {"nodes": rows_nan}
+        with self.assertRaises(ValueError) as ctx:
+            self.driver.solve_subproblem(1, 1, 0, "phase", d0_15k, set(), disp, self.driver.h0, 0.00187)
+        self.assertIn("nonfinite value", str(ctx.exception))
+
+        # 5. Duplicated node records: rejected by production solve_subproblem
+        rows_dup = [[n, 0.01, 0.02, 0.55] for n in range(1, 15560)]
+        rows_dup[10][0] = 1  # Duplicate node 1
+        self.driver.runner = lambda sub_dir, job, role, step: {"nodes": rows_dup}
+        with self.assertRaises(ValueError) as ctx:
+            self.driver.solve_subproblem(1, 1, 0, "phase", d0_15k, set(), disp, self.driver.h0, 0.00187)
+        self.assertIn("duplicated node records", str(ctx.exception))
+
+        # 6. Incomplete / unexpected node set: rejected by production solve_subproblem
+        rows_short = [[n, 0.01, 0.02, 0.55] for n in range(1, 100)]  # Only 99 nodes
+        self.driver.runner = lambda sub_dir, job, role, step: {"nodes": rows_short}
+        with self.assertRaises(ValueError) as ctx:
+            self.driver.solve_subproblem(1, 1, 0, "phase", d0_15k, set(), disp, self.driver.h0, 0.00187)
+        self.assertIn("expected exactly 15,559 unique physical-node records", str(ctx.exception))
 
     # --------------------------------------------------------------------------
     # 4. Solver Interface & Coupled Acceptance Gate Tests
@@ -259,7 +303,109 @@ class TestPackage171R9C6CoupledDriver(unittest.TestCase):
         self.assertFalse((self.out_path / "converged_checkpoint_01.json").is_file())
 
     # --------------------------------------------------------------------------
-    # 5. Executable R9 Rollback & Contraction Tests
+    # 5. Executable Production Rollback Branches in solve_coupled_equilibration
+    # --------------------------------------------------------------------------
+    def _execute_production_outer_step(self, mock_phase_damage, initial_stage=2, prev_raw_norm=0.010):
+        """Helper to execute one production outer iteration in solve_coupled_equilibration with controlled mocks."""
+        self.driver.load = lambda: None
+        self.driver.max_outer = 1
+        self.driver.stage = initial_stage
+        self.driver.previous_raw_delta_d = prev_raw_norm
+        self.driver.consecutive_stable_iterations = 3
+
+        mock_u = {n: (0.0001, 0.0018703125442191958) for n in range(1, 5)}
+        mock_ep = dict(self.consistent_endpoint)
+
+        def mock_sub(step_idx, outer, inner, role, damage, active, displacement, history, target_u):
+            if role == "mechanical":
+                return damage, mock_u, mock_ep
+            else:
+                return mock_phase_damage, None, None
+
+        self.driver.solve_subproblem = mock_sub
+
+        try:
+            self.driver.solve_coupled_equilibration()
+        except RuntimeError:
+            pass  # Expected nonconvergence on 1 test iteration
+
+        telem_file = self.out_path / "live_iteration_telemetry.json"
+        self.assertTrue(telem_file.is_file())
+        telem = json.loads(telem_file.read_text(encoding="utf-8"))[0]
+        return telem
+
+    def test_genuine_divergence_triggers_rollback(self):
+        """Exercise production rollback branch when raw norm grows > 1.50x; verify state reset and telemetry."""
+        # Candidate raw norm grows from 0.010 to 0.016 (1.60x > 1.50x divergence factor)
+        mock_d = {1: 0.1 + 0.016, 2: 0.1, 3: 0.1, 4: 0.1}
+        telem = self._execute_production_outer_step(mock_d, initial_stage=2, prev_raw_norm=0.010)
+
+        # 1. State counters updated
+        self.assertEqual(self.driver.divergence_rollback_count, 1)
+        self.assertEqual(self.driver.rollback_count, 1)
+        self.assertEqual(self.driver.growth_rollback_count, 0)
+        self.assertEqual(self.driver.stage, 1)  # Reset to Stage 1
+
+        # 2. Telemetry records rollback and proper telemetry ordering
+        self.assertTrue(telem["rollback_triggered"])
+        self.assertIn("divergence factor exceeded", telem["rollback_reason"])
+        self.assertAlmostEqual(telem["cand_raw_delta_d"], 0.016)
+        self.assertAlmostEqual(telem["prev_raw_delta_d"], 0.010)  # Correct prior norm preserved
+        self.assertEqual(telem["effective_omega_d"], 0.50)  # Reverted to Stage 1 omega
+
+    def test_genuine_residual_growth_triggers_rollback(self):
+        """Exercise production rollback branch when raw norm grows > 1.05x but <= 1.50x; verify state reset and telemetry."""
+        # Candidate raw norm grows from 0.010 to 0.0108 (1.08x > 1.05x growth factor)
+        mock_d = {1: 0.1 + 0.0108, 2: 0.1, 3: 0.1, 4: 0.1}
+        telem = self._execute_production_outer_step(mock_d, initial_stage=2, prev_raw_norm=0.010)
+
+        self.assertEqual(self.driver.growth_rollback_count, 1)
+        self.assertEqual(self.driver.rollback_count, 1)
+        self.assertEqual(self.driver.divergence_rollback_count, 0)
+        self.assertEqual(self.driver.stage, 1)
+
+        self.assertTrue(telem["rollback_triggered"])
+        self.assertIn("residual growth", telem["rollback_reason"])
+        self.assertAlmostEqual(telem["cand_raw_delta_d"], 0.0108)
+        self.assertAlmostEqual(telem["prev_raw_delta_d"], 0.010)
+        self.assertEqual(telem["effective_omega_d"], 0.50)
+
+    def test_catastrophic_jump_triggers_rollback(self):
+        """Exercise production rollback branch when applied candidate step exceeds 0.05 cap."""
+        # cand_raw = 0.070, cand_relaxed = 0.85 * 0.070 = 0.0595 > 0.05 cap
+        mock_d = {1: 0.1 + 0.070, 2: 0.1, 3: 0.1, 4: 0.1}
+        telem = self._execute_production_outer_step(mock_d, initial_stage=2, prev_raw_norm=0.010)
+
+        self.assertEqual(self.driver.divergence_rollback_count, 1)
+        self.assertEqual(self.driver.rollback_count, 1)
+        self.assertEqual(self.driver.stage, 1)
+
+        self.assertTrue(telem["rollback_triggered"])
+        self.assertIn("catastrophic jump", telem["rollback_reason"])
+        self.assertAlmostEqual(telem["prev_raw_delta_d"], 0.010)
+        self.assertEqual(telem["effective_omega_d"], 0.50)
+
+    def test_stage2_clean_contraction_admitted(self):
+        """Exercise production path when candidate step contracts (< prev_raw_norm); verify Stage 2 admission."""
+        # Candidate raw norm contracts from 0.010 to 0.0090 (0.90x < 1.00)
+        mock_d = {1: 0.1 + 0.0090, 2: 0.1, 3: 0.1, 4: 0.1}
+        telem = self._execute_production_outer_step(mock_d, initial_stage=2, prev_raw_norm=0.010)
+
+        # 1. No rollback triggered
+        self.assertEqual(self.driver.rollback_count, 0)
+        self.assertEqual(self.driver.stage, 2)  # Remains Stage 2
+
+        # 2. Telemetry captures Stage 2 execution and correct previous norm ordering
+        self.assertFalse(telem["rollback_triggered"])
+        self.assertIsNone(telem["rollback_reason"])
+        self.assertEqual(telem["effective_omega_d"], 0.85)  # Stage 2 acceleration preserved
+        self.assertAlmostEqual(telem["prev_raw_delta_d"], 0.010)  # Correct prior norm
+        self.assertAlmostEqual(telem["cand_raw_delta_d"], 0.0090)
+        self.assertAlmostEqual(telem["raw_delta_d"], 0.0090)
+        self.assertAlmostEqual(self.driver.previous_raw_delta_d, 0.0090)  # State updated for next step
+
+    # --------------------------------------------------------------------------
+    # 6. Authentic Historical Telemetry Replay Tests
     # --------------------------------------------------------------------------
     def test_authentic_r8_outer89_transition_replay(self):
         """Replay authentic R8 Outer 88/89 telemetry: R9 admits Stage 2 without rollback."""
@@ -308,43 +454,11 @@ class TestPackage171R9C6CoupledDriver(unittest.TestCase):
             self.assertLess(raw_ratio, 1.05, f"Outer {outer} R9 growth safeguard failed")
             self.assertLess(raw_ratio, 1.50, f"Outer {outer} R9 divergence safeguard failed")
 
-    def test_genuine_divergence_triggers_rollback(self):
-        """Verify that genuine solver divergence (raw norm grows > 1.50x) triggers rollback."""
-        self.driver.stage = 2
-        self.driver.previous_raw_delta_d = 0.010
-        cand_raw_delta_d = 0.016  # 1.60x growth > 1.50 divergence threshold
-        cand_delta_d = 0.85 * cand_raw_delta_d
-
-        is_divergence = (cand_raw_delta_d > self.driver.divergence_factor * self.driver.previous_raw_delta_d)
-        self.assertTrue(is_divergence)
-
-    def test_genuine_residual_growth_triggers_rollback(self):
-        """Verify that genuine residual growth (raw norm grows > 1.05x but <= 1.50x) triggers rollback."""
-        self.driver.stage = 2
-        self.driver.previous_raw_delta_d = 0.010
-        cand_raw_delta_d = 0.0108  # 1.08x growth > 1.05 growth threshold
-        cand_delta_d = 0.85 * cand_raw_delta_d
-
-        is_growth = (cand_raw_delta_d > self.driver.rollback_factor * self.driver.previous_raw_delta_d)
-        is_divergence = (cand_raw_delta_d > self.driver.divergence_factor * self.driver.previous_raw_delta_d)
-        self.assertTrue(is_growth)
-        self.assertFalse(is_divergence)
-
-    def test_catastrophic_jump_triggers_rollback(self):
-        """Verify that applied step > 0.05 cap triggers catastrophic rollback."""
-        cand_delta_d = 0.055
-        is_catastrophic = (cand_delta_d > self.driver.catastrophic_delta_d_cap)
-        self.assertTrue(is_catastrophic)
-
     def test_compound_active_set_stability_gate(self):
         """Verify compound stability requires |A| <= 500, |Delta A| <= 10, added == 0."""
-        # 1. Valid compound state
         self.assertTrue(self.driver.check_compound_stability(set(range(300)), delta_active_sym=5, added_nodes=set()))
-        # 2. Rejection by high cardinality
         self.assertFalse(self.driver.check_compound_stability(set(range(600)), delta_active_sym=5, added_nodes=set()))
-        # 3. Rejection by high symmetric difference
         self.assertFalse(self.driver.check_compound_stability(set(range(300)), delta_active_sym=15, added_nodes=set()))
-        # 4. Rejection by newly added nodes (anti-expansion)
         self.assertFalse(self.driver.check_compound_stability(set(range(300)), delta_active_sym=5, added_nodes={99}))
 
 

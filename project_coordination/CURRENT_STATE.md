@@ -1,3 +1,31 @@
+## 5 November Package 171-R9 Production-Path Qualification & Telemetry Ordering Resolution (Task F1610)
+
+1. **Independent Re-Review 2 Intake Reconciled (Handoff `HND-1118e52d02be`)**:
+   - ChatGPT reviewed Candidate Package 171-R9 across the PAD bridge.
+   - Decision: `REJECT` (Protocol: `INDEPENDENT_STRUCTURED_RE_REVIEW_V2`).
+   - Blocking Findings:
+     * Finding 1: Full commit SHA discrepancy between prompt citation (`62eda34241...`) and verified repository commit (`62eda3424524392da61b5ade2ffc31a76dcaf63e`).
+     * Finding 2: Unit tests evaluated synthetic isolated expressions rather than exercising production `solve_subproblem` phase decoding / rejections and production `solve_coupled_equilibration` rollback branches.
+     * Finding 3: The driver overwrote `self.previous_raw_delta_d` before constructing the iteration telemetry record, causing `prev_raw_delta_d` to record the current step norm instead of the prior iteration norm.
+   - Mandated Directive: Under existing task F1610, prepare one minimal corrective R9 revision. Preserve frozen UEL, R8 boundary conditions, and acceptance gates. Correct previous-raw-norm telemetry ordering; replace synthetic tests with executable production-path tests using controlled mocks; correct the reviewed commit SHA; run regression suite; publish evidence and return for independent re-review. Strictly 0 PBS submissions authorized until approved.
+
+2. **Driver Telemetry Ordering Corrected & Verified**:
+   - In `driver_package171_r9_c6_coupled_pdas.py`, captured `prior_raw_delta_d = self.previous_raw_delta_d` before updating state for the next iteration (`self.previous_raw_delta_d = raw_delta_d`).
+   - Telemetry field `"prev_raw_delta_d": prior_raw_delta_d` now strictly records the prior iteration's step norm against which rollback thresholds were evaluated, restoring 100% rollback auditability.
+   - Minimal diff patch regenerated: `results/validation/package171_r9_driver_diff.patch` (SHA-256 `F98A61B8BCFA8677D52432A8518D09C7B1687EF8C9DCCC30974C2D971066F9A4`).
+   - Driver SHA-256: `1829E8E7B426D8C367D6ACDBFF6E3393AD8E4526F93D760911A9756AB433DDB8`.
+
+3. **Production-Path Unit Test Suite Qualified (13/13 PASS)**:
+   - Test suite: `tests/unit/test_package171_r9_c6_coupled_driver.py` (SHA-256 `EE0902BC239BD6F6E5E34656718C04A09B33C823826BDF60320B7B1229ED85D2`).
+   - Test output: `results/validation/package171_r9_test_output.txt` (SHA-256 `0AD782C1FABD63A734F0369778AFC1E5FE641C87B98935EAA6F0995BBB2B0820`).
+   - Direct Production Invocations:
+     * `test_phase_decoding_u3_and_rejections`: directly invokes `driver.solve_subproblem` on 15,559 physical nodes across 6 production paths: valid U3 extraction with bounds clipping, 2-component rejection (`ValueError`), mixed component count rejection (`ValueError`), nonfinite NaN/Inf rejection (`ValueError`), duplicated node record rejection (`ValueError`), and node count mismatch rejection (`ValueError`).
+     * `test_genuine_divergence_triggers_rollback`: directly executes `driver.solve_coupled_equilibration` with controlled subproblem mocks; asserts divergence rollback triggers on raw norm > 1.50x, increments `divergence_rollback_count`, resets to Stage 1, reverts `effective_omega_d` to 0.50, and verifies telemetry captures `prev_raw_delta_d` ordering.
+     * `test_genuine_residual_growth_triggers_rollback`: directly executes `driver.solve_coupled_equilibration`; asserts growth rollback triggers on raw norm > 1.05x, increments `growth_rollback_count`, resets to Stage 1, reverts omega, and records prior norm.
+     * `test_catastrophic_jump_triggers_rollback`: directly executes `driver.solve_coupled_equilibration`; asserts catastrophic rollback triggers when applied step exceeds 0.05 cap.
+     * `test_stage2_clean_contraction_admitted`: directly executes `driver.solve_coupled_equilibration`; asserts contracting candidate step is admitted without rollback, preserves Stage 2 acceleration (`omega_d = 0.85`), and updates telemetry.
+   - Parity: 35 / 35 PASS across all unit and regression test suites (13/13 R9 contract + 22/22 R8 regression).
+
 ## 4 November Package 171-R9 Minimal Reconstruction & Interface Contract Qualification (Task F1610)
 
 1. **Independent Re-Review Feedback Reconciled (Handoff `HND-e30fca26fe09`)**:

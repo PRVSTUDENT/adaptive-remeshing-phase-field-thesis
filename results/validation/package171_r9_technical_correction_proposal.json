@@ -2,6 +2,7 @@
   "schema": 1,
   "proposal_id": "package171_r9_c6_coupled_pdas_corrective_design",
   "created_at": "2026-11-04T22:18:00+01:00",
+  "last_updated": "2026-11-05T06:14:00+01:00",
   "author": "gemini-antigravity",
   "predecessor_execution": {
     "task_id": "F1609-PACKAGE171-R8-C6-EXECUTION-QUALIFICATION",
@@ -38,6 +39,7 @@
     "growth_safeguard": "cand_raw_delta_d > 1.05 * prev_raw_delta_d",
     "divergence_safeguard": "cand_raw_delta_d > 1.50 * prev_raw_delta_d",
     "catastrophic_safeguard": "cand_delta_d > 0.05",
+    "telemetry_ordering_fix": "Captures prior_raw_delta_d = self.previous_raw_delta_d before updating state, ensuring rec['prev_raw_delta_d'] records the previous iteration's step norm rather than the current step.",
     "reversion_mechanism": "On genuine growth or divergence of the unrelaxed step norm, reverts candidate step to conservative relaxation (omega_d = 0.50), restores stage = 1, and resets stability counters."
   },
   "iteration_budget_and_convergence_hypothesis": {
@@ -48,30 +50,31 @@
   },
   "regression_test_evidence": {
     "suite": "tests/unit/test_package171_r9_c6_coupled_driver.py",
-    "tests_run": 12,
-    "tests_passed": 12,
+    "tests_run": 13,
+    "tests_passed": 13,
     "pass_rate_pct": 100.0,
     "cases_covered": [
       "test_mechanical_deck_contract",
       "test_phase_deck_contract",
-      "test_solution_history_serialization_contract",
       "test_extractor_arguments_contract",
       "test_phase_decoding_u3_and_rejections",
       "test_solver_interface_and_coupled_acceptance",
       "test_force_drift_prohibits_checkpoint",
-      "test_authentic_r8_outer89_transition_replay",
-      "test_all_18_authentic_r8_rollbacks_replayed",
       "test_genuine_divergence_triggers_rollback",
       "test_genuine_residual_growth_triggers_rollback",
       "test_catastrophic_jump_triggers_rollback",
+      "test_stage2_clean_contraction_admitted",
+      "test_authentic_r8_outer89_transition_replay",
+      "test_all_18_authentic_r8_rollbacks_replayed",
       "test_compound_active_set_stability_gate"
     ],
+    "production_path_coverage": "Phase decoding directly exercises solve_subproblem across valid 3-component, 2-component rejection, mixed component rejection, nonfinite rejection, duplicate node rejection, and count mismatch rejection. Rollback tests directly execute solve_coupled_equilibration with controlled subproblem mocks, asserting state reset, counter increments, omega reversion, and telemetry ordering.",
     "test_output_log": "results/validation/package171_r9_test_output.txt"
   },
   "reproducible_evidence_artifacts": {
     "driver_diff_patch": {
       "path": "results/validation/package171_r9_driver_diff.patch",
-      "sha256": "BFD66096FB240CAD931B29AB2365FEEB74796D6F6311AD2D7673EB99348BFB0E"
+      "sha256": "F98A61B8BCFA8677D52432A8518D09C7B1687EF8C9DCCC30974C2D971066F9A4"
     },
     "authentic_rollback_replay_json": {
       "path": "results/validation/package171_r8_authentic_rollback_replay.json",
@@ -83,12 +86,12 @@
     },
     "test_output_evidence": {
       "path": "results/validation/package171_r9_test_output.txt",
-      "sha256": "75C93EB2F389C586E4BAF34AA53DD0E708C055F3616164F5FB98F3E2FD0EEE4B"
+      "sha256": "0AD782C1FABD63A734F0369778AFC1E5FE641C87B98935EAA6F0995BBB2B0820"
     }
   },
   "source_hashes": {
-    "driver_package171_r9_c6_coupled_pdas.py": "6D693CFD111C01F1559588B114AA261B9BA51C9EA889727A1249188B6180BB20",
-    "test_package171_r9_c6_coupled_driver.py": "52DC30FA76165B1C53AA2E9F6B568C2FB6EE50B17D5422413524F08545E71EB5",
+    "driver_package171_r9_c6_coupled_pdas.py": "1829E8E7B426D8C367D6ACDBFF6E3393AD8E4526F93D760911A9756AB433DDB8",
+    "test_package171_r9_c6_coupled_driver.py": "EE0902BC239BD6F6E5E34656718C04A09B33C823826BDF60320B7B1229ED85D2",
     "extract_r8_rollback_replay_evidence.py": "0759B0DBC6011C73508406BB03198ED43A3D01781F6FF1CC49AA3035E1A46038",
     "frozen_uel": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
   },

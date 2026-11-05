@@ -738,6 +738,9 @@ class Package171R9C6PDASDriver(object):
             delta_u = max(abs(u[n][i] - previous_u[n][i]) for n in u for i in (0, 1)) if previous_u else None
             delta_h = max(abs(history[k] - previous_h[k]) for k in history) if previous_h else None
 
+            # Capture previous iteration's raw step norm before updating state for next iteration
+            prior_raw_delta_d = self.previous_raw_delta_d
+
             damage = relaxed_damage
             self.previous_delta_d = delta_d
             self.previous_raw_delta_d = raw_delta_d
@@ -763,7 +766,7 @@ class Package171R9C6PDASDriver(object):
                 "delta_d": delta_d,
                 "raw_delta_d": raw_delta_d,
                 "cand_raw_delta_d": cand_raw_delta_d,
-                "prev_raw_delta_d": self.previous_raw_delta_d,
+                "prev_raw_delta_d": prior_raw_delta_d,
                 "delta_u": delta_u,
                 "delta_h": delta_h,
                 "free_error": kkt_post["free_error"],
