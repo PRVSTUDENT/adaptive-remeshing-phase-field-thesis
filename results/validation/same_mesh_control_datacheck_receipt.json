@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "task_id": "F1622-METHOD-C-SAME-MESH-ABAQUS-CONTROL-STAGING",
+  "status": "DATACHECKS_PASSED_BOTH_EXIT_0",
+  "production_pbs_submissions": 0,
+  "zero_pbs_enforced": true,
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "donor_source": {
+    "checkpoint": "Checkpoint 03 (Job 1419566.mmaster02)",
+    "target_uy_mm": 0.0018703125442191958,
+    "donor_reference_force_kN": 0.17992419004440308,
+    "donor_reference_total_energy_kNmm": 0.00022639903
+  },
+  "receiver_mesh": {
+    "name": "C5_Identical_Receiver",
+    "elements_quad": 12996,
+    "physical_nodes": 13278,
+    "reference_point_id": 999999,
+    "slit_pairs": 53
+  },
+  "experimental_matrix": {
+    "arm_1_control_old": {
+      "package_id": "package172_same_mesh_old_operator",
+      "package_dir": "models/pandey_kumar_mode1/172_c5_same_mesh_old_control",
+      "remote_dir": "/scratch9/pr21vyci/runs/mode1_c5_package172_old_control",
+      "operator": "element_averaged_mean",
+      "history_perturbation_peak_MPa": 6.3491085,
+      "history_perturbation_rms_MPa": 0.0680823,
+      "anderson_enabled": false,
+      "mechanical_datacheck": {
+        "job": "P172_MECHANICAL_DC",
+        "status": "PASS",
+        "exit_code": 0,
+        "errors": 0,
+        "dat_sha256": "F8B1562D4766C4A107BCE7DEEB98CD63E8891A5EE87C9999F4219A3A685B0CEE",
+        "msg_sha256": "287476174EDF7A959327A40648A7D750DCD9CA6ED716FA5777DFAD9A678C1386"
+      },
+      "phase_datacheck": {
+        "job": "P172_PHASE_DC",
+        "status": "PASS",
+        "exit_code": 0,
+        "errors": 0,
+        "dat_sha256": "6E8A7EB023A20901B6AD77EE3EEC5612088EC9156607078EC4AFA731E968A36F",
+        "msg_sha256": "553B7AD9F9A3AD5DE829371988D5377382576E0378A2336A8619881331DDC893"
+      }
+    },
+    "arm_2_control_corrected": {
+      "package_id": "package173_same_mesh_hardened_isoparametric",
+      "package_dir": "models/pandey_kumar_mode1/173_c5_same_mesh_corrected_control",
+      "remote_dir": "/scratch9/pr21vyci/runs/mode1_c5_package173_corrected_control",
+      "operator": "hardened_isoparametric_gp_convex_clamp",
+      "history_perturbation_peak_MPa": 2.7089e-13,
+      "history_perturbation_rms_MPa": 2.2206e-15,
+      "anderson_enabled": false,
+      "mechanical_datacheck": {
+        "job": "P173_MECHANICAL_DC",
+        "status": "PASS",
+        "exit_code": 0,
+        "errors": 0,
+        "dat_sha256": "AE794AC4FC4A9A739176134645D4CDCB350402077A8E5A6E2FA82653A6C23815",
+        "msg_sha256": "FAA0BAF5F2960C368181BBDAF3E2255179EA89093BD469DE556033BB241A8B24"
+      },
+      "phase_datacheck": {
+        "job": "P173_PHASE_DC",
+        "status": "PASS",
+        "exit_code": 0,
+        "errors": 0,
+        "dat_sha256": "174EF0C0EC7CC9E942294C5DA93B27B9C88C342291176EE88085AD0AF4AB2DE9",
+        "msg_sha256": "A4731E500112C63CFCCCFFB53937F9477151E048ED8E340B456B6A9D7605E2E2"
+      }
+    }
+  }
+}

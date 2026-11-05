@@ -1,3 +1,29 @@
+## 5 November Method C Same-Mesh Abaqus Control Staging Complete (Task F1622 Closed)
+
+1. **Paired Same-Mesh Control Packages Staged and Qualified (Task F1622 Completed)**:
+   - Built and staged the paired same-mesh control experiment comparing element-averaged vs hardened isoparametric GP history transfer on accepted C5 donor Checkpoint 03 (Job `1419566.mmaster02`, $u_y = 0.0018703125$ mm, 12,996 elements):
+     * **Arm 1 (Package 172 / Control Old)**: Element-averaged GP history operator ($\max |\Delta H| = 6.3491$ MPa, $\text{RMS} = 0.0681$ MPa, 34,720 Gauss points exceed $10^{-4}$ MPa).
+     * **Arm 2 (Package 173 / Control Corrected)**: Hardened isoparametric bilinear GP operator ($\max |\Delta H| = 2.7089\times 10^{-13}$ MPa, $\text{RMS} = 2.2206\times 10^{-15}$ MPa, 0 of 51,984 points exceed $10^{-12}$ MPa).
+     * **Strict Parameter Invariance**: Identical C5 mesh topology (12,996 quads, 13,278 physical nodes + RP 999999, 53 coincident slit pairs), identical initial nodal displacement $u_0$ and damage $d_0$, identical boundary cards, identical relaxation ($\omega_d = 0.50/0.85, \omega_u = 1.00/0.85$), identical compound active-set switching ($|A| \le 500, |\Delta A| \le 10, \Delta A^+ = 0$ for $W=3$), identical rollback safeguards (growth 1.05, divergence 1.50, cap 0.05).
+     * **Anderson Acceleration**: Strictly **DISABLED** (`anderson_enabled = False`) in both arms to avoid confounding the transfer operator comparison.
+     * **Frozen Production UEL**: SHA-256 `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` (29,722 bytes) preserved bitwise in all decks.
+
+2. **Authentic Cluster Datacheck Verification (Exit 0, 0 Errors)**:
+   - Staged to compute cluster scratch:
+     * `/scratch9/pr21vyci/runs/mode1_c5_package172_old_control`
+     * `/scratch9/pr21vyci/runs/mode1_c5_package173_corrected_control`
+   - Executed authentic interactive Abaqus 2023 datachecks via guarded SSH (`Invoke-GuardedSsh.ps1`) on `mlogin01.cluster`:
+     * `P172_MECHANICAL_DC`: **Exit 0**, 0 errors, `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`
+     * `P172_PHASE_DC`: **Exit 0**, 0 errors, `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`
+     * `P173_MECHANICAL_DC`: **Exit 0**, 0 errors, `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`
+     * `P173_PHASE_DC`: **Exit 0**, 0 errors, `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`
+   - Downloaded and verified authentic datacheck receipts (`.dat`, `.msg`, `.stdout.txt`).
+   - Automated unit tests: `tests/unit/test_same_mesh_control_staging.py` — **9/9 PASS** in 0.32s; full regression suite passing **23/23 tests in 16.12s**.
+   - Formal datacheck receipt: `results/validation/same_mesh_control_datacheck_receipt.json`.
+   - Formal report: `results/validation/same_mesh_control_staging_report.md`.
+   - **Zero PBS Production Submissions Preserved**: Strictly 0 production solver PBS jobs submitted (`production_pbs_submissions: 0`, `zero_pbs_enforced: True`).
+   - Task closed: `TASK_LEDGER.csv` updated with status `completed` and classification `DATACHECKS_PASSED_BOTH_EXIT_0`. Successor task: `F1623-METHOD-C-SAME-MESH-ABAQUS-CONTROL-EXECUTION`.
+
 ## 5 November Method C GP Transfer Safety Requalification Complete (Task F1621 Closed)
 
 1. **Independent Supervisor Review & Directive Intake (Handoff HND-279a1c9be88f)**:

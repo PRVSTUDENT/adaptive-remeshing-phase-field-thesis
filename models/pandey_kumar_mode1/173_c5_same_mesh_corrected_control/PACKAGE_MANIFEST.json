@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "package_id": "package173_same_mesh_corrected_control",
+  "label": "Arm 2: CONTROL CORRECTED (Hardened Isoparametric Bilinear GP Transfer)",
+  "description": "Method C Same-Mesh Abaqus Control Experiment: Arm 2: CONTROL CORRECTED (Hardened Isoparametric Bilinear GP Transfer)",
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "donor_source": {
+    "checkpoint": "Checkpoint 03 (Job 1419566.mmaster02)",
+    "target_uy_mm": 0.0018703125442191958,
+    "donor_reference_force_kN": 0.17992419004440308,
+    "donor_reference_total_energy_kNmm": 0.00022639903
+  },
+  "receiver_mesh": {
+    "name": "C5_Identical_Receiver",
+    "elements_quad": 12996,
+    "physical_nodes": 13278,
+    "reference_point_id": 999999,
+    "slit_pairs": 53
+  },
+  "transfer_operator": {
+    "operator_name": "hardened_isoparametric_gp_convex_clamp",
+    "history_perturbation_peak_MPa": 2.708944180085382e-13,
+    "history_perturbation_rms_MPa": 2.2205932177827746e-15
+  },
+  "numerical_parameters": {
+    "damping_omega_d_stage1": 0.5,
+    "damping_omega_d_stage2": 0.85,
+    "damping_omega_u_stage1": 1.0,
+    "damping_omega_u_stage2": 0.85,
+    "anderson_enabled": false,
+    "max_active_cardinality": 500,
+    "max_symmetric_diff": 10,
+    "max_added_nodes": 0,
+    "stabilization_window": 3,
+    "rollback_factor": 1.05,
+    "divergence_factor": 1.5,
+    "catastrophic_delta_d_cap": 0.05,
+    "max_outer_iterations": 140,
+    "delta_d_tol": 1e-05,
+    "delta_u_tol_mm": 1e-09,
+    "delta_h_tol_MPa": 0.0001,
+    "kkt_tol": 1e-06
+  },
+  "files": {
+    "active_set_boundary_cards.inc": {
+      "sha256": "AB2D34B2C9ED8E880B9B87B6C66B9599E573186D7901C5797F71CA8C31C02112",
+      "size_bytes": 431976
+    },
+    "d_lower_bounds.csv": {
+      "sha256": "FAB7DD8550585D6658CC73A775EC8A879E7AC4720E03DADF0F5DEC950560DB51",
+      "size_bytes": 2437693
+    },
+    "driver_same_mesh_control_pdas.py": {
+      "sha256": "8A281B850145A13CFFBCF45302622B204DBE6E66B3D1E76C4C4A4922ABDA0364",
+      "size_bytes": 42012
+    },
+    "f42_mixed_uel.for": {
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "size_bytes": 29722
+    },
+    "initial_conditions_solution.inc": {
+      "sha256": "470CCD837D70855373B5C9DCAB1653D8B1815C79578C1DCFF3B3BE1481F990D7",
+      "size_bytes": 1977282
+    },
+    "job_notifications.sh": {
+      "sha256": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+      "size_bytes": 11258
+    },
+    "M1_C5_PACKAGE173_CORRECTED_CONTROL_REEQUILIBRATION.inp": {
+      "sha256": "23557438AE4682359B924CAC805D642FFFC489510FC5D5A38011EDB1B3FEAFC6",
+      "size_bytes": 1273623
+    },
+    "nodal_displacements_initial.csv": {
+      "sha256": "D7761BE149D26A65C2EBBE87C70C002635CE4F05A6E5E04686C04B45A0824BB4",
+      "size_bytes": 695717
+    },
+    "nodal_phase_field_initial.csv": {
+      "sha256": "3B640A8B70DFB4D8C49D36ACDC3853AC3683A6155377ECE02C78DD7D1C0468CE",
+      "size_bytes": 352229
+    },
+    "P173_MECHANICAL_DC.dat": {
+      "sha256": "AE794AC4FC4A9A739176134645D4CDCB350402077A8E5A6E2FA82653A6C23815",
+      "size_bytes": 11096
+    },
+    "P173_MECHANICAL_DC.inp": {
+      "sha256": "2357A16B0FE73461B1B2F2F3D6273F62967ED7B4849896B35C79B1FA8926AF84",
+      "size_bytes": 1718638
+    },
+    "P173_MECHANICAL_DC.msg": {
+      "sha256": "FAA0BAF5F2960C368181BBDAF3E2255179EA89093BD469DE556033BB241A8B24",
+      "size_bytes": 1423
+    },
+    "P173_MECHANICAL_DC.stdout.txt": {
+      "sha256": "146825DCFAA8FB10DBAE7FCBA9109EC9866D6E6D3E2E7D4BFE86A053604F606E",
+      "size_bytes": 2575
+    },
+    "P173_PHASE_DC.dat": {
+      "sha256": "174EF0C0EC7CC9E942294C5DA93B27B9C88C342291176EE88085AD0AF4AB2DE9",
+      "size_bytes": 10089
+    },
+    "P173_PHASE_DC.inp": {
+      "sha256": "F378C080A825DCCCFE3D44E44DE1A3DA7A9030AF80381BA0516DD5149D202720",
+      "size_bytes": 2556161
+    },
+    "P173_PHASE_DC.msg": {
+      "sha256": "A4731E500112C63CFCCCFFB53937F9477151E048ED8E340B456B6A9D7605E2E2",
+      "size_bytes": 1423
+    },
+    "P173_PHASE_DC.stdout.txt": {
+      "sha256": "207B907D54A697909775DEC19E1CCC0BB688E6CD947625BF4CF6A04DE3E283FE",
+      "size_bytes": 2565
+    },
+    "run_datacheck.sh": {
+      "sha256": "3A1C40D7C67F39B3FFD9665D10411EC743BE8735E81F8819C3DFB40494165D54",
+      "size_bytes": 1388
+    },
+    "smoke_import.py": {
+      "sha256": "2F26A0305D2D0E1DBC2687EA4F815D04A30ECE00C0771A4D899629F9E9760DCC",
+      "size_bytes": 620
+    },
+    "submit_M1_C5_P173_CORRECTED_CONTROL.pbs": {
+      "sha256": "56B23B836E8C94FB7DF078F1EB4BF11FB1F3536FF636CEB57A0CABC8A8A6754D",
+      "size_bytes": 1672
+    }
+  }
+}

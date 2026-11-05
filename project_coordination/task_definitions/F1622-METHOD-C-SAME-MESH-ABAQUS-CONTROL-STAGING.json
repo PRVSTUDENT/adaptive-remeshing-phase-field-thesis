@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "task_id": "F1622-METHOD-C-SAME-MESH-ABAQUS-CONTROL-STAGING",
+  "name": "Method C Paired Same-Mesh Abaqus Control Experiment Staging and Datacheck Qualification",
+  "description": "Preparation, staging, and authentic Abaqus mechanical/phase datacheck qualification of a paired same-mesh control experiment on accepted C5 donor mesh (12,996 quads, uy=0.0018703125 mm): Arm 1 (Control Old: element-averaged history, 6.35 MPa perturbation) vs Arm 2 (Control Corrected: hardened isoparametric GP history, <1e-12 MPa error). Zero PBS production submissions authorized.",
+  "agent": "gemini-antigravity",
+  "status": "ACTIVE",
+  "created_at": "2026-11-05T14:10:00+01:00",
+  "governance": {
+    "protocol_version": 2,
+    "authorized_by": "chatgpt_pad_bridge_decision_HND-44aee77a63a1",
+    "directive": "OPTION 2 — ACCEPT OFFLINE SAFETY REQUALIFICATION AND PRIORITIZE A CONTROLLED SAME-MESH ABAQUS EXPERIMENT.",
+    "supervisor_meeting_anchor": "2026-11-05 Supervisor Meeting Directive & Bridge Review HND-44aee77a63a1",
+    "max_new_pbs_submissions": 0,
+    "zero_pbs_enforced": true
+  },
+  "predecessor": {
+    "task_id": "F1621-METHOD-C-GP-TRANSFER-SAFETY-REQUALIFICATION",
+    "status": "COMPLETED",
+    "scientific_acceptance": "SAFETY_REQUALIFICATION_APPROVED",
+    "verified_commit": "101a2f7622a617718e9484e7857f713745b204ff",
+    "summary_json": "results/validation/isoparametric_gp_transfer_qualification_summary.json",
+    "summary_sha256": "90EB9F3B995138E44A14C2EE0D142AC667A45950CEB8E0FDC35591F615A091DE"
+  },
+  "qualification_scope": {
+    "donor_state": {
+      "job_id": "1419566.mmaster02",
+      "checkpoint": "converged_checkpoint_03.json",
+      "mesh_elements": 12996,
+      "nodes_physical": 13278,
+      "reference_point_id": 999999,
+      "target_uy_mm": 0.0018703125442191958
+    },
+    "experimental_matrix": {
+      "arm_1_control_old": {
+        "label": "CONTROL_OLD_AVERAGED",
+        "package_id": "package172_same_mesh_old_operator",
+        "transfer_operator": "element_averaged_mean",
+        "expected_history_perturbation_peak_MPa": 6.3491085,
+        "expected_history_perturbation_rms_MPa": 0.0680823,
+        "anderson_acceleration": false
+      },
+      "arm_2_control_corrected": {
+        "label": "CONTROL_CORRECTED_ISOPARAMETRIC",
+        "package_id": "package173_same_mesh_hardened_isoparametric",
+        "transfer_operator": "hardened_isoparametric_gp_convex_clamp",
+        "expected_history_perturbation_peak_MPa": 0.0,
+        "expected_history_perturbation_rms_MPa": 0.0,
+        "anderson_acceleration": false
+      }
+    },
+    "requirements": [
+      "Prepare identical C5 mesh topology (12,996 quads, 13,278 physical nodes + RP 999999) for both experimental arms",
+      "Verify identical nodal displacement, damage, boundary conditions, and lower bounds between both arms",
+      "Verify Arm 1 reproduces element-averaged history perturbation (~6.35 MPa max, 0.068 MPa RMS)",
+      "Verify Arm 2 achieves exact machine-precision history identity (< 1e-12 MPa max and RMS across all 51,984 GPs)",
+      "Disable Anderson acceleration in both arms to avoid confounding the transfer operator comparison",
+      "Ensure both decks differ strictly in transferred GP history and necessary job/output identifiers",
+      "Assemble package manifests, deck generators, and execution drivers for both arms",
+      "Deploy and run authentic Abaqus 2023 mechanical and phase datachecks on compute cluster via guarded SSH (both must exit 0 with 0 errors)",
+      "Fetch and authenticate datacheck receipts (.dat, .msg)",
+      "Strictly 0 production solver PBS submissions authorized under Task F1622"
+    ]
+  },
+  "deliverables": [
+    "models/pandey_kumar_mode1/172_c5_same_mesh_old_control",
+    "models/pandey_kumar_mode1/173_c5_same_mesh_corrected_control",
+    "scripts/validation/stage_and_datacheck_same_mesh_controls.py",
+    "results/validation/same_mesh_control_datacheck_receipt.json",
+    "results/validation/same_mesh_control_staging_report.md"
+  ]
+}
