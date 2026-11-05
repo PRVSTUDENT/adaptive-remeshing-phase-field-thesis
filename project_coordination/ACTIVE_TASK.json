@@ -277,7 +277,7 @@
         "1420353.mmaster02"
     ],
     "dependent_pbs_job_ids": [],
-    "pbs_status_note": "Jobs 1420352.mmaster02 (Arm 1) and 1420353.mmaster02 (Arm 2) submitted and running. First phase subproblem gate passed on Arm 1. Paired monitoring active.",
+    "pbs_status_note": "Jobs 1420352.mmaster02 (Arm 1, iter >125, Stage 2 sustained, stationary active set |A|=36) and 1420353.mmaster02 (Arm 2, iter >121, Stage 1 contracting |A|=1117) running on cluster. User will inform when completed.",
     "referenced_pbs_job_ids": [
         "1420353.mmaster02",
         "1420352.mmaster02",
@@ -321,7 +321,7 @@
         "reconciled_at": "2026-11-04T15:46:00+01:00"
     },
     "scientific_acceptance": "CONDITIONALLY_AUTHORIZED_TWO_ONCE_ONLY_PBS_SUBMISSIONS",
-    "last_step_status": "PAIRED_CONTROLS_SUBMITTED_AND_RUNNING_1420352_AND_1420353",
-    "last_updated": "2026-11-05T17:24:00+01:00",
-    "next_safe_action": "Monitor paired execution telemetry across outer iterations 1-140, compare convergence behavior between element-averaged vs isoparametric GP history."
+    "last_step_status": "PAIRED_CONTROLS_RUNNING_AWAITING_USER_NOTIFICATION_OF_COMPLETION",
+    "last_updated": "2026-11-05T18:28:00+01:00",
+    "next_safe_action": "Await user notification of job completion, then query qstat, download authentic evidence files, evaluate paired controls via scripts/validation/evaluate_same_mesh_controls.py, and dispatch progress to ChatGPT."
 }

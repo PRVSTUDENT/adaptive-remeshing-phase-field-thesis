@@ -53,19 +53,20 @@ def main():
     s172 = check_terminal_status(eq172)
     s173 = check_terminal_status(eq173)
 
-    print("=" * 105)
-    print(f"{'TASK F1626 PAIRED SAME-MESH CONTROL TELEMETRY COMPARISON':^105}")
-    print("=" * 105)
+    print("=" * 115)
+    print(f"{'TASK F1626 PAIRED SAME-MESH CONTROL TELEMETRY COMPARISON':^115}")
+    print("=" * 115)
     print(f"Arm 1 (Package 172 / Old Control):       Dir = {eq172.name if eq172 else 'None'} | Status = {s172} | Iterations = {len(t172)}")
     print(f"Arm 2 (Package 173 / Corrected Control): Dir = {eq173.name if eq173 else 'None'} | Status = {s173} | Iterations = {len(t173)}")
-    print("-" * 105)
-    print(f"{'Outer':>5} | {'Arm 1 (Old Control / Averaged)':^46} | {'Arm 2 (Corrected Control / Isoparametric)':^46}")
-    print(f"{'':>5} | {'Stg':>3} {'|A|':>5} {'Delta_d':>11} {'Delta_u [mm]':>12} {'Delta_H':>11} | {'Stg':>3} {'|A|':>5} {'Delta_d':>11} {'Delta_u [mm]':>12} {'Delta_H':>11}")
-    print("-" * 105)
+    print("-" * 115)
+    print(f"{'Outer':>5} | {'Arm 1 (Old Control / Averaged)':^52} | {'Arm 2 (Corrected Control / Isoparametric)':^52}")
+    print(f"{'':>5} | {'Stg':>3} {'|A|':>5} {'|dA|':>4} {'+A':>3} {'Delta_d':>11} {'Delta_u [mm]':>11} {'Delta_H':>10} | {'Stg':>3} {'|A|':>5} {'|dA|':>4} {'+A':>3} {'Delta_d':>11} {'Delta_u [mm]':>11} {'Delta_H':>10}")
+    print("-" * 115)
 
     max_iters = max(len(t172), len(t173))
-    # Sample every 5 iterations plus the latest
-    sample_indices = sorted(list(set(list(range(0, max_iters, 5)) + [max(0, len(t172) - 1), max(0, len(t173) - 1)])))
+    # Sample every 5 iterations plus recent tail
+    recent_tail = set(range(max(0, max_iters - 8), max_iters))
+    sample_indices = sorted(list(set(list(range(0, max_iters, 5)) + list(recent_tail) + [max(0, len(t172) - 1), max(0, len(t173) - 1)])))
 
     for idx in sample_indices:
         row1 = t172[idx] if idx < len(t172) else None
@@ -76,26 +77,34 @@ def main():
         if row1:
             stg1 = row1.get("stage", 1)
             act1 = row1.get("pdas_active_count", 0)
+            sym1 = row1.get("delta_active_symmetric", "-")
+            add1 = row1.get("added_nodes_count", "-")
+            sym1_s = f"{sym1:>4}" if sym1 is not None else "   -"
+            add1_s = f"{add1:>3}" if add1 is not None else "  -"
             dd1 = row1.get("delta_d", 0.0)
             du1 = row1.get("delta_u", 0.0) or 0.0
             dh1 = row1.get("delta_h", 0.0) or 0.0
-            s1_str = f"{stg1:>3} {act1:>5} {dd1:>11.4e} {du1:>12.4e} {dh1:>11.4e}"
+            s1_str = f"{stg1:>3} {act1:>5} {sym1_s} {add1_s} {dd1:>11.4e} {du1:>11.4e} {dh1:>10.3e}"
         else:
-            s1_str = f"{'--':>3} {'--':>5} {'--':>11} {'--':>12} {'--':>11}"
+            s1_str = f"{'--':>3} {'--':>5} {'--':>4} {'--':>3} {'--':>11} {'--':>11} {'--':>10}"
 
         if row2:
             stg2 = row2.get("stage", 1)
             act2 = row2.get("pdas_active_count", 0)
+            sym2 = row2.get("delta_active_symmetric", "-")
+            add2 = row2.get("added_nodes_count", "-")
+            sym2_s = f"{sym2:>4}" if sym2 is not None else "   -"
+            add2_s = f"{add2:>3}" if add2 is not None else "  -"
             dd2 = row2.get("delta_d", 0.0)
             du2 = row2.get("delta_u", 0.0) or 0.0
             dh2 = row2.get("delta_h", 0.0) or 0.0
-            s2_str = f"{stg2:>3} {act2:>5} {dd2:>11.4e} {du2:>12.4e} {dh2:>11.4e}"
+            s2_str = f"{stg2:>3} {act2:>5} {sym2_s} {add2_s} {dd2:>11.4e} {du2:>11.4e} {dh2:>10.3e}"
         else:
-            s2_str = f"{'--':>3} {'--':>5} {'--':>11} {'--':>12} {'--':>11}"
+            s2_str = f"{'--':>3} {'--':>5} {'--':>4} {'--':>3} {'--':>11} {'--':>11} {'--':>10}"
 
         print(f"{outer_num:>5} | {s1_str} | {s2_str}")
 
-    print("=" * 105)
+    print("=" * 115)
 
 
 if __name__ == "__main__":

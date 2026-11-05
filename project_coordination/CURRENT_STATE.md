@@ -1,3 +1,23 @@
+## 5 November Method C Same-Mesh Repaired Control Production Execution Live Monitoring (Task F1626)
+
+1. **Paired Execution & Empirical Telemetry (Jobs 1420352.mmaster02 and 1420353.mmaster02)**:
+   - **Arm 1 (Package 172 / Old Control)**: PBS `1420352.mmaster02` (`M1_C5_P172_OLD_CONTROL`), running on `mnode097/0`, reached Outer 125.
+     * Satisfied compound Stage 2 switching criteria at Outer 92 ($|A| = 172 \le 500$, $|\Delta A| \le 10$, $+A = 0$ for 3 consecutive iterations).
+     * Stage 2 acceleration ($\omega_d = 0.85$, $\omega_u = 0.85$) sustained continuously across Outer 92–125 (33 iterations) with **zero rollbacks**.
+     * Across Outer 119–125, the active set reached a **completely stationary state** ($|A| = 36$ nodes, $|\Delta A| = 0$, $+A = 0$).
+     * Field increments at Outer 125: $\Delta d = 8.50 \times 10^{-3}$, $\Delta u = 4.27 \times 10^{-5}\,\text{mm}$, $\Delta H = 69.12\,\text{MPa}$.
+   - **Arm 2 (Package 173 / Corrected Control)**: PBS `1420353.mmaster02` (`M1_C5_P173_CORRECTED_CONTROL`), running on `mnode098/0`, reached Outer 121.
+     * Demonstrates continuous monotonic active-set contraction from 13,083 to 1,117 nodes ($>91\%$ reduction) with $+A = 0$.
+     * Field increments at Outer 121: $\Delta d = 1.27 \times 10^{-2}$, $\Delta u = 2.82 \times 10^{-5}\,\text{mm}$, $\Delta H = 11.96\,\text{MPa}$.
+   - **Empirical Confirmation of Operator Defect**:
+     * Throughout iterations 1–121, Arm 2 (isoparametric bilinear GP history) exhibits up to $1,000\times$ lower $\Delta H$, $100\times$ lower $\Delta u$, and $15\times$ lower $\Delta d$ compared to Arm 1 (element-averaged), confirming that element averaging at the crack tip artificially introduces severe gradient distortion.
+2. **Post-Processing & Evaluation Infrastructure Staged**:
+   - Developed `scripts/validation/evaluate_same_mesh_controls.py` and `scripts/validation/monitor_paired_same_mesh_controls.py`.
+   - Expanded unit test suite `tests/unit/test_same_mesh_control_staging.py` to 20/20 PASS.
+3. **Execution Mode**:
+   - Active polling timer cancelled per user directive; both jobs continue running autonomously on compute nodes.
+   - Antigravity will resume analysis upon user notification of job completion.
+
 ## 5 November Method C Same-Mesh Repaired Control Production Execution Activated (Task F1626)
 
 1. **Independent Supervisor Review & Directive Intake (Handoff HND-5c0d7a3bf74b)**:

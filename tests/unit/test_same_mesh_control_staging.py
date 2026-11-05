@@ -774,3 +774,37 @@ def test_end_to_end_coupled_pipeline_qualification(tmp_path):
     assert len(saved_ckpt["damage"]) == 13278
     assert len(saved_ckpt["history"]) == 51984
 
+
+def test_evaluate_same_mesh_controls_contract(tmp_path):
+    from scripts.validation.evaluate_same_mesh_controls import build_evaluation_summary
+
+    arm1_dir = tmp_path / "arm1"
+    arm2_dir = tmp_path / "arm2"
+    arm1_dir.mkdir()
+    arm2_dir.mkdir()
+
+    # Synthetic telemetry matching realistic observed behavior:
+    # Arm 1 has high delta_H (~100 MPa) due to averaging
+    t1 = [
+        {"outer": 1, "pdas_active_count": 12558, "delta_d": 7.2e-3, "delta_u": 0.0, "delta_h": 0.0, "kkt_post_passed": True, "complementarity": 1e-9},
+        {"outer": 2, "pdas_active_count": 1000, "delta_d": 1.2e-2, "delta_u": 5.0e-5, "delta_h": 100.0, "kkt_post_passed": True, "complementarity": 1e-9}
+    ]
+    # Arm 2 has low delta_H (~0.1 MPa) due to isoparametric bilinear transfer
+    t2 = [
+        {"outer": 1, "pdas_active_count": 13083, "delta_d": 2.6e-4, "delta_u": 0.0, "delta_h": 0.0, "kkt_post_passed": True, "complementarity": 1e-11},
+        {"outer": 2, "pdas_active_count": 3000, "delta_d": 1.3e-3, "delta_u": 1.0e-6, "delta_h": 0.1, "kkt_post_passed": True, "complementarity": 1e-11}
+    ]
+
+    (arm1_dir / "live_iteration_telemetry.json").write_text(json.dumps(t1), encoding="utf-8")
+    (arm2_dir / "live_iteration_telemetry.json").write_text(json.dumps(t2), encoding="utf-8")
+
+    summary = build_evaluation_summary(arm1_dir, arm2_dir)
+
+    assert summary["schema"] == 1
+    assert summary["task_id"] == "F1626-METHOD-C-SAME-MESH-REPAIRED-CONTROL-EXECUTION"
+    verdict = summary["scientific_verdict"]
+    assert verdict["history_gradient_defect_confirmed"] is True
+    assert verdict["delta_H_reduction_factor"] == 1000.0
+    assert verdict["isoparametric_superiority_established"] is True
+
+
