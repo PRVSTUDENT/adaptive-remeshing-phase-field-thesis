@@ -2,16 +2,16 @@
     "task_id": "F1626-METHOD-C-SAME-MESH-REPAIRED-CONTROL-EXECUTION",
     "agent": "gemini-antigravity",
     "status": "ACTIVE",
-    "phase": "Method C Paired Same-Mesh Repaired Control Production Execution. Extractor contract remediated, awaiting supervisor approval for 2 PBS submissions.",
-    "gate_status": "AWAITING_SUPERVISOR_APPROVAL",
+    "phase": "Method C Paired Same-Mesh Repaired Control Production Execution. Conditional 2-job PBS authorization granted under HND-5c0d7a3bf74b.",
+    "gate_status": "SAME_MESH_REPAIRED_CONTROL_EXECUTION_AUTHORIZED__2_PBS_JOBS",
     "predecessor_task": {
         "task_id": "F1627-METHOD-C-SAME-MESH-EXTRACTOR-CONTRACT-QUALIFICATION",
         "status": "COMPLETED",
-        "source_commit": "b044a4680e0c5e62b57cccf334f66f638ada0068",
+        "source_commit": "671e61c18ac333e647adefa19ef2ec03768b2028",
         "checkpoint_sha256": "E0E40C296556C65E513ECBDDAB5C41E055FD6E78FE884908ABFB5455A4E35477"
     },
     "registration": {
-        "sha256": "328765FE235758C6FC1DBF255CA07E2D8C876C6F135CB3256E0C3A5EC49D3696",
+        "sha256": "AAEDF13A62F72CDC56A45537F349582ACC09A7173008069EDD047FCF8CB7AA3A",
         "schema": 1,
         "definition": "project_coordination/task_definitions/F1626-METHOD-C-SAME-MESH-REPAIRED-CONTROL-EXECUTION.json",
         "registered_by": "gemini-antigravity",
@@ -272,10 +272,15 @@
         "1419370.mmaster02",
         "1419375.mmaster02"
     ],
-    "active_pbs_job_ids": [],
+    "active_pbs_job_ids": [
+        "1420352.mmaster02",
+        "1420353.mmaster02"
+    ],
     "dependent_pbs_job_ids": [],
-    "pbs_status_note": "Jobs 1420344.mmaster02 and 1420345.mmaster02 evaluated as FAILED_DRIVER_EXTRACTION_SCHEMA_MISMATCH. Abaqus solver ran Exit 0 and produced ODB; driver failed on unpacking nodes table. Remediated and verified with 41/41 passing unit tests.",
+    "pbs_status_note": "Jobs 1420352.mmaster02 (Arm 1) and 1420353.mmaster02 (Arm 2) submitted and running. First phase subproblem gate passed on Arm 1. Paired monitoring active.",
     "referenced_pbs_job_ids": [
+        "1420353.mmaster02",
+        "1420352.mmaster02",
         "1420344.mmaster02",
         "1420345.mmaster02",
         "1420261.mmaster02",
@@ -291,8 +296,8 @@
         "1419485.mmaster02"
     ],
     "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-    "repaired_driver_sha256": "56A4F9E2974C1AB9D3FD1550E3B45C1582CF65F0A19DCF69550E7221D6ACFE2A",
-    "max_new_pbs_submissions": 0,
+    "repaired_driver_sha256": "BFB007ED4D91F9C5E01D826DEB3DE1E3F000EC51748AA9A8FC5097EEF534F65B",
+    "max_new_pbs_submissions": 2,
     "remaining_pbs_submissions": 0,
     "lifecycle": {
         "scientific_execution_started": true,
@@ -315,8 +320,8 @@
         "supervised_resumption_scope": "CONTROLLED_LIVE_VERIFICATION_ONLY",
         "reconciled_at": "2026-11-04T15:46:00+01:00"
     },
-    "scientific_acceptance": "AWAITING_SUPERVISOR_APPROVAL",
-    "last_step_status": "F1627_EXTRACTOR_CONTRACT_REMEDIATED_DATACHECKS_PASSED_AWAITING_F1626_PBS_APPROVAL",
-    "last_updated": "2026-11-05T16:47:00+01:00",
-    "next_safe_action": "Submit execution-readiness progress report to ChatGPT across PAD bridge requesting authorization for 2 PBS submissions."
+    "scientific_acceptance": "CONDITIONALLY_AUTHORIZED_TWO_ONCE_ONLY_PBS_SUBMISSIONS",
+    "last_step_status": "PAIRED_CONTROLS_SUBMITTED_AND_RUNNING_1420352_AND_1420353",
+    "last_updated": "2026-11-05T17:24:00+01:00",
+    "next_safe_action": "Monitor paired execution telemetry across outer iterations 1-140, compare convergence behavior between element-averaged vs isoparametric GP history."
 }
