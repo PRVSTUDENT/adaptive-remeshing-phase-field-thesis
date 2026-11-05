@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "task_id": "F1611-PACKAGE171-R9-C6-STAGE-AND-DATACHECK-QUALIFICATION",
+  "title": "Mode-I C6 Stage C3-0 Package 171-R9 Cluster Staging and Abaqus Datacheck Technical Qualification",
+  "predecessor": {
+    "run_id": "continuous-method-c-direct-bridge-20261104",
+    "status": "COMPLETED",
+    "task_id": "F1610-PACKAGE171-R9-C6-CORRECTIVE-QUALIFICATION",
+    "checkpoint_artifact": "results/validation/package171_r9_technical_correction_proposal.json",
+    "checkpoint_sha256": "D3F8D4F5343DAC19D8923C2B4935B30EB2D583C1B46BCA9E6C752E4D2C25C37F"
+  },
+  "operation": {
+    "checkpoint_kind": "TECHNICAL_QUALIFICATION",
+    "id": "stage_and_datacheck_package171_r9",
+    "mode": "STAGE_AND_DATACHECK_QUALIFICATION",
+    "registration": "Package 171-R9 C6 Cluster Staging and Abaqus Mechanical/Phase Datacheck Qualification; zero production solver PBS submissions authorized",
+    "staging_script": "scripts/validation/stage_package171_r9.py",
+    "datacheck_script": "run_datacheck.sh"
+  },
+  "max_new_pbs_submissions": 0,
+  "automatic_retry": false,
+  "job_references": {
+    "predecessor_job_id": "1420188.mmaster02",
+    "predecessor_status": "FAILED_COUPLED_NONCONVERGENCE_OUTER140_STAGE2_FALSE_DIVERGENCE_ROLLBACK",
+    "candidate_job": "M1_C6_P171_R9_C3_0",
+    "remote_dir": "/scratch9/pr21vyci/runs/mode1_c6_package171_r9_c3_0_adaptive_reequilibration",
+    "target_package": "models/pandey_kumar_mode1/171_c6_package171_r9_c3_0_adaptive_reequilibration",
+    "scientific_scope": "Stage Package 171-R9 to cluster scratch, execute interactive Abaqus mechanical and phase datachecks (Exit 0, 0 errors, ANALYSIS DATACHECK COMPLETE), and qualify the staged package directory prior to production execution dispatch; strictly 0 production solver PBS submissions authorized under F1611"
+  },
+  "acceptance": {
+    "acceptance_requires_original_files": true,
+    "delta_d_max": 1e-05,
+    "delta_u_mm_max": 1e-09,
+    "delta_h_MPa_max": 0.0001,
+    "signed_kkt_dual_kNmm_max": 1e-06,
+    "signed_kkt_free_kNmm_max": 1e-06,
+    "max_healing_tolerance": 1e-06,
+    "healing_violations_max": 0,
+    "history_monotonicity_violations_max": 0,
+    "force_discrepancy_pct_max": 2.0,
+    "total_energy_discrepancy_pct_max": 2.0,
+    "donor_reference_force_kN": 0.17992419004440308,
+    "donor_reference_total_energy_kNmm": 0.00022639903,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "mechanical_datacheck_required": true,
+    "phase_datacheck_required": true
+  },
+  "decision_branches": [
+    "STAGE_PACKAGE171_R9: execute scripts/validation/stage_package171_r9.py to mirror verified Package 171-R9 assets to cluster scratch",
+    "EXECUTE_REMOTE_DATACHECKS: run guarded ./run_datacheck.sh on cluster via Invoke-GuardedSsh.ps1 and verify P171_MECHANICAL_DC and P171_PHASE_DC exit 0 with 0 errors",
+    "NO_UNQUALIFIED_DISPATCH: zero production solver PBS submissions authorized under F1611; advance to F1612 execution task only after datachecks pass 100%"
+  ],
+  "evidence_sources": {
+    "results/validation/package171_r9_technical_correction_proposal.json": "D3F8D4F5343DAC19D8923C2B4935B30EB2D583C1B46BCA9E6C752E4D2C25C37F",
+    "scripts/state_transfer/driver_package171_r9_c6_coupled_pdas.py": "1829E8E7B426D8C367D6ACDBFF6E3393AD8E4526F93D760911A9756AB433DDB8",
+    "tests/unit/test_package171_r9_c6_coupled_driver.py": "EE0902BC239BD6F6E5E34656718C04A09B33C823826BDF60320B7B1229ED85D2",
+    "results/validation/package171_r9_driver_diff.patch": "9DE53B705BF6DF7C4CF18762FA0B968DA998283649DDEFA02C5B076054CE3FDF",
+    "results/validation/package171_r9_test_output.txt": "F64552C8361F1E95F04C34AF3CB1993AA0C13E96886134EA20AC143C9BF4A1CA",
+    "models/pandey_kumar_mode1/171_c6_package171_r8_c3_0_adaptive_reequilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "registration_authority": "Independent review APPROVE decision under correlation HND-2641788b57c8 (protocol INDEPENDENT_STRUCTURED_RE_REVIEW_V4) at commit a553bd94d62dae7e7f70c0fdde1a1e078a248446 closing F1610 on 2026-11-05"
+}
