@@ -1,0 +1,35 @@
+{
+  "task_id": "F1624-METHOD-C-SAME-MESH-RUNTIME-PREFLIGHT-CORRECTION",
+  "task_name": "Method C Paired Same-Mesh Runtime Preflight Correction and Deterministic Deck Selection",
+  "phase": "Method C Same-Mesh Paired Abaqus Control Runtime Preflight Correction",
+  "objective": "Resolve three supervisor blockers from Handoff HND-05234b3a9682: enforce deterministic master-deck selection in SameMeshControlPDASDriver, reconcile numerical discrepancies in Checkpoint 02 vs 03 discrepancy analysis and staging report, and clarify active-set terminology (written boundary cards vs localized damage vs runtime PDAS active set). Zero production PBS submissions authorized.",
+  "predecessor": "F1623-METHOD-C-SAME-MESH-CHECKPOINT03-PROVENANCE-CORRECTION",
+  "authorized_scope": {
+    "max_new_pbs_submissions": 0,
+    "packages": [
+      "models/pandey_kumar_mode1/172_c5_same_mesh_old_control",
+      "models/pandey_kumar_mode1/173_c5_same_mesh_corrected_control"
+    ],
+    "drivers": [
+      "scripts/state_transfer/driver_same_mesh_control_pdas.py"
+    ],
+    "tests": [
+      "tests/unit/test_same_mesh_control_staging.py"
+    ],
+    "reports": [
+      "results/validation/checkpoint_02_vs_03_discrepancy_analysis.json",
+      "results/validation/same_mesh_control_staging_report.md"
+    ]
+  },
+  "acceptance_criteria": [
+    "SameMeshControlPDASDriver deterministically selects explicit master input deck (*_REEQUILIBRATION.inp) regardless of filesystem enumeration order",
+    "Driver fails closed if master deck is missing, ambiguous, or inconsistent with C5 mesh topology (12,996 quads, 13,278 nodes)",
+    "Unit tests verify deterministic selection under shuffled/inverted glob order on both Package 172 and Package 173",
+    "Actual staged-driver import and load verified on both Package 172 and Package 173 directories",
+    "Checkpoint 02 vs Checkpoint 03 discrepancy analysis recomputed and reconciled with zero internal contradictions",
+    "Active-set terminology reconciled: distinguishing 13,278 written boundary cards, localized damage nodes, and runtime PDAS active nodes",
+    "All 8 authentic Abaqus 2023 datacheck receipts preserved",
+    "Package manifests and coordination ledgers updated with exact SHA-256 hashes",
+    "Zero production PBS submissions consumed"
+  ]
+}

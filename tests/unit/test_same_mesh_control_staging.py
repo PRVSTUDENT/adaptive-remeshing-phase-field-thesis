@@ -290,3 +290,135 @@ def test_task_definition_conformance():
     assert tdef["task_id"] == "F1623-METHOD-C-SAME-MESH-CHECKPOINT03-PROVENANCE-CORRECTION"
     assert tdef["governance"]["max_new_pbs_submissions"] == 0
     assert tdef["governance"]["zero_pbs_enforced"] is True
+
+
+def test_deterministic_master_deck_selection_with_shuffled_inps():
+    import tempfile
+    import shutil
+    sys.path.insert(0, str(REPO_ROOT / "scripts" / "state_transfer"))
+    from driver_same_mesh_control_pdas import SameMeshControlPDASDriver
+
+    # Create dummy package with multiple .inp files in inverted/arbitrary order using tempfile
+    temp_dir = Path(tempfile.mkdtemp(prefix="test_pkg_"))
+    try:
+        pkg_test = temp_dir / "pkg"
+        pkg_test.mkdir()
+        (pkg_test / "PACKAGE_MANIFEST.json").write_text('{"schema": 1}', encoding="utf-8")
+        (pkg_test / "nodal_displacements_initial.csv").write_text("node_id,u1_mm,u2_mm\n", encoding="utf-8")
+        (pkg_test / "nodal_phase_field_initial.csv").write_text("node_id,damage\n", encoding="utf-8")
+        (pkg_test / "d_lower_bounds.csv").write_text("element_id,d1,d2,d3,d4,h1,h2,h3,h4\n", encoding="utf-8")
+
+        # Inverted order: iter and DC decks before master deck
+        master_inp = pkg_test / "M1_C5_PACKAGE172_OLD_CONTROL_REEQUILIBRATION.inp"
+        # Copy actual master inp from PKG172_DIR
+        master_inp.write_text((PKG172_DIR / "M1_C5_PACKAGE172_OLD_CONTROL_REEQUILIBRATION.inp").read_text(encoding="utf-8"), encoding="utf-8")
+
+        (pkg_test / "P172_ITER1_MECH.inp").write_text("** ITER1 MECH", encoding="utf-8")
+        (pkg_test / "P172_ITER1_PHASE.inp").write_text("** ITER1 PHASE", encoding="utf-8")
+        (pkg_test / "P172_MECHANICAL_DC.inp").write_text("** MECH DC", encoding="utf-8")
+        (pkg_test / "P172_PHASE_DC.inp").write_text("** PHASE DC", encoding="utf-8")
+
+        # Test deterministic resolution
+        driver = SameMeshControlPDASDriver(package=pkg_test, output=temp_dir / "out", extractor=temp_dir / "ex.py")
+        (pkg_test / "nodal_displacements_initial.csv").write_text(
+            (PKG172_DIR / "nodal_displacements_initial.csv").read_text(encoding="utf-8"), encoding="utf-8"
+        )
+        (pkg_test / "nodal_phase_field_initial.csv").write_text(
+            (PKG172_DIR / "nodal_phase_field_initial.csv").read_text(encoding="utf-8"), encoding="utf-8"
+        )
+        (pkg_test / "d_lower_bounds.csv").write_text(
+            (PKG172_DIR / "d_lower_bounds.csv").read_text(encoding="utf-8"), encoding="utf-8"
+        )
+
+        driver.load()
+        assert driver.deck_path.name == "M1_C5_PACKAGE172_OLD_CONTROL_REEQUILIBRATION.inp"
+
+        # Test explicit master deck specification
+        driver_explicit = SameMeshControlPDASDriver(
+            package=pkg_test, output=temp_dir / "out", extractor=temp_dir / "ex.py",
+            master_deck_name="M1_C5_PACKAGE172_OLD_CONTROL_REEQUILIBRATION.inp"
+        )
+        driver_explicit.load()
+        assert driver_explicit.deck_path.name == "M1_C5_PACKAGE172_OLD_CONTROL_REEQUILIBRATION.inp"
+
+        # Test fail-closed on missing master deck
+        master_inp.unlink()
+        driver_missing = SameMeshControlPDASDriver(package=pkg_test, output=temp_dir / "out", extractor=temp_dir / "ex.py")
+        with pytest.raises(FileNotFoundError, match="Deterministic master deck selection failed"):
+            driver_missing.load()
+
+        # Test fail-closed on ambiguous master decks
+        (pkg_test / "M1_C5_PACKAGE172_OLD_CONTROL_REEQUILIBRATION.inp").write_text("** M1", encoding="utf-8")
+        (pkg_test / "M1_C5_PACKAGE172_EXTRA_RESTART.inp").write_text("** M2", encoding="utf-8")
+        driver_ambiguous = SameMeshControlPDASDriver(package=pkg_test, output=temp_dir / "out", extractor=temp_dir / "ex.py")
+        with pytest.raises(ValueError, match="Ambiguous master input deck"):
+            driver_ambiguous.load()
+    finally:
+        shutil.rmtree(temp_dir, ignore_errors=True)
+
+
+def test_actual_staged_driver_load_on_both_packages():
+    sys.path.insert(0, str(REPO_ROOT / "scripts" / "state_transfer"))
+    from driver_same_mesh_control_pdas import SameMeshControlPDASDriver
+
+    # Arm 1: Package 172
+    d172 = SameMeshControlPDASDriver(
+        package=PKG172_DIR,
+        output=PKG172_DIR / "test_out",
+        extractor=PKG172_DIR / "smoke_import.py"
+    )
+    d172.load()
+    assert d172.deck_path.name == "M1_C5_PACKAGE172_OLD_CONTROL_REEQUILIBRATION.inp"
+    assert len(d172.mesh.elements) == 12996
+    assert len(d172.mesh.nodes) == 13278
+    assert len(d172.u0) == 13278
+    assert len(d172.d0) == 13278
+    assert len(d172.h0) == 51984
+
+    # Arm 2: Package 173
+    d173 = SameMeshControlPDASDriver(
+        package=PKG173_DIR,
+        output=PKG173_DIR / "test_out",
+        extractor=PKG173_DIR / "smoke_import.py"
+    )
+    d173.load()
+    assert d173.deck_path.name == "M1_C5_PACKAGE173_CORRECTED_CONTROL_REEQUILIBRATION.inp"
+    assert len(d173.mesh.elements) == 12996
+    assert len(d173.mesh.nodes) == 13278
+    assert len(d173.u0) == 13278
+    assert len(d173.d0) == 13278
+    assert len(d173.h0) == 51984
+
+
+def test_discrepancy_analysis_consistency_and_active_set_characterization():
+    disc_p = REPO_ROOT / "results" / "validation" / "checkpoint_02_vs_03_discrepancy_analysis.json"
+    assert disc_p.is_file(), "checkpoint_02_vs_03_discrepancy_analysis.json missing"
+    with open(disc_p, "r", encoding="utf-8") as f:
+        d = json.load(f)
+
+    # Reconciled physical evolution values across continuation load increment
+    disp = d["discrepancies"]["displacement"]
+    assert 5.0e-6 <= disp["max_abs_delta_u_mm"] <= 5.5e-6
+    assert 3.0e-6 <= disp["rms_delta_u_mm"] <= 3.5e-6
+
+    dam = d["discrepancies"]["damage"]
+    assert 2.0e-8 <= dam["max_abs_delta_d"] <= 4.0e-8
+    assert 4.0e-9 <= dam["rms_delta_d"] <= 6.0e-9
+
+    hist = d["discrepancies"]["history"]
+    assert 0.07 <= hist["max_abs_delta_h_MPa"] <= 0.08
+    assert 0.0010 <= hist["rms_delta_h_MPa"] <= 0.0015
+
+    # Reconciled active-set and localized damage characterization
+    char = d["active_set_and_damage_characterization"]
+    assert char["nodes_localized_d_ge_095"] == 0, "Expected 0 nodes with d >= 0.95 at CP03"
+    assert char["nodes_localized_d_ge_065"] == 23, "Expected 23 nodes with d >= 0.65"
+    assert char["nodes_localized_d_ge_060"] == 66, "Expected 66 nodes with d >= 0.60"
+    assert char["written_boundary_cards_in_inc"] == 13278, "Expected 13,278 written boundary cards"
+    assert "dynamically at runtime" in char["pdas_active_set_mechanism"]
+
+    # Reconciled conclusion
+    conclusion = d["conclusion"]
+    assert "4.29e-4" not in conclusion, "Stale damage figure found in conclusion"
+    assert "tolerance violation" not in conclusion.lower(), "Incorrect tolerance-violation phrasing found"
+    assert "physical state evolution" in conclusion.lower()

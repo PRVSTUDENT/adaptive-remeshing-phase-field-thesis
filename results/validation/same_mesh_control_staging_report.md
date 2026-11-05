@@ -15,10 +15,14 @@
 In accordance with supervisory directive `HND-568381d9d20e`, this report documents the complete remediation of donor-state provenance and the qualification of dynamic first-iteration Abaqus input decks for the paired same-mesh control experiment on accepted C5 donor Checkpoint 03 (Job `1419566.mmaster02`, $u_y = 0.0018703125$ mm, 12,996 elements).
 
 ### 1.1 The Checkpoint 02 Contamination Defect (Caught by ChatGPT)
-In Task F1622, while Gauss-point history $H$ was correctly extracted from Checkpoint 03 (`converged_checkpoint_03.json`), `nodal_displacements_initial.csv`, `nodal_phase_field_initial.csv`, and element nodal damage in `d_lower_bounds.csv` were inadvertently copied from Package 167. Because Package 167 was initialized from Checkpoint 02 ($u_y = 0.0018653125$ mm), this introduced a severe kinematic inconsistency:
-- **Displacement Discrepancy:** $\max \|\Delta u\| = 5.2203\times 10^{-6}$ mm (**5,220.3$\times$ the coupled tolerance of $10^{-9}$ mm**).
-- **History Discrepancy:** $\max |\Delta H| = 0.0751$ MPa (**750.9$\times$ the coupled tolerance of $10^{-4}$ MPa**), with growth across 13,550 Gauss points.
-- **Secondary Gap:** Datacheck decks were copied from Package 167 rather than dynamically generated from the production driver `_deck()` path using the transferred fields.
+In Task F1622, while Gauss-point history $H$ was correctly extracted from Checkpoint 03 (`converged_checkpoint_03.json`), `nodal_displacements_initial.csv`, `nodal_phase_field_initial.csv`, and element nodal damage in `d_lower_bounds.csv` were inadvertently copied from Package 167. Package 167 was initialized from Checkpoint 02 ($u_y = 0.0018653125$ mm), whereas Checkpoint 03 was solved at $u_y = 0.0018703125$ mm across a physical load increment $\Delta u_y = 5.0\times 10^{-6}$ mm.
+
+Across this $5.0\,\mu\text{m}$ continuation increment, physical fields evolved as documented in `results/validation/checkpoint_02_vs_03_discrepancy_analysis.json`:
+- **Displacement Evolution:** $\max \|\Delta u\| = 5.2203\times 10^{-6}$ mm ($\text{RMS} = 3.1741\times 10^{-6}$ mm).
+- **History Evolution:** $\max |\Delta H| = 0.07509$ MPa ($\text{RMS} = 0.001115$ MPa), with physical history growth at 13,550 Gauss points.
+- **Damage Evolution:** $\max |\Delta d| = 2.9776\times 10^{-8}$ ($\text{RMS} = 5.0407\times 10^{-9}$).
+
+These differences represent legitimate physical state evolution across the continuation step rather than iterative tolerance violations. However, pairing Checkpoint 02 kinematics and damage with Checkpoint 03 history created an unphysical artificial state mismatch that confounded re-equilibration.
 
 ### 1.2 The Corrective Actions Executed
 1. **100% Direct Checkpoint 03 Extraction:** Extracted $u$, $d$, and $H$ directly from authentic accepted Checkpoint 03 (`converged_checkpoint_03.json`), verifying complete coverage across all 13,278 nodes and 51,984 Gauss points.
@@ -26,8 +30,13 @@ In Task F1622, while Gauss-point history $H$ was correctly extracted from Checkp
 3. **Dynamic First-Iteration Deck Generation:** Generated authentic first-iteration mechanical and phase decks via `SameMeshControlPDASDriver._deck()`:
    - `P172_ITER1_MECH.inp` (91,942 lines) & `P172_ITER1_PHASE.inp` (117,824 lines)
    - `P173_ITER1_MECH.inp` (91,942 lines) & `P173_ITER1_PHASE.inp` (117,953 lines)
-4. **Authentic Cluster Datacheck Qualification:** Staged both packages to cluster scratch and executed authentic interactive Abaqus 2023 datachecks on **all 8 subproblems** (preliminary + dynamic iter1) on `mlogin01.cluster`. All 8 passed with Exit 0, 0 errors, and completion banners.
-5. **Fail-Closed Unit Tests:** Added regression tests verifying agreement with Checkpoint 03 to machine precision ($< 10^{-12}$) and explicitly asserting failure if any file matches Checkpoint 02.
+4. **Deterministic Master-Deck Selection (Task F1624 Preflight Correction):** Resolved Blocker 1 by upgrading `SameMeshControlPDASDriver.load()` to select the explicit package master deck (`*_REEQUILIBRATION.inp` / `*_RESTART.inp`), excluding datacheck decks (`*_DC.inp`) and per-iteration decks (`*_ITER*.inp`), and failing closed if missing, ambiguous, or inconsistent with C5 mesh topology (12,996 elements, 13,278 nodes).
+5. **Authentic Cluster Datacheck Qualification:** Staged both packages to cluster scratch and executed authentic interactive Abaqus 2023 datachecks on **all 8 subproblems** (preliminary + dynamic iter1) on `mlogin01.cluster`. All 8 passed with Exit 0, 0 errors, and completion banners.
+6. **Active-Set & Localized Damage Characterization:**
+   - **Written Initial Damage Boundary Cards:** Exactly 13,278 cards in `active_set_boundary_cards.inc` establishing the baseline damage Dirichlet field from Checkpoint 03.
+   - **Localized Damage Characterization:** In Checkpoint 03, peak damage is $d_{\max} = 0.69098$ (0 nodes with $d \ge 0.95$; 23 nodes with $d \ge 0.65$; 66 nodes with $d \ge 0.60$).
+   - **Runtime PDAS Active Set $\mathcal{A}_k$:** Evaluated dynamically at runtime by the solver from the signed KKT residual condition $\mathcal{A}_k = \{ i : d_i - d_{\min, i} + c \cdot r_i \le 0 \}$, not from a static geometric damage threshold.
+7. **Fail-Closed Unit Tests:** Added regression tests verifying agreement with Checkpoint 03 to machine precision ($< 10^{-12}$), asserting deterministic master-deck selection under shuffled filesystem enumeration order, and verifying actual staged-driver loading.
 
 ---
 

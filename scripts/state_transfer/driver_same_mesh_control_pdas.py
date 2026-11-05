@@ -116,6 +116,7 @@ class SameMeshControlPDASDriver(object):
         rollback_factor=1.05,
         divergence_factor=1.50,
         catastrophic_delta_d_cap=0.05,
+        master_deck_name=None,
         abaqus="abaqus"
     ):
         self.package = Path(package).resolve()
@@ -135,6 +136,8 @@ class SameMeshControlPDASDriver(object):
         self.rollback_factor = float(rollback_factor)
         self.divergence_factor = float(divergence_factor)
         self.catastrophic_delta_d_cap = float(catastrophic_delta_d_cap)
+        self.master_deck_name = master_deck_name
+        self.deck_path = None
         self.abaqus = abaqus
 
         self.mesh = None
@@ -165,11 +168,34 @@ class SameMeshControlPDASDriver(object):
             raise FileNotFoundError(f"Missing PACKAGE_MANIFEST.json in {self.package}")
         manifest = json.loads(manifest_p.read_text(encoding="utf-8"))
 
-        inps = [p for p in self.package.glob("*.inp") if not p.name.endswith("_DC.inp")]
-        if not inps:
-            raise FileNotFoundError(f"Could not find master input deck in {self.package}")
-        deck_path = inps[0]
+        if self.master_deck_name is not None:
+            deck_path = self.package / self.master_deck_name
+            if not deck_path.is_file():
+                raise FileNotFoundError(
+                    f"Explicit master input deck '{self.master_deck_name}' not found in {self.package}"
+                )
+        else:
+            # Deterministic selection: exclude datacheck decks (*_DC.inp) and generated per-iteration decks (*_ITER*.inp)
+            candidates = [
+                p for p in self.package.glob("*.inp")
+                if not p.name.endswith("_DC.inp")
+                and "_ITER" not in p.name.upper()
+                and ("_REEQUILIBRATION" in p.name.upper() or "_RESTART" in p.name.upper() or "_MASTER" in p.name.upper())
+            ]
+            if len(candidates) == 1:
+                deck_path = candidates[0]
+            elif len(candidates) == 0:
+                raise FileNotFoundError(
+                    f"Deterministic master deck selection failed in {self.package}: "
+                    f"no *_REEQUILIBRATION.inp or *_RESTART.inp found (all .inp: {[p.name for p in self.package.glob('*.inp')]})"
+                )
+            else:
+                raise ValueError(
+                    f"Ambiguous master input deck in {self.package}: "
+                    f"multiple candidates found: {[p.name for p in candidates]}"
+                )
 
+        self.deck_path = deck_path
         self.template = deck_path.read_text(encoding="utf-8")
         self.mesh = Mesh2D.from_inp(deck_path, name="C5_Receiver", max_physical_node=13278)
 
@@ -825,6 +851,7 @@ def main():
     parser.add_argument("--rollback-factor", type=float, default=1.05, help="Residual growth threshold factor")
     parser.add_argument("--divergence-factor", type=float, default=1.50, help="Divergence threshold factor")
     parser.add_argument("--catastrophic-delta-d-cap", type=float, default=0.05, help="Catastrophic delta_d cap")
+    parser.add_argument("--master-deck", default=None, help="Explicit filename of master input deck")
     parser.add_argument("--abaqus", default="abaqus", help="Abaqus execution command")
     args = parser.parse_args()
 
@@ -846,6 +873,7 @@ def main():
         rollback_factor=args.rollback_factor,
         divergence_factor=args.divergence_factor,
         catastrophic_delta_d_cap=args.catastrophic_delta_d_cap,
+        master_deck_name=args.master_deck,
         abaqus=args.abaqus
     )
     summary = driver.solve_coupled_equilibration()

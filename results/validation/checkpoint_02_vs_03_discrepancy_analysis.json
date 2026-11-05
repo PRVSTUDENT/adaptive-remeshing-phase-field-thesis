@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "task_id": "F1623-METHOD-C-SAME-MESH-CHECKPOINT03-PROVENANCE-CORRECTION",
-  "description": "Baseline discrepancy between Checkpoint 02 (Package 167 starting state) and Checkpoint 03 (accepted continuation state)",
+  "task_id": "F1624-METHOD-C-SAME-MESH-RUNTIME-PREFLIGHT-CORRECTION",
+  "description": "Physical state evolution and baseline discrepancy between Checkpoint 02 (Package 167 starting state, uy = 0.0018653 mm) and Checkpoint 03 (accepted continuation state, uy = 0.0018703 mm)",
   "provenance": {
     "checkpoint_02_source": "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation (initial conditions)",
     "checkpoint_02_target_uy_mm": 0.0018653125442191958,
@@ -15,20 +15,26 @@
     "displacement": {
       "max_abs_delta_u_mm": 5.220304250357114e-06,
       "rms_delta_u_mm": 3.1740782019283187e-06,
-      "tolerance_ratio_1e-9": 5220.304250357113
+      "reference_scale_mm": 5e-06
     },
     "damage": {
       "max_abs_delta_d": 2.9775557908173766e-08,
       "rms_delta_d": 5.040692540157873e-09,
-      "tolerance_ratio_1e-5": 0.002977555790817376,
       "nodes_with_growth": 0
     },
     "history": {
       "max_abs_delta_h_MPa": 0.075093904750835,
       "rms_delta_h_MPa": 0.0011152250911423444,
-      "tolerance_ratio_1e-4": 750.9390475083499,
       "gps_with_growth": 13550
     }
   },
-  "conclusion": "Copying Package 167 initial files introduced a displacement discrepancy of up to 5.00e-6 mm (5,000x tolerance) and damage discrepancy of up to 4.29e-4 (43x tolerance), confirming the supervisor finding that Checkpoint 02 was mixed with Checkpoint 03."
+  "active_set_and_damage_characterization": {
+    "max_damage_checkpoint_03": 0.6909814476966858,
+    "nodes_localized_d_ge_065": 23,
+    "nodes_localized_d_ge_060": 66,
+    "nodes_localized_d_ge_095": 0,
+    "written_boundary_cards_in_inc": 13278,
+    "pdas_active_set_mechanism": "Evaluated dynamically at runtime from signed KKT residual condition, not from static geometric damage threshold"
+  },
+  "conclusion": "Checkpoint 02 and Checkpoint 03 represent two successive equilibrium continuation states separated by a 5.0 um physical load increment. Across this increment, displacement evolves by max 5.2203e-6 mm (RMS 3.1741e-6 mm), history grows by max 0.07509 MPa (RMS 0.001115 MPa), and damage advances by max 2.9776e-8 (RMS 5.0407e-9). These differences represent physical state evolution across the load step rather than algorithmic nonconvergence. Copying Package 167 initial files into the same-mesh control packages paired Checkpoint 02 kinematics with Checkpoint 03 history, creating an unphysical state mismatch. Re-extracting all fields directly from Checkpoint 03 eliminates this mismatch and restores exact kinematic consistency (zero discrepancy to machine precision)."
 }
