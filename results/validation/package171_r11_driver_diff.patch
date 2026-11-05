@@ -1,5 +1,5 @@
 diff --git a/scripts/state_transfer/driver_package171_r10_c6_coupled_pdas.py b/scripts/state_transfer/driver_package171_r11_c6_coupled_pdas.py
-index f4a5927b..3cade81a 100644
+index f4a5927b..a535e014 100644
 --- a/scripts/state_transfer/driver_package171_r10_c6_coupled_pdas.py
 +++ b/scripts/state_transfer/driver_package171_r11_c6_coupled_pdas.py
 @@ -1,19 +1,19 @@
@@ -201,7 +201,24 @@ index f4a5927b..3cade81a 100644
          self.max_active_cardinality = int(max_active_cardinality)
          self.max_symmetric_diff = int(max_symmetric_diff)
          self.max_added_nodes = int(max_added_nodes)
-@@ -193,13 +176,24 @@ class Package171R10C6PDASDriver(object):
+@@ -171,6 +154,16 @@ class Package171R10C6PDASDriver(object):
+         self.catastrophic_delta_d_cap = float(catastrophic_delta_d_cap)
+         self.abaqus = abaqus
+ 
++        # Configuration validation against catastrophic threshold and invalid parameters
++        if self.anderson_enabled:
++            if self.anderson_max_step_cap <= 0.0:
++                raise ValueError(f"anderson_max_step_cap must be strictly positive, got {self.anderson_max_step_cap}")
++            if self.anderson_max_step_cap >= self.catastrophic_delta_d_cap:
++                raise ValueError(
++                    f"anderson_max_step_cap ({self.anderson_max_step_cap}) must be strictly less than "
++                    f"catastrophic_delta_d_cap ({self.catastrophic_delta_d_cap}) to preserve safety margin"
++                )
++
+         self.mesh = None
+         self.template = None
+         self.target_uy = None
+@@ -193,13 +186,24 @@ class Package171R10C6PDASDriver(object):
          self.growth_rollback_count = 0
          self.transition_count = 0
  
@@ -227,7 +244,7 @@ index f4a5927b..3cade81a 100644
          if not deck_path.is_file():
              deck_path = self.package / "M1_C6_PACKAGE171_R9_C3_0_ADAPTIVE_REEQUILIBRATION.inp"
          if not deck_path.is_file():
-@@ -266,11 +260,13 @@ class Package171R10C6PDASDriver(object):
+@@ -266,11 +270,13 @@ class Package171R10C6PDASDriver(object):
  
          target_source = manifest.get("donor_source", {})
          self.target_uy = float(target_source.get("target_uy_mm", 0.0018703125442191958))
@@ -244,7 +261,36 @@ index f4a5927b..3cade81a 100644
          print(f"Compound Switching criteria: |A_k| <= {self.max_active_cardinality}, |Delta A_k| <= {self.max_symmetric_diff}, "
                f"Delta A^+ <= {self.max_added_nodes} for {self.stabilization_window} consecutive iterations")
          print(f"Rollback threshold factor: {self.rollback_factor:.2f}, divergence factor: {self.divergence_factor:.2f}, max_outer: {self.max_outer}")
-@@ -463,7 +459,7 @@ class Package171R10C6PDASDriver(object):
+@@ -371,7 +377,7 @@ class Package171R10C6PDASDriver(object):
+     def finalize_coupled_acceptance(
+         self, u_trial, u_abaqus, history_trial, damage_relaxed, consistent_u,
+         consistent_endpoint, solver, step_idx, outer, target_uy,
+-        delta_d=0.0, delta_u_relaxed=0.0, delta_u_raw=0.0, delta_h=0.0,
++        delta_d=0.0, raw_delta_d=0.0, delta_u_relaxed=0.0, delta_u_raw=0.0, delta_h=0.0,
+         pdas_active_count=0, pdas_free_count=0
+     ):
+         """
+@@ -446,6 +452,9 @@ class Package171R10C6PDASDriver(object):
+         healing_violations_count = sum(1 for n in damage_relaxed if damage_relaxed[n] - self.d0[n] < -HEALING_TOL)
+         healing_pass = (healing_violations_count == 0)
+ 
++        # 8. Raw damage fixed-point residual consistency (Anderson false-convergence gate)
++        raw_damage_pass = (raw_delta_d <= 1e-5) if self.anderson_enabled else True
++
+         # Joint Physical Acceptance Predicate (all gates required)
+         physical_pass = (
+             force_pass and
+@@ -455,7 +464,8 @@ class Package171R10C6PDASDriver(object):
+             healing_pass and
+             kkt_final_pass and
+             consistency_u_pass and
+-            consistency_h_pass
++            consistency_h_pass and
++            raw_damage_pass
+         )
+ 
+         effective_omega_d = self.omega_d_stage2 if self.stage == 2 else self.omega_d_stage1
+@@ -463,7 +473,7 @@ class Package171R10C6PDASDriver(object):
  
          summary = {
              "schema": 1,
@@ -253,7 +299,7 @@ index f4a5927b..3cade81a 100644
              "status": "CONVERGED",
              "stage": self.stage,
              "effective_omega_d": effective_omega_d,
-@@ -472,6 +468,9 @@ class Package171R10C6PDASDriver(object):
+@@ -472,6 +482,9 @@ class Package171R10C6PDASDriver(object):
              "rollback_count": self.rollback_count,
              "growth_rollback_count": self.growth_rollback_count,
              "divergence_rollback_count": self.divergence_rollback_count,
@@ -263,7 +309,16 @@ index f4a5927b..3cade81a 100644
              "coupled_convergence": True,
              "physical_acceptance": "PASS" if physical_pass else "FAIL",
              "thermodynamic_consistency": "PASS" if thermo_consistent else "FAIL",
-@@ -514,7 +513,7 @@ class Package171R10C6PDASDriver(object):
+@@ -500,6 +513,8 @@ class Package171R10C6PDASDriver(object):
+             "energy_discrepancy_pct": energy_discrepancy * 100.0,
+             "energy_gate_pass": energy_pass,
+             "delta_d_inf": delta_d,
++            "raw_delta_d_inf": raw_delta_d,
++            "raw_damage_gate_pass": raw_damage_pass,
+             "delta_u_relaxed_inf": delta_u_relaxed,
+             "delta_u_raw_inf": delta_u_raw,
+             "delta_h_inf": delta_h or 0.0,
+@@ -514,7 +529,7 @@ class Package171R10C6PDASDriver(object):
          if physical_pass:
              chkpt_data = {
                  "schema": 1,
@@ -272,7 +327,7 @@ index f4a5927b..3cade81a 100644
                  "stage_mode": self.stage,
                  "effective_omega_d": effective_omega_d,
                  "effective_omega_u": effective_omega_u,
-@@ -551,7 +550,7 @@ class Package171R10C6PDASDriver(object):
+@@ -551,7 +566,7 @@ class Package171R10C6PDASDriver(object):
          if time.monotonic() >= self.deadline:
              raise RuntimeError("Stage C3-0 execution deadline exceeded")
  
@@ -281,7 +336,7 @@ index f4a5927b..3cade81a 100644
          if inner > 0:
              job += f"_I{inner:02d}"
          sub_dir = self.output / f"step_{step_idx:02d}_outer_{outer:02d}_{role}"
-@@ -644,6 +643,13 @@ class Package171R10C6PDASDriver(object):
+@@ -644,6 +659,13 @@ class Package171R10C6PDASDriver(object):
          step_idx = 1
          target_uy = self.target_uy
  
@@ -295,7 +350,7 @@ index f4a5927b..3cade81a 100644
          solver = getattr(self, "solver", None) or PDASReEquilibrationSolver(self.mesh, self.d0, self.h0)
          damage = dict(self.d0)
          history = dict(self.h0)
-@@ -668,7 +674,8 @@ class Package171R10C6PDASDriver(object):
+@@ -668,7 +690,8 @@ class Package171R10C6PDASDriver(object):
          step_converged = False
          summary = None
  
@@ -305,7 +360,7 @@ index f4a5927b..3cade81a 100644
  
          for outer in range(1, self.max_outer + 1):
              # 1. Mechanical subproblem solve
-@@ -730,7 +737,7 @@ class Package171R10C6PDASDriver(object):
+@@ -730,7 +753,7 @@ class Package171R10C6PDASDriver(object):
                  if self.previous_active_set is not None else None
              )
  
@@ -314,7 +369,7 @@ index f4a5927b..3cade81a 100644
              # Requires: |A_k| <= max_active_cardinality (500)
              #           |Delta A_k| <= max_symmetric_diff (10)
              #           len(added_nodes) <= max_added_nodes (0)
-@@ -751,7 +758,7 @@ class Package171R10C6PDASDriver(object):
+@@ -751,7 +774,7 @@ class Package171R10C6PDASDriver(object):
                  self.stage = 2
                  transition_activated = True
                  self.transition_count += 1
@@ -323,7 +378,7 @@ index f4a5927b..3cade81a 100644
                        f"{self.consecutive_stable_iterations} consecutive iterations meeting compound criteria "
                        f"(|A|={len(pdas_active)}<={self.max_active_cardinality}, |Delta A|={delta_active_sym}<={self.max_symmetric_diff}, added={len(added_nodes)}==0)")
  
-@@ -764,19 +771,56 @@ class Package171R10C6PDASDriver(object):
+@@ -764,19 +787,56 @@ class Package171R10C6PDASDriver(object):
                  u_trial, history, target_uy
              )
  
@@ -389,7 +444,7 @@ index f4a5927b..3cade81a 100644
              rollback_triggered = False
              rollback_reason = None
              if self.stage == 2 and self.previous_raw_delta_d is not None and self.previous_raw_delta_d > 0:
-@@ -800,7 +844,7 @@ class Package171R10C6PDASDriver(object):
+@@ -800,7 +860,7 @@ class Package171R10C6PDASDriver(object):
                  if rollback_triggered:
                      self.rollback_count += 1
                      print(f"  [ROLLBACK] Outer {outer:02d}: Stage 2 {rollback_reason}. "
@@ -398,7 +453,7 @@ index f4a5927b..3cade81a 100644
                      # Revert candidate step using conservative relaxation factor
                      applied_omega_d = self.omega_d_stage1
                      cand_damage = {}
-@@ -810,11 +854,19 @@ class Package171R10C6PDASDriver(object):
+@@ -810,11 +870,19 @@ class Package171R10C6PDASDriver(object):
                      cand_delta_d = max(abs(cand_damage[n] - damage[n]) for n in cand_damage)
                      cand_raw_delta_d = max(abs(new_damage_pdas[n] - damage[n]) for n in new_damage_pdas)
  
@@ -421,7 +476,7 @@ index f4a5927b..3cade81a 100644
  
              relaxed_damage = cand_damage
              delta_d = cand_delta_d
-@@ -834,6 +886,8 @@ class Package171R10C6PDASDriver(object):
+@@ -834,6 +902,8 @@ class Package171R10C6PDASDriver(object):
              self.previous_raw_delta_d = raw_delta_d
              self.previous_active_set = set(pdas_active)
  
@@ -430,7 +485,7 @@ index f4a5927b..3cade81a 100644
              rec = {
                  "step": step_idx,
                  "outer": outer,
-@@ -843,6 +897,15 @@ class Package171R10C6PDASDriver(object):
+@@ -843,6 +913,15 @@ class Package171R10C6PDASDriver(object):
                  "applied_omega_u": applied_omega_u,
                  "effective_omega_d": applied_omega_d,
                  "effective_omega_u": applied_omega_u,
@@ -446,7 +501,7 @@ index f4a5927b..3cade81a 100644
                  "pdas_active_count": len(pdas_active),
                  "pdas_free_count": len(pdas_free),
                  "active_set_symmetric_diff": delta_active_sym,
-@@ -866,8 +929,8 @@ class Package171R10C6PDASDriver(object):
+@@ -866,8 +945,8 @@ class Package171R10C6PDASDriver(object):
                  "dual_error": kkt_post["dual_error"],
                  "complementarity": kkt_post["complementarity"],
                  "kkt_post_passed": kkt_post["passed"],
@@ -457,7 +512,7 @@ index f4a5927b..3cade81a 100644
              }
              step_records.append(rec)
              self.iteration_records.append(rec)
-@@ -881,7 +944,7 @@ class Package171R10C6PDASDriver(object):
+@@ -881,7 +960,7 @@ class Package171R10C6PDASDriver(object):
              added_str = f"{len(added_nodes)}" if added_nodes is not None else "N/A"
              u_rel_str = f"{delta_u_relaxed:.4e}" if delta_u_relaxed is not None else "N/A"
              u_raw_str = f"{delta_u_raw:.4e}" if delta_u_raw is not None else "N/A"
@@ -466,7 +521,31 @@ index f4a5927b..3cade81a 100644
                    f"delta_d={delta_d:.4e}, delta_u_rel={u_rel_str}, delta_u_raw={u_raw_str}, delta_h={delta_h or 0.0:.4e}, "
                    f"|Delta A|={sym_str} (card={card_str}, added={added_str}), stable_count={self.consecutive_stable_iterations}, "
                    f"post_kkt_pass={kkt_post['passed']}, PDAS active={len(pdas_active)}")
-@@ -930,7 +993,7 @@ class Package171R10C6PDASDriver(object):
+@@ -889,12 +968,15 @@ class Package171R10C6PDASDriver(object):
+             # Strict coupled convergence check:
+             # Requires:
+             # - delta_d <= 1e-5
++            # - raw_delta_d <= 1e-5 when anderson_enabled=True (intrinsic fixed-point residual consistency)
+             # - delta_u_relaxed <= 1e-9 mm
+             # - delta_u_raw <= 1e-9 mm (guarantees mechanical solve itself has contracted to equilibrium, rejecting smoothing artifacts)
+             # - delta_h <= 1e-4 MPa
+             # - kkt_post["passed"] (<= 1e-6)
++            raw_damage_converged = (raw_delta_d <= 1e-5) if self.anderson_enabled else True
+             if (previous_u_trial is not None and
+                 delta_d <= 1e-5 and
++                raw_damage_converged and
+                 delta_u_relaxed <= 1e-9 and
+                 delta_u_raw <= 1e-9 and
+                 (delta_h is not None and delta_h <= 1e-4) and
+@@ -921,6 +1003,7 @@ class Package171R10C6PDASDriver(object):
+                     outer=outer,
+                     target_uy=target_uy,
+                     delta_d=delta_d,
++                    raw_delta_d=raw_delta_d,
+                     delta_u_relaxed=delta_u_relaxed,
+                     delta_u_raw=delta_u_raw,
+                     delta_h=delta_h,
+@@ -930,12 +1013,13 @@ class Package171R10C6PDASDriver(object):
  
                  if not physical_pass:
                      raise RuntimeError(
@@ -475,7 +554,14 @@ index f4a5927b..3cade81a 100644
                          f"force={summary['force_gate_pass']}, energy={summary['energy_gate_pass']}, "
                          f"thermo={summary['thermodynamic_consistency']}, monotonicity={summary['history_monotonicity']}, "
                          f"healing={summary['healing_pass']}, kkt={summary['kkt_final_pass']}, "
-@@ -948,7 +1011,7 @@ class Package171R10C6PDASDriver(object):
+                         f"consistency_u={summary['coupled_field_consistency_u_pass']}, "
+-                        f"consistency_h={summary['coupled_field_consistency_h_pass']}"
++                        f"consistency_h={summary['coupled_field_consistency_h_pass']}, "
++                        f"raw_damage={summary['raw_damage_gate_pass']}"
+                     )
+                 break
+ 
+@@ -948,7 +1032,7 @@ class Package171R10C6PDASDriver(object):
              applied_omega_u = self.omega_u_stage2 if self.stage == 2 else self.omega_u_stage1
              summary = {
                  "schema": 1,
@@ -484,7 +570,7 @@ index f4a5927b..3cade81a 100644
                  "status": "NONCONVERGED",
                  "stage": self.stage,
                  "outer_iterations_completed": self.max_outer,
-@@ -966,6 +1029,9 @@ class Package171R10C6PDASDriver(object):
+@@ -966,6 +1050,9 @@ class Package171R10C6PDASDriver(object):
                  "rollback_count": self.rollback_count,
                  "growth_rollback_count": self.growth_rollback_count,
                  "divergence_rollback_count": self.divergence_rollback_count,
@@ -494,16 +580,18 @@ index f4a5927b..3cade81a 100644
                  "pdas_active_nodes_count": len(pdas_active),
                  "pdas_free_nodes_count": len(pdas_free),
                  "active_set_symmetric_diff": delta_active_sym,
-@@ -991,7 +1057,7 @@ class Package171R10C6PDASDriver(object):
+@@ -990,8 +1077,8 @@ class Package171R10C6PDASDriver(object):
+         return summary
  
  
- def main():
+-def main():
 -    parser = argparse.ArgumentParser(description="Package 171-R10 C6 Coupled PDAS Re-Equilibration Driver")
++def build_argument_parser():
 +    parser = argparse.ArgumentParser(description="Package 171-R11 C6 Coupled PDAS Re-Equilibration Driver")
      parser.add_argument("--package", required=True, help="Path to Package 171 directory")
      parser.add_argument("--output", required=True, help="Output directory for execution")
      parser.add_argument("--extractor", required=True, help="Path to extract_c4_to_c5_endpoint.py")
-@@ -1002,6 +1068,12 @@ def main():
+@@ -1002,6 +1089,12 @@ def main():
      parser.add_argument("--omega-d-stage2", type=float, default=0.85, help="Stage 2 damage relaxation factor")
      parser.add_argument("--omega-u-stage1", type=float, default=1.00, help="Stage 1 displacement relaxation factor")
      parser.add_argument("--omega-u-stage2", type=float, default=0.85, help="Stage 2 displacement relaxation factor")
@@ -512,12 +600,19 @@ index f4a5927b..3cade81a 100644
 +    parser.add_argument("--anderson-beta", type=float, default=0.85, help="Anderson acceleration mixing parameter (default: 0.85)")
 +    parser.add_argument("--anderson-reg", type=float, default=1e-6, help="Anderson Tikhonov regularization (default: 1e-6)")
 +    parser.add_argument("--anderson-gamma-max", type=float, default=200.0, help="Anderson gamma norm cap (default: 200.0)")
-+    parser.add_argument("--anderson-max-step-cap", type=float, default=0.20, help="Anderson max step cap (default: 0.20)")
++    parser.add_argument("--anderson-max-step-cap", type=float, default=0.045, help="Anderson max step cap (default: 0.045)")
      parser.add_argument("--max-active-cardinality", type=int, default=500, help="Maximum active set cardinality for Stage 2")
      parser.add_argument("--max-symmetric-diff", type=int, default=10, help="Maximum symmetric difference |Delta A| for Stage 2")
      parser.add_argument("--max-added-nodes", type=int, default=0, help="Maximum newly added nodes Delta A^+ for Stage 2")
-@@ -1012,7 +1084,7 @@ def main():
+@@ -1010,9 +1103,14 @@ def main():
+     parser.add_argument("--divergence-factor", type=float, default=1.50, help="Divergence threshold factor (default: 1.50)")
+     parser.add_argument("--catastrophic-delta-d-cap", type=float, default=0.05, help="Catastrophic delta_d cap (default: 0.05)")
      parser.add_argument("--abaqus", default="abaqus", help="Abaqus execution command")
++    return parser
++
++
++def main():
++    parser = build_argument_parser()
      args = parser.parse_args()
  
 -    driver = Package171R10C6PDASDriver(
@@ -525,7 +620,7 @@ index f4a5927b..3cade81a 100644
          package=args.package,
          output=args.output,
          extractor=args.extractor,
-@@ -1023,6 +1095,12 @@ def main():
+@@ -1023,6 +1121,12 @@ def main():
          omega_d_stage2=args.omega_d_stage2,
          omega_u_stage1=args.omega_u_stage1,
          omega_u_stage2=args.omega_u_stage2,
@@ -538,7 +633,7 @@ index f4a5927b..3cade81a 100644
          max_active_cardinality=args.max_active_cardinality,
          max_symmetric_diff=args.max_symmetric_diff,
          max_added_nodes=args.max_added_nodes,
-@@ -1044,6 +1122,8 @@ def main():
+@@ -1044,6 +1148,8 @@ def main():
          print(f"Last delta_u_relaxed: {summary.get('last_delta_u_relaxed')}")
          print(f"Last delta_u_raw: {summary.get('last_delta_u_raw')}")
          print(f"Last delta_h: {summary.get('last_delta_h')}")

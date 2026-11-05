@@ -83,6 +83,7 @@ from scripts.state_transfer.driver_package171_r10_c6_coupled_pdas import (
 from scripts.state_transfer.driver_package171_r11_c6_coupled_pdas import (
     Package171R11C6PDASDriver,
     AndersonAccelerator,
+    build_argument_parser,
     compute_active_set_symmetric_difference,
     DONOR_REFERENCE_FORCE_KN,
     DONOR_REFERENCE_TOTAL_ENERGY_KNMM,
@@ -148,7 +149,7 @@ class TestPackage171R11C6CoupledDriver(unittest.TestCase):
             anderson_beta=0.85,
             anderson_reg=1e-6,
             anderson_gamma_max=200.0,
-            anderson_max_step_cap=0.20,
+            anderson_max_step_cap=0.045,
             max_active_cardinality=500,
             max_symmetric_diff=10,
             max_added_nodes=0,
@@ -878,6 +879,267 @@ class TestPackage171R11C6CoupledDriver(unittest.TestCase):
         nonexistent_d0 = Path("models/nonexistent_d0_xyz.csv")
         with self.assertRaises(FileNotFoundError):
             load_d0(nonexistent_d0)
+
+    # --------------------------------------------------------------------------
+    # 15. Blocker 1 Regression: CLI Argument Parsing & Driver Configuration Validation
+    # --------------------------------------------------------------------------
+    def test_cli_argument_parsing_and_configuration_validation(self):
+        """Verify CLI parser defaults --anderson-max-step-cap to 0.045 and constructor validates safety margin."""
+        # 1. Test CLI parser default and custom values
+        parser = build_argument_parser()
+        args_default = parser.parse_args([
+            "--package", str(self.pkg_path),
+            "--output", str(self.out_path),
+            "--extractor", "dummy_extractor.py"
+        ])
+        self.assertEqual(args_default.anderson_max_step_cap, 0.045)
+        self.assertEqual(args_default.catastrophic_delta_d_cap, 0.05)
+
+        args_custom = parser.parse_args([
+            "--package", str(self.pkg_path),
+            "--output", str(self.out_path),
+            "--extractor", "dummy_extractor.py",
+            "--anderson-max-step-cap", "0.040"
+        ])
+        self.assertEqual(args_custom.anderson_max_step_cap, 0.040)
+
+        # 2. Test constructor configuration validation
+        # Valid: 0 < anderson_max_step_cap < catastrophic_delta_d_cap
+        d_valid = Package171R11C6PDASDriver(
+            package=self.pkg_path, output=self.out_path, extractor="dummy_ext.py",
+            anderson_max_step_cap=0.045, catastrophic_delta_d_cap=0.05
+        )
+        self.assertEqual(d_valid.anderson_max_step_cap, 0.045)
+
+        # Invalid: anderson_max_step_cap >= catastrophic_delta_d_cap (e.g. 0.05 == 0.05)
+        with self.assertRaises(ValueError) as ctx_eq:
+            Package171R11C6PDASDriver(
+                package=self.pkg_path, output=self.out_path, extractor="dummy_ext.py",
+                anderson_max_step_cap=0.05, catastrophic_delta_d_cap=0.05
+            )
+        self.assertIn("must be strictly less than catastrophic_delta_d_cap", str(ctx_eq.exception))
+
+        # Invalid: anderson_max_step_cap > catastrophic_delta_d_cap (e.g. 0.20 > 0.05)
+        with self.assertRaises(ValueError) as ctx_gt:
+            Package171R11C6PDASDriver(
+                package=self.pkg_path, output=self.out_path, extractor="dummy_ext.py",
+                anderson_max_step_cap=0.20, catastrophic_delta_d_cap=0.05
+            )
+        self.assertIn("must be strictly less than catastrophic_delta_d_cap", str(ctx_gt.exception))
+
+        # Invalid: anderson_max_step_cap <= 0.0
+        with self.assertRaises(ValueError) as ctx_zero:
+            Package171R11C6PDASDriver(
+                package=self.pkg_path, output=self.out_path, extractor="dummy_ext.py",
+                anderson_max_step_cap=0.0, catastrophic_delta_d_cap=0.05
+            )
+        self.assertIn("must be strictly positive", str(ctx_zero.exception))
+
+        with self.assertRaises(ValueError) as ctx_neg:
+            Package171R11C6PDASDriver(
+                package=self.pkg_path, output=self.out_path, extractor="dummy_ext.py",
+                anderson_max_step_cap=-0.01, catastrophic_delta_d_cap=0.05
+            )
+        self.assertIn("must be strictly positive", str(ctx_neg.exception))
+
+    # --------------------------------------------------------------------------
+    # 16. Blocker 2 Regression: Picard Fallback Exceeding Catastrophic Cap Triggers Driver Rollback
+    # --------------------------------------------------------------------------
+    def test_production_path_picard_fallback_exceeding_catastrophic_cap_triggers_rollback(self):
+        """Verify that when an oversized Anderson candidate falls back to Picard, and the Picard step
+        itself exceeds the catastrophic cap (0.05), the driver executes catastrophic rollback to Stage 1."""
+        self.driver.load = lambda: None
+        self.driver.max_outer = 3
+        self.driver.stage = 2
+        self.driver.consecutive_stable_iterations = 3
+        self.driver.previous_raw_delta_d = 0.010
+        self.driver.anderson_max_step_cap = 0.045
+        self.driver.catastrophic_delta_d_cap = 0.05
+        self.driver.divergence_factor = 1.50
+        self.driver.rollback_factor = 1.05
+
+        self.driver.previous_u_trial = {n: (0.0001, 0.001870) for n in range(1, 5)}
+        mock_u = {n: (0.0001, 0.001870) for n in range(1, 5)}
+        mock_ep = dict(self.consistent_endpoint)
+
+        # In Outer 1: raw delta is 0.010 -> stage 2 continues
+        # In Outer 2: raw PDAS step is large: d_pdas - d_k = 0.070
+        # Damped Picard step (omega_d=0.85): 0.85 * 0.070 = 0.0595 > 0.05 (catastrophic cap)
+        # Anderson candidate is rejected (> 0.045), returning Picard fallback.
+        # But Picard step is 0.0595 > 0.05!
+        # Driver's catastrophic rollback safeguard triggers: resets stage to 1, reverts omega_d to 0.50.
+        def mock_subproblem(step_idx, outer, inner, role, damage, active, displacement, history, target_u):
+            if role == "mechanical":
+                return damage, mock_u, mock_ep
+            else:
+                if outer == 1:
+                    return {n: 0.110 for n in range(1, 5)}, None, None
+                elif outer == 2:
+                    return {n: 0.180 for n in range(1, 5)}, None, None
+                else:
+                    return {n: 0.185 for n in range(1, 5)}, None, None
+
+        self.driver.solve_subproblem = mock_subproblem
+
+        def mock_compute_step(d_current, d_pdas, d0, damped_omega, active_set_changed):
+            d_pic = {n: (1.0 - damped_omega) * d_current[n] + damped_omega * d_pdas[n] for n in d_current}
+            cand_step = max(abs(d_pic[n] - d_current[n]) for n in d_current)
+            return d_pic, {
+                "accelerated": False,
+                "reason": "oversized_step (0.0650 > 0.0450)",
+                "m_k": 1,
+                "residual_l2": 0.14,
+                "residual_linf": 0.070,
+                "gamma": [1.0],
+                "gamma_norm": 1.0,
+                "proposed_step": 0.0650,
+                "accepted_step": cand_step,
+                "picard_step": cand_step
+            }
+        self.driver.accelerator.compute_step = mock_compute_step
+
+        try:
+            self.driver.solve_coupled_equilibration()
+        except RuntimeError:
+            pass
+
+        telem_file = self.out_path / "live_iteration_telemetry.json"
+        telem = json.loads(telem_file.read_text(encoding="utf-8"))
+
+        t2 = telem[1]
+        self.assertFalse(t2["anderson_accelerated"])
+        self.assertTrue(t2["rollback_triggered"])
+        self.assertIn("catastrophic jump", t2["rollback_reason"])
+        self.assertEqual(t2["stage"], 1)
+        self.assertEqual(t2["applied_omega_d"], 0.50)
+        self.assertEqual(self.driver.stage, 1)
+        self.assertGreater(self.driver.divergence_rollback_count, 0)
+
+    # --------------------------------------------------------------------------
+    # 17. Blocker 3 Regression: Reject False Convergence on Unsatisfied Raw Damage Residual
+    # --------------------------------------------------------------------------
+    def test_production_path_reject_false_convergence_on_unsatisfied_raw_damage_residual(self):
+        """Verify that under Anderson acceleration, when delta_d <= 1e-5 but raw_delta_d > 1e-5,
+        coupled convergence is rejected, physical acceptance fails, and checkpoint is suppressed.
+        Also verify that when anderson_enabled=False (R10 mode), raw damage does not block convergence."""
+        solver = MockSolver(passed=True)
+
+        # 1. Direct gate test on finalize_coupled_acceptance:
+        # Case A: anderson_enabled = True, delta_d <= 1e-5, but raw_delta_d = 2e-5 > 1e-5
+        self.driver.anderson_enabled = True
+        summary_acc_fail, passed_acc_fail = self.driver.finalize_coupled_acceptance(
+            u_trial=self.u_trial,
+            u_abaqus=self.u_abaqus,
+            history_trial=self.history_trial,
+            damage_relaxed=self.damage_relaxed,
+            consistent_u=dict(self.u_trial),
+            consistent_endpoint=self.consistent_endpoint,
+            solver=solver,
+            step_idx=1,
+            outer=89,
+            target_uy=self.driver.target_uy,
+            delta_d=5e-6,
+            raw_delta_d=2e-5,
+            delta_u_relaxed=1e-10,
+            delta_u_raw=1e-10,
+            delta_h=1e-5
+        )
+        self.assertFalse(passed_acc_fail)
+        self.assertEqual(summary_acc_fail["physical_acceptance"], "FAIL")
+        self.assertFalse(summary_acc_fail["raw_damage_gate_pass"])
+        self.assertEqual(summary_acc_fail["raw_delta_d_inf"], 2e-5)
+        chkpt_path = self.out_path / "converged_checkpoint_01.json"
+        self.assertFalse(chkpt_path.is_file())
+
+        # Case B: anderson_enabled = True, BOTH delta_d <= 1e-5 AND raw_delta_d <= 1e-5 -> PASS
+        summary_acc_pass, passed_acc_pass = self.driver.finalize_coupled_acceptance(
+            u_trial=self.u_trial,
+            u_abaqus=self.u_abaqus,
+            history_trial=self.history_trial,
+            damage_relaxed=self.damage_relaxed,
+            consistent_u=dict(self.u_trial),
+            consistent_endpoint=self.consistent_endpoint,
+            solver=solver,
+            step_idx=1,
+            outer=89,
+            target_uy=self.driver.target_uy,
+            delta_d=5e-6,
+            raw_delta_d=8e-6,
+            delta_u_relaxed=1e-10,
+            delta_u_raw=1e-10,
+            delta_h=1e-5
+        )
+        self.assertTrue(passed_acc_pass)
+        self.assertEqual(summary_acc_pass["physical_acceptance"], "PASS")
+        self.assertTrue(summary_acc_pass["raw_damage_gate_pass"])
+        self.assertTrue(chkpt_path.is_file())
+        chkpt_path.unlink()
+
+        # Case C: anderson_enabled = False (R10 backward-compatibility mode):
+        # raw_delta_d > 1e-5 does NOT block convergence
+        self.driver.anderson_enabled = False
+        summary_r10, passed_r10 = self.driver.finalize_coupled_acceptance(
+            u_trial=self.u_trial,
+            u_abaqus=self.u_abaqus,
+            history_trial=self.history_trial,
+            damage_relaxed=self.damage_relaxed,
+            consistent_u=dict(self.u_trial),
+            consistent_endpoint=self.consistent_endpoint,
+            solver=solver,
+            step_idx=1,
+            outer=89,
+            target_uy=self.driver.target_uy,
+            delta_d=5e-6,
+            raw_delta_d=2e-5,
+            delta_u_relaxed=1e-10,
+            delta_u_raw=1e-10,
+            delta_h=1e-5
+        )
+        self.assertTrue(passed_r10)
+        self.assertEqual(summary_r10["physical_acceptance"], "PASS")
+        self.assertTrue(summary_r10["raw_damage_gate_pass"])
+        self.assertTrue(chkpt_path.is_file())
+        chkpt_path.unlink()
+        self.driver.anderson_enabled = True
+
+        # 2. Production solve_coupled_equilibration() loop test:
+        # Accelerated step reaches delta_d <= 1e-5, delta_u <= 1e-9, delta_h <= 1e-4,
+        # but intrinsic PDAS residual raw_delta_d > 1e-5.
+        self.driver.load = lambda: None
+        self.driver.max_outer = 2
+        self.driver.stage = 2
+        self.driver.previous_raw_delta_d = 0.001
+        self.driver.previous_u_trial = {n: (0.0001, 0.001870312544) for n in range(1, 5)}
+        self.driver.previous_u_abaqus = dict(self.driver.previous_u_trial)
+
+        mock_u = {n: (0.0001, 0.001870312544 + 1e-10) for n in range(1, 5)}
+        mock_ep = dict(self.consistent_endpoint)
+
+        # Mock phase solve returns raw PDAS damage that differs by 2e-5 (> 1e-5) from current damage
+        # But mock accelerator artificially returns accelerated candidate within 5e-6 (<= 1e-5)
+        def mock_subproblem(step_idx, outer, inner, role, damage, active, displacement, history, target_u):
+            if role == "mechanical":
+                return damage, mock_u, mock_ep
+            else:
+                return {n: damage[n] + 2e-5 for n in range(1, 5)}, None, None
+
+        self.driver.solve_subproblem = mock_subproblem
+        self.driver.accelerator.compute_step = lambda d_current, d_pdas, d0, damped_omega, active_set_changed: (
+            {n: d_current[n] + 5e-6 for n in d_current},
+            {"accelerated": True, "reason": "none", "m_k": 1, "gamma": [], "gamma_norm": 1.0,
+             "proposed_step": 5e-6, "accepted_step": 5e-6, "picard_step": 1.7e-5}
+        )
+
+        mock_solver = MockSolver(passed=True, free_err=1e-8, dual_err=1e-8, comp=1e-8)
+        self.driver.solver = mock_solver
+
+        summary = self.driver.solve_coupled_equilibration()
+        # Convergence MUST be rejected because raw_delta_d (2e-5) > 1e-5!
+        self.assertEqual(summary["status"], "NONCONVERGED")
+        self.assertFalse(chkpt_path.is_file())
+        telem = json.loads((self.out_path / "live_iteration_telemetry.json").read_text(encoding="utf-8"))[0]
+        self.assertLessEqual(telem["delta_d"], 1e-5)
+        self.assertGreater(telem["raw_delta_d"], 1e-5)
 
 
 if __name__ == "__main__":

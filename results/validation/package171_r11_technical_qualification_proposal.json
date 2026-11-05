@@ -6,15 +6,15 @@
   "status": "TECHNICAL_QUALIFICATION_PROPOSAL_PREPARED",
   "governance": {
     "protocol_version": 2,
-    "authorized_by": "chatgpt_pad_bridge_instruction_HND-36a95b64ebae_and_remediation_HND-52ff442365c2",
-    "governing_instruction": "REJECT R11 FOR STAGING — CORRECT AND REQUALIFY THE ANDERSON SAFEGUARDS OFFLINE. Resolve all 4 review blockers under Task F1617 with strictly 0 PBS submissions.",
+    "authorized_by": "chatgpt_pad_bridge_instruction_HND-36a95b64ebae_and_remediations_HND-52ff442365c2_and_HND-3163e9c4fd20",
+    "governing_instruction": "REQUIRE ONE MINIMAL OFFLINE CORRECTION BEFORE STAGING APPROVAL. Resolve all 4 review blockers under Task F1617 with strictly 0 PBS submissions.",
     "zero_pbs_submissions_enforced": true,
     "max_new_pbs_submissions": 0,
     "blockers_remediated": [
-      "BLOCKER 1: Anderson step cap set to 0.045 preserving explicit safety margin below 0.05 catastrophic rollback threshold, with safe Picard fallback and proposed vs accepted step telemetry.",
-      "BLOCKER 2: Enforced immediate Anderson memory reset whenever active-set symmetric difference exceeds threshold (|Delta A| > 5) or stage != 2, verified across acceleration -> topology change -> reset -> re-entry sequence.",
-      "BLOCKER 3: Reconstructed intrinsic residuals r_k = d_PDAS - d_k, loaded authentic transferred d0 across 15,559 nodes, committed authentic endpoint files endpoint_o136 through o140 to GitHub, enforced fail-closed guards, and classified replay as illustrative offline study on C6 geometry.",
-      "BLOCKER 4: Eliminated duplicated AndersonAccelerator class from production driver; single canonical implementation imported from scripts.state_transfer.anderson_acceleration."
+      "BLOCKER 1: CLI default --anderson-max-step-cap aligned to 0.045 with constructor validation (0 < cap < catastrophic_delta_d_cap) preserving safety margin below 0.05 catastrophic threshold, fully tested across argument-parser-to-driver execution path.",
+      "BLOCKER 2: Qualified that Picard fallback is not unconditionally safe; verified in production-path tests that if Picard fallback itself exceeds catastrophic threshold (0.05) or divergence factor (1.50x), it properly triggers established driver rollback logic to Stage 1.",
+      "BLOCKER 3: Added Anderson-specific raw damage fixed-point residual consistency gate (raw_delta_d <= 1e-5 when anderson_enabled=True) to both solve_coupled_equilibration and finalize_coupled_acceptance to eliminate false-convergence loopholes, verified checkpoint suppression, and preserved exact R10 behavior when anderson_enabled=False.",
+      "BLOCKER 4: Reconciled exact bitwise SHA-256 hashes and byte sizes across all deliverables: frozen UEL is 29,722 bytes (SHA-256 CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6); package171_r11_test_output.txt is encoded in pure UTF-8 without BOM (8,197 bytes, SHA-256 899019C0D48EA49D50A38555D92CB4FF6BE92CA41BF8F36A40251D15D84C962E, 54/54 tests pass); retained classification of C6 endpoint replay as an illustrative offline study on C6 geometry."
     ]
   },
   "predecessor": {
@@ -61,8 +61,9 @@
       "activation_gate": "Active ONLY in Stage 2 after active-set stabilization (|Delta A_k| <= 5)",
       "topology_shift_action": "Any active set shift (|Delta A_k| > 5) immediately flushes Anderson history and falls back to damped Picard",
       "projection_bound": "d_{k+1} = min(1.0, max(d0, d_cand)) strictly guarantees zero healing and upper bound preservation",
+      "raw_damage_convergence_gate": "raw_delta_d <= 1e-5 strictly enforced when anderson_enabled=True",
       "mock_problem_speedup_demonstrated": "2.34x (161 iterations vs 376 Picard iterations)",
-      "authentic_c6_mesh_verification": "Tested on Outer 136-140 authentic 15,559-node damage fields from Job 1420261; proposed steps 0.113-0.120 safely rejected by 0.045 cap, fall back to Picard <= 0.045, avoiding 0.05 catastrophic rollback; 0 healing violations, 0 upper bound violations"
+      "authentic_c6_mesh_verification": "Tested on Outer 136-140 authentic 15,559-node damage fields from Job 1420261; proposed steps 0.113-0.120 safely rejected by 0.045 cap, fall back to Picard, avoiding 0.05 catastrophic rollback; 0 healing violations, 0 upper bound violations"
     },
     "history_construction": {
       "formula": "H_trial^{(k)} = max(H0, psi+(u_trial^{(k)}))",
@@ -85,14 +86,15 @@
   },
   "evidence_and_hashes": {
     "frozen_uel": {
-      "path": "models/pandey_kumar_mode1/f42_mixed_uel.for",
+      "path": "models/pandey_kumar_mode1/171_c6_package171_r10_c3_0_adaptive_reequilibration/f42_mixed_uel.for",
       "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "size_bytes": 29722,
       "status": "BITWISE_IDENTICAL"
     },
     "driver": {
       "path": "scripts/state_transfer/driver_package171_r11_c6_coupled_pdas.py",
-      "sha256": "0B3E47ADF1C6F619A83EEC817041D523BFDEA783C87E600DB5B3F74E124A0BDA",
-      "size_bytes": 57529
+      "sha256": "849A5D0AD54FB649DAEED561CF7B3E691E1534D3B08355CACC7CC4B1022BE058",
+      "size_bytes": 58931
     },
     "anderson_module": {
       "path": "scripts/state_transfer/anderson_acceleration.py",
@@ -108,10 +110,10 @@
     },
     "driver_unit_tests": {
       "path": "tests/unit/test_package171_r11_c6_coupled_driver.py",
-      "sha256": "D4D87C43F5BF29EBB0942F5D228BED9B71CD1D1DE4F0858FD4CF3B1FAB974352",
-      "size_bytes": 41684,
-      "tests_count": 18,
-      "tests_passed": 18
+      "sha256": "B9695E3589707C71B2403B6541B2D21AD4CDFF0F4138529DA65D7E25BCB48674",
+      "size_bytes": 54624,
+      "tests_count": 21,
+      "tests_passed": 21
     },
     "authentic_c6_telemetry_test": {
       "path": "scripts/validation/test_anderson_on_authentic_r10_data.py",
@@ -123,17 +125,17 @@
     },
     "diff_patch": {
       "path": "results/validation/package171_r11_driver_diff.patch",
-      "sha256": "89C5FC094CFF23931BD3A070282738FD61B15C9DC3B288F55611556259F3E608",
-      "size_bytes": 33135,
+      "sha256": "57D38D12E756BE0CAF6D8A52FB6F79F9F078027BA3E68FA9DEBD03A5F9FC2F04",
+      "size_bytes": 37912,
       "git_apply_check_exit": 0
     },
     "test_output_log": {
       "path": "results/validation/package171_r11_test_output.txt",
-      "sha256": "40C93D28B483434484F8E1EF315D8884C8AFCFF7F0B30BD20BBD7C53B2E60C56",
-      "size_bytes": 15474,
-      "total_tests_run": 51,
-      "total_tests_passed": 51,
-      "r11_driver_tests_passed": 18,
+      "sha256": "899019C0D48EA49D50A38555D92CB4FF6BE92CA41BF8F36A40251D15D84C962E",
+      "size_bytes": 8197,
+      "total_tests_run": 54,
+      "total_tests_passed": 54,
+      "r11_driver_tests_passed": 21,
       "anderson_algorithm_tests_passed": 6,
       "r10_regression_tests_passed": 13,
       "r9_regression_tests_passed": 13,
@@ -169,6 +171,7 @@
   },
   "acceptance_thresholds": {
     "delta_d_max": 1e-05,
+    "raw_delta_d_max": 1e-05,
     "delta_u_relaxed_max_mm": 1e-09,
     "delta_u_raw_max_mm": 1e-09,
     "delta_h_max_MPa": 0.0001,

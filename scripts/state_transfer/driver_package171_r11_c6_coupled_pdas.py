@@ -154,6 +154,16 @@ class Package171R11C6PDASDriver(object):
         self.catastrophic_delta_d_cap = float(catastrophic_delta_d_cap)
         self.abaqus = abaqus
 
+        # Configuration validation against catastrophic threshold and invalid parameters
+        if self.anderson_enabled:
+            if self.anderson_max_step_cap <= 0.0:
+                raise ValueError(f"anderson_max_step_cap must be strictly positive, got {self.anderson_max_step_cap}")
+            if self.anderson_max_step_cap >= self.catastrophic_delta_d_cap:
+                raise ValueError(
+                    f"anderson_max_step_cap ({self.anderson_max_step_cap}) must be strictly less than "
+                    f"catastrophic_delta_d_cap ({self.catastrophic_delta_d_cap}) to preserve safety margin"
+                )
+
         self.mesh = None
         self.template = None
         self.target_uy = None
@@ -367,7 +377,7 @@ class Package171R11C6PDASDriver(object):
     def finalize_coupled_acceptance(
         self, u_trial, u_abaqus, history_trial, damage_relaxed, consistent_u,
         consistent_endpoint, solver, step_idx, outer, target_uy,
-        delta_d=0.0, delta_u_relaxed=0.0, delta_u_raw=0.0, delta_h=0.0,
+        delta_d=0.0, raw_delta_d=0.0, delta_u_relaxed=0.0, delta_u_raw=0.0, delta_h=0.0,
         pdas_active_count=0, pdas_free_count=0
     ):
         """
@@ -442,6 +452,9 @@ class Package171R11C6PDASDriver(object):
         healing_violations_count = sum(1 for n in damage_relaxed if damage_relaxed[n] - self.d0[n] < -HEALING_TOL)
         healing_pass = (healing_violations_count == 0)
 
+        # 8. Raw damage fixed-point residual consistency (Anderson false-convergence gate)
+        raw_damage_pass = (raw_delta_d <= 1e-5) if self.anderson_enabled else True
+
         # Joint Physical Acceptance Predicate (all gates required)
         physical_pass = (
             force_pass and
@@ -451,7 +464,8 @@ class Package171R11C6PDASDriver(object):
             healing_pass and
             kkt_final_pass and
             consistency_u_pass and
-            consistency_h_pass
+            consistency_h_pass and
+            raw_damage_pass
         )
 
         effective_omega_d = self.omega_d_stage2 if self.stage == 2 else self.omega_d_stage1
@@ -499,6 +513,8 @@ class Package171R11C6PDASDriver(object):
             "energy_discrepancy_pct": energy_discrepancy * 100.0,
             "energy_gate_pass": energy_pass,
             "delta_d_inf": delta_d,
+            "raw_delta_d_inf": raw_delta_d,
+            "raw_damage_gate_pass": raw_damage_pass,
             "delta_u_relaxed_inf": delta_u_relaxed,
             "delta_u_raw_inf": delta_u_raw,
             "delta_h_inf": delta_h or 0.0,
@@ -952,12 +968,15 @@ class Package171R11C6PDASDriver(object):
             # Strict coupled convergence check:
             # Requires:
             # - delta_d <= 1e-5
+            # - raw_delta_d <= 1e-5 when anderson_enabled=True (intrinsic fixed-point residual consistency)
             # - delta_u_relaxed <= 1e-9 mm
             # - delta_u_raw <= 1e-9 mm (guarantees mechanical solve itself has contracted to equilibrium, rejecting smoothing artifacts)
             # - delta_h <= 1e-4 MPa
             # - kkt_post["passed"] (<= 1e-6)
+            raw_damage_converged = (raw_delta_d <= 1e-5) if self.anderson_enabled else True
             if (previous_u_trial is not None and
                 delta_d <= 1e-5 and
+                raw_damage_converged and
                 delta_u_relaxed <= 1e-9 and
                 delta_u_raw <= 1e-9 and
                 (delta_h is not None and delta_h <= 1e-4) and
@@ -984,6 +1003,7 @@ class Package171R11C6PDASDriver(object):
                     outer=outer,
                     target_uy=target_uy,
                     delta_d=delta_d,
+                    raw_delta_d=raw_delta_d,
                     delta_u_relaxed=delta_u_relaxed,
                     delta_u_raw=delta_u_raw,
                     delta_h=delta_h,
@@ -998,7 +1018,8 @@ class Package171R11C6PDASDriver(object):
                         f"thermo={summary['thermodynamic_consistency']}, monotonicity={summary['history_monotonicity']}, "
                         f"healing={summary['healing_pass']}, kkt={summary['kkt_final_pass']}, "
                         f"consistency_u={summary['coupled_field_consistency_u_pass']}, "
-                        f"consistency_h={summary['coupled_field_consistency_h_pass']}"
+                        f"consistency_h={summary['coupled_field_consistency_h_pass']}, "
+                        f"raw_damage={summary['raw_damage_gate_pass']}"
                     )
                 break
 
@@ -1056,7 +1077,7 @@ class Package171R11C6PDASDriver(object):
         return summary
 
 
-def main():
+def build_argument_parser():
     parser = argparse.ArgumentParser(description="Package 171-R11 C6 Coupled PDAS Re-Equilibration Driver")
     parser.add_argument("--package", required=True, help="Path to Package 171 directory")
     parser.add_argument("--output", required=True, help="Output directory for execution")
@@ -1073,7 +1094,7 @@ def main():
     parser.add_argument("--anderson-beta", type=float, default=0.85, help="Anderson acceleration mixing parameter (default: 0.85)")
     parser.add_argument("--anderson-reg", type=float, default=1e-6, help="Anderson Tikhonov regularization (default: 1e-6)")
     parser.add_argument("--anderson-gamma-max", type=float, default=200.0, help="Anderson gamma norm cap (default: 200.0)")
-    parser.add_argument("--anderson-max-step-cap", type=float, default=0.20, help="Anderson max step cap (default: 0.20)")
+    parser.add_argument("--anderson-max-step-cap", type=float, default=0.045, help="Anderson max step cap (default: 0.045)")
     parser.add_argument("--max-active-cardinality", type=int, default=500, help="Maximum active set cardinality for Stage 2")
     parser.add_argument("--max-symmetric-diff", type=int, default=10, help="Maximum symmetric difference |Delta A| for Stage 2")
     parser.add_argument("--max-added-nodes", type=int, default=0, help="Maximum newly added nodes Delta A^+ for Stage 2")
@@ -1082,6 +1103,11 @@ def main():
     parser.add_argument("--divergence-factor", type=float, default=1.50, help="Divergence threshold factor (default: 1.50)")
     parser.add_argument("--catastrophic-delta-d-cap", type=float, default=0.05, help="Catastrophic delta_d cap (default: 0.05)")
     parser.add_argument("--abaqus", default="abaqus", help="Abaqus execution command")
+    return parser
+
+
+def main():
+    parser = build_argument_parser()
     args = parser.parse_args()
 
     driver = Package171R11C6PDASDriver(
