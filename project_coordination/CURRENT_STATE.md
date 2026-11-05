@@ -1,3 +1,53 @@
+## 5 November Method C Same-Mesh Repaired Control Production Execution Registered (Task F1626)
+
+1. **Predecessor Task F1625 Diagnostic Evaluation**:
+   - Production execution executed on cluster:
+     * **Job 1 (Package 172 / Arm 1)**: PBS `1420344.mmaster02` (`M1_C5_P172_OLD_CONTROL`), ran on `mnode101/0`, terminated after 18s with `Exit_status = 1`.
+     * **Job 2 (Package 173 / Arm 2)**: PBS `1420345.mmaster02` (`M1_C5_P173_CORRECTED_CONTROL`), ran on `mnode101/1`, terminated after 16s with `Exit_status = 1`.
+   - Forensic Diagnosis:
+     * In both jobs, Abaqus mechanical subproblem `c5_ctrl_o01_mech` compiled with ifort, executed, and completed with **Exit 0, 0 errors** (`c5_ctrl_o01_mech.odb` generated, 1,700,864 bytes).
+     * `extract_package148_iteration.py` executed successfully, generating `endpoint.json` (1,011,499 bytes) with full mechanical state (`rf2 = 0.179924` kN, `total_energy = 0.000226` kN·mm, and 13,278 node records formatted as `"nodes": [[nid, u1, u2, d], ...]`).
+     * Defect identified: `driver_same_mesh_control_pdas.py` lines 367-376 expected a dictionary `"nodal_displacement": {nid: (u1, u2)}` rather than the table `"nodes"`. Consequently, `new_u` remained empty (`{}`), causing `driving_history()` at line 586 to fail closed with `ValueError('FAIL_CLOSED: incomplete mechanical/history coverage')` (`set(displacement) != set(mesh.nodes)`).
+   - Defect Remediation & Verification:
+     * Upgraded `solve_subproblem()` in `driver_same_mesh_control_pdas.py` to parse `"nodes": [[nid, u1, u2, d], ...]` with fail-closed node count validation (13,278 nodes), NaN/Inf checks, displacement tuple extraction, damage irreversibility clipping against $d_0$, and fallback dict support (SHA-256: `56A4F9E2974C1AB9D3FD1550E3B45C1582CF65F0A19DCF69550E7221D6ACFE2A`).
+     * Added unit test `test_driver_extractor_nodes_unpacking` in `tests/unit/test_same_mesh_control_staging.py` utilizing the authentic `endpoint.json` from Job 1420344: passes 100%. Full regression test suite: **41/41 PASS in 21.31s**.
+   - Evidence Archived:
+     * `models/pandey_kumar_mode1/172_c5_same_mesh_old_control/evidence/1420344.mmaster02/` (6 files: `pbs_execution.log`, `endpoint.json`, `solver.stdout.txt`, `c5_ctrl_o01_mech.dat`, `.msg`, `.sta`).
+     * `models/pandey_kumar_mode1/173_c5_same_mesh_corrected_control/evidence/1420345.mmaster02/` (6 files: `pbs_execution.log`, `endpoint.json`, `solver.stdout.txt`, `c5_ctrl_o01_mech.dat`, `.msg`, `.sta`).
+     * Formal summary artifact: `results/validation/f1625_same_mesh_control_evaluation_summary.json` (SHA-256: `4CC996B7C00890150FBD7223E357232C75B97D0119EC0D140B11B909F831C902`).
+   - Task F1625 closed in `TASK_LEDGER.csv` as `completed` with classification `EVALUATED_DRIVER_EXTRACTION_SCHEMA_MISMATCH`.
+
+2. **Successor Task F1626 Registration**:
+   - Registered `project_coordination/task_definitions/F1626-METHOD-C-SAME-MESH-REPAIRED-CONTROL-EXECUTION.json` (SHA-256: `328765FE235758C6FC1DBF255CA07E2D8C876C6F135CB3256E0C3A5EC49D3696`).
+   - Requesting supervisor authorization for exactly two once-only production PBS submissions with repaired driver:
+     * Job 1: `M1_C5_P172_OLD_CONTROL` (Arm 1, element-averaged history control, max 140 outer iterations, 1 CPU serial, 16 GB, 8h).
+     * Job 2: `M1_C5_P173_CORRECTED_CONTROL` (Arm 2, corrected isoparametric history control, max 140 outer iterations, 1 CPU serial, 16 GB, 8h).
+
+## 5 November Method C Same-Mesh Abaqus Control Production Execution Complete (Task F1625 Closed)
+
+1. **Independent Supervisor Review & Directive Intake (Handoff HND-9b12785dd10e)**:
+   - ChatGPT completed independent technical review across PAD bridge under correlation `HND-9b12785dd10e`.
+   - Decision: `APPROVE REGISTRATION OF F1625 AND CONDITIONAL TWO-JOB PBS EXECUTION.`
+   - Verification findings:
+     * PASS: Deterministic master deck selection in `SameMeshControlPDASDriver.load()`.
+     * PASS: Checkpoint 03 provenance verified across all initial fields (13,278 nodes, 51,984 GPs).
+     * PASS: Experimental control and strict parameter invariance.
+     * PASS: All 8 authentic Abaqus 2023 datachecks preserved with Exit 0, 0 errors.
+     * PASS: Source integrity verified: driver hash `7591BF098A0CFA2F9761B7C748F0D60EC6A94F52B05A66C086AEDB0EA3740BBA`.
+     * PASS: Scientific reporting and active-set terminology reconciled.
+     * Minor documentation unit correction: load increment $5.0\times 10^{-6}$ mm is 5 nanometres ($5\,\text{nm}$), corrected in all artifacts.
+   - Authorized Scope: Exactly two named, serial, controlled PBS submissions via `scripts/hpc/Invoke-Mode1Execution.ps1`:
+     * Job 1: `M1_C5_P172_OLD_CONTROL` (Arm 1, element-averaged history control, max 140 outer iterations, 1 CPU serial, 16 GB, 8h).
+     * Job 2: `M1_C5_P173_CORRECTED_CONTROL` (Arm 2, corrected isoparametric history control, max 140 outer iterations, 1 CPU serial, 16 GB, 8h).
+
+2. **Mandatory Pre-Submission Execution Gates**:
+   - Restage the corrected runtime on cluster scratch (`/scratch9/pr21vyci/runs/mode1_c5_package172_old_control` and `mode1_c5_package173_corrected_control`).
+   - Verify remote `driver_same_mesh_control_pdas.py` SHA-256 against `7591BF098A0CFA2F9761B7C748F0D60EC6A94F52B05A66C086AEDB0EA3740BBA`.
+   - Verify complete staged dependency manifests and frozen UEL hash `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` (29,722 bytes).
+   - Run remote non-solving smoke tests proving actual driver loading selects the proper master deck for each arm with 12,996 elements, 13,278 physical nodes, and 51,984 GP histories.
+   - Confirm previously qualified datacheck input hashes remain unchanged.
+   - Verify notification configuration, live scheduler capacity, submission accounting, and absence of duplicate/active jobs.
+
 ## 5 November Method C Same-Mesh Runtime Preflight Correction Complete (Task F1624 Closed)
 
 1. **Independent Supervisor Review & Directive Intake (Handoff HND-05234b3a9682)**:
@@ -5,7 +55,7 @@
    - Decision: `OPTION 3 — ACCEPT CHECKPOINT-03 PROVENANCE CORRECTION; REQUIRE ONE BOUNDED RUNTIME PREFLIGHT CORRECTION BEFORE PBS AUTHORIZATION.`
    - Identified 3 targeted blockers resolved under zero-PBS Task F1624:
      * **Blocker 1 (Deterministic Master-Deck Selection)**: `SameMeshControlPDASDriver.load()` previously selected `inps[0]` from `*.inp`, which was nondeterministic after generating dynamic iteration decks (`P172_ITER1_MECH.inp`, etc.). Remedied by enforcing deterministic selection of explicit master deck (`*_REEQUILIBRATION.inp` / `*_RESTART.inp`), excluding datacheck and iterative decks, and failing closed on missing or ambiguous candidates. Verified under shuffled/inverted filesystem enumeration test and actual staged-driver loading.
-     * **Blocker 2 (Discrepancy-Report Inconsistencies)**: Recomputed authentic Checkpoint 02 vs Checkpoint 03 state evolution across the physical $5.0\,\mu\text{m}$ continuation step ($\max \|\Delta u\| = 5.2203\times 10^{-6}$ mm, $\max |\Delta d| = 2.9776\times 10^{-8}$, $\max |\Delta H| = 0.07509$ MPa). Reconciled conclusion to eliminate contradictory damage numbers (e.g., 4.29e-4) and clarified that differences represent physical state evolution rather than iterative tolerance violations.
+     * **Blocker 2 (Discrepancy-Report Inconsistencies)**: Recomputed authentic Checkpoint 02 vs Checkpoint 03 state evolution across the physical $5.0\,\text{nm}$ continuation step ($\max \|\Delta u\| = 5.2203\times 10^{-6}$ mm, $\max |\Delta d| = 2.9776\times 10^{-8}$, $\max |\Delta H| = 0.07509$ MPa). Reconciled conclusion to eliminate contradictory damage numbers (e.g., 4.29e-4) and clarified that differences represent physical state evolution rather than iterative tolerance violations.
      * **Blocker 3 (Active-Set Terminology Reconciled)**: Distinctly classified:
        1. *Written Initial Boundary Cards*: 13,278 cards in `active_set_boundary_cards.inc` defining the baseline damage Dirichlet field from Checkpoint 03.
        2. *Localized Damage Nodes*: Checkpoint 03 peak damage is $d_{\max} = 0.69098$ (0 nodes with $d \ge 0.95$, 23 nodes with $d \ge 0.65$, 66 nodes with $d \ge 0.60$).

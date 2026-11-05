@@ -422,3 +422,50 @@ def test_discrepancy_analysis_consistency_and_active_set_characterization():
     assert "4.29e-4" not in conclusion, "Stale damage figure found in conclusion"
     assert "tolerance violation" not in conclusion.lower(), "Incorrect tolerance-violation phrasing found"
     assert "physical state evolution" in conclusion.lower()
+
+
+def test_driver_extractor_nodes_unpacking():
+    """Verify that SameMeshControlPDASDriver correctly unpacks 'nodes' list from extractor."""
+    sys.path.insert(0, str(REPO_ROOT))
+    from scripts.state_transfer.driver_same_mesh_control_pdas import SameMeshControlPDASDriver
+    from scripts.state_transfer.driver_package146_147_pdas_continuation import driving_history
+
+    endpoint_p = PKG172_DIR / "evidence" / "1420344.mmaster02" / "endpoint.json"
+    assert endpoint_p.is_file(), f"Evidence endpoint.json missing: {endpoint_p}"
+    endpoint_data = json.loads(endpoint_p.read_text(encoding="utf-8"))
+
+    driver = SameMeshControlPDASDriver(
+        package=PKG172_DIR,
+        output=PKG172_DIR / "test_out",
+        extractor=PKG172_DIR / "smoke_import.py"
+    )
+    driver.load()
+
+    # Mock runner that returns authentic endpoint_data
+    driver.runner = lambda directory, job, role, step_idx: dict(endpoint_data)
+
+    # 1. Test mechanical unpacking
+    new_d, new_u, res = driver.solve_subproblem(
+        step_idx=1, outer=1, sub_idx=0, role="mechanical",
+        damage=driver.d0, active=set(driver.d0), displacement=None,
+        history=driver.h0, target_u=driver.target_uy
+    )
+    assert len(new_u) == 13278, f"Expected 13,278 displacements, got {len(new_u)}"
+    assert set(new_u.keys()) == set(driver.mesh.nodes.keys()), "Displacement node keys mismatch"
+    assert all(len(v) == 2 and math.isfinite(v[0]) and math.isfinite(v[1]) for v in new_u.values())
+
+    # 2. Test driving_history with unpacked new_u
+    zero_baseline = {(e, g): 0.0 for e in driver.mesh.elements for g in range(1, 5)}
+    psi_k = driving_history(driver.mesh, new_u, zero_baseline)
+    assert len(psi_k) == 51984, f"Expected 51,984 GP histories, got {len(psi_k)}"
+    assert all(math.isfinite(v) and v >= 0.0 for v in psi_k.values())
+
+    # 3. Test phase unpacking
+    new_d2, new_u2, res2 = driver.solve_subproblem(
+        step_idx=1, outer=1, sub_idx=0, role="phase",
+        damage=driver.d0, active=set(driver.d0), displacement=new_u,
+        history=driver.h0, target_u=driver.target_uy
+    )
+    assert len(new_d2) == 13278, f"Expected 13,278 damage values, got {len(new_d2)}"
+    assert all(math.isfinite(v) and 0.0 <= v <= 1.0 for v in new_d2.values())
+    assert all(new_d2[n] >= driver.d0[n] for n in new_d2), "Damage irreversibility violated"

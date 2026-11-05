@@ -1,26 +1,26 @@
 {
-    "task_id": "F1624-METHOD-C-SAME-MESH-RUNTIME-PREFLIGHT-CORRECTION",
+    "task_id": "F1626-METHOD-C-SAME-MESH-REPAIRED-CONTROL-EXECUTION",
     "agent": "gemini-antigravity",
-    "status": "COMPLETED",
-    "phase": "Method C Paired Same-Mesh Runtime Preflight Correction. Strictly 0 production solver PBS submissions authorized.",
-    "gate_status": "SAME_MESH_PREFLIGHT_CORRECTION_COMPLETED__READY_FOR_EXECUTION_APPROVAL",
+    "status": "ACTIVE",
+    "phase": "Method C Paired Same-Mesh Repaired Control Production Execution. Registration complete, awaiting supervisor approval for 2 PBS submissions.",
+    "gate_status": "AWAITING_SUPERVISOR_APPROVAL",
     "predecessor_task": {
         "run_id": "continuous-method-c-direct-bridge-20261104",
-        "status": "PROVENANCE_CORRECTION_VERIFIED_DATACHECKS_PASSED",
-        "task_id": "F1623-METHOD-C-SAME-MESH-CHECKPOINT03-PROVENANCE-CORRECTION",
-        "source_commit": "1cdff86bf8d659e54ee98cb7dc67ebfe354d9124",
-        "checkpoint_sha256": "8AFD7FC6A98C969F42FDA01EB6D935DA2D7B5A565FB69E75D4071E4FED697456"
+        "status": "EVALUATED_DRIVER_EXTRACTION_SCHEMA_MISMATCH",
+        "task_id": "F1625-METHOD-C-SAME-MESH-ABAQUS-CONTROL-EXECUTION",
+        "source_commit": "d13d88daa3a11096ace16717776e4aaa2378a9c0",
+        "checkpoint_sha256": "4CC996B7C00890150FBD7223E357232C75B97D0119EC0D140B11B909F831C902"
     },
     "registration": {
-        "sha256": "BCEEF8B76C2030BD0468E5C134CEB7CEC9078E4E71864E62AC21D067DB3FA6C9",
+        "sha256": "328765FE235758C6FC1DBF255CA07E2D8C876C6F135CB3256E0C3A5EC49D3696",
         "schema": 1,
-        "definition": "project_coordination/task_definitions/F1624-METHOD-C-SAME-MESH-RUNTIME-PREFLIGHT-CORRECTION.json",
+        "definition": "project_coordination/task_definitions/F1626-METHOD-C-SAME-MESH-REPAIRED-CONTROL-EXECUTION.json",
         "registered_by": "gemini-antigravity",
-        "registered_at": "2026-11-05T15:25:00+01:00"
+        "registered_at": "2026-11-05T16:08:00+01:00"
     },
     "scientific_checkpoint_required": true,
-    "scientific_operation": "qualify_isoparametric_gp_transfer_operator",
-    "scientific_operation_id": "isoparametric_gp_transfer_qualification",
+    "scientific_operation": "execute_repaired_same_mesh_controls",
+    "scientific_operation_id": "same_mesh_repaired_control_execution",
     "completed_operations": [
         "mapped_frozen_history_lower_bound_kkt_probe",
         "mapped_mechanical_history_call_order_probe",
@@ -54,9 +54,12 @@
         "qualify_isoparametric_gp_transfer_operator",
         "execute_isoparametric_gp_transfer_safety_requalification",
         "stage_and_datacheck_same_mesh_controls",
-        "correct_same_mesh_checkpoint03_provenance_and_datacheck"
+        "correct_same_mesh_checkpoint03_provenance_and_datacheck",
+        "execute_same_mesh_controls_and_diagnose_extraction_defect"
     ],
     "completed_pbs_job_ids": [
+        "1420345.mmaster02",
+        "1420344.mmaster02",
         "1420261.mmaster02",
         "1420215.mmaster02",
         "1420188.mmaster02",
@@ -272,8 +275,10 @@
     ],
     "active_pbs_job_ids": [],
     "dependent_pbs_job_ids": [],
-    "pbs_status_note": "Job 1420261.mmaster02 completed Exit 0 on cluster, ran 140 outer iterations, evaluated as FAILED_COUPLED_NONCONVERGENCE.",
+    "pbs_status_note": "Jobs 1420344.mmaster02 and 1420345.mmaster02 evaluated as FAILED_DRIVER_EXTRACTION_SCHEMA_MISMATCH. Abaqus solver ran Exit 0 and produced ODB; driver failed on unpacking nodes table. Remediated and verified with 41/41 passing unit tests.",
     "referenced_pbs_job_ids": [
+        "1420344.mmaster02",
+        "1420345.mmaster02",
         "1420261.mmaster02",
         "1420215.mmaster02",
         "1420188.mmaster02",
@@ -287,6 +292,7 @@
         "1419485.mmaster02"
     ],
     "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "repaired_driver_sha256": "56A4F9E2974C1AB9D3FD1550E3B45C1582CF65F0A19DCF69550E7221D6ACFE2A",
     "max_new_pbs_submissions": 0,
     "remaining_pbs_submissions": 0,
     "lifecycle": {
@@ -295,11 +301,11 @@
         "state": "ACTIVE"
     },
     "preserved_predecessor": {
-        "task_id": "F1616-PACKAGE171-R10-C6-EXECUTION-QUALIFICATION",
+        "task_id": "F1625-METHOD-C-SAME-MESH-ABAQUS-CONTROL-EXECUTION",
         "status": "COMPLETED",
-        "scientific_acceptance": "FAILED_COUPLED_NONCONVERGENCE",
-        "artifact": "results/validation/package171_r10_evaluation_summary.json",
-        "sha256": "9DB02EC5D44360DBA44A9DB66FA7BF1E5A8CD8BCFDC68D4A25490B717C06E70C"
+        "scientific_acceptance": "EVALUATED_DRIVER_EXTRACTION_SCHEMA_MISMATCH",
+        "artifact": "results/validation/f1625_same_mesh_control_evaluation_summary.json",
+        "sha256": "4CC996B7C00890150FBD7223E357232C75B97D0119EC0D140B11B909F831C902"
     },
     "controller_maintenance": {
         "status": "RECONCILED_SUPERVISED_SELF_HEALING_DEPLOYED",
@@ -310,8 +316,8 @@
         "supervised_resumption_scope": "CONTROLLED_LIVE_VERIFICATION_ONLY",
         "reconciled_at": "2026-11-04T15:46:00+01:00"
     },
-    "scientific_acceptance": "PREFLIGHT_CORRECTIONS_VERIFIED_TESTS_PASSED",
-    "last_step_status": "F1624_COMPLETED_PREFLIGHT_CORRECTIONS_AND_TESTS_PASSED",
-    "last_updated": "2026-11-05T15:32:00+01:00",
-    "next_safe_action": "Dispatch handoff report across PAD bridge to ChatGPT requesting formal review and authorization for two-job production execution (Package 172 and Package 173)."
+    "scientific_acceptance": "AWAITING_SUPERVISOR_APPROVAL",
+    "last_step_status": "F1625_EVALUATED_AND_F1626_REGISTERED_AWAITING_SUPERVISOR_APPROVAL",
+    "last_updated": "2026-11-05T16:08:00+01:00",
+    "next_safe_action": "Submit progress report and F1626 registration to ChatGPT across PAD bridge for independent review and execution approval."
 }

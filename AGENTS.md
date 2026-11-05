@@ -121,7 +121,7 @@ Technical submission rules:
 Scheduler policy:
 
 - **Holiday-Window Concurrency Policy (Active until September 9, 2026)**:
-  - **Empirical Demonstration**: 10 simultaneous running jobs using 97 CPUs (Jobs 1403368Ã¢â‚¬â€œ1403377) actively demonstrated in `normal_imfdfkmq`.
+  - **Empirical Demonstration**: 10 simultaneous running jobs using 97 CPUs (Jobs 1403368ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“1403377) actively demonstrated in `normal_imfdfkmq`.
   - **Queue Limits Established**:
     - No explicit per-user `max_run` job-count limit on `normal_imfdfkmq`.
     - Per-user running CPU limit: **640 CPUs**.
@@ -314,7 +314,7 @@ All noninteractive cluster SSH inspection and query commands MUST follow these r
 
 
 
-## Independent review routing policy � 1 November 2026
+## Independent review routing policy — 1 November 2026
 
 ChatGPT-independent-review is an accepted independent scientific reviewer for Gemini-authored work; Codex review remains optional. A reviewer label or Gemini assertion is never an approval. Pending definitions route to scripts/controller/Invoke-ReviewDispatcher.ps1 through the existing bridge, with immutable source/evidence hashes and correlation IDs. The dispatcher accepts only APPROVE, REJECT or INSUFFICIENT_EVIDENCE decisions with verified bridge provenance; unchanged definitions/evidence may reuse the same archived decision. Unsigned legacy bridge responses fail closed and cannot trigger submission. Preserve historical Codex reviews and all numerical thresholds.
 

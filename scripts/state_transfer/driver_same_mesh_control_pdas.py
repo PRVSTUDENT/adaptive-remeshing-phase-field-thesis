@@ -364,16 +364,72 @@ class SameMeshControlPDASDriver(object):
         new_d = dict(damage)
         new_u = dict(displacement) if displacement else {}
 
-        if role == "mechanical":
+        # 1. Primary extractor format from extract_package148_iteration.py: "nodes": [[nid, u1, u2, d], ...]
+        if "nodes" in res and isinstance(res["nodes"], list):
+            rows = res["nodes"]
+            extracted_nodes = set(int(r[0]) for r in rows)
+            expected_nodes = set(self.mesh.nodes.keys())
+            if extracted_nodes != expected_nodes:
+                missing = expected_nodes - extracted_nodes
+                unexpected = extracted_nodes - expected_nodes
+                raise ValueError(
+                    f"solve_subproblem({role}): expected exactly {len(expected_nodes)} nodes matching mesh, "
+                    f"got {len(extracted_nodes)} (missing={len(missing)}, unexpected={len(unexpected)})"
+                )
+
+            fields = {}
+            for r in rows:
+                nid = int(r[0])
+                vals = tuple(float(x) for x in r[1:])
+                for val in vals:
+                    if math.isnan(val) or math.isinf(val):
+                        raise ValueError(f"solve_subproblem({role}): nonfinite value {val} at node {nid}")
+                fields[nid] = vals
+
+            if role == "mechanical":
+                if any(len(v) < 2 for v in fields.values()):
+                    raise ValueError(f"solve_subproblem(mechanical): incomplete displacement output; all nodes must have >= 2 components")
+                new_u = {n: v[:2] for n, v in fields.items()}
+            elif role == "phase":
+                comp_lengths = set(len(v) for v in fields.values())
+                comp_len = next(iter(comp_lengths))
+                if comp_len == 1:
+                    new_d = {n: v[0] for n, v in fields.items()}
+                elif comp_len >= 3:
+                    new_d = {n: v[2] for n, v in fields.items()}
+                elif comp_len == 2:
+                    raise ValueError(
+                        f"solve_subproblem(phase): rejected two-component phase output (U1, U2); "
+                        f"cannot interpret mechanical displacement as phase damage U3"
+                    )
+                else:
+                    raise ValueError(f"solve_subproblem(phase): unsupported phase component count {comp_len}")
+
+                # Enforce damage irreversibility clipping against d0
+                for n in new_d:
+                    if new_d[n] < self.d0[n]:
+                        new_d[n] = self.d0[n]
+                validate_damage(new_d, self.d0)
+        # 2. Legacy fallback format: "nodal_displacement" and "nodal_damage" dicts
+        elif role == "mechanical" and "nodal_displacement" in res:
             for n_str, (u1, u2) in res.get("nodal_displacement", {}).items():
                 nid = int(n_str)
                 if nid in self.mesh.nodes:
                     new_u[nid] = (u1, u2)
-        else:
+        elif role == "phase" and "nodal_damage" in res:
             for n_str, d_val in res.get("nodal_damage", {}).items():
                 nid = int(n_str)
                 if nid in self.mesh.nodes:
                     new_d[nid] = d_val
+            for n in new_d:
+                if new_d[n] < self.d0[n]:
+                    new_d[n] = self.d0[n]
+            validate_damage(new_d, self.d0)
+        else:
+            raise KeyError(
+                f"solve_subproblem({role}): unrecognised extractor output format; "
+                f"expected 'nodes' list or 'nodal_{role}' dict in keys: {list(res.keys())}"
+            )
 
         return new_d, new_u, res
 

@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "task_id": "F1625-METHOD-C-SAME-MESH-ABAQUS-CONTROL-EXECUTION",
+  "agent": "gemini-antigravity",
+  "evaluated_at": "2026-11-05T16:07:00+01:00",
+  "status": "EVALUATED_DRIVER_EXTRACTION_SCHEMA_MISMATCH",
+  "jobs": {
+    "arm1_old_control": {
+      "job_id": "1420344.mmaster02",
+      "package": "models/pandey_kumar_mode1/172_c5_same_mesh_old_control",
+      "purpose": "Package 172 (Arm 1): Stage C5 same-mesh control re-equilibration with element-averaged GP history operator at uy = 0.0018703125 mm (max 140 outer iterations, 1 CPU serial, 16 GB, 8h, Anderson disabled)",
+      "queue": "normal_imfdfkmq",
+      "exec_host": "mnode101/0",
+      "exit_status": 1,
+      "walltime_seconds": 18,
+      "abaqus_mechanical_subproblem": {
+        "job_name": "c5_ctrl_o01_mech",
+        "abaqus_exit_status": 0,
+        "odb_created": true,
+        "odb_sha256": "7894857f6737a964fbec1caf807131e07aac8f732692d141401c62df602b440c",
+        "reaction_force_kN": 0.17992419004440308,
+        "total_energy_kNmm": 0.00022639903
+      },
+      "defect_classification": "DRIVER_EXTRACTOR_NODES_KEY_MISMATCH",
+      "error_message": "ValueError: FAIL_CLOSED: incomplete mechanical/history coverage at driver_package146_147_pdas_continuation.py:112",
+      "root_cause": "driver_same_mesh_control_pdas.py solve_subproblem() attempted to read 'nodal_displacement' dict from endpoint.json, but extract_package148_iteration.py outputs table 'nodes': [[nid, u1, u2, d], ...]. Consequently, new_u was empty ({}), triggering the coverage assertion in driving_history()."
+    },
+    "arm2_corrected_control": {
+      "job_id": "1420345.mmaster02",
+      "package": "models/pandey_kumar_mode1/173_c5_same_mesh_corrected_control",
+      "purpose": "Package 173 (Arm 2): Stage C5 same-mesh control re-equilibration with corrected isoparametric bilinear GP history operator at uy = 0.0018703125 mm (max 140 outer iterations, 1 CPU serial, 16 GB, 8h, Anderson disabled)",
+      "queue": "normal_imfdfkmq",
+      "exec_host": "mnode101/1",
+      "exit_status": 1,
+      "walltime_seconds": 16,
+      "abaqus_mechanical_subproblem": {
+        "job_name": "c5_ctrl_o01_mech",
+        "abaqus_exit_status": 0,
+        "odb_created": true,
+        "odb_sha256": "7894857f6737a964fbec1caf807131e07aac8f732692d141401c62df602b440c",
+        "reaction_force_kN": 0.17992419004440308,
+        "total_energy_kNmm": 0.00022639903
+      },
+      "defect_classification": "DRIVER_EXTRACTOR_NODES_KEY_MISMATCH",
+      "error_message": "ValueError: FAIL_CLOSED: incomplete mechanical/history coverage at driver_package146_147_pdas_continuation.py:112",
+      "root_cause": "Identical extractor schema mismatch as Arm 1: driver_same_mesh_control_pdas.py failed to unpack res['nodes']."
+    }
+  },
+  "remediation": {
+    "driver_file": "scripts/state_transfer/driver_same_mesh_control_pdas.py",
+    "updated_sha256": "56A4F9E2974C1AB9D3FD1550E3B45C1582CF65F0A19DCF69550E7221D6ACFE2A",
+    "fix_description": "Upgraded solve_subproblem() to parse 'nodes': [[nid, u1, u2, d], ...] with fail-closed node count validation (13,278 nodes), NaN/Inf checks, displacement tuple extraction, damage irreversibility clipping against d0, and fallback dict support.",
+    "unit_test": "tests/unit/test_same_mesh_control_staging.py::test_driver_extractor_nodes_unpacking",
+    "test_result": "PASS (41/41 regression tests pass in 21.31s)"
+  },
+  "governance": {
+    "submissions_authorized": 2,
+    "submissions_consumed": 2,
+    "submissions_remaining": 0,
+    "successor_task": "F1626-METHOD-C-SAME-MESH-REPAIRED-CONTROL-EXECUTION",
+    "next_action": "Request ChatGPT supervisor review across PAD bridge for registration of F1626 authorizing 2 production PBS submissions with the repaired driver."
+  }
+}
