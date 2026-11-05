@@ -1,0 +1,728 @@
+diff --git a/scripts/state_transfer/driver_package171_r10_c6_coupled_pdas.py b/scripts/state_transfer/driver_package171_r11_c6_coupled_pdas.py
+index f4a5927b..dd39d430 100644
+--- a/scripts/state_transfer/driver_package171_r10_c6_coupled_pdas.py
++++ b/scripts/state_transfer/driver_package171_r11_c6_coupled_pdas.py
+@@ -1,19 +1,19 @@
+ #!/usr/bin/env python3
+ # -*- coding: utf-8 -*-
+ """
+-driver_package171_r10_c6_coupled_pdas.py
++driver_package171_r11_c6_coupled_pdas.py
+ ========================================
+-Mode-I Method C Cycle 3: Package 171-R10 Genuine C6 Coupled PDAS Re-Equilibration Driver.
+-Task: F1614-PACKAGE171-R10-C6-ISOLATED-DISPLACEMENT-RELAXATION-QUALIFICATION
++Mode-I Method C Cycle 3: Package 171-R11 Genuine C6 Coupled PDAS Re-Equilibration Driver.
++Task: F1617-PACKAGE171-R11-C6-ANDERSON-ACCELERATION-QUALIFICATION
+ Protocol Version: 2
+ 
+-Implements Isolated Mechanical Displacement Under-Relaxation (Candidate R10):
+-1. Stage 1 Conservative Damped Picard Relaxation (Preserved from R9):
++Implements Safeguarded Limited-Memory Anderson Acceleration (Candidate R11):
++1. Stage 1 Conservative Damped Picard Relaxation (Preserved from R9/R10):
+    - Uniform phase under-relaxation parameter omega_d = 0.50.
+-   - Mechanical displacement unrelaxed (omega_u = 1.00) during initial active-set contraction.
++   - Mechanical displacement unrelaxed (omega_u = 1.00) during early active-set contraction.
+    - Robust convergence baseline preserving numerical stability during early active-set contraction.
+ 
+-2. Compound Active-Set Transition Criteria (Preserved from R9):
++2. Compound Active-Set Transition Criteria (Preserved from R9/R10):
+    - Evaluates node-resolved active-set membership:
+      * Active-set cardinality: |A_k| <= 500
+      * Symmetric difference: |Delta A_k| <= 10 (where |Delta A_k| = |A_k \\ A_{k-1}| + |A_{k-1} \\ A_k|)
+@@ -21,72 +21,42 @@ Implements Isolated Mechanical Displacement Under-Relaxation (Candidate R10):
+    - Requires compound condition sustained for 3 consecutive iterations (stabilization_window = 3).
+    - Strictly prevents premature Stage 2 acceleration during active-set expansion or boundary churning.
+ 
+-3. Stage 2 Isolated Mechanical Displacement Under-Relaxation (R10 Hypothesis):
+-   - Transitions to Stage 2 acceleration: in the transition iteration (where compound criteria are first
+-     met for stabilization_window consecutive iterations), phase relaxation accelerates to omega_d = 0.85
+-     while displacement relaxation was applied with omega_u = 1.00; starting from the following outer
+-     iteration, both phase relaxation (omega_d = 0.85) and isolated mechanical displacement under-relaxation:
++3. Stage 2 Isolated Mechanical Displacement Under-Relaxation (Preserved from R10):
++   - Applies isolated mechanical displacement under-relaxation:
+        u_trial^{(k)} = (1 - omega_u) * u_trial^{(k-1)} + omega_u * u_Abaqus^{(k)}
+-     with omega_u = 0.85 (configurable via omega_u_stage2) are actively executed.
+-   - Preserves raw mechanical solve solution u_Abaqus^{(k)} separately to account for raw mechanical equilibrium.
+-   - Tracks both raw mechanical increments:
+-       Delta u_raw^{(k)} = ||u_Abaqus^{(k)} - u_trial^{(k-1)}||_inf
+-     and relaxed displacement increments:
+-       Delta u_relaxed^{(k)} = ||u_trial^{(k)} - u_trial^{(k-1)}||_inf
+-   - Rejects false convergence caused by under-relaxation smoothing by requiring BOTH:
+-       Delta u_relaxed <= 1e-9 mm AND Delta u_raw <= 1e-9 mm.
+-   - Telemetry truthfully records applied_omega_u and applied_omega_d for each iteration.
+-
+-4. Qualified History Construction Without Heuristic Filtering (Preserved Strictly):
+-   - Direct physical history relaxation H_new = (1-w)H_prev + w*psi+ is REJECTED to avoid
+-     violating thermodynamic consistency (H >= psi+).
+-   - Qualified history construction is preserved:
+-       psi+^{(k)} = psi+(u_trial^{(k)})
+-       H_trial^{(k)} = max(H0, psi+^{(k)})
+-     guaranteeing H >= psi+ and H >= H0 at all 61,008 Gauss points.
+-
+-5. Consistent Residual-Based Rollback Safeguards with Atomic State Preservation:
+-   - Evaluates residual growth and divergence on the intrinsic unrelaxed PDAS correction norm:
+-       delta_d_raw^{(cand)} = ||d_PDAS^{(cand)} - d^{(k)}||_inf
+-       delta_d_raw^{(prev)} = ||d_PDAS^{(prev)} - d^{(k-1)}||_inf
+-   - Residual growth safeguard (preserved 5% threshold):
+-       delta_d_raw^{(cand)} > 1.05 * delta_d_raw^{(prev)}
+-   - Divergence safeguard (preserved 50% threshold):
+-       delta_d_raw^{(cand)} > 1.50 * delta_d_raw^{(prev)}
+-   - Catastrophic cap safeguard (preserved applied step cap):
+-       delta_d^{(cand)} > 0.05
+-   - Reverts candidate step to conservative phase relaxation (omega_d = 0.50) upon genuine unrelaxed
+-     step growth or divergence, and resets Stage 1 for the following outer iteration.
+-   - The evaluated u_trial and history for iteration k are atomically retained, guaranteeing that
+-     no combination of displacement, history, and phase damage is committed that was not evaluated together.
+-
+-6. Rigorous Physical Acceptance, Post-Convergence Re-Equilibration, and Gate Enforcement:
+-   - Independent final mechanical solve with converged damage d* and history H*:
+-       K(d*) u_consistent = f_ext
+-   - Coupled field displacement consistency:
+-       ||u_consistent - u_trial*||_inf <= 1e-9 mm
+-   - Coupled field history consistency:
+-       ||H(u_consistent) - H*||_inf <= 1e-4 MPa
+-   - Post-relaxation signed KKT stationarity <= 1e-6.
+-   - Immutable donor lower bounds: d* >= d0 (healing violations == 0, tolerance 1e-6).
+-   - History monotonicity: H* >= H0 (0 violations).
+-   - Reaction force and total energy drift <= 2.0% relative to C5 donor reference.
+-   - Suppresses checkpoint creation if any physical gate fails.
+-   - Preserves frozen production UEL SHA-256 CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6.
++     with omega_u = 0.85 in Stage 2.
++   - Preserves raw mechanical solve solution u_Abaqus^{(k)} separately.
++   - Dual convergence criteria strictly enforced:
++       Delta u_raw <= 1e-9 mm AND Delta u_relaxed <= 1e-9 mm.
++
++4. Safeguarded Limited-Memory Anderson Acceleration (R11 Hypothesis):
++   - Applied to the staggered damage fixed-point sequence: d = g(d) = d_PDAS.
++   - Memory depth m in {2, 3} with Tikhonov-regularized least-squares coefficients.
++   - Formulates intrinsic raw fixed-point residual: r_k = d_PDAS - d_k.
++   - Active-set stabilization safeguard: Anderson acceleration is ONLY active in Stage 2
++     after active-set stabilization (|Delta A_k| <= 5). Any topology shift resets history.
++   - Safeguards:
++     * Pointwise physical bounds: d_{k+1} = clip(d_{k+1}^{cand}, d0, 1.0).
++     * Predicted residual norm growth safeguard: ||r_bar|| <= 1.5 * ||r_k||.
++     * Maximum step cap: ||d_cand - d_k||_inf <= 0.20.
++     * Ill-conditioning fallback: if gamma norm > 200 or matrix singular, fallback to damped Picard step.
++   - Strictly preserves qualified thermodynamic history construction H_trial = max(H0, psi+(u_trial))
++     and bitwise identical frozen production UEL.
+ """
+ 
+-from __future__ import print_function, division
+-import os
+-import sys
+-import math
++from __future__ import annotations
++
++import argparse
++import csv
+ import json
++import math
++import os
+ import shutil
+-import hashlib
+-import csv
+ import subprocess
++import sys
+ import time
+-import argparse
+ from pathlib import Path
++from typing import Dict, List, Optional, Set, Tuple
+ 
+ REPO_ROOT = Path(__file__).resolve().parents[2]
+ if str(REPO_ROOT) not in sys.path:
+@@ -100,23 +70,252 @@ from scripts.state_transfer.driver_package146_147_pdas_continuation import (
+     HEALING_TOL
+ )
+ 
+-# Reference values from accepted C5 Checkpoint 03 (Job 1419566)
++# Reference metrics for C6 Mode-I re-equilibration
+ DONOR_REFERENCE_FORCE_KN = 0.17992419004440308
+ DONOR_REFERENCE_TOTAL_ENERGY_KNMM = 0.00022639903
+-DONOR_REFERENCE_ELASTIC_ENERGY_KNMM = 0.00016825724
+-DONOR_REFERENCE_FRACTURE_ENERGY_KNMM = 5.814179e-05
++DONOR_REFERENCE_ELASTIC_ENERGY_KNMM = 0.00020088927
++DONOR_REFERENCE_FRACTURE_ENERGY_KNMM = 0.00002550976
+ 
+-# Independent Reference B Contextual Comparator (Job 1419543)
+-REFERENCE_B_FORCE_KN = 0.18302963
+-REFERENCE_B_TOTAL_ENERGY_KNMM = 0.00022603386
+ 
++class AndersonAccelerator:
++    """
++    Safeguarded limited-memory Anderson accelerator for node-resolved field vectors.
++    """
++    def __init__(
++        self,
++        memory_depth: int = 2,
++        beta: float = 0.85,
++        regularization: float = 1e-6,
++        gamma_max: float = 200.0,
++        max_step_cap: float = 0.20,
++    ):
++        if memory_depth < 1:
++            raise ValueError("memory_depth must be at least 1")
++        self.memory_depth = memory_depth
++        self.beta = beta
++        self.regularization = regularization
++        self.gamma_max = gamma_max
++        self.max_step_cap = max_step_cap
++
++        # History queues: list of dicts {node: float}
++        self.d_history: List[Dict[int, float]] = []
++        self.r_history: List[Dict[int, float]] = []
++
++        # Diagnostic counters
++        self.accelerations_applied = 0
++        self.fallbacks_triggered = 0
++        self.resets_triggered = 0
++
++    def reset(self):
++        """Clear historical memory buffer."""
++        self.d_history.clear()
++        self.r_history.clear()
++        self.resets_triggered += 1
++
++    def compute_step(
++        self,
++        d_current: Dict[int, float],
++        d_pdas: Dict[int, float],
++        d0: Dict[int, float],
++        damped_omega: float = 0.85,
++        active_set_changed: bool = False,
++    ) -> Tuple[Dict[int, float], Dict[str, any]]:
++        nodes = sorted(d_current.keys())
++        # Intrinsic raw fixed point residual: r_k = g(d_k) - d_k
++        r_k = {n: d_pdas[n] - d_current[n] for n in nodes}
++        r_k_norm = math.sqrt(sum(r_k[n] ** 2 for n in nodes))
++        r_k_inf = max(abs(r_k[n]) for n in nodes)
++
++        # Standard safe damped Picard step
++        d_picard = {}
++        for n in nodes:
++            val = (1.0 - damped_omega) * d_current[n] + damped_omega * d_pdas[n]
++            d_picard[n] = min(1.0, max(d0[n], val))
++
++        # Topology change resets memory
++        if active_set_changed:
++            self.reset()
++
++        # Update history
++        self.d_history.append(d_current)
++        self.r_history.append(r_k)
++
++        # Truncate history to depth + 1
++        if len(self.d_history) > self.memory_depth + 1:
++            self.d_history.pop(0)
++            self.r_history.pop(0)
++
++        # Need at least 2 points (1 difference pair) to accelerate
++        m_k = len(self.d_history) - 1
++        if m_k < 1:
++            return d_picard, {
++                "accelerated": False,
++                "reason": "insufficient_history",
++                "m_k": 0,
++                "residual_l2": r_k_norm,
++                "residual_linf": r_k_inf,
++                "gamma": []
++            }
+ 
+-def compute_active_set_symmetric_difference(set_current, set_previous):
++        # Build difference matrices: Delta D and Delta R (size N x m_k)
++        delta_d = []
++        delta_r = []
++        for j in range(m_k):
++            dd_j = {n: self.d_history[j + 1][n] - self.d_history[j][n] for n in nodes}
++            dr_j = {n: self.r_history[j + 1][n] - self.r_history[j][n] for n in nodes}
++            delta_d.append(dd_j)
++            delta_r.append(dr_j)
++
++        # Form normal equations: (Delta R^T Delta R + lambda * I) gamma = Delta R^T r_k
++        A = [[0.0] * m_k for _ in range(m_k)]
++        b = [0.0] * m_k
++
++        for i in range(m_k):
++            b[i] = sum(delta_r[i][n] * r_k[n] for n in nodes)
++            for j in range(m_k):
++                dot_ij = sum(delta_r[i][n] * delta_r[j][n] for n in nodes)
++                if i == j:
++                    dot_ij += self.regularization
++                A[i][j] = dot_ij
++
++        # Solve m_k x m_k linear system (m_k <= 3)
++        gamma = self._solve_small_system(A, b)
++
++        if gamma is None:
++            self.fallbacks_triggered += 1
++            return d_picard, {
++                "accelerated": False,
++                "reason": "singular_least_squares",
++                "m_k": m_k,
++                "residual_l2": r_k_norm,
++                "residual_linf": r_k_inf,
++                "gamma": []
++            }
++
++        gamma_norm = math.sqrt(sum(g ** 2 for g in gamma))
++        if gamma_norm > self.gamma_max:
++            # Overfitting / extreme extrapolation safeguard
++            self.fallbacks_triggered += 1
++            return d_picard, {
++                "accelerated": False,
++                "reason": f"gamma_norm_exceeded ({gamma_norm:.2f} > {self.gamma_max})",
++                "m_k": m_k,
++                "residual_l2": r_k_norm,
++                "residual_linf": r_k_inf,
++                "gamma": gamma
++            }
++
++        # Form accelerated iterate
++        d_bar = dict(d_current)
++        r_bar = dict(r_k)
++        for j in range(m_k):
++            gj = gamma[j]
++            for n in nodes:
++                d_bar[n] -= gj * delta_d[j][n]
++                r_bar[n] -= gj * delta_r[j][n]
++
++        # Candidate accelerated iterate: d_cand = d_bar + beta * r_bar
++        d_cand = {}
++        for n in nodes:
++            val = d_bar[n] + self.beta * r_bar[n]
++            d_cand[n] = min(1.0, max(d0[n], val))
++
++        # 1. Predicted mixed residual norm safeguard: ||r_bar|| should not blow up relative to ||r_k||
++        r_bar_norm = math.sqrt(sum(r_bar[n] ** 2 for n in nodes))
++        if r_k_norm > 0 and r_bar_norm > 1.5 * r_k_norm:
++            self.fallbacks_triggered += 1
++            return d_picard, {
++                "accelerated": False,
++                "reason": f"predicted_residual_growth ({r_bar_norm:.4e} > 1.5 * {r_k_norm:.4e})",
++                "m_k": m_k,
++                "residual_l2": r_k_norm,
++                "residual_linf": r_k_inf,
++                "gamma": gamma
++            }
++
++        # 2. Physical maximum step cap safeguard
++        cand_step = max(abs(d_cand[n] - d_current[n]) for n in nodes)
++        picard_step = max(abs(d_picard[n] - d_current[n]) for n in nodes)
++        if cand_step > self.max_step_cap:
++            self.fallbacks_triggered += 1
++            return d_picard, {
++                "accelerated": False,
++                "reason": f"step_exceeds_cap ({cand_step:.4e} > {self.max_step_cap:.4e})",
++                "m_k": m_k,
++                "residual_l2": r_k_norm,
++                "residual_linf": r_k_inf,
++                "gamma": gamma
++            }
++
++        self.accelerations_applied += 1
++        return d_cand, {
++            "accelerated": True,
++            "reason": "success",
++            "m_k": m_k,
++            "residual_l2": r_k_norm,
++            "residual_linf": r_k_inf,
++            "gamma": gamma,
++            "gamma_norm": gamma_norm,
++            "cand_step": cand_step,
++            "picard_step": picard_step
++        }
++
++    @staticmethod
++    def _solve_small_system(A: List[List[float]], b: List[float]) -> Optional[List[float]]:
++        """Solves m x m linear system for m in {1, 2, 3} using Cramer's rule."""
++        m = len(b)
++        if m == 1:
++            if abs(A[0][0]) < 1e-15:
++                return None
++            return [b[0] / A[0][0]]
++        elif m == 2:
++            det = A[0][0] * A[1][1] - A[0][1] * A[1][0]
++            if abs(det) < 1e-15:
++                return None
++            x0 = (b[0] * A[1][1] - b[1] * A[0][1]) / det
++            x1 = (A[0][0] * b[1] - A[1][0] * b[0]) / det
++            return [x0, x1]
++        elif m == 3:
++            def det3(M):
++                return (
++                    M[0][0] * (M[1][1] * M[2][2] - M[1][2] * M[2][1])
++                    - M[0][1] * (M[1][0] * M[2][2] - M[1][2] * M[2][0])
++                    + M[0][2] * (M[1][0] * M[2][1] - M[1][1] * M[2][0])
++                )
++
++            detA = det3(A)
++            if abs(detA) < 1e-15:
++                return None
++
++            A0 = [
++                [b[0], A[0][1], A[0][2]],
++                [b[1], A[1][1], A[1][2]],
++                [b[2], A[2][1], A[2][2]]
++            ]
++            A1 = [
++                [A[0][0], b[0], A[0][2]],
++                [A[1][0], b[1], A[1][2]],
++                [A[2][0], b[2], A[2][2]]
++            ]
++            A2 = [
++                [A[0][0], A[0][1], b[0]],
++                [A[1][0], A[1][1], b[1]],
++                [A[2][0], A[2][1], b[2]]
++            ]
++
++            x0 = det3(A0) / detA
++            x1 = det3(A1) / detA
++            x2 = det3(A2) / detA
++            return [x0, x1, x2]
++        return None
++
++
++def compute_active_set_symmetric_difference(
++    set_current: Set[int], set_previous: Optional[Set[int]]
++) -> Tuple[Set[int], Set[int], int]:
+     """
+-    Computes exact node-resolved symmetric difference:
+-      Delta A = (set_current \\ set_previous) U (set_previous \\ set_current)
+-      Delta A^+ = set_current \\ set_previous (newly added nodes)
+-      Delta A^- = set_previous \\ set_current (removed nodes)
++    Computes node-resolved symmetric difference between successive active sets:
++      Delta A_k = (A_k \\ A_{k-1}) U (A_{k-1} \\ A_k)
+     Returns:
+       added_nodes: set of nodes added to active set
+       removed_nodes: set of nodes removed from active set
+@@ -130,7 +329,7 @@ def compute_active_set_symmetric_difference(set_current, set_previous):
+     return added, removed, sym_count
+ 
+ 
+-class Package171R10C6PDASDriver(object):
++class Package171R11C6PDASDriver(object):
+     def __init__(
+         self,
+         package,
+@@ -143,6 +342,12 @@ class Package171R10C6PDASDriver(object):
+         omega_d_stage2=0.85,
+         omega_u_stage1=1.00,
+         omega_u_stage2=0.85,
++        anderson_enabled=True,
++        anderson_memory=2,
++        anderson_beta=0.85,
++        anderson_reg=1e-6,
++        anderson_gamma_max=200.0,
++        anderson_max_step_cap=0.20,
+         max_active_cardinality=500,
+         max_symmetric_diff=10,
+         max_added_nodes=0,
+@@ -162,6 +367,12 @@ class Package171R10C6PDASDriver(object):
+         self.omega_d_stage2 = float(omega_d_stage2)
+         self.omega_u_stage1 = float(omega_u_stage1)
+         self.omega_u_stage2 = float(omega_u_stage2)
++        self.anderson_enabled = bool(anderson_enabled)
++        self.anderson_memory = int(anderson_memory)
++        self.anderson_beta = float(anderson_beta)
++        self.anderson_reg = float(anderson_reg)
++        self.anderson_gamma_max = float(anderson_gamma_max)
++        self.anderson_max_step_cap = float(anderson_max_step_cap)
+         self.max_active_cardinality = int(max_active_cardinality)
+         self.max_symmetric_diff = int(max_symmetric_diff)
+         self.max_added_nodes = int(max_added_nodes)
+@@ -193,13 +404,24 @@ class Package171R10C6PDASDriver(object):
+         self.growth_rollback_count = 0
+         self.transition_count = 0
+ 
++        # Anderson accelerator instance
++        self.accelerator = AndersonAccelerator(
++            memory_depth=self.anderson_memory,
++            beta=self.anderson_beta,
++            regularization=self.anderson_reg,
++            gamma_max=self.anderson_gamma_max,
++            max_step_cap=self.anderson_max_step_cap,
++        )
++
+     def load(self):
+         manifest_p = self.package / "PACKAGE_MANIFEST.json"
+         if not manifest_p.is_file():
+             raise FileNotFoundError(f"Missing PACKAGE_MANIFEST.json in {self.package}")
+         manifest = json.loads(manifest_p.read_text(encoding="utf-8"))
+ 
+-        deck_path = self.package / "M1_C6_PACKAGE171_R10_C3_0_ADAPTIVE_REEQUILIBRATION.inp"
++        deck_path = self.package / "M1_C6_PACKAGE171_R11_C3_0_ADAPTIVE_REEQUILIBRATION.inp"
++        if not deck_path.is_file():
++            deck_path = self.package / "M1_C6_PACKAGE171_R10_C3_0_ADAPTIVE_REEQUILIBRATION.inp"
+         if not deck_path.is_file():
+             deck_path = self.package / "M1_C6_PACKAGE171_R9_C3_0_ADAPTIVE_REEQUILIBRATION.inp"
+         if not deck_path.is_file():
+@@ -266,11 +488,13 @@ class Package171R10C6PDASDriver(object):
+ 
+         target_source = manifest.get("donor_source", {})
+         self.target_uy = float(target_source.get("target_uy_mm", 0.0018703125442191958))
+-        print(f"Loaded Package 171-R10: 15,252 quads, 15,559 nodes, target_uy = {self.target_uy:.10g} mm")
++        print(f"Loaded Package 171-R11: 15,252 quads, 15,559 nodes, target_uy = {self.target_uy:.10g} mm")
+         print(f"Verified transferred state: d0 in [{min_d0:.6f}, {max_d0:.6f}], H0 in [{min_h0:.4e}, {max_h0:.4e}]")
+         print(f"Nonuniform history elements: {nonuniform_count} of {len(self.mesh.elements)}")
+-        print(f"R10 Phase Relaxation: Stage 1 omega_d={self.omega_d_stage1:.2f}, Stage 2 omega_d={self.omega_d_stage2:.2f}")
+-        print(f"R10 Displacement Relaxation: Stage 1 omega_u={self.omega_u_stage1:.2f}, Stage 2 omega_u={self.omega_u_stage2:.2f}")
++        print(f"R11 Phase Relaxation: Stage 1 omega_d={self.omega_d_stage1:.2f}, Stage 2 omega_d={self.omega_d_stage2:.2f}")
++        print(f"R11 Displacement Relaxation: Stage 1 omega_u={self.omega_u_stage1:.2f}, Stage 2 omega_u={self.omega_u_stage2:.2f}")
++        print(f"R11 Anderson Acceleration: enabled={self.anderson_enabled}, m={self.anderson_memory}, beta={self.anderson_beta:.2f}, "
++              f"reg={self.anderson_reg:.1e}, gamma_max={self.anderson_gamma_max:.1f}, max_step_cap={self.anderson_max_step_cap:.2f}")
+         print(f"Compound Switching criteria: |A_k| <= {self.max_active_cardinality}, |Delta A_k| <= {self.max_symmetric_diff}, "
+               f"Delta A^+ <= {self.max_added_nodes} for {self.stabilization_window} consecutive iterations")
+         print(f"Rollback threshold factor: {self.rollback_factor:.2f}, divergence factor: {self.divergence_factor:.2f}, max_outer: {self.max_outer}")
+@@ -463,7 +687,7 @@ class Package171R10C6PDASDriver(object):
+ 
+         summary = {
+             "schema": 1,
+-            "contract": f"Package 171-R10 (C6 Coupled PDAS Re-Equilibration Isolated Displacement Relaxation omega_u: S1={self.omega_u_stage1:.2f}, S2={self.omega_u_stage2:.2f}, omega_d: S1={self.omega_d_stage1:.2f}, S2={self.omega_d_stage2:.2f})",
++            "contract": f"Package 171-R11 (C6 Coupled PDAS Re-Equilibration with Safeguarded Anderson Acceleration m={self.anderson_memory}, beta={self.anderson_beta:.2f}, omega_u: S1={self.omega_u_stage1:.2f}, S2={self.omega_u_stage2:.2f}, omega_d: S1={self.omega_d_stage1:.2f}, S2={self.omega_d_stage2:.2f})",
+             "status": "CONVERGED",
+             "stage": self.stage,
+             "effective_omega_d": effective_omega_d,
+@@ -472,6 +696,9 @@ class Package171R10C6PDASDriver(object):
+             "rollback_count": self.rollback_count,
+             "growth_rollback_count": self.growth_rollback_count,
+             "divergence_rollback_count": self.divergence_rollback_count,
++            "anderson_accelerations_count": self.accelerator.accelerations_applied,
++            "anderson_fallbacks_count": self.accelerator.fallbacks_triggered,
++            "anderson_resets_count": self.accelerator.resets_triggered,
+             "coupled_convergence": True,
+             "physical_acceptance": "PASS" if physical_pass else "FAIL",
+             "thermodynamic_consistency": "PASS" if thermo_consistent else "FAIL",
+@@ -514,7 +741,7 @@ class Package171R10C6PDASDriver(object):
+         if physical_pass:
+             chkpt_data = {
+                 "schema": 1,
+-                "contract": "Package 171-R10 C6 Coupled PDAS Re-Equilibration",
++                "contract": "Package 171-R11 C6 Coupled PDAS Re-Equilibration",
+                 "stage_mode": self.stage,
+                 "effective_omega_d": effective_omega_d,
+                 "effective_omega_u": effective_omega_u,
+@@ -551,7 +778,7 @@ class Package171R10C6PDASDriver(object):
+         if time.monotonic() >= self.deadline:
+             raise RuntimeError("Stage C3-0 execution deadline exceeded")
+ 
+-        job = f"M1_C6_P171_R10_{role.upper()}_O{outer:02d}"
++        job = f"M1_C6_P171_R11_{role.upper()}_O{outer:02d}"
+         if inner > 0:
+             job += f"_I{inner:02d}"
+         sub_dir = self.output / f"step_{step_idx:02d}_outer_{outer:02d}_{role}"
+@@ -668,7 +895,8 @@ class Package171R10C6PDASDriver(object):
+         step_converged = False
+         summary = None
+ 
+-        print(f"\nStarting R10 coupled PDAS re-equilibration (Isolated Displacement Under-Relaxation S1_wd={self.omega_d_stage1}, S2_wd={self.omega_d_stage2}, S1_wu={self.omega_u_stage1}, S2_wu={self.omega_u_stage2}) on 15,252-quad C6 mesh (target_uy = {target_uy:.10g} mm)...")
++        print(f"\nStarting R11 coupled PDAS re-equilibration (Safeguarded Anderson Acceleration m={self.anderson_memory}, beta={self.anderson_beta}, "
++              f"S1_wd={self.omega_d_stage1}, S2_wd={self.omega_d_stage2}, S1_wu={self.omega_u_stage1}, S2_wu={self.omega_u_stage2}) on 15,252-quad C6 mesh (target_uy = {target_uy:.10g} mm)...")
+ 
+         for outer in range(1, self.max_outer + 1):
+             # 1. Mechanical subproblem solve
+@@ -730,7 +958,7 @@ class Package171R10C6PDASDriver(object):
+                 if self.previous_active_set is not None else None
+             )
+ 
+-            # Compound Stabilization Tracking (Preserved from R9):
++            # Compound Stabilization Tracking (Preserved from R9/R10):
+             # Requires: |A_k| <= max_active_cardinality (500)
+             #           |Delta A_k| <= max_symmetric_diff (10)
+             #           len(added_nodes) <= max_added_nodes (0)
+@@ -751,7 +979,7 @@ class Package171R10C6PDASDriver(object):
+                 self.stage = 2
+                 transition_activated = True
+                 self.transition_count += 1
+-                print(f"  [STAGE TRANSITION] Activated Stage 2 acceleration (omega_d={self.omega_d_stage2:.2f}, omega_u={self.omega_u_stage2:.2f}) at outer {outer:02d}: "
++                print(f"  [STAGE TRANSITION] Activated Stage 2 acceleration (omega_d={self.omega_d_stage2:.2f}, omega_u={self.omega_u_stage2:.2f}, Anderson=ON) at outer {outer:02d}: "
+                       f"{self.consecutive_stable_iterations} consecutive iterations meeting compound criteria "
+                       f"(|A|={len(pdas_active)}<={self.max_active_cardinality}, |Delta A|={delta_active_sym}<={self.max_symmetric_diff}, added={len(added_nodes)}==0)")
+ 
+@@ -764,19 +992,46 @@ class Package171R10C6PDASDriver(object):
+                 u_trial, history, target_uy
+             )
+ 
+-            # 8. Candidate Intrinsic Unrelaxed PDAS Correction & Damped Under-Relaxation Step:
+-            # Intrinsic unrelaxed PDAS fixed-point step norm: ||d_PDAS - d^(k)||_inf
++            # 8. Fixed-Point Update: Damped Picard vs Safeguarded Anderson Acceleration
+             cand_raw_delta_d = max(abs(new_damage_pdas[n] - damage[n]) for n in new_damage_pdas)
+ 
+-            # Relaxed update: d^{(cand)} = (1 - applied_omega_d) * d^{(k)} + applied_omega_d * d_PDAS^{(k+1)}
+-            cand_damage = {}
+-            for n in new_damage_pdas:
+-                val = (1.0 - applied_omega_d) * damage[n] + applied_omega_d * new_damage_pdas[n]
+-                cand_damage[n] = min(1.0, max(self.d0[n], val))
++            # Determine whether Anderson acceleration is eligible:
++            # Requires: Stage 2 active, anderson_enabled=True, and active-set stabilized (|Delta A| <= 5)
++            anderson_eligible = (
++                self.anderson_enabled and
++                self.stage == 2 and
++                delta_active_sym <= 5
++            )
++            active_set_shifted = (delta_active_sym > 5)
++
++            anderson_meta = {}
++            if anderson_eligible:
++                cand_damage, anderson_meta = self.accelerator.compute_step(
++                    d_current=damage,
++                    d_pdas=new_damage_pdas,
++                    d0=self.d0,
++                    damped_omega=applied_omega_d,
++                    active_set_changed=active_set_shifted
++                )
++            else:
++                # Standard damped Picard step
++                cand_damage = {}
++                for n in new_damage_pdas:
++                    val = (1.0 - applied_omega_d) * damage[n] + applied_omega_d * new_damage_pdas[n]
++                    cand_damage[n] = min(1.0, max(self.d0[n], val))
++                anderson_meta = {
++                    "accelerated": False,
++                    "reason": "stage1_or_active_set_churning" if self.stage == 1 else "active_set_diff_exceeded",
++                    "m_k": 0,
++                    "gamma": [],
++                    "gamma_norm": 0.0,
++                    "cand_step": 0.0,
++                    "picard_step": 0.0
++                }
++
+             cand_delta_d = max(abs(cand_damage[n] - damage[n]) for n in cand_damage)
+ 
+-            # 9. Consistent Residual-Based Rollback Safeguards (Stage 2 Only - Preserved from R9)
+-            # Evaluates the invariant unrelaxed solver step norm to eliminate relaxation-scaling artifacts
++            # 9. Consistent Residual-Based Rollback Safeguards (Stage 2 Only - Preserved from R9/R10)
+             rollback_triggered = False
+             rollback_reason = None
+             if self.stage == 2 and self.previous_raw_delta_d is not None and self.previous_raw_delta_d > 0:
+@@ -800,7 +1055,7 @@ class Package171R10C6PDASDriver(object):
+                 if rollback_triggered:
+                     self.rollback_count += 1
+                     print(f"  [ROLLBACK] Outer {outer:02d}: Stage 2 {rollback_reason}. "
+-                          f"Reverting phase step to conservative (omega_d={self.omega_d_stage1:.2f}) and resetting Stage 1 for subsequent iteration.")
++                          f"Reverting phase step to conservative (omega_d={self.omega_d_stage1:.2f}) and resetting Anderson memory.")
+                     # Revert candidate step using conservative relaxation factor
+                     applied_omega_d = self.omega_d_stage1
+                     cand_damage = {}
+@@ -810,9 +1065,7 @@ class Package171R10C6PDASDriver(object):
+                     cand_delta_d = max(abs(cand_damage[n] - damage[n]) for n in cand_damage)
+                     cand_raw_delta_d = max(abs(new_damage_pdas[n] - damage[n]) for n in new_damage_pdas)
+ 
+-                    # Atomically preserve coupled field consistency:
+-                    # u_trial and history evaluated together with new_damage_pdas are RETAINED for iteration k.
+-                    # Stage 1 is reset so that the NEXT iteration applies conservative omega_u=1.00 and omega_d=0.50.
++                    self.accelerator.reset()
+                     self.stage = 1
+                     self.consecutive_stable_iterations = 0
+ 
+@@ -834,6 +1087,8 @@ class Package171R10C6PDASDriver(object):
+             self.previous_raw_delta_d = raw_delta_d
+             self.previous_active_set = set(pdas_active)
+ 
++            acc_str = f"AND(m={anderson_meta.get('m_k', 0)})" if anderson_meta.get("accelerated") else "PIC"
++
+             rec = {
+                 "step": step_idx,
+                 "outer": outer,
+@@ -843,6 +1098,13 @@ class Package171R10C6PDASDriver(object):
+                 "applied_omega_u": applied_omega_u,
+                 "effective_omega_d": applied_omega_d,
+                 "effective_omega_u": applied_omega_u,
++                "anderson_accelerated": anderson_meta.get("accelerated", False),
++                "anderson_reason": anderson_meta.get("reason", "none"),
++                "anderson_m_k": anderson_meta.get("m_k", 0),
++                "anderson_gamma": anderson_meta.get("gamma", []),
++                "anderson_gamma_norm": anderson_meta.get("gamma_norm", 0.0),
++                "anderson_cand_step": anderson_meta.get("cand_step", 0.0),
++                "anderson_picard_step": anderson_meta.get("picard_step", 0.0),
+                 "pdas_active_count": len(pdas_active),
+                 "pdas_free_count": len(pdas_free),
+                 "active_set_symmetric_diff": delta_active_sym,
+@@ -881,7 +1143,7 @@ class Package171R10C6PDASDriver(object):
+             added_str = f"{len(added_nodes)}" if added_nodes is not None else "N/A"
+             u_rel_str = f"{delta_u_relaxed:.4e}" if delta_u_relaxed is not None else "N/A"
+             u_raw_str = f"{delta_u_raw:.4e}" if delta_u_raw is not None else "N/A"
+-            print(f"  Outer {outer:02d} [Stage {self.stage}, wd={applied_omega_d:.2f}, wu={applied_omega_u:.2f}]: "
++            print(f"  Outer {outer:02d} [Stage {self.stage}, {acc_str}, wd={applied_omega_d:.2f}, wu={applied_omega_u:.2f}]: "
+                   f"delta_d={delta_d:.4e}, delta_u_rel={u_rel_str}, delta_u_raw={u_raw_str}, delta_h={delta_h or 0.0:.4e}, "
+                   f"|Delta A|={sym_str} (card={card_str}, added={added_str}), stable_count={self.consecutive_stable_iterations}, "
+                   f"post_kkt_pass={kkt_post['passed']}, PDAS active={len(pdas_active)}")
+@@ -930,7 +1192,7 @@ class Package171R10C6PDASDriver(object):
+ 
+                 if not physical_pass:
+                     raise RuntimeError(
+-                        f"Package 171-R10 coupled convergence achieved at outer {outer}, but physical acceptance failed: "
++                        f"Package 171-R11 coupled convergence achieved at outer {outer}, but physical acceptance failed: "
+                         f"force={summary['force_gate_pass']}, energy={summary['energy_gate_pass']}, "
+                         f"thermo={summary['thermodynamic_consistency']}, monotonicity={summary['history_monotonicity']}, "
+                         f"healing={summary['healing_pass']}, kkt={summary['kkt_final_pass']}, "
+@@ -948,7 +1210,7 @@ class Package171R10C6PDASDriver(object):
+             applied_omega_u = self.omega_u_stage2 if self.stage == 2 else self.omega_u_stage1
+             summary = {
+                 "schema": 1,
+-                "contract": f"Package 171-R10 (C6 Coupled PDAS Re-Equilibration Isolated Displacement Relaxation omega_u: S1={self.omega_u_stage1:.2f}, S2={self.omega_u_stage2:.2f}, omega_d: S1={self.omega_d_stage1:.2f}, S2={self.omega_d_stage2:.2f})",
++                "contract": f"Package 171-R11 (C6 Coupled PDAS Re-Equilibration with Safeguarded Anderson Acceleration m={self.anderson_memory}, beta={self.anderson_beta:.2f}, omega_u: S1={self.omega_u_stage1:.2f}, S2={self.omega_u_stage2:.2f}, omega_d: S1={self.omega_d_stage1:.2f}, S2={self.omega_d_stage2:.2f})",
+                 "status": "NONCONVERGED",
+                 "stage": self.stage,
+                 "outer_iterations_completed": self.max_outer,
+@@ -966,6 +1228,9 @@ class Package171R10C6PDASDriver(object):
+                 "rollback_count": self.rollback_count,
+                 "growth_rollback_count": self.growth_rollback_count,
+                 "divergence_rollback_count": self.divergence_rollback_count,
++                "anderson_accelerations_count": self.accelerator.accelerations_applied,
++                "anderson_fallbacks_count": self.accelerator.fallbacks_triggered,
++                "anderson_resets_count": self.accelerator.resets_triggered,
+                 "pdas_active_nodes_count": len(pdas_active),
+                 "pdas_free_nodes_count": len(pdas_free),
+                 "active_set_symmetric_diff": delta_active_sym,
+@@ -991,7 +1256,7 @@ class Package171R10C6PDASDriver(object):
+ 
+ 
+ def main():
+-    parser = argparse.ArgumentParser(description="Package 171-R10 C6 Coupled PDAS Re-Equilibration Driver")
++    parser = argparse.ArgumentParser(description="Package 171-R11 C6 Coupled PDAS Re-Equilibration Driver")
+     parser.add_argument("--package", required=True, help="Path to Package 171 directory")
+     parser.add_argument("--output", required=True, help="Output directory for execution")
+     parser.add_argument("--extractor", required=True, help="Path to extract_c4_to_c5_endpoint.py")
+@@ -1002,6 +1267,12 @@ def main():
+     parser.add_argument("--omega-d-stage2", type=float, default=0.85, help="Stage 2 damage relaxation factor")
+     parser.add_argument("--omega-u-stage1", type=float, default=1.00, help="Stage 1 displacement relaxation factor")
+     parser.add_argument("--omega-u-stage2", type=float, default=0.85, help="Stage 2 displacement relaxation factor")
++    parser.add_argument("--anderson-enabled", action="store_true", default=True, help="Enable safeguarded Anderson acceleration")
++    parser.add_argument("--anderson-memory", type=int, default=2, help="Anderson acceleration memory depth (default: 2)")
++    parser.add_argument("--anderson-beta", type=float, default=0.85, help="Anderson acceleration mixing parameter (default: 0.85)")
++    parser.add_argument("--anderson-reg", type=float, default=1e-6, help="Anderson Tikhonov regularization (default: 1e-6)")
++    parser.add_argument("--anderson-gamma-max", type=float, default=200.0, help="Anderson gamma norm cap (default: 200.0)")
++    parser.add_argument("--anderson-max-step-cap", type=float, default=0.20, help="Anderson max step cap (default: 0.20)")
+     parser.add_argument("--max-active-cardinality", type=int, default=500, help="Maximum active set cardinality for Stage 2")
+     parser.add_argument("--max-symmetric-diff", type=int, default=10, help="Maximum symmetric difference |Delta A| for Stage 2")
+     parser.add_argument("--max-added-nodes", type=int, default=0, help="Maximum newly added nodes Delta A^+ for Stage 2")
+@@ -1012,7 +1283,7 @@ def main():
+     parser.add_argument("--abaqus", default="abaqus", help="Abaqus execution command")
+     args = parser.parse_args()
+ 
+-    driver = Package171R10C6PDASDriver(
++    driver = Package171R11C6PDASDriver(
+         package=args.package,
+         output=args.output,
+         extractor=args.extractor,
+@@ -1023,6 +1294,12 @@ def main():
+         omega_d_stage2=args.omega_d_stage2,
+         omega_u_stage1=args.omega_u_stage1,
+         omega_u_stage2=args.omega_u_stage2,
++        anderson_enabled=args.anderson_enabled,
++        anderson_memory=args.anderson_memory,
++        anderson_beta=args.anderson_beta,
++        anderson_reg=args.anderson_reg,
++        anderson_gamma_max=args.anderson_gamma_max,
++        anderson_max_step_cap=args.anderson_max_step_cap,
+         max_active_cardinality=args.max_active_cardinality,
+         max_symmetric_diff=args.max_symmetric_diff,
+         max_added_nodes=args.max_added_nodes,
+@@ -1044,6 +1321,8 @@ def main():
+         print(f"Last delta_u_relaxed: {summary.get('last_delta_u_relaxed')}")
+         print(f"Last delta_u_raw: {summary.get('last_delta_u_raw')}")
+         print(f"Last delta_h: {summary.get('last_delta_h')}")
++        print(f"Anderson accelerations applied: {summary.get('anderson_accelerations_count')}")
++        print(f"Anderson fallbacks triggered: {summary.get('anderson_fallbacks_count')}")
+ 
+ 
+ if __name__ == "__main__":

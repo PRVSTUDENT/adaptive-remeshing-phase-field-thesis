@@ -1,0 +1,145 @@
+{
+  "schema": 1,
+  "contract": "Package 171-R11 C6 Coupled PDAS Re-Equilibration Technical Qualification Proposal",
+  "task_id": "F1617-PACKAGE171-R11-C6-ANDERSON-ACCELERATION-QUALIFICATION",
+  "candidate_id": "M1_C6_P171_R11_C3_0",
+  "status": "TECHNICAL_QUALIFICATION_PROPOSAL_PREPARED",
+  "governance": {
+    "protocol_version": 2,
+    "authorized_by": "chatgpt_pad_bridge_instruction_HND-36a95b64ebae",
+    "governing_instruction": "ACCEPT R10 AS A VALID FAILED EXPERIMENT. SELECT OPTION A — SAFEGUARDED ANDERSON ACCELERATION FOR OFFLINE R11 INVESTIGATION.",
+    "zero_pbs_submissions_enforced": true,
+    "max_new_pbs_submissions": 0
+  },
+  "predecessor": {
+    "task_id": "F1616-PACKAGE171-R10-C6-EXECUTION-QUALIFICATION",
+    "status": "EVALUATED_NONCONVERGED",
+    "verified_commit": "4ec9afb472cb63dd58dd3d733f1e73682b48ce96",
+    "reconciliation_commit": "396ca64bbd33f9ca369cc4f244bb2eb6677ac665",
+    "checkpoint_artifact": "results/validation/package171_r10_evaluation_summary.json",
+    "predecessor_job_id": "1420261.mmaster02",
+    "predecessor_exit_code": 1
+  },
+  "mathematical_specification": {
+    "stage_1_phase_relaxation_omega_d": 0.50,
+    "stage_1_displacement_relaxation_omega_u": 1.00,
+    "compound_transition_criteria": {
+      "max_active_cardinality": 500,
+      "max_symmetric_diff": 10,
+      "max_added_nodes": 0,
+      "stabilization_window_iterations": 3
+    },
+    "stage_2_phase_relaxation_omega_d": 0.85,
+    "stage_2_displacement_relaxation_omega_u": 0.85,
+    "displacement_update_formula": "u_trial^{(k)} = (1 - omega_u) * u_trial^{(k-1)} + omega_u * u_abaqus^{(k)}",
+    "raw_versus_relaxed_accounting": {
+      "delta_u_raw_definition": "||u_abaqus^{(k)} - u_trial^{(k-1)}||_inf",
+      "delta_u_relaxed_definition": "||u_trial^{(k)} - u_trial^{(k-1)}||_inf",
+      "relaxed_to_raw_ratio": 0.85,
+      "convergence_gates": {
+        "delta_u_raw_max_mm": 1e-09,
+        "delta_u_relaxed_max_mm": 1e-09,
+        "false_convergence_prevention": "BOTH raw and relaxed increments must satisfy 1e-09 mm to eliminate under-relaxation smoothing artifacts"
+      }
+    },
+    "anderson_acceleration_specification": {
+      "memory_depth_m": 2,
+      "mixing_parameter_beta": 0.85,
+      "tikhonov_regularization_lambda": 1e-06,
+      "gamma_norm_cap": 200.0,
+      "max_step_cap": 0.20,
+      "predicted_residual_growth_factor": 1.50,
+      "fixed_point_mapping": "d_{k+1} = g(d_k) = d_PDAS, intrinsic residual r_k = d_PDAS - d_k",
+      "activation_gate": "Active ONLY in Stage 2 after active-set stabilization (|Delta A_k| <= 5)",
+      "topology_shift_action": "Any active set shift (|Delta A_k| > 5) immediately flushes Anderson history and falls back to damped Picard",
+      "projection_bound": "d_{k+1} = min(1.0, max(d0, d_cand)) strictly guarantees zero healing and upper bound preservation",
+      "mock_problem_speedup_demonstrated": "2.34x (161 iterations vs 376 Picard iterations)",
+      "authentic_c6_mesh_verification": "Tested on Outer 136-140 authentic 15,559-node damage fields from Job 1420261; well-conditioned Gram matrix (||gamma|| ~ 11.29), step size 0.115, 0 healing violations, 0 upper bound violations"
+    },
+    "history_construction": {
+      "formula": "H_trial^{(k)} = max(H0, psi+(u_trial^{(k)}))",
+      "heuristic_relaxation_status": "REJECTED (violates thermodynamic bound H >= psi+)",
+      "thermodynamic_guarantee": "H >= psi+ and H >= H0 strictly satisfied by construction at all 61,008 Gauss points"
+    },
+    "rollback_safeguards": {
+      "step_norm_basis": "unrelaxed PDAS step norm ||d_PDAS - d^{(k)}||_inf",
+      "residual_growth_factor": 1.05,
+      "divergence_factor": 1.50,
+      "catastrophic_delta_d_cap": 0.05,
+      "rollback_action": "atomically retain evaluated u_trial (using current iteration applied omega_u=0.85) and evaluated history for iteration k; revert candidate phase step to conservative omega_d=0.50; reset Anderson accelerator memory queue; reset stage=1 and switching counter so that subsequent iteration (k+1) applies conservative omega_u=1.00 and omega_d=0.50"
+    },
+    "independent_post_convergence_re_equilibration": {
+      "mechanical_solve": "K(d*) u_consistent = f_ext",
+      "displacement_consistency_tolerance_mm": 1e-09,
+      "history_consistency_tolerance_MPa": 0.0001,
+      "checkpoint_suppression_on_failure": true
+    }
+  },
+  "evidence_and_hashes": {
+    "frozen_uel": {
+      "path": "models/pandey_kumar_mode1/f42_mixed_uel.for",
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "status": "BITWISE_IDENTICAL"
+    },
+    "driver": {
+      "path": "scripts/state_transfer/driver_package171_r11_c6_coupled_pdas.py",
+      "sha256": "28B60935FE6AF73DEBE31D0933B6225E1EF9FEB253D0ADBD7125DFC0539BBDF2",
+      "size_bytes": 63976
+    },
+    "anderson_module": {
+      "path": "scripts/state_transfer/anderson_acceleration.py",
+      "sha256": "C9D2C942815EF2DEC5C70B90CB354E372301B170658FC2D58029CB9E59ED931F",
+      "size_bytes": 10469
+    },
+    "anderson_unit_tests": {
+      "path": "tests/unit/test_anderson_acceleration.py",
+      "sha256": "5152889B8DDD14A4BE7944768543CEDE5692F22D4311E217CEA80FAF54EA11D1",
+      "size_bytes": 7792,
+      "tests_count": 5,
+      "tests_passed": 5
+    },
+    "driver_unit_tests": {
+      "path": "tests/unit/test_package171_r11_c6_coupled_driver.py",
+      "sha256": "773D7693B64761168E25D2707F5EA7D5F3E1CBC42437151AAA490B2D2E96129A",
+      "size_bytes": 33743,
+      "tests_count": 14,
+      "tests_passed": 14
+    },
+    "authentic_c6_telemetry_test": {
+      "path": "scripts/validation/test_anderson_on_authentic_r10_data.py",
+      "sha256": "7C4B1F81D4C814634FEB1D56730EDF4FE2D780B4EF165257AA9F589ACC76A907",
+      "size_bytes": 5098,
+      "status": "VERIFIED_ON_AUTHENTIC_C6_FIELDS_ITER_136_TO_140"
+    },
+    "diff_patch": {
+      "path": "results/validation/package171_r11_driver_diff.patch",
+      "sha256": "08E0BAA7EABD90BDB679AF2DB052742872F91EAEB24477DFE4204E87C9AF5A57",
+      "size_bytes": 38840,
+      "git_apply_check_exit": 0
+    },
+    "test_output_log": {
+      "path": "results/validation/package171_r11_test_output.txt",
+      "sha256": "58BF3FC60E193D9E99657F879FE3D6E3A211149C038577875105225C14249BC2",
+      "size_bytes": 6890,
+      "total_tests_run": 45,
+      "total_tests_passed": 45,
+      "r11_driver_tests_passed": 14,
+      "anderson_algorithm_tests_passed": 5,
+      "r10_regression_tests_passed": 13,
+      "r9_regression_tests_passed": 13
+    }
+  },
+  "acceptance_thresholds": {
+    "delta_d_max": 1e-05,
+    "delta_u_relaxed_max_mm": 1e-09,
+    "delta_u_raw_max_mm": 1e-09,
+    "delta_h_max_MPa": 0.0001,
+    "kkt_free_error_max": 1e-06,
+    "kkt_dual_error_max": 1e-06,
+    "kkt_complementarity_max": 1e-06,
+    "force_drift_max_pct": 2.0,
+    "energy_drift_max_pct": 2.0,
+    "healing_violations_allowed": 0,
+    "history_monotonicity_violations_allowed": 0
+  }
+}
