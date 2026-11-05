@@ -45,12 +45,14 @@
   },
   "decision_branches": [
     "SEEK_INDEPENDENT_REVIEW: submit R9 corrective proposal to ChatGPT via PAD bridge for formal independent scientific review",
-    "OFFLINE_REGRESSION_TESTS: verify 100% pass across all 11 unit tests in test_package171_r9_c6_coupled_driver.py",
+    "OFFLINE_REGRESSION_TESTS: verify 100% pass across all 13 unit tests in test_package171_r9_c6_coupled_driver.py and 22 regression tests in the R8 suite (35/35 PASS combined)",
     "PREVENT_PREMATURE_HPC_SUBMISSION: max_new_pbs_submissions = 0 strictly enforced until review signoff"
   ],
   "evidence_sources": {
-    "results/validation/package171_r9_technical_correction_proposal.json": "90A90522112BE30690DC8D3065EA5ED26697FA412EC196D2D1F973037EDE8377",
-    "scripts/state_transfer/driver_package171_r9_c6_coupled_pdas.py": "E1CB851BC722EAB8203EF1C37A0989742538554D291DCE3B78FB832B9E68CC04",
-    "tests/unit/test_package171_r9_c6_coupled_driver.py": "E7B52C1FA9523A1486E856E2309E73B6E9A579500327E3CA68CE6936704D6DEC"
+    "results/validation/package171_r9_technical_correction_proposal.json": "D3F8D4F5343DAC19D8923C2B4935B30EB2D583C1B46BCA9E6C752E4D2C25C37F",
+    "scripts/state_transfer/driver_package171_r9_c6_coupled_pdas.py": "1829E8E7B426D8C367D6ACDBFF6E3393AD8E4526F93D760911A9756AB433DDB8",
+    "tests/unit/test_package171_r9_c6_coupled_driver.py": "EE0902BC239BD6F6E5E34656718C04A09B33C823826BDF60320B7B1229ED85D2",
+    "results/validation/package171_r9_driver_diff.patch": "9DE53B705BF6DF7C4CF18762FA0B968DA998283649DDEFA02C5B076054CE3FDF",
+    "results/validation/package171_r9_test_output.txt": "F64552C8361F1E95F04C34AF3CB1993AA0C13E96886134EA20AC143C9BF4A1CA"
   }
 }

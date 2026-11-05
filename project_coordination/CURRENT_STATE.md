@@ -1,3 +1,31 @@
+## 5 November Package 171-R9 Evidence Integrity & Clean Patch/Log Standardization (Task F1610)
+
+1. **Independent Re-Review 3 Intake Reconciled (Handoff `HND-f9115084caeb`)**:
+   - ChatGPT completed Re-Review 3 across the PAD bridge.
+   - Verification Status: All 3 prior blocking code findings formally verified and passed (`commit_sha_resolution`: PASS, `production_phase_decoding_tests`: PASS, `production_rollback_branch_tests`: PASS, `previous_raw_norm_telemetry_ordering`: PASS, `driver_sha256`: `1829E8E7...` verified, `test_suite_sha256`: `EE0902BC...` verified, `frozen_uel_sha256`: `CE8D5EDC...` verified).
+   - Findings: Raised two evidence-integrity findings (`V3-01`, `V3-02`) resulting from Windows PowerShell output redirection default encoding (UTF-16 LE with BOM and null bytes):
+     * `V3-01`: Patch file hash differed from repo raw download, contained BOM/CRLF, applicability required verification.
+     * `V3-02`: Test output log hash differed from submitted registry; observation noted need for reproducible 35/35 combined log and updated task definition test counts.
+   - Directive: Reconcile SHA-256 discrepancies; regenerate R9 patch in pure UTF-8 without BOM, LF line endings, and verify clean applicability with `git apply --check`; publish reproducible 35/35 combined regression log; update task definition and proposal with exact hashes; commit, push, and submit for focused re-review. Strictly 0 PBS submissions authorized.
+
+2. **Clean UTF-8 LF Patch Standardization & Applicability Check**:
+   - Regenerated `results/validation/package171_r9_driver_diff.patch` in pure UTF-8 without BOM, with LF (`\n`) line endings.
+   - Verified applicability: `git apply --check results/validation/package171_r9_driver_diff.patch` exits 0 cleanly.
+   - Patch SHA-256: `9DE53B705BF6DF7C4CF18762FA0B968DA998283649DDEFA02C5B076054CE3FDF`.
+   - Size: 14,629 bytes (pure text diff, ~50 modified lines).
+
+3. **Reproducible 35/35 Combined Regression Log Published**:
+   - Executed full combined regression suite: `tests/unit/test_package171_r9_c6_coupled_driver.py` (13 tests) + `test_package171_r8_c6_coupled_driver_switching.py` (9 tests) + `test_package171_r8_c6_coupled_driver_gates.py` (5 tests) + `test_package171_r8_c6_coupled_driver_phase_decoding.py` (8 tests).
+   - Result: **35 / 35 PASS (100%)** in 2.52s.
+   - Published clean verbose log to `results/validation/package171_r9_test_output.txt` (pure UTF-8, no BOM, LF line endings).
+   - Test log SHA-256: `F64552C8361F1E95F04C34AF3CB1993AA0C13E96886134EA20AC143C9BF4A1CA`.
+
+4. **Task Definition, Proposal & Registries Synchronized**:
+   - Proposal: `results/validation/package171_r9_technical_correction_proposal.json` (SHA-256 `D3F8D4F5343DAC19D8923C2B4935B30EB2D583C1B46BCA9E6C752E4D2C25C37F`).
+   - Task definition: `project_coordination/task_definitions/F1610-PACKAGE171-R9-C6-CORRECTIVE-QUALIFICATION.json` (SHA-256 `F0C5C6516FC7DF5289535309C14D6158E7DCB78C6A34F7C38C1363DBA8B2497E`).
+   - Active task: `project_coordination/ACTIVE_TASK.json`.
+   - Artifact registry: `project_coordination/ARTIFACT_REGISTRY.csv`.
+
 ## 5 November Package 171-R9 Production-Path Qualification & Telemetry Ordering Resolution (Task F1610)
 
 1. **Independent Re-Review 2 Intake Reconciled (Handoff `HND-1118e52d02be`)**:
