@@ -1,16 +1,16 @@
-﻿{
-    "active":  true,
-    "agent":  "codex",
-    "session_id":  "96604425-8051-4f61-b489-0f59d4887ce4",
-    "task_id":  "F1636-METHOD-C-C6-STABILITY-HYPOTHESIS-EVALUATION",
-    "started_at":  "2026-11-06T20:07:11.2957766+01:00",
-    "closed_at":  "2026-11-06T19:06:44.706796+00:00",
-    "starting_commit":  "cf9f9a82831185bc6be788ed4e3a6b269f28e651",
-    "allowed_write_scope":  [
-                                "scripts/validation/evaluate_f1636_stability_evidence.py",
-                                "results/validation/f1636_stability_evidence.json",
-                                "project_coordination",
-                                "results/validation/f1636_donor_energy_reconciliation.json"
-                            ],
-    "notes":  "Returned handoff HND-CODEX-21fcb0db88734e928a2f1aebcca21085 requests one bounded read-only CP03 energy provenance reconciliation; zero PBS."
+{
+  "active": false,
+  "agent": "codex",
+  "session_id": "96604425-8051-4f61-b489-0f59d4887ce4",
+  "task_id": "F1636-METHOD-C-C6-STABILITY-HYPOTHESIS-EVALUATION",
+  "started_at": "2026-11-06T20:07:11.2957766+01:00",
+  "closed_at": "2026-11-06T19:19:42.659088+00:00",
+  "starting_commit": "cf9f9a82831185bc6be788ed4e3a6b269f28e651",
+  "allowed_write_scope": [
+    "scripts/validation/evaluate_f1636_stability_evidence.py",
+    "results/validation/f1636_stability_evidence.json",
+    "project_coordination",
+    "results/validation/f1636_donor_energy_reconciliation.json"
+  ],
+  "notes": "F1636 Codex investigation completed; F1639 zero-PBS corrective successor registered. AGY PENDING run unchanged. Native Goal /goal resume required for next automatic turn."
 }

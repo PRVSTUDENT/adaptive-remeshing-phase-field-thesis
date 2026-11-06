@@ -1,18 +1,18 @@
 {
-  "task_id": "F1636-METHOD-C-C6-STABILITY-HYPOTHESIS-EVALUATION",
-  "title": "Method C C6 stability versus coupling nonconvergence: precritical donor hypothesis",
+  "task_id": "F1639-METHOD-C-DONOR-ENERGY-REFERENCE-CORRECTION",
+  "title": "Correct CP03 donor-energy reference and bound downstream scientific impact",
   "status": "READY_READ_ONLY_EVALUATION",
   "assigned_agent": "codex",
   "predecessor_task": {
-    "task_id": "F1633-NEAREST-HPC-SIMULATION-ELIGIBILITY-AUDIT",
-    "run_id": "43c5b05e-76eb-48d9-bada-cdf83ede5cbb",
-    "source_commit": "eb61141cbc98de1bdd89a17ddb8c0eba9b1ae41e",
-    "checkpoint_artifact": "project_coordination/controller/F1633-external-completion-reconciliation.json",
-    "checkpoint_sha256": "6E9943EFEEFF16F7AE3DB9A8DFD5BCF3DC6E51E52B1EE227408B37830C6312DA"
+    "task_id": "F1636-METHOD-C-C6-STABILITY-HYPOTHESIS-EVALUATION",
+    "run_id": "96604425-8051-4f61-b489-0f59d4887ce4",
+    "source_commit": "16c6dba006ec49d7bfe66d2008a5f751183c4a29",
+    "checkpoint_artifact": "project_coordination/controller/F1636-codex-completion-receipt.json",
+    "checkpoint_sha256": "E54D07C1D4FA7B63D31DE072D291DA257BA12A4D1D8377AACE880A4C260F5035"
   },
   "registration": {
-    "definition": "project_coordination/task_definitions/F1636-METHOD-C-C6-STABILITY-HYPOTHESIS-EVALUATION.json",
-    "sha256": "CD7852C2A7360A7CD5CECB68B3D61FCF5ACD3E8040E5FB1D3F58AF6DE64B5113"
+    "definition": "project_coordination/task_definitions/F1639-METHOD-C-DONOR-ENERGY-REFERENCE-CORRECTION.json",
+    "sha256": "BBCDF7E0AD3B8DA1CB6F795D4B0A1B4461446253213B635B8B83F80E90C4F797"
   },
   "scientific_operation": "",
   "scientific_operation_id": "research_preparation",
@@ -467,12 +467,5 @@
   },
   "requested_operation_id": "",
   "operation_transition": {},
-  "created_at": "2026-11-06T17:48:52.658108+00:00",
-  "last_step_status": "PREPARATION_COMPLETE",
-  "last_completed_step": "f1636_donor_energy_reconciliation",
-  "scientific_checkpoint": {
-    "artifact": "results/validation/f1636_donor_energy_reconciliation.json",
-    "sha256": "2B246D518AC1B696C48AC59B2C51979A736201E041D4973ABD1BB938D07AAF00"
-  },
-  "executor_transfer_receipt": "project_coordination/controller/F1636-codex-executor-transfer.json"
+  "created_at": "2026-11-06T19:19:42.659088+00:00"
 }

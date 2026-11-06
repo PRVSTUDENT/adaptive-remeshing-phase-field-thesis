@@ -1,3 +1,7 @@
+## 6 November F1636 closed; F1639 corrective successor ready
+
+Three direct Codex/PAD exchanges validated. F1636 scientific investigation closed with instability causality INSUFFICIENT_EVIDENCE and donor energy bookkeeping DEFECT_CONFIRMED. F1639-METHOD-C-DONOR-ENERGY-REFERENCE-CORRECTION is the unique registered zero-PBS successor; registration/lifecycle checks PASS, corrective implementation not yet executed. Session released; AGY PENDING checkpoint and credentials preserved. Native Goal remains blocked and requires user /goal resume for automatic continuation. See sessions/2026-11-06_codex_F1636_closeout_F1639_registration.md.
+
 ## 6 November F1636 donor energy bookkeeping defect confirmed
 
 Independent frozen-UEL quadrature reconstructs CP03 elastic/fracture/total energies to <4.2e-8 relative error against authentic outer2 runtime values. F1631 donor components are unsupported hard-coded constants with cancelling errors; named checkpoint itself stores only total. Original evidence retained, companion reconciliation recorded. Historical total-energy gate and C6 nonconvergence unchanged. Zero PBS. Next independent review of findings. See sessions/2026-11-06_codex_F1636_donor_energy_reconciliation.md.
