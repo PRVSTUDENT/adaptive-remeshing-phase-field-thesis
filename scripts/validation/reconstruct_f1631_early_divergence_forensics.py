@@ -29,6 +29,7 @@ Evaluates:
 
 import argparse
 import csv
+import hashlib
 import json
 import math
 import sys
@@ -52,19 +53,75 @@ from scripts.state_transfer.driver_package146_147_pdas_continuation import (
     shape_gradients,
 )
 
-DONOR_REF = {
+DONOR_METADATA = {
     "job_id": "1419566.mmaster02",
     "checkpoint": "Checkpoint 03",
-    "target_uy_mm": 0.0018703125442191958,
-    "reaction_force_kN": 0.17992419004440308,
-    "elastic_energy_kNmm": 0.00020088927,
-    "fracture_energy_kNmm": 0.00002550976,
-    "total_energy_kNmm": 0.00022639903,
     "crack_tip_x0_mm": 0.040,
     "crack_seam_y0_mm": 0.050,
     "l0_mm": L0_DEFAULT,
     "gc_kN_per_mm": GC_DEFAULT,
 }
+
+DONOR_RECONCILIATION = "results/validation/f1636_donor_energy_reconciliation.json"
+DONOR_RECONCILIATION_SHA256 = "2B246D518AC1B696C48AC59B2C51979A736201E041D4973ABD1BB938D07AAF00"
+DONOR_EVIDENCE_DIR = "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/"
+
+
+def validate_donor_energy_sources(summary, checkpoint, telemetry):
+    """Require matching final state and each component, not just a matching sum."""
+    if not telemetry:
+        raise ValueError("Missing donor final-outer telemetry")
+    final = telemetry[-1]
+    for field in ("elastic_energy_kNmm", "fracture_energy_kNmm", "total_energy_kNmm",
+                  "reaction_force_kN", "target_uy_mm"):
+        value = summary[field]
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value <= 0:
+            raise ValueError("Invalid donor numerical field: " + field)
+    if summary["status"] != "CONVERGED" or summary["physical_acceptance"] != "PASS" or checkpoint["coupled_convergence"] is not True:
+        raise ValueError("Donor acceptance evidence is incomplete")
+    if summary["converged_outer_iteration"] != checkpoint["outer_iteration"] or final["outer"] != checkpoint["outer_iteration"]:
+        raise ValueError("Donor outer-iteration mismatch")
+    pairs = [(summary["target_uy_mm"], checkpoint["target_uy_mm"]),
+             (summary["reaction_force_kN"], checkpoint["reaction_force_kN"]),
+             (summary["reaction_force_kN"], final["rf2_kN"]),
+             (summary["total_energy_kNmm"], checkpoint["total_energy_kNmm"]),
+             (summary["elastic_energy_kNmm"], final["elastic_kNmm"]),
+             (summary["fracture_energy_kNmm"], final["fracture_kNmm"]),
+             (summary["total_energy_kNmm"], final["total_energy_kNmm"]),
+             (summary["total_energy_kNmm"], summary["elastic_energy_kNmm"] + summary["fracture_energy_kNmm"])]
+    if any(not math.isfinite(b) or not math.isclose(a, b, rel_tol=1e-12, abs_tol=1e-15) for a, b in pairs):
+        raise ValueError("Inconsistent donor state or energy component")
+
+
+def load_donor_reference(root=REPO_ROOT):
+    """Load immutable CP03 runtime data, independently reconstructed in F1636."""
+    root = Path(root)
+    receipt_path = root / DONOR_RECONCILIATION
+    if not receipt_path.is_file():
+        raise FileNotFoundError(receipt_path)
+    raw = receipt_path.read_bytes()
+    if hashlib.sha256(raw).hexdigest().upper() != DONOR_RECONCILIATION_SHA256:
+        raise ValueError("Donor reconciliation receipt changed")
+    receipt = json.loads(raw.decode("utf-8-sig"))
+    sources = {}
+    for name in ("c5_forward_continuation_c2_2_summary.json", "converged_checkpoint_03.json", "live_iteration_telemetry.json"):
+        relative = DONOR_EVIDENCE_DIR + name
+        path = root / relative
+        if not path.is_file():
+            raise FileNotFoundError(path)
+        data = path.read_bytes()
+        if hashlib.sha256(data).hexdigest().upper() != receipt["evidence_sources"][relative]:
+            raise ValueError("Donor source hash mismatch: " + name)
+        sources[name] = json.loads(data.decode("utf-8-sig"))
+    summary = sources["c5_forward_continuation_c2_2_summary.json"]
+    validate_donor_energy_sources(summary, sources["converged_checkpoint_03.json"], sources["live_iteration_telemetry.json"])
+    result = dict(DONOR_METADATA)
+    for field in ("target_uy_mm", "reaction_force_kN", "elastic_energy_kNmm", "fracture_energy_kNmm", "total_energy_kNmm"):
+        result[field] = summary[field]
+    result["energy_reference_provenance"] = {"receipt": DONOR_RECONCILIATION,
+        "receipt_sha256": DONOR_RECONCILIATION_SHA256, "outer": summary["converged_outer_iteration"],
+        "sources": {DONOR_EVIDENCE_DIR + name: receipt["evidence_sources"][DONOR_EVIDENCE_DIR + name] for name in sources}}
+    return result
 
 SELECTED_OUTERS = [1, 2, 5, 10, 15, 16, 17, 18, 19, 20, 25, 30, 50, 95, 140]
 
@@ -334,6 +391,9 @@ def load_uel_energy_csv(csv_path: Path) -> Dict[str, float]:
 
 
 def run_forensics(package_dir: Path, equil_dir: Path, out_json: Path) -> Dict[str, Any]:
+    if out_json.exists():
+        raise FileExistsError("Preserve existing forensic evidence; choose a distinct output path")
+    donor_reference = load_donor_reference()
     deck_path = package_dir / "M1_C6_PACKAGE171_R12_C3_0_ADAPTIVE_REEQUILIBRATION.inp"
     mesh = Mesh2D.from_inp(deck_path, name="C6_Receiver", max_physical_node=15559)
 
@@ -369,9 +429,9 @@ def run_forensics(package_dir: Path, equil_dir: Path, out_json: Path) -> Dict[st
     assembler = FastPrecomputedPhaseAssembler(mesh, gc=GC_DEFAULT, l0=L0_DEFAULT)
 
     # Identify initial crack-tip and seam geometry
-    x_tip0 = DONOR_REF["crack_tip_x0_mm"]
-    y_seam0 = DONOR_REF["crack_seam_y0_mm"]
-    l0 = DONOR_REF["l0_mm"]
+    x_tip0 = donor_reference["crack_tip_x0_mm"]
+    y_seam0 = donor_reference["crack_seam_y0_mm"]
+    l0 = donor_reference["l0_mm"]
 
     node_dist_tip: Dict[int, float] = {}
     node_abs_dy: Dict[int, float] = {}
@@ -588,8 +648,8 @@ def run_forensics(package_dir: Path, equil_dir: Path, out_json: Path) -> Dict[st
             e_tot_mech = float(mech_meta.get("total_energy_kNmm", e_elas_mech + e_frac_mech))
             e_frac_phase = float(phase_meta.get("fracture_kNmm", phase_uel_csv.get("e_fracture_kNmm", 0.0)))
 
-            rf_drift_pct = (rf2_kN - DONOR_REF["reaction_force_kN"]) / DONOR_REF["reaction_force_kN"] * 100.0
-            e_tot_drift_pct = (e_tot_mech - DONOR_REF["total_energy_kNmm"]) / DONOR_REF["total_energy_kNmm"] * 100.0
+            rf_drift_pct = (rf2_kN - donor_reference["reaction_force_kN"]) / donor_reference["reaction_force_kN"] * 100.0
+            e_tot_drift_pct = (e_tot_mech - donor_reference["total_energy_kNmm"]) / donor_reference["total_energy_kNmm"] * 100.0
 
             iteration_forensics[outer] = {
                 "outer": outer,
@@ -695,7 +755,7 @@ def run_forensics(package_dir: Path, equil_dir: Path, out_json: Path) -> Dict[st
         "task_id": "F1631-METHOD-C-C6-EARLY-DIVERGENCE-FORENSIC-QUALIFICATION",
         "handoff_id": "HND-1590fe525792",
         "source_job_id": "1420429.mmaster02",
-        "donor_reference": DONOR_REF,
+        "donor_reference": donor_reference,
         "initial_transferred_state": {
             "nodes_count": len(d0),
             "elements_count": len(mesh.elements),

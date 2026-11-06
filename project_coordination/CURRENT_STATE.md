@@ -1,3 +1,7 @@
+## 6 November F1639 correction verified; independent review next
+
+Canonical forensic energy reference now loads pinned authentic CP03 summary/checkpoint/final telemetry and validates components independently. Thirteen regression checks pass; historical output overwrite refused. RF, total energy, load and failed C6 convergence verdict unchanged. R11/R12 stale component constants are unused internally but used by frozen smoke mocks; those packages untouched. Zero PBS/solver runs. See sessions/2026-11-06_codex_F1639_energy_reference_impact.md.
+
 ## 6 November F1636 closed; F1639 corrective successor ready
 
 Three direct Codex/PAD exchanges validated. F1636 scientific investigation closed with instability causality INSUFFICIENT_EVIDENCE and donor energy bookkeeping DEFECT_CONFIRMED. F1639-METHOD-C-DONOR-ENERGY-REFERENCE-CORRECTION is the unique registered zero-PBS successor; registration/lifecycle checks PASS, corrective implementation not yet executed. Session released; AGY PENDING checkpoint and credentials preserved. Native Goal remains blocked and requires user /goal resume for automatic continuation. See sessions/2026-11-06_codex_F1636_closeout_F1639_registration.md.

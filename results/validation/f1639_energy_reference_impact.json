@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "task_id": "F1639-METHOD-C-DONOR-ENERGY-REFERENCE-CORRECTION",
+  "status": "CORRECTION_VERIFIED",
+  "source_commit_before": "a1517d346f3e21f433d5d08c18f6d1ae4941d0d6",
+  "corrected_reference": {
+    "job_id": "1419566.mmaster02",
+    "checkpoint": "Checkpoint 03",
+    "crack_tip_x0_mm": 0.04,
+    "crack_seam_y0_mm": 0.05,
+    "l0_mm": 0.0075,
+    "gc_kN_per_mm": 0.0027,
+    "target_uy_mm": 0.0018703125442191958,
+    "reaction_force_kN": 0.17992419004440308,
+    "elastic_energy_kNmm": 0.00016825724,
+    "fracture_energy_kNmm": 5.814179e-05,
+    "total_energy_kNmm": 0.00022639903,
+    "energy_reference_provenance": {
+      "receipt": "results/validation/f1636_donor_energy_reconciliation.json",
+      "receipt_sha256": "2B246D518AC1B696C48AC59B2C51979A736201E041D4973ABD1BB938D07AAF00",
+      "outer": 2,
+      "sources": {
+        "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/c5_forward_continuation_c2_2_summary.json": "A2EAF0B4BF28969474E619F3B9768E4A144D6C2FD2F2DEDCD7ED742B4539C921",
+        "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/converged_checkpoint_03.json": "EAA122B911FDFC353D230C4BFFCCD60F75D7FAF4A9FBBEC9E5CF6A8B51C0A476",
+        "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/live_iteration_telemetry.json": "F970B6B029AA57C72E4AEC5EF8B6853F048BB936D1593EF9EE92EF2F8F1B5664"
+      }
+    }
+  },
+  "historical_reference": {
+    "job_id": "1419566.mmaster02",
+    "checkpoint": "Checkpoint 03",
+    "target_uy_mm": 0.0018703125442191958,
+    "reaction_force_kN": 0.17992419004440308,
+    "elastic_energy_kNmm": 0.00020088927,
+    "fracture_energy_kNmm": 2.550976e-05,
+    "total_energy_kNmm": 0.00022639903,
+    "crack_tip_x0_mm": 0.04,
+    "crack_seam_y0_mm": 0.05,
+    "l0_mm": 0.0075,
+    "gc_kN_per_mm": 0.0027
+  },
+  "changed_components": {
+    "elastic_energy_kNmm": {
+      "old": 0.00020088927,
+      "new": 0.00016825724,
+      "difference": -3.263203000000001e-05
+    },
+    "fracture_energy_kNmm": {
+      "old": 2.550976e-05,
+      "new": 5.814179e-05,
+      "difference": 3.263203e-05
+    }
+  },
+  "unchanged_numeric_references": {
+    "reaction_force_kN": true,
+    "total_energy_kNmm": true,
+    "target_uy_mm": true,
+    "crack_tip_x0_mm": true,
+    "crack_seam_y0_mm": true,
+    "l0_mm": true,
+    "gc_kN_per_mm": true
+  },
+  "executable_behavior": "load source-pinned authentic CP03 summary/checkpoint/final telemetry; independently validate each component, acceptance, state identity and totals; refuse to overwrite an existing forensic output",
+  "consumer_inventory": {
+    "target_file": "six original DONOR_REF consumers: geometry/length, force drift, total drift, serialized reference. Only serialized elastic/fracture attribution changes; no component enters residual assembly or gates.",
+    "rg_code_matches": [
+      "tests\\unit\\test_f1639_donor_energy_reference.py",
+      "scripts\\state_transfer\\driver_package171_r11_c6_coupled_pdas.py",
+      "scripts\\state_transfer\\driver_package171_r12_c6_coupled_pdas.py",
+      "scripts\\validation\\evaluate_f1636_stability_evidence.py",
+      "scripts\\validation\\reconstruct_f1631_early_divergence_forensics.py"
+    ],
+    "r11_r12_import_consumers": [
+      "models/pandey_kumar_mode1/175_c6_r12_anderson_m2\\smoke_import.py",
+      "models/pandey_kumar_mode1/174_c6_r12_picard_baseline\\smoke_import.py",
+      "scripts\\state_transfer\\build_f1629_packages.py",
+      "scripts\\validation\\assemble_package171_r11.py",
+      "tests\\unit\\test_f1629_paired_controlled_execution.py",
+      "scripts\\state_transfer\\driver_package171_r12_c6_coupled_pdas.py",
+      "scripts\\state_transfer\\driver_package171_r11_c6_coupled_pdas.py",
+      "scripts\\validation\\evaluate_f1629_paired_execution.py",
+      "scripts\\validation\\evaluate_f1636_stability_evidence.py",
+      "tests\\unit\\test_package171_r11_c6_coupled_driver.py",
+      "tests\\unit\\test_package171_r12_qualification.py",
+      "scripts\\validation\\reconstruct_f1631_early_divergence_forensics.py",
+      "scripts\\validation\\stage_and_datacheck_package171_r12.py",
+      "scripts\\validation\\stage_f1629_packages.py",
+      "scripts\\validation\\stage_package171_r11.py",
+      "scripts\\validation\\verify_package171_r11_datachecks.py"
+    ],
+    "driver_ast_uses": {
+      "scripts/state_transfer/driver_package171_r11_c6_coupled_pdas.py": {
+        "sha256": "D50FB76C030295A6BE00D0D30B5C8918BB558A5CA8592245BE4B81BBE83AFAEA",
+        "component_constant_load_count": {
+          "DONOR_REFERENCE_ELASTIC_ENERGY_KNMM": 0,
+          "DONOR_REFERENCE_FRACTURE_ENERGY_KNMM": 0
+        },
+        "changed": false
+      },
+      "scripts/state_transfer/driver_package171_r12_c6_coupled_pdas.py": {
+        "sha256": "17C064184A569019E7A2BC72B7880C7F3404B0A9E92C37B2D04F4BE3BAAC7166",
+        "component_constant_load_count": {
+          "DONOR_REFERENCE_ELASTIC_ENERGY_KNMM": 0,
+          "DONOR_REFERENCE_FRACTURE_ENERGY_KNMM": 0
+        },
+        "changed": false
+      }
+    },
+    "frozen_mock_fixtures": [
+      {
+        "path": "models/pandey_kumar_mode1/174_c6_r12_picard_baseline/smoke_import.py",
+        "sha256": "E965450718170F8D6EA526DA3CBEA2C5E70BA1EC0990CEC0BF61C5C23A945C1C",
+        "role": "mock endpoint in offline qualification fixture; not solver-generated component data",
+        "changed": false
+      },
+      {
+        "path": "models/pandey_kumar_mode1/175_c6_r12_anderson_m2/smoke_import.py",
+        "sha256": "E965450718170F8D6EA526DA3CBEA2C5E70BA1EC0990CEC0BF61C5C23A945C1C",
+        "role": "mock endpoint in offline qualification fixture; not solver-generated component data",
+        "changed": false
+      }
+    ],
+    "historical_f1636_evaluator": "AST audit of original DONOR_REF is a completed historical operation. Reproduce with its recorded source commit; do not replay against corrected canonical source or overwrite its result."
+  },
+  "downstream_impact": {
+    "component_interpretation": "Corrected. Unsupported historical split cannot support elastic-versus-fracture mechanism claims.",
+    "iteration_trajectory": "Unchanged; no reconstruction replay or solver run.",
+    "force_and_total_energy_drift": "Unchanged, identical numerical references.",
+    "coupled_C6_verdict": "NONCONVERGED remains rejected.",
+    "physical_instability_causality": "INSUFFICIENT_EVIDENCE remains.",
+    "C5_acceptance_and_donor_identity": "Preserved. No new C6 donor approval.",
+    "production_driver_change": "None. R11/R12 erroneous component constants are unused inside those drivers, but used by mock smoke endpoints; frozen packages untouched; later repair requires separate scope/qualification."
+  },
+  "tests": {
+    "command": "py -3 -m pytest -q tests/unit/test_f1639_donor_energy_reference.py --basetemp <new isolated temp directory>",
+    "passed": 13,
+    "original_attempt": "13 tests executed successfully, pytest cleanup failed with WinError5 on old pytest-current directory.",
+    "repair": "Fresh unique --basetemp; exit0, 13 passed in1.03s. No broad cleanup."
+  },
+  "new_pbs_submissions": 0,
+  "scientific_production_accepted": false,
+  "evidence_sources": {
+    "scripts/validation/reconstruct_f1631_early_divergence_forensics.py": "72BE2C6A9BCED62E919F909B2490EDF1507351813B5E2BFEA94DB99A0E6BAFDE",
+    "tests/unit/test_f1639_donor_energy_reference.py": "D26E5BCC30C25D585F7377C614A3A35CB087B6CC722A9696A3180D25AB8A2176",
+    "results/validation/f1636_donor_energy_reconciliation.json": "2B246D518AC1B696C48AC59B2C51979A736201E041D4973ABD1BB938D07AAF00",
+    "results/validation/f1631_early_divergence_forensics_summary.json": "6C127D5262289F5E0F3958894ECA6011759466AFDA76F7EADB0536B7A538EDAC"
+  },
+  "preserved_runtime_hashes": {
+    "project_coordination/HPC_JOB_LEDGER.csv": "1B594B6904A5DEEA79903965D9B98EB2583BFB9C362849300A761FC9714AF6BB",
+    "project_coordination/MODE1_EXECUTION_LEDGER.json": "8EB4359FAC00AD2746DEBAFBA059C00EF8FB8A7745B06082057F3B8BAAD250D8",
+    "AGY_checkpoint": "8F3911DDB501C8406788F8C40E34410F11A06BF150ACB154E0D628BD44CD553E"
+  }
+}

@@ -37,7 +37,8 @@
     "execute_mode1_package158_c2_0_r5_re_equilibration",
     "execute_mode1_package171_r7_c6_coupled_reequilibration",
     "f1636_stability_evidence_evaluation",
-    "f1636_donor_energy_reconciliation"
+    "f1636_donor_energy_reconciliation",
+    "f1639_energy_reference_correction"
   ],
   "completed_pbs_job_ids": [
     "1398582.mmaster02",
@@ -467,5 +468,11 @@
   },
   "requested_operation_id": "",
   "operation_transition": {},
-  "created_at": "2026-11-06T19:19:42.659088+00:00"
+  "created_at": "2026-11-06T19:19:42.659088+00:00",
+  "last_step_status": "PREPARATION_COMPLETE",
+  "last_completed_step": "f1639_energy_reference_correction",
+  "scientific_checkpoint": {
+    "artifact": "results/validation/f1639_energy_reference_impact.json",
+    "sha256": "45CD7E40A1ACD4EAF2CE67E421DB954A3F8B2F06DACFE7CA2E7C4FCAF183D1E8"
+  }
 }
