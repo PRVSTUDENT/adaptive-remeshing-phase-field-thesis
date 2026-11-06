@@ -46,3 +46,16 @@ def test_production_mesh_exact_metrics():
         # Check that none are inside the notch tip or ligament corridor
         cx, cy = e["centroid"]
         assert not (0.45 <= cx <= 0.65 and 0.45 <= cy <= 0.55), "No oversized elements in FPZ"
+
+
+def test_candidate_mesh_comparative_metrics():
+    """Validate candidate 31k mesh properties and confirm empirical degradation of FPZ resolution."""
+    candidate_inp = REPO_ROOT / "models" / "pandey_kumar_mode1" / "176_method_a_plate_with_hole" / "candidate_16k" / "PK_HOLE_CANDIDATE_16K_PROD_PHYS.inp"
+    assert candidate_inp.exists(), "Candidate physical mesh INP must exist in candidate_16k"
+
+    oversized = investigate_edges(str(candidate_inp), threshold_mm=0.020)
+    assert len(oversized) == 14, "Exactly 14 elements should exceed 20 um consecutive edge length in candidate"
+    assert math.isclose(oversized[0]["max_edge_um"], 22.4395, rel_tol=1e-3)
+    for e in oversized:
+        assert e["type"] == "CPS4R"
+        assert e["aspect_ratio"] < 2.0

@@ -53,12 +53,28 @@ except ImportError:
 
 
 def parse_args():
-    # In Abaqus CAE, script arguments follow '--'
     argv = sys.argv
+    print("DEBUG_SYS_ARGV: %s" % str(argv))
     if '--' in argv:
         args_to_parse = argv[argv.index('--') + 1 :]
     else:
+        # Filter out Abaqus CAE internal flags: -cae, -lmlog, -tmpdir, etc.
         args_to_parse = []
+        skip_next = False
+        for a in argv[1:]:
+            if skip_next:
+                skip_next = False
+                continue
+            if a in ('-cae', '-lmlog', '-tmpdir', '-keep'):
+                skip_next = True
+                continue
+            if 'generate_plate_with_hole_method_a' in a:
+                continue
+            if a.startswith('-noGUI') or a.startswith('noGUI='):
+                continue
+            args_to_parse.append(a)
+
+    print("FILTERED_ARGS_TO_PARSE: %s" % str(args_to_parse))
 
     parser = argparse.ArgumentParser(description="Parameterized Method A Plate with Hole Generator")
     parser.add_argument("--plate-w", type=float, default=1.0, help="Plate width in mm (default: 1.0)")
