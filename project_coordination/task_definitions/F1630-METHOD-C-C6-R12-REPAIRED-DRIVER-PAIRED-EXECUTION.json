@@ -12,10 +12,11 @@
   },
   "authorized_scope": {
     "max_new_pbs_submissions": 2,
-    "remaining_pbs_submissions": 2,
+    "remaining_pbs_submissions": 0,
     "named_jobs": [
       {
         "candidate": "M1_C6_R12_PICARD_BASELINE",
+        "pbs_job_id": "1420429.mmaster02",
         "package_dir": "models/pandey_kumar_mode1/174_c6_r12_picard_baseline",
         "cluster_scratch_dir": "/scratch9/pr21vyci/runs/mode1_c6_r12_picard_baseline",
         "submit_script": "submit_M1_C6_R12_PICARD_BASELINE.pbs",
@@ -30,6 +31,7 @@
       },
       {
         "candidate": "M1_C6_R12_ANDERSON_M2",
+        "pbs_job_id": "1420430.mmaster02",
         "package_dir": "models/pandey_kumar_mode1/175_c6_r12_anderson_m2",
         "cluster_scratch_dir": "/scratch9/pr21vyci/runs/mode1_c6_r12_anderson_m2",
         "submit_script": "submit_M1_C6_R12_ANDERSON_M2.pbs",

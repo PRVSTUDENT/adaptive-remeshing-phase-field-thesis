@@ -19,7 +19,7 @@
         ]
     },
     "registration": {
-        "sha256": "8A0C03AEAD1AAB74A88D50C4487CF69057A929D884452A05245EDB70A988AF13",
+        "sha256": "9C3B702FED7A09189D1230A4D635C24A66A998C0B64A60EC7B99917C19BC471D",
         "schema": 1,
         "definition": "project_coordination/task_definitions/F1630-METHOD-C-C6-R12-REPAIRED-DRIVER-PAIRED-EXECUTION.json",
         "registered_by": "gemini-antigravity",
@@ -290,10 +290,15 @@
         "1419370.mmaster02",
         "1419375.mmaster02"
     ],
-    "active_pbs_job_ids": [],
+    "active_pbs_job_ids": [
+        "1420429.mmaster02",
+        "1420430.mmaster02"
+    ],
     "dependent_pbs_job_ids": [],
-    "pbs_status_note": "F1629 reconciled as COMPLETED (Jobs 1420391.mmaster02 and 1420392.mmaster02 removed from active accounting, original PBS IDs and consumed reservations preserved). Repaired R12 driver (17C064184A569019E7A2BC72B7880C7F3404B0A9E92C37B2D04F4BE3BAAC7166) verified by 44/44 unit/qualification tests and staged to cluster scratch. F1630 registered pending independent execution review; zero active PBS jobs.",
+    "pbs_status_note": "Both authorized F1630 jobs submitted via Invoke-Mode1Execution.ps1 under HND-bf29e0495841 and actively running (job_state=R) on normal_imfdfkmq: Arm A (M1_C6_R12_PICARD_BASELINE, Package 174) = 1420429.mmaster02; Arm B (M1_C6_R12_ANDERSON_M2, Package 175) = 1420430.mmaster02. Both F1630 once-only submissions consumed (remaining_pbs_submissions=0).",
     "referenced_pbs_job_ids": [
+        "1420430.mmaster02",
+        "1420429.mmaster02",
         "1420392.mmaster02",
         "1420391.mmaster02",
         "1420353.mmaster02",
@@ -315,7 +320,7 @@
     "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "repaired_driver_sha256": "17C064184A569019E7A2BC72B7880C7F3404B0A9E92C37B2D04F4BE3BAAC7166",
     "max_new_pbs_submissions": 2,
-    "remaining_pbs_submissions": 2,
+    "remaining_pbs_submissions": 0,
     "lifecycle": {
         "scientific_execution_started": true,
         "predecessor_replay_allowed": false,
@@ -338,7 +343,7 @@
         "reconciled_at": "2026-11-04T15:46:00+01:00"
     },
     "scientific_acceptance": "IN_PROGRESS",
-    "last_step_status": "F1630_MANIFESTS_RECONCILED_AND_ACTIVATED_UNDER_HND_BF29E0495841",
-    "last_updated": "2026-11-06T07:38:30+01:00",
-    "next_safe_action": "Submit Arm A (M1_C6_R12_PICARD_BASELINE, Package 174) and Arm B (M1_C6_R12_ANDERSON_M2, Package 175) exclusively via scripts/hpc/Invoke-Mode1Execution.ps1 and record authentic PBS IDs."
+    "last_step_status": "F1630_PAIRED_JOBS_1420429_AND_1420430_SUBMITTED_AND_RUNNING",
+    "last_updated": "2026-11-06T07:44:30+01:00",
+    "next_safe_action": "Monitor Jobs 1420429.mmaster02 (Arm A Picard Baseline) and 1420430.mmaster02 (Arm B Safeguarded Anderson M2) to completion without resubmission or retry, and return execution confirmation handoff via Invoke-ChatGPTBridge.ps1."
 }

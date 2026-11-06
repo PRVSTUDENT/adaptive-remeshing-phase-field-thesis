@@ -1,3 +1,24 @@
+## 6 November Method C Paired C6 R12 Repaired-Driver Production Execution Activated & Running (Task F1630 Active)
+
+1. **Manifest-Integrity Reconciliation & Independent Approval Executed (Handoff `HND-bf29e0495841`)**:
+   - Under independent supervisor directive `HND-bf29e0495841`, resolved the circular SHA-256 build order in `scripts/state_transfer/build_f1629_packages.py` (`SHA-256: 619CA306FD49806A8829FDB1DF27DCB5D6056F7AC349E040BBC1FD9BFD4C4866`, `13,527 bytes`) by generating `*_AUTHORIZATION.json` first (excluding `PACKAGE_MANIFEST.json` from `auth["files"]`) and generating `PACKAGE_MANIFEST.json` second so `PACKAGE_MANIFEST.json` records the exact committed `*_AUTHORIZATION.json` SHA-256 and byte count:
+     * **Package 174 (`M1_C6_R12_PICARD_BASELINE`)**:
+       - `M1_C6_R12_PICARD_BASELINE_AUTHORIZATION.json`: `B845A35781878DF9957CF4F93E650E115AD0A4F404ABDFF2F134F94C373A15AD` (`5,054 bytes`).
+       - `PACKAGE_MANIFEST.json`: `49DEE8D2B228592555798A4E66FEA8E55D9656E30F1CBC82DA778A60006A5B0F` (`4,012 bytes`, records exact `B845A357...` / `5,054 bytes` entry).
+     * **Package 175 (`M1_C6_R12_ANDERSON_M2`)**:
+       - `M1_C6_R12_ANDERSON_M2_AUTHORIZATION.json`: `FC37F8026CDB64814368698FE57125136CF4E71F57BFA1DC37DF1FD3019A514E` (`5,028 bytes`).
+       - `PACKAGE_MANIFEST.json`: `C6DEC4061DD27EED286B8F8AF4B5F92A50419ED212134B5AFD4EFD7C633BD909` (`3,996 bytes`, records exact `FC37F802...` / `5,028 bytes` entry).
+   - Updated `project_coordination/DAILY_ERROR_REGISTER_2026-11-06.json` (`D0A8D7EB91DF30C0FF300460C573C9C9A4307F2149973833C74D706586DAE5BA`, `5,324 bytes`) and `results/validation/daily_error_audit_2026-11-06.md` (`F00EEF91F8F712725C867407BBA4086CCC2C740B22616932571DC8266221E0DF`, `5,849 bytes`):
+     * `INC-2026-11-06-01` (4 R12 driver API defects): classified `RESOLVED_VERIFIED` at the tested Python integration level under `HND-bf29e0495841`.
+     * `INC-2026-11-06-02` (stale authorization hash in `PACKAGE_MANIFEST.json`): recorded as a separate metadata-integrity defect (`FIXED_UNVERIFIED`).
+     * Strictly separated software/metadata `incidents` from operational/scientific `blocked_conditions` (`BLK-2026-11-06-01`, `BLK-2026-11-06-02`).
+   - All 44 unit/qualification tests (`44/44 PASS`), both remote real-solver smoke tests (`REMOTE_IMPORT_SUCCESS: True`), and both `Invoke-Mode1Execution.ps1 -VerifyOnly` preflights (`TECHNICAL_PREFLIGHT_PASS: datachecks=PASS_BOTH; active jobs=0; login notifications verified; compute delivery=UNRESOLVED`) passed cleanly.
+
+2. **Paired Production Jobs Submitted via `Invoke-Mode1Execution.ps1` & Actively Running (`1420429.mmaster02` & `1420430.mmaster02`)**:
+   - **Arm A (`M1_C6_R12_PICARD_BASELINE`, Package 174, Anderson OFF)**: PBS `1420429.mmaster02`, submitted at `2026-11-06T07:40:48+01:00`, currently **`job_state = R`** on `normal_imfdfkmq` (1 CPU, 16 GB RAM, 08:00:00 walltime, max 140 outer iterations).
+   - **Arm B (`M1_C6_R12_ANDERSON_M2`, Package 175, Anderson ON, $m=2, \beta=0.85, \text{reg}=10^{-6}, \gamma_{\max}=200, \text{step\_cap}=0.045$)**: PBS `1420430.mmaster02`, submitted at `2026-11-06T07:41:29+01:00`, currently **`job_state = R`** on `normal_imfdfkmq` (1 CPU, 16 GB RAM, 08:00:00 walltime, max 140 outer iterations).
+   - Both authorized `F1630` submissions consumed (`remaining_pbs_submissions = 0`).
+
 ## 6 November Method C Paired C6 R12 Overnight Execution Evaluated & Driver API Regression Repaired (Task F1629 Closed; F1630 Prepared)
 
 1. **Authentic Overnight PBS Verification & Startup Failure Diagnosis (Jobs 1420391.mmaster02 & 1420392.mmaster02)**:
