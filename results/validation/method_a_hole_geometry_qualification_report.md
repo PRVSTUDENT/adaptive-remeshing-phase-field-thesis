@@ -1,11 +1,13 @@
-# Method A Plate-with-Hole Geometry & Adaptive Refinement Qualification Report
+# Method A Plate-with-Hole Geometry & Production Readiness Assessment
 
 **Task ID:** `F1632-METHOD-A-HOLE-DEMONSTRATION-REUSE-AND-GENERATION`  
-**Handoff Correlation:** `HND-a2f47a437707` (Corrective Re-Evaluation)  
+**Handoff Correlation:** `HND-2f0d43508f97` (Review Re-Evaluation)  
 **Supervisor Directive Reference:** Dr. Roth (6 November 2026, via ChatGPT Bridge `HND-bef847fc363a` & `HND-f55ea7f9eb8f`)  
 **Artifact Directory:** `models/pandey_kumar_mode1/176_method_a_plate_with_hole/`  
-**Execution Boundary:** Zero new PBS submissions (`max_new_pbs_submissions = 0`). Non-production Abaqus pre-analysis, native remeshing, and datacheck qualification only.  
+**Execution Boundary:** Zero new PBS submissions (`max_new_pbs_submissions = 0`). Non-production offline qualification, local resolution audit, and execution feasibility assessment only.  
 **Production User Subroutine:** `f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`, 29,722 bytes, verified bitwise unchanged).  
+**Production Physical Mesh:** `PK_HOLE_METHOD_A_PROD_PHYS.inp` (`8CEB44A628BE9F7D19B4797723813BF7FF674EDB8E4AA66420AEA6665F924EBD`, 3,264,831 bytes).  
+**Current Production Status:** **BLOCKED UNDER CURRENT STANDING HPC LIMITS** (requires supervisor decision on execution pathway).
 
 ---
 
@@ -52,17 +54,16 @@ The geometry and discretization parameters for the Mode-I plate with off-axis ci
 }
 ```
 
-### Exact Ligament Geometry & Clearance Reconciliation
-In response to the HND-a2f47a437707 audit, the ligament distance calculation is rigorously reconciled:
+### Ligament Geometry & Clearance Reconciliation
 - **Center-to-Center Distance:**
-  $$\Delta r = \sqrt{(x_{\text{hole}} - x_{\text{tip}})^2 + (y_{\text{hole}} - y_{\text{tip}})^2} = \sqrt{(0.65 - 0.50)^2 + (0.65 - 0.50)^2} = \sqrt{0.15^2 + 0.15^2} = 0.212132\text{ mm} \approx 212.1\,\mu\text{m}$$
+  $$\Delta r = \sqrt{(0.65 - 0.50)^2 + (0.65 - 0.50)^2} = \sqrt{0.15^2 + 0.15^2} = 0.212132\text{ mm} \approx 212.1\,\mu\text{m}$$
 - **Hole Surface Clearance along Centerline:**
   $$d_{\text{surface}} = \Delta r - R = 0.212132 - 0.100000 = \mathbf{0.112132\text{ mm}} \approx \mathbf{112.1\,\mu\text{m}}$$
 - **Minimum Clearance from Slit Corner to Hole Perimeter:**
   Accounting for the finite notch half-opening ($w = 0.001\text{ mm}$, upper slit corner at $(0.50, 0.501)$):
-  $$d_{\text{corner-surface}} = \sqrt{(0.65 - 0.50)^2 + (0.65 - 0.501)^2} - 0.10 = \sqrt{0.15^2 + 0.149^2} - 0.10 = 0.211426 - 0.10 = \mathbf{0.111426\text{ mm}} \approx \mathbf{111.4\,\mu\text{m}}$$
+  $$d_{\text{corner-surface}} = \sqrt{(0.65 - 0.50)^2 + (0.65 - 0.501)^2} - 0.10 = \mathbf{0.111426\text{ mm}} \approx \mathbf{111.4\,\mu\text{m}}$$
 
-Both the previously cited center-to-center distance ($0.2121\text{ mm}$) and the true physical surface clearance ($\mathbf{0.1121\text{ mm}} = 112.1\,\mu\text{m}$) are now explicitly documented. The initial ligament provides $\approx 15\ell_0$ of uncracked material, ensuring substantial crack propagation trajectory between the initial notch tip and the void boundary.
+The initial ligament provides $\approx 15\ell_0$ of uncracked material, ensuring substantial crack propagation trajectory between the initial notch tip and the void boundary.
 
 ---
 
@@ -91,18 +92,12 @@ Boundary conditions maintain exact physical parity with the published production
 
 ---
 
-## 3. Detailed Local FPZ Mesh Resolution Analysis
+## 3. Empirical Local Mesh Resolution Analysis & Objective Assessment
 
-A dedicated resolution analysis (`scripts/remeshing/analyze_local_fpz_resolution.py`) was performed directly on the adapted physical mesh (`PK_HOLE_METHOD_A_PROD_PHYS.inp`), consisting of **46,747 physical elements** and **46,651 nodes**.
+The adapted physical mesh (`PK_HOLE_METHOD_A_PROD_PHYS.inp`, 46,747 physical elements, 46,651 nodes) was analyzed directly via `scripts/remeshing/analyze_local_fpz_resolution.py` and independently validated in `tests/unit/test_f1632_production_mesh_resolution.py`:
 
-The domain is partitioned into four distinct geometric zones:
-1. **Notch Tip Zone:** $r \le 0.025\text{ mm} \approx 3.3\ell_0$ around the notch tip $(0.50, 0.50)$.
-2. **Ligament Corridor:** Bounded region between notch tip and hole boundary ($0.50 \le x \le 0.65$, $0.48 \le y \le 0.70$).
-3. **Hole Boundary Annulus:** $|r - R| \le 0.015\text{ mm} = 2.0\ell_0$ around hole center $(0.65, 0.65)$.
-4. **Far Field:** Remainder of the plate domain.
-
-### Empirical Edge-Length Distributions per Zone
-| Metric | Notch Tip Zone | Ligament Corridor | Hole Boundary Annulus | Far Field |
+### Measured Edge-Length Distributions per Zone
+| Metric | Notch Tip Zone ($r \le 3.3\ell_0$) | Ligament Corridor | Hole Boundary Annulus ($|r-R| \le 2\ell_0$) | Far Field |
 |:---|:---:|:---:|:---:|:---:|
 | **Elements** | 677 | 5,253 | 2,232 | 38,585 |
 | **Total Edges** | 2,692 | 20,889 | 8,927 | 153,274 |
@@ -117,65 +112,108 @@ The domain is partitioned into four distinct geometric zones:
 | **Resolution $h_{\text{p10}}/\ell_0$** | **0.178** | **0.168** | **0.216** | **0.223** |
 | **Resolution $h_{\text{median}}/\ell_0$** | **0.228** | **0.220** | **0.265** | **0.443** |
 
-### Physical Interpretation & Nominal Bound Deviations
-1. **Notch Tip & Ligament Corridor:**
-   - Both the notch tip zone and the ligament corridor exhibit median element sizes of $1.65\text{--}1.71\,\mu\text{m}$ ($h/\ell_0 \approx 0.22$).
-   - The 10th percentile edge length is $1.26\text{--}1.34\,\mu\text{m}$ ($h_{\text{p10}}/\ell_0 = 0.168\text{--}0.178$), well below the classical phase-field threshold $\ell_0/5 = 1.5\,\mu\text{m}$.
-   - Over 30% of edges in the ligament corridor and 22.8% in the notch tip zone satisfy $h \le \ell_0/5$, ensuring that the initiating diffuse crack and early propagation are resolved by 6–8 elements across the fracture process zone.
-2. **Explanation of Measured Min ($0.26\text{--}0.72\,\mu\text{m}$) vs Nominal $h_{\min} = 1.0\,\mu\text{m}$:**
-   - In Abaqus advancing-front quadrilateral meshing around geometric features (the sharp slit corner $w = 0.001\text{ mm}$ and circular arc boundaries), element corner trimming and transition triangles produce local edges below the nominal target $h_{\min} = 1.0\,\mu\text{m}$. These are geometric conformity artifacts and do not cause solver stiffness conditioning issues.
-3. **Explanation of Measured Max ($25.2\,\mu\text{m}$) vs Nominal $h_{\max} = 20.0\,\mu\text{m}$:**
-   - In the far-field corners of the square plate, quadrilateral elements have nominal edge lengths of $18\text{--}20\,\mu\text{m}$. The diagonal hypotenuse across these corner quads is $\sqrt{18^2 + 18^2} \approx 25.4\,\mu\text{m}$. The recorded maximum edge length of $25.19\,\mu\text{m}$ corresponds precisely to quad diagonal edge lengths adhering to the $20\,\mu\text{m}$ nominal size target.
+### Corrected Mesh-Resolution Interpretation (No A Priori Sufficiency Guarantee)
+1. **Measured Threshold Adherence:**
+   - In the notch tip zone, **22.8%** of edges satisfy $h \le \ell_0/5 = 1.5\,\mu\text{m}$.
+   - In the ligament corridor, **30.1%** of edges satisfy $h \le \ell_0/5$.
+   - Along the circular hole boundary, only **0.8%** of edges satisfy $h \le \ell_0/5$.
+2. **Removal of Resolution Guarantee:**
+   - A 10th-percentile edge length of $1.26\text{--}1.34\,\mu\text{m}$ confirms that the finest sub-regions approach $\ell_0/5$, but does **NOT** guarantee that the entire fracture process zone throughout the ligament is resolved by six or more elements.
+   - Because 69.9% of ligament edges and 77.2% of notch tip edges have $h > 1.5\,\mu\text{m}$, the mesh cannot be declared a priori sufficient for full regularized fracture propagation. Mesh adequacy must be evaluated via physical convergence verification during simulation.
+
+### Investigation of Maximum Consecutive Edge Lengths (25.1888 µm)
+A dedicated script (`scripts/remeshing/investigate_oversized_edges.py`) analyzed every element in `PK_HOLE_METHOD_A_PROD_PHYS.inp` whose consecutive-node edge length exceeds $20.0\,\mu\text{m}$:
+- **Number of Elements with Edge $> 20\,\mu\text{m}$:** Exactly **47** out of 46,747 ($0.101\%$).
+- **Element Topology:** All 47 elements are standard quadrilateral elements (`CPS4R`).
+- **Aspect Ratios:** All 47 elements have well-behaved aspect ratios between **1.14** and **1.87** (mean $1.41$).
+- **Spatial Distribution:**
+  * Far-left boundary ($x \le 0.10$): 13 elements
+  * Far-right boundary ($x \ge 0.90$): 2 elements
+  * Far-top boundary ($y \ge 0.90$): 2 elements
+  * Coarse interior ($x \in [0.12, 0.22], y \in [0.28, 0.62]$): 30 elements
+  * **Notch Tip Zone & Ligament Corridor:** **0 elements** (maximum edge in notch tip is $2.87\,\mu\text{m}$, in ligament is $4.83\,\mu\text{m}$).
+- **Algorithmic Origin:** In Abaqus advancing-front quadrilateral paving (`refinementFactor = 10, coarseningFactor = NOT_ALLOWED`), `maxElementSize` is a soft sizing target. The paving algorithm allows consecutive element edges up to $\approx 25\,\mu\text{m}$ ($\approx 25\%$ above nominal $20\,\mu\text{m}$) in low-gradient transition zones to avoid forced triangular splitting or skewed quad shapes, resulting in zero distorted elements (`WarnElemDistorted` count is 0).
 
 ---
 
-## 4. Full Datacheck Warnings Classification
+## 4. Production Resource Sizing & Standing Limits Analysis
 
-The Abaqus solver datacheck (`PK_HOLE_METHOD_A_DC`) was re-run with `f42_mixed_uel.for` and completed cleanly with **Exit 0** and **zero errors**. All 8 warnings were extracted and verified:
+### Standing Project Restrictions
+Under the mandatory project execution policy (`AGENTS.md`):
+- **Walltime:** $\le 8\text{ hours}$ per job.
+- **Memory:** $\le 16\text{ GB}$ per job.
+- **CPUs:** $1\text{ CPU}$ per job (serial Mode-I execution).
+- **Active Jobs:** $\le 4\text{ active user jobs}$.
 
-| Warning # | Warning Message Text | Technical Classification & Provenance |
-|:---:|:---|:---|
-| **1–8** | `***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS` | **BENIGN / EXPECTED.** Standard `*ELEMENT OUTPUT` requests field output on element sets containing UEL elements. In our multi-layer formulation, state variables for user elements are retrieved through `SDV` on the companion dummy UMAT layer (`umatelem`), while user elements store internal variables in Fortran `SVARS`. These warnings are identical to those in published production Job 1400395. |
+### Status of the Holiday-Window Concurrency Policy
+- The holiday-window policy documented in historical project notes explicitly stated: *"Active until September 9, 2026"*.
+- As of 6 November 2026, the holiday-window policy is **EXPIRED**.
+- The previously proposed 16-hour / 32-GB single job is **DISQUALIFIED** under active standing rules.
 
-**Zero** line-truncation warnings (resolved by 16-item wrapping), **zero** distorted elements (`WarnElemDistorted` set is empty), and **zero** overconstraints.
+### Production Walltime Scaling for 46,747 Elements
+- **Empirical Reference Anchor (Job 1400395.mmaster02):**
+  * Discretization: 15,396 physical elements (46,188 co-located elements).
+  * Increments: 7,028 increments.
+  * Measured Walltime: **07:06:46** on 1 CPU (7.11 hours).
+- **Scaling to Package 176 Mesh:**
+  * Discretization: 46,747 physical elements (140,241 co-located elements), a **$3.03\times$** element increase.
+  * Projected Single-Job Walltime: $7.11\text{ hours} \times 3.03 \approx \mathbf{21.5\text{ hours}}$ on 1 CPU.
+  * **Conclusion:** A single serial job on 46,747 elements will terminate with walltime limit exceeded (Walltime Exceeded at 8h, reaching only $\approx 35\text{--}40\%$ of the displacement schedule).
 
 ---
 
-## 5. Scope Discipline: Elastic Indicator vs Fracture Trajectory
+## 5. Restart Architecture & Storage Overhead Audit
 
-To maintain strict scientific rigor:
-- **Elastic Pre-Analysis Indication:** The `MISESERI` contour from `PK_HOLE_METHOD_A_PREANALYSIS.odb` (Increment 1, $t=1.0$) demonstrates high localized stress/strain discretization error at the slit tip ($x=0.50, y=0.50$) and secondary stress concentration along the lateral flanks of the circular void ($x=0.65, y=0.65$). This error field serves solely as the physical driver for adaptive remeshing.
-- **Fracture Deflection Hypothesis:** The deflection and attraction of the propagating phase-field crack toward the circular hole is a non-linear fracture mechanics phenomenon that depends on diffuse damage accumulation, crack velocity, and viscous regularization ($\eta$).
-- **Claim Discipline:** We do NOT claim that crack deflection has been proven or observed by the pre-analysis elastic error indicator. Empirical verification of curved crack attraction will only be established upon completing and evaluating the non-linear phase-field production solve.
+### Subroutine Audit of `f42_mixed_uel.for`
+A complete audit of `f42_mixed_uel.for` subroutines `UEXTERNALDB` and `UEL` reveals:
+1. `UEXTERNALDB(LOP, LRESTART, ...)` handles only four operation codes:
+   - `LOP = 0`: Start of analysis — initializes all arrays in `COMMON /CB_STATE_TRANS/` to zero.
+   - `LOP = 1`: Start of increment — copies committed state to trial state.
+   - `LOP = 2`: End of increment — commits trial state and appends energies to CSV.
+   - `LOP = 3`: End of analysis — closes CSV file.
+2. **Missing Restart Logic:**
+   - Subroutine `UEXTERNALDB` completely lacks `LOP = 4` (restart write callback) and `LOP = 5` (restart read callback).
+   - If an Abaqus job is restarted using `*RESTART, READ`, Abaqus issues `LOP = 0` at the start of the restart analysis, which **zeroes out all arrays** in `COMMON /CB_STATE_TRANS/` (`SV_PHASE_COMMITTED`, `SV_H_COMMITTED`, `SV_E_FRAC`, etc.).
+   - Consequently, cross-job restart causes complete loss of the crack history field $H$ and fracture energy, causing unphysical healing and numerical failure.
+3. **Distinction between Checkpoint Writing and State-Preserving Recovery:**
+   - Setting `*RESTART, WRITE` in the input deck writes standard Abaqus restart blocks (`.res`, `.mdl`) for displacement and native variables.
+   - It does **NOT** serialize custom Fortran `COMMON` blocks. Therefore, true state-preserving restart recovery across independent PBS jobs is **UNSUPPORTED** with the frozen UEL.
+
+### Restart Disk Storage Overhead
+- For 140,241 co-located elements, writing restart state at `FREQUENCY = 1` across $\approx 7,000$ increments:
+  - Restart file size per increment: $\approx 10\text{--}15\text{ MB}$.
+  - Total projected `.res` file size: **$70\text{ to }105\text{ GB}$**.
+  - This creates significant risk of cluster scratch quota exhaustion.
+  - **Remediation:** If restart writing is retained for crash diagnostics, it must use `FREQUENCY = 10` or `*RESTART, WRITE, OVERLAY` to bound disk usage to $< 2\text{ GB}$.
 
 ---
 
-## 6. Production Resource Feasibility & Restart Architecture
+## 6. Production Readiness Conclusion & Execution Pathways
 
-### Discretization & Memory Sizing
-- Discretization: 46,747 physical elements / 140,241 co-located UEL+UMAT elements.
-- Peak Memory during Datacheck: $< 1.0\text{ GB}$.
-- Solver Memory Estimate: Scaling from Job 1400395 ($2.9\times$), memory requirement is estimated at **$8\text{ to }12\text{ GB}$**, well within the standing project limit of $\le 16\text{ GB}$.
+### Definitive Production Readiness Status
+**PRODUCTION EXECUTION IS CURRENTLY BLOCKED.**
+The 46,747-element Method A plate-with-hole model cannot be executed to completion under active standing rules (8h / 16GB / 1 CPU), because single-job execution exceeds 8 hours and multi-job restart is structurally unqualified in `f42_mixed_uel.for`.
 
-### Restart Feasibility & Execution Strategy
-1. **Restart Output Configuration:**
-   - Both Step 1 (linear loading to $u = 0.0050\text{ mm}$) and Step 2 (propagation to $u = 0.0120\text{ mm}$) are now configured with `*RESTART, WRITE, FREQUENCY=1`, ensuring full restart checkpoint state is saved to disk at every increment.
-2. **Single Monolithic Job Recommendation (Holiday-Window Policy):**
-   - For Abaqus/Standard analyses coupled with UELs, Fortran `COMMON` memory structures and internal state variables are maintained continuously during single-job execution.
-   - Performing a cross-job restart (`*RESTART, READ`) across two independent PBS jobs requires UEXTERNALDB restart serialization, which is not implemented in `f42_mixed_uel.for`. Attempting a 2-job split risks state loss.
-   - **Recommended Execution Path:** Execute production as a **single monolithic 16-hour job** under the demonstrated holiday-window concurrency policy (`normal_imfdfkmq`, 32 GB, 1 CPU, walltime $\approx 14\text{--}16\text{ hours}$), with `*RESTART, WRITE, FREQUENCY=1` providing safe crash-recovery checkpoints.
+### Three Mutually Exclusive Resolution Pathways for Supervisor Direction
+| Pathway | Description | Required Authorizations / Actions | Scientific / Operational Trade-off |
+|:---|:---|:---|:---|
+| **Pathway 1: Walltime Extension Exception** | Execute 46k element model as a single monolithic job ($u=0\to 0.012\text{ mm}$) with extended walltime ($\le 24\text{ hours}$, 1 CPU, 16 GB). | Explicit supervisor approval for single-job walltime exception ($\le 24\text{h}$) in queue `normal_imfdfkmq`. | Preserves current 46k mesh and highest FPZ resolution ($h_{\text{p10}}=1.26\,\mu\text{m}$); requires scheduler waiver. |
+| **Pathway 2: Mesh Re-tuning to $\le 16\text{k}$ Elements** | Re-run `generate_plate_with_hole_method_a.py` with coarser far-field seeding ($h_{\text{coarse}} = 0.04\text{ mm}$, `errorTarget = 3.5\%`) to produce $\le 16,000$ physical elements. | Zero special authorization needed. Fully compliant with 8h / 16GB / 1 CPU standing limit. | Matches proven runtime of Job 1400395 (7h 06m); slightly lower resolution in far field ($h_{\text{far}} \approx 30\text{--}40\,\mu\text{m}$), but preserves $h \approx 1.5\text{--}2.0\,\mu\text{m}$ at tip. |
+| **Pathway 3: SMP Multi-Threading Qualification** | Qualify 8-thread SMP execution for Method A (`f42_mixed_uel.for` in shared-memory mode, 1 node, 8 CPUs, $\le 8\text{ hours}$). | Supervisor approval to use 8-thread SMP for Method A production. | Brings 46k element walltime from $\approx 21\text{h}$ down to $\approx 4\text{--}5\text{ hours}$, fitting cleanly within the 8-hour limit. |
 
 ---
 
 ## 7. Mandatory Verification Gate & Immutable Evidence
 
-All deliverables are verified and committed:
-- **Exact Git Commit:** Tracked under `mode2-pandey-kumar-reproduction`
-- **Generator Script:** `scripts/remeshing/generate_plate_with_hole_method_a.py` (with `*DEPVAR\n20` and `*RESTART, WRITE, FREQUENCY=1`)
+All qualification artifacts and regression tests are verified:
+- **Git Commit:** `mode2-pandey-kumar-reproduction`
+- **Generator Script:** `scripts/remeshing/generate_plate_with_hole_method_a.py`
 - **Resolution Script:** `scripts/remeshing/analyze_local_fpz_resolution.py`
-- **Test Suites:**
-  - `tests/unit/test_f1632_method_a_generator.py` (3/3 PASS)
-  - `tests/unit/test_f1632_local_resolution.py` (1/1 PASS)
-- **Immutable Evidence File:** `models/pandey_kumar_mode1/176_method_a_plate_with_hole/evidence/PK_HOLE_METHOD_A_DC.dat` (tracked via `git add -f`, 12,058 bytes)
-- **Pre-Analysis Contour Figure:** `models/pandey_kumar_mode1/176_method_a_plate_with_hole/figures/fig1_miseseri_contour_preanalysis.png`
-- **Production Subroutine:** `models/pandey_kumar_mode1/176_method_a_plate_with_hole/f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`)
+- **Oversized Edge Script:** `scripts/remeshing/investigate_oversized_edges.py`
+- **Test Suites (5/5 PASS):**
+  * `tests/unit/test_f1632_method_a_generator.py` (3/3 PASS)
+  * `tests/unit/test_f1632_local_resolution.py` (1/1 PASS)
+  * `tests/unit/test_f1632_production_mesh_resolution.py` (1/1 PASS)
+- **Immutable Evidence File:** `models/pandey_kumar_mode1/176_method_a_plate_with_hole/evidence/PK_HOLE_METHOD_A_DC.dat` (tracked via `git add -f`, 12,058 bytes, 8 benign warnings, 0 errors).
+- **Physical Mesh:** `models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_METHOD_A_PROD_PHYS.inp` (`8CEB44A628BE9F7D19B4797723813BF7FF674EDB8E4AA66420AEA6665F924EBD`, 3,264,831 bytes).
+- **Subroutine Integrity:** `models/pandey_kumar_mode1/176_method_a_plate_with_hole/f42_mixed_uel.for` (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`, 29,722 bytes, 100% bitwise unchanged).
