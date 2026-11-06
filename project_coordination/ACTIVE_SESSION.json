@@ -1,16 +1,16 @@
-﻿{
-    "active":  true,
-    "agent":  "codex",
-    "session_id":  "adc7e49c-e6e6-4d8d-9ba9-6f75d369b4d4",
-    "task_id":  "F1639-METHOD-C-DONOR-ENERGY-REFERENCE-CORRECTION",
-    "started_at":  "2026-11-06T20:21:33.1983331+01:00",
-    "closed_at":  "2026-11-06T19:19:42.659088+00:00",
-    "starting_commit":  "a1517d346f3e21f433d5d08c18f6d1ae4941d0d6",
-    "allowed_write_scope":  [
-                                "scripts/validation/reconstruct_f1631_early_divergence_forensics.py",
-                                "tests/unit/test_f1639_donor_energy_reference.py",
-                                "results/validation/f1639_energy_reference_impact.json",
-                                "project_coordination"
-                            ],
-    "notes":  "F1639 zero-PBS source-backed correction and impact assessment; AGY checkpoint immutable."
+{
+  "active": false,
+  "agent": "codex",
+  "session_id": "adc7e49c-e6e6-4d8d-9ba9-6f75d369b4d4",
+  "task_id": "F1639-METHOD-C-DONOR-ENERGY-REFERENCE-CORRECTION",
+  "started_at": "2026-11-06T20:21:33.1983331+01:00",
+  "closed_at": "2026-11-06T19:29:36.984660+00:00",
+  "starting_commit": "a1517d346f3e21f433d5d08c18f6d1ae4941d0d6",
+  "allowed_write_scope": [
+    "scripts/validation/reconstruct_f1631_early_divergence_forensics.py",
+    "tests/unit/test_f1639_donor_energy_reference.py",
+    "results/validation/f1639_energy_reference_impact.json",
+    "project_coordination"
+  ],
+  "notes": "F1639 completed; F1640 focused CP02-to-C6 experiment qualification registered; native Goal active; AGY run preserved."
 }

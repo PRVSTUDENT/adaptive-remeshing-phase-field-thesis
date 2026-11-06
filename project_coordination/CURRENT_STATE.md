@@ -1,3 +1,7 @@
+## 6 November F1639 closed; F1640 numerical-experiment qualification ready
+
+Source-backed energy-reference correction verified (13tests) and reviewed via real correlated handoff HND-CODEX-483cb978eadd4f8b81c6b56cdc37fde4. F1640-METHOD-C-CP02-C6-CONTROLLED-EXPERIMENT-QUALIFICATION is uniquely registered, registration/lifecycle PASS. Next prepare/independently review/technically qualify candidate M1_C6_CP02_HELD_LOAD_R1 using coherent earlier CP02 state and existing C6 controls; no proof of C6 precriticality yet. Initial task permits zero PBS; reviewed execution successor required for submission. Session released, native Goal active, AGY pending run untouched. See sessions/2026-11-06_codex_F1639_closeout_F1640_registration.md.
+
 ## 6 November F1639 correction verified; independent review next
 
 Canonical forensic energy reference now loads pinned authentic CP03 summary/checkpoint/final telemetry and validates components independently. Thirteen regression checks pass; historical output overwrite refused. RF, total energy, load and failed C6 convergence verdict unchanged. R11/R12 stale component constants are unused internally but used by frozen smoke mocks; those packages untouched. Zero PBS/solver runs. See sessions/2026-11-06_codex_F1639_energy_reference_impact.md.

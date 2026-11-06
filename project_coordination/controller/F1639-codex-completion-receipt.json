@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "task_id": "F1639-METHOD-C-DONOR-ENERGY-REFERENCE-CORRECTION",
+  "executor": "codex",
+  "run_id": "adc7e49c-e6e6-4d8d-9ba9-6f75d369b4d4",
+  "source_commit": "2adff9b0ea8a697a101da6ffdfb1163c7d430a04",
+  "status": "COMPLETED",
+  "closed_at": "2026-11-06T19:29:36.984660+00:00",
+  "scientific_result": "SOURCE_BACKED_REFERENCE_CORRECTION_VERIFIED",
+  "tests_passed": 13,
+  "new_pbs_submissions": 0,
+  "evidence_sources": {
+    "results/validation/f1639_energy_reference_impact.json": "45CD7E40A1ACD4EAF2CE67E421DB954A3F8B2F06DACFE7CA2E7C4FCAF183D1E8",
+    "scripts/validation/reconstruct_f1631_early_divergence_forensics.py": "72BE2C6A9BCED62E919F909B2490EDF1507351813B5E2BFEA94DB99A0E6BAFDE",
+    "tests/unit/test_f1639_donor_energy_reference.py": "D26E5BCC30C25D585F7377C614A3A35CB087B6CC722A9696A3180D25AB8A2176"
+  },
+  "agy_run_completed": false
+}

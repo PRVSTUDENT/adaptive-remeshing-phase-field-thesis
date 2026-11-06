@@ -1,18 +1,18 @@
 {
-  "task_id": "F1639-METHOD-C-DONOR-ENERGY-REFERENCE-CORRECTION",
-  "title": "Correct CP03 donor-energy reference and bound downstream scientific impact",
+  "task_id": "F1640-METHOD-C-CP02-C6-CONTROLLED-EXPERIMENT-QUALIFICATION",
+  "title": "Qualify one controlled coherent CP02-to-C6 held-load experiment",
   "status": "READY_READ_ONLY_EVALUATION",
   "assigned_agent": "codex",
   "predecessor_task": {
-    "task_id": "F1636-METHOD-C-C6-STABILITY-HYPOTHESIS-EVALUATION",
-    "run_id": "96604425-8051-4f61-b489-0f59d4887ce4",
-    "source_commit": "16c6dba006ec49d7bfe66d2008a5f751183c4a29",
-    "checkpoint_artifact": "project_coordination/controller/F1636-codex-completion-receipt.json",
-    "checkpoint_sha256": "E54D07C1D4FA7B63D31DE072D291DA257BA12A4D1D8377AACE880A4C260F5035"
+    "task_id": "F1639-METHOD-C-DONOR-ENERGY-REFERENCE-CORRECTION",
+    "run_id": "adc7e49c-e6e6-4d8d-9ba9-6f75d369b4d4",
+    "source_commit": "2adff9b0ea8a697a101da6ffdfb1163c7d430a04",
+    "checkpoint_artifact": "project_coordination/controller/F1639-codex-completion-receipt.json",
+    "checkpoint_sha256": "F7F39FB2A88A1536FD0E3CBE1DA05818997428C925BC2BC7CD93F000A7D8973E"
   },
   "registration": {
-    "definition": "project_coordination/task_definitions/F1639-METHOD-C-DONOR-ENERGY-REFERENCE-CORRECTION.json",
-    "sha256": "BBCDF7E0AD3B8DA1CB6F795D4B0A1B4461446253213B635B8B83F80E90C4F797"
+    "definition": "project_coordination/task_definitions/F1640-METHOD-C-CP02-C6-CONTROLLED-EXPERIMENT-QUALIFICATION.json",
+    "sha256": "D39B96226932CF06AEA618505CDC701D522E289D49A1A48AAAA3F1983A29045B"
   },
   "scientific_operation": "",
   "scientific_operation_id": "research_preparation",
@@ -468,11 +468,5 @@
   },
   "requested_operation_id": "",
   "operation_transition": {},
-  "created_at": "2026-11-06T19:19:42.659088+00:00",
-  "last_step_status": "PREPARATION_COMPLETE",
-  "last_completed_step": "f1639_energy_reference_correction",
-  "scientific_checkpoint": {
-    "artifact": "results/validation/f1639_energy_reference_impact.json",
-    "sha256": "45CD7E40A1ACD4EAF2CE67E421DB954A3F8B2F06DACFE7CA2E7C4FCAF183D1E8"
-  }
+  "created_at": "2026-11-06T19:29:36.984660+00:00"
 }
