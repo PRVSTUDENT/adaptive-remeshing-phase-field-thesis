@@ -30,22 +30,26 @@ import os
 import shutil
 import sys
 
-# Abaqus CAE environment modules
-from abaqus import *
-from abaqusConstants import *
-import assembly
-import interaction
-import job
-import load
-import material
-import mesh
-import odbAccess
-import part
-import regionToolset
-import section
-import sketch
-import step
-import visualization
+# Abaqus CAE environment modules (guarded import for standard Python environments / tests)
+try:
+    from abaqus import *
+    from abaqusConstants import *
+    import assembly
+    import interaction
+    import job
+    import load
+    import material
+    import mesh
+    import odbAccess
+    import part
+    import regionToolset
+    import section
+    import sketch
+    import step
+    import visualization
+    ABAQUS_CAE_AVAILABLE = True
+except ImportError:
+    ABAQUS_CAE_AVAILABLE = False
 
 
 def parse_args():
@@ -68,11 +72,20 @@ def parse_args():
     parser.add_argument("--coarse-h", type=float, default=0.02, help="Initial coarse seed size in mm (default: 0.02)")
     parser.add_argument("--min-h", type=float, default=0.001, help="Min element size in mm (default: 0.001)")
     parser.add_argument("--max-h", type=float, default=0.02, help="Max element size in mm (default: 0.02)")
-    parser.add_argument("--error-target", type=float, default=0.02, help="Remeshing rule errorTarget (default: 0.02 = 2.0%)")
+    parser.add_argument("--error-target", type=float, default=2.0, help="Remeshing rule errorTarget in percentage points (default: 2.0 = 2.0%)")
     parser.add_argument("--refinement-factor", type=int, default=10, help="Remeshing rule refinementFactor (default: 10)")
     parser.add_argument("--output-dir", type=str, default=".", help="Output directory for generated packages")
     parser.add_argument("--job-prefix", type=str, default="PK_HOLE_METHOD_A", help="Prefix for jobs and decks")
-    return parser.parse_args(args_to_parse)
+    args = parser.parse_args(args_to_parse)
+
+    # Unit validation guard: Abaqus errorTarget requires percentage points (e.g. 1.0 or 2.0).
+    # Explicitly reject ambiguous fractional values (e.g. 0.01 or 0.02) to prevent 100x over-refinement.
+    if args.error_target <= 0.1:
+        raise ValueError(
+            "Invalid --error-target %.4f: Abaqus native remeshing requires percentage points (e.g. 1.0 for 1%%, 2.0 for 2%%). "
+            "Values <= 0.1 are ambiguous and indicate accidental decimal fractions." % args.error_target
+        )
+    return args
 
 
 def generate_uel_deck(src_phys_inp, dst_uel_inp, job_name, plate_h=1.0):
@@ -329,8 +342,12 @@ def run_pipeline(args):
     # Geometric boundary condition sets using findAt
     a.Set(name="Bottom", edges=inst.edges.findAt(((0.5 * args.plate_w, 0.0, 0.0),)))
     a.Set(name="Top", edges=inst.edges.findAt(((0.5 * args.plate_w, args.plate_h, 0.0),)))
+    # Bottom left pin node to prevent rigid body translation in x while allowing Poisson contraction
+    pin_vertex = inst.vertices.findAt(((0.0, 0.0, 0.0),))
+    a.Set(name="PinBottomLeft", vertices=pin_vertex)
 
-    m.DisplacementBC(name="FixBottom", createStepName="Step-1", region=a.sets["Bottom"], u1=0.0, u2=0.0)
+    m.DisplacementBC(name="RollBottom", createStepName="Step-1", region=a.sets["Bottom"], u2=0.0)
+    m.DisplacementBC(name="PinBottom", createStepName="Step-1", region=a.sets["PinBottomLeft"], u1=0.0)
     m.DisplacementBC(name="TensionTop", createStepName="Step-1", region=a.sets["Top"], u2=0.005)
 
     # Adaptive remeshing rule
@@ -338,7 +355,7 @@ def run_pipeline(args):
         name="RR: 1",
         stepName="Step-1",
         region=reg,
-        description="Method A Remeshing Rule for Plate with Hole (errorTarget=%.2f%%)" % (args.error_target * 100),
+        description="Method A Remeshing Rule for Plate with Hole (errorTarget=%.1f%%)" % args.error_target,
         outputFrequency=ALL_INCREMENTS,
         variables=("MISESERI",),
         sizingMethod=UNIFORM_ERROR,
