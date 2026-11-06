@@ -1,13 +1,13 @@
 {
   "active": false,
   "agent": "codex",
-  "session_id": "cb13b669-15b1-4d70-a800-2c23dc22cb88",
-  "task_id": "F1635-REGISTER-SCIENTIFIC-SUCCESSOR",
-  "started_at": "2026-11-06T18:47:49.0156981+01:00",
-  "closed_at": "2026-11-06T17:50:31.720863+00:00",
-  "starting_commit": "eb61141cbc98de1bdd89a17ddb8c0eba9b1ae41e",
+  "session_id": "703841f9-de04-410d-a2ec-b1ba0e69f8c7",
+  "task_id": "F1637-LOOP-AUTH-IDENTITY-DIAGNOSIS",
+  "started_at": "2026-11-06T18:55:10.4462748+01:00",
+  "closed_at": "2026-11-06T17:55:43.054153+00:00",
+  "starting_commit": "9901f2ad924077854e90e11346cb2d67871e26e2",
   "allowed_write_scope": [
     "project_coordination"
   ],
-  "notes": "F1635 complete; F1636 registration and startup preflight PASS; ready for one normal start."
+  "notes": "Real bridge exchange PASS; native identity mismatch verified; controller exited; interactive authentication required. F1636 remains PENDING."
 }

@@ -1,3 +1,7 @@
+## 6 November F1637 live bridge PASS; native identity mismatch blocks dispatch
+
+Controller created a fresh F1636 PENDING run and completed matching PAD handoff HND-SUP-07fa925dfd54467db134a3b4af297bb8 in 58 seconds. It then exited safely with AUTH_RECOVERY_REQUIRED. Read-only verification: CLI matches saved account2, native provider identity does not. No research dispatch or PBS submission. Official interactive sign-in to intended AGY identity is required before supported verification/recovery. Pending checkpoint and auth receipts preserved. See sessions/2026-11-06_codex_F1637_loop_auth_identity.md.
+
 ## 6 November F1635 successor registered; startup qualified
 
 F1636-METHOD-C-C6-STABILITY-HYPOTHESIS-EVALUATION is the registered zero-PBS successor of completed F1633. Registration and real checkpoint transition pass; tests 14/14 and 9/9 pass; canonical startup VerifyOnly exits 0. Runtime checkpoint and HPC accounting preserved. Maintenance released. Live bridge exchange unverified. See sessions/2026-11-06_codex_F1635_successor_registration.md.
