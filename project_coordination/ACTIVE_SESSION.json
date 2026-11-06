@@ -1,14 +1,13 @@
-﻿{
-    "active":  false,
-    "agent":  "codex",
-    "session_id":  "5626a179-3f7f-41bf-ae06-378fd71b0885",
-    "task_id":  "F1634-RESTORE-CANONICAL-RESEARCH-LOOP",
-    "started_at":  "2026-11-06T18:36:32.6704327+01:00",
-    "closed_at":  "2026-11-06T18:39:19.5183727+01:00",
-    "starting_commit":  "4c6e5c7566464f536e25079b074e5e3f4925067f",
-    "allowed_write_scope":  [
-                                "scripts/controller/Start-Verified-MethodCLoop.ps1",
-                                "project_coordination"
-                            ],
-    "notes":  "F1634 complete: local optional-property repair verified; canonical startup stopped by exact SUCCESSOR_REQUIRED; no live handoff, controller launch or PBS submission. See F1634 session report."
+{
+  "active": false,
+  "agent": "codex",
+  "session_id": "cb13b669-15b1-4d70-a800-2c23dc22cb88",
+  "task_id": "F1635-REGISTER-SCIENTIFIC-SUCCESSOR",
+  "started_at": "2026-11-06T18:47:49.0156981+01:00",
+  "closed_at": "2026-11-06T17:50:31.720863+00:00",
+  "starting_commit": "eb61141cbc98de1bdd89a17ddb8c0eba9b1ae41e",
+  "allowed_write_scope": [
+    "project_coordination"
+  ],
+  "notes": "F1635 complete; F1636 registration and startup preflight PASS; ready for one normal start."
 }
