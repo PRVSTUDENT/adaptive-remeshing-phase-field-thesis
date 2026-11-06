@@ -1,3 +1,27 @@
+## 6 November Method A Plate with Off-Axis Hole Feasibility Investigation Completed (Task F1632 Closed)
+
+1. **Status**: **`BLOCKED WITH VERIFIED TECHNICAL REASON`** (Under Supervisor Directives via `HND-bef847fc363a` and `HND-24ccab0bbe86`).
+2. **Provenance Reconciliation**:
+   - Reference physical deck (`models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_METHOD_A_PROD_PHYS.inp`): exactly **45,541 quads (CPS4R)** and **1,206 triangles (CPS3)**, summing to **46,747 physical elements** (46,651 nodes).
+   - Co-located 3-layer UEL deck (`PK_HOLE_METHOD_A_PROD.inp`): exactly **140,241 elements** ($46,747 \times 3$).
+   - Historical prompt arithmetic discrepancy ($43,434 + 1,153 = 44,587$) refuted as an intermediate smoke-test artifact; all comparison records reconciled.
+3. **Core Architectural Limitation in Abaqus CAE**:
+   - Abaqus CAE native remeshing rules (`RemeshingRule` with `UNIFORM_ERROR` or `MINIMUM_MAXIMUM`) operate strictly on geometric topology (faces/cells).
+   - Abaqus CAE provides no mechanism to convert ODB field outputs (`MISESERI > threshold`) into CAD partition boundaries.
+   - Spatially selective two-zone refinement without manual CAD partitioning is impossible within Abaqus's native interface.
+4. **Mathematical Domain Proof**:
+   - On a $1.0 \times 1.0\text{ mm}$ domain with registered $h_{\max} = 0.020\text{ mm}$ and local FPZ resolution $h \le \ell_0/5 = 1.5\,\mu\text{m}$, the mesh mathematically requires $\ge 45,000$ elements due to advancing-front transition layers.
+   - Reducing elements to 12k–16k requires $h_{\max} \ge 0.060\text{ mm}$, which falls outside registered F1632 scope.
+   - Coarsening initial seed $h_{\text{coarse}}$ to $0.040\text{ mm}$ (evaluated 31k candidate) smooths pre-analysis peak stress gradients, yielding an under-refined crack tip ($h_{\text{median}} = 2.49\,\mu\text{m}$) while still exceeding the 8-hour serial runtime limit (13–15 h).
+5. **Supervisor Choice Pathways**:
+   - **Pathway 1 (Recommended)**: Single-job walltime exception ($\le 24\text{h}$, 1 CPU) for the 46k reference mesh (`PK_HOLE_METHOD_A_PROD`).
+   - **Pathway 2**: Formal task scope update to permit CAD domain partitioning ($[0.45, 0.85] \times [0.45, 0.85]$ partition box with $h \le 1.5\,\mu\text{m}$; far-field $0.060\text{ mm}$), yielding $\sim 12\text{k}\text{--}14\text{k}$ elements.
+   - **Pathway 3**: Qualify 8-thread SMP execution for Method A ($\approx 4.5\text{h}$ walltime).
+6. **Execution Accounting**:
+   - Zero new PBS submissions (`remaining_pbs_submissions = 0`).
+   - Unit tests: 11/11 PASS (`test_f1632_local_resolution.py`, `test_f1632_method_a_generator.py`, `test_f1632_production_mesh_resolution.py`, `test_f1632_feasibility_assessment.py`).
+   - Frozen subroutine `f42_mixed_uel.for` preserved bitwise (`CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`, 29,722 bytes).
+
 ## 6 November Method C Paired C6 R12 Repaired-Driver Production Execution Completed & Evaluated (Task F1630 Closed)
 
 1. **Authentic Terminal Execution Summary (`1420429.mmaster02` & `1420430.mmaster02`)**:
