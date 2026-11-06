@@ -202,6 +202,11 @@ def test_08_f1630_task_registration_and_daily_error_register():
     assert err_reg_path.is_file()
     err_reg = json.loads(err_reg_path.read_text(encoding="utf-8"))
     assert err_reg["total_incidents"] == 2
+    assert err_reg["summary_counts"]["total_distinct_incidents"] == 2
+    assert err_reg["summary_counts"]["independently_verified_resolved_incidents"] == 2
+    assert err_reg["summary_counts"]["unresolved_software_or_metadata_incidents"] == 0
+    assert err_reg["summary_counts"]["scientific_validation_dependencies"] == 1
+    assert err_reg["summary_counts"]["infrastructure_observability_boundaries"] == 1
     assert len(err_reg["incidents"]) == 2
     inc1 = err_reg["incidents"][0]
     assert inc1["incident_id"] == "INC-2026-11-06-01"
@@ -211,6 +216,156 @@ def test_08_f1630_task_registration_and_daily_error_register():
     inc2 = err_reg["incidents"][1]
     assert inc2["incident_id"] == "INC-2026-11-06-02"
     assert inc2["classification"] == "STALE_AUTHORIZATION_HASH_IN_PACKAGE_MANIFEST"
+    assert inc2["incident_status"] == "RESOLVED_VERIFIED"
     assert "blocked_conditions" in err_reg
     assert len(err_reg["blocked_conditions"]) >= 2
+
+
+def test_09_evaluator_f1630_contracts_and_matching_iteration_comparison():
+    """Verify evaluate_f1629_paired_execution.py validates R12 summary contracts, matching outer iterations, and Anderson activation gating."""
+    import tempfile
+    from scripts.validation.evaluate_f1629_paired_execution import evaluate
+
+    with tempfile.TemporaryDirectory() as td:
+        tmp_path = Path(td)
+        d174 = tmp_path / "pkg174"
+        d175 = tmp_path / "pkg175"
+        out_dir = tmp_path / "out"
+        d174.mkdir()
+        d175.mkdir()
+
+        # Case 1: Anderson never activates (gated behind Stage 1 / active-set stabilization)
+        telem_stage1 = [
+            {
+                "outer": 1,
+                "stage": 1,
+                "anderson_accelerated": False,
+                "anderson_applied": False,
+                "pdas_active_count": 15559,
+                "pdas_free_count": 0,
+                "active_set_symmetric_diff": None,
+                "added_nodes_count": None,
+                "removed_nodes_count": None,
+                "attempted_transition": False,
+                "transition_activated": False,
+                "rollback_triggered": False,
+                "delta_d": 0.145,
+                "raw_delta_d": 0.290,
+                "delta_u_relaxed": None,
+                "delta_u_raw": None,
+                "delta_h": 14.047,
+                "raw_healing_min": 0.0,
+                "raw_healing_violations": 0,
+                "free_error": 0.0,
+                "dual_error": 0.0,
+                "complementarity": 0.0,
+                "kkt_post_passed": True,
+            },
+            {
+                "outer": 2,
+                "stage": 1,
+                "anderson_accelerated": False,
+                "anderson_applied": False,
+                "pdas_active_count": 14451,
+                "pdas_free_count": 1108,
+                "active_set_symmetric_diff": 1108,
+                "added_nodes_count": 0,
+                "removed_nodes_count": 1108,
+                "attempted_transition": False,
+                "transition_activated": False,
+                "rollback_triggered": False,
+                "delta_d": 0.0726,
+                "raw_delta_d": 0.1452,
+                "delta_u_relaxed": 5.33e-6,
+                "delta_u_raw": 5.33e-6,
+                "delta_h": 3.55,
+                "raw_healing_min": -1.4e-8,
+                "raw_healing_violations": 0,
+                "free_error": 1.2e-8,
+                "dual_error": 2.0e-8,
+                "complementarity": 9.5e-10,
+                "kkt_post_passed": True,
+            },
+        ]
+        nonconv_summary = {
+            "status": "NONCONVERGED",
+            "stage": 1,
+            "outer_iterations_completed": 2,
+            "anderson_accelerations_count": 0,
+            "anderson_fallbacks_count": 0,
+            "anderson_resets_count": 0,
+        }
+        (d174 / "live_iteration_telemetry.json").write_text(json.dumps(telem_stage1), encoding="utf-8")
+        (d175 / "live_iteration_telemetry.json").write_text(json.dumps(telem_stage1), encoding="utf-8")
+        (d174 / "re_equilibration_summary.json").write_text(json.dumps(nonconv_summary), encoding="utf-8")
+        (d175 / "re_equilibration_summary.json").write_text(json.dumps(nonconv_summary), encoding="utf-8")
+
+        res1 = evaluate(
+            d174,
+            d175,
+            job_174="1420429.mmaster02",
+            job_175="1420430.mmaster02",
+            out_dir=out_dir,
+            task_id="F1630-METHOD-C-C6-R12-REPAIRED-DRIVER-PAIRED-EXECUTION",
+            output_prefix="f1630_test1",
+        )
+        assert res1["comparison"]["anderson_effect_classification"] == "ANDERSON_NEVER_ACTIVATED_GATED_BY_STAGE1_ACTIVE_SET"
+        assert res1["comparison"]["demonstrated_anderson_effect"] is False
+        assert res1["comparison"]["matching_iterations"]["common_iterations_count"] == 2
+        assert res1["comparison"]["matching_iterations"]["identical_across_all_common_iterations"] is True
+
+        # Case 2: R12 lowercase summary contract (reaction_force_kn, total_energy_knmm) and Anderson convergence
+        telem_conv_b = [
+            telem_stage1[0],
+            {
+                **telem_stage1[1],
+                "stage": 2,
+                "anderson_accelerated": True,
+                "anderson_applied": True,
+                "pdas_active_count": 120,
+                "pdas_free_count": 15439,
+                "active_set_symmetric_diff": 0,
+                "added_nodes_count": 0,
+                "removed_nodes_count": 0,
+                "transition_activated": True,
+                "delta_d": 5.0e-6,
+                "raw_delta_d": 8.0e-6,
+                "delta_u_relaxed": 5.0e-10,
+                "delta_u_raw": 5.0e-10,
+                "delta_h": 5.0e-5,
+                "kkt_post_passed": True,
+            },
+        ]
+        conv_summary_b = {
+            "status": "CONVERGED",
+            "stage": 2,
+            "outer_iterations_completed": 2,
+            "reaction_force_kn": 0.17992419,
+            "total_energy_knmm": 0.00022639903,
+            "healing_violations_count": 0,
+            "history_monotonicity": True,
+            "thermodynamic_consistency": True,
+            "coupled_field_consistency_u_pass": True,
+            "coupled_field_consistency_h_pass": True,
+            "anderson_accelerations_count": 1,
+            "anderson_fallbacks_count": 0,
+            "anderson_resets_count": 0,
+        }
+        (d175 / "live_iteration_telemetry.json").write_text(json.dumps(telem_conv_b), encoding="utf-8")
+        (d175 / "re_equilibration_summary.json").write_text(json.dumps(conv_summary_b), encoding="utf-8")
+
+        res2 = evaluate(
+            d174,
+            d175,
+            job_174="1420429.mmaster02",
+            job_175="1420430.mmaster02",
+            out_dir=out_dir,
+            task_id="F1630-METHOD-C-C6-R12-REPAIRED-DRIVER-PAIRED-EXECUTION",
+            output_prefix="f1630_test2",
+        )
+        assert res2["arm_b_anderson"]["gates"]["overall_physical_acceptance_pass"] is True
+        assert res2["comparison"]["anderson_effect_classification"] == "ANDERSON_ACTIVATED_DECISIVE_CONVERGENCE"
+        assert res2["comparison"]["demonstrated_anderson_effect"] is True
+        assert res2["comparison"]["matching_iterations"]["first_divergence_outer"] == 2
+
 

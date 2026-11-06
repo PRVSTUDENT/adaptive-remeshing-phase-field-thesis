@@ -4,9 +4,18 @@
   "predecessor_task_id": "F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR",
   "handoff_correlation_ids": [
     "HND-9cef512db772",
-    "HND-bf29e0495841"
+    "HND-bf29e0495841",
+    "HND-5b361e69abda"
   ],
+  "audit_status": "PROVISIONAL_UNTIL_SESSION_CLOSEOUT",
   "end_of_day_audit_deliverable": "results/validation/daily_error_audit_2026-11-06.md",
+  "summary_counts": {
+    "total_distinct_incidents": 2,
+    "independently_verified_resolved_incidents": 2,
+    "unresolved_software_or_metadata_incidents": 0,
+    "scientific_validation_dependencies": 1,
+    "infrastructure_observability_boundaries": 1
+  },
   "total_incidents": 2,
   "incidents": [
     {
@@ -22,9 +31,9 @@
       "repaired_commit_sha": "fa2a5100142c79fd03b7f2882d04da6d280d4076",
       "repaired_file_sha256": "17C064184A569019E7A2BC72B7880C7F3404B0A9E92C37B2D04F4BE3BAAC7166",
       "incident_status": "RESOLVED_VERIFIED",
-      "verification_scope": "PYTHON_API_INTEGRATION_VERIFIED__FULL_ABAQUS_PRODUCTION_PENDING",
+      "verification_scope": "PYTHON_API_INTEGRATION_AND_LIVE_ABAQUS_COUPLED_EXECUTION_STARTUP_VERIFIED",
       "verified_under_handoff": "HND-bf29e0495841",
-      "note": "Both F1629 PBS failures stem from one R12 driver API regression and are counted as one incident with four specific code defects. Independently verified on GitHub (commit fa2a5100142c79fd03b7f2882d04da6d280d4076) and classified RESOLVED_VERIFIED at the tested Python integration level under HND-bf29e0495841. Full Abaqus production execution remains pending F1630 completion.",
+      "note": "Both F1629 PBS failures stem from one R12 driver API regression and are counted as one incident with four specific code defects. Independently verified on GitHub (commit fa2a5100142c79fd03b7f2882d04da6d280d4076) under HND-bf29e0495841 and confirmed in live Abaqus production execution (1420429.mmaster02 and 1420430.mmaster02) under HND-5b361e69abda.",
       "code_defects": [
         {
           "defect_id": "DEF-2026-11-06-01A",
@@ -62,8 +71,10 @@
         "models/pandey_kumar_mode1/175_c6_r12_anderson_m2/PACKAGE_MANIFEST.json"
       ],
       "detected_under_handoff": "HND-bf29e0495841",
-      "incident_status": "FIXED_UNVERIFIED",
-      "note": "In build_f1629_packages.py, Step 4 generated PACKAGE_MANIFEST.json before Step 5 generated *_AUTHORIZATION.json, causing PACKAGE_MANIFEST.json to record the prior revision's *_AUTHORIZATION.json SHA-256 and byte count while *_AUTHORIZATION.json circularly hashed PACKAGE_MANIFEST.json. Repaired by generating *_AUTHORIZATION.json first (excluding PACKAGE_MANIFEST.json from auth['files']) and generating PACKAGE_MANIFEST.json second so PACKAGE_MANIFEST.json records the exact committed *_AUTHORIZATION.json SHA-256 and byte count, enforced by test_07_package_manifests_integrity."
+      "repaired_commit_sha": "cb9af24ba91bcd66cf69d5104243d9318e62fd07",
+      "verified_under_handoff": "HND-5b361e69abda",
+      "incident_status": "RESOLVED_VERIFIED",
+      "note": "In build_f1629_packages.py, Step 4 generated PACKAGE_MANIFEST.json before Step 5 generated *_AUTHORIZATION.json, causing PACKAGE_MANIFEST.json to record the prior revision's *_AUTHORIZATION.json SHA-256 and byte count while *_AUTHORIZATION.json circularly hashed PACKAGE_MANIFEST.json. Repaired in commit cb9af24ba91bcd66cf69d5104243d9318e62fd07 by generating *_AUTHORIZATION.json first (excluding PACKAGE_MANIFEST.json from auth['files']) and generating PACKAGE_MANIFEST.json second so PACKAGE_MANIFEST.json records the exact committed *_AUTHORIZATION.json SHA-256 and byte count, enforced by test_07_package_manifests_integrity and independently verified under HND-5b361e69abda."
     }
   ],
   "blocked_conditions": [
@@ -71,7 +82,11 @@
       "condition_id": "BLK-2026-11-06-01",
       "category": "SCIENTIFIC_VALIDATION_DEPENDENCY",
       "status": "PENDING_HPC_SOLVER_COMPLETION",
-      "summary": "Full Abaqus production convergence of C6 R12 (Arm A Picard Baseline vs Arm B Safeguarded Anderson M2) awaits completion and quantitative evaluation of the two authorized F1630 PBS production jobs."
+      "active_pbs_jobs": [
+        "1420429.mmaster02",
+        "1420430.mmaster02"
+      ],
+      "summary": "Full Abaqus production convergence of C6 R12 (Arm A Picard Baseline 1420429.mmaster02 vs Arm B Safeguarded Anderson M2 1420430.mmaster02) awaits terminal completion and quantitative evaluation of the two running F1630 PBS production jobs."
     },
     {
       "condition_id": "BLK-2026-11-06-02",
