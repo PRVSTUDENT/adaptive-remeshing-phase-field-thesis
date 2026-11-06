@@ -225,11 +225,15 @@ def generate_uel_deck(src_phys_inp, dst_uel_inp, job_name, plate_h=1.0):
             f.write("UMAT_TRIS\n")
         f.write("*ELSET, ELSET=umatelem\nAll_elem\n")
 
-        f.write("*NSET, NSET=N_BOTTOM\n")
-        f.write(", ".join(str(n) for n in sorted(bottom_nodes)) + "\n")
+        # Format node sets in lines of at most 16 items per Abaqus card limit
+        def write_nset(name, nids):
+            f.write("*NSET, NSET=%s\n" % name)
+            for i in range(0, len(nids), 16):
+                f.write(", ".join(str(n) for n in nids[i : i + 16]) + "\n")
+
+        write_nset("N_BOTTOM", sorted(bottom_nodes))
         f.write("*NSET, NSET=N_PIN\n%d\n" % pin_node)
-        f.write("*NSET, NSET=N_TOP\n")
-        f.write(", ".join(str(n) for n in sorted(top_nodes)) + "\n")
+        write_nset("N_TOP", sorted(top_nodes))
         f.write("*NSET, NSET=N_RP\n%d\n" % rp_nid)
 
         # Properties
@@ -262,7 +266,7 @@ def generate_uel_deck(src_phys_inp, dst_uel_inp, job_name, plate_h=1.0):
         f.write("*RESTART, WRITE, FREQUENCY=0\n")
         f.write("*OUTPUT, FIELD, FREQUENCY=1\n")
         f.write("*NODE OUTPUT, NSET=N_RP\nU, RF\n")
-        f.write("*ELEMENT OUTPUT, ELSET=DISP_QUAD\nSDV\n")
+        f.write("*ELEMENT OUTPUT, ELSET=umatelem\nSDV, S, E\n")
         f.write("*NODE PRINT, FREQ=1, NSET=N_RP\nU2, RF2\n")
         f.write("*END STEP\n")
 
@@ -277,7 +281,7 @@ def generate_uel_deck(src_phys_inp, dst_uel_inp, job_name, plate_h=1.0):
         f.write("*RESTART, WRITE, FREQUENCY=0\n")
         f.write("*OUTPUT, FIELD, FREQUENCY=1\n")
         f.write("*NODE OUTPUT, NSET=N_RP\nU, RF\n")
-        f.write("*ELEMENT OUTPUT, ELSET=DISP_QUAD\nSDV\n")
+        f.write("*ELEMENT OUTPUT, ELSET=umatelem\nSDV, S, E\n")
         f.write("*NODE PRINT, FREQ=1, NSET=N_RP\nU2, RF2\n")
         f.write("*END STEP\n")
 
@@ -348,6 +352,7 @@ def run_pipeline(args):
 
     m.DisplacementBC(name="RollBottom", createStepName="Step-1", region=a.sets["Bottom"], u2=0.0)
     m.DisplacementBC(name="PinBottom", createStepName="Step-1", region=a.sets["PinBottomLeft"], u1=0.0)
+    m.DisplacementBC(name="FixTopX", createStepName="Step-1", region=a.sets["Top"], u1=0.0)
     m.DisplacementBC(name="TensionTop", createStepName="Step-1", region=a.sets["Top"], u2=0.005)
 
     # Adaptive remeshing rule

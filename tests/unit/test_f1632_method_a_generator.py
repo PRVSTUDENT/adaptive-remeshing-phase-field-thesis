@@ -39,15 +39,19 @@ def test_error_target_percentage_convention_accepted():
 
 
 def test_generator_boundary_condition_parity():
-    """Verify that boundary conditions in generate_plate_with_hole_method_a.py allow Poisson contraction."""
+    """Verify that boundary conditions in pre-analysis and production deck maintain exact parity with Job 1400395."""
     script_path = REPO_ROOT / "scripts" / "remeshing" / "generate_plate_with_hole_method_a.py"
     content = script_path.read_text(encoding="utf-8")
 
-    # In pre-analysis, bottom should have u2=0 and single point pin u1=0 (NOT full edge u1=0)
+    # In pre-analysis: bottom roller u2=0, pin u1=0, top u1=0, top u2=0.005
     assert 'name="RollBottom", createStepName="Step-1", region=a.sets["Bottom"], u2=0.0' in content
     assert 'name="PinBottom", createStepName="Step-1", region=a.sets["PinBottomLeft"], u1=0.0' in content
-    assert 'FixBottom", createStepName="Step-1", region=a.sets["Bottom"], u1=0.0' not in content
+    assert 'name="FixTopX", createStepName="Step-1", region=a.sets["Top"], u1=0.0' in content
+    assert 'name="TensionTop", createStepName="Step-1", region=a.sets["Top"], u2=0.005' in content
 
-    # In generated UEL deck, top pull must be tied to RP and N_TOP must have u1=0 only where intended
+    # In generated UEL deck: bottom roller N_BOTTOM u2=0, pin N_PIN u1=0, top N_TOP u1=0, RP pull via *EQUATION
+    assert "N_BOTTOM, 2, 2, 0.0" in content
+    assert "N_PIN, 1, 1, 0.0" in content
+    assert "N_TOP, 1, 1, 0.0" in content
     assert "*EQUATION" in content
     assert "N_RP, 2, 2" in content
