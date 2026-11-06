@@ -1,0 +1,37 @@
+{
+  "final_frame": {
+    "damage_min": 5.9268860042038796e-08, 
+    "physical_acceptance": {
+      "damage_bounds_valid": true, 
+      "history_nonnegative": true, 
+      "damage_initiation_detected": true
+    }, 
+    "total_samples": 204595, 
+    "frame_index": 50, 
+    "history_min": 0.0, 
+    "history_max": 2.987262487411499, 
+    "counts": {
+      "d_ge_0.01": 140447, 
+      "d_ge_0.10": 6462, 
+      "d_ge_0.40": 24, 
+      "d_ge_0.50": 0, 
+      "d_ge_0.90": 0, 
+      "d_ge_0.20": 876, 
+      "d_ge_0.30": 202
+    }, 
+    "step_time": 1.0, 
+    "energy_balance": {
+      "total_time": 1.0, 
+      "step_time": 1.0, 
+      "e_elastic_kNmm": 0.0013294105, 
+      "e_total_kNmm": 0.0013720432, 
+      "step": 1, 
+      "e_fracture_kNmm": 4.2632727e-05, 
+      "increment": 50
+    }, 
+    "damage_max": 0.4679079055786133
+  }, 
+  "odb_path": "PK_HOLE_METHOD_A_ADAPT.odb", 
+  "steps": [], 
+  "n_physical_elements": 52447
+}

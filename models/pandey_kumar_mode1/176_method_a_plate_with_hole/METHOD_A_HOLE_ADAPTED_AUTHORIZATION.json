@@ -1,0 +1,43 @@
+{
+  "batch_name": "MODE1_METHOD_A_HOLE_ADAPTED",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "PK_HOLE_METHOD_A_ADAPT.inp": "64e150e6025669927ccc2605071c6872f6fab600829802fe05f11ac7cb131b10",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_M1_HOLE_METHOD_A_ADAPT.pbs": "c938ca139c4f77316d75978c2dc1eab9784b4c4fb32971bc52fc9c11251a3f4f",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11"
+  },
+  "jobs": [
+    {
+      "id": "hole_adapted",
+      "pbs": "submit_M1_HOLE_METHOD_A_ADAPT.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_method_a_hole_adapted/submit_M1_HOLE_METHOD_A_ADAPT.pbs\"",
+      "command_sha256": "9760b8c8b4e1e1d89cc1ffd9cefd8130608c32b502fe0a4ebdae7b5d323909b6",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Method A Plate with Hole indicator-driven adapted mesh diagnostic solve (Step 1 precritical loading to u=0.0050 mm, 52,447 physical elements, 157,341 total elements, *RESTART WRITE FREQ=1)",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "PK_HOLE_METHOD_A_ADAPT.inp",
+      "datacheck": "PK_HOLE_METHOD_A_ADAPT_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "hole_adapted": "Abaqus 2023 single-rank serial solve completes Step 1 to u=0.0050 mm with Exit 0; outputs authentic coupled phase-field damage d, history H, displacements, reaction force RF2 vs u, and elastic/fracture energies; damage satisfies 0 <= d <= 1; history satisfies H >= psi_e+; enables direct like-for-like comparison against F1642 pilot (Job 1421048.mmaster02) to evaluate mesh refinement convergence."
+  },
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_method_a_hole_adapted",
+  "required_state_checks": [
+    "nodal_displacement_verified",
+    "damage_irreversibility_verified",
+    "committed_history_verified",
+    "state_restoration_verified"
+  ]
+}
