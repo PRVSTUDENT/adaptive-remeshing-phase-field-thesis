@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "task_id": "F1641-METHOD-A-HOLE-INDICATOR-PILOT-QUALIFICATION",
+  "executor": "codex",
+  "run_id": "1f4b4bcf-5f1f-4816-9a6d-87a970f0be47",
+  "source_commit": "d04a699b662fe213cbfbc61737be74a62174c81a",
+  "status": "COMPLETED",
+  "closed_at": "2026-11-06T20:42:10.2982140+00:00",
+  "scientific_result": "PHYSICS_DOMAIN_ASSESSED_ADVANCE_TO_EXECUTION_PILOT",
+  "tests_passed": 5,
+  "new_pbs_submissions": 0,
+  "evidence_sources": {
+    "results/validation/f1641_physics_domain_assessment.json": "DDFC0866FCDCFD45DBB1260B37B9385C2F80348B3D1A31AF28C6B685C88AE369",
+    "results/validation/f1641_physics_domain_report.md": "DA246C4AF5904B20FBC707F4B931935AA78A6D6FC9C2C22F63939DA6BFB03367",
+    "scripts/validation/evaluate_f1641_physics_domain.py": "6EA400468B71CE955FB63DBD16118862D26030C5BB12E3135013ADC02B3EFD61",
+    "tests/unit/test_f1641_physics_domain.py": "985CEF6DAA2EEAD0E7FDD466EEB894918FF51F6E0D99F9D7C70DF8A2CCFBE46B"
+  },
+  "agy_run_completed": false
+}

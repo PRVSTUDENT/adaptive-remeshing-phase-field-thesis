@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "task_id": "F1642-METHOD-A-HOLE-PHYSICAL-STATE-PILOT-EXECUTION",
+  "executor": "gemini-antigravity",
+  "run_id": "2b6c1670-80a6-48ec-8f7a-8f96db40a99c",
+  "source_commit": "d04a699b662fe213cbfbc61737be74a62174c81a",
+  "status": "COMPLETED",
+  "closed_at": "2026-11-06T22:05:00.0000000+00:00",
+  "scientific_result": "COUPLED_PHASE_FIELD_HOLE_PILOT_COMPLETED_EXIT0_LOCALIZED_FPZ_ESTABLISHED",
+  "tests_passed": 6,
+  "new_pbs_submissions": 1,
+  "pbs_job_id": "1421048.mmaster02",
+  "evidence_sources": {
+    "results/validation/f1642_pilot_extracted_summary.json": "6368F79104C29CAA016A1C545B52B822A20AA22EDD24B7D871BD2F58C269CC80",
+    "results/validation/f1642_pilot_uel_energy_balance.csv": "E0C8F1A6A4E46A1774FF984FE0E01202A6E909A49C1047C7DB969EFCE1AAE161",
+    "results/validation/f1642_pilot_pbs_execution.log": "4C39D9D6DD65E8FFADD550956B133D61973971753F108237205A9599D4AB746E",
+    "results/validation/f1642_pilot_PK_HOLE_METHOD_A_PROD.sta": "27283BA25297A82792D2210891E7F317624D0B4D413160CCC036BF35B635E5CB",
+    "results/validation/f1642_pilot_rf_displacement.csv": "68B2235BB188543EB18623D3BF3C6782F446D62A7F9BCAF582995CF23802A558",
+    "results/validation/f1642_pilot_damage_distribution.json": "6F6A2A6BE6E529AB51860722F8C386010E2A0C8126C60C81006B4B1E47CE32CC",
+    "tests/unit/test_f1642_pilot_physical_state.py": "6B31522F06D109E8808E1537389D95791D656CB23F2BAEC1A6CF4C914DC1A26E"
+  },
+  "max_damage": 0.433304,
+  "max_history": 2.658666,
+  "max_damage_element": 2577,
+  "final_rf2_kN": 0.53192744,
+  "final_u2_mm": 0.0050,
+  "agy_run_completed": true
+}

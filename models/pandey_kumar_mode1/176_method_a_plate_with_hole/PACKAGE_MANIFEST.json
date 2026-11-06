@@ -1,0 +1,30 @@
+{
+  "package_name": "176_method_a_plate_with_hole",
+  "description": "Package 176: Method A Plate with Off-Axis Hole diagnostic physical-state-acquisition pilot",
+  "author": "gemini-antigravity",
+  "geometry": {
+    "domain": "1.0 x 1.0 mm",
+    "slit": "length 0.5 mm, y=0.5 mm, half-opening 0.001 mm",
+    "hole": "center (0.65, 0.65) mm, radius 0.10 mm",
+    "ligament_clearance_mm": 0.111426
+  },
+  "discretization": {
+    "physical_elements": 46747,
+    "quads": 45541,
+    "triangles": 1206,
+    "nodes": 46651,
+    "co_located_elements": 140241
+  },
+  "loading": {
+    "step1": "Linear Loading to u = 0.0050 mm (50 increments, dt=0.02, precritical prefix)",
+    "restart_write_frequency": 1,
+    "field_output_frequency": 1
+  },
+  "files": {
+    "PK_HOLE_METHOD_A_PROD.inp": "95541549202eb48c1f53c011735070e55af6e82123f7cacf9479bb683aa238e6",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_M1_HOLE_METHOD_A_PROD.pbs": "ecb8bfdc7dddb8b4c17f092c04e46493acabc2ef324f5ac675715129004da638",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "PK_HOLE_METHOD_A_DC.dat": "4e474b2e9dda875a1ac64d17ed2b669cad11b73532f10782729ab005b5a801f8"
+  }
+}

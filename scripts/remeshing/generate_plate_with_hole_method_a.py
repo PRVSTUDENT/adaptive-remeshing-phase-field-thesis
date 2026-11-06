@@ -92,6 +92,7 @@ def parse_args():
     parser.add_argument("--refinement-factor", type=int, default=10, help="Remeshing rule refinementFactor (default: 10)")
     parser.add_argument("--output-dir", type=str, default=".", help="Output directory for generated packages")
     parser.add_argument("--job-prefix", type=str, default="PK_HOLE_METHOD_A", help="Prefix for jobs and decks")
+    parser.add_argument("--step1-only", action="store_true", default=False, help="Generate Step 1 only (bounded precritical pilot)")
     parser.add_argument("--reuse-preanalysis-odb", default=None,
                         help="Remesh only from an existing pinned ODB; never submit a solver")
     parser.add_argument("--preanalysis-sha256", default=None,
@@ -121,7 +122,7 @@ def validate_reused_preanalysis(path, expected_hash):
         raise ValueError("Reused preanalysis SHA256 mismatch")
 
 
-def generate_uel_deck(src_phys_inp, dst_uel_inp, job_name, plate_h=1.0):
+def generate_uel_deck(src_phys_inp, dst_uel_inp, job_name, plate_h=1.0, step1_only=False):
     """
     Builds 3-layer UEL + UMAT input deck matching f42_mixed_uel.for:
     - Layer 1: Phase field U1 (quad), U3 (tri)
@@ -277,7 +278,7 @@ def generate_uel_deck(src_phys_inp, dst_uel_inp, job_name, plate_h=1.0):
             f.write("*UEL PROPERTY, ELSET=DISP_TRI\n0.0075, 0.0027, 210.0, 0.3, 1.0e-7, %d.0\n" % num_phys_elems)
 
         f.write("*SOLID SECTION, ELSET=All_elem, MATERIAL=DUMMY_MAT\n1.0\n")
-        f.write("*MATERIAL, NAME=DUMMY_MAT\n*USER MATERIAL, CONSTANTS=2\n210.0, 0.3\n")
+        f.write("*MATERIAL, NAME=DUMMY_MAT\n*USER MATERIAL, CONSTANTS=3\n210.0, 0.3, %d.0\n" % num_phys_elems)
         f.write("*DEPVAR\n20\n")
 
         # Tie top nodes to RP
@@ -303,20 +304,21 @@ def generate_uel_deck(src_phys_inp, dst_uel_inp, job_name, plate_h=1.0):
         f.write("*NODE PRINT, FREQ=1, NSET=N_RP\nU2, RF2\n")
         f.write("*END STEP\n")
 
-        # Step 2
-        f.write("** ----------------------------------------------------------\n")
-        f.write("** STEP 2: Fracture Propagation to u = 0.012 mm\n")
-        f.write("** ----------------------------------------------------------\n")
-        f.write("*STEP, NAME=Step-2, NLGEOM=NO, INC=20000\n")
-        f.write("*STATIC\n0.002, 1.0, 1.0e-8, 0.002\n")
-        f.write("*BOUNDARY\n")
-        f.write("N_RP, 2, 2, 0.0120\n")
-        f.write("*RESTART, WRITE, FREQUENCY=1\n")
-        f.write("*OUTPUT, FIELD, FREQUENCY=1\n")
-        f.write("*NODE OUTPUT, NSET=N_RP\nU, RF\n")
-        f.write("*ELEMENT OUTPUT, ELSET=umatelem\nSDV, S, E\n")
-        f.write("*NODE PRINT, FREQ=1, NSET=N_RP\nU2, RF2\n")
-        f.write("*END STEP\n")
+        # Step 2 (Optional for full propagation; omitted for bounded precritical pilot)
+        if not step1_only:
+            f.write("** ----------------------------------------------------------\n")
+            f.write("** STEP 2: Fracture Propagation to u = 0.012 mm\n")
+            f.write("** ----------------------------------------------------------\n")
+            f.write("*STEP, NAME=Step-2, NLGEOM=NO, INC=20000\n")
+            f.write("*STATIC\n0.002, 1.0, 1.0e-8, 0.002\n")
+            f.write("*BOUNDARY\n")
+            f.write("N_RP, 2, 2, 0.0120\n")
+            f.write("*RESTART, WRITE, FREQUENCY=1\n")
+            f.write("*OUTPUT, FIELD, FREQUENCY=1\n")
+            f.write("*NODE OUTPUT, NSET=N_RP\nU, RF\n")
+            f.write("*ELEMENT OUTPUT, ELSET=umatelem\nSDV, S, E\n")
+            f.write("*NODE PRINT, FREQ=1, NSET=N_RP\nU2, RF2\n")
+            f.write("*END STEP\n")
 
     print("Wrote UEL production deck to: %s" % dst_uel_inp)
 
@@ -453,7 +455,7 @@ def run_pipeline(args):
 
     # Build layered UEL production deck
     uel_inp_path = os.path.join(args.output_dir, job_prod_name + ".inp")
-    generate_uel_deck(phys_inp_path, uel_inp_path, job_prod_name, plate_h=args.plate_h)
+    generate_uel_deck(phys_inp_path, uel_inp_path, job_prod_name, plate_h=args.plate_h, step1_only=args.step1_only)
     print("Method A Pipeline complete for: %s" % job_prod_name)
 
 
