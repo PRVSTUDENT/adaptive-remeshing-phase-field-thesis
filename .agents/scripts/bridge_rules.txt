@@ -10,9 +10,9 @@
 - Method C C5->C6 research is PAUSED, not abandoned; do not redirect work to it
   unless the user explicitly changes priority. F1636/F1639 are historical closeouts.
 - F1632/F1633 already examined the hole mesh; do not replay feasibility audits.
-- The 46,747-physical-element hole deck passed datacheck but its 18-24h serial
-  runtime is only an estimate and exceeds the standing 8h limit. No 24h/8-CPU
-  exception, blind coarsening, prescribed crack corridor or false readiness.
+- The 46,747-element hole deck has historical datacheck evidence; 18-24h serial
+  runtime is an estimate. Legacy adapter 8h/1CPU/16GB caps are not PBS maxima.
+  Verify queue routing/account eligibility; no blind coarsening or false readiness.
 - When current task is read-only/zero-PBS, require legitimate closeout, an exact
   scientifically scoped successor, independent review and technical qualification;
   never reinterpret the old task as permission to submit a production job.
@@ -67,8 +67,10 @@
   irreversibility, GP history, KKT and coupled equilibrium; Exit 0 is insufficient.
 - Frozen production UEL and numerical tolerances remain unchanged absent review.
 - New failures need a distinct falsifiable hypothesis; no blind retries.
-- Serial caps: 1 CPU/job, <=16 GB/job, <=8h/job, <=2 named jobs/batch,
-  <=4 concurrent user jobs, subject to stricter present policies.
+- Legacy adapter scope: 1CPU/16GB/8h; do not bypass it. Distinct Method A execution
+  needs a reviewed queue-aware route, measured resources and exact qualification.
+- Live 6-Nov: longq max168h, normal_imfdfkmq max336h, both route-only;
+  entry_imfdfkmq routes normal/short and account has an allowed group. SMP needs parity.
 - No invented resource exceptions or speedups; live scheduler must be checked.
 
 ## 5. ANTI-LOOP, PROGRESS AND QUOTA HANDLING

@@ -92,7 +92,13 @@ def parse_args():
     parser.add_argument("--refinement-factor", type=int, default=10, help="Remeshing rule refinementFactor (default: 10)")
     parser.add_argument("--output-dir", type=str, default=".", help="Output directory for generated packages")
     parser.add_argument("--job-prefix", type=str, default="PK_HOLE_METHOD_A", help="Prefix for jobs and decks")
+    parser.add_argument("--reuse-preanalysis-odb", default=None,
+                        help="Remesh only from an existing pinned ODB; never submit a solver")
+    parser.add_argument("--preanalysis-sha256", default=None,
+                        help="Required SHA256 when reusing a preanalysis")
     args = parser.parse_args(args_to_parse)
+    if args.reuse_preanalysis_odb:
+        validate_reused_preanalysis(args.reuse_preanalysis_odb, args.preanalysis_sha256)
 
     # Unit validation guard: Abaqus errorTarget requires percentage points (e.g. 1.0 or 2.0).
     # Explicitly reject ambiguous fractional values (e.g. 0.01 or 0.02) to prevent 100x over-refinement.
@@ -102,6 +108,17 @@ def parse_args():
             "Values <= 0.1 are ambiguous and indicate accidental decimal fractions." % args.error_target
         )
     return args
+
+
+def validate_reused_preanalysis(path, expected_hash):
+    if not expected_hash or len(expected_hash) != 64 or not os.path.isfile(path):
+        raise ValueError("Reused preanalysis requires an existing exact path and SHA256")
+    digest = hashlib.sha256()
+    with open(path, 'rb') as stream:
+        for block in iter(lambda: stream.read(1048576), b''):
+            digest.update(block)
+    if digest.hexdigest().upper() != expected_hash.upper():
+        raise ValueError("Reused preanalysis SHA256 mismatch")
 
 
 def generate_uel_deck(src_phys_inp, dst_uel_inp, job_name, plate_h=1.0):
@@ -392,17 +409,39 @@ def run_pipeline(args):
 
     # Pre-analysis solve
     job1_name = args.job_prefix + "_PREANALYSIS"
-    j1 = mdb.Job(name=job1_name, model=model_name, description="Pre-Analysis for Plate with Hole Adaptive Remeshing")
-    j1.writeInput(consistencyChecking=OFF)
-    j1.submit(consistencyChecking=OFF)
-    j1.waitForCompletion()
-    print("Pre-analysis completed with status: %s" % j1.status)
+    reused = getattr(args, 'reuse_preanalysis_odb', None)
+    if reused:
+        validate_reused_preanalysis(reused, args.preanalysis_sha256)
+        print("REUSED_PREANALYSIS_ZERO_SOLVER_RUNS: %s" % reused)
+    else:
+        j1 = mdb.Job(name=job1_name, model=model_name, description="Pre-Analysis for Plate with Hole Adaptive Remeshing")
+        j1.writeInput(consistencyChecking=OFF)
+        j1.submit(consistencyChecking=OFF)
+        j1.waitForCompletion()
+        print("Pre-analysis completed with status: %s" % j1.status)
 
     # Native adaptive remeshing
-    odb1_path = os.path.abspath(job1_name + ".odb")
+    odb1_path = os.path.abspath(reused or (job1_name + ".odb"))
     o1 = odbAccess.openOdb(path=odb1_path, readOnly=True)
-    m.adaptiveRemesh(odb=o1)
-    o1.close()
+    try:
+        if reused:
+            source = o1.rootAssembly.instances['PLATE-1']
+            if len(source.elements) != len(p.elements) or len(source.nodes) != len(p.nodes):
+                raise ValueError("Reconstructed coarse mesh/source ODB counts differ")
+            nodes = dict((n.label, n.coordinates) for n in source.nodes)
+            elems = dict((e.label, tuple(e.connectivity)) for e in source.elements)
+            for n in p.nodes:
+                if n.label not in nodes or max(abs(float(a)-float(b)) for a,b in zip(n.coordinates,nodes[n.label])) > 1e-7:
+                    raise ValueError("Reconstructed coarse node identity mismatch")
+            for e in p.elements:
+                # CAE connectivity uses node indices; ODB uses node labels.
+                conn = tuple(n.label for n in e.getNodes())
+                if elems.get(e.label) != conn:
+                    raise ValueError("Reconstructed coarse element identity mismatch")
+            print("SOURCE_MESH_IDENTITY_PASS")
+        m.adaptiveRemesh(odb=o1)
+    finally:
+        o1.close()
 
     print("Adapted Refined Mesh: %d elements, %d nodes" % (len(p.elements), len(p.nodes)))
 

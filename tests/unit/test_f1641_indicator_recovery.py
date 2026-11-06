@@ -3,6 +3,9 @@ import hashlib
 import json
 import math
 from pathlib import Path
+import pytest
+from scripts.remeshing.generate_plate_with_hole_method_a import validate_reused_preanalysis
+from scripts.validation.validate_f1641_native_mesh import element_metrics
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -36,3 +39,33 @@ def test_complete_unambiguous_indicator_coverage():
 def test_frozen_local_uel_unchanged():
     path = ROOT / 'models/pandey_kumar_mode1/176_method_a_plate_with_hole/f42_mixed_uel.for'
     assert hashlib.sha256(path.read_bytes()).hexdigest().upper() == 'CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6'
+
+
+def test_reused_odb_hash_gate(tmp_path):
+    p = tmp_path / 'existing.odb'
+    p.write_bytes(b'opaque test artifact')
+    expected = hashlib.sha256(p.read_bytes()).hexdigest()
+    validate_reused_preanalysis(str(p), expected)
+    with pytest.raises(ValueError, match='mismatch'):
+        validate_reused_preanalysis(str(p), '0' * 64)
+    with pytest.raises(ValueError, match='existing exact path'):
+        validate_reused_preanalysis(str(p), None)
+    with pytest.raises(ValueError, match='existing exact path'):
+        validate_reused_preanalysis(str(tmp_path / 'absent.odb'), expected)
+
+
+def test_square_gauss_jacobians_and_angles():
+    m = element_metrics([(0, 0), (2, 0), (2, 2), (0, 2)])
+    assert m['area'] == pytest.approx(4)
+    assert m['min_jac'] == pytest.approx(1)
+    assert m['min_angle'] == pytest.approx(90)
+    assert m['quality'] == pytest.approx(1)
+
+
+def test_triangle_and_inverted_quad_detection():
+    tri = element_metrics([(0, 0), (1, 0), (0, 1)])
+    assert tri['area'] == pytest.approx(.5)
+    assert tri['min_jac'] == pytest.approx(1)
+    assert tri['min_angle'] == pytest.approx(45)
+    inverted = element_metrics([(0, 0), (0, 1), (1, 1), (1, 0)])
+    assert inverted['min_jac'] < 0 and inverted['area'] < 0

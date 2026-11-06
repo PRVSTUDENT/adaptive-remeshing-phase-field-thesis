@@ -1,0 +1,30 @@
+{
+    "schema":  1,
+    "task":  "F1641-METHOD-A-HOLE-INDICATOR-PILOT-QUALIFICATION",
+    "created_at":  "2026-11-06T20:13:47.0335426+00:00",
+    "status":  "GENERATED_EVALUATED_NOT_SCIENTIFICALLY_ACCEPTED",
+    "generator_parent_commit":  "c903d1c7",
+    "source_odb":  "/scratch9/pr21vyci/runs/mode1_hole_method_a_test/PK_HOLE_METHOD_A_PREANALYSIS.odb",
+    "source_odb_sha256":  "0A108C6A8404F1AF9D8F5DDC03223E9D8D051AB08587F841D9F5799970AE93B1",
+    "backend":  "Abaqus2023 native CAE adaptiveRemesh",
+    "sizing":  "UNIFORM_ERROR,1.0 percentage point,coarse0.02,min0.001,max0.02mm,refinementFactor10",
+    "new_mesh_candidates":  1,
+    "new_solver_runs":  0,
+    "new_pbs_submissions":  0,
+    "physical_elements":  130435,
+    "physical_nodes":  129657,
+    "layered_elements":  391305,
+    "remote_layered_input":  "/scratch9/pr21vyci/runs/mode1_hole_method_a_f1641/PK_HOLE_F1641_1PCT_PROD.inp",
+    "remote_layered_sha256":  "F29D0C49BC8751479521ABCAEED20D1FD03B1783EB9D3EA4EFBC3DE86D6BB2CE",
+    "local_frozen_uel_sha256":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "files":  {
+                  "scripts/remeshing/generate_plate_with_hole_method_a.py":  "A57A240749DDD76A020E93B6F96406D3875825816DD981F5F69ABAA3752A2E95",
+                  "scripts/remeshing/generate_f1641_native_candidate.sh":  "15382D2CF53003BC89255D99A45ACF907208E851ADBDDF6E0C77783EDCABB00E",
+                  "scripts/validation/validate_f1641_native_mesh.py":  "191458E35D72258343FD9A5474009579276C7D79929170E90EA92A2DDD407971",
+                  "tests/unit/test_f1641_indicator_recovery.py":  "09A581854BAA0BCA4B053C996BC3DF2B64FA40F57E5DFB7CE4B7C522D3A7A34F",
+                  "results/validation/f1641_native_mesh_metrics.json":  "F1268635577239EF63861376BBD4DDB51F30E56C996BBFB374D178F7E22D13A8",
+                  "results/validation/f1641_native_mesh_report.md":  "90F0A18C101F3FFD43936645441F1DAE5172EF816277F512B8BE9F697B315E37",
+                  "models/pandey_kumar_mode1/176_method_a_plate_with_hole/f1641_native_1pct/PK_HOLE_F1641_1PCT_PROD_PHYS.inp":  "22BF94EBF19AD007F1E8754D884048B95C272A1EAF0AA9D19C29BC4793DBDB5A"
+              },
+    "next_gate":  "Independent scientific review of local-resolution failure; no execution successor yet"
+}

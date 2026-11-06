@@ -465,8 +465,8 @@
                              "project_coordination/controller/F1639-codex-completion-receipt.json":  "F7F39FB2A88A1536FD0E3CBE1DA05818997428C925BC2BC7CD93F000A7D8973E",
                              "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_METHOD_A_PROD_PHYS.inp":  "8CEB44A628BE9F7D19B4797723813BF7FF674EDB8E4AA66420AEA6665F924EBD",
                              "models/pandey_kumar_mode1/176_method_a_plate_with_hole/f42_mixed_uel.for":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-                             "scripts/remeshing/generate_plate_with_hole_method_a.py":  "4F42AE26E0EA83A6071772451BFDAC1F8701C9AD5F6BD36AD90CDB5847501F34",
-                             ".agents/scripts/bridge_rules.txt":  "71EB1E93BBBA562508DCE48CC8EB8095494D99ACA6103CC5F2E33DF584398824"
+                             "scripts/remeshing/generate_plate_with_hole_method_a.py":  "A57A240749DDD76A020E93B6F96406D3875825816DD981F5F69ABAA3752A2E95",
+                             ".agents/scripts/bridge_rules.txt":  "BA1F79DE48F789F815D1AA5C75ABC4F2C498C2F640C007A6FDB3A08610FE47B2"
                          },
     "allowed_write_scope":  [
                                 "scripts/validation",
@@ -476,15 +476,25 @@
                                 "results/validation",
                                 "project_coordination"
                             ],
-    "candidate_job":  "UNSELECTED_PENDING_METHOD_A_REVIEW",
+    "candidate_job":  "PK_HOLE_F1641_1PCT",
     "candidate_resources":  {
-                                "cpus":  1,
-                                "memory_gb_max":  16,
-                                "walltime_max":  "08:00:00",
+                                "execution_scope":  "F1641 zero PBS/no solver",
+                                "future_cpu_qualification":  "Serial authoritative; SMP not automatically qualified",
+                                "future_walltime":  "Queue-aware exact execution scope required; 8h is legacy adapter constraint",
+                                "live_longq_max":  "168:00:00",
+                                "live_normal_imfdfkmq_max":  "336:00:00",
+                                "route":  "entry_imfdfkmq -\u003e normal_imfdfkmq or short_imfdfkmq; account group eligible",
                                 "automatic_retry":  false
                             },
     "initial_instruction":  "Reuse Package176 and authentic hole MISESERI preanalysis. Qualify one spatial indicator-driven mesh/pilot preserving geometry, frozen formulation and local FPZ resolution, without prescribed crack corridor. First establish existing indicator data and measured cost; use one correlated ChatGPT next-action handoff. Zero PBS or new Abaqus solves under this qualification task. Method C paused by explicit user directive; F1639 completed unchanged. Reviewed execution successor needed for any solver job.",
     "scientific_production_accepted":  false,
     "registration_authority":  "Explicit fresh user Method A Goal, 6 November 2026; supersedes Method C priority only; zero PBS qualification",
-    "scientific_parent_task":  "F1632-METHOD-A-HOLE-DEMONSTRATION-REUSE-AND-GENERATION"
+    "scientific_parent_task":  "F1632-METHOD-A-HOLE-DEMONSTRATION-REUSE-AND-GENERATION",
+    "candidate_revision":  {
+                               "parent_commit":  "c903d1c7",
+                               "user_directive":  "Direct user F1641 mesh-generation handoff; replaces invalid bridge response as instruction, not transport approval",
+                               "hypothesis":  "One native UNIFORM_ERROR 1.0 percent candidate vs existing 2.0 percent; same coarse mesh,min/max sizes,geometry and refinementFactor; test finer error target for local phase-field resolution",
+                               "backend":  "Abaqus2023 CAE adaptiveRemesh using hash-pinned existing ODB, zero solver submissions",
+                               "limits":  "F1641 zero PBS/no solver. Future queues/resources verified separately; legacy 8h adapter restriction is not universal PBS capacity."
+                           }
 }

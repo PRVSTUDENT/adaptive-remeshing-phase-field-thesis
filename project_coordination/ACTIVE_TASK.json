@@ -12,7 +12,7 @@
                          },
     "registration":  {
                          "definition":  "project_coordination/task_definitions/F1641-METHOD-A-HOLE-INDICATOR-PILOT-QUALIFICATION.json",
-                         "sha256":  "AB6EF562CBC168FE215F82CBD106F317CCFCE60538973325A1BB27F6376C43D7"
+                         "sha256":  "7393D0835A5AC4D2BEE182F751AF792C8BBB00E3AAC150C71ED979A0D31DDC83"
                      },
     "scientific_operation":  "",
     "scientific_operation_id":  "research_preparation",
@@ -471,5 +471,8 @@
 
                              },
     "created_at":  "2026-11-06T19:29:36.984660+00:00",
-    "paused_task":  "F1640-METHOD-C-CP02-C6-CONTROLLED-EXPERIMENT-QUALIFICATION"
+    "paused_task":  "F1640-METHOD-C-CP02-C6-CONTROLLED-EXPERIMENT-QUALIFICATION",
+    "last_step_status":  "CANDIDATE_GENERATED_EVALUATED_RESOLUTION_NOT_ACCEPTED",
+    "next_instruction_receipt":  "project_coordination/codex_loop/HND-CODEX-fd28bbfa72e44082a97d56d21d44e77f.json",
+    "next_bounded_operation":  "Offline local indicator-selected size-cap hypothesis; authenticated scientific review before any new candidate;zero solver/PBS"
 }
