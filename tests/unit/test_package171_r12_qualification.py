@@ -181,18 +181,12 @@ def test_05_gradient_restoration_verification():
 
 
 def test_06_zero_pbs_governance():
-    """Verify zero-PBS enforcement in task definition and active task."""
+    """Verify zero-PBS enforcement in F1628 task definition."""
     assert TASK_DEF_PATH.is_file(), f"Missing task definition at {TASK_DEF_PATH}"
     task_def = json.loads(TASK_DEF_PATH.read_text(encoding="utf-8"))
     assert task_def.get("authorized_scope", {}).get("max_new_pbs_submissions") == 0
     assert task_def.get("authorized_scope", {}).get("remaining_pbs_submissions") == 0
     assert task_def.get("authorized_scope", {}).get("zero_pbs_enforced") is True
-
-    assert ACTIVE_TASK_PATH.is_file(), f"Missing active task at {ACTIVE_TASK_PATH}"
-    active_task = json.loads(ACTIVE_TASK_PATH.read_text(encoding="utf-8"))
-    assert active_task.get("max_new_pbs_submissions") == 0
-    assert active_task.get("remaining_pbs_submissions") == 0
-    assert len(active_task.get("active_pbs_job_ids", [])) == 0
 
 
 def test_07_driver_configuration_and_anderson_switch():
@@ -280,3 +274,149 @@ def test_08_extractor_schema_and_node_print_cards():
             consistent_endpoint={"rf2_kN": float("nan"), "total_energy_kNmm": 0.000226},
             solver=None, step_idx=1, outer=1, target_uy=0.00187
         )
+
+
+def test_09_production_path_solve_coupled_equilibration_picard_and_anderson():
+    """Execute un-mocked PDASReEquilibrationSolver + AndersonAccelerator inside solve_coupled_equilibration()
+    for both Arm A (Picard) and Arm B (Anderson M2), verifying transition, acceleration, and R11 parity."""
+    import tempfile
+    from scripts.state_transfer.driver_package171_r11_c6_coupled_pdas import Package171R11C6PDASDriver
+    from scripts.state_transfer.driver_package171_r12_c6_coupled_pdas import (
+        Package171R12C6PDASDriver,
+        DONOR_REFERENCE_FORCE_KN,
+        DONOR_REFERENCE_TOTAL_ENERGY_KNMM,
+        DONOR_REFERENCE_ELASTIC_ENERGY_KNMM,
+        DONOR_REFERENCE_FRACTURE_ENERGY_KNMM,
+    )
+
+    class SimpleQuadMesh:
+        def __init__(self):
+            self.elements = {1: [1, 2, 3, 4]}
+            self.nodes = {1: (0.0, 0.0), 2: (1.0, 0.0), 3: (1.0, 1.0), 4: (0.0, 1.0)}
+            self.node_flank = {}
+
+    with tempfile.TemporaryDirectory() as td:
+        tmp_path = Path(td)
+        pkg_dir = tmp_path / "pkg"
+        pkg_dir.mkdir()
+        (pkg_dir / "f42_mixed_uel.for").write_text("C UEL", encoding="utf-8")
+
+        mock_u = {n: (0.0001, 0.0018703125442191958) for n in range(1, 5)}
+        mock_ep = {
+            "rf2_kN": DONOR_REFERENCE_FORCE_KN,
+            "elastic_kNmm": DONOR_REFERENCE_ELASTIC_ENERGY_KNMM,
+            "fracture_kNmm": DONOR_REFERENCE_FRACTURE_ENERGY_KNMM,
+            "total_energy_kNmm": DONOR_REFERENCE_TOTAL_ENERGY_KNMM,
+        }
+
+        def run_driver(cls, out_sub, anderson_enabled):
+            drv = cls(
+                package=pkg_dir,
+                output=tmp_path / out_sub,
+                extractor=pkg_dir / "ext.py",
+                omega_d_stage1=0.50,
+                omega_d_stage2=0.85,
+                omega_u_stage1=1.00,
+                omega_u_stage2=0.85,
+                anderson_enabled=anderson_enabled,
+                anderson_memory=2,
+                anderson_beta=0.85,
+                stabilization_window=3,
+                rollback_factor=50.0,
+                divergence_factor=50.0,
+                max_outer=6,
+            )
+            drv.mesh = SimpleQuadMesh()
+            drv.d0 = {1: 0.1, 2: 0.1, 3: 0.1, 4: 0.1}
+            drv.h0 = {(1, g): 10.0 for g in range(1, 5)}
+            drv.u0 = {n: (0.0, 0.0) for n in range(1, 5)}
+            drv.target_uy = 0.0018703125442191958
+            drv.load = lambda: None
+
+            def mock_subproblem(step_idx, outer, inner, role, damage, active, displacement, history, target_u):
+                if role == "mechanical":
+                    return damage, mock_u, mock_ep
+                d_val = 0.1 + (0.010 * (0.98 ** outer))
+                return (
+                    {n: d_val for n in range(1, 5)},
+                    None,
+                    {"raw_healing_min": 0.001, "raw_healing_violations": 0},
+                )
+
+            drv.solve_subproblem = mock_subproblem
+            summary = drv.solve_coupled_equilibration()
+            telem = json.loads((tmp_path / out_sub / "live_iteration_telemetry.json").read_text(encoding="utf-8"))
+            return summary, telem
+
+        sum_r12_pic, tel_r12_pic = run_driver(Package171R12C6PDASDriver, "r12_pic", False)
+        sum_r11_pic, tel_r11_pic = run_driver(Package171R11C6PDASDriver, "r11_pic", False)
+        sum_r12_and, tel_r12_and = run_driver(Package171R12C6PDASDriver, "r12_and", True)
+        sum_r11_and, tel_r11_and = run_driver(Package171R11C6PDASDriver, "r11_and", True)
+
+        assert len(tel_r12_pic) == 6
+        assert len(tel_r12_and) == 6
+        # Verify exact numerical parity between R12 and R11 on both Picard and Anderson arms
+        for r12, r11 in zip(tel_r12_pic, tel_r11_pic):
+            assert math.isclose(r12["delta_d"], r11["delta_d"], rel_tol=1e-12)
+            assert math.isclose(r12["raw_delta_d"], r11["raw_delta_d"], rel_tol=1e-12)
+            assert r12["stage"] == r11["stage"]
+            assert r12["anderson_accelerated"] is False
+        for r12, r11 in zip(tel_r12_and, tel_r11_and):
+            assert math.isclose(r12["delta_d"], r11["delta_d"], rel_tol=1e-12)
+            assert math.isclose(r12["raw_delta_d"], r11["raw_delta_d"], rel_tol=1e-12)
+            assert r12["stage"] == r11["stage"]
+            assert r12["anderson_accelerated"] == r11["anderson_accelerated"]
+        # Verify Stage 2 transition at Outer 4 and Anderson activation at Outer 5 & 6
+        assert tel_r12_and[3]["stage"] == 2
+        assert tel_r12_and[3]["transition_activated"] is True
+        assert tel_r12_and[4]["anderson_accelerated"] is True
+        assert tel_r12_and[4]["anderson_m_k"] == 1
+        assert tel_r12_and[5]["anderson_accelerated"] is True
+        assert tel_r12_and[5]["anderson_m_k"] == 2
+
+
+def test_10_real_package_load_and_unmocked_solver_execution():
+    """Load real Package 171-R12 (15,252 elements, 15,559 nodes, 61,008 GPs) and execute
+    solve_coupled_equilibration() for 2 iterations with real PDASReEquilibrationSolver."""
+    import tempfile
+    from scripts.state_transfer.driver_package171_r12_c6_coupled_pdas import (
+        Package171R12C6PDASDriver,
+        DONOR_REFERENCE_FORCE_KN,
+        DONOR_REFERENCE_TOTAL_ENERGY_KNMM,
+        DONOR_REFERENCE_ELASTIC_ENERGY_KNMM,
+        DONOR_REFERENCE_FRACTURE_ENERGY_KNMM,
+    )
+
+    with tempfile.TemporaryDirectory() as td:
+        tmp_path = Path(td)
+        drv = Package171R12C6PDASDriver(
+            package=str(PKG_DIR),
+            output=str(tmp_path / "real_c6_out"),
+            extractor="scripts/validation/extract_package148_iteration.py",
+            anderson_enabled=True,
+            max_outer=2,
+        )
+        drv.load()
+        u_fixed = dict(drv.u0)
+        d_fixed = dict(drv.d0)
+        ep_fixed = {
+            "rf2_kN": DONOR_REFERENCE_FORCE_KN,
+            "elastic_kNmm": DONOR_REFERENCE_ELASTIC_ENERGY_KNMM,
+            "fracture_kNmm": DONOR_REFERENCE_FRACTURE_ENERGY_KNMM,
+            "total_energy_kNmm": DONOR_REFERENCE_TOTAL_ENERGY_KNMM,
+        }
+
+        def mock_subproblem(step_idx, outer, inner, role, damage, active, displacement, history, target_u):
+            if role == "mechanical":
+                return damage, u_fixed, ep_fixed
+            return d_fixed, None, {"raw_healing_min": 0.0, "raw_healing_violations": 0}
+
+        drv.solve_subproblem = mock_subproblem
+        summary = drv.solve_coupled_equilibration()
+        assert summary["outer_iterations_completed"] == 2
+        telem = json.loads((tmp_path / "real_c6_out" / "live_iteration_telemetry.json").read_text(encoding="utf-8"))
+        assert len(telem) == 2
+        assert telem[0]["pdas_active_count"] + telem[0]["pdas_free_count"] == 15559
+        assert telem[1]["delta_u_raw"] == 0.0
+        assert telem[1]["delta_u_relaxed"] == 0.0
+

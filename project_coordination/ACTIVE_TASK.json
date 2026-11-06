@@ -1,25 +1,34 @@
 {
-    "task_id": "F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR",
+    "task_id": "F1630-METHOD-C-C6-R12-REPAIRED-DRIVER-PAIRED-EXECUTION",
     "agent": "gemini-antigravity",
-    "status": "ACTIVE",
-    "phase": "Method C Paired C6 R12 Controlled Overnight Production Execution (Picard Baseline vs Safeguarded Anderson M2). Authorized under HND-0dae3f598efb.",
-    "gate_status": "PAIRED_C6_R12_CONTROLLED_EXECUTION_AUTHORIZED__2_PBS_JOBS",
+    "status": "REGISTERED_PENDING_INDEPENDENT_EXECUTION_REVIEW",
+    "phase": "Method C Paired C6 R12 Repaired-Driver Controlled Production Execution (Picard Baseline vs Safeguarded Anderson M2). Registered under HND-9cef512db772 pending independent execution review.",
+    "gate_status": "ZERO_PBS_PUBLICATION_AND_RECONCILIATION__AWAITING_EXECUTION_APPROVAL",
     "predecessor_task": {
-        "task_id": "F1628-METHOD-C-ISOPARAMETRIC-C6-ADAPTIVE-REEQUILIBRATION",
+        "task_id": "F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR",
         "status": "COMPLETED",
-        "source_commit": "28b85cf08811d7398b671a41d996253457a3e5c9",
-        "checkpoint_sha256": "177D6CB5F26091D39578BBD57F17EFD58A2477ED70F9552B58711FB5601936B9"
+        "scientific_acceptance": "EVALUATED_DRIVER_API_REGRESSION_REPAIRED",
+        "source_commit": "c6d0045d02d9944dd0af16bb71d96035df7cf324",
+        "evaluation_summary": "results/validation/f1629_paired_execution_summary.json",
+        "evaluation_summary_sha256": "6AF7630BC86895AAAC25365DC8C5B378887E07B41E7CD873AE587639FDE23E83",
+        "daily_error_register": "project_coordination/DAILY_ERROR_REGISTER_2026-11-06.json",
+        "daily_error_register_sha256": "E580C380BEFE36FB5BF64ABD358F1BBF68FEBBA6522390C0067AEB5645FB7CBA",
+        "consumed_pbs_job_ids": [
+            "1420391.mmaster02",
+            "1420392.mmaster02"
+        ]
     },
     "registration": {
-        "sha256": "BB0198BD8227F0C00201D20000291C38C40334A5615921BE3A2340B847368263",
+        "sha256": "195DF3FB2ED5B5E7BC80447C352820C47C209DAA349BC40E77108F693450924E",
         "schema": 1,
-        "definition": "project_coordination/task_definitions/F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR.json",
+        "definition": "project_coordination/task_definitions/F1630-METHOD-C-C6-R12-REPAIRED-DRIVER-PAIRED-EXECUTION.json",
         "registered_by": "gemini-antigravity",
-        "registered_at": "2026-11-05T20:15:00+01:00"
+        "registered_at": "2026-11-06T07:12:00+01:00",
+        "handoff_correlation_id": "HND-9cef512db772"
     },
     "scientific_checkpoint_required": true,
-    "scientific_operation": "execute_paired_c6_r12_controlled_overnight_equilibration",
-    "scientific_operation_id": "paired_c6_r12_controlled_overnight_equilibration",
+    "scientific_operation": "execute_repaired_paired_c6_r12_controlled_equilibration",
+    "scientific_operation_id": "repaired_paired_c6_r12_controlled_equilibration",
     "completed_operations": [
         "mapped_frozen_history_lower_bound_kkt_probe",
         "mapped_mechanical_history_call_order_probe",
@@ -56,9 +65,13 @@
         "correct_same_mesh_checkpoint03_provenance_and_datacheck",
         "execute_same_mesh_controls_and_diagnose_extraction_defect",
         "evaluate_paired_same_mesh_repaired_controls",
-        "qualify_isoparametric_c6_adaptive_reequilibration"
+        "qualify_isoparametric_c6_adaptive_reequilibration",
+        "evaluate_f1629_paired_execution_and_repair_r12_driver",
+        "publish_f1629_closeout_and_register_f1630_pending_review"
     ],
     "completed_pbs_job_ids": [
+        "1420392.mmaster02",
+        "1420391.mmaster02",
         "1420352.mmaster02",
         "1420353.mmaster02",
         "1420345.mmaster02",
@@ -276,12 +289,9 @@
         "1419370.mmaster02",
         "1419375.mmaster02"
     ],
-    "active_pbs_job_ids": [
-        "1420391.mmaster02",
-        "1420392.mmaster02"
-    ],
+    "active_pbs_job_ids": [],
     "dependent_pbs_job_ids": [],
-    "pbs_status_note": "Paired overnight jobs 1420391.mmaster02 (Arm A, Picard Baseline) and 1420392.mmaster02 (Arm B, Anderson M2) submitted to normal_imfdfkmq and queued for execution.",
+    "pbs_status_note": "F1629 reconciled as COMPLETED (Jobs 1420391.mmaster02 and 1420392.mmaster02 removed from active accounting, original PBS IDs and consumed reservations preserved). Repaired R12 driver (17C064184A569019E7A2BC72B7880C7F3404B0A9E92C37B2D04F4BE3BAAC7166) verified by 44/44 unit/qualification tests and staged to cluster scratch. F1630 registered pending independent execution review; zero active PBS jobs.",
     "referenced_pbs_job_ids": [
         "1420392.mmaster02",
         "1420391.mmaster02",
@@ -302,20 +312,20 @@
         "1419485.mmaster02"
     ],
     "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-    "repaired_driver_sha256": "BFB007ED4D91F9C5E01D826DEB3DE1E3F000EC51748AA9A8FC5097EEF534F65B",
+    "repaired_driver_sha256": "17C064184A569019E7A2BC72B7880C7F3404B0A9E92C37B2D04F4BE3BAAC7166",
     "max_new_pbs_submissions": 2,
     "remaining_pbs_submissions": 0,
     "lifecycle": {
-        "scientific_execution_started": true,
+        "scientific_execution_started": false,
         "predecessor_replay_allowed": false,
-        "state": "ACTIVE"
+        "state": "REGISTERED_PENDING_INDEPENDENT_EXECUTION_REVIEW"
     },
     "preserved_predecessor": {
-        "task_id": "F1625-METHOD-C-SAME-MESH-ABAQUS-CONTROL-EXECUTION",
+        "task_id": "F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR",
         "status": "COMPLETED",
-        "scientific_acceptance": "EVALUATED_DRIVER_EXTRACTION_SCHEMA_MISMATCH",
-        "artifact": "results/validation/f1625_same_mesh_control_evaluation_summary.json",
-        "sha256": "4CC996B7C00890150FBD7223E357232C75B97D0119EC0D140B11B909F831C902"
+        "scientific_acceptance": "EVALUATED_DRIVER_API_REGRESSION_REPAIRED",
+        "artifact": "results/validation/f1629_paired_execution_summary.json",
+        "sha256": "6AF7630BC86895AAAC25365DC8C5B378887E07B41E7CD873AE587639FDE23E83"
     },
     "controller_maintenance": {
         "status": "RECONCILED_SUPERVISED_SELF_HEALING_DEPLOYED",
@@ -326,8 +336,8 @@
         "supervised_resumption_scope": "CONTROLLED_LIVE_VERIFICATION_ONLY",
         "reconciled_at": "2026-11-04T15:46:00+01:00"
     },
-    "scientific_acceptance": "CONDITIONALLY_AUTHORIZED_TWO_ONCE_ONLY_PBS_SUBMISSIONS",
-    "last_step_status": "F1629_PAIRED_OVERNIGHT_JOBS_SUBMITTED",
-    "last_updated": "2026-11-05T20:42:00+01:00",
-    "next_safe_action": "Monitor paired overnight jobs 1420391.mmaster02 and 1420392.mmaster02 using monitor_paired_f1629_execution.py and retrieve comparative convergence telemetry upon completion."
+    "scientific_acceptance": "PENDING_INDEPENDENT_EXECUTION_REVIEW",
+    "last_step_status": "F1630_REGISTERED_PUBLISHED_AWAITING_EXECUTION_APPROVAL",
+    "last_updated": "2026-11-06T07:13:00+01:00",
+    "next_safe_action": "Dispatch execution-readiness handoff via Invoke-ChatGPTBridge.ps1 with pushed GitHub commit SHA, verified source hashes (17C06418...), 44/44 test receipt, controller state, daily error register (FIXED_UNVERIFIED), and live cluster capacity."
 }

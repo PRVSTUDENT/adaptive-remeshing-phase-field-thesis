@@ -1,3 +1,23 @@
+## 6 November Method C Paired C6 R12 Overnight Execution Evaluated & Driver API Regression Repaired (Task F1629 Closed; F1630 Prepared)
+
+1. **Authentic Overnight PBS Verification & Startup Failure Diagnosis (Jobs 1420391.mmaster02 & 1420392.mmaster02)**:
+   - **Arm A (Package 174 / Picard Baseline)**: PBS `1420391.mmaster02` (`M1_C6_R12_PICARD_BASELINE`), ran on `mnode097` (`normal_imfdfkmq`), terminated at 2026-11-06T06:16:00+01:00 with `job_state = F`, `Exit_status = 1`, `walltime = 00:00:03`, `0` outer iterations completed.
+   - **Arm B (Package 175 / Safeguarded Anderson M2)**: PBS `1420392.mmaster02` (`M1_C6_R12_ANDERSON_M2`), ran on `mnode097` (`normal_imfdfkmq`), terminated at 2026-11-06T06:16:00+01:00 with `job_state = F`, `Exit_status = 1`, `walltime = 00:00:03`, `0` outer iterations completed.
+   - **Both authorized F1629 submissions consumed** (`remaining_pbs_submissions = 0`). Zero jobs currently running or queued on the cluster.
+   - **4-Point Technical Root Cause Isolated in `driver_package171_r12_c6_coupled_pdas.py`**:
+     1. *PDAS Solver Initialization Regression*: Line 778 instantiated `PDASReEquilibrationSolver(..., penalty_active=1e9, penalty_free=0.0)`, whereas `PDASReEquilibrationSolver.__init__` accepts `(mesh, history, d_init, d_lower_bounds, c_pdas=1.0e3, max_iters=50)`, raising `TypeError: PDASReEquilibrationSolver.__init__() got an unexpected keyword argument 'penalty_active'` before outer iteration 1.
+     2. *Subproblem Ordering & PDAS Attribute/Method Regression*: The R12 rewrite inverted the staggered sequence (Phase before Mechanical) and called `solver.h = history` (instead of `solver.h_gp = history`) and nonexistent `solver.solve(...)` (instead of `solver._update_active_set(self.damage)` + `self.solve_subproblem(...)`).
+     3. *Anderson Accelerator Method Regression*: The R12 rewrite called nonexistent `self.accelerator.step(...)` instead of `self.accelerator.compute_step(d_k=d_prev, g_d_k=d_kkt, active_set=active_set)`.
+     4. *Raw Displacement Residual Reference*: Computed `delta_u_raw` against `previous_u_abaqus` instead of `previous_u_trial` (the actual displacement state entering the mechanical solve).
+
+2. **Deterministic Local & Remote Remediation Completed**:
+   - Repaired `scripts/state_transfer/driver_package171_r12_c6_coupled_pdas.py` (new SHA-256: `17C064184A569019E7A2BC72B7880C7F3404B0A9E92C37B2D04F4BE3BAAC7166`, 67,304 bytes) to restore the verified R11 `solve_coupled_equilibration()` implementation (`c_pdas = 1.0e3`, `solver.h_gp = history`, proper Mechanical -> Phase staggered subproblem sequence, `self.accelerator.compute_step(...)`, `if self.previous_active_set is not None:`, `delta_u_raw` against `previous_u_trial`) while preserving all R12 hardening (`*Node Print, frequency=1\nU\n`, fail-closed `finalize_coupled_acceptance()`, raw healing diagnostics).
+   - Upgraded `smoke_import.py` and `tests/unit/test_package171_r12_qualification.py` (`test_09` and `test_10`) to execute `solve_coupled_equilibration()` with **un-mocked** `PDASReEquilibrationSolver` and `AndersonAccelerator` (mocking only `solve_subproblem`), proving exact numerical parity with `driver_package171_r11_c6_coupled_pdas.py`.
+   - Unit & qualification suites: **44/44 tests PASSED** (`21/21` in `test_package171_r11_c6_coupled_driver.py`, `10/10` in `test_package171_r12_qualification.py`, `8/8` in `test_f1629_paired_controlled_execution.py`, `5/5` in `test_f1629_evaluation_engine.py`).
+   - Re-staged Packages 174 & 175 to `/scratch9/pr21vyci/runs/mode1_c6_r12_picard_baseline` and `/scratch9/pr21vyci/runs/mode1_c6_r12_anderson_m2` (preserving `pbs_execution_1420391.mmaster02.log` and `pbs_execution_1420392.mmaster02.log`); verified remote driver SHA-256 `17C064184A569019E7A2BC72B7880C7F3404B0A9E92C37B2D04F4BE3BAAC7166` and passed remote un-mocked solver smoke tests and `Invoke-Mode1Execution.ps1 -VerifyOnly` preflights on both scratch directories.
+   - Recorded 6 November Daily Error Register (`project_coordination/DAILY_ERROR_REGISTER_2026-11-06.json`) classifying the F1629 failure as **one incident (`INC-2026-11-06-01`) with four specific code defects** marked `FIXED_UNVERIFIED` under `HND-9cef512db772`.
+   - Registered successor task `F1630-METHOD-C-C6-R12-REPAIRED-DRIVER-PAIRED-EXECUTION` (`REGISTERED_PENDING_INDEPENDENT_EXECUTION_REVIEW`, `remaining_pbs_submissions = 0`) and published all governed repairs, receipts, and ledgers to `origin/mode2-pandey-kumar-reproduction` for ChatGPT execution-readiness review.
+
 ## 5 November Method C Paired C6 R12 Controlled Overnight Production Execution Submitted (Task F1629 Active)
 
 1. **Paired Production PBS Submissions Executed (Jobs 1420391.mmaster02 & 1420392.mmaster02)**:

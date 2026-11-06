@@ -1,0 +1,135 @@
+{
+    "task_id": "F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR",
+    "timestamp": "2026-11-06T06:20:00+01:00",
+    "arm_a_picard": {
+        "name": "Arm A (Picard Baseline)",
+        "package": "174_c6_r12_picard_baseline",
+        "pbs_job_id": "1420391.mmaster02",
+        "job_state": "F",
+        "exit_status": 1,
+        "walltime": "00:00:03",
+        "exec_host": "mnode098/0",
+        "iterations_completed": 0,
+        "status": "FAILED_AT_STARTUP_EXIT_1",
+        "exception": "TypeError: __init__() got an unexpected keyword argument 'penalty_active'",
+        "initial_active_set": 0,
+        "final_active_set": 0,
+        "active_set_reduction_pct": 0.0,
+        "stage2_iterations": 0,
+        "rollback_events": 0,
+        "anderson_steps_applied": 0,
+        "anderson_fallbacks": 0,
+        "final_delta_d": null,
+        "final_delta_u_mm": null,
+        "final_delta_h_mpa": null,
+        "avg_rho_d_tail": null,
+        "avg_rho_u_tail": null,
+        "avg_rho_h_tail": null,
+        "reaction_force_kN": null,
+        "total_energy_kNmm": null,
+        "reaction_force_drift": null,
+        "total_energy_drift": null,
+        "damage_healing_violations": null,
+        "gates": {
+            "delta_d_pass": false,
+            "delta_u_pass": false,
+            "delta_h_pass": false,
+            "coupled_convergence_pass": false,
+            "reaction_force_continuity_pass": false,
+            "total_energy_continuity_pass": false,
+            "damage_healing_pass": false,
+            "overall_physical_acceptance_pass": false
+        }
+    },
+    "arm_b_anderson": {
+        "name": "Arm B (Anderson M2)",
+        "package": "175_c6_r12_anderson_m2",
+        "pbs_job_id": "1420392.mmaster02",
+        "job_state": "F",
+        "exit_status": 1,
+        "walltime": "00:00:03",
+        "exec_host": "mnode098/1",
+        "iterations_completed": 0,
+        "status": "FAILED_AT_STARTUP_EXIT_1",
+        "exception": "TypeError: __init__() got an unexpected keyword argument 'penalty_active'",
+        "initial_active_set": 0,
+        "final_active_set": 0,
+        "active_set_reduction_pct": 0.0,
+        "stage2_iterations": 0,
+        "rollback_events": 0,
+        "anderson_steps_applied": 0,
+        "anderson_fallbacks": 0,
+        "final_delta_d": null,
+        "final_delta_u_mm": null,
+        "final_delta_h_mpa": null,
+        "avg_rho_d_tail": null,
+        "avg_rho_u_tail": null,
+        "avg_rho_h_tail": null,
+        "reaction_force_kN": null,
+        "total_energy_kNmm": null,
+        "reaction_force_drift": null,
+        "total_energy_drift": null,
+        "damage_healing_violations": null,
+        "gates": {
+            "delta_d_pass": false,
+            "delta_u_pass": false,
+            "delta_h_pass": false,
+            "coupled_convergence_pass": false,
+            "reaction_force_continuity_pass": false,
+            "total_energy_continuity_pass": false,
+            "damage_healing_pass": false,
+            "overall_physical_acceptance_pass": false
+        }
+    },
+    "comparison": {
+        "comparison_valid": false,
+        "reason": "Both arms terminated at startup (Exit_status = 1, 0 outer iterations) due to PDASReEquilibrationSolver API mismatch in driver_package171_r12_c6_coupled_pdas.py",
+        "anderson_over_picard_ratio_delta_d": null,
+        "anderson_over_picard_ratio_delta_u": null,
+        "anderson_over_picard_ratio_delta_h": null,
+        "iterations_arm_a_picard": 0,
+        "iterations_arm_b_anderson": 0,
+        "anderson_active_reduction_gain_pct": 0.0,
+        "both_arms_coupled_converged": false,
+        "arm_b_accelerated_convergence": false
+    },
+    "root_cause_diagnosis": {
+        "defect_count": 4,
+        "file": "scripts/state_transfer/driver_package171_r12_c6_coupled_pdas.py",
+        "defects": [
+            "Line 778: PDASReEquilibrationSolver called with unexpected keyword arguments penalty_active=1e9, penalty_free=0.0.",
+            "Lines 476 & 815-821: Assigned solver.h instead of solver.h_gp and invoked nonexistent solver.solve() with inverted subproblem loop order.",
+            "Line 886: Invoked nonexistent self.accelerator.step() instead of self.accelerator.compute_step() and omitted active-set symmetric difference gate.",
+            "Line 934: Computed delta_u_raw against previous_u_abaqus instead of previous_u_trial."
+        ]
+    },
+    "daily_error_register": {
+        "date": "2026-11-06",
+        "handoff_correlation_id": "HND-9cef512db772",
+        "total_incidents": 1,
+        "incident_id": "INC-2026-11-06-01",
+        "incident_status": "FIXED_UNVERIFIED",
+        "code_defects": [
+            {
+                "defect_id": "DEF-2026-11-06-01A",
+                "summary": "Incorrect PDAS constructor keywords",
+                "status": "FIXED_UNVERIFIED"
+            },
+            {
+                "defect_id": "DEF-2026-11-06-01B",
+                "summary": "Incorrect staggered solver ordering and method/attribute calls",
+                "status": "FIXED_UNVERIFIED"
+            },
+            {
+                "defect_id": "DEF-2026-11-06-01C",
+                "summary": "Incorrect Anderson accelerator method",
+                "status": "FIXED_UNVERIFIED"
+            },
+            {
+                "defect_id": "DEF-2026-11-06-01D",
+                "summary": "Incorrect raw displacement residual reference",
+                "status": "FIXED_UNVERIFIED"
+            }
+        ]
+    }
+}

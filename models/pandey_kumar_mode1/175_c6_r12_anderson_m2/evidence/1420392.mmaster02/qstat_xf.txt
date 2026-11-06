@@ -1,0 +1,63 @@
+﻿Job Id: 1420392.mmaster02
+    Job_Name = M1_C6_R12_ANDERSON_M2
+    Job_Owner = pr21vyci@mlogin01.cluster
+    resources_used.cpupercent = 29
+    resources_used.cput = 00:00:01
+    resources_used.mem = 61264kb
+    resources_used.ncpus = 1
+    resources_used.vmem = 158864kb
+    resources_used.walltime = 00:00:03
+    job_state = F
+    queue = normal_imfdfkmq
+    server = mmaster02
+    Checkpoint = u
+    ctime = Thu Nov  5 20:41:19 2026
+    Error_Path = mlogin01.cluster:/home/pr21vyci/M1_C6_R12_ANDERSON_M2.e1420392
+	
+    exec_host = mnode098/1
+    exec_vnode = (mnode098[0]:ncpus=1:mem=16777216kb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = abe
+    Mail_Users = pr21vyci@mailserver.tu-freiberg.de
+    mtime = Thu Nov  5 21:52:09 2026
+    Output_Path = mlogin01.cluster:/scratch9/pr21vyci/runs/mode1_c6_r12_anderso
+	n_m2/pbs_execution.log
+    Priority = 0
+    qtime = Thu Nov  5 20:41:19 2026
+    Rerunable = False
+    Resource_List.mem = 16gb
+    Resource_List.ncpus = 1
+    Resource_List.nodect = 1
+    Resource_List.place = free
+    Resource_List.select = 1:ncpus=1:mem=16gb
+    Resource_List.walltime = 08:00:00
+    stime = Thu Nov  5 21:52:04 2026
+    obittime = Thu Nov  5 21:52:09 2026
+    session_id = 2711619
+    sandbox = PRIVATE
+    jobdir = /home/pr21vyci/pbs.1420392.mmaster02.x8z
+    substate = 93
+    Variable_List = PBS_O_HOME=/home/pr21vyci,PBS_O_LOGNAME=pr21vyci,
+	PBS_O_PATH=/home/pr21vyci/bin:/home/pr21vyci/texlive/2026/bin/x86_64-l
+	inux:/home/pr21vyci/.local/bin:/home/pr21vyci/bin:/usr/local/bin:/usr/b
+	in:/usr/local/sbin:/usr/sbin:/opt/pbs/bin,PBS_O_SHELL=/bin/bash,
+	PBS_O_INTERACTIVE_AUTH_METHOD=resvport,PBS_O_HOST=mlogin01.cluster,
+	PBS_O_WORKDIR=/home/pr21vyci,PBS_O_SYSTEM=Linux,
+	PBS_O_QUEUE=entry_imfdfkmq
+    comment = Job run at Thu Nov 05 at 21:52 on (mnode098[0]:ncpus=1:mem=167772
+	16kb) and failed
+    etime = Thu Nov  5 20:41:19 2026
+    run_count = 1
+    eligible_time = 01:10:47
+    Stageout_status = 1
+    Exit_status = 1
+    Submit_arguments = -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c6_r12_a
+	nderson_m2/submit_M1_C6_R12_ANDERSON_M2.pbs
+    estimated.exec_vnode = (mnode101[0]:ncpus=1:mem=16777216kb)
+    estimated.start_time = Fri Nov  6 18:41:19 2026
+    history_timestamp = 1793911929
+    project = _pbs_project_default
+    Submit_Host = mlogin01.cluster
+

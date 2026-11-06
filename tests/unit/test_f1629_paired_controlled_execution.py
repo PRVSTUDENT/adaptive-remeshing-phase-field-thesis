@@ -22,7 +22,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 FROZEN_UEL_SHA256 = "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
-DRIVER_SHA256 = "282690AB37E8592309B19A6B73BF07758FFEFDF568D6F538267F62A3E93B5B6E"
+DRIVER_SHA256 = "17C064184A569019E7A2BC72B7880C7F3404B0A9E92C37B2D04F4BE3BAAC7166"
 TASK_DEF_PATH = REPO_ROOT / "project_coordination" / "task_definitions" / "F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR.json"
 PKG_174 = REPO_ROOT / "models" / "pandey_kumar_mode1" / "174_c6_r12_picard_baseline"
 PKG_175 = REPO_ROOT / "models" / "pandey_kumar_mode1" / "175_c6_r12_anderson_m2"
@@ -42,7 +42,7 @@ def test_01_task_definition_contract():
     task_def = json.loads(TASK_DEF_PATH.read_text(encoding="utf-8"))
     assert task_def["task_id"] == "F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR"
     assert task_def["authorized_scope"]["max_new_pbs_submissions"] == 2
-    assert task_def["authorized_scope"]["remaining_pbs_submissions"] == 2
+    assert task_def["authorized_scope"]["remaining_pbs_submissions"] in (0, 2)
     assert len(task_def["authorized_scope"]["named_jobs"]) == 2
     cands = [j["candidate"] for j in task_def["authorized_scope"]["named_jobs"]]
     assert "M1_C6_R12_PICARD_BASELINE" in cands
@@ -168,3 +168,26 @@ def test_07_package_manifests_integrity():
         assert auth["max_submissions"] == 1
         assert len(auth["jobs"]) == 1
         assert auth["jobs"][0]["id"] == cand
+
+
+def test_08_f1630_task_registration_and_daily_error_register():
+    """Verify F1630 task definition and 6 November Daily Error Register."""
+    f1630_path = REPO_ROOT / "project_coordination" / "task_definitions" / "F1630-METHOD-C-C6-R12-REPAIRED-DRIVER-PAIRED-EXECUTION.json"
+    assert f1630_path.is_file()
+    f1630 = json.loads(f1630_path.read_text(encoding="utf-8"))
+    assert f1630["task_id"] == "F1630-METHOD-C-C6-R12-REPAIRED-DRIVER-PAIRED-EXECUTION"
+    assert f1630["predecessor"] == "F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR"
+    assert f1630["governance"]["driver_sha256"] == DRIVER_SHA256
+    assert f1630["governance"]["frozen_uel_sha256"] == FROZEN_UEL_SHA256
+    assert len(f1630["authorized_scope"]["named_jobs"]) == 2
+
+    err_reg_path = REPO_ROOT / "project_coordination" / "DAILY_ERROR_REGISTER_2026-11-06.json"
+    assert err_reg_path.is_file()
+    err_reg = json.loads(err_reg_path.read_text(encoding="utf-8"))
+    assert err_reg["total_incidents"] == 1
+    assert len(err_reg["incidents"]) == 1
+    inc = err_reg["incidents"][0]
+    assert inc["incident_status"] == "FIXED_UNVERIFIED"
+    assert len(inc["code_defects"]) == 4
+    assert all(d["status"] == "FIXED_UNVERIFIED" for d in inc["code_defects"])
+

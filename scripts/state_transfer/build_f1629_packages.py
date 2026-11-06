@@ -208,7 +208,8 @@ exit ${EXIT_CODE}
         manifest = {
             "package_name": pkg.name,
             "candidate": candidate_name,
-            "task_id": "F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR",
+            "task_id": "F1630-METHOD-C-C6-R12-REPAIRED-DRIVER-PAIRED-EXECUTION",
+            "predecessor_task_id": "F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR",
             "files_count": len(files_dict),
             "files": files_dict
         }
@@ -242,7 +243,7 @@ exit ${EXIT_CODE}
         "runtime_root": "/scratch9/pr21vyci/runs/mode1_c6_r12_picard_baseline/runtime",
         "runtime_source_hashes": runtime_source_hashes,
         "files": files_174_lower,
-        "scientific_predecessor_review": "Independent supervisor review ACCEPT decision under correlation HND-0dae3f598efb closing F1628 and activating F1629",
+        "scientific_predecessor_review": "Independent supervisor review decision under correlation HND-9cef512db772 accepting F1629 technical failure classification and registering F1630 pending independent execution review",
         "jobs": [
             {
                 "id": "M1_C6_R12_PICARD_BASELINE",
@@ -287,7 +288,7 @@ exit ${EXIT_CODE}
         "runtime_root": "/scratch9/pr21vyci/runs/mode1_c6_r12_anderson_m2/runtime",
         "runtime_source_hashes": runtime_source_hashes,
         "files": files_175_lower,
-        "scientific_predecessor_review": "Independent supervisor review ACCEPT decision under correlation HND-0dae3f598efb closing F1628 and activating F1629",
+        "scientific_predecessor_review": "Independent supervisor review decision under correlation HND-9cef512db772 accepting F1629 technical failure classification and registering F1630 pending independent execution review",
         "jobs": [
             {
                 "id": "M1_C6_R12_ANDERSON_M2",

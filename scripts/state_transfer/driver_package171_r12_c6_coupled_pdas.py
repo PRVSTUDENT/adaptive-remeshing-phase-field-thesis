@@ -420,6 +420,9 @@ class Package171R12C6PDASDriver(object):
         except Exception as e:
             raise ValueError(f"finalize_coupled_acceptance: invalid reaction force value '{raw_rf}': {e}")
 
+        if raw_energy is None and raw_elastic is not None and raw_fracture is not None:
+            raw_energy = float(raw_elastic) + float(raw_fracture)
+
         if raw_energy is None:
             raise KeyError(
                 f"finalize_coupled_acceptance: missing total energy in consistent_endpoint; "
@@ -434,6 +437,8 @@ class Package171R12C6PDASDriver(object):
 
         e_el = float(raw_elastic) if (raw_elastic is not None and math.isfinite(float(raw_elastic))) else 0.0
         e_frac = float(raw_fracture) if (raw_fracture is not None and math.isfinite(float(raw_fracture))) else 0.0
+        if raw_elastic is not None and raw_fracture is not None and "total_energy_kNmm" not in consistent_endpoint and "total_energy_knmm" not in consistent_endpoint:
+            e_tot = e_el + e_frac
 
         force_discrepancy = abs(rf2 - DONOR_REFERENCE_FORCE_KN) / DONOR_REFERENCE_FORCE_KN
         energy_discrepancy = abs(e_tot - DONOR_REFERENCE_TOTAL_ENERGY_KNMM) / DONOR_REFERENCE_TOTAL_ENERGY_KNMM
@@ -473,6 +478,7 @@ class Package171R12C6PDASDriver(object):
 
         # 4. Final KKT stationarity audit on relaxed damage field
         if solver is not None:
+            solver.h_gp = history_final
             solver.h = history_final
             kkt_final = solver.kkt(damage_relaxed, tau_active=1e-6, tau_free=1e-6)
             kkt_final_pass = (
@@ -557,6 +563,7 @@ class Package171R12C6PDASDriver(object):
             "kkt_complementarity": kkt_final["complementarity"],
             "last_delta_d": delta_d,
             "last_raw_delta_d": raw_delta_d,
+            "raw_delta_d_inf": raw_delta_d,
             "last_delta_u_relaxed": delta_u_relaxed,
             "last_delta_u_raw": delta_u_raw,
             "last_delta_h": delta_h,
@@ -575,7 +582,7 @@ class Package171R12C6PDASDriver(object):
             "anderson_accelerations_count": self.accelerator.accelerations_applied,
             "anderson_fallbacks_count": self.accelerator.fallbacks_triggered,
             "anderson_resets_count": self.accelerator.resets_triggered,
-            "physical_acceptance": physical_pass
+            "physical_acceptance": "PASS" if physical_pass else "FAIL"
         }
 
         summary_path = self.output / "re_equilibration_summary.json"
@@ -773,175 +780,262 @@ class Package171R12C6PDASDriver(object):
         self.deadline = time.monotonic() + self.timeout
         self.load()
 
-        step_idx = 1
-        target_uy = self.target_uy
-        solver = PDASReEquilibrationSolver(
-            self.mesh, self.d0, self.h0,
-            gc=GC_DEFAULT, l0=L0_DEFAULT,
-            penalty_active=1e9, penalty_free=0.0
-        )
-
+        damage = dict(self.d0)
         u_trial = dict(self.u0)
         u_abaqus = dict(self.u0)
-        damage = dict(self.d0)
-        step_converged = False
-        step_records = []
+        history = dict(self.h0)
+        self.previous_u_trial = getattr(self, "previous_u_trial", None)
+        self.previous_u_abaqus = getattr(self, "previous_u_abaqus", None)
+        self.previous_h_trial = getattr(self, "previous_h_trial", None)
+        self.previous_delta_d = getattr(self, "previous_delta_d", None)
+        self.previous_raw_delta_d = getattr(self, "previous_raw_delta_d", None)
+        self.previous_active_set = getattr(self, "previous_active_set", None)
 
-        previous_u_trial = None
-        previous_u_abaqus = None
-        previous_h_trial = None
+        solver = getattr(self, "solver", None) or PDASReEquilibrationSolver(self.mesh, self.d0, self.h0)
+        self.solver = solver
+        zero_baseline = {(e, g): 0.0 for e in self.mesh.elements for g in range(1, 5)}
 
+        step_idx = 1
+        target_uy = self.target_uy
+        acc_str = f"ENABLED (m={self.anderson_memory}, beta={self.anderson_beta:.2f})" if self.anderson_enabled else "DISABLED (Pure Damped Picard Baseline)"
         print(f"\n=======================================================")
         print(f"Starting Package 171-R12 C6 Coupled PDAS Re-Equilibration")
         print(f"Transfer Operator: Isoparametric Bilinear Gauss-Point Transfer")
-        print(f"Anderson Acceleration: {'ENABLED' if self.anderson_enabled else 'DISABLED (Pure Damped Picard Baseline)'}")
+        print(f"Anderson Acceleration: {acc_str}")
         print(f"Max Outer Iterations: {self.max_outer}")
+        print(f"Held boundary displacement target_uy = {target_uy:.12f} mm")
+        print(f"Two-stage continuation: Stage 1 (omega_d={self.omega_d_stage1:.2f}, omega_u={self.omega_u_stage1:.2f}) -> Stage 2 (omega_d={self.omega_d_stage2:.2f}, omega_u={self.omega_u_stage2:.2f})")
+        print(f"Compound switching gate: |A_k|<={self.max_active_cardinality}, |Delta A|<={self.max_symmetric_diff}, added<={self.max_added_nodes} for {self.stabilization_window} iters")
         print(f"=======================================================\n")
 
+        step_converged = False
+        step_records = []
+        delta_d = float("inf")
+        raw_delta_d = float("inf")
+        delta_u_relaxed = None
+        delta_u_raw = None
+        delta_h = None
+        pdas_active = set(damage)
+        pdas_free = set()
+        delta_active_sym = None
+        added_nodes = set()
+        kkt_post = {"passed": False, "free_error": float("inf"), "dual_error": float("inf"), "complementarity": float("inf")}
+
         for outer in range(1, self.max_outer + 1):
-            if time.monotonic() >= self.deadline:
-                print(f"WARNING: Outer iteration {outer} reached deadline {self.timeout}s.")
-                break
+            # 1. Mechanical subproblem solve via Abaqus with current damage
+            _, u_abaqus, mech_endpoint = self.solve_subproblem(
+                step_idx, outer, 0, "mechanical", damage, set(damage),
+                None, self.h0, target_uy
+            )
 
-            # 1. Evaluate driving history field from previous displacement
-            zero_baseline = {(e, g): 0.0 for e in self.mesh.elements for g in range(1, 5)}
-            psi = driving_history(self.mesh, u_trial, zero_baseline)
-            history = {k: max(self.h0[k], psi[k]) for k in self.h0}
+            # 2. Stage-dependent isolated mechanical displacement under-relaxation:
+            # Stage 1: omega_u = 1.00
+            # Stage 2: omega_u = 0.85
+            applied_omega_u = self.omega_u_stage2 if self.stage == 2 else self.omega_u_stage1
+            if self.previous_u_trial is None or applied_omega_u >= 1.0 - 1e-12:
+                u_trial = dict(u_abaqus)
+            else:
+                u_trial = {
+                    n: (
+                        (1.0 - applied_omega_u) * self.previous_u_trial[n][0] + applied_omega_u * u_abaqus[n][0],
+                        (1.0 - applied_omega_u) * self.previous_u_trial[n][1] + applied_omega_u * u_abaqus[n][1]
+                    )
+                    for n in u_abaqus
+                }
 
-            delta_h = None
-            if previous_h_trial is not None:
-                delta_h = max(abs(history[k] - previous_h_trial[k]) for k in history)
+            # Evaluate BOTH relaxed displacement increment and raw Abaqus mechanical correction
+            if self.previous_u_trial is not None:
+                delta_u_relaxed = max(
+                    abs(u_trial[n][i] - self.previous_u_trial[n][i])
+                    for n in u_trial for i in (0, 1)
+                )
+                delta_u_raw = max(
+                    abs(u_abaqus[n][i] - self.previous_u_trial[n][i])
+                    for n in u_abaqus for i in (0, 1)
+                )
+            else:
+                delta_u_relaxed = None
+                delta_u_raw = None
 
-            # 2. Phase-field subproblem via local PDAS solver
+            # 3. Qualified thermodynamic history construction: H_trial = max(H0, psi+(u_trial))
+            # Strictly preserves H >= psi+(u_trial) and H >= H0 at every Gauss point
+            psi_k = driving_history(self.mesh, u_trial, zero_baseline)
+            history = {k: max(self.h0[k], psi_k[k]) for k in self.h0}
+            solver.h_gp = history
             solver.h = history
-            pdas_d, pdas_active, pdas_free = solver.solve(
-                max_iter=50, tol=1e-6, d_init=damage,
-                omega=1.0, tau_active=1e-6, tau_free=1e-6
-            )
-            kkt_post = solver.kkt(pdas_d, tau_active=1e-6, tau_free=1e-6)
 
-            # 3. Active-Set Topology Tracking
+            if self.previous_h_trial is not None:
+                delta_h = max(
+                    abs(history[k] - self.previous_h_trial[k])
+                    for k in history
+                )
+            else:
+                delta_h = None
+
+            # 4. Evaluate pre-update KKT residuals r_i = (K_d(H_k) d_{k-1} - f_d(H_k))_i
+            kkt_pre = solver.kkt(damage, tau_active=1e-6, tau_free=1e-6)
+
+            # 5. Canonical Hintermüller-Ito-Kunisch primal-dual active-set update
+            c_pdas = 1.0e3    # (kN*mm)^-1
+            eps_pdas = 1.0e-6 # dimensionless
+            pdas_active = {
+                n for n in damage
+                if (damage[n] - c_pdas * kkt_pre["residual"][n]) <= (self.d0[n] + eps_pdas)
+            }
+            pdas_free = set(damage) - pdas_active
+
+            # 6. Node-resolved active-set membership telemetry & compound stabilization tracking
             added_nodes, removed_nodes, delta_active_sym = compute_active_set_symmetric_difference(
-                set(pdas_active), self.previous_active_set
+                pdas_active, self.previous_active_set
             )
-            delta_active_card = (len(pdas_active) - len(self.previous_active_set)) if self.previous_active_set is not None else 0
+            delta_active_card = (
+                abs(len(pdas_active) - len(self.previous_active_set))
+                if self.previous_active_set is not None else None
+            )
 
-            # 4. Active-set stability and Stage transition evaluation
-            is_active_set_stable = self.check_compound_stability(pdas_active, delta_active_sym, added_nodes)
-            attempted_transition = False
-            transition_activated = False
-
-            if self.stage == 1:
-                if is_active_set_stable:
+            if self.previous_active_set is not None:
+                is_stable = self.check_compound_stability(pdas_active, delta_active_sym, added_nodes)
+                if is_stable:
                     self.consecutive_stable_iterations += 1
                 else:
                     self.consecutive_stable_iterations = 0
-
-                if self.consecutive_stable_iterations >= self.stabilization_window:
-                    attempted_transition = True
-                    self.stage = 2
-                    transition_activated = True
-                    self.transition_count += 1
-                    print(f"  --> Stage 2 transition ACTIVATED at Outer {outer:02d}: "
-                          f"|A_k|={len(pdas_active)}, |Delta A|={delta_active_sym}, "
-                          f"added={len(added_nodes)} sustained for {self.stabilization_window} iters")
-
-            applied_omega_d = self.omega_d_stage2 if self.stage == 2 else self.omega_d_stage1
-            applied_omega_u = self.omega_u_stage2 if self.stage == 2 else self.omega_u_stage1
-
-            # 5. Raw damage increment
-            raw_delta_d = max(abs(pdas_d[n] - damage[n]) for n in damage)
-            cand_raw_delta_d = raw_delta_d
-            prior_raw_delta_d = self.previous_raw_delta_d
-
-            # 6. Safeguarded Rollback Evaluation
-            rollback_triggered = False
-            rollback_reason = "none"
-
-            if self.stage == 2 and self.previous_raw_delta_d is not None:
-                is_diverging = (raw_delta_d > self.divergence_factor * self.previous_raw_delta_d)
-                is_growing = (raw_delta_d > self.rollback_factor * self.previous_raw_delta_d)
-                is_catastrophic = (raw_delta_d > self.catastrophic_delta_d_cap)
-
-                if is_diverging or is_catastrophic:
-                    rollback_triggered = True
-                    self.rollback_count += 1
-                    self.divergence_rollback_count += 1
-                    self.stage = 1
-                    self.consecutive_stable_iterations = 0
-                    applied_omega_d = self.omega_d_stage1
-                    applied_omega_u = self.omega_u_stage1
-                    rollback_reason = f"divergence (raw_delta_d={raw_delta_d:.4e} > {self.divergence_factor:.2f} * prev={self.previous_raw_delta_d:.4e})"
-                    if is_catastrophic:
-                        rollback_reason += f" or catastrophic (> {self.catastrophic_delta_d_cap:.2f})"
-                    print(f"  [ROLLBACK-DIVERGENCE] Outer {outer:02d}: Reverted to Stage 1. Reason: {rollback_reason}")
-                elif is_growing:
-                    self.growth_rollback_count += 1
-                    rollback_reason = f"growth (raw_delta_d={raw_delta_d:.4e} > {self.rollback_factor:.2f} * prev={self.previous_raw_delta_d:.4e})"
-                    print(f"  [GROWTH-WARNING] Outer {outer:02d}: Sustained Stage 2 with warning. Reason: {rollback_reason}")
-
-            # 7. Apply Damage Update: Anderson Acceleration vs Damped Picard
-            anderson_meta = {}
-            if self.anderson_enabled:
-                relaxed_damage, anderson_meta = self.accelerator.step(
-                    outer=outer,
-                    stage=self.stage,
-                    delta_active_sym=delta_active_sym,
-                    d_current=damage,
-                    d_pdas=pdas_d,
-                    d0=self.d0,
-                    omega_stage1=self.omega_d_stage1,
-                    omega_stage2=self.omega_d_stage2
-                )
             else:
-                # Pure Damped Picard Step
-                relaxed_damage = {
-                    n: min(1.0, max(self.d0[n], (1.0 - applied_omega_d) * damage[n] + applied_omega_d * pdas_d[n]))
-                    for n in damage
-                }
-                anderson_meta = {"accelerated": False, "reason": "anderson_disabled_baseline"}
+                self.consecutive_stable_iterations = 0
 
-            delta_d = max(abs(relaxed_damage[n] - damage[n]) for n in damage)
+            # Evaluate Stage 1 -> Stage 2 transition eligibility BEFORE phase relaxation
+            transition_activated = False
+            attempted_transition = False
+            if self.stage == 1 and self.consecutive_stable_iterations >= self.stabilization_window:
+                self.stage = 2
+                transition_activated = True
+                attempted_transition = True
+                self.transition_count += 1
+                print(
+                    f"  [STAGE TRANSITION] Activated Stage 2 acceleration (omega_d={self.omega_d_stage2:.2f}, omega_u={self.omega_u_stage2:.2f}, Anderson={'ON' if self.anderson_enabled else 'OFF'}) at outer {outer:02d}: "
+                    f"{self.consecutive_stable_iterations} consecutive iterations meeting compound criteria "
+                    f"(|A|={len(pdas_active)}<={self.max_active_cardinality}, |Delta A|={delta_active_sym}<={self.max_symmetric_diff}, added={len(added_nodes)}==0)"
+                )
 
-            # 8. Mechanical Subproblem via Abaqus
-            _, u_abaqus, mech_endpoint = self.solve_subproblem(
-                step_idx, outer, 0, "mechanical", relaxed_damage, set(relaxed_damage),
-                None, history, target_uy
+            # 7. Staggered phase solve via Abaqus with active set clamped to d0
+            new_damage_pdas, _, phase_ep = self.solve_subproblem(
+                step_idx, outer, 0, "phase", damage, pdas_active,
+                u_trial, history, target_uy
+            )
+            raw_healing_min = phase_ep.get("raw_healing_min", 0.0) if isinstance(phase_ep, dict) else 0.0
+            raw_healing_violations = phase_ep.get("raw_healing_violations", 0) if isinstance(phase_ep, dict) else 0
+
+            # 8. Evaluate unrelaxed PDAS residual norm ||d_PDAS - d_{k-1}||_inf
+            cand_raw_delta_d = max(abs(new_damage_pdas[n] - damage[n]) for n in damage)
+
+            # Select phase relaxation factor based on active stage
+            applied_omega_d = self.omega_d_stage2 if self.stage == 2 else self.omega_d_stage1
+
+            # 9. Safeguarded Anderson Acceleration vs Damped Picard Step
+            active_set_stable_for_anderson = (
+                delta_active_sym is not None and
+                delta_active_sym <= self.anderson_max_active_diff
+            )
+            if not active_set_stable_for_anderson or self.stage != 2:
+                if self.anderson_enabled:
+                    self.accelerator.reset()
+
+            anderson_eligible = (
+                self.anderson_enabled and
+                self.stage == 2 and
+                active_set_stable_for_anderson
             )
 
-            # 9. Apply Displacement Under-Relaxation in Stage 2
-            if self.stage == 2:
-                u_relaxed = {
-                    n: (
-                        (1.0 - applied_omega_u) * u_trial[n][0] + applied_omega_u * u_abaqus[n][0],
-                        (1.0 - applied_omega_u) * u_trial[n][1] + applied_omega_u * u_abaqus[n][1]
-                    )
-                    for n in self.mesh.nodes
-                }
+            anderson_meta = {}
+            if anderson_eligible:
+                cand_relaxed_damage, anderson_meta = self.accelerator.compute_step(
+                    d_current=damage,
+                    d_pdas=new_damage_pdas,
+                    d0=self.d0,
+                    damped_omega=applied_omega_d,
+                    active_set_changed=False
+                )
             else:
-                u_relaxed = dict(u_abaqus)
+                cand_relaxed_damage = {
+                    n: min(1.0, max(self.d0[n], (1.0 - applied_omega_d) * damage[n] + applied_omega_d * new_damage_pdas[n]))
+                    for n in new_damage_pdas
+                }
+                picard_step = max(abs(cand_relaxed_damage[n] - damage[n]) for n in cand_relaxed_damage)
+                anderson_meta = {
+                    "accelerated": False,
+                    "reason": "stage1" if self.stage == 1 else "active_set_diff_exceeded",
+                    "m_k": 0,
+                    "gamma": [],
+                    "gamma_norm": 0.0,
+                    "proposed_step": picard_step,
+                    "accepted_step": picard_step,
+                    "picard_step": picard_step
+                }
 
-            # 10. Displacement Increments: relaxed and raw
-            delta_u_relaxed = None
-            delta_u_raw = None
-            if previous_u_trial is not None:
-                delta_u_relaxed = max(
-                    abs(u_relaxed[n][i] - previous_u_trial[n][i])
-                    for n in self.mesh.nodes for i in (0, 1)
-                )
-            if previous_u_abaqus is not None:
-                delta_u_raw = max(
-                    abs(u_abaqus[n][i] - previous_u_abaqus[n][i])
-                    for n in self.mesh.nodes for i in (0, 1)
-                )
+            cand_delta_d = max(abs(cand_relaxed_damage[n] - damage[n]) for n in cand_relaxed_damage)
 
-            u_trial = u_relaxed
+            # 10. Consistent Residual-Based Rollback Safeguards (Stage 2 Only - Preserved from R9/R10/R11)
+            rollback_triggered = False
+            rollback_reason = None
+            prior_raw_delta_d = self.previous_raw_delta_d
+
+            if self.stage == 2 and self.previous_raw_delta_d is not None and self.previous_raw_delta_d > 0:
+                is_growth = (cand_raw_delta_d > self.rollback_factor * self.previous_raw_delta_d)
+                is_divergence = (cand_raw_delta_d > self.divergence_factor * self.previous_raw_delta_d)
+                is_catastrophic = (cand_delta_d > self.catastrophic_delta_d_cap)
+
+                if is_catastrophic:
+                    rollback_triggered = True
+                    rollback_reason = f"catastrophic jump: cand_delta_d={cand_delta_d:.4e} > cap={self.catastrophic_delta_d_cap}"
+                    self.divergence_rollback_count += 1
+                elif is_divergence:
+                    rollback_triggered = True
+                    rollback_reason = f"divergence factor exceeded: cand_raw_delta_d={cand_raw_delta_d:.4e} > {self.divergence_factor:.2f} * prev_raw_delta_d"
+                    self.divergence_rollback_count += 1
+                elif is_growth:
+                    rollback_triggered = True
+                    rollback_reason = f"residual growth: cand_raw_delta_d={cand_raw_delta_d:.4e} > {self.rollback_factor:.2f} * prev_raw_delta_d"
+                    self.growth_rollback_count += 1
+
+                if rollback_triggered:
+                    self.rollback_count += 1
+                    print(f"  [ROLLBACK] Outer {outer:02d}: Stage 2 {rollback_reason}. "
+                          f"Reverting phase step to conservative (omega_d={self.omega_d_stage1:.2f}) and resetting Anderson memory.")
+                    applied_omega_d = self.omega_d_stage1
+                    cand_relaxed_damage = {
+                        n: min(1.0, max(self.d0[n], (1.0 - applied_omega_d) * damage[n] + applied_omega_d * new_damage_pdas[n]))
+                        for n in new_damage_pdas
+                    }
+                    cand_delta_d = max(abs(cand_relaxed_damage[n] - damage[n]) for n in cand_relaxed_damage)
+                    cand_raw_delta_d = max(abs(new_damage_pdas[n] - damage[n]) for n in new_damage_pdas)
+
+                    self.accelerator.reset()
+                    self.stage = 1
+                    self.consecutive_stable_iterations = 0
+                    anderson_meta = {
+                        "accelerated": False,
+                        "reason": f"rollback_{rollback_reason}",
+                        "m_k": 0,
+                        "gamma": [],
+                        "gamma_norm": 0.0,
+                        "proposed_step": cand_delta_d,
+                        "accepted_step": cand_delta_d,
+                        "picard_step": cand_delta_d
+                    }
+
+            relaxed_damage = cand_relaxed_damage
+            delta_d = cand_delta_d
+            raw_delta_d = cand_raw_delta_d
+            validate_damage(relaxed_damage, self.d0)
+
+            # 11. Post-update KKT stationarity check on relaxed damage field
+            kkt_post = solver.kkt(relaxed_damage, tau_active=1e-6, tau_free=1e-6)
+
             damage = relaxed_damage
             self.previous_delta_d = delta_d
             self.previous_raw_delta_d = raw_delta_d
             self.previous_active_set = set(pdas_active)
 
-            acc_str = f"AND(m={anderson_meta.get('m_k', 0)})" if anderson_meta.get("accelerated") else "PIC"
+            acc_str = f"AND(m={anderson_meta['m_k']})" if anderson_meta["accelerated"] else "PIC"
 
             rec = {
                 "step": step_idx,
@@ -952,21 +1046,22 @@ class Package171R12C6PDASDriver(object):
                 "applied_omega_u": applied_omega_u,
                 "effective_omega_d": applied_omega_d,
                 "effective_omega_u": applied_omega_u,
-                "anderson_accelerated": anderson_meta.get("accelerated", False),
-                "anderson_reason": anderson_meta.get("reason", "none"),
-                "anderson_m_k": anderson_meta.get("m_k", 0),
-                "anderson_gamma": anderson_meta.get("gamma", []),
-                "anderson_gamma_norm": anderson_meta.get("gamma_norm", 0.0),
+                "anderson_accelerated": anderson_meta["accelerated"],
+                "anderson_applied": anderson_meta["accelerated"],
+                "anderson_reason": anderson_meta["reason"],
+                "anderson_m_k": anderson_meta["m_k"],
+                "anderson_gamma": anderson_meta["gamma"],
+                "anderson_gamma_norm": anderson_meta["gamma_norm"],
                 "anderson_proposed_step": anderson_meta.get("proposed_step", 0.0),
                 "anderson_accepted_step": anderson_meta.get("accepted_step", 0.0),
                 "anderson_cand_step": anderson_meta.get("accepted_step", 0.0),
-                "anderson_picard_step": anderson_meta.get("picard_step", 0.0),
+                "anderson_picard_step": anderson_meta["picard_step"],
                 "pdas_active_count": len(pdas_active),
                 "pdas_free_count": len(pdas_free),
                 "active_set_symmetric_diff": delta_active_sym,
                 "active_set_cardinality_diff": delta_active_card,
-                "added_nodes_count": len(added_nodes),
-                "removed_nodes_count": len(removed_nodes),
+                "added_nodes_count": len(added_nodes) if added_nodes is not None else None,
+                "removed_nodes_count": len(removed_nodes) if removed_nodes is not None else None,
                 "consecutive_stable_iterations": self.consecutive_stable_iterations,
                 "attempted_transition": attempted_transition,
                 "transition_activated": transition_activated,
@@ -980,17 +1075,19 @@ class Package171R12C6PDASDriver(object):
                 "delta_u_raw": delta_u_raw,
                 "delta_u": delta_u_relaxed,
                 "delta_h": delta_h,
+                "raw_healing_min": raw_healing_min,
+                "raw_healing_violations": raw_healing_violations,
                 "free_error": kkt_post["free_error"],
                 "dual_error": kkt_post["dual_error"],
                 "complementarity": kkt_post["complementarity"],
                 "kkt_post_passed": kkt_post["passed"],
-                "kkt_active_count": len(kkt_post.get("active", [])),
-                "kkt_free_count": len(kkt_post.get("free", []))
+                "kkt_active_count": len(kkt_post["active"]),
+                "kkt_free_count": len(kkt_post["free"])
             }
             step_records.append(rec)
             self.iteration_records.append(rec)
             try:
-                (self.output / "live_iteration_telemetry.json").write_text(json.dumps(self.iteration_records, indent=2))
+                (self.output / "live_iteration_telemetry.json").write_text(json.dumps(self.iteration_records, indent=2), encoding="utf-8")
             except Exception:
                 pass
 
@@ -1012,7 +1109,7 @@ class Package171R12C6PDASDriver(object):
             # - delta_h <= 1e-4 MPa
             # - kkt_post["passed"] (<= 1e-6)
             raw_damage_converged = (raw_delta_d <= 1e-5) if self.anderson_enabled else True
-            if (previous_u_trial is not None and
+            if (self.previous_u_trial is not None and
                 delta_d <= 1e-5 and
                 raw_damage_converged and
                 delta_u_relaxed <= 1e-9 and
@@ -1026,7 +1123,7 @@ class Package171R12C6PDASDriver(object):
                 print("  Executing final coupled-field consistency equilibration step with converged damage field...")
                 consistent_d, consistent_u, consistent_endpoint = self.solve_subproblem(
                     step_idx, outer, 1, "mechanical", damage, set(damage),
-                    None, history, target_uy
+                    None, self.h0, target_uy
                 )
 
                 summary, physical_pass = self.finalize_coupled_acceptance(
@@ -1061,9 +1158,9 @@ class Package171R12C6PDASDriver(object):
                     )
                 break
 
-            previous_u_trial = dict(u_trial)
-            previous_u_abaqus = dict(u_abaqus)
-            previous_h_trial = dict(history)
+            self.previous_u_trial = dict(u_trial)
+            self.previous_u_abaqus = dict(u_abaqus)
+            self.previous_h_trial = dict(history)
 
         if not step_converged:
             applied_omega_d = self.omega_d_stage2 if self.stage == 2 else self.omega_d_stage1

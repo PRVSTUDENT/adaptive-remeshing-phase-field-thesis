@@ -1,0 +1,47 @@
+{
+  "date": "2026-11-06",
+  "task_id": "F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR",
+  "handoff_correlation_id": "HND-9cef512db772",
+  "total_incidents": 1,
+  "incidents": [
+    {
+      "incident_id": "INC-2026-11-06-01",
+      "classification": "SINGLE_SOFTWARE_REGRESSION_AFFECTING_PAIRED_PBS_SUBMISSIONS",
+      "affected_pbs_jobs": [
+        "1420391.mmaster02",
+        "1420392.mmaster02"
+      ],
+      "affected_file": "scripts/state_transfer/driver_package171_r12_c6_coupled_pdas.py",
+      "defective_commit_sha": "c6d0045d02d9944dd0af16bb71d96035df7cf324",
+      "repaired_file_sha256": "17C064184A569019E7A2BC72B7880C7F3404B0A9E92C37B2D04F4BE3BAAC7166",
+      "incident_status": "FIXED_UNVERIFIED",
+      "note": "Both PBS failures stem from one R12 driver API regression and are counted as one incident with four specific code defects. Marked FIXED_UNVERIFIED until the corrected committed source on GitHub and corresponding tests are independently verified by ChatGPT.",
+      "code_defects": [
+        {
+          "defect_id": "DEF-2026-11-06-01A",
+          "summary": "Incorrect PDAS constructor keywords",
+          "detail": "PDASReEquilibrationSolver instantiated at line 778 with unexpected keyword arguments penalty_active=1e9, penalty_free=0.0 instead of canonical (self.mesh, self.d0, self.h0, gc=GC_DEFAULT, l0=L0_DEFAULT, c_penalty=1.0, max_iter=30, tol_d=1e-5, tol_res=1e-4).",
+          "status": "FIXED_UNVERIFIED"
+        },
+        {
+          "defect_id": "DEF-2026-11-06-01B",
+          "summary": "Incorrect staggered solver ordering and method/attribute calls",
+          "detail": "Assigned solver.h = history instead of solver.h_gp = history and invoked nonexistent solver.solve(...) with Phase before Mechanical instead of canonical Mechanical Abaqus solve -> displacement relaxation -> driving history update (solver.h_gp = history) -> solver.kkt(damage) -> Hintermueller-Ito-Kunisch active-set update -> Phase Abaqus solve.",
+          "status": "FIXED_UNVERIFIED"
+        },
+        {
+          "defect_id": "DEF-2026-11-06-01C",
+          "summary": "Incorrect Anderson accelerator method",
+          "detail": "Invoked nonexistent self.accelerator.step(...) instead of self.accelerator.compute_step(d_current=damage, d_pdas=new_damage_pdas, d0=self.d0, damped_omega=applied_omega_d, active_set_changed=False) gated by delta_active_sym <= self.anderson_max_active_diff.",
+          "status": "FIXED_UNVERIFIED"
+        },
+        {
+          "defect_id": "DEF-2026-11-06-01D",
+          "summary": "Incorrect raw displacement residual reference",
+          "detail": "Computed intrinsic raw displacement residual delta_u_raw against previous_u_abaqus instead of previous_u_trial.",
+          "status": "FIXED_UNVERIFIED"
+        }
+      ]
+    }
+  ]
+}

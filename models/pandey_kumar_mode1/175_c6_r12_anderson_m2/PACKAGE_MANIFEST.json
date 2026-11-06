@@ -1,7 +1,8 @@
 {
   "package_name": "175_c6_r12_anderson_m2",
   "candidate": "M1_C6_R12_ANDERSON_M2",
-  "task_id": "F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR",
+  "task_id": "F1630-METHOD-C-C6-R12-REPAIRED-DRIVER-PAIRED-EXECUTION",
+  "predecessor_task_id": "F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR",
   "files_count": 24,
   "files": {
     "active_set_boundary_cards.inc": {
@@ -29,7 +30,7 @@
       "size_bytes": 2172843
     },
     "M1_C6_R12_ANDERSON_M2_AUTHORIZATION.json": {
-      "sha256": "98939821BEBF3F064263206B4E27D114842E7EF38BA3612E7D4FF0E3719026B6",
+      "sha256": "35B9F00B05CA5E960E66852486FD7AE5D28822A259B18EC58B958E4301D399FB",
       "size_bytes": 5060
     },
     "nodal_displacements_initial.csv": {
@@ -93,8 +94,8 @@
       "size_bytes": 2534
     },
     "smoke_import.py": {
-      "sha256": "3439904BD411521CD45734C10662420E8BD102E47CC50BAD2FE2271EC648C6A2",
-      "size_bytes": 810
+      "sha256": "E965450718170F8D6EA526DA3CBEA2C5E70BA1EC0990CEC0BF61C5C23A945C1C",
+      "size_bytes": 2343
     },
     "submit_M1_C6_R12_ANDERSON_M2.pbs": {
       "sha256": "88358085545B263EDB162ECED3FEA8EB9E8663EFCEFE5640AC247BD6C07BBF98",
