@@ -192,31 +192,7 @@ exit ${EXIT_CODE}
     pbs_175_path = PKG_175 / "submit_M1_C6_R12_ANDERSON_M2.pbs"
     pbs_175_path.write_bytes(pbs_175_content.replace("\r\n", "\n").encode("utf-8"))
 
-    # 4. Generate PACKAGE_MANIFEST.json for each package
-    for pkg, pbs_name, candidate_name in [
-        (PKG_174, "submit_M1_C6_R12_PICARD_BASELINE.pbs", "M1_C6_R12_PICARD_BASELINE"),
-        (PKG_175, "submit_M1_C6_R12_ANDERSON_M2.pbs", "M1_C6_R12_ANDERSON_M2"),
-    ]:
-        manifest_path = pkg / "PACKAGE_MANIFEST.json"
-        files_dict = {}
-        for p in sorted(pkg.iterdir()):
-            if p.is_file() and p.name != "PACKAGE_MANIFEST.json":
-                files_dict[p.name] = {
-                    "sha256": sha256_file(p),
-                    "size_bytes": p.stat().st_size
-                }
-        manifest = {
-            "package_name": pkg.name,
-            "candidate": candidate_name,
-            "task_id": "F1630-METHOD-C-C6-R12-REPAIRED-DRIVER-PAIRED-EXECUTION",
-            "predecessor_task_id": "F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR",
-            "files_count": len(files_dict),
-            "files": files_dict
-        }
-        with open(manifest_path, "w", encoding="utf-8") as f:
-            json.dump(manifest, f, indent=2)
-
-    # 5. Build Mode-I Authorization Manifests for Invoke-Mode1Execution.ps1
+    # 4. Build Mode-I Authorization Manifests FIRST (excluding PACKAGE_MANIFEST.json to prevent circular hashing)
     runtime_source_files = [
         "scripts/state_transfer/anderson_acceleration.py",
         "scripts/state_transfer/c3_int_to_c4_spatial_mapping.py",
@@ -228,7 +204,11 @@ exit ${EXIT_CODE}
     runtime_source_hashes = {f: sha256_file(REPO_ROOT / f) for f in runtime_source_files}
 
     # Package 174 Authorization Manifest
-    files_174_lower = {p.name: sha256_file(p).lower() for p in sorted(PKG_174.iterdir()) if p.is_file() and not p.name.endswith("_AUTHORIZATION.json")}
+    files_174_lower = {
+        p.name: sha256_file(p).lower()
+        for p in sorted(PKG_174.iterdir())
+        if p.is_file() and not p.name.endswith("_AUTHORIZATION.json") and p.name != "PACKAGE_MANIFEST.json"
+    }
     cmd_174 = 'powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand "qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c6_r12_picard_baseline/submit_M1_C6_R12_PICARD_BASELINE.pbs"'
     auth_174 = {
         "batch_name": "MODE1_M1_C6_R12_PICARD_BASELINE",
@@ -273,7 +253,11 @@ exit ${EXIT_CODE}
         json.dump(auth_174, f, indent=2)
 
     # Package 175 Authorization Manifest
-    files_175_lower = {p.name: sha256_file(p).lower() for p in sorted(PKG_175.iterdir()) if p.is_file() and not p.name.endswith("_AUTHORIZATION.json")}
+    files_175_lower = {
+        p.name: sha256_file(p).lower()
+        for p in sorted(PKG_175.iterdir())
+        if p.is_file() and not p.name.endswith("_AUTHORIZATION.json") and p.name != "PACKAGE_MANIFEST.json"
+    }
     cmd_175 = 'powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand "qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_c6_r12_anderson_m2/submit_M1_C6_R12_ANDERSON_M2.pbs"'
     auth_175 = {
         "batch_name": "MODE1_M1_C6_R12_ANDERSON_M2",
@@ -316,6 +300,30 @@ exit ${EXIT_CODE}
     }
     with open(PKG_175 / "M1_C6_R12_ANDERSON_M2_AUTHORIZATION.json", "w", encoding="utf-8") as f:
         json.dump(auth_175, f, indent=2)
+
+    # 5. Generate PACKAGE_MANIFEST.json SECOND so it records the exact actual *_AUTHORIZATION.json hash and size
+    for pkg, pbs_name, candidate_name in [
+        (PKG_174, "submit_M1_C6_R12_PICARD_BASELINE.pbs", "M1_C6_R12_PICARD_BASELINE"),
+        (PKG_175, "submit_M1_C6_R12_ANDERSON_M2.pbs", "M1_C6_R12_ANDERSON_M2"),
+    ]:
+        manifest_path = pkg / "PACKAGE_MANIFEST.json"
+        files_dict = {}
+        for p in sorted(pkg.iterdir()):
+            if p.is_file() and p.name != "PACKAGE_MANIFEST.json":
+                files_dict[p.name] = {
+                    "sha256": sha256_file(p),
+                    "size_bytes": p.stat().st_size
+                }
+        manifest = {
+            "package_name": pkg.name,
+            "candidate": candidate_name,
+            "task_id": "F1630-METHOD-C-C6-R12-REPAIRED-DRIVER-PAIRED-EXECUTION",
+            "predecessor_task_id": "F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR",
+            "files_count": len(files_dict),
+            "files": files_dict
+        }
+        with open(manifest_path, "w", encoding="utf-8") as f:
+            json.dump(manifest, f, indent=2)
 
     print("Package 174 and 175 built and manifests generated successfully!")
 

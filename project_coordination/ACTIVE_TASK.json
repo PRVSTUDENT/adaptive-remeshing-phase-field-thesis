@@ -1,9 +1,9 @@
 {
     "task_id": "F1630-METHOD-C-C6-R12-REPAIRED-DRIVER-PAIRED-EXECUTION",
     "agent": "gemini-antigravity",
-    "status": "REGISTERED_PENDING_INDEPENDENT_EXECUTION_REVIEW",
-    "phase": "Method C Paired C6 R12 Repaired-Driver Controlled Production Execution (Picard Baseline vs Safeguarded Anderson M2). Registered under HND-9cef512db772 pending independent execution review.",
-    "gate_status": "ZERO_PBS_PUBLICATION_AND_RECONCILIATION__AWAITING_EXECUTION_APPROVAL",
+    "status": "ACTIVE",
+    "phase": "Method C Paired C6 R12 Repaired-Driver Controlled Production Execution (Picard Baseline vs Safeguarded Anderson M2). Activated under HND-bf29e0495841 after manifest-integrity reconciliation and controller preflight pass.",
+    "gate_status": "PAIRED_C6_R12_REPAIRED_EXECUTION_AUTHORIZED__2_PBS_JOBS",
     "predecessor_task": {
         "task_id": "F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR",
         "status": "COMPLETED",
@@ -12,19 +12,20 @@
         "evaluation_summary": "results/validation/f1629_paired_execution_summary.json",
         "evaluation_summary_sha256": "6AF7630BC86895AAAC25365DC8C5B378887E07B41E7CD873AE587639FDE23E83",
         "daily_error_register": "project_coordination/DAILY_ERROR_REGISTER_2026-11-06.json",
-        "daily_error_register_sha256": "E580C380BEFE36FB5BF64ABD358F1BBF68FEBBA6522390C0067AEB5645FB7CBA",
+        "daily_error_register_sha256": "D0A8D7EB91DF30C0FF300460C573C9C9A4307F2149973833C74D706586DAE5BA",
         "consumed_pbs_job_ids": [
             "1420391.mmaster02",
             "1420392.mmaster02"
         ]
     },
     "registration": {
-        "sha256": "195DF3FB2ED5B5E7BC80447C352820C47C209DAA349BC40E77108F693450924E",
+        "sha256": "8A0C03AEAD1AAB74A88D50C4487CF69057A929D884452A05245EDB70A988AF13",
         "schema": 1,
         "definition": "project_coordination/task_definitions/F1630-METHOD-C-C6-R12-REPAIRED-DRIVER-PAIRED-EXECUTION.json",
         "registered_by": "gemini-antigravity",
         "registered_at": "2026-11-06T07:12:00+01:00",
-        "handoff_correlation_id": "HND-9cef512db772"
+        "activated_at": "2026-11-06T07:38:30+01:00",
+        "handoff_correlation_id": "HND-bf29e0495841"
     },
     "scientific_checkpoint_required": true,
     "scientific_operation": "execute_repaired_paired_c6_r12_controlled_equilibration",
@@ -314,11 +315,11 @@
     "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "repaired_driver_sha256": "17C064184A569019E7A2BC72B7880C7F3404B0A9E92C37B2D04F4BE3BAAC7166",
     "max_new_pbs_submissions": 2,
-    "remaining_pbs_submissions": 0,
+    "remaining_pbs_submissions": 2,
     "lifecycle": {
-        "scientific_execution_started": false,
+        "scientific_execution_started": true,
         "predecessor_replay_allowed": false,
-        "state": "REGISTERED_PENDING_INDEPENDENT_EXECUTION_REVIEW"
+        "state": "ACTIVE"
     },
     "preserved_predecessor": {
         "task_id": "F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR",
@@ -336,8 +337,8 @@
         "supervised_resumption_scope": "CONTROLLED_LIVE_VERIFICATION_ONLY",
         "reconciled_at": "2026-11-04T15:46:00+01:00"
     },
-    "scientific_acceptance": "PENDING_INDEPENDENT_EXECUTION_REVIEW",
-    "last_step_status": "F1630_REGISTERED_PUBLISHED_AWAITING_EXECUTION_APPROVAL",
-    "last_updated": "2026-11-06T07:13:00+01:00",
-    "next_safe_action": "Dispatch execution-readiness handoff via Invoke-ChatGPTBridge.ps1 with pushed GitHub commit SHA, verified source hashes (17C06418...), 44/44 test receipt, controller state, daily error register (FIXED_UNVERIFIED), and live cluster capacity."
+    "scientific_acceptance": "IN_PROGRESS",
+    "last_step_status": "F1630_MANIFESTS_RECONCILED_AND_ACTIVATED_UNDER_HND_BF29E0495841",
+    "last_updated": "2026-11-06T07:38:30+01:00",
+    "next_safe_action": "Submit Arm A (M1_C6_R12_PICARD_BASELINE, Package 174) and Arm B (M1_C6_R12_ANDERSON_M2, Package 175) exclusively via scripts/hpc/Invoke-Mode1Execution.ps1 and record authentic PBS IDs."
 }

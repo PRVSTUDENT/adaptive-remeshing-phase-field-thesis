@@ -154,20 +154,37 @@ def test_06_driver_cli_parsing_regression():
 
 
 def test_07_package_manifests_integrity():
-    """Verify PACKAGE_MANIFEST.json and Mode-I authorization manifests exist and match."""
+    """Verify PACKAGE_MANIFEST.json and Mode-I authorization manifests exist and all file hashes/sizes match on disk."""
     for pkg, cand in [(PKG_174, "M1_C6_R12_PICARD_BASELINE"), (PKG_175, "M1_C6_R12_ANDERSON_M2")]:
         manifest_p = pkg / "PACKAGE_MANIFEST.json"
         assert manifest_p.is_file()
         m = json.loads(manifest_p.read_text(encoding="utf-8"))
         assert m["candidate"] == cand
-        assert m["files_count"] >= 20
+        assert m["files_count"] == 24
+        assert len(m["files"]) == 24
 
-        auth_p = pkg / f"{cand}_AUTHORIZATION.json"
+        auth_name = f"{cand}_AUTHORIZATION.json"
+        auth_p = pkg / auth_name
         assert auth_p.is_file()
         auth = json.loads(auth_p.read_text(encoding="utf-8"))
         assert auth["max_submissions"] == 1
         assert len(auth["jobs"]) == 1
         assert auth["jobs"][0]["id"] == cand
+        assert "PACKAGE_MANIFEST.json" not in auth["files"]
+
+        # Verify every file in *_AUTHORIZATION.json["files"] matches actual on-disk SHA-256
+        for fname, expected_lower_sha in auth["files"].items():
+            fp = pkg / fname
+            assert fp.is_file(), f"Missing auth file {fname} in {pkg.name}"
+            assert sha256_file(fp).lower() == expected_lower_sha, f"Auth hash mismatch for {fname} in {pkg.name}"
+
+        # Verify every file in PACKAGE_MANIFEST.json["files"] (including *_AUTHORIZATION.json) matches actual on-disk SHA-256 and size_bytes
+        assert auth_name in m["files"], f"{auth_name} missing from PACKAGE_MANIFEST.json in {pkg.name}"
+        for fname, entry in m["files"].items():
+            fp = pkg / fname
+            assert fp.is_file(), f"Missing manifest file {fname} in {pkg.name}"
+            assert sha256_file(fp) == entry["sha256"], f"Manifest SHA-256 mismatch for {fname} in {pkg.name}"
+            assert fp.stat().st_size == entry["size_bytes"], f"Manifest size_bytes mismatch for {fname} in {pkg.name}"
 
 
 def test_08_f1630_task_registration_and_daily_error_register():
@@ -184,10 +201,16 @@ def test_08_f1630_task_registration_and_daily_error_register():
     err_reg_path = REPO_ROOT / "project_coordination" / "DAILY_ERROR_REGISTER_2026-11-06.json"
     assert err_reg_path.is_file()
     err_reg = json.loads(err_reg_path.read_text(encoding="utf-8"))
-    assert err_reg["total_incidents"] == 1
-    assert len(err_reg["incidents"]) == 1
-    inc = err_reg["incidents"][0]
-    assert inc["incident_status"] == "FIXED_UNVERIFIED"
-    assert len(inc["code_defects"]) == 4
-    assert all(d["status"] == "FIXED_UNVERIFIED" for d in inc["code_defects"])
+    assert err_reg["total_incidents"] == 2
+    assert len(err_reg["incidents"]) == 2
+    inc1 = err_reg["incidents"][0]
+    assert inc1["incident_id"] == "INC-2026-11-06-01"
+    assert inc1["incident_status"] == "RESOLVED_VERIFIED"
+    assert len(inc1["code_defects"]) == 4
+    assert all(d["status"] == "RESOLVED_VERIFIED" for d in inc1["code_defects"])
+    inc2 = err_reg["incidents"][1]
+    assert inc2["incident_id"] == "INC-2026-11-06-02"
+    assert inc2["classification"] == "STALE_AUTHORIZATION_HASH_IN_PACKAGE_MANIFEST"
+    assert "blocked_conditions" in err_reg
+    assert len(err_reg["blocked_conditions"]) >= 2
 
