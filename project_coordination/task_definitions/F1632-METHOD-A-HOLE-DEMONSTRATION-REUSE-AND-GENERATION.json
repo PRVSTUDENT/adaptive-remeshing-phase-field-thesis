@@ -1,0 +1,37 @@
+{
+  "task_id": "F1632-METHOD-A-HOLE-DEMONSTRATION-REUSE-AND-GENERATION",
+  "task_title": "Method A Adaptive Remeshing Demonstration on Mode-I Plate with Off-Axis Hole",
+  "predecessor": "F1631-METHOD-C-C6-EARLY-DIVERGENCE-FORENSIC-QUALIFICATION",
+  "status": "active",
+  "created_at": "2026-11-06T12:20:00Z",
+  "research_objective": "Demonstrate that the Method A (MISESERI error-guided adaptive refinement) framework generalizes to complex geometry and curved crack trajectories by introducing an off-axis circular hole into the Mode-I specimen, as requested by Dr. Roth on 6 November 2026.",
+  "governance": {
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "frozen_uel_bytes": 29722,
+    "method_a_reference_job": "1400395.mmaster02",
+    "method_c_dependency_status": "BLOCKED_ON_SCIENTIFIC_CONTINUATION_PRESERVED_SEPARATELY",
+    "max_new_pbs_submissions": 2
+  },
+  "authorized_scope": {
+    "geometry": {
+      "plate_width_mm": 1.0,
+      "plate_height_mm": 1.0,
+      "notch_length_mm": 0.5,
+      "notch_y_mm": 0.5,
+      "hole_center_x_mm": 0.65,
+      "hole_center_y_mm": 0.65,
+      "hole_radius_mm": 0.10
+    },
+    "remeshing": {
+      "error_indicator": "MISESERI",
+      "error_target": 0.02,
+      "h_min_mm": 0.001,
+      "h_max_mm": 0.02,
+      "refinement_factor": 10
+    },
+    "simulation_cases": [
+      "PK_HOLE_COARSE_STANDARD",
+      "PK_HOLE_METHOD_A_ADAPTED"
+    ]
+  }
+}
