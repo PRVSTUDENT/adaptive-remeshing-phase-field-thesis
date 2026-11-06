@@ -1,16 +1,19 @@
 {
-  "active": false,
-  "agent": "codex",
-  "session_id": "adc7e49c-e6e6-4d8d-9ba9-6f75d369b4d4",
-  "task_id": "F1639-METHOD-C-DONOR-ENERGY-REFERENCE-CORRECTION",
-  "started_at": "2026-11-06T20:21:33.1983331+01:00",
-  "closed_at": "2026-11-06T19:29:36.984660+00:00",
-  "starting_commit": "a1517d346f3e21f433d5d08c18f6d1ae4941d0d6",
-  "allowed_write_scope": [
-    "scripts/validation/reconstruct_f1631_early_divergence_forensics.py",
-    "tests/unit/test_f1639_donor_energy_reference.py",
-    "results/validation/f1639_energy_reference_impact.json",
-    "project_coordination"
-  ],
-  "notes": "F1639 completed; F1640 focused CP02-to-C6 experiment qualification registered; native Goal active; AGY run preserved."
+    "active":  true,
+    "agent":  "codex",
+    "session_id":  "b0e3a1af-b6d5-4400-bd6b-990d28529db6",
+    "task_id":  "F1641-METHOD-A-HOLE-INDICATOR-PILOT-QUALIFICATION",
+    "started_at":  "2026-11-06T19:52:27.5815225+00:00",
+    "closed_at":  null,
+    "starting_commit":  "9a1f53aa26b6a8a9bea0fe2944ab56076aac54ca",
+    "allowed_write_scope":  [
+                                "project_coordination",
+                                "scripts/remeshing",
+                                "scripts/validation",
+                                "tests/unit",
+                                "results/validation",
+                                "models/pandey_kumar_mode1/176_method_a_plate_with_hole",
+                                ".agents/scripts/bridge_rules.txt"
+                            ],
+    "notes":  "Fresh native Goal: user priority Method A; preserve F1639 completed and pause F1640; zero PBS pending reviewed task transition. No competing scientific worker found; one PAD robot. Existing user-supplied Method A rules inspected and will be committed byte-for-byte to preserve registered rule hash; unrelated dirty paths excluded."
 }

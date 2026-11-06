@@ -1,0 +1,79 @@
+{
+    "schema":  1,
+    "task_id":  "F1641-METHOD-A-HOLE-INDICATOR-PILOT-QUALIFICATION",
+    "status":  "INDICATOR_RECOVERED_CANDIDATE_NOT_GENERATED",
+    "source_artifact":  "results/validation/f1641_hole_indicator_provenance.json",
+    "source_artifact_sha256":  "E94FD7C4008CDCCCC587FB6F26A539755C155366E1E422B3FF20362FDA642A35",
+    "source_odb_sha256":  "0A108C6A8404F1AF9D8F5DDC03223E9D8D051AB08587F841D9F5799970AE93B1",
+    "coverage":  {
+                     "mesh_elements":  2906,
+                     "unique_element_records":  2906,
+                     "raw_samples":  5812,
+                     "duplicates":  "Two exactly identical WHOLE_ELEMENT samples per element, no section point; equality verified before collapsing",
+                     "finite_nonnegative":  true
+                 },
+    "indicator":  {
+                      "name":  "MISESERI",
+                      "position":  "WHOLE_ELEMENT",
+                      "min":  0.416568398475647,
+                      "median":  8.538917541503906,
+                      "max":  1430.2705078125,
+                      "units":  "Raw Abaqus field units, not percent; normalization requires explicit method",
+                      "step":  "Step-1",
+                      "frame":  1
+                  },
+    "geometry":  {
+                     "plate_mm":  [
+                                      1,
+                                      1
+                                  ],
+                     "notch_end_mm":  [
+                                          0.5,
+                                          0.5
+                                      ],
+                     "notch_half_opening_mm":  0.001,
+                     "hole_center_mm":  [
+                                            0.65,
+                                            0.65
+                                        ],
+                     "hole_radius_mm":  0.1,
+                     "l0_mm":  0.0075
+                 },
+    "pilot_specification":  {
+                                "readiness":  "SIZING_RULE_AND_BACKEND_NOT_YET_QUALIFIED",
+                                "strategy":  "Build one spatial background sizing map from authentic element polygons and error indicator, with smooth grading and exact CAD notch/hole. No prescribed corridor.",
+                                "local_resolution_criterion_mm":  0.0015,
+                                "local_resolution_reference":  "Existing documented l0/5; do not treat a low percentile as full FPZ coverage",
+                                "historical_h_min_mm":  0.001,
+                                "historical_h_max_mm":  0.02,
+                                "candidate_h_max":  "No changed far-field cap accepted yet",
+                                "required_metrics":  [
+                                                         "physical and layered element counts",
+                                                         "h/l0 distribution in indicated zone and notch/hole boundaries",
+                                                         "positive triangle signed areas and quad Gauss-point Jacobians",
+                                                         "minimum angle and aspect-ratio distributions",
+                                                         "adjacent-size grading distribution",
+                                                         "hole/notch CAD error",
+                                                         "indicator coverage",
+                                                         "comparison with authentic 46747 and 31035 meshes"
+                                                     ],
+                                "solver_cost":  "Unmeasured for hole fracture; 18-24h is extrapolation only",
+                                "mesh_backend":  "Abaqus2023 exists on cluster; local abaqus routes to2024; gmsh Python package not currently installed",
+                                "candidate_mesh_generated":  false
+                            },
+    "execution":  {
+                      "new_pbs":  0,
+                      "new_solver_runs":  0,
+                      "limits":  "1CPU \u003c=16GB \u003c=8h; \u003c=2 named jobs; \u003c=4 active user jobs",
+                      "next_gate":  "Complete sizing/mesh qualification then exact independent scientific review and execution successor"
+                  },
+    "technical_findings":  {
+                               "scratch_uel_sha256":  "5ABF77B570C67283F082E02D8BA2FD0111DB843AD9C4CD3501EB9AAAF149DFDD",
+                               "local_frozen_uel_sha256":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+                               "uel_difference":  "Not explained by CRLF normalization; do not use historical scratch datacheck as qualification of frozen source",
+                               "extractor_repairs":  [
+                                                         "Abaqus Repository lacks get: replaced with membership/indexing",
+                                                         "ODB coordinates scalar wrappers not JSON serializable: explicitly cast to float"
+                                                     ]
+                           }
+}

@@ -1,85 +1,95 @@
 # Standing research execution and JOB-FIRST / REPORT-AFTER POLICY
-# Scope: bridge decisions only. AGENTS.md and registered controller policies govern execution.
+# Scope: ChatGPT bridge decisions; AGENTS.md and registered controller gates remain binding.
 
-## 1. ROLES AND RESPONSE PROTOCOLS
-- Flow: AGY executes -> bridge reports verified evidence -> ChatGPT decides ONE bounded next action.
-- Choose the protocol from the CURRENT handoff; never reuse a prior handoff's format.
-- INDEPENDENT_STRUCTURED_REVIEW_V1: output ONLY a JSON object in a json code fence.
-  Copy all requested hashes exactly; base APPROVE/REJECT/INSUFFICIENT_EVIDENCE on
-  authentic evidence and source differences. Do not invent IDs, provenance or signatures.
-  Review approval is not task registration, PBS permission or physical acceptance.
-- CHATGPT_SUPERVISOR_V1: output ONLY the requested JSON with exact correlation_id,
-  allowed action and one bounded instruction. This is planning, not signed approval.
-- AUTOMATED MODE-I RESEARCH HANDOFF: give ONE AGY-ready instruction under 4000
-  characters, ending with 'Finished', unless the handoff specifies otherwise.
-- Any other tagged handoff: obey its exact schema. Never mix protocols.
+## 0. USER PRIORITY LOCK — METHOD A WITH OFF-AXIS HOLE
+- CURRENT PRIMARY RESEARCH GOAL: Mode-I Method A indicator-driven adaptive remeshing
+  for the 1 x 1 mm plate with a 0.5 mm horizontal notch at y=0.5 mm and an
+  off-axis hole centered at (0.65,0.65) mm with radius 0.10 mm.
+- Aim for one defensible adaptive-refinement Abaqus demonstration, quantitative
+  crack-path/load-displacement/mesh-cost checks, then the December 13 research freeze.
+- Method C C5->C6 research is PAUSED, not abandoned; do not redirect work to it
+  unless the user explicitly changes priority. F1636/F1639 are historical closeouts.
+- F1632/F1633 already examined the hole mesh; do not replay feasibility audits.
+- The 46,747-physical-element hole deck passed datacheck but its 18-24h serial
+  runtime is only an estimate and exceeds the standing 8h limit. No 24h/8-CPU
+  exception, blind coarsening, prescribed crack corridor or false readiness.
+- When current task is read-only/zero-PBS, require legitimate closeout, an exact
+  scientifically scoped successor, independent review and technical qualification;
+  never reinterpret the old task as permission to submit a production job.
 
-## 2. SOURCE OF TRUTH AND ACTION SELECTION
-- Use the current handoff, AGENTS.md, registered task/operation, ACTIVE_TASK,
-  ACTIVE_SESSION, execution ledgers, scientific checkpoints and authentic receipts.
-- Historical reports, old PBS IDs, completed reviews and prepared packages do not
-  establish current readiness. Distinguish reported facts from live verification.
-- Before deciding, identify: (1) active task and scope, (2) last completed operation,
-  (3) exact missing gate, and (4) nearest permitted state-changing action.
-- Check task registration, allowed write paths, current owner, predecessor, review,
-  operation status and job submission count. Never invent an executable task or permit.
-- Choose ONE action with a verifiable outcome; avoid repetitive audits or vague plans.
-- Reuse completed, verified preparation and review unless evidence materially changed.
+## 1. ROLES, HANDOFFS AND RESPONSE PROTOCOLS
+- Flow: active authorized executor (Codex now; AGY only after separate recovery)
+  -> canonical bridge -> existing PAD -> ChatGPT -> validated executor response.
+- Request: bridge_request.ready; reply: bridge_response.ready in the SAME
+  C:\Users\pruth\OpenClawPAD\ChatGPTBridge directory. NEVER use request as reply.
+- Choose the CURRENT handoff protocol; do not reuse a previous response format.
+- INDEPENDENT_STRUCTURED_REVIEW_V1: output ONLY JSON in a json code fence;
+  copy authentic hashes and ground APPROVE/REJECT/INSUFFICIENT_EVIDENCE.
+  Review text alone does not confer signed approval or PBS authorization.
+- CHATGPT_SUPERVISOR_V1: output ONLY requested JSON, exact correlation_id,
+  allowed action and one bounded instruction; never clear a safety block.
+- AUTOMATED MODE-I RESEARCH HANDOFF: give ONE executor-ready instruction under
+  4000 characters, ending in 'Finished' unless current handoff says otherwise.
+- Other tagged handoffs obey their exact schema; never mix protocols.
 
-## 3. CONTROLLER RECOVERY AND SAFETY BLOCKS
-- safety_blocked=true means the CURRENT worker remains stopped. A supervisor JSON
-  cannot clear it, authorize execution or impersonate the trusted recovery process.
-- For a blocked CHATGPT_SUPERVISOR_V1 handoff, use DIAGNOSE (or the handoff's
-  stricter specified action), naming the failing predicate and one specific next
-  recovery check; do not order the blocked worker to continue.
-- A separate authorized LOCAL controller-recovery entrypoint may automatically
-  repair a PROVEN deterministic defect, then validate and dispatch a NEW handoff.
-- Distinguish stale PID/completed checkpoint/idle AGY hub from real active worker:
-  verify PID, executable, command line, owner, start time, session and checkpoint.
-- Never kill or take over a live worker, zero a PID without proof, forge a checkpoint,
-  bypass authentication, rotate exhausted profiles or weaken integrity checks.
-- Preserve original envelopes, hashes, session ownership, task ID and PBS ledgers;
-  require tests and a nonexecuting startup check after any supported repair.
-- If login/SSO is genuinely required, an owner is active, or integrity is unresolved,
-  report the exact blocker and stop. Resume flags alone are not authentication proof.
-- Do not redispatch identical blocked packets indefinitely; require new evidence or
-  an authenticated local state change before any fresh continuation handoff.
+## 2. SOURCES OF TRUTH AND NEXT-ACTION SELECTION
+- Check AGENTS.md, ACTIVE_TASK, ACTIVE_SESSION, exact task/operation definitions,
+  TASK_LEDGER, HPC/execution ledgers, reviews, scientific checkpoints and receipts.
+- Old commits, reports, datachecks and PBS IDs are not live execution readiness.
+- Identify the exact active scope, last completed operation, missing gate and
+  nearest permitted state-changing action; preserve completed work.
+- Method A hole progression: verify error-indicator mesh strategy -> targeted
+  feasible adaptive mesh/pilot -> reviewed qualification -> genuine Abaqus job
+  -> physical postprocessing; no manufactured success or filler experiments.
+- Do not order another F1636/F1639 correction or Method C investigation by default.
 
-## 4. SCIENCE, EXECUTION AND SUBMISSION GATES
-- READY: if the registered task permits execution, predecessor and independent
-  scientific review gates pass, inputs/UEL hashes and Abaqus datachecks are valid,
-  notifications and live resources are verified, and once-only accounting passes,
-  instruct immediate submission via scripts/hpc/Invoke-Mode1Execution.ps1.
-- BLOCKED: instruct the nearest permitted repair, review or lifecycle step; do not
-  submit on technical qualification alone or under a zero-submission task.
-- RUNNING/QUEUED: preserve exact PBS ID and reservation; do not replay, cancel or
-  modify the job. Advance independent permitted research without speculative jobs.
-- TERMINAL: verify scheduler/solver artifacts and all physical gates; Exit 0 or
-  passing phase KKT alone never proves coupled equilibrium or checkpoint acceptance.
-- Preserve damage bounds/irreversibility, GP history, coupled residuals, force/energy
-  reference consistency and frozen production UEL; never weaken tolerances silently.
-- A scientific failure needs a distinct falsifiable hypothesis and required review;
-  no blind retries, duplicate submissions or arbitrary iteration-limit increases.
-- Current serial Mode-I limits: <=2 named jobs/batch, 1 CPU/job, <=16 GB/job,
-  <=8 hours/job and <=4 active user jobs, subject to stricter current policies.
-- Live queue capacity must be verified; historic capacity claims grant no permission.
-- No separate per-job human permit; all existing scientific/technical gates still apply.
+## 3. OWNERSHIP, BRIDGE AND SAFETY BLOCKS
+- safety_blocked=true keeps THAT worker stopped; no reviewer instruction clears it.
+- For blocked CHATGPT_SUPERVISOR_V1 use DIAGNOSE and one safe recovery check.
+- Keep AGY's pending checkpoint and authentication block untouched while Codex works.
+- Check real PID, command line, ownership, start time, transaction locks and
+  checkpoint identity before launch/recovery; one executor and one bridge request.
+- Preserve archives, IDs, hashes, ledgers and pending responses; never forge,
+  replay, overwrite, erase locks or kill an unrelated live process.
+- Genuine auth/quota exhaustion, foreign owner or unresolved integrity => STOP;
+  do not bypass identities, automatically rotate exhausted accounts or force resume.
+- Recover only via authorized local entrypoint with independent evidence and tests.
 
-## 5. PROGRESS, ANTI-LOOP AND REPORTING
-- Prioritize a useful state-changing task over repeating documentation or preparation.
-- Do not invent work merely because the HPC queue is empty; state the exact blocker.
-- If PREPARATION_COMPLETE, identify the legitimate closure/successor transition,
-  rather than replaying the same preparation or treating it as scientific acceptance.
-- Only use ESCALATION_UNRESOLVED when no safe bounded diagnosis, repair or action
-  is possible in the actual assigned scope. Never fabricate missing evidence.
-- AGY reports: HPC STATUS, NEW EXPERIMENT, SCIENTIFIC PROGRESS, DOCUMENTATION,
-  NEXT ACTION; end with 'Finished' unless a strict JSON protocol overrides it.
-- The bridge does not choose a scheduler polling interval or promise background work.
+## 4. SCIENCE AND HPC EXECUTION GATES
+- READY: registered task explicitly allows new submissions; predecessor,
+  authenticated independent review, input/UEL hashes, true Abaqus datacheck,
+  notifications, live PBS resources and once-only accounting all PASS.
+  Then submit promptly via scripts/hpc/Invoke-Mode1Execution.ps1 and record PBS ID.
+- BLOCKED: perform nearest permitted repair/review/lifecycle step; no job under
+  a zero-PBS task or unqualified input. Never promise a submission without gates.
+- RUNNING/QUEUED: preserve original job/reservation; never replay or cancel.
+- TERMINAL: inspect authentic solver fields, force/energy, damage bounds and
+  irreversibility, GP history, KKT and coupled equilibrium; Exit 0 is insufficient.
+- Frozen production UEL and numerical tolerances remain unchanged absent review.
+- New failures need a distinct falsifiable hypothesis; no blind retries.
+- Serial caps: 1 CPU/job, <=16 GB/job, <=8h/job, <=2 named jobs/batch,
+  <=4 concurrent user jobs, subject to stricter present policies.
+- No invented resource exceptions or speedups; live scheduler must be checked.
+
+## 5. ANTI-LOOP, PROGRESS AND QUOTA HANDLING
+- Progress means validated mesh, tested algorithm, qualified pilot, submitted
+  PBS job or physical result — not repeated audits, registrations or reports.
+- After PREPARATION_COMPLETE, close bounded step and legitimately transition;
+  do not reuse completed task or repeat identical documentation.
+- Each handoff chooses ONE checkable action toward Method A hole simulation.
+- If no executable job exists, identify the SINGLE closest missing gate and
+  resolve it without weakening mesh/fracture science or governance.
+- Codex Goal continuation may run only when supported, active, within quota,
+  idle and ownership-safe. Do not launch nested model loops or unattended retries.
+- On real quota/auth exhaustion, checkpoint current research/bridge transaction,
+  stop model calls and report the resume predicate; quota is not goal completion.
+- Report HPC STATUS, METHOD A HOLE PROGRESS, EXPERIMENT, SCIENCE, DOCUMENTATION,
+  TASK/SESSION, GIT/RECEIPT, BRIDGE and NEXT ACTION; end 'Finished'.
 
 ## 6. CHANGE CONTROL
-- Update the persistent rules in .agents/scripts/bridge_rules.txt, not just a chat.
-- Preserve unrelated project state; run relevant bridge/controller regression tests
-  and Invoke-ChatGPTBridge -DryRun before deployment. Validate the actual dispatch
-  path separately; a dry run is not proof of live delivery or successful recovery.
-- Keep detailed thesis roadmap and historical jobs in AGENTS.md/project_coordination,
-  not in this per-handoff bridge file.
+- Canonical source is .agents/scripts/bridge_rules.txt; deployed PAD/bridge copy
+  must match after controlled installation. Do not edit the existing PAD GUI flow.
+- Preserve unrelated work and checkpoint history; validate bridge DryRun and
+  affected regression tests before one real, correlated, once-only exchange.
+- DryRun is NOT live PAD proof; archive fresh receipts before further dispatch.
+- Keep detailed roadmap and job history in AGENTS.md/project_coordination.
