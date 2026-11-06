@@ -245,7 +245,7 @@ def generate_uel_deck(src_phys_inp, dst_uel_inp, job_name, plate_h=1.0):
 
         f.write("*SOLID SECTION, ELSET=All_elem, MATERIAL=DUMMY_MAT\n1.0\n")
         f.write("*MATERIAL, NAME=DUMMY_MAT\n*USER MATERIAL, CONSTANTS=2\n210.0, 0.3\n")
-        f.write("*DEPVAR\n16\n")
+        f.write("*DEPVAR\n20\n")
 
         # Tie top nodes to RP
         f.write("** EQUATIONS (Rigid top tensile pull tied to RP)\n")
@@ -263,7 +263,7 @@ def generate_uel_deck(src_phys_inp, dst_uel_inp, job_name, plate_h=1.0):
         f.write("N_PIN, 1, 1, 0.0\n")
         f.write("N_TOP, 1, 1, 0.0\n")
         f.write("N_RP, 2, 2, 0.0050\n")
-        f.write("*RESTART, WRITE, FREQUENCY=0\n")
+        f.write("*RESTART, WRITE, FREQUENCY=1\n")
         f.write("*OUTPUT, FIELD, FREQUENCY=1\n")
         f.write("*NODE OUTPUT, NSET=N_RP\nU, RF\n")
         f.write("*ELEMENT OUTPUT, ELSET=umatelem\nSDV, S, E\n")
@@ -278,7 +278,7 @@ def generate_uel_deck(src_phys_inp, dst_uel_inp, job_name, plate_h=1.0):
         f.write("*STATIC\n0.002, 1.0, 1.0e-8, 0.002\n")
         f.write("*BOUNDARY\n")
         f.write("N_RP, 2, 2, 0.0120\n")
-        f.write("*RESTART, WRITE, FREQUENCY=0\n")
+        f.write("*RESTART, WRITE, FREQUENCY=1\n")
         f.write("*OUTPUT, FIELD, FREQUENCY=1\n")
         f.write("*NODE OUTPUT, NSET=N_RP\nU, RF\n")
         f.write("*ELEMENT OUTPUT, ELSET=umatelem\nSDV, S, E\n")
