@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "task_id": "F1636-METHOD-C-C6-STABILITY-HYPOTHESIS-EVALUATION",
+  "classification": "DEFECT_CONFIRMED",
+  "defect": "F1631 DONOR_REF uses an unsupported elastic/fracture split for named CP03; runtime and independent frozen-formulation quadrature disagree with those constants.",
+  "source_trace": "F1631 hard-coded DONOR_REF -> summary donor_reference. CP03 driver takes endpoint elastic_kNmm/fracture_kNmm -> runtime summary; UEL integrates strain/fracture energies separately. CP03 checkpoint itself stores total energy and full u,d,H, not elastic/fracture components.",
+  "formulas": {
+    "elastic": "Integral 0.5*((1-mean_element_nodal_d)^2+k)*epsilon_eng^T*C_plane_strain*epsilon_eng dA",
+    "fracture": "Integral Gc/2*(d(x)^2/l0+l0*|grad d(x)|^2) dA",
+    "quadrature": "Four unit-weight Q4 Gauss points; reference undeformed coordinates; thickness 1 mm",
+    "history": "H drives phase residuals/irreversibility but is not substituted for elastic strain energy or fracture energy in these stored-energy integrals"
+  },
+  "material": {
+    "E_kN_mm2": 210.0,
+    "nu": 0.3,
+    "Gc_kN_mm": 0.0027,
+    "l0_mm": 0.0075,
+    "k": 1e-07
+  },
+  "state": {
+    "job": "1419566.mmaster02",
+    "checkpoint": "03",
+    "outer": 2,
+    "uy_mm": 0.0018703125442191958,
+    "elements": 12996,
+    "nodes": 13278,
+    "integration_points": 51984,
+    "area_mm2": 0.010000000000001683,
+    "minimum_detJ": 6.249999999999751e-08
+  },
+  "comparison": [
+    {
+      "component": "elastic",
+      "units": "kN mm",
+      "independent_quadrature": 0.00016825723295157513,
+      "runtime_summary": 0.00016825724,
+      "f1631_hardcoded": 0.00020088927,
+      "relative_error_vs_runtime": 4.1890767132376807e-08,
+      "hardcoded_difference": 3.263203000000001e-05
+    },
+    {
+      "component": "fracture",
+      "units": "kN mm",
+      "independent_quadrature": 5.8141790163441654e-05,
+      "runtime_summary": 5.814179e-05,
+      "f1631_hardcoded": 2.550976e-05,
+      "relative_error_vs_runtime": 2.8110874241623333e-09,
+      "hardcoded_difference": -3.263203e-05
+    },
+    {
+      "component": "total",
+      "units": "kN mm",
+      "independent_quadrature": 0.00022639902311501678,
+      "runtime_summary": 0.00022639903,
+      "f1631_hardcoded": 0.00022639903,
+      "relative_error_vs_runtime": 3.0410833583597683e-08,
+      "hardcoded_difference": 0.0
+    }
+  ],
+  "runtime_telemetry_final": {
+    "outer": 2,
+    "delta_d": 0.0,
+    "delta_u": 1.1641532182693481e-10,
+    "delta_h": 4.000228438827413e-06,
+    "free_error": 9.554049372897308e-09,
+    "dual_error": 5.282174677282148e-09,
+    "pdas_active_count": 13083,
+    "pdas_free_count": 195,
+    "rf2_kN": 0.17992419004440308,
+    "elastic_kNmm": 0.00016825724,
+    "fracture_kNmm": 5.814179e-05,
+    "total_energy_kNmm": 0.00022639903
+  },
+  "unsupported_decomposition_reconstructable": false,
+  "missing_provenance": "No authentic alternative state, energy definition or quadrature provenance supplied for the two F1631 constants; equal sums are not provenance.",
+  "implications": "Historical total-energy acceptance and failed C6 coupled verdict are unchanged. Correct component attribution in a companion record; do not silently rewrite history or infer physical instability. No donor substitution approved.",
+  "new_pbs_submissions": 0,
+  "scientific_production_accepted": false,
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/M1_C5_PACKAGE167_C2_2_CONTINUATION.inp": "E183CF78C580A91231960B380DAAF18CD2C415D43BF14D20319E6D18CB6D40C6",
+    "scripts/validation/reconstruct_f1631_early_divergence_forensics.py": "6FA5B1B8E1509D3774D4E94D9FF8BDEB22F6379A13700B2B30782614B6AB5D69",
+    "scripts/state_transfer/driver_package167_c5_continuation.py": "D5AA8D73D07234E8F57F1BFB3E37AC363ED1A6C1824BEC9A87D7B6E50B160D0F",
+    "scripts/state_transfer/driver_package171_c6_coupled_pdas.py": "F4D82958AD979DBD0871578608FF3531804B4F1A2E9FD5A34F2150DB3BCA1A2E",
+    "scripts/state_transfer/driver_package171_r12_c6_coupled_pdas.py": "17C064184A569019E7A2BC72B7880C7F3404B0A9E92C37B2D04F4BE3BAAC7166",
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/converged_checkpoint_03.json": "EAA122B911FDFC353D230C4BFFCCD60F75D7FAF4A9FBBEC9E5CF6A8B51C0A476",
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/c5_forward_continuation_c2_2_summary.json": "A2EAF0B4BF28969474E619F3B9768E4A144D6C2FD2F2DEDCD7ED742B4539C921",
+    "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/evidence/1419566.mmaster02/live_iteration_telemetry.json": "F970B6B029AA57C72E4AEC5EF8B6853F048BB936D1593EF9EE92EF2F8F1B5664",
+    "results/validation/f1631_early_divergence_forensics_summary.json": "6C127D5262289F5E0F3958894ECA6011759466AFDA76F7EADB0536B7A538EDAC"
+  }
+}

@@ -9,7 +9,8 @@
     "allowed_write_scope":  [
                                 "scripts/validation/evaluate_f1636_stability_evidence.py",
                                 "results/validation/f1636_stability_evidence.json",
-                                "project_coordination"
+                                "project_coordination",
+                                "results/validation/f1636_donor_energy_reconciliation.json"
                             ],
-    "notes":  "Explicit user-directed Codex executor transfer; no AGY resume, no PBS, registered F1636 scientific definition unchanged."
+    "notes":  "Returned handoff HND-CODEX-21fcb0db88734e928a2f1aebcca21085 requests one bounded read-only CP03 energy provenance reconciliation; zero PBS."
 }

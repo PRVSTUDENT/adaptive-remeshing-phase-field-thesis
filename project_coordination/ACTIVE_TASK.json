@@ -36,7 +36,8 @@
     "execute_mode1_package157_c1_2_r4_adaptive_continuation",
     "execute_mode1_package158_c2_0_r5_re_equilibration",
     "execute_mode1_package171_r7_c6_coupled_reequilibration",
-    "f1636_stability_evidence_evaluation"
+    "f1636_stability_evidence_evaluation",
+    "f1636_donor_energy_reconciliation"
   ],
   "completed_pbs_job_ids": [
     "1398582.mmaster02",
@@ -468,10 +469,10 @@
   "operation_transition": {},
   "created_at": "2026-11-06T17:48:52.658108+00:00",
   "last_step_status": "PREPARATION_COMPLETE",
-  "last_completed_step": "f1636_stability_evidence_evaluation",
+  "last_completed_step": "f1636_donor_energy_reconciliation",
   "scientific_checkpoint": {
-    "artifact": "results/validation/f1636_stability_evidence.json",
-    "sha256": "38E0D0D8644F2A22970508C4AC61AD6FB50E596556F3F48A054946ADC8DE6134"
+    "artifact": "results/validation/f1636_donor_energy_reconciliation.json",
+    "sha256": "2B246D518AC1B696C48AC59B2C51979A736201E041D4973ABD1BB938D07AAF00"
   },
   "executor_transfer_receipt": "project_coordination/controller/F1636-codex-executor-transfer.json"
 }

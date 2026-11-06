@@ -1,3 +1,7 @@
+## 6 November F1636 donor energy bookkeeping defect confirmed
+
+Independent frozen-UEL quadrature reconstructs CP03 elastic/fracture/total energies to <4.2e-8 relative error against authentic outer2 runtime values. F1631 donor components are unsupported hard-coded constants with cancelling errors; named checkpoint itself stores only total. Original evidence retained, companion reconciliation recorded. Historical total-energy gate and C6 nonconvergence unchanged. Zero PBS. Next independent review of findings. See sessions/2026-11-06_codex_F1636_donor_energy_reconciliation.md.
+
 ## 6 November Codex F1636 bounded stability evaluation complete
 
 Verdict INSUFFICIENT_EVIDENCE for physical-instability causality. Minimum sampled C6 damage increment exceeds tolerance by 245x. New donor energy-split mismatch: F1631 elastic/fracture components differ +19.394%/-56.125% from authentic CP03 runtime summary while total agrees. Both CP02/CP03 state arrays exist and pass field-completeness checks; C6 suitability remains unresolved. Thirteen source hashes verified; zero PBS. Codex ownership recorded, registered definition and AGY PENDING run unchanged. Next: independent review of findings. See sessions/2026-11-06_codex_F1636_stability_evaluation.md.

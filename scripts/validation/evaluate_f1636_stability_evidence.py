@@ -2,6 +2,7 @@
 import hashlib
 import json
 import math
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -122,5 +123,112 @@ def main():
                       "donor_energy_split": split_comparison, "output": str(target)}, indent=2))
 
 
+def reconcile():
+    """Independent Q4 integration of the frozen UEL's stored energies."""
+    import ast
+    package = "models/pandey_kumar_mode1/167_c5_package167_r3_c2_2_continuation/"
+    source_paths = [package + "f42_mixed_uel.for", package + "M1_C5_PACKAGE167_C2_2_CONTINUATION.inp",
+                    "scripts/validation/reconstruct_f1631_early_divergence_forensics.py",
+                    "scripts/state_transfer/driver_package167_c5_continuation.py",
+                    "scripts/state_transfer/driver_package171_c6_coupled_pdas.py",
+                    "scripts/state_transfer/driver_package171_r12_c6_coupled_pdas.py"]
+    texts = {}
+    for relative in source_paths:
+        path = ROOT / relative
+        if not path.is_file():
+            raise FileNotFoundError(relative)
+        PINS[relative] = hashlib.sha256(path.read_bytes()).hexdigest().upper()
+        texts[relative] = path.read_text(encoding="utf-8-sig")
+    assert PINS[package + "f42_mixed_uel.for"] == "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+    legacy_tree = ast.parse(texts[source_paths[2]])
+    legacy_dict = next(n.value for n in legacy_tree.body
+                       if isinstance(n, ast.Assign) and any(isinstance(t, ast.Name) and t.id == "DONOR_REF" for t in n.targets))
+    legacy = {ast.literal_eval(k): ast.literal_eval(v) for k, v in zip(legacy_dict.keys, legacy_dict.values)
+              if isinstance(v, ast.Constant)}
+    nodes, elements, mode = {}, {}, None
+    for line in texts[source_paths[1]].splitlines():
+        s = line.strip()
+        if not s or s.startswith("**"):
+            continue
+        if s.startswith("*"):
+            upper = s.upper()
+            mode = "node" if upper == "*NODE" or upper.startswith("*NODE,") else (
+                "element" if upper.startswith("*ELEMENT,") and "TYPE=U1" in upper else None)
+            continue
+        if mode == "node":
+            v = [x.strip() for x in s.split(",")]
+            if int(v[0]) < 999999:
+                nodes[int(v[0])] = (float(v[1]), float(v[2]))
+        elif mode == "element":
+            v = [int(x.strip()) for x in s.split(",") if x.strip()]
+            assert len(v) == 5
+            elements[v[0]] = v[1:]
+    assert len(nodes) == 13278 and len(elements) == 12996
+    cp = read(P167 + "converged_checkpoint_03.json")
+    summary = read(P167 + "c5_forward_continuation_c2_2_summary.json")
+    telemetry = read(P167 + "live_iteration_telemetry.json")
+    old = read("results/validation/f1631_early_divergence_forensics_summary.json")
+    for key in ("elastic_energy_kNmm", "fracture_energy_kNmm", "total_energy_kNmm"):
+        assert legacy[key] == old["donor_reference"][key]
+    u = {v[0]: v[1:] for v in cp["displacement"]}
+    damage = dict(cp["damage"])
+    assert set(nodes) == set(u) == set(damage)
+    elastic = fracture = area = 0.0
+    minimum_det = float("inf")
+    a = 1 / math.sqrt(3)
+    young, nu, gc, length, residual = 210.0, .3, .0027, .0075, 1e-7
+    c11 = young*(1-nu)/((1+nu)*(1-2*nu))
+    c12 = young*nu/((1+nu)*(1-2*nu))
+    c33 = young/(2*(1+nu))
+    for conn in elements.values():
+        xy = [nodes[n] for n in conn]
+        dn = [damage[n] for n in conn]
+        degradation = (1-sum(dn)/4)**2 + residual
+        for xi, eta in [(-a,-a),(a,-a),(a,a),(-a,a)]:
+            n = [.25*(1-xi)*(1-eta), .25*(1+xi)*(1-eta), .25*(1+xi)*(1+eta), .25*(1-xi)*(1+eta)]
+            dx = [-.25*(1-eta), .25*(1-eta), .25*(1+eta), -.25*(1+eta)]
+            de = [-.25*(1-xi), -.25*(1+xi), .25*(1+xi), .25*(1-xi)]
+            j11=sum(p[0]*v for p,v in zip(xy,dx));j12=sum(p[0]*v for p,v in zip(xy,de))
+            j21=sum(p[1]*v for p,v in zip(xy,dx));j22=sum(p[1]*v for p,v in zip(xy,de))
+            det=j11*j22-j12*j21
+            assert det > 0
+            minimum_det=min(minimum_det,det)
+            gx=[(j22*x-j21*y)/det for x,y in zip(dx,de)]
+            gy=[(-j12*x+j11*y)/det for x,y in zip(dx,de)]
+            ex=sum(g*u[nid][0] for g,nid in zip(gx,conn))
+            ey=sum(g*u[nid][1] for g,nid in zip(gy,conn))
+            gamma=sum(y*u[nid][0]+x*u[nid][1] for x,y,nid in zip(gx,gy,conn))
+            elastic += det*.5*degradation*(c11*(ex*ex+ey*ey)+2*c12*ex*ey+c33*gamma*gamma)
+            dg=sum(w*d for w,d in zip(n,dn)); ddx=sum(w*d for w,d in zip(gx,dn)); ddy=sum(w*d for w,d in zip(gy,dn))
+            fracture += det*gc*.5*(dg*dg/length+length*(ddx*ddx+ddy*ddy))
+            area += det
+    table=[]
+    for name,reconstructed,key in [("elastic",elastic,"elastic_energy_kNmm"),("fracture",fracture,"fracture_energy_kNmm"),("total",elastic+fracture,"total_energy_kNmm")]:
+        actual=summary[key]; reported=old["donor_reference"][key]
+        table.append(dict(component=name,units="kN mm",independent_quadrature=reconstructed,runtime_summary=actual,
+                          f1631_hardcoded=reported,relative_error_vs_runtime=abs(reconstructed-actual)/abs(actual),
+                          hardcoded_difference=reported-actual))
+    output={"schema":1,"task_id":"F1636-METHOD-C-C6-STABILITY-HYPOTHESIS-EVALUATION",
+            "classification":"DEFECT_CONFIRMED" if max(x["relative_error_vs_runtime"] for x in table)<1e-5 else "INSUFFICIENT_EVIDENCE",
+            "defect":"F1631 DONOR_REF uses an unsupported elastic/fracture split for named CP03; runtime and independent frozen-formulation quadrature disagree with those constants.",
+            "source_trace":"F1631 hard-coded DONOR_REF -> summary donor_reference. CP03 driver takes endpoint elastic_kNmm/fracture_kNmm -> runtime summary; UEL integrates strain/fracture energies separately. CP03 checkpoint itself stores total energy and full u,d,H, not elastic/fracture components.",
+            "formulas":{"elastic":"Integral 0.5*((1-mean_element_nodal_d)^2+k)*epsilon_eng^T*C_plane_strain*epsilon_eng dA",
+                        "fracture":"Integral Gc/2*(d(x)^2/l0+l0*|grad d(x)|^2) dA",
+                        "quadrature":"Four unit-weight Q4 Gauss points; reference undeformed coordinates; thickness 1 mm",
+                        "history":"H drives phase residuals/irreversibility but is not substituted for elastic strain energy or fracture energy in these stored-energy integrals"},
+            "material":{"E_kN_mm2":young,"nu":nu,"Gc_kN_mm":gc,"l0_mm":length,"k":residual},
+            "state":{"job":"1419566.mmaster02","checkpoint":"03","outer":cp["outer_iteration"],"uy_mm":cp["target_uy_mm"],
+                     "elements":len(elements),"nodes":len(nodes),"integration_points":4*len(elements),"area_mm2":area,"minimum_detJ":minimum_det},
+            "comparison":table,"runtime_telemetry_final":telemetry[-1],
+            "unsupported_decomposition_reconstructable":False,
+            "missing_provenance":"No authentic alternative state, energy definition or quadrature provenance supplied for the two F1631 constants; equal sums are not provenance.",
+            "implications":"Historical total-energy acceptance and failed C6 coupled verdict are unchanged. Correct component attribution in a companion record; do not silently rewrite history or infer physical instability. No donor substitution approved.",
+            "new_pbs_submissions":0,"scientific_production_accepted":False,"evidence_sources":PINS}
+    target=ROOT/"results/validation/f1636_donor_energy_reconciliation.json"
+    if target.exists():raise FileExistsError(target)
+    target.write_text(json.dumps(output,indent=2)+"\n",encoding="utf-8")
+    print(json.dumps({"classification":output["classification"],"comparison":table},indent=2))
+
+
 if __name__ == "__main__":
-    main()
+    reconcile() if sys.argv[1:] == ["--reconcile-donor-energy"] else main()
