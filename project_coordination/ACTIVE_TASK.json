@@ -1,23 +1,22 @@
 {
-    "task_id": "F1642-METHOD-A-HOLE-PHYSICAL-STATE-PILOT-EXECUTION",
-    "title": "Qualify and execute one real Abaqus 2023 HPC diagnostic physical-state-acquisition pilot for off-axis hole model",
-    "status": "COMPLETED",
+    "task_id": "F1643-METHOD-A-HOLE-ADAPTIVE-REFINEMENT-CRITERIA",
+    "title": "Formulate and validate indicator-driven adaptive refinement criteria and generate candidate adaptive mesh for off-axis hole model",
+    "status": "ACTIVE",
     "assigned_agent": "gemini-antigravity",
     "predecessor_task": {
-        "task_id": "F1641-METHOD-A-HOLE-INDICATOR-PILOT-QUALIFICATION",
-        "run_id": "1f4b4bcf-5f1f-4816-9a6d-87a970f0be47",
-        "source_commit": "d04a699b662fe213cbfbc61737be74a62174c81a",
-        "checkpoint_artifact": "project_coordination/controller/F1641-codex-completion-receipt.json",
-        "checkpoint_sha256": "8F0953FDB6D0AA27D2B095C4F41A1FB4644B3897CE9CE8AA98B4A2701F4C5AA7"
+        "task_id": "F1642-METHOD-A-HOLE-PHYSICAL-STATE-PILOT-EXECUTION",
+        "run_id": "2b6c1670-80a6-48ec-8f7a-8f96db40a99c",
+        "checkpoint_artifact": "project_coordination/controller/F1642-gemini-completion-receipt.json",
+        "checkpoint_sha256": "DA5198B4DFE867D24C30EE9ED99D11BB82FD554892A40291A1C040D0AD80E65A"
     },
     "registration": {
-        "definition": "project_coordination/task_definitions/F1642-METHOD-A-HOLE-PHYSICAL-STATE-PILOT-EXECUTION.json",
-        "sha256": "21317FF9AB05491561838E1562EDACF56CA5410B75D383933A32EF19AEB4FCA9"
+        "definition": "project_coordination/task_definitions/F1643-METHOD-A-HOLE-ADAPTIVE-REFINEMENT-CRITERIA.json",
+        "sha256": "F3D6762A76948D4E087050077A9752B5B90E963062EF8D02851CC5AF18D171A7"
     },
-    "scientific_operation": "execute_mode1_hole_method_a_prod_pilot",
-    "scientific_operation_id": "pilot_execution",
+    "scientific_operation": "formulate_and_validate_hole_adaptive_mesh",
+    "scientific_operation_id": "adaptive_mesh_qualification",
     "scientific_checkpoint_required": true,
-    "max_new_pbs_submissions": 1,
+    "max_new_pbs_submissions": 0,
     "completed_operations": [
         "mapped_frozen_history_lower_bound_kkt_probe",
         "mapped_mechanical_history_call_order_probe",
@@ -44,7 +43,8 @@
         "f1641_local_size_support_evaluation",
         "f1641_physics_domain_assessment",
         "f1642_pilot_execution",
-        "f1642_physical_state_extraction"
+        "f1642_physical_state_extraction",
+        "f1643_hole_adaptive_mesh_qualification"
     ],
     "completed_pbs_job_ids": [
         "1398582.mmaster02",
@@ -477,8 +477,8 @@
     "operation_transition": {},
     "created_at": "2026-11-06T19:29:36.984660+00:00",
     "paused_task": "F1640-METHOD-C-CP02-C6-CONTROLLED-EXPERIMENT-QUALIFICATION",
-    "last_step_status": "PHYSICAL_STATE_PILOT_COMPLETED_EXIT0_6_TESTS_PASS",
-    "active_pbs_job_id": "1421048.mmaster02",
-    "next_instruction_receipt": "project_coordination/codex_loop/HND-CODEX-bf5e46e8458d4146a2280008f5e02292.json",
-    "next_bounded_operation": "Formulate Method A adaptive refinement criteria combining authentic MISESERI stress indicators and authentic phase-field damage localization"
+    "last_step_status": "F1643_TASK_REGISTERED_ACTIVE",
+    "active_pbs_job_id": null,
+    "next_instruction_receipt": "project_coordination/gemini_loop/HND-GEMINI-89bf1642c001.json",
+    "next_bounded_operation": "Formulate adaptive refinement criteria combining damage localization corridor and MISESERI; generate and validate candidate mesh"
 }

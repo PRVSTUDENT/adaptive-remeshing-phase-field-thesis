@@ -1,0 +1,16 @@
+{
+  "task_id": "F1644-METHOD-A-HOLE-ADAPTED-SOLVE",
+  "title": "Qualify and execute authentic Abaqus 2023 simulation for Method A adapted off-axis hole model",
+  "status": "READY_FOR_QUALIFICATION",
+  "assigned_agent": "gemini-antigravity",
+  "predecessor_task": {
+    "task_id": "F1643-METHOD-A-HOLE-ADAPTIVE-REFINEMENT-CRITERIA",
+    "run_id": "2b6c1670-80a6-48ec-8f7a-8f96db40a99c",
+    "checkpoint_artifact": "project_coordination/controller/F1643-gemini-completion-receipt.json",
+    "checkpoint_sha256": "C54C6FA24CB305998379EDD3E3AA82B20EA5D13627D0331449651D602EB0EA14"
+  },
+  "scientific_objective": "Execute the qualified indicator-driven adapted mesh (52,447 physical elements, 89.4% tip resolution, 90.6% ligament resolution <= 1.5 um) under Abaqus 2023 on mmaster02 to capture high-fidelity damage evolution and force-displacement response",
+  "max_new_pbs_submissions": 1,
+  "execution_mode": "QUALIFIED_HPC_EXECUTION",
+  "created_at": "2026-11-06T23:55:00.0000000+00:00"
+}

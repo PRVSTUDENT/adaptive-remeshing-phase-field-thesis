@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "task_id": "F1643-METHOD-A-HOLE-ADAPTIVE-REFINEMENT-CRITERIA",
+  "executor": "gemini-antigravity",
+  "run_id": "2b6c1670-80a6-48ec-8f7a-8f96db40a99c",
+  "source_commit": "dfdbf49c",
+  "status": "COMPLETED",
+  "closed_at": "2026-11-06T23:55:00.0000000+00:00",
+  "scientific_result": "METHOD_A_HOLE_ADAPTIVE_MESH_QUALIFIED_EXIT0_FPZ_RESOLUTION_ACHIEVED",
+  "tests_passed": 6,
+  "new_pbs_submissions": 0,
+  "physical_elements": 52447,
+  "physical_nodes": 51957,
+  "colocated_elements": 157341,
+  "local_resolution_metrics": {
+    "notch_tip_median_h_um": 1.1743,
+    "notch_tip_fraction_le_1p5um": 89.4,
+    "ligament_median_h_um": 1.1953,
+    "ligament_fraction_le_1p5um": 90.6,
+    "hole_boundary_median_h_um": 1.1779,
+    "hole_boundary_fraction_le_1p5um": 86.3,
+    "inverted_elements": 0
+  },
+  "datacheck_result": "EXIT0_PASSED_ABAQUS_2023",
+  "evidence_sources": {
+    "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_METHOD_A_ADAPT_PHYS.inp": "36AA6E67560A7552B1192160F89A5644E24F76DD422EB560C2D80FACF2C75BCE",
+    "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_METHOD_A_ADAPT.inp": "6910E62470765E6083C6AB48C4840F3BD99768CCD47EB99A3BC8C0020A2E73E1",
+    "scripts/remeshing/generate_method_a_hole_adapted_mesh.py": "3ADA4DF9BAC7668E9EEB1A301299365ED4D949EB5BC8094645B31E00D478E055",
+    "tests/unit/test_f1643_hole_adaptive_mesh.py": "063F98426D784115B5831379E6EA4B63EF983E3F13B9387A94295DF846263849",
+    "results/validation/f1643_PK_HOLE_METHOD_A_ADAPT_DC.dat": "8E79CAFF9F8CFEC74F852698AD67C2C8AC5CFA562FED527ECD89B85E0C29E7D0",
+    "results/validation/f1643_PK_HOLE_METHOD_A_ADAPT_DC.msg": "2AEC59E5625724F0AA6132AFCB1F9906CC2AB4824374DA1D2629D56C21AFB5F9",
+    "results/validation/f1643_adaptive_refinement_report.md": "5AD0DB71FB35BCED90E59649AAC6C0981870B31F75283C4B6257B2BE8CE8D422"
+  },
+  "agy_run_completed": true
+}
