@@ -1,13 +1,16 @@
 {
   "active": false,
   "agent": "codex",
-  "session_id": "703841f9-de04-410d-a2ec-b1ba0e69f8c7",
-  "task_id": "F1637-LOOP-AUTH-IDENTITY-DIAGNOSIS",
-  "started_at": "2026-11-06T18:55:10.4462748+01:00",
-  "closed_at": "2026-11-06T17:55:43.054153+00:00",
-  "starting_commit": "9901f2ad924077854e90e11346cb2d67871e26e2",
+  "session_id": "357dcb13-88c6-4aa6-a4a2-bdad124874cc",
+  "task_id": "F1638-CODEX-DIRECT-BRIDGE-QUALIFICATION",
+  "started_at": "2026-11-06T20:00:40.2333313+01:00",
+  "closed_at": "2026-11-06T19:06:44.706796+00:00",
+  "starting_commit": "460d907412842d3daeba0a9f988b8e076e5ce583",
   "allowed_write_scope": [
+    ".agents/scripts/Invoke-ChatGPTBridge.ps1",
+    "scripts/controller/Invoke-CodexResearchHandoff.ps1",
+    "tests/unit/test_codex_bridge_transport.ps1",
     "project_coordination"
   ],
-  "notes": "Real bridge exchange PASS; native identity mismatch verified; controller exited; interactive authentication required. F1636 remains PENDING."
+  "notes": "F1638 complete: 8 offline checks and genuine correlated PAD response validated. Preserve AGY block; F1636 read-only next."
 }

@@ -1,3 +1,7 @@
+## 6 November F1638 direct Codex bridge qualification PASS
+
+Codex directly completed handoff HND-CODEX-7045316c9a7045f4ab9ec567b7894fdd with matching fresh envelope in 124 seconds. Canonical response integrity validation and once-only Codex receipts implemented; 8 offline checks pass. AGY checkpoint/credentials/block preserved. ChatGPT requests legitimate F1636 ownership transition and its existing zero-PBS scientific evaluation. Native Goal remains user-controlled blocked; /goal resume is required for automatic turn-boundary continuation. See sessions/2026-11-06_codex_F1638_direct_bridge_qualification.md.
+
 ## 6 November F1637 live bridge PASS; native identity mismatch blocks dispatch
 
 Controller created a fresh F1636 PENDING run and completed matching PAD handoff HND-SUP-07fa925dfd54467db134a3b4af297bb8 in 58 seconds. It then exited safely with AUTH_RECOVERY_REQUIRED. Read-only verification: CLI matches saved account2, native provider identity does not. No research dispatch or PBS submission. Official interactive sign-in to intended AGY identity is required before supported verification/recovery. Pending checkpoint and auth receipts preserved. See sessions/2026-11-06_codex_F1637_loop_auth_identity.md.
