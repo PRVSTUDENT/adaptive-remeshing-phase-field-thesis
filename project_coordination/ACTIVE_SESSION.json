@@ -1,16 +1,15 @@
-{
-  "active": false,
-  "agent": "codex",
-  "session_id": "357dcb13-88c6-4aa6-a4a2-bdad124874cc",
-  "task_id": "F1638-CODEX-DIRECT-BRIDGE-QUALIFICATION",
-  "started_at": "2026-11-06T20:00:40.2333313+01:00",
-  "closed_at": "2026-11-06T19:06:44.706796+00:00",
-  "starting_commit": "460d907412842d3daeba0a9f988b8e076e5ce583",
-  "allowed_write_scope": [
-    ".agents/scripts/Invoke-ChatGPTBridge.ps1",
-    "scripts/controller/Invoke-CodexResearchHandoff.ps1",
-    "tests/unit/test_codex_bridge_transport.ps1",
-    "project_coordination"
-  ],
-  "notes": "F1638 complete: 8 offline checks and genuine correlated PAD response validated. Preserve AGY block; F1636 read-only next."
+﻿{
+    "active":  true,
+    "agent":  "codex",
+    "session_id":  "96604425-8051-4f61-b489-0f59d4887ce4",
+    "task_id":  "F1636-METHOD-C-C6-STABILITY-HYPOTHESIS-EVALUATION",
+    "started_at":  "2026-11-06T20:07:11.2957766+01:00",
+    "closed_at":  "2026-11-06T19:06:44.706796+00:00",
+    "starting_commit":  "cf9f9a82831185bc6be788ed4e3a6b269f28e651",
+    "allowed_write_scope":  [
+                                "scripts/validation/evaluate_f1636_stability_evidence.py",
+                                "results/validation/f1636_stability_evidence.json",
+                                "project_coordination"
+                            ],
+    "notes":  "Explicit user-directed Codex executor transfer; no AGY resume, no PBS, registered F1636 scientific definition unchanged."
 }

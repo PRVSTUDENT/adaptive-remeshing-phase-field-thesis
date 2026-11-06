@@ -2,7 +2,7 @@
   "task_id": "F1636-METHOD-C-C6-STABILITY-HYPOTHESIS-EVALUATION",
   "title": "Method C C6 stability versus coupling nonconvergence: precritical donor hypothesis",
   "status": "READY_READ_ONLY_EVALUATION",
-  "assigned_agent": "gemini-antigravity",
+  "assigned_agent": "codex",
   "predecessor_task": {
     "task_id": "F1633-NEAREST-HPC-SIMULATION-ELIGIBILITY-AUDIT",
     "run_id": "43c5b05e-76eb-48d9-bada-cdf83ede5cbb",
@@ -35,7 +35,8 @@
     "evaluate_mode1_package148_state_transfer_r8",
     "execute_mode1_package157_c1_2_r4_adaptive_continuation",
     "execute_mode1_package158_c2_0_r5_re_equilibration",
-    "execute_mode1_package171_r7_c6_coupled_reequilibration"
+    "execute_mode1_package171_r7_c6_coupled_reequilibration",
+    "f1636_stability_evidence_evaluation"
   ],
   "completed_pbs_job_ids": [
     "1398582.mmaster02",
@@ -465,5 +466,12 @@
   },
   "requested_operation_id": "",
   "operation_transition": {},
-  "created_at": "2026-11-06T17:48:52.658108+00:00"
+  "created_at": "2026-11-06T17:48:52.658108+00:00",
+  "last_step_status": "PREPARATION_COMPLETE",
+  "last_completed_step": "f1636_stability_evidence_evaluation",
+  "scientific_checkpoint": {
+    "artifact": "results/validation/f1636_stability_evidence.json",
+    "sha256": "38E0D0D8644F2A22970508C4AC61AD6FB50E596556F3F48A054946ADC8DE6134"
+  },
+  "executor_transfer_receipt": "project_coordination/controller/F1636-codex-executor-transfer.json"
 }

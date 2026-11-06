@@ -1,3 +1,7 @@
+## 6 November Codex F1636 bounded stability evaluation complete
+
+Verdict INSUFFICIENT_EVIDENCE for physical-instability causality. Minimum sampled C6 damage increment exceeds tolerance by 245x. New donor energy-split mismatch: F1631 elastic/fracture components differ +19.394%/-56.125% from authentic CP03 runtime summary while total agrees. Both CP02/CP03 state arrays exist and pass field-completeness checks; C6 suitability remains unresolved. Thirteen source hashes verified; zero PBS. Codex ownership recorded, registered definition and AGY PENDING run unchanged. Next: independent review of findings. See sessions/2026-11-06_codex_F1636_stability_evaluation.md.
+
 ## 6 November F1638 direct Codex bridge qualification PASS
 
 Codex directly completed handoff HND-CODEX-7045316c9a7045f4ab9ec567b7894fdd with matching fresh envelope in 124 seconds. Canonical response integrity validation and once-only Codex receipts implemented; 8 offline checks pass. AGY checkpoint/credentials/block preserved. ChatGPT requests legitimate F1636 ownership transition and its existing zero-PBS scientific evaluation. Native Goal remains user-controlled blocked; /goal resume is required for automatic turn-boundary continuation. See sessions/2026-11-06_codex_F1638_direct_bridge_qualification.md.
