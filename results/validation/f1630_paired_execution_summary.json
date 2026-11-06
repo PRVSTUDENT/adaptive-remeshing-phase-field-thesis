@@ -1,6 +1,6 @@
 {
     "task_id": "F1630-METHOD-C-C6-R12-REPAIRED-DRIVER-PAIRED-EXECUTION",
-    "timestamp": "2026-11-06T09:11:25+01:00",
+    "timestamp": "2026-11-06T10:50:03+01:00",
     "arm_a_picard": {
         "name": "Arm A (Picard Baseline)",
         "package": "174_c6_r12_picard_baseline",
@@ -47,8 +47,8 @@
         "reaction_force_drift": 0.4617986919218572,
         "total_energy_drift": 0.027219904608248534,
         "damage_healing_violations": 3,
-        "history_monotonicity_pass": true,
-        "thermodynamic_consistency_pass": true,
+        "history_monotonicity_pass": null,
+        "thermodynamic_consistency_pass": null,
         "coupled_field_consistency_u_pass": null,
         "coupled_field_consistency_h_pass": null,
         "gates": {
@@ -62,8 +62,9 @@
             "reaction_force_continuity_pass": false,
             "total_energy_continuity_pass": false,
             "damage_healing_pass": false,
-            "history_monotonicity_pass": true,
-            "mechanical_consistency_pass": true,
+            "history_monotonicity_pass": false,
+            "thermodynamic_consistency_pass": false,
+            "mechanical_consistency_pass": false,
             "overall_physical_acceptance_pass": false
         }
     },
@@ -113,8 +114,8 @@
         "reaction_force_drift": 0.4617986919218572,
         "total_energy_drift": 0.027219904608248534,
         "damage_healing_violations": 3,
-        "history_monotonicity_pass": true,
-        "thermodynamic_consistency_pass": true,
+        "history_monotonicity_pass": null,
+        "thermodynamic_consistency_pass": null,
         "coupled_field_consistency_u_pass": null,
         "coupled_field_consistency_h_pass": null,
         "gates": {
@@ -128,8 +129,9 @@
             "reaction_force_continuity_pass": false,
             "total_energy_continuity_pass": false,
             "damage_healing_pass": false,
-            "history_monotonicity_pass": true,
-            "mechanical_consistency_pass": true,
+            "history_monotonicity_pass": false,
+            "thermodynamic_consistency_pass": false,
+            "mechanical_consistency_pass": false,
             "overall_physical_acceptance_pass": false
         }
     },

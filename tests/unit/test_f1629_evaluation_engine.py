@@ -42,15 +42,44 @@ def test_calculate_contraction_factors():
 
 
 def test_analyze_arm_converged():
-    # Synthetic converged arm
+    # Synthetic converged arm with explicit positive evidence on every required gate
     history = [
-        {"outer": 1, "pdas_active_count": 1000, "delta_d": 1e-2, "raw_delta_d": 1e-2, "delta_u": 1e-6, "delta_u_raw": 1e-6, "delta_history": 1.0, "kkt_post_passed": True},
-        {"outer": 50, "pdas_active_count": 20, "delta_d": 5e-6, "raw_delta_d": 5e-6, "delta_u": 5e-10, "delta_u_raw": 5e-10, "delta_history": 5e-5, "anderson_applied": True, "kkt_post_passed": True},
+        {
+            "outer": 1,
+            "pdas_active_count": 1000,
+            "delta_d": 1e-2,
+            "raw_delta_d": 1e-2,
+            "delta_u": 1e-6,
+            "delta_u_raw": 1e-6,
+            "delta_history": 1.0,
+            "free_error": 1e-7,
+            "dual_error": 1e-8,
+            "complementarity": 1e-8,
+            "kkt_post_passed": True,
+        },
+        {
+            "outer": 50,
+            "pdas_active_count": 20,
+            "delta_d": 5e-6,
+            "raw_delta_d": 5e-6,
+            "delta_u": 5e-10,
+            "delta_u_raw": 5e-10,
+            "delta_history": 5e-5,
+            "anderson_applied": True,
+            "free_error": 5e-8,
+            "dual_error": 1e-9,
+            "complementarity": 2e-8,
+            "kkt_post_passed": True,
+        },
     ]
     endpoint = {
         "reaction_force_kN": DONOR_CHECKPOINT03["reaction_force_kN"] * 1.005,  # 0.5% drift
         "total_energy_kNmm": DONOR_CHECKPOINT03["total_energy_kNmm"] * 0.998, # 0.2% drift
         "healing_violations": 0,
+        "history_monotonicity": True,
+        "thermodynamic_consistency": True,
+        "coupled_field_consistency_u_pass": True,
+        "coupled_field_consistency_h_pass": True,
     }
     res = analyze_arm("Arm B", "pkg175", "1420392.mmaster02", history, endpoint)
 
@@ -62,11 +91,84 @@ def test_analyze_arm_converged():
     assert res["gates"]["delta_d_pass"] is True
     assert res["gates"]["delta_u_pass"] is True
     assert res["gates"]["delta_h_pass"] is True
+    assert res["gates"]["kkt_pass"] is True
     assert res["gates"]["coupled_convergence_pass"] is True
     assert res["gates"]["reaction_force_continuity_pass"] is True
     assert res["gates"]["total_energy_continuity_pass"] is True
     assert res["gates"]["damage_healing_pass"] is True
+    assert res["gates"]["history_monotonicity_pass"] is True
+    assert res["gates"]["thermodynamic_consistency_pass"] is True
+    assert res["gates"]["mechanical_consistency_pass"] is True
     assert res["gates"]["overall_physical_acceptance_pass"] is True
+
+
+def test_fail_closed_missing_or_null_evidence_gates():
+    """
+    Negative regression tests for INC-2026-11-06-03:
+    Missing or None consistency, monotonicity, thermodynamic, or KKT components must fail closed.
+    """
+    base_iter = {
+        "outer": 50,
+        "pdas_active_count": 20,
+        "delta_d": 5e-6,
+        "raw_delta_d": 5e-6,
+        "delta_u": 5e-10,
+        "delta_u_raw": 5e-10,
+        "delta_history": 5e-5,
+        "free_error": 5e-8,
+        "dual_error": 1e-9,
+        "complementarity": 2e-8,
+        "kkt_post_passed": True,
+    }
+    base_state = {
+        "reaction_force_kN": DONOR_CHECKPOINT03["reaction_force_kN"],
+        "total_energy_kNmm": DONOR_CHECKPOINT03["total_energy_kNmm"],
+        "healing_violations": 0,
+        "history_monotonicity": True,
+        "thermodynamic_consistency": True,
+        "coupled_field_consistency_u_pass": True,
+        "coupled_field_consistency_h_pass": True,
+    }
+
+    # 1. Missing/None coupled_field_consistency_u_pass or coupled_field_consistency_h_pass
+    s_no_mech = {**base_state, "coupled_field_consistency_u_pass": None, "coupled_field_consistency_h_pass": None}
+    r1 = analyze_arm("Arm A", "pkg174", "1420429.mmaster02", [base_iter], s_no_mech)
+    assert r1["gates"]["mechanical_consistency_pass"] is False
+    assert r1["gates"]["overall_physical_acceptance_pass"] is False
+
+    s_partial_mech = {**base_state, "coupled_field_consistency_u_pass": True, "coupled_field_consistency_h_pass": None}
+    r1b = analyze_arm("Arm A", "pkg174", "1420429.mmaster02", [base_iter], s_partial_mech)
+    assert r1b["gates"]["mechanical_consistency_pass"] is False
+    assert r1b["gates"]["overall_physical_acceptance_pass"] is False
+
+    # 2. Missing/None history_monotonicity
+    s_no_mono = {k: v for k, v in base_state.items() if k != "history_monotonicity"}
+    r2 = analyze_arm("Arm A", "pkg174", "1420429.mmaster02", [base_iter], s_no_mono)
+    assert r2["history_monotonicity_pass"] is None
+    assert r2["gates"]["history_monotonicity_pass"] is False
+    assert r2["gates"]["overall_physical_acceptance_pass"] is False
+
+    # 3. Missing/None thermodynamic_consistency
+    s_no_thermo = {k: v for k, v in base_state.items() if k != "thermodynamic_consistency"}
+    r3 = analyze_arm("Arm A", "pkg174", "1420429.mmaster02", [base_iter], s_no_thermo)
+    assert r3["thermodynamic_consistency_pass"] is None
+    assert r3["gates"]["thermodynamic_consistency_pass"] is False
+    assert r3["gates"]["overall_physical_acceptance_pass"] is False
+
+    # 4. Missing KKT residual components (free_error, dual_error, or complementarity)
+    for kkt_key in ("free_error", "dual_error", "complementarity"):
+        iter_missing_kkt = {**base_iter, kkt_key: None}
+        r4 = analyze_arm("Arm A", "pkg174", "1420429.mmaster02", [iter_missing_kkt], base_state)
+        assert r4["gates"]["kkt_pass"] is False, f"Expected kkt_pass=False when {kkt_key} is None"
+        assert r4["gates"]["coupled_convergence_pass"] is False
+        assert r4["gates"]["overall_physical_acceptance_pass"] is False
+
+    # 5. Missing healing_violations evidence
+    s_no_heal = {k: v for k, v in base_state.items() if k != "healing_violations"}
+    r5 = analyze_arm("Arm A", "pkg174", "1420429.mmaster02", [base_iter], s_no_heal)
+    assert r5["damage_healing_violations"] is None
+    assert r5["gates"]["damage_healing_pass"] is False
+    assert r5["gates"]["overall_physical_acceptance_pass"] is False
 
 
 def test_analyze_arm_nonconverged():
@@ -187,11 +289,17 @@ def test_authentic_f1630_terminal_evaluation_verdict():
     assert comp["matching_iterations"]["identical_across_all_common_iterations"] is True
     assert comp["matching_iterations"]["first_divergence_outer"] is None
 
-    # 5. Final force, energy, irreversibility, checkpoint acceptance
+    # 5. Final force, energy, irreversibility, checkpoint acceptance (fail-closed on missing post-convergence gates)
     assert arm_a["gates"]["reaction_force_continuity_pass"] is False
     assert arm_a["gates"]["total_energy_continuity_pass"] is False
     assert arm_a["max_raw_healing_violations"] == 3
-    assert arm_a["gates"]["history_monotonicity_pass"] is True
+    assert arm_a["history_monotonicity_pass"] is None
+    assert arm_a["thermodynamic_consistency_pass"] is None
+    assert arm_a["coupled_field_consistency_u_pass"] is None
+    assert arm_a["coupled_field_consistency_h_pass"] is None
+    assert arm_a["gates"]["history_monotonicity_pass"] is False
+    assert arm_a["gates"]["thermodynamic_consistency_pass"] is False
+    assert arm_a["gates"]["mechanical_consistency_pass"] is False
     assert arm_a["gates"]["overall_physical_acceptance_pass"] is False
 
     # 6. Dominant cause of nonconvergence

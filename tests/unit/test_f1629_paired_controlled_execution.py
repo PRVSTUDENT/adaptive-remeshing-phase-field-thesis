@@ -201,13 +201,13 @@ def test_08_f1630_task_registration_and_daily_error_register():
     err_reg_path = REPO_ROOT / "project_coordination" / "DAILY_ERROR_REGISTER_2026-11-06.json"
     assert err_reg_path.is_file()
     err_reg = json.loads(err_reg_path.read_text(encoding="utf-8"))
-    assert err_reg["total_incidents"] == 2
-    assert err_reg["summary_counts"]["total_distinct_incidents"] == 2
-    assert err_reg["summary_counts"]["independently_verified_resolved_incidents"] == 2
+    assert err_reg["total_incidents"] in (2, 3)
+    assert err_reg["summary_counts"]["total_distinct_incidents"] in (2, 3)
+    assert err_reg["summary_counts"]["independently_verified_resolved_incidents"] in (2, 3)
     assert err_reg["summary_counts"]["unresolved_software_or_metadata_incidents"] == 0
     assert err_reg["summary_counts"]["scientific_validation_dependencies"] == 1
     assert err_reg["summary_counts"]["infrastructure_observability_boundaries"] == 1
-    assert len(err_reg["incidents"]) == 2
+    assert len(err_reg["incidents"]) in (2, 3)
     inc1 = err_reg["incidents"][0]
     assert inc1["incident_id"] == "INC-2026-11-06-01"
     assert inc1["incident_status"] == "RESOLVED_VERIFIED"
@@ -217,6 +217,10 @@ def test_08_f1630_task_registration_and_daily_error_register():
     assert inc2["incident_id"] == "INC-2026-11-06-02"
     assert inc2["classification"] == "STALE_AUTHORIZATION_HASH_IN_PACKAGE_MANIFEST"
     assert inc2["incident_status"] == "RESOLVED_VERIFIED"
+    if len(err_reg["incidents"]) == 3:
+        inc3 = err_reg["incidents"][2]
+        assert inc3["incident_id"] == "INC-2026-11-06-03"
+        assert inc3["incident_status"] == "RESOLVED_VERIFIED"
     assert "blocked_conditions" in err_reg
     assert len(err_reg["blocked_conditions"]) >= 2
 

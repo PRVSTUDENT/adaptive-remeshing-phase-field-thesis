@@ -297,6 +297,7 @@ def analyze_arm(
                 "total_energy_continuity_pass": False,
                 "damage_healing_pass": False,
                 "history_monotonicity_pass": False,
+                "thermodynamic_consistency_pass": False,
                 "mechanical_consistency_pass": False,
                 "overall_physical_acceptance_pass": False,
             },
@@ -357,13 +358,14 @@ def analyze_arm(
     min_raw_healing_margin = min(raw_healing_min_list) if raw_healing_min_list else 0.0
 
     # Physical continuity & summary fields (supports both R12 lowercase kn/knmm and legacy uppercase kN/kNmm)
+    # Fail-closed (INC-2026-11-06-03): never default missing consistency/monotonicity/thermodynamic evidence to True.
     rf2 = None
     tot_e = None
     rf_drift = None
     e_drift = None
-    healing_violations = max_raw_healing_violations
-    history_monotonicity_pass = True
-    thermo_consistency_pass = True
+    healing_violations = max_raw_healing_violations if raw_healing_viol_list else None
+    history_monotonicity_pass = None
+    thermo_consistency_pass = None
     consistency_u_pass = None
     consistency_h_pass = None
     run_status = "COMPLETED_ITERATIONS"
@@ -382,14 +384,22 @@ def analyze_arm(
             else (final_state.get("total_energy_kNmm") or final_state.get("total_energy"))
         )
         if final_state.get("healing_violations_count") is not None:
-            healing_violations = max(healing_violations, int(final_state["healing_violations_count"]))
+            cur_hv = int(final_state["healing_violations_count"])
+            healing_violations = max(healing_violations, cur_hv) if healing_violations is not None else cur_hv
         elif final_state.get("healing_violations") is not None:
-            healing_violations = max(healing_violations, int(final_state["healing_violations"]))
+            cur_hv = int(final_state["healing_violations"])
+            healing_violations = max(healing_violations, cur_hv) if healing_violations is not None else cur_hv
 
         if final_state.get("history_monotonicity") is not None:
             history_monotonicity_pass = bool(final_state["history_monotonicity"])
+        elif final_state.get("history_monotonicity_pass") is not None:
+            history_monotonicity_pass = bool(final_state["history_monotonicity_pass"])
+
         if final_state.get("thermodynamic_consistency") is not None:
             thermo_consistency_pass = bool(final_state["thermodynamic_consistency"])
+        elif final_state.get("thermodynamic_consistency_pass") is not None:
+            thermo_consistency_pass = bool(final_state["thermodynamic_consistency_pass"])
+
         if final_state.get("coupled_field_consistency_u_pass") is not None:
             consistency_u_pass = bool(final_state["coupled_field_consistency_u_pass"])
         if final_state.get("coupled_field_consistency_h_pass") is not None:
@@ -408,27 +418,38 @@ def analyze_arm(
         elif final_state.get("energy_discrepancy_ratio") is not None:
             e_drift = float(final_state["energy_discrepancy_ratio"])
 
-    # Gate evaluations
-    gate_dd = final_dd <= GATES["delta_d_tol"]
-    gate_raw_dd = (final_raw_dd <= GATES["raw_delta_d_tol"]) if anderson_enabled else gate_dd
-    gate_du_rel = final_du_rel <= GATES["delta_u_relaxed_tol"]
-    gate_du_raw = final_du_raw <= GATES["delta_u_raw_tol"]
+    # Gate evaluations (strictly fail-closed: require explicit positive evidence for every component)
+    gate_dd = (final_dd is not None) and math.isfinite(float(final_dd)) and (float(final_dd) <= GATES["delta_d_tol"])
+    gate_raw_dd = (
+        ((final_raw_dd is not None) and math.isfinite(float(final_raw_dd)) and (float(final_raw_dd) <= GATES["raw_delta_d_tol"]))
+        if anderson_enabled
+        else gate_dd
+    )
+    gate_du_rel = (final_du_rel is not None) and math.isfinite(float(final_du_rel)) and (float(final_du_rel) <= GATES["delta_u_relaxed_tol"])
+    gate_du_raw = (final_du_raw is not None) and math.isfinite(float(final_du_raw)) and (float(final_du_raw) <= GATES["delta_u_raw_tol"])
     gate_du = gate_du_rel and gate_du_raw
-    gate_dh = final_dh <= GATES["delta_h_tol"]
-    gate_kkt = final_kkt_pass and (final_kkt_free is None or final_kkt_free <= GATES["kkt_tol"]) and (final_kkt_dual is None or final_kkt_dual <= GATES["kkt_tol"])
+    gate_dh = (final_dh is not None) and math.isfinite(float(final_dh)) and (float(final_dh) <= GATES["delta_h_tol"])
+    gate_kkt = (
+        (final_kkt_pass is True)
+        and (final_kkt_free is not None) and math.isfinite(float(final_kkt_free)) and (float(final_kkt_free) <= GATES["kkt_tol"])
+        and (final_kkt_dual is not None) and math.isfinite(float(final_kkt_dual)) and (float(final_kkt_dual) <= GATES["kkt_tol"])
+        and (final_kkt_comp is not None) and math.isfinite(float(final_kkt_comp)) and (float(final_kkt_comp) <= GATES["kkt_tol"])
+    )
     gate_coupled = gate_dd and gate_raw_dd and gate_du and gate_dh and gate_kkt
-    gate_rf = (rf_drift is not None) and (rf_drift <= GATES["force_continuity_tol"])
-    gate_energy = (e_drift is not None) and (e_drift <= GATES["energy_continuity_tol"])
-    gate_healing = (healing_violations is not None) and (healing_violations <= GATES["damage_healing_tol"])
-    gate_mech_consistency = (consistency_u_pass is not False) and (consistency_h_pass is not False)
+    gate_rf = (rf_drift is not None) and math.isfinite(float(rf_drift)) and (float(rf_drift) <= GATES["force_continuity_tol"])
+    gate_energy = (e_drift is not None) and math.isfinite(float(e_drift)) and (float(e_drift) <= GATES["energy_continuity_tol"])
+    gate_healing = (healing_violations is not None) and (int(healing_violations) <= GATES["damage_healing_tol"])
+    gate_history_mono = (history_monotonicity_pass is True)
+    gate_thermo = (thermo_consistency_pass is True)
+    gate_mech_consistency = (consistency_u_pass is True) and (consistency_h_pass is True)
 
     all_accepted = (
         gate_coupled
         and gate_rf
         and gate_energy
         and gate_healing
-        and bool(history_monotonicity_pass)
-        and bool(thermo_consistency_pass)
+        and gate_history_mono
+        and gate_thermo
         and gate_mech_consistency
     )
 
@@ -493,7 +514,8 @@ def analyze_arm(
             "reaction_force_continuity_pass": gate_rf,
             "total_energy_continuity_pass": gate_energy,
             "damage_healing_pass": gate_healing,
-            "history_monotonicity_pass": bool(history_monotonicity_pass),
+            "history_monotonicity_pass": gate_history_mono,
+            "thermodynamic_consistency_pass": gate_thermo,
             "mechanical_consistency_pass": gate_mech_consistency,
             "overall_physical_acceptance_pass": all_accepted,
         },

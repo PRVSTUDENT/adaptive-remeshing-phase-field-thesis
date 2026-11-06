@@ -1,0 +1,36 @@
+{
+  "task_id": "F1631-METHOD-C-C6-EARLY-DIVERGENCE-FORENSIC-QUALIFICATION",
+  "task_name": "Method C C6 Early Divergence Forensic Reconstruction and Fail-Closed Evaluator Repair (Zero-PBS Qualification)",
+  "phase": "Method C C6 Early Divergence Forensic Reconstruction & Evaluator Hardening",
+  "objective": "Perform a strictly zero-PBS forensic reconstruction of the early F1630 C6 trajectory (Outer 1, 10, 16, 17, 18, 19, 20 and selected later iterations) from authentic cluster/archived subproblem artifacts to test whether early C6 divergence is caused by an incorrectly scaled/implemented PDAS active-set update or a physically permitted but unstable post-transfer fracture evolution, and repair the fail-open evaluation gates in scripts/validation/evaluate_f1629_paired_execution.py (INC-2026-11-06-03) with negative regression tests.",
+  "predecessor": "F1630-METHOD-C-C6-R12-REPAIRED-DRIVER-PAIRED-EXECUTION",
+  "status": "active",
+  "approval_provenance": {
+    "handoff_correlation_id": "HND-1590fe525792",
+    "verified_github_head": "7f67c57eadc890d6c21c599687803c878b44fdba",
+    "decision": "ACCEPT_F1630_AS_COMPLETED_PHYSICALLY_NONCONVERGED_AUTHORIZE_ZERO_PBS_F1631_FORENSIC_QUALIFICATION"
+  },
+  "authorized_scope": {
+    "max_new_pbs_submissions": 0,
+    "remaining_pbs_submissions": 0,
+    "named_jobs": []
+  },
+  "governance": {
+    "max_new_pbs_submissions": 0,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "frozen_uel_bytes": 29722,
+    "driver_sha256": "17C064184A569019E7A2BC72B7880C7F3404B0A9E92C37B2D04F4BE3BAAC7166",
+    "driver_bytes": 67304,
+    "zero_pbs_enforced": true,
+    "automatic_retry_allowed": false
+  },
+  "acceptance_criteria": [
+    "Enforce strictly zero new PBS submissions, zero production UEL changes, zero active-set restrictions, zero Anderson safeguard changes, and zero tolerance relaxations",
+    "Recover authentic nodal displacement/damage and GP-history states at Outer 1, 10, 16, 17, 18, 19, 20 and selected later iterations from Job 1420429.mmaster02 without fabricating any unavailable fields",
+    "Independently evaluate discrete phase residuals r = K_d(H)d - f_d(H), lower-bound gap d - d0, PDAS membership, and signed KKT conditions at each selected outer iteration",
+    "Quantify residual signs and magnitudes for nodes released into the free set and map released nodes, newly damaged nodes, and history growth relative to the initial crack tip and fracture process zone",
+    "Compare reaction force, fracture energy, elastic energy, and driving-history evolution before and after Outer 18 against the C5 donor reference (1419566.mmaster02) and C5 same-mesh control (1420353.mmaster02)",
+    "Check residual units, epsilon scaling, algorithmic sign conventions, and consistency between the Abaqus UEL phase solve and PDASReEquilibrationSolver assembly",
+    "Record INC-2026-11-06-03 in DAILY_ERROR_REGISTER_2026-11-06.json, repair fail-open evaluation gates in scripts/validation/evaluate_f1629_paired_execution.py, and verify with negative regression tests"
+  ]
+}

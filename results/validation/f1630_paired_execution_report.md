@@ -1,7 +1,7 @@
 # Method C Paired C6 R12 Controlled Production Execution Report
 
 **Task ID:** `F1630-METHOD-C-C6-R12-REPAIRED-DRIVER-PAIRED-EXECUTION`  
-**Date:** 2026-11-06T09:11:25+01:00  
+**Date:** 2026-11-06T10:50:03+01:00  
 **Donor Reference:** Checkpoint 03 (Job `1419566.mmaster02`, $u_y = 0.0018703125442191958$ mm)  
 **Receiver Mesh:** C6 Nonmatching Adaptive Mesh (15252 CPE4 quads, 15559 nodes, 59 seam pairs)  
 
@@ -65,40 +65,6 @@ This experiment isolates the effect of **safeguarded limited-memory Anderson acc
 
 ## 3. Scientific Interpretation & Dominant Bottleneck Analysis
 
-### 3.1 Six-Point Mandatory Verdict (`F1630`)
-
-1. **Strict Coupled Convergence (`FAIL` / `FAIL`):**
-   - Neither Arm A (`1420429.mmaster02`, Picard baseline) nor Arm B (`1420430.mmaster02`, safeguarded Anderson $m=2$) achieved strict coupled convergence within the 140-outer-iteration budget (`280` Abaqus subproblem runs each, `Exit_status = 0`, walltimes `01:20:20` on `mnode098/0` and `01:21:28` on `mnode098/1`).
-2. **Final Raw and Relaxed $\Delta d$, $\Delta u$, and $\Delta H$ (at `Outer 140`, plus Regime I Minimum at `Outer 16–18`):**
-   - **Terminal (`Outer 140`, identical in Arm A and Arm B):**
-     - Relaxed damage increment: $\Delta d = 7.623741\times 10^{-3}$ ($762.4\times$ above tolerance $10^{-5}$).
-     - Raw damage increment: $\Delta d_{\text{raw}} = 8.969107\times 10^{-3}$ ($896.9\times$ above tolerance $10^{-5}$).
-     - Relaxed displacement increment: $\Delta u_{\text{rel}} = 5.477445\times 10^{-5}\text{ mm}$ ($5.48\times 10^4\times$ above tolerance $10^{-9}\text{ mm}$).
-     - Raw displacement increment: $\Delta u_{\text{raw}} = 6.444053\times 10^{-5}\text{ mm}$ ($6.44\times 10^4\times$ above tolerance $10^{-9}\text{ mm}$).
-     - History increment: $\Delta H = 311.3948\text{ MPa}$ ($3.11\times 10^6\times$ above tolerance $10^{-4}\text{ MPa}$).
-   - **Regime I Contraction Minimum (`Outer 16–18`, prior to runaway crack advance):**
-     - $\Delta d$ contracted from $9.4277\times 10^{-3}$ (`O1`) to $2.4534\times 10^{-3}$ (`O18`); $\Delta u$ contracted from $4.7695\times 10^{-6}\text{ mm}$ (`O2`) to $1.6889\times 10^{-6}\text{ mm}$ (`O16`); $\Delta H$ contracted from $1.3183\text{ MPa}$ (`O2`) to **$0.4272\text{ MPa}$ (`O16`)** ($>200\times$ lower than the element-averaged R10 baseline).
-3. **Signed KKT and Active-Set Status:**
-   - **Signed KKT Stationarity (`PASS` at `Outer 140`):** `dual_error = 1.4287e-09 kN*mm` ($\le 10^{-6}$), `free_error = 6.0093e-08 kN*mm` ($\le 10^{-6}$), `complementarity = 4.2958e-08` ($\le 10^{-6}$), `kkt_final_pass = True`.
-   - **Active-Set Trajectory:** Eroded monotonically from $|\mathcal{A}_1| = 14,088$ (`1,471` free nodes) to $|\mathcal{A}_{140}| = 66$ (`15,493` free nodes, `99.53%` contraction). Both arms transitioned from Stage 1 ($\omega_d = 0.50, \omega_u = 1.00$) to Stage 2 ($\omega_d = 0.85, \omega_u = 0.85$) at `Outer 95` when $|\mathcal{A}_{94}| = 316 \le 500$, $|\Delta \mathcal{A}_{92..94}| = 13, 8, 8$, and $\Delta \mathcal{A}^+ = 0$.
-4. **Whether Anderson Genuinely Accelerated Any Accepted Iterations (`False` — `0` Steps Applied):**
-   - **Bitwise Identical Trajectories (`first_divergence_outer = null`):** Arm A and Arm B produced bitwise identical iterates across all 140 outer iterations (`ratio = 1.0000x` on every metric).
-   - **Exact Breakdown of All 140 Iterations in Arm B:**
-     - `Outer 1..94` (94 iterations): Gated off in Stage 1 (`reason = "stage1"`), triggering `94` memory resets.
-     - `Outer 95..140` (46 iterations in Stage 2):
-       - `20` iterations had $|\Delta \mathcal{A}_k| > 5$ (`anderson_max_active_diff = 5`), triggering `20` additional active-set memory resets (`total_resets = 114`).
-       - `6` iterations had $|\Delta \mathcal{A}_k| \le 5$ with empty history `m_k = 0` (`reason = "insufficient_history"`).
-       - `19` iterations (`O103, O106, O112, O113, O119, O122..O128, O134..O140`) had $|\Delta \mathcal{A}_k| \le 5$ and `m_k >= 1`, solved the regularized least-squares system with well-bounded coefficients $\|\gamma\|_2 \in [7.59, 21.75] \le 200$, and proposed an extrapolated step $\|\Delta d_{\text{prop}}\|_\infty \in [0.1013, 0.1166] > 0.045$ (`anderson_max_step_cap = 0.045`). Because `AndersonAccelerator.compute_step` performs a **binary rejection fallback to the damped Picard step** (`reason = "oversized_step"`, `anderson_fallbacks_count = 19`) rather than direction-preserving step scaling, **zero Anderson steps were ever applied** (`anderson_accelerations_count = 0`).
-   - Consequently, per the pre-declared `HND-5b361e69abda` evaluation contract, `F1630` is classified as **NOT demonstrating an Anderson acceleration effect** (`ANDERSON_NEVER_ACTIVATED_GATED_BY_STAGE1_ACTIVE_SET`).
-5. **Final Force, Energy, Irreversibility, and Checkpoint Acceptance (`FAIL` — Checkpoint Suppressed):**
-   - **Reaction Force Continuity (`FAIL`):** $F_y = 0.096835\text{ kN}$ vs donor $0.179924\text{ kN}$ (`-46.180%` drift, gate $\le 2.0\%$). Note: during Regime I (`Outer 1..18`), $F_y \in [0.178654, 0.180578]\text{ kN}$ (`0.363%` to `-0.706%` drift) satisfied the $\le 2.0\%$ continuity gate before Regime II crack propagation collapsed the load capacity.
-   - **Total Energy Continuity (`FAIL`):** $E_{\text{tot}} = 2.202372\times 10^{-4}\text{ kN}\cdot\text{mm}$ ($E_{\text{elas}} = 9.05104\times 10^{-5}$, $E_{\text{frac}} = 1.297268\times 10^{-4}\text{ kN}\cdot\text{mm}$) vs donor $2.263990\times 10^{-4}\text{ kN}\cdot\text{mm}$ (`-2.722%` drift, gate $\le 2.0\%$).
-   - **Damage Irreversibility & Bounds:** Post-relaxation clamped damage satisfied $0 \le d \le 1$ (`d_max = 0.998604`) and $d \ge d_0$ (`0` clamped violations); the raw Abaqus phase subproblem had `3` minor healing violations (`min(d_raw - d0) = -3.3900e-06 < -1e-6`). Thermodynamic consistency ($H \ge \psi_e^+$, `0` violations) and history monotonicity ($H \ge H_0$, `0` violations) passed.
-   - **Checkpoint Acceptance (`REJECTED / SUPPRESSED`):** Neither job wrote `converged_checkpoint_01.json`, preserving fail-closed checkpoint hygiene.
-6. **Dominant Cause of Nonconvergence:**
-   - **Dominant Residual:** $\Delta H = 311.39\text{ MPa}$ (`3.11e6x` above tolerance $10^{-4}\text{ MPa}$, peaking at $606.85\text{ MPa}$ at `O100`), coupled with $\Delta u_{\text{raw}} = 6.44\times 10^{-5}\text{ mm}$ (`6.44e4x`) and $\Delta d_{\text{raw}} = 8.97\times 10^{-3}$ (`896.9x`).
-   - **Physical & Algorithmic Mechanism:** After initial contraction in `Outer 1..18` ($\Delta H = 0.427\text{ MPa}$, force drift $\le 0.71\%$), the coupled loop enters **Regime II (`Outer 19..140`)**: unsteady supercritical crack propagation at fixed boundary displacement $u_y = 0.0018703125\text{ mm}$ ($d_{\max}: 0.690981 \to 0.998604$, $E_{\text{frac}}: 5.814\times 10^{-5} \to 1.297\times 10^{-4}\text{ kN}\cdot\text{mm}$, $F_y: 0.1799 \to 0.0968\text{ kN}$).
-   - **Root Cause of the Regime II Runaway (Shared with Same-Mesh C5 Control `1420353.mmaster02`):**
-     1. *Donor Checkpoint 03 (`1419566.mmaster02`) History-Damage Inconsistency:* In `driver_package167_c5_continuation.py` (`1419566.mmaster02`), `_deck` retained `*INCLUDE, INPUT="initial_conditions_solution.inc"` (which held static history with $\max H = 13.97\text{ MPa}$) instead of injecting the updated trial history ($\max H = 98.18\text{ MPa}$) into Abaqus, while `converged_checkpoint_03.json` exported the Python-recomputed history ($\max H = 98.18\text{ MPa}$) paired with the un-advanced damage field ($\max d = 0.690981$). When `1420353.mmaster02` (C5 Control) and `1420429.mmaster02`/`1420430.mmaster02` (C6 R12) injected the $98.18\text{ MPa}$ / $85.56\text{ MPa}$ history into Abaqus `*Initial Conditions, type=SOLUTION`, the phase field was strongly over-driven relative to $d_0$.
-     2. *Unscaled PDAS Penalty Release ($c_{\text{pdas}} = 10^3\text{ (kN}\cdot\text{mm)}^{-1}$):* On active nodes ($d_n = d_{0,n}$), the condition $d_n - c_{\text{pdas}} r_n \le d_{0,n} + \varepsilon_{\text{pdas}}$ releases every node with $r_n < -\varepsilon_{\text{pdas}}/c_{\text{pdas}} = -10^{-9}\text{ kN}\cdot\text{mm}$, allowing the over-driven crack-tip damage wave to progressively unlock `99.53%` of the mesh (`14,088 -> 66` nodes).
-     3. *Binary Anderson Step Rejection in Stage 2:* When the active set finally stabilized enough to reach Stage 2 (`O95..O140`), all 19 Anderson extrapolation steps were rejected (`fallback_to_picard`) because $\|\Delta d_{\text{prop}}\|_\infty \approx 0.108 > 0.045$ triggered binary rejection rather than direction-preserving step scaling.
+- **ANDERSON ACTIVATION CLASSIFICATION (`ANDERSON_NEVER_ACTIVATED_GATED_BY_STAGE1_ACTIVE_SET`):** Because Anderson acceleration in Arm B is gated behind Stage 2 transition and active-set stabilization ($|\mathcal{A}_k| \le 500$, $|\Delta \mathcal{A}_k| \le 10$, $\Delta \mathcal{A}_k^+ = 0$ for 3 consecutive iterations), and `anderson_steps_applied == 0`, this experiment **does NOT demonstrate an Anderson acceleration effect** (neither equivalence nor superiority of Anderson extrapolation itself).
+- **COUPLED NONCONVERGENCE PRESERVED:** Neither arm satisfied the strict coupled convergence thresholds in 140 iterations.
+- **Dominant Residual Exceedance (Arm A / Arm B):** `delta_h` / `delta_h` (exceedance ratios: `{"delta_d": 762.3740766273922, "raw_delta_d": 896.9106783851654, "delta_u_relaxed": 54774.44911915078, "delta_u_raw": 64440.52837547144, "delta_h": 3113948.4253715635}`).
