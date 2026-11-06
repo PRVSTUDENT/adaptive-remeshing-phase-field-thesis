@@ -1,0 +1,34 @@
+{
+  "operation_id": "evaluate_f1641_local_size_support",
+  "status": "REJECTED",
+  "transitions": [
+    "PREPARED",
+    "REVIEW_PENDING",
+    "REJECTED"
+  ],
+  "fingerprint": "0B1BA48247F38BA36FAE4F398003CA66A5D123995F90EB83BA4E0BA1D2519B2F",
+  "correlation_id": "HND-6769186967124ebeaff3eea2d082dd2c",
+  "dispatch_started": true,
+  "reason": "REJECT",
+  "review": {
+    "decision": {
+      "reviewer": "ChatGPT-independent-review",
+      "author": "codex",
+      "operation_id": "evaluate_f1641_local_size_support",
+      "correlation_id": "HND-6769186967124ebeaff3eea2d082dd2c",
+      "fingerprint": "0B1BA48247F38BA36FAE4F398003CA66A5D123995F90EB83BA4E0BA1D2519B2F",
+      "reviewed_hashes": {
+        "results/validation/f1641_local_size_review_summary.json": "2D179BFC4C93FC696915BFBEE3C42DE2B9D43900E8E0EE0F409F10BA2703F24E",
+        "results/validation/f1641_local_size_hypothesis.md": "8F5ECF2E81C255DDC7AA1CE006DDD583D2072FAF4E447F0635DFBCD9E304E0CD",
+        "scripts/validation/evaluate_f1641_local_size_support.py": "A44C48B98A2FF75589F308394DE14154E9FB654E258F164405973ADC8F49B494",
+        "tests/unit/test_f1641_local_size_support.py": "E903D58B4CDA70F7D449FEFFA6CFE6DF9A0A450BAA1CDAB0CCDCC315403CCC58",
+        "project_coordination/candidate_definitions/evaluate_f1641_local_size_support.json": "459E4B1FA2068267319132A6064FFBB483CB60D4175A2B33A26B58515AE3851C"
+      },
+      "decision": "REJECT",
+      "rationale": "The proposed theta=0.90 area-weighted squared-MISESERI support fails its predeclared full-coverage criterion. Although 180 of 2906 source cells capture 90.0253% of the stress-error proxy mass and cover all 663 tested notch-tip centroids, only 5581/6250 ligament centroids (89.296%) and 2482/2799 hole-boundary centroids (88.675%) are covered. The 669 ligament and 317 hole-boundary counterexamples are sufficient to falsify the required coverage condition. At uncovered points, the graded resolution cap exceeds the required 0.0015 mm maximum; therefore the proposed support cannot establish the declared local phase-field resolution. Furthermore, squared MISESERI is a statistical stress-error proxy, not a certified phase-field error estimator, and the proposed interior maximum-size enforcement has not been qualified for the Abaqus 2023 backend. This rejection applies specifically to the fixed theta=0.90 hypothesis and does not invalidate Method A or establish that another indicator-based strategy would fail. Preserve the original evidence and rejected hypothesis. Do not generate this mesh, silently adjust theta, introduce a predefined crack corridor, authorize PBS execution, or interpret this review as approval of an alternative method. A scientifically distinct sizing hypothesis requires its own evidence and independent review.",
+      "assistant_message_id": "msg-HND-6769186967124ebeaff3eea2d082dd2c",
+      "conversation_url": "https://chatgpt.com/c/independent-review-bridge"
+    },
+    "signature": "gHkq+6AIOgs63GLM+m55UQsO4tqlHQrqTgQowgbe7jeB7wnZUYEckdGNMuKLbiUokK8QqGv9dA6cv9cdODd4DQ=="
+  }
+}

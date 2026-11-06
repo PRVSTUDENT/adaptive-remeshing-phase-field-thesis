@@ -1,0 +1,32 @@
+{
+    "schema":  1,
+    "operation_id":  "evaluate_f1641_local_size_support",
+    "author":  "codex",
+    "task_id":  "F1641-METHOD-A-HOLE-INDICATOR-PILOT-QUALIFICATION",
+    "operation_mode":  "READ_ONLY_SCIENTIFIC_EVALUATION",
+    "registration_status":  "PROPOSED_FOR_INDEPENDENT_REVIEW",
+    "max_new_pbs_submissions":  0,
+    "max_new_mesh_candidates":  0,
+    "scientific_question":  "Review the single predeclared theta0.90 bulk-support local-cap hypothesis and measured counterexamples. Recommend REJECT if full required diagnostic coverage fails; do not approve generation or an alternative threshold.",
+    "source_differences":  "Against native1% global-target control (commit4b6ef458),define an offline extra cap min(native_h,0.0015+0.25*distance(x,indicator_support)),far0.020mm. Indicator support is180sourcecells contributing90.0253%area-weighted squared MISESERI proxy. Actual mesh was NOT generated. Explicitly test support before backend work;alltipcentroids covered,but669ligament+317holecentroids uncovered. Preserve failure,no silenttheta sweep.",
+    "acceptance_criteria":  [
+                                "Do not accept raw stress error as a percentage or certified phase-field estimator",
+                                "No new mesh/solver/PBS approved by this packet",
+                                "One fixed theta0.90,slope0.25,hcap0.0015mm,hfar0.020mm;not fitted to diagnostic boxes",
+                                "Full coverage prerequisite fails if any mapped required diagnostic point lies outside support",
+                                "Backend maximum-size enforcement and quantitative shape/grading limits remain unqualified",
+                                "Planning and local signatures cannot replace genuine independent-origin provenance"
+                            ],
+    "evidence_sources":  {
+                             "results/validation/f1641_local_size_review_summary.json":  "2D179BFC4C93FC696915BFBEE3C42DE2B9D43900E8E0EE0F409F10BA2703F24E",
+                             "results/validation/f1641_local_size_hypothesis.md":  "8F5ECF2E81C255DDC7AA1CE006DDD583D2072FAF4E447F0635DFBCD9E304E0CD",
+                             "scripts/validation/evaluate_f1641_local_size_support.py":  "A44C48B98A2FF75589F308394DE14154E9FB654E258F164405973ADC8F49B494",
+                             "tests/unit/test_f1641_local_size_support.py":  "E903D58B4CDA70F7D449FEFFA6CFE6DF9A0A450BAA1CDAB0CCDCC315403CCC58"
+                         },
+    "source_artifacts":  {
+                             "results/validation/f1641_hole_indicator_provenance.json":  "E94FD7C4008CDCCCC587FB6F26A539755C155366E1E422B3FF20362FDA642A35",
+                             "results/validation/f1641_local_size_support.json":  "B066383BF0E2F5997366B5E745B8DB954B9E73FE76CD9B983F7F91CCB132ED8D"
+                         },
+    "evidence_boundary":  "Full field/map retained under pinned source_artifacts;bounded exact selected-cell weight table and counterexample polygons attached for review of rejection,not a future mesh approval.",
+    "safety":  "Read-only candidate definition. No manifest,no executor,no arbitrary shell,no submission. Require exact signed receipt and genuine assistant provenance."
+}

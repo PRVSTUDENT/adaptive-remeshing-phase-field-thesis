@@ -1,3 +1,10 @@
+## Local-support closeout: next physics-based resolution-domain diagnosis
+
+HND-CODEX-2b3938ac4d934ad7a3df4b2d7d3665bb RECEIVED_VALIDATED(142s). Next inspect actual frozenUEL drivingenergy/history/initiationcriterion and authentic existingholefields;compare existing46747/130435meshes in a scientifically justified domain. Broad boxes are diagnostics,not automatically actualFPZ. No newmesh/solver/PBS. F1641 open;sessionreleased;nativeGoalactive;MethodCpaused. Signed rejection's actualorigin remainsunverified,no futureapprovalclaimed.
+
+## F1641 native Goal continuation: local90%proxy-support hypothesis falsified
+
+One offline predeclared area-weighted squared-MISESERI bulk-support/cap rule evaluated,no new mesh/solver/PBS.180of2906sourcecells cover6.4591%area and90.0253%proxy mass;all663tip testcentroids covered,but669ligament+317hole-band testcentroids outsidecap. FourtestsPASS;no theta sweep/corridor added. Canonical dispatcher correlation HND-6769186967124ebeaff3eea2d082dd2c returnedREJECTED for immutable packet0B1BA48247F38BA36FAE4F398003CA66A5D123995F90EB83BA4E0BA1D2519B2F. Signature verified,actualorigin UNVERIFIED because reply uses placeholder messageID/conversationURL and archive has no realassistantmetadata;no numericalapproval claimed. Preserve this failedhypothesis. Next one scientificallydistinct support/requiredregion diagnostic;newmesh stillrequires revieweddefinition and genuineindependentprovenance. See results/validation/f1641_local_size_hypothesis.md and sessions/2026-11-06_codex_F1641_local_size_support.md. F1641/overallGoal remainopen;MethodCpaused.
 ## F1641 closeout: result-review received; next local-sizing hypothesis
 
 HND-CODEX-fd28bbfa72e44082a97d56d21d44e77f RECEIVED_VALIDATED in106s. Production candidate rejected for measured local resolution;next define one offline indicator-selected maximum-size hypothesis and route authenticated scientific review BEFORE any new mesh. F1641 remains open;session released;native Goal active;zero PBS/solver runs. Failed76f296 transaction remains archived as failed,no replay.
