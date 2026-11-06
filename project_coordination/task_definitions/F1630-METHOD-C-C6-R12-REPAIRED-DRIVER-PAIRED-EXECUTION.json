@@ -4,7 +4,16 @@
   "phase": "Method C Paired C6 R12 Repaired-Driver Controlled Production Execution",
   "objective": "Execute the paired C6 adaptive receiver mesh (15,252 quads, 15,559 physical nodes, 61,008 Gauss points, held uy = 0.0018703125442191958 mm) re-equilibration experiment with gradient-preserving isoparametric bilinear Gauss-point state transfer using the repaired and unmocked-solver-qualified driver (SHA-256 17C064184A569019E7A2BC72B7880C7F3404B0A9E92C37B2D04F4BE3BAAC7166), comparing Arm A (M1_C6_R12_PICARD_BASELINE, Anderson disabled) vs Arm B (M1_C6_R12_ANDERSON_M2, safeguarded Anderson depth 2, beta 0.85, reg 1e-6, gamma_max 200, step_cap 0.045).",
   "predecessor": "F1629-METHOD-C-C6-R12-OVERNIGHT-CONTROLLED-PAIR",
-  "status": "active",
+  "status": "completed",
+  "scientific_acceptance": "EVALUATED_NONCONVERGED_ANDERSON_NEVER_ACTIVATED",
+  "evaluation_artifacts": {
+    "evaluation_summary": "results/validation/f1630_paired_execution_summary.json",
+    "evaluation_summary_sha256": "95374E672A7460A60AB6BD6BD350CC01C09BBA7A094BC6934DC2300E9002161D",
+    "evaluation_report": "results/validation/f1630_paired_execution_report.md",
+    "evaluation_report_sha256": "4144638D3D5D1B1A29B91CEB50E9ECDEBF86EBB34C701855F62969238D8B7F64",
+    "daily_error_register": "project_coordination/DAILY_ERROR_REGISTER_2026-11-06.json",
+    "daily_error_register_sha256": "AE3188271C90C880475C70DEF9628FEE83BE27BC4FC6CB378DB3F4694A00939E"
+  },
   "approval_provenance": {
     "handoff_correlation_id": "HND-bf29e0495841",
     "verified_github_head": "fa2a5100142c79fd03b7f2882d04da6d280d4076",

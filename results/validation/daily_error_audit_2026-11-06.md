@@ -17,8 +17,8 @@ In accordance with the 6 November 2026 governance directives (`HND-bf29e0495841`
 | :--- | :---: | :--- |
 | **Total Distinct Software/Metadata Incidents** | **`2`** | `INC-2026-11-06-01` (4 constituent R12 API code defects grouped as 1 incident), `INC-2026-11-06-02` (1 manifest-integrity defect) |
 | **Independently Verified Resolved Incidents** | **`2`** | `INC-2026-11-06-01` (`RESOLVED_VERIFIED` under `HND-bf29e0495841`), `INC-2026-11-06-02` (`RESOLVED_VERIFIED` under `HND-5b361e69abda`) |
-| **Unresolved Software/Metadata Incidents** | **`0`** | Based on current repository, test (`44/44 PASS`), and running F1630 execution evidence |
-| **Scientific Validation Dependencies** | **`1`** | `BLK-2026-11-06-01` (`PENDING_HPC_SOLVER_COMPLETION`: awaiting terminal C6 convergence results from `1420429.mmaster02` and `1420430.mmaster02`) |
+| **Unresolved Software/Metadata Incidents** | **`0`** | Based on current repository, test (`45/45 PASS`), and completed 140-outer-iteration F1630 execution evidence (`Exit_status = 0`) |
+| **Scientific Validation Dependencies** | **`1`** | `BLK-2026-11-06-01` (`TERMINAL_COUPLED_NONCONVERGENCE_AND_ANDERSON_NONACTIVATION_EVALUATED`: `1420429.mmaster02` and `1420430.mmaster02` completed 140 outer iterations `Exit_status = 0`, `NONCONVERGED`; `0` Anderson steps applied; forward C6 continuation blocked on scientific review) |
 | **Infrastructure Observability Boundaries** | **`1`** | `BLK-2026-11-06-02` (`DOCUMENTED_NON_BLOCKING_FOR_LOGIN_SUBMISSION`: compute-node outbound Telegram API delivery `UNRESOLVED`; login Telegram + PBS `-m abe` `PASS`) |
 
 ---
@@ -53,8 +53,10 @@ In accordance with the 6 November 2026 governance directives (`HND-bf29e0495841`
 
 Blocked conditions represent external runtime states, scientific dependencies, or cluster environment boundaries rather than code/metadata defects:
 
-1. **`BLK-2026-11-06-01` (`SCIENTIFIC_VALIDATION_DEPENDENCY` — `PENDING_HPC_SOLVER_COMPLETION`):**
-   - Forward continuation beyond C6 R12 (`Stage C3-0`) is scientifically gated on terminal completion of the two running `F1630` jobs (`1420429.mmaster02` and `1420430.mmaster02`) and verification of all predeclared physical convergence criteria ($\Delta d \le 10^{-5}$, $\Delta u_{\text{raw}}, \Delta u_{\text{rel}} \le 10^{-9}\text{ mm}$, $\Delta H \le 10^{-4}\text{ MPa}$, signed $\text{KKT} \le 10^{-6}$, zero unacceptable healing, zero GP-history decrease, and reaction force/energy drift $\le 2\%$).
+1. **`BLK-2026-11-06-01` (`SCIENTIFIC_VALIDATION_DEPENDENCY` — `TERMINAL_COUPLED_NONCONVERGENCE_AND_ANDERSON_NONACTIVATION_EVALUATED`):**
+   - Both `F1630` production jobs (`1420429.mmaster02` and `1420430.mmaster02`) completed all 140 outer coupled iterations (`280` Abaqus subproblem runs each, `Exit_status = 0`, walltimes `01:20:20` and `01:21:28`) with status `NONCONVERGED` (converged checkpoint properly suppressed).
+   - Arm B applied `0` Anderson steps (`94` Stage-1 gated iterations, `20` Stage-2 resets with $|\Delta \mathcal{A}_k| > 5$, `6` `insufficient_history`, and all `19` Stage-2 candidates with $m_k \ge 1$ rejected by binary `oversized_step` $\|\Delta d_{\text{prop}}\|_\infty \in [0.1013, 0.1166] > 0.045$), rendering Arm A and Arm B bitwise identical across all 140 iterations (`demonstrated_anderson_effect = False`).
+   - After Regime I contraction (`Outer 1..18`, $\min \Delta H = 0.4272\text{ MPa}$, reaction force drift $\le 0.706\%$), Regime II active-set erosion (`14,088 -> 66` nodes) drove supercritical crack advance at fixed $u_y = 0.0018703125\text{ mm}$ ($d_{\max}: 0.690981 \to 0.998604$, force drift `-46.180%`, total energy drift `-2.722%`, dominant residual $\Delta H = 311.39\text{ MPa}$). Forward continuation beyond C6 (`Stage C3-0`) remains scientifically blocked pending supervisor review of the `F1630` terminal verdict.
 2. **`BLK-2026-11-06-02` (`INFRASTRUCTURE_OBSERVABILITY_BOUNDARY` — `DOCUMENTED_NON_BLOCKING_FOR_LOGIN_SUBMISSION`):**
    - Compute-node direct outbound connectivity to `api.telegram.org` remains classified as `UNRESOLVED` in preflight reports (`compute_node_delivery = UNRESOLVED`), whereas login-node Telegram notification delivery (`telegram_notification_contract = PASS_LOGIN_NODE`) and compute-node PBS mail delivery (`#PBS -m abe` via `sendmail`) are verified `PASS`.
 
@@ -65,5 +67,5 @@ Blocked conditions represent external runtime states, scientific dependencies, o
 - [x] Separate `incidents` (software/metadata defects) from `blocked_conditions` (scientific dependencies & infrastructure boundaries).
 - [x] Group the four F1629 R12 API defects under a single software incident (`INC-2026-11-06-01`) without double-counting paired PBS jobs.
 - [x] Record and independently verify manifest-integrity repair (`INC-2026-11-06-02` $\to$ `RESOLVED_VERIFIED`).
-- [ ] Record terminal `F1630` solver execution outcome (`1420429.mmaster02` and `1420430.mmaster02`) and any newly observed runtime/scientific findings upon job completion.
+- [x] Record terminal `F1630` solver execution outcome (`1420429.mmaster02` and `1420430.mmaster02`) and newly observed runtime/scientific findings upon job completion.
 - [ ] Transition `audit_status` from `PROVISIONAL_UNTIL_SESSION_CLOSEOUT` to `FINAL_END_OF_DAY` at session closeout.

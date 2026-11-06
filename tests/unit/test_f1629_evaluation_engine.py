@@ -44,8 +44,8 @@ def test_calculate_contraction_factors():
 def test_analyze_arm_converged():
     # Synthetic converged arm
     history = [
-        {"outer": 1, "pdas_active_count": 1000, "delta_d": 1e-2, "delta_u": 1e-6, "delta_history": 1.0},
-        {"outer": 50, "pdas_active_count": 20, "delta_d": 5e-6, "delta_u": 5e-10, "delta_history": 5e-5, "anderson_applied": True},
+        {"outer": 1, "pdas_active_count": 1000, "delta_d": 1e-2, "raw_delta_d": 1e-2, "delta_u": 1e-6, "delta_u_raw": 1e-6, "delta_history": 1.0, "kkt_post_passed": True},
+        {"outer": 50, "pdas_active_count": 20, "delta_d": 5e-6, "raw_delta_d": 5e-6, "delta_u": 5e-10, "delta_u_raw": 5e-10, "delta_history": 5e-5, "anderson_applied": True, "kkt_post_passed": True},
     ]
     endpoint = {
         "reaction_force_kN": DONOR_CHECKPOINT03["reaction_force_kN"] * 1.005,  # 0.5% drift
@@ -94,15 +94,20 @@ def test_compare_arms_speedup():
     arm_a = {
         "iterations_completed": 140,
         "final_delta_d": 7e-3,
+        "final_raw_delta_d": 7e-3,
         "final_delta_u_mm": 5e-5,
+        "final_delta_u_raw_mm": 5e-5,
         "final_delta_h_mpa": 50.0,
         "active_set_reduction_pct": 95.0,
         "gates": {"coupled_convergence_pass": False},
     }
     arm_b = {
         "iterations_completed": 85,
+        "anderson_steps_applied": 12,
         "final_delta_d": 7e-6,
+        "final_raw_delta_d": 7e-6,
         "final_delta_u_mm": 5e-10,
+        "final_delta_u_raw_mm": 5e-10,
         "final_delta_h_mpa": 5e-5,
         "active_set_reduction_pct": 99.0,
         "gates": {"coupled_convergence_pass": True},
@@ -136,3 +141,60 @@ def test_end_to_end_evaluate(tmp_path: Path):
     assert (out / "f1629_paired_execution_report.md").is_file()
     assert summary["arm_a_picard"]["iterations_completed"] == 1
     assert summary["arm_b_anderson"]["iterations_completed"] == 1
+
+
+def test_authentic_f1630_terminal_evaluation_verdict():
+    summary_path = REPO_ROOT / "results" / "validation" / "f1630_paired_execution_summary.json"
+    report_path = REPO_ROOT / "results" / "validation" / "f1630_paired_execution_report.md"
+    assert summary_path.is_file()
+    assert report_path.is_file()
+
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    assert summary["task_id"] == "F1630-METHOD-C-C6-R12-REPAIRED-DRIVER-PAIRED-EXECUTION"
+    arm_a = summary["arm_a_picard"]
+    arm_b = summary["arm_b_anderson"]
+    comp = summary["comparison"]
+
+    # 1. Strict coupled convergence (both FAIL after 140 outer iterations)
+    assert arm_a["pbs_job_id"] == "1420429.mmaster02"
+    assert arm_b["pbs_job_id"] == "1420430.mmaster02"
+    assert arm_a["iterations_completed"] == 140
+    assert arm_b["iterations_completed"] == 140
+    assert arm_a["exit_status"] == 0
+    assert arm_b["exit_status"] == 0
+    assert arm_a["gates"]["coupled_convergence_pass"] is False
+    assert arm_b["gates"]["coupled_convergence_pass"] is False
+
+    # 2. Final raw and relaxed Delta d, Delta u, Delta H
+    assert pytest.approx(arm_a["final_delta_d"], rel=1e-5) == 7.623741e-3
+    assert pytest.approx(arm_a["final_raw_delta_d"], rel=1e-5) == 8.969107e-3
+    assert pytest.approx(arm_a["final_delta_u_mm"], rel=1e-5) == 5.477445e-5
+    assert pytest.approx(arm_a["final_delta_u_raw_mm"], rel=1e-5) == 6.444053e-5
+    assert pytest.approx(arm_a["final_delta_h_mpa"], rel=1e-5) == 311.39484
+
+    # 3. Signed KKT and active-set status
+    assert arm_a["gates"]["kkt_pass"] is True
+    assert arm_b["gates"]["kkt_pass"] is True
+    assert arm_a["initial_active_set"] == 14088
+    assert arm_a["final_active_set"] == 66
+    assert arm_a["stage2_iterations"] == 46
+    assert arm_a["rollback_events"] == 0
+
+    # 4. Anderson acceleration status
+    assert arm_b["anderson_steps_applied"] == 0
+    assert arm_b["anderson_fallbacks"] == 19
+    assert arm_b["anderson_resets"] == 114
+    assert comp["matching_iterations"]["identical_across_all_common_iterations"] is True
+    assert comp["matching_iterations"]["first_divergence_outer"] is None
+
+    # 5. Final force, energy, irreversibility, checkpoint acceptance
+    assert arm_a["gates"]["reaction_force_continuity_pass"] is False
+    assert arm_a["gates"]["total_energy_continuity_pass"] is False
+    assert arm_a["max_raw_healing_violations"] == 3
+    assert arm_a["gates"]["history_monotonicity_pass"] is True
+    assert arm_a["gates"]["overall_physical_acceptance_pass"] is False
+
+    # 6. Dominant cause of nonconvergence
+    assert comp["bottleneck_arm_a"]["dominant_residual"] == "delta_h"
+    assert comp["bottleneck_arm_b"]["dominant_residual"] == "delta_h"
+

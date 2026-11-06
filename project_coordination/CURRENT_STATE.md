@@ -1,4 +1,31 @@
-## 6 November Method C Paired C6 R12 Repaired-Driver Production Execution Activated & Running (Task F1630 Active)
+## 6 November Method C Paired C6 R12 Repaired-Driver Production Execution Completed & Evaluated (Task F1630 Closed)
+
+1. **Authentic Terminal Execution Summary (`1420429.mmaster02` & `1420430.mmaster02`)**:
+   - **Arm A (`M1_C6_R12_PICARD_BASELINE`, Package 174, Anderson OFF)**: PBS `1420429.mmaster02`, executed on `mnode098/0` (`normal_imfdfkmq`), walltime `01:20:20` (`4,820 s`), cputime `00:59:59` (`3,599 s`), `Exit_status = 0`. Completed all `140` outer coupled iterations (`280` Abaqus 2023 subproblems, `0` errors), terminal driver status `NONCONVERGED`.
+   - **Arm B (`M1_C6_R12_ANDERSON_M2`, Package 175, Anderson ON, $m=2, \beta=0.85, \text{reg}=10^{-6}, \gamma_{\max}=200, \text{step\_cap}=0.045$)**: PBS `1420430.mmaster02`, executed on `mnode098/1` (`normal_imfdfkmq`), walltime `01:21:28` (`4,888 s`), cputime `01:00:58` (`3,658 s`), `Exit_status = 0`. Completed all `140` outer coupled iterations (`280` Abaqus 2023 subproblems, `0` errors), terminal driver status `NONCONVERGED`.
+   - Live cluster verified (`qstat -u pr21vyci`): `0` running, `0` queued project jobs; both authorized `F1630` submissions consumed (`remaining_pbs_submissions = 0`).
+
+2. **Six-Point Mandatory Numerical Verdict (`results/validation/f1630_paired_execution_report.md`)**:
+   - **(1) Strict Coupled Convergence**: **NO (`FAIL` / `FAIL`)**. Neither arm satisfied the joint coupled tolerances ($\Delta d \le 10^{-5}$, $\Delta u \le 10^{-9}\text{ mm}$, $\Delta H \le 10^{-4}\text{ MPa}$) within 140 outer iterations.
+   - **(2) Final Raw & Relaxed Residuals (Identical in Both Arms)**:
+     * Terminal (`Outer 140`): $\Delta d_{\text{rel}} = 7.623741 \times 10^{-3}$ (`762.4x` above $10^{-5}$), $\Delta d_{\text{raw}} = 8.969107 \times 10^{-3}$ (`896.9x`), $\Delta u_{\text{rel}} = 5.477445 \times 10^{-5}\text{ mm}$ (`5.48e4x` above $10^{-9}\text{ mm}$), $\Delta u_{\text{raw}} = 6.444053 \times 10^{-5}\text{ mm}$ (`6.44e4x`), $\Delta H = 311.3948\text{ MPa}$ (`3.11e6x` above $10^{-4}\text{ MPa}$).
+     * Regime-I Contraction Minimum (`Outer 16–18`): With the isoparametric bilinear GP history transfer operator, $\Delta H$ contracted monotonically from `28.598 MPa` (`Outer 1`) to **`0.427247 MPa` (`Outer 16`, `>200x` lower than element-averaged R8–R10)**, $\Delta u$ contracted to `1.688928e-06 mm` (`Outer 16`), and $\Delta d$ contracted to `2.453388e-03` (`Outer 18`).
+   - **(3) Signed KKT & Active-Set Status**:
+     * Signed KKT at `Outer 140`: **`PASS`** (`dual_error = 1.4287e-09 kN*mm`, `free_error = 6.0093e-08 kN*mm`, `complementarity = 4.2958e-08`, all $\le 10^{-6}$).
+     * Active set eroded from $|\mathcal{A}_1| = 14,088$ (`1,471` free nodes) to $|\mathcal{A}_{140}| = 66$ (`15,493` free nodes, `99.53%` contraction). Both arms transitioned Stage 1 $\to$ Stage 2 at `Outer 95` ($|\mathcal{A}_{94}| = 316 \le 500$, $|\Delta \mathcal{A}_{92..94}| = 13, 8, 8 \le 25$, $\Delta \mathcal{A}^+ = 0$) and sustained Stage 2 through `Outer 140` with `0` rollbacks.
+   - **(4) Whether Anderson Genuinely Accelerated Any Accepted Iterations**: **NO (`0` Anderson steps accepted; `first_divergence_outer = null`)**. In Arm B, `Outer 1–94` were gated off in Stage 1 (`94` resets); in `Outer 95–140` (Stage 2), `20` iterations reset on $|\Delta \mathcal{A}_k| > 5$ (`114` total resets), `6` had `m_k = 0` (`insufficient_history`), and **all `19` candidate iterations with `m_k >= 1`** (`Outer 103, 106, 112, 113, 119, 122–128, 134–140`, $\|\gamma\|_2 \in [7.59, 21.75] \le 200$) proposed $\|\Delta d_{\text{prop}}\|_\infty \in [0.10134, 0.11663] > \text{anderson\_max\_step\_cap} = 0.045$ and fell back via binary rejection to the identical damped Picard step (`anderson_fallbacks_count = 19`, `anderson_accelerations_count = 0`).
+   - **(5) Final Force, Energy, Irreversibility & Checkpoint Acceptance**:
+     * Reaction force: $F_y = 0.096835\text{ kN}$ vs donor $0.179924\text{ kN}$ (**`-46.180%` drift, `FAIL`**; was `+0.363%` to `-0.706%` `PASS` during Regime I `Outer 1–18`).
+     * Total energy: $E_{\text{tot}} = 2.202372 \times 10^{-4}\text{ kN}\cdot\text{mm}$ ($E_{\text{elas}} = 9.051042 \times 10^{-5}$, $E_{\text{frac}} = 1.297268 \times 10^{-4}$) vs donor $2.263990 \times 10^{-4}\text{ kN}\cdot\text{mm}$ (**`-2.722%` drift, `FAIL`**).
+     * Irreversibility & bounds: Clamped damage satisfied $0 \le d \le 1$ ($d_{\max} = 0.998604$) and $d \ge d_0$ (`0` clamped violations; `3` raw subproblem violations $\min = -3.3900 \times 10^{-6}$); GP history satisfied $H \ge \psi_e^+$ (`0` violations) and $H \ge H_0$ (`0` violations).
+     * Checkpoint acceptance: **`REJECTED / SUPPRESSED`** (`converged_checkpoint_01.json` not written).
+   - **(6) Dominant Cause of Nonconvergence**:
+     * Regime-II supercritical crack propagation ($d_{\max}: 0.690981 \to 0.998604$) and whole-domain PDAS active-set erosion ($14,088 \to 66$ nodes under $c_{\text{pdas}} = 10^3\text{ (kN}\cdot\text{mm)}^{-1}$) after `Outer 18` under held top-edge displacement $u_y = 0.0018703125\text{ mm}$, combined with binary `oversized_step` rejection (`> 0.045`) in `AndersonAccelerator.compute_step()`.
+
+3. **Daily Error Register & Governance Reconciliation (`2026-11-06`)**:
+   - Both software/metadata incidents (`INC-2026-11-06-01` and `INC-2026-11-06-02`) verified **`RESOLVED_VERIFIED`** across all `280` outer iterations (`560` Abaqus subproblem runs) in `project_coordination/DAILY_ERROR_REGISTER_2026-11-06.json` (`AE318827...`) and `results/validation/daily_error_audit_2026-11-06.md` (`2B4D541C...`).
+
+## 6 November Method C Paired C6 R12 Repaired-Driver Production Execution Activated & Running (Task F1630 Historical Activation Record)
 
 1. **Manifest-Integrity Reconciliation & Independent Approval Executed (Handoff `HND-bf29e0495841`)**:
    - Under independent supervisor directive `HND-bf29e0495841`, resolved the circular SHA-256 build order in `scripts/state_transfer/build_f1629_packages.py` (`SHA-256: 619CA306FD49806A8829FDB1DF27DCB5D6056F7AC349E040BBC1FD9BFD4C4866`, `13,527 bytes`) by generating `*_AUTHORIZATION.json` first (excluding `PACKAGE_MANIFEST.json` from `auth["files"]`) and generating `PACKAGE_MANIFEST.json` second so `PACKAGE_MANIFEST.json` records the exact committed `*_AUTHORIZATION.json` SHA-256 and byte count:

@@ -31,9 +31,9 @@
       "repaired_commit_sha": "fa2a5100142c79fd03b7f2882d04da6d280d4076",
       "repaired_file_sha256": "17C064184A569019E7A2BC72B7880C7F3404B0A9E92C37B2D04F4BE3BAAC7166",
       "incident_status": "RESOLVED_VERIFIED",
-      "verification_scope": "PYTHON_API_INTEGRATION_AND_LIVE_ABAQUS_COUPLED_EXECUTION_STARTUP_VERIFIED",
+      "verification_scope": "PYTHON_API_INTEGRATION_AND_FULL_140_OUTER_ABAQUS_PRODUCTION_EXECUTION_VERIFIED",
       "verified_under_handoff": "HND-bf29e0495841",
-      "note": "Both F1629 PBS failures stem from one R12 driver API regression and are counted as one incident with four specific code defects. Independently verified on GitHub (commit fa2a5100142c79fd03b7f2882d04da6d280d4076) under HND-bf29e0495841 and confirmed in live Abaqus production execution (1420429.mmaster02 and 1420430.mmaster02) under HND-5b361e69abda.",
+      "note": "Both F1629 PBS failures stem from one R12 driver API regression and are counted as one incident with four specific code defects. Independently verified on GitHub (commit fa2a5100142c79fd03b7f2882d04da6d280d4076) under HND-bf29e0495841 and confirmed through full 140-outer-iteration Abaqus production execution (280 subproblem runs per job, Exit_status=0) in 1420429.mmaster02 and 1420430.mmaster02.",
       "code_defects": [
         {
           "defect_id": "DEF-2026-11-06-01A",
@@ -81,12 +81,12 @@
     {
       "condition_id": "BLK-2026-11-06-01",
       "category": "SCIENTIFIC_VALIDATION_DEPENDENCY",
-      "status": "PENDING_HPC_SOLVER_COMPLETION",
-      "active_pbs_jobs": [
+      "status": "TERMINAL_COUPLED_NONCONVERGENCE_AND_ANDERSON_NONACTIVATION_EVALUATED",
+      "terminal_pbs_jobs": [
         "1420429.mmaster02",
         "1420430.mmaster02"
       ],
-      "summary": "Full Abaqus production convergence of C6 R12 (Arm A Picard Baseline 1420429.mmaster02 vs Arm B Safeguarded Anderson M2 1420430.mmaster02) awaits terminal completion and quantitative evaluation of the two running F1630 PBS production jobs."
+      "summary": "Both F1630 production jobs completed all 140 outer iterations (280 Abaqus subproblem solves each) with Exit_status=0 (walltimes 01:20:20 and 01:21:28) and status=NONCONVERGED (converged checkpoint properly suppressed). Arm B applied 0 Anderson steps (94 Stage-1 gated iterations, 20 Stage-2 active-set resets with |Delta A|>5, 6 insufficient_history, and 19 Stage-2 candidates rejected by binary oversized_step > 0.045), rendering Arm A and Arm B bitwise identical across all 140 iterations (demonstrated_anderson_effect=False). After Regime I contraction (Outer 1..18, min Delta H = 0.427 MPa, force drift <= 0.71%), Regime II active-set erosion (14,088 -> 66 nodes) drove supercritical crack advance (d_max: 0.6910 -> 0.9986, force drift -46.18%, energy drift -2.72%, dominant residual Delta H = 311.39 MPa). Forward C6 continuation remains scientifically blocked pending supervisor review of the F1630 terminal verdict."
     },
     {
       "condition_id": "BLK-2026-11-06-02",
