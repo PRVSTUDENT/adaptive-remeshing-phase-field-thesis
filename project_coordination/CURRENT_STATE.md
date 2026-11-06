@@ -1,3 +1,7 @@
+## 6 November Codex F1634 controller restoration finding
+
+Canonical startup remains blocked by `SUCCESSOR_REQUIRED`: selected F1633 audit is completed and has no exact registered open successor. Saved controller checkpoint remains completed F1608 with empty next instruction. No controller/AGY worker was found; existing PAD robot remains running. Fixed optional scientific_checkpoint property access in launcher; normal startup 13/13 and external predecessor 9/9 regressions pass. Bridge dry run passes; live handoff unverified. Guarded qstat returned no jobs; zero submissions. Details and preserved test failures: [project_coordination/sessions/2026-11-06_codex_F1634_restore_canonical_research_loop.md](project_coordination/sessions/2026-11-06_codex_F1634_restore_canonical_research_loop.md).
+
 ## 6 November Method A Plate with Off-Axis Hole Feasibility Investigation Completed (Task F1632 Closed)
 
 1. **Status**: **`BLOCKED WITH VERIFIED TECHNICAL REASON`** (Under Supervisor Directives via `HND-bef847fc363a` and `HND-24ccab0bbe86`).

@@ -48,7 +48,7 @@ Require (-not [string]::IsNullOrWhiteSpace([string]$task.task_id)) 'ACTIVE_TASK 
 Require ($session.active -eq $false) 'An active AGY session owns the workspace. Do not start a second controller.'
 
 # Check the scientific checkpoint artifact if the current task declares one.
-if ($null -ne $task.scientific_checkpoint -and $task.scientific_checkpoint.artifact) {
+if ($task.PSObject.Properties['scientific_checkpoint'] -and $null -ne $task.scientific_checkpoint -and $task.scientific_checkpoint.PSObject.Properties['artifact'] -and $task.scientific_checkpoint.artifact) {
     $relative = [string]$task.scientific_checkpoint.artifact
     Require (-not ($relative -match '^([A-Za-z]:|[/\\])') -and -not ($relative -match '(^|[/\\])\.\.([/\\]|$)')) 'Unsafe scientific checkpoint path.'
     $artifactPath = Join-Path $Workspace $relative
