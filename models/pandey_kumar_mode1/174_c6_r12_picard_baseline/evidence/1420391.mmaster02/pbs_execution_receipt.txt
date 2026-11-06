@@ -1,0 +1,17 @@
+﻿/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifort
+Loaded Package 171-R12: 15,252 quads, 15,559 nodes, target_uy = 0.001870312544 mm
+Verified transferred state: d0 in [0.003390, 0.690981], H0 in [7.6977e-09, 1.4047e+01]
+Nonuniform history elements: 15252 of 15252 (100.0%)
+R12 Phase Relaxation: Stage 1 omega_d=0.50, Stage 2 omega_d=0.85
+R12 Displacement Relaxation: Stage 1 omega_u=1.00, Stage 2 omega_u=0.85
+R12 Anderson Acceleration: enabled=False, m=2, beta=0.85, reg=1.0e-06, gamma_max=200.0, max_step_cap=0.04
+Compound Switching criteria: |A_k| <= 500, |Delta A_k| <= 10, Delta A^+ <= 0 for 3 consecutive iterations
+Rollback threshold factor: 1.05, divergence factor: 1.50, max_outer: 140
+Traceback (most recent call last):
+  File "/scratch9/pr21vyci/runs/mode1_c6_r12_picard_baseline/runtime/scripts/state_transfer/driver_package171_r12_c6_coupled_pdas.py", line 1202, in <module>
+    main()
+  File "/scratch9/pr21vyci/runs/mode1_c6_r12_picard_baseline/runtime/scripts/state_transfer/driver_package171_r12_c6_coupled_pdas.py", line 1185, in main
+    summary = driver.solve_coupled_equilibration()
+  File "/scratch9/pr21vyci/runs/mode1_c6_r12_picard_baseline/runtime/scripts/state_transfer/driver_package171_r12_c6_coupled_pdas.py", line 781, in solve_coupled_equilibration
+    penalty_active=1e9, penalty_free=0.0
+TypeError: __init__() got an unexpected keyword argument 'penalty_active'
