@@ -1,0 +1,165 @@
+{
+    "manifest_version": "1.0",
+    "task_id": "F1675-EXISTING-F1664-METHOD-A-DECK-QUALIFICATION",
+    "date": "2026-11-07",
+    "agent": "gemini-antigravity",
+    "reviewer": "ChatGPT Independent Scientific Review",
+    "git_branch": "mode2-pandey-kumar-reproduction",
+    "governed_provenance": {
+        "predecessor_review_verdict": "PARTIALLY_VALIDATED",
+        "predecessor_handoff_id": "HND-7e63be9ce6c7",
+        "verified_github_commit": "216ead57b5e2100b89f06692590ee40a1abf7da4",
+        "f1664_adapted_mesh_source": "F1664 Native Abaqus Adaptive Remeshing at errorTarget=5.0%"
+    },
+    "corrected_historical_provenance": {
+        "donor_coarse_mesh_composition": {
+            "source_file": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_PHYS.inp",
+            "cps4r_quads": 2832,
+            "cps3_tris": 74,
+            "total_physical_elements": 2906,
+            "correction_note": "Corrected from previous mistaken record of 2810 quads + 96 tris to exact repository value 2832 CPS4R + 74 CPS3."
+        },
+        "remeshing_rule_error_target_representation": {
+            "abaqus_cae_script_value": 5.0,
+            "units": "percent (%)",
+            "correction_note": "Abaqus RemeshingRule sizingMethod=UNIFORM_ERROR takes percentage directly as errorTarget=5.0 for 5%."
+        },
+        "f1664_recovery_odb_provenance": {
+            "source_odb": "PK_HOLE_F1661_RECOVERY.odb",
+            "correction_note": "F1664 adaptiveRemesh script opened PK_HOLE_F1661_RECOVERY.odb which contains the identical verified F1659 USDFLD recovery solution."
+        }
+    },
+    "target_model": {
+        "case_id": "METHOD_A_NATIVE_5PCT_ADAPTED",
+        "benchmark_name": "Mode-I Off-Axis Circular Hole Benchmark",
+        "input_deck": {
+            "filename": "PK_HOLE_F1664_METHOD_A_PROD.inp",
+            "path": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_F1664_METHOD_A_PROD.inp",
+            "sha256": "B6FB9AD2C16293E78E0940C00C65D9D54C3921E8234CEB770956117D6B39D99B",
+            "file_size_bytes": 2795116,
+            "total_lines": 81199,
+            "total_physical_elements": 20213,
+            "total_layered_elements": 60639,
+            "layer_parity": "EXACT_3X_PARITY (20213 * 3 = 60639)"
+        },
+        "physical_mesh": {
+            "filename": "PK_HOLE_F1664_METHOD_A_ADAPT_PHYS.inp",
+            "sha256": "F39C72675B5B78C59681F87CEC1E862F1C4F101E432E25500F4B4F02B514B206",
+            "total_elements": 20213,
+            "quad_count": 19644,
+            "tri_count": 569,
+            "quad_percent": 97.18497996338989,
+            "non_positive_jacobians": 0,
+            "min_det_j": 1.5011916745572145e-07,
+            "distorted_elements": 0,
+            "median_aspect_ratio": 1.2120112164464658,
+            "min_corner_angle_deg": 34.29333057889504,
+            "elements_le_2p5um": 6521,
+            "elements_le_3p75um": 9913
+        },
+        "user_subroutine": {
+            "filename": "f42_mixed_uel.for",
+            "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+            "frozen_hash_match": true
+        }
+    },
+    "deck_structural_verification": {
+        "layer_1_phase_field": {
+            "u1_quads": 19644,
+            "u3_tris": 569,
+            "total": 20213,
+            "dofs": [
+                3
+            ]
+        },
+        "layer_2_displacement": {
+            "u2_quads": 19644,
+            "u4_tris": 569,
+            "total": 20213,
+            "dofs": [
+                1,
+                2
+            ]
+        },
+        "layer_3_companion_umat": {
+            "cpe4_quads": 19644,
+            "cpe3_tris": 569,
+            "total": 20213,
+            "dofs": [
+                1,
+                2
+            ]
+        },
+        "property_cards": {
+            "uel_quad_properties": [
+                0.0075,
+                0.0027,
+                210.0,
+                0.3,
+                1e-07,
+                20213.0
+            ],
+            "uel_tri_properties": [
+                0.0075,
+                0.0027,
+                210.0,
+                0.3,
+                1e-07,
+                20213.0
+            ],
+            "umat_constants": [
+                210.0,
+                0.3,
+                20213.0
+            ],
+            "depvar_count": 20,
+            "abi_compliance": "PASS (matches f42_mixed_uel.for exactly)"
+        },
+        "slit_topology": {
+            "top_flank_nodes": 28,
+            "bottom_flank_nodes": 29,
+            "shared_nodes": 0,
+            "separation_verdict": "100_PERCENT_DISCONNECTED"
+        },
+        "boundary_and_equations": {
+            "rigid_top_tying_equations": 83,
+            "reference_node": 999999,
+            "reference_dof": 2,
+            "roller_bottom_nodes": "N_BOTTOM (DOF 2 = 0.0)",
+            "pinned_origin_node": "N_PIN (DOF 1 = 0.0)",
+            "lateral_restraint_top": "N_TOP (DOF 1 = 0.0)"
+        }
+    },
+    "datacheck_execution_specification": {
+        "job_name": "M1_HOLE_F1664_METHOD_A_DATACHECK",
+        "execution_mode": "Single-rank shared-memory SMP (1 CPU), strict datacheck mode",
+        "command": "abaqus job=M1_HOLE_F1664_METHOD_A_DATACHECK input=PK_HOLE_F1664_METHOD_A_PROD.inp user=f42_mixed_uel.for datacheck interactive",
+        "proposed_pbs_script": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/submit_M1_HOLE_F1664_METHOD_A_DATACHECK.pbs",
+        "proposed_scratch_dir": "/scratch9/pr21vyci/runs/mode1_method_a_hole_f1664_datacheck",
+        "resources": {
+            "cpus": 1,
+            "memory_gb": 4,
+            "walltime": "00:15:00",
+            "queue": "entry_imfdfkmq"
+        },
+        "duplication_safeguard": {
+            "is_duplicate_in_ledger": false,
+            "ledger_path": "project_coordination/HPC_JOB_LEDGER.csv"
+        }
+    },
+    "acceptance_criteria": [
+        "1. Preprocessor terminates with Exit 0 and confirms pre-process completion ('End Abaqus/Standard Pre-Process' / 'Abaqus/Standard PRE completed' / Exit 0) in .log.",
+        "2. Zero '***ERROR' records in .dat indicating missing properties, syntax mismatches, or invalid sets.",
+        "3. Zero warnings regarding non-positive Jacobians or distorted elements during element assembly in .msg / .dat.",
+        "4. Complete resolution of the 83 *EQUATION ties without singular or overconstrained DOF warnings.",
+        "5. Successful compilation and shared-object linking of f42_mixed_uel.for without symbol collisions.",
+        "6. Exact memory preallocation logged and directly extracted from .dat / .msg for the 60,639-element mixed system.",
+        "7. Strict zero-increment preflight enforcement: solver halts immediately after preprocessor phase without initiating Newton-Raphson equilibrium iterations or crack propagation."
+    ],
+    "operational_boundaries": {
+        "max_new_pbs_submissions": 0,
+        "actual_hpc_submission": "HALTED_AWAITING_SEPARATE_AUTHORIZATION",
+        "full_fracture_solve": "NOT_AUTHORIZED",
+        "local_compiler_status": "Intel Fortran compiler not installed on local Windows workstation (Compilers are not found; test user_std skipped); solver datacheck requires cluster scratch staging and authorized PBS execution."
+    }
+}

@@ -1,3 +1,34 @@
+## 7 November F1675 Existing F1664 Native Method A Refined Deck Qualification COMPLETE: Review HND-7e63be9ce6c7 Directives Executed, Gate 3 Requirements Met, F1664 Physical Mesh (20,213 Elements, 97.18% Quads) Verified with 0 Non-Positive Jacobians & 0 Distorted Elements (Min det(J)=1.501e-7, Min Angle 34.29 deg, 9,913 FEs <= l0/2), Production Deck PK_HOLE_F1664_METHOD_A_PROD.inp (81,199 Lines, 60,639 Layered Elements, Exact 3x Parity) Verified Card-by-Card, 4 UEL Property Cards Matching N_phys=20213.0 & Companion UMAT CONSTANTS=3 Verified, Slit Flank Topology (Top 28, Bottom 29, 0 Shared Nodes, 100% Disconnected) & 83 Top Rigid Tying Equations Verified, Historical Facts Reconciled (Donor 2832 CPS4R + 74 CPS3, errorTarget=5.0, ODB PK_HOLE_F1661_RECOVERY.odb), All 4 Datacheck Assets Staged to /scratch9/pr21vyci/runs/mode1_method_a_hole_f1664_datacheck and 100% Bitwise Verified Remotely, 19/19 Unit Tests PASS, Ready for F1675 Dispatch and HPC Datacheck Authorization
+
+Execution of ChatGPT-mandated Task F1675 (Existing F1664 Native Method A Refined Deck Qualification) resolving review `HND-7e63be9ce6c7`:
+1. Physical Mesh Quality Audit (`PK_HOLE_F1664_METHOD_A_ADAPT_PHYS.inp`):
+   - 20,213 physical elements: 19,644 quads (97.185%), 569 triangles (2.815%).
+   - Isoparametric Jacobians: 0 non-positive Jacobians, minimum $\det(J) = 1.5012 \times 10^{-7} > 0.0$.
+   - Distortion & shape metrics: 0 distorted elements, median aspect ratio 1.212, minimum corner angle $34.29^\circ$.
+   - Crack resolution: 6,521 elements $\le 2.5\,\mu\text{m}$ ($\ell_0/3$, 32.26%), 9,913 elements $\le 3.75\,\mu\text{m}$ ($\ell_0/2$, 49.04%).
+2. Production Deck Card-by-Card Audit (`PK_HOLE_F1664_METHOD_A_PROD.inp`):
+   - Total lines: 81,199 lines. SHA-256: `B6FB9AD2C16293E78E0940C00C65D9D54C3921E8234CEB770956117D6B39D99B`.
+   - Layer 1 (Phase Field): 19,644 U1 + 569 U3 = 20,213 elements (DOF 3 = $d$).
+   - Layer 2 (Displacement): 19,644 U2 + 569 U4 = 20,213 elements (DOFs 1, 2 = $u_x, u_y$).
+   - Layer 3 (Companion UMAT): 19,644 CPE4 + 569 CPE3 = 20,213 elements (DOFs 1, 2 = $u_x, u_y$).
+   - Exact $3\times$ layered parity: $20,213 \times 3 = 60,639$ elements.
+   - Property cards: 4 `*UEL PROPERTY` cards matching `f42_mixed_uel.for` ABI with $N_{\text{phys}} = 20,213.0$.
+   - Companion `*USER MATERIAL, CONSTANTS=3` with `(210.0, 0.30, 20213.0)` and `*DEPVAR (20)`.
+   - `*SOLID SECTION, ELSET=All_elem` strictly contains the companion elements 40427–60639 (0 UEL elements in `All_elem`).
+3. Flank Topology & Equations:
+   - Slit flanks: Top flank has 28 nodes, bottom flank has 29 nodes, exactly 0 shared nodes (100% disconnected).
+   - Rigid tying constraints: 83 `*EQUATION` cards (166 lines) connecting `N_TOP` to reference node 999999 in DOF 2.
+4. Historical Provenance Reconciled:
+   - Coarse donor mesh composition: 2,832 CPS4R + 74 CPS3 = 2,906 elements (verified in `PK_HOLE_COARSE_PHYS.inp`).
+   - Abaqus `RemeshingRule` error target: `errorTarget = 5.0` for 5% in CAE Python script.
+   - Recovery ODB provenance: `PK_HOLE_F1661_RECOVERY.odb` (containing identical verified USDFLD recovery).
+5. Cluster Scratch Staging & Remote Verification:
+   - Staged all 4 assets to `/scratch9/pr21vyci/runs/mode1_method_a_hole_f1664_datacheck`.
+   - Remote bitwise SHA-256 verification confirmed 100% match via guarded SSH.
+6. Governance Boundary Preserved:
+   - `max_new_pbs_submissions = 0`: strictly respected (zero PBS submissions, `qsub` NOT called).
+   - 19/19 framework unit tests PASS in 5.81s (`tests/unit/test_reusable_2d_adaptive_framework.py`).
+
 ## 7 November F1674 Authentic Coupled-State Stress Replay and MISESERI Qualification COMPLETE: Review HND-5a9b1e17a80a Directives Executed, Gate 2 Requirements Met, Procedural Distinction Between Prescribed-State Replay (Procedure A) and Auxiliary Equilibrium Recovery (Procedure B) Formally Codified, Mesh Transfer Audited (2,906 Donor vs 2,935 Recovery Elements, 100% Disconnected Flanks, <1 nm IP Alignment), Stress Parity Confirmed (r = 0.9575, NRMSE = 4.0539%, Far-Field r = 0.9724, Softening r = 0.9089), Abaqus Native MISESERI Field Qualified (Median 2.87 MPa, Peak 1,437.36 MPa; Relative Error Median 2.52%, Mean 13.00%), Corrected 2x Force Doubling Assertion to Additional Unintended Internal Force Contribution, 18/18 Unit Tests PASS, Ready for F1674 Dispatch and Advance to Gate 3 (Native RemeshingRule 5%)
 
 Execution of ChatGPT-mandated Task F1674 (Authentic Coupled-State Stress Replay and MISESERI Qualification) resolving review `HND-5a9b1e17a80a`:

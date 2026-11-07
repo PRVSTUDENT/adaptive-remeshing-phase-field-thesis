@@ -514,6 +514,58 @@ def test_f1674_stress_replay_and_miseseri_qualification():
     assert synth["gate_3_readiness"]["established_adapted_mesh_baseline"]["total_elements"] == 20213
 
 
+def test_f1675_method_a_deck_qualification_manifest():
+    """Verify Task F1675 Method A refined production deck qualification manifest."""
+    manifest_path = (
+        REPO_ROOT
+        / "models"
+        / "pandey_kumar_mode1"
+        / "176_method_a_plate_with_hole"
+        / "PK_HOLE_F1675_DATACHECK_MANIFEST.json"
+    )
+    assert manifest_path.exists(), "F1675 datacheck manifest not found"
+
+    with open(str(manifest_path), "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    meta = data["task_id"]
+    assert meta == "F1675-EXISTING-F1664-METHOD-A-DECK-QUALIFICATION"
+
+    corr = data["corrected_historical_provenance"]
+    assert corr["donor_coarse_mesh_composition"]["cps4r_quads"] == 2832
+    assert corr["donor_coarse_mesh_composition"]["cps3_tris"] == 74
+    assert corr["donor_coarse_mesh_composition"]["total_physical_elements"] == 2906
+    assert corr["remeshing_rule_error_target_representation"]["abaqus_cae_script_value"] == 5.0
+    assert corr["f1664_recovery_odb_provenance"]["source_odb"] == "PK_HOLE_F1661_RECOVERY.odb"
+
+    deck = data["target_model"]["input_deck"]
+    assert deck["total_physical_elements"] == 20213
+    assert deck["total_layered_elements"] == 60639
+    assert deck["sha256"] == "B6FB9AD2C16293E78E0940C00C65D9D54C3921E8234CEB770956117D6B39D99B"
+
+    mesh = data["target_model"]["physical_mesh"]
+    assert mesh["non_positive_jacobians"] == 0
+    assert mesh["distorted_elements"] == 0
+    assert mesh["quad_count"] == 19644
+    assert mesh["tri_count"] == 569
+
+    struct = data["deck_structural_verification"]
+    assert struct["slit_topology"]["top_flank_nodes"] == 28
+    assert struct["slit_topology"]["bottom_flank_nodes"] == 29
+    assert struct["slit_topology"]["shared_nodes"] == 0
+    assert struct["slit_topology"]["separation_verdict"] == "100_PERCENT_DISCONNECTED"
+    assert struct["boundary_and_equations"]["rigid_top_tying_equations"] == 83
+
+    uel = data["target_model"]["user_subroutine"]
+    assert uel["sha256"] == FROZEN_UEL_SHA256
+    assert uel["frozen_hash_match"] is True
+
+    ops = data["operational_boundaries"]
+    assert ops["max_new_pbs_submissions"] == 0
+    assert ops["actual_hpc_submission"] == "HALTED_AWAITING_SEPARATE_AUTHORIZATION"
+
+
+
 
 
 
