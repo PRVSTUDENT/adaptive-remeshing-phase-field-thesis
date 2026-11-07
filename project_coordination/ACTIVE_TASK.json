@@ -1,22 +1,19 @@
 {
-    "task_id": "F1653-PANDEY-KUMAR-ORIGINAL-METHOD-A-COARSE-COUPLED-JOB1",
-    "title": "Restore Pandey-Kumar (2025) Method A: coarse coupled phase-field Job 1 (2,906 elements) -> authentic coupled MISESERI extraction -> native adaptive remeshing",
+    "task_id": "F1654-COUPLED-STRESS-RECOVERY-AND-METHOD-A-REMESHING",
+    "title": "Fix coupled UEL/UMAT stress recovery and evaluate genuine Pandey-Kumar Method A remeshing on geometry-backed model",
     "status": "COMPLETED",
     "assigned_agent": "gemini-antigravity",
     "predecessor_task": {
-        "task_id": "F1652-GENERALIZED-2D-FIELD-ADAPTIVE-REMESHING-FRAMEWORK",
-        "run_id": "2b6c1670-80a6-48ec-8f7a-8f96db40a99c",
-        "checkpoint_artifact": "project_coordination/sessions/2026-11-07_gemini-antigravity_F1652_generalized_framework.md",
-        "checkpoint_sha256": "47DFDB82B9A25BD7A9AC45FD1BC01579482DFD594C1EC090FEF9E13FDCE01A5E"
+        "task_id": "F1653-PANDEY-KUMAR-ORIGINAL-METHOD-A-COARSE-COUPLED-JOB1",
+        "checkpoint_artifact": "project_coordination/sessions/2026-11-07_gemini-antigravity_F1653_coarse_coupled_job1.md"
     },
     "registration": {
-        "definition": "project_coordination/task_definitions/F1653-PANDEY-KUMAR-ORIGINAL-METHOD-A-COARSE-COUPLED-JOB1.json",
-        "sha256": "85324DA6D77AD0F5A0940A4CB811F1BF3C55FB6428A3505067C46EDE5C49A08C"
+        "definition": "project_coordination/task_definitions/F1654-COUPLED-STRESS-RECOVERY-AND-METHOD-A-REMESHING.json"
     },
-    "scientific_operation": "coarse_coupled_job1_miseseri_adaptive_remesh",
-    "scientific_operation_id": "coarse_coupled_job1",
+    "scientific_operation": "coupled_stress_recovery_and_method_a_remeshing",
+    "scientific_operation_id": "f1654_stress_recovery",
     "scientific_checkpoint_required": true,
-    "max_new_pbs_submissions": 1,
+    "max_new_pbs_submissions": 0,
     "completed_operations": [
         "mapped_frozen_history_lower_bound_kkt_probe",
         "mapped_mechanical_history_call_order_probe",
@@ -487,8 +484,8 @@
     "operation_transition": {},
     "created_at": "2026-11-07T03:52:00.0000000+00:00",
     "paused_task": "F1640-METHOD-C-CP02-C6-CONTROLLED-EXPERIMENT-QUALIFICATION",
-    "last_step_status": "COARSE_JOB1_COMPLETED_EXIT0_MISESERI_ZERO_PROVEN_FIGURES_GENERATED",
+    "last_step_status": "F1654_TASK_ACTIVE_INVESTIGATING_STRESS_RECOVERY",
     "active_pbs_job_id": "",
     "next_instruction_receipt": "",
-    "next_bounded_operation": "STOP_BEFORE_JOB2_SUBMISSION_AWAITING_USER_MESH_APPROVAL"
+    "next_bounded_operation": "Inspect UMAT stress mechanisms and evaluate physically consistent stress recovery"
 }
