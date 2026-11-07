@@ -1,4 +1,4 @@
-﻿\chapter{Current Status: Mode-I Verification, UEL Energy Audit, and Multifaceted Convergence}
+\chapter{Current Status: Mode-I Verification, UEL Energy Audit, and Multifaceted Convergence}
 \label{cha:current_status}
 \label{ch:current_status}
 
@@ -4547,3 +4547,113 @@ Nonmatching Total Energy Continuity & $-0.527\% \le 0.55\%$ (Pkg 53 vs 54) & \te
   \item \textbf{Method B (Load-Partitioned Propagation Refinement):} Solves the artificial force plateau when refinement ($h \le \ellzero / 2$) covers the entire prospective crack trajectory, achieving close agreement with canonical references ($K_0$ error $-0.026\%$, $F_{\max}$ error $-1.86\%$, $W_{\mathrm{ext}}$ error $-3.87\%$) within the common comparison horizon $u \le 0.007889\,\mathrm{mm}$. Note that Method~B loading partitions (1, 2, or 4 steps) represent loading subdivision before a single remesh, not sequential remeshing cycles.
   \item \textbf{Method C (Sequential Continuation):} The intended research objective remains sequential adaptive remeshing during crack propagation. While historical standard restart in Abaqus/Standard was obstructed by pre-processor displacement rejection, the \emph{Kinematic-Offset Continuation Architecture} ($u = u_0 + \Delta u$, $d = d_0 + \Delta d$) combined with guarded predictor control (\texttt{extrapolation=NO}) has successfully resolved the displacement initialization barrier, achieving machine zero reload work ($W_{\mathrm{reload}} = 0.000000\,\mathrm{J}$). On matching discretizations (Package 56 vs 55), exact double-precision continuation parity ($\mathbf{0.0000\%}$ error in reaction force, fracture energy, and total energy) was demonstrated. Furthermore, the damage healing violation observed in nonmatching transfer was definitively proven to be a $100\%$ spatial interpolation artifact, dropping to $-0.00012$ on identical grids. Nonmatching state transfer with corrected crack-slit geometry (Package 53 vs 54) preserves fracture energy to within $+0.338\%$ and total energy to within $-0.527\%$. These breakthroughs establish the mathematical and computational foundation for complete multi-cycle external-driver adaptive remeshing.
 \end{itemize}
+
+\section{Controlled Three-Way 2D Adaptive Remeshing Study: Stress-Error vs.\ Damage-Informed Localization}
+\label{sec:three_way_controlled_comparison}
+
+\subsection{Motivation and Scientific Formulation}
+In the implementation of error-guided mesh adaptation for phase-field fracture (Method~A), two distinct physical indicators can be deployed to govern local discretization:
+\begin{enumerate}
+  \item \textbf{Recovered Stress Discretization Error ($\eta_\sigma$):} Defined by the Zienkiewicz--Zhu superconvergent patch recovery (SPR) error indicator:
+  \begin{equation}
+    \eta_\sigma(\mathbf{x}) = \frac{\text{MISESERI}(\mathbf{x})}{\max\left(\text{MISESAVG}, \varepsilon_0\right)} \times 100\%,
+    \label{eq:miseseri_rel_def}
+  \end{equation}
+  where $\text{MISESERI}$ is the recovered equivalent stress discretization error and $\text{MISESAVG}$ is the domain-averaged von Mises stress.
+  \item \textbf{Phase-Field Fracture Damage ($d$):} Evaluated from the regularized damage field $d(\mathbf{x}) \in [0, 1]$ governed by the balance of crack surface dissipation and elastic strain release.
+\end{enumerate}
+
+Prior investigations revealed a severe trade-off between these fields: native Abaqus SPR stress-error adaptation (\texttt{F1664}, $20{,}213$ elements) suffered from \emph{stress-relaxation blindness} in completely severed ligaments ($d \approx 1.0$), leaving the broken primary ligament unrefined ($h_{\text{median}} = 4.684\,\mu\mathrm{m}$, zero elements meeting $h \le 1.5\,\mu\mathrm{m}$). Conversely, unconstrained combined sizing ($h_C = \min(h_\sigma, h_d)$) yielded severe lateral over-refinement ($73{,}251$ elements in \texttt{F1666}) due to broad boundary stress concentrations.
+
+To isolate the individual and synergistic effects of these refinement drivers without mesher-induced bias, a controlled three-way comparative study was executed on the Mode-I off-axis circular hole specimen ($1.0 \times 1.0\,\mathrm{mm}$, notch $a_0 = 0.50\,\mathrm{mm}$, hole $(0.65, 0.65)\,\mathrm{mm}$, $R = 0.10\,\mathrm{mm}$) under identical CAD geometry, identical coarse donor data, and an identical Gmsh Frontal-Delaunay 2D mesher with Blossom quadrilateral recombination:
+\begin{align}
+  \text{Case A (Stress-Only):} \quad & h_A(\mathbf{x}) = h_\sigma(\mathbf{x}), \label{eq:case_a_def} \\
+  \text{Case B (Damage-Only):} \quad & h_B(\mathbf{x}) = h_d(\mathbf{x}), \label{eq:case_b_def} \\
+  \text{Case C (Combined Synergistic):} \quad & h_C(\mathbf{x}) = \min\left( h_\sigma(\mathbf{x}), h_d(\mathbf{x}) \right). \label{eq:case_c_def}
+\end{align}
+The target sizing function for any marked support point set $\mathcal{S}$ is governed by:
+\begin{equation}
+  h(\mathbf{x}; \mathcal{S}) = \begin{cases}
+    h_{\min}, & \text{dist}(\mathbf{x}, \mathcal{S}) \le \text{DistMin}, \\
+    h_{\min} + \frac{\text{dist}(\mathbf{x}, \mathcal{S}) - \text{DistMin}}{\text{DistMax} - \text{DistMin}} (h_{\max} - h_{\min}), & \text{DistMin} < \text{dist}(\mathbf{x}, \mathcal{S}) < \text{DistMax}, \\
+    h_{\max}, & \text{dist}(\mathbf{x}, \mathcal{S}) \ge \text{DistMax},
+  \end{cases}
+  \label{eq:sizing_distance_function}
+\end{equation}
+with calibrated parameters $h_{\min} = 1.35\,\mu\mathrm{m}$ ($0.18\,\ell_0$), $h_{\max} = 20.0\,\mu\mathrm{m}$ ($2.67\,\ell_0$), $\text{DistMin} = 7.5\,\mu\mathrm{m}$ ($1.0\,\ell_0$), and $\text{DistMax} = 25.0\,\mu\mathrm{m}$ ($3.33\,\ell_0$).
+
+\subsection{Comparative Quantitative Evaluation}
+The three generated meshes were evaluated against the literature baseline (\texttt{F1664}) across geometric diagnostic boxes, authentic physical damage supports, element quality, and computational cost. Table~\ref{tab:three_way_comparison_metrics} summarizes the reconciled metrics directly verified from the physical finite element input decks.
+
+\begin{table}[htbp]
+\centering
+\caption{Reconciled comparative evaluation across the four adaptive discretization strategies on the Mode-I off-axis circular hole benchmark ($1.0 \times 1.0\,\mathrm{mm}$, notch $a_0 = 0.50\,\mathrm{mm}$, hole $R = 0.10\,\mathrm{mm}$, $\ell_0 = 7.5\,\mu\mathrm{m}$). All numbers re-parsed and validated directly from physical finite element decks.}
+\label{tab:three_way_comparison_metrics}
+\small
+\begin{tabularx}{\textwidth}{p{0.34\textwidth}rrrr}
+\toprule
+\textbf{Evaluation Metric} & \textbf{F1664 Baseline} & \textbf{Case A (Stress)} & \textbf{Case B (Damage)} & \textbf{Case C (Hybrid)} \\
+\midrule
+Meshing Engine & Abaqus Native & Gmsh Blossom & Gmsh Blossom & Gmsh Blossom \\
+Governing Size Field & Native SPR $\eta$ & $h_\sigma(\mathbf{x})$ alone & $h_d(\mathbf{x})$ alone & $\min(h_\sigma, h_d)$ \\
+Total Physical Elements & $20{,}213$ & $64{,}032$ & $\mathbf{8{,}237}$ & $64{,}746$ \\
+3-Layer UEL Production Elements & $60{,}639$ & $192{,}096$ & $\mathbf{24{,}711}$ & $194{,}238$ \\
+Element Reduction vs Case C & $+68.78\%$ & $+1.10\%$ & $\mathbf{-87.28\%}$ & $0.00\%$ (Ref) \\
+Blossom Quads / Triangles & $19{,}644 / 569$ & $49{,}963 / 14{,}069$ & $\mathbf{6{,}398 / 1{,}839}$ & $50{,}561 / 14{,}185$ \\
+Quadrilateral Fraction & $97.18\%$ & $78.03\%$ & $\mathbf{77.67\%}$ & $78.09\%$ \\
+Non-Positive Jacobians & $0$ & $0$ & $\mathbf{0}$ & $0$ \\
+Distorted Elements ($<15^\circ$ or $>165^\circ$) & $0$ & $3$ & $\mathbf{0}$ & $2$ \\
+Median Aspect Ratio & $1.21$ & $1.30$ & $\mathbf{1.27}$ & $1.30$ \\
+Global Sub-$1.5\,\mu\mathrm{m}$ Elements & $273$ ($1.35\%$) & $27{,}554$ ($43.03\%$) & $\mathbf{2{,}299}$ ($27.91\%$) & $28{,}097$ ($43.40\%$) \\
+\midrule
+\multicolumn{5}{l}{\textbf{Primary Severed Ligament ($x \in [0.50, 0.65], y \in [0.50, 0.65]$):}} \\
+Total Regional Elements & $589$ & $6{,}368$ & $\mathbf{1{,}817}$ & $6{,}362$ \\
+Median Edge Length $h_{\text{median}}$ & $4.684\,\mu\mathrm{m}$ & $1.490\,\mu\mathrm{m}$ & $\mathbf{1.501\,\mu\mathrm{m}}$ & $1.491\,\mu\mathrm{m}$ \\
+Elements meeting $h \le 1.5\,\mu\mathrm{m}$ & $0$ ($0.0\%$ - FAIL) & $3{,}289$ ($51.6\%$) & $\mathbf{904}$ ($49.8\%$) & $3{,}270$ ($51.4\%$) \\
+Resolution Status & Unresolved & Resolved & \textbf{Resolved} & Resolved \\
+\midrule
+\multicolumn{5}{l}{\textbf{Advancing Secondary Crack ($x \in [0.71, 0.98], y \in [0.55, 0.72]$):}} \\
+Total Regional Elements & $7{,}412$ & $11{,}290$ & $\mathbf{3{,}211}$ & $11{,}900$ \\
+Median Edge Length $h_{\text{median}}$ & $2.091\,\mu\mathrm{m}$ & $1.532\,\mu\mathrm{m}$ & $\mathbf{1.570\,\mu\mathrm{m}}$ & $1.516\,\mu\mathrm{m}$ \\
+Elements meeting $h \le 1.5\,\mu\mathrm{m}$ & $271$ ($3.66\%$) & $5{,}095$ ($45.13\%$) & $\mathbf{1{,}347}$ ($41.95\%$) & $5{,}662$ ($47.58\%$) \\
+Continuum Discretization ($h < \ell_0/2$) & Satisfied & Satisfied & \textbf{Satisfied} & Satisfied \\
+\midrule
+\multicolumn{5}{l}{\textbf{Undamaged Far Field ($d < 0.05, \eta < 5\%$):}} \\
+Total Far-Field Elements & $12{,}212$ & $46{,}374$ & $\mathbf{3{,}209}$ & $46{,}484$ \\
+Median Edge Length $h_{\text{median}}$ & $5.530\,\mu\mathrm{m}$ & $1.570\,\mu\mathrm{m}$ & $\mathbf{20.609\,\mu\mathrm{m}}$ & $1.573\,\mu\mathrm{m}$ \\
+Far-Field Sub-$1.5\,\mu\mathrm{m}$ Elements & $2$ ($0.02\%$) & $19{,}170$ ($41.34\%$) & $\mathbf{48}$ ($1.50\%$) & $19{,}165$ ($41.23\%$) \\
+Far-Field Over-Refinement & Low & Severe Bloat & \textbf{ELIMINATED} & Severe Bloat \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig_f1668_three_way_comparison_synthesis.pdf}
+  \caption{Controlled three-way adaptive remeshing comparison on the Mode-I off-axis circular hole benchmark ($1.0 \times 1.0\,\mathrm{mm}$, notch $a_0 = 0.50\,\mathrm{mm}$, hole $R = 0.10\,\mathrm{mm}$, $\ell_0 = 7.5\,\mu\mathrm{m}$). Panel~(a): authentic donor damage $d$ and recovery stress error $\eta$. Panel~(b): target sizing fields $h_A$ (Stress) vs.\ $h_B$ (Damage). Panel~(c): adapted mesh topology of Case~B ($8{,}237$ elements, $77.7\%$ pure Blossom quads, $22.3\%$ buffer triangles) with zero downsampling. Panel~(d): high-magnification zoom of the severed primary ligament ($h_{\text{median}} = 1.501\,\mu\mathrm{m}$) and secondary advancing tip ($h_{\text{median}} = 1.570\,\mu\mathrm{m}$). Panel~(e): cumulative element sizing distributions (CDFs). Panel~(f): master scientific evaluation matrix.}
+  \label{fig:three_way_comparison_synthesis}
+\end{figure}
+
+\subsection{Key Discoveries and Physical Attribution}
+The comparative findings in Table~\ref{tab:three_way_comparison_metrics} and Figure~\ref{fig:three_way_comparison_synthesis} establish four fundamental principles:
+\begin{enumerate}
+  \item \textbf{Case B (Damage-Only) is the Superior Computational Compromise:} Case~B delivers an \textbf{$87.28\%$ reduction in total finite elements} compared to Case~C ($8{,}237$ vs.\ $64{,}746$ physical elements; $24{,}711$ vs.\ $194{,}238$ layered UEL elements). In the primary ligament, its median edge length ($h_{\text{median}} = 1.501\,\mu\mathrm{m} = 0.200\,\ell_0$) is virtually identical to Case~C ($1.491\,\mu\mathrm{m}$) and Case~A ($1.490\,\mu\mathrm{m}$). In the advancing secondary crack, $h_{\text{median}} = 1.570\,\mu\mathrm{m} = 0.209\,\ell_0$, strictly satisfying the continuum requirement $h < \ell_0 / 2 = 3.75\,\mu\mathrm{m}$.
+  \item \textbf{Causal Mechanism of Far-Field Mesh Inflation:} Case~A ($64{,}032$ elements) and Case~C ($64{,}746$ elements) are virtually indistinguishable in total mesh burden. The SPR stress error indicator ($\eta \ge 10\%$) triggers across $362$ recovery points spanning the notch flank, specimen boundaries, and the circular hole stress raiser ($K_t \approx 3$). Stress-error sizing alone cannot distinguish between stress concentrations at non-propagating geometric boundaries and active fracture fronts, placing over $19{,}100$ sub-$1.5\,\mu\mathrm{m}$ elements in the undamaged far field. Case~B completely eliminates this bloat ($3{,}209$ far-field elements with median size $20.6\,\mu\mathrm{m}$, with only $48$ sub-$1.5\,\mu\mathrm{m}$ elements [$1.5\%$]).
+  \item \textbf{Authentic Physical Support Compliance vs.\ Geometric Boxes:} In broad diagnostic boxes, element compliance is $42\text{--}50\%$ because the rectangular regions enclose outer buffer zones grading to coarse sizes. When audited strictly on the authentic physical damage core support ($d \ge 0.70$, $4{,}931$ elements), Case~B achieves $h_{\text{median}} = 1.525\,\mu\mathrm{m}$, with $85.9\%$ of elements satisfying $h \le 2.50\,\mu\mathrm{m}$ ($0.333\,\ell_0$) and \textbf{$93.3\%$ satisfying $h \le 3.75\,\mu\mathrm{m}$ ($\ell_0/2$)}.
+  \item \textbf{Two-Pass Offline Loading Provenance:} For complete epistemic transparency, the fields represent an \emph{offline, two-pass field-informed remeshing comparison}: donor damage was extracted from the terminal frame of coarse simulation \texttt{PK\_HOLE\_COARSE\_JOB1} ($u_2 = 0.00959\,\mathrm{mm}$), whereas auxiliary recovery stress was extracted from linear-elastic Step~1 ($u_2 = 0.00500\,\mathrm{mm}$). The $17.87\%$ auxiliary reaction-force delta reflects the physical effect of un-softened linear elasticity versus coupled post-peak softening.
+\end{enumerate}
+
+\subsection{Production Deck Audit and Qualification Verdict}
+A comprehensive line-by-line card audit of the 3-layer UEL production deck \nolinkurl{PK_HOLE_F1668_CASE_B_DAMAGE_ONLY_PROD.inp} ($32{,}463$ lines) against donor deck \nolinkurl{PK_HOLE_COARSE_JOB1.inp} verified:
+\begin{itemize}
+  \item \textbf{Subroutine ABI Parity:} Exactly 4 \nolinkurl{*UEL PROPERTY} cards with constants $(0.0075, 0.0027, 210.0, 0.30, 1.0\times 10^{-7}, 8237.0)$, strictly matching the frozen subroutine ABI in \nolinkurl{f42_mixed_uel.for} (\nolinkurl{SHA256: CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6}).
+  \item \textbf{Companion Material Cards:} \nolinkurl{*USER MATERIAL, CONSTANTS=3} $(210.0, 0.30, 8237.0)$ with \nolinkurl{*DEPVAR 20} and \nolinkurl{*SOLID SECTION, ELSET=All_elem, MATERIAL=DUMMY_MAT}.
+  \item \textbf{Boundary Conditions and MPCs:} 51 \nolinkurl{*EQUATION} constraints tying every node on \nolinkurl{N_TOP} to reference point \nolinkurl{N_RP} in DOF~2, with bottom pinned constraint on \nolinkurl{N_PIN} and roller on \nolinkurl{N_BOTTOM}.
+  \item \textbf{Slit Topology:} Clean separation along initial notch $x \in [0.0, 0.50\,\mathrm{mm}]$ with 29 nodes on the upper flank ($y = 0.5010\,\mathrm{mm}$) and 29 nodes on the lower flank ($y = 0.4990\,\mathrm{mm}$), with zero cross-flank nodal bridging.
+\end{itemize}
+
+Based on this evidence, Case~B is formally classified with the qualification verdict:
+\begin{center}
+  \textbf{\texttt{CASE\_B\_READY\_FOR\_SEPARATELY\_AUTHORIZED\_DATACHECK}}
+\end{center}
+providing a verified, lean, and physically defensible adaptive mesh architecture for the Master's thesis.
