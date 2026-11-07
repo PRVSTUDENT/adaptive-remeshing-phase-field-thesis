@@ -101,12 +101,12 @@
         }
     },
     "datacheck_acceptance_criteria": [
-        "1. Abaqus preprocessor terminates with Exit 0 and 'THE ANALYSIS HAS BEEN COMPLETED' in .log.",
-        "2. Zero '***ERROR' records in .dat indicating missing properties, syntax mismatches, or invalid sets.",
+        "1. Abaqus preprocessor terminates with Exit 0 and records preprocessor success ('End Abaqus/Standard Pre-Process' or 'Abaqus/Standard PRE completed' in .log), distinguishing datacheck preflight from full-analysis completion.",
+        "2. Zero '***ERROR' records in .dat indicating missing properties, syntax mismatches, or invalid element sets.",
         "3. Zero warnings regarding non-positive Jacobians or distorted elements during element assembly in .msg / .dat.",
-        "4. Complete resolution of the 51 *EQUATION ties without singular or overconstrained degree-of-freedom warnings.",
-        "5. Successful compilation and shared-object linking of f42_mixed_uel.for without symbol collisions.",
-        "6. Exact memory preallocation logged for the 24,711-element mixed system.",
+        "4. Complete resolution of the 51 *EQUATION ties without singular, dependency, or overconstrained DOF warnings.",
+        "5. Successful compilation and shared-object linking of f42_mixed_uel.for with Intel Fortran without symbol collisions.",
+        "6. Memory and resource estimates extracted and recorded directly from the Abaqus .dat/.msg output.",
         "7. Strict zero-increment execution: solver halts immediately after preflight without initiating Newton-Raphson equilibrium iterations or crack propagation."
     ],
     "operational_boundaries": {
