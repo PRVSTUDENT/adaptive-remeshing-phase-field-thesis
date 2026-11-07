@@ -1,0 +1,43 @@
+{
+  "batch_name": "MODE1_METHOD_A_HOLE_PROP",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "PK_HOLE_METHOD_A_PROP.inp": "6f31711cc853fd628277c82369e1fed6d6eff24c2732e6bbcd1a9b24a37fa628",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_M1_HOLE_METHOD_A_PROP.pbs": "356acdc345e783135b39c2583b023db9124edfe1eab140f105fc4c32db0ca842",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11"
+  },
+  "jobs": [
+    {
+      "id": "hole_prop",
+      "pbs": "submit_M1_HOLE_METHOD_A_PROP.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_method_a_hole_propagation/submit_M1_HOLE_METHOD_A_PROP.pbs\"",
+      "command_sha256": "1d9a52d5e2d2caa651a9480c2adb3bb6f40cf47d4b220dbb7dff09dd0657731f",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Method A Plate with Hole continuous 2-step crack propagation solve (Step 1 to u=0.0050 mm, Step 2 to u=0.0120 mm, 52,447 physical elements, 157,341 total elements, *RESTART WRITE FREQ=1)",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "PK_HOLE_METHOD_A_PROP.inp",
+      "datacheck": "PK_HOLE_METHOD_A_PROP_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "hole_prop": "Abaqus 2023 single-rank serial solve completes continuous loading to u=0.0120 mm with Exit 0; captures peak reaction force and softening regime; outputs evolving connected damage band d >= 0.90 propagating from notch tip toward the off-axis hole; verifies energy conservation and damage irreversibility."
+  },
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_method_a_hole_propagation",
+  "required_state_checks": [
+    "nodal_displacement_verified",
+    "damage_irreversibility_verified",
+    "committed_history_verified",
+    "state_restoration_verified"
+  ]
+}

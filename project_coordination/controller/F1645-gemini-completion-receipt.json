@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "task_id": "F1645-METHOD-A-HOLE-ADAPTED-CRACK-PROPAGATION",
+  "executor": "gemini-antigravity",
+  "run_id": "2b6c1670-80a6-48ec-8f7a-8f96db40a99c",
+  "source_commit": "37503ad2c6992789ec4dffe03629ac8aaac1417d",
+  "status": "COMPLETED",
+  "closed_at": "2026-11-07T02:35:00.0000000+00:00",
+  "scientific_result": "METHOD_A_CRACK_PROPAGATION_COMPLETED_PEAK_0P546KN_CRACK_DEFLECTED_TO_HOLE",
+  "tests_passed": 24,
+  "new_pbs_submissions": 1,
+  "pbs_job_id": "1421055.mmaster02",
+  "evidence_sources": {
+    "results/validation/f1645_propagation_extracted_summary.json": "1FB31F48092BAED7DD8B7C0B0DD2FE3CC27022675CBDDD674E919B59F079FEC8",
+    "results/validation/f1645_propagation_crack_path.csv": "9F12561F261587C4B37E5CAEDDC82CF3F72D19907140C6419080CA6F650C6A77",
+    "results/validation/f1645_propagation_frame_evolution.csv": "962BAB5445C5D802C9DF38D356D75E08FB94A5B556DA359EEEA717629B556315",
+    "results/validation/f1645_prop_PK_HOLE_METHOD_A_PROP.sta": "BA9A08428F92F2C93EC9ACCF98351106EACF4A3DA27A1D61E2208C0401BA9BAD",
+    "results/validation/f1645_prop_PK_HOLE_METHOD_A_PROP.dat": "2845304F5AE8DD693A4C23F9155F6540FA5BD8DD277CE4803DB18D3944629677",
+    "results/validation/f1645_prop_rf_displacement.csv": "C0B0D275ECF9F6DF35390FE6C7DCBAA9B0508DDEF1678820B9CC1F895E5E4D8C",
+    "results/validation/f1645_prop_uel_energy_balance.csv": "71628A5DF4CDB0BF835AB536AAF7F7D35BBCF51C1A079A0470858CD0A3C7321B",
+    "results/validation/f1645_prop_pbs_execution.log": "75B6C32CB07D32A316F6CBA7B009A37FEE61571259FF3BE30D64C193B8787BED",
+    "results/validation/f1645_crack_propagation_report.md": "653C13A4A199A153BF8E55B9AAE2DFED8C4A97B06CB68E369148DAA7F32A85E7",
+    "tests/unit/test_f1645_crack_propagation.py": "B646B797132137AD030157DFA7C3303F6E39BF519C76931FAF9EE251D062A89F"
+  },
+  "peak_reaction_force_kN": 0.545786,
+  "displacement_at_peak_mm": 0.005196,
+  "max_damage": 1.0,
+  "max_history_MPa": 7471.21,
+  "crack_deflection_detected": true,
+  "crack_path_summary": {
+    "notch_tip": [0.5, 0.5],
+    "hole_center": [0.65, 0.65],
+    "hole_radius": 0.1,
+    "y_at_crack_penetration": 0.6365,
+    "avg_y_crack": 0.5772,
+    "fully_damaged_elements_count": 2377
+  },
+  "final_energetics_kNmm": {
+    "elastic_energy": 0.0011961588,
+    "fracture_energy": 0.0014519594,
+    "total_work": 0.0026481182,
+    "energy_conservation_residual": 0.0
+  },
+  "total_converged_increments": 246,
+  "wallclock_seconds": 5964,
+  "agy_run_completed": true
+}
