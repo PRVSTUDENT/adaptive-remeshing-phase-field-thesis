@@ -515,7 +515,7 @@ def test_f1674_stress_replay_and_miseseri_qualification():
 
 
 def test_f1675_method_a_deck_qualification_manifest():
-    """Verify Task F1675 Method A refined production deck qualification manifest."""
+    """Verify Task F1675/F1675R Method A refined production deck qualification manifest."""
     manifest_path = (
         REPO_ROOT
         / "models"
@@ -529,18 +529,22 @@ def test_f1675_method_a_deck_qualification_manifest():
         data = json.load(f)
 
     meta = data["task_id"]
-    assert meta == "F1675-EXISTING-F1664-METHOD-A-DECK-QUALIFICATION"
+    assert "F1675" in meta
 
-    corr = data["corrected_historical_provenance"]
-    assert corr["donor_coarse_mesh_composition"]["cps4r_quads"] == 2832
-    assert corr["donor_coarse_mesh_composition"]["cps3_tris"] == 74
-    assert corr["donor_coarse_mesh_composition"]["total_physical_elements"] == 2906
-    assert corr["remeshing_rule_error_target_representation"]["abaqus_cae_script_value"] == 5.0
-    assert corr["f1664_recovery_odb_provenance"]["source_odb"] == "PK_HOLE_F1661_RECOVERY.odb"
+    corr = data["reconciled_historical_facts"]
+    assert corr["coarse_donor_composition"]["cps4r_quads"] == 2832
+    assert corr["coarse_donor_composition"]["cps3_tris"] == 74
+    assert corr["coarse_donor_composition"]["total_physical_elements"] == 2906
+    assert corr["remeshing_rule_error_target"]["abaqus_cae_api_value"] == 5.0
+    assert corr["f1664_recovery_odb"]["filename"] == "PK_HOLE_F1661_RECOVERY.odb"
+    assert corr["pbs_queue"]["queue_name"] == "entry_imfdfkmq"
 
     deck = data["target_model"]["input_deck"]
     assert deck["total_physical_elements"] == 20213
     assert deck["total_layered_elements"] == 60639
+    assert deck["total_deck_nodes"] == 20214
+    assert deck["physical_nodes"] == 20213
+    assert deck["master_reference_node"] == 999999
     assert deck["sha256"] == "B6FB9AD2C16293E78E0940C00C65D9D54C3921E8234CEB770956117D6B39D99B"
 
     mesh = data["target_model"]["physical_mesh"]
@@ -549,12 +553,13 @@ def test_f1675_method_a_deck_qualification_manifest():
     assert mesh["quad_count"] == 19644
     assert mesh["tri_count"] == 569
 
-    struct = data["deck_structural_verification"]
-    assert struct["slit_topology"]["top_flank_nodes"] == 28
-    assert struct["slit_topology"]["bottom_flank_nodes"] == 29
-    assert struct["slit_topology"]["shared_nodes"] == 0
-    assert struct["slit_topology"]["separation_verdict"] == "100_PERCENT_DISCONNECTED"
-    assert struct["boundary_and_equations"]["rigid_top_tying_equations"] == 83
+    struct = data["card_by_card_structural_verification"]
+    assert struct["notch_geometry"]["top_flank_nodes"] == 28
+    assert struct["notch_geometry"]["bottom_flank_nodes"] == 29
+    assert struct["notch_geometry"]["shared_flank_nodes"] == 0
+    assert struct["notch_geometry"]["flank_separation"] == "100_PERCENT_DISCONNECTED"
+    assert struct["boundary_conditions_and_ties"]["rigid_top_tying_equations"] == 83
+    assert struct["boundary_conditions_and_ties"]["reference_node"] == 999999
 
     uel = data["target_model"]["user_subroutine"]
     assert uel["sha256"] == FROZEN_UEL_SHA256
@@ -563,6 +568,15 @@ def test_f1675_method_a_deck_qualification_manifest():
     ops = data["operational_boundaries"]
     assert ops["max_new_pbs_submissions"] == 0
     assert ops["actual_hpc_submission"] == "HALTED_AWAITING_SEPARATE_AUTHORIZATION"
+
+
+def test_f1675r_direct_card_by_card_deck_verification():
+    """Verify Task F1675R card-by-card deck parsing directly against frozen UEL ABI."""
+    from scripts.validation.validate_f1675r_method_a_production_deck import audit_and_generate_f1675r_manifest
+    manifest = audit_and_generate_f1675r_manifest()
+    assert manifest["task_id"] == "F1675R-METHOD-A-PRODUCTION-DECK-CORRECTION-AND-GATE"
+    assert manifest["target_model"]["input_deck"]["deck_integrity"] == "100_PERCENT_VALID_ZERO_DEFECTS"
+
 
 
 
