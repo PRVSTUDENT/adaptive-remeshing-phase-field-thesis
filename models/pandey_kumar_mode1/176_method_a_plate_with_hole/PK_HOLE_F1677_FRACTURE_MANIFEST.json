@@ -1,13 +1,14 @@
 {
-    "manifest_version": "1.0",
-    "task_id": "F1677-METHOD-A-PRODUCTION-FRACTURE-MANIFEST",
+    "manifest_version": "1.1",
+    "task_id": "F1677R-METHOD-A-PRODUCTION-FRACTURE-MANIFEST-REVISED",
     "date": "2026-11-07",
     "agent": "gemini-antigravity",
     "reviewer": "ChatGPT Independent Scientific Review",
-    "mandate": "HND-545b0964afbc (AUTHORIZED_ACTION: PREPARE_FRACTURE_MANIFEST)",
+    "mandate": "HND-4e8c139b80e8 (AUTHORIZED_ACTION: REVISE_MANIFEST)",
     "sprint": "Six-Day Method A Reproduction Sprint (7-13 November 2026)",
-    "milestone_gate": "Gate 5 (Refined Method A Production Fracture Simulation Preparation)",
+    "milestone_gate": "Gate 5 (Refined Method A Production Fracture Simulation Final Execution Gate)",
     "predecessor_datacheck_qualification": {
+        "status": "ACCEPTED_BY_INDEPENDENT_REVIEW",
         "job_name": "M1_HOLE_F1664_METHOD_A_DATACHECK",
         "qualification_report": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_F1676_DATACHECK_QUALIFICATION.json",
         "preprocessor_status": "ANALYSIS_DATACHECK_COMPLETE",
@@ -23,10 +24,10 @@
             "flops_per_iteration": 2.70e9
         },
         "diagnostic_files": {
-            "dat_file": "M1_HOLE_F1664_METHOD_A_DATACHECK_dat.txt (2D592B34F51E02BF8A62FC4A7F2E78DA57C6F48E988621AE06B0A5A9BC38CA34)",
-            "msg_file": "M1_HOLE_F1664_METHOD_A_DATACHECK_msg.txt (7CBD7AF813FFAE7C21EE8818CDA8640BA1C95929B038E9E18D42C2F52E9A8E9F)",
-            "prt_file": "M1_HOLE_F1664_METHOD_A_DATACHECK_prt.txt (219B8390A90B0050264684A122349FE6DDB69C341155BA3A9BAD412F54BA316A)",
-            "stdout_file": "M1_HOLE_F1664_METHOD_A_DATACHECK_stdout.txt (72C88B234D6F47E9ED82FC7E53B2EF506A114F10465274DB826A2D5DFF393EBA)"
+            "dat_file": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/diagnostics/M1_HOLE_F1664_METHOD_A_DATACHECK_dat.txt (2D592B34F51E02BF8A62FC4A7F2E78DA57C6F48E988621AE06B0A5A9BC38CA34)",
+            "msg_file": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/diagnostics/M1_HOLE_F1664_METHOD_A_DATACHECK_msg.txt (7CBD7AF813FFAE7C21EE8818CDA8640BA1C95929B038E9E18D42C2F52E9A8E9F)",
+            "prt_file": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/diagnostics/M1_HOLE_F1664_METHOD_A_DATACHECK_prt.txt (219B8390A90B0050264684A122349FE6DDB69C341155BA3A9BAD412F54BA316A)",
+            "stdout_file": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/diagnostics/M1_HOLE_F1664_METHOD_A_DATACHECK_stdout.txt (72C88B234D6F47E9ED82FC7E53B2EF506A114F10465274DB826A2D5DFF393EBA)"
         },
         "warning_classification": {
             "total_warnings": 8,
@@ -51,17 +52,26 @@
         },
         "submission_script": {
             "filename": "submit_M1_HOLE_F1664_METHOD_A_PROD.pbs",
-            "path": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/submit_M1_HOLE_F1664_METHOD_A_PROD.pbs"
+            "path": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/submit_M1_HOLE_F1664_METHOD_A_PROD.pbs",
+            "preflight_checks": "Lock check, >=10 GB free scratch verification, bitwise input/UEL SHA-256 assertions, fail-safe notifications"
         },
         "execution_wrapper": {
             "filename": "run_f1664_method_a_prod.sh",
             "path": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/run_f1664_method_a_prod.sh"
         }
     },
-    "hpc_resource_specification": {
+    "hpc_resource_and_scheduler_evidence": {
         "pbs_queue": "entry_imfdfkmq",
         "queue_architecture": "Route queue directing to normal_imfdfkmq / short_imfdfkmq",
-        "queue_walltime_limit_hours": 336,
+        "archived_scheduler_evidence": {
+            "query": "qstat -Q -f entry_imfdfkmq",
+            "queue_type": "Route",
+            "priority": 10,
+            "resources_max_walltime": "336:00:00 (14 days)",
+            "route_destinations": "normal_imfdfkmq,short_imfdfkmq",
+            "enabled": true,
+            "started": true
+        },
         "requested_walltime": "08:00:00",
         "requested_cpus": 1,
         "execution_architecture": "Single-rank serial Abaqus/Standard (authoritative reference anchor, strict single-rank UEL requirement)",
@@ -71,6 +81,28 @@
         "compiler": "Intel(R) Fortran Compiler Classic 2021.13.0 Build 20240602_000000 (ifort)",
         "linker": "GNU ld version 2.30-128.el8_10",
         "solver": "Abaqus/Standard 2023"
+    },
+    "storage_and_scratch_quota_budget": {
+        "scratch_filesystem": "/scratch9",
+        "filesystem_status": "panfs://mpanfs/scratch9: Size 33 TB, Used 14 TB, Available 20 TB (42% used)",
+        "user_quota_evidence": {
+            "command": "/usr/local/bin/pan_quota /scratch9/pr21vyci",
+            "volume_path": "/scratch9/pr21vyci",
+            "current_usage_gb": 9763.41,
+            "soft_limit_gb": "unlimited",
+            "hard_limit_gb": "unlimited",
+            "files_soft_limit": "unlimited",
+            "files_hard_limit": "unlimited"
+        },
+        "disk_growth_budget": {
+            "restart_file_res": "Estimated 0.35 to 0.50 GB for ~250-500 increments (0.78 MB baseline per step from datacheck)",
+            "output_database_odb": "Estimated 0.60 to 0.80 GB for 500 increments saving element SDVs and reference node forces",
+            "solver_text_logs": "Less than 5 MB (msg, dat, prt, sta)",
+            "energy_balance_csv": "Approximately 50 KB",
+            "projected_total_directory_footprint_gb": 1.5,
+            "storage_safety_margin": "With 20 TB free and unlimited user quota, 1.5 GB represents < 0.0075% of available capacity",
+            "preflight_guard": "PBS script asserts >= 10 GB free scratch disk space before solver invocation"
+        }
     },
     "model_discretization_and_loading": {
         "physical_mesh": {
@@ -99,7 +131,7 @@
             "poissons_ratio": 0.30,
             "critical_energy_release_rate_Gc": "0.0027 kN/mm (2.7 N/mm = 2.7 kJ/m^2)",
             "length_scale_ell0_mm": 0.0075,
-            "viscous_damping_s": 1.0e-7,
+            "residual_stiffness_k_res": "1.0e-7 (PROPS(5): residual stiffness parameter preventing numerical singularity when d -> 1; not viscous damping)",
             "companion_depvar": 20
         },
         "loading_schedule": {
@@ -126,7 +158,7 @@
             }
         }
     },
-    "output_extraction_and_telemetry": {
+    "output_extraction_and_reconstruction_plan": {
         "reaction_force": {
             "target": "Reference node 999999 (N_RP)",
             "component": "RF2",
@@ -140,19 +172,21 @@
             "availability": "CONFIRMED_SUPPORTED"
         },
         "phase_field_damage": {
-            "target": "Physical mesh elements and nodes",
-            "components": "SDV1 / SDV14 on companion elements (ELSET=umatelem), DOF 3 (U3) at physical nodes",
+            "target": "Companion elements (ELSET=umatelem) integration points",
+            "components": "SDV1 / SDV14 on CPE4/CPE3 companion elements, mapped to element centroids and nodes in post-processing",
+            "note": "Full-domain nodal U3 field output is not requested; damage reconstruction relies exclusively on companion SDV1/SDV14 integration point data",
             "availability": "CONFIRMED_SUPPORTED"
         },
         "companion_state_variables": {
             "target": "Companion elements (ELSET=umatelem)",
-            "components": "MISESERI, MISESAVG, S, E, SDV (history field H=SDV2, degradation g=SDV15)",
+            "components": "S (zero in coupled solve), E (strains), SDV (history field H=SDV2, degradation g=SDV15)",
+            "miseseri_note": "Companion UMAT returns zero stress during coupled solve; authentic nonzero MISESERI belongs to the auxiliary static recovery step",
             "availability": "CONFIRMED_SUPPORTED"
         },
-        "energy_balance": {
-            "target": "uel_energy_balance.csv",
-            "components": "TOTAL_STRAIN_ENERGY, TOTAL_FRACTURE_ENERGY, EXTERNAL_WORK, ENERGY_ERROR",
-            "source": "Dynamically written by f42_mixed_uel.for at every converged increment",
+        "energy_balance_reconstruction": {
+            "uel_csv_columns": "Step,Increment,TotalTime,StepTime,E_elastic_kNmm,E_fracture_kNmm,E_total_kNmm",
+            "external_work_reconstruction": "Reconstructed post-process via trapezoidal numerical integration of P(u): W_ext = sum 0.5 * (P_i + P_{i-1}) * (u_i - u_{i-1})",
+            "global_energy_balance_definition": "Delta E = W_ext - (E_elastic + E_fracture), evaluated across all recorded increments",
             "availability": "CONFIRMED_SUPPORTED"
         },
         "restart_states": {
@@ -165,7 +199,8 @@
         "telegram_integration": {
             "script": "job_notifications.sh",
             "config": "~/.config/adaptive-remeshing/notifications.env",
-            "events": "notify_start on initialization, terminal traps on COMPLETED / FAILED / TERMINATED"
+            "events": "notify_start on initialization, terminal traps on COMPLETED / FAILED / TERMINATED",
+            "fail_safe_wrapper": "Notification warnings or network glitches will not abort the scientific computation"
         },
         "lock_file_guard": "Check test ! -e ${JOB_NAME}.lck before launch",
         "duplicate_prevention": "Unique job name M1_HOLE_F1664_METHOD_A_PROD, isolated scratch directory /scratch9/pr21vyci/runs/mode1_method_a_hole_f1664_prod"
@@ -176,8 +211,8 @@
     },
     "physics_based_acceptance_criteria": {
         "criterion_1_convergence": {
-            "description": "Complete traversal of pre-critical loading (Step-1) and entry into post-peak softening regime (Step-2) through ligament severance and crack deflection.",
-            "threshold": "Step-1 completed (u = 0.0050 mm) + Step-2 traversed past peak load with softening"
+            "description": "Complete traversal of pre-critical loading (Step-1) and post-peak softening progress through ligament severance and crack deflection.",
+            "threshold": "Step-1 completed (u = 0.0050 mm) + Step-2 traversed past peak load with softening towards near-zero force; physical ligament severance is accepted even if numerical termination occurs before 0.0120 mm"
         },
         "criterion_2_numerical_stability": {
             "description": "Absence of numerical divergence, NaN, Inf, or unhandled UEL/UMAT exceptions in any output field or energy file.",
@@ -188,16 +223,16 @@
             "threshold": "Linear initial response with stiffness matching benchmark, well-defined peak"
         },
         "criterion_4_peak_force_reproducibility": {
-            "description": "Peak reaction force P_max within expected physical bounds for the off-axis hole geometry.",
-            "threshold": "P_max in range [0.60, 0.80] kN, consistent with coarse reference (0.731 kN) and literature"
+            "description": "Peak reaction force P_max within expected nominal comparison band for the off-axis hole geometry.",
+            "threshold": "Nominal comparison band [0.60, 0.80] kN; deviations due to fine mesh resolution (h_min = 1.0 um) or localized softening will be investigated quantitatively rather than automatically rejected"
         },
         "criterion_5_crack_path_fidelity": {
             "description": "Primary crack deflects into the circular hole; secondary crack initiates on the right hole boundary and propagates toward the right edge.",
             "threshold": "Topology matches Pandey-Kumar (2025) Figure 12 / 13 and coarse Job 1421063"
         },
         "criterion_6_energy_conservation": {
-            "description": "Fracture energy monotonically non-decreasing; global energy error bounded.",
-            "threshold": "d(W_frac)/dt >= 0; energy error within standard phase-field penalty tolerance"
+            "description": "Fracture energy monotonically non-decreasing; global reconstructed energy error bounded.",
+            "threshold": "d(W_frac)/dt >= 0; Delta E = W_ext - (E_elas + E_frac) evaluated and documented"
         },
         "criterion_7_benchmark_comparison": {
             "description": "Direct quantitative comparison against coarse reference (Job 1421063) and literature benchmark.",

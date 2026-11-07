@@ -594,26 +594,35 @@ def test_f1676_datacheck_qualification():
 
 
 def test_f1677_method_a_production_fracture_manifest():
-    """Verify Task F1677 Method A production fracture execution manifest and staging."""
+    """Verify Task F1677/F1677R Method A production fracture execution manifest and staging."""
     manifest_path = REPO_ROOT / "models" / "pandey_kumar_mode1" / "176_method_a_plate_with_hole" / "PK_HOLE_F1677_FRACTURE_MANIFEST.json"
     assert manifest_path.exists(), f"Missing manifest: {manifest_path}"
     with open(manifest_path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    assert data["task_id"] == "F1677-METHOD-A-PRODUCTION-FRACTURE-MANIFEST"
+    assert data["manifest_version"] == "1.1"
+    assert data["task_id"] == "F1677R-METHOD-A-PRODUCTION-FRACTURE-MANIFEST-REVISED"
     assert data["production_job"]["job_name"] == "M1_HOLE_F1664_METHOD_A_PROD"
     assert data["production_job"]["input_deck"]["sha256"] == "B6FB9AD2C16293E78E0940C00C65D9D54C3921E8234CEB770956117D6B39D99B"
     assert data["production_job"]["user_subroutine"]["sha256"] == FROZEN_UEL_SHA256
 
-    hpc = data["hpc_resource_specification"]
+    hpc = data["hpc_resource_and_scheduler_evidence"]
     assert hpc["pbs_queue"] == "entry_imfdfkmq"
     assert hpc["requested_walltime"] == "08:00:00"
     assert hpc["requested_cpus"] == 1
     assert hpc["requested_memory_gb"] == 16
 
+    storage = data["storage_and_scratch_quota_budget"]
+    assert storage["scratch_filesystem"] == "/scratch9"
+    assert storage["user_quota_evidence"]["soft_limit_gb"] == "unlimited"
+
     loading = data["model_discretization_and_loading"]["loading_schedule"]
     assert loading["step_1"]["target_displacement_mm"] == 0.0050
     assert loading["step_2"]["target_displacement_mm"] == 0.0120
+
+    plan = data["output_extraction_and_reconstruction_plan"]
+    assert "SDV1" in plan["phase_field_damage"]["components"]
+    assert "E_elastic_kNmm" in plan["energy_balance_reconstruction"]["uel_csv_columns"]
 
     crit = data["physics_based_acceptance_criteria"]
     assert len(crit) == 7
