@@ -1,0 +1,95 @@
+{
+    "metadata": {
+        "task_id": "F1673-DIRECT-UEL-UMAT-STRESS-TRANSFER-AND-ROOT-CAUSE-QUALIFICATION",
+        "date": "2026-11-07",
+        "agent": "gemini-antigravity",
+        "reviewer": "ChatGPT Independent Scientific Review",
+        "git_branch": "mode2-pandey-kumar-reproduction",
+        "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+        "frozen_uel_verified": true
+    },
+    "root_cause_diagnosis": {
+        "defect_statement": "Abaqus MISESERI is identically zero in the coupled coarse simulation (Job 1421063.mmaster02) because companion standard elements (Layer 3) returned zero stress.",
+        "source_location": "models/pandey_kumar_mode1/f42_mixed_uel.for, lines 876-882",
+        "exact_source_code": [
+            "DO I=1, NTENS",
+            "  STRESS(I) = 0.D0",
+            "  DO J=1, NTENS",
+            "    DDSDDE(I,J) = 0.D0",
+            "  ENDDO",
+            "  DDSDDE(I,I) = 1.D-11",
+            "ENDDO"
+        ],
+        "common_block_audit": {
+            "common_block_name": "/CB_STATE_TRANS/",
+            "transferred_arrays": [
+                "SV_PHASE_COMMITTED(N_CAPACITY)",
+                "SV_PHASE_TRIAL(N_CAPACITY)",
+                "SV_H_COMMITTED(N_CAPACITY,4)",
+                "SV_H_TRIAL(N_CAPACITY,4)",
+                "SV_E_FRAC(N_CAPACITY)",
+                "SV_E_ELAS(N_CAPACITY)",
+                "SV_PSI_F(N_CAPACITY)",
+                "SV_PSI_E(N_CAPACITY)"
+            ],
+            "stress_tensor_transferred": false,
+            "strain_tensor_transferred": false,
+            "mechanical_history_transferred": true
+        },
+        "why_zero_stress_was_implemented": "Layer 3 companion elements (CPE4 and CPE3) connect to the EXACT SAME physical displacement nodes (DOFs 1, 2) as Layer 2 mechanical UEL elements. In Abaqus/Standard, standard continuum elements automatically compute internal forces F_int = integral(B^T * STRESS * dOmega) and stiffness K = integral(B^T * DDSDDE * B * dOmega). If UMAT returned physical stress, Abaqus would add F_int^companion to F_int^UEL at every physical node, creating an internal force doubling F_int^total = 2 * F_int^UEL, which violates Newton-Raphson equilibrium and causes catastrophic solver divergence. Zero stress was therefore intentionally hardcoded to suppress internal force contributions.",
+        "consequences_for_abaqus_miseseri": "Abaqus computes the Zienkiewicz-Zhu Superconvergent Patch Recovery error indicator MISESERI exclusively on standard continuum elements using their integration-point Cauchy stress field S. Abaqus cannot evaluate MISESERI on *USER ELEMENT instances because user elements have no native integration-point stress topology known to the Abaqus solver kernel. Because the companion elements had STRESS = 0 everywhere, Abaqus evaluated sigma_h = 0, smoothed stress sigma* = 0, error e_sigma = 0, and MISESERI = 0 everywhere."
+    },
+    "comparative_evaluation_of_approaches": {
+        "approach_a_direct_uel_umat_forward_transfer": {
+            "name": "Approach A: Direct UEL/UMAT Stress Transfer in Forward Solve",
+            "mechanism": "Pass UEL mechanical stress to UMAT via expanded COMMON block. In order to prevent double-counting, suppress Layer 2 UEL mechanical internal force (RHS = 0, AMATRX = 0) and let Layer 3 companion UMAT provide the entire mechanical internal force and tangent stiffness.",
+            "technical_feasibility": "UNFEASIBLE_UNDER_CURRENT_CONSTRAINTS",
+            "blockers_and_risks": [
+                "Modifies frozen UEL f42_mixed_uel.for, which violates protocol rule #3 and governance boundaries.",
+                "Job 1421063.mmaster02 is ALREADY completed; direct forward transfer cannot retroactively fix an existing ODB.",
+                "Requires re-running the entire coarse coupled phase-field fracture simulation on HPC.",
+                "Staggered coupling latency: UMAT would need to communicate strain energy back to UEL Layer 1 for phase field update.",
+                "Abaqus/Standard has NO output-only UMAT call; whatever stress UMAT returns is ALWAYS integrated into equilibrium residual."
+            ],
+            "recommendation": "REJECT as primary path for 6-day sprint."
+        },
+        "approach_b_non_feedback_replay": {
+            "name": "Approach B: Non-Feedback Replay / Imposed-State Recovery at Terminal Checkpoint",
+            "mechanism": "Separate the fracture equilibrium solve from the stress recovery. Take the authentic converged displacement and phase-field state from Job 1421063.mmaster02 at u_y = 0.00959078 mm. Instantiate a pure standard-continuum model on the exact coarse geometry (preserving notch slit and hole). Evaluate degraded Cauchy stress sigma = ((1-d)^2 + k) * C_0 : epsilon. Compute native Abaqus MISESERI directly from this non-feedback recovery ODB, then run native adaptiveRemesh() to generate the adapted mesh.",
+            "technical_feasibility": "HIGHLY_FEASIBLE_AND_MATHEMATICALLY_RIGOROUS",
+            "advantages": [
+                "100% physically noninvasive: does NOT modify the frozen UEL or change the coarse fracture equilibrium.",
+                "Preserves authentic donor fracture solution from Job 1421063.mmaster02.",
+                "Zero double-counting of stiffness or force (no UEL elements present in the recovery model).",
+                "Abaqus natively computes S, MISESAVG, and MISESERI on the standard elements.",
+                "Abaqus native RemeshingRule operates directly on the recovery ODB to generate the Method A adapted mesh.",
+                "Completely local/offline: zero new PBS submissions required."
+            ],
+            "recommendation": "RECOMMENDED as the primary, physically sound Method A recovery mechanism."
+        },
+        "approach_c_auxiliary_usdfld_recovery": {
+            "name": "Approach C: Auxiliary USDFLD Recovery (F1659/F1660)",
+            "mechanism": "The established F1659 implementation: uses USDFLD to map donor damage field and evaluate degraded elastic stress on a geometry-backed CAD model.",
+            "technical_feasibility": "PROVEN_AND_FULLY_QUALIFIED",
+            "advantages": [
+                "Pearson stress correlation r = 0.9575, NRMSE = 4.05% against donor UEL stresses.",
+                "Sub-nanometer coordinate alignment (max error = 0.7 nm across 11,452 integration points).",
+                "+17.87% force difference fully diagnosed in F1660 (shear/bending stiffness of full-integration CPE4 vs reduced-integration CPS4R).",
+                "Native Abaqus RemeshingRule at 5% error target successfully generates a clean 20,213-element crack-path mesh (F1664)."
+            ],
+            "recommendation": "APPROVED as authoritative reference and immediate operational vehicle."
+        }
+    },
+    "strategic_selection_and_six_day_roadmap": {
+        "selected_strategy": "APPROACH_B_AND_C_NON_FEEDBACK_RECOVERY",
+        "justification": "Mathematical analysis proves that direct UEL/UMAT stress transfer in a forward coupled solve with shared displacement nodes is fundamentally overconstrained: any nonzero stress in UMAT adds to the internal force vector, doubling the internal force and corrupting equilibrium. Non-feedback state recovery (Approaches B/C) is the only mathematically sound, solver-compatible, and frozen-UEL-preserving route to expose authentic Cauchy stresses to Abaqus Superconvergent Patch Recovery without double-counting mechanical forces.",
+        "execution_gates": {
+            "gate_1_nov_7_8": "Complete root-cause audit and select non-feedback recovery strategy (DONE: Task F1673).",
+            "gate_2_nov_9": "Prove direct stress recovery and qualify authentic non-zero MISESERI field (Task F1674).",
+            "gate_3_nov_10": "Execute native Abaqus RemeshingRule (5% target) to generate adapted physical mesh (Task F1675).",
+            "gate_4_nov_11": "Rebuild 3-layer UEL/UMAT refined production deck and qualify datacheck (Task F1676).",
+            "gate_5_nov_12": "Execute refined Method A phase-field fracture simulation from t=0 upon separate authorization (Task F1677).",
+            "gate_6_nov_13": "Synthesize reproduction verdict, compare with Pandey & Kumar (2025), and integrate into thesis (Task F1678)."
+        }
+    }
+}

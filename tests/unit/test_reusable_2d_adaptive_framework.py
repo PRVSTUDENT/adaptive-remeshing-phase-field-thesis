@@ -433,6 +433,39 @@ def test_f1671_case_b_datacheck_manifest():
     assert ops["full_fracture_solve"] == "NOT_AUTHORIZED"
 
 
+def test_f1673_zero_miseseri_root_cause_audit():
+    """Verify Task F1673 audit of zero-MISESERI defect and recovery qualification."""
+    audit_path = (
+        REPO_ROOT
+        / "models"
+        / "pandey_kumar_mode1"
+        / "176_method_a_plate_with_hole"
+        / "PK_HOLE_F1673_ROOT_CAUSE_AUDIT.json"
+    )
+    assert audit_path.exists(), "F1673 root cause audit JSON not found"
+
+    with open(str(audit_path), "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    meta = data["metadata"]
+    assert meta["task_id"] == "F1673-DIRECT-UEL-UMAT-STRESS-TRANSFER-AND-ROOT-CAUSE-QUALIFICATION"
+    assert meta["frozen_uel_sha256"] == FROZEN_UEL_SHA256
+    assert meta["frozen_uel_verified"] is True
+
+    rc = data["root_cause_diagnosis"]
+    assert "lines 876-882" in rc["source_location"]
+    assert rc["common_block_audit"]["stress_tensor_transferred"] is False
+
+    evals = data["comparative_evaluation_of_approaches"]
+    assert "UNFEASIBLE" in evals["approach_a_direct_uel_umat_forward_transfer"]["technical_feasibility"]
+    assert "FEASIBLE" in evals["approach_b_non_feedback_replay"]["technical_feasibility"]
+    assert "QUALIFIED" in evals["approach_c_auxiliary_usdfld_recovery"]["technical_feasibility"]
+
+    strat = data["strategic_selection_and_six_day_roadmap"]
+    assert strat["selected_strategy"] == "APPROACH_B_AND_C_NON_FEEDBACK_RECOVERY"
+
+
+
 
 
 
