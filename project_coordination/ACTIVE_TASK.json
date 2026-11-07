@@ -52,7 +52,8 @@
         "f1655_coupled_remesh",
         "f1656_field_mapping_and_stress_provenance",
         "f1658_ip_damage_feasibility",
-        "f1659_usdfld_recovery_pilot"
+        "f1659_usdfld_recovery_pilot",
+        "f1660_provenance_and_ip_audit"
     ],
     "completed_pbs_job_ids": [
         "1398582.mmaster02",
@@ -488,8 +489,8 @@
     "operation_transition": {},
     "created_at": "2026-11-07T10:35:00.0000000+00:00",
     "paused_task": "F1640-METHOD-C-CP02-C6-CONTROLLED-EXPERIMENT-QUALIFICATION",
-    "last_step_status": "F1659_USDFLD_RECOVERY_PILOT_COMPLETE_DISPATCHING_THIRD_CHATGPT_HANDOFF",
+    "last_step_status": "F1660_RECOVERY_PROVENANCE_QUALIFICATION",
     "active_pbs_job_id": "",
-    "next_instruction_receipt": "HND-60adacef7f45",
-    "next_bounded_operation": "Dispatch F1659 USDFLD recovery pilot evidence to ChatGPT via PAD bridge and evaluate next directive"
+    "next_instruction_receipt": "HND-0e68e4753596",
+    "next_bounded_operation": "Execute F1660: Donor NLGEOM=NO confirmation, exact IP coordinate error audit, lookup SHA256 archive, matched spatial parity recalculation, and force discrepancy breakdown"
 }

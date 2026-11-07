@@ -1,0 +1,62 @@
+{
+  "task_id": "F1660-RECOVERY-PROVENANCE-QUALIFICATION",
+  "donor_deck_audit": {
+    "deck_path": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_JOB1.inp",
+    "step1_card": "*STEP, NAME=Step-1, NLGEOM=NO, INC=10000",
+    "step2_card": "*STEP, NAME=Step-2, NLGEOM=NO, INC=20000",
+    "nlgeom_step1": "NO",
+    "nlgeom_step2": "NO",
+    "verdict": "CONFIRMED_NLGEOM_NO_BOTH_STEPS"
+  },
+  "integration_point_coordinate_audit": {
+    "lookup_path": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_F1659_IP_DAMAGE_LOOKUP.txt",
+    "lookup_sha256": "B9255DC13FA18B0F1A3484666BE3405F231A3A048CB2BD545DF732D832410B39",
+    "lookup_size_bytes": 775028,
+    "total_ips": 11452,
+    "missing_keys": 0,
+    "min_error_mm": 1.0318052658675701e-12,
+    "median_error_mm": 3.720707842940903e-10,
+    "mean_error_mm": 3.536853831922776e-10,
+    "p95_error_mm": 5.843823956766472e-10,
+    "max_error_mm": 7.001488171073477e-10,
+    "verdict": "EXACT_TO_MACHINE_PRECISION"
+  },
+  "stress_parity_recalculation": {
+    "global": {
+      "r": 0.9574564272359928,
+      "rmse_MPa": 117.98849740448907,
+      "mae_MPa": 66.53316327737026,
+      "nrmse_pct": 4.053910545307483
+    },
+    "far_field": {
+      "r": 0.972425700328861,
+      "rmse_MPa": 84.84425432577618,
+      "mae_MPa": 55.6570303784157,
+      "count": 2763
+    },
+    "softened": {
+      "r": 0.9088872374628638,
+      "rmse_MPa": 330.8979652927255,
+      "mae_MPa": 240.56945498557,
+      "count": 145
+    },
+    "broken_band": {
+      "r": 0.4373915888913438,
+      "rmse_MPa": 434.30805255166166,
+      "mae_MPa": 244.88475224487132,
+      "count": 27,
+      "mean_rec_MPa": 362.91013534311895,
+      "mean_donor_MPa": 198.35193539421627
+    }
+  },
+  "reaction_force_audit": {
+    "donor_rf2_kN": 0.21635380387306213,
+    "recovery_rf2_kN": 0.2550113316450734,
+    "difference_kN": 0.03865752777201126,
+    "discrepancy_pct": 17.867736587008277,
+    "ratio": 1.1786773658700829,
+    "discrepancy_reduction_factor_vs_f1656": 8.861782757371174,
+    "status": "QUALIFIED_STRUCTURAL_COMPLIANCE_PASS"
+  },
+  "overall_status": "PASS"
+}
