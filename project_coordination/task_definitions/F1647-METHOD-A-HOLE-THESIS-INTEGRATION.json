@@ -1,0 +1,16 @@
+{
+  "task_id": "F1647-METHOD-A-HOLE-THESIS-INTEGRATION",
+  "title": "Integrate source-verified Method A off-axis-hole adaptive remeshing and deflected crack propagation findings into official university master's thesis report",
+  "status": "ACTIVE",
+  "assigned_agent": "gemini-antigravity",
+  "predecessor_task": {
+    "task_id": "F1646-METHOD-A-HOLE-CRACK-PROPAGATION-VALIDATION",
+    "run_id": "2b6c1670-80a6-48ec-8f7a-8f96db40a99c",
+    "checkpoint_artifact": "project_coordination/controller/F1646-gemini-completion-receipt.json",
+    "checkpoint_sha256": "DAB79DF54272C7792A02D2716F3DD6D20A18F716C3C16C5B6E70CE167E210B5E"
+  },
+  "scientific_objective": "Integrate complete Method A off-axis-hole benchmark results (preanalysis, pilot, adaptive refinement, adapted solve, crack propagation, graph connectivity, energy balance, and failure diagnosis) into MA_AdaptiveRemeshing_Report_2026, compile LaTeX, verify references, and document explicit scientific limitations",
+  "max_new_pbs_submissions": 0,
+  "execution_mode": "OFFLINE_THESIS_INTEGRATION",
+  "created_at": "2026-11-07T04:52:00.0000000+00:00"
+}

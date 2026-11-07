@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "task_id": "F1647-METHOD-A-HOLE-THESIS-INTEGRATION",
+  "executor": "gemini-antigravity",
+  "run_id": "2b6c1670-80a6-48ec-8f7a-8f96db40a99c",
+  "source_commit": "0d9a48bc",
+  "status": "COMPLETED",
+  "closed_at": "2026-11-07T05:14:00.0000000+00:00",
+  "scientific_result": "METHOD_A_HOLE_BENCHMARK_INTEGRATED_INTO_THESIS_CHAPTER05_COMPILED_206_PAGES_ZERO_UNDEFINED_REFS",
+  "tests_passed": 30,
+  "new_pbs_submissions": 0,
+  "evidence_sources": {
+    "MA_AdaptiveRemeshing_Report_2026/chapter05_method_a_hole_benchmark.tex": "C4E0937AE9D5DFE99382645EDB6DB2AE223544F7041E6DDD17B8B97CC6FD0E2F",
+    "MA_AdaptiveRemeshing_Report_2026/main.tex": "D34018A3FA58C5FC7FAC6A8F9708C04FB9D0C9B396403D6A5C4BC73EE1D68FEC",
+    "MA_AdaptiveRemeshing_Report_2026/main.pdf": "6B680D98DDAECF7EDFDE0DAA0F835D1F86464718304D78BF6ADC0F4DDD6BC647"
+  },
+  "thesis_build": {
+    "target_project": "MA_AdaptiveRemeshing_Report_2026",
+    "pdf_pages": 206,
+    "pdf_size_bytes": 38130218,
+    "pdf_sha256": "6B680D98DDAECF7EDFDE0DAA0F835D1F86464718304D78BF6ADC0F4DDD6BC647",
+    "compiler": "pdfTeX 3.141592653-2.6-1.40.28 (MiKTeX 25.12)",
+    "undefined_citations": 0,
+    "undefined_references": 0,
+    "integrated_chapter": "Chapter 5: Indicator-Driven Adaptive Remeshing of Plate with Off-Axis Hole (Method A)"
+  },
+  "scientific_limitations_documented": [
+    "Single-mesh demonstration without formal mesh-convergence proof",
+    "Incomplete local h <= l0/5 coverage (89.4% tip, 90.6% ligament, 86.3% hole)",
+    "Offline two-pass pre-refinement without online solution-state transfer",
+    "Post-peak work-energy discrepancy of 3.69%",
+    "Analysis terminated at u2 = 0.0075785 mm upon secondary hole flank cracking"
+  ],
+  "figures_integrated": [
+    "fig_method_a_hole_force_displacement.pdf",
+    "fig_method_a_hole_energy_balance.pdf",
+    "fig_method_a_hole_crack_deflection.pdf"
+  ],
+  "agy_run_completed": true
+}

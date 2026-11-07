@@ -1,0 +1,99 @@
+{
+  "threshold_sensitivity": {
+    "0.5": {
+      "threshold": 0.5,
+      "total_elements_ge_T": 3809,
+      "connected_to_notch_count": 2271,
+      "connects_notch_to_hole": true,
+      "min_x": 0.497357905,
+      "max_x": 0.6152243165,
+      "min_y": 0.491745241,
+      "max_y": 0.5685747565,
+      "avg_y_ahead_of_notch": 0.5220755145720671
+    },
+    "0.6": {
+      "threshold": 0.6,
+      "total_elements_ge_T": 3234,
+      "connected_to_notch_count": 1877,
+      "connects_notch_to_hole": true,
+      "min_x": 0.49848473075,
+      "max_x": 0.61352017525,
+      "min_y": 0.49326390025,
+      "max_y": 0.5665905474999999,
+      "avg_y_ahead_of_notch": 0.5223104761472475
+    },
+    "0.7": {
+      "threshold": 0.7,
+      "total_elements_ge_T": 2768,
+      "connected_to_notch_count": 1554,
+      "connects_notch_to_hole": true,
+      "min_x": 0.49941627675,
+      "max_x": 0.612585947,
+      "min_y": 0.494951181,
+      "max_y": 0.56584993,
+      "avg_y_ahead_of_notch": 0.5225012341221005
+    },
+    "0.8": {
+      "threshold": 0.8,
+      "total_elements_ge_T": 2379,
+      "connected_to_notch_count": 1281,
+      "connects_notch_to_hole": true,
+      "min_x": 0.50065749125,
+      "max_x": 0.6116214842500001,
+      "min_y": 0.4958996995,
+      "max_y": 0.56462663425,
+      "avg_y_ahead_of_notch": 0.5227826070778688
+    },
+    "0.85": {
+      "threshold": 0.85,
+      "total_elements_ge_T": 2211,
+      "connected_to_notch_count": 1170,
+      "connects_notch_to_hole": true,
+      "min_x": 0.50065749125,
+      "max_x": 0.610817194,
+      "min_y": 0.4964533895,
+      "max_y": 0.5641593485,
+      "avg_y_ahead_of_notch": 0.5229362567173789
+    },
+    "0.9": {
+      "threshold": 0.9,
+      "total_elements_ge_T": 2016,
+      "connected_to_notch_count": 1036,
+      "connects_notch_to_hole": true,
+      "min_x": 0.50086517625,
+      "max_x": 0.61009384675,
+      "min_y": 0.49717157325,
+      "max_y": 0.5641593485,
+      "avg_y_ahead_of_notch": 0.5235871628153957
+    },
+    "0.95": {
+      "threshold": 0.95,
+      "total_elements_ge_T": 1799,
+      "connected_to_notch_count": 902,
+      "connects_notch_to_hole": true,
+      "min_x": 0.50086517625,
+      "max_x": 0.6092403085,
+      "min_y": 0.4977402835,
+      "max_y": 0.56354957825,
+      "avg_y_ahead_of_notch": 0.5241250918794346
+    }
+  },
+  "terminal_diagnosis": {
+    "total_increments": 246,
+    "step1_increments": 50,
+    "step2_increments": 196,
+    "last_converged_step": 2,
+    "last_converged_increment": 195,
+    "last_converged_time_step2": 0.36835338,
+    "last_converged_displacement_mm": 0.00757847366,
+    "first_failed_increment": 196,
+    "limiting_mechanism": "MINIMUM_TIME_INCREMENT_EXCEEDED_AT_SNAPTHROUGH",
+    "minimum_time_increment": 1e-08,
+    "physical_phenomenon": "Complete perforation of the ligament followed by secondary crack initiation from the right flank of the hole into the remaining plate ligament, leading to localized structural snap-through under displacement control."
+  },
+  "conclusion": {
+    "crack_connectivity_validated": true,
+    "crack_deflection_confirmed": false,
+    "robustness": "Crack connectivity from notch tip to off-axis hole is rigorously confirmed across all thresholds from d>=0.50 up to d>=0.90."
+  }
+}

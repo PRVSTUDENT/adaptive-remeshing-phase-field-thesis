@@ -1,11 +1,11 @@
 {
-    "active":  true,
+    "active":  false,
     "agent":  "gemini-antigravity",
     "session_id":  "2b6c1670-80a6-48ec-8f7a-8f96db40a99c",
-    "task_id":  "F1645-METHOD-A-HOLE-ADAPTED-CRACK-PROPAGATION",
-    "started_at":  "2026-11-06T22:25:00.0000000+00:00",
-    "closed_at":  null,
-    "starting_commit":  "dfdbf49c",
+    "task_id":  "F1647-METHOD-A-HOLE-THESIS-INTEGRATION",
+    "started_at":  "2026-11-07T04:52:00.0000000+00:00",
+    "closed_at":  "2026-11-07T05:20:00.0000000+00:00",
+    "starting_commit":  "0d9a48bc",
     "allowed_write_scope":  [
                                 "project_coordination",
                                 "models/pandey_kumar_mode1/176_method_a_plate_with_hole",
@@ -13,8 +13,12 @@
                                 "scripts/hpc",
                                 "scripts/validation",
                                 "scripts/controller",
+                                "scripts/postprocessing",
+                                "scripts/visualization",
                                 "tests/unit",
-                                "results/validation"
+                                "results/validation",
+                                "MA_AdaptiveRemeshing_Report_2026",
+                                "docs/MA_AdaptiveRemeshing_Report_2026_main"
                             ],
-    "notes":  "Gemini Antigravity completed F1645 crack propagation simulation (Job 1421055.mmaster02) and verified peak load, softening, and crack deflection toward hole."
+    "notes":  "Gemini Antigravity claimed session for F1647 Method A off-axis-hole master thesis report integration (MA_AdaptiveRemeshing_Report_2026)."
 }
