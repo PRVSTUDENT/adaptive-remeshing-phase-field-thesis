@@ -1,11 +1,11 @@
 {
     "active":  false,
     "agent":  "gemini-antigravity",
-    "session_id":  "f1655-session-001",
-    "task_id":  "F1655-COUPLED-MISESERI-PROVENANCE-AND-NATIVE-REMESH",
-    "started_at":  "2026-11-07T09:28:00.0000000+00:00",
-    "closed_at":  "2026-11-07T10:52:00.0000000+00:00",
-    "starting_commit":  "03f420b8",
+    "session_id":  "f1656-session-001",
+    "task_id":  "F1656-CORRECT-FIELD-MAPPING-AND-VERIFY-STRESS-PROVENANCE",
+    "started_at":  "2026-11-07T10:10:00.0000000+00:00",
+    "closed_at":  "2026-11-07T11:24:00.0000000+00:00",
+    "starting_commit":  "e5aa88f5",
     "allowed_write_scope":  [
                                 "project_coordination",
                                 "models/pandey_kumar_mode1/176_method_a_plate_with_hole",
@@ -20,5 +20,5 @@
                                 "MA_AdaptiveRemeshing_Report_2026",
                                 "docs/MA_AdaptiveRemeshing_Report_2026_main"
                             ],
-    "notes":  "Gemini Antigravity claimed session for F1655: Correct coupled-state MISESERI provenance, replay authentic F1653 Job 1 displacement/damage/history, resolve 2906 vs 2935 mesh discrepancy, clarify MISESERI units [MPa], and execute qualified native remesh."
+    "notes":  "Gemini Antigravity claimed session for F1656: Correct F1655 field-mapping defect (element IDs used as node IDs under *INITIAL CONDITIONS, TYPE=FIELD), verify donor BCs, reconstruct donor stress via frozen UEL constitutive law with exact component matching, and evaluate coupled-stress provenance."
 }

@@ -1,0 +1,49 @@
+{
+  "task_id": "F1656-CORRECT-FIELD-MAPPING-AND-VERIFY-STRESS-PROVENANCE",
+  "donor_source": "PK_HOLE_COARSE_JOB1.odb",
+  "donor_pbs_id": "1421063.mmaster02",
+  "terminal_increment": 337,
+  "terminal_time": 0.6558254361152649,
+  "donor_rf2_kN": 0.21635380387306213,
+  "recovery_rf2_N": 558.9363360404968,
+  "recovery_rf2_kN": 0.5589363360404968,
+  "rf2_discrepancy_pct": 158.34360340332824,
+  "donor_elements": 2906,
+  "recovery_elements": 2935,
+  "recovery_nodes": 3028,
+  "field_variable_stats": {
+    "min": 1.500000053056283e-06,
+    "mean": 0.03822290123547078,
+    "max": 0.8842200040817261
+  },
+  "donor_stress_stats_MPa": {
+    "min": 0.15381360341371947,
+    "median": 162.9586408862389,
+    "mean": 312.82803298602875,
+    "max": 2910.6397773616454
+  },
+  "recovery_stress_stats_MPa": {
+    "min": 0.49662475287914276,
+    "median": 418.52674102783203,
+    "mean": 565.564206572359,
+    "max": 3284.302734375
+  },
+  "stress_parity_metrics": {
+    "pearson_r": 0.7537312931857088,
+    "rmse_MPa": 396.5242109572981,
+    "nrmse_pct": 13.623986368423408,
+    "mae_MPa": 287.27568890559115
+  },
+  "spr_indicators": {
+    "miseseri_min_MPa": 0.43692564964294434,
+    "miseseri_mean_MPa": 21.161137555547224,
+    "miseseri_max_MPa": 1179.9478759765625,
+    "misesavg_min_MPa": 0.5005748271942139,
+    "misesavg_mean_MPa": 566.1494029871853,
+    "misesavg_max_MPa": 3092.636474609375,
+    "relative_error_eta_min_pct": 0.09807987337277964,
+    "relative_error_eta_median_pct": 2.0946766500386396,
+    "relative_error_eta_mean_pct": 4.976064401175503,
+    "relative_error_eta_max_pct": 324.88510704370384
+  }
+}

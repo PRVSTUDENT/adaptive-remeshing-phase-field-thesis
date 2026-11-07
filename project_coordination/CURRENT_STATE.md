@@ -1,3 +1,22 @@
+## 7 November F1656 Field-Mapping Defect Correction and Coupled-Stress Provenance Verification COMPLETE: Element-as-Node Defect Resolved, Stress Correlation Recovered from -0.003 to +0.754, Crack-Tip Smearing Discrepancy Quantified, 3 Diagnostic Figures Rendered, HALTED FOR USER DECISION
+
+Correction of F1655 field-mapping defects and rigorous quantitative evaluation of auxiliary stress recovery on the Mode-I off-axis circular hole plate ($1.0 \times 1.0\,\text{mm}$, notch $a_0 = 0.5\,\text{mm}$, hole at $(0.65, 0.65)\,\text{mm}$, $R = 0.10\,\text{mm}$):
+1. Root Cause Proven: In F1655, `execute_coupled_miseseri_f1655.py` injected element labels under `*INITIAL CONDITIONS, TYPE=FIELD, VARIABLE=1` instead of node labels. Element IDs and Node IDs correspond to different physical locations (displaced by up to $0.67\,\text{mm}$), resulting in a spatially scrambled stiffness tensor that caused F1655's near-zero stress correlation ($r = -0.0030$).
+2. Slit-Aware Node-Based Field Correction: Corrected damage projection directly onto all 3,028 receiver nodes with strict slit boundary conditions ($x \le 0.50$ top/bottom separation). Abaqus correctly interpolated the field variable to material integration points: $\text{FV1}_{\min} = 1.5 \times 10^{-6}$, $\text{FV1}_{\mathrm{mean}} = 0.0382$, $\text{FV1}_{\max} = 0.8842$.
+3. Exact Donor BC & Kinematic Audit: Audited reference point `N_RP` (Node 999999) from Job 1 ODB: imposed displacement $u_2 = 0.00959078\,\text{mm}$, reaction force $RF_2 = 0.216354\,\text{kN}$. Explicit `(elementLabel, integrationPoint)` joins applied across all fields.
+4. Stress Parity Recovery:
+   - Pearson correlation between reconstructed donor and recovery stresses improved dramatically from $r = -0.0030$ to $\mathbf{r = +0.7537}$.
+   - Normalized stress RMSE decreased from $40.41\%$ to $\mathbf{13.62\%}$ (RMSE $= 396.52\,\text{MPa}$, MAE $= 287.28\,\text{MPa}$).
+   - Elastic far-field domain (2,737 elements) achieved $\mathbf{r = 0.8057}$ (RMSE $= 343.97\,\text{MPa}$).
+5. Physical Discrepancy & Limitations Diagnosed:
+   - Smeared Crack-Tip Dilution: On the coarse $h \approx 20\,\mu\text{m}$ receiver mesh, linear nodal interpolation smears the sharp donor crack core ($d = 0.9976$) to $\text{FV1}_{\max} = 0.8842$. Under quadratic degradation $g(d) = (1-d)^2$, this dilutes damage relaxation and increases residual stiffness by $>2,300\times$, transmitting artificial tension across the crack band (broken band Mises mean $= 963.1\,\text{MPa}$ vs donor $190.6\,\text{MPa}$).
+   - Reaction Force Over-Prediction: Smeared residual stiffness elevates auxiliary recovery reaction force to $RF_2 = 0.558936\,\text{kN}$ vs donor $0.216354\,\text{kN}$ ($+158.34\%$).
+6. Diagnostic Figures: All 3 publication-grade figures generated at 300 DPI PNG and vector PDF in `MA_AdaptiveRemeshing_Report_2026/figures/` and `docs/MA_AdaptiveRemeshing_Report_2026_main/figures/`:
+   - Figure A: Reconstructed donor stress vs F1656 recovery solve stress and absolute discrepancy map.
+   - Figure B: Donor damage vs receiver IP damage (FV1) and ligament profile smearing audit.
+   - Figure C: Spatially matched stress parity scatter plot categorized by damage regime ($r = 0.7537$) and reaction force comparison.
+7. Governed Status: ZERO PBS jobs submitted. ZERO new native remeshing sweeps executed. Previous F1654 (46,559 elements) and F1655 (68,420 elements) meshes preserved. Halted awaiting user inspection and decision.
+
 ## 7 November F1655 Coupled-State MISESERI Provenance and Native Adaptive Remeshing COMPLETE: Authentic Coupled State Replayed, Native Adapted Mesh (68,420 elements, 97.3% quads), Strict h<=1.5um Regional Audit, 6 Publication Figures Rendered, STOPPED FOR USER MESH APPROVAL
 
 Restoration of authentic coupled-state stress provenance and execution of genuine Pandey & Kumar (2025) Method A native adaptive remeshing on the Mode-I off-axis circular hole plate ($1.0 \times 1.0\,\text{mm}$, notch $a_0 = 0.5\,\text{mm}$, hole at $(0.65, 0.65)\,\text{mm}$, $R = 0.10\,\text{mm}$):
