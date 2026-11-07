@@ -1,20 +1,20 @@
 {
-    "task_id": "F1648-METHOD-A-HOLE-FINER-MESH-SENSITIVITY",
-    "title": "Controlled finer-mesh sensitivity experiment (h_core = 0.75 um = l0/10) for Method A off-axis-hole plate",
-    "status": "ACTIVE",
+    "task_id": "F1653-PANDEY-KUMAR-ORIGINAL-METHOD-A-COARSE-COUPLED-JOB1",
+    "title": "Restore Pandey-Kumar (2025) Method A: coarse coupled phase-field Job 1 (2,906 elements) -> authentic coupled MISESERI extraction -> native adaptive remeshing",
+    "status": "COMPLETED",
     "assigned_agent": "gemini-antigravity",
     "predecessor_task": {
-        "task_id": "F1647-METHOD-A-HOLE-THESIS-INTEGRATION",
+        "task_id": "F1652-GENERALIZED-2D-FIELD-ADAPTIVE-REMESHING-FRAMEWORK",
         "run_id": "2b6c1670-80a6-48ec-8f7a-8f96db40a99c",
-        "checkpoint_artifact": "project_coordination/controller/F1647-gemini-completion-receipt.json",
-        "checkpoint_sha256": "ADAB756DF284AD14A528D205AA8416A9FF46325ACA93D8E892ED52F3CA6BFCAC"
+        "checkpoint_artifact": "project_coordination/sessions/2026-11-07_gemini-antigravity_F1652_generalized_framework.md",
+        "checkpoint_sha256": "47DFDB82B9A25BD7A9AC45FD1BC01579482DFD594C1EC090FEF9E13FDCE01A5E"
     },
     "registration": {
-        "definition": "project_coordination/task_definitions/F1648-METHOD-A-HOLE-FINER-MESH-SENSITIVITY.json",
-        "sha256": "0E082C04A29A9EC361AA0B3045A41389FC9D24F7B62B26E6EA5813F58125C222"
+        "definition": "project_coordination/task_definitions/F1653-PANDEY-KUMAR-ORIGINAL-METHOD-A-COARSE-COUPLED-JOB1.json",
+        "sha256": "85324DA6D77AD0F5A0940A4CB811F1BF3C55FB6428A3505067C46EDE5C49A08C"
     },
-    "scientific_operation": "finer_mesh_crack_propagation_execution",
-    "scientific_operation_id": "finer_mesh_crack_propagation",
+    "scientific_operation": "coarse_coupled_job1_miseseri_adaptive_remesh",
+    "scientific_operation_id": "coarse_coupled_job1",
     "scientific_checkpoint_required": true,
     "max_new_pbs_submissions": 1,
     "completed_operations": [
@@ -49,6 +49,7 @@
         "f1645_crack_propagation_execution",
         "f1646_crack_propagation_validation",
         "f1647_thesis_integration",
+        "f1648_finer_mesh_sensitivity",
         "f1651_corrected_localized_mesh_validation",
         "f1652_generalized_adaptive_framework_validation"
     ],
@@ -476,17 +477,18 @@
         "1420430.mmaster02",
         "1421048.mmaster02",
         "1421053.mmaster02",
-        "1421055.mmaster02"
+        "1421055.mmaster02",
+        "1421063.mmaster02"
     ],
     "lifecycle": {
-        "state": "ACTIVE"
+        "state": "COMPLETED"
     },
     "requested_operation_id": "",
     "operation_transition": {},
     "created_at": "2026-11-07T03:52:00.0000000+00:00",
     "paused_task": "F1640-METHOD-C-CP02-C6-CONTROLLED-EXPERIMENT-QUALIFICATION",
-    "last_step_status": "F1652_GENERALIZED_FRAMEWORK_VALIDATED",
+    "last_step_status": "COARSE_JOB1_COMPLETED_EXIT0_MISESERI_ZERO_PROVEN_FIGURES_GENERATED",
     "active_pbs_job_id": "",
-    "next_instruction_receipt": "project_coordination/gemini_loop/HND-GEMINI-5941d414443c.json",
-    "next_bounded_operation": "Awaiting explicit user visual inspection and approval of generalized 2D adaptive mesh prior to solver execution"
+    "next_instruction_receipt": "",
+    "next_bounded_operation": "STOP_BEFORE_JOB2_SUBMISSION_AWAITING_USER_MESH_APPROVAL"
 }

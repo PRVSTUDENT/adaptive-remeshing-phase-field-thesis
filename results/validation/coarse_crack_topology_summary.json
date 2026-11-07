@@ -1,0 +1,55 @@
+{
+  "step1_end": {
+    "d09_count": 0,
+    "d09_regions": {},
+    "d05_count": 0,
+    "d05_regions": {},
+    "d01_count": 4,
+    "d01_regions": {
+      "NOTCH_TIP": 4
+    }
+  },
+  "step2_peak": {
+    "d09_count": 0,
+    "d09_regions": {},
+    "d05_count": 1,
+    "d05_regions": {
+      "NOTCH_TIP": 1
+    },
+    "d01_count": 48,
+    "d01_regions": {
+      "LIGAMENT": 23,
+      "HOLE_BOUNDARY": 7,
+      "RIGHT_FLANK": 5,
+      "NOTCH_TIP": 7,
+      "FAR_RIGHT": 1,
+      "BULK": 5
+    }
+  },
+  "step2_end": {
+    "d09_count": 20,
+    "d09_regions": {
+      "RIGHT_FLANK": 11,
+      "LIGAMENT": 7,
+      "NOTCH_TIP": 1,
+      "HOLE_BOUNDARY": 1
+    },
+    "d05_count": 57,
+    "d05_regions": {
+      "LIGAMENT": 19,
+      "RIGHT_FLANK": 31,
+      "HOLE_BOUNDARY": 2,
+      "NOTCH_TIP": 3,
+      "BULK": 2
+    },
+    "d01_count": 169,
+    "d01_regions": {
+      "LIGAMENT": 37,
+      "RIGHT_FLANK": 100,
+      "HOLE_BOUNDARY": 7,
+      "NOTCH_TIP": 7,
+      "FAR_RIGHT": 9,
+      "BULK": 9
+    }
+  }
+}

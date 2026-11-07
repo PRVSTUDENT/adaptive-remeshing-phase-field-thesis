@@ -1,0 +1,43 @@
+{
+  "batch_name": "MODE1_METHOD_A_HOLE_COARSE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "PK_HOLE_COARSE_JOB1.inp": "555d9285ea417abaa2cf08ae630d50d4dd0db99f5702f6cc45eacebd1d075785",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_M1_HOLE_COARSE_JOB1.pbs": "a29f08d2aad8e3108e34b7a9d6c4af73866ace8d187bc8397f5b84ae680553fa",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11"
+  },
+  "jobs": [
+    {
+      "id": "hole_coarse",
+      "pbs": "submit_M1_HOLE_COARSE_JOB1.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_method_a_hole_coarse/submit_M1_HOLE_COARSE_JOB1.pbs\"",
+      "command_sha256": "82257890226dc43ac5081e650b1bf8b5d81c9aefadc1eeabc15730800fb67093",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Original Method A Job 1: coarse coupled phase-field fracture simulation on 2,906 physical elements (8,718 total elements) using frozen f42_mixed_uel.for, continuous 2-step loading to extract authentic coupled MISESERI",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "PK_HOLE_COARSE_JOB1.inp",
+      "datacheck": "PK_HOLE_COARSE_JOB1_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "hole_coarse": "Abaqus 2023 single-rank serial solve executes coarse coupled phase-field fracture simulation on 2,906 physical elements; extracts authentic coupled MISESERI from companion facsimile layer; evaluates damage evolution and crack path; records genuine convergence state."
+  },
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_method_a_hole_coarse",
+  "required_state_checks": [
+    "nodal_displacement_verified",
+    "damage_irreversibility_verified",
+    "committed_history_verified",
+    "state_restoration_verified"
+  ]
+}
