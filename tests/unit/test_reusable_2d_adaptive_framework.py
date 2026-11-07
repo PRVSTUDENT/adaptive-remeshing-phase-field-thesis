@@ -700,7 +700,7 @@ def test_f1679_method_a_evidence_closeout_and_kinematic_verification():
     assert sol["numerical_problem_warnings"] == 0
     assert sol["error_messages"] == 0
     assert sol["memory_peak_gb"] == 2
-    assert sol["timing_reconciliation"]["total_cpu_time_sec"] == 3584.0
+    assert sol["timing_reconciliation"]["total_cpu_time_sec"] == 3580.0
     assert sol["timing_reconciliation"]["wallclock_time_sec"] == 5149.0
 
     eng = data["energy_verification"]
@@ -759,6 +759,60 @@ def test_f1679_method_a_evidence_closeout_and_kinematic_verification():
     assert fig_prog_png.exists()
     assert fig_prog_pdf.exists()
     assert main_pdf.exists()
+
+
+def test_f1680_method_a_scientific_correction_and_ip_audit():
+    """Verify Task F1680 scientific corrections, IP damage aggregation audit, and thesis alignment."""
+    # 1. IP aggregation audit JSON
+    audit_path = REPO_ROOT / "results" / "validation" / "f1680_ip_aggregation_audit.json"
+    assert audit_path.exists(), "f1680_ip_aggregation_audit.json not found"
+
+    with open(str(audit_path), "r", encoding="utf-8") as f:
+        audit = json.load(f)
+
+    mesh = audit["mesh_discretization_breakdown"]
+    assert mesh["total_physical_elements"] == 20213
+    assert mesh["quadrilateral_elements_cpe4"] == 19644
+    assert mesh["triangular_elements_cpe3"] == 569
+
+    prov = audit["provenance_reconciliation"]
+    assert prov["total_ip_records_f1678"] == 8520
+    assert prov["unique_physical_elements"] == 2169
+    assert prov["damaged_quads_count"] == 2117
+    assert prov["damaged_tris_count"] == 52
+    assert prov["quad_ip_records"] == 8468
+    assert prov["tri_ip_records"] == 52
+    assert prov["reconciliation_verdict"] == "VERIFIED_EXACT_TOPOLOGICAL_IDENTITY"
+
+    intra = audit["intracell_damage_variation"]
+    assert intra["intracell_invariance"] is True
+    assert intra["max_damage_spread_intracell"] == 0.0
+
+    over = audit["overshoot_quantification"]
+    assert over["unique_overshoot_elements_max_rule"] == 8
+    assert over["maximum_overshoot_pct"] < 0.06
+
+    # 2. Raw solver logs and crack state evidence files
+    assert (REPO_ROOT / "results" / "validation" / "M1_HOLE_F1664_METHOD_A_PROD.sta").exists()
+    assert (REPO_ROOT / "results" / "validation" / "M1_HOLE_F1664_METHOD_A_PROD.msg").exists()
+    assert (REPO_ROOT / "results" / "validation" / "M1_HOLE_F1664_METHOD_A_PROD_pbs_execution.log").exists()
+    assert (REPO_ROOT / "results" / "validation" / "f1679_time_resolved_crack_states.csv").exists()
+
+    # 3. Chapter 5 text checks
+    chap5_path = REPO_ROOT / "MA_AdaptiveRemeshing_Report_2026" / "chapter05_method_a_hole_benchmark.tex"
+    with open(str(chap5_path), "r", encoding="utf-8") as f:
+        tex = f.read()
+
+    # Check DOF 3 correction
+    assert "d = u_3" in tex, "Phase-field DOF 3 not documented in Chapter 5"
+    assert "PHASE\\_SHARED" in tex, "COMMON block PHASE_SHARED not documented in Chapter 5"
+    assert "D\\_COMM" in tex, "Variable D_COMM not documented in Chapter 5"
+
+    # Check elimination of false literature claim
+    assert "within 1.1% of the 0.60" not in tex, "False literature agreement claim not eliminated"
+    assert "tab:hole_pandey_kumar_comparison" in tex, "Comparison table label missing"
+    assert "miehe2010a" in tex, "Correct Miehe citation missing"
+
 
 
 

@@ -27,23 +27,23 @@ Boundary conditions enforce vertical displacement control on the top edge ($y = 
 
 To simulate phase-field fracture in \Abaqus/Standard without native phase-field element support, the multi-layer UEL architecture formulated in \citet{molnar2017} and frozen under SHA-256 hash \texttt{CE8D5EDC...} is employed. The physical discretization is decomposed into three coincident element layers sharing identical nodal coordinates:
 \begin{enumerate}
-  \item \textbf{Layer 1 (Phase-Field UEL):} 4-node quadrilateral (or 3-node triangular) user elements with a single degree of freedom per node ($d = u_1$). Governed by the regularised crack surface functional:
+  \item \textbf{Layer 1 (Phase-Field UEL, JTYPE 1 and 3):} 4-node quadrilateral (or 3-node triangular) user elements with a single active degree of freedom per node assigned to degree of freedom 3 ($d = u_3$, while DOFs 1 and 2 are inactive in Layer 1). Governed by the regularised crack surface functional:
   \begin{equation}
     \Gamma_d(d) = \int_\Omega \left( \frac{1}{2 \ellzero} d^2 + \frac{\ellzero}{2} \nabla d \cdot \nabla d \right) \mathrm{d}\Omega.
     \label{eq:crack_surface_functional}
   \end{equation}
-  \item \textbf{Layer 2 (Mechanical UEL):} 4-node quadrilateral (or 3-node triangular) user elements with two displacement degrees of freedom per node ($u_x = u_1$, $u_y = u_2$). The mechanical Cauchy stress is degraded isotropically:
+  \item \textbf{Layer 2 (Mechanical UEL, JTYPE 2 and 4):} 4-node quadrilateral (or 3-node triangular) user elements with two displacement degrees of freedom per node ($u_x = u_1$, $u_y = u_2$, while DOF 3 is inactive in Layer 2). The mechanical Cauchy stress is degraded isotropically:
   \begin{equation}
     \sten = g(d) \sten_0 = \left[ (1-d)^2 + k \right] \Cten_0 : \eten,
     \label{eq:degraded_stress}
   \end{equation}
-  where $\Cten_0$ is the undegraded linear-elastic plane strain stiffness tensor. Crucially, the undegraded driving energy $\psi_0^+(\eten)$ driving phase-field evolution in the common block is evaluated from the positive volumetric strain trace combined with the full strain norm:
+  where $\Cten_0$ is the undegraded linear-elastic plane strain stiffness tensor. Crucially, the undegraded driving energy $\psi_0^+(\eten)$ driving phase-field evolution is transferred via Fortran named \texttt{COMMON} block \texttt{/PHASE\_SHARED/ D\_COMM, H\_COMM, PSI\_ACT\_COMM}. This block exchanges scalar state variables ($d$, maximum crack-tip history $\Hist$, and active driving energy $\psi_0^+$) between coincident elements, rather than the mechanical stress tensor. The driving energy is evaluated from the positive volumetric strain trace combined with the full strain norm:
   \begin{equation}
     \psi_0^+(\eten) = \frac{1}{2} C_{12,0} \langle \tr{\eten} \rangle_+^2 + C_{33,0} \left( \strain_{11}^2 + \strain_{22}^2 + 2 \strain_{12}^2 \right),
     \label{eq:uel_driving_energy}
   \end{equation}
   where $\langle x \rangle_+ = \max(0, x)$. This trace-positive volumetric plus full strain norm formulation must be distinguished from a spectral tensile/compressive energy split.
-  \item \textbf{Layer 3 (Companion CPE4/CPE3 UMAT Visualizer):} Standard continuum elements with dummy elastic stiffness ($\sim 10^{-6}\,E$) co-located with the mechanical UEL. Standard state-dependent variables (SDVs) transfer damage $d$ and history $\Hist$ into field output for post-processing in \Abaqus/Viewer.
+  \item \textbf{Layer 3 (Companion CPE4/CPE3 UMAT Visualizer):} Standard continuum elements with dummy elastic stiffness ($\sim 10^{-6}\,E$) co-located with the mechanical UEL. Standard state-dependent variables (SDVs) transfer damage $d = \texttt{D\_COMM}$ into \texttt{STATEV(1)} at all integration points for post-processing in \Abaqus/Viewer.
 \end{enumerate}
 
 \section{Pre-Analysis Diagnostics and the Physics-Domain Dilemma}
@@ -241,7 +241,7 @@ The reaction force versus displacement response for the production Method~A simu
 Key mechanical characteristics extracted directly from the verified dataset include:
 \begin{itemize}
   \item \textbf{Peak Reaction Force:} $P_{\max} = 0.593390\,\mathrm{kN}$ ($593.39\,\mathrm{N}$) at displacement $u_2 = 0.005700\,\mathrm{mm}$ (Step~2, Increment~50).
-  \item \textbf{Peak Softening Comparison:} Relative to the coarse baseline ($P_{\max} = 0.731015\,\mathrm{kN}$), the peak load is reduced by $-18.83\%$ ($-137.6\,\mathrm{N}$). In phase-field fracture, under-resolved meshes over-predict structural strength because coarse elements cannot resolve the steep damage gradient $\nabla d \sim 1/\ellzero$. Refining to $h \approx 1.5\,\mu\mathrm{m}$ naturally softens the peak load, placing it within $1.1\%$ of the $0.60\,\mathrm{kN}$ benchmark comparison band reported by \citet{pandey2025}. While indicative of physical consistency, this single coarse-to-refined comparison must be characterized as a numerical comparison rather than an asymptotic proof of mesh convergence.
+  \item \textbf{Peak Softening Comparison:} Relative to the coarse baseline ($P_{\max} = 0.731015\,\mathrm{kN}$), the peak load is reduced by $-18.83\%$ ($-137.6\,\mathrm{N}$). In phase-field fracture, under-resolved meshes over-predict structural strength because coarse elements cannot resolve the steep damage gradient $\nabla d \sim 1/\ellzero$. Refining to $h \approx 1.5\,\mu\mathrm{m}$ naturally softens the peak load to $0.5934\,\mathrm{kN}$. As detailed in Section~\ref{sec:hole_pandey_kumar_comparison}, this load level is consistent with the small-scale regularisation parameters ($\ellzero = 0.0075\,\mathrm{mm}$, $\Gc = 2.7\,\mathrm{N/mm}$) and trace-positive UEL formulation, though it must be distinguished from macroscopic hole benchmarks that employ larger length scales and different specimen geometries. This single coarse-to-refined comparison demonstrates numerical softening rather than an asymptotic proof of mesh convergence.
   \item \textbf{Deep Post-Peak Softening:} Following secondary snap-through at $u_2 = 0.00776\,\mathrm{mm}$, the reaction force drops precipitously from $0.471\,\mathrm{kN}$ to $0.045\,\mathrm{kN}$ within 22 micro-increments, reaches $0.00092\,\mathrm{kN}$ ($0.92\,\mathrm{N}$) at $u_2 = 0.00780\,\mathrm{mm}$, and drops to $P_{\mathrm{final}} = 0.000415\,\mathrm{kN}$ ($0.41\,\mathrm{N}$) at $u_2 = 0.0120\,\mathrm{mm}$. This represents a $99.93\%$ loss of load-carrying capacity, capturing complete structural separation.
 \end{itemize}
 
@@ -266,11 +266,13 @@ The chronological sequence of physical fracture mechanisms is quantified as foll
   \item \textbf{Complete Severance (State 5--6, $u_2 = 0.00780$ to $0.0120\,\mathrm{mm}$):} By Increment~248, the right ligament is fully severed ($2{,}864$ elements with $d \ge 0.50$, $2{,}169$ with $d \ge 0.80$), and load capacity drops to $0.92\,\mathrm{N}$. The remaining increments represent rigid separation of the severed specimen halves under residual numerical stiffness.
 \end{enumerate}
 
-\subsection{Phase-Field Damage Bound Audit}
+\subsection{Phase-Field Damage Bound and Integration-Point Topology Audit}
 \label{subsec:hole_damage_bounds}
 
-In the classical continuum formulation, the phase field is bounded by $0 \le d \le 1$. In numerical implementations utilizing penalty regularisation or staggered Newton--Raphson iterations with finite convergence tolerances, small numerical overshoots can occur. An exhaustive audit across all $20{,}213$ physical elements across all $614$ increments established:
+In the classical continuum formulation, the phase field is bounded by $0 \le d \le 1$. In numerical implementations utilizing penalty regularisation or staggered Newton--Raphson iterations with finite convergence tolerances, small numerical overshoots can occur. Furthermore, to clarify the relationship between integration-point records and physical elements, a complete topological audit of the $20{,}213$ physical elements across all $614$ increments was performed:
 \begin{itemize}
+  \item \textbf{Element Topology and Integration Points:} The $20{,}213$ physical elements comprise $19{,}644$ bilinear quadrilateral elements (CPE4 kinematics, 4 integration points per element) and $569$ linear triangular elements (CPE3 kinematics, 1 integration point per element). In the fully fractured state ($d \ge 0.80$), exactly $2{,}169$ unique physical elements are damaged, consisting of $2{,}117$ quads ($8{,}468$ integration points) and $52$ triangles ($52$ integration points), reconciling the $8{,}520$ damaged integration-point records exported from raw solver tables.
+  \item \textbf{Intracell Damage Invariance:} Because the companion UMAT receives the phase-field scalar $d$ from the UEL via Fortran named \texttt{COMMON} block \texttt{/PHASE\_SHARED/ D\_COMM}, all integration points within each quad element share the identical scalar value $d$. The intracell variance across integration points is identically zero ($0.000000$), proving that Max-IP, Last-IP, Mean-IP, and Min-IP crack path definitions are mathematically and numerically identical.
   \item \textbf{Undershoots ($d < 0$):} Zero undershoot elements were detected ($d_{\min} \ge 5.96 \times 10^{-8} > 0$ throughout).
   \item \textbf{Overshoots ($d > 1.0$):} At peak load, zero elements exceed unity. Upon crack arrest and secondary snap-through, a small number of elements exhibit minor numerical overshoot: $1$ element at Increment~180 ($d_{\max} = 1.000072$, overshoot $0.007\%$), $3$ elements at Increment~220 ($d_{\max} = 1.001083$, overshoot $0.108\%$), and $8$ elements at the final state ($d_{\max} = 1.000599$, overshoot $0.060\%$).
   \item \textbf{Physical Assessment:} The maximum overshoot across the entire simulation is $\Delta d_{\max} = 0.00108$ ($0.108\%$), affecting only $8$ out of $2{,}169$ broken elements ($0.37\%$ of broken elements, $0.04\%$ of the total mesh). This slight deviation arises naturally from the local Newton residual tolerance ($\sim 10^{-6}$) and does not compromise physical stability or energetic consistency.
@@ -292,45 +294,54 @@ The energetic evaluation establishes:
 \begin{enumerate}
   \item \textbf{Fracture Energy Monotonicity:} The second law of thermodynamics requires crack dissipation to be irreversible: $\dot{E}_{\mathrm{fracture}} \ge 0$. Evaluation of consecutive increment differences $\Delta E_{\mathrm{fracture}}$ across all $614$ equilibrium steps revealed \textbf{zero decreases} within machine precision ($\Delta E_{\mathrm{fracture}} \ge -10^{-12}\,\mathrm{kN\,mm}$), confirming strict thermodynamic irreversibility.
   \item \textbf{Elastic Strain Energy Relaxation:} Elastic energy $E_{\mathrm{elastic}}$ accumulates elastically during Step~1 to $1.378\,\mathrm{mJ}$, reaches a peak of $1.919\,\mathrm{mJ}$ during secondary ligament loading at $u_2 = 0.0077\,\mathrm{mm}$, and subsequently collapses to $E_{\mathrm{elastic}} = 2.4929 \times 10^{-6}\,\mathrm{kN\,mm}$ ($0.00249\,\mathrm{mJ}$) at the final increment. This demonstrates an authentic $99.87\%$ elastic strain relaxation as stored mechanical energy is released into crack surface creation.
-  \item \textbf{Work--Energy Discrepancy History:} Total external work performed by the top displacement is $W_{\mathrm{ext}} = 2.74887 \times 10^{-3}\,\mathrm{kN\,mm}$ ($2.74887\,\mathrm{mJ}$). Total internal energy evaluated by integrating UEL element densities is $E_{\mathrm{total}} = 2.70793 \times 10^{-3}\,\mathrm{kN\,mm}$ ($E_{\mathrm{elastic}} = 0.00249\,\mathrm{mJ}$, $E_{\mathrm{fracture}} = 2.70544\,\mathrm{mJ}$). The global work--energy discrepancy across the complete fracture history is:
+  \item \textbf{Work--Energy Discrepancy History:} Total external work performed by the top displacement is $W_{\mathrm{ext}} = 2.74887 \times 10^{-3}\,\mathrm{kN\,mm}$ ($2.74887\,\mathrm{mJ}$). Total internal energy evaluated by integrating UEL element densities is $E_{\mathrm{total}} = 2.70793 \times 10^{-3}\,\mathrm{kN\,mm}$ ($E_{\mathrm{elastic}} = 0.00249\,\mathrm{mJ}$, $E_{\mathrm{fracture}} = 2.70544\,\mathrm{mJ}$). The global work--energy discrepancy at the completed endpoint is:
   \begin{equation}
-    \Delta E = |W_{\mathrm{ext}} - E_{\mathrm{total}}| = 4.0939 \times 10^{-5}\,\mathrm{kN\,mm} \quad (0.04094\,\mathrm{mJ}),
+    \Delta E_{\mathrm{final}} = |W_{\mathrm{ext}} - E_{\mathrm{total}}| = 4.0939 \times 10^{-5}\,\mathrm{kN\,mm} \quad (0.04094\,\mathrm{mJ}),
   \end{equation}
-  representing a relative discrepancy of \textbf{1.489\%}. In Step~1 (prior to macroscopic crack propagation), the discrepancy is merely $0.0234\%$ ($0.32\,\mu\mathrm{J}$). The temporal mean absolute residual across all $614$ increments is $0.0297\,\mathrm{mJ}$, with a transient peak of $0.1616\,\mathrm{mJ}$ during secondary snap-through time cutbacks.
+  representing an endpoint relative discrepancy of \textbf{1.489\%}. In Step~1 (prior to macroscopic crack propagation), the discrepancy is merely $0.0234\%$ ($0.32\,\mu\mathrm{J}$). The temporal mean absolute residual across all $614$ increments is $0.0297\,\mathrm{mJ}$. During the rapid secondary snap-through cutbacks (Increments 198--220), the instantaneous transient residual reaches a maximum of $0.1616\,\mathrm{mJ}$ ($6.33\%$ relative to cumulative external work at that increment). This transient elevation reflects trapezoidal integration truncation and localized viscous regularisation in the user element during rapid dynamic softening, and is disclosed as a characterized numerical artifact rather than asserted as an exact physical identity.
 \end{enumerate}
-This $1.489\%$ discrepancy over $614$ highly nonlinear increments confirms exceptional thermodynamic conservation for the multi-layer UEL formulation under dynamic crack deflection and snap-through.
 
-\section{Literature Comparison with Pandey--Kumar and Architectural Synthesis}
+\section{Methodological Comparison with Pandey--Kumar Literature}
 \label{sec:hole_pandey_kumar_comparison}
 
-Table~\ref{tab:hole_pandey_kumar_comparison} summarizes a direct quantitative comparison between the published benchmark results of \citet{pandey2025} and the present thesis production simulation.
+To place the present numerical findings in proper scientific context, the configuration of the present Method~A production simulation must be carefully distinguished from the distinct benchmark problems published in \citet{pandey2025}. In their original work, the authors investigated two different boundary-value problems:
+\begin{itemize}
+  \item \textbf{Published Section 4.1 (Pure Mode-I Edge-Crack Benchmark):} A $1.0 \times 1.0\,\mathrm{mm}$ square plate with a sharp crack, regularisation length scale $\ellzero = 0.0075\,\mathrm{mm}$ ($7.5\,\mu\mathrm{m}$), and critical fracture energy $\Gc = 2.7\,\mathrm{N/mm}$.
+  \item \textbf{Published Section 4.3 (Plate with Off-Axis Hole):} A macroscopic rectangular specimen ($L \times W$) with circular loading pin holes, an initial notch of finite width $0.4\,\mathrm{mm}$, a substantially larger regularisation length scale $\ellzero = 0.285\,\mathrm{mm}$ ($285\,\mu\mathrm{m}$), critical fracture energy $\Gc = 2.28\,\mathrm{N/mm}$, and an anisotropic spectral tensile/compressive strain split \citep{miehe2010a}.
+\end{itemize}
+
+In the present thesis research, the geometric domain represents a $1.0 \times 1.0\,\mathrm{mm}$ square plate containing an off-axis hole, with material parameters ($\ellzero = 0.0075\,\mathrm{mm}$, $\Gc = 2.7\,\mathrm{N/mm}$) inherited from the canonical Mode-I configuration and executed using the frozen trace-positive volumetric/full-strain UEL formulation. Consequently, direct quantitative equivalence of peak loads should not be claimed. Instead, Table~\ref{tab:hole_pandey_kumar_comparison} presents a transparent methodological and parameter comparison matrix.
 
 \begin{table}[htbp]
 \centering
-\caption{Quantitative benchmark comparison between published results of \citet{pandey2025} and the present Method~A production simulation for the plate with an off-axis hole.}
+\small
+\caption{Methodological, geometric, and constitutive parameter comparison between the published hole benchmark of \citet{pandey2025} and the present thesis Method~A simulation.}
 \label{tab:hole_pandey_kumar_comparison}
-\begin{tabular}{lcc}
+\begin{tabularx}{\textwidth}{p{4.0cm}XX}
 \hline
-\textbf{Benchmark Metric} & \textbf{Pandey \& Kumar (2025)} & \textbf{Present Thesis (F1678--F1679)} \\
+\textbf{Configuration Attribute} & \textbf{Pandey \& Kumar (2025, Sec. 4.3)} & \textbf{Present Thesis (F1678--F1679)} \\
 \hline
-Specimen Dimensions & $1.0 \times 1.0\,\mathrm{mm}$ & $1.0 \times 1.0\,\mathrm{mm}$ \\
-Notch Length $a_0$ & $0.50\,\mathrm{mm}$ ($y = 0.50$) & $0.50\,\mathrm{mm}$ ($y = 0.50$) \\
-Hole Position $(x_c, y_c)$ & $(0.65, 0.65)\,\mathrm{mm}$ & $(0.65, 0.65)\,\mathrm{mm}$ \\
-Hole Radius $R$ & $0.10\,\mathrm{mm}$ & $0.10\,\mathrm{mm}$ \\
-Elastic Constants & $E = 210\,\mathrm{GPa}, \nu = 0.30$ & $E = 210\,\mathrm{GPa}, \nu = 0.30$ \\
-Fracture Energy $\Gc$ & $2.7 \times 10^{-3}\,\mathrm{kN/mm}$ & $2.7 \times 10^{-3}\,\mathrm{kN/mm}$ \\
-Length Scale $\ellzero$ & $0.0075\,\mathrm{mm}$ ($7.5\,\mu\mathrm{m}$) & $0.0075\,\mathrm{mm}$ ($7.5\,\mu\mathrm{m}$) \\
-Refinement Criterion & \MISESERI\ Adaptive Remeshing & \MISESERI\ Auxiliary Coupled Replay \\
-Peak Reaction Force $P_{\max}$ & $\approx 0.60 - 0.61\,\mathrm{kN}$ & $0.593390\,\mathrm{kN}$ ($-1.1\%$ diff.) \\
-Displacement at Peak & $\approx 0.0055 - 0.0058\,\mathrm{mm}$ & $0.005700\,\mathrm{mm}$ \\
-Primary Crack Trajectory & Upward deflection into hole & Upward deflection into hole \\
-Hole Arrest Phenomenon & Observed & Verified ($x_{\mathrm{tip}} = 0.6072\,\mathrm{mm}$) \\
-Secondary Crack Path & Nucleation on right flank & Verified ($x \in [0.751, 0.783]\,\mathrm{mm}$) \\
-Final Fracture State & Complete specimen separation & Complete severance ($P_{\mathrm{final}} = 0.41\,\mathrm{N}$) \\
-Total Physical Elements & Reported adapted mesh & $20{,}213$ physical ($60{,}639$ layered) \\
+Specimen Geometry & Rectangular with loading holes & Square $1.0 \times 1.0\,\mathrm{mm}$ plate \\
+Initial Notch Geometry & Notch with finite width $0.4\,\mathrm{mm}$ & Sharp slit (width $0.002\,\mathrm{mm}$) \\
+Hole Radius $R$ & Macroscopic hole geometry & $R = 0.10\,\mathrm{mm}$ at $(0.65, 0.65)\,\mathrm{mm}$ \\
+Elastic Modulus $E$ & $210\,\mathrm{GPa}, \nu = 0.30$ & $210\,\mathrm{GPa}, \nu = 0.30$ \\
+Fracture Energy $\Gc$ & $2.28\,\mathrm{N/mm}$ & $2.70\,\mathrm{N/mm}$ (Canonical Mode-I) \\
+Regularisation Length $\ellzero$ & $0.285\,\mathrm{mm}$ ($285\,\mu\mathrm{m}$) & $0.0075\,\mathrm{mm}$ ($7.5\,\mu\mathrm{m}$) \\
+Constitutive Energy Split & Miehe anisotropic spectral split & Trace-positive volumetric / full strain norm \\
+Pre-Analysis Architecture & Native continuum solve & Auxiliary coupled stress replay pass \\
+Adaptive Remeshing Driver & Native \MISESERI\ indicator & Native \MISESERI\ indicator ($r = 0.9575$) \\
+Peak Reaction Force $P_{\max}$ & Reported for macro-specimen & $0.593390\,\mathrm{kN}$ (Refined small-scale plate) \\
 \hline
-\end{tabular}
+\multicolumn{3}{l}{\textbf{Observed Fracture Mechanics}} \\
+1. Mixed-Mode Crack Deflection & Observed (curving toward hole) & Verified ($x_{\mathrm{tip}} \to 0.607\,\mathrm{mm}$) \\
+2. Kinematic Hole Arrest & Observed (crack terminates at hole) & Verified (front arrests at hole boundary) \\
+3. Secondary Flank Nucleation & Observed on upper-right hole flank & Verified (nucleates at $u = 0.00776\,\mathrm{mm}$) \\
+4. Complete Ligament Severance & Observed (catastrophic failure) & Verified ($99.93\%$ load loss to $0.41\,\mathrm{N}$) \\
+\hline
+\end{tabularx}
 \end{table}
+
+The primary validation value of this benchmark lies in the \textbf{qualitative and phenomenological fidelity} of the crack trajectory: despite differing regularisation length scales and constitutive splits, the indicator-adapted mesh autonomously captures the complete sequence of mixed-mode deflection, hole arrest, secondary flank nucleation, and catastrophic ligament severance without requiring predefined crack corridor partitions.
 
 \subsection{Architectural Implementation Distinctions}
 \label{subsec:hole_architectural_distinction}
@@ -338,19 +349,19 @@ Total Physical Elements & Reported adapted mesh & $20{,}213$ physical ($60{,}639
 To maintain rigorous transparency, an important implementation distinction must be emphasized:
 \begin{itemize}
   \item In \citet{pandey2025}, the authors implemented phase-field fracture using a formulation wherein Cauchy stresses and state variables are directly accessible to \Abaqus internal field tables during or immediately following the pre-analysis solve, allowing native \MISESERI\ to be calculated directly.
-  \item In the present thesis, the frozen production UEL (\texttt{f42\_mixed\_uel.for}, hash \texttt{ce8d5edc...}) decouples the mechanical solve from native \Abaqus stress evaluation; Cauchy stresses reside inside UEL common blocks and are invisible to \Abaqus \texttt{adaptiveRemesh}, causing default \MISESERI\ to evaluate identically to zero.
-  \item To preserve the frozen production UEL without modifying its validated internal equations, an \textbf{auxiliary coupled stress replay architecture} was developed. The authentic coupled displacement vector and degraded elastic material state ($E_{\mathrm{deg}} = g(d) E_0$) from the coarse phase-field solve are projected onto a linear-elastic geometry model. Standard patch recovery on this projected field yields authentic, non-zero \MISESERI\ with $r = 0.9575$ correlation and $4.05\%$ NRMSE against the donor stress state.
+  \item In the present thesis, the frozen production UEL (\texttt{f42\_mixed\_uel.for}, hash \texttt{ce8d5edc...}) decouples the mechanical solve from native \Abaqus stress evaluation; Cauchy stresses are evaluated internally to construct the element residual vector \texttt{RHS}, but are not exported to standard element tables or common blocks. Consequently, default \MISESERI\ evaluates identically to zero on the coupled output database.
+  \item To preserve the frozen production UEL without modifying its validated internal equations, an \textbf{auxiliary coupled stress replay architecture} was developed. The authentic coupled displacement vector and degraded elastic material distribution ($E_{\mathrm{deg}}(x,y) = g(d) E_0$) from the coarse phase-field solve are projected onto an auxiliary linear-elastic continuum model. Standard patch recovery on this projected field yields authentic, non-zero \MISESERI\ with $r = 0.9575$ correlation and $4.05\%$ NRMSE against the donor stress state.
+  \item An important mechanical characteristic of this auxiliary recovery is that it represents an independently equilibrated continuum analysis. Due to continuum Poisson contraction effects relative to the decoupled UEL formulation, the auxiliary solve exhibits a $17.87\%$ reaction force difference ($0.6312\,\mathrm{kN}$ vs. $0.5355\,\mathrm{kN}$ at $u = 0.0050\,\mathrm{mm}$) while preserving spatial stress gradient fidelity. This auxiliary replay route represents an engineering projection architecture rather than a direct internal element communication.
 \end{itemize}
-While achieving the identical scientific objective—driving native \Abaqus adaptive remeshing using recovery-based stress discretization error without manual partition seeding—this auxiliary replay route represents an engineering projection architecture rather than a direct internal element communication.
 
 \section{Explicit Scientific Limitations and Boundary of Validity}
 \label{sec:hole_limitations}
 
 The following scientific boundaries govern the Method~A off-axis hole investigation:
 \begin{enumerate}
-  \item \textbf{Single-Mesh Demonstration without Asymptotic Convergence Proof:} While local element edge length ($h \approx 1.5\,\mu\mathrm{m}$) satisfies the phase-field resolution limit $\ellzero / 5$, and peak load matches the literature band to within $1.1\%$, this investigation represents a single refined discretization ($20{,}213$ elements) compared against the coarse reference ($2{,}906$ elements). A formal multi-mesh asymptotic convergence study was not conducted due to the project research freeze timeline.
+  \item \textbf{Single-Mesh Demonstration without Asymptotic Convergence Proof:} While local element edge length ($h \approx 1.5\,\mu\mathrm{m}$) satisfies the phase-field resolution limit $\ellzero / 5$, this investigation represents a single refined discretization ($20{,}213$ elements) compared against the coarse reference ($2{,}906$ elements). A formal multi-mesh asymptotic convergence study was not conducted due to the project research freeze timeline.
   \item \textbf{Offline Error-Guided Pre-Refinement:} Method~A is strictly an \emph{offline} remeshing methodology. It generates an adapted discretization prior to the fracture solve based on pre-analysis error information. It does not perform dynamic in-analysis mesh adaptation or state transfer during runtime.
-  \item \textbf{Quasi-Static Energy Accounting Residual:} The $1.489\%$ work--energy discrepancy over $614$ equilibrium increments reflects trapezoidal integration truncation and localized dissipation during rapid snap-through cutbacks. While exceptionally small, it is disclosed as a characterized numerical artifact rather than asserted as exact physical identity.
+  \item \textbf{Quasi-Static Energy Accounting Residual:} The $1.489\%$ work--energy discrepancy over $614$ equilibrium increments reflects trapezoidal integration truncation and localized dissipation during rapid snap-through cutbacks ($0.1616\,\mathrm{mJ}$ transient peak). While exceptionally small, it is disclosed as a characterized numerical artifact rather than asserted as exact physical identity.
   \item \textbf{Localized Damage Bound Overshoot:} Maximum damage exceeds unity by $0.108\%$ ($d_{\max} = 1.001083$) across 8 elements during secondary snap-through, arising from finite Newton--Raphson equilibrium tolerances in the staggered user element.
 \end{enumerate}
 
@@ -362,8 +373,8 @@ The off-axis hole benchmark investigation establishes the quantitative capabilit
   \item The fundamental zero-\MISESERI\ communication defect of the multi-layer UEL was resolved through an auxiliary coupled stress replay projection, restoring genuine non-zero recovery error ($r = 0.9575$) to drive native \Abaqus remeshing.
   \item An adapted $20{,}213$-element physical mesh was generated automatically with zero user-defined partition corridors, achieving $h \approx 1.5\,\mu\mathrm{m}$ in both the primary deflection path and the secondary ligament.
   \item The production fracture simulation (Job \texttt{1421142.mmaster02}) completed with Exit Code~0 across all $614$ equilibrium increments, capturing the complete structural lifetime from initial loading to $99.93\%$ load loss at $u_2 = 0.0120\,\mathrm{mm}$.
-  \item Peak reaction force ($P_{\max} = 0.593390\,\mathrm{kN}$) softened by $-18.83\%$ relative to the coarse mesh, landing within $1.1\%$ of the published literature benchmark.
-  \item Time-resolved topological analysis verified primary crack deflection into the hole, kinematic arrest at the circular boundary, secondary crack nucleation at Increment~198 ($u_2 = 0.00776\,\mathrm{mm}$), and rapid snap-through across the right ligament to complete severance ($x_{\max} = 0.999035\,\mathrm{mm}$).
-  \item Strict fracture energy irreversibility ($\dot{E}_{\mathrm{fracture}} \ge 0$) was verified across all increments, with $99.87\%$ post-peak elastic relaxation and a global work--energy discrepancy of merely $1.489\%$.
+  \item Peak reaction force ($P_{\max} = 0.593390\,\mathrm{kN}$) softened by $-18.83\%$ relative to the coarse mesh, demonstrating expected mesh-refinement softening behavior.
+  \item Time-resolved topological analysis verified primary crack deflection into the hole, kinematic arrest at the circular boundary, secondary crack nucleation at Increment~198 ($u_2 = 0.00776\,\mathrm{mm}$), and rapid snap-through across the right ligament to complete severance ($x_{\max} = 0.999035\,\mathrm{mm}$), matching the qualitative fracture phenomena documented in the literature.
+  \item Strict fracture energy irreversibility ($\dot{E}_{\mathrm{fracture}} \ge 0$) was verified across all increments, with $99.87\%$ post-peak elastic relaxation and an endpoint work--energy discrepancy of merely $1.489\%$.
 \end{itemize}
 These results confirm that error-indicator-driven adaptive remeshing can successfully resolve complex mixed-mode phase-field fracture paths in commercial finite-element software without empirical crack-corridor seeding.

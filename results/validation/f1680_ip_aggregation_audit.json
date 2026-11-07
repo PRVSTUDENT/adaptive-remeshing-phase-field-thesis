@@ -1,0 +1,93 @@
+{
+    "title": "Task F1680 Integration-Point Damage Aggregation and Mesh Topology Audit",
+    "csv_source": "results/validation/f1678_prod_crack_path.csv",
+    "input_deck_source": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_F1664_METHOD_A_PROD.inp",
+    "mesh_discretization_breakdown": {
+        "total_physical_elements": 20213,
+        "quadrilateral_elements_cpe4": 19644,
+        "triangular_elements_cpe3": 569,
+        "quad_integration_points_per_element": 4,
+        "tri_integration_points_per_element": 1
+    },
+    "provenance_reconciliation": {
+        "total_ip_records_f1678": 8520,
+        "unique_physical_elements": 2169,
+        "damaged_quads_count": 2117,
+        "damaged_tris_count": 52,
+        "quad_ip_records": 8468,
+        "tri_ip_records": 52,
+        "arithmetic_identity": "2117 quads * 4 IPs + 52 tris * 1 IP = 8520 IP records",
+        "reconciliation_verdict": "VERIFIED_EXACT_TOPOLOGICAL_IDENTITY"
+    },
+    "intracell_damage_variation": {
+        "fully_damaged_elements_count": 2117,
+        "max_damage_spread_intracell": 0.0,
+        "mean_damage_spread_intracell": 0.0,
+        "max_abs_last_vs_mean_diff": 0.0,
+        "mean_abs_last_vs_mean_diff": 0.0,
+        "intracell_invariance": true,
+        "explanation": "The coupled phase-field formulation computes the phase-field scalar d in UEL and transmits it to the companion UMAT via Fortran COMMON block /PHASE_SHARED/ D_COMM. The UMAT assigns STATEV(1) = D_COMM at all integration points of the companion element. Consequently, all 4 integration points of every CPE4 quad receive the identical scalar value d. The intracell variance across IPs is exactly zero (0.000000)."
+    },
+    "threshold_sensitivity": {
+        "d_ge_0.80": {
+            "max_ip_count": 2169,
+            "last_ip_count": 2169,
+            "mean_ip_count": 2169,
+            "min_ip_count": 2169,
+            "invariance": true
+        },
+        "d_ge_0.85": {
+            "max_ip_count": 2054,
+            "last_ip_count": 2054,
+            "mean_ip_count": 2054,
+            "min_ip_count": 2054,
+            "invariance": true
+        },
+        "d_ge_0.90": {
+            "max_ip_count": 1911,
+            "last_ip_count": 1911,
+            "mean_ip_count": 1911,
+            "min_ip_count": 1911,
+            "invariance": true
+        },
+        "d_ge_0.95": {
+            "max_ip_count": 1709,
+            "last_ip_count": 1709,
+            "mean_ip_count": 1709,
+            "min_ip_count": 1709,
+            "invariance": true
+        },
+        "d_ge_0.98": {
+            "max_ip_count": 1199,
+            "last_ip_count": 1199,
+            "mean_ip_count": 1199,
+            "min_ip_count": 1199,
+            "invariance": true
+        },
+        "d_ge_0.99": {
+            "max_ip_count": 792,
+            "last_ip_count": 792,
+            "mean_ip_count": 792,
+            "min_ip_count": 792,
+            "invariance": true
+        },
+        "d_ge_1.00": {
+            "max_ip_count": 8,
+            "last_ip_count": 8,
+            "mean_ip_count": 8,
+            "min_ip_count": 8,
+            "invariance": true
+        }
+    },
+    "overshoot_quantification": {
+        "total_overshoot_ip_records": 26,
+        "unique_overshoot_elements_max_rule": 8,
+        "unique_overshoot_elements_last_rule": 8,
+        "unique_overshoot_elements_mean_rule": 8,
+        "global_maximum_damage": 1.0005992650985718,
+        "maximum_overshoot_absolute": 0.0005992650985717773,
+        "maximum_overshoot_pct": 0.059926509857177734,
+        "assessment": "Minor penalty/Newton tolerance artifact (< +0.06%), strictly confined to 8 elements in the crack wake; zero effect on crack topology or structural load capacity."
+    },
+    "scientific_conclusion": "The 8,520 records reported in Task F1678 represent integration-point records from 2,117 quadrilateral elements (CPE4, 4 IPs each = 8,468 records) and 52 triangular elements (CPE3, 1 IP each = 52 records), totaling exactly 2,169 unique physical damaged elements. Because the companion UMAT receives the phase field d as an element-level scalar from UEL via COMMON block /PHASE_SHARED/, all integration points within each element evaluate to the identical scalar value d. Hence, Max-IP, Last-IP, Mean-IP, and Min-IP aggregation rules are mathematically and numerically identical."
+}
