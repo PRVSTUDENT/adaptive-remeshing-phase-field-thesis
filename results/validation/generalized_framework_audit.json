@@ -1,0 +1,218 @@
+{
+  "case_1_executive": {
+    "physical_elements": 54604,
+    "quads": 52789,
+    "tris": 1815,
+    "nodes": 54129,
+    "uel_elements": 163812,
+    "uel_3layer_parity": true,
+    "non_positive_elements": 0
+  },
+  "regional_metrics": {
+    "initial_crack_zone": {
+      "element_count": 6155,
+      "pass_h_max_pct": 83.83,
+      "pass_h_sqrt_pct": 98.2,
+      "median_h_max_um": 1.291,
+      "p95_h_max_um": 1.692,
+      "max_h_max_um": 7.442,
+      "median_h_sqrt_um": 1.102
+    },
+    "ligament_zone": {
+      "element_count": 12435,
+      "pass_h_max_pct": 72.93,
+      "pass_h_sqrt_pct": 91.67,
+      "median_h_max_um": 1.343,
+      "p95_h_max_um": 1.9,
+      "max_h_max_um": 3.093,
+      "median_h_sqrt_um": 1.149
+    },
+    "hole_left_flank": {
+      "element_count": 4106,
+      "pass_h_max_pct": 53.31,
+      "pass_h_sqrt_pct": 81.61,
+      "median_h_max_um": 1.474,
+      "p95_h_max_um": 2.109,
+      "max_h_max_um": 2.95,
+      "median_h_sqrt_um": 1.269
+    },
+    "hole_right_flank": {
+      "element_count": 3850,
+      "pass_h_max_pct": 45.32,
+      "pass_h_sqrt_pct": 75.61,
+      "median_h_max_um": 1.535,
+      "p95_h_max_um": 2.165,
+      "max_h_max_um": 2.799,
+      "median_h_sqrt_um": 1.311
+    },
+    "left_support_interior": {
+      "element_count": 16603,
+      "pass_h_max_pct": 83.65,
+      "pass_h_sqrt_pct": 99.19,
+      "median_h_max_um": 1.291,
+      "p95_h_max_um": 1.654,
+      "max_h_max_um": 2.138,
+      "median_h_sqrt_um": 1.1
+    },
+    "right_support_interior": {
+      "element_count": 5553,
+      "pass_h_max_pct": 73.26,
+      "pass_h_sqrt_pct": 96.74,
+      "median_h_max_um": 1.356,
+      "p95_h_max_um": 1.729,
+      "max_h_max_um": 2.239,
+      "median_h_sqrt_um": 1.143
+    },
+    "outer_bulk_domain": {
+      "element_count": 13235,
+      "pass_h_max_pct": 12.69,
+      "pass_h_sqrt_pct": 22.3,
+      "median_h_max_um": 4.366,
+      "p95_h_max_um": 20.0,
+      "max_h_max_um": 29.955,
+      "median_h_sqrt_um": 3.772
+    },
+    "entire_plate": {
+      "element_count": 54604,
+      "pass_h_max_pct": 49.43,
+      "pass_h_sqrt_pct": 66.46,
+      "median_h_max_um": 1.507,
+      "p95_h_max_um": 12.607,
+      "max_h_max_um": 29.955,
+      "median_h_sqrt_um": 1.27
+    }
+  },
+  "violations": {
+    "left_support": {
+      "total": 16603,
+      "violations": 2714,
+      "violation_pct": 16.35,
+      "max_violation_um": 2.138,
+      "p95_violation_um": 1.818,
+      "cause": "Outer perimeter buffer transition elements grading smoothly toward coarse bulk domain (h_bulk = 20 um)",
+      "top_violations": [
+        {
+          "element_id": 9517,
+          "centroid": [
+            0.55028,
+            0.62499
+          ],
+          "h_max_um": 2.138,
+          "h_sqrt_um": 1.653
+        },
+        {
+          "element_id": 16292,
+          "centroid": [
+            0.55064,
+            0.62366
+          ],
+          "h_max_um": 2.138,
+          "h_sqrt_um": 1.633
+        },
+        {
+          "element_id": 7149,
+          "centroid": [
+            0.54297,
+            0.67284
+          ],
+          "h_max_um": 2.074,
+          "h_sqrt_um": 1.479
+        },
+        {
+          "element_id": 7178,
+          "centroid": [
+            0.54407,
+            0.67374
+          ],
+          "h_max_um": 2.074,
+          "h_sqrt_um": 1.597
+        },
+        {
+          "element_id": 6799,
+          "centroid": [
+            0.5677,
+            0.56244
+          ],
+          "h_max_um": 2.068,
+          "h_sqrt_um": 1.364
+        }
+      ]
+    },
+    "right_support": {
+      "total": 5553,
+      "violations": 1485,
+      "violation_pct": 26.74,
+      "max_violation_um": 2.239,
+      "p95_violation_um": 1.887,
+      "cause": "Outer perimeter buffer transition elements grading smoothly toward coarse bulk domain (h_bulk = 20 um)",
+      "top_violations": [
+        {
+          "element_id": 478,
+          "centroid": [
+            0.74539,
+            0.61694
+          ],
+          "h_max_um": 2.239,
+          "h_sqrt_um": 1.544
+        },
+        {
+          "element_id": 482,
+          "centroid": [
+            0.74505,
+            0.61572
+          ],
+          "h_max_um": 2.239,
+          "h_sqrt_um": 1.653
+        },
+        {
+          "element_id": 469,
+          "centroid": [
+            0.75086,
+            0.64846
+          ],
+          "h_max_um": 2.203,
+          "h_sqrt_um": 1.546
+        },
+        {
+          "element_id": 1208,
+          "centroid": [
+            0.75096,
+            0.64712
+          ],
+          "h_max_um": 2.203,
+          "h_sqrt_um": 1.696
+        },
+        {
+          "element_id": 506,
+          "centroid": [
+            0.72989,
+            0.5871
+          ],
+          "h_max_um": 2.144,
+          "h_sqrt_um": 1.365
+        }
+      ]
+    }
+  },
+  "generality_suite": {
+    "case_1_off_axis_hole": {
+      "physical_elements": 54604,
+      "nodes": 54129,
+      "uel_elements": 163812,
+      "zero_negative_jacobians": true,
+      "indicator_source": "Authentic F1642 Precritical Softening (d >= 0.05)"
+    },
+    "case_2_shifted_hole": {
+      "physical_elements": 40940,
+      "nodes": 40560,
+      "zero_negative_jacobians": true,
+      "indicator_source": "Synthetic Multi-Hotspot Test Field [LABELED SYNTHETIC]"
+    },
+    "case_3_no_hole": {
+      "physical_elements": 31675,
+      "nodes": 31345,
+      "zero_negative_jacobians": true,
+      "indicator_source": "Synthetic Crack Band Test Field [LABELED SYNTHETIC]"
+    }
+  }
+}
