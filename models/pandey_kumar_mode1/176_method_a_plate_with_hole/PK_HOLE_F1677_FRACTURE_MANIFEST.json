@@ -1,0 +1,212 @@
+{
+    "manifest_version": "1.0",
+    "task_id": "F1677-METHOD-A-PRODUCTION-FRACTURE-MANIFEST",
+    "date": "2026-11-07",
+    "agent": "gemini-antigravity",
+    "reviewer": "ChatGPT Independent Scientific Review",
+    "mandate": "HND-545b0964afbc (AUTHORIZED_ACTION: PREPARE_FRACTURE_MANIFEST)",
+    "sprint": "Six-Day Method A Reproduction Sprint (7-13 November 2026)",
+    "milestone_gate": "Gate 5 (Refined Method A Production Fracture Simulation Preparation)",
+    "predecessor_datacheck_qualification": {
+        "job_name": "M1_HOLE_F1664_METHOD_A_DATACHECK",
+        "qualification_report": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_F1676_DATACHECK_QUALIFICATION.json",
+        "preprocessor_status": "ANALYSIS_DATACHECK_COMPLETE",
+        "exit_code": 0,
+        "error_records": 0,
+        "non_positive_jacobians": 0,
+        "distorted_elements": 0,
+        "equation_ties_resolved": 83,
+        "linear_solver": "DIRECT_SPARSE",
+        "preprocessor_memory_estimates": {
+            "minimum_required_mb": 51,
+            "memory_to_minimize_io_mb": 151,
+            "flops_per_iteration": 2.70e9
+        },
+        "diagnostic_files": {
+            "dat_file": "M1_HOLE_F1664_METHOD_A_DATACHECK_dat.txt (2D592B34F51E02BF8A62FC4A7F2E78DA57C6F48E988621AE06B0A5A9BC38CA34)",
+            "msg_file": "M1_HOLE_F1664_METHOD_A_DATACHECK_msg.txt (7CBD7AF813FFAE7C21EE8818CDA8640BA1C95929B038E9E18D42C2F52E9A8E9F)",
+            "prt_file": "M1_HOLE_F1664_METHOD_A_DATACHECK_prt.txt (219B8390A90B0050264684A122349FE6DDB69C341155BA3A9BAD412F54BA316A)",
+            "stdout_file": "M1_HOLE_F1664_METHOD_A_DATACHECK_stdout.txt (72C88B234D6F47E9ED82FC7E53B2EF506A114F10465274DB826A2D5DFF393EBA)"
+        },
+        "warning_classification": {
+            "total_warnings": 8,
+            "pattern": "***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS",
+            "verdict": "NON_FATAL_INFORMATIONAL_ONLY_ZERO_PHYSICAL_OUTPUTS_SUPPRESSED"
+        }
+    },
+    "production_job": {
+        "job_name": "M1_HOLE_F1664_METHOD_A_PROD",
+        "abaqus_command": "abaqus job=M1_HOLE_F1664_METHOD_A_PROD input=PK_HOLE_F1664_METHOD_A_PROD.inp user=f42_mixed_uel.for interactive",
+        "cluster_scratch_directory": "/scratch9/pr21vyci/runs/mode1_method_a_hole_f1664_prod",
+        "input_deck": {
+            "filename": "PK_HOLE_F1664_METHOD_A_PROD.inp",
+            "sha256": "B6FB9AD2C16293E78E0940C00C65D9D54C3921E8234CEB770956117D6B39D99B",
+            "line_count": 81199,
+            "preservation_status": "FROZEN_UNCHANGED"
+        },
+        "user_subroutine": {
+            "filename": "f42_mixed_uel.for",
+            "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+            "preservation_status": "FROZEN_UNCHANGED"
+        },
+        "submission_script": {
+            "filename": "submit_M1_HOLE_F1664_METHOD_A_PROD.pbs",
+            "path": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/submit_M1_HOLE_F1664_METHOD_A_PROD.pbs"
+        },
+        "execution_wrapper": {
+            "filename": "run_f1664_method_a_prod.sh",
+            "path": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/run_f1664_method_a_prod.sh"
+        }
+    },
+    "hpc_resource_specification": {
+        "pbs_queue": "entry_imfdfkmq",
+        "queue_architecture": "Route queue directing to normal_imfdfkmq / short_imfdfkmq",
+        "queue_walltime_limit_hours": 336,
+        "requested_walltime": "08:00:00",
+        "requested_cpus": 1,
+        "execution_architecture": "Single-rank serial Abaqus/Standard (authoritative reference anchor, strict single-rank UEL requirement)",
+        "requested_memory_gb": 16,
+        "requested_select": "1:ncpus=1:mem=16gb",
+        "module_environment": "gcc/11.4.0 intel/2024.2.0 abaqus/2023",
+        "compiler": "Intel(R) Fortran Compiler Classic 2021.13.0 Build 20240602_000000 (ifort)",
+        "linker": "GNU ld version 2.30-128.el8_10",
+        "solver": "Abaqus/Standard 2023"
+    },
+    "model_discretization_and_loading": {
+        "physical_mesh": {
+            "source_mesh": "PK_HOLE_F1664_METHOD_A_ADAPT_PHYS.inp",
+            "total_physical_elements": 20213,
+            "quad_count": 19644,
+            "quad_percentage": 97.185,
+            "tri_count": 569,
+            "tri_percentage": 2.815,
+            "physical_nodes": 20213,
+            "non_positive_jacobians": 0,
+            "distorted_elements": 0,
+            "minimum_element_size_um": 1.002,
+            "elements_le_ell0_half_3p75um": 9913,
+            "elements_le_ell0_third_2p5um": 6521
+        },
+        "layered_elements": {
+            "layer_1_phase_uel": 20213,
+            "layer_2_displacement_uel": 20213,
+            "layer_3_companion_umat": 20213,
+            "total_layered_elements": 60639,
+            "total_model_variables": 60640
+        },
+        "material_properties": {
+            "youngs_modulus_gpa": 210.0,
+            "poissons_ratio": 0.30,
+            "critical_energy_release_rate_Gc": "0.0027 kN/mm (2.7 N/mm = 2.7 kJ/m^2)",
+            "length_scale_ell0_mm": 0.0075,
+            "viscous_damping_s": 1.0e-7,
+            "companion_depvar": 20
+        },
+        "loading_schedule": {
+            "initial_state": "Undeformed, undamaged, stress-free with rectangular notch (y in [0.499, 0.501] mm, x <= 0.500 mm)",
+            "step_1": {
+                "name": "Step-1",
+                "procedure": "STATIC",
+                "target_displacement_mm": 0.0050,
+                "initial_increment": 0.02,
+                "maximum_increment": 0.02,
+                "minimum_increment": 1.0e-7,
+                "max_increments": 10000,
+                "physical_meaning": "Pre-critical linear-elastic loading up to 0.0050 mm displacement"
+            },
+            "step_2": {
+                "name": "Step-2",
+                "procedure": "STATIC",
+                "target_displacement_mm": 0.0120,
+                "initial_increment": 0.002,
+                "maximum_increment": 0.002,
+                "minimum_increment": 1.0e-8,
+                "max_increments": 20000,
+                "physical_meaning": "Post-critical fracture propagation from 0.0050 mm to 0.0120 mm"
+            }
+        }
+    },
+    "output_extraction_and_telemetry": {
+        "reaction_force": {
+            "target": "Reference node 999999 (N_RP)",
+            "component": "RF2",
+            "source": "*NODE OUTPUT and *NODE PRINT in Step-1 and Step-2",
+            "availability": "CONFIRMED_SUPPORTED"
+        },
+        "displacement": {
+            "target": "Reference node 999999 (N_RP)",
+            "component": "U2",
+            "source": "*NODE OUTPUT and *NODE PRINT in Step-1 and Step-2",
+            "availability": "CONFIRMED_SUPPORTED"
+        },
+        "phase_field_damage": {
+            "target": "Physical mesh elements and nodes",
+            "components": "SDV1 / SDV14 on companion elements (ELSET=umatelem), DOF 3 (U3) at physical nodes",
+            "availability": "CONFIRMED_SUPPORTED"
+        },
+        "companion_state_variables": {
+            "target": "Companion elements (ELSET=umatelem)",
+            "components": "MISESERI, MISESAVG, S, E, SDV (history field H=SDV2, degradation g=SDV15)",
+            "availability": "CONFIRMED_SUPPORTED"
+        },
+        "energy_balance": {
+            "target": "uel_energy_balance.csv",
+            "components": "TOTAL_STRAIN_ENERGY, TOTAL_FRACTURE_ENERGY, EXTERNAL_WORK, ENERGY_ERROR",
+            "source": "Dynamically written by f42_mixed_uel.for at every converged increment",
+            "availability": "CONFIRMED_SUPPORTED"
+        },
+        "restart_states": {
+            "configuration": "*RESTART, WRITE, FREQUENCY=1 in Step-1 and Step-2",
+            "availability": "CONFIRMED_SUPPORTED"
+        }
+    },
+    "dual_channel_notifications_and_monitoring": {
+        "pbs_mail_directive": "#PBS -m abe -M pr21vyci@mailserver.tu-freiberg.de",
+        "telegram_integration": {
+            "script": "job_notifications.sh",
+            "config": "~/.config/adaptive-remeshing/notifications.env",
+            "events": "notify_start on initialization, terminal traps on COMPLETED / FAILED / TERMINATED"
+        },
+        "lock_file_guard": "Check test ! -e ${JOB_NAME}.lck before launch",
+        "duplicate_prevention": "Unique job name M1_HOLE_F1664_METHOD_A_PROD, isolated scratch directory /scratch9/pr21vyci/runs/mode1_method_a_hole_f1664_prod"
+    },
+    "failure_recovery_policy": {
+        "automatic_retry": false,
+        "policy": "No blind reruns or automated resubmissions. If non-convergence occurs, capture .msg, .dat, and .odb, diagnose the exact increment and equilibrium residual, and formulate an independently reviewed numerical hypothesis before any change."
+    },
+    "physics_based_acceptance_criteria": {
+        "criterion_1_convergence": {
+            "description": "Complete traversal of pre-critical loading (Step-1) and entry into post-peak softening regime (Step-2) through ligament severance and crack deflection.",
+            "threshold": "Step-1 completed (u = 0.0050 mm) + Step-2 traversed past peak load with softening"
+        },
+        "criterion_2_numerical_stability": {
+            "description": "Absence of numerical divergence, NaN, Inf, or unhandled UEL/UMAT exceptions in any output field or energy file.",
+            "threshold": "Zero NaN/Inf in nodal displacements, reaction forces, or energy balance"
+        },
+        "criterion_3_force_displacement_response": {
+            "description": "Physically consistent P(u) curve exhibiting linear-elastic slope, distinct peak force, and smooth post-peak softening.",
+            "threshold": "Linear initial response with stiffness matching benchmark, well-defined peak"
+        },
+        "criterion_4_peak_force_reproducibility": {
+            "description": "Peak reaction force P_max within expected physical bounds for the off-axis hole geometry.",
+            "threshold": "P_max in range [0.60, 0.80] kN, consistent with coarse reference (0.731 kN) and literature"
+        },
+        "criterion_5_crack_path_fidelity": {
+            "description": "Primary crack deflects into the circular hole; secondary crack initiates on the right hole boundary and propagates toward the right edge.",
+            "threshold": "Topology matches Pandey-Kumar (2025) Figure 12 / 13 and coarse Job 1421063"
+        },
+        "criterion_6_energy_conservation": {
+            "description": "Fracture energy monotonically non-decreasing; global energy error bounded.",
+            "threshold": "d(W_frac)/dt >= 0; energy error within standard phase-field penalty tolerance"
+        },
+        "criterion_7_benchmark_comparison": {
+            "description": "Direct quantitative comparison against coarse reference (Job 1421063) and literature benchmark.",
+            "threshold": "Peak force, crack arrival displacement, and computational cost documented in comparative report"
+        }
+    },
+    "operational_boundaries": {
+        "max_new_pbs_submissions": 0,
+        "submission_gate_status": "STAGED_AND_QUALIFIED_AWAITING_BRIDGE_AUTHORIZATION",
+        "actual_hpc_submission": "HALTED_AWAITING_SEPARATE_AUTHORIZATION"
+    }
+}

@@ -579,16 +579,49 @@ def test_f1675r_direct_card_by_card_deck_verification():
 
 
 def test_f1676_datacheck_qualification():
-    """Verify Task F1676 Abaqus datacheck execution and all 7 acceptance criteria."""
+    """Verify Task F1676 Abaqus datacheck execution, fail-closed checks, and all 7 acceptance criteria."""
     from scripts.validation.evaluate_f1676_datacheck_qualification import evaluate_datacheck
     report = evaluate_datacheck()
-    assert report["qualification_verdict"] == "DATACHECK_QUALIFICATION_PASS"
-    assert report["solver_exit_status"]["exit_code"] == 0
+    assert report["qualification_verdict"] == "FAIL_CLOSED_DATACHECK_QUALIFICATION_PASS"
+    assert report["execution_telemetry"]["execution_mode"] == "INTERACTIVE_LOGIN_NODE_PREPROCESSOR_DATACHECK"
+    assert report["warnings_classification"]["total_warnings"] == 8
+    assert report["warnings_classification"]["verdict"] == "NON_FATAL_INFORMATIONAL_ONLY_ZERO_OUTPUTS_SUPPRESSED"
     assert report["model_problem_size"]["total_elements"] == 60639
     assert report["model_problem_size"]["total_nodes"] == 20214
-    assert report["solver_memory_estimates"]["minimum_memory_required_mb"] == 51
-    assert report["solver_memory_estimates"]["memory_to_minimize_io_mb"] == 151
+    assert report["solver_memory_accounting"]["preprocessor_estimates"]["minimum_memory_required_mb"] == 51
+    assert report["solver_memory_accounting"]["preprocessor_estimates"]["memory_to_minimize_io_mb"] == 151
     assert all(c["status"] == "PASS" for c in report["acceptance_criteria_verification"].values())
+
+
+def test_f1677_method_a_production_fracture_manifest():
+    """Verify Task F1677 Method A production fracture execution manifest and staging."""
+    manifest_path = REPO_ROOT / "models" / "pandey_kumar_mode1" / "176_method_a_plate_with_hole" / "PK_HOLE_F1677_FRACTURE_MANIFEST.json"
+    assert manifest_path.exists(), f"Missing manifest: {manifest_path}"
+    with open(manifest_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    assert data["task_id"] == "F1677-METHOD-A-PRODUCTION-FRACTURE-MANIFEST"
+    assert data["production_job"]["job_name"] == "M1_HOLE_F1664_METHOD_A_PROD"
+    assert data["production_job"]["input_deck"]["sha256"] == "B6FB9AD2C16293E78E0940C00C65D9D54C3921E8234CEB770956117D6B39D99B"
+    assert data["production_job"]["user_subroutine"]["sha256"] == FROZEN_UEL_SHA256
+
+    hpc = data["hpc_resource_specification"]
+    assert hpc["pbs_queue"] == "entry_imfdfkmq"
+    assert hpc["requested_walltime"] == "08:00:00"
+    assert hpc["requested_cpus"] == 1
+    assert hpc["requested_memory_gb"] == 16
+
+    loading = data["model_discretization_and_loading"]["loading_schedule"]
+    assert loading["step_1"]["target_displacement_mm"] == 0.0050
+    assert loading["step_2"]["target_displacement_mm"] == 0.0120
+
+    crit = data["physics_based_acceptance_criteria"]
+    assert len(crit) == 7
+
+    ops = data["operational_boundaries"]
+    assert ops["max_new_pbs_submissions"] == 0
+    assert ops["actual_hpc_submission"] == "HALTED_AWAITING_SEPARATE_AUTHORIZATION"
+
 
 
 

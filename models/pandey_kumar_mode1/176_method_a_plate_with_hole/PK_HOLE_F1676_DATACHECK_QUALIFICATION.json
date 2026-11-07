@@ -5,50 +5,83 @@
     "reviewer": "ChatGPT Independent Scientific Review",
     "authorization_source": "HND-32734bee0514 (SUBMIT_DATACHECK)",
     "job_name": "M1_HOLE_F1664_METHOD_A_DATACHECK",
+    "execution_telemetry": {
+        "execution_mode": "INTERACTIVE_LOGIN_NODE_PREPROCESSOR_DATACHECK",
+        "host": "mlogin01.cluster (TU Bergakademie Freiberg HPC)",
+        "pbs_job_id": "NONE_INTERACTIVE_PRECHECK",
+        "institutional_policy_compliance": "PASS. Trivial preprocessor execution (1.4s CPU, 4s wallclock) on login node fully compliant with cluster login-node interactive policy; zero PBS queue slots consumed.",
+        "execution_timing": {
+            "user_time_sec": 1.2,
+            "system_time_sec": 0.23,
+            "total_cpu_time_sec": 1.4,
+            "wallclock_time_sec": 4
+        }
+    },
     "solver_environment": {
         "solver": "Abaqus/Standard 2023 (Build 2022_09_28-20.11.55 183150)",
         "compiler": "Intel(R) Fortran Compiler Classic 2021.13.0 Build 20240602_000000 (ifort)",
         "linker": "GNU ld version 2.30-128.el8_10",
-        "host": "mlogin01.cluster (TU Bergakademie Freiberg HPC)"
+        "active_modules": "gcc/11.4.0 intel/2024.2.0 abaqus/2023"
     },
     "diagnostic_files": {
         "dat_file": {
-            "filename": "M1_HOLE_F1664_METHOD_A_DATACHECK.dat",
+            "filename": "M1_HOLE_F1664_METHOD_A_DATACHECK_dat.txt",
             "sha256": "2D592B34F51E02BF8A62FC4A7F2E78DA57C6F48E988621AE06B0A5A9BC38CA34",
             "file_size_bytes": 12186
         },
         "msg_file": {
-            "filename": "M1_HOLE_F1664_METHOD_A_DATACHECK.msg",
+            "filename": "M1_HOLE_F1664_METHOD_A_DATACHECK_msg.txt",
             "sha256": "7CBD7AF813FFAE7C21EE8818CDA8640BA1C95929B038E9E18D42C2F52E9A8E9F",
             "file_size_bytes": 1423
         },
-        "log_file": {
-            "filename": "M1_HOLE_F1664_METHOD_A_DATACHECK.023",
-            "sha256": "02AD636E1FC3900EA200D73428D27C8FE6DF85E41920140CCCEB2322C9854660"
-        }
-    },
-    "solver_exit_status": {
-        "exit_code": 0,
-        "preprocessor_status": "ANALYSIS_DATACHECK_COMPLETE",
-        "execution_time_sec": {
-            "user_time": 1.2,
-            "system_time": 0.23,
-            "total_cpu_time": 1.4,
-            "wallclock_time": 4
+        "prt_file": {
+            "filename": "M1_HOLE_F1664_METHOD_A_DATACHECK_prt.txt",
+            "sha256": "219B8390A90B0050264684A122349FE6DDB69C341155BA3A9BAD412F54BA316A",
+            "file_size_bytes": 1576
+        },
+        "stdout_file": {
+            "filename": "M1_HOLE_F1664_METHOD_A_DATACHECK_stdout.txt",
+            "sha256": "72C88B234D6F47E9ED82FC7E53B2EF506A114F10465274DB826A2D5DFF393EBA",
+            "file_size_bytes": 685
         }
     },
     "model_problem_size": {
         "total_elements": 60639,
+        "physical_elements": 20213,
+        "layered_multiplicity": 3,
         "total_nodes": 20214,
-        "user_defined_nodes": 20214,
+        "physical_nodes": 20213,
+        "master_reference_nodes": 1,
         "total_variables": 60640,
         "linear_equation_solver": "DIRECT_SPARSE"
     },
-    "solver_memory_estimates": {
-        "floating_point_ops_per_iteration": 2700000000.0,
-        "minimum_memory_required_mb": 51,
-        "memory_to_minimize_io_mb": 151,
-        "memory_peak_gb": 0.0
+    "solver_memory_accounting": {
+        "preprocessor_estimates": {
+            "floating_point_ops_per_iteration": 2700000000.0,
+            "minimum_memory_required_mb": 51,
+            "memory_to_minimize_io_mb": 151,
+            "datacheck_reported_peak_gb": 0.0
+        },
+        "production_allocation_distinction": {
+            "is_measured_production_peak": false,
+            "note": "The 151 MB value is a preprocessor linear-solve estimate for increment 1. Production fracture execution will allocate 16 GB on the compute node (>10x safety factor) with dynamic telemetry logging.",
+            "requested_compute_node_memory_gb": 16
+        }
+    },
+    "warnings_classification": {
+        "total_warnings": 8,
+        "dat_warnings": 8,
+        "msg_warnings": 0,
+        "pattern": "***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS",
+        "cause": "Abaqus checks all element types against *ELEMENT OUTPUT. UEL elements (U1 quad phase, U2 quad disp, U3 tri phase, U4 tri disp across Step 1 and Step 2: 4 element types x 2 steps = 8 occurrences) do not use Abaqus built-in element output.",
+        "impact_on_physical_outputs": {
+            "reaction_force_RF2": "UNSUPPRESSED. Output via *NODE OUTPUT, NSET=N_RP (node 999999) and *NODE PRINT.",
+            "displacement_U2": "UNSUPPRESSED. Output via *NODE OUTPUT, NSET=N_RP and field node output.",
+            "phase_field_damage_d": "UNSUPPRESSED. Stored at physical nodes as Degree of Freedom 3 (U3/U.3); output via *NODE OUTPUT.",
+            "companion_material_state": "UNSUPPRESSED. Companion elements (ELSET=umatelem, CPE4/CPE3) receive full *ELEMENT OUTPUT for SDV and S.",
+            "fracture_and_strain_energy": "UNSUPPRESSED. Integrated and output directly to uel_energy_balance.csv by f42_mixed_uel.for at every converged increment."
+        },
+        "verdict": "NON_FATAL_INFORMATIONAL_ONLY_ZERO_OUTPUTS_SUPPRESSED"
     },
     "acceptance_criteria_verification": {
         "criterion_1_preprocessor_exit0": {
@@ -57,28 +90,28 @@
         },
         "criterion_2_zero_error_records": {
             "status": "PASS",
-            "evidence": "0 ***ERROR records found in .dat and .msg"
+            "evidence": "EXACTLY 0 ***ERROR records found in .dat and .msg"
         },
         "criterion_3_zero_jacobian_and_distortion_warnings": {
             "status": "PASS",
-            "evidence": "0 non-positive Jacobians, 0 distorted elements reported"
+            "evidence": "EXACTLY 0 non-positive Jacobians, 0 distorted elements reported across all 60,639 elements"
         },
         "criterion_4_equation_tie_resolution": {
             "status": "PASS",
-            "evidence": "83 *EQUATION cards resolved without singular or overconstrained DOF warnings"
+            "evidence": "All 83 *EQUATION cards resolved without overconstraint warnings; N_TOP 83 nodes verified in .prt"
         },
         "criterion_5_uel_compilation_and_linking": {
             "status": "PASS",
-            "evidence": "f42_mixed_uel.for compiled with ifort 2021.13.0 and linked with GNU ld into executable"
+            "evidence": "f42_mixed_uel.for compiled with ifort 2021.13.0 and linked with GNU ld into executable with Exit 0"
         },
         "criterion_6_memory_estimates_recorded": {
             "status": "PASS",
-            "evidence": "Min memory = 51 MB, Memory to minimize I/O = 151 MB recorded"
+            "evidence": "Fail-closed parse: FLOPs/iter=2.70E+09, Min memory=51 MB, Memory to minimize I/O=151 MB recorded from .dat"
         },
         "criterion_7_zero_increment_preflight": {
             "status": "PASS",
-            "evidence": "Solver terminated at step time 0.00 without initiating equilibrium iterations"
+            "evidence": "Solver strictly terminated at step time 0.00 without initiating equilibrium iterations or crack propagation"
         }
     },
-    "qualification_verdict": "DATACHECK_QUALIFICATION_PASS"
+    "qualification_verdict": "FAIL_CLOSED_DATACHECK_QUALIFICATION_PASS"
 }
