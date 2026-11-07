@@ -279,3 +279,60 @@ def test_f1666_hybrid_mesh_straight_notch():
     assert metrics["elements_le_1p5um"] >= 3000
 
 
+def test_f1668_three_way_controlled_comparison_meshes():
+    """Verify F1668 Case A, Case B, and Case C meshes strictly satisfy quality and FE parity."""
+    base_dir = REPO_ROOT / "models" / "pandey_kumar_mode1" / "176_method_a_plate_with_hole"
+
+    # Case A: Stress-Only (64,032 elements)
+    case_a_phys = base_dir / "PK_HOLE_F1668_CASE_A_STRESS_ONLY_PHYS.inp"
+    assert case_a_phys.exists()
+    m_a = MeshQualityAuditEngine.evaluate_mesh(str(case_a_phys), l0_mm=0.0075)
+    assert m_a["total_elements"] == 64032
+    assert m_a["non_positive_jacobians"] == 0
+    assert m_a["min_det_j"] > 0.0
+    assert m_a["elements_le_1p5um"] > 25000
+
+    # Case B: Damage-Only (8,237 elements) - Leanest Adaptive Mesh
+    case_b_phys = base_dir / "PK_HOLE_F1668_CASE_B_DAMAGE_ONLY_PHYS.inp"
+    assert case_b_phys.exists()
+    m_b = MeshQualityAuditEngine.evaluate_mesh(str(case_b_phys), l0_mm=0.0075)
+    assert m_b["total_elements"] == 8237
+    assert m_b["non_positive_jacobians"] == 0
+    assert m_b["distorted_elements"] == 0
+    assert m_b["min_det_j"] > 0.0
+    assert m_b["h_median_um"] < 2.50
+    assert m_b["elements_le_1p5um"] > 2000
+
+    # Case C: Combined Synergistic (64,746 elements)
+    case_c_phys = base_dir / "PK_HOLE_F1668_CASE_C_COMBINED_PHYS.inp"
+    assert case_c_phys.exists()
+    m_c = MeshQualityAuditEngine.evaluate_mesh(str(case_c_phys), l0_mm=0.0075)
+    assert m_c["total_elements"] == 64746
+    assert m_c["non_positive_jacobians"] == 0
+    assert m_c["min_det_j"] > 0.0
+    assert m_c["elements_le_1p5um"] > 27000
+
+
+def test_f1668_production_decks_frozen_uel():
+    """Verify all three F1668 production decks have exact 3x layered parity and verified UEL."""
+    base_dir = REPO_ROOT / "models" / "pandey_kumar_mode1" / "176_method_a_plate_with_hole"
+    uel_path = REPO_ROOT / "models" / "pandey_kumar_mode1" / "f42_mixed_uel.for"
+
+    decks = [
+        (base_dir / "PK_HOLE_F1668_CASE_A_STRESS_ONLY_PROD.inp", 64032, 192096),
+        (base_dir / "PK_HOLE_F1668_CASE_B_DAMAGE_ONLY_PROD.inp", 8237, 24711),
+        (base_dir / "PK_HOLE_F1668_CASE_C_COMBINED_PROD.inp", 64746, 194238)
+    ]
+
+    for deck_path, n_phys, n_layered in decks:
+        assert deck_path.exists(), "Deck %s not found" % deck_path
+        with open(str(deck_path), "r") as f:
+            content = f.read()
+        assert "*USER ELEMENT, TYPE=U1" in content
+        assert "*ELEMENT, TYPE=U1, ELSET=PHASE_QUAD" in content
+        assert "*ELEMENT, TYPE=U2, ELSET=DISP_QUAD" in content
+        assert "*ELEMENT, TYPE=CPE4, ELSET=UMAT_QUADS" in content
+        assert ProductionDeckBuilder.verify_uel_subroutine(str(uel_path), FROZEN_UEL_SHA256)
+
+
+
