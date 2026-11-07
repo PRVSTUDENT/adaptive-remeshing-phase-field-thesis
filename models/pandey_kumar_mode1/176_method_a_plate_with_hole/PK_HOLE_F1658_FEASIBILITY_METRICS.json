@@ -1,0 +1,29 @@
+{
+  "task_id": "F1658-OFFLINE-IP-DAMAGE-AND-STIFFNESS-FEASIBILITY-TEST",
+  "donor_source": "PK_HOLE_COARSE_JOB1.odb",
+  "donor_peak_damage": 0.9975769519805908,
+  "donor_min_degradation": 5.971028258500155e-06,
+  "rep1_nodal_peak_damage": 0.8842200040817261,
+  "rep1_nodal_min_deg_exact": 0.013405107454835526,
+  "rep1_nodal_min_deg_tab101": 0.013429499061203004,
+  "rep1_stiffness_surge_ratio": 2245.024956254807,
+  "rep2_direct_peak_damage": 0.9975769519805908,
+  "rep2_direct_min_deg_exact": 5.971161704362748e-06,
+  "rep2_direct_min_deg_tab101": 2.4330480194091825e-05,
+  "rep2_direct_min_deg_dense1001": 6.2152400970458985e-06,
+  "rep2_direct_parity_ratio": 1.0000223488914834,
+  "tab101_error_ratio": 4.074664428584322,
+  "dense1001_error_ratio": 1.0408761987646085,
+  "crack_core_counts": {
+    "donor_elements_d_ge_080": 26,
+    "donor_elements_d_ge_095": 14,
+    "donor_elements_d_ge_099": 4,
+    "rep1_nodal_elements_d_ge_080": 7,
+    "rep1_nodal_elements_d_ge_095": 0,
+    "rep1_nodal_elements_d_ge_099": 0,
+    "rep2_direct_elements_d_ge_080": 22,
+    "rep2_direct_elements_d_ge_095": 13,
+    "rep2_direct_elements_d_ge_099": 4
+  },
+  "feasibility_verdict": "QUALIFIED_VIA_DIRECT_IP_ASSIGNMENT_USDFLD_REQUIRED"
+}
