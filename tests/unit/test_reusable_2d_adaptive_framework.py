@@ -465,6 +465,56 @@ def test_f1673_zero_miseseri_root_cause_audit():
     assert strat["selected_strategy"] == "APPROACH_B_AND_C_NON_FEEDBACK_RECOVERY"
 
 
+def test_f1674_stress_replay_and_miseseri_qualification():
+    """Verify Task F1674 authentic stress replay and MISESERI qualification."""
+    audit_path = (
+        REPO_ROOT
+        / "models"
+        / "pandey_kumar_mode1"
+        / "176_method_a_plate_with_hole"
+        / "PK_HOLE_F1674_STRESS_REPLAY_QUALIFICATION.json"
+    )
+    assert audit_path.exists(), "F1674 stress replay qualification JSON not found"
+
+    with open(str(audit_path), "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    meta = data["metadata"]
+    assert meta["task_id"] == "F1674-AUTHENTIC-COUPLED-STATE-STRESS-REPLAY-AND-MISESERI-QUALIFICATION"
+    assert meta["donor_job_id"] == "1421063.mmaster02"
+    assert meta["max_new_pbs_submissions"] == 0
+
+    proc = data["procedural_distinction"]
+    assert "Procedure A" in proc["procedure_a_prescribed_displacement_replay"]["name"]
+    assert "Procedure B" in proc["procedure_b_auxiliary_equilibrium_recovery"]["name"]
+    assert "NOT_EQUILIBRATED" in proc["procedure_a_prescribed_displacement_replay"]["equilibrium_status"]
+    assert "EXACT_STATIC_EQUILIBRIUM" in proc["procedure_b_auxiliary_equilibrium_recovery"]["equilibrium_status"]
+
+    mesh = data["mesh_transfer_audit"]
+    assert mesh["donor_mesh"]["total_physical_elements"] == 2906
+    assert mesh["recovery_mesh"]["total_elements"] == 2935
+    assert mesh["recovery_mesh"]["slit_separation"] == "100_PERCENT_DISCONNECTED"
+    assert mesh["recovery_mesh"]["max_ip_coordinate_error_nm"] < 1.0  # < 1 nm
+
+    stress = data["stress_parity_metrics"]
+    assert stress["global_stress_parity"]["pearson_r"] > 0.95
+    assert stress["global_stress_parity"]["nrmse_pct"] < 5.0
+    assert stress["regime_stress_parity"]["intact_far_field_d_lt_0p10"]["pearson_r"] > 0.97
+    assert stress["regime_stress_parity"]["active_softening_0p10_le_d_lt_0p80"]["pearson_r"] > 0.90
+
+    miseseri = data["miseseri_field_audit"]
+    assert miseseri["status"] == "QUALIFIED_AUTHENTIC_AND_NONZERO"
+    assert miseseri["element_count"] == 2935
+    assert miseseri["raw_miseseri_statistics_MPa"]["median"] > 2.0
+    assert miseseri["raw_miseseri_statistics_MPa"]["max"] > 1000.0
+
+    synth = data["synthesis"]
+    assert synth["qualification_verdict"] == "RECOVERY_STRESS_FIELD_AND_MISESERI_QUALIFIED"
+    assert synth["gate_3_readiness"]["remeshing_rule_parameters"]["errorTarget"] == 0.05
+    assert synth["gate_3_readiness"]["established_adapted_mesh_baseline"]["total_elements"] == 20213
+
+
+
 
 
 
