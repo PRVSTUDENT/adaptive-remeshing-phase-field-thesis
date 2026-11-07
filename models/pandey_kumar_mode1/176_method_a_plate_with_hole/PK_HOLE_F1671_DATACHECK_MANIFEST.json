@@ -1,0 +1,119 @@
+{
+    "manifest_version": "1.0",
+    "task_id": "F1671-CASE-B-ABAQUS-DATACHECK-MANIFEST-PREPARATION",
+    "predecessor_review": "HND-9f8a3ee25bd1",
+    "governed_provenance": {
+        "verified_github_commit": "576ea81c70fde60eeff4faf24a99a95677c3b9c4",
+        "commit_url": "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/commit/576ea81c70fde60eeff4faf24a99a95677c3b9c4"
+    },
+    "target_model": {
+        "case_id": "CASE_B_DAMAGE_ONLY",
+        "name": "Mode-I Off-Axis Hole Plate: Case B Damage-Only Adaptive Mesh",
+        "benchmark_geometry": {
+            "plate_dimensions_mm": [
+                1.0,
+                1.0
+            ],
+            "initial_notch_mm": {
+                "a0": 0.5,
+                "y_center": 0.5,
+                "slit_width": 0.002
+            },
+            "circular_hole_mm": {
+                "center": [
+                    0.65,
+                    0.65
+                ],
+                "radius": 0.1
+            }
+        },
+        "input_deck": {
+            "rel_path": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_F1668_CASE_B_DAMAGE_ONLY_PROD.inp",
+            "sha256": "D1D71B2033B7172DD8B126D287AFB24772D489622D47910072B92F902733CC32",
+            "total_lines": 32463,
+            "total_physical_elements": 8237,
+            "total_layered_elements": 24711,
+            "quad_count": 6398,
+            "tri_count": 1839,
+            "quad_fraction_pct": 77.67,
+            "layer_parity": "EXACT_3X_PARITY_24711_ELEMENTS"
+        },
+        "user_subroutine": {
+            "rel_path": "models/pandey_kumar_mode1/f42_mixed_uel.for",
+            "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+            "frozen_hash_match": true,
+            "execution_mode": "SINGLE_RANK_SHARED_MEMORY_SMP_1CPU"
+        }
+    },
+    "deck_structural_verification": {
+        "uel_element_types": [
+            "U1 (PHASE_QUAD)",
+            "U2 (DISP_QUAD)",
+            "U3 (PHASE_TRI)",
+            "U4 (DISP_TRI)"
+        ],
+        "umat_element_types": [
+            "CPE4 (UMAT_QUADS)",
+            "CPE3 (UMAT_TRIS)"
+        ],
+        "uel_properties_verified": "(0.0075, 0.0027, 210.0, 0.30, 1.0e-07, 8237.0)",
+        "umat_properties_verified": "*USER MATERIAL, CONSTANTS=3 (210.0, 0.30, 8237.0) with *DEPVAR 20",
+        "section_assignment": "*SOLID SECTION, ELSET=All_elem, MATERIAL=DUMMY_MAT (contains only CPE4/CPE3 companion elements, 0 UEL elements)",
+        "slit_topology": {
+            "top_flank_nodes": 29,
+            "bottom_flank_nodes": 29,
+            "shared_nodes": 0,
+            "separation_verdict": "100_PERCENT_DISCONNECTED"
+        },
+        "reference_node_equation_ties": {
+            "total_equations": 102,
+            "rp_node_id": 999999,
+            "status": "51_NODES_TIED_TO_RP"
+        },
+        "boundary_conditions_verified": [
+            "N_BOTTOM, 2, 2, 0.0 (Roller: zero vertical displacement)",
+            "N_PIN, 1, 1, 0.0 (Pin: zero horizontal displacement)",
+            "N_TOP, 1, 1, 0.0 (Zero lateral displacement constraint on top edge)",
+            "N_RP, 2, 2, 0.00959 (Vertical displacement applied to RP node 999999)"
+        ]
+    },
+    "datacheck_execution_specification": {
+        "job_name": "M1_HOLE_CASE_B_DATACHECK",
+        "duplication_safeguard": {
+            "is_duplicate_in_ledger": false,
+            "ledger_status": "FRESH_NEVER_SUBMITTED"
+        },
+        "datacheck_mode_only": true,
+        "zero_equilibrium_increments": true,
+        "proposed_abaqus_command": "abaqus job=M1_HOLE_CASE_B_DATACHECK input=PK_HOLE_F1668_CASE_B_DAMAGE_ONLY_PROD.inp user=f42_mixed_uel.for datacheck interactive",
+        "proposed_pbs_resources": {
+            "queue": "entry_imfdfkmq",
+            "routing_target": "short_imfdfkmq",
+            "cpus": 1,
+            "memory": "4GB",
+            "walltime": "00:15:00",
+            "mpimode": "smp"
+        },
+        "estimated_datacheck_metrics": {
+            "estimated_preprocessor_walltime_s": "15-45 seconds",
+            "estimated_memory_mb": "500-1200 MB",
+            "estimated_scratch_disk_mb": "< 50 MB"
+        }
+    },
+    "datacheck_acceptance_criteria": [
+        "1. Abaqus preprocessor terminates with Exit 0 and 'THE ANALYSIS HAS BEEN COMPLETED' in .log.",
+        "2. Zero '***ERROR' records in .dat indicating missing properties, syntax mismatches, or invalid sets.",
+        "3. Zero warnings regarding non-positive Jacobians or distorted elements during element assembly in .msg / .dat.",
+        "4. Complete resolution of the 51 *EQUATION ties without singular or overconstrained degree-of-freedom warnings.",
+        "5. Successful compilation and shared-object linking of f42_mixed_uel.for without symbol collisions.",
+        "6. Exact memory preallocation logged for the 24,711-element mixed system.",
+        "7. Strict zero-increment execution: solver halts immediately after preflight without initiating Newton-Raphson equilibrium iterations or crack propagation."
+    ],
+    "operational_boundaries": {
+        "max_new_pbs_submissions": 0,
+        "actual_hpc_submission": "HALTED_AWAITING_SEPARATE_AUTHORIZATION",
+        "full_fracture_solve": "NOT_AUTHORIZED",
+        "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+        "manifest_status": "READY_FOR_INDEPENDENT_REVIEW"
+    }
+}

@@ -1,3 +1,23 @@
+## 7 November F1671 Case B Abaqus Datacheck Manifest Preparation COMPLETE: Review HND-9f8a3ee25bd1 Mandate Executed, Full 32,463-Line Production Deck Verified (8,237 Physical, 24,711 Layered Elements, Exact 3x Parity), 4 UEL Cards & Companion UMAT Verified, 51 Top Node Tie Equations & 29 Separated Slit Flank Nodes Verified, Frozen UEL Hash Bitwise Verified, Non-Duplicate Job Name M1_HOLE_CASE_B_DATACHECK Verified Against Ledger, Authoritative Manifest PK_HOLE_F1671_DATACHECK_MANIFEST.json Created with 7 Acceptance Criteria, 16/16 Unit Tests PASS, Ready for ChatGPT Review
+
+Execution of ChatGPT-mandated Task F1671 (Case B Abaqus Datacheck Manifest Preparation) resolving review `HND-9f8a3ee25bd1`:
+1. Production Deck Structural Audit:
+   - Input deck `PK_HOLE_F1668_CASE_B_DAMAGE_ONLY_PROD.inp` (32,463 lines, SHA-256 `D1D71B2033B7172DD8B126D287AFB24772D489622D47910072B92F902733CC32`): verified 8,237 physical elements and 24,711 layered elements (exact $3\times$ parity).
+   - UEL and companion cards: 4 `*UEL PROPERTY` cards `(0.0075, 0.0027, 210.0, 0.30, 1.0e-07, 8237.0)`, companion `*USER MATERIAL, CONSTANTS=3` with `*DEPVAR (20)`, and `*SOLID SECTION, ELSET=All_elem` containing strictly the companion elements.
+   - Slit flank topology: top flank has 29 nodes at $y = 0.5010\,$mm, bottom flank has 29 nodes at $y = 0.4990\,$mm along $x \in [0.0, 0.50]$ (0 shared nodes, 100% disconnected).
+   - Rigid tying constraints: 51 `*EQUATION` cards connecting each top node in `N_TOP` to reference node 999999 in DOF 2.
+2. User Subroutine & Provenance Verification:
+   - Frozen UEL `f42_mixed_uel.for` bitwise SHA-256 verified: `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` (100% PASS).
+   - Provenance commit verified on GitHub: `576ea81c70fde60eeff4faf24a99a95677c3b9c4`.
+3. Datacheck Execution Specification & Acceptance Criteria:
+   - Proposed PBS job name: `M1_HOLE_CASE_B_DATACHECK` (verified non-duplicate against `HPC_JOB_LEDGER.csv`).
+   - Proposed command: `abaqus job=M1_HOLE_CASE_B_DATACHECK input=PK_HOLE_F1668_CASE_B_DAMAGE_ONLY_PROD.inp user=f42_mixed_uel.for datacheck interactive`.
+   - Proposed resources: 1 CPU, 4GB RAM, walltime 15 min (estimated actual walltime: 15–45 seconds), queue `entry_imfdfkmq` routing to `short_imfdfkmq`.
+   - Defined 7 strict acceptance criteria for future solver execution (preprocessor Exit 0, 0 errors, 0 invalid Jacobians/distortion warnings, complete equation resolution, memory logging, strict zero-increment execution).
+4. Unit Tests & Operational Boundaries:
+   - Extended test suite: 16/16 unit tests PASS in 6.13s (`test_reusable_2d_adaptive_framework.py`).
+   - Boundary enforced: zero new PBS submissions (`max_new_pbs_submissions = 0`), no full fracture solve.
+
 ## 7 November F1670 Read-Only Damage-Core and Quality-Metric Reconciliation COMPLETE: All HND-5803695fa53d Review Critiques Resolved, Mathematical Root Cause of 4,931 vs 4,524 Damage Core Population Proven (Threshold d >= 0.70 [4,931 FEs, 93.31% <= l0/2] vs d >= 0.80 [4,524 FEs, 93.74% <= l0/2]), Strict Subset Relation Verified (S_0p80 subset of S_0p70 with exactly 407 FEs in Softening Halo 0.70 <= d < 0.80), Quality Criteria Explicitly Codified (Standard Abaqus/Gmsh: 0 Distorted Elements; Strict Screening: 17 FEs [0.21%]), Misleading crack_core_count: 0 Placeholder Eliminated, All Metrics JSON and Audit Records Harmonized, 15/15 Framework Unit Tests PASS, Ready for Datacheck Manifest Formulation
 
 Execution of ChatGPT-mandated Task F1670 (Read-Only Damage-Core and Quality-Metric Reconciliation) resolving review `HND-5803695fa53d`:

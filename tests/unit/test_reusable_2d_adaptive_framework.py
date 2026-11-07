@@ -394,6 +394,46 @@ def test_f1670_damage_core_and_quality_metric_reconciliation():
     assert d1670["final_reconciliation_verdict"] == "COMPLETE_AND_SYNCHRONIZED"
 
 
+def test_f1671_case_b_datacheck_manifest():
+    """Verify F1671 Case B Abaqus datacheck manifest integrity and offline qualification."""
+    manifest_path = REPO_ROOT / "models" / "pandey_kumar_mode1" / "176_method_a_plate_with_hole" / "PK_HOLE_F1671_DATACHECK_MANIFEST.json"
+    assert manifest_path.exists(), "F1671 datacheck manifest not found"
+
+    with open(str(manifest_path), "r") as f:
+        data = json.load(f)
+
+    assert data["manifest_version"] == "1.0"
+    assert data["governed_provenance"]["verified_github_commit"] == "576ea81c70fde60eeff4faf24a99a95677c3b9c4"
+    assert data["target_model"]["case_id"] == "CASE_B_DAMAGE_ONLY"
+
+    deck_info = data["target_model"]["input_deck"]
+    assert deck_info["total_physical_elements"] == 8237
+    assert deck_info["total_layered_elements"] == 24711
+    assert deck_info["sha256"] == "D1D71B2033B7172DD8B126D287AFB24772D489622D47910072B92F902733CC32"
+
+    uel_info = data["target_model"]["user_subroutine"]
+    assert uel_info["sha256"] == FROZEN_UEL_SHA256
+    assert uel_info["frozen_hash_match"] is True
+
+    struct = data["deck_structural_verification"]
+    assert struct["slit_topology"]["top_flank_nodes"] == 29
+    assert struct["slit_topology"]["bottom_flank_nodes"] == 29
+    assert struct["slit_topology"]["shared_nodes"] == 0
+    assert struct["slit_topology"]["separation_verdict"] == "100_PERCENT_DISCONNECTED"
+
+    spec = data["datacheck_execution_specification"]
+    assert spec["job_name"] == "M1_HOLE_CASE_B_DATACHECK"
+    assert spec["duplication_safeguard"]["is_duplicate_in_ledger"] is False
+    assert spec["datacheck_mode_only"] is True
+    assert spec["zero_equilibrium_increments"] is True
+
+    ops = data["operational_boundaries"]
+    assert ops["max_new_pbs_submissions"] == 0
+    assert ops["actual_hpc_submission"] == "HALTED_AWAITING_SEPARATE_AUTHORIZATION"
+    assert ops["full_fracture_solve"] == "NOT_AUTHORIZED"
+
+
+
 
 
 
