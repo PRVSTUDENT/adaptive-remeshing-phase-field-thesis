@@ -56,7 +56,8 @@
         "f1660_provenance_and_ip_audit",
         "f1661_method_a_native_remeshing",
         "f1662_mesh_quality_and_fpz_qualification",
-        "f1663_miseseri_refinement_diagnosis"
+        "f1663_miseseri_refinement_diagnosis",
+        "f1664_5pct_remesh_comparison"
     ],
     "completed_pbs_job_ids": [
         "1398582.mmaster02",
@@ -492,8 +493,8 @@
     "operation_transition": {},
     "created_at": "2026-11-07T10:35:00.0000000+00:00",
     "paused_task": "F1640-METHOD-C-CP02-C6-CONTROLLED-EXPERIMENT-QUALIFICATION",
-    "last_step_status": "F1660_RECOVERY_PROVENANCE_QUALIFICATION",
+    "last_step_status": "F1664_CONTROLLED_REMESH_COMPARISON_COMPLETE",
     "active_pbs_job_id": "",
-    "next_instruction_receipt": "HND-0e68e4753596",
-    "next_bounded_operation": "Execute F1660: Donor NLGEOM=NO confirmation, exact IP coordinate error audit, lookup SHA256 archive, matched spatial parity recalculation, and force discrepancy breakdown"
+    "next_instruction_receipt": "HND-13ccbca57099",
+    "next_bounded_operation": "Dispatch F1664 handoff to ChatGPT for Phase 2 closeout review and Phase 3 reusable framework authorization"
 }

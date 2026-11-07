@@ -1,0 +1,253 @@
+{
+  "task_id": "F1664-CONTROLLED-SINGLE-PARAMETER-MISESERI-REMESHING",
+  "predecessor_review": "HND-13ccbca57099",
+  "scientific_decision": "ACCEPT",
+  "decision_reason": "Relaxing errorTarget to 5.0% achieved a significant reduction in far-field over-refinement (83.2% far-field element reduction, total mesh reduced from 77211 to 20213 elements) while preserving sub-2.5 um resolution in the crack core (h_median = 2.048 um = 0.27 l0) with zero non-positive Jacobians.",
+  "single_changed_parameter": {
+    "parameter": "errorTarget",
+    "f1661_value": 2.0,
+    "f1664_value": 5.0,
+    "units": "percent",
+    "all_other_parameters_unchanged": {
+      "sizingMethod": "UNIFORM_ERROR",
+      "variables": [
+        "MISESERI"
+      ],
+      "minElementSize_mm": 0.0015,
+      "maxElementSize_mm": 0.02,
+      "refinementFactor": 10,
+      "coarseningFactor": "NOT_ALLOWED"
+    }
+  },
+  "mesh_comparison_summary": {
+    "f1661_2pct": {
+      "mesh_deck": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_F1661_METHOD_A_ADAPT_PHYS.inp",
+      "total_elements": 77211,
+      "h_min_um": 0.8553133088576793,
+      "h_median_um": 2.1216517694081722,
+      "h_mean_um": 3.0015415483176615,
+      "h_max_um": 28.703056411716314,
+      "elements_le_1p5um": 2561,
+      "elements_le_2p0um": 30623
+    },
+    "f1664_5pct": {
+      "mesh_deck": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_F1664_METHOD_A_ADAPT_PHYS.inp",
+      "total_elements": 20213,
+      "total_nodes": 20213,
+      "quad_count": 19644.0,
+      "tri_count": 569.0,
+      "quad_pct": 97.18497996338989,
+      "non_positive_jacobians": 0,
+      "distorted_elements": 0,
+      "min_det_j": 1.5011916745571677e-07,
+      "median_aspect_ratio": 1.2120112164464658,
+      "min_corner_angle_deg": 34.29333057889504,
+      "h_min_um": 0.941121372064707,
+      "h_p5_um": 1.6893652608758416,
+      "h_median_um": 3.8145779999999574,
+      "h_mean_um": 5.824325043340783,
+      "h_p95_um": 18.961599581521803,
+      "h_max_um": 31.57018208386876,
+      "elements_le_1p5um": 273,
+      "elements_le_2p0um": 3093
+    },
+    "deltas": {
+      "total_elements_reduction_pct": 73.82108766885547,
+      "far_field_elements_reduction_pct": 83.17257286642902,
+      "crack_core_elements_delta_pct": -43.7956204379562,
+      "crack_core_h_median_delta_um": 0.08656209878339705
+    }
+  },
+  "regional_breakdown": [
+    {
+      "regime": "Crack Core (d >= 0.80)",
+      "f1661_2pct": {
+        "elements": 2466,
+        "mesh_share_pct": 3.1938454365310642,
+        "h_median_um": 1.9616826728920451,
+        "h_over_l0": 0.26155768971893933,
+        "compliant_le_1p5um": 120,
+        "compliant_pct": 4.866180048661801,
+        "compliant_le_2p0um": 1341
+      },
+      "f1664_5pct": {
+        "elements": 1386,
+        "mesh_share_pct": 6.856973235046752,
+        "h_median_um": 2.048244771675442,
+        "h_over_l0": 0.27309930289005896,
+        "compliant_le_1p5um": 54,
+        "compliant_pct": 3.896103896103896,
+        "compliant_le_2p0um": 632
+      },
+      "element_ratio_64_over_61": 0.5620437956204379,
+      "h_median_ratio_64_over_61": 1.0441264532636063
+    },
+    {
+      "regime": "Active Softening (0.20 <= d < 0.80)",
+      "f1661_2pct": {
+        "elements": 5762,
+        "mesh_share_pct": 7.462667236533655,
+        "h_median_um": 2.0050448007460977,
+        "h_over_l0": 0.26733930676614637,
+        "compliant_le_1p5um": 180,
+        "compliant_pct": 3.123915307185005,
+        "compliant_le_2p0um": 2847
+      },
+      "f1664_5pct": {
+        "elements": 3495,
+        "mesh_share_pct": 17.290852421708802,
+        "h_median_um": 2.0767118963007305,
+        "h_over_l0": 0.2768949195067641,
+        "compliant_le_1p5um": 155,
+        "compliant_pct": 4.434907010014306,
+        "compliant_le_2p0um": 1493
+      },
+      "element_ratio_64_over_61": 0.6065602221450885,
+      "h_median_ratio_64_over_61": 1.0357433886404757
+    },
+    {
+      "regime": "Total FPZ (d >= 0.20)",
+      "f1661_2pct": {
+        "elements": 8228,
+        "mesh_share_pct": 10.656512673064718,
+        "h_median_um": 1.9915378347447728,
+        "h_over_l0": 0.2655383779659697,
+        "compliant_le_1p5um": 300,
+        "compliant_pct": 3.6460865337870687,
+        "compliant_le_2p0um": 4188
+      },
+      "f1664_5pct": {
+        "elements": 4881,
+        "mesh_share_pct": 24.147825656755554,
+        "h_median_um": 2.0672231327483024,
+        "h_over_l0": 0.275629751033107,
+        "compliant_le_1p5um": 209,
+        "compliant_pct": 4.281909444785905,
+        "compliant_le_2p0um": 2125
+      },
+      "element_ratio_64_over_61": 0.5932182790471561,
+      "h_median_ratio_64_over_61": 1.0380034447164943
+    },
+    {
+      "regime": "Transition Zone (0.05 <= d < 0.20)",
+      "f1661_2pct": {
+        "elements": 30831,
+        "mesh_share_pct": 39.930838870109184,
+        "h_median_um": 1.95363600731798,
+        "h_over_l0": 0.2604848009757307,
+        "compliant_le_1p5um": 1487,
+        "compliant_pct": 4.823067691609094,
+        "compliant_le_2p0um": 17202
+      },
+      "f1664_5pct": {
+        "elements": 8912,
+        "mesh_share_pct": 44.09043684757334,
+        "h_median_um": 3.2794003170276684,
+        "h_over_l0": 0.4372533756036891,
+        "compliant_le_1p5um": 64,
+        "compliant_pct": 0.718132854578097,
+        "compliant_le_2p0um": 968
+      },
+      "element_ratio_64_over_61": 0.2890597126269015,
+      "h_median_ratio_64_over_61": 1.678613776949036
+    },
+    {
+      "regime": "Undamaged Far-Field (d < 0.05)",
+      "f1661_2pct": {
+        "elements": 38152,
+        "mesh_share_pct": 49.4126484568261,
+        "h_median_um": 2.7211429719642473,
+        "h_over_l0": 0.3628190629285663,
+        "compliant_le_1p5um": 774,
+        "compliant_pct": 2.028727196477249,
+        "compliant_le_2p0um": 9233
+      },
+      "f1664_5pct": {
+        "elements": 6420,
+        "mesh_share_pct": 31.761737495671102,
+        "h_median_um": 9.73236932615887,
+        "h_over_l0": 1.2976492434878495,
+        "compliant_le_1p5um": 0,
+        "compliant_pct": 0.0,
+        "compliant_le_2p0um": 0
+      },
+      "element_ratio_64_over_61": 0.1682742713357098,
+      "h_median_ratio_64_over_61": 3.5765740449622885
+    },
+    {
+      "regime": "Notch-to-Hole Ligament (Box)",
+      "f1661_2pct": {
+        "elements": 4724,
+        "mesh_share_pct": 6.118299206071674,
+        "h_median_um": 2.241279796921795,
+        "h_over_l0": 0.29883730625623933,
+        "compliant_le_1p5um": 54,
+        "compliant_pct": 1.1430990685859441,
+        "compliant_le_2p0um": 1420
+      },
+      "f1664_5pct": {
+        "elements": 920,
+        "mesh_share_pct": 4.5515262454855785,
+        "h_median_um": 5.21441426115085,
+        "h_over_l0": 0.6952552348201133,
+        "compliant_le_1p5um": 0,
+        "compliant_pct": 0.0,
+        "compliant_le_2p0um": 0
+      },
+      "element_ratio_64_over_61": 0.1947502116850127,
+      "h_median_ratio_64_over_61": 2.32653427221019
+    },
+    {
+      "regime": "Opposite Hole Flank (Box)",
+      "f1661_2pct": {
+        "elements": 5065,
+        "mesh_share_pct": 6.559946121666602,
+        "h_median_um": 2.240166894609903,
+        "h_over_l0": 0.2986889192813204,
+        "compliant_le_1p5um": 72,
+        "compliant_pct": 1.4215202369200395,
+        "compliant_le_2p0um": 1544
+      },
+      "f1664_5pct": {
+        "elements": 1253,
+        "mesh_share_pct": 6.198980853905902,
+        "h_median_um": 4.098763142499712,
+        "h_over_l0": 0.546501752333295,
+        "compliant_le_1p5um": 0,
+        "compliant_pct": 0.0,
+        "compliant_le_2p0um": 18
+      },
+      "element_ratio_64_over_61": 0.24738400789733464,
+      "h_median_ratio_64_over_61": 1.8296686520820409
+    },
+    {
+      "regime": "Global Domain (Entire Plate)",
+      "f1661_2pct": {
+        "elements": 77211,
+        "mesh_share_pct": 100.0,
+        "h_median_um": 2.1216517694081722,
+        "h_over_l0": 0.2828869025877563,
+        "compliant_le_1p5um": 2561,
+        "compliant_pct": 3.316884899819974,
+        "compliant_le_2p0um": 30623
+      },
+      "f1664_5pct": {
+        "elements": 20213,
+        "mesh_share_pct": 100.0,
+        "h_median_um": 3.8145779999999574,
+        "h_over_l0": 0.5086103999999944,
+        "compliant_le_1p5um": 273,
+        "compliant_pct": 1.3506159402364815,
+        "compliant_le_2p0um": 3093
+      },
+      "element_ratio_64_over_61": 0.26178912331144527,
+      "h_median_ratio_64_over_61": 1.7979284136076776
+    }
+  ],
+  "governed_status": {
+    "pbs_submissions": 0,
+    "refined_job2_runs": 0,
+    "frozen_uel_modified": false,
+    "audit_verdict": "PASS"
+  }
+}
