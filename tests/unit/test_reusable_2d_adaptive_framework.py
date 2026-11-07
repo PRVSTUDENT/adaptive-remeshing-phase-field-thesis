@@ -681,6 +681,87 @@ def test_f1678_method_a_production_fracture_qualification():
     assert fig3.exists()
 
 
+def test_f1679_method_a_evidence_closeout_and_kinematic_verification():
+    """Verify Task F1679 evidence closeout, time-resolved kinematics, and energy monotonicity."""
+    # 1. Energy and solver verification JSON
+    solver_path = REPO_ROOT / "results" / "validation" / "f1679_energy_and_solver_verification.json"
+    assert solver_path.exists(), "f1679_energy_and_solver_verification.json not found"
+
+    with open(str(solver_path), "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    sol = data["solver_execution"]
+    assert sol["pbs_job_id"] == "1421142.mmaster02"
+    assert sol["exit_code"] == 0
+    assert sol["total_increments"] == 614
+    assert sol["step_1_increments"] == 57
+    assert sol["step_2_increments"] == 557
+    assert sol["total_cutbacks"] == 18
+    assert sol["numerical_problem_warnings"] == 0
+    assert sol["error_messages"] == 0
+    assert sol["memory_peak_gb"] == 2
+    assert sol["timing_reconciliation"]["total_cpu_time_sec"] == 3584.0
+    assert sol["timing_reconciliation"]["wallclock_time_sec"] == 5149.0
+
+    eng = data["energy_verification"]
+    assert eng["total_energy_records"] == 614
+    assert eng["fracture_energy_monotonicity"]["monotonic"] is True
+    assert eng["fracture_energy_monotonicity"]["num_decreases"] == 0
+    assert eng["elastic_energy_relaxation"]["relaxation_pct"] >= 99.8
+    assert eng["final_endpoint"]["residual_rel_pct"] < 1.50  # 1.489%
+
+    # 2. Time-resolved crack summary JSON
+    crack_path = REPO_ROOT / "results" / "validation" / "f1679_time_resolved_crack_summary.json"
+    assert crack_path.exists(), "f1679_time_resolved_crack_summary.json not found"
+
+    with open(str(crack_path), "r", encoding="utf-8") as f:
+        states = json.load(f)
+
+    assert len(states) == 7
+
+    # State 1: Peak force
+    s1 = states[1]
+    assert s1["name"] == "step2_peak"
+    assert abs(s1["rf2_top_kN"] - 0.593390) < 1e-4
+    assert s1["crack_topology"]["primary_crack"]["present"] is True
+
+    # State 2: Hole arrest
+    s2 = states[2]
+    assert s2["name"] == "step2_inc180"
+    assert s2["crack_topology"]["primary_crack"]["reached_hole"] is True
+    assert s2["crack_topology"]["primary_crack"]["dist_to_hole_perimeter_mm"] < 0.005
+    assert s2["crack_topology"]["secondary_crack"]["present"] is False
+
+    # State 3: Secondary crack nucleation
+    s3 = states[3]
+    assert s3["name"] == "step2_inc198"
+    assert s3["crack_topology"]["secondary_crack"]["present"] is True
+    assert s3["crack_topology"]["secondary_crack"]["num_elements"] >= 20
+    assert s3["crack_topology"]["secondary_crack"]["nucleation_x"] >= 0.750
+
+    # State 4: Secondary snap-through
+    s4 = states[4]
+    assert s4["name"] == "step2_inc220"
+    assert s4["crack_topology"]["secondary_crack"]["reached_boundary"] is True
+    assert s4["crack_topology"]["secondary_crack"]["tip_x"] >= 0.999
+
+    # State 6: Final severed state
+    s6 = states[6]
+    assert s6["name"] == "step2_final"
+    assert s6["rf2_top_kN"] < 0.001
+    assert s6["damage_bounds"]["num_overshoot_elements"] <= 10
+    assert s6["damage_bounds"]["max_overshoot"] < 0.002  # < 0.2% overshoot
+
+    # 3. Time-resolved progression figure and thesis PDF
+    fig_prog_png = REPO_ROOT / "MA_AdaptiveRemeshing_Report_2026" / "figures" / "f1679_time_resolved_crack_progression.png"
+    fig_prog_pdf = REPO_ROOT / "MA_AdaptiveRemeshing_Report_2026" / "figures" / "f1679_time_resolved_crack_progression.pdf"
+    main_pdf = REPO_ROOT / "MA_AdaptiveRemeshing_Report_2026" / "main.pdf"
+    assert fig_prog_png.exists()
+    assert fig_prog_pdf.exists()
+    assert main_pdf.exists()
+
+
+
 
 
 

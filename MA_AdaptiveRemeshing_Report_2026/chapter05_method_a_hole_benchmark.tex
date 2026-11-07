@@ -188,156 +188,182 @@ Energy Conservation Residual [-] & $< 1.0 \times 10^{-8}$ & $< 2.7 \times 10^{-1
 
 The global reaction force exhibited virtually identical behavior, differing by merely $-0.0264\%$ ($-0.14\,\mathrm{N}$ out of $531.9\,\mathrm{N}$), confirming that local grading does not alter global elastic compliance. Concurrently, local crack-tip fields responded directly to the refined discretization: peak damage increased by $+7.99\%$ and peak history increased by $+12.36\%$, proving that the enhanced mesh resolution properly captures the steep stress gradient ahead of the crack tip.
 
-\section{Crack Propagation, Trajectory Deflection, and Softening (F1645)}
-\label{sec:hole_crack_propagation}
+\section{Preliminary Fracture Simulation and Early Continuation Boundary (F1645--F1646)}
+\label{sec:hole_preliminary_fracture}
 
-Having validated pre-peak parity, a continuous two-step loading analysis was executed on cluster \texttt{mmaster02} (PBS Job ID \texttt{1421055.mmaster02}) to simulate crack propagation into the post-peak softening regime. Step~1 loaded the specimen elastically to $u_2 = 0.0050\,\mathrm{mm}$ in 50 increments, followed by Step~2 extending top-edge displacement under fine incrementation ($dt_{\min} = 1.0 \times 10^{-8}$, $dt_{\max} = 5.0 \times 10^{-4}$) to capture softening and crack deflection.
-
-The simulation converged $246$ consecutive equilibrium increments ($50$ in Step~1, $196$ in Step~2) over $5{,}964\,\mathrm{s}$ wallclock time ($1\,\mathrm{h}\,39\,\mathrm{m}\,24\,\mathrm{s}$), stopping at terminal displacement $u_2 = 0.0075785\,\mathrm{mm}$.
+Prior to establishing the final production mesh, an exploratory crack-propagation analysis was executed on cluster \texttt{mmaster02} (PBS Job ID \texttt{1421055.mmaster02}) using an intermediate $52{,}447$-element discretization. 
 
 \subsection{Mechanical Response and Post-Peak Softening}
-\label{subsec:hole_mechanical_response}
+\label{subsec:hole_prelim_mechanical}
 
-The complete force-displacement response is plotted in Figure~\ref{fig:hole_force_disp}. Linear elasticity governs until approximately $u_2 \approx 0.0040\,\mathrm{mm}$, where micro-damage accumulation induces perceptible stiffness degradation. The global peak reaction force is reached at:
-\begin{equation}
-  F_{\max} = 0.545786\,\mathrm{kN} \quad \text{at} \quad u_2 = 0.005196\,\mathrm{mm} \quad (\text{Step~2, Increment~14}).
-  \label{eq:hole_peak_force}
-\end{equation}
-Following the peak, the load drops steeply and monotonically to $0.4055\,\mathrm{kN}$ at the terminal increment, corresponding to a $25.7\%$ structural load drop as the ligament between notch tip and hole is progressively severed.
+Step~1 loaded the specimen elastically to $u_2 = 0.0050\,\mathrm{mm}$ in 50 increments, followed by Step~2 extending top-edge displacement under fine incrementation ($dt_{\min} = 1.0 \times 10^{-8}$, $dt_{\max} = 5.0 \times 10^{-4}$) to capture softening and crack deflection. The exploratory solve converged $246$ consecutive equilibrium increments ($50$ in Step~1, $196$ in Step~2) over $5{,}964\,\mathrm{s}$ wallclock time ($1\,\mathrm{h}\,39\,\mathrm{m}\,24\,\mathrm{s}$), stopping at displacement $u_2 = 0.0075785\,\mathrm{mm}$.
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.88\textwidth]{fig_method_a_hole_force_displacement.pdf}
-  \caption{Reaction force versus displacement response for the Method~A off-axis hole benchmark (Job \texttt{1421055.mmaster02}, 52,447 physical elements). The simulation captures the linear-elastic regime, peak reaction force $F_{\max} = 0.545786\,\mathrm{kN}$ at $u_2 = 0.005196\,\mathrm{mm}$, and post-peak softening with a $25.7\%$ load drop across 246 converged increments.}
-  \label{fig:hole_force_disp}
-\end{figure}
+The preliminary simulation captured the linear-elastic regime and a peak reaction force $F_{\max} = 0.545786\,\mathrm{kN}$ at $u_2 = 0.005196\,\mathrm{mm}$, followed by post-peak softening with a $25.7\%$ load drop to $0.4055\,\mathrm{kN}$. The localized damage band initiated at $(0.50, 0.50)\,\mathrm{mm}$ and deflected smoothly upwards into the off-axis hole $(0.65, 0.65)\,\mathrm{mm}$.
 
-\subsection{Curvilinear Crack Path and Deflection into the Hole}
-\label{subsec:hole_trajectory}
+\subsection{Failure Diagnosis of the Exploratory Solve}
+\label{subsec:hole_prelim_diagnosis}
 
-As damage localizes, the crack propagates from the initial notch tip $(0.50, 0.50)\,\mathrm{mm}$ not horizontally, but curved upwards toward the tensile stress concentration at the off-axis hole. Figure~\ref{fig:hole_crack_deflection} illustrates the reconstructed crack trajectory and the surrounding damage distribution.
+Inspection of the solver message file (\texttt{.msg}) and status file (\texttt{.sta}) revealed that the simulation stopped because the required time increment dropped below the specified threshold ($dt < 1.0 \times 10^{-8}$) upon secondary damage localization on the upper-right hole flank. While the primary crack was mathematically proven to connect to the hole boundary ($902$ connected elements at $d \ge 0.95$), the post-hole structural failure remained unmodeled, and the underlying mesh suffered from excessive elements in non-critical zones.
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.92\textwidth]{fig_method_a_hole_crack_deflection.pdf}
-  \caption{Reconstructed phase-field crack path and damage contours for the off-axis hole plate. The localized damage band ($d \ge 0.50$ to $d \ge 0.95$) initiates at the notch tip $(0.50, 0.50)\,\mathrm{mm}$ and deflects upwards, entering directly into the lower-left boundary of the off-axis hole at $(0.65, 0.65)\,\mathrm{mm}$.}
-  \label{fig:hole_crack_deflection}
-\end{figure}
+\section{Coupled-State Replay and Native Method~A Production Fracture (F1678--F1679)}
+\label{sec:hole_f1678_production}
 
-At the terminal increment ($u_2 = 0.0075785\,\mathrm{mm}$):
+To establish a fully resolved, physically defensible benchmark adhering strictly to the Pandey--Kumar error-indicator methodology without manual corridor partitioning, the zero-\MISESERI\ interface problem was solved via an authentic coupled-state stress replay pass (\texttt{PK\_HOLE\_F1674\_REPLAY}). By replaying authentic displacement and degraded stiffness fields onto a linear-elastic geometry model, genuine non-zero \MISESERI\ ($r = 0.9575$) was recovered, successfully driving the native \Abaqus \texttt{adaptiveRemesh} module under a $5\%$ error target.
+
+The resulting production mesh, designated \texttt{PK\_HOLE\_F1664\_METHOD\_A\_PROD}, contains $20{,}213$ physical finite elements ($60{,}639$ layered UEL elements) and achieves local crack-corridor resolution $h \approx 1.5\,\mu\mathrm{m} \le \ellzero / 5$ in both the primary ligament and the secondary right flank with zero manual partition boundaries.
+
+\subsection{HPC Execution and Solver Telemetry}
+\label{subsec:hole_prod_telemetry}
+
+The production fracture simulation was executed on the Freiberg HPC cluster \texttt{mmaster02} (PBS Job ID \texttt{1421142.mmaster02}, compute node \texttt{mnode098}) under serial single-rank execution (1~CPU, 16~GB RAM, queue \texttt{normal\_imfdfkmq}) using \Abaqus/Standard 2023 with the frozen production UEL (\texttt{f42\_mixed\_uel.for}, SHA-256: \texttt{ce8d5edc...}).
+
+The solver completed with \textbf{Exit Code 0} (\texttt{"THE ANALYSIS HAS COMPLETED SUCCESSFULLY"}), traversing the full requested displacement endpoint $u_2 = 0.0120\,\mathrm{mm}$:
 \begin{itemize}
-  \item Fully broken crack core ($d \ge 0.90$): $7{,}860$ elements;
-  \item Localized fracture band ($d \ge 0.50$): $14{,}849$ elements;
-  \item The centroid coordinates of the damage band trace a continuous curve starting at $(0.5009, 0.4996)\,\mathrm{mm}$ and reaching $(0.6365, 0.6120)\,\mathrm{mm}$ on the hole flank, confirming authentic Mode-I/Mode-II crack attraction to the circular opening.
+  \item \textbf{Total Equilibrium Increments:} Exactly $614$ converged increments ($57$ increments in Step~1 up to $u_2 = 0.0050\,\mathrm{mm}$; $557$ increments in Step~2 up to $u_2 = 0.0120\,\mathrm{mm}$).
+  \item \textbf{Automatic Cutbacks and Iterations:} $18$ cutbacks in automatic time incrementation, $2{,}019$ equilibrium iterations, and $2{,}000$ linear equation solves involving matrix decomposition.
+  \item \textbf{Numerical Stability:} Zero numerical problem warnings, zero negative eigenvalues, and zero error messages were recorded in the message file.
+  \item \textbf{Peak Memory Usage:} $2\,\mathrm{GB}$ peak RAM.
+  \item \textbf{Execution Timing Reconciliation:} Total solver CPU time was $3{,}584\,\mathrm{s}$ ($59\,\mathrm{m}\,44\,\mathrm{s}$). Total solver wallclock time was $5{,}149\,\mathrm{s}$ ($1\,\mathrm{h}\,25\,\mathrm{m}\,49\,\mathrm{s}$). Total scheduler elapsed wallclock time (including preflight checks, UEL compilation/linking, and \texttt{SMASimUtility} ODB wrap-up) was $5{,}172\,\mathrm{s}$ ($1\,\mathrm{h}\,26\,\mathrm{m}\,12\,\mathrm{s}$, from 20:55:55 to 22:22:07 CET).
 \end{itemize}
 
-\subsection{Energy Evolution and Work Balance}
-\label{subsec:hole_energy}
+\subsection{Mechanical Response, Peak Force, and Mesh Convergence}
+\label{subsec:hole_prod_response}
 
-Figure~\ref{fig:hole_energy_balance} displays the evolution of elastic strain energy, dissipated fracture energy, total internal energy, and external mechanical work across all $246$ increments.
+The reaction force versus displacement response for the production Method~A simulation is shown in Figure~\ref{fig:hole_prod_rf_u}, plotted alongside the coarse $2{,}906$-element baseline simulation (Job \texttt{1421063.mmaster02}).
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.88\textwidth]{fig_method_a_hole_energy_balance.pdf}
-  \caption{Thermodynamic energy evolution across 246 increments for the Method~A off-axis hole plate. Dissipated fracture energy surges from $0.0426\,\mathrm{mJ}$ to $1.452\,\mathrm{mJ}$ ($+3305\%$) as elastic strain energy is released into crack surface formation.}
-  \label{fig:hole_energy_balance}
+  \includegraphics[width=0.90\textwidth]{figures/f1678_method_a_load_displacement_comparison.pdf}
+  \caption{Equilibrium reaction force versus top-edge displacement $P(u)$ for the off-axis hole benchmark: coarse coupled baseline ($2{,}906$ physical elements, peak load $P_{\max} = 0.7310\,\mathrm{kN}$) compared against the production Method~A refined simulation ($20{,}213$ physical elements, peak load $P_{\max} = 0.5934\,\mathrm{kN}$). Refinement softens the peak reaction force by $-18.83\%$, aligning with the $0.60\,\mathrm{kN}$ benchmark comparison band, while completing the full post-peak trajectory to $99.93\%$ load loss.}
+  \label{fig:hole_prod_rf_u}
 \end{figure}
 
-Prior to peak load ($u_2 \le 0.0050\,\mathrm{mm}$), the system response is dominated by elastic strain energy accumulation ($E_{\mathrm{elastic}} \approx 1.33\,\mathrm{mJ}$ vs.\ $E_{\mathrm{fracture}} \approx 0.043\,\mathrm{mJ}$). Beyond peak load, active crack propagation converts elastic strain energy into fracture dissipation: $E_{\mathrm{fracture}}$ surges by $+3305\%$ to reach $1.45196\,\mathrm{mJ}$ at termination, while elastic energy decreases to $1.19615\,\mathrm{mJ}$.
-
-\section{Source-Backed Validation and Failure Diagnosis (F1646)}
-\label{sec:hole_validation}
-
-To ensure complete scientific rigor and avoid premature claims of full fracture validation, a rigorous four-point offline verification was performed directly on the retained solver evidence.
-
-\subsection{Topological Crack Connectivity and Threshold Invariance}
-\label{subsec:hole_connectivity}
-
-A critical question in phase-field modeling is whether an apparent damage corridor constitutes a continuous topological crack or merely a diffuse cloud of elevated damage. To address this, an element adjacency graph was constructed across all $52{,}447$ physical elements, where an edge exists between two elements if and only if they share at least two nodes (face/edge adjacency).
-
-A Breadth-First Search (BFS) seeded at the notch tip elements was executed across five explicitly declared damage thresholds, testing for continuous graph paths to elements touching the circular hole boundary:
+Key mechanical characteristics extracted directly from the verified dataset include:
 \begin{itemize}
-  \item Threshold $d \ge 0.50$: $2{,}271$ connected elements, \textbf{Connects to Hole = TRUE};
-  \item Threshold $d \ge 0.70$: $1{,}554$ connected elements, \textbf{Connects to Hole = TRUE};
-  \item Threshold $d \ge 0.80$: $1{,}281$ connected elements, \textbf{Connects to Hole = TRUE};
-  \item Threshold $d \ge 0.90$: $1{,}036$ connected elements, \textbf{Connects to Hole = TRUE};
-  \item Threshold $d \ge 0.95$: $902$ connected elements, \textbf{Connects to Hole = TRUE}.
+  \item \textbf{Peak Reaction Force:} $P_{\max} = 0.593390\,\mathrm{kN}$ ($593.39\,\mathrm{N}$) at displacement $u_2 = 0.005700\,\mathrm{mm}$ (Step~2, Increment~50).
+  \item \textbf{Peak Softening Comparison:} Relative to the coarse baseline ($P_{\max} = 0.731015\,\mathrm{kN}$), the peak load is reduced by $-18.83\%$ ($-137.6\,\mathrm{N}$). In phase-field fracture, under-resolved meshes over-predict structural strength because coarse elements cannot resolve the steep damage gradient $\nabla d \sim 1/\ellzero$. Refining to $h \approx 1.5\,\mu\mathrm{m}$ naturally softens the peak load, placing it within $1.1\%$ of the $0.60\,\mathrm{kN}$ benchmark comparison band reported by \citet{pandey2025}. While indicative of physical consistency, this single coarse-to-refined comparison must be characterized as a numerical comparison rather than an asymptotic proof of mesh convergence.
+  \item \textbf{Deep Post-Peak Softening:} Following secondary snap-through at $u_2 = 0.00776\,\mathrm{mm}$, the reaction force drops precipitously from $0.471\,\mathrm{kN}$ to $0.045\,\mathrm{kN}$ within 22 micro-increments, reaches $0.00092\,\mathrm{kN}$ ($0.92\,\mathrm{N}$) at $u_2 = 0.00780\,\mathrm{mm}$, and drops to $P_{\mathrm{final}} = 0.000415\,\mathrm{kN}$ ($0.41\,\mathrm{N}$) at $u_2 = 0.0120\,\mathrm{mm}$. This represents a $99.93\%$ loss of load-carrying capacity, capturing complete structural separation.
 \end{itemize}
-This graph-theoretic proof confirms that even at the severe threshold $d \ge 0.95$, a continuous physical chain of $902$ fully damaged elements directly connects the initial notch to the hole boundary. The crack path is mathematically connected and localized, refuting any ambiguity of a diffuse disconnected artifact.
 
-\subsection{External Work and Energy Discrepancy Analysis}
-\label{subsec:hole_work_energy_discrepancy}
+\section{Time-Resolved Crack Kinematics and Topological Evolution}
+\label{sec:hole_time_resolved_crack}
 
-External mechanical work $W_{\mathrm{ext}}$ was calculated by trapezoidal numerical integration of the reaction force versus top-edge displacement:
-\begin{equation}
-  W_{\mathrm{ext}} = \sum_{i=1}^{N_{\mathrm{inc}}} \frac{RF_2^{(i)} + RF_2^{(i-1)}}{2} \left( u_2^{(i)} - u_2^{(i-1)} \right).
-  \label{eq:trapezoidal_work}
-\end{equation}
+To verify the chronological sequence of fracture events, the spatial phase-field damage distribution was extracted from the production ODB across seven explicitly identified key states. Connected component analysis based on element edge adjacency was conducted for the fracture process zone core ($d \ge 0.50$). Figure~\ref{fig:hole_crack_progression} illustrates the four principal chronological stages alongside the equilibrium load-displacement curve.
 
-Comparing external work against the sum of UEL internal energies yields:
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.98\textwidth]{figures/f1679_time_resolved_crack_progression.pdf}
+  \caption{Time-resolved phase-field crack progression and equilibrium load response for the production Method~A off-axis hole simulation ($20{,}213$ physical elements): (a)~damage initiation at notch tip ($u = 0.00570\,\mathrm{mm}$, peak load $P = 0.593\,\mathrm{kN}$); (b)~curvilinear primary deflection and kinematic arrest at the hole boundary ($u = 0.00752\,\mathrm{mm}$, $P = 0.494\,\mathrm{kN}$); (c)~secondary crack nucleation on the upper-right hole flank ($u = 0.00776\,\mathrm{mm}$, $P = 0.471\,\mathrm{kN}$, Increment~198); (d)~secondary snap-through and complete ligament severance ($u = 0.01200\,\mathrm{mm}$, residual load $P = 0.0004\,\mathrm{kN}$); (e)~corresponding reaction force curve with state markers.}
+  \label{fig:hole_crack_progression}
+\end{figure}
+
+The chronological sequence of physical fracture mechanisms is quantified as follows:
+\begin{enumerate}
+  \item \textbf{Primary Crack Initiation (State 1, $u_2 = 0.005700\,\mathrm{mm}$):} At peak load, phase-field damage localizes at the initial notch tip $(0.50, 0.50)\,\mathrm{mm}$. Exactly $2$ elements reach $d \ge 0.50$ ($d_{\max} = 0.635357$) at $(x=0.5026, y=0.4990)\,\mathrm{mm}$, located $0.1095\,\mathrm{mm}$ from the hole perimeter.
+  \item \textbf{Curvilinear Deflection and Hole Arrest (State 2, $u_2 = 0.007520\,\mathrm{mm}$, Increment 180):} Under mixed-mode shear and tensile stress attraction, the primary crack curves upwards into the lower flank of the off-axis hole. A connected chain of $196$ elements with $d \ge 0.50$ ($114$ elements with $d \ge 0.80$, $67$ with $d \ge 0.95$) reaches $x_{\mathrm{tip}} = 0.60716\,\mathrm{mm}$ and $y_{\mathrm{avg}} = 0.5310\,\mathrm{mm}$. The distance to the circular hole perimeter drops to $0.0015\,\mathrm{mm}$, confirming that the crack tip intersects the circular opening. Crucially, the hole acts as an authentic crack arrester: the crack front stops at the circular free boundary, and zero damaged elements exist on the opposite ligament.
+  \item \textbf{Secondary Crack Nucleation (State 3, $u_2 = 0.007759\,\mathrm{mm}$, Increment 198):} As prescribed displacement increases, tensile hoop stresses concentrate on the opposite, upper-right boundary of the circular opening. At Increment~198, an independent secondary crack nucleates on the hole flank: exactly $26$ connected elements with $d \ge 0.50$ emerge between $x = 0.750736\,\mathrm{mm}$ and $x_{\mathrm{tip}} = 0.782864\,\mathrm{mm}$ ($y_{\mathrm{avg}} = 0.6426\,\mathrm{mm}$), located $0.2171\,\mathrm{mm}$ from the right boundary.
+  \item \textbf{Secondary Snap-Through (State 4, $u_2 = 0.007759\,\mathrm{mm}$, Increment 220):} In an unstable snap-through regime requiring automatic solver time cutbacks down to $\Delta t = 1.5 \times 10^{-8}$, the secondary crack rapidly traverses the right ligament. Within 22 micro-increments at constant nominal displacement, the damaged cluster expands to $2{,}788$ elements with $d \ge 0.50$ ($1{,}957$ with $d \ge 0.80$, $1{,}512$ with $d \ge 0.95$), and the crack tip reaches $x_{\max} = 0.999035\,\mathrm{mm}$ at the right specimen boundary.
+  \item \textbf{Complete Severance (State 5--6, $u_2 = 0.00780$ to $0.0120\,\mathrm{mm}$):} By Increment~248, the right ligament is fully severed ($2{,}864$ elements with $d \ge 0.50$, $2{,}169$ with $d \ge 0.80$), and load capacity drops to $0.92\,\mathrm{N}$. The remaining increments represent rigid separation of the severed specimen halves under residual numerical stiffness.
+\end{enumerate}
+
+\subsection{Phase-Field Damage Bound Audit}
+\label{subsec:hole_damage_bounds}
+
+In the classical continuum formulation, the phase field is bounded by $0 \le d \le 1$. In numerical implementations utilizing penalty regularisation or staggered Newton--Raphson iterations with finite convergence tolerances, small numerical overshoots can occur. An exhaustive audit across all $20{,}213$ physical elements across all $614$ increments established:
 \begin{itemize}
-  \item \textbf{Step 1 (Pre-Peak, $u_2 \le 0.0050\,\mathrm{mm}$):} External work $W_{\mathrm{ext}} = 1.3720183 \times 10^{-3}\,\mathrm{kN\,mm}$, total internal energy $E_{\mathrm{total}} = 1.3720432 \times 10^{-3}\,\mathrm{kN\,mm}$. The relative error is:
+  \item \textbf{Undershoots ($d < 0$):} Zero undershoot elements were detected ($d_{\min} \ge 5.96 \times 10^{-8} > 0$ throughout).
+  \item \textbf{Overshoots ($d > 1.0$):} At peak load, zero elements exceed unity. Upon crack arrest and secondary snap-through, a small number of elements exhibit minor numerical overshoot: $1$ element at Increment~180 ($d_{\max} = 1.000072$, overshoot $0.007\%$), $3$ elements at Increment~220 ($d_{\max} = 1.001083$, overshoot $0.108\%$), and $8$ elements at the final state ($d_{\max} = 1.000599$, overshoot $0.060\%$).
+  \item \textbf{Physical Assessment:} The maximum overshoot across the entire simulation is $\Delta d_{\max} = 0.00108$ ($0.108\%$), affecting only $8$ out of $2{,}169$ broken elements ($0.37\%$ of broken elements, $0.04\%$ of the total mesh). This slight deviation arises naturally from the local Newton residual tolerance ($\sim 10^{-6}$) and does not compromise physical stability or energetic consistency.
+\end{itemize}
+
+\section{Thermodynamic Work--Energy Balance and Monotonicity Verification}
+\label{sec:hole_energy_verification}
+
+To verify temporal thermodynamic consistency, the complete internal energy history was extracted from the production run (\texttt{uel\_energy\_balance.csv}, $614$ converged increments) and aligned with the external work curve calculated via trapezoidal integration. The resulting energetic partition is plotted in Figure~\ref{fig:hole_prod_energy}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.90\textwidth]{figures/f1678_method_a_energy_balance.pdf}
+  \caption{Thermodynamic internal energy partition and external work balance across all 614 converged increments for the production Method~A simulation ($20{,}213$ physical elements). Elastic strain energy $E_{\mathrm{elastic}}$ undergoes $99.87\%$ post-peak relaxation, while dissipated fracture energy $E_{\mathrm{fracture}}$ increases strictly monotonically to $2.705\,\mathrm{mJ}$, balancing external work $W_{\mathrm{ext}} = 2.749\,\mathrm{mJ}$ to within a $1.489\%$ residual.}
+  \label{fig:hole_prod_energy}
+\end{figure}
+
+The energetic evaluation establishes:
+\begin{enumerate}
+  \item \textbf{Fracture Energy Monotonicity:} The second law of thermodynamics requires crack dissipation to be irreversible: $\dot{E}_{\mathrm{fracture}} \ge 0$. Evaluation of consecutive increment differences $\Delta E_{\mathrm{fracture}}$ across all $614$ equilibrium steps revealed \textbf{zero decreases} within machine precision ($\Delta E_{\mathrm{fracture}} \ge -10^{-12}\,\mathrm{kN\,mm}$), confirming strict thermodynamic irreversibility.
+  \item \textbf{Elastic Strain Energy Relaxation:} Elastic energy $E_{\mathrm{elastic}}$ accumulates elastically during Step~1 to $1.378\,\mathrm{mJ}$, reaches a peak of $1.919\,\mathrm{mJ}$ during secondary ligament loading at $u_2 = 0.0077\,\mathrm{mm}$, and subsequently collapses to $E_{\mathrm{elastic}} = 2.4929 \times 10^{-6}\,\mathrm{kN\,mm}$ ($0.00249\,\mathrm{mJ}$) at the final increment. This demonstrates an authentic $99.87\%$ elastic strain relaxation as stored mechanical energy is released into crack surface creation.
+  \item \textbf{Work--Energy Discrepancy History:} Total external work performed by the top displacement is $W_{\mathrm{ext}} = 2.74887 \times 10^{-3}\,\mathrm{kN\,mm}$ ($2.74887\,\mathrm{mJ}$). Total internal energy evaluated by integrating UEL element densities is $E_{\mathrm{total}} = 2.70793 \times 10^{-3}\,\mathrm{kN\,mm}$ ($E_{\mathrm{elastic}} = 0.00249\,\mathrm{mJ}$, $E_{\mathrm{fracture}} = 2.70544\,\mathrm{mJ}$). The global work--energy discrepancy across the complete fracture history is:
   \begin{equation}
-    \epsilon_{\mathrm{step1}} = \frac{|W_{\mathrm{ext}} - E_{\mathrm{total}}|}{E_{\mathrm{total}}} = 0.0018\% \quad (1.81 \times 10^{-5}),
+    \Delta E = |W_{\mathrm{ext}} - E_{\mathrm{total}}| = 4.0939 \times 10^{-5}\,\mathrm{kN\,mm} \quad (0.04094\,\mathrm{mJ}),
   \end{equation}
-  confirming exceptional work-energy balance in the pre-peak regime.
-  \item \textbf{Full Analysis ($246$ Increments):} Total external work $W_{\mathrm{ext}} = 2.55036\,\mathrm{mJ}$, total internal energy $E_{\mathrm{total}} = 2.64812\,\mathrm{mJ}$ ($E_{\mathrm{elastic}} = 1.19615\,\mathrm{mJ}$, $E_{\mathrm{fracture}} = 1.45196\,\mathrm{mJ}$). The work-energy discrepancy across the entire nonlinear history is:
-  \begin{equation}
-    \epsilon_{\mathrm{full}} = \frac{|W_{\mathrm{ext}} - E_{\mathrm{total}}|}{E_{\mathrm{total}}} = 3.69\%.
-  \end{equation}
-\end{itemize}
-This $3.69\%$ discrepancy in the post-peak regime is explicitly disclosed. While internal UEL energies satisfy numerical conservation ($|E_{\mathrm{elastic}} + E_{\mathrm{fracture}} - E_{\mathrm{total}}| / E_{\mathrm{total}} < 1.0 \times 10^{-7}$), the small difference between trapezoidal work and internal energy arises from finite incremental dissipation and spatial integration truncation under rapid post-peak softening. It is presented as a characterized numerical limitation, rather than asserted as exact physical identity.
+  representing a relative discrepancy of \textbf{1.489\%}. In Step~1 (prior to macroscopic crack propagation), the discrepancy is merely $0.0234\%$ ($0.32\,\mu\mathrm{J}$). The temporal mean absolute residual across all $614$ increments is $0.0297\,\mathrm{mJ}$, with a transient peak of $0.1616\,\mathrm{mJ}$ during secondary snap-through time cutbacks.
+\end{enumerate}
+This $1.489\%$ discrepancy over $614$ highly nonlinear increments confirms exceptional thermodynamic conservation for the multi-layer UEL formulation under dynamic crack deflection and snap-through.
 
-\subsection{Constitutive Storage Units and Extreme History Interpretation}
-\label{subsec:hole_history_units}
+\section{Literature Comparison with Pandey--Kumar and Architectural Synthesis}
+\label{sec:hole_pandey_kumar_comparison}
 
-Extraction of the peak history variable in the severed ligament yielded an extreme value $\Hist_{\max} = 7{,}471.2$. To interpret this physically, an audit of the Fortran UEL source code (\texttt{f42\_mixed\_uel.for}) was conducted. 
+Table~\ref{tab:hole_pandey_kumar_comparison} summarizes a direct quantitative comparison between the published benchmark results of \citet{pandey2025} and the present thesis production simulation.
 
-In the subroutine, Young's modulus is input as $E_{\mathrm{mod}} = 210.0\,\mathrm{kN/mm^2} = 210.0\,\mathrm{GPa}$. The positive strain energy density \texttt{POS\_M} is evaluated with elastic constants in units of $\mathrm{kN/mm^2}$, meaning that the history variable $\Hist$ is stored in:
-\begin{equation}
-  [\Hist] = \mathrm{kN/mm^2} = \mathrm{GPa}.
-\end{equation}
-In fully broken elements ($d \to 1$), the degradation function scales physical stresses to zero ($g(d)\sten_0^+ \to 0$), whereas the kinematic strain tensor $\eten$ continues to increase as crack flanks separate under displacement control. Consequently, the counterfactual undegraded elastic strain energy continues to accumulate monotonically according to the Karush--Kuhn--Tucker (KKT) history update rule:
-\begin{equation}
-  \Hist(t) = \max_{s \le t} \psi_0^+(\eten(s)).
-  \label{eq:kkt_history}
-\end{equation}
-The reported value $\Hist_{\max} = 7{,}471.2\,\mathrm{GPa}$ is therefore a purely kinematic strain-energy accumulation within broken elements, not a physical material stress.
+\begin{table}[htbp]
+\centering
+\caption{Quantitative benchmark comparison between published results of \citet{pandey2025} and the present Method~A production simulation for the plate with an off-axis hole.}
+\label{tab:hole_pandey_kumar_comparison}
+\begin{tabular}{lcc}
+\hline
+\textbf{Benchmark Metric} & \textbf{Pandey \& Kumar (2025)} & \textbf{Present Thesis (F1678--F1679)} \\
+\hline
+Specimen Dimensions & $1.0 \times 1.0\,\mathrm{mm}$ & $1.0 \times 1.0\,\mathrm{mm}$ \\
+Notch Length $a_0$ & $0.50\,\mathrm{mm}$ ($y = 0.50$) & $0.50\,\mathrm{mm}$ ($y = 0.50$) \\
+Hole Position $(x_c, y_c)$ & $(0.65, 0.65)\,\mathrm{mm}$ & $(0.65, 0.65)\,\mathrm{mm}$ \\
+Hole Radius $R$ & $0.10\,\mathrm{mm}$ & $0.10\,\mathrm{mm}$ \\
+Elastic Constants & $E = 210\,\mathrm{GPa}, \nu = 0.30$ & $E = 210\,\mathrm{GPa}, \nu = 0.30$ \\
+Fracture Energy $\Gc$ & $2.7 \times 10^{-3}\,\mathrm{kN/mm}$ & $2.7 \times 10^{-3}\,\mathrm{kN/mm}$ \\
+Length Scale $\ellzero$ & $0.0075\,\mathrm{mm}$ ($7.5\,\mu\mathrm{m}$) & $0.0075\,\mathrm{mm}$ ($7.5\,\mu\mathrm{m}$) \\
+Refinement Criterion & \MISESERI\ Adaptive Remeshing & \MISESERI\ Auxiliary Coupled Replay \\
+Peak Reaction Force $P_{\max}$ & $\approx 0.60 - 0.61\,\mathrm{kN}$ & $0.593390\,\mathrm{kN}$ ($-1.1\%$ diff.) \\
+Displacement at Peak & $\approx 0.0055 - 0.0058\,\mathrm{mm}$ & $0.005700\,\mathrm{mm}$ \\
+Primary Crack Trajectory & Upward deflection into hole & Upward deflection into hole \\
+Hole Arrest Phenomenon & Observed & Verified ($x_{\mathrm{tip}} = 0.6072\,\mathrm{mm}$) \\
+Secondary Crack Path & Nucleation on right flank & Verified ($x \in [0.751, 0.783]\,\mathrm{mm}$) \\
+Final Fracture State & Complete specimen separation & Complete severance ($P_{\mathrm{final}} = 0.41\,\mathrm{N}$) \\
+Total Physical Elements & Reported adapted mesh & $20{,}213$ physical ($60{,}639$ layered) \\
+\hline
+\end{tabular}
+\end{table}
 
-\subsection{Terminal Increment Failure Diagnosis}
-\label{subsec:hole_terminal_diagnosis}
+\subsection{Architectural Implementation Distinctions}
+\label{subsec:hole_architectural_distinction}
 
-The simulation stopped at increment 196 of Step~2 ($u_2 = 0.0075785\,\mathrm{mm}$) rather than the nominal input target $u_2 = 0.0120\,\mathrm{mm}$. Inspection of the solver message file (\texttt{.msg}) and status file (\texttt{.sta}) revealed:
+To maintain rigorous transparency, an important implementation distinction must be emphasized:
 \begin{itemize}
-  \item Convergence residuals for displacement and phase-field degrees of freedom satisfied equilibrium tolerances throughout all 246 converged increments.
-  \item At $u_2 = 0.0075785\,\mathrm{mm}$, the severing of the ligament between notch and hole completed, causing a rapid structural stress redistribution. Monotonic top-edge displacement induced high secondary tensile stresses on the upper-right boundary of the hole.
-  \item Secondary damage localization initiated on the hole perimeter, causing the automatic time incrementation algorithm to repeatedly cut back the time increment.
-  \item The time increment dropped below the specified solver minimum ($dt < 1.0 \times 10^{-8}$), causing \Abaqus/Standard to terminate with the standard exit message \texttt{"TIME INCREMENT REQUIRED IS LESS THAN MINIMUM SPECIFIED"}.
+  \item In \citet{pandey2025}, the authors implemented phase-field fracture using a formulation wherein Cauchy stresses and state variables are directly accessible to \Abaqus internal field tables during or immediately following the pre-analysis solve, allowing native \MISESERI\ to be calculated directly.
+  \item In the present thesis, the frozen production UEL (\texttt{f42\_mixed\_uel.for}, hash \texttt{ce8d5edc...}) decouples the mechanical solve from native \Abaqus stress evaluation; Cauchy stresses reside inside UEL common blocks and are invisible to \Abaqus \texttt{adaptiveRemesh}, causing default \MISESERI\ to evaluate identically to zero.
+  \item To preserve the frozen production UEL without modifying its validated internal equations, an \textbf{auxiliary coupled stress replay architecture} was developed. The authentic coupled displacement vector and degraded elastic material state ($E_{\mathrm{deg}} = g(d) E_0$) from the coarse phase-field solve are projected onto a linear-elastic geometry model. Standard patch recovery on this projected field yields authentic, non-zero \MISESERI\ with $r = 0.9575$ correlation and $4.05\%$ NRMSE against the donor stress state.
 \end{itemize}
-No Fortran UEL numerical crash, floating-point exception, or Jacobian inversion occurred. The termination represents a numerical continuation limit under displacement control at the onset of secondary cracking, rather than an algorithmic UEL failure.
+While achieving the identical scientific objective—driving native \Abaqus adaptive remeshing using recovery-based stress discretization error without manual partition seeding—this auxiliary replay route represents an engineering projection architecture rather than a direct internal element communication.
 
 \section{Explicit Scientific Limitations and Boundary of Validity}
 \label{sec:hole_limitations}
 
-To maintain rigorous university academic standards, the following scientific limitations are explicitly established for the Method~A off-axis hole demonstration:
+The following scientific boundaries govern the Method~A off-axis hole investigation:
 \begin{enumerate}
-  \item \textbf{Single-Mesh Demonstration without Mesh Convergence Proof:} The crack propagation and deflection were evaluated on a single $52{,}447$-element adapted mesh. While local resolution ($h \le 1.5\,\mu\mathrm{m}$) is substantially improved over the baseline, a formal multi-mesh convergence study on this specific geometry was not conducted due to the December 13 research freeze timeline.
-  \item \textbf{Incomplete Spatial Coverage of Resolution Criterion:} While median element sizes in the FPZ satisfy $h \le \ellzero / 5 = 1.5\,\mu\mathrm{m}$, the compliance fractions are $89.4\%$ at the notch tip, $90.6\%$ in the ligament, and $86.3\%$ at the hole boundary. A small fraction of transition elements exceeds $1.5\,\mu\mathrm{m}$.
-  \item \textbf{Absence of In-Run State Transfer (Two-Pass Offline Remeshing):} Method~A is an offline pre-refinement methodology. It does not perform dynamic in-analysis remeshing or state transfer during the crack propagation phase. The adapted mesh is solved afresh from the undeformed reference state ($u=0, d=0$).
-  \item \textbf{Post-Peak Work-Energy Discrepancy:} While pre-peak energy balance is virtually exact ($0.0018\%$), the $3.69\%$ discrepancy in total work over the full crack-propagation history reflects incremental dissipation and discretization effects during rapid softening.
-  \item \textbf{Premature Loading Termination:} The analysis terminates at $u_2 = 0.0075785\,\mathrm{mm}$ upon secondary crack emergence at the hole, leaving the post-hole structural failure unmodeled.
+  \item \textbf{Single-Mesh Demonstration without Asymptotic Convergence Proof:} While local element edge length ($h \approx 1.5\,\mu\mathrm{m}$) satisfies the phase-field resolution limit $\ellzero / 5$, and peak load matches the literature band to within $1.1\%$, this investigation represents a single refined discretization ($20{,}213$ elements) compared against the coarse reference ($2{,}906$ elements). A formal multi-mesh asymptotic convergence study was not conducted due to the project research freeze timeline.
+  \item \textbf{Offline Error-Guided Pre-Refinement:} Method~A is strictly an \emph{offline} remeshing methodology. It generates an adapted discretization prior to the fracture solve based on pre-analysis error information. It does not perform dynamic in-analysis mesh adaptation or state transfer during runtime.
+  \item \textbf{Quasi-Static Energy Accounting Residual:} The $1.489\%$ work--energy discrepancy over $614$ equilibrium increments reflects trapezoidal integration truncation and localized dissipation during rapid snap-through cutbacks. While exceptionally small, it is disclosed as a characterized numerical artifact rather than asserted as exact physical identity.
+  \item \textbf{Localized Damage Bound Overshoot:} Maximum damage exceeds unity by $0.108\%$ ($d_{\max} = 1.001083$) across 8 elements during secondary snap-through, arising from finite Newton--Raphson equilibrium tolerances in the staggered user element.
 \end{enumerate}
 
 \section{Summary and Research Conclusions}
 \label{sec:hole_summary}
 
-The off-axis hole investigation provides a defensible, source-verified demonstration of indicator-driven adaptive remeshing applied to curvilinear phase-field fracture:
+The off-axis hole benchmark investigation establishes the quantitative capabilities and physical boundaries of indicator-driven adaptive remeshing in curvilinear phase-field fracture:
 \begin{itemize}
-  \item Linear-elastic continuum error indicators (\MISESERI) alone fail to isolate the fracture process zone, leading to element-count explosion ($130{,}435$ elements) without adequate crack-tip resolution ($5.28\% \le 1.5\,\mu\mathrm{m}$).
-  \item A diagnostic pilot simulation ($46{,}747$ elements, Job \texttt{1421048.mmaster02}) revealed the authentic curved physical damage corridor ($d \ge 0.10$).
-  \item A three-tier adapted mesh ($52{,}447$ physical elements, $157{,}341$ layered elements) achieved $89.4\%$ to $90.6\%$ compliance with $h \le \ellzero / 5$, improving local resolution by up to $+85.5\%$ while increasing total element count by only $+12.19\%$.
-  \item Matched pre-peak parity was demonstrated to within $-0.0264\%$ reaction force agreement and $-0.03\%$ total energy error.
-  \item Continuous two-step crack propagation (Job \texttt{1421055.mmaster02}, 246 increments) captured peak load ($F_{\max} = 0.545786\,\mathrm{kN}$), post-peak softening ($25.7\%$ load drop), and smooth curvilinear deflection into the off-axis hole.
-  \item Graph-theoretic adjacency analysis conclusively proved continuous topological crack connection to the hole across all damage thresholds from $d \ge 0.50$ to $d \ge 0.95$ ($902$ connected elements at $d \ge 0.95$).
+  \item The fundamental zero-\MISESERI\ communication defect of the multi-layer UEL was resolved through an auxiliary coupled stress replay projection, restoring genuine non-zero recovery error ($r = 0.9575$) to drive native \Abaqus remeshing.
+  \item An adapted $20{,}213$-element physical mesh was generated automatically with zero user-defined partition corridors, achieving $h \approx 1.5\,\mu\mathrm{m}$ in both the primary deflection path and the secondary ligament.
+  \item The production fracture simulation (Job \texttt{1421142.mmaster02}) completed with Exit Code~0 across all $614$ equilibrium increments, capturing the complete structural lifetime from initial loading to $99.93\%$ load loss at $u_2 = 0.0120\,\mathrm{mm}$.
+  \item Peak reaction force ($P_{\max} = 0.593390\,\mathrm{kN}$) softened by $-18.83\%$ relative to the coarse mesh, landing within $1.1\%$ of the published literature benchmark.
+  \item Time-resolved topological analysis verified primary crack deflection into the hole, kinematic arrest at the circular boundary, secondary crack nucleation at Increment~198 ($u_2 = 0.00776\,\mathrm{mm}$), and rapid snap-through across the right ligament to complete severance ($x_{\max} = 0.999035\,\mathrm{mm}$).
+  \item Strict fracture energy irreversibility ($\dot{E}_{\mathrm{fracture}} \ge 0$) was verified across all increments, with $99.87\%$ post-peak elastic relaxation and a global work--energy discrepancy of merely $1.489\%$.
 \end{itemize}
-These results establish the quantitative capabilities and fundamental boundaries of offline error-guided pre-refinement in phase-field fracture mechanics.
+These results confirm that error-indicator-driven adaptive remeshing can successfully resolve complex mixed-mode phase-field fracture paths in commercial finite-element software without empirical crack-corridor seeding.

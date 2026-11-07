@@ -1,0 +1,66 @@
+{
+    "solver_execution": {
+        "pbs_job_id": "1421142.mmaster02",
+        "exit_code": 0,
+        "status": "COMPLETED_SUCCESSFULLY",
+        "node": "mnode098.cluster",
+        "total_increments": 614,
+        "step_1_increments": 57,
+        "step_2_increments": 557,
+        "total_cutbacks": 18,
+        "total_iterations": 2019,
+        "matrix_decompositions": 2000,
+        "numerical_problem_warnings": 0,
+        "negative_eigenvalue_warnings": 0,
+        "error_messages": 0,
+        "memory_peak_gb": 2,
+        "timing_reconciliation": {
+            "total_cpu_time_sec": 3584.0,
+            "total_cpu_time_formatted": "59m 44s",
+            "wallclock_time_sec": 5149.0,
+            "wallclock_time_formatted": "1h 25m 49s (85m 49s)",
+            "scheduler_start_cet": "2026-11-07 20:55:55 CET",
+            "scheduler_end_cet": "2026-11-07 22:22:07 CET",
+            "scheduler_elapsed_sec": 5172.0,
+            "scheduler_elapsed_formatted": "1h 26m 12s",
+            "explanation": "Solver runtime was reported in F1678 as total CPU time (59m 44s / ~59m 55s). The scheduler wallclock elapsed time is 86m 12s (including preflight, compilation, and SMASimUtility wrapup), of which Abaqus/Standard solver wallclock time was 85m 49s (5,149s) on 1 CPU."
+        }
+    },
+    "energy_verification": {
+        "total_energy_records": 614,
+        "step1_records": 57,
+        "step2_records": 557,
+        "fracture_energy_monotonicity": {
+            "monotonic": true,
+            "num_decreases": 0,
+            "max_decrease_kNmm": 0.0,
+            "assessment": "PASS - Strictly monotonic within machine precision"
+        },
+        "elastic_energy_relaxation": {
+            "peak_elastic_energy_kNmm": 0.0019185682,
+            "peak_elastic_time": 1.386,
+            "final_elastic_energy_kNmm": 2.4929087e-06,
+            "relaxation_pct": 99.87006410822404
+        },
+        "step1_endpoint": {
+            "W_ext_kNmm": 0.00137805575,
+            "E_total_kNmm": 0.0013783786,
+            "residual_abs_kNmm": 3.228499999999388e-07,
+            "residual_rel_pct": 0.023427934610043083
+        },
+        "final_endpoint": {
+            "W_ext_kNmm": 0.00274886996,
+            "E_elastic_kNmm": 2.4929087e-06,
+            "E_fracture_kNmm": 0.0027054377,
+            "E_total_kNmm": 0.0027079306,
+            "residual_abs_kNmm": 4.0939360000000116e-05,
+            "residual_rel_pct": 1.4893159951444235
+        },
+        "temporal_residual": {
+            "max_abs_residual_kNmm": 0.00016158395999999993,
+            "max_abs_residual_time": 0.394159138,
+            "mean_abs_residual_kNmm": 2.974720895539576e-05,
+            "final_relative_discrepancy_pct": 1.4893159951444235
+        }
+    }
+}

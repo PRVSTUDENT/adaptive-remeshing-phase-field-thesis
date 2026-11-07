@@ -1,0 +1,317 @@
+[
+    {
+        "rf2_top_kN": 0.5354562401771545, 
+        "description": "Step 1 endpoint (u = 0.0050 mm)", 
+        "damage_counts": {
+            "d_ge_0.50": 0, 
+            "d_ge_0.20": 6, 
+            "d_ge_0.80": 0, 
+            "d_ge_0.95": 0
+        }, 
+        "step": "Step-1", 
+        "damage_bounds": {
+            "overshoot_pct": 0.0, 
+            "max_overshoot": 0.0, 
+            "d_max": 0.31687694787979126, 
+            "d_min": 5.959509152830833e-08, 
+            "num_undershoot_elements": 0, 
+            "num_overshoot_elements": 0
+        }, 
+        "name": "step1_final", 
+        "step_time": 1.0, 
+        "u2_top_mm": 0.004999999888241291, 
+        "crack_topology": {
+            "total_clusters_d_ge_0.50": 0, 
+            "primary_crack": {
+                "num_elements": 0, 
+                "tip_x": null, 
+                "reached_hole": false, 
+                "avg_y": null, 
+                "present": false, 
+                "dist_to_hole_perimeter_mm": null
+            }, 
+            "secondary_crack": {
+                "num_elements": 0, 
+                "nucleation_x": null, 
+                "tip_x": null, 
+                "dist_to_right_boundary_mm": null, 
+                "avg_y": null, 
+                "reached_boundary": false, 
+                "present": false
+            }, 
+            "other_isolated_clusters": 0
+        }, 
+        "state_id": 0, 
+        "frame_idx": 57
+    }, 
+    {
+        "rf2_top_kN": 0.5933902859687805, 
+        "description": "Step 2 peak force (u = 0.00570 mm, P_max = 0.5934 kN)", 
+        "damage_counts": {
+            "d_ge_0.50": 2, 
+            "d_ge_0.20": 21, 
+            "d_ge_0.80": 0, 
+            "d_ge_0.95": 0
+        }, 
+        "step": "Step-2", 
+        "damage_bounds": {
+            "overshoot_pct": 0.0, 
+            "max_overshoot": 0.0, 
+            "d_max": 0.6353569030761719, 
+            "d_min": 7.040862470830689e-08, 
+            "num_undershoot_elements": 0, 
+            "num_overshoot_elements": 0
+        }, 
+        "name": "step2_peak", 
+        "step_time": 0.10000000149011612, 
+        "u2_top_mm": 0.00570000009611249, 
+        "crack_topology": {
+            "total_clusters_d_ge_0.50": 1, 
+            "primary_crack": {
+                "num_elements": 2, 
+                "tip_x": 0.5026032775, 
+                "reached_hole": false, 
+                "avg_y": 0.498965799875, 
+                "present": true, 
+                "dist_to_hole_perimeter_mm": 0.10954035537305826
+            }, 
+            "secondary_crack": {
+                "num_elements": 0, 
+                "nucleation_x": null, 
+                "tip_x": null, 
+                "dist_to_right_boundary_mm": null, 
+                "avg_y": null, 
+                "reached_boundary": false, 
+                "present": false
+            }, 
+            "other_isolated_clusters": 0
+        }, 
+        "state_id": 1, 
+        "frame_idx": 50
+    }, 
+    {
+        "rf2_top_kN": 0.4939911961555481, 
+        "description": "Step 2 increment 180 (u = 0.00752 mm, primary crack near hole)", 
+        "damage_counts": {
+            "d_ge_0.50": 196, 
+            "d_ge_0.20": 460, 
+            "d_ge_0.80": 114, 
+            "d_ge_0.95": 67
+        }, 
+        "step": "Step-2", 
+        "damage_bounds": {
+            "overshoot_pct": 0.007188320159912109, 
+            "max_overshoot": 7.18832015991211e-05, 
+            "d_max": 1.0000718832015991, 
+            "d_min": 7.086708819770138e-08, 
+            "num_undershoot_elements": 0, 
+            "num_overshoot_elements": 1
+        }, 
+        "name": "step2_inc180", 
+        "step_time": 0.36000001430511475, 
+        "u2_top_mm": 0.007519999984651804, 
+        "crack_topology": {
+            "total_clusters_d_ge_0.50": 1, 
+            "primary_crack": {
+                "num_elements": 196, 
+                "tip_x": 0.607162863, 
+                "reached_hole": true, 
+                "avg_y": 0.5310448374621597, 
+                "present": true, 
+                "dist_to_hole_perimeter_mm": 0.0015104475700539466
+            }, 
+            "secondary_crack": {
+                "num_elements": 0, 
+                "nucleation_x": null, 
+                "tip_x": null, 
+                "dist_to_right_boundary_mm": null, 
+                "avg_y": null, 
+                "reached_boundary": false, 
+                "present": false
+            }, 
+            "other_isolated_clusters": 0
+        }, 
+        "state_id": 2, 
+        "frame_idx": 180
+    }, 
+    {
+        "rf2_top_kN": 0.47127673029899597, 
+        "description": "Step 2 increment 198 (u = 0.00776 mm, secondary crack initiation onset)", 
+        "damage_counts": {
+            "d_ge_0.50": 222, 
+            "d_ge_0.20": 538, 
+            "d_ge_0.80": 121, 
+            "d_ge_0.95": 69
+        }, 
+        "step": "Step-2", 
+        "damage_bounds": {
+            "overshoot_pct": 0.008404254913330078, 
+            "max_overshoot": 8.404254913330078e-05, 
+            "d_max": 1.0000840425491333, 
+            "d_min": 7.09117955466354e-08, 
+            "num_undershoot_elements": 0, 
+            "num_overshoot_elements": 1
+        }, 
+        "name": "step2_inc198", 
+        "step_time": 0.3941250145435333, 
+        "u2_top_mm": 0.007758874911814928, 
+        "crack_topology": {
+            "total_clusters_d_ge_0.50": 2, 
+            "primary_crack": {
+                "num_elements": 196, 
+                "tip_x": 0.607162863, 
+                "reached_hole": true, 
+                "avg_y": 0.5310448374621597, 
+                "present": true, 
+                "dist_to_hole_perimeter_mm": 0.0015104475700539466
+            }, 
+            "secondary_crack": {
+                "num_elements": 26, 
+                "nucleation_x": 0.75073608775, 
+                "tip_x": 0.7828641980000001, 
+                "dist_to_right_boundary_mm": 0.21713580199999993, 
+                "avg_y": 0.6425786482499999, 
+                "reached_boundary": false, 
+                "present": true
+            }, 
+            "other_isolated_clusters": 0
+        }, 
+        "state_id": 3, 
+        "frame_idx": 198
+    }, 
+    {
+        "rf2_top_kN": 0.04519014433026314, 
+        "description": "Step 2 increment 220 (u = 0.00776 mm, secondary snap-through)", 
+        "damage_counts": {
+            "d_ge_0.50": 2984, 
+            "d_ge_0.20": 5386, 
+            "d_ge_0.80": 1957, 
+            "d_ge_0.95": 1512
+        }, 
+        "step": "Step-2", 
+        "damage_bounds": {
+            "overshoot_pct": 0.10831356048583984, 
+            "max_overshoot": 0.0010831356048583984, 
+            "d_max": 1.0010831356048584, 
+            "d_min": 7.093625953302762e-08, 
+            "num_undershoot_elements": 0, 
+            "num_overshoot_elements": 3
+        }, 
+        "name": "step2_inc220", 
+        "step_time": 0.3941612243652344, 
+        "u2_top_mm": 0.007759128697216511, 
+        "crack_topology": {
+            "total_clusters_d_ge_0.50": 2, 
+            "primary_crack": {
+                "num_elements": 196, 
+                "tip_x": 0.607162863, 
+                "reached_hole": true, 
+                "avg_y": 0.5310448374621597, 
+                "present": true, 
+                "dist_to_hole_perimeter_mm": 0.0015104475700539466
+            }, 
+            "secondary_crack": {
+                "num_elements": 2788, 
+                "nucleation_x": 0.75073608775, 
+                "tip_x": 0.9990350155000001, 
+                "dist_to_right_boundary_mm": 0.0009649844999999324, 
+                "avg_y": 0.6387994148909318, 
+                "reached_boundary": true, 
+                "present": true
+            }, 
+            "other_isolated_clusters": 0
+        }, 
+        "state_id": 4, 
+        "frame_idx": 220
+    }, 
+    {
+        "rf2_top_kN": 0.0009210137068293989, 
+        "description": "Step 2 increment 248 (u = 0.00780 mm, right-ligament severance)", 
+        "damage_counts": {
+            "d_ge_0.50": 3060, 
+            "d_ge_0.20": 5388, 
+            "d_ge_0.80": 2169, 
+            "d_ge_0.95": 1708
+        }, 
+        "step": "Step-2", 
+        "damage_bounds": {
+            "overshoot_pct": 0.09729862213134766, 
+            "max_overshoot": 0.0009729862213134766, 
+            "d_max": 1.0009729862213135, 
+            "d_min": 7.093625953302762e-08, 
+            "num_undershoot_elements": 0, 
+            "num_overshoot_elements": 4
+        }, 
+        "name": "step2_inc248", 
+        "step_time": 0.4003840386867523, 
+        "u2_top_mm": 0.007802688051015139, 
+        "crack_topology": {
+            "total_clusters_d_ge_0.50": 2, 
+            "primary_crack": {
+                "num_elements": 196, 
+                "tip_x": 0.607162863, 
+                "reached_hole": true, 
+                "avg_y": 0.5310448374621597, 
+                "present": true, 
+                "dist_to_hole_perimeter_mm": 0.0015104475700539466
+            }, 
+            "secondary_crack": {
+                "num_elements": 2864, 
+                "nucleation_x": 0.75073608775, 
+                "tip_x": 0.9990350155000001, 
+                "dist_to_right_boundary_mm": 0.0009649844999999324, 
+                "avg_y": 0.6386273026585781, 
+                "reached_boundary": true, 
+                "present": true
+            }, 
+            "other_isolated_clusters": 0
+        }, 
+        "state_id": 5, 
+        "frame_idx": 248
+    }, 
+    {
+        "rf2_top_kN": 0.00041548506123945117, 
+        "description": "Step 2 final endpoint (u = 0.01200 mm)", 
+        "damage_counts": {
+            "d_ge_0.50": 3060, 
+            "d_ge_0.20": 5388, 
+            "d_ge_0.80": 2169, 
+            "d_ge_0.95": 1709
+        }, 
+        "step": "Step-2", 
+        "damage_bounds": {
+            "overshoot_pct": 0.059926509857177734, 
+            "max_overshoot": 0.0005992650985717773, 
+            "d_max": 1.0005992650985718, 
+            "d_min": 7.093625953302762e-08, 
+            "num_undershoot_elements": 0, 
+            "num_overshoot_elements": 8
+        }, 
+        "name": "step2_final", 
+        "step_time": 1.0, 
+        "u2_top_mm": 0.012000000104308128, 
+        "crack_topology": {
+            "total_clusters_d_ge_0.50": 2, 
+            "primary_crack": {
+                "num_elements": 196, 
+                "tip_x": 0.607162863, 
+                "reached_hole": true, 
+                "avg_y": 0.5310448374621597, 
+                "present": true, 
+                "dist_to_hole_perimeter_mm": 0.0015104475700539466
+            }, 
+            "secondary_crack": {
+                "num_elements": 2864, 
+                "nucleation_x": 0.75073608775, 
+                "tip_x": 0.9990350155000001, 
+                "dist_to_right_boundary_mm": 0.0009649844999999324, 
+                "avg_y": 0.6386273026585781, 
+                "reached_boundary": true, 
+                "present": true
+            }, 
+            "other_isolated_clusters": 0
+        }, 
+        "state_id": 6, 
+        "frame_idx": 557
+    }
+]
