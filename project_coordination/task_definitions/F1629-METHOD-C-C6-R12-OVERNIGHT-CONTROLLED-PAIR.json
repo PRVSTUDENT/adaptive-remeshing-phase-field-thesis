@@ -6,7 +6,12 @@
   "predecessor": "F1628-METHOD-C-ISOPARAMETRIC-C6-ADAPTIVE-REEQUILIBRATION",
   "authorized_scope": {
     "max_new_pbs_submissions": 2,
-    "remaining_pbs_submissions": 2,
+    "remaining_pbs_submissions": 0,
+    "consumed_pbs_job_ids": [
+      "1420391.mmaster02",
+      "1420392.mmaster02"
+    ],
+    "terminal_status": "evaluated_driver_api_regression_repaired",
     "named_jobs": [
       {
         "candidate": "M1_C6_R12_PICARD_BASELINE",

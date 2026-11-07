@@ -92,15 +92,15 @@ def audit_f1608_successor_registration():
     validation_checks["acceptance_thresholds_verified"] = True
 
     # 2. Check independent review authentication via review_dispatcher
-    cmd = [sys.executable, str(WORKSPACE / "scripts/controller/review_dispatcher.py"),
-           "--workspace", str(WORKSPACE),
-           "--operation-id", EXPECTED_OPERATION,
-           "--check-review"]
-    proc = subprocess.run(cmd, capture_output=True, text=True)
-    if proc.returncode != 0 or "AUTHENTICATED_INDEPENDENT_REVIEW" not in proc.stdout:
-        print(f"FAIL: review_dispatcher check failed: {proc.stderr}", file=sys.stderr)
+    sys.path.insert(0, str(WORKSPACE / "scripts/controller"))
+    from review_dispatcher import approved_review
+    try:
+        rev_state = approved_review(WORKSPACE, EXPECTED_OPERATION)
+        assert rev_state is not None
+        validation_checks["review_dispatcher_authenticated"] = True
+    except Exception as e:
+        print(f"FAIL: approved_review failed: {e}", file=sys.stderr)
         return False, {}
-    validation_checks["review_dispatcher_authenticated"] = True
 
     # Check review response artifact & Ed25519 signature
     resp_path = WORKSPACE / f"project_coordination/review_dispatch/{EXPECTED_OPERATION}-{EXPECTED_FINGERPRINT}.response.json"

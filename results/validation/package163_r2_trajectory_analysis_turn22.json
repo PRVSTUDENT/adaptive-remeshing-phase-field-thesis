@@ -1,23 +1,23 @@
 {
   "job_id": "1419489.mmaster02",
-  "total_saved_iterations": 48,
-  "latest_outer_iteration": 48,
+  "total_saved_iterations": 119,
+  "latest_outer_iteration": 119,
   "active_set_pruning_dynamics": {
     "initial_active_nodes": 13125,
-    "latest_active_nodes": 5697,
-    "nodes_released_to_free_set": 7428,
-    "pruning_percentage": 56.59,
+    "latest_active_nodes": 3115,
+    "nodes_released_to_free_set": 10010,
+    "pruning_percentage": 76.27,
     "strictly_monotonic_pruning": true,
     "oscillation_detected": false,
-    "recent_prune_rate_per_outer": 125
+    "recent_prune_rate_per_outer": 8
   },
   "kkt_residuals": {
     "all_iterations_pass_dual_tol": true,
     "all_iterations_pass_free_tol": true,
-    "latest_dual_error_kNmm": 1.0277763196785707e-08,
-    "latest_free_residual_kN": 3.286732780148025e-09,
-    "dual_margin_orders_of_magnitude": 1.99,
-    "free_margin_orders_of_magnitude": 2.48
+    "latest_dual_error_kNmm": 1.7747335021252193e-09,
+    "latest_free_residual_kN": 2.3957523940676965e-10,
+    "dual_margin_orders_of_magnitude": 2.75,
+    "free_margin_orders_of_magnitude": 3.62
   },
   "transient_investigation": {
     "mechanism": "ACTIVE_SET_REDISTRIBUTION_TRANSIENT",
@@ -27,25 +27,25 @@
       "value_mm": 3.1595455547619306e-07
     },
     "delta_u_current": {
-      "outer": 48,
-      "value_mm": 2.644812971098424e-07,
+      "outer": 119,
+      "value_mm": 1.83323939841485e-08,
       "trend": "DECREASING_SINCE_PEAK"
     },
-    "delta_u_recent_contraction_rate": 0.969,
+    "delta_u_recent_contraction_rate": 0.9721,
     "delta_h_peak": {
       "outer": 42,
       "value_MPa": 0.027019372982968193
     },
     "delta_h_current": {
-      "outer": 48,
-      "value_MPa": 0.024302429417597082,
+      "outer": 119,
+      "value_MPa": 0.0018206260438304867,
       "trend": "DECREASING_SINCE_PEAK"
     },
-    "delta_h_recent_contraction_rate": 0.9774
+    "delta_h_recent_contraction_rate": 0.97
   },
   "convergence_and_budget_assessment": {
     "budget_outer_ceiling": 200,
-    "current_progress_pct": 24.0,
+    "current_progress_pct": 59.5,
     "status": "HEALTHY_ACTIVE_SET_RELAXATION_TURNING_INTO_ASYMPTOTIC_CONTRACTION",
     "persistent_nonconvergence_evidence": false,
     "empirical_finding": "Zero evidence of persistent nonconvergence: no limit cycles, zero active-set churn, strict KKT optimality satisfied at every step, and delta_u / delta_H have turned negative in slope (contracting). The 200 outer iteration budget provides ample remaining headroom (~153 outers) for the stabilized active set to contract to coupled tolerances (delta_d <= 1e-5, delta_u <= 1e-9 mm, delta_H <= 1e-4 MPa)."

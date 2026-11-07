@@ -6,7 +6,7 @@
   "row_0_displacement_mm": 0.0,
   "row_0_reaction_force_kN": -0.0,
   "selection_rule": "value-based half-bin tolerance: (displacement_mm > 0.5*delta_u) & (displacement_mm <= 0.0010 + 0.5*delta_u) where delta_u = 2.5e-6 mm",
-  "selected_rows_csv": "C:\\Users\\pruth\\.gemini\\antigravity-cli\\brain\\c4a134e5-eccf-4674-8b44-41448cb5e733\\scratch\\reconciliation_1404933_selected_rows.csv",
+  "selected_rows_csv": "D:\\Master thesis\\Adaptive remeshing\\docs\\supervisor_reports\\17-09-2026\\reconciliation_1404933_selected_rows.csv",
   "selected_rows_sha256": "2505bacdc8545ed108866210b82e8f344e03cd3e52852ba1bb1b36d97d0e636c",
   "N": 400,
   "u_min_mm": 2.4999999368e-06,
@@ -21,6 +21,6 @@
   "frozen_1405044_exact": 138.021013,
   "frozen_shift_vs_reference_pct": 0.054726677604334605,
   "reference_1398090_exact": 137.94552,
-  "obsolete_399_point_k0": 137.82180196744628,
+  "obsolete_399_point_k0": 137.8218019674463,
   "provenance_diagnosis": "In curve_1404933_extracted.csv, Row 0 is the un-deformed base state (u=0, F=0). Due to solver floating-point accumulation, increment 400 has u=1.0000000475e-3 mm. A zero-tolerance filter u <= 0.0010 mm drops increment 400, selecting only N=399 points and yielding the superseded value K0=137.821802 kN/mm (which was naively rounded to 137.822). Applying standard half-bin tolerance (u <= 0.0010 + 0.5*delta_u) correctly includes increment 400, giving the authoritative N=400 sample with K0=137.820804 kN/mm. Its proper mathematical roundings are: 6 decimals = 137.820804, 3 decimals = 137.821, 2 decimals = 137.82."
 }

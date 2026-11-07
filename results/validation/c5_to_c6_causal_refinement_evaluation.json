@@ -34,38 +34,53 @@
     "coarsening_allowed": false,
     "coarsening_disabled": true,
     "h_max_limit_mm": 0.0025,
-    "h_max_actual_mm": 0.0025000000000000022,
+    "h_max_actual_mm": 0.0020000000000000018,
     "compliance": true
+  },
+  "non_coarsening_audit": {
+    "pass": true,
+    "coarser_count": 0,
+    "total_samples": 10000,
+    "coarser_area_fraction": 0.0,
+    "finer_area_fraction": 0.0975,
+    "unchanged_area_fraction": 0.9025,
+    "max_coarsening_ratio": 0.0,
+    "c5_slit_pairs": 53,
+    "c6_slit_pairs": 59,
+    "slit_noncoarsened": true,
+    "marked_elements_refined": true,
+    "jacobian_positive": true,
+    "min_det_jac": 1.5624999999999165e-08
   },
   "fine_resolution_policy": {
     "ell_0_mm": 0.0075,
     "ell_0_over_10_mm": 0.00075,
     "h_fine_target_mm": 0.0006,
-    "h_min_actual_mm": 0.00020567870310646275,
+    "h_min_actual_mm": 0.0002499999999999933,
     "compliance": true
   },
   "c6_candidate_mesh": {
     "designation": "CANDIDATE_ONLY",
-    "nx": 86,
-    "ny": 70,
-    "num_elements": 6020,
-    "num_nodes": 6217,
-    "min_det_jac": 2.804707070767139e-08,
+    "nx": 124,
+    "ny": 123,
+    "num_elements": 15252,
+    "num_nodes": 15559,
+    "min_det_jac": 1.5624999999999165e-08,
     "positive_jacobians": true,
-    "duplicate_slit_pairs": 40,
-    "ligament_nodes_count": 47,
-    "kinematic_top_nodes": 87,
-    "bottom_nodes_count": 87,
+    "duplicate_slit_pairs": 59,
+    "ligament_nodes_count": 66,
+    "kinematic_top_nodes": 125,
+    "bottom_nodes_count": 125,
     "pin_nodes_count": 1,
     "rp_node_id": 999999,
-    "estimated_dofs": 12434,
+    "estimated_dofs": 31118,
     "estimated_solve_time_s": 0.2,
-    "estimated_memory_mb": 250.0
+    "estimated_memory_mb": 322.7377654662973
   },
   "scientific_qualification": {
     "companion_distinction": "The companion model (Package 168) is an undamaged, homogeneous linear-elastic CPE4 continuum. Its MISESERI output is a recovery-based stress-discretization error indicator (Zienkiewicz-Zhu), not a direct phase-field damage error estimate. The companion stress field does not reproduce the degraded phase-field softening band, but accurately locates the zone of highest stress discretization error around the crack tip.",
     "candidate_gate_discipline": "Generation of the C6 candidate mesh does NOT constitute acceptance of the C6 state. Physical acceptance of C6 is deferred until nonmatching state transfer (u, d, H), energy integral continuity (< 2.0%), and Stage C3-0 re-equilibration pass their quantitative gates."
   },
   "verification_passed": true,
-  "finding": "Causal C5->C6 adaptive refinement decision and C6 candidate feasibility verified using authentic Package 168 Abaqus MISESERI data (Job 1419573). Denominator-guarded indicator (eta_g >= 0.15) marked 38 elements (0.29%) concentrated within 0.0033 mm of the crack tip without prescribed corridors. Conformal C6 quad mesh generated with 6020 CPE4 quads, 6217 nodes, positive Jacobians (min det(J)=2.805e-08), 40 duplicate slit pairs, h_min=0.00021 mm (<= ell_0/10), and coarsening strictly disabled (h_max=0.00250 mm <= 0.0025 mm). Labeled CANDIDATE_ONLY."
+  "finding": "Causal C5->C6 adaptive refinement decision and C6 candidate feasibility verified using authentic Package 168 Abaqus MISESERI data (Job 1419573). Denominator-guarded indicator (eta_g >= 0.15) marked 38 elements (0.29%) concentrated within 0.0033 mm of the crack tip without prescribed corridors. Conformal C6 quad mesh generated with 15252 CPE4 quads, 15559 nodes, positive Jacobians (min det(J)=1.562e-08), 59 duplicate slit pairs, h_min=0.00025 mm (<= ell_0/10), and coarsening strictly disabled (h_max=0.00200 mm <= 0.0025 mm). Labeled CANDIDATE_ONLY."
 }

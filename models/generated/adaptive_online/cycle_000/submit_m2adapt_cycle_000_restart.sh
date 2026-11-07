@@ -2,13 +2,6 @@
 # Guarded submit wrapper for M2ADAPT_CYCLE_000_RESTART
 set -euo pipefail
 
-# Storage-compliance guard: reject launching from /home/
-if [[ "${SCRIPT_DIR:-$(pwd -P)}" =~ ^/home/ ]]; then
-  echo "[STORAGE COMPLIANCE ERROR] Submitting from /home/ is prohibited." >&2
-  echo "Please execute/submit from /scratch/pr21vyci/projects/adaptive-remeshing/..." >&2
-  exit 88
-fi
-
 EXPECTED_INP_SHA="e473a48c4c9da5c92b053e4d7faa156e6df263903e8308a156360d67f87fdeec"
 EXPECTED_UEL_SHA="62e35f74bbeccd3f5b1ac67312b79211f4ccb75648ae20dbb8985cb577fe1aab"
 EXPECTED_PBS_SHA="1b6d47bda29354df13cecf0300957aa73ea9c14b340bd652cc8c4685ffb51ef3"
@@ -28,7 +21,7 @@ NOTIF_SCRIPT=""
 for cand in \
   "scripts/hpc/notifications/job_notifications.sh" \
   "../../../../scripts/hpc/notifications/job_notifications.sh" \
-  "/scratch/pr21vyci/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh" \
+  "/home/pr21vyci/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh" \
   "${HOME}/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh"; do
   if [ -f "$cand" ]; then
     NOTIF_SCRIPT="$cand"

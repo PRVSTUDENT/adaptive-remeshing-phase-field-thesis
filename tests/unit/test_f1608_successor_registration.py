@@ -72,13 +72,12 @@ def test_f1608_evidence_sources_hashes():
 
 
 def test_f1608_review_authentication():
-    cmd = [sys.executable, str(WORKSPACE / "scripts/controller/review_dispatcher.py"),
-           "--workspace", str(WORKSPACE),
-           "--operation-id", EXPECTED_OPERATION,
-           "--check-review"]
-    proc = subprocess.run(cmd, capture_output=True, text=True)
-    assert proc.returncode == 0
-    assert "AUTHENTICATED_INDEPENDENT_REVIEW" in proc.stdout
+    sys.path.insert(0, str(WORKSPACE / "scripts/controller"))
+    from review_dispatcher import approved_review
+    rev_state = approved_review(WORKSPACE, EXPECTED_OPERATION)
+    assert rev_state is not None
+    assert rev_state.get("status") == "REVIEWED"
+    assert rev_state.get("review", {}).get("decision", {}).get("decision") == "APPROVE"
 
 
 def test_f1608_audit_execution():

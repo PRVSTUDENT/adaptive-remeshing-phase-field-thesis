@@ -46,7 +46,6 @@ RUNTIME_SOURCES = [
     "scripts/state_transfer/isoparametric_gp_transfer.py",
     "scripts/state_transfer/driver_package146_147_pdas_continuation.py",
     "scripts/state_transfer/driver_same_mesh_control_pdas.py",
-    "scripts/validation/__init__.py",
     "scripts/validation/extract_package148_iteration.py",
 ]
 
@@ -126,7 +125,7 @@ def update_manifest_files(pkg_dir: Path):
 
 def stage_and_datacheck():
     print("=" * 80)
-    print("STAGING & DATACHECKING PAIRED SAME-MESH CONTROLS (TASK F1622)")
+    print("STAGING & DATACHECKING PAIRED SAME-MESH CONTROLS (TASK F1627)")
     print("=" * 80)
 
     # 1. Verify frozen production UEL
@@ -275,7 +274,7 @@ def stage_and_datacheck():
         # 6. Generate Formal Receipt JSON
         receipt = {
             "schema": 1,
-            "task_id": "F1623-METHOD-C-SAME-MESH-CHECKPOINT03-PROVENANCE-CORRECTION",
+            "task_id": "F1627-METHOD-C-SAME-MESH-EXTRACTOR-CONTRACT-QUALIFICATION",
             "status": "DATACHECKS_PASSED_ALL_8_SUBPROBLEMS_EXIT_0",
             "production_pbs_submissions": 0,
             "zero_pbs_enforced": True,

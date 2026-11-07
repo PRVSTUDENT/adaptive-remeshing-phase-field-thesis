@@ -158,3 +158,4 @@ try {
 Check $hpcTamperBlocked 'Tampered HPC ledger causes Assert-ControllerDispatchCheckpoint to fail closed'
 
 Write-Host "ALL TURN 354 RECONCILIATION REGRESSION TESTS PASSED."
+

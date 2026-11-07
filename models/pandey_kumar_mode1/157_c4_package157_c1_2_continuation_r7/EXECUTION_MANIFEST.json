@@ -16,21 +16,27 @@
     "scripts/validation/extract_package148_iteration.py": "01875DBA715C24789421766B5B81A56BDD69F3F6A21A6F2D30D64B016416C738"
   },
   "files": {
-    "M1_C4_PACKAGE150_C1_2_CONTINUATION.inp": "8c54e3d18ebbb238fdf79f773bc7c1e854aa6a681e2881d6ba15b977c58fafcd",
-    "P157_MECHANICAL_DC.inp": "338a05c996c3022384a3da33cc58bba53f04912a4a50a0f844e5caf60a53fd09",
-    "P157_PHASE_DC.inp": "0ab3e5d2e9c5f346fd31fa23ea1458d8b8fd988954c83f8dcd8a9429eb32a15a",
-    "PACKAGE_MANIFEST.json": "82124a3b00c4dcda107ee24fe2cab2673dfc5afccc1a06217a6fee28df6d5ee9",
+    "active_set_boundary_cards.inc": "bd8db2048dc6620e6cedf0c9e610b603cafa03acf11da4ea843b64066f57a007",
+    "d_lower_bounds.csv": "9e7165a9cbe770601377581f6e9fee27c3f71f6dd3d073817c8d78b28b984fce",
     "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "initial_checkpoint_01.json": "49ba6d5f041f84f17004ba71abf3edc8293f6e8adc6c86d9695186b7d3d281d5",
+    "initial_conditions_solution.inc": "aa130ff7c67b11abd551d20283afb097b16a2134578315ccff93a829de8cbbbc",
     "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_C4_PACKAGE150_C1_2_CONTINUATION.inp": "8c54e3d18ebbb238fdf79f773bc7c1e854aa6a681e2881d6ba15b977c58fafcd",
+    "nodal_displacements_initial.csv": "b57acc0f4efffccd4d7cf2f8e9832f736bd965b25573aaaea1b8502d998c6167",
+    "nodal_phase_field_initial.csv": "c4c625615cf20d787e078412689154c024e25e47f7cdf9837a0191efbd79e4de",
+    "P157_MECHANICAL_DC.inp": "3b024f181370e165fc82655108131a33d23be9d3aab19323e4e1e2fd612bee9d",
+    "P157_PHASE_DC.inp": "60f1972c31f92dc323176c5e48e0a60c66be9f6123b85c34dc3e2fda80490fba",
+    "PACKAGE_MANIFEST.json": "9ce6fd970058dc9c6cdef99bb3053c8255a943f3892f010333e4c8aac4dbae72",
     "run_datacheck.sh": "46bb7f25e4ff45eb772578637ab122b258cbbd6adbf439c62598d8aa9bc0d055",
     "submit_M1_C4_P157_C1_2_R7.pbs": "4274ba769b3962684df33dc32b506596e37a5c87d12712b9a734f4723df95410",
     "submit_M1_C4_P157_R7_DC.pbs": "8c9cbfc655c0faef4adf8984479d104410bd22d6e101888fae41b0caec3f35bf"
   },
-  "scientific_predecessor_review": "results/validation/package157_r7_candidate_specification.json",
+  "scientific_predecessor_review": "results/validation/package157_r6_convergence_evaluation.json",
   "jobs": [
     {
       "id": "M1_C4_P157_C1_2_R7",
-      "purpose": "Qualified R7 forward continuation (+10 nm increment from uy=0.00186531 mm to 0.00187531 mm, max_outer=120) from authentic R6 Checkpoint 01; convergence and full state preservation required; physical PASS only after matching-load force <=5% and raw energy <=2% review. Strictly dependent on predecessor M1_C4_P157_C1_2_R6.",
+      "purpose": "Reviewed R7 restart continuation (+10 nm increment to uy=0.00187531 mm, max_outer=120) from authentic R6 Checkpoint 01; convergence and full state preservation required; physical PASS only after matching-load force <=5% and raw energy <=2% review. No C5 execution or automatic PBS retry.",
       "input": "P157_MECHANICAL_DC.inp",
       "datacheck": "P157_MECHANICAL_DC.dat",
       "additional_datachecks": [
@@ -49,6 +55,6 @@
     }
   ],
   "acceptance": {
-    "M1_C4_P157_C1_2_R7": "Qualified R7 forward continuation (+10 nm increment from uy=0.00186531 mm to 0.00187531 mm, max_outer=120) from authentic R6 Checkpoint 01; convergence and full state preservation required; physical PASS only after matching-load force <=5% and raw energy <=2% review. Strictly dependent on predecessor M1_C4_P157_C1_2_R6."
+    "M1_C4_P157_C1_2_R7": "Reviewed R7 restart continuation (+10 nm increment to uy=0.00187531 mm, max_outer=120) from authentic R6 Checkpoint 01; convergence and full state preservation required; physical PASS only after matching-load force <=5% and raw energy <=2% review. No C5 execution or automatic PBS retry."
   }
 }

@@ -105,7 +105,7 @@ EXIT_CODE=$?
 echo "Stage C3-0 Re-equilibration (Package 171-R6 C6 Coupled PDAS Fail-Closed Phase Decoding omega_d = 0.5) finished with exit code: ${EXIT_CODE}"
 exit ${EXIT_CODE}
 """
-    (R6_PKG_DIR / "submit_M1_C6_P171_R6_C3_0.pbs").write_text(pbs_content, encoding="utf-8")
+    (R6_PKG_DIR / "submit_M1_C6_P171_R6_C3_0.pbs").write_bytes(pbs_content.replace("\r\n", "\n").encode("utf-8"))
 
     # 3. Hash files for PACKAGE_MANIFEST.json
     pkg_files = {}

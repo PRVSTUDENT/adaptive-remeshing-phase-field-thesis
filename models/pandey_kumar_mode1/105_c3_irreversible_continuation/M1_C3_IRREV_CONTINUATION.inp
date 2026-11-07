@@ -10983,9 +10983,15 @@ ALLSE, ALLIE, ALLWK, ALLFD, ALLCD, ALLVD, ALLPD, ALLAE, ETOTAL
 ** ================================================================
 ** STEP 2: Stage-B Forward Continuation (+5 nm) to u = 0.00197010735 mm
 ** ================================================================
-*Step, name=Stage-B, nlgeom=NO, inc=100
+*Step, name=Stage-B, nlgeom=NO, inc=250
 *Static
 0.01, 1.0, 1.0E-8, 0.05
+*Controls, parameters=time incrementation
+ 20, 8, 9, 25, 10, 4, 50, 10
+*Controls, parameters=line search
+ 4
+*Controls, parameters=field, field=displacement
+ 0.005, 10.0
 *Boundary
 N_RP, 2, 2, 0.00197010735
 *Output, field, frequency=1

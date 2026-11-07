@@ -101,7 +101,8 @@ def run_pdas_for_step(nodes, elems, elem_h, node_list, node_to_idx, d_ckpt, delt
         "res_A_final": res_A_final,
         "kkt_L_valid": kkt_L_valid,
         "kkt_U_valid": kkt_U_valid,
-        "final_set_sizes": {"U": int(np.sum(U_k)), "L": int(np.sum(L_k)), "A": int(np.sum(A_k))}
+        "final_set_sizes": {"U": int(np.sum(U_k)), "L": int(np.sum(L_k)), "A": int(np.sum(A_k))},
+        "d_final": d_k
     }
 
 def main():

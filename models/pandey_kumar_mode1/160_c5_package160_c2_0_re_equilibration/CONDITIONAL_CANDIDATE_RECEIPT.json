@@ -2,10 +2,11 @@
   "schema": 1,
   "task_id": "F1597-TRUSTED-REVIEW-BOUNDARY-AND-PACKAGE160",
   "package_id": "PACKAGE_160_C5_C2_0_RE_EQUILIBRATION",
-  "status": "STAGED_AS_CONDITIONAL_CANDIDATE",
+  "status": "QUALIFIED_PENDING_DATACHECKS_AND_STAGING",
   "donor_dependency": {
-    "status": "PENDING_RUNNING_PREDECESSOR_COMPLETION",
-    "active_pbs_job": "1419359.mmaster02",
+    "status": "PREDECESSOR_ACCEPTED",
+    "predecessor_pbs_job": "1419359.mmaster02",
+    "predecessor_exit_code": 0,
     "required_donor_state": "CONVERGED_CHECKPOINT_AT_UY_0.00186031MM",
     "authentic_checkpoint": "models/pandey_kumar_mode1/157_c4_package157_c1_2_continuation_r5/converged_checkpoint_01.json"
   },
@@ -26,6 +27,6 @@
     "reaction_force_drift_pct_limit": 2.0,
     "damage_monotonicity": "d >= d_0"
   },
-  "submission_disposition": "WITHHELD_PENDING_PREDECESSOR_PHYSICAL_ACCEPTANCE",
-  "manifest_sha256": "5FC02DEDF11E905A1B9F12C651700E60E6FE79EA25AE0331B0BC6802DE0B8149"
+  "submission_disposition": "QUALIFIED_AWAITING_AUTHENTIC_DATACHECK_EXECUTION",
+  "manifest_sha256": "64B6BE5AB06E18DE97D452C6C634CB560376978D3E9D353ABB82DFACF9FCDB29"
 }

@@ -9,7 +9,7 @@
     "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/EXECUTION_MANIFEST_R5.json": "F3D996D71075826E92955F64D1F7671CEC0E13487D1CECFA9DC4D01EFBCC0CFE",
     "models/pandey_kumar_mode1/158_error_driven_receiver_re_equilibration/submit_M1_P158_C2_0_R5.pbs": "EC8ACE9F65E6FB4B6EE3E17EBEA8B4B28C4ECF2C69FACE071CF3D267C5A5AD7A",
-    "project_coordination/operation_definitions/execute_mode1_package158_c2_0_r5_re_equilibration.json": "A00D70991B40FF1140A125D713A9C89DFFB69923EEB33B503D6D0A4C338E3F22",
+    "project_coordination/operation_definitions/execute_mode1_package158_c2_0_r5_re_equilibration.json": "CEED50E7922372D32DFCE161E6DEDE418A1F51099A2395E7BC2BC7BCC6660AE8",
     "project_coordination/controller/definition-review-execute_mode1_package158_c2_0_r5_re_equilibration.json": "5353E81E639B6CC84632DF3BF2127BD8E663712982A9585484E4DB6F0A8ED013"
   },
   "prerequisites_verification": {
@@ -43,8 +43,8 @@
   },
   "registration_blocker_diagnosis": {
     "operation_id": "execute_mode1_package158_c2_0_r5_re_equilibration",
-    "current_registration_status": "REVIEW_REQUIRED",
-    "current_reviewed_by": "gemini-antigravity",
+    "current_registration_status": "REVIEWED_FOR_TECHNICAL_QUALIFICATION",
+    "current_reviewed_by": "codex-controller-maintenance",
     "root_cause": "Self-certification prohibition: Gemini Antigravity authored the R5 correction and cannot self-certify registration_status to REVIEWED_FOR_TECHNICAL_QUALIFICATION",
     "controller_mechanism": "Controller-Registration.ps1 lines 21-23 reject any definition with registration_status != 'REVIEWED_FOR_TECHNICAL_QUALIFICATION'",
     "definition_review_event": {

@@ -335,7 +335,10 @@
     "history_gradient_defect_confirmed": true,
     "delta_H_reduction_factor": 0.49033895502553804,
     "max_trajectory_delta_H_reduction": 1516.0196533477877,
-    "isoparametric_superiority_established": true,
-    "findings_summary": "Isoparametric bilinear GP history operator (Arm 2) outperforms element averaging (Arm 1) across the physical trajectory: peak Delta_H reduction is ~1516.0x (Outer 63), peak Delta_u reduction is ~120.8x (Outer 62), and peak Delta_d reduction is ~27.4x (Outer 1). Element-averaging permanently distorts crack-tip history gradients. Neither arm achieved strict coupled convergence (1e-5) in 140 outer iterations under fixed-displacement re-equilibration."
+    "isoparametric_superiority_established": false,
+    "terminal_convergence_superiority_established": false,
+    "transient_field_fidelity_improved": true,
+    "both_arms_nonconverged": true,
+    "findings_summary": "Corrected isoparametric transfer demonstrates substantial transient improvements in field fidelity (peak Delta_H reduction is ~1516.0x at Outer 63, peak Delta_u reduction is ~120.8x at Outer 62, and peak Delta_d reduction is ~27.4x at Outer 1). However, terminal convergence at Outer 140 is not superior (Arm 2: Delta_d=1.16e-02, Delta_u=6.29e-05 mm, Delta_H=108.0 MPa vs Arm 1: Delta_d=6.95e-03, Delta_u=3.43e-05 mm, Delta_H=53.0 MPa). Neither arm achieved coupled convergence (1e-5), and both exhibit coupled nonconvergence."
   }
 }

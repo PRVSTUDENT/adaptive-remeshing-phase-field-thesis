@@ -217,10 +217,10 @@ def main():
     terminal_dmax = step_rf.get("FORWARD_CONTINUATION", {}).get("d_max", 0.0)
     gate_bounds = "PASS" if all_overshoots == 0 and all_negative_d == 0 and terminal_dmax <= 1.00000 else "FAIL"
 
-    # Irreversibility gate: 0 healing points across re-equilibration steps
+    # Irreversibility gate: 0 healing points across re-equilibration and continuation steps
     step3_healing = step_rf.get("STAGGERED_PHASE_SUBPROBLEM", {}).get("healing_count", 0)
     step4_healing = step_rf.get("FORWARD_CONTINUATION", {}).get("healing_count", 0)
-    gate_irreversibility = "PASS" if step3_healing == 0 else "FAIL"
+    gate_irreversibility = "PASS" if (step3_healing == 0 and step4_healing == 0) else "FAIL"
 
     # History preservation gate: finite, nonnegative, transferred
     all_negative_h = sum(r["negative_h_count"] for r in frame_records)

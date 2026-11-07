@@ -75,30 +75,24 @@ $stream = [IO.File]::Open($receiptPath, [IO.FileMode]::CreateNew, [IO.FileAccess
 try {
     $bytes = [Text.Encoding]::UTF8.GetBytes(($receipt | ConvertTo-Json -Depth 8))
     $stream.Write($bytes, 0, $bytes.Length)
+    $stream.Flush($true)
 } finally {
     $stream.Dispose()
 }
 
 # Publish request through canonical bridge
 try {
-    $dispatchResult = Send-AgyBridgeHandoff -HandoffId $HandoffId -ScientificReport $scientificReport -TimeoutMinutes $TimeoutMinutes
-    
-    # Update receipt
-    $receipt.status = $dispatchResult.Status
-    $receipt.prompt_sha256 = $dispatchResult.PromptSha256
-    $receipt.response = $dispatchResult.Response
+    $reply = Invoke-ChatGPTBridge -PromptText $scientificReport -HandoffId $HandoffId -BridgeDir $bridgeDir -TimeoutMinutes $TimeoutMinutes
+    $receipt.status = 'RECEIVED_VALIDATED'
+    $receipt.response = $reply
     $receipt.completed_at = [DateTimeOffset]::UtcNow.ToString('o')
-    $receiptJson = $receipt | ConvertTo-Json -Depth 8
-    [IO.File]::WriteAllText($receiptPath, $receiptJson, [Text.Encoding]::UTF8)
-
-    Write-Host "[Bridge] Handoff $HandoffId completed with status $($dispatchResult.Status)"
-    Write-Host "[Bridge] Instruction snippet: $($dispatchResult.Response.Substring(0, [Math]::Min(300, $dispatchResult.Response.Length)))"
-    return $dispatchResult
+    Write-Output $reply
 } catch {
-    $receipt.status = 'FAILED'
+    $receipt.status = 'RECONCILIATION_REQUIRED'
     $receipt.error_category = $_.Exception.Message
-    $receipt.completed_at = [DateTimeOffset]::UtcNow.ToString('o')
-    $receiptJson = $receipt | ConvertTo-Json -Depth 8
-    [IO.File]::WriteAllText($receiptPath, $receiptJson, [Text.Encoding]::UTF8)
     throw
+} finally {
+    $tmp = $receiptPath + '.tmp'
+    [IO.File]::WriteAllText($tmp, ($receipt | ConvertTo-Json -Depth 8), [Text.UTF8Encoding]::new($false))
+    [IO.File]::Replace($tmp, $receiptPath, ($receiptPath + '.reservation.bak'))
 }

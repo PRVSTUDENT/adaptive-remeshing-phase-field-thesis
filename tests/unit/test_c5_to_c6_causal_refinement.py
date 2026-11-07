@@ -75,8 +75,12 @@ def test_03_causal_refinement_evaluation():
     assert mesh["num_elements"] > 5000
     assert mesh["positive_jacobians"] is True
     assert mesh["min_det_jac"] > 0.0
-    assert mesh["duplicate_slit_pairs"] == 40
-    assert mesh["ligament_nodes_count"] == 47
+    assert mesh["duplicate_slit_pairs"] >= 53, "Must not coarsen slit flanks relative to C5 (53 pairs)"
+    assert mesh["duplicate_slit_pairs"] == 59
+    assert mesh["ligament_nodes_count"] >= 47
+    assert mesh["ligament_nodes_count"] == 66
+    assert record["non_coarsening_audit"]["pass"] is True
+    assert record["non_coarsening_audit"]["coarser_count"] == 0
     assert mesh["kinematic_top_nodes"] > 0
     assert mesh["bottom_nodes_count"] > 0
     assert mesh["pin_nodes_count"] == 1

@@ -7,9 +7,12 @@ Unit tests for Package 158 R5 registration gate and preflight audit (Turn 439).
 
 import unittest
 import json
+import sys
 from pathlib import Path
 
 REPO_ROOT = Path("D:/Master thesis/Adaptive remeshing")
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 class TestPackage158R5RegistrationGate(unittest.TestCase):
     @classmethod

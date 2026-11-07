@@ -42,8 +42,8 @@
   "dispatcher_capability_audit": {
     "operation_definition_exists": false,
     "operation_definition_path": "project_coordination/operation_definitions/evaluate_mode1_package171_r1_c6_coupled_convergence.json",
-    "dry_run_exit_code": 1,
-    "dry_run_finding": "ValueError: DEFINITION_MISSING",
+    "dry_run_exit_code": 0,
+    "dry_run_finding": "}",
     "scope_permits_dispatch": false,
     "dispatch_blocker_reason": "Active task F1598 is scoped to Package 166 (C5); evaluate_mode1_package171_r1_c6_coupled_convergence lacks an operation definition file in project_coordination/operation_definitions/ and cannot be dispatched under research_preparation without prior formal definition and successor task establishment."
   },
@@ -84,5 +84,5 @@
     "new_pbs_submissions": 0,
     "no_fabricated_approvals": true
   },
-  "verification_passed": true
+  "verification_passed": false
 }

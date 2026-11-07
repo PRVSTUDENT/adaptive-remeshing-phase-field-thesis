@@ -4,15 +4,15 @@
   "evaluation": "COUPLED_CONVERGENCE_ASSESSMENT_TURN31",
   "package163_r2": {
     "job_id": "1419489.mmaster02",
-    "total_records": 165,
-    "current_outer": 165,
+    "total_records": 174,
+    "current_outer": 174,
     "current_residuals": {
-      "delta_d": 1.8600331801206862e-05,
-      "delta_u_mm": 5.211036563953879e-09,
-      "delta_h_MPa": 0.0005081463514216011,
-      "dual_error_kNmm": 1.0072868916795068e-09,
-      "free_error_kN": 6.678363464081565e-11,
-      "active_nodes": 2941
+      "delta_d": 6.2868848254016285e-06,
+      "delta_u_mm": 4.1957629099602725e-09,
+      "delta_h_MPa": 0.0004103303352707144,
+      "dual_error_kNmm": 9.98960715493927e-10,
+      "free_error_kN": 5.390964908621375e-11,
+      "active_nodes": 2940
     },
     "tolerances": {
       "tol_d": 1e-05,
@@ -20,29 +20,29 @@
       "tol_h_MPa": 0.0001
     },
     "distance_to_target": {
-      "delta_d_ratio_to_tol": 1.86,
-      "delta_u_ratio_to_tol": 5.211,
-      "delta_h_ratio_to_tol": 5.0815
+      "delta_d_ratio_to_tol": 0.6287,
+      "delta_u_ratio_to_tol": 4.1958,
+      "delta_h_ratio_to_tol": 4.1033
     },
     "contraction_rates": {
-      "robust_rho_u": 0.973,
-      "robust_rho_h": 0.9726,
-      "window5_rho_u": 0.9791,
-      "window5_rho_h": 0.9759,
+      "robust_rho_u": 0.9735,
+      "robust_rho_h": 0.9733,
+      "window5_rho_u": 0.9764,
+      "window5_rho_h": 0.9765,
       "nominal_rho_d": 0.95
     },
     "individual_projections": {
-      "projected_outer_delta_d": 178,
-      "projected_outer_delta_u": 226,
-      "projected_outer_delta_h": 224
+      "projected_outer_delta_d": 174,
+      "projected_outer_delta_u": 228,
+      "projected_outer_delta_h": 227
     },
     "coupled_convergence_projection": {
-      "simultaneous_outer_target": 226,
+      "simultaneous_outer_target": 228,
       "budget_limit": 200,
       "budget_sufficient": false,
-      "headroom_outers": -26,
-      "projected_delta_u_at_200_mm": 2.0010817647585896e-09,
-      "projected_delta_h_at_200_MPa": 0.0001924378946485848
+      "headroom_outers": -28,
+      "projected_delta_u_at_200_mm": 2.0896449299304052e-09,
+      "projected_delta_h_at_200_MPa": 0.00020287937244390552
     },
     "coupled_status": "IN_PROGRESS"
   },

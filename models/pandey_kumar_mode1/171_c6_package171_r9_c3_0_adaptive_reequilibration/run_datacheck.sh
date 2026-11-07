@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail
-RUN_DIR="/scratch9/pr21vyci/runs/mode1_c6_package171_r8_c3_0_adaptive_reequilibration"
+RUN_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "${RUN_DIR}"
 
 if ! type module >/dev/null 2>&1; then

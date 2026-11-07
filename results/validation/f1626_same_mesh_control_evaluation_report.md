@@ -118,3 +118,22 @@ Deploying the validated **isoparametric bilinear Gauss-point transfer operator**
 | **Evaluation Script** | `scripts/validation/evaluate_same_mesh_controls.py` | 11,463 B | `35B01C783EDF9D7148B67100DCD63F30A800CA0868D5E3465F9E1BE793B96DA7` |
 | **Arm 1 Telemetry** | `models/pandey_kumar_mode1/172_c5_same_mesh_old_control/evidence/1420352.mmaster02/live_iteration_telemetry.json` | 145,019 B | `7AB6DF31DE63D347966255E22FCF57E2544F2813AC996D423698EA0D24E5C442` |
 | **Arm 2 Telemetry** | `models/pandey_kumar_mode1/173_c5_same_mesh_corrected_control/evidence/1420353.mmaster02/live_iteration_telemetry.json` | 145,741 B | `E7F3BF8E358FDCC68FA6D9A9AF9B13AF1A365054DE8661DB5B52E19BC25127D1` |
+
+---
+
+## 7. Addendum: Independent Scientific Review & Trajectory-Aware Reclassification (Handoff HND-ce77b386b600)
+
+On 5 November 2026, ChatGPT completed independent scientific review across the PAD bridge under correlation `HND-ce77b386b600`, providing the formal decision:
+`ACCEPT F1626 AS A COMPLETED, NONCONVERGED PAIRED EXPERIMENT. APPROVE ZERO-PBS F1628 QUALIFICATION WITH CONTROLLED SCIENTIFIC CLAIMS.`
+
+### Mandatory Scientific Clarifications & Reclassifications:
+1. **Terminal Nonconvergence vs. Transient Fidelity**:
+   - The corrected isoparametric operator demonstrates substantial transient improvements in field fidelity and reduces perturbation throughout the unrelaxed regime (Outer 1 to 100, reaching peak $\Delta H$ reduction of $1,516\times$ at Outer 63).
+   - However, at terminal Outer 140, Arm 2 exhibited larger field increments ($\Delta d = 1.16\times 10^{-2}, \Delta u = 6.29\times 10^{-5}$ mm, $\Delta H = 108.02$ MPa) than Arm 1 ($\Delta d = 6.95\times 10^{-3}, \Delta u = 3.43\times 10^{-5}$ mm, $\Delta H = 52.97$ MPa). Thus, broad claims of "isoparametric superiority" are reclassified to specify *transient field fidelity improvement* without superior terminal convergence.
+   - Neither arm achieved coupled convergence ($\Delta d \le 10^{-5}$), and no physically accepted checkpoint was produced.
+2. **C6 Nonmatching Remeshing Coupling**:
+   - Same-mesh C5 control behavior cannot establish the dominant cause of nonconvergence on the nonmatching C6 mesh. Rather, it demonstrates that element averaging introduces an artificial intra-element history gradient distortion on quad meshes, which is eliminated by isoparametric evaluation. Whether this elimination resolves coupled nonconvergence on C6 remains a separate, empirical scientific question to be tested under Task F1628.
+3. **Anderson Acceleration**:
+   - The unaccelerated staggered Picard iteration failed to achieve coupled convergence within 140 iterations on both arms. However, this does not establish that Anderson acceleration is mathematically mandatory or sufficient, but rather that unaccelerated Picard iteration is insufficient in this configuration.
+4. **Evaluator Contract Reconciled**:
+   - Evaluator `scripts/validation/evaluate_same_mesh_controls.py` was updated to reconcile checkpoint file lookup (`converged_same_mesh_control_checkpoint.json`) and replace broad superiority predicates with scientifically neutral trajectory-aware assessments (`transient_field_fidelity_improved = True`, `terminal_convergence_superiority_established = False`, `both_arms_nonconverged = True`).

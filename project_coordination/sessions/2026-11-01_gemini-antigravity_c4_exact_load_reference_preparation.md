@@ -130,3 +130,4 @@ Classification: **`PASS_BOTH`** (All three datachecks verified Exit 0 with zero 
   2. Transition `registration_status` to `REVIEWED_FOR_TECHNICAL_QUALIFICATION` with genuine reviewer attribution.
   3. Execute `execute_mode1_c4_exact_load_reference` once only through `scripts/hpc/Invoke-Mode1Execution.ps1` within 1 CPU, 16 GB, 8 hours.
   4. Compare authentic reference reaction force and RAW total energy against the R6 predecessor values ($F = 0.18411666\,\text{kN}, E = 0.0002241882\,\text{kN}\cdot\text{mm}$) to evaluate $\varepsilon_F \le 5\%$ and $\varepsilon_E \le 2\%$.
+

@@ -10,19 +10,22 @@
     "A_donor_source": {
       "checkpoint": "Checkpoint 03 (Job 1419566.mmaster02)",
       "elements_quad": 12996,
-      "nodes_physical": 13279,
+      "nodes_physical": 13278,
+      "reference_point_id": 999999,
       "target_uy_mm": 0.0018703125442191958,
       "reaction_force_kN": 0.17992419004440308,
       "total_energy_kNmm": 0.00022639903
     },
     "B0_exact_copy": {
       "elements_quad": 12996,
-      "nodes_physical": 13279,
+      "nodes_physical": 13278,
+      "reference_point_id": 999999,
       "transfer_mechanism": "Direct 1:1 identity carryover (no remapping)"
     },
     "B1_transfer_pipeline": {
       "elements_quad": 12996,
-      "nodes_physical": 13279,
+      "nodes_physical": 13278,
+      "reference_point_id": 999999,
       "transfer_mechanism": "Production c5_to_c6_adaptive_integration pipeline on identical C5 mesh",
       "healing_violations": 0,
       "bounds_violations": 0

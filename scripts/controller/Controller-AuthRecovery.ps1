@@ -114,8 +114,11 @@ function Invoke-AgyAuthenticationFailover {
     $script:PinnedAgyProfile=$r.selected_profile
     $script:ControllerAuthVerifiedForCheckpoint=(Get-FileHash $CheckpointPath).Hash
     $script:ConversationId='';$script:ConversationIdSource='auth-recovery-fresh-conversation'
-    $selFile = if ($SelectionFile) { $SelectionFile } else { Join-Path $env:USERPROFILE 'OpenClawPAD/selected_profile.json' }
-    [IO.File]::WriteAllText($selFile,(@{selected_profile=$r.selected_profile;source='verified-auth-recovery';reconciled_from=$marker;prior_profile=$priorProfile;switched_at_utc=[DateTimeOffset]::UtcNow.ToString('o')}|ConvertTo-Json),[Text.UTF8Encoding]::new($false))
+    $selFile = if ($SelectionFile) { $SelectionFile } else { Join-Path $env:USERPROFILE 'OpenClawPAD/agy_selected_profile.json' }
+    $selPayload = (@{selected_profile=$r.selected_profile;source='verified-auth-recovery';reconciled_from=$marker;prior_profile=$priorProfile;switched_at_utc=[DateTimeOffset]::UtcNow.ToString('o')}|ConvertTo-Json)
+    [IO.File]::WriteAllText($selFile, $selPayload, [Text.UTF8Encoding]::new($false))
+    $altSelFile = Join-Path $env:USERPROFILE 'OpenClawPAD/selected_profile.json'
+    [IO.File]::WriteAllText($altSelFile, $selPayload, [Text.UTF8Encoding]::new($false))
     if($r.selected_profile -and $r.selected_profile -ne $marker){
         $activeFile = Join-Path $env:USERPROFILE '.gemini/agy-profiles/_active.txt'
         [IO.File]::WriteAllText($activeFile, $r.selected_profile, [Text.UTF8Encoding]::new($false))

@@ -132,7 +132,8 @@ def stage():
         # 3. Stage Arm A (Package 174)
         print(f"\n3. Staging Package 174 to {REMOTE_174_DIR}...")
         run_remote_ssh(f"mkdir -p {REMOTE_174_DIR}")
-        run_remote_ssh(f"rm -rf {REMOTE_174_DIR}/*")
+        run_remote_ssh(f"cp -np {REMOTE_174_DIR}/pbs_execution.log {REMOTE_174_DIR}/pbs_execution_1420391.mmaster02.log || true")
+        run_remote_ssh(f"rm -rf {REMOTE_174_DIR}/runtime")
         remote_t174 = f"{REMOTE_174_DIR}/pkg174_staging.tar.gz"
         remote_rt174 = f"{REMOTE_174_DIR}/f1629_runtime.tar.gz"
         run_remote_upload(tar_174, remote_t174, timeout=120)
@@ -149,7 +150,8 @@ def stage():
         # 4. Stage Arm B (Package 175)
         print(f"\n4. Staging Package 175 to {REMOTE_175_DIR}...")
         run_remote_ssh(f"mkdir -p {REMOTE_175_DIR}")
-        run_remote_ssh(f"rm -rf {REMOTE_175_DIR}/*")
+        run_remote_ssh(f"cp -np {REMOTE_175_DIR}/pbs_execution.log {REMOTE_175_DIR}/pbs_execution_1420392.mmaster02.log || true")
+        run_remote_ssh(f"rm -rf {REMOTE_175_DIR}/runtime")
         remote_t175 = f"{REMOTE_175_DIR}/pkg175_staging.tar.gz"
         remote_rt175 = f"{REMOTE_175_DIR}/f1629_runtime.tar.gz"
         run_remote_upload(tar_175, remote_t175, timeout=120)

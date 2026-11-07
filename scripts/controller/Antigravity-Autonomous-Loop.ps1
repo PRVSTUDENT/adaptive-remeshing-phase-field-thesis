@@ -520,6 +520,9 @@ function Get-AgyProfileFromCurrentOutput {
     }
 
     $selectionFile = Join-PathStrict -Path "$env:USERPROFILE\OpenClawPAD" -ChildPath "agy_selected_profile.json"
+    if (-not (Test-Path -LiteralPath $selectionFile)) {
+        $selectionFile = Join-PathStrict -Path "$env:USERPROFILE\OpenClawPAD" -ChildPath "selected_profile.json"
+    }
     if (Test-Path -LiteralPath $selectionFile) {
         try {
             $sel = Get-Content -LiteralPath $selectionFile -Raw | ConvertFrom-Json
@@ -658,6 +661,9 @@ function Set-AndVerifyAgyRunProfileCore {
                     try {
                         Repair-AgyRefreshedNativeCredential -ExpectedBytes $expectedBytes -TokenPath $tokenPath -SkipTokenRefresh -CheckpointPath $controllerCheckpointPath
                         Assert-AgyCredentialStores -ExpectedBytes $expectedBytes -TokenPath $tokenPath
+                        if (Test-Path -LiteralPath $controllerCheckpointPath) {
+                            $script:ControllerAuthVerifiedForCheckpoint = (Get-FileHash -LiteralPath $controllerCheckpointPath).Hash
+                        }
                         Write-Host "[PROFILE-GUARD] Verified refreshed native grant with provider and synchronized CLI cache [$Context]."
                         return
                     } catch {}
@@ -848,6 +854,9 @@ $($verify.Raw)
         throw $err
     }
 
+    if ($Context -in @('STARTUP', 'TURN_START') -and (Test-Path -LiteralPath $controllerCheckpointPath)) {
+        $script:ControllerAuthVerifiedForCheckpoint = (Get-FileHash -LiteralPath $controllerCheckpointPath).Hash
+    }
     Write-Host "[PROFILE-GUARD] Verified '$expected' [$Context]." -ForegroundColor Green
 }
 
@@ -3476,8 +3485,9 @@ Write-Host " Requested timeout:$PrintTimeout; scientific cap=${ScientificTurnSec
 Write-Host " Mode-I Fundam.:  $($script:ModeIFundamentalsStatus) (Actionable: $(Get-ModeIFundamentalsActionable))"
 Write-Host " Active Prod Job: $ActiveProductionJobId"
 if ($EnableSmartAgyProfileSelection -and
-    -not $PSBoundParameters.ContainsKey('AuthoritativeAgyProfile')) {
-    # Startup scan is safe because no AGY process has started yet.
+    -not $PSBoundParameters.ContainsKey('AuthoritativeAgyProfile') -and
+    -not (Get-Process -Name agy -ErrorAction SilentlyContinue)) {
+    # Startup scan is safe only if no AGY process has started yet.
     $null = Invoke-AgySmartSelection -Reason 'STARTUP'
 }
 Set-AndVerifyAgyRunProfile "STARTUP"

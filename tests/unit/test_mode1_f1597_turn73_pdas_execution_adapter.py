@@ -28,6 +28,7 @@ FROZEN_UEL_HASH = "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83AC
 TEST_WORK_DIR = REPO_ROOT / "results/validation/scratch_pdas_adapter_test"
 LEDGER_PATH = TEST_WORK_DIR / "pdas_subproblem_ledger.json"
 CHECKPOINT_PATH = TEST_WORK_DIR / "pdas_accepted_checkpoint.json"
+TRIAL_PATH = TEST_WORK_DIR / "pdas_trial_evaluation.json"
 H1_EVAL_JSON = REPO_ROOT / "results/validation/mode1_f1597/pkg96_h1_transfer_and_pdas_evaluation.json"
 
 def sha256_file(path: Path) -> str:
@@ -98,8 +99,9 @@ def test_physical_node_count_and_reference_exclusion():
 
 def test_disjoint_active_set_partition_sum_rule():
     """Verify that active-set partitions always sum strictly to 4,610 nodes."""
-    if CHECKPOINT_PATH.exists():
-        with open(CHECKPOINT_PATH, "r", encoding="utf-8") as f:
+    target_path = CHECKPOINT_PATH if CHECKPOINT_PATH.exists() else TRIAL_PATH
+    if target_path.exists():
+        with open(target_path, "r", encoding="utf-8") as f:
             data = json.load(f)
         sizes = data["final_set_sizes"]
         total = sizes["U"] + sizes["L"] + sizes["A"]

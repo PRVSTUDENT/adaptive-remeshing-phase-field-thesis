@@ -352,6 +352,27 @@ notification_install_terminal_trap() {
   trap 'notification_signal_trap HUP' HUP
 }
 
+notify_job_start() {
+  local job_name="${1:-${PBS_JOBNAME:-${CANDIDATE_NAME:-UNKNOWN}}}"
+  local job_id="${2:-${PBS_JOBID:-NOT_A_PBS_JOB}}"
+  local details="${3:-}"
+  notify_start "$job_name"
+}
+
+notify_job_end() {
+  local job_name="${1:-${PBS_JOBNAME:-${CANDIDATE_NAME:-UNKNOWN}}}"
+  local job_id="${2:-${PBS_JOBID:-NOT_A_PBS_JOB}}"
+  local rc="${3:-0}"
+  local now end elapsed
+  now=$(date +%s)
+  elapsed=$((now - NOTIFICATION_START_EPOCH))
+  if [ "$rc" -eq 0 ]; then
+    notify_completed "$job_name" "$job_id" "$elapsed"
+  else
+    notify_failed "$job_name" "$job_id" "$rc" "$elapsed"
+  fi
+}
+
 notify_event() {
   local event="$1"
   shift

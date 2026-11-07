@@ -43,6 +43,8 @@ from scripts.remeshing.c5_to_c6_adaptive_integration import (
     build_c6_conformal_quad_mesh,
     compute_c5_to_c6_sizing,
     generate_graded_1d_coords,
+    generate_noncoarsened_c6_coords,
+    verify_non_coarsening_acceptance,
     load_c5_mesh,
     sha256_file,
     validate_c5_indicator_distribution,
@@ -85,26 +87,13 @@ def evaluate_causal_refinement() -> dict:
     print(f"  Center of marked band: ({sizing['x_center']:.5f}, {sizing['y_center']:.5f}) mm")
     print(f"  Band half-widths: dx={sizing['band_half_x']:.5f} mm, dy={sizing['band_half_y']:.5f} mm")
 
-    # 3. Generate 1D graded coordinates
-    x_coords = generate_graded_1d_coords(
-        x_min=0.0,
-        x_max=0.100,
-        x_center=sizing["x_center"],
-        band_half_width=sizing["band_half_x"],
-        h_fine=h_fine_target,
-        growth_ratio=1.12,
-        max_h=0.0025,
-        key_points=[0.040],
-    )
-    y_coords = generate_graded_1d_coords(
-        x_min=0.0,
-        x_max=0.100,
-        x_center=sizing["y_center"],
-        band_half_width=sizing["band_half_y"],
-        h_fine=h_fine_target,
-        growth_ratio=1.12,
-        max_h=0.0025,
-        key_points=[0.050],
+    c5_mesh = load_c5_mesh()
+
+    # 3. Generate non-coarsened 1D coordinates retaining C5 base discretization
+    x_coords, y_coords = generate_noncoarsened_c6_coords(
+        c5_mesh=c5_mesh,
+        marked_elements=sizing["marked_elements"],
+        buffer_mm=0.00025,
     )
 
     dx_all = np.diff(x_coords)
@@ -145,9 +134,18 @@ def evaluate_causal_refinement() -> dict:
     print(f"  Boundary sets: top={num_top}, bottom={num_bottom}, pin={num_pin}")
 
     assert min_det_jac > 0.0, "Negative or zero Jacobian encountered!"
-    assert num_slit_pairs > 0, "No duplicate slit-flank node pairs created!"
+    assert num_slit_pairs >= 53, f"Duplicate slit pairs {num_slit_pairs} < C5 count 53!"
     assert num_ligament > 0, "No intact ligament nodes created!"
     assert num_top > 0 and num_bottom > 0 and num_pin > 0, "Incomplete boundary sets!"
+
+    # 4b. Perform rigorous non-coarsening acceptance audit relative to C5
+    audit_res = verify_non_coarsening_acceptance(c5_mesh, c6_mesh, sizing["marked_elements"])
+    print(f"Non-Coarsening Acceptance Audit: pass = {audit_res['pass']}")
+    print(f"  Coarsened area fraction: {audit_res['coarser_area_fraction']*100:.2f}% (count: {audit_res['coarser_count']}/{audit_res['total_samples']})")
+    print(f"  Finer area fraction: {audit_res['finer_area_fraction']*100:.2f}%")
+    print(f"  Slit pairs: C5={audit_res['c5_slit_pairs']}, C6={audit_res['c6_slit_pairs']} (pass={audit_res['slit_noncoarsened']})")
+    print(f"  Marked elements refined: {audit_res['marked_elements_refined']}")
+    assert audit_res["pass"] is True, f"Non-coarsening policy violated: {audit_res}"
 
     # 5. Solver resource estimation for C6
     # In C5: 12,996 elements, 26,442 equations, 2.0e8 flops, solved in 0.11 s CPU time.
@@ -199,6 +197,7 @@ def evaluate_causal_refinement() -> dict:
             "h_max_actual_mm": h_max_overall,
             "compliance": h_max_overall <= 0.0025 + 1e-6
         },
+        "non_coarsening_audit": audit_res,
         "fine_resolution_policy": {
             "ell_0_mm": ELL_0_MM,
             "ell_0_over_10_mm": MAX_FINE_H_MM,

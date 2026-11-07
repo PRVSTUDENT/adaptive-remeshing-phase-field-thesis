@@ -66,7 +66,7 @@ def test_active_session_and_task_state():
         task_data = json.load(f)
         
     assert session_data["agent"] in ["gemini-antigravity", "codex"]
-    assert "F1385" in task_data["task_id"] or "F1385" in session_data["task_id"]
+    assert any(tid in task_data["task_id"] or tid in session_data["task_id"] for tid in ["F1385", "F1386"])
 
 def test_fixed_mesh_suite_governance_invariants():
     suite_dir = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode2", "07_fixed_mesh_convergence_suite")

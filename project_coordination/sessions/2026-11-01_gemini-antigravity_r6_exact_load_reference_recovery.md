@@ -94,3 +94,4 @@ Pursuant to repository rules, interpolation between Inc 80 and Inc 81 or between
 2. **Next Numerical Action:**
    - Construct and review the minimal C4 exact-load reference simulation deck terminating at $u_y = 0.0018603125442191958\,\text{mm}$.
    - Upon independent authorization and execution of this reference run, extract the exact reaction force and RAW total energy to evaluate R6 physical acceptance against the $5\%$ force and $2\%$ energy limits.
+

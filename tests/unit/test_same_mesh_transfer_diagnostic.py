@@ -59,18 +59,21 @@ def test_four_configuration_suite_specifications(diagnostic_data):
     assert "B1_transfer_pipeline" in configs
     assert "C_nonmatching_c6" in configs
 
-    # Donor C5 mesh has exactly 12,996 elements and 13,279 nodes
+    # Donor C5 mesh has exactly 12,996 elements and 13,278 physical nodes (+ RP 999999)
     assert configs["A_donor_source"]["elements_quad"] == 12996
-    assert configs["A_donor_source"]["nodes_physical"] == 13279
+    assert configs["A_donor_source"]["nodes_physical"] == 13278
+    assert configs["A_donor_source"]["reference_point_id"] == 999999
     assert abs(configs["A_donor_source"]["target_uy_mm"] - 0.0018703125) < 1e-7
 
     # Configuration B0 has identical counts
     assert configs["B0_exact_copy"]["elements_quad"] == 12996
-    assert configs["B0_exact_copy"]["nodes_physical"] == 13279
+    assert configs["B0_exact_copy"]["nodes_physical"] == 13278
+    assert configs["B0_exact_copy"]["reference_point_id"] == 999999
 
     # Configuration B1 has identical counts and zero healing/bounds violations
     assert configs["B1_transfer_pipeline"]["elements_quad"] == 12996
-    assert configs["B1_transfer_pipeline"]["nodes_physical"] == 13279
+    assert configs["B1_transfer_pipeline"]["nodes_physical"] == 13278
+    assert configs["B1_transfer_pipeline"]["reference_point_id"] == 999999
     assert configs["B1_transfer_pipeline"]["healing_violations"] == 0
     assert configs["B1_transfer_pipeline"]["bounds_violations"] == 0
 

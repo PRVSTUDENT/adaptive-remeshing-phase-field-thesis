@@ -81,8 +81,8 @@ echo "Coupled PDAS finished with exit code: ${EXIT_CODE}"
 exit ${EXIT_CODE}
 """
     pbs_path = R6_DIR / "submit_M1_C4_P148_R6.pbs"
-    pbs_path.write_text(pbs_content, encoding="utf-8")
-    print("Created submit_M1_C4_P148_R6.pbs")
+    pbs_path.write_bytes(pbs_content.replace("\r\n", "\n").encode("utf-8"))
+    print("Created submit_M1_C4_P148_R6.pbs (pure LF)")
 
     # 3. Create PACKAGE_MANIFEST.json
     all_files_for_package_manifest = sorted(base_files + ["run_datacheck.sh", "submit_M1_C4_P148_R6.pbs"])
@@ -116,7 +116,7 @@ exit ${EXIT_CODE}
         "scientific_predecessor_review": "results/validation/package148_r5_terminal_evaluation.json"
     }
     pkg_manifest_path = R6_DIR / "PACKAGE_MANIFEST.json"
-    pkg_manifest_path.write_text(json.dumps(pkg_manifest, indent=2), encoding="utf-8")
+    pkg_manifest_path.write_bytes(json.dumps(pkg_manifest, indent=2).encode("utf-8"))
     print("Created PACKAGE_MANIFEST.json")
 
     # 4. Create EXECUTION_MANIFEST.json
@@ -182,7 +182,7 @@ exit ${EXIT_CODE}
         "runtime_source_hashes": runtime_hashes
     }
     exec_manifest_path = R6_DIR / "EXECUTION_MANIFEST.json"
-    exec_manifest_path.write_text(json.dumps(exec_manifest, indent=2), encoding="utf-8")
+    exec_manifest_path.write_bytes(json.dumps(exec_manifest, indent=2).encode("utf-8"))
     print("Created EXECUTION_MANIFEST.json")
     print(f"Command SHA-256: {cmd_hash}")
 

@@ -17,7 +17,7 @@ In accordance with supervisory directive `HND-568381d9d20e`, this report documen
 ### 1.1 The Checkpoint 02 Contamination Defect (Caught by ChatGPT)
 In Task F1622, while Gauss-point history $H$ was correctly extracted from Checkpoint 03 (`converged_checkpoint_03.json`), `nodal_displacements_initial.csv`, `nodal_phase_field_initial.csv`, and element nodal damage in `d_lower_bounds.csv` were inadvertently copied from Package 167. Package 167 was initialized from Checkpoint 02 ($u_y = 0.0018653125$ mm), whereas Checkpoint 03 was solved at $u_y = 0.0018703125$ mm across a physical load increment $\Delta u_y = 5.0\times 10^{-6}$ mm.
 
-Across this $5.0\,\mu\text{m}$ continuation increment, physical fields evolved as documented in `results/validation/checkpoint_02_vs_03_discrepancy_analysis.json`:
+Across this $5.0\,\text{nm}$ continuation increment, physical fields evolved as documented in `results/validation/checkpoint_02_vs_03_discrepancy_analysis.json`:
 - **Displacement Evolution:** $\max \|\Delta u\| = 5.2203\times 10^{-6}$ mm ($\text{RMS} = 3.1741\times 10^{-6}$ mm).
 - **History Evolution:** $\max |\Delta H| = 0.07509$ MPa ($\text{RMS} = 0.001115$ MPa), with physical history growth at 13,550 Gauss points.
 - **Damage Evolution:** $\max |\Delta d| = 2.9776\times 10^{-8}$ ($\text{RMS} = 5.0407\times 10^{-9}$).

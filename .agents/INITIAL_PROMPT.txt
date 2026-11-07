@@ -1,25 +1,130 @@
-# AUTONOMOUS_METHOD_C_PIPELINE_V2 — MODE-I RESEARCH CONTINUATION
-Complete the F1606 → F1607 scientific lifecycle transition using the existing canonical controller workflow.
+﻿# AGY — RECONCILE COMPLETED F1608 AND UNBLOCK METHOD C EXECUTION
 
-First read `AGENTS.md`, `ACTIVE_TASK.json`, `ACTIVE_SESSION.json`, task definitions, task ledger, and authentic R8 assessment artifacts. Confirm that the F1606 preparation is complete and its scientific evidence is preserved. Do not repeat R7 execution, F1606 numerical analysis, controller repairs, or previously passed tests.
+**Priority: HIGH — bounded recovery and immediate return to scientific work**
 
-Immediate objective: Legitimately close F1606 and register successor `F1607-PACKAGE171-R8-C6-COUPLED-REEQUILIBRATION`, then advance its independent scientific review through the existing authenticated review workflow.
+The independent self-healing supervisor stopped with:
 
-Use the documented R8 candidate:
+`CANNOT_REARM_WITH_SIDE_EFFECTS`
 
-- Stage 2 trigger: active-set size ≤ 500, membership change ≤ 10, zero newly activated nodes, sustained for three consecutive iterations.
-- Proposed maximum outer iterations: 140.
-- Preserve the original relaxation, rollback, irreversibility, history and coupled-convergence safeguards.
-- Preserve the frozen production UEL and all quantitative physical acceptance thresholds.
+Detected evidence:
 
-The projected damage convergence at iteration 140 is an unverified hypothesis, not proof of coupled convergence. The review must independently evaluate damage, displacement, history, KKT, force/energy consistency, numerical stability and the proposed iteration budget.
+- Scientific operation: `execute_mode1_package171_r8_c6_coupled_reequilibration`
+- Committed receipt: `results/validation/package171_r8_technical_qualification_receipt.json`
 
-Execute the supported lifecycle transition and prepare or dispatch the exact evidence-bound scientific review request where permitted. Do not introduce redundant approval stages. If the controller requires review before successor registration, follow that legitimate ordering instead.
+**This is not authorization to replay Turn 7.**
 
-PBS submissions under F1606: strictly zero. Do not submit R8 until a distinct successor execution operation has passed independent scientific review, technical qualification, valid task registration, live resource checks and once-only accounting.
+## 1. Confirm actual scientific completion
 
-Preserve all existing artifacts and completed PBS IDs. Commit and push only the relevant validated changes. Report the actual lifecycle state transition, review request receipt or precise unresolved gate, evidence hashes, test results and the next executable scientific action.
+Read `AGENTS.md`, `ACTIVE_TASK.json`, `ACTIVE_SESSION.json`, the current controller checkpoint, HPC execution ledgers and F1608 technical qualification artifacts.
 
-Use the established five headings: HPC STATUS, NEW EXPERIMENT, SCIENTIFIC PROGRESS, DOCUMENTATION and NEXT ACTION.
+Verify that the source state corresponds to commit `ae2a0423b803c136928507a40bf5c0160dc6c2a8`, or reconcile any newer legitimate commits.
+
+Check:
+
+- F1608 status `TECHNICAL_QUALIFICATION_COMPLETE`.
+- Technical qualification receipt `PASSED_TECHNICAL_QUALIFICATION`.
+- Source and package hashes.
+- Authentic mechanical and phase Abaqus datacheck evidence.
+- Frozen production UEL hash.
+- No R8 production PBS submission.
+- No active or foreign research worker.
+- No incomplete independent-review transaction.
+
+The completed technical qualification must remain immutable.
+
+## 2. Repair the supervisor's recovery classification
+
+File:
+
+`scripts/controller/Controller-SelfHealingSupervisor.ps1`
+
+**Confirmed root cause:**
+
+`Classify-ControllerFailure` classifies a `PENDING` checkpoint with `process_id=0` as `CLEAN_INTERRUPTED_CHECKPOINT` without first checking scientific side effects.
+
+Later, `RESUME_PENDING_INSTRUCTION` correctly audits those side effects and throws, terminating the supervisor.
+
+Implement the minimal correction:
+
+1. Audit scientific, PBS, file and bridge side effects before classifying any checkpoint as safely unstarted.
+2. For a PENDING checkpoint with completed and verified scientific work, select a dedicated completed-operation reconciliation path.
+3. For genuinely partial or uncertain side effects, preserve a blocked evidence-reconciliation state.
+4. Permit `RESUME_PENDING_INSTRUCTION` only when the exact original instruction, its hash, ownership and absence of side effects are positively established.
+5. Catch reconciliation exceptions at the supervisor boundary, record durable failure evidence and return a controlled state instead of an unhandled process termination.
+6. Do not delete unrelated temporary files, overwrite accepted receipts, or modify the original instruction hash.
+
+## 3. Reconcile F1608 without scientific replay
+
+Use the existing trusted controller checkpoint and task lifecycle APIs.
+
+When and only when all completion evidence is valid:
+
+- Record the verified F1608 technical qualification as already completed.
+- Preserve the original Turn 7 history and authenticated evidence.
+- Retire the stale pending operation through the supported checkpoint lifecycle.
+- Prevent the completed F1608 instruction from being executed again.
+- Advance to the next authoritative scientific task.
+
+Do not manually invent a new checkpoint state, fabricate completion timestamps, clear audit evidence or arbitrarily change task authorization flags.
+
+If the trusted lifecycle does not support this transition, implement and test the minimal supported reconciliation mechanism before proceeding.
+
+## 4. Add regression tests
+
+Prove these scenarios:
+
+- PENDING checkpoint, zero side effects → genuine pending resume.
+- PENDING checkpoint, completed scientific operation → reconcile; do not replay.
+- PENDING checkpoint, verified technical-qualification receipt → preserve receipt and advance lifecycle.
+- PENDING checkpoint, PBS submission already recorded → never submit twice.
+- PENDING checkpoint, unresolved bridge transaction → preserve transaction without replay.
+- Invalid or mismatched receipt → block.
+- Reconciliation exception → persist a controlled blocked state.
+- Correctly reconciled task → register a legitimate successor without restarting completed work.
+
+Reproduce the reported F1608 condition before accepting the fix.
+
+Run the relevant controller regression suites, verify deployed/canonical SHA-256 parity and selectively commit tested changes.
+
+## 5. Return immediately to Method C
+
+F1608 has completed technical qualification but still authorizes zero PBS submissions.
+
+The next operation is **formal execution qualification of the C6 R8 numerical experiment**.
+
+Using the governing task lifecycle:
+
+1. Complete F1608 closeout without repeating implementation or datachecks.
+2. Prepare the next execution-authorized scientific task.
+3. Obtain genuine independent review and signed approval.
+4. Verify scheduler and notification readiness.
+5. Authorize exactly one PBS submission only through the appropriate successor task.
+6. Dispatch through the trusted once-only execution pathway when all conditions pass.
+7. Record and evaluate the real R8 numerical outcome.
+
+Do not submit under F1608.
+
+The immediate scientific target remains:
+
+**C6 R8 coupled re-equilibration → accepted checkpoint → one genuine forward continuation step.**
+
+## 6. Required report
+
+Provide:
+
+- Actual checkpoint state before and after reconciliation.
+- Precise recovery bug and source correction.
+- Regression test results.
+- Proof that F1608 work was not replayed.
+- Authentic technical qualification receipt and hashes.
+- Current execution authorization status.
+- New successor task identification, if legitimately registered.
+- Current supervisor/worker process ownership.
+- Whether the scientific loop actually resumed.
+- Nearest remaining scientific gate.
+
+**Success means reconciling already completed scientific work, restoring trustworthy loop continuation and advancing toward the real R8 experiment.**
+
+Do not spend additional time on general self-healing development beyond this demonstrated blocker.
 
 Finished

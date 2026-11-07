@@ -453,19 +453,22 @@ def run_same_mesh_diagnostic():
             "A_donor_source": {
                 "checkpoint": "Checkpoint 03 (Job 1419566.mmaster02)",
                 "elements_quad": len(c5_quads),
-                "nodes_physical": len(c5_nodes),
+                "nodes_physical": len(c5_nodes) - 1,
+                "reference_point_id": 999999,
                 "target_uy_mm": donor_uy,
                 "reaction_force_kN": donor_rf,
                 "total_energy_kNmm": donor_energy,
             },
             "B0_exact_copy": {
                 "elements_quad": len(c5_quads),
-                "nodes_physical": len(c5_nodes),
+                "nodes_physical": len(c5_nodes) - 1,
+                "reference_point_id": 999999,
                 "transfer_mechanism": "Direct 1:1 identity carryover (no remapping)",
             },
             "B1_transfer_pipeline": {
                 "elements_quad": len(c5_quads),
-                "nodes_physical": len(c5_nodes),
+                "nodes_physical": len(c5_nodes) - 1,
+                "reference_point_id": 999999,
                 "transfer_mechanism": "Production c5_to_c6_adaptive_integration pipeline on identical C5 mesh",
                 "healing_violations": transfer_res_B1["healing_violations"],
                 "bounds_violations": transfer_res_B1["bounds_violations"],
@@ -493,7 +496,7 @@ def run_same_mesh_diagnostic():
     print(f"\n10. Saved machine-readable summary: {OUTPUT_REPORT_JSON.name}")
 
     # Generate Markdown Report
-    md_content = f"""# Method C Same-Mesh Transfer Diagnostic Report (Task F1619)
+    md_content = rf"""# Method C Same-Mesh Transfer Diagnostic Report (Task F1619)
 
 **Protocol Version**: 2  
 **Task ID**: `F1619-METHOD-C-SAME-MESH-TRANSFER-DIAGNOSTIC-FORMULATION`  
@@ -502,27 +505,28 @@ def run_same_mesh_diagnostic():
 
 ---
 
-## 1. Executive Summary & Causal Diagnosis
+## 1. Executive Summary & Diagnostic Assessment
 
 In accordance with the 5 November 2026 supervisor meeting directive and binding supervisory decision `HND-aab573d5c0bd`, this study isolates the intrinsic numerical perturbations introduced by the state transfer operator from physical receiver-mesh discretization changes.
 
 ### Comparison Suite Definitions:
-- **Configuration A (Donor Reference)**: Accepted C5 Checkpoint 03 (Job `1419566.mmaster02`, $u_y = 0.0018703125$ mm) on original 12,996-element discretization.
+- **Configuration A (Donor Reference)**: Accepted C5 Checkpoint 03 (Job `1419566.mmaster02`, $u_y = 0.0018703125$ mm) on original 12,996-element discretization (13,278 physical nodes plus RP 999999).
 - **Configuration B0 (Exact-Copy Control)**: Same 12,996-element C5 mesh with 1:1 direct carryover of nodal $(u, d)$ and Gauss-point history $H$ without spatial remapping.
 - **Configuration B1 (Production Transfer Pipeline Control)**: Same 12,996-element C5 mesh, but processed through the production state transfer engine (`scripts/remeshing/c5_to_c6_adaptive_integration.py`).
 - **Configuration C (Nonmatching Reference)**: Production C5-to-C6 transferred state on 15,252-element C6 receiver mesh (Package 171).
 
-### Key Causal Finding:
+### Key Confirmed Findings:
 1. **Nodal Displacements & Damage on Same Mesh**:
-   - Displacement discrepancy $\\max \\|\\Delta u\\| = {stats_disp['max_delta_u_norm_mm']:.4e}$ mm, $\\text{{RMS}} = {stats_disp['rms_delta_u_norm_mm']:.4e}$ mm.
-   - Damage discrepancy $\\max |\\Delta d| = {stats_dmg['max_delta_d']:.4e}$, $\\text{{RMS}} = {stats_dmg['rms_delta_d']:.4e}$.
+   - Displacement discrepancy $\max \|\Delta u\| = {stats_disp['max_delta_u_norm_mm']:.4e}$ mm, $\text{{RMS}} = {stats_disp['rms_delta_u_norm_mm']:.4e}$ mm.
+   - Damage discrepancy $\max |\Delta d| = {stats_dmg['max_delta_d']:.4e}$, $\text{{RMS}} = {stats_dmg['rms_delta_d']:.4e}$.
    - Nodal interpolation on the identical mesh is highly accurate and preserves boundary conformity.
-2. **Gauss-Point History Variable (The Root Cause of Non-Equilibrium)**:
-   - **Element-Averaging Defect**: In `c5_to_c6_adaptive_integration.py` (lines 638-651 and 810-812), the 4 Gauss-point history values of each donor element are averaged into a single scalar $\\bar{{H}} = \\frac{{1}}{{4}}\\sum_{{i=1}}^4 H_i$, and this mean is assigned to all 4 Gauss points of the receiver element: $[\\bar{{H}}, \\bar{{H}}, \\bar{{H}}, \\bar{{H}}]$.
+2. **Gauss-Point History Variable (Significant Transfer-Induced Perturbation Confirmed)**:
+   - **Element-Averaging Defect**: In `c5_to_c6_adaptive_integration.py` (lines 638-651 and 810-812), the 4 Gauss-point history values of each donor element are averaged into a single scalar $\bar{{H}} = \frac{{1}}{{4}}\sum_{{i=1}}^4 H_i$, and this mean is assigned to all 4 Gauss points of the receiver element: $[\bar{{H}}, \bar{{H}}, \bar{{H}}, \bar{{H}}]$.
    - **Intra-Element Gradient Flattening**: Across the steep crack-tip strain localization zone, donor Gauss points within a single element differ by up to **{stats_hist['max_intra_element_range_MPa']:.4f} MPa**!
    - Replacing this distribution with its element average creates an immediate point-wise history error of up to **{stats_hist['max_delta_H_MPa']:.4f} MPa** (a factor of **{stats_hist['max_delta_H_MPa'] / 1e-4:,.0f}$\\times$** larger than the coupled convergence tolerance of $10^{{-4}}$ MPa).
    - This averaging causes a peak history loss of **{stats_hist['max_history_loss_at_peak_gp_MPa']:.4f} MPa** at the highest-strained integration point, and an artificial history gain of **{stats_hist['max_history_gain_at_min_gp_MPa']:.4f} MPa** at the lowest.
-   - **Total perturbed integration points**: **{stats_hist['gps_exceeding_tolerance_count']} / {len(common_gp)} ({stats_hist['gps_exceeding_tolerance_pct']:.2f}%)** Gauss points exceed the $10^{{-4}}$ MPa threshold.
+   - **Total perturbed integration points**: **{stats_hist['gps_exceeding_tolerance_count']} / {len(common_gp)} ({stats_hist['gps_exceeding_tolerance_pct']:.2f}%)** Gauss points exceed the $10^{{-4}}$ MPa threshold. Note: this is a static transfer field discrepancy, distinct from the solver's outer-iteration convergence increment.
+   - **Scope Distinction**: Significant transfer-induced history perturbation is confirmed on the same mesh; its exact contribution to C6 nonconvergence remains an open hypothesis to be tested under Task F1620.
 
 ---
 
@@ -534,8 +538,8 @@ In accordance with the 5 November 2026 supervisor meeting directive and binding 
 | | RMS $\\|\\Delta u\\|$ | `{stats_disp['rms_delta_u_norm_mm']:.4e} mm` | $1.0 \\times 10^{{-9}}$ mm | Exceeded in {stats_disp['tolerance_exceeded_pct']:.2f}% of nodes |
 | **Nodal Phase Field** $d$ | Max $|\\Delta d|$ | `{stats_dmg['max_delta_d']:.4e}` | $1.0 \\times 10^{{-5}}$ | Peak at Node {max_node_d} ({max_coords_d[0]:.5f}, {max_coords_d[1]:.5f}) |
 | | RMS $|\\Delta d|$ | `{stats_dmg['rms_delta_d']:.4e}` | $1.0 \\times 10^{{-5}}$ | Exceeded in {stats_dmg['tolerance_exceeded_pct']:.2f}% of nodes |
-| **GP History Variable** $H$ | Max $|\\Delta H|$ | `{stats_hist['max_delta_H_MPa']:.4f} MPa` | $1.0 \\times 10^{{-4}}$ MPa | **{stats_hist['max_delta_H_MPa'] / 1e-4:,.0f}x tolerance!** |
-| | RMS $|\\Delta H|$ | `{stats_hist['rms_delta_H_MPa']:.4f} MPa` | $1.0 \\times 10^{{-4}}$ MPa | 38,000x tolerance |
+| **GP History Variable** $H$ | Max $|\\Delta H|$ | `{stats_hist['max_delta_H_MPa']:.4f} MPa` | $1.0 \\times 10^{{-4}}$ MPa | **{stats_hist['max_delta_H_MPa'] / 1e-4:,.0f}x reference scale** |
+| | RMS $|\\Delta H|$ | `{stats_hist['rms_delta_H_MPa']:.4f} MPa` | $1.0 \\times 10^{{-4}}$ MPa | **{stats_hist['rms_delta_H_MPa'] / 1e-4:.0f}x reference scale** |
 | | Max Donor Intra-Element Spread | `{stats_hist['max_intra_element_range_MPa']:.4f} MPa` | N/A | Elem {max_intra_eid} at ({intra_cx:.5f}, {intra_cy:.5f}) |
 | | Peak GP History Loss | `{stats_hist['max_history_loss_at_peak_gp_MPa']:.4f} MPa` | N/A | Under-estimates peak crack tip driving force |
 | | Peak GP History Elevation | `{stats_hist['max_history_gain_at_min_gp_MPa']:.4f} MPa` | N/A | Over-estimates flank driving force |
@@ -555,22 +559,19 @@ In accordance with the 5 November 2026 supervisor meeting directive and binding 
 
 ---
 
-## 4. Scientific Significance for Thesis & Immediate Remedy
+## 4. Scientific Significance for Thesis & Proposed Transfer Remedy
 
-### Why Re-Equilibration Has Been Struggling:
-1. When an analysis restarts with this transferred state, Abaqus evaluates the mechanical equilibrium and phase KKT conditions using the initialized solution state.
-2. In the donor state, the material had reached a coupled fixed point where $\\psi^+(u)$ matched $H$ at each individual Gauss point.
-3. Because the transfer pipeline replaced $H(e, gp)$ with the element average $\\bar{{H}}_e$, the local driving force at Gauss points near the crack tip was shifted by **tens of MPa**.
-4. Consequently, at outer iteration 1 of re-equilibration:
-   - The phase solve detects that $d$ is out of equilibrium with the flattened $H$.
-   - The mechanical solve detects that the stiffness degraded by $d$ is inconsistent with the un-averaged strain field.
-   - This induces large coupled increments $\\Delta d \\sim 0.05$ and $\\Delta u \\sim 10^{{-5}}$ mm, triggering the long, slow relaxation process ($\rho \\approx 0.985 - 0.994$) that we observed in R7, R8, R9, and R10!
+### Confirmed Results vs Proposed Hypotheses:
+1. **Confirmed Numerical Result**: Element-averaged history transfer destroys the intra-element history gradient on the identical mesh, perturbing 66.79% of Gauss points and shifting crack-tip values by up to 6.35 MPa.
+2. **Physical Nuance**: History $H$ retains historical maximum tensile strain energy density ($H \\ge \\psi_+$) to enforce irreversibility, so $H$ does not necessarily equal current instantaneous $\\psi_+$ at every integration point. However, artificially flattening $H$ disturbs the phase-field driving force $2(1-d)H$.
+3. **Hypothesis Under Test**: This artificial history flattening introduces initial out-of-equilibrium driving forces upon restart, which may significantly contribute to the slow asymptotic re-equilibration observed on refined meshes (R7–R10).
 
-### The Rigorous Transfer Remedy:
+### The Proposed Rigorous Remedy:
 - **True Isoparametric Bilinear GP Interpolation**: Rather than averaging Gauss points to a constant element scalar, interpolate from the donor element's 4 Gauss points using bilinear Gauss-point shape functions:
   $$H(\\xi, \\eta) = \\sum_{{k=1}}^4 N_k^{{\\text{{GP}}}}(\\xi, \\eta) H_k^{{\\text{{donor}}}}$$
   where $N_k^{{\\text{{GP}}}}(\\xi, \\eta) = \\frac{{1}}{{4}}(1 + 3\\xi_k\\xi)(1 + 3\\eta_k\\eta)$.
-- On the identical mesh (same-mesh transfer), this recovers the **exact identity operation** ($H_{{B1}} \\equiv H_{{B0}}$) to machine precision!
+- On the identical mesh (same-mesh transfer), this recovers the **exact identity operation** ($H_{{B1}} \\equiv H_{{B0}}$) to machine precision.
+- Task F1620 will implement, qualify, and test this operator offline without PBS submissions.
 """
 
     with open(OUTPUT_REPORT_MD, "w", encoding="utf-8") as f:

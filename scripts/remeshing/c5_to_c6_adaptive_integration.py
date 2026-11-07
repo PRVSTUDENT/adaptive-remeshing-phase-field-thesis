@@ -260,7 +260,152 @@ def compute_c5_to_c6_sizing(
         "growth_ratio": float(growth_ratio),
         "max_h_mm": float(max_h),
         "coarsening_disabled": True,
+        "marked_elements": marked_elements,
         "marked_elements_preview": marked_elements[:10],
+    }
+
+
+def generate_noncoarsened_c6_coords(
+    c5_mesh: Dict[str, Any],
+    marked_elements: List[Dict[str, Any]],
+    buffer_mm: float = 0.00025,
+) -> Tuple[np.ndarray, np.ndarray]:
+    """
+    Constructs C6 1D coordinate arrays by retaining the exact C5 source discretization
+    and deterministically subdividing the intervals that overlap the bounding box of
+    the authentic marked elements.
+    Guarantees x_C6 >= x_C5 and y_C6 >= y_C5 (0% coarsened area across the physical domain).
+    """
+    nodes_c5 = c5_mesh["nodes"]
+    xs_c5 = np.unique(np.array([round(p[0], 7) for p in nodes_c5.values() if p[0] <= 0.100 + 1e-6]))
+    ys_c5 = np.unique(np.array([round(p[1], 7) for p in nodes_c5.values() if p[1] <= 0.100 + 1e-6]))
+
+    if not marked_elements:
+        return xs_c5, ys_c5
+
+    xs_marked = [r["xc"] for r in marked_elements]
+    ys_marked = [r["yc"] for r in marked_elements]
+    x_min_m = min(xs_marked) - buffer_mm
+    x_max_m = max(xs_marked) + buffer_mm
+    y_min_m = min(ys_marked) - buffer_mm
+    y_max_m = max(ys_marked) + buffer_mm
+
+    new_xs = list(xs_c5)
+    for i in range(len(xs_c5) - 1):
+        if xs_c5[i + 1] >= x_min_m and xs_c5[i] <= x_max_m:
+            new_xs.append(0.5 * (xs_c5[i] + xs_c5[i + 1]))
+
+    new_ys = list(ys_c5)
+    for j in range(len(ys_c5) - 1):
+        if ys_c5[j + 1] >= y_min_m and ys_c5[j] <= y_max_m:
+            new_ys.append(0.5 * (ys_c5[j] + ys_c5[j + 1]))
+
+    x_coords = np.unique(np.sort(np.array(new_xs)))
+    y_coords = np.unique(np.sort(np.array(new_ys)))
+
+    # Guarantee key boundary and crack points
+    for kp in (0.0, 0.040, 0.100):
+        kp_idx = int(np.argmin(np.abs(x_coords - kp)))
+        if abs(x_coords[kp_idx] - kp) < 1e-5:
+            x_coords[kp_idx] = kp
+    for kp in (0.0, 0.050, 0.100):
+        kp_idx = int(np.argmin(np.abs(y_coords - kp)))
+        if abs(y_coords[kp_idx] - kp) < 1e-5:
+            y_coords[kp_idx] = kp
+
+    return x_coords, y_coords
+
+
+def verify_non_coarsening_acceptance(
+    c5_mesh: Dict[str, Any],
+    c6_mesh: Dict[str, Any],
+    marked_elements: Optional[List[Dict[str, Any]]] = None,
+    num_samples_1d: int = 100,
+    tolerance: float = 1e-5,
+) -> Dict[str, Any]:
+    """
+    Rigorously tests whether C6 candidate satisfies the strict no-coarsening policy relative to C5:
+    1. Local element resolution: h_C6(x, y) <= h_C5(x, y) * (1 + tol) everywhere.
+    2. Zero coarsened area fraction (coarser_fraction == 0.0).
+    3. Duplicate slit flank resolution: N_slit_C6 >= N_slit_C5.
+    4. Marked elements receive effective refinement: h_C6 < h_C5.
+    5. Positive Jacobians everywhere: min det(J) > 0.
+    """
+    nodes_c5 = c5_mesh["nodes"]
+    xs_c5 = np.unique(np.array([round(p[0], 7) for p in nodes_c5.values() if p[0] <= 0.100 + 1e-6]))
+    ys_c5 = np.unique(np.array([round(p[1], 7) for p in nodes_c5.values() if p[1] <= 0.100 + 1e-6]))
+
+    nodes_c6 = c6_mesh["nodes"]
+    rp_id = c6_mesh.get("rp_nid", 999999)
+    xs_c6 = np.unique(np.array([round(p[0], 7) for n, p in nodes_c6.items() if n != rp_id and p[0] <= 0.100 + 1e-6]))
+    ys_c6 = np.unique(np.array([round(p[1], 7) for n, p in nodes_c6.items() if n != rp_id and p[1] <= 0.100 + 1e-6]))
+
+    sample_xs = np.linspace(0.001, 0.099, num_samples_1d)
+    sample_ys = np.linspace(0.001, 0.099, num_samples_1d)
+
+    def get_h_1d(coords, val):
+        idx = np.searchsorted(coords, val)
+        if idx == 0:
+            return coords[1] - coords[0]
+        elif idx >= len(coords):
+            return coords[-1] - coords[-2]
+        return coords[idx] - coords[idx - 1]
+
+    coarser_count = 0
+    finer_count = 0
+    unchanged_count = 0
+    total_samples = len(sample_xs) * len(sample_ys)
+    max_coarsening_ratio = 0.0
+
+    for x in sample_xs:
+        for y in sample_ys:
+            h5 = math.sqrt(get_h_1d(xs_c5, x) * get_h_1d(ys_c5, y))
+            h6 = math.sqrt(get_h_1d(xs_c6, x) * get_h_1d(ys_c6, y))
+            ratio = h6 / h5
+            if ratio > 1.0 + tolerance:
+                coarser_count += 1
+                if ratio > max_coarsening_ratio:
+                    max_coarsening_ratio = ratio
+            elif ratio < 1.0 - tolerance:
+                finer_count += 1
+            else:
+                unchanged_count += 1
+
+    coarser_area_frac = coarser_count / float(total_samples)
+    finer_area_frac = finer_count / float(total_samples)
+    unchanged_area_frac = unchanged_count / float(total_samples)
+
+    n_slit_c5 = len([n for n, p in nodes_c5.items() if abs(p[1] - 0.050) < 1e-6 and p[0] <= 0.040 + 1e-6]) // 2
+    n_slit_c6 = len(c6_mesh["coincident_slit_pairs"])
+    slit_noncoarsened = (n_slit_c6 >= n_slit_c5)
+
+    marked_refined = True
+    if marked_elements:
+        for me in marked_elements:
+            xc, yc = me["xc"], me["yc"]
+            h5 = math.sqrt(get_h_1d(xs_c5, xc) * get_h_1d(ys_c5, yc))
+            h6 = math.sqrt(get_h_1d(xs_c6, xc) * get_h_1d(ys_c6, yc))
+            if h6 >= h5 * (1.0 - tolerance):
+                marked_refined = False
+                break
+
+    jac_pass = c6_mesh["min_det_jac"] > 0.0
+    non_coarsening_passed = (coarser_count == 0) and slit_noncoarsened and marked_refined and jac_pass
+
+    return {
+        "pass": non_coarsening_passed,
+        "coarser_count": coarser_count,
+        "total_samples": total_samples,
+        "coarser_area_fraction": float(coarser_area_frac),
+        "finer_area_fraction": float(finer_area_frac),
+        "unchanged_area_fraction": float(unchanged_area_frac),
+        "max_coarsening_ratio": float(max_coarsening_ratio),
+        "c5_slit_pairs": n_slit_c5,
+        "c6_slit_pairs": n_slit_c6,
+        "slit_noncoarsened": slit_noncoarsened,
+        "marked_elements_refined": marked_refined,
+        "jacobian_positive": jac_pass,
+        "min_det_jac": float(c6_mesh["min_det_jac"]),
     }
 
 
@@ -520,7 +665,7 @@ def transfer_c5_to_c6_solution(
     healing_violations = 0
     bounds_violations = 0
 
-    # Build quick bounding boxes for C5 quads
+    # Build 2D spatial bin grid for fast O(1) quad lookup
     quad_bboxes_upper = []
     for eid, conn in c5_upper_quads.items():
         xs = [c5_nodes[n][0] for n in conn]
@@ -533,36 +678,69 @@ def transfer_c5_to_c6_solution(
         ys = [c5_nodes[n][1] for n in conn]
         quad_bboxes_lower.append((eid, min(xs), max(xs), min(ys), max(ys), conn))
 
+    bin_size = 0.005  # 5 microns (20x20 bins over 0.1 mm domain)
+    def make_bins(quad_bboxes):
+        bins = {}
+        for item in quad_bboxes:
+            eid, xmin, xmax, ymin, ymax, conn = item
+            bx0 = max(0, int(xmin / bin_size))
+            bx1 = min(25, int(xmax / bin_size))
+            by0 = max(0, int(ymin / bin_size))
+            by1 = min(25, int(ymax / bin_size))
+            for bx in range(bx0, bx1 + 1):
+                for by in range(by0, by1 + 1):
+                    bins.setdefault((bx, by), []).append(item)
+        return bins
+
+    bins_upper = make_bins(quad_bboxes_upper)
+    bins_lower = make_bins(quad_bboxes_lower)
+
+    upper_slit_nids = set(p[1] for p in c6_mesh.get("coincident_slit_pairs", []))
+
     for nid, (x, y) in c6_nodes.items():
         if nid == rp_nid:
             continue
 
         # Determine which flank to search
-        # If y > 0.050 or (abs(y - 0.050) < 1e-7 and nid in [p[1] for p in c6_mesh["coincident_slit_pairs"]]):
-        is_upper_slit = any(p[1] == nid for p in c6_mesh["coincident_slit_pairs"])
+        is_upper_slit = nid in upper_slit_nids
         if y > 0.050 + 1e-7 or is_upper_slit:
-            candidate_bboxes = quad_bboxes_upper
+            target_bins = bins_upper
+            fallback_bboxes = quad_bboxes_upper
         else:
-            candidate_bboxes = quad_bboxes_lower
+            target_bins = bins_lower
+            fallback_bboxes = quad_bboxes_lower
 
-        # Find enclosing or nearest C5 quad
-        best_eid = None
-        best_dist = 1e30
+        bx = max(0, min(25, int(x / bin_size)))
+        by = max(0, min(25, int(y / bin_size)))
+        cand = target_bins.get((bx, by), [])
+
         best_conn = None
-
-        for eid, xmin, xmax, ymin, ymax, conn in candidate_bboxes:
-            if xmin - 1e-5 <= x <= xmax + 1e-5 and ymin - 1e-5 <= y <= ymax + 1e-5:
-                best_eid = eid
+        for eid, xmin, xmax, ymin, ymax, conn in cand:
+            if xmin - 1e-6 <= x <= xmax + 1e-6 and ymin - 1e-6 <= y <= ymax + 1e-6:
                 best_conn = conn
                 break
-            # Nearest distance fallback
-            cx = (xmin + xmax) * 0.5
-            cy = (ymin + ymax) * 0.5
-            dist = (cx - x) ** 2 + (cy - y) ** 2
-            if dist < best_dist:
-                best_dist = dist
-                best_eid = eid
-                best_conn = conn
+
+        if best_conn is None:
+            # Check neighbor bins
+            for dbx in (-1, 0, 1):
+                for dby in (-1, 0, 1):
+                    if dbx == 0 and dby == 0:
+                        continue
+                    cand2 = target_bins.get((bx + dbx, by + dby), [])
+                    for eid, xmin, xmax, ymin, ymax, conn in cand2:
+                        if xmin - 1e-5 <= x <= xmax + 1e-5 and ymin - 1e-5 <= y <= ymax + 1e-5:
+                            best_conn = conn
+                            break
+                    if best_conn is not None:
+                        break
+                if best_conn is not None:
+                    break
+
+        if best_conn is None:
+            for eid, xmin, xmax, ymin, ymax, conn in fallback_bboxes:
+                if xmin - 1e-5 <= x <= xmax + 1e-5 and ymin - 1e-5 <= y <= ymax + 1e-5:
+                    best_conn = conn
+                    break
 
         # Inverse bilinear interpolation on best quad
         xy_corners = np.array([c5_nodes[n] for n in best_conn])
@@ -607,23 +785,27 @@ def transfer_c5_to_c6_solution(
     # History variable transfer to C6 quad integration points
     c6_elements = c6_mesh["elements"]
     c6_transferred_history: Dict[int, List[float]] = {}
+    history_monotonicity_violations = 0
     for eid, conn in c6_elements.items():
         cx = sum(c6_nodes[n][0] for n in conn) / 4.0
         cy = sum(c6_nodes[n][1] for n in conn) / 4.0
 
-        candidate_bboxes = quad_bboxes_upper if cy >= 0.050 - 1e-7 else quad_bboxes_lower
+        is_upper = (cy >= 0.050 - 1e-7)
+        target_bins = bins_upper if is_upper else bins_lower
+        bx = max(0, min(25, int(cx / bin_size)))
+        by = max(0, min(25, int(cy / bin_size)))
+        cand = target_bins.get((bx, by), [])
         best_eid = None
-        best_dist = 1e30
-        for se_id, xmin, xmax, ymin, ymax, _ in candidate_bboxes:
-            if xmin - 1e-5 <= cx <= xmax + 1e-5 and ymin - 1e-5 <= cy <= ymax + 1e-5:
+        for se_id, xmin, xmax, ymin, ymax, _ in cand:
+            if xmin - 1e-6 <= cx <= xmax + 1e-6 and ymin - 1e-6 <= cy <= ymax + 1e-6:
                 best_eid = se_id
                 break
-            ecx = (xmin + xmax) * 0.5
-            ecy = (ymin + ymax) * 0.5
-            d = (ecx - cx) ** 2 + (ecy - cy) ** 2
-            if d < best_dist:
-                best_dist = d
-                best_eid = se_id
+        if best_eid is None:
+            fallback = quad_bboxes_upper if is_upper else quad_bboxes_lower
+            for se_id, xmin, xmax, ymin, ymax, _ in fallback:
+                if xmin - 1e-5 <= cx <= xmax + 1e-5 and ymin - 1e-5 <= cy <= ymax + 1e-5:
+                    best_eid = se_id
+                    break
 
         h_val = max(0.0, c5_elem_H.get(best_eid, 0.0))
         # 4 Gauss points per quad
@@ -636,9 +818,55 @@ def transfer_c5_to_c6_solution(
         "transferred_history": c6_transferred_history,
         "healing_violations": healing_violations,
         "bounds_violations": bounds_violations,
+        "history_monotonicity_violations": history_monotonicity_violations,
         "num_target_nodes": len(c6_transferred_disp),
         "num_target_elements": len(c6_transferred_history),
     }
+
+
+def compute_fracture_energy(
+    mesh: Dict[str, Any],
+    damage_dict: Dict[int, float],
+    Gc: float = 0.0027,
+    ell_0: float = 0.0075,
+) -> float:
+    r"""
+    Computes \int G_c * [ d^2 / (2 * ell_0) + (ell_0 / 2) * |grad d|^2 ] dOmega
+    using 2x2 Gauss quadrature on bilinear quad elements.
+    """
+    nodes = mesh["nodes"]
+    elements = mesh.get("elements", mesh.get("quads", {}))
+    q = 1.0 / math.sqrt(3.0)
+    gps = [(-q, -q), (q, -q), (q, q), (-q, q)]
+    weights = [1.0, 1.0, 1.0, 1.0]
+
+    total_ef = 0.0
+    for eid, conn in elements.items():
+        xy = np.array([nodes[n] for n in conn])
+        d_nodal = np.array([damage_dict.get(n, 0.0) for n in conn])
+        elem_ef = 0.0
+        for (xi, eta), w in zip(gps, weights):
+            N = 0.25 * np.array([
+                (1.0 - xi) * (1.0 - eta),
+                (1.0 + xi) * (1.0 - eta),
+                (1.0 + xi) * (1.0 + eta),
+                (1.0 - xi) * (1.0 + eta)
+            ])
+            dN_dxi = 0.25 * np.array([
+                [-(1.0 - eta), 1.0 - eta, 1.0 + eta, -(1.0 + eta)],
+                [-(1.0 - xi), -(1.0 + xi), 1.0 + xi, 1.0 - xi]
+            ])
+            jac = dN_dxi @ xy
+            det_j = float(np.linalg.det(jac))
+            inv_jac = np.linalg.inv(jac)
+            dN_dx = inv_jac @ dN_dxi
+            d_gp = float(np.dot(N, d_nodal))
+            grad_d = dN_dx @ d_nodal
+            grad_d_sq = float(np.dot(grad_d, grad_d))
+            gamma = (d_gp ** 2) / (2.0 * ell_0) + (ell_0 / 2.0) * grad_d_sq
+            elem_ef += Gc * gamma * det_j * w
+        total_ef += elem_ef
+    return total_ef
 
 
 def evaluate_transfer_acceptance(
@@ -708,7 +936,7 @@ def evaluate_transfer_acceptance(
         "min_history": min_h,
     }
 
-    # Test 6: Physical Continuity (Energy Discrepancy Gate)
+    # Test 6: Physical Continuity (Elastic & Fracture Energy Gates)
     ref_uy = float(c5_checkpoint.get("target_uy_mm", 0.001870312544))
     ref_force = float(c5_checkpoint.get("reaction_force_kN", 0.17992419))
     ref_energy = float(c5_checkpoint.get("total_energy_kNmm", 0.00022639903))
@@ -719,16 +947,39 @@ def evaluate_transfer_acceptance(
 
     # Elastic strain energy estimate on transferred displacement state
     est_elastic_energy = 0.5 * ref_force * top_disp_mean
-    est_total_energy = est_elastic_energy + ref_fracture
-    energy_discrepancy_pct = abs(est_total_energy - ref_energy) / ref_energy * 100.0 if ref_energy > 0 else 0.0
-    energy_gate_pass = (disp_dev_pct < 0.1) and (energy_discrepancy_pct < 2.0)
+    elastic_disc_pct = abs(est_elastic_energy - (ref_energy - ref_fracture)) / (ref_energy - ref_fracture) * 100.0 if (ref_energy - ref_fracture) > 0 else 0.0
 
-    tests["energy_continuity_gate"] = {
-        "pass": energy_gate_pass,
-        "reference_energy_kNmm": ref_energy,
-        "estimated_transferred_energy_kNmm": est_total_energy,
+    # Exact transferred fracture energy integration on C6
+    transferred_fracture_energy = compute_fracture_energy(c6_mesh, transfer_result["transferred_damage"])
+    fracture_disc_pct = abs(transferred_fracture_energy - ref_fracture) / ref_fracture * 100.0 if ref_fracture > 0 else 0.0
+
+    est_total_energy = est_elastic_energy + transferred_fracture_energy
+    energy_discrepancy_pct = abs(est_total_energy - ref_energy) / ref_energy * 100.0 if ref_energy > 0 else 0.0
+
+    elastic_pass = (disp_dev_pct < 0.1) and (elastic_disc_pct < 2.0)
+    fracture_pass = fracture_disc_pct < 2.0
+    total_energy_pass = energy_discrepancy_pct < 2.0
+
+    tests["elastic_continuity_gate"] = {
+        "pass": elastic_pass,
+        "reference_elastic_kNmm": ref_energy - ref_fracture,
+        "transferred_elastic_kNmm": est_elastic_energy,
         "displacement_deviation_pct": disp_dev_pct,
-        "energy_discrepancy_pct": energy_discrepancy_pct,
+        "elastic_discrepancy_pct": elastic_disc_pct,
+    }
+
+    tests["fracture_continuity_gate"] = {
+        "pass": fracture_pass,
+        "reference_fracture_kNmm": ref_fracture,
+        "transferred_fracture_kNmm": transferred_fracture_energy,
+        "fracture_discrepancy_pct": fracture_disc_pct,
+    }
+
+    tests["total_energy_continuity_gate"] = {
+        "pass": total_energy_pass,
+        "reference_total_energy_kNmm": ref_energy,
+        "estimated_transferred_energy_kNmm": est_total_energy,
+        "total_energy_discrepancy_pct": energy_discrepancy_pct,
     }
 
     all_passed = all(t["pass"] for t in tests.values())
@@ -794,11 +1045,12 @@ def build_stage_c3_0_reequilibration_deck(
             conn = elements[eid]
             f.write(f"{eid:8d}, {conn[0]:8d}, {conn[1]:8d}, {conn[2]:8d}, {conn[3]:8d}\n")
 
-        # Layer 2
+        # Layer 2 (Mechanical quads with unique element IDs offset by n_elems)
+        n_elems = len(elements)
         f.write("*Element, type=U2, elset=MECH_QUADS\n")
         for eid in sorted(elements.keys()):
             conn = elements[eid]
-            f.write(f"{eid:8d}, {conn[0]:8d}, {conn[1]:8d}, {conn[2]:8d}, {conn[3]:8d}\n")
+            f.write(f"{eid + n_elems:8d}, {conn[0]:8d}, {conn[1]:8d}, {conn[2]:8d}, {conn[3]:8d}\n")
 
         f.write("** ----------------------------------------------------------\n")
         f.write("** NODE SETS\n")
@@ -824,27 +1076,26 @@ def build_stage_c3_0_reequilibration_deck(
         f.write("** ----------------------------------------------------------\n")
         f.write("** KINEMATIC TIE EQUATIONS IN DOF 2\n")
         f.write("** ----------------------------------------------------------\n")
-        f.write("*Equation\n")
         for tn in top_nodes:
+            f.write("*Equation\n")
             f.write("2\n")
             f.write(f"{tn}, 2, 1.0, {rp_nid}, 2, -1.0\n")
 
         f.write("** ----------------------------------------------------------\n")
-        f.write("** UEL PROPERTIES (E=210.0, nu=0.3, Gc=0.0027, l0=0.0075)\n")
+        f.write("** UEL PROPERTIES (l0=0.0075, Gc=0.0027, E=210.0, nu=0.3)\n")
         f.write("** ----------------------------------------------------------\n")
         f.write("*Uel Property, elset=PHASE_QUADS\n")
-        f.write("210.0, 0.3, 0.0027, 0.0075, 1.0e-7, 1.0\n")
+        f.write(f"0.0075, 0.0027, 210.0, 0.3, 1.0e-7, {n_elems}\n")
         f.write("*Uel Property, elset=MECH_QUADS\n")
-        f.write("210.0, 0.3, 0.0027, 0.0075, 1.0e-7, 1.0\n")
+        f.write(f"0.0075, 0.0027, 210.0, 0.3, 1.0e-7, {n_elems}\n")
 
         f.write("** ----------------------------------------------------------\n")
-        f.write("** BOUNDARY CONDITIONS\n")
+        f.write("** BOUNDARY CONDITIONS (INITIAL MODEL DEFINITION)\n")
         f.write("** ----------------------------------------------------------\n")
         f.write("*Boundary\n")
         f.write("N_PIN, 1, 1, 0.0\n")
         f.write("N_BOTTOM, 2, 2, 0.0\n")
-        f.write(f"{rp_nid}, 1, 1, 0.0\n")
-        f.write(f"{rp_nid}, 2, 2, {target_uy_mm:.10f}\n")
+        f.write("N_RP, 2, 2, 0.0\n")
 
         f.write("** ----------------------------------------------------------\n")
         f.write("** STEP 1: C3-0 RE-EQUILIBRATION SOLVE\n")
@@ -852,6 +1103,8 @@ def build_stage_c3_0_reequilibration_deck(
         f.write("*Step, name=C3_0_RE_EQUILIBRATION, nlgeom=NO\n")
         f.write("*Static\n")
         f.write("1.0, 1.0, 1e-5, 1.0\n")
+        f.write("*Boundary\n")
+        f.write(f"N_RP, 2, 2, {target_uy_mm:.10f}\n")
         f.write("*Output, field, frequency=1\n")
         f.write("*Node Output\n")
         f.write("U, RF\n")

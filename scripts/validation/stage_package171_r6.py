@@ -138,6 +138,12 @@ def stage_package_r6():
         )
         run_remote_ssh(extract_cmd)
 
+        # 4a. Remote Bash Syntax Check on PBS script
+        print("\n4a. Running Remote Bash Syntax Check on submit script...")
+        bash_syntax_cmd = f"bash -n {REMOTE_RUN_DIR}/submit_M1_C6_P171_R6_C3_0.pbs"
+        run_remote_ssh(bash_syntax_cmd, timeout=30)
+        print("Remote bash -n syntax check PASSED cleanly.")
+
         # 4b. Remote Python Import Smoke Test
         print("\n4b. Running Remote Python Import Smoke Test on compute cluster...")
         smoke_cmd = f"python3 {REMOTE_RUN_DIR}/smoke_import.py"

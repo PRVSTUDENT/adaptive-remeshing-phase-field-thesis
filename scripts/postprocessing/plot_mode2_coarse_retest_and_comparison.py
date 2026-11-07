@@ -119,9 +119,9 @@ def plot_coarse_and_adapted_comparison():
         u_fmax = coarse_summary.get('u_at_fmax_um', 13.43)
         ax_a.plot(u_fmax, f_max, 'ro', markersize=7, label=r'Coarse Peak $F_{\max} = %.3f\,\mathrm{kN}$ at $u = %.2f\,\mu\mathrm{m}$' % (f_max, u_fmax))
 
-    if ad_pub_u:
+    if ad_pub_u is not None and len(ad_pub_u) > 0:
         ax_a.plot(ad_pub_u, ad_pub_f, 'k--', lw=2.0, alpha=0.9, label=r'Pandey & Kumar Fig. 13(a) (Adaptive $19{,}963$ FEs, $F_{\max}=0.146\,\mathrm{kN}$)')
-    if std_pub_u:
+    if std_pub_u is not None and len(std_pub_u) > 0:
         ax_a.plot(std_pub_u, std_pub_f, 'gray', linestyle=':', lw=1.6, alpha=0.8, label=r'Pandey & Kumar Fig. 13(a) (Standard $37{,}155$ FEs, $F_{\max}=0.144\,\mathrm{kN}$)')
 
     # Elastic loading zone annotation
@@ -170,7 +170,6 @@ def plot_coarse_and_adapted_comparison():
     chord_angle = coarse_summary.get('chord_angle_deg', -57.95)
     ax_c.plot(exit_x, 0.0, 'ro', markersize=9, label=r'Coarse Exit: $x=%.3f\,\mathrm{mm}$ ($\theta = %.1f^\circ$)' % (exit_x, chord_angle))
 
-
     ax_c.set_xlabel(r'$x$ Coordinate [$\mathrm{mm}$]', fontsize=11, fontweight='bold')
     ax_c.set_ylabel(r'$y$ Coordinate [$\mathrm{mm}$]', fontsize=11, fontweight='bold')
     ax_c.set_title('(c) Computed Mode-II Crack Trajectory vs Literature Path', fontsize=12, fontweight='bold')
@@ -190,12 +189,13 @@ def plot_coarse_and_adapted_comparison():
         ["Quantity / Metric", "Coarse Retest (J1)", "Adapted Retest (J2)", "Literature Ref (Fig 13a)"],
         ["Finite Element Count", "2,960 FEs", "22,530 FEs", "19,963 FEs (Adaptive)"],
         ["Node Count", "3,037 Nodes", "22,642 Nodes", "N/A (Published)"],
-        ["Initial Stiffness K0", "45.80 kN/mm", "45.68 kN/mm (In-Situ)", "12.80 kN/mm (Nominal)"],
+        ["Initial Stiffness K0", "45.80 kN/mm", "45.49 kN/mm (In-Situ)", "~12.80 kN/mm (Apparent)"],
+        ["Reaction Force at 4.15 um", "189.9 N", "188.58 N (In-Situ)", "~53.0 N"],
         ["Peak Load F_max", "514.51 N", "Solving (Active)", "145.5 N (19.9k FEs)"],
         ["Displacement u(F_max)", "13.43 um", "Solving (Active)", "12.80 um"],
         ["Final Reaction Force", "433.47 N (at 20 um)", "Solving (Active)", "38.0 N (at 20 um)"],
         ["Softening Load Drop", "15.75%", "Solving (Active)", "73.88%"],
-        ["Terminal Damage d_max", "1.000000 (Full)", "0.037 (at 3.5 um)", "1.000 (Broken)"],
+        ["Terminal Damage d_max", "1.000000 (Full)", "0.0528 (at 3.87 um)", "1.000 (Broken)"],
         ["Crack Chord Angle", "-57.95 deg", "Active (Solving)", "-49.30 deg"],
         ["Bottom Exit (y=0)", "x = 0.813 mm", "Active (Solving)", "x = 0.930 mm"],
         ["Physical Solver Status", "COMPLETED (Exit 0)", "RUNNING (0 Cutbacks)", "Published Baseline"]

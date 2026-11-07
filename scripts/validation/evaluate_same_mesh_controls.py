@@ -188,8 +188,12 @@ def build_evaluation_summary(
     max_dd_entry = max(dd_ratios, key=lambda x: x[1]) if dd_ratios else (None, None)
 
     # Check for final converged checkpoints or endpoints
-    ckpt1_file = arm1_dir / "converged_checkpoint.json"
-    ckpt2_file = arm2_dir / "converged_checkpoint.json"
+    ckpt1_file = arm1_dir / "converged_same_mesh_control_checkpoint.json"
+    if not ckpt1_file.is_file():
+        ckpt1_file = arm1_dir / "converged_checkpoint.json"
+    ckpt2_file = arm2_dir / "converged_same_mesh_control_checkpoint.json"
+    if not ckpt2_file.is_file():
+        ckpt2_file = arm2_dir / "converged_checkpoint.json"
 
     ckpt1 = json.loads(ckpt1_file.read_text(encoding="utf-8")) if ckpt1_file.is_file() else None
     ckpt2 = json.loads(ckpt2_file.read_text(encoding="utf-8")) if ckpt2_file.is_file() else None
@@ -205,25 +209,24 @@ def build_evaluation_summary(
         (max_dh_entry[1] is not None and max_dh_entry[1] > 10.0)
     )
 
-    isoparametric_superior = (
-        (
-            a2_analysis.get("final_delta_d", 1.0) < a1_analysis.get("final_delta_d", 0.0) and
-            a2_analysis.get("final_delta_u_mm", 1.0) < a1_analysis.get("final_delta_u_mm", 0.0) and
-            a2_analysis.get("final_delta_H_MPa", 1.0) < a1_analysis.get("final_delta_H_MPa", 0.0)
-        ) or (
-            max_dh_entry[1] is not None and max_dh_entry[1] > 10.0 and
-            max_du_entry[1] is not None and max_du_entry[1] > 10.0
-        )
+    terminal_superior = (
+        a2_analysis.get("final_delta_d", 1.0) < a1_analysis.get("final_delta_d", 0.0) and
+        a2_analysis.get("final_delta_u_mm", 1.0) < a1_analysis.get("final_delta_u_mm", 0.0) and
+        a2_analysis.get("final_delta_H_MPa", 1.0) < a1_analysis.get("final_delta_H_MPa", 0.0)
     )
 
+    transient_improved = (max_dh_entry[1] is not None and max_dh_entry[1] > 10.0)
+
     findings_text = (
-        f"Isoparametric bilinear GP history operator (Arm 2) outperforms element averaging (Arm 1) "
-        f"across the physical trajectory: peak Delta_H reduction is ~{max_dh_entry[1]:.1f}x (Outer {max_dh_entry[0]}), "
-        f"peak Delta_u reduction is ~{max_du_entry[1]:.1f}x (Outer {max_du_entry[0]}), "
-        f"and peak Delta_d reduction is ~{max_dd_entry[1]:.1f}x (Outer {max_dd_entry[0]}). "
-        f"Element-averaging permanently distorts crack-tip history gradients. "
-        f"Neither arm achieved strict coupled convergence (1e-5) in 140 outer iterations "
-        f"under fixed-displacement re-equilibration."
+        f"Corrected isoparametric transfer demonstrates substantial transient improvements in field fidelity "
+        f"(peak Delta_H reduction is ~{max_dh_entry[1]:.1f}x at Outer {max_dh_entry[0]}, "
+        f"peak Delta_u reduction is ~{max_du_entry[1]:.1f}x at Outer {max_du_entry[0]}, "
+        f"and peak Delta_d reduction is ~{max_dd_entry[1]:.1f}x at Outer {max_dd_entry[0]}). "
+        f"However, terminal convergence at Outer 140 is not superior (Arm 2: Delta_d={a2_analysis.get('final_delta_d',0):.2e}, "
+        f"Delta_u={a2_analysis.get('final_delta_u_mm',0):.2e} mm, Delta_H={a2_analysis.get('final_delta_H_MPa',0):.1f} MPa vs "
+        f"Arm 1: Delta_d={a1_analysis.get('final_delta_d',0):.2e}, Delta_u={a1_analysis.get('final_delta_u_mm',0):.2e} mm, "
+        f"Delta_H={a1_analysis.get('final_delta_H_MPa',0):.1f} MPa). "
+        f"Neither arm achieved coupled convergence (1e-5), and both exhibit coupled nonconvergence."
         if max_dh_entry[1] is not None else
         "Awaiting complete telemetry for final quantitative comparison."
     )
@@ -271,7 +274,10 @@ def build_evaluation_summary(
             "history_gradient_defect_confirmed": defect_confirmed,
             "delta_H_reduction_factor": dh_reduction,
             "max_trajectory_delta_H_reduction": max_dh_entry[1],
-            "isoparametric_superiority_established": isoparametric_superior,
+            "isoparametric_superiority_established": terminal_superior,
+            "terminal_convergence_superiority_established": terminal_superior,
+            "transient_field_fidelity_improved": transient_improved,
+            "both_arms_nonconverged": (not a1_analysis.get("coupled_converged", False)) and (not a2_analysis.get("coupled_converged", False)),
             "findings_summary": findings_text
         }
     }

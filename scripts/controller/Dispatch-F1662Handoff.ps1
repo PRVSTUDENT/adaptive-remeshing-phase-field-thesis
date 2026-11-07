@@ -114,27 +114,22 @@ With Phase 1 (Closed-Loop Recovery Qualification) and Phase 2 (Native Remeshing 
    - Phase 4: Final user-authorized crack-propagation demonstration showing the off-axis hole crack deflection.
 "@
 
-Write-Host "Dispatching F1662 review prompt to ChatGPT Bridge (Handoff ID: $handoffId)..."
-$result = Invoke-ChatGPTBridge -Prompt $prompt -VerboseBridge
-Write-Host "ChatGPT Bridge Response Received:"
-Write-Host "Status: $($result.status)"
-Write-Host "Response length: $($result.response.Length) characters"
+Write-Host "Dispatching F1662 handoff to ChatGPT via Invoke-ChatGPTBridge..."
+Write-Host "Handoff ID: $handoffId"
+Write-Host "Task ID:    $taskId"
 
-# Archive the review response
-$archiveDir = "D:\Master thesis\Adaptive remeshing\project_coordination\review_dispatch"
-if (-not (Test-Path $archiveDir)) {
-    New-Item -ItemType Directory -Path $archiveDir -Force | Out-Null
+$response = Invoke-ChatGPTBridge -PromptText $prompt -HandoffId $handoffId -LaunchPad:$false -TimeoutMinutes 40 -TaskId $taskId
+
+Write-Host "======================================================================"
+Write-Host "CHATGPT REVIEW RESPONSE RECEIVED:"
+Write-Host "======================================================================"
+Write-Host $response
+
+# Save response to a file for parsing and coordination
+$responsePath = "project_coordination/review_dispatch/F1662_CHATGPT_REVIEW_RESPONSE.md"
+$responseDir = Split-Path $responsePath -Parent
+if (-not (Test-Path $responseDir)) {
+    New-Item -ItemType Directory -Path $responseDir -Force | Out-Null
 }
-$responseFile = Join-Path $archiveDir "F1662_CHATGPT_REVIEW_RESPONSE.md"
-$header = @"
-# ChatGPT Independent Review Response — Task F1662
-- Handoff ID: $handoffId
-- Timestamp: $((Get-Date).ToString("o"))
-- Status: $($result.status)
-- Result Commit: $commitUrl
-
----
-
-"@
-Set-Content -Path $responseFile -Value ($header + $result.response) -Encoding utf8
-Write-Host "Archived review response to: $responseFile"
+Set-Content -Path $responsePath -Value $response -Encoding UTF8
+Write-Host "Saved response to: $responsePath"

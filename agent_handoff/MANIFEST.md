@@ -1,17 +1,20 @@
 # Agent Handoff Manifest
 
-Created (UTC): 2026-07-20T16:08:55.601994+00:00
+Created (UTC): 2026-08-11T14:02:14.979951+00:00
 
 This directory contains only files from the latest mirrored operation.
 
 | Mirrored file | Original path | Bytes | SHA-256 |
 |---|---|---:|---|
-| `.agent.md` | `.agent.md` | 66366 | `e27f34c783ca52c2373d17848811269677e71b6cd8e52a4f442fff4a4938922c` |
-| `adaptive_remeshing_phase_field_agent.md` | `adaptive_remeshing_phase_field_agent.md` | 66366 | `e27f34c783ca52c2373d17848811269677e71b6cd8e52a4f442fff4a4938922c` |
-| `PROJECT_PHASE_CHECKLIST.md` | `docs/project/PROJECT_PHASE_CHECKLIST.md` | 26289 | `225e75a1e8c3a6925414740cf8674b191138310da62966b7174f6e631799e754` |
-| `MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md` | `docs/decisions/MOLNAR_GATE_A3_SUPERVISOR_REVIEW.md` | 7255 | `1153f473a6b9c68eb916814c817f21aa76d95c2d5beb17b14974b536350ce03b` |
-| `MOLNAR_GATE_A3_STATUS_MATRIX.md` | `docs/decisions/MOLNAR_GATE_A3_STATUS_MATRIX.md` | 2797 | `c52179c80a3b8a5bfff3491c7f6463df686f03aad95945d313cd0e9c1ed84f9b` |
-| `MOLNAR_GATE_A3_MEETING_SUMMARY.md` | `docs/handoffs/MOLNAR_GATE_A3_MEETING_SUMMARY.md` | 2396 | `e6fa104c5c3d7f6d25f1a95a6226d14357c04357b88ae6377b5555a2d883daaf` |
-| `MOLNAR_H_CONVERGENCE_SUPERVISOR_SLIDE_CONTENT.md` | `docs/handoffs/MOLNAR_H_CONVERGENCE_SUPERVISOR_SLIDE_CONTENT.md` | 2351 | `8b2b7e28e7cceb37550faff53ed03a54d5938d9cef9808ffd9ea752d2f76b8ca` |
-| `MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md` | `docs/decisions/MOLNAR_LC015_H_CONVERGENCE_SCIENTIFIC_DECISION.md` | 3547 | `7076060ca0a14c352c8201c60c6288b92483059d58c0bb3fca5204cc3d964936` |
-| `STUDY_STATUS.md` | `runs/hpc/molnar_lc015_h_convergence/STUDY_STATUS.md` | 2435 | `8e7f7a5b2aef36c429c6f797bd95c39e1d9830c73baeab450261513745346b58` |
+| `models__generated__mode_ii__f42_mixed_element_uel__f42_mixed_uel.for` | `models/generated/mode_ii/f42_mixed_element_uel/f42_mixed_uel.for` | 19592 | `96a6b0addf92719716d3f4dae6f1762ea1aec5e32cc526296380546c49dc33e5` |
+| `F43_STATE_INGESTION_PARALLELIZATION_NOTE.md` | `docs/technical/F43_STATE_INGESTION_PARALLELIZATION_NOTE.md` | 4513 | `c421d30d889ecf6c0c0f072cf0e505eaab9ebd36f3f4fd7a2fe8a2c6a18bf3d0` |
+| `M2STATE_INGEST_SMOKE1.inp` | `models/generated/mode_ii/production_state_transfer_batch/M2STATE_INGEST_SMOKE1/M2STATE_INGEST_SMOKE1.inp` | 3862 | `b11e236629c18ed0b7e7551866213e814de461c2e616dd472d7ad731982cbf9e` |
+| `models__generated__mode_ii__production_state_transfer_batch__M2STATE_INGEST_SMOKE1__f42_mixed_uel.for` | `models/generated/mode_ii/production_state_transfer_batch/M2STATE_INGEST_SMOKE1/f42_mixed_uel.for` | 19592 | `96a6b0addf92719716d3f4dae6f1762ea1aec5e32cc526296380546c49dc33e5` |
+| `STATE_TRANSFER_ARTIFACT.json` | `models/generated/mode_ii/production_state_transfer_batch/M2STATE_INGEST_SMOKE1/STATE_TRANSFER_ARTIFACT.json` | 591 | `567b71515afb278849fbcecc263f1df8b871e4ea18d6c5fae669694a7a199ba0` |
+| `TRANSFER_MANIFEST.json` | `models/generated/mode_ii/production_state_transfer_batch/M2STATE_INGEST_SMOKE1/TRANSFER_MANIFEST.json` | 614 | `fac7c0ebbbd9bafe4ca8b5940b11f647c60ddf02786918a11f3db55d15b5d173` |
+| `ACCEPTANCE_CONTRACT.json` | `models/generated/mode_ii/production_state_transfer_batch/M2STATE_INGEST_SMOKE1/ACCEPTANCE_CONTRACT.json` | 779 | `93b121a56ec63704a43e55db8ac9849de59ae7bd3724745d038382494856c43f` |
+| `PACKAGE_MANIFEST.json` | `models/generated/mode_ii/production_state_transfer_batch/M2STATE_INGEST_SMOKE1/PACKAGE_MANIFEST.json` | 1127 | `ddd0c3f348c659a9a28f8ce3941f28f5ac7b009ae87d40f526feae80c208060d` |
+| `M2STATE_INGEST_SMOKE1.pbs` | `models/generated/mode_ii/production_state_transfer_batch/M2STATE_INGEST_SMOKE1/M2STATE_INGEST_SMOKE1.pbs` | 878 | `15f5f3980a39fbba34daa3bb769fd6a4788cd95be7562d21ed21f94b941a2327` |
+| `submit_m2state_ingest_smoke1.sh` | `models/generated/mode_ii/production_state_transfer_batch/M2STATE_INGEST_SMOKE1/submit_m2state_ingest_smoke1.sh` | 2661 | `111e27a56cd5684923c913daed7597a7367af3fd5b8cd859a791041ed3ba0aab` |
+| `verify_smoke_trace.py` | `models/generated/mode_ii/production_state_transfer_batch/M2STATE_INGEST_SMOKE1/verify_smoke_trace.py` | 6178 | `6f8d5228f69f8b781bef12fd320a7df72b5f3d6c689893ba906a66f0bafcadfe` |
+| `test_m2state_ingest_smoke1.py` | `tests/unit/test_m2state_ingest_smoke1.py` | 14585 | `f97b5ed1d81d8580a4ca54e30605d589fa165512f22e385d566456b0e9ffbe86` |

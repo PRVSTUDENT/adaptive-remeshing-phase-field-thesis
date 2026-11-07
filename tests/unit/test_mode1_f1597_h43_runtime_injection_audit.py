@@ -93,17 +93,17 @@ class TestH43RuntimeInjectionAudit(unittest.TestCase):
         self.assertIn("%.7e" % sentinel_h[2], card_str)
         self.assertIn("%.7e" % sentinel_h[3], card_str)
 
-    def test_05_package142_generator_missing_cards_defect(self):
-        """Proves Package142DeckGenerator isolates the 3 missing deck generation components."""
+    def test_05_package142_generator_repaired_components_audit(self):
+        """Verifies Package142DeckGenerator now generates all required cards and decks (H44 repair)."""
         self.assertTrue(self.gen_audit["generates_d_lower_bounds_csv"])
         self.assertTrue(self.gen_audit["generates_nodal_displacements_initial_csv"])
         self.assertTrue(self.gen_audit["generates_nodal_phase_field_initial_csv"])
         self.assertTrue(self.gen_audit["generates_package_manifest_json"])
 
-        # Defects: missing inp deck, missing active set cards, missing solution cards
-        self.assertFalse(self.gen_audit["generates_inp_deck_file"], "Generator must be identified as lacking inp deck output")
-        self.assertFalse(self.gen_audit["generates_active_set_boundary_cards_inc"], "Generator must be identified as lacking boundary cards")
-        self.assertFalse(self.gen_audit["generates_initial_conditions_solution_cards"], "Generator must be identified as lacking solution cards")
+        # H44 Repair: all 3 components are now verified present and generated
+        self.assertTrue(self.gen_audit["generates_inp_deck_file"], "Generator must produce executable master inp deck")
+        self.assertTrue(self.gen_audit["generates_active_set_boundary_cards_inc"], "Generator must produce active-set boundary cards")
+        self.assertTrue(self.gen_audit["generates_initial_conditions_solution_cards"], "Generator must produce solution initial conditions cards")
 
     def test_06_predeclared_governance_and_gate_invariance(self):
         """Verifies that all governing gates remain strictly invariant under H43 audit."""

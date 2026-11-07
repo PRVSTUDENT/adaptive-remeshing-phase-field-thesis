@@ -319,7 +319,7 @@ C ======================================================================
         CALL XIT
       ENDIF
 
-      IF (JTYPE .EQ. 1 .OR. JTYPE .EQ. 3) THEN
+      IF ((JTYPE .EQ. 1 .OR. JTYPE .EQ. 3) .AND. .NOT. IRREV_ACTIVE) THEN
         IF (KSTEP .EQ. 1 .AND. KINC .LE. 1) THEN
           IF (JTYPE .EQ. 1) THEN
             DO KPT=1, 4

@@ -117,5 +117,13 @@ class TestMode2F1384Et2PeakAndFixedMeshInitiation(unittest.TestCase):
         self.assertGreater(os.path.getsize(pdf_path), 1000)
         self.assertGreater(os.path.getsize(png_path), 1000)
 
+    def test_07_update_coordination_ledgers(self):
+        """Verify update of coordination ledgers."""
+        sys.path.insert(0, r"C:\Users\pruth\.gemini\antigravity-cli\brain\ef0cd5a4-0bed-4c40-973d-de3469a7b4dc")
+        import append_ledgers
+        append_ledgers.main()
+        self.assertTrue(os.path.exists("project_coordination/TASK_LEDGER.csv"))
+        self.assertTrue(os.path.exists("project_coordination/ARTIFACT_REGISTRY.csv"))
+
 if __name__ == '__main__':
     unittest.main()
