@@ -1,0 +1,25 @@
+{
+  "task_id": "F1655-COUPLED-MISESERI-PROVENANCE-AND-NATIVE-REMESH",
+  "title": "Correct coupled-state MISESERI provenance, native remesh selectivity and fracture-zone resolution",
+  "category": "Mode-I",
+  "status": "ACTIVE",
+  "assigned_agent": "gemini-antigravity",
+  "created_at": "2026-11-07T09:29:00.0000000+00:00",
+  "starting_commit": "053f16aa",
+  "predecessor_task": {
+    "task_id": "F1654-COUPLED-STRESS-RECOVERY-AND-METHOD-A-REMESHING",
+    "checkpoint_artifact": "project_coordination/sessions/2026-11-07_gemini-antigravity_F1654_miseseri_recovery.md"
+  },
+  "scientific_objective": "Correct verified F1654 defects: reconstruct authentic plane-strain coupled stress state from Job 1 (1421063.mmaster02) using frozen UEL constitutive law g(d)=(1-d)^2+1e-7, resolve 2,906 vs 2,935 mesh mismatch, clarify raw MISESERI units [MPa], and execute qualified native adaptive remesh with rigorous fracture-zone resolution (h <= 1.500 um).",
+  "max_new_pbs_submissions": 0,
+  "allowed_write_scope": [
+    "project_coordination",
+    "models/pandey_kumar_mode1/176_method_a_plate_with_hole",
+    "scripts/remeshing",
+    "scripts/validation",
+    "scripts/visualization",
+    "results/validation",
+    "MA_AdaptiveRemeshing_Report_2026/figures",
+    "docs/MA_AdaptiveRemeshing_Report_2026_main/figures"
+  ]
+}

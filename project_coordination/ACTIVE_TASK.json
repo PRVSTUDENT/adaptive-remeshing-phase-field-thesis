@@ -1,17 +1,17 @@
 {
-    "task_id": "F1654-COUPLED-STRESS-RECOVERY-AND-METHOD-A-REMESHING",
-    "title": "Fix coupled UEL/UMAT stress recovery and evaluate genuine Pandey-Kumar Method A remeshing on geometry-backed model",
+    "task_id": "F1655-COUPLED-MISESERI-PROVENANCE-AND-NATIVE-REMESH",
+    "title": "Correct coupled-state MISESERI provenance, native remesh selectivity and fracture-zone resolution",
     "status": "COMPLETED",
     "assigned_agent": "gemini-antigravity",
     "predecessor_task": {
-        "task_id": "F1653-PANDEY-KUMAR-ORIGINAL-METHOD-A-COARSE-COUPLED-JOB1",
-        "checkpoint_artifact": "project_coordination/sessions/2026-11-07_gemini-antigravity_F1653_coarse_coupled_job1.md"
+        "task_id": "F1654-COUPLED-STRESS-RECOVERY-AND-METHOD-A-REMESHING",
+        "checkpoint_artifact": "project_coordination/sessions/2026-11-07_gemini-antigravity_F1654_miseseri_recovery.md"
     },
     "registration": {
-        "definition": "project_coordination/task_definitions/F1654-COUPLED-STRESS-RECOVERY-AND-METHOD-A-REMESHING.json"
+        "definition": "project_coordination/task_definitions/F1655-COUPLED-MISESERI-PROVENANCE-AND-NATIVE-REMESH.json"
     },
-    "scientific_operation": "coupled_stress_recovery_and_method_a_remeshing",
-    "scientific_operation_id": "f1654_stress_recovery",
+    "scientific_operation": "coupled_miseseri_provenance_and_native_remesh",
+    "scientific_operation_id": "f1655_coupled_remesh",
     "scientific_checkpoint_required": true,
     "max_new_pbs_submissions": 0,
     "completed_operations": [
@@ -48,7 +48,8 @@
         "f1647_thesis_integration",
         "f1648_finer_mesh_sensitivity",
         "f1651_corrected_localized_mesh_validation",
-        "f1652_generalized_adaptive_framework_validation"
+        "f1652_generalized_adaptive_framework_validation",
+        "f1655_coupled_remesh"
     ],
     "completed_pbs_job_ids": [
         "1398582.mmaster02",
@@ -484,8 +485,8 @@
     "operation_transition": {},
     "created_at": "2026-11-07T03:52:00.0000000+00:00",
     "paused_task": "F1640-METHOD-C-CP02-C6-CONTROLLED-EXPERIMENT-QUALIFICATION",
-    "last_step_status": "F1654_TASK_ACTIVE_INVESTIGATING_STRESS_RECOVERY",
+    "last_step_status": "F1655_COUPLED_MISESERI_PROVENANCE_AND_NATIVE_REMESH_COMPLETED",
     "active_pbs_job_id": "",
     "next_instruction_receipt": "",
-    "next_bounded_operation": "Inspect UMAT stress mechanisms and evaluate physically consistent stress recovery"
+    "next_bounded_operation": "Awaiting user inspection and approval of native adapted mesh"
 }
