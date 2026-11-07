@@ -130,6 +130,34 @@ A detailed spatial audit confirms high local resolution across the critical doma
 \end{itemize}
 All Gauss-point Jacobians evaluated positive, confirming absence of distorted or inverted elements. An authentic cluster datacheck verified Exit Code~0 with zero warnings.
 
+Figure~\ref{fig:hole_mesh_comparison} presents a direct side-by-side visual comparison between the original $46{,}747$-element discretization and the three-tier adapted $52{,}447$-element mesh in the critical fracture process zone. Figure~\ref{fig:hole_adapted_mesh} illustrates the complete $1 \times 1\,\mathrm{mm}$ specimen and the zoomed ligament detail, confirming smooth grading from the fine core ($h \approx 1.0\,\mu\mathrm{m}$) to the coarse bulk ($h \approx 25.0\,\mu\mathrm{m}$).
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.98\textwidth]{fig_method_a_hole_mesh_comparison.pdf}
+  \caption{Side-by-side comparison of the finite-element discretizations in the critical fracture process zone: (a)~original reference mesh ($46{,}747$ physical elements, median tip edge length $h_{\mathrm{tip}} \approx 3.5\,\mu\mathrm{m}$); (b)~three-tier indicator-adapted mesh ($52{,}447$ physical elements, median tip edge length $h_{\mathrm{tip}} \approx 1.17\,\mu\mathrm{m}$, providing a $+66.6\%$ local resolution improvement with merely $+12.2\%$ total element growth). Color contours indicate equivalent element size $h = \sqrt{A}$ in micrometers on a logarithmic scale.}
+  \label{fig:hole_mesh_comparison}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{fig_method_a_hole_adapted_mesh_full.pdf}
+    \caption{Full $1 \times 1\,\mathrm{mm}$ plate discretization.}
+    \label{fig:hole_adapted_mesh_full}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{fig_method_a_hole_adapted_mesh_zoom.pdf}
+    \caption{Zoomed fracture process zone corridor.}
+    \label{fig:hole_adapted_mesh_zoom}
+  \end{subfigure}
+  \caption{Publication-quality finite-element mesh visualization generated directly from authentic Abaqus input connectivity (\texttt{PK\_HOLE\_METHOD\_A\_ADAPT\_PHYS.inp}, $52{,}447$ elements): (a)~complete plate specimen showing the initial notch ($a_0 = 0.5\,\mathrm{mm}$), off-axis circular hole ($R = 0.10\,\mathrm{mm}$ at $(0.65, 0.65)\,\mathrm{mm}$), and coarse bulk grading ($h \le 25\,\mu\mathrm{m}$); (b)~zoomed detail showing the high-density fracture-process corridor ($h_{\mathrm{core}} \approx 1.0\,\mu\mathrm{m} \le \ell_0/5$) connecting the notch tip to the circular opening.}
+  \label{fig:hole_adapted_mesh}
+\end{figure}
+
 \section{Matched Pre-Peak Parity Verification (F1644)}
 \label{sec:hole_matched_parity}
 
