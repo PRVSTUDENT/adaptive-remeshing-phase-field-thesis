@@ -1,153 +1,77 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+# -*- coding: mbcs -*-
 """
-generate_damage_informed_method_a_mesh.py
-=========================================
-Offline Damage-Informed Localized Extension of Method A for Plate with Off-Axis Hole.
+Generate Damage-Informed Method A Extension Mesh for Mode-I Plate with Off-Axis Hole.
 
-Methodology:
-  1. Reuses authentic precritical phase-field output from F1642 pilot (PK_HOLE_METHOD_A_PROD.odb / f1642_pilot_localized_damage.csv).
-  2. Identifies notch-attached active fracture-process zone (FPZ) using a predeclared physical indicator:
-       S_FPZ = { x | d(x) >= 0.08 in the notch-attached component }
-  3. Adds a physically grounded finite-width buffer:
-       R_buffer = 3 * l0 = 0.0225 mm (spanning the full regularized gradient width of the AT2 exponential profile)
-  4. Intersects the buffered support with the off-axis hole where ligament damage approaches it.
-  5. Partitions the PlateWithHole deformable shell in Abaqus CAE along this exact non-rectangular indicator contour.
-  6. Sizing & Grading:
-       - Inside S_FPZ: target h_max <= 1.5 um (l0/5) by edge seeding h = 0.00085 mm.
-       - Hole circumference: h = 0.0035 mm (3.5 um, 180 elements) for geometric curvature fidelity.
-       - Bulk domain: h = 0.020 mm (20 um) coarse baseline.
-  7. Meshes with free advancing-front quad-dominated technique (conforming nodes, positive Jacobians).
-  8. Exports:
-       - Physical mesh deck: PK_HOLE_METHOD_A_EXT_PHYS.inp
-       - 3-Layer UEL production deck: PK_HOLE_METHOD_A_EXT_PROD.inp
+This script implements an offline, damage-informed extension of Method A.
+It evaluates authentic precritical damage and history indicators across the COMPLETE
+physical domain without arbitrary spatial coordinate restrictions.
+
+Key Algorithm:
+1. Loads authentic precritical phase-field softening indicators (d >= 0.05, d >= 0.08) and history.
+2. Identifies connected components from element-connectivity graphs across the whole specimen:
+   - Primary notch-attached FPZ and ligament zone connecting to hole left flank.
+   - Secondary high-risk stress-concentration / softening zone on the opposite side of hole (right flank).
+   - Top-right boundary clamping artifact (Dirichlet BC singularity, excluded).
+3. Constructs geometrically faithful, buffered local indicator supports (R_buffer = 3*l0 = 0.0225 mm).
+4. Partitions the plate face in Abaqus CAE along both indicator support boundaries.
+5. Applies fine seeds (h_target <= 1.5 um) on both fracture supports and circular hole perimeter,
+   while preserving coarse bulk elements (h_bulk = 20 um) in the outer domain.
+6. Exports physical INP and builds conforming 3-layer UEL production deck.
 """
-from __future__ import print_function
+
 import os
 import sys
-import math
+import argparse
 import csv
+import json
+from collections import defaultdict, deque
 import numpy as np
 
-# Abaqus CAE imports
-ABAQUS_AVAILABLE = False
 try:
-    from abaqus import mdb
+    from abaqus import *
     from abaqusConstants import *
     import regionToolset
+    import part, material, section, assembly, step, interaction, load, mesh, job, sketch, visualization
     ABAQUS_AVAILABLE = True
 except ImportError:
-    pass
+    ABAQUS_AVAILABLE = False
+
 
 def parse_args():
-    argv = sys.argv
-    args_to_parse = []
-    if '--' in argv:
-        args_to_parse = argv[argv.index('--') + 1 :]
-    else:
+    parser = argparse.ArgumentParser(description="Damage-Informed Localized Method A Mesh Generator")
+    parser.add_argument("--job_prefix", type=str, default="PK_HOLE_METHOD_A_EXT_CORR")
+    parser.add_argument("--output_dir", type=str, default="models/pandey_kumar_mode1/176_method_a_plate_with_hole")
+    parser.add_argument("--damage_csv", type=str, default="results/validation/f1642_pilot_localized_damage.csv")
+    parser.add_argument("--supports_json", type=str, default="results/validation/faithful_indicator_supports.json")
+    parser.add_argument("--plate_w", type=float, default=1.0)
+    parser.add_argument("--plate_h", type=float, default=1.0)
+    parser.add_argument("--notch_a", type=float, default=0.5)
+    parser.add_argument("--notch_y", type=float, default=0.5)
+    parser.add_argument("--notch_w", type=float, default=0.001)
+    parser.add_argument("--hole_x", type=float, default=0.65)
+    parser.add_argument("--hole_y", type=float, default=0.65)
+    parser.add_argument("--hole_r", type=float, default=0.10)
+    parser.add_argument("--l0", type=float, default=0.0075)
+    parser.add_argument("--h_fine", type=float, default=0.00085)
+    parser.add_argument("--h_hole", type=float, default=0.0012)
+    parser.add_argument("--h_bulk", type=float, default=0.020)
+    if ABAQUS_AVAILABLE and "-noGUI" in sys.argv:
+        # Abaqus CAE noGUI mode argument parsing
+        clean_argv = []
         skip_next = False
-        for a in argv[1:]:
+        for i, a in enumerate(sys.argv):
             if skip_next:
                 skip_next = False
                 continue
-            if a in ('-cae', '-lmlog', '-tmpdir', '-keep'):
-                skip_next = True
+            if a in ["-noGUI", "noGUI", "-cae"]:
                 continue
-            if 'generate_damage_informed_method_a_mesh' in a:
-                continue
-            if a.startswith('-noGUI') or a.startswith('noGUI='):
-                continue
-            args_to_parse.append(a)
+            clean_argv.append(a)
+        # Parse only recognized flags
+        parsed, _ = parser.parse_known_args(clean_argv[1:])
+        return parsed
+    return parser.parse_args()
 
-    import argparse
-    parser = argparse.ArgumentParser(description="Damage-Informed Localized Method A Mesh Generator")
-    parser.add_argument("--plate-w", type=float, default=1.0)
-    parser.add_argument("--plate-h", type=float, default=1.0)
-    parser.add_argument("--notch-a", type=float, default=0.5)
-    parser.add_argument("--notch-y", type=float, default=0.5)
-    parser.add_argument("--notch-w", type=float, default=0.001)
-    parser.add_argument("--hole-x", type=float, default=0.65)
-    parser.add_argument("--hole-y", type=float, default=0.65)
-    parser.add_argument("--hole-r", type=float, default=0.10)
-    parser.add_argument("--damage-csv", type=str, default="results/validation/f1642_pilot_localized_damage.csv")
-    parser.add_argument("--d-threshold", type=float, default=0.08)
-    parser.add_argument("--l0", type=float, default=0.0075)
-    parser.add_argument("--output-dir", type=str, default="models/pandey_kumar_mode1/176_method_a_plate_with_hole")
-    parser.add_argument("--job-prefix", type=str, default="PK_HOLE_METHOD_A_EXT")
-    return parser.parse_args(args_to_parse)
-
-def compute_indicator_support_boundary(damage_csv, d_thresh=0.08, l0=0.0075, hole_center=(0.65, 0.65), hole_r=0.10):
-    """Computes the smooth non-rectangular boundary of the buffered FPZ from authentic precritical damage."""
-    from scipy.spatial import ConvexHull
-    
-    # Load physical mesh element centroids from baseline PROD_PHYS
-    phys_inp = 'models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_METHOD_A_PROD_PHYS.inp'
-    nodes = {}
-    elems = {}
-    in_nodes = in_elems = False
-    with open(phys_inp) as f:
-        for line in f:
-            l = line.strip()
-            if not l or l.startswith('**'): continue
-            u = l.upper()
-            if u.startswith('*NODE'):
-                in_nodes = True; in_elems = False; continue
-            elif u.startswith('*ELEMENT'):
-                in_nodes = False; in_elems = True; continue
-            elif u.startswith('*'):
-                in_nodes = in_elems = False; continue
-            if in_nodes:
-                p = [x.strip() for x in l.split(',') if x.strip()]
-                if len(p) >= 3: nodes[int(p[0])] = (float(p[1]), float(p[2]))
-            elif in_elems:
-                try:
-                    p = [int(x.strip()) for x in l.split(',') if x.strip()]
-                    if len(p) >= 4: elems[p[0]] = p[1:]
-                except ValueError:
-                    continue
-                
-    centroids = {}
-    for eid, conn in elems.items():
-        coords = [nodes[nid] for nid in conn if nid in nodes]
-        centroids[eid] = (np.mean([c[0] for c in coords]), np.mean([c[1] for c in coords]))
-        
-    damage_map = {}
-    with open(damage_csv) as f:
-        for row in csv.DictReader(f):
-            eid = int(row['phys_elem_id'])
-            d = float(row['damage'])
-            if eid not in damage_map or d > damage_map[eid]:
-                damage_map[eid] = d
-                
-    # Select notch-attached fracture zone elements
-    fpz_pts = []
-    for eid, d in damage_map.items():
-        if d >= d_thresh and eid in centroids:
-            xc, yc = centroids[eid]
-            if 0.48 <= xc <= 0.65 and 0.46 <= yc <= 0.68:
-                fpz_pts.append([xc, yc])
-                
-    fpz_pts = np.array(fpz_pts)
-    hull = ConvexHull(fpz_pts)
-    verts = fpz_pts[hull.vertices]
-    centroid = np.mean(verts, axis=0)
-    
-    # Dilate by R_buffer = 3 * l0
-    buffer_r = 3.0 * l0
-    hc = np.array(hole_center)
-    
-    clamped_verts = []
-    for v in verts:
-        vec = v - centroid
-        u = vec / np.linalg.norm(vec)
-        dv = v + u * buffer_r
-        vec_to_hole = dv - hc
-        dist_to_hole = np.linalg.norm(vec_to_hole)
-        # If inside or too close to hole, clamp to hole_r + 0.008 mm
-        if dist_to_hole < hole_r + 0.008:
-            dv = hc + (vec_to_hole / dist_to_hole) * (hole_r + 0.008)
-        clamped_verts.append((float(dv[0]), float(dv[1])))
-        
-    return clamped_verts
 
 def generate_uel_deck(src_phys_inp, dst_uel_inp, job_name, plate_h=1.0):
     """Builds conforming 3-layer UEL + UMAT production deck."""
@@ -160,16 +84,19 @@ def generate_uel_deck(src_phys_inp, dst_uel_inp, job_name, plate_h=1.0):
     with open(src_phys_inp, "r") as f:
         for line in f:
             l = line.strip()
-            if not l or l.startswith("**"): continue
+            if not l:
+                continue
             if l.startswith("*"):
-                in_nodes = in_elems = False
                 u = l.upper()
-                if u.startswith("*NODE"): in_nodes = True
+                if u.startswith("*NODE"):
+                    in_nodes, in_elems = True, False
                 elif u.startswith("*ELEMENT"):
-                    in_elems = True
+                    in_nodes, in_elems = False, True
                     if "CPS4" in u or "CPE4" in u: elem_type = "QUAD"
                     elif "CPS3" in u or "CPE3" in u: elem_type = "TRI"
                     else: elem_type = "OTHER"
+                else:
+                    in_nodes = in_elems = False
                 continue
 
             if in_nodes:
@@ -196,7 +123,7 @@ def generate_uel_deck(src_phys_inp, dst_uel_inp, job_name, plate_h=1.0):
 
     with open(dst_uel_inp, "w") as f:
         f.write("*HEADING\n")
-        f.write("** Production Deck: %s (Damage-Informed Localized Method A)\n" % job_name)
+        f.write("** Production Deck: %s (Damage-Informed Localized Method A Extension)\n" % job_name)
         f.write("** Total physical elements: %d (%d quads, %d tris), Nodes: %d\n" % (
             num_phys_elems, len(quad_elems), len(tri_elems), num_nodes
         ))
@@ -306,10 +233,37 @@ def generate_uel_deck(src_phys_inp, dst_uel_inp, job_name, plate_h=1.0):
 
     print("Wrote UEL production deck to: %s" % dst_uel_inp)
 
+
 def run_mesh_generator(args):
     if not ABAQUS_AVAILABLE:
         print("ERROR: Abaqus CAE environment required for CAD partitioning and advancing-front meshing.")
         sys.exit(1)
+
+    # Load authentic indicator supports
+    if not os.path.exists(args.supports_json):
+        print("Indicator supports JSON not found. Running support extraction...")
+        from scripts.remeshing.extract_faithful_indicator_supports import analyze_and_extract_supports
+        analyze_and_extract_supports(
+            damage_csv=args.damage_csv,
+            output_json=args.supports_json,
+            l0=args.l0,
+            hole_center=(args.hole_x, args.hole_y),
+            hole_r=args.hole_r,
+            plate_size=(args.plate_w, args.plate_h)
+        )
+
+    with open(args.supports_json) as f:
+        supports_data = json.load(f)
+
+    left_verts = supports_data["supports"]["notch_ligament_fpz"]["vertices"]
+    right_verts = supports_data["supports"]["hole_right_flank_fpz"]["vertices"]
+    print("Loaded authentic indicator supports:")
+    print("  Left FPZ (Notch + Ligament): %d vertices, area = %.6f mm2" % (
+        len(left_verts), supports_data["supports"]["notch_ligament_fpz"]["area_mm2"]
+    ))
+    print("  Right FPZ (Opposite Flank): %d vertices, area = %.6f mm2" % (
+        len(right_verts), supports_data["supports"]["hole_right_flank_fpz"]["area_mm2"]
+    ))
 
     model_name = args.job_prefix
     if model_name in mdb.models:
@@ -339,37 +293,52 @@ def run_mesh_generator(args):
     p.BaseShell(sketch=s)
     del m.sketches["__profile__"]
 
-    # Compute authentic indicator support polygon
-    clamped_verts = compute_indicator_support_boundary(
-        args.damage_csv, d_thresh=args.d_threshold, l0=args.l0,
-        hole_center=(args.hole_x, args.hole_y), hole_r=args.hole_r
-    )
-    print("Computed indicator support polygon: %d vertices" % len(clamped_verts))
+    # 1. Partition Left Support Face (Notch + Ligament + Left Flank)
+    s_left = m.ConstrainedSketch(name="__left_sketch__", sheetSize=2.0)
+    for i in range(len(left_verts) - 1):
+        s_left.Line(point1=tuple(left_verts[i]), point2=tuple(left_verts[i + 1]))
+    p.PartitionFaceBySketch(faces=p.faces, sketch=s_left)
+    del m.sketches["__left_sketch__"]
+    print("Partitioned Left Support. Faces now: %d" % len(p.faces))
 
-    # Partition plate face along indicator support boundary
-    s_part = m.ConstrainedSketch(name="__partition__", sheetSize=2.0)
-    for i in range(len(clamped_verts)):
-        p1 = clamped_verts[i]
-        p2 = clamped_verts[(i + 1) % len(clamped_verts)]
-        s_part.Line(point1=p1, point2=p2)
+    # 2. Partition Right Support Face (Opposite side of hole)
+    s_right = m.ConstrainedSketch(name="__right_sketch__", sheetSize=2.0)
+    for i in range(len(right_verts) - 1):
+        s_right.Line(point1=tuple(right_verts[i]), point2=tuple(right_verts[i + 1]))
+    p.PartitionFaceBySketch(faces=p.faces, sketch=s_right)
+    del m.sketches["__right_sketch__"]
+    print("Partitioned Right Support. Faces now: %d" % len(p.faces))
 
-    p.PartitionFaceBySketch(faces=p.faces, sketch=s_part)
-    del m.sketches["__partition__"]
-    print("Partition successful. Total faces: %d" % len(p.faces))
+    # 3. Seed part with coarse bulk baseline: 20 um (0.020 mm)
+    p.seedPart(size=args.h_bulk, deviationFactor=0.1, minSizeFactor=0.1)
 
-    # Seed part with coarse bulk baseline: 20 um (0.020 mm)
-    p.seedPart(size=0.020, deviationFactor=0.1, minSizeFactor=0.1)
+    # 4. Seed Left Support face edges with fine seed: 0.85 um
+    left_face = p.faces.findAt(((0.505, 0.505, 0.0),))
+    left_edges = [p.edges[eid] for eid in left_face[0].getEdges()]
+    p.seedEdgeBySize(edges=left_edges, size=args.h_fine, deviationFactor=0.1, minSizeFactor=0.1)
+    print("Seeded Left Support face edges (N=%d) with %.2f um" % (len(left_edges), args.h_fine * 1000))
 
-    # Seed FPZ face edges with fine seed: 0.85 um (0.00085 mm) to enforce longest edge <= 1.5 um
-    fpz_face = p.faces.findAt(((0.505, 0.505, 0.0),))
-    fpz_edges = [p.edges[eid] for eid in fpz_face[0].getEdges()]
-    p.seedEdgeBySize(edges=fpz_edges, size=0.00085, deviationFactor=0.1, minSizeFactor=0.1)
+    # 5. Seed Right Support face edges with fine seed: 0.85 um
+    right_face = p.faces.findAt(((0.76, 0.65, 0.0),))
+    right_edges = [p.edges[eid] for eid in right_face[0].getEdges()]
+    p.seedEdgeBySize(edges=right_edges, size=args.h_fine, deviationFactor=0.1, minSizeFactor=0.1)
+    print("Seeded Right Support face edges (N=%d) with %.2f um" % (len(right_edges), args.h_fine * 1000))
 
-    # Seed hole boundary for geometric fidelity: 3.5 um (0.0035 mm)
-    hole_edge = p.edges.findAt(((args.hole_x + args.hole_r, args.hole_y, 0.0),))
-    p.seedEdgeBySize(edges=hole_edge, size=0.0035, deviationFactor=0.1, minSizeFactor=0.1)
+    # 6. Seed notch tip vertical edge: 0.85 um
+    notch_edge = p.edges.findAt(((args.notch_a, args.notch_y, 0.0),))
+    p.seedEdgeBySize(edges=notch_edge, size=args.h_fine, deviationFactor=0.1, minSizeFactor=0.1)
 
-    # Set advancing front quad-dominated meshing controls
+    # 7. Seed circular hole boundary with fine curvature seed: 1.2 um
+    hole_edges = []
+    for e in p.edges:
+        pt = e.pointOn[0]
+        dist = ((pt[0] - args.hole_x)**2 + (pt[1] - args.hole_y)**2)**0.5
+        if abs(dist - args.hole_r) < 1e-4:
+            hole_edges.append(e)
+    print("Seeded Hole boundary edges (N=%d) with %.2f um" % (len(hole_edges), args.h_hole * 1000))
+    p.seedEdgeBySize(edges=hole_edges, size=args.h_hole, deviationFactor=0.1, minSizeFactor=0.1)
+
+    # 8. Set advancing-front quad-dominated meshing controls
     p.setMeshControls(regions=p.faces, elemShape=QUAD_DOMINATED, technique=FREE)
     p.generateMesh()
     print("Mesh successfully generated: %d elements, %d nodes" % (len(p.elements), len(p.nodes)))
@@ -394,7 +363,8 @@ def run_mesh_generator(args):
     # Generate layered UEL deck
     dst_uel_inp = os.path.join(args.output_dir, args.job_prefix + "_PROD.inp")
     generate_uel_deck(dst_phys_inp, dst_uel_inp, args.job_prefix, plate_h=args.plate_h)
-    print("Damage-Informed Localized Method A mesh generation complete!")
+    print("Corrected Damage-Informed Localized Method A mesh generation complete!")
+
 
 if __name__ == '__main__':
     args = parse_args()
