@@ -1,0 +1,55 @@
+{
+  "model_name": "M1_HOLE_F1664_METHOD_A_PROD",
+  "pbs_job_id": "1421142.mmaster02",
+  "status": "COMPLETED_EXIT_0",
+  "n_physical_elements": 20213,
+  "n_layered_elements": 60639,
+  "total_increments": 614,
+  "total_frames": 616,
+  "peak_reaction_force_kN": 0.593390286,
+  "peak_displacement_mm": 0.0057000001,
+  "final_displacement_mm": 0.0120000001,
+  "final_reaction_force_kN": 0.000415485061,
+  "external_work_w_ext_kNmm": 0.00274886996,
+  "final_e_elastic_kNmm": 2.4929087e-06,
+  "final_e_fracture_kNmm": 0.0027054377,
+  "final_e_total_kNmm": 0.0027079306,
+  "energy_balance_discrepancy_delta_E_kNmm": 4.0939360000000116e-05,
+  "energy_balance_discrepancy_pct": 1.4893159951444235,
+  "key_frames": {
+    "step1_end": {
+      "description": "Step-1 end (u2=0.0050 mm)",
+      "step_time": 1.0,
+      "d_max": 0.3169,
+      "count_d_ge_0.50": 0,
+      "count_d_ge_0.80": 0,
+      "count_d_ge_0.95": 0
+    },
+    "peak_load": {
+      "description": "Peak reaction force frame (frame 50 of Step-2, u2=0.005700 mm)",
+      "step_time": 0.100000001,
+      "d_max": 0.6354,
+      "count_d_ge_0.50": 82,
+      "count_d_ge_0.80": 0,
+      "count_d_ge_0.95": 0
+    },
+    "final_frame": {
+      "description": "Final simulation frame (u2=0.012000 mm)",
+      "step_time": 1.0,
+      "d_max": 1.0006,
+      "count_d_ge_0.50": 8520,
+      "count_d_ge_0.80": 8520,
+      "count_d_ge_0.95": 6719
+    }
+  },
+  "trajectory": {
+    "total_broken_elements": 8520,
+    "primary_crack_elements": 450,
+    "secondary_crack_elements": 8070,
+    "deflection_toward_hole_verified": true,
+    "avg_y_primary": 0.5317403195743208,
+    "max_x_crack": 0.9990350157022476,
+    "right_flank_initiation": true
+  },
+  "energy_records_count": 614
+}

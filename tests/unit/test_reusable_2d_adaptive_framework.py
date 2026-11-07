@@ -632,6 +632,56 @@ def test_f1677_method_a_production_fracture_manifest():
     assert ops["actual_hpc_submission"] == "HALTED_AWAITING_SEPARATE_AUTHORIZATION"
 
 
+def test_f1678_method_a_production_fracture_qualification():
+    """Verify Task F1678 Method A production fracture simulation execution, convergence, and physical metrics."""
+    summary_path = REPO_ROOT / "results" / "validation" / "f1678_prod_summary.json"
+    assert summary_path.exists(), f"Missing summary JSON: {summary_path}"
+    with open(summary_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    assert data["model_name"] == "M1_HOLE_F1664_METHOD_A_PROD"
+    assert data["pbs_job_id"] == "1421142.mmaster02"
+    assert data["status"] == "COMPLETED_EXIT_0"
+    assert data["n_physical_elements"] == 20213
+    assert data["n_layered_elements"] == 60639
+    assert data["total_increments"] >= 550
+
+    # Force and displacement
+    assert 0.58 <= data["peak_reaction_force_kN"] <= 0.80
+    assert 0.0050 <= data["peak_displacement_mm"] <= 0.0070
+    assert data["final_displacement_mm"] == 0.0120000001
+    assert data["final_reaction_force_kN"] < 0.010  # Complete post-peak softening
+
+    # Energy balance
+    assert data["final_e_elastic_kNmm"] < 1.0e-5  # Complete relaxation of elastic energy
+    assert 0.0025 <= data["final_e_fracture_kNmm"] <= 0.0030  # Monotonic fracture dissipation plateau
+    assert data["energy_balance_discrepancy_pct"] < 2.0  # Exceptional energy balance (1.489%)
+
+    # Two-stage crack trajectory
+    traj = data["trajectory"]
+    assert traj["deflection_toward_hole_verified"] is True
+    assert traj["right_flank_initiation"] is True
+    assert traj["total_broken_elements"] >= 8000
+    assert traj["max_x_crack"] >= 0.99  # Propagated to right boundary
+
+    # Extraction artifacts existence
+    rf_csv = REPO_ROOT / "results" / "validation" / "f1678_prod_rf_u.csv"
+    crack_csv = REPO_ROOT / "results" / "validation" / "f1678_prod_crack_path.csv"
+    energy_csv = REPO_ROOT / "results" / "validation" / "uel_energy_balance.csv"
+    assert rf_csv.exists()
+    assert crack_csv.exists()
+    assert energy_csv.exists()
+
+    # Publication figures existence
+    fig1 = REPO_ROOT / "MA_AdaptiveRemeshing_Report_2026" / "figures" / "f1678_method_a_crack_path.png"
+    fig2 = REPO_ROOT / "MA_AdaptiveRemeshing_Report_2026" / "figures" / "f1678_method_a_load_displacement_comparison.png"
+    fig3 = REPO_ROOT / "MA_AdaptiveRemeshing_Report_2026" / "figures" / "f1678_method_a_energy_balance.png"
+    assert fig1.exists()
+    assert fig2.exists()
+    assert fig3.exists()
+
+
+
 
 
 

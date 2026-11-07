@@ -77,8 +77,10 @@ command -v abaqus
 echo "=== Starting Abaqus/Standard 2023 Production Fracture Simulation ==="
 date -u +"%Y-%m-%dT%H:%M:%SZ"
 
+set +e
 abaqus job="${JOB_NAME}" input="${INP_NAME}" user="${USER_SUB}" interactive
 EXIT_CODE=$?
+set -e
 
 echo "=== Abaqus Finished with Exit Code: ${EXIT_CODE} ==="
 date -u +"%Y-%m-%dT%H:%M:%SZ"

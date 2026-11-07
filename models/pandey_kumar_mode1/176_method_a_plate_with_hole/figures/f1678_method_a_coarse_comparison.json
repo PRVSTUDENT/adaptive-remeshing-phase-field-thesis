@@ -1,0 +1,44 @@
+{
+  "coarse_model": {
+    "name": "PK_HOLE_COARSE_JOB1 (1421063.mmaster02)",
+    "n_physical_elements": 2906,
+    "peak_force_kN": 0.7310152649879456,
+    "peak_disp_mm": 0.0072938124649226665,
+    "final_disp_mm": 0.009590777568519115,
+    "final_force_kN": 0.21635380387306213
+  },
+  "refined_method_a": {
+    "name": "M1_HOLE_F1664_METHOD_A_PROD (1421142.mmaster02)",
+    "n_physical_elements": 20213,
+    "peak_force_kN": 0.593390286,
+    "peak_disp_mm": 0.0057000001,
+    "final_disp_mm": 0.0120000001,
+    "final_force_kN": 0.000415485061,
+    "w_ext_kNmm": 0.00274886996,
+    "e_elastic_kNmm": 2.4929087e-06,
+    "e_fracture_kNmm": 0.0027054377,
+    "e_total_kNmm": 0.0027079306,
+    "delta_e_discrepancy_kNmm": 4.0939360000000116e-05,
+    "delta_e_discrepancy_pct": 1.4893159951444235
+  },
+  "comparison_metrics": {
+    "delta_peak_force_kN": -0.13762497898794557,
+    "delta_peak_force_pct": -18.826553367557242,
+    "mesh_refinement_ratio": 6.955609084652443,
+    "physical_acceptance_band_kN": [
+      0.6,
+      0.8
+    ],
+    "peak_in_acceptance_band": false,
+    "post_peak_softening_observed": true
+  },
+  "trajectory": {
+    "total_broken_elements": 8520,
+    "primary_crack_elements": 450,
+    "secondary_crack_elements": 8070,
+    "deflection_toward_hole_verified": true,
+    "avg_y_primary": 0.5317403195743208,
+    "max_x_crack": 0.9990350157022476,
+    "right_flank_initiation": true
+  }
+}

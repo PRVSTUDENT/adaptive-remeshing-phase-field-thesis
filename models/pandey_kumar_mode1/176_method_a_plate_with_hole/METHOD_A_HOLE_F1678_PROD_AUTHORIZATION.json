@@ -1,0 +1,43 @@
+{
+  "batch_name": "MODE1_METHOD_A_HOLE_F1664_PROD",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "PK_HOLE_F1664_METHOD_A_PROD.inp": "b6fb9ad2c16293e78e0940c00c65d9d54c3921e8234ceb770956117d6b39d99b",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_M1_HOLE_F1664_METHOD_A_PROD.pbs": "d9d8a3520b9ccf35f710921955d7b133f8051a6967427c3092811977ccd231b5",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11"
+  },
+  "jobs": [
+    {
+      "id": "hole_f1664_prod",
+      "pbs": "submit_M1_HOLE_F1664_METHOD_A_PROD.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_method_a_hole_f1664_prod/submit_M1_HOLE_F1664_METHOD_A_PROD.pbs\"",
+      "command_sha256": "828e127064816252845336d0181797a089095e9d78754237e7b679d638169eeb",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Method A Refined Fracture Production Simulation: 20,213 physical elements (60,639 total layered elements), native 5% MISESERI adapted mesh, 2-step loading to u = 0.0120 mm to evaluate crack propagation and load-displacement response",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "PK_HOLE_F1664_METHOD_A_PROD.inp",
+      "datacheck": "M1_HOLE_F1664_METHOD_A_DATACHECK.dat"
+    }
+  ],
+  "acceptance": {
+    "hole_f1664_prod": "Abaqus 2023 single-rank serial solve executes refined Method A phase-field fracture simulation on 20,213 physical elements (60,639 layered elements); extracts complete load-displacement curve P(u), crack deflection into hole and right-flank propagation, companion SDV damage field, and energy histories."
+  },
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_method_a_hole_f1664_prod",
+  "required_state_checks": [
+    "nodal_displacement_verified",
+    "damage_irreversibility_verified",
+    "committed_history_verified",
+    "state_restoration_verified"
+  ]
+}
