@@ -119,13 +119,22 @@ Please inspect the publication figure directly using available connected tools:
 3. If ACCEPT, provide formal signoff for the completion of Phase 2 (Method A Native Remeshing Replication and Parameter Optimization) and authorize progression to Phase 3: Consolidation of the Reusable 2D Adaptive Framework Architecture for multi-geometry verification ahead of the November 14 supervisor milestone.
 "@
 
-Write-Host "Dispatching F1664 handoff $handoffId to ChatGPT via PAD Bridge..."
-$result = Invoke-ChatGPTBridge -Prompt $prompt -TimeoutSeconds 300 -PollingIntervalSeconds 5
+Write-Host "Dispatching F1664 handoff to ChatGPT via Invoke-ChatGPTBridge..."
+Write-Host "Handoff ID: $handoffId"
+Write-Host "Task ID:    $taskId"
 
-Write-Host "ChatGPT Bridge Response Status: $($result.Status)"
-Write-Host "Handoff ID: $($result.HandoffId)"
-Write-Host "Response File: $($result.ResponseFile)"
+$response = Invoke-ChatGPTBridge -PromptText $prompt -HandoffId $handoffId -LaunchPad:$false -TimeoutMinutes 40 -TaskId $taskId
 
-if ($result.Status -ne "COMPLETED") {
-    Write-Error "Bridge did not complete cleanly. Final status: $($result.Status)"
+Write-Host "======================================================================"
+Write-Host "CHATGPT REVIEW RESPONSE RECEIVED:"
+Write-Host "======================================================================"
+Write-Host $response
+
+# Save response to a file for parsing and coordination
+$responsePath = "project_coordination/review_dispatch/F1664_CHATGPT_REVIEW_RESPONSE.md"
+$responseDir = Split-Path $responsePath -Parent
+if (-not (Test-Path $responseDir)) {
+    New-Item -ItemType Directory -Path $responseDir -Force | Out-Null
 }
+Set-Content -Path $responsePath -Value $response -Encoding UTF8
+Write-Host "Saved response to: $responsePath"
