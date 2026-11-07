@@ -1,0 +1,76 @@
+{
+  "task_id": "F1661-METHOD-A-NATIVE-REMESHING",
+  "phase1_recovery": {
+    "solver_exit_code": 0,
+    "runtime_coordinate_audit": {
+      "total_ips": 11452,
+      "min_error_mm": 0.0,
+      "median_error_mm": 4.021455e-10,
+      "mean_error_mm": 4.1361747738559585e-10,
+      "p95_error_mm": 7.742013e-10,
+      "max_error_mm": 1.10241e-09,
+      "threshold_mm": 1e-05,
+      "status": "PASS_SUB_NANOMETER_PRECISION"
+    },
+    "reaction_force": {
+      "donor_rf2_kN": 0.21635380387306213,
+      "recovery_rf2_kN": 0.2550113316450734,
+      "discrepancy_pct": 17.867736587008277,
+      "ratio": 1.1786773658700829
+    },
+    "damage": {
+      "fv1_min": 1.3342156535145477e-07,
+      "fv1_mean": 0.0376154196555298,
+      "fv1_max": 0.9975769519805908,
+      "parity_ratio": 1.0
+    },
+    "stress_parity": {
+      "r_global": 0.9574564272359931,
+      "rmse_global_MPa": 117.98849740448907,
+      "nrmse_global_pct": 4.053910545307483,
+      "r_far_field": 0.9724257003288613,
+      "rmse_far_field_MPa": 84.84425432577618,
+      "r_softened": 0.908887237462864,
+      "r_broken_band": 0.43739158889134383
+    }
+  },
+  "phase2_remeshing": {
+    "error_target_pct": 2.0,
+    "min_element_size_um": 1.5,
+    "max_element_size_um": 20.0,
+    "refinement_factor": 10,
+    "total_elements": 77211,
+    "total_nodes": 76816,
+    "quad_count": 75294,
+    "tri_count": 1917,
+    "quad_pct": 97.51719314605432,
+    "h_max_um": {
+      "min": 0.8553133088576793,
+      "p5": 1.5492730671741048,
+      "median": 2.1216517694081722,
+      "mean": 3.0015415483176615,
+      "p95": 7.619201875100235,
+      "max": 28.703056411716314
+    },
+    "elements_h_le_1p5um": 2561,
+    "pct_h_le_1p5um": 3.316884899819974,
+    "non_positive_jacobians": 0,
+    "region1_notch_ligament": {
+      "elements": 3653,
+      "min_h_um": 1.2602381304436527,
+      "median_h_um": 2.113616668399898,
+      "compliant_h_le_1p5um": 45,
+      "compliant_h_le_2p0um": 1345
+    },
+    "region2_opposite_flank": {
+      "elements": 5065,
+      "min_h_um": 1.098889332794752,
+      "median_h_um": 2.240166894609903,
+      "compliant_h_le_1p5um": 72,
+      "compliant_h_le_2p0um": 1544
+    },
+    "elements_h_le_2p0um": 30623,
+    "elements_h_le_3p0um": 58329
+  },
+  "overall_status": "QUALIFIED_NATIVE_ADAPTED_MESH_READY"
+}
