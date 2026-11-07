@@ -88,7 +88,7 @@ def parse_args():
     parser.add_argument("--coarse-h", type=float, default=0.02, help="Initial coarse seed size in mm (default: 0.02)")
     parser.add_argument("--min-h", type=float, default=0.001, help="Min element size in mm (default: 0.001)")
     parser.add_argument("--max-h", type=float, default=0.02, help="Max element size in mm (default: 0.02)")
-    parser.add_argument("--error-target", type=float, default=2.0, help="Remeshing rule errorTarget in percentage points (default: 2.0 = 2.0%)")
+    parser.add_argument("--error-target", type=float, default=2.0, help="Remeshing rule errorTarget in percentage points (default: 2.0 = 2.0%%)")
     parser.add_argument("--refinement-factor", type=int, default=10, help="Remeshing rule refinementFactor (default: 10)")
     parser.add_argument("--output-dir", type=str, default=".", help="Output directory for generated packages")
     parser.add_argument("--job-prefix", type=str, default="PK_HOLE_METHOD_A", help="Prefix for jobs and decks")
