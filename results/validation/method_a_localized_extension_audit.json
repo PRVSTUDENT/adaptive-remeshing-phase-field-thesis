@@ -1,0 +1,87 @@
+{
+  "generator": "scripts/remeshing/generate_damage_informed_method_a_mesh.py",
+  "methodology": "Offline Damage-Informed Localized Extension of Method A",
+  "indicator_criterion": "Precritical active damage d >= 0.08 with R_buffer = 3*l0 = 0.0225 mm",
+  "mesh_topology": {
+    "n_physical_nodes": 23460,
+    "n_physical_elements": 23664,
+    "n_quads": 22806,
+    "n_tris": 858,
+    "quad_fraction": 0.9637423935091278,
+    "tri_fraction": 0.03625760649087221,
+    "n_layered_uel_elements": 70992,
+    "uel_3x_check": "PASS",
+    "non_positive_jacobians": 0,
+    "jacobian_check": "PASS",
+    "aspect_ratio_median": 1.3338734501950058,
+    "aspect_ratio_max": 6.640208406397619
+  },
+  "resolution_metrics_um": {
+    "global_min_max_edge": 0.4824686924931053,
+    "global_median_max_edge": 1.5270860233941512,
+    "global_max_max_edge": 33.47668653995787,
+    "global_median_h_equiv": 1.2623306822677884
+  },
+  "regional_audit": {
+    "notch_tip_zone": {
+      "count": 5935,
+      "max_edge_min_um": 0.562105304170836,
+      "max_edge_median_um": 1.2414031750680177,
+      "max_edge_p90_um": 1.5702808211843142,
+      "max_edge_max_um": 16.45561833393574,
+      "pct_max_edge_le_1_5um": 85.94776748104465,
+      "h_equiv_median_um": 1.0435529057894977,
+      "pct_h_equiv_le_1_5um": 96.68070766638584,
+      "total_area_mm2": 0.007714642237570804
+    },
+    "ligament_corridor": {
+      "count": 9447,
+      "max_edge_min_um": 0.5330487190014287,
+      "max_edge_median_um": 1.2937005616915072,
+      "max_edge_p90_um": 2.1267420755936697,
+      "max_edge_max_um": 5.541570836473685,
+      "pct_max_edge_le_1_5um": 74.5315973324865,
+      "h_equiv_median_um": 1.096131295065928,
+      "pct_h_equiv_le_1_5um": 86.2601884196041,
+      "total_area_mm2": 0.01761541776070054
+    },
+    "fpz_support_zone": {
+      "count": 14447,
+      "max_edge_min_um": 0.4824686924931053,
+      "max_edge_median_um": 1.2828101362866628,
+      "max_edge_p90_um": 1.758529833374121,
+      "max_edge_max_um": 12.478788552346181,
+      "pct_max_edge_le_1_5um": 76.99868484806534,
+      "h_equiv_median_um": 1.078613249099306,
+      "pct_h_equiv_le_1_5um": 91.05004499203987,
+      "total_area_mm2": 0.020036302159070304
+    },
+    "outer_bulk_domain": {
+      "count": 3402,
+      "max_edge_min_um": 6.502116986553276,
+      "max_edge_median_um": 16.78206037690008,
+      "max_edge_p90_um": 22.404408011715024,
+      "max_edge_max_um": 30.283319539650414,
+      "pct_max_edge_le_1_5um": 0.0,
+      "h_equiv_median_um": 14.593797708816151,
+      "pct_h_equiv_le_1_5um": 0.0,
+      "total_area_mm2": 0.7739278080423002
+    }
+  },
+  "area_budget": {
+    "total_plate_area_mm2": 0.968584073464102,
+    "fine_resolved_area_mm2": 0.012015799586303819,
+    "fine_resolved_area_pct": 1.24055308315465,
+    "bulk_coarse_area_pct": 98.75944691684535
+  },
+  "comparison_with_native_method_a": {
+    "native_total_elements": 46747,
+    "localized_total_elements": 23664,
+    "element_reduction_pct": 49.3785697477913,
+    "native_notch_pct_le_1_5um": 10.758817242607766,
+    "localized_notch_pct_le_1_5um": 85.94776748104465,
+    "native_outer_bulk_median_h_um": 6.032449040896757,
+    "localized_outer_bulk_median_h_um": 16.78206037690008,
+    "bulk_over_refinement_status": "ELIMINATED"
+  }
+}

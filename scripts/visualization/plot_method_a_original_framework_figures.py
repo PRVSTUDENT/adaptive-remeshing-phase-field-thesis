@@ -256,7 +256,7 @@ def main():
     ax1.grid(True, linestyle=':', alpha=0.3)
     ax1.legend(loc='lower left', framealpha=0.9, fontsize=9.5)
     cbar1 = fig.colorbar(pc_m, ax=ax1, fraction=0.046, pad=0.04)
-    cbar1.set_label('MISESERI Error Indicator [\\%]', fontsize=11, labelpad=8)
+    cbar1.set_label(r'MISESERI Error Norm [$\mathrm{kN/mm^2}$]', fontsize=11, labelpad=8)
     
     # Right: Spatial correlation scatter plot
     # Interpolate coarse MISESERI at adapted element centroids
@@ -273,14 +273,13 @@ def main():
     
     # 2D Hexbin density plot for clarity with 46k elements
     hb = ax2.hexbin(interp_m, h_adapt, xscale='log', yscale='log', gridsize=45, cmap='plasma', mincnt=1, bins='log')
-    ax2.set_xlabel('Preanalysis MISESERI [\\%]', fontsize=11, labelpad=6)
-    ax2.set_ylabel('Adapted Element Size $h = \\sqrt{A}$ [$\\mu\\mathrm{m}$]', fontsize=11, labelpad=6)
+    ax2.set_xlabel(r'Preanalysis MISESERI Error Norm [$\mathrm{kN/mm^2}$]', fontsize=11, labelpad=6)
+    ax2.set_ylabel(r'Adapted Element Size $h = \sqrt{A}$ [$\mu\mathrm{m}$]', fontsize=11, labelpad=6)
     ax2.set_title('(b) Error Indicator vs Mesh Resolution (Spearman $\\rho = %.4f$)' % rho, fontsize=12, fontweight='bold', pad=8)
     ax2.grid(True, which='both', linestyle=':', alpha=0.4)
     
-    # Reference lines
+    # Reference line
     ax2.axhline(1.5, color='#d90429', linestyle='--', linewidth=1.8, label=r'Target $h \leq l_0/5 = 1.5\ \mu\mathrm{m}$')
-    ax2.axvline(2.0, color='#0077b6', linestyle=':', linewidth=1.8, label=r'RemeshingRule Target (2.0%)')
     ax2.legend(loc='upper right', framealpha=0.92, fontsize=9.5)
     
     cbar2 = fig.colorbar(hb, ax=ax2, fraction=0.046, pad=0.04)
