@@ -1,0 +1,191 @@
+{
+  "task_id": "F1663-DIAGNOSE-BROAD-MISESERI-REFINEMENT",
+  "predecessor_review": "HND-4ba52a3a1061",
+  "findings": {
+    "finding_1_far_field_over_allocation": {
+      "far_field_area_pct": 85.13961200910182,
+      "far_field_error_share_pct": 29.974658481878446,
+      "far_field_mesh_elements": 38152,
+      "far_field_mesh_share_pct": 49.4126484568261,
+      "far_field_median_edge_h_um": 2.7211429719642473,
+      "cause": "UNIFORM_ERROR relative error target (errorTarget=0.02) is exceeded by 59.25% of plate elements, including undamaged far-field elements with low background stress"
+    },
+    "finding_2_crack_core_under_resolution": {
+      "crack_core_elements_in_adapted_mesh": 2466,
+      "compliant_elements_le_1p5um": 120,
+      "compliant_pct": 4.866180048661801,
+      "core_median_h_um": 1.9616826728920451,
+      "cause": "Terminal state stress relaxation: Degraded modulus relaxes stress in crack core to near zero, damping SPR stress error gradients and preventing full refinement factor application in core"
+    },
+    "finding_3_remeshing_rule_parameters": {
+      "errorTarget": 0.02,
+      "sizingMethod": "UNIFORM_ERROR",
+      "maxElementSize": 20.0,
+      "coarseningFactor": "NOT_ALLOWED",
+      "literature_baseline_comparison": "Pandey & Kumar (2025) Sec 4.1.3 explicitly recommends errorTarget = 5.0% (0.05) to balance accuracy and efficiency, yielding localized refinement with ~4,500 elements instead of over-refining the domain"
+    }
+  },
+  "regional_breakdown": [
+    {
+      "regime": "Crack Core (d >= 0.80)",
+      "recovery_elements": 27,
+      "area_pct": 0.845581552611977,
+      "error_indicator_share_pct": 19.3004112292797,
+      "mean_miseseri_MPa": 366.68993321171513,
+      "mean_misesavg_MPa": 478.6698297262192,
+      "mean_eta_pct": 797.3890889820041,
+      "pct_elements_eta_gt_2pct": 100.0,
+      "adapted_elements": 2466,
+      "adapted_mesh_share_pct": 3.1938454365310642,
+      "median_edge_h_um": 1.9616826728920451,
+      "median_h_over_l0": 0.26155768971893933,
+      "compliant_elements_le_1p5um": 120,
+      "compliant_pct": 4.866180048661801,
+      "compliant_elements_le_2p0um": 1341
+    },
+    {
+      "regime": "Active Softening (0.20 <= d < 0.80)",
+      "recovery_elements": 62,
+      "area_pct": 2.203303934513348,
+      "error_indicator_share_pct": 27.08069408761839,
+      "mean_miseseri_MPa": 224.0599789311809,
+      "mean_misesavg_MPa": 727.0820660744944,
+      "mean_eta_pct": 48.1609883075636,
+      "pct_elements_eta_gt_2pct": 100.0,
+      "adapted_elements": 5762,
+      "adapted_mesh_share_pct": 7.462667236533655,
+      "median_edge_h_um": 2.0050448007460977,
+      "median_h_over_l0": 0.26733930676614637,
+      "compliant_elements_le_1p5um": 180,
+      "compliant_pct": 3.123915307185005,
+      "compliant_elements_le_2p0um": 2847
+    },
+    {
+      "regime": "Total FPZ (d >= 0.20)",
+      "recovery_elements": 89,
+      "area_pct": 3.048885487125325,
+      "error_indicator_share_pct": 46.381105316898086,
+      "mean_miseseri_MPa": 267.32974034212947,
+      "mean_misesavg_MPa": 651.7210505531075,
+      "mean_eta_pct": 275.4549064896972,
+      "pct_elements_eta_gt_2pct": 100.0,
+      "adapted_elements": 8228,
+      "adapted_mesh_share_pct": 10.656512673064718,
+      "median_edge_h_um": 1.9915378347447728,
+      "median_h_over_l0": 0.2655383779659697,
+      "compliant_elements_le_1p5um": 300,
+      "compliant_pct": 3.6460865337870687,
+      "compliant_elements_le_2p0um": 4188
+    },
+    {
+      "regime": "Transition Zone (0.05 <= d < 0.20)",
+      "recovery_elements": 340,
+      "area_pct": 11.811502503772848,
+      "error_indicator_share_pct": 23.644236201223464,
+      "mean_miseseri_MPa": 35.67324045475792,
+      "mean_misesavg_MPa": 950.9284708640155,
+      "mean_eta_pct": 5.985564449350596,
+      "pct_elements_eta_gt_2pct": 74.11764705882354,
+      "adapted_elements": 30831,
+      "adapted_mesh_share_pct": 39.930838870109184,
+      "median_edge_h_um": 1.95363600731798,
+      "median_h_over_l0": 0.2604848009757307,
+      "compliant_elements_le_1p5um": 1487,
+      "compliant_pct": 4.823067691609094,
+      "compliant_elements_le_2p0um": 17202
+    },
+    {
+      "regime": "Undamaged Far-Field (d < 0.05)",
+      "recovery_elements": 2506,
+      "area_pct": 85.13961200910182,
+      "error_indicator_share_pct": 29.974658481878446,
+      "mean_miseseri_MPa": 6.135774158359805,
+      "mean_misesavg_MPa": 197.9249176378648,
+      "mean_eta_pct": 4.627079851824768,
+      "pct_elements_eta_gt_2pct": 55.78611332801277,
+      "adapted_elements": 38152,
+      "adapted_mesh_share_pct": 49.4126484568261,
+      "median_edge_h_um": 2.7211429719642473,
+      "median_h_over_l0": 0.3628190629285663,
+      "compliant_elements_le_1p5um": 774,
+      "compliant_pct": 2.028727196477249,
+      "compliant_elements_le_2p0um": 9233
+    },
+    {
+      "regime": "Ligament Region (Geometric Box)",
+      "recovery_elements": 105,
+      "area_pct": 3.234869320494792,
+      "error_indicator_share_pct": 8.482508160089656,
+      "mean_miseseri_MPa": 41.44109059004557,
+      "mean_misesavg_MPa": 210.23272812820616,
+      "mean_eta_pct": 118.99032514612486,
+      "pct_elements_eta_gt_2pct": 99.04761904761905,
+      "adapted_elements": 4724,
+      "adapted_mesh_share_pct": 6.118299206071674,
+      "median_edge_h_um": 2.241279796921795,
+      "median_h_over_l0": 0.29883730625623933,
+      "compliant_elements_le_1p5um": 54,
+      "compliant_pct": 1.1430990685859441,
+      "compliant_elements_le_2p0um": 1420
+    },
+    {
+      "regime": "Opposite Hole Flank (Geometric Box)",
+      "recovery_elements": 66,
+      "area_pct": 2.523703658405158,
+      "error_indicator_share_pct": 8.537635359159555,
+      "mean_miseseri_MPa": 66.35747554807952,
+      "mean_misesavg_MPa": 397.08126175764835,
+      "mean_eta_pct": 178.6733477284444,
+      "pct_elements_eta_gt_2pct": 92.42424242424242,
+      "adapted_elements": 5065,
+      "adapted_mesh_share_pct": 6.559946121666602,
+      "median_edge_h_um": 2.240166894609903,
+      "median_h_over_l0": 0.2986889192813204,
+      "compliant_elements_le_1p5um": 72,
+      "compliant_pct": 1.4215202369200395,
+      "compliant_elements_le_2p0um": 1544
+    },
+    {
+      "regime": "Entire Plate (Global Domain)",
+      "recovery_elements": 2935,
+      "area_pct": 100.0,
+      "error_indicator_share_pct": 100.0,
+      "mean_miseseri_MPa": 17.477853044605414,
+      "mean_misesavg_MPa": 298.9160808154961,
+      "mean_eta_pct": 12.996947427269209,
+      "pct_elements_eta_gt_2pct": 59.250425894378196,
+      "adapted_elements": 77211,
+      "adapted_mesh_share_pct": 100.0,
+      "median_edge_h_um": 2.1216517694081722,
+      "median_h_over_l0": 0.2828869025877563,
+      "compliant_elements_le_1p5um": 2561,
+      "compliant_pct": 3.316884899819974,
+      "compliant_elements_le_2p0um": 30623
+    }
+  ],
+  "recommended_single_modification": {
+    "modification": "CALIBRATE_ERROR_TARGET_TO_LITERATURE_BASELINE_5PCT",
+    "parameter_changes": {
+      "errorTarget": 0.05,
+      "errorTarget_description": "Increase errorTarget from 0.02 (2.0%) to 0.05 (5.0%) matching Pandey & Kumar (2025) Section 4.1.3 Table 3 recommendation",
+      "sizingMethod": "UNIFORM_ERROR",
+      "minElementSize": 1.5,
+      "maxElementSize": 30.0,
+      "maxElementSize_description": "Relax maxElementSize from 20.0 um to 30.0 um to allow undamaged far-field elements to coarsen to baseline coarse size (h ~ 25-30 um) rather than being forced to <= 20 um"
+    },
+    "falsifiable_prediction": "Increasing errorTarget to 5.0% and maxElementSize to 30 um will reduce far-field element count from 37,989 down to < 8,000 elements (overall adapted mesh <= 20,000 elements), while preserving sub-micron resolution (h <= 1.5 um) along the primary crack-attraction ligament.",
+    "status": "RECOMMENDED_NOT_IMPLEMENTED_IN_F1663"
+  },
+  "reproducibility_defect_resolved": {
+    "script": "scripts/remeshing/execute_f1661_recovery_and_remesh.py",
+    "line": 477,
+    "fix": "Corrected fourth quad edge indexing to (pts[0][1]-pts[3][1])**2",
+    "verified": true
+  },
+  "governed_status": {
+    "pbs_submissions": 0,
+    "refined_job2_runs": 0,
+    "frozen_uel_modified": false,
+    "audit_verdict": "PASS"
+  }
+}

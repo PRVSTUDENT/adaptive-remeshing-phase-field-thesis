@@ -475,7 +475,7 @@ try:
                 math.sqrt((pts[1][0]-pts[0][0])**2 + (pts[1][1]-pts[0][1])**2),
                 math.sqrt((pts[2][0]-pts[1][0])**2 + (pts[2][1]-pts[1][1])**2),
                 math.sqrt((pts[3][0]-pts[2][0])**2 + (pts[3][1]-pts[2][1])**2),
-                math.sqrt((pts[0][0]-pts[3][0])**2 + (pts[0][0]-pts[3][1])**2)
+                math.sqrt((pts[0][0]-pts[3][0])**2 + (pts[0][1]-pts[3][1])**2)
             ]
             area = 0.5 * abs(
                 (pts[0][0]*pts[1][1] - pts[1][0]*pts[0][1]) +
