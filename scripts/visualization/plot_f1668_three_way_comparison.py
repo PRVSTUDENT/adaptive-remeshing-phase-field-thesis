@@ -178,12 +178,12 @@ def main():
     # Panel (c): Adapted Meshes Overview (Full Specimen)
     # --------------------------------------------------------------------------
     ax3 = fig.add_subplot(2, 3, 3)
-    # Plot Case B mesh lines
+    # Plot Case B mesh lines (100% of lines drawn, no downsampling)
     nodes_b, elems_b, lines_b, _ = load_mesh_geometry(str(inp_case_b))
-    lc_b = LineCollection(lines_b[::2], colors='navy', linewidths=0.35, alpha=0.7)
+    lc_b = LineCollection(lines_b, colors='navy', linewidths=0.35, alpha=0.7)
     ax3.add_collection(lc_b)
     draw_specimen(ax3, show_boxes=True)
-    ax3.set_title('(c) Adapted Mesh Topology: Case B (Damage-Only)\n$N=8,237$ Quads | Leanest Mesh (87.3% Smaller than Combined)', fontsize=11, fontweight='bold')
+    ax3.set_title('(c) Adapted Mesh Topology: Case B (Damage-Only)\n$N=8,237$ Elements (77.7% Quads, 22.3% Tris) | Leanest Mesh (87.3% Reduction)', fontsize=11, fontweight='bold')
 
     # --------------------------------------------------------------------------
     # Panel (d): High-Mag Notch-to-Hole & Advancing Tip Zoom
@@ -201,7 +201,7 @@ def main():
     ax4.set_aspect('equal')
     ax4.set_xlabel('x [mm]', fontsize=9, fontweight='bold')
     ax4.set_ylabel('y [mm]', fontsize=9, fontweight='bold')
-    ax4.set_title('(d) High-Mag Fracture Zone Zoom (Case B)\nPrimary Ligament ($h=1.50\\,\\mu\\mathrm{m}$) & Opposite Flank ($h=1.57\\,\\mu\\mathrm{m}$)', fontsize=11, fontweight='bold')
+    ax4.set_title('(d) High-Mag Fracture Zone Zoom (Case B)\nPrimary Ligament ($h_{\\mathrm{med}}=1.50\\,\\mu\\mathrm{m}$) & Advancing Tip ($h_{\\mathrm{med}}=1.57\\,\\mu\\mathrm{m}$)', fontsize=11, fontweight='bold')
     ax4.grid(True, linestyle=':', alpha=0.4)
 
     # --------------------------------------------------------------------------
@@ -244,20 +244,23 @@ def main():
         ["Total Elements", "20,213", "64,032", "8,237", "64,746"],
         ["Pure Quads %", "97.18%", "78.03%", "77.67%", "78.09%"],
         ["Non-Pos Jacobians", "0", "0", "0", "0"],
-        ["Min Signed det(J)", "1.50e-7", "1.10e-7", "1.08e-7", "1.29e-7"],
-        ["Sub-1.5 um Count", "273 (1.4%)", "27,554 (43%)", "2,299 (28%)", "28,097 (43%)"],
+        ["Distorted Elements", "0", "3", "0", "2"],
+        ["Global Sub-1.5 um", "273 (1.4%)", "27,554 (43.0%)", "2,299 (27.9%)", "28,097 (43.4%)"],
         ["Ligament Median h", "4.684 um", "1.490 um", "1.501 um", "1.491 um"],
-        ["Advancing Tip Med h", "2.091 um", "1.532 um", "1.570 um", "1.516 um"],
+        ["Ligament <=1.5 um", "0 (0.0%)", "3,289 (51.6%)", "904 (49.8%)", "3,270 (51.4%)"],
+        ["Secondary Med h", "2.091 um", "1.532 um", "1.570 um", "1.516 um"],
+        ["Secondary <=1.5 um", "271 (3.7%)", "5,095 (45.1%)", "1,347 (41.9%)", "5,662 (47.6%)"],
         ["Far-Field Median h", "5.530 um", "1.570 um", "20.609 um", "1.573 um"],
-        ["Far-Field Bloat %", "Moderate", "Severe (72%)", "MINIMAL (<1%)", "Severe (72%)"],
-        ["Efficiency Score", "Moderate", "Poor", "EXCELLENT", "Good-Accurate"]
+        ["Far-Field <=1.5 um", "2 (0.0%)", "19,170 (41.3%)", "48 (1.5%)", "19,165 (41.2%)"],
+        ["Far-Field Bloat", "Low", "Severe Bloat", "ELIMINATED", "Severe Bloat"],
+        ["Production FEs", "60,639", "192,096", "24,711 (Lean)", "194,238"]
     ]
 
     col_widths = [0.32, 0.17, 0.17, 0.17, 0.17]
     tab = ax6.table(cellText=table_data, colWidths=col_widths, loc='center', cellLoc='center')
     tab.auto_set_font_size(False)
-    tab.set_fontsize(8.5)
-    tab.scale(1.0, 1.45)
+    tab.set_fontsize(8.0)
+    tab.scale(1.0, 1.35)
 
     # Format header row
     for j in range(5):
@@ -269,7 +272,7 @@ def main():
         tab[(i, 3)].set_facecolor('#e8f8f5')
         tab[(i, 3)].set_text_props(fontweight='bold')
 
-    ax6.set_title('(f) Master Three-Way Scientific Evaluation Matrix\nCase B Wins Efficiency-Resolution Trade-Off (8.2k vs 64.7k Quads)', fontsize=11, fontweight='bold')
+    ax6.set_title('(f) Master Three-Way Scientific Evaluation Matrix\nCase B Wins Efficiency-Resolution Trade-Off (8.2k vs 64.7k Elements)', fontsize=11, fontweight='bold')
 
     plt.suptitle(
         'TASK F1668: CONTROLLED THREE-WAY ADAPTIVE REMESHING STUDY\n'

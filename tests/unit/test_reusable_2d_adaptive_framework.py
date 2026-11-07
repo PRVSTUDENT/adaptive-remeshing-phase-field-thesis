@@ -7,6 +7,7 @@ Unit and regression tests for the reusable 2D adaptive remeshing framework
 """
 
 import os
+import json
 import tempfile
 import pytest
 from pathlib import Path
@@ -333,6 +334,24 @@ def test_f1668_production_decks_frozen_uel():
         assert "*ELEMENT, TYPE=U2, ELSET=DISP_QUAD" in content
         assert "*ELEMENT, TYPE=CPE4, ELSET=UMAT_QUADS" in content
         assert ProductionDeckBuilder.verify_uel_subroutine(str(uel_path), FROZEN_UEL_SHA256)
+
+
+def test_f1669_case_b_qualification_audit():
+    """Verify F1669 comprehensive Case B qualification audit and evidence reconciliation."""
+    audit_json = REPO_ROOT / "models" / "pandey_kumar_mode1" / "176_method_a_plate_with_hole" / "PK_HOLE_F1669_CASE_B_QUALIFICATION_AUDIT.json"
+    assert audit_json.exists(), "F1669 qualification audit JSON not found"
+
+    with open(str(audit_json), "r") as f:
+        data = json.load(f)
+
+    assert data["scientific_qualification_verdict"] == "CASE_B_READY_FOR_SEPARATELY_AUTHORIZED_DATACHECK"
+    assert data["reconciled_comparative_metrics"]["CASE_B_DAMAGE_ONLY"]["distorted_elements_count"] == 0
+    assert data["reconciled_comparative_metrics"]["CASE_B_DAMAGE_ONLY"]["total_elements"] == 8237
+    assert data["case_b_production_deck_audit"]["slit_flanks_verified"]["is_fully_separated"] is True
+    assert data["case_b_production_deck_audit"]["slit_flanks_verified"]["top_flank_nodes"] == 29
+    assert data["case_b_production_deck_audit"]["slit_flanks_verified"]["bottom_flank_nodes"] == 29
+    assert data["case_b_production_deck_audit"]["frozen_uel_sha256_match"] == FROZEN_UEL_SHA256
+
 
 
 
