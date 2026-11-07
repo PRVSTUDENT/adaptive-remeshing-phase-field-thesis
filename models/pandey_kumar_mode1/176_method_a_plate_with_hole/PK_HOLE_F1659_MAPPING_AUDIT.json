@@ -1,0 +1,23 @@
+{
+  "task_id": "F1659-IP-MAPPING-AND-CRACK-CONNECTIVITY-AUDIT",
+  "total_receiver_ips": 11452,
+  "strictly_contained_ips": 11452,
+  "containment_percentage": 100.0,
+  "mean_transfer_distance_mm": 0.0,
+  "p95_transfer_distance_mm": 0.0,
+  "max_boundary_distance_mm": 0.0,
+  "crack_continuity_audit": {
+    "path_d_ge_080_exists": true,
+    "path_d_ge_080_length": 8,
+    "path_d_ge_070_exists": true,
+    "path_d_ge_070_length": 8,
+    "path_d_ge_050_exists": true,
+    "path_d_ge_050_length": 6,
+    "min_damage_along_path_70": 0.7673215866088867,
+    "min_damage_along_path_50": 0.5584914684295654,
+    "broken_elements_d_ge_080": 22,
+    "num_connected_components_080": 4,
+    "primary_crack_component_size": 8
+  },
+  "verdict": "SPATIAL_MAPPING_AND_CONNECTIVITY_AUDITED_PASS"
+}
