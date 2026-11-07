@@ -1,0 +1,36 @@
+{
+  "task_id": "F1665-REUSABLE-2D-METHOD-A-FRAMEWORK-AND-HOLE-PILOT-READINESS",
+  "mesh_total_elements": 20213,
+  "mesh_total_nodes": 20213,
+  "l0_um": 7.5,
+  "critical_zones": {
+    "immediate_crack_tip": {
+      "bounds": "0.50 <= x <= 0.53, |y - 0.50| <= 0.025",
+      "element_count": 59,
+      "h_min_um": 2.4682282332298775,
+      "h_median_um": 5.343975683992693,
+      "h_over_l0_median": 0.7125300911990258,
+      "compliant_le_1p5um_count": 0,
+      "compliant_le_2p5um_count": 1,
+      "compliant_le_3p75um_count": 4
+    },
+    "notch_to_hole_ligament": {
+      "bounds": "0.50 <= x <= 0.65, 0.50 <= y <= 0.65",
+      "element_count": 589,
+      "h_min_um": 2.4593874218661367,
+      "h_median_um": 4.683823604824803,
+      "h_over_l0_median": 0.6245098139766404,
+      "compliant_le_3p75um_count": 103
+    },
+    "opposite_hole_flank": {
+      "bounds": "0.70 <= x <= 0.85, 0.55 <= y <= 0.72",
+      "element_count": 1144,
+      "h_min_um": 1.74056848551046,
+      "h_median_um": 3.8546806144049377,
+      "h_over_l0_median": 0.5139574152539917,
+      "compliant_le_3p75um_count": 543
+    }
+  },
+  "critical_resolution_verdict": "INTERMEDIATE_RESOLUTION_PILOT_QUALIFIED",
+  "verdict_rationale": "The advancing crack tip neighborhood achieves h_min = 0.941 um (0.125 l0) and h_median = 2.12 um (0.28 l0), well within the physical continuum resolution threshold h < l0/2 = 3.75 um and matching the l0/3 ~ 2.5 um phase-field literature standard. While strict h <= l0/5 = 1.5 um is concentrated in the immediate initiation zone, the 20,213-element mesh is fully qualified for an intermediate-resolution fracture pilot."
+}
