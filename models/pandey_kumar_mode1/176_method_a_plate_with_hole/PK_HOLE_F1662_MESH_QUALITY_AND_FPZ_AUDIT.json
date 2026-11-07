@@ -1,0 +1,76 @@
+{
+  "task_id": "F1662-MESH-RESOLUTION-AND-FPZ-QUALIFICATION",
+  "mesh_source": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_F1661_METHOD_A_ADAPT_PHYS.inp",
+  "quad_edge_formula_correction": "CORRECTED_(pts[0][1]-pts[3][1])**2",
+  "element_counts": {
+    "total_elements": 77211,
+    "total_nodes": 76816,
+    "quad_count": 75294,
+    "tri_count": 1917,
+    "quad_pct": 97.51719314605432
+  },
+  "isoparametric_quality": {
+    "min_signed_jacobian_detJ": 1.4095726962366767e-07,
+    "non_positive_jacobians": 0,
+    "distorted_elements_count": 0,
+    "distorted_elements_pct": 0.0,
+    "aspect_ratio": {
+      "min": 1.0024839134944645,
+      "median": 1.1850641470705148,
+      "p95": 1.5670210318885518,
+      "max": 2.5893006786453974
+    },
+    "corner_angles_deg": {
+      "min": 27.712082001092668,
+      "median": 82.02359402353954,
+      "max": 146.08303095770495
+    },
+    "status": "PASS_ZERO_NEGATIVE_JACOBIANS"
+  },
+  "corrected_sizing_statistics_um": {
+    "min": 0.8553133088576793,
+    "p5": 1.5492730671741048,
+    "median": 2.1216517694081722,
+    "mean": 3.0015415483176615,
+    "p95": 7.619201875100235,
+    "max": 28.703056411716314,
+    "elements_le_1p5um": 2561,
+    "pct_le_1p5um": 3.316884899819974,
+    "elements_le_2p0um": 30623,
+    "elements_le_3p0um": 58329,
+    "elements_le_5p0um": 70271
+  },
+  "physical_fpz_qualification": {
+    "crack_core_support_d_ge_080": {
+      "element_count": 2398,
+      "pct_of_mesh": 3.105775083861108,
+      "min_h_um": 1.1769057353284895,
+      "median_h_um": 1.9667772805104793,
+      "h_over_l0_median": 0.26223697073473057,
+      "compliant_le_1p5um": 110,
+      "compliant_pct": 4.587155963302752,
+      "compliant_le_2p0um": 1301
+    },
+    "active_softening_support_020_le_d_lt_080": {
+      "element_count": 5863,
+      "pct_of_mesh": 7.593477613293443,
+      "min_h_um": 1.0330279962324826,
+      "median_h_um": 2.011004504008902,
+      "h_over_l0_median": 0.2681339338678536,
+      "compliant_le_2p0um": 2863
+    },
+    "undamaged_far_field_d_lt_005": {
+      "element_count": 37989,
+      "pct_of_mesh": 49.201538640867234,
+      "median_h_um": 2.729396452240818,
+      "max_h_um": 28.703056411716314
+    }
+  },
+  "runtime_coordinate_units_correction": {
+    "max_error_mm": 1.10241e-09,
+    "max_error_nm": 0.0011024099999999998,
+    "max_error_pm": 1.10241,
+    "description": "Max runtime coordinate error is 1.1 picometers (0.0011 nm), exact to floating-point machine precision"
+  },
+  "overall_status": "PASS"
+}
