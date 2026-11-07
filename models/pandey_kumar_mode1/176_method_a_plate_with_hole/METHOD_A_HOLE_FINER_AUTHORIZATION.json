@@ -1,0 +1,43 @@
+{
+  "batch_name": "MODE1_METHOD_A_HOLE_FINER",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "PK_HOLE_METHOD_A_FINER.inp": "54e8d05baf54b1beb0c830266b6e7c9de00aded76a07fa66a384a84ddfb7078d",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_M1_HOLE_METHOD_A_FINER.pbs": "3856cd710766e6d00dd73c50522cb6cd3e27d6b67cb421e9b2aef270ff9c02a3",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11"
+  },
+  "jobs": [
+    {
+      "id": "hole_finer",
+      "pbs": "submit_M1_HOLE_METHOD_A_FINER.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_method_a_hole_finer/submit_M1_HOLE_METHOD_A_FINER.pbs\"",
+      "command_sha256": "997325bf959a10622a1369d6c0c2f2e04801e830a4d0fb527f925ab5611142ff",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Method A Plate with Hole finer-mesh sensitivity crack propagation solve (h_core = 0.75 um = l0/10, Step 1 to u=0.0050 mm, Step 2 to u=0.0120 mm, 69,903 physical elements, 209,709 total elements, *RESTART WRITE FREQ=1)",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "PK_HOLE_METHOD_A_FINER.inp",
+      "datacheck": "PK_HOLE_METHOD_A_FINER_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "hole_finer": "Abaqus 2023 single-rank serial solve completes continuous loading on finer mesh with Exit 0; captures peak reaction force and softening regime; outputs evolving connected damage band d >= 0.90 propagating from notch tip toward the off-axis hole; enables quantitative mesh-sensitivity comparison against F1645 52k baseline."
+  },
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_method_a_hole_finer",
+  "required_state_checks": [
+    "nodal_displacement_verified",
+    "damage_irreversibility_verified",
+    "committed_history_verified",
+    "state_restoration_verified"
+  ]
+}

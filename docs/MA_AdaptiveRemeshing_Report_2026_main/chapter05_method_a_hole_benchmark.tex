@@ -32,12 +32,17 @@ To simulate phase-field fracture in \Abaqus/Standard without native phase-field 
     \Gamma_d(d) = \int_\Omega \left( \frac{1}{2 \ellzero} d^2 + \frac{\ellzero}{2} \nabla d \cdot \nabla d \right) \mathrm{d}\Omega.
     \label{eq:crack_surface_functional}
   \end{equation}
-  \item \textbf{Layer 2 (Mechanical UEL):} 4-node quadrilateral (or 3-node triangular) user elements with two displacement degrees of freedom per node ($u_x = u_1$, $u_y = u_2$), governed by the degraded strain energy density under small-strain plane strain kinematics:
+  \item \textbf{Layer 2 (Mechanical UEL):} 4-node quadrilateral (or 3-node triangular) user elements with two displacement degrees of freedom per node ($u_x = u_1$, $u_y = u_2$). The mechanical Cauchy stress is degraded isotropically:
   \begin{equation}
-    \psi(\eten, d) = g(d) \psi_0^+(\eten) + \psi_0^-(\eten),
-    \label{eq:degraded_strain_energy}
+    \sten = g(d) \sten_0 = \left[ (1-d)^2 + k \right] \Cten_0 : \eten,
+    \label{eq:degraded_stress}
   \end{equation}
-  where $g(d) = (1-d)^2 + k$ is the quadratic degradation function and $\psi_0^\pm(\eten)$ represents the spectral decomposition of elastic strain energy into tensile and compressive components.
+  where $\Cten_0$ is the undegraded linear-elastic plane strain stiffness tensor. Crucially, the undegraded driving energy $\psi_0^+(\eten)$ driving phase-field evolution in the common block is evaluated from the positive volumetric strain trace combined with the full strain norm:
+  \begin{equation}
+    \psi_0^+(\eten) = \frac{1}{2} C_{12,0} \langle \tr{\eten} \rangle_+^2 + C_{33,0} \left( \strain_{11}^2 + \strain_{22}^2 + 2 \strain_{12}^2 \right),
+    \label{eq:uel_driving_energy}
+  \end{equation}
+  where $\langle x \rangle_+ = \max(0, x)$. This trace-positive volumetric plus full strain norm formulation must be distinguished from a spectral tensile/compressive energy split.
   \item \textbf{Layer 3 (Companion CPE4/CPE3 UMAT Visualizer):} Standard continuum elements with dummy elastic stiffness ($\sim 10^{-6}\,E$) co-located with the mechanical UEL. Standard state-dependent variables (SDVs) transfer damage $d$ and history $\Hist$ into field output for post-processing in \Abaqus/Viewer.
 \end{enumerate}
 
@@ -49,7 +54,7 @@ In the Pandey--Kumar Method~A workflow, an initial linear-elastic continuum pre-
 \subsection{Evaluation of Continuum Pre-Analysis and \MISESERI}
 \label{subsec:hole_miseseri_eval}
 
-An authentic linear-elastic pre-analysis on the off-axis hole geometry was evaluated using $2{,}906$ continuum elements ($2{,}818$ CPS4 quads and $88$ CPS3 triangles) and $2{,}988$ nodes. Standard Zienkiewicz--Zhu superconvergent patch recovery \citep{zienkiewicz1987} yields the \MISESERI\ field:
+An authentic linear-elastic pre-analysis on the off-axis hole geometry was evaluated using $2{,}906$ continuum elements ($2{,}832$ CPS4R quads and $74$ CPS3 triangles) and $3{,}010$ nodes (extracted directly from \texttt{PK\_HOLE\_METHOD\_A\_PREANALYSIS.odb}). Standard Zienkiewicz--Zhu superconvergent patch recovery \citep{zienkiewicz1987} yields the \MISESERI\ field:
 \begin{equation}
   \eta_e = \frac{\norm{\sten^* - \sten_h}_{L_2(\Omega_e)}}{\norm{\sten^*}_{L_2(\Omega)}},
   \label{eq:miseseri_formula}
@@ -105,7 +110,7 @@ Crucially, filtering elements with damage $d \ge 0.10$ revealed an authentic, cu
 \section{Three-Tier Indicator-Driven Adaptive Refinement (F1643)}
 \label{sec:hole_adaptive_mesh}
 
-Guided by the physical damage corridor obtained in the pilot simulation combined with the continuum stress concentration around the hole, an objective three-tier geometric partitioning was formulated:
+Guided by the physical damage corridor obtained in the pilot simulation combined with the continuum stress concentration around the hole, an objective three-tier spatial discretization was constructed. Rather than asserting unrestricted automatic in-analysis adaptive remeshing, this discretization represents a damage-informed, geometry-constrained offline refinement strategy using explicit core, transition, and bulk regions:
 \begin{enumerate}
   \item \textbf{Tier 1 (Fracture Process Zone Corridor):} Encompassing the active crack tip, the ligament between notch tip and hole, and the adjacent hole boundary. Seeded with targeted edge size $h_1 \approx 1.1\,\mu\mathrm{m} \le \ellzero / 5 = 1.50\,\mu\mathrm{m}$.
   \item \textbf{Tier 2 (Intermediate Transition Zone):} Surrounding the hole periphery and notch flanks with element size $h_2 \approx 3.0\,\mu\mathrm{m}$ to ensure smooth element size gradients.

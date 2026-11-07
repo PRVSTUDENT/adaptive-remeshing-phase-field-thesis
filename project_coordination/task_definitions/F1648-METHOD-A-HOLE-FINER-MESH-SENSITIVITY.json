@@ -1,0 +1,16 @@
+{
+  "task_id": "F1648-METHOD-A-HOLE-FINER-MESH-SENSITIVITY",
+  "title": "Controlled finer-mesh sensitivity experiment (h_core = 0.75 um = l0/10) for Method A off-axis-hole plate",
+  "status": "ACTIVE",
+  "assigned_agent": "gemini-antigravity",
+  "predecessor_task": {
+    "task_id": "F1647-METHOD-A-HOLE-THESIS-INTEGRATION",
+    "run_id": "2b6c1670-80a6-48ec-8f7a-8f96db40a99c",
+    "checkpoint_artifact": "project_coordination/controller/F1647-gemini-completion-receipt.json",
+    "checkpoint_sha256": "ADAB756DF284AD14A528D205AA8416A9FF46325ACA93D8E892ED52F3CA6BFCAC"
+  },
+  "scientific_objective": "Execute one controlled finer-mesh crack propagation simulation (h_core = 0.75 um = l0/10, 69,903 physical elements, 209,709 layered elements) on cluster mmaster02 to quantify peak load, energy evolution, and crack trajectory sensitivity against the 52,447-element F1645 benchmark",
+  "max_new_pbs_submissions": 1,
+  "execution_mode": "BATCH_QUALIFIED_HPC_EXECUTION",
+  "created_at": "2026-11-07T05:35:00.0000000+00:00"
+}
