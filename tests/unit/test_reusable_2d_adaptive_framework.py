@@ -251,8 +251,8 @@ def test_f1666_hybrid_mesh_off_axis_hole():
     assert inp_path.exists(), "F1666 hybrid physical mesh not found"
 
     metrics = MeshQualityAuditEngine.evaluate_mesh(str(inp_path), l0_mm=0.0075)
-    assert metrics["total_elements"] in (42628, 73251)
-    assert metrics["quad_percent"] >= 96.0
+    assert metrics["total_elements"] == 73251
+    assert metrics["quad_percent"] == 100.0
     assert metrics["non_positive_jacobians"] == 0, "Non-positive Jacobians detected!"
     assert metrics["min_det_j"] > 0.0
     assert metrics["h_median_um"] < 2.50
@@ -260,13 +260,18 @@ def test_f1666_hybrid_mesh_off_axis_hole():
 
 
 def test_f1666_hybrid_mesh_straight_notch():
-    """Verify F1666 hybrid adapted mesh quality on straight-notch benchmark."""
+    """
+    Verify F1666 hybrid adapted mesh quality on straight-notch benchmark.
+    NOTE: As qualified in F1666/F1667, this benchmark utilizes synthetic crack-line
+    sizing points (y=0.50) and serves as a SYNTHETIC_MESHER_TEST for geometric/topological
+    mesh generation, not an authentic simulation-field-driven adaptive remesh.
+    """
     inp_path = REPO_ROOT / "models" / "pandey_kumar_mode1" / "01_standard_pfm_reference" / "PK_MODE1_F1666_HYBRID_ADAPT_PHYS.inp"
     assert inp_path.exists(), "F1666 straight notch hybrid physical mesh not found"
 
     metrics = MeshQualityAuditEngine.evaluate_mesh(str(inp_path), l0_mm=0.0075)
-    assert metrics["total_elements"] in (10100, 31581)
-    assert metrics["quad_percent"] >= 97.0
+    assert metrics["total_elements"] == 10100
+    assert metrics["quad_percent"] == 100.0
     assert metrics["non_positive_jacobians"] == 0, "Non-positive Jacobians detected!"
     assert metrics["min_det_j"] > 0.0
     assert metrics["distorted_elements"] == 0

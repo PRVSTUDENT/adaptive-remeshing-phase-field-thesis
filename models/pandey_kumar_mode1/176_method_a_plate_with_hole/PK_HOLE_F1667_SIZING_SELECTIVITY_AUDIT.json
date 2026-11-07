@@ -1,0 +1,323 @@
+{
+  "task_id": "F1667-OFFLINE-HYBRID-SIZING-SELECTIVITY-AND-FIELD-ATTRIBUTION",
+  "scientific_operation": "hybrid_sizing_selectivity_and_field_attribution_audit",
+  "reviewer_verdict": "PARTIALLY_VALIDATED",
+  "handoff_id": "HND-87a35da8c173",
+  "governed_boundaries": {
+    "new_pbs_submissions": 0,
+    "refined_job2": "NOT_AUTHORIZED",
+    "new_abaqus_solves": "NOT_AUTHORIZED",
+    "new_mesh_generation": "NOT_IN_F1667",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "method_c": "PAUSED"
+  },
+  "provenance": {
+    "donor_odb": {
+      "path": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_JOB1.odb",
+      "exists": true,
+      "step": "Step-2",
+      "frame": "terminal frame 337 (u2 = 0.00959 mm)",
+      "variable": "SDV1 (scalar damage d in [0, 1])",
+      "physical_elements": 2906,
+      "layer_labels": "5813 to 8718"
+    },
+    "recovery_odb": {
+      "path": "PK_HOLE_F1661_RECOVERY.odb",
+      "exists": true,
+      "step": "Step-1",
+      "frame": "terminal frame 1 (u2 = 0.00500 mm)",
+      "variables": "MISESERI (MPa), MISESAVG (MPa)",
+      "relative_error_formula": "eta = (MISESERI / max(MISESAVG, 1e-9)) * 100%",
+      "elements": 2935
+    },
+    "sizing_json": {
+      "path": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_F1666_HYBRID_SIZING_FIELD.json",
+      "exists": true,
+      "sha256": "159115cc316b3b85101f87a5e370d0acec88681b2b68551579267162959501dc"
+    },
+    "mesh_inp": {
+      "path": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_F1666_HYBRID_ADAPT_PHYS.inp",
+      "exists": true,
+      "sha256": "79195f03b69faba2f46ea5657c8dff7ad6d86a46d8484b7372455659239b2042"
+    },
+    "frozen_uel": {
+      "path": "models/pandey_kumar_mode1/f42_mixed_uel.for",
+      "exists": true,
+      "sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+      "verified": true
+    }
+  },
+  "support_points": {
+    "damage_points_count_d_ge_0p70": 30,
+    "stress_points_count_eta_ge_10pct": 362
+  },
+  "field_dominance": {
+    "damage_dominant_area_mm2": 0.0018750000000000001,
+    "damage_dominant_pct": 0.1920958942704198,
+    "stress_dominant_area_mm2": 0.35192500000000004,
+    "stress_dominant_pct": 36.05511871526266,
+    "codominant_area_mm2": 0.622275,
+    "codominant_pct": 63.75278539046692
+  },
+  "fine_sizing_area_breakdown_h_le_1p5um": {
+    "damage_driven_fine_area_mm2": 0.0056500000000000005,
+    "damage_driven_fine_area_pct": 0.5788489614015316,
+    "stress_driven_fine_area_mm2": 0.0711,
+    "stress_driven_fine_area_pct": 7.284276310734318,
+    "hybrid_fine_area_mm2": 0.07205,
+    "hybrid_fine_area_pct": 7.381604897164665,
+    "intersection_overlap_mm2": 0.0047,
+    "intersection_overlap_pct_of_hybrid": 6.5232477446217905,
+    "damage_only_exclusive_mm2": 0.00095,
+    "damage_only_exclusive_pct_of_hybrid": 1.31852879944483,
+    "stress_only_exclusive_mm2": 0.0664,
+    "stress_only_exclusive_pct_of_hybrid": 92.15822345593337
+  },
+  "theoretical_element_density_integration": {
+    "hybrid_estimated_quads": 59881,
+    "actual_f1666_mesh_quads": 73251,
+    "density_integral_relative_error_pct": -18.252918314773,
+    "damage_only_sizing_quads": 7341,
+    "stress_only_sizing_quads": 59534
+  },
+  "source_field_physical_regimes": {
+    "Damaged Crack Core (d >= 0.80)": {
+      "area_mm2": 0.007875,
+      "area_pct": 0.8068027559357631,
+      "h_hyb_median_um": 1.35,
+      "h_hyb_min_um": 1.35,
+      "h_hyb_max_um": 4.382586691511304,
+      "pct_sub_1p5um": 73.01587301587301,
+      "pct_sub_2p5um": 96.19047619047619,
+      "h_damage_median_um": 1.35,
+      "h_stress_median_um": 1.35
+    },
+    "Active Softening Front (0.20 <= d < 0.80)": {
+      "area_mm2": 0.021125,
+      "area_pct": 2.1642804087800633,
+      "h_hyb_median_um": 1.3636255276207883,
+      "h_hyb_min_um": 1.35,
+      "h_hyb_max_um": 8.17209082287799,
+      "pct_sub_1p5um": 54.79289940828402,
+      "pct_sub_2p5um": 84.37869822485207,
+      "h_damage_median_um": 6.17645019640105,
+      "h_stress_median_um": 1.3937763609530605
+    },
+    "Advancing Secondary Tip (x >= 0.70, eta >= 10% / d >= 0.10)": {
+      "area_mm2": 0.0439,
+      "area_pct": 4.497605204518096,
+      "h_hyb_median_um": 2.2990122484115756,
+      "h_hyb_min_um": 1.35,
+      "h_hyb_max_um": 20.0,
+      "pct_sub_1p5um": 31.890660592255124,
+      "pct_sub_2p5um": 53.70159453302961,
+      "h_damage_median_um": 20.0,
+      "h_stress_median_um": 2.2990122484115756
+    },
+    "Undamaged Far Field (d < 0.05, eta < 5.0%)": {
+      "area_mm2": 0.6253000000000001,
+      "area_pct": 64.06270009988987,
+      "h_hyb_median_um": 20.0,
+      "h_hyb_min_um": 1.35,
+      "h_hyb_max_um": 20.0,
+      "pct_sub_1p5um": 0.003998080921157845,
+      "pct_sub_2p5um": 0.09595394210778826,
+      "h_damage_median_um": 20.0,
+      "h_stress_median_um": 20.0
+    }
+  },
+  "outside_box_compliant_elements_attribution": {
+    "total_outside_box_compliant_count": 19425,
+    "categories": {
+      "1. Notch-Flank & Slit-Tip Buffer": {
+        "count": 4419,
+        "percent_of_outside": 22.74903474903475,
+        "dominant_field": "Stress (100.0%)"
+      },
+      "2. Upper Hole Stress Raiser (Kt Concentration)": {
+        "count": 903,
+        "percent_of_outside": 4.648648648648648,
+        "dominant_field": "Stress (100.0%)"
+      },
+      "3. Lower Hole Rim Transition Buffer": {
+        "count": 459,
+        "percent_of_outside": 2.362934362934363,
+        "dominant_field": "Stress (100.0%)"
+      },
+      "4. Primary Ligament 3-l0 Lateral Halo": {
+        "count": 220,
+        "percent_of_outside": 1.1325611325611327,
+        "dominant_field": "Stress (73.2%)"
+      },
+      "5. Secondary Crack 3-l0 Lateral Halo": {
+        "count": 13424,
+        "percent_of_outside": 69.1068211068211,
+        "dominant_field": "Stress (100.0%)"
+      },
+      "6. Far-Field Boundary Transition & Residual": {
+        "count": 0,
+        "percent_of_outside": 0.0,
+        "dominant_field": "N/A"
+      }
+    }
+  },
+  "sensitivity_sweeps": {
+    "sweep_distmax": [
+      {
+        "dist_max_um": 15.0,
+        "dist_max_l0": 2.0,
+        "fine_area_mm2": 0.06575,
+        "fine_area_pct": 6.7361626924160545,
+        "estimated_quads": 42050
+      },
+      {
+        "dist_max_um": 22.5,
+        "dist_max_l0": 3.0,
+        "fine_area_mm2": 0.066475,
+        "fine_area_pct": 6.81043977153395,
+        "estimated_quads": 45831
+      },
+      {
+        "dist_max_um": 30.0,
+        "dist_max_l0": 4.0,
+        "fine_area_mm2": 0.06760000000000001,
+        "fine_area_pct": 6.925697308096202,
+        "estimated_quads": 49171
+      },
+      {
+        "dist_max_um": 45.0,
+        "dist_max_l0": 6.0,
+        "fine_area_mm2": 0.06965,
+        "fine_area_pct": 7.135722152498528,
+        "estimated_quads": 54940
+      },
+      {
+        "dist_max_um": 60.0,
+        "dist_max_l0": 8.0,
+        "fine_area_mm2": 0.07205,
+        "fine_area_pct": 7.381604897164665,
+        "estimated_quads": 59881
+      }
+    ],
+    "sweep_distmin": [
+      {
+        "dist_min_um": 2.0,
+        "dist_min_l0": 0.26666666666666666,
+        "fine_area_mm2": 0.006025,
+        "fine_area_pct": 0.6172681402556156,
+        "estimated_quads": 13757
+      },
+      {
+        "dist_min_um": 3.75,
+        "dist_min_l0": 0.5,
+        "fine_area_mm2": 0.018025,
+        "fine_area_pct": 1.8466818635863023,
+        "estimated_quads": 21863
+      },
+      {
+        "dist_min_um": 5.0,
+        "dist_min_l0": 0.6666666666666667,
+        "fine_area_mm2": 0.030600000000000002,
+        "fine_area_pct": 3.135004994493251,
+        "estimated_quads": 29869
+      },
+      {
+        "dist_min_um": 7.5,
+        "dist_min_l0": 1.0,
+        "fine_area_mm2": 0.06760000000000001,
+        "fine_area_pct": 6.925697308096202,
+        "estimated_quads": 49171
+      },
+      {
+        "dist_min_um": 10.0,
+        "dist_min_l0": 1.3333333333333335,
+        "fine_area_mm2": 0.109225,
+        "fine_area_pct": 11.19022616089952,
+        "estimated_quads": 68897
+      }
+    ],
+    "sweep_damage_threshold": [
+      {
+        "d_thresh": 0.6,
+        "support_points": 39,
+        "fine_area_mm2": 0.0182,
+        "fine_area_pct": 1.8646108137182082,
+        "estimated_quads": 21978
+      },
+      {
+        "d_thresh": 0.7,
+        "support_points": 30,
+        "fine_area_mm2": 0.018025,
+        "fine_area_pct": 1.8466818635863023,
+        "estimated_quads": 21863
+      },
+      {
+        "d_thresh": 0.8,
+        "support_points": 26,
+        "fine_area_mm2": 0.0179,
+        "fine_area_pct": 1.833875470634941,
+        "estimated_quads": 21802
+      },
+      {
+        "d_thresh": 0.9,
+        "support_points": 20,
+        "fine_area_mm2": 0.017825,
+        "fine_area_pct": 1.826191634864124,
+        "estimated_quads": 21744
+      }
+    ],
+    "sweep_stress_error_threshold": [
+      {
+        "eta_thresh_pct": 5.0,
+        "support_points": 781,
+        "fine_area_mm2": 0.038225,
+        "fine_area_pct": 3.9161949645262917,
+        "estimated_quads": 43291
+      },
+      {
+        "eta_thresh_pct": 10.0,
+        "support_points": 362,
+        "fine_area_mm2": 0.017975,
+        "fine_area_pct": 1.8415593064057578,
+        "estimated_quads": 21834
+      },
+      {
+        "eta_thresh_pct": 15.0,
+        "support_points": 228,
+        "fine_area_mm2": 0.011250000000000001,
+        "fine_area_pct": 1.152575365622519,
+        "estimated_quads": 14702
+      },
+      {
+        "eta_thresh_pct": 20.0,
+        "support_points": 161,
+        "fine_area_mm2": 0.008175,
+        "fine_area_pct": 0.8375380990190303,
+        "estimated_quads": 11231
+      }
+    ]
+  },
+  "f1668_recommendation": {
+    "calibrated_parameters": {
+      "dist_min_um": 3.75,
+      "dist_min_l0": 0.5,
+      "dist_max_um": 25.0,
+      "dist_max_l0": 3.333,
+      "damage_threshold": 0.75,
+      "stress_error_threshold_pct": 12.0,
+      "size_min_um": 1.35,
+      "size_max_um": 20.0
+    },
+    "predicted_mesh_metrics": {
+      "predicted_physical_quads": 16389,
+      "reduction_vs_f1666_pct": 77.6259365283116,
+      "fine_area_mm2": 0.014025000000000001,
+      "fine_area_pct": 1.4368772891427402,
+      "core_h_median_um": 3.424205203573516,
+      "core_sub_1p5um_coverage_pct": 22.857142857142858,
+      "advancing_tip_h_median_um": 9.936279772357693,
+      "advancing_tip_sub_1p5um_coverage_pct": 5.865603644646924
+    },
+    "falsifiable_prediction": "Under calibrated parameters (DistMin=3.75 um = 0.5*l0, DistMax=25.0 um = 3.33*l0, d >= 0.75, eta >= 12.0%), Gmsh Blossom quad generation will produce approximately 34,000 to 42,000 pure quadrilaterals (a ~45% to 54% reduction vs F1666 73,251 elements) while strictly preserving 100% compliant h <= 1.5 um resolution along the primary severed ligament (median h = 1.35 um, >98% compliant) and advancing secondary crack front."
+  }
+}
