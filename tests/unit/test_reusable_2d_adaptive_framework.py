@@ -191,3 +191,88 @@ def test_f1664_3layer_uel_deck_verification(off_axis_hole_config):
     assert "N_BOTTOM, 2, 2" in content
     assert "N_PIN, 1, 1" in content
     assert "N_RP, 2, 2" in content
+
+
+def test_f1653_authentic_uel_and_bc_compatibility(off_axis_hole_config):
+    """Verify production deck strictly matches authentic F1653 UEL property ABI and BCs."""
+    prod_inp = REPO_ROOT / "models" / "pandey_kumar_mode1" / "176_method_a_plate_with_hole" / "PK_HOLE_F1664_METHOD_A_PROD.inp"
+    assert prod_inp.exists()
+
+    with open(str(prod_inp), "r") as f:
+        lines = [line.strip() for line in f]
+
+    # 1. Verify UEL Property ABI: l0, Gc, E, nu, k, N_phys (6 properties)
+    uel_prop_idx = -1
+    for i, line in enumerate(lines):
+        if line.startswith("*UEL PROPERTY, ELSET=PHASE_QUAD"):
+            uel_prop_idx = i
+            break
+    assert uel_prop_idx != -1, "PHASE_QUAD UEL PROPERTY card missing"
+    props = [p.strip() for p in lines[uel_prop_idx + 1].split(",")]
+    assert len(props) == 6, "Expected 6 UEL properties, got %d" % len(props)
+    assert float(props[0]) == 0.0075, "PROPS(1) must be l0 (0.0075)"
+    assert float(props[1]) == 0.0027, "PROPS(2) must be Gc (0.0027)"
+    assert float(props[2]) == 210.0, "PROPS(3) must be E in kN/mm^2 (210.0)"
+    assert float(props[3]) == 0.30, "PROPS(4) must be nu (0.3)"
+    assert float(props[4]) == 1.0e-7, "PROPS(5) must be k_residual (1.0e-7)"
+    assert float(props[5]) == 20213.0, "PROPS(6) must be N_phys (20213.0)"
+
+    # 2. Verify Companion Visualizer Material: DUMMY_MAT with CONSTANTS=3 (E, nu, N_phys), DEPVAR 20
+    mat_idx = -1
+    for i, line in enumerate(lines):
+        if line.startswith("*MATERIAL, NAME=DUMMY_MAT"):
+            mat_idx = i
+            break
+    assert mat_idx != -1, "DUMMY_MAT material missing"
+    assert lines[mat_idx + 1].startswith("*USER MATERIAL, CONSTANTS=3")
+    umat_props = [p.strip() for p in lines[mat_idx + 2].split(",")]
+    assert float(umat_props[0]) == 210.0
+    assert float(umat_props[1]) == 0.3
+    assert float(umat_props[2]) == 20213.0
+    assert lines[mat_idx + 3].startswith("*DEPVAR")
+    assert lines[mat_idx + 4] == "20"
+
+    # 3. Verify SOLID SECTION applies only to All_elem (UMAT), not uelems
+    assert "*SOLID SECTION, ELSET=All_elem, MATERIAL=DUMMY_MAT" in lines
+
+    # 4. Verify boundary conditions in Step 1
+    step1_idx = lines.index("*STEP, NAME=Step-1, NLGEOM=NO, INC=10000")
+    step1_text = "\n".join(lines[step1_idx:step1_idx + 25])
+    assert "N_BOTTOM, 2, 2, 0.0" in step1_text
+    assert "N_PIN, 1, 1, 0.0" in step1_text
+    assert "N_TOP, 1, 1, 0.0" in step1_text
+    assert "N_RP, 2, 2, 0.0050" in step1_text
+    assert "MISESERI, MISESAVG, S, E, SDV" in step1_text
+
+
+def test_f1666_hybrid_mesh_off_axis_hole():
+    """Verify F1666 hybrid adapted mesh quality on off-axis hole benchmark."""
+    inp_path = REPO_ROOT / "models" / "pandey_kumar_mode1" / "176_method_a_plate_with_hole" / "PK_HOLE_F1666_HYBRID_ADAPT_PHYS.inp"
+    assert inp_path.exists(), "F1666 hybrid physical mesh not found"
+
+    metrics = MeshQualityAuditEngine.evaluate_mesh(str(inp_path), l0_mm=0.0075)
+    assert metrics["total_elements"] == 42628
+    assert metrics["total_nodes"] == 42284
+    assert metrics["quad_percent"] > 96.0
+    assert metrics["non_positive_jacobians"] == 0, "Non-positive Jacobians detected!"
+    assert metrics["min_det_j"] > 0.0
+    assert metrics["h_median_um"] < 2.50
+    assert metrics["elements_le_2p5um"] > 25000
+
+
+def test_f1666_hybrid_mesh_straight_notch():
+    """Verify F1666 hybrid adapted mesh quality on straight-notch benchmark."""
+    inp_path = REPO_ROOT / "models" / "pandey_kumar_mode1" / "01_standard_pfm_reference" / "PK_MODE1_F1666_HYBRID_ADAPT_PHYS.inp"
+    assert inp_path.exists(), "F1666 straight notch hybrid physical mesh not found"
+
+    metrics = MeshQualityAuditEngine.evaluate_mesh(str(inp_path), l0_mm=0.0075)
+    assert metrics["total_elements"] == 31581
+    assert metrics["total_nodes"] == 31435
+    assert metrics["quad_percent"] > 97.0
+    assert metrics["non_positive_jacobians"] == 0, "Non-positive Jacobians detected!"
+    assert metrics["min_det_j"] > 0.0
+    assert metrics["distorted_elements"] == 0
+    assert metrics["h_median_um"] < 2.50
+    assert metrics["elements_le_1p5um"] > 10000
+
+

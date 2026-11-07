@@ -557,28 +557,10 @@ class ProductionDeckBuilder(object):
                     f.write("%d, %s\n" % (eid + offset_umat, ", ".join(str(n) for n in tri_elems[eid])))
 
             # Element sets
-            f.write("*ELSET, ELSET=uelems\nPHASE_QUAD\nDISP_QUAD\n")
-            if num_tris > 0:
-                f.write("PHASE_TRI\nDISP_TRI\n")
-            f.write("*ELSET, ELSET=umatelem\nUMAT_QUADS\n")
+            f.write("*ELSET, ELSET=All_elem\nUMAT_QUADS\n")
             if num_tris > 0:
                 f.write("UMAT_TRIS\n")
-            f.write("*ELSET, ELSET=All_elem\nuelems\numatelem\n")
-
-            # UEL Property card (E, nu, l0, Gc, k, eta)
-            # Note: E in kN/mm^2 (210.0), Gc in kN/mm (0.0027)
-            E_kn = config.E / 1000.0
-            f.write("*UEL PROPERTY, ELSET=uelems\n")
-            f.write("%.6e, %.6e, %.6e, %.6e, %.6e, 0.0\n" % (
-                E_kn, config.nu, config.l0, config.Gc, config.k_residual
-            ))
-
-            # Companion Material
-            f.write("*SOLID SECTION, ELSET=umatelem, MATERIAL=COMPANION_MAT\n")
-            f.write("*MATERIAL, NAME=COMPANION_MAT\n")
-            f.write("*USER MATERIAL, CONSTANTS=2\n")
-            f.write("%.6e, %.6e\n" % (config.E, config.nu))
-            f.write("*DEPVAR\n18\n")
+            f.write("*ELSET, ELSET=umatelem\nAll_elem\n")
 
             # Node sets
             f.write("*NSET, NSET=N_BOTTOM\n")
@@ -590,33 +572,61 @@ class ProductionDeckBuilder(object):
             f.write("*NSET, NSET=N_PIN\n%d\n" % pin_node)
             f.write("*NSET, NSET=N_RP\n%d\n" % rp_nid)
 
-            # Rigid tie equations for top pull
-            f.write("** Kinematic tying: Top nodes tied to RP in DOF 2\n")
+            # UEL Property cards matching authentic f42_mixed_uel.for ABI:
+            # PROPS: (1)=l0, (2)=Gc, (3)=E, (4)=nu, (5)=k_residual, (6)=N_phys
+            E_kn = config.E / 1000.0
+            num_phys_f = float(num_phys_elems)
+
+            if quad_elems:
+                f.write("*UEL PROPERTY, ELSET=PHASE_QUAD\n")
+                f.write("%.4f, %.4f, %.1f, %.2f, %.1e, %.1f\n" % (
+                    config.l0, config.Gc, E_kn, config.nu, config.k_residual, num_phys_f
+                ))
+                f.write("*UEL PROPERTY, ELSET=DISP_QUAD\n")
+                f.write("%.4f, %.4f, %.1f, %.2f, %.1e, %.1f\n" % (
+                    config.l0, config.Gc, E_kn, config.nu, config.k_residual, num_phys_f
+                ))
+            if tri_elems:
+                f.write("*UEL PROPERTY, ELSET=PHASE_TRI\n")
+                f.write("%.4f, %.4f, %.1f, %.2f, %.1e, %.1f\n" % (
+                    config.l0, config.Gc, E_kn, config.nu, config.k_residual, num_phys_f
+                ))
+                f.write("*UEL PROPERTY, ELSET=DISP_TRI\n")
+                f.write("%.4f, %.4f, %.1f, %.2f, %.1e, %.1f\n" % (
+                    config.l0, config.Gc, E_kn, config.nu, config.k_residual, num_phys_f
+                ))
+
+            # Companion Material (Visualizer UMAT) matching f42_mixed_uel.for ABI:
+            # PROPS: (1)=E, (2)=nu, (3)=N_phys
+            f.write("*SOLID SECTION, ELSET=All_elem, MATERIAL=DUMMY_MAT\n1.0\n")
+            f.write("*MATERIAL, NAME=DUMMY_MAT\n")
+            f.write("*USER MATERIAL, CONSTANTS=3\n")
+            f.write("%.1f, %.2f, %.1f\n" % (E_kn, config.nu, num_phys_f))
+            f.write("*DEPVAR\n20\n")
+
+            # Rigid tie equations: top nodes tied to RP in DOF 2
+            f.write("** ----------------------------------------------------------\n")
+            f.write("** EQUATIONS (Rigid top tensile pull tied to RP in DOF 2)\n")
+            f.write("** ----------------------------------------------------------\n")
             for nid in sorted(top_nodes):
                 f.write("*EQUATION\n2\n")
                 f.write("%d, 2, 1.0, %d, 2, -1.0\n" % (nid, rp_nid))
 
-            # Boundary Conditions
-            f.write("*BOUNDARY\n")
-            f.write("N_BOTTOM, 2, 2, %.6e\n" % config.bottom_u2)
-            f.write("N_PIN, 1, 1, %.6e\n" % config.pin_bottom_left_u1)
-            f.write("N_RP, 1, 1, 0.0\n")
-
-            # Initial Conditions
-            f.write("*INITIAL CONDITIONS, TYPE=ZERO\nuelems\n")
-
-            # Step 1: Precritical loading
+            # Step 1: Precritical / Linear loading to step1_u2 (0.0050 mm)
             f.write("** ----------------------------------------------------------\n")
-            f.write("** STEP 1: Precritical Loading to u = %.4f mm\n" % config.step1_u2)
+            f.write("** STEP 1: Linear Loading to u = %.4f mm\n" % config.step1_u2)
             f.write("** ----------------------------------------------------------\n")
-            f.write("*STEP, NAME=Step-1, NLGEOM=NO, INC=1000\n")
-            f.write("*STATIC\n0.01, 1.0, 1.0e-8, 0.02\n")
+            f.write("*STEP, NAME=Step-1, NLGEOM=NO, INC=10000\n")
+            f.write("*STATIC\n0.02, 1.0, 1.0e-7, 0.02\n")
             f.write("*BOUNDARY\n")
-            f.write("N_RP, 2, 2, %.6e\n" % config.step1_u2)
+            f.write("N_BOTTOM, 2, 2, 0.0\n")
+            f.write("N_PIN, 1, 1, 0.0\n")
+            f.write("N_TOP, 1, 1, 0.0\n")
+            f.write("N_RP, 2, 2, %.4f\n" % config.step1_u2)
             f.write("*RESTART, WRITE, FREQUENCY=1\n")
             f.write("*OUTPUT, FIELD, FREQUENCY=1\n")
             f.write("*NODE OUTPUT, NSET=N_RP\nU, RF\n")
-            f.write("*ELEMENT OUTPUT, ELSET=umatelem\nSDV, S, E\n")
+            f.write("*ELEMENT OUTPUT, ELSET=umatelem\nMISESERI, MISESAVG, S, E, SDV\n")
             f.write("*NODE PRINT, FREQ=1, NSET=N_RP\nU2, RF2\n")
             f.write("*END STEP\n")
 
@@ -627,11 +637,11 @@ class ProductionDeckBuilder(object):
                 f.write("*STEP, NAME=Step-2, NLGEOM=NO, INC=20000\n")
                 f.write("*STATIC\n0.002, 1.0, 1.0e-8, 0.002\n")
                 f.write("*BOUNDARY\n")
-                f.write("N_RP, 2, 2, %.6e\n" % config.step2_u2)
+                f.write("N_RP, 2, 2, %.4f\n" % config.step2_u2)
                 f.write("*RESTART, WRITE, FREQUENCY=1\n")
                 f.write("*OUTPUT, FIELD, FREQUENCY=1\n")
                 f.write("*NODE OUTPUT, NSET=N_RP\nU, RF\n")
-                f.write("*ELEMENT OUTPUT, ELSET=umatelem\nSDV, S, E\n")
+                f.write("*ELEMENT OUTPUT, ELSET=umatelem\nMISESERI, MISESAVG, S, E, SDV\n")
                 f.write("*NODE PRINT, FREQ=1, NSET=N_RP\nU2, RF2\n")
                 f.write("*END STEP\n")
 
