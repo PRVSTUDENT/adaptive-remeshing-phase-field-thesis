@@ -353,5 +353,47 @@ def test_f1669_case_b_qualification_audit():
     assert data["case_b_production_deck_audit"]["frozen_uel_sha256_match"] == FROZEN_UEL_SHA256
 
 
+def test_f1670_damage_core_and_quality_metric_reconciliation():
+    """Verify F1670 damage core reconciliation and quality metric harmonization."""
+    f1670_json = REPO_ROOT / "models" / "pandey_kumar_mode1" / "176_method_a_plate_with_hole" / "PK_HOLE_F1670_DAMAGE_CORE_RECONCILIATION.json"
+    f1668_json = REPO_ROOT / "models" / "pandey_kumar_mode1" / "176_method_a_plate_with_hole" / "PK_HOLE_F1668_THREE_WAY_COMPARISON_METRICS.json"
+    f1669_json = REPO_ROOT / "models" / "pandey_kumar_mode1" / "176_method_a_plate_with_hole" / "PK_HOLE_F1669_CASE_B_QUALIFICATION_AUDIT.json"
+
+    assert f1670_json.exists(), "F1670 reconciliation JSON not found"
+    assert f1668_json.exists(), "F1668 metrics JSON not found"
+    assert f1669_json.exists(), "F1669 audit JSON not found"
+
+    with open(str(f1670_json), "r") as f:
+        d1670 = json.load(f)
+    with open(str(f1668_json), "r") as f:
+        d1668 = json.load(f)
+    with open(str(f1669_json), "r") as f:
+        d1669 = json.load(f)
+
+    # 1. Mathematical Subset Proof
+    root_cause = d1670["damage_core_discrepancy_root_cause"]
+    assert root_cause["mathematical_relationship"]["is_d80_subset_of_d70"] is True
+    assert root_cause["mathematical_relationship"]["difference_element_count"] == 407
+    assert root_cause["threshold_d_0p70"]["case_b_elements_within_2l0"] == 4931
+    assert root_cause["threshold_d_0p80"]["case_b_elements_within_2l0"] == 4524
+
+    # 2. Harmonized Metrics in F1668 JSON
+    case_b_1668 = d1668["CASE_B_DAMAGE_ONLY"]
+    assert "crack_core_count" not in case_b_1668["overall_quality"], "Placeholder crack_core_count: 0 not removed!"
+    assert case_b_1668["regional_sizing"]["damage_support_d_ge_0p70"]["total_elements"] == 4931
+    assert case_b_1668["regional_sizing"]["damage_support_d_ge_0p70"]["count_le_2p5um"] == 4236
+    assert case_b_1668["regional_sizing"]["damage_support_d_ge_0p70"]["count_le_3p75um"] == 4601
+    assert case_b_1668["regional_sizing"]["severe_crack_core_d_ge_0p80"]["total_elements"] == 4524
+    assert case_b_1668["regional_sizing"]["severe_crack_core_d_ge_0p80"]["count_le_2p5um"] == 3904
+    assert case_b_1668["regional_sizing"]["severe_crack_core_d_ge_0p80"]["count_le_3p75um"] == 4241
+
+    # 3. Quality Metrics Harmonization
+    quality = d1670["element_quality_reconciliation"]
+    assert quality["standard_code_criterion"]["distorted_elements"] == 0
+    assert quality["strict_screening_criterion"]["distorted_elements"] == 17
+    assert d1670["final_reconciliation_verdict"] == "COMPLETE_AND_SYNCHRONIZED"
+
+
+
 
 

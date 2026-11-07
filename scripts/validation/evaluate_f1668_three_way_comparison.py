@@ -35,7 +35,7 @@ from scripts.remeshing.reusable_2d_adaptive_framework import (
 )
 
 
-def evaluate_mesh_regions(inp_path, donor_pts_core, rec_pts_adv):
+def evaluate_mesh_regions(inp_path, donor_pts_d70, donor_pts_d80, rec_pts_adv):
     nodes, quads, tris = MeshQualityAuditEngine.parse_physical_inp(inp_path)
     all_elems = {}
     all_elems.update(quads)
@@ -71,10 +71,12 @@ def evaluate_mesh_regions(inp_path, donor_pts_core, rec_pts_adv):
         diff = cents[:, None, :] - ref_pts[None, :, :]
         return np.sqrt(np.min(np.sum(diff**2, axis=-1), axis=-1))
 
-    dist_core = dist_to_pts(elem_cents, donor_pts_core)
+    dist_d70 = dist_to_pts(elem_cents, donor_pts_d70)
+    dist_d80 = dist_to_pts(elem_cents, donor_pts_d80)
     dist_adv = dist_to_pts(elem_cents, rec_pts_adv)
 
-    core_support_mask = dist_core <= 0.0150
+    core_d70_mask = dist_d70 <= 0.0150
+    core_d80_mask = dist_d80 <= 0.0150
     adv_support_mask = dist_adv <= 0.0150
 
     def get_stats(h_arr):
@@ -82,9 +84,9 @@ def evaluate_mesh_regions(inp_path, donor_pts_core, rec_pts_adv):
             return {"count": 0, "h_min_um": 0, "h_median_um": 0, "h_max_um": 0, "le_1p5um": 0, "pct_le_1p5um": 0}
         h_sorted = np.sort(h_arr)
         count = len(h_sorted)
-        le_1p5 = int(np.sum(h_sorted <= 1.50))
-        le_2p5 = int(np.sum(h_sorted <= 2.50))
-        le_3p75 = int(np.sum(h_sorted <= 3.75))
+        le_1p5 = int(np.sum(h_sorted <= 1.500001))
+        le_2p5 = int(np.sum(h_sorted <= 2.500001))
+        le_3p75 = int(np.sum(h_sorted <= 3.750001))
         return {
             "count": count,
             "h_min_um": float(h_sorted[0]),
@@ -101,11 +103,16 @@ def evaluate_mesh_regions(inp_path, donor_pts_core, rec_pts_adv):
             "pct_le_3p75um": float(100.0 * le_3p75 / count)
         }
 
+    stats_d70 = get_stats(elem_h_max[core_d70_mask])
+    stats_d80 = get_stats(elem_h_max[core_d80_mask])
+
     return {
         "box1_primary_ligament": get_stats(elem_h_max[box1_mask]),
         "box2_secondary_crack": get_stats(elem_h_max[box2_mask]),
         "far_field": get_stats(elem_h_max[far_mask]),
-        "authentic_core_support": get_stats(elem_h_max[core_support_mask]),
+        "authentic_core_support": stats_d80,
+        "damage_support_d_ge_0p70": stats_d70,
+        "severe_crack_core_d_ge_0p80": stats_d80,
         "authentic_advancing_tip_support": get_stats(elem_h_max[adv_support_mask])
     }
 
@@ -119,7 +126,8 @@ def main():
     with open(sizing_json, "r") as f:
         sizing_data = json.load(f)
 
-    donor_core_pts = np.array([[el["cx"], el["cy"]] for el in sizing_data["donor_elements"] if el["d_max"] >= 0.80])
+    donor_d70_pts = np.array([[el["cx"], el["cy"]] for el in sizing_data["donor_elements"] if el["d_max"] >= 0.70])
+    donor_d80_pts = np.array([[el["cx"], el["cy"]] for el in sizing_data["donor_elements"] if el["d_max"] >= 0.80])
     rec_adv_pts = np.array([[el["cx"], el["cy"]] for el in sizing_data["recovery_elements"] if el["eta_pct"] >= 10.0 and el["cx"] >= 0.70])
 
     mesh_configs = [
@@ -162,7 +170,7 @@ def main():
     for m in mesh_configs:
         print("\nEvaluating: %s (%s)" % (m["name"], m["inp"]))
         q_audit = MeshQualityAuditEngine.evaluate_mesh(m["inp"], l0_mm=0.0075)
-        r_audit = evaluate_mesh_regions(m["inp"], donor_core_pts, rec_adv_pts)
+        r_audit = evaluate_mesh_regions(m["inp"], donor_d70_pts, donor_d80_pts, rec_adv_pts)
 
         results[m["case_id"]] = {
             "metadata": m,

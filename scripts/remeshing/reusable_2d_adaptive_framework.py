@@ -435,7 +435,7 @@ class MeshQualityAuditEngine(object):
         edge_lengths_um.sort()
         l0_um = l0_mm * 1000.0
 
-        return {
+        ret = {
             "total_elements": total_elems,
             "total_nodes": total_nodes,
             "quad_count": len(quad_elems),
@@ -453,10 +453,14 @@ class MeshQualityAuditEngine(object):
             "elements_le_1p5um": sum(1 for h in edge_lengths_um if h <= 1.50),
             "elements_le_2p5um": sum(1 for h in edge_lengths_um if h <= 2.50),
             "elements_le_3p75um": sum(1 for h in edge_lengths_um if h <= 3.75),
-            "crack_core_count": len(crack_core_edges),
-            "crack_core_h_median_um": sorted(crack_core_edges)[len(crack_core_edges) // 2] if crack_core_edges else None,
-            "crack_core_le_1p5um": sum(1 for h in crack_core_edges if h <= 1.50),
         }
+
+        if authentic_damage_lookup is not None:
+            ret["crack_core_count"] = len(crack_core_edges)
+            ret["crack_core_h_median_um"] = sorted(crack_core_edges)[len(crack_core_edges) // 2] if crack_core_edges else None
+            ret["crack_core_le_1p5um"] = sum(1 for h in crack_core_edges if h <= 1.50)
+
+        return ret
 
 
 # ==============================================================================
