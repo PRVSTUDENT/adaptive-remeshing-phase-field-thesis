@@ -1168,6 +1168,86 @@ The following scientific boundaries govern the Method~A off-axis hole investigat
   \item \textbf{Localized Damage Bound Overshoot:} Maximum damage exceeds unity by $0.108\%$ ($d_{\max} = 1.001083$) across 8 elements during secondary snap-through, arising from finite Newton--Raphson equilibrium tolerances in the staggered user element.
 \end{enumerate}
 
+\section{Comprehensive Method~A Synthesis and Cost--Accuracy Assessment}
+\label{sec:method_a_comprehensive_synthesis}
+
+To consolidate the extensive experimental campaign conducted across Tasks F1683--F1688, this section synthesizes the quantitative achievements, falsified hypotheses, and open numerical questions of Method~A into a rigorous, evidence-backed evaluation. A comprehensive cost-versus-accuracy comparison is established between the coarse reference, the uniform fine baseline, the production adapted models, and the optimized selective remeshing candidates.
+
+\subsection{Tripartite Scientific Status: Validated, Falsified, and Unproven}
+\label{subsec:method_a_tripartite_status}
+
+Table~\ref{tab:method_a_tripartite_classification} summarizes the definitive outcomes of the Method~A investigation, classifying all experimental findings into what has been rigorously demonstrated, what has been empirically falsified, and what remains bounded or unproven.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Tripartite classification of Method~A scientific findings across Tasks F1683--F1688.}
+\label{tab:method_a_tripartite_classification}
+\begin{tabularx}{\textwidth}{p{2.2cm}p{3.8cm}X}
+\hline
+\textbf{Category} & \textbf{Investigated Mechanism / Metric} & \textbf{Quantitative Finding and Scientific Provenance} \\
+\hline
+\textbf{Validated} & Narrow Selective Mesh Optimization (Tasks F1684--F1686) & Primary candidate E10 achieves $9{,}164$ elements ($27{,}753$ DOFs, $-57.13\%$ vs baseline); $W_{90\%} = 36.81\,\mu\mathrm{m}$ ($5.35\times$ contraction); waste area reduced from $86.52\%$ to $65.35\%$ ($78.76\%$ absolute reduction). Process zone resolution: primary $h_{\mathrm{med}} = 2.37\,\mu\mathrm{m}$, secondary $h_{\mathrm{med}} = 2.13\,\mu\mathrm{m}$ ($\le \ell_0/3$). Aggressive candidate E12 achieves $8{,}046$ elements ($24{,}414$ DOFs, $-62.29\%$). Min Jacobian $\ge 0.6795$, max aspect ratio $\le 2.45$. \\
+\cline{2-3}
+ & Full Production Fracture Solve (Task F1685, Job 1421171) & Completed 506 increments to $u_y = 0.01329\,\mathrm{mm}$ with zero divergence ($21{,}569$ elements, $64{,}746$ DOFs). Peak load softens to $P_{\max} = 0.5577\,\mathrm{kN}$ ($-6.02\%$ notch-tip refinement sensitivity). Full path captured: deflection to hole ($y_{\mathrm{avg}} = 0.5145\,\mathrm{mm}$), hole arrest, secondary flank nucleation, and complete severance ($x_{\max} = 0.999038\,\mathrm{mm}$, $99.93\%$ load loss). \\
+\cline{2-3}
+ & Section 4.3 Control Test: Scoped Finding (Task F1688) & Monolithic UEL diverges at Inc 64 ($u_y = 0.081\,\mathrm{mm}$, $P_{\max} = 5.95\,\mathrm{kN}$) due to cutback exhaustion on $h = 5.26\ell_0$. Pre-penetration linear-elastic recovery field marks only notch tip ($5.20\,\mathrm{MPa}$); secondary corridor is completely unrefined ($0.0\% \le \ell_0$, median $h = 0.7463\,\mathrm{mm}$), proving early-state donors cannot resolve sequential multi-branch paths. \\
+\hline
+\textbf{Falsified} & Single-Rule Dual-Branch on Literature Geometry & Falsified as tested: native one-rule remeshing from early-state recovery leaves the secondary ligament at background coarse resolution ($0.0\% \le \ell_0$). \\
+\cline{2-3}
+ & Terminal ENDENERI Control: Hypothesis H1 (Task F1687) & Falsified: single terminal energy-error rule generated $51{,}712$ elements ($154{,}953$ DOFs, $2.4\times$ inflation), $W_{90\%} = 191.72\,\mu\mathrm{m}$, waste $92.93\%$. Linear-elastic ENDENERI captures macroscopic bending gradients rather than localized crack dissipation. \\
+\cline{2-3}
+ & Blind Generalization of 5\%/10\% Rule: Hypothesis H2 (Task F1687) & Falsified under adopted gates on Mode-I straight edge crack: crack core is sharp ($h_{\mathrm{med}} = 2.25\,\mu\mathrm{m}$, $W_{50\%} = 15.34\,\mu\mathrm{m}$), but open-boundary flaring expands $W_{90\%} = 229.56\,\mu\mathrm{m}$ and waste to $75.65\% > 70.0\%$, proving rule pairing is a geometry-specific calibration. \\
+\hline
+\textbf{Unproven} & E10 / E12 Fracture Response & Validated as spatial discretizations meeting all geometric and resolution gates; full fracture simulation deferred under zero-PBS governance. \\
+\cline{2-3}
+ & Section 4.3 Terminal Single-Rule Test & Unperformed because coarse Job-1 diverged at initiation; requires a convergent staggered or regularised coarse solver to reach $u_y \approx 1.46\,\mathrm{mm}$. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Cost-versus-Accuracy Comparison across Discretization Strategies}
+\label{subsec:cost_accuracy_comparison}
+
+To evaluate the numerical efficiency of Method~A, Table~\ref{tab:method_a_cost_accuracy_comparison} benchmarks the complete series of hole plate discretizations against both the coarse unrefined model and uniform fine references.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Comprehensive cost, resolution, and accuracy comparison across Method~A hole plate discretizations.}
+\label{tab:method_a_cost_accuracy_comparison}
+\begin{tabularx}{\textwidth}{Xrrrrrr}
+\hline
+\textbf{Discretization Model} & \textbf{Physical El.} & \textbf{Total DOFs} & \textbf{$W_{90\%}$ ($\mu\mathrm{m}$)} & \textbf{Waste (\%)} & \textbf{$h_{\mathrm{med}}$ ($\mu\mathrm{m}$)} & \textbf{Walltime} \\
+\hline
+Coarse Reference (F1642) & $2{,}906$ & $8{,}724$ & --- & --- & $18.50$ & $3\,\mathrm{min}$ \\
+Standard PFM ($3\,\mu\mathrm{m}$) & $15{,}192$ & $45{,}582$ & $250.0$ & $88.50$ & $3.00$ & $\approx 53\,\mathrm{min}$ (est.) \\
+Uniform Fine ($3.75\,\mu\mathrm{m}$) & $\approx 71{,}000$ & $\approx 213{,}000$ & $1{,}000.0$ & $98.50$ & $3.75$ & $\approx 5\,\mathrm{h}$ (est.) \\
+Method~A Baseline (F1678) & $20{,}213$ & $60{,}645$ & $197.10$ & $86.52$ & $2.49$ / $1.91$ & $80\,\mathrm{min}$ \\
+Method~A Combined (F1685) & $21{,}569$ & $64{,}746$ & $197.10$ & $86.52$ & $2.49$ / $1.91$ & $80\,\mathrm{min}$ \\
+\textbf{Method~A E10 (F1686)} & $\mathbf{9{,}164}$ & $\mathbf{27{,}753}$ & $\mathbf{36.81}$ & $\mathbf{65.35}$ & $\mathbf{2.37}$ / $\mathbf{2.13}$ & $\mathbf{\approx 30\text{--}36\,\mathrm{min}}$ (proj.) \\
+\textbf{Method~A E12 (F1686)} & $\mathbf{8{,}046}$ & $\mathbf{24{,}414}$ & $\mathbf{33.69}$ & $\mathbf{59.29}$ & $\mathbf{2.35}$ / $\mathbf{2.41}$ & $\mathbf{\approx 25\text{--}30\,\mathrm{min}}$ (proj.) \\
+\hline
+\end{tabularx}
+\end{table}
+
+The quantitative progression across Table~\ref{tab:method_a_cost_accuracy_comparison} highlights several fundamental computational conclusions:
+\begin{enumerate}
+  \item \textbf{Significant Degrees-of-Freedom Reduction:} The optimized selective candidate E10 reduces the active degree-of-freedom count from $64{,}746$ (F1685 baseline) down to $27{,}753$, representing a \textbf{57.13\% reduction in model size} (and $62.29\%$ in Candidate E12). Compared against a hypothetical uniform fine discretization ($\approx 213{,}000$ DOFs), E10 achieves an \textbf{87.0\% reduction in total DOFs}.
+  \item \textbf{Contraction of Inactive Fine Meshing:} By raising the secondary error target to $e_{\mathrm{tgt}}^{\mathrm{sec}} = 10.0\%$, Candidate E10 contracts the 90\% transverse refinement width from $W_{90\%} = 197.10\,\mu\mathrm{m}$ to $36.81\,\mu\mathrm{m}$ ($5.35\times$ narrower), cutting total wasted fine area by $78.76\%$ ($0.0601\,\mathrm{mm}^2 \to 0.0128\,\mathrm{mm}^2$).
+  \item \textbf{Strict Invariance of Process-Zone Resolution:} Despite this massive reduction in mesh size, the spatial resolution inside the authentic crack corridors remains exceptionally high: median element size is $h_{\mathrm{equiv}} = 2.37\,\mu\mathrm{m} \le \ell_0/3$ in the primary path and $2.13\,\mu\mathrm{m}$ in the secondary path. In Candidate E12, median sizes are $2.35\,\mu\mathrm{m}$ and $2.41\,\mu\mathrm{m}$, respectively. Both candidates achieve $h_{\min} < 0.83\,\mu\mathrm{m} \approx \ell_0/9$ at the notch and hole flanks, satisfying the most stringent phase-field regularisation criteria ($h \le \ell_0/2$).
+  \item \textbf{Projected Solver Turnaround:} Because sparse direct equation solvers scale with $\mathcal{O}(N^{1.5}\text{--}N^2)$ in two dimensions, the $57.13\%$ reduction in DOFs projects a runtime reduction from $80\,\mathrm{min}$ ($4{,}810\,\mathrm{s}$) down to $\approx 30\text{--}36\,\mathrm{min}$ on a single core, demonstrating that selective indicator-driven remeshing provides superior computational economy without sacrificing physical crack resolution.
+\end{enumerate}
+
+\subsection{Characterized Limitations of the Production Fracture Simulation (F1685)}
+\label{subsec:f1685_limitations_stated}
+
+To preserve absolute scientific objectivity, two specific numerical behaviors observed during the full-scale production solve (Job \texttt{1421171.mmaster02}, Task F1685) must be explicitly stated as characterized limitations:
+\begin{enumerate}
+  \item \textbf{Pointwise Damage Irreversibility and Healing Audit:} Auditing $4{,}141{,}088$ pointwise state transitions across 50 critical simulation frames revealed that the minimum damage change was $\min(\Delta d) = -0.001375$ ($-0.138\%$) at Element~9439 between Increments~198 and 199 during secondary crack snap-through. While this exceeds the strict numerical tolerance ($10^{-3}$) by $37.5\%$, zero healing was observed outside this rapid snap-through transition window ($d_{\max} = 1.00020$). This transient reflects elliptic damage redistribution in the staggered Helmholtz solve without local active-set projection, rather than a failure of the constitutive user element equations where Kuhn--Tucker conditions theoretically enforce $\dot{\mathcal{H}} \ge 0$.
+  \item \textbf{Quasi-Static Thermodynamic Residual Accumulation:} Up to kinematic crack arrest at the circular hole (Increment~187), the external work ($W_{\mathrm{ext}} = 2.6036\,\mathrm{mJ}$) and total internal energy ($E_{\mathrm{total}} = 2.6054\,\mathrm{mJ}$) agree to within $0.07\%$ ($1.83\,\mu\mathrm{J}$ residual). During the subsequent secondary snap-through across the right ligament (Increments~188--220), integrated fracture dissipation ($+1.90\,\mathrm{mJ}$) outpaced released strain energy ($-1.45\,\mathrm{mJ}$), yielding an endpoint work--energy discrepancy of $\Delta E = 0.3686\,\mathrm{mJ}$ ($12.30\%$). This accumulation is an inherent limitation of static implicit integration during unstable snap-through events where dynamic kinetic energy is omitted, and is disclosed as a characterized numerical artifact rather than an assertion of complete physical energy conservation.
+\end{enumerate}
+
 \section{Summary and Research Conclusions}
 \label{sec:hole_summary}
 
