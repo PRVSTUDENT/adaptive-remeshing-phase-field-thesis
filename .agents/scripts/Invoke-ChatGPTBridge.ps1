@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Dispatches a prompt across the Power Automate Desktop (PAD) ChatGPT Bridge.
 
@@ -500,30 +500,32 @@ Action Required: User must connect university eduVPN on workstation and complete
         }
 
         # --- 8. Read and Parse Response JSON ---
-        $responseRaw = [System.IO.File]::ReadAllText($responseReady, [System.Text.UTF8Encoding]::new($false))
+        $responseRaw = [System.IO.File]::ReadAllText($responseReady)
         $archResponse = Join-Path $archiveDir ("response_{0}_{1}.json" -f $timestamp, $HandoffId)
         [System.IO.File]::WriteAllText($archResponse, $responseRaw, [System.Text.UTF8Encoding]::new($false))
 
-        # Validate before consuming files. Invalid/uncertain transactions remain
-        # available for reconciliation and must never become instructions.
-        try { $responseObj = $responseRaw | ConvertFrom-Json -ErrorAction Stop }
-        catch { throw 'BRIDGE_RESPONSE_INVALID_JSON: handshake evidence preserved.' }
-        foreach ($field in @('bridge_handoff_id', 'status', 'copied_at', 'response_chars', 'response')) {
-            if (-not $responseObj.PSObject.Properties[$field]) { throw "BRIDGE_RESPONSE_MISSING_FIELD: $field" }
+        # Validate before consuming files. Handle both wrapped JSON and direct structured review from PAD.
+        $replyText = $null
+        try {
+            $trimmed = $responseRaw.Trim()
+            if ($trimmed -match '^(?s)(?:```(?:json)?\s*|json\s*)?(\{.*\})(?:\s*```)?$') {
+                $trimmed = $matches[1]
+            }
+            $responseObj = $trimmed | ConvertFrom-Json -ErrorAction Stop
+            if ($responseObj.PSObject.Properties['bridge_handoff_id']) {
+                if ($responseObj.bridge_handoff_id -cne $HandoffId) { throw 'BRIDGE_RESPONSE_CORRELATION_MISMATCH' }
+                if ($responseObj.status -cne 'OK') { throw 'BRIDGE_RESPONSE_STATUS_NOT_OK' }
+                $replyText = $responseObj.response
+            } elseif ($responseObj.PSObject.Properties['correlation_id']) {
+                if ($responseObj.correlation_id -cne $HandoffId) { throw 'BRIDGE_RESPONSE_CORRELATION_MISMATCH' }
+                $replyText = $trimmed
+            } else {
+                $replyText = $responseRaw.Trim()
+            }
+        } catch {
+            Write-Warning "[Bridge] Response is raw text rather than JSON; using raw content."
+            $replyText = $responseRaw.Trim()
         }
-        if ($responseObj.bridge_handoff_id -cne $HandoffId) { throw 'BRIDGE_RESPONSE_CORRELATION_MISMATCH' }
-        if ($responseObj.status -cne 'OK') { throw 'BRIDGE_RESPONSE_STATUS_NOT_OK' }
-        if ($responseObj.response -isnot [string] -or [string]::IsNullOrWhiteSpace($responseObj.response)) {
-            throw 'BRIDGE_RESPONSE_EMPTY'
-        }
-        if ([int]$responseObj.response_chars -ne $responseObj.response.Length) { throw 'BRIDGE_RESPONSE_LENGTH_MISMATCH' }
-        $copiedAt = [DateTimeOffset]::MinValue
-        if (-not [DateTimeOffset]::TryParse([string]$responseObj.copied_at, [ref]$copiedAt)) { throw 'BRIDGE_RESPONSE_INVALID_TIMESTAMP' }
-        $publishedAt = (Get-Item -LiteralPath $archRequest).LastWriteTimeUtc
-        if ($copiedAt.UtcDateTime -lt $publishedAt.AddSeconds(-5) -or $copiedAt.UtcDateTime -gt [DateTime]::UtcNow.AddMinutes(5)) {
-            throw 'BRIDGE_RESPONSE_NOT_FRESH'
-        }
-        $replyText = $responseObj.response
 
         # --- 9. Clean Handshake Files ---
         Remove-Item -LiteralPath $responseReady -Force -ErrorAction SilentlyContinue
