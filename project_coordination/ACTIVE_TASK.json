@@ -1,20 +1,21 @@
 {
-    "task_id": "F1681-METHOD-A-COMPLETE-AND-INDEPENDENT-REVIEW-CLOSEOUT",
-    "title": "Method A Native Abaqus MISESERI Adaptive Remeshing Complete Validation, Reconciliation, and Closeout",
+    "task_id": "F1682-METHOD-A-ODB-FRAME-AUDIT-AND-MISESERI-LOCALIZATION-CORRECTION",
+    "title": "Method A Complete ODB Frame Extraction, MISESERI Localization Root-Cause Investigation, and Controlled Correction",
     "status": "ACTIVE",
     "assigned_agent": "gemini-antigravity",
     "predecessor_task": {
-        "task_id": "F1680-METHOD-A-SCIENTIFIC-CORRECTION-AND-THESIS-CLOSEOUT",
-        "checkpoint_artifact": "project_coordination/sessions/2026-11-07_gemini-antigravity_F1680_method_a_closeout.md"
+        "task_id": "F1681-METHOD-A-COMPLETE-AND-INDEPENDENT-REVIEW-CLOSEOUT",
+        "checkpoint_artifact": "project_coordination/sessions/2026-11-08_gemini-antigravity_F1681_method_a_review_closeout.md"
     },
     "registration": {
-        "definition": "project_coordination/task_definitions/F1681-METHOD-A-COMPLETE-AND-INDEPENDENT-REVIEW-CLOSEOUT.json"
+        "definition": "project_coordination/task_definitions/F1682-METHOD-A-ODB-FRAME-AUDIT-AND-MISESERI-LOCALIZATION-CORRECTION.json"
     },
-    "scientific_operation": "method_a_complete_and_independent_review_closeout",
-    "scientific_operation_id": "f1681_method_a_complete",
+    "scientific_operation": "method_a_odb_frame_audit_and_miseseri_localization_correction",
+    "scientific_operation_id": "f1682_odb_frame_audit_and_correction",
     "scientific_checkpoint_required": true,
     "max_new_pbs_submissions": 0,
     "completed_operations": [
+        "f1681_method_a_complete_and_independent_review_closeout",
         "f1680_method_a_scientific_correction_and_thesis_closeout",
         "mapped_frozen_history_lower_bound_kkt_probe",
         "mapped_mechanical_history_call_order_probe",

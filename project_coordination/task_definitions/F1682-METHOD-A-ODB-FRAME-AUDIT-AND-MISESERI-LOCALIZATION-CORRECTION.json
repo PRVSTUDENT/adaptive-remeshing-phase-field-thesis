@@ -1,0 +1,31 @@
+{
+    "task_id": "F1682-METHOD-A-ODB-FRAME-AUDIT-AND-MISESERI-LOCALIZATION-CORRECTION",
+    "title": "Method A Complete ODB Frame Extraction, MISESERI Localization Root-Cause Investigation, and Controlled Correction",
+    "stage": "Mode-I",
+    "assigned_agent": "gemini-antigravity",
+    "predecessor_task": "F1681-METHOD-A-COMPLETE-AND-INDEPENDENT-REVIEW-CLOSEOUT",
+    "status": "ACTIVE",
+    "max_new_pbs_submissions": 0,
+    "scientific_operation": "method_a_odb_frame_audit_and_miseseri_localization_correction",
+    "scientific_objective": "Determine why native Abaqus MISESERI-guided adaptive refinement is concentrated heavily in the secondary ligament (90.4% <= 3.75 um) while the notch tip and primary ligament remain under-refined (0% <= 1.50 um). Perform complete all-frame extraction of production (M1_HOLE_F1664_METHOD_A_PROD.odb) and coarse donor (PK_HOLE_COARSE_JOB1.odb) ODBs. Fix damage classification defect by extracting complete continuous damage fields. Evaluate candidate donor frames for controlled MISESERI recovery experiments.",
+    "datasets": {
+        "production_odb": "/scratch9/pr21vyci/runs/mode1_method_a_hole_f1664_prod/M1_HOLE_F1664_METHOD_A_PROD.odb",
+        "coarse_donor_odb": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_JOB1.odb",
+        "recovery_odbs": [
+            "PK_HOLE_F1661_RECOVERY.odb",
+            "PK_HOLE_F1659_RECOVERY.odb",
+            "PK_HOLE_F1656_RECOVERY.odb"
+        ],
+        "physical_mesh": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_F1664_METHOD_A_ADAPT_PHYS.inp"
+    },
+    "acceptance_criteria": [
+        "Complete stored ODB frames extracted or unavailable frames explicitly documented",
+        "Coarse and refined fracture histories aligned across equilibrium states",
+        "Initial notch-to-hole and secondary hole-to-edge trajectories quantitatively resolved",
+        "F1681 damage threshold classifications corrected with complete continuous damage distributions",
+        "Spatial origin of broad secondary ligament refinement supported by discriminating numerical evidence",
+        "Candidate donor frames ranked with quantitative metrics for controlled MISESERI recovery",
+        "Strict (h <= l0/5) and relaxed (h <= l0/3) criteria reported without conflation",
+        "Zero unapproved new PBS job submissions (max_new_pbs_submissions = 0 strictly respected)"
+    ]
+}
