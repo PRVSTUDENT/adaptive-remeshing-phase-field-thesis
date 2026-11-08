@@ -980,6 +980,63 @@ def test_f1682r_chronological_monotonicity_and_miseseri_spatial_integration():
     assert "Candidate_Terminal_Baseline" in cands
 
 
+def test_f1683_controlled_multi_frame_recovery_and_spatial_localization():
+    """
+    Task F1683: Regression test verifying the multi-frame controlled recovery,
+    disjoint partition spatial integration, and localization correction.
+    Resolves independent review HND-a9ff3c192a8e.
+    """
+    comp_json = REPO_ROOT / "results" / "validation" / "f1683_four_frame_spatial_comparison.json"
+    comp_csv = REPO_ROOT / "results" / "validation" / "f1683_four_frame_spatial_comparison.csv"
+    fig_mises_pdf = REPO_ROOT / "MA_AdaptiveRemeshing_Report_2026" / "figures" / "f1683_four_frame_native_miseseri_comparison.pdf"
+    fig_damage_pdf = REPO_ROOT / "MA_AdaptiveRemeshing_Report_2026" / "figures" / "f1683_four_frame_donor_damage_comparison.pdf"
+
+    assert comp_json.exists(), f"Missing {comp_json}"
+    assert comp_csv.exists(), f"Missing {comp_csv}"
+    assert fig_mises_pdf.exists(), f"Missing {fig_mises_pdf}"
+    assert fig_damage_pdf.exists(), f"Missing {fig_damage_pdf}"
+
+    with open(str(comp_json), "r", encoding="utf-8") as f:
+        records = json.load(f)
+
+    assert len(records) == 4, f"Expected 4 candidates, got {len(records)}"
+    rec_by_id = {r["candidate_id"]: r for r in records}
+
+    # 1. Candidate B (Frame 50, u=0.0057 mm): Notch tip dominance, negligible secondary error
+    cand_b = rec_by_id["Candidate_B"]
+    assert cand_b["notch_tip_sq_l2_share_pct"] > 60.0
+    assert cand_b["secondary_ligament_sq_l2_share_pct"] < 2.0
+    assert cand_b["diag_primary_norm_ratio_pct"] > 65.0
+
+    # 2. Candidate C (Frame 150, u=0.0071 mm): Primary corridor deflection, zero secondary ballooning
+    cand_c = rec_by_id["Candidate_C"]
+    assert cand_c["notch_tip_sq_l2_share_pct"] > 55.0
+    assert cand_c["secondary_ligament_sq_l2_share_pct"] < 2.5
+    assert cand_c["diag_primary_norm_ratio_pct"] > 65.0
+
+    # 3. Candidate D (Frame 200, u=0.007756 mm): Hole cavity penetration, annular concentration
+    cand_d = rec_by_id["Candidate_D"]
+    assert cand_d["hole_annulus_sq_l2_share_pct"] > 40.0
+    assert 5.0 <= cand_d["secondary_ligament_sq_l2_share_pct"] <= 15.0
+
+    # 4. Terminal Baseline (Frame 337, u=0.009591 mm): Overwhelming secondary ligament over-refinement
+    baseline = rec_by_id["Terminal_Baseline"]
+    assert baseline["secondary_ligament_sq_l2_share_pct"] > 90.0
+    assert (baseline["notch_tip_sq_l2_share_pct"] + baseline["primary_corridor_sq_l2_share_pct"]) < 1.0
+
+    # 5. Exact 100% additive partition reconciliation check across all candidates
+    for r in records:
+        sq_l2_sum = (
+            r["notch_tip_sq_l2_share_pct"] +
+            r["primary_corridor_sq_l2_share_pct"] +
+            r["hole_annulus_sq_l2_share_pct"] +
+            r["secondary_ligament_sq_l2_share_pct"] +
+            r["far_field_sq_l2_share_pct"]
+        )
+        assert abs(sq_l2_sum - 100.0) < 1e-3, f"Non-100% partition sum {sq_l2_sum} for {r['candidate_id']}"
+
+
+
 
 
 
