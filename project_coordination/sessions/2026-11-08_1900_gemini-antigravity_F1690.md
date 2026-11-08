@@ -6,21 +6,22 @@
 - **Session ID**: `f1690-session-001`
 - **Predecessor Task**: `F1689-METHOD-A-THESIS-SYNTHESIS-AND-COST-ACCURACY-COMPARISON`
 - **Starting Commit**: `fe0851c27da1d6d5ef6fa4ae8c1706634d58849b`
-- **PBS Job ID**: `1421200.mmaster02` (on `mnode098`, `normal_imfdfkmq`, 1 CPU, 16 GB, walltime 21m 19s)
+- **PBS Job ID**: `1421200.mmaster02` (on `mnode098`, `normal_imfdfkmq`, 1 CPU, 16 GB, walltime 21m 19s solver CPU time [1,279s], 30m 04s scheduler elapsed span)
 - **Frozen UEL SHA-256**: `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` (strictly unmodified)
+- **Review Verdict**: **`APPROVE`** (`HND-4d8fc9d717b5`, protocol `INDEPENDENT_STRUCTURED_REVIEW_V1`)
 
 ---
 
 ## 1. Executive Summary & Core Scientific Result
 
-Task F1690 executed the authorized control rerun on the Pandey & Kumar (2025) Section 4.3 benchmark ($65.0 \times 120.0\,\mathrm{mm}$ plate with 3 holes) using a corrected solver setup: a finer coarse discretization ($h = 0.60\,\mathrm{mm}$, $h/\ell_0 = 2.11 \approx 2$, $24{,}718$ elements, $49{,}522$ DOFs) designed to regularize damage gradients across $2\text{--}3$ element layers without modifying the frozen monolithic UEL.
+Task F1690 executed the authorized control rerun on the Pandey & Kumar (2025) Section 4.3 benchmark ($65.0 \times 120.0\,\mathrm{mm}$ plate with 3 holes) using a corrected solver setup: a finer coarse discretization ($h = 0.60\,\mathrm{mm}$, $h/\ell_0 = 2.11 \approx 2$, $24{,}718$ elements, $49{,}522$ DOFs) designed to regularize damage gradients across $2\text{--}3$ element layers without modifying the frozen monolithic UEL. Option 1 (staggered solver) was rejected to preserve the bitwise inviolability of `f42_mixed_uel.for`.
 
 ### Key Results
 1. **Stage 0 (F1688 Damage Field Audit)**: Extracted $u_y = 0.081\,\mathrm{mm}$ damage field from the F1688 coarse ODB (`PK_SEC43_COARSE_JOB1.odb`). Peak damage $d = 0.7722$ was strictly localized at the notch tip; the secondary ligament had $d_{\max} = 0.0254 \approx 0$, providing definitive visual and numerical proof of the pre-penetration state.
-2. **Stage B (HPC Solver Outcome & Regularization)**: PBS Job `1421200.mmaster02` solved $170$ converged equilibrium increments to $u_y = 0.068717\,\mathrm{mm}$ (vs 64 increments in F1688), accumulating $D_f = 13.428\,\mathrm{mJ}$ of dissipated fracture energy (a **$659\times$ regularization increase** over F1688's $0.0161\,\mathrm{mJ}$).
+2. **Stage B (HPC Solver Outcome & Regularization)**: PBS Job `1421200.mmaster02` solved $170$ converged equilibrium increments to $u_y = 0.068717\,\mathrm{mm}$ (a $2.66\times$ expansion over 64 increments in F1688), regularising damage across 2--3 element layers and accumulating $D_f = 13.426\,\mathrm{mJ}$ ($0.01343\,\mathrm{J}$) of dissipated fracture energy compared to $16.090\,\mathrm{mJ}$ ($0.01609\,\mathrm{J}$) at increment 64 in F1688 (ratio $0.8344$).
 3. **Monolithic Solver Divergence & Hard Stop Rule**: At increment 171 ($u_y = 0.06872\,\mathrm{mm}$), localized process zone propagation caused severe tangent non-convexity in the monolithic Newton-Raphson coupled UEL. The solver exhausted 18 cutbacks down to $\Delta t < 1.0 \times 10^{-7}\,\mathrm{s}$, terminating with Exit Code 1. In strict accordance with the pre-declared hard stop rule, zero further solver variants or jobs were submitted.
-4. **Terminal Damage Localization**: Extracted increment 170 damage field from `PK_SEC43_RERUN_JOB1.odb`. The crack initiated sharply at the notch tip ($d_{\max} = 0.9318$), while the secondary ligament remained completely undamaged ($d_{\max} = 0.0214 \approx 0$).
-5. **Stage C (Auxiliary Recovery)**: Linear-elastic recovery on the $24{,}718$-element mesh (Exit 0 in 20s) concentrated $90\%$ of squared error energy in $3.13\%$ specimen area ($229.38\,\mathrm{mm}^2$). Error along the secondary ligament peaked at $0.1327\,\mathrm{MPa}$ ($1.92\%$ of notch-tip peak $6.90\,\mathrm{MPa}$).
+4. **Terminal Damage Localization**: Extracted increment 170 damage field from `PK_SEC43_RERUN_JOB1.odb`. The crack initiated sharply at the notch tip ($d_{\max} = 0.9318$ across 45 elements with $d > 0.10$ and 8 elements with $d > 0.50$, vs 15 elements in F1688), while the secondary ligament remained completely undamaged ($d_{\max} = 0.0214 \approx 0$).
+5. **Stage C (Auxiliary Recovery)**: Linear-elastic recovery on the $24{,}718$-element mesh (Exit 0 in 20s) concentrated $90\%$ of squared error energy in $3.13\%$ specimen area ($229.38\,\mathrm{mm}^2$). Error along the secondary ligament peaked at $0.1327\,\mathrm{MPa}$ ($1.92\%$ of notch-tip peak $6.90\,\mathrm{MPa}$ at Element 3713).
 6. **Stage D (Definitive Falsification of Single-Rule Method A)**: Native Abaqus `adaptiveRemesh()` using Paper Listing 1 parameters ($e_{\mathrm{tgt}} = 5\%$, $h_{\min} = 0.143\,\mathrm{mm}$, $h_{\max} = 1.5\,\mathrm{mm}$) produced an adapted mesh of $30{,}686$ elements ($61{,}342$ DOFs). Primary corridor reached $h_{\min} = 0.0652\,\mathrm{mm} \le \ell_0/4$. The secondary corridor had median $h = 0.5103\,\mathrm{mm}$ and **exactly 0.00% elements $\le \ell_0/2$**.
 7. **Scientific Conclusion**: Both at $h = 1.50\,\mathrm{mm}$ ($5.26\ell_0$, F1688) and at $h = 0.60\,\mathrm{mm}$ ($2.11\ell_0$, F1690), native single-rule adaptive remeshing from linear-elastic recovery fails to refine the secondary crack corridor. This proves conclusively that the multi-branch selectivity deficit is an intrinsic physical limitation of linear-elastic recovery on multi-branch geometries where void penetration has not occurred, decisively falsifying the paper's single-rule claim and establishing the necessity of the multi-step/differencing framework developed in this thesis.
 
@@ -35,7 +36,7 @@ Task F1690 executed the authorized control rerun on the Pandey & Kumar (2025) Se
 | Total UEL DOFs | Not reported (staggered) | $7{,}846$ DOFs | $49{,}522$ DOFs |
 | Solver Endpoint | Claimed $u_y \approx 1.46\,\mathrm{mm}$ | Diverged Inc 64 ($u_y = 0.081\,\mathrm{mm}$) | Diverged Inc 170 ($u_y = 0.0687\,\mathrm{mm}$) |
 | Solver Failure Mode | Omitted from publication | Cutback limit ($dt < 10^{-7}$) | Cutback limit ($dt < 10^{-7}$) |
-| Dissipated Energy $D_f$ | Not reported | $0.0161\,\mathrm{mJ}$ (snap-through) | $13.428\,\mathrm{mJ}$ ($659\times$ regularization) |
+| Dissipated Energy $D_f$ | Not reported | $16.09\,\mathrm{mJ}$ ($0.01609\,\mathrm{J}$) | $13.43\,\mathrm{mJ}$ ($0.01343\,\mathrm{J}$, ratio $0.834$) |
 | Terminal Notch Damage | Claimed through-crack | $d_{\max} = 0.7722$ at notch | $d_{\max} = 0.9318$ at notch |
 | Terminal Secondary Damage | Claimed secondary crack | $d_{\max} = 0.0254 \approx 0$ | $d_{\max} = 0.0214 \approx 0$ |
 | Peak \MISESERI\ Error | Depicted in Fig. 15b | $5.20\,\mathrm{MPa}$ (notch tip) | $6.90\,\mathrm{MPa}$ (notch tip) |

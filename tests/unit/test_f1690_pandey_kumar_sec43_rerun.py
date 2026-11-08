@@ -93,9 +93,11 @@ def test_f1690_job1_rerun_outcome():
     assert data["exit_code"] == 1
     assert data["solver_outcome"] == "CUTBACK_EXHAUSTED"
     rerun_data = data["comparison"]["f1690_rerun"]
-    assert rerun_data["termination_increment"] == 170
+    assert rerun_data["termination_increment_1based"] == 170
     assert abs(rerun_data["termination_uy_mm"] - 0.068717) < 1e-4
-    assert abs(rerun_data["e_frac_terminal_J"] - 0.013426) < 1e-4
+    assert abs(rerun_data["e_frac_terminal_mJ"] - 13.426) < 1e-2
+    assert abs(data["comparison"]["energy_dissipation_ratio"] - 0.8344) < 1e-3
+    assert abs(data["comparison"]["increments_solved_ratio"] - 2.65625) < 1e-4
     assert data["hard_stop_rule_executed"] is True
 
 def test_f1690_terminal_damage_record():
