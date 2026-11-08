@@ -1018,7 +1018,7 @@ Coarse Mesh Elements & $\approx 3{,}500$ elements, $h_{\mathrm{cms}} = 1.5\,\mat
 Coarse Solver Endpoint & Claimed through terminal fracture ($u_y \approx 1.46\,\mathrm{mm}$) & \textbf{Diverged at Inc 64 ($u_y = 0.081\,\mathrm{mm}$, $P_{\max} = 5.95\,\mathrm{kN}$)} \\
 Coarse Failure Mechanism & None reported (omitted from publication) & Cutback exhaustion ($dt < 10^{-7}$) due to $h \approx 5.3\ell_0$ \\
 Remeshing Rule Target & $e_{\mathrm{tgt}} = 5.0\%$, $h_{\min} = 0.143\,\mathrm{mm}$, $h_{\max} = 1.5\,\mathrm{mm}$ & $e_{\mathrm{tgt}} = 5.0\%$, $h_{\min} = 0.143\,\mathrm{mm}$, $h_{\max} = 1.5\,\mathrm{mm}$ \\
-Adapted Element Count & $\approx 14{,}000$ elements (AMATRX $\approx 1/6$ of standard) & \textbf{$9{,}432$ elements} ($9{,}132$ quads, $300$ tris; $19{,}134$ DOFs) \\
+Adapted Element Count & Not stated in paper ($13{,}941$ is Mode~I Sec.~4.1) & \textbf{$9{,}432$ elements} ($9{,}132$ quads, $300$ tris; $19{,}134$ DOFs) \\
 Primary Corridor Resolution & Claimed refined band from notch to hole & $h_{\min} = 0.0904\,\mathrm{mm} \le \ell_0/3$; $45.1\% \le \ell_0$ \\
 Secondary Corridor Resolution & Claimed refined band from hole to right edge & \textbf{$\mathbf{0.0\%} \le \ell_0$, $\mathbf{0.0\%} \le \ell_0/2$, $h_{\mathrm{med}} = 0.7463\,\mathrm{mm} \gg \ell_0/2$} \\
 Dual-Branch Scale Enclosure & Depicted in Fig.~16b as continuous dual band & \textbf{FAILED: Secondary branch completely unrefined} \\
@@ -1035,23 +1035,17 @@ A rigorous spatial resolution audit was conducted along the authentic fracture c
 
 Because the secondary branch is completely unrefined, Stage~C is classified as \textbf{FAIL} under the pre-declared acceptance gates ($h_{\mathrm{med}} \le \ell_0/2$ in both branches).
 
-\subsubsection{Decisive Scientific Conclusions from the Control Test}
-The empirical results of Task F1688 provide a decisive, objective answer to the primary scientific question of this thesis:
+\subsubsection{Scientific Conclusions and Evaluation Scope from the Control Test}
+The empirical results of Task F1688 provide a rigorous, scoped answer to the control question on the literature geometry:
 \begin{quote}
 \emph{Does the native \MISESERI\ adaptive remeshing framework fail to capture narrow secondary crack branches because of benchmark-specific geometric complications, or is this an intrinsic formulation limitation of the single-pass Method~A recipe?}
 \end{quote}
-The reproduction control test decisively proves that \textbf{the limitation is intrinsic to the single-pass Method~A formulation}:
-\begin{itemize}
-  \item Even on Pandey and Kumar's own geometry and using their exact remeshing parameters, a single pre-analysis or linear-elastic recovery pass cannot identify the secondary crack branch before the primary crack has physically penetrated the void.
-  \item Prior to void penetration, the right ligament carries only diffuse, far-field tensile and bending stresses that remain well below the remeshing error threshold ($e_{\mathrm{tgt}} = 5.0\%$).
-  \item Consequently, the single-rule recipe produces a mesh ($9{,}432$ elements) that refines only the primary notch tip while leaving the secondary ligament entirely at its coarse background resolution ($h \approx 0.75\text{--}1.5\,\mathrm{mm} \gg \ell_0$).
-  \item The dual-branch refined mesh presented in Figure~16b of \citet{pandey2025} cannot be obtained from a single linear-elastic or pre-initiation pre-analysis pass without either:
-    \begin{enumerate}
-      \item Forcing severe domain-wide over-refinement (as demonstrated by the $51{,}712$-element collapse of \texttt{ENDENERI} in Task F1687); or
-      \item Employing post-penetration donor states via multi-step or multi-frame differencing, exactly as developed in the present thesis (Tasks F1683--F1686).
-    \end{enumerate}
-\end{itemize}
-This finding validates the scientific integrity of the multi-frame and differential-sizing framework developed in this thesis: the selectivity challenge is not a failure of our numerical pipeline, but a fundamental physical limitation of single-pass stress-recovery indicators when applied to sequential, multi-stage fracture paths.
+The reproduction control test establishes two distinct numerical conclusions within the precise scope of the experiment performed:
+\begin{enumerate}
+  \item \textbf{Monolithic Solver Non-Convexity on Coarse Meshes:} The user's monolithic coupled phase-field UEL cannot traverse crack initiation on a discretization where $h / \ell_0 = 1.50 / 0.285 \approx 5.26 \gg 1.0$. The analysis terminates at increment~64 ($u_y = 0.081014\,\mathrm{mm}$) due to cutback exhaustion, whereas the staggered formulation referenced in \citet{pandey2025} completed through terminal fracture. This demonstrates that monolithic Newton solvers require adequate spatial resolution ($h \lesssim \ell_0$) to maintain Jacobian conditioning across damage initiation, and explains why an authentic terminal-frame donor was not produced on this coarse mesh.
+  \item \textbf{Early-State Donor Physical Inadequacy:} Evaluated on the early-state, pre-penetration linear-elastic recovery field ($u_y = 0.081014\,\mathrm{mm}$), the native one-rule remeshing recipe concentrates refinement exclusively at the initial notch tip ($h_{\min} = 0.0904\,\mathrm{mm} \le \ell_0/3$), leaving the secondary ligament completely unrefined ($0.0\%$ of elements $\le \ell_0$, median $h = 0.7463\,\mathrm{mm}$). At this load level, before the primary crack has entered the hole, the secondary crack branch does not exist in either the displacement or stress fields; the right ligament carries only diffuse, far-field stresses well below $e_{\mathrm{tgt}} = 5.0\%$.
+\end{enumerate}
+Consequently, what is decisively demonstrated is that: (a)~the monolithic UEL cannot complete coarse Job-1 at $h = 5.26\ell_0$; and (b)~a single early-state/linear-elastic donor cannot mark or refine the secondary branch. A terminal-frame single-rule test on this geometry remains unperformed pending a convergent staggered or regularised coarse solver. The two-branch mesh depicted in \citet[Fig.~16b]{pandey2025} cannot be obtained from early-state linear-elastic recovery without post-penetration donor states, validating the necessity of the multi-frame and differential-sizing framework developed in Tasks F1683--F1686.
 
 
 \section{Time-Resolved Crack Kinematics and Topological Evolution}

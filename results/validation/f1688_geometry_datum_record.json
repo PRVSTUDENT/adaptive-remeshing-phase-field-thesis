@@ -69,15 +69,23 @@
     "lower_hole": "Pinned: u_x = 0, u_y = 0 on all hole boundary nodes",
     "upper_hole": "Displacement controlled: u_x = 0, u_y prescribed via reference point tied to hole perimeter nodes",
     "displacement_schedule": {
+      "mapping_convention": "Step time maps 1:1 to applied displacement u_y via Abaqus default linear ramp amplitude (T_step = 1.0 s -> u_y = 1.0 mm, u_y(t) = t * 1.0 mm/s). Step-time increments therefore correspond directly to physical displacement increments.",
       "step_1": {
         "description": "Pre-critical / linear loading",
-        "delta_u1_mm": 0.0005,
+        "step_time_total_s": 1.0,
+        "displacement_target_mm": 1.0,
+        "delta_t_initial_s": 0.0005,
+        "delta_u_initial_mm": 0.0005,
         "max_u1_mm": 1.0,
-        "increments": 2000
+        "increments_nominal": 2000,
+        "cutback_outcome": "Terminated at increment 64, step_time = 0.081014 s corresponding exactly to u_y = 0.081014 mm"
       },
       "step_2": {
         "description": "Fracture propagation through points s1-s4",
-        "delta_u2_mm": 0.0002,
+        "step_time_total_s": 1.0,
+        "displacement_target_mm": 1.5,
+        "delta_t_initial_s": 0.0004,
+        "delta_u_initial_mm": 0.0002,
         "final_u_target_mm": 1.5,
         "u_s4_breakthrough_mm": 1.46
       }
