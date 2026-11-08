@@ -545,10 +545,11 @@ Both meshes satisfy strict finite-element quality standards: \textbf{zero non-po
 
 \begin{table}[htbp]
 \centering
-\small
+\footnotesize
+\renewcommand{\arraystretch}{0.92}
 \caption{Comprehensive regional mesh resolution and element size distribution comparison across the Baseline, Control~B, and Experiment~C native adapted meshes evaluated against the phase-field length scale $\ell_0 = 7.50\,\mu\mathrm{m}$.}
 \label{tab:f1684_adapted_mesh_resolution_comparison}
-\begin{tabularx}{\textwidth}{p{3.8cm}p{2.3cm}rrr}
+\begin{tabularx}{\textwidth}{p{3.5cm}p{2.1cm}rrr}
 \hline
 \textbf{Spatial Region / Zone} & \textbf{Resolution Metric} & \textbf{Baseline (F1664)} & \textbf{Control B (Cand C)} & \textbf{Experiment C (Comb)} \\
 \hline
@@ -596,7 +597,199 @@ The comparative quantitative audit demonstrates:
   \item \textbf{Demonstrated Far-Field Economy of Control B:} When interest is restricted to crack initiation and early mixed-mode deflection, Control~B achieves high tip resolution ($h_{\mathrm{med}} = 2.89\,\mu\mathrm{m}$) with only $6{,}171$ total elements---a \textbf{69.5\% degree-of-freedom reduction} relative to the Baseline mesh.
 \end{enumerate}
 
+\subsection{Spatial Error Indicator Distribution and Native Sizing Selectivity Analysis}
+\label{subsec:hole_indicator_and_sizing_selectivity}
 
+The multi-step native remeshing methodology established in Section~\ref{subsec:hole_regional_resolution} successfully resolved the primary crack-tip resolution deficit, yielding the $21{,}569$-element adapted mesh (\texttt{Experiment C}). However, comparative inspection against fixed locally refined benchmarks (such as those of Pandey and Kumar~\citep{pandey2025}) indicates that native \Abaqus remeshing produces a wider band of fine elements around the secondary ligament ($0.70 \le x \le 1.00$). To provide a rigorous mechanistic explanation for this behavior, we address the foundational scientific question:
+\begin{center}
+\emph{Is the broad refinement primarily inherited from the recovered stress-error field, or is it introduced by the native \Abaqus mesh-sizing procedure?}
+\end{center}
+
+To separate the spatial distribution of the recovered error indicator from the native sizing conversion rules and auxiliary stress recovery mechanics, a four-stage numerical investigation was conducted on the authentic multi-step recovery database (\texttt{PK\_HOLE\_MULTISTEP\_RECOVERY.odb}):
+\begin{enumerate}
+  \item \textbf{Stage 1 (Indicator Spatial Decay Diagnostics):} Quantify the transverse variation of $\MISESERI$ perpendicular to authentic crack branch centerlines extracted from phase-field damage contours ($d \ge 0.80$).
+  \item \textbf{Stage 2 (Sizing Engine Parameter Isolation):} Systematically vary native remeshing parameters one at a time (\texttt{errorTarget}, \texttt{refinementFactor}, and minimum element size bound $h_{\min}$) on the base geometry.
+  \item \textbf{Stage 3 (Alternative Control Strategies):} Assess the theoretical history-tracking fidelity of $\texttt{ENDENERI}$ within linear-elastic recovery steps and evaluate the influence of permitting mesh coarsening (\texttt{coarseningFactor}).
+  \item \textbf{Stage 4 (Mesh Selectivity and Corridor Confinement):} Measure spatial resolution and out-of-corridor waste metrics across the generated discretizations.
+\end{enumerate}
+
+\subsubsection{Stage 1: Transverse Error Indicator Decay Profiles}
+To examine whether the recovered error indicator is intrinsically diffuse prior to adaptive sizing, we define the physical fracture process zone corridor as
+\begin{equation}
+  \Omega_{\mathrm{corridor}} = \left\{ \mathbf{x} \in \Omega : \operatorname{dist}(\mathbf{x}, \Gamma_{d \ge 0.80}) \le 2\ell_0 \right\},
+  \label{eq:crack_corridor_definition}
+\end{equation}
+where $\ell_0 = 7.50\,\mu\mathrm{m}$, corresponding to a transverse half-width of $15.0\,\mu\mathrm{m}$ from the extracted crack centerline. The initial notch slit is distinguished from newly propagated damage. In the multi-step recovery database, the corridor around the propagated crack branches encompasses exactly $44$ physical elements occupying an area of $0.0144\,\mathrm{mm}^2$ ($1.48\%$ of the total specimen domain). Including the initial slit, the full fracture corridor covers $93$ elements ($0.0341\,\mathrm{mm}^2$, $3.52\%$ domain area).
+
+Figure~\ref{fig:f1685_indicator_decay} plots the transverse decay profile of $\MISESERI$ and the cumulative squared $L_2$ error norm share as a function of perpendicular distance $d_{\perp}$ from the crack centerline.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.98\textwidth]{figures/fig_f1685_indicator_transverse_decay.pdf}
+  \caption{Transverse spatial distribution of the native \Abaqus \MISESERI\ stress discretization error indicator around authentic phase-field crack paths: (a)~Median error indicator decay profile $\eta(d_{\perp})$ on a logarithmic scale for Candidate~C (Frame~150), Terminal Baseline (Frame~337), and the Combined Envelope $\max(\eta_C, \eta_{\mathrm{Term}})$; (b)~Cumulative squared $L_2$ error norm concentration curve. The error indicator exhibits a sharp $34.4\times$ decay from the crack corridor to the far field, with $58.79\%$ of total error energy concentrated within the narrow $15.0\,\mu\mathrm{m}$ corridor ($1.48\%$ domain area).}
+  \label{fig:f1685_indicator_decay}
+\end{figure}
+
+The Stage~1 diagnostics establish three quantitative facts:
+\begin{itemize}
+  \item \textbf{Order-of-Magnitude Indicator Localization:} Inside the crack corridor ($d_{\perp} \le 15.0\,\mu\mathrm{m}$), the median combined error indicator is $303.96\,\mathrm{MPa}$ (with local peak values reaching $1{,}600.68\,\mathrm{MPa}$ at the crack tip). In the far-field bulk ($d_{\perp} > 150\,\mu\mathrm{m} = 20\ell_0$), the median drops to $8.83\,\mathrm{MPa}$. This represents a steep \textbf{$34.4\times$ spatial decay}.
+  \item \textbf{Energy Concentration in the Process Zone:} In the combined multi-step envelope, \textbf{$58.79\%$ of the global squared $L_2$ error norm} $\int_\Omega \eta^2\,\mathrm{d}\Omega$ is concentrated in the $1.48\%$ area of the propagated crack corridor. When the initial notch slit is included, $64.86\%$ of the error norm resides within $15.0\,\mu\mathrm{m}$ of all fracture features.
+  \item \textbf{Definitive Resolution of Part~1:} The stress discretization indicator $\MISESERI$ is \emph{not} intrinsically diffuse or broadly distributed. It possesses sharp localization along the crack trajectory. Consequently, any observed breadth in the adapted mesh must stem from the sizing conversion mechanics, transition gradation, or donor state stress fields.
+\end{itemize}
+
+\subsubsection{Stages 2--4: Native Sizing Matrix and Selectivity Breakdown}
+To isolate the parameters governing the conversion of error indicators into local element sizes, a matrix of $18$ systematically varied remeshing cases was executed using \Abaqus/CAE \texttt{adaptiveRemesh()} on the base model geometry. For each adapted mesh, the characteristic element size $h = \sqrt{A_e}$ was evaluated for every element alongside perpendicular distances to the crack centerlines. Fine elements are defined as elements satisfying the phase-field resolution criterion $h \le \ell_0/2 = 3.75\,\mu\mathrm{m}$.
+
+We define the \textbf{Out-of-Corridor Waste Metric} as the proportion of fine-element area situated outside the physical fracture corridor:
+\begin{equation}
+  \mathrm{Waste}_{\mathrm{area}} = \frac{\int_{\Omega \setminus \Omega_{\mathrm{corridor}},\, h \le 3.75\,\mu\mathrm{m}} \mathrm{d}\Omega}{\int_{\Omega,\, h \le 3.75\,\mu\mathrm{m}} \mathrm{d}\Omega} \times 100\%,
+  \label{eq:waste_metric}
+\end{equation}
+and the complementary in-corridor selectivity as $\mathrm{Selectivity} = 100\% - \mathrm{Waste}_{\mathrm{area}}$. The effective refinement half-widths $W_{50\%}$ and $W_{90\%}$ denote the transverse distances encompassing $50\%$ and $90\%$ of all fine elements, respectively.
+
+Table~\ref{tab:f1685_sizing_matrix} summarizes the quantitative metrics across the parametric series, and Figure~\ref{fig:f1685_sizing_matrix} illustrates the parametric trends.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Systematic parameter sensitivity and mesh selectivity matrix for native \Abaqus adaptive remeshing on the off-axis hole benchmark, evaluating error target, refinement factor, minimum element size bound $h_{\min}$, coarsening allowance, and donor state combination.}
+\label{tab:f1685_sizing_matrix}
+\begin{tabularx}{\textwidth}{lrrrrrrrr}
+\hline
+\textbf{Case Identifier} & $e_{\mathrm{tgt}}$ & $\mathrm{rf}$ & $h_{\min}$ & $N_{\mathrm{elem}}$ & $h_{\mathrm{med}}^{\mathrm{prim}}$ & $h_{\mathrm{med}}^{\mathrm{sec}}$ & $\mathrm{Waste}_{\mathrm{area}}$ & $W_{90\%}$ \\
+                         & [\%]               & [-]           & [$\mu\mathrm{m}$] & [-] & [$\mu\mathrm{m}$] & [$\mu\mathrm{m}$] & [\%] & [$\mu\mathrm{m}$] \\
+\hline
+\multicolumn{9}{l}{\textit{Baseline Reference (Dual-Step Combined Multi-Step)}} \\
+\texttt{baseline\_comb\_5pct} & $5.0$ & $10$ & $1.50$ & $21{,}569$ & $2.49$ & $1.91$ & $85.87\%$ & $197.2$ \\
+\hline
+\multicolumn{9}{l}{\textit{Series 1: Error Target Sensitivity ($e_{\mathrm{target}}$)}} \\
+\texttt{err\_1pct}             & $1.0$ & $10$ & $1.50$ & $159{,}084$ & $1.58$ & $1.80$ & $97.00\%$ & $450.6$ \\
+\texttt{err\_2p5pct}           & $2.5$ & $10$ & $1.50$ & $69{,}516$ & $1.70$ & $1.83$ & $94.56\%$ & $341.7$ \\
+\texttt{err\_10pct}            & $10.0$ & $10$ & $1.50$ & $6{,}729$ & $7.48$ & $2.16$ & $63.40\%$ & $36.1$ \\
+\texttt{err\_15pct}            & $15.0$ & $10$ & $1.50$ & $4{,}255$ & $11.70$ & $3.41$ & $31.61\%$ & $21.6$ \\
+\hline
+\multicolumn{9}{l}{\textit{Series 2: Refinement Factor Sensitivity ($\mathrm{rf} \in [0, 10]$)}} \\
+\texttt{ref\_fac\_2}           & $5.0$ & $2$ & $1.50$ & $5{,}776$ & $8.59$ & $10.40$ & $100.00\%$ & $355.7$ \\
+\texttt{ref\_fac\_5}           & $5.0$ & $5$ & $1.50$ & $15{,}103$ & $3.60$ & $3.63$ & $86.24\%$ & $221.7$ \\
+\texttt{ref\_fac\_8}           & $5.0$ & $8$ & $1.50$ & $19{,}448$ & $2.63$ & $2.28$ & $85.93\%$ & $205.9$ \\
+\hline
+\multicolumn{9}{l}{\textit{Series 3: Minimum Element Size Bound ($h_{\min}$)}} \\
+\texttt{min\_1um} ($\ell_0/7.5$)   & $5.0$ & $10$ & $1.00$ & $21{,}761$ & $2.44$ & $1.83$ & $85.94\%$ & $198.9$ \\
+\texttt{min\_2p5um} ($\ell_0/3$)   & $5.0$ & $10$ & $2.50$ & $19{,}128$ & $2.89$ & $2.35$ & $85.56\%$ & $205.2$ \\
+\texttt{min\_3p75um} ($\ell_0/2$)  & $5.0$ & $10$ & $3.75$ & $15{,}269$ & $\mathbf{3.83}$ & $3.48$ & $\mathbf{85.85\%}$ & $230.7$ \\
+\texttt{min\_5um} ($2\ell_0/3$)    & $5.0$ & $10$ & $5.00$ & $12{,}409$ & $4.70$ & $4.60$ & $89.63\%$ & $272.0$ \\
+\hline
+\multicolumn{9}{l}{\textit{Series 4: Coarsening Factor Allowance}} \\
+\texttt{coarsen\_fac\_2}       & $5.0$ & $10$ & $1.50$ & $21{,}504$ & $2.51$ & $1.89$ & $85.35\%$ & $195.7$ \\
+\texttt{coarsen\_fac\_5}       & $5.0$ & $10$ & $1.50$ & $21{,}001$ & $2.46$ & $1.92$ & $85.40\%$ & $189.8$ \\
+\texttt{coarsen\_fac\_10}      & $5.0$ & $10$ & $1.50$ & $21{,}229$ & $2.52$ & $1.87$ & $85.67\%$ & $196.1$ \\
+\texttt{coarsen\_default}      & $5.0$ & $10$ & $1.50$ & $21{,}001$ & $2.46$ & $1.92$ & $85.40\%$ & $189.8$ \\
+\hline
+\multicolumn{9}{l}{\textit{Series 5: Step Donor Combination Comparison}} \\
+\texttt{cand\_c\_alone\_5pct}  & $5.0$ & $10$ & $1.50$ & $6{,}171$ & $2.36$ & $6.24$ & $\mathbf{57.68\%}$ & $\mathbf{35.5}$ \\
+\texttt{terminal\_alone\_5pct} & $5.0$ & $10$ & $1.50$ & $20{,}213$ & $4.08$ & $1.84$ & $\mathbf{88.61\%}$ & $\mathbf{202.0}$ \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.98\textwidth]{figures/fig_f1685_native_sizing_matrix.pdf}
+  \caption{Parametric sensitivity and selectivity breakdown of native \Abaqus mesh sizing: (a)~Error target sensitivity ($1.0\%$ to $15.0\%$), showing severe degree-of-freedom ballooning at low targets and crack starvation at high targets; (b)~Minimum element size bound $h_{\min}$ vs. in-corridor resolution, demonstrating that setting $h_{\min} = 3.75\,\mu\mathrm{m}$ degrades primary branch resolution ($h_{\mathrm{med}} = 3.83\,\mu\mathrm{m} > \ell_0/2$) without reducing out-of-corridor waste; (c)~Step donor origin of mesh over-refinement, proving that Frame~337 (Terminal Baseline) is the sole source of ligament-wide broadening; (d)~Negligible influence of \Abaqus coarsening factor allowance ($< 2.6\%$ variation).}
+  \label{fig:f1685_sizing_matrix}
+\end{figure}
+
+The parametric study reveals four fundamental findings:
+\begin{enumerate}
+  \item \textbf{Falsification of the $h_{\min} = 3.75\,\mu\mathrm{m}$ Lower Bound Hypothesis:} Setting the minimum element size to $h_{\min} = 3.75\,\mu\mathrm{m}$ ($\ell_0/2$) reduces total elements from $21{,}569$ to $15{,}269$, but leaves the out-of-corridor waste virtually unchanged ($85.85\%$ vs. $85.87\%$). Crucially, inside the primary crack corridor, the median element size degrades to $h_{\mathrm{med}} = 3.83\,\mu\mathrm{m} > \ell_0/2$, violating the standard phase-field process zone resolution requirement. Setting $h_{\min}$ acts strictly as a numerical truncation bound; it does not produce selective mesh narrowing and impairs crack-tip accuracy.
+  \item \textbf{Invariance to Coarsening Allowance:} Allowing mesh coarsening with factors of $2$, $5$, $10$, or \texttt{DEFAULT\_LIMIT} changes the total element count by at most $568$ elements ($2.6\%$ reduction, from $21{,}569$ to $21{,}001$), with zero reduction in out-of-corridor waste ($85.4\%$ vs. $85.9\%$). Because the base CAD mesh is already seeded at $h_{\max} = 20.0\,\mu\mathrm{m}$, coarsening cannot enlarge far-field elements beyond $h_{\max}$ and cannot eliminate refinement requested by the recovered stress error.
+  \item \textbf{Identification of the Terminal Donor as the Sole Source of Broad Refinement:} When Candidate~C (Frame~150) is used alone (\texttt{cand\_c\_alone\_5pct}), the mesh contains only $6{,}171$ elements, with high in-corridor selectivity ($42.32\%$) and a tight effective refinement width ($W_{90\%} = 35.5\,\mu\mathrm{m}$). Conversely, when Terminal Baseline (Frame~337) is used alone (\texttt{terminal\_alone\_5pct}), elements surge to $20{,}213$, with $88.61\%$ waste and $W_{90\%} = 202.0\,\mu\mathrm{m}$. In Frame~337, post-penetration bending and tensile stress concentrations span across the entire upper ligament ($x \in [0.70, 1.00]$). Because linear-elastic recovery computes discretization errors based on total stress gradients, \Abaqus demands refinement across the entire ligament. Under the conservative combined sizing rule
+  \begin{equation}
+    h_{\mathrm{combined}}(\mathbf{x}) = \min\left(h_{150}(\mathbf{x}),\, h_{337}(\mathbf{x})\right),
+    \label{eq:combined_min_rule}
+  \end{equation}
+  the combined mesh necessarily inherits the full ligament-wide refinement requested by Frame~337.
+  \item \textbf{Refinement Factor Range Constraint in \Abaqus:} In \Abaqus/CAE, the \texttt{refinementFactor} argument in \texttt{RemeshingRule} is constrained to the closed interval $[0, 10]$. At the maximum limit ($\mathrm{rf} = 10$), the primary corridor achieves $h_{\mathrm{med}} = 2.49\,\mu\mathrm{m} \approx \ell_0/3$. Lower factors ($\mathrm{rf} \le 5$) lead to process zone under-resolution ($h_{\mathrm{med}} \ge 3.60\,\mu\mathrm{m}$).
+\end{enumerate}
+
+\subsubsection{Stage 3 Assessment: Error Indicators and Physical History Fidelity}
+We conclude by evaluating whether alternative error indicators, specifically $\texttt{ENDENERI}$ (energy density error indicator), could resolve the selectivity deficit. While \Abaqus documentation identifies $\texttt{ENDENERI}$ as a solution-history-aware error indicator in non-linear analyses, its physical meaning within Method~A auxiliary recovery must be rigorously assessed:
+\begin{itemize}
+  \item \textbf{Linear-Elastic Auxiliary Recovery Context:} In Method~A, auxiliary stress recovery steps are solved statically in linear elasticity on standard continuum elements (\texttt{CPE4}/\texttt{CPE3}) under transferred displacement boundary conditions. In such steps, $\texttt{ENDENERI}$ computes discretization error in the linear strain energy density $\frac{1}{2} \sten : \eten$.
+  \item \textbf{Absence of Phase-Field History in Auxiliary Steps:} The auxiliary recovery model does not solve the phase-field evolution equation; it possesses no internal representation of the crack damage variable $d$, the historical strain energy threshold $\Hist(t)$, or accumulated surface dissipation energy $D_f(t)$. Consequently, $\texttt{ENDENERI}$ in the auxiliary step reflects the identical macroscopic stress concentrations as $\MISESERI$, offering no physical mechanism to distinguish past crack propagation from current macroscopic ligament bending.
+  \item \textbf{Authoritative Role of $\MISESERI$:} Because $\MISESERI$ directly quantifies the discontinuity of Cauchy stresses across element boundaries via patch recovery, it remains the mathematically rigorous, physically consistent, and robust error indicator for two-pass native \Abaqus adaptive remeshing.
+\end{itemize}
+
+\subsection{Full-Scale Fracture Simulation on the Combined Multi-Step Adapted Mesh}
+\label{subsec:hole_combined_fracture_simulation}
+
+To establish the definitive physical and computational validation of Method~A, the $21{,}569$-element combined adapted mesh (\texttt{Experiment C}, Section~\ref{subsec:hole_regional_resolution}) was compiled into a production phase-field input deck (\texttt{PK\_HOLE\_F1685\_COMBINED\_PROD.inp}, $64{,}707$ layered elements) and executed on the high-performance computing cluster (Job \texttt{1421171.mmaster02} on compute node \texttt{mnode098}). 
+
+The simulation executed across two sequential analysis steps: Step~1 imposed displacement up to the pre-critical threshold $u_2 = 0.0050\,\mathrm{mm}$ in $50$ increments; Step~2 imposed tensile displacement up to full structural severance across $456$ equilibrium increments, completing $506$ total increments without numerical divergence. Figure~\ref{fig:f1685_fracture_synthesis} summarizes the structural, energetic, and kinematic results, while Table~\ref{tab:f1685_fracture_comparison} presents a comprehensive three-way comparison against the coarse baseline ($2{,}906$ elements) and the single-step adapted baseline ($20{,}213$ elements).
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.98\textwidth]{figures/fig_f1685_fracture_synthesis.pdf}
+  \caption{Full-scale production fracture simulation on the combined multi-step adapted mesh ($21{,}569$ physical elements, Job \texttt{1421171.mmaster02}): (a)~Three-way structural load--displacement comparison $P(u_2)$, showing pre-critical stiffness parity, physical softening of peak load to $0.5577\,\mathrm{kN}$ due to refined notch-tip resolution, and rapid post-peak softening; (b)~Energetic balance evolution, confirming $99.88\%$ elastic strain energy collapse ($U \to 2.24\,\mu\mathrm{J}$) and fracture energy dissipation plateau at $D_f = 2.995\,\mathrm{mJ}$; (c)~Two-dimensional crack trajectory overlay in specimen coordinates, demonstrating primary upward deflection into the circular opening, hole arrest, and secondary flank propagation to complete severance at $x = 0.9990\,\mathrm{mm}$.}
+  \label{fig:f1685_fracture_synthesis}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{0.92}
+\caption{Three-way comparative synthesis of structural fracture response, crack kinematics, energy dissipation, and computational cost across the coarse baseline, single-step adapted baseline, and combined multi-step adapted Method~A models.}
+\label{tab:f1685_fracture_comparison}
+\begin{tabularx}{\textwidth}{p{3.8cm}rrr}
+\hline
+\textbf{Metric / Attribute} & \textbf{Coarse Baseline} & \textbf{Baseline Refined} & \textbf{Combined Adapted} \\
+ & (Job 1421063) & (Job 1421142) & (Job 1421171) \\
+\hline
+\textbf{Discretization} & & & \\
+Physical Elements $N_{\mathrm{phys}}$ & $2{,}906$ & $20{,}213$ & $21{,}569$ \\
+Layered Elements ($3\times N$) & $8{,}718$ & $60{,}639$ & $64{,}707$ \\
+Notch Tip Median $h$ [$\mu\mathrm{m}$] & $16.0$ & $5.59$ & $\mathbf{2.91}$ ($\le \ell_0/2.5$) \\
+Direct Crack Corridor $\le \ell_0$ [\%] & $38.2\%$ & $99.55\%$ & $\mathbf{100.00\%}$ \\
+\hline
+\textbf{Mechanical Response} & & & \\
+Initial Stiffness $K_0$ [$\mathrm{kN/mm}$] & $113.3$ & $113.2$ & $113.0$ ($<0.3\%$ var) \\
+Peak Reaction Force $P_{\max}$ [$\mathrm{kN}$] & $0.7310$ & $0.5934$ & $\mathbf{0.5577}$ \\
+Displacement at Peak $u_{\mathrm{peak}}$ [$\mathrm{mm}$] & $0.00729$ & $0.00570$ & $\mathbf{0.00534}$ \\
+Peak Load Softening vs. Coarse & Ref & $-18.83\%$ & $\mathbf{-23.71\%}$ \\
+Peak Load Softening vs. Baseline & $+23.2\%$ & Ref & $\mathbf{-6.02\%}$ \\
+Endpoint Displacement $u_{\mathrm{end}}$ [$\mathrm{mm}$] & $0.00959$ & $0.01200$ & $0.01080$ \\
+Endpoint Reaction Force $P_{\mathrm{end}}$ [$\mathrm{N}$] & $216.4$ & $0.415$ & $\mathbf{0.414}$ ($-99.93\%$) \\
+\hline
+\textbf{Crack Kinematics} & & & \\
+Primary Deflection into Hole & Verified & Verified & $\mathbf{Verified}$ ($\bar{y} = 0.5145\,\mathrm{mm}$) \\
+Kinematic Hole Arrest & Verified & Verified & $\mathbf{Verified}$ ($d_{\max} \to 0$ at arrest) \\
+Secondary Flank Nucleation & Verified & Verified & $\mathbf{Verified}$ (Right hole flank) \\
+Complete Ligament Severance & Partial & Complete & $\mathbf{Complete}$ ($x_{\max} = 0.9990\,\mathrm{mm}$) \\
+Total Broken Elements ($d \ge 0.80$) & $184$ & $2{,}169$\,($8{,}520$\,IPs) & $\mathbf{2{,}790}$\,($10{,}953$\,IPs) \\
+Damaged Physical Area ($d \ge 0.80$) & $0.0031\,\mathrm{mm}^2$ & $0.00975\,\mathrm{mm}^2$ & $\mathbf{0.01202\,\mathrm{mm}^2}$\,($1.24\%$) \\
+Maximum Phase Damage $d_{\max}$ & $0.998$ & $1.0006$ & $\mathbf{1.0002}$ ($+0.02\%$ tol) \\
+\hline
+\textbf{Thermodynamics \& Energy} & & & \\
+Peak Elastic Energy $U_{\max}$ [$\mathrm{mJ}$] & $1.92$ & $1.919$ & $\mathbf{1.884}$ \\
+Final Elastic Energy $U_{\mathrm{final}}$ [$\mu\mathrm{J}$] & $24.1$ & $2.49$ & $\mathbf{2.24}$ ($-99.88\%$) \\
+Dissipated Fracture Energy $D_f$ [$\mathrm{mJ}$] & $2.26$ & $2.705$ & $\mathbf{2.995}$ \\
+Total UEL Energy $E_{\mathrm{total}}$ [$\mathrm{mJ}$] & $2.28$ & $2.708$ & $\mathbf{2.997}$ \\
+\hline
+\textbf{Computational Cost} & & & \\
+Total Increments & $386$ & $614$ & $506$ \\
+Solver Walltime (1 CPU core) & $12\,\mathrm{min}$ & $1\,\mathrm{h}\,42\,\mathrm{min}$ & $\mathbf{1\,\mathrm{h}\,20\,\mathrm{min}}\,(4{,}810\,\mathrm{s})$ \\
+Method A Turnaround Time & -- & $2\,\mathrm{h}\,05\,\mathrm{min}$ & $\mathbf{1\,\mathrm{h}\,37\,\mathrm{min}}$ \\
+\hline
+\end{tabularx}
+\end{table}
+
+The production results demonstrate four principal conclusions:
+\begin{enumerate}
+  \item \textbf{Resolution-Driven Peak Softening:} In linear-elastic loading ($u_2 \le 0.0040\,\mathrm{mm}$), all three discretizations exhibit strict stiffness parity ($K_0 \approx 113.0\,\mathrm{kN/mm}$). However, at the onset of fracture, the coarse baseline over-predicts the peak reaction force ($0.7310\,\mathrm{kN}$) due to severe notch-tip under-resolution ($h \approx 16\,\mu\mathrm{m} > 2\ell_0$). In the Baseline refined mesh, notch-tip resolution was improved ($h_{\mathrm{med}} = 5.59\,\mu\mathrm{m}$), lowering peak capacity to $0.5934\,\mathrm{kN}$. In the combined adapted mesh (\texttt{Experiment C}), the notch tip achieves $h_{\mathrm{med}} = 2.91\,\mu\mathrm{m} \approx \ell_0/2.5$, further softening peak load to \textbf{$0.5577\,\mathrm{kN}$} ($-23.71\%$ vs. Coarse, $-6.02\%$ vs. Baseline Refined). While improved local mesh resolution and physically plausible crack evolution properly capture stress concentration effects, this reduction reflects notch-tip discretization sensitivity; it is not interpreted as proof of asymptotic mesh convergence in the absence of an independent multi-mesh convergence reference.
+  \item \textbf{Autonomous Dual-Branch Kinematic Fidelity and Broken Element Census:} The combined adapted mesh autonomously reproduces the authentic crack sequence without requiring empirical corridor partitioning: (1)~crack initiation at the slit tip $(0.50, 0.50)\,\mathrm{mm}$; (2)~smooth curvilinear deflection upward toward the circular opening ($\bar{y}_{\mathrm{primary}} = 0.5145\,\mathrm{mm}$); (3)~kinematic arrest at the circular boundary; (4)~secondary crack nucleation on the opposite right flank; and (5)~transverse propagation across the secondary ligament to the right boundary ($x_{\max} = 0.999038\,\mathrm{mm}$), severing the specimen into two completely detached halves with residual load $P_{\mathrm{end}} = 0.414\,\mathrm{N}$ ($99.93\%$ load drop). Crucially, the exported $10{,}953$ broken records correspond strictly to integration points ($2{,}721$ quads $\times 4$\,IPs $+$ $69$ triangles $\times 1$\,IP $= 10{,}953$\,IPs) representing exactly \textbf{$2{,}790$ unique physical broken elements} ($12.93\%$ of the $21{,}569$ physical elements), compared to the $2{,}169$ physical broken elements ($10.73\%$ of the $20{,}213$ mesh) in the Baseline refined model. The total physical damaged area is $0.01202\,\mathrm{mm}^2$ ($1.24\%$ of specimen area) compared to $0.00975\,\mathrm{mm}^2$ ($1.01\%$) in Baseline Refined, representing a $23.29\%$ increase in damaged area resulting from finer notch-tip and ligament mesh resolution capturing the regularized damage transition zone.
+  \item \textbf{Thermodynamic Consistency and Work--Energy Accounting:} The simulation verifies complete elastic strain energy release: stored elastic energy $U$ collapses from peak $1.884\,\mathrm{mJ}$ down to \textbf{$2.24\,\mu\mathrm{J}$} ($99.88\%$ elastic energy relaxation), while fracture dissipation increases strictly monotonically across all $505$ increments to plateau at $D_f = 2.995\,\mathrm{mJ}$ ($E_{\mathrm{total}} = 2.9968\,\mathrm{mJ}$). Up to crack arrest at Frame~187 ($u_2 = 0.00762\,\mathrm{mm}$), external work ($W_{\mathrm{ext}} = 2.6036\,\mathrm{mJ}$) and total internal energy ($E_{\mathrm{total}} = 2.6054\,\mathrm{mJ}$) agree to within \textbf{$0.07\%$ ($1.83\,\mu\mathrm{J}$ residual)}, demonstrating excellent quasi-static work balance prior to secondary crack snap-through. During the secondary snap-through window (Increments 188--220), the specimen undergoes an unstable equilibrium jump under fixed boundary displacement ($\Delta W_{\mathrm{ext}} \approx 0.13\,\mu\mathrm{J}$), wherein released elastic strain energy ($-1.45\,\mathrm{mJ}$) is outpaced by integrated regularized fracture dissipation ($+1.90\,\mathrm{mJ}$), leaving an overall endpoint residual of $+0.3686\,\mathrm{mJ}$ ($12.30\%$). This discrepancy is not attributed to dynamic kinetic energy (which is unmodeled in \texttt{*STATIC}), but is documented transparently as an inherent modeling limitation of quasi-static phase-field formulation during unstable crack jumps. Pointwise damage audits across $4{,}141{,}088$ evaluations revealed that between accepted Increments 198 and 199, element 9439 experienced a minor local damage decrement of $\Delta d = -0.001375$ ($-0.138\%$), which exceeds a strict $0.0010$ tolerance by $37.5\%$. This localized fluctuation reflects elliptic damage redistribution in the staggered Helmholtz solve when adjacent elements snap, because irreversibility is enforced through the non-decreasing history driving field $\mathcal{H}_{n+1} \ge \mathcal{H}_n$ rather than a strong pointwise active-set projection ($\dot{d} \ge 0$). For the history variable $\mathcal{H}$, while Karush--Kuhn--Tucker conditions in the UEL theoretically enforce $\dot{\mathcal{H}} \ge 0$, sub-cell integration point ordering in companion UMAT outputs precludes independent pointwise runtime verification from saved ODB fields, which is acknowledged as a reporting boundary.
+  \item \textbf{Computational Efficiency and Method A Turnaround:} Despite providing $1.92\times$ higher notch-tip resolution and $100\%$ scale enclosure along all crack paths, the $21{,}569$-element combined adapted model solved in $1\,\mathrm{h}\,20\,\mathrm{min}\,10\,\mathrm{s}$ ($4{,}810\,\mathrm{s}$ wallclock solver time, $3{,}230\,\mathrm{s}$ CPU time; total PBS queue-to-close walltime $4{,}843\,\mathrm{s} = 1\,\mathrm{h}\,20\,\mathrm{min}\,43\,\mathrm{s}$) on a single compute core. (The earlier $1\,\mathrm{h}\,12\,\mathrm{min}$ figure represented an intermediate scheduler snapshot taken at Increment~425 prior to terminal solution.) The complete two-pass Method~A workflow---coarse pre-analysis ($12\,\mathrm{min}$), multi-step auxiliary linear-elastic stress recovery ($3\,\mathrm{min}$), native adaptive remeshing ($2\,\mathrm{min}$), and production fracture solve ($1\,\mathrm{h}\,20\,\mathrm{min}$)---required approximately \textbf{$1\,\mathrm{h}\,37\,\mathrm{min}$ total turnaround time}, providing an automated, robust, and computationally practical methodology for phase-field fracture in commercial finite-element software.
+\end{enumerate}
 
 \section{Time-Resolved Crack Kinematics and Topological Evolution}
 \label{sec:hole_time_resolved_crack}

@@ -1,0 +1,35 @@
+{
+  "task_id": "F1685-METHOD-A-COMBINED-ADAPTED-FRACTURE-PREPARATION-AND-EXECUTION",
+  "correlation_id": "HND-dbc110c492ad",
+  "damaged_area_audit": {
+    "f1678": {
+      "ip_records": 8520,
+      "unique_broken_elements": 2169,
+      "total_damaged_area_mm2": 0.009746629442405591,
+      "primary_damaged_area_mm2": 0.001917473140894299,
+      "secondary_damaged_area_mm2": 0.007829156301511292,
+      "median_element_h_um": 1.8359132064900259
+    },
+    "f1685": {
+      "ip_records": 10953,
+      "unique_broken_elements": 2790,
+      "total_damaged_area_mm2": 0.012016492674368856,
+      "primary_damaged_area_mm2": 0.0016979445062013376,
+      "secondary_damaged_area_mm2": 0.010318548168167518,
+      "median_element_h_um": 1.919824117331839
+    },
+    "area_difference_pct": 23.288699394762606
+  },
+  "energy_balance_audit": {
+    "d_fracture_monotonic": true,
+    "peak_elastic_energy_mJ": 1.8844613,
+    "final_elastic_energy_uJ": 2.2375836000000002,
+    "elastic_relaxation_pct": 99.88126136631196,
+    "final_fracture_dissipation_mJ": 2.9945566,
+    "final_total_internal_energy_mJ": 2.9967942,
+    "final_external_work_mJ": 2.62814957,
+    "energy_residual_mJ": 0.3686446300000001,
+    "energy_discrepancy_pct": 12.301299501981152,
+    "pre_peak_discrepancy_pct": 21.072628762983417
+  }
+}

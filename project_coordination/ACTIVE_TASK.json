@@ -1,55 +1,27 @@
 {
-    "task_id": "F1684-METHOD-A-MULTISTEP-NATIVE-REMESHING-CAPABILITY-ASSESSMENT",
-    "title": "Method A Multi-Step Native Remeshing Capability Assessment, Crack-Path Alignment, and Spatial Refinement Qualification",
-    "status": "COMPLETED",
-    "assigned_agent": "gemini-antigravity",
-    "predecessor_task": {
-        "task_id": "F1683-METHOD-A-CONTROLLED-MULTI-FRAME-MISESERI-RECOVERY-AND-LOCALIZATION-CORRECTION",
-        "checkpoint_artifact": "project_coordination/sessions/2026-11-08_chatgpt_review_f1683.md"
-    },
-    "registration": {
-        "definition": "project_coordination/task_definitions/F1684-METHOD-A-MULTISTEP-NATIVE-REMESHING-CAPABILITY-ASSESSMENT.json"
-    },
-    "scientific_operation": "method_a_multistep_native_remeshing_and_path_alignment",
-    "scientific_operation_id": "f1684_multistep_remeshing_and_path_alignment",
-    "scientific_checkpoint_required": true,
-    "max_new_pbs_submissions": 0,
-    "completed_operations": [
-        "f1684_multistep_remeshing_and_path_alignment",
-        "f1683_controlled_multi_frame_recovery",
-        "f1682r_timeline_and_indicator_evidence_correction",
-        "f1682_odb_frame_audit_and_correction",
-        "f1681_method_a_complete_and_independent_review_closeout",
-        "f1680_method_a_scientific_correction_and_thesis_closeout",
-        "mapped_frozen_history_lower_bound_kkt_probe",
-        "mapped_mechanical_history_call_order_probe",
-        "authentic_uel_history_call_trace",
-        "morning_scientific_audit_packages87_88",
-        "package89_state_transfer_submission",
-        "probe_mode1_f1597_r20_active_set_audit",
-        "evaluate_mode1_package148_state_transfer",
-        "evaluate_mode1_package148_state_transfer_r2",
-        "evaluate_mode1_package148_state_transfer_r3",
-        "evaluate_mode1_package148_state_transfer_r4",
-        "evaluate_mode1_package148_state_transfer_r5",
-        "evaluate_mode1_package148_state_transfer_r6",
-        "evaluate_mode1_package148_state_transfer_r7",
-        "evaluate_mode1_package148_state_transfer_r8",
-        "execute_mode1_package157_c1_2_r4_adaptive_continuation",
-        "execute_mode1_package158_c2_0_r5_re_equilibration",
-        "execute_mode1_package171_r7_c6_coupled_reequilibration",
-        "f1636_stability_evidence_evaluation",
-        "f1636_donor_energy_reconciliation",
-        "f1639_energy_reference_correction",
-        "f1641_indicator_recovery",
-        "f1641_native1pct_candidate_evaluation",
-        "f1641_local_size_support_evaluation",
-        "f1641_physics_domain_assessment",
-        "f1642_pilot_execution",
-        "f1642_physical_state_extraction",
-        "f1643_hole_adaptive_mesh_qualification",
-        "f1644_adapted_mesh_execution",
-        "f1645_crack_propagation_execution",
-        "f1646_crack_propagation_validation"
-    ]
+  "task_id": "F1686-METHOD-A-NARROW-CRACK-FOLLOWING-SELECTIVE-REMESHING",
+  "title": "Method A Narrow Crack-Following Selective Adaptive Remeshing Optimization",
+  "status": "IN_PROGRESS",
+  "assigned_agent": "gemini-antigravity",
+  "predecessor_task": {
+    "task_id": "F1685-METHOD-A-COMBINED-ADAPTED-FRACTURE-PREPARATION-AND-EXECUTION",
+    "checkpoint_artifact": "project_coordination/sessions/2026-11-08_1345_gemini-antigravity_F1685.md"
+  },
+  "registration": {
+    "definition": "project_coordination/task_definitions/F1686-METHOD-A-NARROW-CRACK-FOLLOWING-SELECTIVE-REMESHING.json"
+  },
+  "scientific_operation": "method_a_narrow_crack_following_selective_remeshing",
+  "scientific_operation_id": "f1686_selective_remeshing_optimization",
+  "scientific_checkpoint_required": true,
+  "max_new_pbs_submissions": 0,
+  "completed_operations": [
+    "f1685_production_fracture_execution_and_qualification",
+    "f1685_sizing_and_selectivity_investigation",
+    "f1684_multistep_remeshing_and_path_alignment",
+    "f1683_controlled_multi_frame_recovery",
+    "f1682r_timeline_and_indicator_evidence_correction",
+    "f1682_odb_frame_audit_and_correction",
+    "f1681_method_a_complete_and_independent_review_closeout",
+    "f1680_method_a_scientific_correction_and_thesis_closeout"
+  ]
 }

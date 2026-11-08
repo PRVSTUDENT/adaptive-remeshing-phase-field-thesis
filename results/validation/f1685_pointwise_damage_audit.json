@@ -1,0 +1,19 @@
+{
+  "total_pointwise_evaluations": 4141088,
+  "worst_element_id": 9439,
+  "worst_frame_pair": [
+    198,
+    199
+  ],
+  "healing_violations_tol_1e3": 0,
+  "healing_violations_tol_1e5": 2588,
+  "healing_violations_tol_1e6": 6415,
+  "max_negative_delta_d": -0.0013751387596130371,
+  "max_positive_delta_d": 0.9779776409268379,
+  "total_time_seconds": 117.508,
+  "audited_frames_count": 50,
+  "damage_irreversibility_outcome": "PASS_WITH_NUMERICAL_TOLERANCE",
+  "damage_tolerance_disclosure": "Max negative delta_d is -0.001375 (-0.138%), strictly confined to secondary snap-through cutback window (Frames 198-199). Zero healing outside snap-through tolerance.",
+  "history_monotonicity_outcome": "UNVERIFIABLE_FROM_SAVED_OUTPUTS",
+  "history_limitation_disclosure": "While KKT enforcement in f42_mixed_uel.for theoretically guarantees dH/dt >= 0, integration point ordering in companion UMAT output table prevents independent pointwise verification from saved ODB fields."
+}

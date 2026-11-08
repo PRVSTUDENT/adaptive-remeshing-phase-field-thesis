@@ -1112,18 +1112,116 @@ def test_f1684_multistep_recovery_and_adapted_mesh_qualification():
     assert z_exp["crack_centerline_corridor"]["h_max_um"] < 7.50
 
 
+def test_f1685_combined_adapted_fracture_production_qualification():
+    """Verify Task F1685 full-scale phase-field fracture production execution on 21,569 physical elements."""
+    summary_path = REPO_ROOT / "results" / "validation" / "f1685_prod_summary.json"
+    rf_path = REPO_ROOT / "results" / "validation" / "f1685_prod_rf_u.csv"
+    crack_path = REPO_ROOT / "results" / "validation" / "f1685_prod_crack_path.csv"
+    energy_path = REPO_ROOT / "models" / "pandey_kumar_mode1" / "176_method_a_plate_with_hole" / "f1685_uel_energy_balance.csv"
+    sta_path = REPO_ROOT / "models" / "pandey_kumar_mode1" / "176_method_a_plate_with_hole" / "M1_HOLE_F1685_COMBINED_PROD.sta"
+
+    assert summary_path.exists(), f"Missing {summary_path}"
+    assert rf_path.exists(), f"Missing {rf_path}"
+    assert crack_path.exists(), f"Missing {crack_path}"
+    assert energy_path.exists(), f"Missing {energy_path}"
+    assert sta_path.exists(), f"Missing {sta_path}"
+
+    with open(summary_path, "r") as f:
+        summary = json.load(f)
+
+    # 1. Model & Discretization
+    assert summary["model_name"] == "M1_HOLE_F1685_COMBINED_PROD"
+    assert summary["n_physical_elements"] == 21569
+    assert summary["total_frames"] == 508
+
+    # 2. Structural Mechanics & Softening
+    pmax = summary["peak_reaction_force_kN"]
+    assert 0.50 <= pmax <= 0.60, f"Unexpected peak reaction force: {pmax} kN"
+    assert pmax < 0.5934, f"Peak load should soften relative to F1664: {pmax} kN"
+    assert summary["final_reaction_force_kN"] < 0.001, "Specimen should achieve complete load loss"
+
+    # 3. Autonomous Crack Trajectory Kinematics
+    traj = summary["trajectory"]
+    assert traj["deflection_toward_hole_verified"] is True
+    assert traj["right_flank_initiation"] is True
+    assert traj["max_x_crack"] >= 0.995, f"Crack should reach right specimen boundary: {traj['max_x_crack']}"
+    assert traj["total_broken_elements"] >= 10000, f"Expected >10,000 broken element records, got {traj['total_broken_elements']}"
+
+    # 4. Phase-Field Damage & History Bounds
+    kf = summary["key_frames"]
+    assert kf["step1_end"]["d_max"] < 0.50, "Step 1 should be strictly pre-critical without localization"
+    assert kf["peak_load"]["count_d_ge_0.80"] == 0, "No fully broken elements at peak load"
+    assert 0.999 <= kf["final_frame"]["d_max"] <= 1.001, f"Final d_max should be within 0.1% of unity: {kf['final_frame']['d_max']}"
+
+    # 5. Thermodynamics & Elastic Relaxation
+    assert summary["final_e_elastic_kNmm"] < 0.010, f"Elastic energy should collapse post-fracture: {summary['final_e_elastic_kNmm']}"
+    assert 2.80 <= summary["final_e_fracture_kNmm"] * 1000.0 <= 3.20, f"Fracture dissipation should plateau near 3.0 mJ: {summary['final_e_fracture_kNmm']}"
+
+    # 6. CSV integrity checks
+    with open(rf_path, "r") as f:
+        rf_lines = [l for l in f if l.strip()]
+    assert len(rf_lines) == 509  # 1 header + 508 records
+
+    with open(energy_path, "r") as f:
+        eng_lines = [l for l in f if l.strip() and not l.startswith("#")]
+    assert len(eng_lines) >= 505
 
 
+def test_f1685_closeout_reconciliation_matrix():
+    """Verify Task F1685 definitive closeout reconciliation matrix addressing all 7 mandatory review criteria."""
+    json_path = REPO_ROOT / "results" / "validation" / "f1685_closeout_reconciliation_matrix.json"
+    csv_path = REPO_ROOT / "results" / "validation" / "f1685_closeout_reconciliation_matrix.csv"
 
+    assert json_path.exists(), f"Missing {json_path}"
+    assert csv_path.exists(), f"Missing {csv_path}"
 
+    with open(json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
 
+    assert data["task_id"] == "F1685-METHOD-A-COMBINED-ADAPTED-FRACTURE-PREPARATION-AND-EXECUTION"
+    assert data["correlation_id"].startswith("HND-")
+    assert "QUALIFIED" in data["overall_status"] or "PASSED" in data["overall_status"]
+    assert data["total_checks"] == 7
+    assert data["passed_checks"] == 7
 
+    matrix = {row["criterion_id"]: row for row in data["reconciliation_matrix"]}
+    assert len(matrix) == 7
 
+    # CRIT-01: Runtime reconciliation
+    c1 = matrix["CRIT-01"]
+    assert "PASS" in c1["outcome"]
+    assert "4,810 s" in c1["measured_value"]
+    assert "4,843 s" in c1["measured_value"]
 
+    # CRIT-02: Peak force softening
+    c2 = matrix["CRIT-02"]
+    assert "PASS" in c2["outcome"]
+    assert "0.5577 kN" in c2["measured_value"]
+    assert "-6.02%" in c2["measured_value"]
 
+    # CRIT-03: Damage bounds and monotonicity
+    c3 = matrix["CRIT-03"]
+    assert "PASS" in c3["outcome"]
+    assert "1.00020" in c3["measured_value"]
 
+    # CRIT-04: Energy relaxation
+    c4 = matrix["CRIT-04"]
+    assert "PASS" in c4["outcome"]
+    assert "99.88%" in c4["measured_value"]
 
+    # CRIT-05: Element census
+    c5 = matrix["CRIT-05"]
+    assert "PASS" in c5["outcome"]
+    assert "2790" in c5["measured_value"]
+    assert "10,953" in c5["measured_value"]
 
+    # CRIT-06: Indicator scope
+    c6 = matrix["CRIT-06"]
+    assert "PASS" in c6["outcome"]
+    assert "58.79%" in c6["measured_value"]
 
-
+    # CRIT-07: Bitwise provenance
+    c7 = matrix["CRIT-07"]
+    assert "PASS" in c7["outcome"]
+    assert "1421171" in c7["measured_value"]
 

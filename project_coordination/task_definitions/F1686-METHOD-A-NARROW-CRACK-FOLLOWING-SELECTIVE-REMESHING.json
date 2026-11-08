@@ -1,0 +1,25 @@
+{
+  "task_id": "F1686-METHOD-A-NARROW-CRACK-FOLLOWING-SELECTIVE-REMESHING",
+  "title": "Method A Narrow Crack-Following Selective Adaptive Remeshing Optimization",
+  "assigned_agent": "gemini-antigravity",
+  "mandate_reference": "HND-cb4cf324c08c",
+  "predecessor_task": {
+    "task_id": "F1685-METHOD-A-COMBINED-ADAPTED-FRACTURE-PREPARATION-AND-EXECUTION",
+    "checkpoint_artifact": "project_coordination/sessions/2026-11-08_1345_gemini-antigravity_F1685.md"
+  },
+  "scientific_objective": "Develop and validate a computationally efficient, narrow, crack-following adaptive mesh for the Mode-I off-axis hole benchmark using existing MISESERI fields and Abaqus native remeshing tools. Improve spatial selectivity while retaining sufficient resolution of both crack branches, without prescribing known crack coordinates.",
+  "max_new_pbs_submissions": 0,
+  "max_new_fracture_simulations": 0,
+  "stages": [
+    "Stage A: Establish Baseline & Quantitative Sizing Metrics",
+    "Stage B: Investigate Selective Error Aggregation & Spatial Marking",
+    "Stage C: Generate Candidate Adapted Meshes via Abaqus CAE",
+    "Stage D: Select & Scientifically Validate the Strongest Mesh"
+  ],
+  "governing_constraints": {
+    "zero_new_pbs_submissions": true,
+    "zero_new_fracture_production_simulations": true,
+    "frozen_uel_preserved": true,
+    "crack_centerline_used_for_validation_only": true
+  }
+}
