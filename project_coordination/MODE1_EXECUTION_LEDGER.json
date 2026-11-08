@@ -13480,6 +13480,56 @@
         "lifecycle_tests": "PASS"
       },
       "qualified_at": "2026-11-07T19:55:37.867111+00:00"
+    },
+    "d6532243f340f3576090c9f21a791a67e1b25adcab84594ded5affb48ee29768": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\176_method_a_plate_with_hole\\METHOD_A_HOLE_F1685_PROD_AUTHORIZATION.json",
+      "attempts": {
+        "hole_f1685_prod": 1
+      },
+      "audit": [
+        {
+          "job": "hole_f1685_prod",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-11-08T10:23:10.665090+00:00",
+          "command_sha256": "db1cd463d2bab4c13ba887661093ad11fc69703f9b140a0a7977c5b49b8377b0"
+        }
+      ],
+      "preflight": {
+        "active_job_count": 0,
+        "adapter_contract": "mode1-qualified-batch-v2",
+        "datachecks": {
+          "hole_f1685_prod": {
+            "status": "PASS",
+            "input_sha256": "d8f7c8b77f4c66ae5fbcb1b03bb5f65260e68e92ade8d090b4593f4f6b6d36cf",
+            "dat_sha256": "5c966d32b20f87fad1a5332a78a12ea5a56b0d6cc5ca126f2c4cd36f7bcb158c"
+          }
+        },
+        "batch_spec_sha256": "544a3375fa41048d2a96b2fd334781872d849aca52aa98cea10fe2b72bba7966",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "d6532243f340f3576090c9f21a791a67e1b25adcab84594ded5affb48ee29768",
+        "authorized_command_sha256": "db1cd463d2bab4c13ba887661093ad11fc69703f9b140a0a7977c5b49b8377b0",
+        "checked_at": "2026-11-08T10:23:04.249858+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "PK_HOLE_F1685_COMBINED_PROD.inp": "d8f7c8b77f4c66ae5fbcb1b03bb5f65260e68e92ade8d090b4593f4f6b6d36cf",
+          "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+          "submit_M1_HOLE_F1685_COMBINED_PROD.pbs": "3263866b873911f685d28c19d85fca52deb33407269ef54b62601d2c430ba22d",
+          "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11"
+        },
+        "helper_sha256": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-11-08T10:23:05.121023+00:00"
     }
   }
 }
