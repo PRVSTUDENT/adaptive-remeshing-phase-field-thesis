@@ -1,0 +1,11 @@
+{
+  "task_id": "F1688-PANDEY-KUMAR-SEC43-REPRODUCTION-CONTROL",
+  "title": "Method A Pandey-Kumar Section 4.3 Reproduction Control Test",
+  "scope": "Mode-I",
+  "mandate": "Execute ChatGPT-mandated successor scope resolving review HND-d12747caae66: (1) Stage A geometry datum check with central hole centre (36.5, 51.0) mm and lower-hole y confirmed against Ambati et al. [39] (offline, zero PBS); (2) Stage B one authorised PBS Job-1 coarse UEL run to u_y approx 1.5 mm with a single MISESERI rule (errorTarget 5.0%, min 0.143 mm, max 1.5 mm) compared against Fig. 15b of Pandey and Kumar; (3) Stage C one-rule remesh compared against Fig. 16b; (4) Stage D Job-2 gated on Stage B passing and separate instruction. No E10/E12 fracture run and no Method C work in this step.",
+  "max_new_pbs_submissions": 1,
+  "predecessor": "F1687-METHOD-A-ENDENERI-CONTROL-AND-DIFFERENTIAL-RULE-GENERALIZATION",
+  "registered_at": "2026-11-08T16:20:00.0000000+01:00",
+  "assigned_agent": "gemini-antigravity",
+  "status": "READY"
+}

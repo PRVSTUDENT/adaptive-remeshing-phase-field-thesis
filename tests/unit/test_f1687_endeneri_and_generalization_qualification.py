@@ -71,7 +71,7 @@ def test_f1687_thesis_figures_and_pdf():
     assert os.path.getsize(pdf_path) > 50000000, "main.pdf size must be valid (> 50 MB)"
 
 def test_f1687_zero_new_pbs_submissions_policy():
-    active_task = os.path.join(REPO_ROOT, "project_coordination", "ACTIVE_TASK.json")
-    with open(active_task, "r") as fp:
+    f1687_def = os.path.join(REPO_ROOT, "project_coordination", "task_definitions", "F1687-METHOD-A-ENDENERI-CONTROL-AND-DIFFERENTIAL-RULE-GENERALIZATION.json")
+    with open(f1687_def, "r") as fp:
         task = json.load(fp)
-    assert task["max_new_pbs_submissions"] == 0, "max_new_pbs_submissions must strictly equal 0"
+    assert task["max_new_pbs_submissions"] == 0, "max_new_pbs_submissions for F1687 must strictly equal 0"

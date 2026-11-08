@@ -1,19 +1,19 @@
 {
-  "task_id": "F1687-METHOD-A-ENDENERI-CONTROL-AND-DIFFERENTIAL-RULE-GENERALIZATION",
-  "title": "Method A ENDENERI Terminal Control and Blind Differential-Rule Generalization",
-  "status": "COMPLETED",
+  "task_id": "F1688-PANDEY-KUMAR-SEC43-REPRODUCTION-CONTROL",
+  "title": "Method A Pandey-Kumar Section 4.3 Reproduction Control Test",
+  "status": "READY",
   "assigned_agent": "gemini-antigravity",
   "predecessor_task": {
-    "task_id": "F1686-METHOD-A-NARROW-CRACK-FOLLOWING-SELECTIVE-REMESHING",
-    "checkpoint_artifact": "project_coordination/sessions/2026-11-08_1530_gemini-antigravity_F1686.md"
+    "task_id": "F1687-METHOD-A-ENDENERI-CONTROL-AND-DIFFERENTIAL-RULE-GENERALIZATION",
+    "checkpoint_artifact": "project_coordination/sessions/2026-11-08_1605_gemini-antigravity_F1687.md"
   },
   "registration": {
-    "definition": "project_coordination/task_definitions/F1687-METHOD-A-ENDENERI-CONTROL-AND-DIFFERENTIAL-RULE-GENERALIZATION.json"
+    "definition": "project_coordination/task_definitions/F1688-PANDEY-KUMAR-SEC43-REPRODUCTION-CONTROL.json"
   },
-  "scientific_operation": "method_a_endeneri_control_and_differential_generalization",
-  "scientific_operation_id": "f1687_endeneri_and_generalization",
+  "scientific_operation": "pandey_kumar_sec43_reproduction_control",
+  "scientific_operation_id": "f1688_pk_sec43_reproduction",
   "scientific_checkpoint_required": true,
-  "max_new_pbs_submissions": 0,
+  "max_new_pbs_submissions": 1,
   "completed_operations": [
     "f1687_endeneri_and_generalization",
     "f1686_selective_remeshing_optimization",

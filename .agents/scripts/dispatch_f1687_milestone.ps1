@@ -25,6 +25,9 @@ All code, models, audit scripts, evaluation CSV/JSON records, publication figure
   https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis
 - Active Branch:
   main (and origin/main)
+- Current Commit SHA on GitHub main:
+  32f2252d242484a20b0292723cf23405c92f58e5
+  Commit Message: feat(method_a): complete Task F1687 ENDENERI control audit and blind differential-rule generalization
 - Full Frozen UEL SHA-256 (Bitwise Unmodified):
   models/pandey_kumar_mode1/f42_mixed_uel.for
   Full SHA-256: CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6
@@ -132,10 +135,12 @@ We request ChatGPT's independent review of this closeout report:
 "@
 
 Write-Host "Dispatching Task F1687 Closeout Report to ChatGPT across PAD bridge..."
-$response = Invoke-ChatGPTBridge -ScientificReport $scientificReport -TaskId $taskId -HandoffId $handoffId
+$response = Invoke-ChatGPTBridge `
+    -PromptText $scientificReport `
+    -HandoffId $handoffId `
+    -LaunchPad:$false `
+    -TimeoutMinutes 40 `
+    -TaskId $taskId
 
 Write-Host "`n=== CHATGPT INDEPENDENT REVIEW RESPONSE RECEIVED ==="
-Write-Host "Bridge Status: $($response.Status)"
-Write-Host "Correlation ID: $($response.CorrelationId)"
-Write-Host "Instruction / Verdict:"
-Write-Host $response.InstructionText
+Write-Host $response
