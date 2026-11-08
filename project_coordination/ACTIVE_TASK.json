@@ -1,7 +1,7 @@
 {
   "task_id": "F1687-METHOD-A-ENDENERI-CONTROL-AND-DIFFERENTIAL-RULE-GENERALIZATION",
   "title": "Method A ENDENERI Terminal Control and Blind Differential-Rule Generalization",
-  "status": "READY",
+  "status": "COMPLETED",
   "assigned_agent": "gemini-antigravity",
   "predecessor_task": {
     "task_id": "F1686-METHOD-A-NARROW-CRACK-FOLLOWING-SELECTIVE-REMESHING",
@@ -15,6 +15,7 @@
   "scientific_checkpoint_required": true,
   "max_new_pbs_submissions": 0,
   "completed_operations": [
+    "f1687_endeneri_and_generalization",
     "f1686_selective_remeshing_optimization",
     "f1685_production_fracture_execution_and_qualification",
     "f1685_sizing_and_selectivity_investigation",

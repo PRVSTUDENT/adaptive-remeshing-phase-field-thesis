@@ -1,0 +1,42 @@
+{
+  "benchmark": "Mode-I straight-crack 1x1 mm plate (unseen geometry)",
+  "mesh_file": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\01_standard_pfm_reference\\PK_MODE1_BLIND_DIFF_PHYS.inp",
+  "n_elements": 11578,
+  "n_nodes": 11579,
+  "n_dofs": 34737,
+  "n_quads": 11248,
+  "n_tris": 330,
+  "mesh_quality": {
+    "min_scaled_jacobian": 0.5655328535658702,
+    "max_aspect_ratio": 2.661329304655012
+  },
+  "crack_corridor": {
+    "corridor_definition": "dist_crack <= 15.0 um (2*l0)",
+    "n_elements": 1330,
+    "median_h_equiv_um": 2.2507909857898976,
+    "min_h_equiv_um": 0.9342452202758839,
+    "max_h_equiv_um": 10.145501912109243,
+    "pct_le_l0_half": 79.77443609022556,
+    "pct_le_l0": 96.9172932330827
+  },
+  "transverse_width": {
+    "w50_um": 15.336593333333258,
+    "w90_um": 229.5586987499999,
+    "threshold_w90_um": 50.0
+  },
+  "selectivity_and_waste": {
+    "total_refined_area_mm2": 0.02281436534388978,
+    "in_corridor_refined_area_mm2": 0.005555843612431763,
+    "out_of_corridor_waste_area_mm2": 0.017258521731458018,
+    "relative_waste_pct": 75.64760829991816,
+    "threshold_waste_pct": 70.0
+  },
+  "criteria_pass": {
+    "criterion1_resolution": false,
+    "criterion2_scale_enclosure": false,
+    "criterion3_selectivity": false,
+    "criterion4_mesh_quality": true,
+    "overall_pass": false
+  },
+  "hypothesis_h2_verdict": "FALSIFIED"
+}

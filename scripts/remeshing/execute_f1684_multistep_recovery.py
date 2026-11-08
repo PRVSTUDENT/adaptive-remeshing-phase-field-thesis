@@ -451,7 +451,7 @@ Top, 2, 2, {u2_step1:.8f}
 *Node Output, nset=All_elem
 RF, U
 *Element Output, elset=All_elem, directions=YES
-EVOL, FV, MISESAVG, MISESERI, S
+EVOL, FV, MISESAVG, MISESERI, ENDEN, ENDENERI, S
 *Output, history, variable=PRESELECT
 *End Step
 ** 
@@ -474,7 +474,7 @@ Top, 2, 2, {u2_step2:.8f}
 *Node Output, nset=All_elem
 RF, U
 *Element Output, elset=All_elem, directions=YES
-EVOL, FV, MISESAVG, MISESERI, S
+EVOL, FV, MISESAVG, MISESERI, ENDEN, ENDENERI, S
 *Output, history, variable=PRESELECT
 *End Step
 """

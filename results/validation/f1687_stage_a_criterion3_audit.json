@@ -1,0 +1,137 @@
+{
+  "PK_HOLE_SEL_E05_PHYS": {
+    "total_elements": 21569,
+    "primary_corridor": {
+      "n_elements": 591,
+      "min_h_equiv_um": 0.7299143220953012,
+      "med_h_equiv_um": 2.48644586670642,
+      "max_h_equiv_um": 4.908460721310888,
+      "pct_le_l0": 100.0,
+      "n_gt_l0": 0,
+      "criterion_3_pass": true
+    },
+    "secondary_corridor": {
+      "n_elements": 1713,
+      "min_h_equiv_um": 0.754869394148073,
+      "med_h_equiv_um": 1.9130533830794074,
+      "max_h_equiv_um": 5.7080502845658465,
+      "pct_le_l0": 100.0,
+      "n_gt_l0": 0,
+      "criterion_3_pass": true
+    },
+    "either_corridor": {
+      "n_elements": 2304,
+      "max_h_equiv_um": 5.7080502845658465,
+      "pct_le_l0": 100.0,
+      "criterion_3_pass": true
+    }
+  },
+  "PK_HOLE_SEL_E08_PHYS": {
+    "total_elements": 11302,
+    "primary_corridor": {
+      "n_elements": 536,
+      "min_h_equiv_um": 0.8181941221021799,
+      "med_h_equiv_um": 2.3627898639572393,
+      "max_h_equiv_um": 6.109635855237888,
+      "pct_le_l0": 100.0,
+      "n_gt_l0": 0,
+      "criterion_3_pass": true
+    },
+    "secondary_corridor": {
+      "n_elements": 1267,
+      "min_h_equiv_um": 0.7643251541354849,
+      "med_h_equiv_um": 2.034059334443352,
+      "max_h_equiv_um": 6.519108161434223,
+      "pct_le_l0": 100.0,
+      "n_gt_l0": 0,
+      "criterion_3_pass": true
+    },
+    "either_corridor": {
+      "n_elements": 1803,
+      "max_h_equiv_um": 6.519108161434223,
+      "pct_le_l0": 100.0,
+      "criterion_3_pass": true
+    }
+  },
+  "PK_HOLE_SEL_E10_PHYS": {
+    "total_elements": 9164,
+    "primary_corridor": {
+      "n_elements": 502,
+      "min_h_equiv_um": 0.8129636378835764,
+      "med_h_equiv_um": 2.3723090668356113,
+      "max_h_equiv_um": 7.306271825217015,
+      "pct_le_l0": 100.0,
+      "n_gt_l0": 0,
+      "criterion_3_pass": true
+    },
+    "secondary_corridor": {
+      "n_elements": 1039,
+      "min_h_equiv_um": 0.8906660699634134,
+      "med_h_equiv_um": 2.125644179967206,
+      "max_h_equiv_um": 7.6592067428057815,
+      "pct_le_l0": 99.90375360923966,
+      "n_gt_l0": 1,
+      "criterion_3_pass": false
+    },
+    "either_corridor": {
+      "n_elements": 1541,
+      "max_h_equiv_um": 7.6592067428057815,
+      "pct_le_l0": 99.93510707332901,
+      "criterion_3_pass": false
+    }
+  },
+  "PK_HOLE_SEL_E12_PHYS": {
+    "total_elements": 8046,
+    "primary_corridor": {
+      "n_elements": 507,
+      "min_h_equiv_um": 0.8235642667965224,
+      "med_h_equiv_um": 2.345655648290481,
+      "max_h_equiv_um": 7.66710393696413,
+      "pct_le_l0": 99.60552268244575,
+      "n_gt_l0": 2,
+      "criterion_3_pass": false
+    },
+    "secondary_corridor": {
+      "n_elements": 835,
+      "min_h_equiv_um": 0.8289007566253512,
+      "med_h_equiv_um": 2.410433688882647,
+      "max_h_equiv_um": 7.1620956802296885,
+      "pct_le_l0": 100.0,
+      "n_gt_l0": 0,
+      "criterion_3_pass": true
+    },
+    "either_corridor": {
+      "n_elements": 1342,
+      "max_h_equiv_um": 7.66710393696413,
+      "pct_le_l0": 99.85096870342772,
+      "criterion_3_pass": false
+    }
+  },
+  "PK_HOLE_SEL_E15_PHYS": {
+    "total_elements": 7087,
+    "primary_corridor": {
+      "n_elements": 497,
+      "min_h_equiv_um": 0.814145984296142,
+      "med_h_equiv_um": 2.4021370850949446,
+      "max_h_equiv_um": 7.484862725710757,
+      "pct_le_l0": 100.0,
+      "n_gt_l0": 0,
+      "criterion_3_pass": true
+    },
+    "secondary_corridor": {
+      "n_elements": 473,
+      "min_h_equiv_um": 1.0817732433887397,
+      "med_h_equiv_um": 3.5586666393178192,
+      "max_h_equiv_um": 8.950258265657892,
+      "pct_le_l0": 97.25158562367865,
+      "n_gt_l0": 13,
+      "criterion_3_pass": false
+    },
+    "either_corridor": {
+      "n_elements": 970,
+      "max_h_equiv_um": 8.950258265657892,
+      "pct_le_l0": 98.65979381443299,
+      "criterion_3_pass": false
+    }
+  }
+}

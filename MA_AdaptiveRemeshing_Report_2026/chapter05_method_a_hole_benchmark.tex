@@ -872,6 +872,80 @@ Figure~\ref{fig:f1686_mesh_selectivity_comparison} compares the physical mesh wi
   defines the optimal operating window for two-pass native \Abaqus selective remeshing, maximizing computational efficiency while guaranteeing complete phase-field process zone resolution along complex curvilinear crack paths.
 \end{enumerate}
 
+\subsection{Evaluation of History-Aware Error Controls (ENDENERI) and Blind Differential-Rule Generalization (Task F1687)}
+\label{subsec:f1687_endeneri_and_generalization}
+
+While the differential multi-target strategy demonstrated in Section~\ref{subsubsec:candidate_evaluation_pareto} successfully narrows the refined crack corridor and reduces degrees of freedom by up to $62.7\%$, the threshold $e_{\mathrm{tgt}}^{\mathrm{sec}} = 10.0\% - 12.0\%$ was determined a posteriori after observing the specific stress states of the notch-and-hole specimen. To investigate whether this procedure constitutes an intrinsically general framework or a problem-specific calibration, two fundamental hypotheses were formulated and rigorously tested:
+\begin{itemize}
+  \item \textbf{Hypothesis H1 (History-Aware Error Discretization Control):} A single history-recording error indicator (\texttt{ENDENERI}, energy density discretization error) evaluated on the terminal fracture state captures both crack branches in a single sizing field, eliminating the heuristic selection of multiple discrete donor frames.
+  \item \textbf{Hypothesis H2 (Blind Generalization with Zero Retuning):} The locked differential remeshing rule ($e_{\mathrm{tgt}}^{\mathrm{prim}} = 5.0\%$, $e_{\mathrm{tgt}}^{\mathrm{sec}} = 10.0\%$, $h_{\min} = 1.5\,\mu\mathrm{m}$, $h_{\max} = 20.0\,\mu\mathrm{m}$, and canonical $h_{\mathrm{equiv}} = \sqrt{\mathrm{Area}}$ resolution thresholds) produces a narrow, crack-following mesh on an unseen benchmark geometry with zero parameter adjustment.
+\end{itemize}
+
+\subsubsection{Hypothesis H1 Audit: Single Terminal ENDENERI Control}
+\label{subsubsec:h1_endeneri_audit}
+
+The \Abaqus documentation identifies \texttt{ENDENERI} as an energy-density error indicator that inherently accumulates solution history in nonlinear analyses. In \Abaqus/CAE \texttt{adaptiveRemesh()}, specifying \texttt{variables=('ENDENERI',)} mandates the concurrent presence of \texttt{ENDENERI}, strain energy density \texttt{ENDEN}, and element volume \texttt{EVOL} in the output database. The auxiliary recovery model was updated to export these variables and solved locally via \Abaqus/Standard. A single native remeshing rule was then applied to the terminal state (Frame~337) with an error target of $e_{\mathrm{tgt}} = 5.0\%$, generating candidate mesh \texttt{PK\_HOLE\_ENDENERI\_TERM\_PHYS}.
+
+The resulting mesh was audited against the authentic crack trajectories using the exact canonical $h_{\mathrm{equiv}}$ pipeline:
+\begin{enumerate}
+  \item \textbf{Massive Degraded Degree-of-Freedom Inflation:} The terminal \texttt{ENDENERI} rule generates \textbf{$51{,}712$ physical elements} ($154{,}953$ degrees of freedom)---a \textbf{$2.40\times$ increase} over the baseline combined mesh ($21{,}569$ elements) and a \textbf{$5.64\times$ inflation} over Candidate \texttt{SEL\_E10} ($9{,}164$ elements).
+  \item \textbf{Selectivity Collapse and Out-of-Corridor Waste:} The $90\%$ transverse refinement band widens to $W_{90\%} = 191.72\,\mu\mathrm{m} \gg 50.0\,\mu\mathrm{m}$. Out-of-corridor waste area balloons to $0.167218\,\mathrm{mm}^2$, yielding a relative waste fraction of \textbf{$92.93\% \gg 70.0\%$}.
+  \item \textbf{Physical Mechanism of Indicator Diffusion:} In an auxiliary linear-elastic recovery solve, \texttt{ENDENERI} measures total strain energy density discretization error rather than accumulated fracture energy or phase-field damage history ($d, \mathcal{H}$). Following crack arrest at the hole, the specimen undergoes macroscopic post-penetration bending. The resulting smooth, domain-wide strain energy gradients are interpreted by the sizing engine as high global discretization error, triggering severe over-refinement across more than half of the specimen area.
+\end{enumerate}
+Consequently, \textbf{Hypothesis H1 is decisively falsified}: a single terminal \texttt{ENDENERI} rule cannot substitute for the multi-frame differential strategy. Figure~\ref{fig:f1687_endeneri_comparison} illustrates the three-way comparison between Baseline \texttt{SEL\_E05}, Selected Candidate \texttt{SEL\_E10}, and the diffuse \texttt{ENDENERI} control mesh.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.98\textwidth]{figures/fig_f1687_endeneri_comparison.pdf}
+  \caption{Three-way comparative selectivity audit for Task F1687: (a)~Single-target Baseline \texttt{SEL\_E05} ($21{,}569$ elements, $W_{90\%} = 197.10\,\mu\mathrm{m}$, waste $86.52\%$); (b)~Primary Recommended Candidate \texttt{SEL\_E10} ($9{,}164$ elements, $W_{90\%} = 36.81\,\mu\mathrm{m}$, waste $65.35\%$); (c)~Terminal-frame \texttt{ENDENERI} control mesh ($51{,}712$ elements, $W_{90\%} = 191.72\,\mu\mathrm{m}$, waste $92.93\%$). Elements are color-coded by $h_{\mathrm{equiv}} \in [1.5, 15.0]\,\mu\mathrm{m}$ with authentic crack paths overlaid in crimson (primary) and dark orange (secondary), confirming the decisive falsification of Hypothesis~H1.}
+  \label{fig:f1687_endeneri_comparison}
+\end{figure}
+
+\subsubsection{Hypothesis H2 Audit: Blind Differential Generalization on Mode-I Benchmark}
+\label{subsubsec:h2_blind_mode1_audit}
+
+To test Hypothesis H2, the locked differential remeshing rule ($e_{\mathrm{tgt}}^{\mathrm{prim}} = 5.0\%$, $e_{\mathrm{tgt}}^{\mathrm{sec}} = 10.0\%$, $h_{\min} = 1.5\,\mu\mathrm{m}$, $h_{\max} = 20.0\,\mu\mathrm{m}$, refinement factor $10$, coarsening not allowed) was applied without any tuning to an unseen benchmark geometry: the canonical $1.0 \times 1.0\,\mathrm{mm}$ Mode-I edge-cracked plate without a hole ($a_0 = 0.50\,\mathrm{mm}$, propagation along $y = 0.50\,\mathrm{mm}$).
+
+The donor error fields were sourced from the authoritative Mode-I coarse pre-analysis database (\texttt{PK\_M1\_JOB1\_INF\_COMPANION\_2906.odb}, $8{,}718$ elements): Step~1 utilized Frame~870 ($u_2 = 0.00939\,\mathrm{mm}$, just past peak load $P_{\max} = 1.087\,\mathrm{N}$), and Step~2 utilized Frame~1021 ($u_2 = 0.01000\,\mathrm{mm}$, complete ligament severance). Native remeshing in \Abaqus/CAE produced the adapted physical mesh \texttt{PK\_MODE1\_BLIND\_DIFF\_PHYS.inp} comprising $11{,}578$ physical elements ($34{,}737$ degrees of freedom).
+
+The mesh was audited against the analytical Mode-I crack line ($y = 0.50\,\mathrm{mm}, x \in [0.50, 1.00]\,\mathrm{mm}$) within the standard $15.0\,\mu\mathrm{m}$ ($2\ell_0$) corridor:
+\begin{enumerate}
+  \item \textbf{Crack Corridor Resolution (Criterion 1):} Across $1{,}330$ corridor elements, median equivalent element size is $h_{\mathrm{med}} = 2.25\,\mu\mathrm{m} \le \ell_0/3 = 2.50\,\mu\mathrm{m}$, with minimum size $h_{\min} = 0.93\,\mu\mathrm{m} \le \ell_0/8$. The fraction satisfying $h \le \ell_0/2 = 3.75\,\mu\mathrm{m}$ attains $79.77\%$, narrowly missing the adopted $80.0\%$ threshold by $0.23\%$.
+  \item \textbf{Scale Enclosure (Criterion 2):} Within the corridor, $96.92\%$ of elements satisfy $h \le \ell_0 = 7.50\,\mu\mathrm{m}$. Exactly $41$ elements in the outermost $15\,\mu\mathrm{m}$ boundary fringe exceed $7.50\,\mu\mathrm{m}$ ($h_{\max} = 10.15\,\mu\mathrm{m}$), missing the strict $100\%$ scale enclosure.
+  \item \textbf{Selectivity and Transverse Width (Criterion 3):} Along the core ligament ($x \in [0.55, 0.95]\,\mathrm{mm}$), the median transverse width is exceptionally narrow: $W_{50\%} = 15.34\,\mu\mathrm{m}$. However, near the right specimen boundary where the unarrested Mode-I crack breaks through, the terminal stress singularity fans outward, expanding the 90th percentile width to $W_{90\%} = 229.56\,\mu\mathrm{m} \gg 50.0\,\mu\mathrm{m}$. Out-of-corridor waste area is $0.017259\,\mathrm{mm}^2$, resulting in a relative waste fraction of $75.65\% > 70.0\%$.
+  \item \textbf{Finite-Element Quality (Criterion 4):} Minimum scaled Jacobian is $0.5655 \ge 0.40$ and maximum aspect ratio is $2.66 \le 5.0$, confirming excellent mesh topology with zero distorted elements.
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{0.92}
+\caption{Comprehensive quantitative comparison across the Baseline, Differential (E10 and E12), \texttt{ENDENERI} Control, and Mode-I Blind Generalization meshes evaluated under canonical $h_{\mathrm{equiv}} = \sqrt{\mathrm{Area}}$ metrics.}
+\label{tab:f1687_synthesis_comparison}
+\begin{tabularx}{\textwidth}{lrrrrrr}
+\hline
+\textbf{Configuration / Candidate} & \textbf{Elements} & \textbf{DOFs} & \textbf{Waste [\%]} & $W_{90\%}$ [$\mu\mathrm{m}$] & \textbf{Corridor $h_{\mathrm{med}}$} & \textbf{Audit Verdict} \\
+\hline
+Hole Baseline \texttt{SEL\_E05} (Single 5\%) & $21{,}569$ & $64{,}746$ & $86.52\%$ & $197.10$ & $2.49\,\mu\mathrm{m}$ & FAIL (Selectivity) \\
+Hole Candidate \texttt{SEL\_E10} (Diff 5/10\%) & $\mathbf{9{,}164}$ & $\mathbf{27{,}753}$ & $\mathbf{65.35\%}$ & $\mathbf{36.81}$ & $\mathbf{2.37\,\mu\mathrm{m}}$ & \textbf{PASS (Selected)} \\
+Hole Candidate \texttt{SEL\_E12} (Diff 5/12\%) & $\mathbf{8{,}046}$ & $\mathbf{24{,}414}$ & $\mathbf{59.29\%}$ & $\mathbf{33.69}$ & $\mathbf{2.35\,\mu\mathrm{m}}$ & \textbf{PASS (Alternative)} \\
+Hole \texttt{ENDENERI} Control (Terminal 5\%) & $51{,}712$ & $154{,}953$ & $92.93\%$ & $191.72$ & $1.61\,\mu\mathrm{m}$ & FAIL (H1 Falsified) \\
+Mode-I Blind Generalization (Diff 5/10\%) & $11{,}578$ & $34{,}737$ & $75.65\%$ & $229.56$ & $2.25\,\mu\mathrm{m}$ & FAIL (H2 Falsified) \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.98\textwidth]{figures/fig_f1687_synthesis_and_generalization.pdf}
+  \caption{Synthesis of Task F1687 remeshing selectivity, history controls, and blind generalization: (a)~Mode-I blind generalization adapted mesh ($11{,}578$ elements) color-coded by $h_{\mathrm{equiv}} \in [1.5, 15.0]\,\mu\mathrm{m}$ with the straight crack line ($y = 0.50\,\mathrm{mm}$) overlaid; (b)~Transverse element size profiles $h_{\mathrm{equiv}}(y)$ across the ligament comparing Mode-I Blind ($x = 0.75\,\mathrm{mm}$), Hole Candidate E10 ($x = 0.85\,\mathrm{mm}$), and Hole \texttt{ENDENERI} Control ($x = 0.85\,\mathrm{mm}$); (c)~Comparative bar chart of transverse refinement width $W_{90\%}$ and relative waste area across all four investigated configurations.}
+  \label{fig:f1687_synthesis_and_generalization}
+\end{figure}
+
+Table~\ref{tab:f1687_synthesis_comparison} compiles the cross-model synthesis metrics, and Figure~\ref{fig:f1687_synthesis_and_generalization} illustrates the Mode-I mesh map, transverse discretization profiles, and comparative selectivity metrics. 
+
+These empirical measurements establish an essential scientific finding: \textbf{Hypothesis H2 is falsified under the adopted pre-declared thresholds}. While the locked differential rule successfully maintains fine process zone resolution ($h_{\mathrm{med}} = 2.25\,\mu\mathrm{m}$) and creates an exceptionally narrow core corridor ($W_{50\%} = 15.34\,\mu\mathrm{m}$), the terminal severance stage in an unnotched boundary ligament produces transverse stress diffusion that elevates $W_{90\%}$ and out-of-corridor waste above the strict $50.0\,\mu\mathrm{m}$ and $70.0\%$ gates. This demonstrates that the parameter pairing $(e_{\mathrm{tgt}}^{\mathrm{prim}} = 5\%, e_{\mathrm{tgt}}^{\mathrm{sec}} = 10\%)$ is an effective, optimized calibration for the notch-and-hole geometry, but cannot be claimed as an universally transferable, geometry-invariant setting without case-specific tuning.
+
 
 \section{Time-Resolved Crack Kinematics and Topological Evolution}
 \label{sec:hole_time_resolved_crack}

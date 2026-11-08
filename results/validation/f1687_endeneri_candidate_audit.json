@@ -1,0 +1,43 @@
+{
+  "candidate_name": "PK_HOLE_ENDENERI_TERM_PHYS",
+  "description": "Terminal Frame ENDENERI Control (Frame 337, errorTarget=5.0%)",
+  "total_elements": 51712,
+  "n_quads": 50457,
+  "n_tris": 1255,
+  "total_nodes": 51651,
+  "total_dofs": 154953,
+  "total_area_mm2": 0.9675866050633197,
+  "min_scaled_jacobian": 0.566806284175763,
+  "max_aspect_ratio": 2.5790840238067885,
+  "n_fine_elements": 38088,
+  "fine_area_mm2": 0.17994732601666458,
+  "waste_area_mm2": 0.16721804422471948,
+  "waste_pct_rel": 92.92610672593919,
+  "waste_pct_domain": 17.2819717997002,
+  "w50_um": 75.91833684764896,
+  "w90_um": 191.71695595533,
+  "primary_corridor": {
+    "n_elements": 1855,
+    "min_h_equiv_um": 0.5962907144170835,
+    "med_h_equiv_um": 1.60526258111365,
+    "max_h_equiv_um": 2.3383648751069965,
+    "pct_le_half_l0": 100.0,
+    "pct_le_third_l0": 100.0,
+    "pct_le_l0": 100.0,
+    "criterion_pass": true
+  },
+  "secondary_corridor": {
+    "n_elements": 2210,
+    "min_h_equiv_um": 0.7186510640361592,
+    "med_h_equiv_um": 1.8817013590341745,
+    "max_h_equiv_um": 2.8954863379438223,
+    "pct_le_half_l0": 100.0,
+    "pct_le_third_l0": 98.28054298642533,
+    "pct_le_l0": 100.0,
+    "criterion_pass": true
+  },
+  "criterion_3_scale_enclosure": true,
+  "criterion_4_selectivity": false,
+  "overall_pass": false,
+  "h1_hypothesis_verdict": "FALSIFIED"
+}
