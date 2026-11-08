@@ -1225,3 +1225,62 @@ def test_f1685_closeout_reconciliation_matrix():
     assert "PASS" in c7["outcome"]
     assert "1421171" in c7["measured_value"]
 
+
+def test_f1686_selective_remeshing_candidate_metrics():
+    """Verify Task F1686 differential multi-target selective remeshing metrics and Pareto frontier."""
+    eval_path = REPO_ROOT / "results" / "validation" / "f1686_stage_c_candidate_evaluation.json"
+    audit_path = REPO_ROOT / "results" / "validation" / "f1686_stage_a_baseline_audit.json"
+
+    assert eval_path.exists(), f"Missing {eval_path}"
+    assert audit_path.exists(), f"Missing {audit_path}"
+
+    with open(eval_path, "r", encoding="utf-8") as f:
+        candidates = json.load(f)
+
+    cand_map = {c["candidate_name"]: c for c in candidates}
+    assert len(cand_map) == 10
+
+    # 1. Baseline Candidate E05 (uniform 5% error target)
+    e05 = cand_map["PK_HOLE_SEL_E05_PHYS"]
+    assert e05["n_elements"] == 21569
+    assert e05["waste_area_pct"] > 86.0
+    assert e05["w90_um"] > 190.0
+
+    # 2. Selected Candidate E10 (5% primary, 10% secondary)
+    e10 = cand_map["PK_HOLE_SEL_E10_PHYS"]
+    assert e10["n_elements"] == 9164
+    assert 65.0 <= e10["waste_area_pct"] <= 66.0
+    assert 35.0 <= e10["w90_um"] <= 38.0
+    assert e10["primary_corridor"]["h_med_um"] <= 3.75
+    assert e10["primary_corridor"]["pct_le_half_l0"] > 75.0
+    assert e10["secondary_corridor"]["h_med_um"] <= 3.75
+    assert e10["secondary_corridor"]["pct_le_half_l0"] > 85.0
+
+    # 3. Selected Candidate E12 (5% primary, 12% secondary)
+    e12 = cand_map["PK_HOLE_SEL_E12_PHYS"]
+    assert e12["n_elements"] == 8046
+    assert 59.0 <= e12["waste_area_pct"] <= 60.0
+    assert 32.0 <= e12["w90_um"] <= 35.0
+    assert e12["primary_corridor"]["h_med_um"] <= 3.75
+    assert e12["primary_corridor"]["pct_le_half_l0"] > 75.0
+    assert e12["secondary_corridor"]["h_med_um"] <= 3.75
+    assert e12["secondary_corridor"]["pct_le_half_l0"] > 80.0
+
+    # 4. Falsification of high error targets (e_tgt >= 20%)
+    e20 = cand_map["PK_HOLE_SEL_E20_PHYS"]
+    assert e20["n_elements"] == 6392
+    assert e20["secondary_corridor"]["h_med_um"] > 5.5
+    assert e20["secondary_corridor"]["pct_le_half_l0"] < 5.0
+
+    # 5. Publication figures
+    fig_mesh_pdf = REPO_ROOT / "MA_AdaptiveRemeshing_Report_2026" / "figures" / "fig_f1686_mesh_selectivity_comparison.pdf"
+    fig_mesh_png = REPO_ROOT / "MA_AdaptiveRemeshing_Report_2026" / "figures" / "fig_f1686_mesh_selectivity_comparison.png"
+    fig_pareto_pdf = REPO_ROOT / "MA_AdaptiveRemeshing_Report_2026" / "figures" / "fig_f1686_pareto_frontier.pdf"
+    fig_pareto_png = REPO_ROOT / "MA_AdaptiveRemeshing_Report_2026" / "figures" / "fig_f1686_pareto_frontier.png"
+
+    assert fig_mesh_pdf.exists()
+    assert fig_mesh_png.exists()
+    assert fig_pareto_pdf.exists()
+    assert fig_pareto_png.exists()
+
+

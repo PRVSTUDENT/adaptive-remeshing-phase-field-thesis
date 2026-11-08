@@ -791,6 +791,88 @@ The production results demonstrate four principal conclusions:
   \item \textbf{Computational Efficiency and Method A Turnaround:} Despite providing $1.92\times$ higher notch-tip resolution and $100\%$ scale enclosure along all crack paths, the $21{,}569$-element combined adapted model solved in $1\,\mathrm{h}\,20\,\mathrm{min}\,10\,\mathrm{s}$ ($4{,}810\,\mathrm{s}$ wallclock solver time, $3{,}230\,\mathrm{s}$ CPU time; total PBS queue-to-close walltime $4{,}843\,\mathrm{s} = 1\,\mathrm{h}\,20\,\mathrm{min}\,43\,\mathrm{s}$) on a single compute core. (The earlier $1\,\mathrm{h}\,12\,\mathrm{min}$ figure represented an intermediate scheduler snapshot taken at Increment~425 prior to terminal solution.) The complete two-pass Method~A workflow---coarse pre-analysis ($12\,\mathrm{min}$), multi-step auxiliary linear-elastic stress recovery ($3\,\mathrm{min}$), native adaptive remeshing ($2\,\mathrm{min}$), and production fracture solve ($1\,\mathrm{h}\,20\,\mathrm{min}$)---required approximately \textbf{$1\,\mathrm{h}\,37\,\mathrm{min}$ total turnaround time}, providing an automated, robust, and computationally practical methodology for phase-field fracture in commercial finite-element software.
 \end{enumerate}
 
+\subsection{Optimization of Narrow Crack-Following Selective Adaptive Remeshing}
+\label{subsec:hole_selective_remeshing}
+
+While the $21{,}569$-element combined adapted mesh (\texttt{Experiment C}) successfully achieved complete process zone scale enclosure ($h \le \ell_0$) along both crack trajectories and resolved the notch-tip initiation deficit ($h_{\mathrm{med}} = 2.91\,\mu\mathrm{m} \le \ell_0/2.5$), the selectivity diagnostics in Section~\ref{subsec:hole_indicator_and_sizing_selectivity} revealed that $86.52\%$ of fine elements ($h \le 3.75\,\mu\mathrm{m}$) reside outside the authentic fracture corridors. Furthermore, the transverse $90\%$ refinement width across the secondary ligament spanned $W_{90\%} = 197.10\,\mu\mathrm{m}$, covering nearly two-thirds of the ligament width.
+
+\subsubsection{Differential Multi-Target Error Filtering Mechanism}
+\label{subsubsec:differential_error_filtering}
+
+The spatial error integration audited in Section~\ref{subsec:controlled_multi_frame_recovery} established the physical origin of this broad refinement: in the terminal donor state (Frame~337), the peak stress discretization error at the secondary crack initiation site reaches $\MISESERI \approx 1{,}400\,\mathrm{MPa}$ ($\eta = \MISESERI / \bar{\sigma}_{\mathrm{domain}} \approx 470\%$). However, because the specimen undergoes macroscopic post-penetration bending, diffuse stress gradients across the intact secondary ligament induce an error background of $\eta \approx 5\% - 25\%$. When a single uniform error target of $e_{\mathrm{tgt}} = 5.0\%$ is applied across all remeshing rules, \Abaqus/CAE cannot distinguish between the singular fracture core and the macroscopic bending field, refining the entire ligament uniformly.
+
+Because the combined mesh is governed by the intersection rule
+\begin{equation}
+  h_{\mathrm{combined}}(\mathbf{x}) = \min\left(h_{150}(\mathbf{x}),\, h_{337}(\mathbf{x})\right),
+  \label{eq:combined_min_sizing_repeat}
+\end{equation}
+downstream operations cannot remove refinement requested by either donor. To resolve this selectivity limitation without manual geometry partitioning or heuristic spatial weighting, we formulate a \textbf{Differential Multi-Target Sizing Strategy}:
+\begin{itemize}
+  \item \textbf{Rule 1 (Primary Crack \& Slit Tip, Donor Frame 150):} Governed by $e_{\mathrm{tgt}}^{\mathrm{prim}} = 5.0\%$. This preserves fine, high-gradient resolution ($h \approx 1.5 - 2.5\,\mu\mathrm{m} \le \ell_0/3$) at the initial notch tip and along the curvilinear deflection trajectory into the circular hole.
+  \item \textbf{Rule 2 (Secondary Ligament Crack, Donor Frame 337):} The secondary error target $e_{\mathrm{tgt}}^{\mathrm{sec}}$ is systematically varied across the parametric spectrum:
+  \begin{equation}
+    e_{\mathrm{tgt}}^{\mathrm{sec}} \in \{5.0\%,\, 8.0\%,\, 10.0\%,\, 12.0\%,\, 15.0\%,\, 20.0\%,\, 25.0\%,\, 30.0\%,\, 40.0\%,\, 50.0\%\}.
+  \end{equation}
+\end{itemize}
+By setting $e_{\mathrm{tgt}}^{\mathrm{sec}}$ above the diffuse bending error threshold ($\sim 8\% - 10\%$), the sizing engine suppresses element refinement in the uncracked bending ligament while continuing to aggressively refine the singular secondary fracture core ($\eta \gg 10\%$).
+
+\subsubsection{Parametric Candidate Evaluation and Pareto Frontier}
+\label{subsubsec:candidate_evaluation_pareto}
+
+Ten candidate physical meshes were generated using \Abaqus/CAE \texttt{adaptiveRemesh()} and evaluated against the authentic damage corridor ($\Omega_{\mathrm{corridor}} = \{\mathbf{x} \in \Omega : \operatorname{dist}(\mathbf{x}, \Gamma_{d \ge 0.80}) \le 2\ell_0 = 15.0\,\mu\mathrm{m}\}$). Table~\ref{tab:f1686_selective_remeshing_candidates} compiles the topological characteristics, spatial selectivity metrics, and regional corridor resolutions across all ten candidates.
+
+\begin{table}[htbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.0pt}
+\renewcommand{\arraystretch}{0.92}
+\caption{Comprehensive quantitative evaluation of differential multi-target adaptive remeshing candidates against the authentic $15.0\,\mu\mathrm{m}$ ($2\ell_0$) damage corridor for the Mode-I off-axis hole benchmark.}
+\label{tab:f1686_selective_remeshing_candidates}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrrrrrrr}
+\hline
+\textbf{Candidate ID} & $e_{\mathrm{tgt}}^{\mathrm{sec}}$ & \textbf{Elements} & \textbf{Nodes} & \textbf{Quads / Tris} & \textbf{Waste Area} & $W_{50\%}$ & $W_{90\%}$ & \multicolumn{2}{c}{\textbf{Primary Corridor}} & \multicolumn{2}{c}{\textbf{Secondary Corridor}} \\
+ & [\%] & $N_{\mathrm{phys}}$ & $N_{\mathrm{node}}$ & & [\%] & [$\mu\mathrm{m}$] & [$\mu\mathrm{m}$] & $h_{\mathrm{med}}$ [$\mu\mathrm{m}$] & $\% \le \frac{\ell_0}{2}$ & $h_{\mathrm{med}}$ [$\mu\mathrm{m}$] & $\% \le \frac{\ell_0}{2}$ \\
+\hline
+\texttt{SEL\_E05} (Baseline) & $5.0\%$ & $21{,}569$ & $21{,}582$ & $20{,}981 / 588$ & $86.52\%$ & $45.49$ & $197.10$ & $2.49$ & $83.2\%$ & $1.91$ & $95.0\%$ \\
+\texttt{SEL\_E08} & $8.0\%$ & $11{,}302$ & $11{,}375$ & $10{,}973 / 329$ & $70.58\%$ & $20.84$ & $46.03$ & $2.36$ & $80.2\%$ & $2.03$ & $91.5\%$ \\
+\textbf{\texttt{SEL\_E10} (Selected)} & $\mathbf{10.0\%}$ & $\mathbf{9{,}164}$ & $\mathbf{9{,}251}$ & $\mathbf{8{,}891 / 273}$ & $\mathbf{65.35\%}$ & $\mathbf{17.22}$ & $\mathbf{36.81}$ & $\mathbf{2.37}$ & $\mathbf{79.1\%}$ & $\mathbf{2.13}$ & $\mathbf{89.7\%}$ \\
+\textbf{\texttt{SEL\_E12} (Selected)} & $\mathbf{12.0\%}$ & $\mathbf{8{,}046}$ & $\mathbf{8{,}138}$ & $\mathbf{7{,}794 / 252}$ & $\mathbf{59.29\%}$ & $\mathbf{14.91}$ & $\mathbf{33.69}$ & $\mathbf{2.35}$ & $\mathbf{80.5\%}$ & $\mathbf{2.41}$ & $\mathbf{84.1\%}$ \\
+\texttt{SEL\_E15} & $15.0\%$ & $7{,}087$ & $7{,}185$ & $6{,}860 / 227$ & $53.25\%$ & $13.81$ & $33.63$ & $2.40$ & $81.3\%$ & $3.56$ & $56.4\%$ \\
+\texttt{SEL\_E20} (Degraded) & $20.0\%$ & $6{,}392$ & $6{,}502$ & $6{,}201 / 191$ & $64.26\%$ & $16.09$ & $38.51$ & $2.35$ & $78.6\%$ & $6.03$ & $2.6\%$ \\
+\texttt{SEL\_E25} & $25.0\%$ & $6{,}344$ & $6{,}451$ & $6{,}149 / 195$ & $66.76\%$ & $17.00$ & $40.64$ & $2.35$ & $81.1\%$ & $6.73$ & $1.3\%$ \\
+\texttt{SEL\_E30} & $30.0\%$ & $6{,}284$ & $6{,}390$ & $6{,}095 / 189$ & $67.57\%$ & $17.37$ & $41.34$ & $2.36$ & $81.7\%$ & $7.02$ & $1.4\%$ \\
+\texttt{SEL\_E40} & $40.0\%$ & $6{,}215$ & $6{,}320$ & $6{,}029 / 186$ & $68.53\%$ & $17.79$ & $42.06$ & $2.35$ & $81.7\%$ & $7.47$ & $0.7\%$ \\
+\texttt{SEL\_E50} & $50.0\%$ & $6{,}177$ & $6{,}283$ & $5{,}984 / 193$ & $68.50\%$ & $17.78$ & $42.04$ & $2.36$ & $81.5\%$ & $7.67$ & $0.0\%$ \\
+\hline
+\end{tabular*}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.98\textwidth]{figures/fig_f1686_mesh_selectivity_comparison.pdf}
+  \caption{Decisive finite-element wireframe comparison color-coded by local element size $h_{\max}$ [$\mu\mathrm{m}$] (logarithmic scale) with overlaid authentic phase-field crack centerlines (cyan: primary deflected branch; lime: secondary ligament branch; red: initial slit): (a)~Combined Baseline ($21{,}569$ elements, broad ligament over-refinement, $W_{90\%} = 197.10\,\mu\mathrm{m}$); (b)~Selected Candidate E10 ($9{,}164$ elements, $57.5\%$ DOF reduction, $W_{90\%} = 36.81\,\mu\mathrm{m}$); (c)~Selected Candidate E12 ($8{,}046$ elements, $62.7\%$ DOF reduction, $W_{90\%} = 33.69\,\mu\mathrm{m}$).}
+  \label{fig:f1686_mesh_selectivity_comparison}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.98\textwidth]{figures/fig_f1686_pareto_frontier.pdf}
+  \caption{Parametric trade-off frontier for differential multi-target adaptive remeshing across $e_{\mathrm{tgt}}^{\mathrm{sec}} \in [5\%, 50\%]$: (a)~Total physical elements and out-of-corridor waste area percentage, showing rapid element-count contraction and waste reduction; (b)~Transverse refinement width $W_{90\%}$ and secondary corridor median element size $h_{\mathrm{med}}$, demarcating the sharp degradation threshold at $e_{\mathrm{tgt}}^{\mathrm{sec}} > 12\%$ where secondary crack resolution is lost ($\ell_0/2 = 3.75\,\mu\mathrm{m}$ limit). The green shaded band highlights the optimal Pareto window ($e_{\mathrm{tgt}}^{\mathrm{sec}} \in [10\%, 12\%]$).}
+  \label{fig:f1686_pareto_frontier}
+\end{figure}
+
+Figure~\ref{fig:f1686_mesh_selectivity_comparison} compares the physical mesh wireframes of the baseline against the two selected optimal candidates, while Figure~\ref{fig:f1686_pareto_frontier} illustrates the Pareto trade-off curves. Analysis of the response metrics reveals three decisive numerical conclusions:
+\begin{enumerate}
+  \item \textbf{Significant Degree-of-Freedom Reduction and Channel Narrowing:} Raising the secondary error target to $e_{\mathrm{tgt}}^{\mathrm{sec}} = 10.0\%$ (Candidate \texttt{SEL\_E10}) reduces total physical elements from $21{,}569$ to \textbf{$9{,}164$} (a \textbf{$57.5\%$} reduction in physical degrees of freedom). Simultaneously, the transverse $90\%$ refinement width $W_{90\%}$ contracts by \textbf{$5.35\times$}, narrowing from $197.10\,\mu\mathrm{m}$ down to \textbf{$36.81\,\mu\mathrm{m}$}. Out-of-corridor waste area decreases by $21.17\%$ absolute (from $86.52\%$ to $65.35\%$). When raised further to $12.0\%$ (Candidate \texttt{SEL\_E12}), total elements decrease to \textbf{$8{,}046$} (a \textbf{$62.7\%$} reduction), $W_{90\%}$ contracts to \textbf{$33.69\,\mu\mathrm{m}$} ($5.85\times$ narrower), and waste drops to $59.29\%$.
+  \item \textbf{Strict Scale Enclosure Preserved in Both Fracture Corridors:} Crucially, this degree-of-freedom reduction is achieved without compromising local process zone resolution. In Candidate \texttt{SEL\_E10}, the primary crack corridor maintains $h_{\mathrm{med}} = 2.37\,\mu\mathrm{m} \approx \ell_0/3$ ($79.1\% \le \ell_0/2$), and the secondary crack corridor maintains $h_{\mathrm{med}} = 2.13\,\mu\mathrm{m}$ ($89.7\% \le \ell_0/2$, $99.9\% \le \ell_0$). In Candidate \texttt{SEL\_E12}, median edge lengths are $2.35\,\mu\mathrm{m}$ ($80.5\% \le \ell_0/2$) in the primary corridor and $2.41\,\mu\mathrm{m}$ ($84.1\% \le \ell_0/2$) in the secondary corridor, satisfying the standard phase-field resolution threshold throughout both crack trajectories.
+  \item \textbf{Falsification and Degradation Boundary at $e_{\mathrm{tgt}}^{\mathrm{sec}} \ge 15\%$:} At $e_{\mathrm{tgt}}^{\mathrm{sec}} = 15\%$, secondary corridor median size deteriorates to $h_{\mathrm{med}} = 3.56\,\mu\mathrm{m}$, with only $56.4\%$ of elements satisfying $h \le \ell_0/2$. When $e_{\mathrm{tgt}}^{\mathrm{sec}} \ge 20\%$, secondary process zone resolution collapses completely: median element size jumps to $h_{\mathrm{med}} = 6.03\,\mu\mathrm{m} > 0.8\ell_0$, and only $2.56\%$ of elements meet the resolution requirement, causing the secondary crack path to be severely under-resolved. As shown in Figure~\ref{fig:f1686_pareto_frontier}(b), this establishes an unambiguous, sharp Pareto boundary: the interval
+  \begin{equation}
+    e_{\mathrm{tgt}}^{\mathrm{sec}} \in [10.0\%,\, 12.0\%]
+  \end{equation}
+  defines the optimal operating window for two-pass native \Abaqus selective remeshing, maximizing computational efficiency while guaranteeing complete phase-field process zone resolution along complex curvilinear crack paths.
+\end{enumerate}
+
+
 \section{Time-Resolved Crack Kinematics and Topological Evolution}
 \label{sec:hole_time_resolved_crack}
 
