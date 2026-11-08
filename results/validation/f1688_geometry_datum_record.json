@@ -1,0 +1,103 @@
+{
+  "task_id": "F1688-PANDEY-KUMAR-SEC43-REPRODUCTION-CONTROL",
+  "stage": "STAGE_A_GEOMETRY_DATUM_CHECK",
+  "status": "PASS",
+  "verified_at": "2026-11-08T16:35:00.0000000+01:00",
+  "provenance": {
+    "primary_source": "Pandey & Kumar (2025), CMES 144(3), pp. 3251-3276, Section 4.3 and Fig. 14",
+    "benchmark_origin": "Ambati, Gerasimov, De Lorenzis (2015), Comput. Mech. 55(2), pp. 383-405",
+    "independent_verification": "COMSOL Multiphysics Application Library, holed_plate_fracture.pdf"
+  },
+  "geometry": {
+    "plate": {
+      "width_mm": 65.0,
+      "height_mm": 120.0,
+      "thickness_mm": 1.0,
+      "x_bounds": [0.0, 65.0],
+      "y_bounds": [0.0, 120.0]
+    },
+    "notch": {
+      "length_mm": 10.0,
+      "width_mm": 0.4,
+      "x_start_mm": 0.0,
+      "x_end_mm": 10.0,
+      "y_center_mm": 70.0,
+      "y_bounds": [69.8, 70.2],
+      "representation": "rectangular_cutout_slot"
+    },
+    "upper_hole": {
+      "role": "displacement_loading_pin",
+      "diameter_mm": 10.0,
+      "radius_mm": 5.0,
+      "center_x_mm": 20.0,
+      "center_y_mm": 100.0,
+      "distance_from_top_mm": 20.0,
+      "distance_from_left_mm": 20.0
+    },
+    "lower_hole": {
+      "role": "pinned_support",
+      "diameter_mm": 10.0,
+      "radius_mm": 5.0,
+      "center_x_mm": 20.0,
+      "center_y_mm": 20.0,
+      "distance_from_bottom_mm": 20.0,
+      "distance_from_left_mm": 20.0,
+      "datum_confirmation": "Explicitly confirmed from Ambati et al. (2015) and COMSOL holed_plate_fracture.pdf (Circle c2 at x=20 mm, y=20 mm), preserving vertical loading symmetry."
+    },
+    "central_hole": {
+      "role": "eccentric_void_defect",
+      "diameter_mm": 20.0,
+      "radius_mm": 10.0,
+      "center_x_mm": 36.5,
+      "center_y_mm": 51.0,
+      "distance_from_right_mm": 28.5,
+      "distance_from_bottom_mm": 51.0,
+      "calculation": "x = 65.0 - 28.5 = 36.5 mm; y = 51.0 mm (matching Fig. 14 dimensions exactly)"
+    }
+  },
+  "material_parameters": {
+    "youngs_modulus_gpa": 210.0,
+    "youngs_modulus_kn_per_mm2": 210.0,
+    "poissons_ratio": 0.3,
+    "length_scale_l0_mm": 0.285,
+    "fracture_energy_gc_kn_per_mm": 0.00228,
+    "fracture_energy_gc_n_per_mm": 2.28,
+    "residual_stiffness_k": 1e-07,
+    "strain_split": "Miehe anisotropic tensile spectral split"
+  },
+  "loading_and_boundary_conditions": {
+    "lower_hole": "Pinned: u_x = 0, u_y = 0 on all hole boundary nodes",
+    "upper_hole": "Displacement controlled: u_x = 0, u_y prescribed via reference point tied to hole perimeter nodes",
+    "displacement_schedule": {
+      "step_1": {
+        "description": "Pre-critical / linear loading",
+        "delta_u1_mm": 0.0005,
+        "max_u1_mm": 1.0,
+        "increments": 2000
+      },
+      "step_2": {
+        "description": "Fracture propagation through points s1-s4",
+        "delta_u2_mm": 0.0002,
+        "final_u_target_mm": 1.5,
+        "u_s4_breakthrough_mm": 1.46
+      }
+    }
+  },
+  "mesh_and_remeshing_specifications": {
+    "coarse_mesh": {
+      "global_element_size_mm": 1.5,
+      "expected_element_count_approx": 3500,
+      "element_family": "Linear quadrilateral and triangular elements (CPE4/CPE3, U1/U2/U3/U4)"
+    },
+    "remeshing_rule_pandey_listing1": {
+      "variable": "MISESERI",
+      "sizing_method": "UNIFORM_ERROR",
+      "error_target": 5.0,
+      "refinement_factor": 10,
+      "coarsening_factor": "NOT_ALLOWED",
+      "min_element_size_mm": 0.143,
+      "max_element_size_mm": 1.5,
+      "region": "All_elem"
+    }
+  }
+}

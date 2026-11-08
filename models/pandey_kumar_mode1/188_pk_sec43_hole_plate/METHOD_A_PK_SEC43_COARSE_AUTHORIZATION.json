@@ -1,0 +1,44 @@
+{
+  "batch_name": "MODE1_METHOD_A_PK_SEC43_COARSE",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "PK_SEC43_COARSE_JOB1.inp": "8c196178a4fd34f4fa1ee48ee53824e86685da5435e856df3182571bc71d3646",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_M1_PK_SEC43_COARSE_JOB1.pbs": "cb3e19038591e8e6af6b32826ea55c0186e5154a500a3078b4a67d4c15ddeb9a",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "PK_SEC43_COARSE_JOB1_DC.dat": "cbb2a1662d19122c1c1dc982a0d868163417d6892e4ba611b1c50cb4d37547b1"
+  },
+  "jobs": [
+    {
+      "id": "pk_sec43_coarse_job1",
+      "pbs": "submit_M1_PK_SEC43_COARSE_JOB1.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_pk_sec43_coarse_job1/submit_M1_PK_SEC43_COARSE_JOB1.pbs\"",
+      "command_sha256": "0cc0f7ca031e3843d6361666b6525be9c6c4ef0354ec9d2778fcb3dd80a5e654",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Method A Pandey-Kumar Section 4.3 Reproduction Control Test: Coarse 3,923 physical elements (11,769 layered elements), 1-CPU serial, 2-step loading to u_y = 1.5 mm, generating authentic donor state for native MISESERI error evaluation and comparison against Fig. 15b.",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "PK_SEC43_COARSE_JOB1.inp",
+      "datacheck": "PK_SEC43_COARSE_JOB1_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "pk_sec43_coarse_job1": "Abaqus 2023 single-rank serial solve completes Stage B Job-1 coarse phase-field fracture simulation on 3,923 physical elements (11,769 layered elements) to u_y approx 1.5 mm, producing donor ODB for native MISESERI evaluation against Fig. 15b."
+  },
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_sec43_coarse_job1",
+  "required_state_checks": [
+    "nodal_displacement_verified",
+    "damage_irreversibility_verified",
+    "committed_history_verified",
+    "state_restoration_verified"
+  ]
+}

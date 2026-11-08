@@ -1,0 +1,47 @@
+{
+  "task_id": "F1688",
+  "stage": "Stage_C_Native_OneRule_Remeshing",
+  "geometry": "Pandey_Kumar_Section_4.3_65x120mm",
+  "coarse_elements": 3923,
+  "adapted_elements": 9432,
+  "adapted_nodes": 9567,
+  "dofs": 19134,
+  "quad_count": 9132.0,
+  "tri_count": 300.0,
+  "quad_percentage": 96.81933842239185,
+  "tri_percentage": 3.1806615776081424,
+  "paper_comparison": {
+    "paper_coarse_elements": 3500,
+    "paper_adapted_elements": 14000,
+    "our_coarse_elements": 3923,
+    "our_adapted_elements": 9432
+  },
+  "length_scale_l0": 0.285,
+  "l0_half": 0.1425,
+  "global_stats": {
+    "count": 9432,
+    "median": 0.7529185134716473,
+    "pct_le_l0_half": 0.6043256997455471,
+    "pct_le_l0": 9.891857506361323,
+    "min": 0.07936050503930603,
+    "max": 1.759182215556365
+  },
+  "primary_corridor_stats": {
+    "count": 641,
+    "median": 0.3398029959635232,
+    "pct_le_l0_half": 3.7441497659906395,
+    "pct_le_l0": 45.08580343213728,
+    "min": 0.09036146609450943,
+    "max": 1.2012915354738833
+  },
+  "secondary_corridor_stats": {
+    "count": 136,
+    "median": 0.7463179001790079,
+    "pct_le_l0_half": 0.0,
+    "pct_le_l0": 0.0,
+    "min": 0.37704398087800306,
+    "max": 1.549539972383273
+  },
+  "stage_c_pass": false,
+  "failure_diagnosis": "Secondary branch not refined (h_med > l0/2 or zero refinement) because single-frame linear-elastic recovery lacks post-penetration ligament stress state"
+}
