@@ -8,6 +8,7 @@ Unit and regression tests for the reusable 2D adaptive remeshing framework
 
 import os
 import json
+import csv
 import tempfile
 import pytest
 from pathlib import Path
@@ -812,6 +813,71 @@ def test_f1680_method_a_scientific_correction_and_ip_audit():
     assert "within 1.1% of the 0.60" not in tex, "False literature agreement claim not eliminated"
     assert "tab:hole_pandey_kumar_comparison" in tex, "Comparison table label missing"
     assert "miehe2010a" in tex, "Correct Miehe citation missing"
+
+
+def test_f1682_complete_odb_extraction_and_spatial_audit():
+    """Verify Task F1682 complete ODB frame extraction and defect-free spatial audit."""
+    coarse_prog = REPO_ROOT / "results" / "validation" / "f1682_coarse_all_frames_progression.csv"
+    prod_prog = REPO_ROOT / "results" / "validation" / "f1682_prod_all_frames_progression.csv"
+    full_damage = REPO_ROOT / "results" / "validation" / "f1682_prod_final_full_damage_field.csv"
+    audit_json = REPO_ROOT / "results" / "validation" / "f1682_spatial_resolution_audit.json"
+    synth_json = REPO_ROOT / "results" / "validation" / "f1682_fracture_timeline_synthesis.json"
+    synth_csv = REPO_ROOT / "results" / "validation" / "f1682_fracture_timeline_comparison.csv"
+
+    assert coarse_prog.exists(), "Coarse progression CSV missing"
+    assert prod_prog.exists(), "Production progression CSV missing"
+    assert full_damage.exists(), "Full damage CSV missing"
+    assert audit_json.exists(), "Audit JSON missing"
+    assert synth_json.exists(), "Synthesis JSON missing"
+    assert synth_csv.exists(), "Synthesis CSV missing"
+
+    # 1. Coarse progression assertions
+    with open(str(coarse_prog), "r", encoding="utf-8") as f:
+        coarse_rows = list(csv.DictReader(f))
+    assert len(coarse_rows) == 389, f"Expected 389 coarse frames, got {len(coarse_rows)}"
+    assert float(coarse_rows[-1]["u2_top"]) > 0.0095
+
+    # 2. Production progression assertions
+    with open(str(prod_prog), "r", encoding="utf-8") as f:
+        prod_rows = list(csv.DictReader(f))
+    assert len(prod_rows) == 616, f"Expected 616 production frames, got {len(prod_rows)}"
+    final_prod = prod_rows[-1]
+    assert abs(float(final_prod["u2_top"]) - 0.0120) < 1e-4, "Production solve did not reach 0.0120 mm"
+    assert float(final_prod["rf2_top"]) < 0.001, "Production residual force not softened"
+
+    # 3. Full damage coverage assertions (100% of 20,213 physical elements)
+    with open(str(full_damage), "r", encoding="utf-8") as f:
+        dmg_rows = list(csv.DictReader(f))
+    assert len(dmg_rows) == 20213, f"Expected 20,213 physical elements, got {len(dmg_rows)}"
+
+    # 4. Defect-free audit assertions (distinct populations)
+    with open(str(audit_json), "r", encoding="utf-8") as f:
+        audit = json.load(f)
+
+    whole = audit["Whole Specimen Domain"]
+    core_05 = audit["Active Fracture Core (d >= 0.50)"]
+    core_08 = audit["Broken Crack Core (d >= 0.80)"]
+    core_095 = audit["Fully Severed Core (d >= 0.95)"]
+    far_field = audit["Intact Far-Field (d < 0.10)"]
+
+    assert whole["element_count"] == 20213
+    assert core_05["element_count"] == 3060
+    assert core_08["element_count"] == 2169
+    assert core_095["element_count"] == 1709
+    assert far_field["element_count"] == 12250
+    # Crucial F1681 defect fix: populations must NOT be identical
+    assert core_05["element_count"] != core_08["element_count"], "d>=0.50 and d>=0.80 populations are identically flawed"
+    assert core_08["element_count"] != core_095["element_count"]
+
+    # 5. Synthesis timeline assertions
+    with open(str(synth_json), "r", encoding="utf-8") as f:
+        synth = json.load(f)
+
+    assert synth["coarse_donor_mesh"]["n_physical_elements"] == 2906
+    assert synth["refined_production_mesh"]["n_physical_elements"] == 20213
+    assert abs(synth["refined_production_mesh"]["softening_reduction_pct"] - (-18.83)) < 0.1
+    assert len(synth["stages"]) == 8
+
 
 
 

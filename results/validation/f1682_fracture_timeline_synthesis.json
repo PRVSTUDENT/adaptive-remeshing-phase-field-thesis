@@ -1,0 +1,229 @@
+{
+    "coarse_donor_mesh": {
+        "source_odb": "PK_HOLE_COARSE_JOB1.odb",
+        "job_id": "1421063.mmaster02",
+        "n_physical_elements": 2906,
+        "total_frames": 389,
+        "peak_rf2_kN": 0.731015,
+        "u2_at_peak_mm": 0.0072938
+    },
+    "refined_production_mesh": {
+        "source_odb": "M1_HOLE_F1664_METHOD_A_PROD.odb",
+        "job_id": "1421142.mmaster02",
+        "n_physical_elements": 20213,
+        "total_frames": 616,
+        "peak_rf2_kN": 0.593390286,
+        "u2_at_peak_mm": 0.0057000001,
+        "softening_reduction_pct": -18.82652394273715
+    },
+    "stages": [
+        {
+            "stage_id": 1,
+            "stage_name": "Initial Linear Elastic State",
+            "coarse": {
+                "step": "Step-1",
+                "frame": 20,
+                "inc": 20,
+                "u2_mm": 0.002,
+                "rf2_kN": 0.226562,
+                "d_max": 0.024391,
+                "broken_elements_d_ge_080": 0,
+                "tip_x": 0.5,
+                "tip_y": 0.5
+            },
+            "prod": {
+                "step": "Step-1",
+                "frame": 20,
+                "inc": 20,
+                "u2_mm": 0.00200000009,
+                "rf2_kN": 0.22459057,
+                "d_max": 0.039018,
+                "broken_elements_d_ge_080": 0,
+                "tip_x": 0.5,
+                "tip_y": 0.5
+            }
+        },
+        {
+            "stage_id": 2,
+            "stage_name": "Step-1 Pre-Critical Endpoint",
+            "coarse": {
+                "step": "Step-1",
+                "frame": 50,
+                "inc": 50,
+                "u2_mm": 0.005,
+                "rf2_kN": 0.542411,
+                "d_max": 0.169118,
+                "broken_elements_d_ge_080": 0,
+                "tip_x": 0.5,
+                "tip_y": 0.5
+            },
+            "prod": {
+                "step": "Step-1",
+                "frame": 57,
+                "inc": 57,
+                "u2_mm": 0.00499999989,
+                "rf2_kN": 0.53545624,
+                "d_max": 0.316877,
+                "broken_elements_d_ge_080": 0,
+                "tip_x": 0.5,
+                "tip_y": 0.5
+            }
+        },
+        {
+            "stage_id": 3,
+            "stage_name": "Peak Reaction Force & Localized Damage Onset",
+            "coarse": {
+                "step": "Step-2",
+                "frame": 167,
+                "inc": 167,
+                "u2_mm": 0.0072938,
+                "rf2_kN": 0.731015,
+                "d_max": 0.579752,
+                "broken_elements_d_ge_080": 0,
+                "tip_x": 0.5,
+                "tip_y": 0.5
+            },
+            "prod": {
+                "step": "Step-2",
+                "frame": 50,
+                "inc": 50,
+                "u2_mm": 0.0057000001,
+                "rf2_kN": 0.593390286,
+                "d_max": 0.635357,
+                "broken_elements_d_ge_080": 0,
+                "tip_x": 0.502603,
+                "tip_y": 0.496543
+            }
+        },
+        {
+            "stage_id": 4,
+            "stage_name": "Primary Crack Upward Deflection Onset",
+            "coarse": {
+                "step": "Step-2",
+                "frame": 129,
+                "inc": 129,
+                "u2_mm": 0.006806,
+                "rf2_kN": 0.701027,
+                "d_max": 0.38676,
+                "broken_elements_d_ge_080": 0,
+                "tip_x": 0.5,
+                "tip_y": 0.5
+            },
+            "prod": {
+                "step": "Step-2",
+                "frame": 129,
+                "inc": 129,
+                "u2_mm": 0.00680600014,
+                "rf2_kN": 0.458162904,
+                "d_max": 1.000028,
+                "broken_elements_d_ge_080": 114,
+                "tip_x": 0.607163,
+                "tip_y": 0.554211
+            }
+        },
+        {
+            "stage_id": 5,
+            "stage_name": "Primary Crack Arrest at Hole Boundary",
+            "coarse": {
+                "step": "Step-2",
+                "frame": 184,
+                "inc": 184,
+                "u2_mm": 0.0075318,
+                "rf2_kN": 0.541052,
+                "d_max": 0.994387,
+                "broken_elements_d_ge_080": 9,
+                "tip_x": 0.60596,
+                "tip_y": 0.56022
+            },
+            "prod": {
+                "step": "Step-2",
+                "frame": 75,
+                "inc": 75,
+                "u2_mm": 0.00604999997,
+                "rf2_kN": 0.414976835,
+                "d_max": 0.999975,
+                "broken_elements_d_ge_080": 110,
+                "tip_x": 0.605611,
+                "tip_y": 0.55114
+            }
+        },
+        {
+            "stage_id": 6,
+            "stage_name": "Secondary Flank Nucleation (Right Ligament)",
+            "coarse": {
+                "step": "Step-2",
+                "frame": 247,
+                "inc": 247,
+                "u2_mm": 0.0084138,
+                "rf2_kN": 0.558062,
+                "d_max": 0.996072,
+                "broken_elements_d_ge_080": 11,
+                "tip_x": 0.75,
+                "tip_y": 0.65
+            },
+            "prod": {
+                "step": "Step-2",
+                "frame": 187,
+                "inc": 187,
+                "u2_mm": 0.0076179998,
+                "rf2_kN": 0.497704387,
+                "d_max": 1.000076,
+                "broken_elements_d_ge_080": 114,
+                "tip_x": 0.752392,
+                "tip_y": 0.646153
+            }
+        },
+        {
+            "stage_id": 7,
+            "stage_name": "Secondary Snap-Through & Ligament Severance",
+            "coarse": {
+                "step": "Step-2",
+                "frame": 330,
+                "inc": 330,
+                "u2_mm": 0.0095758,
+                "rf2_kN": 0.268481,
+                "d_max": 0.997561,
+                "broken_elements_d_ge_080": 23,
+                "tip_x": 0.9559,
+                "tip_y": 0.64178
+            },
+            "prod": {
+                "step": "Step-2",
+                "frame": 217,
+                "inc": 217,
+                "u2_mm": 0.00775912125,
+                "rf2_kN": 0.145516261,
+                "d_max": 1.001182,
+                "broken_elements_d_ge_080": 1493,
+                "tip_x": 0.958213,
+                "tip_y": 0.638206
+            }
+        },
+        {
+            "stage_id": 8,
+            "stage_name": "Terminal Displacement Endpoint",
+            "coarse": {
+                "step": "Step-2",
+                "frame": 337,
+                "inc": 337,
+                "u2_mm": 0.0095908,
+                "rf2_kN": 0.216354,
+                "d_max": 0.997577,
+                "broken_elements_d_ge_080": 26,
+                "tip_x": 0.97651,
+                "tip_y": 0.61964
+            },
+            "prod": {
+                "step": "Step-2",
+                "frame": 557,
+                "inc": 557,
+                "u2_mm": 0.0120000001,
+                "rf2_kN": 0.000415485061,
+                "d_max": 1.000599,
+                "broken_elements_d_ge_080": 2169,
+                "tip_x": 0.999035,
+                "tip_y": 0.662382
+            }
+        }
+    ]
+}
