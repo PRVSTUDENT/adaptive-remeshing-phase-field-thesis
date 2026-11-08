@@ -1,0 +1,82 @@
+{
+    "task_id": "F1682R-METHOD-A-TIMELINE-AND-INDICATOR-EVIDENCE-CORRECTION",
+    "plan_version": "1.0",
+    "title": "Controlled Donor-Frame Recovery and MISESERI Localization Investigation Plan",
+    "created_at": "2026-11-08T08:56:00Z",
+    "governing_review": "HND-c58924bd96aa",
+    "execution_class": "OFFLINE_AUXILIARY_RECOVERY_EVALUATION",
+    "max_new_pbs_submissions": 0,
+    "production_fracture_rerun_authorized": false,
+    "coarse_donor_odb": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_JOB1.odb",
+    "coarse_elements": 2906,
+    "length_scale_l0_um": 7.50,
+    "target_resolution_um": 1.50,
+    "candidates": [
+        {
+            "candidate_id": "Candidate_C",
+            "priority": 1,
+            "role": "PRIMARY_TEST_DEFLECTION_DEVELOPMENT",
+            "step_name": "Step-2",
+            "frame_idx": 150,
+            "displacement_u2_mm": 0.007100,
+            "reaction_force_kN": 0.7218,
+            "damage_max": 0.4638,
+            "broken_elements_d_ge_080": 0,
+            "crack_tip_coord": [0.5000, 0.5000],
+            "hypothesis": "At u=0.00710 mm (98% of coarse peak load), the primary fracture process zone is intensely stressed with nascent curvilinear damage (d=0.46) but zero severed elements. Recovery on this state will concentrate the recovered stress error gradient along the notch tip and developing primary deflection path rather than the secondary ligament."
+        },
+        {
+            "candidate_id": "Candidate_D",
+            "priority": 2,
+            "role": "PRIMARY_TEST_NEAR_HOLE_INTERACTION",
+            "step_name": "Step-2",
+            "frame_idx": 200,
+            "displacement_u2_mm": 0.007756,
+            "reaction_force_kN": 0.5302,
+            "damage_max": 0.9951,
+            "broken_elements_d_ge_080": 11,
+            "crack_tip_coord": [0.6060, 0.5602],
+            "hypothesis": "At u=0.00776 mm, the primary crack has just arrested at the hole cavity (11 broken elements) while tensile hoop stress begins building on the right hole flank. Recovery on this state should capture error indicators at BOTH the arrested primary corridor and the emerging secondary flank simultaneously."
+        },
+        {
+            "candidate_id": "Candidate_B",
+            "priority": 3,
+            "role": "CONTROL_EARLY_LOCALIZATION",
+            "step_name": "Step-2",
+            "frame_idx": 50,
+            "displacement_u2_mm": 0.005700,
+            "reaction_force_kN": 0.6080,
+            "damage_max": 0.2318,
+            "broken_elements_d_ge_080": 0,
+            "crack_tip_coord": [0.5000, 0.5000],
+            "hypothesis": "Pre-crack state matching the refined model's peak displacement, establishing the pure pre-localization elastic error baseline."
+        },
+        {
+            "candidate_id": "Candidate_Terminal_Baseline",
+            "priority": 4,
+            "role": "CONTROL_EXISTING_TERMINAL_BASELINE",
+            "step_name": "Step-2",
+            "frame_idx": 337,
+            "displacement_u2_mm": 0.009591,
+            "reaction_force_kN": 0.2164,
+            "damage_max": 0.9976,
+            "broken_elements_d_ge_080": 26,
+            "crack_tip_coord": [0.9765, 0.6196],
+            "hypothesis": "Existing F1661 baseline where primary crack is fully relaxed, establishing the 54.19% secondary-ligament error concentration bound."
+        }
+    ],
+    "evaluation_metrics": [
+        "Unweighted regional MISESERI sums and domain percentages",
+        "Area-weighted MISESERI integrals (sum MISESERI_e * Area_e) and domain percentages",
+        "L2 stress error norms (sqrt(sum MISESERI_e^2 * Area_e)) and domain percentages",
+        "Notch-to-hole primary corridor error share (target >= 25% for balanced refinement)",
+        "Secondary right ligament error share",
+        "Peak stress error MISESERI_max and spatial location"
+    ],
+    "acceptance_criteria": {
+        "criterion_1": "Primary ligament corridor receives >= 25% of area-weighted error integral in Candidate C or D (vs 6.07% in terminal baseline).",
+        "criterion_2": "Notch tip initiation zone receives >= 10% of area-weighted error integral in Candidate C or D (vs 1.58% in terminal baseline).",
+        "criterion_3": "Analytical specimen area conserved to within 0.1% across all extracted recovery databases.",
+        "criterion_4": "Authentic Abaqus SPR recovery executes with Exit Code 0 and zero solver warnings."
+    }
+}

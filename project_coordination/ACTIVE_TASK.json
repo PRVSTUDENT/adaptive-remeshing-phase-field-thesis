@@ -1,20 +1,21 @@
 {
-    "task_id": "F1682-METHOD-A-ODB-FRAME-AUDIT-AND-MISESERI-LOCALIZATION-CORRECTION",
-    "title": "Method A Complete ODB Frame Extraction, MISESERI Localization Root-Cause Investigation, and Controlled Correction",
+    "task_id": "F1682R-METHOD-A-TIMELINE-AND-INDICATOR-EVIDENCE-CORRECTION",
+    "title": "Method A Timeline Monotonicity, Spatial MISESERI Integration, and Controlled Recovery Plan",
     "status": "ACTIVE",
     "assigned_agent": "gemini-antigravity",
     "predecessor_task": {
-        "task_id": "F1681-METHOD-A-COMPLETE-AND-INDEPENDENT-REVIEW-CLOSEOUT",
-        "checkpoint_artifact": "project_coordination/sessions/2026-11-08_gemini-antigravity_F1681_method_a_review_closeout.md"
+        "task_id": "F1682-METHOD-A-ODB-FRAME-AUDIT-AND-MISESERI-LOCALIZATION-CORRECTION",
+        "checkpoint_artifact": "project_coordination/sessions/2026-11-08_gemini-antigravity_F1682_odb_frame_audit_and_correction.md"
     },
     "registration": {
-        "definition": "project_coordination/task_definitions/F1682-METHOD-A-ODB-FRAME-AUDIT-AND-MISESERI-LOCALIZATION-CORRECTION.json"
+        "definition": "project_coordination/task_definitions/F1682R-METHOD-A-TIMELINE-AND-INDICATOR-EVIDENCE-CORRECTION.json"
     },
-    "scientific_operation": "method_a_odb_frame_audit_and_miseseri_localization_correction",
-    "scientific_operation_id": "f1682_odb_frame_audit_and_correction",
+    "scientific_operation": "method_a_timeline_and_indicator_evidence_correction",
+    "scientific_operation_id": "f1682r_timeline_and_indicator_correction",
     "scientific_checkpoint_required": true,
     "max_new_pbs_submissions": 0,
     "completed_operations": [
+        "f1682_odb_frame_audit_and_correction",
         "f1681_method_a_complete_and_independent_review_closeout",
         "f1680_method_a_scientific_correction_and_thesis_closeout",
         "mapped_frozen_history_lower_bound_kkt_probe",
@@ -498,12 +499,12 @@
     "lifecycle": {
         "state": "ACTIVE"
     },
-    "requested_operation_id": "f1681_method_a_complete",
+    "requested_operation_id": "f1682r_timeline_and_indicator_correction",
     "operation_transition": {},
-    "created_at": "2026-11-08T07:05:00.0000000+01:00",
+    "created_at": "2026-11-08T08:55:00.0000000+01:00",
     "paused_task": "F1640-METHOD-C-CP02-C6-CONTROLLED-EXPERIMENT-QUALIFICATION",
-    "last_step_status": "F1681_METHOD_A_RECONCILIATION_AND_EVALUATION_ACTIVE",
+    "last_step_status": "F1682R_CORRECTIONS_COMPLETED_READY_FOR_REVIEW",
     "active_pbs_job_id": null,
-    "next_instruction_receipt": "HND-d5000d71f56b",
-    "next_bounded_operation": "Reconcile 20,213-element Method A result across all 5 scientific problems (A-E), verify authentic solver and mesh artifacts, dispatch closeout report via ChatGPT bridge, and confirm all acceptance gates."
+    "next_instruction_receipt": "HND-c58924bd96aa",
+    "next_bounded_operation": "Dispatch F1682R corrected evidence report across ChatGPT bridge, including strictly chronological event timeline, displacement-aligned comparison, reproducible area-weighted MISESERI error integration, and bounded controlled recovery plan for Candidates C and D."
 }

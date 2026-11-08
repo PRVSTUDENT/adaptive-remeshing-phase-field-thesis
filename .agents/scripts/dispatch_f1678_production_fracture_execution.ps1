@@ -127,4 +127,10 @@ Please provide your review in the standard structured format:
 - DETAILED SCIENTIFIC ASSESSMENT AND DIRECTIVES
 "@
 
-Invoke-ChatGPTBridge -ScientificReport $scientificReport -LaunchPad:$false
+Write-Host "Dispatching F1678 scientific review handoff ($HandoffId) across PAD bridge..."
+$response = Invoke-ChatGPTBridge -PromptText $scientificReport -HandoffId $HandoffId -TimeoutMinutes 40 -LaunchPad:$false
+
+Write-Host "ChatGPT review response received for Handoff $HandoffId."
+$responsePath = "D:\Master thesis\Adaptive remeshing\project_coordination\sessions\2026-11-07_chatgpt_review_f1678.md"
+[System.IO.File]::WriteAllText($responsePath, $response, [System.Text.Encoding]::UTF8)
+Write-Host "Response archived to $responsePath."

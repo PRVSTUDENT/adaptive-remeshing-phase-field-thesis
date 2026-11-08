@@ -310,12 +310,12 @@ The quantitative data reveal three key physical mechanisms:
 
 To rigorously compare the mechanical and kinematic progression of fracture across discretizations, an exhaustive temporal alignment was conducted between the coarse donor model ($2{,}906$ physical elements, Job \texttt{1421063.mmaster02}) and the native Method~A production refined model ($20{,}213$ physical elements, Job \texttt{1421142.mmaster02}). All $389$ frames of the coarse database and all $616$ frames of the refined database were extracted and aligned across eight characteristic physical stages.
 
-Table~\ref{tab:fracture_timeline_comparison} presents the stage-by-stage mechanical comparison, detailing the applied boundary displacement $u_2$, total reaction force $P$, maximum phase-field damage $d_{\max}$, broken element count ($d \ge 0.80$), and active crack-tip coordinates $(x_{\mathrm{tip}}, y_{\mathrm{tip}})$.
+Table~\ref{tab:fracture_timeline_comparison} presents the stage-by-stage mechanical comparison, detailing the applied boundary displacement $u_2$, total reaction force $P$, maximum phase-field damage $d_{\max}$, broken element count ($d \ge 0.80$), and active crack-tip coordinates $(x_{\mathrm{tip}}, y_{\mathrm{tip}})$. To prevent conflation between physical event tracking and point-by-point load comparison, two complementary comparisons are provided: (1)~an \textbf{event-aligned comparison} (Table~\ref{tab:fracture_timeline_comparison}) tracking identical physical milestones in strictly monotonic chronological sequence ($u_{k+1} \ge u_k$); and (2)~a \textbf{displacement-aligned comparison} (Table~\ref{tab:fracture_displacement_comparison}) evaluating both models at identical imposed displacement levels.
 
 \begin{table}[htbp]
 \centering
 \small
-\caption{Chronological fracture timeline synthesis comparing the coarse donor baseline ($2{,}906$ physical elements, Job \texttt{1421063.mmaster02}) and the refined Method~A production simulation ($20{,}213$ physical elements, Job \texttt{1421142.mmaster02}) across eight key physical stages.}
+\caption{Chronological event-aligned fracture timeline synthesis comparing the coarse donor baseline ($2{,}906$ physical elements, Job \texttt{1421063.mmaster02}) and the refined Method~A production simulation ($20{,}213$ physical elements, Job \texttt{1421142.mmaster02}) across eight key physical stages. Monotonicity $u_{k+1} \ge u_k$ is strictly preserved within each discretization.}
 \label{tab:fracture_timeline_comparison}
 \begin{tabularx}{\textwidth}{lp{2.4cm}rrrrrr}
 \hline
@@ -324,12 +324,34 @@ Table~\ref{tab:fracture_timeline_comparison} presents the stage-by-stage mechani
 \hline
 1 & Initial Linear Elastic State & $0.00200$ & $0.2266$ & $0.00200$ & $0.2246$ & $-0.0020$ & $-0.87\%$ \\
 2 & Step-1 Pre-Critical Endpoint & $0.00500$ & $0.5424$ & $0.00500$ & $0.5355$ & $-0.0070$ & $-1.28\%$ \\
-3 & Peak Load \& Damage Onset & $0.00729$ & $0.7310$ & $0.00570$ & $0.5934$ & $-0.1376$ & $-18.83\%$ \\
-4 & Upward Deflection Onset & $0.00681$ & $0.7010$ & $0.00681$ & $0.4582$ & $-0.2429$ & $-34.64\%$ \\
-5 & Kinematic Hole Arrest & $0.00753$ & $0.5411$ & $0.00605$ & $0.4150$ & $-0.1261$ & $-23.30\%$ \\
-6 & Secondary Flank Nucleation & $0.00841$ & $0.5581$ & $0.00762$ & $0.4977$ & $-0.0604$ & $-10.82\%$ \\
-7 & Secondary Snap-Through & $0.00958$ & $0.2685$ & $0.00776$ & $0.1455$ & $-0.1230$ & $-45.80\%$ \\
+3 & Peak Load \& Damage Initiation & $0.00729$ & $0.7310$ & $0.00570$ & $0.5934$ & $-0.1376$ & $-18.83\%$ \\
+4 & Primary Upward Deflection & $0.00743$ & $0.6325$ & $0.00591$ & $0.5045$ & $-0.1280$ & $-20.24\%$ \\
+5 & Hole Arrest \& Reloading & $0.00753$ & $0.5411$ & $0.00605$ & $0.4150$ & $-0.1261$ & $-23.30\%$ \\
+6 & Secondary Flank Nucleation & $0.00841$ & $0.5581$ & $0.00776$ & $0.4713$ & $-0.0868$ & $-15.55\%$ \\
+7 & Secondary Snap-Through & $0.00958$ & $0.2685$ & $0.00776$ & $0.0452$ & $-0.2233$ & $-83.17\%$ \\
 8 & Terminal Displacement Endpoint & $0.00959$ & $0.2164$ & $0.01200$ & $0.0004$ & $-0.2159$ & $-99.81\%$ \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Displacement-aligned mechanical comparison evaluating coarse baseline ($2{,}906$ elements) and refined Method~A simulation ($20{,}213$ elements) at common imposed boundary displacements $u_2$.}
+\label{tab:fracture_displacement_comparison}
+\begin{tabularx}{\textwidth}{rrrrrrr}
+\hline
+\textbf{Target $u_2$} & \textbf{Coarse $P$} & \textbf{Refined $P$} & \textbf{$\Delta P$} & \textbf{Shift} & \textbf{Coarse $d_{\max}$} & \textbf{Refined $d_{\max}$} \\
+$[\mathrm{mm}]$ & $[\mathrm{kN}]$ & $[\mathrm{kN}]$ & $[\mathrm{kN}]$ & [\%] & & \\
+\hline
+$0.00200$ & $0.2266$ & $0.2246$ & $-0.0020$ & $-0.87\%$ & $0.0244$ & $0.0390$ \\
+$0.00500$ & $0.5424$ & $0.5355$ & $-0.0070$ & $-1.28\%$ & $0.1691$ & $0.3169$ \\
+$0.00570$ & $0.6080$ & $0.5934$ & $-0.0147$ & $-2.41\%$ & $0.2318$ & $0.6354$ \\
+$0.00600$ & $0.6343$ & $0.4590$ & $-0.1752$ & $-27.63\%$ & $0.2639$ & $0.9994$ \\
+$0.00730$ & $0.7310$ & $0.4836$ & $-0.2474$ & $-33.85\%$ & $0.5798$ & $1.0001$ \\
+$0.00776$ & $0.5302$ & $0.0009$ & $-0.5293$ & $-99.83\%$ & $0.9951$ & $1.0010$ \\
+$0.00840$ & $0.5577$ & $0.0008$ & $-0.5569$ & $-99.85\%$ & $0.9961$ & $1.0009$ \\
+$0.00959$ & $0.2410$ & $0.0006$ & $-0.2403$ & $-99.73\%$ & $0.9976$ & $1.0008$ \\
 \hline
 \end{tabularx}
 \end{table}
@@ -350,33 +372,47 @@ The global mechanical softening and broken-element evolution are illustrated in 
   \label{fig:f1682_crack_trajectory}
 \end{figure}
 
-\subsubsection{Definitive Root Cause of Secondary-Ligament Refinement Concentration}
+\subsubsection{Area-Weighted Spatial Error Integration and Root Cause of Refinement Localization}
 A critical observation highlighted by independent scientific review is that while the refined mesh ($20{,}213$ elements) achieves high resolution in the active fracture core ($h_{\mathrm{med}} = 2.07\,\mu\mathrm{m}$) and secondary ligament ($h_{\mathrm{med}} = 2.15\,\mu\mathrm{m}$, $90.4\% \le 3.75\,\mu\mathrm{m}$), the primary crack corridor between the notch tip and hole remains comparatively coarse ($h_{\mathrm{med}} = 4.68\,\mu\mathrm{m}$, with only $17.4\% \le 3.75\,\mu\mathrm{m}$ and $0\% \le 1.50\,\mu\mathrm{m}$).
 
-A quantitative investigation of the recovery script (\texttt{execute\_f1661\_recovery\_and\_remesh.py}, lines 74--75) and the auxiliary recovery database (\texttt{PK\_HOLE\_F1661\_RECOVERY.odb}) isolates the exact physical and algorithmic root cause:
-\begin{enumerate}
-  \item \textbf{Donor Frame Selection in F1661:} The donor state selected to drive the auxiliary stress recovery and \Abaqus \texttt{RemeshingRule} was specified as \texttt{step2.frames[-1]}, corresponding to Increment~337 of Step~2 ($u_2 = 0.00959\,\mathrm{mm}$).
-  \item \textbf{Physical Stress State at Terminal Post-Arrest:} At Increment~337, the primary crack had already completed its full propagation history and entered the circular hole cavity, with extensive damage ($d \approx 1.0$) across the entire primary corridor. Because the material stiffness is degraded by $g(d) = (1-d)^2 + k_{\mathrm{res}}$, the tensile stresses in the primary corridor had completely relaxed to near zero ($\sigma \approx 0$).
-  \item \textbf{Stress Concentration Shift to Secondary Ligament:} Conversely, with the primary ligament severed and displacement continuously enforced, the full structural load was transferred onto the remaining intact secondary right ligament, generating extreme tensile hoop stress concentrations around the upper-right hole perimeter and along the prospective snap-through path.
-  \item \textbf{Quantitative \MISESERI\ Distribution in Recovery ODB:} A spatial audit of the recovered \MISESERI\ error indicator on \texttt{PK\_HOLE\_F1661\_RECOVERY.odb} confirms:
-  \begin{itemize}
-    \item The \textbf{Secondary Right Ligament Zone} concentrated \textbf{50.77\%} of the total specimen error sum ($\mathrm{MISESERI}_{\max} = 1437.36\,\mathrm{MPa}$, error sum $= 26{,}042.57$);
-    \item The \textbf{Notch Tip Initiation Zone} received only \textbf{1.96\%} of the total error sum ($\mathrm{MISESERI}_{\max} = 126.48\,\mathrm{MPa}$, error sum $= 1{,}006.32$);
-    \item The \textbf{Primary Ligament Corridor} received only \textbf{5.66\%} of the total error sum ($\mathrm{MISESERI}_{\max} = 285.79\,\mathrm{MPa}$, error sum $= 2{,}905.71$).
-  \end{itemize}
-  \item \textbf{Autonomous Sizing Response of \texttt{adaptiveRemesh}:} The \Abaqus native remeshing engine calculates local target element sizes inversely proportional to the local error indicator: $h_{\mathrm{target}}(x,y) \propto \eta_e^{-1/\beta}$. Because \MISESERI\ in the primary corridor was nearly an order of magnitude smaller than in the secondary ligament, the sizing field naturally prescribed coarse elements along the already-cracked primary path and concentrated $8{,}822$ fine elements in the secondary ligament.
-\end{enumerate}
-This demonstrates that the observed mesh distribution was not an algorithmic defect or failure of \Abaqus's native remeshing capability, but rather a direct, logically faithful response to selecting a late post-arrest donor state wherein the primary corridor had already mechanically relaxed.
+To move beyond unweighted error sums, a rigorous element-level spatial integration was performed on \texttt{PK\_HOLE\_F1661\_RECOVERY.odb} ($2{,}935$ elements) using native \Abaqus element volume field outputs (\texttt{EVOL}) and recovered error indicators (\texttt{MISESERI}). Table~\ref{tab:miseseri_spatial_integration} details the resulting unweighted error sums, area-weighted error integrals $\int \mathrm{MISESERI}\,\mathrm{d}A$, and $L_2$ stress error norms across all physical zones.
 
-\subsubsection{Candidate Donor State Ranking for Controlled Refinement Experiments}
-To achieve balanced resolution across both the primary deflection corridor and the secondary snap-through ligament in future controlled Method~A iterations, the complete coarse database was screened to identify candidate donor states prior to stress relaxation. Four distinct candidate donor states are ranked:
+\begin{table}[htbp]
+\centering
+\small
+\caption{Reproducible element-level spatial error integration of native \Abaqus \MISESERI\ on \texttt{PK\_HOLE\_F1661\_RECOVERY.odb} ($2{,}935$ elements, domain area $0.9678\,\mathrm{mm}^2$, $\mathrm{MISESAVG} = 76.32\,\mathrm{MPa}$).}
+\label{tab:miseseri_spatial_integration}
+\begin{tabularx}{\textwidth}{lrrrrrr}
+\hline
+\textbf{Spatial Region} & \textbf{Count} & \textbf{Area} & \textbf{Unw.\ Sum} & \textbf{Area-Wtd.} & \textbf{$L_2$ Norm} & \textbf{Max} \\
+ & & $[\mathrm{mm}^2]$ & Share [\%] & Share [\%] & Share [\%] & $[\mathrm{MPa}]$ \\
+\hline
+Whole Specimen Domain & $2{,}935$ & $0.96780$ & $100.00\%$ & $100.00\%$ & $100.00\%$ & $1437.36$ \\
+Notch Tip Initiation ($r \le 50\,\mu\mathrm{m}$) & $23$ & $0.00722$ & $1.96\%$ & $1.58\%$ & $5.80\%$ & $126.48$ \\
+Primary Ligament Corridor & $59$ & $0.01786$ & $6.82\%$ & $6.07\%$ & $14.44\%$ & $285.79$ \\
+Hole Perimeter Annulus ($100$--$140\,\mu\mathrm{m}$) & $78$ & $0.02935$ & $7.23\%$ & $7.84\%$ & $14.83\%$ & $285.79$ \\
+Secondary Right Ligament Zone & $150$ & $0.05313$ & $52.98\%$ & $54.19\%$ & $97.40\%$ & $1437.36$ \\
+Quiescent Far-Field Bulk & $2{,}713$ & $0.89239$ & $39.40\%$ & $39.05\%$ & $17.03\%$ & $92.11$ \\
+\hline
+\end{tabularx}
+\end{table}
+
+The quantitative data definitively establish:
+\begin{enumerate}
+  \item \textbf{Overwhelming Secondary Concentration:} The secondary right ligament (occupying merely $5.49\%$ of the specimen area) concentrates \textbf{54.19\%} of the total area-weighted error integral and an extraordinary \textbf{97.40\%} of the $L_2$ stress error norm, with peak error reaching $\mathrm{MISESERI}_{\max} = 1437.36\,\mathrm{MPa}$.
+  \item \textbf{Depleted Primary Ligament Error:} In contrast, the primary ligament corridor receives only \textbf{6.07\%} of the area-weighted error integral, and the initial notch tip receives merely \textbf{1.58\%} ($126.48\,\mathrm{MPa}$).
+  \item \textbf{Physical Origin in Late Donor Selection:} This extreme localization directly reflects the donor state specified in \texttt{execute\_f1661\_recovery\_and\_remesh.py} (lines 74--75): \texttt{step2.frames[-1]} (Increment~337, terminal post-arrest state at $u_2 = 0.00959\,\mathrm{mm}$). At Increment~337, the primary crack had completely severed into the circular hole ($d \approx 1.0$), relaxing tensile stresses in the primary corridor to near zero ($\sigma \approx 0$). All mechanical load was transferred to the intact secondary ligament.
+  \item \textbf{Remeshing Sizing Response:} \Abaqus native \texttt{adaptiveRemesh} sizes elements inversely with error: $h_{\mathrm{target}} \propto \eta_e^{-1/\beta}$. Because error in the relaxed primary corridor was an order of magnitude smaller than in the secondary ligament, the sizing field naturally concentrated $8{,}822$ fine elements in the secondary ligament and left the primary corridor coarse.
+\end{enumerate}
+
+\subsubsection{Bounded Controlled Recovery Experimental Plan for Candidates C and D}
+To causally test whether earlier donor frames resolve the primary crack path without artificial corridor seeding, a formal offline recovery plan (\texttt{F1682R\_CONTROLLED\_RECOVERY\_PLAN.json}) was formulated:
 \begin{itemize}
-  \item \textbf{Candidate A (Linear Elastic Initiation Pre-Crack):} Step~1, Frame~50 ($u_2 = 0.00500\,\mathrm{mm}$, $P = 0.542\,\mathrm{kN}$, $d_{\max} = 0.1691$, 0 broken elements). In this state, the material is elastic ($d < 0.25$), and the singular stress concentration is centered strictly at the sharp notch tip ($1/\sqrt{r}$) and the hole perimeter. Stress recovery on this state will concentrate refinement at the notch tip and along the initial initiation path, ensuring $h \le 1.5\,\mu\mathrm{m}$ before crack propagation commences.
-  \item \textbf{Candidate B (Pre-Peak FPZ Localization):} Step~2, Frame~50 ($u_2 = 0.00570\,\mathrm{mm}$, $P = 0.635\,\mathrm{kN}$, $d_{\max} = 0.2318$, 0 broken elements). Captures peak elastic energy density and nascent damage localization immediately prior to macroscopic crack deflection.
-  \item \textbf{Candidate C (Deflection Onset):} Step~2, Frame~150 ($u_2 = 0.00710\,\mathrm{mm}$, $P = 0.720\,\mathrm{kN}$, $d_{\max} = 0.4638$). Captures the active curvilinear damage trajectory while the primary ligament is still carrying substantial tensile stress ($P \approx 98\%$ of peak).
-  \item \textbf{Candidate D (Hole Arrest Onset):} Step~2, Frame~200 ($u_2 = 0.00776\,\mathrm{mm}$, $P = 0.510\,\mathrm{kN}$, $d_{\max} = 0.9951$, 11 broken elements). Captures the primary crack intersecting the hole perimeter $(0.606, 0.560)\,\mathrm{mm}$ before right-flank secondary nucleation occurs, enabling simultaneous error capture of the arrested primary tip and the highly stressed secondary flank.
+  \item \textbf{Candidate C (Priority 1, Deflection Development):} Step~2, Frame~150 ($u_2 = 0.00710\,\mathrm{mm}$, $P = 0.722\,\mathrm{kN}$, $d_{\max} = 0.4638$, 0 broken elements). Evaluates the still-developing primary fracture process zone under $98\%$ of peak load, testing whether active damage concentration shifts the area-weighted error integral to $\ge 25\%$ along the primary corridor.
+  \item \textbf{Candidate D (Priority 2, Near Hole Interaction):} Step~2, Frame~200 ($u_2 = 0.00776\,\mathrm{mm}$, $P = 0.530\,\mathrm{kN}$, $d_{\max} = 0.9951$, 11 broken elements). Evaluates the primary crack upon hole intersection before secondary flank snap-through, testing simultaneous error capture across both ligaments.
+  \item \textbf{Controls:} Candidate~B (Step~2, Frame~50, $u_2 = 0.00570\,\mathrm{mm}$, early localization) and the existing terminal baseline (Step~2, Frame~337, $u_2 = 0.00959\,\mathrm{mm}$).
 \end{itemize}
-This ranking establishes a rigorous, physics-based foundation for subsequent controlled multi-pass or multi-state Method~A refinement experiments.
+This controlled experimental plan will causally isolate the donor-state effect prior to any subsequent production remeshing.
 
 \section{Time-Resolved Crack Kinematics and Topological Evolution}
 \label{sec:hole_time_resolved_crack}

@@ -879,6 +879,107 @@ def test_f1682_complete_odb_extraction_and_spatial_audit():
     assert len(synth["stages"]) == 8
 
 
+def test_f1682r_chronological_monotonicity_and_miseseri_spatial_integration():
+    """Verify F1682R strict timeline monotonicity, spatial MISESERI area-weighted integration, and controlled recovery plan."""
+    miseseri_json = REPO_ROOT / "results" / "validation" / "f1682_miseseri_spatial_integration_audit.json"
+    miseseri_csv = REPO_ROOT / "results" / "validation" / "f1682_miseseri_element_level_audit.csv"
+    timeline_json = REPO_ROOT / "results" / "validation" / "f1682_fracture_timeline_synthesis.json"
+    disp_csv = REPO_ROOT / "results" / "validation" / "f1682_displacement_aligned_comparison.csv"
+    plan_json = REPO_ROOT / "models" / "pandey_kumar_mode1" / "176_method_a_plate_with_hole" / "F1682R_CONTROLLED_RECOVERY_PLAN.json"
+
+    assert miseseri_json.exists(), "F1682R MISESERI spatial integration JSON missing"
+    assert miseseri_csv.exists(), "F1682R MISESERI element-level CSV missing"
+    assert timeline_json.exists(), "F1682R timeline synthesis JSON missing"
+    assert disp_csv.exists(), "F1682R displacement-aligned CSV missing"
+    assert plan_json.exists(), "F1682R controlled recovery plan missing"
+
+    # 1. MISESERI Area-Weighted Integration Assertions
+    with open(str(miseseri_json), "r", encoding="utf-8") as f:
+        m_audit = json.load(f)
+
+    assert m_audit["total_elements"] == 2935
+    assert abs(m_audit["total_domain_area_mm2"] - 0.9678) < 0.001
+    assert abs(m_audit["misesavg_MPa"] - 76.3215) < 0.01
+
+    regions = {r["group_name"]: r for r in m_audit["regions"]}
+    sec = regions["Secondary Right Ligament Zone"]
+    notch = regions["Notch Tip Initiation Zone (r <= 50 um)"]
+    primary = regions["Primary Ligament Corridor (Notch to Hole)"]
+
+    # Quantitative proof of secondary ligament localization
+    assert sec["share_of_area_weighted_integral_pct"] > 50.0, f"Expected >50%, got {sec['share_of_area_weighted_integral_pct']}"
+    assert sec["share_of_l2_norm_pct"] > 95.0, f"Expected >95%, got {sec['share_of_l2_norm_pct']}"
+    assert sec["miseseri_max_MPa"] > 1400.0
+
+    # Depleted primary / notch error
+    assert notch["share_of_area_weighted_integral_pct"] < 3.0, f"Expected <3%, got {notch['share_of_area_weighted_integral_pct']}"
+    assert primary["share_of_area_weighted_integral_pct"] < 10.0, f"Expected <10%, got {primary['share_of_area_weighted_integral_pct']}"
+
+    # 2. Strict Chronological Timeline Monotonicity Assertions
+    with open(str(timeline_json), "r", encoding="utf-8") as f:
+        tl = json.load(f)
+
+    event_stages = tl["event_aligned_stages"]
+    assert len(event_stages) == 8
+
+    prev_c_u = -1.0
+    prev_p_u = -1.0
+    prev_c_step = None
+    prev_p_step = None
+    prev_c_f = -1
+    prev_p_f = -1
+
+    for stg in event_stages:
+        cu = stg["coarse_u2_mm"]
+        pu = stg["refined_u2_mm"]
+        cf = stg["coarse_frame"]
+        pf = stg["refined_frame"]
+        c_step = stg["coarse_step"]
+        p_step = stg["refined_step"]
+
+        # Global displacement monotonicity
+        assert cu >= prev_c_u, f"Coarse non-monotonic displacement: {cu} < {prev_c_u} at {stg['stage_id']}"
+        assert pu >= prev_p_u, f"Refined non-monotonic displacement: {pu} < {prev_p_u} at {stg['stage_id']}"
+
+        # Within-step frame index monotonicity
+        if prev_c_step == c_step:
+            assert cf >= prev_c_f, f"Coarse non-monotonic frame in {c_step}: {cf} < {prev_c_f} at {stg['stage_id']}"
+        if prev_p_step == p_step:
+            assert pf >= prev_p_f, f"Refined non-monotonic frame in {p_step}: {pf} < {prev_p_f} at {stg['stage_id']}"
+
+        prev_c_u = cu
+        prev_p_u = pu
+        prev_c_step = c_step
+        prev_p_step = p_step
+        prev_c_f = cf
+        prev_p_f = pf
+
+    # 3. Displacement-Aligned Comparison Assertions
+    with open(str(disp_csv), "r", encoding="utf-8") as f:
+        disp_rows = list(csv.DictReader(f))
+
+    assert len(disp_rows) == 8
+    # Elastic parity at u = 0.0020 mm (< 1%)
+    r002 = next(r for r in disp_rows if abs(float(r["target_u2_mm"]) - 0.0020) < 1e-4)
+    assert abs(float(r002["delta_P_pct"])) < 1.0
+
+    # Pre-critical parity at u = 0.0050 mm (< 1.5%)
+    r005 = next(r for r in disp_rows if abs(float(r["target_u2_mm"]) - 0.0050) < 1e-4)
+    assert abs(float(r005["delta_P_pct"])) < 1.5
+
+    # 4. Controlled Recovery Plan Assertions
+    with open(str(plan_json), "r", encoding="utf-8") as f:
+        plan = json.load(f)
+
+    assert plan["max_new_pbs_submissions"] == 0
+    assert plan["production_fracture_rerun_authorized"] is False
+    cands = {c["candidate_id"]: c for c in plan["candidates"]}
+    assert "Candidate_C" in cands and cands["Candidate_C"]["priority"] == 1
+    assert "Candidate_D" in cands and cands["Candidate_D"]["priority"] == 2
+    assert "Candidate_B" in cands and cands["Candidate_B"]["role"] == "CONTROL_EARLY_LOCALIZATION"
+    assert "Candidate_Terminal_Baseline" in cands
+
+
 
 
 
