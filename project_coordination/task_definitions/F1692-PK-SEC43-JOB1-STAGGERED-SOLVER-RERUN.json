@@ -1,0 +1,52 @@
+{
+  "task_id": "F1692-PK-SEC43-JOB1-STAGGERED-SOLVER-RERUN",
+  "title": "Method A Pandey-Kumar Section 4.3 Job-1 Staggered-Solver Rerun",
+  "status": "IN_PROGRESS",
+  "assigned_agent": "gemini-antigravity",
+  "handoff_id": "HND-F1691-STAGGERED-001",
+  "predecessor_task": {
+    "task_id": "F1691-METHOD-A-FINAL-CLOSEOUT-AND-FREEZE-READINESS",
+    "checkpoint_artifact": "project_coordination/sessions/2026-11-08_1925_gemini-antigravity_F1691.md"
+  },
+  "scientific_operation": "pk_sec43_job1_staggered_solver_rerun",
+  "scientific_operation_id": "f1692_pk_sec43_job1_staggered_rerun",
+  "max_new_pbs_submissions": 1,
+  "pbs_job_authorization": "EXPLICIT_USER_OVERRIDE_ONE_STAGGERED_JOB1_ONLY",
+  "hard_stop_rule": "ONE_BOUNDED_ATTEMPT_ONLY_IF_DIVERGES_PROCEED_DIRECTLY_TO_CLOSEOUT",
+  "frozen_uel_policy": "models/pandey_kumar_mode1/f42_mixed_uel.for BITWISE UNMODIFIED",
+  "target_geometry": {
+    "plate_dimensions_mm": [65.0, 120.0],
+    "notch_dimensions_mm": [10.0, 0.4],
+    "notch_y_mm": 70.0,
+    "upper_hole_center_mm": [20.0, 100.0],
+    "upper_hole_radius_mm": 5.0,
+    "lower_hole_center_mm": [20.0, 20.0],
+    "lower_hole_radius_mm": 5.0,
+    "central_hole_center_mm": [36.5, 51.0],
+    "central_hole_radius_mm": 10.0
+  },
+  "material_parameters": {
+    "E_GPa": 210.0,
+    "nu": 0.3,
+    "l0_mm": 0.285,
+    "Gc_kN_per_mm": 0.00228,
+    "k_residual": 1e-7
+  },
+  "loading_schedule": {
+    "step1_delta_u1_mm": 0.0005,
+    "step1_increments": 2000,
+    "step1_target_u_mm": 1.0,
+    "step2_delta_u2_mm": 0.0002,
+    "step2_target_u_mm": 1.5
+  },
+  "remeshing_rule": {
+    "variables": ["MISESERI"],
+    "sizing_method": "UNIFORM_ERROR",
+    "error_target_pct": 5.0,
+    "refinement_factor": 10,
+    "coarsening": "NOT_ALLOWED",
+    "min_size_mm": 0.143,
+    "max_size_mm": 1.5,
+    "region": "All_elem"
+  }
+}

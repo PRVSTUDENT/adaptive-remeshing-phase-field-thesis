@@ -1,0 +1,46 @@
+{
+  "batch_name": "MODE1_METHOD_A_PK_SEC43_STAGGERED",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "PK_SEC43_STAGGERED_JOB1.inp": "be1d4174af0bb415f3183a98f95fb30022731d0b900127a28810790537cc83d0",
+    "f42_staggered_variant_uel.for": "a0ebb58ddc0309d2afc2bf45c2ea3b74a8d2aba5719c05af1b69b57086afa633",
+    "submit_M1_PK_SEC43_STAGGERED_JOB1.pbs": "5406aebb599ec2a5b9a4af5a149c4b740e7e6d307ffac35525cb9ff3198d5118",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "PK_SEC43_STAGGERED_DC.dat": "134eb12a7672d19f6352389e05aee36449e574f649d9fb617f27cd1702b5c057"
+  },
+  "jobs": [
+    {
+      "id": "pk_sec43_staggered_job1",
+      "pbs": "submit_M1_PK_SEC43_STAGGERED_JOB1.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_pk_sec43_staggered_job1/submit_M1_PK_SEC43_STAGGERED_JOB1.pbs\"",
+      "command_sha256": "7c648534692c9aba00128761cdd2e1064eb19248a6649b1b21d0b4e91a5a439e",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Method A Pandey-Kumar Section 4.3 Job-1 Staggered-Solver Rerun: Operator-split staggered solver (*STATIC, DIRECT, Molnar & Gravouil 2017 Ref [72] cited by Pandey & Kumar 2025) on 3,923 physical elements (11,769 layered elements), 1-CPU serial, 2-step loading to u_y = 1.5 mm, generating authentic donor state across load increments for native MISESERI error evaluation and comparison against Fig. 15b.",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "PK_SEC43_STAGGERED_JOB1.inp",
+      "datacheck": "PK_SEC43_STAGGERED_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "pk_sec43_staggered_job1": "Abaqus 2023 single-rank serial solve completes Stage B Job-1 staggered operator-split phase-field fracture simulation on 3,923 physical elements (11,769 layered elements) to u_y approx 1.5 mm, producing donor ODB for native MISESERI evaluation against Fig. 15b."
+  },
+  "adapter": "mode1-experimental-staggered-v1",
+  "configuration": "STAGGERED_SOLVER",
+  "hypothesis": "Molnar & Gravouil (2017) staggered operator split (*STATIC, DIRECT) resolves monolithic Newton tangent non-convexity during damage localization, enabling full horizon simulation without cutback exhaustion.",
+  "scientific_scope": "MODE1",
+  "technical_stage": "STAGGERED_SOLVER",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_sec43_staggered_job1",
+  "required_state_checks": [
+    "nodal_displacement_verified",
+    "damage_irreversibility_verified",
+    "committed_history_verified",
+    "state_restoration_verified"
+  ]
+}

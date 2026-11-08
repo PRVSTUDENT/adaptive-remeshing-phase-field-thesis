@@ -1,0 +1,51 @@
+{
+  "task_id": "F1692-PK-SEC43-JOB1-STAGGERED-SOLVER-RERUN",
+  "stage": "STAGE_A_LOCAL_VERIFICATION",
+  "timestamp": "2026-11-08T20:25:00+01:00",
+  "solver_architecture": {
+    "name": "Staggered Operator Split (*STATIC, DIRECT)",
+    "citation": "Molnar & Gravouil (2017) Ref [72] cited by Pandey & Kumar (2025)",
+    "subproblems": [
+      "Mechanical subproblem: K_uu(d_n) * u_{n+1} = F_ext",
+      "Phase-field subproblem: K_dd * d_{n+1} = f_d(H_n)",
+      "History update: H_{n+1} = max(H_n, psi_+(epsilon_{n+1}))",
+      "Transactional commit: UEXTERNALDB(LOP=2) commits trial state"
+    ],
+    "step_control": "*STATIC, DIRECT (exact un-cutback single-iteration operator split)"
+  },
+  "artifact_hashes": {
+    "physical_mesh_inp": "BEB47A4A1495FB60E3FCFAB8CCF9D6385ED4790E860D46720EC11E23C98B4B51",
+    "production_deck_inp": "BE1D4174AF0BB415F3183A98F95FB30022731D0B900127A28810790537CC83D0",
+    "staggered_variant_uel": "A0EBB58DDC0309D2AFC2BF45C2EA3B74A8D2ABA5719C05AF1B69B57086AFA633",
+    "frozen_production_uel": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "inp_checks": {
+    "has_static_direct": true,
+    "has_step1": true,
+    "has_step2": true,
+    "has_frequency_10": true,
+    "has_restart_20": true
+  },
+  "uel_checks": {
+    "has_irreversibility_guard": true,
+    "has_committed_phase_mech": true,
+    "has_committed_hist_phase": true,
+    "has_uexternaldb_commit": true
+  },
+  "constitutive_simulation": {
+    "num_steps": 401,
+    "peak_stress_kN_per_mm2": 0.4449724433971903,
+    "peak_strain": 0.0036,
+    "max_damage": 0.9421137594870121,
+    "healing_events": 0,
+    "bound_violations": 0
+  },
+  "acceptance_criteria": {
+    "C1_strict_irreversibility_no_healing": "PASS",
+    "C2_damage_bounds_zero_to_one": "PASS",
+    "C3_physical_peak_and_softening": "PASS",
+    "C4_direct_incrementation_configured": "PASS",
+    "C5_frozen_production_uel_untouched": "PASS"
+  },
+  "overall_stage_a_status": "PASS"
+}

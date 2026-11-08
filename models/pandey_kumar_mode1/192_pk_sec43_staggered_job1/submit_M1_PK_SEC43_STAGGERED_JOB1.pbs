@@ -1,0 +1,95 @@
+#!/bin/bash
+#PBS -N M1_PK_SEC43_STAGGERED
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=08:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratch9/pr21vyci/runs/mode1_pk_sec43_staggered_job1/pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_pk_sec43_staggered_job1"
+cd "${RUN_DIR}"
+
+export JOB_NAME="PK_SEC43_STAGGERED_JOB1"
+export INP_NAME="PK_SEC43_STAGGERED_JOB1.inp"
+export USER_SUB="f42_staggered_variant_uel.for"
+
+EXPECTED_INP_SHA="be1d4174af0bb415f3183a98f95fb30022731d0b900127a28810790537cc83d0"
+EXPECTED_UEL_SHA="a0ebb58ddc0309d2afc2bf45c2ea3b74a8d2aba5719c05af1b69b57086afa633"
+
+echo "=== PBS Preflight Check for ${JOB_NAME} ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"
+hostname
+
+# 1. Duplicate Run and Lock Guard
+if [ -e "${JOB_NAME}.lck" ]; then
+    echo "ERROR: Active lock file ${JOB_NAME}.lck detected. Aborting."
+    exit 1
+fi
+
+# 2. Storage Capacity and Quota Preflight
+AVAIL_KB=$(df -k . | awk 'NR==2 {print $4}')
+if [ "${AVAIL_KB}" -lt 10485760 ]; then # at least 10 GB
+    echo "ERROR: Insufficient scratch disk space (${AVAIL_KB} KB available). Aborting."
+    exit 1
+fi
+echo "Scratch disk space confirmed: $((AVAIL_KB / 1024 / 1024)) GB available."
+
+# 3. Bitwise SHA-256 Hash Verification
+ACTUAL_INP_SHA=$(sha256sum "${INP_NAME}" | awk '{print $1}')
+if [ "${ACTUAL_INP_SHA}" != "${EXPECTED_INP_SHA}" ]; then
+    echo "ERROR: Input deck SHA-256 mismatch!"
+    echo "  Expected: ${EXPECTED_INP_SHA}"
+    echo "  Actual:   ${ACTUAL_INP_SHA}"
+    exit 1
+fi
+echo "Input deck hash verified: ${ACTUAL_INP_SHA}"
+
+ACTUAL_UEL_SHA=$(sha256sum "${USER_SUB}" | awk '{print $1}')
+if [ "${ACTUAL_UEL_SHA}" != "${EXPECTED_UEL_SHA}" ]; then
+    echo "ERROR: User subroutine SHA-256 mismatch!"
+    echo "  Expected: ${EXPECTED_UEL_SHA}"
+    echo "  Actual:   ${ACTUAL_UEL_SHA}"
+    exit 1
+fi
+echo "User subroutine hash verified: ${ACTUAL_UEL_SHA}"
+
+# 4. Dual-Channel Notification Integration (Fail-Safe)
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+if [ -f "${RUN_DIR}/job_notifications.sh" ]; then
+    source "${RUN_DIR}/job_notifications.sh"
+    notification_load_config || echo "Notice: notification_load_config returned non-zero (non-fatal)"
+    notification_install_terminal_trap || echo "Notice: notification_install_terminal_trap returned non-zero (non-fatal)"
+    notify_start || echo "Notice: notify_start returned non-zero (non-fatal)"
+fi
+
+# 5. Environment and Module Initialization
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+command -v abaqus
+
+# 6. Execution of Production Simulation
+echo "=== Starting Abaqus/Standard 2023 Staggered Phase-Field Simulation ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"
+
+set +e
+abaqus job="${JOB_NAME}" input="${INP_NAME}" user="${USER_SUB}" interactive
+EXIT_CODE=$?
+set -e
+
+echo "=== Abaqus Finished with Exit Code: ${EXIT_CODE} ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"
+
+# 7. Post-Run Diagnostics and Artifact Preservation
+echo "Final directory contents and sizes:"
+ls -lh "${JOB_NAME}"* || true
+if [ -f "uel_energy_balance.csv" ]; then
+    echo "uel_energy_balance.csv line count: $(wc -l < uel_energy_balance.csv)"
+fi
+
+exit ${EXIT_CODE}

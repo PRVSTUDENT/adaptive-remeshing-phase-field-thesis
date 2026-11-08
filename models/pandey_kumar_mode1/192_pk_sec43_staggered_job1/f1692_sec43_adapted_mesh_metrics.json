@@ -1,0 +1,40 @@
+{
+  "task_id": "F1692-PK-SEC43-JOB1-STAGGERED-SOLVER-RERUN",
+  "adapted_mesh_inp": "PK_SEC43_STAGGERED_ADAPT_PHYS.inp",
+  "donor_odb": "models\\pandey_kumar_mode1\\192_pk_sec43_staggered_job1\\PK_SEC43_STAGGERED_RECOVERY_DEG.odb",
+  "donor_step": "RECOVERY_STEP",
+  "elements_total": 15625,
+  "elements_quads": 15160.0,
+  "elements_tris": 465.0,
+  "pct_quads": 97.02,
+  "pct_tris": 2.98,
+  "nodes_total": 15721,
+  "total_dofs": 31442,
+  "l0_mm": 0.285,
+  "l0_half_mm": 0.1425,
+  "l0_third_mm": 0.09499999999999999,
+  "primary_corridor": {
+    "count": 300,
+    "min": 0.0671,
+    "med": 0.2376,
+    "pct_l0_half": 9.33,
+    "pct_l0_third": 1.33
+  },
+  "secondary_corridor": {
+    "count": 43,
+    "min": 0.3687,
+    "med": 0.5731,
+    "pct_l0_half": 0.0,
+    "pct_l0_third": 0.0
+  },
+  "w_90_mm": 65.9349,
+  "fine_area_mm2": 4.155,
+  "waste_area_mm2": 3.7405,
+  "relative_waste_pct": 90.02,
+  "paper_comparison": {
+    "paper_figure_16b": "Dual-branch refined mesh from notch to hole and hole to right boundary",
+    "paper_element_count": "Pandey & Kumar (2025) do not report an adapted element count for Section 4.3",
+    "primary_refined": true,
+    "secondary_refined": false
+  }
+}
