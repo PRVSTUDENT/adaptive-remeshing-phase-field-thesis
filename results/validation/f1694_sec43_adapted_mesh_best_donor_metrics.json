@@ -1,0 +1,41 @@
+{
+  "task_id": "F1694-PK-SEC43-MISESERI-FIELDS-AND-MULTI-DONOR-REMESH",
+  "donor_case": "Donor (b): Secondary Mid-Propagation (uy = 0.300 mm)",
+  "adapted_mesh_inp": "PK_SEC43_STAGGERED_ADAPT_BEST_DONOR.inp",
+  "donor_odb": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\192_pk_sec43_staggered_job1\\PK_SEC43_STAGGERED_RECOVERY_SEC_MIDPROP.odb",
+  "donor_step": "RECOVERY_STEP",
+  "elements_total": 12110,
+  "elements_quads": 11714.0,
+  "elements_tris": 396.0,
+  "pct_quads": 96.73,
+  "pct_tris": 3.27,
+  "nodes_total": 12217,
+  "total_dofs": 24434,
+  "l0_mm": 0.285,
+  "l0_half_mm": 0.1425,
+  "l0_third_mm": 0.09499999999999999,
+  "primary_corridor": {
+    "count": 187,
+    "min": 0.0875,
+    "med": 0.2368,
+    "pct_l0_half": 2.14,
+    "pct_l0_third": 0.53
+  },
+  "secondary_corridor": {
+    "count": 68,
+    "min": 0.1968,
+    "med": 0.5022,
+    "pct_l0_half": 0.0,
+    "pct_l0_third": 0.0
+  },
+  "w_90_mm": 64.6291,
+  "fine_area_mm2": 1.3905,
+  "waste_area_mm2": 1.334,
+  "relative_waste_pct": 95.94,
+  "paper_comparison": {
+    "paper_figure_16b": "Dual-branch refined mesh from notch to hole and hole to right boundary",
+    "paper_element_count": "Pandey & Kumar (2025) do not report an adapted element count for Section 4.3",
+    "primary_refined": true,
+    "secondary_refined": false
+  }
+}

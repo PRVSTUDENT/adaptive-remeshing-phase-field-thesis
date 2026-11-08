@@ -1,0 +1,40 @@
+{
+  "task_id": "F1693-METHOD-A-SEC43-TERMINAL-DONOR-CORRECTION-AND-SYNTHESIS",
+  "case": "Case A (Intact Pre-Analysis Recovery Donor)",
+  "adapted_mesh_inp": "PK_SEC43_STAGGERED_RECOVERY_ELAS_ADAPT.inp",
+  "donor_odb": "models/pandey_kumar_mode1/192_pk_sec43_staggered_job1/PK_SEC43_STAGGERED_RECOVERY_ELAS.odb",
+  "donor_step": "RECOVERY_STEP",
+  "elements_total": 9432,
+  "elements_quads": 9132.0,
+  "elements_tris": 300.0,
+  "pct_quads": 96.82,
+  "pct_tris": 3.18,
+  "nodes_total": 9567,
+  "total_dofs": 19134,
+  "l0_mm": 0.285,
+  "l0_half_mm": 0.1425,
+  "l0_third_mm": 0.09499999999999999,
+  "primary_corridor": {
+    "count": 584,
+    "min": 0.015,
+    "med": 6.455,
+    "pct_l0_half": 1.37,
+    "pct_l0_third": 1.03
+  },
+  "secondary_corridor": {
+    "count": 20,
+    "min": 1.4978,
+    "med": 10.4342,
+    "pct_l0_half": 0.0,
+    "pct_l0_third": 0.0
+  },
+  "fine_area_mm2": 3.2532,
+  "waste_area_mm2": 1.8799,
+  "relative_waste_pct": 57.79,
+  "paper_comparison": {
+    "paper_figure_16b": "Dual-branch refined mesh from notch to hole and hole to right boundary",
+    "paper_element_count": "Pandey & Kumar (2025) do not report an adapted element count for Section 4.3",
+    "primary_refined": true,
+    "secondary_refined": false
+  }
+}

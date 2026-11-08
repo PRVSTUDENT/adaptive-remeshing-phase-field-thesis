@@ -1,0 +1,28 @@
+{
+  "task_id": "F1694-PK-SEC43-MISESERI-FIELDS-AND-MULTI-DONOR-REMESH",
+  "title": "Method A Pandey-Kumar Section 4.3 MISESERI Field Fix: Damage Fields, Multi-Donor MISESERI Fields, and Native Remeshing Audit",
+  "assigned_agent": "gemini-antigravity",
+  "status": "IN_PROGRESS",
+  "handoff_id": "HND-F1694-MISESERI-FIELDS-001",
+  "predecessor_task": {
+    "task_id": "F1693-METHOD-A-SEC43-TERMINAL-DONOR-CORRECTION-AND-SYNTHESIS",
+    "checkpoint_artifact": "project_coordination/sessions/2026-11-08_2245_gemini-antigravity_F1693.md"
+  },
+  "scientific_operation": "pk_sec43_miseseri_field_fix_and_multi_donor_remesh",
+  "max_new_pbs_submissions": 0,
+  "scope_boundaries": {
+    "method_a_only": true,
+    "method_c_forbidden": true,
+    "pbs_submissions_allowed": 0,
+    "production_uel_untouched": true
+  },
+  "deliverables": [
+    "stage_0_f1693_corrections_session_and_thesis",
+    "stage_1_damage_field_frames_and_combined_series",
+    "stage_2_miseseri_fields_and_audit_jsons_at_multiple_donors",
+    "stage_3_adaptive_remesh_from_best_donor_frame",
+    "stage_4_gated_job2_not_run",
+    "thesis_subsection_5_6_13_and_main_pdf_recompiled",
+    "unit_tests_for_new_figures_and_metrics"
+  ]
+}
