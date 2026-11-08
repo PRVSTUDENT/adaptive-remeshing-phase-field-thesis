@@ -1,0 +1,34 @@
+{
+  "task_id": "F1693-METHOD-A-SEC43-TERMINAL-DONOR-CORRECTION-AND-SYNTHESIS",
+  "title": "Method A Section 4.3 Terminal Donor Correction, Native Remeshing Audit, and Literature Reproduction Synthesis",
+  "assigned_agent": "gemini-antigravity",
+  "status": "IN_PROGRESS",
+  "handoff_id": "HND-F1691-STAGGERED-001",
+  "predecessor_task": {
+    "task_id": "F1692-PK-SEC43-JOB1-STAGGERED-SOLVER-RERUN",
+    "checkpoint_artifact": "project_coordination/sessions/2026-11-08_2220_gemini-antigravity_F1692.md",
+    "review_artifact": "project_coordination/sessions/2026-11-08_chatgpt_review_f1692.md"
+  },
+  "scientific_operation": "pk_sec43_donor_correction_and_remesh_audit",
+  "max_new_pbs_submissions": 0,
+  "scope_boundaries": {
+    "method_a_only": true,
+    "method_c_forbidden": true,
+    "pbs_submissions_allowed": 0,
+    "production_uel_untouched": true
+  },
+  "mandatory_corrections": [
+    "miseseri_absence_in_uel_job1_recorded",
+    "recovery_deg_donor_fully_defined",
+    "headline_claim_split_damage_resolved_vs_remesh_unresolved",
+    "single_pass_staggered_split_documented_as_design",
+    "stage_0_corrections_confirmed_with_quoted_lines",
+    "f1691_identity_and_ledger_distinction_recorded"
+  ],
+  "donor_investigation": {
+    "evaluate_terminal_recovery_donor": true,
+    "evaluate_intermediate_primary_penetration_donor": true,
+    "compare_miseseri_against_fig15b": true,
+    "compare_adapted_mesh_against_fig16b": true
+  }
+}
