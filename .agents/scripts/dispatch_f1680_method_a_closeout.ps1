@@ -112,7 +112,12 @@ Write-Host "Dispatching Task F1680 scientific correction and Method A closeout t
 Write-Host "Handoff ID: $HandoffId" -ForegroundColor Yellow
 Write-Host "Commit: $commitSha ($commitShort)" -ForegroundColor Yellow
 
-$response = Invoke-ChatGPTBridge -Prompt $scientificReport -HandoffId $HandoffId -LaunchPad:$false
+$response = Invoke-ChatGPTBridge -PromptText $scientificReport -HandoffId $HandoffId -TimeoutMinutes 40 -LaunchPad:$false
 
 Write-Host "Bridge response received successfully!" -ForegroundColor Green
 Write-Host $response
+
+$archiveDir = "project_coordination/sessions"
+$archiveFile = "$archiveDir/2026-11-08_chatgpt_review_f1680.md"
+Set-Content -Path $archiveFile -Value $response -Encoding UTF8
+Write-Host "Archived ChatGPT review response to: $archiveFile" -ForegroundColor Cyan
