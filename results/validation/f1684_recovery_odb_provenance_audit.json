@@ -1,0 +1,174 @@
+[
+    {
+        "candidate": "Candidate_B",
+        "donor_step": 2,
+        "donor_frame": 50,
+        "u2_mm": 0.0057,
+        "solver": "Abaqus/Standard 2024",
+        "execution_mode": "Local serial single-rank interactive",
+        "exit_code": 0,
+        "elements_total": 2935,
+        "element_types": "2838 CPE4 + 97 CPE3",
+        "max_miseseri_MPa": 1657.255,
+        "max_miseseri_coord": [
+            0.50927,
+            0.50207
+        ],
+        "max_miseseri_element": 1203,
+        "max_miseseri_partition": "Notch_Tip_Partition",
+        "odb": {
+            "relpath": "runs/f1683_recovery_candidate_b/PK_HOLE_RECOVERY_B.odb",
+            "abspath": "D:\\Master thesis\\Adaptive remeshing\\runs\\f1683_recovery_candidate_b\\PK_HOLE_RECOVERY_B.odb",
+            "exists": true,
+            "size_bytes": 1047692,
+            "sha256": "14eacb3ac65ff7f9b44fc00bcb3c8e465b2f37e572d97f92868252121116aa0b"
+        },
+        "inp": {
+            "relpath": "runs/f1683_recovery_candidate_b/PK_HOLE_RECOVERY_B.inp",
+            "abspath": "D:\\Master thesis\\Adaptive remeshing\\runs\\f1683_recovery_candidate_b\\PK_HOLE_RECOVERY_B.inp",
+            "exists": true,
+            "sha256": "49942182848625944cfa4b4aeee029a93dabf023d810a9ecd00cc81f83e863d5"
+        },
+        "for": {
+            "relpath": "runs/f1683_recovery_candidate_b/recovery_usdfld.for",
+            "abspath": "D:\\Master thesis\\Adaptive remeshing\\runs\\f1683_recovery_candidate_b\\recovery_usdfld.for",
+            "exists": true,
+            "sha256": "c35dc41095f4eb5ea62d222b714a2b5a785ae15907226339a14f515f144cee2f"
+        },
+        "csv": {
+            "relpath": "results/validation/f1683_miseseri_candidate_b_element_level_audit.csv",
+            "abspath": "D:\\Master thesis\\Adaptive remeshing\\results\\validation\\f1683_miseseri_candidate_b_element_level_audit.csv",
+            "exists": true,
+            "sha256": "90689cf34974001130d6e7476e8de6a4bb17ce26a5c0d14a83a68156ed10054c"
+        }
+    },
+    {
+        "candidate": "Candidate_C",
+        "donor_step": 2,
+        "donor_frame": 150,
+        "u2_mm": 0.0071,
+        "solver": "Abaqus/Standard 2024",
+        "execution_mode": "Local serial single-rank interactive",
+        "exit_code": 0,
+        "elements_total": 2935,
+        "element_types": "2838 CPE4 + 97 CPE3",
+        "max_miseseri_MPa": 1600.678,
+        "max_miseseri_coord": [
+            0.50927,
+            0.50207
+        ],
+        "max_miseseri_element": 1203,
+        "max_miseseri_partition": "Notch_Tip_Partition",
+        "odb": {
+            "relpath": "runs/f1683_recovery_candidate_c/PK_HOLE_RECOVERY_C.odb",
+            "abspath": "D:\\Master thesis\\Adaptive remeshing\\runs\\f1683_recovery_candidate_c\\PK_HOLE_RECOVERY_C.odb",
+            "exists": true,
+            "size_bytes": 1047692,
+            "sha256": "42375ed3aa3def874983913b80cf0f8996a3f2a6f112fd543ade71cc2d88648b"
+        },
+        "inp": {
+            "relpath": "runs/f1683_recovery_candidate_c/PK_HOLE_RECOVERY_C.inp",
+            "abspath": "D:\\Master thesis\\Adaptive remeshing\\runs\\f1683_recovery_candidate_c\\PK_HOLE_RECOVERY_C.inp",
+            "exists": true,
+            "sha256": "dcd15e191f8b46cec639fa9e43a6485d6fcb7f1fff73f496c052aeaa2e6cdf11"
+        },
+        "for": {
+            "relpath": "runs/f1683_recovery_candidate_c/recovery_usdfld.for",
+            "abspath": "D:\\Master thesis\\Adaptive remeshing\\runs\\f1683_recovery_candidate_c\\recovery_usdfld.for",
+            "exists": true,
+            "sha256": "0a2980a0b3e7a956a3f7dec6ec65efb3838d84518d2f47265f66bebb61ca9642"
+        },
+        "csv": {
+            "relpath": "results/validation/f1683_miseseri_candidate_c_element_level_audit.csv",
+            "abspath": "D:\\Master thesis\\Adaptive remeshing\\results\\validation\\f1683_miseseri_candidate_c_element_level_audit.csv",
+            "exists": true,
+            "sha256": "13e6fc57757bb5c0ab138519d4a2973108b58c32927fed6eea68807550d01f3e"
+        }
+    },
+    {
+        "candidate": "Candidate_D",
+        "donor_step": 2,
+        "donor_frame": 200,
+        "u2_mm": 0.007756,
+        "solver": "Abaqus/Standard 2024",
+        "execution_mode": "Local serial single-rank interactive",
+        "exit_code": 0,
+        "elements_total": 2935,
+        "element_types": "2838 CPE4 + 97 CPE3",
+        "max_miseseri_MPa": 411.497,
+        "max_miseseri_coord": [
+            0.01074,
+            0.03085
+        ],
+        "max_miseseri_element": 287,
+        "max_miseseri_partition": "Far_Field_Bulk_Partition (Pinned Corner Reaction Gradient)",
+        "odb": {
+            "relpath": "runs/f1683_recovery_candidate_d/PK_HOLE_RECOVERY_D.odb",
+            "abspath": "D:\\Master thesis\\Adaptive remeshing\\runs\\f1683_recovery_candidate_d\\PK_HOLE_RECOVERY_D.odb",
+            "exists": true,
+            "size_bytes": 1047692,
+            "sha256": "a78c2f693cbced5376664befe13ee533f458cb2d5f8312dbc3b37d43006cf341"
+        },
+        "inp": {
+            "relpath": "runs/f1683_recovery_candidate_d/PK_HOLE_RECOVERY_D.inp",
+            "abspath": "D:\\Master thesis\\Adaptive remeshing\\runs\\f1683_recovery_candidate_d\\PK_HOLE_RECOVERY_D.inp",
+            "exists": true,
+            "sha256": "f42a1602ed79971e086559b81d4691adf787c3731a34e3e20a3ee0ac45a9209b"
+        },
+        "for": {
+            "relpath": "runs/f1683_recovery_candidate_d/recovery_usdfld.for",
+            "abspath": "D:\\Master thesis\\Adaptive remeshing\\runs\\f1683_recovery_candidate_d\\recovery_usdfld.for",
+            "exists": true,
+            "sha256": "8e2cb20dfb689bec9deb74e7d21c58f3b817a66b65653ee324bbf503a5ee6924"
+        },
+        "csv": {
+            "relpath": "results/validation/f1683_miseseri_candidate_d_element_level_audit.csv",
+            "abspath": "D:\\Master thesis\\Adaptive remeshing\\results\\validation\\f1683_miseseri_candidate_d_element_level_audit.csv",
+            "exists": true,
+            "sha256": "0c2e6ed8083cb63bb22c3f2b25412263e1b18a1377dd2c27e076443e2e3453e7"
+        }
+    },
+    {
+        "candidate": "Terminal_Baseline",
+        "donor_step": 2,
+        "donor_frame": 337,
+        "u2_mm": 0.00959,
+        "solver": "Abaqus/Standard 2024",
+        "execution_mode": "Local serial single-rank interactive",
+        "exit_code": 0,
+        "elements_total": 2935,
+        "element_types": "2838 CPE4 + 97 CPE3",
+        "max_miseseri_MPa": 1437.356,
+        "max_miseseri_coord": [
+            0.88847,
+            0.63556
+        ],
+        "max_miseseri_element": 495,
+        "max_miseseri_partition": "Secondary_Ligament_Partition",
+        "odb": {
+            "relpath": "PK_HOLE_F1661_RECOVERY.odb",
+            "abspath": "D:\\Master thesis\\Adaptive remeshing\\PK_HOLE_F1661_RECOVERY.odb",
+            "exists": true,
+            "size_bytes": 1047692,
+            "sha256": "7ffc0636199bc26099cbffc905decc65bb6eaac0f7c9fb697dae8bcc37e28f1e"
+        },
+        "inp": {
+            "relpath": "PK_HOLE_F1661_RECOVERY.inp",
+            "abspath": "D:\\Master thesis\\Adaptive remeshing\\PK_HOLE_F1661_RECOVERY.inp",
+            "exists": true,
+            "sha256": "a4673e4bedb46685be385fafdea9180b6844c18fdb0fdeb3ce875860db31e450"
+        },
+        "for": {
+            "relpath": null,
+            "abspath": null,
+            "exists": false,
+            "sha256": null
+        },
+        "csv": {
+            "relpath": "results/validation/f1683_miseseri_terminal_baseline_element_level_audit.csv",
+            "abspath": "D:\\Master thesis\\Adaptive remeshing\\results\\validation\\f1683_miseseri_terminal_baseline_element_level_audit.csv",
+            "exists": true,
+            "sha256": "a15d46329fe06d9890d43c799b76f219bf9742103234f0db841d152d7e2af1ab"
+        }
+    }
+]

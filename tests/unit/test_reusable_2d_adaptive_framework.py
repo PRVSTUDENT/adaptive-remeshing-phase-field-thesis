@@ -1036,6 +1036,83 @@ def test_f1683_controlled_multi_frame_recovery_and_spatial_localization():
         assert abs(sq_l2_sum - 100.0) < 1e-3, f"Non-100% partition sum {sq_l2_sum} for {r['candidate_id']}"
 
 
+def test_f1684_multistep_recovery_and_adapted_mesh_qualification():
+    """
+    Task F1684 Regression Test:
+    Validates:
+    1. Multi-Step Auxiliary Recovery bitwise equivalence and mathematical path-independence.
+    2. Direct crack-path alignment metrics for Candidate C, Terminal Baseline, and Candidate D falsification.
+    3. Three-way native adapted mesh resolution audit (Baseline vs Control B vs Experiment C).
+    """
+    # 1. Multi-Step Recovery Equivalence Audit
+    audit_equiv_path = REPO_ROOT / "results" / "validation" / "f1684_multistep_recovery_audit.json"
+    assert audit_equiv_path.exists(), f"Missing {audit_equiv_path}"
+    with open(audit_equiv_path, "r") as f:
+        eq_data = json.load(f)
+
+    assert eq_data["mathematical_path_independence_proven"] is True
+    s1 = eq_data["step1_candidate_c_equivalence"]
+    assert s1["delta_rf_N"] == 0.0
+    assert s1["rel_delta_rf_pct"] == 0.0
+    assert s1["max_delta_s22_MPa"] == 0.0
+    assert s1["max_delta_miseseri_MPa"] == 0.0
+
+    s2 = eq_data["step2_terminal_baseline_equivalence"]
+    assert s2["delta_rf_N"] == 0.0
+    assert s2["rel_delta_rf_pct"] == 0.0
+    assert s2["max_delta_s22_MPa"] < 1e-6
+    assert s2["max_delta_miseseri_MPa"] == 0.0
+
+    # 2. Crack-Path Alignment Metrics
+    align_path = REPO_ROOT / "results" / "validation" / "f1684_crack_path_alignment_summary.json"
+    assert align_path.exists(), f"Missing {align_path}"
+    with open(align_path, "r") as f:
+        align_data = json.load(f)
+
+    c_align = align_data["Candidate_C"]
+    assert c_align["primary_branch"]["miseseri_median_MPa"] > 250.0
+    assert c_align["secondary_branch"]["miseseri_median_MPa"] < 50.0
+
+    t_align = align_data["Terminal_Baseline"]
+    assert t_align["secondary_branch"]["miseseri_median_MPa"] > 350.0
+    assert t_align["primary_branch"]["miseseri_median_MPa"] < 100.0
+
+    d_align = align_data["Candidate_D"]
+    assert d_align["min_dist_to_crack_path_mm"] > 0.50
+    assert d_align["far_field_false_positive_share_pct"] > 35.0
+
+    # 3. Three-Way Adapted Mesh Regional Resolution Audit
+    mesh_audit_path = REPO_ROOT / "results" / "validation" / "f1684_adapted_mesh_resolution_audit.json"
+    assert mesh_audit_path.exists(), f"Missing {mesh_audit_path}"
+    with open(mesh_audit_path, "r") as f:
+        mesh_data = json.load(f)
+
+    for mk, mobj in mesh_data.items():
+        assert mobj["negative_jacobians"] == 0, f"Negative Jacobians in {mk}"
+        assert mobj["zero_area_elements"] == 0, f"Zero area elements in {mk}"
+        assert mobj["area_conservation_pct"] > 99.85, f"Area loss in {mk}"
+        assert mobj["quads_pct"] > 96.0, f"Low quad fraction in {mk}"
+
+    # Control B (Candidate C alone): 6,171 elements, sharp tip, far-field economy
+    ctrl = mesh_data["control_cand_c_alone"]
+    assert ctrl["total_elements"] == 6171
+    z_ctrl = ctrl["zones"]
+    assert z_ctrl["notch_tip_initiation"]["h_med_um"] < 3.0
+    assert z_ctrl["notch_tip_initiation"]["h_min_um"] <= 1.50
+    assert z_ctrl["far_field_bulk"]["h_med_um"] > 15.0
+
+    # Experiment C (Combined): 21,569 elements, dual-corridor resolution
+    exp = mesh_data["experiment_combined"]
+    assert exp["total_elements"] == 21569
+    z_exp = exp["zones"]
+    assert z_exp["notch_tip_initiation"]["h_med_um"] < 3.0
+    assert z_exp["notch_tip_initiation"]["h_min_um"] <= 1.50
+    assert z_exp["secondary_ligament"]["h_med_um"] < 2.50
+    assert z_exp["crack_centerline_corridor"]["pct_le_7p5_um"] == 100.0
+    assert z_exp["crack_centerline_corridor"]["h_max_um"] < 7.50
+
+
+
 
 
 

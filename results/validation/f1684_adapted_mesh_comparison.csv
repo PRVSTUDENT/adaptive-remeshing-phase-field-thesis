@@ -1,0 +1,22 @@
+mesh_key,mesh_name,total_mesh_elements,zone_key,zone_name,element_count,pct_of_total_mesh,h_min_um,h_med_um,h_mean_um,h_max_um,pct_le_1p5_um,pct_le_2p5_um,pct_le_3p75_um,pct_le_7p5_um
+baseline_terminal_only,Baseline (Terminal Donor Frame 337 alone),20213,whole_specimen,Whole Specimen,20213,100.0,0.941,3.815,5.824,31.57,1.35,32.26,49.04,77.1
+baseline_terminal_only,Baseline (Terminal Donor Frame 337 alone),20213,notch_tip_initiation,Notch Tip Initiation (r <= 50 um),203,1.0,2.468,5.588,6.629,18.291,0.0,0.49,3.94,75.86
+baseline_terminal_only,Baseline (Terminal Donor Frame 337 alone),20213,primary_fracture_corridor,Primary Fracture Corridor,598,2.96,2.459,4.684,5.28,19.84,0.0,0.17,17.39,89.3
+baseline_terminal_only,Baseline (Terminal Donor Frame 337 alone),20213,hole_perimeter_annulus,Hole Perimeter & Annulus,872,4.31,2.459,5.574,6.03,21.295,0.0,0.11,11.7,83.6
+baseline_terminal_only,Baseline (Terminal Donor Frame 337 alone),20213,secondary_ligament,Secondary Ligament Corridor,8822,43.65,0.941,2.152,2.498,12.905,3.09,71.76,90.4,99.24
+baseline_terminal_only,Baseline (Terminal Donor Frame 337 alone),20213,crack_centerline_corridor,Direct Crack Centerline Corridor (<= 10 um),1340,6.63,1.155,2.156,2.566,13.265,2.76,72.91,83.58,99.55
+baseline_terminal_only,Baseline (Terminal Donor Frame 337 alone),20213,far_field_bulk,Far-Field Bulk (Remainder),10338,51.15,1.886,6.345,8.639,31.57,0.0,1.82,17.65,57.91
+control_cand_c_alone,Control B (Candidate C Donor Frame 150 alone),6171,whole_specimen,Whole Specimen,6171,100.0,1.351,13.135,12.492,28.928,0.05,4.42,11.85,32.0
+control_cand_c_alone,Control B (Candidate C Donor Frame 150 alone),6171,notch_tip_initiation,Notch Tip Initiation (r <= 50 um),885,14.34,1.351,2.894,3.19,10.451,0.34,30.85,77.74,99.44
+control_cand_c_alone,Control B (Candidate C Donor Frame 150 alone),6171,primary_fracture_corridor,Primary Fracture Corridor,620,10.05,2.623,4.85,5.279,9.938,0.0,0.0,6.61,90.32
+control_cand_c_alone,Control B (Candidate C Donor Frame 150 alone),6171,hole_perimeter_annulus,Hole Perimeter & Annulus,828,13.42,2.866,6.236,6.457,14.179,0.0,0.0,2.29,71.74
+control_cand_c_alone,Control B (Candidate C Donor Frame 150 alone),6171,secondary_ligament,Secondary Ligament Corridor,568,9.2,4.333,8.8,10.075,24.037,0.0,0.0,0.0,39.79
+control_cand_c_alone,Control B (Candidate C Donor Frame 150 alone),6171,crack_centerline_corridor,Direct Crack Centerline Corridor (<= 10 um),414,6.71,1.351,2.888,4.158,24.037,0.72,33.82,63.77,91.55
+control_cand_c_alone,Control B (Candidate C Donor Frame 150 alone),6171,far_field_bulk,Far-Field Bulk (Remainder),3853,62.44,3.55,17.334,16.427,28.928,0.0,0.0,0.05,5.5
+experiment_combined,Experiment C (Combined Candidate C + Terminal),21569,whole_specimen,Whole Specimen,21569,100.0,1.071,3.817,5.719,28.802,1.08,30.53,49.0,77.69
+experiment_combined,Experiment C (Combined Candidate C + Terminal),21569,notch_tip_initiation,Notch Tip Initiation (r <= 50 um),902,4.18,1.261,2.907,3.19,11.399,0.67,28.38,76.05,99.56
+experiment_combined,Experiment C (Combined Candidate C + Terminal),21569,primary_fracture_corridor,Primary Fracture Corridor,867,4.02,2.068,4.257,4.505,12.142,0.0,0.23,26.41,97.12
+experiment_combined,Experiment C (Combined Candidate C + Terminal),21569,hole_perimeter_annulus,Hole Perimeter & Annulus,1220,5.66,2.068,4.904,5.257,12.845,0.0,0.16,15.41,88.36
+experiment_combined,Experiment C (Combined Candidate C + Terminal),21569,secondary_ligament,Secondary Ligament Corridor,8739,40.52,1.071,2.156,2.521,10.941,2.61,70.79,89.38,99.11
+experiment_combined,Experiment C (Combined Candidate C + Terminal),21569,crack_centerline_corridor,Direct Crack Centerline Corridor (<= 10 um),1553,7.2,1.174,2.159,2.464,5.658,3.16,70.9,87.64,100.0
+experiment_combined,Experiment C (Combined Candidate C + Terminal),21569,far_field_bulk,Far-Field Bulk (Remainder),10700,49.61,1.796,6.481,8.613,28.802,0.0,1.33,17.21,57.16

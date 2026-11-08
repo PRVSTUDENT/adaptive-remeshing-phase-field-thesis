@@ -1,8 +1,8 @@
 """
 scripts/visualization/plot_f1683_four_frame_comparison.py
 
-Generates publication-quality figures for F1683:
-1. 4-Panel Authentic MISESERI Comparison (Candidates B, C, D, and Terminal Baseline) on Common Scale.
+Generates publication-quality figures for F1683 & F1684:
+1. 4-Panel Authentic MISESERI Comparison (Candidates B, C, D, and Terminal Baseline) on Common Scale [1, 2000] MPa.
 2. 4-Panel Donor Phase-Field Damage Comparison across the 4 stages.
 3. Individual High-Resolution MISESERI Figures for each candidate.
 
@@ -92,8 +92,41 @@ def add_specimen_features(ax):
     ax.set_xlabel(r'$x$ [mm]')
     ax.set_ylabel(r'$y$ [mm]')
 
+def compute_dynamic_miseseri_metrics(mises_data):
+    """Dynamically computes exact peak error and partition proportions from authentic CSV records."""
+    max_el = max(mises_data.keys(), key=lambda k: mises_data[k]["miseseri"])
+    max_val = mises_data[max_el]["miseseri"]
+    max_xc = mises_data[max_el]["xc"]
+    max_yc = mises_data[max_el]["yc"]
+    max_part = mises_data[max_el]["partition"]
+
+    total_sq = 0.0
+    part_sq = {}
+    for el, d in mises_data.items():
+        sq = (d["miseseri"] ** 2) * d["area"]
+        p = d["partition"]
+        part_sq[p] = part_sq.get(p, 0.0) + sq
+        total_sq += sq
+
+    notch_share = part_sq.get("Notch_Tip_Partition", 0.0) / total_sq * 100.0 if total_sq > 0 else 0.0
+    sec_share = part_sq.get("Secondary_Ligament_Partition", 0.0) / total_sq * 100.0 if total_sq > 0 else 0.0
+    hole_share = part_sq.get("Hole_Annulus_Partition", 0.0) / total_sq * 100.0 if total_sq > 0 else 0.0
+    far_share = part_sq.get("Far_Field_Bulk_Partition", 0.0) / total_sq * 100.0 if total_sq > 0 else 0.0
+
+    return {
+        "max_val": max_val,
+        "max_xc": max_xc,
+        "max_yc": max_yc,
+        "max_el": max_el,
+        "max_part": max_part,
+        "notch_share": notch_share,
+        "sec_share": sec_share,
+        "hole_share": hole_share,
+        "far_share": far_share
+    }
+
 def plot_four_frame_miseseri():
-    print("Generating Figure 1: 4-Panel Authentic MISESERI Comparison...")
+    print("Generating Figure 1: 4-Panel Authentic MISESERI Comparison (Dynamic & Unclipped)...")
     rec_nodes, rec_elems = load_receiver_mesh()
 
     cases = [
@@ -101,45 +134,34 @@ def plot_four_frame_miseseri():
             "id": "Candidate_B",
             "title": r"(a) Candidate B: $u_2 = 0.0057\,\mathrm{mm}$" + "\n" + r"(Step 2, Frame 50, Pre-Peak Inception)",
             "csv": "results/validation/f1683_miseseri_candidate_b_element_level_audit.csv",
-            "notch_share": "62.2%",
-            "sec_share": "1.5%",
-            "max_err": "1,146 MPa"
         },
         {
             "id": "Candidate_C",
             "title": r"(b) Candidate C: $u_2 = 0.0071\,\mathrm{mm}$" + "\n" + r"(Step 2, Frame 150, Primary Ligament Deflection)",
             "csv": "results/validation/f1683_miseseri_candidate_c_element_level_audit.csv",
-            "notch_share": "56.9%",
-            "sec_share": "2.0%",
-            "max_err": "1,273 MPa"
         },
         {
             "id": "Candidate_D",
             "title": r"(c) Candidate D: $u_2 = 0.00776\,\mathrm{mm}$" + "\n" + r"(Step 2, Frame 200, Hole Cavity Penetration)",
             "csv": "results/validation/f1683_miseseri_candidate_d_element_level_audit.csv",
-            "notch_share": "3.0%",
-            "sec_share": "10.0%",
-            "max_err": "771 MPa"
         },
         {
             "id": "Terminal_Baseline",
             "title": r"(d) Terminal Baseline: $u_2 = 0.00959\,\mathrm{mm}$" + "\n" + r"(Step 2, Frame 337, Fully Softened Post-Severance)",
             "csv": "results/validation/f1683_miseseri_terminal_baseline_element_level_audit.csv",
-            "notch_share": "0.3%",
-            "sec_share": "94.4%",
-            "max_err": "1,437 MPa"
         }
     ]
 
     fig, axes = plt.subplots(2, 2, figsize=(11, 10.5))
     axes_flat = axes.flatten()
 
-    # Log scale norm for MISESERI: 1.0 to 1500 MPa captures both far-field background and localized peaks
-    norm = LogNorm(vmin=1.0, vmax=1500.0)
+    # Log scale norm for MISESERI: 1.0 to 2000.0 MPa accommodates all authentic peaks without clipping
+    norm = LogNorm(vmin=1.0, vmax=2000.0)
     cmap = plt.get_cmap('magma')
 
     for idx, (ax, c) in enumerate(zip(axes_flat, cases)):
         mises_data = load_miseseri_csv(c["csv"])
+        metrics = compute_dynamic_miseseri_metrics(mises_data)
         elem_vals = {el: d["miseseri"] for el, d in mises_data.items()}
 
         coll = build_poly_collection(rec_nodes, rec_elems, elem_vals, norm, cmap, linewidth=0.15, edgecolor='#333333')
@@ -147,11 +169,12 @@ def plot_four_frame_miseseri():
         add_specimen_features(ax)
         ax.set_title(c["title"], pad=8, fontweight='bold', fontsize=10.5)
 
-        # Annotation box with quantitative partition metrics
+        # Dynamic annotation box derived directly from authentic CSV records
+        part_desc = "Notch Tip" if "Notch" in metrics["max_part"] else ("Sec. Lig." if "Secondary" in metrics["max_part"] else "Pinned Corner" if metrics["max_el"] == 287 else "Bulk")
         text_box = (
-            f"Notch Tip Share: {c['notch_share']}\n"
-            f"Secondary Lig. Share: {c['sec_share']}\n"
-            f"Peak Error: {c['max_err']}"
+            f"Notch Tip Share: {metrics['notch_share']:.1f}%\n"
+            f"Secondary Lig. Share: {metrics['sec_share']:.1f}%\n"
+            f"Peak Error: {metrics['max_val']:.0f} MPa ({part_desc})"
         )
         ax.text(0.04, 0.04, text_box, transform=ax.transAxes, fontsize=8.5,
                 verticalalignment='bottom', horizontalalignment='left',
@@ -255,7 +278,7 @@ def plot_individual_candidates():
         ("f1683_miseseri_terminal_baseline", "Terminal Baseline (Frame 337, u=0.00959 mm)", "results/validation/f1683_miseseri_terminal_baseline_element_level_audit.csv"),
     ]
 
-    norm = LogNorm(vmin=1.0, vmax=1500.0)
+    norm = LogNorm(vmin=1.0, vmax=2000.0)
     cmap = plt.get_cmap('magma')
 
     for fname, title, csv_path in cases:

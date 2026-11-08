@@ -1,0 +1,154 @@
+{
+    "Candidate_B": {
+        "primary_branch": {
+            "branch": "primary",
+            "sample_points": 44,
+            "miseseri_min_MPa": 65.7208023071289,
+            "miseseri_median_MPa": 255.2137908935547,
+            "miseseri_mean_MPa": 412.6896166367964,
+            "miseseri_max_MPa": 1657.2550048828125,
+            "eta_global_min_pct": 10.827189876767344,
+            "eta_global_median_pct": 42.04525928123638,
+            "eta_global_mean_pct": 67.98865325191309,
+            "eta_global_max_pct": 273.02488682708656,
+            "length_fraction_eta_gt_20pct": 0.8409090909090909,
+            "length_fraction_eta_gt_50pct": 0.3409090909090909
+        },
+        "secondary_branch": {
+            "branch": "secondary",
+            "sample_points": 62,
+            "miseseri_min_MPa": 7.677840232849121,
+            "miseseri_median_MPa": 30.918378829956055,
+            "miseseri_mean_MPa": 42.974434252708186,
+            "miseseri_max_MPa": 122.77853393554688,
+            "eta_global_min_pct": 1.2648876934894593,
+            "eta_global_median_pct": 5.093655989002522,
+            "eta_global_mean_pct": 7.079833829877857,
+            "eta_global_max_pct": 20.227180025875782,
+            "length_fraction_eta_gt_20pct": 0.14516129032258066,
+            "length_fraction_eta_gt_50pct": 0.0
+        },
+        "global_peak_MPa": 1657.2550048828125,
+        "global_peak_coord": [
+            0.5092715471982956,
+            0.5020744726061821
+        ],
+        "global_peak_partition": "Notch_Tip_Partition",
+        "min_dist_to_crack_path_mm": 0.0020024280786834566,
+        "far_field_false_positive_share_pct": 13.430389622791733
+    },
+    "Candidate_C": {
+        "primary_branch": {
+            "branch": "primary",
+            "sample_points": 44,
+            "miseseri_min_MPa": 85.53333282470703,
+            "miseseri_median_MPa": 295.72711181640625,
+            "miseseri_mean_MPa": 408.2331825603138,
+            "miseseri_max_MPa": 1600.678466796875,
+            "eta_global_min_pct": 11.83704106271411,
+            "eta_global_median_pct": 40.92596243271242,
+            "eta_global_mean_pct": 56.49578691189567,
+            "eta_global_max_pct": 221.51944878036818,
+            "length_fraction_eta_gt_20pct": 0.8863636363636364,
+            "length_fraction_eta_gt_50pct": 0.20454545454545456
+        },
+        "secondary_branch": {
+            "branch": "secondary",
+            "sample_points": 62,
+            "miseseri_min_MPa": 9.74631118774414,
+            "miseseri_median_MPa": 42.638702392578125,
+            "miseseri_mean_MPa": 46.905490459934356,
+            "miseseri_max_MPa": 110.77997589111328,
+            "eta_global_min_pct": 1.3488014780828514,
+            "eta_global_median_pct": 5.9008114662872355,
+            "eta_global_mean_pct": 6.491296413982447,
+            "eta_global_max_pct": 15.33094853484775,
+            "length_fraction_eta_gt_20pct": 0.0,
+            "length_fraction_eta_gt_50pct": 0.0
+        },
+        "global_peak_MPa": 1600.678466796875,
+        "global_peak_coord": [
+            0.5092715471982956,
+            0.5020744726061821
+        ],
+        "global_peak_partition": "Notch_Tip_Partition",
+        "min_dist_to_crack_path_mm": 0.0020024280786834566,
+        "far_field_false_positive_share_pct": 15.178512823961169
+    },
+    "Candidate_D": {
+        "primary_branch": {
+            "branch": "primary",
+            "sample_points": 44,
+            "miseseri_min_MPa": 34.26673126220703,
+            "miseseri_median_MPa": 92.92801666259766,
+            "miseseri_mean_MPa": 97.64796170321378,
+            "miseseri_max_MPa": 377.5830993652344,
+            "eta_global_min_pct": 6.493692199965947,
+            "eta_global_median_pct": 17.610256792300465,
+            "eta_global_mean_pct": 18.50470657392643,
+            "eta_global_max_pct": 71.55361299054553,
+            "length_fraction_eta_gt_20pct": 0.29545454545454547,
+            "length_fraction_eta_gt_50pct": 0.022727272727272728
+        },
+        "secondary_branch": {
+            "branch": "secondary",
+            "sample_points": 62,
+            "miseseri_min_MPa": 13.470597267150879,
+            "miseseri_median_MPa": 60.16010284423828,
+            "miseseri_mean_MPa": 56.498883862649244,
+            "miseseri_max_MPa": 121.56938171386719,
+            "eta_global_min_pct": 2.5527358221954404,
+            "eta_global_median_pct": 11.400596911315022,
+            "eta_global_mean_pct": 10.706780248115127,
+            "eta_global_max_pct": 23.03791802460871,
+            "length_fraction_eta_gt_20pct": 0.016129032258064516,
+            "length_fraction_eta_gt_50pct": 0.0
+        },
+        "global_peak_MPa": 411.49725341796875,
+        "global_peak_coord": [
+            0.010738278739154339,
+            0.030851596035063267
+        ],
+        "global_peak_partition": "Far_Field_Bulk_Partition",
+        "min_dist_to_crack_path_mm": 0.6778475173916129,
+        "far_field_false_positive_share_pct": 40.94673618726007
+    },
+    "Terminal_Baseline": {
+        "primary_branch": {
+            "branch": "primary",
+            "sample_points": 44,
+            "miseseri_min_MPa": 40.019962310791016,
+            "miseseri_median_MPa": 76.46961212158203,
+            "miseseri_mean_MPa": 70.78118332949552,
+            "miseseri_max_MPa": 285.7930908203125,
+            "eta_global_min_pct": 13.076032859324755,
+            "eta_global_median_pct": 24.98550980823903,
+            "eta_global_mean_pct": 23.126885324147604,
+            "eta_global_max_pct": 93.37939445102205,
+            "length_fraction_eta_gt_20pct": 0.5227272727272727,
+            "length_fraction_eta_gt_50pct": 0.022727272727272728
+        },
+        "secondary_branch": {
+            "branch": "secondary",
+            "sample_points": 62,
+            "miseseri_min_MPa": 16.951061248779297,
+            "miseseri_median_MPa": 387.0239562988281,
+            "miseseri_mean_MPa": 441.5304308245259,
+            "miseseri_max_MPa": 1437.3564453125,
+            "eta_global_min_pct": 5.538551789932546,
+            "eta_global_median_pct": 126.455340727414,
+            "eta_global_mean_pct": 144.2646641447874,
+            "eta_global_max_pct": 469.63862593145416,
+            "length_fraction_eta_gt_20pct": 0.9193548387096774,
+            "length_fraction_eta_gt_50pct": 0.7580645161290323
+        },
+        "global_peak_MPa": 1437.3564453125,
+        "global_peak_coord": [
+            0.8884687125682831,
+            0.6355629414319992
+        ],
+        "global_peak_partition": "Secondary_Ligament_Partition",
+        "min_dist_to_crack_path_mm": 0.0009626515237790878,
+        "far_field_false_positive_share_pct": 2.5518475006466024
+    }
+}

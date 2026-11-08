@@ -1,0 +1,29 @@
+{
+    "step1_candidate_c_equivalence": {
+        "comparison": "MultiStep_Step1_RECOVERY_C_vs_Independent_Candidate_C",
+        "rf_multi": 716.9176269718446,
+        "rf_single": 716.9176269718446,
+        "delta_rf_N": 0.0,
+        "rel_delta_rf_pct": 0.0,
+        "max_delta_s11_MPa": 0.0,
+        "max_delta_s22_MPa": 0.0,
+        "max_delta_mises_MPa": 0.0,
+        "max_delta_miseseri_MPa": 0.0,
+        "max_delta_misesavg_MPa": 0.0,
+        "num_elements_audited": 2935
+    },
+    "step2_terminal_baseline_equivalence": {
+        "comparison": "MultiStep_Step2_RECOVERY_TERMINAL_vs_Independent_Terminal_Baseline",
+        "rf_multi": 255.01133164507337,
+        "rf_single": 255.01133164507337,
+        "delta_rf_N": 0.0,
+        "rel_delta_rf_pct": 0.0,
+        "max_delta_s11_MPa": 0.0,
+        "max_delta_s22_MPa": 1.4901161193847656e-08,
+        "max_delta_mises_MPa": 0.0,
+        "max_delta_miseseri_MPa": 0.0,
+        "max_delta_misesavg_MPa": 0.0,
+        "num_elements_audited": 2935
+    },
+    "mathematical_path_independence_proven": true
+}

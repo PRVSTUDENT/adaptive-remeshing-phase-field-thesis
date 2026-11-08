@@ -1,0 +1,24 @@
+{
+    "task_id": "F1684-METHOD-A-MULTISTEP-NATIVE-REMESHING-CAPABILITY-ASSESSMENT",
+    "title": "Method A Multi-Step Native Remeshing Capability Assessment, Crack-Path Alignment, and Spatial Refinement Qualification",
+    "created_at": "2026-11-08T10:05:00.0000000+01:00",
+    "assigned_agent": "gemini-antigravity",
+    "governing_directives": [
+        "HND-bf20fcd5c438 review mandate",
+        "Abaqus native multi-step RemeshingRule capability assessment",
+        "Direct MISESERI-to-crack-path alignment audit",
+        "Resolution target h <= 1.50 um along both crack branches",
+        "max_new_pbs_submissions = 0"
+    ],
+    "phases": [
+        "Phase 1: Correct F1683 figures and provenance (peak error annotations and color scale)",
+        "Phase 2: Direct MISESERI-to-crack-path alignment audit",
+        "Phase 3: Investigate native Abaqus multistep remeshing rules and auxiliary recovery ODB",
+        "Phase 4: Prioritized native mesh comparisons (C vs C+Terminal)",
+        "Phase 5: Secondary nucleation frame investigation if terminal remains too broad",
+        "Phase 6: Scientific mesh acceptance against h <= 1.50 um",
+        "Phase 7: University thesis Chapter 5 updates and unit test validation",
+        "Phase 8: Independent review dispatch across PAD bridge"
+    ],
+    "status": "IN_PROGRESS"
+}

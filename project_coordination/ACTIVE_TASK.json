@@ -1,20 +1,21 @@
 {
-    "task_id": "F1683-METHOD-A-CONTROLLED-MULTI-FRAME-MISESERI-RECOVERY-AND-LOCALIZATION-CORRECTION",
-    "title": "Method A Controlled Multi-Frame MISESERI Recovery, Authentic Four-Frame Image Comparison, and Scientific Localization Correction",
+    "task_id": "F1684-METHOD-A-MULTISTEP-NATIVE-REMESHING-CAPABILITY-ASSESSMENT",
+    "title": "Method A Multi-Step Native Remeshing Capability Assessment, Crack-Path Alignment, and Spatial Refinement Qualification",
     "status": "COMPLETED",
     "assigned_agent": "gemini-antigravity",
     "predecessor_task": {
-        "task_id": "F1682R-METHOD-A-TIMELINE-AND-INDICATOR-EVIDENCE-CORRECTION",
-        "checkpoint_artifact": "project_coordination/sessions/2026-11-08_chatgpt_review_f1682r.md"
+        "task_id": "F1683-METHOD-A-CONTROLLED-MULTI-FRAME-MISESERI-RECOVERY-AND-LOCALIZATION-CORRECTION",
+        "checkpoint_artifact": "project_coordination/sessions/2026-11-08_chatgpt_review_f1683.md"
     },
     "registration": {
-        "definition": "project_coordination/task_definitions/F1683-METHOD-A-CONTROLLED-MULTI-FRAME-MISESERI-RECOVERY-AND-LOCALIZATION-CORRECTION.json"
+        "definition": "project_coordination/task_definitions/F1684-METHOD-A-MULTISTEP-NATIVE-REMESHING-CAPABILITY-ASSESSMENT.json"
     },
-    "scientific_operation": "method_a_controlled_multi_frame_miseseri_recovery_and_localization_correction",
-    "scientific_operation_id": "f1683_controlled_multi_frame_recovery",
+    "scientific_operation": "method_a_multistep_native_remeshing_and_path_alignment",
+    "scientific_operation_id": "f1684_multistep_remeshing_and_path_alignment",
     "scientific_checkpoint_required": true,
     "max_new_pbs_submissions": 0,
     "completed_operations": [
+        "f1684_multistep_remeshing_and_path_alignment",
         "f1683_controlled_multi_frame_recovery",
         "f1682r_timeline_and_indicator_evidence_correction",
         "f1682_odb_frame_audit_and_correction",
