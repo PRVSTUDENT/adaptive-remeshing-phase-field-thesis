@@ -1,0 +1,24 @@
+{
+  "benchmark": "Pandey_Kumar_2025_Section_4.3",
+  "task_id": "F1690-PK-SEC43-JOB1-CORRECTED-SOLVER-RERUN",
+  "pbs_job_id": "1421200.mmaster02",
+  "stage": "Terminal_Damage_Extraction",
+  "mesh_characteristic_size_mm": 0.6,
+  "mesh_ratio_h_over_l0": 2.105,
+  "total_physical_elements": 24718,
+  "terminal_increment": 170,
+  "terminal_displacement_uy_mm": 0.0687166,
+  "dissipated_fracture_energy_mJ": 13.428,
+  "global_max_damage": 0.9318383932113647,
+  "global_min_damage": 1.0447570586435972e-09,
+  "notch_tip_max_damage": 0.9318383932113647,
+  "secondary_ligament_max_damage": 0.02142450027167797,
+  "active_elements_d_gt_0p1": 45,
+  "active_elements_d_gt_0p5": 8,
+  "active_elements_d_gt_0p9": 2,
+  "pre_penetration_visual_proof": true,
+  "figures": {
+    "pdf": "D:\\Master thesis\\Adaptive remeshing\\MA_AdaptiveRemeshing_Report_2026\\figures\\fig_f1690_sec43_damage_terminal.pdf",
+    "png": "D:\\Master thesis\\Adaptive remeshing\\MA_AdaptiveRemeshing_Report_2026\\figures\\fig_f1690_sec43_damage_terminal.png"
+  }
+}

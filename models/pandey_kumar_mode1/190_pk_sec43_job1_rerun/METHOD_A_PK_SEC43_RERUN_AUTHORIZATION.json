@@ -1,0 +1,44 @@
+{
+  "batch_name": "MODE1_METHOD_A_PK_SEC43_RERUN",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "PK_SEC43_RERUN_JOB1.inp": "9579fdf6d850250bd909545e48e7ce440aed1030c10b9b2547de69f3b9a76d45",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_M1_PK_SEC43_RERUN_JOB1.pbs": "5e4f27978fc5c93e0fb3baa5d64c5601fa7ac6dcd2cd9a04aea46bc50e9d80c9",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "PK_SEC43_RERUN_JOB1_DC.dat": "be03c3742b9a0f10854f4aab2d749cefd3a585310ee5f75e80860eb4abbc04ec"
+  },
+  "jobs": [
+    {
+      "id": "pk_sec43_rerun_job1",
+      "pbs": "submit_M1_PK_SEC43_RERUN_JOB1.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_pk_sec43_rerun_job1/submit_M1_PK_SEC43_RERUN_JOB1.pbs\"",
+      "command_sha256": "8dadfb39ca7d7a0ce3e46b826ac7446d75b84325c65b72e6722b37a17065f913",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Method A Pandey-Kumar Section 4.3 Job-1 Rerun with Corrected Solver Setup: Option 2 Finer Coarse Mesh (h = 0.60 mm, h/l0 = 2.11, 24,718 physical elements, 74,154 layered elements), 1-CPU serial, 2-step loading to u_y = 1.5 mm, generating authentic donor state across load increments for native MISESERI error evaluation and comparison against Fig. 15b.",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "PK_SEC43_RERUN_JOB1.inp",
+      "datacheck": "PK_SEC43_RERUN_JOB1_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "pk_sec43_rerun_job1": "Abaqus 2023 single-rank serial solve completes Stage B Job-1 rerun coarse phase-field fracture simulation on 24,718 physical elements (74,154 layered elements) to u_y approx 1.5 mm, producing donor ODB for native MISESERI evaluation against Fig. 15b."
+  },
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_sec43_rerun_job1",
+  "required_state_checks": [
+    "nodal_displacement_verified",
+    "damage_irreversibility_verified",
+    "committed_history_verified",
+    "state_restoration_verified"
+  ]
+}

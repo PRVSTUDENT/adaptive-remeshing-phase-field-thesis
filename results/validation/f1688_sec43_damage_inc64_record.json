@@ -1,0 +1,20 @@
+{
+  "benchmark": "Pandey_Kumar_2025_Section_4.3",
+  "stage": "Stage_0_Increment_64_Damage_Extraction",
+  "odb_source": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\188_pk_sec43_hole_plate\\PK_SEC43_COARSE_JOB1.odb",
+  "extraction_method": "Local execution on downloaded F1688 coarse ODB",
+  "increment": 64,
+  "step_time": 0.08101434260606766,
+  "top_displacement_uy_mm": 0.08101434260606766,
+  "total_elements_with_damage": 3923,
+  "damage_min": -0.012137976475059986,
+  "damage_max": 0.7722203135490417,
+  "active_elements_d_gt_0p1": 15,
+  "notch_tip_damage_max": 0.7722203135490417,
+  "secondary_ligament_damage_max": 0.025449490174651146,
+  "pre_penetration_visual_proof": false,
+  "figures": {
+    "pdf": "D:\\Master thesis\\Adaptive remeshing\\MA_AdaptiveRemeshing_Report_2026\\figures\\fig_f1688_sec43_damage_inc64.pdf",
+    "png": "D:\\Master thesis\\Adaptive remeshing\\MA_AdaptiveRemeshing_Report_2026\\figures\\fig_f1688_sec43_damage_inc64.png"
+  }
+}

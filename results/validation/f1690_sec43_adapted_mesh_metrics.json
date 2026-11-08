@@ -1,0 +1,51 @@
+{
+  "benchmark": "Pandey_Kumar_2025_Section_4.3_F1690_RERUN",
+  "remeshing_rule": {
+    "variables": [
+      "MISESERI"
+    ],
+    "sizing_method": "UNIFORM_ERROR",
+    "error_target": 5.0,
+    "min_element_size": 0.143,
+    "max_element_size": 1.5,
+    "refinement_factor": 10,
+    "coarsening": "NOT_ALLOWED"
+  },
+  "adapted_mesh": {
+    "total_elements": 30686,
+    "quad_elements": 29666.0,
+    "tri_elements": 1020.0,
+    "total_nodes": 30671,
+    "total_dofs": 61342
+  },
+  "length_scale_l0": 0.285,
+  "primary_corridor": {
+    "count": 897,
+    "min": 0.06522302811845436,
+    "med": 0.3782510680827739,
+    "max": 0.6395746615491226,
+    "pct_l0": 36.677814938684506,
+    "pct_l0_half": 7.1348940914158305
+  },
+  "secondary_corridor": {
+    "count": 430,
+    "min": 0.22968882518457187,
+    "med": 0.510284211198667,
+    "max": 0.6912609655567784,
+    "pct_l0": 2.3255813953488373,
+    "pct_l0_half": 0.0
+  },
+  "overall_mesh_metrics": {
+    "count": 30686,
+    "min": 0.06522302811845436,
+    "med": 0.49043891402251316,
+    "max": 0.7865607816125131,
+    "pct_l0": 5.934302287688197,
+    "pct_l0_half": 0.5572573812161898
+  },
+  "pass_fail": {
+    "primary_corridor_pass": false,
+    "secondary_corridor_pass": false,
+    "overall_pass": false
+  }
+}

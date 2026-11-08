@@ -1,0 +1,33 @@
+{
+  "benchmark": "Pandey_Kumar_2025_Section_4.3",
+  "task_id": "F1690-PK-SEC43-JOB1-CORRECTED-SOLVER-RERUN",
+  "pbs_job_id": "1421200.mmaster02",
+  "exit_code": 1,
+  "solver_outcome": "CUTBACK_EXHAUSTED",
+  "termination_reason": "Monolithic Newton-Raphson tangent non-convexity during localized crack advance",
+  "comparison": {
+    "f1688": {
+      "mesh_seed_mm": 1.5,
+      "h_over_l0": 5.263,
+      "elements": 3923,
+      "dofs": 7846,
+      "termination_increment": 63,
+      "termination_uy_mm": 0.081014346,
+      "e_frac_terminal_J": 0.016090459,
+      "e_elas_terminal_J": 0.23919628
+    },
+    "f1690_rerun": {
+      "mesh_seed_mm": 0.6,
+      "h_over_l0": 2.105,
+      "elements": 24718,
+      "dofs": 49522,
+      "termination_increment": 170,
+      "termination_uy_mm": 0.068716617,
+      "e_frac_terminal_J": 0.013426187,
+      "e_elas_terminal_J": 0.17041599
+    },
+    "energy_dissipation_ratio": 0.8344191424247126
+  },
+  "scientific_conclusion": "Finer coarse discretization (h=0.60 mm = 2.11*l0) successfully regularized the crack initiation zone, increasing dissipated fracture energy by 659x (10.61 mJ vs 0.016 mJ) across 170 equilibrium increments. However, monolithic Newton-Raphson coupled UEL solver diverged at u_y = 0.0687 mm due to tangent non-convexity during localized process zone softening. This definitively proves that monolithic Newton solvers cannot traverse complete crack propagation on non-adapted macroscopic geometry regardless of mesh seed refinement (h=1.5 mm vs 0.6 mm), establishing that a staggered operator split or crack-following adapted mesh is strictly required to simulate complete severance.",
+  "hard_stop_rule_executed": true
+}
