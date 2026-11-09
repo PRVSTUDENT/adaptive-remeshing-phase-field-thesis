@@ -114,5 +114,29 @@ class TestF1703SecondaryCrackRefinement(unittest.TestCase):
         self.assertGreater(sec_03["area_fraction_le_l0_pct"], 99.0, "Area-weighted coverage must exceed 99%")
         self.assertAlmostEqual(sec_03["area_fraction_le_l0_pct"], 99.59, places=1)
 
+    def test_07_terminal_gap_diagnosis(self):
+        diag_path = os.path.join(REPO_ROOT, "results", "validation", "f1703_terminal_gap_diagnosis.json")
+        self.assertTrue(os.path.exists(diag_path), "Terminal gap diagnosis JSON must exist")
+        with open(diag_path, "r") as f:
+            data = json.load(f)
+
+        rc = data["root_cause_diagnosis"]
+        self.assertIn("true_damage_ridge_evaluation", rc)
+        td = rc["true_damage_ridge_evaluation"]
+        self.assertEqual(td["coverage_l0_pct"], 100.0, "True damage ridge must have 100.0% coverage")
+        self.assertEqual(td["max_uncovered_gap_mm"], 0.0, "True damage ridge must have 0.0 mm max gap")
+        self.assertEqual(td["num_gaps"], 0, "True damage ridge must have 0 gaps")
+        self.assertAlmostEqual(td["covered_length_mm"], 18.8339, places=2)
+
+        # Off-axis piecewise gap documented accurately
+        oa = rc["off_axis_piecewise_evaluation"]
+        self.assertAlmostEqual(oa["coverage_l0_pct"], 93.47, places=1)
+        self.assertAlmostEqual(oa["max_uncovered_gap_mm"], 1.2637, places=2)
+
+        # Primary corridor loss documented accurately
+        pc = data["primary_corridor_reconciliation"]
+        self.assertEqual(pc["delta_area_pct"], -1.0)
+        self.assertEqual(pc["scientific_classification"], "OBSERVED_REFINEMENT_LOSS_DUE_TO_POST_ARREST_STRESS_RELAXATION")
+
 if __name__ == "__main__":
     unittest.main()

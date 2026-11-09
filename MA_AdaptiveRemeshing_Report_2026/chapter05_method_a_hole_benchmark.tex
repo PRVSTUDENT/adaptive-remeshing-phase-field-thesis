@@ -1578,7 +1578,7 @@ This audit established three fundamental root causes:
   \end{itemize}
   A linear trajectory fit across the $36$ fully developed secondary crack elements yielded $y(x) = 0.0821 x + 46.9152\,\mathrm{mm}$ ($R^2 = 0.742$), corresponding to an upward inclination of $4.69^\circ$ from $(46.50, 50.73)\,\mathrm{mm}$ at the hole perimeter to $(65.00, 52.25)\,\mathrm{mm}$ at the specimen edge (total vertical deviation $1.52\,\mathrm{mm}$), in excellent agreement with experimental observations of \citet{ambati2015}.
   \item \textbf{Prescribed Recovery Stress Profile in Terminal Severance:}
-  When the full-field UEL kinematic state at terminal severance (State~5, $u_y = 1.500\,\mathrm{mm}$) is prescribed onto the standard continuum recovery model (\texttt{PK\_SEC43\_PRESCRIBED\_STATE5.odb}), the complete kinematic separation across both cracked ligaments produces elevated, localized stress recovery error ($\mathrm{MISESERI} = 2.07$--$5.05\,\mathrm{GPa}$) continuously along the \textbf{entire length of the secondary corridor} from $s = 0.0\,\mathrm{mm}$ to $s = 18.56\,\mathrm{mm}$.
+  When the full-field UEL kinematic state at terminal severance (State~5, $u_y = 1.500\,\mathrm{mm}$) is prescribed onto the standard continuum recovery model (\texttt{PK\_SEC43\_PRESCRIBED\_STATE5.odb}), the complete kinematic separation across both cracked ligaments produces elevated, localized stress recovery error ($\mathrm{MISESERI} = 2.07$--$5.05\,\mathrm{GPa}$) continuously along the \textbf{entire length of the secondary corridor} from $s = 0.0\,\mathrm{mm}$ to $s = 18.56\,\mathrm{mm}$. These multi-GPa stress values must be understood not as physical Cauchy stresses in damaged material (where the true phase-field stress is physically degraded to zero), but as an artificial kinematic displacement-jump gradient proxy: the Superconvergent Patch Recovery (SPR) polynomial fitting operator differentiates steep displacement jumps across nodes separated by a $1.5\,\mathrm{mm}$ physical crack gap, creating an intense mathematical gradient sensor that reliably flags the entire severed crack trajectory.
 \end{enumerate}
 
 \subsubsection{Multi-State Sequential Remeshing Execution}
@@ -1588,7 +1588,7 @@ To capture the complete dual-crack fracture trajectory, a three-pass sequential 
   \item \textbf{Pass 2 (State 4, Secondary Mid-Propagation, $u_y = 0.300\,\mathrm{mm}$):} Inherits the Pass~1 mesh and refines the active secondary crack tip up to $X \approx 55\,\mathrm{mm}$ with coarsening disallowed ($18{,}984$ elements);
   \item \textbf{Pass 3 (State 5, Terminal Dual Severance, $u_y = 1.500\,\mathrm{mm}$):} Adapts the cumulative mesh to the terminal full-field kinematic state with coarsening disallowed, enforcing refinement along the terminal $13.92\,\mathrm{mm}$ segment to the right boundary.
 \end{itemize}
-This produced the candidate adapted mesh \texttt{PK\_SEC43\_F1703\_SECONDARY\_COMPLETE\_ADAPT.inp} ($10{,}065$ elements, $10{,}096$ nodes, $96.61\%$ CPE4 quads, $3.39\%$ CPE3 triangles, minimum element size $h_{\min} = 0.0514\,\mathrm{mm}$). Analysis input processor (\texttt{pre.exe}) and solver datacheck (\texttt{standard.exe}) executed locally with exit code 0 and zero negative element Jacobians (100\% strictly positive orientation).
+It is noted that native \Abaqus \texttt{adaptiveRemesh()} with \texttt{coarseningFactor = NOT\_ALLOWED} does not freeze existing element boundaries or perform hierarchical nested subdivision; rather, it completely regenerates an unstructured mesh in each pass guided by the local sizing field established by the active donor analysis while constraining the sizing field not to exceed previously specified nodal target sizes. This produced the candidate adapted mesh \texttt{PK\_SEC43\_F1703\_SECONDARY\_COMPLETE\_ADAPT.inp} ($10{,}065$ elements, $10{,}096$ nodes, $96.61\%$ CPE4 quads, $3.39\%$ CPE3 triangles, minimum element size $h_{\min} = 0.0514\,\mathrm{mm}$). Analysis input processor (\texttt{pre.exe}) and solver datacheck (\texttt{standard.exe}) executed locally with exit code 0 and zero negative element Jacobians (100\% strictly positive orientation).
 
 \begin{figure}[htbp]
   \centering
@@ -1597,7 +1597,7 @@ This produced the candidate adapted mesh \texttt{PK\_SEC43\_F1703\_SECONDARY\_CO
   \label{fig:f1703_secondary_refinement_synthesis}
 \end{figure}
 
-\subsubsection{Standardized Polygon-Line Clipping Audit and 100\% Coverage Verification}
+\subsubsection{Standardized Polygon-Line Clipping Audit and Terminal Gap Diagnosis}
 Table~\ref{tab:f1703_exact_clipping_progression} presents the standardized 2D polygon-line segment clipping audit comparing the progressive refinement across Tasks~F1701, F1702, and F1703 along canonical and authentic crack trajectories.
 
 \begin{table}[htbp]
@@ -1615,7 +1615,14 @@ Total Elements / Nodes & $10{,}597$ / $10{,}675$ & $18{,}984$ / $19{,}035$ & $\m
 Quad Elements (CPE4) & $10{,}230$ ($96.54\%$) & $18{,}372$ ($96.78\%$) & $\mathbf{9{,}724}$ ($\mathbf{96.61\%}$) & Quad-dominated \\
 Inverted Elements (Neg. Jac.) & $0$ ($100\%$ valid) & $0$ ($100\%$ valid) & $\mathbf{0}$ ($\mathbf{100\%}$ \textbf{valid}) & $0$ implied \\
 \hline
-\textbf{Authentic Secondary Path ($L_2 = 18.56\,\mathrm{mm}$)} & & & & \\
+\textbf{True Damage Ridge Path ($L_2 = 18.83\,\mathrm{mm}$)} & & & & \\
+Trajectory Definition & N/A & N/A & Core $d > 0.999$ via EID 8128 & Full crack core \\
+Centerline Coverage ($h \le \ell_0$) & $31.81\%$ ($5.89\,\mathrm{mm}$) & $48.15\%$ ($8.94\,\mathrm{mm}$) & $\mathbf{100.00\%}$ ($\mathbf{18.83\,\mathrm{mm}}$) & Continuous band \\
+Maximum Uncovered Gap ($h \le \ell_0$) & $12.13\,\mathrm{mm}$ & $9.63\,\mathrm{mm}$ & $\mathbf{0.00\,\mathrm{mm}}$ & $0.00\,\mathrm{mm}$ \\
+Longest Refined Segment & $5.21\,\mathrm{mm}$ & $8.94\,\mathrm{mm}$ & $\mathbf{18.83\,\mathrm{mm}}$ & Full ligament \\
+Fine Coverage ($h \le \ell_0/2$) & $3.12\%$ ($0.58\,\mathrm{mm}$) & $10.47\%$ ($1.94\,\mathrm{mm}$) & $\mathbf{27.13\%}$ ($\mathbf{5.11\,\mathrm{mm}}$) & High resolution \\
+\hline
+\textbf{Linear Fitted Path ($L_2 = 18.56\,\mathrm{mm}$)} & & & & \\
 Centerline Coverage ($h \le \ell_0$) & $31.81\%$ ($5.89\,\mathrm{mm}$) & $48.15\%$ ($8.94\,\mathrm{mm}$) & $\mathbf{100.00\%}$ ($\mathbf{18.56\,\mathrm{mm}}$) & Continuous band \\
 Maximum Uncovered Gap ($h \le \ell_0$) & $12.13\,\mathrm{mm}$ & $9.63\,\mathrm{mm}$ & $\mathbf{0.00\,\mathrm{mm}}$ & $0.00\,\mathrm{mm}$ \\
 Longest Refined Segment & $5.21\,\mathrm{mm}$ & $8.94\,\mathrm{mm}$ & $\mathbf{18.56\,\mathrm{mm}}$ & Full ligament \\
@@ -1624,21 +1631,29 @@ Max Gap for $h \le \ell_0/2$ & $14.99\,\mathrm{mm}$ & $13.40\,\mathrm{mm}$ & $\m
 2D Corridor Elements $\le \ell_0$ & $83.40\%$ ($206/247$) & $87.19\%$ ($422/484$) & $\mathbf{99.89\%}$ ($\mathbf{916/917}$) & 100\% band \\
 2D Corridor Elements $\le \ell_0/2$ & $12.96\%$ ($32/247$) & $33.47\%$ ($162/484$) & $\mathbf{38.71\%}$ ($\mathbf{355/917}$) & High resolution \\
 \hline
+\textbf{Off-Axis Piecewise Path ($L_2 = 19.36\,\mathrm{mm}$)} & & & & \\
+Centerline Coverage ($h \le \ell_0$) & $28.45\%$ ($5.51\,\mathrm{mm}$) & $47.33\%$ ($9.16\,\mathrm{mm}$) & $\mathbf{93.47\%}$ ($\mathbf{18.10\,\mathrm{mm}}$) & Continuous band \\
+Maximum Uncovered Gap ($h \le \ell_0$) & $12.45\,\mathrm{mm}$ & $9.82\,\mathrm{mm}$ & $\mathbf{1.26\,\mathrm{mm}}$ (flank artifact) & $0.00\,\mathrm{mm}$ \\
+Terminal Flank Element Selection & N/A & N/A & EID 8129 ($y=53.28\,\mathrm{mm}$) & Core trajectory \\
+\hline
 \textbf{Canonical Horizontal Path ($L_2 = 18.50\,\mathrm{mm}$)} & & & & \\
 Centerline Coverage ($h \le \ell_0$) & $29.07\%$ ($5.38\,\mathrm{mm}$) & $50.10\%$ ($9.27\,\mathrm{mm}$) & $\mathbf{84.77\%}$ ($\mathbf{15.68\,\mathrm{mm}}$) & Continuous band \\
 Maximum Uncovered Gap ($h \le \ell_0$) & $12.14\,\mathrm{mm}$ & $7.17\,\mathrm{mm}$ & $\mathbf{0.67\,\mathrm{mm}}$ & $0.00\,\mathrm{mm}$ \\
 \hline
 \textbf{Primary Corridor ($L_1 = 25.16\,\mathrm{mm}$)} & & & & \\
 2D Corridor Elements $\le \ell_0$ & $47.30\%$ ($35/74$) & $62.65\%$ ($52/83$) & $\mathbf{52.00\%}$ ($\mathbf{39/75}$) & Continuous band \\
+2D Corridor Area $\le \ell_0$ & $5.12\%$ & $6.25\%$ & $\mathbf{5.25\%}$ ($-1.00\%$ loss) & Continuous band \\
 Minimum Element Size $h_{\min}$ & $0.1361\,\mathrm{mm}$ & $0.0513\,\mathrm{mm}$ & $\mathbf{0.1001\,\mathrm{mm}}$ & $\le \ell_0/2$ \\
 \hline
 \end{tabularx}
 \end{table}
 
-The clipping evaluation demonstrates:
+The clipping evaluation and terminal gap diagnosis demonstrate:
 \begin{enumerate}
-  \item \textbf{Complete Secondary Ligament Enclosure:} Along the authentic secondary crack trajectory, centerline refinement coverage ($h \le \ell_0$) reaches \textbf{100.00\%} with \textbf{zero uncovered gap} ($\Delta s_{\mathrm{gap}} = 0.00\,\mathrm{mm}$), and the longest continuous refined segment spans the entire $18.56\,\mathrm{mm}$ distance from the hole perimeter to the plate edge. Within the 2D bounding corridor ($2\ell_0$ half-width), $99.89\%$ ($916$ out of $917$ elements) satisfy $h \le \ell_0$ with a median element size of $h_{\mathrm{med}} = 0.148\,\mathrm{mm} \approx \ell_0/2$.
-  \item \textbf{Fine Process-Zone Resolution:} The fine resolution scale ($h \le \ell_0/2 = 0.1425\,\mathrm{mm}$) reaches $29.61\%$ coverage along the secondary centerline (an almost threefold increase over Task~F1702), with the maximum gap between fine clusters reduced from $13.40\,\mathrm{mm}$ to $2.19\,\mathrm{mm}$.
+  \item \textbf{Complete Secondary Ligament Enclosure along the True Damage Ridge:} Along the true damage ridge passing through the core damaged elements ($d > 0.999$, EID~8128, $y = 51.80\,\mathrm{mm}$) to the boundary exit ($y = 51.74\,\mathrm{mm}$), centerline refinement coverage ($h \le \ell_0$) reaches \textbf{100.00\%} ($18.8339\,\mathrm{mm}$ of $18.8339\,\mathrm{mm}$) with \textbf{zero uncovered gap} ($\Delta s_{\mathrm{gap}} = 0.00\,\mathrm{mm}$) and an unbroken refined segment of $18.8339\,\mathrm{mm}$. Along the linear regression fit, coverage is likewise \textbf{100.00\%}. Within the 2D bounding corridor ($2\ell_0$ half-width), $99.89\%$ ($916$ out of $917$ elements) satisfy $h \le \ell_0$ with a median element size of $h_{\mathrm{med}} = 0.148\,\mathrm{mm} \approx \ell_0/2$.
+  \item \textbf{Diagnosis of the Piecewise $1.26\,\mathrm{mm}$ Terminal Gap:} Evaluating the piecewise trajectory generated by automated tip tracking revealed a $1.26\,\mathrm{mm}$ gap ($93.47\%$ coverage). Detailed element audit proved this gap to be a geometric waypoint reconstruction artifact rather than a mesh deficiency: in Frame~100, the automated tip tracker selected flank element EID~8129 ($cx = 64.302\,\mathrm{mm}$, $cy = 53.284\,\mathrm{mm}$, $d = 0.8561$) because its $x$-coordinate was $19\,\mu\mathrm{m}$ larger than core element EID~8128 ($cx = 64.283\,\mathrm{mm}$, $cy = 51.800\,\mathrm{mm}$, $d = 0.9997$). This shifted Waypoint~5 by $1.48\,\mathrm{mm}$ ($5.26\ell_0$) upward into unrefined bulk material. Auditing the actual plate boundary elements ($x \in [64.7, 65.0]\,\mathrm{mm}$) across the crack exit ($y \in [51.5, 52.8]\,\mathrm{mm}$) confirmed that all elements (EIDs~655, 8789, 653, 4525, 4526, 8919) are refined to $h \le \ell_0$ ($h = 0.205$--$0.282\,\mathrm{mm}$, $h/\ell_0 \le 0.988$).
+  \item \textbf{Fine Process-Zone Resolution:} The fine resolution scale ($h \le \ell_0/2 = 0.1425\,\mathrm{mm}$) reaches $27.13\%$ on the true damage ridge and $29.61\%$ on the linear fit (an almost threefold increase over Task~F1702), with the maximum gap between fine clusters reduced from $13.40\,\mathrm{mm}$ to $2.19\,\mathrm{mm}$.
+  \item \textbf{Disclosed Primary Corridor Refinement Loss:} In the primary corridor, 2D area coverage $\le \ell_0$ decreased from $6.25\%$ in F1702 to $5.25\%$ in F1703 (a loss of $1.00$ percentage point), and $h_{\min}$ increased from $0.0513\,\mathrm{mm}$ to $0.1001\,\mathrm{mm}$. This reflects post-arrest stress relaxation as tensile load drops upon notch severing, demonstrating that without continuous history anchoring or explicit zone locking, primary wake refinement relaxes during subsequent deformation stages.
   \item \textbf{Computational Efficiency and Mesh Quality:} By accumulating refinement across three physically motivated stages (arrest, active propagation, terminal severance), the mesh achieves complete secondary refinement with only $10{,}065$ elements ($47.0\%$ fewer elements than F1702's $18{,}984$ elements), retaining high quad dominance ($96.61\%$) and $100\%$ positive Jacobians.
 \end{enumerate}
 

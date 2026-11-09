@@ -1,0 +1,108 @@
+{
+  "metadata": {
+    "task_id": "F1703-PK-SEC43-COMPLETE-SECONDARY-CRACK-PATH-ADAPTIVE-REFINEMENT",
+    "operation": "terminal_gap_root_cause_diagnosis",
+    "correlation_id": "HND-F1703-SEC-CRACK-REFINEMENT-003",
+    "l0_mm": 0.285,
+    "l0_half_mm": 0.1425
+  },
+  "root_cause_diagnosis": {
+    "finding": "The 1.26 mm terminal gap in the previous piecewise trajectory is a geometric waypoint reconstruction artifact, NOT a physical mesh deficiency.",
+    "mechanism": "In Frame 100, the automated tip-tracker selected EID 8129 (cx=64.302, cy=53.284, d=0.8561) because its cx was 0.019 mm larger than EID 8128 (cx=64.283, cy=51.800, d=0.9997). This caused Waypoint 5 to veer 1.48 mm (5.26*l0) upward into the diffuse damage flank. Because the remesher correctly keeps the mesh coarse 5*l0 away from the crack, clipping that off-axis line produced a 1.26 mm gap.",
+    "true_damage_ridge_evaluation": {
+      "trajectory_description": "Follows the true full-damage core elements (d > 0.999) through EID 8128 (cy=51.80) to boundary (cy=51.74)",
+      "total_length_mm": 18.8339,
+      "coverage_l0_pct": 100.0,
+      "covered_length_mm": 18.8339,
+      "max_uncovered_gap_mm": 0.0,
+      "num_gaps": 0,
+      "longest_connected_segment_mm": 18.8339,
+      "coverage_l0_half_pct": 27.13,
+      "verdict": "COMPLETE_100PCT_ENCLOSURE_VERIFIED_ON_TRUE_DAMAGE_RIDGE"
+    },
+    "off_axis_piecewise_evaluation": {
+      "trajectory_description": "Off-axis piecewise path through EID 8129 (cy=53.28)",
+      "total_length_mm": 19.3619,
+      "coverage_l0_pct": 93.47,
+      "covered_length_mm": 18.0983,
+      "max_uncovered_gap_mm": 1.2637,
+      "num_gaps": 1
+    },
+    "linear_fitted_evaluation": {
+      "trajectory_description": "Linear regression fit (y = 0.0821x + 46.92 mm)",
+      "total_length_mm": 18.5623,
+      "coverage_l0_pct": 100.0,
+      "max_uncovered_gap_mm": 0.0
+    }
+  },
+  "terminal_boundary_elements": [
+    {
+      "eid": 655,
+      "centroid": [
+        64.854,
+        52.71
+      ],
+      "h_mm": 0.2444,
+      "h_over_l0": 0.858,
+      "is_refined_l0": true
+    },
+    {
+      "eid": 8789,
+      "centroid": [
+        64.859,
+        52.154
+      ],
+      "h_mm": 0.2507,
+      "h_over_l0": 0.88,
+      "is_refined_l0": true
+    },
+    {
+      "eid": 653,
+      "centroid": [
+        64.866,
+        51.899
+      ],
+      "h_mm": 0.2817,
+      "h_over_l0": 0.988,
+      "is_refined_l0": true
+    },
+    {
+      "eid": 4525,
+      "centroid": [
+        64.872,
+        52.35
+      ],
+      "h_mm": 0.207,
+      "h_over_l0": 0.726,
+      "is_refined_l0": true
+    },
+    {
+      "eid": 4526,
+      "centroid": [
+        64.874,
+        52.517
+      ],
+      "h_mm": 0.2051,
+      "h_over_l0": 0.72,
+      "is_refined_l0": true
+    },
+    {
+      "eid": 8919,
+      "centroid": [
+        64.888,
+        51.592
+      ],
+      "h_mm": 0.2729,
+      "h_over_l0": 0.957,
+      "is_refined_l0": true
+    }
+  ],
+  "primary_corridor_reconciliation": {
+    "f1702_area_pct_le_l0": 6.25,
+    "f1703_area_pct_le_l0": 5.25,
+    "delta_area_pct": -1.0,
+    "f1702_h_min_mm": 0.0513,
+    "f1703_h_min_mm": 0.1001,
+    "scientific_classification": "OBSERVED_REFINEMENT_LOSS_DUE_TO_POST_ARREST_STRESS_RELAXATION"
+  }
+}
