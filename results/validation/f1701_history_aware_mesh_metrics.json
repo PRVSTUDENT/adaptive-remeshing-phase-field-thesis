@@ -42,10 +42,16 @@
     }
   },
   "dual_corridor_evaluation": {
-    "primary_corridor_preserved": true,
-    "secondary_corridor_refined": true,
-    "simultaneous_dual_corridor_refinement": true,
-    "verdict": "SIMULTANEOUS_DUAL_CORRIDOR_REFINEMENT_ACHIEVED",
-    "physical_conclusion": "Sequential history-aware mesh adaptation with coarseningFactor=NOT_ALLOWED successfully co-refines both the arrested primary crack corridor and the propagating secondary crack corridor, preserving resolution across the sequential fracture process."
+    "corridor_definition": "broad_bounding_box_corridor_audit_74_elements",
+    "superseded_by": "results/validation/f1701_corridor_connectivity_audit.json",
+    "authoritative_spatial_continuity_verdict": "LOCALIZED_REFINEMENT_IN_BOTH_CORRIDORS_WITH_DISCONTINUOUS_PROCESS_ZONE_COVERAGE",
+    "literature_reproduction_verdict": "NOT_REPRODUCED_UNDER_TESTED_CONDITIONS",
+    "legacy_count_based_indicators": {
+      "primary_corridor_preserved_count_based": true,
+      "secondary_corridor_refined_count_based": true,
+      "simultaneous_dual_corridor_refinement_count_based": true,
+      "legacy_verdict": "SIMULTANEOUS_DUAL_CORRIDOR_REFINEMENT_ACHIEVED"
+    },
+    "physical_conclusion": "Sequential native mesh adaptation with coarseningFactor=NOT_ALLOWED retains localized refinement simultaneously in both crack regions. However, as established in the authoritative centerline connectivity audit (f1701_corridor_connectivity_audit.json), coverage along the primary corridor is discontinuous (max gap 23.53 mm, 2 elements <= l0/2). Published Figures 15(b) and 16(b) remain NOT_REPRODUCED_UNDER_TESTED_CONDITIONS."
   }
 }
