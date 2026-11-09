@@ -1,10 +1,10 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "f1695-method-a-final-closeout-session-001",
-  "task_id": "F1695-METHOD-A-FINAL-CLOSEOUT-AND-FREEZE-READINESS",
-  "started_at": "2026-11-09T06:07:30+01:00",
-  "starting_commit": "8e435ae8aabed1cbf4cbb7ad2693c869a89c9eed",
+  "session_id": "f1696-sec43-standard-element-job1-session-001",
+  "task_id": "F1696-PK-SEC43-STANDARD-ELEMENT-JOB1-FORMULATION-TEST",
+  "started_at": "2026-11-09T07:14:00+01:00",
+  "starting_commit": "923979986c6cc7ee62f26b7b17ea2cbd3ab966c6",
   "allowed_write_scope": [
     "project_coordination",
     "models/pandey_kumar_mode1",
@@ -12,7 +12,8 @@
     "tests/unit",
     "results/validation",
     "MA_AdaptiveRemeshing_Report_2026",
-    "docs"
+    "docs",
+    ".agents"
   ],
-  "notes": "Task F1695 completed under goal HND-F1695-CLOSEOUT-001: Stage 0 review corrections verified line-by-line; Stage 1 folded into Chapter 5, main.pdf compiled cleanly to 280 pages (SHA-256 09F6D0615D7FF76C07F3854EB93BC95C2F09A5C0A399EA35C0B9E76AEB8654FF, zero undefined refs); Stage 2 supervisor presentation pack delivered; Stage 3 freeze readiness checklist delivered; 45/45 tests pass; zero PBS submissions consumed; Method A closed ahead of 13 Dec 2026 freeze."
+  "notes": "Task F1696: Standard-Element Job-1 Formulation Test on Section 4.3 holed plate geometry resolving HND-F1696-JOB1-FORMULATION-001. max_new_pbs_submissions = 1 strictly enforced. Frozen UEL ce8d5edc... untouched. Narrow scope: testing whether standard plane stress elements produce the Fig. 15b dual-branch MISESERI band."
 }

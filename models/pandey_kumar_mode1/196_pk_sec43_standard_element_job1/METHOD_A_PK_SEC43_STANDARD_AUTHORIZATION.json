@@ -1,0 +1,44 @@
+{
+  "batch_name": "MODE1_METHOD_A_PK_SEC43_STANDARD",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "PK_SEC43_STANDARD_JOB1.inp": "b53fab76f070d613456f56a7f7f3a0952bb2c0c9a3c6772cb84ef053b9902ad4",
+    "submit_M1_PK_SEC43_STANDARD_JOB1.pbs": "c5a080374ee2f2bae25bd3748c5d39e66c5360f38fce15809040f1007e29b9f3",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "PK_SEC43_STANDARD_JOB1_DC.dat": "d5bff8cb68610edc811473f88d20bd5c42786b8b85bb30d46d2915e5def80a85"
+  },
+  "jobs": [
+    {
+      "id": "pk_sec43_standard_job1",
+      "pbs": "submit_M1_PK_SEC43_STANDARD_JOB1.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_pk_sec43_standard_job1/submit_M1_PK_SEC43_STANDARD_JOB1.pbs\"",
+      "command_sha256": "154369f940a858a02f38ca720fe96890583c62933e454c774474702995dfcaff",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Method A Pandey-Kumar Section 4.3 Job-1 Standard-Element Formulation Test: Plane-stress linear elastic pre-analysis (*STATIC, DIRECT) on 3,923 physical elements (3,814 CPS4R quads, 109 CPS3 tris, 4,040 nodes), 1-CPU serial, 2-step loading to u_y = 1.5 mm, generating authentic standard-element donor ODB for native MISESERI error evaluation and comparison against Fig. 15b.",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "PK_SEC43_STANDARD_JOB1.inp",
+      "datacheck": "PK_SEC43_STANDARD_JOB1_DC.dat"
+    }
+  ],
+  "acceptance": {
+    "pk_sec43_standard_job1": "Abaqus 2023 single-rank serial solve completes Stage B Job-1 standard plane-stress element simulation on 3,923 elements to u_y = 1.5 mm, producing donor ODB with native MISESERI across load increments for evaluation against Fig. 15b."
+  },
+  "adapter": "mode1-continuum-preanalysis-v1",
+  "configuration": "STANDARD_PLANE_STRESS_JOB1",
+  "hypothesis": "A standard plane-stress element formulation (CPS4R/CPS3) produces a dual-branch elevated-error MISESERI band along both the notch-to-hole path and the secondary flank-to-edge path in the Section 4.3 holed plate.",
+  "scientific_scope": "MODE1",
+  "technical_stage": "CONTINUUM_PREANALYSIS",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_sec43_standard_job1",
+  "required_state_checks": [
+    "nodal_displacement_verified",
+    "miseseri_recovery_verified",
+    "linear_elastic_equilibrium_verified"
+  ]
+}

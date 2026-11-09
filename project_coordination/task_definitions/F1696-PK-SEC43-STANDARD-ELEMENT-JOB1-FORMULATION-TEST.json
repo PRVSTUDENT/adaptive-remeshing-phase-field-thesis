@@ -1,0 +1,34 @@
+{
+  "task_id": "F1696-PK-SEC43-STANDARD-ELEMENT-JOB1-FORMULATION-TEST",
+  "title": "Task F1696 Pandey-Kumar Section 4.3 Job-1 Formulation Test: Standard-Element Job-1 MISESERI Band",
+  "assigned_agent": "gemini-antigravity",
+  "status": "IN_PROGRESS",
+  "handoff_id": "HND-F1696-JOB1-FORMULATION-001",
+  "predecessor_task": {
+    "task_id": "F1695-METHOD-A-FINAL-CLOSEOUT-AND-FREEZE-READINESS",
+    "checkpoint_artifact": "project_coordination/sessions/2026-11-09_0645_gemini-antigravity_F1695.md"
+  },
+  "scientific_operation": "sec43_standard_element_job1_formulation_test",
+  "max_new_pbs_submissions": 1,
+  "scope_boundaries": {
+    "method_a_narrow_reopening": true,
+    "chapter5_closeout_stands": true,
+    "method_c_forbidden": true,
+    "pbs_submissions_allowed": 1,
+    "production_uel_untouched": true,
+    "no_new_fracture_simulations": true,
+    "standard_element_job1_only": true
+  },
+  "band_criterion": {
+    "criterion_a_secondary_max_pct_peak": 30.0,
+    "criterion_b_secondary_mean_rel_error_pct": 10.0,
+    "criterion_c_continuous_band_visual_overlay": true
+  },
+  "deliverables": [
+    "standard_element_job1_deck_and_pbs_job",
+    "miseseri_audit_json_and_figure_with_fig15a_overlay",
+    "quantitative_comparison_against_f1693_case_a",
+    "stage_d_remesh_or_skip_with_falsification_strengthened",
+    "unit_tests_and_independent_review_dispatch"
+  ]
+}

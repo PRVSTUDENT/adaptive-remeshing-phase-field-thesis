@@ -1,21 +1,22 @@
 {
-  "task_id": "F1695-METHOD-A-FINAL-CLOSEOUT-AND-FREEZE-READINESS",
-  "title": "Method A Final Closeout: Apply F1694 Corrections, Fold F1692-F1694 into Chapter 5, Finalise Supervisor Presentation and Report Packaging, Confirm Freeze Readiness",
+  "task_id": "F1696-PK-SEC43-STANDARD-ELEMENT-JOB1-FORMULATION-TEST",
+  "title": "Task F1696 Pandey-Kumar Section 4.3 Job-1 Formulation Test: Standard-Element Job-1 MISESERI Band",
   "status": "COMPLETED",
   "assigned_agent": "gemini-antigravity",
-  "handoff_id": "HND-F1695-CLOSEOUT-001",
+  "handoff_id": "HND-F1696-JOB1-FORMULATION-001",
   "predecessor_task": {
-    "task_id": "F1694-PK-SEC43-MISESERI-FIELDS-AND-MULTI-DONOR-REMESH",
-    "checkpoint_artifact": "project_coordination/sessions/2026-11-08_2345_gemini-antigravity_F1694.md"
+    "task_id": "F1695-METHOD-A-FINAL-CLOSEOUT-AND-FREEZE-READINESS",
+    "checkpoint_artifact": "project_coordination/sessions/2026-11-09_0645_gemini-antigravity_F1695.md"
   },
   "registration": {
-    "definition": "project_coordination/task_definitions/F1695-METHOD-A-FINAL-CLOSEOUT-AND-FREEZE-READINESS.json"
+    "definition": "project_coordination/task_definitions/F1696-PK-SEC43-STANDARD-ELEMENT-JOB1-FORMULATION-TEST.json"
   },
-  "scientific_operation": "method_a_final_closeout_and_freeze_readiness",
-  "scientific_operation_id": "f1695_method_a_final_closeout_and_freeze_readiness",
+  "scientific_operation": "sec43_standard_element_job1_formulation_test",
+  "scientific_operation_id": "f1696_pk_sec43_standard_element_job1_formulation_test",
   "scientific_checkpoint_required": true,
-  "max_new_pbs_submissions": 0,
+  "max_new_pbs_submissions": 1,
   "completed_operations": [
+    "f1696_pk_sec43_standard_element_job1_formulation_test",
     "f1695_method_a_final_closeout_and_freeze_readiness",
     "f1694_sec43_miseseri_fields_and_multi_donor_remesh",
     "f1693_sec43_donor_correction_and_remesh_audit",
