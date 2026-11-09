@@ -1,11 +1,16 @@
 {
   "benchmark": "Pandey & Kumar (2025) Section 4.3",
+  "unit_system": "mm-kN-s-GPa (Stress in kN/mm^2 = GPa; 1.0 kN/mm^2 = 1000.0 MPa)",
   "mesh_parameters": {
     "initial_seed_mm": 1.5,
     "l0_mm": 0.285,
     "h_crit_mm": 0.1425,
     "eta_target": 0.05,
-    "p_exp": 1.0
+    "p_exp": 1.0,
+    "sizing_evaluation_type": "OFFLINE_SIZING_MODEL_PREDICTION",
+    "sizing_equation": "h_new = h_old * (eta_target / eta_e)^(1/p)",
+    "cae_adaptiveRemesh_generated_in_f1698": false,
+    "note": "Native CAE adapted meshes were formally generated and evaluated in F1692 (terminal donor, 15,625 FEs) and F1694 (best midprop donor, 12,110 FEs), both yielding 0.00% <= l0/2 in the secondary corridor."
   },
   "states": {
     "state_1_init": {
@@ -18,6 +23,8 @@
       "mean_miseseri_primary": 0.004404749603341578,
       "max_miseseri_secondary": 0.016423538327217102,
       "mean_miseseri_secondary": 0.004155515896854922,
+      "corridor_max_ratio_sec_to_prim": 0.9782843445582998,
+      "corridor_mean_ratio_sec_to_prim": 0.9434170545591105,
       "corridor_ratio_sec_to_prim": 0.9434170545591105,
       "pct_primary_refined_h_le_half_l0": 0.0,
       "pct_secondary_refined_h_le_half_l0": 0.0
@@ -32,6 +39,8 @@
       "mean_miseseri_primary": 0.005230179823436693,
       "max_miseseri_secondary": 0.022329287603497505,
       "mean_miseseri_secondary": 0.007820490952948794,
+      "corridor_max_ratio_sec_to_prim": 1.1223134604812836,
+      "corridor_mean_ratio_sec_to_prim": 1.4952623460296317,
       "corridor_ratio_sec_to_prim": 1.4952623460296317,
       "pct_primary_refined_h_le_half_l0": 0.0,
       "pct_secondary_refined_h_le_half_l0": 0.0
@@ -46,6 +55,8 @@
       "mean_miseseri_primary": 0.006425321604566355,
       "max_miseseri_secondary": 0.026483476161956787,
       "mean_miseseri_secondary": 0.01009369177566106,
+      "corridor_max_ratio_sec_to_prim": 1.0807593282218734,
+      "corridor_mean_ratio_sec_to_prim": 1.5709239781068178,
       "corridor_ratio_sec_to_prim": 1.5709239781068178,
       "pct_primary_refined_h_le_half_l0": 0.0,
       "pct_secondary_refined_h_le_half_l0": 0.0
@@ -60,6 +71,8 @@
       "mean_miseseri_primary": 0.007557818603808093,
       "max_miseseri_secondary": 0.07445118576288223,
       "mean_miseseri_secondary": 0.01971329396320997,
+      "corridor_max_ratio_sec_to_prim": 2.5841779836926315,
+      "corridor_mean_ratio_sec_to_prim": 2.608331186101397,
       "corridor_ratio_sec_to_prim": 2.608331186101397,
       "pct_primary_refined_h_le_half_l0": 0.0,
       "pct_secondary_refined_h_le_half_l0": 0.0
@@ -74,6 +87,8 @@
       "mean_miseseri_primary": 0.036852048709988594,
       "max_miseseri_secondary": 0.23379655182361603,
       "mean_miseseri_secondary": 0.06347217184712033,
+      "corridor_max_ratio_sec_to_prim": 1.6649496333423635,
+      "corridor_mean_ratio_sec_to_prim": 1.722351241490584,
       "corridor_ratio_sec_to_prim": 1.722351241490584,
       "pct_primary_refined_h_le_half_l0": 0.0,
       "pct_secondary_refined_h_le_half_l0": 0.0
@@ -87,13 +102,20 @@
     "mean_miseseri_primary": 0.036852048709988594,
     "max_miseseri_secondary": 0.23379655182361603,
     "mean_miseseri_secondary": 0.06363739592243771,
+    "corridor_max_ratio_sec_to_prim": 1.6649496333423635,
+    "corridor_mean_ratio_sec_to_prim": 1.7268346849109928,
     "corridor_ratio_sec_to_prim": 1.7268346849109928,
     "pct_primary_refined_h_le_half_l0": 0.0,
     "pct_secondary_refined_h_le_half_l0": 0.0
   },
   "fig15b_reproduction_assessment": {
-    "single_frame_reproduces_both_corridors": false,
-    "multi_frame_envelope_reproduces_both_corridors": false,
-    "scientific_conclusion": "No single-frame snapshot reproduces the continuous dual-corridor refinement band shown in Pandey & Kumar Figure 15(b). At early states (State 1-2), error is strictly confined to the primary crack. At mid-states (State 3-4), error shifts to the secondary crack while the primary crack sheds error. At the terminal state (State 5), both cracks are fully degraded and stress error concentrates on pin-hole boundaries. A continuous dual-corridor band covering both primary and secondary trajectories simultaneously originates from a multi-frame trajectory envelope, cumulative historical error, or an explicit trajectory-based sizing field."
+    "single_frame_reproduces_both_corridors": "NOT_REPRODUCED_UNDER_TESTED_CONDITIONS",
+    "multi_frame_envelope_reproduces_both_corridors_under_single_rule": "NOT_REPRODUCED_UNDER_SINGLE_RULE",
+    "candidate_hypotheses": [
+      "multi_frame_trajectory_differencing_candidates_e10_e12",
+      "plotting_scale_or_contour_normalization_differences",
+      "alternative_undocumented_companion_formulation"
+    ],
+    "scientific_conclusion": "Across the five sampled physical states, the single-rule sizing model fails to refine the secondary corridor to h <= l0/2 (0.00%). The continuous dual-branch refinement band in Figure 15(b) was not reproduced from any single-frame recovery under the tested configurations. Multi-frame trajectory integration, contour normalization differences, or alternative companion formulations remain candidate hypotheses, not proven origins."
   }
 }
