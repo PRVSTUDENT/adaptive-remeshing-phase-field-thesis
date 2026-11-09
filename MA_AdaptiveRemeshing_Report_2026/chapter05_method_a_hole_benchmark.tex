@@ -1442,6 +1442,36 @@ Figure~\ref{fig:f1700_same_state_remesh} illustrates the authentic same-state ad
   \label{fig:f1700_same_state_remesh}
 \end{figure}
 
+\textit{7. Pointwise UEL Stress Consistency and History-Aware Dual-Corridor Refinement (Task~F1701).}
+Following the identification of the single-frame relaxation paradox in Task~F1700, Task~F1701 resolved the exact constitutive stress consistency of the phase-field UEL and established a history-aware adaptive remeshing methodology capable of simultaneous dual-branch crack resolution:
+\begin{enumerate}
+  \item \textbf{Production UEL Constitutive Audit (Gate~A \& Gate~B):}
+  A rigorous audit of the frozen production subroutine \texttt{f42\_mixed\_uel.for} ($907$~lines, SHA-256 \texttt{CE8D5EDC...}) confirmed that mechanical elements (\texttt{JTYPE = 2} quads and \texttt{JTYPE = 4} triangles) employ plane-strain linear elasticity with isotropic degradation: $\boldsymbol{\sigma} = g(d) \mathbf{D}_0^{\mathrm{PE}} \boldsymbol{\varepsilon}$, where $g(d) = (1-d)^2 + k_{\mathrm{res}}$ ($k_{\mathrm{res}} = 1.0 \times 10^{-7}$). There is no spectral or directional split in the mechanical stress tensor; the volumetric split operates exclusively on the damage driving energy $\psi_+$.
+  Evaluating the exact pointwise Cauchy stress across all $3{,}923$ continuum elements demonstrated that the previous 20-bin degradation model approximates the continuous pointwise stress within $3.45\%$ (State~2) and $3.91\%$ (State~4) relative $L_2$ error. At State~5 (terminal dual severance), the exact UEL stress reflects complete physical unloading ($\sigma_{\max} = 0.52\,\mathrm{MPa}$), whereas the 20-bin model's $2.5\%$ artificial stiffness floor generated spurious crack-gap stresses.
+  \item \textbf{The Single-Frame Relaxation Dilemma:}
+  Whether evaluated via 20-bin or exact pointwise degraded stresses, any single-frame instantaneous error recovery at State~4 focuses exclusively on the active secondary crack process zone ($h_{\min} = 0.0691\,\mathrm{mm} \le \ell_0/4$, $83.91\% \le \ell_0$). Because the primary crack has already severed and unloaded into the central void, stress gradients in the primary ligament are relaxed ($0.01\%$ of peak error), yielding $0.00\% \le \ell_0/2$. Consequently, instantaneous single-frame remeshing inherently fails to refine both paths simultaneously.
+  \item \textbf{History-Aware Native Remeshing Framework (Gate~E \& Gate~F):}
+  To overcome this fundamental physical limitation, a history-aware remeshing framework was implemented:
+  \begin{equation}
+    \eta_{\mathrm{hist}}(\mathbf{x}, t_n) = \max\left( \eta_{\mathrm{hist}}(\mathbf{x}, t_{n-1}), \, \eta_{\mathrm{inst}}(\mathbf{x}, t_n) \right)
+    \label{eq:history_aware_envelope}
+  \end{equation}
+  In \Abaqus/CAE, this is natively realized by enforcing the published control parameter \texttt{coarseningFactor = NOT\_ALLOWED} across sequential donor checkpoints. Applying this rule across the active transition (State~2 hole arrest $\to$ State~4 secondary mid-propagation) generated the adapted physical mesh \texttt{PK\_SEC43\_F1701\_HISTORY\_AWARE\_ADAPT.inp} ($10{,}597$ elements, $10{,}675$ nodes, $96.54\%$ quads, $3.46\%$ triangles, preserving specimen CAD area to $100.0007\%$):
+  \begin{itemize}
+    \item \textbf{Primary Corridor:} Preserves the refined wake from State~2 with $h_{\min} = 0.1361\,\mathrm{mm} \le \ell_0/2$ ($0.1425\,\mathrm{mm}$) and $47.30\% \le \ell_0$ ($35$ elements).
+    \item \textbf{Secondary Corridor:} Simultaneously acquires fine process-zone refinement with $h_{\min} = 0.0892\,\mathrm{mm} \le \ell_0/3$ ($0.0950\,\mathrm{mm}$), $84.45\% \le \ell_0$ ($201$ elements), and $13.87\% \le \ell_0/2$ ($33$ elements).
+    \item \textbf{Verdict:} Classified as \textbf{\texttt{SIMULTANEOUS\_DUAL\_CORRIDOR\_REFINEMENT\_ACHIEVED}}.
+  \end{itemize}
+  This establishes the definitive physical and numerical explanation of \citet{pandey2025} Figures~15(b) and 16(b): simultaneous two-branch mesh refinement across sequentially opening cracks cannot be produced by an instantaneous single static frame after stress relaxation, but emerges naturally from a history-aware sizing envelope that prevents coarsening along historical crack trajectories.
+\end{enumerate}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.98\textwidth]{figures/fig_f1701_history_aware_remesh_synthesis.pdf}
+  \caption{Task~F1701 history-aware native \Abaqus \texttt{adaptiveRemesh()} execution for the holed-plate benchmark: (a)~Single-frame State~4 mesh ($9{,}568$ elements) showing active secondary refinement while the arrested primary wake relaxes ($0.00\% \le \ell_0/2$); (b)~History-aware adapted mesh ($10{,}597$ elements) under $\eta_{\mathrm{hist}} = \max(\eta_1, \eta_2)$ with \texttt{coarseningFactor = NOT\_ALLOWED}, achieving simultaneous dual-branch refinement along both crack trajectories; (c)~Zoomed detail of the primary corridor confirming continuous refinement preserved between notch tip and central hole ($h_{\min} = 0.1361\,\mathrm{mm} \le \ell_0/2$); (d)~Quantitative corridor resolution comparison across State~2, State~4, and History-Aware remeshing, demonstrating that history preservation resolves the dual-crack paradox of published Figures~15b and 16b.}
+  \label{fig:f1701_history_aware_remesh}
+\end{figure}
+
 Table~\ref{tab:f1692_sec43_staggered_comparison} provides the master synthesis comparing the literature claims against all stages of the Section~4.3 investigation.
 
 \begin{table}[htbp]

@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "task_id": "F1701-PK-SEC43-POINTWISE-STRESS-AND-HISTORY-AWARE-REMESH",
+    "operation": "history_aware_native_adaptive_remesh",
+    "transition": "State 2 (Hole Arrest) -> State 4 (Secondary Mid-Propagation)",
+    "coarsening_control": "coarseningFactor=NOT_ALLOWED",
+    "adapted_deck_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\201_pk_sec43_pointwise_stress\\PK_SEC43_F1701_HISTORY_AWARE_ADAPT.inp"
+  },
+  "mesh_metrics": {
+    "total_elements": 10597,
+    "quad_elements": 10230.0,
+    "tri_elements": 367.0,
+    "quad_pct": 96.54,
+    "tri_pct": 3.46,
+    "total_nodes": 10675,
+    "total_dofs": 21350,
+    "total_area_mm2": 7325.6939,
+    "area_preservation_pct": 100.0007
+  },
+  "corridors": {
+    "primary": {
+      "count": 74,
+      "min": 0.136117,
+      "median": 0.305472,
+      "mean": 0.483283,
+      "max": 1.601348,
+      "pct_le_l0_half": 2.7,
+      "pct_le_l0": 47.3,
+      "num_le_l0_half": 2.0,
+      "num_le_l0": 35.0
+    },
+    "secondary": {
+      "count": 238,
+      "min": 0.089207,
+      "median": 0.173374,
+      "mean": 0.229844,
+      "max": 1.230756,
+      "pct_le_l0_half": 13.87,
+      "pct_le_l0": 84.45,
+      "num_le_l0_half": 33.0,
+      "num_le_l0": 201.0
+    }
+  },
+  "dual_corridor_evaluation": {
+    "primary_corridor_preserved": true,
+    "secondary_corridor_refined": true,
+    "simultaneous_dual_corridor_refinement": true,
+    "verdict": "SIMULTANEOUS_DUAL_CORRIDOR_REFINEMENT_ACHIEVED",
+    "physical_conclusion": "Sequential history-aware mesh adaptation with coarseningFactor=NOT_ALLOWED successfully co-refines both the arrested primary crack corridor and the propagating secondary crack corridor, preserving resolution across the sequential fracture process."
+  }
+}
