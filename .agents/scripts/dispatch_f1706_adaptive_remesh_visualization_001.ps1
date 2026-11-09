@@ -93,7 +93,7 @@ The agent requests formal independent structured review under HND-F1706-E10-REME
 '@
 
 Write-Host "Dispatching Task F1706 review across PAD bridge..."
-$response = Invoke-ChatGPTBridge -Prompt $scientificReport -TimeoutSeconds 180
+$response = Invoke-ChatGPTBridge -PromptText $scientificReport -HandoffId $handoffId
 
 Write-Host "=== Review Response Received ==="
 Write-Host $response
