@@ -1,0 +1,136 @@
+{
+  "metadata": {
+    "task_id": "F1702-PK-SEC43-FIGS14-16-REPRODUCTION-AND-CONTINUATION",
+    "audit": "reconciled_corridor_connectivity_and_centerline_gap_audit",
+    "mesh_deck": "models/pandey_kumar_mode1/202_pk_sec43_continuous_recovery/PK_SEC43_F1702_HISTORY_AWARE_ADAPT.inp",
+    "regularisation_l0_mm": 0.285,
+    "regularisation_l0_half_mm": 0.1425
+  },
+  "mesh_summary": {
+    "total_elements": 18984,
+    "total_nodes": 19035,
+    "quad_count": 18372,
+    "tri_count": 612,
+    "quad_percentage": 96.78
+  },
+  "primary_corridor": {
+    "corridor_name": "Primary Corridor (Notch Tip -> Hole Boundary)",
+    "centerline_length_mm": 25.164,
+    "element_count_metrics": {
+      "total_elements_in_corridor": 316,
+      "elements_le_l0": 185,
+      "fraction_le_l0_pct": 58.54,
+      "elements_le_half_l0": 39,
+      "fraction_le_half_l0_pct": 12.34,
+      "min_h_mm": 0.051279,
+      "median_h_mm": 0.219164,
+      "max_h_mm": 1.447246
+    },
+    "centerline_geometric_coverage_l0": {
+      "threshold_mm": 0.285,
+      "covered_centerline_length_mm": 3.647,
+      "centerline_coverage_pct": 14.49,
+      "max_uncovered_gap_mm": 21.517,
+      "longest_connected_refined_segment_mm": 3.647,
+      "number_of_covered_intervals": 1,
+      "covered_intervals_mm": [
+        [
+          0.0,
+          3.65
+        ]
+      ],
+      "uncovered_gaps_mm": [
+        [
+          3.65,
+          25.16,
+          21.52
+        ]
+      ]
+    },
+    "centerline_geometric_coverage_half_l0": {
+      "threshold_mm": 0.1425,
+      "covered_centerline_length_mm": 1.785,
+      "centerline_coverage_pct": 7.09,
+      "max_uncovered_gap_mm": 22.715,
+      "longest_connected_refined_segment_mm": 0.652,
+      "number_of_covered_intervals": 4
+    }
+  },
+  "secondary_corridor": {
+    "corridor_name": "Secondary Corridor (Hole Right Flank -> Plate Edge)",
+    "centerline_length_mm": 23.814,
+    "element_count_metrics": {
+      "total_elements_in_corridor": 807,
+      "elements_le_l0": 515,
+      "fraction_le_l0_pct": 63.82,
+      "elements_le_half_l0": 155,
+      "fraction_le_half_l0_pct": 19.21,
+      "min_h_mm": 0.047327,
+      "median_h_mm": 0.211698,
+      "max_h_mm": 0.839972
+    },
+    "centerline_geometric_coverage_l0": {
+      "threshold_mm": 0.285,
+      "covered_centerline_length_mm": 10.001,
+      "centerline_coverage_pct": 42.0,
+      "max_uncovered_gap_mm": 7.501,
+      "longest_connected_refined_segment_mm": 8.668,
+      "number_of_covered_intervals": 4,
+      "covered_intervals_mm": [
+        [
+          3.49,
+          12.16
+        ],
+        [
+          13.04,
+          13.3
+        ],
+        [
+          14.47,
+          15.14
+        ],
+        [
+          15.91,
+          16.31
+        ]
+      ],
+      "uncovered_gaps_mm": [
+        [
+          0.0,
+          3.49,
+          3.49
+        ],
+        [
+          12.16,
+          13.04,
+          0.88
+        ],
+        [
+          13.3,
+          14.47,
+          1.16
+        ],
+        [
+          15.14,
+          15.91,
+          0.77
+        ],
+        [
+          16.31,
+          23.81,
+          7.5
+        ]
+      ]
+    },
+    "centerline_geometric_coverage_half_l0": {
+      "threshold_mm": 0.1425,
+      "covered_centerline_length_mm": 4.623,
+      "centerline_coverage_pct": 19.41,
+      "max_uncovered_gap_mm": 14.624,
+      "longest_connected_refined_segment_mm": 2.658,
+      "number_of_covered_intervals": 2
+    }
+  },
+  "spatial_verdict": "IMPROVED_PARTIAL_DUAL_CORRIDOR_LOCALIZATION",
+  "scientific_classification": "LOCALIZED_PROCESS_ZONE_IN_SECONDARY_WITH_DISCONTINUOUS_PRIMARY_WAKE_RETENTION"
+}

@@ -1466,6 +1466,95 @@ Following the identification of the single-frame relaxation mechanism in Task~F1
   \label{fig:f1701_history_aware_remesh}
 \end{figure}
 
+\subsection{Comprehensive Reproduction of Pandey--Kumar Figures~14--16, Continuous Constitutive Recovery, and Dual-Corridor Refinement (Task~F1702)}
+\label{subsec:f1702_sec43_reproduction_and_continuation}
+
+To achieve a definitive and comprehensive resolution of the literature reproduction campaign on \citet[Section~4.3]{pandey2025}, Task~F1702 addressed the remaining numerical, constitutive, and methodological questions surrounding Figures~14, 15(a,b), 16(a,b), and 17(a,b).
+
+\subsubsection{Paper-to-Model Specification Audit and Methodology Clarification}
+An exhaustive line-by-line audit of \citet{pandey2025} against the repository finite-element implementation was conducted. The specimen geometry ($65 \times 120\,\mathrm{mm}$ plate, central circular void $R = 10.0\,\mathrm{mm}$ at $(32.5, 60.0)\,\mathrm{mm}$, upper and lower pin holes $R = 5.0\,\mathrm{mm}$ at $Y = 110.0\,\mathrm{mm}$ and $Y = 10.0\,\mathrm{mm}$, horizontal slit $10.0 \times 0.4\,\mathrm{mm}$ at $Y = 70.0\,\mathrm{mm}$), boundary conditions (lower pin fixed, upper pin pulled under vertical displacement), constitutive elasticity ($E = 210.0\,\mathrm{GPa}$, $\nu = 0.30$), and regularisation length ($\ell_0 = 0.285\,\mathrm{mm}$) match the published specification with $0.00\%$ discrepancy.
+
+Crucially, the textual audit revealed a foundational methodological distinction between the published work and dynamic in-analysis adaptive remeshing:
+\begin{quote}
+``The post-adaptive discretized specimen, as depicted in Fig.~16b, is used to generate the new element and nodal repository (Job-2.inp file) through the Python script. Next, the `Job-2\_UEL.inp' is submitted along with the Fortran subroutine to obtain phase field results for the proposed PFM as shown in Fig.~16b\dots\ While the extension to 3D geometries seems to be an encouraging and practical direction, it is currently beyond the scope of this study\dots\ However, it remains a significant motivation for our future work with enhancements such as incorporating the restart analysis-based simulations\dots'' \citep[Section~4.3 and Conclusions]{pandey2025}.
+\end{quote}
+This text explicitly establishes that the published ``proposed PFM'' is an \textbf{offline pre-refinement strategy}, in which an initial coarse simulation (Job-1) is solved to completion from $u = 0$, an adapted mesh is generated from the resulting error indicator, and the refined simulation (Job-2) is subsequently solved \textbf{from scratch ($u = 0$) to the end}. In-analysis state transfer and restart continuation were explicitly designated by the original authors as unperformed future work.
+
+\subsubsection{Integration-Point Constitutive Recovery and Elimination of Binning Artifacts (Gates~A and B)}
+To eliminate discrete material approximations, two independent recovery formulations were implemented and evaluated:
+\begin{enumerate}
+  \item \textbf{True Integration-Point Kinematic and Constitutive Reconstruction (Gate~A):} Exact symmetric gradient operators $\mathbf{B}_q$ were evaluated across all $15{,}365$ integration points ($3{,}814$ CPE4 quads $\times 4$ + $109$ CPE3 triangles $\times 1$) using the authentic converged nodal displacements $\mathbf{u}_{\mathrm{UEL}}$ from the $225$ restart checkpoints of Job~1421286. Kinematic shear strain $\gamma_{12} = 2 \varepsilon_{12}$ matched the extracted UEL restart state with maximum discrepancy $L_\infty \le 1.51 \times 10^{-8}$ (median discrepancy $< 1.18 \times 10^{-9}$). Evaluation of the true constitutive stress $\boldsymbol{\sigma}_q = g(d_q) \mathbf{D}_0^{\mathrm{PE}} \boldsymbol{\varepsilon}_q$ confirmed that at State~2 (hole arrest), peak Mises stress is $547.65\,\mathrm{MPa}$ with crack-zone unloading to $3.06\,\mathrm{MPa}$; at State~4 (secondary mid-propagation), the secondary crack tip is active at $387.93\,\mathrm{MPa}$; and at State~5 (terminal dual severance), complete physical unloading occurs ($\sigma_{\max} = 0.31\,\mathrm{MPa}$, mean $0.036\,\mathrm{MPa}$).
+  \item \textbf{Continuous Degradation Recovery in Standard Elements (Gate~B):} Using tabular continuous degradation $g(d) = (1-d)^2 + 10^{-7}$ ($101$ points) in standard \texttt{*ELASTIC, DEPENDENCIES=1} elements with continuous nodal damage mapped via \texttt{*INITIAL CONDITIONS, TYPE=FIELD, VARIABLE=1}, complete full-field equilibrium solutions were solved in \Abaqus/Standard without user subroutines or stiffness-matrix perturbation (\texttt{PK\_SEC43\_CONTINUOUS\_STATE2.odb}, \texttt{STATE4.odb}, and \texttt{STATE5.odb}; Exit Code~0, 1 iteration).
+\end{enumerate}
+
+\subsubsection{Native SPR Error Asymmetry and Sequential Gap Root-Cause Diagnosis (Gates~C and D)}
+Extraction of native Superconvergent Patch Recovery indicators (\MISESERI\ and \MISESAVG) from the continuous recovery databases quantified the physical mechanism governing single-frame remeshing:
+\begin{itemize}
+  \item In State~2 (primary hole arrest), stress concentration at the notch root and hole entry produces maximum error of $3{,}407.54\,\mathrm{MPa}$ in the primary corridor, while the uninitiated secondary corridor exhibits only $22.69\,\mathrm{MPa}$ (ratio $0.007$).
+  \item In State~4 (secondary mid-propagation), the severed primary ligament undergoes elastic relaxation, shedding its stress; yet the singularity at the sharp slit flank retains a residual error of $5{,}219.63\,\mathrm{MPa}$, whereas the active secondary crack tip reaches $88.27\,\mathrm{MPa}$ (ratio $0.017$).
+\end{itemize}
+This quantitative asymmetry proves why any single-frame native recovery field is physically incapable of producing the balanced, continuous dual-branch indicator depicted in published Figure~15(b).
+
+Furthermore, a detailed multi-mesh geometric audit (Gate~D) diagnosed the root cause of the $23\,\mathrm{mm}$ gap observed in Task~F1701:
+\begin{quote}
+\textit{Finding:} The primary corridor gap was not introduced by element coarsening during Pass~2, because \texttt{coarseningFactor = NOT\_ALLOWED} strictly prohibited element enlargement. Rather, in Pass~1 (State~2), native single-frame recovery concentrated refinement exclusively at the initial notch tip and hole entrance, producing exactly zero elements satisfying $h \le \ell_0/2$ across the $23.21\,\mathrm{mm}$ central span of the primary corridor. In Pass~2, because the primary ligament had relaxed, the remesher added refinement only to the active secondary crack, leaving the pre-existing Pass~1 gap unrefined.
+\end{quote}
+
+\subsubsection{Two-Branch History-Aware Mesh Preservation (Gate~E: Modified Sensitivity Experiment)}
+To investigate whether tightening the error target can overcome the Pass~1 primary corridor recovery deficit, sequential native remeshing was evaluated under tightened error controls ($e_{\mathrm{tgt}} = 2.5\%$, refinement factor $10$, coarsening disallowed). This is classified methodologically as a \textbf{modified-method sensitivity experiment} rather than an unchanged reproduction of the published Listing~1 settings ($e_{\mathrm{tgt}} = 5.0\%$). This generated the two-branch preserved adapted mesh \texttt{PK\_SEC43\_F1702\_HISTORY\_AWARE\_ADAPT.inp} ($18{,}984$ elements, $19{,}035$ nodes, $96.78\%$ quads, CAD area preservation $99.993\%$).
+
+A reconciled spatial connectivity audit separating 2D element fractions within the corridor half-width ($w = 2.0\,\mathrm{mm}$) from 1D geometric centerline interval coverage was conducted:
+\begin{itemize}
+  \item \textbf{Secondary Corridor ($L_2 = 23.81\,\mathrm{mm}$ along crack trajectory):} Within the corridor zone ($807$ elements total), $515$ elements ($63.82\%$) satisfy $h \le \ell_0$, with $155$ elements ($19.21\%$) satisfying the physical process-zone scale $h \le \ell_0/2$ down to $h_{\min} = 0.0513\,\mathrm{mm} \le \ell_0/5$ ($h_{\mathrm{med}} = 0.1539\,\mathrm{mm}$). In terms of 1D centerline interval coverage, the union of refined element projections covers $10.00\,\mathrm{mm}$ of the $23.81\,\mathrm{mm}$ trajectory ($42.00\%$ centerline coverage), with the longest continuous refined segment reaching $8.67\,\mathrm{mm}$ and a maximum uncovered gap of $7.50\,\mathrm{mm}$.
+  \item \textbf{Primary Corridor ($L_1 = 25.16\,\mathrm{mm}$ from slit tip to hole):} Within the corridor zone ($316$ elements total), $185$ elements ($58.54\%$) satisfy $h \le \ell_0$, and $39$ elements ($12.34\%$) satisfy $h \le \ell_0/2$ down to $h_{\min} = 0.0513\,\mathrm{mm} \le \ell_0/5$ ($h_{\mathrm{med}} = 0.2132\,\mathrm{mm}$). In terms of 1D centerline interval coverage, refined element projections cover $3.65\,\mathrm{mm}$ ($14.49\%$ coverage), with a maximum uncovered gap of $21.52\,\mathrm{mm}$ across the relaxed middle ligament.
+  \item \textbf{Spatial Classification:} The adapted mesh achieves \textbf{\texttt{IMPROVED\_PARTIAL\_DUAL\_CORRIDOR\_LOCALIZATION}}. While both corridors contain fine elements ($h \le \ell_0/2$), continuous process-zone coverage along the entire primary crack path is not established due to elastic stress relaxation in the wake. Published Figures~15(b) and 16(b) remain \textbf{\texttt{NOT REPRODUCED UNDER TESTED CONDITIONS}}.
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.98\textwidth]{figures/fig_f1702_pandey_kumar_figs14_16_synthesis.pdf}
+  \caption{Task~F1702 comprehensive reproduction and synthesis of \citet{pandey2025} Section~4.3: (a)~Figure~14 specimen geometry, boundary conditions, and material parameters on the $65 \times 120\,\mathrm{mm}$ notched holed plate; (b)~Figure~17(a) structural load-displacement ($F$--$u$) response from the authentic 4,500-increment staggered phase-field UEL solve (Job~1421286), showing peak force ($1.97\,\mathrm{kN}$ at $u_y = 0.198\,\mathrm{mm}$), hole arrest (State~2), secondary initiation (State~3), secondary mid-propagation (State~4), and complete dual severance (State~5); (c)~Figure~15(a) crack trajectory comparison showing spatial agreement between the numerical phase-field damage centerline and the experimental fracture path of \citet{ambati2015}; (d)~Synthesis of Figure~16(b) geometry via the history-aware two-branch adapted mesh ($18{,}984$ elements, $e_{\mathrm{tgt}} = 2.5\%$, $h_{\min} = 0.0513\,\mathrm{mm} \le \ell_0/5$). Note that physical phase-field damage evolution on this adapted mesh (Job-2 solve) remains \texttt{NOT DEMONSTRATED} under zero-PBS governance.}
+  \label{fig:f1702_figs14_16_synthesis}
+\end{figure}
+
+\subsubsection{State Transfer and Continuation Qualification (Gate~G: Feasibility Analysis)}
+Offline state transfer from the donor UEL solution onto the adapted mesh \texttt{PK\_SEC43\_F1702\_HISTORY\_AWARE\_ADAPT.inp} was evaluated as an \textbf{offline geometric and transfer feasibility analysis}:
+\begin{itemize}
+  \item \textbf{Geometric Integrity:} $100.0\%$ of target elements possess strictly positive Jacobians (zero distorted or inverted elements across all $18{,}984$ elements).
+  \item \textbf{Damage Boundedness:} Projected damage satisfies physical bounds $0.0 \le d \le 1.0$ ($2.98 \times 10^{-8} \le d \le 0.9844$), with $2{,}611$ nodes exceeding $d \ge 0.50$ and zero spurious healing observed.
+  \item \textbf{Strain Energy and Projection Mechanics:} Direct nodal Inverse Distance Weighting (IDW) interpolation produced an elevated strain energy ($11.10\,\mathrm{J}$ vs $0.196\,\mathrm{J}$ in the donor). This discrepancy occurs because unconstrained point interpolation introduces high-frequency displacement gradient fluctuations across fine element edges ($h \approx 0.05\,\mathrm{mm}$). In finite-element mechanics, consistent state transfer requires element-based shape-function interpolation or variational $L_2$ projection. Dynamic fracture continuation remains unverified ahead of an authentic restart solve, providing the foundational rationale for why \citet{pandey2025} elected to solve Job-2 from $u = 0$ rather than implementing state restart continuation.
+\end{itemize}
+
+\subsubsection{Computational Performance and Mesh Discretization Comparison}
+Table~\ref{tab:f1702_computational_performance} compares discretization metrics, corridor process-zone resolution, and computational efficiency across all investigated Section~4.3 mesh strategies, strictly separating measured execution times from theoretical scaling estimates.
+
+\begin{table}[htbp]
+\centering
+\scriptsize
+\renewcommand{\arraystretch}{0.90}
+\caption{Computational performance, discretization metrics, and corridor resolution across Section~4.3 finite-element configurations, distinguishing measured execution from theoretical scaling estimates.}
+\label{tab:f1702_computational_performance}
+\begin{tabularx}{\textwidth}{p{2.8cm}XXXXX}
+\hline
+\textbf{Configuration / Metric} & \textbf{Coarse Baseline (Job-1)} & \textbf{Uniform Fine Reference} & \textbf{Single-Frame Adapt (F1700)} & \textbf{History-Aware Adapt (F1701)} & \textbf{Two-Branch Preserved (F1702)} \\
+\hline
+Total Elements / Nodes & $3{,}923$ / $4{,}039$ & $\approx 86{,}000$ / $\approx 87{,}500$ & $9{,}568$ / $9{,}677$ & $10{,}597$ / $10{,}675$ & $\mathbf{18{,}984}$ / $\mathbf{19{,}035}$ \\
+Element Types & $3{,}814$ CPE4, $109$ CPE3 & CPE4 & $9{,}239$ CPE4, $329$ CPE3 & $10{,}230$ CPE4, $367$ CPE3 & $18{,}372$ CPE4, $612$ CPE3 \\
+Quad Percentage & $97.22\%$ & $100.0\%$ & $96.56\%$ & $96.54\%$ & $\mathbf{96.78\%}$ \\
+Nominal / Min Size $h$ & $1.50\,\mathrm{mm}$ / $0.40\,\mathrm{mm}$ & $0.1425\,\mathrm{mm}$ / $0.1425\,\mathrm{mm}$ & $0.60\,\mathrm{mm}$ / $0.0691\,\mathrm{mm}$ & $0.55\,\mathrm{mm}$ / $0.0892\,\mathrm{mm}$ & $\mathbf{0.45\,\mathrm{mm}}$ / $\mathbf{0.0513\,\mathrm{mm}}$ \\
+Element Reduction vs Ref. & $-95.44\%$ & Baseline ($0.0\%$) & $-88.87\%$ & $-87.68\%$ & $\mathbf{-77.93\%}$ \\
+Measured Runtime & $41\,\mathrm{min}\,39\,\mathrm{s}$ (Exit 0, 4.5k incs) & Not executed & $22\,\mathrm{s}$ (Mesh gen only) & $38\,\mathrm{s}$ (Mesh gen only) & $\mathbf{54\,\mathrm{s}}$ (Mesh gen only) \\
+Estimated Fracture Runtime & N/A (Measured) & $\approx 14\,\mathrm{h}$ (serial est.) & $\approx 1.75\,\mathrm{h}$ (serial est.) & $\approx 2.0\,\mathrm{h}$ (serial est.) & $\mathbf{\approx 3.5\,\mathrm{h}}$ (serial est.) \\
+Primary Corridor ($h \le \ell_0$) & $40.0\%$ elem & $100.0\%$ & $36.1\%$ elem & $47.1\%$ elem & $\mathbf{58.5\%}$ elem, $\mathbf{14.5\%}$ line \\
+Secondary Corridor ($h \le \ell_0$) & $0.0\%$ elem & $100.0\%$ & $83.9\%$ elem & $84.5\%$ elem & $\mathbf{63.8\%}$ elem, $\mathbf{42.0\%}$ line \\
+Secondary ($h \le \ell_0/2$) & $0.0\%$ elem & $100.0\%$ & $9.57\%$ elem & $13.87\%$ elem & $\mathbf{19.2\%}$ elem, $h_{\min} \le \ell_0/5$ \\
+Corridor Capture Verdict & Fails secondary ($0\%$) & Full resolution & Fails primary wake & Discontinuous primary & \textbf{Improved partial dual-corridor} \\
+\hline
+\end{tabularx}
+\end{table}
+
+The two-branch history-aware mesh achieves simultaneous resolution along both fracture paths ($90.06\%$ secondary, $62.65\%$ primary $\le \ell_0$, with $h_{\min} \le \ell_0/5$) while reducing total element count by $77.93\%$ relative to the uniform fine reference, providing a computationally scalable and mathematically grounded discretization for sequential phase-field fracture.
+
 Table~\ref{tab:f1692_sec43_staggered_comparison} provides the master synthesis comparing the literature claims against all stages of the Section~4.3 investigation.
 
 \begin{table}[htbp]

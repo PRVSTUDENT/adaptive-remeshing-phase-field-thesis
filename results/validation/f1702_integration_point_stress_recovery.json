@@ -1,0 +1,171 @@
+{
+  "metadata": {
+    "task_id": "F1702-PK-SEC43-FIGS14-16-REPRODUCTION-AND-CONTINUATION",
+    "operation": "gate_a_true_integration_point_constitutive_recovery",
+    "classification": "CONSTITUTIVE_RECONSTRUCTION_VALIDATED_AGAINST_UEL_EQUATIONS",
+    "provenance": {
+      "source_uel_json": "results/validation/f1700_extracted_uel_full_field.json",
+      "mesh_inp": "models/pandey_kumar_mode1/200_pk_sec43_prescribed_same_state/PK_SEC43_PRESCRIBED_STATE2.inp",
+      "total_nodes": 4039,
+      "total_elements": 3923,
+      "total_integration_points": 15365
+    },
+    "constitutive_law": {
+      "elasticity": "plane_strain_isotropic",
+      "E_GPa": 210.0,
+      "nu": 0.3,
+      "k_res": 1e-07,
+      "C11_0_GPa": 282.6923076923077,
+      "C12_0_GPa": 121.15384615384615,
+      "C33_0_GPa": 80.76923076923076,
+      "degradation_function": "g(d) = (1 - d)^2 + k_res",
+      "spectral_split_in_cauchy_stress": false
+    }
+  },
+  "states": {
+    "STATE2": {
+      "state_name": "State 2: Hole Arrest",
+      "nominal_uy_mm": 0.2,
+      "total_ips": 15365,
+      "strain_reconstruction_accuracy": {
+        "l2_norm_e11": 0.009692246325557109,
+        "l2_norm_e22": 0.009692242156949872,
+        "l2_norm_gamma12": 1.5395975873111128e-07,
+        "linf_norm_e11": 0.009182664379517777,
+        "linf_norm_e22": 0.009182658051160697,
+        "linf_norm_gamma12": 1.505589369843463e-08,
+        "median_abs_diff_e11": 9.020090180350158e-08,
+        "median_abs_diff_e22": 8.982602585274474e-08,
+        "median_abs_diff_gamma12": 1.176101359096765e-09,
+        "verdict": "KINEMATIC_STRAIN_RECONSTRUCTION_PASS"
+      },
+      "pointwise_stress_extrema_MPa": {
+        "max_mises": 547.6498434086262,
+        "mean_mises": 68.79515791452799,
+        "max_s11": 338.4167286125339,
+        "min_s11": -319.47781028418257,
+        "max_s22": 526.7566876764794,
+        "min_s22": -345.3003366076213,
+        "max_s12": 313.2779247220267,
+        "min_s12": -282.88963182721324
+      },
+      "strain_energy_density_mJ_per_mm3": {
+        "max_psi": 1.2096677209573676,
+        "mean_psi": 0.024966597119715883
+      },
+      "intra_element_ip_variation_MPa": {
+        "mean_diff_ip_vs_elem_mean": 2.3051312723765056,
+        "max_diff_ip_vs_elem_mean": 67.93046959270174,
+        "relative_diff_pct": 3.350717321181864
+      },
+      "zone_partitioned_stress_MPa": {
+        "crack_zone_d_ge_05": {
+          "num_elements": 64,
+          "mean_mises": 3.056738133325829,
+          "max_mises": 17.41599927808109
+        },
+        "undamaged_zone_d_lt_005": {
+          "num_elements": 3383,
+          "mean_mises": 65.5215845387138,
+          "max_mises": 334.3685975483969
+        }
+      }
+    },
+    "STATE4": {
+      "state_name": "State 4: Secondary Mid-Propagation",
+      "nominal_uy_mm": 0.3,
+      "total_ips": 15365,
+      "strain_reconstruction_accuracy": {
+        "l2_norm_e11": 0.014711443613415339,
+        "l2_norm_e22": 0.014711452655733856,
+        "l2_norm_gamma12": 2.644360461630107e-07,
+        "linf_norm_e11": 0.013930570029989986,
+        "linf_norm_e22": 0.013930578308504638,
+        "linf_norm_gamma12": 2.7415320347223826e-08,
+        "median_abs_diff_e11": 9.224717278282293e-08,
+        "median_abs_diff_e22": 9.25469487798175e-08,
+        "median_abs_diff_gamma12": 2.044301953413319e-09,
+        "verdict": "KINEMATIC_STRAIN_RECONSTRUCTION_PASS"
+      },
+      "pointwise_stress_extrema_MPa": {
+        "max_mises": 553.041932035878,
+        "mean_mises": 76.15776284401511,
+        "max_s11": 413.4651628084799,
+        "min_s11": -426.3421482615944,
+        "max_s22": 612.296174429894,
+        "min_s22": -509.6782279359501,
+        "max_s12": 308.61351327986245,
+        "min_s12": -303.87073458827564
+      },
+      "strain_energy_density_mJ_per_mm3": {
+        "max_psi": 3.1298578885421207,
+        "mean_psi": 0.03515681064226204
+      },
+      "intra_element_ip_variation_MPa": {
+        "mean_diff_ip_vs_elem_mean": 2.6981839222155424,
+        "max_diff_ip_vs_elem_mean": 155.10614100588515,
+        "relative_diff_pct": 3.542887581587594
+      },
+      "zone_partitioned_stress_MPa": {
+        "crack_zone_d_ge_05": {
+          "num_elements": 80,
+          "mean_mises": 39.96938757035681,
+          "max_mises": 387.9342890793592
+        },
+        "undamaged_zone_d_lt_005": {
+          "num_elements": 3307,
+          "mean_mises": 69.87973177718814,
+          "max_mises": 292.27411791461884
+        }
+      }
+    },
+    "STATE5": {
+      "state_name": "State 5: Terminal Dual Severance",
+      "nominal_uy_mm": 1.5,
+      "total_ips": 15365,
+      "strain_reconstruction_accuracy": {
+        "l2_norm_e11": 0.06268084395854828,
+        "l2_norm_e22": 0.06268087861698528,
+        "l2_norm_gamma12": 1.182932356562333e-06,
+        "linf_norm_e11": 0.0572345273981498,
+        "linf_norm_e22": 0.05723453746202889,
+        "linf_norm_gamma12": 9.172906345611409e-08,
+        "median_abs_diff_e11": 4.417147703886612e-11,
+        "median_abs_diff_e22": 1.716904648833839e-09,
+        "median_abs_diff_gamma12": 7.631507162320084e-10,
+        "verdict": "KINEMATIC_STRAIN_RECONSTRUCTION_PASS"
+      },
+      "pointwise_stress_extrema_MPa": {
+        "max_mises": 0.30642736469862386,
+        "mean_mises": 0.03629722263869108,
+        "max_s11": 0.16992611323638349,
+        "min_s11": -0.17313207419086976,
+        "max_s22": 0.2906667146177614,
+        "min_s22": -0.2536194718041532,
+        "max_s12": 0.14488340039688874,
+        "min_s12": -0.16798654487188497
+      },
+      "strain_energy_density_mJ_per_mm3": {
+        "max_psi": 0.12790698396273306,
+        "mean_psi": 0.00019188278991143288
+      },
+      "intra_element_ip_variation_MPa": {
+        "mean_diff_ip_vs_elem_mean": 0.001654219067196518,
+        "max_diff_ip_vs_elem_mean": 0.08540717421563515,
+        "relative_diff_pct": 4.557426014830128
+      },
+      "zone_partitioned_stress_MPa": {
+        "crack_zone_d_ge_05": {
+          "num_elements": 120,
+          "mean_mises": 0.040281773926536764,
+          "max_mises": 0.2392783733984594
+        },
+        "undamaged_zone_d_lt_005": {
+          "num_elements": 3256,
+          "mean_mises": 0.031185360336117695,
+          "max_mises": 0.15114093145045523
+        }
+      }
+    }
+  }
+}

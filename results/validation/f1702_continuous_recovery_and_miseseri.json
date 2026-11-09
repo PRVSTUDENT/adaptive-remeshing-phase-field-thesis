@@ -1,0 +1,128 @@
+{
+  "metadata": {
+    "task_id": "F1702-PK-SEC43-FIGS14-16-REPRODUCTION-AND-CONTINUATION",
+    "operation": "gate_b_and_gate_c_continuous_recovery_and_miseseri_evaluation",
+    "provenance": {
+      "continuous_recovery_dir": "models/pandey_kumar_mode1/202_pk_sec43_continuous_recovery",
+      "historical_20bin_dir": "models/pandey_kumar_mode1/200_pk_sec43_prescribed_same_state",
+      "gate_a_json": "results/validation/f1702_integration_point_stress_recovery.json",
+      "total_elements": 3923
+    }
+  },
+  "states": {
+    "STATE2": {
+      "gate_b_stress_comparison": {
+        "continuous_max_mises_MPa": 7628.937721252441,
+        "continuous_mean_mises_MPa": 74.645847261464,
+        "historical_20bin_max_mises_MPa": 72155.07507324219,
+        "historical_20bin_mean_mises_MPa": 217.78893095797423,
+        "gate_a_exact_max_mises_MPa": 547.6498434086262,
+        "gate_a_exact_mean_mises_MPa": 68.79515791452799,
+        "diff_continuous_vs_20bin": {
+          "max_abs_diff_MPa": 64526.137351989746,
+          "relative_l2_diff_pct": 95.127551920795
+        }
+      },
+      "gate_c_native_miseseri": {
+        "global_miseseri_max_MPa": 3407.5417518615723,
+        "global_miseseri_mean_MPa": 9.673503033055374,
+        "domain_misesavg_MPa": 4.711376037448645,
+        "normalized_peak_pct_misesavg": 72325.82847933448,
+        "peak_element_id": 315,
+        "peak_element_coordinates": {
+          "x_mm": 10.557186600000001,
+          "y_mm": 69.9656315
+        },
+        "corridor_distribution": {
+          "primary_corridor_max_MPa": 3407.5417518615723,
+          "primary_corridor_mean_MPa": 123.07163230203018,
+          "secondary_corridor_max_MPa": 22.693026810884476,
+          "secondary_corridor_mean_MPa": 5.669602689541582,
+          "ratio_sec_to_prim_max": 0.006659647471226746,
+          "ratio_sec_to_prim_mean": 0.0460675021813947
+        },
+        "comparison_with_figure_15b": {
+          "figure_15b_shows_both_branches": true,
+          "instantaneous_miseseri_shows_both_branches": false,
+          "verdict": "PRIMARY_CORRIDOR_ACTIVE_SECONDARY_UNINITIATED"
+        }
+      }
+    },
+    "STATE4": {
+      "gate_b_stress_comparison": {
+        "continuous_max_mises_MPa": 11698.094367980957,
+        "continuous_mean_mises_MPa": 85.71034706531304,
+        "historical_20bin_max_mises_MPa": 110800.23193359375,
+        "historical_20bin_mean_mises_MPa": 316.815619450611,
+        "gate_a_exact_max_mises_MPa": 553.041932035878,
+        "gate_a_exact_mean_mises_MPa": 76.15776284401511,
+        "diff_continuous_vs_20bin": {
+          "max_abs_diff_MPa": 99102.1375656128,
+          "relative_l2_diff_pct": 95.23913547272606
+        }
+      },
+      "gate_c_native_miseseri": {
+        "global_miseseri_max_MPa": 5219.633102416992,
+        "global_miseseri_mean_MPa": 14.230638634958211,
+        "domain_misesavg_MPa": 4.578018561005592,
+        "normalized_peak_pct_misesavg": 114015.11446188774,
+        "peak_element_id": 315,
+        "peak_element_coordinates": {
+          "x_mm": 10.557186600000001,
+          "y_mm": 69.9656315
+        },
+        "corridor_distribution": {
+          "primary_corridor_max_MPa": 5219.633102416992,
+          "primary_corridor_mean_MPa": 188.27761173431938,
+          "secondary_corridor_max_MPa": 88.27342838048935,
+          "secondary_corridor_mean_MPa": 7.3670575117974195,
+          "ratio_sec_to_prim_max": 0.016911807142079325,
+          "ratio_sec_to_prim_mean": 0.03912869641767687
+        },
+        "comparison_with_figure_15b": {
+          "figure_15b_shows_both_branches": true,
+          "instantaneous_miseseri_shows_both_branches": false,
+          "verdict": "SECONDARY_CORRIDOR_DOMINANT_PRIMARY_RELAXED"
+        }
+      }
+    },
+    "STATE5": {
+      "gate_b_stress_comparison": {
+        "continuous_max_mises_MPa": 47878.662109375,
+        "continuous_mean_mises_MPa": 62.88640103530362,
+        "historical_20bin_max_mises_MPa": 453956.4208984375,
+        "historical_20bin_mean_mises_MPa": 1716.2044180211763,
+        "gate_a_exact_max_mises_MPa": 0.30642736469862386,
+        "gate_a_exact_mean_mises_MPa": 0.03629722263869108,
+        "diff_continuous_vs_20bin": {
+          "max_abs_diff_MPa": 406077.7587890625,
+          "relative_l2_diff_pct": 95.98381876226664
+        }
+      },
+      "gate_c_native_miseseri": {
+        "global_miseseri_max_MPa": 21493.87550354004,
+        "global_miseseri_mean_MPa": 72.62100865615784,
+        "domain_misesavg_MPa": 0.03177138205501251,
+        "normalized_peak_pct_misesavg": 67651685.61544836,
+        "peak_element_id": 315,
+        "peak_element_coordinates": {
+          "x_mm": 10.557186600000001,
+          "y_mm": 69.9656315
+        },
+        "corridor_distribution": {
+          "primary_corridor_max_MPa": 21493.87550354004,
+          "primary_corridor_mean_MPa": 825.9049939484204,
+          "secondary_corridor_max_MPa": 5442.1706199646,
+          "secondary_corridor_mean_MPa": 233.21006003482753,
+          "ratio_sec_to_prim_max": 0.25319634046769623,
+          "ratio_sec_to_prim_mean": 0.28236911235990425
+        },
+        "comparison_with_figure_15b": {
+          "figure_15b_shows_both_branches": true,
+          "instantaneous_miseseri_shows_both_branches": false,
+          "verdict": "DUAL_SEVERANCE_PIN_BOUNDARY_CONCENTRATION_PHYSICAL_UNLOADING_VERIFIED"
+        }
+      }
+    }
+  }
+}

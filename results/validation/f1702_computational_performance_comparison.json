@@ -1,0 +1,111 @@
+{
+  "metadata": {
+    "task_id": "F1702-PK-SEC43-FIGS14-16-REPRODUCTION-AND-CONTINUATION",
+    "benchmark": "Pandey & Kumar (2025) Section 4.3 (65 x 120 mm Holed Plate)",
+    "comparison_scope": "Discretization efficiency, corridor capture, and computational scalability",
+    "methodological_classification": "e_tgt=2.5% classified as modified-method sensitivity experiment"
+  },
+  "models": {
+    "coarse_job1_baseline": {
+      "name": "Coarse Mesh Baseline (Job-1)",
+      "elements": 3923,
+      "nodes": 4039,
+      "element_types": {
+        "CPE4": 3814,
+        "CPE3": 109
+      },
+      "quad_percentage": 97.22,
+      "nominal_h_mm": 1.5,
+      "h_min_mm": 0.4,
+      "element_reduction_vs_uniform_pct": 95.44,
+      "measured_runtime": "41m 39s (Job 1421286, 4,500 incs, 1 CPU)",
+      "estimated_runtime": "N/A (Measured)",
+      "runtime_type": "MEASURED_AUTHENTIC",
+      "solver_status": "Exit 0 (Completed through dual severance uy=1.50mm)",
+      "secondary_resolution": "0.00% <= l0 (Fails process zone)",
+      "primary_resolution": "40.0% <= l0 (Coarse slit)"
+    },
+    "standard_pfm_uniform_reference": {
+      "name": "Standard PFM Uniform Fine Reference (Pandey & Kumar 2025)",
+      "elements": 86000,
+      "nodes": 87500,
+      "element_types": {
+        "CPE4": 86000
+      },
+      "quad_percentage": 100.0,
+      "nominal_h_mm": 0.1425,
+      "h_min_mm": 0.1425,
+      "element_reduction_vs_uniform_pct": 0.0,
+      "measured_runtime": "Not executed locally / on cluster",
+      "estimated_runtime": "~14h (serial) / ~3.5h (8-SMP, based on 21.9x DOF ratio)",
+      "runtime_type": "THEORETICAL_ESTIMATE",
+      "solver_status": "Literature reference (Pandey & Kumar Fig 16b)",
+      "secondary_resolution": "100.0% <= l0/2 (Uniform fine)",
+      "primary_resolution": "100.0% <= l0/2 (Uniform fine)"
+    },
+    "f1700_single_frame_state4_adapt": {
+      "name": "Single-Frame State 4 Native Adapted Mesh (Task F1700)",
+      "elements": 9568,
+      "nodes": 9677,
+      "element_types": {
+        "CPE4": 9239,
+        "CPE3": 329
+      },
+      "quad_percentage": 96.56,
+      "nominal_h_mm": 0.6,
+      "h_min_mm": 0.0691,
+      "element_reduction_vs_uniform_pct": 88.87,
+      "measured_runtime": "Mesh generation: 22s (CAE 2024)",
+      "estimated_runtime": "~1h 45m (serial, based on 2.4x DOF ratio vs Job-1)",
+      "runtime_type": "ESTIMATED_FRACTURE_SOLVE",
+      "solver_status": "Mesh generated; fracture solve deferred under zero-PBS",
+      "secondary_resolution": "83.9% <= l0, 9.57% <= l0/2 (Active crack)",
+      "primary_resolution": "36.1% <= l0, 0.00% <= l0/2 (Relaxed wake)"
+    },
+    "f1701_history_aware_adapt": {
+      "name": "History-Aware Dual-Corridor Mesh (Task F1701, e_tgt=5.0%)",
+      "elements": 10597,
+      "nodes": 10675,
+      "element_types": {
+        "CPE4": 10230,
+        "CPE3": 367
+      },
+      "quad_percentage": 96.54,
+      "nominal_h_mm": 0.55,
+      "h_min_mm": 0.0892,
+      "element_reduction_vs_uniform_pct": 87.68,
+      "measured_runtime": "Mesh generation: 38s (CAE 2024, 2 passes)",
+      "estimated_runtime": "~2h 00m (serial, based on 2.6x DOF ratio vs Job-1)",
+      "runtime_type": "ESTIMATED_FRACTURE_SOLVE",
+      "solver_status": "Mesh generated; fracture solve deferred under zero-PBS",
+      "secondary_resolution": "84.5% <= l0, 13.87% <= l0/2 (Localized)",
+      "primary_resolution": "47.1% <= l0, 2.86% <= l0/2 (Discontinuous)"
+    },
+    "f1702_two_branch_preserved_adapt": {
+      "name": "Two-Branch History-Aware Preserved Mesh (Task F1702, e_tgt=2.5%)",
+      "elements": 18984,
+      "nodes": 19035,
+      "element_types": {
+        "CPE4": 18372,
+        "CPE3": 612
+      },
+      "quad_percentage": 96.78,
+      "nominal_h_mm": 0.45,
+      "h_min_mm": 0.0513,
+      "element_reduction_vs_uniform_pct": 77.93,
+      "measured_runtime": "Mesh generation: 54s (CAE 2024, 2 passes)",
+      "estimated_runtime": "~3h 30m (serial, based on 4.7x DOF ratio vs Job-1)",
+      "runtime_type": "ESTIMATED_FRACTURE_SOLVE",
+      "solver_status": "Mesh generated; fracture solve deferred under zero-PBS",
+      "secondary_resolution": "63.8% elem, 42.0% centerline <= l0, 19.2% <= l0/2",
+      "primary_resolution": "58.5% elem, 14.5% centerline <= l0, 12.3% <= l0/2"
+    }
+  },
+  "key_findings": [
+    "The coarse mesh (3,923 elements) solves in 41m 39s on HPC (Job 1421286) but completely fails to resolve the secondary process zone (0.00% <= l0).",
+    "The standard uniform fine PFM requires ~86,000 elements to guarantee h <= l0/2 everywhere, with estimated serial solve time of ~14h.",
+    "The single-frame native remeshed mesh (9,568 elements) achieves 88.87% element savings but suffers from primary corridor relaxation (0.00% <= l0/2).",
+    "The two-branch history-aware mesh (18,984 elements, e_tgt=2.5%) achieves improved dual-corridor localization (h_min = 0.0513 mm <= l0/5) while still reducing element count by 77.93% relative to uniform fine discretization.",
+    "Tightening errorTarget to 2.5% is classified as a modified-method sensitivity experiment rather than direct reproduction of the published 5.0% setting."
+  ]
+}

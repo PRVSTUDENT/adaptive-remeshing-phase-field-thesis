@@ -1,0 +1,141 @@
+{
+  "metadata": {
+    "task_id": "F1702-PK-SEC43-FIGS14-16-REPRODUCTION-AND-CONTINUATION",
+    "operation": "gate_d_sequential_refinement_gap_diagnosis",
+    "methodology": "multi_mesh_geometric_and_spatial_corridor_audit"
+  },
+  "meshes": {
+    "M0_ORIGINAL_COARSE": {
+      "mesh_name": "M0_ORIGINAL_COARSE",
+      "total_elements": 3923,
+      "total_nodes": 4039,
+      "primary_corridor": {
+        "count": 22,
+        "min_h": 0.8435,
+        "median_h": 1.1581,
+        "max_h": 1.6565,
+        "num_le_l0": 0,
+        "pct_le_l0": 0.0,
+        "num_le_l0_half": 0,
+        "pct_le_l0_half": 0.0,
+        "max_gap_mm": 25.16,
+        "coverage_pct": 0.0
+      },
+      "secondary_corridor": {
+        "count": 9,
+        "min_h": 1.3696,
+        "median_h": 1.4711,
+        "max_h": 1.6709,
+        "num_le_l0": 0,
+        "pct_le_l0": 0.0,
+        "num_le_l0_half": 0,
+        "pct_le_l0_half": 0.0,
+        "max_gap_mm": 18.5,
+        "coverage_pct": 0.0
+      }
+    },
+    "M1_PASS1_STATE2_ADAPT": {
+      "mesh_name": "M1_PASS1_STATE2_ADAPT",
+      "total_elements": 8363,
+      "total_nodes": 8469,
+      "primary_corridor": {
+        "count": 60,
+        "min_h": 0.1546,
+        "median_h": 0.3478,
+        "max_h": 1.6488,
+        "num_le_l0": 24,
+        "pct_le_l0": 40.0,
+        "num_le_l0_half": 0,
+        "pct_le_l0_half": 0.0,
+        "max_gap_mm": 23.21,
+        "coverage_pct": 19.34
+      },
+      "secondary_corridor": {
+        "count": 39,
+        "min_h": 0.4596,
+        "median_h": 0.6163,
+        "max_h": 1.376,
+        "num_le_l0": 0,
+        "pct_le_l0": 0.0,
+        "num_le_l0_half": 0,
+        "pct_le_l0_half": 0.0,
+        "max_gap_mm": 18.5,
+        "coverage_pct": 0.0
+      }
+    },
+    "M2_SINGLE_PASS_STATE4_ADAPT": {
+      "mesh_name": "M2_SINGLE_PASS_STATE4_ADAPT",
+      "total_elements": 9568,
+      "total_nodes": 9677,
+      "primary_corridor": {
+        "count": 61,
+        "min_h": 0.1608,
+        "median_h": 0.4091,
+        "max_h": 1.4727,
+        "num_le_l0": 22,
+        "pct_le_l0": 36.07,
+        "num_le_l0_half": 0,
+        "pct_le_l0_half": 0.0,
+        "max_gap_mm": 23.11,
+        "coverage_pct": 17.93
+      },
+      "secondary_corridor": {
+        "count": 230,
+        "min_h": 0.0691,
+        "median_h": 0.1731,
+        "max_h": 1.2977,
+        "num_le_l0": 193,
+        "pct_le_l0": 83.91,
+        "num_le_l0_half": 22,
+        "pct_le_l0_half": 9.57,
+        "max_gap_mm": 11.53,
+        "coverage_pct": 100.0
+      }
+    },
+    "M3_TWOPASS_F1701_HISTORY_AWARE": {
+      "mesh_name": "M3_TWOPASS_F1701_HISTORY_AWARE",
+      "total_elements": 10597,
+      "total_nodes": 10675,
+      "primary_corridor": {
+        "count": 74,
+        "min_h": 0.1361,
+        "median_h": 0.3055,
+        "max_h": 1.6013,
+        "num_le_l0": 35,
+        "pct_le_l0": 47.3,
+        "num_le_l0_half": 2,
+        "pct_le_l0_half": 2.7,
+        "max_gap_mm": 23.61,
+        "coverage_pct": 27.01
+      },
+      "secondary_corridor": {
+        "count": 238,
+        "min_h": 0.0892,
+        "median_h": 0.1734,
+        "max_h": 1.2308,
+        "num_le_l0": 201,
+        "pct_le_l0": 84.45,
+        "num_le_l0_half": 33,
+        "pct_le_l0_half": 13.87,
+        "max_gap_mm": 12.23,
+        "coverage_pct": 100.0
+      }
+    }
+  },
+  "root_cause_diagnosis": {
+    "finding_1_pass1_initial_discontinuity": {
+      "description": "In Pass 1 (State 2 Hole Arrest), native adaptiveRemesh() only refined the immediate notch tip and hole entry. Only 0 elements satisfied h <= l0/2, leaving a max gap of 23.21 mm along the 25.16 mm primary corridor.",
+      "pass1_elements_le_l0_half": 0,
+      "pass1_max_gap_mm": 23.21
+    },
+    "finding_2_cae_remesher_coarsening_semantics": {
+      "description": "In Pass 2, coarseningFactor=NOT_ALLOWED prevents enlarging elements relative to the Pass 1 mesh. The primary corridor retained its Pass 1 fine elements (0 elements le l0/2 in Pass 1 vs 2 in Pass 2), but because State 4 error indicator in the primary corridor was small, Abaqus did not add NEW refinement to close the pre-existing Pass 1 gap.",
+      "pass2_elements_le_l0_half": 2,
+      "pass2_max_gap_mm": 23.61
+    },
+    "finding_3_secondary_corridor_active_capture": {
+      "description": "In contrast to Pass 1 (where secondary was 0.00% <= l0/2), Pass 2 successfully captured the active secondary corridor, increasing secondary fine elements from 0 to 33 (13.87% <= l0/2, h_min = 0.0892 mm)."
+    },
+    "falsifiable_conclusion": "The 23.53 mm primary corridor gap is NOT caused by coarsening during Pass 2. Rather, it is an INHERENT LIMITATION of single-frame instantaneous error recovery: in State 2 (Pass 1), the error indicator never covered the full length of the primary crack trajectory, leaving a 23 mm gap from the start; in Pass 2, because the primary ligament had relaxed, the remesher added refinement only to the active secondary corridor."
+  }
+}

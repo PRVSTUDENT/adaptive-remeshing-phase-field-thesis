@@ -1,0 +1,53 @@
+{
+  "metadata": {
+    "task_id": "F1702-PK-SEC43-FIGS14-16-REPRODUCTION-AND-CONTINUATION",
+    "operation": "gate_e_history_aware_two_branch_mesh_preservation",
+    "mesh_deck": "models/pandey_kumar_mode1/202_pk_sec43_continuous_recovery/PK_SEC43_F1702_HISTORY_AWARE_ADAPT.inp",
+    "donor_states": [
+      "STATE2 (Hole Arrest, uy=0.200mm)",
+      "STATE4 (Secondary Mid-Prop, uy=0.300mm)"
+    ],
+    "parameters": {
+      "errorTarget": 2.5,
+      "refinementFactor": 10,
+      "coarseningFactor": "NOT_ALLOWED",
+      "minElementSize": 0.143,
+      "maxElementSize": 1.5
+    }
+  },
+  "mesh_metrics": {
+    "total_elements": 18984,
+    "total_nodes": 19035,
+    "quad_elements": 18372,
+    "tri_elements": 612,
+    "quad_percentage": 96.78,
+    "total_area_mm2": 7325.1454,
+    "primary_corridor": {
+      "count": 83,
+      "min_h": 0.051279,
+      "median_h": 0.213197,
+      "max_h": 1.447246,
+      "num_le_l0": 52,
+      "pct_le_l0": 62.65,
+      "num_le_l0_half": 8,
+      "pct_le_l0_half": 9.64,
+      "max_gap_mm": 23.31,
+      "max_connected_segment_mm": 1.86,
+      "coverage_pct": 36.71
+    },
+    "secondary_corridor": {
+      "count": 473,
+      "min_h": 0.067539,
+      "median_h": 0.153947,
+      "max_h": 0.632167,
+      "num_le_l0": 426,
+      "pct_le_l0": 90.06,
+      "num_le_l0_half": 164,
+      "pct_le_l0_half": 34.67,
+      "max_gap_mm": 7.26,
+      "max_connected_segment_mm": 8.93,
+      "coverage_pct": 100.0
+    }
+  },
+  "spatial_classification": "DUAL_CORRIDOR_CONCURRENT_REFINEMENT_ACHIEVED"
+}
