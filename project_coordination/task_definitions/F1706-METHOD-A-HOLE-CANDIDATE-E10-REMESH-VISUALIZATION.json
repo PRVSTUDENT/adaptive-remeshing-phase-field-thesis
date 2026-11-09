@@ -1,0 +1,22 @@
+{
+  "task_id": "F1706-METHOD-A-HOLE-CANDIDATE-E10-REMESH-VISUALIZATION",
+  "title": "Method A Hole Benchmark Candidate E10 Adaptive-Remesh and Fracture Visualization",
+  "category": "Mode-I",
+  "status": "IN_PROGRESS",
+  "assigned_agent": "gemini-antigravity",
+  "predecessor": "F1705-METHOD-A-HOLE-CANDIDATE-E10-PRODUCTION-EXECUTION",
+  "max_new_pbs_submissions": 0,
+  "governed_budget": {
+    "pbs_jobs": 0,
+    "walltime_hours": 0,
+    "cpus": 0
+  },
+  "objectives": [
+    "Sustain zero PBS submissions (max_new_pbs_submissions = 0) and preserve bitwise-frozen UEL f42_mixed_uel.for (CE8D5EDC..., 907 lines).",
+    "Extract and map authentic Job 1421888.mmaster02 fracture damage fields across Candidate E10 physical mesh PK_HOLE_SEL_E10_PHYS.inp (9,164 physical elements, 9,251 physical nodes).",
+    "Generate publication-quality two-panel adaptive-remesh visualization (fig_f1705_e10_adaptive_remesh_damage.pdf/.png) displaying global specimen mesh overlaid with phase-field crack contours and high-resolution zoomed process zone exhibiting local refinement h <= l0/2 = 3.75 um.",
+    "Author comprehensive unit test suite verifying image existence, geometry, non-zero filesize, and authentic data provenance.",
+    "Integrate authentic adaptive-remesh visualization into Chapter 5 of the Master Thesis (MA_AdaptiveRemeshing_Report_2026/chapter05_method_a_hole_benchmark.tex), compile main.pdf cleanly, and verify zero undefined references/float overflows.",
+    "Synchronize ledgers, document session, release active session lock, and push non-bulky governed commits to origin/main."
+  ]
+}
