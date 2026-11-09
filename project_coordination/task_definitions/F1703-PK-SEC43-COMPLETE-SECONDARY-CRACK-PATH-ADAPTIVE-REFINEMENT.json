@@ -1,0 +1,30 @@
+{
+  "task_id": "F1703-PK-SEC43-COMPLETE-SECONDARY-CRACK-PATH-ADAPTIVE-REFINEMENT",
+  "title": "Task F1703: Complete Secondary Crack-Path Adaptive Refinement in Pandey-Kumar Figures 14-16",
+  "assigned_agent": "gemini-antigravity",
+  "status": "IN_PROGRESS",
+  "handoff_id": "HND-F1703-SEC-CRACK-REFINEMENT-002",
+  "predecessor_task": {
+    "task_id": "F1702-PK-SEC43-FIGS14-16-REPRODUCTION-AND-CONTINUATION",
+    "checkpoint_artifact": "project_coordination/sessions/2026-11-09_1810_gemini-antigravity_F1702_closeout.md"
+  },
+  "scientific_operation": "sec43_secondary_crack_path_adaptive_refinement",
+  "max_new_pbs_submissions": 0,
+  "scope_boundaries": {
+    "production_uel_untouched": true,
+    "no_pbs_submissions_without_separate_auth": true,
+    "preserve_f1702_primary_refinement": true,
+    "focus_on_secondary_corridor_continuity": true,
+    "freeze_deadline": "2026-12-13"
+  },
+  "deliverables": [
+    "secondary_crack_damage_propagation_audit_job1421286",
+    "donor_frame_timing_and_crack_tip_tracking",
+    "root_cause_separation_timing_relaxation_interpolation",
+    "multi_state_secondary_refinement_preservation_framework",
+    "terminal_secondary_crack_native_adaptive_mesh_generation",
+    "exact_polygon_line_intersection_coverage_evaluation",
+    "thesis_chapter05_updates_and_comparative_synthesis",
+    "independent_chatgpt_bridge_review_dispatch_and_resolution"
+  ]
+}

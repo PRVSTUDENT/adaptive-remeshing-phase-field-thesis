@@ -1,0 +1,99 @@
+{
+  "metadata": {
+    "task_id": "F1703-PK-SEC43-COMPLETE-SECONDARY-CRACK-PATH-ADAPTIVE-REFINEMENT",
+    "operation": "reconciled_evidence_audit_for_review_resolution",
+    "correlation_id": "HND-F1703-SEC-CRACK-REFINEMENT-001",
+    "l0_mm": 0.285,
+    "l0_half_mm": 0.1425
+  },
+  "piecewise_clipping": {
+    "F1702": {
+      "trajectory_name": "Authentic Piecewise Curved Trajectory (Frames 60-100)",
+      "total_length_mm": 19.3619,
+      "total_intersecting_elements": 101,
+      "h_le_l0": {
+        "covered_length_mm": 8.8469,
+        "coverage_pct": 45.69,
+        "longest_connected_segment_mm": 8.8259,
+        "max_uncovered_gap_mm": 6.2459,
+        "num_gaps": 2
+      },
+      "h_le_l0_half": {
+        "covered_length_mm": 2.7082,
+        "coverage_pct": 13.99,
+        "longest_connected_segment_mm": 1.0653,
+        "max_uncovered_gap_mm": 13.6359,
+        "num_gaps": 7
+      }
+    },
+    "F1703": {
+      "trajectory_name": "Authentic Piecewise Curved Trajectory (Frames 60-100)",
+      "total_length_mm": 19.3619,
+      "total_intersecting_elements": 178,
+      "h_le_l0": {
+        "covered_length_mm": 18.0983,
+        "coverage_pct": 93.47,
+        "longest_connected_segment_mm": 18.0983,
+        "max_uncovered_gap_mm": 1.2637,
+        "num_gaps": 1
+      },
+      "h_le_l0_half": {
+        "covered_length_mm": 5.1392,
+        "coverage_pct": 26.54,
+        "longest_connected_segment_mm": 0.5641,
+        "max_uncovered_gap_mm": 2.0392,
+        "num_gaps": 23
+      }
+    }
+  },
+  "area_weighted_2d_corridors": {
+    "primary": {
+      "F1702": {
+        "total_elements_in_band": 83,
+        "total_corridor_area_mm2": 27.9342,
+        "count_fraction_le_l0_pct": 62.65,
+        "area_fraction_le_l0_pct": 6.25,
+        "count_fraction_le_l0_half_pct": 9.64,
+        "area_fraction_le_l0_half_pct": 0.36,
+        "h_min_mm": 0.0513,
+        "h_median_mm": 0.2132,
+        "h_max_mm": 1.4472
+      },
+      "F1703": {
+        "total_elements_in_band": 75,
+        "total_corridor_area_mm2": 30.5989,
+        "count_fraction_le_l0_pct": 52.0,
+        "area_fraction_le_l0_pct": 5.25,
+        "count_fraction_le_l0_half_pct": 2.67,
+        "area_fraction_le_l0_half_pct": 0.09,
+        "h_min_mm": 0.1001,
+        "h_median_mm": 0.2766,
+        "h_max_mm": 1.509
+      }
+    },
+    "secondary_actual": {
+      "F1702": {
+        "total_elements_in_band": 484,
+        "total_corridor_area_mm2": 22.1001,
+        "count_fraction_le_l0_pct": 87.19,
+        "area_fraction_le_l0_pct": 46.55,
+        "count_fraction_le_l0_half_pct": 33.47,
+        "area_fraction_le_l0_half_pct": 11.25,
+        "h_min_mm": 0.0675,
+        "h_median_mm": 0.1561,
+        "h_max_mm": 0.6771
+      },
+      "F1703": {
+        "total_elements_in_band": 917,
+        "total_corridor_area_mm2": 21.1238,
+        "count_fraction_le_l0_pct": 99.89,
+        "area_fraction_le_l0_pct": 99.59,
+        "count_fraction_le_l0_half_pct": 38.71,
+        "area_fraction_le_l0_half_pct": 25.75,
+        "h_min_mm": 0.0635,
+        "h_median_mm": 0.148,
+        "h_max_mm": 0.2941
+      }
+    }
+  }
+}

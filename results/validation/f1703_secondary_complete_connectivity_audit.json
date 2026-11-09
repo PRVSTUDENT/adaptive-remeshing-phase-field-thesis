@@ -1,0 +1,228 @@
+{
+  "F1702_Baseline": {
+    "mesh_name": "F1702_Baseline",
+    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\202_pk_sec43_continuous_recovery\\PK_SEC43_F1702_HISTORY_AWARE_ADAPT.inp",
+    "total_nodes": 19035,
+    "total_elements": 18984,
+    "quad_elements": 18372,
+    "tri_elements": 612,
+    "quad_fraction_pct": 96.78,
+    "trajectories": {
+      "primary": {
+        "trajectory_name": "Canonical Primary Notch-to-Hole Corridor",
+        "total_length_mm": 25.1645,
+        "exact_centerline_intersection": {
+          "total_intersecting_elements": 38,
+          "h_le_l0": {
+            "element_count": 8,
+            "covered_length_mm": 1.2784,
+            "coverage_pct": 5.08,
+            "longest_connected_segment_mm": 1.2784,
+            "max_uncovered_gap_mm": 23.8861,
+            "num_gaps": 1
+          },
+          "h_le_l0_half": {
+            "element_count": 0,
+            "covered_length_mm": 0.0,
+            "coverage_pct": 0.0,
+            "longest_connected_segment_mm": 0.0,
+            "max_uncovered_gap_mm": 25.1645,
+            "num_gaps": 1
+          }
+        },
+        "2d_corridor_element_counts": {
+          "corridor_half_width_mm": 0.57,
+          "total_elements_in_band": 83,
+          "elements_le_l0": 52,
+          "fraction_le_l0_pct": 62.65,
+          "elements_le_l0_half": 8,
+          "fraction_le_l0_half_pct": 9.64,
+          "h_min_mm": 0.0513,
+          "h_median_mm": 0.2132,
+          "h_max_mm": 1.4472
+        }
+      },
+      "secondary_horizontal": {
+        "trajectory_name": "Canonical Secondary Hole-to-Right-Edge (Horizontal)",
+        "total_length_mm": 18.5,
+        "exact_centerline_intersection": {
+          "total_intersecting_elements": 99,
+          "h_le_l0": {
+            "element_count": 75,
+            "covered_length_mm": 9.2676,
+            "coverage_pct": 50.1,
+            "longest_connected_segment_mm": 9.0744,
+            "max_uncovered_gap_mm": 7.1693,
+            "num_gaps": 2
+          },
+          "h_le_l0_half": {
+            "element_count": 26,
+            "covered_length_mm": 2.23,
+            "coverage_pct": 12.05,
+            "longest_connected_segment_mm": 0.8441,
+            "max_uncovered_gap_mm": 13.3433,
+            "num_gaps": 6
+          }
+        },
+        "2d_corridor_element_counts": {
+          "corridor_half_width_mm": 0.57,
+          "total_elements_in_band": 473,
+          "elements_le_l0": 426,
+          "fraction_le_l0_pct": 90.06,
+          "elements_le_l0_half": 164,
+          "fraction_le_l0_half_pct": 34.67,
+          "h_min_mm": 0.0675,
+          "h_median_mm": 0.1539,
+          "h_max_mm": 0.6322
+        }
+      },
+      "secondary_actual": {
+        "trajectory_name": "Authentic Secondary Crack Trajectory (Job 1421286 Linear Fit)",
+        "total_length_mm": 18.5623,
+        "exact_centerline_intersection": {
+          "total_intersecting_elements": 99,
+          "h_le_l0": {
+            "element_count": 72,
+            "covered_length_mm": 8.9372,
+            "coverage_pct": 48.15,
+            "longest_connected_segment_mm": 8.9372,
+            "max_uncovered_gap_mm": 9.6251,
+            "num_gaps": 1
+          },
+          "h_le_l0_half": {
+            "element_count": 20,
+            "covered_length_mm": 1.944,
+            "coverage_pct": 10.47,
+            "longest_connected_segment_mm": 0.5669,
+            "max_uncovered_gap_mm": 13.4015,
+            "num_gaps": 7
+          }
+        },
+        "2d_corridor_element_counts": {
+          "corridor_half_width_mm": 0.57,
+          "total_elements_in_band": 484,
+          "elements_le_l0": 422,
+          "fraction_le_l0_pct": 87.19,
+          "elements_le_l0_half": 162,
+          "fraction_le_l0_half_pct": 33.47,
+          "h_min_mm": 0.0675,
+          "h_median_mm": 0.1561,
+          "h_max_mm": 0.6771
+        }
+      }
+    }
+  },
+  "F1703_Official": {
+    "mesh_name": "F1703_Official",
+    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\203_pk_sec43_secondary_complete\\PK_SEC43_F1703_SECONDARY_COMPLETE_ADAPT.inp",
+    "total_nodes": 10096,
+    "total_elements": 10065,
+    "quad_elements": 9724,
+    "tri_elements": 341,
+    "quad_fraction_pct": 96.61,
+    "trajectories": {
+      "primary": {
+        "trajectory_name": "Canonical Primary Notch-to-Hole Corridor",
+        "total_length_mm": 25.1645,
+        "exact_centerline_intersection": {
+          "total_intersecting_elements": 38,
+          "h_le_l0": {
+            "element_count": 7,
+            "covered_length_mm": 1.1227,
+            "coverage_pct": 4.46,
+            "longest_connected_segment_mm": 0.9808,
+            "max_uncovered_gap_mm": 23.6695,
+            "num_gaps": 2
+          },
+          "h_le_l0_half": {
+            "element_count": 1,
+            "covered_length_mm": 0.0547,
+            "coverage_pct": 0.22,
+            "longest_connected_segment_mm": 0.0547,
+            "max_uncovered_gap_mm": 24.9861,
+            "num_gaps": 2
+          }
+        },
+        "2d_corridor_element_counts": {
+          "corridor_half_width_mm": 0.57,
+          "total_elements_in_band": 75,
+          "elements_le_l0": 39,
+          "fraction_le_l0_pct": 52.0,
+          "elements_le_l0_half": 2,
+          "fraction_le_l0_half_pct": 2.67,
+          "h_min_mm": 0.1001,
+          "h_median_mm": 0.2766,
+          "h_max_mm": 1.509
+        }
+      },
+      "secondary_horizontal": {
+        "trajectory_name": "Canonical Secondary Hole-to-Right-Edge (Horizontal)",
+        "total_length_mm": 18.5,
+        "exact_centerline_intersection": {
+          "total_intersecting_elements": 137,
+          "h_le_l0": {
+            "element_count": 123,
+            "covered_length_mm": 15.6825,
+            "coverage_pct": 84.77,
+            "longest_connected_segment_mm": 10.0499,
+            "max_uncovered_gap_mm": 0.6725,
+            "num_gaps": 8
+          },
+          "h_le_l0_half": {
+            "element_count": 29,
+            "covered_length_mm": 2.5905,
+            "coverage_pct": 14.0,
+            "longest_connected_segment_mm": 1.107,
+            "max_uncovered_gap_mm": 9.7072,
+            "num_gaps": 6
+          }
+        },
+        "2d_corridor_element_counts": {
+          "corridor_half_width_mm": 0.57,
+          "total_elements_in_band": 694,
+          "elements_le_l0": 652,
+          "fraction_le_l0_pct": 93.95,
+          "elements_le_l0_half": 245,
+          "fraction_le_l0_half_pct": 35.3,
+          "h_min_mm": 0.0658,
+          "h_median_mm": 0.152,
+          "h_max_mm": 0.489
+        }
+      },
+      "secondary_actual": {
+        "trajectory_name": "Authentic Secondary Crack Trajectory (Job 1421286 Linear Fit)",
+        "total_length_mm": 18.5623,
+        "exact_centerline_intersection": {
+          "total_intersecting_elements": 172,
+          "h_le_l0": {
+            "element_count": 172,
+            "covered_length_mm": 18.5623,
+            "coverage_pct": 100.0,
+            "longest_connected_segment_mm": 18.5623,
+            "max_uncovered_gap_mm": 0.0,
+            "num_gaps": 0
+          },
+          "h_le_l0_half": {
+            "element_count": 63,
+            "covered_length_mm": 5.4963,
+            "coverage_pct": 29.61,
+            "longest_connected_segment_mm": 1.2255,
+            "max_uncovered_gap_mm": 2.1899,
+            "num_gaps": 18
+          }
+        },
+        "2d_corridor_element_counts": {
+          "corridor_half_width_mm": 0.57,
+          "total_elements_in_band": 917,
+          "elements_le_l0": 916,
+          "fraction_le_l0_pct": 99.89,
+          "elements_le_l0_half": 355,
+          "fraction_le_l0_half_pct": 38.71,
+          "h_min_mm": 0.0635,
+          "h_median_mm": 0.148,
+          "h_max_mm": 0.2941
+        }
+      }
+    }
+  }
+}
