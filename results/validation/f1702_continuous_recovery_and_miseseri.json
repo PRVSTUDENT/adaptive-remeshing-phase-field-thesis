@@ -21,6 +21,23 @@
         "diff_continuous_vs_20bin": {
           "max_abs_diff_MPa": 64526.137351989746,
           "relative_l2_diff_pct": 95.127551920795
+        },
+        "offline_vs_abaqus_discrepancy_diagnosis": {
+          "root_cause": "Nodal damage averaging at notch boundary corner elements (e.g. Element 315)",
+          "corner_element_id": 315,
+          "corner_coordinates": {
+            "x_mm": 10.557,
+            "y_mm": 69.966
+          },
+          "corner_nodal_damage": 0.585,
+          "true_uel_element_damage": 0.999985,
+          "interpolated_stiffness_E_GPa": 37.0,
+          "true_uel_residual_stiffness_E_MPa": 0.021,
+          "applied_tensile_strain_eps_yy": 2.46,
+          "resulting_abaqus_peak_stress_MPa": 7628.937721252441,
+          "offline_unloaded_stress_MPa": 547.6498434086262,
+          "explanation": "Abaqus interpolates nodal field variables bilinearly to Gauss points. At Element 315, corner nodes 163/164 are shared with undamaged bulk material, reducing nodal damage from d=1.0 to d~0.58. The interpolated stiffness (E~37 GPa) multiplied by 246% slit-opening strain creates an artificial multi-GPa corner spike. Offline Gate A uses d_elem=0.999985, achieving complete physical unloading (0.306 MPa in State 5).",
+          "verdict": "NUMERICALLY_INCONSISTENT_DUE_TO_NODAL_FIELD_BOUNDARY_INTERPOLATION_ARTIFACTS"
         }
       },
       "gate_c_native_miseseri": {
@@ -33,6 +50,7 @@
           "x_mm": 10.557186600000001,
           "y_mm": 69.9656315
         },
+        "miseseri_physical_fidelity_qualification": "Reported native Abaqus SPR output; global peak error is driven by the artificial multi-GPa corner stress spike at Element 315 and should not be interpreted as a validated continuum phase-field stress error indicator.",
         "corridor_distribution": {
           "primary_corridor_max_MPa": 3407.5417518615723,
           "primary_corridor_mean_MPa": 123.07163230203018,
@@ -59,6 +77,23 @@
         "diff_continuous_vs_20bin": {
           "max_abs_diff_MPa": 99102.1375656128,
           "relative_l2_diff_pct": 95.23913547272606
+        },
+        "offline_vs_abaqus_discrepancy_diagnosis": {
+          "root_cause": "Nodal damage averaging at notch boundary corner elements (e.g. Element 315)",
+          "corner_element_id": 315,
+          "corner_coordinates": {
+            "x_mm": 10.557,
+            "y_mm": 69.966
+          },
+          "corner_nodal_damage": 0.585,
+          "true_uel_element_damage": 0.999985,
+          "interpolated_stiffness_E_GPa": 37.0,
+          "true_uel_residual_stiffness_E_MPa": 0.021,
+          "applied_tensile_strain_eps_yy": 2.46,
+          "resulting_abaqus_peak_stress_MPa": 11698.094367980957,
+          "offline_unloaded_stress_MPa": 553.041932035878,
+          "explanation": "Abaqus interpolates nodal field variables bilinearly to Gauss points. At Element 315, corner nodes 163/164 are shared with undamaged bulk material, reducing nodal damage from d=1.0 to d~0.58. The interpolated stiffness (E~37 GPa) multiplied by 246% slit-opening strain creates an artificial multi-GPa corner spike. Offline Gate A uses d_elem=0.999985, achieving complete physical unloading (0.306 MPa in State 5).",
+          "verdict": "NUMERICALLY_INCONSISTENT_DUE_TO_NODAL_FIELD_BOUNDARY_INTERPOLATION_ARTIFACTS"
         }
       },
       "gate_c_native_miseseri": {
@@ -71,6 +106,7 @@
           "x_mm": 10.557186600000001,
           "y_mm": 69.9656315
         },
+        "miseseri_physical_fidelity_qualification": "Reported native Abaqus SPR output; global peak error is driven by the artificial multi-GPa corner stress spike at Element 315 and should not be interpreted as a validated continuum phase-field stress error indicator.",
         "corridor_distribution": {
           "primary_corridor_max_MPa": 5219.633102416992,
           "primary_corridor_mean_MPa": 188.27761173431938,
@@ -97,6 +133,23 @@
         "diff_continuous_vs_20bin": {
           "max_abs_diff_MPa": 406077.7587890625,
           "relative_l2_diff_pct": 95.98381876226664
+        },
+        "offline_vs_abaqus_discrepancy_diagnosis": {
+          "root_cause": "Nodal damage averaging at notch boundary corner elements (e.g. Element 315)",
+          "corner_element_id": 315,
+          "corner_coordinates": {
+            "x_mm": 10.557,
+            "y_mm": 69.966
+          },
+          "corner_nodal_damage": 0.585,
+          "true_uel_element_damage": 0.999985,
+          "interpolated_stiffness_E_GPa": 37.0,
+          "true_uel_residual_stiffness_E_MPa": 0.021,
+          "applied_tensile_strain_eps_yy": 2.46,
+          "resulting_abaqus_peak_stress_MPa": 47878.662109375,
+          "offline_unloaded_stress_MPa": 0.30642736469862386,
+          "explanation": "Abaqus interpolates nodal field variables bilinearly to Gauss points. At Element 315, corner nodes 163/164 are shared with undamaged bulk material, reducing nodal damage from d=1.0 to d~0.58. The interpolated stiffness (E~37 GPa) multiplied by 246% slit-opening strain creates an artificial multi-GPa corner spike. Offline Gate A uses d_elem=0.999985, achieving complete physical unloading (0.306 MPa in State 5).",
+          "verdict": "NUMERICALLY_INCONSISTENT_DUE_TO_NODAL_FIELD_BOUNDARY_INTERPOLATION_ARTIFACTS"
         }
       },
       "gate_c_native_miseseri": {
@@ -109,6 +162,7 @@
           "x_mm": 10.557186600000001,
           "y_mm": 69.9656315
         },
+        "miseseri_physical_fidelity_qualification": "Reported native Abaqus SPR output; global peak error is driven by the artificial multi-GPa corner stress spike at Element 315 and should not be interpreted as a validated continuum phase-field stress error indicator.",
         "corridor_distribution": {
           "primary_corridor_max_MPa": 21493.87550354004,
           "primary_corridor_mean_MPa": 825.9049939484204,

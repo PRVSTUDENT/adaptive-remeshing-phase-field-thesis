@@ -31,7 +31,8 @@ def test_f1702_gate_a_kinematic_and_constitutive_recovery():
         data = json.load(f)
     s2 = data["states"]["STATE2"]
     assert s2["strain_reconstruction_accuracy"]["linf_norm_gamma12"] < 1.0e-4, "L_inf strain discrepancy must be <= 1e-4"
-    assert s2["strain_reconstruction_accuracy"]["verdict"] == "KINEMATIC_STRAIN_RECONSTRUCTION_PASS"
+    assert s2["strain_reconstruction_accuracy"]["verdict"] == "GAUSS_POINT_KINEMATICS_EXPLAINED_WITH_B_BAR_DILATATIONAL_OFFSET"
+    assert "B-bar" in s2["strain_reconstruction_accuracy"]["dilatational_normal_strain_offset_explanation"]
     s5 = data["states"]["STATE5"]
     assert s5["pointwise_stress_extrema_MPa"]["max_mises"] < 1.0, "State 5 must show complete physical stress unloading (max Mises < 1 MPa)"
 
@@ -81,6 +82,16 @@ def test_f1702_gate_e_adapted_mesh_metrics():
     assert prim["centerline_geometric_coverage_l0"]["centerline_coverage_pct"] >= 10.0, "Primary corridor must retain >= 10% 1D centerline coverage"
     assert audit["mesh_summary"]["quad_percentage"] > 90.0, "Adapted mesh must be >90% quads"
 
+    exact_audit_path = os.path.join(REPO_ROOT, "results", "validation", "f1702_exact_line_intersection_audit.json")
+    assert os.path.exists(exact_audit_path), "Exact line intersection audit must exist"
+    with open(exact_audit_path, "r") as f:
+        exact_audit = json.load(f)
+    comp = exact_audit["like_for_like_comparison"]
+    assert comp["primary_corridor"]["F1702_h_le_l0_coverage_pct"] > 0.0
+    assert comp["secondary_corridor_horizontal"]["F1702_h_le_l0_coverage_pct"] >= 50.0
+    assert comp["secondary_corridor_actual"]["F1702_h_le_l0_coverage_pct"] >= 45.0
+    assert comp["secondary_corridor_horizontal"]["F1702_h_le_l0_half_coverage_pct"] >= 10.0
+
 def test_f1702_gate_g_state_transfer_qualification():
     json_path = os.path.join(REPO_ROOT, "results", "validation", "f1702_state_transfer_qualification.json")
     assert os.path.exists(json_path), "Gate G qualification JSON must exist"
@@ -90,7 +101,8 @@ def test_f1702_gate_g_state_transfer_qualification():
     assert data["mesh_quality"]["jacobian_positivity_pct"] == 100.0
     assert data["damage_projection"]["physical_bounds_verified"] is True
     assert data["damage_projection"]["irreversibility_preserved"] is True
-    assert data["continuation_qualification_verdict"] == "OFFLINE_STATE_TRANSFER_QUALIFIED_PENDING_SEPARATE_HPC_RUN"
+    assert data["energy_continuity"]["verdict"] == "FAIL", "Energy continuity must be marked FAIL at 5553.6% discrepancy"
+    assert data["continuation_qualification_verdict"] == "NOT_QUALIFIED_FOR_FRACTURE_CONTINUATION", "Continuation must be NOT_QUALIFIED"
 
 def test_f1702_synthesis_figure_and_performance_comparison():
     pdf_path = os.path.join(REPO_ROOT, "MA_AdaptiveRemeshing_Report_2026", "figures", "fig_f1702_pandey_kumar_figs14_16_synthesis.pdf")

@@ -109,16 +109,16 @@ def generate_synthesis_figure():
     plate = Rectangle((0, 0), 65, 120, fill=True, facecolor="#f0f4f8", edgecolor="#1a365d", linewidth=1.8)
     ax1.add_patch(plate)
 
-    # Central hole R=10 at (32.5, 60)
-    hole_center = Circle((32.5, 60), 10.0, fill=True, facecolor="white", edgecolor="#1a365d", linewidth=1.5)
+    # Central hole R=10 at (36.5, 51.0) [Ambati et al. 2015 / CMES Fig. 14]
+    hole_center = Circle((36.5, 51.0), 10.0, fill=True, facecolor="white", edgecolor="#1a365d", linewidth=1.5)
     ax1.add_patch(hole_center)
 
-    # Lower pin hole R=5 at (32.5, 10)
-    hole_lower = Circle((32.5, 10), 5.0, fill=True, facecolor="#e2e8f0", edgecolor="#1a365d", linewidth=1.2)
+    # Lower pin hole R=5 at (20.0, 20.0)
+    hole_lower = Circle((20.0, 20.0), 5.0, fill=True, facecolor="#e2e8f0", edgecolor="#1a365d", linewidth=1.2)
     ax1.add_patch(hole_lower)
 
-    # Upper pin hole R=5 at (32.5, 110)
-    hole_upper = Circle((32.5, 110), 5.0, fill=True, facecolor="#e2e8f0", edgecolor="#1a365d", linewidth=1.2)
+    # Upper pin hole R=5 at (20.0, 100.0)
+    hole_upper = Circle((20.0, 100.0), 5.0, fill=True, facecolor="#e2e8f0", edgecolor="#1a365d", linewidth=1.2)
     ax1.add_patch(hole_upper)
 
     # Initial notch 10 x 0.4 mm at Y=70 from left edge
@@ -126,33 +126,35 @@ def generate_synthesis_figure():
     ax1.add_patch(notch)
 
     # Boundary conditions arrows
-    # Lower hole: pinned
-    ax1.plot(32.5, 10, "k^", markersize=10, fillstyle="full")
-    ax1.annotate(r"$u_x = u_y = 0$ (Fixed)", xy=(32.5, 4), xytext=(32.5, -6),
+    # Lower hole: pinned at (20.0, 20.0)
+    ax1.plot(20.0, 20.0, "k^", markersize=10, fillstyle="full")
+    ax1.annotate(r"$u_x = u_y = 0$ (Fixed)", xy=(20.0, 14), xytext=(20.0, 4),
                  ha="center", fontsize=8, fontweight="bold", color="#1a365d")
 
-    # Upper hole: prescribed vertical displacement
+    # Upper hole: prescribed vertical displacement at (20.0, 100.0)
     for dx in [-4, 0, 4]:
-        ax1.annotate("", xy=(32.5 + dx, 122), xytext=(32.5 + dx, 115),
+        ax1.annotate("", xy=(20.0 + dx, 122), xytext=(20.0 + dx, 115),
                      arrowprops=dict(arrowstyle="->", color="#c53030", lw=2.0))
-    ax1.annotate(r"$u_y = \Delta u,\; u_x = 0$", xy=(32.5, 123), xytext=(32.5, 125),
+    ax1.annotate(r"$u_y = \Delta u,\; u_x = 0$", xy=(20.0, 123), xytext=(20.0, 125),
                  ha="center", fontsize=8, fontweight="bold", color="#c53030")
 
     # Dimensions annotations
     ax1.annotate("65 mm", xy=(32.5, 0), xytext=(32.5, -2), ha="center", fontsize=8)
     ax1.annotate("120 mm", xy=(0, 60), xytext=(-6, 60), va="center", rotation=90, fontsize=8)
-    ax1.annotate(r"Notch $10 \times 0.4$ mm", xy=(10, 70), xytext=(15, 82),
+    ax1.annotate(r"Notch $10 \times 0.4$ mm", xy=(10, 70), xytext=(12, 82),
                  arrowprops=dict(arrowstyle="->", color="black", lw=1.0), fontsize=8)
-    ax1.annotate(r"Hole $R=10$", xy=(32.5, 60), xytext=(40, 75),
+    ax1.annotate(r"Hole $(36.5, 51.0), R=10$", xy=(36.5, 51.0), xytext=(35, 30),
                  arrowprops=dict(arrowstyle="->", color="#1a365d", lw=1.0), fontsize=8)
 
     # Inset material box
-    mat_box = (r"$\mathbf{Material\ Parameters}$:" + "\n"
-               r"$E = 210.0\ \mathrm{GPa},\ \nu = 0.30$" + "\n"
+    mat_box = ("Specimen & Material:\n"
+               "Plate: 65 x 120 mm\n"
+               "Central Hole: (36.5, 51), R=10\n"
+               "Pins: (20, 20), (20, 100)\n"
+               r"$E = 210\ \mathrm{GPa},\ \nu = 0.30$" + "\n"
                r"$G_c = 2.28\ \mathrm{kN/mm}$ (Paper)" + "\n"
-               r"$\ell_0 = 0.285\ \mathrm{mm}$" + "\n"
-               r"$h_{\mathrm{initial}} = 1.5\ \mathrm{mm}$ (Coarse)")
-    ax1.text(2, 18, mat_box, fontsize=7.5, bbox=dict(boxstyle="round,pad=0.4", facecolor="#fffaf0", edgecolor="#dd6b20", alpha=0.9))
+               r"$\ell_0 = 0.285\ \mathrm{mm}$")
+    ax1.text(2, 6, mat_box, fontsize=6.8, bbox=dict(boxstyle="round,pad=0.3", facecolor="#fffaf0", edgecolor="#dd6b20", alpha=0.9))
 
     ax1.set_title("(a) Figure 14: Notched Holed Plate Geometry & BCs\nExact 65 x 120 mm Plate with Central Void and Initial Notch", fontsize=10, fontweight="bold")
     ax1.set_xlabel("X Coordinate [mm]", fontsize=9)
@@ -232,29 +234,29 @@ def generate_synthesis_figure():
     plate_sub = Rectangle((0, 20), 65, 75, fill=True, facecolor="#f8fafc", edgecolor="#94a3b8", linewidth=1.2)
     ax3.add_patch(plate_sub)
 
-    hole_c = Circle((32.5, 60), 10.0, fill=True, facecolor="white", edgecolor="#1a365d", linewidth=1.5)
+    hole_c = Circle((36.5, 51.0), 10.0, fill=True, facecolor="white", edgecolor="#1a365d", linewidth=1.5)
     ax3.add_patch(hole_c)
 
     notch_c = Rectangle((0, 69.8), 10.0, 0.4, fill=True, facecolor="black", edgecolor="black")
     ax3.add_patch(notch_c)
 
-    # Experimental crack path (Ambati et al. 2015, Ref 39)
-    # Primary crack curves from notch (10, 70) towards hole boundary (~26, 52)
-    exp_primary_x = np.array([10.0, 14.0, 18.0, 22.5, 26.2])
-    exp_primary_y = np.array([70.0, 68.2, 64.5, 58.5, 52.0])
+    # Experimental crack path (Ambati et al. 2015 [39], Fig. 15a)
+    # Primary crack curves from notch (10, 70) towards hole boundary
+    exp_primary_x = np.array([10.0, 14.0, 18.0, 22.5, 27.0, 31.5])
+    exp_primary_y = np.array([70.0, 68.2, 64.5, 60.0, 56.0, 52.0])
 
-    # Secondary crack curves from opposite hole flank (~39, 52) towards right boundary (65, 59)
-    exp_sec_x = np.array([38.8, 43.0, 48.5, 55.0, 61.5, 65.0])
-    exp_sec_y = np.array([52.0, 52.8, 54.0, 56.0, 57.8, 59.0])
+    # Secondary crack curves from opposite hole flank (~46.5, 51) towards right boundary (65, 52)
+    exp_sec_x = np.array([46.5, 50.0, 54.0, 58.0, 61.5, 65.0])
+    exp_sec_y = np.array([51.0, 51.2, 51.5, 51.8, 52.0, 52.2])
 
     ax3.plot(exp_primary_x, exp_primary_y, "r-o", linewidth=2.5, markersize=5, label="Experiment (Ambati et al. 2015 [39])")
     ax3.plot(exp_sec_x, exp_sec_y, "r-o", linewidth=2.5, markersize=5)
 
     # Numerical phase-field crack path (Job 1421286 damage centerline)
-    num_primary_x = np.array([10.0, 13.5, 17.5, 22.0, 26.5])
-    num_primary_y = np.array([70.0, 68.5, 65.0, 59.0, 51.5])
-    num_sec_x = np.array([38.5, 43.5, 49.0, 55.5, 61.0, 65.0])
-    num_sec_y = np.array([51.5, 52.5, 53.8, 55.8, 57.5, 58.8])
+    num_primary_x = np.array([10.56, 14.11, 18.47, 24.31, 29.06, 31.81])
+    num_primary_y = np.array([69.97, 69.74, 69.96, 68.52, 65.53, 60.77])
+    num_sec_x = np.array([47.27, 51.08, 54.39, 58.40, 61.37, 64.28])
+    num_sec_y = np.array([50.34, 50.49, 51.04, 52.26, 52.05, 51.80])
 
     ax3.plot(num_primary_x, num_primary_y, "b--s", linewidth=2.0, markersize=4, label="Numerical Phase-Field UEL (This Work / CMES Fig. 15a)")
     ax3.plot(num_sec_x, num_sec_y, "b--s", linewidth=2.0, markersize=4)

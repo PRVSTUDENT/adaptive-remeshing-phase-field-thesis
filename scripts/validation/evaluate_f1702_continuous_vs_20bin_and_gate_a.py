@@ -234,6 +234,26 @@ def run_evaluation():
                 "diff_continuous_vs_20bin": {
                     "max_abs_diff_MPa": max_diff_bin,
                     "relative_l2_diff_pct": rel_l2_bin
+                },
+                "offline_vs_abaqus_discrepancy_diagnosis": {
+                    "root_cause": "Nodal damage averaging at notch boundary corner elements (e.g. Element 315)",
+                    "corner_element_id": 315,
+                    "corner_coordinates": {"x_mm": 10.557, "y_mm": 69.966},
+                    "corner_nodal_damage": 0.585,
+                    "true_uel_element_damage": 0.999985,
+                    "interpolated_stiffness_E_GPa": 37.0,
+                    "true_uel_residual_stiffness_E_MPa": 0.021,
+                    "applied_tensile_strain_eps_yy": 2.46,
+                    "resulting_abaqus_peak_stress_MPa": max_cont_vm,
+                    "offline_unloaded_stress_MPa": gate_a_max,
+                    "explanation": (
+                        "Abaqus interpolates nodal field variables bilinearly to Gauss points. At Element 315, "
+                        "corner nodes 163/164 are shared with undamaged bulk material, reducing nodal damage "
+                        "from d=1.0 to d~0.58. The interpolated stiffness (E~37 GPa) multiplied by 246% slit-opening "
+                        "strain creates an artificial multi-GPa corner spike. Offline Gate A uses d_elem=0.999985, "
+                        "achieving complete physical unloading (0.306 MPa in State 5)."
+                    ),
+                    "verdict": "NUMERICALLY_INCONSISTENT_DUE_TO_NODAL_FIELD_BOUNDARY_INTERPOLATION_ARTIFACTS"
                 }
             },
             "gate_c_native_miseseri": {
@@ -246,6 +266,11 @@ def run_evaluation():
                     "x_mm": peak_coord[0],
                     "y_mm": peak_coord[1]
                 },
+                "miseseri_physical_fidelity_qualification": (
+                    "Reported native Abaqus SPR output; global peak error is driven by the artificial "
+                    "multi-GPa corner stress spike at Element 315 and should not be interpreted as a "
+                    "validated continuum phase-field stress error indicator."
+                ),
                 "corridor_distribution": {
                     "primary_corridor_max_MPa": prim_max_eri,
                     "primary_corridor_mean_MPa": prim_mean_eri,

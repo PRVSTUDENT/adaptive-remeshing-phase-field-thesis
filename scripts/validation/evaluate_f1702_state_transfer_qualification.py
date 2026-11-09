@@ -294,9 +294,15 @@ def run_qualification():
             "target_strain_energy_J": round(total_target_energy, 6),
             "relative_discrepancy_pct": round(rel_energy_diff, 4),
             "energy_continuity_threshold_pct": 5.0,
-            "verdict": "ENERGY_CONTINUITY_PASS" if rel_energy_diff <= 5.0 else "ENERGY_CONTINUITY_APPROXIMATE"
+            "verdict": "FAIL",
+            "explanation": (
+                "Nodal IDW displacement projection interpolates kinematic values point-by-point without "
+                "enforcing weak equilibrium (int B^T sigma = 0). On the refined adapted mesh (h ~ 0.07 mm), "
+                "interpolated displacements create large artificial localized strain gradients, inflating "
+                "the integrated strain energy by 5553.6%. Hence, energy continuity fails decisively."
+            )
         },
-        "continuation_qualification_verdict": "OFFLINE_STATE_TRANSFER_QUALIFIED_PENDING_SEPARATE_HPC_RUN"
+        "continuation_qualification_verdict": "NOT_QUALIFIED_FOR_FRACTURE_CONTINUATION"
     }
 
     with open(OUTPUT_JSON, "w") as f:

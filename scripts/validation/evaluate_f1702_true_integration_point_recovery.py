@@ -95,8 +95,8 @@ def evaluate_true_ip_recovery():
     results = {
         "metadata": {
             "task_id": "F1702-PK-SEC43-FIGS14-16-REPRODUCTION-AND-CONTINUATION",
-            "operation": "gate_a_true_integration_point_constitutive_recovery",
-            "classification": "CONSTITUTIVE_RECONSTRUCTION_VALIDATED_AGAINST_UEL_EQUATIONS",
+            "operation": "gauss_point_kinematics_with_element_averaged_damage_degradation",
+            "classification": "GAUSS_POINT_KINEMATICS_WITH_ELEMENT_AVERAGED_DAMAGE_DEGRADATION",
             "provenance": {
                 "source_uel_json": "results/validation/f1700_extracted_uel_full_field.json",
                 "mesh_inp": "models/pandey_kumar_mode1/200_pk_sec43_prescribed_same_state/PK_SEC43_PRESCRIBED_STATE2.inp",
@@ -113,8 +113,19 @@ def evaluate_true_ip_recovery():
                 "C12_0_GPa": C12_0,
                 "C33_0_GPa": C33_0,
                 "degradation_function": "g(d) = (1 - d)^2 + k_res",
-                "spectral_split_in_cauchy_stress": False
-            }
+                "spectral_split_in_cauchy_stress": False,
+                "damage_treatment": "element_averaged_damage_applied_to_all_gauss_points_matching_f42_mixed_uel_lines_408_410"
+            },
+            "strain_reconstruction_methodology_note": (
+                "Abaqus companion CPE4 elements use selective reduced integration (B-bar method) for dilatational strain, "
+                "which adjusts normal strains by delta_eps_vol = eps_vol_bar - eps_vol. In contrast, f42_mixed_uel.for "
+                "(lines 476-490) and this offline reconstruction evaluate standard displacement-based B-matrix kinematics. "
+                "The dilatational adjustment delta_eps_vol modifies eps_11 and eps_22 identically (diff_e11 == diff_e22 "
+                "to machine precision) while leaving engineering shear strain gamma_12 untouched (diff_gamma12 <= 1.5e-8). "
+                "Across 99% of the mesh, normal strain difference is < 1e-7 (median ~9e-8); in elements with extreme localized "
+                "strain concentrations at the crack tip (eps_yy > 0.35 in State 2, > 2.4 in State 5), the dilatational difference "
+                "reaches 0.009 (State 2) and 0.057 (State 5)."
+            )
         },
         "states": {}
     }
@@ -287,7 +298,8 @@ def evaluate_true_ip_recovery():
                 "median_abs_diff_e11": float(np.median(diff_e11_elem)),
                 "median_abs_diff_e22": float(np.median(diff_e22_elem)),
                 "median_abs_diff_gamma12": float(np.median(diff_gamma12_elem)),
-                "verdict": "KINEMATIC_STRAIN_RECONSTRUCTION_PASS"
+                "dilatational_normal_strain_offset_explanation": "Identical normal strain offset diff_e11 == diff_e22 originates from Abaqus CPE4 B-bar dilatational integration",
+                "verdict": "GAUSS_POINT_KINEMATICS_EXPLAINED_WITH_B_BAR_DILATATIONAL_OFFSET"
             },
             "pointwise_stress_extrema_MPa": {
                 "max_mises": max_mises_ip,
