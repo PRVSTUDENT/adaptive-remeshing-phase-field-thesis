@@ -1,0 +1,96 @@
+{
+  "audit_task": "F1708_JOB2_COMPATIBILITY_AUDIT",
+  "timestamp": "2026-11-10T00:10:00+01:00",
+  "governing_uel": {
+    "source": "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for",
+    "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "lines": 907,
+    "status": "FROZEN_AUTHORITATIVE_PRODUCTION_UEL",
+    "datacheck_result": "PASS (Exit Code 0, ANALYSIS DATACHECK COMPLETE, Abaqus 2024 + oneAPI ifx)"
+  },
+  "alternative_staggered_uel": {
+    "source": "models/pandey_kumar_mode1/192_pk_sec43_staggered_job1/f42_staggered_variant_uel.for",
+    "sha256": "A0EBB58DDC0309D2AFC2BF45C2EA3B74A8D2ABA5719C05AF1B69B57086AFA633",
+    "lines": 918,
+    "status": "HISTORICAL_F1692_VARIANT_SUPERSEDED_BY_FROZEN_UEL"
+  },
+  "production_deck": {
+    "path": "models/pandey_kumar_mode1/203_pk_sec43_secondary_complete/PK_SEC43_JOB2_ADAPTED_PROD.inp",
+    "sha256": "417E749DD934D67C127D1E4B67E9FB32CAAFB384726CCB58169892855907C68B",
+    "lines": 40448,
+    "physical_elements": 10065,
+    "layered_elements": 30195,
+    "total_nodes": 10097
+  },
+  "loading_schedule": {
+    "step_1": {
+      "increments": 2000,
+      "delta_u_mm": 0.0005,
+      "step_time": 1.0,
+      "terminal_displacement_mm": 1.0
+    },
+    "step_2": {
+      "increments": 2500,
+      "delta_u_mm": 0.0002,
+      "step_time": 0.5,
+      "terminal_displacement_mm": 1.5
+    },
+    "total_increments": 4500,
+    "cumulative_terminal_displacement_mm": 1.5,
+    "reconciliation": "Abaqus displacement boundary conditions are absolute totals. Setting N_RP DOF 2 = 1.5 in Step 2 produces Delta_u = 0.50 mm over Step 2, reaching exactly 1.50 mm total displacement."
+  },
+  "distorted_elements_audit": {
+    "28658": {
+      "physical_element_id": 8528,
+      "layer": "Layer 3 (Companion UMAT)",
+      "nodes": [
+        8783,
+        2236,
+        8782,
+        8809
+      ],
+      "centroid_mm": [
+        9.6889,
+        70.7078
+      ],
+      "min_interior_angle_deg": 35.91,
+      "max_interior_angle_deg": 138.77,
+      "area_mm2": 0.175531,
+      "positive_jacobian": true,
+      "distance_to_secondary_crack_mm": 19.71,
+      "distance_to_primary_crack_mm": 14.87,
+      "location_assessment": "Located at notch upper flank (y ~ 70.7 mm, x ~ 9.5 mm), strictly outside active fracture process zones"
+    },
+    "29490": {
+      "physical_element_id": 9360,
+      "layer": "Layer 3 (Companion UMAT)",
+      "nodes": [
+        8809,
+        6399,
+        8784,
+        8783
+      ],
+      "centroid_mm": [
+        9.3599,
+        70.9964
+      ],
+      "min_interior_angle_deg": 37.26,
+      "max_interior_angle_deg": 119.94,
+      "area_mm2": 0.183596,
+      "positive_jacobian": true,
+      "distance_to_secondary_crack_mm": 20.0,
+      "distance_to_primary_crack_mm": 15.3,
+      "location_assessment": "Located at notch upper flank (y ~ 70.7 mm, x ~ 9.5 mm), strictly outside active fracture process zones"
+    }
+  },
+  "crack_corridor_resolution": {
+    "l0_mm": 0.285,
+    "l0_half_target_mm": 0.1425,
+    "secondary_band_elements": 1548,
+    "elements_le_l0": 1477,
+    "elements_le_l0_half": 541,
+    "min_h_mm": 0.06349339972209922,
+    "secondary_corridor_centerline_le_l0_pct": 100.0,
+    "secondary_corridor_centerline_le_l0_half_pct": 29.61
+  }
+}

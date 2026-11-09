@@ -1,0 +1,44 @@
+{
+  "batch_name": "MODE1_PK_SEC43_JOB2_ADAPTED",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "PK_SEC43_JOB2_ADAPTED_PROD.inp": "417e749dd934d67c127d1e4b67e9fb32caafb384726ccb58169892855907c68b",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_M1_PK_SEC43_JOB2_ADAPTED.pbs": "fe313e9dc8349f79a9ba99985db74ef6e63b1ce612a81114746f2b2866bc51eb",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_PK_SEC43_JOB2_CLUSTER_DATACHECK.dat": "7bbda5778819b9c50267bd0c8fe2162e3f9c89256ab0cf462bf633726e53e401"
+  },
+  "jobs": [
+    {
+      "id": "job2_adapted_prod",
+      "pbs": "submit_M1_PK_SEC43_JOB2_ADAPTED.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_pk_sec43_job2_adapted_f1708/submit_M1_PK_SEC43_JOB2_ADAPTED.pbs\"",
+      "command_sha256": "ebc01e25d8004b6ee600c0f7d0a035177e3453badc104b8a74d875ea92bcfdc5",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Pandey & Kumar (2025) Section 4.3 Job-2 Phase-Field Fracture Simulation: 10,065 physical elements (30,195 layered elements), native adapted mesh, 1 CPU serial reference anchor, 16 GB, 12h walltime (overnight execution), 2-step loading schedule to u_y = 1.50 mm (4,500 increments) to reproduce proposed PFM phase-field fracture progression (Figure 16b)",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "PK_SEC43_JOB2_ADAPTED_PROD.inp",
+      "datacheck": "M1_PK_SEC43_JOB2_CLUSTER_DATACHECK.dat"
+    }
+  ],
+  "acceptance": {
+    "job2_adapted_prod": "Abaqus 2023 single-rank serial solve completes Section 4.3 Job-2 phase-field fracture simulation on 10,065 physical elements (30,195 layered elements); reproduces primary crack deflection into hole, secondary crack propagation across right ligament to boundary, companion SDV damage field for Figure 16b comparison, and complete energy histories."
+  },
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_sec43_job2_adapted_f1708",
+  "required_state_checks": [
+    "nodal_displacement_verified",
+    "damage_irreversibility_verified",
+    "committed_history_verified",
+    "state_restoration_verified"
+  ]
+}
