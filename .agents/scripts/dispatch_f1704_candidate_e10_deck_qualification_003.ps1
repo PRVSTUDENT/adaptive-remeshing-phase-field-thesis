@@ -238,13 +238,7 @@ Requested Independent Review Decision:
 3. Authorize registration of successor Task F1705 for HPC staging, submission, and fracture production solve of Candidate E10 (Job M1_HOLE_SEL_E10_PROD, 1 CPU serial, 16 GB memory, 8h walltime, queue normal_imfdfkmq) under bounded Mode-I governance with dual-channel notification integration and zero PBS budget overrun (max_new_pbs_submissions = 1).
 '@
 
-Write-Output "Dispatching Task F1704 Candidate E10 Deck Qualification Review across PAD Bridge..."
-Write-Output "Handoff ID: $handoffId"
-Write-Output "Task ID: $taskId"
-
-$response = Invoke-ChatGPTBridge -TaskId $taskId -HandoffId $handoffId -ScientificReport $scientificReport
-
-Write-Output "Bridge invocation completed."
-Write-Output "Response Status: $($response.status)"
-Write-Output "Response Content:"
-Write-Output $response.response
+Write-Host "Dispatching Task F1704 Candidate E10 Deck Qualification ($handoffId)..." -ForegroundColor Cyan
+$response = Invoke-ChatGPTBridge -PromptText $scientificReport -HandoffId $handoffId
+Write-Host "Bridge response received successfully!" -ForegroundColor Green
+Write-Host $response

@@ -1,0 +1,29 @@
+{
+  "task_id": "F1705-METHOD-A-HOLE-CANDIDATE-E10-PRODUCTION-EXECUTION",
+  "title": "Method A Hole Benchmark Candidate E10 Production Fracture Simulation: HPC Cluster Staging, Datacheck Qualification, and Execution Readiness",
+  "assigned_agent": "gemini-antigravity",
+  "status": "REGISTERED",
+  "handoff_id": "HND-F1705-HOLE-E10-PROD-READINESS-001",
+  "predecessor_task": {
+    "task_id": "F1704-METHOD-A-HOLE-CANDIDATE-E10-DECK-QUALIFICATION",
+    "checkpoint_artifact": "project_coordination/sessions/2026-11-09_2030_gemini-antigravity_F1704_closeout.md"
+  },
+  "scientific_objective": "Prepare and qualify the HPC cluster execution package for the single production fracture simulation of Candidate E10 (PK_HOLE_SEL_E10_PROD.inp, 9,164 physical elements, 27,492 layered elements, 27,694 net independent physical DOFs) on the Mode-I off-axis-hole plate benchmark. Stage all dependencies to the remote cluster (/scratch9/pr21vyci/runs/mode1_method_a_hole_f1705_prod), verify frozen production UEL f42_mixed_uel.for (CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6, 907 lines), integrate dual-channel notification wrappers (email + Telegram), configure PBS directives (Job M1_HOLE_SEL_E10_PROD, 1 CPU serial, 16 GB, 8h walltime, queue normal_imfdfkmq), execute a bounded cluster-side Abaqus datacheck on cluster login node (Exit Code 0), confirm zero duplicate jobs in scheduler accounting, and submit an evidence-backed execution-readiness handoff for independent review authorization before consuming the single planned PBS submission.",
+  "max_new_pbs_submissions": 1,
+  "scope_boundaries": {
+    "production_uel_untouched": true,
+    "no_unauthorized_pbs_submissions": true,
+    "method_c_remains_paused": true,
+    "cluster_datacheck_only_before_review_signoff": true,
+    "candidate_mesh": "PK_HOLE_SEL_E10_PHYS.inp",
+    "freeze_deadline": "2026-12-13"
+  },
+  "deliverables": [
+    "hpc_production_package_directory_177_method_a_hole_e10_prod",
+    "pbs_execution_script_submit_m1_hole_sel_e10_prod_pbs",
+    "cluster_datacheck_execution_and_log",
+    "remote_cluster_staging_script",
+    "unit_test_suite_f1705_production_readiness",
+    "independent_review_dispatch_hnd_f1705_001"
+  ]
+}

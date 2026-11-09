@@ -1,22 +1,23 @@
 {
-  "task_id": "F1704-METHOD-A-HOLE-CANDIDATE-E10-DECK-QUALIFICATION",
-  "title": "Method A Hole Benchmark Candidate E10 Multi-Layer Production Deck Generation, Static Qualification, and Local Datacheck",
-  "status": "QUALIFICATION_COMPLETE",
+  "task_id": "F1705-METHOD-A-HOLE-CANDIDATE-E10-PRODUCTION-EXECUTION",
+  "title": "Method A Hole Benchmark Candidate E10 Production Fracture Simulation: HPC Cluster Staging, Datacheck Qualification, and Execution Readiness",
+  "status": "REGISTERED",
   "assigned_agent": "gemini-antigravity",
-  "handoff_id": "HND-F1704-HOLE-E10-DECK-QUAL-003",
-  "checkpoint_artifact": "results/validation/f1704_candidate_e10_deck_audit.json",
+  "handoff_id": "HND-F1705-HOLE-E10-PROD-READINESS-001",
+  "checkpoint_artifact": "project_coordination/sessions/2026-11-09_2030_gemini-antigravity_F1704_closeout.md",
   "predecessor_task": {
-    "task_id": "F1703-PK-SEC43-COMPLETE-SECONDARY-CRACK-PATH-ADAPTIVE-REFINEMENT",
-    "checkpoint_artifact": "project_coordination/sessions/2026-11-09_2000_gemini-antigravity_F1703_closeout.md"
+    "task_id": "F1704-METHOD-A-HOLE-CANDIDATE-E10-DECK-QUALIFICATION",
+    "checkpoint_artifact": "project_coordination/sessions/2026-11-09_2030_gemini-antigravity_F1704_closeout.md"
   },
   "registration": {
-    "definition": "project_coordination/task_definitions/F1704-METHOD-A-HOLE-CANDIDATE-E10-DECK-QUALIFICATION.json"
+    "definition": "project_coordination/task_definitions/F1705-METHOD-A-HOLE-CANDIDATE-E10-PRODUCTION-EXECUTION.json"
   },
-  "scientific_operation": "hole_candidate_e10_deck_qualification",
-  "scientific_operation_id": "f1704_hole_candidate_e10_deck_qualification",
+  "scientific_operation": "hole_candidate_e10_production_readiness",
+  "scientific_operation_id": "f1705_hole_candidate_e10_production_readiness",
   "scientific_checkpoint_required": true,
-  "max_new_pbs_submissions": 0,
+  "max_new_pbs_submissions": 1,
   "completed_operations": [
+    "f1704_hole_candidate_e10_deck_qualification",
     "f1703_pk_sec43_secondary_crack_path_adaptive_refinement",
     "f1702_pk_sec43_figs14_16_reproduction_and_continuation",
     "f1701_pk_sec43_pointwise_stress_and_history_aware_remesh",
@@ -44,6 +45,6 @@
     "f1681_method_a_complete_and_independent_review_closeout",
     "f1680_method_a_scientific_correction_and_thesis_closeout"
   ],
-  "iteration": 3,
+  "iteration": 1,
   "review_resolution": "ready_for_review_dispatch"
 }

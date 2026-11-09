@@ -1,0 +1,29 @@
+#!/bin/bash
+set -euo pipefail
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_method_a_hole_f1705_prod"
+cd "${RUN_DIR}"
+
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+echo "=== Running Cluster Abaqus 2023 Datacheck on Candidate E10 ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"
+hostname
+which ifort
+which abaqus
+
+set +e
+abaqus job=M1_HOLE_SEL_E10_CLUSTER_DATACHECK input=PK_HOLE_SEL_E10_PROD.inp user=f42_mixed_uel.for datacheck -interactive
+EXIT_CODE=$?
+set -e
+
+echo "Cluster datacheck finished with exit code: ${EXIT_CODE}"
+date -u +"%Y-%m-%dT%H:%M:%SZ"
+
+if [ -f "M1_HOLE_SEL_E10_CLUSTER_DATACHECK.dat" ]; then
+    echo "Tail of datacheck .dat file:"
+    tail -n 25 M1_HOLE_SEL_E10_CLUSTER_DATACHECK.dat
+fi
+
+exit ${EXIT_CODE}
