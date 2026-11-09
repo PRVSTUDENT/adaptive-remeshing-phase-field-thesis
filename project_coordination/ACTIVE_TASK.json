@@ -1,21 +1,22 @@
 {
-  "task_id": "F1694-PK-SEC43-MISESERI-FIELDS-AND-MULTI-DONOR-REMESH",
-  "title": "Method A Pandey-Kumar Section 4.3 MISESERI Field Fix: Damage Fields, Multi-Donor MISESERI Fields, and Native Remeshing Audit",
+  "task_id": "F1695-METHOD-A-FINAL-CLOSEOUT-AND-FREEZE-READINESS",
+  "title": "Method A Final Closeout: Apply F1694 Corrections, Fold F1692-F1694 into Chapter 5, Finalise Supervisor Presentation and Report Packaging, Confirm Freeze Readiness",
   "status": "COMPLETED",
   "assigned_agent": "gemini-antigravity",
-  "handoff_id": "HND-F1694-MISESERI-FIELDS-001",
+  "handoff_id": "HND-F1695-CLOSEOUT-001",
   "predecessor_task": {
-    "task_id": "F1693-METHOD-A-SEC43-TERMINAL-DONOR-CORRECTION-AND-SYNTHESIS",
-    "checkpoint_artifact": "project_coordination/sessions/2026-11-08_2245_gemini-antigravity_F1693.md"
+    "task_id": "F1694-PK-SEC43-MISESERI-FIELDS-AND-MULTI-DONOR-REMESH",
+    "checkpoint_artifact": "project_coordination/sessions/2026-11-08_2345_gemini-antigravity_F1694.md"
   },
   "registration": {
-    "definition": "project_coordination/task_definitions/F1694-PK-SEC43-MISESERI-FIELDS-AND-MULTI-DONOR-REMESH.json"
+    "definition": "project_coordination/task_definitions/F1695-METHOD-A-FINAL-CLOSEOUT-AND-FREEZE-READINESS.json"
   },
-  "scientific_operation": "pk_sec43_miseseri_field_fix_and_multi_donor_remesh",
-  "scientific_operation_id": "f1694_sec43_miseseri_fields_and_multi_donor_remesh",
+  "scientific_operation": "method_a_final_closeout_and_freeze_readiness",
+  "scientific_operation_id": "f1695_method_a_final_closeout_and_freeze_readiness",
   "scientific_checkpoint_required": true,
   "max_new_pbs_submissions": 0,
   "completed_operations": [
+    "f1695_method_a_final_closeout_and_freeze_readiness",
     "f1694_sec43_miseseri_fields_and_multi_donor_remesh",
     "f1693_sec43_donor_correction_and_remesh_audit",
     "f1692_pk_sec43_job1_staggered_rerun",
