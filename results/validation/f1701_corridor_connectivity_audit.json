@@ -1,0 +1,55 @@
+{
+  "metadata": {
+    "task_id": "F1701-PK-SEC43-POINTWISE-STRESS-AND-HISTORY-AWARE-REMESH",
+    "operation": "corridor_connectivity_and_coverage_audit",
+    "source_deck": "models/pandey_kumar_mode1/201_pk_sec43_pointwise_stress/PK_SEC43_F1701_HISTORY_AWARE_ADAPT.inp",
+    "total_mesh_elements": 10597,
+    "l0_mm": 0.285,
+    "l0_half_mm": 0.1425
+  },
+  "primary_corridor": {
+    "corridor_name": "Primary Notch-to-Hole Corridor",
+    "centerline_length_mm": 25.1645,
+    "element_count": 70,
+    "h_min_mm": 0.136117,
+    "h_med_mm": 0.305472,
+    "h_mean_mm": 0.495461,
+    "h_max_mm": 1.601348,
+    "elements_le_l0_count": 33,
+    "elements_le_l0_pct": 47.14,
+    "elements_le_l0_half_count": 2,
+    "elements_le_l0_half_pct": 2.86,
+    "spatial_coverage_le_l0_pct": 6.97,
+    "spatial_coverage_le_l0_half_pct": 0.5,
+    "max_uncovered_gap_le_l0_mm": 23.5288,
+    "max_uncovered_gap_le_l0_half_mm": 24.5353,
+    "max_connected_refined_segment_le_l0_mm": 1.7615,
+    "connectivity_verdict": "PARTIALLY_REFINED_DISCONTINUOUS"
+  },
+  "secondary_corridor": {
+    "corridor_name": "Secondary Hole-to-Edge Corridor",
+    "centerline_length_mm": 18.5,
+    "element_count": 238,
+    "h_min_mm": 0.089207,
+    "h_med_mm": 0.173374,
+    "h_mean_mm": 0.229844,
+    "h_max_mm": 1.230756,
+    "elements_le_l0_count": 201,
+    "elements_le_l0_pct": 84.45,
+    "elements_le_l0_half_count": 33,
+    "elements_le_l0_half_pct": 13.87,
+    "spatial_coverage_le_l0_pct": 33.33,
+    "spatial_coverage_le_l0_half_pct": 9.95,
+    "max_uncovered_gap_le_l0_mm": 12.1175,
+    "max_uncovered_gap_le_l0_half_mm": 13.0425,
+    "max_connected_refined_segment_le_l0_mm": 5.6425,
+    "connectivity_verdict": "PARTIALLY_REFINED_DISCONTINUOUS"
+  },
+  "scientific_synthesis": {
+    "dual_corridor_co_refinement_status": "LOCALIZED_REFINEMENT_PRESENT_IN_BOTH_CORRIDORS",
+    "process_zone_continuity_status": "DISCONTINUOUS_PARTIAL_COVERAGE",
+    "primary_gap_summary": "Primary corridor exhibits 47.1% elements <= l0 with max uncovered gap of 23.53 mm and only 2 elements (2.9%) <= l0/2, demonstrating partial retention of refinement rather than continuous process-zone resolution.",
+    "secondary_gap_summary": "Secondary corridor exhibits 84.5% elements <= l0 and 13.9% elements <= l0/2 with max gap of 12.12 mm, demonstrating localized process-zone capture near the active secondary crack tip.",
+    "honest_scientific_classification": "The sequential no-coarsening adaptation demonstrates that refinement can be simultaneously present in both corridors. However, it does not achieve continuous process-zone resolution (h <= l0/2) along the entire primary path. Published Figures 15(b) and 16(b) remain NOT_REPRODUCED_UNDER_TESTED_CONDITIONS."
+  }
+}
