@@ -144,7 +144,7 @@ Task F1699 is complete and ready for final structured review APPROVE under corre
 "@
 
 Write-Host "Staging F1699 Reconciled Evidence Report to ChatGPT Bridge under Handoff ID: $handoffId..."
-$response = Invoke-ChatGPTBridge -Prompt $scientificReport -HandoffId $handoffId -TimeoutSeconds 180
+$response = Invoke-ChatGPTBridge -PromptText $scientificReport -HandoffId $handoffId -TimeoutMinutes 40
 
 Write-Host "ChatGPT Bridge Response Received!"
 Write-Host "Status: $($response.status)"
