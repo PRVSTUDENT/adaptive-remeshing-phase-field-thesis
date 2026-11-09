@@ -1,0 +1,28 @@
+{
+  "task_id": "F1704-METHOD-A-HOLE-CANDIDATE-E10-DECK-QUALIFICATION",
+  "title": "Method A Hole Benchmark Candidate E10 Multi-Layer Production Deck Generation, Static Qualification, and Local Datacheck",
+  "assigned_agent": "gemini-antigravity",
+  "status": "REGISTERED",
+  "handoff_id": "HND-F1704-HOLE-E10-DECK-QUAL-001",
+  "predecessor_task": {
+    "task_id": "F1703-PK-SEC43-COMPLETE-SECONDARY-CRACK-PATH-ADAPTIVE-REFINEMENT",
+    "checkpoint_artifact": "project_coordination/sessions/2026-11-09_2000_gemini-antigravity_F1703_closeout.md"
+  },
+  "scientific_objective": "Transition from the Section 4.3 reference study back to the primary thesis benchmark (1.0 x 1.0 mm plate with 0.5 mm initial notch and circular hole at (0.65, 0.65) mm). Assemble the approved narrow crack-following physical mesh Candidate E10 (PK_HOLE_SEL_E10_PHYS.inp, 9,164 physical elements, 27,753 DOFs) into an authoritative 3-layer UEL production input deck (PK_HOLE_SEL_E10_PROD.inp), perform exhaustive card-by-card static verification against frozen UEL f42_mixed_uel.for (ce8d5edc...), execute an offline Abaqus/Standard local datacheck to verify Exit Code 0 with zero negative element Jacobians, and submit for independent review without consuming cluster PBS jobs.",
+  "max_new_pbs_submissions": 0,
+  "scope_boundaries": {
+    "production_uel_untouched": true,
+    "no_pbs_submissions_without_separate_auth": true,
+    "method_c_remains_paused": true,
+    "offline_local_datacheck_only": true,
+    "candidate_mesh": "PK_HOLE_SEL_E10_PHYS.inp",
+    "freeze_deadline": "2026-12-13"
+  },
+  "deliverables": [
+    "multi_layer_uel_production_deck_generator_e10",
+    "assembled_production_deck_pk_hole_sel_e10_prod",
+    "card_by_card_static_verification_audit_json",
+    "local_abaqus_datacheck_execution_and_log",
+    "independent_review_dispatch_across_chatgpt_bridge"
+  ]
+}

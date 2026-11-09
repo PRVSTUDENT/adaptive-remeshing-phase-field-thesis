@@ -1,12 +1,10 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "f1703-sec43-secondary-refinement-session-001",
-  "task_id": "F1703-PK-SEC43-COMPLETE-SECONDARY-CRACK-PATH-ADAPTIVE-REFINEMENT",
-  "started_at": "2026-11-09T18:25:00+01:00",
-  "completed_at": "2026-11-09T20:00:00+01:00",
-  "starting_commit": "40b0e2fef14a8cade6500a27a09f3c80c2c1ebaa",
-  "closing_commit": "93264919",
+  "session_id": "f1704-hole-e10-deck-qual-session-001",
+  "task_id": "F1704-METHOD-A-HOLE-CANDIDATE-E10-DECK-QUALIFICATION",
+  "started_at": "2026-11-09T20:05:00+01:00",
+  "starting_commit": "f5d1b31c",
   "allowed_write_scope": [
     "project_coordination",
     "models/pandey_kumar_mode1",
@@ -17,5 +15,5 @@
     "docs",
     ".agents"
   ],
-  "notes": "Task F1703 formally completed and closed under independent review HND-F1703-SEC-CRACK-REFINEMENT-003 APPROVE. Successor transition to primary Method A off-axis hole benchmark authorized."
+  "notes": "Claimed for Task F1704: Method A Hole Benchmark Candidate E10 Multi-Layer Production Deck Generation, Static Qualification, and Local Datacheck. Zero new PBS submissions limit enforced; production UEL ce8d5edc... bitwise preserved."
 }
