@@ -1,9 +1,10 @@
 {
-  "active": true,
+  "active": false,
   "agent": "gemini-antigravity",
   "session_id": "f1705-hole-e10-prod-exec-session-001",
   "task_id": "F1705-METHOD-A-HOLE-CANDIDATE-E10-PRODUCTION-EXECUTION",
   "started_at": "2026-11-09T20:30:00+01:00",
+  "closed_at": "2026-11-09T21:45:00+01:00",
   "starting_commit": "91846ac8",
   "allowed_write_scope": [
     "project_coordination",
@@ -15,5 +16,5 @@
     "docs",
     ".agents"
   ],
-  "notes": "Claimed for Task F1705: Method A Hole Benchmark Candidate E10 Production Fracture Simulation HPC Staging, Cluster Datacheck, and Execution Readiness. max_new_pbs_submissions = 1 proposed; frozen UEL ce8d5edc... bitwise preserved."
+  "notes": "Released following Task F1705 closeout: Candidate E10 production simulation executed on HPC (Job 1421888.mmaster02), strict peak load parity (+0.36%) and measured 2.74x speedup verified, thesis Chapter 5 updated, main.pdf compiled to 305 pages, 48/48 unit tests passing, ledgers synchronized."
 }

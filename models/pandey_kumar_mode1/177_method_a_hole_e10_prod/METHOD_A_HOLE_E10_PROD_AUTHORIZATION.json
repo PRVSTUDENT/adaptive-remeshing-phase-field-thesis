@@ -1,0 +1,44 @@
+{
+  "batch_name": "MODE1_METHOD_A_HOLE_E10_PROD",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "PK_HOLE_SEL_E10_PROD.inp": "41f073bc4d0502753d777081acc8eb99f9716ffac1d311f64204fbc42f4392f4",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_M1_HOLE_SEL_E10_PROD.pbs": "5f81316d7ff6ae9f2fb2e7f0c3ef0a9a6a1266d633f7ed4788f81c0296bb63b3",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_HOLE_SEL_E10_CLUSTER_DATACHECK.dat": "a71ab953f171bc1f2bcdc44971b6d32879528aee0a931265d35c5660f2c07913"
+  },
+  "jobs": [
+    {
+      "id": "hole_e10_prod",
+      "pbs": "submit_M1_HOLE_SEL_E10_PROD.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_method_a_hole_f1705_prod/submit_M1_HOLE_SEL_E10_PROD.pbs\"",
+      "command_sha256": "4183dbc6232dd9bdf19995e565db40819e6f9234d79c222230c0223205aa615b",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Method A Hole Benchmark Candidate E10 Production Fracture Simulation: 9,164 physical elements (27,492 layered elements), narrow crack-following selective mesh, 1 CPU serial, 16 GB, 8h walltime, 2-step loading to u_y = 0.0150 mm to evaluate crack propagation, hole deflection, and load-displacement response",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "PK_HOLE_SEL_E10_PROD.inp",
+      "datacheck": "M1_HOLE_SEL_E10_CLUSTER_DATACHECK.dat"
+    }
+  ],
+  "acceptance": {
+    "hole_e10_prod": "Abaqus 2023 single-rank serial solve completes Method A Candidate E10 phase-field fracture simulation on 9,164 physical elements (27,492 layered elements); extracts complete load-displacement curve P(u), crack deflection into hole and right-flank propagation, companion SDV damage field, and energy histories."
+  },
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_method_a_hole_f1705_prod",
+  "required_state_checks": [
+    "nodal_displacement_verified",
+    "damage_irreversibility_verified",
+    "committed_history_verified",
+    "state_restoration_verified"
+  ]
+}
