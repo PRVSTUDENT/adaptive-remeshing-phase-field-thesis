@@ -1,0 +1,188 @@
+{
+  "STATE2": {
+    "state_name": "State 2: Hole Arrest",
+    "step_inc": "Step 1 Inc 400",
+    "nominal_uy_mm": 0.2,
+    "odb_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\200_pk_sec43_prescribed_same_state\\PK_SEC43_PRESCRIBED_STATE2.odb",
+    "common_nodes": 4039,
+    "displacement_l2_diff": 2.856045072562392e-10,
+    "displacement_l2_uel": 8.600959797751296,
+    "rel_displacement_error_pct": 3.3206120476334503e-09,
+    "max_displacement_diff_mm": 5.820766091346741e-11,
+    "max_diff_node": 192,
+    "gate_a_kinematic_verdict": "KINEMATIC_TRANSFER_PASS_EXACT_PARITY",
+    "global_misesavg_MPa": 0.00510426564142108,
+    "global_max_miseseri_MPa": 29.38903045654297,
+    "global_max_mises_stress_MPa": 72.15507507324219,
+    "primary_corridor": {
+      "num_elements": 112,
+      "max_error_MPa": 0.005989646073430777,
+      "mean_error_MPa": 0.0008496370774082607,
+      "ratio_of_peak_pct": 0.020380550090917625,
+      "mean_rel_error_pct": 16.645628129411246,
+      "peak_normalized_max_pct": 0.020380550090917625,
+      "peak_normalized_mean_pct": 0.002891000704036847,
+      "misesavg_normalized_max_pct": 117.34589251830549,
+      "misesavg_normalized_mean_pct": 16.645628129411246
+    },
+    "secondary_corridor": {
+      "num_elements": 118,
+      "max_error_MPa": 0.05212974548339844,
+      "mean_error_MPa": 0.012613646358535704,
+      "ratio_of_peak_pct": 0.1773782417234953,
+      "mean_rel_error_pct": 247.11970819418275,
+      "peak_normalized_max_pct": 0.1773782417234953,
+      "peak_normalized_mean_pct": 0.042919572924283014,
+      "misesavg_normalized_max_pct": 1021.2976585772872,
+      "misesavg_normalized_mean_pct": 247.11970819418275
+    },
+    "criteria": {
+      "criterion_a_sec_ge_30pct_peak": false,
+      "criterion_b_sec_mean_ge_10pct_avg": true,
+      "criterion_c_continuous_band": false
+    },
+    "stage_b_verdict": "FAIL_BAND_ABSENT",
+    "gate_a_verdict": "KINEMATIC_TRANSFER_PASS_EXACT_PARITY",
+    "provenance": {
+      "source_restart_file": "PK_SEC43_STAGGERED_JOB1.stt (2.2 GB) & .res (896 KB) from Job 1421286",
+      "extraction_step": "Dedicated *RESTART, READ, END STEP interactive extraction on login node (20s CPU, 0 PBS jobs)",
+      "total_extracted_nodes": 4040,
+      "physical_specimen_nodes": 4039,
+      "reference_point_node": 4040,
+      "prescribed_boundary_nodes": 4039,
+      "constitutive_implementation": "20 discrete damage bins (E_b = E_0 * max((1-d_b)^2, k_res)), bin width Delta d = 0.05",
+      "stress_provenance": "Independently reconstructed continuum Cauchy stress from prescribed authentic kinematics and mapped damage; not raw UEL stress output",
+      "kinematic_equivalence_scope": "Exact machine-precision parity (eps_U = 0.000000%) validates nodal kinematic transfer; full constitutive stress equivalence and unconstrained equilibrium remain unverified"
+    },
+    "criteria_evaluation": {
+      "criterion_a_sec_ge_30pct_peak": false,
+      "criterion_b_sec_mean_ge_10pct_misesavg": true,
+      "criterion_c_continuous_dual_branch_band": false,
+      "note": "Criterion A uses peak-normalized denominator; Criterion B uses domain-average MISESAVG denominator"
+    }
+  },
+  "STATE4": {
+    "state_name": "State 4: Secondary Mid-Propagation",
+    "step_inc": "Step 1 Inc 600",
+    "nominal_uy_mm": 0.3,
+    "odb_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\200_pk_sec43_prescribed_same_state\\PK_SEC43_PRESCRIBED_STATE4.odb",
+    "common_nodes": 4039,
+    "displacement_l2_diff": 2.7505862565378697e-10,
+    "displacement_l2_uel": 13.259548918863235,
+    "rel_displacement_error_pct": 2.0744191777329953e-09,
+    "max_displacement_diff_mm": 5.820766091346741e-11,
+    "max_diff_node": 115,
+    "gate_a_kinematic_verdict": "KINEMATIC_TRANSFER_PASS_EXACT_PARITY",
+    "global_misesavg_MPa": 0.004959834739565849,
+    "global_max_miseseri_MPa": 45.081851959228516,
+    "global_max_mises_stress_MPa": 110.80023193359375,
+    "primary_corridor": {
+      "num_elements": 112,
+      "max_error_MPa": 0.005164132919162512,
+      "mean_error_MPa": 0.000833137551515912,
+      "ratio_of_peak_pct": 0.011455015033173198,
+      "mean_rel_error_pct": 16.797687730798046,
+      "peak_normalized_max_pct": 0.011455015033173198,
+      "peak_normalized_mean_pct": 0.0018480552934457785,
+      "misesavg_normalized_max_pct": 104.11905215242203,
+      "misesavg_normalized_mean_pct": 16.797687730798046
+    },
+    "secondary_corridor": {
+      "num_elements": 118,
+      "max_error_MPa": 3.064620018005371,
+      "mean_error_MPa": 0.11879656135136167,
+      "ratio_of_peak_pct": 6.797901782688467,
+      "mean_rel_error_pct": 2395.1717665851165,
+      "peak_normalized_max_pct": 6.797901782688467,
+      "peak_normalized_mean_pct": 0.26351304613395177,
+      "misesavg_normalized_max_pct": 61788.752628351234,
+      "misesavg_normalized_mean_pct": 2395.1717665851165
+    },
+    "criteria": {
+      "criterion_a_sec_ge_30pct_peak": false,
+      "criterion_b_sec_mean_ge_10pct_avg": true,
+      "criterion_c_continuous_band": false
+    },
+    "stage_b_verdict": "FAIL_BAND_ABSENT",
+    "gate_a_verdict": "KINEMATIC_TRANSFER_PASS_EXACT_PARITY",
+    "provenance": {
+      "source_restart_file": "PK_SEC43_STAGGERED_JOB1.stt (2.2 GB) & .res (896 KB) from Job 1421286",
+      "extraction_step": "Dedicated *RESTART, READ, END STEP interactive extraction on login node (20s CPU, 0 PBS jobs)",
+      "total_extracted_nodes": 4040,
+      "physical_specimen_nodes": 4039,
+      "reference_point_node": 4040,
+      "prescribed_boundary_nodes": 4039,
+      "constitutive_implementation": "20 discrete damage bins (E_b = E_0 * max((1-d_b)^2, k_res)), bin width Delta d = 0.05",
+      "stress_provenance": "Independently reconstructed continuum Cauchy stress from prescribed authentic kinematics and mapped damage; not raw UEL stress output",
+      "kinematic_equivalence_scope": "Exact machine-precision parity (eps_U = 0.000000%) validates nodal kinematic transfer; full constitutive stress equivalence and unconstrained equilibrium remain unverified"
+    },
+    "criteria_evaluation": {
+      "criterion_a_sec_ge_30pct_peak": false,
+      "criterion_b_sec_mean_ge_10pct_misesavg": true,
+      "criterion_c_continuous_dual_branch_band": false,
+      "note": "Criterion A uses peak-normalized denominator; Criterion B uses domain-average MISESAVG denominator"
+    }
+  },
+  "STATE5": {
+    "state_name": "State 5: Terminal Dual Severance",
+    "step_inc": "Step 2 Inc 2500",
+    "nominal_uy_mm": 1.5,
+    "odb_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\200_pk_sec43_prescribed_same_state\\PK_SEC43_PRESCRIBED_STATE5.odb",
+    "common_nodes": 4039,
+    "displacement_l2_diff": 2.2092918118920705e-09,
+    "displacement_l2_uel": 67.81474942587887,
+    "rel_displacement_error_pct": 3.2578337759793885e-09,
+    "max_displacement_diff_mm": 7.075377775900678e-11,
+    "max_diff_node": 1854,
+    "gate_a_kinematic_verdict": "KINEMATIC_TRANSFER_PASS_EXACT_PARITY",
+    "global_misesavg_MPa": 3.442930392338894e-05,
+    "global_max_miseseri_MPa": 185.19845581054688,
+    "global_max_mises_stress_MPa": 453.9564208984375,
+    "primary_corridor": {
+      "num_elements": 112,
+      "max_error_MPa": 9.470847544434946e-06,
+      "mean_error_MPa": 1.6302442519742857e-06,
+      "ratio_of_peak_pct": 5.113891205509496e-06,
+      "mean_rel_error_pct": 4.735048537727792,
+      "peak_normalized_max_pct": 5.113891205509496e-06,
+      "peak_normalized_mean_pct": 8.802688147907574e-07,
+      "misesavg_normalized_max_pct": 27.508100557331023,
+      "misesavg_normalized_mean_pct": 4.735048537727792
+    },
+    "secondary_corridor": {
+      "num_elements": 118,
+      "max_error_MPa": 149.76251220703125,
+      "mean_error_MPa": 20.60150675324081,
+      "ratio_of_peak_pct": 80.86596162563814,
+      "mean_rel_error_pct": 59837128.27619944,
+      "peak_normalized_max_pct": 80.86596162563814,
+      "peak_normalized_mean_pct": 11.124016484411515,
+      "misesavg_normalized_max_pct": 434985594.0749726,
+      "misesavg_normalized_mean_pct": 59837128.27619944
+    },
+    "criteria": {
+      "criterion_a_sec_ge_30pct_peak": true,
+      "criterion_b_sec_mean_ge_10pct_avg": true,
+      "criterion_c_continuous_band": true
+    },
+    "stage_b_verdict": "PASS_BAND_PRESENT",
+    "gate_a_verdict": "KINEMATIC_TRANSFER_PASS_EXACT_PARITY",
+    "provenance": {
+      "source_restart_file": "PK_SEC43_STAGGERED_JOB1.stt (2.2 GB) & .res (896 KB) from Job 1421286",
+      "extraction_step": "Dedicated *RESTART, READ, END STEP interactive extraction on login node (20s CPU, 0 PBS jobs)",
+      "total_extracted_nodes": 4040,
+      "physical_specimen_nodes": 4039,
+      "reference_point_node": 4040,
+      "prescribed_boundary_nodes": 4039,
+      "constitutive_implementation": "20 discrete damage bins (E_b = E_0 * max((1-d_b)^2, k_res)), bin width Delta d = 0.05",
+      "stress_provenance": "Independently reconstructed continuum Cauchy stress from prescribed authentic kinematics and mapped damage; not raw UEL stress output",
+      "kinematic_equivalence_scope": "Exact machine-precision parity (eps_U = 0.000000%) validates nodal kinematic transfer; full constitutive stress equivalence and unconstrained equilibrium remain unverified"
+    },
+    "criteria_evaluation": {
+      "criterion_a_sec_ge_30pct_peak": true,
+      "criterion_b_sec_mean_ge_10pct_misesavg": true,
+      "criterion_c_continuous_dual_branch_band": true,
+      "note": "Criterion A uses peak-normalized denominator; Criterion B uses domain-average MISESAVG denominator"
+    }
+  }
+}

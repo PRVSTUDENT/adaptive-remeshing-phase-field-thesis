@@ -1,0 +1,6 @@
+#!/bin/bash
+source /etc/profile.d/lmod.sh
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+cd /scratch9/pr21vyci/runs/mode1_pk_sec43_staggered_job1/test_restart_read
+abaqus python extract_f1700_full_field_uel.py

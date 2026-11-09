@@ -1,0 +1,131 @@
+{
+  "PK_SEC43_F1700_NATIVE_ADAPT_STATE4": {
+    "donor_name": "State 4: Secondary Mid-Propagation (uy=0.300mm)",
+    "source_odb": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\200_pk_sec43_prescribed_same_state\\PK_SEC43_PRESCRIBED_STATE4.odb",
+    "adapted_deck": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\200_pk_sec43_prescribed_same_state\\PK_SEC43_F1700_NATIVE_ADAPT_STATE4.inp",
+    "mesh_metrics": {
+      "total_elements": 9568,
+      "quad_elements": 9270.0,
+      "tri_elements": 298.0,
+      "quad_pct": 96.89,
+      "tri_pct": 3.11,
+      "total_nodes": 9677,
+      "total_dofs": 19354,
+      "total_area_mm2": 7325.8097,
+      "area_preservation_pct": 100.0023
+    },
+    "corridors": {
+      "primary": {
+        "count": 61,
+        "min": 0.160849,
+        "median": 0.409105,
+        "mean": 0.568222,
+        "max": 1.472658,
+        "pct_le_l0_half": 0.0,
+        "pct_le_l0": 36.07
+      },
+      "secondary": {
+        "count": 230,
+        "min": 0.069121,
+        "median": 0.173066,
+        "mean": 0.236884,
+        "max": 1.297678,
+        "pct_le_l0_half": 9.57,
+        "pct_le_l0": 83.91
+      }
+    },
+    "scientific_outcome": "NOT_REPRODUCED_UNDER_TESTED_CONDITIONS",
+    "source_odb_sha256": "E908067BC6B2BE89F12249534074A9574255FCC4DD34DA5A342A2DE174E27152",
+    "adapted_deck_sha256": "4DF731D4ACF92986289477B8A346FE8AB892CDCCF2A7F42F389F8C21C81A0D6D",
+    "spatial_localization_verdict": "PARTIAL_SPATIAL_LOCALIZATION_SECONDARY_ONLY",
+    "positive_finding": "Secondary corridor actively refined down to h_min = 0.0691 mm <= l0/4 (83.91% <= l0, 9.57% <= l0/2 across 22 elements), proving authentic kinematics drive native secondary refinement; primary relaxed (0.00% <= l0/2)",
+    "universal_impossibility_claimed": false,
+    "reproduction_status": "PARTIAL_SPATIAL_LOCALIZATION"
+  },
+  "PK_SEC43_F1700_NATIVE_ADAPT_STATE2": {
+    "donor_name": "State 2: Hole Arrest (uy=0.200mm)",
+    "source_odb": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\200_pk_sec43_prescribed_same_state\\PK_SEC43_PRESCRIBED_STATE2.odb",
+    "adapted_deck": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\200_pk_sec43_prescribed_same_state\\PK_SEC43_F1700_NATIVE_ADAPT_STATE2.inp",
+    "mesh_metrics": {
+      "total_elements": 8363,
+      "quad_elements": 8101.0,
+      "tri_elements": 262.0,
+      "quad_pct": 96.87,
+      "tri_pct": 3.13,
+      "total_nodes": 8469,
+      "total_dofs": 16938,
+      "total_area_mm2": 7325.6717,
+      "area_preservation_pct": 100.0004
+    },
+    "corridors": {
+      "primary": {
+        "count": 60,
+        "min": 0.154574,
+        "median": 0.347823,
+        "mean": 0.565704,
+        "max": 1.648766,
+        "pct_le_l0_half": 0.0,
+        "pct_le_l0": 40.0
+      },
+      "secondary": {
+        "count": 39,
+        "min": 0.459562,
+        "median": 0.616314,
+        "mean": 0.691217,
+        "max": 1.376029,
+        "pct_le_l0_half": 0.0,
+        "pct_le_l0": 0.0
+      }
+    },
+    "scientific_outcome": "NOT_REPRODUCED_UNDER_TESTED_CONDITIONS",
+    "source_odb_sha256": "3E1BABBDE05420C85EC4A1BD014D1F3D0313177005D696B8F878089C18A8EDDE",
+    "adapted_deck_sha256": "8D8DC0FC3BD8CED1023F31B27A65FB07777A20E465D523531CAB73EEE49F8460",
+    "spatial_localization_verdict": "PARTIAL_SPATIAL_LOCALIZATION_PRIMARY_ONLY",
+    "positive_finding": "Primary corridor partially refined (40.0% <= l0); secondary uninitiated (0.00% <= l0/2)",
+    "universal_impossibility_claimed": false,
+    "reproduction_status": "PARTIAL_SPATIAL_LOCALIZATION"
+  },
+  "PK_SEC43_F1700_NATIVE_ADAPT_STATE5": {
+    "donor_name": "State 5: Terminal Dual Severance (uy=1.500mm)",
+    "source_odb": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\200_pk_sec43_prescribed_same_state\\PK_SEC43_PRESCRIBED_STATE5.odb",
+    "adapted_deck": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\200_pk_sec43_prescribed_same_state\\PK_SEC43_F1700_NATIVE_ADAPT_STATE5.inp",
+    "mesh_metrics": {
+      "total_elements": 8496,
+      "quad_elements": 8236.0,
+      "tri_elements": 260.0,
+      "quad_pct": 96.94,
+      "tri_pct": 3.06,
+      "total_nodes": 8563,
+      "total_dofs": 17126,
+      "total_area_mm2": 7327.935,
+      "area_preservation_pct": 100.0313
+    },
+    "corridors": {
+      "primary": {
+        "count": 58,
+        "min": 0.15888,
+        "median": 0.365233,
+        "mean": 0.555016,
+        "max": 1.655404,
+        "pct_le_l0_half": 0.0,
+        "pct_le_l0": 37.93
+      },
+      "secondary": {
+        "count": 528,
+        "min": 0.058983,
+        "median": 0.170731,
+        "mean": 0.189482,
+        "max": 0.630918,
+        "pct_le_l0_half": 17.23,
+        "pct_le_l0": 91.48
+      }
+    },
+    "scientific_outcome": "NOT_REPRODUCED_UNDER_TESTED_CONDITIONS",
+    "source_odb_sha256": "91A1B773D635BFA568B600D47EF3767F6A50BE8D2BA57ECC017A31B5B30E9D86",
+    "adapted_deck_sha256": "D89B7C4799D2E05C4FFA0AA7D14AC2AE30A6E0B7A493272F4BD2E03B745BF10B",
+    "spatial_localization_verdict": "PARTIAL_SPATIAL_LOCALIZATION_TERMINAL_SECONDARY_ONLY",
+    "positive_finding": "Terminal secondary corridor refined (91.48% <= l0, 17.23% <= l0/2); primary corridor dead (0.00% <= l0/2)",
+    "universal_impossibility_claimed": false,
+    "reproduction_status": "PARTIAL_SPATIAL_LOCALIZATION"
+  }
+}
