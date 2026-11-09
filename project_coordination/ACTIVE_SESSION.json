@@ -1,10 +1,10 @@
 {
-  "active": true,
+  "active": false,
   "agent": "gemini-antigravity",
   "session_id": "f1700-sec43-full-field-recovery-and-remesh-session-001",
   "task_id": "F1700-PK-SEC43-FULL-FIELD-RECOVERY-AND-NATIVE-REMESH",
   "started_at": "2026-11-09T13:02:00+01:00",
-  "completed_at": null,
+  "completed_at": "2026-11-09T14:05:00+01:00",
   "starting_commit": "1538aad9accaa8d942e13c1df7dafdabb92587e0",
   "allowed_write_scope": [
     "project_coordination",
@@ -16,5 +16,5 @@
     "docs",
     ".agents"
   ],
-  "notes": "Task F1700 INITIALIZATION: Registering successor task F1700 following user authorization. Investigating Gate A1 (locating missing full-field UEL data: U, strain, stress, damage, restart checkpoints), evaluating Gate A2 (authentic mechanical state recovery via restart or bounded solve), Gate A3 (full-field state equivalence validation), Gate B (native MISESERI recovery), Gate C (native adaptiveRemesh execution), and Gate D/E (corridor resolution and published figure reproduction). Production UEL bitwise preserved (ce8d5edc...), max_new_pbs_submissions = 0 initial boundary."
+  "notes": "Task F1700 CLOSED: Independent review HND-F1700-FULL-FIELD-RECOVERY-002 APPROVE executed with bounded closeout scope. Missing UEL kinematics recovered from 225 checkpoints in Job 1421286 restart file; Gate A validated as KINEMATIC_TRANSFER_PASS_EXACT_PARITY (eps_U = 0.000000%); native Abaqus adaptiveRemesh executed in CAE 2024; State 4 secondary process zone actively refined (h_min = 0.0691 mm <= l0/4, 83.91% <= l0, 9.57% <= l0/2 across 22 elements); continuous dual-branch pattern unreproduced; scientific outcome PARTIAL_SPATIAL_LOCALIZATION under NOT_REPRODUCED_UNDER_TESTED_CONDITIONS; Chapter 5 updated, main.pdf compiled to 287 pages (SHA-256 EBADD59B...); 80/80 regression tests passing; max_new_pbs_submissions = 0 preserved; production UEL ce8d5edc... bitwise preserved (907 lines); Method A campaign definitively closed."
 }
