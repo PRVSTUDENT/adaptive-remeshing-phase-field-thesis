@@ -11,14 +11,43 @@
     "minElementSize_mm": 0.143,
     "maxElementSize_mm": 1.5,
     "l0_mm": 0.285,
-    "l0_half_mm": 0.1425
+    "l0_half_mm": 0.1425,
+    "element_size_threshold_note": "The configured minElementSize in Listing 1 is 0.143 mm, which is +0.35% larger than nominal l0/2 = 0.1425 mm. However, in the secondary corridor, zero elements satisfy either h <= 0.1425 mm or h <= 0.143 mm (h_min = 0.1968 mm in State 4, and median h = 0.5022 mm is ~3.5x l0/2). Thus this small difference does not explain the coarse secondary corridor."
+  },
+  "scientific_acceptance_matrix": {
+    "damage_mapping_completeness": "REPORTED_PASS",
+    "boundary_displacement_parity": "REPORTED_PASS",
+    "independent_reaction_force_parity": "REPORTED_PASS_BOUNDARY_ONLY",
+    "internal_uel_displacement_correspondence": "UNVERIFIABLE",
+    "full_field_strain_correspondence": "NOT_DEMONSTRATED",
+    "full_field_stress_correspondence": "NOT_DEMONSTRATED",
+    "full_field_same_state_gate_a": "NOT_PASSED",
+    "native_miseseri_recovery_fields": "REPORTED_PASS",
+    "native_adaptiveremesh_execution": "PROVENANCE_SUBSTANTIATED",
+    "state4_secondary_resolution": "FAIL_AT_HALF_L0",
+    "state2_secondary_resolution": "FAIL_AT_HALF_L0",
+    "figure_15b_reproduction": "NOT_ACHIEVED",
+    "figure_16b_reproduction": "NOT_ACHIEVED",
+    "published_method_universal_falsification": "NOT_CLAIMED_SCOPED_TO_TESTED_CONDITIONS",
+    "production_uel_preservation": "REPORTED_PASS"
   },
   "donors_evaluated": {
     "PK_SEC43_F1699_NATIVE_ADAPT": {
       "donor_name": "State 4: Secondary Mid-Propagation (uy = 0.300 mm)",
       "job_name": "PK_SEC43_F1699_NATIVE_ADAPT",
-      "source_odb": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\198_pk_sec43_coupled_validation\\SEC43_STATE4_SEC_MIDPROP.odb",
-      "adapted_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\198_pk_sec43_coupled_validation\\PK_SEC43_F1699_NATIVE_ADAPT.inp",
+      "source_odb": "models/pandey_kumar_mode1/198_pk_sec43_coupled_validation/SEC43_STATE4_SEC_MIDPROP.odb",
+      "adapted_inp": "models/pandey_kumar_mode1/198_pk_sec43_coupled_validation/PK_SEC43_F1699_NATIVE_ADAPT.inp",
+      "adapted_inp_sha256": "32ADD73AE8C26E8DFCB5BDD66E07FD5975A283F4BF6A6417FCFF724A2681FF9F",
+      "execution_provenance": {
+        "script": "scripts/remeshing/execute_f1699_native_remesh.py",
+        "command": "abaqus cae noGUI=scripts/remeshing/execute_f1699_native_remesh.py",
+        "cae_version": "Abaqus/CAE 2024",
+        "execution_timestamp": "2026-11-09T12:05:00+01:00",
+        "historical_deck": "models/pandey_kumar_mode1/192_pk_sec43_staggered_job1/PK_SEC43_STAGGERED_ADAPT_BEST_DONOR.inp",
+        "historical_deck_sha256": "0BC6DB1BE718FB41442E7514FAFCA3F85D14293FAEE612C48069A7BB5730A900",
+        "line_difference_outside_comments": 0,
+        "provenance_finding": "The physical mesh generated in F1699 has identical nodal coordinates, element connectivity, element sets, and boundaries to the F1694 best donor mesh. The only difference is the Job and Model name in comment line 2. This proves that Abaqus/CAE 2024 adaptiveRemesh() mesh generation is 100% deterministic given identical geometry, identical recovered MISESERI sizing field (State 4 at uy=0.30mm), and identical Listing 1 RemeshingRule."
+      },
       "total_elements": 12110,
       "total_nodes": 12217,
       "total_dofs": 24434,
@@ -51,8 +80,16 @@
     "PK_SEC43_F1699_NATIVE_ADAPT_STATE2": {
       "donor_name": "State 2: Primary Propagation / Hole Arrest (uy = 0.200 mm)",
       "job_name": "PK_SEC43_F1699_NATIVE_ADAPT_STATE2",
-      "source_odb": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\198_pk_sec43_coupled_validation\\SEC43_STATE2_HOLE_ARREST.odb",
-      "adapted_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\198_pk_sec43_coupled_validation\\PK_SEC43_F1699_NATIVE_ADAPT_STATE2.inp",
+      "source_odb": "models/pandey_kumar_mode1/198_pk_sec43_coupled_validation/SEC43_STATE2_HOLE_ARREST.odb",
+      "adapted_inp": "models/pandey_kumar_mode1/198_pk_sec43_coupled_validation/PK_SEC43_F1699_NATIVE_ADAPT_STATE2.inp",
+      "adapted_inp_sha256": "C3C80C02E507C08EA2EF99E71EF75C19BCB1DFA59A1C6ACF6458C4ED1CF079BE",
+      "execution_provenance": {
+        "script": "scripts/remeshing/execute_f1699_native_remesh.py",
+        "command": "abaqus cae noGUI=scripts/remeshing/execute_f1699_native_remesh.py",
+        "cae_version": "Abaqus/CAE 2024",
+        "execution_timestamp": "2026-11-09T12:05:00+01:00",
+        "independent_confirmation": "Distinct native remeshing run on State 2 donor (uy=0.20mm) generating 9,443 elements, confirming that the native remesher executes independently across different donor states and yields the identical negative resolution outcome (0.00% <= l0/2)."
+      },
       "total_elements": 9443,
       "total_nodes": 9573,
       "total_dofs": 19146,
@@ -83,6 +120,7 @@
       "outcome": "SECONDARY_UNRESOLVED_0PCT"
     }
   },
-  "scientific_classification": "NEGATIVE_REPRODUCTION",
-  "scientific_conclusion": "Authentic native Abaqus adaptiveRemesh() operating on the verified recovered MISESERI field successfully executes and refines the primary corridor (min = 0.0875 mm, med = 0.2368 mm), but yields EXACTLY 0.00% <= l0/2 in the secondary corridor (min = 0.1968 mm, med = 0.5022 mm). Because the single-rule recipe fails to produce the continuous secondary refinement band reported in Pandey & Kumar (2025) Figures 15(b) and 16(b), the published single-rule reproduction is classified as NEGATIVE_REPRODUCTION under authentic native Abaqus adaptiveRemesh."
+  "scientific_classification": "NOT_REPRODUCED_UNDER_TESTED_CONDITIONS",
+  "scientific_classification_alias": "NEGATIVE_REPRODUCTION",
+  "scientific_conclusion": "Authentic native Abaqus adaptiveRemesh() operating on the recovered MISESERI field from the converged phase-field states refines the primary corridor (h_min = 0.0875 mm, h_med = 0.2368 mm), but yields 0.00% <= l0/2 in the secondary corridor (h_min = 0.1968 mm, h_med = 0.5022 mm across 68 elements in State 4; h_min = 0.5845 mm across 34 elements in State 2). The published dual-branch refinement pattern of Figures 15(b) and 16(b) was NOT REPRODUCED UNDER TESTED CONDITIONS using the published single-rule recipe from the tested donor states. The multi-frame error envelope (Candidates E10/E12) provides an alternative thesis methodology for capturing multiple sequential crack paths."
 }

@@ -2,12 +2,25 @@
   "benchmark": "Pandey & Kumar (2025) Section 4.3 holed plate",
   "task_id": "F1699-PK-SEC43-SAME-STATE-RECOVERY-AND-NATIVE-REMESH",
   "gate": "GATE_A_SAME_STATE_RECOVERY_VALIDATION",
-  "gate_a_verdict": "PASS",
+  "gate_a_verdict": "NOT_PASSED_PROVISIONAL_BOUNDARY_AND_DAMAGE_ONLY",
+  "gate_a_classification": "PARTIAL_BOUNDARY_AND_DAMAGE_VALIDATION_FULL_FIELD_EQUIVALENCE_UNVERIFIABLE",
+  "scientific_status": "NOT_PASSED / PROVISIONALLY_SUPPORTED_AT_BOUNDARY",
   "predeclared_floors": {
     "U_floor_mm": 0.0001,
     "sigma_floor_MPa": 1.0,
     "eps_U_tolerance": 0.0001,
     "rf_relative_tolerance": 0.01
+  },
+  "scientific_acceptance_matrix": {
+    "damage_mapping_completeness": "REPORTED_PASS",
+    "boundary_displacement_parity": "REPORTED_PASS",
+    "independent_reaction_force_parity": "REPORTED_PASS_BOUNDARY_ONLY",
+    "internal_uel_displacement_correspondence": "UNVERIFIABLE",
+    "full_field_strain_correspondence": "NOT_DEMONSTRATED",
+    "full_field_stress_correspondence": "NOT_DEMONSTRATED",
+    "full_field_same_state_gate_a": "NOT_PASSED",
+    "native_miseseri_recovery_fields": "REPORTED_PASS",
+    "production_uel_preservation": "REPORTED_PASS"
   },
   "production_uel_inviolability": {
     "file": "models/pandey_kumar_mode1/f42_mixed_uel.for",
@@ -36,29 +49,31 @@
         "absolute_diff_kN": 0.0,
         "relative_error": 0.0,
         "tolerance": 0.01,
-        "status": "PASS"
+        "status": "PASS_BOUNDARY_ONLY",
+        "provenance_note": "rf_uel_kN was extracted from Job 1421286 history output (PK_SEC43_STAGGERED_JOB1.dat) at reference point RP. rf_recovery_kN was independently extracted from the static recovery solve (SEC43_STATE2_HOLE_ARREST.odb) at RP. Boundary reaction force agreement confirms gross structural compliance match of the 20-bin degraded model, but boundary force parity alone does not establish internal displacement, strain, or stress equivalence."
       },
       "displacement_discrepancy": {
         "u_floor_mm": 0.0001,
         "boundary_disp_error_eps_U": 0.0,
         "boundary_tolerance": 0.0001,
         "boundary_status": "PASS",
-        "internal_u_status": "UNVERIFIABLE_INTERNAL_ODB_OMISSION",
-        "internal_u_provenance_note": "In Job 1421286 (PK_SEC43_STAGGERED_JOB1.inp), *NODE OUTPUT was requested exclusively for NSET=N_RP to preserve disk storage over 4,500 increments. Full-field internal nodal displacements u_UEL(x,y) were not written to the historical ODB. Boundary displacement u_y matches reference to eps_U = 0.0000%.",
-        "alternative_b_kinematic_eps_U": 0.0
+        "internal_u_status": "UNVERIFIABLE",
+        "internal_u_provenance_note": "In Job 1421286 (PK_SEC43_STAGGERED_JOB1.inp), *NODE OUTPUT was requested exclusively for NSET=N_RP to preserve disk storage over 4,500 increments. Full-field internal nodal displacements u_UEL(x,y) were not written to the historical ODB. Boundary displacement u_y matches reference to eps_U = 0.0000%."
       },
       "stress_and_miseseri": {
         "sigma_floor_MPa": 1.0,
         "constitutive_law": "sigma_d = [(1-d)^2 + k_res] * C_0 : eps",
         "bin_discretization_tolerance": 0.05,
+        "pointwise_equivalence_status": "UNVERIFIABLE_20_BIN_APPROXIMATION",
+        "note": "Pointwise UEL constitutive equivalence was not demonstrated; the recovery model employs a 20-bin piecewise-homogeneous material approximation. Genuine Abaqus MISESERI is populated via native SPR.",
         "genuine_abaqus_miseseri": true,
         "max_miseseri_global_MPa": 0.15265490114688873,
         "mean_miseseri_global_MPa": 0.00533816383597893,
         "max_miseseri_primary_MPa": 0.01989576779305935,
         "max_miseseri_secondary_MPa": 0.022329287603497505,
-        "status": "PASS"
+        "status": "PROVISIONALLY_SUPPORTED_APPROXIMATION"
       },
-      "overall_state_verdict": "PASS"
+      "overall_state_verdict": "PROVISIONALLY_SUPPORTED_AT_BOUNDARY_INTERNAL_UNVERIFIABLE"
     },
     "state_4_sec_midprop": {
       "state_key": "state_4_sec_midprop",
@@ -81,29 +96,31 @@
         "absolute_diff_kN": 0.0,
         "relative_error": 0.0,
         "tolerance": 0.01,
-        "status": "PASS"
+        "status": "PASS_BOUNDARY_ONLY",
+        "provenance_note": "rf_uel_kN was extracted from Job 1421286 history output (PK_SEC43_STAGGERED_JOB1.dat) at reference point RP. rf_recovery_kN was independently extracted from the static recovery solve (SEC43_STATE4_SEC_MIDPROP.odb) at RP. Boundary reaction force agreement confirms gross structural compliance match of the 20-bin degraded model, but boundary force parity alone does not establish internal displacement, strain, or stress equivalence."
       },
       "displacement_discrepancy": {
         "u_floor_mm": 0.0001,
         "boundary_disp_error_eps_U": 0.0,
         "boundary_tolerance": 0.0001,
         "boundary_status": "PASS",
-        "internal_u_status": "UNVERIFIABLE_INTERNAL_ODB_OMISSION",
-        "internal_u_provenance_note": "In Job 1421286 (PK_SEC43_STAGGERED_JOB1.inp), *NODE OUTPUT was requested exclusively for NSET=N_RP to preserve disk storage over 4,500 increments. Full-field internal nodal displacements u_UEL(x,y) were not written to the historical ODB. Boundary displacement u_y matches reference to eps_U = 0.0000%.",
-        "alternative_b_kinematic_eps_U": 0.0
+        "internal_u_status": "UNVERIFIABLE",
+        "internal_u_provenance_note": "In Job 1421286 (PK_SEC43_STAGGERED_JOB1.inp), *NODE OUTPUT was requested exclusively for NSET=N_RP to preserve disk storage over 4,500 increments. Full-field internal nodal displacements u_UEL(x,y) were not written to the historical ODB. Boundary displacement u_y matches reference to eps_U = 0.0000%."
       },
       "stress_and_miseseri": {
         "sigma_floor_MPa": 1.0,
         "constitutive_law": "sigma_d = [(1-d)^2 + k_res] * C_0 : eps",
         "bin_discretization_tolerance": 0.05,
+        "pointwise_equivalence_status": "UNVERIFIABLE_20_BIN_APPROXIMATION",
+        "note": "Pointwise UEL constitutive equivalence was not demonstrated; the recovery model employs a 20-bin piecewise-homogeneous material approximation. Genuine Abaqus MISESERI is populated via native SPR.",
         "genuine_abaqus_miseseri": true,
         "max_miseseri_global_MPa": 0.23201137781143188,
         "mean_miseseri_global_MPa": 0.007856125547167069,
         "max_miseseri_primary_MPa": 0.028810394927859306,
         "max_miseseri_secondary_MPa": 0.07445118576288223,
-        "status": "PASS"
+        "status": "PROVISIONALLY_SUPPORTED_APPROXIMATION"
       },
-      "overall_state_verdict": "PASS"
+      "overall_state_verdict": "PROVISIONALLY_SUPPORTED_AT_BOUNDARY_INTERNAL_UNVERIFIABLE"
     },
     "state_5_terminal": {
       "state_key": "state_5_terminal",
@@ -126,29 +143,31 @@
         "absolute_diff_kN": 0.0,
         "relative_error": 0.0,
         "tolerance": 0.01,
-        "status": "PASS"
+        "status": "PASS_BOUNDARY_ONLY",
+        "provenance_note": "rf_uel_kN was extracted from Job 1421286 history output (PK_SEC43_STAGGERED_JOB1.dat) at reference point RP. rf_recovery_kN was independently extracted from the static recovery solve (SEC43_STATE5_TERMINAL.odb) at RP. Boundary reaction force agreement confirms gross structural compliance match of the 20-bin degraded model, but boundary force parity alone does not establish internal displacement, strain, or stress equivalence."
       },
       "displacement_discrepancy": {
         "u_floor_mm": 0.0001,
         "boundary_disp_error_eps_U": 0.0,
         "boundary_tolerance": 0.0001,
         "boundary_status": "PASS",
-        "internal_u_status": "UNVERIFIABLE_INTERNAL_ODB_OMISSION",
-        "internal_u_provenance_note": "In Job 1421286 (PK_SEC43_STAGGERED_JOB1.inp), *NODE OUTPUT was requested exclusively for NSET=N_RP to preserve disk storage over 4,500 increments. Full-field internal nodal displacements u_UEL(x,y) were not written to the historical ODB. Boundary displacement u_y matches reference to eps_U = 0.0000%.",
-        "alternative_b_kinematic_eps_U": 0.0
+        "internal_u_status": "UNVERIFIABLE",
+        "internal_u_provenance_note": "In Job 1421286 (PK_SEC43_STAGGERED_JOB1.inp), *NODE OUTPUT was requested exclusively for NSET=N_RP to preserve disk storage over 4,500 increments. Full-field internal nodal displacements u_UEL(x,y) were not written to the historical ODB. Boundary displacement u_y matches reference to eps_U = 0.0000%."
       },
       "stress_and_miseseri": {
         "sigma_floor_MPa": 1.0,
         "constitutive_law": "sigma_d = [(1-d)^2 + k_res] * C_0 : eps",
         "bin_discretization_tolerance": 0.05,
+        "pointwise_equivalence_status": "UNVERIFIABLE_20_BIN_APPROXIMATION",
+        "note": "Pointwise UEL constitutive equivalence was not demonstrated; the recovery model employs a 20-bin piecewise-homogeneous material approximation. Genuine Abaqus MISESERI is populated via native SPR.",
         "genuine_abaqus_miseseri": true,
         "max_miseseri_global_MPa": 1.3589591979980469,
         "mean_miseseri_global_MPa": 0.03785391526710168,
         "max_miseseri_primary_MPa": 0.14042259752750397,
         "max_miseseri_secondary_MPa": 0.23379655182361603,
-        "status": "PASS"
+        "status": "PROVISIONALLY_SUPPORTED_APPROXIMATION"
       },
-      "overall_state_verdict": "PASS"
+      "overall_state_verdict": "PROVISIONALLY_SUPPORTED_AT_BOUNDARY_INTERNAL_UNVERIFIABLE"
     }
   },
   "alternative_a_vs_b_synthesis": {
@@ -162,8 +181,8 @@
       "description": "Kinematically constrained accepted-state recovery",
       "boundary_disp_parity": "EXACT (eps_U = 0.00%)",
       "internal_u_measurability": "UNVERIFIABLE_INTERNAL_ODB_OMISSION due to NSET=N_RP output constraint in Job 1421286",
-      "stress_parity": "Authentic degraded Cauchy stress sigma_d = g(d) C_0 : eps preserved at integration points"
+      "stress_parity": "Authentic degraded Cauchy stress sigma_d = g(d) C_0 : eps evaluated at integration points via 20-bin approximation"
     },
-    "recommendation": "Alternative B principles adopted for boundary and constitutive fidelity; Alternative A provides the physical continuous displacement field for standard continuum elements; internal UEL displacement differences classified as UNVERIFIABLE."
+    "recommendation": "Alternative B principles adopted for boundary and constitutive fidelity; Alternative A provides the physical continuous displacement field for standard continuum elements; internal UEL displacement, strain, and stress differences classified as UNVERIFIABLE."
   }
 }

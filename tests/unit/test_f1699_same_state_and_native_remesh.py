@@ -39,17 +39,25 @@ def test_f1699_gate_a_same_state_validation():
     with open(gate_a_json, "r") as f:
         data = json.load(f)
 
-    assert data["gate_a_verdict"] == "PASS", "Gate A overall verdict must be PASS"
+    assert data["gate_a_verdict"] == "NOT_PASSED_PROVISIONAL_BOUNDARY_AND_DAMAGE_ONLY", (
+        "Gate A verdict must be NOT_PASSED_PROVISIONAL_BOUNDARY_AND_DAMAGE_ONLY"
+    )
+    assert data["scientific_status"] == "NOT_PASSED / PROVISIONALLY_SUPPORTED_AT_BOUNDARY"
+    assert data["scientific_acceptance_matrix"]["full_field_same_state_gate_a"] == "NOT_PASSED"
+    assert data["scientific_acceptance_matrix"]["internal_uel_displacement_correspondence"] == "UNVERIFIABLE"
     assert len(data["states_evaluated"]) == 3, "Three states must be evaluated in Gate A"
 
     for skey, sinfo in data["states_evaluated"].items():
-        assert sinfo["overall_state_verdict"] == "PASS", "State %s verdict must be PASS" % skey
+        assert sinfo["overall_state_verdict"] == "PROVISIONALLY_SUPPORTED_AT_BOUNDARY_INTERNAL_UNVERIFIABLE", (
+            "State %s verdict must be PROVISIONALLY_SUPPORTED_AT_BOUNDARY_INTERNAL_UNVERIFIABLE" % skey
+        )
         assert sinfo["damage_mapping"]["mapped_elements"] == 3923, "All 3923 elements must be mapped"
         assert sinfo["damage_mapping"]["bounded_in_0_1"] is True, "Damage must be bounded in [0, 1]"
         assert sinfo["displacement_discrepancy"]["boundary_disp_error_eps_U"] <= 1.0e-4, "Boundary eps_U must be <= 1e-4"
-        assert sinfo["displacement_discrepancy"]["internal_u_status"] == "UNVERIFIABLE_INTERNAL_ODB_OMISSION", (
-            "Internal displacement omission must be explicitly disclosed"
+        assert sinfo["displacement_discrepancy"]["internal_u_status"] == "UNVERIFIABLE", (
+            "Internal displacement omission must be explicitly disclosed as UNVERIFIABLE"
         )
+        assert sinfo["reaction_force"]["status"] == "PASS_BOUNDARY_ONLY"
         assert sinfo["stress_and_miseseri"]["genuine_abaqus_miseseri"] is True, "Genuine MISESERI must be present"
 
 def test_f1699_gate_b_native_adapted_mesh_metrics():
@@ -59,16 +67,20 @@ def test_f1699_gate_b_native_adapted_mesh_metrics():
         data = json.load(f)
 
     assert data["gate"] == "GATE_B_NATIVE_ADAPTIVEREMESH_VALIDATION"
-    assert data["scientific_classification"] == "NEGATIVE_REPRODUCTION"
+    assert data["scientific_classification"] == "NOT_REPRODUCED_UNDER_TESTED_CONDITIONS"
+    assert data["scientific_classification_alias"] == "NEGATIVE_REPRODUCTION"
     assert "PK_SEC43_F1699_NATIVE_ADAPT" in data["donors_evaluated"]
     assert "PK_SEC43_F1699_NATIVE_ADAPT_STATE2" in data["donors_evaluated"]
 
-    # State 4 (Primary Donor) metrics
+    # State 4 (Primary Donor) metrics & provenance
     d4 = data["donors_evaluated"]["PK_SEC43_F1699_NATIVE_ADAPT"]
     assert d4["total_elements"] == 12110, "State 4 adapted element count must be 12,110"
     assert d4["total_nodes"] == 12217, "State 4 adapted node count must be 12,217"
     assert d4["quad_pct"] >= 95.0, "Quad percentage must exceed 95%"
     assert abs(d4["total_area_mm2"] - 7324.76) < 1.0, "Area must preserve CAD area to < 1 mm^2"
+    assert d4["execution_provenance"]["line_difference_outside_comments"] == 0, (
+        "Mesh lines outside comments must be identical to historical best donor"
+    )
 
     # State 2 (Optional Second Donor) metrics
     d2 = data["donors_evaluated"]["PK_SEC43_F1699_NATIVE_ADAPT_STATE2"]
