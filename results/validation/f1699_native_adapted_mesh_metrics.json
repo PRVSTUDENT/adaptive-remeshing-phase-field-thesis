@@ -1,7 +1,8 @@
 {
   "benchmark": "Pandey & Kumar (2025) Section 4.3 holed plate",
   "task_id": "F1699-PK-SEC43-SAME-STATE-RECOVERY-AND-NATIVE-REMESH",
-  "gate": "GATE_B_NATIVE_ADAPTIVEREMESH_VALIDATION",
+  "gate": "GATE_B_EXPLORATORY_NATIVE_ADAPTIVEREMESH_VALIDATION",
+  "gate_qualification": "Exploratory native remeshing operating on approximate reconstructed recovery fields (Gate A was NOT_PASSED). Native execution is supported by the committed Python CAE script and resulting mesh artifacts.",
   "abaqus_release": "2024",
   "remeshing_rule_parameters": {
     "sizingMethod": "UNIFORM_ERROR",
@@ -46,7 +47,7 @@
         "historical_deck": "models/pandey_kumar_mode1/192_pk_sec43_staggered_job1/PK_SEC43_STAGGERED_ADAPT_BEST_DONOR.inp",
         "historical_deck_sha256": "0BC6DB1BE718FB41442E7514FAFCA3F85D14293FAEE612C48069A7BB5730A900",
         "line_difference_outside_comments": 0,
-        "provenance_finding": "The physical mesh generated in F1699 has identical nodal coordinates, element connectivity, element sets, and boundaries to the F1694 best donor mesh. The only difference is the Job and Model name in comment line 2. This proves that Abaqus/CAE 2024 adaptiveRemesh() mesh generation is 100% deterministic given identical geometry, identical recovered MISESERI sizing field (State 4 at uy=0.30mm), and identical Listing 1 RemeshingRule."
+        "provenance_finding": "The reported F1699 State 4 physical mesh matches the historical F1694 best-donor mesh deck line-by-line outside the comment header. Both decks are retained with their respective SHA-256 hashes. State 2 provides a distinct reported mesh result from an earlier donor state."
       },
       "total_elements": 12110,
       "total_nodes": 12217,
