@@ -27,18 +27,19 @@ All deliverables were completed under strict governance and resource limits:
 4. **Pre-Declared Band Criteria Evaluation (Stage C FAIL)**:
    - **Criterion (a)**: Secondary corridor max $\ge 30\%$ of peak $\rightarrow$ **FAIL** (Measured: **$7.56\%$**).
    - **Criterion (b)**: Secondary corridor mean relative error $\ge 10\%$ $\rightarrow$ **FAIL** (Measured: **$1.70\%$**, vs Case A $1.73\%$).
-   - **Criterion (c)**: Continuous elevated-error band along both branches $\rightarrow$ **FAIL** (Error is sharply localized at the notch tip at $92.44\%$ higher error; the secondary corridor on the right flank carries only smooth far-field background stress).
+   - **Criterion (c)**: Continuous elevated-error band along both branches $\rightarrow$ **FAIL** (Error is sharply localized at the notch tip with peak $4.7205\,\mathrm{MPa}$; the secondary corridor maximum error is $7.56\%$ of the notch peak, $0.3570\,\mathrm{MPa}$, and the secondary background/mean error remains under $5.5\%$ of peak, specifically $1.70\%$ mean relative error. No continuous dual-branch band exists along the right ligament).
    - **Overall Verdict**: **FAIL / BAND IS ABSENT**. Hypothesis H1 is **FALSIFIED**.
 5. **Stage D Remeshing Gated Closed**:
    - Per protocol instruction, Stage D single-rule remeshing is **SKIPPED** (reason: `BAND_ABSENT`). Native adaptive remeshing cannot refine along a secondary corridor where discretization error is $< 7.6\%$ of the notch peak.
-6. **Definitive Falsification Strengthened**:
-   - The single-rule adaptive remeshing recipe fails to produce the Fig. 15b dual-branch band regardless of whether Job-1 is modeled using:
-     - UEL phase-field (zero native recovery);
-     - Plane-strain elastic recovery (Case A, secondary max $5.39\%$ of peak);
-     - Degraded terminal recovery (Case B, secondary max $17.1\%$ of peak, secondary median $h = 0.5731\,\mathrm{mm}$, $0.00\% \le \ell_0/2$);
-     - Intermediate damage recovery (Donor b, secondary median $h = 0.5022\,\mathrm{mm}$, $0.00\% \le \ell_0/2$); or
-     - Standard plane-stress continuum elements (CPS4R/CPS3, secondary max $7.56\%$ of peak).
-   - Method A as a thesis chapter remains **CLOSED**. This finding will be recorded as a post-closeout note in the thesis outlook.
+6. **Definitive Falsification Strengthened Across All Formulations Tested**:
+   - The single-rule adaptive remeshing recipe fails to produce the Fig. 15b dual-branch band regardless of which tested Job-1 formulation is used:
+     - Monolithic UEL (F1688, F1690: zero native recovery);
+     - Plane-strain elastic recovery (F1693 Case A, secondary max $5.39\%$ of peak);
+     - Degraded terminal recovery (F1693 Case B, secondary max $17.1\%$ of peak, secondary median $h = 0.5731\,\mathrm{mm}$, $0.00\% \le \ell_0/2$);
+     - Intermediate damage recovery (F1694 Donor b, secondary median $h = 0.5022\,\mathrm{mm}$, $0.00\% \le \ell_0/2$); or
+     - Standard plane-stress continuum elements (F1696 CPS4R/CPS3, secondary max $7.56\%$ of peak).
+   - **Untested Boundary Condition Note**: In all Section 4.3 tests, the initial coarse mesh seed was $1.5\,\mathrm{mm}$ ($h/\ell_0 = 5.26$). The mesh-density dimension remains untested as an outlook.
+   - Method A as a thesis chapter remains **CLOSED**. This formulation finding is preserved as a post-closeout note in the thesis outlook.
 
 ---
 
@@ -97,3 +98,39 @@ This proves that no load increment in a standard-element pre-analysis ever eleva
 - **Unit Test Suite**: `tests/unit/test_f1696_standard_job1_formulation.py` (7/7 tests PASS)
 - **Production UEL Preserved**: `models/pandey_kumar_mode1/f42_mixed_uel.for` (SHA-256: `ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6`)
 - **Resource Boundary**: Exactly 1 PBS job consumed (`1421442.mmaster02`), 0 remaining.
+
+---
+
+## 5. Independent Structured Review Closeout (HND-F1696-JOB1-FORMULATION-001)
+
+The independent structured review (`HND-F1696-JOB1-FORMULATION-001`, recorded in `project_coordination/sessions/2026-11-09_chatgpt_review_f1696.md`) returned **`APPROVE`** with all closeout criteria confirmed:
+- Clean solver execution of Job 1421442.mmaster02 (Exit 0, 4,500 increments).
+- Pre-declared band criteria judged **`FAIL`** on all three counts, with Hypothesis H1 falsified for standard continuum elements.
+- Scale invariance of linear elasticity verified across all increments.
+- Stage D single-rule remeshing properly skipped (`BAND_ABSENT`).
+- Verified commit SHA `dd700c242cecd88a524830a7d43faa829bb742e7` on GitHub `origin/main` confirmed as HEAD via the GitHub API (first full-SHA match in campaign, affirming Standing Rule 1).
+
+### Mandatory Review Corrections Applied:
+1. **Reconciled Test Suite Grand Total**:
+   - Reconciled the handoff text from `47/47` to the authentic grand total of **`52/52`** passing unit tests across F1688--F1696:
+     * `test_f1688_pandey_kumar_sec43_reproduction.py`: 5 tests
+     * `test_f1689_method_a_synthesis.py`: 5 tests
+     * `test_f1690_pandey_kumar_sec43_rerun.py`: 7 tests
+     * `test_f1692_pandey_kumar_sec43_staggered_rerun.py`: 6 tests
+     * `test_f1693_sec43_donor_correction_and_synthesis.py`: 6 tests
+     * `test_f1694_sec43_miseseri_fields_and_multidonor.py`: 9 tests
+     * `test_f1695_method_a_final_closeout.py`: 7 tests
+     * `test_f1696_standard_job1_formulation.py`: 7 tests
+     * **Grand Total**: $5 + 5 + 7 + 6 + 6 + 9 + 7 + 7 = \mathbf{52}$ tests (100% PASS).
+2. **Properly Scoped Falsification Formulation**:
+   - Replaced unscoped wording with: *"unreproducible as a single-rule remeshing pass from every Job-1 formulation tested"*.
+   - Added explicit scope boundary: the initial coarse mesh seed was $1.5\,\mathrm{mm}$ ($h/\ell_0 = 5.26$) in every Section 4.3 test; the mesh-density dimension remains untested as an outlook.
+3. **Phrasing Clarifications**:
+   - Clarified that the secondary corridor maximum error is $7.56\%$ of the notch peak, and the secondary corridor background/mean error remains under $5.5\%$ of peak (specifically $1.70\%$ mean relative error).
+   - Removed awkward delta phrasing in favor of direct ratio statements.
+
+---
+
+## Conclusion
+Task F1696 is **100% COMPLETE** and formally approved. Method A as a thesis chapter remains **CLOSED** ahead of the 13 December 2026 research freeze. Zero further instructions or actions remain.
+
