@@ -158,7 +158,7 @@ def generate_figure():
     ax_a.set_aspect('equal')
     ax_a.set_xlabel('$x$ coordinate [mm]')
     ax_a.set_ylabel('$y$ coordinate [mm]')
-    ax_a.set_title('(a) Global Mesh: Primary Crack Arrest at Hole\n($u_y = 0.00620\\,\\mathrm{mm}$, Step 2 Inc 60, Job 1421888)', fontweight='bold')
+    ax_a.set_title('(a) Global Adapted Mesh: Primary Crack Arrest at Hole\n($u_y = 0.00620\\,\\mathrm{mm}$, Step 2 Inc 60, Cumulative Inc 110, Job 1421888)', fontweight='bold')
     ax_a.grid(True, linestyle=':', alpha=0.4)
 
     # Annotations on (a)
@@ -190,7 +190,7 @@ def generate_figure():
     ax_b.set_aspect('equal')
     ax_b.set_xlabel('$x$ coordinate [mm]')
     ax_b.set_ylabel('$y$ coordinate [mm]')
-    ax_b.set_title('(b) Global Mesh: Complete Dual-Crack Severance\n($u_y = 0.00774\\,\\mathrm{mm}$, Step 2 Inc 160, Job 1421888)', fontweight='bold')
+    ax_b.set_title('(b) Global Adapted Mesh: Severed Post-Snap-Through State\n($u_y = 0.00774\\,\\mathrm{mm}$, Step 2 Inc 160, Cumulative Inc 210, Job 1421888)', fontweight='bold')
     ax_b.grid(True, linestyle=':', alpha=0.4)
 
     ax_b.annotate('Secondary crack\nsnap-through to boundary', xy=(0.88, 0.64), xytext=(0.55, 0.25),
@@ -268,9 +268,14 @@ def generate_figure():
     # -------------------------------------------------------------
     cbar_ax = fig.add_axes([0.935, 0.15, 0.02, 0.70])
     cbar = fig.colorbar(coll_b, cax=cbar_ax)
-    cbar.set_label('Phase-Field Damage $d$ [$-$]', fontsize=10, fontweight='bold')
+    cbar.set_label('Phase-Field Damage $d$ [$-$] (Max IP SDV1)', fontsize=10, fontweight='bold')
     cbar.set_ticks([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
     cbar.ax.set_yticklabels(['0.0 (Intact)', '0.2', '0.4', '0.6', '0.8', '1.0 (Broken)'])
+
+    # Explicit methodology disclosure footnote
+    fig.text(0.50, 0.015,
+             'Fixed Candidate E10 adapted mesh ($9{,}164$ physical elements) with evolving fracture states from Job 1421888; colormap clipped to $[0, 1]$ (raw $d_{\\max} = 1.0007$).',
+             ha='center', fontsize=8, color='#444444')
 
     # Save outputs
     out_pdf = "MA_AdaptiveRemeshing_Report_2026/figures/fig_f1705_e10_adaptive_remesh_damage.pdf"
