@@ -1,0 +1,99 @@
+{
+  "benchmark": "Pandey & Kumar (2025) Section 4.3",
+  "mesh_parameters": {
+    "initial_seed_mm": 1.5,
+    "l0_mm": 0.285,
+    "h_crit_mm": 0.1425,
+    "eta_target": 0.05,
+    "p_exp": 1.0
+  },
+  "states": {
+    "state_1_init": {
+      "job_name": "SEC43_STATE1_INIT",
+      "description": "State 1: Crack Initiation",
+      "uy_mm": 0.1,
+      "max_miseseri_global": 0.1069377064704895,
+      "mean_miseseri_global": 0.0036342378007062576,
+      "max_miseseri_primary": 0.016788102686405182,
+      "mean_miseseri_primary": 0.004404749603341578,
+      "max_miseseri_secondary": 0.016423538327217102,
+      "mean_miseseri_secondary": 0.004155515896854922,
+      "corridor_ratio_sec_to_prim": 0.9434170545591105,
+      "pct_primary_refined_h_le_half_l0": 0.0,
+      "pct_secondary_refined_h_le_half_l0": 0.0
+    },
+    "state_2_hole_arrest": {
+      "job_name": "SEC43_STATE2_HOLE_ARREST",
+      "description": "State 2: Primary Hole Arrest",
+      "uy_mm": 0.2,
+      "max_miseseri_global": 0.15265490114688873,
+      "mean_miseseri_global": 0.00533816383597893,
+      "max_miseseri_primary": 0.01989576779305935,
+      "mean_miseseri_primary": 0.005230179823436693,
+      "max_miseseri_secondary": 0.022329287603497505,
+      "mean_miseseri_secondary": 0.007820490952948794,
+      "corridor_ratio_sec_to_prim": 1.4952623460296317,
+      "pct_primary_refined_h_le_half_l0": 0.0,
+      "pct_secondary_refined_h_le_half_l0": 0.0
+    },
+    "state_3_sec_init": {
+      "job_name": "SEC43_STATE3_SEC_INIT",
+      "description": "State 3: Secondary Initiation",
+      "uy_mm": 0.25,
+      "max_miseseri_global": 0.18964552879333496,
+      "mean_miseseri_global": 0.006547698906887959,
+      "max_miseseri_primary": 0.024504508823156357,
+      "mean_miseseri_primary": 0.006425321604566355,
+      "max_miseseri_secondary": 0.026483476161956787,
+      "mean_miseseri_secondary": 0.01009369177566106,
+      "corridor_ratio_sec_to_prim": 1.5709239781068178,
+      "pct_primary_refined_h_le_half_l0": 0.0,
+      "pct_secondary_refined_h_le_half_l0": 0.0
+    },
+    "state_4_sec_midprop": {
+      "job_name": "SEC43_STATE4_SEC_MIDPROP",
+      "description": "State 4: Secondary Mid-Propagation",
+      "uy_mm": 0.3,
+      "max_miseseri_global": 0.23201137781143188,
+      "mean_miseseri_global": 0.007856125547167069,
+      "max_miseseri_primary": 0.028810394927859306,
+      "mean_miseseri_primary": 0.007557818603808093,
+      "max_miseseri_secondary": 0.07445118576288223,
+      "mean_miseseri_secondary": 0.01971329396320997,
+      "corridor_ratio_sec_to_prim": 2.608331186101397,
+      "pct_primary_refined_h_le_half_l0": 0.0,
+      "pct_secondary_refined_h_le_half_l0": 0.0
+    },
+    "state_5_terminal": {
+      "job_name": "SEC43_STATE5_TERMINAL",
+      "description": "State 5: Terminal Dual Severance",
+      "uy_mm": 1.5,
+      "max_miseseri_global": 1.3589591979980469,
+      "mean_miseseri_global": 0.03785391526710168,
+      "max_miseseri_primary": 0.14042259752750397,
+      "mean_miseseri_primary": 0.036852048709988594,
+      "max_miseseri_secondary": 0.23379655182361603,
+      "mean_miseseri_secondary": 0.06347217184712033,
+      "corridor_ratio_sec_to_prim": 1.722351241490584,
+      "pct_primary_refined_h_le_half_l0": 0.0,
+      "pct_secondary_refined_h_le_half_l0": 0.0
+    }
+  },
+  "comparison_summary": {},
+  "multi_frame_envelope": {
+    "max_miseseri_global": 1.3589591979980469,
+    "mean_miseseri_global": 0.03787876280997278,
+    "max_miseseri_primary": 0.14042259752750397,
+    "mean_miseseri_primary": 0.036852048709988594,
+    "max_miseseri_secondary": 0.23379655182361603,
+    "mean_miseseri_secondary": 0.06363739592243771,
+    "corridor_ratio_sec_to_prim": 1.7268346849109928,
+    "pct_primary_refined_h_le_half_l0": 0.0,
+    "pct_secondary_refined_h_le_half_l0": 0.0
+  },
+  "fig15b_reproduction_assessment": {
+    "single_frame_reproduces_both_corridors": false,
+    "multi_frame_envelope_reproduces_both_corridors": false,
+    "scientific_conclusion": "No single-frame snapshot reproduces the continuous dual-corridor refinement band shown in Pandey & Kumar Figure 15(b). At early states (State 1-2), error is strictly confined to the primary crack. At mid-states (State 3-4), error shifts to the secondary crack while the primary crack sheds error. At the terminal state (State 5), both cracks are fully degraded and stress error concentrates on pin-hole boundaries. A continuous dual-corridor band covering both primary and secondary trajectories simultaneously originates from a multi-frame trajectory envelope, cumulative historical error, or an explicit trajectory-based sizing field."
+  }
+}

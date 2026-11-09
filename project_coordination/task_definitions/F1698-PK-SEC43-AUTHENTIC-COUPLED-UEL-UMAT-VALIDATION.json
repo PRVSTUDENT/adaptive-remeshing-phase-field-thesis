@@ -1,0 +1,28 @@
+{
+  "task_id": "F1698-PK-SEC43-AUTHENTIC-COUPLED-UEL-UMAT-VALIDATION",
+  "title": "Task F1698: Complete and Validate Authentic UEL–UMAT–MISESERI Coupling and Reproduce Pandey–Kumar Figure 15(b)",
+  "assigned_agent": "gemini-antigravity",
+  "status": "IN_PROGRESS",
+  "handoff_id": "HND-F1698-COUPLED-VALIDATION-001",
+  "predecessor_task": {
+    "task_id": "F1697-PK-SEC43-AUTHENTIC-UEL-UMAT-MISESERI-COUPLING",
+    "checkpoint_artifact": "project_coordination/sessions/2026-11-09_1000_gemini-antigravity_F1697.md"
+  },
+  "scientific_operation": "sec43_authentic_coupled_uel_umat_validation",
+  "max_new_pbs_submissions": 0,
+  "scope_boundaries": {
+    "production_uel_untouched": true,
+    "no_pbs_submissions_without_separate_auth": true,
+    "method_c_forbidden": true,
+    "preserve_f1685_f1697_results": true
+  },
+  "deliverables": [
+    "root_cause_uel_umat_state_transfer_architecture",
+    "minimal_patch_validation_residual_stiffness_parity",
+    "state_synchronization_and_accepted_state_tracking",
+    "sec43_recovered_miseseri_fields_across_fracture_history",
+    "figure_15b_and_16b_comparisons_and_gates_evaluation",
+    "unit_tests_and_session_report",
+    "chatgpt_bridge_review_dispatch"
+  ]
+}
