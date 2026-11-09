@@ -144,17 +144,7 @@ We request an independent review decision on HND-F1705-HOLE-E10-PROD-CLOSEOUT-00
 5. Formally close Task F1705 with DECISION: APPROVE and authorize the final project closeout / thesis defense readiness phase ahead of the 13 December 2026 research freeze.
 '@
 
-$bridgeReq = @{
-    protocol = "INDEPENDENT_STRUCTURED_REVIEW_V1"
-    correlation_id = $handoffId
-    task_id = $taskId
-    previous_review_correlation = "HND-F1704-HOLE-E10-DECK-QUAL-003"
-    previous_verdict = "APPROVE"
-    title = "Task F1705 Candidate E10 Production Fracture Simulation Execution, Accuracy-versus-Cost Parity, and Thesis Synthesis (Resolving HND-F1705-HOLE-E10-PROD-CLOSEOUT-001)"
-    report = $scientificReport
-}
-
-Write-Host "Dispatching $handoffId across PAD bridge..."
-$response = Invoke-ChatGPTBridge -RequestPayload $bridgeReq
-Write-Host "Response received:"
-$response | ConvertTo-Json -Depth 5
+Write-Host "Dispatching Task F1705 Candidate E10 Production Closeout ($handoffId)..." -ForegroundColor Cyan
+$response = Invoke-ChatGPTBridge -PromptText $scientificReport -HandoffId $handoffId
+Write-Host "Bridge response received successfully!" -ForegroundColor Green
+Write-Host $response
