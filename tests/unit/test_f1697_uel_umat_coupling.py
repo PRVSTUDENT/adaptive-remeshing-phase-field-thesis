@@ -94,8 +94,8 @@ def test_f1697_midprop_primary_error_collapse():
     assert sec_pct > 30.0, f"Expected secondary error > 30% of peak, got {sec_pct}%"
 
 
-def test_f1697_physical_dual_branch_impossibility():
-    """Verify the fundamental scientific theorem: no single frame possesses simultaneous dual-branch error elevation."""
+def test_f1697_absence_of_simultaneous_dual_branch_error_in_tested_states():
+    """Verify that neither tested terminal severance nor mid-propagation state exhibits simultaneous dual-branch error elevation."""
     with open(AUDIT_JSON_PATH, "r", encoding="utf-8") as f:
         data = json.load(f)
 
@@ -105,12 +105,12 @@ def test_f1697_physical_dual_branch_impossibility():
     # Terminal: primary < 25%, secondary < 15%
     term_both = (term["primary_corridor"]["relative_to_peak_pct"] >= 30.0 and
                  term["secondary_corridor"]["relative_to_peak_pct"] >= 30.0)
-    assert not term_both, "Terminal state has simultaneous dual-branch error, contradicting physics"
+    assert not term_both, "Terminal state has simultaneous dual-branch error"
 
     # Midprop: primary < 4%, secondary > 50%
     mid_both = (mid["primary_corridor"]["relative_to_peak_pct"] >= 30.0 and
                 mid["secondary_corridor"]["relative_to_peak_pct"] >= 30.0)
-    assert not mid_both, "Midprop state has simultaneous dual-branch error, contradicting physics"
+    assert not mid_both, "Midprop state has simultaneous dual-branch error"
 
 
 def test_f1697_publication_figures_exist():

@@ -103,7 +103,7 @@ The published Method A workflow comprises seven sequential stages:
 - Listing 2 defines `All_elem` with element IDs 29609–44412 (matching Layer 3 companion elements `umatelem`). Listing 3 requests `MISESERI` exclusively on `ELSET=Instance-1.All_elem`.
 
 ### Question 2: Whether the companion UMAT supplies authentic degraded stress consistent with the UEL mechanical state.
-**Answer: No in current repository code; it was intentionally zeroed out.**  
+**Answer: In the repository implementation, no; it was explicitly zeroed out (the paper's exact companion subroutine is unstated).**  
 *Evidence*:
 - In `models/pandey_kumar_mode1/f42_mixed_uel.for` (lines 876–882) and `192_pk_sec43_staggered_job1/f42_staggered_variant_uel.for` (lines 887–893):
   ```fortran
@@ -124,7 +124,7 @@ The published Method A workflow comprises seven sequential stages:
          END DO
         END DO
   ```
-  Neither Molnár nor the repository UMAT supplied authentic degraded Cauchy stress $\sigma_d = [(1-d)^2 + k] \mathbb{C} : \varepsilon$.
+  Neither Molnár nor the repository UMAT supplied authentic degraded Cauchy stress $\sigma_d = [(1-d)^2 + k] \mathbb{C} : \varepsilon$. Importantly, while this explains the zero-stress observation in the repository, the exact internal UMAT code used by Pandey & Kumar (2025) was not published, so whether their private codebase used undamaged linear elasticity or an alternative feedback formulation remains unstated in the literature.
 
 ### Question 3: Whether the UMAT output is actually used by Abaqus stress recovery.
 **Answer: Yes, absolutely.**  
@@ -155,17 +155,22 @@ The published Method A workflow comprises seven sequential stages:
 - The output requests and element set binding (`umatelem` / `All_elem`) functioned as intended, but received zero stress data.
 
 ### Question 6: Whether published Figure 15(b) uses native MISESERI values, normalized values, or a transformed plotting quantity.
-**Answer: Native MISESERI, but with undisclosed post-processing or donor origin.**  
+**Answer: Native MISESERI request, but the origin of the continuous dual-branch refinement pattern remains unproven under single-frame evaluations.**  
 *Evidence*:
 - Pandey & Kumar Section 4.3 states:
   > *"The MISESERI plot is obtained as shown in Fig. 15b. The Python script specifies two specific functions for initializing the remeshing rule (refer to Listing 1) and its implementation (refer to Listing 3)."*
 - Listing 1 sets `variables=('MISESERI', )`, confirming native `MISESERI` is the remeshing trigger.
 - However, Figure 15(b) displays a continuous, dual-branch elevated error band following both the primary trajectory (notch to central hole) and the secondary trajectory (central hole to right boundary).
-- As proven by our audits across all physical donors:
+- As established across all donor states and reconstructed recovery formulations tested:
   - Intact linear-elastic pre-analysis (F1688, F1693 Case A, F1696) produces secondary error $\le 7.56\%$ of peak error.
-  - Intermediate mid-propagation (F1694 Donor b) produces secondary error $= 32.1\%$ of peak error.
-  - Terminal severance (F1693 Case B, F1694 Donor c) produces secondary error $= 17.1\%$ of peak error.
-  - At NO single instant in physical time does a single-state stress field exhibit simultaneous elevated stress gradients along both severed ligaments.
+  - Intermediate mid-propagation (F1694 Donor b, F1697 midprop) produces elevated secondary error ($32.1\%$ to $54.4\%$), but primary corridor error collapses ($\le 3.61\%$) as the severed primary ligament relaxes.
+  - Terminal severance (F1693 Case B, F1694 Donor c, F1697 terminal) produces secondary error $\le 17.1\%$ of peak error, while both ligaments relax and peak error transfers to far-field pin holes.
+  - Across the tested donor states and reconstructed recovery models, no individual instantaneous deformation state exhibited simultaneous elevated discretization error along both fracture corridors.
+- Possible explanations for published Figure 15(b) include:
+  1. A multi-frame maximum envelope aggregation across loading increments ($\max_t \mathrm{MISESERI}_e(t)$), similar to the Candidate E10/E12 framework;
+  2. Alternative contour normalization, display scaling, or interpolation differences;
+  3. An alternative companion formulation definition not disclosed in the published text.
+- Because native remeshing was not executed on the F1697 recovered fields (gated closed by indicator-band thresholds), the adapted mesh generated directly by native Abaqus from this specific field remains untested.
 
 ### Question 7: Which step and final frame native adaptiveRemesh() actually reads.
 **Answer: The final frame of the step specified in `RemeshingRule`.**  
