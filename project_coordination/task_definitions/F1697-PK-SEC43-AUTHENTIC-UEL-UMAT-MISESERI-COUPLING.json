@@ -1,0 +1,33 @@
+{
+  "task_id": "F1697-PK-SEC43-AUTHENTIC-UEL-UMAT-MISESERI-COUPLING",
+  "title": "Task F1697: Reproduce Pandey–Kumar Figure 15(b) Through Authentic UEL–UMAT–MISESERI Coupling",
+  "assigned_agent": "gemini-antigravity",
+  "status": "COMPLETED",
+  "handoff_id": "HND-F1697-COUPLING-AUDIT-001",
+  "predecessor_task": {
+    "task_id": "F1696-PK-SEC43-STANDARD-ELEMENT-JOB1-FORMULATION-TEST",
+    "checkpoint_artifact": "project_coordination/sessions/2026-11-09_0800_gemini-antigravity_F1696.md"
+  },
+  "scientific_operation": "sec43_authentic_uel_umat_miseseri_coupling",
+  "max_new_pbs_submissions": 0,
+  "scope_boundaries": {
+    "investigate_actual_implementation_first": true,
+    "production_uel_untouched": true,
+    "no_new_fracture_simulations": true,
+    "no_pbs_submissions_without_separate_auth": true,
+    "method_c_forbidden": true,
+    "do_not_reopen_f1685": true,
+    "do_not_restart_f1692_f1696": true,
+    "preserve_f1696_results": true
+  },
+  "deliverables": [
+    "data_flow_audit_uel_umat_facsimile_miseseri",
+    "comparison_paper_vs_repo_implementation",
+    "existing_odbs_verification_situation_classification",
+    "controlled_formulation_experiment_if_justified",
+    "fig15b_comparison_figure_and_quantification",
+    "native_remesh_validation_if_promising",
+    "unit_tests_and_session_report",
+    "chatgpt_bridge_review_dispatch"
+  ]
+}

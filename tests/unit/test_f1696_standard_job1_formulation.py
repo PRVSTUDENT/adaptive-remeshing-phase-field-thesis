@@ -200,10 +200,15 @@ def test_f1696_governance_and_resource_limits():
     # Production UEL must remain bitwise untouched
     assert sha256_file(PRODUCTION_UEL) == EXPECTED_UEL_SHA, "Production UEL was modified!"
 
-    # Active task check
-    active_task_path = os.path.join(REPO_ROOT, "project_coordination", "ACTIVE_TASK.json")
-    with open(active_task_path, "r") as f:
-        active_task = json.load(f)
+    # Task definition / active task check
+    task_def_path = os.path.join(REPO_ROOT, "project_coordination", "task_definitions", "F1696-PK-SEC43-STANDARD-ELEMENT-JOB1-FORMULATION-TEST.json")
+    if os.path.exists(task_def_path):
+        with open(task_def_path, "r", encoding="utf-8") as f:
+            task_data = json.load(f)
+    else:
+        active_task_path = os.path.join(REPO_ROOT, "project_coordination", "ACTIVE_TASK.json")
+        with open(active_task_path, "r", encoding="utf-8") as f:
+            task_data = json.load(f)
 
-    assert active_task["task_id"] == "F1696-PK-SEC43-STANDARD-ELEMENT-JOB1-FORMULATION-TEST"
-    assert active_task["max_new_pbs_submissions"] == 1
+    assert task_data["task_id"] == "F1696-PK-SEC43-STANDARD-ELEMENT-JOB1-FORMULATION-TEST"
+    assert task_data["max_new_pbs_submissions"] == 1
