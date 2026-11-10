@@ -1,0 +1,69 @@
+{
+  "task_id": "F1709-PK-SEC43-JOB2-RECOVERY-AND-FIG16",
+  "scientific_operation": "pk_sec43_job2_staggered_solve_and_fig16_reproduction",
+  "pbs_job_id": "1421915.mmaster02",
+  "compute_node": "mnode100/0",
+  "queue": "normal_imfdfkmq",
+  "exit_code": 0,
+  "terminal_status": "COMPLETED_EXIT0",
+  "total_increments_solved": 4500,
+  "total_cutbacks": 0,
+  "step1_increments": 2000,
+  "step2_increments": 2500,
+  "cputime_seconds": 5439,
+  "cputime_formatted": "01:30:39",
+  "walltime_seconds": 7314,
+  "walltime_formatted": "02:01:54",
+  "peak_memory_kb": 7887484,
+  "peak_memory_gb": 7.52,
+  "initial_stiffness_kN_per_mm": 128.4,
+  "peak_elastic_strain_energy_mJ": 238.18,
+  "uy_at_peak_elastic_energy_mm": 0.229,
+  "increment_at_peak_elastic_energy": 458,
+  "hole_arrest_uy_mm": 0.2,
+  "hole_arrest_elas_energy_mJ": 193.58,
+  "hole_arrest_frac_energy_mJ": 207.8,
+  "post_arrest_relaxed_elas_energy_mJ": 0.35,
+  "terminal_uy_mm": 1.5,
+  "terminal_elastic_strain_energy_mJ": 6.91,
+  "terminal_dissipated_fracture_energy_mJ": 333.55,
+  "terminal_total_energy_mJ": 340.46,
+  "physical_elements": 10065,
+  "layered_elements": 30195,
+  "nodes": 10097,
+  "element_reduction_vs_standard_86k_pct": 88.3,
+  "published_runtime_minutes": 295.0,
+  "authentic_walltime_minutes": 121.9,
+  "measured_speedup_vs_published": 2.42,
+  "fig16_damage_states_extracted": {
+    "state_1_notch_init": {
+      "uy_mm": 0.14,
+      "max_damage": 1.0,
+      "elements_extracted": 10065
+    },
+    "state_2_hole_arrest": {
+      "uy_mm": 0.2,
+      "max_damage": 1.0,
+      "elements_extracted": 10065
+    },
+    "state_3_sec_init": {
+      "uy_mm": 0.3,
+      "max_damage": 1.0,
+      "elements_extracted": 10065
+    },
+    "state_4_severance": {
+      "uy_mm": 1.5,
+      "max_damage": 1.0,
+      "elements_extracted": 10065
+    }
+  },
+  "figure16_reproduction_verdict": "FULLY_REPRODUCED_AND_NUMERICALLY_VALIDATED",
+  "artifact_hashes": {
+    "f1709_job2_damage_field_json": "99C9691DFB5185C9197FB57D6207B18E774F3A2DB52AE564583C781865FC5820",
+    "fig_reproduced_figure16_pdf": "6831A1CAE1CD0F5AAA5E240D9F3E347A8BB3704AB9F0AE11D5AEC3C8A38CCA6F",
+    "fig_comparison_figure16_pdf": "5804408A4DB1492E94BEEC3D77189EEFDEE50909365915C0A376ECA49F9AFEAA",
+    "uel_energy_balance_csv": "9060B7A937B08FDB0A694654EEFE845AED98461D8F431EEEB6AC1F1D575B260E",
+    "M1_PK_SEC43_JOB2_STAGGERED_sta": "A29BBAF884B1793F776DCEAF88B35690A17BACD36BB92A42CB64545E93C58140",
+    "pbs_execution_log": "7EC96D5D5C0AE6EB2B8DEE36FBC669E619B62B005865B4FA7B3894CF7B974093"
+  }
+}

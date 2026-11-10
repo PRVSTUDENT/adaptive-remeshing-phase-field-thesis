@@ -1,19 +1,10 @@
 {
   "active": false,
-  "agent": "gemini-antigravity",
-  "session_id": "f1708-pk-sec43-job2-adapted-solve-session-001",
-  "task_id": "F1708-PK-SEC43-JOB2-ADAPTED-MESH-SOLVE",
-  "started_at": "2026-11-09T23:17:00+01:00",
-  "starting_commit": "f74cd1ea",
-  "allowed_write_scope": [
-    "project_coordination",
-    "models/pandey_kumar_mode1",
-    "scripts",
-    "tests/unit",
-    "results/validation",
-    "MA_AdaptiveRemeshing_Report_2026",
-    "docs",
-    ".agents"
-  ],
-  "notes": "Task F1708 Job-2 production job (1421908.mmaster02) successfully submitted and running on compute node mnode099 overnight; session released cleanly."
+  "agent": null,
+  "session_id": null,
+  "task_id": null,
+  "started_at": null,
+  "starting_commit": "9626799d",
+  "allowed_write_scope": [],
+  "notes": "Task F1709 formally closed. Session released. Section 4.3 Job-2 staggered solve completed Exit 0 (Job 1421915), Figure 16 fully reproduced, thesis Chapter 5 updated, main.pdf compiled (314 pages)."
 }

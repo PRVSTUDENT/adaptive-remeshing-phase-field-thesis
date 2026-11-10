@@ -1,0 +1,45 @@
+{
+  "batch_name": "MODE1_PK_SEC43_JOB2_STAGGERED",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "PK_SEC43_JOB2_ADAPTED_PROD.inp": "417e749dd934d67c127d1e4b67e9fb32caafb384726ccb58169892855907c68b",
+    "f42_staggered_variant_uel.for": "a0ebb58ddc0309d2afc2bf45c2ea3b74a8d2aba5719c05af1b69b57086afa633",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_M1_PK_SEC43_JOB2_STAGGERED.pbs": "9b0aaa1c218021b95cfec4f2badc1ae5c08f268baabc72763381763784d92125",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_PK_SEC43_JOB2_STAGGERED_DATACHECK.dat": "dbfe5590e25d317fe2275f7167214b6684d4a774ef61d53782916a86b801e826"
+  },
+  "jobs": [
+    {
+      "id": "job2_staggered_prod",
+      "pbs": "submit_M1_PK_SEC43_JOB2_STAGGERED.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_pk_sec43_job2_staggered_f1709/submit_M1_PK_SEC43_JOB2_STAGGERED.pbs\"",
+      "command_sha256": "332beff079d250ebf3dc239578e24e7878703dce91e634cf020af0fddb743ccc",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Pandey & Kumar (2025) Section 4.3 Job-2 Phase-Field Fracture Simulation: 10,065 physical elements (30,195 layered elements), native adapted mesh, 1 CPU serial reference anchor, 16 GB, 8h walltime on entry_imfdfkmq, 2-step loading schedule to u_y = 1.50 mm (4,500 increments) under verified staggered operator-split formulation (f42_staggered_variant_uel.for) reproducing proposed PFM phase-field fracture progression (Figure 16b)",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "PK_SEC43_JOB2_ADAPTED_PROD.inp",
+      "datacheck": "M1_PK_SEC43_JOB2_STAGGERED_DATACHECK.dat"
+    }
+  ],
+  "acceptance": {
+    "job2_staggered_prod": "Abaqus 2023 single-rank serial solve completes Section 4.3 Job-2 staggered phase-field fracture simulation on 10,065 physical elements (30,195 layered elements); reproduces primary crack deflection into hole, secondary crack propagation across right ligament to boundary, companion SDV damage field for Figure 16b comparison, and complete energy histories."
+  },
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_sec43_job2_staggered_f1709",
+  "required_state_checks": [
+    "nodal_displacement_verified",
+    "damage_irreversibility_verified",
+    "committed_history_verified",
+    "state_restoration_verified"
+  ]
+}
