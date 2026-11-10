@@ -1,0 +1,29 @@
+{
+  "task_id": "F1712-METHOD-A-MODE1-FIGS5-6-GENERALIZATION",
+  "title": "Generalize Method A: Pandey–Kumar Mode-I Figures 5(b) and 6(a) Reproduction and Reusable Indicator-Driven Remeshing Transfer",
+  "status": "IN_PROGRESS",
+  "assigned_agent": "gemini-antigravity",
+  "handoff_id": "HND-F1712-MODE1-GENERALIZATION-001",
+  "checkpoint_artifact": "docs/validation/F1712_MODE1_GENERALIZATION_REPORT.md",
+  "predecessor_task": {
+    "task_id": "F1711-CLEAN-MESH-ONLY-ADAPTIVE-REMESH-IMAGE",
+    "checkpoint_artifact": "docs/validation/F1711_CLEAN_MESH_ONLY_VISUALIZATION_REPORT.md"
+  },
+  "scientific_operation": "mode1_figures5_6_reproduction_and_generalization",
+  "scientific_operation_id": "f1712_mode1_figures5_6_reproduction_and_generalization",
+  "scientific_checkpoint_required": true,
+  "max_new_pbs_submissions": 0,
+  "submissions_consumed": 0,
+  "scope": [
+    "models/pandey_kumar_mode1",
+    "scripts",
+    "tests/unit",
+    "results/validation",
+    "MA_AdaptiveRemeshing_Report_2026",
+    "figures",
+    "docs",
+    "project_coordination",
+    ".agents"
+  ],
+  "objective": "Reproduce Pandey and Kumar (2025) Section 4.1 Figures 5(b) and 6(a) on the 1x1 mm Mode-I benchmark; demonstrate indicator-driven adaptive remeshing transfer from Section 4.3 without prescribing the future crack path; compare quantitatively against published results."
+}

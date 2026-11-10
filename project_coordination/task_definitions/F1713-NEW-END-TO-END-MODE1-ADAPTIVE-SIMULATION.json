@@ -1,0 +1,30 @@
+{
+  "task_id": "F1713-NEW-END-TO-END-MODE1-ADAPTIVE-SIMULATION",
+  "title": "New End-to-End Mode-I Adaptive-Remeshing Simulation: New Coarse Solve, Authentic MISESERI Calculation, Automated Indicator-Driven Remeshing, and New Forward Fracture Solve",
+  "protocol_version": 2,
+  "assigned_agent": "gemini-antigravity",
+  "started_at": "2026-11-10T19:15:00+01:00",
+  "starting_commit": "HEAD",
+  "predecessor": {
+    "task_id": "F1712-METHOD-A-MODE1-FIGS5-6-GENERALIZATION",
+    "checkpoint_artifact": "docs/validation/F1712_MODE1_GENERALIZATION_REPORT.md",
+    "review_correlation": "HND-F1712-MODE1-GENERALIZATION-001",
+    "review_verdict": "INSUFFICIENT_EVIDENCE"
+  },
+  "objectives": [
+    "Stage 1: Generate a new coarse finite-element model of the 1x1 mm Mode-I specimen and run an authentic Abaqus pre-analysis under benchmark loading.",
+    "Stage 2: Calculate the genuine MISESERI/recovery-based error indicator from the new pre-analysis fields, documenting exact recovery formulas, thresholds, and normalization without damage or geometric proxies.",
+    "Stage 3: Compute local target-size field from the error indicator and automatically generate an entirely new adapted FE mesh without hardcoded crack corridors or reusing Stage-14 artifacts.",
+    "Stage 4: Build a new 3-layer Abaqus production deck from the new adapted mesh, verify datachecks, submit to independent review, and execute new forward fracture solve under authorized PBS operation.",
+    "Stage 5: Scientifically compare new forward results with Pandey-Kumar Figures 5(b), 6(a), and 7.",
+    "Stage 6: Generate clean figures, commit and push to GitHub, and provide new PBS receipts, hashes, and direct figure links."
+  ],
+  "governing_constraints": {
+    "preserve_predecessor_results": true,
+    "no_unauthorized_pbs_submissions": true,
+    "max_new_pbs_submissions_stage1": 1,
+    "max_new_pbs_submissions_stage4": 1,
+    "bitwise_preservation_canonical_uel": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "keep_method_c_paused": true
+  }
+}

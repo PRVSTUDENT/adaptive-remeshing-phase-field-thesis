@@ -1,26 +1,27 @@
 {
-  "task_id": "F1711-CLEAN-MESH-ONLY-ADAPTIVE-REMESH-IMAGE",
-  "title": "Generate Clean Standalone Mesh-Only Adaptive Remesh Visualizations (No Phase-Field Damage, No Rainbow Colormaps, No Crack-Path Lines)",
-  "status": "COMPLETED",
+  "task_id": "F1713-NEW-END-TO-END-MODE1-ADAPTIVE-SIMULATION",
+  "title": "New End-to-End Mode-I Adaptive-Remeshing Simulation: New Coarse Solve, Authentic MISESERI Calculation, Automated Indicator-Driven Remeshing, and New Forward Fracture Solve",
+  "status": "IN_PROGRESS",
   "assigned_agent": "gemini-antigravity",
-  "handoff_id": "HND-F1711-CLEAN-MESH-ONLY-001",
-  "checkpoint_artifact": "docs/validation/F1711_CLEAN_MESH_ONLY_VISUALIZATION_REPORT.md",
+  "handoff_id": "HND-F1713-NEW-END-TO-END-001",
+  "checkpoint_artifact": "docs/validation/F1713_NEW_END_TO_END_MODE1_REPORT.md",
   "predecessor_task": {
-    "task_id": "F1710-AUTHENTIC-ADAPTIVE-REMESH-VISUALIZATION",
-    "checkpoint_artifact": "docs/validation/F1710_AUTHENTIC_REMESH_VISUALIZATION_REPORT.md"
+    "task_id": "F1712-METHOD-A-MODE1-FIGS5-6-GENERALIZATION",
+    "checkpoint_artifact": "docs/validation/F1712_MODE1_GENERALIZATION_REPORT.md"
   },
   "registration": {
-    "definition": "project_coordination/task_definitions/F1711-CLEAN-MESH-ONLY-ADAPTIVE-REMESH-IMAGE.json"
+    "definition": "project_coordination/task_definitions/F1713-NEW-END-TO-END-MODE1-ADAPTIVE-SIMULATION.json"
   },
-  "scientific_operation": "clean_mesh_only_adaptive_remesh_visualization",
-  "scientific_operation_id": "f1711_clean_mesh_only_adaptive_remesh_visualization",
+  "scientific_operation": "new_end_to_end_mode1_adaptive_simulation",
+  "scientific_operation_id": "f1713_new_end_to_end_mode1_adaptive_simulation",
   "scientific_checkpoint_required": true,
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
-  "active_pbs_job_id": "1421915.mmaster02",
-  "pbs_job_status": "COMPLETED_EXIT0",
-  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_sec43_job2_staggered_f1709",
+  "active_pbs_job_id": null,
+  "pbs_job_status": null,
+  "remote_run_dir": null,
   "completed_operations": [
+    "f1712_mode1_figures5_6_reproduction_and_generalization",
     "f1711_clean_mesh_only_adaptive_remesh_visualization",
     "f1710_authentic_adaptive_remesh_visualization_and_crack_path_correction",
     "f1709_pk_sec43_job2_staggered_solve_and_fig16_reproduction",
