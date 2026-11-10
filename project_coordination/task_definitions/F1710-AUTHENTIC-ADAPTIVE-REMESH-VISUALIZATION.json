@@ -1,0 +1,29 @@
+{
+  "task_id": "F1710-AUTHENTIC-ADAPTIVE-REMESH-VISUALIZATION",
+  "title": "Authentic Adaptive-Remesh Visualization and Crack-Path Correction: Reproducing Pandey & Kumar (2025) Figure 16 from Job 1421915 Telemetry",
+  "status": "IN_PROGRESS",
+  "assigned_agent": "gemini-antigravity",
+  "predecessor_task": "F1709-PK-SEC43-JOB2-RECOVERY-AND-FIG16",
+  "scope": "Mode-I",
+  "purpose": "Produce and push to GitHub a standalone, scientifically authentic adaptive-remesh visualization reproducing Pandey and Kumar (2025) Figure 16 without artificial overlays, straight crack lines, or synthetic data, utilizing authentic FE mesh connectivity and phase-field damage from Job 1421915.",
+  "governing_constraints": [
+    "No AI-generated images, artificial contours, or manually drawn crack lines",
+    "Extract actual fracture path from simulated damage ridge using a reproducible threshold or ridge-tracking method",
+    "Preserve genuine initial notch geometry and specimen boundaries (65x120 mm)",
+    "Generate standalone full specimen mesh with authentic damage field (0 to 1 colorbar)",
+    "Export zoomed views of primary and secondary fracture-process zones",
+    "Verify node and element mapping back to Job 1421915 (10,065 physical elements)",
+    "Strictly zero new PBS cluster jobs unless authentic outputs are proven missing (max_new_pbs_submissions = 0)",
+    "Synchronize deliverables and direct raw GitHub links"
+  ],
+  "deliverables": [
+    "MA_AdaptiveRemeshing_Report_2026/figures/pandey_kumar_fig14_16_reproduction/fig_f1710_authentic_adaptive_mesh.png",
+    "MA_AdaptiveRemeshing_Report_2026/figures/pandey_kumar_fig14_16_reproduction/fig_f1710_authentic_adaptive_mesh.pdf",
+    "MA_AdaptiveRemeshing_Report_2026/figures/pandey_kumar_fig14_16_reproduction/fig_f1710_primary_crack_mesh_zoom.png",
+    "MA_AdaptiveRemeshing_Report_2026/figures/pandey_kumar_fig14_16_reproduction/fig_f1710_secondary_crack_mesh_zoom.png",
+    "scripts/visualization/plot_f1710_authentic_adaptive_mesh.py",
+    "docs/validation/F1710_AUTHENTIC_REMESH_VISUALIZATION_REPORT.md",
+    "results/validation/f1710_authentic_crack_paths.json",
+    "tests/unit/test_f1710_authentic_adaptive_mesh_visualization.py"
+  ]
+}
