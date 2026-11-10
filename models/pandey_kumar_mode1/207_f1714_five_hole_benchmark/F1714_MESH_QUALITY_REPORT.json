@@ -1,0 +1,69 @@
+{
+  "task_id": "F1714-FIVE-HOLE-GENERALIZATION-BENCHMARK",
+  "mesh_source": "models/pandey_kumar_mode1/207_f1714_five_hole_benchmark/PK_F1714_JOB2_ADAPTED_PHYS.inp",
+  "topology": {
+    "total_physical_elements": 13034,
+    "total_nodes": 13275,
+    "quad_count": 12720,
+    "tri_count": 314,
+    "quad_fraction_pct": 97.59
+  },
+  "quality_metrics": {
+    "min_jacobian": 3.572632961762549e-07,
+    "max_jacobian": 0.0004120517426988188,
+    "positive_jacobian_rate_pct": 100.0,
+    "inverted_element_count": 0,
+    "min_aspect_ratio": 1.002791140986513,
+    "max_aspect_ratio": 2.449025755869864,
+    "mean_aspect_ratio": 1.2667712241457887
+  },
+  "resolution_telemetry": {
+    "min_global_h_mm": 0.0013427422711885743,
+    "max_global_h_mm": 0.026028026409274048,
+    "mean_global_h_mm": 0.006898383019435806,
+    "min_global_h_over_l0": 0.16784278389857177,
+    "hole_neighborhoods": {
+      "h1": {
+        "num_elements_near": 404,
+        "min_h_mm": 0.002368012655688103,
+        "min_h_over_l0": 0.29600158196101284,
+        "mean_h_mm": 0.003888645405512585,
+        "mean_h_over_l0": 0.4860806756890731,
+        "adequate_refinement": true
+      },
+      "h2": {
+        "num_elements_near": 912,
+        "min_h_mm": 0.0019800487136014226,
+        "min_h_over_l0": 0.24750608920017783,
+        "mean_h_mm": 0.003717585106734837,
+        "mean_h_over_l0": 0.4646981383418546,
+        "adequate_refinement": true
+      },
+      "h3": {
+        "num_elements_near": 1052,
+        "min_h_mm": 0.0013427422711885743,
+        "min_h_over_l0": 0.16784278389857177,
+        "mean_h_mm": 0.0025735948955696577,
+        "mean_h_over_l0": 0.3216993619462072,
+        "adequate_refinement": true
+      },
+      "h4": {
+        "num_elements_near": 1167,
+        "min_h_mm": 0.0013427422711885743,
+        "min_h_over_l0": 0.16784278389857177,
+        "mean_h_mm": 0.0028523945222039947,
+        "mean_h_over_l0": 0.3565493152754993,
+        "adequate_refinement": true
+      },
+      "h5": {
+        "num_elements_near": 468,
+        "min_h_mm": 0.0019901886795762546,
+        "min_h_over_l0": 0.2487735849470318,
+        "mean_h_mm": 0.003189029538944005,
+        "mean_h_over_l0": 0.3986286923680006,
+        "adequate_refinement": true
+      }
+    }
+  },
+  "verification_verdict": "PASS"
+}

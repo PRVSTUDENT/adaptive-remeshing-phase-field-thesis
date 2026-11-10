@@ -1,0 +1,50 @@
+{
+  "task_id": "F1714-FIVE-HOLE-GENERALIZATION-BENCHMARK",
+  "benchmark": "Pandey & Kumar (2025) Section 4.5 Five-Hole Plate (1.0 x 1.0 mm)",
+  "coarse_mesh": {
+    "num_elements": 2747,
+    "num_nodes": 2844,
+    "seed_size_mm": 0.02
+  },
+  "miseseri_field": {
+    "min_error": 0.14104609191417694,
+    "max_error": 367.1471252441406,
+    "mean_error": 20.628113447052154,
+    "min_misesavg": 23.117887496948242,
+    "max_misesavg": 3085.614990234375,
+    "mean_misesavg": 900.3504326754064,
+    "units": "MPa (N/mm^2)"
+  },
+  "remeshing_rule": {
+    "variable": "MISESERI",
+    "sizing_method": "UNIFORM_ERROR",
+    "error_target_pct": 3.05,
+    "min_size_mm": 0.001,
+    "max_size_mm": 0.02,
+    "refinement_factor": 10,
+    "coarsening": "NOT_ALLOWED"
+  },
+  "adapted_mesh": {
+    "num_physical_elements": 13034,
+    "num_nodes": 13275,
+    "quad_elements": 12720,
+    "tri_elements": 314,
+    "phase_uel_elements": 13034,
+    "mech_uel_elements": 13034,
+    "companion_cpe_elements": 13034,
+    "total_layered_elements": 39102,
+    "published_target_elements": 12944,
+    "parity_discrepancy_pct": 0.7
+  },
+  "files": {
+    "job1_coarse_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\207_f1714_five_hole_benchmark\\PK_F1714_JOB1_COARSE.inp",
+    "job1_coarse_inp_sha256": "95842838b6b63fae24394c58c2982fbc1c77b291afa51381e43ac7e57c31e8ff",
+    "job1_coarse_odb": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\207_f1714_five_hole_benchmark\\PK_F1714_JOB1_COARSE.odb",
+    "job1_coarse_odb_sha256": "7330120e2b6d1cc85bc1add8fc01caf6657cc318d68b29957ea1d4994663666a",
+    "job2_adapted_phys_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\207_f1714_five_hole_benchmark\\PK_F1714_JOB2_ADAPTED_PHYS.inp",
+    "job2_adapted_phys_inp_sha256": "03da1e737f96270c325ae4abde4b96f20c443c4ce99bd39f1194eedf004ba2ae",
+    "job2_adapted_prod_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\207_f1714_five_hole_benchmark\\PK_F1714_JOB2_ADAPTED_PROD.inp",
+    "job2_adapted_prod_inp_sha256": "f47ed95152f5be150bdcc29e78e829bb8b6ef4931a57951571e5e34f2f8c95a6"
+  },
+  "verdict": "GENUINE_FIVE_HOLE_ADAPTIVE_MESH_GENERATED_NATIVELY"
+}

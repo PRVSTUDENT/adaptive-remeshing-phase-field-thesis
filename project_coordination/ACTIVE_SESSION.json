@@ -1,10 +1,10 @@
 {
   "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "f1713-new-end-to-end-session-001",
-  "task_id": "F1713-NEW-END-TO-END-MODE1-ADAPTIVE-SIMULATION",
-  "started_at": "2026-11-10T19:15:00+01:00",
-  "starting_commit": "13b832bf",
+  "session_id": "f1714-five-hole-benchmark-session-001",
+  "task_id": "F1714-FIVE-HOLE-GENERALIZATION-BENCHMARK",
+  "started_at": "2026-11-10T23:06:00+01:00",
+  "starting_commit": "31f18432",
   "allowed_write_scope": [
     "project_coordination",
     "models/pandey_kumar_mode1",
@@ -16,5 +16,5 @@
     "docs",
     ".agents"
   ],
-  "notes": "Task F1713 active: Job 1422241.mmaster02 solving autonomously on mnode103 (Inc 1924+ in Step 1, 96.2% complete, K0 = 137.64 kN/mm). Step 2 fracture evolution imminent. Remote extraction pipeline and visualizers ready."
+  "notes": "Task F1714 activated: Prepare Pandey-Kumar (2025) Section 4.4 Five-Hole Adaptive Phase-Field Fracture Benchmark (Figs 22-25) while F1713 Job 1422241 continues running concurrently."
 }

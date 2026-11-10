@@ -1,26 +1,28 @@
 {
-  "task_id": "F1713-NEW-END-TO-END-MODE1-ADAPTIVE-SIMULATION",
-  "title": "New End-to-End Mode-I Adaptive-Remeshing Simulation: New Coarse Solve, Authentic MISESERI Calculation, Automated Indicator-Driven Remeshing, and New Forward Fracture Solve",
+  "task_id": "F1714-FIVE-HOLE-GENERALIZATION-BENCHMARK",
+  "title": "Five-Hole Generalization Benchmark: Pandey-Kumar (2025) Section 4.4 Figures 22-25 Reproduction, Arbitrary Multi-Hole Geometry Extension, and Constitutive Split Assessment",
   "status": "IN_PROGRESS",
   "assigned_agent": "gemini-antigravity",
-  "handoff_id": "HND-F1713-NEW-END-TO-END-001",
-  "checkpoint_artifact": "docs/validation/F1713_NEW_END_TO_END_MODE1_REPORT.md",
+  "handoff_id": "HND-F1714-FIVE-HOLE-BENCHMARK-001",
+  "checkpoint_artifact": "docs/validation/F1714_FIVE_HOLE_BENCHMARK_REPORT.md",
   "predecessor_task": {
-    "task_id": "F1712-METHOD-A-MODE1-FIGS5-6-GENERALIZATION",
-    "checkpoint_artifact": "docs/validation/F1712_MODE1_GENERALIZATION_REPORT.md"
+    "task_id": "F1713-NEW-END-TO-END-MODE1-ADAPTIVE-SIMULATION",
+    "checkpoint_artifact": "docs/validation/F1713_NUMERICAL_QUALIFICATION_REPORT.md",
+    "active_concurrent_job": "1422241.mmaster02"
   },
   "registration": {
-    "definition": "project_coordination/task_definitions/F1713-NEW-END-TO-END-MODE1-ADAPTIVE-SIMULATION.json"
+    "definition": "project_coordination/task_definitions/F1714-FIVE-HOLE-GENERALIZATION-BENCHMARK.json"
   },
-  "scientific_operation": "new_end_to_end_mode1_adaptive_simulation",
-  "scientific_operation_id": "f1713_new_end_to_end_mode1_adaptive_simulation",
+  "scientific_operation": "five_hole_generalization_benchmark",
+  "scientific_operation_id": "f1714_five_hole_generalization_benchmark",
   "scientific_checkpoint_required": true,
-  "max_new_pbs_submissions": 1,
-  "submissions_consumed": 1,
-  "active_pbs_job_id": "1422241.mmaster02",
-  "pbs_job_status": "RUNNING",
-  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_f1713_job2_adapted",
+  "max_new_pbs_submissions": 0,
+  "submissions_consumed": 0,
+  "active_pbs_job_id": null,
+  "pbs_job_status": "NONE",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_f1714_five_hole",
   "completed_operations": [
+    "f1713_new_end_to_end_mode1_adaptive_simulation_running",
     "f1712_mode1_figures5_6_reproduction_and_generalization",
     "f1711_clean_mesh_only_adaptive_remesh_visualization",
     "f1710_authentic_adaptive_remesh_visualization_and_crack_path_correction",
@@ -33,30 +35,8 @@
     "f1703_pk_sec43_secondary_crack_path_adaptive_refinement",
     "f1702_pk_sec43_figs14_16_reproduction_and_continuation",
     "f1701_pk_sec43_pointwise_stress_and_history_aware_remesh",
-    "f1700_pk_sec43_full_field_recovery_and_native_remesh",
-    "f1699_pk_sec43_same_state_recovery_and_native_remesh",
-    "f1698_pk_sec43_authentic_coupled_uel_umat_validation",
-    "f1697_pk_sec43_authentic_uel_umat_miseseri_coupling",
-    "f1696_pk_sec43_standard_element_job1_formulation_test",
-    "f1695_method_a_final_closeout_and_freeze_readiness",
-    "f1694_sec43_miseseri_fields_and_multi_donor_remesh",
-    "f1693_sec43_donor_correction_and_remesh_audit",
-    "f1692_pk_sec43_job1_staggered_rerun",
-    "f1691_method_a_freeze_readiness",
-    "f1690_pk_sec43_job1_rerun",
-    "f1689_method_a_synthesis",
-    "f1688_pk_sec43_reproduction",
-    "f1687_endeneri_and_generalization",
-    "f1686_selective_remeshing_optimization",
-    "f1685_production_fracture_execution_and_qualification",
-    "f1685_sizing_and_selectivity_investigation",
-    "f1684_multistep_remeshing_and_path_alignment",
-    "f1683_controlled_multi_frame_recovery",
-    "f1682r_timeline_and_indicator_evidence_correction",
-    "f1682_odb_frame_audit_and_correction",
-    "f1681_method_a_complete_and_independent_review_closeout",
-    "f1680_method_a_scientific_correction_and_thesis_closeout"
+    "f1700_pk_sec43_full_field_recovery_and_native_remesh"
   ],
   "iteration": 1,
-  "review_resolution": "HND-F1713-EXECUTION-AUTH-002: APPROVE"
+  "review_resolution": "PENDING"
 }
