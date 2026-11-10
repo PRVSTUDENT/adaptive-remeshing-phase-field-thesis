@@ -1,1 +1,1 @@
-# Package marker
+"""Adaptive remeshing package initialization."""

@@ -2,9 +2,9 @@
 
 **Task ID:** `F1714-FIVE-HOLE-GENERALIZATION-BENCHMARK`  
 **Protocol Version:** 2  
-**Date:** 2026-11-10  
+**Date:** 2026-11-11  
 **Author:** Gemini Antigravity (Pair Programming Assistant)  
-**Status:** Pre-Execution Qualified (Round 2 Independent Review in Progress)  
+**Status:** Pre-Execution Qualified (Round 4 Execution-Readiness Handoff Prepared)  
 **Checkpoint Artifact:** `docs/validation/F1714_FIVE_HOLE_BENCHMARK_REPORT.md`  
 
 ---
@@ -153,8 +153,10 @@ In plane strain:
 | `test_05_crack_driving_energy_properties` | $\psi_0^+ \ge 0$; bulk compression energy (3.15 MPa) excluded | **PASS** |
 | `test_06_damage_monotonicity_and_history_update` | History variable $\mathcal{H}(t)$ monotonically non-decreasing | **PASS** |
 
-### 5.4 Target-Cluster Compiled UEL 1-Element Numerical Verification (`mlogin01.cluster`)
-To bridge the gap between mathematical constitutive equations and the compiled Fortran subroutine linked into Abaqus/Standard, a dedicated 1-element ($1.0 \times 1.0\,\text{mm}$ quad) simulation was compiled with Intel Fortran `ifort` and executed under Abaqus 2023 on `mlogin01.cluster` (`PK_F1714_1ELEM_AMOR_TEST`):
+### 5.4 Target-Cluster Compiled UEL Numerical Verification (`mlogin01.cluster`)
+To bridge the gap between mathematical constitutive equations and the compiled Fortran subroutine linked into Abaqus/Standard, two dedicated 1-element ($1.0 \times 1.0\,\text{mm}$ quad) simulations were compiled with Intel Fortran `ifort` and executed under Abaqus 2023 on `mlogin01.cluster`:
+
+#### 5.4.1 Intact Elastic Response (`PK_F1714_1ELEM_AMOR_TEST`, Exit Code 0)
 - **Step 1 (Uniaxial Tension, $u_y = +0.001\,\text{mm}$):**
   - Analytical plane-strain tensile stress: $\sigma_{yy} = \frac{E}{1 - \nu^2} \varepsilon_{yy} = \frac{210.0}{0.91} \times 0.001 = 0.23076923\,\text{kN/mm}^2$.
   - Compiled UEL Abaqus reaction force: $RF_2 = 0.23076925\,\text{kN}$.
@@ -170,19 +172,52 @@ To bridge the gap between mathematical constitutive equations and the compiled F
   - Step 1 (Tension): $E_{\text{elastic}} = 0.11538463 \times 10^{-3}\,\text{kN}\cdot\text{mm}$ (analytical: $0.115384615 \times 10^{-3}\,\text{kN}\cdot\text{mm}$, error $< 10^{-7}$). $E_{\text{fracture}} = 0.0$.
   - Step 2 (Shear): $E_{\text{elastic}} = 0.40329449 \times 10^{-4}\,\text{kN}\cdot\text{mm}$.
   - Step 3 (Compression): $E_{\text{elastic}} = 0.16150904 \times 10^{-2}\,\text{kN}\cdot\text{mm}$ (analytical: $0.1615385 \times 10^{-2}\,\text{kN}\cdot\text{mm}$).
-  - All values recorded live via `UEXTERNALDB` transaction hooks.
 
-### 5.5 Production Loading Schedule & Increment Settings
-The production input deck `PK_F1714_JOB2_ADAPTED_PROD.inp` implements the exact two-step loading schedule from Pandey & Kumar (2025, Section 4.5):
-1. **Step 1 (Pre-Critical Loading):**
-   - Displacement: $u_y$ from $0.0$ to $0.0050\,\text{mm}$ ($5.0\,\mu\text{m}$) at reference node $N_{\text{RP}}$.
-   - Scheme: `*STATIC` with 2,000 fixed increments of $\Delta t = 5.0 \times 10^{-4}$ (total time $T = 1.0$), yielding $\Delta u_y = 2.5 \times 10^{-6}\,\text{mm/inc}$ ($2.5\,\text{nm/inc}$).
-   - Boundary condition: Top boundary nodes kinematically coupled to $N_{\text{RP}}$ via `*EQUATION`; bottom nodes fixed in $y$; pin node fixed in $x$.
-2. **Step 2 (Fracture Propagation to Severance):**
-   - Displacement: $u_y$ from $0.0050\,\text{mm}$ to $0.0100\,\text{mm}$ ($10.0\,\mu\text{m}$) at reference node $N_{\text{RP}}$.
-   - Scheme: `*STATIC` with 5,000 fixed increments of $\Delta t = 2.0 \times 10^{-4}$ (total time $T = 1.0$), yielding $\Delta u_y = 1.0 \times 10^{-6}\,\text{mm/inc}$ ($1.0\,\text{nm/inc}$).
-   - Terminal Displacement: **$u_y = 0.0100\,\text{mm}$** ($10.0\,\mu\text{m}$).
-   - Increment controls: `*CONTROLS, PARAMETERS=TIME INCREMENTATION` (`4, 10, 9, 20, 10, 4, 0, 10`) for strict convergence safeguarding.
+#### 5.4.2 Damaged-State Constitutive Response (`PK_F1714_1ELEM_AMOR_DAMAGED_TEST`, $d = 0.5$, Exit Code 0)
+To directly address the Round 3 review directive regarding the damaged-state behavior of the compiled Amor UEL, a second cluster solve with prescribed uniform phase-field damage $d = 0.5$ ($g(d) = (1-0.5)^2 = 0.25$, exactly 75% degradation of active terms) was executed on `mlogin01.cluster`:
+- **Step 1 (Damaged Uniaxial Tension, $u_y = +0.001\,\text{mm}$, $d = 0.5$):**
+  - Expected reaction force: $0.25 \times 0.23076923 = 0.057692308\,\text{kN}$.
+  - Compiled UEL Abaqus reaction force: $RF_2 = 0.057692331\,\text{kN}$.
+  - Parity error: **$4.0 \times 10^{-7}$**. Ratio $RF_{2,\text{damaged}} / RF_{2,\text{intact}} = 0.250000030$ (exact $75.000\%$ degradation).
+- **Step 2 (Damaged Pure Shear, $u_x = +0.001\,\text{mm}$, $d = 0.5$):**
+  - Expected total shear force: $0.25 \times 0.0807692 = 0.0201923\,\text{kN}$.
+  - Compiled UEL Abaqus total reaction force: $RF_1 = 2 \times 0.010096158 = 0.020192316\,\text{kN}$ (error $< 0.14\%$).
+- **Step 3 (Damaged Equibiaxial Compression, $\varepsilon_{xx} = \varepsilon_{yy} = -0.002$, $d = 0.5$):**
+  - Analytical decomposition:
+    - Volumetric strain: $\text{tr}\,\boldsymbol{\varepsilon} = -0.004 < 0 \implies \sigma_{\text{vol}} = K \text{tr}\,\boldsymbol{\varepsilon} = 175 \times (-0.004) = -0.700\,\text{kN/mm}^2$ (**100% PRESERVED, undegraded by $g(d)$**).
+    - Deviatoric strain: $\varepsilon_{\text{dev}, yy} = -0.002 - (-0.004/3) = -0.00066667 \implies \sigma_{\text{dev}, yy} = 0.25 \times (2 \times 80.76923 \times (-0.00066667)) = -0.0269231\,\text{kN/mm}^2$.
+    - Total analytical $\sigma_{yy} = -0.700 - 0.0269231 = -0.7269231\,\text{kN/mm}^2$.
+  - Compiled UEL Abaqus reaction force: $RF_2 = -0.72692309\,\text{kN}$.
+  - Parity error: **$1.3 \times 10^{-8}$** (8 digits of precision!).
+  - **Fundamental Physical Confirmation:** Confirms that under compressive hydrostatic stress, bulk modulus $K = 175\,\text{GPa}$ is 100% retained, while deviatoric shear stiffness is degraded by 75%.
+- **Fracture Energy Telemetry:**
+  - Analytical: $E_{\text{fracture}} = \frac{G_c}{2\ell_0} d^2 A = \frac{0.0027}{2 \times 0.008} \times (0.5)^2 \times 1.0 = 0.0421875\,\text{kN}\cdot\text{mm}$.
+  - Abaqus `uel_energy_balance.csv`: $E_{\text{fracture}} = 0.042187500\,\text{kN}\cdot\text{mm}$ (exact to 8 decimal places).
+
+### 5.5 Production Loading Schedule & Automatic Cutback Safeguards
+The production input deck `PK_F1714_JOB2_ADAPTED_PROD.inp` implements the exact two-step loading schedule with genuine nonlinear automatic increment cutbacks:
+1. **Step 1 (Pre-Critical Loading, $u_y = 0 \to 0.0050\,\text{mm}$):**
+   - Line 52544-52545:
+     ```text
+     *STEP, NAME=Step-1, NLGEOM=NO, INC=2500
+     *STATIC
+     5.0E-4, 1.0, 1.0E-9, 5.0E-4
+     ```
+   - Parameters: $\Delta t_{\text{initial}} = 5.0 \times 10^{-4}$ (nominal 2,000 increments, $\Delta u_y = 2.5\,\text{nm/inc}$), $\Delta t_{\max} = 5.0 \times 10^{-4}$.
+   - **Cutback Capability:** $\Delta t_{\min} = 1.0 \times 10^{-9}$ permits automatic step-halving by over 5 orders of magnitude ($500,000\times$ reduction). The keyword `DIRECT` is strictly absent.
+2. **Step 2 (Fracture Propagation to Severance, $u_y = 0.0050 \to 0.0100\,\text{mm}$):**
+   - Line 52562-52566:
+     ```text
+     *STEP, NAME=Step-2, NLGEOM=NO, INC=6000
+     *STATIC
+     2.0E-4, 1.0, 1.0E-9, 2.0E-4
+     *CONTROLS, PARAMETERS=TIME INCREMENTATION
+     4, 10, 9, 20, 10, 4, 0, 10
+     ```
+   - Parameters: $\Delta t_{\text{initial}} = 2.0 \times 10^{-4}$ (nominal 5,000 increments, $\Delta u_y = 1.0\,\text{nm/inc}$), $\Delta t_{\max} = 2.0 \times 10^{-4}$.
+   - **Cutback Capability:** $\Delta t_{\min} = 1.0 \times 10^{-9}$ permits automatic step-halving by over 5 orders of magnitude ($200,000\times$ reduction). The keyword `DIRECT` is strictly absent.
+   - Increment controls: `*CONTROLS, PARAMETERS=TIME INCREMENTATION` (`4, 10, 9, 20, 10, 4, 0, 10`) enforces convergence checks and automatic step cutbacks upon severe residual divergence.
+3. **Transactional State Rollback:** The UEL subroutine `f42_amor_split_uel.for` interfaces with `UEXTERNALDB(LOP=1)` (start of increment) to restore trial state variables to converged state variables whenever Abaqus rejects an increment and performs a cutback.
 
 ---
 
@@ -219,4 +254,6 @@ Target datacheck executed on HPC cluster `mlogin01.cluster` (`/scratch9/pr21vyci
 | `models/pandey_kumar_mode1/207_f1714_five_hole_benchmark/submit_M1_PK_F1714_JOB2_ADAPTED.pbs` | `9540005C8F1AFEDA9A1D67C3212079D78B4759DD7B9D95FA4CBD74A2F25026C0` | Production PBS submission script |
 | `tests/unit/test_amor_split_constitutive.py` | `0C58A389F43BC4F7BEA63E02CE37E55655DB2FD5A67727144D12ED9E2B659FD8` | Material-point constitutive verification suite (6/6 PASS) |
 | `tests/unit/test_f1714_five_hole_generalization.py` | `4BC1E7D01B619582522C1A88AE6917A16EB83E3182DEAE7E9AC57DA2750F3ED3` | Regression test suite (7/7 PASS) |
-| `tests/unit/test_f1714_compiled_amor_uel_verification.py` | `A26A57FAB0AC2CAA0C4C8935AC5884C116589F7896A662151C92EF84CBB8F8E5` | Target-cluster compiled UEL verification test (5/5 PASS) |
+| `tests/unit/test_f1714_compiled_amor_uel_verification.py` | `662E5A88E5BCA9205DCC83BDCBB2BABA63B7BFCACF0DBD2982DB9D2F14A54F43` | Target-cluster compiled UEL verification test (10/10 PASS, intact + damaged) |
+| `models/pandey_kumar_mode1/207_f1714_five_hole_benchmark/F1714_PK_FIVE_HOLE_JOB2_ADAPTED_AUTHORIZATION.json` | `21EF6FD0121F3B44125F9688ED6DA498DB840BC189B23444695D6883EC17715D` | Production job authorization manifest |
+| `scripts/hpc/create_f1714_authorization_manifest.py` | `B95ACD122092700BE28AEED68CBC0FACF4E8D8CECA6CF7054BB83C470BCC5D5F` | Deterministic manifest assembler |
