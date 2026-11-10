@@ -1,0 +1,29 @@
+{
+  "task_id": "F1711-CLEAN-MESH-ONLY-ADAPTIVE-REMESH-IMAGE",
+  "title": "Generate Clean Standalone Mesh-Only Adaptive Remesh Visualizations (No Phase-Field Damage, No Rainbow Colormaps, No Crack-Path Lines)",
+  "status": "IN_PROGRESS",
+  "assigned_agent": "gemini-antigravity",
+  "predecessor_task": "F1710-AUTHENTIC-ADAPTIVE-REMESH-VISUALIZATION",
+  "scope": "Mode-I",
+  "purpose": "Generate clean, publication-quality standalone adaptive-remesh images displaying only the authentic finite-element mesh wireframe without phase-field damage contours, rainbow coloring, or crack-path overlays, showing the specimen geometry and refinement zones clearly for the full specimen and primary/secondary zooms.",
+  "governing_constraints": [
+    "Authentic 10,065-element adapted mesh only (PK_SEC43_F1703_SECONDARY_COMPLETE_ADAPT.inp)",
+    "Clean white or very light background with thin dark element edges",
+    "Loading pin holes and central circular void as white cutouts with dark boundaries",
+    "Initial notch rendered clearly with actual geometry (10 x 0.4 mm at y = 70 mm)",
+    "No phase-field damage contours, no rainbow/jet coloring, no crack-path overlays",
+    "Zero new PBS cluster submissions (max_new_pbs_submissions = 0)",
+    "Deliverables committed and pushed to GitHub with direct RAW PNG links"
+  ],
+  "deliverables": [
+    "MA_AdaptiveRemeshing_Report_2026/figures/pandey_kumar_fig14_16_reproduction/fig_f1711_adaptive_remesh_only.png",
+    "MA_AdaptiveRemeshing_Report_2026/figures/pandey_kumar_fig14_16_reproduction/fig_f1711_adaptive_remesh_only.pdf",
+    "MA_AdaptiveRemeshing_Report_2026/figures/pandey_kumar_fig14_16_reproduction/fig_f1711_primary_mesh_zoom_only.png",
+    "MA_AdaptiveRemeshing_Report_2026/figures/pandey_kumar_fig14_16_reproduction/fig_f1711_primary_mesh_zoom_only.pdf",
+    "MA_AdaptiveRemeshing_Report_2026/figures/pandey_kumar_fig14_16_reproduction/fig_f1711_secondary_mesh_zoom_only.png",
+    "MA_AdaptiveRemeshing_Report_2026/figures/pandey_kumar_fig14_16_reproduction/fig_f1711_secondary_mesh_zoom_only.pdf",
+    "scripts/visualization/plot_f1711_clean_mesh_only.py",
+    "docs/validation/F1711_CLEAN_MESH_ONLY_VISUALIZATION_REPORT.md",
+    "tests/unit/test_f1711_clean_mesh_only_visualization.py"
+  ]
+}

@@ -1,19 +1,19 @@
 {
-  "task_id": "F1710-AUTHENTIC-ADAPTIVE-REMESH-VISUALIZATION",
-  "title": "Authentic Adaptive-Remesh Visualization and Crack-Path Correction: Reproducing Pandey & Kumar (2025) Figure 16 from Job 1421915 Telemetry",
+  "task_id": "F1711-CLEAN-MESH-ONLY-ADAPTIVE-REMESH-IMAGE",
+  "title": "Generate Clean Standalone Mesh-Only Adaptive Remesh Visualizations (No Phase-Field Damage, No Rainbow Colormaps, No Crack-Path Lines)",
   "status": "COMPLETED",
   "assigned_agent": "gemini-antigravity",
-  "handoff_id": "HND-F1710-AUTHENTIC-REMESH-VIS-001",
-  "checkpoint_artifact": "docs/validation/F1710_AUTHENTIC_REMESH_VISUALIZATION_REPORT.md",
+  "handoff_id": "HND-F1711-CLEAN-MESH-ONLY-001",
+  "checkpoint_artifact": "docs/validation/F1711_CLEAN_MESH_ONLY_VISUALIZATION_REPORT.md",
   "predecessor_task": {
-    "task_id": "F1709-PK-SEC43-JOB2-RECOVERY-AND-FIG16",
-    "checkpoint_artifact": "docs/validation/F1709_JOB2_RECOVERY_AND_FIG16_VALIDATION_REPORT.md"
+    "task_id": "F1710-AUTHENTIC-ADAPTIVE-REMESH-VISUALIZATION",
+    "checkpoint_artifact": "docs/validation/F1710_AUTHENTIC_REMESH_VISUALIZATION_REPORT.md"
   },
   "registration": {
-    "definition": "project_coordination/task_definitions/F1710-AUTHENTIC-ADAPTIVE-REMESH-VISUALIZATION.json"
+    "definition": "project_coordination/task_definitions/F1711-CLEAN-MESH-ONLY-ADAPTIVE-REMESH-IMAGE.json"
   },
-  "scientific_operation": "authentic_adaptive_remesh_visualization_and_crack_path_correction",
-  "scientific_operation_id": "f1710_authentic_adaptive_remesh_visualization_and_crack_path_correction",
+  "scientific_operation": "clean_mesh_only_adaptive_remesh_visualization",
+  "scientific_operation_id": "f1711_clean_mesh_only_adaptive_remesh_visualization",
   "scientific_checkpoint_required": true,
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
@@ -21,6 +21,7 @@
   "pbs_job_status": "COMPLETED_EXIT0",
   "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_sec43_job2_staggered_f1709",
   "completed_operations": [
+    "f1711_clean_mesh_only_adaptive_remesh_visualization",
     "f1710_authentic_adaptive_remesh_visualization_and_crack_path_correction",
     "f1709_pk_sec43_job2_staggered_solve_and_fig16_reproduction",
     "f1708_pk_sec43_job2_adapted_mesh_solve",
@@ -56,5 +57,5 @@
     "f1680_method_a_scientific_correction_and_thesis_closeout"
   ],
   "iteration": 1,
-  "review_resolution": "HND-F1710-AUTHENTIC-REMESH-VIS-001_APPROVE_COMPLETED"
+  "review_resolution": null
 }
