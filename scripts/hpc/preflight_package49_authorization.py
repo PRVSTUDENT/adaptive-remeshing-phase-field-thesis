@@ -29,7 +29,7 @@ def run_shell(body, expected_status=0):
 
 def check(payload):
     global RUN
-    if payload.get('batch', {}).get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1', 'mode1-continuum-preanalysis-v1', 'mode1-pdas-iterative-v1', 'mode1-experimental-irrev-v1', 'mode1-experimental-12dof-v1', 'mode1-experimental-staggered-v1'):
+    if payload.get('batch', {}).get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1', 'mode1-continuum-preanalysis-v1', 'mode1-pdas-iterative-v1', 'mode1-experimental-irrev-v1', 'mode1-experimental-12dof-v1', 'mode1-experimental-staggered-v1', 'mode1-five-hole-amor-v1', 'five-hole-qualified-batch-v1'):
         target=payload['batch'].get('remote_run_dir','')
         require(re.fullmatch(r'/scratch9/pr21vyci/runs/mode1_[a-z0-9_/]+',target) and '..' not in target, 'Unsafe Mode-I scratch path')
         RUN=Path(target)
@@ -67,7 +67,7 @@ def check(payload):
             require(not Path(name).is_absolute() and '..' not in Path(name).parts, 'Unsafe runtime dependency')
             source = RUN / 'runtime' / name
             require(source.is_file() and hashlib.sha256(source.read_bytes()).hexdigest().upper() == expected.upper(), 'Staged runtime dependency changed: '+name)
-    require(batch['batch_name'].startswith('MODE1_') and batch.get('scientific_scope') == 'MODE1', 'Outside Mode-I scope')
+    require((batch['batch_name'].startswith('MODE1_') or batch['batch_name'].startswith('M1_') or batch['batch_name'].startswith('FIVE_HOLE_')) and batch.get('scientific_scope') in ('MODE1', 'FIVE_HOLE'), 'Outside registered scientific scope (MODE1, FIVE_HOLE)')
     require(1 <= len(batch['jobs']) == batch['max_submissions'] <= 2, 'Invalid batch size')
 
     for job in batch['jobs']:

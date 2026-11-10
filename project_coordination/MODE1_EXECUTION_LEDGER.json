@@ -13938,6 +13938,48 @@
         "lifecycle_tests": "PASS"
       },
       "qualified_at": "2026-11-10T20:06:43.530707+00:00"
+    },
+    "a0b3ce9e3d949151581c5f2706e055ca084c6b546c89322215bd18dd1fdfca1d": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\207_f1714_five_hole_benchmark\\F1714_PK_FIVE_HOLE_JOB2_ADAPTED_AUTHORIZATION.json",
+      "attempts": {},
+      "audit": [],
+      "preflight": {
+        "active_job_count": 0,
+        "adapter_contract": "mode1-five-hole-amor-v1",
+        "datachecks": {
+          "f1714_five_hole_job2_adapted": {
+            "status": "PASS",
+            "input_sha256": "d84bbc990b206c36d924f4054c8753f6fd7cc8677849fd475d44eaa2dc1e75fa",
+            "dat_sha256": "09e2d4a56cb87a1ae27531f03b9d8a0a927bc69b28aae96afc404950c24fc64d"
+          }
+        },
+        "batch_spec_sha256": "3f89f80cd9a76f1af3a69cb2f9d67b34c62508b5e94b8061a246693e9cd10040",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "a0b3ce9e3d949151581c5f2706e055ca084c6b546c89322215bd18dd1fdfca1d",
+        "authorized_command_sha256": "3f9003e084f4eaf6d45e179348ef6695b8da4b1ba4dcf43d3d96f8a524b7f534",
+        "checked_at": "2026-11-10T23:52:58.673341+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "PK_F1714_JOB2_ADAPTED_PROD.inp": "d84bbc990b206c36d924f4054c8753f6fd7cc8677849fd475d44eaa2dc1e75fa",
+          "f42_amor_split_uel.for": "6778b6857c4acc83ebbb1f921947e089ba09910c8e2361f62863dae61f7491ff",
+          "submit_M1_PK_F1714_JOB2_ADAPTED.pbs": "9540005c8f1afeda9a1d67c3212079d78b4759dd7b9d95fa4cbd74a2f25026c0",
+          "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+          "M1_PK_F1714_AMOR_DATACHECK.dat": "09e2d4a56cb87a1ae27531f03b9d8a0a927bc69b28aae96afc404950c24fc64d"
+        },
+        "helper_sha256": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-11-10T23:52:59.079242+00:00"
     }
   }
 }

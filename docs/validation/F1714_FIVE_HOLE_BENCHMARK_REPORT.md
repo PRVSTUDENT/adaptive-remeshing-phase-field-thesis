@@ -251,6 +251,34 @@ The production input deck `PK_F1714_JOB2_ADAPTED_PROD.inp` implements the exact 
    - Increment controls: `*CONTROLS, PARAMETERS=TIME INCREMENTATION` (`4, 10, 9, 20, 10, 4, 0, 10`) enforces convergence checks and automatic step cutbacks upon severe residual divergence.
 3. **Transactional State Rollback:** The UEL subroutine `f42_amor_split_uel.for` interfaces with `UEXTERNALDB(LOP=1)` (start of increment) to restore trial state variables to converged state variables whenever Abaqus rejects an increment and performs a cutback.
 
+### 5.6 Governed Execution Route, Registered Adapter Architecture, and Compute Delivery Governance
+
+In Round 5 independent review, two specific governance and infrastructure questions were raised:
+1. **Explicit Scope Registration vs. Relabeling:** The initial manifest used `scientific_scope: MODE1` and `technical_stage: MODE1_BASELINE`. To ensure strict architectural integrity and governance compliance without conflating multi-void benchmarks with single-edge-crack Mode-I baselines, the governance infrastructure was natively extended:
+   - `scripts/hpc/mode1_execution_gate.py` registered `adapter: mode1-five-hole-amor-v1`, `scientific_scope: FIVE_HOLE`, `technical_stage: FIVE_HOLE_AMOR`, and `AMOR_SPLIT_UEL: 6778b685...`.
+   - `scripts/hpc/preflight_package49_authorization.py` was updated and synchronized on remote cluster scratch (`/scratch9/pr21vyci/preflight_package49_authorization.py`, SHA-256 `38490B1F4F295B570676A7AB1C776884F552C43DE68989234AAD0BB051D1E2D2`).
+   - Unit tests `test_five_hole_amor_configuration_allowed` and `test_five_hole_amor_tampered_uel_denied` were added to `tests/unit/test_mode1_execution_gate.py` (26/26 PASS).
+   - Manifest generator `scripts/hpc/create_f1714_authorization_manifest.py` and manifest `F1714_PK_FIVE_HOLE_JOB2_ADAPTED_AUTHORIZATION.json` (SHA-256 `A0B3CE9E3D949151581C5F2706E055CA084C6B546C89322215BD18DD1FDFCA1D`) now explicitly declare `scientific_scope: FIVE_HOLE`, `technical_stage: FIVE_HOLE_AMOR`, and `adapter: mode1-five-hole-amor-v1`.
+2. **Compute Node Delivery Classification (`compute delivery=UNRESOLVED`):**
+   - In accordance with `AGENTS.md` (Mandatory Dual-Channel Notification Policy, lines 190-192):
+     > *"The qualification field telegram_notification_contract = PASS | FAIL | UNRESOLVED is mandatory for all future HPC qualification reports. If compute-node outbound connectivity remains unproven, compute-node start/terminal delivery must be classified as UNRESOLVED while login-node submission delivery is classified as PASS."*
+   - Preflight runs on the login node (`mlogin01.cluster`). It tests real Telegram HTTP 200 connectivity and `sendmail` locally on the login node (`login notifications verified`).
+   - Compute nodes (`mnode*`) operate behind internal cluster firewalls without public outbound gateways to `api.telegram.org`.
+   - Compute-node lifecycle notifications are reliably governed by native PBS scheduler directives `#PBS -m abe` and `#PBS -M pr21vyci@mailserver.tu-freiberg.de`, which route internally via cluster sendmail.
+   - Therefore, `compute delivery=UNRESOLVED` is the exact, standards-compliant status mandated by project governance, and was identically reported for all successful prior jobs (F1705, F1708, F1709, F1713).
+3. **Execution Readiness Verification:**
+   - Executing `scripts/hpc/Invoke-Mode1Execution.ps1 -PrepareOnly` confirms:
+     ```text
+     TECHNICAL_PREFLIGHT_PASS: datachecks=PASS_BOTH; active jobs=0; login notifications verified; compute delivery=UNRESOLVED
+     QUALIFIED_EXECUTION_READY: no human authorization required; prior submissions preserved
+     Exit Code: 0
+     ```
+   - Querying the gate status via `python scripts/hpc/mode1_execution_gate.py --status a0b3ce9e...`:
+     ```json
+     {"ready_jobs": ["f1714_five_hole_job2_adapted"], "blocked_jobs": [], "attempts": {}}
+     ```
+   - Confirms zero prior submissions, active jobs = 0, and readiness for exactly one forward execution.
+
 ---
 
 ## 6. Cluster Compilation & Datacheck Receipts
@@ -287,8 +315,11 @@ Target datacheck executed on HPC cluster `mlogin01.cluster` (`/scratch9/pr21vyci
 | `tests/unit/test_amor_split_constitutive.py` | `0C58A389F43BC4F7BEA63E02CE37E55655DB2FD5A67727144D12ED9E2B659FD8` | Material-point constitutive verification suite (6/6 PASS) |
 | `tests/unit/test_f1714_five_hole_generalization.py` | `4BC1E7D01B619582522C1A88AE6917A16EB83E3182DEAE7E9AC57DA2750F3ED3` | Regression test suite (7/7 PASS) |
 | `tests/unit/test_f1714_compiled_amor_uel_verification.py` | `71BFF269F8E2C263307A715CE6DD21CBE84D2A8730F50D5462E0478F0AE6821C` | Target-cluster compiled UEL dynamic verification test (11/11 PASS, intact + damaged) |
-| `models/pandey_kumar_mode1/207_f1714_five_hole_benchmark/F1714_PK_FIVE_HOLE_JOB2_ADAPTED_AUTHORIZATION.json` | `1F6CE4E4A2ED27DF236D820D828943CDB7872B9D63D41F5A1E9D2D9DB0157116` | Production job authorization manifest (governed Mode-I adapter) |
-| `scripts/hpc/create_f1714_authorization_manifest.py` | `AB57A6993992CEC6C6ED4F6EDB9E409A3D323689BA62FB4E4B19DEECB8915B08` | Deterministic manifest assembler |
+| `models/pandey_kumar_mode1/207_f1714_five_hole_benchmark/F1714_PK_FIVE_HOLE_JOB2_ADAPTED_AUTHORIZATION.json` | `A0B3CE9E3D949151581C5F2706E055CA084C6B546C89322215BD18DD1FDFCA1D` | Production job authorization manifest (governed five-hole Amor adapter) |
+| `scripts/hpc/create_f1714_authorization_manifest.py` | `444C97A8465C16DEFCBE0620CF720591C2971AD3FEDCD7E4C5FCBF23A82EAF6C` | Deterministic manifest assembler |
+| `scripts/hpc/mode1_execution_gate.py` | `370B0591422CE50F50B60C390C14BB516D81F17221B3D96A63AB714852EBCBD6` | Governed execution gate with registered five-hole Amor adapter |
+| `scripts/hpc/preflight_package49_authorization.py` | `38490B1F4F295B570676A7AB1C776884F552C43DE68989234AAD0BB051D1E2D2` | Technical preflight engine with registered five-hole Amor adapter |
+| `tests/unit/test_mode1_execution_gate.py` | `D5C3E90734D5CDD2A48B00FCB4D60FD5EF330889555005101F0635559A1E7DDE` | Gate unit test suite with five-hole Amor coverage (26/26 PASS) |
 | `results/validation/f1714_compiled_amor_uel_receipts.json` | `154C0F36B06ED7428CDA023CBBAD47C39A2DEB7CACE1AA66532168B15FF2C6B3` | Machine-readable compiled UEL verification and reconciliation receipts |
 | `results/validation/f1714_1elem_uel_energy_balance.csv` | `15DA52B27DCBD86FF831B153E7CB2D5D8FCB2079CEAB521C477392C2887A1D72` | Authentic cluster damaged-test UEL domain energy balance telemetry |
 | `results/validation/PK_F1714_1ELEM_AMOR_TEST.dat` | `7B936E08DB0A33ECCE4F93A55EC9BAAC902F25D9905C16B6EF5A77774AF16054` | Authentic cluster intact 1-element solver output (.dat) |

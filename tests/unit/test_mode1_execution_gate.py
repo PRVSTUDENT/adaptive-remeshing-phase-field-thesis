@@ -140,5 +140,31 @@ class ExecutionGateTests(unittest.TestCase):
   self.batch=exp_batch
   self.refresh()
   with self.assertRaisesRegex(ValueError,'Experimental offset UEL'):self.prepare()
+ def test_five_hole_amor_configuration_allowed(self):
+  fh_batch=copy.deepcopy(self.batch)
+  fh_batch['adapter']='mode1-five-hole-amor-v1'
+  fh_batch['scientific_scope']='FIVE_HOLE'
+  fh_batch['technical_stage']='FIVE_HOLE_AMOR'
+  del fh_batch['files']['f42_mixed_uel.for']
+  amor_uel_content=(ROOT/'models/pandey_kumar_mode1/207_f1714_five_hole_benchmark/f42_amor_split_uel.for').read_bytes()
+  (self.path.parent/'f42_amor_split_uel.for').write_bytes(amor_uel_content)
+  fh_batch['files']['f42_amor_split_uel.for']=engine.digest(amor_uel_content)
+  self.batch=fh_batch
+  self.refresh()
+  self.prepare()
+  engine.reserve(self.batch['jobs'][0]['command'],self.root)
+  self.assertEqual(engine.status(self.key,self.root)['attempts']['equil_test'],1)
+ def test_five_hole_amor_tampered_uel_denied(self):
+  fh_batch=copy.deepcopy(self.batch)
+  fh_batch['adapter']='mode1-five-hole-amor-v1'
+  fh_batch['scientific_scope']='FIVE_HOLE'
+  fh_batch['technical_stage']='FIVE_HOLE_AMOR'
+  del fh_batch['files']['f42_mixed_uel.for']
+  tampered=b'tampered amor split uel'
+  (self.path.parent/'f42_amor_split_uel.for').write_bytes(tampered)
+  fh_batch['files']['f42_amor_split_uel.for']=engine.digest(tampered)
+  self.batch=fh_batch
+  self.refresh()
+  with self.assertRaisesRegex(ValueError,'Versioned Amor UEL'):self.prepare()
 
 if __name__=='__main__':unittest.main()

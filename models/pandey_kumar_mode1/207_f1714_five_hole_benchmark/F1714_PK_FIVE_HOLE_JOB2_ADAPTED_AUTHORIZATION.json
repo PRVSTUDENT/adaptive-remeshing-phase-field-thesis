@@ -1,5 +1,5 @@
 {
-  "batch_name": "MODE1_PK_F1714_JOB2_ADAPTED",
+  "batch_name": "FIVE_HOLE_PK_F1714_JOB2_ADAPTED",
   "max_submissions": 1,
   "hours_valid": 24,
   "automatic_retry": false,
@@ -32,9 +32,10 @@
   "acceptance": {
     "f1714_five_hole_job2_adapted": "Abaqus 2023 single-rank serial solve completes Section 4.5 five-hole phase-field fracture simulation on 13,034 physical elements to uy = 0.0100 mm across 2 steps; captures multi-void crack nucleation and propagation through ligaments h4-h5, h3-h4, h2-h3, and uel_energy_balance.csv."
   },
-  "adapter": "mode1-qualified-batch-v2",
-  "scientific_scope": "MODE1",
-  "technical_stage": "MODE1_BASELINE",
+  "adapter": "mode1-five-hole-amor-v1",
+  "scientific_scope": "FIVE_HOLE",
+  "technical_stage": "FIVE_HOLE_AMOR",
+  "configuration": "FIVE_HOLE_AMOR",
   "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_f1714_five_hole",
   "required_state_checks": [
     "nodal_displacement_verified",
