@@ -1,0 +1,44 @@
+{
+  "batch_name": "MODE1_PK_F1713_JOB2_ADAPTED",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "PK_F1713_JOB2_ADAPTED_PROD.inp": "5c55225b0294ee015ad6cc7e3df1042dc584bc2309741df9140ffb7efe23a86e",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_M1_PK_F1713_JOB2_ADAPTED.pbs": "3588e50d4dafd90cc6f374eef1e56f07ccf0f264f7a266aedb6117a1fad6f6d0",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_PK_F1713_DATACHECK.dat": "6d9f73c5353b7d8ccf19f565af2659d9b4ff4eca9e93879c9ec12de9f8b3997a"
+  },
+  "jobs": [
+    {
+      "id": "job2_adapted_prod",
+      "pbs": "submit_M1_PK_F1713_JOB2_ADAPTED.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_pk_f1713_job2_adapted/submit_M1_PK_F1713_JOB2_ADAPTED.pbs\"",
+      "command_sha256": "bd40680403d9a98fd82470c79d92bf488a642726d54f1631679e8a1319e5dbcb",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Pandey & Kumar (2025) Section 4.1 Mode-I Job-2 Phase-Field Fracture Simulation on 14,933 physical elements (44,799 layered elements) native adapted mesh under canonical f42_mixed_uel.for with automatic incrementation and cutbacks enabled",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "PK_F1713_JOB2_ADAPTED_PROD.inp",
+      "datacheck": "M1_PK_F1713_DATACHECK.dat"
+    }
+  ],
+  "acceptance": {
+    "job2_adapted_prod": "Abaqus 2023 single-rank serial solve completes Section 4.1 Job-2 phase-field fracture simulation on 14,933 physical elements (44,799 layered elements) to u = 0.0100 mm across 2 steps; captures peak force, crack propagation across horizontal ligament, and uel_energy_balance.csv."
+  },
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "MODE1_BASELINE",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_f1713_job2_adapted",
+  "required_state_checks": [
+    "nodal_displacement_verified",
+    "damage_irreversibility_verified",
+    "committed_history_verified",
+    "state_restoration_verified"
+  ]
+}

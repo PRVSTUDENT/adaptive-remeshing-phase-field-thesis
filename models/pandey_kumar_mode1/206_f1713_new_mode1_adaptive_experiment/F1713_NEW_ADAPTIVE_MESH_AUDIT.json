@@ -1,0 +1,45 @@
+{
+  "task_id": "F1713-NEW-END-TO-END-MODE1-ADAPTIVE-SIMULATION",
+  "benchmark": "Pandey & Kumar (2025) Section 4.1 Mode-I (1x1 mm)",
+  "coarse_mesh": {
+    "num_elements": 3112,
+    "num_nodes": 3188,
+    "seed_size_mm": 0.02
+  },
+  "miseseri_field": {
+    "min_error": 0.14281952381134033,
+    "max_error": 1591.6556396484375,
+    "mean_error": 10.143470948600333,
+    "units": "MPa (N/mm^2)"
+  },
+  "remeshing_rule": {
+    "variable": "MISESERI",
+    "sizing_method": "UNIFORM_ERROR",
+    "error_target_pct": 1.85,
+    "min_size_mm": 0.001,
+    "max_size_mm": 0.02,
+    "refinement_factor": 10,
+    "coarsening": "NOT_ALLOWED"
+  },
+  "adapted_mesh": {
+    "num_physical_elements": 14933,
+    "num_nodes": 14895,
+    "quad_elements": 14493,
+    "tri_elements": 440,
+    "phase_uel_elements": 14933,
+    "mech_uel_elements": 14933,
+    "companion_cpe_elements": 14933,
+    "total_layered_elements": 44799
+  },
+  "files": {
+    "job1_coarse_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\206_f1713_new_mode1_adaptive_experiment\\PK_F1713_JOB1_COARSE.inp",
+    "job1_coarse_inp_sha256": "7ea464e0b2b793f11bfa138bbd2033b4ad74256495d97ca95b5a14e904b0d642",
+    "job1_coarse_odb": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\206_f1713_new_mode1_adaptive_experiment\\PK_F1713_JOB1_COARSE.odb",
+    "job1_coarse_odb_sha256": "4f222bc9ed2c818379b6ab73681c3c5393665157bdeac9c25bdd84d92d3dee2d",
+    "job2_adapted_phys_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\206_f1713_new_mode1_adaptive_experiment\\PK_F1713_JOB2_ADAPTED_PHYS.inp",
+    "job2_adapted_phys_inp_sha256": "3d199ccea6bfc952020259feed0a0c1072aabb97dac0ede01518e47380609b10",
+    "job2_adapted_prod_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\206_f1713_new_mode1_adaptive_experiment\\PK_F1713_JOB2_ADAPTED_PROD.inp",
+    "job2_adapted_prod_inp_sha256": "77c6e9daaaff86e59776311c6fd2d1d9afe7b5fe9909fc954259dffdcd955ab6"
+  },
+  "verdict": "GENUINE_NEW_ADAPTIVE_MESH_GENERATED_NATIVELY"
+}
