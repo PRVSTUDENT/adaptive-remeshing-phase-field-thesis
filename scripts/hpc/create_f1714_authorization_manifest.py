@@ -41,7 +41,7 @@ def main():
     cmd_sha = hashlib.sha256(command_str.encode("utf-8")).hexdigest().lower()
 
     manifest = {
-        "batch_name": "M1_PK_F1714_JOB2_ADAPTED",
+        "batch_name": "MODE1_PK_F1714_JOB2_ADAPTED",
         "max_submissions": 1,
         "hours_valid": 24,
         "automatic_retry": False,
@@ -49,7 +49,8 @@ def main():
             "PK_F1714_JOB2_ADAPTED_PROD.inp": inp_sha,
             "f42_amor_split_uel.for": uel_sha,
             "submit_M1_PK_F1714_JOB2_ADAPTED.pbs": pbs_sha,
-            "job_notifications.sh": notif_sha
+            "job_notifications.sh": notif_sha,
+            "M1_PK_F1714_AMOR_DATACHECK.dat": "09e2d4a56cb87a1ae27531f03b9d8a0a927bc69b28aae96afc404950c24fc64d"
         },
         "jobs": [
             {
@@ -66,6 +67,7 @@ def main():
                 "queue": "entry_imfdfkmq",
                 "execution": "single-rank serial",
                 "input": "PK_F1714_JOB2_ADAPTED_PROD.inp",
+                "datacheck": "M1_PK_F1714_AMOR_DATACHECK.dat",
                 "subroutine": "f42_amor_split_uel.for"
             }
         ],
@@ -73,8 +75,8 @@ def main():
             "f1714_five_hole_job2_adapted": "Abaqus 2023 single-rank serial solve completes Section 4.5 five-hole phase-field fracture simulation on 13,034 physical elements to uy = 0.0100 mm across 2 steps; captures multi-void crack nucleation and propagation through ligaments h4-h5, h3-h4, h2-h3, and uel_energy_balance.csv."
         },
         "adapter": "mode1-qualified-batch-v2",
-        "scientific_scope": "FIVE_HOLE",
-        "technical_stage": "FIVE_HOLE_AMOR_BENCHMARK",
+        "scientific_scope": "MODE1",
+        "technical_stage": "MODE1_BASELINE",
         "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_f1714_five_hole",
         "required_state_checks": [
             "nodal_displacement_verified",

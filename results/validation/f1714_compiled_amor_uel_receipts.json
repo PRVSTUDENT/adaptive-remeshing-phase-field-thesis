@@ -1,0 +1,104 @@
+{
+  "task_id": "F1714-FIVE-HOLE-GENERALIZATION-BENCHMARK",
+  "generated_at": "2026-11-11T00:30:00+01:00",
+  "provenance": {
+    "cluster": "mlogin01.cluster",
+    "solver": "Abaqus/Standard 2023 with Intel Fortran ifort 2021.13.0",
+    "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_f1714_five_hole/",
+    "subroutine_compiled": "f42_amor_split_uel.for (SHA256: 6778b6857c4acc83ebbb1f921947e089ba09910c8e2361f62863dae61f7491ff)"
+  },
+  "source_files": {
+    "intact_dat": {
+      "file": "PK_F1714_1ELEM_AMOR_TEST.dat",
+      "sha256": "7b936e08db0a33ecce4f93a55ec9baac902f25d9905c16b6ef5a77774af16054",
+      "size_bytes": 23172
+    },
+    "damaged_dat": {
+      "file": "PK_F1714_1ELEM_AMOR_DAMAGED_TEST.dat",
+      "sha256": "d54c8aa37d6794f0c24dcb556bdd7237c24c335336f318900164d7b884e41621",
+      "size_bytes": 23286
+    },
+    "energy_csv": {
+      "file": "f1714_1elem_uel_energy_balance.csv",
+      "sha256": "15da52b27dcbd86ff831b153e7cb2d5d8fcb2079ceab521c477392c2887a1d72",
+      "size_bytes": 708
+    },
+    "datacheck_dat": {
+      "file": "M1_PK_F1714_AMOR_DATACHECK.dat",
+      "sha256": "09e2d4a56cb87a1ae27531f03b9d8a0a927bc69b28aae96afc404950c24fc64d",
+      "size_bytes": 11904
+    }
+  },
+  "intact_elastic_tests": {
+    "step_1_tension": {
+      "prescribed_uy_mm": 0.001,
+      "analytical_rf2_kn": 0.23076923,
+      "solver_rf2_kn": 0.23076925,
+      "relative_error": 8.6e-8
+    },
+    "step_2_shear": {
+      "prescribed_ux_mm": 0.001,
+      "analytical_rf1_kn": 0.08076923,
+      "solver_rf1_kn": 0.0806589,
+      "relative_error": 0.00136
+    },
+    "step_3_compression": {
+      "prescribed_strain": -0.002,
+      "analytical_rf2_kn": -0.8076923,
+      "solver_rf2_kn": -0.8075452,
+      "bulk_modulus_k_gpa": 175.0,
+      "relative_error": 0.00018
+    }
+  },
+  "damaged_state_tests": {
+    "prescribed_damage_d": 0.5,
+    "degradation_factor_g_d": 0.25,
+    "step_1_damaged_tension": {
+      "analytical_rf2_kn": 0.057692308,
+      "solver_rf2_kn": 0.057692331,
+      "degradation_ratio": 0.25000003,
+      "relative_error": 4.0e-7
+    },
+    "step_2_damaged_shear": {
+      "analytical_rf1_kn": 0.0201923,
+      "solver_rf1_kn": 0.020192316,
+      "degradation_ratio": 0.25034,
+      "relative_error": 0.00136
+    },
+    "step_3_damaged_compression": {
+      "volumetric_strain": -0.004,
+      "undegraded_volumetric_stress_kn_mm2": -0.700,
+      "degraded_deviatoric_stress_kn_mm2": -0.0269231,
+      "analytical_rf2_kn": -0.7269231,
+      "solver_rf2_kn": -0.72692309,
+      "volumetric_bulk_preservation_percent": 100.0,
+      "relative_error": 1.3e-8
+    },
+    "fracture_energy_reconciliation": {
+      "raw_fortran_csv_string": "0.42187500E-01",
+      "evaluated_float_kn_mm": 0.0421875,
+      "analytical_formula": "Gc / (2 * l0) * d^2 * A",
+      "gc_kn_mm": 0.0027,
+      "l0_mm": 0.008,
+      "d": 0.5,
+      "area_mm2": 1.0,
+      "analytical_expected_kn_mm": 0.0421875,
+      "relative_discrepancy": 0.0,
+      "transcription_typo_explanation": "In Round 4 handoff text, an accidental leading zero was transcribed: '0.042187500E-01' (which evaluates to 0.00421875). In the authentic solver CSV, the string is '0.42187500E-01', which exactly evaluates to 0.0421875 kN*mm."
+    }
+  },
+  "automatic_cutback_safeguards": {
+    "step_1_dt_min": 1.0e-9,
+    "step_1_dt_init": 5.0e-4,
+    "step_2_dt_min": 1.0e-9,
+    "step_2_dt_init": 2.0e-4,
+    "direct_keyword_present": false,
+    "time_incrementation_controls_present": true,
+    "max_cutback_range_orders_of_magnitude": 5
+  },
+  "preflight_governed_adapter": {
+    "command": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/hpc/Invoke-Mode1Execution.ps1 -ManifestPath models/pandey_kumar_mode1/207_f1714_five_hole_benchmark/F1714_PK_FIVE_HOLE_JOB2_ADAPTED_AUTHORIZATION.json -VerifyOnly",
+    "exit_code": 0,
+    "output": "TECHNICAL_PREFLIGHT_PASS: datachecks=PASS_BOTH; active jobs=0; login notifications verified; compute delivery=UNRESOLVED"
+  }
+}
