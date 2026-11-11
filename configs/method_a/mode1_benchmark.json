@@ -1,0 +1,46 @@
+{
+  "benchmark_name": "Mode1_Single_Edge_Crack_Benchmark",
+  "geometry": {
+    "plate_width": 1.0,
+    "plate_height": 1.0,
+    "notch": {
+      "type": "straight_slit",
+      "x_start": 0.0,
+      "y": 0.5,
+      "length": 0.5,
+      "half_width": 0.001
+    },
+    "voids": []
+  },
+  "material": {
+    "E": 210.0,
+    "nu": 0.30,
+    "Gc": 0.0027,
+    "l0": 0.0075,
+    "k_residual": 1e-7,
+    "constitutive_split": "mixed"
+  },
+  "remeshing": {
+    "indicator": "MISESERI",
+    "sizing_method": "UNIFORM_ERROR",
+    "error_target_pct": 1.85,
+    "h_min": 0.001,
+    "h_max": 0.020,
+    "refinement_factor": 10.0,
+    "coarsening_allowed": false
+  },
+  "loading": {
+    "step1_disp": 0.0050,
+    "step2_disp": 0.0100,
+    "step1_dt": 0.0005,
+    "step2_dt": 0.0002,
+    "dt_min": 1e-9
+  },
+  "paths": {
+    "coarse_inp": "models/pandey_kumar_mode1/206_f1713_new_mode1_adaptive_experiment/PK_F1713_JOB1_COARSE.inp",
+    "adapted_phys_inp": "models/pandey_kumar_mode1/206_f1713_new_mode1_adaptive_experiment/PK_F1713_JOB2_ADAPTED_PHYS.inp",
+    "production_inp": "models/pandey_kumar_mode1/206_f1713_new_mode1_adaptive_experiment/PK_F1713_JOB2_ADAPTED_PROD.inp",
+    "uel_source": "models/pandey_kumar_mode1/reproduction_package_gate6b_energy/f42_mixed_uel.for",
+    "output_dir": "results/validation/method_a_framework/mode1_benchmark"
+  }
+}
