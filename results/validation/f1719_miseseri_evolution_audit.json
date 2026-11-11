@@ -1,0 +1,366 @@
+{
+  "task_id": "F1719-COARSE-PHASE-FIELD-MISESERI-REMESH-FIVE-HOLE",
+  "ligament_element_counts": {
+    "L1_left_to_h1": 185,
+    "L2_h1_to_h2": 165,
+    "L3_h3_to_h4_narrowest": 12,
+    "L4_h4_to_right": 171,
+    "bulk": 2214
+  },
+  "state_evolution": {
+    "STATE0": {
+      "desc": "Undamaged Elastic (uy=0.00300 mm)",
+      "uy_mm": 0.003000000026077032,
+      "d_max_global": 0.04981471225619316,
+      "d_mean_global": 0.005180384363943884,
+      "miseseri_max_global": 204.64382934570312,
+      "miseseri_mean_global": 11.839985259482111,
+      "eta_max_global": 304.44345528317865,
+      "eta_mean_global": 3.0524811496475666,
+      "top_element": {
+        "eid": 316,
+        "cx": 0.637680903,
+        "cy": 0.50426471975,
+        "damage": 0.0169395599514246,
+        "miseseri": 204.64382934570312,
+        "misesavg": 675.652099609375,
+        "eta_percent": 30.288343581558756
+      },
+      "pearson_r_damage_vs_miseseri": 0.5802938548148823,
+      "pearson_r_damage_vs_eta": -0.020913985387071968,
+      "ligaments": {
+        "L1_left_to_h1": {
+          "num_elements": 185,
+          "damage_max": 0.031448617577552795,
+          "damage_mean": 0.010363057531130097,
+          "miseseri_max": 78.0662612915039,
+          "miseseri_mean": 25.199462783658827,
+          "eta_max_percent": 304.44345528317865,
+          "eta_mean_percent": 7.918591571106203
+        },
+        "L2_h1_to_h2": {
+          "num_elements": 165,
+          "damage_max": 0.03041824698448181,
+          "damage_mean": 0.00892074513213822,
+          "miseseri_max": 138.33262634277344,
+          "miseseri_mean": 38.42937474106297,
+          "eta_max_percent": 78.08007776956207,
+          "eta_mean_percent": 8.553772371181282
+        },
+        "L3_h3_to_h4_narrowest": {
+          "num_elements": 12,
+          "damage_max": 0.04981471225619316,
+          "damage_mean": 0.03250742086675018,
+          "miseseri_max": 204.64382934570312,
+          "miseseri_mean": 142.08210881551108,
+          "eta_max_percent": 30.288343581558756,
+          "eta_mean_percent": 12.532305590641249
+        },
+        "L4_h4_to_right": {
+          "num_elements": 171,
+          "damage_max": 0.034986186772584915,
+          "damage_mean": 0.009466438181494084,
+          "miseseri_max": 151.63331604003906,
+          "miseseri_mean": 36.27539071144416,
+          "eta_max_percent": 301.0719862711075,
+          "eta_mean_percent": 11.106846732438544
+        },
+        "bulk": {
+          "num_elements": 2214,
+          "damage_max": 0.03682515770196915,
+          "damage_mean": 0.00398942063155171,
+          "miseseri_max": 178.1220703125,
+          "miseseri_mean": 6.148877571410118,
+          "eta_max_percent": 114.86841179025045,
+          "eta_mean_percent": 1.5624188698498735
+        }
+      }
+    },
+    "STATE1": {
+      "desc": "Damage Initiation (uy=0.00350 mm)",
+      "uy_mm": 0.0035000001080334187,
+      "d_max_global": 0.06962283700704575,
+      "d_mean_global": 0.007029595776187041,
+      "miseseri_max_global": 238.5620574951172,
+      "miseseri_mean_global": 13.820761946583602,
+      "eta_max_global": 304.1127454224341,
+      "eta_mean_global": 3.058603485300434,
+      "top_element": {
+        "eid": 2,
+        "cx": 0.6514099836666666,
+        "cy": 0.4968267083333333,
+        "damage": 0.03506762906908989,
+        "miseseri": 238.5620574951172,
+        "misesavg": 1458.0950927734375,
+        "eta_percent": 16.361213934363438
+      },
+      "pearson_r_damage_vs_miseseri": 0.5842542508147027,
+      "pearson_r_damage_vs_eta": -0.017561164060752442,
+      "ligaments": {
+        "L1_left_to_h1": {
+          "num_elements": 185,
+          "damage_max": 0.043214138597249985,
+          "damage_mean": 0.014153308591906081,
+          "miseseri_max": 93.0980224609375,
+          "miseseri_mean": 29.25504447318412,
+          "eta_max_percent": 304.1127454224341,
+          "eta_mean_percent": 7.905877390426463
+        },
+        "L2_h1_to_h2": {
+          "num_elements": 165,
+          "damage_max": 0.04206904396414757,
+          "damage_mean": 0.012196583833517224,
+          "miseseri_max": 169.82003784179688,
+          "miseseri_mean": 44.99395745595296,
+          "eta_max_percent": 78.2222410386478,
+          "eta_mean_percent": 8.59379235722886
+        },
+        "L3_h3_to_h4_narrowest": {
+          "num_elements": 12,
+          "damage_max": 0.06962283700704575,
+          "damage_mean": 0.045164697260285415,
+          "miseseri_max": 238.5620574951172,
+          "miseseri_mean": 164.77800114949545,
+          "eta_max_percent": 29.449255096625215,
+          "eta_mean_percent": 12.56152236685278
+        },
+        "L4_h4_to_right": {
+          "num_elements": 171,
+          "damage_max": 0.048311419785022736,
+          "damage_mean": 0.012939345769819732,
+          "miseseri_max": 175.9838409423828,
+          "miseseri_mean": 42.52235132072404,
+          "eta_max_percent": 301.2310079035214,
+          "eta_mean_percent": 11.13676167083915
+        },
+        "bulk": {
+          "num_elements": 2214,
+          "damage_max": 0.05066395550966263,
+          "damage_mean": 0.005386132195749882,
+          "miseseri_max": 209.68753051757812,
+          "miseseri_mean": 7.172894656664903,
+          "eta_max_percent": 114.4088741109484,
+          "eta_mean_percent": 1.5656261083256127
+        }
+      }
+    },
+    "STATE2": {
+      "desc": "Early Localization (uy=0.004965 mm)",
+      "uy_mm": 0.004964843858033419,
+      "d_max_global": 0.1595277190208435,
+      "d_mean_global": 0.013977237110085765,
+      "miseseri_max_global": 375.6968994140625,
+      "miseseri_mean_global": 18.974972720542386,
+      "eta_max_global": 302.22691912294295,
+      "eta_mean_global": 3.0506322467371243,
+      "top_element": {
+        "eid": 2,
+        "cx": 0.6514099836666666,
+        "cy": 0.4968267083333333,
+        "damage": 0.07574529945850372,
+        "miseseri": 375.6968994140625,
+        "misesavg": 2032.5594482421875,
+        "eta_percent": 18.483931662563442
+      },
+      "pearson_r_damage_vs_miseseri": 0.564043535409458,
+      "pearson_r_damage_vs_eta": -0.015880725528253255,
+      "ligaments": {
+        "L1_left_to_h1": {
+          "num_elements": 185,
+          "damage_max": 0.09061791747808456,
+          "damage_mean": 0.02890163117695625,
+          "miseseri_max": 121.32891845703125,
+          "miseseri_mean": 40.05479538118517,
+          "eta_max_percent": 302.22691912294295,
+          "eta_mean_percent": 7.8508738798073825
+        },
+        "L2_h1_to_h2": {
+          "num_elements": 165,
+          "damage_max": 0.09101434797048569,
+          "damage_mean": 0.025061070905984237,
+          "miseseri_max": 231.7498321533203,
+          "miseseri_mean": 61.504184092897354,
+          "eta_max_percent": 79.35677353289962,
+          "eta_mean_percent": 8.550822744058989
+        },
+        "L3_h3_to_h4_narrowest": {
+          "num_elements": 12,
+          "damage_max": 0.1595277190208435,
+          "damage_mean": 0.10025127697736025,
+          "miseseri_max": 375.6968994140625,
+          "miseseri_mean": 212.5951239267985,
+          "eta_max_percent": 28.291017780743328,
+          "eta_mean_percent": 12.02659295508152
+        },
+        "L4_h4_to_right": {
+          "num_elements": 171,
+          "damage_max": 0.10368788242340088,
+          "damage_mean": 0.026552207435056437,
+          "miseseri_max": 242.60406494140625,
+          "miseseri_mean": 58.1578561018782,
+          "eta_max_percent": 302.0641064031142,
+          "eta_mean_percent": 11.085363023839076
+        },
+        "bulk": {
+          "num_elements": 2214,
+          "damage_max": 0.10655810683965683,
+          "damage_mean": 0.010465288653594543,
+          "miseseri_max": 258.00445556640625,
+          "miseseri_mean": 9.968287110180604,
+          "eta_max_percent": 112.46324571980975,
+          "eta_mean_percent": 1.5704034185706057
+        }
+      }
+    },
+    "STATE3": {
+      "desc": "Advanced Softening (uy=0.006200 mm)",
+      "uy_mm": 0.006200000178068876,
+      "d_max_global": 0.33591794967651367,
+      "d_mean_global": 0.021492866880147597,
+      "miseseri_max_global": 457.17059326171875,
+      "miseseri_mean_global": 22.557701094042812,
+      "eta_max_global": 302.8462460127735,
+      "eta_mean_global": 3.0526924754331772,
+      "top_element": {
+        "eid": 2,
+        "cx": 0.6514099836666666,
+        "cy": 0.4968267083333333,
+        "damage": 0.13225845992565155,
+        "miseseri": 457.17059326171875,
+        "misesavg": 2324.864990234375,
+        "eta_percent": 19.664393209157076
+      },
+      "pearson_r_damage_vs_miseseri": 0.51882951003914,
+      "pearson_r_damage_vs_eta": -0.013753428284376234,
+      "ligaments": {
+        "L1_left_to_h1": {
+          "num_elements": 185,
+          "damage_max": 0.1497916281223297,
+          "damage_mean": 0.04599043586483301,
+          "miseseri_max": 145.4612579345703,
+          "miseseri_mean": 47.747990029567,
+          "eta_max_percent": 300.4197261973031,
+          "eta_mean_percent": 7.93558651367955
+        },
+        "L2_h1_to_h2": {
+          "num_elements": 165,
+          "damage_max": 0.16103357076644897,
+          "damage_mean": 0.04063218644516768,
+          "miseseri_max": 259.507080078125,
+          "miseseri_mean": 73.53060883030747,
+          "eta_max_percent": 83.41303701017355,
+          "eta_mean_percent": 8.488346984775658
+        },
+        "L3_h3_to_h4_narrowest": {
+          "num_elements": 12,
+          "damage_max": 0.33591794967651367,
+          "damage_mean": 0.19342646033813557,
+          "miseseri_max": 457.17059326171875,
+          "miseseri_mean": 218.47040812174478,
+          "eta_max_percent": 26.630304881022138,
+          "eta_mean_percent": 11.168137733098694
+        },
+        "L4_h4_to_right": {
+          "num_elements": 171,
+          "damage_max": 0.17939598858356476,
+          "damage_mean": 0.042896248212653317,
+          "miseseri_max": 302.3831481933594,
+          "miseseri_mean": 67.6571345636022,
+          "eta_max_percent": 302.8462460127735,
+          "eta_mean_percent": 10.946139651229865
+        },
+        "bulk": {
+          "num_elements": 2214,
+          "damage_max": 0.17571477591991425,
+          "damage_mean": 0.015434502237080996,
+          "miseseri_max": 290.3388671875,
+          "miseseri_mean": 12.108880481042487,
+          "eta_max_percent": 100.72490194600493,
+          "eta_mean_percent": 1.5859430620319541
+        }
+      }
+    },
+    "STATE4": {
+      "desc": "Peak Softening / Bridging (uy=0.006451 mm)",
+      "uy_mm": 0.0064514135010540485,
+      "d_max_global": 0.525212824344635,
+      "d_mean_global": 0.02344433998545475,
+      "miseseri_max_global": 426.91510009765625,
+      "miseseri_mean_global": 23.313074913943165,
+      "eta_max_global": 303.0708680247415,
+      "eta_mean_global": 3.0664380723137383,
+      "top_element": {
+        "eid": 2,
+        "cx": 0.6514099836666666,
+        "cy": 0.4968267083333333,
+        "damage": 0.15736357867717743,
+        "miseseri": 426.91510009765625,
+        "misesavg": 2030.6988525390625,
+        "eta_percent": 21.023063048657733
+      },
+      "pearson_r_damage_vs_miseseri": 0.4953238063065393,
+      "pearson_r_damage_vs_eta": -0.000681905196813889,
+      "ligaments": {
+        "L1_left_to_h1": {
+          "num_elements": 185,
+          "damage_max": 0.16520468890666962,
+          "damage_mean": 0.05009680080001016,
+          "miseseri_max": 137.13706970214844,
+          "miseseri_mean": 48.20811277337977,
+          "eta_max_percent": 302.1739288464563,
+          "eta_mean_percent": 7.8858153242921984
+        },
+        "L2_h1_to_h2": {
+          "num_elements": 165,
+          "damage_max": 0.19242940843105316,
+          "damage_mean": 0.0455761731609307,
+          "miseseri_max": 282.3661804199219,
+          "miseseri_mean": 77.99745505361847,
+          "eta_max_percent": 84.07937423647995,
+          "eta_mean_percent": 8.534809370718133
+        },
+        "L3_h3_to_h4_narrowest": {
+          "num_elements": 12,
+          "damage_max": 0.525212824344635,
+          "damage_mean": 0.27228822000324726,
+          "miseseri_max": 426.91510009765625,
+          "miseseri_mean": 207.1627572377523,
+          "eta_max_percent": 25.503937818944344,
+          "eta_mean_percent": 12.397954435649957
+        },
+        "L4_h4_to_right": {
+          "num_elements": 171,
+          "damage_max": 0.20622670650482178,
+          "damage_mean": 0.047792484894618174,
+          "miseseri_max": 314.69708251953125,
+          "miseseri_mean": 70.24955732222887,
+          "eta_max_percent": 303.0708680247415,
+          "eta_mean_percent": 10.655195895498858
+        },
+        "bulk": {
+          "num_elements": 2214,
+          "damage_max": 0.216994047164917,
+          "damage_mean": 0.016338596053961194,
+          "miseseri_max": 279.2229309082031,
+          "miseseri_mean": 12.535821342694405,
+          "eta_max_percent": 91.78279070598714,
+          "eta_mean_percent": 1.6194995718722618
+        }
+      }
+    }
+  },
+  "proportionality_check": {
+    "STATE2": {
+      "theoretical_ratio": 21000000000000.0,
+      "measured_mean_ratio": 20999999996004.125,
+      "max_delta_eta_percent": 2.9201371489762096e-05,
+      "scale_invariance_verified": true
+    },
+    "STATE3": {
+      "theoretical_ratio": 21000000000000.0,
+      "measured_mean_ratio": 21000000009986.863,
+      "max_delta_eta_percent": 9.634764126076334e-06,
+      "scale_invariance_verified": true
+    }
+  }
+}

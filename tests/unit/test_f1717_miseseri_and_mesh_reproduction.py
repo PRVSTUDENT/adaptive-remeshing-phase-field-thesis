@@ -209,7 +209,11 @@ class TestF1717StrictStopGateAndCodeIntegrity:
         active_task_path = os.path.join(REPO_ROOT, "project_coordination", "ACTIVE_TASK.json")
         with open(active_task_path, "r") as f:
             task = json.load(f)
-        assert task["task_id"] in ["F1717-FIVE-HOLE-MISESERI-LOCALIZATION-AND-FIG23B", "F1718-TRANSFER-SEC43-STRESS-RECOVERY-TO-FIVE-HOLE"]
+        assert task["task_id"] in [
+            "F1717-FIVE-HOLE-MISESERI-LOCALIZATION-AND-FIG23B",
+            "F1718-TRANSFER-SEC43-STRESS-RECOVERY-TO-FIVE-HOLE",
+            "F1719-COARSE-PHASE-FIELD-MISESERI-REMESH-FIVE-HOLE"
+        ]
         assert task["max_new_pbs_submissions"] == 0, "Stop gate violated: max_new_pbs_submissions must be 0"
         assert task["submissions_consumed"] == 0, "Stop gate violated: submissions_consumed must be 0"
         assert task["active_pbs_job_id"] is None, "Stop gate violated: active_pbs_job_id must be None"

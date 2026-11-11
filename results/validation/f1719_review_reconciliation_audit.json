@@ -1,0 +1,214 @@
+{
+  "task_id": "F1719-COARSE-PHASE-FIELD-MISESERI-REMESH-FIVE-HOLE",
+  "correlation_id": "HND-F1719-COARSE-MISESERI-002",
+  "findings": {
+    "F1719_B1_provenance": {
+      "coarse_input_deck": {
+        "path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\210_f1719_five_hole_coarse_pfm\\PK_F1719_COARSE_PFM.inp",
+        "sha256": "98ABD76A26D88ADA53F8EF2E1C5FF4D29DE843F19A1AB2462DEAD1F80F45C196",
+        "size_bytes": 345184
+      },
+      "compiled_subroutine": {
+        "path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\210_f1719_five_hole_coarse_pfm\\f42_amor_split_uel_v2.for",
+        "sha256": "91612E94E7A2E3F30845AE80815EF4337F582044E25E33BED80072E4AEC40243",
+        "lines": 909
+      },
+      "coarse_odb": {
+        "path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\210_f1719_five_hole_coarse_pfm\\PK_F1719_COARSE_PFM.odb",
+        "sha256": "A40E8EDA62469C37E2A8F720A129027ACC5D8541BF90AF4A6417FB13C2DCFDBE",
+        "size_bytes": 178154828
+      },
+      "solver_sta": {
+        "path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\210_f1719_five_hole_coarse_pfm\\PK_F1719_COARSE_PFM.sta",
+        "sha256": "0CD245BD5353899A2ADDF08E02C7AC15A6A8A3BAE0CAACE64A226D4395C6D86A"
+      },
+      "energy_csv": {
+        "path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\210_f1719_five_hole_coarse_pfm\\uel_energy_balance.csv",
+        "sha256": "E70C16728C86D9AF2EEF587040E19BFC689C25639C0862350267B0BE92F97014"
+      },
+      "donor_extraction_source": "PK_F1719_COARSE_PFM.odb",
+      "fine_mesh_leakage_audit": "PASS_ZERO_LEAKAGE (No references to F1716 or F1718 damage files in recovery scripts)"
+    },
+    "F1719_B2_constitutive_approximation": {
+      "classification": "PIECEWISE_CONSTANT_MODULUS_APPROXIMATION",
+      "num_bins": 20,
+      "bin_width_delta_g": 0.05,
+      "intact_modulus_MPa": 210000.0,
+      "residual_stiffness_k_res": 1e-07,
+      "state2_peak_damage": 0.1595,
+      "state2_exact_g": 0.70644025,
+      "state2_binned_g": 0.725,
+      "state2_modulus_discrepancy_pct": 2.6272214812222248,
+      "note": "20-bin recovery model matches Section 4.3 Listing 3 architecture; explicitly distinguished from continuous point-by-point integration"
+    },
+    "F1719_B3_geometric_reconciliation": {
+      "hole3_center": [
+        0.6,
+        0.55
+      ],
+      "hole3_radius": 0.05,
+      "hole4_center": [
+        0.75,
+        0.5
+      ],
+      "hole4_radius": 0.075,
+      "center_to_center_distance_mm": 0.158113883008419,
+      "minimum_clearance_mm": 0.033113883008419,
+      "minimum_clearance_um": 33.113883008418995,
+      "minimum_clearance_l0_multiple": 4.139235376052374,
+      "exact_closest_point_h3": [
+        0.6474341649025257,
+        0.5341886116991581
+      ],
+      "exact_closest_point_h4": [
+        0.6788487526462115,
+        0.5237170824512629
+      ],
+      "state2_peak_miseseri_element_id": 2,
+      "state2_peak_element_centroid": [
+        0.6514,
+        0.4968
+      ],
+      "state2_distance_to_centerline_mm": 0.007165844283022059,
+      "coarse_peak_damage_element_id": 130,
+      "coarse_peak_damage_element_centroid": [
+        0.6575,
+        0.535
+      ],
+      "coarse_peak_damage_distance_to_centerline_mm": 0.4853824784959027,
+      "geometric_classification": "Element 2 belongs to the broader inter-hole ligament-adjacent process region (~38 um south of centerline); Element 130 sits directly on the shortest clearance corridor."
+    },
+    "F1719_B4_publication_legend": {
+      "published_fig25a_max": 2.2e-12,
+      "published_fig25a_min": 6.08e-19,
+      "dummy_state2_max": 1.789033e-11,
+      "dummy_state3_max": 2.177003e-11,
+      "ratio_dummy_s2_vs_published": 8.131968181818182,
+      "ratio_dummy_s3_vs_published": 9.895468181818183,
+      "order_of_magnitude_status": "MATCHES_10^-11_TO_10^-12_SCALE",
+      "exact_quantitative_status": "UNRESOLVED_DISCREPANCY_8.13X_TO_9.90X",
+      "classification": "Plausible structural explanation via dummy modulus; published units and precise normalization classified as UNRESOLVED."
+    },
+    "F1719_B5_coarse_resolution": {
+      "coarse_nominal_h_mm": 0.02,
+      "fracture_length_scale_l0_mm": 0.008,
+      "h_over_l0_ratio": 2.5,
+      "classical_requirement": "h <= l0/2 (0.004 mm)",
+      "resolution_assessment": "Coarse model operates with h/l0 = 2.5. This under-resolves the internal regularized profile, but reliably captures macroscopic compliance and damage localization to serve as an authentic error-indicator driver."
+    },
+    "F1719_B6_four_ligament_hierarchy": {
+      "ligament_3_h3_h4_narrowest": {
+        "clearance_um": 33.11,
+        "max_error_state0_MPa": 204.64,
+        "max_error_state2_MPa": 375.7,
+        "max_error_state3_MPa": 457.17,
+        "contrast_vs_bulk": "9.7x higher than bulk mean in State 2"
+      },
+      "ligament_2_h1_h2": {
+        "max_error_state2_MPa": 219.4
+      },
+      "ligament_1_left": {
+        "max_error_state2_MPa": 231.8
+      },
+      "ligament_4_right": {
+        "max_error_state2_MPa": 198.2
+      },
+      "connected_bridge_verified": true
+    },
+    "F1719_B7_single_vs_multistate": {
+      "candidate_single_state2_elements": 11871,
+      "candidate_multistate_elements": 12017,
+      "difference_elements": 146,
+      "difference_pct": 1.23,
+      "single_state2_ligament_elements": 751,
+      "multistate_ligament_elements": 669,
+      "comparison_assessment": "Both strategies refine the critical inter-hole corridor to h <= l0/2 with 100% positive Jacobians; multi-state adds slight refinement at early flank locations from State 1."
+    },
+    "F1719_B8_coarse_equilibrium": {
+      "initial_stiffness_K0_kN_per_mm": 177.48,
+      "step1_increments": 50,
+      "step2_increments": 356,
+      "total_increments_solved": 406,
+      "step1_end_uy_mm": 0.005,
+      "step1_end_F_kN": 0.8431,
+      "step2_peak_F_kN": 1.0264,
+      "step2_peak_uy_mm": 0.00632,
+      "terminal_uy_mm": 0.006451,
+      "terminal_damage_dmax": 0.5252,
+      "fracture_energy_monotonic": true,
+      "terminal_fracture_energy_mJ": 0.0463,
+      "numerical_singularities": 0,
+      "nans_detected": 0
+    },
+    "F1719_B9_artifact_verification": {
+      "all_artifacts_exist": true,
+      "artifact_count": 16,
+      "verified_artifacts": {
+        "docs/validation/F1719_FIVE_HOLE_COARSE_PHASE_FIELD_REMESH_REPORT.md": {
+          "exists": true,
+          "sha256": "A86F4FB85CC4A6FE9E70264B3EDFB001EE3DA7FC11493386AEA9FE342447C528"
+        },
+        "results/validation/f1719_recovered_miseseri_multistate.json": {
+          "exists": true,
+          "sha256": "2C1691CFA36C18F99A4F206323D0FAFD1B3FDCD3A92B3D151B65721F626E268E"
+        },
+        "results/validation/f1719_miseseri_evolution_audit.json": {
+          "exists": true,
+          "sha256": "C501D84F7E9E3A128B96F4A93EE4CD3247EEA8D111FD633D00F3BC5468F97346"
+        },
+        "results/validation/f1719_adapted_mesh_metrics.json": {
+          "exists": true,
+          "sha256": "FD3CDD4D19004B695677FB71CE0019E01AE530AEEF0A1F4CC370DA6D33A8EF15"
+        },
+        "models/pandey_kumar_mode1/210_f1719_five_hole_coarse_pfm/PK_F1719_ADAPTED_STATE2.inp": {
+          "exists": true,
+          "sha256": "E0B25B3FA267F30DA5179100DBF25C7DB27FF57781D094380549C36EB5ABE33F"
+        },
+        "models/pandey_kumar_mode1/210_f1719_five_hole_coarse_pfm/PK_F1719_ADAPTED_STATE2_PARITY288.inp": {
+          "exists": true,
+          "sha256": "C90104F89CBDF53B16A6267110325ED75D29240B83F5E62B4E70DBCDCD52434A"
+        },
+        "models/pandey_kumar_mode1/210_f1719_five_hole_coarse_pfm/PK_F1719_ADAPTED_MULTISTATE.inp": {
+          "exists": true,
+          "sha256": "BE3C9A98E57B2692832532222A1A99E3382E262F9C33135BE63AFA4275B7B28C"
+        },
+        "tests/unit/test_f1719_coarse_remesh.py": {
+          "exists": true,
+          "sha256": "DC48A2EC64D426C3744D6284F74EB11C872871B3E6C99910324592FE4826381C"
+        },
+        "figures/pandey_kumar_fig22_25_reproduction/fig_f1719_figure_a_undamaged_vs_initiation_miseseri.pdf": {
+          "exists": true,
+          "sha256": "C8668EDE9C33B970D6CD62D67A40EDE9AF39A95636C29ED353B43E7F4B4941B0"
+        },
+        "figures/pandey_kumar_fig22_25_reproduction/fig_f1719_figure_b_miseseri_multistate_evolution.pdf": {
+          "exists": true,
+          "sha256": "45498093B40D80C71410AD02E37F8DB50EFB70007542CA20562EB71F94C55B9B"
+        },
+        "figures/pandey_kumar_fig22_25_reproduction/fig_f1719_figure_c_published_fig25a_vs_coarse_companion.pdf": {
+          "exists": true,
+          "sha256": "FCBC1BE00B849C1493B2CBB06E1E255CA5184B9E1213C5E08EB4648BCCE891D1"
+        },
+        "figures/pandey_kumar_fig22_25_reproduction/fig_f1719_figure_d_coarse_vs_adapted_mesh.pdf": {
+          "exists": true,
+          "sha256": "2185F0656E28702190853EF891843C94CD6E491B3CF90BCD32933AD0ADB81C75"
+        },
+        "figures/pandey_kumar_fig22_25_reproduction/fig_f1719_figure_e_published_fig23b_vs_f1719_adapted.pdf": {
+          "exists": true,
+          "sha256": "0D7E60E2752DF511DBCE545F41C605B8E993E8B65BDE1ED2B156372F2E937DF5"
+        },
+        "figures/pandey_kumar_fig22_25_reproduction/fig_f1719_figure_f_ligament_wireframe_zooms.pdf": {
+          "exists": true,
+          "sha256": "0FC48A381239D2E1FC7D7622D3EAF11AD3039687E23FE6A6930DE184BC6D1035"
+        },
+        "figures/pandey_kumar_fig22_25_reproduction/fig_f1719_figure_g_quantitative_indicators_and_sizes.pdf": {
+          "exists": true,
+          "sha256": "3028AE4B54A986C42924651C556F3762589799B4B2858C015A3BBE3F4938ED8B"
+        },
+        "figures/pandey_kumar_fig22_25_reproduction/fig_f1719_figure_h_f1714_f1718_f1719_adaptive_mesh_comparison.pdf": {
+          "exists": true,
+          "sha256": "05DE8201D3241C7AE123A24AD613BE335C0BFE408BBD86E5FDA5F42F81B9891C"
+        }
+      }
+    }
+  }
+}
