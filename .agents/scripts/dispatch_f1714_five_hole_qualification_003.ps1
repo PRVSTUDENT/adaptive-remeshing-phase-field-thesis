@@ -90,7 +90,7 @@ A. Bitwise Provenance & Artifact Hashes:
    - PBS Submission Script: submit_M1_PK_F1714_JOB2_ADAPTED.pbs (SHA-256: 9540005C8F1AFEDA9A1D67C3212079D78B4759DD7B9D95FA4CBD74A2F25026C0).
    - Cluster Datacheck Receipt: M1_PK_F1714_AMOR_DATACHECK.dat (Exit Code 0, 0 errors, 8 warnings, CPU: 0.74s, Wallclock: 3s).
    - Cluster 1-Element Solve Receipt: PK_F1714_1ELEM_AMOR_TEST.dat (Exit Code 0, 0 errors, 6 warnings, CPU: 0.12s, Wallclock: 6s).
-   - GitHub Commit: 8be8019e (pushed to origin/main).
+   - GitHub Commit: 42db7ade (pushed to origin/main).
 
 B. Automated Test Telemetry (18/18 PASS in 0.101s):
    - tests/unit/test_amor_split_constitutive.py: 6/6 PASS.

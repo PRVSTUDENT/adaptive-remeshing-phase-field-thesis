@@ -1,27 +1,30 @@
 {
-  "task_id": "F1714-FIVE-HOLE-GENERALIZATION-BENCHMARK",
-  "title": "Five-Hole Generalization Benchmark: Pandey-Kumar (2025) Section 4.4 Figures 22-25 Reproduction, Arbitrary Multi-Hole Geometry Extension, and Constitutive Split Assessment",
+  "task_id": "F1715-REUSABLE-METHOD-A-FRAMEWORK",
+  "title": "Reusable Abaqus Phase-Field Adaptive-Remeshing Framework: Modularization, Input Validation, Deck Reconstruction, Indicator Sizing, Postprocessing, and Five-Hole Validation",
   "status": "IN_PROGRESS",
   "assigned_agent": "gemini-antigravity",
-  "handoff_id": "HND-F1714-FIVE-HOLE-BENCHMARK-001",
-  "checkpoint_artifact": "docs/validation/F1714_FIVE_HOLE_BENCHMARK_REPORT.md",
+  "handoff_id": "HND-F1715-METHOD-A-FRAMEWORK-001",
+  "checkpoint_artifact": "docs/user_guides/METHOD_A_FRAMEWORK_USER_GUIDE.md",
   "predecessor_task": {
-    "task_id": "F1713-NEW-END-TO-END-MODE1-ADAPTIVE-SIMULATION",
-    "checkpoint_artifact": "docs/validation/F1713_NUMERICAL_QUALIFICATION_REPORT.md",
-    "active_concurrent_job": "1422241.mmaster02"
+    "task_id": "F1714-FIVE-HOLE-GENERALIZATION-BENCHMARK",
+    "checkpoint_artifact": "docs/validation/F1714_FIVE_HOLE_BENCHMARK_REPORT.md",
+    "active_concurrent_job": "1422257.mmaster02"
   },
   "registration": {
-    "definition": "project_coordination/task_definitions/F1714-FIVE-HOLE-GENERALIZATION-BENCHMARK.json"
+    "definition": "project_coordination/task_definitions/F1715-REUSABLE-METHOD-A-FRAMEWORK.json"
   },
-  "scientific_operation": "five_hole_generalization_benchmark",
-  "scientific_operation_id": "f1714_five_hole_generalization_benchmark",
+  "scientific_operation": "reusable_method_a_framework_and_five_hole_validation",
+  "scientific_operation_id": "f1715_reusable_method_a_framework",
   "scientific_checkpoint_required": true,
-  "max_new_pbs_submissions": 1,
-  "submissions_consumed": 1,
+  "max_new_pbs_submissions": 0,
+  "submissions_consumed": 0,
   "active_pbs_job_id": "1422257.mmaster02",
   "pbs_job_status": "RUNNING",
   "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_f1714_five_hole",
   "completed_operations": [
+    "f1715_objective_a_framework_implementation_and_unit_tests",
+    "f1715_review_hnd_f1715_method_a_framework_001_approved",
+    "f1714_five_hole_generalization_benchmark_running",
     "f1713_new_end_to_end_mode1_adaptive_simulation_running",
     "f1712_mode1_figures5_6_reproduction_and_generalization",
     "f1711_clean_mesh_only_adaptive_remesh_visualization",

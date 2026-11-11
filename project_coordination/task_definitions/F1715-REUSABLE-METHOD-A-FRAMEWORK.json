@@ -1,0 +1,34 @@
+{
+  "task_id": "F1715-REUSABLE-METHOD-A-FRAMEWORK",
+  "title": "Reusable Abaqus Phase-Field Adaptive-Remeshing Framework: Modularization, Input Validation, Deck Reconstruction, Indicator Sizing, Postprocessing, and Five-Hole Validation",
+  "protocol_version": 2,
+  "assigned_agent": "gemini-antigravity",
+  "started_at": "2026-11-11T05:30:00+01:00",
+  "starting_commit": "bb16c519",
+  "predecessor": {
+    "task_id": "F1714-FIVE-HOLE-GENERALIZATION-BENCHMARK",
+    "checkpoint_artifact": "docs/validation/F1714_FIVE_HOLE_BENCHMARK_REPORT.md",
+    "active_concurrent_job": "1422257.mmaster02"
+  },
+  "objectives": [
+    "Objective A: Develop a configurable, modular, reusable Python-Abaqus framework (scripts/method_a_framework/) supporting 2D continuum meshes, automatic MISESERI indicator calculation, 3-layer UEL production deck reconstruction, postprocessing, and visualization.",
+    "Objective A.1: Validate parameter schemas, physical bounds (E > 0, nu in (-1, 0.5), Gc > 0, l0 > 0, h_min < h_max, h_min <= l0/2), and JSON configuration persistence.",
+    "Objective A.2: Implement 2D continuum parser (CPE4/CPE3), aspect ratio and det(J) > 0 Jacobian auditing, boundary set detection, and diagnostic rejection of 3D/1D elements.",
+    "Objective A.3: Implement Superconvergent Patch Recovery (SPR) stress jump error indicator extraction, eta_e calculation, and continuous sizing field model clamped to [h_min, h_max].",
+    "Objective A.4: Implement 3-layer UEL + UMAT production input deck reconstruction with wrapped *NSET lines (<= 16 entries/line) and master reference node equations.",
+    "Objective A.5: Implement postprocessing with bottom-boundary reaction force equilibrium (F_tensile = -sum_{N_BOTTOM} RF_{2,j}), external work integration, volume-integrated element energy assembly (SDV17/SDV18), and damage bounds auditing.",
+    "Objective A.6: Implement 300-DPI publication figure generation, publish user guide (docs/user_guides/METHOD_A_FRAMEWORK_USER_GUIDE.md), benchmark configurations (configs/method_a/), and comprehensive unit tests (tests/unit/test_method_a_framework.py).",
+    "Objective B: Complete scientific validation of running five-hole adaptive phase-field simulation (PBS Job 1422257.mmaster02), extract staged telemetry upon ODB unlock, and compare against published Pandey & Kumar (2025) Section 4.5 Figures 22-25."
+  ],
+  "governing_constraints": {
+    "preserve_f1714_execution": true,
+    "f1714_job_id": "1422257.mmaster02",
+    "preserve_f1713_execution": true,
+    "f1713_job_id": "1422241.mmaster02",
+    "no_unauthorized_pbs_submissions": true,
+    "max_new_pbs_submissions": 0,
+    "bitwise_preservation_canonical_uel": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "bitwise_preservation_amor_uel": "6778B6857C4ACC83EBBB1F921947E089BA09910C8E2361F62863DAE61F7491FF",
+    "keep_method_c_paused": true
+  }
+}

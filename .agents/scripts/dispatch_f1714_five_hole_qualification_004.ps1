@@ -101,6 +101,5 @@ With both damaged-state compiled-UEL behavior and nonlinear automatic cutback me
 '@
 
 Write-Host "Dispatching Task F1714 Round 4 Execution-Readiness Handoff across PAD bridge..." -ForegroundColor Cyan
-$bridgeResult = Invoke-ChatGPTBridge -ScientificReport $scientificReport -CorrelationId $handoffId -TaskId $taskId
-Write-Host "Bridge response received: status=$($bridgeResult.status)" -ForegroundColor Green
-$bridgeResult | Format-List
+$bridgeResult = Invoke-ChatGPTBridge -PromptText $scientificReport -HandoffId $handoffId
+Write-Host "Bridge Result: $bridgeResult"
