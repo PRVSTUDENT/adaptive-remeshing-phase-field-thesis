@@ -1,10 +1,11 @@
 {
   "task_id": "F1716-FIVE-HOLE-FAILURE-REPAIR-AND-PRODUCTION",
   "title": "Fix Five-Hole Phase-Field Failure, Validate Physical Loading, and Complete Multi-Core HPC Production Simulation",
-  "status": "IN_PROGRESS",
+  "status": "COMPLETED",
   "assigned_agent": "gemini-antigravity",
   "handoff_id": "HND-F1716-PROD-REVISION-R1-003",
-  "checkpoint_artifact": "docs/validation/F1716_JOB_1422402_INC2500_STEP_TIME_DIAGNOSIS.md",
+  "checkpoint_artifact": "docs/validation/F1716_FIVE_HOLE_PRODUCTION_REPORT.md",
+  "terminal_job_id": "1422420.mmaster02",
   "predecessor_task": {
     "task_id": "F1715-REUSABLE-METHOD-A-FRAMEWORK",
     "checkpoint_artifact": "docs/validation/F1714_FIVE_HOLE_BENCHMARK_REPORT.md",
@@ -18,8 +19,8 @@
   "scientific_checkpoint_required": true,
   "max_new_pbs_submissions": 1,
   "submissions_consumed": 1,
-  "active_pbs_job_id": "1422420.mmaster02",
-  "pbs_job_status": "RUNNING",
+  "active_pbs_job_id": null,
+  "pbs_job_status": "COMPLETED",
   "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_f1716_five_hole_production_r1",
   "completed_operations": [
     "f1715_reusable_method_a_framework_completed",
@@ -33,7 +34,14 @@
     "f1716_r1_step_time_repaired",
     "f1716_r1_cluster_datacheck_passed_exit0",
     "f1716_round3_review_approved",
-    "f1716_r1_production_job_submitted"
+    "f1716_r1_production_job_submitted",
+    "f1716_r1_step1_2000_incs_completed_exit0",
+    "f1716_r1_step2_fracture_propagation_actively_converging",
+    "f1716_r1_job_1422420_completed_2658_incs",
+    "f1716_telemetry_extracted_and_verified",
+    "f1716_5_publication_figures_generated",
+    "f1716_production_report_synthesized",
+    "f1716_thesis_chapter05_updated_and_compiled_323pp"
   ],
   "iteration": 3,
   "review_resolution": "APPROVE"

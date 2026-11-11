@@ -119,25 +119,41 @@ def extract_telemetry(odb_path, out_json):
                 max_damage = 0.0
                 elem_energies_extracted = False
 
-                if 'SDV' in frame.fieldOutputs:
-                    sdv_field = frame.fieldOutputs['SDV']
+                if 'SDV1' in frame.fieldOutputs:
+                    sdv1_field = frame.fieldOutputs['SDV1']
                     seen_elems = set()
-                    for v in sdv_field.values:
+                    for v in sdv1_field.values:
                         noel = v.elementLabel
                         if 26069 <= noel <= 39102:
                             phys_e = noel - 26068
                             if phys_e not in seen_elems:
                                 seen_elems.add(phys_e)
-                                if len(v.data) >= 18:
-                                    d_val = float(v.data[0])
-                                    e_frac = float(v.data[16])
-                                    e_elas = float(v.data[17])
-                                    total_e_frac += e_frac
-                                    total_e_elas += e_elas
-                                    if d_val > max_damage:
-                                        max_damage = d_val
-
+                                d_val = float(v.data)
+                                if d_val > max_damage:
+                                    max_damage = d_val
                     elem_energies_extracted = (len(seen_elems) == n_phys)
+
+                if 'SDV17' in frame.fieldOutputs:
+                    sdv17_field = frame.fieldOutputs['SDV17']
+                    seen_elems = set()
+                    for v in sdv17_field.values:
+                        noel = v.elementLabel
+                        if 26069 <= noel <= 39102:
+                            phys_e = noel - 26068
+                            if phys_e not in seen_elems:
+                                seen_elems.add(phys_e)
+                                total_e_frac += float(v.data)
+
+                if 'SDV18' in frame.fieldOutputs:
+                    sdv18_field = frame.fieldOutputs['SDV18']
+                    seen_elems = set()
+                    for v in sdv18_field.values:
+                        noel = v.elementLabel
+                        if 26069 <= noel <= 39102:
+                            phys_e = noel - 26068
+                            if phys_e not in seen_elems:
+                                seen_elems.add(phys_e)
+                                total_e_elas += float(v.data)
 
                 energy_history.append({
                     "step": sname,
@@ -152,6 +168,27 @@ def extract_telemetry(odb_path, out_json):
 
         print("Completed Step %s. Total FU history records: %d" % (sname, len(fu_history)))
 
+    # Milestone frames: also add peak load and terminal frame
+    if fu_history:
+        max_f_rec = max(fu_history, key=lambda r: r["tensile_force_kN"])
+        milestone_frames["state_peak_load"] = {
+            "step": max_f_rec["step"],
+            "frame_idx": max_f_rec["frame"],
+            "displacement_mm": max_f_rec["displacement_mm"],
+            "force_kN": max_f_rec["tensile_force_kN"],
+            "rf_rp_kN": max_f_rec["rf_rp_kN"],
+            "u_rp_mm": max_f_rec["u_rp_mm"]
+        }
+        last_rec = fu_history[-1]
+        milestone_frames["state_terminal"] = {
+            "step": last_rec["step"],
+            "frame_idx": last_rec["frame"],
+            "displacement_mm": last_rec["displacement_mm"],
+            "force_kN": last_rec["tensile_force_kN"],
+            "rf_rp_kN": last_rec["rf_rp_kN"],
+            "u_rp_mm": last_rec["u_rp_mm"]
+        }
+
     # 3. Full-field damage extraction for milestone frames
     damage_field_data = {}
     for mkey, minfo in milestone_frames.items():
@@ -161,14 +198,14 @@ def extract_telemetry(odb_path, out_json):
         print("Extracting full-field damage for milestone: %s (u = %.4f mm)..." % (mkey, minfo["displacement_mm"]))
 
         d_map = {}
-        if 'SDV' in frame.fieldOutputs:
-            sdv_field = frame.fieldOutputs['SDV']
+        if 'SDV1' in frame.fieldOutputs:
+            sdv_field = frame.fieldOutputs['SDV1']
             for v in sdv_field.values:
                 noel = v.elementLabel
                 if 26069 <= noel <= 39102:
                     phys_e = noel - 26068
                     if phys_e not in d_map:
-                        d_map[phys_e] = round(float(v.data[0]), 6)
+                        d_map[phys_e] = round(float(v.data), 6)
 
         damage_field_data[mkey] = {
             "displacement_mm": minfo["displacement_mm"],

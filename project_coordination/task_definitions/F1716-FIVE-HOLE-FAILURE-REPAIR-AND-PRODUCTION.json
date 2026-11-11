@@ -1,0 +1,29 @@
+{
+  "task_id": "F1716-FIVE-HOLE-FAILURE-REPAIR-AND-PRODUCTION",
+  "title": "Fix Five-Hole Phase-Field Failure, Validate Physical Loading, and Complete Multi-Core HPC Production Simulation",
+  "assigned_agent": "gemini-antigravity",
+  "predecessor_task": "F1715-REUSABLE-METHOD-A-FRAMEWORK",
+  "scientific_operation": "five_hole_failure_repair_pilot_and_multicore_production",
+  "scientific_operation_id": "f1716_five_hole_repair_and_production",
+  "scientific_checkpoint_required": true,
+  "max_new_pbs_submissions": 0,
+  "submissions_consumed": 0,
+  "phases": [
+    "phase1_preserve_evidence_and_investigate_failure",
+    "phase2_implement_and_verify_corrected_subroutine",
+    "phase3_controlled_physical_pilot",
+    "phase4_multicore_hpc_resource_qualification",
+    "phase5_qualify_and_execute_production_simulation",
+    "phase6_monitor_physical_progress",
+    "phase7_final_scientific_validation_and_reproduction",
+    "phase8_integrate_with_reusable_method_a_framework"
+  ],
+  "governing_rules": {
+    "preserve_evidence": true,
+    "no_blind_reruns": true,
+    "controlled_physical_pilot_required_before_production": true,
+    "bitwise_frozen_uel_canonical": true,
+    "separately_versioned_subroutine": true,
+    "once_only_hpc_accounting": true
+  }
+}

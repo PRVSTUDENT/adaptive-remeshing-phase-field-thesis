@@ -1,0 +1,106 @@
+*HEADING
+Task F1716: Controlled Physical Pilot with Kinematic MPC Equations & Reference Node
+Verification of f42_amor_split_uel_v2.for (Amor Split + Dummy Visualizer + SAVE Persistence)
+*USER ELEMENT, TYPE=U1, NODES=4, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM
+3
+*USER ELEMENT, TYPE=U2, NODES=4, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM
+1, 2
+*NODE
+1, 0.0, 0.0
+2, 0.5, 0.0
+3, 1.0, 0.0
+4, 0.0, 1.0
+5, 0.5, 1.0
+6, 1.0, 1.0
+100, 0.5, 1.0
+*NSET, NSET=N_BOTTOM
+1, 2, 3
+*NSET, NSET=N_TOP
+4, 5, 6
+*NSET, NSET=N_PIN
+1
+*NSET, NSET=N_RP
+100
+*ELEMENT, TYPE=U1, ELSET=PHASE_ELEM
+1, 1, 2, 5, 4
+2, 2, 3, 6, 5
+*ELEMENT, TYPE=U2, ELSET=MECH_ELEM
+3, 1, 2, 5, 4
+4, 2, 3, 6, 5
+*ELEMENT, TYPE=CPE4, ELSET=UMAT_ELEM
+5, 1, 2, 5, 4
+6, 2, 3, 6, 5
+*ELSET, ELSET=All_elem
+UMAT_ELEM
+*UEL PROPERTY, ELSET=PHASE_ELEM
+0.0080, 0.0027, 210.0, 0.30, 1.0e-7, 2.0
+*UEL PROPERTY, ELSET=MECH_ELEM
+0.0080, 0.0027, 210.0, 0.30, 1.0e-7, 2.0
+*SOLID SECTION, ELSET=UMAT_ELEM, MATERIAL=UMAT_MAT
+1.0
+*MATERIAL, NAME=UMAT_MAT
+*USER MATERIAL, CONSTANTS=3
+210.0, 0.30, 2.0
+*DEPVAR
+20
+*EQUATION
+2
+4, 2, 1.0, 100, 2, -1.0
+2
+5, 2, 1.0, 100, 2, -1.0
+2
+6, 2, 1.0, 100, 2, -1.0
+** ----------------------------------------------------------
+** STEP 1: Linear Elastic Tension via Reference Node (uy = 0.001 mm)
+** ----------------------------------------------------------
+*STEP, NAME=Elastic_Tension, NLGEOM=NO, INC=10
+*STATIC
+0.2, 1.0, 1.0e-5, 0.2
+*BOUNDARY
+N_BOTTOM, 2, 2, 0.0
+N_PIN, 1, 1, 0.0
+N_RP, 2, 2, 0.001
+*OUTPUT, FIELD, FREQUENCY=1
+*NODE OUTPUT, NSET=N_RP
+U, RF
+*NODE OUTPUT, NSET=N_BOTTOM
+U, RF
+*NODE OUTPUT, NSET=N_TOP
+U, RF
+*ELEMENT OUTPUT, ELSET=UMAT_ELEM
+SDV
+*NODE PRINT, FREQ=1, NSET=N_RP
+U2, RF2
+*NODE PRINT, FREQ=1, NSET=N_BOTTOM
+RF2
+*NODE PRINT, FREQ=1, NSET=N_TOP
+U2
+*EL PRINT, FREQ=1, ELSET=UMAT_ELEM
+SDV1, SDV2, SDV15, SDV17, SDV18
+*END STEP
+** ----------------------------------------------------------
+** STEP 2: Phase-Field Damage Nucleation (uy = 0.020 mm)
+** ----------------------------------------------------------
+*STEP, NAME=Damage_Nucleation, NLGEOM=NO, INC=20
+*STATIC
+0.1, 1.0, 1.0e-5, 0.1
+*BOUNDARY
+N_RP, 2, 2, 0.020
+*OUTPUT, FIELD, FREQUENCY=1
+*NODE OUTPUT, NSET=N_RP
+U, RF
+*NODE OUTPUT, NSET=N_BOTTOM
+U, RF
+*NODE OUTPUT, NSET=N_TOP
+U, RF
+*ELEMENT OUTPUT, ELSET=UMAT_ELEM
+SDV
+*NODE PRINT, FREQ=1, NSET=N_RP
+U2, RF2
+*NODE PRINT, FREQ=1, NSET=N_BOTTOM
+RF2
+*NODE PRINT, FREQ=1, NSET=N_TOP
+U2
+*EL PRINT, FREQ=1, ELSET=UMAT_ELEM
+SDV1, SDV2, SDV15, SDV17, SDV18
+*END STEP
