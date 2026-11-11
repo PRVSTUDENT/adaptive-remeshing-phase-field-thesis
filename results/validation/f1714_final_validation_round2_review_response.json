@@ -1,0 +1,68 @@
+﻿JSON
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1714-FINAL-VALIDATION-002",
+  "task_id": "F1714-FIVE-HOLE-GENERALIZATION-BENCHMARK",
+  "decision": "INSUFFICIENT_EVIDENCE",
+  "review_summary": "The read-only forensic audit substantially improves the evidence for F1714 and resolves important source-code interpretation questions. The reported element-energy calculations support interpreting SDV17 and SDV18 as volume-integrated energies rather than densities. The reference-node constraint topology and capacity-array summation defect are also documented. However, the exact causes of the observed NaN outputs remain incompletely demonstrated, and the production fracture simulation has not reached a verified terminal state. Final benchmark acceptance is therefore withheld. No additional PBS submission or production-code modification is authorized.",
+  "criteria": {
+    "C1": "PASS_REPORTED: Read-only verification of the existing PBS job and preservation of its execution state.",
+    "C2": "PASS_REPORTED: No production-job, ODB, UEL, or input-deck modifications.",
+    "C3": "PROVISIONAL_PASS: MISESERI extraction and relative-error normalization are documented, subject to confirming consistency with actual Abaqus output definitions.",
+    "C4": "PROVISIONAL_PASS: Native adaptive mesh generation and reported element-quality metrics are supported by the submitted evidence.",
+    "C5": "PROVISIONAL_PASS: Constitutive unit and compiled verification passed, but complete fracture-response validation remains pending.",
+    "C6": "PROVISIONAL_PASS: Figure generation and numerical provenance are reported; independent figure inspection remains pending.",
+    "C7": "UNRESOLVED: No verified terminal production result, complete force-displacement response, or final fracture morphology.",
+    "C8": "PARTIALLY_RESOLVED: The energy-variable definitions are clarified, but NaN causation, reaction-force recovery, and global energy balance still require numerical verification."
+  },
+  "technical_findings": [
+    {
+      "id": "RF_TOPOLOGY",
+      "finding": "The submitted input-deck evidence establishes that reference node 13276 has no direct element connectivity and is linked to the top boundary through linear constraint equations.",
+      "assessment": "ACCEPTED_AS_REPORTED"
+    },
+    {
+      "id": "RF_NAN_CAUSATION",
+      "finding": "Zero direct element connectivity does not establish that Abaqus must produce NaN reaction forces. Constraint equations can transmit forces to an independent reference degree of freedom. The submitted explanation does not prove why RF2 is NaN.",
+      "assessment": "NOT_PROVEN"
+    },
+    {
+      "id": "BOTTOM_REACTION_RECOVERY",
+      "finding": "Summing bottom-boundary vertical reactions is a physically appropriate candidate for recovering tensile force under quasistatic equilibrium, provided all external forces, constraints, relevant element contributions, and sign conventions are accounted for.",
+      "assessment": "CONDITIONALLY_ACCEPTED_PENDING_FINITE_VALUES_AND_EQUILIBRIUM_CHECK"
+    },
+    {
+      "id": "ENERGY_CSV",
+      "finding": "The reported accumulation loop iterates over 150000 capacity entries despite only 13034 active physical elements. This is a concrete implementation defect and a plausible explanation for NaN contamination. It does not by itself prove that unused entries contain NaN rather than zero or other values.",
+      "assessment": "DEFECT_SUPPORTED_CAUSATION_PROVISIONAL"
+    },
+    {
+      "id": "SDV_ENERGY",
+      "finding": "The reported UEL expressions integrate element energy densities using quadrature weights and Jacobians before storing results in SDV17 and SDV18. Their reported units of kN*mm are dimensionally consistent with energy. Summation must nevertheless use exactly one valid value per physical element, avoid repeated companion integration-point records, and verify element-label mapping.",
+      "assessment": "SOURCE_LEVEL_INTERPRETATION_ACCEPTED_POSTPROCESSING_PENDING"
+    },
+    {
+      "id": "MISESERI",
+      "finding": "The reported dimensional indicator and normalized error ratio are internally distinguishable. However, the exact recovered-stress error definition and interpretation of MISESERI/MISESAVG require confirmation against actual Abaqus field metadata or documented output definitions.",
+      "assessment": "PROVISIONAL"
+    },
+    {
+      "id": "WALLTIME",
+      "finding": "The reported remaining runtime is approximately equal to the available walltime. Successful completion before the existing limit is not established, particularly given possible nonlinear slowdown during fracture.",
+      "assessment": "COMPLETION_RISK_UNRESOLVED"
+    }
+  ],
+  "next_instruction": "Perform one bounded read-only terminal-status and scientific-evidence acquisition operation for F1714. First, query the authentic scheduler status of PBS 1422257.mmaster02 and preserve PBS 1422241.mmaster02 unchanged. If F1714 remains RUNNING, preserve the job and locked ODB without modification; record scheduler status, completed increments, elapsed walltime, and finite existing telemetry only. Do not extrapolate terminal success. If F1714 is TERMINAL, establish the actual termination reason using PBS accounting, Abaqus STA/MSG/DAT records, and exit evidence. Only after the ODB is unlocked, perform qualified read-only extraction of bottom-edge RF2, complete force-displacement data, damage evolution, and element energies SDV17/SDV18. Verify finite values, label mapping, integration-point deduplication, energy accounting, and physical equilibrium before claiming recovered force or energy histories. Specifically test the reference-node NaN hypothesis and unused-capacity NaN hypothesis against numerical or initialization evidence rather than treating either as proven. Produce one terminal-evidence report and a PASS/FAIL/UNRESOLVED scientific matrix with exact source paths, timestamps, solver results, and limitations. Preserve all existing files, the F1713 job evidence, and provenance. Submit the findings through the existing correlated PAD bridge for independent review. Do not modify the UEL, resubmit the job, alter walltime, or initiate replacement production execution.",
+  "execution_authorization": "READ_ONLY_STATUS_AND_CONDITIONAL_TERMINAL_POSTPROCESSING",
+  "pbs_submission_authorized": false,
+  "production_code_modification_authorized": false,
+  "benchmark_final_verdict": "UNRESOLVED",
+  "approval_conditions": [
+    "Authentic terminal scheduler and Abaqus evidence",
+    "Physically credible damage and crack evolution",
+    "Finite and independently checked reaction-force history",
+    "Correctly assembled and dimensionally consistent energy histories",
+    "Comparison against the relevant published benchmark",
+    "Documented numerical accuracy, limitations, and reproducibility"
+  ]
+}

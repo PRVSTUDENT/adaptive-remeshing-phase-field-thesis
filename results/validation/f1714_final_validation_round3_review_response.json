@@ -1,0 +1,59 @@
+﻿JSON
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1714-FINAL-VALIDATION-003",
+  "task_id": "F1714-FIVE-HOLE-GENERALIZATION-BENCHMARK",
+  "decision": "INSUFFICIENT_EVIDENCE",
+  "review_summary": "The reported F1714 simulation remains active at Step 2 increment 2724 of 5000, with 4724 total increments completed and no reported cutbacks. The mesh, constitutive tests, and postprocessing preparation are encouraging, but final physical fracture validation remains unavailable. The reaction-force and energy-output audits identify plausible recovery methods without conclusively establishing the causes of the observed NaNs. The staged extraction pipeline is not yet validated against completed F1714 ODB data. Preserve existing execution and proceed to terminal-result acquisition without new PBS submissions.",
+  "findings": {
+    "scheduler_and_solver": {
+      "status": "PASS_REPORTED",
+      "details": "PBS 1422257.mmaster02 was running at the recorded observation time. PBS 1422241.mmaster02 was preserved after a reported signal 11 failure in Step 2. No current terminal evidence for F1714 is supplied."
+    },
+    "mesh_and_indicator": {
+      "status": "PROVISIONAL_PASS",
+      "details": "The reported native Abaqus refinement produced 13034 elements with favorable quality metrics. The stress-error indicator localized around inter-hole ligaments. The exact MISESERI definition and normalization remain subject to output-metadata verification."
+    },
+    "constitutive_verification": {
+      "status": "PROVISIONAL_PASS",
+      "details": "The 6 material-point and 11 compiled verification tests support the Amor split implementation, but do not establish complete coupled fracture accuracy."
+    },
+    "reaction_force": {
+      "status": "UNRESOLVED",
+      "details": "The isolated reference-node topology and observed DAT NaN are documented. However, the proposed explanation that a reference node without direct continuum connectivity must produce NaN is not proven. Equation constraints can transmit reactions to independent degrees of freedom. Bottom-boundary RF2 summation is an appropriate candidate for tensile-force recovery, but requires finite-value checks and an equilibrium audit using actual solver output."
+    },
+    "energy_telemetry": {
+      "status": "PARTIALLY_RESOLVED",
+      "details": "The loop over 150000 capacity entries instead of 13034 physical elements is a documented defect. The absence of an explicit SAVE attribute does not prove that COMMON storage is uninitialized or contains NaNs. Named COMMON blocks have storage-duration and initialization behavior that must be established using actual declarations, initialization paths, compilation settings, and runtime evidence. The unused-capacity NaN hypothesis remains unverified."
+    },
+    "energy_state_variables": {
+      "status": "PROVISIONAL_PASS",
+      "details": "The reported quadrature expressions support treating SDV17 and SDV18 as volume-integrated element energies. The extractor must validate element indexing, output position, integration-point duplicates, completeness, and finite values. It must not blindly sum repeated field records."
+    },
+    "walltime_prediction": {
+      "status": "UNRESOLVED",
+      "details": "The estimated 59-minute margin assumes sustained throughput near 25 increments per minute. This is a conditional extrapolation, not verified completion headroom. Fracture initiation, output overhead, and nonlinear slowdown may increase runtime."
+    },
+    "postprocessing_pipeline": {
+      "status": "STAGED_NOT_PHYSICALLY_VALIDATED",
+      "details": "The extraction scripts are reportedly prepared, but successful extraction from the completed production ODB and independent checks of the extracted physical quantities have not yet been demonstrated."
+    },
+    "final_fracture_validation": {
+      "status": "UNRESOLVED",
+      "details": "Final crack trajectories, ligament interactions, load-displacement curves, damage irreversibility, and energy balance have not been verified."
+    }
+  },
+  "next_instruction": "Complete one bounded F1714 terminal-result acquisition and physical postprocessing operation. Query authentic PBS accounting and Abaqus STA/MSG/DAT evidence for job 1422257.mmaster02 and preserve F1713 job 1422241.mmaster02 unchanged. If F1714 is still RUNNING, preserve it, do not access the locked ODB, and record only a read-only status checkpoint without another speculative completion forecast. If F1714 is TERMINAL, determine whether it completed the prescribed displacement or ended through walltime, solver failure, or another interruption. Verify that no Abaqus process retains the ODB and that the database is stable before using the staged extractor. Run qualified read-only extraction with appropriate cluster resource controls, checking all actual output-position and label conventions. Recover bottom-boundary force from finite RF2 values and verify equilibrium and displacement sign conventions. Assemble SDV17 and SDV18 energies only after proving one valid physical-element contribution per frame; independently cross-check against available solver energy outputs. Extract damage at the proposed milestones and validate bounds, irreversibility, spatial crack evolution, and consistency with the constitutive model. Generate force-displacement, energy, damage, and crack-path evidence, compare with the published benchmark where comparable reference data exist, and document quantitative deviations. Do not modify production subroutines or decks, submit or restart Abaqus production jobs, cancel existing jobs, or modify the F1713 evidence. Produce one evidence-backed terminal validation report with PASS/FAIL/UNRESOLVED criteria and submit it through the existing correlated PAD bridge.",
+  "execution_authorization": "READ_ONLY_TERMINAL_EVIDENCE_AND_QUALIFIED_POSTPROCESSING",
+  "pbs_submission_authorized": false,
+  "production_code_modification_authorized": false,
+  "benchmark_final_verdict": "UNRESOLVED",
+  "approval_conditions": [
+    "Verified terminal scheduler and solver outcome",
+    "Finite and equilibrium-consistent force-displacement response",
+    "Correctly mapped and nonduplicated element energy histories",
+    "Physically credible irreversible fracture evolution",
+    "Quantitative comparison with published benchmark results",
+    "Preserved raw evidence, provenance, and reproducibility"
+  ]
+}

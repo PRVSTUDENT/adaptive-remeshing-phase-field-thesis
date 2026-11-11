@@ -1,0 +1,30 @@
+﻿JSON
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1714-FINAL-VALIDATION-001",
+  "task_id": "F1714-FIVE-HOLE-GENERALIZATION-BENCHMARK",
+  "decision": "INSUFFICIENT_EVIDENCE",
+  "review_summary": "The submitted evidence supports provisional acceptance of F1714 preprocessing, native Abaqus adaptive mesh generation, constitutive unit verification, and figure generation. It does not establish completed physical fracture validation. The production job was still running at the reported observation time, and force and energy diagnostics contain unresolved NaN values. No additional HPC execution is authorized by this review.",
+  "criteria": {
+    "C1": "PASS_REPORTED: Both PBS jobs were inspected. F1714 was running and F1713 had terminated with signal 11.",
+    "C2": "PASS_REPORTED: The active F1714 simulation was preserved without modification.",
+    "C3": "PROVISIONAL_PASS: MISESERI-driven localization was reported, but indicator provenance, units, and normalization should be reconciled before publication.",
+    "C4": "PROVISIONAL_PASS: The adapted mesh has 13034 physical elements, positive Jacobians, and favorable reported aspect ratios. Element-count parity alone does not establish fracture accuracy.",
+    "C5": "PROVISIONAL_PASS: Material-point and compiled constitutive tests passed. Full coupled fracture-response equivalence remains unverified.",
+    "C6": "PROVISIONAL_PASS: Five figure sets were reportedly generated from numerical mesh and field data. Independent visual inspection remains outstanding.",
+    "C7": "UNRESOLVED: Final damage evolution, crack paths, ligament interactions, force-displacement response, and fracture morphology are unavailable.",
+    "C8": "UNRESOLVED: Energy CSV totals and a reported reaction-force output contain NaN values. The suggested explanations are hypotheses until independently verified."
+  },
+  "critical_findings": [
+    "The explanation attributing RF2=NaN solely to an isolated equation-constrained reference node is not established. Verify constraint topology, reaction-force extraction, and global equilibrium before adopting bottom-edge reactions as the physical load response.",
+    "The capacity-array accumulation explanation for NaN energy totals is plausible but not demonstrated. Audit initialization, indexing, active element counts, and finite-value checks using preserved source and output evidence.",
+    "SDV17 and SDV18 must be checked for their actual definitions, integration or accumulation convention, and units before being interpreted as global fracture and elastic energies. Summing energy densities without appropriate volume integration would be invalid.",
+    "Zero cutbacks and one iteration per increment do not independently establish coupled phase-field convergence, thermodynamic consistency, or correct crack evolution.",
+    "MISESERI should be identified consistently as the recovered-stress discretization-error indicator. The reported dimensional values require verification against the extraction procedure and the normalized quantity used in the publication figure.",
+    "The reported 8-hour job walltime creates a completion risk because Step 2 was incomplete after approximately 5 hours 15 minutes. Do not modify, extend, cancel, or resubmit the active job under this review."
+  ],
+  "next_instruction": "Preserve both existing PBS job directories and the running F1714 job. Perform exactly one bounded read-only diagnostic: audit the existing F1714 reaction-force and energy-output pipelines using current source code, input-deck constraint definitions, CSV headers, SDV definitions, and already available solver records. Establish whether the NaN values arise from invalid extraction, uninitialized storage, numerical contamination, or an unresolved physical computation. Produce a concise evidence table containing exact file paths, source locations, relevant expressions, units, and independently reproducible checks. Do not open or modify the locked production ODB, alter the UEL, submit another job, or claim final benchmark validation. Report the diagnostic through the existing correlated PAD bridge for independent review.",
+  "execution_authorization": "READ_ONLY_DIAGNOSTIC_ONLY",
+  "pbs_submission_authorized": false,
+  "benchmark_final_verdict": "UNRESOLVED"
+}
