@@ -1,0 +1,95 @@
+﻿JSON
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1718-SEC43-TO-FIVE-HOLE-001",
+  "task_id": "F1718-TRANSFER-SEC43-STRESS-RECOVERY-TO-FIVE-HOLE",
+  "decision": "INSUFFICIENT_EVIDENCE",
+  "review_scope": "FIVE_HOLE_MISESERI_RECOVERY_AND_MESH_ONLY_VALIDATION",
+  "review_summary": "F1718 reports meaningful progress toward transferring the Section 4.3 stress-recovery and native adaptive-remeshing workflow to the five-hole benchmark. Three candidate meshes, finite recovered indicators, promising ligament resolution, and successful Abaqus adaptiveRemesh executions are reported. However, the submission does not establish that the reconstructed companion stresses reproduce the actual coupled UEL/UMAT pre-analysis, that the published Figure 25(a) localization has been quantitatively reproduced, or that physical-versus-dummy modulus scaling has been independently validated. The submitted F1718 artifacts were also not present in the independently checked GitHub main tree at commit 6a852b89207b2b9acce6e248ab550bb3e7fbdc08. Final scientific approval is withheld pending one bounded evidence-verification and figure-publication operation. No new simulations are authorized.",
+  "accepted_findings": {
+    "existing_framework_reuse": "PROVISIONAL_PASS: The reported workflow reuses the Section 4.3 stress-recovery and native Abaqus remeshing infrastructure rather than rebuilding it.",
+    "baseline_preservation": "PASS_REPORTED: The original 2747-element coarse mesh and 13034-element adapted mesh remain preserved.",
+    "native_remeshing": "PASS_REPORTED: Three candidate meshes were reportedly generated using Abaqus adaptiveRemesh.",
+    "candidate_element_counts": {
+      "primary_error_target_3_05_percent": 11859,
+      "parity_error_target_2_88_percent": 13341,
+      "dummy_modulus_error_target_3_05_percent": 11828,
+      "published_reference": 12944,
+      "previous_f1714_baseline": 13034
+    },
+    "candidate_mesh_quality": "PROVISIONAL_PASS: Positive Jacobians, favorable aspect ratios, and strong narrow-ligament refinement are reported.",
+    "full_fracture_stop_gate": "PASS_REPORTED: No new PBS production submissions or full fracture simulations.",
+    "frozen_source_preservation": "PASS_REPORTED: Canonical and corrected Amor UEL implementations remain unchanged.",
+    "regression_tests": "PASS_REPORTED: 36 of 36 software tests passed. These tests do not independently establish constitutive or publication equivalence."
+  },
+  "scientific_criteria": {
+    "E01_framework_portability": "PROVISIONAL_PASS",
+    "E02_actual_coupled_uel_umat_equivalence": "UNRESOLVED",
+    "E03_damage_state_provenance": "UNRESOLVED",
+    "E04_companion_stress_constitutive_consistency": "UNRESOLVED",
+    "E05_native_miseseri_provenance": "UNRESOLVED",
+    "E06_dimensional_indicator_reconciliation": "UNRESOLVED",
+    "E07_scale_invariance": "PARTIAL_PASS_MATHEMATICAL_ONLY",
+    "E08_directional_localization": "PARTIAL_PASS",
+    "E09_native_adaptive_remeshing": "PASS_REPORTED",
+    "E10_mesh_quality": "PROVISIONAL_PASS",
+    "E11_published_mesh_spatial_agreement": "UNRESOLVED",
+    "E12_artifact_accessibility": "FAIL_CURRENT_GITHUB_VERIFICATION",
+    "E13_full_phase_field_simulation": "NOT_IN_SCOPE"
+  },
+  "blocking_findings": [
+    {
+      "id": "F1718-B1",
+      "severity": "CRITICAL",
+      "finding": "The recovered companion model reportedly uses 20 degraded-elasticity bins and an early damage state with maximum d=0.1925 at uy=0.005 mm. This is not automatically equivalent to direct UEL/UMAT integration-point stress recovery. Establish the exact numerical origin of the damage field, its donor ODB, step, frame, interpolation method, and consistency with the five-hole UEL formulation. Independently assess stress discontinuities introduced by bin boundaries."
+    },
+    {
+      "id": "F1718-B2",
+      "severity": "HIGH",
+      "finding": "The claimed physical-versus-dummy stress scaling does not prove reproduction of the published Figure 25(a) magnitude. The reference indicator has a maximum of approximately 2.20e-12 with its physical units unresolved. Merely obtaining values of similar order is insufficient."
+    },
+    {
+      "id": "F1718-B3",
+      "severity": "HIGH",
+      "finding": "Exact equality of normalized MISESERI values under constant multiplication is mathematically expected. It does not independently validate the companion constitutive model or native Abaqus remeshing equivalence. The two reported 3.05% meshes contain 11859 and 11828 elements, respectively. Their 31-element difference contradicts any claim of identical final discretizations and requires a reproducibility explanation."
+    },
+    {
+      "id": "F1718-B4",
+      "severity": "HIGH",
+      "finding": "The published Figure 25(a) contains a directional band with prominent high-indicator regions toward the left and right inter-hole ligaments. Concentrating the five largest local errors near h3-h4 does not alone establish matching spatial localization. Compare all four ligaments using normalized, area-weighted regional metrics and matched geometry."
+    },
+    {
+      "id": "F1718-B5",
+      "severity": "HIGH",
+      "finding": "Element 316 was previously located at approximately (0.6377,0.5043) mm, outside the exact minimum-clearance segment between h3 and h4. Reconcile all reported peak-element coordinates before claiming that the five highest-error elements occupy the narrowest ligament."
+    },
+    {
+      "id": "F1718-B6",
+      "severity": "MEDIUM",
+      "finding": "The candidate mesh with 11859 elements differs from the published 12944-element mesh by 8.38%, while the 13341-element candidate differs by 3.07%. The previous 13034-element baseline was closer in element count. Selection of a new candidate must therefore be justified by spatial refinement quality, not claimed overall parity."
+    },
+    {
+      "id": "F1718-B7",
+      "severity": "HIGH",
+      "finding": "The submitted F1718 report, six figure sets, recovery scripts, and candidate mesh artifacts were not found in the independently inspected GitHub main tree. Reported local checksums and tests cannot substitute for inspection of the actual numerical and image artifacts."
+    }
+  ],
+  "required_verification": {
+    "stress_provenance": "Identify whether companion stresses were calculated by actual Abaqus UMAT integration-point updates, prescribed recovery-bin materials, or offline constitutive reconstruction. Document precisely which method was used.",
+    "damage_provenance": "Verify the origin, loading state, bounds, and spatial mapping of the reported d_max=0.1925 field.",
+    "indicator_provenance": "Provide original source ODB field metadata, MISESERI and MISESAVG output positions, element-label mapping, and source step/frame.",
+    "scale_comparison": "Demonstrate whether the physical and dummy fields are proportional element by element before claiming scale-invariant numerical equivalence.",
+    "spatial_comparison": "Compare regional indicator distributions, normalized ligament profiles, peak positions, and spatial concentration for the published and candidate indicators.",
+    "mesh_comparison": "Compare the baseline and both physical candidate meshes using actual element-size fields, refined-region overlap, and phase-field length-scale resolution.",
+    "figure_integrity": "Publish and verify all six F1718 PNG/PDF figure pairs, source scripts, metrics, and scientific report without altering the underlying numerical fields."
+  },
+  "next_instruction": "Perform exactly ONE bounded F1718 evidence-verification and artifact-publication closeout. Preserve all existing meshes, ODBs, source hashes, and generated numerical data. First, make the already generated F1718 report, source scripts, numerical JSON files, candidate mesh decks, and Figures A-F accessible through the existing authorized GitHub workflow, verifying their exact committed paths and hashes. Second, audit the actual provenance of the reported d_max=0.1925 donor state, the 20-bin companion stress reconstruction, and Abaqus MISESERI/MISESAVG outputs. State explicitly whether the result is a prescribed recovery approximation or a genuinely coupled UEL/UMAT pre-analysis; do not conflate them. Third, using existing saved numerical data only, test pointwise physical-to-dummy indicator proportionality, investigate the 11859-versus-11828 mesh discrepancy, reconcile peak-element coordinates, and quantify spatial localization across all four ligaments. Compare the published Figure 25(a) and Figure 23(b) against both the original F1714 baseline and new F1718 candidates. Present the actual images and a concise evidence-backed PASS/FAIL/UNRESOLVED matrix through the existing PAD bridge. If the available records cannot prove numerical equivalence, preserve the result as a promising candidate and explicitly classify the remaining issue as unresolved. Do not launch additional coarse Abaqus solves, adaptive-remeshing sweeps, PBS submissions, or full phase-field simulations. After figure publication and scientific classification, stop for user inspection rather than initiating another repeated review loop.",
+  "execution_authorization": "EXISTING_DATA_VERIFICATION_AND_ARTIFACT_PUBLICATION_ONLY",
+  "new_pbs_submissions_authorized": 0,
+  "new_abaqus_solves_authorized": false,
+  "new_adaptive_remeshing_runs_authorized": false,
+  "full_fracture_simulation_authorized": false,
+  "existing_candidate_meshes": "PRESERVE_ALL",
+  "final_scientific_verdict": "PROMISING_MESH_ONLY_RESULTS_WITH_COUPLED_INDICATOR_EQUIVALENCE_UNRESOLVED",
+  "user_review_gate": "PENDING_ACCESSIBLE_F1718_MISESERI_AND_ADAPTIVE_MESH_FIGURES"
+}

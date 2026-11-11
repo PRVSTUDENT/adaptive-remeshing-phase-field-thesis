@@ -1,0 +1,195 @@
+{
+  "task_id": "F1718-TRANSFER-SEC43-STRESS-RECOVERY-TO-FIVE-HOLE",
+  "audit_version": "1.0",
+  "pointwise_proportionality": {
+    "total_elements": 2747,
+    "theoretical_scale_ratio": 21000000000000.0,
+    "mean_measured_miseseri_ratio": 21000000003209.85,
+    "std_measured_miseseri_ratio": 748779.1555160382,
+    "max_abs_eta_difference_pct": 2.9364649435592582e-05,
+    "mean_abs_eta_difference_pct": 1.4011802240662382e-07,
+    "verdict": "VERIFIED_PROPORTIONAL_WITHIN_NUMERICAL_PRECISION"
+  },
+  "reconciled_peak_elements": [
+    {
+      "rank": 1,
+      "eid": 2,
+      "miseseri": 356.06475830078125,
+      "eta_pct": 17.643568146203265,
+      "centroid": [
+        0.6514099836666666,
+        0.4968267083333333
+      ],
+      "nearest_hole": "Hole4",
+      "dist_to_surface_um": 23.64107207755138,
+      "second_hole": "Hole3"
+    },
+    {
+      "rank": 2,
+      "eid": 4,
+      "miseseri": 326.9576110839844,
+      "eta_pct": 16.387357642749127,
+      "centroid": [
+        0.6628994743333334,
+        0.5509085260000001
+      ],
+      "nearest_hole": "Hole3",
+      "dist_to_surface_um": 12.906035409190636,
+      "second_hole": "Hole4"
+    },
+    {
+      "rank": 3,
+      "eid": 316,
+      "miseseri": 300.2086486816406,
+      "eta_pct": 27.696561452112878,
+      "centroid": [
+        0.637680903,
+        0.5042647197500001
+      ],
+      "nearest_hole": "Hole3",
+      "dist_to_surface_um": 9.258470368728283,
+      "second_hole": "Hole4"
+    },
+    {
+      "rank": 4,
+      "eid": 130,
+      "miseseri": 285.2837829589844,
+      "eta_pct": 10.624026888228922,
+      "centroid": [
+        0.65630881475,
+        0.5370577425
+      ],
+      "nearest_hole": "Hole3",
+      "dist_to_surface_um": 7.77702525871446,
+      "second_hole": "Hole4"
+    },
+    {
+      "rank": 5,
+      "eid": 351,
+      "miseseri": 262.7912902832031,
+      "eta_pct": 28.905756133113414,
+      "centroid": [
+        0.6365326045,
+        0.59696093175
+      ],
+      "nearest_hole": "Hole3",
+      "dist_to_surface_um": 9.497565516427448,
+      "second_hole": "Hole4"
+    },
+    {
+      "rank": 6,
+      "eid": 131,
+      "miseseri": 260.101806640625,
+      "eta_pct": 11.35064633705755,
+      "centroid": [
+        0.6567358225,
+        0.56422624
+      ],
+      "nearest_hole": "Hole3",
+      "dist_to_surface_um": 8.492217083036795,
+      "second_hole": "Hole4"
+    },
+    {
+      "rank": 7,
+      "eid": 15,
+      "miseseri": 255.78689575195312,
+      "eta_pct": 12.567500483110214,
+      "centroid": [
+        0.662334482,
+        0.49923679233333335
+      ],
+      "nearest_hole": "Hole4",
+      "dist_to_surface_um": 12.668840143752233,
+      "second_hole": "Hole3"
+    },
+    {
+      "rank": 8,
+      "eid": 1048,
+      "miseseri": 244.96905517578125,
+      "eta_pct": 64.11240832479727,
+      "centroid": [
+        0.78155411775,
+        0.57767322675
+      ],
+      "nearest_hole": "Hole4",
+      "dist_to_surface_um": 8.837894181198166,
+      "second_hole": "Hole3"
+    },
+    {
+      "rank": 9,
+      "eid": 317,
+      "miseseri": 233.15960693359375,
+      "eta_pct": 14.63508364947459,
+      "centroid": [
+        0.5359671562499999,
+        0.5757805705000001
+      ],
+      "nearest_hole": "Hole3",
+      "dist_to_surface_um": 19.027841441098204,
+      "second_hole": "Hole2"
+    },
+    {
+      "rank": 10,
+      "eid": 337,
+      "miseseri": 223.0405731201172,
+      "eta_pct": 20.991328022778625,
+      "centroid": [
+        0.56298588225,
+        0.5993134527499999
+      ],
+      "nearest_hole": "Hole3",
+      "dist_to_surface_um": 11.659237223122801,
+      "second_hole": "Hole4"
+    }
+  ],
+  "ligament_statistics": {
+    "Ligament_1 (Notch1 - Hole2)": {
+      "num_elements": 80,
+      "nominal_clearance_mm": 0.15355,
+      "max_miseseri_mpa": 119.18923950195312,
+      "mean_miseseri_mpa": 46.019174945354465,
+      "area_weighted_miseseri_mpa": 48.698825021008886,
+      "max_eta_pct": 8.060709161469308,
+      "mean_eta_pct": 3.3530732755919788,
+      "area_weighted_eta_pct": 3.5728670272888836
+    },
+    "Ligament_2 (Hole2 - Hole3)": {
+      "num_elements": 52,
+      "nominal_clearance_mm": 0.11926,
+      "max_miseseri_mpa": 206.65882873535156,
+      "mean_miseseri_mpa": 76.67992026989276,
+      "area_weighted_miseseri_mpa": 80.47108310416898,
+      "max_eta_pct": 21.333936930929585,
+      "mean_eta_pct": 5.713586193656184,
+      "area_weighted_eta_pct": 5.84955442735861
+    },
+    "Ligament_3 (Hole3 - Hole4)": {
+      "num_elements": 15,
+      "nominal_clearance_mm": 0.03311,
+      "max_miseseri_mpa": 356.06475830078125,
+      "mean_miseseri_mpa": 202.16129608154296,
+      "area_weighted_miseseri_mpa": 186.80960998989306,
+      "max_eta_pct": 27.696561452112878,
+      "mean_eta_pct": 11.535089234166072,
+      "area_weighted_eta_pct": 11.210664449681046
+    },
+    "Ligament_4 (Hole4 - Notch5)": {
+      "num_elements": 42,
+      "nominal_clearance_mm": 0.10495,
+      "max_miseseri_mpa": 166.23316955566406,
+      "mean_miseseri_mpa": 71.58979438600086,
+      "area_weighted_miseseri_mpa": 75.46254963455728,
+      "max_eta_pct": 11.636108237221816,
+      "mean_eta_pct": 4.794929515604828,
+      "area_weighted_eta_pct": 5.048405204111842
+    }
+  },
+  "mesh_discrepancy_31_elements": {
+    "count_physical": 11859,
+    "count_dummy": 11828,
+    "difference": 31,
+    "relative_difference_pct": 0.261,
+    "explanation": "Double-precision SPR sizing boundary floating-point perturbations during advancing-front Delaunay triangulation",
+    "verdict": "HIGH_EMPIRICAL_PARITY_NOT_BITWISE_IDENTITY"
+  }
+}

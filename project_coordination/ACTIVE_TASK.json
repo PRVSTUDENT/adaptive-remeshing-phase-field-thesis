@@ -1,20 +1,20 @@
 {
-  "task_id": "F1717-FIVE-HOLE-MISESERI-LOCALIZATION-AND-FIG23B",
-  "title": "Five-Hole MISESERI Localization and Figure 23(b) Adaptive-Mesh Reproduction — Mesh-Only Stop Gate",
+  "task_id": "F1718-TRANSFER-SEC43-STRESS-RECOVERY-TO-FIVE-HOLE",
+  "title": "Transfer Verified Section 4.3 UEL/UMAT Stress Recovery to Five-Hole Benchmark and Reproduce Figures 25(a) and 23(b) — Mesh-Only",
   "status": "COMPLETED",
   "assigned_agent": "gemini-antigravity",
-  "handoff_id": "HND-F1717-MISESERI-FIG23B-003",
-  "checkpoint_artifact": "docs/validation/F1717_MISESERI_AUDIT_AND_FIG23B_REPRODUCTION_REPORT.md",
+  "handoff_id": "HND-F1718-SEC43-TO-FIVE-HOLE-001",
+  "checkpoint_artifact": "docs/validation/F1718_FIVE_HOLE_UEL_STRESS_RECOVERY_REPORT.md",
   "predecessor_task": {
-    "task_id": "F1716-FIVE-HOLE-FAILURE-REPAIR-AND-PRODUCTION",
-    "checkpoint_artifact": "docs/validation/F1716_FIVE_HOLE_PRODUCTION_REPORT.md",
-    "terminal_job_id": "1422420.mmaster02"
+    "task_id": "F1717-FIVE-HOLE-MISESERI-LOCALIZATION-AND-FIG23B",
+    "checkpoint_artifact": "docs/validation/F1717_MISESERI_AUDIT_AND_FIG23B_REPRODUCTION_REPORT.md",
+    "terminal_job_id": null
   },
   "registration": {
-    "definition": "project_coordination/task_definitions/F1717-FIVE-HOLE-MISESERI-LOCALIZATION-AND-FIG23B.json"
+    "definition": "project_coordination/task_definitions/F1718-TRANSFER-SEC43-STRESS-RECOVERY-TO-FIVE-HOLE.json"
   },
-  "scientific_operation": "five_hole_miseseri_audit_and_figure23b_reproduction",
-  "scientific_operation_id": "f1717_miseseri_fig23b_mesh_only",
+  "scientific_operation": "transfer_sec43_stress_recovery_to_five_hole",
+  "scientific_operation_id": "f1718_five_hole_uel_stress_recovery",
   "scientific_checkpoint_required": true,
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
@@ -22,10 +22,16 @@
   "pbs_job_status": "NONE",
   "remote_run_dir": null,
   "completed_operations": [
-    "f1716_production_completed_and_reported",
-    "f1717_miseseri_legend_and_scale_reconciled",
-    "f1717_round3_review_closed"
+    "recover_section_4_3_stress_recovery_architecture",
+    "preserve_five_hole_baseline_data",
+    "formulate_and_solve_companion_models",
+    "extract_miseseri_fields_and_compare_scales",
+    "execute_native_adaptive_remeshing",
+    "audit_mesh_quality_and_process_zone_resolution",
+    "generate_publication_figures_a_through_f",
+    "independent_review_dispatch_and_audit_reconciliation",
+    "git_synchronization_and_artifact_publication"
   ],
-  "iteration": 3,
-  "review_resolution": "MESH_QUALITY_SUPPORTED_BUT_MISESERI_PUBLICATION_EQUIVALENCE_UNRESOLVED"
+  "iteration": 1,
+  "review_resolution": "PROMISING_MESH_ONLY_RESULTS_WITH_COUPLED_INDICATOR_EQUIVALENCE_UNRESOLVED"
 }
