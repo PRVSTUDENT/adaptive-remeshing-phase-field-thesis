@@ -1,0 +1,82 @@
+﻿JSON
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1716-PILOT-AND-PROD-QUAL-001",
+  "task_id": "F1716-FIVE-HOLE-FAILURE-REPAIR-AND-PRODUCTION",
+  "decision": "INSUFFICIENT_EVIDENCE",
+  "review_summary": "F1716 demonstrates substantial progress. The reported corrected Amor UEL v2, successful Abaqus pilot, finite reactions, nonzero damage evolution, serial/SMP parity, production datacheck, and 24-hour resource configuration provide encouraging technical evidence. However, the submitted record does not yet establish that the corrected physical loading and coupled phase-field behavior have been demonstrated on the exact five-hole production configuration. One targeted production-equivalence qualification is required before authorizing the expensive replacement simulation.",
+  "accepted_findings": {
+    "predecessor_failure": "PASS: The original F1714 job terminated at the eight-hour walltime limit and its recorded field outputs were physically invalid.",
+    "source_preservation": "PASS_REPORTED: Original canonical and Amor UEL sources remain frozen, with a separately versioned corrected implementation.",
+    "pilot_execution": "PASS_REPORTED: Serial and four-thread pilot simulations reached Exit Code 0, produced nonzero reaction forces, and exhibited evolving damage.",
+    "pilot_equilibrium": "PROVISIONAL_PASS: Reported top-versus-bottom reaction discrepancy is below 1e-6 kN.",
+    "parallel_consistency": "PROVISIONAL_PASS: Serial/SMP numerical parity is reported for the pilot. Production-scale thread safety and speedup remain unverified.",
+    "mesh_preservation": "PASS_REPORTED: The original 13034-element five-hole adaptive mesh is preserved.",
+    "production_datacheck": "PASS_REPORTED: Abaqus datacheck completed with zero errors and eight warnings requiring classification.",
+    "hpc_resources": "CONDITIONALLY_ACCEPTABLE: Four CPUs, 32 GB RAM and 24-hour walltime are reasonable requested resources, subject to live scheduler, licensing, memory, and execution-gate verification."
+  },
+  "blocking_findings": [
+    {
+      "id": "B1",
+      "severity": "CRITICAL",
+      "finding": "The pilot demonstrates physical loading with reference node 100, whereas the production configuration retains reference node 13276. The submission does not establish that the production constraint topology, reference-node reactions, and imposed displacement are equivalent to the successful pilot.",
+      "required_evidence": "Direct comparison of pilot and production boundary-condition definitions, equation-term ordering, dependent and independent degrees of freedom, and output requests."
+    },
+    {
+      "id": "B2",
+      "severity": "CRITICAL",
+      "finding": "The report describes the pilot as physically successful but does not establish whether it used the full 13034-element adapted five-hole mesh, all production element layers, the same loading conditions, and the exact production constitutive parameters.",
+      "required_evidence": "Explicit pilot-versus-production equivalence matrix and at least one actual corrected-production-deck load-bearing numerical checkpoint."
+    },
+    {
+      "id": "B3",
+      "severity": "HIGH",
+      "finding": "Clamping nonfinite phase-field state variables is not a substitute for identifying their origin. A NaN guard must reject or explicitly expose invalid state rather than silently replace it with a physically admissible value.",
+      "required_evidence": "Source-level verification that nonfinite values cannot be silently converted into apparently valid damage, history, stress, tangent, or energy outputs."
+    },
+    {
+      "id": "B4",
+      "severity": "HIGH",
+      "finding": "Serial/SMP output parity does not demonstrate a performance speedup. Shared COMMON state also requires a clear thread-safety and race-condition assessment.",
+      "required_evidence": "Actual elapsed-time comparison, relevant Abaqus parallelization settings, and source-level shared-state safety checks."
+    },
+    {
+      "id": "B5",
+      "severity": "HIGH",
+      "finding": "The production datacheck reports eight companion-element warnings without their exact messages or documented disposition.",
+      "required_evidence": "Exact warning texts and evidence that they cannot invalidate physical loading, numerical conditioning, material response, or field output."
+    },
+    {
+      "id": "B6",
+      "severity": "HIGH",
+      "finding": "The preflight explicitly reports compute delivery as UNRESOLVED. A verified technical preflight is not equivalent to a completed production submission gate.",
+      "required_evidence": "Successful notification qualification or an explicitly documented and independently accepted execution-gate resolution."
+    },
+    {
+      "id": "B7",
+      "severity": "HIGH",
+      "finding": "The reported predecessor root-cause explanation attributes memory corruption to missing SAVE statements in named COMMON blocks. That causal mechanism is not independently established by the supplied evidence.",
+      "required_evidence": "Retain the hypothesis as provisional unless supported by a controlled reproducer, initialization analysis, compiler evidence, or direct numerical isolation."
+    }
+  ],
+  "verified_artifact_identifiers_as_reported": {
+    "production_deck_sha256": "531278DE23FFA5C8AE524DC9733A910E83440FE791BA44CACB5101C68E6CC0F0",
+    "corrected_uel_sha256": "5596B9FE36E24D3D3766F1A2CF86AD04731F8A0898684F0D2FF6CE8F9C28AB35",
+    "pbs_script_sha256": "EACF123ADEAA204FFB5F861611B9FB41AB3FA2EC237BC1B7E278AD01764AB966",
+    "datacheck_sha256": "3D0C5C68C313C7CE3EE056B5A4ED0EDFF6CA4DDA8D8FA89B1725086BEA9006AE",
+    "authorization_manifest_sha256": "0D3F47A08EB541F4767B9ACB96D974E5AE2D6D2388600068903430AA25C598AB"
+  },
+  "next_instruction": "Perform one bounded F1716 production-equivalence qualification before submitting the 24-hour job. Using the exact staged production deck and corrected Amor v2 source, establish pilot-to-production equivalence for reference-node constraints, top and bottom boundary sets, element-layer mapping, material parameters, loading and output requests. Resolve the node-100 versus node-13276 discrepancy and classify all eight datacheck warnings. Verify that nonfinite state guards detect failures without silently fabricating admissible physics. Perform a short load-bearing numerical checkpoint on the exact production configuration, using the existing authorized execution mechanism and a separately qualified pilot allocation if PBS resources are required. Require finite actual top-boundary displacement, nonzero specimen strain and stress, finite reactions, top-bottom force equilibrium, finite SDV1/SDV17/SDV18, and nontrivial coupled response. Verify four-thread shared-state safety, document measured performance rather than assumed speedup, and resolve compute-notification eligibility. Preserve all original hashes and failed-job evidence; any necessary deck or source revision must receive new hashes and datacheck qualification. Return a concise evidence-backed PASS/FAIL matrix through the existing PAD bridge. Do not launch the full production job until these final blockers have passed and the normal independent execution gates have explicitly authorized one submission.",
+  "execution_authorization": "BOUNDED_PRODUCTION_EQUIVALENCE_QUALIFICATION_ONLY",
+  "full_production_submission_authorized": false,
+  "max_new_full_production_pbs_submissions": 0,
+  "requested_production_resources": {
+    "cpus": 4,
+    "memory_gb": 32,
+    "walltime_hours": 24,
+    "parallelization": "SMP_THREADS",
+    "status": "CONDITIONALLY_ACCEPTABLE_NOT_YET_AUTHORIZED"
+  },
+  "final_scientific_verdict": "PRODUCTION_NOT_YET_QUALIFIED",
+  "approval_condition": "Demonstrate finite, genuinely load-bearing, coupled phase-field behavior using the exact corrected five-hole production configuration and resolve all remaining execution blockers."
+}

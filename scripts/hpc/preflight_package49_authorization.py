@@ -29,7 +29,7 @@ def run_shell(body, expected_status=0):
 
 def check(payload):
     global RUN
-    if payload.get('batch', {}).get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1', 'mode1-continuum-preanalysis-v1', 'mode1-pdas-iterative-v1', 'mode1-experimental-irrev-v1', 'mode1-experimental-12dof-v1', 'mode1-experimental-staggered-v1', 'mode1-five-hole-amor-v1', 'five-hole-qualified-batch-v1'):
+    if payload.get('batch', {}).get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1', 'mode1-continuum-preanalysis-v1', 'mode1-pdas-iterative-v1', 'mode1-experimental-irrev-v1', 'mode1-experimental-12dof-v1', 'mode1-experimental-staggered-v1', 'mode1-five-hole-amor-v1', 'mode1-five-hole-amor-v2', 'five-hole-qualified-batch-v1'):
         target=payload['batch'].get('remote_run_dir','')
         require(re.fullmatch(r'/scratch9/pr21vyci/runs/mode1_[a-z0-9_/]+',target) and '..' not in target, 'Unsafe Mode-I scratch path')
         RUN=Path(target)
@@ -74,13 +74,19 @@ def check(payload):
         pbs_path = RUN / job['pbs']
         require(pbs_path.is_file(), 'Missing PBS script: ' + job['pbs'])
         text = pbs_path.read_text()
-        for directive in ['#PBS -q entry_imfdfkmq', '#PBS -m abe',
-                          '#PBS -M pr21vyci@mailserver.tu-freiberg.de',
-                          '#PBS -l select=1:ncpus=1:mem='+str(job['memory_gb'])+'gb',
-                          '#PBS -l walltime='+str(job['walltime_hours']).zfill(2)+':00:00',
-                          '#PBS -r n', 'cd "${RUN_DIR}"', 'notification_load_config', 'command -v ifort',
-                          'module load gcc/11.4.0 intel/2024.2.0 abaqus/2023',
-                          'notification_install_terminal_trap', 'notify_start']:
+        cpus = job.get('cpus', 1)
+        if cpus == 1:
+            select_directive = '#PBS -l select=1:ncpus=1:mem='+str(job['memory_gb'])+'gb'
+        else:
+            select_directive = '#PBS -l select=1:ncpus='+str(cpus)+':mpiprocs=1:ompthreads='+str(cpus)+':mem='+str(job['memory_gb'])+'gb'
+        directives = ['#PBS -q entry_imfdfkmq', '#PBS -m abe',
+                      '#PBS -M pr21vyci@mailserver.tu-freiberg.de',
+                      select_directive,
+                      '#PBS -l walltime='+str(job['walltime_hours']).zfill(2)+':00:00',
+                      '#PBS -r n', 'cd "${RUN_DIR}"', 'notification_load_config', 'command -v ifort',
+                      'module load gcc/11.4.0 intel/2024.2.0 abaqus/2023',
+                      'notification_install_terminal_trap', 'notify_start']
+        for directive in directives:
             require(directive in text, 'Batch PBS contract missing: ' + job['pbs'])
         require(subprocess.call(['bash', '-n', str(pbs_path)]) == 0,
                 'Batch PBS syntax failure: ' + job['pbs'])

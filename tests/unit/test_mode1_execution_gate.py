@@ -166,5 +166,23 @@ class ExecutionGateTests(unittest.TestCase):
   self.batch=fh_batch
   self.refresh()
   with self.assertRaisesRegex(ValueError,'Versioned Amor UEL'):self.prepare()
+ def test_five_hole_amor_v2_configuration_allowed(self):
+  fh_batch=copy.deepcopy(self.batch)
+  fh_batch['adapter']='mode1-five-hole-amor-v2'
+  fh_batch['scientific_scope']='FIVE_HOLE'
+  fh_batch['technical_stage']='FIVE_HOLE_AMOR'
+  fh_batch['jobs'][0]['cpus']=4
+  fh_batch['jobs'][0]['memory_gb']=32
+  fh_batch['jobs'][0]['walltime_hours']=24
+  fh_batch['jobs'][0]['execution']='shared-memory SMP'
+  del fh_batch['files']['f42_mixed_uel.for']
+  amor_v2_content=(ROOT/'models/pandey_kumar_mode1/208_f1716_five_hole_production/f42_amor_split_uel_v2.for').read_bytes()
+  (self.path.parent/'f42_amor_split_uel_v2.for').write_bytes(amor_v2_content)
+  fh_batch['files']['f42_amor_split_uel_v2.for']=engine.digest(amor_v2_content)
+  self.batch=fh_batch
+  self.refresh()
+  self.prepare()
+  engine.reserve(self.batch['jobs'][0]['command'],self.root)
+  self.assertEqual(engine.status(self.key,self.root)['attempts']['equil_test'],1)
 
 if __name__=='__main__':unittest.main()

@@ -1,0 +1,62 @@
+﻿JSON
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1716-PILOT-AND-PROD-QUAL-002",
+  "task_id": "F1716-FIVE-HOLE-FAILURE-REPAIR-AND-PRODUCTION",
+  "decision": "APPROVE",
+  "review_scope": "SCIENTIFIC_AND_TECHNICAL_PRODUCTION_QUALIFICATION",
+  "review_summary": "The second F1716 submission provides sufficient reported numerical evidence to accept the corrected five-hole configuration for one governed production execution. The decisive improvement is the successful 21-increment, four-thread Abaqus checkpoint using the complete 13034-physical-element mesh, 39102 layered elements, and production reference node 13276. The reported finite displacement, nonzero tensile reactions, excellent top-bottom force equilibrium, finite elastic and fracture energies, and successful solver convergence address the main blockers from review round 1. This approval concerns production readiness, not final fracture validation. The reported COMMON-block root-cause explanation and universal SMP thread-safety claims remain more definitive than the evidence supports.",
+  "criteria": {
+    "B1_reference_node_and_constraints": "PASS: Actual full-mesh checkpoint verified finite displacement and nonzero reaction force at reference node 13276.",
+    "B2_production_equivalent_checkpoint": "PASS: The reported checkpoint used the complete adapted five-hole discretization, production constraint topology, and four-thread execution. Full fracture evolution remains untested.",
+    "B3_nonfinite_state_protection": "CONDITIONAL_PASS: NaN detection and explicit diagnostic reporting are implemented. PNEWDT cutback requests and sentinel values must not be represented as guaranteed immediate termination. Persistent invalid state must cause a detectable solver failure.",
+    "B4_multicore_consistency": "CONDITIONAL_PASS: Four-thread execution completed the production-scale checkpoint. Element-index separation supports thread safety, but does not mathematically prove absence of races involving shared counters, initialization, rollback, or cross-subroutine state.",
+    "B5_datacheck_warnings": "PASS: The eight reported warnings concern unsupported native element output requests for user elements. Companion-element output must still be verified in the completed ODB.",
+    "B6_notification_qualification": "CONDITIONAL_PASS: Login-node delivery is reported verified, while compute-node delivery remains UNRESOLVED. PBS scheduler email provides an additional notification route. Existing governance must explicitly accept this configuration before submission.",
+    "B7_common_block_memory": "PROVISIONAL: Explicit SAVE declarations are acceptable defensive implementation changes. The claim that Linux dynamically unmaps named COMMON storage without SAVE is not independently established and must not be presented as proven root-cause isolation.",
+    "physical_equilibrium": "PASS: Reported checkpoint force discrepancy is below 1e-6 kN at the evaluated increments.",
+    "energy_finiteness": "PASS: Reported checkpoint energy history contains no NaN or infinite values.",
+    "mesh_and_material_preservation": "PASS_REPORTED: The original 13034-element adaptive mesh and frozen predecessor subroutines remain preserved.",
+    "long_run_fracture_validation": "UNRESOLVED: Crack initiation, propagation, ligament interactions, complete energy consistency, and published benchmark agreement require the full production solution."
+  },
+  "approved_artifacts": {
+    "production_deck_sha256": "531278DE23FFA5C8AE524DC9733A910E83440FE791BA44CACB5101C68E6CC0F0",
+    "corrected_uel_sha256": "91612E94E7A2E3F30845AE80815EF4337F582044E25E33BED80072E4AEC40243",
+    "pbs_script_sha256": "32599AB20AF51B90483F42004C3006E78303BEDF1BDE2E0F6FA7B2CCE19971DB",
+    "datacheck_sha256": "C0FD30B761D6B509F5F118AF4841DE4CCCE6E04E380F267E29BC59944AC7360B",
+    "authorization_manifest_sha256": "19AB370F07B7CA664AE18E88737078A969BFC52DD1B518779B77B22FCD399F3E",
+    "checkpoint_receipt_sha256": "5074FD3C298323B936E419AB3CF66D6CF5C04B199DB1EC0821E47B59E575EDE6",
+    "checkpoint_energy_sha256": "B2AB5D21D2A979171215CEE4CAD65C43816E5714EE67F1FE0352DA975DA741C2"
+  },
+  "production_configuration": {
+    "job_name": "f1716_five_hole_job2_adapted",
+    "physical_elements": 13034,
+    "layered_elements": 39102,
+    "cpus": 4,
+    "memory_gb": 32,
+    "walltime_hours": 24,
+    "parallelization": "SMP_THREADS",
+    "submission_queue": "entry_imfdfkmq",
+    "target_queue": "normal_imfdfkmq",
+    "odb_field_output_frequency": 5
+  },
+  "submission_policy": {
+    "scientific_qualification_approved": true,
+    "independent_review_decision": "APPROVE",
+    "maximum_new_full_production_submissions": 1,
+    "authorization_type": "CONDITIONAL_ON_EXISTING_EXECUTION_GATES",
+    "signed_execution_authorization_issued_by_this_response": false,
+    "required_pre_submission_conditions": [
+      "Verify that the current active task explicitly permits the F1716 production submission.",
+      "Verify the exact approved SHA-256 hashes of the staged input deck, user subroutine, PBS script, datacheck evidence, and authorization manifest.",
+      "Verify active executor ownership, valid bridge transaction, and absence of a safety block.",
+      "Verify live PBS queue eligibility, available resources, Abaqus licenses, and absence of an existing F1716 production submission.",
+      "Resolve the compute-notification UNRESOLVED finding through the project's explicitly permitted notification policy; do not silently reclassify it as PASS.",
+      "Confirm the production deck references the corrected versioned UEL and retains the verified checkpoint boundary-condition topology.",
+      "Use the existing once-only execution gate and record the authentic PBS submission receipt."
+    ]
+  },
+  "next_instruction": "Close the completed F1716 production-equivalence qualification without repeating the checkpoint or creating another review loop. Reconcile the exact approved artifact hashes and current task/executor ownership against the canonical project ledgers. Resolve any remaining notification-policy gate using the existing documented governance, without inventing compute-node delivery. If every mandatory existing execution gate passes, submit exactly ONE F1716 production PBS job using scripts/hpc/Invoke-Mode1Execution.ps1 and the approved F1716 authorization manifest, requesting 4 CPUs, 32 GB RAM, and 24 hours of walltime. Record the authentic new PBS job ID, scheduler receipt, source hashes, resource allocation, and once-only accounting. Do not submit if any safety, ownership, notification, license, or resource gate fails; report the exact blocker instead. After successful submission, preserve the running job and verify early physical telemetry: finite reference-node displacement, nonzero force, finite state variables, meaningful damage evolution, and no recurrent NaN or artificial zero-force convergence. Do not declare scientific benchmark success until the completed ODB has undergone force, energy, irreversibility, crack-path, and published-reference validation. Preserve all F1714 and F1713 evidence and report the submission outcome through the existing PAD bridge.",
+  "final_production_readiness": "SCIENTIFICALLY_QUALIFIED_PENDING_MANDATORY_EXECUTION_GATES",
+  "final_fracture_validation": "PENDING_FULL_PRODUCTION_RESULT"
+}

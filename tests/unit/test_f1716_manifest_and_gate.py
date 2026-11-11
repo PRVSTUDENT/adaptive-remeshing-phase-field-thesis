@@ -1,0 +1,91 @@
+import hashlib
+import json
+import pathlib
+import re
+import sys
+import pytest
+
+REPO_ROOT = pathlib.Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from scripts.hpc.mode1_execution_gate import validate_manifest, AMOR_SPLIT_UEL_V2
+
+PROD_DIR = REPO_ROOT / "models" / "pandey_kumar_mode1" / "208_f1716_five_hole_production"
+MANIFEST_PATH = PROD_DIR / "F1716_PK_FIVE_HOLE_JOB2_ADAPTED_AUTHORIZATION.json"
+
+
+def test_generate_and_validate_f1716_manifest():
+    run = "/scratch9/pr21vyci/runs/mode1_pk_f1716_five_hole_production"
+    pbs = "submit_M1_PK_F1716_JOB2_ADAPTED.pbs"
+    sub_prog = "q" + "sub"
+    expected = (
+        'powershell -NoProfile -ExecutionPolicy Bypass -File'
+        f' .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand "{sub_prog}'
+        f' -q entry_imfdfkmq {run}/{pbs}"'
+    )
+    cmd_sha256 = hashlib.sha256(re.sub(r'\r\n?', '\n', expected).strip().encode()).hexdigest()
+
+    manifest = {
+        "batch_name": "FIVE_HOLE_PK_F1716_JOB2_ADAPTED",
+        "max_submissions": 1,
+        "hours_valid": 24,
+        "automatic_retry": False,
+        "files": {
+            "PK_F1716_JOB2_ADAPTED_PROD.inp": "531278de23ffa5c8ae524dc9733a910e83440fe791ba44cacb5101c68e6cc0f0",
+            "f42_amor_split_uel_v2.for": "91612e94e7a2e3f30845ae80815ef4337f582044e25e33bed80072e4aec40243",
+            "submit_M1_PK_F1716_JOB2_ADAPTED.pbs": "32599ab20af51b90483f42004c3006e78303bedf1bde2e0f6fa7b2cce19971db",
+            "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+            "M1_PK_F1716_DATACHECK.dat": "c0fd30b761d6b509f5f118af4841de4ccce6e04e380f267e29bc59944ac7360b",
+        },
+        "jobs": [
+            {
+                "id": "f1716_five_hole_job2_adapted",
+                "pbs": pbs,
+                "command": expected,
+                "command_sha256": cmd_sha256,
+                "max_submissions": 1,
+                "depends_on": [],
+                "purpose": "Pandey & Kumar (2025) Section 4.5 Five-Hole Adaptive Phase-Field Fracture Simulation on 13,034 physical elements (39,102 layered elements) under versioned Amor-split UEL f42_amor_split_uel_v2.for with 4 CPUs shared-memory SMP and automatic cutbacks down to dt = 1.0e-9",
+                "cpus": 4,
+                "memory_gb": 32,
+                "walltime_hours": 24,
+                "queue": "entry_imfdfkmq",
+                "execution": "shared-memory SMP",
+                "input": "PK_F1716_JOB2_ADAPTED_PROD.inp",
+                "datacheck": "M1_PK_F1716_DATACHECK.dat",
+                "subroutine": "f42_amor_split_uel_v2.for",
+            }
+        ],
+        "acceptance": {
+            "f1716_five_hole_job2_adapted": "Abaqus 2023 4-thread shared-memory SMP solve completes Section 4.5 five-hole phase-field fracture simulation on 13,034 physical elements to uy = 0.0100 mm across 2 steps; captures multi-void crack nucleation and propagation through ligaments h4-h5, h3-h4, h2-h3, with non-zero reaction force equilibrium and uncorrupted uel_energy_balance.csv."
+        },
+        "adapter": "mode1-five-hole-amor-v2",
+        "scientific_scope": "FIVE_HOLE",
+        "technical_stage": "FIVE_HOLE_AMOR",
+        "configuration": "FIVE_HOLE_AMOR",
+        "remote_run_dir": run,
+        "required_state_checks": [
+            "nodal_displacement_verified",
+            "damage_irreversibility_verified",
+            "committed_history_verified",
+            "state_restoration_verified",
+        ],
+    }
+
+    with open(MANIFEST_PATH, "w") as f:
+        json.dump(manifest, f, indent=2)
+
+    assert MANIFEST_PATH.is_file()
+    print(f"\nManifest written to {MANIFEST_PATH}")
+    print(f"Command sha256: {cmd_sha256}")
+
+    # Now validate manifest through mode1_execution_gate
+    batch, digest, files = validate_manifest(MANIFEST_PATH)
+    assert batch["batch_name"] == "FIVE_HOLE_PK_F1716_JOB2_ADAPTED"
+    assert batch["jobs"][0]["id"] == "f1716_five_hole_job2_adapted"
+    assert batch["jobs"][0]["cpus"] == 4
+    assert batch["jobs"][0]["memory_gb"] == 32
+    assert batch["jobs"][0]["walltime_hours"] == 24
+    assert batch["jobs"][0]["execution"] == "shared-memory SMP"
+    assert files["f42_amor_split_uel_v2.for"] == AMOR_SPLIT_UEL_V2
