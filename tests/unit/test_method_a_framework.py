@@ -41,6 +41,15 @@ F1714_PHYS_INP = os.path.join(
 F1714_COARSE_INP = os.path.join(
     "models", "pandey_kumar_mode1", "207_f1714_five_hole_benchmark", "PK_F1714_JOB1_COARSE.inp"
 )
+OFF_AXIS_PHYS_INP = os.path.join(
+    "models", "pandey_kumar_mode1", "176_method_a_plate_with_hole", "candidates", "PK_HOLE_SEL_E10_PHYS.inp"
+)
+OFF_AXIS_COARSE_INP = os.path.join(
+    "models", "pandey_kumar_mode1", "176_method_a_plate_with_hole", "PK_HOLE_COARSE_PHYS.inp"
+)
+OFF_AXIS_CONFIG_JSON = os.path.join(
+    "configs", "method_a", "off_axis_hole_benchmark.json"
+)
 
 
 def test_01_config_validation_and_rejection():
@@ -263,3 +272,47 @@ def test_07_end_to_end_pipeline_orchestration(tmp_path):
     val_res = pipeline.run_postprocessing_and_validation(mock_telemetry, report_json)
     assert val_res["peak_force_kN"] == 0.50
     assert os.path.isfile(report_json)
+
+
+def test_08_benchmark3_off_axis_hole_deck_reconstruction_regression(tmp_path):
+    """
+    Benchmark 3: Validates that the framework loads and validates the off-axis hole benchmark
+    configuration, parses the candidate E10 adapted mesh (9,164 elements), and reconstructs
+    the 3-layer production deck with 27,492 layered elements, 60 top nodes, and 53 bottom nodes.
+    """
+    assert os.path.isfile(OFF_AXIS_PHYS_INP), f"Missing {OFF_AXIS_PHYS_INP}"
+    assert os.path.isfile(OFF_AXIS_CONFIG_JSON), f"Missing {OFF_AXIS_CONFIG_JSON}"
+
+    cfg = FrameworkConfig.load(OFF_AXIS_CONFIG_JSON)
+    assert cfg.benchmark_name == "Off_Axis_Hole_Mode1_Benchmark"
+    assert cfg.material["E"] == 210.0
+    assert cfg.material["l0"] == 0.0075
+    assert cfg.material["constitutive_split"] == "mixed"
+    assert len(cfg.geometry["voids"]) == 1
+    assert cfg.geometry["voids"][0]["x"] == 0.65
+    assert cfg.geometry["voids"][0]["y"] == 0.65
+    assert cfg.geometry["voids"][0]["r"] == 0.10
+
+    val = InputModelValidator(OFF_AXIS_PHYS_INP)
+    summary = val.parse()
+    assert summary["element_count"] == 9164
+    assert summary["quality"]["all_jacobians_positive"] is True
+    assert summary["quality"]["aspect_ratio_mean"] < 1.5
+
+    out_deck = tmp_path / "PK_HOLE_E10_RECONSTRUCTED.inp"
+    builder = ProductionDeckBuilder(OFF_AXIS_PHYS_INP, cfg)
+    res = builder.build_deck(str(out_deck))
+
+    assert res["physical_elements"] == 9164
+    assert res["layered_elements"] == 27492
+    assert res["top_nodes_count"] == 60
+    assert res["bottom_nodes_count"] == 53
+    assert os.path.isfile(str(out_deck))
+
+    with open(str(out_deck), "r") as f:
+        deck_text = f.read()
+
+    assert "*EQUATION" in deck_text
+    assert "*USER ELEMENT, TYPE=U1" in deck_text
+    assert "*USER ELEMENT, TYPE=U2" in deck_text
+

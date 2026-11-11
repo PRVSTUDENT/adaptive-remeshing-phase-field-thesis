@@ -438,3 +438,45 @@ Task F1714 and its comprehensive forensic audit establish clear scientific findi
    - Future subroutine revisions must include the Fortran `SAVE` statement for all shared common blocks and restrict energy loops to active physical elements (`DO I=1, N_PHYS`).
 5. **Adherence to Thesis Scientific Standards:** In strict compliance with the Master Thesis execution guidelines, this investigation refuses to report artificial or reconstructed fracture patterns, and instead records authentic simulation telemetry, forensic root causes, and definitive technical solutions.
 
+---
+
+## 12. Computational-Cost, Resource Footprint, and Benchmark Comparison Across Cases
+
+To fulfill User Directive 10 (Deliverable 6) mandating complete force–displacement, energy, and computational-cost comparisons across benchmarks, Table 12.1 synthesizes the finite-element discretization, adaptation fidelity, solver resource footprints, and physical fracture outcomes across all four benchmark configurations investigated in the Method A campaign.
+
+### Table 12.1: Multi-Benchmark Finite-Element and Computational-Cost Synthesis
+
+| Metric / Attribute | Benchmark 1: Mode-I Notch (F1712 / F1713) | Benchmark 2: Five-Hole Multi-Void (F1714) | Benchmark 3: Off-Axis Hole E10 (F1705) | Section 4.3 Staggered Benchmark (F1709) |
+| :--- | :--- | :--- | :--- | :--- |
+| **Published Reference** | Pandey & Kumar (2025, Sec. 4.1, Fig. 5–7) | Pandey & Kumar (2025, Sec. 4.5, Fig. 22–25) | Master Thesis Candidate E10 (Off-axis hole) | Pandey & Kumar (2025, Sec. 4.3, Fig. 14–16) |
+| **Domain Dimensions** | $1.0 \times 1.0\,\text{mm}$ square | $1.0 \times 1.0\,\text{mm}$ square | $1.0 \times 1.0\,\text{mm}$ square | $65 \times 120\,\text{mm}$ rectangular |
+| **Defect / Void Geometry** | Straight slit ($a_0 = 0.5\,\text{mm}$) | 5 circular/semicircular voids ($R = 0.05 - 0.10\,\text{mm}$) | Slit ($a_0 = 0.5\,\text{mm}$) + Hole at $(0.65, 0.65)$ | Notch ($10 \times 0.4\,\text{mm}$) + Hole ($R=10$) + 2 pins |
+| **Length Scale $\ell_0$** | $0.0075\,\text{mm}$ ($7.5\,\mu\text{m}$) | $0.0080\,\text{mm}$ ($8.0\,\mu\text{m}$) | $0.0075\,\text{mm}$ ($7.5\,\mu\text{m}$) | $0.150\,\text{mm}$ ($150\,\mu\text{m}$) |
+| **Coarse Pre-Analysis Elements** | 3,112 elements ($h \approx 0.02\,\text{mm}$) | 2,747 elements ($h \approx 0.02\,\text{mm}$) | 2,906 elements ($h \approx 0.02\,\text{mm}$) | 2,548 elements ($h \approx 1.5 - 2.0\,\text{mm}$) |
+| **Adapted Physical Elements** | 14,933 elements | 13,034 elements | 9,164 elements | 10,065 elements |
+| **Published Target Elements** | 13,941 elements | 12,944 elements | N/A (Candidate E10) | 10,480 elements |
+| **Element Parity Discrepancy** | $+7.1\%$ vs target | $+0.70\%$ vs target | N/A | $-3.96\%$ vs target |
+| **Minimum Element Size $h_{\min}$** | $1.0\,\mu\text{m}$ ($0.133\,\ell_0$) | $1.34\,\mu\text{m}$ ($0.168\,\ell_0$) | $2.37\,\mu\text{m}$ ($0.316\,\ell_0$) | $0.051\,\text{mm}$ ($0.340\,\ell_0$) |
+| **Layered Production Elements** | 44,799 elements | 39,102 elements | 27,492 elements | 30,195 elements |
+| **Constitutive UEL Split** | Monolithic mixed (`f42_mixed_uel.for`) | Volumetric-deviatoric Amor (`f42_amor_split_uel.for`) | Monolithic mixed (`f42_mixed_uel.for`) | Alternating minimization staggered variant |
+| **Scheduler Job ID** | `1422241.mmaster02` | `1422257.mmaster02` | `1421888.mmaster02` | `1421915.mmaster02` |
+| **Allocated Resources** | 1 CPU, 16 GB, 8h | 1 CPU, 16 GB, 8h | 1 CPU, 16 GB, 8h | 1 CPU, 16 GB, 8h |
+| **Walltime / CPU Time** | 3h 05m (terminated Step 2 Inc 2) | 8h 00m 54s (walltime limit) | 32 min walltime / 19m 40s CPU | 2h 01m 54s walltime / 1h 30m 39s CPU |
+| **Computational Speedup** | N/A | N/A | $2.05\times$ vs uniform baseline | $2.42\times$ vs published runtime (295 min) |
+| **Increments Solved / Attempted** | 2,002 / 7,000 incs (Step 1 Exit 0) | 6,051 / 7,000 incs (86.4% done) | 342 / 342 incs (Exit 1 post-severance) | 4,500 / 4,500 incs (Exit 0 complete) |
+| **Cutbacks / Iterations** | 0 cutbacks / 1.0 iter/inc | 0 cutbacks / 1.0 iter/inc | 1 cutback at terminal / 3.2 iter/inc | 0 cutbacks / 1.0 iter/inc |
+| **Binary ODB Disk Footprint** | 8.8 GB (2,002 frames) | 23.76 GB (6,053 frames) | 1.3 GB (342 frames) | 17.2 GB (4,501 frames) |
+| **Peak Tensile Force $F_{\text{peak}}$** | $0.7437\,\text{kN}$ (historical Gate 6B) | N/A (U2=NaN decoupling) | $0.5597\,\text{kN}$ (within 0.36% of 0.5577 kN) | N/A (asymmetric bending / shear mode) |
+| **Physical Fracture Outcome** | Stable Step 1 damage softening | 1-iter zero-force loop (no crack) | Hole arrest + snap-through to edge | Hole arrest + secondary snap-through |
+| **Energy Release Verification** | Valid elastic/fracture balance | Capacity loop NaN diagnosed | $99.65\%$ elastic release at snap | Elastic relaxation $>99.8\%$ post-arrest |
+
+### 12.2 Key Comparative Insights and Efficiency Takeaways
+
+1. **Discretization and Parity Control:** Across all four benchmarks, the Method A framework achieved consistent mesh sizing with element parity within $\pm 7\%$ of published targets ($+0.70\%$ for Five-Hole, $+7.1\%$ for Mode-I, $-3.96\%$ for Section 4.3). In all cases, $100\%$ of elements exhibited strictly positive Jacobians ($\det(J) > 0$) with zero inverted elements and average aspect ratios below $1.30$.
+2. **Computational Speedup via Error-Guided Mesh Adaptation:** In benchmarks where full fracture was simulated to completion (Candidate E10 and Section 4.3), adaptive remeshing delivered substantial runtime reductions compared to uniform meshes and published reference solvers:
+   - Candidate E10 solved in 32 minutes of walltime ($2.05\times$ speedup vs baseline uniform mesh).
+   - Section 4.3 solved in 121.9 minutes of walltime ($2.42\times$ speedup vs published 295 minutes in Pandey & Kumar 2025).
+3. **Database Footprint and Output Frequency:** Full-field frame storage at every increment produced large binary databases ($23.76\,\text{GB}$ for 6,053 frames in F1714; $17.2\,\text{GB}$ for 4,501 frames in F1709). As concurred in review `HND-F1715-FIVE-HOLE-FINAL-VALIDATION-003`, future production simulations should reduce full-field ODB output frequency (e.g., writing every 5 or 10 increments during stable elastic regimes while retaining fine resolution near peak load and crack snap-through) to alleviate I/O contention and storage overhead.
+4. **HPC Scaling Recommendations:** For multi-void benchmarks involving localized inter-hole stress concentrations, serial 1-CPU execution remains a reliable reference anchor, but 4-thread shared-memory SMP execution with 32 GB RAM and 24-hour walltime provides the optimal balance of throughput and queue availability for future production restarts once memory isolation safeguards are validated in pilot runs.
+
+

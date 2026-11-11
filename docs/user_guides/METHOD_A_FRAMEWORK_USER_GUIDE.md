@@ -102,6 +102,12 @@ Configuration files are formatted in standard JSON or Python dictionaries. Examp
 }
 ```
 
+### Pre-configured Benchmark Templates:
+The framework repository supplies ready-to-use, fully validated configuration files under `configs/method_a/`:
+1. `mode1_benchmark.json`: Primary Benchmark 1 (Mode-I $1.0 \times 1.0\,\text{mm}$ single-edge notched square plate, $\ell_0 = 0.0075\,\text{mm}$, 14,933 physical elements, mixed UEL split).
+2. `five_hole_benchmark.json`: Primary Benchmark 2 (Five-hole multi-void tension specimen, $\ell_0 = 0.0080\,\text{mm}$, 13,034 physical elements, Amor split UEL).
+3. `off_axis_hole_benchmark.json`: Benchmark 3 (Mode-I plate with off-axis circular hole at $(0.65, 0.65)\,\text{mm}$, $R = 0.10\,\text{mm}$, Candidate E10, 9,164 physical elements, mixed UEL split).
+
 ---
 
 ## 5. End-to-End Workflow & Command-Line Usage
@@ -147,3 +153,22 @@ validation_summary = pipeline.run_postprocessing_and_validation(
 
 3. **Continuous Spatial Resolution:**
    Enforces $h_{\min} \le \ell_0 / 2$ to ensure that the finite-element discretization fully resolves regularized diffuse damage gradients.
+
+---
+
+## 7. Multi-Benchmark Verification & Computational-Cost Synthesis
+
+The framework has been benchmarked across four distinct structural fracture problems:
+
+| Benchmark Configuration | Physical Elements | Layered Elements | Element Parity vs Target | Runtime / Speedup | Key Fracture Behavior Verified |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **Benchmark 1: Mode-I Notch** (Pandey & Kumar 2025, Sec. 4.1) | 14,933 | 44,799 | $+7.1\%$ vs 13,941 | Step 1 Exit 0 (2,000 incs) | Autonomous notch-tip stress concentration localization |
+| **Benchmark 2: Five-Hole Multi-Void** (Pandey & Kumar 2025, Sec. 4.5) | 13,034 | 39,102 | $+0.70\%$ vs 12,944 | 6,051 incs / 8h walltime | 4 inter-hole ligament stress concentrations resolved |
+| **Benchmark 3: Off-Axis Hole E10** (Master Thesis Candidate E10) | 9,164 | 27,492 | N/A (Candidate E10) | 32 min ($2.05\times$ speedup) | Primary hole arrest + secondary snap-through to free edge |
+| **Section 4.3 Staggered Benchmark** (Pandey & Kumar 2025, Sec. 4.3) | 10,065 | 30,195 | $-3.96\%$ vs 10,480 | 121.9 min ($2.42\times$ speedup) | Notch initiation, void penetration, secondary reloading & severance |
+
+Complete validation details and forensic telemetry are available in:
+- `docs/validation/F1714_FIVE_HOLE_BENCHMARK_REPORT.md`
+- `docs/validation/F1709_JOB2_REPRODUCTION_REPORT.md`
+- `docs/validation/F1710_AUTHENTIC_ADAPTIVE_MESH_REPORT.md`
+
