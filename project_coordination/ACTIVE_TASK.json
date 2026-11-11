@@ -1,48 +1,30 @@
 {
-  "task_id": "F1716-FIVE-HOLE-FAILURE-REPAIR-AND-PRODUCTION",
-  "title": "Fix Five-Hole Phase-Field Failure, Validate Physical Loading, and Complete Multi-Core HPC Production Simulation",
-  "status": "COMPLETED",
+  "task_id": "F1717-FIVE-HOLE-MISESERI-LOCALIZATION-AND-FIG23B",
+  "title": "Five-Hole MISESERI Localization and Figure 23(b) Adaptive-Mesh Reproduction — Mesh-Only Stop Gate",
+  "status": "IN_PROGRESS",
   "assigned_agent": "gemini-antigravity",
-  "handoff_id": "HND-F1716-PROD-REVISION-R1-003",
-  "checkpoint_artifact": "docs/validation/F1716_FIVE_HOLE_PRODUCTION_REPORT.md",
-  "terminal_job_id": "1422420.mmaster02",
+  "handoff_id": "HND-F1717-MISESERI-FIG23B-003",
+  "checkpoint_artifact": "docs/validation/F1717_MISESERI_AUDIT_AND_FIG23B_REPRODUCTION_REPORT.md",
   "predecessor_task": {
-    "task_id": "F1715-REUSABLE-METHOD-A-FRAMEWORK",
-    "checkpoint_artifact": "docs/validation/F1714_FIVE_HOLE_BENCHMARK_REPORT.md",
-    "terminal_job_id": "1422402.mmaster02"
+    "task_id": "F1716-FIVE-HOLE-FAILURE-REPAIR-AND-PRODUCTION",
+    "checkpoint_artifact": "docs/validation/F1716_FIVE_HOLE_PRODUCTION_REPORT.md",
+    "terminal_job_id": "1422420.mmaster02"
   },
   "registration": {
-    "definition": "project_coordination/task_definitions/F1716-FIVE-HOLE-FAILURE-REPAIR-AND-PRODUCTION.json"
+    "definition": "project_coordination/task_definitions/F1717-FIVE-HOLE-MISESERI-LOCALIZATION-AND-FIG23B.json"
   },
-  "scientific_operation": "five_hole_failure_repair_pilot_and_multicore_production_r1",
-  "scientific_operation_id": "f1716_five_hole_repair_and_production_r1",
+  "scientific_operation": "five_hole_miseseri_audit_and_figure23b_reproduction",
+  "scientific_operation_id": "f1717_miseseri_fig23b_mesh_only",
   "scientific_checkpoint_required": true,
-  "max_new_pbs_submissions": 1,
-  "submissions_consumed": 1,
+  "max_new_pbs_submissions": 0,
+  "submissions_consumed": 0,
   "active_pbs_job_id": null,
-  "pbs_job_status": "COMPLETED",
-  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_f1716_five_hole_production_r1",
+  "pbs_job_status": "NONE",
+  "remote_run_dir": null,
   "completed_operations": [
-    "f1715_reusable_method_a_framework_completed",
-    "f1714_five_hole_benchmark_evidence_preserved",
-    "f1714_forensic_failure_mechanism_identified",
-    "f1716_fail_closed_nan_guard_implemented",
-    "f1716_13034_element_checkpoint_solved_exit0",
-    "f1716_round2_review_approved",
-    "f1716_production_job_submitted",
-    "f1716_job_1422402_completed_inc2500_cap",
-    "f1716_r1_step_time_repaired",
-    "f1716_r1_cluster_datacheck_passed_exit0",
-    "f1716_round3_review_approved",
-    "f1716_r1_production_job_submitted",
-    "f1716_r1_step1_2000_incs_completed_exit0",
-    "f1716_r1_step2_fracture_propagation_actively_converging",
-    "f1716_r1_job_1422420_completed_2658_incs",
-    "f1716_telemetry_extracted_and_verified",
-    "f1716_5_publication_figures_generated",
-    "f1716_production_report_synthesized",
-    "f1716_thesis_chapter05_updated_and_compiled_323pp"
+    "f1716_production_completed_and_reported",
+    "f1717_miseseri_legend_and_scale_reconciled"
   ],
   "iteration": 3,
-  "review_resolution": "APPROVE"
+  "review_resolution": "PENDING"
 }

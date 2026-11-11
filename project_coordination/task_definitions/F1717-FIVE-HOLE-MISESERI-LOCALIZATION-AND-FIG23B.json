@@ -1,0 +1,19 @@
+{
+  "task_id": "F1717-FIVE-HOLE-MISESERI-LOCALIZATION-AND-FIG23B",
+  "title": "Five-Hole MISESERI Localization and Figure 23(b) Adaptive-Mesh Reproduction — Mesh-Only Stop Gate",
+  "assigned_agent": "gemini-antigravity",
+  "status": "IN_PROGRESS",
+  "handoff_id": "HND-F1717-MISESERI-FIG23B-001",
+  "predecessor_task": {
+    "task_id": "F1716-FIVE-HOLE-FAILURE-REPAIR-AND-PRODUCTION",
+    "checkpoint_artifact": "docs/validation/F1716_FIVE_HOLE_PRODUCTION_REPORT.md",
+    "terminal_job_id": "1422420.mmaster02"
+  },
+  "scientific_objective": "Investigate why five-hole MISESERI field exhibits broad stress-error halos around individual holes while Pandey & Kumar (2025) Figure 23(b) exhibits localized inter-hole refinement; audit publication Figure 23(b); reproduce paper adaptive-mesh generation strategy; generate Figures A-G; enforce strict mesh-only stop gate without launching full fracture simulation.",
+  "max_new_pbs_submissions": 0,
+  "submissions_consumed": 0,
+  "active_pbs_job_id": null,
+  "pbs_job_status": "NONE",
+  "strict_stop_gate": true,
+  "full_fracture_solve_permitted": false
+}
