@@ -13941,8 +13941,17 @@
     },
     "a0b3ce9e3d949151581c5f2706e055ca084c6b546c89322215bd18dd1fdfca1d": {
       "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\207_f1714_five_hole_benchmark\\F1714_PK_FIVE_HOLE_JOB2_ADAPTED_AUTHORIZATION.json",
-      "attempts": {},
-      "audit": [],
+      "attempts": {
+        "f1714_five_hole_job2_adapted": 1
+      },
+      "audit": [
+        {
+          "job": "f1714_five_hole_job2_adapted",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-11-11T00:03:42.689763+00:00",
+          "command_sha256": "3f9003e084f4eaf6d45e179348ef6695b8da4b1ba4dcf43d3d96f8a524b7f534"
+        }
+      ],
       "preflight": {
         "active_job_count": 0,
         "adapter_contract": "mode1-five-hole-amor-v1",
@@ -13963,7 +13972,7 @@
         "datacheck_verified": "PASS_BOTH",
         "candidate_manifest_sha256": "a0b3ce9e3d949151581c5f2706e055ca084c6b546c89322215bd18dd1fdfca1d",
         "authorized_command_sha256": "3f9003e084f4eaf6d45e179348ef6695b8da4b1ba4dcf43d3d96f8a524b7f534",
-        "checked_at": "2026-11-10T23:52:58.673341+00:00",
+        "checked_at": "2026-11-11T00:03:38.917902+00:00",
         "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
         "config_mode": "600",
         "file_hashes": {
@@ -13979,7 +13988,7 @@
         "compute_node_delivery": "UNRESOLVED",
         "lifecycle_tests": "PASS"
       },
-      "qualified_at": "2026-11-10T23:52:59.079242+00:00"
+      "qualified_at": "2026-11-11T00:03:39.334122+00:00"
     }
   }
 }

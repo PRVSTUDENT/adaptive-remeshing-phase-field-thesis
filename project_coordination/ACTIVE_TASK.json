@@ -16,10 +16,10 @@
   "scientific_operation": "five_hole_generalization_benchmark",
   "scientific_operation_id": "f1714_five_hole_generalization_benchmark",
   "scientific_checkpoint_required": true,
-  "max_new_pbs_submissions": 0,
-  "submissions_consumed": 0,
-  "active_pbs_job_id": null,
-  "pbs_job_status": "NONE",
+  "max_new_pbs_submissions": 1,
+  "submissions_consumed": 1,
+  "active_pbs_job_id": "1422257.mmaster02",
+  "pbs_job_status": "RUNNING",
   "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_f1714_five_hole",
   "completed_operations": [
     "f1713_new_end_to_end_mode1_adaptive_simulation_running",
@@ -38,5 +38,5 @@
     "f1700_pk_sec43_full_field_recovery_and_native_remesh"
   ],
   "iteration": 1,
-  "review_resolution": "PENDING"
+  "review_resolution": "APPROVED"
 }

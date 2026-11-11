@@ -1,0 +1,29 @@
+{
+  "task_id": "F1714-FIVE-HOLE-GENERALIZATION-BENCHMARK",
+  "title": "Five-Hole Generalization Benchmark: Pandey-Kumar (2025) Section 4.4 Figures 22-25 Reproduction, Arbitrary Multi-Hole Geometry Extension, and Constitutive Split Assessment",
+  "protocol_version": 2,
+  "assigned_agent": "gemini-antigravity",
+  "started_at": "2026-11-10T23:06:00+01:00",
+  "starting_commit": "HEAD",
+  "predecessor": {
+    "task_id": "F1713-NEW-END-TO-END-MODE1-ADAPTIVE-SIMULATION",
+    "checkpoint_artifact": "docs/validation/F1713_NUMERICAL_QUALIFICATION_REPORT.md",
+    "concurrent_job_id": "1422241.mmaster02"
+  },
+  "objectives": [
+    "Stage 1: Extract exact five-hole benchmark parameters from Pandey & Kumar (2025) Section 4.4 (geometry, hole coordinates, boundary conditions, material properties, fracture length scale, and Amor volumetric-deviatoric constitutive split).",
+    "Stage 2: Assess constitutive UEL formulation compatibility (Amor volumetric-deviatoric split vs spectral Miehe split) and determine whether canonical UEL can be qualified directly or requires a separately versioned UEL variant.",
+    "Stage 3: Extend reusable geometry adapter and meshing infrastructure to support arbitrary lists of holes, smooth boundaries without initial notches, and multiple independent nucleation zones.",
+    "Stage 4: Generate authentic five-hole geometry and coarse FE mesh; execute Abaqus linear elastic pre-analysis solve and extract genuine Superconvergent Patch Recovery (SPR) MISESERI error indicator field.",
+    "Stage 5: Generate new adapted physical mesh using indicator-driven sizing without any hardcoded crack paths or geometric proxies; audit Jacobians, element quality, and spatial resolution.",
+    "Stage 6: Build multi-layer production deck, perform local and cluster datachecks, route independent review via PAD bridge, and prepare governed PBS execution manifest under once-only accounting."
+  ],
+  "governing_constraints": {
+    "preserve_f1713_execution": true,
+    "f1713_job_id": "1422241.mmaster02",
+    "no_unauthorized_pbs_submissions": true,
+    "max_new_pbs_submissions": 1,
+    "bitwise_preservation_canonical_uel": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "keep_method_c_paused": true
+  }
+}

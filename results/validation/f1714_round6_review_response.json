@@ -1,0 +1,159 @@
+﻿JSON
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1714-FIVE-HOLE-QUAL-006",
+  "task_id": "F1714-FIVE-HOLE-GENERALIZATION-BENCHMARK",
+  "decision": "APPROVE",
+  "approval_scope": "Conditional independent scientific approval for exactly one new F1714 five-hole Amor-split adaptive phase-field fracture production experiment. Execution remains subject to authenticated task authorization, legitimate executor ownership, live scheduler qualification, exact artifact hashes, notification requirements and once-only submission accounting. This review does not independently certify successful nonlinear fracture propagation or complete framework generalization.",
+  "scientific_assessment": {
+    "overall": "F1714 has sufficiently addressed the previously identified numerical and execution-governance deficiencies to justify one controlled production experiment. The five-hole geometry, new coarse pre-analysis, MISESERI-driven adaptive mesh, versioned Amor UEL, compiled damaged-state verification, fracture-energy reconciliation, automatic cutback configuration and target-cluster datacheck provide a reasonable experimental foundation. The reported execution scope has also been corrected from an inappropriate MODE1_BASELINE classification to a distinct FIVE_HOLE_AMOR configuration.",
+    "five_hole_geometry_and_mesh": {
+      "status": "ACCEPTED_FOR_FORWARD_EXPERIMENT",
+      "physical_elements": 13034,
+      "published_reference_elements": 12944,
+      "element_count_difference_percent": 0.6953,
+      "adapted_mesh_sha256": "03DA1E737F96270C325AE4ABDE4B96F20C443C4CE99BD39F1194EEDF004BA2AE",
+      "qualification": "Element-count parity and reported mesh-quality metrics support use of the existing mesh. Full fracture-process-zone resolution and predicted crack trajectories must be assessed from the completed simulation, not inferred from the initial mesh alone."
+    },
+    "amor_uel": {
+      "status": "ACCEPTED_FOR_ONE_CONTROLLED_FORWARD_EXPERIMENT",
+      "file": "f42_amor_split_uel.for",
+      "sha256": "6778B6857C4ACC83EBBB1F921947E089BA09910C8E2361F62863DAE61F7491FF",
+      "finding": "The reported compiled Abaqus element tests demonstrate the expected intact and prescribed-damage tensile, shear and compressive reactions. The constitutive implementation is sufficiently qualified for a controlled five-hole forward experiment.",
+      "qualification": "Prescribed-damage tests do not establish autonomous damage initiation, coupled convergence, actual cutback rollback, or irreversibility throughout a production fracture simulation."
+    },
+    "fracture_energy": {
+      "status": "PASS",
+      "verified_repository_csv": "results/validation/f1714_1elem_uel_energy_balance.csv",
+      "raw_solver_value": "0.42187500E-01",
+      "calculated_energy_kn_mm": 0.0421875,
+      "analytical_energy_kn_mm": 0.0421875,
+      "finding": "The original apparent factor-of-ten discrepancy was a transcription error. Independent inspection of the published CSV confirms the corrected numerical value."
+    },
+    "production_solver": {
+      "status": "CONDITIONALLY_QUALIFIED",
+      "production_input_sha256": "D84BBC990B206C36D924F4054C8753F6FD7CC8677849FD475D44EAA2DC1E75FA",
+      "reported_datacheck": "Abaqus 2023 Exit Code 0, zero errors and eight warnings",
+      "step_1": {
+        "terminal_displacement_mm": 0.005,
+        "initial_increment": 0.0005,
+        "minimum_increment": 1e-9,
+        "maximum_increment": 0.0005
+      },
+      "step_2": {
+        "terminal_displacement_mm": 0.01,
+        "initial_increment": 0.0002,
+        "minimum_increment": 1e-9,
+        "maximum_increment": 0.0002
+      },
+      "finding": "Both production steps permit automatic time-increment reduction, addressing the previously identified fixed-increment convergence risk.",
+      "qualification": "The proposed 8-hour walltime is a resource allocation, not a guarantee that all fracture increments will converge before the allocation expires."
+    },
+    "execution_scope": {
+      "status": "CORRECTED_AND_REGISTERED",
+      "adapter": "mode1-five-hole-amor-v1",
+      "scientific_scope": "FIVE_HOLE",
+      "technical_stage": "FIVE_HOLE_AMOR",
+      "configuration": "FIVE_HOLE_AMOR",
+      "verified_main_commit": "4a8a94539058d5ef9533a4cb393201338c4cf225",
+      "finding": "Independent inspection of GitHub main confirms that the F1714 manifest uses the distinct five-hole scientific scope and that the execution gate recognizes the versioned Amor UEL and corresponding configuration.",
+      "qualification": "Repository registration does not independently establish live local session ownership, signed authorization or current scheduler state."
+    },
+    "notification_governance": {
+      "status": "UNRESOLVED_COMPUTE_TELEGRAM_DELIVERY_WITH_DOCUMENTED_FALLBACK",
+      "finding": "AGENTS.md explicitly requires compute-node Telegram delivery to remain classified as UNRESOLVED when outbound delivery cannot be demonstrated. It must not be relabeled PASS.",
+      "reported_fallback": "Native PBS lifecycle mail through the cluster's internal mail infrastructure.",
+      "execution_condition": "The authenticated execution controller must verify that the project's mandatory notification policy permits execution with this documented unresolved Telegram condition and functioning PBS mail. If the active controller requires verified compute-node Telegram delivery, submission must stop rather than bypass that requirement."
+    },
+    "remaining_scientific_uncertainties": [
+      "Whether the five-hole model develops physically meaningful spontaneous damage nucleation.",
+      "Whether simulated crack paths agree with Pandey and Kumar Section 4.5.",
+      "Whether phase-field damage remains bounded and irreversible.",
+      "Whether coupled mechanical and phase-field residuals converge throughout both steps.",
+      "Whether actual energy histories and fracture dissipation remain consistent.",
+      "Whether the initially adapted mesh resolves the complete observed fracture process zones.",
+      "Whether the production simulation completes within the requested walltime."
+    ],
+    "conclusion": "One controlled five-hole forward simulation is justified. No additional broad constitutive reviews, mesh regeneration or repeated elementary tests are required before submission, provided the remaining live execution gates pass."
+  },
+  "authorization": {
+    "f1714_numerical_qualification": "APPROVED_FOR_EXPERIMENT",
+    "f1714_execution_scope": "APPROVED_AS_REGISTERED",
+    "f1714_forward_experiment": "APPROVED",
+    "f1714_pbs_submission": "CONDITIONALLY_AUTHORIZED",
+    "max_new_pbs_submissions": 1,
+    "reported_previous_f1714_production_submissions": 0,
+    "maximum_additional_f1714_submissions": 1,
+    "authorized_job_id": "f1714_five_hole_job2_adapted",
+    "authorized_pbs_job_name": "M1_PK_F1714_JOB2_ADAPTED",
+    "authorization_manifest": "models/pandey_kumar_mode1/207_f1714_five_hole_benchmark/F1714_PK_FIVE_HOLE_JOB2_ADAPTED_AUTHORIZATION.json",
+    "authorization_manifest_sha256": "A0B3CE9E3D949151581C5F2706E055CA084C6B546C89322215BD18DD1FDFCA1D",
+    "production_input_sha256": "D84BBC990B206C36D924F4054C8753F6FD7CC8677849FD475D44EAA2DC1E75FA",
+    "amor_uel_sha256": "6778B6857C4ACC83EBBB1F921947E089BA09910C8E2361F62863DAE61F7491FF",
+    "pbs_script_sha256": "9540005C8F1AFEDA9A1D67C3212079D78B4759DD7B9D95FA4CBD74A2F25026C0",
+    "execution_gate_sha256": "370B0591422CE50F50B60C390C14BB516D81F17221B3D96A63AB714852EBCBD6",
+    "execution_entrypoint": "scripts/hpc/Invoke-Mode1Execution.ps1",
+    "remote_run_directory": "/scratch9/pr21vyci/runs/mode1_pk_f1714_five_hole",
+    "resource_profile": {
+      "queue": "entry_imfdfkmq",
+      "target_queue": "normal_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 8
+    },
+    "frozen_canonical_uel": {
+      "file": "f42_mixed_uel.for",
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "modification": "PROHIBITED"
+    },
+    "notification_requirement": "Preserve compute-node Telegram delivery as UNRESOLVED, verify the accepted PBS mail fallback and obey the actual controller's notification gate.",
+    "direct_unguarded_qsub": "PROHIBITED",
+    "automatic_resubmission": "PROHIBITED",
+    "duplicate_submission": "PROHIBITED",
+    "existing_f1713_job": "PRESERVE",
+    "method_c": "PAUSED",
+    "existing_safety_blocks": "REMAIN_BINDING",
+    "review_authority_limit": "This scientific approval does not replace authenticated controller authorization, signed execution permission, verified executor ownership or live scheduler safety gates."
+  },
+  "mandatory_pre_submission_gates": [
+    "Verify the exact F1714 task registration, active executor identity, session ownership, bridge integrity and absence of unresolved safety blocks.",
+    "Confirm that the actual F1714 operation explicitly permits one new production PBS submission.",
+    "Verify that the candidate manifest retains the authentic FIVE_HOLE and FIVE_HOLE_AMOR classifications.",
+    "Confirm the complete guarded execution path through Invoke-Mode1Execution.ps1 and the once-only reservation mechanism.",
+    "Check the latest PBS scheduler state and execution ledger to exclude an existing F1714 submission.",
+    "Verify remote input, Amor UEL, PBS script and datacheck hashes against the authorized manifest.",
+    "Verify live queue/account eligibility for 1 CPU, 16 GB memory and 8 hours walltime.",
+    "Verify the mandatory notification contract, preserving compute-node Telegram delivery as UNRESOLVED unless independently proven otherwise.",
+    "Verify the controller accepts the documented PBS mail fallback; otherwise do not submit.",
+    "Do not interpret a technical PrepareOnly or VerifyOnly PASS as independently authenticated submission permission.",
+    "Stop without consuming the submission budget if any mandatory gate fails."
+  ],
+  "next_instruction_to_antigravity": {
+    "action": "EXECUTE_ONE_GOVERNED_F1714_FIVE_HOLE_FORWARD_JOB",
+    "instruction": "Proceed directly toward one genuine F1714 five-hole Amor-split phase-field fracture simulation using the already-qualified 13034-element adapted mesh. Do not repeat completed mesh generation, constitutive tests or numerical audits. First complete the mandatory live execution gates: authenticate the F1714 task, authorized executor and session ownership; confirm the five-hole scientific scope and separately registered Amor configuration; verify exact local and remote hashes of the production input, versioned UEL, PBS script and datacheck; establish live scheduler eligibility, notification policy compliance and once-only accounting; and exclude any existing F1714 PBS submission. The previously reported compute-node Telegram delivery status remains UNRESOLVED. Preserve that classification and use the PBS mail fallback only if permitted by the binding execution controller. If every gate passes, submit exactly one M1_PK_F1714_JOB2_ADAPTED job through scripts/hpc/Invoke-Mode1Execution.ps1 with the registered F1714 manifest. Capture the authentic PBS ID, scheduler response, execution-ledger reservation and staged artifact hashes. Never use direct unguarded qsub or automatically retry a failed job. Preserve F1713 Job 1422241 and its existing outputs. After submission, retain the accepted PBS job without interruption. When terminal, examine authentic Abaqus status, displacement reached, cutbacks, force-displacement response, damage bounds, irreversibility, history variables, fracture and elastic energy, crack nucleation and propagation, actual damage-ridge resolution, CPU time, walltime and memory. Compare the genuine results with Pandey and Kumar Section 4.5 Figures 22 to 25. Distinguish numerical success from scientifically validated fracture reproduction. Return the actual PBS ID and correlated execution evidence. If a mandatory submission gate fails, stop and report its exact failing predicate without consuming the PBS budget.",
+    "success_condition": "Exactly one authorized F1714 five-hole production PBS submission is accepted and recorded, or the precise live authorization blocker is identified without an unauthorized submission.",
+    "stop_conditions": [
+      "Existing or uncertain F1714 PBS submission.",
+      "Invalid executor identity, session ownership or safety-block state.",
+      "Missing authenticated task-level submission permission.",
+      "Scientific scope or manifest mismatch.",
+      "Production input, Amor UEL, PBS script or datacheck hash mismatch.",
+      "Live scheduler queue or account eligibility failure.",
+      "Notification policy failure without an accepted fallback.",
+      "Once-only accounting or guarded execution failure.",
+      "Any attempt to modify the frozen canonical UEL or automatically resubmit."
+    ]
+  },
+  "next_research_priority": {
+    "immediate": "Execute and scientifically evaluate the genuinely new five-hole adapted-mesh fracture experiment.",
+    "concurrent": "Preserve and assess the F1713 Mode-I simulation using authentic solver evidence.",
+    "primary_thesis_goal": "Transfer the validated MISESERI-driven remeshing workflow to the user's off-axis-hole Mode-I benchmark without prescribing the future crack path.",
+    "later": "Consider the seven-hole benchmark only if the Mode-I, five-hole and off-axis-hole scientific results justify the additional scope."
+  },
+  "evidence_provenance": {
+    "basis": "HND-F1714-FIVE-HOLE-QUAL-006, preceding F1714 qualification reviews, and independent inspection of GitHub main at commit 4a8a94539058d5ef9533a4cb393201338c4cf225.",
+    "verification_level": "Repository-level source and manifest verification plus scientific review of executor-submitted cluster evidence. Current PBS state, executor ownership and the actual remote notification-delivery path were not independently queried."
+  },
+  "final_verdict": "APPROVE",
+  "finished": "Finished"
+}
