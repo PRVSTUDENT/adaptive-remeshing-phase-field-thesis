@@ -115,17 +115,11 @@ Task F1717 has decisively resolved every finding raised in Round 1 and Round 2 i
 All deliverable figures, report documentation, and regression tests (19/19 PASS) are submitted with a recommendation for formal DECISION: APPROVE on the mesh-only investigation.
 '@
 
-$bridgeParams = @{
-    HandoffId = $handoffId
-    TaskId = $taskId
-    Action = "REQUEST_REVIEW"
-    Payload = $scientificReport
-    TimeoutSeconds = 300
-}
+Write-Host "Dispatching Task F1717 Round 3 Review Request ($handoffId)..." -ForegroundColor Cyan
+$bridgeResult = Invoke-ChatGPTBridge -PromptText $scientificReport -HandoffId $handoffId
 
-Write-Host "Dispatching Task F1717 Round 3 Review Request to ChatGPT across OpenClaw PAD bridge..."
-$response = Invoke-ChatGPTBridge @bridgeParams
-
-Write-Host "Bridge response received successfully!"
-Write-Host "Response length: $($response.Length) characters"
-Write-Host $response
+Write-Host "Bridge response received for $handoffId." -ForegroundColor Green
+Write-Host "Response length: $($bridgeResult.Length) characters"
+$bridgeResult | Out-File -FilePath "$PSScriptRoot\..\..\results\validation\f1717_round3_review_response.json" -Encoding utf8
+Write-Host "Saved response to results/validation/f1717_round3_review_response.json"
+Write-Host $bridgeResult

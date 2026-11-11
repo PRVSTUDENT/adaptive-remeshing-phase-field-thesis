@@ -661,8 +661,8 @@ def plot_figure_h_miseseri_side_by_side():
         ax_pub.text(0.04, 0.05, "Published Figure 25(a) Indicator Characteristics:\n"
                                 "• Authentic published colorbar visible: Max ≈ 2.20e-12, Min ≈ 6.08e-19\n"
                                 "• Evaluates SPR stress jump on UEL companion layer in Job-1_UEL\n"
-                                "• Companion dummy stiffness E_dummy ≈ 1e-11 accounts for 10^-12 scale\n"
-                                "• Relative indicator η_e = MISESERI/MISESAVG is scale-invariant (E cancels)\n"
+                                "• Dummy modulus E_dummy ≈ 1e-11 is a working hypothesis; units unresolved\n"
+                                "• Pointwise proportionality between UEL and native mesh is unverified\n"
                                 "• Directional high-error band links voids h1 → h2 → h3 → h4 → h5\n"
                                 "• Deep-blue baseline (≤ 6e-19) covers >90% of specimen bulk",
                     transform=ax_pub.transAxes, fontsize=8.4,
@@ -683,9 +683,9 @@ def plot_figure_h_miseseri_side_by_side():
 
     add_void_patches(ax_our, ec="#0f172a", fc="#ffffff", lw=1.6, zorder=6)
 
-    # Highlight narrowest clearance and peak ligament
-    ax_our.plot([0.647, 0.679], [0.534, 0.524], "r-", lw=2.5, zorder=7)
-    ax_our.text(0.663, 0.555, "Narrowest Ligament\n(Clearance 33.1 µm, x ∈ [0.65, 0.68] mm)\nPeak: 367.2 MPa",
+    # Highlight narrowest clearance (geometric annotation only, not predicted crack path)
+    ax_our.plot([0.64743, 0.67885], [0.53419, 0.52372], "r-", lw=2.5, zorder=7)
+    ax_our.text(0.663, 0.555, "Geometric Clearance Annotation\n(Clearance 33.1 µm, not predicted crack path)\nPeak: 367.2 MPa",
                 fontsize=8.0, fontweight="bold", color="#dc2626", ha="center", zorder=8)
 
     ax_our.set_xlim(-0.05, 1.05)
@@ -703,11 +703,11 @@ def plot_figure_h_miseseri_side_by_side():
 
     ax_our.text(0.04, 0.05, "F1717 Authentic Indicator Reconciliation:\n"
                             "• Native continuum pre-analysis (E = 210 GPa) yields raw physical MPa scale\n"
-                            "• Peak MISESERI = 367.15 MPa on flank; 344.66 MPa in h3 ↔ h4 clearance\n"
-                            "• Clearance x ∈ [0.650, 0.675] mm (width 33.1 µm) has mean error = 261.0 MPa\n"
+                            "• Colorbars have independent scaling (published ~10^-12 vs local MPa)\n"
+                            "• Closest points (0.6474, 0.5342) to (0.6789, 0.5237) mm (clearance 33.1 µm)\n"
+                            "• Clearance sampling zone x ∈ [0.650, 0.675] mm has mean error = 261.0 MPa\n"
                             "• Far-field bulk has mean error = 1.95 MPa (134× lower than narrowest ligament)\n"
-                            "• Normalized relative error η_e reaches 31.9% (vs. calibrated target 3.05%)\n"
-                            "• Sizing response h(x) is identical due to linear-elastic scale-invariance",
+                            "• Full publication equivalence of indicator field remains unresolved",
                 transform=ax_our.transAxes, fontsize=8.4,
                 bbox=dict(boxstyle="round,pad=0.4", facecolor="#ffffff", edgecolor="#94a3b8", alpha=0.92))
 

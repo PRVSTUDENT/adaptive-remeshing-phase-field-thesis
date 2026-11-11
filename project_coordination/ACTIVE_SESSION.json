@@ -1,11 +1,11 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "f1716-five-hole-repair-session-002",
-  "task_id": "F1716-FIVE-HOLE-FAILURE-REPAIR-AND-PRODUCTION",
-  "started_at": "2026-11-11T12:04:00+01:00",
-  "completed_at": "2026-11-11T15:30:00+01:00",
-  "starting_commit": "63020e80",
+  "session_id": "f1717-miseseri-localization-session-001",
+  "task_id": "F1717-FIVE-HOLE-MISESERI-LOCALIZATION-AND-FIG23B",
+  "started_at": "2026-11-11T15:52:00+01:00",
+  "completed_at": "2026-11-11T17:36:00+01:00",
+  "starting_commit": "9608b0d2",
   "allowed_write_scope": [
     "project_coordination",
     "models/pandey_kumar_mode1",
@@ -18,5 +18,5 @@
     "configs",
     ".agents"
   ],
-  "notes": "Task F1716 COMPLETE: Five-hole failure permanently repaired, governed production Job 1422420.mmaster02 solved 2658 incs with 0 NaNs and autonomous ligament snap-through, authentic telemetry extracted, 5 publication figures generated, thesis Chapter 5 updated, and main.pdf cleanly compiled to 323 pages."
+  "notes": "Task F1717: Five-hole MISESERI localization audit and Figure 23(b) adaptive-mesh reproduction with strict mesh-only stop gate (no full fracture solve)."
 }
