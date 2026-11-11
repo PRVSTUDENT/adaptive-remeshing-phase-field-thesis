@@ -5,19 +5,19 @@
 #PBS -q entry_imfdfkmq
 #PBS -j oe
 #PBS -r n
-#PBS -o /scratch9/pr21vyci/runs/mode1_pk_f1716_five_hole_production/pbs_execution.log
+#PBS -o /scratch9/pr21vyci/runs/mode1_pk_f1716_five_hole_production_r1/pbs_execution.log
 #PBS -m abe
 #PBS -M pr21vyci@mailserver.tu-freiberg.de
 
 set -euo pipefail
-RUN_DIR="/scratch9/pr21vyci/runs/mode1_pk_f1716_five_hole_production"
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_pk_f1716_five_hole_production_r1"
 cd "${RUN_DIR}"
 
 export JOB_NAME="M1_PK_F1716_JOB2_ADAPTED"
 export INP_NAME="PK_F1716_JOB2_ADAPTED_PROD.inp"
 export USER_SUB="f42_amor_split_uel_v2.for"
 
-EXPECTED_INP_SHA="531278de23ffa5c8ae524dc9733a910e83440fe791ba44cacb5101c68e6cc0f0"
+EXPECTED_INP_SHA="d4408d626862ac7650fefc23d05cce42a336b8952c2c1bf108299b738c6dd70a"
 EXPECTED_UEL_SHA="91612e94e7a2e3f30845ae80815ef4337f582044e25e33bed80072e4aec40243"
 
 echo "=== PBS Preflight Check for ${JOB_NAME} ==="

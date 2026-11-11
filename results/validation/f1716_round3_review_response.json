@@ -1,0 +1,79 @@
+﻿JSON
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1716-PROD-REVISION-R1-003",
+  "task_id": "F1716-FIVE-HOLE-FAILURE-REPAIR-AND-PRODUCTION",
+  "decision": "APPROVE",
+  "review_scope": "REVISION_R1_SCIENTIFIC_AND_TECHNICAL_PRODUCTION_QUALIFICATION",
+  "review_summary": "Revision R1 provides a technically justified correction to the Abaqus step-time configuration responsible for premature termination of PBS job 1422402.mmaster02. The previous job demonstrated finite displacement, nonzero reactions, genuine mechanical equilibrium, and finite energy telemetry, but exhausted its permitted increment count after reaching only 0.625% of Step 1. The revised dimensionless time increments restore the intended 2000-increment first step and 5000-increment second step. The correction is mathematically consistent with the established F1714 loading schedule. The reported zero-error Abaqus datacheck supports production readiness. One governed R1 production submission is scientifically approved, conditional on all mandatory execution gates.",
+  "forensic_findings": {
+    "job_1422402_terminal_status": "PASS: Reported termination was caused by exceeding the maximum number of increments, not by the previous NaN failure or PBS walltime.",
+    "physical_loading_recovery": "PASS_REPORTED: The corrected UEL demonstrated finite displacements, nonzero tensile reactions, and force equilibrium. Full fracture evolution remains unverified.",
+    "step_time_error": "PASS: Step 1 used dimensionless dt=2.5e-6, requiring 400000 increments for a unit-time step. The imposed INC=2500 limit therefore terminated the analysis at step time 0.00625.",
+    "actual_loading_reached": "PASS: For linear displacement amplitude, the reported step time corresponds to 0.00003125 mm displacement, far below the intended 0.0050 mm first-step target.",
+    "r1_step_1": "PASS: initial_dt=max_dt=5.0e-4 over total step time 1.0 gives 2000 increments and a displacement increment of 2.5e-6 mm.",
+    "r1_step_2": "PASS: initial_dt=max_dt=2.0e-4 over total step time 1.0 gives 5000 increments and a displacement increment of 1.0e-6 mm, assuming the documented 0.0050-to-0.0100 mm displacement ramp.",
+    "increment_limits": "PASS: INC=2500 for Step 1 and INC=6000 for Step 2 provide capacity above the nominal 2000 and 5000 accepted increments. Actual cutbacks or time-increment reductions may increase the required count.",
+    "production_mesh": "PASS_REPORTED: The 13034 physical elements, 39102 layered elements, 13276 reference node, and existing MPC topology are preserved.",
+    "corrected_constitutive_source": "PASS_REPORTED: The versioned Amor v2 subroutine is unchanged from the previously qualified configuration.",
+    "datacheck": "PASS_REPORTED: Revision R1 completed Abaqus datacheck with zero errors and eight previously classified nonfatal output warnings.",
+    "hpc_configuration": "CONDITIONALLY_ACCEPTABLE: Four CPUs, 32 GB memory, and 24-hour walltime remain reasonable for the revised production attempt, subject to live scheduler and execution-gate verification.",
+    "full_fracture_validation": "UNRESOLVED: Complete crack propagation, ligament interaction, force-displacement behavior, energy consistency, and comparison with Pandey and Kumar Figures 22-25 require authentic production results."
+  },
+  "approved_artifacts": {
+    "revision": "R1",
+    "production_deck_sha256": "D4408D626862AC7650FEFC23D05CCE42A336B8952C2C1BF108299B738C6DD70A",
+    "uel_sha256": "91612E94E7A2E3F30845AE80815EF4337F582044E25E33BED80072E4AEC40243",
+    "pbs_script_sha256": "431A38664A7CDAD4A63A8C62201BC9747F00A1CCA1E110624BA18C52B42048B7",
+    "datacheck_sha256": "CA4E48AD3770CC1B0EE7D8C4050426B24998BA1FFAB78334A4B6BCFC1D540155",
+    "authorization_manifest_sha256": "EA9505F8E1CE6DC05C4CFCC2588872EF122B01E9BB828D813291DF9C9C2E92ED",
+    "notification_script_sha256": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11"
+  },
+  "production_configuration": {
+    "job_name": "f1716_five_hole_job2_adapted_r1",
+    "remote_directory": "/scratch9/pr21vyci/runs/mode1_pk_f1716_five_hole_production_r1",
+    "physical_elements": 13034,
+    "cpus": 4,
+    "memory_gb": 32,
+    "walltime_hours": 24,
+    "parallelization": "SMP_THREADS",
+    "submission_queue": "entry_imfdfkmq",
+    "target_queue": "normal_imfdfkmq",
+    "step_1": {
+      "initial_dt": 0.0005,
+      "total_time": 1.0,
+      "minimum_dt": 1e-9,
+      "maximum_dt": 0.0005,
+      "maximum_increments": 2500,
+      "target_displacement_mm": 0.005
+    },
+    "step_2": {
+      "initial_dt": 0.0002,
+      "total_time": 1.0,
+      "minimum_dt": 1e-9,
+      "maximum_dt": 0.0002,
+      "maximum_increments": 6000,
+      "target_displacement_mm": 0.01
+    }
+  },
+  "submission_policy": {
+    "scientific_qualification_approved": true,
+    "maximum_new_r1_production_submissions": 1,
+    "authorization_type": "CONDITIONAL_ON_EXISTING_EXECUTION_GATES",
+    "signed_execution_authorization_issued_by_this_response": false,
+    "required_conditions": [
+      "Verify the active registered task explicitly permits exactly one additional R1 production submission after termination of job 1422402.",
+      "Verify no existing R1 job has already been submitted and reconcile once-only accounting.",
+      "Verify the approved artifact hashes against the staged files and confirm the production directory is distinct from preserved predecessor directories.",
+      "Verify valid executor ownership, bridge transaction integrity, and absence of active safety blocks.",
+      "Verify current PBS queue eligibility, requested resources, Abaqus license availability, and the documented notification-policy disposition.",
+      "Verify that the actual staged input uses the approved dimensionless time increments and preserves the intended cumulative displacement history.",
+      "Ensure no silent changes to the UEL, material parameters, tolerances, mesh, or boundary conditions have occurred."
+    ]
+  },
+  "next_instruction": "Close the completed F1716 R1 step-time diagnosis without repeating existing datachecks or creating another approval loop. Reconcile the exact Revision R1 artifact hashes, terminated predecessor job 1422402, active task registration, executor ownership, notification-policy status, current PBS resources, and once-only submission ledger. If all existing mandatory execution gates pass, submit exactly ONE R1 production job using scripts/hpc/Invoke-Mode1Execution.ps1 and the approved authorization manifest, requesting 4 CPUs, 32 GB RAM, and 24 hours walltime. Record the authentic new PBS ID, scheduler receipt, source hashes, and submission transaction. If any mandatory gate fails, do not submit; report the specific blocker. After submission, verify early physical displacement and reaction-force telemetry, finite SDV fields and energy histories, and actual Step 1 time progression. In particular, verify that Step 1 reaches its intended displacement of 0.0050 mm and transitions correctly to Step 2 rather than exhausting the increment limit. Preserve all predecessor jobs and evidence. Following authentic terminal completion and ODB unlock, extract adaptive mesh figures, damage evolution, crack initiation and paths, complete force-displacement and energy histories, and quantitative comparisons with Pandey and Kumar Figures 22-25. Report scientific findings through the existing PAD bridge. Do not declare final benchmark success without physical postprocessing.",
+  "execution_authorization": "ONE_CONDITIONALLY_APPROVED_R1_PRODUCTION_SUBMISSION",
+  "full_production_submission_authorized": "ONLY_AFTER_MANDATORY_GATE_VERIFICATION",
+  "final_production_readiness": "SCIENTIFICALLY_QUALIFIED_PENDING_EXECUTION_GATES",
+  "final_fracture_validation": "PENDING_FULL_R1_PRODUCTION_RESULT"
+}

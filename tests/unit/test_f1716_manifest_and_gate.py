@@ -16,7 +16,7 @@ MANIFEST_PATH = PROD_DIR / "F1716_PK_FIVE_HOLE_JOB2_ADAPTED_AUTHORIZATION.json"
 
 
 def test_generate_and_validate_f1716_manifest():
-    run = "/scratch9/pr21vyci/runs/mode1_pk_f1716_five_hole_production"
+    run = "/scratch9/pr21vyci/runs/mode1_pk_f1716_five_hole_production_r1"
     pbs = "submit_M1_PK_F1716_JOB2_ADAPTED.pbs"
     sub_prog = "q" + "sub"
     expected = (
@@ -27,26 +27,26 @@ def test_generate_and_validate_f1716_manifest():
     cmd_sha256 = hashlib.sha256(re.sub(r'\r\n?', '\n', expected).strip().encode()).hexdigest()
 
     manifest = {
-        "batch_name": "FIVE_HOLE_PK_F1716_JOB2_ADAPTED",
+        "batch_name": "FIVE_HOLE_PK_F1716_JOB2_ADAPTED_R1",
         "max_submissions": 1,
         "hours_valid": 24,
         "automatic_retry": False,
         "files": {
-            "PK_F1716_JOB2_ADAPTED_PROD.inp": "531278de23ffa5c8ae524dc9733a910e83440fe791ba44cacb5101c68e6cc0f0",
+            "PK_F1716_JOB2_ADAPTED_PROD.inp": "d4408d626862ac7650fefc23d05cce42a336b8952c2c1bf108299b738c6dd70a",
             "f42_amor_split_uel_v2.for": "91612e94e7a2e3f30845ae80815ef4337f582044e25e33bed80072e4aec40243",
-            "submit_M1_PK_F1716_JOB2_ADAPTED.pbs": "32599ab20af51b90483f42004c3006e78303bedf1bde2e0f6fa7b2cce19971db",
+            "submit_M1_PK_F1716_JOB2_ADAPTED.pbs": "431a38664a7cdad4a63a8c62201bc9747f00a1cca1e110624ba18c52b42048b7",
             "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
-            "M1_PK_F1716_DATACHECK.dat": "c0fd30b761d6b509f5f118af4841de4ccce6e04e380f267e29bc59944ac7360b",
+            "M1_PK_F1716_DATACHECK.dat": "ca4e48ad3770cc1b0ee7d8c4050426b24998ba1ffab78334a4b6bcfc1d540155",
         },
         "jobs": [
             {
-                "id": "f1716_five_hole_job2_adapted",
+                "id": "f1716_five_hole_job2_adapted_r1",
                 "pbs": pbs,
                 "command": expected,
                 "command_sha256": cmd_sha256,
                 "max_submissions": 1,
                 "depends_on": [],
-                "purpose": "Pandey & Kumar (2025) Section 4.5 Five-Hole Adaptive Phase-Field Fracture Simulation on 13,034 physical elements (39,102 layered elements) under versioned Amor-split UEL f42_amor_split_uel_v2.for with 4 CPUs shared-memory SMP and automatic cutbacks down to dt = 1.0e-9",
+                "purpose": "Pandey & Kumar (2025) Section 4.5 Five-Hole Adaptive Phase-Field Fracture Simulation (Revision R1, Corrected Step Time) on 13,034 physical elements (39,102 layered elements) under versioned Amor-split UEL f42_amor_split_uel_v2.for with 4 CPUs shared-memory SMP and automatic cutbacks down to dt = 1.0e-9",
                 "cpus": 4,
                 "memory_gb": 32,
                 "walltime_hours": 24,
@@ -58,7 +58,7 @@ def test_generate_and_validate_f1716_manifest():
             }
         ],
         "acceptance": {
-            "f1716_five_hole_job2_adapted": "Abaqus 2023 4-thread shared-memory SMP solve completes Section 4.5 five-hole phase-field fracture simulation on 13,034 physical elements to uy = 0.0100 mm across 2 steps; captures multi-void crack nucleation and propagation through ligaments h4-h5, h3-h4, h2-h3, with non-zero reaction force equilibrium and uncorrupted uel_energy_balance.csv."
+            "f1716_five_hole_job2_adapted_r1": "Abaqus 2023 4-thread shared-memory SMP solve completes Section 4.5 five-hole phase-field fracture simulation on 13,034 physical elements to uy = 0.0100 mm across 2 steps; captures multi-void crack nucleation and propagation through ligaments h4-h5, h3-h4, h2-h3, with non-zero reaction force equilibrium and uncorrupted uel_energy_balance.csv."
         },
         "adapter": "mode1-five-hole-amor-v2",
         "scientific_scope": "FIVE_HOLE",
@@ -82,8 +82,8 @@ def test_generate_and_validate_f1716_manifest():
 
     # Now validate manifest through mode1_execution_gate
     batch, digest, files = validate_manifest(MANIFEST_PATH)
-    assert batch["batch_name"] == "FIVE_HOLE_PK_F1716_JOB2_ADAPTED"
-    assert batch["jobs"][0]["id"] == "f1716_five_hole_job2_adapted"
+    assert batch["batch_name"] == "FIVE_HOLE_PK_F1716_JOB2_ADAPTED_R1"
+    assert batch["jobs"][0]["id"] == "f1716_five_hole_job2_adapted_r1"
     assert batch["jobs"][0]["cpus"] == 4
     assert batch["jobs"][0]["memory_gb"] == 32
     assert batch["jobs"][0]["walltime_hours"] == 24

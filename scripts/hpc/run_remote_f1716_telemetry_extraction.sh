@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-RUN_DIR="/scratch9/pr21vyci/runs/mode1_pk_f1716_five_hole_production"
+RUN_DIR="${1:-/scratch9/pr21vyci/runs/mode1_pk_f1716_five_hole_production_r1}"
 cd "${RUN_DIR}"
 
 if ! type module >/dev/null 2>&1; then
