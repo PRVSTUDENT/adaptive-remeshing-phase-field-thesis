@@ -128,6 +128,23 @@ class TestF1714FiveHoleGeneralization(unittest.TestCase):
             parts = [p.strip() for p in l.split(",") if p.strip()]
             self.assertLessEqual(len(parts), 16, "Line %d exceeds 16 entries: %s" % (i+1, l[:50]))
 
+    def test_08_publication_figures_and_zooms_exist(self):
+        fig_dir = os.path.join(WORKSPACE_ROOT, "figures", "pandey_kumar_fig22_25_reproduction")
+        expected_figs = [
+            ("fig_f1714_five_hole_geometry.pdf", "fig_f1714_five_hole_geometry.png"),
+            ("fig_f1714_coarse_mesh.pdf", "fig_f1714_coarse_mesh.png"),
+            ("fig_f1714_error_indicator_miseseri.pdf", "fig_f1714_error_indicator_miseseri.png"),
+            ("fig_f1714_adaptive_mesh_only.pdf", "fig_f1714_adaptive_mesh_only.png"),
+            ("fig_f1714_ligament_mesh_zooms.pdf", "fig_f1714_ligament_mesh_zooms.png"),
+        ]
+        for pdf_name, png_name in expected_figs:
+            pdf_path = os.path.join(fig_dir, pdf_name)
+            png_path = os.path.join(fig_dir, png_name)
+            self.assertTrue(os.path.isfile(pdf_path), "Missing PDF figure: %s" % pdf_path)
+            self.assertTrue(os.path.isfile(png_path), "Missing PNG figure: %s" % png_path)
+            self.assertGreater(os.path.getsize(pdf_path), 10000, "PDF figure %s unexpectedly small" % pdf_name)
+            self.assertGreater(os.path.getsize(png_path), 50000, "PNG figure %s unexpectedly small" % png_name)
+
 
 if __name__ == "__main__":
     unittest.main()
