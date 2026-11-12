@@ -1,0 +1,686 @@
+{
+  "F1726_S2_ET450": {
+    "num_elements": 25296,
+    "num_nodes": 25712,
+    "num_quads": 24708,
+    "num_tris": 588,
+    "quad_percentage": 97.68,
+    "positive_jacobians": true,
+    "ar_max": 2.841,
+    "ar_mean": 1.246,
+    "global_h": {
+      "count": 25296,
+      "min": 0.79,
+      "mean": 4.54,
+      "median": 3.33,
+      "max": 25.77,
+      "le_l0": 22669,
+      "pct_le_l0": 89.6
+    },
+    "upper_corridor": {
+      "count": 4103,
+      "min": 0.87,
+      "mean": 2.27,
+      "median": 2.12,
+      "max": 5.03,
+      "le_l0": 4103,
+      "pct_le_l0": 100.0
+    },
+    "lower_h6": {
+      "count": 1260,
+      "min": 1.23,
+      "mean": 3.55,
+      "median": 3.37,
+      "max": 9.0,
+      "le_l0": 1251,
+      "pct_le_l0": 99.3
+    },
+    "lower_h7": {
+      "count": 1327,
+      "min": 1.23,
+      "mean": 3.47,
+      "median": 3.19,
+      "max": 7.59,
+      "le_l0": 1327,
+      "pct_le_l0": 100.0
+    },
+    "bulk": {
+      "count": 18606,
+      "min": 0.79,
+      "mean": 5.18,
+      "median": 3.84,
+      "max": 25.77,
+      "le_l0": 15988,
+      "pct_le_l0": 85.9
+    },
+    "parity_pct": 60.98,
+    "case_name": "F1726_S2_ET450"
+  },
+  "F1726_S2_ET500": {
+    "num_elements": 20527,
+    "num_nodes": 20930,
+    "num_quads": 20028,
+    "num_tris": 499,
+    "quad_percentage": 97.57,
+    "positive_jacobians": true,
+    "ar_max": 2.36,
+    "ar_mean": 1.244,
+    "global_h": {
+      "count": 20527,
+      "min": 0.84,
+      "mean": 5.1,
+      "median": 3.79,
+      "max": 24.96,
+      "le_l0": 17737,
+      "pct_le_l0": 86.4
+    },
+    "upper_corridor": {
+      "count": 3468,
+      "min": 0.84,
+      "mean": 2.45,
+      "median": 2.27,
+      "max": 5.63,
+      "le_l0": 3468,
+      "pct_le_l0": 100.0
+    },
+    "lower_h6": {
+      "count": 951,
+      "min": 1.38,
+      "mean": 4.08,
+      "median": 3.85,
+      "max": 9.52,
+      "le_l0": 931,
+      "pct_le_l0": 97.9
+    },
+    "lower_h7": {
+      "count": 1077,
+      "min": 1.3,
+      "mean": 3.83,
+      "median": 3.5,
+      "max": 8.71,
+      "le_l0": 1066,
+      "pct_le_l0": 99.0
+    },
+    "bulk": {
+      "count": 15031,
+      "min": 0.91,
+      "mean": 5.87,
+      "median": 4.47,
+      "max": 24.96,
+      "le_l0": 12272,
+      "pct_le_l0": 81.6
+    },
+    "parity_pct": 30.63,
+    "case_name": "F1726_S2_ET500"
+  },
+  "F1726_S2_ET550": {
+    "num_elements": 16890,
+    "num_nodes": 17296,
+    "num_quads": 16507,
+    "num_tris": 383,
+    "quad_percentage": 97.73,
+    "positive_jacobians": true,
+    "ar_max": 2.869,
+    "ar_mean": 1.249,
+    "global_h": {
+      "count": 16890,
+      "min": 0.77,
+      "mean": 5.73,
+      "median": 4.32,
+      "max": 25.39,
+      "le_l0": 13855,
+      "pct_le_l0": 82.0
+    },
+    "upper_corridor": {
+      "count": 2899,
+      "min": 0.77,
+      "mean": 2.67,
+      "median": 2.44,
+      "max": 6.2,
+      "le_l0": 2899,
+      "pct_le_l0": 100.0
+    },
+    "lower_h6": {
+      "count": 727,
+      "min": 1.71,
+      "mean": 4.66,
+      "median": 4.5,
+      "max": 10.77,
+      "le_l0": 691,
+      "pct_le_l0": 95.0
+    },
+    "lower_h7": {
+      "count": 813,
+      "min": 1.6,
+      "mean": 4.41,
+      "median": 4.05,
+      "max": 9.6,
+      "le_l0": 782,
+      "pct_le_l0": 96.2
+    },
+    "bulk": {
+      "count": 12451,
+      "min": 0.98,
+      "mean": 6.6,
+      "median": 5.12,
+      "max": 25.39,
+      "le_l0": 9483,
+      "pct_le_l0": 76.2
+    },
+    "parity_pct": 7.48,
+    "case_name": "F1726_S2_ET550"
+  },
+  "F1726_S2_ET575": {
+    "num_elements": 15146,
+    "num_nodes": 15526,
+    "num_quads": 14766,
+    "num_tris": 380,
+    "quad_percentage": 97.49,
+    "positive_jacobians": true,
+    "ar_max": 2.488,
+    "ar_mean": 1.251,
+    "global_h": {
+      "count": 15146,
+      "min": 0.52,
+      "mean": 6.1,
+      "median": 4.61,
+      "max": 24.67,
+      "le_l0": 12093,
+      "pct_le_l0": 79.8
+    },
+    "upper_corridor": {
+      "count": 2552,
+      "min": 0.52,
+      "mean": 2.84,
+      "median": 2.61,
+      "max": 6.68,
+      "le_l0": 2552,
+      "pct_le_l0": 100.0
+    },
+    "lower_h6": {
+      "count": 691,
+      "min": 1.8,
+      "mean": 4.81,
+      "median": 4.57,
+      "max": 11.88,
+      "le_l0": 654,
+      "pct_le_l0": 94.6
+    },
+    "lower_h7": {
+      "count": 754,
+      "min": 1.38,
+      "mean": 4.6,
+      "median": 4.28,
+      "max": 9.97,
+      "le_l0": 722,
+      "pct_le_l0": 95.8
+    },
+    "bulk": {
+      "count": 11149,
+      "min": 1.11,
+      "mean": 7.03,
+      "median": 5.5,
+      "max": 24.67,
+      "le_l0": 8165,
+      "pct_le_l0": 73.2
+    },
+    "parity_pct": -3.61,
+    "case_name": "F1726_S2_ET575"
+  },
+  "F1726_S2_ET600": {
+    "num_elements": 13802,
+    "num_nodes": 14167,
+    "num_quads": 13444,
+    "num_tris": 358,
+    "quad_percentage": 97.41,
+    "positive_jacobians": true,
+    "ar_max": 2.981,
+    "ar_mean": 1.257,
+    "global_h": {
+      "count": 13802,
+      "min": 0.88,
+      "mean": 6.48,
+      "median": 4.97,
+      "max": 24.76,
+      "le_l0": 10617,
+      "pct_le_l0": 76.9
+    },
+    "upper_corridor": {
+      "count": 2277,
+      "min": 0.88,
+      "mean": 3.01,
+      "median": 2.76,
+      "max": 6.16,
+      "le_l0": 2277,
+      "pct_le_l0": 100.0
+    },
+    "lower_h6": {
+      "count": 625,
+      "min": 1.88,
+      "mean": 5.09,
+      "median": 4.86,
+      "max": 11.25,
+      "le_l0": 586,
+      "pct_le_l0": 93.8
+    },
+    "lower_h7": {
+      "count": 670,
+      "min": 1.77,
+      "mean": 4.89,
+      "median": 4.5,
+      "max": 10.11,
+      "le_l0": 629,
+      "pct_le_l0": 93.9
+    },
+    "bulk": {
+      "count": 10230,
+      "min": 1.17,
+      "mean": 7.44,
+      "median": 5.9,
+      "max": 24.76,
+      "le_l0": 7125,
+      "pct_le_l0": 69.6
+    },
+    "parity_pct": -12.17,
+    "case_name": "F1726_S2_ET600"
+  },
+  "F1726_S2_ET625": {
+    "num_elements": 12536,
+    "num_nodes": 12893,
+    "num_quads": 12212,
+    "num_tris": 324,
+    "quad_percentage": 97.42,
+    "positive_jacobians": true,
+    "ar_max": 2.44,
+    "ar_mean": 1.262,
+    "global_h": {
+      "count": 12536,
+      "min": 1.0,
+      "mean": 6.86,
+      "median": 5.36,
+      "max": 24.03,
+      "le_l0": 9335,
+      "pct_le_l0": 74.5
+    },
+    "upper_corridor": {
+      "count": 2026,
+      "min": 1.0,
+      "mean": 3.19,
+      "median": 2.95,
+      "max": 6.45,
+      "le_l0": 2026,
+      "pct_le_l0": 100.0
+    },
+    "lower_h6": {
+      "count": 579,
+      "min": 1.96,
+      "mean": 5.27,
+      "median": 5.05,
+      "max": 13.1,
+      "le_l0": 544,
+      "pct_le_l0": 94.0
+    },
+    "lower_h7": {
+      "count": 596,
+      "min": 1.98,
+      "mean": 5.19,
+      "median": 4.74,
+      "max": 11.43,
+      "le_l0": 548,
+      "pct_le_l0": 91.9
+    },
+    "bulk": {
+      "count": 9335,
+      "min": 1.11,
+      "mean": 7.86,
+      "median": 6.29,
+      "max": 24.03,
+      "le_l0": 6217,
+      "pct_le_l0": 66.6
+    },
+    "parity_pct": -20.22,
+    "case_name": "F1726_S2_ET625"
+  },
+  "F1726_S2_ET650": {
+    "num_elements": 11406,
+    "num_nodes": 11742,
+    "num_quads": 11083,
+    "num_tris": 323,
+    "quad_percentage": 97.17,
+    "positive_jacobians": true,
+    "ar_max": 3.348,
+    "ar_mean": 1.266,
+    "global_h": {
+      "count": 11406,
+      "min": 0.76,
+      "mean": 7.29,
+      "median": 5.74,
+      "max": 23.94,
+      "le_l0": 8039,
+      "pct_le_l0": 70.5
+    },
+    "upper_corridor": {
+      "count": 1809,
+      "min": 0.76,
+      "mean": 3.36,
+      "median": 3.14,
+      "max": 7.23,
+      "le_l0": 1809,
+      "pct_le_l0": 100.0
+    },
+    "lower_h6": {
+      "count": 488,
+      "min": 2.35,
+      "mean": 5.77,
+      "median": 5.53,
+      "max": 13.89,
+      "le_l0": 445,
+      "pct_le_l0": 91.2
+    },
+    "lower_h7": {
+      "count": 523,
+      "min": 2.19,
+      "mean": 5.61,
+      "median": 5.3,
+      "max": 10.83,
+      "le_l0": 469,
+      "pct_le_l0": 89.7
+    },
+    "bulk": {
+      "count": 8586,
+      "min": 1.2,
+      "mean": 8.3,
+      "median": 6.72,
+      "max": 23.94,
+      "le_l0": 5316,
+      "pct_le_l0": 61.9
+    },
+    "parity_pct": -27.42,
+    "case_name": "F1726_S2_ET650"
+  },
+  "F1726_S2_COARSEN_ET450": {
+    "num_elements": 19180,
+    "num_nodes": 19587,
+    "num_quads": 18753,
+    "num_tris": 427,
+    "quad_percentage": 97.77,
+    "positive_jacobians": true,
+    "ar_max": 2.702,
+    "ar_mean": 1.244,
+    "global_h": {
+      "count": 19180,
+      "min": 0.92,
+      "mean": 5.22,
+      "median": 4.09,
+      "max": 33.24,
+      "le_l0": 16783,
+      "pct_le_l0": 87.5
+    },
+    "upper_corridor": {
+      "count": 3245,
+      "min": 0.97,
+      "mean": 2.52,
+      "median": 2.31,
+      "max": 5.18,
+      "le_l0": 3245,
+      "pct_le_l0": 100.0
+    },
+    "lower_h6": {
+      "count": 920,
+      "min": 1.57,
+      "mean": 4.21,
+      "median": 4.07,
+      "max": 9.81,
+      "le_l0": 903,
+      "pct_le_l0": 98.2
+    },
+    "lower_h7": {
+      "count": 946,
+      "min": 1.58,
+      "mean": 4.17,
+      "median": 3.98,
+      "max": 8.25,
+      "le_l0": 941,
+      "pct_le_l0": 99.5
+    },
+    "bulk": {
+      "count": 14069,
+      "min": 0.92,
+      "mean": 5.99,
+      "median": 4.67,
+      "max": 33.24,
+      "le_l0": 11694,
+      "pct_le_l0": 83.1
+    },
+    "parity_pct": 22.06,
+    "case_name": "F1726_S2_COARSEN_ET450"
+  },
+  "F1726_S2_COARSEN_ET500": {
+    "num_elements": 14961,
+    "num_nodes": 15304,
+    "num_quads": 14544,
+    "num_tris": 417,
+    "quad_percentage": 97.21,
+    "positive_jacobians": true,
+    "ar_max": 2.286,
+    "ar_mean": 1.26,
+    "global_h": {
+      "count": 14961,
+      "min": 0.97,
+      "mean": 5.99,
+      "median": 4.77,
+      "max": 34.71,
+      "le_l0": 12499,
+      "pct_le_l0": 83.5
+    },
+    "upper_corridor": {
+      "count": 2596,
+      "min": 0.97,
+      "mean": 2.79,
+      "median": 2.56,
+      "max": 7.02,
+      "le_l0": 2596,
+      "pct_le_l0": 100.0
+    },
+    "lower_h6": {
+      "count": 675,
+      "min": 1.87,
+      "mean": 4.95,
+      "median": 4.81,
+      "max": 10.43,
+      "le_l0": 650,
+      "pct_le_l0": 96.3
+    },
+    "lower_h7": {
+      "count": 716,
+      "min": 1.92,
+      "mean": 4.81,
+      "median": 4.57,
+      "max": 8.91,
+      "le_l0": 707,
+      "pct_le_l0": 98.7
+    },
+    "bulk": {
+      "count": 10974,
+      "min": 1.01,
+      "mean": 6.89,
+      "median": 5.43,
+      "max": 34.71,
+      "le_l0": 8546,
+      "pct_le_l0": 77.9
+    },
+    "parity_pct": -4.79,
+    "case_name": "F1726_S2_COARSEN_ET500"
+  },
+  "F1726_S2_COARSEN_ET550": {
+    "num_elements": 12134,
+    "num_nodes": 12470,
+    "num_quads": 11802,
+    "num_tris": 332,
+    "quad_percentage": 97.26,
+    "positive_jacobians": true,
+    "ar_max": 2.396,
+    "ar_mean": 1.262,
+    "global_h": {
+      "count": 12134,
+      "min": 1.14,
+      "mean": 6.74,
+      "median": 5.39,
+      "max": 35.41,
+      "le_l0": 9563,
+      "pct_le_l0": 78.8
+    },
+    "upper_corridor": {
+      "count": 2004,
+      "min": 1.17,
+      "mean": 3.19,
+      "median": 2.91,
+      "max": 7.02,
+      "le_l0": 2004,
+      "pct_le_l0": 100.0
+    },
+    "lower_h6": {
+      "count": 526,
+      "min": 2.57,
+      "mean": 5.55,
+      "median": 5.32,
+      "max": 12.61,
+      "le_l0": 489,
+      "pct_le_l0": 93.0
+    },
+    "lower_h7": {
+      "count": 583,
+      "min": 2.12,
+      "mean": 5.33,
+      "median": 5.09,
+      "max": 10.23,
+      "le_l0": 554,
+      "pct_le_l0": 95.0
+    },
+    "bulk": {
+      "count": 9021,
+      "min": 1.14,
+      "mean": 7.69,
+      "median": 6.11,
+      "max": 35.41,
+      "le_l0": 6516,
+      "pct_le_l0": 72.2
+    },
+    "parity_pct": -22.78,
+    "case_name": "F1726_S2_COARSEN_ET550"
+  },
+  "F1726_S2_COARSEN_ET575": {
+    "num_elements": 11465,
+    "num_nodes": 11800,
+    "num_quads": 11159,
+    "num_tris": 306,
+    "quad_percentage": 97.33,
+    "positive_jacobians": true,
+    "ar_max": 2.668,
+    "ar_mean": 1.265,
+    "global_h": {
+      "count": 11465,
+      "min": 0.85,
+      "mean": 6.95,
+      "median": 5.55,
+      "max": 34.79,
+      "le_l0": 8831,
+      "pct_le_l0": 77.0
+    },
+    "upper_corridor": {
+      "count": 1927,
+      "min": 0.85,
+      "mean": 3.26,
+      "median": 2.99,
+      "max": 7.04,
+      "le_l0": 1927,
+      "pct_le_l0": 100.0
+    },
+    "lower_h6": {
+      "count": 491,
+      "min": 2.03,
+      "mean": 5.77,
+      "median": 5.52,
+      "max": 11.76,
+      "le_l0": 452,
+      "pct_le_l0": 92.1
+    },
+    "lower_h7": {
+      "count": 547,
+      "min": 2.42,
+      "mean": 5.53,
+      "median": 5.25,
+      "max": 10.03,
+      "le_l0": 520,
+      "pct_le_l0": 95.1
+    },
+    "bulk": {
+      "count": 8500,
+      "min": 1.22,
+      "mean": 7.94,
+      "median": 6.29,
+      "max": 34.79,
+      "le_l0": 5932,
+      "pct_le_l0": 69.8
+    },
+    "parity_pct": -27.04,
+    "case_name": "F1726_S2_COARSEN_ET575"
+  },
+  "F1726_S2_COARSEN_ET600": {
+    "num_elements": 10434,
+    "num_nodes": 10747,
+    "num_quads": 10130,
+    "num_tris": 304,
+    "quad_percentage": 97.09,
+    "positive_jacobians": true,
+    "ar_max": 2.738,
+    "ar_mean": 1.266,
+    "global_h": {
+      "count": 10434,
+      "min": 0.94,
+      "mean": 7.36,
+      "median": 5.89,
+      "max": 34.72,
+      "le_l0": 7672,
+      "pct_le_l0": 73.5
+    },
+    "upper_corridor": {
+      "count": 1711,
+      "min": 1.2,
+      "mean": 3.46,
+      "median": 3.17,
+      "max": 7.31,
+      "le_l0": 1711,
+      "pct_le_l0": 100.0
+    },
+    "lower_h6": {
+      "count": 472,
+      "min": 2.83,
+      "mean": 5.91,
+      "median": 5.7,
+      "max": 13.06,
+      "le_l0": 432,
+      "pct_le_l0": 91.5
+    },
+    "lower_h7": {
+      "count": 481,
+      "min": 2.29,
+      "mean": 5.88,
+      "median": 5.55,
+      "max": 12.44,
+      "le_l0": 430,
+      "pct_le_l0": 89.4
+    },
+    "bulk": {
+      "count": 7770,
+      "min": 0.94,
+      "mean": 8.39,
+      "median": 6.68,
+      "max": 34.72,
+      "le_l0": 5099,
+      "pct_le_l0": 65.6
+    },
+    "parity_pct": -33.6,
+    "case_name": "F1726_S2_COARSEN_ET600"
+  }
+}

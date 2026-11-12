@@ -47,53 +47,80 @@ class AdaptiveConfig(object):
         geom = config_data.get("geometry", {})
         self.plate_w = float(geom.get("plate_width", 1.0))
         self.plate_h = float(geom.get("plate_height", 1.0))
-        self.notch_a = float(geom.get("notch_length", 0.5))
-        self.notch_y = float(geom.get("notch_y", 0.5))
-        self.notch_w = float(geom.get("notch_slit_opening", 0.001))
-        self.has_hole = bool(geom.get("has_hole", False))
-        self.hole_x = float(geom["hole_center_x"]) if (self.has_hole and "hole_center_x" in geom and geom["hole_center_x"] is not None) else None
-        self.hole_y = float(geom["hole_center_y"]) if (self.has_hole and "hole_center_y" in geom and geom["hole_center_y"] is not None) else None
-        self.hole_r = float(geom["hole_radius"]) if (self.has_hole and "hole_radius" in geom and geom["hole_radius"] is not None) else None
+        self.notch = geom.get("notch", None)
+        if isinstance(self.notch, dict):
+            self.notch_a = float(self.notch.get("length", 0.5))
+            self.notch_y = float(self.notch.get("y", 0.5))
+            self.notch_w = float(self.notch.get("slit_opening", 0.001))
+        elif "notch_length" in geom and geom["notch_length"] is not None:
+            self.notch_a = float(geom.get("notch_length", 0.5))
+            self.notch_y = float(geom.get("notch_y", 0.5))
+            self.notch_w = float(geom.get("notch_slit_opening", 0.001))
+        else:
+            self.notch_a = None
+            self.notch_y = None
+            self.notch_w = None
+
+        self.voids = geom.get("voids", [])
+        self.has_hole = bool(geom.get("has_hole", False)) or len(self.voids) > 0
+        if "hole_center_x" in geom and geom["hole_center_x"] is not None:
+            self.hole_x = float(geom["hole_center_x"])
+            self.hole_y = float(geom["hole_center_y"])
+            self.hole_r = float(geom["hole_radius"])
+        elif len(self.voids) == 1:
+            v0 = self.voids[0]
+            self.hole_x = float(v0.get("x", 0.0))
+            self.hole_y = float(v0.get("y", 0.0))
+            self.hole_r = float(v0.get("r", 0.0))
+        else:
+            self.hole_x = None
+            self.hole_y = None
+            self.hole_r = None
 
         mat = config_data.get("material", {})
-        self.E = float(mat.get("youngs_modulus_mpa", 210000.0))
-        self.nu = float(mat.get("poisson_ratio", 0.3))
-        self.l0 = float(mat.get("length_scale_l0_mm", 0.0075))
-        self.Gc = float(mat.get("gc_kn_per_mm", 0.0027))
-        self.k_residual = float(mat.get("residual_stiffness_k", 1e-7))
+        self.E = float(mat.get("youngs_modulus_mpa", mat.get("E", 210000.0)))
+        if self.E < 1000.0:  # If specified in GPa (e.g. 210.0), convert to MPa
+            self.E = self.E * 1000.0
+        self.nu = float(mat.get("poisson_ratio", mat.get("nu", 0.3)))
+        self.l0 = float(mat.get("length_scale_l0_mm", mat.get("l0", 0.0075)))
+        self.Gc = float(mat.get("gc_kn_per_mm", mat.get("Gc", 0.0027)))
+        self.k_residual = float(mat.get("residual_stiffness_k", mat.get("k_residual", 1e-7)))
 
         load = config_data.get("loading", {})
         self.bottom_u2 = float(load.get("bottom_u2", 0.0))
         self.pin_bottom_left_u1 = float(load.get("pin_bottom_left_u1", 0.0))
-        self.step1_u2 = float(load.get("step1_precritical_u2", 0.005))
-        self.step2_u2 = float(load.get("step2_fracture_u2", 0.012))
+        self.step1_u2 = float(load.get("step1_precritical_u2", load.get("step1_disp", 0.005)))
+        self.step2_u2 = float(load.get("step2_fracture_u2", load.get("step2_disp", 0.012)))
         self.kinematics = str(load.get("kinematics", "LINEAR"))
 
-        rr = config_data.get("remeshing_rule", {})
-        self.error_target = float(rr.get("error_target", 5.0))
-        self.min_h = float(rr.get("min_element_size_mm", 0.0015))
-        self.max_h = float(rr.get("max_element_size_mm", 0.020))
+        rr = config_data.get("remeshing_rule", config_data.get("remeshing", {}))
+        self.error_target = float(rr.get("error_target", rr.get("error_target_pct", 5.0)))
+        self.min_h = float(rr.get("min_element_size_mm", rr.get("h_min", 0.0015)))
+        self.max_h = float(rr.get("max_element_size_mm", rr.get("h_max", 0.020)))
         self.refinement_factor = int(rr.get("refinement_factor", 10))
-        self.coarsening_factor = str(rr.get("coarsening_factor", "NOT_ALLOWED"))
+        self.coarsening_factor = str(rr.get("coarsening_factor", "NOT_ALLOWED" if not rr.get("coarsening_allowed", False) else "DEFAULT_LIMIT"))
         self.sizing_method = str(rr.get("sizing_method", "UNIFORM_ERROR"))
-        self.variable = str(rr.get("variable", "MISESERI"))
+        self.variable = str(rr.get("variable", rr.get("indicator", "MISESERI")))
 
-        opts = config_data.get("deck_options", {})
-        self.uel_subroutine = opts.get("uel_subroutine", "f42_mixed_uel.for")
-        self.expected_uel_sha256 = opts.get("frozen_uel_sha256", FROZEN_UEL_SHA256)
-        self.output_dir = opts.get("output_directory", ".")
+        opts = config_data.get("deck_options", config_data.get("paths", {}))
+        self.uel_subroutine = opts.get("uel_subroutine", opts.get("uel_source", "f42_mixed_uel.for"))
+        self.expected_uel_sha256 = opts.get("expected_uel_sha256", opts.get("frozen_uel_sha256", FROZEN_UEL_SHA256))
+        self.output_dir = opts.get("output_directory", opts.get("output_dir", "."))
 
         self._validate()
 
     def _validate(self):
         if self.plate_w <= 0.0 or self.plate_h <= 0.0:
             raise ValueError("Plate dimensions must be positive.")
-        if self.notch_a <= 0.0 or self.notch_a >= self.plate_w:
-            raise ValueError("Notch length must be within (0, plate_width).")
+        if self.notch_a is not None:
+            if self.notch_a <= 0.0 or self.notch_a >= self.plate_w:
+                raise ValueError("Notch length must be within (0, plate_width).")
         if self.has_hole:
-            if self.hole_x is None or self.hole_y is None or self.hole_r is None:
+            if len(self.voids) > 1:
+                pass
+            elif self.hole_x is None or self.hole_y is None or self.hole_r is None:
                 raise ValueError("Hole coordinates and radius must be specified when has_hole=True.")
-            if self.hole_r <= 0.0:
+            elif self.hole_r <= 0.0:
                 raise ValueError("Hole radius must be positive.")
         if self.error_target <= 0.1:
             raise ValueError("error_target %.2f is ambiguous; must be percentage points (e.g. 5.0)." % self.error_target)
@@ -235,9 +262,95 @@ class OffAxisHoleMode1Adapter(GeometryAdapter):
         return "FAR_FIELD"
 
 
+class MultiHolePlateAdapter(GeometryAdapter):
+    """Adapter for perforated plates with multiple internal and/or edge voids."""
+
+    def __init__(self, config):
+        super(MultiHolePlateAdapter, self).__init__(config)
+        self.voids = getattr(config, "voids", [])
+        self.internal_holes = []
+        self.edge_cutouts = []
+        for v in self.voids:
+            v_type = v.get("type", "circle")
+            vx = float(v.get("x", 0.0))
+            vy = float(v.get("y", 0.0))
+            vr = float(v.get("r", 0.0))
+            v_name = v.get("name", "")
+            if v_type in ("circle", "hole"):
+                self.internal_holes.append((vx, vy, vr, v_name))
+            else:
+                self.edge_cutouts.append((vx, vy, vr, v_type, v_name))
+
+    def get_outer_polygon_points(self):
+        return [
+            (0.0, 0.0),
+            (self.config.plate_w, 0.0),
+            (self.config.plate_w, self.config.plate_h),
+            (0.0, self.config.plate_h)
+        ]
+
+    def get_hole_definitions(self):
+        return [(h[0], h[1], h[2]) for h in self.internal_holes]
+
+    def is_inside_domain(self, x, y, tol=1e-6):
+        if x < -tol or x > self.config.plate_w + tol:
+            return False
+        if y < -tol or y > self.config.plate_h + tol:
+            return False
+        for hx, hy, hr in self.get_hole_definitions():
+            if math.hypot(x - hx, y - hy) < hr - tol:
+                return False
+        for cx, cy, cr, ctype, _ in self.edge_cutouts:
+            if math.hypot(x - cx, y - cy) < cr - tol:
+                return False
+        return True
+
+    def classify_region(self, x, y, authentic_damage=None):
+        if authentic_damage is not None:
+            if authentic_damage >= 0.80:
+                return "CRACK_CORE"
+            elif authentic_damage >= 0.20:
+                return "ACTIVE_SOFTENING"
+            elif authentic_damage >= 0.05:
+                return "TRANSITION_ZONE"
+            else:
+                return "FAR_FIELD"
+
+        # Check if 7-hole geometry
+        if len(self.internal_holes) == 7:
+            # Active upper fracture corridor segments connecting h1 -> h4 -> h2 -> h5 -> h3:
+            segments = [
+                ((0.15, 0.40), (0.30, 0.60)),
+                ((0.30, 0.60), (0.50, 0.55)),
+                ((0.50, 0.55), (0.70, 0.60)),
+                ((0.70, 0.60), (0.85, 0.50))
+            ]
+            min_dist_corridor = 1e9
+            for (x1, y1), (x2, y2) in segments:
+                dx, dy = x2 - x1, y2 - y1
+                l2 = dx*dx + dy*dy
+                t = max(0.0, min(1.0, ((x - x1)*dx + (y - y1)*dy) / l2)) if l2 > 0 else 0.0
+                d = math.hypot(x - (x1 + t*dx), y - (y1 + t*dy))
+                if d < min_dist_corridor:
+                    min_dist_corridor = d
+
+            if min_dist_corridor <= 3.0 * self.config.l0:
+                return "UPPER_CRACK_CORRIDOR"
+
+            # Check proximity to lower shielded holes h6 (0.40, 0.35, r=0.05) and h7 (0.65, 0.35, r=0.05)
+            d6 = abs(math.hypot(x - 0.40, y - 0.35) - 0.05)
+            d7 = abs(math.hypot(x - 0.65, y - 0.35) - 0.05)
+            if min(d6, d7) <= 3.0 * self.config.l0:
+                return "LOWER_SHIELDED_HOLES"
+
+        return "FAR_FIELD"
+
+
 def get_geometry_adapter(config):
     """Factory to instantiate the appropriate geometry adapter."""
-    if config.has_hole:
+    if len(getattr(config, "voids", [])) > 1 or config.geometry_type in ("MULTI_HOLE_PLATE", "SEVEN_HOLE_PLATE", "FIVE_HOLE_PLATE"):
+        return MultiHolePlateAdapter(config)
+    elif config.has_hole:
         return OffAxisHoleMode1Adapter(config)
     else:
         return StraightNotchMode1Adapter(config)
@@ -600,12 +713,16 @@ class ProductionDeckBuilder(object):
                     config.l0, config.Gc, E_kn, config.nu, config.k_residual, num_phys_f
                 ))
 
-            # Companion Material (Visualizer UMAT) matching f42_mixed_uel.for ABI:
-            # PROPS: (1)=E, (2)=nu, (3)=N_phys
+            # Companion Material (Visualizer UMAT) matching ABI:
             f.write("*SOLID SECTION, ELSET=All_elem, MATERIAL=DUMMY_MAT\n1.0\n")
             f.write("*MATERIAL, NAME=DUMMY_MAT\n")
-            f.write("*USER MATERIAL, CONSTANTS=3\n")
-            f.write("%.1f, %.2f, %.1f\n" % (E_kn, config.nu, num_phys_f))
+            sub_name = str(config.uel_subroutine).lower()
+            if "f1720" in sub_name or "f1721" in sub_name or "direct_coupling" in sub_name:
+                f.write("*USER MATERIAL, CONSTANTS=4\n")
+                f.write("%.1f, %.2f, %.1f, 1.0\n" % (E_kn, config.nu, num_phys_f))
+            else:
+                f.write("*USER MATERIAL, CONSTANTS=3\n")
+                f.write("%.1f, %.2f, %.1f\n" % (E_kn, config.nu, num_phys_f))
             f.write("*DEPVAR\n20\n")
 
             # Rigid tie equations: top nodes tied to RP in DOF 2

@@ -1,0 +1,37 @@
+{
+  "odb_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\218_f1726_seven_hole_study\\PK_F1726_SEVEN_HOLE_COARSE.odb",
+  "total_layered_elements": 7698,
+  "n_phys": 2566,
+  "step1_frames": 12,
+  "step2_frames": 172,
+  "terminal_displacement_mm": 0.00655773188918829,
+  "terminal_rf2_kn": 0.8064037561416626,
+  "upper_corridor": {
+    "element_count": 62,
+    "mean_miseseri": 1.019183660464196e-14,
+    "max_miseseri": 2.5709611577249408e-14,
+    "mean_damage": 0.16027586653287854,
+    "max_damage": 0.47602030634880066
+  },
+  "lower_hole_h6": {
+    "element_count": 52,
+    "mean_miseseri": 6.960314898831805e-15,
+    "max_miseseri": 1.9319313808224478e-14,
+    "mean_damage": 0.026036046588650115,
+    "max_damage": 0.09283972531557083
+  },
+  "lower_hole_h7": {
+    "element_count": 48,
+    "mean_miseseri": 7.15679289136038e-15,
+    "max_miseseri": 1.7449486883094716e-14,
+    "mean_damage": 0.02706303228721178,
+    "max_damage": 0.07570479065179825
+  },
+  "bulk_far_field": {
+    "element_count": 2404,
+    "mean_miseseri": 1.8780058392895344e-15,
+    "max_miseseri": 2.296317500841312e-14,
+    "mean_damage": 0.01585820399691291,
+    "max_damage": 0.24690288305282593
+  }
+}
