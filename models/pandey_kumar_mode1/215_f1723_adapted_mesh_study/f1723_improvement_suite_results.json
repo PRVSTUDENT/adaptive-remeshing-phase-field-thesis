@@ -1,0 +1,1074 @@
+[
+  {
+    "num_elements": 15938,
+    "num_nodes": 16161,
+    "num_quads": 15536.0,
+    "num_tris": 402.0,
+    "quad_percentage": 97.4777261889823,
+    "positive_jacobians": true,
+    "ar_max": 2.586923730519463,
+    "ar_mean": 1.2548648097718338,
+    "global_h": {
+      "count": 15938,
+      "min_h": 0.0006446295337110771,
+      "mean_h": 0.006066571625271226,
+      "max_h": 0.02347724319405453,
+      "pct_le_l0": 77.95206424896473,
+      "pct_le_half_l0": 43.75705860208307
+    },
+    "lig1_h1_h2": {
+      "count": 1744,
+      "min_h": 0.0012750930580889496,
+      "mean_h": 0.0036579654798744635,
+      "max_h": 0.009465216545936985,
+      "pct_le_l0": 99.19724770642202,
+      "pct_le_half_l0": 68.0045871559633
+    },
+    "lig2_h2_h3": {
+      "count": 1621,
+      "min_h": 0.0014373415255992423,
+      "mean_h": 0.0033637060329249906,
+      "max_h": 0.00828707938362992,
+      "pct_le_l0": 99.9383096853794,
+      "pct_le_half_l0": 73.22640345465761
+    },
+    "lig3_h3_h4": {
+      "count": 890,
+      "min_h": 0.0007711796707361321,
+      "mean_h": 0.0019309324669196748,
+      "max_h": 0.003172619531827859,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 100.0
+    },
+    "lig4_h4_h5": {
+      "count": 1506,
+      "min_h": 0.0010189737730485345,
+      "mean_h": 0.0029255309642124807,
+      "max_h": 0.007991666678511627,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 83.66533864541833
+    },
+    "bulk": {
+      "count": 10177,
+      "min_h": 0.0006446295337110771,
+      "mean_h": 0.007736325023055707,
+      "max_h": 0.02347724319405453,
+      "pct_le_l0": 65.61855163604206,
+      "pct_le_half_l0": 24.083718188071142
+    },
+    "case_name": "A_S1_ET320",
+    "step_name": "Step-1",
+    "out_freq": "LAST_INCREMENT",
+    "err_tgt": 3.2,
+    "seed_size": 0.02,
+    "max_size": 0.02,
+    "min_size": 0.001,
+    "diff_vs_pub_pct": 23.130407911001235,
+    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\215_f1723_adapted_mesh_study\\A_S1_ET320.inp"
+  },
+  {
+    "num_elements": 14876,
+    "num_nodes": 15119,
+    "num_quads": 14533.0,
+    "num_tris": 343.0,
+    "quad_percentage": 97.69427265393924,
+    "positive_jacobians": true,
+    "ar_max": 2.71097000432505,
+    "ar_mean": 1.2573669128850724,
+    "global_h": {
+      "count": 14876,
+      "min_h": 0.0009491763604968577,
+      "mean_h": 0.006325538769018973,
+      "max_h": 0.022936424396889164,
+      "pct_le_l0": 76.05539123420274,
+      "pct_le_half_l0": 40.85103522452272
+    },
+    "lig1_h1_h2": {
+      "count": 1587,
+      "min_h": 0.0011046651312126316,
+      "mean_h": 0.0038355268488833045,
+      "max_h": 0.009552901924775823,
+      "pct_le_l0": 98.48771266540643,
+      "pct_le_half_l0": 65.02835538752363
+    },
+    "lig2_h2_h3": {
+      "count": 1539,
+      "min_h": 0.0012522220119472486,
+      "mean_h": 0.003469522794910437,
+      "max_h": 0.009350865232789551,
+      "pct_le_l0": 99.87004548408058,
+      "pct_le_half_l0": 69.91552956465237
+    },
+    "lig3_h3_h4": {
+      "count": 842,
+      "min_h": 0.0009491763604968577,
+      "mean_h": 0.0019839253241408007,
+      "max_h": 0.003923496203454311,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 100.0
+    },
+    "lig4_h4_h5": {
+      "count": 1401,
+      "min_h": 0.0011412466173734953,
+      "mean_h": 0.003009100789463127,
+      "max_h": 0.006946486922094478,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 79.37187723054961
+    },
+    "bulk": {
+      "count": 9507,
+      "min_h": 0.0010459624969385492,
+      "mean_h": 0.008076777396488552,
+      "max_h": 0.022936424396889164,
+      "pct_le_l0": 62.80635321342169,
+      "pct_le_half_l0": 21.194909014410435
+    },
+    "case_name": "A_S1_ET330",
+    "step_name": "Step-1",
+    "out_freq": "LAST_INCREMENT",
+    "err_tgt": 3.3,
+    "seed_size": 0.02,
+    "max_size": 0.02,
+    "min_size": 0.001,
+    "diff_vs_pub_pct": 14.925834363411619,
+    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\215_f1723_adapted_mesh_study\\A_S1_ET330.inp"
+  },
+  {
+    "num_elements": 14177,
+    "num_nodes": 14390,
+    "num_quads": 13797.0,
+    "num_tris": 380.0,
+    "quad_percentage": 97.31960217253298,
+    "positive_jacobians": true,
+    "ar_max": 2.5199407907992115,
+    "ar_mean": 1.2580589153289305,
+    "global_h": {
+      "count": 14177,
+      "min_h": 0.0008979551110145084,
+      "mean_h": 0.0065086910669372834,
+      "max_h": 0.0247809578088343,
+      "pct_le_l0": 74.52916696056994,
+      "pct_le_half_l0": 39.373633349791916
+    },
+    "lig1_h1_h2": {
+      "count": 1470,
+      "min_h": 0.001435416796521078,
+      "mean_h": 0.003990600372396594,
+      "max_h": 0.009911741498577152,
+      "pct_le_l0": 97.61904761904762,
+      "pct_le_half_l0": 62.31292517006803
+    },
+    "lig2_h2_h3": {
+      "count": 1503,
+      "min_h": 0.000982271776750006,
+      "mean_h": 0.0034903971770774895,
+      "max_h": 0.008561227926034051,
+      "pct_le_l0": 99.73386560212907,
+      "pct_le_half_l0": 71.39055222887558
+    },
+    "lig3_h3_h4": {
+      "count": 810,
+      "min_h": 0.0008979551110145084,
+      "mean_h": 0.0020277416492664856,
+      "max_h": 0.003241284784547361,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 100.0
+    },
+    "lig4_h4_h5": {
+      "count": 1329,
+      "min_h": 0.0011319690544734924,
+      "mean_h": 0.003098690421051126,
+      "max_h": 0.006980698786389146,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 75.77125658389767
+    },
+    "bulk": {
+      "count": 9065,
+      "min_h": 0.001169115081974546,
+      "mean_h": 0.008317797401645502,
+      "max_h": 0.0247809578088343,
+      "pct_le_l0": 60.59569773855488,
+      "pct_le_half_l0": 19.591836734693878
+    },
+    "case_name": "A_S1_ET340",
+    "step_name": "Step-1",
+    "out_freq": "LAST_INCREMENT",
+    "err_tgt": 3.4,
+    "seed_size": 0.02,
+    "max_size": 0.02,
+    "min_size": 0.001,
+    "diff_vs_pub_pct": 9.525648949320148,
+    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\215_f1723_adapted_mesh_study\\A_S1_ET340.inp"
+  },
+  {
+    "num_elements": 12382,
+    "num_nodes": 12615,
+    "num_quads": 12082.0,
+    "num_tris": 300.0,
+    "quad_percentage": 97.57712808916169,
+    "positive_jacobians": true,
+    "ar_max": 2.3946508807825753,
+    "ar_mean": 1.2562891092851252,
+    "global_h": {
+      "count": 12382,
+      "min_h": 0.0010133231404083898,
+      "mean_h": 0.00707375007851249,
+      "max_h": 0.024896687113355073,
+      "pct_le_l0": 70.24713293490551,
+      "pct_le_half_l0": 34.45323857212082
+    },
+    "lig1_h1_h2": {
+      "count": 1239,
+      "min_h": 0.001374361271184614,
+      "mean_h": 0.0043747797017782844,
+      "max_h": 0.010576232790617082,
+      "pct_le_l0": 97.0137207425343,
+      "pct_le_half_l0": 55.6093623890234
+    },
+    "lig2_h2_h3": {
+      "count": 1214,
+      "min_h": 0.0015714382738599205,
+      "mean_h": 0.0038640414955775845,
+      "max_h": 0.0084819026756601,
+      "pct_le_l0": 99.50576606260296,
+      "pct_le_half_l0": 59.225700164744644
+    },
+    "lig3_h3_h4": {
+      "count": 737,
+      "min_h": 0.001081088829375959,
+      "mean_h": 0.0021165025638896777,
+      "max_h": 0.004234185655700333,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 99.86431478968792
+    },
+    "lig4_h4_h5": {
+      "count": 1139,
+      "min_h": 0.0013865789056039732,
+      "mean_h": 0.003327903186585964,
+      "max_h": 0.008259788813413315,
+      "pct_le_l0": 99.82440737489026,
+      "pct_le_half_l0": 73.57330992098332
+    },
+    "bulk": {
+      "count": 8053,
+      "min_h": 0.0010133231404083898,
+      "mean_h": 0.008956355510604733,
+      "max_h": 0.024896687113355073,
+      "pct_le_l0": 54.81187135229107,
+      "pct_le_half_l0": 15.944368558301255
+    },
+    "case_name": "A_S1_ET360",
+    "step_name": "Step-1",
+    "out_freq": "LAST_INCREMENT",
+    "err_tgt": 3.6,
+    "seed_size": 0.02,
+    "max_size": 0.02,
+    "min_size": 0.001,
+    "diff_vs_pub_pct": -4.341779975278121,
+    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\215_f1723_adapted_mesh_study\\A_S1_ET360.inp"
+  },
+  {
+    "num_elements": 11842,
+    "num_nodes": 12074,
+    "num_quads": 11556.0,
+    "num_tris": 286.0,
+    "quad_percentage": 97.58486742104374,
+    "positive_jacobians": true,
+    "ar_max": 2.8763083003744656,
+    "ar_mean": 1.2603688561713375,
+    "global_h": {
+      "count": 11842,
+      "min_h": 0.0009449412053141666,
+      "mean_h": 0.007284011958344387,
+      "max_h": 0.02352560090772132,
+      "pct_le_l0": 68.46816416145921,
+      "pct_le_half_l0": 32.61273433541631
+    },
+    "lig1_h1_h2": {
+      "count": 1168,
+      "min_h": 0.001266989866942371,
+      "mean_h": 0.004503166790912372,
+      "max_h": 0.010618680862451003,
+      "pct_le_l0": 95.46232876712328,
+      "pct_le_half_l0": 51.54109589041096
+    },
+    "lig2_h2_h3": {
+      "count": 1128,
+      "min_h": 0.0012459380664525815,
+      "mean_h": 0.003993639505547042,
+      "max_h": 0.00942343654766027,
+      "pct_le_l0": 98.84751773049645,
+      "pct_le_half_l0": 59.48581560283688
+    },
+    "lig3_h3_h4": {
+      "count": 699,
+      "min_h": 0.0009449412053141666,
+      "mean_h": 0.0021758052042961324,
+      "max_h": 0.0041676836570872485,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 99.71387696709586
+    },
+    "lig4_h4_h5": {
+      "count": 1088,
+      "min_h": 0.0012573648619314084,
+      "mean_h": 0.003433356364469939,
+      "max_h": 0.0072993106684464395,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 70.86397058823529
+    },
+    "bulk": {
+      "count": 7759,
+      "min_h": 0.0011432633120874271,
+      "mean_h": 0.009181127190917035,
+      "max_h": 0.02352560090772132,
+      "pct_le_l0": 52.72586673540405,
+      "pct_le_half_l0": 14.44773811058126
+    },
+    "case_name": "A_S1_ET370",
+    "step_name": "Step-1",
+    "out_freq": "LAST_INCREMENT",
+    "err_tgt": 3.7,
+    "seed_size": 0.02,
+    "max_size": 0.02,
+    "min_size": 0.001,
+    "diff_vs_pub_pct": -8.513597033374538,
+    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\215_f1723_adapted_mesh_study\\A_S1_ET370.inp"
+  },
+  {
+    "num_elements": 23075,
+    "num_nodes": 23297,
+    "num_quads": 22547.0,
+    "num_tris": 528.0,
+    "quad_percentage": 97.71180931744313,
+    "positive_jacobians": true,
+    "ar_max": 2.61573823404816,
+    "ar_mean": 1.2434996475084232,
+    "global_h": {
+      "count": 23075,
+      "min_h": 0.0007411013216755148,
+      "mean_h": 0.00494803194671313,
+      "max_h": 0.024611195644024687,
+      "pct_le_l0": 86.18851570964247,
+      "pct_le_half_l0": 56.403033586132175
+    },
+    "lig1_h1_h2": {
+      "count": 2844,
+      "min_h": 0.0009839012999690213,
+      "mean_h": 0.0028845689886558374,
+      "max_h": 0.007172657689598143,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 81.68073136427567
+    },
+    "lig2_h2_h3": {
+      "count": 2368,
+      "min_h": 0.001202419916445642,
+      "mean_h": 0.0028546503004468027,
+      "max_h": 0.006596055462618845,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 91.59628378378379
+    },
+    "lig3_h3_h4": {
+      "count": 921,
+      "min_h": 0.0007411013216755148,
+      "mean_h": 0.00191056740345136,
+      "max_h": 0.0026630827686596713,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 100.0
+    },
+    "lig4_h4_h5": {
+      "count": 2115,
+      "min_h": 0.0008182161466509696,
+      "mean_h": 0.002519370562733328,
+      "max_h": 0.005105518910291426,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 95.13002364066193
+    },
+    "bulk": {
+      "count": 14827,
+      "min_h": 0.0008770220282445288,
+      "mean_h": 0.006213273739559607,
+      "max_h": 0.024611195644024687,
+      "pct_le_l0": 78.50542928441357,
+      "pct_le_half_l0": 37.701490524043976
+    },
+    "case_name": "B_SEED25_ET260",
+    "step_name": "Step-1",
+    "out_freq": "LAST_INCREMENT",
+    "err_tgt": 2.6,
+    "seed_size": 0.025,
+    "max_size": 0.025,
+    "min_size": 0.001,
+    "diff_vs_pub_pct": 78.26792336217552,
+    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\215_f1723_adapted_mesh_study\\B_SEED25_ET260.inp"
+  },
+  {
+    "num_elements": 19999,
+    "num_nodes": 20236,
+    "num_quads": 19545.0,
+    "num_tris": 454.0,
+    "quad_percentage": 97.72988649432472,
+    "positive_jacobians": true,
+    "ar_max": 2.3646400825407947,
+    "ar_mean": 1.2496560390165063,
+    "global_h": {
+      "count": 19999,
+      "min_h": 0.0007627981188181522,
+      "mean_h": 0.005355304001874011,
+      "max_h": 0.024805894143943855,
+      "pct_le_l0": 83.59917995899795,
+      "pct_le_half_l0": 50.067503375168755
+    },
+    "lig1_h1_h2": {
+      "count": 2432,
+      "min_h": 0.0010285762150470045,
+      "mean_h": 0.0031075590293944927,
+      "max_h": 0.007779720421535191,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 76.97368421052632
+    },
+    "lig2_h2_h3": {
+      "count": 2041,
+      "min_h": 0.0012521247624294185,
+      "mean_h": 0.003040534431524,
+      "max_h": 0.007105936550555471,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 82.9985301322881
+    },
+    "lig3_h3_h4": {
+      "count": 874,
+      "min_h": 0.0007627981188181522,
+      "mean_h": 0.001954639909583168,
+      "max_h": 0.0030250571113809473,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 100.0
+    },
+    "lig4_h4_h5": {
+      "count": 1886,
+      "min_h": 0.0008926564491566152,
+      "mean_h": 0.0026457380663514334,
+      "max_h": 0.006119520188308516,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 92.5238600212089
+    },
+    "bulk": {
+      "count": 12766,
+      "min_h": 0.0009048218603946513,
+      "mean_h": 0.0067867141724217645,
+      "max_h": 0.024805894143943855,
+      "pct_le_l0": 74.30675231082563,
+      "pct_le_half_l0": 29.985900046999845
+    },
+    "case_name": "B_SEED25_ET280",
+    "step_name": "Step-1",
+    "out_freq": "LAST_INCREMENT",
+    "err_tgt": 2.8,
+    "seed_size": 0.025,
+    "max_size": 0.025,
+    "min_size": 0.001,
+    "diff_vs_pub_pct": 54.5040173053152,
+    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\215_f1723_adapted_mesh_study\\B_SEED25_ET280.inp"
+  },
+  {
+    "num_elements": 17631,
+    "num_nodes": 17884,
+    "num_quads": 17251.0,
+    "num_tris": 380.0,
+    "quad_percentage": 97.84470534853384,
+    "positive_jacobians": true,
+    "ar_max": 2.4084850827133555,
+    "ar_mean": 1.2443178613110897,
+    "global_h": {
+      "count": 17631,
+      "min_h": 0.0008053893675851694,
+      "mean_h": 0.005744785942542813,
+      "max_h": 0.024569720886009245,
+      "pct_le_l0": 80.73847200952868,
+      "pct_le_half_l0": 46.696160172423575
+    },
+    "lig1_h1_h2": {
+      "count": 2006,
+      "min_h": 0.0010241155720458826,
+      "mean_h": 0.0034181835892665656,
+      "max_h": 0.00831716582451644,
+      "pct_le_l0": 99.85044865403789,
+      "pct_le_half_l0": 71.23629112662015
+    },
+    "lig2_h2_h3": {
+      "count": 1846,
+      "min_h": 0.001294955162580507,
+      "mean_h": 0.003186834125601693,
+      "max_h": 0.007679324321657204,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 79.25243770314192
+    },
+    "lig3_h3_h4": {
+      "count": 867,
+      "min_h": 0.0008053893675851694,
+      "mean_h": 0.0019587946044543137,
+      "max_h": 0.002985540302122535,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 100.0
+    },
+    "lig4_h4_h5": {
+      "count": 1665,
+      "min_h": 0.0008444398451789725,
+      "mean_h": 0.0028231652771519206,
+      "max_h": 0.006145146393562764,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 88.04804804804805
+    },
+    "bulk": {
+      "count": 11247,
+      "min_h": 0.0009397563289416772,
+      "mean_h": 0.007303965836980772,
+      "max_h": 0.024569720886009245,
+      "pct_le_l0": 69.83195518805015,
+      "pct_le_half_l0": 26.7449097537121
+    },
+    "case_name": "B_SEED25_ET300",
+    "step_name": "Step-1",
+    "out_freq": "LAST_INCREMENT",
+    "err_tgt": 3.0,
+    "seed_size": 0.025,
+    "max_size": 0.025,
+    "min_size": 0.001,
+    "diff_vs_pub_pct": 36.20982694684796,
+    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\215_f1723_adapted_mesh_study\\B_SEED25_ET300.inp"
+  },
+  {
+    "num_elements": 15602,
+    "num_nodes": 15842,
+    "num_quads": 15236.0,
+    "num_tris": 366.0,
+    "quad_percentage": 97.65414690424305,
+    "positive_jacobians": true,
+    "ar_max": 2.5658888196835687,
+    "ar_mean": 1.2561221435395262,
+    "global_h": {
+      "count": 15602,
+      "min_h": 0.0008894380436441227,
+      "mean_h": 0.006189647246216646,
+      "max_h": 0.025018228663995393,
+      "pct_le_l0": 77.27855403153441,
+      "pct_le_half_l0": 41.39212921420331
+    },
+    "lig1_h1_h2": {
+      "count": 1688,
+      "min_h": 0.001370716973869248,
+      "mean_h": 0.0037230228980009387,
+      "max_h": 0.008392661476893843,
+      "pct_le_l0": 99.5260663507109,
+      "pct_le_half_l0": 66.35071090047393
+    },
+    "lig2_h2_h3": {
+      "count": 1562,
+      "min_h": 0.001217482078438395,
+      "mean_h": 0.0034285839367333474,
+      "max_h": 0.008791956708943614,
+      "pct_le_l0": 99.8719590268886,
+      "pct_le_half_l0": 70.93469910371319
+    },
+    "lig3_h3_h4": {
+      "count": 861,
+      "min_h": 0.0008894380436441227,
+      "mean_h": 0.0019680107030584674,
+      "max_h": 0.003752544471841549,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 100.0
+    },
+    "lig4_h4_h5": {
+      "count": 1455,
+      "min_h": 0.001213531117649932,
+      "mean_h": 0.0029888313856862793,
+      "max_h": 0.007253381371162566,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 80.75601374570446
+    },
+    "bulk": {
+      "count": 10036,
+      "min_h": 0.0010619041273778388,
+      "mean_h": 0.007860478147963531,
+      "max_h": 0.025018228663995393,
+      "pct_le_l0": 64.77680350737346,
+      "pct_le_half_l0": 21.86129932243922
+    },
+    "case_name": "B_SEED25_ET320",
+    "step_name": "Step-1",
+    "out_freq": "LAST_INCREMENT",
+    "err_tgt": 3.2,
+    "seed_size": 0.025,
+    "max_size": 0.025,
+    "min_size": 0.001,
+    "diff_vs_pub_pct": 20.53461063040791,
+    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\215_f1723_adapted_mesh_study\\B_SEED25_ET320.inp"
+  },
+  {
+    "num_elements": 30614,
+    "num_nodes": 30799,
+    "num_quads": 29928.0,
+    "num_tris": 686.0,
+    "quad_percentage": 97.75919513947866,
+    "positive_jacobians": true,
+    "ar_max": 2.369389171222037,
+    "ar_mean": 1.2540162292479806,
+    "global_h": {
+      "count": 30614,
+      "min_h": 0.0008139053278371625,
+      "mean_h": 0.004268264612857836,
+      "max_h": 0.025214142691458684,
+      "pct_le_l0": 90.1515646436271,
+      "pct_le_half_l0": 67.27967596524466
+    },
+    "lig1_h1_h2": {
+      "count": 3752,
+      "min_h": 0.0008139053278371625,
+      "mean_h": 0.0025688906197404563,
+      "max_h": 0.006260841457763904,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 93.86993603411514
+    },
+    "lig2_h2_h3": {
+      "count": 2993,
+      "min_h": 0.000984477967523297,
+      "mean_h": 0.0025580202770889254,
+      "max_h": 0.005360588581284124,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 98.2292014700969
+    },
+    "lig3_h3_h4": {
+      "count": 877,
+      "min_h": 0.0011194846669275265,
+      "mean_h": 0.001958431683860563,
+      "max_h": 0.002947881698467692,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 100.0
+    },
+    "lig4_h4_h5": {
+      "count": 2775,
+      "min_h": 0.0008211784000249516,
+      "mean_h": 0.002237367288528381,
+      "max_h": 0.004606572851023367,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 99.78378378378379
+    },
+    "bulk": {
+      "count": 20217,
+      "min_h": 0.0009614845174185616,
+      "mean_h": 0.0052157976826939885,
+      "max_h": 0.025214142691458684,
+      "pct_le_l0": 85.0868081317703,
+      "pct_le_half_l0": 51.88207943809665
+    },
+    "case_name": "B_SEED30_ET220",
+    "step_name": "Step-1",
+    "out_freq": "LAST_INCREMENT",
+    "err_tgt": 2.2,
+    "seed_size": 0.03,
+    "max_size": 0.03,
+    "min_size": 0.001,
+    "diff_vs_pub_pct": 136.51112484548827,
+    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\215_f1723_adapted_mesh_study\\B_SEED30_ET220.inp"
+  },
+  {
+    "num_elements": 26269,
+    "num_nodes": 26489,
+    "num_quads": 25699.0,
+    "num_tris": 570.0,
+    "quad_percentage": 97.8301419924626,
+    "positive_jacobians": true,
+    "ar_max": 2.3646603570664886,
+    "ar_mean": 1.2467716573031795,
+    "global_h": {
+      "count": 26269,
+      "min_h": 0.0007651813851757323,
+      "mean_h": 0.004632123065808385,
+      "max_h": 0.024422260923503875,
+      "pct_le_l0": 88.05055388480719,
+      "pct_le_half_l0": 60.83215957973277
+    },
+    "lig1_h1_h2": {
+      "count": 3248,
+      "min_h": 0.0007665869861190045,
+      "mean_h": 0.0027407904346734855,
+      "max_h": 0.006577469140753428,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 86.79187192118226
+    },
+    "lig2_h2_h3": {
+      "count": 2645,
+      "min_h": 0.0010402795758307354,
+      "mean_h": 0.0027195332814422437,
+      "max_h": 0.006272709616539999,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 95.99243856332703
+    },
+    "lig3_h3_h4": {
+      "count": 890,
+      "min_h": 0.0007969306154651228,
+      "mean_h": 0.0019348882787032671,
+      "max_h": 0.003026266177451147,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 100.0
+    },
+    "lig4_h4_h5": {
+      "count": 2423,
+      "min_h": 0.0007651813851757323,
+      "mean_h": 0.002380776953114408,
+      "max_h": 0.004503416832825644,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 99.25711927362774
+    },
+    "bulk": {
+      "count": 17063,
+      "min_h": 0.0009077690301514866,
+      "mean_h": 0.005749007491592592,
+      "max_h": 0.024422260923503875,
+      "pct_le_l0": 81.60346949539941,
+      "pct_le_half_l0": 42.940866201723026
+    },
+    "case_name": "B_SEED30_ET240",
+    "step_name": "Step-1",
+    "out_freq": "LAST_INCREMENT",
+    "err_tgt": 2.4,
+    "seed_size": 0.03,
+    "max_size": 0.03,
+    "min_size": 0.001,
+    "diff_vs_pub_pct": 102.94344870210136,
+    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\215_f1723_adapted_mesh_study\\B_SEED30_ET240.inp"
+  },
+  {
+    "num_elements": 22841,
+    "num_nodes": 23086,
+    "num_quads": 22359.0,
+    "num_tris": 482.0,
+    "quad_percentage": 97.88975964274769,
+    "positive_jacobians": true,
+    "ar_max": 2.403834629236242,
+    "ar_mean": 1.2446729522163902,
+    "global_h": {
+      "count": 22841,
+      "min_h": 0.0007300526790295423,
+      "mean_h": 0.0049917461574146196,
+      "max_h": 0.024110450046997307,
+      "pct_le_l0": 85.8806532113305,
+      "pct_le_half_l0": 56.468630970623
+    },
+    "lig1_h1_h2": {
+      "count": 2854,
+      "min_h": 0.0010305499596661093,
+      "mean_h": 0.0028879457818494422,
+      "max_h": 0.00721513906893016,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 82.79607568325157
+    },
+    "lig2_h2_h3": {
+      "count": 2292,
+      "min_h": 0.001357223275853247,
+      "mean_h": 0.0029011819803822746,
+      "max_h": 0.006964278551393533,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 92.62652705061082
+    },
+    "lig3_h3_h4": {
+      "count": 881,
+      "min_h": 0.001069788387024892,
+      "mean_h": 0.001950921620513444,
+      "max_h": 0.0031060461646763887,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 100.0
+    },
+    "lig4_h4_h5": {
+      "count": 2148,
+      "min_h": 0.0007300526790295423,
+      "mean_h": 0.002517393968472671,
+      "max_h": 0.0048611563001108105,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 97.2998137802607
+    },
+    "bulk": {
+      "count": 14666,
+      "min_h": 0.0010737794879193433,
+      "mean_h": 0.006272919911981532,
+      "max_h": 0.024110450046997307,
+      "pct_le_l0": 78.01036410745942,
+      "pct_le_half_l0": 37.09941360970953
+    },
+    "case_name": "B_SEED30_ET260",
+    "step_name": "Step-1",
+    "out_freq": "LAST_INCREMENT",
+    "err_tgt": 2.6,
+    "seed_size": 0.03,
+    "max_size": 0.03,
+    "min_size": 0.001,
+    "diff_vs_pub_pct": 76.46013597033374,
+    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\215_f1723_adapted_mesh_study\\B_SEED30_ET260.inp"
+  },
+  {
+    "num_elements": 19801,
+    "num_nodes": 20059,
+    "num_quads": 19389.0,
+    "num_tris": 412.0,
+    "quad_percentage": 97.91929700520176,
+    "positive_jacobians": true,
+    "ar_max": 2.5122134816846446,
+    "ar_mean": 1.2495437745335374,
+    "global_h": {
+      "count": 19801,
+      "min_h": 0.0008899994350534576,
+      "mean_h": 0.0054020876534985034,
+      "max_h": 0.02459763834945967,
+      "pct_le_l0": 82.92005454269986,
+      "pct_le_half_l0": 50.29038937427403
+    },
+    "lig1_h1_h2": {
+      "count": 2390,
+      "min_h": 0.0011968272917931232,
+      "mean_h": 0.0031451631551093827,
+      "max_h": 0.008068068453422417,
+      "pct_le_l0": 99.9581589958159,
+      "pct_le_half_l0": 76.61087866108787
+    },
+    "lig2_h2_h3": {
+      "count": 2002,
+      "min_h": 0.00175257949085887,
+      "mean_h": 0.0030829186034927324,
+      "max_h": 0.00649826064847667,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 82.16783216783217
+    },
+    "lig3_h3_h4": {
+      "count": 845,
+      "min_h": 0.001033712373664312,
+      "mean_h": 0.001981438770073365,
+      "max_h": 0.003247611376154409,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 100.0
+    },
+    "lig4_h4_h5": {
+      "count": 1855,
+      "min_h": 0.0009290900365161896,
+      "mean_h": 0.002684975471547228,
+      "max_h": 0.005318459632260015,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 92.0754716981132
+    },
+    "bulk": {
+      "count": 12709,
+      "min_h": 0.0008899994350534576,
+      "mean_h": 0.006815866659972319,
+      "max_h": 0.02459763834945967,
+      "pct_le_l0": 73.3968054134865,
+      "pct_le_half_l0": 30.91509953576206
+    },
+    "case_name": "B_SEED30_ET280",
+    "step_name": "Step-1",
+    "out_freq": "LAST_INCREMENT",
+    "err_tgt": 2.8,
+    "seed_size": 0.03,
+    "max_size": 0.03,
+    "min_size": 0.001,
+    "diff_vs_pub_pct": 52.97435105067984,
+    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\215_f1723_adapted_mesh_study\\B_SEED30_ET280.inp"
+  },
+  {
+    "num_elements": 13438,
+    "num_nodes": 13657,
+    "num_quads": 13103.0,
+    "num_tris": 335.0,
+    "quad_percentage": 97.50706950439053,
+    "positive_jacobians": true,
+    "ar_max": 2.6244860722648102,
+    "ar_mean": 1.2624682495512505,
+    "global_h": {
+      "count": 13438,
+      "min_h": 0.0011427942211547696,
+      "mean_h": 0.006776551777672079,
+      "max_h": 0.023937271341425786,
+      "pct_le_l0": 73.26983182021134,
+      "pct_le_half_l0": 36.069355558862924
+    },
+    "lig1_h1_h2": {
+      "count": 1360,
+      "min_h": 0.001250163323097502,
+      "mean_h": 0.004184259838996063,
+      "max_h": 0.009444536233123316,
+      "pct_le_l0": 97.79411764705883,
+      "pct_le_half_l0": 57.64705882352941
+    },
+    "lig2_h2_h3": {
+      "count": 1527,
+      "min_h": 0.0011427942211547696,
+      "mean_h": 0.0034890602066925194,
+      "max_h": 0.008165726790054506,
+      "pct_le_l0": 99.93451211525868,
+      "pct_le_half_l0": 70.59593975114603
+    },
+    "lig3_h3_h4": {
+      "count": 567,
+      "min_h": 0.001191588693027782,
+      "mean_h": 0.002421741886956858,
+      "max_h": 0.004100618033637328,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 99.47089947089947
+    },
+    "lig4_h4_h5": {
+      "count": 1327,
+      "min_h": 0.0013847087033413198,
+      "mean_h": 0.0031113521168129005,
+      "max_h": 0.006853676971906023,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 78.07083647324792
+    },
+    "bulk": {
+      "count": 8657,
+      "min_h": 0.0013476443215203267,
+      "mean_h": 0.008610722255144736,
+      "max_h": 0.023937271341425786,
+      "pct_le_l0": 58.865657849139424,
+      "pct_le_half_l0": 15.998613838512187
+    },
+    "case_name": "C_S2_ET340",
+    "step_name": "Step-2",
+    "out_freq": "LAST_INCREMENT",
+    "err_tgt": 3.4,
+    "seed_size": 0.02,
+    "max_size": 0.02,
+    "min_size": 0.001,
+    "diff_vs_pub_pct": 3.8164400494437576,
+    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\215_f1723_adapted_mesh_study\\C_S2_ET340.inp"
+  },
+  {
+    "num_elements": 14381,
+    "num_nodes": 14578,
+    "num_quads": 13981.0,
+    "num_tris": 400.0,
+    "quad_percentage": 97.21855225644948,
+    "positive_jacobians": true,
+    "ar_max": 2.6523642914867867,
+    "ar_mean": 1.2600137748884763,
+    "global_h": {
+      "count": 14381,
+      "min_h": 0.0009181243940723416,
+      "mean_h": 0.006475941393061698,
+      "max_h": 0.02512637317284218,
+      "pct_le_l0": 75.14081079201725,
+      "pct_le_half_l0": 39.62867672623601
+    },
+    "lig1_h1_h2": {
+      "count": 1504,
+      "min_h": 0.0012438001231428262,
+      "mean_h": 0.003961976557864136,
+      "max_h": 0.008943358341087776,
+      "pct_le_l0": 98.86968085106383,
+      "pct_le_half_l0": 61.63563829787234
+    },
+    "lig2_h2_h3": {
+      "count": 1656,
+      "min_h": 0.0012101196949834275,
+      "mean_h": 0.003345175336050394,
+      "max_h": 0.007894826982584582,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 75.06038647342996
+    },
+    "lig3_h3_h4": {
+      "count": 612,
+      "min_h": 0.001080531532251203,
+      "mean_h": 0.0023136273124010707,
+      "max_h": 0.004078922864499637,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 99.83660130718954
+    },
+    "lig4_h4_h5": {
+      "count": 1411,
+      "min_h": 0.0009181243940723416,
+      "mean_h": 0.003017033101170059,
+      "max_h": 0.007505740168945733,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 80.43940467753366
+    },
+    "bulk": {
+      "count": 9198,
+      "min_h": 0.0012646111011752447,
+      "mean_h": 0.008258220966857271,
+      "max_h": 0.02512637317284218,
+      "pct_le_l0": 61.31767775603392,
+      "pct_le_half_l0": 19.384648836703633
+    },
+    "case_name": "C_S2_ET330",
+    "step_name": "Step-2",
+    "out_freq": "LAST_INCREMENT",
+    "err_tgt": 3.3,
+    "seed_size": 0.02,
+    "max_size": 0.02,
+    "min_size": 0.001,
+    "diff_vs_pub_pct": 11.101668726823238,
+    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\215_f1723_adapted_mesh_study\\C_S2_ET330.inp"
+  },
+  {
+    "num_elements": 15493,
+    "num_nodes": 15692,
+    "num_quads": 15076.0,
+    "num_tris": 417.0,
+    "quad_percentage": 97.30846188601303,
+    "positive_jacobians": true,
+    "ar_max": 2.471525602605551,
+    "ar_mean": 1.263103643315636,
+    "global_h": {
+      "count": 15493,
+      "min_h": 0.0009365566147678078,
+      "mean_h": 0.0062139495134473895,
+      "max_h": 0.024880631617723283,
+      "pct_le_l0": 77.20260762925192,
+      "pct_le_half_l0": 41.09597882914865
+    },
+    "lig1_h1_h2": {
+      "count": 1641,
+      "min_h": 0.0012117726213900298,
+      "mean_h": 0.003795266614353764,
+      "max_h": 0.008740727574423637,
+      "pct_le_l0": 99.51249238269348,
+      "pct_le_half_l0": 64.10725167580743
+    },
+    "lig2_h2_h3": {
+      "count": 1734,
+      "min_h": 0.001294689576578152,
+      "mean_h": 0.0032920617602885146,
+      "max_h": 0.007652630068517929,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 74.97116493656286
+    },
+    "lig3_h3_h4": {
+      "count": 656,
+      "min_h": 0.0009365566147678078,
+      "mean_h": 0.0022315165182426283,
+      "max_h": 0.003954774277854135,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 100.0
+    },
+    "lig4_h4_h5": {
+      "count": 1510,
+      "min_h": 0.0011628432304875227,
+      "mean_h": 0.002924898677989647,
+      "max_h": 0.006958182305518743,
+      "pct_le_l0": 100.0,
+      "pct_le_half_l0": 81.52317880794702
+    },
+    "bulk": {
+      "count": 9952,
+      "min_h": 0.0011701613023974394,
+      "mean_h": 0.007883418445097838,
+      "max_h": 0.024880631617723283,
+      "pct_le_l0": 64.59003215434083,
+      "pct_le_half_l0": 21.382636655948552
+    },
+    "case_name": "C_S2_ET320",
+    "step_name": "Step-2",
+    "out_freq": "LAST_INCREMENT",
+    "err_tgt": 3.2,
+    "seed_size": 0.02,
+    "max_size": 0.02,
+    "min_size": 0.001,
+    "diff_vs_pub_pct": 19.692521631644006,
+    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\215_f1723_adapted_mesh_study\\C_S2_ET320.inp"
+  }
+]
