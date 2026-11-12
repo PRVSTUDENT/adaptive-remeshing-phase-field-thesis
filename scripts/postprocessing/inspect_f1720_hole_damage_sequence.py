@@ -57,12 +57,8 @@ for step_name in odb.steps.keys():
 
 print("Total frames: %d" % len(all_frames))
 
-# Sample every 10 frames plus last 5 frames
-sample_indices = list(range(0, len(all_frames), 10))
-for i in range(max(0, len(all_frames) - 5), len(all_frames)):
-    if i not in sample_indices:
-        sample_indices.append(i)
-sample_indices.sort()
+# Extract all 179 frames without skipping
+sample_indices = list(range(len(all_frames)))
 
 results = []
 

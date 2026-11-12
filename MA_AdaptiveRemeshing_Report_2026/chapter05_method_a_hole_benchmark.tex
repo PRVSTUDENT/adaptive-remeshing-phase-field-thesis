@@ -2285,9 +2285,9 @@ Table~\ref{tab:f1720_diagnostic_neutrality} reports the unrounded reaction force
 \hline\hline
 \textbf{Configuration} & \textbf{Stress Scaling $s$} & \textbf{Reaction Force $RF_y$ (kN)} & \textbf{$\Delta RF$ (kN)} & \textbf{Relative Error (\%)} \\
 \hline
-Config A: Standalone UEL Reference & --- & $1.0500000000000000 \times 10^0$ & Baseline & Baseline \\
-Config B: Direct Coupled (Dummy Scaled) & $4.7619 \times 10^{-14}$ & $1.0500000000000000 \times 10^0$ & $0.0000000000000000$ & $\mathbf{0.00000000\%}$ \\
-Config C: Direct Coupled (Unscaled Stress) & $1.0$ & $2.1000000000000000 \times 10^0$ & $+1.0500000000000000$ & $\mathbf{+100.00000000\%}$ \\
+Config A: Standalone UEL Reference & --- & $0.2288094460964203$ & Baseline & Baseline \\
+Config B: Direct Coupled (Dummy Scaled) & $4.7619 \times 10^{-14}$ & $0.2288094460964203$ & $0.0000000000000000$ & $\mathbf{0.00000000\%}$ \\
+Config C: Direct Coupled (Unscaled Stress) & $1.0$ & $0.4576188921928406$ & $+0.2288094460964203$ & $\mathbf{+100.00000000\%}$ \\
 \hline\hline
 \end{tabular}
 \end{table}
@@ -2302,12 +2302,12 @@ Driving native \Abaqus CAE \texttt{adaptiveRemesh()} directly on the coupled out
 \subsection{Forward Phase-Field Fracture Simulation and Initiation Sequence}
 \label{subsec:f1720_forward_simulation}
 
-Using the $13{,}163$-element physical discretization, the complete 3-layer adapted model (\texttt{PK\_F1720\_ADAPTED\_PFM.inp}, $39{,}489$ layered elements) was assembled and solved in \Abaqus/Standard from the pristine undamaged state ($u=0, d=0$). The simulation solved $179$ equilibrium increments cleanly with zero cutbacks, zero numerical singularities, and zero floating-point exceptions.
+Using the $13{,}163$-element physical discretization, the complete 3-layer adapted model (\texttt{PK\_F1720\_ADAPTED\_PFM.inp}, $39{,}489$ layered elements) was assembled and solved in \Abaqus/Standard from the pristine undamaged state ($u=0, d=0$). The simulation completed Step~1 ($50$ increments to $u_y = 0.0050\,\mathrm{mm}$) and solved $127$ increments of Step~2, capturing the pre-peak hardening, peak tensile force ($F_{\max} = 0.9217\,\mathrm{kN}$ at $u_y = 0.005664\,\mathrm{mm}$), and post-peak snap-through crack bridging across ligament $h_3 \leftrightarrow h_4$ ($d \to 0.7167$). At increment $127$ ($u_y = 0.0056645\,\mathrm{mm}$), steep localized compliance changes caused automatic cutbacks down to $dt_{\min} = 1.0 \times 10^{-9}$, reaching a partial completion state ($22.15\%$ of Step~2).
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.88\textwidth]{figures/pandey_kumar_fig22_25_reproduction/fig_f1720_five_hole_validation.png}
-  \caption{Quantitative validation of the complete Method~A adaptive remeshing pipeline on the five-hole perforated plate benchmark (Task~F1720): (a)~Tensile load--displacement response comparing the forward simulation on the $13{,}163$-element adapted mesh against digitized reference data from Pandey \& Kumar~\cite[Figure~24(a)]{pandey2025}, showing close agreement in initial elastic stiffness ($K_0 \approx 175\,\mathrm{kN/mm}$), peak tensile load ($F_{\max} = 0.9217\,\mathrm{kN}$ vs $\sim 1.05\,\mathrm{kN}$), peak displacement ($u_{\mathrm{peak}} \approx 0.00566\,\mathrm{mm}$), and post-peak softening snap-through; (b)~Native adapted physical mesh wireframe exhibiting dense quadrilateral resolution localized strictly to the inter-hole fracture process zones ($100\%$ of ligament elements satisfying $h \le \ell_0/2$).}
+  \caption{Quantitative validation of the complete Method~A adaptive remeshing pipeline on the five-hole perforated plate benchmark (Task~F1720): (a)~Tensile load--displacement response comparing the forward simulation on the $13{,}163$-element adapted mesh against digitized reference data from Pandey \& Kumar~\cite[Figure~24(a)]{pandey2025}, showing close agreement in initial elastic stiffness ($K_0 \approx 175\,\mathrm{kN/mm}$), peak tensile load ($F_{\max} = 0.9217\,\mathrm{kN}$ vs $\sim 1.05\,\mathrm{kN}$, a $-12.22\%$ difference), peak displacement ($u_{\mathrm{peak}} \approx 0.00566\,\mathrm{mm}$), and post-peak softening snap-through; (b)~Native adapted physical mesh wireframe exhibiting dense quadrilateral resolution localized strictly to the inter-hole fracture process zones ($100\%$ of ligament elements satisfying $h \le \ell_0/2$).}
   \label{fig:f1720_five_hole_validation}
 \end{figure}
 
@@ -2330,12 +2330,12 @@ Physical Adapted Elements & $12{,}944$ & $\mathbf{13{,}163}$ ($12{,}851$ quads, 
 Mesh Quality $\det(\mathbf{J}) > 0$ & $100\%$ & $100.0\%$ (zero inverted elements) & \textbf{Pass} \\
 Ligament Resolution $h \le \ell_0/2$ & Required & $100.0\%$ in critical ligament & \textbf{Pass} \\
 Initial Structural Stiffness $K_0$ & $175\text{--}180\,\mathrm{kN/mm}$ & $174.98\,\mathrm{kN/mm}$ & \textbf{Pass (Exact match)} \\
-Peak Tensile Reaction Force $F_{\max}$ & $\sim 1.05\,\mathrm{kN}$ & $\mathbf{0.9217\,\mathrm{kN}}$ & \textbf{Pass (Close agreement)} \\
+Peak Tensile Reaction Force $F_{\max}$ & $\sim 1.05\,\mathrm{kN}$ & $\mathbf{0.9217\,\mathrm{kN}}$ & \textbf{-12.22\% difference} \\
 Peak Displacement $u(F_{\max})$ & $\approx 0.0055\,\mathrm{mm}$ & $\mathbf{0.005664\,\mathrm{mm}}$ & \textbf{Pass (Exact match)} \\
-Damage Irreversibility $\dot{d} \ge 0$ & Enforced & $100\%$ verified at all $52{,}652$ IPs & \textbf{Pass} \\
+Damage Irreversibility $\dot{d} \ge 0$ & Enforced & $100\%$ verified at all $\mathbf{51{,}716}$ IPs & \textbf{Pass} \\
 Multi-Hole Damage Nucleation & $h_5, h_4, h_3$ & Nucleation observed at $h_5, h_4, h_3$ & \textbf{Reconciled} \\
 Primary Crack Bridging Site & $h_3 \leftrightarrow h_4$ & Ligament $h_3 \leftrightarrow h_4$ ($d \to 0.72$) & \textbf{Reproduced} \\
-Total Solved Increments & --- & $179$ ($50$ Step 1, $129$ Step 2) & \textbf{0 cutbacks, clean solve} \\
+Total Solved Increments & --- & $177$ ($50$ Step 1, $127$ Step 2) & \textbf{Partial completion ($dt_{\min}=10^{-9}$)} \\
 PBS Jobs Consumed & --- & $0$ (100\% local execution) & \textbf{Pass} \\
 \hline\hline
 \end{tabular}

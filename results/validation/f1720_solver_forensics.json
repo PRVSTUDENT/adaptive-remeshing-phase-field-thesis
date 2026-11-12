@@ -1,0 +1,51 @@
+{
+  "odb_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\214_f1720_adapted_mesh\\PK_F1720_ADAPTED_PFM.odb",
+  "element_types": {
+    "RNODE3D": 26326,
+    "CPE3": 312,
+    "CPE4": 12851
+  },
+  "total_elements": 39489,
+  "steps": {
+    "Step-1": {
+      "total_frames": 51,
+      "first_frame": {
+        "frame_index": 0,
+        "frame_value": 0.0,
+        "u2_rp": 0.0,
+        "rf2_rp": -0.0
+      },
+      "last_frame": {
+        "frame_index": 50,
+        "frame_value": 1.0,
+        "u2_rp": 0.004999999888241291,
+        "rf2_rp": 0.8332006335258484
+      },
+      "sample_frames_count": 51
+    },
+    "Step-2": {
+      "total_frames": 128,
+      "first_frame": {
+        "frame_index": 0,
+        "frame_value": 0.0,
+        "u2_rp": 0.004999999888241291,
+        "rf2_rp": 0.8332006335258484
+      },
+      "last_frame": {
+        "frame_index": 127,
+        "frame_value": 0.22149844467639923,
+        "u2_rp": 0.005664495285600424,
+        "rf2_rp": 0.9127940535545349
+      },
+      "sample_frames_count": 128
+    }
+  },
+  "sdv1_values_count": 51716,
+  "final_frame_summary": {
+    "step": "Step-2",
+    "frame_index": 127,
+    "frame_value": 0.22149844467639923,
+    "u2_rp": 0.005664495285600424,
+    "rf2_rp": 0.9127940535545349
+  }
+}
