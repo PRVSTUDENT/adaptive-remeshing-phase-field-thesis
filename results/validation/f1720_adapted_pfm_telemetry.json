@@ -1,0 +1,620 @@
+{
+  "task_id": "F1720-METHOD-A-DIRECT-COUPLING-AND-REMESH-REPRODUCTION",
+  "benchmark": "Pandey & Kumar (2025) Section 4.5 Five-Hole Plate (1.0 x 1.0 mm)",
+  "mesh_statistics": {
+    "num_physical_elements": 13163,
+    "num_physical_nodes": 13401,
+    "num_total_layered_elements": 39489,
+    "num_total_nodes": 13402
+  },
+  "simulation_metrics": {
+    "total_frames": 179,
+    "peak_force_kN": 0.9217264652252197,
+    "u_at_peak_force_mm": 0.005663796886801719,
+    "max_damage": 0.7166776657104492,
+    "published_peak_force_kN": 1.05,
+    "peak_force_diff_pct": -12.216527121407648
+  },
+  "curve_samples": [
+    {
+      "step": "Step-1",
+      "frame": 0,
+      "displacement_mm": 0.0,
+      "force_kN": -0.0,
+      "rf_rp_kN": -0.0,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.0,
+      "max_damage_lig3": 0.0
+    },
+    {
+      "step": "Step-1",
+      "frame": 3,
+      "displacement_mm": 0.00029999999329447744,
+      "force_kN": 0.0527803935110569,
+      "rf_rp_kN": 0.0527803935110569,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.0,
+      "max_damage_lig3": 0.0
+    },
+    {
+      "step": "Step-1",
+      "frame": 6,
+      "displacement_mm": 0.0005999999865889549,
+      "force_kN": 0.10550469905138016,
+      "rf_rp_kN": 0.10550469905138016,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.0,
+      "max_damage_lig3": 0.0
+    },
+    {
+      "step": "Step-1",
+      "frame": 9,
+      "displacement_mm": 0.0009000000357627869,
+      "force_kN": 0.1581166386604309,
+      "rf_rp_kN": 0.1581166386604309,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.0,
+      "max_damage_lig3": 0.0
+    },
+    {
+      "step": "Step-1",
+      "frame": 12,
+      "displacement_mm": 0.0011999999731779098,
+      "force_kN": 0.21055959165096283,
+      "rf_rp_kN": 0.21055959165096283,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.007116228342056274,
+      "max_damage_lig3": 0.007116228342056274
+    },
+    {
+      "step": "Step-1",
+      "frame": 15,
+      "displacement_mm": 0.0015000000596046448,
+      "force_kN": 0.26277634501457214,
+      "rf_rp_kN": 0.26277634501457214,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.007116228342056274,
+      "max_damage_lig3": 0.007116228342056274
+    },
+    {
+      "step": "Step-1",
+      "frame": 18,
+      "displacement_mm": 0.0018000000715255738,
+      "force_kN": 0.31470879912376404,
+      "rf_rp_kN": 0.31470879912376404,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.007116228342056274,
+      "max_damage_lig3": 0.007116228342056274
+    },
+    {
+      "step": "Step-1",
+      "frame": 21,
+      "displacement_mm": 0.002099999934434891,
+      "force_kN": 0.36629775166511536,
+      "rf_rp_kN": 0.36629775166511536,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.02922735922038555,
+      "max_damage_lig3": 0.02922735922038555
+    },
+    {
+      "step": "Step-1",
+      "frame": 24,
+      "displacement_mm": 0.0023999999463558195,
+      "force_kN": 0.4174824059009552,
+      "rf_rp_kN": 0.4174824059009552,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.02922735922038555,
+      "max_damage_lig3": 0.02922735922038555
+    },
+    {
+      "step": "Step-1",
+      "frame": 27,
+      "displacement_mm": 0.0027000001072883606,
+      "force_kN": 0.46819981932640076,
+      "rf_rp_kN": 0.46819981932640076,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.02922735922038555,
+      "max_damage_lig3": 0.02922735922038555
+    },
+    {
+      "step": "Step-1",
+      "frame": 30,
+      "displacement_mm": 0.0030000001192092896,
+      "force_kN": 0.5183841586112976,
+      "rf_rp_kN": 0.5183841586112976,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.06913288682699203,
+      "max_damage_lig3": 0.06913288682699203
+    },
+    {
+      "step": "Step-1",
+      "frame": 33,
+      "displacement_mm": 0.0033000001311302186,
+      "force_kN": 0.5679656863212585,
+      "rf_rp_kN": 0.5679656863212585,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.06913288682699203,
+      "max_damage_lig3": 0.06913288682699203
+    },
+    {
+      "step": "Step-1",
+      "frame": 36,
+      "displacement_mm": 0.0036000001430511477,
+      "force_kN": 0.6168689727783203,
+      "rf_rp_kN": 0.6168689727783203,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.06913288682699203,
+      "max_damage_lig3": 0.06913288682699203
+    },
+    {
+      "step": "Step-1",
+      "frame": 39,
+      "displacement_mm": 0.0038999998569488525,
+      "force_kN": 0.6650107502937317,
+      "rf_rp_kN": 0.6650107502937317,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.06913288682699203,
+      "max_damage_lig3": 0.06913288682699203
+    },
+    {
+      "step": "Step-1",
+      "frame": 42,
+      "displacement_mm": 0.004199999868869782,
+      "force_kN": 0.7122954726219177,
+      "rf_rp_kN": 0.7122954726219177,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.13420958817005157,
+      "max_damage_lig3": 0.13420958817005157
+    },
+    {
+      "step": "Step-1",
+      "frame": 45,
+      "displacement_mm": 0.0044999998807907105,
+      "force_kN": 0.7586081027984619,
+      "rf_rp_kN": 0.7586081027984619,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.13420958817005157,
+      "max_damage_lig3": 0.13420958817005157
+    },
+    {
+      "step": "Step-1",
+      "frame": 48,
+      "displacement_mm": 0.004799999892711639,
+      "force_kN": 0.8037993311882019,
+      "rf_rp_kN": 0.8037993311882019,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.13420958817005157,
+      "max_damage_lig3": 0.13420958817005157
+    },
+    {
+      "step": "Step-2",
+      "frame": 0,
+      "displacement_mm": 0.005,
+      "force_kN": 0.8332006335258484,
+      "rf_rp_kN": 0.8332006335258484,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.24811220169067383,
+      "max_damage_lig3": 0.24811220169067383
+    },
+    {
+      "step": "Step-2",
+      "frame": 3,
+      "displacement_mm": 0.005008671875111759,
+      "force_kN": 0.8343703150749207,
+      "rf_rp_kN": 0.8343703150749207,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.24811220169067383,
+      "max_damage_lig3": 0.24811220169067383
+    },
+    {
+      "step": "Step-2",
+      "frame": 6,
+      "displacement_mm": 0.005013681640848517,
+      "force_kN": 0.8350890278816223,
+      "rf_rp_kN": 0.8350890278816223,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.24811220169067383,
+      "max_damage_lig3": 0.24811220169067383
+    },
+    {
+      "step": "Step-2",
+      "frame": 9,
+      "displacement_mm": 0.005030080566182733,
+      "force_kN": 0.8375087380409241,
+      "rf_rp_kN": 0.8375087380409241,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.24811220169067383,
+      "max_damage_lig3": 0.24811220169067383
+    },
+    {
+      "step": "Step-2",
+      "frame": 12,
+      "displacement_mm": 0.005052580567076802,
+      "force_kN": 0.8407363891601562,
+      "rf_rp_kN": 0.8407363891601562,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.2552589774131775,
+      "max_damage_lig3": 0.2552589774131775
+    },
+    {
+      "step": "Step-2",
+      "frame": 15,
+      "displacement_mm": 0.005075080567970872,
+      "force_kN": 0.8439767956733704,
+      "rf_rp_kN": 0.8439767956733704,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.2552589774131775,
+      "max_damage_lig3": 0.2552589774131775
+    },
+    {
+      "step": "Step-2",
+      "frame": 18,
+      "displacement_mm": 0.005097580563277007,
+      "force_kN": 0.8472108244895935,
+      "rf_rp_kN": 0.8472108244895935,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.2552589774131775,
+      "max_damage_lig3": 0.2552589774131775
+    },
+    {
+      "step": "Step-2",
+      "frame": 21,
+      "displacement_mm": 0.005120080564171076,
+      "force_kN": 0.8504292368888855,
+      "rf_rp_kN": 0.8504292368888855,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.2695252299308777,
+      "max_damage_lig3": 0.2695252299308777
+    },
+    {
+      "step": "Step-2",
+      "frame": 24,
+      "displacement_mm": 0.005142580565065146,
+      "force_kN": 0.8536390066146851,
+      "rf_rp_kN": 0.8536390066146851,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.2695252299308777,
+      "max_damage_lig3": 0.2695252299308777
+    },
+    {
+      "step": "Step-2",
+      "frame": 27,
+      "displacement_mm": 0.005165080565959215,
+      "force_kN": 0.8568382263183594,
+      "rf_rp_kN": 0.8568382263183594,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.2695252299308777,
+      "max_damage_lig3": 0.2695252299308777
+    },
+    {
+      "step": "Step-2",
+      "frame": 30,
+      "displacement_mm": 0.0051875805556774145,
+      "force_kN": 0.8600257635116577,
+      "rf_rp_kN": 0.8600257635116577,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.28464028239250183,
+      "max_damage_lig3": 0.28464028239250183
+    },
+    {
+      "step": "Step-2",
+      "frame": 33,
+      "displacement_mm": 0.005210080556571484,
+      "force_kN": 0.8632018566131592,
+      "rf_rp_kN": 0.8632018566131592,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.28464028239250183,
+      "max_damage_lig3": 0.28464028239250183
+    },
+    {
+      "step": "Step-2",
+      "frame": 36,
+      "displacement_mm": 0.0052325805574655535,
+      "force_kN": 0.866365909576416,
+      "rf_rp_kN": 0.866365909576416,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.28464028239250183,
+      "max_damage_lig3": 0.28464028239250183
+    },
+    {
+      "step": "Step-2",
+      "frame": 39,
+      "displacement_mm": 0.005255080558359623,
+      "force_kN": 0.8695172071456909,
+      "rf_rp_kN": 0.8695172071456909,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.28464028239250183,
+      "max_damage_lig3": 0.28464028239250183
+    },
+    {
+      "step": "Step-2",
+      "frame": 42,
+      "displacement_mm": 0.005277580559253692,
+      "force_kN": 0.8726553320884705,
+      "rf_rp_kN": 0.8726553320884705,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.30146628618240356,
+      "max_damage_lig3": 0.30146628618240356
+    },
+    {
+      "step": "Step-2",
+      "frame": 45,
+      "displacement_mm": 0.005300080560147763,
+      "force_kN": 0.8757795691490173,
+      "rf_rp_kN": 0.8757795691490173,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.30146628618240356,
+      "max_damage_lig3": 0.30146628618240356
+    },
+    {
+      "step": "Step-2",
+      "frame": 48,
+      "displacement_mm": 0.005322580561041832,
+      "force_kN": 0.8788889646530151,
+      "rf_rp_kN": 0.8788889646530151,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.30146628618240356,
+      "max_damage_lig3": 0.30146628618240356
+    },
+    {
+      "step": "Step-2",
+      "frame": 51,
+      "displacement_mm": 0.005345080561935902,
+      "force_kN": 0.881982684135437,
+      "rf_rp_kN": 0.881982684135437,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.32059141993522644,
+      "max_damage_lig3": 0.32059141993522644
+    },
+    {
+      "step": "Step-2",
+      "frame": 54,
+      "displacement_mm": 0.005367580562829971,
+      "force_kN": 0.8850595355033875,
+      "rf_rp_kN": 0.8850595355033875,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.32059141993522644,
+      "max_damage_lig3": 0.32059141993522644
+    },
+    {
+      "step": "Step-2",
+      "frame": 57,
+      "displacement_mm": 0.005390080586075783,
+      "force_kN": 0.8881181478500366,
+      "rf_rp_kN": 0.8881181478500366,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.32059141993522644,
+      "max_damage_lig3": 0.32059141993522644
+    },
+    {
+      "step": "Step-2",
+      "frame": 60,
+      "displacement_mm": 0.005412580564618111,
+      "force_kN": 0.891156792640686,
+      "rf_rp_kN": 0.891156792640686,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.3429846167564392,
+      "max_damage_lig3": 0.3429846167564392
+    },
+    {
+      "step": "Step-2",
+      "frame": 63,
+      "displacement_mm": 0.005435080587863923,
+      "force_kN": 0.8941733837127686,
+      "rf_rp_kN": 0.8941733837127686,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.3429846167564392,
+      "max_damage_lig3": 0.3429846167564392
+    },
+    {
+      "step": "Step-2",
+      "frame": 66,
+      "displacement_mm": 0.00545758056640625,
+      "force_kN": 0.8971651196479797,
+      "rf_rp_kN": 0.8971651196479797,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.3429846167564392,
+      "max_damage_lig3": 0.3429846167564392
+    },
+    {
+      "step": "Step-2",
+      "frame": 69,
+      "displacement_mm": 0.005480080544948578,
+      "force_kN": 0.9001284837722778,
+      "rf_rp_kN": 0.9001284837722778,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.3429846167564392,
+      "max_damage_lig3": 0.3429846167564392
+    },
+    {
+      "step": "Step-2",
+      "frame": 72,
+      "displacement_mm": 0.005502580568194389,
+      "force_kN": 0.9030585289001465,
+      "rf_rp_kN": 0.9030585289001465,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.37050750851631165,
+      "max_damage_lig3": 0.37050750851631165
+    },
+    {
+      "step": "Step-2",
+      "frame": 75,
+      "displacement_mm": 0.0055250805467367175,
+      "force_kN": 0.9059486389160156,
+      "rf_rp_kN": 0.9059486389160156,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.37050750851631165,
+      "max_damage_lig3": 0.37050750851631165
+    },
+    {
+      "step": "Step-2",
+      "frame": 78,
+      "displacement_mm": 0.005547580569982529,
+      "force_kN": 0.9087882041931152,
+      "rf_rp_kN": 0.9087882041931152,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.37050750851631165,
+      "max_damage_lig3": 0.37050750851631165
+    },
+    {
+      "step": "Step-2",
+      "frame": 81,
+      "displacement_mm": 0.0055700805485248564,
+      "force_kN": 0.9115616679191589,
+      "rf_rp_kN": 0.9115616679191589,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.40779048204421997,
+      "max_damage_lig3": 0.40779048204421997
+    },
+    {
+      "step": "Step-2",
+      "frame": 84,
+      "displacement_mm": 0.005592580571770668,
+      "force_kN": 0.9142410755157471,
+      "rf_rp_kN": 0.9142410755157471,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.40779048204421997,
+      "max_damage_lig3": 0.40779048204421997
+    },
+    {
+      "step": "Step-2",
+      "frame": 87,
+      "displacement_mm": 0.005600593268871307,
+      "force_kN": 0.9151508808135986,
+      "rf_rp_kN": 0.9151508808135986,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.40779048204421997,
+      "max_damage_lig3": 0.40779048204421997
+    },
+    {
+      "step": "Step-2",
+      "frame": 90,
+      "displacement_mm": 0.005600906372070313,
+      "force_kN": 0.9150308966636658,
+      "rf_rp_kN": 0.9150308966636658,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.4397016167640686,
+      "max_damage_lig3": 0.4397016167640686
+    },
+    {
+      "step": "Step-2",
+      "frame": 93,
+      "displacement_mm": 0.0056019631177186965,
+      "force_kN": 0.9148341417312622,
+      "rf_rp_kN": 0.9148341417312622,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.4397016167640686,
+      "max_damage_lig3": 0.4397016167640686
+    },
+    {
+      "step": "Step-2",
+      "frame": 96,
+      "displacement_mm": 0.0056055296510457995,
+      "force_kN": 0.9147839546203613,
+      "rf_rp_kN": 0.9147839546203613,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.4397016167640686,
+      "max_damage_lig3": 0.4397016167640686
+    },
+    {
+      "step": "Step-2",
+      "frame": 99,
+      "displacement_mm": 0.005606103777885437,
+      "force_kN": 0.9149379134178162,
+      "rf_rp_kN": 0.9149379134178162,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.4397016167640686,
+      "max_damage_lig3": 0.4397016167640686
+    },
+    {
+      "step": "Step-2",
+      "frame": 102,
+      "displacement_mm": 0.005606950148940086,
+      "force_kN": 0.9150615930557251,
+      "rf_rp_kN": 0.9150615930557251,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.4647808074951172,
+      "max_damage_lig3": 0.4647808074951172
+    },
+    {
+      "step": "Step-2",
+      "frame": 105,
+      "displacement_mm": 0.005609806567430496,
+      "force_kN": 0.9154702425003052,
+      "rf_rp_kN": 0.9154702425003052,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.4647808074951172,
+      "max_damage_lig3": 0.4647808074951172
+    },
+    {
+      "step": "Step-2",
+      "frame": 108,
+      "displacement_mm": 0.00561944705247879,
+      "force_kN": 0.9168268442153931,
+      "rf_rp_kN": 0.9168268442153931,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.4647808074951172,
+      "max_damage_lig3": 0.4647808074951172
+    },
+    {
+      "step": "Step-2",
+      "frame": 111,
+      "displacement_mm": 0.005641296863555908,
+      "force_kN": 0.91963791847229,
+      "rf_rp_kN": 0.91963791847229,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.46762678027153015,
+      "max_damage_lig3": 0.46762678027153015
+    },
+    {
+      "step": "Step-2",
+      "frame": 114,
+      "displacement_mm": 0.005663796886801719,
+      "force_kN": 0.9217264652252197,
+      "rf_rp_kN": 0.9217264652252197,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.46762678027153015,
+      "max_damage_lig3": 0.46762678027153015
+    },
+    {
+      "step": "Step-2",
+      "frame": 117,
+      "displacement_mm": 0.005664375483989716,
+      "force_kN": 0.9211214780807495,
+      "rf_rp_kN": 0.9211214780807495,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.46762678027153015,
+      "max_damage_lig3": 0.46762678027153015
+    },
+    {
+      "step": "Step-2",
+      "frame": 120,
+      "displacement_mm": 0.0056644871085882184,
+      "force_kN": 0.9197782874107361,
+      "rf_rp_kN": 0.9197782874107361,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.557911217212677,
+      "max_damage_lig3": 0.557911217212677
+    },
+    {
+      "step": "Step-2",
+      "frame": 123,
+      "displacement_mm": 0.005664495021104813,
+      "force_kN": 0.917198896408081,
+      "rf_rp_kN": 0.917198896408081,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.557911217212677,
+      "max_damage_lig3": 0.557911217212677
+    },
+    {
+      "step": "Step-2",
+      "frame": 126,
+      "displacement_mm": 0.005664495334029198,
+      "force_kN": 0.9127940535545349,
+      "rf_rp_kN": 0.9127940535545349,
+      "rf_bottom_kN": -0.0,
+      "max_damage": 0.557911217212677,
+      "max_damage_lig3": 0.557911217212677
+    }
+  ]
+}

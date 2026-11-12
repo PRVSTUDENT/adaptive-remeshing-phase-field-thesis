@@ -1,0 +1,18 @@
+{
+  "task_id": "F1720-METHOD-A-DIRECT-COUPLING-AND-REMESH-REPRODUCTION",
+  "title": "Complete Pandey-Kumar Method A: Direct UEL-UMAT Coupling, Native MISESERI, Adaptive Remeshing, and Final Fracture Validation",
+  "assigned_agent": "gemini-antigravity",
+  "scientific_scope": "FIVE_HOLE",
+  "technical_stage": "METHOD_A_DIRECT_COUPLING_AND_VALIDATION",
+  "max_new_pbs_submissions": 0,
+  "execution_mode": "LOCAL_DIAGNOSTIC_AND_OFFLINE_QUALIFICATION",
+  "created_at": "2026-11-11T23:53:00+01:00",
+  "predecessors": [
+    "F1714-FIVE-HOLE-GENERALIZATION-BENCHMARK",
+    "F1715-REUSABLE-METHOD-A-FRAMEWORK",
+    "F1716-FIVE-HOLE-FAILURE-REPAIR-AND-PRODUCTION",
+    "F1717-FIVE-HOLE-MISESERI-LOCALIZATION-AND-FIG23B",
+    "F1718-TRANSFER-SEC43-STRESS-RECOVERY-TO-FIVE-HOLE",
+    "F1719-COARSE-PHASE-FIELD-MISESERI-REMESH-FIVE-HOLE"
+  ]
+}
