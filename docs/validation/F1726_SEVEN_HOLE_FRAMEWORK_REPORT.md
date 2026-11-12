@@ -159,11 +159,11 @@ The primary canonical spatial partition employs a corridor and void perimeter ma
 
 | Spatial Region | Element Count | % of Mesh | $h_{\text{area}}$ Mean [Min, Max] ($\mu\text{m}$) | $\% h_{\text{area}} \le \ell_0$ | $h_{\text{max\_edge}}$ Mean [Min, Max] ($\mu\text{m}$) | $\% h_{\text{max\_edge}} \le \ell_0$ | Max Aspect Ratio |
 |---|---|---|---|---|---|---|---|
-| **Upper Fracture Corridor** | **2,648** | **16.86%** | **$2.80$** [$1.01$, $5.76$] | **100.0%** | **$3.13$** [$1.14$, $6.48$] | **100.0%** | 2.138 |
-| **Lower Shielded Hole $h_6$** | 691 | 4.40% | $4.78$ [$1.88$, $11.71$] | $94.8\%$ | $5.45$ [$2.07$, $13.56$] | $91.8\%$ | 2.054 |
-| **Lower Shielded Hole $h_7$** | 775 | 4.93% | $4.54$ [$1.63$, $9.34$] | $96.0\%$ | $5.11$ [$1.94$, $11.11$] | $92.5\%$ | 2.042 |
-| **Far-Field Bulk Domain** | 11,594 | 73.81% | $6.89$ [$1.00$, $24.99$] | $73.9\%$ | $7.81$ [$1.18$, $29.74$] | $67.7\%$ | 2.857 |
-| **Total Specimen Domain** | **15,708** | **100.00%** | $5.99$ [$1.00$, $24.99$] | $80.3\%$ | $6.78$ [$1.14$, $29.74$] | $75.5\%$ | 2.857 |
+| **Upper Fracture Corridor** | **2,648** | **16.86%** | **$2.80$** [$1.01$, $5.76$] | **100.0%** | **$3.13$** [$1.57$, $6.58$] | **100.0%** | 2.138 |
+| **Lower Shielded Hole $h_6$** | 691 | 4.40% | $4.78$ [$1.88$, $11.71$] | $94.8\%$ | $5.45$ [$2.85$, $14.07$] | $91.8\%$ | 2.054 |
+| **Lower Shielded Hole $h_7$** | 775 | 4.93% | $4.54$ [$1.63$, $9.34$] | $96.0\%$ | $5.11$ [$2.49$, $11.14$] | $92.5\%$ | 2.042 |
+| **Far-Field Bulk Domain** | 11,594 | 73.81% | $6.89$ [$1.00$, $24.99$] | $73.9\%$ | $7.81$ [$1.67$, $30.28$] | $67.7\%$ | 2.857 |
+| **Total Specimen Domain** | **15,708** | **100.00%** | $5.99$ [$1.00$, $24.99$] | $80.3\%$ | $6.78$ [$1.57$, $30.28$] | $75.5\%$ | 2.857 |
 
 ### 5.3 Sensitivity Analysis Partition: Narrow Corridor Core ($\delta = 3.0\,\ell_0 = 0.024\,\text{mm}$)
 As an independent sensitivity check, the mesh was re-evaluated under a narrower margin $\delta = 3.0\,\ell_0 = 0.024\,\text{mm}$ focused strictly on the core of the crack route:
