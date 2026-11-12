@@ -77,7 +77,21 @@
       "max_size_um": 24.99,
       "pct_le_l0": 73.9
     },
-    "exact_partition_sum": 15708
+    "exact_partition_sum": 15708,
+    "canonical_commit": "c904a123d2e0758f8132a95cfc8e85a96d342515",
+    "coarse_odb_bulk_max_damage": {
+      "value": 0.246903,
+      "element_id": 1252,
+      "coords": [0.9565, 0.4920],
+      "location": "Outer ligament between Hole 3 and right plate boundary"
+    },
+    "sensitivity_partition_3l0": {
+      "upper_corridor_count": 1540,
+      "lower_h6_count": 412,
+      "lower_h7_count": 445,
+      "bulk_count": 13311,
+      "exact_sum": 15708
+    }
   },
   "iteration": 1
 }

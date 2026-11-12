@@ -147,34 +147,111 @@ def test_adapted_physical_mesh_and_benchmark_parity():
 
 
 def test_spatial_selectivity_and_phase_field_resolution():
-    """Verify exact regional partition: 2648 + 691 + 775 + 11594 = 15708 and 100% h <= l0 in corridor."""
-    with open(FINE_PARITY_JSON, "r") as f:
-        fine = json.load(f)
+    """Verify exact regional partition and 100% h <= l0 directly from physical mesh PK_F1726_SEVEN_HOLE_ADAPTED_PHYS.inp."""
+    import math
+    from scripts.remeshing.reusable_2d_adaptive_framework import MeshQualityAuditEngine
 
-    opt = fine["F1726_S2_ET568"]
-    upper = opt["upper_corridor"]
-    h6 = opt["lower_h6"]
-    h7 = opt["lower_h7"]
-    bulk = opt["bulk"]
+    assert os.path.exists(ADAPTED_PHYS_INP), "Missing adapted physical mesh INP"
+    nodes, quad_elems, tri_elems = MeshQualityAuditEngine.parse_physical_inp(ADAPTED_PHYS_INP)
 
-    # Exact regional counts
-    assert upper["count"] == 2648
-    assert h6["count"] == 691
-    assert h7["count"] == 775
-    assert bulk["count"] == 11594
-    total_elements = upper["count"] + h6["count"] + h7["count"] + bulk["count"]
-    assert total_elements == 15708, f"Regional sum {total_elements} != 15,708"
+    upper_segments = [
+        ((0.15, 0.40), (0.30, 0.60)),
+        ((0.30, 0.60), (0.50, 0.55)),
+        ((0.50, 0.55), (0.70, 0.60)),
+        ((0.70, 0.60), (0.85, 0.50))
+    ]
 
-    # 100% of upper fracture corridor elements must satisfy h <= l0 (8.0 um)
-    assert upper["pct_le_l0"] == 100.0, f"Upper corridor compliance {upper['pct_le_l0']}% < 100.0%"
-    assert upper["mean"] == 2.80, f"Upper corridor mean size {upper['mean']} um != 2.80 um"
+    def dist_to_segments(px, py, segs):
+        min_d = 1e9
+        for (x1, y1), (x2, y2) in segs:
+            dx, dy = x2 - x1, y2 - y1
+            l2 = dx*dx + dy*dy
+            t = max(0.0, min(1.0, ((px - x1)*dx + (py - y1)*dy) / l2)) if l2 > 0 else 0.0
+            d = math.hypot(px - (x1 + t*dx), py - (y1 + t*dy))
+            if d < min_d:
+                min_d = d
+        return min_d
 
-    # Lower holes are significantly coarser (mean sizes 4.78 um and 4.54 um)
-    assert h6["mean"] == 4.78, f"Lower hole h6 mean size {h6['mean']} um != 4.78 um"
-    assert h7["mean"] == 4.54, f"Lower hole h7 mean size {h7['mean']} um != 4.54 um"
+    elements_list = []
+    for eid, conn in quad_elems.items():
+        pts = [nodes[nid] for nid in conn]
+        cx = sum(p[0] for p in pts) / 4.0
+        cy = sum(p[1] for p in pts) / 4.0
+        area = 0.5 * abs(
+            (pts[0][0]*pts[1][1] - pts[1][0]*pts[0][1]) +
+            (pts[1][0]*pts[2][1] - pts[2][0]*pts[1][1]) +
+            (pts[2][0]*pts[3][1] - pts[3][0]*pts[2][1]) +
+            (pts[3][0]*pts[0][1] - pts[0][0]*pts[3][1])
+        )
+        h_area = math.sqrt(area) * 1000.0
+        edges = [
+            math.hypot(pts[1][0] - pts[0][0], pts[1][1] - pts[0][1]),
+            math.hypot(pts[2][0] - pts[1][0], pts[2][1] - pts[1][1]),
+            math.hypot(pts[3][0] - pts[2][0], pts[3][1] - pts[2][1]),
+            math.hypot(pts[0][0] - pts[3][0], pts[0][1] - pts[3][1])
+        ]
+        h_max_edge = max(edges) * 1000.0
+        elements_list.append({"cx": cx, "cy": cy, "h_area": h_area, "h_max_edge": h_max_edge})
 
-    # Far-field bulk is coarse (mean size 6.89 um)
-    assert bulk["mean"] == 6.89, f"Bulk mean size {bulk['mean']} um != 6.89 um"
+    for eid, conn in tri_elems.items():
+        pts = [nodes[nid] for nid in conn]
+        cx = sum(p[0] for p in pts) / 3.0
+        cy = sum(p[1] for p in pts) / 3.0
+        area = 0.5 * abs(
+            pts[0][0]*(pts[1][1] - pts[2][1]) +
+            pts[1][0]*(pts[2][1] - pts[0][1]) +
+            pts[2][0]*(pts[0][1] - pts[1][1])
+        )
+        h_area = math.sqrt(area) * 1000.0
+        edges = [
+            math.hypot(pts[1][0] - pts[0][0], pts[1][1] - pts[0][1]),
+            math.hypot(pts[2][0] - pts[1][0], pts[2][1] - pts[1][1]),
+            math.hypot(pts[0][0] - pts[2][0], pts[0][1] - pts[2][1])
+        ]
+        h_max_edge = max(edges) * 1000.0
+        elements_list.append({"cx": cx, "cy": cy, "h_area": h_area, "h_max_edge": h_max_edge})
+
+    # Direct canonical classification from mesh elements
+    upper = []
+    h6 = []
+    h7 = []
+    bulk = []
+
+    for el in elements_list:
+        cx, cy = el["cx"], el["cy"]
+        d_up = dist_to_segments(cx, cy, upper_segments)
+        d6 = math.hypot(cx - 0.40, cy - 0.35) - 0.05
+        d7 = math.hypot(cx - 0.65, cy - 0.35) - 0.05
+        if d_up <= 0.040:
+            upper.append(el)
+        elif abs(d6) <= 0.040:
+            h6.append(el)
+        elif abs(d7) <= 0.040:
+            h7.append(el)
+        else:
+            bulk.append(el)
+
+    # 1. Exact non-overlapping counts computed directly from mesh
+    assert len(upper) == 2648, f"Direct upper count {len(upper)} != 2648"
+    assert len(h6) == 691, f"Direct h6 count {len(h6)} != 691"
+    assert len(h7) == 775, f"Direct h7 count {len(h7)} != 775"
+    assert len(bulk) == 11594, f"Direct bulk count {len(bulk)} != 11594"
+    assert len(upper) + len(h6) + len(h7) + len(bulk) == 15708
+
+    # 2. 100% of upper corridor elements satisfy h_area <= l0 = 8.0 um
+    l0_um = 8.0
+    upper_ha = [e["h_area"] for e in upper]
+    pct_ha_le_l0 = 100.0 * sum(1 for s in upper_ha if s <= l0_um) / float(len(upper))
+    assert pct_ha_le_l0 == 100.0, f"Upper corridor h_area compliance {pct_ha_le_l0}% < 100%"
+    mean_ha = sum(upper_ha) / float(len(upper))
+    assert abs(mean_ha - 2.80) < 0.02, f"Upper corridor mean h_area {mean_ha:.2f} != 2.80 um"
+
+    # 3. 100% of upper corridor elements ALSO satisfy h_max_edge <= l0 = 8.0 um!
+    upper_he = [e["h_max_edge"] for e in upper]
+    pct_he_le_l0 = 100.0 * sum(1 for s in upper_he if s <= l0_um) / float(len(upper))
+    assert pct_he_le_l0 == 100.0, f"Upper corridor h_max_edge compliance {pct_he_le_l0}% < 100%"
+    mean_he = sum(upper_he) / float(len(upper))
+    assert abs(mean_he - 3.13) < 0.05, f"Upper corridor mean h_max_edge {mean_he:.2f} != 3.13 um"
 
 
 def test_production_deck_structure():

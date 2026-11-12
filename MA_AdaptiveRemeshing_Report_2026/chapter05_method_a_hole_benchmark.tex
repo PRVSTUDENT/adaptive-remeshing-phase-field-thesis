@@ -3064,7 +3064,7 @@ Forensic extraction from the resulting coarse output database (\texttt{PK\_F1726
 \begin{itemize}
   \item \textbf{Upper Fracture Corridor ($h_1 \to h_4 \to h_2 \to h_5 \to h_3$):} Peak phase-field damage reached $d = 0.4760$, accompanied by an intense mean stress discretization error $\MISESERI = 1.0192 \times 10^{-14}$ (peak $2.5710 \times 10^{-14}$).
   \item \textbf{Lower Shielded Voids ($h_6$ and $h_7$):} Due to the macroscopic stress relief induced by the upper row of voids, damage around $h_6$ and $h_7$ remained negligible ($d_{\max} = 0.0928$ and $0.0757$, respectively), with mean error $\MISESERI \approx 7.0 \times 10^{-15}$ ($31\%$ lower than the upper corridor).
-  \item \textbf{Far-Field Bulk Domain:} Mean error dropped to $\MISESERI = 1.8780 \times 10^{-15}$ (with peak damage $d = 0.2469$ restricted to void outer shoulders due to elastic stress concentrations prior to stress shielding).
+  \item \textbf{Far-Field Bulk Domain:} Mean error dropped to $\MISESERI = 1.8780 \times 10^{-15}$ (with peak damage $d = 0.246903$ at physical Element~$1252$ at $(x=0.9565\,\mathrm{mm}, y=0.4920\,\mathrm{mm})$ in the outer ligament between Hole~$3$ and the right specimen boundary, where elastic stress concentration develops prior to stress shielding).
 \end{itemize}
 Consequently, the authentic coarse solution produces a natural \textbf{$5.427\times$ error contrast} ($1.0192 \times 10^{-14} / 1.8780 \times 10^{-15}$) between the primary fracture trajectory and the far-field bulk, providing an objective, physics-driven foundation for native adaptive remeshing.
 
@@ -3122,23 +3122,23 @@ Figure~\ref{fig:f1726_parity_curve} plots the scaling curve $N(e_{\mathrm{tgt}})
 \subsection{Spatial Selectivity and Resolution Compliance Audit}
 \label{subsec:f1726_spatial_selectivity}
 
-To prove that the generated mesh refines the true crack path while avoiding artificial spreading, a quantitative regional audit was conducted on the optimal candidate \texttt{F1726\_S2\_ET568}. Table~\ref{tab:f1726_spatial_audit} summarizes element allocation across non-overlapping functional domains.
+To prove that the generated mesh refines the true crack path while avoiding artificial spreading, a quantitative regional audit was conducted on the optimal candidate \texttt{F1726\_S2\_ET568}. Element sizes are evaluated using two distinct measures: area-equivalent length $h_{\mathrm{area}} = \sqrt{\mathrm{Area}}$ and maximum edge length $h_{\mathrm{max\_edge}} = \max_i \|\mathbf{x}_{i+1} - \mathbf{x}_i\|$. Table~\ref{tab:f1726_spatial_audit} summarizes the canonical non-overlapping partition ($\delta = 0.040\,\mathrm{mm} = 5.0\,\ellzero$).
 
 \begin{table}[htbp]
   \centering
   \small
-  \caption{Quantitative regional element-size metrics and resolution compliance for adapted mesh \texttt{F1726\_S2\_ET568} across non-overlapping partitions ($2{,}648 + 691 + 775 + 11{,}594 = 15{,}708$ elements).}
+  \caption{Quantitative regional element-size metrics and resolution compliance for adapted mesh \texttt{F1726\_S2\_ET568} across the canonical non-overlapping partition ($2{,}648 + 691 + 775 + 11{,}594 = 15{,}708$ elements).}
   \label{tab:f1726_spatial_audit}
   \begin{tabular}{lcccccc}
     \hline
-    Spatial Region & Elements & Fraction & Min $h$ ($\mu\mathrm{m}$) & Mean $h$ ($\mu\mathrm{m}$) & Max $h$ ($\mu\mathrm{m}$) & $\% \le \ellzero$ ($8\,\mu\mathrm{m}$) \\
+    Spatial Region & Elements & Fraction & $h_{\mathrm{area}}$ Mean ($\mu\mathrm{m}$) & $\% h_{\mathrm{area}} \le \ellzero$ & $h_{\mathrm{max\_edge}}$ Mean ($\mu\mathrm{m}$) & $\% h_{\mathrm{max\_edge}} \le \ellzero$ \\
     \hline
-    Upper Fracture Corridor & $2{,}648$ & $16.86\%$ & $1.01$ & $\mathbf{2.80}$ & $5.76$ & $\mathbf{100.0\%}$ \\
-    Lower Shielded Hole $h_6$ & $691$ & $4.40\%$ & $1.88$ & $4.78$ & $11.71$ & $94.8\%$ \\
-    Lower Shielded Hole $h_7$ & $775$ & $4.93\%$ & $1.63$ & $4.54$ & $9.34$ & $96.0\%$ \\
-    Far-Field Bulk Domain   & $11{,}594$ & $73.81\%$ & $1.00$ & $6.89$ & $24.99$ & $73.9\%$ \\
+    Upper Fracture Corridor & $2{,}648$ & $16.86\%$ & $\mathbf{2.80}$ & $\mathbf{100.0\%}$ & $\mathbf{3.13}$ & $\mathbf{100.0\%}$ \\
+    Lower Shielded Hole $h_6$ & $691$ & $4.40\%$ & $4.78$ & $94.8\%$ & $5.45$ & $91.8\%$ \\
+    Lower Shielded Hole $h_7$ & $775$ & $4.93\%$ & $4.54$ & $96.0\%$ & $5.11$ & $92.5\%$ \\
+    Far-Field Bulk Domain   & $11{,}594$ & $73.81\%$ & $6.89$ & $73.9\%$ & $7.81$ & $67.7\%$ \\
     \hline
-    Total Domain            & $15{,}708$ & $100.00\%$ & $1.00$ & $5.99$ & $24.99$ & $80.3\%$ \\
+    Total Specimen Domain   & $15{,}708$ & $100.00\%$ & $5.99$ & $80.3\%$ & $6.78$ & $75.5\%$ \\
     \hline
   \end{tabular}
 \end{table}
@@ -3152,7 +3152,7 @@ To prove that the generated mesh refines the true crack path while avoiding arti
 
 The wireframe zooms in Figure~\ref{fig:f1726_hole_zooms} confirm that quadrilateral elements smoothly align along void flanks and bridge narrow inter-hole ligaments:
 \begin{itemize}
-  \item In the upper fracture corridor ($2{,}648$ elements), \textbf{$100.0\%$ of elements satisfy $h \le \ellzero = 8.0\,\mu\mathrm{m}$}, with a mean size of $h = 2.80\,\mu\mathrm{m} \approx \ellzero / 2.86$. This guarantees optimal resolution of phase-field regularization without numerical pinning.
+  \item In the upper fracture corridor ($2{,}648$ elements), \textbf{$100.0\%$ of elements satisfy both $h_{\mathrm{area}} \le \ellzero = 8.0\,\mu\mathrm{m}$ and $h_{\mathrm{max\_edge}} \le \ellzero = 8.0\,\mu\mathrm{m}$}, with a mean size of $h_{\mathrm{area}} = 2.80\,\mu\mathrm{m} \approx \ellzero / 2.86$ and mean maximum edge of $3.13\,\mu\mathrm{m}$ (maximum edge $6.48\,\mu\mathrm{m}$). This guarantees optimal resolution of phase-field regularization without numerical pinning or cross-element bridging. Under a narrower sensitivity margin ($\delta = 3.0\,\ellzero = 0.024\,\mathrm{mm}$), the core corridor comprises $1{,}540$ elements with mean $h_{\mathrm{area}} = 2.74\,\mu\mathrm{m}$ (also $100.0\% \le \ellzero$).
   \item In the lower shielded voids $h_6$ ($691$ elements, $h_{\mathrm{mean}} = 4.78\,\mu\mathrm{m}$) and $h_7$ ($775$ elements, $h_{\mathrm{mean}} = 4.54\,\mu\mathrm{m}$), elements are $71\%$ and $62\%$ coarser than the upper path, reflecting the mechanical stress shadow cast by the upper voids.
   \item In the far-field bulk ($11{,}594$ elements), element sizes transition smoothly up to $h_{\max} = 24.99\,\mu\mathrm{m}$ ($h_{\mathrm{mean}} = 6.89\,\mu\mathrm{m}$), preserving the unrefined background grid without spurious spreading.
 \end{itemize}

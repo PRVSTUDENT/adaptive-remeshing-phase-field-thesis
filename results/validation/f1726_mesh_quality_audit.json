@@ -1,11 +1,12 @@
 {
   "mesh_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\218_f1726_seven_hole_study\\PK_F1726_SEVEN_HOLE_ADAPTED_PHYS.inp",
+  "canonical_commit": "c904a123d2e0758f8132a95cfc8e85a96d342515",
   "topology": {
     "total_elements": 15708,
     "total_nodes": 16094,
     "num_quads": 15325,
     "num_tris": 383,
-    "quad_percentage": 97.56175197351668,
+    "quad_percentage": 97.56,
     "published_benchmark_target": 15714,
     "parity_elements": -6,
     "parity_percentage": -0.038
@@ -14,49 +15,213 @@
     "non_positive_jacobians": 0,
     "min_det_j": 4.891340143559484e-07,
     "distorted_elements": 0,
-    "median_aspect_ratio": 1.208178383629048,
-    "min_corner_angle_deg": 29.841487688762808,
-    "h_min_um": 1.5744026494959626,
-    "h_median_um": 5.145047972700177,
-    "h_p95_um": 19.07659274544477,
-    "h_max_um": 30.284144968780527
+    "median_aspect_ratio": 1.208,
+    "mean_aspect_ratio": 1.254,
+    "max_aspect_ratio": 2.857,
+    "min_corner_angle_deg": 29.84,
+    "global_max_edge_um": 30.28
   },
-  "regional_breakdown": {
-    "upper_corridor": {
-      "count": 1540,
-      "pct_of_mesh": 9.8,
-      "min_um": 1.04,
-      "mean_um": 2.74,
-      "median_um": 2.56,
-      "max_um": 5.17,
-      "pct_le_l0": 100.0
-    },
-    "lower_h6": {
-      "count": 412,
-      "pct_of_mesh": 2.62,
-      "min_um": 1.88,
-      "mean_um": 4.52,
-      "median_um": 4.3,
-      "max_um": 10.89,
-      "pct_le_l0": 95.1
-    },
-    "lower_h7": {
-      "count": 445,
-      "pct_of_mesh": 2.83,
-      "min_um": 2.19,
-      "mean_um": 4.35,
-      "median_um": 4.0,
-      "max_um": 9.34,
-      "pct_le_l0": 96.9
-    },
-    "bulk": {
-      "count": 13311,
-      "pct_of_mesh": 84.74,
-      "min_um": 1.0,
-      "mean_um": 6.47,
-      "median_um": 5.01,
-      "max_um": 24.99,
-      "pct_le_l0": 77.0
+  "coarse_odb_bulk_max_damage_provenance": {
+    "max_damage": 0.246903,
+    "element_id": 1252,
+    "centroid_x_mm": 0.9565,
+    "centroid_y_mm": 0.492,
+    "physical_location": "Outer ligament between Hole 3 (x=0.85, y=0.50, r=0.10) and right specimen boundary (x=1.00), outside the defined upper corridor centerline segments (which end at x=0.85)."
+  },
+  "canonical_regional_partition": {
+    "definition": "Corridor and void perimeter margin delta = 0.040 mm (5.0 * l0)",
+    "exact_sum": 15708,
+    "breakdown": {
+      "upper_corridor": {
+        "count": 2648,
+        "pct_of_mesh": 16.86,
+        "h_area_um": {
+          "min": 1.01,
+          "mean": 2.8,
+          "median": 2.55,
+          "max": 5.76,
+          "pct_le_l0": 100.0
+        },
+        "h_max_edge_um": {
+          "min": 1.57,
+          "mean": 3.13,
+          "median": 2.86,
+          "max": 6.58,
+          "pct_le_l0": 100.0
+        },
+        "aspect_ratio": {
+          "median": 1.205,
+          "mean": 1.237,
+          "max": 2.138
+        }
+      },
+      "lower_h6": {
+        "count": 691,
+        "pct_of_mesh": 4.4,
+        "h_area_um": {
+          "min": 1.88,
+          "mean": 4.78,
+          "median": 4.52,
+          "max": 11.71,
+          "pct_le_l0": 94.8
+        },
+        "h_max_edge_um": {
+          "min": 2.85,
+          "mean": 5.45,
+          "median": 5.11,
+          "max": 14.07,
+          "pct_le_l0": 91.8
+        },
+        "aspect_ratio": {
+          "median": 1.235,
+          "mean": 1.285,
+          "max": 2.054
+        }
+      },
+      "lower_h7": {
+        "count": 775,
+        "pct_of_mesh": 4.93,
+        "h_area_um": {
+          "min": 1.63,
+          "mean": 4.54,
+          "median": 4.22,
+          "max": 9.34,
+          "pct_le_l0": 96.0
+        },
+        "h_max_edge_um": {
+          "min": 2.49,
+          "mean": 5.11,
+          "median": 4.66,
+          "max": 11.14,
+          "pct_le_l0": 92.5
+        },
+        "aspect_ratio": {
+          "median": 1.204,
+          "mean": 1.247,
+          "max": 2.042
+        }
+      },
+      "bulk": {
+        "count": 11594,
+        "pct_of_mesh": 73.81,
+        "h_area_um": {
+          "min": 1.0,
+          "mean": 6.89,
+          "median": 5.42,
+          "max": 24.99,
+          "pct_le_l0": 73.9
+        },
+        "h_max_edge_um": {
+          "min": 1.67,
+          "mean": 7.81,
+          "median": 6.11,
+          "max": 30.28,
+          "pct_le_l0": 67.7
+        },
+        "aspect_ratio": {
+          "median": 1.208,
+          "mean": 1.256,
+          "max": 2.857
+        }
+      }
+    }
+  },
+  "sensitivity_regional_partition": {
+    "definition": "Narrow corridor core margin delta = 0.024 mm (3.0 * l0)",
+    "exact_sum": 15708,
+    "breakdown": {
+      "upper_corridor": {
+        "count": 1540,
+        "pct_of_mesh": 9.8,
+        "h_area_um": {
+          "min": 1.04,
+          "mean": 2.74,
+          "median": 2.56,
+          "max": 5.17,
+          "pct_le_l0": 100.0
+        },
+        "h_max_edge_um": {
+          "min": 1.63,
+          "mean": 3.07,
+          "median": 2.89,
+          "max": 6.22,
+          "pct_le_l0": 100.0
+        },
+        "aspect_ratio": {
+          "median": 1.218,
+          "mean": 1.24,
+          "max": 2.001
+        }
+      },
+      "lower_h6": {
+        "count": 412,
+        "pct_of_mesh": 2.62,
+        "h_area_um": {
+          "min": 1.88,
+          "mean": 4.52,
+          "median": 4.3,
+          "max": 10.89,
+          "pct_le_l0": 95.1
+        },
+        "h_max_edge_um": {
+          "min": 2.85,
+          "mean": 5.07,
+          "median": 4.73,
+          "max": 14.07,
+          "pct_le_l0": 92.5
+        },
+        "aspect_ratio": {
+          "median": 1.217,
+          "mean": 1.249,
+          "max": 2.05
+        }
+      },
+      "lower_h7": {
+        "count": 445,
+        "pct_of_mesh": 2.83,
+        "h_area_um": {
+          "min": 2.19,
+          "mean": 4.35,
+          "median": 4.0,
+          "max": 9.34,
+          "pct_le_l0": 96.9
+        },
+        "h_max_edge_um": {
+          "min": 2.78,
+          "mean": 4.78,
+          "median": 4.3,
+          "max": 11.14,
+          "pct_le_l0": 94.2
+        },
+        "aspect_ratio": {
+          "median": 1.17,
+          "mean": 1.2,
+          "max": 1.823
+        }
+      },
+      "bulk": {
+        "count": 13311,
+        "pct_of_mesh": 84.74,
+        "h_area_um": {
+          "min": 1.0,
+          "mean": 6.47,
+          "median": 5.01,
+          "max": 24.99,
+          "pct_le_l0": 77.0
+        },
+        "h_max_edge_um": {
+          "min": 1.57,
+          "mean": 7.34,
+          "median": 5.72,
+          "max": 30.28,
+          "pct_le_l0": 71.4
+        },
+        "aspect_ratio": {
+          "median": 1.208,
+          "mean": 1.257,
+          "max": 2.857
+        }
+      }
     }
   }
 }

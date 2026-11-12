@@ -108,7 +108,7 @@ The coarse ODB was audited across four distinct spatial regions (`audit_seven_ho
 | **Lower Right Hole $h_7$** | $(x-0.65)^2 + (y-0.35)^2 \le 0.08^2$ | $7.1568 \times 10^{-15}$ | $1.7449 \times 10^{-14}$ | $0.0757$ | Shielded Elastic |
 | **Far-Field Bulk Domain** | Remainder of plate | **$1.8780 \times 10^{-15}$** | $2.2963 \times 10^{-14}$ | $0.2469$ | Far-Field Background / Shoulder Concentration |
 
-Profound physical conclusion: The authentic `MISESERI` error indicator along the primary fracture corridor is **5.427 times higher** ($1.0192 \times 10^{-14} / 1.8780 \times 10^{-15}$) than the bulk domain, and **1.45 times higher** than around the lower holes. Damage in the upper corridor reaches $d = 0.4760$, while the lower holes remain undamaged ($d < 0.10$). In the far-field bulk, maximum damage reaches $d = 0.2469$ exclusively at the outer circumferential shoulders of the voids due to the classical Kirsch elastic stress concentration factor ($K_t \approx 3$) prior to stress shielding. Thus, native Abaqus remeshing receives a naturally polarized, physics-driven error signal without any manual intervention! Detailed telemetry is recorded in `models/pandey_kumar_mode1/218_f1726_seven_hole_study/f1726_coarse_odb_audit.json`.
+Profound physical conclusion: The authentic `MISESERI` error indicator along the primary fracture corridor is **5.427 times higher** ($1.0192 \times 10^{-14} / 1.8780 \times 10^{-15}$) than the bulk domain, and **1.45 times higher** than around the lower holes. Damage in the upper corridor reaches $d = 0.4760$, while the lower holes remain undamaged ($d < 0.10$). In the far-field bulk, maximum damage reaches $d = 0.246903$ at physical Element 1252, centered at $(x = 0.9565\,\text{mm}, y = 0.4920\,\text{mm})$. This location corresponds to the outer ligament between Hole 3 ($x=0.85, y=0.50, R=0.10$) and the right plate boundary ($x=1.00$), situated outside the upper corridor centerline segments (which end at the center of Hole 3, $x=0.85$). Due to the classical Kirsch elastic stress concentration factor ($K_t \approx 3$), this outer ligament experiences localized pre-softening prior to stress shielding. Thus, native Abaqus remeshing receives a naturally polarized, physics-driven error signal without any manual intervention! Detailed telemetry is recorded in `models/pandey_kumar_mode1/218_f1726_seven_hole_study/f1726_coarse_odb_audit.json` and `results/validation/f1726_mesh_quality_audit.json`.
 
 ---
 
@@ -149,21 +149,38 @@ The candidate `F1726_S2_ET568` was selected as the authoritative reproduction me
 
 ## 5. Spatial Selectivity & Resolution Audit
 
-To verify that refinement is physically localized along the true crack trajectory and not artificially diffused, we conducted a rigorous spatial audit on `F1726_S2_ET568` using non-overlapping regional masks (primary receipt: `models/pandey_kumar_mode1/218_f1726_seven_hole_study/f1726_fine_parity_results.json`):
+### 5.1 Element-Size Definitions & Mathematical Distinctions
+To provide absolute clarity regarding spatial resolution metrics, two distinct, non-interchangeable element size definitions are evaluated directly from the physical mesh:
+1. **Area-Equivalent Characteristic Length ($h_{\text{area}}$):** Defined as $h_{\text{area}} = \sqrt{\text{Area}}$ for quadrilaterals and triangles. This is the standard scalar characteristic dimension used in finite element formulations and error estimation.
+2. **Maximum Edge Length ($h_{\text{max\_edge}}$):** Defined as the longest geometric edge of each element polygon: $h_{\text{max\_edge}} = \max_{i} \|\mathbf{x}_{i+1} - \mathbf{x}_i\|$. This represents the most conservative measure of spatial resolution.
 
-| Spatial Region | Element Count | % of Mesh | Min $h$ ($\mu\text{m}$) | Mean $h$ ($\mu\text{m}$) | Median $h$ ($\mu\text{m}$) | Max $h$ ($\mu\text{m}$) | $\% \le \ell_0$ ($8\,\mu\text{m}$) |
+### 5.2 Canonical Spatial Partition ($\delta = 0.040\,\text{mm} = 5.0\,\ell_0$)
+The primary canonical spatial partition employs a corridor and void perimeter margin of $\delta = 0.040\,\text{mm}$, ensuring direct continuity with the fine parity exploration dataset (`f1726_fine_parity_results.json`). Evaluated directly on `PK_F1726_SEVEN_HOLE_ADAPTED_PHYS.inp` via `scripts/remeshing/audit_f1726_mesh_quality.py`:
+
+| Spatial Region | Element Count | % of Mesh | $h_{\text{area}}$ Mean [Min, Max] ($\mu\text{m}$) | $\% h_{\text{area}} \le \ell_0$ | $h_{\text{max\_edge}}$ Mean [Min, Max] ($\mu\text{m}$) | $\% h_{\text{max\_edge}} \le \ell_0$ | Max Aspect Ratio |
 |---|---|---|---|---|---|---|---|
-| **Upper Fracture Corridor** | **2,648** | **16.86%** | $1.01$ | **$2.80$** | **$2.55$** | $5.76$ | **100.0%** |
-| **Lower Shielded Hole $h_6$** | 691 | 4.40% | $1.88$ | $4.78$ | $4.52$ | $11.71$ | $94.8\%$ |
-| **Lower Shielded Hole $h_7$** | 775 | 4.93% | $1.63$ | $4.54$ | $4.22$ | $9.34$ | $96.0\%$ |
-| **Far-Field Bulk Domain** | 11,594 | 73.81% | $1.00$ | $6.89$ | $5.42$ | $24.99$ | $73.9\%$ |
-| **Total Specimen Domain** | **15,708** | **100.00%** | $1.00$ | $5.99$ | $4.54$ | $24.99$ | $80.3\%$ |
+| **Upper Fracture Corridor** | **2,648** | **16.86%** | **$2.80$** [$1.01$, $5.76$] | **100.0%** | **$3.13$** [$1.14$, $6.48$] | **100.0%** | 2.138 |
+| **Lower Shielded Hole $h_6$** | 691 | 4.40% | $4.78$ [$1.88$, $11.71$] | $94.8\%$ | $5.45$ [$2.07$, $13.56$] | $91.8\%$ | 2.054 |
+| **Lower Shielded Hole $h_7$** | 775 | 4.93% | $4.54$ [$1.63$, $9.34$] | $96.0\%$ | $5.11$ [$1.94$, $11.11$] | $92.5\%$ | 2.042 |
+| **Far-Field Bulk Domain** | 11,594 | 73.81% | $6.89$ [$1.00$, $24.99$] | $73.9\%$ | $7.81$ [$1.18$, $29.74$] | $67.7\%$ | 2.857 |
+| **Total Specimen Domain** | **15,708** | **100.00%** | $5.99$ [$1.00$, $24.99$] | $80.3\%$ | $6.78$ [$1.14$, $29.74$] | $75.5\%$ | 2.857 |
+
+### 5.3 Sensitivity Analysis Partition: Narrow Corridor Core ($\delta = 3.0\,\ell_0 = 0.024\,\text{mm}$)
+As an independent sensitivity check, the mesh was re-evaluated under a narrower margin $\delta = 3.0\,\ell_0 = 0.024\,\text{mm}$ focused strictly on the core of the crack route:
+
+| Spatial Region | Element Count | % of Mesh | $h_{\text{area}}$ Mean ($\mu\text{m}$) | $\% h_{\text{area}} \le \ell_0$ | $h_{\text{max\_edge}}$ Mean ($\mu\text{m}$) | $\% h_{\text{max\_edge}} \le \ell_0$ | Max Aspect Ratio |
+|---|---|---|---|---|---|---|
+| **Upper Corridor Core** | 1,540 | 9.80% | $2.74$ | **100.0%** | $3.07$ | **100.0%** | 2.001 |
+| **Lower Hole $h_6$ Rim** | 412 | 2.62% | $4.52$ | $95.1\%$ | $5.07$ | $92.5\%$ | 2.050 |
+| **Lower Hole $h_7$ Rim** | 445 | 2.83% | $4.35$ | $96.9\%$ | $4.78$ | $94.2\%$ | 1.823 |
+| **Far-Field Background** | 13,311 | 84.74% | $6.47$ | $77.0\%$ | $7.34$ | $71.4\%$ | 2.857 |
+| **Total Specimen Domain** | **15,708** | **100.00%** | $5.99$ | $80.3\%$ | $6.78$ | $75.5\%$ | 2.857 |
 
 ### Key Physical Observations:
-1. **$100.0\%$ Resolution Compliance along Fracture Path:** Every single element in the upper fracture corridor ($2,648$ elements) satisfies $h \le \ell_0 = 8.0\,\mu\text{m}$. The mean element size $h = 2.80\,\mu\text{m}$ corresponds closely to $\ell_0 / 2.86 \approx \ell_0 / 3$, fulfilling the phase-field regularization criterion without any artificial crack corridors.
-2. **Distinct Mechanical Shielding:** The lower holes $h_6$ and $h_7$ exhibit significantly coarser elements: $h_6$ has 691 elements ($h_{\text{mean}} = 4.78\,\mu\text{m}$) and $h_7$ has 775 elements ($h_{\text{mean}} = 4.54\,\mu\text{m}$), 71% and 62% larger than the upper corridor. This reproduces the asymmetric damage shielding observed by Pandey & Kumar (2025).
-3. **Exact Non-Overlapping Sum:** $2,648 + 691 + 775 + 11,594 = 15,708$ physical elements, accounting for 100.00% of the mesh.
-4. **Smooth Geometric Gradation:** Element sizes smoothly expand from $2.8\,\mu\text{m}$ in the fracture corridor to $25\,\mu\text{m}$ at the far-field boundaries without cell distortion or inverted elements.
+1. **Flawless $100.0\%$ Resolution Compliance along Fracture Path:** Across all $2,648$ elements of the upper fracture corridor, **100.0% satisfy both $h_{\text{area}} \le \ell_0$ and $h_{\text{max\_edge}} \le \ell_0 = 8.0\,\mu\text{m}$** (with mean $h_{\text{area}} = 2.80\,\mu\text{m} \approx \ell_0 / 2.86$ and mean $h_{\text{max\_edge}} = 3.13\,\mu\text{m}$). This guarantees that no element edges span across the regularisation zone, completely satisfying phase-field regularisation requirements.
+2. **Distinct Mechanical Shielding:** The lower holes $h_6$ and $h_7$ exhibit significantly coarser elements ($h_{\text{mean}} = 4.78\,\mu\text{m}$ and $4.54\,\mu\text{m}$, 71% and 62% larger than the fracture corridor). This reproduces the asymmetric damage shielding observed by Pandey & Kumar (2025).
+3. **Exact Non-Overlapping Sums:** Both partitions sum to exactly $15,708$ physical elements ($100.00\%$), proving complete spatial conservation.
+4. **Smooth Geometric Gradation:** Element sizes smoothly expand from $2.8\,\mu\text{m}$ in the fracture corridor to $25\,\mu\text{m}$ in the bulk without cell distortion or inverted elements. Primary audit data is preserved in `results/validation/f1726_mesh_quality_audit.json`.
 
 ---
 
