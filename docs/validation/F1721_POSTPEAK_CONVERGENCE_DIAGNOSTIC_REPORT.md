@@ -33,7 +33,7 @@ In accordance with `/goal F1721` and the Round 1 supervisory review findings (`H
 ### 2.1 Quantitative Timeline of the Failure
 
 The simulation was executed in two steps:
-- **Step 1 (Pre-Critical Loading):** Target $u_y = 0.0050\,\text{mm}$ applied over 50 increments ($\Delta t = 0.02$). Completed 50 increments cleanly with **0 cutbacks** and 1 iteration per increment. Linear elasticity verified ($K_0 = 174.98\,\text{kN/mm}, F = 0.8798\,\text{kN}, d_{\max} = 0.0000$).
+- **Step 1 (Pre-Critical Loading):** Target $u_y = 0.0050\,\text{mm}$ applied over 50 increments ($\Delta t = 0.02$). Completed 50 increments cleanly with **0 cutbacks** and 1 iteration per increment. Initial linear elasticity verified ($K_0 = 174.98\,\text{kN/mm}$); at the Step 1 endpoint ($u_y = 0.0050\,\text{mm}$), the reaction force reached $F = 0.833201\,\text{kN}$ ($0.833200634\,\text{kN}$) with early localized phase-field damage reaching $d_{\max} = 0.248112$ in the narrowest ligament $h_3 \leftrightarrow h_4$.
 - **Step 2 (Critical Fracture Propagation):** Target $u_y = 0.0080\,\text{mm}$ ($\Delta u = 0.0030\,\text{mm}$) with initial $\Delta t = 0.0025$ and minimum $\Delta t_{\min} = 1.0 \times 10^{-9}$.
 
 Between Increment 1 and Increment 110 of Step 2, the solver advanced monotonically:
@@ -152,6 +152,8 @@ $$
 \mathbf{K}_{du} = \int_{\Omega} 2(1-d) \mathbf{N}_d^T \left( \frac{\partial \mathcal{H}}{\partial \boldsymbol{\varepsilon}} \mathbf{B}_u \right) d\Omega \quad \text{for } \psi^+ > \mathcal{H}_{\text{committed}}
 $$
 
+*(Note on Tangent & Cross-Coupling Conventions: The displayed expressions for $\mathbf{K}_{ud}$ and $\mathbf{K}_{du}$ are schematic representations of the coupled block-operator used for theoretical error analysis, not an assertion of a production-verified consistent monolithic tangent).*
+
 #### The Block-Diagonal Preconditioner in F1720
 In `PK_F1720_ADAPTED_PFM.inp`, Layer 1 (`U1`/`U3`) declares DOF 3 only, while Layer 2 (`U2`/`U4`) declares DOFs 1,2 only. Because Abaqus assembles user element stiffness matrices strictly according to declared active degrees of freedom:
 $$
@@ -186,6 +188,8 @@ The intra-increment iteration converges if and only if the spectral radius satis
 $$
 \rho(\mathbf{M}) = \max_i |\lambda_i(\mathbf{M})| < 1
 $$
+
+*(Note on Theoretical Mechanism vs. Full-Mesh Eigenvalues: The condition $\rho(\mathbf{M}) > 1$ represents the proposed theoretical mechanism under investigation to explain the observed Newton divergence during localized ligament softening; it is not presented as an independently assembled or numerically diagonalized global eigenvalue calculation for the 13,163-element mesh).*
 
 #### Scope and Conditions of the Local 1D Scalar Model
 To understand how $\rho(\mathbf{M})$ behaves locally, consider a simplified 1D unconstrained scalar slice:
