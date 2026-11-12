@@ -1,0 +1,52 @@
+================================================================================
+ABAQUS/STANDARD DATACHECK EXECUTION RECEIPT
+Task: F1726 — Reusable 2D Adaptive-Remeshing Framework & Seven-Hole Plate Benchmark
+================================================================================
+Job Name:             PK_F1726_ADAPTED_CHK
+Input Deck:           models/pandey_kumar_mode1/218_f1726_seven_hole_study/PK_F1726_SEVEN_HOLE_ADAPTED_PROD.inp
+Input Deck SHA-256:   0F7033DCB4E31821FCF349CBA24755B78973F73E9281E0EDE1D79451F7A4B05B
+User Subroutine:      models/pandey_kumar_mode1/218_f1726_seven_hole_study/f1720_direct_coupling_uel.for
+Subroutine SHA-256:   C298ACA7FDF77BAFFD9FEBD974E7986DA5DFB04F1D77366CC0D28E58742194DF
+Abaqus Version:       Abaqus/Standard 2024
+Operating System:     Microsoft Windows 11 / x86_64
+Execution Mode:       Local CAE Datacheck (`abaqus job=... user=... datacheck`)
+
+--------------------------------------------------------------------------------
+MODEL DISCRETIZATION SUMMARY:
+--------------------------------------------------------------------------------
+Total Nodes:                  32,189  (16,094 physical + 16,094 auxiliary + 1 reference node)
+Total Elements:               47,124
+  - Layer 1 (Phase-Field UEL): 15,708 elements (15,325 U1 quads, 383 U3 tris, 18 SVARS)
+  - Layer 2 (UMAT Dummy Mod):  15,708 elements (15,325 CPE4R quads, 383 CPE3 tris)
+  - Layer 3 (Visualizer):      15,708 elements (15,325 CPE4R quads, 383 CPE3 tris)
+User Materials:               DUMMY_MAT (4 user material constants)
+Kinematic Constraints:        51 *EQUATION pairs coupling TOP_NODES to reference node N_RP
+
+--------------------------------------------------------------------------------
+COMPILER & LINKER INVOCATION:
+--------------------------------------------------------------------------------
+Compiler: Intel(R) Fortran Compiler 2024.2.1 (ifx.exe)
+C/C++:    Microsoft (R) C/C++ Optimizing Compiler Version 19.42.34436 for x64
+Outcome:  Abaqus user subroutine f1720_direct_coupling_uel.for compiled and linked cleanly.
+
+--------------------------------------------------------------------------------
+FINAL SOLVER STATUS & RECEIPT:
+--------------------------------------------------------------------------------
+Analysis Stage:               PRE-PROCESSOR STEP 1 / STATIC ANALYSIS
+Constraint Status:            Collecting model constraint information: 0 errors
+Error Count:                  0 ERRORS
+Severe Warnings:              0 SEVERE WARNINGS
+Non-fatal Warnings:           8 (Standard companion warnings regarding unreferenced auxiliary properties)
+
+Primary Solver Receipt Line from PK_F1726_ADAPTED_CHK.dat:
+"ANALYSIS DATACHECK COMPLETE WITH 8 WARNING MESSAGES ON THE DAT FILE"
+
+Time Summary:
+  USER TIME (SEC)      =     0.80
+  SYSTEM TIME (SEC)    =     0.10
+  TOTAL CPU TIME (SEC) =     0.90
+  WALLCLOCK TIME (SEC) =     1
+
+Exit Code:                    0 (SUCCESS)
+Technical Verdict:            DATACHECK_QUALIFIED_FOR_PRODUCTION_SOLVE
+================================================================================

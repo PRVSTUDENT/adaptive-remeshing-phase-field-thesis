@@ -105,54 +105,76 @@ def test_coarse_odb_audit_and_error_contrast():
     assert h6["max_damage"] < 0.10, f"Lower hole h6 damage {h6['max_damage']} >= 0.10"
     assert h7["max_damage"] < 0.10, f"Lower hole h7 damage {h7['max_damage']} >= 0.10"
 
-    # Error contrast ratio (Upper Corridor vs Bulk) >= 5.0
+    # Error contrast ratio (Upper Corridor vs Bulk) >= 5.0 (5.42x)
     contrast = upper["mean_miseseri"] / bulk["mean_miseseri"]
     assert contrast >= 5.0, f"Error contrast ratio {contrast:.2f} < 5.0"
+    assert abs(contrast - 5.427) < 0.02, f"Contrast {contrast:.3f} does not match 5.427x"
+    # Far-field bulk max damage occurs on hole outer shoulders (d ~ 0.247)
+    assert abs(bulk["max_damage"] - 0.2469) < 0.01, f"Bulk max damage {bulk['max_damage']} != 0.2469"
 
 
 def test_adapted_physical_mesh_and_benchmark_parity():
     """Verify that optimal candidate F1726_S2_ET568 achieves exact benchmark parity (-0.04%)."""
+    from scripts.remeshing.reusable_2d_adaptive_framework import MeshQualityAuditEngine
+
+    assert os.path.exists(ADAPTED_PHYS_INP), "Missing adapted physical mesh INP"
+    
+    # 1. Direct evaluate_mesh on actual physical mesh file
+    audit = MeshQualityAuditEngine.evaluate_mesh(ADAPTED_PHYS_INP, l0_mm=0.008)
+    assert audit["total_elements"] == 15708, f"Expected 15,708 elements, got {audit['total_elements']}"
+    assert audit["non_positive_jacobians"] == 0, f"Found {audit['non_positive_jacobians']} non-positive Jacobians"
+    assert audit["min_det_j"] > 0.0, f"Min Jacobian {audit['min_det_j']} <= 0"
+    assert audit["quad_count"] == 15325, f"Expected 15,325 quads, got {audit['quad_count']}"
+    assert audit["tri_count"] == 383, f"Expected 383 tris, got {audit['tri_count']}"
+    assert audit["quad_percent"] >= 97.5, f"Quad percentage {audit['quad_percent']:.2f}% < 97.5%"
+    assert audit["median_aspect_ratio"] <= 1.30, f"Median aspect ratio {audit['median_aspect_ratio']} > 1.30"
+    assert audit["distorted_elements"] == 0, f"Found {audit['distorted_elements']} distorted elements"
+
+    # 2. Benchmark parity check vs published 15,714 target
+    diff = abs(audit["total_elements"] - 15714)
+    assert diff == 6, f"Parity difference {diff} != 6 elements"
+    parity_pct = 100.0 * (audit["total_elements"] - 15714) / 15714.0
+    assert abs(parity_pct - (-0.038)) < 0.01, f"Parity error {parity_pct:.3f}% does not match -0.038%"
+
+    # 3. Cross-check with fine parity dataset
     assert os.path.exists(FINE_PARITY_JSON), "Missing fine parity JSON"
     with open(FINE_PARITY_JSON, "r") as f:
         fine = json.load(f)
-
     assert "F1726_S2_ET568" in fine
     opt = fine["F1726_S2_ET568"]
-    
-    # 15,708 elements (-0.04% difference vs 15,714 benchmark, within 6 elements)
-    n_elems = opt["num_elements"]
-    assert n_elems == 15708, f"Expected 15,708 elements, got {n_elems}"
-    diff = abs(n_elems - 15714)
-    assert diff <= 10, f"Element count difference {diff} exceeds 10 elements"
-    parity_pct = 100.0 * (n_elems - 15714) / 15714.0
-    assert abs(parity_pct) < 0.10, f"Parity error {parity_pct:.3f}% exceeds 0.1%"
-
-    # Quality metrics
-    assert opt["quad_percentage"] >= 97.0, f"Quad percentage {opt['quad_percentage']}% < 97.0%"
-    assert opt["positive_jacobians"] is True
-    assert opt["ar_max"] < 10.0
+    assert opt["num_elements"] == 15708
+    assert opt["ar_max"] == 2.857
 
 
 def test_spatial_selectivity_and_phase_field_resolution():
-    """Verify that the adapted mesh achieves 100% h <= l0 along the fracture corridor and coarse shielding elsewhere."""
+    """Verify exact regional partition: 2648 + 691 + 775 + 11594 = 15708 and 100% h <= l0 in corridor."""
     with open(FINE_PARITY_JSON, "r") as f:
         fine = json.load(f)
 
     opt = fine["F1726_S2_ET568"]
     upper = opt["upper_corridor"]
     h6 = opt["lower_h6"]
+    h7 = opt["lower_h7"]
     bulk = opt["bulk"]
+
+    # Exact regional counts
+    assert upper["count"] == 2648
+    assert h6["count"] == 691
+    assert h7["count"] == 775
+    assert bulk["count"] == 11594
+    total_elements = upper["count"] + h6["count"] + h7["count"] + bulk["count"]
+    assert total_elements == 15708, f"Regional sum {total_elements} != 15,708"
 
     # 100% of upper fracture corridor elements must satisfy h <= l0 (8.0 um)
     assert upper["pct_le_l0"] == 100.0, f"Upper corridor compliance {upper['pct_le_l0']}% < 100.0%"
-    # Mean element size in fracture corridor should be approximately l0/3 (2.67 um)
-    assert upper["mean"] <= 3.0, f"Upper corridor mean size {upper['mean']} um > 3.0 um"
+    assert upper["mean"] == 2.80, f"Upper corridor mean size {upper['mean']} um != 2.80 um"
 
-    # Lower holes are significantly coarser (mean size >= 4.5 um)
-    assert h6["mean"] >= 4.5, f"Lower hole h6 mean size {h6['mean']} um < 4.5 um"
+    # Lower holes are significantly coarser (mean sizes 4.78 um and 4.54 um)
+    assert h6["mean"] == 4.78, f"Lower hole h6 mean size {h6['mean']} um != 4.78 um"
+    assert h7["mean"] == 4.54, f"Lower hole h7 mean size {h7['mean']} um != 4.54 um"
 
-    # Far-field bulk is coarse (mean size >= 6.5 um)
-    assert bulk["mean"] >= 6.5, f"Bulk mean size {bulk['mean']} um < 6.5 um"
+    # Far-field bulk is coarse (mean size 6.89 um)
+    assert bulk["mean"] == 6.89, f"Bulk mean size {bulk['mean']} um != 6.89 um"
 
 
 def test_production_deck_structure():

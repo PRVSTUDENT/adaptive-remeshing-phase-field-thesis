@@ -104,11 +104,11 @@ The coarse ODB was audited across four distinct spatial regions (`audit_seven_ho
 | Region | Boundary Definition | Mean `MISESERI` | Max `MISESERI` | Max Damage $d$ | Physical Regime |
 |---|---|---|---|---|---|
 | **Upper Fracture Corridor** | $y \in [0.35, 0.75]$, $x \in [0.10, 0.90]$ | **$1.0192 \times 10^{-14}$** | **$2.5710 \times 10^{-14}$** | **$0.4760$** | Incipient Fracture ($h_1 \to h_4 \to h_2 \to h_5 \to h_3$) |
-| **Lower Left Hole $h_6$** | $(x-0.40)^2 + (y-0.35)^2 \le 0.08^2$ | $6.9604 \times 10^{-15}$ | $1.0945 \times 10^{-14}$ | $0.0928$ | Shielded Elastic |
-| **Lower Right Hole $h_7$** | $(x-0.65)^2 + (y-0.35)^2 \le 0.08^2$ | $7.1598 \times 10^{-15}$ | $1.0850 \times 10^{-14}$ | $0.0757$ | Shielded Elastic |
-| **Far-Field Bulk Domain** | Remainder of plate | **$1.8780 \times 10^{-15}$** | $4.4820 \times 10^{-15}$ | $0.0112$ | Far-Field Background |
+| **Lower Left Hole $h_6$** | $(x-0.40)^2 + (y-0.35)^2 \le 0.08^2$ | $6.9603 \times 10^{-15}$ | $1.9319 \times 10^{-14}$ | $0.0928$ | Shielded Elastic |
+| **Lower Right Hole $h_7$** | $(x-0.65)^2 + (y-0.35)^2 \le 0.08^2$ | $7.1568 \times 10^{-15}$ | $1.7449 \times 10^{-14}$ | $0.0757$ | Shielded Elastic |
+| **Far-Field Bulk Domain** | Remainder of plate | **$1.8780 \times 10^{-15}$** | $2.2963 \times 10^{-14}$ | $0.2469$ | Far-Field Background / Shoulder Concentration |
 
-Profound physical conclusion: The authentic `MISESERI` error indicator along the primary fracture corridor is **5.4 times higher** than the bulk domain, and **1.45 times higher** than around the lower holes. Damage in the upper corridor reaches $d = 0.4760$, while the lower holes remain undamaged ($d < 0.10$). Thus, native Abaqus remeshing receives a naturally polarized, physics-driven error signal without any manual intervention!
+Profound physical conclusion: The authentic `MISESERI` error indicator along the primary fracture corridor is **5.427 times higher** ($1.0192 \times 10^{-14} / 1.8780 \times 10^{-15}$) than the bulk domain, and **1.45 times higher** than around the lower holes. Damage in the upper corridor reaches $d = 0.4760$, while the lower holes remain undamaged ($d < 0.10$). In the far-field bulk, maximum damage reaches $d = 0.2469$ exclusively at the outer circumferential shoulders of the voids due to the classical Kirsch elastic stress concentration factor ($K_t \approx 3$) prior to stress shielding. Thus, native Abaqus remeshing receives a naturally polarized, physics-driven error signal without any manual intervention! Detailed telemetry is recorded in `models/pandey_kumar_mode1/218_f1726_seven_hole_study/f1726_coarse_odb_audit.json`.
 
 ---
 
@@ -141,27 +141,29 @@ The candidate `F1726_S2_ET568` was selected as the authoritative reproduction me
 - **Total Physical Elements:** **15,708 elements** (Published: 15,714 elements $\implies$ difference of **6 elements**, parity **$-0.04\%$**).
 - **Quad Dominance:** **97.56% quads** (15,325 quads, 383 triangles).
 - **Total Nodes:** 16,094 nodes.
-- **Jacobian Determinants:** **100% strictly positive ($\det(J) > 0$)**.
-- **Minimum Corner Angle:** $29.84^\circ \gg 10^\circ$.
-- **Aspect Ratio:** Median $1.21$, 99th percentile $2.75$, Maximum $4.85 \ll 10$.
+- **Jacobian Determinants:** **100% strictly positive ($\det(J) \ge 4.891340 \times 10^{-7} > 0$ across all 61,683 integration points, 0 non-positive Jacobians)** audited via `MeshQualityAuditEngine.evaluate_mesh` (primary receipt: `results/validation/f1726_mesh_quality_audit.json`).
+- **Minimum Corner Angle:** $29.84^\circ \gg 15^\circ$, 0 distorted elements.
+- **Aspect Ratio:** Median $1.208$, Mean $1.254$, Maximum $2.857 \ll 10$.
 
 ---
 
 ## 5. Spatial Selectivity & Resolution Audit
 
-To verify that refinement is physically localized along the true crack trajectory and not artificially diffused, we conducted a rigorous spatial audit on `F1726_S2_ET568`:
+To verify that refinement is physically localized along the true crack trajectory and not artificially diffused, we conducted a rigorous spatial audit on `F1726_S2_ET568` using non-overlapping regional masks (primary receipt: `models/pandey_kumar_mode1/218_f1726_seven_hole_study/f1726_fine_parity_results.json`):
 
 | Spatial Region | Element Count | % of Mesh | Min $h$ ($\mu\text{m}$) | Mean $h$ ($\mu\text{m}$) | Median $h$ ($\mu\text{m}$) | Max $h$ ($\mu\text{m}$) | $\% \le \ell_0$ ($8\,\mu\text{m}$) |
 |---|---|---|---|---|---|---|---|
-| **Upper Fracture Corridor** | **2,648** | **16.9%** | $1.57$ | **$2.80$** | **$2.71$** | $7.98$ | **100.0%** |
-| **Lower Shielded Hole $h_6$** | 691 | 4.4% | $1.85$ | $4.78$ | $4.62$ | $13.56$ | $89.7\%$ |
-| **Lower Shielded Hole $h_7$** | 690 | 4.4% | $1.82$ | $4.79$ | $4.64$ | $13.72$ | $89.6\%$ |
-| **Far-Field Bulk Domain** | 11,679 | 74.3% | $2.04$ | $6.89$ | $6.52$ | $30.28$ | $68.4\%$ |
+| **Upper Fracture Corridor** | **2,648** | **16.86%** | $1.01$ | **$2.80$** | **$2.55$** | $5.76$ | **100.0%** |
+| **Lower Shielded Hole $h_6$** | 691 | 4.40% | $1.88$ | $4.78$ | $4.52$ | $11.71$ | $94.8\%$ |
+| **Lower Shielded Hole $h_7$** | 775 | 4.93% | $1.63$ | $4.54$ | $4.22$ | $9.34$ | $96.0\%$ |
+| **Far-Field Bulk Domain** | 11,594 | 73.81% | $1.00$ | $6.89$ | $5.42$ | $24.99$ | $73.9\%$ |
+| **Total Specimen Domain** | **15,708** | **100.00%** | $1.00$ | $5.99$ | $4.54$ | $24.99$ | $80.3\%$ |
 
 ### Key Physical Observations:
-1. **$100.0\%$ Resolution Compliance along Fracture Path:** Every single element in the upper fracture corridor satisfies $h \le \ell_0 = 8.0\,\mu\text{m}$. The mean element size $h = 2.80\,\mu\text{m}$ corresponds closely to $\ell_0 / 3 = 2.67\,\mu\text{m}$, which is the gold standard for phase-field regularization.
-2. **Distinct Mechanical Shielding:** The lower holes $h_6$ and $h_7$ have a mean element size of $4.78\,\mu\text{m}$ (71% larger than the upper corridor), with element counts of only 691 each. This reproduces the asymmetric damage shielding observed experimentally and computationally by Pandey & Kumar (2025).
-3. **Smooth Geometric Gradation:** Element sizes smoothly expand from $2.8\,\mu\text{m}$ in the fracture corridor to over $30\,\mu\text{m}$ at the far-field boundaries without abrupt cell distortions.
+1. **$100.0\%$ Resolution Compliance along Fracture Path:** Every single element in the upper fracture corridor ($2,648$ elements) satisfies $h \le \ell_0 = 8.0\,\mu\text{m}$. The mean element size $h = 2.80\,\mu\text{m}$ corresponds closely to $\ell_0 / 2.86 \approx \ell_0 / 3$, fulfilling the phase-field regularization criterion without any artificial crack corridors.
+2. **Distinct Mechanical Shielding:** The lower holes $h_6$ and $h_7$ exhibit significantly coarser elements: $h_6$ has 691 elements ($h_{\text{mean}} = 4.78\,\mu\text{m}$) and $h_7$ has 775 elements ($h_{\text{mean}} = 4.54\,\mu\text{m}$), 71% and 62% larger than the upper corridor. This reproduces the asymmetric damage shielding observed by Pandey & Kumar (2025).
+3. **Exact Non-Overlapping Sum:** $2,648 + 691 + 775 + 11,594 = 15,708$ physical elements, accounting for 100.00% of the mesh.
+4. **Smooth Geometric Gradation:** Element sizes smoothly expand from $2.8\,\mu\text{m}$ in the fracture corridor to $25\,\mu\text{m}$ at the far-field boundaries without cell distortion or inverted elements.
 
 ---
 
@@ -184,6 +186,8 @@ The deck was submitted to local Abaqus CAE Datacheck (`abaqus job=PK_F1726_ADAPT
 - **Errors:** 0 errors.
 - **Severe Warnings:** 0 severe warnings.
 - **Solver Compatibility:** All UEL property cards, UMAT constants, boundary condition sets, and equation constraints verified completely valid.
+- **Primary Receipt:** Saved in `results/validation/f1726_adapted_datacheck_receipt.txt` (Exit Code 0, CPU Time 0.90s, 0 errors, 0 severe warnings).
+- **Automated Regression Receipt:** Pytest execution verified 55/55 tests passing in 8.97s, saved in `results/validation/f1726_pytest_execution_receipt.txt`.
 
 ---
 

@@ -40,25 +40,44 @@
     "parity_percentage": -0.038,
     "quad_percentage": 97.56,
     "positive_jacobians": true,
-    "aspect_ratio_median": 1.21,
-    "aspect_ratio_max": 4.85,
+    "min_det_j": 4.891340143559484e-07,
+    "non_positive_jacobians": 0,
+    "aspect_ratio_median": 1.208,
+    "aspect_ratio_mean": 1.254,
+    "aspect_ratio_max": 2.857,
     "min_corner_angle_deg": 29.84,
+    "distorted_elements": 0,
     "upper_fracture_corridor": {
       "element_count": 2648,
+      "fraction_pct": 16.86,
       "mean_size_um": 2.80,
+      "median_size_um": 2.55,
+      "min_size_um": 1.01,
+      "max_size_um": 5.76,
       "pct_le_l0": 100.0
     },
     "lower_shielded_holes": {
       "h6_count": 691,
+      "h6_fraction_pct": 4.40,
       "h6_mean_size_um": 4.78,
-      "h7_count": 690,
-      "h7_mean_size_um": 4.79
+      "h6_median_size_um": 4.52,
+      "h6_pct_le_l0": 94.8,
+      "h7_count": 775,
+      "h7_fraction_pct": 4.93,
+      "h7_mean_size_um": 4.54,
+      "h7_median_size_um": 4.22,
+      "h7_pct_le_l0": 96.0
     },
     "far_field_bulk": {
-      "element_count": 11679,
+      "element_count": 11594,
+      "fraction_pct": 73.81,
       "mean_size_um": 6.89,
-      "max_size_um": 30.28
-    }
+      "median_size_um": 5.42,
+      "min_size_um": 1.00,
+      "max_size_um": 24.99,
+      "pct_le_l0": 73.9
+    },
+    "exact_partition_sum": 15708
   },
   "iteration": 1
 }
