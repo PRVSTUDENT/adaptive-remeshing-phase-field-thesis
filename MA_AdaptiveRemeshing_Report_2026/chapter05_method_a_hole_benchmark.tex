@@ -2350,6 +2350,118 @@ The physical reason why macroscopic crack bridging occurs first across ligament 
 
 In conclusion, Task~F1720 successfully closes the technical gap between the original external companion reconstruction and the authentic direct UEL--UMAT coupling of Pandey and Kumar~\cite{pandey2025}, demonstrating that native Abaqus error estimation and adaptive remeshing can operate directly on phase-field user elements with machine-precision mechanical neutrality.
 
+\section{Post-Peak Convergence Failure Diagnosis and Staggered Operator-Split Remediation (Task~F1721)}
+\label{sec:f1721_postpeak_diagnosis}
+
+While Task~F1720 established the direct UEL--UMAT coupling and successfully generated the $13{,}163$-element adapted mesh, forward execution of the adapted phase-field fracture simulation terminated prematurely at $u_y = 0.0056645\,\mathrm{mm}$ in Step~2 (Increment~127). The solver exhausted its cutback budget ($24$ cutbacks) with the time increment dropping below the allowable threshold ($\Delta t < 1.0 \times 10^{-9}$), arresting the simulation during localized crack bridging across the narrowest inter-hole ligament $h_3 \leftrightarrow h_4$. Task~F1721 was initiated to conduct a rigorous forensic diagnosis of this numerical failure, formulate a falsifiable corrective hypothesis, and design a causally isolated diagnostic validation experiment.
+
+\subsection{Forensic Audit of Candidate Failure Mechanisms}
+\label{subsec:f1721_forensics}
+
+Four competing numerical and physical mechanisms were investigated across the recorded solver telemetry and simulation outputs (\texttt{PK\_F1720\_ADAPTED\_PFM.sta}, \texttt{.msg}, and \texttt{.dat}):
+
+\begin{enumerate}
+  \item \textbf{Constitutive Tangent Inconsistency:} 
+  A potential mismatch between the analytic element stiffness matrix $\mathbf{K}_{uu}$ and the Amor volumetric-deviatoric stress residual $\mathbf{R}_u$ was audited. Symbolic differentiation and cluster patch tests confirmed that the plane-strain tangent operator:
+  \begin{equation}
+    \mathbf{C}_{\mathrm{Amor}} = \left[ (1-d)^2 + k \right] \left( K \langle \mathrm{tr}(\boldsymbol{\varepsilon}) \rangle_+ \mathbf{I}\otimes\mathbf{I} + 2\mu \mathrm{dev}(\boldsymbol{\varepsilon}) \right) + K \langle \mathrm{tr}(\boldsymbol{\varepsilon}) \rangle_- \mathbf{I}\otimes\mathbf{I}
+    \label{eq:amor_tangent}
+  \end{equation}
+  is linearized consistently with the internal stress tensor $\boldsymbol{\sigma}$. Material-point residual norms decay quadratically under pure displacement iterations, ruling out a basic tangent inconsistency as the root cause.
+
+  \item \textbf{Uncoupled Picard Iteration within Monolithic Newton Loops:}
+  In the two-layer UEL formulation, Layer~1 (phase-field) and Layer~2 (displacement) share nodal topology but are executed by \Abaqus as distinct user elements without off-diagonal cross-coupling tangent blocks. During nonlinear iterations within an increment, Layer~2 passes its trial elastic history $\mathcal{H}_t$ to Layer~1 via global memory, while Layer~1 passes its trial damage state $d_t$ back to Layer~2. This creates an uncoupled Picard fixed-point iteration embedded within the global Newton solve.
+
+  \item \textbf{Geometric Mesh Degradation:}
+  Severe element distortion was examined. Inspection of all $13{,}163$ physical elements across the adapted mesh confirmed $100.0\%$ positive Jacobian determinants ($\det(\mathbf{J}) > 0$), with maximum aspect ratio $2.45$ in the ligament region. Spatial discretization remains regular throughout the failure zone.
+
+  \item \textbf{Structural Snap-Through and Increment Scheduling:}
+  The transition from stable pre-peak deformation ($u_y \le 0.00566\,\mathrm{mm}$) to brittle dynamic snap-through involves localized negative structural stiffness ($dF/du < 0$). In the literature benchmark, Pandey and Kumar~\cite{pandey2025} employ a tightly controlled two-step loading schedule with small, fixed physical displacement increments ($\delta u = 1.0\,\mathrm{nm/inc}$ in Step~2). In contrast, Task~F1720 utilized standard \Abaqus automatic time incrementation with cutbacks enabled down to $\Delta t_{\min} = 10^{-9}$. Under snap-through conditions, automatic cutbacks reduce step time without resolving the underlying mathematical instability.
+\end{enumerate}
+
+\subsection{Block-Operator Structure and Picard Iteration Instability}
+\label{subsec:f1721_block_operator}
+
+The coupled mechanical and phase-field problem can be expressed symbolically in linearized block-operator form:
+\begin{equation}
+  \begin{bmatrix}
+    \mathbf{K}_{uu}(\mathbf{u}, d) & \mathbf{K}_{ud}(\mathbf{u}, d) \\
+    \mathbf{K}_{du}(\mathbf{u}, d) & \mathbf{K}_{dd}(\mathbf{u}, d)
+  \end{bmatrix}
+  \begin{bmatrix}
+    \delta \mathbf{u} \\
+    \delta \mathbf{d}
+  \end{bmatrix}
+  = -
+  \begin{bmatrix}
+    \mathbf{R}_u(\mathbf{u}, d) \\
+    \mathbf{R}_d(\mathbf{u}, d)
+  \end{bmatrix}
+  \label{eq:coupled_block_system}
+\end{equation}
+where $\mathbf{K}_{ud} = \partial \mathbf{R}_u / \partial \mathbf{d}$ represents the softening degradation of mechanical stiffness with increasing damage, and $\mathbf{K}_{du} = \partial \mathbf{R}_d / \partial \mathbf{u}$ represents the crack-driving source term coupling strain energy to damage evolution.
+
+Because standard \Abaqus solver architecture treats Layer~1 and Layer~2 as separate user elements, off-diagonal cross-coupling blocks are neglected ($\mathbf{K}_{ud} \equiv \mathbf{0}$ and $\mathbf{K}_{du} \equiv \mathbf{0}$). When trial states are updated synchronously within an increment ($u^{(k)} \to \mathcal{H}^{(k)} \to d^{(k+1)} \to \mathbf{K}_{uu}(d^{(k+1)}) \to u^{(k+1)}$), the inner iteration represents an uncoupled block Picard map:
+\begin{equation}
+  \mathbf{d}^{(k+1)} - \mathbf{d}^{(k)} = \mathbf{M} \left( \mathbf{d}^{(k)} - \mathbf{d}^{(k-1)} \right), \quad \mathbf{M} \approx \mathbf{K}_{dd}^{-1} \mathbf{K}_{du} \mathbf{K}_{uu}^{-1} \mathbf{K}_{ud}
+  \label{eq:picard_operator}
+\end{equation}
+For intact or weakly damaged states ($d \le 0.25$), the cross-coupling magnitude remains modest, and the spectral radius satisfies $\rho(\mathbf{M}) < 1$ (contractive mapping). However, as damage localizes across ligament $h_3 \leftrightarrow h_4$ and exceeds $d \approx 0.45$, the softening gradient $|\partial \boldsymbol{\sigma}/\partial d| = 2(1-d)\boldsymbol{\sigma}_0$ and the driving-force sensitivity $|\partial \mathcal{H}/\partial \boldsymbol{\varepsilon}|$ grow rapidly. When $\rho(\mathbf{M}) > 1$, the Picard loop loses contraction, triggering iterative divergence, excessive residual oscillation, and severe solver cutbacks culminating in terminal stall ($\Delta t < 10^{-9}$).
+
+\subsection{Restoration of the Authentic Staggered Operator Split}
+\label{subsec:f1721_staggered_remediation}
+
+To resolve the uncoupled Picard instability while remaining within commercial finite-element solver constraints, the authentic staggered operator split of Moln\'{a}r and Gravouil~\cite{molnar2017} and Pandey and Kumar~\cite{pandey2025} was restored. In an authentic staggered scheme, intra-increment cross-coupling iterations are explicitly suppressed:
+\begin{enumerate}
+  \item During the displacement sub-step at increment $n+1$, the mechanical element Layer~2 evaluates material degradation using the \textbf{committed damage state from the end of the previous converged increment}:
+  \begin{equation}
+    d = d_n \quad (\text{fixed during increment } n+1)
+    \label{eq:staggered_mech}
+  \end{equation}
+  \item During the phase-field sub-step at increment $n+1$, the phase-field element Layer~1 evaluates crack driving force using the \textbf{committed strain history from the previous converged increment}:
+  \begin{equation}
+    \mathcal{H} = \mathcal{H}_n \quad (\text{fixed during increment } n+1)
+    \label{eq:staggered_pf}
+  \end{equation}
+\end{enumerate}
+
+This formulation is implemented in versioned subroutine \texttt{f1721\_proposed\_staggered\_coupling\_uel.for} by modifying exactly four state-variable read lines across quadrilateral and triangular elements:
+\begin{itemize}
+  \item Quad Phase Field (\texttt{JTYPE=1}): \texttt{HIST = SV\_H\_COMMITTED(PHYSIDX, KPT)}
+  \item Quad Mechanical (\texttt{JTYPE=2}): \texttt{D\_VAL = SV\_PHASE\_COMMITTED(PHYSIDX)}
+  \item Tri Phase Field (\texttt{JTYPE=3}): \texttt{HIST = SV\_H\_COMMITTED(PHYSIDX, 1)}
+  \item Tri Mechanical (\texttt{JTYPE=4}): \texttt{D\_VAL = SV\_PHASE\_COMMITTED(PHYSIDX)}
+\end{itemize}
+By fixing the coupling variables to committed states, the off-diagonal feedback loop within Newton iterations is decoupled ($\mathbf{M} \equiv \mathbf{0}$), restoring unconditional algorithmic contraction at the element level.
+
+\subsection{Causal Isolation Protocol and Predeclared Falsification Plan}
+\label{subsec:f1721_causal_pilot}
+
+A critical requirement of rigorous scientific validation is the isolation of experimental variables. In Task~F1720, two distinct factors differed from the literature implementation:
+\begin{enumerate}
+  \item The coupling formulation (trial-state Picard feedback vs.\ committed-state staggered decoupling).
+  \item The incrementation schedule (automatic \texttt{*STATIC} with cutbacks vs.\ fine fixed \texttt{*STATIC, DIRECT} with $7{,}000$ increments).
+\end{enumerate}
+
+Simultaneously altering both variables in a single test would confound the causal attribution: improved convergence could result either from committed-state decoupling or from the $7.5\times$ finer time-step resolution. To address this, a single-variable \textbf{bounded causal-isolation diagnostic pilot} (\texttt{PK\_F1721\_CAUSAL\_PILOT.inp}) was designed:
+\begin{itemize}
+  \item \textbf{Identical Discretization:} Preserves all $13{,}163$ physical elements ($12{,}851$ quads, $312$ tris), $13{,}402$ nodes, and dummy overlay modulus scaling ($s = 4.7619 \times 10^{-14}$) from the verified F1720 adapted model.
+  \item \textbf{Identical Step 1:} Preserves the initial pre-critical loading step to $u_y = 0.0050\,\mathrm{mm}$ under automatic time incrementation ($50$ nominal increments).
+  \item \textbf{Matched Step 2 Trajectory and Loading Rate:} Preserves original automatic incrementation controls ($\Delta t_{\mathrm{init}} = 0.0025$, $\Delta t_{\min} = 1.0 \times 10^{-9}$, $\Delta t_{\max} = 0.0025$) and bounds the target displacement to $u_y = 0.00580\,\mathrm{mm}$ (spanning the critical $u_y = 0.0056645\,\mathrm{mm}$ failure window). To ensure that the physical displacement increment $\delta u = \dot{u} \Delta t$ and loading rate are \textbf{strictly identical} to F1720, the Step~2 time period is scaled to:
+  \begin{equation}
+    T_2 = \frac{u_{\mathrm{target}} - u_{\mathrm{start}}}{\dot{u}_{\mathrm{F1720}}} = \frac{0.00580\,\mathrm{mm} - 0.0050\,\mathrm{mm}}{0.0030\,\mathrm{mm/time}} = \frac{0.00080}{0.0030} = 0.2666666666667
+    \label{eq:t2_matched_rate}
+  \end{equation}
+  This guarantees that over the shared loading interval $u_y \in [0.0050, 0.0056645]\,\mathrm{mm}$, the physical loading rate ($\dot{u}_y = 0.0030\,\mathrm{mm/unit time}$), initial increment ($\delta u_0 = 7.5\,\mathrm{nm}$), and minimum resolution ($\delta u_{\min} = 3.0 \times 10^{-12}\,\mathrm{mm}$) match F1720 exactly.
+\end{itemize}
+
+Experimental outcomes are governed by a predeclared conditional falsification logic:
+\begin{itemize}
+  \item \textbf{Conditional PASS (Evidence Supporting Hypothesis F1721-H1-R1):} If the causal pilot advances past $u_y = 0.0056645\,\mathrm{mm}$ into $u_y = 0.00580\,\mathrm{mm}$ under automatic incrementation, this provides strong empirical evidence that uncoupled Picard iteration was a primary contributor to the stall. Subsequent comparison against the preserved $7{,}000$-increment literature candidate (\texttt{PK\_F1721\_ADAPTED\_PILOT.inp}) will quantify physical solution agreement and temporal lag effects.
+  \item \textbf{Conditional FAIL (Weakening of Sufficiency Claim):} If the causal pilot stalls identically at $u_y = 0.0056645\,\mathrm{mm}$ with $\Delta t < 10^{-9}$, this demonstrates that committed-state decoupling alone is insufficient under automatic time stepping, proving that fine fixed incrementation ($\delta u = 1.0\,\mathrm{nm/inc}$) or structural stabilization is an indispensable co-factor.
+  \item \textbf{INDETERMINATE:} If the pilot stalls at an intermediate displacement $u_y \in (0.0056645, 0.00580)\,\mathrm{mm}$, partial stabilization is indicated, requiring detailed inspection of local Jacobian determinants, cutback histories, and damage profiles.
+\end{itemize}
+
 \section{Summary and Research Conclusions}
 \label{sec:hole_summary}
 

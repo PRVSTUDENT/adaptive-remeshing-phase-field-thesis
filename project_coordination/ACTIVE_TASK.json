@@ -3,8 +3,8 @@
   "title": "Method A Adapted Fracture Simulation Post-Peak Nonlinear Convergence Failure Diagnosis: Residual & Tangent Inspection, Fracture Instability Assessment, and Falsifiable Corrective Hypothesis",
   "status": "IN_PROGRESS",
   "assigned_agent": "gemini-antigravity",
-  "handoff_id": "HND-F1721-PILOT-QUAL-001",
-  "checkpoint_artifact": "docs/validation/F1721_PILOT_TECHNICAL_QUALIFICATION_REPORT.md",
+  "handoff_id": "HND-F1721-CAUSAL-PILOT-002",
+  "checkpoint_artifact": "docs/validation/F1721_CAUSAL_PILOT_QUALIFICATION_REPORT.md",
   "predecessor_task": {
     "task_id": "F1720-METHOD-A-DIRECT-COUPLING-AND-REMESH-REPRODUCTION",
     "checkpoint_artifact": "docs/validation/F1720_PRIMARY_SOLVER_RECEIPT_QUALIFICATION.md",
@@ -15,8 +15,8 @@
   "registration": {
     "definition": "project_coordination/task_definitions/F1721-METHOD-A-POSTPEAK-CONVERGENCE-DIAGNOSIS.json"
   },
-  "scientific_operation": "offline_technical_qualification_pilot_package",
-  "scientific_operation_id": "f1721_pilot_technical_qualification",
+  "scientific_operation": "offline_causal_pilot_qualification",
+  "scientific_operation_id": "f1721_causal_pilot_qualification",
   "scientific_checkpoint_required": true,
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
@@ -25,8 +25,10 @@
   "remote_run_dir": null,
   "completed_operations": [
     "diagnose_postpeak_convergence_failure",
-    "offline_technical_qualification_pilot_package"
+    "offline_technical_qualification_pilot_package",
+    "offline_causal_pilot_qualification",
+    "correct_step2_loading_rate_mapping"
   ],
-  "iteration": 2,
-  "review_resolution": "HND-F1721-POSTPEAK-CONVERGENCE-002_APPROVE"
+  "iteration": 4,
+  "review_resolution": "HND-F1721-CAUSAL-PILOT-001_REJECT_REVISED_T2_0P2667"
 }
