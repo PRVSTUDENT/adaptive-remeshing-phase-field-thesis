@@ -1,0 +1,72 @@
+{
+  "audit_id": "AUDIT-F1722-LIVE-SYSTEM-001",
+  "timestamp_utc": "2026-11-12T09:15:00Z",
+  "active_processes": [
+    {
+      "ProcessId": 4044,
+      "ParentProcessId": 19788,
+      "Name": "codex.exe",
+      "CommandLine": "c:\\Users\\pruth\\.vscode\\extensions\\openai.chatgpt-26.1007.21434-win32-x64\\bin\\windows-x86_64\\codex.exe -c features.code_mode_host=true app-server --analytics-default-enabled",
+      "CreationDate": "/Date(1794289791790)/",
+      "ExecutablePath": "c:\\Users\\pruth\\.vscode\\extensions\\openai.chatgpt-26.1007.21434-win32-x64\\bin\\windows-x86_64\\codex.exe"
+    },
+    {
+      "ProcessId": 28480,
+      "ParentProcessId": 20616,
+      "Name": "powershell.exe",
+      "CommandLine": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -noexit -command \"try { . \\\"c:\\Users\\pruth\\AppData\\Local\\Programs\\Microsoft VS Code\\c4453f8ea4\\resources\\app\\out\\vs\\workbench\\contrib\\terminal\\common\\scripts\\shellIntegration.ps1\\\" } catch {}\"",
+      "CreationDate": "/Date(1794296618179)/",
+      "ExecutablePath": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+    },
+    {
+      "ProcessId": 26492,
+      "ParentProcessId": 28480,
+      "Name": "agy.exe",
+      "CommandLine": "\"C:\\Users\\pruth\\AppData\\Local\\agy\\bin\\agy.exe\" --dangerously-skip-permissions",
+      "CreationDate": "/Date(1794437096613)/",
+      "ExecutablePath": "C:\\Users\\pruth\\AppData\\Local\\agy\\bin\\agy.exe"
+    }
+  ],
+  "wsl_openclaw_controller": {
+    "path": "/home/openclaw/.openclaw/workspace-antigravity-controller/controller-state.json",
+    "size_bytes": 47817,
+    "sha256": "02ac8c0e5764170fe55186359c4ea517ea5f1a1661d4f5e538d0d99a6307b4dd",
+    "safety_blocked": null,
+    "active_executor": null,
+    "workflow_status": "STOPPED_SCIENTIFIC_FAILURE",
+    "standing_project_authorization": {
+      "active": true,
+      "project": "PRV_ADAPTIVE_REMESHING",
+      "grant_id": "310ac22d-6e1f-435b-bd59-26143f3cc6c9",
+      "enrolled_by": "human_operator_Set-ControllerAuthorization",
+      "enrolled_at": "2026-10-16T04:33:30.213282+00:00",
+      "expires_at": null,
+      "issuer_sha256": "69b2db59d08900d0935069d1528042eb3b39039d60c7946d1339903ec9548ab6",
+      "scope": "Mode-I approved research; execution restricted to qualified adapters",
+      "adapters": [
+        "package48-native-restart-technical-recovery-v1",
+        "mode1-qualified-batch-v2"
+      ],
+      "max_concurrent_jobs": 4,
+      "max_replacements_per_chain": 1,
+      "policy_version": 2
+    },
+    "lock_path": "/home/openclaw/.openclaw/workspace-antigravity-controller/controller-state.json.lock",
+    "lock_size_bytes": 0,
+    "lock_status": "UNLOCKED"
+  },
+  "bridge_rules_verification": {
+    "canonical_path": ".agents/scripts/bridge_rules.txt",
+    "canonical_size_bytes": 6996,
+    "canonical_sha256": "1E0ADB86F4C09772E2908C1CAC81F4257F313224D1B3490878C24EFE59EA1857",
+    "deployed_path": "C:\\Users\\pruth\\OpenClawPAD\\ChatGPTBridge\\bridge_rules.txt",
+    "deployed_size_bytes": 6996,
+    "deployed_sha256": "1E0ADB86F4C09772E2908C1CAC81F4257F313224D1B3490878C24EFE59EA1857",
+    "exact_match": true,
+    "recent_git_history": [
+      "d2854a5d - PRVSTUDENT, 2026-11-12 09:33:55 +0100 : feat(f1722): document authoritative executor ownership and recovery qualification",
+      "4b6ef458 - PRVSTUDENT, 2026-11-06 21:17:14 +0100 : research(method-a): generate native hole mesh and quantify resolution failure",
+      "c903d1c7 - PRVSTUDENT, 2026-11-06 21:04:30 +0100 : research(method-a): recover authentic off-axis-hole error indicator"
+    ]
+  }
+}

@@ -1,9 +1,14 @@
 {
   "schema": 1,
   "task_id": "F1722-METHOD-A-CAUSAL-PILOT-EXECUTION",
-  "correlation_id": "HND-F1722-EXECUTION-AUTH-003",
-  "evaluated_at": "2026-11-12T08:35:00+01:00",
+  "correlation_id": "HND-F1722-EXECUTION-AUTH-004",
+  "evaluated_at": "2026-11-12T09:20:00+01:00",
   "verdict": "AUTHORIZED_OWNER_VERIFIED",
+  "live_system_audit": {
+    "artifact_path": "results/validation/f1722_live_system_audit.json",
+    "sha256": "4476E5F9F4A7656792C0B85E8C9D3F9157ABDB49BA0DA5C46450E32F626AF694",
+    "size_bytes": 3673
+  },
   "active_executor": {
     "agent": "gemini-antigravity",
     "pid": 26492,
@@ -29,7 +34,10 @@
     "active_research_executor": false
   },
   "controller_state_verification": {
+    "wsl_distribution": "OpenClawGateway",
     "path": "/home/openclaw/.openclaw/workspace-antigravity-controller/controller-state.json",
+    "sha256": "02ac8c0e5764170fe55186359c4ea517ea5f1a1661d4f5e538d0d99a6307b4dd",
+    "size_bytes": 47817,
     "safety_blocked": null,
     "active_executor": null,
     "lock_file": "/home/openclaw/.openclaw/workspace-antigravity-controller/controller-state.json.lock",
@@ -60,10 +68,13 @@
     "unbroken_chain_verified_in": "project_coordination/TASK_LEDGER.csv"
   },
   "bridge_rules_reconciliation": {
-    "historical_codex_rule_origin": "Commit 4b6ef458 (2026-11-06T21:17:14+01:00) during temporary Task F1641 quota rotation",
+    "historical_codex_rule_origin": "Commit c903d1c7 (2026-11-06T21:04:30+01:00) during temporary Task F1641 quota rotation",
     "supercession_event": "Task F1642 Antigravity recovery and execution leadership assumption (2026-11-06T22:05:00Z, commit 5decce4c)",
     "current_protocol": "AGENTS.md and GEMINI.md Protocol Version 2 (active agent set: Codex, Gemini Antigravity)",
     "canonical_bridge_rules_path": ".agents/scripts/bridge_rules.txt",
-    "deployed_bridge_rules_path": "C:\\Users\\pruth\\OpenClawPAD\\ChatGPTBridge\\bridge_rules.txt"
+    "deployed_bridge_rules_path": "C:\\Users\\pruth\\OpenClawPAD\\ChatGPTBridge\\bridge_rules.txt",
+    "canonical_sha256": "1E0ADB86F4C09772E2908C1CAC81F4257F313224D1B3490878C24EFE59EA1857",
+    "deployed_sha256": "1E0ADB86F4C09772E2908C1CAC81F4257F313224D1B3490878C24EFE59EA1857",
+    "exact_bitwise_match": true
   }
 }
