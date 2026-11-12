@@ -1,0 +1,1597 @@
+{
+  "F1725_S1_ET340": {
+    "config": {
+      "case_name": "F1725_S1_ET340",
+      "step_name": "Step-1",
+      "sizing_method": "UNIFORM_ERROR",
+      "err_tgt": 3.4,
+      "max_err_tgt": null,
+      "min_err_tgt": null,
+      "coarsening_factor": "NOT_ALLOWED",
+      "seed_size": 0.02,
+      "max_size": 0.02
+    },
+    "metrics": {
+      "num_elements": 14177,
+      "num_nodes": 14390,
+      "num_quads": 13797.0,
+      "num_tris": 380.0,
+      "quad_percentage": 97.32,
+      "positive_jacobians": true,
+      "ar_max": 2.52,
+      "ar_mean": 1.258,
+      "global_h": {
+        "min": 0.898,
+        "max": 24.781,
+        "mean": 6.509,
+        "median": 4.942,
+        "std": 4.736,
+        "frac_le_l0": 0.7453,
+        "frac_le_half_l0": 0.3937,
+        "count": 14177
+      },
+      "lig1_h1_h2": {
+        "min": 1.435,
+        "max": 9.912,
+        "mean": 3.991,
+        "median": 3.405,
+        "std": 1.614,
+        "frac_le_l0": 0.9762,
+        "frac_le_half_l0": 0.6231,
+        "count": 1470
+      },
+      "lig2_h2_h3": {
+        "min": 0.982,
+        "max": 8.561,
+        "mean": 3.49,
+        "median": 3.07,
+        "std": 1.236,
+        "frac_le_l0": 0.9973,
+        "frac_le_half_l0": 0.7139,
+        "count": 1503
+      },
+      "lig3_h3_h4": {
+        "min": 0.898,
+        "max": 3.241,
+        "mean": 2.017,
+        "median": 1.953,
+        "std": 0.284,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 1.0,
+        "count": 798
+      },
+      "lig4_h4_h5": {
+        "min": 1.132,
+        "max": 7.465,
+        "mean": 3.146,
+        "median": 2.697,
+        "std": 1.18,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 0.7585,
+        "count": 1565
+      },
+      "bulk": {
+        "min": 3.037,
+        "max": 24.781,
+        "mean": 14.643,
+        "median": 15.158,
+        "std": 3.86,
+        "frac_le_l0": 0.0692,
+        "frac_le_half_l0": 0.0008,
+        "count": 2615
+      },
+      "centerline_profiles": {
+        "Ligament 1": {
+          "count": 330,
+          "profile_bins": [
+            2.406,
+            2.659,
+            3.53,
+            6.727,
+            9.068,
+            7.882,
+            5.939,
+            4.766,
+            3.746,
+            2.96
+          ]
+        },
+        "Ligament 2": {
+          "count": 434,
+          "profile_bins": [
+            2.526,
+            2.737,
+            3.109,
+            3.79,
+            6.42,
+            6.524,
+            4.666,
+            3.194,
+            2.481,
+            2.179
+          ]
+        },
+        "Ligament 3": {
+          "count": 292,
+          "profile_bins": [
+            1.835,
+            1.942,
+            1.963,
+            1.946,
+            1.779,
+            1.718,
+            1.906,
+            1.945,
+            1.905,
+            1.861
+          ]
+        },
+        "Ligament 4": {
+          "count": 435,
+          "profile_bins": [
+            2.08,
+            2.248,
+            2.871,
+            3.71,
+            4.631,
+            5.243,
+            4.453,
+            3.002,
+            2.303,
+            2.04
+          ]
+        }
+      }
+    }
+  },
+  "F1725_S1_ET350": {
+    "config": {
+      "case_name": "F1725_S1_ET350",
+      "step_name": "Step-1",
+      "sizing_method": "UNIFORM_ERROR",
+      "err_tgt": 3.5,
+      "max_err_tgt": null,
+      "min_err_tgt": null,
+      "coarsening_factor": "NOT_ALLOWED",
+      "seed_size": 0.02,
+      "max_size": 0.02
+    },
+    "metrics": {
+      "num_elements": 13163,
+      "num_nodes": 13401,
+      "num_quads": 12851.0,
+      "num_tris": 312.0,
+      "quad_percentage": 97.63,
+      "positive_jacobians": true,
+      "ar_max": 2.359,
+      "ar_mean": 1.259,
+      "global_h": {
+        "min": 1.061,
+        "max": 23.573,
+        "mean": 6.817,
+        "median": 5.235,
+        "std": 4.829,
+        "frac_le_l0": 0.7201,
+        "frac_le_half_l0": 0.3662,
+        "count": 13163
+      },
+      "lig1_h1_h2": {
+        "min": 1.636,
+        "max": 10.853,
+        "mean": 4.133,
+        "median": 3.531,
+        "std": 1.692,
+        "frac_le_l0": 0.962,
+        "frac_le_half_l0": 0.6048,
+        "count": 1369
+      },
+      "lig2_h2_h3": {
+        "min": 1.57,
+        "max": 9.064,
+        "mean": 3.727,
+        "median": 3.305,
+        "std": 1.352,
+        "frac_le_l0": 0.9954,
+        "frac_le_half_l0": 0.651,
+        "count": 1318
+      },
+      "lig3_h3_h4": {
+        "min": 1.094,
+        "max": 3.405,
+        "mean": 2.063,
+        "median": 2.005,
+        "std": 0.307,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 1.0,
+        "count": 762
+      },
+      "lig4_h4_h5": {
+        "min": 1.061,
+        "max": 7.925,
+        "mean": 3.285,
+        "median": 2.804,
+        "std": 1.252,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 0.7406,
+        "count": 1434
+      },
+      "bulk": {
+        "min": 3.521,
+        "max": 23.573,
+        "mean": 14.941,
+        "median": 15.31,
+        "std": 3.606,
+        "frac_le_l0": 0.0441,
+        "frac_le_half_l0": 0.0004,
+        "count": 2540
+      },
+      "centerline_profiles": {
+        "Ligament 1": {
+          "count": 291,
+          "profile_bins": [
+            2.621,
+            2.664,
+            3.993,
+            6.499,
+            7.737,
+            7.671,
+            7.783,
+            5.359,
+            3.861,
+            3.374
+          ]
+        },
+        "Ligament 2": {
+          "count": 392,
+          "profile_bins": [
+            2.554,
+            2.95,
+            3.403,
+            4.115,
+            6.58,
+            7.008,
+            5.905,
+            3.435,
+            2.561,
+            2.185
+          ]
+        },
+        "Ligament 3": {
+          "count": 282,
+          "profile_bins": [
+            1.848,
+            1.945,
+            1.944,
+            1.884,
+            1.789,
+            1.855,
+            2.04,
+            2.018,
+            1.977,
+            1.92
+          ]
+        },
+        "Ligament 4": {
+          "count": 402,
+          "profile_bins": [
+            2.124,
+            2.345,
+            2.81,
+            4.222,
+            5.132,
+            4.838,
+            4.463,
+            3.099,
+            2.45,
+            2.155
+          ]
+        }
+      }
+    }
+  },
+  "F1725_S1_ET360": {
+    "config": {
+      "case_name": "F1725_S1_ET360",
+      "step_name": "Step-1",
+      "sizing_method": "UNIFORM_ERROR",
+      "err_tgt": 3.6,
+      "max_err_tgt": null,
+      "min_err_tgt": null,
+      "coarsening_factor": "NOT_ALLOWED",
+      "seed_size": 0.02,
+      "max_size": 0.02
+    },
+    "metrics": {
+      "num_elements": 12382,
+      "num_nodes": 12615,
+      "num_quads": 12082.0,
+      "num_tris": 300.0,
+      "quad_percentage": 97.58,
+      "positive_jacobians": true,
+      "ar_max": 2.395,
+      "ar_mean": 1.256,
+      "global_h": {
+        "min": 1.013,
+        "max": 24.897,
+        "mean": 7.074,
+        "median": 5.468,
+        "std": 4.914,
+        "frac_le_l0": 0.7025,
+        "frac_le_half_l0": 0.3445,
+        "count": 12382
+      },
+      "lig1_h1_h2": {
+        "min": 1.374,
+        "max": 10.576,
+        "mean": 4.375,
+        "median": 3.717,
+        "std": 1.688,
+        "frac_le_l0": 0.9701,
+        "frac_le_half_l0": 0.5561,
+        "count": 1239
+      },
+      "lig2_h2_h3": {
+        "min": 1.571,
+        "max": 8.482,
+        "mean": 3.864,
+        "median": 3.516,
+        "std": 1.383,
+        "frac_le_l0": 0.9951,
+        "frac_le_half_l0": 0.5923,
+        "count": 1214
+      },
+      "lig3_h3_h4": {
+        "min": 1.081,
+        "max": 4.234,
+        "mean": 2.104,
+        "median": 2.02,
+        "std": 0.332,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 0.9986,
+        "count": 727
+      },
+      "lig4_h4_h5": {
+        "min": 1.387,
+        "max": 8.26,
+        "mean": 3.386,
+        "median": 2.911,
+        "std": 1.302,
+        "frac_le_l0": 0.9985,
+        "frac_le_half_l0": 0.7349,
+        "count": 1343
+      },
+      "bulk": {
+        "min": 3.898,
+        "max": 24.897,
+        "mean": 15.158,
+        "median": 15.615,
+        "std": 3.561,
+        "frac_le_l0": 0.04,
+        "frac_le_half_l0": 0.0004,
+        "count": 2478
+      },
+      "centerline_profiles": {
+        "Ligament 1": {
+          "count": 256,
+          "profile_bins": [
+            2.789,
+            2.962,
+            4.698,
+            6.631,
+            9.035,
+            7.166,
+            5.981,
+            4.923,
+            4.216,
+            3.543
+          ]
+        },
+        "Ligament 2": {
+          "count": 358,
+          "profile_bins": [
+            2.656,
+            3.137,
+            3.79,
+            4.747,
+            7.062,
+            7.378,
+            5.994,
+            3.546,
+            2.678,
+            2.234
+          ]
+        },
+        "Ligament 3": {
+          "count": 262,
+          "profile_bins": [
+            1.843,
+            1.963,
+            2.008,
+            2.007,
+            1.88,
+            1.959,
+            2.093,
+            2.071,
+            2.035,
+            1.971
+          ]
+        },
+        "Ligament 4": {
+          "count": 394,
+          "profile_bins": [
+            2.185,
+            2.304,
+            2.791,
+            3.911,
+            5.934,
+            5.515,
+            3.787,
+            3.094,
+            2.585,
+            2.222
+          ]
+        }
+      }
+    }
+  },
+  "F1725_S1_COARSEN_ET320": {
+    "config": {
+      "case_name": "F1725_S1_COARSEN_ET320",
+      "step_name": "Step-1",
+      "sizing_method": "UNIFORM_ERROR",
+      "err_tgt": 3.2,
+      "max_err_tgt": null,
+      "min_err_tgt": null,
+      "coarsening_factor": "DEFAULT_LIMIT",
+      "seed_size": 0.02,
+      "max_size": 0.03
+    },
+    "metrics": {
+      "num_elements": 13752,
+      "num_nodes": 13969,
+      "num_quads": 13407.0,
+      "num_tris": 345.0,
+      "quad_percentage": 97.49,
+      "positive_jacobians": true,
+      "ar_max": 2.508,
+      "ar_mean": 1.26,
+      "global_h": {
+        "min": 0.957,
+        "max": 32.449,
+        "mean": 6.296,
+        "median": 4.759,
+        "std": 5.211,
+        "frac_le_l0": 0.7941,
+        "frac_le_half_l0": 0.4067,
+        "count": 13752
+      },
+      "lig1_h1_h2": {
+        "min": 1.246,
+        "max": 11.018,
+        "mean": 3.928,
+        "median": 3.313,
+        "std": 1.632,
+        "frac_le_l0": 0.9793,
+        "frac_le_half_l0": 0.6319,
+        "count": 1497
+      },
+      "lig2_h2_h3": {
+        "min": 1.462,
+        "max": 9.207,
+        "mean": 3.6,
+        "median": 3.133,
+        "std": 1.276,
+        "frac_le_l0": 0.9951,
+        "frac_le_half_l0": 0.6537,
+        "count": 1415
+      },
+      "lig3_h3_h4": {
+        "min": 0.978,
+        "max": 3.862,
+        "mean": 1.988,
+        "median": 1.924,
+        "std": 0.297,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 1.0,
+        "count": 819
+      },
+      "lig4_h4_h5": {
+        "min": 1.145,
+        "max": 8.077,
+        "mean": 3.13,
+        "median": 2.67,
+        "std": 1.181,
+        "frac_le_l0": 0.9994,
+        "frac_le_half_l0": 0.7706,
+        "count": 1587
+      },
+      "bulk": {
+        "min": 3.842,
+        "max": 32.449,
+        "mean": 16.503,
+        "median": 16.044,
+        "std": 6.249,
+        "frac_le_l0": 0.0691,
+        "frac_le_half_l0": 0.0005,
+        "count": 1926
+      },
+      "centerline_profiles": {
+        "Ligament 1": {
+          "count": 318,
+          "profile_bins": [
+            2.419,
+            2.652,
+            3.765,
+            6.041,
+            8.864,
+            8.759,
+            6.504,
+            5.031,
+            3.739,
+            2.954
+          ]
+        },
+        "Ligament 2": {
+          "count": 423,
+          "profile_bins": [
+            2.455,
+            2.713,
+            3.151,
+            4.096,
+            6.928,
+            6.755,
+            5.427,
+            3.224,
+            2.587,
+            2.168
+          ]
+        },
+        "Ligament 3": {
+          "count": 295,
+          "profile_bins": [
+            1.832,
+            1.957,
+            1.901,
+            1.741,
+            1.764,
+            1.817,
+            1.975,
+            1.932,
+            1.874,
+            1.823
+          ]
+        },
+        "Ligament 4": {
+          "count": 429,
+          "profile_bins": [
+            2.019,
+            2.297,
+            2.762,
+            3.99,
+            4.929,
+            5.25,
+            4.292,
+            3.093,
+            2.304,
+            2.046
+          ]
+        }
+      }
+    }
+  },
+  "F1725_S2_ET340": {
+    "config": {
+      "case_name": "F1725_S2_ET340",
+      "step_name": "Step-2",
+      "sizing_method": "UNIFORM_ERROR",
+      "err_tgt": 3.4,
+      "max_err_tgt": null,
+      "min_err_tgt": null,
+      "coarsening_factor": "NOT_ALLOWED",
+      "seed_size": 0.02,
+      "max_size": 0.02
+    },
+    "metrics": {
+      "num_elements": 13438,
+      "num_nodes": 13657,
+      "num_quads": 13103.0,
+      "num_tris": 335.0,
+      "quad_percentage": 97.51,
+      "positive_jacobians": true,
+      "ar_max": 2.624,
+      "ar_mean": 1.262,
+      "global_h": {
+        "min": 1.143,
+        "max": 23.937,
+        "mean": 6.777,
+        "median": 5.176,
+        "std": 4.736,
+        "frac_le_l0": 0.7327,
+        "frac_le_half_l0": 0.3607,
+        "count": 13438
+      },
+      "lig1_h1_h2": {
+        "min": 1.25,
+        "max": 9.445,
+        "mean": 4.184,
+        "median": 3.671,
+        "std": 1.592,
+        "frac_le_l0": 0.9779,
+        "frac_le_half_l0": 0.5765,
+        "count": 1360
+      },
+      "lig2_h2_h3": {
+        "min": 1.143,
+        "max": 8.166,
+        "mean": 3.489,
+        "median": 3.213,
+        "std": 1.168,
+        "frac_le_l0": 0.9993,
+        "frac_le_half_l0": 0.706,
+        "count": 1527
+      },
+      "lig3_h3_h4": {
+        "min": 1.192,
+        "max": 4.101,
+        "mean": 2.408,
+        "median": 2.311,
+        "std": 0.398,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 0.9964,
+        "count": 560
+      },
+      "lig4_h4_h5": {
+        "min": 1.348,
+        "max": 6.917,
+        "mean": 3.141,
+        "median": 2.706,
+        "std": 1.135,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 0.7797,
+        "count": 1584
+      },
+      "bulk": {
+        "min": 3.479,
+        "max": 23.937,
+        "mean": 14.774,
+        "median": 15.154,
+        "std": 3.651,
+        "frac_le_l0": 0.0479,
+        "frac_le_half_l0": 0.0004,
+        "count": 2590
+      },
+      "centerline_profiles": {
+        "Ligament 1": {
+          "count": 268,
+          "profile_bins": [
+            2.553,
+            2.836,
+            3.776,
+            6.158,
+            8.403,
+            7.85,
+            7.279,
+            5.238,
+            4.634,
+            3.809
+          ]
+        },
+        "Ligament 2": {
+          "count": 425,
+          "profile_bins": [
+            2.561,
+            2.861,
+            3.185,
+            4.145,
+            5.525,
+            6.582,
+            4.854,
+            3.027,
+            2.409,
+            2.197
+          ]
+        },
+        "Ligament 3": {
+          "count": 209,
+          "profile_bins": [
+            2.063,
+            2.144,
+            2.225,
+            2.268,
+            2.388,
+            2.449,
+            2.367,
+            2.285,
+            2.245,
+            2.165
+          ]
+        },
+        "Ligament 4": {
+          "count": 412,
+          "profile_bins": [
+            2.112,
+            2.314,
+            2.784,
+            3.656,
+            4.967,
+            5.227,
+            4.463,
+            3.271,
+            2.491,
+            2.113
+          ]
+        }
+      }
+    }
+  },
+  "F1725_S2_ET345": {
+    "config": {
+      "case_name": "F1725_S2_ET345",
+      "step_name": "Step-2",
+      "sizing_method": "UNIFORM_ERROR",
+      "err_tgt": 3.45,
+      "max_err_tgt": null,
+      "min_err_tgt": null,
+      "coarsening_factor": "NOT_ALLOWED",
+      "seed_size": 0.02,
+      "max_size": 0.02
+    },
+    "metrics": {
+      "num_elements": 13078,
+      "num_nodes": 13280,
+      "num_quads": 12720.0,
+      "num_tris": 358.0,
+      "quad_percentage": 97.26,
+      "positive_jacobians": true,
+      "ar_max": 2.611,
+      "ar_mean": 1.264,
+      "global_h": {
+        "min": 1.146,
+        "max": 22.922,
+        "mean": 6.901,
+        "median": 5.304,
+        "std": 4.755,
+        "frac_le_l0": 0.7246,
+        "frac_le_half_l0": 0.343,
+        "count": 13078
+      },
+      "lig1_h1_h2": {
+        "min": 1.815,
+        "max": 8.754,
+        "mean": 4.287,
+        "median": 3.762,
+        "std": 1.58,
+        "frac_le_l0": 0.9816,
+        "frac_le_half_l0": 0.557,
+        "count": 1307
+      },
+      "lig2_h2_h3": {
+        "min": 1.343,
+        "max": 9.591,
+        "mean": 3.569,
+        "median": 3.316,
+        "std": 1.174,
+        "frac_le_l0": 0.9952,
+        "frac_le_half_l0": 0.6705,
+        "count": 1463
+      },
+      "lig3_h3_h4": {
+        "min": 1.158,
+        "max": 4.11,
+        "mean": 2.435,
+        "median": 2.333,
+        "std": 0.418,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 0.9963,
+        "count": 541
+      },
+      "lig4_h4_h5": {
+        "min": 1.146,
+        "max": 7.327,
+        "mean": 3.248,
+        "median": 2.8,
+        "std": 1.164,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 0.7466,
+        "count": 1488
+      },
+      "bulk": {
+        "min": 4.014,
+        "max": 22.922,
+        "mean": 14.843,
+        "median": 15.207,
+        "std": 3.629,
+        "frac_le_l0": 0.0432,
+        "frac_le_half_l0": 0.0,
+        "count": 2568
+      },
+      "centerline_profiles": {
+        "Ligament 1": {
+          "count": 268,
+          "profile_bins": [
+            2.591,
+            2.946,
+            3.757,
+            5.639,
+            7.752,
+            7.283,
+            7.506,
+            5.762,
+            4.618,
+            3.811
+          ]
+        },
+        "Ligament 2": {
+          "count": 416,
+          "profile_bins": [
+            2.565,
+            2.969,
+            3.441,
+            4.029,
+            5.255,
+            6.576,
+            5.001,
+            3.027,
+            2.418,
+            2.243
+          ]
+        },
+        "Ligament 3": {
+          "count": 208,
+          "profile_bins": [
+            2.056,
+            2.157,
+            2.26,
+            2.297,
+            2.176,
+            2.293,
+            2.39,
+            2.322,
+            2.28,
+            2.204
+          ]
+        },
+        "Ligament 4": {
+          "count": 409,
+          "profile_bins": [
+            2.151,
+            2.345,
+            2.583,
+            3.73,
+            5.466,
+            4.63,
+            4.384,
+            3.202,
+            2.52,
+            2.172
+          ]
+        }
+      }
+    }
+  },
+  "F1725_S2_ET350": {
+    "config": {
+      "case_name": "F1725_S2_ET350",
+      "step_name": "Step-2",
+      "sizing_method": "UNIFORM_ERROR",
+      "err_tgt": 3.5,
+      "max_err_tgt": null,
+      "min_err_tgt": null,
+      "coarsening_factor": "NOT_ALLOWED",
+      "seed_size": 0.02,
+      "max_size": 0.02
+    },
+    "metrics": {
+      "num_elements": 12591,
+      "num_nodes": 12793,
+      "num_quads": 12244.0,
+      "num_tris": 347.0,
+      "quad_percentage": 97.24,
+      "positive_jacobians": true,
+      "ar_max": 2.452,
+      "ar_mean": 1.266,
+      "global_h": {
+        "min": 1.12,
+        "max": 24.712,
+        "mean": 7.053,
+        "median": 5.42,
+        "std": 4.817,
+        "frac_le_l0": 0.7062,
+        "frac_le_half_l0": 0.3318,
+        "count": 12591
+      },
+      "lig1_h1_h2": {
+        "min": 1.448,
+        "max": 10.087,
+        "mean": 4.354,
+        "median": 3.841,
+        "std": 1.677,
+        "frac_le_l0": 0.9511,
+        "frac_le_half_l0": 0.5497,
+        "count": 1248
+      },
+      "lig2_h2_h3": {
+        "min": 1.538,
+        "max": 8.514,
+        "mean": 3.597,
+        "median": 3.247,
+        "std": 1.261,
+        "frac_le_l0": 0.9965,
+        "frac_le_half_l0": 0.6652,
+        "count": 1410
+      },
+      "lig3_h3_h4": {
+        "min": 1.319,
+        "max": 4.128,
+        "mean": 2.514,
+        "median": 2.384,
+        "std": 0.46,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 0.9941,
+        "count": 505
+      },
+      "lig4_h4_h5": {
+        "min": 1.12,
+        "max": 7.906,
+        "mean": 3.326,
+        "median": 2.856,
+        "std": 1.223,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 0.7411,
+        "count": 1406
+      },
+      "bulk": {
+        "min": 4.039,
+        "max": 24.712,
+        "mean": 14.925,
+        "median": 15.355,
+        "std": 3.683,
+        "frac_le_l0": 0.0437,
+        "frac_le_half_l0": 0.0,
+        "count": 2538
+      },
+      "centerline_profiles": {
+        "Ligament 1": {
+          "count": 247,
+          "profile_bins": [
+            2.62,
+            2.827,
+            4.318,
+            7.66,
+            8.644,
+            9.049,
+            8.158,
+            5.467,
+            4.302,
+            4.191
+          ]
+        },
+        "Ligament 2": {
+          "count": 413,
+          "profile_bins": [
+            2.6,
+            2.966,
+            3.469,
+            4.255,
+            5.481,
+            7.012,
+            5.201,
+            3.174,
+            2.399,
+            2.149
+          ]
+        },
+        "Ligament 3": {
+          "count": 189,
+          "profile_bins": [
+            2.149,
+            2.239,
+            2.328,
+            2.239,
+            2.401,
+            2.512,
+            2.43,
+            2.377,
+            2.3,
+            2.276
+          ]
+        },
+        "Ligament 4": {
+          "count": 385,
+          "profile_bins": [
+            2.177,
+            2.361,
+            2.692,
+            4.024,
+            5.153,
+            6.649,
+            4.58,
+            3.09,
+            2.647,
+            2.253
+          ]
+        }
+      }
+    }
+  },
+  "F1725_S2_COARSEN_ET305": {
+    "config": {
+      "case_name": "F1725_S2_COARSEN_ET305",
+      "step_name": "Step-2",
+      "sizing_method": "UNIFORM_ERROR",
+      "err_tgt": 3.05,
+      "max_err_tgt": null,
+      "min_err_tgt": null,
+      "coarsening_factor": "DEFAULT_LIMIT",
+      "seed_size": 0.02,
+      "max_size": 0.03
+    },
+    "metrics": {
+      "num_elements": 13291,
+      "num_nodes": 13509,
+      "num_quads": 12971.0,
+      "num_tris": 320.0,
+      "quad_percentage": 97.59,
+      "positive_jacobians": true,
+      "ar_max": 2.328,
+      "ar_mean": 1.27,
+      "global_h": {
+        "min": 1.065,
+        "max": 33.452,
+        "mean": 6.546,
+        "median": 4.991,
+        "std": 5.124,
+        "frac_le_l0": 0.7775,
+        "frac_le_half_l0": 0.3579,
+        "count": 13291
+      },
+      "lig1_h1_h2": {
+        "min": 1.368,
+        "max": 11.033,
+        "mean": 4.103,
+        "median": 3.504,
+        "std": 1.679,
+        "frac_le_l0": 0.9689,
+        "frac_le_half_l0": 0.5925,
+        "count": 1384
+      },
+      "lig2_h2_h3": {
+        "min": 1.117,
+        "max": 7.969,
+        "mean": 3.512,
+        "median": 3.167,
+        "std": 1.193,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 0.6904,
+        "count": 1502
+      },
+      "lig3_h3_h4": {
+        "min": 1.214,
+        "max": 3.996,
+        "mean": 2.414,
+        "median": 2.295,
+        "std": 0.416,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 1.0,
+        "count": 548
+      },
+      "lig4_h4_h5": {
+        "min": 1.065,
+        "max": 7.961,
+        "mean": 3.179,
+        "median": 2.722,
+        "std": 1.164,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 0.7534,
+        "count": 1541
+      },
+      "bulk": {
+        "min": 2.902,
+        "max": 33.452,
+        "mean": 15.853,
+        "median": 14.997,
+        "std": 6.209,
+        "frac_le_l0": 0.0876,
+        "frac_le_half_l0": 0.0024,
+        "count": 2067
+      },
+      "centerline_profiles": {
+        "Ligament 1": {
+          "count": 279,
+          "profile_bins": [
+            2.451,
+            3.026,
+            3.916,
+            6.486,
+            8.844,
+            8.423,
+            6.299,
+            5.124,
+            4.218,
+            3.398
+          ]
+        },
+        "Ligament 2": {
+          "count": 442,
+          "profile_bins": [
+            2.416,
+            2.646,
+            3.095,
+            4.364,
+            5.292,
+            6.732,
+            4.126,
+            3.18,
+            2.369,
+            2.244
+          ]
+        },
+        "Ligament 3": {
+          "count": 213,
+          "profile_bins": [
+            2.031,
+            2.13,
+            2.214,
+            2.297,
+            2.175,
+            2.21,
+            2.324,
+            2.264,
+            2.225,
+            2.156
+          ]
+        },
+        "Ligament 4": {
+          "count": 433,
+          "profile_bins": [
+            2.101,
+            2.23,
+            2.551,
+            3.764,
+            4.858,
+            4.851,
+            4.094,
+            3.162,
+            2.416,
+            2.102
+          ]
+        }
+      }
+    }
+  },
+  "F1725_S2_COARSEN_ET310": {
+    "config": {
+      "case_name": "F1725_S2_COARSEN_ET310",
+      "step_name": "Step-2",
+      "sizing_method": "UNIFORM_ERROR",
+      "err_tgt": 3.1,
+      "max_err_tgt": null,
+      "min_err_tgt": null,
+      "coarsening_factor": "DEFAULT_LIMIT",
+      "seed_size": 0.02,
+      "max_size": 0.03
+    },
+    "metrics": {
+      "num_elements": 13497,
+      "num_nodes": 13706,
+      "num_quads": 13157.0,
+      "num_tris": 340.0,
+      "quad_percentage": 97.48,
+      "positive_jacobians": true,
+      "ar_max": 2.435,
+      "ar_mean": 1.263,
+      "global_h": {
+        "min": 0.881,
+        "max": 33.048,
+        "mean": 6.447,
+        "median": 4.865,
+        "std": 5.147,
+        "frac_le_l0": 0.7846,
+        "frac_le_half_l0": 0.3819,
+        "count": 13497
+      },
+      "lig1_h1_h2": {
+        "min": 1.448,
+        "max": 10.86,
+        "mean": 4.046,
+        "median": 3.488,
+        "std": 1.623,
+        "frac_le_l0": 0.9748,
+        "frac_le_half_l0": 0.6059,
+        "count": 1431
+      },
+      "lig2_h2_h3": {
+        "min": 1.015,
+        "max": 8.55,
+        "mean": 3.434,
+        "median": 3.091,
+        "std": 1.148,
+        "frac_le_l0": 0.9994,
+        "frac_le_half_l0": 0.7107,
+        "count": 1573
+      },
+      "lig3_h3_h4": {
+        "min": 1.209,
+        "max": 3.904,
+        "mean": 2.359,
+        "median": 2.253,
+        "std": 0.398,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 1.0,
+        "count": 581
+      },
+      "lig4_h4_h5": {
+        "min": 0.881,
+        "max": 7.732,
+        "mean": 3.106,
+        "median": 2.653,
+        "std": 1.171,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 0.796,
+        "count": 1603
+      },
+      "bulk": {
+        "min": 3.761,
+        "max": 33.048,
+        "mean": 16.157,
+        "median": 15.783,
+        "std": 6.15,
+        "frac_le_l0": 0.0733,
+        "frac_le_half_l0": 0.0005,
+        "count": 2006
+      },
+      "centerline_profiles": {
+        "Ligament 1": {
+          "count": 283,
+          "profile_bins": [
+            2.425,
+            2.803,
+            3.774,
+            6.66,
+            8.501,
+            8.194,
+            6.82,
+            6.127,
+            4.013,
+            3.585
+          ]
+        },
+        "Ligament 2": {
+          "count": 456,
+          "profile_bins": [
+            2.403,
+            2.634,
+            3.089,
+            3.839,
+            5.745,
+            5.88,
+            4.301,
+            3.438,
+            2.261,
+            2.242
+          ]
+        },
+        "Ligament 3": {
+          "count": 217,
+          "profile_bins": [
+            1.994,
+            2.07,
+            2.147,
+            2.15,
+            2.168,
+            2.257,
+            2.304,
+            2.242,
+            2.195,
+            2.141
+          ]
+        },
+        "Ligament 4": {
+          "count": 435,
+          "profile_bins": [
+            2.071,
+            2.295,
+            2.692,
+            3.806,
+            4.514,
+            5.729,
+            4.342,
+            2.816,
+            2.437,
+            2.081
+          ]
+        }
+      }
+    }
+  },
+  "F1725_S2_COARSEN_ET315": {
+    "config": {
+      "case_name": "F1725_S2_COARSEN_ET315",
+      "step_name": "Step-2",
+      "sizing_method": "UNIFORM_ERROR",
+      "err_tgt": 3.15,
+      "max_err_tgt": null,
+      "min_err_tgt": null,
+      "coarsening_factor": "DEFAULT_LIMIT",
+      "seed_size": 0.02,
+      "max_size": 0.03
+    },
+    "metrics": {
+      "num_elements": 13017,
+      "num_nodes": 13230,
+      "num_quads": 12696.0,
+      "num_tris": 321.0,
+      "quad_percentage": 97.53,
+      "positive_jacobians": true,
+      "ar_max": 2.595,
+      "ar_mean": 1.261,
+      "global_h": {
+        "min": 1.102,
+        "max": 33.385,
+        "mean": 6.585,
+        "median": 5.012,
+        "std": 5.216,
+        "frac_le_l0": 0.7762,
+        "frac_le_half_l0": 0.3648,
+        "count": 13017
+      },
+      "lig1_h1_h2": {
+        "min": 1.121,
+        "max": 9.369,
+        "mean": 4.127,
+        "median": 3.557,
+        "std": 1.651,
+        "frac_le_l0": 0.976,
+        "frac_le_half_l0": 0.5943,
+        "count": 1373
+      },
+      "lig2_h2_h3": {
+        "min": 1.324,
+        "max": 9.208,
+        "mean": 3.515,
+        "median": 3.246,
+        "std": 1.197,
+        "frac_le_l0": 0.9973,
+        "frac_le_half_l0": 0.6805,
+        "count": 1499
+      },
+      "lig3_h3_h4": {
+        "min": 1.102,
+        "max": 4.113,
+        "mean": 2.413,
+        "median": 2.287,
+        "std": 0.424,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 0.9927,
+        "count": 550
+      },
+      "lig4_h4_h5": {
+        "min": 1.246,
+        "max": 7.864,
+        "mean": 3.171,
+        "median": 2.706,
+        "std": 1.153,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 0.7515,
+        "count": 1545
+      },
+      "bulk": {
+        "min": 3.448,
+        "max": 33.385,
+        "mean": 16.308,
+        "median": 15.548,
+        "std": 6.19,
+        "frac_le_l0": 0.0675,
+        "frac_le_half_l0": 0.001,
+        "count": 1971
+      },
+      "centerline_profiles": {
+        "Ligament 1": {
+          "count": 279,
+          "profile_bins": [
+            2.449,
+            2.879,
+            4.124,
+            6.116,
+            8.205,
+            6.998,
+            7.272,
+            6.115,
+            4.312,
+            3.49
+          ]
+        },
+        "Ligament 2": {
+          "count": 439,
+          "profile_bins": [
+            2.469,
+            2.551,
+            3.272,
+            3.972,
+            6.042,
+            6.382,
+            4.391,
+            3.121,
+            2.349,
+            2.211
+          ]
+        },
+        "Ligament 3": {
+          "count": 209,
+          "profile_bins": [
+            2.038,
+            2.128,
+            2.234,
+            2.223,
+            2.124,
+            2.371,
+            2.371,
+            2.314,
+            2.253,
+            2.176
+          ]
+        },
+        "Ligament 4": {
+          "count": 425,
+          "profile_bins": [
+            2.09,
+            2.293,
+            2.611,
+            3.659,
+            4.709,
+            5.182,
+            4.874,
+            2.994,
+            2.414,
+            2.108
+          ]
+        }
+      }
+    }
+  },
+  "F1725_S2_COARSEN_ET320": {
+    "config": {
+      "case_name": "F1725_S2_COARSEN_ET320",
+      "step_name": "Step-2",
+      "sizing_method": "UNIFORM_ERROR",
+      "err_tgt": 3.2,
+      "max_err_tgt": null,
+      "min_err_tgt": null,
+      "coarsening_factor": "DEFAULT_LIMIT",
+      "seed_size": 0.02,
+      "max_size": 0.03
+    },
+    "metrics": {
+      "num_elements": 12632,
+      "num_nodes": 12837,
+      "num_quads": 12306.0,
+      "num_tris": 326.0,
+      "quad_percentage": 97.42,
+      "positive_jacobians": true,
+      "ar_max": 2.717,
+      "ar_mean": 1.27,
+      "global_h": {
+        "min": 0.827,
+        "max": 33.214,
+        "mean": 6.713,
+        "median": 5.098,
+        "std": 5.258,
+        "frac_le_l0": 0.7604,
+        "frac_le_half_l0": 0.3556,
+        "count": 12632
+      },
+      "lig1_h1_h2": {
+        "min": 1.316,
+        "max": 11.686,
+        "mean": 4.207,
+        "median": 3.655,
+        "std": 1.623,
+        "frac_le_l0": 0.9835,
+        "frac_le_half_l0": 0.5714,
+        "count": 1330
+      },
+      "lig2_h2_h3": {
+        "min": 0.827,
+        "max": 9.203,
+        "mean": 3.549,
+        "median": 3.234,
+        "std": 1.202,
+        "frac_le_l0": 0.9973,
+        "frac_le_half_l0": 0.6828,
+        "count": 1463
+      },
+      "lig3_h3_h4": {
+        "min": 1.09,
+        "max": 3.944,
+        "mean": 2.425,
+        "median": 2.332,
+        "std": 0.413,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 1.0,
+        "count": 544
+      },
+      "lig4_h4_h5": {
+        "min": 1.459,
+        "max": 7.786,
+        "mean": 3.259,
+        "median": 2.768,
+        "std": 1.213,
+        "frac_le_l0": 1.0,
+        "frac_le_half_l0": 0.7551,
+        "count": 1462
+      },
+      "bulk": {
+        "min": 3.13,
+        "max": 33.214,
+        "mean": 16.351,
+        "median": 15.752,
+        "std": 6.201,
+        "frac_le_l0": 0.0657,
+        "frac_le_half_l0": 0.0015,
+        "count": 1962
+      },
+      "centerline_profiles": {
+        "Ligament 1": {
+          "count": 256,
+          "profile_bins": [
+            2.676,
+            2.888,
+            3.94,
+            6.591,
+            9.219,
+            8.805,
+            6.184,
+            5.644,
+            4.302,
+            3.848
+          ]
+        },
+        "Ligament 2": {
+          "count": 418,
+          "profile_bins": [
+            2.512,
+            2.842,
+            3.454,
+            4.104,
+            5.594,
+            6.585,
+            5.366,
+            2.994,
+            2.362,
+            2.274
+          ]
+        },
+        "Ligament 3": {
+          "count": 209,
+          "profile_bins": [
+            2.067,
+            2.159,
+            2.235,
+            2.243,
+            2.219,
+            2.075,
+            2.317,
+            2.374,
+            2.313,
+            2.28
+          ]
+        },
+        "Ligament 4": {
+          "count": 419,
+          "profile_bins": [
+            2.129,
+            2.269,
+            2.796,
+            3.729,
+            4.961,
+            4.996,
+            4.61,
+            2.94,
+            2.473,
+            2.146
+          ]
+        }
+      }
+    }
+  }
+}

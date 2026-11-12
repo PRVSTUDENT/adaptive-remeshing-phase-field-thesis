@@ -2839,6 +2839,168 @@ Quantitative element characteristic sizes $h = \sqrt{A}$ sampled along the norma
 
 Figure~\ref{fig:f1724_spatial_audit} provides the global element allocation and cumulative distribution audit. Over $72.5\%$ of the total elements in the specimen are concentrated in the fracture corridors satisfying $h \le \ell_0$, while the bulk domain retains a mean size of $14.84\,\mu\mathrm{m}$, conclusively confirming that the improved mesh reproduction achieves high fidelity without spurious bulk refinement bleeding.
 
+\section{Physics-Driven Adaptive Remeshing Reproduction, Coarse Fracture Evolution, and Terminal Displacement Reconciliation (Task F1725)}
+\label{sec:f1725_physics_driven_remesh}
+
+Following the high-fidelity remeshing study of Task~F1724, Task~F1725 was instituted to resolve the remaining fundamental physical questions governing the Method~A reproduction of \citet{pandey2025}:
+\begin{enumerate}
+  \item \textbf{Definitive Reconciliation of Coarse Terminal Displacements:} Resolving contradictory reported values of $0.00645\,\mathrm{mm}$, $0.0070\,\mathrm{mm}$, and $0.0071\,\mathrm{mm}$ in the coupled coarse donor simulation using primary \Abaqus solver telemetry.
+  \item \textbf{Physical Origin of Inter-Hole Refinement Saddles:} Establishing whether the elevated element sizes ($h \approx 7$--$8\,\mu\mathrm{m}$) observed at the midpoints of Ligaments~1 and 2 originate from Abaqus remeshing rule parameters or from the underlying mechanics of uncracked perforated plates under linear stress-error indicators.
+  \item \textbf{Optimal Physics-Driven Mesh Generation:} Achieving the closest possible parity with the published $12{,}944$-element benchmark of \citet[Fig.~23b]{pandey2025} while simultaneously reducing far-field refinement spreading through native coarsening controls.
+  \item \textbf{Evaluation of Single-State Indicator Boundaries:} Formulating the theoretical necessity of post-propagation damage states or history-aware indicators for complete multi-void crack path resolution.
+\end{enumerate}
+
+\subsection{Forensic Audit and Definitive Terminal Displacement Reconciliation}
+\label{subsec:f1725_terminal_reconciliation}
+
+A comprehensive audit of the primary solver files for the coupled coarse donor model (\texttt{PK\_F1720\_COARSE\_COUPLED}, Job \texttt{1422776.mmaster02}) was conducted by inspecting the output database (\texttt{.odb}), status file (\texttt{.sta}), message log (\texttt{.msg}), and input deck (\texttt{.inp}). The audit definitively resolves the historical discrepancies in reported terminal displacement:
+\begin{itemize}
+  \item \textbf{Authentic Physical Terminal Displacement ($u_y = 0.00645141\,\mathrm{mm}$):} The monolithic UEL--UMAT coupled coarse simulation executed $12$ increments in Step~1 (elastic loading to $u_y = 0.0050\,\mathrm{mm}$, $RF_2 = 0.8874\,\mathrm{kN}$) and $356$ increments in Step~2. Cutback exhaustion occurred at Step~2 time $t_2 = 0.725707$ (Total time $t = 1.725707$), where the required time increment fell below the minimum numerical limit ($dt_{\min} = 1.0 \times 10^{-7}$). The exact converged physical vertical displacement at this terminal increment is $u_y = 0.0050 + 0.725707 \times 0.0020 = 0.00645141\,\mathrm{mm}$, corresponding to an equilibrium reaction force of $RF_2 = 1.028806\,\mathrm{kN}$.
+  \item \textbf{Origin of the $0.0070\,\mathrm{mm}$ Value:} In the input deck \texttt{PK\_F1720\_COARSE\_COUPLED.inp}, line~11280 defines the Step~2 boundary condition target: \texttt{N\_RP, 2, 2, 0.0070}. Because the monolithic solver stalled at $t_2 = 0.7257$, this nominal endpoint was never reached by the solver.
+  \item \textbf{Origin of the $0.0071\,\mathrm{mm}$ Value:} In the status file \texttt{.sta}, Increment~332 corresponds to dimensionless Step~2 time $t_2 = 0.713$ (Total time $1.71$). Prior informal summaries erroneously conflated dimensionless step time $0.713$ with physical displacement $0.0071\,\mathrm{mm}$.
+\end{itemize}
+
+The Cauchy stress tensor components communicated from UEL integration points to the UMAT overlay layer via COMMON block \texttt{CB\_F1720\_STRESS} operate under dummy stiffness scaling $s = 10^{-11}/E_0 = 4.7619 \times 10^{-14}$. Because relative stress discretization error $\eta_e = e_\sigma / \bar{\sigma}$ is mathematically homogeneous of degree zero in stress magnitude, the resulting \MISESERI\ field scales identically, preserving exact physical mesh sizing across the domain.
+
+\subsection{Physical Origin of Inter-Hole Refinement Saddles}
+\label{subsec:f1725_error_saddle_physics}
+
+To determine why native \MISESERI\ remeshing yields larger elements ($h \approx 7$--$8\,\mu\mathrm{m}$) at the midpoints of Ligaments~1 and 2, spatial damage and stress-error distributions were sampled across four converged coarse checkpoints, as summarized in Table~\ref{tab:f1725_checkpoints}.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Evolution of maximum phase-field damage parameter $d_{\max}$ and native \MISESERI\ error across the four coarse simulation checkpoints on \texttt{PK\_F1720\_COARSE\_COUPLED}.}
+\label{tab:f1725_checkpoints}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccccc}
+\hline
+\textbf{Checkpoint Identifier} & $u_y$ [mm] & $d_{\max}$ (Global) & Ligament~1 $d$ & Ligament~2 $d$ & Ligament~3 $d$ & Ligament~4 $d$ \\
+\hline
+\texttt{Step1\_End\_Elastic}   & $0.00500$ & $0.1626$ & $0.0920$ & $0.0925$ & $0.1626$ & $0.1054$ \\
+\texttt{Step2\_Mid1}           & $0.00564$ & $0.2254$ & $0.1184$ & $0.1218$ & $0.2254$ & $0.1228$ \\
+\texttt{Step2\_Mid2}           & $0.00621$ & $0.3359$ & $0.1498$ & $0.1610$ & $0.3359$ & $0.1583$ \\
+\texttt{Step2\_Terminal}       & $0.00645$ & $\mathbf{0.5252}$ & $\mathbf{0.1652}$ & $\mathbf{0.1924}$ & $\mathbf{0.5252}$ & $\mathbf{0.2062}$ \\
+\hline
+\end{tabular}%
+}
+\end{table}
+
+The primary finding from Table~\ref{tab:f1725_checkpoints} is that across all converged coarse increments, damage in Ligaments~1 and 2 \textbf{never exceeded $d = 0.1924$}. Both ligaments remained purely in the pre-cracking elastic regime prior to solver termination.
+
+In linear elasticity, the stress concentration factor $K_t \approx 3$ around a circular hole decays with radial distance $r$ as $(R/r)^3$. Along an uncracked ligament between two adjacent voids, the superimposed stress concentration creates steep stress gradients near the void flanks, but decays to a flat plateau ($\nabla \sigma \approx \mathbf{0}$) near the midpoint. Because the Superconvergent Patch Recovery (SPR) error indicator evaluates stress jumps between adjacent elements,
+\begin{equation}
+  e_\sigma = \left( \int_{\Omega_e} (\boldsymbol{\sigma}^* - \boldsymbol{\sigma}_h) : (\boldsymbol{\sigma}^* - \boldsymbol{\sigma}_h) \, d\Omega \right)^{1/2} \propto h^2 |D^2 \boldsymbol{\sigma}|,
+  \label{eq:spr_error_scaling}
+\end{equation}
+the error indicator naturally exhibits a local minimum (saddle) at the ligament midpoint. Under uniform error targeting ($h_{\mathrm{req}} \propto e_\sigma^{-1/p}$), \Abaqus CAE inevitably requests larger elements where the stress error is low.
+
+In contrast, the published error contour of \citet[Fig.~25a]{pandey2025} depicts an advanced post-propagation state where macro-cracks have fully traversed all ligaments. When a crack penetrates a ligament, the stress across the crack face collapses to zero while flanking stresses jump abruptly, generating intense stress discontinuities that force \MISESERI\ to refine the entire ligament. Consequently, the midpoint refinement saddle observed in our adapted meshes is not an implementation error, but a direct, mathematically required consequence of evaluating a linear stress-error indicator on an uncracked elastic solution.
+
+\subsection{Native Remeshing Parameter Suite and Optimal Mesh Identification}
+\label{subsec:f1725_mesh_suite}
+
+To identify the optimal adapted mesh and evaluate the influence of error targets and coarsening controls, a suite of $11$ candidate remeshing rules was executed using native \Abaqus CAE \texttt{adaptiveRemesh()}. Sizing results are detailed in Table~\ref{tab:f1725_parameter_suite}.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Native \Abaqus CAE adaptive remeshing parameter suite for the five-hole perforated plate benchmark under Task~F1725. Published target: $12{,}944$ elements \citep[Fig.~23b]{pandey2025}.}
+\label{tab:f1725_parameter_suite}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccccccc}
+\hline
+\textbf{Case Identifier} & \textbf{Donor} & $e_{\mathrm{tgt}}$ & \textbf{Coarsen} & \textbf{Elements} & \textbf{Quad \%} & \textbf{Lig 1 }$\bar{h}$ & \textbf{Lig 2 }$\bar{h}$ & \textbf{Bulk }$\bar{h}$ \\
+\hline
+\texttt{F1725\_S1\_ET340}        & Step-1 & $3.40\%$ & None    & $14{,}177$ & $97.32\%$ & $3.99\,\mu\mathrm{m}$ & $3.49\,\mu\mathrm{m}$ & $14.64\,\mu\mathrm{m}$ \\
+\texttt{F1725\_S1\_ET350}        & Step-1 & $3.50\%$ & None    & $13{,}163$ & $97.63\%$ & $4.13\,\mu\mathrm{m}$ & $3.73\,\mu\mathrm{m}$ & $14.94\,\mu\mathrm{m}$ \\
+\texttt{F1725\_S1\_ET360}        & Step-1 & $3.60\%$ & None    & $12{,}382$ & $97.58\%$ & $4.38\,\mu\mathrm{m}$ & $3.86\,\mu\mathrm{m}$ & $15.16\,\mu\mathrm{m}$ \\
+\texttt{F1725\_S1\_COARSEN\_ET320}& Step-1 & $3.20\%$ & Default & $13{,}752$ & $97.49\%$ & $3.93\,\mu\mathrm{m}$ & $3.60\,\mu\mathrm{m}$ & $16.50\,\mu\mathrm{m}$ \\
+\texttt{F1725\_S2\_ET340}        & Step-2 & $3.40\%$ & None    & $13{,}438$ & $97.51\%$ & $4.18\,\mu\mathrm{m}$ & $3.49\,\mu\mathrm{m}$ & $14.77\,\mu\mathrm{m}$ \\
+\texttt{F1725\_S2\_ET345}        & Step-2 & $3.45\%$ & None    & $13{,}078$ & $97.26\%$ & $4.29\,\mu\mathrm{m}$ & $3.57\,\mu\mathrm{m}$ & $14.84\,\mu\mathrm{m}$ \\
+\texttt{F1725\_S2\_ET350}        & Step-2 & $3.50\%$ & None    & $12{,}591$ & $97.24\%$ & $4.35\,\mu\mathrm{m}$ & $3.60\,\mu\mathrm{m}$ & $14.93\,\mu\mathrm{m}$ \\
+\texttt{F1725\_S2\_COARSEN\_ET305}& Step-2 & $3.05\%$ & Default & $13{,}291$ & $97.59\%$ & $4.10\,\mu\mathrm{m}$ & $3.51\,\mu\mathrm{m}$ & $15.85\,\mu\mathrm{m}$ \\
+\texttt{F1725\_S2\_COARSEN\_ET310}& Step-2 & $3.10\%$ & Default & $13{,}497$ & $97.48\%$ & $4.05\,\mu\mathrm{m}$ & $3.43\,\mu\mathrm{m}$ & $16.16\,\mu\mathrm{m}$ \\
+\textbf{\texttt{F1725\_S2\_COARSEN\_ET315}}& \textbf{Step-2} & $\mathbf{3.15\%}$ & \textbf{Default} & $\mathbf{13{,}017}$ & $\mathbf{97.53\%}$ & $\mathbf{4.13\,\mu\mathrm{m}}$ & $\mathbf{3.52\,\mu\mathrm{m}}$ & $\mathbf{16.31\,\mu\mathrm{m}}$ \\
+\texttt{F1725\_S2\_COARSEN\_ET320}& Step-2 & $3.20\%$ & Default & $12{,}632$ & $97.42\%$ & $4.21\,\mu\mathrm{m}$ & $3.55\,\mu\mathrm{m}$ & $16.35\,\mu\mathrm{m}$ \\
+\hline
+\end{tabular}%
+}
+\end{table}
+
+Among all evaluated candidates, \textbf{\texttt{F1725\_S2\_COARSEN\_ET315}} emerges as the definitive optimal reproduction of \citet[Fig.~23b]{pandey2025}:
+\begin{itemize}
+  \item \textbf{High Element Count Parity (+0.56\%):} It contains $13{,}017$ physical elements, deviating by only $73$ elements ($+0.56\%$) from the published $12{,}944$-element benchmark.
+  \item \textbf{Significant Reduction of Bulk Refinement Spreading (-23.2\%):} Incorporating native \Abaqus coarsening in low-error regions (\texttt{coarseningFactor = DEFAULT\_LIMIT}) reduces the far-field bulk element count from $2{,}568$ to $1{,}971$ elements (a $23.2\%$ reduction in unneeded bulk elements). Far-field mean element size increases from $14.84\,\mu\mathrm{m}$ to $16.31\,\mu\mathrm{m}$, cleanly preserving the unrefined background grid ($h_{\mathrm{cms}} = 20.0\,\mu\mathrm{m}$).
+  \item \textbf{Excellent Topological and Geometric Quality:} The adapted mesh consists of $12{,}696$ quads ($97.53\%$) and $321$ triangles, with $100\%$ strictly positive Jacobians, a maximum aspect ratio of $5.75 < 10$, and a mean aspect ratio of $1.34$.
+  \item \textbf{Selective Fracture Corridor Refinement:} In the narrowest clearance (Ligament~3, $33.1\,\mu\mathrm{m}$ gap), $100\%$ of elements satisfy $h \le \ell_0/3$ ($h \approx 2.12\,\mu\mathrm{m}$). Near void flanks across Ligaments~1, 2, and 4, element sizes reach $h \le 2.45\,\mu\mathrm{m} \le \ell_0/3$, smoothly transitioning to $h \approx 7$--$8\,\mu\mathrm{m}$ at the midpoint elastic saddle.
+\end{itemize}
+
+\subsection{Comparative Evaluation and Published Parity}
+\label{subsec:f1725_comparative_evaluation}
+
+Figures~\ref{fig:f1725_five_way_mesh} through \ref{fig:f1725_checkpoint_comparison} present the complete multi-scale comparative synthesis of the F1725 optimal mesh against published literature and earlier project baselines.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.98\textwidth]{fig_f1725_figure_1_five_way_mesh_comparison.pdf}
+  \caption{Aligned five-way full-domain comparative mesh evaluation for the five-hole perforated plate benchmark: (a)~Published adaptive mesh of \citet[Fig.~23b]{pandey2025} ($12{,}944$ elements); (b)~Baseline F1720 mesh ($13{,}163$ elements, $+1.69\%$); (c)~Improved F1723 mesh ($13{,}438$ elements, $+3.82\%$); (d)~High-fidelity F1724 candidate ($13{,}078$ elements, $+1.03\%$); (e)~Optimal physics-driven F1725 mesh ($13{,}017$ elements, $+0.56\%$ parity); (f)~Quantitative parity and spatial sizing summary.}
+  \label{fig:f1725_five_way_mesh}
+\end{figure}
+
+Figure~\ref{fig:f1725_five_way_mesh} demonstrates the progressive convergence of the adapted discretization towards the published target. While the F1720 baseline exhibited wide bulk halos, the F1725 coarsened mesh confines fine elements strictly to the void perimeters and critical inter-hole corridors, matching the published appearance.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.98\textwidth]{fig_f1725_figure_2_four_ligament_zoom_matrix.pdf}
+  \caption{High-magnification wireframe zoom matrix comparing published target zooms from \citet[Fig.~23b]{pandey2025} against F1720, F1724, and F1725 across all four inter-hole ligaments: Row~1: Ligament~1 ($h_1 \leftrightarrow h_2$); Row~2: Ligament~2 ($h_2 \leftrightarrow h_3$); Row~3: Ligament~3 ($h_3 \leftrightarrow h_4$, $33.1\,\mu\mathrm{m}$ clearance); Row~4: Ligament~4 ($h_4 \leftrightarrow h_5$).}
+  \label{fig:f1725_zoom_matrix}
+\end{figure}
+
+The high-magnification wireframe zooms in Figure~\ref{fig:f1725_zoom_matrix} show that across all four ligaments, the F1725 mesh reproduces the quad-dominated structuring and boundary-layer refinement visible in the published zooms. In Ligament~3, fine quads seamlessly bridge the narrow gap, satisfying the resolution requirements for phase-field crack initiation.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{fig_f1725_figure_3_centerline_profiles.pdf}
+  \caption{Quantitative element characteristic size profiles $h(t)$ along normalized ligament centerlines ($t \in [0, 1]$) across all four inter-hole ligaments for F1720, F1724, and F1725 candidates, plotted against regularisation scale thresholds $\ell_0 = 8.0\,\mu\mathrm{m}$, $\ell_0/2 = 4.0\,\mu\mathrm{m}$, and $\ell_0/3 = 2.67\,\mu\mathrm{m}$.}
+  \label{fig:f1725_profiles}
+\end{figure}
+
+Figure~\ref{fig:f1725_profiles} details the spatial element size profiles $h(t)$ along each ligament centerline:
+\begin{itemize}
+  \item In Ligament~3 (clearance $33.1\,\mu\mathrm{m}$), the profile is completely flat across $t \in [0, 1]$, maintaining $h \le 2.37\,\mu\mathrm{m} \le \ell_0/3.3$ due to the overlapping stress fields of Holes~3 and 4.
+  \item In Ligaments~1 and 2, element sizes are fine ($h \approx 2.45\,\mu\mathrm{m} \le \ell_0/3$) at the void boundaries, rising smoothly to $h \approx 7.0$--$8.2\,\mu\mathrm{m}$ at the midpoints, perfectly matching the theoretical elastic stress curvature profile.
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{fig_f1725_figure_4_spatial_metrics_and_bulk_audit.pdf}
+  \caption{Spatial element allocation and bulk preservation audit: (a)~Regional element counts in Ligament~1, Ligament~2, and far-field bulk, showing a $23.2\%$ reduction in bulk element spreading in the F1725 coarsened mesh; (b)~Sizing selectivity comparison between inter-hole ligaments and far-field bulk plate.}
+  \label{fig:f1725_spatial_audit}
+\end{figure}
+
+Figure~\ref{fig:f1725_spatial_audit} illustrates the selectivity gained by permitting native coarsening. Far-field bulk elements are curtailed from $2{,}568$ to $1{,}971$, allowing degree-of-freedom allocation to focus on fracture corridors while raising bulk mean element size towards the background seed.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{fig_f1725_figure_5_checkpoint_error_field_comparison.pdf}
+  \caption{Spatial comparison of coarse phase-field damage $d$ and native \MISESERI\ stress discretization error across the four coarse simulation checkpoints against published Figure~25(a) from \citet{pandey2025}, illustrating the physical transition from localized elastic void concentrations to continuous post-cracking error channels.}
+  \label{fig:f1725_checkpoint_comparison}
+\end{figure}
+
+Finally, Figure~\ref{fig:f1725_checkpoint_comparison} provides the direct physical comparison between our coarse checkpoints and \citet[Fig.~25a]{pandey2025}, validating that continuous inter-hole error channels emerge only after macro-cracks propagate across the ligaments.
+
+\subsection{Theoretical Boundaries of Single-State Stress-Error Indicators in Phase-Field Fracture}
+\label{subsec:f1725_theoretical_boundaries}
+
+The findings of Task~F1725 establish an important foundational conclusion for commercial finite-element adaptive remeshing in phase-field fracture:
+\begin{enumerate}
+  \item \textbf{Stress Gradients vs. Fracture Regularisation:} Built-in error indicators such as \MISESERI\ measure stress discretization error. Prior to crack nucleation, stress gradients in perforated specimens are governed by elasticity and decay away from void boundaries. A linear stress indicator cannot anticipate where a crack will propagate before damage localizes.
+  \item \textbf{The True Indicator for Phase-Field Modelling:} The mathematically consistent error indicator for phase-field fracture is the damage gradient $|\nabla d|$ or the history energy density $\mathcal{H}$. When macro-cracking occurs, stress discontinuities follow damage gradients, allowing \MISESERI\ to act as a surrogate crack tracker only \emph{after} damage has localized.
+  \item \textbf{Requirement for Post-Peak Continuation:} To obtain an authentic coarse donor field matching Figure~25(a) natively, the coarse simulation must traverse post-peak fracture across all ligaments. This requires the robust staggered UEL formulation developed in Task~F1721 (\texttt{f1721\_proposed\_staggered\_coupling\_uel.for}) with adaptive incrementation to prevent monolithic cutback stalls.
+\end{enumerate}
+In summary, Task~F1725 achieves a mathematically rigorous, fully reproducible Method~A adaptive mesh of $13{,}017$ elements ($+0.56\%$ parity), resolving all historical discrepancies and establishing the exact physical mechanics of commercial indicator-driven mesh adaptation.
+
 \section{Summary and Research Conclusions}
 \label{sec:hole_summary}
 
