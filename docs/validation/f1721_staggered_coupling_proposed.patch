@@ -1,0 +1,65 @@
+diff --git a/models/pandey_kumar_mode1/214_f1720_adapted_mesh/f1720_direct_coupling_uel.for b/models/pandey_kumar_mode1/214_f1720_adapted_mesh/f1721_proposed_staggered_coupling_uel.for
+index d39d5616..2598f9c5 100644
+--- a/models/pandey_kumar_mode1/214_f1720_adapted_mesh/f1720_direct_coupling_uel.for
++++ b/models/pandey_kumar_mode1/214_f1720_adapted_mesh/f1721_proposed_staggered_coupling_uel.for
+@@ -1,13 +1,17 @@
+ C=======================================================================
+-C TASK F1720: PANDEY-KUMAR METHOD A DIRECT UEL-UMAT COUPLING DIAGNOSTIC
+-C Subroutine: f1720_diagnostic_coupling_uel.for
++C TASK F1721: PANDEY-KUMAR METHOD A STAGGERED OPERATOR-SPLIT COUPLING
++C Subroutine: f1721_proposed_staggered_coupling_uel.for
+ C
+ C Purpose:
+-C   Stage 2 minimal diagnostic patch subroutine for investigating and
+-C   qualifying direct UEL-to-UMAT integration-point data exchange,
+-C   Abaqus solver call ordering, Gauss-point indexing consistency,
+-C   stress tensor conventions (S11, S22, S33, S12), and mechanical
+-C   neutrality of the dummy/overlay layer.
++C   Versioned proposed subroutine restoring the authentic staggered
++C   operator-split contract (Molnár & Gravouil 2017 Ref. [72];
++C   Pandey & Kumar 2025 Sec. 3.2).
++C   - Layer 1 (Quad PF, line 397) & Layer 3 (Tri PF, line 661): read SV_H_COMMITTED
++C   - Layer 2 (Quad Mech, line 452) & Layer 4 (Tri Mech, line 709): read SV_PHASE_COMMITTED
++C   - Eliminates uncoupled intra-increment Picard iteration feedback loop
++C   - Preserves trial-state writes (SV_PHASE_TRIAL, SV_H_TRIAL) for LOP=2 commit
++C   - Direct UEL-to-UMAT integration-point stress coupling preserved
++C   - Canonical and F1720 production UELs remain bitwise untouched
+ C
+ C Architecture:
+ C   - Layer 1 (JTYPE=1 quad, JTYPE=3 tri): Phase-field UEL (DOF 3)
+@@ -394,7 +398,7 @@ C     ------------------------------------------------------------------
+             B_GRAD(2,I) = INVJ(2,1)*D_N(1,I) + INVJ(2,2)*D_N(2,I)
+           ENDDO
+ 
+-          HIST = SV_H_TRIAL(PHYSIDX, KPT)
++          HIST = SV_H_COMMITTED(PHYSIDX, KPT)
+ 
+           DO I=1, 4
+             DO J=1, 4
+@@ -449,7 +453,7 @@ C     JTYPE = 2: 4-Node Quad Mechanical Element (DOFs 1, 2)
+ C     Amor et al. (2009) Volumetric-Deviatoric Split in Plane Strain
+ C     ------------------------------------------------------------------
+       ELSE IF (JTYPE .EQ. 2) THEN
+-        D_VAL = SV_PHASE_TRIAL(PHYSIDX)
++        D_VAL = SV_PHASE_COMMITTED(PHYSIDX)
+         IF (D_VAL .NE. D_VAL) THEN
+           WRITE(6,*) 'FATAL_NAN_GUARD: NaN phase in JTYPE 2:', JELEM
+           PNEWDT = 0.25D0
+@@ -658,7 +662,7 @@ C     ------------------------------------------------------------------
+         B_GRAD_TRI(2,2) = (COORDS(1,1) - COORDS(1,3)) / DETJ
+         B_GRAD_TRI(2,3) = (COORDS(1,2) - COORDS(1,1)) / DETJ
+ 
+-        HIST = SV_H_TRIAL(PHYSIDX, 1)
++        HIST = SV_H_COMMITTED(PHYSIDX, 1)
+ 
+         DO I=1, 3
+           DO J=1, 3
+@@ -706,7 +710,7 @@ C     JTYPE = 4: 3-Node Triangular Mechanical Element (DOFs 1, 2)
+ C     Amor et al. (2009) Volumetric-Deviatoric Split in Plane Strain
+ C     ------------------------------------------------------------------
+       ELSE IF (JTYPE .EQ. 4) THEN
+-        D_VAL = SV_PHASE_TRIAL(PHYSIDX)
++        D_VAL = SV_PHASE_COMMITTED(PHYSIDX)
+         IF (D_VAL .NE. D_VAL) THEN
+           WRITE(6,*) 'FATAL_NAN_GUARD: NaN phase in JTYPE 4:', JELEM
+           PNEWDT = 0.25D0

@@ -1,11 +1,10 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "f1720-method-a-direct-coupling-session-003",
-  "task_id": "F1720-METHOD-A-DIRECT-COUPLING-AND-REMESH-REPRODUCTION",
-  "started_at": "2026-11-12T01:26:00+01:00",
-  "completed_at": "2026-11-12T03:22:00+01:00",
-  "starting_commit": "53020bd5",
+  "session_id": "f1721-postpeak-convergence-session-001",
+  "task_id": "F1721-METHOD-A-POSTPEAK-CONVERGENCE-DIAGNOSIS",
+  "started_at": "2026-11-12T03:50:00+01:00",
+  "starting_commit": "3c975614",
   "allowed_write_scope": [
     "project_coordination",
     "models/pandey_kumar_mode1",
@@ -18,5 +17,5 @@
     "configs",
     ".agents"
   ],
-  "notes": "Session 003 completed: Qualified primary solver receipts (PK_F1720_ADAPTED_PFM.sta, .msg, .dat) resolving Finding R07, added explicit .gitignore un-ignore rules, published mirror in results/validation/f1720_solver_receipts/, expanded unit tests to 32/32 PASS, received formal Round 4 review APPROVE, and closed Task F1720 as CLOSED_PARTIAL_MILESTONE_ACCEPTED with successor F1721 prepared."
+  "notes": "Session 001 claimed: Offline diagnostic investigation into F1720 adapted fracture simulation post-peak nonlinear convergence failure (dt < 1e-9 at uy = 0.0056645 mm, ligament h3-h4 bridging). Method A only, max_new_pbs_submissions = 0."
 }
