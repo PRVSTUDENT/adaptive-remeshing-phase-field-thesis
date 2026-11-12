@@ -14091,6 +14091,57 @@
         "lifecycle_tests": "PASS"
       },
       "qualified_at": "2026-11-11T12:15:04.564476+00:00"
+    },
+    "c9be30f6c7e398ea268697d5db406b8b169bf3a3596b3984656c4022015b96dc": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\214_f1720_adapted_mesh\\F1722_PK_FIVE_HOLE_CAUSAL_PILOT_AUTHORIZATION.json",
+      "attempts": {
+        "f1722_five_hole_causal_pilot": 1
+      },
+      "audit": [
+        {
+          "job": "f1722_five_hole_causal_pilot",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-11-12T09:39:26.730786+00:00",
+          "command_sha256": "f954697071c6c57eae8058b9f46343763864c4adc9ee035996d5aa8c355cbcd6"
+        }
+      ],
+      "preflight": {
+        "active_job_count": 0,
+        "adapter_contract": "mode1-five-hole-staggered-v1",
+        "datachecks": {
+          "f1722_five_hole_causal_pilot": {
+            "status": "PASS",
+            "input_sha256": "23525c2ab9a62a461d6489803fe3d679a80840d58e13339517f9539838170e95",
+            "dat_sha256": "e3282b68099493fbab4a1489bae340cf318eb53bdd5477fbeb143287cfbfd252"
+          }
+        },
+        "batch_spec_sha256": "a7cac0d164ca04e9470246c1f5147a1ca529c63cd2f5c55f80f3bd2ad77d9745",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "c9be30f6c7e398ea268697d5db406b8b169bf3a3596b3984656c4022015b96dc",
+        "authorized_command_sha256": "f954697071c6c57eae8058b9f46343763864c4adc9ee035996d5aa8c355cbcd6",
+        "checked_at": "2026-11-12T09:39:21.942924+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "PK_F1721_CAUSAL_PILOT.inp": "23525c2ab9a62a461d6489803fe3d679a80840d58e13339517f9539838170e95",
+          "f1721_proposed_staggered_coupling_uel.for": "2eceb8b3b945d56a53d94b9d853f07d59bc2467901cd26df614d8ba3e5604e5c",
+          "submit_M1_PK_F1722_CAUSAL_PILOT.pbs": "7fa296a4ae8b4dfa1c6efb41bc6882835a9d1f53e7974d40d8b4063213fa37dd",
+          "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+          "M1_PK_F1722_DATACHECK.dat": "e3282b68099493fbab4a1489bae340cf318eb53bdd5477fbeb143287cfbfd252"
+        },
+        "helper_sha256": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-11-12T09:39:22.138745+00:00"
     }
   }
 }

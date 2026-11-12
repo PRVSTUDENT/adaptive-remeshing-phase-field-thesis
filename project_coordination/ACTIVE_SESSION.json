@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "agent": "gemini-antigravity",
   "session_id": "f1722-causal-pilot-execution-session-001",
   "task_id": "F1722-METHOD-A-CAUSAL-PILOT-EXECUTION",
@@ -15,5 +15,5 @@
     "MA_AdaptiveRemeshing_Report_2026/**",
     ".agents/**"
   ],
-  "notes": "Session claimed for Task F1722: Method A Bounded Causal-Isolation Diagnostic Pilot Execution. Preparing HPC execution manifest, target cluster compilation/datacheck, preflight, supervisory review dispatch, governed execution, and telemetry streaming under strict Method A scope."
+  "notes": "Session closed after Task F1722 Bounded Causal-Isolation Diagnostic Pilot Execution completed successfully (Exit Code 0, 0 cutbacks, hypothesis F1721-H1-R1 confirmed with CONDITIONAL_PASS, Chapter 5 updated, main.pdf compiled to 338 pages, ledgers updated). Ready for successor task."
 }

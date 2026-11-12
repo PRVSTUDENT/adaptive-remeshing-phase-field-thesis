@@ -1,0 +1,62 @@
+=== PBS Preflight Check for M1_PK_F1722_CAUSAL_PILOT ===
+2026-11-12T09:39:31Z
+mnode100.cluster
+Scratch disk space confirmed: 19420 GB available.
+Input deck hash verified: 23525c2ab9a62a461d6489803fe3d679a80840d58e13339517f9539838170e95
+User subroutine hash verified: 2eceb8b3b945d56a53d94b9d853f07d59bc2467901cd26df614d8ba3e5604e5c
+/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifort
+/cluster/application/abaqus/2023/Commands/abaqus
+=== Starting Abaqus/Standard 2023 Five-Hole Adaptive Phase-Field Causal Pilot (Task F1722, Single-CPU Serial Baseline) ===
+2026-11-12T09:39:34Z
+Analysis initiated from SIMULIA established products
+Abaqus JOB M1_PK_F1722_CAUSAL_PILOT
+Abaqus 2023
+Abaqus License Manager checked out the following licenses:
+Abaqus/Standard checked out 5 tokens from Flexnet server license4.imfd.tu-freiberg.de.
+<129 out of 300 licenses remain available>.
+Abaqus Warning: Your Abaqus license will expire in 18 days.
+Begin Compiling Abaqus/Standard User Subroutines
+Thu 12 Nov 2026 10:39:36 AM CET
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+ifort: command line warning #10434: option '-extend_source' use with underscore is deprecated; use '-extend-source' instead
+ Intel(R) Fortran 2021.13.0-1693
+f1721_proposed_staggered_coupling_uel.for(38): remark #15009: uexternaldb_ has been targeted for automatic cpu dispatch
+f1721_proposed_staggered_coupling_uel.for(199): remark #15009: uel_ has been targeted for automatic cpu dispatch
+f1721_proposed_staggered_coupling_uel.for(872): remark #15009: umat_ has been targeted for automatic cpu dispatch
+End Compiling Abaqus/Standard User Subroutines
+Begin Linking Abaqus/Standard User Subroutines
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+GNU ld version 2.30-128.el8_10
+End Linking Abaqus/Standard User Subroutines
+Thu 12 Nov 2026 10:39:43 AM CET
+Begin Analysis Input File Processor
+Thu 12 Nov 2026 10:39:43 AM CET
+Run pre
+Thu 12 Nov 2026 10:40:04 AM CET
+End Analysis Input File Processor
+Begin Abaqus/Standard Analysis
+Thu 12 Nov 2026 10:40:04 AM CET
+Run standard
+Thu 12 Nov 2026 10:48:47 AM CET
+End Abaqus/Standard Analysis
+Begin SIM Wrap-up
+Thu 12 Nov 2026 10:48:48 AM CET
+Run SMASimUtility
+Thu 12 Nov 2026 10:48:48 AM CET
+End SIM Wrap-up
+Abaqus JOB M1_PK_F1722_CAUSAL_PILOT COMPLETED
+=== Abaqus Finished with Exit Code: 0 ===
+2026-11-12T09:48:48Z
+Final directory contents and sizes:
+-rwxr--r-- 1 pr21vyci t2-dg-role_student 2,9K 12. Nov 10:39 M1_PK_F1722_CAUSAL_PILOT.com
+-rw-r--r-- 1 pr21vyci t2-dg-role_student  18K 12. Nov 10:48 M1_PK_F1722_CAUSAL_PILOT.dat
+-rw-r--r-- 1 pr21vyci t2-dg-role_student 223K 12. Nov 10:48 M1_PK_F1722_CAUSAL_PILOT.msg
+-rw-r--r-- 1 pr21vyci t2-dg-role_student 782M 12. Nov 10:48 M1_PK_F1722_CAUSAL_PILOT.odb
+-rw-r--r-- 1 pr21vyci t2-dg-role_student 1,6K 12. Nov 10:48 M1_PK_F1722_CAUSAL_PILOT.prt
+-rw-r--r-- 1 pr21vyci t2-dg-role_student  11K 12. Nov 10:48 M1_PK_F1722_CAUSAL_PILOT.sta

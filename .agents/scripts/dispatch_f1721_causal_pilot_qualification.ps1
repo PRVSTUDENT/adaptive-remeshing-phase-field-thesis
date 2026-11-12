@@ -91,7 +91,7 @@ Upon authorized execution, PK_F1721_CAUSAL_PILOT will be evaluated directly agai
 ========================================================================================================================
 4. IMMUTABLE EVIDENCE LEDGER & TEST RECEIPTS
 ========================================================================================================================
-All artifacts are live on GitHub https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis:
+All artifacts are live on GitHub https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis at commit cf871e74:
 
 | Artifact Description | File Path | Size (Bytes) | SHA-256 Checksum | Classification |
 | :--- | :--- | :---: | :---: | :--- |
