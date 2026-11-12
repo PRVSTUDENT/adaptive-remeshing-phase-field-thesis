@@ -1,14 +1,18 @@
 {
   "task_id": "F1720-METHOD-A-DIRECT-COUPLING-AND-REMESH-REPRODUCTION",
   "title": "Complete Pandey-Kumar Method A: Direct UEL-UMAT Coupling, Native MISESERI, Adaptive Remeshing, and Final Fracture Validation",
-  "status": "COMPLETED_PENDING_REVIEW",
+  "status": "CLOSED_PARTIAL_MILESTONE_ACCEPTED",
   "assigned_agent": "gemini-antigravity",
-  "handoff_id": "HND-F1720-METHOD-A-FINAL-VALIDATION-003",
-  "checkpoint_artifact": "docs/validation/F1720_FORWARD_SOLVER_COMPLETION_FORENSIC_REPORT.md",
+  "handoff_id": "HND-F1720-METHOD-A-FINAL-VALIDATION-004",
+  "checkpoint_artifact": "docs/validation/F1720_PRIMARY_SOLVER_RECEIPT_QUALIFICATION.md",
   "predecessor_task": {
     "task_id": "F1719-COARSE-PHASE-FIELD-MISESERI-REMESH-FIVE-HOLE",
     "checkpoint_artifact": "docs/validation/F1719_FIVE_HOLE_COARSE_PHASE_FIELD_REMESH_REPORT.md",
     "terminal_job_id": null
+  },
+  "successor_task": {
+    "task_id": "F1721-METHOD-A-POSTPEAK-CONVERGENCE-DIAGNOSIS",
+    "definition": "project_coordination/task_definitions/F1721-METHOD-A-POSTPEAK-CONVERGENCE-DIAGNOSIS.json"
   },
   "registration": {
     "definition": "project_coordination/task_definitions/F1720-METHOD-A-DIRECT-COUPLING-AND-REMESH-REPRODUCTION.json"
@@ -28,8 +32,9 @@
     "stage4_native_adaptive_remeshing",
     "stage5_adapted_fracture_simulation",
     "stage6_evidence_manifest_and_thesis_integration",
-    "stage7_read_only_forward_solver_forensics"
+    "stage7_read_only_forward_solver_forensics",
+    "stage8_primary_solver_receipt_qualification"
   ],
-  "iteration": 3,
-  "review_resolution": "READ_ONLY_FORWARD_SOLVER_FORENSICS_AND_NUMERICAL_RECONCILIATION_COMPLETED"
+  "iteration": 4,
+  "review_resolution": "ROUND4_PRIMARY_SOLVER_RECEIPT_QUALIFIED_PARTIAL_MILESTONE_APPROVED"
 }

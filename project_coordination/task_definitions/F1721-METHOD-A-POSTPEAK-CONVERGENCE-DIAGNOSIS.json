@@ -1,0 +1,32 @@
+{
+  "task_id": "F1721-METHOD-A-POSTPEAK-CONVERGENCE-DIAGNOSIS",
+  "title": "Method A Adapted Fracture Simulation Post-Peak Nonlinear Convergence Failure Diagnosis: Residual & Tangent Inspection, Fracture Instability Assessment, and Falsifiable Corrective Hypothesis",
+  "assigned_agent": "gemini-antigravity",
+  "status": "PREPARED",
+  "predecessor_task": {
+    "task_id": "F1720-METHOD-A-DIRECT-COUPLING-AND-REMESH-REPRODUCTION",
+    "checkpoint_artifact": "docs/validation/F1720_PRIMARY_SOLVER_RECEIPT_QUALIFICATION.md",
+    "review_approval": "HND-F1720-METHOD-A-FINAL-VALIDATION-004",
+    "classification": "CLOSED_PARTIAL_MILESTONE_ACCEPTED"
+  },
+  "scope_rule": "METHOD_A_ONLY",
+  "method_c_status": "PAUSED",
+  "max_new_pbs_submissions": 0,
+  "submissions_consumed": 0,
+  "execution_mode": "OFFLINE_DIAGNOSTIC_ONLY",
+  "scientific_objective": "IDENTIFY_DOMINANT_CAUSE_OF_F1720_POST_PEAK_NONLINEAR_CONVERGENCE_FAILURE",
+  "diagnostic_tasks": [
+    "audit_final_msg_iteration_residuals_and_divergence_nodes",
+    "inspect_uel_amorsplit_tangent_consistency_under_severe_softening",
+    "analyze_phase_field_update_coupling_and_irreversibility_enforcement",
+    "distinguish_tangent_numerical_defect_from_structural_snap_through_instability",
+    "formulate_exactly_one_falsifiable_corrective_hypothesis"
+  ],
+  "governing_constraints": [
+    "No new PBS submissions authorized (max_new_pbs_submissions = 0)",
+    "No new Abaqus production runs authorized",
+    "Method A boundary strictly observed (zero Method C, zero history transfer)",
+    "Preserve all existing validated F1720 models, outputs, and primary receipts"
+  ],
+  "registered_at": "2026-11-12T03:20:00+01:00"
+}

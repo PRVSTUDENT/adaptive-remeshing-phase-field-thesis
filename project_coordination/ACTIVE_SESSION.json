@@ -1,10 +1,10 @@
 {
-  "active": true,
+  "active": false,
   "agent": "gemini-antigravity",
   "session_id": "f1720-method-a-direct-coupling-session-003",
   "task_id": "F1720-METHOD-A-DIRECT-COUPLING-AND-REMESH-REPRODUCTION",
   "started_at": "2026-11-12T01:26:00+01:00",
-  "completed_at": null,
+  "completed_at": "2026-11-12T03:22:00+01:00",
   "starting_commit": "53020bd5",
   "allowed_write_scope": [
     "project_coordination",
@@ -18,5 +18,5 @@
     "configs",
     ".agents"
   ],
-  "notes": "Session 003: Evaluated Round 2 review critique, executed read-only forward solver forensics on PK_F1720_ADAPTED_PFM, reconciled peak force (-12.22%), partial completion (177 increments, 24 cutbacks, terminated at dt_min=1e-9), physical IP count (51,716 IPs), native MISESERI, tracked call-order log, updated thesis Chapter 5, and authored F1720_FORWARD_SOLVER_COMPLETION_FORENSIC_REPORT.md."
+  "notes": "Session 003 completed: Qualified primary solver receipts (PK_F1720_ADAPTED_PFM.sta, .msg, .dat) resolving Finding R07, added explicit .gitignore un-ignore rules, published mirror in results/validation/f1720_solver_receipts/, expanded unit tests to 32/32 PASS, received formal Round 4 review APPROVE, and closed Task F1720 as CLOSED_PARTIAL_MILESTONE_ACCEPTED with successor F1721 prepared."
 }
