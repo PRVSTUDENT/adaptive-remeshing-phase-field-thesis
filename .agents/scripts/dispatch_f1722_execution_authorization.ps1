@@ -137,13 +137,11 @@ The executor formally requests explicit independent scientific review authorizat
 - Next Lifecycle Step upon Approval: Submit job, stream real-time telemetry, and evaluate against predeclared conditional falsification criteria.
 '@
 
-$review = Invoke-ChatGPTReview -TaskId $taskId -HandoffId $handoffId -ScientificReport $scientificReport
+Write-Host "Dispatching Task F1722 Causal Pilot Execution Authorization Request to ChatGPT Bridge..." -ForegroundColor Cyan
+$bridgeResult = Invoke-ChatGPTBridge -PromptText $scientificReport -HandoffId $handoffId -LaunchPad -TimeoutMinutes 40
+Write-Host "Bridge Response Received:" -ForegroundColor Green
+Write-Host $bridgeResult
 
-Write-Output "REVIEW_DECISION: $($review.decision)"
-Write-Output "TASK_COMPLETION_APPROVED: $($review.task_completion_approved)"
-Write-Output "PBS_SUBMISSIONS_AUTHORIZED: $($review.pbs_submissions_authorized)"
-Write-Output "APPROVAL_SCOPE: $($review.approval_scope)"
-
-$responsePath = "$repoRoot\results\validation\f1722_execution_auth_review_response.json"
-$review | ConvertTo-Json -Depth 10 | Set-Content $responsePath -Encoding UTF8
+$responsePath = "$PSScriptRoot\..\..\results\validation\f1722_execution_auth_review_response.json"
+$bridgeResult | Set-Content $responsePath -Encoding UTF8
 Write-Output "Review response archived to: $responsePath"
