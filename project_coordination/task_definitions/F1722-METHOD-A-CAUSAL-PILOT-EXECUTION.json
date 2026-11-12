@@ -1,0 +1,54 @@
+{
+  "task_id": "F1722-METHOD-A-CAUSAL-PILOT-EXECUTION",
+  "title": "Method A Bounded Causal-Isolation Diagnostic Pilot Execution: Authentic Abaqus Datacheck, HPC Resource Staging, Governed PBS Execution, and Bounded Fracture Validation to uy = 0.00580 mm",
+  "assigned_agent": "gemini-antigravity",
+  "status": "IN_PROGRESS",
+  "predecessor_task": {
+    "task_id": "F1721-METHOD-A-POSTPEAK-CONVERGENCE-DIAGNOSIS",
+    "checkpoint_artifact": "docs/validation/F1721_CAUSAL_PILOT_QUALIFICATION_REPORT.md",
+    "review_approval": "HND-F1721-CAUSAL-PILOT-002",
+    "classification": "OFFLINE_DIAGNOSIS_AND_PILOT_PREPARATION_COMPLETE"
+  },
+  "scope_rule": "METHOD_A_ONLY",
+  "method_c_status": "PAUSED",
+  "manifest": {
+    "path": "models/pandey_kumar_mode1/214_f1720_adapted_mesh/F1722_PK_FIVE_HOLE_CAUSAL_PILOT_AUTHORIZATION.json",
+    "sha256": "c9be30f6c7e398ea268697d5db406b8b169bf3a3596b3984656c4022015b96dc"
+  },
+  "pbs_script": {
+    "path": "models/pandey_kumar_mode1/214_f1720_adapted_mesh/submit_M1_PK_F1722_CAUSAL_PILOT.pbs",
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime_hours": 8,
+    "queue": "entry_imfdfkmq",
+    "execution_architecture": "single-rank serial"
+  },
+  "input_deck": {
+    "path": "models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1721_CAUSAL_PILOT.inp",
+    "sha256": "23525C2AB9A62A461D6489803FE3D679A80840D58E13339517F9539838170E95",
+    "size_bytes": 1780955
+  },
+  "subroutine": {
+    "path": "models/pandey_kumar_mode1/214_f1720_adapted_mesh/f1721_proposed_staggered_coupling_uel.for",
+    "sha256": "2ECEB8B3B945D56A53D94B9D853F07D59BC2467901CD26DF614D8BA3E5604E5C",
+    "size_bytes": 38655
+  },
+  "preserved_literature_candidate": {
+    "path": "models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1721_ADAPTED_PILOT.inp",
+    "sha256": "0FCD33CF72BA9631CB0122AA38346CF51829EF9CF154497C3E80862820247E6E",
+    "size_bytes": 1780773
+  },
+  "max_new_pbs_submissions": 1,
+  "submissions_consumed": 0,
+  "execution_mode": "GOVERNED_HPC_EXECUTION",
+  "experimental_objective": "ONE_BOUNDED_CAUSAL_TEST_THROUGH_UY_0_00580_MM",
+  "governing_execution_gates": [
+    "gate1_independent_signed_review_authorization",
+    "gate2_authentic_abaqus_compilation_and_datacheck_exit0",
+    "gate3_live_queue_and_scheduler_resource_limits_check",
+    "gate4_dual_channel_notification_delivery_contract_verification",
+    "gate5_single_submission_once_only_accounting",
+    "gate6_physical_convergence_and_falsification_evaluation"
+  ],
+  "registered_at": "2026-11-12T06:50:00+01:00"
+}

@@ -43,19 +43,19 @@ manifest = {
             "command_sha256": command_sha256,
             "max_submissions": 1,
             "depends_on": [],
-            "purpose": "Pandey & Kumar (2025) Section 4.5 Five-Hole Adaptive Phase-Field Causal-Isolation Pilot on 13,163 physical elements (39,489 layered elements) under versioned committed-state staggered operator-split UEL f1721_proposed_staggered_coupling_uel.for to test post-peak convergence through uy = 0.00580 mm with matched loading rate and 4 CPUs shared-memory SMP",
-            "cpus": 4,
-            "memory_gb": 32,
+            "purpose": "Pandey & Kumar (2025) Section 4.5 Five-Hole Adaptive Phase-Field Causal-Isolation Pilot on 13,163 physical elements (39,489 layered elements) under versioned committed-state staggered operator-split UEL f1721_proposed_staggered_coupling_uel.for to test post-peak convergence through uy = 0.00580 mm with matched loading rate and 1 CPU single-rank serial execution (F1720 serial baseline parity, eliminating multi-threading confounding variables)",
+            "cpus": 1,
+            "memory_gb": 16,
             "walltime_hours": 8,
             "queue": "entry_imfdfkmq",
-            "execution": "shared-memory SMP",
+            "execution": "single-rank serial",
             "input": "PK_F1721_CAUSAL_PILOT.inp",
             "datacheck": "M1_PK_F1722_DATACHECK.dat",
             "subroutine": "f1721_proposed_staggered_coupling_uel.for"
         }
     ],
     "acceptance": {
-        "f1722_five_hole_causal_pilot": "Abaqus 2023 4-thread shared-memory SMP solve executes causal-isolation pilot to uy = 0.00580 mm; advancement past uy = 0.0056645 mm without cutback exhaustion evaluates hypothesis F1721-H1-R1 with non-zero reaction force equilibrium and uncorrupted uel_energy_balance.csv."
+        "f1722_five_hole_causal_pilot": "Abaqus 2023 single-rank serial solve executes causal-isolation pilot to uy = 0.00580 mm; advancement past uy = 0.0056645 mm without cutback exhaustion supports hypothesis F1721-H1-R1 (committed-state staggered operator-split coupling improves continuation in the tested configuration); repeated stalling at uy = 0.0056645 mm indicates modification alone was insufficient in this configuration; reaction force equilibrium verified via bottom-boundary summation and damage bounds d in [0, 1] verified via UMAT overlay STATEV (SDV1)."
     },
     "adapter": "mode1-five-hole-staggered-v1",
     "scientific_scope": "FIVE_HOLE",

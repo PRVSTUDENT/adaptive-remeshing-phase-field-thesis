@@ -65,7 +65,7 @@ class TestF1722CausalPilotExecutionQualification(unittest.TestCase):
         pbs_text = PBS_PATH.read_text(encoding='utf-8')
         required_directives = [
             '#PBS -N M1_PK_F1722_CAUSAL_PILOT',
-            '#PBS -l select=1:ncpus=4:mpiprocs=1:ompthreads=4:mem=32gb',
+            '#PBS -l select=1:ncpus=1:mem=16gb',
             '#PBS -l walltime=08:00:00',
             '#PBS -q entry_imfdfkmq',
             '#PBS -j oe',
@@ -76,7 +76,7 @@ class TestF1722CausalPilotExecutionQualification(unittest.TestCase):
             'notification_install_terminal_trap',
             'notify_start',
             'module load gcc/11.4.0 intel/2024.2.0 abaqus/2023',
-            'abaqus job="${JOB_NAME}" input="${INP_NAME}" user="${USER_SUB}" cpus=4 mp_mode=threads interactive'
+            'abaqus job="${JOB_NAME}" input="${INP_NAME}" user="${USER_SUB}" cpus=1 interactive'
         ]
         for directive in required_directives:
             self.assertIn(directive, pbs_text, f"Missing required directive in PBS script: {directive}")
@@ -89,10 +89,10 @@ class TestF1722CausalPilotExecutionQualification(unittest.TestCase):
         self.assertEqual(batch['batch_name'], 'FIVE_HOLE_PK_F1722_CAUSAL_PILOT')
         self.assertEqual(len(batch['jobs']), 1)
         job = batch['jobs'][0]
-        self.assertEqual(job['cpus'], 4)
-        self.assertEqual(job['memory_gb'], 32)
+        self.assertEqual(job['cpus'], 1)
+        self.assertEqual(job['memory_gb'], 16)
         self.assertEqual(job['walltime_hours'], 8)
-        self.assertEqual(job['execution'], 'shared-memory SMP')
+        self.assertEqual(job['execution'], 'single-rank serial')
 
     def test_06_frozen_baselines_bitwise_preservation(self):
         f1720_inp = MODEL_DIR / 'PK_F1720_ADAPTED_PFM.inp'

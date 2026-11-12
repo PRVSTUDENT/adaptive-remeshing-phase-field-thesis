@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -N M1_PK_F1722_CAUSAL_PILOT
-#PBS -l select=1:ncpus=4:mpiprocs=1:ompthreads=4:mem=32gb
+#PBS -l select=1:ncpus=1:mem=16gb
 #PBS -l walltime=08:00:00
 #PBS -q entry_imfdfkmq
 #PBS -j oe
@@ -73,12 +73,12 @@ module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
 command -v ifort
 command -v abaqus
 
-# 6. Execution of Multi-Core Causal Pilot Simulation
-echo "=== Starting Abaqus/Standard 2023 Five-Hole Adaptive Phase-Field Causal Pilot (Task F1722, 4-Thread SMP) ==="
+# 6. Execution of Single-CPU Causal Pilot Simulation
+echo "=== Starting Abaqus/Standard 2023 Five-Hole Adaptive Phase-Field Causal Pilot (Task F1722, Single-CPU Serial Baseline) ==="
 date -u +"%Y-%m-%dT%H:%M:%SZ"
 
 set +e
-abaqus job="${JOB_NAME}" input="${INP_NAME}" user="${USER_SUB}" cpus=4 mp_mode=threads interactive
+abaqus job="${JOB_NAME}" input="${INP_NAME}" user="${USER_SUB}" cpus=1 interactive
 EXIT_CODE=$?
 set -e
 
@@ -88,8 +88,5 @@ date -u +"%Y-%m-%dT%H:%M:%SZ"
 # 7. Post-Run Diagnostics and Artifact Preservation
 echo "Final directory contents and sizes:"
 ls -lh "${JOB_NAME}"* || true
-if [ -f "uel_energy_balance.csv" ]; then
-    echo "uel_energy_balance.csv line count: $(wc -l < uel_energy_balance.csv)"
-fi
 
 exit ${EXIT_CODE}

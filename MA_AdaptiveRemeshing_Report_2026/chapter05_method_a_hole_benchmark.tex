@@ -2457,34 +2457,42 @@ Simultaneously altering both variables in a single test would confound the causa
 
 Experimental outcomes are governed by a predeclared conditional falsification logic:
 \begin{itemize}
-  \item \textbf{Conditional PASS (Evidence Supporting Hypothesis F1721-H1-R1):} If the causal pilot advances past $u_y = 0.0056645\,\mathrm{mm}$ into $u_y = 0.00580\,\mathrm{mm}$ under automatic incrementation, this provides strong empirical evidence that uncoupled Picard iteration was a primary contributor to the stall. Subsequent comparison against the preserved $7{,}000$-increment literature candidate (\texttt{PK\_F1721\_ADAPTED\_PILOT.inp}) will quantify physical solution agreement and temporal lag effects.
-  \item \textbf{Conditional FAIL (Weakening of Sufficiency Claim):} If the causal pilot stalls identically at $u_y = 0.0056645\,\mathrm{mm}$ with $\Delta t < 10^{-9}$, this demonstrates that committed-state decoupling alone is insufficient in this tested configuration, leaving further candidate causes (such as fine fixed incrementation, tangent consistency, or structural snap-through instability) undetermined until independently tested.
-  \item \textbf{INDETERMINATE:} If the pilot stalls at an intermediate displacement $0.0056645\,\mathrm{mm} < u_y < 0.00580\,\mathrm{mm}$, partial stabilization is indicated, requiring detailed inspection of local Jacobian determinants, cutback histories, and damage profiles.
+  \item \textbf{Conditional PASS (Evidence Supporting Hypothesis F1721-H1-R1):} If the causal pilot advances past $u_y = 0.0056645\,\mathrm{mm}$ into $u_y = 0.00580\,\mathrm{mm}$ under automatic incrementation, this provides empirical evidence supporting the hypothesis that committed-state staggered operator-split coupling improves continuation in the tested configuration; it does not uniquely prove a microscopic root cause or eliminate other candidate co-factors. Subsequent comparison against the preserved $7{,}000$-increment literature candidate (\texttt{PK\_F1721\_ADAPTED\_PILOT.inp}) will quantify physical solution agreement and temporal lag effects.
+  \item \textbf{Conditional FAIL (Weakening of Sufficiency Claim):} If the causal pilot stalls identically near $u_y = 0.0056645\,\mathrm{mm}$ with $\Delta t < 10^{-9}$, this demonstrates that the committed-state modification alone was insufficient in this tested configuration, leaving further candidate causes (such as fine fixed incrementation or numerical damping) undetermined until independently tested.
+  \item \textbf{INDETERMINATE:} If the pilot terminates at an intermediate displacement or due to an operational limit, detailed inspection of local Jacobian determinants, cutback histories, and damage profiles is required before drawing causal inferences.
 \end{itemize}
 
-\subsection{Target-Cluster Technical Qualification and Governed Execution Authorization}
+\subsection{Target-Cluster Technical Qualification, Serial Reconfiguration, and Governed Execution Authorization}
 \label{subsec:f1722_cluster_qualification}
 
-In preparation for governed high-performance computing execution of the bounded causal-isolation diagnostic pilot, comprehensive preflight verification and cluster technical qualification were completed on the Freiberg high-performance computing cluster (\texttt{mlogin01.cluster}) under Task~F1722:
+In preparation for governed high-performance computing execution of the bounded causal-isolation diagnostic pilot, comprehensive preflight verification, execution readiness reconciliation, and cluster technical qualification were completed on the Freiberg high-performance computing cluster (\texttt{mlogin01.cluster}) under Task~F1722:
 
 \begin{enumerate}
   \item \textbf{Target-Cluster Compilation and Datacheck Execution:}
   The full $39{,}489$-element layered input deck (\texttt{PK\_F1721\_CAUSAL\_PILOT.inp}) and the committed-state user subroutine (\texttt{f1721\_proposed\_staggered\_coupling\_uel.for}) were staged on cluster scratch (\texttt{/scratch9/pr21vyci/runs/mode1\_pk\_f1722\_causal\_pilot/}). An authentic \Abaqus/Standard 2023 datacheck (\texttt{M1\_PK\_F1722\_DATACHECK}) was executed with Intel Fortran Compiler Classic 2021.13.0 (\texttt{ifort}), completing cleanly with \textbf{Exit Code~0}, zero analysis errors (\texttt{***ERROR}), and verified status \texttt{ANALYSIS DATACHECK COMPLETE} in \texttt{M1\_PK\_F1722\_DATACHECK.dat} (SHA-256: \texttt{e3282b68099493fbab4a1489bae340cf318eb53bdd5477fbeb143287cfbfd252}).
   
-  \item \textbf{Governed Manifest and Adapter Registration:}
-  Batch execution manifest \texttt{F1722\_PK\_FIVE\_HOLE\_CAUSAL\_PILOT\_AUTHORIZATION.json} (SHA-256: \texttt{46eb09bc16567f265cd2c7a79df1be3fa2d7460befb27115b8ad1c6e9d722ba8}) was constructed and registered within the Mode-I execution gate under adapter \texttt{mode1-five-hole-staggered-v1} and technical stage \texttt{FIVE\_HOLE\_CAUSAL\_PILOT}. Resource bounds were allocated as: $1$~job, $4$~CPUs shared-memory SMP, $32\,\mathrm{GB}$ RAM, and $8\,\mathrm{h}$ walltime in routing queue \texttt{entry\_imfdfkmq}.
+  \item \textbf{Single-CPU Serial Reconfiguration and Manifest Registration:}
+  To strictly prevent un-synchronized mutable Fortran \texttt{COMMON} block variables (\texttt{CB\_F1720\_STRESS}, \texttt{CB\_CONFIG}) from introducing concurrency hazards or uncontrolled parallel confounding variables into a single-variable causal test, execution was reconciled to \textbf{single-CPU serial mode} ($1$~CPU, $16\,\mathrm{GB}$ RAM, single-rank serial), providing exact like-for-like alignment with the baseline F1720 serial execution. Batch execution manifest \texttt{F1722\_PK\_FIVE\_HOLE\_CAUSAL\_PILOT\_AUTHORIZATION.json} (SHA-256: \texttt{c9be30f6c7e398ea268697d5db406b8b169bf3a3596b3984656c4022015b96dc}) was registered within the Mode-I execution gate under adapter \texttt{mode1-five-hole-staggered-v1} and technical stage \texttt{FIVE\_HOLE\_CAUSAL\_PILOT} in routing queue \texttt{entry\_imfdfkmq}.
+
+  \item \textbf{Supported Output and Extraction Pathway:}
+  Because native user elements (\texttt{UEL}) do not support standard Abaqus element output requests, physical and thermodynamic extraction is established through supported channels:
+  \begin{itemize}
+    \item \emph{Tensile Reaction Equilibrium:} Summed from bottom-boundary nodes via $F_{\mathrm{tensile}}(t) = -\sum_{j \in N_{\mathrm{BOTTOM}}} RF_{2,j}(t)$.
+    \item \emph{Damage and History Fields:} Mapped by the companion \texttt{UMAT} overlay (Layer~3) into standard \Abaqus core output database field variables: \texttt{SDV1} (phase-field damage $d \in [0, 1]$), \texttt{SDV2} (strain history $\mathcal{H}$), \texttt{SDV3}--\texttt{SDV6} (Cauchy stresses $\sigma_{ij}$), \texttt{SDV17} (fracture energy dissipation), and \texttt{SDV18} (elastic strain energy).
+    \item \emph{Solver Receipts:} Preserved \texttt{.sta}, \texttt{.msg}, and \texttt{.dat} receipts provide increment-by-increment convergence and cutback telemetry.
+  \end{itemize}
 
   \item \textbf{Technical Preflight and Capacity Audit:}
   Automated preflight evaluation via \texttt{Invoke-Mode1Execution.ps1 -VerifyOnly} confirmed \texttt{TECHNICAL\_PREFLIGHT\_PASS}: zero active project jobs in scheduler (within the $\le 4$ concurrent user job limit), $> 1.8\,\mathrm{TB}$ available scratch capacity, bitwise SHA-256 parity across all five staged files, and valid routing from \texttt{entry\_imfdfkmq} to \texttt{normal\_imfdfkmq}.
 
   \item \textbf{Dual-Channel Notification Integration:}
-  The PBS execution wrapper (\texttt{submit\_M1\_PK\_F1722\_CAUSAL\_PILOT.pbs}) installs both official PBS mail directives (\texttt{\#PBS -m abe}) and automated Telegram notification traps (\texttt{job\_notifications.sh}), with successful login-node delivery verification.
+  The PBS execution wrapper (\texttt{submit\_M1\_PK\_F1722\_CAUSAL\_PILOT.pbs}, SHA-256: \texttt{7fa296a4ae8b4dfa1c6efb41bc6882835a9d1f53e7974d40d8b4063213fa37dd}) installs official PBS mail directives (\texttt{\#PBS -m abe}) and Telegram notification traps (\texttt{job\_notifications.sh}). Login-node delivery is verified (\texttt{PASS}); compute-node delivery is transparently classified as \texttt{UNRESOLVED} per repository governance.
 
   \item \textbf{Automated Test Suite and Baseline Preservation:}
   The combined regression suite across Tasks~F1720, F1721, and F1722 passes $62/62$ unit tests cleanly. The baseline F1720 adapted deck (\texttt{PK\_F1720\_ADAPTED\_PFM.inp}), diagnostic coupling subroutine (\texttt{f1720\_direct\_coupling\_uel.for}), and the preserved $7{,}000$-increment literature candidate (\texttt{PK\_F1721\_ADAPTED\_PILOT.inp}) remain bitwise frozen.
 \end{enumerate}
 
-With technical preflight and cluster datachecks fully satisfied, Task~F1722 requests explicit independent scientific authorization for exactly one governed PBS submission (\texttt{pbs\_submissions\_authorized = 1}) to execute the causal pilot and stream real-time solver telemetry.
+With technical preflight, task definition registration, single-CPU serial alignment, and cluster datachecks fully satisfied, Task~F1722 requests explicit independent scientific authorization for exactly one governed PBS submission (\texttt{pbs\_submissions\_authorized = 1}) to execute the causal pilot and stream real-time solver telemetry.
 
 \section{Summary and Research Conclusions}
 \label{sec:hole_summary}
