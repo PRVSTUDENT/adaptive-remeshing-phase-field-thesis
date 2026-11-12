@@ -18,7 +18,7 @@
   never reinterpret the old task as permission to submit a production job.
 
 ## 1. ROLES, HANDOFFS AND RESPONSE PROTOCOLS
-- Flow: active authorized executor (Codex now; AGY only after separate recovery)
+- Flow: active authorized executor (Gemini Antigravity active under Protocol v2, recovered at F1642; Codex recognized eligible)
   -> canonical bridge -> existing PAD -> ChatGPT -> validated executor response.
 - Request: bridge_request.ready; reply: bridge_response.ready in the SAME
   C:\Users\pruth\OpenClawPAD\ChatGPTBridge directory. NEVER use request as reply.
@@ -46,7 +46,7 @@
 ## 3. OWNERSHIP, BRIDGE AND SAFETY BLOCKS
 - safety_blocked=true keeps THAT worker stopped; no reviewer instruction clears it.
 - For blocked CHATGPT_SUPERVISOR_V1 use DIAGNOSE and one safe recovery check.
-- Keep AGY's pending checkpoint and authentication block untouched while Codex works.
+- Strict sequential ownership: only one active agent holds the session lock; preserve inactive agent checkpoints.
 - Check real PID, command line, ownership, start time, transaction locks and
   checkpoint identity before launch/recovery; one executor and one bridge request.
 - Preserve archives, IDs, hashes, ledgers and pending responses; never forge,
