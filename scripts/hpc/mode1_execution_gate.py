@@ -27,6 +27,7 @@ EXPERIMENTAL_UNIFIED_12DOF_REPAIRED_UEL = 'ab0a5a71335ecb445e91ec13a645e280ff331
 EXPERIMENTAL_STAGGERED_UEL = 'a0ebb58ddc0309d2afc2bf45c2ea3b74a8d2aba5719c05af1b69b57086afa633'
 AMOR_SPLIT_UEL = '6778b6857c4acc83ebbb1f921947e089ba09910c8e2361f62863dae61f7491ff'
 AMOR_SPLIT_UEL_V2 = '91612e94e7a2e3f30845ae80815ef4337f582044e25e33bed80072e4aec40243'
+F1721_STAGGERED_COUPLING_UEL = '2eceb8b3b945d56a53d94b9d853f07d59bc2467901cd26df614d8ba3e5604e5c'
 
 
 def require(ok, reason):
@@ -52,8 +53,8 @@ def validate_manifest(path, root=ROOT):
     path=Path(path).resolve()
     require(path.is_relative_to((root/'models/pandey_kumar_mode1').resolve()), 'Manifest outside Mode-I models')
     batch=load(path)
-    require(batch.get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1', 'mode1-continuum-preanalysis-v1', 'mode1-uel-trace-v1', 'mode1-pdas-iterative-v1', 'mode1-experimental-irrev-v1', 'mode1-experimental-12dof-v1', 'mode1-experimental-staggered-v1', 'mode1-five-hole-amor-v1', 'mode1-five-hole-amor-v2', 'five-hole-qualified-batch-v1') and batch.get('scientific_scope') in ('MODE1', 'FIVE_HOLE'), 'Qualified manifest required')
-    require(batch.get('technical_stage') in ('C1-0','C1-1','C1-2','MODE1_BASELINE','EXPERIMENTAL_OFFSET','CONTINUUM_PREANALYSIS','UEL_TRACE','EXPERIMENTAL_IRREVERSIBLE','STAGGERED_SOLVER','FIVE_HOLE_AMOR','FIVE_HOLE_ADAPTED'), 'Outside active scientific stages')
+    require(batch.get('adapter') in ('mode1-qualified-batch-v2', 'mode1-experimental-offset-v1', 'mode1-continuum-preanalysis-v1', 'mode1-uel-trace-v1', 'mode1-pdas-iterative-v1', 'mode1-experimental-irrev-v1', 'mode1-experimental-12dof-v1', 'mode1-experimental-staggered-v1', 'mode1-five-hole-amor-v1', 'mode1-five-hole-amor-v2', 'mode1-five-hole-staggered-v1', 'five-hole-qualified-batch-v1') and batch.get('scientific_scope') in ('MODE1', 'FIVE_HOLE'), 'Qualified manifest required')
+    require(batch.get('technical_stage') in ('C1-0','C1-1','C1-2','MODE1_BASELINE','EXPERIMENTAL_OFFSET','CONTINUUM_PREANALYSIS','UEL_TRACE','EXPERIMENTAL_IRREVERSIBLE','STAGGERED_SOLVER','FIVE_HOLE_AMOR','FIVE_HOLE_ADAPTED','FIVE_HOLE_CAUSAL_PILOT'), 'Outside active scientific stages')
     require(batch.get('automatic_retry') is False, 'Blind automatic retries disallowed')
     jobs=batch['jobs']
     require(1 <= len(jobs)==batch['max_submissions'] <= 2, 'Batch must contain 1-2 named jobs')
@@ -70,7 +71,7 @@ def validate_manifest(path, root=ROOT):
     is_experimental_irrev = (batch.get('adapter') == 'mode1-experimental-irrev-v1' or batch.get('configuration') == 'STAGGERED_IRREVERSIBLE')
     is_experimental_12dof = (batch.get('adapter') == 'mode1-experimental-12dof-v1' or batch.get('configuration') in ('UNIFIED_12DOF_ACTIVE_SET', 'UNIFIED_12DOF_AUTONOMOUS_ACTIVE_SET'))
     is_experimental_staggered = (batch.get('adapter') == 'mode1-experimental-staggered-v1' or batch.get('configuration') == 'STAGGERED_SOLVER')
-    is_five_hole_amor = (batch.get('adapter') in ('mode1-five-hole-amor-v1', 'mode1-five-hole-amor-v2', 'five-hole-qualified-batch-v1') or batch.get('configuration') == 'FIVE_HOLE_AMOR' or batch.get('technical_stage') in ('FIVE_HOLE_AMOR', 'FIVE_HOLE_ADAPTED') or batch.get('scientific_scope') == 'FIVE_HOLE')
+    is_five_hole_amor = (batch.get('adapter') in ('mode1-five-hole-amor-v1', 'mode1-five-hole-amor-v2', 'mode1-five-hole-staggered-v1', 'five-hole-qualified-batch-v1') or batch.get('configuration') in ('FIVE_HOLE_AMOR', 'FIVE_HOLE_STAGGERED') or batch.get('technical_stage') in ('FIVE_HOLE_AMOR', 'FIVE_HOLE_ADAPTED', 'FIVE_HOLE_CAUSAL_PILOT') or batch.get('scientific_scope') == 'FIVE_HOLE')
     is_continuum = (batch.get('adapter') == 'mode1-continuum-preanalysis-v1' or batch.get('configuration') == 'CONTINUUM_PREANALYSIS')
     is_trace = batch.get('adapter') == 'mode1-uel-trace-v1'
     if is_trace:
@@ -99,8 +100,8 @@ def validate_manifest(path, root=ROOT):
         require(files.get('job_notifications.sh'), 'Notifications required for continuum pre-analysis configuration')
     elif is_five_hole_amor:
         require(batch.get('purpose') or any(j.get('purpose') for j in jobs), 'Scientific purpose required for five-hole Amor configuration')
-        uel_hash = files.get('f42_amor_split_uel_v2.for') or files.get('f42_amor_split_uel.for')
-        require(uel_hash in (AMOR_SPLIT_UEL, AMOR_SPLIT_UEL_V2) and files.get('job_notifications.sh'), 'Versioned Amor UEL and notifications required')
+        uel_hash = files.get('f1721_proposed_staggered_coupling_uel.for') or files.get('f42_amor_split_uel_v2.for') or files.get('f42_amor_split_uel.for')
+        require(uel_hash in (AMOR_SPLIT_UEL, AMOR_SPLIT_UEL_V2, F1721_STAGGERED_COUPLING_UEL) and files.get('job_notifications.sh'), 'Versioned Amor UEL and notifications required')
     else:
         require(files.get('f42_mixed_uel.for')==FROZEN_UEL and files.get('job_notifications.sh'), 'Frozen UEL and notifications required')
     require(batch.get('acceptance'),'Scientific acceptance criteria required')

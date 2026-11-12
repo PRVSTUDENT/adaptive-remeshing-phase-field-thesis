@@ -1,0 +1,46 @@
+{
+  "batch_name": "FIVE_HOLE_PK_F1722_CAUSAL_PILOT",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "PK_F1721_CAUSAL_PILOT.inp": "23525c2ab9a62a461d6489803fe3d679a80840d58e13339517f9539838170e95",
+    "f1721_proposed_staggered_coupling_uel.for": "2eceb8b3b945d56a53d94b9d853f07d59bc2467901cd26df614d8ba3e5604e5c",
+    "submit_M1_PK_F1722_CAUSAL_PILOT.pbs": "a2f8f33626112f24a373dbd149af7b2a4583d0ca677737d58537e45eda970d85",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "M1_PK_F1722_DATACHECK.dat": "e3282b68099493fbab4a1489bae340cf318eb53bdd5477fbeb143287cfbfd252"
+  },
+  "jobs": [
+    {
+      "id": "f1722_five_hole_causal_pilot",
+      "pbs": "submit_M1_PK_F1722_CAUSAL_PILOT.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_pk_f1722_causal_pilot/submit_M1_PK_F1722_CAUSAL_PILOT.pbs\"",
+      "command_sha256": "f954697071c6c57eae8058b9f46343763864c4adc9ee035996d5aa8c355cbcd6",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Pandey & Kumar (2025) Section 4.5 Five-Hole Adaptive Phase-Field Causal-Isolation Pilot on 13,163 physical elements (39,489 layered elements) under versioned committed-state staggered operator-split UEL f1721_proposed_staggered_coupling_uel.for to test post-peak convergence through uy = 0.00580 mm with matched loading rate and 4 CPUs shared-memory SMP",
+      "cpus": 4,
+      "memory_gb": 32,
+      "walltime_hours": 8,
+      "queue": "entry_imfdfkmq",
+      "execution": "shared-memory SMP",
+      "input": "PK_F1721_CAUSAL_PILOT.inp",
+      "datacheck": "M1_PK_F1722_DATACHECK.dat",
+      "subroutine": "f1721_proposed_staggered_coupling_uel.for"
+    }
+  ],
+  "acceptance": {
+    "f1722_five_hole_causal_pilot": "Abaqus 2023 4-thread shared-memory SMP solve executes causal-isolation pilot to uy = 0.00580 mm; advancement past uy = 0.0056645 mm without cutback exhaustion evaluates hypothesis F1721-H1-R1 with non-zero reaction force equilibrium and uncorrupted uel_energy_balance.csv."
+  },
+  "adapter": "mode1-five-hole-staggered-v1",
+  "scientific_scope": "FIVE_HOLE",
+  "technical_stage": "FIVE_HOLE_CAUSAL_PILOT",
+  "configuration": "FIVE_HOLE_STAGGERED",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_f1722_causal_pilot",
+  "required_state_checks": [
+    "nodal_displacement_verified",
+    "damage_irreversibility_verified",
+    "committed_history_verified",
+    "state_restoration_verified"
+  ]
+}

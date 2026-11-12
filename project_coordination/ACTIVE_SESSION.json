@@ -1,21 +1,19 @@
 {
   "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "f1721-postpeak-convergence-session-001",
-  "task_id": "F1721-METHOD-A-POSTPEAK-CONVERGENCE-DIAGNOSIS",
-  "started_at": "2026-11-12T03:50:00+01:00",
-  "starting_commit": "3c975614",
+  "session_id": "f1722-causal-pilot-execution-session-001",
+  "task_id": "F1722-METHOD-A-CAUSAL-PILOT-EXECUTION",
+  "started_at": "2026-11-12T06:58:00+01:00",
+  "starting_commit": "cf871e74",
   "allowed_write_scope": [
-    "project_coordination",
-    "models/pandey_kumar_mode1",
-    "scripts",
-    "tests/unit",
-    "results/validation",
-    "MA_AdaptiveRemeshing_Report_2026",
-    "figures",
-    "docs",
-    "configs",
-    ".agents"
+    "project_coordination/**",
+    "models/pandey_kumar_mode1/214_f1720_adapted_mesh/**",
+    "scripts/**",
+    "tests/unit/**",
+    "docs/validation/**",
+    "results/validation/**",
+    "MA_AdaptiveRemeshing_Report_2026/**",
+    ".agents/**"
   ],
-  "notes": "Session 001: Offline diagnostic investigation into F1720 post-peak convergence failure (Round 2 approved HND-F1721-POSTPEAK-CONVERGENCE-002, Round 3 approved HND-F1721-PILOT-QUAL-001, Round 4 revised HND-F1721-CAUSAL-PILOT-001). Bounded causal pilot PK_F1721_CAUSAL_PILOT.inp corrected with T2 = 0.2666666666667 for exact loading rate parity (0.0030 mm/time, delta_u = 7.5 nm). Thesis Chapter 5 updated with Section 5.14, main.pdf compiled to 332 pages. Method A only, max_new_pbs_submissions = 0."
+  "notes": "Session claimed for Task F1722: Method A Bounded Causal-Isolation Diagnostic Pilot Execution. Preparing HPC execution manifest, target cluster compilation/datacheck, preflight, supervisory review dispatch, governed execution, and telemetry streaming under strict Method A scope."
 }
