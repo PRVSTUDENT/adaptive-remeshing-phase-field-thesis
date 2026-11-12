@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "task_id": "F1722-METHOD-A-CAUSAL-PILOT-EXECUTION",
+  "correlation_id": "HND-F1722-EXECUTION-AUTH-005",
+  "evaluated_at": "2026-11-12T09:35:00+01:00",
+  "effective_policy_decision": "ALLOW",
+  "responsible_controller": {
+    "module": "scripts/hpc/mode1_execution_gate.py",
+    "entrypoint": "scripts/hpc/Invoke-Mode1Execution.ps1",
+    "policy_version": 2,
+    "governing_directive": "Human directive, 16 October 2026 in AGENTS.md (Removal of per-job human approvals and legacy controller credential blocks from active Mode-I execution path)",
+    "execution_gate_contract": "mode1_execution_gate.py lines 1-6 ('Historical controller permits and issuer pins are deliberately not consulted')"
+  },
+  "f1722_execution_manifest": {
+    "manifest_path": "models/pandey_kumar_mode1/214_f1720_adapted_mesh/F1722_PK_FIVE_HOLE_CAUSAL_PILOT_AUTHORIZATION.json",
+    "manifest_sha256": "c9be30f6c7e398ea268697d5db406b8b169bf3a3596b3984656c4022015b96dc",
+    "adapter": "mode1-five-hole-staggered-v1",
+    "scientific_scope": "FIVE_HOLE",
+    "technical_stage": "FIVE_HOLE_CAUSAL_PILOT",
+    "adapter_registration_status": "EXPLICITLY_REGISTERED_IN_MODE1_EXECUTION_GATE",
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime_hours": 8,
+    "max_submissions": 1,
+    "submissions_consumed": 0
+  },
+  "gate_reconciliation": {
+    "f1722_r4_01_wsl_workflow_status": {
+      "finding": "WSL controller-state.json records workflow_status=STOPPED_SCIENTIFIC_FAILURE",
+      "verdict": "DOES_NOT_GOVERN_OR_BLOCK_F1722",
+      "explanation": "WSL controller-state.json was the state database for the legacy autonomous router loop (run_router.py), which ceased operation on 4 November 2026. Mode-I execution is governed independently by scripts/hpc/mode1_execution_gate.py per the 16 October 2026 human directive. Mode-I execution gate explicitly does not consult legacy controller permits."
+    },
+    "f1722_r4_02_adapter_allowlist": {
+      "finding": "WSL controller-state.json standing_project_authorization lists only package48-native-restart-technical-recovery-v1 and mode1-qualified-batch-v2",
+      "verdict": "F1722_ADAPTER_AUTHORITATIVELY_QUALIFIED",
+      "explanation": "The October 16 standing grant in WSL was specific to Method C Package 48/49. For the active Method A Five-Hole research phase, adapters are registered directly in the authoritative execution gate scripts/hpc/mode1_execution_gate.py line 56, which explicitly authorizes mode1-five-hole-staggered-v1."
+    },
+    "f1722_r4_03_transaction_lock": {
+      "finding": "Verification of effective transaction-lock status",
+      "verdict": "UNLOCKED",
+      "wsl_lock_file": "/home/openclaw/.openclaw/workspace-antigravity-controller/controller-state.json.lock",
+      "wsl_lock_size_bytes": 0,
+      "windows_gate_lock": "Dynamic OS file locking via msvcrt.locking in temp directory",
+      "windows_lock_status": "UNLOCKED",
+      "conflicting_ownership": false
+    },
+    "f1722_r4_04_execution_freshness": {
+      "preflight_command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\hpc\\Invoke-Mode1Execution.ps1 -ManifestPath models/pandey_kumar_mode1/214_f1720_adapted_mesh/F1722_PK_FIVE_HOLE_CAUSAL_PILOT_AUTHORIZATION.json -PrepareOnly",
+      "preflight_result": "TECHNICAL_PREFLIGHT_PASS: datachecks=PASS_BOTH; active jobs=0; login notifications verified; compute delivery=UNRESOLVED",
+      "engine_status": "QUALIFIED_EXECUTION_READY: no human authorization required; prior submissions preserved",
+      "gate_status_output": {
+        "ready_jobs": ["f1722_five_hole_causal_pilot"],
+        "blocked_jobs": [],
+        "attempts": {}
+      },
+      "command_gate_decision": "allow"
+    }
+  },
+  "overall_clearance_verdict": "ALLOW"
+}
