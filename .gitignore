@@ -36,6 +36,11 @@ telegram.env
 *.log
 CAE_PHASE_DIAGNOSTIC_MATRIX.json
 
+# Keep explicit F1720 adapted solver receipts for independent verification
+!models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1720_ADAPTED_PFM.sta
+!models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1720_ADAPTED_PFM.msg
+!models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1720_ADAPTED_PFM.dat
+
 # Keep the explicit WP0 user-subroutine smoke-test evidence.
 !tests/abaqus_user_subroutine_smoke/evidence/
 !tests/abaqus_user_subroutine_smoke/evidence/**

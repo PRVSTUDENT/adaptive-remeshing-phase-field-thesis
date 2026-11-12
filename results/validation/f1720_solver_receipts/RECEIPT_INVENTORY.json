@@ -1,0 +1,50 @@
+{
+    "protocol":  "PRIMARY_SOLVER_RECEIPT_QUALIFICATION_V1",
+    "task_id":  "F1720-METHOD-A-DIRECT-COUPLING-AND-REMESH-REPRODUCTION",
+    "correlation_id":  "HND-F1720-METHOD-A-FINAL-VALIDATION-004",
+    "job_name":  "PK_F1720_ADAPTED_PFM",
+    "files":  {
+                  "sta_original":  {
+                                       "exists":  true,
+                                       "path":  "models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1720_ADAPTED_PFM.sta",
+                                       "name":  "PK_F1720_ADAPTED_PFM.sta",
+                                       "size_bytes":  13971,
+                                       "sha256":  "A219FA1B5D585A4730A62D16B4EE97985C86180642230944A4DA1942123F504F"
+                                   },
+                  "msg_original":  {
+                                       "exists":  true,
+                                       "path":  "models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1720_ADAPTED_PFM.msg",
+                                       "name":  "PK_F1720_ADAPTED_PFM.msg",
+                                       "size_bytes":  572480,
+                                       "sha256":  "8748784CDDB7F4288B33F23B518D95A9EB4E8E9E2B92A0BF638781F087B1E15A"
+                                   },
+                  "dat_original":  {
+                                       "exists":  true,
+                                       "path":  "models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1720_ADAPTED_PFM.dat",
+                                       "name":  "PK_F1720_ADAPTED_PFM.dat",
+                                       "size_bytes":  17808,
+                                       "sha256":  "03CC6A4F18EC44EA33208E424FBB1F4DF12871F6FB757A3957D6CC559E18712B"
+                                   },
+                  "sta_text_copy":  {
+                                        "exists":  true,
+                                        "path":  "results/validation/f1720_solver_receipts/PK_F1720_ADAPTED_PFM_sta.txt",
+                                        "name":  "PK_F1720_ADAPTED_PFM_sta.txt",
+                                        "size_bytes":  13971,
+                                        "sha256":  "A219FA1B5D585A4730A62D16B4EE97985C86180642230944A4DA1942123F504F"
+                                    },
+                  "dat_text_copy":  {
+                                        "exists":  true,
+                                        "path":  "results/validation/f1720_solver_receipts/PK_F1720_ADAPTED_PFM_dat.txt",
+                                        "name":  "PK_F1720_ADAPTED_PFM_dat.txt",
+                                        "size_bytes":  17808,
+                                        "sha256":  "03CC6A4F18EC44EA33208E424FBB1F4DF12871F6FB757A3957D6CC559E18712B"
+                                    },
+                  "msg_terminal_copy":  {
+                                            "exists":  true,
+                                            "path":  "results/validation/f1720_solver_receipts/PK_F1720_ADAPTED_PFM_msg_terminal.txt",
+                                            "name":  "PK_F1720_ADAPTED_PFM_msg_terminal.txt",
+                                            "size_bytes":  8597,
+                                            "sha256":  "5FBC6DF08D39236D0434F141E36B31F0D10046312E3A313EA552378D3B76E1B6"
+                                        }
+              }
+}

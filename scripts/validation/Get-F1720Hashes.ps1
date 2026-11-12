@@ -16,7 +16,12 @@ $files = @(
     "docs/validation/F1720_METHOD_A_DIRECT_COUPLING_AUDIT_REPORT.md",
     "docs/validation/F1720_METHOD_A_DIRECT_COUPLING_AND_VALIDATION_REPORT.md",
     "docs/validation/F1720_FORWARD_SOLVER_COMPLETION_FORENSIC_REPORT.md",
+    "docs/validation/F1720_PRIMARY_SOLVER_RECEIPT_QUALIFICATION.md",
     "results/validation/f1720_solver_forensics.json",
+    "results/validation/f1720_solver_receipts/PK_F1720_ADAPTED_PFM_sta.txt",
+    "results/validation/f1720_solver_receipts/PK_F1720_ADAPTED_PFM_dat.txt",
+    "results/validation/f1720_solver_receipts/PK_F1720_ADAPTED_PFM_msg_terminal.txt",
+    "results/validation/f1720_solver_receipts/RECEIPT_INVENTORY.json",
     "models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1720_ADAPTED_PFM.sta",
     "models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1720_ADAPTED_PFM.msg",
     "models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1720_ADAPTED_PFM.dat",
@@ -24,7 +29,8 @@ $files = @(
     "tests/unit/test_f1720_stage2_diagnostic_patch.py",
     "tests/unit/test_f1720_stage3_coarse_coupled_miseseri.py",
     "tests/unit/test_f1720_stage4_adapted_mesh.py",
-    "tests/unit/test_f1720_stage5_adapted_simulation.py"
+    "tests/unit/test_f1720_stage5_adapted_simulation.py",
+    "tests/unit/test_f1720_solver_receipts.py"
 )
 
 $out = @{}

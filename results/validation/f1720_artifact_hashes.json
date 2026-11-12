@@ -1,7 +1,102 @@
 ﻿{
+    "models/pandey_kumar_mode1/212_f1720_diagnostic_patch/f1720_call_order.txt":  {
+                                                                                      "size_bytes":  10841,
+                                                                                      "sha256":  "01376DD00040DBCE8C3F4C724BE03D319D4A77711F2D7E0D2BDC3B8D885CAAF2",
+                                                                                      "exists":  true
+                                                                                  },
+    "docs/validation/F1720_PRIMARY_SOLVER_RECEIPT_QUALIFICATION.md":  {
+                                                                          "size_bytes":  27354,
+                                                                          "sha256":  "5AC69B3153B12F6D34A5A9D957621E0D4896FC520A590BF0071386FA6DD53BED",
+                                                                          "exists":  true
+                                                                      },
+    "results/validation/f1720_solver_receipts/RECEIPT_INVENTORY.json":  {
+                                                                            "size_bytes":  3451,
+                                                                            "sha256":  "D3784E8953A9A25C12A70E3860C1CF5AE432311708A97EF585E6AD232C70718F",
+                                                                            "exists":  true
+                                                                        },
+    "models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1720_ADAPTED_PFM.sta":  {
+                                                                                      "size_bytes":  13971,
+                                                                                      "sha256":  "A219FA1B5D585A4730A62D16B4EE97985C86180642230944A4DA1942123F504F",
+                                                                                      "exists":  true
+                                                                                  },
+    "models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1720_ADAPTED_PFM.msg":  {
+                                                                                      "size_bytes":  572480,
+                                                                                      "sha256":  "8748784CDDB7F4288B33F23B518D95A9EB4E8E9E2B92A0BF638781F087B1E15A",
+                                                                                      "exists":  true
+                                                                                  },
     "results/validation/f1720_hole_damage_sequence.json":  {
                                                                "size_bytes":  142138,
                                                                "sha256":  "A133A99D539DB1CF332D97A9FD86A33E194C6091DA1FA3344484D70ED5395EB0",
+                                                               "exists":  true
+                                                           },
+    "results/validation/f1720_adapted_pfm_telemetry.json":  {
+                                                                "size_bytes":  18606,
+                                                                "sha256":  "9784493F8C9178484816BD6D750F299EDA9FA14EBA35198C4D63F06A40BC453B",
+                                                                "exists":  true
+                                                            },
+    "docs/validation/F1720_METHOD_A_DIRECT_COUPLING_AUDIT_REPORT.md":  {
+                                                                           "size_bytes":  21108,
+                                                                           "sha256":  "5E9D5FEB1A14381C971541953C2A6127E5A58019A09577A0E8CF241F7FBBDDAE",
+                                                                           "exists":  true
+                                                                       },
+    "tests/unit/test_f1720_solver_receipts.py":  {
+                                                     "size_bytes":  6053,
+                                                     "sha256":  "CB2462B9D3B815346E9A8E90EE29DA1A92BCF171F32CB3A60CA6B8F2396B0F4A",
+                                                     "exists":  true
+                                                 },
+    "results/validation/f1720_five_hole_force_displacement_validation.png":  {
+                                                                                 "size_bytes":  381399,
+                                                                                 "sha256":  "19399284EDA9E00FCF68CC62FABDC8D0808EB4C64FEB94CE1514B9556815C0D0",
+                                                                                 "exists":  true
+                                                                             },
+    "models/pandey_kumar_mode1/212_f1720_diagnostic_patch/f1720_diagnostic_coupling_uel.for":  {
+                                                                                                   "size_bytes":  38313,
+                                                                                                   "sha256":  "C298ACA7ED2199B20E622B38E99FDA9B533150EB0AD5E9F77069216F860E70FC",
+                                                                                                   "exists":  true
+                                                                                               },
+    "results/validation/f1720_solver_forensics.json":  {
+                                                           "size_bytes":  1326,
+                                                           "sha256":  "650B875662E67BBCA37B2703F6E1443A732A819E3DD957A391BF97ED55D52471",
+                                                           "exists":  true
+                                                       },
+    "tests/unit/test_f1720_authentic_stress_reference.py":  {
+                                                                "size_bytes":  5342,
+                                                                "sha256":  "4A8C2CC7E8DD91556705E961A21AA59D5DAEDBBD13ECB083833A4983E8C60DE3",
+                                                                "exists":  true
+                                                            },
+    "results/validation/f1720_adapted_pfm_curves.csv":  {
+                                                            "size_bytes":  16206,
+                                                            "sha256":  "953816C2358F1250140C2C551AE2F41BE74DC376A414DFBF3CA3F5072BB4E77D",
+                                                            "exists":  true
+                                                        },
+    "models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1720_ADAPTED_PHYS.inp":  {
+                                                                                       "size_bytes":  955368,
+                                                                                       "sha256":  "42CAD1519C89417F716EA1F94081F3D424E42C76B7E0C48E3BAB9B5FDC4D33B3",
+                                                                                       "exists":  true
+                                                                                   },
+    "tests/unit/test_f1720_stage4_adapted_mesh.py":  {
+                                                         "size_bytes":  3229,
+                                                         "sha256":  "C888F644363753A0B44D2E8753F405472B8CA5E09CC166200E47719C28917F72",
+                                                         "exists":  true
+                                                     },
+    "docs/validation/F1720_FORWARD_SOLVER_COMPLETION_FORENSIC_REPORT.md":  {
+                                                                               "size_bytes":  15021,
+                                                                               "sha256":  "0ACADBB69CF654EADAE655AD09031F0A13F70951F4F2CB2B57D53084FF0E0EEA",
+                                                                               "exists":  true
+                                                                           },
+    "models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1720_ADAPTED_PFM.dat":  {
+                                                                                      "size_bytes":  17808,
+                                                                                      "sha256":  "03CC6A4F18EC44EA33208E424FBB1F4DF12871F6FB757A3957D6CC559E18712B",
+                                                                                      "exists":  true
+                                                                                  },
+    "models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1720_ADAPTED_PFM.inp":  {
+                                                                                      "size_bytes":  1780192,
+                                                                                      "sha256":  "318D0ED6F330E73F5A62E259DC3A9A9ABCEBD4341596EAA5C31ED58138BA42F2",
+                                                                                      "exists":  true
+                                                                                  },
+    "results/validation/f1720_adapted_mesh_metrics.json":  {
+                                                               "size_bytes":  8548,
+                                                               "sha256":  "CD6DC090B9D6F5CD73667F7708AB883D69ABB1CC0F56F34432000CF47DE46924",
                                                                "exists":  true
                                                            },
     "tests/unit/test_f1720_stage2_diagnostic_patch.py":  {
@@ -9,119 +104,54 @@
                                                              "sha256":  "2D6491B7B5C326AF1C053C4AED624EFDC246836B649364B2C54345E9EE1108B4",
                                                              "exists":  true
                                                          },
-    "results/validation/f1720_adapted_pfm_telemetry.json":  {
-                                                                "size_bytes":  18606,
-                                                                "sha256":  "9784493F8C9178484816BD6D750F299EDA9FA14EBA35198C4D63F06A40BC453B",
-                                                                "exists":  true
-                                                            },
     "tests/unit/test_f1720_stage5_adapted_simulation.py":  {
                                                                "size_bytes":  3829,
                                                                "sha256":  "12963587FFCF0E6D7705566BC9ADB46633287945C75832D9548D3A726815E0D0",
                                                                "exists":  true
                                                            },
-    "results/validation/f1720_five_hole_force_displacement_validation.png":  {
-                                                                                 "size_bytes":  381399,
-                                                                                 "sha256":  "19399284EDA9E00FCF68CC62FABDC8D0808EB4C64FEB94CE1514B9556815C0D0",
-                                                                                 "exists":  true
-                                                                             },
-    "docs/validation/F1720_METHOD_A_DIRECT_COUPLING_AND_VALIDATION_REPORT.md":  {
-                                                                                    "size_bytes":  21900,
-                                                                                    "sha256":  "2360D15716AFEEB527F4F64780C156231421A1DE169DEABFBFDF47F1317564F7",
-                                                                                    "exists":  true
-                                                                                },
-    "docs/validation/F1720_FORWARD_SOLVER_COMPLETION_FORENSIC_REPORT.md":  {
-                                                                               "size_bytes":  15021,
-                                                                               "sha256":  "0ACADBB69CF654EADAE655AD09031F0A13F70951F4F2CB2B57D53084FF0E0EEA",
-                                                                               "exists":  true
-                                                                           },
-    "models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1720_ADAPTED_PHYS.inp":  {
-                                                                                       "size_bytes":  955368,
-                                                                                       "sha256":  "42CAD1519C89417F716EA1F94081F3D424E42C76B7E0C48E3BAB9B5FDC4D33B3",
-                                                                                       "exists":  true
-                                                                                   },
-    "models/pandey_kumar_mode1/212_f1720_diagnostic_patch/f1720_diagnostic_coupling_uel.for":  {
-                                                                                                   "size_bytes":  38313,
-                                                                                                   "sha256":  "C298ACA7ED2199B20E622B38E99FDA9B533150EB0AD5E9F77069216F860E70FC",
-                                                                                                   "exists":  true
-                                                                                               },
-    "results/validation/f1720_authentic_uel_stress_reference.json":  {
-                                                                         "size_bytes":  37048027,
-                                                                         "sha256":  "C0F5287492F43F6D4C795EB21383392608DB8F580270805AFC6E2B9CDA171BB2",
-                                                                         "exists":  true
-                                                                     },
-    "models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1720_ADAPTED_PFM.msg":  {
-                                                                                      "size_bytes":  572480,
-                                                                                      "sha256":  "8748784CDDB7F4288B33F23B518D95A9EB4E8E9E2B92A0BF638781F087B1E15A",
-                                                                                      "exists":  true
-                                                                                  },
-    "docs/validation/F1720_METHOD_A_DIRECT_COUPLING_AUDIT_REPORT.md":  {
-                                                                           "size_bytes":  21108,
-                                                                           "sha256":  "5E9D5FEB1A14381C971541953C2A6127E5A58019A09577A0E8CF241F7FBBDDAE",
-                                                                           "exists":  true
-                                                                       },
-    "results/validation/f1720_adapted_mesh_metrics.json":  {
-                                                               "size_bytes":  8548,
-                                                               "sha256":  "CD6DC090B9D6F5CD73667F7708AB883D69ABB1CC0F56F34432000CF47DE46924",
-                                                               "exists":  true
-                                                           },
-    "models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1720_ADAPTED_PFM.inp":  {
-                                                                                      "size_bytes":  1780192,
-                                                                                      "sha256":  "318D0ED6F330E73F5A62E259DC3A9A9ABCEBD4341596EAA5C31ED58138BA42F2",
-                                                                                      "exists":  true
-                                                                                  },
     "tests/unit/test_f1720_stage3_coarse_coupled_miseseri.py":  {
                                                                     "size_bytes":  3335,
                                                                     "sha256":  "5454AAA66CDBF2E5C795FF63CB35641DA8B9FAD3D4D293650B8360CD6E908788",
                                                                     "exists":  true
                                                                 },
-    "models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1720_ADAPTED_PFM.sta":  {
-                                                                                      "size_bytes":  13971,
-                                                                                      "sha256":  "A219FA1B5D585A4730A62D16B4EE97985C86180642230944A4DA1942123F504F",
-                                                                                      "exists":  true
-                                                                                  },
-    "tests/unit/test_f1720_stage4_adapted_mesh.py":  {
-                                                         "size_bytes":  3229,
-                                                         "sha256":  "C888F644363753A0B44D2E8753F405472B8CA5E09CC166200E47719C28917F72",
-                                                         "exists":  true
-                                                     },
+    "results/validation/f1720_solver_receipts/PK_F1720_ADAPTED_PFM_msg_terminal.txt":  {
+                                                                                           "size_bytes":  8597,
+                                                                                           "sha256":  "5FBC6DF08D39236D0434F141E36B31F0D10046312E3A313EA552378D3B76E1B6",
+                                                                                           "exists":  true
+                                                                                       },
     "results/validation/f1720_native_miseseri_evaluation.json":  {
                                                                      "size_bytes":  2461,
                                                                      "sha256":  "CC2DA18D91EDB212744DB5D1EAEDCC069278AE485D1C09E9BA1D01C570E65FB7",
                                                                      "exists":  true
                                                                  },
-    "models/pandey_kumar_mode1/214_f1720_adapted_mesh/PK_F1720_ADAPTED_PFM.dat":  {
-                                                                                      "size_bytes":  17808,
-                                                                                      "sha256":  "03CC6A4F18EC44EA33208E424FBB1F4DF12871F6FB757A3957D6CC559E18712B",
-                                                                                      "exists":  true
-                                                                                  },
-    "results/validation/f1720_adapted_pfm_curves.csv":  {
-                                                            "size_bytes":  16206,
-                                                            "sha256":  "953816C2358F1250140C2C551AE2F41BE74DC376A414DFBF3CA3F5072BB4E77D",
-                                                            "exists":  true
-                                                        },
-    "results/validation/f1720_solver_forensics.json":  {
-                                                           "size_bytes":  1326,
-                                                           "sha256":  "650B875662E67BBCA37B2703F6E1443A732A819E3DD957A391BF97ED55D52471",
-                                                           "exists":  true
-                                                       },
+    "results/validation/f1720_authentic_uel_stress_reference.json":  {
+                                                                         "size_bytes":  37048027,
+                                                                         "sha256":  "C0F5287492F43F6D4C795EB21383392608DB8F580270805AFC6E2B9CDA171BB2",
+                                                                         "exists":  true
+                                                                     },
     "models/pandey_kumar_mode1/213_f1720_coarse_coupled/PK_F1720_COARSE_COUPLED.inp":  {
                                                                                            "size_bytes":  345254,
                                                                                            "sha256":  "874DEFF7CA54E83840DA39651E8898CD02F0C6867D97B5B258D662216A6CAF16",
                                                                                            "exists":  true
                                                                                        },
+    "results/validation/f1720_solver_receipts/PK_F1720_ADAPTED_PFM_sta.txt":  {
+                                                                                  "size_bytes":  13971,
+                                                                                  "sha256":  "A219FA1B5D585A4730A62D16B4EE97985C86180642230944A4DA1942123F504F",
+                                                                                  "exists":  true
+                                                                              },
+    "docs/validation/F1720_METHOD_A_DIRECT_COUPLING_AND_VALIDATION_REPORT.md":  {
+                                                                                    "size_bytes":  21900,
+                                                                                    "sha256":  "2360D15716AFEEB527F4F64780C156231421A1DE169DEABFBFDF47F1317564F7",
+                                                                                    "exists":  true
+                                                                                },
     "results/validation/f1720_diagnostic_patch_results.json":  {
                                                                    "size_bytes":  19686,
                                                                    "sha256":  "932A373CA1B5F3B3FFE2F95F8F7CB0F317E17DB86C083EE1C83E3BD4805ADA6F",
                                                                    "exists":  true
                                                                },
-    "tests/unit/test_f1720_authentic_stress_reference.py":  {
-                                                                "size_bytes":  5342,
-                                                                "sha256":  "4A8C2CC7E8DD91556705E961A21AA59D5DAEDBBD13ECB083833A4983E8C60DE3",
-                                                                "exists":  true
-                                                            },
-    "models/pandey_kumar_mode1/212_f1720_diagnostic_patch/f1720_call_order.txt":  {
-                                                                                      "size_bytes":  10841,
-                                                                                      "sha256":  "01376DD00040DBCE8C3F4C724BE03D319D4A77711F2D7E0D2BDC3B8D885CAAF2",
-                                                                                      "exists":  true
-                                                                                  }
+    "results/validation/f1720_solver_receipts/PK_F1720_ADAPTED_PFM_dat.txt":  {
+                                                                                  "size_bytes":  17808,
+                                                                                  "sha256":  "03CC6A4F18EC44EA33208E424FBB1F4DF12871F6FB757A3957D6CC559E18712B",
+                                                                                  "exists":  true
+                                                                              }
 }
