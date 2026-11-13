@@ -1,45 +1,27 @@
-============================= test session starts =============================
-platform win32 -- Python 3.13.5, pytest-9.1.1, pluggy-1.6.0
+﻿============================= test session starts =============================
+platform win32 -- Python 3.13.5, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\pruth\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
 rootdir: D:\Master thesis\Adaptive remeshing
 plugins: anyio-4.14.2
-collected 35 items
+collecting ... collected 18 items
 
-tests/unit/test_f1728_five_geometry_framework.py::test_f1728_all_five_configurations_load PASSED [  2%]
-tests/unit/test_f1728_five_geometry_framework.py::test_f1728_adapter_dispatch PASSED [  5%]
-tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case1_straight_notch_adapter PASSED [  8%]
-tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case2_off_axis_hole_adapter PASSED [ 11%]
-tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case3_notched_plate_pins_adapter PASSED [ 14%]
-tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case4_five_hole_adapter PASSED [ 17%]
-tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case5_seven_hole_adapter PASSED [ 20%]
-tests/unit/test_f1728_five_geometry_framework.py::test_f1728_bc_dispatch PASSED [ 22%]
-tests/unit/test_f1728_five_geometry_framework.py::test_f1728_mesh_quality_audit_on_reference_mesh PASSED [ 25%]
-tests/unit/test_f1728_five_geometry_framework.py::test_f1728_production_deck_builder_logic PASSED [ 28%]
-tests/unit/test_f1728_five_geometry_framework.py::test_f1728_run_method_a_case_missing_donor_fails_closed PASSED [ 31%]
-tests/unit/test_f1728_five_geometry_framework.py::test_f1728_run_method_a_case_missing_abaqus_fails_closed PASSED [ 34%]
-tests/unit/test_f1728_five_geometry_framework.py::test_f1728_truthful_uel_hash_verification PASSED [ 37%]
-tests/unit/test_f1728_five_geometry_framework.py::test_f1728_stale_output_mesh_rejection_guard PASSED [ 40%]
-tests/unit/test_f1728_five_geometry_framework.py::test_f1728_mesh_quality_audit_fails_on_distorted_mesh PASSED [ 42%]
-tests/unit/test_f1727_three_geometry_framework.py::test_configurations_load_and_validate PASSED [ 45%]
-tests/unit/test_f1727_three_geometry_framework.py::test_geometry_adapter_dispatch_and_properties PASSED [ 48%]
-tests/unit/test_f1727_three_geometry_framework.py::test_mesh_quality_audit_results PASSED [ 51%]
-tests/unit/test_f1727_three_geometry_framework.py::test_production_decks_exist_and_format PASSED [ 54%]
-tests/unit/test_f1727_three_geometry_framework.py::test_figure_artifacts_exist PASSED [ 57%]
-tests/unit/test_f1726_seven_hole_framework.py::test_reusable_framework_geometry_adapter PASSED [ 60%]
-tests/unit/test_f1726_seven_hole_framework.py::test_coarse_physical_mesh_quality PASSED [ 62%]
-tests/unit/test_f1726_seven_hole_framework.py::test_coarse_odb_audit_and_error_contrast PASSED [ 65%]
-tests/unit/test_f1726_seven_hole_framework.py::test_adapted_physical_mesh_and_benchmark_parity PASSED [ 68%]
-tests/unit/test_f1726_seven_hole_framework.py::test_spatial_selectivity_and_phase_field_resolution PASSED [ 71%]
-tests/unit/test_f1726_seven_hole_framework.py::test_production_deck_structure PASSED [ 74%]
-tests/unit/test_f1726_seven_hole_framework.py::test_publication_figures_existence PASSED [ 77%]
-tests/unit/test_f1725_physics_driven_mesh.py::test_coarse_terminal_displacement_reconciliation PASSED [ 80%]
-tests/unit/test_f1725_physics_driven_mesh.py::test_coarse_spatial_checkpoints PASSED [ 82%]
-tests/unit/test_f1725_physics_driven_mesh.py::test_f1725_candidate_mesh_existence_and_parity PASSED [ 85%]
-tests/unit/test_f1725_physics_driven_mesh.py::test_f1725_bulk_preservation_and_reduced_spreading PASSED [ 88%]
-tests/unit/test_f1725_physics_driven_mesh.py::test_f1725_ligament_centerline_resolution PASSED [ 91%]
-tests/unit/test_f1725_physics_driven_mesh.py::test_f1725_input_deck_validity PASSED [ 94%]
-tests/unit/test_f1725_physics_driven_mesh.py::test_f1725_figures_generated PASSED [ 97%]
-tests/unit/test_f1725_physics_driven_mesh.py::test_zero_hpc_submissions_gate PASSED [100%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_all_five_configurations_load PASSED [  5%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_adapter_dispatch PASSED [ 11%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case1_straight_notch_adapter PASSED [ 16%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case2_off_axis_hole_adapter PASSED [ 22%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case3_notched_plate_pins_adapter PASSED [ 27%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case4_five_hole_adapter PASSED [ 33%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case5_seven_hole_adapter PASSED [ 38%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_bc_dispatch PASSED [ 44%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_mesh_quality_audit_on_reference_mesh PASSED [ 50%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case1_generated_physical_mesh_quality PASSED [ 55%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case1_ligament_spatial_resolution_audit PASSED [ 61%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case2_donor_qualification_audit PASSED [ 66%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_production_deck_builder_logic PASSED [ 72%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_run_method_a_case_missing_donor_fails_closed PASSED [ 77%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_run_method_a_case_missing_abaqus_fails_closed PASSED [ 83%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_truthful_uel_hash_verification PASSED [ 88%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_stale_output_mesh_rejection_guard PASSED [ 94%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_mesh_quality_audit_fails_on_distorted_mesh PASSED [100%]
 
-============================= 35 passed in 2.63s ==============================
-Execution Timestamp: 2026-11-13T13:33:23+01:00
-Status: ALL_35_TESTS_PASS (15/15 dedicated F1728 tests pass)
+============================= 18 passed in 1.59s ==============================

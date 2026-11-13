@@ -297,6 +297,27 @@ def test_f1728_case1_ligament_spatial_resolution_audit():
     assert bins[4]["pct_h_area_le_l0_half"] == 0.0
 
 
+def test_f1728_case2_donor_qualification_audit():
+    """Verify Case 2 off-axis hole donor qualification audit and physical state evidence."""
+    from scripts.remeshing import audit_case2_off_axis_hole_donor
+    audit_case2_off_axis_hole_donor.main()
+    out_json = audit_case2_off_axis_hole_donor.OUTPUT_JSON
+    assert os.path.exists(out_json)
+    with open(out_json, "r") as f:
+        data = json.load(f)
+    assert data["case_id"] == "case_2"
+    assert data["geometry"]["name"] == "Single Off-Axis Hole Plate"
+    d1 = data["candidate_donor_1_linear_elastic"]
+    assert d1["element_count"] == 2906
+    assert d1["miseseri_statistics"]["max_mpa"] > 1000.0
+    assert d1["miseseri_statistics"]["contrast_ratio_tip_to_bulk"] > 50.0
+    d2 = data["candidate_donor_2_coarse_phase_field"]
+    assert d2["total_frames"] == 389
+    assert d2["peak_force_kn"] > 0.70
+    assert d2["checkpoints"]["step2_peak"]["d_max"] > 0.50
+
+
+
 
 
 # ==============================================================================

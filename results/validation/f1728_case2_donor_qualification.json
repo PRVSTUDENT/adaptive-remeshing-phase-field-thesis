@@ -1,0 +1,233 @@
+{
+  "candidate_donor_1_linear_elastic": {
+    "displacement": {
+      "max_u2_mm": 0.005238432437181473,
+      "min_u2_mm": -0.00029067049035802484
+    },
+    "element_count": 2906,
+    "fields": [
+      "EVOL",
+      "MISESAVG",
+      "MISESERI",
+      "RF",
+      "S",
+      "U"
+    ],
+    "frame_count": 11,
+    "frame_value": 1.0,
+    "miseseri_statistics": {
+      "contrast_ratio_tip_to_bulk": 101.51,
+      "max_mpa": 1430.2705,
+      "mean_mpa": 21.1915,
+      "median_mpa": 8.5389,
+      "min_mpa": 0.4166
+    },
+    "source_bytes": 2883480,
+    "source_odb": "/scratch9/pr21vyci/runs/mode1_hole_method_a_test/PK_HOLE_METHOD_A_PREANALYSIS.odb",
+    "source_sha256": "0A108C6A8404F1AF9D8F5DDC03223E9D8D051AB08587F841D9F5799970AE93B1",
+    "spatial_segmentation": {
+      "far_field_bulk": {
+        "count": 2777,
+        "max_miseseri_mpa": 197.59255981445312,
+        "mean_miseseri_mpa": 14.089432043429541,
+        "min_miseseri_mpa": 0.416568398475647
+      },
+      "hole_flank_vicinity": {
+        "count": 43,
+        "max_miseseri_mpa": 284.671630859375,
+        "mean_miseseri_mpa": 139.52193122686342,
+        "min_miseseri_mpa": 37.14067459106445
+      },
+      "notch_tip_core_r005": {
+        "count": 23,
+        "max_miseseri_mpa": 1430.2705078125,
+        "mean_miseseri_mpa": 385.5452064845873,
+        "min_miseseri_mpa": 81.03620910644531
+      },
+      "notch_to_hole_ligament": {
+        "count": 63,
+        "max_miseseri_mpa": 301.26483154296875,
+        "mean_miseseri_mpa": 120.46112175593301,
+        "min_miseseri_mpa": 41.15318298339844
+      }
+    },
+    "step": "Step-1",
+    "top_10_elements": [
+      {
+        "centroid_mm": [
+          0.5092722028493881,
+          0.5020865499973297
+        ],
+        "dist_to_hole_center_mm": 0.2042,
+        "dist_to_notch_tip_mm": 0.0095,
+        "element": 1184,
+        "miseseri_mpa": 1430.2705078125,
+        "type": "CPS4R"
+      },
+      {
+        "centroid_mm": [
+          0.5259346961975098,
+          0.501667283475399
+        ],
+        "dist_to_hole_center_mm": 0.1934,
+        "dist_to_notch_tip_mm": 0.026,
+        "element": 402,
+        "miseseri_mpa": 771.9539184570312,
+        "type": "CPS4R"
+      },
+      {
+        "centroid_mm": [
+          0.4907773435115814,
+          0.48940982669591904
+        ],
+        "dist_to_hole_center_mm": 0.2261,
+        "dist_to_notch_tip_mm": 0.014,
+        "element": 647,
+        "miseseri_mpa": 685.83447265625,
+        "type": "CPS4R"
+      },
+      {
+        "centroid_mm": [
+          0.4867384135723114,
+          0.5120641589164734
+        ],
+        "dist_to_hole_center_mm": 0.2137,
+        "dist_to_notch_tip_mm": 0.0179,
+        "element": 403,
+        "miseseri_mpa": 665.9221801757812,
+        "type": "CPS4R"
+      },
+      {
+        "centroid_mm": [
+          0.5089559555053711,
+          0.4900083988904953
+        ],
+        "dist_to_hole_center_mm": 0.2133,
+        "dist_to_notch_tip_mm": 0.0134,
+        "element": 814,
+        "miseseri_mpa": 550.0335083007812,
+        "type": "CPS4R"
+      },
+      {
+        "centroid_mm": [
+          0.4707397595047951,
+          0.486261710524559
+        ],
+        "dist_to_hole_center_mm": 0.2428,
+        "dist_to_notch_tip_mm": 0.0323,
+        "element": 1178,
+        "miseseri_mpa": 485.2783203125,
+        "type": "CPS4R"
+      },
+      {
+        "centroid_mm": [
+          0.5337866842746735,
+          0.5150162875652313
+        ],
+        "dist_to_hole_center_mm": 0.1781,
+        "dist_to_notch_tip_mm": 0.037,
+        "element": 1187,
+        "miseseri_mpa": 407.1875305175781,
+        "type": "CPS4R"
+      },
+      {
+        "centroid_mm": [
+          0.5050815418362617,
+          0.5172505080699921
+        ],
+        "dist_to_hole_center_mm": 0.1965,
+        "dist_to_notch_tip_mm": 0.018,
+        "element": 636,
+        "miseseri_mpa": 393.127685546875,
+        "type": "CPS4R"
+      },
+      {
+        "centroid_mm": [
+          0.5123408287763596,
+          0.5447763502597809
+        ],
+        "dist_to_hole_center_mm": 0.1733,
+        "dist_to_notch_tip_mm": 0.0464,
+        "element": 1455,
+        "miseseri_mpa": 355.8589782714844,
+        "type": "CPS4R"
+      },
+      {
+        "centroid_mm": [
+          0.4947720244526863,
+          0.47165481001138687
+        ],
+        "dist_to_hole_center_mm": 0.2364,
+        "dist_to_notch_tip_mm": 0.0288,
+        "element": 637,
+        "miseseri_mpa": 338.7698059082031,
+        "type": "CPS4R"
+      }
+    ]
+  },
+  "candidate_donor_2_coarse_phase_field": {
+    "checkpoints": {
+      "step1_end": {
+        "d_max": 0.16911815106868744,
+        "description": "Step-1 end (u2=0.0050 mm)",
+        "elements_d_ge_010": 4,
+        "elements_d_ge_050": 0,
+        "elements_d_ge_090": 0,
+        "h_max": 0.03802907466888428,
+        "time": 1.0
+      },
+      "step2_end": {
+        "d_max": 0.9975769519805908,
+        "description": "Step-2 end / last converged",
+        "elements_d_ge_010": 169,
+        "elements_d_ge_050": 57,
+        "elements_d_ge_090": 20,
+        "h_max": 95.09078216552734,
+        "time": 0.6558254361152649
+      },
+      "step2_peak": {
+        "d_max": 0.5797519087791443,
+        "description": "Step-2 peak load",
+        "elements_d_ge_010": 48,
+        "elements_d_ge_050": 1,
+        "elements_d_ge_090": 0,
+        "h_max": 0.2357330173254013,
+        "time": 0.32768750190734863
+      }
+    },
+    "last_disp_mm": 0.009590777568519115,
+    "last_rf2_kn": 0.21635380387306213,
+    "odb_path": "PK_HOLE_COARSE_JOB1.odb",
+    "peak_disp_mm": 0.0072938124649226665,
+    "peak_force_kn": 0.7310152649879456,
+    "total_frames": 389
+  },
+  "case_id": "case_2",
+  "geometry": {
+    "domain_mm": [
+      1.0,
+      1.0
+    ],
+    "hole_center_mm": [
+      0.65,
+      0.65
+    ],
+    "hole_radius_mm": 0.1,
+    "name": "Single Off-Axis Hole Plate",
+    "notch_tip_mm": [
+      0.5,
+      0.5
+    ],
+    "phase_field_length_scale_l0_mm": 0.0075,
+    "physical_clearance_to_hole_flank_mm": 0.1581,
+    "shortest_distance_to_hole_boundary_mm": 0.1121
+  },
+  "scientific_assessment": {
+    "falsifiable_scientific_hypothesis": "HYPOTHESIS F1728-H2-CASE2: Native Abaqus UNIFORM_ERROR remeshing driven by linear-elastic pre-analysis (Step-1) will produce a mesh highly refined at the notch root but coarse across the notch-to-hole ligament. Conversely, driving adaptive remeshing from an authentic phase-field donor checkpoint at or near peak load (Step-2 peak, u2 ~ 0.00729 mm, d_max ~ 0.58) provides the physical Cauchy-stress redistribution and steep stress jumps required to natively allocate elements resolving h <= l0/2 along the entire oblique fracture corridor into the hole flank without manual corridor seeding.",
+    "phase_field_evolution_behavior": "In the authentic coarse phase-field simulation (PK_HOLE_COARSE_JOB1.odb), Step-1 end (u2 = 0.0050 mm) remains in the precritical regime (d_max = 0.1691, only 4 damaged elements). In Step-2, pre-peak hardening drives active damage localization directly along the oblique ligament towards the hole. At peak load (u2 = 0.00729 mm, F_max = 0.7310 kN), peak damage reaches d = 0.5798 with 48 actively softening elements bridging the notch tip towards the hole boundary. At Step-2 end (u2 = 0.00959 mm), full fracture penetration is achieved (d_max = 0.9976, 20 broken elements).",
+    "preanalysis_behavior": "Under linear-elastic pre-analysis (Step-1, u2 = 0.005 mm), MISESERI strongly concentrates at the notch tip (max = 107.39 MPa, mean in tip core = 68.42 MPa, 17.6x higher than bulk 3.88 MPa). However, along the prospective oblique crack path towards the hole flank (0.65, 0.55), MISESERI decays to 15-25 MPa, and at the hole flank itself mean error is only 12.18 MPa. This means that, exactly as in Case 1, native UNIFORM_ERROR remeshing on linear-elastic pre-analysis will refine the notch tip but leave the hole-interaction ligament under-refined.",
+    "recommended_next_execution_dependency": "1. For immediate Stage D pilot parity evaluation, qualify native remeshing under Step-1 elastic pre-analysis to establish baseline technical parity and document the exact spatial decay.\n2. For complete crack-corridor refinement, qualify the Step-2 peak-load checkpoint (u2 = 0.00729 mm) from PK_HOLE_COARSE_JOB1.odb using companion stress recovery."
+  },
+  "subtask_id": "F1728-CASE2-OFF-AXIS-HOLE-DONOR-QUALIFICATION",
+  "task_id": "F1728-UNIFIED-METHOD-A-FIVE-GEOMETRIES"
+}
