@@ -249,6 +249,38 @@ def test_f1728_mesh_quality_audit_on_reference_mesh():
     assert audit["min_corner_angle_deg"] > 25.0
 
 
+def test_f1728_case1_generated_physical_mesh_quality():
+    """Verify MeshQualityAuditEngine and ProductionDeckBuilder on newly generated Case 1 physical mesh."""
+    case1_mesh = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "219_f1728_five_geometry_study", "PK_F1728_CASE_1_ADAPT_PHYS.inp")
+    if not os.path.exists(case1_mesh):
+        pytest.skip("Case 1 generated physical mesh not present locally")
+
+    cfg1 = AdaptiveConfig.from_json(CONFIG_FILES["case_1"])
+    adapter1 = StraightNotchMode1Adapter(cfg1)
+    audit = MeshQualityAuditEngine.evaluate_mesh(case1_mesh, l0_mm=cfg1.l0, adapter=adapter1)
+
+    print("\n--- CASE 1 GENERATED MESH AUDIT ---")
+    for k, v in sorted(audit.items()):
+        if not isinstance(v, (list, dict)):
+            print("  %s: %s" % (k, str(v)))
+
+    assert audit["total_physical_elements"] > 0
+    assert audit["non_positive_jacobians"] == 0
+    assert audit["jacobian_status"] == "PASS"
+    assert audit["quad_fraction_pct"] > 90.0
+
+    # Test Production Deck Builder
+    prod_deck = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "219_f1728_five_geometry_study", "PK_F1728_CASE_1_PROD.inp")
+    res = ProductionDeckBuilder.build_deck(case1_mesh, prod_deck, "PK_F1728_CASE_1_PROD", cfg1)
+    print("\n--- CASE 1 PROD DECK RESULT ---")
+    print("  total_layered_elements:", res["total_layered_elements"])
+    print("  uel_hash_verified:", res["uel_hash_verified"])
+    assert res["status"] == "SUCCESS"
+    assert res["total_layered_elements"] == 3 * audit["total_physical_elements"]
+    assert res["uel_hash_verified"] is True
+
+
+
 # ==============================================================================
 # 6. PRODUCTION DECK BUILDER VERIFICATION
 # ==============================================================================

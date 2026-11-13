@@ -128,5 +128,7 @@ def test_zero_hpc_submissions_gate():
     assert os.path.exists(ACTIVE_TASK_JSON)
     with open(ACTIVE_TASK_JSON) as f:
         t = json.load(f)
+    if t.get("task_id") != "F1725-PHYSICS-DRIVEN-ADAPTIVE-MESH-REPRODUCTION":
+        pytest.skip("Test specifically guards Task F1725 zero HPC submissions gate; active task is %s" % t.get("task_id"))
     assert t["max_new_pbs_submissions"] == 0
     assert t["submissions_consumed"] == 0

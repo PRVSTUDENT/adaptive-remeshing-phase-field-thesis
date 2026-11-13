@@ -37,8 +37,23 @@ import hashlib
 import json
 import math
 import os
+import shutil
 import sys
-from pathlib import Path
+
+def safe_makedirs(path):
+    if path and not os.path.exists(path):
+        try:
+            os.makedirs(path)
+        except OSError:
+            if not os.path.isdir(path):
+                raise
+
+def py_sum(iterable, start=0):
+    """Pure-Python summation avoiding Abaqus CAE builtin sum() generator rejection."""
+    s = start
+    for x in iterable:
+        s += x
+    return s
 
 FROZEN_UEL_SHA256 = "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
 
@@ -739,10 +754,10 @@ class MeshQualityAuditEngine(object):
                     dNdeta = [
                         -0.25*(1-xi), -0.25*(1+xi), 0.25*(1+xi), 0.25*(1-xi)
                     ]
-                    j11 = sum(dNdxi[i] * x[i] for i in range(4))
-                    j12 = sum(dNdxi[i] * y[i] for i in range(4))
-                    j21 = sum(dNdeta[i] * x[i] for i in range(4))
-                    j22 = sum(dNdeta[i] * y[i] for i in range(4))
+                    j11 = py_sum(dNdxi[i] * x[i] for i in range(4))
+                    j12 = py_sum(dNdxi[i] * y[i] for i in range(4))
+                    j21 = py_sum(dNdeta[i] * x[i] for i in range(4))
+                    j22 = py_sum(dNdeta[i] * y[i] for i in range(4))
                     detJ = j11*j22 - j12*j21
                     min_jacobian = min(min_jacobian, detJ)
                     if detJ <= 0.0:
@@ -758,8 +773,8 @@ class MeshQualityAuditEngine(object):
                     cos_theta = max(-1.0, min(1.0, dot / (m1*m2)))
                     corner_angles.append(math.degrees(math.acos(cos_theta)))
 
-            cx = sum(x) / 4.0
-            cy = sum(y) / 4.0
+            cx = py_sum(x) / 4.0
+            cy = py_sum(y) / 4.0
             if adapter:
                 reg = adapter.classify_region(cx, cy)
                 if reg != "FAR_FIELD":
@@ -801,8 +816,8 @@ class MeshQualityAuditEngine(object):
                     cos_theta = max(-1.0, min(1.0, dot / (m1*m2)))
                     corner_angles.append(math.degrees(math.acos(cos_theta)))
 
-            cx = sum(x) / 3.0
-            cy = sum(y) / 3.0
+            cx = py_sum(x) / 3.0
+            cy = py_sum(y) / 3.0
             if adapter:
                 reg = adapter.classify_region(cx, cy)
                 if reg != "FAR_FIELD":
@@ -819,12 +834,12 @@ class MeshQualityAuditEngine(object):
         min_ang = corner_angles[0] if corner_angles else 0.0
         max_ang = corner_angles[-1] if corner_angles else 0.0
 
-        n_le_l0 = sum(1 for h in h_areas if h <= l0_mm)
-        n_le_l0_half = sum(1 for h in h_areas if h <= l0_mm / 2.0)
-        n_le_l0_third = sum(1 for h in h_areas if h <= l0_mm / 3.0)
+        n_le_l0 = py_sum(1 for h in h_areas if h <= l0_mm)
+        n_le_l0_half = py_sum(1 for h in h_areas if h <= l0_mm / 2.0)
+        n_le_l0_third = py_sum(1 for h in h_areas if h <= l0_mm / 3.0)
 
-        mean_pz_h = sum(process_zone_h_areas)/len(process_zone_h_areas) if process_zone_h_areas else (sum(h_areas)/len(h_areas) if h_areas else 0.0)
-        mean_ff_h = sum(far_field_h_areas)/len(far_field_h_areas) if far_field_h_areas else mean_pz_h
+        mean_pz_h = py_sum(process_zone_h_areas)/len(process_zone_h_areas) if process_zone_h_areas else (py_sum(h_areas)/len(h_areas) if h_areas else 0.0)
+        mean_ff_h = py_sum(far_field_h_areas)/len(far_field_h_areas) if far_field_h_areas else mean_pz_h
         refinement_ratio = mean_ff_h / max(mean_pz_h, 1e-9)
 
         return {
@@ -841,7 +856,7 @@ class MeshQualityAuditEngine(object):
             "min_det_j": float(min_jacobian),
             "non_positive_jacobians": non_positive_jacobians,
             "zero_or_negative_jacobians": non_positive_jacobians,
-            "distorted_elements": sum(1 for ar in aspect_ratios if ar > 10.0),
+            "distorted_elements": py_sum(1 for ar in aspect_ratios if ar > 10.0),
             "jacobian_status": "PASS" if non_positive_jacobians == 0 else "FAIL",
             "jacobian_valid": (non_positive_jacobians == 0),
             "median_aspect_ratio": float(med_ar),
@@ -852,7 +867,7 @@ class MeshQualityAuditEngine(object):
             "min_h_area_mm": float(h_areas[0]) if h_areas else 0.0,
             "min_h_area_um": float(h_areas[0] * 1000.0) if h_areas else 0.0,
             "max_h_area_mm": float(h_areas[-1]) if h_areas else 0.0,
-            "mean_h_area_mm": float(sum(h_areas)/len(h_areas)) if h_areas else 0.0,
+            "mean_h_area_mm": float(py_sum(h_areas)/len(h_areas)) if h_areas else 0.0,
             "mean_process_zone_h_area_mm": float(mean_pz_h),
             "mean_process_zone_h_area_um": float(mean_pz_h * 1000.0),
             "mean_far_field_h_area_mm": float(mean_ff_h),
@@ -891,7 +906,8 @@ class ProductionDeckBuilder(object):
         num_phys_elems = len(quad_elems) + len(tri_elems)
         num_nodes = len(nodes)
 
-        os.makedirs(os.path.dirname(os.path.abspath(dst_uel_inp)), exist_ok=True)
+        dst_dir = os.path.dirname(os.path.abspath(dst_uel_inp))
+        safe_makedirs(dst_dir)
 
         with open(dst_uel_inp, "w") as f:
             f.write("** ==========================================================\n")
@@ -1128,13 +1144,21 @@ class ProductionDeckBuilder(object):
             uel_candidates.append(uel_source_path)
         sub_name = getattr(config, "uel_subroutine", None)
         if sub_name:
-            uel_candidates.append(sub_name)
+            base_sub_name = os.path.basename(sub_name)
             src_dir = os.path.dirname(os.path.abspath(src_phys_inp))
+            uel_candidates.append(os.path.join(src_dir, base_sub_name))
             uel_candidates.append(os.path.join(src_dir, sub_name))
             dst_dir = os.path.dirname(os.path.abspath(dst_uel_inp))
+            uel_candidates.append(os.path.join(dst_dir, base_sub_name))
             uel_candidates.append(os.path.join(dst_dir, sub_name))
             uel_candidates.append(os.path.join("models", "pandey_kumar_mode1", sub_name))
+            uel_candidates.append(os.path.join("models", "pandey_kumar_mode1", base_sub_name))
             uel_candidates.append(os.path.join("models", "pandey_kumar_mode1", "219_f1728_five_geometry_study", sub_name))
+            uel_candidates.append(os.path.join("models", "pandey_kumar_mode1", "219_f1728_five_geometry_study", base_sub_name))
+            uel_candidates.append(os.path.join(os.getcwd(), base_sub_name))
+            uel_candidates.append(os.path.join(os.getcwd(), sub_name))
+            uel_candidates.append(sub_name)
+            uel_candidates.append(base_sub_name)
 
         found_uel = None
         for cand in uel_candidates:
@@ -1176,7 +1200,7 @@ class AbaqusNativeRemeshingEngine(object):
     """Executes native Abaqus RemeshingRule and adaptiveRemesh() in CAE/noGUI environment."""
 
     @classmethod
-    def build_cae_geometry(cls, m, adapter, config, seed_size):
+    def build_cae_geometry(cls, m, adapter, config, seed_size, part_name='PART-1', instance_name='PART-1-1'):
         if not ABAQUS_AVAILABLE:
             raise RuntimeError("Abaqus environment not available; cannot invoke CAE CAD builder.")
 
@@ -1211,7 +1235,7 @@ class AbaqusNativeRemeshingEngine(object):
             for (hx, hy, hr) in adapter.get_hole_definitions():
                 s.CircleByCenterPerimeter(center=(hx, hy), point1=(hx + hr, hy))
 
-        p = m.Part(name='Part-Physical', dimensionality=TWO_D_PLANAR, type=DEFORMABLE_BODY)
+        p = m.Part(name=part_name, dimensionality=TWO_D_PLANAR, type=DEFORMABLE_BODY)
         p.BaseShell(sketch=s)
         del m.sketches['__profile__']
 
@@ -1235,7 +1259,7 @@ class AbaqusNativeRemeshingEngine(object):
 
         p.Set(name='ALL_ELEM', faces=p.faces)
         a = m.rootAssembly
-        inst = a.Instance(name='PART-1-1', part=p, dependent=ON)
+        inst = a.Instance(name=instance_name, part=p, dependent=ON)
         a.Set(name='ALL_ELEM', faces=inst.faces)
 
         # Steps matching potential donor names
@@ -1260,10 +1284,15 @@ class AbaqusNativeRemeshingEngine(object):
         if "Model-1" in mdb.models:
             del mdb.models["Model-1"]
 
-        seed_size = config.max_h
-        p, a, inst = cls.build_cae_geometry(m, adapter, config, seed_size)
-
         odb_donor = session.openOdb(name=donor_odb_path)
+
+        target_part_name = list(odb_donor.parts.keys())[0] if len(odb_donor.parts) > 0 else "PART-1"
+        target_inst_name = list(odb_donor.rootAssembly.instances.keys())[0] if len(odb_donor.rootAssembly.instances) > 0 else "PART-1-1"
+
+        seed_size = config.max_h
+        p, a, inst = cls.build_cae_geometry(
+            m, adapter, config, seed_size, part_name=target_part_name, instance_name=target_inst_name
+        )
 
         step_target = config.step_name
         if step_target not in odb_donor.steps:
@@ -1280,7 +1309,7 @@ class AbaqusNativeRemeshingEngine(object):
         m.RemeshingRule(
             name=rule_name,
             stepName=step_target,
-            region=a.sets['ALL_ELEM'],
+            region=inst.sets['ALL_ELEM'],
             variables=(config.variable,),
             sizingMethod=UNIFORM_ERROR,
             errorTarget=config.error_target,
@@ -1295,7 +1324,7 @@ class AbaqusNativeRemeshingEngine(object):
         m.adaptiveRemesh(odb=odb_donor)
         odb_donor.close()
 
-        os.makedirs(output_dir, exist_ok=True)
+        safe_makedirs(output_dir)
         job_base = "PK_ADAPT_" + str(config.case_id).upper()
         if job_base in mdb.jobs:
             del mdb.jobs[job_base]
@@ -1307,7 +1336,7 @@ class AbaqusNativeRemeshingEngine(object):
         if os.path.exists(raw_inp):
             if os.path.exists(out_phys_inp):
                 os.remove(out_phys_inp)
-            os.rename(raw_inp, out_phys_inp)
+            shutil.move(raw_inp, out_phys_inp)
 
         return out_phys_inp
 
@@ -1328,7 +1357,7 @@ def run_method_a_case(case_config, authentic_donor_odb=None, output_directory=No
         cfg = case_config
 
     out_dir = output_directory or cfg.output_dir
-    os.makedirs(out_dir, exist_ok=True)
+    safe_makedirs(out_dir)
 
     # 1. Fail-closed Donor ODB Validation
     if not authentic_donor_odb:
@@ -1375,7 +1404,7 @@ def run_method_a_case(case_config, authentic_donor_odb=None, output_directory=No
     if gen_phys != phys_inp_path:
         if os.path.exists(phys_inp_path):
             os.remove(phys_inp_path)
-        os.rename(gen_phys, phys_inp_path)
+        shutil.move(gen_phys, phys_inp_path)
 
     # 5. Fail-Closed Mesh Quality Audit
     audit_res = MeshQualityAuditEngine.evaluate_mesh(phys_inp_path, l0_mm=cfg.l0, adapter=adapter)
@@ -1438,7 +1467,10 @@ def main():
     parser.add_argument("--output-deck", type=str, default=None, help="Target path for 3-layer UEL deck")
     parser.add_argument("--output-dir", type=str, default=None, help="Target output directory")
     parser.add_argument("--step1-only", action="store_true", default=False, help="Build Step 1 only")
-    args = parser.parse_args()
+    argv = sys.argv[1:]
+    if "--" in argv:
+        argv = argv[argv.index("--") + 1:]
+    args, unknown = parser.parse_known_args(argv)
 
     cfg = AdaptiveConfig.from_json(args.config)
     adapter = get_geometry_adapter(cfg)
@@ -1455,6 +1487,8 @@ def main():
             print("  Production Deck: %s" % str(res["production_deck"]))
             print("  Audit Summary:   %s" % str(res["audit_json"]))
         except Exception as exc:
+            import traceback
+            traceback.print_exc()
             sys.stderr.write("FATAL ERROR in run_method_a_case: %s\n" % str(exc))
             sys.exit(1)
         return
@@ -1468,7 +1502,7 @@ def main():
 
     if args.build_deck and args.output_deck:
         print("\nBuilding 3-layer UEL production deck...")
-        job_name = Path(args.output_deck).stem
+        job_name = os.path.splitext(os.path.basename(args.output_deck))[0]
         res = ProductionDeckBuilder.build_deck(
             args.build_deck, args.output_deck, job_name, cfg, step1_only=args.step1_only
         )
