@@ -1,8 +1,8 @@
 {
   "task_id": "F1728-UNIFIED-METHOD-A-FIVE-GEOMETRIES",
   "title": "Unified Physics-Driven Method A Adaptive Remeshing — Five-Geometry Verification",
-  "status": "STAGE_D_CASE2_ARTIFACT_QUALIFICATION_DISPATCH_READY",
-  "classification": "CASE2_ARTIFACT_LEVEL_QUALIFIED_8_OF_8_CHECKS_PASS",
+  "status": "COMPLETED_OFFLINE_PROVISIONALLY_CREDITED_TRANSITIONING_TO_F1729",
+  "classification": "CASE2_ARTIFACT_LEVEL_QUALIFIED_HPC_DATACHECK_MANDATED",
   "assigned_agent": "gemini-antigravity",
   "checkpoint_artifact": "docs/validation/F1728_CASE2_COMPANION_RECOVERY_ARTIFACT_QUALIFICATION.md",
   "predecessor_task": {
@@ -82,8 +82,11 @@
     "damage_zone_quantization_error_partitioned_48_elements",
     "surrogate_force_distinction_formulated",
     "artifact_qualification_report_authored_and_registered",
-    "regression_tests_passed_25_of_25_with_artifact_matrix_assertions"
+    "regression_tests_passed_25_of_25_with_artifact_matrix_assertions",
+    "round_3_independent_review_hnd_f1728_case2_stress_recovery_003_received_and_evaluated",
+    "task_f1728_offline_closeout_completed_advancing_to_f1729_datacheck"
   ],
-  "iteration": 12,
-  "review_resolution": "HND-F1728-CASE2-STRESS-RECOVERY-002_INSUFFICIENT_EVIDENCE_RESOLVED_HND-F1728-CASE2-STRESS-RECOVERY-003_DISPATCH_READY"
+  "iteration": 13,
+  "review_resolution": "HND-F1728-CASE2-STRESS-RECOVERY-003_EVALUATED_OFFLINE_PROVISIONALLY_CREDITED_DATACHECK_MANDATED",
+  "next_task_id": "F1729-CASE2-COMPANION-RECOVERY-DATACHECK"
 }

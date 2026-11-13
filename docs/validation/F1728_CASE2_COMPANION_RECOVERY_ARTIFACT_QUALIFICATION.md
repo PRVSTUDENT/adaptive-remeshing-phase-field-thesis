@@ -162,4 +162,38 @@ if 'ALL_ELEM' not in inst.sets:
 - **Cumulative Project Submissions:** Permanently reconciled at `5` in all ledgers (`1423095`, `1423101`, `1423102`, `1423103`, `1423169`).
 - **Zero Local Abaqus Executions:** All solver operations strictly restricted to HPC cluster compute nodes.
 - **Bitwise Frozen UEL:** Subroutine `f42_mixed_uel.for` verified against SHA-256 `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`.
-- **Unit Regression Suite:** 24/24 PASS cleanly in 1.74s (`results/validation/f1728_pytest_receipt.txt`).
+- **Unit Regression Suite:** 25/25 PASS cleanly in 1.71s (`results/validation/f1728_pytest_receipt.txt`).
+
+---
+
+## 7. Independent Structured Review Outcome (HND-F1728-CASE2-STRESS-RECOVERY-003)
+
+On 14 November 2026, the independent scientific reviewer (ChatGPT under protocol `INDEPENDENT_STRUCTURED_REVIEW_V1`) completed the evaluation of the artifact-level qualification packet and delivered the following determination:
+
+- **Review Decision:** `INSUFFICIENT_EVIDENCE`
+- **Execution Authorized:** `false` (for forward simulation / unvalidated remeshing)
+- **PBS Submissions Authorized for F1728:** `0` (`max_new_pbs_submissions = 0`)
+- **Review Summary:**
+  > "The reported artifact-level qualification substantially addresses the previous review. Eight static checks passed, damaged-zone quantization was evaluated, and the surrogate recovery interpretation is preserved. These results support provisional offline readiness, but the actual repository artifacts have not been independently inspected in this review. More importantly, static source inspection cannot prove Abaqus native adaptive-remeshing API compatibility. A bounded HPC datacheck is the appropriate next qualification stage. Do not repeat the completed offline audits."
+
+### Evaluation of Specific Findings
+- **Finding F1728-R25 (Kinematics & Surrogate Accounting):** `CONCEPTUALLY_RESOLVED`. Sourced empirical proof from coarse ODB confirms nodal U was recorded only for RP node 999999; surrogate classification and vertical force equilibrium gate REC-04 are accepted.
+- **Finding F1728-R26 (Quantization Error Evaluation):** `QUANTIFIED_WITH_LIMITATIONS`. The adopted intact-anchored 20-bin scheme (1.9123% damaged zone mean error, 0.8388% bulk error, all 6 boundary elements <= 3.19%) passes its criteria; exact elementwise degradation is retained as the theoretical benchmark.
+- **Finding F1728-R27 (Reconciled Mesh Inventory):** `REPORTED_RESOLVED`. Audit of 3,010 nodes, 2,832 quads, 74 triangles, and 2,906 total elements verified.
+- **Finding F1728-R28 (MISESAVG & Scale Invariance):** `CONCEPTUALLY_RESOLVED`. Definition corrected and physical scale ($E_0 = 210,000\,\text{MPa}$) designated as authoritative baseline.
+- **Finding F1728-R29 (Calibrated Acceptance Criteria):** `PROVISIONALLY_ACCEPTED`. Revised numerical gates accepted; spatial contrast recognized as heuristic.
+- **Finding F1728-R30 (Executable Deck & Engine Compatibility):** `PARTIALLY_RESOLVED`. Static deck structure and CAE safeguards are qualified, but runtime Abaqus execution is required to prove API compatibility.
+
+---
+
+## 8. Governed Transition to Successor Task F1729
+
+Per the supervisor's binding directive:
+1. **Task F1728 Closeout:** Offline qualification of the Case 2 companion recovery artifact is formally closed out as provisionally credible and completed. All 5 historical PBS jobs (`1423095`, `1423101`, `1423102`, `1423103`, `1423169`), artifact hashes, and 25/25 unit tests are preserved.
+2. **Successor Task Defined:** A narrowly scoped successor task `F1729-CASE2-COMPANION-RECOVERY-DATACHECK` is registered to perform an authentic HPC Abaqus datacheck of `PK_HOLE_COMPANION_RECOVERY.inp` on the cluster.
+3. **Execution Constraints:**
+   - Datacheck investigates input syntax, CPE4/CPE3 elements, 13 material sections, boundary conditions, and output requests (`pre.exe` Exit Code 0).
+   - Finite submission allowance: `max_new_pbs_submissions = 1`.
+   - Datacheck does NOT run the companion recovery solve, does NOT prove non-zero MISESERI values, and does NOT execute `adaptiveRemesh()`.
+   - Forward phase-field fracture simulation remains strictly paused.
+
