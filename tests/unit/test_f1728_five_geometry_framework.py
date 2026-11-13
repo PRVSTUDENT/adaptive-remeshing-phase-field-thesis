@@ -280,6 +280,24 @@ def test_f1728_case1_generated_physical_mesh_quality():
     assert res["uel_hash_verified"] is True
 
 
+def test_f1728_case1_ligament_spatial_resolution_audit():
+    """Verify independent spatial-resolution audit along prospective crack ligament."""
+    from scripts.remeshing import audit_case1_ligament_resolution
+    audit_case1_ligament_resolution.main()
+    out_json = audit_case1_ligament_resolution.OUT_JSON
+    assert os.path.exists(out_json)
+    with open(out_json, "r") as f:
+        data = json.load(f)
+    assert "strip_half_width_0_015_mm" in data
+    bins = data["strip_half_width_0_015_mm"]
+    assert len(bins) == 10
+    # Notch tip bin [0.50, 0.55] must be refined
+    assert bins[0]["pct_h_area_le_l0_half"] == 100.0
+    # Far uncracked ligament [0.70, 0.75] exhibits coarse elements (decaying error)
+    assert bins[4]["pct_h_area_le_l0_half"] == 0.0
+
+
+
 
 # ==============================================================================
 # 6. PRODUCTION DECK BUILDER VERIFICATION
