@@ -77,12 +77,13 @@ In phase-field brittle fracture:
 - To maintain static equilibrium, the tensile load is transferred entirely across the remaining ligament between the central hole and the right free edge.
 - This creates severe stress concentration and steep stress gradients on the right flank of the hole, producing a high `MISESERI` signal along the secondary corridor.
 
-### 3.3 Historical Verification in Task F1703
-In Task F1703, our project previously demonstrated this exact physical mechanism:
-- When a donor state with damage progression was used (`PK_SEC43_F1703_SECONDARY_COMPLETE_ADAPT.inp`, $10{,}065$ elements), the resulting native adapted mesh resolved **BOTH** corridors:
+### 3.3 Prescribed-State Demonstration in Task F1703 and Supported Hypothesis for Figure 15(b)
+In Task F1703, our project investigated this stress-redistribution mechanism using a prescribed-state / controlled recovery procedure:
+- The F1703 workflow utilized prescribed-state donor databases (`PK_SEC43_PRESCRIBED_STATE2.odb`, `PK_SEC43_PRESCRIBED_STATE4.odb`, and `PK_SEC43_PRESCRIBED_STATE5.odb`) across a controlled sequential multi-pass remeshing sequence (`PK_SEC43_F1703_SECONDARY_COMPLETE_ADAPT.inp`, $10{,}065$ elements).
+- This demonstrated the physical plausibility of dual-corridor refinement: once damage localizes across the primary notch and sheds load into the secondary ligament, the resulting Cauchy stress jumps natively drive Abaqus `RemeshingRule` to refine both regions:
   - Primary corridor: $h \le 0.143\,\mathrm{mm}$ ($100\%$ compliance with $\le \ell_0/2$).
   - Secondary corridor: $h \le 0.051\,\mathrm{mm}$ across the entire $18.56\,\mathrm{mm}$ ligament to the right edge.
-- **Actionable Conclusion:** To capture both fracture corridors in Case 3 without artificial crack-path priors, the coarse donor simulation must be executed past initial damage localization until stress redistribution transfers across the central void into the secondary ligament.
+- **Scientific Qualification & Supported Hypothesis:** While the F1703 prescribed-state recovery proves that Abaqus native SPR error indicators will refine the secondary corridor once steep stress gradients exist there, it does not by itself constitute an autonomous coarse phase-field donor prediction or identify the exact donor checkpoint chosen by Pandey & Kumar (2025). The proposed load-shedding mechanism for Figure 15(b) is therefore classified as a physically supported hypothesis, which will be directly validated when an independently evolved coarse phase-field simulation of Model A is solved to post-localization under the unified framework.
 
 ---
 

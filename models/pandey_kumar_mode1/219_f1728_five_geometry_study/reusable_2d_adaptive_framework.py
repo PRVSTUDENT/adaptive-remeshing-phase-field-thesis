@@ -843,6 +843,7 @@ class MeshQualityAuditEngine(object):
             "zero_or_negative_jacobians": non_positive_jacobians,
             "distorted_elements": sum(1 for ar in aspect_ratios if ar > 10.0),
             "jacobian_status": "PASS" if non_positive_jacobians == 0 else "FAIL",
+            "jacobian_valid": (non_positive_jacobians == 0),
             "median_aspect_ratio": float(med_ar),
             "max_aspect_ratio": float(max_ar),
             "worst_aspect_ratio": float(max_ar),
@@ -873,8 +874,19 @@ class MeshQualityAuditEngine(object):
 class ProductionDeckBuilder(object):
     """Converts a physical mesh into an authoritative 3-layer UEL + companion UMAT deck."""
 
+    FROZEN_UEL_SHA256 = "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6"
+
     @classmethod
-    def build_deck(cls, src_phys_inp, dst_uel_inp, job_name, config, step1_only=False):
+    def verify_uel_file(cls, uel_path, expected_sha=None):
+        target = (expected_sha or cls.FROZEN_UEL_SHA256).lower()
+        if not uel_path or not os.path.exists(uel_path):
+            return False, None, target
+        with open(uel_path, "rb") as f:
+            digest = hashlib.sha256(f.read()).hexdigest().lower()
+        return (digest == target), digest, target
+
+    @classmethod
+    def build_deck(cls, src_phys_inp, dst_uel_inp, job_name, config, step1_only=False, uel_source_path=None):
         nodes, quad_elems, tri_elems = MeshQualityAuditEngine.parse_physical_inp(src_phys_inp)
         num_phys_elems = len(quad_elems) + len(tri_elems)
         num_nodes = len(nodes)
@@ -1109,6 +1121,37 @@ class ProductionDeckBuilder(object):
                 f.write("*NODE PRINT, FREQ=1, NSET=N_RP\nU2, RF2\n")
                 f.write("*END STEP\n")
 
+        # Truthful UEL Hash Verification
+        FROZEN_UEL_SHA256 = "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6"
+        uel_candidates = []
+        if uel_source_path:
+            uel_candidates.append(uel_source_path)
+        sub_name = getattr(config, "uel_subroutine", None)
+        if sub_name:
+            uel_candidates.append(sub_name)
+            src_dir = os.path.dirname(os.path.abspath(src_phys_inp))
+            uel_candidates.append(os.path.join(src_dir, sub_name))
+            dst_dir = os.path.dirname(os.path.abspath(dst_uel_inp))
+            uel_candidates.append(os.path.join(dst_dir, sub_name))
+            uel_candidates.append(os.path.join("models", "pandey_kumar_mode1", sub_name))
+            uel_candidates.append(os.path.join("models", "pandey_kumar_mode1", "219_f1728_five_geometry_study", sub_name))
+
+        found_uel = None
+        for cand in uel_candidates:
+            if cand and os.path.exists(cand):
+                found_uel = cand
+                break
+
+        expected_hash = (getattr(config, "expected_uel_sha256", None) or FROZEN_UEL_SHA256).lower()
+        actual_uel_hash = None
+        uel_verified = False
+        if found_uel and os.path.exists(found_uel):
+            with open(found_uel, "rb") as uf:
+                actual_uel_hash = hashlib.sha256(uf.read()).hexdigest().lower()
+            uel_verified = (actual_uel_hash == expected_hash)
+        else:
+            uel_verified = False
+
         return {
             "status": "SUCCESS",
             "deck_path": dst_uel_inp,
@@ -1118,7 +1161,10 @@ class ProductionDeckBuilder(object):
             "mech_elements": num_phys_elems,
             "umat_elements": num_phys_elems,
             "total_nodes": num_nodes + 1,
-            "uel_hash_verified": True
+            "uel_source_path": found_uel,
+            "uel_sha256": actual_uel_hash,
+            "expected_uel_sha256": expected_hash,
+            "uel_hash_verified": uel_verified
         }
 
 
@@ -1267,17 +1313,14 @@ class AbaqusNativeRemeshingEngine(object):
 
 
 # ==============================================================================
-# 6. UNIFIED HIGH-LEVEL ENTRYPOINT: run_method_a_case
+# 6. UNIFIED HIGH-LEVEL ENTRYPOINT: run_method_a_case (FAIL-CLOSED)
 # ==============================================================================
 
-def run_method_a_case(case_config, authentic_donor_odb=None, output_directory=None, abaqus_model_name=None):
+def run_method_a_case(case_config, authentic_donor_odb=None, output_directory=None, abaqus_model_name=None, fail_closed=True):
     """
-    Unified high-level entrypoint executing the complete Method A pipeline:
-    1. Ingests and validates configuration.
-    2. Runs native Abaqus remeshing (if Abaqus is available and donor ODB provided).
-    3. Audits finite-element quality (Jacobians, aspect ratios, h/l0).
-    4. Assembles 3-layer UEL production deck.
-    5. Outputs machine-readable audit JSON.
+    Unified high-level entrypoint executing the complete Method A pipeline.
+    Fail-closed: requires valid donor, Abaqus CAE environment, successful native remeshing,
+    passing FE quality audit (det(J) > 0), and valid 3-layer production deck.
     """
     if isinstance(case_config, str):
         cfg = AdaptiveConfig.from_json(case_config)
@@ -1287,37 +1330,85 @@ def run_method_a_case(case_config, authentic_donor_odb=None, output_directory=No
     out_dir = output_directory or cfg.output_dir
     os.makedirs(out_dir, exist_ok=True)
 
+    # 1. Fail-closed Donor ODB Validation
+    if not authentic_donor_odb:
+        err_msg = "Donor ODB path not specified for case %s. Native remeshing requires an authentic donor ODB." % cfg.case_id
+        if fail_closed:
+            raise FileNotFoundError(err_msg)
+        return {"status": "FAILED", "error": err_msg}
+
+    if not os.path.exists(authentic_donor_odb):
+        err_msg = "Donor ODB does not exist: %s" % authentic_donor_odb
+        if fail_closed:
+            raise FileNotFoundError(err_msg)
+        return {"status": "FAILED", "error": err_msg}
+
+    # 2. Fail-closed Abaqus Environment Check
+    if not ABAQUS_AVAILABLE:
+        err_msg = "Abaqus CAE environment not available (ABAQUS_AVAILABLE=False). Native remeshing cannot execute."
+        if fail_closed:
+            raise RuntimeError(err_msg)
+        return {"status": "FAILED", "error": err_msg}
+
     adapter = get_geometry_adapter(cfg)
     job_base = "PK_F1728_" + str(cfg.case_id).upper()
     phys_inp_path = os.path.join(out_dir, job_base + "_ADAPT_PHYS.inp")
     prod_inp_path = os.path.join(out_dir, job_base + "_PROD.inp")
     audit_json_path = os.path.join(out_dir, job_base + "_AUDIT.json")
 
-    remesh_performed = False
-    if ABAQUS_AVAILABLE and authentic_donor_odb and os.path.exists(authentic_donor_odb):
-        gen_phys = AbaqusNativeRemeshingEngine.execute_native_remesh(
-            cfg, authentic_donor_odb, out_dir, model_name=abaqus_model_name
-        )
-        if os.path.exists(gen_phys) and gen_phys != phys_inp_path:
-            if os.path.exists(phys_inp_path):
-                os.remove(phys_inp_path)
-            os.rename(gen_phys, phys_inp_path)
-        remesh_performed = True
+    # 3. Stale File Rejection Guard: purge any pre-existing output files before remeshing
+    for stale_path in [phys_inp_path, prod_inp_path, audit_json_path]:
+        if os.path.exists(stale_path):
+            os.remove(stale_path)
 
-    audit_res = {}
-    if os.path.exists(phys_inp_path):
-        audit_res = MeshQualityAuditEngine.evaluate_mesh(phys_inp_path, l0_mm=cfg.l0, adapter=adapter)
+    # 4. Execute Native Remeshing
+    gen_phys = AbaqusNativeRemeshingEngine.execute_native_remesh(
+        cfg, authentic_donor_odb, out_dir, model_name=abaqus_model_name
+    )
 
-        # Build 3-layer production deck
-        deck_res = ProductionDeckBuilder.build_deck(
-            phys_inp_path, prod_inp_path, job_base + "_PROD", cfg
-        )
-        audit_res["production_deck"] = deck_res
+    if not gen_phys or not os.path.exists(gen_phys) or os.path.getsize(gen_phys) == 0:
+        err_msg = "AbaqusNativeRemeshingEngine failed to produce a valid physical mesh at %s" % str(gen_phys)
+        if fail_closed:
+            raise RuntimeError(err_msg)
+        return {"status": "FAILED", "error": err_msg}
 
+    if gen_phys != phys_inp_path:
+        if os.path.exists(phys_inp_path):
+            os.remove(phys_inp_path)
+        os.rename(gen_phys, phys_inp_path)
+
+    # 5. Fail-Closed Mesh Quality Audit
+    audit_res = MeshQualityAuditEngine.evaluate_mesh(phys_inp_path, l0_mm=cfg.l0, adapter=adapter)
+    total_elements = audit_res.get("total_elements", 0)
+    if total_elements <= 0:
+        err_msg = "Mesh quality audit failed: generated mesh contains 0 elements."
+        if fail_closed:
+            raise ValueError(err_msg)
+        return {"status": "FAILED", "error": err_msg}
+
+    distorted = audit_res.get("distorted_elements", 0)
+    jacobian_valid = audit_res.get("jacobian_valid", True)
+    if distorted > 0 or not jacobian_valid:
+        err_msg = "Mesh quality audit failed: detected %d distorted elements or non-positive Jacobians." % distorted
+        if fail_closed:
+            raise ValueError(err_msg)
+        return {"status": "FAILED", "error": err_msg, "audit_metrics": audit_res}
+
+    # 6. Build 3-Layer Production Deck
+    deck_res = ProductionDeckBuilder.build_deck(
+        phys_inp_path, prod_inp_path, job_base + "_PROD", cfg
+    )
+    if not os.path.exists(prod_inp_path) or os.path.getsize(prod_inp_path) == 0:
+        err_msg = "ProductionDeckBuilder failed to generate production deck at %s" % prod_inp_path
+        if fail_closed:
+            raise RuntimeError(err_msg)
+        return {"status": "FAILED", "error": err_msg}
+
+    audit_res["production_deck"] = deck_res
     audit_res["case_id"] = cfg.case_id
     audit_res["benchmark_name"] = cfg.benchmark_name
     audit_res["geometry_type"] = cfg.geometry_type
-    audit_res["remesh_performed_in_session"] = remesh_performed
+    audit_res["remesh_performed_in_session"] = True
     audit_res["donor_odb"] = authentic_donor_odb
 
     with open(audit_json_path, "w") as f:
@@ -1326,8 +1417,8 @@ def run_method_a_case(case_config, authentic_donor_odb=None, output_directory=No
     return {
         "status": "SUCCESS",
         "case_id": cfg.case_id,
-        "physical_mesh": phys_inp_path if os.path.exists(phys_inp_path) else None,
-        "production_deck": prod_inp_path if os.path.exists(prod_inp_path) else None,
+        "physical_mesh": phys_inp_path,
+        "production_deck": prod_inp_path,
         "audit_json": audit_json_path,
         "audit_metrics": audit_res
     }
@@ -1354,12 +1445,18 @@ def main():
     print("Loaded Benchmark: %s (Case: %s, Type: %s)" % (cfg.benchmark_name, cfg.case_id, cfg.geometry_type))
 
     if args.run_case:
-        print("\nExecuting Unified Method A Pipeline for %s..." % cfg.case_id)
-        res = run_method_a_case(cfg, authentic_donor_odb=args.odb, output_directory=args.output_dir)
-        print("Pipeline Status: %s" % res["status"])
-        print("  Physical Mesh:   %s" % str(res["physical_mesh"]))
-        print("  Production Deck: %s" % str(res["production_deck"]))
-        print("  Audit Summary:   %s" % str(res["audit_json"]))
+        print("\nExecuting Unified Method A Pipeline for %s (FAIL-CLOSED)..." % cfg.case_id)
+        try:
+            res = run_method_a_case(
+                cfg, authentic_donor_odb=args.odb, output_directory=args.output_dir, fail_closed=True
+            )
+            print("Pipeline Status: %s" % res["status"])
+            print("  Physical Mesh:   %s" % str(res["physical_mesh"]))
+            print("  Production Deck: %s" % str(res["production_deck"]))
+            print("  Audit Summary:   %s" % str(res["audit_json"]))
+        except Exception as exc:
+            sys.stderr.write("FATAL ERROR in run_method_a_case: %s\n" % str(exc))
+            sys.exit(1)
         return
 
     if args.audit_mesh:
@@ -1376,6 +1473,7 @@ def main():
             args.build_deck, args.output_deck, job_name, cfg, step1_only=args.step1_only
         )
         print("Built UEL Deck: %s (%d layered elements)" % (res["deck_path"], res["total_layered_elements"]))
+        print("UEL Hash Verified: %s" % str(res.get("uel_hash_verified")))
 
 
 if __name__ == "__main__":

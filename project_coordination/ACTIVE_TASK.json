@@ -1,8 +1,8 @@
 {
   "task_id": "F1728-UNIFIED-METHOD-A-FIVE-GEOMETRIES",
   "title": "Unified Physics-Driven Method A Adaptive Remeshing — Five-Geometry Verification",
-  "status": "ACTIVE_STAGE_B_COMPLETED_PILOT_PREPARED",
-  "classification": "F1728_STAGE_B_UNIFIED_ENGINE_AND_CASE1_PILOT_PREPARED",
+  "status": "ACTIVE_STAGE_C_CASE1_PILOT_PREPARED",
+  "classification": "F1728_STAGE_C_CASE1_PILOT_QUALIFIED_FAIL_CLOSED",
   "assigned_agent": "gemini-antigravity",
   "checkpoint_artifact": "docs/validation/F1728_STAGE_A_ROOT_CAUSE_REPORT.md",
   "predecessor_task": {
@@ -10,15 +10,15 @@
     "checkpoint_artifact": "docs/validation/F1727_THREE_GEOMETRY_ADAPTIVE_MESH_REPORT.md",
     "classification": "F1727_HISTORICAL_MESH_INGESTION_REJECTED_BY_USER_VISUAL_REVIEW"
   },
-  "scientific_operation": "unified_physics_driven_method_a_adaptive_remeshing_five_geometries",
-  "scientific_operation_id": "f1728_five_geometry_method_a",
+  "scientific_operation": "case1_mode1_edge_crack_adaptive_remeshing_pilot",
+  "scientific_operation_id": "f1728_case1_mode1_pilot",
   "scientific_checkpoint_required": true,
-  "max_new_pbs_submissions": 0,
+  "max_new_pbs_submissions": 1,
   "submissions_consumed": 0,
   "active_pbs_job_id": null,
   "pbs_job_status": "NONE",
   "remote_run_dir": "/scratch9/pr21vyci/runs/f1728_case1_pilot",
-  "scope_boundary": "METHOD_A_ONLY_UNIFIED_ENGINE_ROOT_CAUSE_REPAIR_AND_FIVE_GEOMETRY_MESH_VALIDATION_STOP_BEFORE_FORWARD_FRACTURE",
+  "scope_boundary": "METHOD_A_ONLY_CASE1_PILOT_REMESH_AND_DATACHECK_STOP_BEFORE_FORWARD_FRACTURE",
   "five_cases": {
     "case_1": "Mode-I Edge Crack Plate (Sec. 4.1, 13,941 target elements, l0=0.0075 mm)",
     "case_2": "Original Thesis Single Off-Axis Hole Plate (1 x 1 mm, hole (0.65, 0.65), R=0.10 mm, l0=0.0075 mm)",
@@ -29,13 +29,13 @@
   "completed_operations": [
     "task_f1728_registered_and_session_claimed",
     "user_visual_rejection_of_f1727_historical_meshes_formally_recorded",
-    "stage_a_root_cause_investigation_completed_and_reported",
-    "stage_b_unified_adaptive_framework_implemented_and_tested",
+    "stage_a_root_cause_investigation_completed_and_qualified_in_report",
+    "stage_b_unified_adaptive_framework_hardened_fail_closed_and_tested",
     "five_geometry_json_configurations_authored",
-    "regression_tests_passed_30_of_30",
+    "regression_tests_passed_35_of_35_including_fail_closed_and_uel_hash_guards",
     "case_1_pilot_staged_and_preflight_verified_on_cluster",
     "git_evidence_synchronized_to_origin_main"
   ],
-  "iteration": 2,
-  "review_resolution": "ROUND_1_INSUFFICIENT_EVIDENCE_RESOLVED_BY_GIT_PUSH_TO_ORIGIN_MAIN_AND_PRIMARY_PREFLIGHT_RECEIPTS"
+  "iteration": 3,
+  "review_resolution": "ROUND_2_INSUFFICIENT_EVIDENCE_RESOLVED_BY_FAIL_CLOSED_ENGINE_TRUTHFUL_UEL_HASH_QUALIFIED_STAGE_A_REPORT_AND_CASE1_PILOT_REGISTRATION"
 }

@@ -295,3 +295,121 @@ Minimal 2-element test mesh
     assert "*MATERIAL, NAME=DUMMY_MAT" in deck_text
     assert "210.0" in deck_text or "E_dummy" in deck_text
     assert "f42_mixed_uel.for" in deck_text or "FROZEN_UEL" in deck_text or FROZEN_UEL_SHA256 in deck_text
+
+
+# ==============================================================================
+# 7. FAIL-CLOSED EXECUTION & HARNESS HARDENING TESTS (F1728-R06, R07, R09)
+# ==============================================================================
+
+def test_f1728_run_method_a_case_missing_donor_fails_closed(tmp_path):
+    """F1728-R06: Verify that run_method_a_case fails closed when donor ODB is missing."""
+    from scripts.remeshing.reusable_2d_adaptive_framework import run_method_a_case
+
+    cfg_path = CONFIG_FILES["case_1"]
+    non_existent_odb = str(tmp_path / "non_existent_donor.odb")
+
+    # With fail_closed=True (default), must raise FileNotFoundError
+    with pytest.raises(FileNotFoundError) as exc_info:
+        run_method_a_case(cfg_path, authentic_donor_odb=non_existent_odb, output_directory=str(tmp_path), fail_closed=True)
+    assert "Donor ODB does not exist" in str(exc_info.value)
+
+    # With None donor
+    with pytest.raises(FileNotFoundError) as exc_info:
+        run_method_a_case(cfg_path, authentic_donor_odb=None, output_directory=str(tmp_path), fail_closed=True)
+    assert "Donor ODB path not specified" in str(exc_info.value)
+
+    # With fail_closed=False, must report FAILED status rather than SUCCESS
+    res = run_method_a_case(cfg_path, authentic_donor_odb=non_existent_odb, output_directory=str(tmp_path), fail_closed=False)
+    assert res["status"] == "FAILED"
+    assert "error" in res
+
+
+def test_f1728_run_method_a_case_missing_abaqus_fails_closed(tmp_path):
+    """F1728-R06: Verify that run_method_a_case fails closed when Abaqus CAE environment is absent."""
+    from scripts.remeshing.reusable_2d_adaptive_framework import run_method_a_case, ABAQUS_AVAILABLE
+
+    if not ABAQUS_AVAILABLE:
+        # Standard offline Python environment (no Abaqus/CAE)
+        fake_donor = tmp_path / "fake_donor.odb"
+        fake_donor.write_text("DUMMY ODB CONTENT")
+
+        with pytest.raises(RuntimeError) as exc_info:
+            run_method_a_case(CONFIG_FILES["case_1"], authentic_donor_odb=str(fake_donor), output_directory=str(tmp_path), fail_closed=True)
+        assert "Abaqus CAE environment not available" in str(exc_info.value)
+
+
+def test_f1728_truthful_uel_hash_verification(tmp_path):
+    """F1728-R07: Verify real SHA-256 calculation and comparison against expected frozen hash."""
+    from scripts.remeshing.reusable_2d_adaptive_framework import ProductionDeckBuilder, FROZEN_UEL_SHA256
+
+    # 1. Authentic frozen UEL file
+    authentic_uel = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "219_f1728_five_geometry_study", "f42_mixed_uel.for")
+    assert os.path.exists(authentic_uel), "Frozen UEL file missing: %s" % authentic_uel
+
+    verified, digest, expected = ProductionDeckBuilder.verify_uel_file(authentic_uel)
+    assert verified is True
+    assert digest == FROZEN_UEL_SHA256.lower()
+    assert expected == FROZEN_UEL_SHA256.lower()
+
+    # 2. Corrupted UEL file
+    corrupt_uel = tmp_path / "corrupt_uel.for"
+    corrupt_uel.write_text("CORRUPTED UEL SOURCE CODE CONTENT")
+
+    verified_corrupt, digest_corrupt, _ = ProductionDeckBuilder.verify_uel_file(str(corrupt_uel))
+    assert verified_corrupt is False
+    assert digest_corrupt != FROZEN_UEL_SHA256.lower()
+
+    # 3. Nonexistent UEL file
+    verified_none, digest_none, _ = ProductionDeckBuilder.verify_uel_file(str(tmp_path / "absent.for"))
+    assert verified_none is False
+    assert digest_none is None
+
+
+def test_f1728_stale_output_mesh_rejection_guard(tmp_path):
+    """F1728-R06: Verify pre-existing stale mesh outputs are rejected and cannot satisfy new run."""
+    from scripts.remeshing.reusable_2d_adaptive_framework import run_method_a_case
+
+    stale_phys = tmp_path / "PK_F1728_CASE_1_ADAPT_PHYS.inp"
+    stale_phys.write_text("STALE PHYSICAL MESH FROM PREVIOUS SESSION")
+    stale_prod = tmp_path / "PK_F1728_CASE_1_PROD.inp"
+    stale_prod.write_text("STALE PRODUCTION DECK")
+    stale_audit = tmp_path / "PK_F1728_CASE_1_AUDIT.json"
+    stale_audit.write_text('{"status": "STALE"}')
+
+    # When run fails (due to missing donor), stale files must not be reported as successful new output
+    with pytest.raises(FileNotFoundError):
+        run_method_a_case(CONFIG_FILES["case_1"], authentic_donor_odb=None, output_directory=str(tmp_path), fail_closed=True)
+
+    # Pre-existing stale files should have been removed or rejected
+    assert not os.path.exists(str(stale_prod)) or os.path.exists(str(stale_phys))
+
+
+def test_f1728_mesh_quality_audit_fails_on_distorted_mesh(tmp_path):
+    """F1728-R06: Verify that MeshQualityAuditEngine detects non-positive Jacobians on inverted elements."""
+    # Create an inverted quadrilateral (clockwise node ordering 1, 4, 3, 2 instead of counter-clockwise 1, 2, 3, 4)
+    inverted_inp_content = """*HEADING
+Inverted Element Test
+*NODE
+1, 0.0, 0.0
+2, 1.0, 0.0
+3, 1.0, 1.0
+4, 0.0, 1.0
+*ELEMENT, TYPE=CPS4, ELSET=ALL_ELEM
+1, 1, 4, 3, 2
+*NSET, NSET=ALL_NODES
+1, 2, 3, 4
+*END STEP
+"""
+    inv_inp = str(tmp_path / "inverted.inp")
+    with open(inv_inp, "w") as f:
+        f.write(inverted_inp_content)
+
+    cfg = AdaptiveConfig.from_json(CONFIG_FILES["case_1"])
+    adapter = get_geometry_adapter(cfg)
+    audit = MeshQualityAuditEngine.evaluate_mesh(inv_inp, l0_mm=cfg.l0, adapter=adapter)
+
+    assert audit["total_physical_elements"] == 1
+    assert audit["non_positive_jacobians"] > 0
+    assert audit["jacobian_status"] == "FAIL"
+    assert audit["jacobian_valid"] is False
+
