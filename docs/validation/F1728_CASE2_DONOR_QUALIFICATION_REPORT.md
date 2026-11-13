@@ -16,16 +16,16 @@
 This reconciled report incorporates the decisive corrections mandated by the Independent Scientific Reviewer in [`HND-F1728-CASE2-DONOR-QUAL-002`](file:///D:/Master%20thesis/Adaptive%20remeshing/.agents/bridge_history/response_HND-F1728-CASE2-DONOR-QUAL-002.md):
 
 1. **Resolution of Finding F1728-R20 (Physical Boundary Contact vs. Centroid Clearance):**
-   - **Correction of Gap Interpretation:** The previously reported $7.69\,\mu\text{m}$ ($1.02\,\ell_0$) metric was a **centroid-to-boundary distance** from Element 13 $(0.5608, 0.5513)\,\text{mm}$ to the circular hole boundary, **not** an intact physical gap.
-   - **Empirical Boundary Contact Verification:** Direct polygon-level vertex and element-connectivity analysis on the authentic coarse mesh ([`PK_HOLE_COARSE_PHYS.inp`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_PHYS.inp)) confirms that **six elements** belonging to the 37-element primary damage component ($d \ge 0.10$) have nodes lying directly on the circular hole boundary ($r = 0.10\,\text{mm}$):
-     * **Element 151:** Boundary nodes `[7, 638]`, coordinates `[(0.5626, 0.6015), (0.5546, 0.6201)]`, $d = 0.1292$
-     * **Element 152:** Boundary node `[637]`, coordinates `[(0.5505, 0.6399)]`, $d = 0.1172$
-     * **Element 153:** Boundary nodes `[6, 637]`, coordinates `[(0.5505, 0.6601), (0.5505, 0.6399)]`, $d = 0.1245$
-     * **Element 687:** Boundary nodes `[638, 637]`, coordinates `[(0.5546, 0.6201), (0.5505, 0.6399)]`, $d = 0.2439$
-     * **Element 734:** Boundary nodes `[6, 636]`, coordinates `[(0.5505, 0.6601), (0.5546, 0.6799)]`, $d = 0.1486$
-     * **Element 1088:** Boundary nodes `[7, 639]`, coordinates `[(0.5626, 0.6015), (0.5741, 0.5849)]`, $d = 0.1009$
+   - **Correction of Gap Interpretation (Findings F1728-R20, F1728-R22):** The previously reported $7.693\,\mu\text{m}$ ($1.03\,\ell_0$) metric is a **centroid-to-boundary clearance** achieved by **Element 734** (centroid $(0.5448, 0.6730)\,\text{mm}$, $d = 0.1485$), **not** an intact physical gap. Element 13 (centroid $(0.5358, 0.5704)\,\text{mm}$) lies $39.20\,\mu\text{m}$ from the hole and does not touch the perimeter.
+   - **Empirical Boundary Contact Verification (Findings F1728-R23, F1728-R24):** Direct polygon-level vertex and element-connectivity analysis on the authentic coarse mesh ([`PK_HOLE_COARSE_PHYS.inp`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_PHYS.inp)) confirms that **six elements** belonging to the 37-element primary damage component ($d \ge 0.10$) have nodes lying directly on the circular hole boundary ($r = 0.10\,\text{mm}$):
+     * **Element 151:** Nodes `[7, 638, 1012, 180]`, boundary nodes `[7, 638]`, centroid $(0.5509, 0.6057)\,\text{mm}$, centroid clearance $8.54\,\mu\text{m}$, $d = 0.219166$, $H = 0.042465$
+     * **Element 152:** Nodes `[1020, 637, 1016, 1101]`, boundary node `[637]`, centroid $(0.5310, 0.6378)\,\text{mm}$, centroid clearance $19.58\,\mu\text{m}$, $d = 0.178237$, $H = 0.036242$
+     * **Element 153:** Nodes `[6, 1021, 1016, 637]`, boundary nodes `[6, 637]`, centroid $(0.5408, 0.6544)\,\text{mm}$, centroid clearance $9.34\,\mu\text{m}$, $d = 0.196513$, $H = 0.069637$
+     * **Element 687:** Nodes `[638, 637, 1020, 1012]`, boundary nodes `[638, 637]`, centroid $(0.5432, 0.6233)\,\text{mm}$, centroid clearance $10.07\,\mu\text{m}$, $d = 0.243860$, $H = 0.049874$
+     * **Element 734:** Nodes `[6, 636, 1053, 1021]`, boundary nodes `[6, 636]`, centroid $(0.5448, 0.6730)\,\text{mm}$, centroid clearance **$7.693\,\mu\text{m}$ (nearest centroid)**, $d = 0.148549$, $H = 0.027882$
+     * **Element 1088:** Nodes `[7, 180, 1055, 639]`, boundary nodes `[7, 639]`, centroid $(0.5608, 0.5889)\,\text{mm}$, centroid clearance $8.06\,\mu\text{m}$, $d = 0.133255$, $H = 0.025947$
    - **Physical Polygon Clearance:** The true physical polygon-to-boundary clearance is **$0.0000\,\text{mm}$**; the primary softening damage lobe physically reaches and touches the hole boundary at peak load.
-   - **Distinction from Full Crack Rupture:** Physical boundary contact by diffuse softening ($d \in [0.10, 0.58]$) must not be conflated with full macroscopic crack penetration: at Step-2 Peak ($u_y = 0.00729\,\text{mm}$), $d_{\max} = 0.5798$, and there are **zero elements satisfying $d \ge 0.90$** in the entire specimen.
+   - **Distinction from Full Crack Rupture:** Physical boundary contact by diffuse softening ($d \in [0.13, 0.58]$) must not be conflated with full macroscopic crack penetration: at Step-2 Peak ($u_y = 0.00729\,\text{mm}$), $d_{\max} = 0.5798$, and there are **zero elements satisfying $d \ge 0.90$** in the entire specimen.
    - **Secondary Flank Contact:** The 10-element secondary crack initiation lobe on the opposite right hole flank also physically contacts the boundary across six elements (`[241, 243, 245, 497, 498, 1379]`, polygon clearance $0.0\,\mu\text{m}$, centroid clearance $7.85\,\mu\text{m}$).
 
 2. **Resolution of Finding F1728-R21 (Mutually Exclusive Disjoint Spatial Error Segmentation):**
@@ -93,7 +93,7 @@ All 2,906 physical elements are partitioned into mutually exclusive disjoint reg
         |
         | PHYSICAL ELEMENT-LEVEL CONTACT: Polygon clearance = 0.0000 mm
         | Six elements (151, 152, 153, 687, 734, 1088) share boundary nodes 6, 7, 636, 637, 638, 639
-        | (Nearest centroid clearance to boundary: 7.69 um = 1.02 l0)
+        | (Nearest centroid clearance to boundary: 7.69 um = 1.03 l0 [Element 734])
         v
 [Circular Hole Boundary (0.65, 0.65), R = 0.10 mm]
         ^

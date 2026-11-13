@@ -245,15 +245,17 @@ def audit_coarse_phase_field_donor(summary_data, fields_data, conn_data):
                 "physical_boundary_contact": comp1.get("physical_boundary_contact", True),
                 "polygon_clearance_to_hole_mm": comp1.get("polygon_clearance_to_hole_perimeter_mm", 0.0),
                 "boundary_touching_elements": comp1.get("boundary_touching_elements", [151, 152, 153, 687, 734, 1088]),
+                "boundary_touching_elements_details": comp1.get("boundary_touching_elements_details", []),
                 "boundary_nodes": comp1.get("boundary_nodes", [6, 7, 636, 637, 638, 639]),
                 "dist_to_notch_tip_mm": comp1.get("min_dist_to_notch_tip_mm", 0.0095),
-                "nearest_centroid_clearance_to_hole_perimeter_mm": comp1.get("nearest_centroid_clearance_to_hole_perimeter_mm", 0.0077),
+                "nearest_centroid_element_id": comp1.get("nearest_centroid_element_id", 734),
+                "nearest_centroid_clearance_to_hole_perimeter_mm": comp1.get("nearest_centroid_clearance_to_hole_perimeter_mm", 0.007693),
                 "nearest_centroid_clearance_to_hole_perimeter_um": round(comp1.get("nearest_centroid_clearance_to_hole_perimeter_mm", 0.007693) * 1000, 2),
                 "description": (
                     "Extends from notch tip (9.5 um) across the ligament, directly contacting the circular hole boundary "
                     "across 6 elements (151, 152, 153, 687, 734, 1088; polygon clearance = 0.0 um). The 7.69 um metric "
-                    "represents the nearest element centroid clearance to the boundary, not an intact physical gap. "
-                    "Full crack penetration has not occurred (d_max = 0.5798, 0 elements with d >= 0.90)."
+                    "represents the nearest element centroid clearance to the boundary (achieved by Element 734 at (0.5448, 0.6730) mm), "
+                    "not an intact physical gap. Full crack penetration has not occurred (d_max = 0.5798, 0 elements with d >= 0.90)."
                 )
             },
             "secondary_corridor_component": {
@@ -263,7 +265,9 @@ def audit_coarse_phase_field_donor(summary_data, fields_data, conn_data):
                 "physical_boundary_contact": comp2.get("physical_boundary_contact", True),
                 "polygon_clearance_to_hole_mm": comp2.get("polygon_clearance_to_hole_perimeter_mm", 0.0),
                 "boundary_touching_elements": comp2.get("boundary_touching_elements", [241, 243, 245, 497, 498, 1379]),
+                "boundary_touching_elements_details": comp2.get("boundary_touching_elements_details", []),
                 "dist_to_hole_perimeter_mm": comp2.get("polygon_clearance_to_hole_perimeter_mm", 0.0),
+                "nearest_centroid_element_id": comp2.get("nearest_centroid_element_id", 241),
                 "nearest_centroid_clearance_to_hole_perimeter_um": round(comp2.get("nearest_centroid_clearance_to_hole_perimeter_mm", 0.007849) * 1000, 2),
                 "description": "Nucleation on opposite (right) hole flank directly contacting the circular boundary across 6 elements"
             },

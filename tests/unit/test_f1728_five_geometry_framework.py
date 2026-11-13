@@ -535,8 +535,35 @@ def test_f1728_case2_damage_connectivity_components():
     for expected_eid in [151, 152, 153, 687, 734, 1088]:
         assert expected_eid in comp1["boundary_touching_elements"], "Missing boundary element: %d" % expected_eid
 
-    # Centroid clearance (distinct from polygon contact)
+    # Centroid clearance (distinct from polygon contact, F1728-R20, F1728-R22)
     assert 0.0076 < comp1["nearest_centroid_clearance_to_hole_perimeter_mm"] < 0.0078
+    assert comp1["nearest_centroid_element_id"] == 734, "Nearest centroid element must be 734, not 13"
+
+    # Exact boundary element details (F1728-R23, F1728-R24)
+    touching_details = {item["element_id"]: item for item in comp1.get("boundary_touching_elements_details", [])}
+    assert 151 in touching_details
+    assert abs(touching_details[151]["d"] - 0.219166) < 1e-4
+    assert touching_details[151]["nodes"] == [7, 638, 1012, 180]
+
+    assert 152 in touching_details
+    assert abs(touching_details[152]["d"] - 0.178237) < 1e-4
+    assert touching_details[152]["nodes"] == [1020, 637, 1016, 1101]
+
+    assert 153 in touching_details
+    assert abs(touching_details[153]["d"] - 0.196513) < 1e-4
+    assert touching_details[153]["nodes"] == [6, 1021, 1016, 637]
+
+    assert 687 in touching_details
+    assert abs(touching_details[687]["d"] - 0.243860) < 1e-4
+    assert touching_details[687]["nodes"] == [638, 637, 1020, 1012]
+
+    assert 734 in touching_details
+    assert abs(touching_details[734]["d"] - 0.148549) < 1e-4
+    assert touching_details[734]["nodes"] == [6, 636, 1053, 1021]
+
+    assert 1088 in touching_details
+    assert abs(touching_details[1088]["d"] - 0.133255) < 1e-4
+    assert touching_details[1088]["nodes"] == [7, 180, 1055, 639]
 
     # Component 2: Secondary crack nucleation on opposite right hole flank
     comp2 = data["edge_components"][1]

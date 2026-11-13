@@ -66,6 +66,121 @@
         734,
         1088
       ],
+      "boundary_touching_elements_details": [
+        {
+          "element_id": 151,
+          "d": 0.2191658914089203,
+          "H": 0.042465414851903915,
+          "nodes": [
+            7,
+            638,
+            1012,
+            180
+          ],
+          "centroid_mm": [
+            0.550890266875,
+            0.6057476401249999
+          ],
+          "boundary_nodes": [
+            7,
+            638
+          ]
+        },
+        {
+          "element_id": 152,
+          "d": 0.17823700606822968,
+          "H": 0.03624157980084419,
+          "nodes": [
+            1020,
+            637,
+            1016,
+            1101
+          ],
+          "centroid_mm": [
+            0.531043648725,
+            0.637803688675
+          ],
+          "boundary_nodes": [
+            637
+          ]
+        },
+        {
+          "element_id": 153,
+          "d": 0.19651299715042114,
+          "H": 0.06963714957237244,
+          "nodes": [
+            6,
+            1021,
+            1016,
+            637
+          ],
+          "centroid_mm": [
+            0.54075193405,
+            0.6543944627
+          ],
+          "boundary_nodes": [
+            6,
+            637
+          ]
+        },
+        {
+          "element_id": 687,
+          "d": 0.24386024475097656,
+          "H": 0.049874309450387955,
+          "nodes": [
+            638,
+            637,
+            1020,
+            1012
+          ],
+          "centroid_mm": [
+            0.543232813475,
+            0.62325286865
+          ],
+          "boundary_nodes": [
+            638,
+            637
+          ]
+        },
+        {
+          "element_id": 734,
+          "d": 0.1485489159822464,
+          "H": 0.02788173034787178,
+          "nodes": [
+            6,
+            636,
+            1053,
+            1021
+          ],
+          "centroid_mm": [
+            0.544788122175,
+            0.672984331825
+          ],
+          "boundary_nodes": [
+            6,
+            636
+          ]
+        },
+        {
+          "element_id": 1088,
+          "d": 0.13325458765029907,
+          "H": 0.025947270914912224,
+          "nodes": [
+            7,
+            180,
+            1055,
+            639
+          ],
+          "centroid_mm": [
+            0.5608461797,
+            0.588937863725
+          ],
+          "boundary_nodes": [
+            7,
+            639
+          ]
+        }
+      ],
       "boundary_nodes_count": 6,
       "boundary_nodes": [
         6,
@@ -76,6 +191,7 @@
         639
       ],
       "min_dist_to_notch_tip_mm": 0.009504074736345857,
+      "nearest_centroid_element_id": 734,
       "nearest_centroid_dist_to_hole_center_mm": 0.10769316944404807,
       "nearest_centroid_clearance_to_hole_perimeter_mm": 0.007693169444048062,
       "bbox_mm": {
@@ -113,6 +229,121 @@
         498,
         1379
       ],
+      "boundary_touching_elements_details": [
+        {
+          "element_id": 241,
+          "d": 0.17977263033390045,
+          "H": 0.03682982549071312,
+          "nodes": [
+            1009,
+            645,
+            1010,
+            2546
+          ],
+          "centroid_mm": [
+            0.764785483475,
+            0.628489643325
+          ],
+          "boundary_nodes": [
+            645
+          ]
+        },
+        {
+          "element_id": 243,
+          "d": 0.13577519357204437,
+          "H": 0.0380738228559494,
+          "nodes": [
+            644,
+            153,
+            1052,
+            12
+          ],
+          "centroid_mm": [
+            0.7441980392,
+            0.597009941925
+          ],
+          "boundary_nodes": [
+            644,
+            12
+          ]
+        },
+        {
+          "element_id": 245,
+          "d": 0.18143190443515778,
+          "H": 0.03226204589009285,
+          "nodes": [
+            1010,
+            645,
+            12,
+            1052
+          ],
+          "centroid_mm": [
+            0.7534798235,
+            0.6141477525
+          ],
+          "boundary_nodes": [
+            645,
+            12
+          ]
+        },
+        {
+          "element_id": 497,
+          "d": 0.13027314841747284,
+          "H": 0.03216331824660301,
+          "nodes": [
+            628,
+            2608,
+            1056,
+            1
+          ],
+          "centroid_mm": [
+            0.7547225952250001,
+            0.6809069365
+          ],
+          "boundary_nodes": [
+            628,
+            1
+          ]
+        },
+        {
+          "element_id": 498,
+          "d": 0.1955346316099167,
+          "H": 0.03846434876322746,
+          "nodes": [
+            628,
+            13,
+            1026,
+            2608
+          ],
+          "centroid_mm": [
+            0.75772976875,
+            0.66123853625
+          ],
+          "boundary_nodes": [
+            628,
+            13
+          ]
+        },
+        {
+          "element_id": 1379,
+          "d": 0.22525058686733246,
+          "H": 0.05034083127975464,
+          "nodes": [
+            13,
+            645,
+            1009,
+            1026
+          ],
+          "centroid_mm": [
+            0.7575957328,
+            0.6426151544
+          ],
+          "boundary_nodes": [
+            13,
+            645
+          ]
+        }
+      ],
       "boundary_nodes_count": 6,
       "boundary_nodes": [
         1,
@@ -123,6 +354,7 @@
         645
       ],
       "min_dist_to_notch_tip_mm": 0.2627615100836054,
+      "nearest_centroid_element_id": 1379,
       "nearest_centroid_dist_to_hole_center_mm": 0.1078488649050366,
       "nearest_centroid_clearance_to_hole_perimeter_mm": 0.007848864905036598,
       "bbox_mm": {
@@ -144,9 +376,11 @@
       "physical_boundary_contact": false,
       "polygon_clearance_to_hole_perimeter_mm": 0.3665738497930521,
       "boundary_touching_elements": [],
+      "boundary_touching_elements_details": [],
       "boundary_nodes_count": 0,
       "boundary_nodes": [],
       "min_dist_to_notch_tip_mm": 0.6929354938501856,
+      "nearest_centroid_element_id": 1140,
       "nearest_centroid_dist_to_hole_center_mm": 0.4808034596744293,
       "nearest_centroid_clearance_to_hole_perimeter_mm": 0.3808034596744293,
       "bbox_mm": {

@@ -147,6 +147,16 @@ def analyze_connectivity():
         dist_to_tip_centroids = min(math.hypot(c[0] - notch_tip[0], c[1] - notch_tip[1]) for c in comp_centroids)
         centroid_dist_to_hole_center = min(math.hypot(c[0] - hole_center[0], c[1] - hole_center[1]) for c in comp_centroids)
         centroid_clearance_to_hole_perimeter = centroid_dist_to_hole_center - hole_radius
+
+        # Identify which element achieves the nearest centroid clearance to the hole perimeter
+        min_c_clearance = 1e9
+        nearest_centroid_eid = None
+        for eid in comp:
+            cx, cy = centroids[eid]
+            c_dist = math.hypot(cx - hole_center[0], cy - hole_center[1]) - hole_radius
+            if c_dist < min_c_clearance:
+                min_c_clearance = c_dist
+                nearest_centroid_eid = eid
         
         # True polygon-level vertex distance to hole boundary
         comp_nodes = set()
@@ -186,9 +196,21 @@ def analyze_connectivity():
             "physical_boundary_contact": touches_boundary,
             "polygon_clearance_to_hole_perimeter_mm": polygon_clearance_to_hole_mm,
             "boundary_touching_elements": touching_elements,
+            "boundary_touching_elements_details": [
+                {
+                    "element_id": eid,
+                    "d": step2_peak_d[str(eid)],
+                    "H": step2_peak_h[str(eid)],
+                    "nodes": elements[eid],
+                    "centroid_mm": list(centroids[eid]),
+                    "boundary_nodes": [nid for nid in elements[eid] if nid in hole_boundary_nodes]
+                }
+                for eid in touching_elements
+            ],
             "boundary_nodes_count": len(boundary_nodes_in_comp),
             "boundary_nodes": sorted(boundary_nodes_in_comp),
             "min_dist_to_notch_tip_mm": dist_to_tip_centroids,
+            "nearest_centroid_element_id": nearest_centroid_eid,
             "nearest_centroid_dist_to_hole_center_mm": centroid_dist_to_hole_center,
             "nearest_centroid_clearance_to_hole_perimeter_mm": centroid_clearance_to_hole_perimeter,
             "bbox_mm": {
