@@ -1,107 +1,70 @@
 {
-  "task_id": "F1726-REUSABLE-2D-ADAPTIVE-REMESHING-SEVEN-HOLE",
-  "title": "Reusable 2D Adaptive-Remeshing Framework and Seven-Hole Benchmark Validation",
-  "status": "COMPLETED",
-  "classification": "F1726_COMPLETED_15708_ELEMENTS_MINUS0P04PCT_PARITY_SPATIAL_SELECTIVITY_VERIFIED",
+  "task_id": "F1727-METHOD-A-THREE-GEOMETRY-ADAPTIVE-MESH",
+  "title": "Generalized Method A Adaptive Remeshing for Three 2D Fracture Geometries",
+  "status": "THREE_MODEL_MESH_REVIEW_READY",
+  "classification": "F1727_THREE_GEOMETRIES_METHOD_A_ADAPTIVE_MESHING",
   "assigned_agent": "gemini-antigravity",
-  "checkpoint_artifact": "docs/validation/F1726_SEVEN_HOLE_FRAMEWORK_REPORT.md",
-  "independent_review": {
-    "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
-    "correlation_id": "HND-F1726-SEVEN-HOLE-FRAMEWORK-004",
-    "decision": "APPROVE",
-    "task_completed": true,
-    "approval_scope": "METHOD_A_REUSABLE_FRAMEWORK_AND_SEVEN_HOLE_ADAPTIVE_MESH_GENERATION_ONLY",
-    "review_status": "SCIENTIFIC_MILESTONE_ACCEPTED_WITH_NONBLOCKING_DOCUMENTATION_ERRATA",
-    "verified_main_commit": "44dc5567913e76e1083b4305c70c417137b71b37",
-    "review_response_file": "results/validation/f1726_seven_hole_round4_review_response.json"
-  },
+  "checkpoint_artifact": "docs/validation/F1727_THREE_GEOMETRY_ADAPTIVE_MESH_REPORT.md",
   "predecessor_task": {
-    "task_id": "F1725-PHYSICS-DRIVEN-ADAPTIVE-MESH-REPRODUCTION",
-    "checkpoint_artifact": "docs/validation/F1725_PHYSICS_DRIVEN_ADAPTIVE_MESH_REPORT.md",
-    "classification": "F1725_COMPLETED_13017_ELEMENTS_PLUS0P56PCT_PARITY"
+    "task_id": "F1726-REUSABLE-2D-ADAPTIVE-REMESHING-SEVEN-HOLE",
+    "checkpoint_artifact": "docs/validation/F1726_SEVEN_HOLE_FRAMEWORK_REPORT.md",
+    "classification": "F1726_COMPLETED_15708_ELEMENTS_MINUS0P04PCT_PARITY_SPATIAL_SELECTIVITY_VERIFIED"
   },
-  "scientific_operation": "method_a_seven_hole_adaptive_remeshing_framework",
-  "scientific_operation_id": "f1726_seven_hole_adaptive_mesh",
+  "scientific_operation": "generalized_method_a_three_geometry_adaptive_remeshing",
+  "scientific_operation_id": "f1727_three_geometry_adaptive_mesh",
   "scientific_checkpoint_required": true,
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
-  "scope_boundary": "METHOD_A_ONLY_REUSABLE_FRAMEWORK_AND_SEVEN_HOLE_ADAPTIVE_MESH",
-  "completed_operations": [
-    "reusable_2d_framework_modularized_and_tested",
-    "seven_hole_benchmark_geometry_and_coarse_mesh_generated",
-    "coarse_3layer_simulation_and_miseseri_extracted",
-    "coarse_error_polarization_5p4x_contrast_audited",
-    "native_remeshing_sweep_27_configurations_evaluated",
-    "primary_candidate_f1726_s2_et568_15708_elements_identified",
-    "benchmark_parity_minus_0p04_pct_within_6_elements_verified",
-    "spatial_selectivity_100pct_compliance_le_l0_verified",
-    "production_3layer_deck_47124_elements_assembled",
-    "abaqus_datacheck_exit_code_0_verified",
-    "publication_figures_4_sets_png_pdf_generated",
-    "thesis_chapter05_section_519_integrated_main_pdf_365pp_compiled",
-    "automated_unit_tests_55_of_55_pass_verified",
-    "evidence_synchronized_and_reported"
-  ],
-  "optimal_adapted_mesh": {
-    "candidate_id": "F1726_S2_ET568",
-    "total_physical_elements": 15708,
-    "published_benchmark_target": 15714,
-    "parity_difference_elements": -6,
-    "parity_percentage": -0.038,
-    "quad_percentage": 97.56,
-    "positive_jacobians": true,
-    "min_det_j": 4.891340143559484e-07,
-    "non_positive_jacobians": 0,
-    "aspect_ratio_median": 1.208,
-    "aspect_ratio_mean": 1.254,
-    "aspect_ratio_max": 2.857,
-    "min_corner_angle_deg": 29.84,
-    "distorted_elements": 0,
-    "upper_fracture_corridor": {
-      "element_count": 2648,
-      "fraction_pct": 16.86,
-      "mean_size_um": 2.80,
-      "median_size_um": 2.55,
-      "min_size_um": 1.01,
-      "max_size_um": 5.76,
-      "pct_le_l0": 100.0
+  "scope_boundary": "METHOD_A_ONLY_ADAPTIVE_MESH_GENERATION_AND_VALIDATION_STOP_AT_THREE_MODEL_MESH_REVIEW_READY",
+  "target_geometries": {
+    "model_a": {
+      "name": "Pandey & Kumar (2025) Section 4.3 Notched Plate with Hole",
+      "dimensions": "65 x 120 mm",
+      "notch": "Length 10 mm, width 0.4 mm at y = 70 mm",
+      "holes": [
+        {"center": [36.5, 51.0], "radius": 10.0, "type": "central_void"},
+        {"center": [20.0, 100.0], "radius": 5.0, "type": "upper_loading_pin"},
+        {"center": [20.0, 20.0], "radius": 5.0, "type": "lower_support_pin"}
+      ],
+      "boundary_conditions": "Pin-hole loading (upper pin pulled in +y, lower pin fixed in x and y)",
+      "material": {"E_gpa": 210.0, "nu": 0.3, "gc_kn_per_mm": 0.00228, "l0_mm": 0.285},
+      "coarse_h_mm": 1.5,
+      "published_refined_h_mm": 0.143,
+      "reference": "Pandey & Kumar (2025), Section 4.3, Figures 14-16"
     },
-    "lower_shielded_holes": {
-      "h6_count": 691,
-      "h6_fraction_pct": 4.40,
-      "h6_mean_size_um": 4.78,
-      "h6_median_size_um": 4.52,
-      "h6_pct_le_l0": 94.8,
-      "h7_count": 775,
-      "h7_fraction_pct": 4.93,
-      "h7_mean_size_um": 4.54,
-      "h7_median_size_um": 4.22,
-      "h7_pct_le_l0": 96.0
+    "model_b": {
+      "name": "Pandey & Kumar (2025) Section 4.1 Mode-I Edge Crack Plate",
+      "dimensions": "1.0 x 1.0 mm",
+      "notch": "Horizontal edge crack x in [0, 0.5] at y = 0.5 mm",
+      "boundary_conditions": "Top edge pull uy, bottom edge roller uy=0, bottom-left pin ux=0",
+      "material": {"E_gpa": 210.0, "nu": 0.3, "gc_kn_per_mm": 0.0027, "l0_mm": 0.0075},
+      "coarse_h_mm": 0.020,
+      "published_target_elements": 13941,
+      "reference": "Pandey & Kumar (2025), Section 4.1, Figures 4-7"
     },
-    "far_field_bulk": {
-      "element_count": 11594,
-      "fraction_pct": 73.81,
-      "mean_size_um": 6.89,
-      "median_size_um": 5.42,
-      "min_size_um": 1.00,
-      "max_size_um": 24.99,
-      "pct_le_l0": 73.9
-    },
-    "exact_partition_sum": 15708,
-    "canonical_commit": "c904a123d2e0758f8132a95cfc8e85a96d342515",
-    "coarse_odb_bulk_max_damage": {
-      "value": 0.246903,
-      "element_id": 1252,
-      "coords": [0.9565, 0.4920],
-      "location": "Outer ligament between Hole 3 and right plate boundary"
-    },
-    "sensitivity_partition_3l0": {
-      "upper_corridor_count": 1540,
-      "lower_h6_count": 412,
-      "lower_h7_count": 445,
-      "bulk_count": 13311,
-      "exact_sum": 15708
+    "model_c": {
+      "name": "Original Thesis Mode-I Edge-Notched Plate with Off-Axis Hole",
+      "dimensions": "1.0 x 1.0 mm",
+      "notch": "Horizontal edge notch length 0.5 mm at y = 0.5 mm, width 0.001 mm",
+      "holes": [
+        {"center": [0.65, 0.65], "radius": 0.10, "type": "off_axis_void"}
+      ],
+      "boundary_conditions": "Top edge pull uy, bottom edge roller uy=0, bottom-left pin ux=0",
+      "material": {"E_gpa": 210.0, "nu": 0.3, "gc_kn_per_mm": 0.0027, "l0_mm": 0.0075},
+      "reference": "configs/remeshing/mode1_off_axis_hole_benchmark.json"
     }
   },
+  "completed_operations": [
+    "reusable_2d_adaptive_framework_generalized_with_pin_holes_and_scale_invariance",
+    "f1727_three_benchmark_configurations_created",
+    "f1727_three_adaptive_meshes_and_production_decks_assembled",
+    "abaqus_pre_datachecks_passed_exit_0_across_all_three_models",
+    "authentic_miseseri_donor_data_extracted_for_all_three_models",
+    "mesh_quality_audits_passed_100_percent_positive_jacobians_zero_inverted_elements",
+    "complete_38_figure_suite_generated_in_png_and_vector_pdf",
+    "automated_unit_test_suite_passed_5_of_5_cleanly",
+    "formal_validation_report_published_in_docs_validation",
+    "thesis_chapter_05_updated_with_section_5_20_and_main_pdf_compiled_cleanly_to_370_pages"
+  ],
   "iteration": 1
 }

@@ -1,0 +1,14 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.13.5, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\pruth\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: D:\Master thesis\Adaptive remeshing
+plugins: anyio-4.14.2
+collecting ... collected 5 items
+
+tests/unit/test_f1727_three_geometry_framework.py::test_configurations_load_and_validate PASSED [ 20%]
+tests/unit/test_f1727_three_geometry_framework.py::test_geometry_adapter_dispatch_and_properties PASSED [ 40%]
+tests/unit/test_f1727_three_geometry_framework.py::test_mesh_quality_audit_results PASSED [ 60%]
+tests/unit/test_f1727_three_geometry_framework.py::test_production_decks_exist_and_format PASSED [ 80%]
+tests/unit/test_f1727_three_geometry_framework.py::test_figure_artifacts_exist PASSED [100%]
+
+============================== 5 passed in 0.39s ==============================

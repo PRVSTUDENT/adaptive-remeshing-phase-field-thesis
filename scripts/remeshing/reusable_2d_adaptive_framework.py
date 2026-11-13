@@ -87,11 +87,16 @@ class AdaptiveConfig(object):
         self.k_residual = float(mat.get("residual_stiffness_k", mat.get("k_residual", 1e-7)))
 
         load = config_data.get("loading", {})
+        self.loading_type = str(load.get("loading_type", "EDGE_PULL"))
         self.bottom_u2 = float(load.get("bottom_u2", 0.0))
         self.pin_bottom_left_u1 = float(load.get("pin_bottom_left_u1", 0.0))
         self.step1_u2 = float(load.get("step1_precritical_u2", load.get("step1_disp", 0.005)))
         self.step2_u2 = float(load.get("step2_fracture_u2", load.get("step2_disp", 0.012)))
         self.kinematics = str(load.get("kinematics", "LINEAR"))
+        self.lower_hole_center = tuple(load.get("lower_hole_center", [20.0, 20.0]))
+        self.lower_hole_radius = float(load.get("lower_hole_radius", 5.0))
+        self.upper_hole_center = tuple(load.get("upper_hole_center", [20.0, 100.0]))
+        self.upper_hole_radius = float(load.get("upper_hole_radius", 5.0))
 
         rr = config_data.get("remeshing_rule", config_data.get("remeshing", {}))
         self.error_target = float(rr.get("error_target", rr.get("error_target_pct", 5.0)))
@@ -346,9 +351,102 @@ class MultiHolePlateAdapter(GeometryAdapter):
         return "FAR_FIELD"
 
 
+class NotchedPlateWithPinHolesAdapter(GeometryAdapter):
+    """Adapter for Pandey & Kumar (2025) Section 4.3:
+    65 x 120 mm notched plate with central hole (36.5, 51.0, R=10) and
+    two pin loading/support holes at (20, 20, R=5) and (20, 100, R=5).
+    """
+
+    def __init__(self, config):
+        super(NotchedPlateWithPinHolesAdapter, self).__init__(config)
+        self.notch_a = float(config.notch_a if config.notch_a is not None else 10.0)
+        self.notch_y = float(config.notch_y if config.notch_y is not None else 70.0)
+        self.notch_w = float(config.notch_w if config.notch_w is not None else 0.2)
+        self.plate_w = float(config.plate_w)
+        self.plate_h = float(config.plate_h)
+        self.central_hole = (36.5, 51.0, 10.0)
+        self.lower_pin = (20.0, 20.0, 5.0)
+        self.upper_pin = (20.0, 100.0, 5.0)
+
+    def get_outer_polygon_points(self):
+        w = self.notch_w
+        return [
+            (0.0, 0.0),
+            (self.plate_w, 0.0),
+            (self.plate_w, self.plate_h),
+            (0.0, self.plate_h),
+            (0.0, self.notch_y + w),
+            (self.notch_a, self.notch_y + w),
+            (self.notch_a, self.notch_y - w),
+            (0.0, self.notch_y - w)
+        ]
+
+    def get_hole_definitions(self):
+        return [
+            self.central_hole,
+            self.lower_pin,
+            self.upper_pin
+        ]
+
+    def is_inside_domain(self, x, y, tol=1e-5):
+        if x < -tol or x > self.plate_w + tol:
+            return False
+        if y < -tol or y > self.plate_h + tol:
+            return False
+        # Inside horizontal notch opening
+        if x <= self.notch_a + tol and abs(y - self.notch_y) < self.notch_w - tol:
+            return False
+        # Inside holes
+        for (hx, hy, hr) in self.get_hole_definitions():
+            if math.hypot(x - hx, y - hy) < hr - tol:
+                return False
+        return True
+
+    def classify_region(self, x, y, authentic_damage=None):
+        if authentic_damage is not None:
+            if authentic_damage >= 0.80:
+                return "CRACK_CORE"
+            elif authentic_damage >= 0.20:
+                return "ACTIVE_SOFTENING"
+            elif authentic_damage >= 0.05:
+                return "TRANSITION_ZONE"
+            else:
+                return "FAR_FIELD"
+
+        # Check primary ligament: corridor connecting notch tip (10, 70) to central hole perimeter ~ (27, 53)
+        x1, y1 = 10.0, 70.0
+        x2, y2 = 27.0, 53.0
+        dx, dy = x2 - x1, y2 - y1
+        l2 = dx*dx + dy*dy
+        t = max(0.0, min(1.0, ((x - x1)*dx + (y - y1)*dy) / l2)) if l2 > 0 else 0.0
+        d_prim = math.hypot(x - (x1 + t*dx), y - (y1 + t*dy))
+        if d_prim <= 3.0 * self.config.l0:
+            return "PRIMARY_LIGAMENT"
+
+        # Check secondary crack path: right flank of central hole (46.5, 51.0) towards right edge (65.0, 51.0)
+        if 46.5 <= x <= 65.0 and abs(y - 51.0) <= 3.0 * self.config.l0:
+            return "SECONDARY_LIGAMENT"
+
+        # Check central hole boundary
+        d_cent = abs(math.hypot(x - 36.5, y - 51.0) - 10.0)
+        if d_cent <= 2.0 * self.config.l0:
+            return "CENTRAL_HOLE_BOUNDARY"
+
+        # Check pin hole boundaries
+        d_low = abs(math.hypot(x - 20.0, y - 20.0) - 5.0)
+        d_upp = abs(math.hypot(x - 20.0, y - 100.0) - 5.0)
+        if min(d_low, d_upp) <= 2.0 * self.config.l0:
+            return "PIN_HOLE_ZONES"
+
+        return "FAR_FIELD"
+
+
 def get_geometry_adapter(config):
     """Factory to instantiate the appropriate geometry adapter."""
-    if len(getattr(config, "voids", [])) > 1 or config.geometry_type in ("MULTI_HOLE_PLATE", "SEVEN_HOLE_PLATE", "FIVE_HOLE_PLATE"):
+    gtype = getattr(config, "geometry_type", "").upper()
+    if gtype in ("NOTCHED_PLATE_WITH_PIN_HOLES", "SEC43_PLATE", "NOTCHED_HOLE_PLATE"):
+        return NotchedPlateWithPinHolesAdapter(config)
+    elif len(getattr(config, "voids", [])) > 1 or gtype in ("MULTI_HOLE_PLATE", "SEVEN_HOLE_PLATE", "FIVE_HOLE_PLATE"):
         return MultiHolePlateAdapter(config)
     elif config.has_hole:
         return OffAxisHoleMode1Adapter(config)
@@ -415,12 +513,16 @@ class MeshQualityAuditEngine(object):
         return nodes, quad_elems, tri_elems
 
     @classmethod
-    def evaluate_mesh(cls, inp_path, l0_mm=0.0075, authentic_damage_lookup=None):
+    def evaluate_mesh(cls, inp_path, l0_mm=0.0075, authentic_damage_lookup=None, adapter=None):
         nodes, quad_elems, tri_elems = cls.parse_physical_inp(inp_path)
         total_elems = len(quad_elems) + len(tri_elems)
         total_nodes = len(nodes)
 
         edge_lengths_um = []
+        edge_lengths_mm = []
+        area_values_mm2 = []
+        h_area_mm = []
+        h_area_um = []
         jacobians = []
         non_positive_jacobians = 0
         distorted_elements = 0
@@ -430,6 +532,11 @@ class MeshQualityAuditEngine(object):
         crack_core_edges = []
         softening_edges = []
         far_field_edges = []
+
+        process_zone_h_area_mm = []
+        far_field_h_area_mm = []
+        process_zone_h_edge_mm = []
+        far_field_h_edge_mm = []
 
         # 1. Quads
         gp_xi = [-1.0 / math.sqrt(3.0), 1.0 / math.sqrt(3.0)]
@@ -441,8 +548,22 @@ class MeshQualityAuditEngine(object):
                 math.hypot(pts[3][0] - pts[2][0], pts[3][1] - pts[2][1]),
                 math.hypot(pts[0][0] - pts[3][0], pts[0][1] - pts[3][1]),
             ]
-            h_max_um = max(edges) * 1000.0
+            h_max_m = max(edges)
+            h_max_um = h_max_m * 1000.0
+            edge_lengths_mm.append(h_max_m)
             edge_lengths_um.append(h_max_um)
+
+            # Area via Shoelace
+            area = 0.5 * abs(
+                (pts[0][0]*pts[1][1] - pts[1][0]*pts[0][1]) +
+                (pts[1][0]*pts[2][1] - pts[2][0]*pts[1][1]) +
+                (pts[2][0]*pts[3][1] - pts[3][0]*pts[2][1]) +
+                (pts[3][0]*pts[0][1] - pts[0][0]*pts[3][1])
+            )
+            area_values_mm2.append(area)
+            ha = math.sqrt(max(area, 1e-18))
+            h_area_mm.append(ha)
+            h_area_um.append(ha * 1000.0)
 
             # Aspect ratio
             min_e = max(min(edges), 1e-12)
@@ -503,6 +624,15 @@ class MeshQualityAuditEngine(object):
                 else:
                     far_field_edges.append(h_max_um)
 
+            if adapter is not None:
+                reg = adapter.classify_region(cx, cy, authentic_damage=authentic_damage_lookup.get(eid) if authentic_damage_lookup else None)
+                if reg in ("FAR_FIELD", "LOWER_SHIELDED_HOLES", "PIN_HOLE_ZONES"):
+                    far_field_h_area_mm.append(ha)
+                    far_field_h_edge_mm.append(h_max_m)
+                else:
+                    process_zone_h_area_mm.append(ha)
+                    process_zone_h_edge_mm.append(h_max_m)
+
         # 2. Tris
         for eid, conn in tri_elems.items():
             pts = [nodes[nid] for nid in conn]
@@ -511,8 +641,18 @@ class MeshQualityAuditEngine(object):
                 math.hypot(pts[2][0] - pts[1][0], pts[2][1] - pts[1][1]),
                 math.hypot(pts[0][0] - pts[2][0], pts[0][1] - pts[2][1])
             ]
-            h_max_um = max(edges) * 1000.0
+            h_max_m = max(edges)
+            h_max_um = h_max_m * 1000.0
+            edge_lengths_mm.append(h_max_m)
             edge_lengths_um.append(h_max_um)
+
+            # Area
+            area = 0.5 * abs(pts[0][0]*(pts[1][1] - pts[2][1]) + pts[1][0]*(pts[2][1] - pts[0][1]) + pts[2][0]*(pts[0][1] - pts[1][1]))
+            area_values_mm2.append(area)
+            ha = math.sqrt(max(area, 1e-18))
+            h_area_mm.append(ha)
+            h_area_um.append(ha * 1000.0)
+
             aspect_ratios.append(max(edges) / max(min(edges), 1e-12))
 
             # Triangle 2x area = Jacobian
@@ -536,6 +676,8 @@ class MeshQualityAuditEngine(object):
                 if angle_deg < 15.0 or angle_deg > 165.0:
                     distorted_elements += 1
 
+            cx = sum(p[0] for p in pts) / 3.0
+            cy = sum(p[1] for p in pts) / 3.0
             if authentic_damage_lookup:
                 d = authentic_damage_lookup.get(eid, 0.0)
                 if d >= 0.80:
@@ -545,8 +687,19 @@ class MeshQualityAuditEngine(object):
                 else:
                     far_field_edges.append(h_max_um)
 
+            if adapter is not None:
+                reg = adapter.classify_region(cx, cy, authentic_damage=authentic_damage_lookup.get(eid) if authentic_damage_lookup else None)
+                if reg in ("FAR_FIELD", "LOWER_SHIELDED_HOLES", "PIN_HOLE_ZONES"):
+                    far_field_h_area_mm.append(ha)
+                    far_field_h_edge_mm.append(h_max_m)
+                else:
+                    process_zone_h_area_mm.append(ha)
+                    process_zone_h_edge_mm.append(h_max_m)
+
         edge_lengths_um.sort()
-        l0_um = l0_mm * 1000.0
+        edge_lengths_mm.sort()
+        h_area_mm.sort()
+        h_area_um.sort()
 
         ret = {
             "total_elements": total_elems,
@@ -558,15 +711,49 @@ class MeshQualityAuditEngine(object):
             "min_det_j": min(jacobians) if jacobians else 0.0,
             "distorted_elements": distorted_elements,
             "median_aspect_ratio": sorted(aspect_ratios)[len(aspect_ratios) // 2] if aspect_ratios else 0.0,
+            "max_aspect_ratio": max(aspect_ratios) if aspect_ratios else 0.0,
             "min_corner_angle_deg": min(corner_angles_deg) if corner_angles_deg else 0.0,
+            "max_corner_angle_deg": max(corner_angles_deg) if corner_angles_deg else 0.0,
+            # Dual element size metrics: h_edge (maximum edge length)
+            "h_edge_min_mm": edge_lengths_mm[0] if edge_lengths_mm else 0.0,
+            "h_edge_median_mm": edge_lengths_mm[len(edge_lengths_mm) // 2] if edge_lengths_mm else 0.0,
+            "h_edge_mean_mm": sum(edge_lengths_mm) / len(edge_lengths_mm) if edge_lengths_mm else 0.0,
+            "h_edge_p95_mm": edge_lengths_mm[int(0.95 * len(edge_lengths_mm))] if edge_lengths_mm else 0.0,
+            "h_edge_max_mm": edge_lengths_mm[-1] if edge_lengths_mm else 0.0,
             "h_min_um": edge_lengths_um[0] if edge_lengths_um else 0.0,
             "h_median_um": edge_lengths_um[len(edge_lengths_um) // 2] if edge_lengths_um else 0.0,
             "h_p95_um": edge_lengths_um[int(0.95 * len(edge_lengths_um))] if edge_lengths_um else 0.0,
             "h_max_um": edge_lengths_um[-1] if edge_lengths_um else 0.0,
+            # Dual element size metrics: h_area = sqrt(Area)
+            "h_area_min_mm": h_area_mm[0] if h_area_mm else 0.0,
+            "h_area_median_mm": h_area_mm[len(h_area_mm) // 2] if h_area_mm else 0.0,
+            "h_area_mean_mm": sum(h_area_mm) / len(h_area_mm) if h_area_mm else 0.0,
+            "h_area_p95_mm": h_area_mm[int(0.95 * len(h_area_mm))] if h_area_mm else 0.0,
+            "h_area_max_mm": h_area_mm[-1] if h_area_mm else 0.0,
+            "h_area_min_um": h_area_um[0] if h_area_um else 0.0,
+            "h_area_median_um": h_area_um[len(h_area_um) // 2] if h_area_um else 0.0,
+            "h_area_max_um": h_area_um[-1] if h_area_um else 0.0,
+            "elements_hl0_le_1": sum(1 for h in h_area_mm if h <= l0_mm),
+            "elements_hl0_le_half": sum(1 for h in h_area_mm if h <= 0.5 * l0_mm),
             "elements_le_1p5um": sum(1 for h in edge_lengths_um if h <= 1.50),
             "elements_le_2p5um": sum(1 for h in edge_lengths_um if h <= 2.50),
             "elements_le_3p75um": sum(1 for h in edge_lengths_um if h <= 3.75),
         }
+
+        if process_zone_h_area_mm:
+            ret["process_zone_elements"] = len(process_zone_h_area_mm)
+            ret["process_zone_h_area_min_mm"] = min(process_zone_h_area_mm)
+            ret["process_zone_h_area_mean_mm"] = sum(process_zone_h_area_mm) / len(process_zone_h_area_mm)
+            ret["process_zone_h_area_max_mm"] = max(process_zone_h_area_mm)
+            ret["process_zone_hl0_mean"] = ret["process_zone_h_area_mean_mm"] / l0_mm
+            ret["process_zone_hl0_min"] = ret["process_zone_h_area_min_mm"] / l0_mm
+        if far_field_h_area_mm:
+            ret["far_field_elements"] = len(far_field_h_area_mm)
+            ret["far_field_h_area_min_mm"] = min(far_field_h_area_mm)
+            ret["far_field_h_area_mean_mm"] = sum(far_field_h_area_mm) / len(far_field_h_area_mm)
+            ret["far_field_h_area_max_mm"] = max(far_field_h_area_mm)
+        if process_zone_h_area_mm and far_field_h_area_mm:
+            ret["refinement_ratio_mean"] = ret["far_field_h_area_mean_mm"] / ret["process_zone_h_area_mean_mm"]
 
         if authentic_damage_lookup is not None:
             ret["crack_core_count"] = len(crack_core_edges)
@@ -608,12 +795,27 @@ class ProductionDeckBuilder(object):
         num_phys_elems = num_quads + num_tris
         num_nodes = len(nodes)
 
-        tol = 1e-4
-        bottom_nodes = [nid for nid, (x, y) in nodes.items() if abs(y - 0.0) < tol]
-        top_nodes = [nid for nid, (x, y) in nodes.items() if abs(y - config.plate_h) < tol]
-        pin_candidates = [nid for nid in bottom_nodes if abs(nodes[nid][0] - 0.0) < tol]
-        pin_node = min(pin_candidates) if pin_candidates else bottom_nodes[0]
+        is_pin_hole = (getattr(config, "loading_type", "EDGE_PULL").upper() == "PIN_HOLE_PULL")
         rp_nid = 999999
+
+        if is_pin_hole:
+            low_x, low_y = config.lower_hole_center
+            low_r = config.lower_hole_radius
+            upp_x, upp_y = config.upper_hole_center
+            upp_r = config.upper_hole_radius
+            r_tol = 0.05
+            lower_nodes = [nid for nid, (x, y) in nodes.items() if abs(math.hypot(x - low_x, y - low_y) - low_r) < r_tol]
+            upper_nodes = [nid for nid, (x, y) in nodes.items() if abs(math.hypot(x - upp_x, y - upp_y) - upp_r) < r_tol]
+            rp_x, rp_y = upp_x, upp_y
+            bottom_nodes, top_nodes, pin_node = [], [], None
+        else:
+            tol = 1e-4
+            bottom_nodes = [nid for nid, (x, y) in nodes.items() if abs(y - 0.0) < tol]
+            top_nodes = [nid for nid, (x, y) in nodes.items() if abs(y - config.plate_h) < tol]
+            pin_candidates = [nid for nid in bottom_nodes if abs(nodes[nid][0] - 0.0) < tol]
+            pin_node = min(pin_candidates) if pin_candidates else bottom_nodes[0]
+            rp_x, rp_y = 0.5 * config.plate_w, config.plate_h
+            lower_nodes, upper_nodes = [], []
 
         with open(dst_uel_inp, "w") as f:
             f.write("*HEADING\n")
@@ -639,7 +841,7 @@ class ProductionDeckBuilder(object):
             for nid in sorted(nodes.keys()):
                 x, y = nodes[nid]
                 f.write("%d, %.9e, %.9e\n" % (nid, x, y))
-            f.write("%d, %.9e, %.9e\n" % (rp_nid, 0.5 * config.plate_w, config.plate_h))
+            f.write("%d, %.9e, %.9e\n" % (rp_nid, rp_x, rp_y))
 
             # Layer 1: Phase field (DOF 3)
             if quad_elems:
@@ -680,14 +882,23 @@ class ProductionDeckBuilder(object):
             f.write("*ELSET, ELSET=umatelem\nAll_elem\n")
 
             # Node sets
-            f.write("*NSET, NSET=N_BOTTOM\n")
-            for i, nid in enumerate(sorted(bottom_nodes)):
-                f.write("%d%s" % (nid, ",\n" if (i + 1) % 16 == 0 and i + 1 < len(bottom_nodes) else (", " if i + 1 < len(bottom_nodes) else "\n")))
-            f.write("*NSET, NSET=N_TOP\n")
-            for i, nid in enumerate(sorted(top_nodes)):
-                f.write("%d%s" % (nid, ",\n" if (i + 1) % 16 == 0 and i + 1 < len(top_nodes) else (", " if i + 1 < len(top_nodes) else "\n")))
-            f.write("*NSET, NSET=N_PIN\n%d\n" % pin_node)
-            f.write("*NSET, NSET=N_RP\n%d\n" % rp_nid)
+            if is_pin_hole:
+                f.write("*NSET, NSET=N_LOWER_HOLE\n")
+                for i, nid in enumerate(sorted(lower_nodes)):
+                    f.write("%d%s" % (nid, ",\n" if (i + 1) % 16 == 0 and i + 1 < len(lower_nodes) else (", " if i + 1 < len(lower_nodes) else "\n")))
+                f.write("*NSET, NSET=N_UPPER_HOLE\n")
+                for i, nid in enumerate(sorted(upper_nodes)):
+                    f.write("%d%s" % (nid, ",\n" if (i + 1) % 16 == 0 and i + 1 < len(upper_nodes) else (", " if i + 1 < len(upper_nodes) else "\n")))
+                f.write("*NSET, NSET=N_RP\n%d\n" % rp_nid)
+            else:
+                f.write("*NSET, NSET=N_BOTTOM\n")
+                for i, nid in enumerate(sorted(bottom_nodes)):
+                    f.write("%d%s" % (nid, ",\n" if (i + 1) % 16 == 0 and i + 1 < len(bottom_nodes) else (", " if i + 1 < len(bottom_nodes) else "\n")))
+                f.write("*NSET, NSET=N_TOP\n")
+                for i, nid in enumerate(sorted(top_nodes)):
+                    f.write("%d%s" % (nid, ",\n" if (i + 1) % 16 == 0 and i + 1 < len(top_nodes) else (", " if i + 1 < len(top_nodes) else "\n")))
+                f.write("*NSET, NSET=N_PIN\n%d\n" % pin_node)
+                f.write("*NSET, NSET=N_RP\n%d\n" % rp_nid)
 
             # UEL Property cards matching authentic f42_mixed_uel.for ABI:
             # PROPS: (1)=l0, (2)=Gc, (3)=E, (4)=nu, (5)=k_residual, (6)=N_phys
@@ -725,24 +936,36 @@ class ProductionDeckBuilder(object):
                 f.write("%.1f, %.2f, %.1f\n" % (E_kn, config.nu, num_phys_f))
             f.write("*DEPVAR\n20\n")
 
-            # Rigid tie equations: top nodes tied to RP in DOF 2
+            # Rigid tie equations:
             f.write("** ----------------------------------------------------------\n")
-            f.write("** EQUATIONS (Rigid top tensile pull tied to RP in DOF 2)\n")
-            f.write("** ----------------------------------------------------------\n")
-            for nid in sorted(top_nodes):
-                f.write("*EQUATION\n2\n")
-                f.write("%d, 2, 1.0, %d, 2, -1.0\n" % (nid, rp_nid))
+            if is_pin_hole:
+                f.write("** EQUATIONS (Upper pin hole tied to RP in DOF 2)\n")
+                f.write("** ----------------------------------------------------------\n")
+                for nid in sorted(upper_nodes):
+                    f.write("*EQUATION\n2\n")
+                    f.write("%d, 2, 1.0, %d, 2, -1.0\n" % (nid, rp_nid))
+            else:
+                f.write("** ----------------------------------------------------------\n")
+                f.write("** EQUATIONS (Rigid top tensile pull tied to RP in DOF 2)\n")
+                f.write("** ----------------------------------------------------------\n")
+                for nid in sorted(top_nodes):
+                    f.write("*EQUATION\n2\n")
+                    f.write("%d, 2, 1.0, %d, 2, -1.0\n" % (nid, rp_nid))
 
-            # Step 1: Precritical / Linear loading to step1_u2 (0.0050 mm)
+            # Step 1: Precritical / Linear loading to step1_u2
             f.write("** ----------------------------------------------------------\n")
             f.write("** STEP 1: Linear Loading to u = %.4f mm\n" % config.step1_u2)
             f.write("** ----------------------------------------------------------\n")
             f.write("*STEP, NAME=Step-1, NLGEOM=NO, INC=10000\n")
             f.write("*STATIC\n0.02, 1.0, 1.0e-7, 0.02\n")
             f.write("*BOUNDARY\n")
-            f.write("N_BOTTOM, 2, 2, 0.0\n")
-            f.write("N_PIN, 1, 1, 0.0\n")
-            f.write("N_TOP, 1, 1, 0.0\n")
+            if is_pin_hole:
+                f.write("N_LOWER_HOLE, 1, 2, 0.0\n")
+                f.write("N_UPPER_HOLE, 1, 1, 0.0\n")
+            else:
+                f.write("N_BOTTOM, 2, 2, 0.0\n")
+                f.write("N_PIN, 1, 1, 0.0\n")
+                f.write("N_TOP, 1, 1, 0.0\n")
             f.write("N_RP, 2, 2, %.4f\n" % config.step1_u2)
             f.write("*RESTART, WRITE, FREQUENCY=1\n")
             f.write("*OUTPUT, FIELD, FREQUENCY=1\n")
