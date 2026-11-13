@@ -672,7 +672,7 @@ def test_f1728_case2_companion_recovery_deck_static_audit():
 
 
 def test_f1728_case2_quantization_error_metrics():
-    """F1728-R26: Verify quantization error evaluation and intact-anchored scheme improvement."""
+    """F1728-R26: Verify quantization error evaluation, damaged zone partitioning, and intact-anchored scheme."""
     q_path = os.path.join(REPO_ROOT, "results", "validation", "f1728_case2_quantization_error.json")
     assert os.path.exists(q_path), "Missing quantization error JSON: %s" % q_path
 
@@ -681,21 +681,39 @@ def test_f1728_case2_quantization_error_metrics():
 
     # Standard 20-bin metrics
     std = data["standard_20_bin"]
-    assert abs(std["mean_relative_error_pct"] - 1.7659) < 1e-3
-    assert abs(std["max_relative_error_pct"] - 5.8855) < 1e-3
+    assert abs(std["global_mean_rel_error_pct"] - 1.7659) < 1e-3
+    assert abs(std["global_max_rel_error_pct"] - 5.8855) < 1e-3
+    assert abs(std["damaged_zone_mean_rel_error_pct"] - 1.9123) < 1e-3
+    assert abs(std["undamaged_bulk_mean_rel_error_pct"] - 1.7634) < 1e-3
     assert std["elements_gt_1pct_error_count"] == 2354
     assert std["intact_element_modulus_pct"] == 97.5
 
     # Intact-anchored 20-bin metrics
     anchored = data["intact_anchored_20_bin"]
-    assert abs(anchored["mean_relative_error_pct"] - 0.8565) < 1e-3
-    assert abs(anchored["max_relative_error_pct"] - 5.8855) < 1e-3
+    assert abs(anchored["global_mean_rel_error_pct"] - 0.8565) < 1e-3
+    assert abs(anchored["global_max_rel_error_pct"] - 5.8855) < 1e-3
+    assert abs(anchored["damaged_zone_mean_rel_error_pct"] - 1.9123) < 1e-3
+    assert abs(anchored["undamaged_bulk_mean_rel_error_pct"] - 0.8388) < 1e-3
     assert anchored["intact_element_modulus_pct"] == 100.0
-    assert anchored["mean_relative_error_pct"] < std["mean_relative_error_pct"]
+    assert anchored["global_mean_rel_error_pct"] < std["global_mean_rel_error_pct"]
+
+    # Boundary-touching elements
+    touching = {int(k): v for k, v in anchored["boundary_touching_elements_errors"].items()}
+    assert len(touching) == 6
+    for eid in [151, 152, 153, 687, 734, 1088]:
+        assert eid in touching
+        assert touching[eid]["rel_err_pct"] <= 3.20
+    assert abs(touching[734]["rel_err_pct"] - 0.0043) < 1e-3
+
+    # High-fidelity 100-bin metrics
+    hf = data["high_fidelity_100_bin"]
+    assert abs(hf["damaged_zone_mean_rel_error_pct"] - 0.3677) < 1e-3
+    assert abs(hf["damaged_zone_max_rel_error_pct"] - 0.9108) < 1e-3
 
     # Exact elementwise
     exact = data["exact_elementwise"]
-    assert exact["mean_relative_error_pct"] == 0.0
+    assert exact["global_mean_rel_error_pct"] == 0.0
+    assert exact["damaged_zone_mean_rel_error_pct"] == 0.0
     assert exact["unique_materials_count"] == 2623
 
 
@@ -710,6 +728,30 @@ def test_f1728_remeshing_engine_step_alignment_guards():
     assert "if step_target not in odb_donor.steps:" in code
     assert "if step_target not in m.steps:" in code
     assert "if 'ALL_ELEM' not in inst.sets:" in code
+
+
+def test_f1728_case2_companion_recovery_artifact_level_audit():
+    """HND-F1728-CASE2-STRESS-RECOVERY-002: Verify artifact-level static audit passes all 8 inspection checks."""
+    audit_path = os.path.join(REPO_ROOT, "results", "validation", "f1728_case2_recovery_artifact_audit.json")
+    assert os.path.exists(audit_path), "Missing artifact audit JSON: %s" % audit_path
+
+    with open(audit_path, "r") as f:
+        data = json.load(f)
+
+    assert data["overall_status"] == "QUALIFIED_PASS"
+    assert data["checks_passed_count"] == 8
+    assert data["total_checks_count"] == 8
+
+    check_dict = {c["check_id"]: c for c in data["checks"]}
+    assert check_dict["CHK-01-NODE-IDENTITY"]["status"] == "PASS"
+    assert check_dict["CHK-02-ELEM-CONNECTIVITY"]["status"] == "PASS"
+    assert check_dict["CHK-03-PHYSICAL-UNITS"]["status"] == "PASS"
+    assert check_dict["CHK-04-BOUNDARY-CONDITIONS"]["status"] == "PASS"
+    assert check_dict["CHK-05-DISJOINT-SECTIONS"]["status"] == "PASS"
+    assert check_dict["CHK-06-OUTPUT-REQUESTS"]["status"] == "PASS"
+    assert check_dict["CHK-07-ENGINE-ALIGNMENT"]["status"] == "PASS"
+    assert check_dict["CHK-08-DAMAGE-ZONE-QUANTIZATION"]["status"] == "PASS"
+
 
 
 

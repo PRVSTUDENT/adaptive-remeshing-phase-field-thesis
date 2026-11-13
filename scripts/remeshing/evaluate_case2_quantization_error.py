@@ -4,7 +4,8 @@ scripts/remeshing/evaluate_case2_quantization_error.py
 =====================================================
 Evaluates the quantization error of the 20-bin degradation scheme vs.
 exact elementwise degradation and improved intact-anchored binning schemes
-for Case 2 Step-2 Peak (PK_HOLE_COARSE_JOB1.odb).
+for Case 2 Step-2 Peak (PK_HOLE_COARSE_JOB1.odb), with specific damage-zone
+partitioning resolving finding F1728-R26 from HND-F1728-CASE2-STRESS-RECOVERY-002.
 """
 
 from __future__ import print_function
@@ -15,6 +16,8 @@ import math
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 FIELDS_JSON = os.path.join(REPO_ROOT, "results", "validation", "f1728_case2_coarse_job1_fields.json")
 OUTPUT_JSON = os.path.join(REPO_ROOT, "results", "validation", "f1728_case2_quantization_error.json")
+
+BOUNDARY_TOUCHING_EIDS = [151, 152, 153, 687, 734, 1088]
 
 def main():
     with open(FIELDS_JSON, "r") as f:
@@ -33,59 +36,73 @@ def main():
     elements.sort(key=lambda x: x[0])
     N = len(elements)
 
-    # 1. Standard 20-bin scheme (historical F1719 approach):
-    # b_i = min(19, max(0, int(g_exact * 20.0)))
-    # g_bin20 = (b_i + 0.5) / 20.0
-    errs_bin20_rel = []
-    errs_bin20_abs = []
+    # Identify damaged elements (d >= 0.10)
+    damaged_elements = [e for e in elements if e[1] >= 0.10]
+    undamaged_elements = [e for e in elements if e[1] < 0.10]
+    N_damaged = len(damaged_elements)
+    N_undamaged = len(undamaged_elements)
+
+    # 1. Standard 20-bin scheme:
+    errs_bin20_all = []
+    errs_bin20_damaged = []
+    errs_bin20_undamaged = []
+    errs_bin20_touching = {}
+
     for eid, d_val, g_exact in elements:
         b_idx = min(19, max(0, int(g_exact * 20.0)))
         g_bin = (b_idx + 0.5) / 20.0
         abs_err = abs(g_bin - g_exact)
         rel_err = abs_err / g_exact
-        errs_bin20_abs.append(abs_err)
-        errs_bin20_rel.append(rel_err)
+        errs_bin20_all.append(rel_err)
 
-    mean_rel_20 = sum(errs_bin20_rel) / N
-    max_rel_20 = max(errs_bin20_rel)
-    gt_1pct_20 = sum(1 for e in errs_bin20_rel if e > 0.01)
+        if d_val >= 0.10:
+            errs_bin20_damaged.append(rel_err)
+        else:
+            errs_bin20_undamaged.append(rel_err)
 
-    print("Standard 20-Bin Scheme:")
-    print("  Mean relative error: %.4f%%" % (mean_rel_20 * 100))
-    print("  Max relative error:  %.4f%%" % (max_rel_20 * 100))
-    print("  Elements > 1%% rel error: %d / %d (%.1f%%)" % (gt_1pct_20, N, 100.0 * gt_1pct_20 / N))
+        if eid in BOUNDARY_TOUCHING_EIDS:
+            errs_bin20_touching[eid] = {
+                "d": d_val,
+                "g_exact": g_exact,
+                "g_bin": g_bin,
+                "rel_err_pct": round(rel_err * 100, 4)
+            }
 
-    # 2. Intact-Anchored 20-Bin Scheme:
-    # Separate intact/elastic bulk (d < 0.01 or bin 20): g = 1.0 exactly
-    # Softening range partitioned into 20 bins
-    errs_anchored20_rel = []
-    errs_anchored20_abs = []
+    # 2. Intact-Anchored 20-Bin Scheme (Adopted):
+    errs_anchored20_all = []
+    errs_anchored20_damaged = []
+    errs_anchored20_undamaged = []
+    errs_anchored20_touching = {}
+
     for eid, d_val, g_exact in elements:
         if d_val < 0.01:
             g_bin = 1.0
         else:
-            # 20 bins in [0, 1)
             b_idx = min(19, max(0, int(g_exact * 20.0)))
             g_bin = (b_idx + 0.5) / 20.0
         abs_err = abs(g_bin - g_exact)
         rel_err = abs_err / g_exact
-        errs_anchored20_abs.append(abs_err)
-        errs_anchored20_rel.append(rel_err)
+        errs_anchored20_all.append(rel_err)
 
-    mean_rel_anc20 = sum(errs_anchored20_rel) / N
-    max_rel_anc20 = max(errs_anchored20_rel)
-    gt_1pct_anc20 = sum(1 for e in errs_anchored20_rel if e > 0.01)
+        if d_val >= 0.10:
+            errs_anchored20_damaged.append(rel_err)
+        else:
+            errs_anchored20_undamaged.append(rel_err)
 
-    print("\nIntact-Anchored 20-Bin Scheme:")
-    print("  Mean relative error: %.4f%%" % (mean_rel_anc20 * 100))
-    print("  Max relative error:  %.4f%%" % (max_rel_anc20 * 100))
-    print("  Elements > 1%% rel error: %d / %d (%.1f%%)" % (gt_1pct_anc20, N, 100.0 * gt_1pct_anc20 / N))
+        if eid in BOUNDARY_TOUCHING_EIDS:
+            errs_anchored20_touching[eid] = {
+                "d": d_val,
+                "g_exact": g_exact,
+                "g_bin": g_bin,
+                "rel_err_pct": round(rel_err * 100, 4)
+            }
 
     # 3. High-Fidelity 100-Bin Scheme:
-    # Intact elements (d < 0.005): g = 1.0
-    # Softening range: 100 bins
-    errs_bin100_rel = []
-    errs_bin100_abs = []
+    errs_bin100_all = []
+    errs_bin100_damaged = []
+    errs_bin100_undamaged = []
+    errs_bin100_touching = {}
+
     for eid, d_val, g_exact in elements:
         if d_val < 0.005:
             g_bin = 1.0
@@ -94,55 +111,66 @@ def main():
             g_bin = (b_idx + 0.5) / 100.0
         abs_err = abs(g_bin - g_exact)
         rel_err = abs_err / g_exact
-        errs_bin100_abs.append(abs_err)
-        errs_bin100_rel.append(rel_err)
+        errs_bin100_all.append(rel_err)
 
-    mean_rel_100 = sum(errs_bin100_rel) / N
-    max_rel_100 = max(errs_bin100_rel)
-    gt_1pct_100 = sum(1 for e in errs_bin100_rel if e > 0.01)
+        if d_val >= 0.10:
+            errs_bin100_damaged.append(rel_err)
+        else:
+            errs_bin100_undamaged.append(rel_err)
 
-    print("\nHigh-Fidelity 100-Bin Scheme (Intact-Anchored):")
-    print("  Mean relative error: %.4f%%" % (mean_rel_100 * 100))
-    print("  Max relative error:  %.4f%%" % (max_rel_100 * 100))
-    print("  Elements > 1%% rel error: %d / %d (%.1f%%)" % (gt_1pct_100, N, 100.0 * gt_1pct_100 / N))
+        if eid in BOUNDARY_TOUCHING_EIDS:
+            errs_bin100_touching[eid] = {
+                "d": d_val,
+                "g_exact": g_exact,
+                "g_bin": g_bin,
+                "rel_err_pct": round(rel_err * 100, 4)
+            }
 
-    # 4. Exact Elementwise Degradation:
-    # 2906 distinct materials or 1 material per unique rounded modulus
-    # Let's count how many unique materials if rounded to 3 decimal places vs exact
     unique_exact = len(set(round(g, 6) for _, _, g in elements))
-    print("\nExact Elementwise Degradation:")
-    print("  Unique degradation values: %d across %d elements" % (unique_exact, N))
-    print("  Mean relative error: 0.0000%")
-    print("  Max relative error:  0.0000%")
 
     summary = {
         "benchmark": "Case 2 (Single Off-Axis Hole Plate)",
         "source": "PK_HOLE_COARSE_JOB1.odb (Step-2 Peak, uy=0.007294 mm)",
         "total_elements": N,
+        "damaged_elements_count": N_damaged,
+        "undamaged_elements_count": N_undamaged,
         "standard_20_bin": {
-            "mean_relative_error_pct": round(mean_rel_20 * 100, 4),
-            "max_relative_error_pct": round(max_rel_20 * 100, 4),
-            "elements_gt_1pct_error_count": gt_1pct_20,
-            "elements_gt_1pct_error_ratio": round(float(gt_1pct_20) / N, 4),
+            "global_mean_rel_error_pct": round(sum(errs_bin20_all) / N * 100, 4),
+            "global_max_rel_error_pct": round(max(errs_bin20_all) * 100, 4),
+            "damaged_zone_mean_rel_error_pct": round(sum(errs_bin20_damaged) / N_damaged * 100, 4),
+            "damaged_zone_max_rel_error_pct": round(max(errs_bin20_damaged) * 100, 4),
+            "undamaged_bulk_mean_rel_error_pct": round(sum(errs_bin20_undamaged) / N_undamaged * 100, 4),
+            "elements_gt_1pct_error_count": sum(1 for e in errs_bin20_all if e > 0.01),
             "intact_element_modulus_pct": 97.5,
-            "intact_element_bias_description": "Bin 19 centers at 19.5/20 = 0.975, introducing a systematic 2.5% stiffness drop on undamaged bulk."
+            "intact_element_bias_description": "Bin 19 centers at 19.5/20 = 0.975, imposing 2.5% stiffness reduction on bulk.",
+            "boundary_touching_elements_errors": errs_bin20_touching
         },
         "intact_anchored_20_bin": {
-            "mean_relative_error_pct": round(mean_rel_anc20 * 100, 4),
-            "max_relative_error_pct": round(max_rel_anc20 * 100, 4),
-            "elements_gt_1pct_error_count": gt_1pct_anc20,
+            "global_mean_rel_error_pct": round(sum(errs_anchored20_all) / N * 100, 4),
+            "global_max_rel_error_pct": round(max(errs_anchored20_all) * 100, 4),
+            "damaged_zone_mean_rel_error_pct": round(sum(errs_anchored20_damaged) / N_damaged * 100, 4),
+            "damaged_zone_max_rel_error_pct": round(max(errs_anchored20_damaged) * 100, 4),
+            "undamaged_bulk_mean_rel_error_pct": round(sum(errs_anchored20_undamaged) / N_undamaged * 100, 4),
+            "elements_gt_1pct_error_count": sum(1 for e in errs_anchored20_all if e > 0.01),
             "intact_element_modulus_pct": 100.0,
-            "description": "Anchors d < 0.01 elements to exact E0 (g=1.0), reducing bulk error to 0.0% and confining bin error strictly to the softening corridor."
+            "description": "Anchors d < 0.01 elements to exact E0 (g=1.0), reducing bulk error to 0.0% and confining binning error strictly to the softening corridor.",
+            "boundary_touching_elements_errors": errs_anchored20_touching
         },
         "high_fidelity_100_bin": {
-            "mean_relative_error_pct": round(mean_rel_100 * 100, 4),
-            "max_relative_error_pct": round(max_rel_100 * 100, 4),
-            "elements_gt_1pct_error_count": gt_1pct_100,
-            "description": "Anchors intact elements to E0 and uses 100 fine bins across the softening zone."
+            "global_mean_rel_error_pct": round(sum(errs_bin100_all) / N * 100, 4),
+            "global_max_rel_error_pct": round(max(errs_bin100_all) * 100, 4),
+            "damaged_zone_mean_rel_error_pct": round(sum(errs_bin100_damaged) / N_damaged * 100, 4),
+            "damaged_zone_max_rel_error_pct": round(max(errs_bin100_damaged) * 100, 4),
+            "undamaged_bulk_mean_rel_error_pct": round(sum(errs_bin100_undamaged) / N_undamaged * 100, 4),
+            "elements_gt_1pct_error_count": sum(1 for e in errs_bin100_all if e > 0.01),
+            "description": "Anchors intact elements to E0 and uses 100 fine bins across the softening zone.",
+            "boundary_touching_elements_errors": errs_bin100_touching
         },
         "exact_elementwise": {
-            "mean_relative_error_pct": 0.0,
-            "max_relative_error_pct": 0.0,
+            "global_mean_rel_error_pct": 0.0,
+            "global_max_rel_error_pct": 0.0,
+            "damaged_zone_mean_rel_error_pct": 0.0,
+            "damaged_zone_max_rel_error_pct": 0.0,
             "unique_materials_count": unique_exact,
             "description": "Assigns each element its exact constitutive degradation factor g_d = (1-d)^2 + k_res."
         }
@@ -150,7 +178,25 @@ def main():
 
     with open(OUTPUT_JSON, "w") as f:
         json.dump(summary, f, indent=2)
-    print("\nSaved quantization evaluation to: %s" % OUTPUT_JSON)
+
+    print("=== Quantization Error Partitioning Completed ===")
+    print("Total Elements: %d (Damaged: %d, Undamaged: %d)" % (N, N_damaged, N_undamaged))
+    print("\n1. Standard 20-Bin:")
+    print("   Global Mean Error:        %.4f%% (Max: %.4f%%)" % (summary["standard_20_bin"]["global_mean_rel_error_pct"], summary["standard_20_bin"]["global_max_rel_error_pct"]))
+    print("   Damaged Zone Mean Error:  %.4f%% (Max: %.4f%%)" % (summary["standard_20_bin"]["damaged_zone_mean_rel_error_pct"], summary["standard_20_bin"]["damaged_zone_max_rel_error_pct"]))
+    print("   Undamaged Bulk Mean:      %.4f%%" % summary["standard_20_bin"]["undamaged_bulk_mean_rel_error_pct"])
+    print("\n2. Intact-Anchored 20-Bin (Adopted):")
+    print("   Global Mean Error:        %.4f%% (Max: %.4f%%)" % (summary["intact_anchored_20_bin"]["global_mean_rel_error_pct"], summary["intact_anchored_20_bin"]["global_max_rel_error_pct"]))
+    print("   Damaged Zone Mean Error:  %.4f%% (Max: %.4f%%)" % (summary["intact_anchored_20_bin"]["damaged_zone_mean_rel_error_pct"], summary["intact_anchored_20_bin"]["damaged_zone_max_rel_error_pct"]))
+    print("   Undamaged Bulk Mean:      %.4f%%" % summary["intact_anchored_20_bin"]["undamaged_bulk_mean_rel_error_pct"])
+    print("\n3. High-Fidelity 100-Bin:")
+    print("   Damaged Zone Mean Error:  %.4f%% (Max: %.4f%%)" % (summary["high_fidelity_100_bin"]["damaged_zone_mean_rel_error_pct"], summary["high_fidelity_100_bin"]["damaged_zone_max_rel_error_pct"]))
+    print("\n4. Boundary-Touching Elements (Intact-Anchored 20-Bin):")
+    for eid in sorted(errs_anchored20_touching.keys()):
+        t = errs_anchored20_touching[eid]
+        print("   Element %4d: d = %.6f | g_exact = %.6f | g_bin = %.6f | rel_err = %.4f%%" % (
+            eid, t["d"], t["g_exact"], t["g_bin"], t["rel_err_pct"]
+        ))
 
 if __name__ == "__main__":
     main()

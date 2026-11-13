@@ -2,30 +2,156 @@
   "benchmark": "Case 2 (Single Off-Axis Hole Plate)",
   "source": "PK_HOLE_COARSE_JOB1.odb (Step-2 Peak, uy=0.007294 mm)",
   "total_elements": 2906,
+  "damaged_elements_count": 48,
+  "undamaged_elements_count": 2858,
   "standard_20_bin": {
-    "mean_relative_error_pct": 1.7659,
-    "max_relative_error_pct": 5.8855,
+    "global_mean_rel_error_pct": 1.7659,
+    "global_max_rel_error_pct": 5.8855,
+    "damaged_zone_mean_rel_error_pct": 1.9123,
+    "damaged_zone_max_rel_error_pct": 5.8855,
+    "undamaged_bulk_mean_rel_error_pct": 1.7634,
     "elements_gt_1pct_error_count": 2354,
-    "elements_gt_1pct_error_ratio": 0.81,
     "intact_element_modulus_pct": 97.5,
-    "intact_element_bias_description": "Bin 19 centers at 19.5/20 = 0.975, introducing a systematic 2.5% stiffness drop on undamaged bulk."
+    "intact_element_bias_description": "Bin 19 centers at 19.5/20 = 0.975, imposing 2.5% stiffness reduction on bulk.",
+    "boundary_touching_elements_errors": {
+      "151": {
+        "d": 0.2191658914089203,
+        "g_exact": 0.609702005139226,
+        "g_bin": 0.625,
+        "rel_err_pct": 2.5091
+      },
+      "152": {
+        "d": 0.17823700606822968,
+        "g_exact": 0.6752945181957067,
+        "g_bin": 0.675,
+        "rel_err_pct": 0.0436
+      },
+      "153": {
+        "d": 0.19651299715042114,
+        "g_exact": 0.6455914637481991,
+        "g_bin": 0.625,
+        "rel_err_pct": 3.1896
+      },
+      "687": {
+        "d": 0.24386024475097656,
+        "g_exact": 0.571747429468053,
+        "g_bin": 0.575,
+        "rel_err_pct": 0.5689
+      },
+      "734": {
+        "d": 0.1485489159822464,
+        "g_exact": 0.7249690484750076,
+        "g_bin": 0.725,
+        "rel_err_pct": 0.0043
+      },
+      "1088": {
+        "d": 0.13325458765029907,
+        "g_exact": 0.751247709829253,
+        "g_bin": 0.775,
+        "rel_err_pct": 3.1617
+      }
+    }
   },
   "intact_anchored_20_bin": {
-    "mean_relative_error_pct": 0.8565,
-    "max_relative_error_pct": 5.8855,
+    "global_mean_rel_error_pct": 0.8565,
+    "global_max_rel_error_pct": 5.8855,
+    "damaged_zone_mean_rel_error_pct": 1.9123,
+    "damaged_zone_max_rel_error_pct": 5.8855,
+    "undamaged_bulk_mean_rel_error_pct": 0.8388,
     "elements_gt_1pct_error_count": 1113,
     "intact_element_modulus_pct": 100.0,
-    "description": "Anchors d < 0.01 elements to exact E0 (g=1.0), reducing bulk error to 0.0% and confining bin error strictly to the softening corridor."
+    "description": "Anchors d < 0.01 elements to exact E0 (g=1.0), reducing bulk error to 0.0% and confining binning error strictly to the softening corridor.",
+    "boundary_touching_elements_errors": {
+      "151": {
+        "d": 0.2191658914089203,
+        "g_exact": 0.609702005139226,
+        "g_bin": 0.625,
+        "rel_err_pct": 2.5091
+      },
+      "152": {
+        "d": 0.17823700606822968,
+        "g_exact": 0.6752945181957067,
+        "g_bin": 0.675,
+        "rel_err_pct": 0.0436
+      },
+      "153": {
+        "d": 0.19651299715042114,
+        "g_exact": 0.6455914637481991,
+        "g_bin": 0.625,
+        "rel_err_pct": 3.1896
+      },
+      "687": {
+        "d": 0.24386024475097656,
+        "g_exact": 0.571747429468053,
+        "g_bin": 0.575,
+        "rel_err_pct": 0.5689
+      },
+      "734": {
+        "d": 0.1485489159822464,
+        "g_exact": 0.7249690484750076,
+        "g_bin": 0.725,
+        "rel_err_pct": 0.0043
+      },
+      "1088": {
+        "d": 0.13325458765029907,
+        "g_exact": 0.751247709829253,
+        "g_bin": 0.775,
+        "rel_err_pct": 3.1617
+      }
+    }
   },
   "high_fidelity_100_bin": {
-    "mean_relative_error_pct": 0.2485,
-    "max_relative_error_pct": 1.0005,
+    "global_mean_rel_error_pct": 0.2485,
+    "global_max_rel_error_pct": 1.0005,
+    "damaged_zone_mean_rel_error_pct": 0.3677,
+    "damaged_zone_max_rel_error_pct": 0.9108,
+    "undamaged_bulk_mean_rel_error_pct": 0.2465,
     "elements_gt_1pct_error_count": 1,
-    "description": "Anchors intact elements to E0 and uses 100 fine bins across the softening zone."
+    "description": "Anchors intact elements to E0 and uses 100 fine bins across the softening zone.",
+    "boundary_touching_elements_errors": {
+      "151": {
+        "d": 0.2191658914089203,
+        "g_exact": 0.609702005139226,
+        "g_bin": 0.605,
+        "rel_err_pct": 0.7712
+      },
+      "152": {
+        "d": 0.17823700606822968,
+        "g_exact": 0.6752945181957067,
+        "g_bin": 0.675,
+        "rel_err_pct": 0.0436
+      },
+      "153": {
+        "d": 0.19651299715042114,
+        "g_exact": 0.6455914637481991,
+        "g_bin": 0.645,
+        "rel_err_pct": 0.0916
+      },
+      "687": {
+        "d": 0.24386024475097656,
+        "g_exact": 0.571747429468053,
+        "g_bin": 0.575,
+        "rel_err_pct": 0.5689
+      },
+      "734": {
+        "d": 0.1485489159822464,
+        "g_exact": 0.7249690484750076,
+        "g_bin": 0.725,
+        "rel_err_pct": 0.0043
+      },
+      "1088": {
+        "d": 0.13325458765029907,
+        "g_exact": 0.751247709829253,
+        "g_bin": 0.755,
+        "rel_err_pct": 0.4995
+      }
+    }
   },
   "exact_elementwise": {
-    "mean_relative_error_pct": 0.0,
-    "max_relative_error_pct": 0.0,
+    "global_mean_rel_error_pct": 0.0,
+    "global_max_rel_error_pct": 0.0,
+    "damaged_zone_mean_rel_error_pct": 0.0,
+    "damaged_zone_max_rel_error_pct": 0.0,
     "unique_materials_count": 2623,
     "description": "Assigns each element its exact constitutive degradation factor g_d = (1-d)^2 + k_res."
   }

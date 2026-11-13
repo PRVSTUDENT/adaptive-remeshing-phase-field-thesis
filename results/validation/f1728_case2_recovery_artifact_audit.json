@@ -1,0 +1,58 @@
+{
+  "benchmark": "Case 2 (Single Off-Axis Hole Plate)",
+  "recovery_deck_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\176_method_a_plate_with_hole\\PK_HOLE_COMPANION_RECOVERY.inp",
+  "coarse_physical_inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\176_method_a_plate_with_hole\\PK_HOLE_COARSE_PHYS.inp",
+  "overall_status": "QUALIFIED_PASS",
+  "checks_passed_count": 8,
+  "total_checks_count": 8,
+  "checks": [
+    {
+      "check_id": "CHK-01-NODE-IDENTITY",
+      "name": "Node Label and Coordinate Identity",
+      "status": "PASS",
+      "details": "Count: 3010 nodes (Match: True, Max coordinate residual: 0.00e+00 mm)"
+    },
+    {
+      "check_id": "CHK-02-ELEM-CONNECTIVITY",
+      "name": "Element Count, Directives and Connectivity Identity",
+      "status": "PASS",
+      "details": "2,832 CPE4 quads, 74 CPE3 triangles, total 2,906 elements (Mismatches: 0)"
+    },
+    {
+      "check_id": "CHK-03-PHYSICAL-UNITS",
+      "name": "Physical Units and Plane-Strain Constants",
+      "status": "PASS",
+      "details": "E_0 = 210000.0 MPa, min E = 36018.6700 MPa, nu = 0.30 across all 13 materials"
+    },
+    {
+      "check_id": "CHK-04-BOUNDARY-CONDITIONS",
+      "name": "Boundary Condition Implementation",
+      "status": "PASS",
+      "details": "Bottom fixed (uy=0), Pin fixed (ux=0), Top uy = 0.00729381 mm (matches peak displacement)"
+    },
+    {
+      "check_id": "CHK-05-DISJOINT-SECTIONS",
+      "name": "Material Section Coverage and Disjoint Partitioning",
+      "status": "PASS",
+      "details": "100% disjoint coverage: 2906 assigned across 13 bins, 0 overlaps, 0 unassigned"
+    },
+    {
+      "check_id": "CHK-06-OUTPUT-REQUESTS",
+      "name": "Step Name and SPR Output Field Requests",
+      "status": "PASS",
+      "details": "Step: RECOVERY_STEP (Aligned: True), Outputs: ['MISESERI', 'MISESAVG', 'S', 'EVOL']"
+    },
+    {
+      "check_id": "CHK-07-ENGINE-ALIGNMENT",
+      "name": "Remeshing Engine Step/Region Correspondence Safeguards",
+      "status": "PASS",
+      "details": "Step creation, donor ODB check, CAE model check, and inst.sets['ALL_ELEM'] fail-closed checks verified in source"
+    },
+    {
+      "check_id": "CHK-08-DAMAGE-ZONE-QUANTIZATION",
+      "name": "Damage-Zone Specific Quantization Error Evaluation",
+      "status": "PASS",
+      "details": "48 damaged elements mean error: 1.9123%, bulk mean error: 0.8388%, all 6 boundary-touching elements <= 3.19%"
+    }
+  ]
+}
