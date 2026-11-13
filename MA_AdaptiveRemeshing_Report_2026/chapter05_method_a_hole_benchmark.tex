@@ -3234,6 +3234,7 @@ The quantitative finite-element metrics for the three generated meshes are summa
     Specimen Dimensions & $65.0 \times 120.0\,\mathrm{mm}$ & $1.0 \times 1.0\,\mathrm{mm}$ & $1.0 \times 1.0\,\mathrm{mm}$ & Verified CAD \\
     Material Length Scale $\ellzero$ & $0.285\,\mathrm{mm}$ & $0.0075\,\mathrm{mm}$ ($7.5\,\mu\mathrm{m}$) & $0.0075\,\mathrm{mm}$ ($7.5\,\mu\mathrm{m}$) & Material constant \\
     Coarse Elements & $3{,}923$ ($h \approx 1.5\,\mathrm{mm}$) & $2{,}906$ ($h \approx 0.02\,\mathrm{mm}$) & $2{,}906$ ($h \approx 0.02\,\mathrm{mm}$) & Pre-analysis baseline \\
+    Coarse Nodes & $4{,}081$ & $2{,}988$ & $3{,}010$ & Pre-analysis mesh \\
     Peak Coarse \MISESERI & $5.1983\,\mathrm{MPa}$ & $1.0071\,\mathrm{MPa}$ & $1{,}430.3\,\mathrm{MPa}$ & Donor ODB \\
     \hline
     \textbf{Adapted Elements} & $\mathbf{9{,}432}$ & $\mathbf{14{,}933}$ & $\mathbf{11{,}302}$ & Monotonic refinement \\
@@ -3242,13 +3243,17 @@ The quantitative finite-element metrics for the three generated meshes are summa
     Triangle Fraction & $3.2\%$ ($300$ tris) & $2.9\%$ ($440$ tris) & $2.9\%$ ($329$ tris) & $\le 5.0\%$ \\
     \hline
     \textbf{Non-Positive Jacobians} & $\mathbf{0}$ & $\mathbf{0}$ & $\mathbf{0}$ & $\mathbf{0}$ (Strict pass) \\
-    Minimum $\det(\mathbf{J})$ & $2.60 \times 10^{-3}$ & $1.80 \times 10^{-7}$ & $2.32 \times 10^{-7}$ & $> 0$ (Positive-definite) \\
+    Minimum $\det(\mathbf{J})$ & $2.6037 \times 10^{-3}$ & $1.8044 \times 10^{-7}$ & $2.3184 \times 10^{-7}$ & $> 0$ (Positive-definite) \\
     Median Aspect Ratio & $1.24$ (Max: $2.24$) & $1.24$ (Max: $2.74$) & $1.23$ (Max: $2.44$) & Median $< 2.0$ \\
     Corner Angle Range & $34.3^\circ$ to $141.0^\circ$ & $31.8^\circ$ to $140.3^\circ$ & $27.5^\circ$ to $139.1^\circ$ & $15.0^\circ < \theta < 165.0^\circ$ \\
     \hline
-    Min $h_{\mathrm{area}} = \sqrt{\mathrm{Area}}$ & $0.0794\,\mathrm{mm}$ & $0.572\,\mu\mathrm{m}$ & $0.764\,\mu\mathrm{m}$ & Finite positive \\
+    Min $h_{\mathrm{area}} = \sqrt{\mathrm{Area}}$ & $0.0794\,\mathrm{mm}$ & $0.577\,\mu\mathrm{m}$ & $1.154\,\mu\mathrm{m}$ & Finite positive \\
+    Process Zone Elements & $417$ & $1{,}728$ & $1{,}509$ & Functional corridor \\
     Mean $h_{\mathrm{area}}$ (Process Zone) & $0.4288\,\mathrm{mm}$ & $2.464\,\mu\mathrm{m}$ & $4.472\,\mu\mathrm{m}$ & Concentrated core \\
-    Process Zone $h_{\mathrm{area}} / \ellzero$ & $1.50$ & $\mathbf{0.33}$ ($\le \ellzero / 3$) & $\mathbf{0.60}$ ($\le \ellzero / 1.6$) & $\le 1.0$ (Resolves field) \\
+    Process Zone $h_{\mathrm{area}} / \ellzero$ & $1.505$ & $\mathbf{0.3285}$ ($\le \ellzero / 3$) & $\mathbf{0.5962}$ ($\le \ellzero / 1.68$) & Resolves field \\
+    Notch Root $h_{\min} / \ellzero$ & $\mathbf{0.2786}$ ($\approx \ellzero / 3.6$) & $\mathbf{0.0769}$ ($\approx \ellzero / 13$) & $\mathbf{0.1539}$ ($\approx \ellzero / 6.5$) & Sharp root resolution \\
+    Elements with $h_{\mathrm{area}} \le \ellzero$ & $933$ ($9.89\%$) & $9{,}353$ ($62.63\%$) & $6{,}985$ ($61.80\%$) & High density in core \\
+    Elements with $h_{\mathrm{area}} \le \ellzero / 2$ & $57$ ($0.60\%$) & $5{,}678$ ($38.02\%$) & $4{,}330$ ($38.31\%$) & Core process zone \\
     Mean $h_{\mathrm{area}}$ (Far Field) & $0.8039\,\mathrm{mm}$ & $7.170\,\mu\mathrm{m}$ & $7.817\,\mu\mathrm{m}$ & Smooth background \\
     Refinement Ratio (Far / Core) & $\mathbf{1.87\times}$ & $\mathbf{2.91\times}$ & $\mathbf{1.75\times}$ & $> 1.5\times$ (Selective) \\
     \hline
@@ -3259,17 +3264,28 @@ The quantitative finite-element metrics for the three generated meshes are summa
   \end{tabular}
 \end{table}
 
-\subsection{Analysis of Generalization Performance}
+\subsection{Analysis of Generalization Performance and Scientific Limitations}
 \label{subsec:f1727_analysis}
 
-The comparative audit in Table~\ref{tab:f1727_mesh_audit} highlights three critical findings regarding the generalized Method~A methodology:
+The comparative audit in Table~\ref{tab:f1727_mesh_audit} highlights four critical findings regarding the generalized Method~A methodology:
 \begin{enumerate}
-  \item \textbf{Scale-Invariant Geometric Robustness:} The framework operates seamlessly across macro-scale specimens ($W = 65\,\mathrm{mm}$, $H = 120\,\mathrm{mm}$, $\ellzero = 0.285\,\mathrm{mm}$) and micro-scale specimens ($W = 1.0\,\mathrm{mm}$, $H = 1.0\,\mathrm{mm}$, $\ellzero = 7.5\,\mu\mathrm{m}$). In Model~A, the physical notch root and primary ligament are resolved with $h_{\min} = 0.0794\,\mathrm{mm} \approx \ellzero / 3.6$, while in Model~B and Model~C, element sizes reach $h_{\min} = 0.572\,\mu\mathrm{m}$ and $0.764\,\mu\mathrm{m}$ ($\approx \ellzero / 13$ and $\ellzero / 10$).
+  \item \textbf{Scale-Invariant Geometric Robustness:} The framework operates seamlessly across macro-scale specimens ($W = 65\,\mathrm{mm}$, $H = 120\,\mathrm{mm}$, $\ellzero = 0.285\,\mathrm{mm}$) and micro-scale specimens ($W = 1.0\,\mathrm{mm}$, $H = 1.0\,\mathrm{mm}$, $\ellzero = 7.5\,\mu\mathrm{m}$). In Model~A, the physical notch root and primary ligament are resolved with $h_{\min} = 0.0794\,\mathrm{mm} \approx \ellzero / 3.6$, while in Model~B and Model~C, element sizes reach $h_{\min} = 0.577\,\mu\mathrm{m}$ and $1.154\,\mu\mathrm{m}$ ($\approx \ellzero / 13$ and $\ellzero / 6.5$).
   \item \textbf{Strict Isoparametric Jacobian Integrity:} Across all $35{,}667$ physical elements generated across the three models, \textbf{zero non-positive Jacobians} were observed ($\det(\mathbf{J}) > 0$ everywhere). Median aspect ratios remain exceptional ($1.23$--$1.24$), and corner angles stay comfortably within standard finite-element tolerances ($27.5^\circ \le \theta \le 141.0^\circ$).
-  \item \textbf{Spatial Sizing Selectivity:} In Model~B, the adapted mesh contains $14{,}933$ elements, matching the published benchmark of \citet[Section~4.1]{pandey2025} ($13{,}941$ elements) to within $7.1\%$. The process zone achieves a mean element size of $2.464\,\mu\mathrm{m} \approx \ellzero / 3$, yielding a $2.91\times$ refinement ratio relative to the far field without any geometric crack-corridor seeding.
+  \item \textbf{Spatial Sizing Selectivity and Process Zone Resolution:} In Model~B, the adapted mesh contains $14{,}933$ elements, matching the published benchmark of \citet[Section~4.1]{pandey2025} ($13{,}941$ elements) to within $7.1\%$. The process zone achieves a mean element size of $2.464\,\mu\mathrm{m} \approx \ellzero / 3$, yielding a $2.91\times$ refinement ratio relative to the far field without any geometric crack-corridor seeding. In Model~C, $61.80\%$ of elements satisfy $h_{\mathrm{area}} \le \ellzero$, and $38.31\%$ satisfy $h_{\mathrm{area}} \le \ellzero / 2$, concentrating fine elements along the notch-to-hole path.
+  \item \textbf{Model A Secondary Corridor Limitation (\texttt{UNRESOLVED\_SECONDARY\_CORRIDOR\_REFINEMENT}):} Under linear-elastic pre-analysis on the uncracked Model~A geometry, stress concentration localizes strictly at the notch tip ($5.1983\,\mathrm{MPa}$), while the secondary ligament between the central void and the right plate edge carries only smooth, low-gradient far-field stress ($h \approx 1.5\,\mathrm{mm}$). Because no single static linear-elastic frame can exhibit error concentration along both primary and secondary corridors simultaneously prior to crack initiation, the secondary corridor remains unrefined in this uncracked donor state. Capturing the secondary path requires either post-penetration donor states (as demonstrated in Section~\ref{sec:hole_pilot}) or multi-frame error integration.
 \end{enumerate}
 
-In strict adherence to project research freeze controls, all three production decks were qualified through \Abaqus preprocessor datachecks (Exit Code~0), and full forward fracture simulations were held in abeyance pending supervisor visual review (\texttt{STATUS: THREE\_MODEL\_MESH\_REVIEW\_READY}).
+\subsection{Mesh Provenance Disclosure and HPC Readiness}
+\label{subsec:f1727_provenance_and_hpc}
+
+To maintain rigorous scientific provenance, the origin and execution status of all mesh assets are explicitly classified:
+\begin{itemize}
+  \item \textbf{Mesh Provenance:} The staged physical meshes in this milestone are established historical baselines from prior verified project tasks: Model~A originates from \texttt{models/pandey\_kumar\_mode1/188\_pk\_sec43\_hole\_plate/PK\_SEC43\_METHOD\_A\_ADAPT\_PHYS.inp} (Git Blob SHA \texttt{2c67d514...}); Model~B originates from \texttt{models/pandey\_kumar\_mode1/206\_f1713\_new\_mode1\_adaptive\_experiment/PK\_F1713\_JOB2\_ADAPTED\_PHYS.inp} (Git Blob SHA \texttt{b912b093...}); and Model~C originates from \texttt{models/pandey\_kumar\_mode1/176\_method\_a\_plate\_with\_hole/candidates/PK\_HOLE\_SEL\_E08\_PHYS.inp} (Git Blob SHA \texttt{993e8624...}). These meshes serve as verified reference discretizations to validate the generalized framework's geometry adapter ingestion, functional region partitioning, boundary condition dispatching, finite-element quality auditing, and 3-layer UEL production deck synthesis (\Abaqus \texttt{pre.exe} datacheck Exit Code~0).
+  \item \textbf{Remeshing Execution Classification:} Fresh native \texttt{adaptiveRemesh()} execution through the extended Python framework on the HPC cluster is classified as \textbf{\texttt{NOT\_YET\_DEMONSTRATED}} pending the user-mandated HPC execution campaign.
+  \item \textbf{HPC Environment Qualification:} In compliance with the HPC-First policy, a non-interactive guarded SSH audit of the target cluster (\texttt{mlogin01.cluster}) verified the complete production environment: Abaqus 2023 (Site ID \texttt{200000000053187}), Intel Fortran compiler \texttt{ifx 2024.2.0}, queues \texttt{normal\_imfdfkmq} and \texttt{short\_imfdfkmq}, and high-speed scratch storage \texttt{/scratch9/pr21vyci/runs}.
+\end{itemize}
+
+In strict adherence to project research freeze controls, all three production decks were qualified through \Abaqus preprocessor datachecks (Exit Code~0), zero cluster jobs were submitted (\texttt{max\_new\_pbs\_submissions = 0, consumed = 0}), and full forward fracture simulations were held in abeyance pending supervisor visual review (\texttt{STATUS: AWAITING\_USER\_VISUAL\_MESH\_REVIEW}).
 
 \section{Summary and Research Conclusions}
 \label{sec:hole_summary}

@@ -31,6 +31,10 @@ import matplotlib.patches as patches
 from matplotlib.collections import PolyCollection, LineCollection
 from matplotlib.colors import LogNorm, Normalize
 
+REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if REPO_ROOT not in sys.path:
+    sys.path.insert(0, REPO_ROOT)
+
 from scripts.remeshing.reusable_2d_adaptive_framework import (
     AdaptiveConfig,
     get_geometry_adapter,
@@ -73,7 +77,7 @@ MODELS = [
         "short_name": "Model C",
         "title": "Model C: Original Thesis Single Off-Axis Hole Plate (1 x 1 mm)",
         "config_path": "configs/remeshing/model_c_original_off_axis_hole.json",
-        "coarse_inp": "models/pandey_kumar_mode1/02_proposed_adaptive_refined/PK_PREANALYSIS_COARSE.inp",
+        "coarse_inp": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_PHYS.inp",
         "miseseri_json": "results/validation/f1727_model_c_miseseri.json",
         "adapt_inp": "models/pandey_kumar_mode1/207_f1727_three_geometry_benchmark/PK_F1727_MODEL_C_ADAPT_PHYS.inp",
         "audit_json": "results/validation/f1727_model_c_mesh_audit.json",
