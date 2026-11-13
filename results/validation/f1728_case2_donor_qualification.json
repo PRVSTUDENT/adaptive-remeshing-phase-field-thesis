@@ -16,10 +16,12 @@
     "frame_count": 11,
     "frame_value": 1.0,
     "miseseri_statistics": {
-      "contrast_ratio_tip_to_bulk": 101.51,
+      "contrast_ratio_core_mean_to_bulk": 25.64,
+      "contrast_ratio_hole_mean_to_bulk": 10.81,
+      "contrast_ratio_tip_to_bulk": 95.11,
       "max_mpa": 1430.2705,
       "mean_mpa": 21.1915,
-      "median_mpa": 8.5389,
+      "median_mpa": 8.5382,
       "min_mpa": 0.4166
     },
     "source_bytes": 2883480,
@@ -27,28 +29,28 @@
     "source_sha256": "0A108C6A8404F1AF9D8F5DDC03223E9D8D051AB08587F841D9F5799970AE93B1",
     "spatial_segmentation": {
       "far_field_bulk": {
-        "count": 2777,
-        "max_miseseri_mpa": 197.59255981445312,
-        "mean_miseseri_mpa": 14.089432043429541,
-        "min_miseseri_mpa": 0.416568398475647
+        "count": 2808,
+        "max_miseseri_mpa": 230.2733,
+        "mean_miseseri_mpa": 15.0383,
+        "min_miseseri_mpa": 0.4166
       },
       "hole_flank_vicinity": {
-        "count": 43,
-        "max_miseseri_mpa": 284.671630859375,
-        "mean_miseseri_mpa": 139.52193122686342,
-        "min_miseseri_mpa": 37.14067459106445
+        "count": 36,
+        "max_miseseri_mpa": 301.2648,
+        "mean_miseseri_mpa": 162.633,
+        "min_miseseri_mpa": 37.1407
       },
       "notch_tip_core_r005": {
         "count": 23,
-        "max_miseseri_mpa": 1430.2705078125,
-        "mean_miseseri_mpa": 385.5452064845873,
-        "min_miseseri_mpa": 81.03620910644531
+        "max_miseseri_mpa": 1430.2705,
+        "mean_miseseri_mpa": 385.5452,
+        "min_miseseri_mpa": 81.0362
       },
       "notch_to_hole_ligament": {
-        "count": 63,
-        "max_miseseri_mpa": 301.26483154296875,
-        "mean_miseseri_mpa": 120.46112175593301,
-        "min_miseseri_mpa": 41.15318298339844
+        "count": 60,
+        "max_miseseri_mpa": 1430.2705,
+        "mean_miseseri_mpa": 193.9648,
+        "min_miseseri_mpa": 43.1109
       }
     },
     "step": "Step-1",
@@ -169,38 +171,107 @@
     "checkpoints": {
       "step1_end": {
         "d_max": 0.16911815106868744,
+        "d_min": 7.998370676887134e-08,
         "description": "Step-1 end (u2=0.0050 mm)",
         "elements_d_ge_010": 4,
         "elements_d_ge_050": 0,
         "elements_d_ge_090": 0,
         "h_max": 0.03802907466888428,
+        "miseseri_count": 2906,
+        "miseseri_max": 0.0,
+        "miseseri_min": 0.0,
+        "s_mises_max": 0.0,
         "time": 1.0
       },
       "step2_end": {
         "d_max": 0.9975769519805908,
+        "d_min": 1.3342156535145477e-07,
         "description": "Step-2 end / last converged",
         "elements_d_ge_010": 169,
         "elements_d_ge_050": 57,
         "elements_d_ge_090": 20,
         "h_max": 95.09078216552734,
+        "miseseri_count": 2906,
+        "miseseri_max": 0.0,
+        "miseseri_min": 0.0,
+        "s_mises_max": 0.0,
         "time": 0.6558254361152649
       },
       "step2_peak": {
         "d_max": 0.5797519087791443,
+        "d_min": 1.3225731265720242e-07,
         "description": "Step-2 peak load",
         "elements_d_ge_010": 48,
         "elements_d_ge_050": 1,
         "elements_d_ge_090": 0,
         "h_max": 0.2357330173254013,
+        "miseseri_count": 2906,
+        "miseseri_max": 0.0,
+        "miseseri_min": 0.0,
+        "s_mises_max": 0.0,
         "time": 0.32768750190734863
       }
     },
+    "damage_connectivity_audit": {
+      "boundary_constraint_component": {
+        "centroid_mm": [
+          0.99,
+          0.99
+        ],
+        "d": 0.1258,
+        "description": "Boundary constraint element at top-right corner",
+        "element_count": 1
+      },
+      "edge_connected_components_count": 3,
+      "is_single_unbroken_chain": false,
+      "primary_corridor_component": {
+        "d_max": 0.5798,
+        "d_mean": 0.1869,
+        "description": "Extends from notch tip (9.5 um) across the ligament, terminating 7.69 um (1.02 l0) from the hole boundary",
+        "dist_to_hole_perimeter_mm": 0.0077,
+        "dist_to_notch_tip_mm": 0.0095,
+        "element_count": 37,
+        "gap_to_hole_perimeter_um": 7.69
+      },
+      "secondary_corridor_component": {
+        "d_max": 0.2253,
+        "d_mean": 0.1542,
+        "description": "Nucleation on opposite (right) hole flank within 7.85 um of hole boundary",
+        "dist_to_hole_perimeter_mm": 0.0078,
+        "element_count": 10,
+        "gap_to_hole_perimeter_um": 7.85
+      },
+      "total_damaged_elements_d_ge_010": 48
+    },
+    "file_size_bytes": 518169932,
     "last_disp_mm": 0.009590777568519115,
     "last_rf2_kn": 0.21635380387306213,
-    "odb_path": "PK_HOLE_COARSE_JOB1.odb",
-    "peak_disp_mm": 0.0072938124649226665,
+    "native_stress_recovery_status": {
+      "execution_readiness_for_remeshing": "NOT_QUALIFIED_AS_NATIVE_MISESERI_DONOR",
+      "miseseri_nonzero_count": 0,
+      "qualification_verdict": "UNAVAILABLE_IDENTICALLY_ZERO_IN_COARSE_ODB",
+      "root_cause": "f42_mixed_uel.for visualizer UMAT (Layer 3) sets STRESS(I) = 0.D0 with dummy tangent DDSDDE(I,I) = 1.D-11. Consequently, Cauchy stress S and SPR recovery error MISESERI are identically zero across all 389 increments.",
+      "s_mises_nonzero_count": 0
+    },
+    "odb_path": "/scratch9/pr21vyci/runs/mode1_method_a_hole_coarse/PK_HOLE_COARSE_JOB1.odb",
+    "odb_sha256": "834b9bb035fcf7b25dbb0deb7f8c344d7a9783dcfaa6d92a0c986affb689ad4c",
     "peak_force_kn": 0.7310152649879456,
-    "total_frames": 389
+    "peak_state_exact_provenance": {
+      "d_max": 0.5797519087791443,
+      "displacement_u2_mm": 0.0072938124649226665,
+      "frame_index": 167,
+      "h_max": 0.2357330173254013,
+      "reaction_force_rf2_kn": 0.7310152649879456,
+      "step": "Step-2",
+      "step_time": 0.32768750190734863
+    },
+    "physical_element_count": 2906,
+    "step_frame_counts": {
+      "Step-1": 51,
+      "Step-2": 338
+    },
+    "total_frames": 389,
+    "total_layered_elements": 8718
   },
   "case_id": "case_2",
   "geometry": {
@@ -223,10 +294,10 @@
     "shortest_distance_to_hole_boundary_mm": 0.1121
   },
   "scientific_assessment": {
-    "falsifiable_scientific_hypothesis": "HYPOTHESIS F1728-H2-CASE2: Native Abaqus UNIFORM_ERROR remeshing driven by linear-elastic pre-analysis (Step-1) will produce a mesh highly refined at the notch root but coarse across the notch-to-hole ligament. Conversely, driving adaptive remeshing from an authentic phase-field donor checkpoint at or near peak load (Step-2 peak, u2 ~ 0.00729 mm, d_max ~ 0.58) provides the physical Cauchy-stress redistribution and steep stress jumps required to natively allocate elements resolving h <= l0/2 along the entire oblique fracture corridor into the hole flank without manual corridor seeding.",
-    "phase_field_evolution_behavior": "In the authentic coarse phase-field simulation (PK_HOLE_COARSE_JOB1.odb), Step-1 end (u2 = 0.0050 mm) remains in the precritical regime (d_max = 0.1691, only 4 damaged elements). In Step-2, pre-peak hardening drives active damage localization directly along the oblique ligament towards the hole. At peak load (u2 = 0.00729 mm, F_max = 0.7310 kN), peak damage reaches d = 0.5798 with 48 actively softening elements bridging the notch tip towards the hole boundary. At Step-2 end (u2 = 0.00959 mm), full fracture penetration is achieved (d_max = 0.9976, 20 broken elements).",
-    "preanalysis_behavior": "Under linear-elastic pre-analysis (Step-1, u2 = 0.005 mm), MISESERI strongly concentrates at the notch tip (max = 107.39 MPa, mean in tip core = 68.42 MPa, 17.6x higher than bulk 3.88 MPa). However, along the prospective oblique crack path towards the hole flank (0.65, 0.55), MISESERI decays to 15-25 MPa, and at the hole flank itself mean error is only 12.18 MPa. This means that, exactly as in Case 1, native UNIFORM_ERROR remeshing on linear-elastic pre-analysis will refine the notch tip but leave the hole-interaction ligament under-refined.",
-    "recommended_next_execution_dependency": "1. For immediate Stage D pilot parity evaluation, qualify native remeshing under Step-1 elastic pre-analysis to establish baseline technical parity and document the exact spatial decay.\n2. For complete crack-corridor refinement, qualify the Step-2 peak-load checkpoint (u2 = 0.00729 mm) from PK_HOLE_COARSE_JOB1.odb using companion stress recovery."
+    "coarse_phase_field_status": "In PK_HOLE_COARSE_JOB1.odb (518.2 MB, SHA-256: 834b9bb0...), the UEL-UMAT formulation used f42_mixed_uel.for, where Layer 3 visualizer UMAT explicitly sets STRESS(I) = 0.D0 with dummy stiffness DDSDDE(I,I) = 1.D-11. Consequently, Cauchy stress S and native MISESERI error indicators are identically zero across all 389 increments. PK_HOLE_COARSE_JOB1.odb alone CANNOT serve as a native MISESERI donor without a companion stress-recovery operation. At Step-2 Peak (Frame 167, t = 0.3277, uy = 0.00729 mm, F_max = 0.7310 kN), damage localization reaches d_max = 0.5798. Independent element-adjacency analysis confirms that the 48 damaged elements (d >= 0.10) form 3 edge-connected components: a primary crack lobe of 37 elements originating 9.5 um from the notch tip and terminating 7.69 um (1.02 l0) from the hole boundary; a secondary crack lobe of 10 elements on the opposite hole flank (within 7.85 um of hole boundary); and 1 boundary constraint element. Damage connectivity does not span the full ligament: a physical gap of 7.69 um remains before hole penetration.",
+    "falsifiable_scientific_hypothesis": "HYPOTHESIS F1728-H2-CASE2: Native Abaqus UNIFORM_ERROR remeshing driven by linear-elastic pre-analysis (Step-1, Donor 1) will produce a mesh highly refined at the notch root (h <= l0/2) but coarse across the uncracked oblique ligament into the hole flank (h > l0/2). Conversely, driving adaptive remeshing from an authentic phase-field donor state at peak load requires companion degraded Cauchy stress recovery to generate nonzero stress jumps across the primary crack lobe.",
+    "preanalysis_behavior": "Under linear-elastic pre-analysis (Step-1, u2 = 0.0050 mm, PK_HOLE_METHOD_A_PREANALYSIS.odb), MISESERI strongly concentrates at the singular notch tip (max = 1430.27 MPa, mean in tip core = 385.55 MPa, yielding a maximum-to-bulk contrast of 95.11x and core-mean-to-bulk contrast of 25.64x vs bulk mean 15.04 MPa). At the hole flank boundary, mean error is 162.63 MPa (10.81x bulk), and along the notch-to-hole ligament mean error is 193.96 MPa. Because the notch tip singularity is an order of magnitude higher than the ligament error, native Abaqus UNIFORM_ERROR remeshing driven by linear-elastic pre-analysis will refine the notch tip but starve the uncracked oblique ligament connecting the crack tip to the hole, exactly as observed in Case 1.",
+    "recommended_next_execution_dependency": "1. Candidate Donor 1 (PK_HOLE_METHOD_A_PREANALYSIS.odb) is the ONLY currently qualified donor possessing a native, nonzero MISESERI field (max = 1430.27 MPa). It is ready for baseline technical parity remeshing.\n2. To utilize Step-2 Peak damage information, a companion stress-recovery operation must be independently qualified to compute the degraded Cauchy stress field before native remeshing can be executed."
   },
   "subtask_id": "F1728-CASE2-OFF-AXIS-HOLE-DONOR-QUALIFICATION",
   "task_id": "F1728-UNIFIED-METHOD-A-FIVE-GEOMETRIES"

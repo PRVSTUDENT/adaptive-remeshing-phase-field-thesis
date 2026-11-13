@@ -313,7 +313,7 @@ def test_f1728_case2_donor_qualification_audit():
     assert d1["miseseri_statistics"]["contrast_ratio_tip_to_bulk"] > 50.0
     d2 = data["candidate_donor_2_coarse_phase_field"]
     assert d2["total_frames"] == 389
-    assert d2["peak_force_kn"] > 0.70
+    assert d2.get("peak_force_kn", d2.get("peak_state_exact_provenance", {}).get("reaction_force_rf2_kn", 0.0)) > 0.70
     assert d2["checkpoints"]["step2_peak"]["d_max"] > 0.50
 
 
@@ -483,4 +483,89 @@ Inverted Element Test
     assert audit["non_positive_jacobians"] > 0
     assert audit["jacobian_status"] == "FAIL"
     assert audit["jacobian_valid"] is False
+
+
+# ==============================================================================
+# 8. TASK F1728 CASE 2 DONOR QUALIFICATION & DAMAGE CONNECTIVITY TESTS (F1728-R19)
+# ==============================================================================
+
+def test_f1728_case2_donor2_odb_sha256_and_zero_stress_fails_closed():
+    """F1728-R15, F1728-R18, F1728-R19: Verify PK_HOLE_COARSE_JOB1.odb exact SHA-256 and zero-stress detection."""
+    qual_path = os.path.join(REPO_ROOT, "results", "validation", "f1728_case2_donor_qualification.json")
+    assert os.path.exists(qual_path), "Missing qualification JSON: %s" % qual_path
+    with open(qual_path, "r") as f:
+        data = json.load(f)
+
+    donor2 = data["candidate_donor_2_coarse_phase_field"]
+    expected_sha256 = "834b9bb035fcf7b25dbb0deb7f8c344d7a9783dcfaa6d92a0c986affb689ad4c"
+    assert donor2["odb_sha256"].lower() == expected_sha256.lower()
+
+    # Verify native stress recovery status fails closed
+    status = donor2["native_stress_recovery_status"]
+    assert status["execution_readiness_for_remeshing"] == "NOT_QUALIFIED_AS_NATIVE_MISESERI_DONOR"
+    assert status["miseseri_nonzero_count"] == 0
+    assert status["s_mises_nonzero_count"] == 0
+    assert "f42_mixed_uel.for" in status["root_cause"]
+    assert "STRESS(I) = 0.D0" in status["root_cause"]
+
+
+def test_f1728_case2_damage_connectivity_components():
+    """F1728-R16, F1728-R19: Verify damage connectivity components, element counts, and ligament gap."""
+    conn_path = os.path.join(REPO_ROOT, "results", "validation", "f1728_case2_damage_connectivity.json")
+    assert os.path.exists(conn_path), "Missing connectivity JSON: %s" % conn_path
+    with open(conn_path, "r") as f:
+        data = json.load(f)
+
+    assert data["total_damaged_elements_d_ge_010"] == 48
+    assert data["edge_sharing_components_count"] == 3
+    assert data["is_single_connected_chain"] is False
+
+    # Component 1: Primary crack lobe
+    comp1 = data["edge_components"][0]
+    assert comp1["component_id"] == 1
+    assert comp1["element_count"] == 37
+    assert comp1["d_max"] > 0.57
+    # Gap from primary crack tip to hole perimeter is ~7.69 um
+    assert 0.0076 < comp1["min_dist_to_hole_perimeter_mm"] < 0.0078
+
+    # Component 2: Secondary crack nucleation
+    comp2 = data["edge_components"][1]
+    assert comp2["component_id"] == 2
+    assert comp2["element_count"] == 10
+    assert 0.0077 < comp2["min_dist_to_hole_perimeter_mm"] < 0.0080
+
+    # Component 3: Boundary constraint artifact
+    comp3 = data["edge_components"][2]
+    assert comp3["component_id"] == 3
+    assert comp3["element_count"] == 1
+    assert comp3["min_dist_to_hole_perimeter_mm"] > 0.35
+
+
+def test_f1728_case2_donor_qualification_numerical_consistency():
+    """F1728-R17, F1728-R19: Verify numerical consistency between record metrics and assessment prose."""
+    qual_path = os.path.join(REPO_ROOT, "results", "validation", "f1728_case2_donor_qualification.json")
+    with open(qual_path, "r") as f:
+        data = json.load(f)
+
+    donor1 = data["candidate_donor_1_linear_elastic"]
+    max_mpa = donor1["miseseri_statistics"]["max_mpa"]
+    core_mean = donor1["spatial_segmentation"]["notch_tip_core_r005"]["mean_miseseri_mpa"]
+    bulk_mean = donor1["spatial_segmentation"]["far_field_bulk"]["mean_miseseri_mpa"]
+    hole_mean = donor1["spatial_segmentation"]["hole_flank_vicinity"]["mean_miseseri_mpa"]
+
+    assert abs(max_mpa - 1430.27) < 0.1
+    assert abs(core_mean - 385.55) < 0.1
+    assert abs(bulk_mean - 15.04) < 0.1
+    assert abs(hole_mean - 162.63) < 0.1
+
+    # Verify assessment prose contains dynamic values and NOT outdated hardcoded values
+    assessment = data["scientific_assessment"]["preanalysis_behavior"]
+    assert "1430.27" in assessment
+    assert "385.55" in assessment
+    assert "15.04" in assessment
+    assert "162.63" in assessment
+    assert "107.39" not in assessment
+    assert "68.42" not in assessment
+    assert "3.88" not in assessment
+
 

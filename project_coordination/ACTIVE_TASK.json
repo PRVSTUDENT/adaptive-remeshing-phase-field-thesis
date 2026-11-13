@@ -1,8 +1,8 @@
 {
   "task_id": "F1728-UNIFIED-METHOD-A-FIVE-GEOMETRIES",
   "title": "Unified Physics-Driven Method A Adaptive Remeshing — Five-Geometry Verification",
-  "status": "STAGE_D_CASE2_DONOR_QUALIFICATION_COMPLETE_AWAITING_REVIEW",
-  "classification": "CASE2_DONOR_QUALIFICATION_REPORT_AUTHORED_READY_FOR_DISPATCH",
+  "status": "STAGE_D_CASE2_RECONCILED_DONOR_QUAL_READY_FOR_DISPATCH",
+  "classification": "CASE2_RECONCILED_DONOR_QUAL_REPORT_AUTHORED_READY_FOR_DISPATCH_002",
   "assigned_agent": "gemini-antigravity",
   "checkpoint_artifact": "docs/validation/F1728_CASE2_DONOR_QUALIFICATION_REPORT.md",
   "predecessor_task": {
@@ -11,7 +11,7 @@
     "classification": "F1727_HISTORICAL_MESH_INGESTION_REJECTED_BY_USER_VISUAL_REVIEW"
   },
   "scientific_operation": "case2_off_axis_hole_donor_qualification",
-  "scientific_operation_id": "f1728_case2_donor_qualification_r1",
+  "scientific_operation_id": "f1728_case2_donor_qualification_r2",
   "scientific_checkpoint_required": true,
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 5,
@@ -60,8 +60,12 @@
     "case2_spatial_error_segmentation_completed",
     "case2_coarse_phase_field_checkpoints_extracted",
     "hypothesis_f1728_h2_case2_formulated",
-    "case2_donor_qualification_report_authored"
+    "case2_donor_qualification_report_authored",
+    "round_1_independent_review_findings_f1728_r15_through_r19_resolved",
+    "case2_donor2_zero_stress_root_cause_formally_diagnosed_in_f42_mixed_uel",
+    "case2_step2_peak_damage_connectivity_audited_3_components_7_69um_gap",
+    "case2_donor_qualification_report_and_tests_reconciled"
   ],
-  "iteration": 7,
-  "review_resolution": "HND_F1728_CASE1_PILOT_CLOSEOUT_002_APPROVE_STAGE_C_TECHNICAL_INTEGRATION_ACCEPTED_NEGATIVE_LIGAMENT_RECORDED"
+  "iteration": 8,
+  "review_resolution": "HND-F1728-CASE2-DONOR-QUAL-001_REJECTED_RECONCILED_UNDER_HND-F1728-CASE2-DONOR-QUAL-002"
 }
