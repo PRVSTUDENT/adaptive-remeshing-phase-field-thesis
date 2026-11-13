@@ -1,0 +1,22 @@
+﻿{
+    "timestamp":  "2026-11-14T00:40:18.1883804+01:00",
+    "task_id":  "F1729-CASE2-COMPANION-RECOVERY-DATACHECK",
+    "overall_pass":  true,
+    "datacheck_status":  "DATACHECK_EXIT_0_ALL_GATES_PASS",
+    "gate_results":  {
+                         "DC-05-OUTPUT-VARIABLES":  "PASS",
+                         "DC-06-EXIT-CODE-ZERO":  "PASS",
+                         "DC-03-MATERIAL-ASSIGNMENTS":  "PASS",
+                         "DC-04-BOUNDARY-CONDITIONS":  "PASS",
+                         "DC-02-ELEMENT-TOPOLOGY":  "PASS",
+                         "DC-01-SYNTAX-VALIDITY":  "PASS"
+                     },
+    "job_id":  "1423234.mmaster02",
+    "evidence_hashes":  {
+                            "PK_HOLE_COMPANION_RECOVERY_DC.msg":  "CE785737D03B642C18E13D3847DA33E2BABADC226033BA0A4CED565CFABF1612",
+                            "PK_HOLE_COMPANION_RECOVERY_DC.dat":  "4DBC352EFA1632F28AEF0EAB35E973289AD75C96ABDEA4833FAE5FBE168CE818",
+                            "PK_HOLE_COMPANION_RECOVERY_DC.prt":  "8A1073782888290337089869A6F4AF8C602D4995A03428F60EBB450C978DA0A0",
+                            "pbs_execution.log":  "020F6050E826B416E6048F9117385D800858186F21728835E7813AF8FC2CFD70",
+                            "PK_HOLE_COMPANION_RECOVERY_DC.com":  "6CCCA2626326DA5881E04E0C04AFC9DEF92E59F30DBB35087D23A7FAE6BCA4F7"
+                        }
+}

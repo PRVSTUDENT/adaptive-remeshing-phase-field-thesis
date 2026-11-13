@@ -1,0 +1,39 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.5, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\pruth\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: D:\Master thesis\Adaptive remeshing
+plugins: anyio-4.14.2
+collecting ... collected 30 items
+
+tests/unit/test_f1729_case2_datacheck.py::test_f1729_case2_datacheck_summary_all_gates_pass PASSED [  3%]
+tests/unit/test_f1729_case2_datacheck.py::test_f1729_case2_datacheck_evidence_files_exist_and_hashes_match PASSED [  6%]
+tests/unit/test_f1729_case2_datacheck.py::test_f1729_case2_datacheck_pbs_execution_log PASSED [ 10%]
+tests/unit/test_f1729_case2_datacheck.py::test_f1729_case2_datacheck_dat_file_diagnostics PASSED [ 13%]
+tests/unit/test_f1729_case2_datacheck.py::test_f1729_case2_companion_recovery_inp_no_uel_invoked PASSED [ 16%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_all_five_configurations_load PASSED [ 20%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_adapter_dispatch PASSED [ 23%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case1_straight_notch_adapter PASSED [ 26%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case2_off_axis_hole_adapter PASSED [ 30%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case3_notched_plate_pins_adapter PASSED [ 33%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case4_five_hole_adapter PASSED [ 36%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case5_seven_hole_adapter PASSED [ 40%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_bc_dispatch PASSED [ 43%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_mesh_quality_audit_on_reference_mesh PASSED [ 46%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case1_generated_physical_mesh_quality PASSED [ 50%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case1_ligament_spatial_resolution_audit PASSED [ 53%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case2_donor_qualification_audit PASSED [ 56%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_production_deck_builder_logic PASSED [ 60%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_run_method_a_case_missing_donor_fails_closed PASSED [ 63%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_run_method_a_case_missing_abaqus_fails_closed PASSED [ 66%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_truthful_uel_hash_verification PASSED [ 70%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_stale_output_mesh_rejection_guard PASSED [ 73%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_mesh_quality_audit_fails_on_distorted_mesh PASSED [ 76%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case2_donor2_odb_sha256_and_zero_stress_fails_closed PASSED [ 80%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case2_damage_connectivity_components PASSED [ 83%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case2_donor_qualification_numerical_consistency PASSED [ 86%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case2_companion_recovery_deck_static_audit PASSED [ 90%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case2_quantization_error_metrics PASSED [ 93%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_remeshing_engine_step_alignment_guards PASSED [ 96%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case2_companion_recovery_artifact_level_audit PASSED [100%]
+
+============================= 30 passed in 2.06s ==============================

@@ -1,0 +1,100 @@
+#!/bin/bash
+#PBS -N F1729_CASE2_DC
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratch9/pr21vyci/runs/f1729_case2_recovery_datacheck/pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+RUN_DIR="/scratch9/pr21vyci/runs/f1729_case2_recovery_datacheck"
+cd "${RUN_DIR}"
+
+export JOB_NAME="F1729_CASE2_DC"
+export INPUT_DECK="PK_HOLE_COMPANION_RECOVERY.inp"
+export DC_JOB_NAME="PK_HOLE_COMPANION_RECOVERY_DC"
+EXPECTED_INP_SHA="0286f591f865e060d3c34482671d8e378916831d3781db17a4e8bc70963e51e0"
+
+echo "=== PBS Preflight Check for ${JOB_NAME} ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"
+hostname
+
+# 1. Duplicate Run and Lock Guard
+if [ -e "${JOB_NAME}.lck" ]; then
+    echo "ERROR: Active lock file ${JOB_NAME}.lck detected. Aborting."
+    exit 1
+fi
+
+# 2. Storage Capacity and Quota Preflight
+AVAIL_KB=$(df -k . | awk 'NR==2 {print $4}')
+if [ "${AVAIL_KB}" -lt 5242880 ]; then # at least 5 GB
+    echo "ERROR: Insufficient scratch disk space (${AVAIL_KB} KB available). Aborting."
+    exit 1
+fi
+echo "Scratch disk space confirmed: $((AVAIL_KB / 1024 / 1024)) GB available."
+
+# 3. Bitwise SHA-256 Hash Verification of Input Deck
+if [ ! -f "${INPUT_DECK}" ]; then
+    echo "ERROR: Input deck not found: ${INPUT_DECK}"
+    exit 1
+fi
+ACTUAL_INP_SHA=$(sha256sum "${INPUT_DECK}" | awk '{print $1}')
+if [ "${ACTUAL_INP_SHA,,}" != "${EXPECTED_INP_SHA,,}" ]; then
+    echo "ERROR: Input deck SHA-256 mismatch!"
+    echo "  Expected: ${EXPECTED_INP_SHA}"
+    echo "  Actual:   ${ACTUAL_INP_SHA}"
+    exit 1
+fi
+echo "Input deck hash verified: ${ACTUAL_INP_SHA}"
+
+# 4. Dual-Channel Notification Integration
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+if [ -f "${RUN_DIR}/job_notifications.sh" ]; then
+    source "${RUN_DIR}/job_notifications.sh"
+    notification_load_config || echo "Notice: notification_load_config returned non-zero (non-fatal)"
+    notification_install_terminal_trap || echo "Notice: notification_install_terminal_trap returned non-zero (non-fatal)"
+    notify_start || echo "Notice: notify_start returned non-zero (non-fatal)"
+fi
+
+# 5. Environment and Module Initialization
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v abaqus
+
+# 6. Execute Abaqus Datacheck Verification
+echo "=== Running Abaqus Datacheck Verification on ${INPUT_DECK} ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"
+
+# Pure continuum model with isotropic elastic materials: does not require user subroutine
+abaqus datacheck job="${DC_JOB_NAME}" input="${INPUT_DECK}" interactive
+DC_EXIT_CODE=$?
+echo "Datacheck Finished with Exit Code: ${DC_EXIT_CODE}"
+
+if [ "${DC_EXIT_CODE}" -ne 0 ]; then
+    echo "ERROR: Abaqus datacheck failed with exit code ${DC_EXIT_CODE}."
+    if [ -f "${DC_JOB_NAME}.msg" ]; then
+        echo "=== Excerpt of ${DC_JOB_NAME}.msg ==="
+        tail -n 50 "${DC_JOB_NAME}.msg"
+    fi
+    exit ${DC_EXIT_CODE}
+fi
+
+echo "=== Datacheck Verification Succeeded (Exit Code 0) ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"
+
+# 7. Print Output Diagnostics
+if [ -f "${DC_JOB_NAME}.msg" ]; then
+    echo "=== Summary of ${DC_JOB_NAME}.msg ==="
+    tail -n 25 "${DC_JOB_NAME}.msg"
+fi
+if [ -f "${DC_JOB_NAME}.dat" ]; then
+    echo "=== Summary of ${DC_JOB_NAME}.dat ==="
+    grep -E "ERROR|WARNING|ANALYSIS COMPLETE" "${DC_JOB_NAME}.dat" || true
+fi
+
+ls -lh
+exit 0
