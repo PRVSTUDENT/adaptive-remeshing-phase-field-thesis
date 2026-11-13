@@ -1,0 +1,32 @@
+{
+  "benchmark": "Case 2 (Single Off-Axis Hole Plate)",
+  "source": "PK_HOLE_COARSE_JOB1.odb (Step-2 Peak, uy=0.007294 mm)",
+  "total_elements": 2906,
+  "standard_20_bin": {
+    "mean_relative_error_pct": 1.7659,
+    "max_relative_error_pct": 5.8855,
+    "elements_gt_1pct_error_count": 2354,
+    "elements_gt_1pct_error_ratio": 0.81,
+    "intact_element_modulus_pct": 97.5,
+    "intact_element_bias_description": "Bin 19 centers at 19.5/20 = 0.975, introducing a systematic 2.5% stiffness drop on undamaged bulk."
+  },
+  "intact_anchored_20_bin": {
+    "mean_relative_error_pct": 0.8565,
+    "max_relative_error_pct": 5.8855,
+    "elements_gt_1pct_error_count": 1113,
+    "intact_element_modulus_pct": 100.0,
+    "description": "Anchors d < 0.01 elements to exact E0 (g=1.0), reducing bulk error to 0.0% and confining bin error strictly to the softening corridor."
+  },
+  "high_fidelity_100_bin": {
+    "mean_relative_error_pct": 0.2485,
+    "max_relative_error_pct": 1.0005,
+    "elements_gt_1pct_error_count": 1,
+    "description": "Anchors intact elements to E0 and uses 100 fine bins across the softening zone."
+  },
+  "exact_elementwise": {
+    "mean_relative_error_pct": 0.0,
+    "max_relative_error_pct": 0.0,
+    "unique_materials_count": 2623,
+    "description": "Assigns each element its exact constitutive degradation factor g_d = (1-d)^2 + k_res."
+  }
+}

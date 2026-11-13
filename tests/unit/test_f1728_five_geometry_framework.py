@@ -632,3 +632,85 @@ def test_f1728_case2_donor_qualification_numerical_consistency():
     assert "zero elements satisfying d >= 0.90" in coarse_status
 
 
+def test_f1728_case2_companion_recovery_deck_static_audit():
+    """F1728-R25, F1728-R27, F1728-R30: Audit static properties of generated Case 2 companion recovery deck."""
+    audit_path = os.path.join(REPO_ROOT, "results", "validation", "f1728_case2_recovery_deck_audit.json")
+    deck_path = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "176_method_a_plate_with_hole", "PK_HOLE_COMPANION_RECOVERY.inp")
+
+    assert os.path.exists(audit_path), "Missing recovery deck audit JSON: %s" % audit_path
+    assert os.path.exists(deck_path), "Missing generated companion recovery deck: %s" % deck_path
+
+    with open(audit_path, "r") as f:
+        audit = json.load(f)
+
+    assert audit["is_step_name_aligned"] is True
+    assert audit["step_name"] == "RECOVERY_STEP"
+    assert audit["nodes_count"] == 3010
+    assert audit["nodes_match_original"] is True
+    assert audit["quads_count"] == 2832
+    assert audit["quads_match_original"] is True
+    assert audit["tris_count"] == 74
+    assert audit["tris_match_original"] is True
+    assert audit["total_elements"] == 2906
+    assert audit["total_elements_match"] is True
+    assert audit["cpe_plane_strain_element_types_verified"] is True
+
+    # Kinematic boundary condition check
+    assert audit["top_displacement_matches_peak"] is True
+    assert abs(audit["top_displacement_prescribed_mm"] - 0.00729381) < 1e-6
+
+    # Output requests check
+    assert audit["has_miseseri_output"] is True
+    assert audit["has_misesavg_output"] is True
+    assert audit["has_s_output"] is True
+    assert audit["has_evol_output"] is True
+
+    # 100% disjoint section coverage check
+    assert audit["is_disjoint_100pct_coverage"] is True
+    assert audit["total_elements_in_bins"] == 2906
+    assert audit["unique_elements_in_bins"] == 2906
+
+
+def test_f1728_case2_quantization_error_metrics():
+    """F1728-R26: Verify quantization error evaluation and intact-anchored scheme improvement."""
+    q_path = os.path.join(REPO_ROOT, "results", "validation", "f1728_case2_quantization_error.json")
+    assert os.path.exists(q_path), "Missing quantization error JSON: %s" % q_path
+
+    with open(q_path, "r") as f:
+        data = json.load(f)
+
+    # Standard 20-bin metrics
+    std = data["standard_20_bin"]
+    assert abs(std["mean_relative_error_pct"] - 1.7659) < 1e-3
+    assert abs(std["max_relative_error_pct"] - 5.8855) < 1e-3
+    assert std["elements_gt_1pct_error_count"] == 2354
+    assert std["intact_element_modulus_pct"] == 97.5
+
+    # Intact-anchored 20-bin metrics
+    anchored = data["intact_anchored_20_bin"]
+    assert abs(anchored["mean_relative_error_pct"] - 0.8565) < 1e-3
+    assert abs(anchored["max_relative_error_pct"] - 5.8855) < 1e-3
+    assert anchored["intact_element_modulus_pct"] == 100.0
+    assert anchored["mean_relative_error_pct"] < std["mean_relative_error_pct"]
+
+    # Exact elementwise
+    exact = data["exact_elementwise"]
+    assert exact["mean_relative_error_pct"] == 0.0
+    assert exact["unique_materials_count"] == 2623
+
+
+def test_f1728_remeshing_engine_step_alignment_guards():
+    """F1728-R30: Verify fail-closed step and region alignment checks in remeshing engine source."""
+    framework_path = os.path.join(REPO_ROOT, "scripts", "remeshing", "reusable_2d_adaptive_framework.py")
+    with open(framework_path, "r") as f:
+        code = f.read()
+
+    assert "step_target not in m.steps:" in code
+    assert "m.StaticStep(name=step_target, previous=prev_step, timePeriod=1.0)" in code
+    assert "if step_target not in odb_donor.steps:" in code
+    assert "if step_target not in m.steps:" in code
+    assert "if 'ALL_ELEM' not in inst.sets:" in code
+
+
+
+

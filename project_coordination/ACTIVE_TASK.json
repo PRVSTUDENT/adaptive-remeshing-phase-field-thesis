@@ -1,8 +1,8 @@
 {
   "task_id": "F1728-UNIFIED-METHOD-A-FIVE-GEOMETRIES",
   "title": "Unified Physics-Driven Method A Adaptive Remeshing — Five-Geometry Verification",
-  "status": "STAGE_D_CASE2_STRESS_RECOVERY_PROTOCOL_READY_FOR_DISPATCH",
-  "classification": "CASE2_TRANSCRIPTION_RECONCILED_AND_COMPANION_STRESS_RECOVERY_PROTOCOL_QUALIFIED",
+  "status": "STAGE_D_CASE2_EXECUTABLE_RECOVERY_DECK_DISPATCH_READY",
+  "classification": "CASE2_EXECUTABLE_RECOVERY_DECK_OFFLINE_QUALIFIED_FINDINGS_R25_TO_R30_RESOLVED",
   "assigned_agent": "gemini-antigravity",
   "checkpoint_artifact": "docs/validation/F1728_CASE2_COMPANION_STRESS_RECOVERY_PROTOCOL.md",
   "predecessor_task": {
@@ -10,8 +10,8 @@
     "checkpoint_artifact": "docs/validation/F1727_THREE_GEOMETRY_ADAPTIVE_MESH_REPORT.md",
     "classification": "F1727_HISTORICAL_MESH_INGESTION_REJECTED_BY_USER_VISUAL_REVIEW"
   },
-  "scientific_operation": "case2_companion_stress_recovery_protocol",
-  "scientific_operation_id": "f1728_case2_stress_recovery_001",
+  "scientific_operation": "case2_executable_companion_recovery_deck_qualification",
+  "scientific_operation_id": "f1728_case2_stress_recovery_002",
   "scientific_checkpoint_required": true,
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 5,
@@ -70,8 +70,15 @@
     "mutually_exclusive_disjoint_spatial_segmentation_computed",
     "findings_f1728_r22_through_r24_resolved_element_734_nearest_centroid_and_exact_inp_connectivities",
     "case2_companion_degraded_cauchy_stress_recovery_protocol_authored_and_registered",
-    "regression_tests_passed_21_of_21_with_r22_to_r24_assertions"
+    "regression_tests_passed_21_of_21_with_r22_to_r24_assertions",
+    "findings_f1728_r25_through_r30_resolved",
+    "case2_coarse_odb_nodal_u_extracted_on_hpc_verifying_rp_only",
+    "case2_quantization_error_evaluated_and_intact_anchored_scheme_established",
+    "case2_mesh_inventory_reconciled_to_2832_quads_and_74_tris",
+    "case2_executable_companion_recovery_deck_generated_and_audited_100pct_disjoint",
+    "remeshing_engine_hardened_with_fail_closed_step_and_region_checks",
+    "regression_tests_passed_24_of_24_with_r25_to_r30_assertions"
   ],
-  "iteration": 10,
-  "review_resolution": "HND-F1728-CASE2-DONOR-QUAL-003_APPROVED_HND-F1728-CASE2-STRESS-RECOVERY-001_DISPATCH_READY"
+  "iteration": 11,
+  "review_resolution": "HND-F1728-CASE2-STRESS-RECOVERY-001_REJECT_RESOLVED_HND-F1728-CASE2-STRESS-RECOVERY-002_DISPATCH_READY"
 }

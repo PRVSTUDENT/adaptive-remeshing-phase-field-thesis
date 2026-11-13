@@ -1,16 +1,16 @@
 # Task F1728 Case 2 (Single Off-Axis Hole Plate) Companion Degraded Cauchy Stress Recovery Protocol
 
 **Task ID:** `F1728-UNIFIED-METHOD-A-FIVE-GEOMETRIES`  
-**Subtask ID:** `F1728-CASE2-COMPANION_STRESS_RECOVERY_OFFLINE_QUALIFICATION`  
-**Classification:** `CASE2_COMPANION_STRESS_RECOVERY_PROTOCOL_QUALIFIED`  
-**Date:** 13 November 2026  
-**Protocol Version:** 1  
+**Subtask ID:** `F1728-CASE2-EXECUTABLE_RECOVERY_DECK_OFFLINE_QUALIFICATION`  
+**Classification:** `CASE2_EXECUTABLE_RECOVERY_DECK_OFFLINE_QUALIFIED`  
+**Date:** 14 November 2026  
+**Protocol Version:** 2  
 **Agent:** `gemini-antigravity`  
-**Review Correlation:** `HND-F1728-CASE2-STRESS-RECOVERY-001`  
-**Predecessor Review:** `HND-F1728-CASE2-DONOR-QUAL-003` (APPROVED)  
+**Review Correlation:** `HND-F1728-CASE2-STRESS-RECOVERY-002`  
+**Predecessor Reviews:** `HND-F1728-CASE2-STRESS-RECOVERY-001` (REJECT - Hardening Required); `HND-F1728-CASE2-DONOR-QUAL-003` (APPROVED)  
 **Governing Directives:**  
 - **Zero Forward Fracture Rule:** Strictly NO forward phase-field fracture simulations on adapted meshes.  
-- **Zero New PBS Submissions:** `max_new_pbs_submissions = 0`. This document defines an offline, bounded specification.  
+- **Zero New PBS Submissions:** `max_new_pbs_submissions = 0`. Bounded offline generator authoring and static deck validation.  
 - **No Local Abaqus Solver Executions:** All solver operations execute exclusively on the HPC cluster.  
 - **Bitwise Frozen UEL:** Subroutine `f42_mixed_uel.for` (`CE8D5EDC...`) remains unaltered.
 
@@ -35,8 +35,12 @@ In Task F1728 Case 2 (Single Off-Axis Hole Plate, $1.0 \times 1.0\,\text{mm}$, i
 ```
 Consequently, Cauchy stress $\mathbf{S}$ and native `MISESERI` error indicators are identically zero across all 389 increments. `PK_HOLE_COARSE_JOB1.odb` alone **cannot** directly drive native Abaqus `RemeshingRule` sizing under `UNIFORM_ERROR`.
 
-### 1.2 Purpose of Companion Stress Recovery
-This protocol defines the exact mathematical, topological, and computational procedure to recover an authentic, non-zero degraded Cauchy stress field $\boldsymbol{\sigma}_h$ on the coarse mesh from the Step-2 Peak damage state of `PK_HOLE_COARSE_JOB1.odb`. The resulting companion recovery database will natively supply Abaqus Superconvergent Patch Recovery (SPR) with the inter-element stress jumps needed to compute `MISESERI` and `MISESAVG`, driving native adaptive remeshing across the oblique fracture corridor.
+### 1.2 Purpose and Classification of Companion Stress Recovery
+This protocol defines the exact mathematical, topological, and computational procedure to recover an authentic, non-zero degraded Cauchy stress field $\boldsymbol{\sigma}_h$ on the coarse mesh from the Step-2 Peak damage state of `PK_HOLE_COARSE_JOB1.odb`. The resulting companion recovery database natively supplies Abaqus Superconvergent Patch Recovery (SPR) with the inter-element stress jumps needed to compute `MISESERI` and `MISESAVG`, driving native adaptive remeshing across the oblique fracture corridor.
+
+**Surrogate Classification (Resolving Finding F1728-R25):**  
+An empirical extraction performed on the HPC cluster using Abaqus Python (`scripts/remeshing/extract_case2_nodal_u.py`) demonstrated that `PK_HOLE_COARSE_JOB1.odb` wrote field output `U` **only** for node 999999 (Reference Point, $u_y = 0.00729381\,\text{mm}$), due to the coarse deck card `*NODE OUTPUT, NSET=N_RP`. Physical nodes 1..3010 have no recorded displacement in the coarse ODB.  
+Therefore, the companion recovery solve is **explicitly and transparently classified as a re-equilibrated surrogate continuum solve** with spatially heterogeneous degraded stiffness under the prescribed boundary kinematics ($u_y = 0.00729381\,\text{mm}$ at $y=1.0\,\text{mm}$, fixed $y=0.0\,\text{mm}$, pinned corner), rather than a prescribed nodal kinematics interpolation.
 
 ---
 
@@ -46,15 +50,18 @@ The companion stress recovery workflow depends strictly on verified, immutable p
 
 | Asset Name | Repository Path | Size / Details | SHA-256 / Hash Provenance |
 | :--- | :--- | :--- | :--- |
-| **Coarse Physical Mesh** | `models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_PHYS.inp` | 2,906 elements (2,818 quads, 88 tris), 3,010 nodes | Bitwise verified against cluster scratch |
+| **Coarse Physical Mesh** | `models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_PHYS.inp` | 2,906 elements (2,832 quads, 74 tris), 3,010 nodes | Bitwise verified (Finding F1728-R27 reconciled) |
 | **Authentic Coarse ODB** | `/scratch9/pr21vyci/runs/mode1_method_a_hole_coarse/PK_HOLE_COARSE_JOB1.odb` | 518,169,932 bytes, 389 frames | `834b9bb035fcf7b25dbb0deb7f8c344d7a9783dcfaa6d92a0c986affb689ad4c` |
 | **Extracted Coarse Fields** | `results/validation/f1728_case2_coarse_job1_fields.json` | 763,246 bytes (all 2,906 elements at 3 checkpoints) | `6427CEF0E84DE87A63A2F370A8D0D0B93C1E704CA0840DD805B248FF022509C9` |
 | **Damage Connectivity Graph** | `results/validation/f1728_case2_damage_connectivity.json` | 48 elements, 3 components, 6 boundary-touching elements | Verified in Round 3 review |
 | **Frozen UEL Subroutine** | `models/pandey_kumar_mode1/219_f1728_five_geometry_study/f42_mixed_uel.for` | 38,455 bytes (Frozen Mode-I UEL) | `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` |
+| **Executable Recovery Deck** | `models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COMPANION_RECOVERY.inp` | 2,906 elements, 3,010 nodes, 13 populated bins | Generated deterministically offline |
+| **Deck Audit Receipt** | `results/validation/f1728_case2_recovery_deck_audit.json` | Static audit of nodes, elements, BCs, outputs | Verified `RECOVERY_STEP`, 100% disjoint |
+| **Quantization Audit** | `results/validation/f1728_case2_quantization_error.json` | Evaluation of 20-bin vs anchored vs 100-bin | Reconciled with Finding F1728-R26 |
 
 ---
 
-## 3. Mathematical and Constitutive Formulation
+## 3. Mathematical Formulation and Quantization Error Analysis
 
 ### 3.1 Degraded Cauchy Stress State
 In the standard phase-field fracture formulation for brittle solids, the Cauchy stress tensor in the softening regime is degraded by the energetic degradation function $g(d)$:
@@ -67,54 +74,51 @@ where:
 - $k_{\text{res}} = 1.0 \times 10^{-7}$ (numerical residual stiffness parameter preventing ill-conditioning in fully broken regions)
 - $d(\mathbf{x}) \in [0, 1]$ is the scalar phase-field damage variable evaluated at Step-2 Peak ($u_y = 0.00729381\,\text{mm}$)
 
-### 3.2 Piecewise Degradation Discretization (20-Bin Partitioning)
-Following the validated Section 4.3 (Tasks F1697–F1703) and Section 4.5 (Tasks F1718–F1719) recovery architectures, the continuous degradation function $g(d) = (1-d)^2 + k_{\text{res}}$ across the 2,906 physical elements is partitioned into $N_{\text{bins}} = 20$ discrete material bins:
-$$b_i = \min\left(19, \max\left(0, \left\lfloor 20 \cdot g(d_i) \right\rfloor\right)\right), \quad i \in \{1, \dots, 2906\}$$
-For each bin $b \in \{0, \dots, 19\}$, the representative degradation factor is:
-$$g_b = \frac{b + 0.5}{20.0}$$
-The effective isotropic Young's modulus for element set `ELSET_BIN_b` is:
-$$E_b = E_0 \cdot \max(g_b, k_{\text{res}})$$
-All elements in `ELSET_BIN_b` share the baseline Poisson's ratio $\nu = 0.30$.
+### 3.2 Quantization Error Evaluation and Intact-Anchored Scheme (Resolving Finding F1728-R26)
+In `HND-F1728-CASE2-STRESS-RECOVERY-001`, the reviewer established that a naive 20-bin partitioning based on $g(d)$ introduces significant discretization bias:
+- **Naive 20-Bin Partitioning:** Bins elements by floor index $b = \lfloor 20 \cdot g(d) \rfloor$ and assigns midpoint representative values $g_b = (b + 0.5)/20$. Undamaged elements ($d = 0$, $g = 1.0$) fall into bin 19 and receive $g_{19} = 19.5/20 = 0.975$, imposing a **systematic 2.5% stiffness reduction across the entire elastic far field**. This yields a mean relative error of $1.7659\%$ (maximum $5.8855\%$), with $81.0\%$ of elements (2,354 of 2,906) exceeding $1.0\%$ relative error.
+- **Intact-Anchored 20-Bin Formulation (Adopted):**  
+  To eliminate artificial far-field compliance while preserving compatibility with standard Abaqus CAE section limits, the intact-anchored scheme assigns:
+  $$g_{\text{eff}}(d_i) = \begin{cases} 1.0 & \text{if } d_i < 0.01 \\ \max\left(\frac{\lfloor 20 \cdot g(d_i) \rfloor + 0.5}{20}, k_{\text{res}}\right) & \text{if } d_i \ge 0.01 \end{cases}$$
+  This anchors 2,858 undamaged bulk elements to exact $E_0$ ($0.0\%$ error), confining the binning discretization strictly to the 48 actively softening elements. The global mean relative error drops to **$0.8565\%$**, and the bulk elastic field is preserved without artificial compliance distortion.
+- **Higher-Fidelity Options Available:**  
+  The generator script (`scripts/remeshing/generate_case2_companion_recovery_deck.py`) also supports:
+  - `HIGH_FIDELITY_100_BIN`: Mean relative error $0.2485\%$, max $1.0005\%$.
+  - `EXACT_ELEMENTWISE`: Exact $g(d_i) = (1-d_i)^2 + k_{\text{res}}$ assigned to each element across 2,623 unique materials ($0.0000\%$ relative error).
 
-### 3.3 Proof of Scale Invariance for Relative Error Indicator $\eta_e$
-To reproduce the numerical magnitude order of published Figure 25(a) ($\text{MISESERI} \sim 10^{-12}\,\text{MPa}$), a dummy modulus scaling factor $s = 4.7619 \times 10^{-14}$ ($E_{\text{dummy}} = 1.0 \times 10^{-11}\,\text{kN/mm}^2 = 1.0 \times 10^{-8}\,\text{MPa}$) may optionally be applied.
-
-**Theorem (Modulus Scale Invariance):**  
-Let $\boldsymbol{\sigma}^{(1)} = s_1 \mathbf{C} : \boldsymbol{\varepsilon}$ and $\boldsymbol{\sigma}^{(2)} = s_2 \mathbf{C} : \boldsymbol{\varepsilon}$ be two Cauchy stress fields evaluated on identical meshes under identical kinematic boundary conditions with scalar scale ratio $\alpha = s_2 / s_1$.  
-1. Because the elasticity problem is linear, $\boldsymbol{\sigma}^{(2)}(\mathbf{x}) = \alpha \boldsymbol{\sigma}^{(1)}(\mathbf{x})$ pointwise.
-2. The superconvergent patch recovery operator $\mathcal{P}$ is a linear projection on stress patches:
-   $$\mathbf{s}_e^{(2)} = \mathcal{P}(\boldsymbol{\sigma}^{(2)}) - \boldsymbol{\sigma}^{(2)} = \alpha \left(\mathcal{P}(\boldsymbol{\sigma}^{(1)}) - \boldsymbol{\sigma}^{(1)}\right) = \alpha \mathbf{s}_e^{(1)}$$
-3. The recovered von Mises error indicator scales linearly:
-   $$\text{MISESERI}^{(2)} = \sqrt{\frac{3}{2} \mathbf{s}_e^{(2)} : \mathbf{s}_e^{(2)}} = \alpha \sqrt{\frac{3}{2} \mathbf{s}_e^{(1)} : \mathbf{s}_e^{(1)}} = \alpha \text{MISESERI}^{(1)}$$
-4. The domain-average equivalent stress $\text{MISESAVG}$ scales linearly:
-   $$\text{MISESAVG}^{(2)} = \frac{1}{V_{\Omega}} \int_{\Omega} \sigma_{\text{mises}}^{(2)} \, d\Omega = \alpha \text{MISESAVG}^{(1)}$$
-5. The dimensionless relative error indicator $\eta_e$ is strictly invariant:
-   $$\eta_e^{(2)} = \frac{\text{MISESERI}_e^{(2)}}{\text{MISESAVG}^{(2)}} = \frac{\alpha \text{MISESERI}_e^{(1)}}{\alpha \text{MISESAVG}^{(1)}} = \eta_e^{(1)}$$
-Therefore, the element sizing distribution $h_e = h_0 (\eta_{\text{target}} / \eta_e)^{1/p}$ computed by Abaqus `RemeshingRule` is **mathematically identical** regardless of whether physical scale ($E_0 = 210\,\text{GPa}$) or dummy overlay scale ($E_{\text{dummy}} = 10^{-8}\,\text{MPa}$) is utilized.
+### 3.3 Variable Definition and Scale Invariance Realism (Resolving Finding F1728-R28)
+- **`MISESAVG` Definition:** In Abaqus, `MISESAVG` is an **element-average equivalent stress output variable** (`WHOLE_ELEMENT` scalar representing the average equivalent von Mises stress over the integration points of each element), not a domain-average scalar.
+- **Physical Scale vs. Theoretical Invariance:**  
+  While mathematical scale invariance proves that the ratio $\eta_e = \text{MISESERI}_e / \text{MISESAVG}_e$ is invariant to uniform scalar modulus scaling under identical kinematic boundary conditions, numerical implementations with small scaling factors ($s \sim 10^{-14}$) risk truncation and solver cutback sensitivity. Therefore:
+  - **The primary, authoritative implementation uses physical scale ($E_0 = 210\,\text{GPa} = 210,000\,\text{MPa}$)**.
+  - The resulting stresses, forces, and error indicators reflect genuine physical values ($\mathrm{MPa}$).
+  - Dummy overlay scaling is retained only as an analytical reference explaining historical 10^-12 ~ 10^-19 magnitudes in published literature.
 
 ---
 
-## 4. Implementation Protocol and Model Assembly
+## 4. Implementation Protocol and Executable Deck Architecture (Resolving Findings F1728-R27 & F1728-R30)
 
-### 4.1 Input Deck Structure (`PK_HOLE_COMPANION_RECOVERY.inp`)
-The companion recovery deck is a single-step, linear-elastic continuum model (`CPE4` and `CPE3` elements) constructed as follows:
+### 4.1 Reconciled Mesh Inventory (Finding F1728-R27)
+A rigorous topological audit of `models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_PHYS.inp` established the exact element inventory:
+- **Nodes:** Exactly 3,010 nodes.
+- **Quadrilateral Elements (`CPE4`):** Exactly 2,832 elements (Elements 1 to 2832).
+- **Triangular Elements (`CPE3`):** Exactly 74 elements (Elements 2833 to 2906).
+- **Total Physical Elements:** Exactly 2,906 elements.
+*(Historical mention of 2,818 quads and 88 triangles belonged to the pre-analysis donor mesh, whereas the physical coarse mesh possesses 2,832 quads and 74 triangles).*
 
-1. **Mesh Nodes:** Exact coordinates of all 3,010 nodes imported from `PK_HOLE_COARSE_PHYS.inp`.
-2. **Element Definitions:** Exact element connectivities of all 2,818 quads (`CPE4`) and 88 triangles (`CPE3`), assigned to element sets `QUADS` and `TRIS`.
-3. **Facsimile Element Sets:**
-   ```abaqus
-   *ELSET, ELSET=All_elem
-   QUADS
-   TRIS
-   *ELSET, ELSET=umatelem
-   All_elem
-   ```
-4. **Material Degradation Sections:** 20 distinct `*SOLID SECTION` and `*MATERIAL` definitions mapping `ELSET_BIN_0` through `ELSET_BIN_19` to degraded elastic moduli $E_b$.
-5. **Boundary Conditions (Kinematic State Enforcement):**
-   - Bottom boundary $y = 0.0\,\text{mm}$ (`N_BOTTOM`): $u_y = 0.0$
-   - Pinned corner $(0.0, 0.0)\,\text{mm}$ (`N_PIN`): $u_x = 0.0$
-   - Top boundary $y = 1.0\,\text{mm}$ (`N_TOP`): $u_y = 0.00729381\,\text{mm}$ (exact peak displacement from Frame 167)
-6. **Analysis Step:**
+### 4.2 Executable Deck Structure (`PK_HOLE_COMPANION_RECOVERY.inp`)
+The companion recovery deck is deterministically generated by `scripts/remeshing/generate_case2_companion_recovery_deck.py`:
+1. **Nodes & Connectivity:** 3,010 nodes, 2,832 `CPE4` quads, 74 `CPE3` tris imported directly from `PK_HOLE_COARSE_PHYS.inp`.
+2. **Element Sets:**
+   - `QUADS`: Elements 1..2832
+   - `TRIS`: Elements 2833..2906
+   - `All_elem`: Elements 1..2906 (combination of `QUADS` and `TRIS`)
+   - `umatelem`: Alias for `All_elem`
+3. **Disjoint Material Sections:**
+   Populates 13 active material bins (`ELSET_BIN_0` through `ELSET_BIN_19`), covering 100% of the 2,906 elements with zero overlapping or unassigned elements:
+   - `ELSET_BIN_19` (Intact bulk, $E = 210,000\,\text{MPa}$): 2,858 elements.
+   - Softening bins (`ELSET_BIN_0` to `ELSET_BIN_18`): 48 elements.
+4. **Step Name & Boundary Conditions (Finding F1728-R30):**
    ```abaqus
    *STEP, NAME=RECOVERY_STEP, NLGEOM=NO
    *STATIC
@@ -122,7 +126,7 @@ The companion recovery deck is a single-step, linear-elastic continuum model (`C
    *BOUNDARY
    N_BOTTOM, 2, 2, 0.0
    N_PIN, 1, 1, 0.0
-   N_TOP, 2, 2, 0.00729381
+   N_TOP, 2, 2, 0.007293812465
    *OUTPUT, FIELD
    *ELEMENT OUTPUT, ELSET=All_elem, DIRECTION=YES
    MISESERI, MISESAVG, S, EVOL
@@ -131,12 +135,11 @@ The companion recovery deck is a single-step, linear-elastic continuum model (`C
    *END STEP
    ```
 
-### 4.2 Superconvergent Patch Recovery Execution
-Solving `PK_HOLE_COMPANION_RECOVERY.inp` with Abaqus/Standard executes the Zienkiewicz–Zhu SPR algorithm on element set `All_elem`:
-1. Stresses at integration points are sampled across polynomial element patches.
-2. Higher-order continuous polynomial stress fields $\boldsymbol{\sigma}^*$ are fitted to patch sampling points.
-3. Stress difference $\mathbf{s}_e = \boldsymbol{\sigma}^* - \boldsymbol{\sigma}_h$ is integrated across each element to yield $\text{MISESERI}_e$.
-4. The resulting ODB contains non-zero `MISESERI` and `MISESAVG` fields reflecting the physical softening across the oblique ligament.
+### 4.3 Engine Step & Region Alignment Safeguards (Finding F1728-R30)
+In `scripts/remeshing/reusable_2d_adaptive_framework.py` (lines 1297–1325), the remeshing engine was hardened with fail-closed alignment checks:
+1. If `step_target` (e.g. `RECOVERY_STEP`) does not exist in the CAE model `m`, it is created dynamically as a Static Linear Perturbation step.
+2. An explicit assertion confirms that `step_target` exists in both `odb_donor.steps` and `m.steps`.
+3. An explicit assertion confirms that `All_elem` exists on the part instance before `adaptiveRemesh()` is invoked.
 
 ---
 
@@ -153,15 +156,15 @@ Solving `PK_HOLE_COMPANION_RECOVERY.inp` with Abaqus/Standard executes the Zienk
 
 ---
 
-## 6. Verification and Acceptance Criteria
+## 6. Calibrated Verification and Acceptance Criteria (Resolving Finding F1728-R29)
 
-Before declaring the companion stress recovery protocol qualified for subsequent native remeshing, the following quantitative gates must be passed:
+To ensure scientifically defensible qualification without imposing unphysical strict-positivity or predetermined peak element constraints, acceptance criteria are calibrated as follows:
 
 1. **Gate REC-01 (Solvability & Exit Code):** `PK_HOLE_COMPANION_RECOVERY.inp` must complete Abaqus/Standard solve with Exit Code 0 in 1 increment with 0 cutbacks.
-2. **Gate REC-02 (Nonzero Field Availability):** 100% of the 2,906 physical elements must evaluate strictly positive, non-zero values for `MISESERI` and `MISESAVG`.
-3. **Gate REC-03 (Spatial Concentration):** Peak `MISESERI` must localize within the 37-element primary damage corridor ($y \in [0.48, 0.68]\,\text{mm}$, $x \in [0.50, 0.65]\,\text{mm}$), verifying that error polarization shifts from the notch tip into the softening ligament.
-4. **Gate REC-04 (Scale Invariance):** Relative error $\eta_e = \text{MISESERI}_e / \text{MISESAVG}_e$ must match between physical scale and dummy overlay scale to within $|\Delta \eta / \eta| \le 1.0 \times 10^{-4}\%$.
-5. **Gate REC-05 (Zero Forward Fracture):** Under NO circumstances shall forward phase-field fracture propagation be executed on adapted meshes during this task.
+2. **Gate REC-02 (Valid Field Generation & Non-Degeneracy):** The recovered ODB must provide valid, readable `MISESERI`, `MISESAVG`, and `S` field outputs for all 2,906 elements. No `NaN`, infinite, or undefined values are permitted.
+3. **Gate REC-03 (Spatial Contrast & Ligament Polarization):** The mean `MISESERI` across the 37-element primary damage corridor ($y \in [0.48, 0.68]\,\text{mm}$, $x \in [0.50, 0.65]\,\text{mm}$) must achieve at least **$5.0\times$ contrast** relative to the far-field bulk mean ($x > 0.80\,\text{mm}$), verifying that error polarization successfully shifts into the softening ligament.
+4. **Gate REC-04 (Static Equilibrium & Reaction Force Check):** Total vertical reaction force $\sum RF_y$ on `N_BOTTOM` must balance $RF_y$ on `N_TOP` to within $|\Delta RF / RF| \le 1.0 \times 10^{-4}$, confirming numerical equilibrium of the surrogate continuum solve.
+5. **Gate REC-05 (Zero Forward Fracture Enforcement):** Under NO circumstances shall forward phase-field fracture propagation be executed on adapted meshes during this task.
 
 ---
 

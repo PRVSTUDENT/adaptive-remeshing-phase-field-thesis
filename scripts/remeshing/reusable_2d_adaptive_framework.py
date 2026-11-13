@@ -1296,12 +1296,33 @@ class AbaqusNativeRemeshingEngine(object):
 
         step_target = config.step_name
         if step_target not in odb_donor.steps:
-            if "Step-2" in odb_donor.steps:
+            if "RECOVERY_STEP" in odb_donor.steps:
+                step_target = "RECOVERY_STEP"
+            elif "Step-2" in odb_donor.steps:
                 step_target = "Step-2"
             elif "Step-1" in odb_donor.steps:
                 step_target = "Step-1"
             else:
                 step_target = list(odb_donor.steps.keys())[-1]
+
+        # Explicitly ensure CAE model has the target step matching the donor ODB (resolving F1728-R30)
+        if step_target not in m.steps:
+            prev_step = list(m.steps.keys())[-1]
+            m.StaticStep(name=step_target, previous=prev_step, timePeriod=1.0)
+
+        # Fail-closed step and region alignment validation
+        if step_target not in odb_donor.steps:
+            raise RuntimeError("FAIL_CLOSED: RemeshingRule target step '%s' does not exist in donor ODB '%s'. Available steps: %s" % (
+                step_target, donor_odb_path, list(odb_donor.steps.keys())
+            ))
+        if step_target not in m.steps:
+            raise RuntimeError("FAIL_CLOSED: RemeshingRule target step '%s' does not exist in CAE model '%s'. Available steps: %s" % (
+                step_target, m.name, list(m.steps.keys())
+            ))
+        if 'ALL_ELEM' not in inst.sets:
+            raise RuntimeError("FAIL_CLOSED: Region set 'ALL_ELEM' does not exist on instance '%s' in model '%s'" % (
+                inst.name, m.name
+            ))
 
         coarsen_opt = NOT_ALLOWED if config.coarsening_factor == "NOT_ALLOWED" else DEFAULT_LIMIT
 

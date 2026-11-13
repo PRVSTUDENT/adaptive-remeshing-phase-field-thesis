@@ -1,0 +1,35 @@
+{
+  "deck_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\176_method_a_plate_with_hole\\PK_HOLE_COMPANION_RECOVERY.inp",
+  "step_name": "RECOVERY_STEP",
+  "is_step_name_aligned": true,
+  "nodes_count": 3010,
+  "nodes_match_original": true,
+  "quads_count": 2832,
+  "quads_match_original": true,
+  "tris_count": 74,
+  "tris_match_original": true,
+  "total_elements": 2906,
+  "total_elements_match": true,
+  "cpe_plane_strain_element_types_verified": true,
+  "boundary_nsets": {
+    "N_BOTTOM": 51,
+    "N_TOP": 51,
+    "N_PIN": 1
+  },
+  "top_displacement_prescribed_mm": 0.007293812465,
+  "top_displacement_matches_peak": true,
+  "element_outputs_requested": [
+    "MISESERI",
+    "MISESAVG",
+    "S",
+    "EVOL"
+  ],
+  "has_miseseri_output": true,
+  "has_misesavg_output": true,
+  "has_s_output": true,
+  "has_evol_output": true,
+  "material_bins_count": 13,
+  "total_elements_in_bins": 2906,
+  "unique_elements_in_bins": 2906,
+  "is_disjoint_100pct_coverage": true
+}
