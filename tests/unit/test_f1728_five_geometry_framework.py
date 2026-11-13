@@ -510,53 +510,80 @@ def test_f1728_case2_donor2_odb_sha256_and_zero_stress_fails_closed():
 
 
 def test_f1728_case2_damage_connectivity_components():
-    """F1728-R16, F1728-R19: Verify damage connectivity components, element counts, and ligament gap."""
+    """F1728-R16, F1728-R19, F1728-R20: Verify damage connectivity components, physical boundary contact, and zero rupture."""
     conn_path = os.path.join(REPO_ROOT, "results", "validation", "f1728_case2_damage_connectivity.json")
     assert os.path.exists(conn_path), "Missing connectivity JSON: %s" % conn_path
     with open(conn_path, "r") as f:
         data = json.load(f)
 
     assert data["total_damaged_elements_d_ge_010"] == 48
+    assert data["total_broken_elements_d_ge_090"] == 0, "Expected zero broken elements (d >= 0.90) at peak load"
     assert data["edge_sharing_components_count"] == 3
     assert data["is_single_connected_chain"] is False
+    assert data["primary_component_touches_hole_boundary"] is True
 
     # Component 1: Primary crack lobe
     comp1 = data["edge_components"][0]
     assert comp1["component_id"] == 1
     assert comp1["element_count"] == 37
     assert comp1["d_max"] > 0.57
-    # Gap from primary crack tip to hole perimeter is ~7.69 um
-    assert 0.0076 < comp1["min_dist_to_hole_perimeter_mm"] < 0.0078
+    assert comp1["fully_broken_elements_d_ge_090"] == 0
 
-    # Component 2: Secondary crack nucleation
+    # Physical polygon boundary contact: polygon clearance is 0.0 mm (F1728-R20)
+    assert comp1["physical_boundary_contact"] is True
+    assert comp1["polygon_clearance_to_hole_perimeter_mm"] == 0.0
+    for expected_eid in [151, 152, 153, 687, 734, 1088]:
+        assert expected_eid in comp1["boundary_touching_elements"], "Missing boundary element: %d" % expected_eid
+
+    # Centroid clearance (distinct from polygon contact)
+    assert 0.0076 < comp1["nearest_centroid_clearance_to_hole_perimeter_mm"] < 0.0078
+
+    # Component 2: Secondary crack nucleation on opposite right hole flank
     comp2 = data["edge_components"][1]
     assert comp2["component_id"] == 2
     assert comp2["element_count"] == 10
-    assert 0.0077 < comp2["min_dist_to_hole_perimeter_mm"] < 0.0080
+    assert comp2["physical_boundary_contact"] is True
+    assert comp2["polygon_clearance_to_hole_perimeter_mm"] == 0.0
+    for expected_eid in [241, 243, 245, 497, 498, 1379]:
+        assert expected_eid in comp2["boundary_touching_elements"]
 
     # Component 3: Boundary constraint artifact
     comp3 = data["edge_components"][2]
     assert comp3["component_id"] == 3
     assert comp3["element_count"] == 1
-    assert comp3["min_dist_to_hole_perimeter_mm"] > 0.35
+    assert comp3["physical_boundary_contact"] is False
+    assert comp3["polygon_clearance_to_hole_perimeter_mm"] > 0.35
 
 
 def test_f1728_case2_donor_qualification_numerical_consistency():
-    """F1728-R17, F1728-R19: Verify numerical consistency between record metrics and assessment prose."""
+    """F1728-R17, F1728-R19, F1728-R21: Verify numerical consistency across disjoint spatial segmentations and prose."""
     qual_path = os.path.join(REPO_ROOT, "results", "validation", "f1728_case2_donor_qualification.json")
     with open(qual_path, "r") as f:
         data = json.load(f)
 
     donor1 = data["candidate_donor_1_linear_elastic"]
     max_mpa = donor1["miseseri_statistics"]["max_mpa"]
-    core_mean = donor1["spatial_segmentation"]["notch_tip_core_r005"]["mean_miseseri_mpa"]
-    bulk_mean = donor1["spatial_segmentation"]["far_field_bulk"]["mean_miseseri_mpa"]
-    hole_mean = donor1["spatial_segmentation"]["hole_flank_vicinity"]["mean_miseseri_mpa"]
+    disjoint_seg = donor1["spatial_segmentation_disjoint"]
+    core_mean = disjoint_seg["notch_tip_core_r005"]["mean_miseseri_mpa"]
+    bulk_mean = disjoint_seg["far_field_bulk_disjoint"]["mean_miseseri_mpa"]
+    hole_mean = disjoint_seg["hole_flank_vicinity_disjoint"]["mean_miseseri_mpa"]
+    lig_disjoint_mean = disjoint_seg["notch_excluded_ligament_disjoint"]["mean_miseseri_mpa"]
+    lig_inclusive_mean = donor1["auxiliary_overlapping_corridors"]["inclusive_ligament_corridor_with_notch"]["mean_miseseri_mpa"]
+
+    # Verify disjoint counts sum exactly to total physical elements (2906)
+    c_core = disjoint_seg["notch_tip_core_r005"]["count"]
+    c_hole = disjoint_seg["hole_flank_vicinity_disjoint"]["count"]
+    c_lig = disjoint_seg["notch_excluded_ligament_disjoint"]["count"]
+    c_bulk = disjoint_seg["far_field_bulk_disjoint"]["count"]
+    assert c_core + c_hole + c_lig + c_bulk == 2906
+    assert disjoint_seg["total_disjoint_elements"] == 2906
 
     assert abs(max_mpa - 1430.27) < 0.1
     assert abs(core_mean - 385.55) < 0.1
     assert abs(bulk_mean - 15.04) < 0.1
     assert abs(hole_mean - 162.63) < 0.1
+    assert abs(lig_disjoint_mean - 118.79) < 0.1
+    assert abs(lig_inclusive_mean - 193.96) < 0.1
 
     # Verify assessment prose contains dynamic values and NOT outdated hardcoded values
     assessment = data["scientific_assessment"]["preanalysis_behavior"]
@@ -564,8 +591,17 @@ def test_f1728_case2_donor_qualification_numerical_consistency():
     assert "385.55" in assessment
     assert "15.04" in assessment
     assert "162.63" in assessment
+    assert "118.7" in assessment
+    assert "193.96" in assessment
     assert "107.39" not in assessment
     assert "68.42" not in assessment
     assert "3.88" not in assessment
+
+    # Verify coarse phase field status correctly reports physical boundary contact and zero 7.69um gap claim
+    coarse_status = data["scientific_assessment"]["coarse_phase_field_status"]
+    assert "polygon clearance = 0.0 um" in coarse_status
+    assert "not an intact physical gap" in coarse_status
+    assert "d_max = 0.5798" in coarse_status
+    assert "zero elements satisfying d >= 0.90" in coarse_status
 
 

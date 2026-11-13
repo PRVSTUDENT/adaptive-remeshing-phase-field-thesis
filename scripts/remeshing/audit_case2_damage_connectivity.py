@@ -2,9 +2,16 @@
 """
 scripts/remeshing/audit_case2_damage_connectivity.py
 ===================================================
-Audits the element adjacency, spatial graph connectivity, and distance to hole
-for the 48 softening elements (d >= 0.10) in Case 2 coarse phase-field donor
+Audits element adjacency, spatial graph connectivity, and physical hole-boundary
+contact for the 48 softening elements (d >= 0.10) in Case 2 coarse phase-field donor
 at Step-2 peak load (uy = 0.00729 mm).
+
+Resolves Independent Review Finding F1728-R20:
+- Tests physical hole-boundary contact from actual polygon vertices and boundary nodes.
+- Distinguishes physical polygon boundary contact (0.0 um, touching) from element centroid
+  clearance (7.69 um).
+- Distinguishes diffuse softening damage contact (d in [0.10, 0.58]) from full crack
+  rupture/penetration (d >= 0.90).
 """
 
 from __future__ import print_function
@@ -21,9 +28,7 @@ def parse_inp_mesh(inp_path):
     with open(inp_path, 'r') as f:
         for line in f:
             line = line.strip()
-            if not line:
-                continue
-            if line.startswith('**'):
+            if not line or line.startswith('**'):
                 continue
             if line.startswith('*'):
                 upline = line.upper()
@@ -69,6 +74,21 @@ def analyze_connectivity():
     nodes, elements = parse_inp_mesh(inp_path)
     centroids = compute_centroids(nodes, elements)
     
+    notch_tip = (0.50, 0.50)
+    hole_center = (0.65, 0.65)
+    hole_radius = 0.10
+    
+    # Identify all nodes lying on circular hole boundary: |r - R| < 1e-4 mm
+    hole_boundary_nodes = {}
+    for nid, (nx, ny) in nodes.items():
+        r = math.hypot(nx - hole_center[0], ny - hole_center[1])
+        radial_residual = abs(r - hole_radius)
+        if radial_residual < 1e-4:
+            hole_boundary_nodes[nid] = {
+                "coords": (nx, ny),
+                "radial_residual_mm": radial_residual
+            }
+            
     with open(fields_path, 'r') as f:
         fields = json.load(f)
         
@@ -78,14 +98,13 @@ def analyze_connectivity():
     # 48 elements with d >= 0.10
     damaged_eids = set(int(k) for k, v in step2_peak_d.items() if v >= 0.10)
     
-    # Build node-to-element mapping for damaged elements
+    # Node-to-damaged-element mapping
     node_to_damaged_elems = defaultdict(set)
     for eid in damaged_eids:
         for nid in elements[eid]:
             node_to_damaged_elems[nid].add(eid)
             
-    # Build element adjacency graph (sharing at least one edge: 2 nodes for quad/tri)
-    # Also check node-sharing (sharing at least 1 node)
+    # Adjacency graphs: edge-sharing (>=2 nodes) and node-sharing (>=1 node)
     edge_adj = defaultdict(set)
     node_adj = defaultdict(set)
     
@@ -94,12 +113,10 @@ def analyze_connectivity():
             for e2 in e_set:
                 if e1 != e2:
                     node_adj[e1].add(e2)
-                    # Check if they share at least 2 nodes (an edge)
                     shared_nodes = set(elements[e1]).intersection(elements[e2])
                     if len(shared_nodes) >= 2:
                         edge_adj[e1].add(e2)
                         
-    # Find connected components under edge-sharing
     def get_components(adj_graph, all_nodes):
         visited = set()
         components = []
@@ -117,31 +134,47 @@ def analyze_connectivity():
                             queue.append(neighbor)
                 components.append(sorted(comp))
         return sorted(components, key=lambda c: len(c), reverse=True)
-
+        
     edge_components = get_components(edge_adj, damaged_eids)
     node_components = get_components(node_adj, damaged_eids)
-    
-    # Analyze distance to notch tip (0.50, 0.50) and hole (0.65, 0.65), R=0.10
-    notch_tip = (0.50, 0.50)
-    hole_center = (0.65, 0.65)
-    hole_radius = 0.10
     
     comp_details = []
     for c_idx, comp in enumerate(edge_components):
         comp_centroids = [centroids[eid] for eid in comp]
         comp_d_vals = [step2_peak_d[str(eid)] for eid in comp]
         
-        # Min distance to notch tip
-        dist_to_tip = min(math.hypot(c[0] - notch_tip[0], c[1] - notch_tip[1]) for c in comp_centroids)
-        # Min distance to hole center and hole perimeter
-        dist_to_hole_center = min(math.hypot(c[0] - hole_center[0], c[1] - hole_center[1]) for c in comp_centroids)
-        dist_to_hole_perimeter = dist_to_hole_center - hole_radius
+        # Min distance from element centroids to notch tip and hole center/perimeter
+        dist_to_tip_centroids = min(math.hypot(c[0] - notch_tip[0], c[1] - notch_tip[1]) for c in comp_centroids)
+        centroid_dist_to_hole_center = min(math.hypot(c[0] - hole_center[0], c[1] - hole_center[1]) for c in comp_centroids)
+        centroid_clearance_to_hole_perimeter = centroid_dist_to_hole_center - hole_radius
         
-        # Bounding box of component
+        # True polygon-level vertex distance to hole boundary
+        comp_nodes = set()
+        for eid in comp:
+            comp_nodes.update(elements[eid])
+            
+        boundary_nodes_in_comp = [nid for nid in comp_nodes if nid in hole_boundary_nodes]
+        touches_boundary = len(boundary_nodes_in_comp) > 0
+        
+        # Elements in this component directly possessing boundary nodes
+        touching_elements = [
+            eid for eid in comp if any(nid in hole_boundary_nodes for nid in elements[eid])
+        ]
+        
+        # If any node is on boundary, polygon clearance is 0.0; otherwise min distance of polygon vertices to boundary
+        if touches_boundary:
+            polygon_clearance_to_hole_mm = 0.0
+        else:
+            vertex_dists = [abs(math.hypot(nodes[n][0] - hole_center[0], nodes[n][1] - hole_center[1]) - hole_radius) for n in comp_nodes]
+            polygon_clearance_to_hole_mm = min(vertex_dists)
+            
         min_x = min(c[0] for c in comp_centroids)
         max_x = max(c[0] for c in comp_centroids)
         min_y = min(c[1] for c in comp_centroids)
         max_y = max(c[1] for c in comp_centroids)
+        
+        # Check fully broken elements (d >= 0.90) in this component
+        broken_count = sum(1 for d in comp_d_vals if d >= 0.90)
         
         comp_details.append({
             "component_id": c_idx + 1,
@@ -149,16 +182,21 @@ def analyze_connectivity():
             "elements": comp,
             "d_max": max(comp_d_vals),
             "d_mean": sum(comp_d_vals) / len(comp_d_vals),
-            "min_dist_to_notch_tip_mm": dist_to_tip,
-            "min_dist_to_hole_center_mm": dist_to_hole_center,
-            "min_dist_to_hole_perimeter_mm": dist_to_hole_perimeter,
+            "fully_broken_elements_d_ge_090": broken_count,
+            "physical_boundary_contact": touches_boundary,
+            "polygon_clearance_to_hole_perimeter_mm": polygon_clearance_to_hole_mm,
+            "boundary_touching_elements": touching_elements,
+            "boundary_nodes_count": len(boundary_nodes_in_comp),
+            "boundary_nodes": sorted(boundary_nodes_in_comp),
+            "min_dist_to_notch_tip_mm": dist_to_tip_centroids,
+            "nearest_centroid_dist_to_hole_center_mm": centroid_dist_to_hole_center,
+            "nearest_centroid_clearance_to_hole_perimeter_mm": centroid_clearance_to_hole_perimeter,
             "bbox_mm": {
                 "x_min": min_x, "x_max": max_x,
                 "y_min": min_y, "y_max": max_y
             }
         })
         
-    # Element-by-element table for the 48 damaged elements
     element_table = []
     for eid in sorted(damaged_eids):
         cx, cy = centroids[eid]
@@ -167,6 +205,7 @@ def analyze_connectivity():
         dtip = math.hypot(cx - notch_tip[0], cy - notch_tip[1])
         dhole_c = math.hypot(cx - hole_center[0], cy - hole_center[1])
         dhole_p = dhole_c - hole_radius
+        elem_b_nodes = [nid for nid in elements[eid] if nid in hole_boundary_nodes]
         element_table.append({
             "element_id": eid,
             "centroid_mm": [cx, cy],
@@ -174,7 +213,9 @@ def analyze_connectivity():
             "H": h_val,
             "dist_to_notch_tip_mm": dtip,
             "dist_to_hole_center_mm": dhole_c,
-            "dist_to_hole_perimeter_mm": dhole_p
+            "centroid_clearance_to_hole_perimeter_mm": dhole_p,
+            "touches_hole_boundary": len(elem_b_nodes) > 0,
+            "boundary_nodes": elem_b_nodes
         })
         
     result = {
@@ -183,10 +224,12 @@ def analyze_connectivity():
         "checkpoint": "step2_peak",
         "displacement_mm": fields.get("peak_disp_mm", 0.0072938),
         "total_damaged_elements_d_ge_010": len(damaged_eids),
+        "total_broken_elements_d_ge_090": sum(1 for eid in damaged_eids if step2_peak_d[str(eid)] >= 0.90),
         "edge_sharing_components_count": len(edge_components),
         "node_sharing_components_count": len(node_components),
         "largest_component_element_count": len(edge_components[0]) if edge_components else 0,
         "is_single_connected_chain": len(edge_components) == 1,
+        "primary_component_touches_hole_boundary": comp_details[0]["physical_boundary_contact"] if comp_details else False,
         "edge_components": comp_details,
         "elements_summary": element_table
     }
@@ -200,8 +243,10 @@ def analyze_connectivity():
         "================================================================================",
         "Checkpoint: Step-2 Peak (uy = 0.007294 mm, F = 0.7310 kN)",
         "Total Damaged Elements (d >= 0.10): %d" % len(damaged_eids),
+        "Total Broken Elements (d >= 0.90): %d" % result["total_broken_elements_d_ge_090"],
         "Edge-Sharing Connected Components: %d" % len(edge_components),
         "Node-Sharing Connected Components: %d" % len(node_components),
+        "Primary Component Boundary Contact: %s" % ("YES (Physical Contact at Element Level)" if result["primary_component_touches_hole_boundary"] else "NO"),
         ""
     ]
     for c in comp_details:
@@ -211,19 +256,30 @@ def analyze_connectivity():
         lines.append("  Bounding box: x in [%.4f, %.4f], y in [%.4f, %.4f]" % (
             c["bbox_mm"]["x_min"], c["bbox_mm"]["x_max"], c["bbox_mm"]["y_min"], c["bbox_mm"]["y_max"]
         ))
-        lines.append("  Distance to notch tip: %.4f mm (%.2f um)" % (
+        lines.append("  Physical Hole Boundary Contact: %s (Polygon clearance: %.4f mm)" % (
+            "YES" if c["physical_boundary_contact"] else "NO", c["polygon_clearance_to_hole_perimeter_mm"]
+        ))
+        if c["physical_boundary_contact"]:
+            lines.append("  Boundary-touching elements (%d): %s" % (
+                len(c["boundary_touching_elements"]), str(c["boundary_touching_elements"])
+            ))
+            lines.append("  Boundary nodes (%d): %s" % (
+                len(c["boundary_nodes"]), str(c["boundary_nodes"])
+            ))
+        lines.append("  Nearest centroid distance to notch tip: %.4f mm (%.2f um)" % (
             c["min_dist_to_notch_tip_mm"], c["min_dist_to_notch_tip_mm"] * 1000
         ))
-        lines.append("  Distance to hole perimeter: %.4f mm (%.2f um)" % (
-            c["min_dist_to_hole_perimeter_mm"], c["min_dist_to_hole_perimeter_mm"] * 1000
+        lines.append("  Nearest centroid clearance to hole perimeter: %.4f mm (%.2f um) [NOTE: Centroid metric, not physical gap]" % (
+            c["nearest_centroid_clearance_to_hole_perimeter_mm"], c["nearest_centroid_clearance_to_hole_perimeter_mm"] * 1000
         ))
+        lines.append("  Fully broken elements (d >= 0.90): %d" % c["fully_broken_elements_d_ge_090"])
         lines.append("  Elements: %s" % str(c["elements"]))
         lines.append("")
         
     with open(out_txt, 'w') as f:
         f.write("\n".join(lines))
         
-    print("Connectivity audit complete.")
+    print("Connectivity audit complete: Primary component boundary contact = %s" % result["primary_component_touches_hole_boundary"])
 
 if __name__ == '__main__':
     analyze_connectivity()

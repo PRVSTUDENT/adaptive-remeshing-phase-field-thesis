@@ -3,23 +3,35 @@ CASE 2 COARSE PHASE-FIELD DONOR: STEP-2 PEAK DAMAGE CONNECTIVITY AUDIT
 ================================================================================
 Checkpoint: Step-2 Peak (uy = 0.007294 mm, F = 0.7310 kN)
 Total Damaged Elements (d >= 0.10): 48
+Total Broken Elements (d >= 0.90): 0
 Edge-Sharing Connected Components: 3
 Node-Sharing Connected Components: 3
+Primary Component Boundary Contact: YES (Physical Contact at Element Level)
 
 Component 1: 37 elements, d_max=0.5798, d_mean=0.1869
   Bounding box: x in [0.4867, 0.5608], y in [0.4717, 0.6730]
-  Distance to notch tip: 0.0095 mm (9.50 um)
-  Distance to hole perimeter: 0.0077 mm (7.69 um)
+  Physical Hole Boundary Contact: YES (Polygon clearance: 0.0000 mm)
+  Boundary-touching elements (6): [151, 152, 153, 687, 734, 1088]
+  Boundary nodes (6): [6, 7, 636, 637, 638, 639]
+  Nearest centroid distance to notch tip: 0.0095 mm (9.50 um)
+  Nearest centroid clearance to hole perimeter: 0.0077 mm (7.69 um) [NOTE: Centroid metric, not physical gap]
+  Fully broken elements (d >= 0.90): 0
   Elements: [2, 13, 150, 151, 152, 153, 175, 402, 403, 636, 637, 647, 677, 678, 687, 734, 814, 1088, 1184, 1185, 1186, 1187, 1188, 1189, 1378, 1395, 1405, 1409, 1412, 1413, 1439, 1441, 1454, 1455, 1458, 1488, 1526]
 
 Component 2: 10 elements, d_max=0.2253, d_mean=0.1542
   Bounding box: x in [0.7442, 0.7809], y in [0.5970, 0.6809]
-  Distance to notch tip: 0.2628 mm (262.76 um)
-  Distance to hole perimeter: 0.0078 mm (7.85 um)
+  Physical Hole Boundary Contact: YES (Polygon clearance: 0.0000 mm)
+  Boundary-touching elements (6): [241, 243, 245, 497, 498, 1379]
+  Boundary nodes (6): [1, 12, 13, 628, 644, 645]
+  Nearest centroid distance to notch tip: 0.2628 mm (262.76 um)
+  Nearest centroid clearance to hole perimeter: 0.0078 mm (7.85 um) [NOTE: Centroid metric, not physical gap]
+  Fully broken elements (d >= 0.90): 0
   Elements: [241, 242, 243, 244, 245, 497, 498, 668, 1379, 1818]
 
 Component 3: 1 elements, d_max=0.1258, d_mean=0.1258
   Bounding box: x in [0.9900, 0.9900], y in [0.9900, 0.9900]
-  Distance to notch tip: 0.6929 mm (692.94 um)
-  Distance to hole perimeter: 0.3808 mm (380.80 um)
+  Physical Hole Boundary Contact: NO (Polygon clearance: 0.3666 mm)
+  Nearest centroid distance to notch tip: 0.6929 mm (692.94 um)
+  Nearest centroid clearance to hole perimeter: 0.3808 mm (380.80 um) [NOTE: Centroid metric, not physical gap]
+  Fully broken elements (d >= 0.90): 0
   Elements: [1140]

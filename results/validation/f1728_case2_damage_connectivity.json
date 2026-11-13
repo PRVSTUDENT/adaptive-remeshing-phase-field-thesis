@@ -4,10 +4,12 @@
   "checkpoint": "step2_peak",
   "displacement_mm": 0.0072938,
   "total_damaged_elements_d_ge_010": 48,
+  "total_broken_elements_d_ge_090": 0,
   "edge_sharing_components_count": 3,
   "node_sharing_components_count": 3,
   "largest_component_element_count": 37,
   "is_single_connected_chain": false,
+  "primary_component_touches_hole_boundary": true,
   "edge_components": [
     {
       "component_id": 1,
@@ -53,9 +55,29 @@
       ],
       "d_max": 0.5797519087791443,
       "d_mean": 0.18689323518727277,
+      "fully_broken_elements_d_ge_090": 0,
+      "physical_boundary_contact": true,
+      "polygon_clearance_to_hole_perimeter_mm": 0.0,
+      "boundary_touching_elements": [
+        151,
+        152,
+        153,
+        687,
+        734,
+        1088
+      ],
+      "boundary_nodes_count": 6,
+      "boundary_nodes": [
+        6,
+        7,
+        636,
+        637,
+        638,
+        639
+      ],
       "min_dist_to_notch_tip_mm": 0.009504074736345857,
-      "min_dist_to_hole_center_mm": 0.10769316944404807,
-      "min_dist_to_hole_perimeter_mm": 0.007693169444048062,
+      "nearest_centroid_dist_to_hole_center_mm": 0.10769316944404807,
+      "nearest_centroid_clearance_to_hole_perimeter_mm": 0.007693169444048062,
       "bbox_mm": {
         "x_min": 0.486738413575,
         "x_max": 0.5608461797,
@@ -80,9 +102,29 @@
       ],
       "d_max": 0.22525058686733246,
       "d_mean": 0.15423144698143004,
+      "fully_broken_elements_d_ge_090": 0,
+      "physical_boundary_contact": true,
+      "polygon_clearance_to_hole_perimeter_mm": 0.0,
+      "boundary_touching_elements": [
+        241,
+        243,
+        245,
+        497,
+        498,
+        1379
+      ],
+      "boundary_nodes_count": 6,
+      "boundary_nodes": [
+        1,
+        12,
+        13,
+        628,
+        644,
+        645
+      ],
       "min_dist_to_notch_tip_mm": 0.2627615100836054,
-      "min_dist_to_hole_center_mm": 0.1078488649050366,
-      "min_dist_to_hole_perimeter_mm": 0.007848864905036598,
+      "nearest_centroid_dist_to_hole_center_mm": 0.1078488649050366,
+      "nearest_centroid_clearance_to_hole_perimeter_mm": 0.007848864905036598,
       "bbox_mm": {
         "x_min": 0.7441980392,
         "x_max": 0.7809384316,
@@ -98,9 +140,15 @@
       ],
       "d_max": 0.1258327215909958,
       "d_mean": 0.1258327215909958,
+      "fully_broken_elements_d_ge_090": 0,
+      "physical_boundary_contact": false,
+      "polygon_clearance_to_hole_perimeter_mm": 0.3665738497930521,
+      "boundary_touching_elements": [],
+      "boundary_nodes_count": 0,
+      "boundary_nodes": [],
       "min_dist_to_notch_tip_mm": 0.6929354938501856,
-      "min_dist_to_hole_center_mm": 0.4808034596744293,
-      "min_dist_to_hole_perimeter_mm": 0.3808034596744293,
+      "nearest_centroid_dist_to_hole_center_mm": 0.4808034596744293,
+      "nearest_centroid_clearance_to_hole_perimeter_mm": 0.3808034596744293,
       "bbox_mm": {
         "x_min": 0.989962562925,
         "x_max": 0.989962562925,
@@ -120,7 +168,9 @@
       "H": 0.018846429884433746,
       "dist_to_notch_tip_mm": 0.06331602057136279,
       "dist_to_hole_center_mm": 0.1499376308035886,
-      "dist_to_hole_perimeter_mm": 0.049937630803588595
+      "centroid_clearance_to_hole_perimeter_mm": 0.049937630803588595,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 13,
@@ -132,7 +182,9 @@
       "H": 0.033291321247816086,
       "dist_to_notch_tip_mm": 0.07897410632216295,
       "dist_to_hole_center_mm": 0.13919972654206017,
-      "dist_to_hole_perimeter_mm": 0.039199726542060165
+      "centroid_clearance_to_hole_perimeter_mm": 0.039199726542060165,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 150,
@@ -144,7 +196,9 @@
       "H": 0.02255212888121605,
       "dist_to_notch_tip_mm": 0.11371133900327299,
       "dist_to_hole_center_mm": 0.13018747709713593,
-      "dist_to_hole_perimeter_mm": 0.03018747709713593
+      "centroid_clearance_to_hole_perimeter_mm": 0.03018747709713593,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 151,
@@ -156,7 +210,12 @@
       "H": 0.042465414851903915,
       "dist_to_notch_tip_mm": 0.11735579514713032,
       "dist_to_hole_center_mm": 0.10854036371145644,
-      "dist_to_hole_perimeter_mm": 0.00854036371145643
+      "centroid_clearance_to_hole_perimeter_mm": 0.00854036371145643,
+      "touches_hole_boundary": true,
+      "boundary_nodes": [
+        7,
+        638
+      ]
     },
     {
       "element_id": 152,
@@ -168,7 +227,11 @@
       "H": 0.03624157980084419,
       "dist_to_notch_tip_mm": 0.1412570873924474,
       "dist_to_hole_center_mm": 0.11957994613896399,
-      "dist_to_hole_perimeter_mm": 0.01957994613896398
+      "centroid_clearance_to_hole_perimeter_mm": 0.01957994613896398,
+      "touches_hole_boundary": true,
+      "boundary_nodes": [
+        637
+      ]
     },
     {
       "element_id": 153,
@@ -180,7 +243,12 @@
       "H": 0.06963714957237244,
       "dist_to_notch_tip_mm": 0.15968209117254584,
       "dist_to_hole_center_mm": 0.10933641303901115,
-      "dist_to_hole_perimeter_mm": 0.009336413039011143
+      "centroid_clearance_to_hole_perimeter_mm": 0.009336413039011143,
+      "touches_hole_boundary": true,
+      "boundary_nodes": [
+        6,
+        637
+      ]
     },
     {
       "element_id": 175,
@@ -192,7 +260,9 @@
       "H": 0.024487681686878204,
       "dist_to_notch_tip_mm": 0.08605747444135778,
       "dist_to_hole_center_mm": 0.12666720379492458,
-      "dist_to_hole_perimeter_mm": 0.02666720379492457
+      "centroid_clearance_to_hole_perimeter_mm": 0.02666720379492457,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 241,
@@ -204,7 +274,11 @@
       "H": 0.03682982549071312,
       "dist_to_notch_tip_mm": 0.29431435693977825,
       "dist_to_hole_center_mm": 0.1167835718792468,
-      "dist_to_hole_perimeter_mm": 0.016783571879246797
+      "centroid_clearance_to_hole_perimeter_mm": 0.016783571879246797,
+      "touches_hole_boundary": true,
+      "boundary_nodes": [
+        645
+      ]
     },
     {
       "element_id": 242,
@@ -216,7 +290,9 @@
       "H": 0.01999441161751747,
       "dist_to_notch_tip_mm": 0.3046190073722321,
       "dist_to_hole_center_mm": 0.13485023640114235,
-      "dist_to_hole_perimeter_mm": 0.03485023640114235
+      "centroid_clearance_to_hole_perimeter_mm": 0.03485023640114235,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 243,
@@ -228,7 +304,12 @@
       "H": 0.0380738228559494,
       "dist_to_notch_tip_mm": 0.2627615100836054,
       "dist_to_hole_center_mm": 0.1080796782189724,
-      "dist_to_hole_perimeter_mm": 0.008079678218972389
+      "centroid_clearance_to_hole_perimeter_mm": 0.008079678218972389,
+      "touches_hole_boundary": true,
+      "boundary_nodes": [
+        644,
+        12
+      ]
     },
     {
       "element_id": 244,
@@ -240,7 +321,9 @@
       "H": 0.024443425238132477,
       "dist_to_notch_tip_mm": 0.3098887853055361,
       "dist_to_hole_center_mm": 0.12516550049091255,
-      "dist_to_hole_perimeter_mm": 0.02516550049091254
+      "centroid_clearance_to_hole_perimeter_mm": 0.02516550049091254,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 245,
@@ -252,7 +335,12 @@
       "H": 0.03226204589009285,
       "dist_to_notch_tip_mm": 0.27799591781605787,
       "dist_to_hole_center_mm": 0.10951464524159499,
-      "dist_to_hole_perimeter_mm": 0.009514645241594982
+      "centroid_clearance_to_hole_perimeter_mm": 0.009514645241594982,
+      "touches_hole_boundary": true,
+      "boundary_nodes": [
+        645,
+        12
+      ]
     },
     {
       "element_id": 402,
@@ -264,7 +352,9 @@
       "H": 0.05034509301185608,
       "dist_to_notch_tip_mm": 0.025988233898676192,
       "dist_to_hole_center_mm": 0.19337733682795488,
-      "dist_to_hole_perimeter_mm": 0.09337733682795488
+      "centroid_clearance_to_hole_perimeter_mm": 0.09337733682795488,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 403,
@@ -276,7 +366,9 @@
       "H": 0.08574043214321136,
       "dist_to_notch_tip_mm": 0.017928011726686104,
       "dist_to_hole_center_mm": 0.21373030169344778,
-      "dist_to_hole_perimeter_mm": 0.11373030169344778
+      "centroid_clearance_to_hole_perimeter_mm": 0.11373030169344778,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 497,
@@ -288,7 +380,12 @@
       "H": 0.03216331824660301,
       "dist_to_notch_tip_mm": 0.31242746388877896,
       "dist_to_hole_center_mm": 0.10918818926273223,
-      "dist_to_hole_perimeter_mm": 0.009188189262732224
+      "centroid_clearance_to_hole_perimeter_mm": 0.009188189262732224,
+      "touches_hole_boundary": true,
+      "boundary_nodes": [
+        628,
+        1
+      ]
     },
     {
       "element_id": 498,
@@ -300,7 +397,12 @@
       "H": 0.03846434876322746,
       "dist_to_notch_tip_mm": 0.30401068940412446,
       "dist_to_hole_center_mm": 0.10831439318932193,
-      "dist_to_hole_perimeter_mm": 0.008314393189321923
+      "centroid_clearance_to_hole_perimeter_mm": 0.008314393189321923,
+      "touches_hole_boundary": true,
+      "boundary_nodes": [
+        628,
+        13
+      ]
     },
     {
       "element_id": 636,
@@ -312,7 +414,9 @@
       "H": 0.07821480929851532,
       "dist_to_notch_tip_mm": 0.01798338389082729,
       "dist_to_hole_center_mm": 0.19652935436256047,
-      "dist_to_hole_perimeter_mm": 0.09652935436256047
+      "centroid_clearance_to_hole_perimeter_mm": 0.09652935436256047,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 637,
@@ -324,7 +428,9 @@
       "H": 0.010028193704783916,
       "dist_to_notch_tip_mm": 0.0288232809413866,
       "dist_to_hole_center_mm": 0.2364375841141296,
-      "dist_to_hole_perimeter_mm": 0.1364375841141296
+      "centroid_clearance_to_hole_perimeter_mm": 0.1364375841141296,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 647,
@@ -336,7 +442,9 @@
       "H": 0.03908325731754303,
       "dist_to_notch_tip_mm": 0.01404311799351882,
       "dist_to_hole_center_mm": 0.22614388803476407,
-      "dist_to_hole_perimeter_mm": 0.12614388803476406
+      "centroid_clearance_to_hole_perimeter_mm": 0.12614388803476406,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 668,
@@ -348,7 +456,9 @@
       "H": 0.01881052739918232,
       "dist_to_notch_tip_mm": 0.2887791671669687,
       "dist_to_hole_center_mm": 0.12908505353892863,
-      "dist_to_hole_perimeter_mm": 0.029085053538928624
+      "centroid_clearance_to_hole_perimeter_mm": 0.029085053538928624,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 677,
@@ -360,7 +470,9 @@
       "H": 0.026218103244900703,
       "dist_to_notch_tip_mm": 0.06219596637087014,
       "dist_to_hole_center_mm": 0.16899664277821144,
-      "dist_to_hole_perimeter_mm": 0.06899664277821144
+      "centroid_clearance_to_hole_perimeter_mm": 0.06899664277821144,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 678,
@@ -372,7 +484,9 @@
       "H": 0.029159273952245712,
       "dist_to_notch_tip_mm": 0.07195254707385122,
       "dist_to_hole_center_mm": 0.15119036345916614,
-      "dist_to_hole_perimeter_mm": 0.05119036345916614
+      "centroid_clearance_to_hole_perimeter_mm": 0.05119036345916614,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 687,
@@ -384,7 +498,12 @@
       "H": 0.049874309450387955,
       "dist_to_notch_tip_mm": 0.13061525864698306,
       "dist_to_hole_center_mm": 0.11006653058000107,
-      "dist_to_hole_perimeter_mm": 0.010066530580001065
+      "centroid_clearance_to_hole_perimeter_mm": 0.010066530580001065,
+      "touches_hole_boundary": true,
+      "boundary_nodes": [
+        638,
+        637
+      ]
     },
     {
       "element_id": 734,
@@ -396,7 +515,12 @@
       "H": 0.02788173034787178,
       "dist_to_notch_tip_mm": 0.17868842980144073,
       "dist_to_hole_center_mm": 0.10769316944404807,
-      "dist_to_hole_perimeter_mm": 0.007693169444048062
+      "centroid_clearance_to_hole_perimeter_mm": 0.007693169444048062,
+      "touches_hole_boundary": true,
+      "boundary_nodes": [
+        6,
+        636
+      ]
     },
     {
       "element_id": 814,
@@ -408,7 +532,9 @@
       "H": 0.11829943209886551,
       "dist_to_notch_tip_mm": 0.013417944399471167,
       "dist_to_hole_center_mm": 0.21328557125227032,
-      "dist_to_hole_perimeter_mm": 0.11328557125227032
+      "centroid_clearance_to_hole_perimeter_mm": 0.11328557125227032,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1088,
@@ -420,7 +546,12 @@
       "H": 0.025947270914912224,
       "dist_to_notch_tip_mm": 0.10775992384950613,
       "dist_to_hole_center_mm": 0.10806011364306155,
-      "dist_to_hole_perimeter_mm": 0.008060113643061542
+      "centroid_clearance_to_hole_perimeter_mm": 0.008060113643061542,
+      "touches_hole_boundary": true,
+      "boundary_nodes": [
+        7,
+        639
+      ]
     },
     {
       "element_id": 1140,
@@ -432,7 +563,9 @@
       "H": 0.03386664390563965,
       "dist_to_notch_tip_mm": 0.6929354938501856,
       "dist_to_hole_center_mm": 0.4808034596744293,
-      "dist_to_hole_perimeter_mm": 0.3808034596744293
+      "centroid_clearance_to_hole_perimeter_mm": 0.3808034596744293,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1184,
@@ -444,7 +577,9 @@
       "H": 0.2357330173254013,
       "dist_to_notch_tip_mm": 0.009504074736345857,
       "dist_to_hole_center_mm": 0.2041634188134448,
-      "dist_to_hole_perimeter_mm": 0.10416341881344479
+      "centroid_clearance_to_hole_perimeter_mm": 0.10416341881344479,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1185,
@@ -456,7 +591,9 @@
       "H": 0.03684930503368378,
       "dist_to_notch_tip_mm": 0.027882159744774312,
       "dist_to_hole_center_mm": 0.20405614815421055,
-      "dist_to_hole_perimeter_mm": 0.10405614815421055
+      "centroid_clearance_to_hole_perimeter_mm": 0.10405614815421055,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1186,
@@ -468,7 +605,9 @@
       "H": 0.030510324984788895,
       "dist_to_notch_tip_mm": 0.02650419189503091,
       "dist_to_hole_center_mm": 0.22354286718772448,
-      "dist_to_hole_perimeter_mm": 0.12354286718772448
+      "centroid_clearance_to_hole_perimeter_mm": 0.12354286718772448,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1187,
@@ -480,7 +619,9 @@
       "H": 0.033065397292375565,
       "dist_to_notch_tip_mm": 0.036973354281612435,
       "dist_to_hole_center_mm": 0.17811832407653533,
-      "dist_to_hole_perimeter_mm": 0.07811832407653532
+      "centroid_clearance_to_hole_perimeter_mm": 0.07811832407653532,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1188,
@@ -492,7 +633,9 @@
       "H": 0.04662781208753586,
       "dist_to_notch_tip_mm": 0.03486231504006105,
       "dist_to_hole_center_mm": 0.17762654643929912,
-      "dist_to_hole_perimeter_mm": 0.07762654643929912
+      "centroid_clearance_to_hole_perimeter_mm": 0.07762654643929912,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1189,
@@ -504,7 +647,9 @@
       "H": 0.022438345476984978,
       "dist_to_notch_tip_mm": 0.038557185834165265,
       "dist_to_hole_center_mm": 0.19258427074127935,
-      "dist_to_hole_perimeter_mm": 0.09258427074127934
+      "centroid_clearance_to_hole_perimeter_mm": 0.09258427074127934,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1378,
@@ -516,7 +661,9 @@
       "H": 0.033142413944005966,
       "dist_to_notch_tip_mm": 0.03785048840869227,
       "dist_to_hole_center_mm": 0.1901205528875733,
-      "dist_to_hole_perimeter_mm": 0.09012055288757329
+      "centroid_clearance_to_hole_perimeter_mm": 0.09012055288757329,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1379,
@@ -528,7 +675,12 @@
       "H": 0.05034083127975464,
       "dist_to_notch_tip_mm": 0.29443954187796323,
       "dist_to_hole_center_mm": 0.1078488649050366,
-      "dist_to_hole_perimeter_mm": 0.007848864905036598
+      "centroid_clearance_to_hole_perimeter_mm": 0.007848864905036598,
+      "touches_hole_boundary": true,
+      "boundary_nodes": [
+        13,
+        645
+      ]
     },
     {
       "element_id": 1395,
@@ -540,7 +692,9 @@
       "H": 0.03240731731057167,
       "dist_to_notch_tip_mm": 0.03617637061733021,
       "dist_to_hole_center_mm": 0.2158148199175452,
-      "dist_to_hole_perimeter_mm": 0.11581481991754519
+      "centroid_clearance_to_hole_perimeter_mm": 0.11581481991754519,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1405,
@@ -552,7 +706,9 @@
       "H": 0.028669582679867744,
       "dist_to_notch_tip_mm": 0.0916007631290122,
       "dist_to_hole_center_mm": 0.12603159523832674,
-      "dist_to_hole_perimeter_mm": 0.026031595238326738
+      "centroid_clearance_to_hole_perimeter_mm": 0.026031595238326738,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1409,
@@ -564,7 +720,9 @@
       "H": 0.026856711134314537,
       "dist_to_notch_tip_mm": 0.10099247431723421,
       "dist_to_hole_center_mm": 0.12761617713368945,
-      "dist_to_hole_perimeter_mm": 0.02761617713368944
+      "centroid_clearance_to_hole_perimeter_mm": 0.02761617713368944,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1412,
@@ -576,7 +734,9 @@
       "H": 0.03930950537323952,
       "dist_to_notch_tip_mm": 0.05187847670093835,
       "dist_to_hole_center_mm": 0.16034973314542758,
-      "dist_to_hole_perimeter_mm": 0.060349733145427575
+      "centroid_clearance_to_hole_perimeter_mm": 0.060349733145427575,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1413,
@@ -588,7 +748,9 @@
       "H": 0.03328729420900345,
       "dist_to_notch_tip_mm": 0.07206128249310377,
       "dist_to_hole_center_mm": 0.14177421292164152,
-      "dist_to_hole_perimeter_mm": 0.04177421292164152
+      "centroid_clearance_to_hole_perimeter_mm": 0.04177421292164152,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1439,
@@ -600,7 +762,9 @@
       "H": 0.017566869035363197,
       "dist_to_notch_tip_mm": 0.12537459757764646,
       "dist_to_hole_center_mm": 0.1367972503296641,
-      "dist_to_hole_perimeter_mm": 0.036797250329664105
+      "centroid_clearance_to_hole_perimeter_mm": 0.036797250329664105,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1441,
@@ -612,7 +776,9 @@
       "H": 0.02084406092762947,
       "dist_to_notch_tip_mm": 0.08688174721491368,
       "dist_to_hole_center_mm": 0.14750924130072732,
-      "dist_to_hole_perimeter_mm": 0.04750924130072731
+      "centroid_clearance_to_hole_perimeter_mm": 0.04750924130072731,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1454,
@@ -624,7 +790,9 @@
       "H": 0.03725992143154144,
       "dist_to_notch_tip_mm": 0.059116445235109005,
       "dist_to_hole_center_mm": 0.15670509143686315,
-      "dist_to_hole_perimeter_mm": 0.05670509143686314
+      "centroid_clearance_to_hole_perimeter_mm": 0.05670509143686314,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1455,
@@ -636,7 +804,9 @@
       "H": 0.03920523449778557,
       "dist_to_notch_tip_mm": 0.04644585661352955,
       "dist_to_hole_center_mm": 0.17326876201169256,
-      "dist_to_hole_perimeter_mm": 0.07326876201169255
+      "centroid_clearance_to_hole_perimeter_mm": 0.07326876201169255,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1458,
@@ -648,7 +818,9 @@
       "H": 0.02067398652434349,
       "dist_to_notch_tip_mm": 0.1646025318928921,
       "dist_to_hole_center_mm": 0.12786541003356058,
-      "dist_to_hole_perimeter_mm": 0.027865410033560578
+      "centroid_clearance_to_hole_perimeter_mm": 0.027865410033560578,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1488,
@@ -660,7 +832,9 @@
       "H": 0.023282885551452637,
       "dist_to_notch_tip_mm": 0.05251389974297872,
       "dist_to_hole_center_mm": 0.1613077747698964,
-      "dist_to_hole_perimeter_mm": 0.061307774769896406
+      "centroid_clearance_to_hole_perimeter_mm": 0.061307774769896406,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1526,
@@ -672,7 +846,9 @@
       "H": 0.028159957379102707,
       "dist_to_notch_tip_mm": 0.06618280245744558,
       "dist_to_hole_center_mm": 0.14595046672114914,
-      "dist_to_hole_perimeter_mm": 0.045950466721149136
+      "centroid_clearance_to_hole_perimeter_mm": 0.045950466721149136,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     },
     {
       "element_id": 1818,
@@ -684,7 +860,9 @@
       "H": 0.028587304055690765,
       "dist_to_notch_tip_mm": 0.3208454969766012,
       "dist_to_hole_center_mm": 0.12744166618560113,
-      "dist_to_hole_perimeter_mm": 0.02744166618560112
+      "centroid_clearance_to_hole_perimeter_mm": 0.02744166618560112,
+      "touches_hole_boundary": false,
+      "boundary_nodes": []
     }
   ]
 }
