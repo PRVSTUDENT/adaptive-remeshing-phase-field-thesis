@@ -1,0 +1,52 @@
+{
+  "case_id": "case_1",
+  "benchmark_name": "Pandey & Kumar (2025) Section 4.1 Mode-I Edge-Cracked Plate",
+  "geometry_type": "STRAIGHT_NOTCH_PLATE",
+  "geometry": {
+    "plate_width": 1.0,
+    "plate_height": 1.0,
+    "notch_length": 0.5,
+    "notch_y": 0.5,
+    "notch_slit_opening": 0.001,
+    "has_hole": false,
+    "voids": []
+  },
+  "material": {
+    "youngs_modulus_mpa": 210000.0,
+    "poisson_ratio": 0.3,
+    "length_scale_l0_mm": 0.0075,
+    "gc_kn_per_mm": 0.0027,
+    "residual_stiffness_k": 1e-07,
+    "constitutive_law": "ISOTROPIC_ELASTIC_PHASE_FIELD"
+  },
+  "loading": {
+    "loading_type": "EDGE_PULL",
+    "bottom_u2": 0.0,
+    "pin_bottom_left_u1": 0.0,
+    "step1_precritical_u2": 0.005,
+    "step2_fracture_u2": 0.010,
+    "kinematics": "LINEAR"
+  },
+  "remeshing_rule": {
+    "error_target": 1.85,
+    "min_element_size_mm": 0.001,
+    "max_element_size_mm": 0.020,
+    "refinement_factor": 10,
+    "coarsening_factor": "NOT_ALLOWED",
+    "sizing_method": "UNIFORM_ERROR",
+    "variable": "MISESERI",
+    "step_name": "Step-1"
+  },
+  "published_benchmark": {
+    "paper": "Pandey & Kumar (2025)",
+    "section": "4.1",
+    "figures": ["Fig. 4", "Fig. 5", "Fig. 6(a)", "Fig. 7"],
+    "target_elements": 13941,
+    "target_h_min_mm": 0.001
+  },
+  "deck_options": {
+    "uel_subroutine": "models/pandey_kumar_mode1/f42_mixed_uel.for",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "output_directory": "runs/f1728_unified_engine/case1_mode1"
+  }
+}

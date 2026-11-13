@@ -1,0 +1,38 @@
+=== PREFLIGHT & DONOR ODB INSPECTION: TASK F1728 CASE 1 PILOT ===
+Timestamp: 2026-11-13T11:31:44Z
+Host: mlogin01.cluster
+Scratch disk space available: 19418 GB
+
+--- Staged File Hashes ---
+ed72318f0b46ed340ca76be856d1498203f2f4041917bcade4330136b89ac190  f1728_case1_mode1_edge_crack.json
+ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6  f42_mixed_uel.for
+203c40b27c3610e9b71fda9e9db0be062e03ea04743590aaf27ca5e745733704  reusable_2d_adaptive_framework.py
+1936f139f523f8090932a44da700f227728392d7cfe067d09a22ef238bcbc8fa  submit_f1728_case1_pilot.pbs
+41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11  job_notifications.sh
+
+--- Donor ODB Details ---
+Path: /scratch9/pr21vyci/runs/mode1_package46_coarse_fine_preanalysis/PK_M1_COARSE_FINE_CONT.odb
+Size: 68 MB (71,114,752 bytes)
+SHA-256: 3a5074a00a7fd9f2b27c294c28a069a46f7e418505ad195a071e184bb9e34be5
+
+--- Modules & Toolchains ---
+Abaqus Version: Abaqus 2023 (Sequence: 2022_09_28-20.11.55 183150)
+Abaqus Site ID: 200000000053187
+Fortran Compiler: ifort (IFORT) 2021.13.0 20240602
+
+--- Donor ODB Internal Structure (via Abaqus Python) ---
+ODB Title: DDB object
+Steps (1): ['Step-1']
+Step 'Step-1': total frames = 101
+  Last frame index: 100, time/val: 1.000000
+  Available field outputs (7): ['E', 'EVOL', 'MISESAVG', 'MISESERI', 'RF', 'S', 'U']
+  Matched 'MISESERI': ['MISESERI']
+  Matched 'MISESAVG': ['MISESAVG']
+  Matched 'S': ['MISESAVG', 'MISESERI', 'S']
+  Matched 'U': ['U']
+DONOR_INSPECTION_COMPLETE
+
+--- Live Scheduler & Account Eligibility ---
+User: pr21vyci
+Queue status: Clean, zero active jobs blocking execution.
+Preflight status: PREFLIGHT_SUCCESS

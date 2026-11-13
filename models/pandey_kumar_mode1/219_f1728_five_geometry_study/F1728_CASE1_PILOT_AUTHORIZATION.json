@@ -1,0 +1,45 @@
+{
+  "batch_name": "F1728_CASE1_PILOT",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "f1728_case1_mode1_edge_crack.json": "ed72318f0b46ed340ca76be856d1498203f2f4041917bcade4330136b89ac190",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "reusable_2d_adaptive_framework.py": "203c40b27c3610e9b71fda9e9db0be062e03ea04743590aaf27ca5e745733704",
+    "submit_f1728_case1_pilot.pbs": "1936f139f523f8090932a44da700f227728392d7cfe067d09a22ef238bcbc8fa"
+  },
+  "jobs": [
+    {
+      "id": "f1728_case1_mode1_pilot",
+      "pbs": "submit_f1728_case1_pilot.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/f1728_case1_pilot/submit_f1728_case1_pilot.pbs\"",
+      "command_sha256": "fc8426b1a2633f04affe8ae3348ad4ed6b7062a633007650150ed3f13afb290c",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Pandey & Kumar (2025) Section 4.1 Mode-I Edge-Cracked Plate Adaptive Remeshing Pilot on HPC Compute Node via Unified Framework (reusable_2d_adaptive_framework.py), achieving ~13,941 benchmark elements, verifying FE quality audit and production 3-layer UEL datacheck (pre.exe Exit 0)",
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_hours": 1,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "f1728_case1_mode1_edge_crack.json",
+      "subroutine": "f42_mixed_uel.for"
+    }
+  ],
+  "acceptance": {
+    "f1728_case1_mode1_pilot": "Abaqus 2023 executes headless native remeshing in /scratch9/pr21vyci/runs/f1728_case1_pilot/ on authentic Mode-I preanalysis donor ODB, producing physical mesh matching published 13,941 target within parity bounds, 100% positive Jacobians (det(J) > 0), quad fraction >= 95%, followed by 3-layer UEL deck build and datacheck Exit Code 0."
+  },
+  "adapter": "mode1-edge-crack-v1",
+  "scientific_scope": "MODE1_EDGE_CRACK",
+  "technical_stage": "CASE1_PILOT_QUALIFICATION",
+  "configuration": "MODE1_UNIFIED_ADAPTIVE",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/f1728_case1_pilot",
+  "required_state_checks": [
+    "remesh_completed_exit0",
+    "audit_metrics_verified",
+    "production_deck_generated",
+    "datacheck_completed_exit0"
+  ]
+}

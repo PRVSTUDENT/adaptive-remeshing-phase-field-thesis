@@ -1,70 +1,41 @@
 {
-  "task_id": "F1727-METHOD-A-THREE-GEOMETRY-ADAPTIVE-MESH",
-  "title": "Generalized Method A Adaptive Remeshing for Three 2D Fracture Geometries",
-  "status": "THREE_MODEL_MESH_REVIEW_READY",
-  "classification": "F1727_THREE_GEOMETRIES_METHOD_A_ADAPTIVE_MESHING",
+  "task_id": "F1728-UNIFIED-METHOD-A-FIVE-GEOMETRIES",
+  "title": "Unified Physics-Driven Method A Adaptive Remeshing — Five-Geometry Verification",
+  "status": "ACTIVE_STAGE_B_COMPLETED_PILOT_PREPARED",
+  "classification": "F1728_STAGE_B_UNIFIED_ENGINE_AND_CASE1_PILOT_PREPARED",
   "assigned_agent": "gemini-antigravity",
-  "checkpoint_artifact": "docs/validation/F1727_THREE_GEOMETRY_ADAPTIVE_MESH_REPORT.md",
+  "checkpoint_artifact": "docs/validation/F1728_STAGE_A_ROOT_CAUSE_REPORT.md",
   "predecessor_task": {
-    "task_id": "F1726-REUSABLE-2D-ADAPTIVE-REMESHING-SEVEN-HOLE",
-    "checkpoint_artifact": "docs/validation/F1726_SEVEN_HOLE_FRAMEWORK_REPORT.md",
-    "classification": "F1726_COMPLETED_15708_ELEMENTS_MINUS0P04PCT_PARITY_SPATIAL_SELECTIVITY_VERIFIED"
+    "task_id": "F1727-METHOD-A-THREE-GEOMETRY-ADAPTIVE-MESH",
+    "checkpoint_artifact": "docs/validation/F1727_THREE_GEOMETRY_ADAPTIVE_MESH_REPORT.md",
+    "classification": "F1727_HISTORICAL_MESH_INGESTION_REJECTED_BY_USER_VISUAL_REVIEW"
   },
-  "scientific_operation": "generalized_method_a_three_geometry_adaptive_remeshing",
-  "scientific_operation_id": "f1727_three_geometry_adaptive_mesh",
+  "scientific_operation": "unified_physics_driven_method_a_adaptive_remeshing_five_geometries",
+  "scientific_operation_id": "f1728_five_geometry_method_a",
   "scientific_checkpoint_required": true,
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
-  "scope_boundary": "METHOD_A_ONLY_ADAPTIVE_MESH_GENERATION_AND_VALIDATION_STOP_AT_THREE_MODEL_MESH_REVIEW_READY",
-  "target_geometries": {
-    "model_a": {
-      "name": "Pandey & Kumar (2025) Section 4.3 Notched Plate with Hole",
-      "dimensions": "65 x 120 mm",
-      "notch": "Length 10 mm, width 0.4 mm at y = 70 mm",
-      "holes": [
-        {"center": [36.5, 51.0], "radius": 10.0, "type": "central_void"},
-        {"center": [20.0, 100.0], "radius": 5.0, "type": "upper_loading_pin"},
-        {"center": [20.0, 20.0], "radius": 5.0, "type": "lower_support_pin"}
-      ],
-      "boundary_conditions": "Pin-hole loading (upper pin pulled in +y, lower pin fixed in x and y)",
-      "material": {"E_gpa": 210.0, "nu": 0.3, "gc_kn_per_mm": 0.00228, "l0_mm": 0.285},
-      "coarse_h_mm": 1.5,
-      "published_refined_h_mm": 0.143,
-      "reference": "Pandey & Kumar (2025), Section 4.3, Figures 14-16"
-    },
-    "model_b": {
-      "name": "Pandey & Kumar (2025) Section 4.1 Mode-I Edge Crack Plate",
-      "dimensions": "1.0 x 1.0 mm",
-      "notch": "Horizontal edge crack x in [0, 0.5] at y = 0.5 mm",
-      "boundary_conditions": "Top edge pull uy, bottom edge roller uy=0, bottom-left pin ux=0",
-      "material": {"E_gpa": 210.0, "nu": 0.3, "gc_kn_per_mm": 0.0027, "l0_mm": 0.0075},
-      "coarse_h_mm": 0.020,
-      "published_target_elements": 13941,
-      "reference": "Pandey & Kumar (2025), Section 4.1, Figures 4-7"
-    },
-    "model_c": {
-      "name": "Original Thesis Mode-I Edge-Notched Plate with Off-Axis Hole",
-      "dimensions": "1.0 x 1.0 mm",
-      "notch": "Horizontal edge notch length 0.5 mm at y = 0.5 mm, width 0.001 mm",
-      "holes": [
-        {"center": [0.65, 0.65], "radius": 0.10, "type": "off_axis_void"}
-      ],
-      "boundary_conditions": "Top edge pull uy, bottom edge roller uy=0, bottom-left pin ux=0",
-      "material": {"E_gpa": 210.0, "nu": 0.3, "gc_kn_per_mm": 0.0027, "l0_mm": 0.0075},
-      "reference": "configs/remeshing/mode1_off_axis_hole_benchmark.json"
-    }
+  "active_pbs_job_id": null,
+  "pbs_job_status": "NONE",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/f1728_case1_pilot",
+  "scope_boundary": "METHOD_A_ONLY_UNIFIED_ENGINE_ROOT_CAUSE_REPAIR_AND_FIVE_GEOMETRY_MESH_VALIDATION_STOP_BEFORE_FORWARD_FRACTURE",
+  "five_cases": {
+    "case_1": "Mode-I Edge Crack Plate (Sec. 4.1, 13,941 target elements, l0=0.0075 mm)",
+    "case_2": "Original Thesis Single Off-Axis Hole Plate (1 x 1 mm, hole (0.65, 0.65), R=0.10 mm, l0=0.0075 mm)",
+    "case_3": "Rectangular Notched Plate with Hole and Pins (Sec. 4.3, 65 x 120 mm, l0=0.285 mm, dual corridors)",
+    "case_4": "Five-Hole Plate (Sec. 4.5, 12,944 target elements, l0=0.008 mm)",
+    "case_5": "Seven-Hole Plate (Sec. 4.6, 15,714 target elements, l0=0.008 mm)"
   },
   "completed_operations": [
-    "reusable_2d_adaptive_framework_generalized_with_pin_holes_and_scale_invariance",
-    "f1727_three_benchmark_configurations_created",
-    "f1727_three_adaptive_meshes_and_production_decks_assembled",
-    "abaqus_pre_datachecks_passed_exit_0_across_all_three_models",
-    "authentic_miseseri_donor_data_extracted_for_all_three_models",
-    "mesh_quality_audits_passed_100_percent_positive_jacobians_zero_inverted_elements",
-    "complete_38_figure_suite_generated_in_png_and_vector_pdf",
-    "automated_unit_test_suite_passed_5_of_5_cleanly",
-    "formal_validation_report_published_in_docs_validation",
-    "thesis_chapter_05_updated_with_section_5_20_and_main_pdf_compiled_cleanly_to_370_pages"
+    "task_f1728_registered_and_session_claimed",
+    "user_visual_rejection_of_f1727_historical_meshes_formally_recorded",
+    "stage_a_root_cause_investigation_completed_and_reported",
+    "stage_b_unified_adaptive_framework_implemented_and_tested",
+    "five_geometry_json_configurations_authored",
+    "regression_tests_passed_30_of_30",
+    "case_1_pilot_staged_and_preflight_verified_on_cluster",
+    "git_evidence_synchronized_to_origin_main"
   ],
-  "iteration": 1
+  "iteration": 2,
+  "review_resolution": "ROUND_1_INSUFFICIENT_EVIDENCE_RESOLVED_BY_GIT_PUSH_TO_ORIGIN_MAIN_AND_PRIMARY_PREFLIGHT_RECEIPTS"
 }

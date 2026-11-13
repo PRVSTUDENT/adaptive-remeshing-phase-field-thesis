@@ -1,0 +1,40 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.5, pytest-9.1.1, pluggy-1.6.0
+rootdir: D:\Master thesis\Adaptive remeshing
+plugins: anyio-4.14.2
+collected 30 items
+
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_all_five_configurations_load PASSED [  3%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_adapter_dispatch PASSED [  6%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case1_straight_notch_adapter PASSED [ 10%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case2_off_axis_hole_adapter PASSED [ 13%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case3_notched_plate_pins_adapter PASSED [ 16%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case4_five_hole_adapter PASSED [ 20%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_case5_seven_hole_adapter PASSED [ 23%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_bc_dispatch PASSED [ 26%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_mesh_quality_audit_on_reference_mesh PASSED [ 30%]
+tests/unit/test_f1728_five_geometry_framework.py::test_f1728_production_deck_builder_logic PASSED [ 33%]
+tests/unit/test_f1727_three_geometry_framework.py::test_configurations_load_and_validate PASSED [ 36%]
+tests/unit/test_f1727_three_geometry_framework.py::test_geometry_adapter_dispatch_and_properties PASSED [ 40%]
+tests/unit/test_f1727_three_geometry_framework.py::test_mesh_quality_audit_results PASSED [ 43%]
+tests/unit/test_f1727_three_geometry_framework.py::test_production_decks_exist_and_format PASSED [ 46%]
+tests/unit/test_f1727_three_geometry_framework.py::test_figure_artifacts_exist PASSED [ 50%]
+tests/unit/test_f1726_seven_hole_framework.py::test_reusable_framework_geometry_adapter PASSED [ 53%]
+tests/unit/test_f1726_seven_hole_framework.py::test_coarse_physical_mesh_quality PASSED [ 56%]
+tests/unit/test_f1726_seven_hole_framework.py::test_coarse_odb_audit_and_error_contrast PASSED [ 60%]
+tests/unit/test_f1726_seven_hole_framework.py::test_adapted_physical_mesh_and_benchmark_parity PASSED [ 63%]
+tests/unit/test_f1726_seven_hole_framework.py::test_spatial_selectivity_and_phase_field_resolution PASSED [ 66%]
+tests/unit/test_f1726_seven_hole_framework.py::test_production_deck_structure PASSED [ 70%]
+tests/unit/test_f1726_seven_hole_framework.py::test_publication_figures_existence PASSED [ 73%]
+tests/unit/test_f1725_physics_driven_mesh.py::test_coarse_terminal_displacement_reconciliation PASSED [ 76%]
+tests/unit/test_f1725_physics_driven_mesh.py::test_coarse_spatial_checkpoints PASSED [ 80%]
+tests/unit/test_f1725_physics_driven_mesh.py::test_f1725_candidate_mesh_existence_and_parity PASSED [ 83%]
+tests/unit/test_f1725_physics_driven_mesh.py::test_f1725_bulk_preservation_and_reduced_spreading PASSED [ 86%]
+tests/unit/test_f1725_physics_driven_mesh.py::test_f1725_ligament_centerline_resolution PASSED [ 90%]
+tests/unit/test_f1725_physics_driven_mesh.py::test_f1725_input_deck_validity PASSED [ 93%]
+tests/unit/test_f1725_physics_driven_mesh.py::test_f1725_figures_generated PASSED [ 96%]
+tests/unit/test_f1725_physics_driven_mesh.py::test_zero_hpc_submissions_gate PASSED [100%]
+
+============================= 30 passed in 3.20s ==============================
+Execution Timestamp: 2026-11-13T12:36:31+01:00
+Status: ALL_30_TESTS_PASS

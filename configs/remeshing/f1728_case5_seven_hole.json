@@ -1,0 +1,100 @@
+{
+  "case_id": "case_5",
+  "benchmark_name": "Pandey & Kumar (2025) Section 4.6 Tensile Failure of Plate with Seven Holes",
+  "geometry_type": "SEVEN_HOLE_PLATE",
+  "geometry": {
+    "plate_width": 1.0,
+    "plate_height": 1.0,
+    "notch_length": null,
+    "has_hole": true,
+    "voids": [
+      {
+        "name": "hole_1",
+        "type": "circle",
+        "x": 0.15,
+        "y": 0.40,
+        "r": 0.10
+      },
+      {
+        "name": "hole_2",
+        "type": "circle",
+        "x": 0.50,
+        "y": 0.55,
+        "r": 0.10
+      },
+      {
+        "name": "hole_3",
+        "type": "circle",
+        "x": 0.85,
+        "y": 0.50,
+        "r": 0.10
+      },
+      {
+        "name": "hole_4",
+        "type": "circle",
+        "x": 0.30,
+        "y": 0.60,
+        "r": 0.05
+      },
+      {
+        "name": "hole_5",
+        "type": "circle",
+        "x": 0.70,
+        "y": 0.60,
+        "r": 0.05
+      },
+      {
+        "name": "hole_6",
+        "type": "circle",
+        "x": 0.40,
+        "y": 0.35,
+        "r": 0.05
+      },
+      {
+        "name": "hole_7",
+        "type": "circle",
+        "x": 0.65,
+        "y": 0.35,
+        "r": 0.05
+      }
+    ]
+  },
+  "material": {
+    "youngs_modulus_mpa": 210000.0,
+    "poisson_ratio": 0.3,
+    "length_scale_l0_mm": 0.008,
+    "gc_kn_per_mm": 0.0027,
+    "residual_stiffness_k": 1e-07,
+    "constitutive_law": "ISOTROPIC_ELASTIC_PHASE_FIELD"
+  },
+  "loading": {
+    "loading_type": "EDGE_PULL",
+    "bottom_u2": 0.0,
+    "pin_bottom_left_u1": 0.0,
+    "step1_precritical_u2": 0.005,
+    "step2_fracture_u2": 0.010,
+    "kinematics": "LINEAR"
+  },
+  "remeshing_rule": {
+    "error_target": 5.68,
+    "min_element_size_mm": 0.0015,
+    "max_element_size_mm": 0.020,
+    "refinement_factor": 10,
+    "coarsening_factor": "NOT_ALLOWED",
+    "sizing_method": "UNIFORM_ERROR",
+    "variable": "MISESERI",
+    "step_name": "Step-2"
+  },
+  "published_benchmark": {
+    "paper": "Pandey & Kumar (2025)",
+    "section": "4.6",
+    "figures": ["Fig. 22(b)", "Fig. 25(b)", "Fig. 26(b)", "Fig. 27(b)"],
+    "target_elements": 15714,
+    "target_h_min_mm": 0.0015
+  },
+  "deck_options": {
+    "uel_subroutine": "models/pandey_kumar_mode1/f42_mixed_uel.for",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "output_directory": "runs/f1728_unified_engine/case5_seven_hole"
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "case_id": "case_4",
+  "benchmark_name": "Pandey & Kumar (2025) Section 4.5 Square Plate with Five Holes",
+  "geometry_type": "FIVE_HOLE_PLATE",
+  "geometry": {
+    "plate_width": 1.0,
+    "plate_height": 1.0,
+    "notch_length": null,
+    "has_hole": true,
+    "edge_cutouts": [
+      {
+        "name": "left_semicircle",
+        "type": "boundary_arc",
+        "x": 0.0,
+        "y": 0.50,
+        "r": 0.10,
+        "arc_p1": [0.0, 0.60],
+        "arc_p2": [0.0, 0.40],
+        "arc_p3": [0.10, 0.50]
+      },
+      {
+        "name": "right_semicircle",
+        "type": "boundary_arc",
+        "x": 1.0,
+        "y": 0.45,
+        "r": 0.075,
+        "arc_p1": [1.0, 0.375],
+        "arc_p2": [1.0, 0.525],
+        "arc_p3": [0.925, 0.45]
+      }
+    ],
+    "voids": [
+      {
+        "name": "hole_1",
+        "type": "circle",
+        "x": 0.35,
+        "y": 0.45,
+        "r": 0.10
+      },
+      {
+        "name": "hole_2",
+        "type": "circle",
+        "x": 0.60,
+        "y": 0.55,
+        "r": 0.05
+      },
+      {
+        "name": "hole_3",
+        "type": "circle",
+        "x": 0.75,
+        "y": 0.50,
+        "r": 0.075
+      }
+    ]
+  },
+  "material": {
+    "youngs_modulus_mpa": 210000.0,
+    "poisson_ratio": 0.3,
+    "length_scale_l0_mm": 0.008,
+    "gc_kn_per_mm": 0.0027,
+    "residual_stiffness_k": 1e-07,
+    "constitutive_law": "AMOR_SPLIT_PHASE_FIELD"
+  },
+  "loading": {
+    "loading_type": "EDGE_PULL",
+    "bottom_u2": 0.0,
+    "pin_bottom_left_u1": 0.0,
+    "step1_precritical_u2": 0.005,
+    "step2_fracture_u2": 0.010,
+    "kinematics": "LINEAR"
+  },
+  "remeshing_rule": {
+    "error_target": 3.15,
+    "min_element_size_mm": 0.0015,
+    "max_element_size_mm": 0.020,
+    "refinement_factor": 10,
+    "coarsening_factor": "DEFAULT_LIMIT",
+    "sizing_method": "UNIFORM_ERROR",
+    "variable": "MISESERI",
+    "step_name": "Step-2"
+  },
+  "published_benchmark": {
+    "paper": "Pandey & Kumar (2025)",
+    "section": "4.5",
+    "figures": ["Fig. 22(a)", "Fig. 23(b)", "Fig. 25(a)"],
+    "target_elements": 12944,
+    "target_h_min_mm": 0.0015
+  },
+  "deck_options": {
+    "uel_subroutine": "models/pandey_kumar_mode1/f42_amor_split_uel_v2.for",
+    "frozen_uel_sha256": "91612E9432657CE95A96A0A4817478065B0EBBAE85633C14FDE8189D5290A87A",
+    "output_directory": "runs/f1728_unified_engine/case4_five_hole"
+  }
+}
