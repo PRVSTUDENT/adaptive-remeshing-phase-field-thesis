@@ -1,11 +1,11 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "f1748-damage-field-recovery-001",
-  "task_id": "F1748-AUTHENTIC-COUPLED-DAMAGE-FIELD-RECOVERY-AND-INDICATOR-FEASIBILITY",
-  "started_at": "2026-11-14T21:34:00+01:00",
-  "completed_at": "2026-11-14T21:58:00+01:00",
-  "starting_commit": "bcb85cec",
+  "session_id": "f1749-time-causal-indicator-001",
+  "task_id": "F1749-TIME-CAUSAL-DAMAGE-INDICATOR-IMPLEMENTATION-AND-VALIDATION",
+  "started_at": "2026-11-14T22:00:00+01:00",
+  "completed_at": "2026-11-14T22:15:00+01:00",
+  "starting_commit": "886219b9",
   "allowed_write_scope": [
     "project_coordination/**",
     ".agents/**",
@@ -13,8 +13,9 @@
     "results/validation/**",
     "results/figures/**",
     "models/pandey_kumar_mode1/**",
+    "models/mode1_off_axis_hole/**",
     "scripts/**",
     "tests/unit/**"
   ],
-  "notes": "Task F1748 completed and approved under HND-F1748-DAMAGE-AVAIL-001 (APPROVE). Authentic coupled damage data availability confirmed for Case 2 and Case 3. Directs zero-PBS Task F1749 time-causal implementation."
+  "notes": "Task F1749: Time-causal damage-aware refinement indicator module implementation and multi-state temporal validation for Cases 2 and 3."
 }
