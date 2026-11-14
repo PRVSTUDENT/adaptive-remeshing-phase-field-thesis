@@ -1,12 +1,12 @@
-﻿{
+{
     "task_id": "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE",
-    "title": "Case 3 (Sec 4.3) Geometry-Independent Nonlinear Indicator-Contrast Transformation Prototype & Bounded Sizing Prediction",
-    "status": "PROTOTYPE_COMPLETED",
-    "classification": "CASE3_CONTRAST_PROTOTYPE_COMPLETE",
+    "title": "Case 3 (Sec 4.3) Geometry-Independent Indicator-Contrast Prototype Forensic Correction & Method A Limitation Analysis",
+    "status": "FORENSIC_CORRECTION_COMPLETED",
+    "classification": "CASE3_METHOD_A_LIMITATION_DEMONSTRATED",
     "assigned_agent": "gemini-antigravity",
     "active_pbs_job_id": null,
     "checkpoint_artifact": "docs/validation/F1747_CONTRAST_TRANSFORMATION_PROTOTYPE_REPORT.md",
-    "review_approval": "HND-F1746-CASE3-AUDIT-003",
+    "review_directive": "HND-F1747-CASE3-AUTH-001",
     "predecessor_task": {
         "task_id": "F1746-CASE3-5STATE-ENVELOPE-EXECUTION",
         "checkpoint_artifact": "docs/validation/F1746_PROBE_FORENSIC_AUDIT_REPORT.md",
@@ -14,8 +14,8 @@
         "review_verdict": "APPROVE",
         "correlation_id": "HND-F1746-CASE3-AUDIT-003"
     },
-    "scientific_operation": "case3_contrast_transformation_prototype",
-    "scientific_operation_id": "f1747_contrast_prototype_001",
+    "scientific_operation": "case3_contrast_forensic_correction",
+    "scientific_operation_id": "f1747_contrast_correction_001",
     "scientific_checkpoint_required": true,
     "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "max_new_pbs_submissions": 0,
@@ -49,6 +49,6 @@
         "1423469.mmaster02"
     ],
     "scope_boundary": "ZERO_PBS_GEOMETRY_INDEPENDENT_CONTRAST_PROTOTYPE",
-    "hypothesis": "Applying a geometry-independent nonlinear contrast transformation eta_tilde = max(0, eta_hat - tau)^gamma based strictly on global envelope distribution percentiles suppresses non-damaging background error while expanding the dynamic contrast ratio for active fracture corridors, enabling a single-pass native remeshing operation to selectively resolve process zones (h <= l0/2) without global mesh explosion.",
-    "iteration": 1
+    "hypothesis": "Linear-elastic stress recovery (MISESERI) discretization error from a coarse donor mesh is fundamentally incapable of autonomously resolving multi-crack ligaments in Case 3 because recovered stress gradients in uncracked ligaments overlap directly with far-field elastic background noise, precluding any scalar global threshold from separating crack paths from background without either global mesh explosion or transverse coarse barriers.",
+    "iteration": 2
 }

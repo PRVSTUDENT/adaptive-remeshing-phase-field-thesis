@@ -1,21 +1,20 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "f1747-case3-contrast-prototype-001",
+  "session_id": "f1747-case3-contrast-correction-001",
   "task_id": "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE",
-  "started_at": "2026-11-14T21:05:00+01:00",
-  "completed_at": "2026-11-14T21:10:00+01:00",
-  "starting_commit": "aff4cd02",
+  "started_at": "2026-11-14T21:13:00+01:00",
+  "completed_at": "2026-11-14T21:31:00+01:00",
+  "starting_commit": "e7c367a0",
   "allowed_write_scope": [
     "project_coordination/**",
     ".agents/**",
     "docs/validation/**",
     "results/validation/**",
     "results/figures/**",
-    "models/pandey_kumar_mode1/232_f1747_case3_contrast_prototype/**",
-    "models/**",
+    "models/pandey_kumar_mode1/**",
     "scripts/**",
     "tests/unit/**"
   ],
-  "notes": "Task F1747: Geometry-independent nonlinear indicator-contrast transformation prototype and bounded sizing prediction complete, addressing review directives HND-F1746-CASE3-AUDIT-003."
+  "notes": "Task F1747: Forensic correction and Method A limitation report completed, addressing independent review directive HND-F1747-CASE3-AUTH-001."
 }

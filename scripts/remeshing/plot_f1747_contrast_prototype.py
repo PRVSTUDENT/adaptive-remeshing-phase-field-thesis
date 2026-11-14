@@ -215,14 +215,19 @@ def main():
     ax_d.plot(s_sec, v_sec_raw, "s--", color="#d62728", markersize=4, linewidth=1.2, alpha=0.6, label="Secondary: Raw Envelope $\\hat{\\eta}_e$")
     ax_d.plot(s_sec, v_sec_trans, "s-", color="#d62728", markersize=4.5, linewidth=2.0, label="Secondary: Transformed $\\tilde{\\eta}_e$")
 
-    ax_d.axhline(tau, color="black", linestyle=":", linewidth=1.2, label="Threshold $\\tau = 0.0457$")
+    ax_d.axhline(tau, color="black", linestyle=":", linewidth=1.2, label="Threshold $\\tau = 0.0457$ (Median + IQR)")
+    # Highlight primary midspan barrier below tau
+    ax_d.axvspan(4.2, 8.8, color="gray", alpha=0.2, label="Primary Midspan Barrier ($s=4.3-8.7\\,\\mathrm{mm}$)")
+    # Highlight secondary outer suppressed span
+    ax_d.axvspan(30.0 + 13.2, 30.0 + 18.0, color="lightcoral", alpha=0.2, label="Secondary Outer Suppression ($s=13.2-18.0\\,\\mathrm{mm}$)")
+    
     ax_d.set_xlabel("Along-Path Coordinate $s$ [mm] (Primary: $0 \\to 24.6\\,\\mathrm{mm}$ | Secondary: $30 \\to 48.5\\,\\mathrm{mm}$)")
     ax_d.set_ylabel("Indicator Magnitude (Log Scale)")
-    ax_d.set_title("(d) Along-Path Contrast Enhancement\n(Continuous Activation Preserved, Background Suppressed)")
+    ax_d.set_title("(d) Along-Path Evaluation & Field Limitations\n(Midspan Barrier & Secondary Outer Suppression Below $\\tau$)")
     ax_d.set_yscale("log")
-    ax_d.set_ylim(0.001, 20.0)
+    ax_d.set_ylim(0.0005, 20.0)
     ax_d.grid(True, which="both", linestyle=":", alpha=0.5)
-    ax_d.legend(loc="upper right", fontsize=8.0, framealpha=0.9)
+    ax_d.legend(loc="upper right", fontsize=7.2, framealpha=0.9)
 
     out_png = os.path.join(FIG_DIR, "fig_f1747_contrast_prototype.png")
     out_pdf = os.path.join(FIG_DIR, "fig_f1747_contrast_prototype.pdf")
