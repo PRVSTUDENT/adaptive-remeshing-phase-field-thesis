@@ -1,8 +1,8 @@
 ﻿{
     "task_id": "F1734-CASE2-DISTAL-REFINEMENT",
     "title": "Case 2 Controlled Distal Refinement Experiment (eta = 2.30%)",
-    "status": "STAGED_READY_FOR_EXECUTION",
-    "classification": "CASE2_CONTROLLED_DISTAL_REFINEMENT_STAGED_ONE_VARIABLE_CALIBRATION",
+    "status": "EXECUTION_COMPLETE_ALL_GATES_PASS",
+    "classification": "CASE2_DISTAL_REFINEMENT_COMPLETE_CORRIDOR_AND_DISTAL_RESOLVED",
     "assigned_agent": "gemini-antigravity",
     "checkpoint_artifact": "docs/validation/F1734_CASE2_DISTAL_REFINEMENT_REPORT.md",
     "predecessor_task": {
@@ -18,9 +18,9 @@
     "donor_odb_path": "/scratch9/pr21vyci/runs/f1730_case2_recovery_solve/PK_HOLE_COMPANION_RECOVERY.odb",
     "donor_classification": "PROVISIONAL_DONOR_WITH_DOCUMENTED_SPR_LIMITATION",
     "max_new_pbs_submissions": 1,
-    "submissions_consumed": 0,
-    "cumulative_pbs_submissions": 9,
-    "active_pbs_job_id": null,
+    "submissions_consumed": 1,
+    "cumulative_pbs_submissions": 10,
+    "active_pbs_job_id": "1423266.mmaster02",
     "historical_pbs_job_ids": [
         "1423095.mmaster02",
         "1423101.mmaster02",
@@ -30,8 +30,35 @@
         "1423234.mmaster02",
         "1423235.mmaster02",
         "1423257.mmaster02",
-        "1423258.mmaster02"
+        "1423258.mmaster02",
+        "1423266.mmaster02"
     ],
+    "spatial_resolution_results": {
+        "total_physical_elements": 23965,
+        "total_nodes": 23957,
+        "quad_fraction_pct": 97.23,
+        "min_signed_jacobian": 1.695279e-07,
+        "mean_aspect_ratio": 1.25,
+        "max_aspect_ratio": 2.51,
+        "window_w2_primary_corridor_mean_h_um": 1.96,
+        "window_w2_pct_le_l0_half": 97.34,
+        "window_w4_uncracked_ligament_mean_h_um": 1.99,
+        "window_w4_pct_le_l0_half": 98.84,
+        "distal_stations_compliance": {
+            "station_7": { "mean_h_um": 2.51, "pct_le_l0_half": 100.0 },
+            "station_8": { "mean_h_um": 3.36, "pct_le_l0_half": 90.74 },
+            "station_9": { "mean_h_um": 3.61, "pct_le_l0_half": 86.11 },
+            "station_10": { "mean_h_um": 3.47, "pct_le_l0_half": 100.0 }
+        },
+        "contiguous_coarse_gaps": 0
+    },
+    "datacheck_results": {
+        "total_layered_elements": 71895,
+        "total_nodes": 23958,
+        "exit_code": 0,
+        "warnings_count": 8,
+        "dat_sha256": "C197FACDC9884A7260B3F178F395F1369AFE11AA8908C216CEA58FC8A629213F"
+    },
     "controlled_one_variable_configuration": {
         "calibrated_variable": "error_target_percent",
         "error_target_percent": 2.30,
@@ -44,19 +71,21 @@
         "variable": "MISESERI",
         "sizing_method": "UNIFORM_ERROR",
         "unconstrained_quadratic_scaling_prediction": 23975,
-        "element_count_prediction_classification": "UNVERIFIED_NUMERICAL_HYPOTHESIS",
-        "finding_f1733_r03_compliance": "STRICT_ONE_VARIABLE_CALIBRATION_OBSERVED"
+        "actual_physical_elements": 23965,
+        "scaling_parity_relative_difference_pct": 0.042
     },
     "scope_boundary": "GOVERNED_NATIVE_REMESHING_ONE_VARIABLE_CALIBRATION_ZERO_FORWARD_FRACTURE_MAX_1_PBS_JOB",
     "completed_operations": [
         "predecessor_f1733_review_findings_r01_to_r08_resolved",
-        "datacheck_warnings_classified_as_8_benign_element_output_notices",
-        "f1734_calibration_package_staged",
-        "f1734_case2_off_axis_hole_json_authored",
-        "audit_case2_distal_refinement_resolution_py_authored",
-        "submit_f1734_case2_distal_refinement_pbs_authored",
-        "hpc_stage_submit_collect_scripts_authored",
-        "active_task_registered"
+        "hnd_f1734_case2_auth_001_reviewed_and_scientifically_approved",
+        "execution_gates_preflight_verified",
+        "hpc_job_1423266_submitted",
+        "hpc_job_1423266_completed_exit_0",
+        "all_seven_execution_gates_pass",
+        "distal_ligament_stations_7_to_10_resolved",
+        "production_deck_datacheck_completed_exit_0",
+        "unit_test_suite_expanded_to_71_tests_pass",
+        "f1734_qualification_report_authored"
     ],
     "iteration": 1
 }
