@@ -1,21 +1,21 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "f1746-case3-5state-remesh-001",
-  "task_id": "F1746-CASE3-5STATE-ENVELOPE-EXECUTION",
-  "started_at": "2026-11-14T19:50:00+01:00",
-  "completed_at": "2026-11-14T20:57:00+01:00",
-  "starting_commit": "b4387135",
+  "session_id": "f1747-case3-contrast-prototype-001",
+  "task_id": "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE",
+  "started_at": "2026-11-14T21:05:00+01:00",
+  "completed_at": "2026-11-14T21:10:00+01:00",
+  "starting_commit": "aff4cd02",
   "allowed_write_scope": [
     "project_coordination/**",
     ".agents/**",
     "docs/validation/**",
     "results/validation/**",
     "results/figures/**",
-    "models/pandey_kumar_mode1/231_f1746_case3_envelope_remesh/**",
+    "models/pandey_kumar_mode1/232_f1747_case3_contrast_prototype/**",
     "models/**",
     "scripts/**",
     "tests/unit/**"
   ],
-  "notes": "Task F1746: Staging and execution qualification of Case 3 single-pass 5-state envelope native adaptive remeshing on HPC, addressing findings F1745-R01 to R07, with zero-PBS forensic audit resolving F1746-R01 to R04."
+  "notes": "Task F1747: Geometry-independent nonlinear indicator-contrast transformation prototype and bounded sizing prediction complete, addressing review directives HND-F1746-CASE3-AUDIT-003."
 }

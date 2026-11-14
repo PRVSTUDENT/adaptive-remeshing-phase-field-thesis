@@ -19,7 +19,14 @@ def test_reconciled_pbs_accounting():
     active_task_path = os.path.join(REPO_ROOT, "project_coordination", "ACTIVE_TASK.json")
     with open(active_task_path, "r", encoding="utf-8-sig") as f:
         task = json.load(f)
-    assert task["task_id"] in ["F1742-CASE3-TRANSIENT-DONOR-RECOVERY", "F1743-CASE3-TRANSIENT-COMPANION-RECOVERY", "F1744-CASE3-5STATE-REMESHING-EXECUTION"]
+    assert task["task_id"] in [
+        "F1742-CASE3-TRANSIENT-DONOR-RECOVERY",
+        "F1743-CASE3-TRANSIENT-COMPANION-RECOVERY",
+        "F1744-CASE3-5STATE-REMESHING-EXECUTION",
+        "F1745-CASE3-5STATE-ENVELOPE-QUALIFICATION",
+        "F1746-CASE3-5STATE-ENVELOPE-EXECUTION",
+        "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE"
+    ]
     assert task["cumulative_pbs_submissions"] >= 19
     assert len(task["historical_pbs_job_ids"]) >= 19
     assert "1423436.mmaster02" in task["historical_pbs_job_ids"]

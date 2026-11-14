@@ -81,7 +81,12 @@ def test_f1744_accounting_and_ledger_integrity():
     assert os.path.isfile(ACTIVE_TASK_PATH), "ACTIVE_TASK.json must exist"
     with open(ACTIVE_TASK_PATH, "r", encoding="utf-8-sig") as f:
         task = json.load(f)
-    assert task["task_id"] in ["F1744-CASE3-5STATE-REMESHING-EXECUTION", "F1745-CASE3-5STATE-ENVELOPE-QUALIFICATION"]
+    assert task["task_id"] in [
+        "F1744-CASE3-5STATE-REMESHING-EXECUTION",
+        "F1745-CASE3-5STATE-ENVELOPE-QUALIFICATION",
+        "F1746-CASE3-5STATE-ENVELOPE-EXECUTION",
+        "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE"
+    ]
     assert task["cumulative_pbs_submissions"] in [20, 21, 22, 23, 24, 25]
     assert task["max_new_pbs_submissions"] in [0, 1, 2, 3, 4, 5]
     assert task["frozen_uel_sha256"] == EXPECTED_UEL_SHA.upper()
