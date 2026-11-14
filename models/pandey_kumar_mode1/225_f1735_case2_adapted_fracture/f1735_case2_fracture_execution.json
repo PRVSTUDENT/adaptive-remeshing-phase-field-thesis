@@ -1,0 +1,124 @@
+{
+  "task_id": "F1735-CASE2-ADAPTED-FRACTURE-EXECUTION-QUALIFICATION",
+  "benchmark_name": "Task F1735 Case 2 Mode-I Edge-Notched Plate with Off-Axis Hole Adapted-Mesh Fracture Simulation",
+  "case_id": "case_2",
+  "geometry_type": "OFF_AXIS_HOLE_PLATE",
+  "geometry": {
+    "plate_width_mm": 1.0,
+    "plate_height_mm": 1.0,
+    "notch_tip_x_mm": 0.50,
+    "notch_tip_y_mm": 0.50,
+    "hole_center_x_mm": 0.65,
+    "hole_center_y_mm": 0.65,
+    "hole_radius_mm": 0.10,
+    "hole_lower_flank_x_mm": 0.65,
+    "hole_lower_flank_y_mm": 0.55
+  },
+  "mesh_discretization": {
+    "physical_elements": 23965,
+    "physical_nodes": 23957,
+    "layered_production_elements": 71895,
+    "layered_production_nodes": 23958,
+    "quadrilateral_fraction_pct": 97.23,
+    "min_signed_jacobian": 1.695279e-07,
+    "max_aspect_ratio": 2.51,
+    "median_aspect_ratio": 1.25,
+    "h_min_mm": 0.0015,
+    "h_max_mm": 0.0200,
+    "primary_corridor_mean_h_um": 1.96,
+    "primary_corridor_area_compliance_pct": 97.1,
+    "distal_stations_mean_h_le_half_l0": true
+  },
+  "material_and_phase_field": {
+    "youngs_modulus_e0_mpa": 210000.0,
+    "poisson_ratio_nu": 0.30,
+    "length_scale_l0_mm": 0.0075,
+    "length_scale_l0_um": 7.50,
+    "critical_energy_release_rate_gc_kn_per_mm": 0.0027,
+    "residual_stiffness_k": 1e-07,
+    "constitutive_formulation": "AMOR_DEVIATORIC_SPECTRAL_SPLIT_UEL_UMAT",
+    "uel_subroutine": "f42_mixed_uel.for",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "loading_steps": {
+    "step_1": {
+      "name": "Step-1",
+      "procedure": "*STATIC, NLGEOM=NO",
+      "target_displacement_uy_mm": 0.005,
+      "initial_increment": 0.02,
+      "max_increment": 0.02,
+      "min_increment": 1.0e-7,
+      "max_increments": 10000,
+      "regime": "PRECRITICAL_LINEAR_ELASTIC",
+      "expected_peak_clearance": "0.0050 mm < 0.00729 mm coarse peak (safe pre-critical)"
+    },
+    "step_2": {
+      "name": "Step-2",
+      "procedure": "*STATIC, NLGEOM=NO",
+      "target_displacement_uy_mm": 0.012,
+      "delta_displacement_mm": 0.007,
+      "initial_increment": 0.002,
+      "max_increment": 0.002,
+      "min_increment": 1.0e-8,
+      "max_increments": 20000,
+      "regime": "PEAK_AND_POSTPEAK_FRACTURE_PROPAGATION",
+      "initial_displacement_increment_um": 0.014,
+      "min_displacement_increment_um": 0.00007
+    }
+  },
+  "output_architecture_mapping": {
+    "reaction_force": {
+      "target": "RF2",
+      "node": 999999,
+      "node_set": "N_RP",
+      "extraction_method": "ODB history/field output on Reference Point node 999999"
+    },
+    "displacement": {
+      "target": "U2",
+      "node": 999999,
+      "node_set": "N_RP",
+      "extraction_method": "ODB history/field output on Reference Point node 999999"
+    },
+    "phase_field_damage": {
+      "target": "d",
+      "elset": "umatelem",
+      "field_variable": "SDV1",
+      "backup_variable": "SDV14",
+      "element_range": "47931 to 71895",
+      "mapping_rule": "PHYSIDX = NOEL - 47930 (1 to 23965)",
+      "common_block": "COMMON /CB_STATE_TRANS/ SV_PHASE_TRIAL"
+    },
+    "history_field": {
+      "target": "H",
+      "elset": "umatelem",
+      "field_variable": "SDV2",
+      "backup_variable": "SDV16",
+      "element_range": "47931 to 71895",
+      "common_block": "COMMON /CB_STATE_TRANS/ SV_H_TRIAL"
+    },
+    "fracture_energy": {
+      "integrated_element_energy_kn_mm": "SDV17",
+      "fracture_energy_density_kn_per_mm2": "SDV19"
+    },
+    "strain_energy": {
+      "integrated_element_energy_kn_mm": "SDV18",
+      "strain_energy_density_kn_per_mm2": "SDV20"
+    },
+    "visualization_cauchy_stress": {
+      "stress_tensor": "Zero by design (dummy visualizer layer, tangent DDSDDE = 1.0e-11)",
+      "unsupported_warning_classification": "Benign notice resulting from *ELEMENT OUTPUT on user elements"
+    }
+  },
+  "hpc_execution": {
+    "queue": "entry_imfdfkmq",
+    "select_nodes": 1,
+    "ncpus": 8,
+    "mpiprocs": 1,
+    "ompthreads": 8,
+    "memory_gb": 32,
+    "walltime_hrs": 8,
+    "execution_mode": "SHARED_MEMORY_SMP",
+    "mpi_mode": "DISQUALIFIED",
+    "output_directory": "/scratch9/pr21vyci/runs/f1735_case2_adapted_fracture"
+  }
+}

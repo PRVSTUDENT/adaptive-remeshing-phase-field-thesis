@@ -1,0 +1,100 @@
+#!/bin/bash
+#PBS -N PK_F1735_C2_FRAC
+#PBS -l select=1:ncpus=8:mpiprocs=1:ompthreads=8:mem=32gb
+#PBS -l walltime=08:00:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -j oe
+#PBS -o pbs_execution.log
+
+# ==============================================================================
+# Task F1735 Case 2 Adapted-Mesh Mode-I Phase-Field Fracture Simulation
+# Production Deck: PK_F1728_CASE_2_PROD.inp (71,895 layered elements)
+# Subroutine:      f42_mixed_uel.for (Frozen SHA-256: CE8D5EDC...)
+# Resource Route:  Single-rank shared-memory SMP (8 threads, 32 GB RAM, 8h walltime)
+# ==============================================================================
+
+set -euo pipefail
+
+cd "$PBS_O_WORKDIR"
+
+# Source Notification Traps
+if [ -f "./job_notifications.sh" ]; then
+    source ./job_notifications.sh
+elif [ -f "$HOME/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh" ]; then
+    source "$HOME/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh"
+fi
+
+if type notification_install_terminal_trap &>/dev/null; then
+    notification_install_terminal_trap
+fi
+
+if type notify_start &>/dev/null; then
+    notify_start "F1735 Case 2 Adapted-Mesh Phase-Field Fracture Simulation Started"
+fi
+
+echo "================================================================================"
+echo "Task F1735: Case 2 Adapted-Mesh Phase-Field Fracture Simulation"
+echo "Job ID:        ${PBS_JOBID:-LOCAL}"
+echo "Node:          $(hostname)"
+echo "Start Time:    $(date -Iseconds)"
+echo "Working Dir:   $(pwd)"
+echo "CPUs:          8 (Shared-Memory SMP)"
+echo "Memory:        32 GB"
+echo "================================================================================"
+
+# Verify Frozen UEL Bitwise Hash
+EXPECTED_UEL_HASH="ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6"
+ACTUAL_UEL_HASH=$(sha256sum f42_mixed_uel.for | awk '{print $1}')
+echo "UEL Subroutine SHA-256: $ACTUAL_UEL_HASH"
+if [ "$ACTUAL_UEL_HASH" != "$EXPECTED_UEL_HASH" ]; then
+    echo "ERROR: Bitwise UEL hash mismatch! Refusing execution."
+    exit 101
+fi
+echo "Frozen UEL integrity verified PASS."
+
+# Verify Production Deck Hash
+EXPECTED_DECK_HASH="805af9d80126588c1a3e39fe3b5f7a0f53db606106f2dbfe6260f1e1fbddbf94"
+ACTUAL_DECK_HASH=$(sha256sum PK_F1728_CASE_2_PROD.inp | awk '{print $1}')
+echo "Production Deck SHA-256: $ACTUAL_DECK_HASH"
+if [ "$ACTUAL_DECK_HASH" != "$EXPECTED_DECK_HASH" ]; then
+    echo "ERROR: Production deck hash mismatch! Refusing execution."
+    exit 102
+fi
+echo "Production deck integrity verified PASS."
+
+# Load Abaqus Environment
+module purge || true
+module load abaqus/2023 || module load abaqus || true
+
+# Execution Command (Single-Rank Shared-Memory SMP, 8 threads)
+JOBNAME="PK_F1735_CASE_2_FRAC"
+echo "Submitting Abaqus/Standard nonlinear fracture solver..."
+echo "Command: abaqus job=$JOBNAME input=PK_F1728_CASE_2_PROD.inp user=f42_mixed_uel.for cpus=8 standard_parallel=all mp_mode=threads interactive"
+
+abaqus job="$JOBNAME" input=PK_F1728_CASE_2_PROD.inp user=f42_mixed_uel.for cpus=8 standard_parallel=all mp_mode=threads interactive
+
+SOLVER_EXIT=$?
+echo "Abaqus Solver Completed with Exit Code: $SOLVER_EXIT"
+echo "Completion Time: $(date -Iseconds)"
+
+# Check STA file completion
+if [ -f "${JOBNAME}.sta" ]; then
+    echo "--- TAIL OF ${JOBNAME}.sta ---"
+    tail -n 25 "${JOBNAME}.sta"
+fi
+
+if [ $SOLVER_EXIT -eq 0 ]; then
+    echo "Simulation completed successfully."
+    if type notify_completed &>/dev/null; then
+        notify_completed "F1735 Case 2 Adapted-Mesh Phase-Field Fracture Succeeded with Exit Code 0"
+    fi
+    exit 0
+else
+    echo "Simulation failed with exit code $SOLVER_EXIT."
+    if type notify_failed &>/dev/null; then
+        notify_failed "F1735 Case 2 Adapted-Mesh Phase-Field Fracture Failed (Exit $SOLVER_EXIT)"
+    fi
+    exit $SOLVER_EXIT
+fi

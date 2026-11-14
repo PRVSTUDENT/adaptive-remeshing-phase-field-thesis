@@ -1,0 +1,132 @@
+{
+  "task_id": "F1735-CASE2-ADAPTED-FRACTURE-EXECUTION-QUALIFICATION",
+  "deck_sha256": "805AF9D80126588C1A3E39FE3B5F7A0F53DB606106F2DBFE6260F1E1FBDDBF94",
+  "uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "pbs_sha256": "7B604A26BBC20D68D9F13D078D767C495F47F34C4701DAD42AC197D86132847F",
+  "total_nodes": 23958,
+  "physical_elements": 23965,
+  "total_layered_elements": 71895,
+  "output_mapping": {
+    "reaction_force_observable": {
+      "node": 999999,
+      "set": "N_RP",
+      "component": "RF2",
+      "physical_meaning": "Total vertical reaction force summing top pull boundary",
+      "verification": "Directly requested in Step-1 and Step-2 via *NODE OUTPUT, NSET=N_RP and *NODE PRINT"
+    },
+    "displacement_observable": {
+      "node": 999999,
+      "set": "N_RP",
+      "component": "U2",
+      "physical_meaning": "Prescribed vertical tensile displacement",
+      "verification": "Directly requested in Step-1 and Step-2 via *NODE OUTPUT, NSET=N_RP"
+    },
+    "phase_field_damage_observable": {
+      "elset": "umatelem",
+      "element_range": [
+        47931,
+        71895
+      ],
+      "variable": "SDV1",
+      "backup_variable": "SDV14",
+      "mapping_formula": "PHYSIDX = NOEL - 47930 (1 to 23965)",
+      "fortran_source": "STATEV(1) = SV_PHASE_TRIAL(PHYSIDX) in f42_mixed_uel.for line 893",
+      "bounds": "0.0 <= d <= 1.0 (enforced by spectral degradation in UEL)"
+    },
+    "history_field_observable": {
+      "elset": "umatelem",
+      "variable": "SDV2",
+      "backup_variable": "SDV16",
+      "fortran_source": "STATEV(2) = SV_H_TRIAL(PHYSIDX, KPT) in f42_mixed_uel.for line 894",
+      "monotonicity": "H_{n+1} >= H_n strictly enforced in UEL"
+    },
+    "fracture_energy_observable": {
+      "elset": "umatelem",
+      "integrated_element_energy_kn_mm": "SDV17",
+      "density_kn_per_mm2": "SDV19"
+    },
+    "strain_energy_observable": {
+      "elset": "umatelem",
+      "integrated_element_energy_kn_mm": "SDV18",
+      "density_kn_per_mm2": "SDV20"
+    },
+    "cauchy_stress_observable": {
+      "status": "ZERO_BY_DESIGN_IN_VISUALIZER",
+      "tangent_ddsdde": 1e-11,
+      "rationale": "The visualization UMAT operates as a non-load-bearing diagnostic layer (tangent DDSDDE = 1e-11, S = 0). Mechanical equilibrium is solved exclusively by UEL Layers 1 and 2. Continuum element output requests on user elements produce benign informational warnings. Physical fracture validation observables are completely governed by RF2, U2, phase-field damage d (SDV1), history H (SDV2), and crack geometry."
+    }
+  },
+  "loading_audit": {
+    "step_1": {
+      "name": "Step-1",
+      "target_uy_mm": 0.005,
+      "coarse_peak_uy_mm": 0.00729381,
+      "peak_margin_mm": 0.00229381,
+      "regime": "PRECRITICAL_LINEAR_ELASTIC",
+      "initial_increment_dt": 0.02,
+      "initial_delta_uy_mm": 0.0001,
+      "max_increment_dt": 0.02,
+      "min_increment_dt": 1e-07,
+      "max_increments": 10000,
+      "assessment": "Strictly pre-critical. Confines damage nucleation to notch root without premature macrocrack localization."
+    },
+    "step_2": {
+      "name": "Step-2",
+      "start_uy_mm": 0.005,
+      "target_uy_mm": 0.012,
+      "total_step_delta_uy_mm": 0.007,
+      "initial_increment_dt": 0.002,
+      "initial_delta_uy_mm": 1.4e-05,
+      "max_increment_dt": 0.002,
+      "min_increment_dt": 1e-08,
+      "min_delta_uy_mm": 7e-11,
+      "max_increments": 20000,
+      "regime": "PEAK_AND_POSTPEAK_FRACTURE_PROPAGATION",
+      "assessment": "Highly conservative initial increment (0.014 um per inc) allows fine resolution of peak force and gradual softening initiation. Automatic cutbacks down to 1.0e-8 enable robust negotiation of local snap-through / softening instability without premature solver divergence."
+    }
+  },
+  "hpc_audit": {
+    "execution_mode": "SINGLE_RANK_SHARED_MEMORY_SMP",
+    "cpus": 8,
+    "standard_parallel_option": "standard_parallel=all mp_mode=threads",
+    "parallel_safety_rationale": "Per repository governance in AGENTS.md, f42_mixed_uel.for is NOT qualified for multi-rank MPI (MULTI_RANK_MPI_STRICTLY_DISQUALIFIED). Single-rank shared-memory SMP (8 threads) is empirically qualified and shares Fortran COMMON blocks safely across threads. 1-CPU serial serves as the authoritative reference anchor if threading race conditions occur.",
+    "queue": "entry_imfdfkmq",
+    "memory_request_gb": 32,
+    "walltime_request_hrs": 8,
+    "projected_runtime_hrs": 4.5,
+    "headroom_factor": 1.78
+  },
+  "scientific_checks": [
+    {
+      "id": "CHK-SCI-01",
+      "name": "Numerical Convergence",
+      "criterion": "Both Step-1 and Step-2 complete without solver crash, non-finite arithmetic, or zero cutback termination."
+    },
+    {
+      "id": "CHK-SCI-02",
+      "name": "Load-Displacement Physical Response",
+      "criterion": "Reaction force curve shows linear elastic stiffness, smooth peak near 0.007\u20130.008 mm, followed by progressive softening drop."
+    },
+    {
+      "id": "CHK-SCI-03",
+      "name": "Phase-Field Physical Bounds",
+      "criterion": "0.0 <= d <= 1.0 strictly maintained across all 23,965 physical elements at all converged increments."
+    },
+    {
+      "id": "CHK-SCI-04",
+      "name": "Damage Irreversibility",
+      "criterion": "dot(d) >= 0 and H_{n+1} >= H_n strictly maintained; zero healing or negative damage evolution."
+    },
+    {
+      "id": "CHK-SCI-05",
+      "name": "Crack Path & Hole Interaction",
+      "criterion": "Crack initiates at notch tip (0.50, 0.50) mm and propagates towards the off-axis hole, evaluating qualitative deflection against Pandey & Kumar (2025)."
+    },
+    {
+      "id": "CHK-SCI-06",
+      "name": "Thermodynamic Energy Monotonicity",
+      "criterion": "Integrated fracture energy E_frac increases monotonically with crack advance."
+    }
+  ],
+  "preflight_verdict": "PREFLIGHT_AND_OUTPUT_ARCHITECTURE_QUALIFIED_READY_FOR_AUTHORIZATION_DISPATCH"
+}
