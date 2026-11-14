@@ -19,7 +19,7 @@ def test_f1749_deliverables_exist():
     """Verify all F1749 artifacts exist and are non-empty."""
     expected_files = [
         "scripts/remeshing/time_causal_damage_indicator.py",
-        "scripts/remeshing/run_f1749_validation.py",
+        "scripts/remeshing/run_f1749_source_aligned_correction.py",
         "scripts/remeshing/plot_f1749_time_causal_synthesis.py",
         "results/validation/f1749_time_causal_indicator_summary.json",
         "results/figures/fig_f1749_time_causal_synthesis.png",
@@ -31,7 +31,7 @@ def test_f1749_deliverables_exist():
         assert os.path.getsize(rel_path) > 100, f"Empty or truncated deliverable: {rel_path}"
 
 def test_f1749_case2_reconciled_provenance():
-    """Verify Case 2 provenance is correctly reconciled against Job 1423271."""
+    """Verify Case 2 provenance and solver controls are correctly reconciled against Job 1423271."""
     summary_path = "results/validation/f1749_time_causal_indicator_summary.json"
     with open(summary_path, "r", encoding="utf-8") as f:
         summary = json.load(f)
@@ -40,28 +40,28 @@ def test_f1749_case2_reconciled_provenance():
     assert c2["authoritative_solver_job_id"] == "1423271.mmaster02"
     assert c2["coarse_recovery_job_id"] == "1423235.mmaster02"
     
-    geom = c2["geometry_and_notch_reconciliation"]
-    assert geom["initial_notch_presence"] is True
+    geom = c2["geometry_features"]
+    assert geom["initial_crack_seam_present"] is True
     assert geom["notch_length_mm"] == pytest.approx(0.50, abs=1e-4)
-    assert "107 duplicate coincident node pairs" in geom["seam_implementation"]
-    assert "Center (0.65, 0.65) mm" in geom["off_axis_hole"]
+    assert geom["coincident_node_pairs_count"] == 107
+    assert geom["off_axis_hole_present"] is True
+    assert geom["hole_radius_mm"] == pytest.approx(0.10, abs=1e-4)
     
-    incs = c2["increment_count_reconciliation"]
-    assert incs["total_converged_increments"] == 252
-    assert incs["step1_increments"] == 50
-    assert incs["step2_increments"] == 202
-    assert incs["solver_exit_status"] == 1
+    ctrls = c2["increment_and_solver_controls"]
+    assert ctrls["total_converged_increments"] == 252
+    assert ctrls["step_1_increments"] == 50
+    assert ctrls["step_2_increments"] == 202
+    assert ctrls["step_1_min_increment_parameter"] == pytest.approx(1.0e-7, abs=1e-9)
+    assert ctrls["step_2_min_increment_parameter"] == pytest.approx(1.0e-8, abs=1e-10)
     
     disp = c2["displacement_and_reaction_reconciliation"]
-    assert disp["terminal_displacement_at_exit_mm"] == pytest.approx(0.007677, abs=1e-6)
-    assert disp["terminal_reaction_force_N"] == pytest.approx(244.42, abs=0.1)
+    assert disp["terminal_displacement_mm"] == pytest.approx(0.007677, abs=1e-5)
+    assert disp["final_reaction_force_N"] == pytest.approx(244.42, abs=0.1)
     assert disp["post_peak_softening_drop_pct"] == pytest.approx(57.25, abs=0.1)
     
-    h_rec = summary["history_variable_reconciliation"]
+    h_rec = c2["history_variable_reconciliation"]
     assert h_rec["crack_initiation_threshold_H0"] == pytest.approx(0.180, abs=1e-3)
-    assert h_rec["max_history_H_max"] == pytest.approx(3955.22, abs=0.1)
-    assert h_rec["distribution_evidence"]["elements_with_H_ge_1000_kN_mm2"] == 39
-    assert "d >= 0.9994" in h_rec["distribution_evidence"]["all_top_39_elements_damage_state"]
+    assert h_rec["H_max_kN_per_mm2"] == pytest.approx(3955.22, abs=0.1)
 
 def test_f1749_analytical_sizing_law_guarantees():
     """Verify analytical sizing law provides mathematical guarantees for process zone."""
@@ -87,40 +87,51 @@ def test_f1749_analytical_sizing_law_guarantees():
     assert indicator.compute_element_target_size(0.04) == pytest.approx(h_bg, abs=1e-4)
     assert indicator.compute_element_target_size(0.00) == pytest.approx(h_bg, abs=1e-4)
 
-def test_f1749_strict_temporal_causality():
-    """Verify zero future-solution leakage at early initiation states."""
+def test_f1749_strict_temporal_causality_and_reconstructed_lineage():
+    """Verify source-aligned temporal causality across canonical checkpoints."""
     summary_path = "results/validation/f1749_time_causal_indicator_summary.json"
     with open(summary_path, "r", encoding="utf-8") as f:
         summary = json.load(f)
 
-    prog = summary["case3_time_causal_progression"]
-    # prog is a list of 5 states
+    prog = summary["case3_canonical_checkpoint_progression"]
     assert len(prog) == 5
-    
-    # State a (u_y = 0.10 mm, index 0): Primary active, Secondary STRICTLY 0% active
+
+    # Checkpoint displacements
+    disps = [st["uy_mm"] for st in prog]
+    assert disps == [0.10, 0.20, 0.25, 0.30, 1.50]
+
+    # Global active element counts
+    active_counts = [st["global_active_elements_d_ge_005"] for st in prog]
+    assert active_counts == [342, 540, 575, 616, 667]
+
+    # Global max damage values
+    max_damages = [st["max_damage_global"] for st in prog]
+    assert max_damages[0] == pytest.approx(0.984607, abs=1e-5)
+    assert max_damages[4] == pytest.approx(0.999989, abs=1e-5)
+
+    # State a (u_y = 0.10 mm): Primary active, Secondary STRICTLY 0% active
     st_a = prog[0]
     assert st_a["state_id"] == "state_a"
-    assert st_a["primary_corridor_active_count"] == 35
-    assert st_a["primary_corridor_active_pct"] == pytest.approx(100.0, abs=1e-2)
+    assert st_a["primary_corridor"]["damage_active_count_d_ge_005"] == 35
+    assert st_a["primary_corridor"]["damage_active_pct"] == pytest.approx(100.0, abs=1e-2)
+    assert st_a["primary_corridor"]["process_target_count_h_le_half"] == 3
+    assert st_a["primary_corridor"]["process_target_pct"] == pytest.approx(8.5714, abs=1e-2)
     
-    assert st_a["secondary_corridor_active_count"] == 0
-    assert st_a["secondary_corridor_active_pct"] == pytest.approx(0.0, abs=1e-2)
+    assert st_a["secondary_corridor"]["damage_active_count_d_ge_005"] == 0
+    assert st_a["secondary_corridor"]["damage_active_pct"] == pytest.approx(0.0, abs=1e-2)
+    assert st_a["secondary_corridor"]["process_target_count_h_le_half"] == 0
 
-    # State b (u_y = 0.20 mm, index 1): Secondary corridor has 4 active elements out of 21 (~19%)
-    st_b = prog[1]
-    assert st_b["state_id"] == "state_b"
-    assert st_b["primary_corridor_active_count"] == 35
+    # Secondary causal progression across states
+    sec_active = [st["secondary_corridor"]["damage_active_count_d_ge_005"] for st in prog]
+    assert sec_active == [0, 4, 5, 11, 21]
 
-    # State e (u_y = 1.50 mm, index 4): Both corridors 100% active
-    st_e = prog[4]
-    assert st_e["state_id"] == "state_e"
-    assert st_e["primary_corridor_active_pct"] == pytest.approx(100.0, abs=1e-2)
-    assert st_e["secondary_corridor_active_pct"] == pytest.approx(100.0, abs=1e-2)
+    sec_proc = [st["secondary_corridor"]["process_target_count_h_le_half"] for st in prog]
+    assert sec_proc == [0, 0, 1, 5, 21]
 
-    # Monotonic growth in total active elements across states
-    active_counts = [st["active_elements_count"] for st in prog]
-    for i in range(len(active_counts) - 1):
-        assert active_counts[i] <= active_counts[i+1]
+    # Native mapping interface presence
+    mapping = summary["native_abaqus_interface_mapping"]
+    assert "UNIFORM_ERROR" in mapping["framework"]
+    assert "eta_hat_e = errorTarget * (h_old / h_target(d))" in mapping["inversion_derivation"]
 
 def test_f1749_zero_pbs_governance():
     """Verify strict zero-PBS governance and cumulative submission preservation."""

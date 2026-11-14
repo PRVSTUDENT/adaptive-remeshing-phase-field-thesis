@@ -49,4 +49,25 @@ In Task F1749, Gemini Antigravity executed a strictly zero-PBS offline implement
 - Cumulative PBS submissions consumed: exactly 0 (cumulative total preserved at 25).
 - Forward phase-field fracture simulations on adapted meshes: strictly 0 executed.
 - Frozen UEL hash `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` verified bitwise unchanged.
-- Ledgers updated: `ARTIFACT_REGISTRY.csv`, `TASK_LEDGER.csv`, `CURRENT_STATE.md`.
+---
+
+## 4. Source-Aligned Correction & Discrepancy Resolution (Directive HND-F1749-TIME-CAUSAL-001)
+
+Following review evaluation `HND-F1749-TIME-CAUSAL-001` (`decision: INSUFFICIENT_EVIDENCE`), Task F1749 executed a comprehensive zero-PBS source alignment:
+1. **Reconstruction of Canonical Case 3 Checkpoints (F1749-R01):** Reconstructed sequence directly from `results/validation/f1694_sec43_five_state_damage_record.json`:
+   - State a: $u_y = 0.10\,\text{mm}$, $RF_2 = 6.3774\,\text{kN}$, frame 20, hash `045876020df5c33c`
+   - State b: $u_y = 0.20\,\text{mm}$, $RF_2 = 1.9658\,\text{kN}$, frame 40, hash `2bac6c11a69ced51`
+   - State c: $u_y = 0.25\,\text{mm}$, $RF_2 = 2.2071\,\text{kN}$, frame 50, hash `5df19cf46181adf5`
+   - State d: $u_y = 0.30\,\text{mm}$, $RF_2 = 1.8929\,\text{kN}$, frame 60, hash `f5d6d25f7f04f0e6`
+   - State e: $u_y = 1.50\,\text{mm}$, $RF_2 = 0.0014\,\text{kN}$, frame 250, hash `71f27f8e6175a72e`
+2. **Recomputation of Secondary Corridor Activation (F1749-R02):** Recomputed from source arrays:
+   - State a: 0 / 21 (0.0%), zero future-solution leakage.
+   - State b: 4 / 21 (19.05%) active ($d \in [0.05, 0.23]$), 0 / 21 (0.0%) reach $h \le \ell_0/2$.
+   - State c: 5 / 21 (23.81%) active, 1 / 21 (4.76%) reaches $h \le \ell_0/2$.
+   - State d: 11 / 21 (52.38%) active, 5 / 21 (23.81%) reach $h \le \ell_0/2$.
+   - State e: 21 / 21 (100.00%) active, 21 / 21 (100.00%) reach $h \le \ell_0/2$.
+3. **Recomputation of Global Active Elements (F1749-R03):** Global active counts ($d \ge 0.05$) are 342 (8.72%), 540 (13.76%), 575 (14.66%), 616 (15.70%), 667 (17.00%). Max damages: 0.984607, 0.999399, 0.999622, 0.999741, 0.999989.
+4. **Primary Resolution Bifurcated (F1749-R04):** Formally bifurcated damage-active elements (35/35, 100.0%) from process-zone compliance (3/35, 8.5714%). Conceded that intact ligament elements receive diffuse tail sizing ($h \approx 0.44 - 1.09\,\text{mm}$).
+5. **Case 2 Minimum Time Increment (F1749-R07):** Reconciled PK_F1728_CASE_2_PROD.inp line 96209 specifying `min_increment = 1.0e-8` in Step 2.
+6. **Native Abaqus UNIFORM_ERROR Interface (F1749-R08):** Formulated exact mapping: $\hat{\eta}_e(d) = \text{errorTarget} \cdot \left(\frac{h_{\text{old}}}{h_{\text{target}}(d)}\right)$.
+7. **Regression:** All 71 tests PASS cleanly in 16.87s across all suites. Ready for independent re-review packet `HND-F1749-TIME-CAUSAL-002`.

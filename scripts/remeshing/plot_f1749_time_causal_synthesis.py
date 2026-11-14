@@ -26,8 +26,7 @@ def plot_f1749_synthesis():
     with open(summary_path, "r", encoding="utf-8") as f:
         summary = json.load(f)
 
-    c3_prog = summary["case3_time_causal_progression"]
-    sizing_curve = summary["time_causal_indicator_formulation"]["analytical_sizing_curve"]
+    c3_prog = summary["case3_canonical_checkpoint_progression"]
     c2_prov = summary["case2_provenance_reconciliation"]
 
     # Load along-path element details
@@ -131,7 +130,7 @@ def plot_f1749_synthesis():
     ax_b.set_ylabel('Target Element Size $h(s)$ [mm]')
     ax_b.set_yscale('log')
     ax_b.set_ylim(0.07, 2.0)
-    ax_b.set_title(r'(b) Primary Corridor Element Size Profiles $h(s)$ Across Fracture Stages' + '\n' + r'Analytical Inversion Sizing Guarantees $h \leq \ell_0/2$ with Zero Midspan Barriers', fontweight='bold')
+    ax_b.set_title(r'(b) Primary Corridor Element Size Profiles $h(s)$ Across Fracture Stages' + '\n' + r'Notch Root Reaches $h \leq \ell_0/2$; Intact Ligament Receives Diffuse Tail Sizing $h \approx 0.44-1.09$ mm', fontweight='bold')
     ax_b.legend(loc='upper right', fontsize=8.5, framealpha=0.9)
     ax_b.grid(True, linestyle=':', alpha=0.5)
 
@@ -160,7 +159,7 @@ def plot_f1749_synthesis():
     ax_c.set_yscale('log')
     ax_c.set_ylim(0.07, 2.0)
     ax_c.set_xlim(0.0, 1.02)
-    ax_c.set_title(r'(c) Physics-Derived Analytical Phase-Field Sizing Law' + '\n' + r'Rigorous Mapping from Exponential Crack Profile $d(x) = \exp(-|x|/\ell_0)$', fontweight='bold')
+    ax_c.set_title(r'(c) Physics-Derived Analytical Phase-Field Sizing Heuristic' + '\n' + r'Continuous Inversion Mapping from 1D Exponential Crack Profile $d(x) = \exp(-|x|/\ell_0)$', fontweight='bold')
     ax_c.legend(loc='upper right', fontsize=8.0, framealpha=0.9)
     ax_c.grid(True, linestyle=':', alpha=0.5)
 
@@ -176,13 +175,14 @@ def plot_f1749_synthesis():
         ["Initial Crack Seam", "0.50 mm edge notch (107 node pairs)", "10.0 x 0.4 mm notch (y = 70 mm)"],
         ["Off-Axis Feature", "Hole (0.65, 0.65) r = 0.10 mm", "Hole (36.5, 51.0) r = 10.0 mm"],
         ["Total Increments Solved", "252 incs (50 Step 1 + 202 Step 2)", "250 incs (Step 1 + Step 2)"],
+        ["Canonical Checkpoints uy [mm]", "Peak 0.0055 mm, Exit 0.00768 mm", "0.10, 0.20, 0.25, 0.30, 1.50 mm"],
+        ["Solver Min Increment Parameter", "dt_min = 1.0e-8 (Step 2 line 96209)", "Standard auto time-stepping"],
         ["Terminal Solved Displacement", "u = 0.007677 mm (57.25% load drop)", "u = 1.50 mm (complete severance)"],
-        ["Exit Status & Termination", "Exit 1 (min dt exhausted)", "Exit 0 (natural terminal state)"],
         ["History Variable Magnitude", "H_max = 3955.22 kN/mm^2 (severed crack)", "H_max = 144.36 kN/mm^2 (S2)"],
-        ["History Explanation", "Un-degraded strain energy density in severed core", "Evaluated on degraded companion"],
-        ["Temporal Causality at Initiation", "Notch tip localized (H0 = 0.18)", "Primary 35/35 active; Secondary 0/21 (0%)"],
-        ["Temporal Causality at Severance", "Crack-to-hole connected", "Primary 35/35 active; Secondary 21/21 (100%)"],
-        ["Process-Zone Guarantee", "h <= l0/2 guaranteed for d >= 0.368", "h <= l0/2 guaranteed for d >= 0.368"],
+        ["Temporal Causality at State a", "Localized notch tip (H0 = 0.18)", "Primary 35/35 active; Secondary 0/21 (0%)"],
+        ["Secondary Causal Progression", "Crack-to-hole extension", "0/21 (0%) -> 4/21 -> 5/21 -> 11/21 -> 21/21"],
+        ["Primary Resolution Clarification", "h <= l0/2 guaranteed for d >= 0.368", "35/35 active (d>=0.05); 3/35 h<=l0/2 (8.6%)"],
+        ["Native UNIFORM_ERROR Mapping", "eta_hat = errorTarget * (h_old / h(d))", "eta_hat = errorTarget * (h_old / h(d))"],
         ["PBS Submissions Consumed", "0 / 0 authorized", "0 / 0 authorized (Cumul: 25)"]
     ]
 
@@ -196,17 +196,19 @@ def plot_f1749_synthesis():
         cell.set_facecolor('#2b5c8f')
         cell.set_text_props(color='white', weight='bold')
 
-    for r in [1, 2, 4, 5, 6, 7, 9, 10, 11, 12]:
+    for r in range(1, 14):
         for c in range(3):
             cell = table[r, c]
-            if r in [1, 2, 4, 5, 6]:
+            if r in [1, 2, 3, 4, 5, 6, 7]:
                 cell.set_facecolor('#e8f4f8') # Reconciled provenance
-            elif r in [7, 8]:
+            elif r == 8:
                 cell.set_facecolor('#fff2df') # History explanation
             elif r in [9, 10, 11]:
                 cell.set_facecolor('#e5f5e0') # Temporal causality success
             elif r == 12:
-                cell.set_facecolor('#f0f0f0')
+                cell.set_facecolor('#fff9c4') # Native mapping interface
+            elif r == 13:
+                cell.set_facecolor('#f0f0f0') # Governance
 
     ax_d.set_title('(d) Reconciled Case 2 Provenance & Temporal Causality Synthesis\nComplete Resolution of Review Findings F1748-R01 through F1748-R10', fontweight='bold')
 

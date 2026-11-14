@@ -2,11 +2,11 @@
     "task_id": "F1749-TIME-CAUSAL-DAMAGE-INDICATOR-IMPLEMENTATION-AND-VALIDATION",
     "title": "Time-Causal Damage-Aware Refinement Indicator Module Implementation and Multi-State Temporal Validation",
     "status": "COMPLETED",
-    "classification": "TIME_CAUSAL_DAMAGE_INDICATOR_QUALIFIED",
+    "classification": "TIME_CAUSAL_DAMAGE_INDICATOR_CORRECTED",
     "assigned_agent": "gemini-antigravity",
     "active_pbs_job_id": null,
     "checkpoint_artifact": "docs/validation/F1749_TIME_CAUSAL_DAMAGE_INDICATOR_REPORT.md",
-    "review_directive": "HND-F1748-DAMAGE-AVAIL-001",
+    "review_directive": "HND-F1749-TIME-CAUSAL-001",
     "predecessor_task": {
         "task_id": "F1748-AUTHENTIC-COUPLED-DAMAGE-FIELD-RECOVERY-AND-INDICATOR-FEASIBILITY",
         "checkpoint_artifact": "docs/validation/F1748_COUPLED_DAMAGE_FIELD_AVAILABILITY_REPORT.md",
@@ -50,5 +50,5 @@
     ],
     "scope_boundary": "ZERO_PBS_TIME_CAUSAL_DAMAGE_INDICATOR",
     "hypothesis": "Evaluating damage-aware refinement indicators using strictly time-causal information (at or before time t_n) prevents future-solution bias while successfully identifying contemporaneously evolving fracture process zones, eliminating the stress-recovery blindspot without violating physical causality.",
-    "iteration": 1
+    "iteration": 2
 }
