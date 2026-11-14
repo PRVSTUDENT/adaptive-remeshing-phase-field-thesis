@@ -1,11 +1,11 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "f1751-case2-continuation-readiness-001",
-  "task_id": "F1751-CASE2-METHOD-A-DAMAGE-RESOLUTION-AND-CONTINUATION-READINESS",
-  "started_at": "2026-11-14T23:05:00+01:00",
-  "completed_at": "2026-11-14T23:16:30+01:00",
-  "starting_commit": "746c0d00",
+  "session_id": "f1752-case2-execution-preflight-001",
+  "task_id": "F1752-CASE2-CONTROL-ONLY-CONTINUATION-EXECUTION-PREFLIGHT",
+  "started_at": "2026-11-14T23:25:00+01:00",
+  "completed_at": "2026-11-14T23:36:00+01:00",
+  "starting_commit": "89f0d77f",
   "allowed_write_scope": [
     "project_coordination/**",
     ".agents/**",
@@ -16,5 +16,5 @@
     "scripts/**",
     "tests/unit/**"
   ],
-  "notes": "Task F1751: Case 2 Method A Off-Axis Hole Damage Resolution & Continuation Readiness Diagnosis."
+  "notes": "Task F1752: Case 2 Method A Controlled Continuation Execution Preflight."
 }

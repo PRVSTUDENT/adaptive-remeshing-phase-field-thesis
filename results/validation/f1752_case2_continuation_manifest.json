@@ -1,0 +1,93 @@
+{
+  "task_id": "F1752-CASE2-CONTROL-ONLY-CONTINUATION-EXECUTION-PREFLIGHT",
+  "benchmark_name": "Pandey & Kumar (2025) Section 4.5 Plate with Off-Axis Hole (Case 2)",
+  "case_id": "case_2",
+  "continuation_architecture": "FULL_RERUN_ON_UNCHANGED_23965_ELEMENT_MESH",
+  "restart_audit": {
+    "status": "DISQUALIFIED",
+    "technical_reason": "f42_mixed_uel.for line 132 restricts SV_H_COMMITTED and SV_H_TRIAL initialization in Fortran COMMON blocks strictly to KSTEP == 1 and KINC <= 1. Standard Abaqus restart at Step 2 begins with COMMON block arrays zeroed in memory, losing all historical maximum strain energy and damage driving variables across all 71,895 layered elements. Because modifying the frozen production UEL is strictly prohibited by governance, a controlled full rerun on the unchanged mesh is the sole technically valid and reproducible continuation route.",
+    "affected_common_blocks": [
+      "COMMON /CB_STATE_TRANS/ SV_PHASE_COMMITTED, SV_PHASE_TRIAL, SV_H_COMMITTED, SV_H_TRIAL, SV_DET_J_COMMITTED"
+    ]
+  },
+  "production_deck": {
+    "path": "models/pandey_kumar_mode1/234_f1752_case2_continuation/PK_F1752_CASE_2_CONTINUATION.inp",
+    "sha256": "ccb35b34bfae015ea4846d3d0765fc2646e6c9af47958f8c21a0a4f25a14cc4a",
+    "parent_deck": "models/pandey_kumar_mode1/224_f1734_case2_distal_refinement/PK_F1728_CASE_2_PROD.inp",
+    "parent_deck_sha256": "805af9d80126588c1a3e39fe3b5f7a0f53db606106f2dbfe6260f1e1fbddbf94",
+    "physical_elements": 23965,
+    "physical_nodes": 23957,
+    "layered_production_elements": 71895,
+    "layered_production_nodes": 23958,
+    "quadrilateral_fraction_pct": 97.23,
+    "min_signed_jacobian": 1.695279e-07,
+    "max_aspect_ratio": 2.51,
+    "median_aspect_ratio": 1.25
+  },
+  "user_subroutine": {
+    "path": "models/pandey_kumar_mode1/234_f1752_case2_continuation/f42_mixed_uel.for",
+    "sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "governance_status": "BITWISE_FROZEN_PRODUCTION_UEL",
+    "parallel_mode": "SERIAL_1CPU_DETERMINISTIC"
+  },
+  "solver_parameters": {
+    "step_1": {
+      "name": "Step-1",
+      "target_displacement_mm": 0.005,
+      "initial_increment": 0.02,
+      "max_increment": 0.02,
+      "min_increment": 1.0e-7,
+      "max_increments": 10000,
+      "procedure": "*STATIC, NLGEOM=NO"
+    },
+    "step_2": {
+      "name": "Step-2",
+      "target_displacement_mm": 0.012,
+      "delta_displacement_mm": 0.007,
+      "initial_increment": 0.002,
+      "max_increment": 0.002,
+      "min_increment": 1.0e-11,
+      "max_increments": 20000,
+      "procedure": "*STATIC, NLGEOM=NO"
+    },
+    "parameter_diff_summary": "Strictly 1 line modified (line 96209): min_increment relaxed from 1.0e-8 to 1.0e-11. Initial dt (0.002), max dt (0.002), max increments (20000), boundary conditions, material constants, geometry, and mesh are 100% bitwise preserved. Zero artificial numerical damping, zero artificial viscosity, zero altered convergence tolerances."
+  },
+  "datacheck_receipt": {
+    "exit_code": 0,
+    "errors": 0,
+    "warnings": 8,
+    "warning_classification": "BENIGN_ELEMENT_OUTPUT_NOT_SUPPORTED_FOR_USER_ELEMENTS",
+    "wallclock_sec": 3,
+    "cpu_sec": 1.5,
+    "datacheck_node": "login01.cluster",
+    "timestamp": "2026-11-14T23:28:11+01:00"
+  },
+  "resource_request": {
+    "queue": "normal_imfdfkmq",
+    "nodes": 1,
+    "ncpus": 1,
+    "memory_gb": 8,
+    "walltime_sec": 10800,
+    "walltime_formatted": "03:00:00",
+    "resource_basis": "Empirical solver performance from Job 1423271 established 252 converged increments in 2,472s wallclock (1,690s CPU) on 1 core with peak memory < 2 GB. Estimating completion of remaining post-peak increments at 3,600-5,400s, a 3-hour (10,800s) allocation with 8 GB RAM in queue normal_imfdfkmq provides a bounded 2x-3x safety envelope without overloading cluster resources."
+  },
+  "predeclared_stop_conditions": {
+    "condition_1_cutbacks": "Abort if solver encounters > 50 consecutive cutbacks in Step 2.",
+    "condition_2_rate_stagnation": "Abort if displacement advance rate Delta uy < 1.0e-7 mm across 10 consecutive increments.",
+    "condition_3_walltime": "Abort if execution walltime exceeds 10,800 seconds (3 hours).",
+    "condition_4_damage_bounds": "Abort if any integration point reports nonphysical damage d < -1.0e-5 or d > 1.02."
+  },
+  "predeclared_physical_acceptance_gates": {
+    "gate_1_energy_monotonicity": "Integrated fracture dissipation E_frac must satisfy monotonicity E_frac(t_{n+1}) >= E_frac(t_n) - 1.0e-6 kJ.",
+    "gate_2_damage_bounds": "Damage field must satisfy strict physical bounds 0 <= d <= 1.0004 across all converged increments.",
+    "gate_3_secondary_propagation": "Secondary crack front with d >= 0.90 must advance beyond the initiation locus (x = 0.9031 mm) across the distal ligament toward the specimen boundary.",
+    "gate_4_load_drop": "Global reaction force RF2 must exhibit post-peak softening with total load drop >= 75% relative to peak force (F_max ~ 0.548 kN).",
+    "gate_5_resolution_classification": "Secondary process-zone resolution must be explicitly evaluated and reported as PARTIAL vs FULL vs SPATIALLY_QUALIFIED based on along-path h <= l0/2 compliance."
+  },
+  "governance": {
+    "pbs_jobs_consumed_under_f1752": 0,
+    "cumulative_historical_pbs_submissions": 25,
+    "pbs_submissions_requested_for_continuation": 1,
+    "scope_boundary": "ZERO_PBS_PREFLIGHT_AND_DATACHECK_ONLY"
+  }
+}

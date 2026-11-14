@@ -98,7 +98,8 @@ def test_f1747_zero_pbs_governance():
         "F1748-AUTHENTIC-COUPLED-DAMAGE-FIELD-RECOVERY-AND-INDICATOR-FEASIBILITY",
             "F1749-TIME-CAUSAL-DAMAGE-INDICATOR-IMPLEMENTATION-AND-VALIDATION",
             "F1750-LOCAL-NATIVE-DAMAGE-SIZING-PROBE",
-            "F1751-CASE2-METHOD-A-DAMAGE-RESOLUTION-AND-CONTINUATION-READINESS"
+            "F1751-CASE2-METHOD-A-DAMAGE-RESOLUTION-AND-CONTINUATION-READINESS",
+            "F1752-CASE2-CONTROL-ONLY-CONTINUATION-EXECUTION-PREFLIGHT"
     ]
     assert task["max_new_pbs_submissions"] == 0, "max_new_pbs_submissions > 0"
     assert task["submissions_consumed"] == 0, "Non-zero submissions consumed"
