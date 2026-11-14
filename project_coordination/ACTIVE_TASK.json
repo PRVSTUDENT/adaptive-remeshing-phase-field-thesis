@@ -1,8 +1,8 @@
 {
     "task_id": "F1735-CASE2-ADAPTED-FRACTURE-EXECUTION-QUALIFICATION",
     "title": "Case 2 Adapted-Mesh Mode-I Phase-Field Fracture Execution Qualification",
-    "status": "PREFLIGHT_QUALIFICATION_COMPLETE_AWAITING_REVIEW",
-    "classification": "CASE2_ADAPTED_FRACTURE_EXECUTION_QUALIFIED_AWAITING_AUTHORIZATION",
+    "status": "ROUND2_SAFETY_HARDENED_AWAITING_REVIEW",
+    "classification": "CASE2_ADAPTED_FRACTURE_ROUND2_AWAITING_AUTHORIZATION",
     "assigned_agent": "gemini-antigravity",
     "checkpoint_artifact": "docs/validation/F1735_CASE2_ADAPTED_FRACTURE_QUALIFICATION_REPORT.md",
     "predecessor_task": {
@@ -71,13 +71,15 @@
         }
     },
     "hpc_resource_qualification": {
-        "execution_mode": "SINGLE_RANK_SHARED_MEMORY_SMP",
-        "cpus": 8,
-        "memory_gb": 32,
+        "execution_mode": "SERIAL_1CPU_DETERMINISTIC",
+        "cpus": 1,
+        "memory_gb": 16,
         "walltime_hrs": 8,
         "queue": "entry_imfdfkmq",
         "mpi_status": "MULTI_RANK_MPI_STRICTLY_DISQUALIFIED_FOR_F42_UEL",
-        "estimated_runtime_hrs": 4.5
+        "parallel_safety": "1-CPU serial execution completely eliminates Fortran COMMON-block thread race conditions and guarantees strict deterministic element update ordering",
+        "projected_runtime_hrs": 3.5,
+        "headroom_factor": 2.29
     },
     "predeclared_scientific_acceptance_checks": [
         "regular_increment_convergence_without_solver_divergence",

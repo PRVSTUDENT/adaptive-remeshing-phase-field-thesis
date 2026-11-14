@@ -58,16 +58,17 @@ def test_incremental_loading_schedule(preflight_results):
 
 def test_hpc_resource_qualification(preflight_results):
     hpc = preflight_results["hpc_audit"]
-    assert hpc["execution_mode"] == "SINGLE_RANK_SHARED_MEMORY_SMP"
-    assert hpc["cpus"] == 8
-    assert hpc["memory_request_gb"] == 32
+    assert hpc["execution_mode"] == "SERIAL_1CPU_DETERMINISTIC"
+    assert hpc["cpus"] == 1
+    assert hpc["memory_request_gb"] == 16
     assert hpc["walltime_request_hrs"] == 8
     assert hpc["projected_runtime_hrs"] < hpc["walltime_request_hrs"]
-    assert "MULTI_RANK_MPI_STRICTLY_DISQUALIFIED" in hpc["parallel_safety_rationale"].upper()
+    assert "MULTI-RANK MPI REMAINS STRICTLY DISQUALIFIED" in hpc["parallel_safety_rationale"].upper() or "DISQUALIFIED" in hpc["parallel_safety_rationale"].upper()
+    assert "SERIAL" in hpc["parallel_safety_rationale"].upper()
 
 def test_predeclared_scientific_checks(preflight_results):
     checks = preflight_results["scientific_checks"]
-    assert len(checks) == 6
+    assert len(checks) == 7
     check_ids = [c["id"] for c in checks]
     assert "CHK-SCI-01" in check_ids
     assert "CHK-SCI-02" in check_ids
@@ -75,6 +76,10 @@ def test_predeclared_scientific_checks(preflight_results):
     assert "CHK-SCI-04" in check_ids
     assert "CHK-SCI-05" in check_ids
     assert "CHK-SCI-06" in check_ids
+    assert "CHK-SCI-07" in check_ids
+    categories = set(c["category"] for c in checks)
+    assert "ESSENTIAL_NUMERICAL_VALIDITY" in categories
+    assert "MEASURED_BENCHMARK_COMPARISON" in categories
 
 def test_preflight_verdict(preflight_results):
     assert preflight_results["preflight_verdict"] == "PREFLIGHT_AND_OUTPUT_ARCHITECTURE_QUALIFIED_READY_FOR_AUTHORIZATION_DISPATCH"

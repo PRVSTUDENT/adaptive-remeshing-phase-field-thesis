@@ -44,8 +44,18 @@
    - Published comprehensive report [F1735_CASE2_ADAPTED_FRACTURE_QUALIFICATION_REPORT.md](file:///D:/Master%20thesis/Adaptive%20remeshing/docs/validation/F1735_CASE2_ADAPTED_FRACTURE_QUALIFICATION_REPORT.md).
    - Unit tests pass 6/6 in `test_f1735_case2_adapted_fracture_qualification.py`.
    - Active research lineage (F1720 through F1735) achieves 197/197 PASS in 10.88s (recorded in `results/validation/f1735_pytest_receipt.txt`).
-4. **Authorization Packet Staged:**
-   - Authored `.agents/scripts/dispatch_f1735_case2_fracture_auth_001.ps1` (`HND-F1735-CASE2-FRACTURE-AUTH-001`) proposing exactly 1 bounded PBS job (`max_new_pbs_submissions = 1`) for independent review evaluation across the PAD bridge.
-5. **Ledgers Updated:**
-   - Registered 7 new artifacts in `ARTIFACT_REGISTRY.csv`.
-   - Updated `TASK_LEDGER.csv`, `ACTIVE_TASK.json`, and `CURRENT_STATE.md`.
+4. **Authorization Packet Staged & Round 1 Evaluation:**
+   - Authored `.agents/scripts/dispatch_f1735_case2_fracture_auth_001.ps1` (`HND-F1735-CASE2-FRACTURE-AUTH-001`) proposing exactly 1 bounded PBS job (`max_new_pbs_submissions = 1`).
+   - Dispatched across PAD bridge; independent review response received (`response_HND-F1735-CASE2-FRACTURE-AUTH-001.md`). Decision: `INSUFFICIENT_EVIDENCE` formulating Findings F1735-R01 to R09.
+5. **Round 2 Execution-Safety Hardening:**
+   - **Finding F1735-R01 (Thread Safety):** Forensic inspection of `f42_mixed_uel.for` (`CE8D5EDC...`) proved global `COMMON /CB_STATE_TRANS/` blocks lack OpenMP synchronization locks. SMP multi-threading disqualified. Formally adopted the **1-CPU serial Abaqus execution route** (`cpus=1`, single thread), guaranteeing 100% deterministic, race-free sequential execution without altering the frozen UEL.
+   - **Finding F1735-R02 (Resource Sizing):** Sized 1-CPU serial runtime at $3.5 - 5.0\,\text{h}$ based on historical baseline Job 1398090. Configured `#PBS -l walltime=08:00:00` and `16 GB` RAM on `entry_imfdfkmq` routing to `normal_imfdfkmq`, providing a $1.6\times$ to $2.3\times$ safety headroom factor.
+   - **Finding F1735-R03 (Loading Classification):** Designated Step-1 as quasi-static loading toward peak with measured damage initiation rather than assumed zero.
+   - **Findings F1735-R04 & R05 (Criteria Reformulation):** Separated essential numerical validity gates from measured literature comparison observables. Objective crack path evaluation from connected damage ($d \ge 0.95$).
+   - **Finding F1735-R06 (Output Variable Taxonomy):** Formally audited and separated pointwise quantities from element-integrated energies, visualizer zero stress, and global Reference Point extraction.
+   - **Finding F1735-R08 (Governance):** Verified 0 preflight PBS jobs consumed, exactly 10 cumulative historical jobs preserved, and 1 bounded job requested.
+   - Updated `submit_f1735_case2_adapted_fracture.pbs`, `f1735_case2_fracture_execution.json`, `audit_f1735_fracture_preflight.py`, and `F1735_CASE2_ADAPTED_FRACTURE_QUALIFICATION_REPORT.md`.
+   - Full regression suite achieves 197/197 PASS in 10.74s (`results/validation/f1735_pytest_receipt.txt`).
+   - Staged Round 2 authorization packet `.agents/scripts/dispatch_f1735_case2_fracture_auth_002.ps1` (`HND-F1735-CASE2-FRACTURE-AUTH-002`).
+6. **Ledgers Updated:**
+   - Updated `ARTIFACT_REGISTRY.csv`, `TASK_LEDGER.csv`, `ACTIVE_TASK.json`, and `CURRENT_STATE.md`.

@@ -49,8 +49,9 @@
       "max_increment": 0.02,
       "min_increment": 1.0e-7,
       "max_increments": 10000,
-      "regime": "PRECRITICAL_LINEAR_ELASTIC",
-      "expected_peak_clearance": "0.0050 mm < 0.00729 mm coarse peak (safe pre-critical)"
+      "regime": "QUASI_STATIC_LOADING_TOWARD_PEAK",
+      "damage_status": "MEASURED_QUANTITY (diffuse damage initiation and stiffness evolution are measured rather than predetermined as zero)",
+      "expected_peak_clearance": "0.0050 mm is below the coarse peak (0.00729 mm), providing a stable pre-peak regime"
     },
     "step_2": {
       "name": "Step-2",
@@ -112,12 +113,13 @@
   "hpc_execution": {
     "queue": "entry_imfdfkmq",
     "select_nodes": 1,
-    "ncpus": 8,
+    "ncpus": 1,
     "mpiprocs": 1,
-    "ompthreads": 8,
-    "memory_gb": 32,
+    "ompthreads": 1,
+    "memory_gb": 16,
     "walltime_hrs": 8,
-    "execution_mode": "SHARED_MEMORY_SMP",
+    "execution_mode": "SERIAL_1CPU_DETERMINISTIC",
+    "parallel_safety": "1-CPU serial execution completely eliminates Fortran COMMON-block thread race conditions and guarantees strict deterministic element update ordering",
     "mpi_mode": "DISQUALIFIED",
     "output_directory": "/scratch9/pr21vyci/runs/f1735_case2_adapted_fracture"
   }

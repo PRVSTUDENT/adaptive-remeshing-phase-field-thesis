@@ -251,7 +251,7 @@ def run_f1735_preflight_audit():
             "max_increment_dt": 0.02,
             "min_increment_dt": 1.0e-7,
             "max_increments": 10000,
-            "assessment": "Strictly pre-critical. Confines damage nucleation to notch root without premature macrocrack localization."
+            "assessment": "Quasi-static loading toward peak displacement. Diffuse damage nucleation and initial stiffness are treated as measured, output-dependent quantities rather than assumed zero."
         },
         "step_2": {
             "name": "Step-2",
@@ -266,70 +266,83 @@ def run_f1735_preflight_audit():
             "max_increments": 20000,
             "regime": "PEAK_AND_POSTPEAK_FRACTURE_PROPAGATION",
             "assessment": (
-                "Highly conservative initial increment (0.014 um per inc) allows fine resolution of peak force "
-                "and gradual softening initiation. Automatic cutbacks down to 1.0e-8 enable robust negotiation of "
-                "local snap-through / softening instability without premature solver divergence."
+                "Conservative initial increment (0.014 um per inc) allows fine resolution of peak force "
+                "and gradual softening initiation. Automatic cutbacks down to 1.0e-8 provide numerical tolerance "
+                "while actual solver behavior will be governed by authentic residual convergence and increment history."
             )
         }
     }
     print("Step-1: %s" % loading_audit["step_1"]["assessment"])
     print("Step-2: %s" % loading_audit["step_2"]["assessment"])
 
-    # 5. HPC Resource Qualification & Parallel Safety (Finding F1734-R05)
-    print("\n--- 5. HPC RESOURCE QUALIFICATION & PARALLEL SAFETY (FINDING F1734-R05) ---")
+    # 5. HPC Resource Qualification & Parallel Safety (Finding F1735-R01, R02)
+    print("\n--- 5. HPC RESOURCE QUALIFICATION & PARALLEL SAFETY (FINDINGS F1735-R01, R02) ---")
     hpc_audit = {
-        "execution_mode": "SINGLE_RANK_SHARED_MEMORY_SMP",
-        "cpus": 8,
-        "standard_parallel_option": "standard_parallel=all mp_mode=threads",
+        "execution_mode": "SERIAL_1CPU_DETERMINISTIC",
+        "cpus": 1,
+        "standard_parallel_option": "none (cpus=1 double=both)",
         "parallel_safety_rationale": (
-            "Per repository governance in AGENTS.md, f42_mixed_uel.for is NOT qualified for multi-rank MPI (MULTI_RANK_MPI_STRICTLY_DISQUALIFIED). "
-            "Single-rank shared-memory SMP (8 threads) is empirically qualified and shares Fortran COMMON blocks safely across threads. "
-            "1-CPU serial serves as the authoritative reference anchor if threading race conditions occur."
+            "Per independent review Finding F1735-R01 and AGENTS.md, Fortran COMMON blocks in f42_mixed_uel.for "
+            "lack OpenMP thread locks, so multi-threaded SMP is disqualified to prevent race conditions. "
+            "1-CPU serial execution guarantees strict deterministic element ordering, zero thread races, "
+            "and bitwise reproducibility. Multi-rank MPI remains strictly disqualified."
         ),
         "queue": "entry_imfdfkmq",
-        "memory_request_gb": 32,
+        "memory_request_gb": 16,
         "walltime_request_hrs": 8,
-        "projected_runtime_hrs": 4.5,
-        "headroom_factor": 1.78
+        "projected_runtime_hrs": 3.5,
+        "headroom_factor": 2.29
     }
     print("Mode:     %s" % hpc_audit["execution_mode"])
-    print("CPUs:     %d threads" % hpc_audit["cpus"])
+    print("CPUs:     %d (Serial)" % hpc_audit["cpus"])
     print("Memory:   %d GB" % hpc_audit["memory_request_gb"])
     print("Walltime: %d hours" % hpc_audit["walltime_request_hrs"])
     print("Safety:   %s" % hpc_audit["parallel_safety_rationale"])
 
-    # 6. Predeclared Scientific Acceptance Checks
+    # 6. Predeclared Scientific Acceptance Checks (Findings F1735-R04, R05)
     print("\n--- 6. PREDECLARED SCIENTIFIC ACCEPTANCE CHECKS ---")
     scientific_checks = [
         {
             "id": "CHK-SCI-01",
             "name": "Numerical Convergence",
-            "criterion": "Both Step-1 and Step-2 complete without solver crash, non-finite arithmetic, or zero cutback termination."
+            "category": "ESSENTIAL_NUMERICAL_VALIDITY",
+            "criterion": "Both Step-1 and Step-2 complete without solver divergence, non-finite arithmetic, or cutback stall (min dt >= 1.0e-8)."
         },
         {
             "id": "CHK-SCI-02",
-            "name": "Load-Displacement Physical Response",
-            "criterion": "Reaction force curve shows linear elastic stiffness, smooth peak near 0.007–0.008 mm, followed by progressive softening drop."
-        },
-        {
-            "id": "CHK-SCI-03",
             "name": "Phase-Field Physical Bounds",
+            "category": "ESSENTIAL_NUMERICAL_VALIDITY",
             "criterion": "0.0 <= d <= 1.0 strictly maintained across all 23,965 physical elements at all converged increments."
         },
         {
-            "id": "CHK-SCI-04",
+            "id": "CHK-SCI-03",
             "name": "Damage Irreversibility",
-            "criterion": "dot(d) >= 0 and H_{n+1} >= H_n strictly maintained; zero healing or negative damage evolution."
+            "category": "ESSENTIAL_NUMERICAL_VALIDITY",
+            "criterion": "dot(d) >= 0 and H_{n+1} >= H_n strictly maintained; Delta d >= -1.0e-6 across all converged increments."
+        },
+        {
+            "id": "CHK-SCI-04",
+            "name": "Output Field Integrity & Diagnostics",
+            "category": "ESSENTIAL_NUMERICAL_VALIDITY",
+            "criterion": "Centroid d, history H, and energy quantities populated on umatelem; reaction force RF_y recorded at node 999999; Cauchy stress S treated as zero."
         },
         {
             "id": "CHK-SCI-05",
-            "name": "Crack Path & Hole Interaction",
-            "criterion": "Crack initiates at notch tip (0.50, 0.50) mm and propagates towards the off-axis hole, evaluating qualitative deflection against Pandey & Kumar (2025)."
+            "name": "Load-Displacement Response",
+            "category": "MEASURED_BENCHMARK_COMPARISON",
+            "criterion": "Measure initial stiffness K_0, peak force F_max, and post-peak softening profile; evaluate deviations from coarse baseline (0.731 kN) as physical discretization effects."
         },
         {
             "id": "CHK-SCI-06",
-            "name": "Thermodynamic Energy Monotonicity",
-            "criterion": "Integrated fracture energy E_frac increases monotonically with crack advance."
+            "name": "Crack Path & Deflection Observable",
+            "category": "MEASURED_BENCHMARK_COMPARISON",
+            "criterion": "Reconstruct crack trajectory from connected damage (d >= 0.95); evaluate initiation at notch tip (0.50, 0.50) mm and deflection toward hole as an observed physical response against literature."
+        },
+        {
+            "id": "CHK-SCI-07",
+            "name": "Thermodynamic Energy Evolution",
+            "category": "MEASURED_BENCHMARK_COMPARISON",
+            "criterion": "Extract integrated fracture energy E_frac and strain energy E_elas vs displacement from STATEV(17), STATEV(18) and uel_energy_balance.csv."
         }
     ]
     for chk in scientific_checks:
