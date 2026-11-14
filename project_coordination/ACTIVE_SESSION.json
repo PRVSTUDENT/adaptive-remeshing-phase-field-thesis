@@ -1,14 +1,13 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "f1735-case2-fracture-results-session-002",
-  "task_id": "F1735-CASE2-ADAPTED-FRACTURE-EXECUTION-QUALIFICATION",
-  "started_at": "2026-11-14T04:15:00+01:00",
-  "starting_commit": "4aa639f8",
+  "session_id": "f1736-five-geometry-reassessment-session-001",
+  "task_id": "F1736-FIVE-GEOMETRY-SCIENTIFIC-REASSESSMENT",
+  "started_at": "2026-11-14T06:11:00+01:00",
+  "starting_commit": "07bd66a5",
   "allowed_write_scope": [
     "project_coordination/**",
-    "models/pandey_kumar_mode1/**",
-    "models/mode1_off_axis_hole/**",
+    "models/**",
     "scripts/**",
     "tests/unit/**",
     "docs/validation/**",
@@ -17,5 +16,5 @@
     "figures/**",
     ".agents/**"
   ],
-  "notes": "Task F1735 Case 2 Adapted-Mesh Phase-Field Fracture Simulation closed under TERMINATED_WITH_PARTIAL_CONVERGED_FRACTURE_RESULTS following independent review evaluation HND-F1735-CASE2-CLOSEOUT-004."
+  "notes": "Task F1736: Independent Scientific Reassessment of Five-Geometry Method A Adaptive Remeshing. Pure offline investigation. PBS budget: ZERO."
 }

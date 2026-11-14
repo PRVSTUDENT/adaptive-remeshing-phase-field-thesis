@@ -1,0 +1,657 @@
+{
+  "case_1": {
+    "config": {
+      "name": "Case 1: Mode-I Single-Edge Notched Plate",
+      "section": "Pandey & Kumar (2025) Sec 4.1",
+      "ell_0_mm": 0.0075,
+      "published_elements": 13762,
+      "published_fig": "Figure 9(a)",
+      "donor_source": "Linear elastic / companion stress donor at u=0.005 mm (F1727/F1728)",
+      "expected_crack_path": "Horizontal straight crack from notch tip (x=0.5, y=0.5) to right boundary (x=1.0, y=0.5)"
+    },
+    "final_mesh": {
+      "rel_path": "models\\pandey_kumar_mode1\\219_f1728_five_geometry_study\\PK_F1728_CASE_1_ADAPT_PHYS.inp",
+      "sha256": "A470A71DA5E6A01C2721FEF5DB7F1F0DAA4610A54FC017B5161F6F5F6C145FB5",
+      "metrics": {
+        "num_nodes": 14170,
+        "num_elements": 14147,
+        "num_quads": 13769,
+        "num_tris": 378,
+        "quad_percentage": 97.32805541810986,
+        "total_domain_area": 1.0,
+        "bounding_box": {
+          "x_min": 0.0,
+          "x_max": 1.0,
+          "y_min": 0.0,
+          "y_max": 1.0
+        },
+        "negative_jacobian_count": 0,
+        "min_jacobian": 1.6210527806178484e-07,
+        "element_size_stats_mm": {
+          "min": 0.0005912466120520271,
+          "p05": 0.0013604309075934235,
+          "median": 0.006456297969213006,
+          "mean": 0.0070723849364009985,
+          "p95": 0.013924753482718964,
+          "max": 0.018006559018939727
+        },
+        "resolution_ratio_stats": {
+          "min": 0.07883288160693695,
+          "p05": 0.18139078767912314,
+          "median": 0.8608397292284008,
+          "mean": 0.9429846581867999,
+          "p95": 1.8566337976958618,
+          "max": 2.4008745358586303
+        },
+        "aspect_ratio_stats": {
+          "min": 1.0060055934643304,
+          "median": 1.2081169617675662,
+          "mean": 1.252014893699993,
+          "p95": 1.595886925052021,
+          "max": 2.5423135230452316
+        },
+        "compliance": {
+          "h_le_ell0": {
+            "count": 7895,
+            "count_pct": 55.806884851912066,
+            "area_pct": 12.152470722270667
+          },
+          "h_le_half_ell0": {
+            "count": 4902,
+            "count_pct": 34.650455927051674,
+            "area_pct": 2.4433643520295756
+          },
+          "h_le_third_ell0": {
+            "count": 3420,
+            "count_pct": 24.174736693291866,
+            "area_pct": 1.02233320827637
+          }
+        }
+      }
+    },
+    "intermediate_mesh": {
+      "rel_path": "models\\pandey_kumar_mode1\\207_f1727_three_geometry_benchmark\\PK_F1727_MODEL_B_ADAPT_PHYS.inp",
+      "sha256": "3D199CCEA6BFC952020259FEED0A0C1072AABB97DAC0EDE01518E47380609B10",
+      "metrics": {
+        "num_nodes": 14895,
+        "num_elements": 14933,
+        "num_quads": 14493,
+        "num_tris": 440,
+        "quad_percentage": 97.05350565860846,
+        "total_domain_area": 0.9990000130000001,
+        "bounding_box": {
+          "x_min": 0.0,
+          "x_max": 1.0,
+          "y_min": 0.0,
+          "y_max": 1.0
+        },
+        "negative_jacobian_count": 0,
+        "min_jacobian": 1.8043669306833744e-07,
+        "element_size_stats_mm": {
+          "min": 0.0005723798685382385,
+          "p05": 0.001431645482654955,
+          "median": 0.005604774021940891,
+          "mean": 0.006625025331211715,
+          "p95": 0.016078884802627785,
+          "max": 0.0229776773967415
+        },
+        "resolution_ratio_stats": {
+          "min": 0.07631731580509847,
+          "p05": 0.190886064353994,
+          "median": 0.7473032029254522,
+          "mean": 0.8833367108282286,
+          "p95": 2.143851307017038,
+          "max": 3.0636903195655334
+        },
+        "aspect_ratio_stats": {
+          "min": 1.0062077009884456,
+          "median": 1.2363235856539432,
+          "mean": 1.2819137825835039,
+          "p95": 1.634903390282439,
+          "max": 2.7433766214698063
+        },
+        "compliance": {
+          "h_le_ell0": {
+            "count": 9353,
+            "count_pct": 62.63309448871627,
+            "area_pct": 14.926364693589056
+          },
+          "h_le_half_ell0": {
+            "count": 5678,
+            "count_pct": 38.02317016004822,
+            "area_pct": 2.778333980586337
+          },
+          "h_le_third_ell0": {
+            "count": 4194,
+            "count_pct": 28.085448335900352,
+            "area_pct": 1.3488013015356373
+          }
+        }
+      }
+    }
+  },
+  "case_2": {
+    "config": {
+      "name": "Case 2: Plate with an Off-Axis Hole",
+      "section": "Pandey & Kumar (2025) Sec 4.4",
+      "ell_0_mm": 0.0075,
+      "published_elements": 23618,
+      "published_fig": "Figure 19(a)",
+      "donor_source": "Distal-refined companion stress donor at u=0.005 mm with calibrated err_indicator (F1734)",
+      "expected_crack_path": "Curved path from notch tip into hole, and distal path from hole to right edge"
+    },
+    "final_mesh": {
+      "rel_path": "models\\pandey_kumar_mode1\\224_f1734_case2_distal_refinement\\PK_F1728_CASE_2_ADAPT_PHYS.inp",
+      "sha256": "FE8DD4867A9775C45460315002ECBB0544AC5D6D705C96A245B407F15CAB12A8",
+      "metrics": {
+        "num_nodes": 23957,
+        "num_elements": 23965,
+        "num_quads": 23300,
+        "num_tris": 665,
+        "quad_percentage": 97.225119966618,
+        "total_domain_area": 0.9685884655268515,
+        "bounding_box": {
+          "x_min": 0.0,
+          "x_max": 1.0,
+          "y_min": 0.0,
+          "y_max": 1.0
+        },
+        "negative_jacobian_count": 0,
+        "min_jacobian": 1.6952787180629245e-07,
+        "element_size_stats_mm": {
+          "min": 0.0006629587521140498,
+          "p05": 0.001581729327643852,
+          "median": 0.003302732639140413,
+          "mean": 0.004945426425317463,
+          "p95": 0.014069775540424281,
+          "max": 0.023705828628631367
+        },
+        "resolution_ratio_stats": {
+          "min": 0.08839450028187332,
+          "p05": 0.21089724368584692,
+          "median": 0.4403643518853884,
+          "mean": 0.6593901900423285,
+          "p95": 1.8759700720565708,
+          "max": 3.1607771504841824
+        },
+        "aspect_ratio_stats": {
+          "min": 1.0048688861058848,
+          "median": 1.2120323805504776,
+          "mean": 1.2525925126595356,
+          "p95": 1.5902200598394312,
+          "max": 2.5099571948647452
+        },
+        "compliance": {
+          "h_le_ell0": {
+            "count": 19077,
+            "count_pct": 79.60358856665971,
+            "area_pct": 24.934764447155192
+          },
+          "h_le_half_ell0": {
+            "count": 13304,
+            "count_pct": 55.51429167535989,
+            "area_pct": 7.756652517585609
+          },
+          "h_le_third_ell0": {
+            "count": 9015,
+            "count_pct": 37.61735864802838,
+            "area_pct": 3.505066925901592
+          }
+        }
+      }
+    },
+    "intermediate_mesh": {
+      "rel_path": "models\\pandey_kumar_mode1\\207_f1727_three_geometry_benchmark\\PK_F1727_MODEL_C_ADAPT_PHYS.inp",
+      "sha256": "1D0F0245232F624E34C68B6F58F34D0E11855E9157AF7758E677E41238C1A17C",
+      "metrics": {
+        "num_nodes": 11375,
+        "num_elements": 11302,
+        "num_quads": 10973,
+        "num_tris": 329,
+        "quad_percentage": 97.08901079454964,
+        "total_domain_area": 0.9676055067470841,
+        "bounding_box": {
+          "x_min": 0.0,
+          "x_max": 1.0,
+          "y_min": 0.0,
+          "y_max": 1.0
+        },
+        "negative_jacobian_count": 0,
+        "min_jacobian": 2.3183785329197788e-07,
+        "element_size_stats_mm": {
+          "min": 0.0007643251541354848,
+          "p05": 0.001773237698837882,
+          "median": 0.005389937592328509,
+          "mean": 0.007370342871066072,
+          "p95": 0.018406637105907123,
+          "max": 0.024149403953817608
+        },
+        "resolution_ratio_stats": {
+          "min": 0.10191002055139797,
+          "p05": 0.2364316931783843,
+          "median": 0.7186583456438013,
+          "mean": 0.9827123828088096,
+          "p95": 2.4542182807876163,
+          "max": 3.219920527175681
+        },
+        "aspect_ratio_stats": {
+          "min": 1.0057347127190246,
+          "median": 1.2341266512143338,
+          "mean": 1.2745566123552556,
+          "p95": 1.6191329423369016,
+          "max": 2.4391909931448885
+        },
+        "compliance": {
+          "h_le_ell0": {
+            "count": 6985,
+            "count_pct": 61.80322066890815,
+            "area_pct": 11.212793127229375
+          },
+          "h_le_half_ell0": {
+            "count": 4330,
+            "count_pct": 38.311803220668914,
+            "area_pct": 2.6388930695969504
+          },
+          "h_le_third_ell0": {
+            "count": 2872,
+            "count_pct": 25.41143160502566,
+            "area_pct": 1.213059814544136
+          }
+        }
+      }
+    }
+  },
+  "case_3": {
+    "config": {
+      "name": "Case 3: Rectangular Notched Plate with Hole and Pins",
+      "section": "Pandey & Kumar (2025) Sec 4.3",
+      "ell_0_mm": 0.285,
+      "published_elements": 12168,
+      "published_fig": "Figure 15(a)",
+      "donor_source": "Staggered coupled pre-peak donor at u=0.105 mm (Task 192/F1727)",
+      "expected_crack_path": "Notch tip to central hole, and secondary path from central hole to right boundary"
+    },
+    "final_mesh": {
+      "rel_path": "models\\pandey_kumar_mode1\\192_pk_sec43_staggered_job1\\PK_SEC43_STAGGERED_ADAPT_BEST_DONOR.inp",
+      "sha256": "0BC6DB1BE718FB41442E7514FAFCA3F85D14293FAEE612C48069A7BB5730A900",
+      "metrics": {
+        "num_nodes": 12217,
+        "num_elements": 12110,
+        "num_quads": 11714,
+        "num_tris": 396,
+        "quad_percentage": 96.72997522708505,
+        "total_domain_area": 7325.207719833164,
+        "bounding_box": {
+          "x_min": 0.0,
+          "x_max": 65.0,
+          "y_min": 0.0,
+          "y_max": 120.0
+        },
+        "negative_jacobian_count": 0,
+        "min_jacobian": 0.002081863046823292,
+        "element_size_stats_mm": {
+          "min": 0.08036210656334387,
+          "p05": 0.18269666763932715,
+          "median": 0.5750340491597631,
+          "mean": 0.6736976602525724,
+          "p95": 1.4005288533387739,
+          "max": 1.880644125659517
+        },
+        "resolution_ratio_stats": {
+          "min": 0.28197230373103116,
+          "p05": 0.6410409390853584,
+          "median": 2.0176633303851337,
+          "mean": 2.3638514394827097,
+          "p95": 4.91413632750447,
+          "max": 6.598751318103569
+        },
+        "aspect_ratio_stats": {
+          "min": 1.0004967331059353,
+          "median": 1.2478859807579927,
+          "mean": 1.2917441678674626,
+          "p95": 1.6603478818684043,
+          "max": 2.45792920151098
+        },
+        "compliance": {
+          "h_le_ell0": {
+            "count": 2003,
+            "count_pct": 16.540049545829895,
+            "area_pct": 1.2776558052601221
+          },
+          "h_le_half_ell0": {
+            "count": 89,
+            "count_pct": 0.7349298100743188,
+            "area_pct": 0.018982683932997214
+          },
+          "h_le_third_ell0": {
+            "count": 7,
+            "count_pct": 0.05780346820809249,
+            "area_pct": 0.0007012025637600078
+          }
+        }
+      }
+    },
+    "intermediate_mesh": {
+      "rel_path": "models\\pandey_kumar_mode1\\207_f1727_three_geometry_benchmark\\PK_F1727_MODEL_A_ADAPT_PHYS.inp",
+      "sha256": "5398C2A394CED874550D251278C7348C7D81AF7EE4DA844205FC95CBE50A7609",
+      "metrics": {
+        "num_nodes": 9567,
+        "num_elements": 9432,
+        "num_quads": 9132,
+        "num_tris": 300,
+        "quad_percentage": 96.81933842239185,
+        "total_domain_area": 7325.318426849268,
+        "bounding_box": {
+          "x_min": 0.0,
+          "x_max": 65.0,
+          "y_min": 0.0,
+          "y_max": 120.0
+        },
+        "negative_jacobian_count": 0,
+        "min_jacobian": 0.0026037306702574926,
+        "element_size_stats_mm": {
+          "min": 0.07936051484895876,
+          "p05": 0.22079166413363463,
+          "median": 0.7529076654164486,
+          "mean": 0.7872678577018271,
+          "p95": 1.443153551757326,
+          "max": 1.759182100797541
+        },
+        "resolution_ratio_stats": {
+          "min": 0.2784579468384518,
+          "p05": 0.7747075934513497,
+          "median": 2.6417812821629774,
+          "mean": 2.7623433603572884,
+          "p95": 5.063696672832723,
+          "max": 6.172568774728215
+        },
+        "aspect_ratio_stats": {
+          "min": 1.0027934763785364,
+          "median": 1.2438803399638083,
+          "mean": 1.2875508459400533,
+          "p95": 1.6577939821503302,
+          "max": 2.235840941004979
+        },
+        "compliance": {
+          "h_le_ell0": {
+            "count": 933,
+            "count_pct": 9.891857506361323,
+            "area_pct": 0.6167077647087218
+          },
+          "h_le_half_ell0": {
+            "count": 57,
+            "count_pct": 0.6043256997455471,
+            "area_pct": 0.012193666377943632
+          },
+          "h_le_third_ell0": {
+            "count": 3,
+            "count_pct": 0.031806615776081425,
+            "area_pct": 0.00028727471135674
+          }
+        }
+      }
+    }
+  },
+  "case_4": {
+    "config": {
+      "name": "Case 4: Five-Hole Plate",
+      "section": "Pandey & Kumar (2025) Sec 4.5",
+      "ell_0_mm": 0.008,
+      "published_elements": 12944,
+      "published_fig": "Figure 23(b)",
+      "donor_source": "Authentic coarse coupled phase-field solution at State 2 (u=0.0058 mm, F1725)",
+      "expected_crack_path": "Continuous multi-ligament fracture trajectory between holes 1->2->3->4"
+    },
+    "final_mesh": {
+      "rel_path": "models\\pandey_kumar_mode1\\217_f1725_physics_study\\F1725_S2_COARSEN_ET315.inp",
+      "sha256": "24576263A87C6C17CEE8272C1A85A7DCFE1DD9E5B76E427BF715F48C92B5C991",
+      "metrics": {
+        "num_nodes": 13230,
+        "num_elements": 13017,
+        "num_quads": 12696,
+        "num_tris": 321,
+        "quad_percentage": 97.53399400783591,
+        "total_domain_area": 0.9185509563864946,
+        "bounding_box": {
+          "x_min": 0.0,
+          "x_max": 1.0,
+          "y_min": 0.0,
+          "y_max": 1.0
+        },
+        "negative_jacobian_count": 0,
+        "min_jacobian": 4.5302292102698776e-07,
+        "element_size_stats_mm": {
+          "min": 0.001101805935207739,
+          "p05": 0.002183475919448297,
+          "median": 0.005012212487306873,
+          "mean": 0.006584559882883794,
+          "p95": 0.019008481914148216,
+          "max": 0.0333852386277558
+        },
+        "resolution_ratio_stats": {
+          "min": 0.13772574190096737,
+          "p05": 0.27293448993103714,
+          "median": 0.6265265609133591,
+          "mean": 0.8230699853604743,
+          "p95": 2.3760602392685266,
+          "max": 4.1731548284694755
+        },
+        "aspect_ratio_stats": {
+          "min": 1.0048310412098027,
+          "median": 1.2168695424568714,
+          "mean": 1.261256915421854,
+          "p95": 1.6137483178267829,
+          "max": 2.5953580673596974
+        },
+        "compliance": {
+          "h_le_ell0": {
+            "count": 10104,
+            "count_pct": 77.62157179073519,
+            "area_pct": 23.818497177965
+          },
+          "h_le_half_ell0": {
+            "count": 4748,
+            "count_pct": 36.47537835138665,
+            "area_pct": 4.406586228728763
+          },
+          "h_le_third_ell0": {
+            "count": 2063,
+            "count_pct": 15.848505800107551,
+            "area_pct": 1.1931697598647921
+          }
+        }
+      }
+    },
+    "intermediate_mesh": {
+      "rel_path": "models\\pandey_kumar_mode1\\210_f1719_five_hole_coarse_pfm\\PK_F1719_ADAPTED_STATE2.inp",
+      "sha256": "E0B25B3FA267F30DA5179100DBF25C7DB27FF57781D094380549C36EB5ABE33F",
+      "metrics": {
+        "num_nodes": 12088,
+        "num_elements": 11871,
+        "num_quads": 11557,
+        "num_tris": 314,
+        "quad_percentage": 97.35489849212367,
+        "total_domain_area": 0.9185535890678159,
+        "bounding_box": {
+          "x_min": 0.0,
+          "x_max": 1.0,
+          "y_min": 0.0,
+          "y_max": 1.0
+        },
+        "negative_jacobian_count": 0,
+        "min_jacobian": 2.7610188928070885e-07,
+        "element_size_stats_mm": {
+          "min": 0.0007842089721210281,
+          "p05": 0.00205939186861503,
+          "median": 0.005427480203822184,
+          "mean": 0.0072154057327795205,
+          "p95": 0.01810751254040332,
+          "max": 0.024390389065003095
+        },
+        "resolution_ratio_stats": {
+          "min": 0.0980261215151285,
+          "p05": 0.2574239835768788,
+          "median": 0.678435025477773,
+          "mean": 0.9019257165974398,
+          "p95": 2.263439067550415,
+          "max": 3.048798633125387
+        },
+        "aspect_ratio_stats": {
+          "min": 1.0065635266926343,
+          "median": 1.2163458258433566,
+          "mean": 1.2621073726134842,
+          "p95": 1.6186776260054931,
+          "max": 2.2870734165938633
+        },
+        "compliance": {
+          "h_le_ell0": {
+            "count": 8358,
+            "count_pct": 70.40687389436442,
+            "area_pct": 20.046340705942285
+          },
+          "h_le_half_ell0": {
+            "count": 3664,
+            "count_pct": 30.865133518658915,
+            "area_pct": 3.340081269273359
+          },
+          "h_le_third_ell0": {
+            "count": 1607,
+            "count_pct": 13.537191475023166,
+            "area_pct": 0.8347503170968147
+          }
+        }
+      }
+    }
+  },
+  "case_5": {
+    "config": {
+      "name": "Case 5: Seven-Hole Plate",
+      "section": "Pandey & Kumar (2025) Sec 4.6",
+      "ell_0_mm": 0.008,
+      "published_elements": 15714,
+      "published_fig": "Figure 25(b)",
+      "donor_source": "Authentic coarse coupled phase-field donor at u=0.0048 mm (Task F1726)",
+      "expected_crack_path": "Concentrated upper-ligament refinement between hole 1, hole 2, and hole 3"
+    },
+    "final_mesh": {
+      "rel_path": "models\\pandey_kumar_mode1\\218_f1726_seven_hole_study\\PK_F1726_SEVEN_HOLE_ADAPTED_PHYS.inp",
+      "sha256": "1B6F9127B2ED9ADE1E67CC006A98CBBC4BC571F08F9A61A5A09A8D248ADCDE79",
+      "metrics": {
+        "num_nodes": 16094,
+        "num_elements": 15708,
+        "num_quads": 15325,
+        "num_tris": 383,
+        "quad_percentage": 97.56175197351668,
+        "total_domain_area": 0.8744166129068008,
+        "bounding_box": {
+          "x_min": 0.0,
+          "x_max": 1.0,
+          "y_min": 0.0,
+          "y_max": 1.0
+        },
+        "negative_jacobian_count": 0,
+        "min_jacobian": 4.891340640522236e-07,
+        "element_size_stats_mm": {
+          "min": 0.0010029762553739796,
+          "p05": 0.002135661399389301,
+          "median": 0.00454469121437646,
+          "mean": 0.0059889809353943215,
+          "p95": 0.017162968399215044,
+          "max": 0.024988953484019447
+        },
+        "resolution_ratio_stats": {
+          "min": 0.12537203192174745,
+          "p05": 0.2669576749236627,
+          "median": 0.5680864017970575,
+          "mean": 0.7486226169242901,
+          "p95": 2.1453710499018808,
+          "max": 3.123619185502431
+        },
+        "aspect_ratio_stats": {
+          "min": 1.0051118570973272,
+          "median": 1.2081447644588112,
+          "mean": 1.2539168853008562,
+          "p95": 1.6021938562068325,
+          "max": 2.856811589955121
+        },
+        "compliance": {
+          "h_le_ell0": {
+            "count": 12615,
+            "count_pct": 80.30939648586708,
+            "area_pct": 28.25598659857051
+          },
+          "h_le_half_ell0": {
+            "count": 6607,
+            "count_pct": 42.061370002546475,
+            "area_pct": 6.1919307634253435
+          },
+          "h_le_third_ell0": {
+            "count": 3158,
+            "count_pct": 20.104405398523046,
+            "area_pct": 1.9172230446941878
+          }
+        }
+      }
+    },
+    "intermediate_mesh": {
+      "rel_path": "models\\pandey_kumar_mode1\\218_f1726_seven_hole_study\\PK_F1726_SEVEN_HOLE_COARSE_PHYS.inp",
+      "sha256": "3496327F6630CD71C0F4A549544330B37868D633E41FDA935D1B07068D811756",
+      "metrics": {
+        "num_nodes": 2688,
+        "num_elements": 2566,
+        "num_quads": 2465,
+        "num_tris": 101,
+        "quad_percentage": 96.0639127045986,
+        "total_domain_area": 0.8757815071790848,
+        "bounding_box": {
+          "x_min": 0.0,
+          "x_max": 1.0,
+          "y_min": 0.0,
+          "y_max": 1.0
+        },
+        "negative_jacobian_count": 0,
+        "min_jacobian": 1.705497496189246e-05,
+        "element_size_stats_mm": {
+          "min": 0.005392379452452767,
+          "p05": 0.013519706288720732,
+          "median": 0.018717294007726676,
+          "mean": 0.018290055615291977,
+          "p95": 0.021782609882458216,
+          "max": 0.029869876539925844
+        },
+        "resolution_ratio_stats": {
+          "min": 0.6740474315565959,
+          "p05": 1.6899632860900915,
+          "median": 2.339661750965835,
+          "mean": 2.286256951911497,
+          "p95": 2.7228262353072767,
+          "max": 3.7337345674907305
+        },
+        "aspect_ratio_stats": {
+          "min": 1.006738965049207,
+          "median": 1.2368315014736968,
+          "mean": 1.2697984317417585,
+          "p95": 1.6214489652711501,
+          "max": 2.5965599903602166
+        },
+        "compliance": {
+          "h_le_ell0": {
+            "count": 6,
+            "count_pct": 0.23382696804364772,
+            "area_pct": 0.03390004946571825
+          },
+          "h_le_half_ell0": {
+            "count": 0,
+            "count_pct": 0.0,
+            "area_pct": 0.0
+          },
+          "h_le_third_ell0": {
+            "count": 0,
+            "count_pct": 0.0,
+            "area_pct": 0.0
+          }
+        }
+      }
+    }
+  }
+}
