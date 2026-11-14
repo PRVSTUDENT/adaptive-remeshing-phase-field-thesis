@@ -1,0 +1,62 @@
+{
+  "task_id": "F1741-CASE3-MULTISTATE-REMESHING-EXECUTION",
+  "title": "Case 3 Notched Plate with Hole and Pins (Sec 4.3) Controlled Multi-State Native Remeshing Experiment",
+  "geometry": "Pandey & Kumar (2025) Section 4.3 Rectangular Plate with Hole and Pins (65 x 120 mm)",
+  "phase_field_length_scale_mm": 0.285,
+  "target_element_size_mm": 0.1425,
+  "execution_method": "Sequential Native Multi-Pass Remeshing (Option B)",
+  "remeshing_passes": [
+    {
+      "pass": 1,
+      "donor_odb": "PK_SEC43_PRESCRIBED_STATE2.odb",
+      "donor_sha256": "3E1BABBDE05420C85EC4A1BD014D1F3D0313177005D696B8F878089C18A8EDDE",
+      "step_name": "RECOVERY_STEP",
+      "physical_role": "Primary fracture activation (notch tip to central hole)",
+      "coarsening_factor": "NOT_ALLOWED",
+      "error_target_percent": 2.0
+    },
+    {
+      "pass": 2,
+      "donor_odb": "PK_SEC43_PRESCRIBED_STATE4.odb",
+      "donor_sha256": "E908067BC6B2BE89F12249534074A9574255FCC4DD34DA5A342A2DE174E27152",
+      "step_name": "RECOVERY_STEP",
+      "physical_role": "Secondary fracture activation (central hole right flank to boundary)",
+      "coarsening_factor": "NOT_ALLOWED",
+      "error_target_percent": 2.0
+    }
+  ],
+  "sizing_controls": {
+    "sizing_method": "UNIFORM_ERROR",
+    "variable": "MISESERI",
+    "error_target_percent": 2.0,
+    "min_element_size_mm": 0.080,
+    "max_element_size_mm": 1.50,
+    "refinement_factor": 10,
+    "coarsening_factor": "NOT_ALLOWED"
+  },
+  "acceptance_gates": {
+    "Gate_3_01_Primary_Compliance": ">= 85.0% area and >= 60.0% count h <= l0/2 = 0.1425 mm",
+    "Gate_3_02_Secondary_Compliance": ">= 85.0% area and >= 60.0% count h <= l0/2 = 0.1425 mm",
+    "Gate_3_03_10_Station_Continuity": "All 10 longitudinal stations mean h <= l0 = 0.285 mm, >= 7 stations h <= l0/2",
+    "Gate_3_04_Transverse_Coarse_Barrier": "has_transverse_coarse_barrier == False (max coarse cluster span < 50% width)",
+    "Gate_3_05_Hole_Boundary_Resolution": "Annular zone entry flank and exit flank achieve mean h <= l0/2",
+    "Gate_3_06_FE_Mesh_Quality": ">= 95.0% CPE4 quads, 100% det(J) > 0, max AR <= 5.0",
+    "Gate_3_07_Production_Datacheck": "Exit Code 0 with bitwise frozen UEL f42_mixed_uel.for"
+  },
+  "computational_cost_observables": {
+    "target_elements_interval": [10000, 20000],
+    "published_element_count": 12168,
+    "non_blocking_diagnostic": true
+  },
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "hpc_resource_request": {
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime": "01:30:00",
+    "queue": "entry_imfdfkmq",
+    "compute_node": "mnode097.cluster"
+  },
+  "max_new_pbs_submissions": 1,
+  "submissions_consumed": 0,
+  "cumulative_pbs_submissions": 17
+}

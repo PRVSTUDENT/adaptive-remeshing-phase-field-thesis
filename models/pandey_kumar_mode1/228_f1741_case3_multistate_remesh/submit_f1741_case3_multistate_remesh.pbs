@@ -1,0 +1,113 @@
+#!/bin/bash
+#PBS -N F1741_C3_REMESH
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=01:30:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratch9/pr21vyci/runs/mode1_pk_f1741_case3_remesh/pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_pk_f1741_case3_remesh"
+cd "${RUN_DIR}"
+
+export JOB_NAME="F1741_C3_REMESH"
+export REMESH_SCRIPT="run_case3_multistate_remesh.py"
+export AUDIT_SCRIPT="audit_case3_multistate_resolution.py"
+export USER_SUB="f42_mixed_uel.for"
+export EXPECTED_UEL_SHA="ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6"
+
+echo "=== PBS Preflight Check for ${JOB_NAME} ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"
+hostname
+
+# 1. Duplicate Run and Lock Guard
+if [ -e "${JOB_NAME}.lck" ]; then
+    echo "ERROR: Active lock file ${JOB_NAME}.lck detected. Aborting."
+    exit 1
+fi
+touch "${JOB_NAME}.lck"
+trap 'rm -f "${RUN_DIR}/${JOB_NAME}.lck"' EXIT
+
+# 2. Storage Capacity Preflight
+AVAIL_KB=$(df -k . | awk 'NR==2 {print $4}')
+if [ "${AVAIL_KB}" -lt 5242880 ]; then
+    echo "ERROR: Insufficient scratch disk space (${AVAIL_KB} KB available). Aborting."
+    exit 1
+fi
+echo "Scratch disk space confirmed: $((AVAIL_KB / 1024 / 1024)) GB available."
+
+# 3. Bitwise SHA-256 Hash Verification of User Subroutine
+ACTUAL_UEL_SHA=$(sha256sum "${USER_SUB}" | awk '{print $1}')
+if [ "${ACTUAL_UEL_SHA}" != "${EXPECTED_UEL_SHA}" ]; then
+    echo "ERROR: User subroutine SHA-256 mismatch!"
+    echo "  Expected: ${EXPECTED_UEL_SHA}"
+    echo "  Actual:   ${ACTUAL_UEL_SHA}"
+    exit 1
+fi
+echo "User subroutine hash verified: ${ACTUAL_UEL_SHA}"
+
+# 4. Dual-Channel Notification Integration
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+if [ -f "${RUN_DIR}/job_notifications.sh" ]; then
+    source "${RUN_DIR}/job_notifications.sh"
+    notification_load_config || echo "Notice: notification_load_config returned non-zero (non-fatal)"
+    notification_install_terminal_trap || echo "Notice: notification_install_terminal_trap returned non-zero (non-fatal)"
+    notify_start || echo "Notice: notify_start returned non-zero (non-fatal)"
+fi
+
+# 5. Environment and Module Initialization
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+command -v abaqus
+
+# 6. Execute Abaqus CAE noGUI Remeshing and Production Deck Build
+echo "=== Executing Case 3 Multi-State Adaptive Remesh in Abaqus CAE 2023 ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"
+
+/cluster/application/abaqus/2023/Commands/abaqus cae noGUI="${RUN_DIR}/${REMESH_SCRIPT}" -- "${RUN_DIR}"
+REMESH_EXIT_CODE=$?
+echo "Abaqus CAE Finished with Exit Code: ${REMESH_EXIT_CODE}"
+
+if [ "${REMESH_EXIT_CODE}" -ne 0 ]; then
+    echo "ERROR: Remeshing script failed with exit code ${REMESH_EXIT_CODE}."
+    exit ${REMESH_EXIT_CODE}
+fi
+
+# 7. Spatial Resolution Audit
+ADAPT_PHYS_MESH="${RUN_DIR}/PK_F1741_CASE_3_ADAPT_PHYS.inp"
+if [ ! -f "${ADAPT_PHYS_MESH}" ]; then
+    echo "ERROR: Physical adapted mesh not found: ${ADAPT_PHYS_MESH}"
+    exit 1
+fi
+echo "Physical adapted mesh found: ${ADAPT_PHYS_MESH}"
+
+echo "=== Executing Case 3 Dual-Corridor Spatial Resolution Audit ==="
+python3 "${RUN_DIR}/${AUDIT_SCRIPT}" "${ADAPT_PHYS_MESH}" "${RUN_DIR}/f1741_case3_spatial_audit.json"
+AUDIT_EXIT_CODE=$?
+echo "Spatial Audit Finished with Exit Code: ${AUDIT_EXIT_CODE}"
+
+# 8. Execute Datacheck Verification on Generated Production 3-Layer Deck
+PROD_DECK="${RUN_DIR}/PK_F1741_CASE_3_PROD.inp"
+if [ ! -f "${PROD_DECK}" ]; then
+    echo "ERROR: Generated production deck not found: ${PROD_DECK}"
+    exit 1
+fi
+echo "Generated production deck found: ${PROD_DECK}"
+
+echo "=== Running Abaqus Datacheck Verification on ${PROD_DECK} ==="
+/cluster/application/abaqus/2023/Commands/abaqus datacheck job=PK_F1741_CASE_3_DC input="${PROD_DECK}" user="${USER_SUB}" interactive
+DC_EXIT_CODE=$?
+echo "Datacheck Finished with Exit Code: ${DC_EXIT_CODE}"
+
+if [ "${DC_EXIT_CODE}" -ne 0 ]; then
+    echo "ERROR: Abaqus datacheck failed with exit code ${DC_EXIT_CODE}."
+    exit ${DC_EXIT_CODE}
+fi
+
+echo "=== TASK F1741 CASE 3 MULTI-STATE REMESHING EXECUTION COMPLETE (EXIT 0) ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"

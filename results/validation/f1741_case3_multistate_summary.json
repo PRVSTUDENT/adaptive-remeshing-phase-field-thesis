@@ -1,0 +1,254 @@
+﻿{
+    "job_id":  "1423438.mmaster02",
+    "task_id":  "F1741-CASE3-MULTISTATE-REMESHING-EXECUTION",
+    "all_gates_pass":  false,
+    "gates":  {
+                  "GATE-3-01-REMESH-EXECUTION":  "PASS",
+                  "GATE-3-02-FE-QUALITY":  "PASS",
+                  "GATE-3-03-PRIMARY-CORRIDOR-RESOLUTION":  "FAIL",
+                  "GATE-3-04-SECONDARY-CORRIDOR-RESOLUTION":  "FAIL",
+                  "GATE-3-05-HOLE-BOUNDARY-RESOLUTION":  "FAIL",
+                  "GATE-3-06-PROD-DECK-ASSEMBLY":  "PASS",
+                  "GATE-3-07-DATACHECK-AND-UEL-VERIFICATION":  "PASS"
+              },
+    "mesh_metrics":  {
+                         "total_physical_elements":  28933,
+                         "quad_elements":  28040,
+                         "tri_elements":  893,
+                         "quad_percentage":  96.91355891196903,
+                         "min_jacobian_det":  0.003425215572759742,
+                         "zero_negative_jacobians":  true,
+                         "max_aspect_ratio":  5.169968342086492,
+                         "hole_boundary_mean_h_mm":  0.3220016521529387,
+                         "primary_corridor":  {
+                                                  "trajectory_length_mm":  25.16445906432324,
+                                                  "corridor_width_mm":  1.14,
+                                                  "element_count":  111,
+                                                  "total_area_mm2":  27.151234172501347,
+                                                  "min_h_mm":  0.07676076159211706,
+                                                  "max_h_mm":  1.20518166060681,
+                                                  "mean_h_mm":  0.34950136739960574,
+                                                  "count_le_l0_half":  46,
+                                                  "pct_count_le_l0_half":  41.44144144144144,
+                                                  "area_le_l0_half_mm2":  0.577698382165238,
+                                                  "pct_area_le_l0_half":  2.12770579228523,
+                                                  "count_le_l0":  75,
+                                                  "pct_count_le_l0":  67.56756756756756,
+                                                  "pct_area_le_l0":  6.596760485573157,
+                                                  "has_transverse_coarse_barrier":  true,
+                                                  "coarse_cluster_count":  1,
+                                                  "stations":  [
+                                                                   {
+                                                                       "station":  1,
+                                                                       "count":  83,
+                                                                       "min_h_mm":  0.07676076159211706,
+                                                                       "max_h_mm":  0.4606038391445805,
+                                                                       "mean_h_mm":  0.16380947091980994,
+                                                                       "count_le_l0_half":  46,
+                                                                       "pct_count_le_l0_half":  55.42168674698795
+                                                                   },
+                                                                   {
+                                                                       "station":  2,
+                                                                       "count":  7,
+                                                                       "min_h_mm":  0.41272952425098625,
+                                                                       "max_h_mm":  0.7230073839651139,
+                                                                       "mean_h_mm":  0.5669224947360044,
+                                                                       "count_le_l0_half":  0,
+                                                                       "pct_count_le_l0_half":  0.0
+                                                                   },
+                                                                   {
+                                                                       "station":  3,
+                                                                       "count":  4,
+                                                                       "min_h_mm":  0.7766496411955162,
+                                                                       "max_h_mm":  0.8628027468477214,
+                                                                       "mean_h_mm":  0.8231714853413533,
+                                                                       "count_le_l0_half":  0,
+                                                                       "pct_count_le_l0_half":  0.0
+                                                                   },
+                                                                   {
+                                                                       "station":  4,
+                                                                       "count":  4,
+                                                                       "min_h_mm":  0.6454671533874313,
+                                                                       "max_h_mm":  0.9448676759676322,
+                                                                       "mean_h_mm":  0.8530746234959434,
+                                                                       "count_le_l0_half":  0,
+                                                                       "pct_count_le_l0_half":  0.0
+                                                                   },
+                                                                   {
+                                                                       "station":  5,
+                                                                       "count":  1,
+                                                                       "min_h_mm":  1.2020071293672192,
+                                                                       "max_h_mm":  1.2020071293672192,
+                                                                       "mean_h_mm":  1.2020071293672192,
+                                                                       "count_le_l0_half":  0,
+                                                                       "pct_count_le_l0_half":  0.0
+                                                                   },
+                                                                   {
+                                                                       "station":  6,
+                                                                       "count":  3,
+                                                                       "min_h_mm":  1.1480539795065996,
+                                                                       "max_h_mm":  1.183773492647206,
+                                                                       "mean_h_mm":  1.1620723785120453,
+                                                                       "count_le_l0_half":  0,
+                                                                       "pct_count_le_l0_half":  0.0
+                                                                   },
+                                                                   {
+                                                                       "station":  7,
+                                                                       "count":  2,
+                                                                       "min_h_mm":  1.1914621206008933,
+                                                                       "max_h_mm":  1.199864321845567,
+                                                                       "mean_h_mm":  1.19566322122323,
+                                                                       "count_le_l0_half":  0,
+                                                                       "pct_count_le_l0_half":  0.0
+                                                                   },
+                                                                   {
+                                                                       "station":  8,
+                                                                       "count":  2,
+                                                                       "min_h_mm":  1.1688761823100873,
+                                                                       "max_h_mm":  1.1917273274335851,
+                                                                       "mean_h_mm":  1.1803017548718362,
+                                                                       "count_le_l0_half":  0,
+                                                                       "pct_count_le_l0_half":  0.0
+                                                                   },
+                                                                   {
+                                                                       "station":  9,
+                                                                       "count":  2,
+                                                                       "min_h_mm":  1.0497235592510952,
+                                                                       "max_h_mm":  1.20518166060681,
+                                                                       "mean_h_mm":  1.1274526099289526,
+                                                                       "count_le_l0_half":  0,
+                                                                       "pct_count_le_l0_half":  0.0
+                                                                   },
+                                                                   {
+                                                                       "station":  10,
+                                                                       "count":  3,
+                                                                       "min_h_mm":  0.8547628527613628,
+                                                                       "max_h_mm":  1.0502211173686486,
+                                                                       "mean_h_mm":  0.9433214531864597,
+                                                                       "count_le_l0_half":  0,
+                                                                       "pct_count_le_l0_half":  0.0
+                                                                   }
+                                                               ]
+                                              },
+                         "secondary_corridor":  {
+                                                    "trajectory_length_mm":  18.5,
+                                                    "corridor_width_mm":  1.14,
+                                                    "element_count":  560,
+                                                    "total_area_mm2":  20.59635132404219,
+                                                    "min_h_mm":  0.05097031738246364,
+                                                    "max_h_mm":  0.4968696911655471,
+                                                    "mean_h_mm":  0.17507709854191045,
+                                                    "count_le_l0_half":  200,
+                                                    "pct_count_le_l0_half":  35.714285714285715,
+                                                    "area_le_l0_half_mm2":  2.92817026527905,
+                                                    "pct_area_le_l0_half":  14.216936870080417,
+                                                    "count_le_l0":  514,
+                                                    "pct_count_le_l0":  91.78571428571429,
+                                                    "pct_area_le_l0":  64.5426074499757,
+                                                    "has_transverse_coarse_barrier":  true,
+                                                    "coarse_cluster_count":  5,
+                                                    "stations":  [
+                                                                     {
+                                                                         "station":  1,
+                                                                         "count":  74,
+                                                                         "min_h_mm":  0.06450035933256437,
+                                                                         "max_h_mm":  0.20935908251091603,
+                                                                         "mean_h_mm":  0.16625771039838028,
+                                                                         "count_le_l0_half":  9,
+                                                                         "pct_count_le_l0_half":  12.162162162162161
+                                                                     },
+                                                                     {
+                                                                         "station":  2,
+                                                                         "count":  100,
+                                                                         "min_h_mm":  0.09763951448514861,
+                                                                         "max_h_mm":  0.18645354723428947,
+                                                                         "mean_h_mm":  0.14426407501936503,
+                                                                         "count_le_l0_half":  47,
+                                                                         "pct_count_le_l0_half":  47.0
+                                                                     },
+                                                                     {
+                                                                         "station":  3,
+                                                                         "count":  130,
+                                                                         "min_h_mm":  0.05097031738246364,
+                                                                         "max_h_mm":  0.17548579735354985,
+                                                                         "mean_h_mm":  0.12673375620029292,
+                                                                         "count_le_l0_half":  98,
+                                                                         "pct_count_le_l0_half":  75.38461538461539
+                                                                     },
+                                                                     {
+                                                                         "station":  4,
+                                                                         "count":  97,
+                                                                         "min_h_mm":  0.05640220791650717,
+                                                                         "max_h_mm":  0.20004069754902354,
+                                                                         "mean_h_mm":  0.1438592860078153,
+                                                                         "count_le_l0_half":  38,
+                                                                         "pct_count_le_l0_half":  39.175257731958766
+                                                                     },
+                                                                     {
+                                                                         "station":  5,
+                                                                         "count":  69,
+                                                                         "min_h_mm":  0.09266794012182517,
+                                                                         "max_h_mm":  0.24487853501479181,
+                                                                         "mean_h_mm":  0.17214123201298018,
+                                                                         "count_le_l0_half":  8,
+                                                                         "pct_count_le_l0_half":  11.594202898550725
+                                                                     },
+                                                                     {
+                                                                         "station":  6,
+                                                                         "count":  34,
+                                                                         "min_h_mm":  0.18940536226087581,
+                                                                         "max_h_mm":  0.304988751435901,
+                                                                         "mean_h_mm":  0.2500957592688491,
+                                                                         "count_le_l0_half":  0,
+                                                                         "pct_count_le_l0_half":  0.0
+                                                                     },
+                                                                     {
+                                                                         "station":  7,
+                                                                         "count":  24,
+                                                                         "min_h_mm":  0.19615276188826047,
+                                                                         "max_h_mm":  0.345708010987891,
+                                                                         "mean_h_mm":  0.2835732286757394,
+                                                                         "count_le_l0_half":  0,
+                                                                         "pct_count_le_l0_half":  0.0
+                                                                     },
+                                                                     {
+                                                                         "station":  8,
+                                                                         "count":  13,
+                                                                         "min_h_mm":  0.32432678874864274,
+                                                                         "max_h_mm":  0.47103774695501255,
+                                                                         "mean_h_mm":  0.4133888948044561,
+                                                                         "count_le_l0_half":  0,
+                                                                         "pct_count_le_l0_half":  0.0
+                                                                     },
+                                                                     {
+                                                                         "station":  9,
+                                                                         "count":  11,
+                                                                         "min_h_mm":  0.35968780813136,
+                                                                         "max_h_mm":  0.4968696911655471,
+                                                                         "mean_h_mm":  0.43315157052195924,
+                                                                         "count_le_l0_half":  0,
+                                                                         "pct_count_le_l0_half":  0.0
+                                                                     },
+                                                                     {
+                                                                         "station":  10,
+                                                                         "count":  8,
+                                                                         "min_h_mm":  0.4233854070681751,
+                                                                         "max_h_mm":  0.45829163029494524,
+                                                                         "mean_h_mm":  0.4448096053503928,
+                                                                         "count_le_l0_half":  0,
+                                                                         "pct_count_le_l0_half":  0.0
+                                                                     }
+                                                                 ]
+                                                }
+                     },
+    "donor_odbs":  [
+                       {
+                           "path":  "PK_SEC43_PRESCRIBED_STATE2.odb",
+                           "role":  "Pass 1: Primary Fracture Activation"
+                       },
+                       {
+                           "path":  "PK_SEC43_PRESCRIBED_STATE4.odb",
+                           "role":  "Pass 2: Secondary Fracture Activation"
+                       }
+                   ]
+}
