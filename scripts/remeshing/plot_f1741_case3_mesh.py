@@ -160,7 +160,18 @@ def main():
     ax_stat.grid(True, linestyle=":", alpha=0.5)
     ax_stat.legend(loc="upper left", fontsize=8, framealpha=0.9)
     
-    fig.suptitle("Task F1741: Case 3 Notched Plate with Hole and Pins Multi-State Native Remeshing Synthesis\n(HPC Execution Job 1423438.mmaster02, Compute Node mnode097.cluster, 28,933 Elements, Datacheck Exit 0)", fontsize=13, fontweight="bold", y=0.98)
+    ax_stat.text(0.98, 0.45, "TASK F1741 SPATIAL AUDIT:\n"
+                              "- Primary Corridor: FAIL (Stations 2-10 coarse, barrier=True)\n"
+                              "- Secondary Corridor: FAIL (Distal stations coarse, barrier=True)\n"
+                              "- Central Hole Boundary: FAIL (mean h = 0.322 mm > l0/2)\n"
+                              "CLASSIFICATION: SPATIAL QUALIFICATION FAILED",
+                 transform=ax_stat.transAxes, fontsize=8, verticalalignment='center', horizontalalignment='right',
+                 bbox=dict(boxstyle='round,pad=0.5', facecolor='#fce4e4', edgecolor='#c0392b', lw=1.2))
+    
+    fig.suptitle("Task F1741: Case 3 Notched Plate with Hole and Pins Multi-State Native Remeshing Synthesis\n"
+                 "[STATUS: SPATIAL QUALIFICATION FAILED (FAIL) — Primary 2.13% Area <= l0/2, Secondary 14.22% Area <= l0/2]\n"
+                 "(HPC Execution Job 1423438.mmaster02, Compute Node mnode097.cluster, 28,933 Elements, Datacheck Exit 0)",
+                 fontsize=12, fontweight="bold", color="#900C3F", y=0.99)
     
     png_path = os.path.join(FIG_DIR, "fig_f1741_case3_mesh_comparison.png")
     pdf_path = os.path.join(FIG_DIR, "fig_f1741_case3_mesh_comparison.pdf")

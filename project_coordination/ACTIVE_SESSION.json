@@ -1,21 +1,19 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "f1741-case3-multistate-remeshing-session-001",
-  "task_id": "F1741-CASE3-MULTISTATE-REMESHING-EXECUTION",
-  "started_at": "2026-11-14T14:11:00+01:00",
-  "completed_at": "2026-11-14T15:05:00+01:00",
-  "starting_commit": "2298cafb",
+  "session_id": "f1742-case3-transient-donor-recovery-001",
+  "task_id": "F1742-CASE3-TRANSIENT-DONOR-RECOVERY",
+  "started_at": "2026-11-14T15:15:00+01:00",
+  "completed_at": "2026-11-14T15:35:00+01:00",
+  "starting_commit": "7709c241",
   "allowed_write_scope": [
     "project_coordination/**",
-    "models/**",
-    "scripts/**",
-    "tests/unit/**",
+    ".agents/**",
     "docs/validation/**",
     "results/validation/**",
-    "results/figures/**",
-    "figures/**",
-    ".agents/**"
+    "models/**",
+    "scripts/**",
+    "tests/unit/**"
   ],
-  "notes": "Task F1741: Case 3 Notched Plate with Hole and Pins (Sec 4.3) Controlled Multi-State Native Remeshing Experiment Execution COMPLETE. All 7 gates evaluated, datacheck Exit 0, 29/29 regression tests PASS."
+  "notes": "Task F1742: Case 3 Transient Propagation Donor Recovery & Solution-Driven Multi-State Selection Algorithm (Zero-PBS Offline Investigation COMPLETE). 34/34 regression tests PASS."
 }
