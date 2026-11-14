@@ -1,0 +1,118 @@
+﻿{
+    "job_id":  "1423257.mmaster02",
+    "task_id":  "F1731-CASE2-ADAPTIVE-MESH-GENERATION",
+    "all_gates_pass":  false,
+    "gates":  {
+                  "GATE-01-REMESH-EXECUTION":  "PASS",
+                  "GATE-02-FE-QUALITY":  "PASS",
+                  "GATE-03-CORRIDOR-RESOLUTION-L0-HALF":  "FAIL_DOCUMENTED_DEFICIENCY",
+                  "GATE-04-HOLE-BOUNDARY-RESOLUTION-L0":  "FAIL_DOCUMENTED_DEFICIENCY",
+                  "GATE-05-PROD-DECK-ASSEMBLY":  "PASS",
+                  "GATE-06-DATACHECK-EXIT-0":  "PASS",
+                  "GATE-07-UEL-VERIFICATION":  "PASS"
+              },
+    "mesh_metrics":  {
+                         "total_physical_elements":  3851,
+                         "total_nodes":  3945,
+                         "quad_fraction_pct":  96.70215528434173,
+                         "min_signed_jacobian":  9.56067526468753E-06,
+                         "non_positive_jacobians":  0,
+                         "mean_aspect_ratio":  1.2699877350489397,
+                         "max_aspect_ratio":  2.2855285271856824,
+                         "global_resolution":  {
+                                                   "mean_h_area_um":  15.57790146866293,
+                                                   "min_h_area_um":  5.9732124544526535,
+                                                   "max_h_area_um":  24.146819637330537,
+                                                   "pct_le_l0":  0.7270838743183589,
+                                                   "pct_le_l0_half":  0.0,
+                                                   "pct_le_l0_third":  0.0
+                                               },
+                         "regions":  {
+                                         "NOTCH_ROOT":  {
+                                                            "count":  6,
+                                                            "mean_h_area_mm":  0.009909193888527752,
+                                                            "mean_h_area_um":  9.909193888527751,
+                                                            "min_h_area_mm":  0.009318791127969274,
+                                                            "min_h_area_um":  9.318791127969273,
+                                                            "max_h_area_mm":  0.010381892646263472,
+                                                            "max_h_area_um":  10.381892646263472,
+                                                            "mean_max_edge_um":  11.572311157202119,
+                                                            "n_le_l0":  0,
+                                                            "pct_le_l0":  0.0,
+                                                            "n_le_l0_half":  0,
+                                                            "pct_le_l0_half":  0.0,
+                                                            "n_le_l0_third":  0,
+                                                            "pct_le_l0_third":  0.0
+                                                        },
+                                         "PRIMARY_OBLIQUE_LIGAMENT":  {
+                                                                          "count":  120,
+                                                                          "mean_h_area_mm":  0.01030101566435263,
+                                                                          "mean_h_area_um":  10.301015664352631,
+                                                                          "min_h_area_mm":  0.005973212454452654,
+                                                                          "min_h_area_um":  5.9732124544526535,
+                                                                          "max_h_area_mm":  0.016980294964891604,
+                                                                          "max_h_area_um":  16.980294964891606,
+                                                                          "mean_max_edge_um":  11.951855208523956,
+                                                                          "n_le_l0":  8,
+                                                                          "pct_le_l0":  6.666666666666667,
+                                                                          "n_le_l0_half":  0,
+                                                                          "pct_le_l0_half":  0.0,
+                                                                          "n_le_l0_third":  0,
+                                                                          "pct_le_l0_third":  0.0
+                                                                      },
+                                         "HOLE_BOUNDARY_RING":  {
+                                                                    "count":  90,
+                                                                    "mean_h_area_mm":  0.013170149317636153,
+                                                                    "mean_h_area_um":  13.170149317636152,
+                                                                    "min_h_area_mm":  0.00949789726150037,
+                                                                    "min_h_area_um":  9.49789726150037,
+                                                                    "max_h_area_mm":  0.018796056403865002,
+                                                                    "max_h_area_um":  18.796056403865002,
+                                                                    "mean_max_edge_um":  15.11093848224912,
+                                                                    "n_le_l0":  0,
+                                                                    "pct_le_l0":  0.0,
+                                                                    "n_le_l0_half":  0,
+                                                                    "pct_le_l0_half":  0.0,
+                                                                    "n_le_l0_third":  0,
+                                                                    "pct_le_l0_third":  0.0
+                                                                },
+                                         "SECONDARY_RIGHT_LIGAMENT":  {
+                                                                          "count":  125,
+                                                                          "mean_h_area_mm":  0.01606967371198179,
+                                                                          "mean_h_area_um":  16.06967371198179,
+                                                                          "min_h_area_mm":  0.008906822109357507,
+                                                                          "min_h_area_um":  8.906822109357508,
+                                                                          "max_h_area_mm":  0.02212073306817641,
+                                                                          "max_h_area_um":  22.12073306817641,
+                                                                          "mean_max_edge_um":  18.358622165557033,
+                                                                          "n_le_l0":  0,
+                                                                          "pct_le_l0":  0.0,
+                                                                          "n_le_l0_half":  0,
+                                                                          "pct_le_l0_half":  0.0,
+                                                                          "n_le_l0_third":  0,
+                                                                          "pct_le_l0_third":  0.0
+                                                                      },
+                                         "FAR_FIELD_BULK":  {
+                                                                "count":  3510,
+                                                                "mean_h_area_mm":  0.01581222189748788,
+                                                                "mean_h_area_um":  15.81222189748788,
+                                                                "min_h_area_mm":  0.006298219261879379,
+                                                                "min_h_area_um":  6.298219261879379,
+                                                                "max_h_area_mm":  0.02414681963733054,
+                                                                "max_h_area_um":  24.146819637330537,
+                                                                "mean_max_edge_um":  17.92470988418852,
+                                                                "n_le_l0":  20,
+                                                                "pct_le_l0":  0.5698005698005698,
+                                                                "n_le_l0_half":  0,
+                                                                "pct_le_l0_half":  0.0,
+                                                                "n_le_l0_third":  0,
+                                                                "pct_le_l0_third":  0.0
+                                                            }
+                                     }
+                     },
+    "donor_odb_provenance":  {
+                                 "path":  "/scratch9/pr21vyci/runs/f1730_case2_recovery_solve/PK_HOLE_COMPANION_RECOVERY.odb",
+                                 "sha256":  "a6514fb8c07c3b855bb4ba841fdb20a9ae8a1c887a6e6ad1a397ba34222ab856",
+                                 "classification":  "PROVISIONAL_DONOR_WITH_DOCUMENTED_SPR_LIMITATION"
+                             }
+}

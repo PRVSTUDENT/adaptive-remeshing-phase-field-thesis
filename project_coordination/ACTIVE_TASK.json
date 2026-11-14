@@ -1,50 +1,51 @@
 ﻿{
-  "task_id": "F1730-CASE2-SPR-DOMAIN-INVESTIGATION",
-  "title": "Case 2 Targeted SPR Recovery Validity Investigation on Multi-Material Interfaces",
-  "status": "INVESTIGATION_COMPLETED_AWAITING_REVIEW",
-  "classification": "CASE2_SPR_RECOVERY_VALIDITY_INVESTIGATION_QUALIFIED",
-  "assigned_agent": "gemini-antigravity",
-  "checkpoint_artifact": "docs/validation/F1730_CASE2_SPR_DOMAIN_INVESTIGATION_REPORT.md",
-  "predecessor_task": {
-    "task_id": "F1730-CASE2-COMPANION-RECOVERY-SOLVE",
-    "checkpoint_artifact": "docs/validation/F1730_CASE2_COMPANION_RECOVERY_SOLVE_REPORT.md",
-    "classification": "CASE2_COMPANION_RECOVERY_SOLVE_PASSED_EXIT_0",
-    "review_verdict": "REJECT",
-    "correlation_id": "HND-F1730-CASE2-SOLVE-001"
-  },
-  "scientific_operation": "case2_spr_domain_validity_investigation",
-  "scientific_operation_id": "f1730_case2_spr_investigation_001",
-  "scientific_checkpoint_required": true,
-  "max_new_pbs_submissions": 0,
-  "submissions_consumed": 0,
-  "active_pbs_job_id": null,
-  "historical_pbs_job_ids": [
-    "1423095.mmaster02",
-    "1423101.mmaster02",
-    "1423102.mmaster02",
-    "1423103.mmaster02",
-    "1423169.mmaster02",
-    "1423234.mmaster02",
-    "1423235.mmaster02"
-  ],
-  "deck_path": "models/pandey_kumar_mode1/221_f1730_case2_recovery_solve/PK_HOLE_COMPANION_RECOVERY.inp",
-  "deck_sha256": "0286F591F865E060D3C34482671D8E378916831D3781DB17A4E8BC70963E51E0",
-  "scope_boundary": "READ_ONLY_OFFLINE_SPR_DOMAIN_INVESTIGATION_NO_PBS_NO_REMESH_NO_FORWARD_FRACTURE",
-  "investigation_objectives": {
-    "OBJ-01": "Document Abaqus SPR error recovery mathematical formulation and section homogeneity requirement [PASS]",
-    "OBJ-02": "Map all 13 material-section assignments across the mesh and identify all inter-bin element boundaries [PASS: 433 interface elements]",
-    "OBJ-03": "Evaluate elementwise MISESERI distribution to determine whether peaks/discontinuities correlate with material bin jumps or physical damage [PASS: r = 0.8555 with damage d]",
-    "OBJ-04": "Report partitioned statistics for: (a) inter-bin interface elements, (b) 37-element primary component, (c) 48 damaged elements, (d) 6 boundary elements, (e) uncracked ligament, (f) far-field bulk [PASS: All 9 subsets compiled]",
-    "OBJ-05": "Evaluate whether splitting recovery domains by section or using continuous recovery provides the minimal valid correction [PASS: Section-splitting disqualified; existing 13-bin donor qualified]"
-  },
-  "completed_operations": [
-    "task_registered_and_session_claimed",
-    "review_response_hnd_f1730_case2_solve_001_received",
-    "dual_element_adjacency_graph_evaluated",
-    "partitioned_statistics_compiled_in_json",
-    "investigation_report_published",
-    "unit_tests_implemented_and_passing_41_of_41",
-    "review_packet_002_prepared"
-  ],
-  "iteration": 1
+    "task_id":  "F1731-CASE2-ADAPTIVE-MESH-GENERATION",
+    "title":  "Case 2 Exploratory Native Abaqus Remeshing Pilot \u0026 Spatial Ligament Resolution Audit",
+    "status":  "PILOT_EXECUTION_AUDITED",
+    "classification":  "CASE2_REMESH_PILOT_AUDITED_SPATIAL_DEFICIENCY_DOCUMENTED",
+    "assigned_agent":  "gemini-antigravity",
+    "checkpoint_artifact":  "docs/validation/F1731_CASE2_ADAPTIVE_MESH_REPORT.md",
+    "predecessor_task":  {
+                             "task_id":  "F1730-CASE2-SPR-DOMAIN-INVESTIGATION",
+                             "checkpoint_artifact":  "docs/validation/F1730_CASE2_SPR_DOMAIN_INVESTIGATION_REPORT.md",
+                             "classification":  "CASE2_SPR_RECOVERY_VALIDITY_INVESTIGATION_EVALUATED",
+                             "review_verdict":  "REJECT_FULL_QUALIFICATION_ACCEPT_EXPLORATORY_REMESHING_PILOT",
+                             "correlation_id":  "HND-F1730-CASE2-SPR-002"
+                         },
+    "scientific_operation":  "case2_native_remeshing_pilot",
+    "scientific_operation_id":  "f1731_case2_remesh_001",
+    "scientific_checkpoint_required":  true,
+    "donor_odb_path":  "/scratch9/pr21vyci/runs/f1730_case2_recovery_solve/PK_HOLE_COMPANION_RECOVERY.odb",
+    "donor_classification":  "PROVISIONAL_DONOR_WITH_DOCUMENTED_SPR_LIMITATION",
+    "max_new_pbs_submissions":  1,
+    "submissions_consumed":  1,
+    "active_pbs_job_id":  "1423257.mmaster02",
+    "historical_pbs_job_ids":  [
+                                   "1423095.mmaster02",
+                                   "1423101.mmaster02",
+                                   "1423102.mmaster02",
+                                   "1423103.mmaster02",
+                                   "1423169.mmaster02",
+                                   "1423234.mmaster02",
+                                   "1423235.mmaster02",
+                                   "1423257.mmaster02"
+                               ],
+    "scope_boundary":  "EXPLORATORY_NATIVE_REMESHING_PILOT_NO_FORWARD_FRACTURE_NO_DUPLICATE_RECOVERY",
+    "pilot_objectives":  {
+                             "OBJ-01":  "Verify step RECOVERY_STEP and instance PART-1-1 compatibility in Abaqus CAE on cluster",
+                             "OBJ-02":  "Execute native RemeshingRule and adaptiveRemesh() in Abaqus CAE to generate physical adapted mesh",
+                             "OBJ-03":  "Audit physical mesh quality (quad fraction >= 90%, 100% det(J) > 0, zero inverted elements)",
+                             "OBJ-04":  "Independently evaluate spatial resolution h <= l0/2 = 3.75 um across 37-element primary corridor, uncracked oblique ligament, and 6 hole boundary elements",
+                             "OBJ-05":  "Assemble production 3-layer UEL-UMAT-Visualizer deck and run Abaqus datacheck (Exit 0) without forward fracture"
+                         },
+    "completed_operations":  [
+                                 "task_registered_and_session_claimed",
+                                 "review_response_hnd_f1730_case2_spr_002_received",
+                                 "hpc_job_1423257_executed_exit0",
+                                 "physical_mesh_and_production_deck_audited",
+                                 "spatial_resolution_audit_completed",
+                                 "unit_tests_passed_47_of_47",
+                                 "qualification_report_authored"
+                             ],
+    "iteration":  1
 }

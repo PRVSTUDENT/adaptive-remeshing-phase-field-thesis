@@ -1,0 +1,131 @@
+#!/bin/bash
+#PBS -N F1731_CASE2_PILOT
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratch9/pr21vyci/runs/f1731_case2_pilot/pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+RUN_DIR="/scratch9/pr21vyci/runs/f1731_case2_pilot"
+cd "${RUN_DIR}"
+
+export JOB_NAME="F1731_CASE2_PILOT"
+export CONFIG_FILE="f1731_case2_off_axis_hole.json"
+export FRAMEWORK_SCRIPT="reusable_2d_adaptive_framework.py"
+export DONOR_ODB="/scratch9/pr21vyci/runs/f1730_case2_recovery_solve/PK_HOLE_COMPANION_RECOVERY.odb"
+export USER_SUB="f42_mixed_uel.for"
+export AUDIT_SCRIPT="audit_case2_ligament_resolution.py"
+
+EXPECTED_UEL_SHA="ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6"
+EXPECTED_DONOR_SHA="a6514fb8c07c3b855bb4ba841fdb20a9ae8a1c887a6e6ad1a397ba34222ab856"
+
+echo "=== PBS Preflight Check for ${JOB_NAME} ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"
+hostname
+
+# 1. Duplicate Run and Lock Guard
+if [ -e "${JOB_NAME}.lck" ]; then
+    echo "ERROR: Active lock file ${JOB_NAME}.lck detected. Aborting."
+    exit 1
+fi
+touch "${JOB_NAME}.lck"
+trap 'rm -f "${RUN_DIR}/${JOB_NAME}.lck"' EXIT
+
+# 2. Storage Capacity and Quota Preflight
+AVAIL_KB=$(df -k . | awk 'NR==2 {print $4}')
+if [ "${AVAIL_KB}" -lt 5242880 ]; then
+    echo "ERROR: Insufficient scratch disk space (${AVAIL_KB} KB available). Aborting."
+    exit 1
+fi
+echo "Scratch disk space confirmed: $((AVAIL_KB / 1024 / 1024)) GB available."
+
+# 3. Bitwise SHA-256 Hash Verification of User Subroutine
+ACTUAL_UEL_SHA=$(sha256sum "${USER_SUB}" | awk '{print $1}')
+if [ "${ACTUAL_UEL_SHA}" != "${EXPECTED_UEL_SHA}" ]; then
+    echo "ERROR: User subroutine SHA-256 mismatch!"
+    echo "  Expected: ${EXPECTED_UEL_SHA}"
+    echo "  Actual:   ${ACTUAL_UEL_SHA}"
+    exit 1
+fi
+echo "User subroutine hash verified: ${ACTUAL_UEL_SHA}"
+
+# 4. Donor ODB Existence and Hash Verification
+if [ ! -f "${DONOR_ODB}" ]; then
+    echo "ERROR: Donor ODB not found: ${DONOR_ODB}"
+    exit 1
+fi
+ACTUAL_DONOR_SHA=$(sha256sum "${DONOR_ODB}" | awk '{print $1}')
+if [ "${ACTUAL_DONOR_SHA}" != "${EXPECTED_DONOR_SHA}" ]; then
+    echo "ERROR: Donor ODB SHA-256 mismatch!"
+    echo "  Expected: ${EXPECTED_DONOR_SHA}"
+    echo "  Actual:   ${ACTUAL_DONOR_SHA}"
+    exit 1
+fi
+echo "Donor ODB confirmed: ${DONOR_ODB} ($(ls -lh "${DONOR_ODB}" | awk '{print $5}'))"
+
+# 5. Dual-Channel Notification Integration
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+if [ -f "${RUN_DIR}/job_notifications.sh" ]; then
+    source "${RUN_DIR}/job_notifications.sh"
+    notification_load_config || echo "Notice: notification_load_config returned non-zero (non-fatal)"
+    notification_install_terminal_trap || echo "Notice: notification_install_terminal_trap returned non-zero (non-fatal)"
+    notify_start || echo "Notice: notify_start returned non-zero (non-fatal)"
+fi
+
+# 6. Environment and Module Initialization
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+command -v abaqus
+
+# 7. Execute Native Adaptive Remeshing and Production Deck Build via Framework
+echo "=== Executing Unified Method A Framework Remeshing Pipeline (Case 2 Off-Axis Hole) ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"
+
+abaqus cae noGUI="${FRAMEWORK_SCRIPT}" -- --config "${CONFIG_FILE}" --run-case --odb "${DONOR_ODB}" --output-dir "${RUN_DIR}"
+REMESH_EXIT_CODE=$?
+echo "Framework Remesh Finished with Exit Code: ${REMESH_EXIT_CODE}"
+
+if [ "${REMESH_EXIT_CODE}" -ne 0 ]; then
+    echo "ERROR: Native remeshing execution failed with exit code ${REMESH_EXIT_CODE}."
+    exit ${REMESH_EXIT_CODE}
+fi
+
+# 8. Spatial Resolution Audit
+ADAPT_PHYS_MESH="${RUN_DIR}/PK_F1728_CASE_2_ADAPT_PHYS.inp"
+if [ ! -f "${ADAPT_PHYS_MESH}" ]; then
+    echo "ERROR: Physical adapted mesh not found: ${ADAPT_PHYS_MESH}"
+    exit 1
+fi
+echo "Physical adapted mesh found: ${ADAPT_PHYS_MESH}"
+
+echo "=== Executing Spatial Resolution Audit ==="
+python "${AUDIT_SCRIPT}" "${ADAPT_PHYS_MESH}" "${RUN_DIR}/f1731_case2_ligament_spatial_audit.json"
+AUDIT_EXIT_CODE=$?
+echo "Spatial Audit Finished with Exit Code: ${AUDIT_EXIT_CODE}"
+
+# 9. Execute Datacheck Verification on Generated Production 3-Layer Deck
+PROD_DECK="${RUN_DIR}/PK_F1728_CASE_2_PROD.inp"
+if [ ! -f "${PROD_DECK}" ]; then
+    echo "ERROR: Generated production deck not found: ${PROD_DECK}"
+    exit 1
+fi
+echo "Generated production deck found: ${PROD_DECK}"
+
+echo "=== Running Abaqus Datacheck Verification on ${PROD_DECK} ==="
+abaqus datacheck job=PK_F1731_CASE_2_DC input="${PROD_DECK}" user="${USER_SUB}" interactive
+DC_EXIT_CODE=$?
+echo "Datacheck Finished with Exit Code: ${DC_EXIT_CODE}"
+
+if [ "${DC_EXIT_CODE}" -ne 0 ]; then
+    echo "ERROR: Abaqus datacheck failed with exit code ${DC_EXIT_CODE}."
+    exit ${DC_EXIT_CODE}
+fi
+
+echo "=== TASK F1731 CASE 2 PILOT EXECUTION COMPLETE (EXIT 0) ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"

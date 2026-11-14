@@ -1,11 +1,11 @@
 {
   "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "f1730-case2-spr-investigation-session-001",
-  "task_id": "F1730-CASE2-SPR-DOMAIN-INVESTIGATION",
-  "started_at": "2026-11-14T01:07:30+01:00",
+  "session_id": "f1731-case2-adaptive-mesh-session-001",
+  "task_id": "F1731-CASE2-ADAPTIVE-MESH-GENERATION",
+  "started_at": "2026-11-14T01:19:00+01:00",
   "completed_at": null,
-  "starting_commit": "3d997f5050a163386cf2f22c7d6813e16e23dae3",
+  "starting_commit": "f8a629b1",
   "allowed_write_scope": [
     "project_coordination/**",
     "models/pandey_kumar_mode1/**",
@@ -14,7 +14,8 @@
     "tests/unit/**",
     "docs/validation/**",
     "results/validation/**",
+    "figures/**",
     ".agents/**"
   ],
-  "notes": "Task F1730: Targeted Offline Investigation of Finding F1730-R01 (SPR Error Recovery Validity Across 13 Material-Section Interfaces, Spatial Correlation with Material-Bin Boundaries, and Minimal Corrective Implementation)."
+  "notes": "Task F1731: Case 2 Exploratory Native Abaqus Remeshing Pilot & Spatial Ligament Resolution Audit using Provisional Donor PK_HOLE_COMPANION_RECOVERY.odb."
 }
