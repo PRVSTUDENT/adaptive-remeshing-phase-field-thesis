@@ -1,0 +1,53 @@
+{
+  "task_id": "F1739-CASE1-ADAPTED-FRACTURE-EXECUTION-QUALIFICATION",
+  "mesh": "PK_F1738_CASE_1_LIGAMENT_ADAPT_PHYS.inp (13,960 elements, 13,922 nodes)",
+  "formulation": "Amor PFM, f42_mixed_uel.for (CE8D5EDC...), 1-CPU Serial",
+  "benchmark_comparison": {
+    "k0_initial_stiffness_kN_per_mm": 137.8592,
+    "k0_r2": 0.99999954,
+    "k0_gate1_ref_kN_per_mm": 137.94552,
+    "k0_delta_pct": -0.06,
+    "f_max_kN": 0.73072,
+    "f_max_N": 730.72,
+    "f_max_gate1_ref_kN": 0.757778,
+    "f_max_delta_pct": -3.57,
+    "u_peak_mm": 0.005622,
+    "u_peak_gate1_ref_mm": 0.005857,
+    "u_peak_delta_pct": -4.01,
+    "f_final_kN": 0.00060949666,
+    "f_final_N": 0.6095,
+    "u_final_mm": 0.006057,
+    "post_peak_load_drop_pct": 99.92
+  },
+  "thermodynamic_energy_balance": {
+    "peak_e_elastic_kNmm": 0.0020549915,
+    "final_e_elastic_kNmm": 1.8458796e-06,
+    "final_e_fracture_kNmm": 0.0022359332,
+    "final_e_total_kNmm": 0.0022377791,
+    "external_work_w_ext_kNmm": 0.0022648902089748126,
+    "energy_imbalance_pct": 1.197,
+    "elastic_release_pct": 99.9102,
+    "min_delta_e_fracture_kNmm": 8.8801683e-11,
+    "fracture_dissipation_monotonic": true
+  },
+  "convergence_telemetry": {
+    "total_converged_increments": 475,
+    "total_attempts": 475,
+    "total_severe_discontinuities": 0,
+    "total_equilibrium_iterations": 1562,
+    "total_cutbacks": 0,
+    "mean_iterations_per_inc": 3.29,
+    "latest_step": 2,
+    "latest_inc": 425,
+    "latest_total_time": 1.21
+  },
+  "gates_status": {
+    "gate_k0_parity_within_5pct": true,
+    "gate_fmax_parity_within_5pct": true,
+    "gate_upeak_parity_within_5pct": true,
+    "gate_load_drop_ge_90pct": true,
+    "gate_energy_balance_within_5pct": true,
+    "gate_fracture_energy_monotonic": true,
+    "gate_zero_cutbacks": true
+  }
+}

@@ -1,10 +1,20 @@
 {
   "active": false,
-  "agent": null,
-  "session_id": null,
-  "task_id": null,
-  "started_at": null,
-  "starting_commit": "e9047ada",
-  "allowed_write_scope": [],
-  "notes": "Task F1738 completed. Case 1 Mode-I ligament-qualified hybrid reference mesh established (13,960 elements, 100% corridor h <= l0/2, datacheck Exit 0, 5/5 tests pass)."
+  "agent": "gemini-antigravity",
+  "session_id": "f1739-case1-fracture-qualification-session-001",
+  "task_id": "F1739-CASE1-ADAPTED-FRACTURE-EXECUTION-QUALIFICATION",
+  "started_at": "2026-11-14T08:30:00+01:00",
+  "starting_commit": "f932b15b",
+  "allowed_write_scope": [
+    "project_coordination/**",
+    "models/**",
+    "scripts/**",
+    "tests/unit/**",
+    "docs/validation/**",
+    "results/validation/**",
+    "results/figures/**",
+    "figures/**",
+    ".agents/**"
+  ],
+  "notes": "Task F1739: Case 1 Mode-I Adapted-Mesh Phase-Field Fracture Simulation Qualification. 1-CPU Serial coupled nonlinear fracture simulation on the 13,960-element hybrid reference mesh to validate load-displacement response, complete ligament severance, damage bounds, and thermodynamic energy balance."
 }
