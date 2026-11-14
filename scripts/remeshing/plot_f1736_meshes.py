@@ -3,16 +3,19 @@
 scripts/remeshing/plot_f1736_meshes.py
 
 Generates publication-quality figures for Task F1736:
-1. Five individual standalone benchmark figures showing:
-   - Full mesh wireframe with element resolution ratio h / ell_0 coloring
-   - Zoomed-in view of the critical fracture process zone / notch / hole ligament
-   - Exact physical dimensions, element count, quad %, min h, and compliance
-2. One corrected 5-panel comparison figure (PNG + PDF) replacing the erroneous/intermediate figure.
+1. Five standalone 4-panel benchmark figures showing:
+   - Panel (a): Original coarse mesh
+   - Panel (b): Authoritative adapted physical mesh
+   - Panel (c): Spatial resolution ratio h_e / ell_0
+   - Panel (d): Physical damage / error-indicator correspondence overlay
+2. One corrected 5-case comparative overview figure (PNG + vector PDF).
 """
 
 import os
 import sys
 import math
+import csv
+import json
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
@@ -34,121 +37,219 @@ os.makedirs(FIG_DIR, exist_ok=True)
 plt.rcParams.update({
     "font.family": "serif",
     "font.size": 10,
-    "axes.labelsize": 11,
-    "axes.titlesize": 12,
-    "xtick.labelsize": 9,
-    "ytick.labelsize": 9,
+    "axes.labelsize": 10,
+    "axes.titlesize": 11,
+    "xtick.labelsize": 8.5,
+    "ytick.labelsize": 8.5,
     "figure.titlesize": 13,
     "figure.dpi": 300,
     "savefig.dpi": 300,
 })
 
-def build_poly_collection(nodes, elements, elem_types, ell_0, cmap_name="viridis_r"):
-    """
-    Builds a matplotlib PolyCollection colored by h_e / ell_0.
-    """
+COARSE_MESH_PATHS = {
+    "case_1": os.path.join("models", "pandey_kumar_mode1", "00_aux_continuum_preanalysis", "PK_MODE1_AUX_CONTINUUM.inp"),
+    "case_2": os.path.join("models", "pandey_kumar_mode1", "220_f1729_case2_recovery_datacheck", "PK_HOLE_COMPANION_RECOVERY.inp"),
+    "case_3": os.path.join("models", "pandey_kumar_mode1", "188_pk_sec43_hole_plate", "PK_SEC43_COARSE_PHYS.inp"),
+    "case_4": os.path.join("models", "pandey_kumar_mode1", "209_f1718_five_hole_recovery", "PK_F1718_RECOVERY_PHYS.inp"),
+    "case_5": os.path.join("models", "pandey_kumar_mode1", "218_f1726_seven_hole_study", "PK_F1726_SEVEN_HOLE_COARSE_PHYS.inp")
+}
+
+def build_poly_collection(nodes, elements, elem_types, values=None, cmap_name="viridis_r", vmin=0.0, vmax=3.0, edge_lw=0.15):
     verts = []
-    ratios = []
+    vals = []
     
     elem_ids = sorted(elements.keys())
     for eid in elem_ids:
         nids = elements[eid]
         coords = np.array([nodes[nid] for nid in nids])
         verts.append(coords)
-        
-        # Area
-        x = coords[:, 0]
-        y = coords[:, 1]
-        area = 0.5 * abs(np.sum(x * np.roll(y, -1) - np.roll(x, -1) * y))
-        h = math.sqrt(area)
-        ratios.append(h / ell_0)
-        
-    ratios = np.array(ratios)
-    
-    # Cap ratio for visualization at 3.0
-    norm_ratios = np.clip(ratios, 0.0, 3.0)
-    
-    cmap = plt.get_cmap(cmap_name)
-    colors = cmap(norm_ratios / 3.0)
-    
-    pc = PolyCollection(verts, facecolors=colors, edgecolors="black", linewidths=0.15)
-    return pc, ratios
+        if values is not None:
+            vals.append(values.get(eid, 0.0))
+            
+    if values is not None:
+        vals = np.array(vals)
+        norm_vals = np.clip((vals - vmin) / (vmax - vmin) if vmax > vmin else vals, 0.0, 1.0)
+        cmap = plt.get_cmap(cmap_name)
+        colors = cmap(norm_vals)
+        pc = PolyCollection(verts, facecolors=colors, edgecolors="black", linewidths=edge_lw)
+    else:
+        pc = PolyCollection(verts, facecolors="#e9ecef", edgecolors="black", linewidths=edge_lw)
+    return pc
 
 def plot_standalone_figure(case_key, cfg):
-    inp_path = os.path.join(REPO_ROOT, cfg["final_mesh_path"])
-    nodes, elements, elem_types = parse_abaqus_inp(inp_path)
-    stats = compute_element_metrics(nodes, elements, elem_types, cfg["ell_0"])
+    """
+    Renders a 4-panel publication figure for a specific benchmark:
+    (a) Coarse mesh
+    (b) Adapted mesh
+    (c) Spatial resolution ratio h_e / ell_0
+    (d) Damage / process-zone overlay with explicit status
+    """
+    final_inp = os.path.join(REPO_ROOT, cfg["final_mesh_path"])
+    coarse_inp = os.path.join(REPO_ROOT, COARSE_MESH_PATHS[case_key])
     
-    fig, (ax_mesh, ax_hist) = plt.subplots(1, 2, figsize=(12, 5.5), gridspec_kw={"width_ratios": [1.4, 1.0]})
+    # Parse final adapted mesh
+    fnodes, felems, fetypes = parse_abaqus_inp(final_inp)
+    fstats = compute_element_metrics(fnodes, felems, fetypes, cfg["ell_0"])
     
-    pc, ratios = build_poly_collection(nodes, elements, elem_types, cfg["ell_0"])
-    ax_mesh.add_collection(pc)
+    # Parse coarse mesh
+    cnodes, celems, cetypes = parse_abaqus_inp(coarse_inp)
+    cstats = compute_element_metrics(cnodes, celems, cetypes, cfg["ell_0"])
     
-    bb = stats["bounding_box"]
+    fig, axes = plt.subplots(2, 2, figsize=(14, 11))
+    ((ax_coarse, ax_adapt), (ax_res, ax_dam)) = axes
+    
+    bb = fstats["bounding_box"]
     dx = bb["x_max"] - bb["x_min"]
     dy = bb["y_max"] - bb["y_min"]
     pad_x = 0.04 * dx
     pad_y = 0.04 * dy
-    ax_mesh.set_xlim(bb["x_min"] - pad_x, bb["x_max"] + pad_x)
-    ax_mesh.set_ylim(bb["y_min"] - pad_y, bb["y_max"] + pad_y)
-    ax_mesh.set_aspect("equal")
-    ax_mesh.set_xlabel("x [mm]")
-    ax_mesh.set_ylabel("y [mm]")
+    xlims = (bb["x_min"] - pad_x, bb["x_max"] + pad_x)
+    ylims = (bb["y_min"] - pad_y, bb["y_max"] + pad_y)
     
-    title_str = f"{cfg['name']}\nAuthoritative Adapted Mesh: {stats['num_elements']} elements ({stats['quad_percentage']:.1f}% Quads)"
-    ax_mesh.set_title(title_str, fontsize=11, fontweight="bold")
+    # -------------------------------------------------------------
+    # Panel (a): Original Coarse Mesh
+    # -------------------------------------------------------------
+    pc_coarse = build_poly_collection(cnodes, celems, cetypes, edge_lw=0.25)
+    ax_coarse.add_collection(pc_coarse)
+    ax_coarse.set_xlim(xlims)
+    ax_coarse.set_ylim(ylims)
+    ax_coarse.set_aspect("equal")
+    ax_coarse.set_xlabel("x [mm]")
+    ax_coarse.set_ylabel("y [mm]")
+    ax_coarse.set_title(f"(a) Original Coarse Mesh\n{cstats['num_elements']} elements ({cstats['quad_percentage']:.1f}% Q) | {cstats['num_nodes']} nodes", fontweight="bold")
     
-    # Add colorbar for mesh
-    sm = plt.cm.ScalarMappable(cmap=plt.get_cmap("viridis_r"), norm=plt.Normalize(vmin=0.0, vmax=3.0))
-    sm.set_array([])
-    cbar = fig.colorbar(sm, ax=ax_mesh, orientation="horizontal", pad=0.12, shrink=0.85)
-    cbar.set_label(r"Spatial Resolution Ratio $h_e / \ell_0$ (Capped at 3.0)")
+    # -------------------------------------------------------------
+    # Panel (b): Authoritative Final Adapted Mesh
+    # -------------------------------------------------------------
+    pc_adapt = build_poly_collection(fnodes, felems, fetypes, edge_lw=0.10)
+    ax_adapt.add_collection(pc_adapt)
+    ax_adapt.set_xlim(xlims)
+    ax_adapt.set_ylim(ylims)
+    ax_adapt.set_aspect("equal")
+    ax_adapt.set_xlabel("x [mm]")
+    ax_adapt.set_ylabel("y [mm]")
+    ax_adapt.set_title(f"(b) Authoritative Adapted Mesh\n{fstats['num_elements']} elements ({fstats['quad_percentage']:.1f}% Q) | {fstats['num_nodes']} nodes", fontweight="bold")
     
-    # Histogram of h / ell_0
-    bins = np.linspace(0.0, 3.5, 36)
-    ax_hist.hist(ratios, bins=bins, color="#2b5c8f", edgecolor="black", alpha=0.85, density=False)
-    ax_hist.axvline(1.0, color="#d95f02", linestyle="--", linewidth=1.8, label=r"$h_e = \ell_0$ (Threshold)")
-    ax_hist.axvline(0.5, color="#7570b3", linestyle=":", linewidth=1.8, label=r"$h_e = \ell_0 / 2$")
-    ax_hist.axvline(float(np.median(ratios)), color="#1b9e77", linestyle="-", linewidth=1.8, 
-                   label=f"Median: {np.median(ratios):.2f}")
+    # -------------------------------------------------------------
+    # Panel (c): Spatial Resolution Field h_e / ell_0
+    # -------------------------------------------------------------
+    ratios_dict = {}
+    for eid, nids in felems.items():
+        coords = np.array([fnodes[nid] for nid in nids])
+        x = coords[:, 0]
+        y = coords[:, 1]
+        a = 0.5 * abs(np.sum(x * np.roll(y, -1) - np.roll(x, -1) * y))
+        ratios_dict[eid] = math.sqrt(a) / cfg["ell_0"]
+        
+    pc_res = build_poly_collection(fnodes, felems, fetypes, values=ratios_dict, cmap_name="viridis_r", vmin=0.0, vmax=3.0, edge_lw=0.08)
+    ax_res.add_collection(pc_res)
+    ax_res.set_xlim(xlims)
+    ax_res.set_ylim(ylims)
+    ax_res.set_aspect("equal")
+    ax_res.set_xlabel("x [mm]")
+    ax_res.set_ylabel("y [mm]")
+    comp = fstats["compliance"]
+    ax_res.set_title(f"(c) Spatial Resolution $h_e / \\ell_0$ (Capped at 3.0)\n$h \\leq \\ell_0$: {comp['h_le_ell0']['count_pct']:.1f}% count ({comp['h_le_ell0']['area_pct']:.1f}% area) | $h_{{\\min}} = {fstats['element_size_stats_mm']['min']*1e3:.2f}\\,\\mu$m", fontweight="bold")
     
-    ax_hist.set_xlabel(r"Resolution Ratio $h_e / \ell_0$")
-    ax_hist.set_ylabel("Element Count")
-    ax_hist.set_title("Element Resolution Distribution", fontsize=11, fontweight="bold")
-    ax_hist.legend(loc="upper right", frameon=True, framealpha=0.9)
-    ax_hist.grid(True, linestyle=":", alpha=0.6)
+    sm_res = plt.cm.ScalarMappable(cmap=plt.get_cmap("viridis_r"), norm=plt.Normalize(vmin=0.0, vmax=3.0))
+    sm_res.set_array([])
+    cb_res = fig.colorbar(sm_res, ax=ax_res, orientation="horizontal", pad=0.10, shrink=0.85)
+    cb_res.set_label(r"Resolution Ratio $h_e / \ell_0$ (Fine $\leq 1.0 \rightarrow$ Yellow, Coarse $\rightarrow$ Purple)")
     
-    # Text box with key metrics
-    comp = stats["compliance"]
-    info_text = (
-        f"Length scale $\\ell_0$: {cfg['ell_0']} mm\n"
-        f"Total Elements: {stats['num_elements']} (Published: {cfg['published_elements']})\n"
-        f"Total Nodes: {stats['num_nodes']}\n"
-        f"Quads: {stats['num_quads']} | Tris: {stats['num_tris']}\n"
-        f"$h_{{min}}$: {stats['element_size_stats_mm']['min']*1e3:.2f} $\\mu$m ($\\ell_0/${1.0/stats['resolution_ratio_stats']['min']:.1f})\n"
-        f"$h_{{median}}$: {stats['element_size_stats_mm']['median']*1e3:.2f} $\\mu$m\n"
-        f"$h_{{max}}$: {stats['element_size_stats_mm']['max']*1e3:.2f} $\\mu$m\n"
-        f"$h \\leq \\ell_0$: {comp['h_le_ell0']['count_pct']:.1f}% count ({comp['h_le_ell0']['area_pct']:.1f}% area)\n"
-        f"$h \\leq \\ell_0/2$: {comp['h_le_half_ell0']['count_pct']:.1f}% count ({comp['h_le_half_ell0']['area_pct']:.1f}% area)\n"
-        f"Max Aspect Ratio: {stats['aspect_ratio_stats']['max']:.2f}\n"
-        f"Negative Jacobians: {stats['negative_jacobian_count']} (Strictly PASS)"
-    )
-    ax_hist.text(0.04, 0.45, info_text, transform=ax_hist.transAxes, fontsize=8.5,
-                 verticalalignment="top", bbox=dict(boxstyle="round,pad=0.5", facecolor="#f8f9fa", edgecolor="#ced4da"))
+    # -------------------------------------------------------------
+    # Panel (d): Physical Damage / Process-Zone Overlay
+    # -------------------------------------------------------------
+    if case_key == "case_2":
+        # Load authentic extracted damage field from Task F1735
+        dam_csv = os.path.join(REPO_ROOT, "results", "validation", "f1735_case2_final_frame_sdv.csv")
+        dam_dict = {}
+        if os.path.exists(dam_csv):
+            with open(dam_csv, "r", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    eid = int(row["physical_element_id"])
+                    dam_dict[eid] = float(row["damage_d"])
+        pc_dam = build_poly_collection(fnodes, felems, fetypes, values=dam_dict, cmap_name="inferno", vmin=0.0, vmax=1.0, edge_lw=0.08)
+        ax_dam.add_collection(pc_dam)
+        ax_dam.set_title(f"(d) Authentic Coupled Phase-Field Damage ($u = 0.00768\\,$mm)\nJob 1423271 (Exit 1 at min dt) | 343 Broken Elements into Hole", fontweight="bold")
+        sm_dam = plt.cm.ScalarMappable(cmap=plt.get_cmap("inferno"), norm=plt.Normalize(vmin=0.0, vmax=1.0))
+        sm_dam.set_array([])
+        cb_dam = fig.colorbar(sm_dam, ax=ax_dam, orientation="horizontal", pad=0.10, shrink=0.85)
+        cb_dam.set_label(r"Phase-Field Damage $d$ ($0 = $ Intact, $1 = $ Fully Broken)")
+    else:
+        # Mesh wireframe with physical crack trajectory & process zone annotation
+        pc_dam = build_poly_collection(fnodes, felems, fetypes, edge_lw=0.12)
+        ax_dam.add_collection(pc_dam)
+        
+        # Add visual overlay and text note
+        if case_key == "case_1":
+            ax_dam.plot([0.5, 1.0], [0.5, 0.5], color="#e41a1c", linestyle="--", linewidth=2.0, label="Expected Straight Crack Path")
+            status_text = (
+                "DAMAGE VALIDATION: NOT DEMONSTRATED\n"
+                "--------------------------------------------------\n"
+                "Donor Type: Linear elastic companion stress\n"
+                "Refinement Coverage: Highly localized at tip (x=0.5)\n"
+                "Distal Path (x > 0.65): Unrefined (h ~ 12-18 um > ell_0)\n"
+                "Classification: PARTIAL — LOCALIZED REFINEMENT"
+            )
+            ax_dam.set_title("(d) Process-Zone & Propagation Path Evaluation\nRefinement Concentrated at Tip; Distal Ligament Coarse", fontweight="bold")
+        elif case_key == "case_3":
+            ax_dam.plot([10.0, 36.5], [70.0, 51.0], color="#e41a1c", linestyle="--", linewidth=2.0, label="Primary Path (Notch -> Hole)")
+            ax_dam.plot([36.5, 65.0], [51.0, 51.0], color="#377eb8", linestyle=":", linewidth=2.0, label="Secondary Path (Hole -> Right Edge)")
+            status_text = (
+                "DAMAGE VALIDATION: NOT DEMONSTRATED\n"
+                "--------------------------------------------------\n"
+                "Donor Type: Staggered coupled pre-peak (u=0.105 mm)\n"
+                "Primary Corridor: Moderately refined (h <= ell_0)\n"
+                "Secondary Corridor: UNREFINED (h ~ 400-800 um > ell_0)\n"
+                "Classification: INCONCLUSIVE — INSUFFICIENT EVIDENCE"
+            )
+            ax_dam.set_title("(d) Process-Zone & Propagation Path Evaluation\nSecondary Crack Corridor Insufficiently Resolved", fontweight="bold")
+        elif case_key == "case_4":
+            status_text = (
+                "DAMAGE VALIDATION: NOT DEMONSTRATED\n"
+                "--------------------------------------------------\n"
+                "Donor Type: Authentic coarse phase-field (State 2)\n"
+                "Refinement Coverage: Continuous bridge 1->2->3->4\n"
+                "Forward Adapted Fracture Run: NOT EXECUTED\n"
+                "Classification: PASS — SPATIAL MESH QUALIFIED"
+            )
+            ax_dam.set_title("(d) Process-Zone & Refinement Correspondence\nContinuous Multi-Ligament Refinement Bridge", fontweight="bold")
+        elif case_key == "case_5":
+            status_text = (
+                "DAMAGE VALIDATION: NOT DEMONSTRATED\n"
+                "--------------------------------------------------\n"
+                "Donor Type: Authentic coarse phase-field (u=0.0048 mm)\n"
+                "Refinement Coverage: Concentrated upper ligament (1, 2, 3)\n"
+                "Forward Adapted Fracture Run: NOT EXECUTED\n"
+                "Classification: PASS — SPATIAL MESH QUALIFIED"
+            )
+            ax_dam.set_title("(d) Process-Zone & Refinement Correspondence\nSelective Upper-Ligament Process-Zone Enclosure", fontweight="bold")
+            
+        ax_dam.text(0.04, 0.40, status_text, transform=ax_dam.transAxes, fontsize=8.5,
+                    verticalalignment="top", family="monospace",
+                    bbox=dict(boxstyle="round,pad=0.5", facecolor="#fff3cd", edgecolor="#856404"))
+        if case_key in ["case_1", "case_3"]:
+            ax_dam.legend(loc="upper right", framealpha=0.9, fontsize=8.5)
+
+    ax_dam.set_xlim(xlims)
+    ax_dam.set_ylim(ylims)
+    ax_dam.set_aspect("equal")
+    ax_dam.set_xlabel("x [mm]")
+    ax_dam.set_ylabel("y [mm]")
     
-    plt.tight_layout()
+    fig.suptitle(f"F1736 Standalone Benchmark Reassessment: {cfg['name']}\n(Physical Geometry: [{bb['x_min']:.1f}, {bb['x_max']:.1f}] $\\times$ [{bb['y_min']:.1f}, {bb['y_max']:.1f}] mm, $\\ell_0 = {cfg['ell_0']}$ mm)",
+                 fontsize=13, fontweight="bold", y=0.98)
+    
+    plt.tight_layout(rect=[0, 0, 1, 0.96])
     out_png = os.path.join(FIG_DIR, f"fig_f1736_{case_key}_standalone_mesh.png")
     out_pdf = os.path.join(FIG_DIR, f"fig_f1736_{case_key}_standalone_mesh.pdf")
     fig.savefig(out_png, dpi=300)
     fig.savefig(out_pdf)
     plt.close(fig)
-    print(f"Saved standalone figure for {case_key}: {os.path.relpath(out_png, REPO_ROOT)}")
+    print(f"Saved enhanced 4-panel standalone figure for {case_key}: {os.path.relpath(out_png, REPO_ROOT)}")
 
 def plot_corrected_five_case_comparison():
-    """
-    Renders the corrected 5-case comparative overview figure using authentic final meshes.
-    Layout: 1 row of 5 panels (or 2 rows: 3 on top, 2 on bottom) with consistent styling.
-    """
     fig = plt.figure(figsize=(18, 10))
     gs = fig.add_gridspec(2, 3, wspace=0.25, hspace=0.35)
     
@@ -172,7 +273,15 @@ def plot_corrected_five_case_comparison():
         nodes, elements, elem_types = parse_abaqus_inp(inp_path)
         stats = compute_element_metrics(nodes, elements, elem_types, cfg["ell_0"])
         
-        pc, ratios = build_poly_collection(nodes, elements, elem_types, cfg["ell_0"])
+        ratios_dict = {}
+        for eid, nids in elements.items():
+            coords = np.array([nodes[nid] for nid in nids])
+            x = coords[:, 0]
+            y = coords[:, 1]
+            a = 0.5 * abs(np.sum(x * np.roll(y, -1) - np.roll(x, -1) * y))
+            ratios_dict[eid] = math.sqrt(a) / cfg["ell_0"]
+            
+        pc = build_poly_collection(nodes, elements, elem_types, values=ratios_dict, cmap_name="viridis_r", vmin=0.0, vmax=3.0, edge_lw=0.12)
         ax.add_collection(pc)
         
         bb = stats["bounding_box"]
@@ -189,7 +298,7 @@ def plot_corrected_five_case_comparison():
         title_text = (
             f"({chr(97+idx)}) {cfg['name']}\n"
             f"Authoritative: {stats['num_elements']} el ({stats['quad_percentage']:.1f}% Q) | Pub: {cfg['published_elements']} el\n"
-            f"$\\ell_0 = {cfg['ell_0']}$ mm | $h_{{min}} = {stats['element_size_stats_mm']['min']*1e3:.2f}\\,\\mu$m | $h \\leq \\ell_0$: {stats['compliance']['h_le_ell0']['count_pct']:.1f}%"
+            f"$\\ell_0 = {cfg['ell_0']}$ mm | $h_{{\\min}} = {stats['element_size_stats_mm']['min']*1e3:.2f}\\,\\mu$m | $h \\leq \\ell_0$: {stats['compliance']['h_le_ell0']['count_pct']:.1f}%"
         )
         ax.set_title(title_text, fontsize=9.5, fontweight="bold")
     
@@ -234,14 +343,13 @@ def plot_corrected_five_case_comparison():
     plt.close(fig)
     print(f"Saved corrected five-case comparison figure: {os.path.relpath(out_png, REPO_ROOT)}")
     
-    # Also save copy to figures/ directory for quick viewing
     root_fig_png = os.path.join(REPO_ROOT, "figures", "fig_f1736_five_case_comparison_corrected.png")
     os.makedirs(os.path.dirname(root_fig_png), exist_ok=True)
     import shutil
     shutil.copyfile(out_png, root_fig_png)
 
 def main():
-    print("Generating standalone benchmark figures...")
+    print("Generating enhanced 4-panel standalone benchmark figures...")
     for case_key, cfg in BENCHMARK_CONFIGS.items():
         plot_standalone_figure(case_key, cfg)
     

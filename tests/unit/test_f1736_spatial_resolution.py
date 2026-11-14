@@ -7,7 +7,7 @@ if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
 import pytest
-from scripts.remeshing.audit_f1736_spatial_resolution import audit_all_benchmarks
+from scripts.remeshing.audit_f1736_spatial_resolution import audit_all_benchmarks, parse_abaqus_inp
 from scripts.remeshing.register_f1736_artifacts import main as register_artifacts
 
 def test_f1736_spatial_resolution_audit():
@@ -36,3 +36,16 @@ def test_f1736_artifact_registration():
     assert "DOC_F1736_REASSESSMENT_REPORT" in content
     assert "FIG_F1736_FIVE_CASE_CORRECTED_PNG" in content
     assert "JSON_F1736_SPATIAL_AUDIT" in content
+
+def test_f1736_coarse_meshes():
+    coarse_candidates = [
+        os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "00_aux_continuum_preanalysis", "PK_MODE1_AUX_CONTINUUM.inp"),
+        os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "220_f1729_case2_recovery_datacheck", "PK_HOLE_COMPANION_RECOVERY.inp"),
+        os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "188_pk_sec43_hole_plate", "PK_SEC43_COARSE_PHYS.inp"),
+        os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "209_f1718_five_hole_recovery", "PK_F1718_RECOVERY_PHYS.inp"),
+        os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "218_f1726_seven_hole_study", "PK_F1726_SEVEN_HOLE_COARSE_PHYS.inp")
+    ]
+    for p in coarse_candidates:
+        nodes, elements, _ = parse_abaqus_inp(p)
+        print(f"Coarse mesh {os.path.basename(p)}: {len(elements)} elements, {len(nodes)} nodes")
+        assert os.path.exists(p)
