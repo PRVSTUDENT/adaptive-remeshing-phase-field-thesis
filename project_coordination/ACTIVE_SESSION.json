@@ -1,11 +1,11 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "f1730-case2-recovery-solve-session-001",
-  "task_id": "F1730-CASE2-COMPANION-RECOVERY-SOLVE",
-  "started_at": "2026-11-14T00:47:00+01:00",
-  "completed_at": "2026-11-14T01:03:00+01:00",
-  "starting_commit": "bde9e29d3cfbe241315b746816174bb05fcb8b2e",
+  "session_id": "f1730-case2-spr-investigation-session-001",
+  "task_id": "F1730-CASE2-SPR-DOMAIN-INVESTIGATION",
+  "started_at": "2026-11-14T01:07:30+01:00",
+  "completed_at": null,
+  "starting_commit": "3d997f5050a163386cf2f22c7d6813e16e23dae3",
   "allowed_write_scope": [
     "project_coordination/**",
     "models/pandey_kumar_mode1/**",
@@ -14,11 +14,7 @@
     "tests/unit/**",
     "docs/validation/**",
     "results/validation/**",
-    "figures/**",
-    "MA_AdaptiveRemeshing_Report_2026/**",
-    ".agents/**",
-    "configs/remeshing/**",
-    "runs/hpc/**"
+    ".agents/**"
   ],
-  "notes": "Task F1730: Case 2 Companion Degraded Cauchy Stress Recovery HPC Abaqus Solve & MISESERI Audit. Bounded solve of PK_HOLE_COMPANION_RECOVERY.inp on cluster to evaluate static force equilibrium and recovered MISESERI/MISESAVG fields."
+  "notes": "Task F1730: Targeted Offline Investigation of Finding F1730-R01 (SPR Error Recovery Validity Across 13 Material-Section Interfaces, Spatial Correlation with Material-Bin Boundaries, and Minimal Corrective Implementation)."
 }

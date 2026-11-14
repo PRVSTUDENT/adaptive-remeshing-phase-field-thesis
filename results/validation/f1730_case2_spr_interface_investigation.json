@@ -1,0 +1,96 @@
+{
+  "task_id": "F1730-CASE2-SPR-DOMAIN-INVESTIGATION",
+  "benchmark": "Case 2 (Single Off-Axis Hole Plate)",
+  "finding_addressed": "F1730-R01",
+  "mesh_inventory": {
+    "total_elements": 2906,
+    "total_nodes": 3010,
+    "interface_elements_count": 433,
+    "interior_elements_count": 2473,
+    "total_material_sections": 13
+  },
+  "statistics": {
+    "primary_damage_component": {
+      "count": 37,
+      "mean": 245.52521906672297,
+      "std": 223.6099140341102,
+      "min": 21.264347076416016,
+      "max": 1357.8486328125,
+      "median": 175.26197814941406
+    },
+    "all_damaged_elements": {
+      "count": 48,
+      "mean": 210.6776099205017,
+      "std": 206.89246606182886,
+      "min": 21.264347076416016,
+      "max": 1357.8486328125,
+      "median": 157.65969848632812
+    },
+    "hole_boundary_ligament": {
+      "count": 6,
+      "mean": 141.2479019165039,
+      "std": 45.26445319286255,
+      "min": 64.96129608154297,
+      "max": 217.3209228515625,
+      "median": 141.12419891357422
+    },
+    "damaged_zone_interface_elements": {
+      "count": 48,
+      "mean": 210.6776099205017,
+      "std": 206.89246606182886,
+      "min": 21.264347076416016,
+      "max": 1357.8486328125,
+      "median": 157.65969848632812
+    },
+    "damaged_zone_interior_elements": {
+      "count": 0,
+      "mean": 0.0,
+      "std": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "median": 0.0
+    },
+    "bulk_interface_elements": {
+      "count": 385,
+      "mean": 53.34342820984977,
+      "std": 63.09976310850005,
+      "min": 2.6965320110321045,
+      "max": 610.9271240234375,
+      "median": 31.52341079711914
+    },
+    "pure_homogeneous_intact_bulk": {
+      "count": 1516,
+      "mean": 10.100459191112687,
+      "std": 16.351750042806373,
+      "min": 0.41564956307411194,
+      "max": 211.13250732421875,
+      "median": 5.970582485198975
+    },
+    "uncracked_ligament_corridor": {
+      "count": 42,
+      "mean": 127.27389739808582,
+      "std": 68.01288604212503,
+      "min": 23.584997177124023,
+      "max": 318.8113708496094,
+      "median": 110.96650314331055
+    },
+    "all_bulk_elements": {
+      "count": 2858,
+      "mean": 16.62528135332926,
+      "std": 30.645246576563142,
+      "min": 0.41564956307411194,
+      "max": 610.9271240234375,
+      "median": 7.960723876953125
+    }
+  },
+  "correlations": {
+    "r_miseseri_vs_damage_d": 0.8554937866374912,
+    "r_miseseri_vs_modulus_jump_damaged": 0.8335076196278681,
+    "r_miseseri_vs_modulus_jump_bulk": 0.6317149273411565
+  },
+  "assessment": {
+    "physical_localization_confirmed": true,
+    "bulk_interface_artifact_negligible": false,
+    "spr_section_homogeneity_finding": "Detailed in investigation report"
+  }
+}
