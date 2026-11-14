@@ -1,0 +1,34 @@
+﻿{
+  "primary_corridor": {
+    "element_count": 623, 
+    "h_le_l0_half": true, 
+    "mean_h_mm": 0.21042534704678356, 
+    "min_h_mm": 0.08666521575425705
+  }, 
+  "finding_F1746_R01_demonstrated": true, 
+  "background_domain": {
+    "element_count": 119592, 
+    "mean_h_mm": 0.243384658343839
+  }, 
+  "adapted_element_count": 120554, 
+  "envelope_mean_eta": 0.12241043334735212, 
+  "envelope_max_eta": 15.708568115234375, 
+  "fields_verified": [
+    "EVOL", 
+    "MISESAVG", 
+    "MISESERI"
+  ], 
+  "donor_odb": "/scratch9/pr21vyci/runs/mode1_pk_f1746_case3_envelope_remesh/PK_SEC43_5STATE_ENVELOPE_DONOR.odb", 
+  "misesavg_uniform_mpa": 100.0, 
+  "native_sizing_ordering_preserved": false, 
+  "field_positions": "WHOLE_ELEMENT", 
+  "envelope_min_eta": 0.000612870454788208, 
+  "secondary_corridor": {
+    "element_count": 339, 
+    "h_le_l0_half": true, 
+    "mean_h_mm": 0.2483767036663698, 
+    "min_h_mm": 0.10728789896865715
+  }, 
+  "adapted_node_count": 119811, 
+  "probe_status": "PASS"
+}

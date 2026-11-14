@@ -1,19 +1,21 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "f1745-case3-5state-envelope-001",
-  "task_id": "F1745-CASE3-5STATE-ENVELOPE-QUALIFICATION",
-  "started_at": "2026-11-14T19:25:00+01:00",
-  "completed_at": "2026-11-14T19:45:00+01:00",
-  "starting_commit": "abb7b46a",
+  "session_id": "f1746-case3-5state-remesh-001",
+  "task_id": "F1746-CASE3-5STATE-ENVELOPE-EXECUTION",
+  "started_at": "2026-11-14T19:50:00+01:00",
+  "completed_at": "2026-11-14T20:57:00+01:00",
+  "starting_commit": "b4387135",
   "allowed_write_scope": [
     "project_coordination/**",
     ".agents/**",
     "docs/validation/**",
     "results/validation/**",
+    "results/figures/**",
+    "models/pandey_kumar_mode1/231_f1746_case3_envelope_remesh/**",
     "models/**",
     "scripts/**",
     "tests/unit/**"
   ],
-  "notes": "Task F1745: Zero-PBS offline qualification of Case 3 unified 5-state error-indicator envelope heuristic, reconciling 3923 vs 3979 mesh discrepancy, denominator bounds, and PBS 20-25 accounting per HND-F1744-CASE3-CLOSEOUT-001."
+  "notes": "Task F1746: Staging and execution qualification of Case 3 single-pass 5-state envelope native adaptive remeshing on HPC, addressing findings F1745-R01 to R07, with zero-PBS forensic audit resolving F1746-R01 to R04."
 }
