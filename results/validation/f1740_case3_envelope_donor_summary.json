@@ -1,0 +1,15 @@
+{
+  "donor_state_primary": "PK_SEC43_PRESCRIBED_STATE2.odb",
+  "donor_state_secondary": "PK_SEC43_PRESCRIBED_STATE4.odb",
+  "output_odb": "PK_SEC43_MULTISTATE_ENVELOPE_DONOR.odb",
+  "element_count": 3923,
+  "primary_dominated_elements": 2248,
+  "secondary_dominated_elements": 1675,
+  "reference_stress_S_ref_MPa": 100.0,
+  "max_eta_primary": 31162.194924260126,
+  "max_eta_secondary": 31518.58856575896,
+  "max_eta_envelope": 31518.58856575896,
+  "mean_eta_envelope": 69.92505744332946,
+  "formula": "MISESERI_env = max(eta2, eta4) * S_ref, MISESAVG_env = S_ref",
+  "sizing_implication": "h_new_env = min(h_new_2, h_new_4) exactly under native UNIFORM_ERROR"
+}
