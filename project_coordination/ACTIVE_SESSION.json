@@ -1,11 +1,11 @@
 {
   "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "f1732-case2-calibrated-mesh-session-001",
-  "task_id": "F1732-CASE2-ADAPTIVE-REMESH-CALIBRATION",
-  "started_at": "2026-11-14T01:42:00+01:00",
+  "session_id": "f1733-case2-distal-ligament-session-001",
+  "task_id": "F1733-CASE2-DISTAL-LIGAMENT-QUALIFICATION",
+  "started_at": "2026-11-14T01:55:00+01:00",
   "completed_at": null,
-  "starting_commit": "2430c4c2",
+  "starting_commit": "f246748a",
   "allowed_write_scope": [
     "project_coordination/**",
     "models/pandey_kumar_mode1/**",
@@ -17,5 +17,5 @@
     "figures/**",
     ".agents/**"
   ],
-  "notes": "Task F1732: Case 2 Calibrated Native Abaqus Remeshing Experiment (eta = 3.80%) & Along-Path Spatial Verification using Provisional Donor PK_HOLE_COMPANION_RECOVERY.odb."
+  "notes": "Task F1733: Case 2 Distal Ligament Spatial Qualification and Datacheck Provenance Audit resolving Findings F1732-R01 to F1732-R07."
 }
