@@ -23,6 +23,14 @@ Live telemetry confirms:
 - **Energy Balance Validated:** `uel_energy_balance.csv` written incrementally by Fortran `UEXTERNALDB`; strictly monotonic increase in elastic strain energy ($E_{\text{elastic}} = 0.9517\times 10^{-4}\,\text{kN}\cdot\text{mm}$ at Inc 13) and diffuse fracture dissipation ($E_{\text{fracture}} = 0.1659\times 10^{-6}\,\text{kN}\cdot\text{mm}$).
 - **Single-Rank Serial Determinism:** 1-CPU serial execution guarantees 100% race-free element state transfer across `COMMON /CB_STATE_TRANS/` between Layer 1, Layer 2, and Layer 3.
 
+### 1.1 Intermediate Telemetry (03:44 CET, Step 2 Inc 76)
+
+- **Step 1 Completed:** 50/50 increments converged with zero cutbacks to $u_y = 0.005\,\text{mm}$.
+- **Initial Structural Stiffness ($K_0$):** $K_0 = 113.02\,\text{kN/mm}$ extracted from $N=5$ initial elastic increments ($u_y \le 0.0005\,\text{mm}$), in full agreement with the increased compliance of the off-axis hole geometry vs solid plate ($137.95\,\text{kN/mm}$).
+- **Step 2 Softening Progression:** Advanced to Increment 76 ($u_y = 0.00606\,\text{mm}$, step time 0.152).
+- **Strain Energy Release Verified:** At Step 2 Incs 56–62 ($u_y \sim 0.0058\,\text{mm}$), $E_{\text{elastic}}$ dropped from $1.307\times 10^{-3}$ to $1.186\times 10^{-3}\,\text{kN}\cdot\text{mm}$ while $E_{\text{fracture}}$ surged monotonically from $0.5186\times 10^{-3}$ to $0.6790\times 10^{-3}\,\text{kN}\cdot\text{mm}$, confirming stable physical crack propagation with zero solver divergence.
+- **Convergence Behavior:** 3 to 4 equilibrium iterations per increment, zero cutbacks, zero severe discontinuities.
+
 ---
 
 ## 2. PBS Accounting and Job Ledger Audit
