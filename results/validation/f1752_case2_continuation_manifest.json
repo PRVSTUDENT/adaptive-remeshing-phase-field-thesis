@@ -5,9 +5,9 @@
   "continuation_architecture": "FULL_RERUN_ON_UNCHANGED_23965_ELEMENT_MESH",
   "restart_audit": {
     "status": "DISQUALIFIED",
-    "technical_reason": "f42_mixed_uel.for line 132 restricts SV_H_COMMITTED and SV_H_TRIAL initialization in Fortran COMMON blocks strictly to KSTEP == 1 and KINC <= 1. Standard Abaqus restart at Step 2 begins with COMMON block arrays zeroed in memory, losing all historical maximum strain energy and damage driving variables across all 71,895 layered elements. Because modifying the frozen production UEL is strictly prohibited by governance, a controlled full rerun on the unchanged mesh is the sole technically valid and reproducible continuation route.",
+    "technical_reason": "In the bitwise frozen UEL f42_mixed_uel.for, SV_H_COMMITTED and SV_H_TRIAL initialization in Fortran COMMON blocks is strictly guarded at line 249 by IF (KSTEP .EQ. 1 .AND. KINC .LE. 1). When an Abaqus restart analysis begins at Step 2 (KSTEP=2), this block is bypassed, while UEXTERNALDB(LOP=0) at lines 88-101 explicitly zeroes out all SV_H_COMMITTED arrays. Consequently, history fields remain 0.0D0 in memory across all elements, destroying irreversibility and causing unphysical crack healing. Because modifying the frozen production UEL is strictly prohibited by governance, full rerun on the unchanged 23,965-element mesh is the sole technically valid and reproducible continuation route.",
     "affected_common_blocks": [
-      "COMMON /CB_STATE_TRANS/ SV_PHASE_COMMITTED, SV_PHASE_TRIAL, SV_H_COMMITTED, SV_H_TRIAL, SV_DET_J_COMMITTED"
+      "COMMON /CB_STATE_TRANS/ SV_PHASE_COMMITTED, SV_PHASE_TRIAL, SV_H_COMMITTED, SV_H_TRIAL, SV_E_FRAC, SV_E_ELAS, SV_PSI_F, SV_PSI_E"
     ]
   },
   "production_deck": {
@@ -16,9 +16,10 @@
     "parent_deck": "models/pandey_kumar_mode1/224_f1734_case2_distal_refinement/PK_F1728_CASE_2_PROD.inp",
     "parent_deck_sha256": "805af9d80126588c1a3e39fe3b5f7a0f53db606106f2dbfe6260f1e1fbddbf94",
     "physical_elements": 23965,
-    "physical_nodes": 23957,
+    "physical_mesh_nodes": 23957,
+    "reference_point_nodes": 1,
+    "total_deck_nodes": 23958,
     "layered_production_elements": 71895,
-    "layered_production_nodes": 23958,
     "quadrilateral_fraction_pct": 97.23,
     "min_signed_jacobian": 1.695279e-07,
     "max_aspect_ratio": 2.51,
@@ -50,7 +51,15 @@
       "max_increments": 20000,
       "procedure": "*STATIC, NLGEOM=NO"
     },
-    "parameter_diff_summary": "Strictly 1 line modified (line 96209): min_increment relaxed from 1.0e-8 to 1.0e-11. Initial dt (0.002), max dt (0.002), max increments (20000), boundary conditions, material constants, geometry, and mesh are 100% bitwise preserved. Zero artificial numerical damping, zero artificial viscosity, zero altered convergence tolerances."
+    "parameter_diff_summary": "Verified exact byte-level diff: strictly 1 line modified (line 96209). Initial increment is positive 0.002 in both files; only min_increment changes from 1.0e-8 to 1.0e-11. Max increment (0.002), max increments (20000), boundary conditions, material constants, geometry, and mesh are 100% bitwise preserved. Zero artificial damping, zero modified tolerances."
+  },
+  "reference_benchmarks": {
+    "case2_adapted_peak_force_kn": 0.57168154,
+    "case2_adapted_peak_force_n": 571.68,
+    "case2_adapted_peak_displacement_mm": 0.00696,
+    "load_drop_75pct_target_kn": 0.14292,
+    "coarse_preanalysis_peak_force_kn": 0.548802,
+    "reconciliation_note": "Reconciled peak force provenance: 0.57168 kN is the authentic peak force of the Case 2 adapted fracture simulation (Job 1423271); 0.5488 kN belongs to the unadapted coarse pre-analysis. The 75% load drop criterion evaluates strictly against 0.57168 kN."
   },
   "datacheck_receipt": {
     "exit_code": 0,
@@ -72,17 +81,61 @@
     "resource_basis": "Empirical solver performance from Job 1423271 established 252 converged increments in 2,472s wallclock (1,690s CPU) on 1 core with peak memory < 2 GB. Estimating completion of remaining post-peak increments at 3,600-5,400s, a 3-hour (10,800s) allocation with 8 GB RAM in queue normal_imfdfkmq provides a bounded 2x-3x safety envelope without overloading cluster resources."
   },
   "predeclared_stop_conditions": {
-    "condition_1_cutbacks": "Abort if solver encounters > 50 consecutive cutbacks in Step 2.",
-    "condition_2_rate_stagnation": "Abort if displacement advance rate Delta uy < 1.0e-7 mm across 10 consecutive increments.",
-    "condition_3_walltime": "Abort if execution walltime exceeds 10,800 seconds (3 hours).",
-    "condition_4_damage_bounds": "Abort if any integration point reports nonphysical damage d < -1.0e-5 or d > 1.02."
+    "condition_1_cutbacks": {
+      "threshold": "> 50 consecutive cutbacks in Step 2",
+      "enforcement_mechanism": "LIVE_RUNTIME_MONITOR_DAEMON",
+      "monitoring_script": "scripts/hpc/monitor_case2_cutbacks.py",
+      "action": "Daemon polls .sta every 5s; terminates Abaqus solver process via 'abaqus terminate' if consecutive cutbacks reach 50."
+    },
+    "condition_2_rate_stagnation": {
+      "threshold": "Delta uy < 1.0e-7 mm across 10 consecutive increments",
+      "enforcement_mechanism": "AUTOMATED_POST_RUN_AUDIT_FILTER",
+      "action": "Classification rejected as STAGNATED if displacement advance rate fails threshold."
+    },
+    "condition_3_walltime": {
+      "threshold": "10,800 seconds (3 hours)",
+      "enforcement_mechanism": "PBS_SCHEDULER_HARD_LIMIT",
+      "action": "PBS automatically terminates job upon reaching walltime ceiling."
+    },
+    "condition_4_damage_bounds": {
+      "threshold": "d < -1.0e-5 or d > 1.02",
+      "enforcement_mechanism": "AUTOMATED_POST_RUN_AUDIT_FILTER",
+      "action": "Classification rejected as UNPHYSICAL_DAMAGE if any integration point violates bounds."
+    }
   },
   "predeclared_physical_acceptance_gates": {
-    "gate_1_energy_monotonicity": "Integrated fracture dissipation E_frac must satisfy monotonicity E_frac(t_{n+1}) >= E_frac(t_n) - 1.0e-6 kJ.",
-    "gate_2_damage_bounds": "Damage field must satisfy strict physical bounds 0 <= d <= 1.0004 across all converged increments.",
-    "gate_3_secondary_propagation": "Secondary crack front with d >= 0.90 must advance beyond the initiation locus (x = 0.9031 mm) across the distal ligament toward the specimen boundary.",
-    "gate_4_load_drop": "Global reaction force RF2 must exhibit post-peak softening with total load drop >= 75% relative to peak force (F_max ~ 0.548 kN).",
-    "gate_5_resolution_classification": "Secondary process-zone resolution must be explicitly evaluated and reported as PARTIAL vs FULL vs SPATIALLY_QUALIFIED based on along-path h <= l0/2 compliance."
+    "gate_1_energy_monotonicity": {
+      "criterion": "E_frac(t_{n+1}) >= E_frac(t_n) - 1.0e-6 kJ",
+      "description": "Global fracture dissipation monotonicity."
+    },
+    "gate_2_damage_bounds": {
+      "criterion": "0 <= d <= 1.0004 across all elements and frames",
+      "description": "Physical phase-field bounds."
+    },
+    "gate_3_pointwise_damage_irreversibility": {
+      "criterion": "min_{e,n} (d_e^{(n+1)} - d_e^{(n)}) >= -1.0e-5",
+      "description": "Strict pointwise damage irreversibility across all 23,965 physical elements and all consecutive converged increment pairs."
+    },
+    "gate_4_pointwise_history_monotonicity": {
+      "criterion": "min_{e,n} (H_e^{(n+1)} - H_e^{(n)}) >= -1.0e-6 MPa",
+      "description": "Strict pointwise history variable monotonicity across all elements and consecutive increments."
+    },
+    "gate_5_secondary_propagation": {
+      "criterion": "d >= 0.90 extends past x = 0.9031 mm",
+      "description": "Secondary crack extension through the distal ligament."
+    },
+    "gate_6_load_drop": {
+      "criterion": "F_final <= 0.14292 kN (>= 75% load drop relative to F_max = 0.57168 kN)",
+      "description": "Substantial post-peak softening."
+    },
+    "gate_7_resolution_classification": {
+      "criterion": "Explicit reporting of secondary front resolution as PARTIAL vs FULL vs SPATIALLY_QUALIFIED",
+      "description": "Rigorous along-path mesh resolution classification."
+    }
+  },
+  "checkpoint_parity_hypotheses": {
+    "hypothesis_1_parity": "At increment 252 (predecessor termination point), the full rerun will match Job 1423271 within strict tolerances: global force delta <= 0.01%, displacement delta <= 1.0e-6 mm, peak force delta <= 0.01%.",
+    "hypothesis_2_continuation": "Relaxing min_increment from 1.0e-8 to 1.0e-11 provides the cutback resolution needed to overcome the DOF 3 damage correction divergence at Node 8056 and continue fracture propagation through the secondary ligament."
   },
   "governance": {
     "pbs_jobs_consumed_under_f1752": 0,

@@ -6,7 +6,7 @@
     "assigned_agent": "gemini-antigravity",
     "active_pbs_job_id": null,
     "checkpoint_artifact": "docs/validation/F1752_CASE2_CONTINUATION_PREFLIGHT_REPORT.md",
-    "review_directive": "HND-F1751-CASE2-READINESS-001",
+    "review_directive": "HND-F1752-CASE2-PREFLIGHT-001",
     "predecessor_task": {
         "task_id": "F1751-CASE2-METHOD-A-DAMAGE-RESOLUTION-AND-CONTINUATION-READINESS",
         "checkpoint_artifact": "docs/validation/F1751_CASE2_METHOD_A_READINESS_REPORT.md",
@@ -14,6 +14,7 @@
         "review_verdict": "APPROVE",
         "correlation_id": "HND-F1751-CASE2-READINESS-001"
     },
+    "re_review_correlation_id": "HND-F1752-CASE2-PREFLIGHT-002",
     "scientific_operation": "case2_continuation_execution_preflight",
     "scientific_operation_id": "f1752_case2_preflight_001",
     "scientific_checkpoint_required": true,

@@ -14,6 +14,7 @@ F1752_DIR = REPO_ROOT / "models" / "pandey_kumar_mode1" / "234_f1752_case2_conti
 PARENT_DIR = REPO_ROOT / "models" / "pandey_kumar_mode1" / "224_f1734_case2_distal_refinement"
 MANIFEST_PATH = REPO_ROOT / "results" / "validation" / "f1752_case2_continuation_manifest.json"
 REPORT_PATH = REPO_ROOT / "docs" / "validation" / "F1752_CASE2_CONTINUATION_PREFLIGHT_REPORT.md"
+MONITOR_PATH = REPO_ROOT / "scripts" / "hpc" / "monitor_case2_cutbacks.py"
 
 EXPECTED_UEL_HASH = "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6"
 EXPECTED_DECK_HASH = "ccb35b34bfae015ea4846d3d0765fc2646e6c9af47958f8c21a0a4f25a14cc4a"
@@ -63,8 +64,27 @@ def test_exact_one_line_diff():
 
     diff_idx = diff_indices[0]
     assert diff_idx == 96208, f"Expected difference at line 96209 (index 96208), found index {diff_idx}"
-    assert "1.0e-8" in parent_lines[diff_idx], f"Parent line missing 1.0e-8: {parent_lines[diff_idx]}"
-    assert "1.0e-11" in cont_lines[diff_idx], f"Continuation line missing 1.0e-11: {cont_lines[diff_idx]}"
+
+    p_line = parent_lines[diff_idx].strip()
+    c_line = cont_lines[diff_idx].strip()
+
+    # Parse tokens
+    p_tokens = [t.strip() for t in p_line.split(",")]
+    c_tokens = [t.strip() for t in c_line.split(",")]
+
+    # Token 1 must be identical positive 0.002
+    assert p_tokens[0] == "0.002", f"Parent token 1 not 0.002: {p_tokens[0]}"
+    assert c_tokens[0] == "0.002", f"Cont token 1 not 0.002: {c_tokens[0]}"
+
+    # Token 2 must be identical positive 1.0
+    assert p_tokens[1] == "1.0" and c_tokens[1] == "1.0"
+
+    # Token 3 is relaxed
+    assert p_tokens[2] == "1.0e-8"
+    assert c_tokens[2] == "1.0e-11"
+
+    # Token 4 is identical positive 0.002
+    assert p_tokens[3] == "0.002" and c_tokens[3] == "0.002"
 
 
 def test_manifest_structure_and_datacheck():
@@ -93,23 +113,45 @@ def test_manifest_structure_and_datacheck():
 
     # Stop conditions
     stop = data["predeclared_stop_conditions"]
-    assert "50" in stop["condition_1_cutbacks"]
-    assert "1.0e-7" in stop["condition_2_rate_stagnation"]
-    assert "10,800" in stop["condition_3_walltime"]
+    assert "50" in stop["condition_1_cutbacks"]["threshold"]
+    assert stop["condition_1_cutbacks"]["enforcement_mechanism"] == "LIVE_RUNTIME_MONITOR_DAEMON"
+    assert "1.0e-7" in stop["condition_2_rate_stagnation"]["threshold"]
+    assert "10,800" in stop["condition_3_walltime"]["threshold"]
 
     # Acceptance gates
     gates = data["predeclared_physical_acceptance_gates"]
     assert "gate_1_energy_monotonicity" in gates
     assert "gate_2_damage_bounds" in gates
-    assert "gate_3_secondary_propagation" in gates
-    assert "gate_4_load_drop" in gates
-    assert "gate_5_resolution_classification" in gates
+    assert "gate_3_pointwise_damage_irreversibility" in gates
+    assert "gate_4_pointwise_history_monotonicity" in gates
+    assert "gate_5_secondary_propagation" in gates
+    assert "gate_6_load_drop" in gates
+    assert "gate_7_resolution_classification" in gates
+
+    # Node count reconciliation
+    deck_meta = data["production_deck"]
+    assert deck_meta["physical_mesh_nodes"] == 23957
+    assert deck_meta["reference_point_nodes"] == 1
+    assert deck_meta["total_deck_nodes"] == 23958
+
+    # Peak force reconciliation
+    bench = data["reference_benchmarks"]
+    assert abs(bench["case2_adapted_peak_force_kn"] - 0.57168154) < 1.0e-5
+    assert abs(bench["load_drop_75pct_target_kn"] - 0.14292) < 1.0e-4
 
     # Governance
     gov = data["governance"]
     assert gov["pbs_jobs_consumed_under_f1752"] == 0
     assert gov["cumulative_historical_pbs_submissions"] == 25
     assert gov["pbs_submissions_requested_for_continuation"] == 1
+
+
+def test_monitor_script_exists():
+    """Verify live cutback monitor daemon script exists."""
+    assert MONITOR_PATH.is_file(), f"Missing monitor script: {MONITOR_PATH}"
+    content = MONITOR_PATH.read_text(encoding="utf-8")
+    assert "consecutive_cutbacks" in content
+    assert "terminate" in content
 
 
 def test_preflight_report_sections():
@@ -123,6 +165,9 @@ def test_preflight_report_sections():
     assert "1.0e-11" in content
     assert "Exit Code 0" in content
     assert "10,800" in content
-    assert "Stop Condition 1" in content
+    assert "monitor_case2_cutbacks.py" in content
+    assert "0.57168" in content
+    assert "23,957" in content
+    assert "23,958" in content
     assert "Gate 1" in content
-    assert "HND-F1751-CASE2-READINESS-001" in content
+    assert "HND-F1752-CASE2-PREFLIGHT-001" in content

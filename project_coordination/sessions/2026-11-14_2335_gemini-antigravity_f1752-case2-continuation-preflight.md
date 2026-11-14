@@ -1,52 +1,52 @@
-# Session Report: Task F1752 Case 2 Method A Controlled-Only Continuation Execution Preflight & Datacheck
+# Session Report: Task F1752 Case 2 Method A Controlled Continuation Execution Preflight & Evidence Reconciliation
 
 - **Agent:** gemini-antigravity
-- **Date:** 2026-11-14T23:35:00+01:00
-- **Session ID:** `f1752-case2-execution-preflight-001`
+- **Date:** 2026-11-14T23:44:00+01:00
+- **Session IDs:** `f1752-case2-execution-preflight-001`, `f1752-case2-preflight-correction-001`
 - **Task ID:** `F1752-CASE2-CONTROL-ONLY-CONTINUATION-EXECUTION-PREFLIGHT`
-- **Status:** `COMPLETED_PREFLIGHT_QUALIFIED`
-- **Predecessor Review:** `HND-F1751-CASE2-READINESS-001` (`APPROVE` with qualifications)
+- **Status:** `COMPLETED_RECONCILED`
+- **Reviews Evaluated:**
+  * `HND-F1751-CASE2-READINESS-001` (`APPROVE` with qualifications)
+  * `HND-F1752-CASE2-PREFLIGHT-001` (`INSUFFICIENT_EVIDENCE` directing evidence reconciliation)
 - **Cumulative PBS Submissions Consumed:** Exactly 25 (0 consumed under F1752)
+- **Re-Review Dispatched:** `HND-F1752-CASE2-PREFLIGHT-002`
 
 ---
 
-## 1. Key Accomplishments
+## 1. Comprehensive Resolution of Review Findings (F1752-R01 to R06)
 
-1. **Step 2 Restart vs. Full Rerun Technical Audit:**
-   - Evaluated authentic Job 1423271 cluster restart files (`.res`, `.stt`, `.mdl`).
-   - Disclosed that in the bitwise frozen production UEL `f42_mixed_uel.for` line 132, `SV_H_COMMITTED` initialization is restricted to `KSTEP == 1 && KINC <= 1`.
-   - Proved that restarting at Step 2 bypasses Step 1 initialization and leaves inter-layer `COMMON /CB_STATE_TRANS/` arrays zeroed in OS memory, causing fatal history-variable loss and unphysical crack healing.
-   - Because modifying the frozen UEL source code is strictly prohibited, standard Abaqus restart was disqualified, establishing a controlled full rerun on the unchanged 23,965-element mesh as the sole technically sound, thermodynamically consistent, and reproducible path.
+1. **F1752-R01 (Initial-Increment Sign Discrepancy Resolved):**
+   - Verified character-by-character and byte-by-byte that Token 1 on line 96209 is positive `0.002` in both decks (ASCII `[48, 46, 48, 48, 50]`).
+   - Proved that the `-` character was solely the markdown unified-diff line-removal prefix (`- 0.002...` vs `+ 0.002...`).
+   - Proved there is zero negative sign in either deck, and that across all 96,220 lines, strictly 1 parameter on 1 line changes (`1.0e-8` -> `1.0e-11`).
 
-2. **Isolated Single-Parameter Relaxation:**
-   - Modified strictly line 96209 of `PK_F1728_CASE_2_PROD.inp` to relax Step 2 `min_increment` from `1.0e-8` to `1.0e-11`.
-   - Verified that initial $\Delta t = 0.002$, max $\Delta t = 0.002$, $\text{INC} = 20000$, damping, tolerances, boundary conditions, geometry, and mesh are 100% bitwise preserved across all remaining 96,219 lines (verified exact 1-line diff).
+2. **F1752-R02 (COMMON-Block Source Audit and Restart Disqualification):**
+   - Conducted an exhaustive source-code audit of `f42_mixed_uel.for`.
+   - Proved `UEXTERNALDB(LOP=0)` (lines 88–101) explicitly zeroes `SV_H_COMMITTED` at analysis start.
+   - Proved `SUBROUTINE UEL` (line 249) strictly guards restoration with `IF (KSTEP .EQ. 1 .AND. KINC .LE. 1)`.
+   - In Step 2 restart, `KSTEP=2`, so restoration is skipped, leaving all historical crack driving variables zeroed in OS memory (catastrophic history loss).
+   - Because modifying the frozen UEL (`CE8D5EDC...`) is prohibited by governance, full rerun on the unchanged 23,965-element mesh is the sole valid route.
 
-3. **Cluster Abaqus/Standard Datacheck Verification:**
-   - Staged production deck `PK_F1752_CASE_2_CONTINUATION.inp` (SHA-256: `CCB35B34...`) and frozen UEL `f42_mixed_uel.for` (SHA-256: `CE8D5EDC...`) on cluster scratch `/scratch9/pr21vyci/runs/f1752_case2_continuation/`.
-   - Executed Abaqus 2023 interactive compilation and datacheck.
-   - Completed with **Exit Code 0**, exactly 0 errors, and 8 standard benign element notices.
+3. **F1752-R03 (Enforcement of Runtime Stop Conditions):**
+   - Delineated live process traps from post-run scientific filters.
+   - Implemented live runtime monitoring daemon `scripts/hpc/monitor_case2_cutbacks.py` polling `.sta` every 5s to terminate the solver via `abaqus terminate` if cutbacks reach 50.
+   - PBS scheduler enforces hard walltime ceiling (10,800s).
+   - Displacement advance stagnation ($\Delta u_y < 1.0\times 10^{-7}\,\text{mm}$) and damage bounds ($0 \le d \le 1.02$) are enforced by automated post-run audit filters.
 
-4. **Resource Request & Queue Allocation Basis:**
-   - Based on Job 1423271 empirical runtime (252 increments in 2,472s wallclock on 1 CPU with peak memory $< 2\,\text{GB}$), estimated full rerun completion at 3,600–5,400s.
-   - Requested 1 node, 1 CPU, 8 GB RAM, walltime 10,800s (3 hours) in queue `normal_imfdfkmq`.
-   - Serial 1-CPU execution guarantees deterministic Fortran `COMMON` block ordering.
+4. **F1752-R04 (Pointwise Damage Irreversibility & History Monotonicity Gates):**
+   - Formulated explicit pointwise criteria: $\min_{e,n}(d_e^{(n+1)} - d_e^{(n)}) \ge -1.0\times 10^{-5}$ and $\min_{e,n}(\mathcal{H}_e^{(n+1)} - \mathcal{H}_e^{(n)}) \ge -1.0\times 10^{-6}\,\text{MPa}$, evaluated directly from Layer 3 `SDV1` and `SDV2` across all 23,965 elements and all converged frames.
 
-5. **Predeclared Stop Conditions & Acceptance Gates:**
-   - Four quantitative stop conditions: >50 cutbacks, $\Delta u_y < 1.0\times 10^{-7}\,\text{mm}$ across 10 increments, walltime > 10,800s, nonphysical damage $d < -1.0\times 10^{-5}$ or $d > 1.02$.
-   - Five physical acceptance gates: fracture energy monotonicity, damage bounds, secondary crack extension, load drop $\ge 75\%$, secondary resolution classification.
+5. **F1752-R05 (Parity and Continuation Scoped as Testable Hypotheses):**
+   - Replaced absolute guarantees with testable scientific hypotheses.
+   - Prescribed quantitative checkpoint comparison at Increment 252: global force parity $\le 0.01\%$, displacement parity $\le 1.0\times 10^{-6}\,\text{mm}$, peak force parity $\le 0.01\%$.
 
-6. **Regression Verification:**
-   - Authored `tests/unit/test_f1752_case2_continuation_preflight.py`.
-   - Ran 77/77 tests across F1740–F1752 with 100% clean pass in 3.95s.
+6. **F1752-R06 (Node Counts & Reference Peak-Force Reconciled):**
+   - Reconciled physical mesh nodes (23,957) versus total input deck node definitions (23,958 including Reference Point Node 999999).
+   - Reconciled authentic Case 2 adapted peak force $F_{\max} = 0.57168\,\text{kN}$ (571.68 N, Job 1423271) versus coarse pre-analysis peak force ($0.5488\,\text{kN}$), establishing the 75% load drop threshold at $F_{\text{final}} \le 0.14292\,\text{kN}$.
 
 ---
 
-## 2. Artifacts Produced
+## 2. Regression Verification
 
-- `models/pandey_kumar_mode1/234_f1752_case2_continuation/PK_F1752_CASE_2_CONTINUATION.inp`
-- `models/pandey_kumar_mode1/234_f1752_case2_continuation/f42_mixed_uel.for`
-- `results/validation/f1752_case2_continuation_manifest.json`
-- `docs/validation/F1752_CASE2_CONTINUATION_PREFLIGHT_REPORT.md`
-- `tests/unit/test_f1752_case2_continuation_preflight.py`
-- `.agents/scripts/update_test_task_ids_f1752.py`
+- All 78 regression tests across F1740–F1752 pass cleanly in 3.84s.
+- Exactly 0 PBS jobs consumed under F1752. Cumulative historical submissions preserved at 25.
