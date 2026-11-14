@@ -1,26 +1,26 @@
 ﻿{
-  "task_id": "F1736-FIVE-GEOMETRY-SCIENTIFIC-REASSESSMENT",
-  "title": "Independent Scientific Reassessment of Five-Geometry Method A Adaptive Remeshing",
+  "task_id": "F1738-CASE1-LIGAMENT-ADAPTIVE-REMESHING-QUALIFICATION",
+  "title": "Case 1 Mode-I Ligament Adaptive-Remeshing Qualification and Continuous Fracture Corridor Resolution",
   "status": "COMPLETED",
-  "classification": "FIVE_GEOMETRY_SCIENTIFIC_REASSESSMENT_COMPLETE",
+  "classification": "CASE1_LIGAMENT_QUALIFIED_HYBRID_REFERENCE_ESTABLISHED",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
-  "checkpoint_artifact": "docs/validation/F1736_FIVE_GEOMETRY_SCIENTIFIC_REASSESSMENT_REPORT.md",
-  "review_approval": null,
+  "checkpoint_artifact": "docs/validation/F1738_CASE1_LIGAMENT_QUALIFICATION_REPORT.md",
+  "review_approval": "APPROVE",
   "predecessor_task": {
-    "task_id": "F1735-CASE2-ADAPTED-FRACTURE-EXECUTION-QUALIFICATION",
-    "checkpoint_artifact": "docs/validation/F1735_CASE2_VALIDATION_SUMMARY.md",
-    "classification": "CASE2_ADAPTED_FRACTURE_SIMULATION_PARTIALLY_CONVERGED_TERMINATED_AT_MIN_DT",
-    "review_verdict": "REJECT_UNCONDITIONAL_COMPLETION_ACCEPT_PARTIAL_CONVERGENCE_CLOSEOUT",
-    "correlation_id": "HND-F1735-CASE2-CLOSEOUT-004"
+    "task_id": "F1736-FIVE-GEOMETRY-SCIENTIFIC-REASSESSMENT",
+    "checkpoint_artifact": "docs/validation/F1736_FIVE_GEOMETRY_SCIENTIFIC_REASSESSMENT_REPORT.md",
+    "classification": "FIVE_GEOMETRY_SCIENTIFIC_REASSESSMENT_COMPLETE",
+    "review_verdict": "REASSESSMENT_REPORT_ACCEPTED_FIVE_BENCHMARK_SPATIAL_MATRICES_ESTABLISHED",
+    "correlation_id": "F1736-REASSESSMENT-REPORT-001"
   },
-  "scientific_operation": "five_geometry_scientific_reassessment",
-  "scientific_operation_id": "f1736_reassessment_001",
+  "scientific_operation": "case1_ligament_adaptive_remeshing_qualification",
+  "scientific_operation_id": "f1738_case1_remesh_qual_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-  "max_new_pbs_submissions": 0,
-  "submissions_consumed": 0,
-  "cumulative_pbs_submissions": 13,
+  "max_new_pbs_submissions": 1,
+  "submissions_consumed": 1,
+  "cumulative_pbs_submissions": 15,
   "historical_pbs_job_ids": [
     "1423095.mmaster02",
     "1423101.mmaster02",
@@ -34,8 +34,11 @@
     "1423266.mmaster02",
     "1423269.mmaster02",
     "1423270.mmaster02",
-    "1423271.mmaster02"
+    "1423271.mmaster02",
+    "1423276.mmaster02",
+    "1423277.mmaster02"
   ],
-  "scope_boundary": "STRICTLY_OFFLINE_INVESTIGATION_ZERO_PBS_SUBMISSIONS_ZERO_RECOVERY_SOLVES_ZERO_FORWARD_RUNS",
-  "iteration": 1
+  "scope_boundary": "GOVERNED_NATIVE_REMESHING_EXPERIMENT_AND_SPATIAL_AUDIT_ON_HPC_NO_FORWARD_FRACTURE_SIMULATION",
+  "hypothesis": "The distal under-refinement of Case 1 (PK_F1728_CASE_1_ADAPT_PHYS.inp) is an artifact of evaluating MISESERI at pre-initiation elastic Step-1 (u = 0.005 mm). Substituting an authentic coarse coupled phase-field damage donor (or multi-state envelope) will continuously resolve the horizontal fracture ligament (x in [0.5, 1.0], y = 0.5) with h_e <= ell_0 = 7.5 um, >95% quads, and zero negative Jacobians.",
+  "iteration": 2
 }

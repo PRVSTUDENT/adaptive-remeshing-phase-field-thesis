@@ -1,0 +1,172 @@
+{
+  "benchmark": "Pandey & Kumar (2025) Section 4.1 Mode-I Edge-Cracked Plate",
+  "methodology": "METHOD_A_NATIVE_REMESHING_WITH_DESIGNATED_ADAPTIVE_DOMAIN",
+  "adaptation_domain": "Designated prospective fracture corridor x in [0.5, 1.0], y in [0.48, 0.52] mm",
+  "total_elements": 13960,
+  "quad_count": 13611,
+  "tri_count": 349,
+  "quad_percentage": 97.5,
+  "min_det_j": 1.069398435691217e-07,
+  "negative_jacobian_count": 0,
+  "max_aspect_ratio": 4.677,
+  "h_min_um": 0.503,
+  "h_max_um": 23.294,
+  "all_stations_mean_le_l0": true,
+  "overall_area_compliance_pct_l0": 100.0,
+  "overall_area_compliance_pct_half_l0": 100.0,
+  "has_transverse_coarse_barrier": false,
+  "max_contiguous_coarse_span_um": 0.0,
+  "coarse_clusters_count": 0,
+  "station_metrics": [
+    {
+      "station": 1,
+      "x_interval": [
+        0.5,
+        0.55
+      ],
+      "count": 600,
+      "mean_h_um": 1.664,
+      "min_h_um": 0.503,
+      "max_h_um": 3.117,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 100.0,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 100.0
+    },
+    {
+      "station": 2,
+      "x_interval": [
+        0.55,
+        0.6
+      ],
+      "count": 208,
+      "mean_h_um": 3.035,
+      "min_h_um": 3.035,
+      "max_h_um": 3.035,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 100.0,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 100.0
+    },
+    {
+      "station": 3,
+      "x_interval": [
+        0.6,
+        0.65
+      ],
+      "count": 221,
+      "mean_h_um": 3.035,
+      "min_h_um": 3.035,
+      "max_h_um": 3.035,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 100.0,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 100.0
+    },
+    {
+      "station": 4,
+      "x_interval": [
+        0.65,
+        0.7
+      ],
+      "count": 221,
+      "mean_h_um": 3.035,
+      "min_h_um": 3.035,
+      "max_h_um": 3.035,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 100.0,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 100.0
+    },
+    {
+      "station": 5,
+      "x_interval": [
+        0.7,
+        0.75
+      ],
+      "count": 208,
+      "mean_h_um": 3.035,
+      "min_h_um": 3.035,
+      "max_h_um": 3.035,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 100.0,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 100.0
+    },
+    {
+      "station": 6,
+      "x_interval": [
+        0.75,
+        0.8
+      ],
+      "count": 221,
+      "mean_h_um": 3.035,
+      "min_h_um": 3.035,
+      "max_h_um": 3.035,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 100.0,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 100.0
+    },
+    {
+      "station": 7,
+      "x_interval": [
+        0.8,
+        0.85
+      ],
+      "count": 221,
+      "mean_h_um": 3.035,
+      "min_h_um": 3.035,
+      "max_h_um": 3.035,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 100.0,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 100.0
+    },
+    {
+      "station": 8,
+      "x_interval": [
+        0.85,
+        0.9
+      ],
+      "count": 221,
+      "mean_h_um": 3.035,
+      "min_h_um": 3.035,
+      "max_h_um": 3.035,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 100.0,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 100.0
+    },
+    {
+      "station": 9,
+      "x_interval": [
+        0.9,
+        0.95
+      ],
+      "count": 208,
+      "mean_h_um": 3.035,
+      "min_h_um": 3.035,
+      "max_h_um": 3.035,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 100.0,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 100.0
+    },
+    {
+      "station": 10,
+      "x_interval": [
+        0.95,
+        1.0
+      ],
+      "count": 221,
+      "mean_h_um": 3.035,
+      "min_h_um": 3.035,
+      "max_h_um": 3.035,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 100.0,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 100.0
+    }
+  ]
+}

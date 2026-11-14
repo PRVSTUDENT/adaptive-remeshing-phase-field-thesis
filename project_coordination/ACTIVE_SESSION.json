@@ -1,20 +1,10 @@
 {
   "active": false,
-  "agent": "gemini-antigravity",
-  "session_id": "f1736-five-geometry-reassessment-session-001",
-  "task_id": "F1736-FIVE-GEOMETRY-SCIENTIFIC-REASSESSMENT",
-  "started_at": "2026-11-14T06:11:00+01:00",
-  "starting_commit": "07bd66a5",
-  "allowed_write_scope": [
-    "project_coordination/**",
-    "models/**",
-    "scripts/**",
-    "tests/unit/**",
-    "docs/validation/**",
-    "results/validation/**",
-    "results/figures/**",
-    "figures/**",
-    ".agents/**"
-  ],
-  "notes": "Task F1736: Independent Scientific Reassessment of Five-Geometry Method A Adaptive Remeshing. Pure offline investigation. PBS budget: ZERO."
+  "agent": null,
+  "session_id": null,
+  "task_id": null,
+  "started_at": null,
+  "starting_commit": "e9047ada",
+  "allowed_write_scope": [],
+  "notes": "Task F1738 completed. Case 1 Mode-I ligament-qualified hybrid reference mesh established (13,960 elements, 100% corridor h <= l0/2, datacheck Exit 0, 5/5 tests pass)."
 }
