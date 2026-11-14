@@ -1,11 +1,10 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "f1740-case3-multistate-envelope-session-001",
-  "task_id": "F1740-CASE3-MULTISTATE-ENVELOPE-DESIGN",
-  "started_at": "2026-11-14T13:22:00+01:00",
-  "completed_at": "2026-11-14T14:10:00+01:00",
-  "starting_commit": "e6ed16ba",
+  "session_id": "f1741-case3-multistate-remeshing-session-001",
+  "task_id": "F1741-CASE3-MULTISTATE-REMESHING-EXECUTION",
+  "started_at": "2026-11-14T14:11:00+01:00",
+  "starting_commit": "492b6945",
   "allowed_write_scope": [
     "project_coordination/**",
     "models/**",
@@ -17,5 +16,5 @@
     "figures/**",
     ".agents/**"
   ],
-  "notes": "Task F1740 formally closed with APPROVAL under HND-F1740-CASE3-AUTH-002 (zero-PBS feasibility completed with qualifications, directing F1741)."
+  "notes": "Task F1741: Case 3 Notched Plate with Hole and Pins (Sec 4.3) Controlled Multi-State Native Remeshing Experiment Preparation & Execution under HND-F1740-CASE3-AUTH-002 approval."
 }
