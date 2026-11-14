@@ -1,10 +1,10 @@
-﻿{
+{
     "task_id": "F1734-CASE2-DISTAL-REFINEMENT",
-    "title": "Case 2 Controlled Distal Refinement Experiment (eta = 2.30%)",
-    "status": "EXECUTION_COMPLETE_ALL_GATES_PASS",
-    "classification": "CASE2_DISTAL_REFINEMENT_COMPLETE_CORRIDOR_AND_DISTAL_RESOLVED",
+    "title": "Case 2 Controlled Distal Refinement Experiment (eta = 2.30%) & Spatial Qualification Audit",
+    "status": "SPATIAL_QUALIFICATION_COMPLETE_ALL_FINDINGS_RESOLVED",
+    "classification": "CASE2_DISTAL_REFINEMENT_SPATIAL_QUALIFICATION_AUDITED_PASS_FOR_EXPLORATORY_FRACTURE",
     "assigned_agent": "gemini-antigravity",
-    "checkpoint_artifact": "docs/validation/F1734_CASE2_DISTAL_REFINEMENT_REPORT.md",
+    "checkpoint_artifact": "docs/validation/F1734_CASE2_SPATIAL_QUALIFICATION_REPORT.md",
     "predecessor_task": {
         "task_id": "F1733-CASE2-DISTAL-LIGAMENT-QUALIFICATION",
         "checkpoint_artifact": "docs/validation/F1733_CASE2_DISTAL_LIGAMENT_REPORT.md",
@@ -12,8 +12,8 @@
         "review_verdict": "FINDINGS_F1733_R01_TO_R08_RESOLVED_DIRECTS_F1734_ONE_VARIABLE_CALIBRATION",
         "correlation_id": "HND-F1733-CASE2-DISTAL-001"
     },
-    "scientific_operation": "case2_controlled_distal_refinement",
-    "scientific_operation_id": "f1734_case2_refine_001",
+    "scientific_operation": "case2_controlled_distal_refinement_and_spatial_qualification",
+    "scientific_operation_id": "f1734_case2_spatial_qual_001",
     "scientific_checkpoint_required": true,
     "donor_odb_path": "/scratch9/pr21vyci/runs/f1730_case2_recovery_solve/PK_HOLE_COMPANION_RECOVERY.odb",
     "donor_classification": "PROVISIONAL_DONOR_WITH_DOCUMENTED_SPR_LIMITATION",
@@ -33,24 +33,28 @@
         "1423258.mmaster02",
         "1423266.mmaster02"
     ],
-    "spatial_resolution_results": {
+    "spatial_qualification_results": {
         "total_physical_elements": 23965,
         "total_nodes": 23957,
         "quad_fraction_pct": 97.23,
         "min_signed_jacobian": 1.695279e-07,
         "mean_aspect_ratio": 1.25,
         "max_aspect_ratio": 2.51,
-        "window_w2_primary_corridor_mean_h_um": 1.96,
-        "window_w2_pct_le_l0_half": 97.34,
-        "window_w4_uncracked_ligament_mean_h_um": 1.99,
-        "window_w4_pct_le_l0_half": 98.84,
-        "distal_stations_compliance": {
-            "station_7": { "mean_h_um": 2.51, "pct_le_l0_half": 100.0 },
-            "station_8": { "mean_h_um": 3.36, "pct_le_l0_half": 90.74 },
-            "station_9": { "mean_h_um": 3.61, "pct_le_l0_half": 86.11 },
-            "station_10": { "mean_h_um": 3.47, "pct_le_l0_half": 100.0 }
-        },
-        "contiguous_coarse_gaps": 0
+        "primary_corridor_total_elements": 1380,
+        "primary_corridor_count_compliance_pct": 99.3,
+        "primary_corridor_area_compliance_pct": 97.1,
+        "ten_of_ten_stations_mean_h_le_half_l0": true,
+        "station_7_mean_h_um": 2.506,
+        "station_7_satisfies_half_l0": true,
+        "station_7_satisfies_third_l0": false,
+        "stations_1_to_6_satisfy_third_l0": true,
+        "f1734_has_transverse_coarse_barrier": false,
+        "f1734_max_contiguous_coarse_cluster_span_um": 10.37,
+        "f1734_max_contiguous_coarse_cluster_span_l0": 1.38,
+        "direct_radial_count_compliance_pct": 100.0,
+        "direct_radial_area_compliance_pct": 100.0,
+        "qualification_verdict": "PASS_WITH_SCIENTIFIC_LIMITATIONS",
+        "qualification_decision": "ELIGIBLE_FOR_BOUNDED_EXPLORATORY_FRACTURE_EXPERIMENT"
     },
     "datacheck_results": {
         "total_layered_elements": 71895,
@@ -74,7 +78,7 @@
         "actual_physical_elements": 23965,
         "scaling_parity_relative_difference_pct": 0.042
     },
-    "scope_boundary": "GOVERNED_NATIVE_REMESHING_ONE_VARIABLE_CALIBRATION_ZERO_FORWARD_FRACTURE_MAX_1_PBS_JOB",
+    "scope_boundary": "GOVERNED_NATIVE_REMESHING_ONE_VARIABLE_CALIBRATION_AND_BOUNDED_OFFLINE_SPATIAL_QUALIFICATION_ZERO_FORWARD_FRACTURE",
     "completed_operations": [
         "predecessor_f1733_review_findings_r01_to_r08_resolved",
         "hnd_f1734_case2_auth_001_reviewed_and_scientifically_approved",
@@ -85,7 +89,13 @@
         "distal_ligament_stations_7_to_10_resolved",
         "production_deck_datacheck_completed_exit_0",
         "unit_test_suite_expanded_to_71_tests_pass",
-        "f1734_qualification_report_authored"
+        "f1734_qualification_report_authored",
+        "hnd_f1734_case2_report_001_evaluated_insufficient_evidence_directs_offline_audit",
+        "findings_f1734_r01_to_r08_conclusively_reconciled",
+        "audit_case2_spatial_qualification_script_executed",
+        "f1734_case2_spatial_qualification_audit_json_generated",
+        "f1734_spatial_qualification_report_authored",
+        "unit_test_suite_expanded_to_192_tests_pass"
     ],
-    "iteration": 1
+    "iteration": 2
 }
