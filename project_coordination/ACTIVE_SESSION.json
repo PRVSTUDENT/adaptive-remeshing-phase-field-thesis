@@ -1,20 +1,19 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "f1744-case3-5state-remesh-001",
-  "task_id": "F1744-CASE3-5STATE-REMESHING-EXECUTION",
-  "started_at": "2026-11-14T17:20:00+01:00",
-  "completed_at": "2026-11-14T18:16:00+01:00",
-  "starting_commit": "23e5482d",
+  "session_id": "f1745-case3-5state-envelope-001",
+  "task_id": "F1745-CASE3-5STATE-ENVELOPE-QUALIFICATION",
+  "started_at": "2026-11-14T19:25:00+01:00",
+  "completed_at": "2026-11-14T19:45:00+01:00",
+  "starting_commit": "abb7b46a",
   "allowed_write_scope": [
     "project_coordination/**",
     ".agents/**",
     "docs/validation/**",
     "results/validation/**",
-    "results/figures/**",
     "models/**",
     "scripts/**",
     "tests/unit/**"
   ],
-  "notes": "Task F1744: 5-state sequential native adaptive remeshing completed on HPC cluster for Case 3 (Exit 0, 19005 elements, datacheck Exit 0). Disclosed pass-memory loss mechanism in sequential remeshing; directs Task F1745 Unified 5-State Error-Indicator Envelope."
+  "notes": "Task F1745: Zero-PBS offline qualification of Case 3 unified 5-state error-indicator envelope heuristic, reconciling 3923 vs 3979 mesh discrepancy, denominator bounds, and PBS 20-25 accounting per HND-F1744-CASE3-CLOSEOUT-001."
 }

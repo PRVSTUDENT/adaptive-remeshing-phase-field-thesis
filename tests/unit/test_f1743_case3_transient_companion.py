@@ -21,7 +21,7 @@ def test_f1743_active_task_governance():
     assert os.path.exists(ACTIVE_TASK_JSON)
     with open(ACTIVE_TASK_JSON, "r", encoding="utf-8-sig") as f:
         task = json.load(f)
-    assert task["task_id"] in ["F1743-CASE3-TRANSIENT-COMPANION-RECOVERY", "F1744-CASE3-5STATE-REMESHING-EXECUTION"]
+    assert task["task_id"] in ["F1743-CASE3-TRANSIENT-COMPANION-RECOVERY", "F1744-CASE3-5STATE-REMESHING-EXECUTION", "F1745-CASE3-5STATE-ENVELOPE-QUALIFICATION"]
     assert task["frozen_uel_sha256"].lower() == FROZEN_UEL_SHA
     if task["task_id"] == "F1743-CASE3-TRANSIENT-COMPANION-RECOVERY":
         assert task["max_new_pbs_submissions"] <= 1
@@ -30,7 +30,7 @@ def test_f1743_active_task_governance():
     else:
         assert task["cumulative_pbs_submissions"] >= 20
         assert len(task["historical_pbs_job_ids"]) >= 20
-    assert any(x in task["scope_boundary"] for x in ["BOUNDED_1CPU_SERIAL_COMPANION_RECOVERY", "BOUNDED_5STATE_SEQUENTIAL_NATIVE_REMESHING"])
+    assert any(x in task["scope_boundary"] for x in ["BOUNDED_1CPU_SERIAL_COMPANION_RECOVERY", "BOUNDED_5STATE_SEQUENTIAL_NATIVE_REMESHING", "ZERO_PBS_OFFLINE_5STATE_ENVELOPE_QUALIFICATION_AND_RECONCILIATION"])
 
 def test_f1743_package_manifest():
     manifest_path = os.path.join(PKG_DIR, "f1743_case3_transient_recovery.json")
