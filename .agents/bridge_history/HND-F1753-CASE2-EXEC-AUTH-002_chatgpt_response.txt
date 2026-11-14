@@ -1,0 +1,94 @@
+﻿JSON
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1753-CASE2-EXEC-AUTH-002",
+  "predecessor_correlation_id": "HND-F1753-CASE2-EXEC-AUTH-001",
+  "task_id": "F1753-CASE2-CONTROL-ONLY-CONTINUATION-EXECUTION",
+  "decision": "INSUFFICIENT_EVIDENCE",
+  "scientific_design_decision": "APPROVE",
+  "execution_integration_decision": "PASS_AS_REPORTED",
+  "production_execution_decision": "BLOCKED_BY_NEW_SCIENTIFIC_EVIDENCE",
+  "pbs_execution_authorized": false,
+  "pbs_jobs_authorized": 0,
+  "review_summary": "The F1753 Round 2 packet substantially satisfies both outstanding execution-integration directives. The all-integration-point extraction demonstrates meaningful temporal field comparison, and the PBS monitor integration tests support the proposed bounded execution architecture. However, the newly produced authentic F1735 evidence reveals a material violation of the predeclared pointwise damage-irreversibility threshold. This finding must be scientifically classified before authorizing a production experiment expected to reproduce the same baseline trajectory. No repetition of completed integration audits is required.",
+  "findings_resolution": {
+    "F1753-R01": {
+      "status": "RESOLVED_WITH_SCIENTIFIC_QUALIFICATIONS",
+      "assessment": "The extraction pipeline successfully compared SDV1 and SDV2 at 93,865 integration points across six representative temporal transitions, including the step boundary, peak load, rapid crack propagation and near-terminal states. The complete all-frame temporal audit remains a mandatory post-run requirement. The six sampled transitions must not be described as exhaustive temporal verification."
+    },
+    "F1753-R02": {
+      "status": "RESOLVED_AS_REPORTED",
+      "assessment": "The cutback threshold is consistently defined as 50 consecutive cutbacks. The PBS wrapper includes monitor startup, PID capture, output redirection, targeted termination and cleanup. Five integration tests and 64 regression tests are reported as passing. The evidence supports execution integration, subject to final staged-file and live scheduler verification."
+    }
+  },
+  "new_critical_finding": {
+    "id": "F1753-R03",
+    "severity": "HIGH",
+    "classification": "AUTHENTIC_BASELINE_DAMAGE_IRREVERSIBILITY_VIOLATION",
+    "source": "F1735 authentic ODB, Step 2, Frame 190 to Frame 191",
+    "observed_min_delta_d": -0.0001862049102783203,
+    "predeclared_min_delta_d": -0.00001,
+    "violation_factor": 18.62049102783203,
+    "observed_min_delta_h_mpa": 0.0,
+    "finding": "The reported minimum damage change is approximately 18.62 times larger in magnitude than the permitted negative damage increment. The extraction receipt explicitly records damage_irreversibility_pass=false and all_transitions_irreversibility_satisfied=false, yet the accompanying narrative attributes this to a harmless numerical fluctuation and requests execution approval without resolving the discrepancy.",
+    "scientific_interpretation": "The observation demonstrates a violation of the declared integration-point damage-monotonicity criterion in the predecessor simulation. The monotone history field does not automatically establish monotonic phase-field damage. The proposed C0 interpolation explanation is a hypothesis and has not been demonstrated. Because the frozen UEL and unchanged mesh are retained, the controlled rerun may reproduce this violation.",
+    "required_resolution": "Determine whether the negative SDV1 increment represents genuine phase-field healing, a trial-versus-committed-state visualization inconsistency, integration-point reconstruction effects, or another identifiable implementation artifact. Preserve the numerical observation regardless of its cause."
+  },
+  "additional_scientific_qualifications": [
+    {
+      "id": "F1753-Q01",
+      "finding": "History monotonicity is established for all 93,865 integration points across the six tested transitions, not across every transition in the complete simulation. Claims of globally verified temporal monotonicity must retain this limitation."
+    },
+    {
+      "id": "F1753-Q02",
+      "finding": "The step-boundary time difference is reported as negative because Abaqus step time resets. Use cumulative analysis time or an ordered step/increment index when checking chronological evolution."
+    },
+    {
+      "id": "F1753-Q03",
+      "finding": "The near-terminal transition reports zero time advancement and zero field changes. Establish whether these represent distinct converged equilibrium states or duplicate output frames before including them in convergence or irreversibility statistics."
+    },
+    {
+      "id": "F1753-Q04",
+      "finding": "The proposed lower minimum increment is a numerical sensitivity experiment, not a demonstrated correction for the nonlinear convergence problem or the observed damage-monotonicity violation."
+    }
+  ],
+  "accepted_execution_configuration": {
+    "benchmark": "Pandey and Kumar 2025 Case 2, off-axis hole",
+    "execution_strategy": "CONTROLLED_FULL_RERUN",
+    "physical_elements": 23965,
+    "integration_points": 93865,
+    "input_deck_sha256": "CCB35B34BFAE015EA4846D3D0765FC2646E6C9AF47958F8C21A0A4F25A14CC4A",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "pbs_script_sha256": "B6C08202329A694DDCA91FE2A359F8FF1C5D08790009E7663D1AEDF6A5787404",
+    "sole_solver_parameter_change": "STEP_2_MIN_INCREMENT_1.0E-8_TO_1.0E-11",
+    "reported_datacheck": "EXIT_0_ZERO_ERRORS_EIGHT_NOTICES",
+    "reported_regression_tests": "64_OF_64_PASS",
+    "resources": {
+      "queue": "normal_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_seconds": 10800
+    },
+    "historical_pbs_submissions": 25,
+    "additional_pbs_submissions": 0
+  },
+  "next_instruction_to_antigravity": "Perform ONE bounded, zero-PBS scientific classification of the newly discovered F1735 damage-irreversibility violation at Step 2 Frames 190 to 191. Do not repeat the accepted F1753-R01/R02 integration tests. First identify the exact element and integration point producing min Delta d=-1.8620491e-4, its coordinates, previous/current damage, history, and neighboring damage evolution. Compare Layer 3 SDV1 with the underlying phase-field nodal DOF and inspect the frozen UEL/UMAT assignments to distinguish committed damage evolution from trial-state visualization or integration-point interpolation artifacts. Check whether the corresponding nodal damage decreases and whether the reported field change is reproducible using the authentic ODB. Inspect the local residual/solver context only where available. Do not assume C0 interpolation explains the observation. Preserve the predeclared -1e-5 threshold; do not silently relax it. Produce a concise evidence-backed classification stating whether the violation is physical healing, output inconsistency, or unresolved. If it is only an output artifact, establish a validated committed-state acceptance measure. If genuine healing is confirmed, explicitly classify the baseline as failing strict damage irreversibility and assess whether F1753 remains defensible as a diagnostic minimum-increment experiment. Preserve the frozen UEL, mesh, deck, numerical tolerances, PBS script and completed qualification evidence. Return one bounded scientific decision packet for F1753 execution authorization. Do not submit PBS until the registered execution gates are satisfied.",
+  "authorization_boundary": {
+    "current_operation": "TARGETED_SCIENTIFIC_CLASSIFICATION",
+    "pbs_allowance": 0,
+    "review_text_is_signed_execution_permission": false,
+    "required_before_execution": [
+      "Scientifically classify F1753-R03",
+      "Resolve consistency between the selected state variables and irreversibility acceptance criterion",
+      "Maintain an explicit failure classification if genuine healing is confirmed",
+      "Confirm valid registered F1753 execution-task scope",
+      "Obtain authenticated independent execution authorization",
+      "Verify staged input, frozen UEL and PBS script hashes",
+      "Confirm qualifying datacheck and live PBS eligibility",
+      "Verify notifications and once-only submission accounting"
+    ]
+  },
+  "final_disposition": "Execution integration is sufficiently qualified as reported. The single remaining blocker is a newly revealed scientific inconsistency in the authentic predecessor trajectory. Resolve its physical meaning without changing acceptance thresholds or repeating completed administrative work. The controlled minimum-increment experiment remains scientifically valuable but is not presently authorized for production.",
+  "status": "REVIEW_COMPLETE",
+  "terminal_marker": "Finished"
+}

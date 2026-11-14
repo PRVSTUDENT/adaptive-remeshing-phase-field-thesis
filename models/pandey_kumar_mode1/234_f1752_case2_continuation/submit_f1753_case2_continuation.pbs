@@ -1,0 +1,134 @@
+#!/bin/bash
+#PBS -N PK_F1753_C2_CONT
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=03:00:00
+#PBS -q entry_imfdfkmq
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+#PBS -j oe
+#PBS -o /scratch9/pr21vyci/runs/f1752_case2_continuation/pbs_execution.log
+
+# ==============================================================================
+# Task F1753: Case 2 Method A Controlled Continuation Production Simulation
+# Production Deck: PK_F1752_CASE_2_CONTINUATION.inp (71,895 layered elements)
+# Subroutine:      f42_mixed_uel.for (Frozen SHA-256: CE8D5EDC...)
+# Resource Route:  1-CPU Serial execution (1 CPU, 8 GB RAM, 3h walltime)
+# Parallel Safety: Serial execution guarantees deterministic COMMON-block ordering
+#                  and completely eliminates multi-thread race conditions.
+# Runtime Monitor: monitor_case2_cutbacks.py enforcing Stop Condition 1:
+#                  Triggers at exactly 50 consecutive cutbacks (consecutive_cutbacks >= 50)
+# ==============================================================================
+
+set -euo pipefail
+
+RUN_DIR="/scratch9/pr21vyci/runs/f1752_case2_continuation"
+cd "${RUN_DIR}"
+
+# Source Notification Traps
+if [ -f "./job_notifications.sh" ]; then
+    source ./job_notifications.sh
+elif [ -f "$HOME/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh" ]; then
+    source "$HOME/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh"
+fi
+
+if type notification_install_terminal_trap &>/dev/null; then
+    notification_install_terminal_trap
+fi
+
+if type notify_start &>/dev/null; then
+    notify_start "F1753 Case 2 Method A Controlled Continuation Simulation Started"
+fi
+
+echo "================================================================================"
+echo "Task F1753: Case 2 Controlled-Only Continuation Production Simulation"
+echo "Job ID:        ${PBS_JOBID:-LOCAL}"
+echo "Node:          $(hostname)"
+echo "Start Time:    $(date -Iseconds)"
+echo "Working Dir:   $(pwd)"
+echo "CPUs:          1 (Serial - Race-Free Deterministic Execution)"
+echo "Memory:        8 GB"
+echo "Queue:         normal_imfdfkmq"
+echo "Threshold:     Exactly 50 consecutive cutbacks in Step 2"
+echo "================================================================================"
+
+# Verify Frozen UEL Bitwise Hash
+EXPECTED_UEL_HASH="ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6"
+ACTUAL_UEL_HASH=$(sha256sum f42_mixed_uel.for | awk '{print $1}')
+echo "UEL Subroutine SHA-256: $ACTUAL_UEL_HASH"
+if [ "$ACTUAL_UEL_HASH" != "$EXPECTED_UEL_HASH" ]; then
+    echo "ERROR: Bitwise UEL hash mismatch! Refusing execution."
+    exit 101
+fi
+echo "Frozen UEL integrity verified PASS."
+
+# Verify Production Deck Hash
+EXPECTED_DECK_HASH="ccb35b34bfae015ea4846d3d0765fc2646e6c9af47958f8c21a0a4f25a14cc4a"
+ACTUAL_DECK_HASH=$(sha256sum PK_F1752_CASE_2_CONTINUATION.inp | awk '{print $1}')
+echo "Production Deck SHA-256: $ACTUAL_DECK_HASH"
+if [ "$ACTUAL_DECK_HASH" != "$EXPECTED_DECK_HASH" ]; then
+    echo "ERROR: Production deck hash mismatch! Refusing execution."
+    exit 102
+fi
+echo "Production deck integrity verified PASS."
+
+# Load Compiler and Abaqus Environment
+source /etc/profile.d/lmod.sh || true
+module purge || true
+module load gcc/11.4.0 || true
+module load intel/2024.2.0 || true
+module load abaqus/2023 || module load abaqus || true
+
+echo "Compiler and Abaqus environment:"
+which ifort || echo "WARNING: ifort not found directly in path"
+which abaqus || echo "WARNING: abaqus not found directly in path"
+
+# Launch Cutback Monitor Daemon in Background with Dedicated Log and Cleanup Trap
+JOBNAME="PK_F1752_CASE_2_CONTINUATION"
+echo "Launching live cutback monitor daemon for ${JOBNAME}.sta (threshold: 50)..."
+python3 monitor_case2_cutbacks.py "${JOBNAME}.sta" --max-cutbacks 50 --poll-interval 2.0 > monitor_execution.log 2>&1 &
+MONITOR_PID=$!
+echo "Cutback monitor PID: $MONITOR_PID"
+
+# Install Cleanup Trap to ensure monitor is killed on any exit, error, or signal
+trap 'if [ -n "${MONITOR_PID:-}" ] && kill -0 "$MONITOR_PID" 2>/dev/null; then echo "[PBS Trap] Cleaning up monitor PID $MONITOR_PID"; kill "$MONITOR_PID" 2>/dev/null || true; fi' EXIT INT TERM
+
+# Execute Abaqus/Standard nonlinear solver
+echo "Submitting Abaqus/Standard nonlinear fracture solver (1-CPU serial)..."
+echo "Command: abaqus job=$JOBNAME input=PK_F1752_CASE_2_CONTINUATION.inp user=f42_mixed_uel.for cpus=1 double=both interactive"
+
+SOLVER_EXIT=0
+abaqus job="$JOBNAME" input=PK_F1752_CASE_2_CONTINUATION.inp user=f42_mixed_uel.for cpus=1 double=both interactive || SOLVER_EXIT=$?
+
+echo "Abaqus Solver Completed with Exit Code: $SOLVER_EXIT"
+echo "Completion Time: $(date -Iseconds)"
+
+# Terminate Monitor Daemon if still running
+if [ -n "${MONITOR_PID:-}" ] && kill -0 "$MONITOR_PID" 2>/dev/null; then
+    echo "Stopping cutback monitor daemon (PID: $MONITOR_PID)..."
+    kill "$MONITOR_PID" 2>/dev/null || true
+fi
+
+# Check STA file completion
+if [ -f "${JOBNAME}.sta" ]; then
+    echo "--- TAIL OF ${JOBNAME}.sta ---"
+    tail -n 30 "${JOBNAME}.sta"
+fi
+
+if [ -f "monitor_execution.log" ]; then
+    echo "--- TAIL OF monitor_execution.log ---"
+    tail -n 20 "monitor_execution.log"
+fi
+
+if [ $SOLVER_EXIT -eq 0 ]; then
+    echo "Simulation completed successfully."
+    if type notify_completed &>/dev/null; then
+        notify_completed "F1753 Case 2 Continuation Simulation Succeeded with Exit Code 0"
+    fi
+    exit 0
+else
+    echo "Simulation ended with exit code $SOLVER_EXIT."
+    if type notify_failed &>/dev/null; then
+        notify_failed "F1753 Case 2 Continuation Simulation Ended (Exit $SOLVER_EXIT)"
+    fi
+    exit $SOLVER_EXIT
+fi

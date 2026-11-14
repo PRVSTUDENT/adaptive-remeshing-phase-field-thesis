@@ -1,0 +1,104 @@
+﻿JSON
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1753-CASE2-EXEC-AUTH-004",
+  "predecessor_correlation_id": "HND-F1753-CASE2-EXEC-AUTH-003",
+  "task_id": "F1753-CASE2-CONTROL-ONLY-CONTINUATION-EXECUTION",
+  "decision": "APPROVE",
+  "approval_type": "CONDITIONAL_ONE_JOB_DIAGNOSTIC_EXECUTION",
+  "scientific_design_decision": "APPROVE",
+  "scientific_classification_decision": "APPROVE",
+  "execution_integration_decision": "PASS_AS_REPORTED",
+  "production_execution_decision": "APPROVE_SUBJECT_TO_MANDATORY_PRE_SUBMISSION_GATES",
+  "maximum_pbs_jobs_approved_for_scope": 1,
+  "review_summary": "The final F1753 packet satisfactorily resolves the outstanding scientific classification findings. The authentic predecessor damage-monotonicity violation is acknowledged without changing the authoritative acceptance threshold, the invalid nodal extraction is withdrawn, and numerical continuation is explicitly distinguished from physical acceptance. The controlled minimum-increment sensitivity experiment is approved as a bounded diagnostic investigation, not as a scientifically validated fracture solution. One displacement-unit inconsistency in the reporting manifest must be corrected before submission. No additional broad scientific review cycle is required.",
+  "findings_resolution": {
+    "F1753-R04": {
+      "status": "RESOLVED",
+      "finding": "The reported zero-valued nodal phase-field data are correctly identified as unavailable or unmapped output, not physical nodal damage measurements. Layer 3 SDV1 remains the available damage diagnostic, with its element-level representation explicitly acknowledged."
+    },
+    "F1753-R05": {
+      "status": "RESOLVED",
+      "finding": "The original global damage-irreversibility threshold of -1.0e-5 is restored. The proposed -2.5e-4 crack-wake tolerance is no longer an alternative physical acceptance criterion."
+    },
+    "F1753-R06": {
+      "status": "RESOLVED",
+      "finding": "The authentic predecessor is correctly classified as exhibiting a local damage-monotonicity violation. A discrete crack-wake equilibrium adjustment remains a possible explanation, not a proven mechanism."
+    }
+  },
+  "authoritative_scientific_findings": {
+    "baseline_job": "1423271",
+    "baseline_min_damage_increment": -0.0001862049102783203,
+    "strict_global_damage_limit": -0.00001,
+    "baseline_strict_damage_irreversibility": "FAIL",
+    "violating_elements": 18,
+    "violating_integration_points": 72,
+    "total_integration_points": 93865,
+    "observed_damage_location": "Physical element 10839, integration point 1",
+    "history_monotonicity": "PASS_FOR_EXAMINED_TRANSITIONS_ONLY",
+    "numerical_explanation": "UNCONFIRMED_HYPOTHESIS",
+    "permitted_experimental_conclusion": "Whether reducing the Step 2 minimum increment enables additional converged equilibrium states",
+    "prohibited_conclusion": "A numerically completed rerun automatically establishes physically admissible irreversible fracture"
+  },
+  "mandatory_pre_submission_correction": {
+    "id": "F1753-C01",
+    "severity": "DOCUMENTATION_CORRECTION",
+    "finding": "The execution-readiness receipt incorrectly specifies u_y > 0.400 mm as the continuation criterion, although the prescribed total displacement endpoint is 0.0120 mm. The value 0.400 may represent a normalized Step 2 time coordinate, but it cannot represent the imposed physical displacement.",
+    "required_action": "Correct the diagnostic continuation criterion to an accepted equilibrium state with applied displacement greater than the authentic F1735 terminal displacement, approximately 0.007677 mm, and no greater than the prescribed endpoint of 0.0120 mm. If using Step 2 time, label it separately and compute displacement from the actual boundary-condition amplitude. Preserve the production input deck unchanged.",
+    "requires_new_scientific_review": false
+  },
+  "approved_execution_configuration": {
+    "benchmark": "Pandey and Kumar 2025 Case 2, off-axis hole",
+    "experimental_classification": "DIAGNOSTIC_MINIMUM_INCREMENT_SENSITIVITY",
+    "execution_strategy": "FULL_RERUN_NOT_ABAQUS_RESTART",
+    "physical_elements": 23965,
+    "integration_points": 93865,
+    "input_deck_sha256": "CCB35B34BFAE015EA4846D3D0765FC2646E6C9AF47958F8C21A0A4F25A14CC4A",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "pbs_script_sha256": "B6C08202329A694DDCA91FE2A359F8FF1C5D08790009E7663D1AEDF6A5787404",
+    "monitor_sha256": "AD54275827B0E59503CA8486B01777EA24FE578AE26BEEF22C9682728B81501D",
+    "sole_solver_change": "STEP_2_MIN_INCREMENT_1.0E-8_TO_1.0E-11",
+    "reported_datacheck": "EXIT_0_ZERO_ERRORS_EIGHT_NOTICES",
+    "reported_regression_tests": "88_OF_88_PASS",
+    "queue": "normal_imfdfkmq",
+    "cpus": 1,
+    "memory_gb": 8,
+    "walltime_seconds": 10800,
+    "maximum_consecutive_cutbacks": 50,
+    "historical_pbs_submissions": 25,
+    "maximum_new_submissions": 1,
+    "maximum_cumulative_submissions": 26
+  },
+  "mandatory_post_run_classification": {
+    "numerical_continuation": "PASS only if at least one genuinely new converged equilibrium state advances beyond the predecessor terminal applied displacement.",
+    "checkpoint_parity": "Compare the predecessor and rerun at equivalent imposed displacement. Report force, displacement and peak-load differences against their declared tolerances.",
+    "damage_irreversibility": "Evaluate the original global SDV1 threshold across corresponding integration points and all consecutive saved converged frames. Any violation is a physical-acceptance failure under the declared criterion.",
+    "history_monotonicity": "Evaluate SDV2 at corresponding integration points across the entire available converged trajectory.",
+    "physical_acceptance": "Requires all applicable damage, history, energy-balance, convergence and spatial-resolution gates; numerical continuation alone is insufficient.",
+    "secondary_crack": "Evaluate connected crack propagation and the actual process-zone mesh resolution.",
+    "failure_reporting": "Preserve all negative findings and do not relax tolerances after observing results."
+  },
+  "next_instruction_to_antigravity": "Treat HND-F1753-CASE2-EXEC-AUTH-004 as conditional independent scientific approval for ONE bounded F1753 diagnostic PBS job, not as a signed execution credential or permission to bypass controller gates. First correct the impossible u_y > 0.400 mm reporting criterion to actual applied displacement exceeding the authentic F1735 terminal value near 0.007677 mm, with prescribed endpoint 0.0120 mm; do not alter the input deck. Then verify that F1753 is legitimately registered with a one-job allowance, the predecessor task is closed, the current owner and session are valid, no safety block or duplicate submission exists, and independent approval is authenticated by the canonical bridge. Verify exact staged input, frozen UEL, PBS-script and monitor hashes; the reported Abaqus datacheck; notification configuration; and live PBS queue, account and resource eligibility. If every mandatory gate passes, submit EXACTLY ONE job through scripts/hpc/Invoke-Mode1Execution.ps1, capture the genuine PBS job ID, and atomically record the 26th submission in the execution ledger. Do not submit a second job automatically. If any gate fails, stop at that specific gate and report the blocker without initiating another broad review. After execution, distinguish numerical continuation from strict physical acceptance and explicitly retain the baseline damage-irreversibility failure.",
+  "authorization_boundary": {
+    "independent_scientific_review": "APPROVED_WITH_CONDITIONS",
+    "signed_execution_permission": "NOT_ESTABLISHED_BY_THIS_RESPONSE",
+    "submission_permitted_only_after": [
+      "Correction F1753-C01 completed",
+      "Authentic registered F1753 one-job execution scope verified",
+      "Canonical bridge approval authenticated",
+      "Current ownership, session and safety checks passed",
+      "No prior F1753 PBS submission exists",
+      "Input, UEL, PBS script and monitor hashes verified",
+      "Datacheck and notifications verified",
+      "Live scheduler, account and resource checks passed",
+      "Once-only execution accounting prepared"
+    ],
+    "maximum_authorized_experiment_count": 1,
+    "automatic_retry_allowed": false,
+    "production_uel_modification_allowed": false,
+    "physical_acceptance_threshold_relaxation_allowed": false
+  },
+  "final_disposition": "APPROVE one controlled diagnostic F1753 execution, conditional on the explicit displacement-report correction and normal authenticated execution gates. Scientific acceptance of its eventual results remains entirely separate.",
+  "status": "REVIEW_COMPLETE",
+  "terminal_marker": "Finished"
+}

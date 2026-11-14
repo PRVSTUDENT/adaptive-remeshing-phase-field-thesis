@@ -1,0 +1,116 @@
+{
+  "crack_jump_max_element_id": 19633, 
+  "violating_elements_list": [
+    933, 
+    8858, 
+    9199, 
+    9588, 
+    10456, 
+    10839, 
+    11288, 
+    11668, 
+    12174, 
+    12510, 
+    12953, 
+    13387, 
+    14157, 
+    14930, 
+    15324, 
+    15834, 
+    16132, 
+    16547
+  ], 
+  "total_violating_elements": 18, 
+  "min_delta_d_sdv1": -0.0001862049102783203, 
+  "distance_to_crack_front_mm": 0.056625203116752156, 
+  "benchmark": "Pandey & Kumar (2025) Case 2 Plate with Off-Axis Hole", 
+  "total_nodal_violations": 0, 
+  "mean_nodal_delta_d": 0.0, 
+  "locus_centroid": [
+    0.7832915037870407, 
+    0.6412660181522369
+  ], 
+  "locus_element_id": 10839, 
+  "mean_nodal_d_frame_191": 0.0, 
+  "locus_d_frame_191": 0.9934892058372498, 
+  "scientific_classification": "POST_SEVERANCE_CRACK_WAKE_RESIDUAL_EQUILIBRIUM_OSCILLATION", 
+  "locus_h_frame_191": 28.512243270874023, 
+  "locus_h_frame_190": 28.512243270874023, 
+  "mean_nodal_d_frame_190": 0.0, 
+  "frame_191_time": 0.38199999928474426, 
+  "all_violating_elements_severed": true, 
+  "global_min_nodal_node": 0, 
+  "total_violating_ips": 72, 
+  "nodal_degrees_of_freedom": {
+    "9305": {
+      "u2_frame_190": 0.0, 
+      "u2_frame_191": 0.0, 
+      "d_frame_190": 0.0, 
+      "d_frame_191": 0.0, 
+      "coords": [
+        0.7835956811904907, 
+        0.639935314655304, 
+        0.0
+      ], 
+      "u1_frame_191": 0.0, 
+      "u1_frame_190": 0.0, 
+      "delta_d": 0.0
+    }, 
+    "8531": {
+      "u2_frame_190": 0.0, 
+      "u2_frame_191": 0.0, 
+      "d_frame_190": 0.0, 
+      "d_frame_191": 0.0, 
+      "coords": [
+        0.7830116748809814, 
+        0.6425605416297913, 
+        0.0
+      ], 
+      "u1_frame_191": 0.0, 
+      "u1_frame_190": 0.0, 
+      "delta_d": 0.0
+    }, 
+    "8907": {
+      "u2_frame_190": 0.0, 
+      "u2_frame_191": 0.0, 
+      "d_frame_190": 0.0, 
+      "d_frame_191": 0.0, 
+      "coords": [
+        0.7817666530609131, 
+        0.6410924792289734, 
+        0.0
+      ], 
+      "u1_frame_191": 0.0, 
+      "u1_frame_190": 0.0, 
+      "delta_d": 0.0
+    }, 
+    "9271": {
+      "u2_frame_190": 0.0, 
+      "u2_frame_191": 0.0, 
+      "d_frame_190": 0.0, 
+      "d_frame_191": 0.0, 
+      "coords": [
+        0.7847920060157776, 
+        0.6414757370948792, 
+        0.0
+      ], 
+      "u1_frame_191": 0.0, 
+      "u1_frame_190": 0.0, 
+      "delta_d": 0.0
+    }
+  }, 
+  "locus_integration_point": 1, 
+  "crack_jump_max_centroid": [
+    0.8397946357727051, 
+    0.637549877166748
+  ], 
+  "frame_190_time": 0.3799999952316284, 
+  "locus_d_frame_190": 0.9936754107475281, 
+  "locus_delta_h": 0.0, 
+  "crack_jump_max_delta_h": 1.8479183912277222, 
+  "global_min_nodal_delta_d": 0.0, 
+  "time_increment": 0.0020000040531158447, 
+  "investigated_transition": "Step-2: Frame 190 -> Frame 191", 
+  "history_monotonicity_strictly_satisfied": true, 
+  "crack_jump_max_delta_d": 0.2782523036003113
+}

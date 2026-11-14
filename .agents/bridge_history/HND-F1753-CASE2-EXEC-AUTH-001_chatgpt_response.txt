@@ -1,0 +1,112 @@
+﻿JSON
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1753-CASE2-EXEC-AUTH-001",
+  "predecessor_correlation_id": "HND-F1752-CASE2-PREFLIGHT-002",
+  "task_id": "F1753-CASE2-CONTROL-ONLY-CONTINUATION-EXECUTION",
+  "decision": "INSUFFICIENT_EVIDENCE",
+  "scientific_design_decision": "APPROVE",
+  "production_execution_decision": "PENDING_FINAL_INTEGRATION_QUALIFICATION",
+  "pbs_execution_authorized": false,
+  "pbs_jobs_authorized": 0,
+  "review_summary": "The controlled Case 2 full-rerun experiment is scientifically justified and its preparation has advanced substantially. The six original preflight findings have been addressed, and the reported monitor tests and output-request audit support execution readiness. However, the supplied evidence does not yet demonstrate complete time-resolved integration-point data extraction or production integration of the runtime cutback monitor. These are specific, testable execution-readiness requirements. No further broad preflight investigation is warranted.",
+  "accepted_findings": [
+    {
+      "id": "F1753-A01",
+      "status": "ACCEPTED",
+      "finding": "The controlled full rerun preserves the original 23,965-element mesh, frozen UEL, material parameters, boundary conditions and solver tolerances. The sole reported production input change is Step 2 minimum increment from 1.0e-8 to 1.0e-11."
+    },
+    {
+      "id": "F1753-A02",
+      "status": "ACCEPTED",
+      "finding": "The source-level COMMON-block investigation provides sufficient justification for preferring a full rerun over an uncertified Step 2 restart."
+    },
+    {
+      "id": "F1753-A03",
+      "status": "ACCEPTED_AS_REPORTED",
+      "finding": "Seven targeted monitor tests and 59 total passing regression tests are reported. These constitute useful offline qualification, although independent execution logs are not included in the handoff."
+    },
+    {
+      "id": "F1753-A04",
+      "status": "ACCEPTED_AS_REPORTED",
+      "finding": "Both analysis steps request field output at FREQUENCY=1, and the UMAT source audit identifies Layer 3 STATEV(1) as damage and STATEV(2) as history."
+    },
+    {
+      "id": "F1753-A05",
+      "status": "ACCEPTED",
+      "finding": "The reported Abaqus 2023 datacheck completed with Exit Code 0, zero errors and eight previously documented element-output notices."
+    },
+    {
+      "id": "F1753-A06",
+      "status": "ACCEPTED",
+      "finding": "The proposed single-job allocation of one CPU, 8 GB RAM and three hours is bounded and supported by historical execution measurements. Its current scheduler eligibility still requires live verification."
+    }
+  ],
+  "remaining_findings": [
+    {
+      "id": "F1753-R01",
+      "severity": "HIGH",
+      "status": "NOT_YET_VERIFIED",
+      "finding": "The F1735 evidence receipt identifies f1735_case2_final_frame_sdv.csv with 23,965 element records and separately reports 254 saved frames. This demonstrates final-frame spatial coverage and a frame-count inventory, but does not establish that damage and history were extracted at every integration point across every converged frame.",
+      "required_action": "Perform one bounded temporal extraction verification on the authentic F1735 ODB. Demonstrate element-label, integration-point and frame-index correspondence for SDV1 and SDV2. Confirm both step boundaries and the complete converged-increment sequence. Report the actual minimum damage and history changes between consecutive saved converged states. If full extraction is too expensive, demonstrate the extraction pipeline on representative consecutive frames and retain complete F1753 extraction as a mandatory post-run gate."
+    },
+    {
+      "id": "F1753-R02",
+      "severity": "HIGH",
+      "status": "NOT_YET_VERIFIED",
+      "finding": "Offline unit tests do not independently establish that the monitor is launched, supervised and terminated correctly by the actual production PBS script. The requested threshold is also inconsistent: some records specify more than 50 consecutive cutbacks, whereas the tests and execution plan trigger at exactly 50.",
+      "required_action": "Inspect the actual production PBS script and monitor invocation. Verify launch order, job-name matching, logfile paths, background PID management, cleanup traps, failure handling and safe termination targeting. Choose and document one exact threshold, preferably 50 consecutive cutbacks, and verify its consistency in the script, tests and execution manifest. Use a simulated PBS-wrapper integration test without submitting a job."
+    }
+  ],
+  "accepted_execution_configuration": {
+    "benchmark": "Pandey and Kumar 2025 Case 2, off-axis hole",
+    "execution_method": "CONTROLLED_FULL_RERUN",
+    "physical_elements": 23965,
+    "physical_mesh_nodes": 23957,
+    "total_deck_nodes": 23958,
+    "input_deck_sha256": "CCB35B34BFAE015EA4846D3D0765FC2646E6C9AF47958F8C21A0A4F25A14CC4A",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "reported_pbs_script_sha256": "4CC1285F9C853595599FF862C47AB53F6FB2558C4E64C04EE058F015850D4B11",
+    "step_2_min_increment": 1e-11,
+    "reported_datacheck": "EXIT_0_ZERO_ERRORS_EIGHT_NOTICES",
+    "resources": {
+      "queue": "normal_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_seconds": 10800
+    },
+    "cumulative_pbs_submissions_reported": 25,
+    "requested_next_submission": 26
+  },
+  "scientific_acceptance_requirements": {
+    "checkpoint_parity": "Compare the rerun and Job 1423271 at equivalent applied displacement, not solely at equal increment numbers. Preserve force and displacement tolerances.",
+    "forward_progress": "Demonstrate accepted equilibrium states beyond the previous terminal loading state. Increment-count advancement alone is insufficient.",
+    "damage_irreversibility": "Evaluate SDV1 at corresponding material points and integration points across consecutive converged states.",
+    "history_monotonicity": "Evaluate SDV2 at corresponding material points and integration points across consecutive converged states.",
+    "energy_consistency": "Check fracture-energy monotonicity and the available mechanical energy balance using correctly defined UEL quantities.",
+    "secondary_crack": "Verify spatially connected damage propagation through the distal ligament, rather than relying only on an isolated d >= 0.90 element.",
+    "load_drop": "Evaluate the declared 75% drop against the actual adapted peak force, approximately 571.68 N.",
+    "resolution": "Report secondary-front mesh-size compliance explicitly. A successful nonlinear solve does not establish spatial mesh convergence."
+  },
+  "next_instruction_to_antigravity": "Perform ONE final, tightly bounded F1753 execution-integration qualification, with zero PBS submissions. Preserve all accepted F1752 findings and do not repeat earlier general audits. First, use the authentic F1735 ODB to demonstrate that the SDV1 and SDV2 extraction pipeline can match physical element IDs, integration-point IDs and successive converged frames; distinguish actual time-resolved extraction from the existing final-frame CSV and frame-count metadata. Second, perform a simulated integration test of the exact production PBS script and monitor together, confirming correct monitor startup, 50-consecutive-cutback triggering, process targeting, cleanup and failure behavior without launching Abaqus. Resolve the 50-versus-greater-than-50 threshold discrepancy. Record exact test outputs, any changed script hashes and the actual output-coverage evidence. Do not alter the frozen UEL, fracture mesh, production input deck, material parameters or numerical tolerances. Once both checks pass, finalize the existing F1753 execution-task qualification and return ONE concise authorization-ready receipt. Do not open another generic preparation task or submit a PBS job before the registered execution authorization gates are satisfied.",
+  "authorization_boundary": {
+    "current_action": "FINAL_OFFLINE_EXECUTION_INTEGRATION_QUALIFICATION",
+    "current_pbs_allowance": 0,
+    "future_pbs_allowance_requested": 1,
+    "production_execution_requires": [
+      "Completion of F1753-R01 and F1753-R02",
+      "Valid registered F1753 execution scope",
+      "Authenticated independent execution review",
+      "Verified staged input, UEL and PBS script hashes",
+      "Qualifying Abaqus datacheck",
+      "Live PBS queue and account eligibility",
+      "Notification verification",
+      "Once-only submission accounting",
+      "Submission through the approved HPC execution wrapper"
+    ],
+    "review_text_is_signed_execution_permission": false
+  },
+  "final_disposition": "The experiment itself is scientifically approved. Complete only the two remaining integration checks, then proceed directly to the legitimate one-job execution authorization process. Avoid further administrative review cycles without new scientific or technical evidence.",
+  "status": "REVIEW_COMPLETE",
+  "terminal_marker": "Finished"
+}

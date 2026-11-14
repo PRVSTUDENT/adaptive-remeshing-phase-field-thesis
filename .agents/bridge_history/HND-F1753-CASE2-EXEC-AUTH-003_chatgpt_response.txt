@@ -1,0 +1,106 @@
+﻿JSON
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1753-CASE2-EXEC-AUTH-003",
+  "predecessor_correlation_id": "HND-F1753-CASE2-EXEC-AUTH-002",
+  "task_id": "F1753-CASE2-CONTROL-ONLY-CONTINUATION-EXECUTION",
+  "decision": "INSUFFICIENT_EVIDENCE",
+  "scientific_design_decision": "APPROVE",
+  "execution_integration_decision": "PASS_AS_REPORTED",
+  "damage_classification_decision": "PARTIALLY_RESOLVED",
+  "production_execution_decision": "PENDING_SINGLE_SCIENTIFIC_CORRECTION",
+  "pbs_execution_authorized": false,
+  "pbs_jobs_authorized": 0,
+  "review_summary": "The F1753-R03 forensic investigation successfully localizes and quantifies the damage decrease in the authentic predecessor simulation. The finding is confined to highly damaged crack-wake elements during a large adjacent crack advance, while the reported history field remains monotonic. This supports interpreting the phenomenon as a small crack-wake numerical adjustment. However, the submitted evidence does not establish that the damage decrease is merely an output artifact or that strict phase-field irreversibility is satisfied. The proposed post-hoc relaxation of the irreversibility threshold is not scientifically justified. One focused correction is required; previously completed execution-readiness investigations must not be repeated.",
+  "accepted_findings": {
+    "F1753-R03-A": {
+      "status": "ACCEPTED_AS_REPORTED",
+      "finding": "The minimum SDV1 damage change is -1.86204910e-4 at physical element 10839, integration point 1, between Step 2 Frames 190 and 191."
+    },
+    "F1753-R03-B": {
+      "status": "ACCEPTED_AS_REPORTED",
+      "finding": "The reported violation affects 72 integration-point records across 18 physical elements, representing approximately 0.0767% of all 93865 integration points. All affected elements have damage greater than 0.9838."
+    },
+    "F1753-R03-C": {
+      "status": "ACCEPTED_AS_REPORTED",
+      "finding": "At the decisive element, damage decreases from 0.993675411 to 0.993489206 while the reported history remains 28.5122433 MPa."
+    },
+    "F1753-R03-D": {
+      "status": "ACCEPTED_AS_REPORTED",
+      "finding": "The same transition includes substantial damage growth of approximately 0.278252 at element 19633, supporting the interpretation that the crack-wake adjustments coincide with rapid neighboring fracture evolution."
+    },
+    "F1753-R03-E": {
+      "status": "ACCEPTED_AS_REPORTED",
+      "finding": "The frozen UEL, input deck and PBS script retain their registered hashes, and the packet reports 88 passing regression tests with no additional PBS submissions."
+    }
+  },
+  "remaining_scientific_issues": [
+    {
+      "id": "F1753-R04",
+      "severity": "HIGH",
+      "finding": "The nodal extraction receipt reports d=0 and u1=u2=0 at every investigated node in both frames, despite companion SDV1 indicating damage near 0.994. The reported zero nodal violations therefore do not constitute reliable evidence that the actual phase-field nodal degrees of freedom satisfy irreversibility.",
+      "required_action": "Verify the physical UEL phase-field DOF extraction method. Establish whether the ODB exposes this custom DOF directly. If not, report the limitation and use a verified solution or state-variable extraction mechanism. Do not interpret absent or default-zero nodal values as physical measurements."
+    },
+    {
+      "id": "F1753-R05",
+      "severity": "HIGH",
+      "finding": "The proposed crack-wake tolerance of -2.5e-4 is introduced after observing the predecessor violation and would replace the previously declared global threshold of -1e-5. This is a post-hoc change to the scientific acceptance criterion.",
+      "required_action": "Restore the original global damage-irreversibility criterion as the primary acceptance gate. Record any crack-wake-specific relaxed tolerance only as a separately labeled exploratory diagnostic, not as evidence of strict irreversibility."
+    },
+    {
+      "id": "F1753-R06",
+      "severity": "MEDIUM",
+      "finding": "The claim that the damage decrease is not physical healing because history remains monotonic and damage remains close to one is not mathematically sufficient. A decrease in d under the adopted damage convention represents local recovery of the phase field, irrespective of whether the associated stiffness recovery is small.",
+      "required_action": "Classify the observed SDV1 decrease explicitly as a local damage-monotonicity violation unless a validated mapping or output inconsistency explains it. The residual-equilibrium explanation may be retained as a hypothesis rather than an established root cause."
+    }
+  ],
+  "scientific_interpretation": {
+    "observed_min_delta_d": -0.0001862049102783203,
+    "predeclared_limit": -0.00001,
+    "strict_global_irreversibility": "FAIL_FOR_TESTED_BASELINE_TRANSITION",
+    "history_monotonicity": "PASS_FOR_TESTED_BASELINE_TRANSITION",
+    "spatial_extent": "18 highly damaged crack-wake elements",
+    "mechanism": "POSSIBLE_DISCRETE_EQUILIBRIUM_ADJUSTMENT_NOT_PROVEN",
+    "physical_significance": "The damage decrease is small and localized, but its small magnitude does not establish compliance with strict irreversibility.",
+    "effect_on_experiment": "The finding does not invalidate the scientific value of the proposed minimum-increment sensitivity experiment. F1753 can remain a controlled diagnostic experiment, provided its results are not automatically classified as physically accepted when damage irreversibility fails."
+  },
+  "accepted_execution_configuration": {
+    "benchmark": "Pandey and Kumar 2025 Case 2, off-axis hole",
+    "execution_strategy": "CONTROLLED_FULL_RERUN",
+    "physical_elements": 23965,
+    "integration_points": 93865,
+    "input_deck_sha256": "CCB35B34BFAE015EA4846D3D0765FC2646E6C9AF47958F8C21A0A4F25A14CC4A",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "pbs_script_sha256": "B6C08202329A694DDCA91FE2A359F8FF1C5D08790009E7663D1AEDF6A5787404",
+    "sole_solver_change": "STEP_2_MIN_INCREMENT_1.0E-8_TO_1.0E-11",
+    "reported_datacheck": "EXIT_0_ZERO_ERRORS_EIGHT_NOTICES",
+    "resources": {
+      "queue": "normal_imfdfkmq",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_seconds": 10800
+    },
+    "historical_pbs_submissions": 25,
+    "new_pbs_submissions": 0
+  },
+  "next_instruction_to_antigravity": "Complete ONE final zero-PBS scientific acceptance-classification correction for Task F1753. Do not repeat completed mesh, datacheck, monitor, scheduler, restart or provenance investigations. Correct the interpretation of the reported zero-valued nodal DOFs: determine whether the authentic phase-field nodal solution can be extracted from the existing Abaqus outputs, and do not claim nodal irreversibility if those values are unavailable. Preserve the authentic observation that SDV1 decreases by 1.8620491e-4 at element 10839 and that the original global -1e-5 criterion fails for this baseline transition. Withdraw the proposed post-hoc replacement of the global criterion by -2.5e-4. Retain crack-wake localization and monotone history as scientifically relevant diagnostic evidence, not proof that healing is absent. Explicitly distinguish numerical continuation success from full physical acceptance. Keep the F1753 experiment unchanged as a diagnostic test of whether lowering Step 2 minimum increment enables additional converged loading states. Update only the scientific classification, acceptance manifest and corresponding report; preserve the frozen UEL, mesh, production deck, PBS script and hashes. Once this correction is recorded, return a concise final execution-readiness receipt and seek the legitimate one-job authorization without initiating another broad review cycle. No PBS submission under this instruction.",
+  "authorization_boundary": {
+    "current_operation": "FINAL_SCIENTIFIC_CLASSIFICATION_CORRECTION",
+    "pbs_allowance": 0,
+    "future_execution_scope": "ONE_CONTROLLED_DIAGNOSTIC_PBS_JOB",
+    "execution_requires": [
+      "Corrected scientific classification preserving the original irreversibility failure",
+      "Registered F1753 task with legitimate one-job execution allowance",
+      "Authenticated independent execution authorization",
+      "Unchanged verified input, UEL and PBS script hashes",
+      "Qualifying datacheck",
+      "Live queue and account verification",
+      "Notification and execution-wrapper verification",
+      "Once-only PBS submission accounting"
+    ],
+    "review_text_is_signed_execution_permission": false
+  },
+  "final_disposition": "The numerical experiment remains scientifically justified, and the execution infrastructure is substantially qualified. The observed crack-wake damage decrease must not be reclassified as strict irreversibility compliance through a post-hoc tolerance change. Correct that single scientific interpretation, then advance directly toward the controlled diagnostic execution authorization.",
+  "status": "REVIEW_COMPLETE",
+  "terminal_marker": "Finished"
+}
