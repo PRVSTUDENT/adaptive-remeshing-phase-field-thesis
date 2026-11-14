@@ -1,51 +1,61 @@
 ﻿{
-    "task_id":  "F1731-CASE2-ADAPTIVE-MESH-GENERATION",
-    "title":  "Case 2 Exploratory Native Abaqus Remeshing Pilot \u0026 Spatial Ligament Resolution Audit",
-    "status":  "PILOT_EXECUTION_AUDITED",
-    "classification":  "CASE2_REMESH_PILOT_AUDITED_SPATIAL_DEFICIENCY_DOCUMENTED",
-    "assigned_agent":  "gemini-antigravity",
-    "checkpoint_artifact":  "docs/validation/F1731_CASE2_ADAPTIVE_MESH_REPORT.md",
-    "predecessor_task":  {
-                             "task_id":  "F1730-CASE2-SPR-DOMAIN-INVESTIGATION",
-                             "checkpoint_artifact":  "docs/validation/F1730_CASE2_SPR_DOMAIN_INVESTIGATION_REPORT.md",
-                             "classification":  "CASE2_SPR_RECOVERY_VALIDITY_INVESTIGATION_EVALUATED",
-                             "review_verdict":  "REJECT_FULL_QUALIFICATION_ACCEPT_EXPLORATORY_REMESHING_PILOT",
-                             "correlation_id":  "HND-F1730-CASE2-SPR-002"
-                         },
-    "scientific_operation":  "case2_native_remeshing_pilot",
-    "scientific_operation_id":  "f1731_case2_remesh_001",
-    "scientific_checkpoint_required":  true,
-    "donor_odb_path":  "/scratch9/pr21vyci/runs/f1730_case2_recovery_solve/PK_HOLE_COMPANION_RECOVERY.odb",
-    "donor_classification":  "PROVISIONAL_DONOR_WITH_DOCUMENTED_SPR_LIMITATION",
-    "max_new_pbs_submissions":  1,
-    "submissions_consumed":  1,
-    "active_pbs_job_id":  "1423257.mmaster02",
-    "historical_pbs_job_ids":  [
-                                   "1423095.mmaster02",
-                                   "1423101.mmaster02",
-                                   "1423102.mmaster02",
-                                   "1423103.mmaster02",
-                                   "1423169.mmaster02",
-                                   "1423234.mmaster02",
-                                   "1423235.mmaster02",
-                                   "1423257.mmaster02"
-                               ],
-    "scope_boundary":  "EXPLORATORY_NATIVE_REMESHING_PILOT_NO_FORWARD_FRACTURE_NO_DUPLICATE_RECOVERY",
-    "pilot_objectives":  {
-                             "OBJ-01":  "Verify step RECOVERY_STEP and instance PART-1-1 compatibility in Abaqus CAE on cluster",
-                             "OBJ-02":  "Execute native RemeshingRule and adaptiveRemesh() in Abaqus CAE to generate physical adapted mesh",
-                             "OBJ-03":  "Audit physical mesh quality (quad fraction >= 90%, 100% det(J) > 0, zero inverted elements)",
-                             "OBJ-04":  "Independently evaluate spatial resolution h <= l0/2 = 3.75 um across 37-element primary corridor, uncracked oblique ligament, and 6 hole boundary elements",
-                             "OBJ-05":  "Assemble production 3-layer UEL-UMAT-Visualizer deck and run Abaqus datacheck (Exit 0) without forward fracture"
-                         },
-    "completed_operations":  [
-                                 "task_registered_and_session_claimed",
-                                 "review_response_hnd_f1730_case2_spr_002_received",
-                                 "hpc_job_1423257_executed_exit0",
-                                 "physical_mesh_and_production_deck_audited",
-                                 "spatial_resolution_audit_completed",
-                                 "unit_tests_passed_47_of_47",
-                                 "qualification_report_authored"
-                             ],
-    "iteration":  1
+    "task_id": "F1732-CASE2-ADAPTIVE-REMESH-CALIBRATION",
+    "title": "Case 2 Calibrated Native Abaqus Remeshing Experiment (eta = 3.80%) & Along-Path Spatial Verification",
+    "status": "CALIBRATION_EXECUTION_AUDITED",
+    "classification": "CASE2_CALIBRATED_REMESH_AUDITED_CORRIDOR_RESOLVED",
+    "assigned_agent": "gemini-antigravity",
+    "checkpoint_artifact": "docs/validation/F1732_CASE2_CALIBRATED_MESH_REPORT.md",
+    "predecessor_task": {
+        "task_id": "F1731-CASE2-ADAPTIVE-MESH-GENERATION",
+        "checkpoint_artifact": "docs/validation/F1731_CASE2_ADAPTIVE_MESH_REPORT.md",
+        "classification": "CASE2_REMESH_PILOT_EVALUATED",
+        "review_verdict": "APPROVE_TECHNICAL_MILESTONE_DEFICIENCY_DOCUMENTED_DIRECTS_F1732",
+        "correlation_id": "HND-F1731-CASE2-REMESH-001"
+    },
+    "scientific_operation": "case2_native_remeshing_calibration",
+    "scientific_operation_id": "f1732_case2_remesh_001",
+    "scientific_checkpoint_required": true,
+    "donor_odb_path": "/scratch9/pr21vyci/runs/f1730_case2_recovery_solve/PK_HOLE_COMPANION_RECOVERY.odb",
+    "donor_classification": "PROVISIONAL_DONOR_WITH_DOCUMENTED_SPR_LIMITATION",
+    "max_new_pbs_submissions": 1,
+    "submissions_consumed": 1,
+    "active_pbs_job_id": "1423258.mmaster02",
+    "historical_pbs_job_ids": [
+        "1423095.mmaster02",
+        "1423101.mmaster02",
+        "1423102.mmaster02",
+        "1423103.mmaster02",
+        "1423169.mmaster02",
+        "1423234.mmaster02",
+        "1423235.mmaster02",
+        "1423257.mmaster02",
+        "1423258.mmaster02"
+    ],
+    "remeshing_parameters": {
+        "error_target_percent": 3.80,
+        "min_size_mm": 0.0015,
+        "max_size_mm": 0.020,
+        "mesh_gradation": 1.25,
+        "step_name": "RECOVERY_STEP",
+        "region_name": "ALL_ELEM"
+    },
+    "scope_boundary": "CALIBRATED_NATIVE_REMESHING_EXPERIMENT_NO_FORWARD_FRACTURE_NO_DUPLICATE_RECOVERY",
+    "calibration_objectives": {
+        "OBJ-01": "Stage calibrated remeshing configuration f1732_case2_off_axis_hole.json with error_target = 3.80% to cluster",
+        "OBJ-02": "Execute native RemeshingRule and adaptiveRemesh() in Abaqus CAE 2023 on HPC under 1 bounded PBS job",
+        "OBJ-03": "Audit physical mesh quality (quad fraction >= 90%, 100% det(J) > 0, zero inverted elements)",
+        "OBJ-04": "Independently evaluate spatial resolution h <= l0/2 = 3.75 um across fracture corridor and along-path ligament",
+        "OBJ-05": "Explicitly disclose overlapping diagnostic regions and distinguish region membership from global partition",
+        "OBJ-06": "Assemble production 3-layer UEL-UMAT-Visualizer deck and run Abaqus datacheck (Exit 0) without forward fracture"
+    },
+    "completed_operations": [
+        "task_registered_and_session_claimed",
+        "review_response_hnd_f1731_case2_remesh_001_received",
+        "hpc_job_1423258_executed_exit0",
+        "physical_mesh_and_production_deck_audited",
+        "spatial_resolution_audit_completed",
+        "unit_tests_passed_55_of_55",
+        "qualification_report_authored"
+    ],
+    "iteration": 1
 }

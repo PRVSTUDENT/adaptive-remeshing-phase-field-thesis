@@ -1,11 +1,11 @@
 {
   "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "f1731-case2-adaptive-mesh-session-001",
-  "task_id": "F1731-CASE2-ADAPTIVE-MESH-GENERATION",
-  "started_at": "2026-11-14T01:19:00+01:00",
+  "session_id": "f1732-case2-calibrated-mesh-session-001",
+  "task_id": "F1732-CASE2-ADAPTIVE-REMESH-CALIBRATION",
+  "started_at": "2026-11-14T01:42:00+01:00",
   "completed_at": null,
-  "starting_commit": "f8a629b1",
+  "starting_commit": "2430c4c2",
   "allowed_write_scope": [
     "project_coordination/**",
     "models/pandey_kumar_mode1/**",
@@ -17,5 +17,5 @@
     "figures/**",
     ".agents/**"
   ],
-  "notes": "Task F1731: Case 2 Exploratory Native Abaqus Remeshing Pilot & Spatial Ligament Resolution Audit using Provisional Donor PK_HOLE_COMPANION_RECOVERY.odb."
+  "notes": "Task F1732: Case 2 Calibrated Native Abaqus Remeshing Experiment (eta = 3.80%) & Along-Path Spatial Verification using Provisional Donor PK_HOLE_COMPANION_RECOVERY.odb."
 }
