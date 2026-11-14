@@ -33,7 +33,8 @@ $filesToDownload = @(
     "PK_F1739_CASE_1_FRAC.prt",
     "PK_F1739_CASE_1_FRAC.com",
     "uel_energy_balance.csv",
-    "uel_svars_out.txt"
+    "uel_svars_out.txt",
+    "f1739_case1_odb_audit.json"
 )
 
 foreach ($f in $filesToDownload) {
