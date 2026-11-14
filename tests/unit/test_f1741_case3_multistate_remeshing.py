@@ -101,7 +101,8 @@ def test_f1741_accounting_and_ledger():
         "F1744-CASE3-5STATE-REMESHING-EXECUTION",
         "F1745-CASE3-5STATE-ENVELOPE-QUALIFICATION",
         "F1746-CASE3-5STATE-ENVELOPE-EXECUTION",
-        "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE"
+        "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE",
+        "F1748-AUTHENTIC-COUPLED-DAMAGE-FIELD-RECOVERY-AND-INDICATOR-FEASIBILITY"
     ]
     assert "1423436.mmaster02" in task_data["historical_pbs_job_ids"]
     assert "1423438.mmaster02" in task_data["historical_pbs_job_ids"]

@@ -93,7 +93,10 @@ def test_f1747_zero_pbs_governance():
     with open(active_task_path, "r", encoding="utf-8-sig") as f:
         task = json.load(f)
     
-    assert task["task_id"] == "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE"
+    assert task["task_id"] in [
+        "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE",
+        "F1748-AUTHENTIC-COUPLED-DAMAGE-FIELD-RECOVERY-AND-INDICATOR-FEASIBILITY"
+    ]
     assert task["max_new_pbs_submissions"] == 0, "max_new_pbs_submissions > 0"
     assert task["submissions_consumed"] == 0, "Non-zero submissions consumed"
     assert task["cumulative_pbs_submissions"] == 25, "Cumulative PBS submissions != 25"

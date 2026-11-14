@@ -86,7 +86,11 @@ def test_f1746_coordination_and_ledger_integrity():
     task_json = os.path.join(REPO_ROOT, "project_coordination", "ACTIVE_TASK.json")
     with open(task_json, "r", encoding="utf-8-sig") as f:
         task = json.load(f)
-    assert task["task_id"] in ["F1746-CASE3-5STATE-ENVELOPE-EXECUTION", "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE"]
+    assert task["task_id"] in [
+        "F1746-CASE3-5STATE-ENVELOPE-EXECUTION",
+        "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE",
+        "F1748-AUTHENTIC-COUPLED-DAMAGE-FIELD-RECOVERY-AND-INDICATOR-FEASIBILITY"
+    ]
     assert task["cumulative_pbs_submissions"] == 25
     assert len(task["historical_pbs_job_ids"]) == 25
     assert task["frozen_uel_sha256"] == FROZEN_UEL_SHA.upper()
@@ -96,7 +100,11 @@ def test_f1746_coordination_and_ledger_integrity():
         sess = json.load(f)
     assert sess["active"] is True
     assert sess["agent"] == "gemini-antigravity"
-    assert sess["task_id"] in ["F1746-CASE3-5STATE-ENVELOPE-EXECUTION", "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE"]
+    assert sess["task_id"] in [
+        "F1746-CASE3-5STATE-ENVELOPE-EXECUTION",
+        "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE",
+        "F1748-AUTHENTIC-COUPLED-DAMAGE-FIELD-RECOVERY-AND-INDICATOR-FEASIBILITY"
+    ]
 
 def test_f1746_seven_predeclared_gates_defined():
     manifest_path = os.path.join(PKG_DIR, "f1746_case3_envelope_remesh.json")

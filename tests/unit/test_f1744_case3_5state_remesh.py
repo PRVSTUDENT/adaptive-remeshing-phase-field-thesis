@@ -85,7 +85,8 @@ def test_f1744_accounting_and_ledger_integrity():
         "F1744-CASE3-5STATE-REMESHING-EXECUTION",
         "F1745-CASE3-5STATE-ENVELOPE-QUALIFICATION",
         "F1746-CASE3-5STATE-ENVELOPE-EXECUTION",
-        "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE"
+        "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE",
+        "F1748-AUTHENTIC-COUPLED-DAMAGE-FIELD-RECOVERY-AND-INDICATOR-FEASIBILITY"
     ]
     assert task["cumulative_pbs_submissions"] in [20, 21, 22, 23, 24, 25]
     assert task["max_new_pbs_submissions"] in [0, 1, 2, 3, 4, 5]
