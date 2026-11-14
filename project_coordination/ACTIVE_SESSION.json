@@ -1,11 +1,11 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "f1728-unified-method-a-session-001",
-  "task_id": "F1728-UNIFIED-METHOD-A-FIVE-GEOMETRIES",
-  "started_at": "2026-11-13T10:38:00+01:00",
-  "completed_at": "2026-11-14T00:35:00+01:00",
-  "starting_commit": "79d5b3f0f0fbafa4ea65dc0888171409cdc73d98",
+  "session_id": "f1730-case2-recovery-solve-session-001",
+  "task_id": "F1730-CASE2-COMPANION-RECOVERY-SOLVE",
+  "started_at": "2026-11-14T00:47:00+01:00",
+  "completed_at": "2026-11-14T01:03:00+01:00",
+  "starting_commit": "bde9e29d3cfbe241315b746816174bb05fcb8b2e",
   "allowed_write_scope": [
     "project_coordination/**",
     "models/pandey_kumar_mode1/**",
@@ -17,7 +17,8 @@
     "figures/**",
     "MA_AdaptiveRemeshing_Report_2026/**",
     ".agents/**",
-    "configs/remeshing/**"
+    "configs/remeshing/**",
+    "runs/hpc/**"
   ],
-  "notes": "Task F1728: Unified Physics-Driven Method A Adaptive Remeshing — Five-Geometry Verification. Negative visual review of F1727 historical meshes recorded. Stage A Root-Cause Investigation and Stage B Common Engine Unification active."
+  "notes": "Task F1730: Case 2 Companion Degraded Cauchy Stress Recovery HPC Abaqus Solve & MISESERI Audit. Bounded solve of PK_HOLE_COMPANION_RECOVERY.inp on cluster to evaluate static force equilibrium and recovered MISESERI/MISESAVG fields."
 }

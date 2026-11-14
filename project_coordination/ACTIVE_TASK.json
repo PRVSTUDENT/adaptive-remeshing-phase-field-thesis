@@ -1,55 +1,59 @@
 ﻿{
-    "task_id":  "F1729-CASE2-COMPANION-RECOVERY-DATACHECK",
-    "title":  "Case 2 Companion Degraded Cauchy Stress Recovery HPC Abaqus Datacheck",
-    "status":  "COMPLETED_HPC_DATACHECK_EXIT_0",
-    "classification":  "CASE2_RECOVERY_DATACHECK_PASSED_ALL_GATES",
-    "assigned_agent":  "gemini-antigravity",
-    "checkpoint_artifact":  "docs/validation/F1729_CASE2_COMPANION_RECOVERY_DATACHECK_REPORT.md",
-    "predecessor_task":  {
-                             "task_id":  "F1728-UNIFIED-METHOD-A-FIVE-GEOMETRIES",
-                             "checkpoint_artifact":  "docs/validation/F1728_CASE2_COMPANION_RECOVERY_ARTIFACT_QUALIFICATION.md",
-                             "classification":  "CASE2_COMPANION_RECOVERY_ARTIFACT_LEVEL_QUALIFIED"
-                         },
-    "scientific_operation":  "case2_companion_recovery_hpc_datacheck",
-    "scientific_operation_id":  "f1729_case2_recovery_dc_001",
-    "scientific_checkpoint_required":  true,
-    "max_new_pbs_submissions":  1,
-    "submissions_consumed":  1,
-    "active_pbs_job_id":  "1423234.mmaster02",
-    "historical_pbs_job_ids":  [
-                                   "1423095.mmaster02",
-                                   "1423101.mmaster02",
-                                   "1423102.mmaster02",
-                                   "1423103.mmaster02",
-                                   "1423169.mmaster02"
-                               ],
-    "deck_path":  "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COMPANION_RECOVERY.inp",
-    "deck_sha256":  "0286F591F865E060D3C34482671D8E378916831D3781DB17A4E8BC70963E51E0",
-    "scope_boundary":  "BOUNDED_HPC_DATACHECK_PRE_EXE_ONLY_NO_SOLVE_NO_REMESH_NO_FORWARD_FRACTURE",
-    "execution_gates":  {
-                            "DC-01":  "Syntax and keyword validity under Abaqus pre.exe",
-                            "DC-02":  "CPE4/CPE3 plane-strain element topology (2832 quads, 74 tris, 3010 nodes)",
-                            "DC-03":  "Material assignment across all 13 intact-anchored bins with zero unassigned elements",
-                            "DC-04":  "Kinematic boundary conditions verified (bottom fixed, pin fixed, top uy=0.00729381 mm)",
-                            "DC-05":  "Output variable support: MISESERI, MISESAVG, S, EVOL accepted by pre.exe on ALL_ELEM",
-                            "DC-06":  "Abaqus datacheck Exit Code 0 with 0 errors and 0 severe warnings"
-                        },
-    "queue_configuration":  {
-                                "queue":  "short_imfdfkmq",
-                                "walltime":  "00:30:00",
-                                "cpus":  1,
-                                "memory_gb":  8
-                            },
-    "completed_operations":  [
-                                 "task_f1729_registered_and_session_claimed",
-                                 "predecessor_f1728_offline_closeout_verified",
-                                 "case2_companion_recovery_package_staged_on_cluster",
-                                 "case2_companion_recovery_pbs_job_1423234_submitted",
-                                 "case2_companion_recovery_datacheck_completed_exit_0",
-                                 "solver_evidence_downloaded_and_verified_6_of_6_gates_pass",
-                                 "regression_tests_passed_30_of_30_including_f1729_assertions",
-                                 "f1729_case2_datacheck_report_authored_and_registered"
-                             ],
-    "iteration":  2,
-    "review_resolution": "HPC_DATACHECK_PASSED_EXIT_0_ALL_GATES_PASS_READY_FOR_INDEPENDENT_REVIEW"
+  "task_id": "F1730-CASE2-COMPANION-RECOVERY-SOLVE",
+  "title": "Case 2 Companion Degraded Cauchy Stress Recovery HPC Abaqus Solve & MISESERI Audit",
+  "status": "RECOVERY_SOLVE_COMPLETED_EXIT_0_ALL_7_GATES_PASS",
+  "classification": "CASE2_COMPANION_RECOVERY_SOLVE_PASSED_EXIT_0",
+  "assigned_agent": "gemini-antigravity",
+  "checkpoint_artifact": "docs/validation/F1730_CASE2_COMPANION_RECOVERY_SOLVE_REPORT.md",
+  "predecessor_task": {
+    "task_id": "F1729-CASE2-COMPANION-RECOVERY-DATACHECK",
+    "checkpoint_artifact": "docs/validation/F1729_CASE2_COMPANION_RECOVERY_DATACHECK_REPORT.md",
+    "classification": "CASE2_COMPANION_RECOVERY_DATACHECK_PASSED_EXIT_0",
+    "review_verdict": "APPROVE",
+    "correlation_id": "HND-F1729-CASE2-DATACHECK-001"
+  },
+  "scientific_operation": "case2_companion_recovery_hpc_solve",
+  "scientific_operation_id": "f1730_case2_recovery_solve_001",
+  "scientific_checkpoint_required": true,
+  "max_new_pbs_submissions": 1,
+  "submissions_consumed": 1,
+  "active_pbs_job_id": "1423235.mmaster02",
+  "historical_pbs_job_ids": [
+    "1423095.mmaster02",
+    "1423101.mmaster02",
+    "1423102.mmaster02",
+    "1423103.mmaster02",
+    "1423169.mmaster02",
+    "1423234.mmaster02",
+    "1423235.mmaster02"
+  ],
+  "deck_path": "models/pandey_kumar_mode1/221_f1730_case2_recovery_solve/PK_HOLE_COMPANION_RECOVERY.inp",
+  "deck_sha256": "0286F591F865E060D3C34482671D8E378916831D3781DB17A4E8BC70963E51E0",
+  "scope_boundary": "BOUNDED_HPC_RECOVERY_SOLVE_AND_FIELD_AUDIT_NO_REMESH_NO_FORWARD_FRACTURE",
+  "execution_gates": {
+    "SOLVE-01": "Abaqus/Standard solver completes with Exit Code 0 and 1 converged increment [PASS]",
+    "SOLVE-02": "Vertical static force equilibrium: |sum RF_y(bottom) + RF_y(top)| <= 1.0e-4 |RF_y(top)| [PASS: 9.03e-9]",
+    "SOLVE-03": "Recovered reaction force quantitatively reported and distinguished from original 0.731015 kN peak force [PASS: 0.715238 kN]",
+    "SOLVE-04": "ODB fields S, EVOL, MISESAVG, and MISESERI present and populated across all elements [PASS: 2906 elements]",
+    "SOLVE-05": "Finite indicator coverage: 100% of elements have finite non-NaN, non-inf error values [PASS: 100.0%]",
+    "SOLVE-06": "Spatial error localization: process-zone contrast >= 5.0x vs bulk evaluated on 48 damaged elements and 6 boundary elements [PASS: 12.67x damaged, 8.50x boundary]",
+    "SOLVE-07": "Warning classification: 2 SPR section warnings verified benign in runtime solver output [PASS]"
+  },
+  "queue_configuration": {
+    "queue": "entry_imfdfkmq",
+    "walltime": "00:30:00",
+    "cpus": 1,
+    "memory_gb": 8
+  },
+  "completed_operations": [
+    "task_f1730_registered_and_session_claimed",
+    "predecessor_f1729_approved_by_chatgpt_under_hnd_f1729_case2_datacheck_001",
+    "warning_classification_completed_f1729_r01_resolved",
+    "procedure_clarification_completed_f1729_r02_resolved",
+    "hpc_solve_executed_job_1423235_exit_0",
+    "all_7_gates_pass",
+    "report_published",
+    "regression_suite_pass_36_of_36"
+  ],
+  "iteration": 1
 }

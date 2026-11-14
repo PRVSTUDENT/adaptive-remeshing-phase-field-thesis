@@ -1,0 +1,25 @@
+﻿{
+    "timestamp":  "2026-11-14T00:58:27.4605677+01:00",
+    "evidence_hashes":  {
+                            "pbs_execution.log":  "F48846EA6DFB8C625D3CA879B66610E2AA7CE3FFC6937950E523693D8467E6BF",
+                            "PK_HOLE_COMPANION_RECOVERY.sta":  "E28F0B8BD8FBAA5D04395936411147F6EF3D008EC4697A8F5B4227C182D182E6",
+                            "PK_HOLE_COMPANION_RECOVERY.prt":  "8A1073782888290337089869A6F4AF8C602D4995A03428F60EBB450C978DA0A0",
+                            "PK_HOLE_COMPANION_RECOVERY.msg":  "850F53CDB1909BCBFDF5E1284ECB0432D093D0829B41635B11F60E83A2EF6FCC",
+                            "PK_HOLE_COMPANION_RECOVERY.com":  "DEF809B86F1026CABE3D5B9917D6A5956D3251FFF27B6589C1FDD4F9AF918354",
+                            "PK_HOLE_COMPANION_RECOVERY.dat":  "F37F3116CAE9DDF16DB6381420A57DA5570DE7BA0A705844D81C951A518A02B8",
+                            "f1730_case2_recovery_telemetry.json":  "CF1299BADB90B98694DC61D6583FB594E9F41B745C13709A2BE59D5B743A99B9"
+                        },
+    "task_id":  "F1730-CASE2-COMPANION-RECOVERY-SOLVE",
+    "overall_pass":  true,
+    "solve_status":  "RECOVERY_SOLVE_EXIT_0_ALL_7_GATES_PASS",
+    "job_id":  "1423235.mmaster02",
+    "gate_results":  {
+                         "SOLVE-03-REACTION-FORCE-REPORTED":  "PASS",
+                         "SOLVE-04-FIELDS-POPULATED":  "PASS",
+                         "SOLVE-05-FINITE-COVERAGE":  "PASS",
+                         "SOLVE-07-WARNINGS-CLASSIFIED":  "PASS",
+                         "SOLVE-01-CONVERGED-INCREMENT":  "PASS",
+                         "SOLVE-06-PROCESS-ZONE-CONTRAST":  "PASS",
+                         "SOLVE-02-VERTICAL-EQUILIBRIUM":  "PASS"
+                     }
+}
