@@ -1,11 +1,10 @@
 {
-  "active": true,
+  "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "f1735-case2-adapted-fracture-qual-session-001",
+  "session_id": "f1735-case2-fracture-results-session-002",
   "task_id": "F1735-CASE2-ADAPTED-FRACTURE-EXECUTION-QUALIFICATION",
-  "started_at": "2026-11-14T02:50:00+01:00",
-  "completed_at": null,
-  "starting_commit": "9d243edd",
+  "started_at": "2026-11-14T04:15:00+01:00",
+  "starting_commit": "4aa639f8",
   "allowed_write_scope": [
     "project_coordination/**",
     "models/pandey_kumar_mode1/**",
@@ -14,8 +13,9 @@
     "tests/unit/**",
     "docs/validation/**",
     "results/validation/**",
+    "results/figures/**",
     "figures/**",
     ".agents/**"
   ],
-  "notes": "Task F1735: Case 2 Adapted-Mesh Mode-I Phase-Field Fracture Execution Qualification following independent review APPROVAL of HND-F1734-CASE2-QUAL-001."
+  "notes": "Task F1735 Case 2 Adapted-Mesh Phase-Field Fracture Simulation closed under TERMINATED_WITH_PARTIAL_CONVERGED_FRACTURE_RESULTS following independent review evaluation HND-F1735-CASE2-CLOSEOUT-004."
 }

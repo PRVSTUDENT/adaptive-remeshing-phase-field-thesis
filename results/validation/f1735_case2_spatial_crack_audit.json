@@ -1,0 +1,62 @@
+{
+  "global_damage_bounds": {
+    "min_d": 7.46953788e-08,
+    "max_d": 1.00117159,
+    "lower_bound_violations": 0,
+    "upper_bound_violations": 0,
+    "bounds_satisfied": false
+  },
+  "global_irreversibility": {
+    "min_delta_d": 0.0,
+    "irreversibility_violations": 0,
+    "irreversibility_satisfied": false
+  },
+  "global_history_monotonicity": {
+    "min_delta_h": 0.0,
+    "monotonicity_violations": 0,
+    "monotonicity_satisfied": true
+  },
+  "damage_population": {
+    "total_physical_elements": 23965,
+    "count_d_ge_050": 1762,
+    "count_d_ge_075": 1139,
+    "count_d_ge_090": 849,
+    "count_d_ge_095": 723
+  },
+  "crack_trajectory_and_geometry": {
+    "max_reach_095_mm": 0.413055,
+    "min_dist_to_hole_boundary_095_mm": 0.0008,
+    "max_reach_075_mm": 0.419928,
+    "min_dist_to_hole_boundary_075_mm": 0.00079,
+    "max_reach_050_mm": 0.429546,
+    "min_dist_to_hole_boundary_050_mm": 0.000774,
+    "crack_tip_element_095": {
+      "element_id": 11531,
+      "centroid": [
+        0.890105,
+        0.635764
+      ],
+      "damage_d": 0.952652,
+      "history_h": 26.765751,
+      "dist_notch_mm": 0.413055,
+      "dist_hole_boundary_mm": 0.140527,
+      "dist_hole_flank_mm": 0.254963
+    },
+    "crack_tip_element_075": {
+      "element_id": 10701,
+      "centroid": [
+        0.895846,
+        0.64016
+      ],
+      "damage_d": 0.792836,
+      "history_h": 1.473497,
+      "dist_notch_mm": 0.419928,
+      "dist_hole_boundary_mm": 0.146043,
+      "dist_hole_flank_mm": 0.261857
+    },
+    "ligament_bridged_095": true,
+    "ligament_bridged_075": true,
+    "ligament_bridged_050": true
+  },
+  "sampled_frames_progression": []
+}

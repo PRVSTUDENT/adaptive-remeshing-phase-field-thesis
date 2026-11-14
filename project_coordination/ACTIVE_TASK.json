@@ -1,14 +1,15 @@
 ﻿{
     "task_id":  "F1735-CASE2-ADAPTED-FRACTURE-EXECUTION-QUALIFICATION",
-    "title":  "Case 2 Adapted-Mesh Mode-I Phase-Field Fracture Execution Qualification",
-    "status":  "SUBMITTED_AND_QUEUED",
-    "classification":  "CASE2_ADAPTED_FRACTURE_SUBMITTED_1CPU_SERIAL",
+    "title":  "Case 2 Adapted-Mesh Mode-I Phase-Field Fracture Execution Qualification and Closeout Audit",
+    "status":  "TERMINATED_WITH_PARTIAL_CONVERGED_FRACTURE_RESULTS",
+    "classification":  "CASE2_ADAPTED_FRACTURE_SIMULATION_PARTIALLY_CONVERGED_TERMINATED_AT_MIN_DT",
     "assigned_agent":  "gemini-antigravity",
     "active_pbs_job_id":  "1423271.mmaster02",
-    "checkpoint_artifact":  "docs/validation/F1735_CASE2_ADAPTED_FRACTURE_QUALIFICATION_REPORT.md",
+    "checkpoint_artifact":  "docs/validation/F1735_CASE2_VALIDATION_SUMMARY.md",
     "review_approval":  {
-                            "correlation_id":  "HND-F1735-CASE2-FRACTURE-AUTH-002",
-                            "decision":  "APPROVE",
+                            "correlation_id":  "HND-F1735-CASE2-CLOSEOUT-004",
+                            "decision":  "REJECT_UNCONDITIONAL_COMPLETION_ACCEPT_PARTIAL_CONVERGENCE_CLOSEOUT",
+                            "findings_resolved":  "F1735-R14 to F1735-R23 conclusively resolved with full disclosure of partial convergence, geometric hole intersection, and energy accounting",
                             "scope":  "One bounded exploratory Case 2 adapted-mesh fracture experiment using 1-CPU serial Abaqus execution",
                             "execution_mode":  "SERIAL_1CPU_DETERMINISTIC"
                         },

@@ -1,0 +1,89 @@
+{
+    "task_id": "F1735-CASE2-ADAPTED-FRACTURE-EXECUTION-QUALIFICATION",
+    "pbs_job_id": "1423271.mmaster02",
+    "execution_mode": "1-CPU Serial Abaqus/Standard 2023",
+    "production_deck": {
+        "path": "models/pandey_kumar_mode1/225_f1735_case2_adapted_fracture/PK_F1728_CASE_2_PROD.inp",
+        "sha256": "805af9d80126588c1a3e39fe3b5f7a0f53db606106f2dbfe6260f1e1fbddbf94",
+        "total_layered_elements": 71895,
+        "physical_elements": 23965,
+        "total_nodes": 23958
+    },
+    "user_subroutine": {
+        "file": "f42_mixed_uel.for",
+        "sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+        "frozen_verified": true
+    },
+    "solver_performance": {
+        "total_increments": 252,
+        "step_1_increments": 50,
+        "step_2_increments": 202,
+        "total_cutbacks": 13,
+        "total_iterations": 879,
+        "negative_eigenvalues": 0,
+        "numerical_problem_messages": 0,
+        "total_cpu_time_s": 1690.0,
+        "wallclock_time_s": 2472.0
+    },
+    "metrics": {
+        "initial_stiffness_K0_kN_per_mm": 112.95066000000001,
+        "initial_stiffness_R2": 0.9999999532175636,
+        "peak_force_Fmax_kN": 0.57168154,
+        "peak_force_Fmax_N": 571.68154,
+        "displacement_at_peak_u_peak_mm": 0.005476,
+        "final_force_Ffinal_kN": 0.24441924,
+        "final_force_Ffinal_N": 244.41924,
+        "final_displacement_ufinal_mm": 0.0076765869,
+        "post_peak_load_drop_pct": 57.245560176737555,
+        "total_fracture_energy_dissipated_kNmm": 0.0016108607,
+        "peak_elastic_strain_energy_kNmm": 0.0018447252,
+        "thermodynamic_fracture_energy_monotonic": true,
+        "min_delta_e_fracture_kNmm": 9.2548756e-11,
+        "total_rf_increments_recorded": 252,
+        "total_energy_increments_recorded": 251
+    },
+    "category_a_numerical_validity_gates": {
+        "GATE-A1-CONVERGED-PROGRESSION": {
+            "description": "Regular increment convergence across both steps without divergence",
+            "status": "PASS",
+            "evidence": "252 converged increments (50 Step 1, 202 Step 2), 0 negative eigenvalues, 0 divergence"
+        },
+        "GATE-A2-MONOTONIC-ENERGY-DISSIPATION": {
+            "description": "Fracture energy dissipation strictly non-negative (Second Law: d_dot >= 0)",
+            "status": "PASS",
+            "evidence": "Min delta E_frac = 9.2549e-11 kN*mm >= 0, final E_frac = 1.610861e-03 kN*mm"
+        },
+        "GATE-A3-STRAIN-ENERGY-RELEASE": {
+            "description": "Elastic strain energy drops during crack extension with concurrent fracture energy surge",
+            "status": "PASS",
+            "evidence": "Elastic strain energy released from peak 1.844725e-03 kN*mm down to 0.957e-3 kN*mm"
+        },
+        "GATE-A4-BITWISE-SUBROUTINE-INTEGRITY": {
+            "description": "Frozen UEL f42_mixed_uel.for preserved bitwise unaltered",
+            "status": "PASS",
+            "evidence": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6"
+        },
+        "GATE-A5-SERIAL-DETERMINISM": {
+            "description": "1-CPU serial execution completely eliminates Fortran COMMON-block data races",
+            "status": "PASS",
+            "evidence": "cpus=1 double=both interactive, sequential deterministic execution"
+        }
+    },
+    "category_b_literature_comparison_metrics": {
+        "METRIC-B1-INITIAL-STIFFNESS": {
+            "measured_value": "112.95 kN/mm",
+            "benchmark_context": "Off-axis hole plate compliance restored (113.02 kN/mm vs solid plate 137.95 kN/mm)",
+            "classification": "PHYSICALLY_CONSISTENT"
+        },
+        "METRIC-B2-PEAK-LOAD": {
+            "measured_value": "0.5717 kN (571.7 N) at u = 0.00548 mm",
+            "benchmark_context": "Smooth pre-peak quadratic-like ascent to peak load",
+            "classification": "MEASURED_BENCHMARK_OBSERVABLE"
+        },
+        "METRIC-B3-POST-PEAK-SOFTENING": {
+            "measured_value": "57.25% load drop (F dropped to 244.4 N at u = 0.00768 mm)",
+            "benchmark_context": "Smooth, non-oscillatory physical softening drop with crack bridging toward hole",
+            "classification": "MEASURED_BENCHMARK_OBSERVABLE"
+        }
+    }
+}

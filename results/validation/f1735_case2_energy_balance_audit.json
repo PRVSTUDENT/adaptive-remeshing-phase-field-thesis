@@ -1,0 +1,46 @@
+{
+  "total_converged_increments": 251,
+  "step_1_converged": 50,
+  "step_2_converged": 201,
+  "step_1_target_displacement_mm": 0.005,
+  "step_2_final_target_displacement_mm": 0.012,
+  "actual_final_displacement_mm": 0.0076765869,
+  "step_2_displacement_completed_pct": 38.236955714285706,
+  "terminal_state": {
+    "u_mm": 0.0076765869,
+    "f_kN": 0.24441924,
+    "f_N": 244.41924,
+    "w_ext_kNmm": 0.002646348594668095,
+    "e_elas_kNmm": 0.00093815278,
+    "e_frac_kNmm": 0.0016108607,
+    "e_tot_kNmm": 0.0025490135,
+    "abs_imbalance_kNmm": 9.733509466809502e-05,
+    "rel_imbalance_pct": 3.6780904399445826
+  },
+  "peak_state": {
+    "inc_index": 84,
+    "u_mm": 0.005476,
+    "f_kN": 0.57168154,
+    "f_N": 571.68154,
+    "w_ext_kNmm": 0.0016387432797100008,
+    "e_elas_kNmm": 0.001565256,
+    "e_frac_kNmm": 7.3444512e-05,
+    "e_tot_kNmm": 0.0016387005,
+    "rel_imbalance_pct": 0.002610519324805763
+  },
+  "step_1_end_state": {
+    "inc_index": 50,
+    "u_mm": 0.005,
+    "f_kN": 0.53361369,
+    "f_N": 533.61369,
+    "w_ext_kNmm": 0.0013749218097000003,
+    "e_elas_kNmm": 0.0013339917,
+    "e_frac_kNmm": 4.09738e-05,
+    "e_tot_kNmm": 0.0013749655,
+    "rel_imbalance_pct": 0.0031776570632287967
+  },
+  "post_peak_elastic_release_kNmm": 0.0006271032199999999,
+  "post_peak_fracture_surge_kNmm": 0.001537416188,
+  "max_relative_imbalance_pct": 3.6780904399445826,
+  "mean_relative_imbalance_pct": 0.9644956565393741
+}

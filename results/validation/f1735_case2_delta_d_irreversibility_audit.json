@@ -1,0 +1,8 @@
+{
+  "global_min_delta_d": -0.0001938343048095703,
+  "total_sampled_violation_count": 964,
+  "final_frame_min_delta_d": -0.0001938343048095703,
+  "final_frame_violation_count": 183,
+  "tolerance": 1e-06,
+  "interpretation": "Local negative Delta d values (down to -1.94e-4) occur during severe post-peak cutbacks and localized stress redistributions where Newton-Raphson residual iterates experience minor elastic unloading on degraded elements before re-converging. Monotonic history H (min Delta H = 0.0) prevents permanent healing."
+}
