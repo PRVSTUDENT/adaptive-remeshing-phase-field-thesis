@@ -1,11 +1,11 @@
 {
-  "active": true,
+  "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "f1750-local-damage-sizing-probe-001",
-  "task_id": "F1750-LOCAL-NATIVE-DAMAGE-SIZING-PROBE",
-  "started_at": "2026-11-14T22:38:00+01:00",
-  "completed_at": null,
-  "starting_commit": "1ad0b668",
+  "session_id": "f1751-case2-continuation-readiness-001",
+  "task_id": "F1751-CASE2-METHOD-A-DAMAGE-RESOLUTION-AND-CONTINUATION-READINESS",
+  "started_at": "2026-11-14T23:05:00+01:00",
+  "completed_at": "2026-11-14T23:16:30+01:00",
+  "starting_commit": "746c0d00",
   "allowed_write_scope": [
     "project_coordination/**",
     ".agents/**",
@@ -16,5 +16,5 @@
     "scripts/**",
     "tests/unit/**"
   ],
-  "notes": "Task F1750: Local Native Abaqus Damage-Derived Sizing Probe on Case 3 Coarse Mesh."
+  "notes": "Task F1751: Case 2 Method A Off-Axis Hole Damage Resolution & Continuation Readiness Diagnosis."
 }

@@ -1,21 +1,21 @@
 {
-    "task_id": "F1750-LOCAL-NATIVE-DAMAGE-SIZING-PROBE",
-    "title": "Local Native Abaqus Damage-Derived Sizing Probe on Case 3 Coarse Mesh",
+    "task_id": "F1751-CASE2-METHOD-A-DAMAGE-RESOLUTION-AND-CONTINUATION-READINESS",
+    "title": "Case 2 Method A Off-Axis Hole Damage Resolution and Forward Continuation Readiness Diagnosis",
     "status": "COMPLETED",
-    "classification": "LOCAL_NATIVE_DAMAGE_SIZING_PROBE_EVALUATED",
+    "classification": "CASE2_METHOD_A_READINESS_DIAGNOSIS_COMPLETE",
     "assigned_agent": "gemini-antigravity",
     "active_pbs_job_id": null,
-    "checkpoint_artifact": "docs/validation/F1750_LOCAL_NATIVE_DAMAGE_SIZING_PROBE_REPORT.md",
-    "review_directive": "HND-F1749-TIME-CAUSAL-002",
+    "checkpoint_artifact": "docs/validation/F1751_CASE2_METHOD_A_READINESS_REPORT.md",
+    "review_directive": "HND-F1750-SIZING-PROBE-001",
     "predecessor_task": {
-        "task_id": "F1749-TIME-CAUSAL-DAMAGE-INDICATOR-IMPLEMENTATION-AND-VALIDATION",
-        "checkpoint_artifact": "docs/validation/F1749_TIME_CAUSAL_DAMAGE_INDICATOR_REPORT.md",
-        "classification": "OFFLINE_TIME_CAUSAL_INDICATOR_IMPLEMENTED_WITH_QUALIFICATIONS",
+        "task_id": "F1750-LOCAL-NATIVE-DAMAGE-SIZING-PROBE",
+        "checkpoint_artifact": "docs/validation/F1750_LOCAL_NATIVE_DAMAGE_SIZING_PROBE_REPORT.md",
+        "classification": "LOCAL_NATIVE_DAMAGE_SIZING_PROBE_EVALUATED_SPATIAL_QUALIFICATION_FAILED",
         "review_verdict": "APPROVE",
-        "correlation_id": "HND-F1749-TIME-CAUSAL-002"
+        "correlation_id": "HND-F1750-SIZING-PROBE-001"
     },
-    "scientific_operation": "local_native_damage_sizing_probe",
-    "scientific_operation_id": "f1750_local_sizing_probe_001",
+    "scientific_operation": "case2_damage_resolution_continuation_diagnosis",
+    "scientific_operation_id": "f1751_case2_diagnosis_001",
     "scientific_checkpoint_required": true,
     "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "max_new_pbs_submissions": 0,
@@ -48,7 +48,7 @@
         "1423463.mmaster02",
         "1423469.mmaster02"
     ],
-    "scope_boundary": "ZERO_PBS_LOCAL_NATIVE_SIZING_PROBE",
-    "hypothesis": "Encoding the inverted damage-aware target size field into a native Abaqus SPR whole-element stress error indicator (MISESERI) allows native adaptiveRemesh() to generate a non-uniform physical mesh that achieves the requested local size ordering without manual crack path corridors, establishing the empirical transfer function between requested and achieved element sizes.",
+    "scope_boundary": "ZERO_PBS_CASE2_READINESS_DIAGNOSIS",
+    "hypothesis": "Rigorous forensic analysis of Job 1423271 solver outputs, SDV distributions, and element sizes will isolate whether terminal u=0.007677 mm non-convergence is caused by coarse mesh arrest (h > l0/2), local phase-field numerical ill-conditioning (d -> 1, large H), or time-stepping limits, determining the minimal technical intervention required for forward fracture continuation.",
     "iteration": 1
 }

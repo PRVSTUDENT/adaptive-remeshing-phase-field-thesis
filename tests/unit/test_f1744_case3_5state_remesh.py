@@ -88,7 +88,8 @@ def test_f1744_accounting_and_ledger_integrity():
         "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE",
         "F1748-AUTHENTIC-COUPLED-DAMAGE-FIELD-RECOVERY-AND-INDICATOR-FEASIBILITY",
             "F1749-TIME-CAUSAL-DAMAGE-INDICATOR-IMPLEMENTATION-AND-VALIDATION",
-            "F1750-LOCAL-NATIVE-DAMAGE-SIZING-PROBE"
+            "F1750-LOCAL-NATIVE-DAMAGE-SIZING-PROBE",
+            "F1751-CASE2-METHOD-A-DAMAGE-RESOLUTION-AND-CONTINUATION-READINESS"
     ]
     assert task["cumulative_pbs_submissions"] in [20, 21, 22, 23, 24, 25]
     assert task["max_new_pbs_submissions"] in [0, 1, 2, 3, 4, 5]

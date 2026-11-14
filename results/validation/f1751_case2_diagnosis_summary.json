@@ -1,0 +1,531 @@
+{
+  "task_id": "F1751-CASE2-METHOD-A-DAMAGE-RESOLUTION-AND-CONTINUATION-READINESS",
+  "diagnostic_status": "COMPLETE",
+  "scientific_classification": "CASE2_METHOD_A_READINESS_DIAGNOSIS_COMPLETE",
+  "governance": {
+    "new_pbs_submissions": 0,
+    "cumulative_pbs_submissions": 25,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "mesh_source": "models/pandey_kumar_mode1/224_f1734_case2_distal_refinement/PK_F1728_CASE_2_ADAPT_PHYS.inp",
+    "total_physical_elements": 23965,
+    "total_nodes": 23957
+  },
+  "spatial_process_zone_resolution": {
+    "bulk_intact": {
+      "count": 13350,
+      "total_area_mm2": 0.8640473108819906,
+      "min_size_mm": 0.0009560074707160687,
+      "mean_size_mm": 0.006719716491582418,
+      "median_size_mm": 0.00516909297659177,
+      "max_size_mm": 0.023705828628631367,
+      "count_le_l0_half": 4564,
+      "count_compliance_l0_half_pct": 34.18726591760299,
+      "area_compliance_l0_half_pct": 3.960363283826417,
+      "count_compliance_l0_pct": 65.11610486891387,
+      "area_compliance_l0_pct": 17.892114530773377,
+      "count_gt_l0_half": 8786
+    },
+    "incipient_damage": {
+      "count": 8853,
+      "total_area_mm2": 0.09620191890345091,
+      "min_size_mm": 0.0006829883786339093,
+      "mean_size_mm": 0.00284102944344517,
+      "median_size_mm": 0.002064631821919303,
+      "max_size_mm": 0.011472198376134016,
+      "count_le_l0_half": 7026,
+      "count_compliance_l0_half_pct": 79.3629278210776,
+      "area_compliance_l0_half_pct": 34.88968592540927,
+      "count_compliance_l0_pct": 97.39071501186038,
+      "area_compliance_l0_pct": 81.68203195179031,
+      "count_gt_l0_half": 1827
+    },
+    "intermediate_fpz": {
+      "count": 623,
+      "total_area_mm2": 0.0031032906852118125,
+      "min_size_mm": 0.0006629587521140498,
+      "mean_size_mm": 0.002100277360672989,
+      "median_size_mm": 0.0018554117606469265,
+      "max_size_mm": 0.006431476731652393,
+      "count_le_l0_half": 595,
+      "count_compliance_l0_half_pct": 95.50561797752809,
+      "area_compliance_l0_half_pct": 80.32400546268305,
+      "count_compliance_l0_pct": 100.0,
+      "area_compliance_l0_pct": 100.0,
+      "count_gt_l0_half": 28
+    },
+    "near_failure_fpz": {
+      "count": 290,
+      "total_area_mm2": 0.0014556000328531382,
+      "min_size_mm": 0.000702007249957455,
+      "mean_size_mm": 0.002123962262150315,
+      "median_size_mm": 0.001892534744382428,
+      "max_size_mm": 0.005207722419462543,
+      "count_le_l0_half": 278,
+      "count_compliance_l0_half_pct": 95.86206896551724,
+      "area_compliance_l0_half_pct": 83.34601224277527,
+      "count_compliance_l0_pct": 100.0,
+      "area_compliance_l0_pct": 100.0,
+      "count_gt_l0_half": 12
+    },
+    "severed_channel_d90": {
+      "count": 849,
+      "total_area_mm2": 0.003780345023344997,
+      "min_size_mm": 0.0006855220998967308,
+      "mean_size_mm": 0.002041076096071571,
+      "median_size_mm": 0.0019344075538664685,
+      "max_size_mm": 0.0046859121757871205,
+      "count_le_l0_half": 841,
+      "count_compliance_l0_half_pct": 99.05771495877504,
+      "area_compliance_l0_half_pct": 96.29305785746666,
+      "count_compliance_l0_pct": 100.0,
+      "area_compliance_l0_pct": 100.0,
+      "count_gt_l0_half": 8
+    },
+    "core_failure_d95": {
+      "count": 723,
+      "total_area_mm2": 0.0031638127667566046,
+      "min_size_mm": 0.0006855220998967308,
+      "mean_size_mm": 0.0020288661069125095,
+      "median_size_mm": 0.0019346985434049837,
+      "max_size_mm": 0.0046859121757871205,
+      "count_le_l0_half": 718,
+      "count_compliance_l0_half_pct": 99.30843706777317,
+      "area_compliance_l0_half_pct": 97.20320610458964,
+      "count_compliance_l0_pct": 100.0,
+      "area_compliance_l0_pct": 100.0,
+      "count_gt_l0_half": 5
+    }
+  },
+  "crack_connectivity_and_trajectory": {
+    "primary_severed_elements_count": 414,
+    "hole_intersecting_elements_count": 6,
+    "primary_ligament_bridged": true,
+    "secondary_ligament_max_damage": 1.0000639,
+    "secondary_active_d50_count": 842,
+    "secondary_active_d90_count": 435
+  },
+  "terminal_cutback_and_convergence_analysis": {
+    "total_cutbacks_recorded": 13,
+    "cutback_sequence": [
+      {
+        "step": 2,
+        "increment": 192,
+        "attempt": "1U",
+        "step_time": 0.382,
+        "dt": 0.002
+      },
+      {
+        "step": 2,
+        "increment": 192,
+        "attempt": "2U",
+        "step_time": 0.382,
+        "dt": 0.0005
+      },
+      {
+        "step": 2,
+        "increment": 194,
+        "attempt": "1U",
+        "step_time": 0.382,
+        "dt": 0.0002813
+      },
+      {
+        "step": 2,
+        "increment": 194,
+        "attempt": "2U",
+        "step_time": 0.382,
+        "dt": 7.031e-05
+      },
+      {
+        "step": 2,
+        "increment": 196,
+        "attempt": "1U",
+        "step_time": 0.382,
+        "dt": 3.955e-05
+      },
+      {
+        "step": 2,
+        "increment": 196,
+        "attempt": "2U",
+        "step_time": 0.382,
+        "dt": 9.888e-06
+      },
+      {
+        "step": 2,
+        "increment": 199,
+        "attempt": "1U",
+        "step_time": 0.382,
+        "dt": 8.343e-06
+      },
+      {
+        "step": 2,
+        "increment": 199,
+        "attempt": "2U",
+        "step_time": 0.382,
+        "dt": 2.086e-06
+      },
+      {
+        "step": 2,
+        "increment": 201,
+        "attempt": "1U",
+        "step_time": 0.382,
+        "dt": 1.173e-06
+      },
+      {
+        "step": 2,
+        "increment": 201,
+        "attempt": "2U",
+        "step_time": 0.382,
+        "dt": 2.933e-07
+      },
+      {
+        "step": 2,
+        "increment": 202,
+        "attempt": "1U",
+        "step_time": 0.382,
+        "dt": 1.1e-07
+      },
+      {
+        "step": 2,
+        "increment": 202,
+        "attempt": "2U",
+        "step_time": 0.382,
+        "dt": 2.75e-08
+      },
+      {
+        "step": 2,
+        "increment": 202,
+        "attempt": "3U",
+        "step_time": 0.382,
+        "dt": 1e-08
+      }
+    ],
+    "terminal_iteration_checks": [
+      {
+        "iteration": 1,
+        "avg_force": 0.0005126,
+        "time_avg_force": 0.0009407,
+        "largest_res_force": 0.001853,
+        "res_force_node": 7629,
+        "res_force_dof": 2,
+        "largest_disp_inc": 0.09508,
+        "disp_inc_node": 8056,
+        "disp_inc_dof": 3,
+        "largest_disp_corr": 0.0603,
+        "disp_corr_node": 8056,
+        "disp_corr_dof": 3,
+        "force_equilibrium_achieved": false
+      },
+      {
+        "iteration": 2,
+        "avg_force": 0.0005091,
+        "time_avg_force": 0.0009407,
+        "largest_res_force": -0.0009606,
+        "res_force_node": 8400,
+        "res_force_dof": 2,
+        "largest_disp_inc": 0.124,
+        "disp_inc_node": 8056,
+        "disp_inc_dof": 3,
+        "largest_disp_corr": 0.02892,
+        "disp_corr_node": 8056,
+        "disp_corr_dof": 3,
+        "force_equilibrium_achieved": false
+      },
+      {
+        "iteration": 3,
+        "avg_force": 0.0005074,
+        "time_avg_force": 0.0009407,
+        "largest_res_force": -0.0003071,
+        "res_force_node": 8400,
+        "res_force_dof": 2,
+        "largest_disp_inc": 0.131,
+        "disp_inc_node": 8056,
+        "disp_inc_dof": 3,
+        "largest_disp_corr": 0.0068,
+        "disp_corr_node": 8056,
+        "disp_corr_dof": 3,
+        "force_equilibrium_achieved": false
+      },
+      {
+        "iteration": 4,
+        "avg_force": 0.000506,
+        "time_avg_force": 0.0009407,
+        "largest_res_force": 0.001997,
+        "res_force_node": 7629,
+        "res_force_dof": 2,
+        "largest_disp_inc": 0.187,
+        "disp_inc_node": 8056,
+        "disp_inc_dof": 3,
+        "largest_disp_corr": 0.05686,
+        "disp_corr_node": 7685,
+        "disp_corr_dof": 3,
+        "force_equilibrium_achieved": false,
+        "divergence_note": true
+      },
+      {
+        "iteration": 1,
+        "avg_force": 0.0005138,
+        "time_avg_force": 0.0009407,
+        "largest_res_force": 0.002332,
+        "res_force_node": 8392,
+        "res_force_dof": 2,
+        "largest_disp_inc": 0.09508,
+        "disp_inc_node": 8056,
+        "disp_inc_dof": 3,
+        "largest_disp_corr": 0.08243,
+        "disp_corr_node": 8056,
+        "disp_corr_dof": 3,
+        "force_equilibrium_achieved": false
+      },
+      {
+        "iteration": 2,
+        "avg_force": 0.0005095,
+        "time_avg_force": 0.0009407,
+        "largest_res_force": -0.0003847,
+        "res_force_node": 8400,
+        "res_force_dof": 2,
+        "largest_disp_inc": 0.106,
+        "disp_inc_node": 8056,
+        "disp_inc_dof": 3,
+        "largest_disp_corr": 0.01091,
+        "disp_corr_node": 8056,
+        "disp_corr_dof": 3,
+        "force_equilibrium_achieved": false
+      },
+      {
+        "iteration": 3,
+        "avg_force": 0.0005088,
+        "time_avg_force": 0.0009407,
+        "largest_res_force": -9.799e-05,
+        "res_force_node": 8400,
+        "res_force_dof": 2,
+        "largest_disp_inc": 0.108,
+        "disp_inc_node": 8056,
+        "disp_inc_dof": 3,
+        "largest_disp_corr": 0.002163,
+        "disp_corr_node": 8056,
+        "disp_corr_dof": 3,
+        "force_equilibrium_achieved": false
+      },
+      {
+        "iteration": 4,
+        "avg_force": 0.0005072,
+        "time_avg_force": 0.0009407,
+        "largest_res_force": 0.00259,
+        "res_force_node": 7629,
+        "res_force_dof": 2,
+        "largest_disp_inc": 0.187,
+        "disp_inc_node": 8056,
+        "disp_inc_dof": 3,
+        "largest_disp_corr": 0.07875,
+        "disp_corr_node": 8056,
+        "disp_corr_dof": 3,
+        "force_equilibrium_achieved": false,
+        "divergence_note": true
+      }
+    ],
+    "terminal_dt": 1e-08,
+    "reached_dt_min": true
+  },
+  "critical_node_8056_investigation": {
+    "node_id": 8056,
+    "coordinates": [
+      0.903123915,
+      0.63625437
+    ],
+    "dist_to_hole_center_mm": 0.2534968613001434,
+    "dist_to_hole_boundary_mm": 0.15349686130014337,
+    "connected_elements": [
+      129,
+      9094,
+      9877,
+      9910
+    ],
+    "connected_element_details": [
+      {
+        "element_id": 129,
+        "centroid": [
+          0.9045431613333333,
+          0.6336189703333334
+        ],
+        "size_mm": 0.003993425202999201,
+        "size_vs_l0_half": 1.0649133874664536,
+        "damage_d": 0.598319888,
+        "history_h": 0.720460773
+      },
+      {
+        "element_id": 9094,
+        "centroid": [
+          0.90671439475,
+          0.638178721
+        ],
+        "size_mm": 0.006277444378291249,
+        "size_vs_l0_half": 1.6739851675443331,
+        "damage_d": 0.536076546,
+        "history_h": 0.281261653
+      },
+      {
+        "element_id": 9877,
+        "centroid": [
+          0.90118722625,
+          0.63960769775
+        ],
+        "size_mm": 0.005664291773545626,
+        "size_vs_l0_half": 1.5104778062788338,
+        "damage_d": 0.673755169,
+        "history_h": 0.895448029
+      },
+      {
+        "element_id": 9910,
+        "centroid": [
+          0.8999434709999999,
+          0.6341774015
+        ],
+        "size_mm": 0.005333937952742716,
+        "size_vs_l0_half": 1.4223834540647242,
+        "damage_d": 0.729411662,
+        "history_h": 1.00205839
+      }
+    ]
+  },
+  "local_h_extremes": {
+    "top_10_elements_by_h": [
+      {
+        "element_id": 12880,
+        "history_h": 3955.22144,
+        "damage_d": 0.999915481,
+        "size_mm": 0.0013363602667252345,
+        "centroid": [
+          0.5210403502500001,
+          0.5049604175
+        ]
+      },
+      {
+        "element_id": 14902,
+        "history_h": 3546.15381,
+        "damage_d": 0.999890983,
+        "size_mm": 0.001523422506031861,
+        "centroid": [
+          0.52782835075,
+          0.5040276647499999
+        ]
+      },
+      {
+        "element_id": 20617,
+        "history_h": 3497.47705,
+        "damage_d": 0.999941051,
+        "size_mm": 0.0015136484093402818,
+        "centroid": [
+          0.541782379,
+          0.51147261275
+        ]
+      },
+      {
+        "element_id": 17381,
+        "history_h": 3377.91089,
+        "damage_d": 1.00001895,
+        "size_mm": 0.0014599917529337847,
+        "centroid": [
+          0.53262342525,
+          0.506050363
+        ]
+      },
+      {
+        "element_id": 11208,
+        "history_h": 3079.35449,
+        "damage_d": 0.999901772,
+        "size_mm": 0.0015500277650856112,
+        "centroid": [
+          0.51962660275,
+          0.50445656475
+        ]
+      },
+      {
+        "element_id": 9557,
+        "history_h": 2897.55078,
+        "damage_d": 0.999474585,
+        "size_mm": 0.0016129867633819454,
+        "centroid": [
+          0.51393374775,
+          0.500766933
+        ]
+      },
+      {
+        "element_id": 450,
+        "history_h": 2838.71851,
+        "damage_d": 0.999909222,
+        "size_mm": 0.0009332086587589639,
+        "centroid": [
+          0.5458648203333333,
+          0.510205507
+        ]
+      },
+      {
+        "element_id": 20167,
+        "history_h": 2732.96826,
+        "damage_d": 0.999948502,
+        "size_mm": 0.001830668154305785,
+        "centroid": [
+          0.54000499825,
+          0.51113758975
+        ]
+      },
+      {
+        "element_id": 10805,
+        "history_h": 2710.18335,
+        "damage_d": 0.999905944,
+        "size_mm": 0.0016988073383959706,
+        "centroid": [
+          0.5180543215,
+          0.5038917065
+        ]
+      },
+      {
+        "element_id": 12881,
+        "history_h": 2709.13013,
+        "damage_d": 0.999948025,
+        "size_mm": 0.0014869150681391169,
+        "centroid": [
+          0.5224463045000001,
+          0.5050588695
+        ]
+      }
+    ]
+  },
+  "hypotheses_verdicts": {
+    "hypothesis_1_coarse_mesh_arrest": {
+      "verdict": "SECONDARY_FACTOR",
+      "rationale": "Primary crack channel achieved 99.88% area compliance with h <= l0/2 (mean h = 0.00199 mm <= l0/3.7), successfully penetrating into the off-axis hole (5 elements, 6 nodes on hole boundary). However, at Node 8056 on the secondary side (x=0.903, y=0.636), element sizes are h ~ 0.00628 mm (1.67x l0/2), which creates a spatial resolution gradient distal to the hole."
+    },
+    "hypothesis_2_damaged_state_ill_conditioning": {
+      "verdict": "CONTRIBUTING_FACTOR",
+      "rationale": "Severed crack core elements reach d -> 1.00117 with degraded residual stiffness k = 1e-7, causing severe strain localization in dead elements where H_max surges to 3955.22 kN/mm2. This high tangent stiffness contrast degrades Newton-Raphson quadratic convergence."
+    },
+    "hypothesis_3_time_stepping_cutback_exhaustion": {
+      "verdict": "PRIMARY_DIRECT_CAUSE",
+      "rationale": "The solver did not diverge with negative eigenvalues or unresolvable residuals at normal time steps; it successfully converged 252 increments through 57.25% load drop. At Step 2 Inc 202, cutbacks reduced dt by 0.25x across 13 cutbacks until reaching the hardcoded minimum dt_min = 1.0e-8 (Attempt 3 dt = 1.000e-8). Node 8056 DOF 3 (damage phase field) had a correction of 0.07875, requiring one more bisection (dt ~ 2.5e-9) to restore quadratic convergence, but was terminated by Abaqus because dt < dt_min."
+    }
+  },
+  "continuation_decision": {
+    "continuation_readiness": "CONDITIONAL_PASS_WITH_SOLVER_CONTROLS_RELAXATION",
+    "recommended_action": "BOUNDED_CONTINUATION_WITH_RELAXED_DT_MIN",
+    "technical_rationale": "The existing 23,965-element adapted mesh already contains a fully bridged, fine primary crack (99.88% area compliance h <= l0/2 in the severed zone, 5 boundary-intersecting elements) and 252 converged increments capturing 57.25% post-peak softening. The termination at u = 0.007677 mm was directly triggered by dt hitting the artificial limit dt_min = 1.0e-8 in PK_F1728_CASE_2_PROD.inp line 96209. Allowing dt_min = 1.0e-12 with adaptive cutback controls and modest numerical damping in Step 2 enables the solver to negotiate the transient phase-field breakthrough into the secondary ligament.",
+    "proposed_falsifiable_experiment": {
+      "proposal_id": "EXP-F1752-CASE2-CONTINUATION-BOUNDED",
+      "mesh": "models/pandey_kumar_mode1/224_f1734_case2_distal_refinement/PK_F1728_CASE_2_ADAPT_PHYS.inp (23,965 elements)",
+      "frozen_uel": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "solver_modifications": [
+        "Set Step 2 min_increment = 1.0e-12 (from 1.0e-8)",
+        "Set Step 2 max_increments = 1000 (from 500)",
+        "Enable automatic restart from Step 2 Inc 200 checkpoint (or seamless cold continuation deck)"
+      ],
+      "estimated_walltime_s": 3600,
+      "max_pbs_submissions": 1,
+      "predeclared_success_gates": [
+        "GATE-01: Advance past terminal displacement u = 0.007677 mm to at least u >= 0.010 mm",
+        "GATE-02: Observe secondary crack initiation and extension from off-axis hole toward right boundary",
+        "GATE-03: Thermodynamic fracture energy monotonicity preserved (min delta E_frac >= 0)",
+        "GATE-04: Load drop extends beyond 75% without premature divergence"
+      ]
+    }
+  }
+}

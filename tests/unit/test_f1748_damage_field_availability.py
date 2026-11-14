@@ -30,7 +30,8 @@ def test_f1748_task_identity_and_zero_pbs_governance():
         task = json.load(f)
 
     assert task["task_id"] in ["F1748-AUTHENTIC-COUPLED-DAMAGE-FIELD-RECOVERY-AND-INDICATOR-FEASIBILITY", "F1749-TIME-CAUSAL-DAMAGE-INDICATOR-IMPLEMENTATION-AND-VALIDATION",
-            "F1750-LOCAL-NATIVE-DAMAGE-SIZING-PROBE"]
+            "F1750-LOCAL-NATIVE-DAMAGE-SIZING-PROBE",
+            "F1751-CASE2-METHOD-A-DAMAGE-RESOLUTION-AND-CONTINUATION-READINESS"]
     assert task["max_new_pbs_submissions"] == 0
     assert task["submissions_consumed"] == 0
     assert task["cumulative_pbs_submissions"] == 25

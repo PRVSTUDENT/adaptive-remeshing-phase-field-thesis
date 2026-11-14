@@ -93,14 +93,16 @@ def test_f1750_regional_spatial_resolution(summary_data):
     prim = res["primary_ligament"]
     sec = res["secondary_corridor"]
 
-    # Primary ligament achieves h_min <= l0/2 at the notch root
+    # Primary ligament achieves local minimum size h_min <= l0/2 at the notch root,
+    # but overall spatial gate fails due to low area compliance (3.36% <= l0/2)
     assert prim["achieved_size_min_mm"] <= (prim["l0_mm"] / 2.0), (
         f"Primary h_min ({prim['achieved_size_min_mm']}) exceeds l0/2 ({prim['l0_mm']/2.0})"
     )
-    assert prim["spatial_gate_verdict"] == "PASS"
+    assert prim["spatial_gate_verdict"] == "FAIL"
+    assert prim["primary_minimum_size_verdict"] == "LOCAL_MINIMUM_SIZE_PASS_ONLY"
 
-    # Secondary corridor is pre-crack at State b
-    assert sec["spatial_gate_verdict"] == "CAUSAL_PRE_CRACK_OBSERVED"
+    # Secondary corridor is pre-crack at State b (not yet developed)
+    assert sec["spatial_gate_verdict"] == "NOT_YET_DEVELOPED_AT_SELECTED_DONOR_TIME"
 
 def test_f1750_transfer_audit_and_hypothesis_falsification(summary_data):
     """
