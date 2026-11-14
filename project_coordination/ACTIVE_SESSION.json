@@ -1,19 +1,20 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "f1742-case3-transient-donor-recovery-001",
-  "task_id": "F1742-CASE3-TRANSIENT-DONOR-RECOVERY",
-  "started_at": "2026-11-14T15:15:00+01:00",
-  "completed_at": "2026-11-14T15:35:00+01:00",
-  "starting_commit": "7709c241",
+  "session_id": "f1744-case3-5state-remesh-001",
+  "task_id": "F1744-CASE3-5STATE-REMESHING-EXECUTION",
+  "started_at": "2026-11-14T17:20:00+01:00",
+  "completed_at": "2026-11-14T18:16:00+01:00",
+  "starting_commit": "23e5482d",
   "allowed_write_scope": [
     "project_coordination/**",
     ".agents/**",
     "docs/validation/**",
     "results/validation/**",
+    "results/figures/**",
     "models/**",
     "scripts/**",
     "tests/unit/**"
   ],
-  "notes": "Task F1742: Case 3 Transient Propagation Donor Recovery & Solution-Driven Multi-State Selection Algorithm (Zero-PBS Offline Investigation COMPLETE). 34/34 regression tests PASS."
+  "notes": "Task F1744: 5-state sequential native adaptive remeshing completed on HPC cluster for Case 3 (Exit 0, 19005 elements, datacheck Exit 0). Disclosed pass-memory loss mechanism in sequential remeshing; directs Task F1745 Unified 5-State Error-Indicator Envelope."
 }

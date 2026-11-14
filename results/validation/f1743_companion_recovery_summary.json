@@ -1,0 +1,66 @@
+{
+  "audit_pass": true, 
+  "companion_states": {
+    "T2": {
+      "rf_net_sum_kN": [
+        -8.784206784184789e-08, 
+        -5.101429252363232e-07
+      ], 
+      "miseseri_mean": 0.007467497200599653, 
+      "peak_element_id": 315, 
+      "odb_path": "/scratch9/pr21vyci/runs/mode1_pk_f1743_case3_transient_recovery/PK_SEC43_COMPANION_T2.odb", 
+      "peak_centroid_mm": [
+        10.557186603546143, 
+        69.96563148498535
+      ], 
+      "num_elements": 3923, 
+      "misesavg_mean": 0.07227824749948504, 
+      "has_miseseri": true, 
+      "miseseri_max": 2.397030830383301, 
+      "has_misesavg": true, 
+      "misesavg_max": 4.4649224281311035, 
+      "state_id": "T2"
+    }, 
+    "T3": {
+      "rf_net_sum_kN": [
+        -2.893741513076975e-08, 
+        1.7102587079875775e-07
+      ], 
+      "miseseri_mean": 0.008289881570921243, 
+      "peak_element_id": 315, 
+      "odb_path": "/scratch9/pr21vyci/runs/mode1_pk_f1743_case3_transient_recovery/PK_SEC43_COMPANION_T3.odb", 
+      "peak_centroid_mm": [
+        10.557186603546143, 
+        69.96563148498535
+      ], 
+      "num_elements": 3923, 
+      "misesavg_mean": 0.065371148972047, 
+      "has_miseseri": true, 
+      "miseseri_max": 2.88349986076355, 
+      "has_misesavg": true, 
+      "misesavg_max": 5.3661651611328125, 
+      "state_id": "T3"
+    }, 
+    "T1": {
+      "rf_net_sum_kN": [
+        6.24783424996167e-08, 
+        -1.5973853351169964e-08
+      ], 
+      "miseseri_mean": 0.006141447469102637, 
+      "peak_element_id": 315, 
+      "odb_path": "/scratch9/pr21vyci/runs/mode1_pk_f1743_case3_transient_recovery/PK_SEC43_COMPANION_T1.odb", 
+      "peak_centroid_mm": [
+        10.557186603546143, 
+        69.96563148498535
+      ], 
+      "num_elements": 3923, 
+      "misesavg_mean": 0.07938668975116062, 
+      "has_miseseri": true, 
+      "miseseri_max": 1.8760336637496948, 
+      "has_misesavg": true, 
+      "misesavg_max": 3.4992332458496094, 
+      "state_id": "T1"
+    }
+  }, 
+  "task_id": "F1743-CASE3-TRANSIENT-COMPANION-RECOVERY"
+}

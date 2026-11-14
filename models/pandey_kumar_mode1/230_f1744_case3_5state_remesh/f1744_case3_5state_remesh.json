@@ -1,0 +1,110 @@
+{
+  "task_id": "F1744-CASE3-5STATE-REMESHING-EXECUTION",
+  "title": "Case 3 Notched Plate with Hole and Pins 5-State Sequential Native Remeshing",
+  "reference_literature": {
+    "citation": "Pandey & Kumar (2025), Section 4.3, CMES 144(3), pp. 3251-3276",
+    "figure": "Figure 16",
+    "target_elements_published": 12168,
+    "l0_mm": 0.285
+  },
+  "geometry": {
+    "plate_width_mm": 65.0,
+    "plate_height_mm": 120.0,
+    "notch": {
+      "length_mm": 10.0,
+      "width_mm": 0.4,
+      "y_center_mm": 70.0
+    },
+    "central_hole": {
+      "center_mm": [36.5, 51.0],
+      "radius_mm": 10.0
+    },
+    "lower_pin_hole": {
+      "center_mm": [20.0, 20.0],
+      "radius_mm": 5.0
+    },
+    "upper_pin_hole": {
+      "center_mm": [20.0, 100.0],
+      "radius_mm": 5.0
+    }
+  },
+  "material_properties": {
+    "elastic_modulus_GPa": 210.0,
+    "poissons_ratio": 0.3,
+    "fracture_energy_kN_per_mm": 0.0027,
+    "length_scale_l0_mm": 0.285
+  },
+  "remeshing_sequence": [
+    {
+      "pass": 1,
+      "state_id": "T1",
+      "donor_odb": "PK_SEC43_COMPANION_T1.odb",
+      "increment": 260,
+      "displacement_mm": 0.130,
+      "phenomenon": "Primary crack initiation past notch tip"
+    },
+    {
+      "pass": 2,
+      "state_id": "T2",
+      "donor_odb": "PK_SEC43_COMPANION_T2.odb",
+      "increment": 300,
+      "displacement_mm": 0.150,
+      "phenomenon": "Primary crack mid-ligament advance"
+    },
+    {
+      "pass": 3,
+      "state_id": "T3",
+      "donor_odb": "PK_SEC43_COMPANION_T3.odb",
+      "increment": 340,
+      "displacement_mm": 0.170,
+      "phenomenon": "Primary crack near-hole approach"
+    },
+    {
+      "pass": 4,
+      "state_id": "State2",
+      "donor_odb": "PK_SEC43_PRESCRIBED_STATE2.odb",
+      "increment": 400,
+      "displacement_mm": 0.200,
+      "phenomenon": "Primary crack hole arrest and hole-flank accumulation"
+    },
+    {
+      "pass": 5,
+      "state_id": "State4",
+      "donor_odb": "PK_SEC43_PRESCRIBED_STATE4.odb",
+      "increment": 600,
+      "displacement_mm": 0.300,
+      "phenomenon": "Secondary crack propagation toward outer boundary"
+    }
+  ],
+  "remeshing_controls": {
+    "sizing_method": "UNIFORM_ERROR",
+    "error_indicator": "MISESERI",
+    "error_target_percent": 1.80,
+    "refinement_factor": "DEFAULT_LIMIT",
+    "coarsening_factor": "NOT_ALLOWED",
+    "min_element_size_mm": 0.080,
+    "max_element_size_mm": 1.50
+  },
+  "predeclared_spatial_gates": {
+    "gate_1_primary_corridor_area_compliance": ">= 85.0% with h <= l0/2 = 0.1425 mm",
+    "gate_2_secondary_corridor_area_compliance": ">= 85.0% with h <= l0/2 = 0.1425 mm",
+    "gate_3_transverse_coarse_barrier_freedom": "has_transverse_coarse_barrier == False across both corridors",
+    "gate_4_hole_boundary_annular_resolution": "mean h <= l0/2 = 0.1425 mm",
+    "gate_5_element_topology_quality": ">= 95.0% CPE4 quads",
+    "gate_6_jacobian_safety": "100% positive Jacobians (min det(J) > 0)",
+    "gate_7_production_deck_datacheck": "Abaqus pre.exe Exit Code 0 with 0 severe warnings"
+  },
+  "hpc_execution": {
+    "queue": "entry_imfdfkmq",
+    "routed_queue": "normal_imfdfkmq",
+    "nodes": 1,
+    "cpus": 1,
+    "memory_gb": 16,
+    "walltime": "01:30:00",
+    "execution_mode": "1-CPU serial Abaqus CAE noGUI + Abaqus datacheck"
+  },
+  "subroutine_provenance": {
+    "canonical_file": "f42_mixed_uel.for",
+    "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  }
+}

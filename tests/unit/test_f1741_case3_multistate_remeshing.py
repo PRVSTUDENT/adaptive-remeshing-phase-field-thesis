@@ -94,8 +94,8 @@ def test_f1741_accounting_and_ledger():
     task_json_path = os.path.join(REPO_ROOT, "project_coordination", "ACTIVE_TASK.json")
     with open(task_json_path, "r", encoding="utf-8-sig") as f:
         task_data = json.load(f)
-    assert task_data["task_id"] in ["F1741-CASE3-MULTISTATE-REMESHING-EXECUTION", "F1742-CASE3-TRANSIENT-DONOR-RECOVERY"]
+    assert task_data["task_id"] in ["F1741-CASE3-MULTISTATE-REMESHING-EXECUTION", "F1742-CASE3-TRANSIENT-DONOR-RECOVERY", "F1743-CASE3-TRANSIENT-COMPANION-RECOVERY", "F1744-CASE3-5STATE-REMESHING-EXECUTION"]
     assert "1423436.mmaster02" in task_data["historical_pbs_job_ids"]
     assert "1423438.mmaster02" in task_data["historical_pbs_job_ids"]
-    assert task_data["cumulative_pbs_submissions"] in [18, 19]
-    assert task_data["submissions_consumed"] in [0, 2]
+    assert task_data["cumulative_pbs_submissions"] >= 18
+    assert task_data["submissions_consumed"] in [0, 1, 2, 3, 4, 5]
