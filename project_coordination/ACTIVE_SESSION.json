@@ -1,11 +1,11 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "f1749-time-causal-indicator-001",
-  "task_id": "F1749-TIME-CAUSAL-DAMAGE-INDICATOR-IMPLEMENTATION-AND-VALIDATION",
-  "started_at": "2026-11-14T22:00:00+01:00",
-  "completed_at": "2026-11-14T22:15:00+01:00",
-  "starting_commit": "886219b9",
+  "session_id": "f1750-local-damage-sizing-probe-001",
+  "task_id": "F1750-LOCAL-NATIVE-DAMAGE-SIZING-PROBE",
+  "started_at": "2026-11-14T22:38:00+01:00",
+  "completed_at": null,
+  "starting_commit": "1ad0b668",
   "allowed_write_scope": [
     "project_coordination/**",
     ".agents/**",
@@ -13,9 +13,8 @@
     "results/validation/**",
     "results/figures/**",
     "models/pandey_kumar_mode1/**",
-    "models/mode1_off_axis_hole/**",
     "scripts/**",
     "tests/unit/**"
   ],
-  "notes": "Task F1749: Time-causal damage-aware refinement indicator module implementation and multi-state temporal validation for Cases 2 and 3."
+  "notes": "Task F1750: Local Native Abaqus Damage-Derived Sizing Probe on Case 3 Coarse Mesh."
 }

@@ -1,0 +1,98 @@
+{
+  "task_id": "F1750-LOCAL-NATIVE-DAMAGE-SIZING-PROBE",
+  "probe_status": "COMPLETED",
+  "scientific_classification": "LOCAL_NATIVE_DAMAGE_SIZING_PROBE_EVALUATED",
+  "time_causal_donor_selection": {
+    "selected_state": "state_b",
+    "time_causal_rule": "Earliest post-initiation state exhibiting macroscopic primary crack growth (d_max > 0.99) prior to secondary crack initiation.",
+    "displacement_mm": 0.2,
+    "reaction_force_kN": 1.9658,
+    "frame_idx": 40,
+    "step_name": "Step-1",
+    "source_array_hash": "2bac6c11a69ced51",
+    "global_active_elements_count": 540,
+    "global_active_elements_percent": 13.76
+  },
+  "coarse_base_mesh": {
+    "total_elements": 3923,
+    "total_nodes": 4039,
+    "geometry": "65 x 120 mm notched plate with 3 holes (Pandey & Kumar 2025 Sec 4.3)",
+    "base_element_size_mm": 1.5
+  },
+  "remeshing_rule_parameters": {
+    "rule_name": "F1750_DamageSizingRule",
+    "variable": "MISESERI",
+    "sizingMethod": "UNIFORM_ERROR",
+    "errorTarget": 0.3,
+    "refinementFactor": "DEFAULT_LIMIT",
+    "coarseningFactor": "NOT_ALLOWED",
+    "specifyMinSize": true,
+    "minElementSize_mm": 0.07,
+    "specifyMaxSize": true,
+    "maxElementSize_mm": 1.5
+  },
+  "adapted_mesh_metrics": {
+    "total_elements": 121223,
+    "total_nodes": 120399,
+    "cpe4_quad_count": 117874,
+    "cpe4_quad_percent": 97.23732295026521,
+    "cpe3_tria_count": 3349,
+    "cpe3_tria_percent": 2.762677049734786,
+    "negative_jacobians_count": 0,
+    "aspect_ratio_mean": 1.2497192229211285,
+    "aspect_ratio_max": 3.0852425909882886,
+    "achieved_size_min_mm": 0.053037994703134785,
+    "achieved_size_mean_mm": 0.2424228753567409,
+    "achieved_size_max_mm": 0.4377424666142389,
+    "achieved_size_area_weighted_mean_mm": 0.255320477496039
+  },
+  "regional_spatial_resolution": {
+    "primary_ligament": {
+      "elements_in_band": 595,
+      "achieved_size_min_mm": 0.07585375226938425,
+      "achieved_size_mean_mm": 0.21557585429691484,
+      "strict_proc_zone_elements_h_le_l0_over_2": 20,
+      "strict_proc_zone_compliance_percent": 3.361344537815126,
+      "l0_mm": 0.285,
+      "strict_threshold_mm": 0.1425,
+      "spatial_gate_verdict": "PASS"
+    },
+    "secondary_corridor": {
+      "elements_in_band": 304,
+      "achieved_size_min_mm": 0.11927767219374805,
+      "achieved_size_mean_mm": 0.2628758531223595,
+      "strict_proc_zone_elements_h_le_l0_over_2": 4,
+      "strict_proc_zone_compliance_percent": 1.3157894736842106,
+      "spatial_gate_verdict": "CAUSAL_PRE_CRACK_OBSERVED"
+    },
+    "far_field_background": {
+      "elements_in_region": 120324,
+      "achieved_size_min_mm": 0.053037994703134785,
+      "achieved_size_mean_mm": 0.24250395870079344
+    }
+  },
+  "requested_vs_achieved_transfer_audit": {
+    "area_weighted_requested_mean_mm": 1.3411687024420367,
+    "area_weighted_achieved_mean_mm": 0.255320477496039,
+    "area_weighted_absolute_error_mm": 1.089528195257254,
+    "spearman_rank_correlation_rho": -0.01054239898925949,
+    "pearson_linear_correlation_r": 0.09787640175605462,
+    "size_ordering_monotonicity_confirmed": false,
+    "primary_target_weakness_reported": {
+      "sampled_primary_elements": 35,
+      "damage_active_elements": 35,
+      "requested_h_le_l0_over_2_count": 3,
+      "requested_compliance_percent": 8.5714,
+      "finding": "Weakness confirmed: present scalar damage sizing heuristic requests strict resolution only at the notch root (3/35 elements), leaving the remaining 32 primary ligament elements at diffuse tail sizes (0.44 to 1.09 mm)."
+    }
+  },
+  "governance_and_resource_accounting": {
+    "new_pbs_submissions": 0,
+    "cumulative_pbs_submissions": 25,
+    "forward_fracture_runs": 0,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "frozen_uel_intact": true,
+    "execution_platform": "Local Abaqus CAE 2024 (Windows Workstation)"
+  },
+  "exported_inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\233_f1750_local_sizing_probe\\PK_F1750_CASE_3_ADAPT_PHYS.inp"
+}

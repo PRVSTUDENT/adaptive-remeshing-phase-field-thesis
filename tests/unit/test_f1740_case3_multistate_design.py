@@ -126,7 +126,8 @@ def test_accounting_and_ledger_integrity():
         "F1746-CASE3-5STATE-ENVELOPE-EXECUTION",
         "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE",
         "F1748-AUTHENTIC-COUPLED-DAMAGE-FIELD-RECOVERY-AND-INDICATOR-FEASIBILITY",
-            "F1749-TIME-CAUSAL-DAMAGE-INDICATOR-IMPLEMENTATION-AND-VALIDATION"
+            "F1749-TIME-CAUSAL-DAMAGE-INDICATOR-IMPLEMENTATION-AND-VALIDATION",
+            "F1750-LOCAL-NATIVE-DAMAGE-SIZING-PROBE"
     ]
     assert task_data["cumulative_pbs_submissions"] >= 17
     assert task_data["submissions_consumed"] in [0, 1, 2, 3, 4, 5]

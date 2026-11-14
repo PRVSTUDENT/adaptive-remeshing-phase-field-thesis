@@ -96,7 +96,8 @@ def test_f1747_zero_pbs_governance():
     assert task["task_id"] in [
         "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE",
         "F1748-AUTHENTIC-COUPLED-DAMAGE-FIELD-RECOVERY-AND-INDICATOR-FEASIBILITY",
-            "F1749-TIME-CAUSAL-DAMAGE-INDICATOR-IMPLEMENTATION-AND-VALIDATION"
+            "F1749-TIME-CAUSAL-DAMAGE-INDICATOR-IMPLEMENTATION-AND-VALIDATION",
+            "F1750-LOCAL-NATIVE-DAMAGE-SIZING-PROBE"
     ]
     assert task["max_new_pbs_submissions"] == 0, "max_new_pbs_submissions > 0"
     assert task["submissions_consumed"] == 0, "Non-zero submissions consumed"

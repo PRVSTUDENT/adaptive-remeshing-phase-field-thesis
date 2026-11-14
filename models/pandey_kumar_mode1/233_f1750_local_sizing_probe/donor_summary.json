@@ -1,0 +1,33 @@
+{
+  "donor_odb_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\233_f1750_local_sizing_probe\\PK_SEC43_STATE_B_DAMAGE_DONOR.odb",
+  "donor_state": "state_b",
+  "time_causal_rule": "Earliest post-initiation state exhibiting macroscopic primary crack growth (d_max > 0.99) prior to secondary crack initiation.",
+  "displacement_mm": 0.2,
+  "rf2_kN": 1.965785,
+  "frame_idx": 40,
+  "total_donor_elements": 3923,
+  "active_elements_d_ge_005": 540,
+  "active_elements_fraction": 0.13764975783838898,
+  "strict_process_zone_target_count": 70,
+  "strict_process_zone_target_fraction": 0.017843487127198573,
+  "crack_core_target_count": 44,
+  "crack_core_target_fraction": 0.011215906194239103,
+  "s_base_MPa": 100.0,
+  "error_target": 0.3,
+  "min_target_size_mm": 0.09499999999999999,
+  "mean_target_size_mm": 1.3357327235631358,
+  "max_target_size_mm": 1.367,
+  "min_eta_hat": 0.12421531050039686,
+  "mean_eta_hat": 0.35963677626726176,
+  "max_eta_hat": 5.280378428605862,
+  "primary_sampled_weakness_retained": {
+    "total_sampled": 35,
+    "damage_active": 35,
+    "target_h_le_l0_over_2": 3,
+    "compliance_percent": 8.5714,
+    "diffuse_tail_h_range_mm": [
+      0.44,
+      1.09
+    ]
+  }
+}

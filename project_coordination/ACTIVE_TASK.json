@@ -1,21 +1,21 @@
 {
-    "task_id": "F1749-TIME-CAUSAL-DAMAGE-INDICATOR-IMPLEMENTATION-AND-VALIDATION",
-    "title": "Time-Causal Damage-Aware Refinement Indicator Module Implementation and Multi-State Temporal Validation",
+    "task_id": "F1750-LOCAL-NATIVE-DAMAGE-SIZING-PROBE",
+    "title": "Local Native Abaqus Damage-Derived Sizing Probe on Case 3 Coarse Mesh",
     "status": "COMPLETED",
-    "classification": "TIME_CAUSAL_DAMAGE_INDICATOR_CORRECTED",
+    "classification": "LOCAL_NATIVE_DAMAGE_SIZING_PROBE_EVALUATED",
     "assigned_agent": "gemini-antigravity",
     "active_pbs_job_id": null,
-    "checkpoint_artifact": "docs/validation/F1749_TIME_CAUSAL_DAMAGE_INDICATOR_REPORT.md",
-    "review_directive": "HND-F1749-TIME-CAUSAL-001",
+    "checkpoint_artifact": "docs/validation/F1750_LOCAL_NATIVE_DAMAGE_SIZING_PROBE_REPORT.md",
+    "review_directive": "HND-F1749-TIME-CAUSAL-002",
     "predecessor_task": {
-        "task_id": "F1748-AUTHENTIC-COUPLED-DAMAGE-FIELD-RECOVERY-AND-INDICATOR-FEASIBILITY",
-        "checkpoint_artifact": "docs/validation/F1748_COUPLED_DAMAGE_FIELD_AVAILABILITY_REPORT.md",
-        "classification": "OFFLINE_COUPLED_DAMAGE_AVAILABILITY_CONFIRMED_WITH_QUALIFICATIONS",
+        "task_id": "F1749-TIME-CAUSAL-DAMAGE-INDICATOR-IMPLEMENTATION-AND-VALIDATION",
+        "checkpoint_artifact": "docs/validation/F1749_TIME_CAUSAL_DAMAGE_INDICATOR_REPORT.md",
+        "classification": "OFFLINE_TIME_CAUSAL_INDICATOR_IMPLEMENTED_WITH_QUALIFICATIONS",
         "review_verdict": "APPROVE",
-        "correlation_id": "HND-F1748-DAMAGE-AVAIL-001"
+        "correlation_id": "HND-F1749-TIME-CAUSAL-002"
     },
-    "scientific_operation": "time_causal_damage_indicator_validation",
-    "scientific_operation_id": "f1749_time_causal_indicator_001",
+    "scientific_operation": "local_native_damage_sizing_probe",
+    "scientific_operation_id": "f1750_local_sizing_probe_001",
     "scientific_checkpoint_required": true,
     "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "max_new_pbs_submissions": 0,
@@ -48,7 +48,7 @@
         "1423463.mmaster02",
         "1423469.mmaster02"
     ],
-    "scope_boundary": "ZERO_PBS_TIME_CAUSAL_DAMAGE_INDICATOR",
-    "hypothesis": "Evaluating damage-aware refinement indicators using strictly time-causal information (at or before time t_n) prevents future-solution bias while successfully identifying contemporaneously evolving fracture process zones, eliminating the stress-recovery blindspot without violating physical causality.",
-    "iteration": 2
+    "scope_boundary": "ZERO_PBS_LOCAL_NATIVE_SIZING_PROBE",
+    "hypothesis": "Encoding the inverted damage-aware target size field into a native Abaqus SPR whole-element stress error indicator (MISESERI) allows native adaptiveRemesh() to generate a non-uniform physical mesh that achieves the requested local size ordering without manual crack path corridors, establishing the empirical transfer function between requested and achieved element sizes.",
+    "iteration": 1
 }
