@@ -1,21 +1,21 @@
 {
-    "task_id": "F1748-AUTHENTIC-COUPLED-DAMAGE-FIELD-RECOVERY-AND-INDICATOR-FEASIBILITY",
-    "title": "Case 2 & Case 3 Authentic Coupled Phase-Field Damage Field Recovery & Damage-Aware Refinement Indicator Feasibility",
+    "task_id": "F1749-TIME-CAUSAL-DAMAGE-INDICATOR-IMPLEMENTATION-AND-VALIDATION",
+    "title": "Time-Causal Damage-Aware Refinement Indicator Module Implementation and Multi-State Temporal Validation",
     "status": "INITIALIZED",
-    "classification": "COUPLED_DAMAGE_FIELD_RECOVERY_INITIALIZED",
+    "classification": "TIME_CAUSAL_DAMAGE_INDICATOR_INITIALIZED",
     "assigned_agent": "gemini-antigravity",
     "active_pbs_job_id": null,
-    "checkpoint_artifact": "docs/validation/F1748_COUPLED_DAMAGE_FIELD_AVAILABILITY_REPORT.md",
-    "review_directive": "HND-F1747-CASE3-CLOSEOUT-002",
+    "checkpoint_artifact": "docs/validation/F1749_TIME_CAUSAL_DAMAGE_INDICATOR_REPORT.md",
+    "review_directive": "HND-F1748-DAMAGE-AVAIL-001",
     "predecessor_task": {
-        "task_id": "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE",
-        "checkpoint_artifact": "docs/validation/F1747_CONTRAST_TRANSFORMATION_PROTOTYPE_REPORT.md",
-        "classification": "CASE3_TESTED_STRESS_ERROR_CONTRAST_LIMITATION_DEMONSTRATED",
+        "task_id": "F1748-AUTHENTIC-COUPLED-DAMAGE-FIELD-RECOVERY-AND-INDICATOR-FEASIBILITY",
+        "checkpoint_artifact": "docs/validation/F1748_COUPLED_DAMAGE_FIELD_AVAILABILITY_REPORT.md",
+        "classification": "OFFLINE_COUPLED_DAMAGE_AVAILABILITY_CONFIRMED_WITH_QUALIFICATIONS",
         "review_verdict": "APPROVE",
-        "correlation_id": "HND-F1747-CASE3-CLOSEOUT-002"
+        "correlation_id": "HND-F1748-DAMAGE-AVAIL-001"
     },
-    "scientific_operation": "authentic_coupled_damage_recovery",
-    "scientific_operation_id": "f1748_damage_recovery_001",
+    "scientific_operation": "time_causal_damage_indicator_validation",
+    "scientific_operation_id": "f1749_time_causal_indicator_001",
     "scientific_checkpoint_required": true,
     "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "max_new_pbs_submissions": 0,
@@ -48,7 +48,7 @@
         "1423463.mmaster02",
         "1423469.mmaster02"
     ],
-    "scope_boundary": "ZERO_PBS_COUPLED_DAMAGE_FIELD_RECOVERY",
-    "hypothesis": "Authentic coupled phase-field damage evolution d and positive damage increments Delta d retain localized spatial information in fracture process zones even after mechanical stress relaxation, providing a physically grounded, geometry-independent refinement indicator that overcomes the intrinsic limitation of coarse linear-elastic stress recovery (MISESERI).",
+    "scope_boundary": "ZERO_PBS_TIME_CAUSAL_DAMAGE_INDICATOR",
+    "hypothesis": "Evaluating damage-aware refinement indicators using strictly time-causal information (at or before time t_n) prevents future-solution bias while successfully identifying contemporaneously evolving fracture process zones, eliminating the stress-recovery blindspot without violating physical causality.",
     "iteration": 1
 }

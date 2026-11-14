@@ -89,7 +89,8 @@ def test_f1746_coordination_and_ledger_integrity():
     assert task["task_id"] in [
         "F1746-CASE3-5STATE-ENVELOPE-EXECUTION",
         "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE",
-        "F1748-AUTHENTIC-COUPLED-DAMAGE-FIELD-RECOVERY-AND-INDICATOR-FEASIBILITY"
+        "F1748-AUTHENTIC-COUPLED-DAMAGE-FIELD-RECOVERY-AND-INDICATOR-FEASIBILITY",
+            "F1749-TIME-CAUSAL-DAMAGE-INDICATOR-IMPLEMENTATION-AND-VALIDATION"
     ]
     assert task["cumulative_pbs_submissions"] == 25
     assert len(task["historical_pbs_job_ids"]) == 25
@@ -103,7 +104,8 @@ def test_f1746_coordination_and_ledger_integrity():
     assert sess["task_id"] in [
         "F1746-CASE3-5STATE-ENVELOPE-EXECUTION",
         "F1747-CASE3-CONTRAST-TRANSFORMATION-PROTOTYPE",
-        "F1748-AUTHENTIC-COUPLED-DAMAGE-FIELD-RECOVERY-AND-INDICATOR-FEASIBILITY"
+        "F1748-AUTHENTIC-COUPLED-DAMAGE-FIELD-RECOVERY-AND-INDICATOR-FEASIBILITY",
+            "F1749-TIME-CAUSAL-DAMAGE-INDICATOR-IMPLEMENTATION-AND-VALIDATION"
     ]
 
 def test_f1746_seven_predeclared_gates_defined():
