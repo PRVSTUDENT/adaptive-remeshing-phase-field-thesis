@@ -6,7 +6,7 @@
 #PBS -m abe
 #PBS -M pr21vyci@mailserver.tu-freiberg.de
 #PBS -j oe
-#PBS -o pbs_execution.log
+#PBS -o /scratch9/pr21vyci/runs/f1735_case2_adapted_fracture/pbs_execution.log
 
 # ==============================================================================
 # Task F1735 Case 2 Adapted-Mesh Mode-I Phase-Field Fracture Simulation
@@ -19,7 +19,8 @@
 
 set -euo pipefail
 
-cd "$PBS_O_WORKDIR"
+RUN_DIR="/scratch9/pr21vyci/runs/f1735_case2_adapted_fracture"
+cd "${RUN_DIR}"
 
 # Source Notification Traps
 if [ -f "./job_notifications.sh" ]; then
@@ -66,9 +67,15 @@ if [ "$ACTUAL_DECK_HASH" != "$EXPECTED_DECK_HASH" ]; then
 fi
 echo "Production deck integrity verified PASS."
 
-# Load Abaqus Environment
+# Load Compiler and Abaqus Environment
 module purge || true
+module load gcc/11.4.0 || true
+module load intel/2024.2.0 || true
 module load abaqus/2023 || module load abaqus || true
+
+echo "Compiler and Abaqus environment:"
+which ifort || echo "WARNING: ifort not found directly in path"
+which abaqus || echo "WARNING: abaqus not found directly in path"
 
 # Execution Command (1-CPU Serial, Race-Free Deterministic Execution)
 JOBNAME="PK_F1735_CASE_2_FRAC"

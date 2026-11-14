@@ -1,95 +1,107 @@
-{
-    "task_id": "F1735-CASE2-ADAPTED-FRACTURE-EXECUTION-QUALIFICATION",
-    "title": "Case 2 Adapted-Mesh Mode-I Phase-Field Fracture Execution Qualification",
-    "status": "ROUND2_SAFETY_HARDENED_AWAITING_REVIEW",
-    "classification": "CASE2_ADAPTED_FRACTURE_ROUND2_AWAITING_AUTHORIZATION",
-    "assigned_agent": "gemini-antigravity",
-    "checkpoint_artifact": "docs/validation/F1735_CASE2_ADAPTED_FRACTURE_QUALIFICATION_REPORT.md",
-    "predecessor_task": {
-        "task_id": "F1734-CASE2-DISTAL-REFINEMENT",
-        "checkpoint_artifact": "docs/validation/F1734_CASE2_SPATIAL_QUALIFICATION_REPORT.md",
-        "classification": "CASE2_DISTAL_REFINEMENT_SPATIAL_QUALIFICATION_AUDITED_PASS_FOR_EXPLORATORY_FRACTURE",
-        "review_verdict": "APPROVE_OFFLINE_SPATIAL_QUALIFICATION_EXPLORATORY_FRACTURE_ELIGIBLE",
-        "correlation_id": "HND-F1734-CASE2-QUAL-001"
-    },
-    "scientific_operation": "case2_adapted_fracture_execution_qualification",
-    "scientific_operation_id": "f1735_case2_fracture_qual_001",
-    "scientific_checkpoint_required": true,
-    "production_deck_path": "models/pandey_kumar_mode1/224_f1734_case2_distal_refinement/PK_F1728_CASE_2_PROD.inp",
-    "production_deck_sha256": "805AF9D80126588C1A3E39FE3B5F7A0F53DB606106F2DBFE6260F1E1FBDDBF94",
-    "physical_mesh_sha256": "FE8DD4867A9775C45460315002ECBB0544AC5D6D705C96A245B407F15CAB12A8",
-    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-    "donor_classification": "PROVISIONAL_DONOR_WITH_DOCUMENTED_SPR_LIMITATION",
-    "max_new_pbs_submissions": 0,
-    "submissions_consumed": 0,
-    "cumulative_pbs_submissions": 10,
-    "historical_pbs_job_ids": [
-        "1423095.mmaster02",
-        "1423101.mmaster02",
-        "1423102.mmaster02",
-        "1423103.mmaster02",
-        "1423169.mmaster02",
-        "1423234.mmaster02",
-        "1423235.mmaster02",
-        "1423257.mmaster02",
-        "1423258.mmaster02",
-        "1423266.mmaster02"
-    ],
-    "output_architecture_mapping": {
-        "reaction_force_source": "Node 999999 (N_RP) RF2 via *NODE OUTPUT, NSET=N_RP",
-        "displacement_source": "Node 999999 (N_RP) U2 and physical mesh nodes via *NODE OUTPUT",
-        "damage_field_source": "ELSET=umatelem STATEV(1) / STATEV(14) via COMMON /CB_STATE_TRANS/ SV_PHASE_TRIAL",
-        "history_field_source": "ELSET=umatelem STATEV(2) / STATEV(16) via COMMON /CB_STATE_TRANS/ SV_H_TRIAL",
-        "fracture_energy_source": "ELSET=umatelem STATEV(17) (E_frac) and STATEV(19) (psi_f)",
-        "strain_energy_source": "ELSET=umatelem STATEV(18) (E_elas) and STATEV(20) (psi_e)",
-        "visualization_umat_cauchy_stress": "Zero by design (dummy visualizer layer, stiffness 1.0e-11)",
-        "unsupported_output_warnings_reconciled": "Standard continuum *ELEMENT OUTPUT requests on user elements generate benign notices; visualizer layer umatelem captures complete field data"
-    },
-    "loading_schedule": {
-        "step_1": {
-            "name": "Step-1",
-            "type": "*STATIC",
-            "nlgeom": "NO",
-            "displacement_target_mm": 0.005,
-            "initial_increment": 0.02,
-            "max_increment": 0.02,
-            "min_increment": 1.0e-7,
-            "max_increments": 10000,
-            "phase": "PRECRITICAL_LINEAR_ELASTIC"
-        },
-        "step_2": {
-            "name": "Step-2",
-            "type": "*STATIC",
-            "nlgeom": "NO",
-            "displacement_target_mm": 0.012,
-            "delta_displacement_mm": 0.007,
-            "initial_increment": 0.002,
-            "max_increment": 0.002,
-            "min_increment": 1.0e-8,
-            "max_increments": 20000,
-            "phase": "FRACTURE_PROPAGATION_AND_SOFTENING"
-        }
-    },
-    "hpc_resource_qualification": {
-        "execution_mode": "SERIAL_1CPU_DETERMINISTIC",
-        "cpus": 1,
-        "memory_gb": 16,
-        "walltime_hrs": 8,
-        "queue": "entry_imfdfkmq",
-        "mpi_status": "MULTI_RANK_MPI_STRICTLY_DISQUALIFIED_FOR_F42_UEL",
-        "parallel_safety": "1-CPU serial execution completely eliminates Fortran COMMON-block thread race conditions and guarantees strict deterministic element update ordering",
-        "projected_runtime_hrs": 3.5,
-        "headroom_factor": 2.29
-    },
-    "predeclared_scientific_acceptance_checks": [
-        "regular_increment_convergence_without_solver_divergence",
-        "load_displacement_curve_displays_linear_ascent_smooth_peak_and_softening_drop",
-        "phase_field_bounds_strictly_enforced_0_le_d_le_1",
-        "damage_irreversibility_strictly_enforced_d_dot_ge_0",
-        "continuous_crack_propagation_from_notch_tip_to_hole",
-        "qualitative_deflection_comparison_with_pandey_kumar_2025",
-        "internal_strain_and_fracture_energy_balance_monotonicity"
-    ],
-    "scope_boundary": "OFFLINE_EXECUTION_QUALIFICATION_AND_GOVERNED_AUTHORIZATION_PROPOSAL_ZERO_UNAUTHORIZED_SUBMISSIONS",
-    "iteration": 1
+﻿{
+    "task_id":  "F1735-CASE2-ADAPTED-FRACTURE-EXECUTION-QUALIFICATION",
+    "title":  "Case 2 Adapted-Mesh Mode-I Phase-Field Fracture Execution Qualification",
+    "status":  "SUBMITTED_AND_QUEUED",
+    "classification":  "CASE2_ADAPTED_FRACTURE_SUBMITTED_1CPU_SERIAL",
+    "assigned_agent":  "gemini-antigravity",
+    "active_pbs_job_id":  "1423271.mmaster02",
+    "checkpoint_artifact":  "docs/validation/F1735_CASE2_ADAPTED_FRACTURE_QUALIFICATION_REPORT.md",
+    "review_approval":  {
+                            "correlation_id":  "HND-F1735-CASE2-FRACTURE-AUTH-002",
+                            "decision":  "APPROVE",
+                            "scope":  "One bounded exploratory Case 2 adapted-mesh fracture experiment using 1-CPU serial Abaqus execution",
+                            "execution_mode":  "SERIAL_1CPU_DETERMINISTIC"
+                        },
+    "predecessor_task":  {
+                             "task_id":  "F1734-CASE2-DISTAL-REFINEMENT",
+                             "checkpoint_artifact":  "docs/validation/F1734_CASE2_SPATIAL_QUALIFICATION_REPORT.md",
+                             "classification":  "CASE2_DISTAL_REFINEMENT_SPATIAL_QUALIFICATION_AUDITED_PASS_FOR_EXPLORATORY_FRACTURE",
+                             "review_verdict":  "APPROVE_OFFLINE_SPATIAL_QUALIFICATION_EXPLORATORY_FRACTURE_ELIGIBLE",
+                             "correlation_id":  "HND-F1734-CASE2-QUAL-001"
+                         },
+    "scientific_operation":  "case2_adapted_fracture_execution_qualification",
+    "scientific_operation_id":  "f1735_case2_fracture_qual_001",
+    "scientific_checkpoint_required":  true,
+    "production_deck_path":  "models/pandey_kumar_mode1/225_f1735_case2_adapted_fracture/PK_F1728_CASE_2_PROD.inp",
+    "production_deck_sha256":  "805AF9D80126588C1A3E39FE3B5F7A0F53DB606106F2DBFE6260F1E1FBDDBF94",
+    "physical_mesh_sha256":  "FE8DD4867A9775C45460315002ECBB0544AC5D6D705C96A245B407F15CAB12A8",
+    "frozen_uel_sha256":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "pbs_script_sha256":  "B452E852787EE77C1B914D072CE13B642B7999AB0C8DF568A7E99503F9C729C5",
+    "execution_config_sha256":  "87D395C9D461CF56E8693E8FA799BD526C2380D68647C662A2EBCE073C216268",
+    "donor_classification":  "PROVISIONAL_DONOR_WITH_DOCUMENTED_SPR_LIMITATION",
+    "max_new_pbs_submissions":  3,
+    "submissions_consumed":  3,
+    "cumulative_pbs_submissions":  13,
+    "historical_pbs_job_ids":  [
+                                   "1423095.mmaster02",
+                                   "1423101.mmaster02",
+                                   "1423102.mmaster02",
+                                   "1423103.mmaster02",
+                                   "1423169.mmaster02",
+                                   "1423234.mmaster02",
+                                   "1423235.mmaster02",
+                                   "1423257.mmaster02",
+                                   "1423258.mmaster02",
+                                   "1423266.mmaster02",
+                                   "1423269.mmaster02",
+                                   "1423270.mmaster02",
+                                   "1423271.mmaster02"
+                               ],
+    "output_architecture_mapping":  {
+                                        "reaction_force_source":  "Node 999999 (N_RP) RF2 via *NODE OUTPUT, NSET=N_RP",
+                                        "displacement_source":  "Node 999999 (N_RP) U2 and physical mesh nodes via *NODE OUTPUT",
+                                        "damage_field_source":  "ELSET=umatelem STATEV(1) / STATEV(14) via COMMON /CB_STATE_TRANS/ SV_PHASE_TRIAL",
+                                        "history_field_source":  "ELSET=umatelem STATEV(2) / STATEV(16) via COMMON /CB_STATE_TRANS/ SV_H_TRIAL",
+                                        "fracture_energy_source":  "ELSET=umatelem STATEV(17) (E_frac) and STATEV(19) (psi_f)",
+                                        "strain_energy_source":  "ELSET=umatelem STATEV(18) (E_elas) and STATEV(20) (psi_e)",
+                                        "visualization_umat_cauchy_stress":  "Zero by design (dummy visualizer layer, stiffness 1.0e-11)",
+                                        "unsupported_output_warnings_reconciled":  "Standard continuum *ELEMENT OUTPUT requests on user elements generate benign notices; visualizer layer umatelem captures complete field data"
+                                    },
+    "loading_schedule":  {
+                             "step_1":  {
+                                            "name":  "Step-1",
+                                            "type":  "*STATIC",
+                                            "nlgeom":  "NO",
+                                            "displacement_target_mm":  0.005,
+                                            "initial_increment":  0.02,
+                                            "max_increment":  0.02,
+                                            "min_increment":  1E-07,
+                                            "max_increments":  10000,
+                                            "phase":  "PRECRITICAL_LINEAR_ELASTIC"
+                                        },
+                             "step_2":  {
+                                            "name":  "Step-2",
+                                            "type":  "*STATIC",
+                                            "nlgeom":  "NO",
+                                            "displacement_target_mm":  0.012,
+                                            "delta_displacement_mm":  0.007,
+                                            "initial_increment":  0.002,
+                                            "max_increment":  0.002,
+                                            "min_increment":  1E-08,
+                                            "max_increments":  20000,
+                                            "phase":  "FRACTURE_PROPAGATION_AND_SOFTENING"
+                                        }
+                         },
+    "hpc_resource_qualification":  {
+                                       "execution_mode":  "SERIAL_1CPU_DETERMINISTIC",
+                                       "cpus":  1,
+                                       "memory_gb":  16,
+                                       "walltime_hrs":  8,
+                                       "queue":  "entry_imfdfkmq",
+                                       "mpi_status":  "MULTI_RANK_MPI_STRICTLY_DISQUALIFIED_FOR_F42_UEL",
+                                       "parallel_safety":  "1-CPU serial execution completely eliminates Fortran COMMON-block thread race conditions and guarantees strict deterministic element update ordering",
+                                       "projected_runtime_hrs":  3.5,
+                                       "headroom_factor":  2.29
+                                   },
+    "predeclared_scientific_acceptance_checks":  [
+                                                     "regular_increment_convergence_without_solver_divergence",
+                                                     "load_displacement_curve_displays_linear_ascent_smooth_peak_and_softening_drop",
+                                                     "phase_field_bounds_strictly_enforced_0_le_d_le_1",
+                                                     "damage_irreversibility_strictly_enforced_d_dot_ge_0",
+                                                     "continuous_crack_propagation_from_notch_tip_to_hole",
+                                                     "qualitative_deflection_comparison_with_pandey_kumar_2025",
+                                                     "internal_strain_and_fracture_energy_balance_monotonicity"
+                                                 ],
+    "scope_boundary":  "OFFLINE_EXECUTION_QUALIFICATION_AND_GOVERNED_AUTHORIZATION_PROPOSAL_ZERO_UNAUTHORIZED_SUBMISSIONS",
+    "iteration":  1
 }
