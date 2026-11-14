@@ -207,3 +207,24 @@ Three architectural alternatives were evaluated:
    Authorize conditional progression to Task **F1731-CASE2-ADAPTIVE-MESH-GENERATION** using `PK_HOLE_COMPANION_RECOVERY.odb` under native Abaqus CAE `RemeshingRule` and `adaptiveRemesh()`.
 3. **Safety Compliance:**  
    Zero PBS submissions consumed during this investigation. Subroutine `f42_mixed_uel.for` (`CE8D5EDC...`) preserved bitwise unaltered. Zero forward fracture simulations executed.
+
+---
+
+## 8. Independent Structured Review Outcome (HND-F1730-CASE2-SPR-002)
+
+On 14 November 2026, independent scientific supervision evaluated review packet `HND-F1730-CASE2-SPR-002` under Protocol `INDEPENDENT_STRUCTURED_REVIEW_V1`:
+
+- **Decision:** **REJECT** full scientific qualification of the 13-material-bin donor as an unbiased error estimator; **ACCEPT** the completed investigation as sufficient evidence to justify one controlled exploratory native-remeshing pilot under Task **F1731-CASE2-ADAPTIVE-MESH-GENERATION**.
+- **Accepted Evidence:**
+  - One converged companion recovery solve, 2,906 physical elements, 100% finite non-zero MISESERI.
+  - Pure bulk mean: $10.10\,\text{MPa}$; interface mean: $53.34\,\text{MPa}$; damaged mean: $210.68\,\text{MPa}$; primary component mean: $245.53\,\text{MPa}$; hole boundary mean: $141.25\,\text{MPa}$; uncracked ligament mean: $127.27\,\text{MPa}$.
+  - Damage-indicator correlation: $r = 0.8555$. 41/41 unit tests pass. 0 additional PBS submissions consumed (cumulative = 7).
+- **Findings Recorded:**
+  - **Finding F1730-R01 (SPR Section Homogeneity Warning Retained as Limitation):** The warning reflects Abaqus SPR assuming continuous solutions across patch domains. Spatially varying degraded moduli do not satisfy the identical-property exception. Retained as a documented SPR donor limitation.
+  - **Finding F1730-R06 (Spatial Coupling of Damage and Interface Artifacts):** Because section properties were discretized from damage, correlation ($r = 0.8555$) reflects coupled fields rather than statistical independence.
+  - **Finding F1730-R07 (Diagnostic Subset Clarification):** The 9 reported spatial subsets are overlapping diagnostic groups (e.g. primary component and boundary elements overlap the 48-element damaged population), not mutually disjoint.
+  - **Finding F1730-R08 (Element Size Verification Required):** Theoretical sizing estimates ($h \sim 2.5\,\mu\text{m}$, $6 - 8\,\mu\text{m}$, $15 - 20\,\mu\text{m}$) must be verified on the actual generated mesh under native Abaqus remeshing.
+  - **Finding F1730-R09 (Remeshing Rule Flexibility Clarified):** Abaqus CAE permits multiple remeshing rules; no section-splitting redesign is required.
+  - **Finding F1730-R10 (Positive Result — Plausible Refinement Signal):** The primary damage component ($245.53\,\text{MPa}$) and prospective ligament ($127.27\,\text{MPa}$) both substantially exceed the interface mean ($53.34\,\text{MPa}$), providing a plausible physical signal justifying exploratory native remeshing.
+- **Next Action Authorized:** Close Task F1730 and transition to **F1731-CASE2-ADAPTIVE-MESH-GENERATION** to execute one controlled exploratory native Abaqus `RemeshingRule` / `adaptiveRemesh()` pilot on the cluster using `PK_HOLE_COMPANION_RECOVERY.odb`, retaining the provisional donor classification and evaluating spatial resolution $h \le \ell_0/2 = 3.75\,\mu\text{m}$ across the fracture corridor.
+

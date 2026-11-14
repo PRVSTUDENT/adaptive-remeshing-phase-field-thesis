@@ -129,3 +129,32 @@ Physical adapted mesh found: /scratch9/pr21vyci/runs/f1731_case2_pilot/PK_F1728_
    Calibrate $\eta_{\text{target}}$ to $3.80\%$ in a focused successor execution to generate the production-density mesh ($\sim 11,000 - 14,000$ elements) with $h \le \ell_0/2 = 3.75\,\mu\text{m}$ along the oblique ligament.
 4. **Safety & Governance Compliance:**  
    Exactly 1 PBS submission consumed for Task F1731 (Job `1423257.mmaster02`). Frozen UEL subroutine `f42_mixed_uel.for` preserved bitwise. Strictly zero forward phase-field fracture simulations executed on the adapted mesh.
+
+---
+
+## 7. Independent Structured Review Outcome & Findings Resolution (HND-F1731-CASE2-REMESH-001)
+
+### 7.1 Independent Review Verdict
+- **Protocol:** `INDEPENDENT_STRUCTURED_REVIEW_V1`
+- **Correlation ID:** `HND-F1731-CASE2-REMESH-001`
+- **Reviewer:** ChatGPT (Independent Scientific Supervision across PAD Bridge)
+- **Decision:** **APPROVE**
+- **Approval Scope:** Technical native-remeshing milestone and documented spatial-resolution failure only. Conditional progression to a separately authorized calibration experiment.
+- **Review Summary:** *"The F1731 handoff reports a genuine Abaqus 2023 native adaptive-remeshing operation using the provisional Case 2 companion MISESERI donor. The generated mesh contains 3851 physical elements, has a reported 96.70% quadrilateral fraction, positive Jacobians, acceptable aspect ratios, and a three-layer production deck that passed datacheck. This is meaningful technical progress. However, the adapted mesh fails the essential phase-field spatial-resolution criteria: no reported elements satisfy h <= 3.75 micrometers. The technical pipeline is provisionally accepted, but the mesh is not qualified for a fracture-response simulation. Tightening the error target is justified as one bounded calibration experiment, although the predicted element counts and element sizes are not established by the supplied evidence."*
+
+### 7.2 Resolution of Independent Review Findings F1731-R01 to F1731-R07
+1. **Finding F1731-R01 (Technical Remeshing Feasibility):**  
+   *Assessment:* Accepted as proof of technical feasibility of the Case 2 remeshing pipeline on HPC, without implying phase-field fracture accuracy.
+2. **Finding F1731-R02 (Deficient Process-Zone Resolution):**  
+   *Assessment:* Confirmed. The current 3,851-element mesh is strictly disqualified for production fracture simulations.
+3. **Finding F1731-R03 (Predicted Sizing & Counts Labeled Hypotheses):**  
+   *Assessment:* Adopted. Predicted element counts (~11,500–13,500) and sizes ($h \sim 2.8 - 3.7\,\mu\text{m}$) under $\eta_{\text{target}} = 3.80\%$ are formally designated as hypotheses subject to empirical FE measurement.
+4. **Finding F1731-R04 (Regional Element Counts Clarification):**  
+   *Assessment:* Clarified. The diagnostic regions in the spatial audit overlap (6 notch root + 120 corridor + 84 hole boundary + 3,647 bulk = 3,857 instances across 3,851 unique elements; 6 elements overlap between notch root/corridor/boundary). They represent localized diagnostic windows, not a mutually exclusive partition.
+5. **Finding F1731-R05 (Provisional SPR Donor Limitation Retained):**  
+   *Assessment:* Retained. Donor `PK_HOLE_COMPANION_RECOVERY.odb` remains classified as provisional.
+6. **Finding F1731-R06 (Along-Path Spatial Continuity Requirement):**  
+   *Assessment:* Adopted. Successor audit will explicitly measure along-path continuity of $h \le \ell_0/2$ from notch root to hole boundary.
+7. **Finding F1731-R07 (Finite PBS Budget & Task Transition):**  
+   *Assessment:* Enforced. Task F1731 is formally closed with 1 consumed PBS submission. Progression to successor task `F1732-CASE2-ADAPTIVE-REMESH-CALIBRATION` is authorized with a finite budget of at most 1 new PBS submission (`max_new_pbs_submissions = 1`).
+

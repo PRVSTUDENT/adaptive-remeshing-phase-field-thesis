@@ -13,12 +13,14 @@
     "datacheck_elements_verified": 26349,
     "datacheck_nodes_verified": 8885,
     "datacheck_exit_status": "EXIT_0_DATACHECK_COMPLETE",
-    "finding_f1732_r05_resolution": "Verified that PK_F1732_CASE_2_DC.dat on disk is genuine and distinct (SHA-256: 0E029D8A9B6F...). It records 26,349 layered elements, 8,885 nodes, and ANALYSIS DATACHECK COMPLETE. The previously reported hash EC689C81... was an un-updated placeholder in the report markdown table."
+    "datacheck_warnings_count": 8,
+    "datacheck_warnings_classification": "All 8 warnings are identical: '***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS'. Issued 4 times in Step-1 and 4 times in Step-2 for UEL types U1, U3, U2, U4. They are strictly benign informational notices. Zero severe warnings, zero MPC warnings, and zero element distortion warnings.",
+    "provenance_hash_reconciliation": "Verified that solver outputs from PBS job 1423258.mmaster02 have never changed: physical mesh is ED8D2905..., production deck is 4AD7AC48..., datacheck dat is 0E029D8A... The earlier reported hashes (F39F803D..., 3788FBCB..., EC689C81...) were preliminary draft placeholders."
   },
   "spatial_qualification_verdict": {
     "verdict": "FAIL_FOR_UNRESTRICTED_FRACTURE_SIMULATION",
-    "conditional_verdict": "CONDITIONALLY_PASS_FOR_BOUNDED_EXPLORATORY_PREPEAK_PILOT",
-    "decision_summary": "The distal 40% of the prospective crack trajectory (Stations 7\u201310, longitudinal span 63.2 um = 8.43 l0) has element sizes h in [4.80, 6.31] um, exceeding the phase-field regularization requirement h <= l0/2 = 3.75 um. While 100% of distal elements satisfy h <= l0 = 7.50 um, the absence of h <= l0/2 resolution means macroscopic crack propagation into the hole would experience artificial numerical pinning. Authoritative production fracture simulation is therefore REJECTED on this mesh."
+    "conditional_exploratory_status": "UNVERIFIED_NUMERICAL_HYPOTHESIS_FORWARD_FRACTURE_PAUSED",
+    "decision_summary": "The distal 40% of the prospective crack trajectory (Stations 7\u201310, longitudinal span 63.2 um = 8.43 l0) has element sizes h in [3.17, 7.78] um, exceeding the phase-field regularization requirement h <= l0/2 = 3.75 um. Authoritative production fracture simulation is therefore REJECTED on this mesh."
   },
   "longitudinal_under_resolved_extent": {
     "non_compliant_stations": [
@@ -1661,11 +1663,13 @@
     "target_distal_size_um": 3.5,
     "current_distal_mean_size_um": 5.8,
     "proposed_eta_target_percent": 2.3,
-    "proposed_min_size_mm": 0.001,
-    "proposed_max_size_mm": 0.015,
-    "scaling_justification": "Because h_new proportional to eta_target^(1/p) with p ~ 1 in Abaqus SPR remeshing, reducing eta_target from 3.80% to 2.30% (factor of 0.605) scales distal element sizes from h ~ 5.80 um to h ~ 3.51 um <= l0/2 = 3.75 um. This achieves complete 100% l0/2 resolution across all 10 trajectory stations natively and globally, without prescribing the crack path, without artificial local corridors, and without fine-mesh leakage.",
-    "predicted_mesh_size_range": "14,000 to 18,000 physical elements",
-    "benchmark_parity": "Aligns with published literature target of ~11,000\u201314,000 elements in Pandey & Kumar (2025)."
+    "proposed_min_size_mm": 0.0015,
+    "proposed_max_size_mm": 0.02,
+    "proposed_mesh_gradation": 1.25,
+    "scaling_justification": "Because h_new is approximately proportional to eta_target^(1/p) with p ~ 1 in Abaqus SPR remeshing, reducing eta_target from 3.80% to 2.30% (factor of 0.605) scales distal element sizes from h ~ 5.80 um to h ~ 3.51 um <= l0/2 = 3.75 um. Under the controlled one-variable calibration rule, min_size (0.0015 mm), max_size (0.0200 mm), and gradation (1.25) remain strictly identical to F1732.",
+    "unconstrained_quadratic_prediction": 23975,
+    "predicted_mesh_size_hypothesis": "Element count is an unverified hypothesis; spatial resolution governs calibration.",
+    "benchmark_parity_note": "Parity with published literature (~11,000\u201314,000 elements) is secondary to achieving h <= l0/2."
   },
   "next_action": {
     "recommended_action": "EXECUTE_CALIBRATED_REMESHING_EXPERIMENT_ETA_2_30_PCT",

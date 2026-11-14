@@ -113,7 +113,13 @@ We request independent scientific confirmation that:
 2. The Companion Degraded Cauchy Stress Recovery Protocol (docs/validation/F1728_CASE2_COMPANION_STRESS_RECOVERY_PROTOCOL.md) is scientifically sound, physically justified, and technically qualified for subsequent governed execution.
 '@
 
-$bridgeResult = Invoke-PadBridge -TaskId $taskId -HandoffId $handoffId -ScientificReport $scientificReport
+Write-Output "=== DISPATCHING TASK F1728 CASE 2 STRESS RECOVERY PROTOCOL TO CHATGPT (HND-F1728-CASE2-STRESS-RECOVERY-001) ==="
+$response = Invoke-ChatGPTBridge -PromptText $scientificReport -HandoffId $handoffId
+Write-Output "=== CHATGPT RESPONSE RECEIVED ==="
+Write-Output $response
 
-Write-Output "Bridge dispatch complete: $handoffId"
-Write-Output "Status: $($bridgeResult.Status)"
+$responseDir = Join-Path $PSScriptRoot "..\bridge_history"
+if (-not (Test-Path $responseDir)) { New-Item -ItemType Directory -Path $responseDir -Force | Out-Null }
+$responseFile = Join-Path $responseDir "response_${handoffId}.md"
+Set-Content -Path $responseFile -Value $response -Encoding UTF8
+Write-Output "Saved review response to: $responseFile"

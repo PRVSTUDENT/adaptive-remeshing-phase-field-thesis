@@ -20,12 +20,14 @@ def investigation_data():
         return json.load(f)
 
 def test_datacheck_provenance_verified(investigation_data):
-    """Asserts that F1732 datacheck .dat SHA-256 and problem size are verified (Finding F1732-R05)."""
+    """Asserts that F1732 datacheck .dat SHA-256 and problem size are verified (Finding F1732-R05, F1733-R04/R05)."""
     prov = investigation_data["provenance_audit"]
     assert prov["datacheck_dat_sha256"] == "0E029D8A9B6F728B0DBB5FCE2AF7AD78B4DA9279ABE98F6A26C55B1635BAB5D2"
     assert prov["datacheck_elements_verified"] == 26349
     assert prov["datacheck_nodes_verified"] == 8885
     assert prov["datacheck_exit_status"] == "EXIT_0_DATACHECK_COMPLETE"
+    assert prov["datacheck_warnings_count"] == 8
+    assert "THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS" in prov["datacheck_warnings_classification"]
 
 def test_along_path_stations_count_and_geometry(investigation_data):
     """Asserts that 10 stations cover the 158.11 um trajectory with 622 elements."""
@@ -77,14 +79,18 @@ def test_area_weighted_vs_count_compliance_contrast(investigation_data):
     assert traj["pct_area_h_le_3_75um"] == pytest.approx(52.83, abs=0.1)
 
 def test_spatial_qualification_decisions(investigation_data):
-    """Asserts authoritative fracture simulation is rejected while bounded prepeak pilot is conditional."""
+    """Asserts authoritative fracture simulation is rejected while exploratory run is an unverified hypothesis (Finding F1733-R06)."""
     verdict = investigation_data["spatial_qualification_verdict"]
     assert verdict["verdict"] == "FAIL_FOR_UNRESTRICTED_FRACTURE_SIMULATION"
-    assert "CONDITIONALLY_PASS" in verdict["conditional_verdict"]
+    assert verdict["conditional_exploratory_status"] == "UNVERIFIED_NUMERICAL_HYPOTHESIS_FORWARD_FRACTURE_PAUSED"
 
 def test_minimal_refinement_adjustment_formula(investigation_data):
-    """Asserts the proposed calibration adjustment eta_target = 2.30% is mathematically consistent."""
+    """Asserts the proposed controlled one-variable calibration adjustment eta_target = 2.30% is mathematically consistent (Finding F1733-R02/R03)."""
     prop = investigation_data["minimal_refinement_adjustment_proposal"]
     assert prop["proposed_eta_target_percent"] == 2.30
+    assert prop["proposed_min_size_mm"] == 0.0015
+    assert prop["proposed_max_size_mm"] == 0.0200
+    assert prop["proposed_mesh_gradation"] == 1.25
     assert prop["target_distal_size_um"] == 3.50
     assert prop["current_distal_mean_size_um"] == 5.80
+    assert prop["unconstrained_quadratic_prediction"] == 23975

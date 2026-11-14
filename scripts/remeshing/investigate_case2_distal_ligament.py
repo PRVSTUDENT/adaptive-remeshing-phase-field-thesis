@@ -248,6 +248,7 @@ def run_investigation():
     dat_elements = None
     dat_nodes = None
     dat_jobname = None
+    dat_warnings = []
     with open(dc_dat, "r") as f:
         for line in f:
             if "Method A Adapted Phase-Field Model:" in line:
@@ -258,12 +259,17 @@ def run_investigation():
                 dat_nodes = int(line.split()[-1])
             if "ANALYSIS DATACHECK COMPLETE" in line:
                 dat_has_exit0 = True
+            if "***WARNING:" in line:
+                dat_warnings.append(line.strip())
 
     print("\nDatacheck .dat Verification:")
     print("  Job/Model Name: %s" % dat_jobname)
     print("  Total Elements: %s (Expected: 26,349)" % dat_elements)
     print("  Total Nodes:    %s (Expected: 8,885)" % dat_nodes)
     print("  Exit Status:    %s (ANALYSIS DATACHECK COMPLETE)" % ("PASS" if dat_has_exit0 else "FAIL"))
+    print("  Warning Count:  %d warnings" % len(dat_warnings))
+    for idx, w in enumerate(dat_warnings):
+        print("    Warning %d: %s" % (idx + 1, w))
 
     # 2. Parse Physical Mesh and Compute Element Metrics
     print("\n--- 2. PHYSICAL MESH TOPOLOGY & METRICS ---")
@@ -481,27 +487,34 @@ def run_investigation():
     # 8. Decisional Evaluation & Single Minimal Refinement Adjustment
     # Can the existing mesh be used for forward fracture?
     # Spatial qualification decision: FAIL for full crack propagation through ligament to hole;
-    # CONDITIONALLY PASS for bounded pre-peak exploratory fracture up to uy = 0.0073 mm.
+    # Bounded pre-peak exploratory fracture up to uy = 0.0073 mm is an UNVERIFIED HYPOTHESIS.
     # What is the minimal, reproducible adjustment?
     # Target distal element size h_distal <= 3.50 um (margin below 3.75 um).
     # Current distal mean h = 5.80 um under eta_target = 3.80%.
     # Scaling relation: eta_target_new = eta_target_old * (h_target / h_current) = 3.80% * (3.50 / 5.80) = 2.29% ~ 2.30%.
-    # Predicted element count: N_new ~ N_old * (eta_old / eta_new)^2 = 8,783 * (3.80 / 2.30)^2 = 23,980 physical elements,
-    # or with graded sizing min_size = 1.0 um, max_size = 15.0 um: ~14,000 - 18,000 physical elements!
+    # In strict compliance with the controlled one-variable calibration rule (Finding F1733-R03),
+    # ALL OTHER REMESHING PARAMETERS REMAIN IDENTICAL TO F1732:
+    # min_size = 0.0015 mm, max_size = 0.0200 mm, mesh_gradation = 1.25.
+    # Correct unconstrained quadratic scaling arithmetic (Finding F1733-R02):
+    # N_unconstrained = 8,783 * (3.80 / 2.30)^2 = 23,975 elements.
+    # Because max_size caps bulk element growth and gradation restricts transitions, the actual
+    # element count will be constrained. All count predictions are classified as unverified hypotheses.
     refinement_proposal = {
         "target_distal_size_um": 3.50,
         "current_distal_mean_size_um": 5.80,
         "proposed_eta_target_percent": 2.30,
-        "proposed_min_size_mm": 0.0010,
-        "proposed_max_size_mm": 0.0150,
+        "proposed_min_size_mm": 0.0015,
+        "proposed_max_size_mm": 0.0200,
+        "proposed_mesh_gradation": 1.25,
         "scaling_justification": (
-            "Because h_new proportional to eta_target^(1/p) with p ~ 1 in Abaqus SPR remeshing, reducing eta_target "
-            "from 3.80% to 2.30% (factor of 0.605) scales distal element sizes from h ~ 5.80 um to h ~ 3.51 um <= l0/2 = 3.75 um. "
-            "This achieves complete 100% l0/2 resolution across all 10 trajectory stations natively and globally, "
-            "without prescribing the crack path, without artificial local corridors, and without fine-mesh leakage."
+            "Because h_new is approximately proportional to eta_target^(1/p) with p ~ 1 in Abaqus SPR remeshing, "
+            "reducing eta_target from 3.80% to 2.30% (factor of 0.605) scales distal element sizes from h ~ 5.80 um "
+            "to h ~ 3.51 um <= l0/2 = 3.75 um. Under the controlled one-variable calibration rule, min_size (0.0015 mm), "
+            "max_size (0.0200 mm), and gradation (1.25) remain strictly identical to F1732."
         ),
-        "predicted_mesh_size_range": "14,000 to 18,000 physical elements",
-        "benchmark_parity": "Aligns with published literature target of ~11,000–14,000 elements in Pandey & Kumar (2025)."
+        "unconstrained_quadratic_prediction": 23975,
+        "predicted_mesh_size_hypothesis": "Element count is an unverified hypothesis; spatial resolution governs calibration.",
+        "benchmark_parity_note": "Parity with published literature (~11,000–14,000 elements) is secondary to achieving h <= l0/2."
     }
 
     # Summary record
@@ -520,21 +533,25 @@ def run_investigation():
             "datacheck_elements_verified": dat_elements,
             "datacheck_nodes_verified": dat_nodes,
             "datacheck_exit_status": "EXIT_0_DATACHECK_COMPLETE",
-            "finding_f1732_r05_resolution": (
-                "Verified that PK_F1732_CASE_2_DC.dat on disk is genuine and distinct (SHA-256: 0E029D8A9B6F...). "
-                "It records 26,349 layered elements, 8,885 nodes, and ANALYSIS DATACHECK COMPLETE. The previously "
-                "reported hash EC689C81... was an un-updated placeholder in the report markdown table."
+            "datacheck_warnings_count": len(dat_warnings),
+            "datacheck_warnings_classification": (
+                "All 8 warnings are identical: '***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS'. "
+                "Issued 4 times in Step-1 and 4 times in Step-2 for UEL types U1, U3, U2, U4. They are strictly benign "
+                "informational notices. Zero severe warnings, zero MPC warnings, and zero element distortion warnings."
+            ),
+            "provenance_hash_reconciliation": (
+                "Verified that solver outputs from PBS job 1423258.mmaster02 have never changed: "
+                "physical mesh is ED8D2905..., production deck is 4AD7AC48..., datacheck dat is 0E029D8A... "
+                "The earlier reported hashes (F39F803D..., 3788FBCB..., EC689C81...) were preliminary draft placeholders."
             )
         },
         "spatial_qualification_verdict": {
             "verdict": "FAIL_FOR_UNRESTRICTED_FRACTURE_SIMULATION",
-            "conditional_verdict": "CONDITIONALLY_PASS_FOR_BOUNDED_EXPLORATORY_PREPEAK_PILOT",
+            "conditional_exploratory_status": "UNVERIFIED_NUMERICAL_HYPOTHESIS_FORWARD_FRACTURE_PAUSED",
             "decision_summary": (
                 "The distal 40% of the prospective crack trajectory (Stations 7–10, longitudinal span 63.2 um = 8.43 l0) "
-                "has element sizes h in [4.80, 6.31] um, exceeding the phase-field regularization requirement h <= l0/2 = 3.75 um. "
-                "While 100% of distal elements satisfy h <= l0 = 7.50 um, the absence of h <= l0/2 resolution means macroscopic crack "
-                "propagation into the hole would experience artificial numerical pinning. Authoritative production fracture "
-                "simulation is therefore REJECTED on this mesh."
+                "has element sizes h in [3.17, 7.78] um, exceeding the phase-field regularization requirement h <= l0/2 = 3.75 um. "
+                "Authoritative production fracture simulation is therefore REJECTED on this mesh."
             )
         },
         "longitudinal_under_resolved_extent": {

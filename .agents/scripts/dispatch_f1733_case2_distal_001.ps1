@@ -196,10 +196,13 @@ Execute exactly one calibrated native remeshing experiment on HPC under successo
 forward fracture simulation.
 '@
 
-Write-Host "Dispatching Task F1733 Distal Ligament Qualification Report across PAD bridge..."
-$response = Invoke-ChatGPTBridge -Prompt $scientificReport -CorrelationId $handoffId -TimeoutSeconds 180
+Write-Output "=== DISPATCHING TASK F1733 DISTAL LIGAMENT REPORT TO CHATGPT (HND-F1733-CASE2-DISTAL-001) ==="
+$response = Invoke-ChatGPTBridge -PromptText $scientificReport -HandoffId $handoffId
+Write-Output "=== CHATGPT RESPONSE RECEIVED ==="
+Write-Output $response
 
-Write-Host "Bridge response received successfully!"
-Write-Host "Review correlation ID: $($response.correlation_id)"
-Write-Host "Review decision: $($response.decision)"
-Write-Host "Review summary: $($response.review_summary)"
+$responseDir = Join-Path $PSScriptRoot "..\bridge_history"
+if (-not (Test-Path $responseDir)) { New-Item -ItemType Directory -Path $responseDir -Force | Out-Null }
+$responseFile = Join-Path $responseDir "response_${handoffId}.md"
+Set-Content -Path $responseFile -Value $response -Encoding UTF8
+Write-Output "Saved review response to: $responseFile"
