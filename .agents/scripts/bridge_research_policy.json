@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "goal_id": "PANDEY_KUMAR_NATIVE_MISESERI_CAUSAL_ADAPTIVITY_V1",
+  "method": "METHOD_A",
+  "regression_cases": [
+    1,
+    2,
+    3,
+    5
+  ],
+  "allowed_operations": [
+    "shared_framework_improvement",
+    "indicator_validation",
+    "causal_remeshing_test",
+    "four_case_regression",
+    "mesh_quality_diagnosis",
+    "source_evidence_reconciliation"
+  ],
+  "native_indicator": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
+  "paused_task_pattern": "(?i)METHOD[-_ ]?C|STATE[-_ ]?TRANSFER|COUPLED[-_ ]?FRACTURE|THESIS|PRESENTATION",
+  "prohibited_successors": [
+    "METHOD_C",
+    "COUPLED_FRACTURE_VALIDATION",
+    "THESIS_WRITING",
+    "PRESENTATION"
+  ],
+  "note": "Scope declarations are checked before publication. They do not prove scientific validity or authorize HPC execution."
+}

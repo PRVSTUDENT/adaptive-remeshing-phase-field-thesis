@@ -1,3 +1,105 @@
+<!-- BEGIN UNIFIED-METHOD-A-REGRESSION-POLICY -->
+# Research priority lock - adaptive remeshing only (15 November 2026)
+
+This user directive overrides conflicting older priorities, reporting requirements
+and roadmap stages below. F1774 is the baseline to improve, not final acceptance.
+
+- Sole goal: finalize one reusable, accurate, efficient Pandey-Kumar adaptive-
+  remeshing framework across Cases 1, 2, 3 and 5. Case 4 is historical, not mandatory.
+- Order: (1) Case 2 distal refinement beyond the off-axis hole; (2) Case 3 secondary
+  refinement, excessive element count and aspect ratio; (3) Case 1 efficiency,
+  fine-tip coverage and far-field coarsening while preserving full-ligament
+  resolution; (4) preserve Case 5 selective inter-hole quality.
+- Use scripts/remeshing/reusable_2d_adaptive_framework.py. One shared strategy;
+  geometry/configuration and physical donors may differ. Distinguish A.1 single-
+  pass from A.2 multi-state. No benchmark-specific algorithm forks or manually
+  seeded future crack corridors. Respond to evolving authentic error/damage
+  indicators; do not require every possible future path to be refined in advance.
+- Diagnose from existing donor fields, mesh INPs and elementwise h/l0. Fix the
+  smallest demonstrated numerical defect with a generalizable improvement.
+  Run inexpensive offline/unit/geometry checks first. For each meaningful frozen
+  candidate revision, evaluate all four cases against F1774 and the preceding
+  candidate: critical-region resolution, count, quad fraction, Jacobians, aspect
+  ratio, far-field coarsening and measured computational cost. Record source and
+  input hashes. No mixed-revision comparison or old mesh presented as fresh.
+- Preserve good results and all failures. Report measurable changes and remaining
+  failures; investigate regressions before adoption. Four generated meshes,
+  datacheck/solver Exit0 or attractive figures do not establish finalization.
+- Until framework finalization is quantitatively demonstrated and independently
+  reviewed, or the user explicitly changes priority: NO new coupled-fracture
+  validation runs, thesis writing, presentations or final-documentation work.
+  No extra HPC jobs except necessary tests of meaningful remeshing improvements.
+  Keep only essential evidence/coordination notes and diagnostic figures; no
+  repetitive planning, report expansion or review loops without numerical progress.
+- Preserve frozen Fortran UEL, thresholds, historical results, session ownership,
+  authenticated scientific review, registered exact HPC scope/budget, technical
+  gates, notifications and once-only accounting. Execute qualified jobs only via
+  scripts/hpc/Invoke-Mode1Execution.ps1; no new human-permit/enrollment loop.
+- Every next action must identify the framework defect, measurable test and
+  expected resolution/efficiency benefit. Deadlines and completed secondary
+  milestones never justify abandoning this objective. Dynamic state stays in
+  project_coordination/; this rule does not grant a job budget or change task state.
+
+## Persistent bridge continuation
+While the master goal is OPEN: execute the bounded task -> send results through
+AGY -> PAD -> bridge_request.ready -> ChatGPT -> bridge_response.ready -> AGY;
+wait for and validate the matching response, apply its corrections/next operation,
+and continue under valid ownership and execution scope. Sending results, releasing
+a subtask session, committing, or the word Finished does NOT complete the master
+goal. Never emit <!-- GOAL_COMPLETE --> for subtask completion or before the
+matching independent review confirms the master success criteria. Do not exit
+merely because a review is pending. On a genuine safety/auth/quota/transport block,
+preserve the transaction, report the exact blocker and resume condition, and keep
+the master goal OPEN; no busy polling, duplicate dispatch or unbounded retries.
+
+## Bridge wire format (Tampermonkey v1.5.0)
+AGY: create UTF-8 plain text, not a JSON transport envelope. The FIRST line must
+be exactly [BRIDGE_HANDOFF_ID=HND-<unique-id>] with a real unique ID containing
+only letters, digits, underscores or hyphens after HND-. No quotes, bullets,
+backticks or inline prefixes on that line. Use the same ID as correlation_id.
+Next put INDEPENDENT_STRUCTURED_REVIEW_V1 on its own line, then the review request
+JSON/evidence and current canonical bridge rules. Request exactly one json-fenced
+JSON response and no surrounding prose. Use the existing guarded bridge wrapper
+where applicable, not an ad-hoc writer. Before atomic .tmp -> .ready publication,
+validate the COMPLETE final text with the userscript's exact trigger regex:
+/^\s*\[BRIDGE_HANDOFF_ID=(HND-[A-Za-z0-9_-]+)\]\s*$/m
+Require exactly one header, matching request correlation_id and declared protocol.
+Preserve pending transactions; no overwrite or resend of an ambiguous handoff.
+PAD must paste the complete text into the live ChatGPT composer using a real
+clipboard paste event. File creation, attachments alone or typing text do not arm
+this userscript. No extra Enter while auto-send is armed. If no WAITING/SENT
+indicator appears, diagnose header/focus/paste/extension state; do not claim send.
+The userscript creates the OUTER clipboard JSON: bridge_handoff_id, status,
+copied_at, response_chars, response (or error). AGY must validate matching ID and
+status=OK, unwrap response and parse its INNER review JSON; require its matching
+correlation_id/protocol. Transport OK is not scientific APPROVE. Reject stale,
+malformed, mismatched or ERROR responses; preserve evidence and master goal OPEN.
+AGY MUST NOT use write_file/Set-Content/Copy-Item directly on bridge_request.ready.
+The guarded Invoke-ChatGPTBridge.ps1 publisher is mandatory: it adds the header
+and current rules. Validate the FINAL ready file, not a template. One PAD flow
+runtime only; reconcile duplicate consumers before dispatch. Missing trigger
+header means NOT SENT, never successful handoff.
+
+## Native-MISESERI scope and causal evidence
+The primary indicator is actual Abaqus recovered-stress MISESERI, not a damage
+sizing field relabeled as MISESERI. Damage/synthetic indicators are explicitly
+separate comparisons and cannot qualify the native method. At remesh state t_k,
+use donor data through t_k only; reserve later solution fields for evaluation.
+Record donor hash, step/frame range, time cutoff and later held-out reference.
+Historical missing donors remain MISSING; never infer chronology or causal success.
+Method C/state transfer is paused and is not a successor without explicit user
+reprioritization. Reports, packaging and passing tests cannot replace a meaningful
+numerical test. Every task declares its numerical uncertainty and measurable result.
+
+All review requests use the guarded bridge publisher and its research_contract
+schema in .agents/scripts/bridge_rules.txt and bridge_research_policy.json. The
+publisher validates canonical hashes/scope BEFORE publication, including structured
+review. Never bypass a rejection with a direct ready-file write or invented fields.
+Use HandoffId (CorrelationId is a compatibility alias). Declare causal status as
+PLANNED/MISSING until authentic evidence exists. Keep current session and transaction
+ownership; rejected/mismatched replies are preserved, not automatically replayed.
+<!-- END UNIFIED-METHOD-A-REGRESSION-POLICY -->
+
 # Standing research execution and JOB-FIRST / REPORT-AFTER POLICY
 
 Human directive, 16 October 2026: "fix this and remove authorisation part itself". Per-job human approvals, enrollment, issuer trust upgrades, machine permits and their expiration checks are REMOVED from the active Mode-I submission path. Legacy credential records are historical only and must not be used as execution blockers.

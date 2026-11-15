@@ -1,3 +1,26 @@
+<!-- BEGIN UNIFIED-METHOD-A-POLICY-POINTER -->
+## Priority lock: adaptive remeshing only
+Follow the priority lock at the top of root AGENTS.md over older roadmap/report
+instructions here. Improve F1774: Case 2 distal refinement -> Case 3 secondary
+resolution/efficiency -> Case 1 efficiency; preserve Case 5. One shared engine,
+authentic evolving indicators, no future crack corridors; test meaningful frozen
+revisions across Cases 1/2/3/5. No coupled-fracture validation, thesis writing,
+presentations or final documentation until demonstrated framework finalization
+and independent review, unless the user changes priority. Preserve all safety gates.
+Continue the master-goal bridge loop after each subtask: send results, await and
+validate the matching ChatGPT response, act, repeat. Finished/subtask closeout is
+not GOAL_COMPLETE; only independently reviewed master success permits that marker.
+Keep OPEN on genuine blocks and preserve the pending transaction (root AGENTS.md).
+Bridge format: first line [BRIDGE_HANDOFF_ID=HND-<unique-id>] (standalone,
+no quotes/fence); same correlation_id in request/reply. Follow root AGENTS.md's
+wire contract: UTF-8 atomic request, real composer paste, validated transport
+wrapper then inner review JSON. Never confuse transport OK with scientific approval.
+Native Abaqus recovered-stress MISESERI is primary; damage/synthetic fields are
+separate comparisons. No future-frame sizing or automatic Method C successor.
+Every handoff declares numerical uncertainty/result and the research_contract in
+canonical bridge rules; never bypass publisher scope/hash rejection.
+<!-- END UNIFIED-METHOD-A-POLICY-POINTER -->
+
 > [!IMPORTANT]
 > MULTI-AGENT BOOTSTRAP — PROTOCOL VERSION 1
 >
