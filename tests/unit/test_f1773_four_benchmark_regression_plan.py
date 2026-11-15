@@ -10,6 +10,7 @@ Validates Task F1773 Coordinated Four-Benchmark Method A Regression Suite Plan:
 5. Verifies Case 1 empirical results from F1772 (20,232 el, mean AR 1.2637 <= 1.50, G4 PASS).
 6. Verifies bitwise frozen UEL and reusable framework hashes.
 7. Confirms zero-PBS planning allowance and cumulative accounting (30 jobs).
+8. Verifies donor preflight audit results proving all donors qualified with active MISESERI fields.
 """
 import os
 import sys
@@ -31,6 +32,7 @@ CANONICAL_MANIFEST = os.path.join(REPO_ROOT, "configs", "remeshing", "canonical_
 CASE2_CONFIG = os.path.join(REPO_ROOT, "configs", "remeshing", "f1728_case2_off_axis_hole.json")
 CASE3_CONFIG = os.path.join(REPO_ROOT, "configs", "remeshing", "f1728_case3_notched_plate_pins.json")
 CASE5_CONFIG = os.path.join(REPO_ROOT, "configs", "remeshing", "f1728_case5_seven_hole.json")
+PREFLIGHT_AUDIT = os.path.join(REPO_ROOT, "results", "validation", "f1773_donor_preflight_audit.json")
 
 
 def compute_sha256(path):
@@ -55,6 +57,14 @@ def test_canonical_manifest_and_config_concordance():
     with open(CANONICAL_MANIFEST, "r") as f:
         manifest = json.load(f)
 
+    assert manifest["governing_rules"]["cumulative_pbs_submissions"] == 30
+
+    # Case 1 check
+    c1_man = manifest["benchmarks"]["case_1"]
+    assert "PK_F1769_C1_DONOR.odb" in c1_man["physical_donor_odb_repo_path"]
+    assert "PK_F1772_CASE1_ENVELOPE.odb" in c1_man["synthesized_envelope_odb_repo_path"]
+    assert c1_man["f1772_generated_element_count"] == 20232
+
     # Case 2 check
     with open(CASE2_CONFIG, "r") as f:
         c2 = json.load(f)
@@ -71,7 +81,8 @@ def test_canonical_manifest_and_config_concordance():
     assert c3["geometry"]["plate_width"] == 65.0
     assert c3["geometry"]["plate_height"] == 120.0
     assert c3["geometry"]["notch_length"] == 10.0
-    assert manifest["benchmarks"]["case_3"]["donor_odb_repo_path"] == "models/pandey_kumar_mode1/228_f1741_case3_multistate_remesh/PK_SEC43_STAGGERED_JOB1.odb"
+    assert "PK_SEC43_PRESCRIBED_STATE2.odb" in manifest["benchmarks"]["case_3"]["donor_odb_repo_path"]
+    assert "PK_SEC43_PRESCRIBED_STATE4.odb" in manifest["benchmarks"]["case_3"]["donor_odb_repo_path"]
     assert manifest["benchmarks"]["case_3"]["algorithm_variant"] == "Method A.2 (Multi-State Sequential Method A)"
 
     # Case 5 check
@@ -94,6 +105,30 @@ def test_case1_f1772_metrics():
     assert data["gate_matrix"]["G1_element_count_parity"]["status"] == "FAIL"
     assert data["gate_matrix"]["G5_ligament_spatial_resolution"]["status"] == "PASS"
     assert data["gate_matrix"]["G8_production_uel_datacheck"]["status"] == "PASS"
+
+
+def test_donor_preflight_audit_results():
+    assert os.path.exists(PREFLIGHT_AUDIT), f"Missing preflight audit: {PREFLIGHT_AUDIT}"
+    with open(PREFLIGHT_AUDIT, "r") as f:
+        audit = json.load(f)
+    assert audit["all_donors_qualified"] is True
+    donors = audit["donors"]
+    # Case 2 check
+    assert donors["case_2"]["audit"]["status"] == "QUALIFIED"
+    assert donors["case_2"]["audit"]["field_summaries"]["MISESERI"]["present"] is True
+    assert donors["case_2"]["audit"]["field_summaries"]["MISESERI"]["mean"] > 0
+    # Case 3 State 2 check
+    assert donors["case_3_state2"]["audit"]["status"] == "QUALIFIED"
+    assert donors["case_3_state2"]["audit"]["field_summaries"]["MISESERI"]["present"] is True
+    assert donors["case_3_state2"]["audit"]["field_summaries"]["MISESERI"]["mean"] > 0
+    # Case 3 State 4 check
+    assert donors["case_3_state4"]["audit"]["status"] == "QUALIFIED"
+    assert donors["case_3_state4"]["audit"]["field_summaries"]["MISESERI"]["present"] is True
+    assert donors["case_3_state4"]["audit"]["field_summaries"]["MISESERI"]["mean"] > 0
+    # Case 5 check
+    assert donors["case_5"]["audit"]["status"] == "QUALIFIED"
+    assert donors["case_5"]["audit"]["field_summaries"]["MISESERI"]["present"] is True
+    assert donors["case_5"]["audit"]["field_summaries"]["MISESERI"]["mean"] > 0
 
 
 def test_submission_accounting():

@@ -6605,3 +6605,6 @@ JSON_F1772_AUDIT,Method-A,models/pandey_kumar_mode1/239_f1772_case1_remesh/PK_F1
 DOC_F1773_PLAN,Method-A,docs/validation/F1773_FOUR_BENCHMARK_REGRESSION_PLAN.md,markdown_report,pass,gemini-antigravity,HEAD,83D10F69B0C3BA3F4E698A938A363872D0C3FFE6AF42F4830206F7A3DBE9F524,,Task F1773 Four-Benchmark Regression Plan & Matrix
 TEST_F1773_PLAN,Method-A,tests/unit/test_f1773_four_benchmark_regression_plan.py,python_test,pass,gemini-antigravity,HEAD,E018705BFC898E932E72772D35AF10909B59F145600B45CEF2AE5077E4A306D5,,Task F1773 Four-Benchmark Regression Plan Unit Tests
 
+DOC_F1773_PREFLIGHT,Method-A,docs/validation/F1773_EXECUTION_READINESS_AND_DONOR_PREFLIGHT_REPORT.md,markdown_report,pass,gemini-antigravity,HEAD,75CD54EED280A84675C09DD28CBBF27AE3B0A467767455B744DC07FBE63D5E80,,Task F1773 Execution Readiness and Donor Preflight Report
+JSON_F1773_PREFLIGHT,Method-A,results/validation/f1773_donor_preflight_audit.json,json_audit,pass,gemini-antigravity,HEAD,F9F6BFA8D92418C0B274D2BC6DE5214916D7C2334CA67EB7BD115262E17F7599,,Task F1773 Cluster Donor Preflight Audit JSON
+SCRIPT_F1773_DONOR_AUDIT,Method-A,scripts/remeshing/audit_regression_suite_donors.py,python_script,pass,gemini-antigravity,HEAD,D8C76E0418D2C6B2C7F8CE08744C38FD18A10F7C5A33CBF747C888F6A0FC8026,,Task F1773 Cluster Donor Audit Script

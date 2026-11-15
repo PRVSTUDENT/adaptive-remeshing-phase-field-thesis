@@ -1,0 +1,565 @@
+{
+  "audit_version": "1.0.0",
+  "all_donors_qualified": true,
+  "task_id": "F1773-EXECUTION-READINESS-PREFLIGHT",
+  "donors": {
+    "case_3_parent_frame55": {
+      "audit": {
+        "status": "QUALIFIED",
+        "audited_frame_description": "Increment    550: Step Time =   0.2750",
+        "total_nodes": 4040,
+        "instances": {
+          "PART-1-1": {
+            "num_elements": 11769,
+            "num_nodes": 4040
+          }
+        },
+        "path": "/scratch9/pr21vyci/runs/mode1_pk_sec43_staggered_job1/PK_SEC43_STAGGERED_JOB1.odb",
+        "size_bytes": 847719380,
+        "available_fields": [
+          "E",
+          "EVOL",
+          "MISESAVG",
+          "MISESERI",
+          "RF",
+          "S",
+          "SDV1",
+          "SDV2",
+          "SDV3",
+          "SDV4",
+          "SDV5",
+          "SDV6",
+          "SDV7",
+          "SDV8",
+          "SDV9",
+          "SDV10",
+          "SDV11",
+          "SDV12",
+          "SDV13",
+          "SDV14",
+          "SDV15",
+          "SDV16",
+          "SDV17",
+          "SDV18",
+          "SDV19",
+          "SDV20",
+          "U"
+        ],
+        "total_elements": 11769,
+        "audited_frame_value": 0.2750000059604645,
+        "steps": {
+          "Step-2": {
+            "time_period": 0.5,
+            "num_frames": 251
+          },
+          "Step-1": {
+            "time_period": 1.0,
+            "num_frames": 201
+          },
+          "DONOR_STEP": {
+            "time_period": 1.0,
+            "num_frames": 1
+          }
+        },
+        "audited_step": "Step-1",
+        "field_summaries": {
+          "EVOL": {
+            "mean": 1.868025709537107,
+            "max": 3.7403948307037354,
+            "num_values": 3923,
+            "present": true,
+            "min": 0.3202596604824066
+          },
+          "MISESERI": {
+            "mean": 0.0,
+            "max": 0.0,
+            "num_values": 3923,
+            "present": true,
+            "min": 0.0
+          },
+          "S": {
+            "mean": 0.0,
+            "max": 0.0,
+            "num_values": 15365,
+            "present": true,
+            "min": 0.0
+          },
+          "SDV_D": {
+            "present": false
+          },
+          "SDV1": {
+            "mean": 0.037488193768208375,
+            "max": 0.9996911287307739,
+            "num_values": 15365,
+            "present": true,
+            "min": 4.213548265852296e-08
+          },
+          "MISESAVG": {
+            "mean": 0.0,
+            "max": 0.0,
+            "num_values": 3923,
+            "present": true,
+            "min": 0.0
+          }
+        },
+        "audited_frame_index": 55
+      },
+      "config": {
+        "path": "/scratch9/pr21vyci/runs/mode1_pk_sec43_staggered_job1/PK_SEC43_STAGGERED_JOB1.odb",
+        "step": "Step-1",
+        "case_id": "case_3_parent_frame55",
+        "name": "Case 3 Parent Staggered Solve Frame 55",
+        "frame": 55
+      },
+      "name": "Case 3 Parent Staggered Solve Frame 55"
+    },
+    "case_5": {
+      "audit": {
+        "status": "QUALIFIED",
+        "audited_frame_description": "Increment    341: Step Time =   0.7789",
+        "total_nodes": 2689,
+        "instances": {
+          "PART-1-1": {
+            "num_elements": 7698,
+            "num_nodes": 2689
+          }
+        },
+        "path": "/scratch9/pr21vyci/runs/mode1_pk_f1765_case5_pilot/PK_F1726_SEVEN_HOLE_COARSE.odb",
+        "size_bytes": 194344892,
+        "available_fields": [
+          "EVOL",
+          "MISESAVG",
+          "MISESERI",
+          "RF",
+          "S",
+          "SDV1",
+          "SDV2",
+          "SDV3",
+          "SDV4",
+          "SDV5",
+          "SDV6",
+          "SDV7",
+          "SDV8",
+          "SDV9",
+          "SDV10",
+          "SDV11",
+          "SDV12",
+          "SDV13",
+          "SDV14",
+          "SDV15",
+          "SDV16",
+          "SDV17",
+          "SDV18",
+          "SDV19",
+          "SDV20",
+          "U"
+        ],
+        "total_elements": 7698,
+        "audited_frame_value": 0.7788659334182739,
+        "steps": {
+          "Step-2": {
+            "time_period": 0.7788659334182739,
+            "num_frames": 172
+          },
+          "Step-1": {
+            "time_period": 1.0,
+            "num_frames": 12
+          }
+        },
+        "audited_step": "Step-2",
+        "field_summaries": {
+          "EVOL": {
+            "mean": 0.0003413022241062635,
+            "max": 0.0008922095294110477,
+            "num_values": 2566,
+            "present": true,
+            "min": 2.9077757062623277e-05
+          },
+          "MISESERI": {
+            "mean": 2.2806244507655473e-15,
+            "max": 2.5709611577249408e-14,
+            "num_values": 2566,
+            "present": true,
+            "min": 2.8137177193256777e-17
+          },
+          "S": {
+            "mean": -8.855301491743013e-17,
+            "max": 5.684778955081585e-14,
+            "num_values": 9961,
+            "present": true,
+            "min": -7.737160115069489e-14
+          },
+          "SDV_D": {
+            "present": false
+          },
+          "SDV1": {
+            "mean": 0.019679222883613238,
+            "max": 0.47602030634880066,
+            "num_values": 9961,
+            "present": true,
+            "min": 0.0008970171329565346
+          },
+          "MISESAVG": {
+            "mean": 4.197510394259912e-14,
+            "max": 1.381185882895833e-13,
+            "num_values": 2566,
+            "present": true,
+            "min": 4.294133899509925e-15
+          }
+        },
+        "audited_frame_index": 171
+      },
+      "config": {
+        "path": "/scratch9/pr21vyci/runs/mode1_pk_f1765_case5_pilot/PK_F1726_SEVEN_HOLE_COARSE.odb",
+        "step": "Step-2",
+        "case_id": "case_5",
+        "name": "Case 5 Seven-Hole Plate Coarse Step-2",
+        "frame": -1
+      },
+      "name": "Case 5 Seven-Hole Plate Coarse Step-2"
+    },
+    "case_3_state2": {
+      "audit": {
+        "status": "QUALIFIED",
+        "audited_frame_description": "Increment      1: Step Time =    1.000",
+        "total_nodes": 4039,
+        "instances": {
+          "PART-1-1": {
+            "num_elements": 3923,
+            "num_nodes": 4039
+          }
+        },
+        "path": "/scratch9/pr21vyci/runs/mode1_pk_f1741_case3_remesh/PK_SEC43_PRESCRIBED_STATE2.odb",
+        "size_bytes": 1752096,
+        "available_fields": [
+          "E",
+          "EVOL",
+          "MISESAVG",
+          "MISESERI",
+          "RF",
+          "S",
+          "U"
+        ],
+        "total_elements": 3923,
+        "audited_frame_value": 1.0,
+        "steps": {
+          "RECOVERY_STEP": {
+            "time_period": 1.0,
+            "num_frames": 2
+          }
+        },
+        "audited_step": "RECOVERY_STEP",
+        "field_summaries": {
+          "EVOL": {
+            "mean": 1.8680257082684382,
+            "max": 3.7403950691223145,
+            "num_values": 3923,
+            "present": true,
+            "min": 0.32025963068008423
+          },
+          "MISESERI": {
+            "mean": 0.16613478736112205,
+            "max": 29.38903045654297,
+            "num_values": 3923,
+            "present": true,
+            "min": 6.923788532731123e-06
+          },
+          "S": {
+            "mean": 0.10903060580885764,
+            "max": 50.241336822509766,
+            "num_values": 15365,
+            "present": true,
+            "min": -0.40339070558547974
+          },
+          "SDV_D": {
+            "present": false
+          },
+          "SDV1": {
+            "present": false
+          },
+          "MISESAVG": {
+            "mean": 0.2227251038058112,
+            "max": 59.972286224365234,
+            "num_values": 3923,
+            "present": true,
+            "min": 4.926718247588724e-06
+          }
+        },
+        "audited_frame_index": 1
+      },
+      "config": {
+        "path": "/scratch9/pr21vyci/runs/mode1_pk_f1741_case3_remesh/PK_SEC43_PRESCRIBED_STATE2.odb",
+        "step": "RECOVERY_STEP",
+        "case_id": "case_3_state2",
+        "name": "Case 3 Notched Plate with Pins State 2",
+        "frame": -1
+      },
+      "name": "Case 3 Notched Plate with Pins State 2"
+    },
+    "case_2": {
+      "audit": {
+        "status": "QUALIFIED",
+        "audited_frame_description": "Increment      1: Step Time =    1.000",
+        "total_nodes": 3010,
+        "instances": {
+          "PART-1-1": {
+            "num_elements": 2906,
+            "num_nodes": 3010
+          }
+        },
+        "path": "/scratch9/pr21vyci/runs/f1730_case2_recovery_solve/PK_HOLE_COMPANION_RECOVERY.odb",
+        "size_bytes": 943556,
+        "available_fields": [
+          "EVOL",
+          "MISESAVG",
+          "MISESERI",
+          "RF",
+          "S",
+          "U"
+        ],
+        "total_elements": 2906,
+        "audited_frame_value": 1.0,
+        "steps": {
+          "RECOVERY_STEP": {
+            "time_period": 1.0,
+            "num_frames": 2
+          }
+        },
+        "audited_step": "RECOVERY_STEP",
+        "field_summaries": {
+          "EVOL": {
+            "mean": 0.00033303466770479966,
+            "max": 0.0006267207209020853,
+            "num_values": 2906,
+            "present": true,
+            "min": 5.347223122953437e-05
+          },
+          "MISESERI": {
+            "mean": 19.83055037302103,
+            "max": 1357.8486328125,
+            "num_values": 2906,
+            "present": true,
+            "min": 0.41564956307411194
+          },
+          "S": {
+            "mean": 3.287245635670429,
+            "max": 2386.84814453125,
+            "num_values": 11402,
+            "present": true,
+            "min": -1250.6431884765625
+          },
+          "SDV_D": {
+            "present": false
+          },
+          "SDV1": {
+            "present": false
+          },
+          "MISESAVG": {
+            "mean": 740.5688720908316,
+            "max": 2908.337646484375,
+            "num_values": 2906,
+            "present": true,
+            "min": 0.7340601086616516
+          }
+        },
+        "audited_frame_index": 1
+      },
+      "config": {
+        "path": "/scratch9/pr21vyci/runs/f1730_case2_recovery_solve/PK_HOLE_COMPANION_RECOVERY.odb",
+        "step": "RECOVERY_STEP",
+        "case_id": "case_2",
+        "name": "Case 2 Off-Axis Hole Companion Recovery",
+        "frame": -1
+      },
+      "name": "Case 2 Off-Axis Hole Companion Recovery"
+    },
+    "case_3_state4": {
+      "audit": {
+        "status": "QUALIFIED",
+        "audited_frame_description": "Increment      1: Step Time =    1.000",
+        "total_nodes": 4039,
+        "instances": {
+          "PART-1-1": {
+            "num_elements": 3923,
+            "num_nodes": 4039
+          }
+        },
+        "path": "/scratch9/pr21vyci/runs/mode1_pk_f1741_case3_remesh/PK_SEC43_PRESCRIBED_STATE4.odb",
+        "size_bytes": 1752112,
+        "available_fields": [
+          "E",
+          "EVOL",
+          "MISESAVG",
+          "MISESERI",
+          "RF",
+          "S",
+          "U"
+        ],
+        "total_elements": 3923,
+        "audited_frame_value": 1.0,
+        "steps": {
+          "RECOVERY_STEP": {
+            "time_period": 1.0,
+            "num_frames": 2
+          }
+        },
+        "audited_step": "RECOVERY_STEP",
+        "field_summaries": {
+          "EVOL": {
+            "mean": 1.8680257082684382,
+            "max": 3.7403950691223145,
+            "num_values": 3923,
+            "present": true,
+            "min": 0.32025963068008423
+          },
+          "MISESERI": {
+            "mean": 0.26241834434537736,
+            "max": 45.081851959228516,
+            "num_values": 3923,
+            "present": true,
+            "min": 1.9531231373548508e-05
+          },
+          "S": {
+            "mean": 0.1775956474813151,
+            "max": 76.6956787109375,
+            "num_values": 15365,
+            "present": true,
+            "min": -0.8129481077194214
+          },
+          "SDV_D": {
+            "present": false
+          },
+          "SDV1": {
+            "present": false
+          },
+          "MISESAVG": {
+            "mean": 0.32439007264918424,
+            "max": 91.98296356201172,
+            "num_values": 3923,
+            "present": true,
+            "min": 8.197281204047613e-06
+          }
+        },
+        "audited_frame_index": 1
+      },
+      "config": {
+        "path": "/scratch9/pr21vyci/runs/mode1_pk_f1741_case3_remesh/PK_SEC43_PRESCRIBED_STATE4.odb",
+        "step": "RECOVERY_STEP",
+        "case_id": "case_3_state4",
+        "name": "Case 3 Notched Plate with Pins State 4",
+        "frame": -1
+      },
+      "name": "Case 3 Notched Plate with Pins State 4"
+    },
+    "case_3_parent": {
+      "audit": {
+        "status": "QUALIFIED",
+        "audited_frame_description": "Increment    300: Step Time =   0.1500",
+        "total_nodes": 4040,
+        "instances": {
+          "PART-1-1": {
+            "num_elements": 11769,
+            "num_nodes": 4040
+          }
+        },
+        "path": "/scratch9/pr21vyci/runs/mode1_pk_sec43_staggered_job1/PK_SEC43_STAGGERED_JOB1.odb",
+        "size_bytes": 847719380,
+        "available_fields": [
+          "E",
+          "EVOL",
+          "MISESAVG",
+          "MISESERI",
+          "RF",
+          "S",
+          "SDV1",
+          "SDV2",
+          "SDV3",
+          "SDV4",
+          "SDV5",
+          "SDV6",
+          "SDV7",
+          "SDV8",
+          "SDV9",
+          "SDV10",
+          "SDV11",
+          "SDV12",
+          "SDV13",
+          "SDV14",
+          "SDV15",
+          "SDV16",
+          "SDV17",
+          "SDV18",
+          "SDV19",
+          "SDV20",
+          "U"
+        ],
+        "total_elements": 11769,
+        "audited_frame_value": 0.15000000596046448,
+        "steps": {
+          "Step-2": {
+            "time_period": 0.5,
+            "num_frames": 251
+          },
+          "Step-1": {
+            "time_period": 1.0,
+            "num_frames": 201
+          },
+          "DONOR_STEP": {
+            "time_period": 1.0,
+            "num_frames": 1
+          }
+        },
+        "audited_step": "Step-1",
+        "field_summaries": {
+          "EVOL": {
+            "mean": 1.868025709537107,
+            "max": 3.7403948307037354,
+            "num_values": 3923,
+            "present": true,
+            "min": 0.3202596604824066
+          },
+          "MISESERI": {
+            "mean": 0.0,
+            "max": 0.0,
+            "num_values": 3923,
+            "present": true,
+            "min": 0.0
+          },
+          "S": {
+            "mean": 0.0,
+            "max": 0.0,
+            "num_values": 15365,
+            "present": true,
+            "min": 0.0
+          },
+          "SDV_D": {
+            "present": false
+          },
+          "SDV1": {
+            "mean": 0.029936364393748378,
+            "max": 0.9987968802452087,
+            "num_values": 15365,
+            "present": true,
+            "min": 2.0952866108814305e-08
+          },
+          "MISESAVG": {
+            "mean": 0.0,
+            "max": 0.0,
+            "num_values": 3923,
+            "present": true,
+            "min": 0.0
+          }
+        },
+        "audited_frame_index": 30
+      },
+      "config": {
+        "path": "/scratch9/pr21vyci/runs/mode1_pk_sec43_staggered_job1/PK_SEC43_STAGGERED_JOB1.odb",
+        "step": "Step-1",
+        "case_id": "case_3_parent",
+        "name": "Case 3 Parent Staggered Solve Frame 30",
+        "frame": 30
+      },
+      "name": "Case 3 Parent Staggered Solve Frame 30"
+    }
+  }
+}

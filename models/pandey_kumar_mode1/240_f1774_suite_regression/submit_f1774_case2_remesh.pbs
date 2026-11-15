@@ -1,0 +1,119 @@
+#!/bin/bash
+#PBS -N F1774_C2_REMESH
+#PBS -l select=1:ncpus=1:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratch9/pr21vyci/runs/mode1_pk_f1774_regression_batch/pbs_execution_case2.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_pk_f1774_regression_batch"
+cd "${RUN_DIR}"
+
+export JOB_NAME="F1774_C2_REMESH"
+export FRAMEWORK_SCRIPT="reusable_2d_adaptive_framework.py"
+export CONFIG_FILE="f1728_case2_off_axis_hole.json"
+export DONOR_ODB="PK_HOLE_COMPANION_RECOVERY.odb"
+export USER_SUB="f42_mixed_uel.for"
+export EXPECTED_UEL_SHA="ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6"
+export EXPECTED_FRAMEWORK_SHA="8d71f38f23867a23c1fc1bf5ec499533a8c75f538b77804ece03b5c668f4be08"
+
+echo "=== PBS Preflight Check for ${JOB_NAME} ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"
+hostname
+
+# 1. Duplicate Run and Atomic Directory Lock Guard
+LOCK_DIR="${RUN_DIR}/${JOB_NAME}.lock"
+if ! mkdir "${LOCK_DIR}" 2>/dev/null; then
+    echo "ERROR: Active lock directory ${LOCK_DIR} exists. Aborting duplicate submission."
+    exit 1
+fi
+trap 'rmdir "${LOCK_DIR}" 2>/dev/null || rm -rf "${LOCK_DIR}"' EXIT
+
+# 2. Storage Capacity Preflight
+AVAIL_KB=$(df -k . | awk 'NR==2 {print $4}')
+if [ "${AVAIL_KB}" -lt 5242880 ]; then
+    echo "ERROR: Insufficient scratch disk space (${AVAIL_KB} KB available). Aborting."
+    exit 1
+fi
+echo "Scratch disk space confirmed: $((AVAIL_KB / 1024 / 1024)) GB available."
+
+# 3. Bitwise Hash Verifications
+ACTUAL_UEL_SHA=$(sha256sum "${USER_SUB}" | awk '{print $1}')
+if [ "${ACTUAL_UEL_SHA}" != "${EXPECTED_UEL_SHA}" ]; then
+    echo "ERROR: User subroutine SHA-256 mismatch!"
+    exit 1
+fi
+echo "User subroutine hash verified: ${ACTUAL_UEL_SHA}"
+
+ACTUAL_FRAMEWORK_SHA=$(sha256sum "${FRAMEWORK_SCRIPT}" | awk '{print $1}')
+if [ "${ACTUAL_FRAMEWORK_SHA}" != "${EXPECTED_FRAMEWORK_SHA}" ]; then
+    echo "ERROR: Framework script SHA-256 mismatch!"
+    exit 1
+fi
+echo "Framework script hash verified: ${ACTUAL_FRAMEWORK_SHA}"
+
+# 4. Donor ODB Presence Check
+if [ ! -f "${DONOR_ODB}" ]; then
+    echo "ERROR: Donor ODB not found: ${DONOR_ODB}"
+    exit 1
+fi
+echo "Donor ODB confirmed: ${DONOR_ODB}"
+
+# 5. Dual-Channel Notification Integration
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+if [ -f "${RUN_DIR}/job_notifications.sh" ]; then
+    source "${RUN_DIR}/job_notifications.sh"
+    notification_load_config || echo "Notice: notification_load_config returned non-zero (non-fatal)"
+    notification_install_terminal_trap || echo "Notice: notification_install_terminal_trap returned non-zero (non-fatal)"
+    notify_start || echo "Notice: notify_start returned non-zero (non-fatal)"
+fi
+
+# 6. Environment and Module Initialization
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+command -v abaqus
+
+# 7. Execute Abaqus CAE noGUI Remeshing via Unified Reusable Framework
+echo "=== Executing Case 2 Headless Adaptive Remesh in Abaqus CAE 2023 ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"
+
+/cluster/application/abaqus/2023/Commands/abaqus cae noGUI="${RUN_DIR}/${FRAMEWORK_SCRIPT}" -- --config "${RUN_DIR}/${CONFIG_FILE}" --run-case --odb "${RUN_DIR}/${DONOR_ODB}" --output-dir "${RUN_DIR}"
+REMESH_EXIT_CODE=$?
+echo "Abaqus CAE Finished with Exit Code: ${REMESH_EXIT_CODE}"
+
+if [ "${REMESH_EXIT_CODE}" -ne 0 ]; then
+    echo "ERROR: Reusable adaptive remeshing script failed with exit code ${REMESH_EXIT_CODE}."
+    exit ${REMESH_EXIT_CODE}
+fi
+
+# 8. Physical Adapted Mesh Verification
+ADAPT_PHYS_MESH="${RUN_DIR}/PK_F1728_CASE_2_ADAPT_PHYS.inp"
+if [ ! -f "${ADAPT_PHYS_MESH}" ]; then
+    echo "ERROR: Physical adapted mesh not found: ${ADAPT_PHYS_MESH}"
+    exit 1
+fi
+echo "Physical adapted mesh verified: ${ADAPT_PHYS_MESH}"
+
+# 9. Execute Datacheck Verification on Generated Production 3-Layer Deck
+PROD_DECK="${RUN_DIR}/PK_F1728_CASE_2_PROD.inp"
+if [ -f "${PROD_DECK}" ]; then
+    echo "=== Running Abaqus Datacheck on ${PROD_DECK} ==="
+    /cluster/application/abaqus/2023/Commands/abaqus datacheck job=PK_F1774_CASE_2_DC input="${PROD_DECK}" user="${USER_SUB}" interactive
+    DC_EXIT_CODE=$?
+    echo "Datacheck Finished with Exit Code: ${DC_EXIT_CODE}"
+    if [ "${DC_EXIT_CODE}" -ne 0 ]; then
+        echo "ERROR: Abaqus datacheck failed with exit code ${DC_EXIT_CODE}."
+        exit ${DC_EXIT_CODE}
+    fi
+else
+    echo "Notice: Production deck ${PROD_DECK} was not generated or not present."
+fi
+
+echo "=== TASK F1774 CASE 2 ADAPTIVE REMESHING COMPLETE (EXIT 0) ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"
