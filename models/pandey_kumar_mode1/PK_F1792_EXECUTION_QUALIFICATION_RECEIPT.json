@@ -1,0 +1,101 @@
+{
+  "task_id": "F1792-MODE-I-METHOD-C-EXTRACTOR_RUNTIME_AND_RELEASE_GATE_INTEGRATION_REPAIR",
+  "receipt_name": "PK_F1792_EXECUTION_QUALIFICATION_RECEIPT",
+  "created_at": "2026-11-15T22:31:00+01:00",
+  "status": "QUALIFIED_READY_FOR_EXECUTION_AUTHORIZATION",
+  "predecessor_task": {
+    "task_id": "F1791-MODE-I-METHOD-C-DIAGNOSTIC_OBSERVABILITY_REPAIR_AND_EXECUTION_QUALIFICATION",
+    "review_directive_correlation_id": "HND-F1791-DIAGNOSTIC-QUAL-001",
+    "review_verdict": "F1791_OBSERVABILITY_REPAIRED_BUT_RUNTIME_AND_RELEASE_GATE_INTEGRATION_UNRESOLVED",
+    "diagnostic_verdict": "UNQUALIFIED"
+  },
+  "master_goal_status": "OPEN",
+  "pbs_accounting": {
+    "max_new_pbs_submissions": 0,
+    "submissions_consumed": 0,
+    "cumulative_pbs_submissions": 35,
+    "active_pbs_jobs": 0,
+    "last_successful_job_id": "1423638.mmaster02"
+  },
+  "codebase_invariance": {
+    "frozen_production_uel": "models/pandey_kumar_mode1/f42_mixed_uel.for",
+    "frozen_production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "frozen_unified_framework": "scripts/remeshing/reusable_2d_adaptive_framework.py",
+    "frozen_unified_framework_sha256": "181CB4E5A8CE765CBE0765D71BA9C3CCA934A33140BC61F5B9A4CD7A6AEFCD40"
+  },
+  "repaired_components": {
+    "abaqus_python_runtime": {
+      "status": "VERIFIED_ON_CLUSTER",
+      "wrapper_invocation": "abaqus python extract_f1792_observables.py",
+      "odbaccess_import_cluster_verified": true,
+      "cluster_python_path": "/cluster/application/abaqus/2023/Commands/abaqus python"
+    },
+    "step1_dependent_dof_resolution": {
+      "status": "RESOLVED_ZERO_WARNINGS",
+      "mechanism": "Omitted direct DOF 2 boundary cards for 98 nodes of N_TOP in Step 1. Vertical displacement is governed identically by *EQUATION coupling to N_RP at 0.0050 mm without constraint conflict.",
+      "warn_node_bc_inactive_dof2_present": false,
+      "local_syntaxcheck_status": "PASS (0 errors, 49791 elements, 16643 nodes in 3.0s)",
+      "cluster_datacheck_status": "PASS (ANALYSIS DATACHECK COMPLETE under Classic Intel Fortran 2021.13 + Abaqus 2023 in 10s)"
+    },
+    "exact_increment_matching": {
+      "status": "ENFORCED",
+      "rule": "Step 2 Increment 1 ONLY (no fallback to other increments or last row)",
+      "energy_csv_parser": "parse_energy_csv() matches step==2 and inc==1 strictly",
+      "reaction_force_dat_parser": "parse_reaction_force_dat() matches STEP 2 INCREMENT 1 block strictly",
+      "residual_norm_msg_parser": "parse_residual_norm_msg() matches STEP 2 INCREMENT 1 block strictly"
+    },
+    "reaction_force_coherent_units": {
+      "status": "VERIFIED",
+      "rule": "Detects kN vs N; converts raw Abaqus force in [0.05, 10.0] kN to N (*1000.0); compares against donor 653.0886 N; flags out-of-range forces < 50 N or > 5000 N",
+      "donor_reference_N": 653.0886
+    },
+    "residual_norm_separation": {
+      "status": "FORMALIZED",
+      "initial_unbalanced_residual": "R_max^(0) / q_tilde_0 at Iteration 1 upon unconstrained release",
+      "converged_newton_residual": "R_max^(conv) / q_tilde_conv at final iteration before convergence",
+      "gate_c1_evaluation": "Both initial and converged residuals evaluated against <= 1.0e-3"
+    },
+    "complete_nodal_coverage": {
+      "status": "ENFORCED",
+      "expected_nodes": 16642,
+      "rule": "extract_damage_from_odb requires len(d1_map) >= 16642 and len(d2_map) >= 16642 and len(common_nodes) >= 16642; fails closed otherwise"
+    },
+    "frame_zero_substitution": {
+      "status": "STRICTLY_REJECTED",
+      "rule": "Step 2 frame must have incrementNumber == 1; len(step2.frames) >= 2 required"
+    },
+    "integration_point_history_labeling": {
+      "status": "EXPLICITLY_LABELED",
+      "odb_status": "UNAVAILABLE_IN_ODB_UEL_NO_ELEMENT_OUTPUT",
+      "offline_verification": "Offline continuous Gauss quadrature confirmed min(H) = 1.579430e-09 kN/mm^2 >= 0"
+    }
+  },
+  "package_staging": {
+    "package_dir": "models/pandey_kumar_mode1/56_f1792_method_c_diagnostic/",
+    "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_f1792_diagnostic/",
+    "manifest_path": "models/pandey_kumar_mode1/56_f1792_method_c_diagnostic/METHOD_C_F1792_DIAGNOSTIC_AUTHORIZATION.json",
+    "manifest_sha256": "06F55C4C7DFD25033104EA86DC877D9C786E1F8478ED38622A54296C113A1121",
+    "package_manifest_sha256": "278265DBCF8DE65E9FC0A79EA8DA2F2E9D5DEA2534CD13A31D37232CE8459D61",
+    "files": {
+      "PK_F1792_CASE1_RELEASE_DIAGNOSTIC.inp": "9CCC28DA428D86827891D31C82FF6A8FA0F5605ADA8E8DDDA75280B1C25BF6F6",
+      "f42_mixed_uel.for": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "submit_f1792_case1_diagnostic.pbs": "23BE89FA061FD30CFF25809CA2236D705FED46BEADDC1F2651D421A30CC7B591",
+      "extract_f1792_observables.py": "E5F8DAB17DF38F0AE775679104DF7D0237554318852F1695B1045D665BF094DA",
+      "job_notifications.sh": "41A1D403B0356B55EFA3BB1E67B4DD678E74664D501D838D9C01952C0C641F11",
+      "PK_F1792_CASE1_DATACHECK.dat": "579C4BA26AC0B8DA0E9D1CC17DA32CCFCF19A0116B948BE70C9E981C7B0F41BC"
+    }
+  },
+  "technical_preflight": {
+    "proof_path": "models/pandey_kumar_mode1/PK_F1792_TECHNICAL_PREFLIGHT_PROOF.json",
+    "proof_sha256": "A4EA1FE59EB7DDAE7398049AE4CBC23E53592599066A6C17D639A56556DA95D4",
+    "preflight_status": "PASS",
+    "datacheck_verified": "PASS_BOTH",
+    "login_notifications_verified": true,
+    "active_jobs_verified": 0,
+    "queue": "entry_imfdfkmq"
+  },
+  "regression_testing": {
+    "unit_tests_pass": "10/10 PASS (tests/unit/test_f1792_observable_extractor.py)",
+    "multi_task_suite_pass": "67/67 PASS across F1780-F1792 in 20.71s"
+  }
+}

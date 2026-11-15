@@ -1299,11 +1299,13 @@ class Mode1StateTransferEngine:
             lines.append("** Boundary conditions: Prescribe initial displacement state (DOFs 1, 2) and damage field (DOF 3)")
             lines.append("*BOUNDARY")
             lines.append(f"N_RP, 2, 2, {u_handoff:.10e}")
+            n_top_set = set(recipient_mesh.n_top)
             for nid in sorted(recipient_mesh.nodes.keys()):
                 ux, uy = target_state.u_nodal.get(nid, (0.0, 0.0))
                 d_val = target_state.d_nodal.get(nid, 0.0)
                 lines.append(f"{nid:8d}, 1, 1, {ux:14.7e}")
-                lines.append(f"{nid:8d}, 2, 2, {uy:14.7e}")
+                if nid not in n_top_set:
+                    lines.append(f"{nid:8d}, 2, 2, {uy:14.7e}")
                 lines.append(f"{nid:8d}, 3, 3, {d_val:14.7e}")
             lines.append("*RESTART, WRITE, FREQUENCY=1")
             lines.append("*OUTPUT, FIELD, FREQUENCY=1")

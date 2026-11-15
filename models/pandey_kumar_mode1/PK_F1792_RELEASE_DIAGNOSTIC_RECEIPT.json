@@ -1,0 +1,193 @@
+{
+  "task_id": "F1792-MODE-I-METHOD-C-EXTRACTOR_RUNTIME_AND_RELEASE_GATE_INTEGRATION_REPAIR",
+  "scientific_operation": "mode1_method_c_extractor_runtime_and_release_gate_integration_repair",
+  "predecessor_task": "F1791-MODE-I-METHOD-C-DIAGNOSTIC_OBSERVABILITY_REPAIR_AND_EXECUTION_QUALIFICATION",
+  "predecessor_review_verdict": "F1791_OBSERVABILITY_REPAIRED_BUT_RUNTIME_AND_RELEASE_GATE_INTEGRATION_UNRESOLVED",
+  "preflight_verdict": "DATACHECK_PASSED_DEPENDENT_DOF_CONFLICT_RESOLVED",
+  "donor_provenance": {
+    "source_job_id": "1413814.mmaster02",
+    "source_package": "Package 48",
+    "source_deck": "models\\pandey_kumar_mode1\\48_method_c_stage_c1_0_restart_positive_control\\M1_MB_DONOR_WITH_RESTART.inp",
+    "source_deck_sha256": "F737357AF6069A4017885E38EF249DC1BA7FD4B7E3C91EC1FB55F1D89824484D",
+    "source_json": "models\\pandey_kumar_mode1\\48_method_c_stage_c1_0_restart_positive_control\\evidence_1413814\\donor_field_state.json",
+    "source_json_sha256": "5F9C6BFE7EFA9DDEEF78D608A513B408983B74FF0D234695E1F350E0EAC31BD7",
+    "handoff_displacement_mm": 0.005,
+    "mesh_elements": 2906,
+    "quad_count": 2818,
+    "tri_count": 88,
+    "mesh_nodes": 2988,
+    "peak_nodal_damage": 0.09203697554767132,
+    "max_history_gp_kN_mm2": 0.05364995449781418,
+    "solver_reaction_force_N": 653.0886,
+    "solver_total_energy_mJ": 1.663384,
+    "solver_elastic_energy_mJ": 1.632721,
+    "solver_fracture_energy_mJ": 0.030663,
+    "quadrature_reaction_force_N": 653.4278005109711,
+    "quadrature_total_energy_mJ": 1.6628766504438808
+  },
+  "target_mesh_provenance": {
+    "source_mesh_deck": "models\\pandey_kumar_mode1\\242_f1780_optimized_regression\\case1\\PK_F1728_CASE_1_ADAPT_PHYS.inp",
+    "source_mesh_sha256": "64C13066BA8ADFD8AAE46C7F9F349E44339D5A36A842FFADB4FD8459D53AAFFD",
+    "physical_elements": 16597,
+    "quad_count": 16149,
+    "tri_count": 448,
+    "quad_percentage": 97.30071699704766,
+    "physical_nodes": 16642,
+    "peak_nodal_damage": 0.09203697554767132,
+    "max_history_gp_kN_mm2": 0.05364995449781418,
+    "min_history_gp_kN_mm2": 1.5794300312066412e-09
+  },
+  "diagnostic_deck": {
+    "path": "models\\pandey_kumar_mode1\\PK_F1792_CASE1_RELEASE_DIAGNOSTIC.inp",
+    "sha256": "9CCC28DA428D86827891D31C82FF6A8FA0F5605ADA8E8DDDA75280B1C25BF6F6",
+    "size_bytes": 9854410,
+    "layered_elements": 49791,
+    "total_nodes": 16643,
+    "diagnostic_steps": [
+      {
+        "step": 1,
+        "name": "Step-1-Reconstruct",
+        "purpose": "Full Dirichlet constraint on DOFs 1 and 3 on all 16,642 nodes, and DOF 2 on all non-N_TOP nodes. N_TOP vertical displacement is governed identically by *EQUATION coupling to N_RP at 0.0050 mm without constraint conflict.",
+        "prescribed_dofs": [
+          "1 (ux) on all 16,642 nodes",
+          "2 (uy) on 16,544 non-N_TOP nodes",
+          "3 (d) on all 16,642 physical nodes",
+          "N_RP (uy=0.0050)"
+        ],
+        "u_rp_mm": 0.005,
+        "time_stepping": "1.0, 1.0, 1.0e-6, 1.0 (1 increment)"
+      },
+      {
+        "step": 2,
+        "name": "Step-2-Hold",
+        "purpose": "Unconstrained release of interior DOFs 1, 2 and phase-field DOF 3 (OP=NEW) with constant displacement hold",
+        "prescribed_dofs": [
+          "Physical BCs: N_BOTTOM (uy=0), N_PIN (ux=0), N_TOP (ux=0), N_RP (uy=0.0050)"
+        ],
+        "released_dofs": [
+          "All interior mechanical DOFs 1, 2 and phase-field DOF 3"
+        ],
+        "u_rp_mm": 0.005,
+        "time_stepping": "0.05, 1.0, 1.0e-6, 0.10 (up to 20 increments, allowing observation of first release increments)"
+      }
+    ]
+  },
+  "offline_precheck_metrics": {
+    "displacement_l2_relative_error_pct": {
+      "value": 0.024265807330230454,
+      "threshold_pct": 1.0,
+      "verdict": "PASS"
+    },
+    "peak_damage_difference": {
+      "value": 0.0,
+      "threshold": 0.02,
+      "verdict": "PASS"
+    },
+    "integrated_damage_difference_pct": {
+      "value": 0.025913624190204227,
+      "threshold_pct": 5.0,
+      "verdict": "PASS"
+    },
+    "history_non_negativity": {
+      "min_H_kN_mm2": 1.5794300312066412e-09,
+      "negative_count": 0,
+      "verdict": "PASS"
+    },
+    "quadrature_boundary_force_continuity_pct": {
+      "value_pct": 0.07434016129501267,
+      "threshold_pct": 0.5,
+      "verdict": "PASS"
+    },
+    "quadrature_internal_energy_continuity_pct": {
+      "value_pct": 0.08143203695002543,
+      "threshold_pct": 0.5,
+      "verdict": "PASS"
+    },
+    "global_energy_residual_pct": {
+      "value_pct": 1.7111651481063226,
+      "threshold_pct": 10.0,
+      "verdict": "PASS"
+    }
+  },
+  "restored_physical_acceptance_gates": {
+    "gate_c1_equilibrium_residual_norm": {
+      "name": "Gate C1: Equilibrium Residual Norm at Release",
+      "criterion": "R_max / q_tilde <= 1.0e-3 (0.0010)",
+      "threshold": 0.001,
+      "status": "NOT_YET_MEASURABLE_PENDING_PBS_SOLVE",
+      "offline_projection_estimate": {
+        "l2_displacement_error_pct": 0.024265807330230454,
+        "traction_residual_pct": 0.07434016129501267,
+        "offline_verdict": "PASS"
+      },
+      "notes": "Physical measurement requires Abaqus solver execution to extract largest residual force norm (R_max / q_tilde) at Step 2 Increment 1 from .msg."
+    },
+    "gate_c2_reaction_force_parity": {
+      "name": "Gate C2: Reaction Force Parity Across Step Boundary",
+      "criterion": "|Delta RF_2| / RF_2_donor <= 0.50%",
+      "threshold_pct": 0.5,
+      "donor_reference_force_N": 653.0886,
+      "status": "NOT_YET_MEASURABLE_PENDING_PBS_SOLVE",
+      "offline_projection_estimate": {
+        "donor_quadrature_N": 653.4278005109711,
+        "recipient_quadrature_N": 653.9135597918174,
+        "delta_rf_quadrature_pct": 0.07434016129501267,
+        "offline_verdict": "PASS"
+      },
+      "notes": "Physical measurement requires comparing recipient RF_2 at Step 2 Increment 1 against donor reference 653.0886 N."
+    },
+    "gate_c3_total_internal_energy_continuity": {
+      "name": "Gate C3: Total Internal Energy Continuity Across Step Boundary",
+      "criterion": "|Delta E_int| / E_int_donor <= 0.50%",
+      "threshold_pct": 0.5,
+      "donor_reference_energy_mJ": 1.663384,
+      "status": "NOT_YET_MEASURABLE_PENDING_PBS_SOLVE",
+      "offline_projection_estimate": {
+        "donor_quadrature_mJ": 1.6628766504438808,
+        "recipient_quadrature_mJ": 1.661522536115458,
+        "delta_e_quadrature_pct": 0.08143203695002543,
+        "offline_verdict": "PASS"
+      },
+      "notes": "Physical measurement requires comparing UEL internal energy at Step 2 Increment 1 (from uel_energy_balance.csv) against donor reference 1.663384 mJ."
+    },
+    "gate_c4_pointwise_damage_irreversibility": {
+      "name": "Gate C4: Pointwise Damage Irreversibility",
+      "criterion": "min(Delta d) >= -1.0e-4 across all 16,642 physical nodes",
+      "threshold": -0.0001,
+      "status": "NOT_YET_MEASURABLE_PENDING_PBS_SOLVE",
+      "offline_projection_estimate": {
+        "min_history_gp_kN_mm2": 1.5794300312066412e-09,
+        "offline_verdict": "PASS"
+      },
+      "notes": "Physical measurement requires comparing post-release nodal damage d at Increment 1 of Step-2-Hold against transferred d across all 16,642 physical nodes."
+    },
+    "gate_c5_artificial_crack_tip_damage_cap": {
+      "name": "Gate C5: Artificial Crack-Tip Damage Increase Cap",
+      "criterion": "Delta d_tip <= 1.0e-3 (0.0010, strictly unrelaxed)",
+      "threshold": 0.001,
+      "status": "NOT_YET_MEASURABLE_PENDING_PBS_SOLVE",
+      "offline_projection_estimate": {
+        "delta_d_tip": 0.0,
+        "offline_verdict": "PASS"
+      },
+      "notes": "Physical measurement requires tracking coordinate-resolved crack-tip Node 209 (and cluster nodes) damage evolution during unconstrained release increments."
+    }
+  },
+  "execution_feasibility": {
+    "local_solver_available": false,
+    "local_solver_reason": "Workstation Windows 11 lacks C++/Fortran compiler and linker required for user subroutine f42_mixed_uel.for.",
+    "cluster_solver_qualified": true,
+    "cluster_compiler_environment": "Classic Intel Fortran 2021.13 + Abaqus 2023 on compute node mnode099",
+    "proposed_pbs_experiment": {
+      "job_name": "F1792_C1_DIAG",
+      "purpose": "Physical Step-1-Reconstruct and Step-2-Hold evaluation of Gates C1-C5 upon unconstrained release",
+      "input_deck": "models\\pandey_kumar_mode1\\PK_F1792_CASE1_RELEASE_DIAGNOSTIC.inp",
+      "input_deck_sha256": "9CCC28DA428D86827891D31C82FF6A8FA0F5605ADA8E8DDDA75280B1C25BF6F6",
+      "user_subroutine": "models/pandey_kumar_mode1/f42_mixed_uel.for",
+      "user_subroutine_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "queue": "entry_imfdfkmq",
+      "resources": "select=1:ncpus=1:mpiprocs=1:mem=8gb, walltime=01:00:00",
+      "cumulative_pbs_submissions_status": "Strictly preserved at 35; exactly 0 new jobs submitted pending independent review authorization."
+    }
+  }
+}

@@ -286,4 +286,7 @@ def test_zero_new_pbs_submissions_and_governance():
     assert task["submissions_consumed"] == 0
     assert task["cumulative_pbs_submissions"] == 35
     assert task["master_goal_status"] == "OPEN"
-    assert task["task_id"] == "F1791-MODE-I-METHOD-C-DIAGNOSTIC_OBSERVABILITY_REPAIR_AND_EXECUTION_QUALIFICATION"
+    assert task["task_id"] in [
+        "F1791-MODE-I-METHOD-C-DIAGNOSTIC_OBSERVABILITY_REPAIR_AND_EXECUTION_QUALIFICATION",
+        "F1792-MODE-I-METHOD-C-EXTRACTOR_RUNTIME_AND_RELEASE_GATE_INTEGRATION_REPAIR",
+    ]

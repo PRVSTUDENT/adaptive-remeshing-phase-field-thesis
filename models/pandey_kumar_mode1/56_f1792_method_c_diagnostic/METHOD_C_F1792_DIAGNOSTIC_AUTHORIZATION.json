@@ -1,0 +1,46 @@
+{
+  "batch_name": "MODE1_METHOD_C_F1792_DIAGNOSTIC",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "PK_F1792_CASE1_RELEASE_DIAGNOSTIC.inp": "9ccc28da428d86827891d31c82ff6a8fa0f5605ada8e8ddda75280b1c25bf6f6",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_f1792_case1_diagnostic.pbs": "23be89fa061fd30cff25809ca2236d705fed46beaddc1f2651d421a30cc7b591",
+    "extract_f1792_observables.py": "e5f8dab17df38f0ae775679104df7d0237554318852f1695b1045d665bf094da",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "PACKAGE_MANIFEST.json": "278265dbcf8de65e9fc0a79ea8da2f2e9d5dea2534cd13a31d37232ce8459d61"
+  },
+  "jobs": [
+    {
+      "id": "f1792_release_diag",
+      "pbs": "submit_f1792_case1_diagnostic.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_pk_f1792_diagnostic/submit_f1792_case1_diagnostic.pbs\"",
+      "command_sha256": "44f5f188d2dde503be37647932de8f76a4b287075d29545cbcb2446e02d7c2f7",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Task F1792 Mode-I Method C physical release diagnostic on 16,597-element target (u=0.0050 mm, Step-2-Hold dt_init=0.05, N_TOP dependent-DOF resolved)",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 1,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "PK_F1792_CASE1_RELEASE_DIAGNOSTIC.inp",
+      "datacheck": "PK_F1792_CASE1_DATACHECK.dat"
+    }
+  ],
+  "acceptance": {
+    "f1792_release_diag": "Equilibrium residual norm R_max/q_tilde <= 1.0e-3; reaction force parity |Delta RF_2|/RF_donor <= 0.50%; internal energy continuity |Delta E_int|/E_donor <= 0.50%; pointwise damage irreversibility min(Delta d) >= -1.0e-4 across all 16,642 physical nodes; artificial crack-tip damage surge Delta d_tip <= 1.0e-3; Exit 0."
+  },
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1-DIAG",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_f1792_diagnostic",
+  "dependency_thresholds": {
+    "c1_residual_norm_max": 0.001,
+    "c2_reaction_force_delta_pct_max": 0.5,
+    "c3_internal_energy_delta_pct_max": 0.5,
+    "c4_pointwise_damage_delta_min": -0.0001,
+    "c5_crack_tip_damage_delta_max": 0.001
+  }
+}

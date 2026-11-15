@@ -1,6 +1,6 @@
 {
-  "task_id": "F1791-MODE-I-METHOD-C-DIAGNOSTIC_OBSERVABILITY_REPAIR_AND_EXECUTION_QUALIFICATION",
-  "title": "Task F1791: Mode-I Method C Diagnostic Observability Repair and Execution Qualification",
+  "task_id": "F1792-MODE-I-METHOD-C-EXTRACTOR_RUNTIME_AND_RELEASE_GATE_INTEGRATION_REPAIR",
+  "title": "Task F1792: Mode-I Method C Extractor Runtime and Release Gate Integration Repair",
   "task_status": "COMPLETED",
   "master_goal_status": "OPEN",
   "status": "COMPLETED",
@@ -8,23 +8,23 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1791_MODE1_DIAGNOSTIC_OBSERVABILITY_AND_EXECUTION_QUALIFICATION_REPORT.md",
-  "review_directive": "Following supervisory review directive HND-F1790-PHYSICAL-GATE-001 (Decision: REJECT, Verdict: F1790_OBSERVABILITY_AND_SUBMISSION_PIPELINE_NOT_FULLY_QUALIFIED, Diagnostic Verdict: UNQUALIFIED), Task F1791 executes ONE bounded zero-PBS diagnostic observability repair and execution qualification operation: (1) Repair observable extractor to require authentic, increment-matched solver observations for every gate; implement Abaqus Python ODB extraction for nodal DOF-3 damage at reconstruction (Step 1 end) and unconstrained release (Step 2 increments); calculate pointwise min(delta_d), spatial crack-tip max positive delta_d, and history changes; resolve crack-tip nodes dynamically from spatial coordinates (0.5, 0.5) mm and connectivity on the 16,597-element target without assuming node 14403; (2) Enforce strict fail-closed behavior: missing ODB, residual norm, reaction force, energy, damage, invalid units, wrong increment, or solver failure must emit NOT_MEASURABLE or FAIL with explicit reason, never PASS; include negative tests; (3) Reconcile Gate C1 with residual norm (R_max / q_tilde <= 1.0e-3); confirm UEL companion output/energy CSV validity; audit 98 inactive-DOF-2 nodes on N_TOP tied via *EQUATION; (4) Correct PBS wrapper failure handling by removing bare set -e that aborts before failure recording; qualify submission exclusively through scripts/hpc/Invoke-Mode1Execution.ps1 with registered manifest, exact deck/UEL hashes, and once-only accounting; (5) Reconcile provenance, run offline regression tests against PASS/FAIL synthetic fixtures; zero new PBS jobs consumed (cumulative strictly preserved at 35); deliver F1791 qualification report; maintain MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1792_MODE1_EXTRACTOR_RUNTIME_AND_RELEASE_GATE_INTEGRATION_REPORT.md",
+  "review_directive": "Following supervisory review directive HND-F1791-DIAGNOSTIC-QUAL-001 (Decision: REJECT, Verdict: F1791_OBSERVABILITY_REPAIRED_BUT_RUNTIME_AND_RELEASE_GATE_INTEGRATION_UNRESOLVED, Diagnostic Verdict: UNQUALIFIED), Task F1792 executes ONE bounded zero-PBS extractor runtime and release gate integration repair: (1) Ensure staged PBS wrapper invokes extractor through verified Abaqus Python runtime (`abaqus python extract_f1792_observables.py`) supporting odbAccess; validate import and command availability on cluster via guarded SSH without submitting production job; (2) Require complete nodal coverage (all 16,642 physical nodes present at Step 1 end and Step 2 Increment 1) and exact Step 2 Increment 1 matching in energy, force, and residual parsers (no fallback); (3) Enforce Abaqus RF2 units verification (RF2 in N, ~653 N, not kN); reconcile Gate C1 initial out-of-balance residual norm (R_max/q_tilde <= 1.0e-3) vs converged residual, reporting both with mathematical clarity; (4) Resolve Step-1 dependent-DOF conflict on N_TOP (remove direct DOF 2 boundary cards for 98 nodes of N_TOP in Step 1 while preserving *EQUATION tie to N_RP at 0.0050 mm); verify with local Abaqus 2024 pre.exe datacheck with zero errors; (5) Fail-closed solver status and explicit labeling of unavailable IP history; add regression fixtures; (6) Run preflight with Invoke-Mode1Execution.ps1 -DryRun; exactly 0 new PBS jobs consumed (cumulative strictly preserved at 35); deliver F1792 report; maintain MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1790-MODE-I-METHOD-C-PHYSICAL-GATE-RESTORATION-AND-RELEASE-DIAGNOSTIC",
-    "checkpoint_artifact": "docs/validation/F1790_MODE1_PHYSICAL_GATE_RESTORATION_AND_RELEASE_DIAGNOSTIC_REPORT.md",
+    "task_id": "F1791-MODE-I-METHOD-C-DIAGNOSTIC_OBSERVABILITY_REPAIR_AND_EXECUTION_QUALIFICATION",
+    "checkpoint_artifact": "docs/validation/F1791_MODE1_DIAGNOSTIC_OBSERVABILITY_AND_EXECUTION_QUALIFICATION_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
-    "review_verdict": "F1790_OBSERVABILITY_AND_SUBMISSION_PIPELINE_NOT_FULLY_QUALIFIED",
-    "correlation_id": "HND-F1790-PHYSICAL-GATE-001"
+    "review_verdict": "F1791_OBSERVABILITY_REPAIRED_BUT_RUNTIME_AND_RELEASE_GATE_INTEGRATION_UNRESOLVED",
+    "correlation_id": "HND-F1791-DIAGNOSTIC-QUAL-001"
   },
-  "re_review_correlation_id": "HND-F1791-DIAGNOSTIC-QUAL-001",
-  "scientific_operation": "mode1_method_c_diagnostic_observability_repair_and_execution_qualification",
-  "scientific_operation_id": "f1791_diag_qual_001",
+  "re_review_correlation_id": "HND-F1792-EXTRACTOR-REPAIR-001",
+  "scientific_operation": "mode1_method_c_extractor_runtime_and_release_gate_integration_repair",
+  "scientific_operation_id": "f1792_extractor_repair_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "181CB4E5A8CE765CBE0765D71BA9C3CCA934A33140BC61F5B9A4CD7A6AEFCD40",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1791 COMPLETED under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Repaired observable extractor with dynamic crack-tip coordinate resolution to Node 209 at (0.5, 0.5) mm; enforced strict fail-closed validation emitting NOT_MEASURABLE on missing files/fields; verified authentic increment-matched ODB damage extraction; audited 98 inactive-DOF-2 nodes on N_TOP tied via *EQUATION; repaired PBS wrapper set -e error trap; qualified execution route via Invoke-Mode1Execution.ps1 -DryRun; 9/9 unit tests PASS, 57/57 active regression tests PASS; exactly 0 new PBS jobs consumed, cumulative strictly preserved at 35."
+  "notes": "Task F1792 COMPLETED under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Repaired PBS wrapper to use Abaqus Python runtime; cluster verified odbAccess import Exit 0; resolved Step-1 dependent-DOF conflict on N_TOP eliminating WarnNodeBCInactiveDof2 with local and cluster datacheck Exit 0; enforced strict increment matching without fallback; verified coherent RF2 units in N vs kN; separated initial out-of-balance and converged residuals; enforced complete 16642-node coverage; qualified execution route via Invoke-Mode1Execution.ps1 -VerifyOnly and -StopAfterPreflight Exit 0; 10/10 unit tests PASS, 67/67 active regression tests PASS; exactly 0 new PBS jobs consumed, cumulative strictly preserved at 35."
 }

@@ -1,0 +1,37 @@
+{
+    "active_job_count":  0,
+    "adapter_contract":  "mode1-qualified-batch-v2",
+    "datachecks":  {
+                       "f1792_release_diag":  {
+                                                  "status":  "PASS",
+                                                  "input_sha256":  "9ccc28da428d86827891d31c82ff6a8fa0f5605ada8e8ddda75280b1c25bf6f6",
+                                                  "dat_sha256":  "ca1cadadafc801741da9361feed68500cbdda2f7910f941be1bea83c81aa71e4"
+                                              }
+                   },
+    "batch_spec_sha256":  "5cfacd87389867985c3ac0be56a03e7ca5a578aceba734962a2e960c2692459f",
+    "passed":  true,
+    "pbs_email_verified":  true,
+    "telegram_verified":  true,
+    "submission_queue":  "entry_imfdfkmq",
+    "queue_access_preflight":  "PASS",
+    "compiler_environment":  "PASS_LOGIN_NODE",
+    "datacheck_verified":  "PASS_BOTH",
+    "candidate_manifest_sha256":  "06f55c4c7dfd25033104ea86dc877d9c786e1f8478ed38622a54296c113a1121",
+    "authorized_command_sha256":  "44f5f188d2dde503be37647932de8f76a4b287075d29545cbcb2446e02d7c2f7",
+    "checked_at":  "2026-11-15T21:29:11.079953+00:00",
+    "config_path":  "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+    "config_mode":  "600",
+    "file_hashes":  {
+                        "PK_F1792_CASE1_RELEASE_DIAGNOSTIC.inp":  "9ccc28da428d86827891d31c82ff6a8fa0f5605ada8e8ddda75280b1c25bf6f6",
+                        "f42_mixed_uel.for":  "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+                        "submit_f1792_case1_diagnostic.pbs":  "23be89fa061fd30cff25809ca2236d705fed46beaddc1f2651d421a30cc7b591",
+                        "extract_f1792_observables.py":  "e5f8dab17df38f0ae775679104df7d0237554318852f1695b1045d665bf094da",
+                        "job_notifications.sh":  "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+                        "PACKAGE_MANIFEST.json":  "278265dbcf8de65e9fc0a79ea8da2f2e9d5dea2534cd13a31d37232ce8459d61"
+                    },
+    "helper_sha256":  "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "email_evidence":  "sendmail accepted test message; PBS abe directives verified",
+    "telegram_notification_contract":  "PASS_LOGIN_NODE",
+    "compute_node_delivery":  "UNRESOLVED",
+    "lifecycle_tests":  "PASS"
+}
