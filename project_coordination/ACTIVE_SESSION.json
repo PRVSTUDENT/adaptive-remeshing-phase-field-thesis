@@ -1,11 +1,21 @@
 {
   "active": false,
-  "agent": null,
-  "session_id": null,
-  "task_id": null,
-  "started_at": null,
-  "completed_at": "2026-11-15T08:25:00+01:00",
-  "starting_commit": "d44d462e",
-  "allowed_write_scope": [],
-  "notes": "Task F1764 completed: Case 5 (Seven-Hole Plate, Section 4.6) Single-Pass Common-Framework Pilot Specification complete. 6/6 unit tests PASS. Predeclared Gates G1-G8 established. Staging HND-F1764-CASE5-PILOT-AUTH-001 review request."
+  "agent": "gemini-antigravity",
+  "session_id": "f1766-suite-plan-001",
+  "task_id": "F1766-UNIFIED-METHOD-A-REGRESSION-PLAN-AND-DIAGNOSIS",
+  "started_at": "2026-11-15T08:26:00+01:00",
+  "completed_at": "2026-11-15T08:42:00+01:00",
+  "starting_commit": "d3e13dc0",
+  "allowed_write_scope": [
+    "project_coordination/**",
+    ".agents/**",
+    "docs/validation/**",
+    "results/validation/**",
+    "results/figures/**",
+    "models/pandey_kumar_mode1/**",
+    "configs/remeshing/**",
+    "scripts/**",
+    "tests/unit/**"
+  ],
+  "notes": "Completed Task F1766: Unified Method A Framework Development with Full Benchmark Regression Testing Plan. Benchmark suite reconciled to 4 primary benchmarks (BM-1 to BM-4) with Case 4 preserved. Case 1 distal underresolution diagnosed. Staged review payload HND-F1766-SUITE-PLAN-AUTH-001."
 }
