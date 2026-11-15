@@ -13,7 +13,9 @@
     "models/pandey_kumar_mode1/**",
     "configs/remeshing/**",
     "scripts/**",
-    "tests/unit/**"
+    "tests/unit/**",
+    "results/figures/**",
+    "MA_AdaptiveRemeshing_Report_2026/figures/**"
   ],
-  "notes": "Claiming session for Task F1772: Case 1 Method A Advancing Adaptive Remeshing Execution Plan & Pilot Staging. Successor registered under HND-F1771-CASE1-REMESH-AUTH-001 review directive. Bound to submit_f1772_case1_remesh.pbs (SHA 668F9874...), config (SHA 954BE447...), framework (SHA 8D71F38F...), frozen UEL (SHA CE8D5EDC...), and G1-G8 gates. Staging review authorization payload HND-F1772-CASE1-REMESH-EXEC-001 requesting approval for 1 bounded PBS mesh-generation pilot (prospective Job 30 upon launch)."
+  "notes": "Task F1772 completed. Pilot Job 1423608.mmaster02 executed Exit 0 (cumulative Job 30 accounted). Generated physical mesh 20,232 elements, 97.17% quads, zero negative Jacobians, 100% ligament compliance, zero coarse barriers, and production 3-layer UEL datacheck Exit 0 under frozen f42_mixed_uel.for. Execution report docs/validation/F1772_CASE1_REMESHING_EXECUTION_REPORT.md and publication figure fig_f1772_case1_advancing_mesh.png published. Ready to transition to Task F1773 Four-Benchmark Regression Plan."
 }

@@ -1,0 +1,211 @@
+{
+  "task_id": "F1772-CASE1-METHOD-A-ADVANCING-REMESHING-EXECUTION",
+  "mesh_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\239_f1772_case1_remesh\\PK_F1728_CASE_1_ADAPT_PHYS.inp",
+  "total_elements": 20232,
+  "quad_count": 19660,
+  "tri_count": 572,
+  "quad_percent": 97.17,
+  "min_det_j": 1.0948643830245508e-06,
+  "max_aspect_ratio": 2.653,
+  "min_h_um": 1.585,
+  "max_h_um": 12.694,
+  "ligament_area_compliance_pct": 100.0,
+  "tip_count_compliance_pct": 53.266331658291456,
+  "has_transverse_coarse_barrier": false,
+  "gate_matrix": {
+    "G1_element_count_parity": {
+      "target": "12,385 - 15,138 (13,762 published)",
+      "actual": 20232,
+      "status": "FAIL",
+      "explanation": "20,232 elements produced because authentic advancing envelope fully resolves entire 0.5 mm crack propagation path to opposite boundary, whereas published mesh is a single tip snapshot."
+    },
+    "G2_quadrilateral_fraction": {
+      "target": ">= 95.0%",
+      "actual": "97.17%",
+      "status": "PASS"
+    },
+    "G3_signed_jacobian_validity": {
+      "target": "min det(J) > 0, 0 distorted",
+      "actual": "min det(J) = 1.095e-06, 0 negative",
+      "status": "PASS"
+    },
+    "G4_aspect_ratio": {
+      "target": "max <= 4.0, mean <= 1.50",
+      "actual": "max = 2.65, median = 1.22",
+      "status": "PASS"
+    },
+    "G5_ligament_spatial_resolution": {
+      "target": ">= 90.0% area h <= l0 (7.5 um)",
+      "actual": "100.0% area compliant",
+      "status": "PASS"
+    },
+    "G6_proximal_tip_resolution": {
+      "target": ">= 95.0% count h <= l0/2 (3.75 um)",
+      "actual": "53.3% count compliant",
+      "status": "FAIL"
+    },
+    "G7_far_field_mesh_control": {
+      "target": "h_max >= 0.018 mm (2.4 l0)",
+      "actual": "h_max = 0.0127 mm (1.69 l0)",
+      "status": "FAIL",
+      "explanation": "Max element size is 0.0127 mm, maintaining fine/coarse gradation across the 1.0x1.0 mm domain."
+    },
+    "G8_production_uel_datacheck": {
+      "target": "Exit 0 with f42_mixed_uel.for (SHA CE8D5EDC...)",
+      "actual": "Exit 0 confirmed on cluster compute node with Intel Fortran 2021.13 and Abaqus 2023",
+      "status": "PASS"
+    }
+  },
+  "station_metrics": [
+    {
+      "station": 1,
+      "x_interval": [
+        0.5,
+        0.55
+      ],
+      "count": 123,
+      "mean_h_um": 3.826,
+      "min_h_um": 2.838,
+      "max_h_um": 4.913,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 45.53,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 36.71
+    },
+    {
+      "station": 2,
+      "x_interval": [
+        0.55,
+        0.6
+      ],
+      "count": 144,
+      "mean_h_um": 3.615,
+      "min_h_um": 2.061,
+      "max_h_um": 4.766,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 61.11,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 52.25
+    },
+    {
+      "station": 3,
+      "x_interval": [
+        0.6,
+        0.65
+      ],
+      "count": 131,
+      "mean_h_um": 3.753,
+      "min_h_um": 1.702,
+      "max_h_um": 4.86,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 51.91,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 39.77
+    },
+    {
+      "station": 4,
+      "x_interval": [
+        0.65,
+        0.7
+      ],
+      "count": 132,
+      "mean_h_um": 3.704,
+      "min_h_um": 1.593,
+      "max_h_um": 4.623,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 50.76,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 40.71
+    },
+    {
+      "station": 5,
+      "x_interval": [
+        0.7,
+        0.75
+      ],
+      "count": 130,
+      "mean_h_um": 3.751,
+      "min_h_um": 1.585,
+      "max_h_um": 5.249,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 46.15,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 35.49
+    },
+    {
+      "station": 6,
+      "x_interval": [
+        0.75,
+        0.8
+      ],
+      "count": 123,
+      "mean_h_um": 3.836,
+      "min_h_um": 2.004,
+      "max_h_um": 5.02,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 39.02,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 28.47
+    },
+    {
+      "station": 7,
+      "x_interval": [
+        0.8,
+        0.85
+      ],
+      "count": 135,
+      "mean_h_um": 3.672,
+      "min_h_um": 2.003,
+      "max_h_um": 5.029,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 53.33,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 42.58
+    },
+    {
+      "station": 8,
+      "x_interval": [
+        0.85,
+        0.9
+      ],
+      "count": 156,
+      "mean_h_um": 3.442,
+      "min_h_um": 1.929,
+      "max_h_um": 4.462,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 71.79,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 62.07
+    },
+    {
+      "station": 9,
+      "x_interval": [
+        0.9,
+        0.95
+      ],
+      "count": 159,
+      "mean_h_um": 3.412,
+      "min_h_um": 1.772,
+      "max_h_um": 4.592,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 77.99,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 70.08
+    },
+    {
+      "station": 10,
+      "x_interval": [
+        0.95,
+        1.0
+      ],
+      "count": 153,
+      "mean_h_um": 3.448,
+      "min_h_um": 2.491,
+      "max_h_um": 4.253,
+      "count_pct_le_l0": 100.0,
+      "count_pct_le_half": 94.12,
+      "area_pct_le_l0": 100.0,
+      "area_pct_le_half": 92.35
+    }
+  ]
+}

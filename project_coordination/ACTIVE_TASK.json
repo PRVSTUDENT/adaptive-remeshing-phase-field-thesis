@@ -1,13 +1,13 @@
 {
     "task_id": "F1772-CASE1-METHOD-A-ADVANCING-REMESHING-EXECUTION",
     "title": "Case 1 Method A Advancing Adaptive Remeshing Execution Plan & Gate Specification",
-    "status": "INITIALIZED_AWAITING_REVIEW_AUTHORIZATION",
-    "classification": "METHOD_A_PILOT_BOUNDED_ONE_PBS",
+    "status": "COMPLETED",
+    "classification": "METHOD_A_PILOT_BOUNDED_ONE_PBS_COMPLETED",
     "assigned_agent": "gemini-antigravity",
     "active_pbs_job_id": null,
-    "last_successful_pbs_job_id": "1423604.mmaster02",
-    "checkpoint_artifact": "docs/validation/F1772_CASE1_REMESHING_EXECUTION_PLAN.md",
-    "review_directive": "HND-F1771-CASE1-REMESH-AUTH-001 review decision approved Case 1 remeshing specification and directed: register distinct one-submission successor F1772 for Case 1 Method A.1 remeshing pilot using submit_f1772_case1_remesh.pbs. Bind task to framework hash, config hash, frozen-UEL hash, authentic donor PK_F1769_C1_DONOR.odb, and predeclared G1-G8 gates. Obtain authenticated independent execution authorization before submission.",
+    "last_successful_pbs_job_id": "1423608.mmaster02",
+    "checkpoint_artifact": "docs/validation/F1772_CASE1_REMESHING_EXECUTION_REPORT.md",
+    "review_directive": "HND-F1772-CASE1-REMESH-EXEC-001 review decision APPROVED one bounded Case 1 Method A.1 mesh-generation pilot. Job 1423608.mmaster02 executed Exit 0. Physical mesh generated with 20,232 elements, 97.17% quads, zero negative Jacobians, 100% ligament compliance (zero coarse barriers), and production 3-layer UEL datacheck Exit 0 under frozen f42_mixed_uel.for.",
     "predecessor_task": {
         "task_id": "F1771-CASE1-METHOD-A-ADVANCING-REMESHING-SPECIFICATION",
         "checkpoint_artifact": "docs/validation/F1771_CASE1_REMESHING_SPECIFICATION_REPORT.md",
@@ -23,8 +23,8 @@
     "candidate_config_sha256": "954BE4473EBC79D54E18DA81DF00E6FCEA1E6B9F8430EA4A8DB52D920E5AA7F3",
     "pbs_script_sha256": "668F98748F2B5E0FDE3F6C9521132A922D27489F8F86EAB0DA51FD2D05C9F5F5",
     "max_new_pbs_submissions": 1,
-    "submissions_consumed": 0,
-    "cumulative_pbs_submissions": 29,
-    "report_sha256": "D8D4DBE8667FC2974A1A6C718C6C4D1B071A64A2402D1FE1A87ECD6E4229F247",
-    "notes": "Task F1772 initialized. Bound to submit_f1772_case1_remesh.pbs (SHA 668F9874...), config (SHA 954BE447...), framework (SHA 8D71F38F...), frozen UEL (SHA CE8D5EDC...), authentic donor PK_F1769_C1_DONOR.odb, and G1-G8 gates. Submissions consumed: 0/1, cumulative: 29. Staging HND-F1772-CASE1-REMESH-EXEC-001 requesting execution of exactly 1 bounded PBS mesh-generation pilot (Job 30)."
+    "submissions_consumed": 1,
+    "cumulative_pbs_submissions": 30,
+    "report_sha256": "C83E02DE5A3ED5EABD6A41BE8A4567AE521F7A74DF987E2C5B0308CFFA54FC4F",
+    "notes": "Task F1772 completed. Bound to submit_f1772_case1_remesh.pbs (SHA 668F9874...), config (SHA 954BE447...), framework (SHA 8D71F38F...), frozen UEL (SHA CE8D5EDC...), authentic donor PK_F1769_C1_DONOR.odb, and G1-G8 gates. Job 1423608.mmaster02 Exit 0. 5 gates PASS, 3 gates FAIL transparently documented. Submissions consumed: 1/1, cumulative: 30."
 }
