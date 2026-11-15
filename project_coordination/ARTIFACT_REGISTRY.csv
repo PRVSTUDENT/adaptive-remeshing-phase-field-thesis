@@ -6633,3 +6633,8 @@ JSON_F1776_SUMMARY,Method-A,results/validation/f1776_case1_case5_fracture/fractu
 SCRIPT_F1776_PARSER,Method-A,scripts/validation/parse_f1776_fracture_responses.py,python_script,pass,gemini-antigravity,HEAD,,,Task F1776 Fracture Response Parser Script
 SCRIPT_F1776_PLOT,Method-A,scripts/visualization/plot_f1776_fracture_synthesis.py,python_script,pass,gemini-antigravity,HEAD,,,Task F1776 Fracture Synthesis Plotting Script
 TEST_F1776_EXECUTION,Method-A,tests/unit/test_f1776_case1_case5_fracture_execution.py,python_test,pass,gemini-antigravity,HEAD,,,Task F1776 Execution and Verification Unit Tests
+
+DOC_F1778_REPORT,Method-A,docs/validation/F1778_CASE5_FRACTURE_PHYSICS_AND_THESIS_INTEGRATION_REPORT.md,markdown_report,pass,gemini-antigravity,HEAD,8CD7CC21D50BDAF95C58F16EE68874DEA75370D2E632A1B9CE04FA44AEB3FFE4,,Task F1778 Case 5 Fracture Physics and Thesis Integration Report
+TEST_F1778_UNIT,Method-A,tests/unit/test_f1778_case5_and_chapter5.py,python_test,pass,gemini-antigravity,HEAD,,,Task F1778 Unit Tests for Case 5 and Chapter 5 Integration
+DAT_F1778_CASE5_DAT,Method-A,results/validation/f1776_case1_case5_fracture/case5_fracture_terminal.dat,dat_file,pass,gemini-antigravity,HEAD,,,Task F1778 Case 5 Terminal Reaction Force Data
+CSV_F1778_CASE5_ENERGY,Method-A,results/validation/f1776_case1_case5_fracture/case5_energy_balance_terminal.csv,csv_data,pass,gemini-antigravity,HEAD,,,Task F1778 Case 5 Terminal Energy Balance CSV

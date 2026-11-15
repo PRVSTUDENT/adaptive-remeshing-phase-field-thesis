@@ -1,10 +1,10 @@
 """
-Vectorized audit script for Case 5 Seven-Hole Plate coupled fracture physics.
-Audits all completed frames in PK_F1728_CASE_5_PROD.odb:
+Fast vectorized audit script for Case 5 Seven-Hole Plate coupled fracture physics.
+Audits all frames in PK_F1728_CASE_5_PROD.odb:
 1. SDV1 (d) bounds in [0, 1] and negative/overshoot counts.
 2. SDV2 (H) and SDV1 (d) monotonicity across successive frames.
-3. Crack connectivity and damage localization across hole ligaments.
-4. Exports latest damage field to CSV.
+3. Multi-crack coalescence and damaged element counts across the 7-hole cluster.
+4. Exports terminal damage field to CSV and summary to JSON.
 """
 
 from __future__ import print_function
@@ -21,19 +21,19 @@ except ImportError:
     sys.exit(1)
 
 case5_dir = "/scratch9/pr21vyci/runs/mode1_pk_f1776_fracture_batch/case5_seven_hole"
+if not os.path.exists(case5_dir):
+    # Fallback to current directory if running locally
+    case5_dir = "."
+
 odb_path = os.path.join(case5_dir, "PK_F1728_CASE_5_PROD.odb")
-out_csv_path = os.path.join(case5_dir, "case5_latest_damage_field.csv")
+out_csv_path = os.path.join(case5_dir, "case5_terminal_damage_field.csv")
 out_json_path = os.path.join(case5_dir, "case5_physics_audit_results.json")
 
 print("Opening Case 5 ODB: %s" % odb_path)
 sys.stdout.flush()
 t0 = time.time()
 
-try:
-    odb = openOdb(odb_path, readOnly=True)
-except Exception as e:
-    print("Could not open Case 5 ODB: %s" % str(e))
-    sys.exit(1)
+odb = openOdb(odb_path, readOnly=True)
 
 results = {
     "benchmark": "Case 5: Seven-Hole Plate Tensile Failure",
@@ -48,10 +48,11 @@ results = {
     "global_min_delta_d": 0.0,
     "monotonicity_violations_H": 0,
     "monotonicity_violations_d": 0,
-    "latest_frame_min_d": 0.0,
-    "latest_frame_max_d": 0.0,
+    "last_frame_min_d": 0.0,
+    "last_frame_max_d": 0.0,
     "num_fully_damaged_elements_d90": 0,
     "num_fully_damaged_elements_d95": 0,
+    "cluster_coalescence_elements_d90": 0,
     "audit_elapsed_sec": 0.0
 }
 
@@ -108,9 +109,10 @@ for step_name in odb.steps.keys():
 
             prev_block_data[b_key] = (d_vals, h_vals)
 
+    # Terminal crack analysis on last frame
     if step_name == odb.steps.keys()[-1] and len(step.frames) > 0:
         last_frame = step.frames[-1]
-        print("Processing latest frame crack metrics and exporting CSV...")
+        print("Processing terminal frame crack metrics and exporting CSV...")
         sys.stdout.flush()
 
         root_assembly = odb.rootAssembly
@@ -132,11 +134,12 @@ for step_name in odb.steps.keys():
                     elem_h[el_lbl] = float(h_vals[el_idx])
 
         all_d = list(elem_d.values())
-        results["latest_frame_min_d"] = float(min(all_d)) if all_d else 0.0
-        results["latest_frame_max_d"] = float(max(all_d)) if all_d else 0.0
+        results["last_frame_min_d"] = float(min(all_d)) if all_d else 0.0
+        results["last_frame_max_d"] = float(max(all_d)) if all_d else 0.0
         results["num_fully_damaged_elements_d90"] = sum(1 for d in all_d if d >= 0.90)
         results["num_fully_damaged_elements_d95"] = sum(1 for d in all_d if d >= 0.95)
 
+        cluster_elements = 0
         with open(out_csv_path, "w") as fc:
             fc.write("element_id,x_mm,y_mm,damage_d,history_H\n")
             for elem in instance.elements:
@@ -150,6 +153,11 @@ for step_name in odb.steps.keys():
                         d_val = elem_d[lbl]
                         h_val = elem_h.get(lbl, 0.0)
                         fc.write("%d,%.6f,%.6f,%.6f,%.6e\n" % (lbl, cx, cy, d_val, h_val))
+                        # Check if within the active cluster zone y in [0.25, 0.75]
+                        if d_val >= 0.90 and 0.25 <= cy <= 0.75:
+                            cluster_elements += 1
+
+        results["cluster_coalescence_elements_d90"] = cluster_elements
 
 results["total_frames"] = frame_global_idx
 results["audit_elapsed_sec"] = time.time() - t0
@@ -163,8 +171,9 @@ print("  Negative d violations (< -1e-6): %d" % results["total_negative_d_evalua
 print("  Overshoot d violations (> 1.0001): %d" % results["total_overshoot_d_evaluations"])
 print("  Min delta H: %.6e, violations: %d" % (results["global_min_delta_H"], results["monotonicity_violations_H"]))
 print("  Min delta d: %.6e, violations: %d" % (results["global_min_delta_d"], results["monotonicity_violations_d"]))
-print("  Latest elements with d >= 0.90: %d" % results["num_fully_damaged_elements_d90"])
-print("  Latest elements with d >= 0.95: %d" % results["num_fully_damaged_elements_d95"])
+print("  Terminal elements with d >= 0.90: %d" % results["num_fully_damaged_elements_d90"])
+print("  Terminal elements with d >= 0.95: %d" % results["num_fully_damaged_elements_d95"])
+print("  Terminal cluster elements with d >= 0.90: %d" % results["cluster_coalescence_elements_d90"])
 sys.stdout.flush()
 
 with open(out_json_path, "w") as f:
