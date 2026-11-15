@@ -6626,3 +6626,10 @@ DOC_F1775_REPORT,Method-A,docs/validation/F1775_COUPLED_FRACTURE_QUALIFICATION_R
 TEST_F1775_PREFLIGHT,Method-A,tests/unit/test_f1775_coupled_fracture_preflight.py,python_test,pass,gemini-antigravity,HEAD,,,Task F1775 Coupled Fracture Preflight Unit Tests
 INP_F1775_CASE1_PROD,Method-A,models/pandey_kumar_mode1/239_f1772_case1_remesh/PK_F1728_CASE_1_PROD.inp,inp_deck,pass,gemini-antigravity,HEAD,976EF13CEAD9F8C541D93510BD48483F0ADCA297C95EEC3F8D67FE7429A1CD7E,,Task F1775 Case 1 3-Layer UEL Production Deck
 INP_F1775_CASE5_PROD,Method-A,models/pandey_kumar_mode1/240_f1774_suite_regression/case5/PK_F1728_CASE_5_PROD.inp,inp_deck,pass,gemini-antigravity,HEAD,174C2ABB82E1DB37A5ED57AA2E36A4B46005098A5264DDCF1164D8232A8CB19E,,Task F1775 Case 5 3-Layer UEL Production Deck
+DOC_F1776_REPORT,Method-A,docs/validation/F1776_COUPLED_FRACTURE_EXECUTION_REPORT.md,markdown_report,pass,gemini-antigravity,HEAD,A1CCCCB9691F3A3450DB125A8B9D11C9B0CEEED8CD6BE70E4A1CDF07FB21915A,,Task F1776 Case 1 and Case 5 Coupled Fracture Execution Report
+FIG_F1776_SYNTHESIS_PNG,Method-A,results/figures/fig_f1776_coupled_fracture_synthesis.png,png_figure,pass,gemini-antigravity,HEAD,,,Task F1776 Coupled Fracture Synthesis Publication PNG Figure
+FIG_F1776_SYNTHESIS_PDF,Method-A,results/figures/fig_f1776_coupled_fracture_synthesis.pdf,pdf_figure,pass,gemini-antigravity,HEAD,,,Task F1776 Coupled Fracture Synthesis Publication PDF Figure
+JSON_F1776_SUMMARY,Method-A,results/validation/f1776_case1_case5_fracture/fracture_summary.json,json_data,pass,gemini-antigravity,HEAD,,,Task F1776 Case 1 and Case 5 Fracture Summary JSON
+SCRIPT_F1776_PARSER,Method-A,scripts/validation/parse_f1776_fracture_responses.py,python_script,pass,gemini-antigravity,HEAD,,,Task F1776 Fracture Response Parser Script
+SCRIPT_F1776_PLOT,Method-A,scripts/visualization/plot_f1776_fracture_synthesis.py,python_script,pass,gemini-antigravity,HEAD,,,Task F1776 Fracture Synthesis Plotting Script
+TEST_F1776_EXECUTION,Method-A,tests/unit/test_f1776_case1_case5_fracture_execution.py,python_test,pass,gemini-antigravity,HEAD,,,Task F1776 Execution and Verification Unit Tests

@@ -1,0 +1,26 @@
+{
+  "case1_mode1_edge_crack": {
+    "num_frames": 245,
+    "peak_force_N": 0.78869896,
+    "disp_at_peak_mm": 0.00616,
+    "final_force_N": 0.0018993637,
+    "final_disp_mm": 0.0069007813,
+    "load_drop_percent": 99.75917760814596,
+    "final_elastic_energy_kNmm": 6.5724047e-06,
+    "final_fracture_energy_kNmm": 0.0027123684,
+    "gate_g1_status": "PASS",
+    "gate_g2_status": "PASS"
+  },
+  "case5_seven_hole": {
+    "num_frames": 392,
+    "peak_force_N": 0.72512019,
+    "disp_at_peak_mm": 0.00572,
+    "final_force_N": 0.00081676956,
+    "final_disp_mm": 0.0079622932,
+    "load_drop_percent": 99.88736080290359,
+    "final_elastic_energy_kNmm": 3.2578837e-06,
+    "final_fracture_energy_kNmm": 0.0023221746,
+    "gate_g1_status": "NOT_VERIFIED (NO_NUMERICAL_TABLE_IN_LITERATURE)",
+    "gate_g2_status": "PASS"
+  }
+}
