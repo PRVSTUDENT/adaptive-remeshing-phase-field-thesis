@@ -1,11 +1,11 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "f1760-unified-method-a-provenance-001",
-  "task_id": "F1760-UNIFIED-METHOD-A-PROVENANCE-AND-REPRODUCIBILITY-INSPECTION",
-  "started_at": "2026-11-15T06:54:00+01:00",
-  "completed_at": "2026-11-15T07:00:00+01:00",
-  "starting_commit": "4dfeefe056b2cfd01cf88457224213fe507c5cb9",
+  "session_id": "f1761-manifest-review-dispatch-001",
+  "task_id": "F1761-UNIFIED-METHOD-A-RECONCILED-EXECUTION-MANIFEST",
+  "started_at": "2026-11-15T07:11:00+01:00",
+  "completed_at": null,
+  "starting_commit": "a4d1c8e63a137cebb1ae1b1a7008cf2c129e46a7",
   "allowed_write_scope": [
     "project_coordination/**",
     ".agents/**",
@@ -13,8 +13,9 @@
     "results/validation/**",
     "results/figures/**",
     "models/pandey_kumar_mode1/**",
+    "configs/remeshing/**",
     "scripts/**",
     "tests/unit/**"
   ],
-  "notes": "Task F1760 completed: Unified Method A Framework Provenance and Five-Case Reproducibility Audit (Source-code, script, donor, parameter, and algorithm comparison across Cases 1-5; identification of hybrid corridor vs native indicator; definition of frozen unified algorithm and reproducible execution plan; strictly zero PBS submissions and zero mesh regeneration in Phase 1)."
+  "notes": "Claiming session for Task F1761: Committing reconciled execution manifest and test suite, authoring review payload HND-F1761-RECONCILED-MANIFEST-001, and dispatching to independent scientific reviewer across OpenClaw PAD bridge."
 }

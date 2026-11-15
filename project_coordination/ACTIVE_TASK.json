@@ -1,22 +1,22 @@
 {
-    "task_id": "F1760-UNIFIED-METHOD-A-PROVENANCE-AND-REPRODUCIBILITY-INSPECTION",
-    "title": "Unified Method A Framework Provenance and Five-Case Reproducibility Audit",
-    "status": "COMPLETED_INSPECTION_QUALIFIED",
-    "classification": "SOURCE_CODE_AND_PROVENANCE_INSPECTION_ZERO_PBS",
+    "task_id": "F1761-UNIFIED-METHOD-A-RECONCILED-EXECUTION-MANIFEST",
+    "title": "Reconciled Five-Case Unified Method A Execution Manifest & Pre-Execution Qualification",
+    "status": "COMPLETED_MANIFEST_QUALIFIED",
+    "classification": "RECONCILED_EXECUTION_MANIFEST_ZERO_PBS",
     "assigned_agent": "gemini-antigravity",
     "active_pbs_job_id": null,
-    "checkpoint_artifact": "docs/validation/F1760_UNIFIED_METHOD_A_PROVENANCE_AND_REPRODUCIBILITY_REPORT.md",
+    "checkpoint_artifact": "docs/validation/F1761_UNIFIED_METHOD_A_RECONCILED_EXECUTION_MANIFEST.md",
     "review_directive": null,
     "predecessor_task": {
-        "task_id": "F1759-CASE4-FIVE-HOLE-FRACTURE-QUALIFICATION-PREFLIGHT",
-        "checkpoint_artifact": "docs/validation/F1759_CASE4_FRACTURE_PREFLIGHT_REPORT.md",
-        "classification": "PREFLIGHT_QUALIFIED_DATACHECK_EXIT0_STAGED_FOR_AUTHORIZATION",
+        "task_id": "F1760-UNIFIED-METHOD-A-PROVENANCE-AND-REPRODUCIBILITY-INSPECTION",
+        "checkpoint_artifact": "docs/validation/F1760_UNIFIED_METHOD_A_PROVENANCE_AND_REPRODUCIBILITY_REPORT.md",
+        "classification": "SOURCE_CODE_AND_PROVENANCE_INSPECTION_ZERO_PBS",
         "review_verdict": "INSUFFICIENT_EVIDENCE",
-        "correlation_id": "HND-F1759-CASE4-PREFLIGHT-001"
+        "correlation_id": "HND-F1760-PROVENANCE-001"
     },
     "re_review_correlation_id": null,
-    "scientific_operation": "unified_method_a_provenance_inspection",
-    "scientific_operation_id": "f1760_provenance_audit_001",
+    "scientific_operation": "reconciled_execution_manifest",
+    "scientific_operation_id": "f1761_manifest_001",
     "scientific_checkpoint_required": true,
     "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "candidate_input_sha256": null,
@@ -24,6 +24,6 @@
     "max_new_pbs_submissions": 0,
     "submissions_consumed": 0,
     "cumulative_pbs_submissions": 26,
-    "report_sha256": "B2F33604DB5D99C49C5531BE572FA960F37964EDFAD9B8B1AB4D52BA2AEC91EF",
-    "notes": "Source-code, script, donor, parameter, and algorithm comparison across Cases 1-5; identification of hybrid corridor vs native indicator; definition of frozen unified algorithm and reproducible execution plan; strictly zero PBS submissions and zero mesh regeneration in Phase 1."
+    "report_sha256": "A44555F20D2195F3566CEE4D79DE5FB836B156A4FC9D295DEB52BA0D4233DFD4",
+    "notes": "Task F1761: Reconciled Five-Case Unified Execution Manifest (Reconciliation of Case 2 h_min/h_max vs F1734, verification of Case 4 Frame 178 vs 13, verification of Case 3 State 2 Frame 30 vs State 4 Frame 55, commit-pinned GitHub links on a4d1c8e6, formal isolation of Case 1 hybrid reference vs automated adaptivity, and definition of single-pass Method A vs multi-state Method A.2 variants)."
 }

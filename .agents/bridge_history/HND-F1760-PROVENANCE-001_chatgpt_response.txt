@@ -1,0 +1,93 @@
+JSON
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1760-PROVENANCE-001",
+  "task_id": "F1760-UNIFIED-METHOD-A-PROVENANCE-AND-REPRODUCIBILITY-INSPECTION",
+  "decision": "INSUFFICIENT_EVIDENCE",
+  "review_type": "UNIFIED_FRAMEWORK_SCIENTIFIC_REVIEW",
+  "phase1_decision": "ACCEPT_PROVENANCE_FINDINGS_WITH_QUALIFICATIONS",
+  "phase2_decision": "PROPOSED_ARCHITECTURE_ACCEPTABLE_NOT_YET_EXECUTION_QUALIFIED",
+  "phase3_decision": "NOT_AUTHORIZED",
+  "additional_pbs_jobs_authorized": 0,
+  "cumulative_pbs_submissions": 26,
+  "review_summary": "F1760 correctly identifies that the five historical adapted meshes were not generated through one frozen implementation. The Case 1 F1738 mesh is a manually prescribed hybrid reference, while Cases 2-5 use different native remeshing implementations and donor strategies. The proposed reusable framework is a reasonable unification candidate. However, successful configuration parsing and adapter binding do not demonstrate equivalent donor interpretation, correct Abaqus remeshing execution, or reproducible mesh generation. Several reported parameters and donor frame references also require reconciliation. The scientific provenance findings can be retained, but five-case regeneration is not yet qualified.",
+  "accepted_findings": {
+    "case1": "F1738 explicitly partitions and seeds the anticipated horizontal fracture corridor. Its 13960-element mesh is a valid hybrid reference, not evidence of automatically discovered crack-path refinement.",
+    "case2": "The 23965-element mesh represents native MISESERI-driven refinement. Its outer secondary ligament remains underresolved according to the later physical-area audit.",
+    "case3": "F1741 uses a two-state sequential remeshing procedure and retains unresolved process-zone resolution deficiencies.",
+    "case4": "F1725 produced a 13017-element native adapted mesh. The newly reported inter-hole compliance values reveal that satisfying h <= l0 does not automatically satisfy h <= l0/2.",
+    "case5": "F1726 produced a 15708-element adapted mesh using a separate parity-search execution path.",
+    "framework": "A frozen UEL hash does not establish a common mesh-generation algorithm.",
+    "source_review": "The previously inspected F1738 source directly confirms manually seeded corridor refinement."
+  },
+  "blocking_findings": [
+    {
+      "id": "F1760-R01",
+      "severity": "HIGH",
+      "finding": "The five passing unit tests demonstrate configuration parsing and adapter binding only. They do not establish that execute_native_remesh can process all five authentic donor ODBs successfully.",
+      "required_action": "Perform a bounded source-level compatibility assessment of donor instances, mesh labels, geometry mappings, step/frame selection and Abaqus CAE API calls. Identify exact unsupported operations without generating meshes."
+    },
+    {
+      "id": "F1760-R02",
+      "severity": "HIGH",
+      "finding": "Case 1 is assigned the original linear-elastic donor that previously produced inadequate distal refinement. The proposed unified workflow therefore has no demonstrated mechanism for reproducing the successful F1738 distal refinement without its manual corridor.",
+      "required_action": "Retain F1738 as a separate hybrid reference. Treat the automatically adapted Case 1 outcome as an open experimental question rather than prescribing successful full-ligament resolution."
+    },
+    {
+      "id": "F1760-R03",
+      "severity": "MEDIUM",
+      "finding": "The Case 2 parameters in the new matrix differ from the earlier F1734 record, which reported minimum size 0.0015 mm and maximum size 0.0200 mm rather than 0.0010 mm and 0.0300 mm.",
+      "required_action": "Resolve the difference using the actual historical configuration and executed remeshing script, rather than choosing either report by assumption."
+    },
+    {
+      "id": "F1760-R04",
+      "severity": "HIGH",
+      "finding": "The donor frame references are not adequately established. In particular, the Case 4 terminal state is identified as Step 2 Frame 13, whereas the earlier F1725 report describes Step 2 terminal Frame 178. Case 3 frame-to-displacement mapping also requires verification.",
+      "required_action": "Verify exact donor ODB step names, frame indices, displacement values and stored MISESERI fields against existing extraction receipts or authentic ODB metadata."
+    },
+    {
+      "id": "F1760-R05",
+      "severity": "MEDIUM",
+      "finding": "The new F1760 image and evidence-gallery filenames are reported without complete verified commit-pinned GitHub URLs, and the packet does not establish that the reviewer can inspect those new artifacts.",
+      "required_action": "Provide actual accessible GitHub links for the F1760 comparison and source figures, with the commit SHA. Preserve the historical images separately."
+    },
+    {
+      "id": "F1760-R06",
+      "severity": "MEDIUM",
+      "finding": "The proposed plus-or-minus 2 percent element-count parity is not sufficient evidence of correct spatial adaptation.",
+      "required_action": "Keep element count as a comparison metric. Evaluate area-weighted resolution, coarse barriers, element quality and indicator-driven refinement independently."
+    },
+    {
+      "id": "F1760-R07",
+      "severity": "MEDIUM",
+      "finding": "Different donor strategies may be scientifically legitimate benchmark configurations, but a common Python entrypoint alone does not establish algorithmic equivalence.",
+      "required_action": "Explicitly distinguish common algorithmic operations from case-specific donor selection, number of remeshing passes, coarsening rules and error-target calibration. Any multi-state extension must be declared as a distinct algorithm variant."
+    }
+  ],
+  "unified_framework_requirements": {
+    "single_frozen_implementation": true,
+    "record_exact_git_commit": true,
+    "geometry_specific_configuration_allowed": true,
+    "authentic_donor_required": true,
+    "undeclared_future_crack_path_seeding_allowed": false,
+    "historical_hybrid_reference_preserved": true,
+    "identical_algorithm_variant_required_for_direct_comparison": true,
+    "identical_numerical_parameters_across_different_length_scales_required": false,
+    "automatic_success_assumed": false,
+    "existing_completed_fracture_jobs_preserved": true
+  },
+  "next_instruction_to_antigravity": "Retain F1760's correct provenance classification and preserve every historical mesh and fracture result. Do NOT authorize Phase 3 regeneration yet. Resolve ONE bounded pre-execution qualification package using existing source files and ODB metadata only: (1) identify the exact Git commit and canonical reusable_2d_adaptive_framework.py path; confirm that its five adapters and the intended native execution method share a genuinely common algorithm rather than merely a common CLI; (2) correct Case 2 h_min/h_max discrepancies against the actual F1734 executed configuration; (3) verify every proposed donor ODB's exact step, frame, displacement, MISESERI availability and geometry compatibility, especially Case 4 Frame 13 versus the previously reported terminal Frame 178; (4) explicitly identify how the proposed algorithm handles Case 1's historically unresolved distal ligament without importing the F1738 manually seeded path, and whether Case 3 requires a distinct multi-state variant; (5) provide working commit-pinned GitHub links to the F1760 five-case images, numerical resolution evidence and relevant generator scripts. Return one concise corrected execution manifest showing VERIFIED versus MISSING inputs and the smallest remaining implementation gap. Do not create another broad research audit. Do not regenerate meshes, run Abaqus, modify the frozen UEL, submit PBS, overwrite figures or claim that all five benchmarks are validated. After the corrected manifest is independently reviewed, propose one bounded common-framework mesh-generation pilot before any five-case batch execution.",
+  "authorization_boundary": {
+    "f1760_scope": "ZERO_PBS_SOURCE_AND_PROVENANCE_INSPECTION",
+    "new_pbs_jobs_authorized": 0,
+    "physical_mesh_regeneration_authorized": false,
+    "five_case_batch_authorized": false,
+    "new_fracture_simulations_authorized": false,
+    "user_priority": "UNIFIED_METHOD_A_FIVE_CASE_REPRODUCIBILITY",
+    "method_c": "PAUSED",
+    "research_freeze": "2026-12-13",
+    "future_execution_requires": "Corrected donor and framework manifest, independent scientific review, registered execution scope and applicable authenticated execution gates."
+  },
+  "final_disposition": "Accept the key F1760 provenance findings, including the hybrid classification of Case 1. Withhold five-case regeneration until the common implementation and authentic donor configurations are reconciled. Prioritize one concrete executable qualification rather than another generic audit.",
+  "terminal_marker": "Finished"
+}

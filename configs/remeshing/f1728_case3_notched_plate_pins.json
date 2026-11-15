@@ -54,8 +54,8 @@
     "upper_hole_radius": 5.0
   },
   "remeshing_rule": {
-    "error_target": 2.0,
-    "min_element_size_mm": 0.143,
+    "error_target": 1.80,
+    "min_element_size_mm": 0.080,
     "max_element_size_mm": 1.5,
     "refinement_factor": 10,
     "coarsening_factor": "NOT_ALLOWED",

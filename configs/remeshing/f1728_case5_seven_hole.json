@@ -77,8 +77,8 @@
   },
   "remeshing_rule": {
     "error_target": 5.68,
-    "min_element_size_mm": 0.0015,
-    "max_element_size_mm": 0.020,
+    "min_element_size_mm": 0.001,
+    "max_element_size_mm": 0.030,
     "refinement_factor": 10,
     "coarsening_factor": "NOT_ALLOWED",
     "sizing_method": "UNIFORM_ERROR",

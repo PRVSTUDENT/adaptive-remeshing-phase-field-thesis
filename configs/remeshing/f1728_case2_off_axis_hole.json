@@ -39,14 +39,14 @@
     "kinematics": "LINEAR"
   },
   "remeshing_rule": {
-    "error_target": 8.0,
+    "error_target": 2.3,
     "min_element_size_mm": 0.0015,
     "max_element_size_mm": 0.020,
     "refinement_factor": 10,
     "coarsening_factor": "NOT_ALLOWED",
     "sizing_method": "UNIFORM_ERROR",
     "variable": "MISESERI",
-    "step_name": "Step-1"
+    "step_name": "RECOVERY_STEP"
   },
   "published_benchmark": {
     "paper": "Master Thesis Benchmark",
