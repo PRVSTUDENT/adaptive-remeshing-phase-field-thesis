@@ -1,10 +1,10 @@
 {
   "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "f1772-case1-remesh-exec-001",
-  "task_id": "F1772-CASE1-METHOD-A-ADVANCING-REMESHING-EXECUTION",
-  "started_at": "2026-11-15T10:48:00+01:00",
-  "starting_commit": "01bacf82",
+  "session_id": "f1773-suite-regression-plan-001",
+  "task_id": "F1773-UNIFIED-METHOD-A-FOUR-BENCHMARK-REGRESSION-PLAN",
+  "started_at": "2026-11-15T11:38:00+01:00",
+  "starting_commit": "89ced0ac",
   "allowed_write_scope": [
     "project_coordination/**",
     ".agents/**",
@@ -17,5 +17,5 @@
     "results/figures/**",
     "MA_AdaptiveRemeshing_Report_2026/figures/**"
   ],
-  "notes": "Task F1772 completed. Pilot Job 1423608.mmaster02 executed Exit 0 (cumulative Job 30 accounted). Generated physical mesh 20,232 elements, 97.17% quads, zero negative Jacobians, 100% ligament compliance, zero coarse barriers, and production 3-layer UEL datacheck Exit 0 under frozen f42_mixed_uel.for. Execution report docs/validation/F1772_CASE1_REMESHING_EXECUTION_REPORT.md and publication figure fig_f1772_case1_advancing_mesh.png published. Ready to transition to Task F1773 Four-Benchmark Regression Plan."
+  "notes": "Claiming session for Task F1773: Four-Benchmark Method A Regression Suite Execution Plan & Reconciled Matrix. Dispatched HND-F1773-SUITE-REGRESSION-AUTH-001 requesting review authorization to execute at most 3 bounded PBS jobs (Cases 2, 3, 5; Case 1 reused from F1772). Zero PBS consumed under F1773, cumulative = 30."
 }

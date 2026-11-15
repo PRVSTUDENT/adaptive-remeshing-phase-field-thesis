@@ -6602,4 +6602,6 @@ JSON_F1772_SUMMARY,Method-A,results/validation/f1772_case1_advancing_mesh_summar
 FIG_F1772_ADVANCING_MESH,Method-A,results/figures/fig_f1772_case1_advancing_mesh.png,figure,pass,gemini-antigravity,HEAD,73376775FFEC4786A90AF5FF3C9037C4C14CC3CABEA639F798B52BDBC98D3581,,Task F1772 Case 1 Advancing Adaptive Mesh 4-Panel Figure
 INP_F1772_PHYS,Method-A,models/pandey_kumar_mode1/239_f1772_case1_remesh/PK_F1728_CASE_1_ADAPT_PHYS.inp,inp_mesh,pass,gemini-antigravity,HEAD,7DA30803B54F0AC04F3295AB9DF0084BEAA44C430CD4B492660C9C5806BCECB7,,Task F1772 Case 1 Advancing Adaptive Physical Mesh
 JSON_F1772_AUDIT,Method-A,models/pandey_kumar_mode1/239_f1772_case1_remesh/PK_F1728_CASE_1_AUDIT.json,json_audit,pass,gemini-antigravity,HEAD,D180FF639713313D28EC3FA808113EEC3AB668C180EDFF12A3E6BFFAD3415DAE,,Task F1772 Case 1 Framework Mesh Audit JSON
+DOC_F1773_PLAN,Method-A,docs/validation/F1773_FOUR_BENCHMARK_REGRESSION_PLAN.md,markdown_report,pass,gemini-antigravity,HEAD,83D10F69B0C3BA3F4E698A938A363872D0C3FFE6AF42F4830206F7A3DBE9F524,,Task F1773 Four-Benchmark Regression Plan & Matrix
+TEST_F1773_PLAN,Method-A,tests/unit/test_f1773_four_benchmark_regression_plan.py,python_test,pass,gemini-antigravity,HEAD,E018705BFC898E932E72772D35AF10909B59F145600B45CEF2AE5077E4A306D5,,Task F1773 Four-Benchmark Regression Plan Unit Tests
 
