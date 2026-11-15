@@ -1,0 +1,256 @@
+{
+  "manifest_version": "4.0.0",
+  "task_id": "F1784-METHOD-A-EVIDENCE-RECONCILIATION-AND-QUALIFICATION-FREEZE",
+  "generated_at": "2026-11-15T19:30:00+01:00",
+  "governing_rules": {
+    "frozen_uel_subroutine": "models/pandey_kumar_mode1/f42_mixed_uel.for",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "framework_module": "scripts/remeshing/reusable_2d_adaptive_framework.py",
+    "framework_sha256": "181CB4E5A8CE765CBE0765D71BA9C3CCA934A33140BC61F5B9A4CD7A6AEFCD40",
+    "cumulative_pbs_submissions": 35,
+    "max_new_pbs_submissions": 0,
+    "submissions_consumed": 0,
+    "master_goal_status": "OPEN",
+    "methodology_provenance": "Pandey & Kumar (2025) CMES adaptive remeshing reproduction and generalization with explicit 3-tier evidence classification"
+  },
+  "evidence_tier_classification_system": {
+    "tier_1_active_abaqus_regeneration": {
+      "definition": "Locally executed and actively generated Abaqus finite element models, meshes, execution receipts, and logs in the current workspace snapshot",
+      "artifacts": [
+        "runs/test_a_geometry_perturbation/PK_TEST_A_PERT_PHYS.inp",
+        "runs/test_a_geometry_perturbation/test_a_cae_output.json",
+        "runs/test_a_geometry_perturbation/abaqus_test_a.log",
+        "runs/test_a_geometry_perturbation/run_test_a_cae.py",
+        "runs/test_b_indicator_perturbation/horiz/PK_ADAPT_CASE_1_PHYS.inp",
+        "runs/test_b_indicator_perturbation/diag/PK_ADAPT_CASE_1_PHYS.inp",
+        "runs/test_b_indicator_perturbation/abaqus_test_b.rpy",
+        "results/validation/f1783_generality_evidence.json"
+      ]
+    },
+    "tier_2_historical_f1780_mesh_audit": {
+      "definition": "Audited physical mesh and production input decks generated during Task F1780, verified bitwise against recorded hashes on local disk",
+      "artifacts": [
+        "models/pandey_kumar_mode1/242_f1780_optimized_regression/case1/PK_F1728_CASE_1_ADAPT_PHYS.inp",
+        "models/pandey_kumar_mode1/242_f1780_optimized_regression/case2/PK_F1728_CASE_2_ADAPT_PHYS.inp",
+        "models/pandey_kumar_mode1/242_f1780_optimized_regression/case3/PK_F1728_CASE_3_ADAPT_PHYS.inp",
+        "models/pandey_kumar_mode1/242_f1780_optimized_regression/case5/PK_F1728_CASE_5_ADAPT_PHYS.inp"
+      ]
+    },
+    "tier_3_historical_evidence_unavailable_donor": {
+      "definition": "Simulations executed on HPC cluster whose large binary ODB files (>100MB) were not committed to git due to repository safety rules; verified via execution reports and scheduler receipts",
+      "artifacts": [
+        "models/pandey_kumar_mode1/237_f1768_case1_donor/PK_F1769_C1_DONOR.odb (HPC scratch: /scratch9/pr21vyci/runs/mode1_pk_f1768_case1_donor_prep/)"
+      ]
+    }
+  },
+  "reconciled_generality_evidence": {
+    "test_a_geometry_perturbation": {
+      "evidence_tier": "TIER_1_ACTIVE_ABAQUS_REGENERATION",
+      "status": "PASS_VERIFIED",
+      "config_file": "configs/remeshing/f1783_test_a_perturbed_case3.json",
+      "config_sha256": "80275F5983D725501E54430EC2EDFE6F0ED626144C39BA2959930745B89A3EB2",
+      "geometric_parameters": {
+        "plate_width_mm": 70.0,
+        "plate_height_mm": 130.0,
+        "notch_length_mm": 15.0,
+        "notch_slit_opening_half_width_mm": 0.4,
+        "notch_total_opening_mm": 0.8,
+        "central_hole_center_mm": [42.0, 60.0],
+        "central_hole_radius_mm": 12.0,
+        "lower_pin_hole_center_mm": [25.0, 25.0],
+        "lower_pin_hole_radius_mm": 6.0,
+        "upper_pin_hole_center_mm": [25.0, 105.0],
+        "upper_pin_hole_radius_mm": 6.0
+      },
+      "area_reconciliation": {
+        "analytical_expression": "A = 70*130 - 15*0.8 - pi*12^2 - 2*pi*6^2 = 9100.0 - 12.0 - 216*pi",
+        "analytical_face_area_mm2": 8409.415986824604,
+        "cad_measured_face_area_mm2": 8409.415986824604,
+        "face_area_discrepancy_mm2": 0.0,
+        "verdict": "EXACT_PARITY_VERIFIED"
+      },
+      "retained_mesh_file": {
+        "path": "runs/test_a_geometry_perturbation/PK_TEST_A_PERT_PHYS.inp",
+        "size_bytes": 627422,
+        "sha256": "A9860BE25DC78B14ABBE3A7E798FA8C6DA716C66C3012A87C016C5565E1565E6"
+      },
+      "retained_driver_and_receipts": [
+        {
+          "path": "runs/test_a_geometry_perturbation/run_test_a_cae.py",
+          "size_bytes": 1742,
+          "sha256": "570EB251354F41F1F36142B6FC40DDDC4F4E4BB04B46235AB12A03F5CE720481"
+        },
+        {
+          "path": "runs/test_a_geometry_perturbation/test_a_cae_output.json",
+          "size_bytes": 95,
+          "sha256": "48178B05A885B13B104AAAB1AC8EEA5D0E789EB0895C5AAE3A75F5580B27E2E1"
+        },
+        {
+          "path": "runs/test_a_geometry_perturbation/abaqus_test_a.log",
+          "size_bytes": 140,
+          "sha256": "D4B498A80DEA075A65E43F866EAE75D73613D0BE1588E7FFA0ACF3E59430FED1"
+        }
+      ],
+      "mesh_metrics": {
+        "total_elements": 9360,
+        "quad_percent": 95.37,
+        "min_det_j": 3.024e-06,
+        "max_aspect_ratio": 3.238,
+        "aspect_ratio_violations_gt_4": 0
+      }
+    },
+    "test_b_indicator_perturbation": {
+      "evidence_tier": "TIER_1_ACTIVE_ABAQUS_REGENERATION",
+      "status": "PASS_VERIFIED",
+      "experimental_design": "Identical Mode-I square domain (1x1 mm) subjected to synthetic horizontal donor vs rising diagonal donor",
+      "indicator_field_formulations": {
+        "horizontal_indicator": "Error localized along horizontal line y = 0.50 mm for x in [0.45, 1.00]",
+        "diagonal_indicator": "Error localized along rising diagonal path y(x) = 0.50 + 0.70*(x - 0.50) for x in [0.45, 1.00] terminating at (1.00, 0.85)"
+      },
+      "retained_mesh_files": {
+        "horizontal_mesh": {
+          "path": "runs/test_b_indicator_perturbation/horiz/PK_ADAPT_CASE_1_PHYS.inp",
+          "size_bytes": 278814,
+          "sha256": "1172CB0BD5A14751D4C639DAC50B8FB7B6C43CD196592503D41DEF07033A1D2F"
+        },
+        "diagonal_mesh": {
+          "path": "runs/test_b_indicator_perturbation/diag/PK_ADAPT_CASE_1_PHYS.inp",
+          "size_bytes": 388502,
+          "sha256": "B7A4AC6E869634E6F97FA286397BD8C80A9748815E9DF4EADD3ECD10F987B1A6"
+        }
+      },
+      "retained_execution_logs": [
+        {
+          "path": "runs/test_b_indicator_perturbation/abaqus_test_b.rpy",
+          "size_bytes": 4912,
+          "sha256": "5DE153BFEE9F2FF855C0442AF38D9494050FD1E71D66DC6C63F38981614B6659"
+        },
+        {
+          "path": "results/validation/f1783_generality_evidence.json",
+          "size_bytes": 1690,
+          "sha256": "80C6C42533DA620600CD9E899757754B4B1C56DE08C5FA39572B94BE7642F4B3"
+        }
+      ],
+      "spatial_audit_results": {
+        "horizontal_donor": {
+          "horizontal_window_elements": 67,
+          "horizontal_window_mean_h_um": 15.25,
+          "diagonal_window_elements": 90,
+          "diagonal_window_mean_h_um": 15.90,
+          "size_ratio_diag_over_horiz": 1.043
+        },
+        "diagonal_donor": {
+          "horizontal_window_elements": 59,
+          "horizontal_window_mean_h_um": 15.89,
+          "diagonal_window_elements": 474,
+          "diagonal_window_mean_h_um": 6.18,
+          "size_ratio_diag_over_horiz": 0.389
+        },
+        "diagonal_window_element_surge": "+426.7%",
+        "inversion_factor": 2.68,
+        "physical_conclusion": "Demonstrates pure indicator-guided spatial adaptivity completely unconstrained by geometry or hardcoded crack corridors"
+      }
+    }
+  },
+  "benchmarks": {
+    "case_1": {
+      "case_id": "case_1",
+      "benchmark_name": "Pandey & Kumar (2025) Section 4.1 Mode-I Edge-Cracked Plate",
+      "algorithm_variant": "Method A.1 (Single-Pass Native Method A with Damage-Informed Sizing Envelope)",
+      "configuration_file": "configs/remeshing/f1728_case1_mode1_edge_crack.json",
+      "indicator_type": "DAMAGE_INFORMED_ENVELOPE",
+      "provenance_classification": "SYNTHESIZED_DAMAGE_INFORMED_SIZING_ENVELOPE",
+      "donor_evidence_tier": "TIER_3_HISTORICAL_EVIDENCE_UNAVAILABLE_DONOR",
+      "donor_odb_cluster_path": "/scratch9/pr21vyci/runs/mode1_pk_f1768_case1_donor_prep/PK_F1769_C1_DONOR.odb",
+      "donor_odb_provenance_note": "Large solver ODB (>100MB) excluded from git working tree per project repository safety policy; run record preserved in docs/validation/F1769_CASE1_DONOR_EXECUTION_REPORT.md",
+      "mesh_evidence_tier": "TIER_2_HISTORICAL_F1780_MESH_AUDIT",
+      "physical_mesh_path": "models/pandey_kumar_mode1/242_f1780_optimized_regression/case1/PK_F1728_CASE_1_ADAPT_PHYS.inp",
+      "physical_mesh_sha256": "64C13066BA8ADFD8AAE46C7F9F349E44339D5A36A842FFADB4FD8459D53AAFFD",
+      "mesh_quality_results": {
+        "total_elements": 16597,
+        "quad_percent": 97.3,
+        "min_det_j": 8.23e-07,
+        "max_aspect_ratio": 2.55,
+        "proximal_tip_le_l0_half_pct": 75.0,
+        "full_ligament_compliance_pct": 100.0
+      }
+    },
+    "case_2": {
+      "case_id": "case_2",
+      "benchmark_name": "Original Master Thesis Mode-I Edge-Notched Plate with Off-Axis Hole",
+      "algorithm_variant": "Method A.1 (Single-Pass Native Method A with Damage-Informed Sizing Envelope)",
+      "configuration_file": "configs/remeshing/f1728_case2_off_axis_hole.json",
+      "indicator_type": "DAMAGE_INFORMED_ENVELOPE",
+      "provenance_classification": "SYNTHESIZED_DAMAGE_INFORMED_SIZING_ENVELOPE",
+      "donor_evidence_tier": "TIER_1_LOCAL_AUTHENTIC_VERIFIED",
+      "donor_odb_repo_path": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_JOB1.odb",
+      "donor_odb_sha256": "13611E8FA2709C503F1F789624FC71A3A41DA0F7527D573935EC9AB57F4DD785",
+      "synthesized_envelope_repo_path": "models/pandey_kumar_mode1/224_f1734_case2_distal_refinement/PK_F1779_CASE2_ENVELOPE.odb",
+      "synthesized_envelope_sha256": "0AA9601559F26859D6A8B5E814153DBAC27D4A6A4CB932A2F9C0457B4C8D58D8",
+      "mesh_evidence_tier": "TIER_2_HISTORICAL_F1780_MESH_AUDIT",
+      "physical_mesh_path": "models/pandey_kumar_mode1/242_f1780_optimized_regression/case2/PK_F1728_CASE_2_ADAPT_PHYS.inp",
+      "physical_mesh_sha256": "C17B4B40594A5F41EB5A1346783328072671CC715D0376C638FEF04D67AF6502",
+      "mesh_quality_results": {
+        "total_elements": 32983,
+        "quad_percent": 96.96,
+        "min_det_j": 1.04e-07,
+        "max_aspect_ratio": 2.66,
+        "distal_crack_corridor_le_l0_half_pct": 100.0,
+        "distal_broad_band_le_l0_half_pct": 97.3
+      }
+    },
+    "case_3": {
+      "case_id": "case_3",
+      "benchmark_name": "Pandey & Kumar (2025) Section 4.3 Rectangular Notched Plate with Hole and Pins",
+      "algorithm_variant": "Method A.2 (Two-Pass Sequential Native Remeshing with Recovery Step Companions)",
+      "configuration_file": "configs/remeshing/f1728_case3_notched_plate_pins.json",
+      "indicator_type": "NATIVE_STRESS_ERROR",
+      "provenance_classification": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
+      "donor_evidence_tier": "TIER_1_LOCAL_AUTHENTIC_VERIFIED",
+      "donor_odb_list": [
+        {
+          "state": "STATE2",
+          "donor_path": "models/pandey_kumar_mode1/200_pk_sec43_prescribed_same_state/PK_SEC43_PRESCRIBED_STATE2.odb",
+          "sha256": "7B7C9F15C0A53F463D26E4EEB61A655D3393824EF8C6C786A4E09B7802E7ADC9"
+        },
+        {
+          "state": "STATE4",
+          "donor_path": "models/pandey_kumar_mode1/200_pk_sec43_prescribed_same_state/PK_SEC43_PRESCRIBED_STATE4.odb",
+          "sha256": "E908067BC6B2BE89F12249534074A9574255FCC4DD34DA5A342A2DE174E27152"
+        }
+      ],
+      "mesh_evidence_tier": "TIER_2_HISTORICAL_F1780_MESH_AUDIT",
+      "physical_mesh_path": "models/pandey_kumar_mode1/242_f1780_optimized_regression/case3/PK_F1728_CASE_3_ADAPT_PHYS.inp",
+      "physical_mesh_sha256": "DF7991DD6D65C256E07CD08218CAE96D08B64C7AC84B0270645AD83442C0BA75",
+      "mesh_quality_results": {
+        "total_elements": 10064,
+        "quad_percent": 96.4,
+        "min_det_j": 0.00125,
+        "max_aspect_ratio": 3.086,
+        "secondary_corridor_compliance_stations": "10/10 (100.0%)",
+        "notch_root_elements_discretized": 4
+      }
+    },
+    "case_5": {
+      "case_id": "case_5",
+      "benchmark_name": "Pandey & Kumar (2025) Section 4.6 Tensile Failure of Plate with Seven Holes",
+      "algorithm_variant": "Method A.1 (Single-Pass Native Method A from Coarse Pre-Analysis)",
+      "configuration_file": "configs/remeshing/f1728_case5_seven_hole.json",
+      "indicator_type": "NATIVE_STRESS_ERROR",
+      "provenance_classification": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
+      "donor_evidence_tier": "TIER_1_LOCAL_AUTHENTIC_VERIFIED",
+      "donor_odb_repo_path": "models/pandey_kumar_mode1/218_f1726_seven_hole_study/PK_F1726_SEVEN_HOLE_COARSE.odb",
+      "donor_odb_sha256": "C7F5B4A6864639B7DF396210649CCFA9619408B0A4F26E63EAC31487755BC6A9",
+      "mesh_evidence_tier": "TIER_2_HISTORICAL_F1780_MESH_AUDIT",
+      "physical_mesh_path": "models/pandey_kumar_mode1/242_f1780_optimized_regression/case5/PK_F1728_CASE_5_ADAPT_PHYS.inp",
+      "physical_mesh_sha256": "2CFF12DF388CBD8BD3CA3289B7AAE87770E69B460771CB7AC2EDD81BAE79823C",
+      "mesh_quality_results": {
+        "total_elements": 15466,
+        "quad_percent": 97.9,
+        "min_det_j": 3.92e-07,
+        "max_aspect_ratio": 2.37,
+        "selective_inter_hole_localization": "100.0% preserved"
+      }
+    }
+  }
+}

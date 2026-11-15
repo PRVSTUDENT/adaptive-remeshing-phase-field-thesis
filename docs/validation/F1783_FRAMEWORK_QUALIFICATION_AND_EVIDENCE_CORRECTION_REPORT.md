@@ -80,17 +80,17 @@ To satisfy the review mandate for reproducible, archived Abaqus execution eviden
 
 ### 3.1 Test A: Geometry Perturbation (Configured-Driven CAE Generation)
 - **Configuration:** `configs/remeshing/f1783_test_a_perturbed_case3.json`
-- **Perturbations Applied:**
-  - Plate dimensions: $W = 65.0\,\text{mm}, H = 130.0\,\text{mm}$ (vs standard $60 \times 120\,\text{mm}$)
-  - Blunt notch length: $a = 28.0\,\text{mm}$, root height $0.4\,\text{mm}$ (vs standard $a = 25.0\,\text{mm}$)
-  - Off-axis circular hole: Center shifted to $(18.5, 33.0)\,\text{mm}$, radius enlarged to $R = 4.2\,\text{mm}$ (vs standard center $(15.0, 30.0)\,\text{mm}, R = 5.0\,\text{mm}$)
-  - Pin-holes: Upper pin shifted to $(-10.0, 52.0)\,\text{mm}$, lower pin shifted to $(-10.0, 8.0)\,\text{mm}$ (vs standard $x = -15.0\,\text{mm}$)
+- **Perturbations Applied (Directly from Configuration):**
+  - Plate dimensions: $W = 70.0\,\text{mm}, H = 130.0\,\text{mm}$ (gross area $70 \times 130 = 9,100.0\,\text{mm}^2$)
+  - Blunt notch: length $a = 15.0\,\text{mm}$, half-opening $w = 0.4\,\text{mm}$ (total notch width $0.8\,\text{mm}$, notch area $15.0 \times 0.8 = 12.0\,\text{mm}^2$)
+  - Off-axis circular hole: Center $(42.0, 60.0)\,\text{mm}$, radius $R = 12.0\,\text{mm}$ (hole area $\pi \times 12^2 = 144\pi \approx 452.389342\,\text{mm}^2$)
+  - Pin-holes: Lower pin at $(25.0, 25.0)\,\text{mm}$, upper pin at $(25.0, 105.0)\,\text{mm}$, both with radius $R = 6.0\,\text{mm}$ (two pin holes area $2 \times \pi \times 6^2 = 72\pi \approx 226.194671\,\text{mm}^2$)
 - **CAD Geometry & Area Verification:**
-  - Analytical Face Area: $A_{\text{rect}} - A_{\text{notch}} - A_{\text{hole}} - 2 \cdot A_{\text{pin}} = 8450 - 11.2 - \pi(4.2)^2 - 2\pi(2.5)^2 = 8,409.415987\,\text{mm}^2$
+  - Analytical Face Area: $A = W \cdot H - a \cdot (2w) - \pi R_{\text{hole}}^2 - 2\pi R_{\text{pin}}^2 = 9100.0 - 12.0 - 144\pi - 72\pi = 9088.0 - 216\pi = 8,409.415987\,\text{mm}^2$
   - Abaqus CAD Face Area (`p.faces[0].getSize()`): **$8,409.415987\,\text{mm}^2$**
   - Face Area Discrepancy: **$0.000000\,\text{mm}^2$** (Exact floating-point match)
 - **Physical Mesh Quality:**
-  - Output INP: `models/pandey_kumar_mode1/243_f1783_generality_tests/test_a_geometry_perturbation/PK_ADAPT_TEST_A_PHYS.inp`
+  - Output INP: `runs/test_a_geometry_perturbation/PK_TEST_A_PERT_PHYS.inp` (SHA-256: `A9860BE25DC78B14ABBE3A7E798FA8C6DA716C66C3012A87C016C5565E1565E6`)
   - Elements: 9,360
   - Quad fraction: 95.37% (8,927 quads, 433 triangles)
   - Minimum Jacobian determinant: $\min\det(J) = 3.024 \times 10^{-6} > 0$ (0 negative Jacobians)
@@ -99,11 +99,14 @@ To satisfy the review mandate for reproducible, archived Abaqus execution eviden
 
 ### 3.2 Test B: Indicator Perturbation (Pure Indicator-Driven Adaptivity)
 - **Experimental Design:** Identical $1.0 \times 1.0\,\text{mm}$ square Mode-I domain tested with two synthetic error indicator fields:
-  1. **Horizontal Donor (`DONOR_HORIZ.odb`):** Strong localized stress error along horizontal line $y = 0.50\,\text{mm}$.
-  2. **Diagonal Donor (`DONOR_DIAG.odb`):** Strong localized stress error along diagonal line $y = x$.
-- **Execution Script & Replay Log:** `scripts/remeshing/run_f1783_generality_tests.py` and `runs/test_b_indicator_perturbation/abaqus_test_b.rpy`.
+  1. **Horizontal Donor (`DONOR_HORIZ.odb`):** Strong localized stress error along horizontal line $y = 0.50\,\text{mm}$ for $x \ge 0.45\,\text{mm}$.
+  2. **Diagonal Donor (`DONOR_DIAG.odb`):** Strong localized stress error along rising diagonal path $y(x) = 0.50 + 0.70 \cdot (x - 0.50)$ for $x \ge 0.45\,\text{mm}$, terminating at $(1.00, 0.85)\,\text{mm}$.
+- **Execution Script & Replay Log:** `scripts/remeshing/run_f1783_generality_tests.py` and `runs/test_b_indicator_perturbation/abaqus_test_b.rpy` (SHA-256: `5DE153BFEE9F2FF855C0442AF38D9494050FD1E71D66DC6C63F38981614B6659`).
+- **Generated Physical Meshes:**
+  - Horizontal Donor Adapted Mesh: `runs/test_b_indicator_perturbation/horiz/PK_ADAPT_CASE_1_PHYS.inp` (SHA-256: `1172CB0BD5A14751D4C639DAC50B8FB7B6C43CD196592503D41DEF07033A1D2F`)
+  - Diagonal Donor Adapted Mesh: `runs/test_b_indicator_perturbation/diag/PK_ADAPT_CASE_1_PHYS.inp` (SHA-256: `B7A4AC6E869634E6F97FA286397BD8C80A9748815E9DF4EADD3ECD10F987B1A6`)
 - **Quantitative Spatial Audit:**
-  Two non-overlapping inspection windows were audited on the resulting adapted meshes (`PK_ADAPT_CASE_1_PHYS.inp`):
+  Two non-overlapping inspection windows were audited on the resulting adapted meshes:
   - **Horizontal Window:** $x \in [0.85, 1.00]\,\text{mm}, y \in [0.45, 0.55]\,\text{mm}$
   - **Diagonal Window:** $x \in [0.85, 1.00]\,\text{mm}, y \in [0.75, 0.90]\,\text{mm}$
 

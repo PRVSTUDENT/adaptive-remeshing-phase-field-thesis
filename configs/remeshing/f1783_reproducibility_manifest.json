@@ -35,17 +35,32 @@
   },
   "generality_verification_evidence": {
     "test_a_geometry_perturbation": {
-      "status": "VERIFIED_ABAQUS_NO_GUI_PASS",
+      "status": "VERIFIED_ACTIVE_ABAQUS_REGENERATION",
       "config_file": "configs/remeshing/f1783_test_a_perturbed_case3.json",
       "execution_script": "scripts/remeshing/run_f1783_generality_tests.py",
       "perturbation_applied": {
-        "description": "Shifted hole center from (15.0, 30.0) to (18.5, 33.0) and pins to (-10.0, 52.0) and (-10.0, 8.0); hole radius changed to 4.2 mm",
+        "plate_width_mm": 70.0,
+        "plate_height_mm": 130.0,
+        "notch_length_mm": 15.0,
+        "notch_slit_opening_half_width_mm": 0.4,
+        "notch_total_opening_mm": 0.8,
+        "central_hole_center_mm": [42.0, 60.0],
+        "central_hole_radius_mm": 12.0,
+        "lower_pin_hole_center_mm": [25.0, 25.0],
+        "lower_pin_hole_radius_mm": 6.0,
+        "upper_pin_hole_center_mm": [25.0, 105.0],
+        "upper_pin_hole_radius_mm": 6.0,
         "analytical_face_area_mm2": 8409.415987,
         "cad_measured_face_area_mm2": 8409.415987,
         "face_area_discrepancy_mm2": 0.0,
         "cae_sketch_verification": "EXACT_MATCH"
       },
-      "generated_mesh_inp": "models/pandey_kumar_mode1/243_f1783_generality_tests/test_a_geometry_perturbation/PK_ADAPT_TEST_A_PHYS.inp",
+      "generated_mesh_inp": "runs/test_a_geometry_perturbation/PK_TEST_A_PERT_PHYS.inp",
+      "generated_mesh_sha256": "A9860BE25DC78B14ABBE3A7E798FA8C6DA716C66C3012A87C016C5565E1565E6",
+      "cae_driver_script": "runs/test_a_geometry_perturbation/run_test_a_cae.py",
+      "cae_driver_sha256": "570EB251354F41F1F36142B6FC40DDDC4F4E4BB04B46235AB12A03F5CE720481",
+      "cae_output_json": "runs/test_a_geometry_perturbation/test_a_cae_output.json",
+      "cae_output_sha256": "48178B05A885B13B104AAAB1AC8EEA5D0E789EB0895C5AAE3A75F5580B27E2E1",
       "mesh_metrics": {
         "total_elements": 9360,
         "quad_percent": 95.37,
@@ -55,10 +70,17 @@
       }
     },
     "test_b_indicator_perturbation": {
-      "status": "VERIFIED_ABAQUS_NO_GUI_PASS",
+      "status": "VERIFIED_ACTIVE_ABAQUS_REGENERATION",
       "execution_script": "scripts/remeshing/run_f1783_generality_tests.py",
       "replay_log": "runs/test_b_indicator_perturbation/abaqus_test_b.rpy",
-      "experimental_design": "Identical Mode-I square domain (1x1 mm) subjected to synthetic horizontal donor (y=0.5) vs diagonal donor (y=x)",
+      "replay_log_sha256": "5DE153BFEE9F2FF855C0442AF38D9494050FD1E71D66DC6C63F38981614B6659",
+      "experimental_design": "Identical Mode-I square domain (1x1 mm) subjected to synthetic horizontal donor (y=0.50) vs rising diagonal donor (y(x) = 0.50 + 0.70*(x - 0.50) for x >= 0.45 mm terminating at (1.00, 0.85) mm)",
+      "generated_meshes": {
+        "horizontal_mesh_path": "runs/test_b_indicator_perturbation/horiz/PK_ADAPT_CASE_1_PHYS.inp",
+        "horizontal_mesh_sha256": "1172CB0BD5A14751D4C639DAC50B8FB7B6C43CD196592503D41DEF07033A1D2F",
+        "diagonal_mesh_path": "runs/test_b_indicator_perturbation/diag/PK_ADAPT_CASE_1_PHYS.inp",
+        "diagonal_mesh_sha256": "B7A4AC6E869634E6F97FA286397BD8C80A9748815E9DF4EADD3ECD10F987B1A6"
+      },
       "results": {
         "horizontal_donor": {
           "horizontal_window_elements": 67,

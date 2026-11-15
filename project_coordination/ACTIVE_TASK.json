@@ -1,6 +1,6 @@
 {
-  "task_id": "F1783-METHOD-A-QUALIFICATION-AND-EVIDENCE-CORRECTION",
-  "title": "Task F1783: Framework Qualification and Evidence Correction",
+  "task_id": "F1784-METHOD-A-EVIDENCE-RECONCILIATION-AND-QUALIFICATION-FREEZE",
+  "title": "Task F1784: Framework Evidence Reconciliation and Qualification Freeze",
   "task_status": "COMPLETED",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
@@ -8,24 +8,24 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1783_FRAMEWORK_QUALIFICATION_AND_EVIDENCE_CORRECTION_REPORT.md",
-  "report_sha256": "A177AB7284839E7FECB8C7112F10FCAF1F54BBE7A6002B6E9F2B2FAC4C6DE0E3",
-  "review_directive": "Following supervisory review HND-F1782-GENERALIZATION-AND-ADAPTIVITY-001 (CONDITIONAL_ACCEPTANCE_CORRECTIONS_REQUIRED), Task F1783 executes bounded qualification and evidence correction: (1) Eliminate silent fixed-hole coordinate fallbacks in Cases 3 and 5, requiring explicit legacy mode or failing clearly on missing geometry; (2) Make Case 3 pin-hole reference points, loaded node sets and support BCs derive dynamically from configured geometry, with negative tests for stale loading coordinates; (3) Correct --build-envelope CLI to use validated configuration-driven builder, verifying parameter propagation and consistent error-target unit conventions; (4) Locate and preserve actual Abaqus execution evidence for perturbation tests A & B with reproducible scripts, exact inputs, output artifacts, execution logs, and spatial mesh audits; (5) Complete the 4-benchmark reproducibility manifest with authentic evidence, recording historical donor gaps explicitly; (6) Distinguish audit-only verification from active mesh regeneration; (7) Strictly preserve frozen production UEL CE8D5EDC... and 0 new PBS jobs (cumulative preserved at 35).",
+  "checkpoint_artifact": "docs/validation/F1784_FRAMEWORK_EVIDENCE_RECONCILIATION_REPORT.md",
+  "report_sha256": "9B8E0C4B4EB6B0B9020DF6D4E4FE7C1B4B778130482F22A6D104A886380181A4",
+  "review_directive": "Following supervisory review HND-F1783-QUALIFICATION-AND-EVIDENCE-CORRECTION-001 (CONDITIONAL_ACCEPTANCE_EVIDENCE_RECONCILIATION_REQUIRED), Task F1784 executes evidence reconciliation and qualification freeze: (1) Correct Test A geometry descriptions and analytical area expressions in documentation and manifest to match actual committed config (70x130 mm, notch a=15 mm w=0.4 mm, hole at (42,60) R=12 mm, pins at (25,25) and (25,105) R=6 mm, net area 8,409.415987 mm^2 matching CAD face area with 0.000000 mm^2 error); (2) Correct Test B diagonal indicator definition to y = 0.50 + 0.70*(x - 0.50); (3) Locate and track locally generated compact Abaqus Test A & B mesh INPs and replay logs in git, verifying hashes; (4) Explicitly classify evidence into three distinct tiers: (a) Verified Active Abaqus Regeneration, (b) Historical F1780 Mesh Audit, (c) Historical Evidence with Unavailable Intermediate Donor; (5) Reconcile all numerical values in report, manifest, and evidence receipts; (6) Deliver final Method A qualification freeze decision and identify research boundaries; (7) Strictly 0 new PBS submissions (cumulative preserved at 35) and frozen production UEL CE8D5EDC... preserved.",
   "predecessor_task": {
-    "task_id": "F1782-METHOD-A-ELIMINATE-HARDCODING-AND-PROVE-GEOMETRY-INDEPENDENT-ADAPTIVITY",
-    "checkpoint_artifact": "docs/validation/F1782_FRAMEWORK_GENERALIZATION_AND_ADAPTIVITY_REPORT.md",
+    "task_id": "F1783-METHOD-A-QUALIFICATION-AND-EVIDENCE-CORRECTION",
+    "checkpoint_artifact": "docs/validation/F1783_FRAMEWORK_QUALIFICATION_AND_EVIDENCE_CORRECTION_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_ONLY",
-    "review_verdict": "CONDITIONAL_ACCEPTANCE_CORRECTIONS_REQUIRED",
-    "correlation_id": "HND-F1782-GENERALIZATION-AND-ADAPTIVITY-001"
+    "review_verdict": "CONDITIONAL_ACCEPTANCE_EVIDENCE_RECONCILIATION_REQUIRED",
+    "correlation_id": "HND-F1783-QUALIFICATION-AND-EVIDENCE-CORRECTION-001"
   },
-  "re_review_correlation_id": "HND-F1783-QUALIFICATION-AND-EVIDENCE-CORRECTION-001",
-  "scientific_operation": "adaptive_remeshing_qualification_and_evidence_correction",
-  "scientific_operation_id": "f1783_qualification_and_evidence_correction_001",
+  "re_review_correlation_id": "HND-F1784-EVIDENCE-RECONCILIATION-FREEZE-001",
+  "scientific_operation": "adaptive_remeshing_evidence_reconciliation_and_qualification_freeze",
+  "scientific_operation_id": "f1784_evidence_reconciliation_freeze_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "181CB4E5A8CE765CBE0765D71BA9C3CCA934A33140BC61F5B9A4CD7A6AEFCD40",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1783 COMPLETED under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). All mandated corrections satisfied with authentic reproducible Abaqus evidence and published manifest configs/remeshing/f1783_reproducibility_manifest.json."
+  "notes": "Task F1784 COMPLETED under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Evidence reconciled across documentation, manifests, and compact tracked mesh/log receipts; 3-tier classification formalizes qualification freeze."
 }
