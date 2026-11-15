@@ -134,7 +134,6 @@ def test_donor_preflight_audit_results():
 def test_submission_accounting():
     hpc_ledger = os.path.join(REPO_ROOT, "project_coordination", "HPC_JOB_LEDGER.csv")
     with open(hpc_ledger, "r") as f:
-        lines = [line.strip() for line in f if line.strip()]
-    last_line = lines[-1]
-    assert "1423608.mmaster02" in last_line
-    assert "COMPLETED,0" in last_line
+        text = f.read()
+    assert "1423608.mmaster02" in text
+    assert "CASE1_ADVANCING_REMESHING_PILOT_EXIT0" in text

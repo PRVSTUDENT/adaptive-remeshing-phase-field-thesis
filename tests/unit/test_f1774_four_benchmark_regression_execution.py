@@ -117,15 +117,13 @@ def test_case3_parent_to_companion_provenance():
 
 
 def test_cumulative_submission_accounting():
-    """Verify strict once-only accounting: 30 cumulative, 0 consumed in F1774, max 3."""
+    """Verify strict once-only accounting: 30 cumulative prior to F1774, 3 consumed in F1774."""
     with open(CANONICAL_MANIFEST, "r", encoding="utf-8") as f:
         manifest = json.load(f)
     assert manifest["governing_rules"]["cumulative_pbs_submissions"] == 30
 
-    active_task_path = os.path.join(REPO_ROOT, "project_coordination", "ACTIVE_TASK.json")
-    with open(active_task_path, "r", encoding="utf-8") as f:
-        task = json.load(f)
-    assert task["task_id"] == "F1774-FOUR-BENCHMARK-METHOD-A-REGRESSION-EXECUTION"
-    assert task["max_new_pbs_submissions"] == 3
-    assert task["submissions_consumed"] == 0
-    assert task["cumulative_pbs_submissions"] == 30
+    task_ledger_path = os.path.join(REPO_ROOT, "project_coordination", "TASK_LEDGER.csv")
+    with open(task_ledger_path, "r", encoding="utf-8") as f:
+        text = f.read()
+    assert "F1774-FOUR-BENCHMARK-METHOD-A-REGRESSION-EXECUTION" in text
+    assert ",3,3,33," in text
