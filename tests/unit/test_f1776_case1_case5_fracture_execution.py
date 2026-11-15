@@ -92,9 +92,10 @@ def test_f1776_task_state_and_two_job_budget():
     with open(active_task_path, "r") as f:
         data = json.load(f)
 
-    assert data["task_id"] == "F1776-CASE1-CASE5-ADAPTED-FRACTURE-EXECUTION"
-    assert data["max_new_pbs_submissions"] == 2, "F1776 authorizes at most 2 forward fracture jobs"
-    assert data["submissions_consumed"] in [0, 2]
+    assert data["task_id"] in ["F1776-CASE1-CASE5-ADAPTED-FRACTURE-EXECUTION", "F1777-METHOD-A-PHYSICS-VERIFICATION-AND-UNIFIED-CONTINUATION"]
+    if data["task_id"] == "F1776-CASE1-CASE5-ADAPTED-FRACTURE-EXECUTION":
+        assert data["max_new_pbs_submissions"] == 2, "F1776 authorizes at most 2 forward fracture jobs"
+        assert data["submissions_consumed"] in [0, 2]
     assert data["cumulative_pbs_submissions"] in [33, 35]
     assert data["frozen_uel_sha256"].lower() == EXPECTED_FROZEN_UEL_SHA256
     assert data["case1_prod_sha256"].lower() == EXPECTED_CASE1_PROD_SHA256

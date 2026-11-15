@@ -1,0 +1,112 @@
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1776-COUPLED-FRACTURE-EXEC-001",
+  "predecessor_correlation_id": "HND-F1775-COUPLED-FRACTURE-PREFLIGHT-001",
+  "task_id": "F1776-CASE1-CASE5-ADAPTED-FRACTURE-EXECUTION",
+  "decision": "INSUFFICIENT_EVIDENCE",
+  "approval_scope": "ACCEPT_RECORDED_EXECUTION_PROGRESS_REQUIRE_FOCUSED_PHYSICS_VERIFICATION_AND_UNIFIED_FRAMEWORK_CONTINUATION",
+  "execution_status": "TWO_FORWARD_FRACTURE_JOBS_REPORTED_COMPLETED",
+  "complete_physical_validation": "NOT_YET_INDEPENDENTLY_ESTABLISHED",
+  "maximum_new_pbs_submissions": 0,
+  "cumulative_pbs_submissions": 35,
+  "review_summary": "The repository records two new forward coupled phase-field fracture simulations on the Case 1 and Case 5 adapted meshes. Committed numerical summaries report 99.76% and 99.89% postpeak load reductions, respectively, and energy histories are available. This represents substantial progress. However, successful execution and substantial softening do not independently establish every declared physical acceptance gate. In particular, both simulations terminated before their nominal final prescribed displacement, Case 1's reference-force units and acceptance threshold require reconciliation, and pointwise damage bounds, history monotonicity and crack topology have not been independently established from complete ODB field audits. The user's requirement remains non-negotiable: all four benchmark meshes must use the identical frozen reusable framework implementation. Improvements for Cases 2 and 3 must remain part of the unified four-case regression rather than becoming separately hardcoded benchmark solutions.",
+  "common_framework_requirement": {
+    "status": "PRESERVE_AND_ENFORCE",
+    "shared_source": "scripts/remeshing/reusable_2d_adaptive_framework.py",
+    "required_sha256": "8D71F38F23867A23C1FC1BF5EC499533A8C75F538B77804ECE03B5C668F4BE08",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "case1": "METHOD_A1_DAMAGE_ENVELOPE_ASSISTED",
+    "case2": "METHOD_A1_NATIVE_RECOVERY_ERROR",
+    "case3": "METHOD_A2_TWO_STATE_SEQUENTIAL_RECOVERY_ERROR",
+    "case5": "METHOD_A1_NATIVE_RECOVERY_ERROR",
+    "implementation_policy": "ONE_SHARED_FRAMEWORK_WITH_BENCHMARK_CONFIGURATION_AND_DONOR_VARIATIONS_ONLY",
+    "hardcoded_future_crack_corridors": "PROHIBITED",
+    "final_revision_acceptance": "REQUIRES_ALL_FOUR_BENCHMARKS_TO_BE_REEVALUATED_AFTER_ANY_MEANINGFUL_FRAMEWORK_CHANGE"
+  },
+  "directly_verified": {
+    "repository": "PRVSTUDENT/adaptive-remeshing-phase-field-thesis",
+    "source_commit": "2fdfde611",
+    "execution_report_git_blob_sha": "cbe13414bd1cc908ecc572e4bdfe708dfc21e1d5",
+    "fracture_summary_git_blob_sha": "bb0d3ac20b1b5d148653522f435ac24fac930e8e",
+    "active_task_git_blob_sha": "775fd3d75f97725721d91e9e96a0bf6d40ce991f",
+    "case1_energy_csv_git_blob_sha": "dad56ac92cf45f3be987f7ddfce2c315d00b1fb4",
+    "case5_energy_csv_git_blob_sha": "048bdf89dbe05957339247095c62a83139f6decc",
+    "case1_pbs_job": "1423637.mmaster02",
+    "case5_pbs_job": "1423638.mmaster02",
+    "job_completion": "DIRECTLY_VERIFIED_AS_COMMITTED_HPC_LEDGER",
+    "raw_solver_odb": "NOT_DIRECTLY_INSPECTED",
+    "damage_contours": "NOT_DIRECTLY_INSPECTED",
+    "pointwise_history_and_damage": "NOT_DIRECTLY_VERIFIED"
+  },
+  "reported_fracture_results": {
+    "case1": {
+      "physical_elements": 20232,
+      "peak_force_N": 0.78869896,
+      "final_force_N": 0.0018993637,
+      "load_drop_percent": 99.75917760814596,
+      "achieved_displacement_mm": 0.0069007813,
+      "nominal_target_displacement_mm": 0.0100,
+      "frames": 245,
+      "physical_completion": "PARTIAL_DISPLACEMENT_WITH_REPORTED_CLEAVAGE"
+    },
+    "case5": {
+      "physical_elements": 15330,
+      "peak_force_N": 0.72512019,
+      "final_force_N": 0.00081676956,
+      "load_drop_percent": 99.88736080290359,
+      "achieved_displacement_mm": 0.0079622932,
+      "nominal_target_displacement_mm": 0.0100,
+      "frames": 392,
+      "physical_completion": "PARTIAL_DISPLACEMENT_WITH_REPORTED_CLEAVAGE"
+    }
+  },
+  "material_review_findings": [
+    {
+      "id": "F1776-R01",
+      "severity": "HIGH",
+      "finding": "The Case 1 report declares peak-force agreement against 0.774 N within a newly stated 10% tolerance, whereas the earlier preflight specified 5% and cited a reference near 0.758 kN. The units and reference identity are inconsistent.",
+      "required_resolution": "Trace the exact published or historical reference, units, specimen thickness, force extraction and original predeclared 5% threshold. Do not retroactively relax acceptance criteria."
+    },
+    {
+      "id": "F1776-R02",
+      "severity": "HIGH",
+      "finding": "Both forward analyses terminated below the nominal 0.0100 mm prescribed displacement despite recording nearly complete load loss.",
+      "required_resolution": "Distinguish physically convincing severance from full-step numerical convergence. Audit terminal .sta and .msg diagnostics and report achieved displacement, cutbacks and stopping mechanism explicitly."
+    },
+    {
+      "id": "F1776-R03",
+      "severity": "HIGH",
+      "finding": "G3 damage bounds and G4 integration-point history monotonicity are declared PASS without an independently available full-frame extrema and pointwise irreversibility audit.",
+      "required_resolution": "Extract actual SDV1 and SDV2 values across all converged frames and report minimum, maximum, lower-bound violations and integration-point monotonicity violations. Code-level enforcement alone is not an empirical pass."
+    },
+    {
+      "id": "F1776-R04",
+      "severity": "MEDIUM",
+      "finding": "Load reduction alone does not establish the claimed complete Case 1 crack path or Case 5 inter-hole coalescence.",
+      "required_resolution": "Provide genuine time-resolved damage contours, thresholded crack connectivity metrics and comparison with the correct fracture trajectories."
+    },
+    {
+      "id": "F1776-R05",
+      "severity": "MEDIUM",
+      "finding": "Energy CSV files exist, but full monotonicity and consistency with the intended fracture-energy functional require independent numerical checks.",
+      "required_resolution": "Recalculate signed fracture-energy increments, elastic-energy evolution, and available external-work balance from the existing files without another solver run."
+    },
+    {
+      "id": "F1776-R06",
+      "severity": "HIGH",
+      "finding": "The four-case spatial regression is implemented by one framework, but Cases 2 and 3 retain unresolved distal crack-path refinement concerns. Case 3 also exceeds its element-count target and aspect-ratio limit.",
+      "required_resolution": "Conduct targeted elementwise h/l0 and donor-indicator audits of the physically relevant distal paths in Cases 2 and 3. Any subsequent algorithmic improvement must be implemented generically in the same shared framework and evaluated against all four cases."
+    }
+  ],
+  "next_instruction_to_antigravity": "Preserve F1776's genuine two-job execution evidence and 35-job cumulative accounting. Perform ONE bounded zero-PBS scientific closeout and unified-framework continuation using existing artifacts. First inspect both genuine forward ODBs and solver terminal logs, confirming achieved displacements, damage/history SDV mapping, pointwise bounds and irreversibility, genuine crack connectivity, and thermodynamic energy increments. Reconcile Case 1 peak-force reference units and enforce the original predeclared acceptance tolerance without retrospective changes. Publish authentic damage contours and load-displacement curves and classify each physical gate PASS, FAIL or NOT_VERIFIED from numerical evidence, not narrative claims. In the SAME consolidated research milestone, preserve the user's central requirement that Cases 1, 2, 3 and 5 all use exactly scripts/remeshing/reusable_2d_adaptive_framework.py with frozen SHA-256 8D71F38F23867A23C1FC1BF5EC499533A8C75F538B77804ECE03B5C668F4BE08 and the unchanged frozen UEL. Diagnose Case 2's distal region beyond the off-axis hole and Case 3's secondary hole-to-boundary fracture corridor quantitatively using existing physical INPs, h/l0 maps, and donor indicators. Do not fabricate a crack path or impose manually seeded future-crack corridors. Recommend one general indicator- or evolving-damage-driven improvement only if substantiated by the audits, and require four-case same-revision regression before accepting any changed framework. Do not spend new PBS submissions, modify the frozen UEL, rerun Case 1 or create isolated per-case framework forks. Return one evidence-backed physical-qualification and four-case adaptive-refinement continuation packet. Finished",
+  "authorization_boundary": {
+    "f1776_two_job_execution_record": "ACCEPTED_AS_RECORDED",
+    "f1776_unconditional_physical_closeout": "PENDING_EVIDENCE",
+    "framework_commonality": "MANDATORY_ALL_FOUR",
+    "new_pbs_jobs": 0,
+    "framework_changes": "REQUIRE_SEPARATE_REVIEW_AND_FOUR_CASE_REGRESSION",
+    "frozen_uel_modification": "NOT_AUTHORIZED",
+    "method_c": "PAUSED",
+    "terminal_marker": "Finished"
+  }
+}

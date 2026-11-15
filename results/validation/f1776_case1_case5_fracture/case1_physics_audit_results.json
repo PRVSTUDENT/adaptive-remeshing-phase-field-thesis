@@ -1,0 +1,33 @@
+{
+  "total_negative_d_evaluations": 0, 
+  "monotonicity_violations_H": 0, 
+  "global_min_delta_H": 0.0, 
+  "audit_elapsed_sec": 11.471200942993164, 
+  "total_overshoot_d_evaluations": 748, 
+  "global_min_d": 0.0, 
+  "num_fully_damaged_elements_d95": 434, 
+  "benchmark": "Case 1: Mode-I Single-Edge Notched Plate", 
+  "terminal_ligament_coverage_pct": 99.66921806335449, 
+  "num_fully_damaged_elements_d90": 520, 
+  "odb_path": "/scratch9/pr21vyci/runs/mode1_pk_f1776_fracture_batch/case1_mode1_edge_crack/PK_F1728_CASE_1_PROD.odb", 
+  "terminal_crack_span_x": [
+    0.49800320714712143, 
+    0.9983460903167725
+  ], 
+  "global_max_d": 1.0008964538574219, 
+  "steps": [
+    {
+      "frames": 51, 
+      "name": "Step-1"
+    }, 
+    {
+      "frames": 196, 
+      "name": "Step-2"
+    }
+  ], 
+  "monotonicity_violations_d": 23059, 
+  "last_frame_max_d": 1.000854253768921, 
+  "global_min_delta_d": -0.0007432103157043457, 
+  "total_frames": 247, 
+  "last_frame_min_d": 8.745977453372689e-08
+}
