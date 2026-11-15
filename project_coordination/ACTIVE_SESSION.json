@@ -1,11 +1,10 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "f1768-case1-donor-prep-001",
-  "task_id": "F1768-CASE1-ADVANCING-COUPLED-DONOR-PREPARATION",
-  "started_at": "2026-11-15T09:10:00+01:00",
-  "completed_at": "2026-11-15T09:20:00+01:00",
-  "starting_commit": "332d1780",
+  "session_id": "f1769-case1-donor-exec-prep-001",
+  "task_id": "F1769-CASE1-ADVANCING-COUPLED-DONOR-EXECUTION",
+  "started_at": "2026-11-15T09:26:00+01:00",
+  "starting_commit": "c5862fc0",
   "allowed_write_scope": [
     "project_coordination/**",
     ".agents/**",
@@ -16,5 +15,5 @@
     "scripts/**",
     "tests/unit/**"
   ],
-  "notes": "Claiming session for Task F1768: Preparing Case 1 Advancing Coupled Donor production deck from 2,906-element mesh under bounded zero-PBS preflight governance. Inspecting 3-layer UEL structure, loading schedule up to Step 2 crack advance, field output requests (MISESERI, SDV), executing cluster datacheck, and staging review payload."
+  "notes": "Claiming session for Task F1769: Closing F1768 following independent review approval HND-F1768-CASE1-DONOR-AUTH-001. Resolving BC audit (F1768-R04), initializing F1769 Case 1 Advancing Coupled Donor Execution, verifying preflight gates and staging review authorization payload HND-F1769-CASE1-DONOR-EXEC-001."
 }
