@@ -1,0 +1,87 @@
+#!/bin/bash
+#PBS -N PK_F1769_C1_DONOR
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=02:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratch9/pr21vyci/runs/mode1_pk_f1768_case1_donor_prep/pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_pk_f1768_case1_donor_prep"
+cd "${RUN_DIR}"
+
+export JOB_NAME="PK_F1769_C1_DONOR"
+export INPUT_DECK="PK_F1768_CASE_1_COARSE_COUPLED.inp"
+export USER_SUB="f42_mixed_uel.for"
+export EXPECTED_UEL_SHA="ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6"
+
+echo "=== PBS Preflight Check for ${JOB_NAME} ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"
+hostname
+
+# 1. Atomic PBS Wrapper Lock Guard (mkdir is atomic on POSIX filesystems)
+LOCK_GUARD_DIR="${RUN_DIR}/${JOB_NAME}.pbs_guard_d"
+if ! mkdir "${LOCK_GUARD_DIR}" 2>/dev/null; then
+    echo "ERROR: Active PBS lock guard directory ${LOCK_GUARD_DIR} already exists. Aborting."
+    exit 1
+fi
+trap 'rmdir "${LOCK_GUARD_DIR}" 2>/dev/null || true' EXIT
+
+# 2. Fail Closed if Abaqus ODB Lock File Pre-exists (Zero Unconditional Deletion)
+if [ -e "${RUN_DIR}/${JOB_NAME}.lck" ]; then
+    echo "ERROR: Pre-existing Abaqus lock file ${JOB_NAME}.lck detected. Failing closed."
+    exit 1
+fi
+
+# 3. Storage Capacity Preflight
+AVAIL_KB=$(df -k . | awk 'NR==2 {print $4}')
+if [ "${AVAIL_KB}" -lt 5242880 ]; then
+    echo "ERROR: Insufficient scratch disk space (${AVAIL_KB} KB available). Aborting."
+    exit 1
+fi
+echo "Scratch disk space confirmed: $((AVAIL_KB / 1024 / 1024)) GB available."
+
+# 4. Bitwise SHA-256 Hash Verification of User Subroutine
+ACTUAL_UEL_SHA=$(sha256sum "${USER_SUB}" | awk '{print $1}')
+if [ "${ACTUAL_UEL_SHA}" != "${EXPECTED_UEL_SHA}" ]; then
+    echo "ERROR: User subroutine SHA-256 mismatch!"
+    echo "  Expected: ${EXPECTED_UEL_SHA}"
+    echo "  Actual:   ${ACTUAL_UEL_SHA}"
+    exit 1
+fi
+echo "User subroutine hash verified: ${ACTUAL_UEL_SHA}"
+
+# 5. Dual-Channel Notification Integration
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+if [ -f "${RUN_DIR}/job_notifications.sh" ]; then
+    source "${RUN_DIR}/job_notifications.sh"
+    notification_load_config || echo "Notice: notification_load_config returned non-zero (non-fatal)"
+    notification_install_terminal_trap || echo "Notice: notification_install_terminal_trap returned non-zero (non-fatal)"
+    notify_start || echo "Notice: notify_start returned non-zero (non-fatal)"
+fi
+
+# 6. Environment and Module Initialization
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+command -v abaqus
+
+# 7. Execute Abaqus/Standard 2023 in 1-CPU Serial Mode
+echo "=== Executing Task F1769 Case 1 Advancing Coupled Donor Simulation (1-CPU Serial, 2,906 Elements) ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"
+
+/cluster/application/abaqus/2023/Commands/abaqus job="${JOB_NAME}" input="${INPUT_DECK}" user="${USER_SUB}" cpus=1 double=both interactive
+SOLVER_EXIT_CODE=$?
+echo "Abaqus Solver Finished with Exit Code: ${SOLVER_EXIT_CODE}"
+
+if [ "${SOLVER_EXIT_CODE}" -ne 0 ]; then
+    echo "ERROR: Abaqus solver execution failed with exit code ${SOLVER_EXIT_CODE}."
+    exit ${SOLVER_EXIT_CODE}
+fi
+
+echo "=== TASK F1769 CASE 1 ADVANCING COUPLED DONOR SIMULATION COMPLETE (EXIT 0) ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"

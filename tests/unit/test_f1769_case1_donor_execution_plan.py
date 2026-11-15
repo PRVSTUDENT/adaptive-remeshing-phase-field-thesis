@@ -102,17 +102,35 @@ def test_pbs_script_directives_and_notifications():
     assert "AVAIL_KB" in pbs_content
 
 
-def test_pbs_r1_corrected_lock_guard():
-    """Verify that submit_f1769_case1_donor_r1.pbs uses distinct lock guard and removes stale .lck."""
-    r1_path = os.path.join(
-        REPO_ROOT, "models", "pandey_kumar_mode1", "237_f1768_case1_donor", "submit_f1769_case1_donor_r1.pbs"
+def test_pbs_r2_atomic_lock_guard_and_safe_reconciliation():
+    """Verify that submit_f1769_case1_donor_r2.pbs implements atomic locking,
+
+    fails closed on pre-existing Abaqus locks, and contains ZERO unconditional rm -f lock deletions.
+    """
+    r2_path = os.path.join(
+        REPO_ROOT, "models", "pandey_kumar_mode1", "237_f1768_case1_donor", "submit_f1769_case1_donor_r2.pbs"
     )
-    assert os.path.exists(r1_path), f"R1 script not found: {r1_path}"
-    with open(r1_path, "r") as f:
+    assert os.path.exists(r2_path), f"R2 script not found: {r2_path}"
+    with open(r2_path, "r") as f:
         content = f.read()
 
-    assert "LOCK_GUARD=\"${JOB_NAME}.pbs_guard.lck\"" in content
-    assert "rm -f \"${JOB_NAME}.lck\"" in content
+    # 1. Atomic directory guard
+    assert 'LOCK_GUARD_DIR="${RUN_DIR}/${JOB_NAME}.pbs_guard_d"' in content
+    assert 'mkdir "${LOCK_GUARD_DIR}"' in content
+    assert 'rmdir "${LOCK_GUARD_DIR}"' in content
+
+    # 2. Fail closed on pre-existing Abaqus lock
+    assert 'if [ -e "${RUN_DIR}/${JOB_NAME}.lck" ]; then' in content
+    assert 'echo "ERROR: Pre-existing Abaqus lock file ${JOB_NAME}.lck detected. Failing closed."' in content
+
+    # 3. Strictly ZERO unconditional rm -f of Abaqus lock files
+    assert 'rm -f "${JOB_NAME}.lck"' not in content, "Unsafe unconditional Abaqus lock deletion detected"
+    assert 'rm -f PK_F1768_C1_DONOR.lck' not in content, "Unsafe unconditional lock deletion detected"
+    assert 'rm -f *.lck' not in content, "Unsafe wildcard lock deletion detected"
+
+    # 4. Resource bounds
     assert "#PBS -l select=1:ncpus=1:mem=8gb" in content
     assert "#PBS -l walltime=02:00:00" in content
+    assert "#PBS -q entry_imfdfkmq" in content
+
 
