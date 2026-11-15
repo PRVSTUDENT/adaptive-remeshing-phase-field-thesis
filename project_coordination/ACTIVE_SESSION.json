@@ -1,21 +1,20 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "f1767-source-sync-closeout-002",
-  "task_id": "F1767-UNIFIED-METHOD-A-OFFLINE-QUALIFICATION-AND-RECONCILIATION",
-  "started_at": "2026-11-15T09:05:00+01:00",
-  "completed_at": "2026-11-15T09:08:00+01:00",
-  "starting_commit": "9ef2db67",
+  "session_id": "f1768-case1-donor-prep-001",
+  "task_id": "F1768-CASE1-ADVANCING-COUPLED-DONOR-PREPARATION",
+  "started_at": "2026-11-15T09:10:00+01:00",
+  "completed_at": "2026-11-15T09:20:00+01:00",
+  "starting_commit": "332d1780",
   "allowed_write_scope": [
     "project_coordination/**",
     ".agents/**",
     "docs/validation/**",
     "results/validation/**",
-    "results/figures/**",
     "models/pandey_kumar_mode1/**",
     "configs/remeshing/**",
     "scripts/**",
     "tests/unit/**"
   ],
-  "notes": "Claiming session for Task F1767: Addressing review findings F1766-R01 to F1766-R06 under zero-PBS governance. Reconciling Case 3 geometry and target elements, inspecting Case 1 donor availability, establishing physical equivalence for Case 2, implementing reusable multi-state Method A.2 support, and testing all 4 benchmarks offline."
+  "notes": "Claiming session for Task F1768: Preparing Case 1 Advancing Coupled Donor production deck from 2,906-element mesh under bounded zero-PBS preflight governance. Inspecting 3-layer UEL structure, loading schedule up to Step 2 crack advance, field output requests (MISESERI, SDV), executing cluster datacheck, and staging review payload."
 }
