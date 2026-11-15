@@ -1,0 +1,101 @@
+JSON
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1767-OFFLINE-QUAL-CLOSEOUT-002",
+  "predecessor_correlation_id": "HND-F1767-OFFLINE-QUAL-AUTH-001",
+  "task_id": "F1767-UNIFIED-METHOD-A-OFFLINE-QUALIFICATION-AND-RECONCILIATION",
+  "decision": "APPROVE",
+  "approval_scope": "SOURCE_SYNCHRONIZATION_AND_OFFLINE_TECHNICAL_CLOSEOUT_ONLY",
+  "f1767_technical_closeout": "APPROVED_WITH_RUNTIME_QUALIFICATIONS",
+  "method_a2_implementation": "SOURCE_VERIFIED_RUNTIME_UNVALIDATED",
+  "four_case_regression": "NOT_READY",
+  "next_milestone": "OPTION_B_CASE1_ADVANCING_COUPLED_DONOR_PREPARATION",
+  "additional_pbs_jobs_authorized": 0,
+  "cumulative_pbs_submissions_reported": 27,
+  "review_summary": "Independent inspection of GitHub commit 9ef2db67a9eed45c2dad5d2c95b395f76897de81 confirms that the F1767 framework changes and corrected Case 3 configuration are now committed. The framework blob matches 0dd5fe394ea567e2dd99ba9c9a88c235ba80e465, and Case 3 declares 12168 target elements. The source includes sequential donor processing with separate native adaptiveRemesh calls. This resolves the previous source-provenance blockers and supports F1767 offline technical closeout. However, passing source-level tests does not establish Abaqus runtime correctness or successful multi-state mesh preservation. Case 1 remains blocked by the absence of a verified advancing coupled donor. Therefore, neither a Case 5-only pilot nor a four-case regression batch should be treated as completion of the user's full-suite objective.",
+  "directly_verified_evidence": {
+    "repository": "PRVSTUDENT/adaptive-remeshing-phase-field-thesis",
+    "commit": "9ef2db67a9eed45c2dad5d2c95b395f76897de81",
+    "framework_path": "scripts/remeshing/reusable_2d_adaptive_framework.py",
+    "framework_git_blob_sha": "0dd5fe394ea567e2dd99ba9c9a88c235ba80e465",
+    "case3_configuration_path": "configs/remeshing/f1728_case3_notched_plate_pins.json",
+    "case3_configuration_git_blob_sha": "de2a707b1095974386ad0cfd448ee8aeb5276ddc",
+    "case3_target_elements": 12168,
+    "unit_test_path": "tests/unit/test_f1767_offline_qualification.py",
+    "unit_test_git_blob_sha": "661a6d6fba60cefb9eea93a0ee90e256230874c2",
+    "report_path": "docs/validation/F1767_UNIFIED_METHOD_A_OFFLINE_QUALIFICATION_REPORT.md",
+    "report_git_blob_sha": "7a9640df9b4ff8fd4b3390338f56dd52e50fc200",
+    "multi_state_source_implementation": "DIRECTLY_VERIFIED",
+    "actual_unit_test_execution": "REPORTED_ONLY",
+    "native_multi_state_abaqus_execution": "NOT_VERIFIED",
+    "case1_advancing_donor": "NOT_AVAILABLE_AS_REPORTED",
+    "case1_donor_hpc_receipts": "REPORTED_ONLY"
+  },
+  "scientific_findings": [
+    {
+      "id": "F1767-C02-R01",
+      "severity": "HIGH",
+      "finding": "The new multi-state implementation calls adaptiveRemesh sequentially, but preservation of previously refined elements and compatibility of later donor states remain unverified in Abaqus CAE.",
+      "treatment": "Retain Method A.2 as IMPLEMENTED_NOT_RUNTIME_QUALIFIED. Do not classify Case 3 as fully execution-verified based only on unit tests."
+    },
+    {
+      "id": "F1767-C02-R02",
+      "severity": "HIGH",
+      "finding": "The Case 1 proposed coarse coupled donor has not been demonstrated to propagate the crack or produce suitable MISESERI history. The 2906-element input deck and approximately 10-minute runtime are proposals, not verified guarantees.",
+      "treatment": "Qualify the donor deck and coupled numerical settings before any solver submission. Require actual crack advancement, error-indicator fields and numerical validity from the eventual ODB."
+    },
+    {
+      "id": "F1767-C02-R03",
+      "severity": "MEDIUM",
+      "finding": "The current Case 1 configuration still specifies Step-1 and LAST_INCREMENT. The proposed advancing-donor strategy requires a separate, version-controlled configuration revision after the donor is qualified.",
+      "treatment": "Do not represent Case 1 as ready for ALL_INCREMENTS remeshing."
+    },
+    {
+      "id": "F1767-C02-R04",
+      "severity": "MEDIUM",
+      "finding": "The submitted Case 3 five-state donor plan differs from the earlier two-pass F1741 procedure. Five available states do not automatically establish that five sequential passes are necessary or mathematically equivalent.",
+      "treatment": "Preserve explicit pass count, donor state order and source provenance; evaluate actual multi-pass behavior before adoption."
+    }
+  ],
+  "regression_suite": {
+    "required_benchmarks": [
+      {
+        "id": "BM-1",
+        "benchmark": "Standard Mode-I edge-cracked plate",
+        "status": "BLOCKED_ADVANCING_DONOR_REQUIRED"
+      },
+      {
+        "id": "BM-2",
+        "benchmark": "Mode-I off-axis-hole plate",
+        "status": "OFFLINE_PREPARED_RUNTIME_REGRESSION_PENDING"
+      },
+      {
+        "id": "BM-3",
+        "benchmark": "Rectangular plate with central hole and pin holes",
+        "status": "MULTI_STATE_SOURCE_IMPLEMENTED_RUNTIME_UNVALIDATED"
+      },
+      {
+        "id": "BM-4",
+        "benchmark": "Seven-hole plate",
+        "status": "OFFLINE_PREPARED_RUNTIME_REGRESSION_PENDING"
+      }
+    ],
+    "common_framework_required": true,
+    "same_frozen_revision_for_final_comparison": true,
+    "full_suite_after_meaningful_framework_changes": true,
+    "case4_historical_result": "PRESERVE_WITH_G1_AND_G5_FAILURES",
+    "suite_wide_scientific_acceptance": false
+  },
+  "next_instruction_to_antigravity": "Approve F1767 offline technical closeout at commit 9ef2db67a9eed45c2dad5d2c95b395f76897de81. Preserve framework blob 0dd5fe394ea567e2dd99ba9c9a88c235ba80e465 and the frozen production UEL. Prioritize OPTION B because Case 1 is the blocking prerequisite for the user's four-benchmark regression requirement. Prepare ONE bounded successor for the Case 1 advancing coupled donor, using the existing 2906-element PK_PREANALYSIS_COARSE.inp as a candidate rather than assuming it is scientifically qualified. Inspect the authentic production deck and verify its 3-layer UEL structure, loading, boundary conditions, damage initialization, incremental convergence controls, field-output support and compatibility with MISESERI-based native remeshing. Establish whether the proposed Step-2 displacement can produce meaningful crack advancement and preserve phase-field irreversibility. Correct only the necessary Python/input-deck preparation files; do not alter the frozen Fortran UEL. Obtain a genuine Abaqus datacheck and record input hashes, resource requirements, scheduler route, notification and task/session gates. If qualified, request separate registered authorization for exactly ONE coarse coupled donor PBS job. Do not submit it under F1767. Preserve Method A.2 as source-implemented but runtime-unvalidated; retain Case 3 multi-pass qualification as pending. Continue inexpensive offline checks across all four benchmarks after shared code changes. Do not run the Case 5 pilot as a substitute for full-suite regression, launch the four-job batch, regenerate benchmark meshes or claim any new common-framework images yet. Return one concise Case 1 donor-execution qualification packet, identifying the exact remaining execution gate. Finished",
+  "authorization_boundary": {
+    "f1767_offline_closeout": "APPROVED",
+    "case1_donor_preparation": "PERMITTED_UNDER_SEPARATE_ZERO_PBS_SUCCESSOR",
+    "case1_donor_solver_submission": "REQUIRES_REGISTERED_EXECUTION_AUTHORIZATION",
+    "case5_mesh_pilot": "NOT_AUTHORIZED_BY_THIS_REVIEW",
+    "four_case_batch": "NOT_AUTHORIZED",
+    "additional_pbs_jobs": 0,
+    "frozen_uel_modification": "NOT_AUTHORIZED",
+    "historical_results": "PRESERVE",
+    "terminal_marker": "Finished"
+  }
+}
