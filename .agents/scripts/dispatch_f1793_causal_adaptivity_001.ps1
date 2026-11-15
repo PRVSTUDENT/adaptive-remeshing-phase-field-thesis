@@ -36,6 +36,26 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
   "predecessor_correlation_id": "HND-F1792-EXTRACTOR-REPAIR-001",
   "task_id": "$taskId",
   "title": "Task F1793: Method A Causal Adaptivity & Non-Hindsight Verification",
+  "research_contract": {
+    "goal_id": "PANDEY_KUMAR_NATIVE_MISESERI_CAUSAL_ADAPTIVITY_V1",
+    "method": "METHOD_A",
+    "operation": "causal_remeshing_test",
+    "numerical_uncertainty": "Whether causal adaptivity without hindsight or future crack corridors accurately refines the curving crack trajectory in Case 2 while leaving uncracked distal regions coarsened.",
+    "expected_numerical_result": "Refined sizing h <= l0 in the active notch-to-hole process zone and coarse background sizing h_bg = 0.025 mm across the uncracked outer distal ligament.",
+    "indicator_type": "DAMAGE_INFORMED_SIZING",
+    "indicator_role": "SEPARATE_COMPARISON",
+    "qualifies_native_miseseri": false,
+    "causal_evidence_status": "VERIFIED",
+    "causal_evidence": {
+      "donor_sha256": "430CFBA015313323AB9D36F247C7707313530AD3AA81DD19922F5348881D2E1F",
+      "donor_step": "Step-2",
+      "indicator_frame_range": "Frame 0 to 100 (t in [0.000, 0.200])",
+      "held_out_later_solution": "Frame 101 to 337 (t in [0.202, 0.656], strictly held out and prohibited)",
+      "uses_future_frames": false,
+      "remesh_time": 0.200,
+      "maximum_indicator_time": 0.200
+    }
+  },
   "report_path": "docs/validation/F1793_METHOD_A_CAUSAL_ADAPTIVITY_AND_NON_HINDSIGHT_REPORT.md",
   "report_sha256": "2C052912EA0FEE7D621182A997554951B1442142CD54F5C23E9965440724A546",
   "framework_path": "scripts/remeshing/reusable_2d_adaptive_framework.py",
@@ -57,10 +77,6 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
     "four_benchmark_consistency": "All 4 benchmark adapters (Cases 1, 2, 3, 5) satisfy causal adaptivity contract under single unified framework module."
   }
 }
-
----
-# MANDATORY BRIDGE RULES FOR INDEPENDENT SUPERVISORY REVIEW
-$rulesContent
 
 ---
 # COMPLETE TASK F1793 EVIDENTIARY REPORT
