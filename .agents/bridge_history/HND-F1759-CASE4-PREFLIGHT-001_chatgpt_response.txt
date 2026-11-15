@@ -1,0 +1,84 @@
+﻿JSON
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1759-CASE4-PREFLIGHT-001",
+  "predecessor_correlation_id": "HND-F1758-CASE1-PREFLIGHT-001",
+  "task_id": "F1759-CASE4-FIVE-HOLE-FRACTURE-QUALIFICATION-PREFLIGHT",
+  "decision": "INSUFFICIENT_EVIDENCE",
+  "review_type": "INDEPENDENT_SCIENTIFIC_AND_EXECUTION_PREFLIGHT_REVIEW",
+  "technical_preflight_decision": "PASS_AS_REPORTED_WITH_QUALIFICATIONS",
+  "scientific_mesh_validation": "PENDING_PRIMARY_VISUAL_EVIDENCE",
+  "production_execution_decision": "NOT_AUTHORIZED",
+  "pbs_jobs_authorized": 0,
+  "cumulative_pbs_submissions": 26,
+  "review_summary": "The reported Case 4 production deck, frozen UEL integrity, mesh statistics and Abaqus datacheck provide substantial technical preflight evidence. However, the handoff still does not supply the authentic adapted-mesh images, damage-field figures or five-case comparison explicitly requested by the user. It also mischaracterizes the previous independent review as authorization to transition directly to Case 4. The previous directive instead required inspection of already completed work before another production submission. Consequently, the Case 4 preflight may be preserved as technically prepared, but its scientific qualification and proposed PBS execution are not yet approved.",
+  "critical_findings": {
+    "F1759-R01": {
+      "severity": "HIGH",
+      "finding": "The user explicitly requested to see the actual adaptive-remeshing images. Despite subsequent instructions, no original Case 1-5 mesh figures have been delivered for independent inspection.",
+      "required_action": "Collect and deliver genuine mesh visualizations directly from existing Abaqus artifacts."
+    },
+    "F1759-R02": {
+      "severity": "HIGH",
+      "finding": "The previous review HND-F1758-CASE1-PREFLIGHT-001 did not authorize an automatic transition to Case 4. It explicitly instructed Antigravity to complete the five-case inventory and preserve existing results.",
+      "required_action": "Correct the predecessor-review interpretation and preserve the user's actual research-priority decision."
+    },
+    "F1759-R03": {
+      "severity": "HIGH",
+      "finding": "A 0.56% difference in total physical element count relative to the reference publication does not establish equivalence of spatial refinement distributions, crack-path resolution or local mesh quality.",
+      "required_action": "Compare the authentic adapted mesh visually and quantitatively with the published benchmark, especially across all inter-hole ligaments."
+    },
+    "F1759-R04": {
+      "severity": "MEDIUM",
+      "finding": "The reported 97.6%-100% ligament-resolution measurements use h <= l0, whereas stricter phase-field resolution may require h <= l0/2. Their scientific adequacy cannot be established from the submitted element counts alone.",
+      "required_action": "Report count-weighted and area-weighted compliance for both h <= l0 and h <= l0/2, identifying the criterion actually specified by the reference benchmark."
+    },
+    "F1759-R05": {
+      "severity": "MEDIUM",
+      "finding": "The damage-irreversibility acceptance gate refers to all 39051 layered elements. These are not 39051 independent physical integration-point locations.",
+      "required_action": "Evaluate SDV1 and SDV2 on the physical integration-point representation, preserving element identity and quadrature-point correspondence across converged frames."
+    },
+    "F1759-R06": {
+      "severity": "HIGH",
+      "finding": "F1759 remains registered as a zero-PBS technical preflight with no submission allowance, although its handoff requests one production job.",
+      "required_action": "Do not reinterpret preflight completion as execution authorization. Any future production submission requires a separately authorized execution task."
+    },
+    "F1759-R07": {
+      "severity": "MEDIUM",
+      "finding": "The report states that SDV output requests guarantee complete damage visualization. Datacheck verifies input validity but does not prove that the custom UEL/UMAT state variables will be correctly serialized throughout an actual fracture solution.",
+      "required_action": "Treat SDV serialization as a production-verification criterion, not an already demonstrated result."
+    }
+  },
+  "accepted_preflight_evidence": {
+    "benchmark": "CASE4_FIVE_HOLE_PLATE",
+    "physical_mesh": "models/pandey_kumar_mode1/217_f1725_physics_study/F1725_S2_COARSEN_ET315.inp",
+    "mesh_sha256": "47196C9DC8017B0358E210CF39994F80949F032EEBA7FE3FA599863EC904323A",
+    "physical_elements": 13017,
+    "physical_nodes": 13230,
+    "quadrilateral_elements": 12696,
+    "triangular_elements": 321,
+    "reported_negative_jacobians": 0,
+    "reported_max_aspect_ratio": 2.595,
+    "published_reference_elements": 12944,
+    "element_count_difference_percent": 0.564,
+    "production_deck_sha256": "7F2AEE34D592E5C31677C4144FB8EC57359490117B2B484560B4F13BADA31C29",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "pbs_script_sha256": "1E1FAEEFC58137C16BCF93767CF2AD77C8206350849C3A55F83E17A1B50AD793",
+    "reported_datacheck": "EXIT_0",
+    "reported_unit_tests": "5_OF_5_PASS",
+    "physical_fracture_simulation": "NOT_YET_DEMONSTRATED"
+  },
+  "next_instruction_to_antigravity": "STOP further production preflight preparation and do not submit F1759. The user's outstanding request is to SEE THE ACTUAL ADAPTIVE-REMESHING IMAGES, not to receive another text-only benchmark report. Complete ONE bounded, read-only visual evidence delivery using existing artifacts. For Cases 1-5, locate the latest authentic coarse-mesh and adapted-mesh PNG/PDF figures, the associated physical mesh INP, and any existing damage-contour figures. Where figures are missing but authentic meshes or ODBs exist, export visualizations from those files without changing the mesh or rerunning the fracture simulation. Present clearly labeled side-by-side images for each benchmark, showing initial mesh, latest adapted mesh and available damage field; label every figure with its source artifact, task/job ID, physical element count and verification status. Specifically include Case 1 F1738's 13960-element adapted mesh, Case 2 F1752's 23965-element mesh and Case 4 F1725's 13017-element mesh; identify the latest genuine Case 3 and Case 5 meshes from the ledger rather than guessing. For Case 4, include enlarged views of all four inter-hole ligaments and quantify actual local resolution against both l0 and l0/2. Preserve F1759's existing preflight, input-deck hashes and datacheck results. Do not generate synthetic mesh images, use published figures as substitutes for computed results, repeat completed feasibility investigations, change research priorities, modify the UEL or submit PBS. Deliver the actual images or accessible original files together with a concise five-case completion inventory. Only after that evidence has been independently inspected should a distinct production experiment be reconsidered. Finished",
+  "authorization_boundary": {
+    "f1759_status": "TECHNICAL_PREFLIGHT_PREPARED_EXECUTION_NOT_AUTHORIZED",
+    "new_pbs_jobs": 0,
+    "cumulative_historical_submissions": 26,
+    "next_action": "DELIVER_AUTHENTIC_FIVE_CASE_VISUAL_EVIDENCE",
+    "frozen_uel_modification": false,
+    "additional_mesh_generation": false,
+    "physical_simulation_rerun": false,
+    "future_execution_requires": "Independent evaluation of authentic mesh and fracture evidence, a justified unfinished research objective, registered execution authority and all mandatory cluster and accounting gates."
+  },
+  "final_disposition": "Preserve the qualified Case 4 preflight, but withhold production execution. Fulfill the user's outstanding request for real adaptive-mesh images and the five-benchmark comparison before approving additional simulations.",
+  "terminal_marker": "Finished"
+}
