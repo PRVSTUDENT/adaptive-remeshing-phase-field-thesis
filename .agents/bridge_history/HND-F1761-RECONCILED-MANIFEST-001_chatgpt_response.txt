@@ -1,0 +1,78 @@
+JSON
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1761-RECONCILED-MANIFEST-001",
+  "predecessor_correlation_id": "HND-F1760-PROVENANCE-001",
+  "task_id": "F1761-UNIFIED-METHOD-A-RECONCILED-EXECUTION-MANIFEST",
+  "decision": "INSUFFICIENT_EVIDENCE",
+  "review_type": "INDEPENDENT_SOURCE_VERIFICATION_AND_PILOT_READINESS",
+  "provenance_decision": "PARTIALLY_ACCEPTED",
+  "case4_pilot_decision": "NOT_YET_AUTHORIZED",
+  "pbs_jobs_authorized": 0,
+  "cumulative_pbs_submissions": 26,
+  "review_summary": "The historical framework differences have been correctly identified, and several earlier manifest discrepancies have been addressed. However, direct inspection of GitHub source files at commit 3a1f1f6c reveals unresolved implementation and configuration issues. Most importantly, the proposed common execution method does not demonstrate explicit donor-frame selection, while the five-case plan depends on specific donor frames. The Case 4 configuration also references a different UEL source and hash from the frozen production UEL. These issues must be resolved before the pilot can establish reproducible adaptive-remeshing behavior.",
+  "directly_verified_evidence": {
+    "repository": "PRVSTUDENT/adaptive-remeshing-phase-field-thesis",
+    "inspected_commit": "3a1f1f6c",
+    "framework_source": "scripts/remeshing/reusable_2d_adaptive_framework.py",
+    "framework_blob_sha": "407173ce16b74b38e693cb297a49527b26bb3056",
+    "case4_configuration": "configs/remeshing/f1728_case4_five_hole.json",
+    "case4_configuration_blob_sha": "c8eeea954cc29fb68d23abd8bbce6b3b38b4463d",
+    "manifest_report": "docs/validation/F1761_UNIFIED_METHOD_A_RECONCILED_EXECUTION_MANIFEST.md",
+    "verification_status": "DIRECTLY_VERIFIED_FROM_CONNECTED_GITHUB"
+  },
+  "blocking_findings": [
+    {
+      "id": "F1761-R01",
+      "severity": "HIGH",
+      "finding": "The inspected execute_native_remesh implementation selects a donor step but does not explicitly select a donor frame. It calls m.adaptiveRemesh(odb=odb_donor) without a demonstrated frame-selection mechanism.",
+      "consequence": "The proposed Case 4 Step-2 Frame-178 donor state cannot yet be guaranteed, and frame-specific five-case reproducibility has not been established.",
+      "required_action": "Determine the authentic Abaqus CAE 2023 mechanism for selecting the intended remeshing donor frame. If the native API defaults to a specific frame, document and verify that behavior. Do not invent unsupported Abaqus API arguments."
+    },
+    {
+      "id": "F1761-R02",
+      "severity": "HIGH",
+      "finding": "The actual Case 4 JSON configuration contains deck_options.uel_subroutine = models/pandey_kumar_mode1/f42_amor_split_uel_v2.for and frozen_uel_sha256 = 91612E9432657CE95A96A0A4817478065B0EBBAE85633C14FDE8189D5290A87A. These do not match the established production UEL f42_mixed_uel.for with SHA-256 CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6.",
+      "consequence": "The manifest's blanket claim of frozen-UEL consistency is not supported by this configuration.",
+      "required_action": "Trace whether deck_options are consumed by the mesh pilot or downstream production-deck generation. Reconcile the configuration with the authorized frozen UEL without modifying either Fortran source."
+    },
+    {
+      "id": "F1761-R03",
+      "severity": "HIGH",
+      "finding": "The uploaded report contains conflicting donor specifications. Its first manifest identifies the Case 1 donor as PK_MODE1_AUX_CONTINUUM.odb, whereas the later report table identifies PK_F1713_JOB1_COARSE.odb. Case 3 also alternates between a multiframe source and separate state-specific ODBs.",
+      "required_action": "Use one canonical machine-readable manifest and identify the exact source file, step, frame, and donor-state selection procedure for each case. Do not label conflicting entries VERIFIED."
+    },
+    {
+      "id": "F1761-R04",
+      "severity": "MEDIUM",
+      "finding": "Matching the first donor ODB part and instance names does not independently prove geometric compatibility, element-label correspondence or valid error-indicator transfer.",
+      "required_action": "Retain these as empirical pilot acceptance checks, rather than claiming compatibility has already been guaranteed."
+    },
+    {
+      "id": "F1761-R05",
+      "severity": "MEDIUM",
+      "finding": "The plan correctly separates single-pass Method A.1 from multi-state Method A.2. However, Case 3 requires a distinct, explicitly implemented algorithm variant and cannot be declared equivalent to a single adaptiveRemesh call.",
+      "required_action": "Preserve the algorithm-variant distinction in the unified comparison. Use the proposed Case 4 single-pass pilot to qualify A.1 only."
+    }
+  ],
+  "accepted_findings": [
+    "The F1738 Case 1 result is a manually seeded hybrid reference, not automatically discovered indicator-driven refinement.",
+    "The historical Cases 1-5 were generated through different execution scripts and donor strategies.",
+    "The reported Case 2 historical sizing limits of 0.0015 mm and 0.0200 mm are consistent with the earlier F1734 execution record.",
+    "The corrected Case 4 terminal donor reference is Step 2 Frame 178 according to the submitted historical evidence.",
+    "Element-count parity is a comparison metric, not proof of appropriate crack-path refinement.",
+    "A single reusable framework with separately declared A.1 and A.2 variants is a scientifically reasonable architecture."
+  ],
+  "next_instruction_to_antigravity": "Retain F1761's accepted provenance findings and preserve the historical meshes and simulations. Resolve the specific source-level blockers before the Case 4 pilot: (1) inspect the actual Abaqus 2023 remeshing API behavior and establish how Step-2 Frame 178 is selected, since the inspected execute_native_remesh method currently selects a step but exposes no explicit donor-frame selection; (2) reconcile the Case 4 configuration's f42_amor_split_uel_v2.for and SHA-256 91612E94... with the frozen f42_mixed_uel.for and SHA-256 CE8D5EDC..., checking whether these deck options are consumed by the pilot or production builder; (3) eliminate conflicting Case 1 and Case 3 donor specifications by producing one canonical machine-readable five-case manifest; (4) verify exact source references, commit-pinned GitHub links and the current Case 4 visual evidence. Make only the smallest necessary Python/configuration corrections, preserving the frozen Fortran UEL and historical records. Run targeted offline tests. Then return a concise corrected Case 4 pilot specification with source commit, exact donor selection, expected outputs, actual verification receipts and unresolved risks. Do not initiate a new general audit. Do not regenerate meshes, submit PBS, rerun fracture simulations or launch the five-case batch under F1761. Once the blockers are resolved, request separate approval for ONE bounded Case 4 common-framework pilot. Finished",
+  "authorization_boundary": {
+    "f1761_scope": "ZERO_PBS_MANIFEST_RECONCILIATION",
+    "case4_pilot": "PENDING_CORRECTED_IMPLEMENTATION_EVIDENCE",
+    "five_case_regeneration": "NOT_AUTHORIZED",
+    "new_fracture_simulations": "NOT_AUTHORIZED",
+    "frozen_uel_modification": "NOT_AUTHORIZED",
+    "historical_results": "PRESERVE",
+    "future_execution_requires": "Verified source/configuration compatibility, a qualified pilot manifest, registered task scope, independent scientific review and applicable execution safety gates"
+  },
+  "final_disposition": "Do not launch the Case 4 pilot yet. Resolve the directly observed donor-frame and UEL-configuration inconsistencies first, then proceed to one controlled unified-framework mesh-generation pilot rather than another broad investigation.",
+  "terminal_marker": "Finished"
+}

@@ -46,7 +46,8 @@
     "coarsening_factor": "NOT_ALLOWED",
     "sizing_method": "UNIFORM_ERROR",
     "variable": "MISESERI",
-    "step_name": "RECOVERY_STEP"
+    "step_name": "RECOVERY_STEP",
+    "output_frequency": "LAST_INCREMENT"
   },
   "published_benchmark": {
     "paper": "Master Thesis Benchmark",

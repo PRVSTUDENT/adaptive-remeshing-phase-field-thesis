@@ -6,7 +6,7 @@
     "assigned_agent": "gemini-antigravity",
     "active_pbs_job_id": null,
     "checkpoint_artifact": "docs/validation/F1761_UNIFIED_METHOD_A_RECONCILED_EXECUTION_MANIFEST.md",
-    "review_directive": null,
+    "review_directive": "HND-F1761-RECONCILED-MANIFEST-001 evaluated (DECISION: INSUFFICIENT_EVIDENCE). Independent reviewer directed resolving Abaqus outputFrequency frame selection, aligning Case 4 UEL config to frozen CE8D5EDC..., establishing canonical machine-readable manifest, and qualifying Case 4 single-pass pilot before batch regeneration.",
     "predecessor_task": {
         "task_id": "F1760-UNIFIED-METHOD-A-PROVENANCE-AND-REPRODUCIBILITY-INSPECTION",
         "checkpoint_artifact": "docs/validation/F1760_UNIFIED_METHOD_A_PROVENANCE_AND_REPRODUCIBILITY_REPORT.md",
@@ -14,7 +14,7 @@
         "review_verdict": "INSUFFICIENT_EVIDENCE",
         "correlation_id": "HND-F1760-PROVENANCE-001"
     },
-    "re_review_correlation_id": null,
+    "re_review_correlation_id": "HND-F1761-RECONCILED-MANIFEST-001",
     "scientific_operation": "reconciled_execution_manifest",
     "scientific_operation_id": "f1761_manifest_001",
     "scientific_checkpoint_required": true,
@@ -24,6 +24,6 @@
     "max_new_pbs_submissions": 0,
     "submissions_consumed": 0,
     "cumulative_pbs_submissions": 26,
-    "report_sha256": "A44555F20D2195F3566CEE4D79DE5FB836B156A4FC9D295DEB52BA0D4233DFD4",
-    "notes": "Task F1761: Reconciled Five-Case Unified Execution Manifest (Reconciliation of Case 2 h_min/h_max vs F1734, verification of Case 4 Frame 178 vs 13, verification of Case 3 State 2 Frame 30 vs State 4 Frame 55, commit-pinned GitHub links on a4d1c8e6, formal isolation of Case 1 hybrid reference vs automated adaptivity, and definition of single-pass Method A vs multi-state Method A.2 variants)."
+    "report_sha256": "BD9DD8855D48290FE5DEB3E6EB2D65D73F41C6C15195ABCA00B82548EAAD860F",
+    "notes": "Task F1761: Reconciled Five-Case Unified Execution Manifest (Reconciliation of Case 2 h_min/h_max vs F1734, verification of Case 4 Frame 178 vs 13, verification of Case 3 State 2 Frame 30 vs State 4 Frame 55, commit-pinned GitHub links on a4d1c8e6, formal isolation of Case 1 hybrid reference vs automated adaptivity, definition of single-pass Method A vs multi-state Method A.2 variants, resolution of Reviewer Findings F1761-R01 to F1761-R05 with canonical_five_case_manifest.json, Case 4 UEL config alignment to CE8D5EDC..., and explicit Abaqus outputFrequency handling in reusable_2d_adaptive_framework.py)."
 }

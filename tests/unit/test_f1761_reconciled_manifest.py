@@ -82,3 +82,41 @@ def test_commit_pinned_github_url_structure():
         assert os.path.isfile(full_local), f"File {p} must exist locally"
         url = base_url + p.replace("\\", "/")
         assert "a4d1c8e6" in url
+
+def test_case4_uel_subroutine_frozen_alignment():
+    """Verify Case 4 configuration strictly references frozen production UEL and hash CE8D5EDC..."""
+    p = os.path.join(CONFIG_DIR, "f1728_case4_five_hole.json")
+    with open(p, "r") as f:
+        data = json.load(f)
+    deck_opts = data["deck_options"]
+    assert deck_opts["uel_subroutine"] == "models/pandey_kumar_mode1/f42_mixed_uel.for"
+    assert deck_opts["frozen_uel_sha256"] == "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+
+def test_canonical_manifest_structure_and_donor_alignment():
+    """Verify that canonical_five_case_manifest.json exists and contains unambiguous verified entries for all 5 cases."""
+    manifest_path = os.path.join(CONFIG_DIR, "canonical_five_case_manifest.json")
+    assert os.path.isfile(manifest_path), "canonical_five_case_manifest.json must exist"
+    with open(manifest_path, "r") as f:
+        data = json.load(f)
+    assert data["manifest_version"] == "1.0.0"
+    assert len(data["benchmarks"]) == 5
+    for case_id in ["case_1", "case_2", "case_3", "case_4", "case_5"]:
+        cdata = data["benchmarks"][case_id]
+        assert cdata["input_status"] == "VERIFIED_CANONICAL"
+        assert cdata["donor_step_name"] in ["Step-1", "Step-2", "RECOVERY_STEP"]
+        assert cdata["algorithm_variant"] in [
+            "Method A.1 (Single-Pass Native Method A)",
+            "Method A.2 (Multi-State Sequential Method A)"
+        ]
+
+def test_output_frequency_framework_binding():
+    """Verify that AdaptiveConfig parses output_frequency correctly from config."""
+    sys.path.insert(0, os.path.join(REPO_ROOT, "scripts", "remeshing"))
+    from reusable_2d_adaptive_framework import AdaptiveConfig
+    p = os.path.join(CONFIG_DIR, "f1728_case4_five_hole.json")
+    with open(p, "r") as f:
+        data = json.load(f)
+    cfg = AdaptiveConfig(data)
+    assert cfg.output_frequency == "ALL_INCREMENTS"
+    assert cfg.step_name == "Step-2"
+

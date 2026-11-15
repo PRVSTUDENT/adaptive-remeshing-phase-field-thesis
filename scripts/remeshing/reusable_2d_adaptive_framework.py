@@ -152,6 +152,7 @@ class AdaptiveConfig(object):
         self.sizing_method = str(rr.get("sizing_method", "UNIFORM_ERROR"))
         self.variable = str(rr.get("variable", rr.get("indicator", "MISESERI")))
         self.step_name = str(rr.get("step_name", "Step-1"))
+        self.output_frequency = str(rr.get("output_frequency", "ALL_INCREMENTS"))
 
         opts = config_data.get("deck_options", config_data.get("paths", {}))
         self.uel_subroutine = opts.get("uel_subroutine", opts.get("uel_source", "f42_mixed_uel.for"))
@@ -1325,6 +1326,7 @@ class AbaqusNativeRemeshingEngine(object):
             ))
 
         coarsen_opt = NOT_ALLOWED if config.coarsening_factor == "NOT_ALLOWED" else DEFAULT_LIMIT
+        out_freq_opt = ALL_INCREMENTS if getattr(config, "output_frequency", "ALL_INCREMENTS") == "ALL_INCREMENTS" else LAST_INCREMENT
 
         rule_name = "Rule_MethodA_" + str(config.case_id)
         m.RemeshingRule(
@@ -1339,7 +1341,8 @@ class AbaqusNativeRemeshingEngine(object):
             specifyMinSize=True,
             minElementSize=config.min_h,
             specifyMaxSize=True,
-            maxElementSize=config.max_h
+            maxElementSize=config.max_h,
+            outputFrequency=out_freq_opt
         )
 
         m.adaptiveRemesh(odb=odb_donor)

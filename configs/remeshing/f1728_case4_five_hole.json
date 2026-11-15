@@ -77,7 +77,8 @@
     "coarsening_factor": "DEFAULT_LIMIT",
     "sizing_method": "UNIFORM_ERROR",
     "variable": "MISESERI",
-    "step_name": "Step-2"
+    "step_name": "Step-2",
+    "output_frequency": "ALL_INCREMENTS"
   },
   "published_benchmark": {
     "paper": "Pandey & Kumar (2025)",
@@ -87,8 +88,8 @@
     "target_h_min_mm": 0.0015
   },
   "deck_options": {
-    "uel_subroutine": "models/pandey_kumar_mode1/f42_amor_split_uel_v2.for",
-    "frozen_uel_sha256": "91612E9432657CE95A96A0A4817478065B0EBBAE85633C14FDE8189D5290A87A",
+    "uel_subroutine": "models/pandey_kumar_mode1/f42_mixed_uel.for",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "output_directory": "runs/f1728_unified_engine/case4_five_hole"
   }
 }

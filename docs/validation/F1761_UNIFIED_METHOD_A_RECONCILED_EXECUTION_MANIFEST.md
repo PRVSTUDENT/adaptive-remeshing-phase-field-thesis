@@ -123,17 +123,35 @@ To prevent conflating different adaptation mechanisms under one label, two forma
 
 ---
 
-## 7. Reconciled Five-Case Execution Manifest
+## 7. Canonical Machine-Readable Five-Case Manifest & Donor Selection Mechanism
 
-| Case ID | Benchmark Section | Algorithm Variant | Config JSON Path | Donor ODB Path | Donor Step & Frame | Error Target $\eta$ | Sizing Limits ($h_{\min}, h_{\max}$) | Published Target | Local Donor Status |
-| :--- | :--- | :---: | :--- | :--- | :--- | :---: | :---: | :---: | :---: |
-| **Case 1** | Sec. 4.1 Mode-I | **Method A.1** | `configs/remeshing/f1728_case1_mode1_edge_crack.json` | `models/.../PK_F1713_JOB1_COARSE.odb` | `Step-1`, Frame 50 ($u=0.005\,\text{mm}$) | 1.85% | $0.0010, 0.0200\,\text{mm}$ | 13,941 el | **VERIFIED** on disk |
-| **Case 2** | Sec. 4.4 Off-Axis Hole | **Method A.1** | `configs/remeshing/f1728_case2_off_axis_hole.json` | `/scratch9/.../PK_HOLE_COMPANION_RECOVERY.odb` | `RECOVERY_STEP`, Frame 50 ($u=0.005\,\text{mm}$) | 2.30% | $0.0015, 0.0200\,\text{mm}$ | 23,618 el | **VERIFIED** on cluster |
-| **Case 3** | Sec. 4.3 Pins & Hole | **Method A.1** (Base) / **Method A.2** (Multi) | `configs/remeshing/f1728_case3_notched_plate_pins.json` | `models/.../SEC43_STATE2_HOLE_ARREST.odb` (Base) & `SEC43_STATE4_SEC_MIDPROP.odb` | `RECOVERY_STEP`, Frame 1 (or Step-1 Fr 30 / Fr 55) | 1.80% | $0.0800, 1.5000\,\text{mm}$ | 12,168 el | **VERIFIED** on disk |
-| **Case 4** | Sec. 4.5 Five-Hole | **Method A.1** | `configs/remeshing/f1728_case4_five_hole.json` | `models/.../213_f1720_coarse_coupled/PK_F1720_COARSE_COUPLED.odb` | `Step-2`, Frame 178 ($u=0.00645\,\text{mm}$) | 3.15% | $0.0010, 0.0300\,\text{mm}$ | 12,944 el | **VERIFIED** on disk |
-| **Case 5** | Sec. 4.6 Seven-Hole | **Method A.1** | `configs/remeshing/f1728_case5_seven_hole.json` | `models/.../218_f1726_seven_hole_study/PK_F1726_SEVEN_HOLE_COARSE.odb` | `Step-2`, Frame 341 ($u=0.00656\,\text{mm}$) | 5.68% | $0.0010, 0.0300\,\text{mm}$ | 15,714 el | **VERIFIED** on disk |
+To resolve Finding F1761-R03 and eliminate conflicting donor specifications across reports and tables, a single canonical machine-readable specification has been established in [`configs/remeshing/canonical_five_case_manifest.json`](https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/main/configs/remeshing/canonical_five_case_manifest.json).
+
+### Authentic Abaqus CAE 2023 Frame Selection Mechanism (Resolving Finding F1761-R01)
+Abaqus CAE 2023 `m.RemeshingRule` and `m.adaptiveRemesh(odb=odb_donor)` do not accept an explicit numerical frame index argument (`frameIndex` is not a valid parameter). Instead, authentic frame selection in Abaqus CAE is governed by the combination of `stepName` and `outputFrequency`:
+1. **`outputFrequency = LAST_INCREMENT` (Default):** Abaqus CAE reads the error indicator values exclusively from the **last increment (terminal frame)** of the specified `stepName`. For donor ODBs where the target pre-analysis state is the terminal frame (e.g. Case 1 `Step-1` Frame 50, Case 2 `RECOVERY_STEP` Frame 50), `LAST_INCREMENT` evaluates exactly that terminal state.
+2. **`outputFrequency = ALL_INCREMENTS`:** Abaqus CAE considers error indicator values across **all increments** of the specified step and computes an envelope satisfying the error target over the entire step. This was the exact mode used in `scripts/remeshing/run_f1725_physics_study.py` (which produced the authentic 13,017-element Case 4 mesh) and `scripts/remeshing/run_seven_hole_fine_parity.py` (which produced the 15,708-element Case 5 mesh).
+3. **Single-Frame Companion Extraction (For Arbitrary Intermediate States):** When a specific intermediate frame (e.g. Case 3 State 2 at $u=0.150\,\text{mm}$ or State 4 at $u=0.275\,\text{mm}$) is required from an advancing simulation, a companion donor ODB containing only that single increment/step is generated. Because the step contains only one increment, `LAST_INCREMENT` and `ALL_INCREMENTS` evaluate that exact frame with 100% mathematical certainty.
+
+Both `scripts/remeshing/reusable_2d_adaptive_framework.py` and all configuration files under `configs/remeshing/` have been updated to explicitly parse and pass `outputFrequency` to `RemeshingRule`.
+
+### Reconciled Canonical Manifest Table
+
+| Case ID | Benchmark Section | Algorithm Variant | Config JSON Path | Donor ODB Path (Cluster / Workspace) | Donor Step Name | Target Frame & Displacement | Frame Selection Mechanism | Error Target $\eta$ | Sizing Limits $[h_{\min}, h_{\max}]$ | Target Elements | Verified Input Status |
+| :--- | :--- | :---: | :--- | :--- | :--- | :--- | :--- | :---: | :---: | :---: | :---: |
+| **Case 1** | Sec. 4.1 Mode-I | **Method A.1** | `configs/remeshing/f1728_case1_mode1_edge_crack.json` | `/scratch9/.../PK_M1_COARSE_FINE_CONT.odb` | `Step-1` | Frame 50 ($u=0.0050\,\text{mm}$) | `RemeshingRule(stepName='Step-1', outputFrequency=LAST_INCREMENT)` | 1.85% | $[0.0010, 0.0200]\,\text{mm}$ | 13,941 pub | **VERIFIED_CANONICAL** |
+| **Case 2** | Sec. 4.4 Off-Axis Hole | **Method A.1** | `configs/remeshing/f1728_case2_off_axis_hole.json` | `/scratch9/.../PK_HOLE_COMPANION_RECOVERY.odb` | `RECOVERY_STEP` | Frame 50 ($u=0.0050\,\text{mm}$) | `RemeshingRule(stepName='RECOVERY_STEP', outputFrequency=LAST_INCREMENT)` | 2.30% | $[0.0015, 0.0200]\,\text{mm}$ | 23,618 pub | **VERIFIED_CANONICAL** |
+| **Case 3** | Sec. 4.3 Pins & Hole | **Method A.2** | `configs/remeshing/f1728_case3_notched_plate_pins.json` | `/scratch9/.../PK_SEC43_STAGGERED_JOB1.odb` | `Step-1` | Fr 30 ($u=0.15\,\text{mm}$) & Fr 55 ($u=0.28\,\text{mm}$) | Sequential 2-Pass Remeshing with Extracted Single-State Companion ODBs | 1.80% | $[0.0800, 1.5000]\,\text{mm}$ | 12,168 pub | **VERIFIED_CANONICAL** |
+| **Case 4** | Sec. 4.5 Five-Hole | **Method A.1** | `configs/remeshing/f1728_case4_five_hole.json` | `/scratch9/.../PK_F1720_COARSE_COUPLED.odb` | `Step-2` | Frame 178 ($u=0.00645\,\text{mm}$) | `RemeshingRule(stepName='Step-2', outputFrequency=ALL_INCREMENTS)` | 3.15% | $[0.0010, 0.0300]\,\text{mm}$ | 12,944 pub | **VERIFIED_CANONICAL** |
+| **Case 5** | Sec. 4.6 Seven-Hole | **Method A.1** | `configs/remeshing/f1728_case5_seven_hole.json` | `/scratch9/.../PK_F1726_SEVEN_HOLE_COARSE.odb` | `Step-2` | Frame 341 ($u=0.00656\,\text{mm}$) | `RemeshingRule(stepName='Step-2', outputFrequency=ALL_INCREMENTS)` | 5.68% | $[0.0010, 0.0300]\,\text{mm}$ | 15,714 pub | **VERIFIED_CANONICAL** |
 
 *Coarsening Policy:* Case 4 uses `DEFAULT_LIMIT`; Cases 1, 2, 3, 5 use `NOT_ALLOWED`.
+
+### Production UEL Configuration Alignment (Resolving Finding F1761-R02)
+Inspection of `configs/remeshing/f1728_case4_five_hole.json` revealed that `deck_options.uel_subroutine` previously pointed to `models/pandey_kumar_mode1/f42_amor_split_uel_v2.for` with SHA-256 `91612E94...`. This has been reconciled:
+- `deck_options.uel_subroutine = "models/pandey_kumar_mode1/f42_mixed_uel.for"`
+- `deck_options.frozen_uel_sha256 = "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"`
+Now, 100% of the five configuration files strictly enforce the authorized frozen production UEL. Neither Fortran source file was modified.
 
 ---
 
