@@ -218,6 +218,10 @@ class GeometryAdapter(object):
         """Classifies point (x, y) into physical fracture zones."""
         raise NotImplementedError
 
+    def apply_local_seeds(self, part, seed_size):
+        """Optional hook for feature edge seeding to prevent aspect ratio distortion at sharp geometric transitions."""
+        pass
+
 
 class StraightNotchMode1Adapter(GeometryAdapter):
     """Adapter for Case 1: Conventional 1x1 mm edge-cracked Mode-I benchmark (Sec. 4.1)."""
@@ -393,6 +397,21 @@ class NotchedPlateWithPinHolesAdapter(GeometryAdapter):
             return "PIN_HOLE_ZONES"
 
         return "FAR_FIELD"
+
+    def apply_local_seeds(self, part, seed_size):
+        """
+        Seed the vertical blunt notch root (0.4 mm height) to prevent stretched elements
+        where the narrow root meets horizontal notch flanks.
+        """
+        short_edges = []
+        tol = 1e-3
+        for edge in part.edges:
+            pt = edge.pointOn[0]
+            if pt[0] <= self.notch_a + tol and (self.notch_y - self.notch_w - tol) <= pt[1] <= (self.notch_y + self.notch_w + tol):
+                short_edges.append(edge)
+        if short_edges:
+            for se in short_edges:
+                part.seedEdgeBySize(edges=(se,), size=min(0.10, self.notch_w), deviationFactor=0.05, minSizeFactor=0.02, constraint=FREE)
 
 
 class FiveHolePlateAdapter(GeometryAdapter):
@@ -865,6 +884,8 @@ class MeshQualityAuditEngine(object):
             "median_aspect_ratio": float(med_ar),
             "max_aspect_ratio": float(max_ar),
             "worst_aspect_ratio": float(max_ar),
+            "mean_aspect_ratio": float(py_sum(aspect_ratios)/len(aspect_ratios)) if aspect_ratios else 0.0,
+            "aspect_ratio_violations_gt_4": py_sum(1 for ar in aspect_ratios if ar > 4.0),
             "min_corner_angle_deg": float(min_ang),
             "max_corner_angle_deg": float(max_ang),
             "min_h_area_mm": float(h_areas[0]) if h_areas else 0.0,
@@ -1208,11 +1229,11 @@ class AdvancingDamageEnvelopeBuilder(object):
     """
 
     @staticmethod
-    def analytical_damage_sizing(d, l0, h_bg, core_factor=2.5, process_factor=1.2,
-                                 d_core=0.5, d_proc=0.1, d_noise=0.01):
+    def analytical_damage_sizing(d, l0, h_bg, core_factor=2.8, process_factor=1.2,
+                                 d_core=0.20, d_proc=0.10, d_noise=0.05):
         """
         Physical phase-field sizing law derived from the 1D exponential damage profile:
-        - d >= d_core (0.50): dense refinement to crack core h <= l0 / core_factor
+        - d >= d_core (0.20): dense refinement to crack core h <= l0 / core_factor
         - d_proc <= d < d_core: process zone transition h in [h_core, h_proc]
         - d_noise <= d < d_proc: transition from h_proc to far-field background h_bg
         - d < d_noise: unrefined background h_bg
@@ -1232,7 +1253,8 @@ class AdvancingDamageEnvelopeBuilder(object):
 
     @classmethod
     def build_envelope_odb(cls, source_odb_path, target_odb_path, l0, h_bg, error_target,
-                           step_name='Step-2', damage_variable='SDV1', frame_stride=5, s_base=100.0):
+                           step_name='Step-2', damage_variable='SDV1', frame_stride=5, s_base=100.0,
+                           core_factor=2.8, process_factor=1.2, d_core=0.20, d_proc=0.10, d_noise=0.05):
         if not ABAQUS_AVAILABLE:
             raise RuntimeError("Abaqus environment not available; cannot build envelope ODB.")
         from odbAccess import openOdb
@@ -1294,7 +1316,9 @@ class AdvancingDamageEnvelopeBuilder(object):
         avg_vals = []
         for el in elem_labels:
             d = max(0.0, min(1.0, d_max_env[el]))
-            h_tgt = cls.analytical_damage_sizing(d, l0=l0, h_bg=h_bg)
+            h_tgt = cls.analytical_damage_sizing(d, l0=l0, h_bg=h_bg, core_factor=core_factor,
+                                                 process_factor=process_factor, d_core=d_core,
+                                                 d_proc=d_proc, d_noise=d_noise)
             h_old = elem_h_old[el]
             eta_hat = error_target * (h_old / h_tgt)
             eri = s_base * eta_hat
@@ -1383,7 +1407,8 @@ class AbaqusNativeRemeshingEngine(object):
         m.HomogeneousSolidSection(name='SolidSec', material='Steel', thickness=1.0)
         p.SectionAssignment(region=regionToolset.Region(faces=p.faces), sectionName='SolidSec')
 
-        p.seedPart(size=seed_size, deviationFactor=0.1, minSizeFactor=0.1)
+        p.seedPart(size=seed_size, deviationFactor=0.05, minSizeFactor=0.02)
+        adapter.apply_local_seeds(p, seed_size)
         p.setMeshControls(regions=p.faces, elemShape=QUAD_DOMINATED, technique=FREE)
         elem_cpe4 = mesh.ElemType(elemCode=CPE4, elemLibrary=STANDARD)
         elem_cpe3 = mesh.ElemType(elemCode=CPE3, elemLibrary=STANDARD)

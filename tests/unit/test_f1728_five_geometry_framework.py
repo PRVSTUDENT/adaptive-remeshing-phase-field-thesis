@@ -759,10 +759,10 @@ def test_advancing_damage_envelope_builder_sizing_law():
     l0 = 0.0075
     h_bg = 0.020
 
-    # Core crack path (d >= 0.5) must be <= l0 / 2.5
+    # Core crack path (d >= d_core) must be <= l0 / 2.5
     h_core = AdvancingDamageEnvelopeBuilder.analytical_damage_sizing(0.95, l0=l0, h_bg=h_bg)
     assert h_core <= l0 / 2.5
-    assert abs(h_core - 0.0030) < 1e-6
+    assert abs(h_core - (l0 / 2.8)) < 1e-6
 
     # Process zone (0.10 <= d < 0.50) must be <= l0
     h_proc = AdvancingDamageEnvelopeBuilder.analytical_damage_sizing(0.30, l0=l0, h_bg=h_bg)
