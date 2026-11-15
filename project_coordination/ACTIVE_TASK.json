@@ -2,11 +2,11 @@
     "task_id": "F1763-CASE4-COMMON-FRAMEWORK-PILOT-EXECUTION",
     "title": "Case 4 Common-Framework Adaptive Remeshing Headless CAE Pilot Execution & Physical Mesh Quality Verification",
     "status": "COMPLETED_PILOT_VERIFIED",
-    "classification": "HEADLESS_CAE_MESH_GENERATION_PILOT",
+    "classification": "COMPLETED_TECHNICAL_PILOT_WITH_PARTIAL_SCIENTIFIC_GATE_FAILURES",
     "assigned_agent": "gemini-antigravity",
     "active_pbs_job_id": "1423575.mmaster02",
     "checkpoint_artifact": "docs/validation/F1763_CASE4_PILOT_EXECUTION_REPORT.md",
-    "review_directive": "HND-F1762-CASE4-PILOT-AUTH-001 accepted Case 4 pilot specification under commit a45c5f20; directed performing exactly ONE bounded Abaqus CAE native-remeshing pilot using the authentic Case 4 donor, Step-2 ALL_INCREMENTS, on cluster compute node with zero forward fracture solve.",
+    "review_directive": "HND-F1762-CASE4-PILOT-AUTH-001 accepted Case 4 pilot specification under commit a45c5f20; directed performing exactly ONE bounded Abaqus CAE native-remeshing pilot using the authentic Case 4 donor, Step-2 ALL_INCREMENTS, on cluster compute node with zero forward fracture solve. HND-F1763-CASE4-PILOT-CLOSEOUT-001 reconciled gate matrix with G1 and G5 FAIL.",
     "predecessor_task": {
         "task_id": "F1762-CASE4-COMMON-FRAMEWORK-PILOT-SPECIFICATION",
         "checkpoint_artifact": "docs/validation/F1762_CASE4_PILOT_SPECIFICATION_REPORT.md",
@@ -14,7 +14,7 @@
         "review_verdict": "ACCEPTED_WITH_QUALIFICATIONS",
         "correlation_id": "HND-F1762-CASE4-PILOT-AUTH-001"
     },
-    "re_review_correlation_id": null,
+    "re_review_correlation_id": "HND-F1763-CASE4-PILOT-CLOSEOUT-002",
     "scientific_operation": "case4_common_framework_pilot_execution",
     "scientific_operation_id": "f1763_pilot_exec_001",
     "scientific_checkpoint_required": true,
@@ -24,6 +24,6 @@
     "max_new_pbs_submissions": 1,
     "submissions_consumed": 1,
     "cumulative_pbs_submissions": 27,
-    "report_sha256": "66836AD252EF8C67C487FEF12C9401E1D862970AA033447A15F5E7AB14D15BE8",
-    "notes": "Task F1763: Case 4 Common-Framework Adaptive Remeshing Headless CAE Pilot Execution complete. PBS Job 1423575.mmaster02 completed Exit 0 in 49s walltime on mnode099, producing PK_F1728_CASE_4_ADAPT_PHYS.inp with 12,625 elements (97.58% quads, 0 negative Jacobians, 100% positive, aspect ratio <= 2.462, Lig 2 99.62% area compliant, Lig 3 100% compliant h<=l0/2, Lig 4 100% compliant). Production deck datacheck Exit 0."
+    "report_sha256": "2ECE0EC1134D4714FB6091BD6664044CB287D23F16850D8A1C5655C91A28694D",
+    "notes": "Task F1763: Case 4 Common-Framework Adaptive Remeshing Headless CAE Pilot Execution complete. PBS Job 1423575.mmaster02 completed Exit 0 in 49s walltime on mnode099, producing PK_F1728_CASE_4_ADAPT_PHYS.inp with 12,625 elements (97.58% quads, 0 negative Jacobians, 100% positive, aspect ratio <= 2.462, Lig 2 99.62% area compliant, Lig 3 100% compliant h<=l0/2, Lig 4 100% compliant). Predeclared Gate Matrix reconciled: G1 FAIL (-2.46% vs +/-2%), G5 FAIL (92.74% vs >=95% due to 8.28 um midpoint peak); G2, G3, G4, G6, G7, G8 PASS. Framework blob 399e048ac1374afe46ad254f2a23823d6f0df09d bitwise identical across commits."
 }

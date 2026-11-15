@@ -76,3 +76,62 @@ def test_f1763_canonical_manifest_case3_correction():
     # Finding F1762-R03 resolution check:
     assert c3["historical_reference_element_count"] == 28933
     assert c3["baseline_comparison_element_count"] == 12110
+
+
+def test_f1763_gate_matrix_reconciliation():
+    """Verify empirical findings F1763-R01 and F1763-R02 against predeclared gates."""
+    audit_json = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "236_f1763_case4_pilot", "f1763_case4_spatial_audit.json")
+    assert os.path.exists(audit_json), "f1763_case4_spatial_audit.json must exist"
+
+    with open(audit_json, "r") as f:
+        data = json.load(f)
+
+    # Gate G1: Target 12,944 +/- 2.0% [12,685 to 13,203]. 12,625 is -2.46% (FAILS G1)
+    tot_el = data["total_elements"]
+    assert tot_el == 12625
+    g1_pass = (12944 * 0.98 <= tot_el <= 12944 * 1.02)
+    assert not g1_pass, "Gate G1 must be strictly recorded as FAIL (60 elements below lower bound)"
+
+    # Gate G2: >= 95.0% quads (PASS)
+    assert data["quad_percentage"] >= 95.0
+
+    # Gate G3: 100% positive Jacobians (PASS)
+    assert data["jacobian_valid"] is True
+    assert data["negative_jacobians"] == 0
+
+    # Gate G4: max aspect ratio <= 4.0 (PASS)
+    assert data["max_aspect_ratio"] <= 4.0
+
+    # Gate G5: Ligament 1 area >= 95.0% (FAILS G5 due to 8.28 um midpoint peak)
+    lig1_area = data["ligament_1"]["frac_area_le_l0"]
+    assert lig1_area < 0.95, "Gate G5 must be strictly recorded as FAIL (92.74% < 95.0%)"
+    assert lig1_area == 0.9274
+
+    # Midpoint station 5-6 deficiency check
+    prof_lig1 = data["centerline_profiles"]["Ligament 1 (Left Arc to Hole 1)"]["profile_bins_mean_h_um"]
+    assert prof_lig1[5] > 8.0, "Station 5 midpoint mean h must exceed l0 = 8.0 um"
+    assert round(prof_lig1[5], 2) == 8.28
+
+    # Gate G6: Ligament 2 area >= 95.0% (PASS)
+    assert data["ligament_2"]["frac_area_le_l0"] >= 0.95
+
+    # Gate G7: Ligament 3 area == 100.0% <= l0/2 = 4.0 um (PASS)
+    assert data["ligament_3"]["frac_area_le_half_l0"] == 1.0
+
+    # Gate G8: Ligament 4 area >= 95.0% (PASS)
+    assert data["ligament_4"]["frac_area_le_l0"] >= 0.95
+
+
+def test_f1763_framework_commit_blob_provenance():
+    """Verify framework script git blob hash is bitwise identical (Finding F1763-R03)."""
+    import hashlib
+    framework_path = os.path.join(REPO_ROOT, "scripts", "remeshing", "reusable_2d_adaptive_framework.py")
+    assert os.path.exists(framework_path), "reusable_2d_adaptive_framework.py must exist"
+
+    with open(framework_path, "rb") as f:
+        data = f.read()
+
+    # Git object header format: 'blob <size>\0<content>'
+    header = ("blob %d\0" % len(data)).encode("utf-8")
+    blob_sha = hashlib.sha1(header + data).hexdigest()
+    assert blob_sha == "399e048ac1374afe46ad254f2a23823d6f0df09d", "Blob SHA must match bitwise 399e048a..."

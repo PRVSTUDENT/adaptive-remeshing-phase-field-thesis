@@ -3,9 +3,9 @@
 **Author:** Gemini Antigravity  
 **Date:** 15 November 2026  
 **Task ID:** `F1763-CASE4-COMMON-FRAMEWORK-PILOT-EXECUTION`  
-**Classification:** `HEADLESS_CAE_MESH_GENERATION_PILOT`  
+**Classification:** `COMPLETED_TECHNICAL_PILOT_WITH_PARTIAL_SCIENTIFIC_GATE_FAILURES`  
 **Predecessor Task:** `F1762-CASE4-COMMON-FRAMEWORK-PILOT-SPECIFICATION` (`HND-F1762-CASE4-PILOT-AUTH-001`)  
-**Commit Baseline:** `820cbfbc` (Committed and pushed to GitHub `origin/main`)  
+**Commit Baseline & Provenance:** Framework script `scripts/remeshing/reusable_2d_adaptive_framework.py` executed under PBS Job `1423575.mmaster02` has Git blob SHA `399e048ac1374afe46ad254f2a23823d6f0df09d`, which is bitwise identical across commits `a45c5f20`, `820cbfbc`, `29a78b1a`, and `414d4fb0`. Zero lines of framework code changed between specification approval and execution.  
 **HPC Scheduler Receipt:** PBS Job ID `1423575.mmaster02` (Compute Node `mnode099.cluster`, Queue `normal_imfdfkmq`)  
 **Execution Runtime:** 49 seconds walltime, 14 seconds CPU time, Exit Code 0  
 **Cumulative PBS Submissions:** Exactly 27 (1 authorized pilot job consumed; 26 historical preserved + 1)  
@@ -41,28 +41,48 @@ The primary scientific objective was to verify whether the frozen common framewo
 
 ---
 
-## 2. Quantitative Comparison: F1763 Pilot vs Literature & F1725 Baseline
+## 2. Quantitative Evaluation & Predeclared Acceptance Gate Matrix
+
+### 2.1 Predeclared Acceptance Gate Matrix (Reconciling Reviewer Findings F1763-R01 & F1763-R02)
+
+To preserve strict scientific rigor, the eight acceptance gates defined in the predecessor specification (`F1762-CASE4-COMMON-FRAMEWORK-PILOT-SPECIFICATION`) are evaluated strictly against their original predeclared thresholds without retrospective relaxation. Gates G1 and G5 are explicitly recorded as **FAIL**:
+
+| Gate ID | Acceptance Dimension | Predeclared Specification Threshold | F1763 Empirical Result | Compliance Status | Root Cause & Scientific Classification |
+| :--- | :--- | :--- | :--- | :---: | :--- |
+| **Gate G1** | **Element Count Parity** | $12,944 \pm 2.0\%$ ($[12,685 \dots 13,203]$ elements) | **12,625 elements** ($-2.46\%$ vs pub, $-3.01\%$ vs F1725) | **FAIL** | 60 elements below lower bound ($12,625 < 12,685$); caused by slightly more aggressive far-field coarsening ($h_{\text{bulk}} = 16.68\,\mu\text{m}$ vs $16.31\,\mu\text{m}$). |
+| **Gate G2** | **Quad Element Fraction** | $\ge 95.0\%$ CPE4 quads | **97.58%** (12,320 CPE4 / 305 CPE3) | **PASS** | High-quality structured paving maintained across all ligaments. |
+| **Gate G3** | **Jacobian Determinant** | $\min \det(J) > 0$ (Zero distorted elements) | **$\min \det(J) = 6.12 \times 10^{-7} > 0$**, 0 distorted | **PASS** | 100.0% positive Jacobians across all 12,625 elements. |
+| **Gate G4** | **Element Aspect Ratio** | Maximum aspect ratio $\le 4.0$ | **$\max AR = 2.462$** (mean $AR = 1.248$) | **PASS** | Well below geometric distortion ceiling. |
+| **Gate G5** | **Ligament 1 Area Resolution** | $\ge 95.0\%$ area with $h \le \ell_0 = 8.0\,\mu\text{m}$ | **$92.74\%$ area** ($97.99\%$ count compliant) | **FAIL** | Stations 5–6 midpoint peak at $h = 8.28\,\mu\text{m} > \ell_0 = 8.0\,\mu\text{m}$ (3.5% above $\ell_0$); caused by low pre-peak damage activation in Ligament 1. |
+| **Gate G6** | **Ligament 2 Area Resolution** | $\ge 95.0\%$ area with $h \le \ell_0 = 8.0\,\mu\text{m}$ | **$99.62\%$ area** ($99.93\%$ count compliant) | **PASS** | Mean $h = 3.56\,\mu\text{m} = 0.45\,\ell_0$; all 10 centerline stations strictly compliant. |
+| **Gate G7** | **Ligament 3 Area Resolution** | $100.0\%$ area with $h \le \ell_0/2 = 4.0\,\mu\text{m}$ | **$100.00\%$ area & count** $\le \ell_0/2$ | **PASS** | Critical narrow bridge ($w = 33.1\,\mu\text{m}$) uniformly resolved at $h = 2.50\,\mu\text{m} = 0.31\,\ell_0$. |
+| **Gate G8** | **Ligament 4 Area Resolution** | $\ge 95.0\%$ area with $h \le \ell_0 = 8.0\,\mu\text{m}$ | **$100.00\%$ area & count** $\le \ell_0$ | **PASS** | Mean $h = 3.25\,\mu\text{m} = 0.41\,\ell_0$; full corridor dense refinement. |
+
+**Summary of Predeclared Gates:** 6 PASS, 2 FAIL (G1 Element Count Parity and G5 Ligament 1 Area Resolution).  
+**Technical Classification:** `COMPLETED_TECHNICAL_PILOT_WITH_PARTIAL_SCIENTIFIC_GATE_FAILURES`.
+
+### 2.2 Quantitative Comparison: F1763 Pilot vs Literature & F1725 Baseline
 
 | Metric / Dimension | Literature Target (Pandey & Kumar 2025) | Historical Sweep Baseline (Task F1725) | F1763 Common-Framework Pilot (Job 1423575) | Pilot Compliance Status |
 | :--- | :---: | :---: | :---: | :---: |
 | **Framework Module** | Native CAE Script (Not Published) | Independent `run_f1725_physics_study.py` | Unified `reusable_2d_adaptive_framework.py` | **VERIFIED UNIFIED** |
 | **Commit Baseline** | N/A | `192844a1` | `a45c5f20` / `820cbfbc` | **COMMIT PINNED** |
-| **Total Physical Elements** | 12,944 (Fig. 22a/25a) | 13,017 | **12,625** | **$-2.46\%$ vs Pub / $-3.01\%$ vs F1725** |
+| **Total Physical Elements** | 12,944 (Fig. 22a/25a) | 13,017 | **12,625** | **FAIL Gate G1 ($-2.46\%$ vs $\pm 2.0\%$)** |
 | **Total Mesh Nodes** | Not Reported | 13,246 | **12,846** | **$-3.02\%$ vs F1725** |
-| **Quad Elements** | Not Reported | 12,696 (97.53%) | **12,320 (97.58%)** | **PASS ($\ge 95.0\%$)** |
+| **Quad Elements** | Not Reported | 12,696 (97.53%) | **12,320 (97.58%)** | **PASS Gate G2 ($\ge 95.0\%$)** |
 | **Tri Elements** | Not Reported | 321 (2.47%) | **305 (2.42%)** | **PASS** |
-| **Min Signed det(J)** | > 0 | $4.53 \times 10^{-7}$ | **$6.12 \times 10^{-7}$** | **PASS (100% Positive)** |
-| **Negative Jacobians** | 0 | 0 | **0** | **PASS (Zero Distorted)** |
-| **Max Element Aspect Ratio** | Not Reported | 2.595 | **2.462** | **PASS ($\le 4.0$)** |
+| **Min Signed det(J)** | > 0 | $4.53 \times 10^{-7}$ | **$6.12 \times 10^{-7}$** | **PASS Gate G3 (100% Positive)** |
+| **Negative Jacobians** | 0 | 0 | **0** | **PASS Gate G3 (Zero Distorted)** |
+| **Max Element Aspect Ratio** | Not Reported | 2.595 | **2.462** | **PASS Gate G4 ($\le 4.0$)** |
 | **Mean Aspect Ratio** | Not Reported | ~1.25 | **1.248** | **PASS** |
-| **Ligament 1 Count $\le \ell_0$** | Continuous | 97.60% | **97.99%** | **PASS** |
-| **Ligament 1 Area $\le \ell_0$** | Continuous | 91.16% | **92.74%** | **PASS** |
+| **Ligament 1 Count $\le \ell_0$** | Continuous | 97.60% | **97.99%** | **$97.99\%$ compliant** |
+| **Ligament 1 Area $\le \ell_0$** | Continuous | 91.16% | **92.74%** | **FAIL Gate G5 ($92.74\%$ vs $\ge 95.0\%$)** |
 | **Ligament 2 Count $\le \ell_0$** | Continuous | 99.73% | **99.93%** | **PASS** |
-| **Ligament 2 Area $\le \ell_0$** | Continuous | 98.59% | **99.62%** | **PASS** |
-| **Ligament 3 Count $\le \ell_0/2$** | Continuous bridge | 100.00% | **100.00%** | **PASS (100% Resolved)** |
-| **Ligament 3 Area $\le \ell_0/2$** | Continuous bridge | 100.00% | **100.00%** | **PASS (100% Resolved)** |
+| **Ligament 2 Area $\le \ell_0$** | Continuous | 98.59% | **99.62%** | **PASS Gate G6 ($\ge 95.0\%$)** |
+| **Ligament 3 Count $\le \ell_0/2$** | Continuous bridge | 100.00% | **100.00%** | **PASS Gate G7 (100% Resolved)** |
+| **Ligament 3 Area $\le \ell_0/2$** | Continuous bridge | 100.00% | **100.00%** | **PASS Gate G7 (100% Resolved)** |
 | **Ligament 4 Count $\le \ell_0$** | Continuous | 100.00% | **100.00%** | **PASS** |
-| **Ligament 4 Area $\le \ell_0$** | Continuous | 100.00% | **100.00%** | **PASS** |
+| **Ligament 4 Area $\le \ell_0$** | Continuous | 100.00% | **100.00%** | **PASS Gate G8 ($\ge 95.0\%$)** |
 | **Bulk Far-Field Mean $h$** | Coarse background | $16.31\,\mu\text{m}$ | **$16.68\,\mu\text{m}$** | **PASS (Selective Coarsening)** |
 | **Abaqus Datacheck** | N/A | Exit 0 | **Exit 0 (PK_F1763_CASE_4_DC)** | **PASS** |
 
@@ -122,15 +142,18 @@ Along the normalized centerline arc length $t \in [0.0, 1.0]$ of each ligament, 
 
 ---
 
-## 5. Visual Evidence Artifact
+## 5. Visual Evidence Artifact & Remote Pinned URLs
 
-The generated publication figure is persisted at:
+The generated publication figure is persisted locally and pinned on GitHub:
 - Vector PDF: [`results/figures/fig_f1763_case4_pilot_mesh.pdf`](file:///D:/Master%20thesis/Adaptive%20remeshing/results/figures/fig_f1763_case4_pilot_mesh.pdf)
 - High-Resolution PNG: [`results/figures/fig_f1763_case4_pilot_mesh.png`](file:///D:/Master%20thesis/Adaptive%20remeshing/results/figures/fig_f1763_case4_pilot_mesh.png)
+- **Commit-Pinned GitHub URL (PNG):** [fig_f1763_case4_pilot_mesh.png @ 29a78b1a](https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/29a78b1a/results/figures/fig_f1763_case4_pilot_mesh.png)
+- **Commit-Pinned GitHub URL (Physical Mesh INP):** [PK_F1728_CASE_4_ADAPT_PHYS.inp @ 29a78b1a](https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/29a78b1a/models/pandey_kumar_mode1/236_f1763_case4_pilot/PK_F1728_CASE_4_ADAPT_PHYS.inp)
+- **Commit-Pinned GitHub URL (Spatial Audit JSON):** [f1763_case4_spatial_audit.json @ 29a78b1a](https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/29a78b1a/models/pandey_kumar_mode1/236_f1763_case4_pilot/f1763_case4_spatial_audit.json)
 
 The figure displays:
 - **Panel (a):** Full-domain adapted mesh with color-coded $h_e / \ell_0$ spatial resolution contours and bounding box overlays.
-- **Panels (b)–(e):** Magnified detail views of Ligaments 1, 2, 3, and 4, documenting the quad element structure, boundary layer transitions, and narrow bridge refinement.
+- **Panels (b)–(e):** Magnified detail views of Ligaments 1, 2, 3, and 4, documenting the quad element structure, boundary layer transitions, narrow bridge refinement, and the annotated Ligament 1 midpoint residual deficiency ($h = 8.28\,\mu\text{m} > \ell_0$).
 
 ---
 

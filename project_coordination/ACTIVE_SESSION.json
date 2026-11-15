@@ -1,21 +1,11 @@
 {
   "active": false,
-  "agent": "gemini-antigravity",
-  "session_id": "f1763-case4-pilot-exec-001",
-  "task_id": "F1763-CASE4-COMMON-FRAMEWORK-PILOT-EXECUTION",
-  "started_at": "2026-11-15T07:44:00+01:00",
-  "completed_at": "2026-11-15T07:55:00+01:00",
-  "starting_commit": "820cbfbc",
-  "allowed_write_scope": [
-    "project_coordination/**",
-    ".agents/**",
-    "docs/validation/**",
-    "results/validation/**",
-    "results/figures/**",
-    "models/pandey_kumar_mode1/**",
-    "configs/remeshing/**",
-    "scripts/**",
-    "tests/unit/**"
-  ],
-  "notes": "Session closed for Task F1763: Case 4 Common-Framework Adaptive Remeshing Headless CAE Pilot Execution complete. PBS Job 1423575.mmaster02 completed Exit 0 in 49s walltime on mnode099, producing PK_F1728_CASE_4_ADAPT_PHYS.inp with 12,625 elements (97.58% quads, 0 negative Jacobians, max AR 2.462; Lig 2 99.6% area, Lig 3 100% area h<=l0/2, Lig 4 100% area; datacheck Exit 0). 23/23 regression tests pass."
+  "agent": null,
+  "session_id": null,
+  "task_id": null,
+  "started_at": null,
+  "completed_at": "2026-11-15T08:10:00+01:00",
+  "starting_commit": "414d4fb0",
+  "allowed_write_scope": [],
+  "notes": "Task F1763 Closeout Resolution completed: Gate matrix reconciled (Gates G1 and G5 FAIL, Gates G2, G3, G4, G6, G7, G8 PASS). Ligament 1 midpoint residual deficiency documented. Framework blob hash bitwise identical (399e048a...). Unit tests 6/6 PASS."
 }
