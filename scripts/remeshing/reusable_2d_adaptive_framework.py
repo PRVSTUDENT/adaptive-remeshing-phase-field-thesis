@@ -130,6 +130,45 @@ class AdaptiveConfig(object):
             self.hole_y = None
             self.hole_r = None
 
+        self.allow_legacy_geometry_defaults = bool(
+            geom.get("allow_legacy_geometry_defaults", config_data.get("allow_legacy_geometry_defaults", False))
+        )
+
+        if self.allow_legacy_geometry_defaults and len(self.void_definitions) == 0:
+            if self.case_id == "case_3" or self.geometry_type in ("NOTCHED_PLATE_WITH_PIN_HOLES", "SEC43_PLATE"):
+                self.void_definitions = [(36.5, 51.0, 10.0), (20.0, 20.0, 5.0), (20.0, 100.0, 5.0)]
+            elif self.case_id == "case_5" or self.geometry_type in ("SEVEN_HOLE_PLATE", "SEC46_PLATE"):
+                self.void_definitions = [
+                    (0.15, 0.40, 0.10), (0.50, 0.55, 0.10), (0.85, 0.50, 0.10),
+                    (0.30, 0.60, 0.05), (0.70, 0.60, 0.05), (0.40, 0.35, 0.05), (0.65, 0.35, 0.05)
+                ]
+            elif self.case_id == "case_2" or self.geometry_type in ("OFF_AXIS_HOLE_PLATE", "HOLE_PLATE"):
+                self.void_definitions = [(0.65, 0.65, 0.10)]
+                self.hole_x, self.hole_y, self.hole_r = self.void_definitions[0]
+
+        # Resolve pin-hole geometry dynamically from geometry.voids
+        upper_pin = None
+        lower_pin = None
+        for v in self.voids:
+            if isinstance(v, dict):
+                vname = str(v.get("name", "")).lower()
+                vx = float(v.get("x", 0.0))
+                vy = float(v.get("y", 0.0))
+                vr = float(v.get("r", 0.0))
+                if "upper" in vname or "top" in vname:
+                    upper_pin = ((vx, vy), vr)
+                elif "lower" in vname or "bottom" in vname:
+                    lower_pin = ((vx, vy), vr)
+
+        # Coordinate-based fallback for un-named pin voids
+        if (upper_pin is None or lower_pin is None) and len(self.void_definitions) >= 2:
+            sorted_by_y = sorted(self.void_definitions, key=lambda item: item[1])
+            lower_pin = ((sorted_by_y[0][0], sorted_by_y[0][1]), sorted_by_y[0][2])
+            upper_pin = ((sorted_by_y[-1][0], sorted_by_y[-1][1]), sorted_by_y[-1][2])
+
+        self.derived_upper_pin = upper_pin
+        self.derived_lower_pin = lower_pin
+
         mat = config_data.get("material", {})
         self.E = float(mat.get("youngs_modulus_mpa", mat.get("E", 210000.0)))
         if self.E < 1000.0:  # If specified in GPa (e.g. 210.0), convert to MPa
@@ -148,10 +187,59 @@ class AdaptiveConfig(object):
         self.step1_u2 = float(load.get("step1_precritical_u2", load.get("step1_disp", 0.005)))
         self.step2_u2 = float(load.get("step2_fracture_u2", load.get("step2_disp", 0.012)))
         self.kinematics = str(load.get("kinematics", "LINEAR"))
-        self.lower_hole_center = tuple(load.get("lower_hole_center", [20.0, 20.0]))
-        self.lower_hole_radius = float(load.get("lower_hole_radius", 5.0))
-        self.upper_hole_center = tuple(load.get("upper_hole_center", [20.0, 100.0]))
-        self.upper_hole_radius = float(load.get("upper_hole_radius", 5.0))
+
+        if self.loading_type == "PIN_HOLE_PULL" or upper_pin is not None:
+            if upper_pin is not None:
+                configured_uh = upper_pin[0]
+                configured_ur = upper_pin[1]
+                if "upper_hole_center" in load:
+                    load_uh = tuple(load["upper_hole_center"])
+                    if math.hypot(load_uh[0] - configured_uh[0], load_uh[1] - configured_uh[1]) > 1e-3:
+                        raise ValueError(
+                            "Stale loading coordinates detected: loading.upper_hole_center %s "
+                            "does not match configured geometry void position %s. "
+                            "In Case 3, pin reference points and boundary sets must derive "
+                            "from the configured geometry definitions." % (str(load_uh), str(configured_uh))
+                        )
+                self.upper_hole_center = configured_uh
+                self.upper_hole_radius = configured_ur
+            else:
+                if not self.allow_legacy_geometry_defaults:
+                    raise ValueError(
+                        "Missing required pin hole definitions in geometry.voids for loading_type='PIN_HOLE_PULL'. "
+                        "Configured geometry must provide pin void definitions."
+                    )
+                self.upper_hole_center = tuple(load.get("upper_hole_center", [20.0, 100.0]))
+                self.upper_hole_radius = float(load.get("upper_hole_radius", 5.0))
+
+            if lower_pin is not None:
+                configured_lh = lower_pin[0]
+                configured_lr = lower_pin[1]
+                if "lower_hole_center" in load:
+                    load_lh = tuple(load["lower_hole_center"])
+                    if math.hypot(load_lh[0] - configured_lh[0], load_lh[1] - configured_lh[1]) > 1e-3:
+                        raise ValueError(
+                            "Stale loading coordinates detected: loading.lower_hole_center %s "
+                            "does not match configured geometry void position %s. "
+                            "In Case 3, pin support boundary sets must derive "
+                            "from the configured geometry definitions." % (str(load_lh), str(configured_lh))
+                        )
+                self.lower_hole_center = configured_lh
+                self.lower_hole_radius = configured_lr
+            else:
+                if not self.allow_legacy_geometry_defaults:
+                    raise ValueError(
+                        "Missing required pin hole definitions in geometry.voids for loading_type='PIN_HOLE_PULL'. "
+                        "Configured geometry must provide pin void definitions."
+                    )
+                self.lower_hole_center = tuple(load.get("lower_hole_center", [20.0, 20.0]))
+                self.lower_hole_radius = float(load.get("lower_hole_radius", 5.0))
+        else:
+            self.upper_hole_center = tuple(load.get("upper_hole_center", [20.0, 100.0]))
+            self.upper_hole_radius = float(load.get("upper_hole_radius", 5.0))
+            self.lower_hole_center = tuple(load.get("lower_hole_center", [20.0, 20.0]))
+            self.lower_hole_radius = float(load.get("lower_hole_radius", 5.0))
+
         self.top_pin_hole = {"center": list(self.upper_hole_center), "radius": self.upper_hole_radius}
         self.bottom_pin_hole = {"center": list(self.lower_hole_center), "radius": self.lower_hole_radius}
 
@@ -207,10 +295,12 @@ class AdaptiveConfig(object):
             if self.notch_a <= 0.0 or self.notch_a >= self.plate_w:
                 raise ValueError("Notch length must be within (0, plate_width).")
         if self.has_hole:
-            if len(self.voids) > 1 or len(self.edge_cutouts) > 0:
+            if len(self.void_definitions) > 1 or len(self.edge_cutouts) > 0 or self.allow_legacy_geometry_defaults:
+                pass
+            elif len(self.void_definitions) == 1:
                 pass
             elif self.hole_x is None or self.hole_y is None or self.hole_r is None:
-                raise ValueError("Hole coordinates and radius must be specified when has_hole=True.")
+                raise ValueError("Missing required geometry definition 'geometry.voids' or hole coordinates when has_hole=True. (To enable historical defaults, set 'allow_legacy_geometry_defaults': true).")
             elif self.hole_r <= 0.0:
                 raise ValueError("Hole radius must be positive.")
         if self.error_target <= 0.05:
@@ -338,6 +428,12 @@ class OffAxisHoleMode1Adapter(GeometryAdapter):
             return list(self.config.void_definitions)
         if self.config.hole_x is not None and self.config.hole_y is not None and self.config.hole_r is not None:
             return [(self.config.hole_x, self.config.hole_y, self.config.hole_r)]
+        if not getattr(self.config, "allow_legacy_geometry_defaults", False):
+            raise ValueError(
+                "Missing required void definition for Case 2 (OffAxisHoleMode1Adapter). "
+                "Normal configured operation requires explicit void definitions in configuration JSON. "
+                "To enable historical fallback, set 'allow_legacy_geometry_defaults': true in configuration."
+            )
         return [(0.65, 0.65, 0.10)]
 
     def is_inside_domain(self, x, y, tol=1e-5):
@@ -383,7 +479,13 @@ class NotchedPlateWithPinHolesAdapter(GeometryAdapter):
         if hasattr(config, "void_definitions") and len(config.void_definitions) > 0:
             self.holes = list(config.void_definitions)
         else:
-            # Fallback to Table 4 defaults only if voids omitted from config
+            if not getattr(config, "allow_legacy_geometry_defaults", False):
+                raise ValueError(
+                    "Missing required geometry definition 'geometry.voids' for Case 3 (NotchedPlateWithPinHolesAdapter). "
+                    "Normal configured operation requires explicit void definitions in configuration JSON. "
+                    "To enable historical fallback, set 'allow_legacy_geometry_defaults': true in configuration."
+                )
+            # Legacy-compatibility fallback
             self.holes = [(36.5, 51.0, 10.0), (20.0, 20.0, 5.0), (20.0, 100.0, 5.0)]
 
     def get_outer_polygon_points(self):
@@ -545,7 +647,13 @@ class SevenHolePlateAdapter(GeometryAdapter):
         if hasattr(config, "void_definitions") and len(config.void_definitions) > 0:
             self.holes = list(config.void_definitions)
         else:
-            # Fallback to Table 6 defaults only if voids omitted from config
+            if not getattr(config, "allow_legacy_geometry_defaults", False):
+                raise ValueError(
+                    "Missing required geometry definition 'geometry.voids' for Case 5 (SevenHolePlateAdapter). "
+                    "Normal configured operation requires explicit void definitions in configuration JSON. "
+                    "To enable historical fallback, set 'allow_legacy_geometry_defaults': true in configuration."
+                )
+            # Legacy-compatibility fallback
             self.holes = [
                 (0.15, 0.40, 0.10), # h1
                 (0.50, 0.55, 0.10), # h2
@@ -1389,7 +1497,10 @@ class AdvancingDamageEnvelopeBuilder(object):
 
     @classmethod
     def build_envelope_from_config(cls, config, source_odb_path, target_odb_path, damage_variable='SDV1', step_name=None):
-        """Builds an advancing damage envelope directly using parameters configured in AdaptiveConfig."""
+        """Builds an advancing damage envelope directly using parameters configured in AdaptiveConfig.
+        Ensures consistent error-target unit convention: error_target is defined on an identical percentage scale
+        between the synthesized sizing target and the Abaqus RemeshingRule(errorTarget=...).
+        """
         s_name = step_name or config.step_name
         if s_name not in ("Step-2", "RECOVERY_STEP"):
             s_name = "Step-2"
@@ -1398,7 +1509,7 @@ class AdvancingDamageEnvelopeBuilder(object):
             target_odb_path=target_odb_path,
             l0=config.l0,
             h_bg=getattr(config, 'h_bg', config.max_h),
-            error_target=config.error_target / 100.0,
+            error_target=config.error_target,
             step_name=s_name,
             damage_variable=damage_variable,
             frame_stride=getattr(config, 'frame_stride', 5),
@@ -1728,14 +1839,11 @@ def main():
         if not src or not dst:
             sys.stderr.write("ERROR: --build-envelope requires --source-odb (or --odb) and --output-odb\n")
             sys.exit(1)
-        print("\nSynthesizing Advancing Damage Envelope Donor ODB...")
-        AdvancingDamageEnvelopeBuilder.build_envelope_odb(
+        print("\nSynthesizing Advancing Damage Envelope Donor ODB via Config-Driven Builder...")
+        AdvancingDamageEnvelopeBuilder.build_envelope_from_config(
+            config=cfg,
             source_odb_path=src,
-            target_odb_path=dst,
-            l0=cfg.l0,
-            h_bg=cfg.max_h,
-            error_target=cfg.error_target,
-            step_name=cfg.step_name or 'Step-2'
+            target_odb_path=dst
         )
         print("Successfully created envelope donor: %s" % dst)
         return

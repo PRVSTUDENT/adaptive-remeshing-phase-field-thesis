@@ -69,17 +69,24 @@ def test_configuration_driven_voids_case3():
     assert holes[1] == (20.0, 20.0, 5.0)
     assert holes[2] == (20.0, 100.0, 5.0)
 
-    # Test dynamic modification via config
+    # Test dynamic modification via config with loading coordinates automatically derived
     pert_data = copy.deepcopy(cfg.raw)
     pert_data["geometry"]["voids"] = [
         {"name": "shifted_central", "type": "circle", "x": 40.0, "y": 55.0, "r": 8.0},
         {"name": "pin1", "type": "circle", "x": 22.0, "y": 25.0, "r": 6.0},
         {"name": "pin2", "type": "circle", "x": 22.0, "y": 95.0, "r": 6.0}
     ]
+    # Remove explicit loading coords so they derive dynamically from geometry
+    pert_data["loading"].pop("upper_hole_center", None)
+    pert_data["loading"].pop("lower_hole_center", None)
     cfg_pert = AdaptiveConfig(pert_data)
     ad_pert = get_geometry_adapter(cfg_pert)
     pert_holes = ad_pert.get_hole_definitions()
     assert pert_holes == [(40.0, 55.0, 8.0), (22.0, 25.0, 6.0), (22.0, 95.0, 6.0)]
+    assert cfg_pert.upper_hole_center == (22.0, 95.0)
+    assert cfg_pert.lower_hole_center == (22.0, 25.0)
+    assert cfg_pert.upper_hole_radius == 6.0
+    assert cfg_pert.lower_hole_radius == 6.0
 
 
 def test_configuration_driven_voids_case5():

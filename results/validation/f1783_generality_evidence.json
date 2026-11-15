@@ -1,0 +1,60 @@
+{
+  "task_id": "F1783-METHOD-A-QUALIFICATION-AND-EVIDENCE-CORRECTION",
+  "test_a_geometry_perturbation": {
+    "test": "Test A: Geometry Perturbation",
+    "benchmark": "Case 3 (Notched Plate with Pins)",
+    "config_path": "D:\\Master thesis\\Adaptive remeshing\\configs\\remeshing\\f1783_test_a_perturbed_case3.json",
+    "config_sha256": "80275f5983d725501e54430ec2edfe6f0ed626144c39ba2959930745b89a3eb2",
+    "physical_mesh_path": "D:\\Master thesis\\Adaptive remeshing\\runs\\test_a_geometry_perturbation\\PK_TEST_A_PERT_PHYS.inp",
+    "physical_mesh_sha256": "a9860be25dc78b14abbe3a7e798fa8c6da716c66c3012a87c016c5565e1565e6",
+    "analytical_area_mm2": 8409.415986824604,
+    "measured_cad_area_mm2": 8409.415986824604,
+    "area_discrepancy_mm2": 0.0,
+    "elements": 9360,
+    "quad_percent": 95.37393162393163,
+    "min_det_j": 3.0240989037628065e-06,
+    "max_aspect_ratio": 3.2375503617241637,
+    "status": "PASS"
+  },
+  "test_b_indicator_perturbation": {
+    "test": "Test B: Indicator Perturbation",
+    "benchmark": "Case 1 Mode-I Domain (1x1 mm)",
+    "donor_horizontal": {
+      "path": "D:\\Master thesis\\Adaptive remeshing\\runs\\test_b_indicator_perturbation\\DONOR_HORIZ.odb",
+      "sha256": "6e7175f3f14cbf0029b213d4e50df7f536105f75c4b57e76022b37601486e91c"
+    },
+    "donor_diagonal": {
+      "path": "D:\\Master thesis\\Adaptive remeshing\\runs\\test_b_indicator_perturbation\\DONOR_DIAG.odb",
+      "sha256": "5f37bb29806e5395540fcd03aa7b6927893773e52181e9bc87bc54ced38c2194"
+    },
+    "mesh_horizontal": {
+      "path": "D:\\Master thesis\\Adaptive remeshing\\runs\\test_b_indicator_perturbation\\horiz\\PK_ADAPT_CASE_1_PHYS.inp",
+      "sha256": "1172cb0bd5a14751d4c639dac50b8fb7b6c43cd196592503d41def07033a1d2f",
+      "metrics": {
+        "total_elements": 4087,
+        "horiz_window_elements": 67,
+        "horiz_window_mean_h_um": 15.248232706472889,
+        "diag_window_elements": 90,
+        "diag_window_mean_h_um": 15.902095057626,
+        "size_ratio_diag_over_horiz": 1.0428811891672891
+      }
+    },
+    "mesh_diagonal": {
+      "path": "D:\\Master thesis\\Adaptive remeshing\\runs\\test_b_indicator_perturbation\\diag\\PK_ADAPT_CASE_1_PHYS.inp",
+      "sha256": "b7a4ac6e869634e6f97fa286397bd8c80a9748815e9df4eadd3ecd10f987b1a6",
+      "metrics": {
+        "total_elements": 5736,
+        "horiz_window_elements": 59,
+        "horiz_window_mean_h_um": 15.885707858611319,
+        "diag_window_elements": 474,
+        "diag_window_mean_h_um": 6.18473132056691,
+        "size_ratio_diag_over_horiz": 0.3893267694215019
+      }
+    },
+    "ratio_horizontal_mesh": 1.0428811891672891,
+    "ratio_diagonal_mesh": 0.3893267694215019,
+    "inversion_factor": 2.6786783521639146,
+    "status": "PASS"
+  },
+  "overall_status": "PASS"
+}
