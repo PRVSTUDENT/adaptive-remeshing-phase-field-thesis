@@ -103,8 +103,10 @@ function Read-BridgeValidatedReply {
     $innerText=if($match.Groups[1].Success){$match.Groups[1].Value}else{$match.Groups[2].Value}
     try { $reply=$innerText | ConvertFrom-Json -ErrorAction Stop } catch { throw 'BRIDGE_RESPONSE_INNER_JSON_INVALID' }
     if ($reply.correlation_id -cne $Packet.handoff_id -or $reply.protocol -cne $Packet.protocol -or $reply.task_id -cne $Packet.task_id) { throw 'BRIDGE_RESPONSE_INNER_IDENTITY_MISMATCH' }
-    if ($reply.canonical_rules_sha256 -ine $Packet.context.rules_sha256 -or $reply.goal_id -cne $Packet.context.policy.goal_id) { throw 'BRIDGE_RESPONSE_POLICY_MISMATCH' }
-    if ($Packet.protocol -ceq 'INDEPENDENT_STRUCTURED_REVIEW_V1' -and $reply.decision -cnotin @('APPROVE','REJECT','INSUFFICIENT_EVIDENCE')) { throw 'BRIDGE_RESPONSE_INVALID_DECISION' }
+    $replyGoalId = if ($reply.goal_id) { [string]$reply.goal_id } else { [string]$reply.research_goal_id }
+    if ($reply.canonical_rules_sha256 -ine $Packet.context.rules_sha256 -or $replyGoalId -cne $Packet.context.policy.goal_id) { throw 'BRIDGE_RESPONSE_POLICY_MISMATCH' }
+    $replyDecision = if ($reply.decision) { [string]$reply.decision } else { [string]$reply.review_decision }
+    if ($Packet.protocol -ceq 'INDEPENDENT_STRUCTURED_REVIEW_V1' -and $replyDecision -cnotin @('APPROVE','REJECT','INSUFFICIENT_EVIDENCE')) { throw 'BRIDGE_RESPONSE_INVALID_DECISION' }
     if ($Packet.protocol -ceq 'CHATGPT_SUPERVISOR_V1' -and $reply.action -cnotin @('DIAGNOSE','CONTINUE','WAIT','STOP')) { throw 'BRIDGE_RESPONSE_INVALID_ACTION' }
     if ($reply.master_goal_status -cnotin @('OPEN','COMPLETE')) { throw 'BRIDGE_RESPONSE_MASTER_STATUS_REQUIRED' }
     if ($reply.master_goal_status -ceq 'OPEN') {

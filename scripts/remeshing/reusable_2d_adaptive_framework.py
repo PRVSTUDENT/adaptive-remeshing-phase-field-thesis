@@ -1405,6 +1405,23 @@ class AdvancingDamageEnvelopeBuilder(object):
                            step_name='Step-2', damage_variable='SDV1', frame_stride=5, s_base=100.0,
                            core_factor=2.8, process_factor=1.2, d_core=0.20, d_proc=0.10, d_noise=0.05,
                            max_frame_index=None, max_frame_time=None, causal_mode=False):
+        # Validate causal parameters upfront so input validation fails closed in all environments
+        if causal_mode and max_frame_index is None and max_frame_time is None:
+            raise ValueError(
+                "FAIL_CLOSED: Causal adaptivity requires an explicit temporal horizon (max_frame_index or max_frame_time). "
+                "Scanning unconstrained future frames is prohibited under causal adaptivity."
+            )
+
+        if max_frame_index is not None:
+            val = int(max_frame_index)
+            if val < 0:
+                raise ValueError("FAIL_CLOSED: max_frame_index cannot be negative (got %d); negative indices would sample future/end frames in Python" % val)
+
+        if max_frame_time is not None:
+            t_target = float(max_frame_time)
+            if t_target < 0.0:
+                raise ValueError("FAIL_CLOSED: max_frame_time cannot be negative (got %f)" % t_target)
+
         if not (ABAQUS_AVAILABLE or ODB_ACCESS_AVAILABLE):
             raise RuntimeError("Abaqus environment not available; cannot build envelope ODB.")
         from odbAccess import openOdb
@@ -1448,34 +1465,56 @@ class AdvancingDamageEnvelopeBuilder(object):
         # Causal frame filtering: strictly prohibit scanning future frames when causal horizon is specified
         if causal_mode and max_frame_index is None and max_frame_time is None:
             raise ValueError(
-                "Causal adaptivity requires an explicit temporal horizon (max_frame_index or max_frame_time). "
+                "FAIL_CLOSED: Causal adaptivity requires an explicit temporal horizon (max_frame_index or max_frame_time). "
                 "Scanning unconstrained future frames is prohibited under causal adaptivity."
             )
 
-        max_idx = n_frames - 1
         if max_frame_index is not None:
-            max_idx = min(int(max_frame_index), n_frames - 1)
+            val = int(max_frame_index)
+            if val < 0:
+                raise ValueError("FAIL_CLOSED: max_frame_index cannot be negative (got %d); negative indices would sample future/end frames in Python" % val)
+            if val >= n_frames:
+                raise ValueError("FAIL_CLOSED: max_frame_index %d exceeds donor step frame count (%d frames available in step '%s')" % (val, n_frames, step_name))
+            max_idx = val
+        else:
+            max_idx = n_frames - 1
+
         if max_frame_time is not None:
-            time_bounded = [i for i, f in enumerate(step_src.frames) if f.frameValue <= float(max_frame_time) + 1e-9]
-            if time_bounded:
-                max_idx = min(max_idx, max(time_bounded))
-            else:
-                max_idx = 0
+            t_target = float(max_frame_time)
+            t_min = step_src.frames[0].frameValue
+            if t_target < t_min - 1e-9:
+                raise ValueError("FAIL_CLOSED: max_frame_time %f precedes first frame timestamp (%f) in step '%s'" % (t_target, t_min, step_name))
+            time_bounded = [i for i, f in enumerate(step_src.frames) if f.frameValue <= t_target + 1e-9]
+            if not time_bounded:
+                raise ValueError("FAIL_CLOSED: No frames found at or before max_frame_time %f in step '%s'" % (t_target, step_name))
+            max_idx = min(max_idx, max(time_bounded))
+
+        # Check timestamp monotonicity up to max_idx
+        for i in range(1, max_idx + 1):
+            if step_src.frames[i].frameValue < step_src.frames[i-1].frameValue - 1e-9:
+                raise ValueError("FAIL_CLOSED: Donor frames are not monotonically non-decreasing in time at frame %d (t_prev=%f, t_curr=%f)" % (
+                    i, step_src.frames[i-1].frameValue, step_src.frames[i].frameValue
+                ))
 
         d_max_env = {el: 0.0 for el in elem_labels}
         frame_indices = list(range(0, max_idx + 1, max(1, frame_stride)))
         if max_idx not in frame_indices:
             frame_indices.append(max_idx)
 
+        found_damage_var = False
         for f_idx in frame_indices:
             f = step_src.frames[f_idx]
             if damage_variable in f.fieldOutputs:
+                found_damage_var = True
                 fo = f.fieldOutputs[damage_variable]
                 for v in fo.values:
                     el = v.elementLabel
                     if el in d_max_env:
                         if v.data > d_max_env[el]:
                             d_max_env[el] = v.data
+
+        if not found_damage_var:
+            raise ValueError("FAIL_CLOSED: Required damage variable '%s' not found in any sampled frame of step '%s'" % (damage_variable, step_name))
 
         odb_src.close()
 

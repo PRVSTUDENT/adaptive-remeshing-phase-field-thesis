@@ -1,0 +1,82 @@
+{
+  "task_id": "F1794-CASE2-NATIVE-MISESERI-CAUSAL-REMESHING-NUMERICAL-DEMONSTRATION",
+  "benchmark_id": "case_2",
+  "benchmark_name": "Mode-I Notched Plate with Off-Axis Hole",
+  "donor_odb": {
+    "path": "D:\\Master thesis\\Adaptive remeshing\\runs\\f1794_case2_native_remesh\\PK_HOLE_METHOD_A_PREANALYSIS_DONOR.odb",
+    "sha256": "C698A4B7AB23761C731BBC73E0F2C00166BF53116BB8CBC31439D89270D38FE4",
+    "size_bytes": 2883480,
+    "step_name": "Step-1",
+    "frame_index": 10,
+    "frame_time": 1.0,
+    "indicator_field": "MISESERI",
+    "normalization_field": "MISESAVG",
+    "miseseri_min": 0.416568398475647,
+    "miseseri_max": 1430.2705078125,
+    "miseseri_mean": 21.191461199975308,
+    "provenance": "AUTHENTIC_NATIVE_ABAQUS_LINEAR_ELASTIC_STRESS_RECOVERY"
+  },
+  "remeshed_physical_inp": {
+    "path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\244_f1794_case2_native_remesh\\PK_F1794_CASE_2_ADAPT_PHYS.inp",
+    "sha256": "0EFE1640D17F46F66EA037539E42852E564E342969D54FBF78DBB72A003A081F",
+    "size_bytes": 2561001,
+    "total_elements": 35648,
+    "quad_count": 34770,
+    "tri_count": 878,
+    "quad_percent": 97.53702872531417,
+    "min_jacobian": 1.6139726828878097e-07,
+    "max_aspect_ratio": 2.5175503034294193,
+    "median_aspect_ratio": 1.2113044615795514,
+    "aspect_ratio_violations_gt_4": 0
+  },
+  "spatial_resolution": {
+    "notch_to_hole_ligament": {
+      "name": "Notch-to-Hole Ligament",
+      "count": 5848,
+      "mean_h_mm": 0.0018606148274843018,
+      "min_h_mm": 0.0005795048845837698,
+      "max_h_mm": 0.0052525409864737,
+      "mean_h_um": 1.8606148274843017,
+      "pct_le_l0": 100.0,
+      "pct_le_l0_half": 98.13611491108071
+    },
+    "outer_distal_region": {
+      "name": "Outer Distal Region",
+      "count": 4397,
+      "mean_h_mm": 0.00311488969856257,
+      "min_h_mm": 0.0008857207281739054,
+      "max_h_mm": 0.006973809913610307,
+      "mean_h_um": 3.11488969856257,
+      "pct_le_l0": 100.0,
+      "pct_le_l0_half": 66.34068683193087
+    },
+    "far_field_background": {
+      "name": "Far Field Background",
+      "count": 1155,
+      "mean_h_mm": 0.00982350253701934,
+      "min_h_mm": 0.00364979493622656,
+      "max_h_mm": 0.022931351963893582,
+      "mean_h_um": 9.82350253701934,
+      "pct_le_l0": 23.463203463203463,
+      "pct_le_l0_half": 0.08658008658008658
+    }
+  },
+  "comparison_with_predecessors": {
+    "f1774_baseline": {
+      "elements": 23965,
+      "provenance": "Abaqus Native Remesh from Companion Recovery",
+      "outer_distal_resolved": false
+    },
+    "f1780_comparator": {
+      "elements": 32983,
+      "provenance": "Synthesized Advancing Damage Envelope (Potential Hindsight Comparator)",
+      "outer_distal_resolved": true
+    },
+    "f1794_native_causal": {
+      "elements": 35648,
+      "provenance": "Authentic Native Preanalysis MISESERI (Strictly Non-Hindsight Causal)",
+      "outer_distal_resolved": false,
+      "scientific_finding": "Authentic native linear pre-analysis MISESERI concentrates refinement on the notch tip and hole perimeter where current elastic stresses concentrate. Because secondary distal stresses remain below the bulk error threshold before hole breach, native Method A naturally leaves the outer distal ligament coarse prior to breach. This is the authentic physical behavior of Method A without hindsight."
+    }
+  }
+}

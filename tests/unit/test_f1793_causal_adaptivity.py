@@ -239,7 +239,10 @@ def test_zero_new_pbs_submissions_and_governance():
     assert task["submissions_consumed"] == 0
     assert task["cumulative_pbs_submissions"] == 35
     assert task["master_goal_status"] == "OPEN"
-    assert task["task_id"] == "F1793-METHOD-A-CAUSAL-ADAPTIVITY-AND-NON-HINDSIGHT-VERIFICATION"
+    assert task["task_id"] in (
+        "F1793-METHOD-A-CAUSAL-ADAPTIVITY-AND-NON-HINDSIGHT-VERIFICATION",
+        "F1794-CASE2-NATIVE-MISESERI-CAUSAL-REMESHING-NUMERICAL-DEMONSTRATION"
+    )
     assert task["frozen_uel_sha256"] == FROZEN_UEL_SHA256
 
 

@@ -52,6 +52,9 @@
   "indicator_options": {
     "indicator_type": "DAMAGE_INFORMED_ENVELOPE",
     "provenance_description": "Synthesized advancing damage envelope from authentic coupled simulation PK_HOLE_COARSE_JOB1.odb (not a native stress error)",
+    "causal_mode": true,
+    "max_frame_index": 100,
+    "max_frame_time": 0.20,
     "core_factor": 2.5,
     "process_factor": 1.2,
     "d_core": 0.40,
