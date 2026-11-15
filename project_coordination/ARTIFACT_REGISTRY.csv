@@ -6590,3 +6590,7 @@ TEST_F1770_REPLACEMENT,Method-A,tests/unit/test_f1770_case1_donor_replacement_ex
 DOC_F1770_EXEC_REPORT,Method-A,docs/validation/F1770_CASE1_DONOR_EXECUTION_REPORT.md,markdown_report,pass,gemini-antigravity,HEAD,06257484C5339E2B8FF609476AEABB866ED9883D31576F070C665C83B7DC84F7,,Task F1770 Case 1 Donor Execution & Gate Evaluation Report
 JSON_F1770_DONOR_SUMMARY,Method-A,results/validation/f1770_case1_donor_audit_summary.json,json_metrics,pass,gemini-antigravity,HEAD,F51B268EC88085671E4EB071798F7758515D8B6EB5A5C2F3886B6573DB41FD9A,,Task F1770 Case 1 Donor ODB Telemetry & Gate Audit Summary
 
+DOC_F1771_SPEC_REPORT,Method-A,docs/validation/F1771_CASE1_REMESHING_SPECIFICATION_REPORT.md,markdown_report,pass,gemini-antigravity,HEAD,77507C4918A97BD273330FC438D4DDE252DCADE3251749E029053A0B6E3205CD,,Task F1771 Case 1 Remeshing Specification Report
+TEST_F1771_SPEC,Method-A,tests/unit/test_f1771_case1_remeshing_specification.py,python_test,pass,gemini-antigravity,HEAD,5A8696F893049F86DE7158A38E66270E04BC1A613F592751E77F385B2EE29665,,Task F1771 Case 1 Remeshing Specification Unit Tests
+PBS_F1771_REMESH,Method-A,models/pandey_kumar_mode1/238_f1771_case1_remesh/submit_f1771_case1_remesh.pbs,pbs_script,pass,gemini-antigravity,HEAD,ED9B2B715F79A269602E5EFA8DB74CBC68465568C4C131D76770D3AD5B57D843,,Task F1771 Case 1 Remeshing PBS Script
+
