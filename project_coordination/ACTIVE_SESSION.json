@@ -1,9 +1,10 @@
 {
-  "active": true,
+  "active": false,
   "agent": "gemini-antigravity",
   "session_id": "f1770-case1-donor-replacement-exec-001",
   "task_id": "F1770-CASE1-ADVANCING-COUPLED-DONOR-REPLACEMENT-EXECUTION",
   "started_at": "2026-11-15T09:50:00+01:00",
+  "completed_at": "2026-11-15T10:35:00+01:00",
   "starting_commit": "928cea93",
   "allowed_write_scope": [
     "project_coordination/**",
@@ -15,5 +16,5 @@
     "scripts/**",
     "tests/unit/**"
   ],
-  "notes": "Claiming session for Task F1770: Closing F1769 following R2 repair approval HND-F1769-CASE1-DONOR-R2-AUTH-001. Registering distinct technical replacement task F1770 for Case 1 Advancing Coupled Donor Execution using submit_f1769_case1_donor_r2.pbs, publishing execution specification, authoring unit tests, and staging review authorization payload HND-F1770-CASE1-DONOR-EXEC-001."
+  "notes": "Task F1770 completed. Replacement PBS job 1423604.mmaster02 completed Exit 0. Advancing coupled donor ODB (725 MB, 573 frames, crack advance 0.4904 mm across complete ligament, 97.40% softening drop) evaluated and verified against Gates G1-G7. G1, G2, G4, G5, G6, G7 PASS; G3 FAIL documented without relaxation. Session released."
 }

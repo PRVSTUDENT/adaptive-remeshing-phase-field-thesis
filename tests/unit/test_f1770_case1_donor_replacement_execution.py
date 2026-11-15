@@ -103,3 +103,44 @@ def test_failed_predecessor_job_provenance():
     failed_entry = [l for l in job_lines if "FAILED" in l]
     assert len(failed_entry) == 1, f"Missing or duplicate FAILED entry for 1423603: {failed_entry}"
     assert "FAILED,1,CASE1_DONOR_SOLVER_COLLIDED_WITH_SCRIPT_LOCK_GUARD" in failed_entry[0]
+
+
+def test_replacement_job_execution_outcomes():
+    """Verify Job 1423604.mmaster02 execution results and gate evaluation summary."""
+    import json
+    summary_path = os.path.join(REPO_ROOT, "results", "validation", "f1770_case1_donor_audit_summary.json")
+    assert os.path.exists(summary_path), f"Summary not found: {summary_path}"
+    with open(summary_path, "r") as f:
+        data = json.load(f)
+
+    assert data["job_id"] == "1423604.mmaster02"
+    assert data["final_displacement_mm"] == 0.01
+    assert data["crack_advancement_mm"] >= 0.45
+    assert data["softening_drop_pct"] >= 95.0
+    assert data["has_miseseri"] is True
+    assert data["has_sdv"] is True
+
+    gates = data["gates"]
+    assert gates["G1_exit_code"] == "PASS"
+    assert gates["G2_terminal_displacement"] == "PASS"
+    assert gates["G3_damage_bounds"] == "FAIL" # Helmholtz Poisson smoothing oscillation documented
+    assert gates["G4_history_monotonicity"] == "PASS"
+    assert gates["G5_crack_advancement"] == "PASS"
+    assert gates["G6_field_outputs"] == "PASS"
+    assert gates["G7_load_response"] == "PASS"
+
+
+def test_f1770_execution_report_integrity():
+    """Verify execution report exists and documents gates without relaxation."""
+    report_path = os.path.join(REPO_ROOT, "docs", "validation", "F1770_CASE1_DONOR_EXECUTION_REPORT.md")
+    assert os.path.exists(report_path), f"Report not found: {report_path}"
+    with open(report_path, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    assert "1423604.mmaster02" in content
+    assert "Exit Code 0" in content
+    assert "97.40%" in content
+    assert "G3" in content
+    assert "FAIL" in content
+    assert "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6" in content
+

@@ -6587,3 +6587,6 @@ PBS_F1769_C1_DONOR_R2,Method-A,models/pandey_kumar_mode1/237_f1768_case1_donor/s
 DOC_F1769_EXEC_REPORT,Method-A,docs/validation/F1769_CASE1_DONOR_EXECUTION_REPORT.md,markdown_report,pass,gemini-antigravity,HEAD,7D0B618E14DDC7C33C824A0347B2CCF8B4D3DBE1881E079E339CC77FE95156B2,,Task F1769 Case 1 Donor Execution & Lock Collision Repair Report
 DOC_F1770_PLAN,Method-A,docs/validation/F1770_CASE1_DONOR_REPLACEMENT_PLAN.md,markdown_report,pass,gemini-antigravity,HEAD,8CFE0DA946FB26CE2C59747BE9FD0073B1DC152EECD08CF8B34E587ACB4E30ED,,Task F1770 Case 1 Donor Replacement Execution Plan Report
 TEST_F1770_REPLACEMENT,Method-A,tests/unit/test_f1770_case1_donor_replacement_execution.py,python_test,pass,gemini-antigravity,HEAD,F6751D2E0752A521DEE2A5A35265F2D10F4C290758FC15124E0AD5EF2F7BFE23,,Task F1770 Case 1 Replacement Execution Unit Tests
+DOC_F1770_EXEC_REPORT,Method-A,docs/validation/F1770_CASE1_DONOR_EXECUTION_REPORT.md,markdown_report,pass,gemini-antigravity,HEAD,06257484C5339E2B8FF609476AEABB866ED9883D31576F070C665C83B7DC84F7,,Task F1770 Case 1 Donor Execution & Gate Evaluation Report
+JSON_F1770_DONOR_SUMMARY,Method-A,results/validation/f1770_case1_donor_audit_summary.json,json_metrics,pass,gemini-antigravity,HEAD,F51B268EC88085671E4EB071798F7758515D8B6EB5A5C2F3886B6573DB41FD9A,,Task F1770 Case 1 Donor ODB Telemetry & Gate Audit Summary
+

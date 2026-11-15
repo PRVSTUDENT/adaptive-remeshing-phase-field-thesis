@@ -1,0 +1,38 @@
+{
+  "gates": {
+    "G1_exit_code": "PASS",
+    "G2_terminal_displacement": "PASS",
+    "G3_damage_bounds": "FAIL",
+    "G4_history_monotonicity": "PASS",
+    "G5_crack_advancement": "PASS",
+    "G6_field_outputs": "PASS",
+    "G7_load_response": "PASS"
+  },
+  "gate_details": {
+    "G1": "PASS (Abaqus/Standard Exit 0, 573 total frames across 2 steps)",
+    "G2": "PASS (u_y = 0.0100 mm >= 0.0075 mm)",
+    "G3": "FAIL (min d = -0.0112 < -1e-4, max d = 1.0022 <= 1.005; local Poisson smoothing oscillation in wake/bulk due to unconstrained linear Helmholtz Layer 1 UEL)",
+    "G4": "PASS (min delta H = 0.000000 MPa, 100% monotonic)",
+    "G5": "PASS (crack advanced 0.4904 mm >= 0.15 mm; crack tip reached x = 0.9904 mm across complete ligament)",
+    "G6": "PASS (MISESERI and SDVs present on all 573 frames on Layer 3 instance PART-1-1)",
+    "G7": "PASS (F_peak = 1.0745 N, F_final = 0.0279 N, post-peak load drop = 97.40% >= 50.0%)"
+  },
+  "final_displacement_mm": 0.01,
+  "min_damage": -0.011212233453989029,
+  "max_damage": 1.0022084712982178,
+  "min_delta_H": 0.0,
+  "max_crack_x_mm": 0.9904075264930725,
+  "crack_advancement_mm": 0.4904075264930725,
+  "has_miseseri": true,
+  "has_sdv": true,
+  "peak_rf_N": 1.0744651556015015,
+  "final_rf_N": 0.027900461107492447,
+  "softening_drop_pct": 97.40331634189911,
+  "job_id": "1423604.mmaster02",
+  "exec_host": "mnode099/0",
+  "cput_seconds": 434,
+  "walltime_seconds": 1642,
+  "memory_kb": 5018764,
+  "odb_path": "/scratch9/pr21vyci/runs/mode1_pk_f1768_case1_donor_prep/PK_F1769_C1_DONOR.odb",
+  "odb_size_bytes": 760217600
+}
