@@ -1,11 +1,11 @@
 {
-  "active": true,
+  "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "f1762-case4-pilot-auth-001",
-  "task_id": "F1762-CASE4-COMMON-FRAMEWORK-PILOT-SPECIFICATION",
-  "started_at": "2026-11-15T07:31:00+01:00",
-  "completed_at": null,
-  "starting_commit": "a45c5f204856b3793e87834511874ea3d08c5c74",
+  "session_id": "f1763-case4-pilot-exec-001",
+  "task_id": "F1763-CASE4-COMMON-FRAMEWORK-PILOT-EXECUTION",
+  "started_at": "2026-11-15T07:44:00+01:00",
+  "completed_at": "2026-11-15T07:55:00+01:00",
+  "starting_commit": "820cbfbc",
   "allowed_write_scope": [
     "project_coordination/**",
     ".agents/**",
@@ -17,5 +17,5 @@
     "scripts/**",
     "tests/unit/**"
   ],
-  "notes": "Claiming session for Task F1762: Case 4 Common-Framework Single-Pass Adaptive Remeshing Pilot Specification & Pre-Execution Verification. Delivering corrected pilot specification, source commit a45c5f20, exact donor selection mechanism, unit test receipts, and requesting authorization for 1 bounded common-framework pilot."
+  "notes": "Session closed for Task F1763: Case 4 Common-Framework Adaptive Remeshing Headless CAE Pilot Execution complete. PBS Job 1423575.mmaster02 completed Exit 0 in 49s walltime on mnode099, producing PK_F1728_CASE_4_ADAPT_PHYS.inp with 12,625 elements (97.58% quads, 0 negative Jacobians, max AR 2.462; Lig 2 99.6% area, Lig 3 100% area h<=l0/2, Lig 4 100% area; datacheck Exit 0). 23/23 regression tests pass."
 }

@@ -1,0 +1,149 @@
+{
+  "total_elements": 12625,
+  "total_nodes": 12846,
+  "quad_elements": 12320,
+  "tri_elements": 305,
+  "quad_percentage": 97.58,
+  "min_det_jacobian": 6.123767364344395e-07,
+  "negative_jacobians": 0,
+  "jacobian_valid": true,
+  "max_aspect_ratio": 2.462,
+  "mean_aspect_ratio": 1.248,
+  "global_mesh": {
+    "count": 12625,
+    "min_h_um": 1.264,
+    "max_h_um": 32.342,
+    "mean_h_um": 6.649,
+    "frac_count_le_l0": 0.7795,
+    "frac_count_le_half_l0": 0.3563,
+    "frac_area_le_l0": 0.2384,
+    "frac_area_le_half_l0": 0.0446,
+    "total_area_mm2": 0.918551
+  },
+  "ligament_1": {
+    "count": 1340,
+    "min_h_um": 1.595,
+    "max_h_um": 10.072,
+    "mean_h_um": 4.239,
+    "frac_count_le_l0": 0.9799,
+    "frac_count_le_half_l0": 0.5619,
+    "frac_area_le_l0": 0.9274,
+    "frac_area_le_half_l0": 0.28,
+    "total_area_mm2": 0.02727
+  },
+  "ligament_2": {
+    "count": 1473,
+    "min_h_um": 1.264,
+    "max_h_um": 8.908,
+    "mean_h_um": 3.561,
+    "frac_count_le_l0": 0.9993,
+    "frac_count_le_half_l0": 0.6857,
+    "frac_area_le_l0": 0.9962,
+    "frac_area_le_half_l0": 0.4307,
+    "total_area_mm2": 0.020633
+  },
+  "ligament_3": {
+    "count": 511,
+    "min_h_um": 1.774,
+    "max_h_um": 3.862,
+    "mean_h_um": 2.503,
+    "frac_count_le_l0": 1.0,
+    "frac_count_le_half_l0": 1.0,
+    "frac_area_le_l0": 1.0,
+    "frac_area_le_half_l0": 1.0,
+    "total_area_mm2": 0.003271
+  },
+  "ligament_4": {
+    "count": 1496,
+    "min_h_um": 1.278,
+    "max_h_um": 7.115,
+    "mean_h_um": 3.251,
+    "frac_count_le_l0": 1.0,
+    "frac_count_le_half_l0": 0.742,
+    "frac_area_le_l0": 1.0,
+    "frac_area_le_half_l0": 0.4695,
+    "total_area_mm2": 0.017667
+  },
+  "bulk_far_field": {
+    "count": 1838,
+    "min_h_um": 2.949,
+    "max_h_um": 32.342,
+    "mean_h_um": 16.684,
+    "frac_count_le_l0": 0.0713,
+    "frac_count_le_half_l0": 0.0027,
+    "frac_area_le_l0": 0.0098,
+    "frac_area_le_half_l0": 0.0001,
+    "total_area_mm2": 0.599821
+  },
+  "centerline_profiles": {
+    "Ligament 1 (Left Arc to Hole 1)": {
+      "corridor_element_count": 294,
+      "profile_bins_mean_h_um": [
+        2.54,
+        2.97,
+        4.1,
+        5.413,
+        7.439,
+        8.279,
+        6.303,
+        4.55,
+        3.808,
+        3.302
+      ]
+    },
+    "Ligament 2 (Hole 1 to Hole 2)": {
+      "corridor_element_count": 418,
+      "profile_bins_mean_h_um": [
+        2.517,
+        2.749,
+        3.167,
+        3.992,
+        4.691,
+        5.544,
+        4.285,
+        3.503,
+        2.634,
+        2.309
+      ]
+    },
+    "Ligament 3 (Hole 2 to Hole 3)": {
+      "corridor_element_count": 202,
+      "profile_bins_mean_h_um": [
+        2.107,
+        2.199,
+        2.297,
+        2.375,
+        2.384,
+        2.341,
+        2.331,
+        2.279,
+        2.244,
+        2.187
+      ]
+    },
+    "Ligament 4 (Hole 3 to Right Arc)": {
+      "corridor_element_count": 411,
+      "profile_bins_mean_h_um": [
+        2.103,
+        2.366,
+        2.866,
+        3.671,
+        5.225,
+        4.437,
+        4.149,
+        3.162,
+        2.534,
+        2.132
+      ]
+    }
+  },
+  "parity_evaluation": {
+    "published_target_elements": 12944,
+    "difference_vs_published_pct": -2.46,
+    "published_parity_pass": false,
+    "historical_f1725_elements": 13017,
+    "difference_vs_historical_pct": -3.01,
+    "fe_quality_pass": true,
+    "active_ligaments_resolved": true
+  }
+}
