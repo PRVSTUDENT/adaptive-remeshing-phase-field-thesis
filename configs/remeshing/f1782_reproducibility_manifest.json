@@ -1,0 +1,175 @@
+{
+  "manifest_version": "2.0.0",
+  "task_id": "F1782-METHOD-A-ELIMINATE-HARDCODING-AND-PROVE-GEOMETRY-INDEPENDENT-ADAPTIVITY",
+  "generated_at": "2026-11-15T18:30:00+01:00",
+  "governing_rules": {
+    "frozen_uel_subroutine": "models/pandey_kumar_mode1/f42_mixed_uel.for",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "framework_module": "scripts/remeshing/reusable_2d_adaptive_framework.py",
+    "framework_sha256": "70D23A2EF7D31139428D370D7511F4CE8E89053E6EB7E9BA8E117D0990AD0863",
+    "cumulative_pbs_submissions": 35,
+    "max_new_pbs_submissions": 0,
+    "submissions_consumed": 0,
+    "methodology_provenance": "Pandey & Kumar (2025) CMES adaptive remeshing reproduction and generalization with explicit provenance labeling"
+  },
+  "benchmarks": {
+    "case_1": {
+      "case_id": "case_1",
+      "benchmark_name": "Pandey & Kumar (2025) Section 4.1 Mode-I Edge-Cracked Plate",
+      "algorithm_variant": "Method A.1 (Single-Pass Native Method A with Damage-Informed Sizing Envelope)",
+      "configuration_file": "configs/remeshing/f1728_case1_mode1_edge_crack.json",
+      "indicator_type": "DAMAGE_INFORMED_ENVELOPE",
+      "provenance_classification": "SYNTHESIZED_DAMAGE_INFORMED_SIZING_ENVELOPE",
+      "indicator_provenance_note": "Abaqus-compatible MISESERI/MISESAVG encoding derived from authentic Step-2 ALL_INCREMENTS coupled fracture simulation (PK_F1769_C1_DONOR.odb) via 1D phase-field exponential sizing relation; not a native recovered stress error",
+      "calibrated_envelope_parameters": {
+        "core_factor": 3.0,
+        "process_factor": 1.2,
+        "d_core": 0.40,
+        "d_proc": 0.10,
+        "d_noise": 0.08,
+        "frame_stride": 5,
+        "h_bg_mm": 0.025
+      },
+      "donor_odb_cluster_path": "/scratch9/pr21vyci/runs/mode1_pk_f1768_case1_donor_prep/PK_F1769_C1_DONOR.odb",
+      "donor_odb_repo_path": "models/pandey_kumar_mode1/237_f1768_case1_donor/PK_F1769_C1_DONOR.odb",
+      "donor_odb_sha256": "3A9033581AF1FF5E876FC7367DE6FEC7C94787B0D176B68A8FCCE478AEA78716",
+      "synthesized_envelope_cluster_path": "/scratch9/pr21vyci/runs/mode1_pk_f1780_case1_opt/PK_F1780_CASE1_ENVELOPE.odb",
+      "synthesized_envelope_repo_path": "models/pandey_kumar_mode1/239_f1772_case1_remesh/PK_F1772_CASE1_ENVELOPE.odb",
+      "remeshing_controls": {
+        "error_target_eta_pct": 1.85,
+        "coarsening_factor": "DEFAULT_LIMIT",
+        "h_min_mm": 0.0010,
+        "h_max_mm": 0.0200,
+        "output_frequency": "ALL_INCREMENTS"
+      },
+      "physical_mesh_path": "models/pandey_kumar_mode1/242_f1780_optimized_regression/case1/PK_F1728_CASE_1_ADAPT_PHYS.inp",
+      "physical_mesh_sha256": "64C13066FE189AE3DC9BD17D91C4977465A71DDF173C74C23FAAE5ED1A3102F8",
+      "production_deck_path": "models/pandey_kumar_mode1/242_f1780_optimized_regression/case1/PK_F1728_CASE_1_PROD.inp",
+      "production_deck_sha256": "77C8819EB2269E5247BBA79EFA72B94A496E75C0CD87346A4A5CF9FE481BCB39",
+      "mesh_quality_results": {
+        "total_elements": 16597,
+        "quad_percent": 97.30,
+        "min_det_j": 8.23e-07,
+        "max_aspect_ratio": 2.55,
+        "median_aspect_ratio": 1.22,
+        "aspect_ratio_violations_gt_4": 0,
+        "proximal_tip_le_l0_half_pct": 75.0,
+        "full_ligament_compliance_pct": 100.0,
+        "coarse_barriers_count": 0
+      }
+    },
+    "case_2": {
+      "case_id": "case_2",
+      "benchmark_name": "Original Master Thesis Mode-I Edge-Notched Plate with Off-Axis Hole",
+      "algorithm_variant": "Method A.1 (Single-Pass Native Method A with Damage-Informed Sizing Envelope)",
+      "configuration_file": "configs/remeshing/f1728_case2_off_axis_hole.json",
+      "indicator_type": "DAMAGE_INFORMED_ENVELOPE",
+      "provenance_classification": "SYNTHESIZED_DAMAGE_INFORMED_SIZING_ENVELOPE",
+      "indicator_provenance_note": "Abaqus-compatible MISESERI/MISESAVG encoding derived from authentic coupled fracture simulation PK_HOLE_COARSE_JOB1.odb via 1D phase-field exponential sizing relation; not a native recovered stress error",
+      "calibrated_envelope_parameters": {
+        "core_factor": 2.5,
+        "process_factor": 1.2,
+        "d_core": 0.40,
+        "d_proc": 0.10,
+        "d_noise": 0.08,
+        "frame_stride": 5,
+        "h_bg_mm": 0.025
+      },
+      "donor_odb_repo_path": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_JOB1.odb",
+      "synthesized_envelope_repo_path": "models/pandey_kumar_mode1/224_f1734_case2_distal_refinement/PK_F1779_CASE2_ENVELOPE.odb",
+      "remeshing_controls": {
+        "error_target_eta_pct": 2.30,
+        "coarsening_factor": "DEFAULT_LIMIT",
+        "h_min_mm": 0.0015,
+        "h_max_mm": 0.0200,
+        "output_frequency": "LAST_INCREMENT"
+      },
+      "physical_mesh_path": "models/pandey_kumar_mode1/242_f1780_optimized_regression/case2/PK_F1728_CASE_2_ADAPT_PHYS.inp",
+      "physical_mesh_sha256": "C17B4B40DF7C4EEFE04CFEFBFCE3E1A29D64930F87474BEE174092EBEA46F981",
+      "production_deck_path": "models/pandey_kumar_mode1/242_f1780_optimized_regression/case2/PK_F1728_CASE_2_PROD.inp",
+      "production_deck_sha256": "86ADE58A463BDE45ECDA5F91C802EC79B501B6A457D9A4C07521F374944DECC8",
+      "mesh_quality_results": {
+        "total_elements": 32983,
+        "quad_percent": 96.96,
+        "min_det_j": 1.04e-07,
+        "max_aspect_ratio": 2.66,
+        "median_aspect_ratio": 1.23,
+        "aspect_ratio_violations_gt_4": 0,
+        "distal_crack_corridor_le_l0_half_pct": 100.0,
+        "distal_broad_band_le_l0_half_pct": 97.3,
+        "outer_distal_coarse_barriers_count": 0
+      }
+    },
+    "case_3": {
+      "case_id": "case_3",
+      "benchmark_name": "Pandey & Kumar (2025) Section 4.3 Rectangular Notched Plate with Hole and Pins",
+      "algorithm_variant": "Method A.2 (Two-Pass Sequential Native Remeshing with Recovery Step Companions)",
+      "configuration_file": "configs/remeshing/f1728_case3_notched_plate_pins.json",
+      "indicator_type": "NATIVE_STRESS_ERROR",
+      "provenance_classification": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
+      "indicator_provenance_note": "Abaqus recovered stress error MISESERI from sequential multi-state linear recovery steps (authentic finite element stress recovery)",
+      "feature_edge_seeding": {
+        "blunt_notch_root_height_mm": 0.40,
+        "notch_root_elements": 4,
+        "derived_seed_size_mm": 0.10
+      },
+      "donor_odb_list": [
+        "models/pandey_kumar_mode1/227_f1740_case3_state2/PK_SEC43_PRESCRIBED_STATE2.odb",
+        "models/pandey_kumar_mode1/229_f1742_case3_state4/PK_SEC43_PRESCRIBED_STATE4.odb"
+      ],
+      "remeshing_controls": {
+        "error_target_eta_pct": 3.00,
+        "coarsening_factor": "DEFAULT_LIMIT",
+        "h_min_mm": 0.080,
+        "h_max_mm": 1.500,
+        "output_frequency": "LAST_INCREMENT"
+      },
+      "physical_mesh_path": "models/pandey_kumar_mode1/242_f1780_optimized_regression/case3/PK_F1728_CASE_3_ADAPT_PHYS.inp",
+      "physical_mesh_sha256": "DF7991DD6D65C256E07CD08218CAE96D08B64C7AC84B0270645AD83442C0BA75",
+      "production_deck_path": "models/pandey_kumar_mode1/242_f1780_optimized_regression/case3/PK_F1728_CASE_3_PROD.inp",
+      "production_deck_sha256": "F06CDFBBF4B4289C386B9FC571326E6026DCAEBE3C00E5D15C38D6C1C239DC4A",
+      "mesh_quality_results": {
+        "total_elements": 10064,
+        "quad_percent": 96.40,
+        "min_det_j": 1.25e-03,
+        "max_aspect_ratio": 3.086,
+        "median_aspect_ratio": 1.24,
+        "aspect_ratio_violations_gt_4": 0,
+        "secondary_corridor_compliance_stations": "10/10 (100.0%)",
+        "notch_root_elements_discretized": 4
+      }
+    },
+    "case_5": {
+      "case_id": "case_5",
+      "benchmark_name": "Pandey & Kumar (2025) Section 4.6 Tensile Failure of Plate with Seven Holes",
+      "algorithm_variant": "Method A.1 (Single-Pass Native Method A from Coarse Pre-Analysis)",
+      "configuration_file": "configs/remeshing/f1728_case5_seven_hole.json",
+      "indicator_type": "NATIVE_STRESS_ERROR",
+      "provenance_classification": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
+      "indicator_provenance_note": "Abaqus recovered stress error MISESERI from Step-2 ALL_INCREMENTS coarse pre-analysis solve (authentic finite element stress recovery)",
+      "donor_odb_repo_path": "models/pandey_kumar_mode1/218_f1726_seven_hole_study/PK_F1726_SEVEN_HOLE_COARSE.odb",
+      "donor_odb_sha256": "C7F5B4A6F1C4E7273F8089417A2085A6FE7149A705779E1837CFF70E10EE9ED6",
+      "remeshing_controls": {
+        "error_target_eta_pct": 5.68,
+        "coarsening_factor": "NOT_ALLOWED",
+        "h_min_mm": 0.0010,
+        "h_max_mm": 0.0300,
+        "output_frequency": "ALL_INCREMENTS"
+      },
+      "physical_mesh_path": "models/pandey_kumar_mode1/242_f1780_optimized_regression/case5/PK_F1728_CASE_5_ADAPT_PHYS.inp",
+      "physical_mesh_sha256": "2CFF12DF388CBD8BD3CA3289B7AAE87770E69B460771CB7AC2EDD81BAE79823C",
+      "production_deck_path": "models/pandey_kumar_mode1/242_f1780_optimized_regression/case5/PK_F1728_CASE_5_PROD.inp",
+      "production_deck_sha256": "FF34DBF131010C28AEF3E2B00BD5719861ACCC3383F22B2DC90B63C68EF8AE14",
+      "mesh_quality_results": {
+        "total_elements": 15466,
+        "quad_percent": 97.90,
+        "min_det_j": 3.92e-07,
+        "max_aspect_ratio": 2.37,
+        "median_aspect_ratio": 1.25,
+        "aspect_ratio_violations_gt_4": 0,
+        "selective_inter_hole_localization": "100.0% preserved",
+        "shielded_holes_coarsening": "Verified preserved"
+      }
+    }
+  }
+}

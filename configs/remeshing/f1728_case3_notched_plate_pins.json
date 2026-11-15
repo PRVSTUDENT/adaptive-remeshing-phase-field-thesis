@@ -8,6 +8,7 @@
     "notch_length": 10.0,
     "notch_y": 70.0,
     "notch_slit_opening": 0.2,
+    "notch_root_elements": 4,
     "has_hole": true,
     "voids": [
       {
@@ -63,6 +64,17 @@
     "variable": "MISESERI",
     "step_name": "RECOVERY_STEP",
     "output_frequency": "LAST_INCREMENT"
+  },
+  "indicator_options": {
+    "indicator_type": "NATIVE_STRESS_ERROR",
+    "provenance_description": "Native Abaqus recovered stress error MISESERI from sequential multi-state linear recovery steps (authentic finite element stress recovery)",
+    "core_factor": null,
+    "process_factor": null,
+    "d_core": null,
+    "d_proc": null,
+    "d_noise": null,
+    "frame_stride": null,
+    "h_bg": null
   },
   "published_benchmark": {
     "paper": "Pandey & Kumar (2025)",

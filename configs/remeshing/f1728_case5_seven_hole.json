@@ -86,6 +86,17 @@
     "step_name": "Step-2",
     "output_frequency": "ALL_INCREMENTS"
   },
+  "indicator_options": {
+    "indicator_type": "NATIVE_STRESS_ERROR",
+    "provenance_description": "Native Abaqus recovered stress error MISESERI from Step-2 ALL_INCREMENTS coarse pre-analysis (authentic finite element stress recovery)",
+    "core_factor": null,
+    "process_factor": null,
+    "d_core": null,
+    "d_proc": null,
+    "d_noise": null,
+    "frame_stride": null,
+    "h_bg": null
+  },
   "published_benchmark": {
     "paper": "Pandey & Kumar (2025)",
     "section": "4.6",

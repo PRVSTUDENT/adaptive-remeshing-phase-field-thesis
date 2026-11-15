@@ -106,15 +106,25 @@ class AdaptiveConfig(object):
         self.voids = geom.get("voids", [])
         self.edge_cutouts = geom.get("edge_cutouts", [])
         self.has_hole = bool(geom.get("has_hole", False)) or len(self.voids) > 0 or len(self.edge_cutouts) > 0
+
+        # Structured parsed void tuples (x, y, r) for generic geometry generation
+        self.void_definitions = []
+        for v in self.voids:
+            if isinstance(v, dict):
+                self.void_definitions.append((
+                    float(v.get("x", 0.0)),
+                    float(v.get("y", 0.0)),
+                    float(v.get("r", 0.0))
+                ))
+            elif isinstance(v, (list, tuple)) and len(v) >= 3:
+                self.void_definitions.append((float(v[0]), float(v[1]), float(v[2])))
+
         if "hole_center_x" in geom and geom["hole_center_x"] is not None:
             self.hole_x = float(geom["hole_center_x"])
             self.hole_y = float(geom["hole_center_y"])
             self.hole_r = float(geom["hole_radius"])
-        elif len(self.voids) == 1:
-            v0 = self.voids[0]
-            self.hole_x = float(v0.get("x", 0.0))
-            self.hole_y = float(v0.get("y", 0.0))
-            self.hole_r = float(v0.get("r", 0.0))
+        elif len(self.void_definitions) == 1:
+            self.hole_x, self.hole_y, self.hole_r = self.void_definitions[0]
         else:
             self.hole_x = None
             self.hole_y = None
@@ -155,6 +165,29 @@ class AdaptiveConfig(object):
         self.variable = str(rr.get("variable", rr.get("indicator", "MISESERI")))
         self.step_name = str(rr.get("step_name", "Step-1"))
         self.output_frequency = str(rr.get("output_frequency", "ALL_INCREMENTS"))
+
+        # Explicit indicator provenance and sizing parameters
+        ind = config_data.get("indicator_options", config_data.get("damage_envelope", config_data.get("envelope_options", config_data.get("envelope", {}))))
+        default_ind_type = "DAMAGE_INFORMED_ENVELOPE" if self.case_id in ("case_1", "case_2") else "NATIVE_STRESS_ERROR"
+        self.indicator_type = str(ind.get("indicator_type", rr.get("indicator_type", default_ind_type)))
+        self.indicator_description = str(ind.get("description", "Abaqus recovered stress error" if self.indicator_type == "NATIVE_STRESS_ERROR" else "Synthesized damage-informed sizing envelope"))
+        
+        def _get_float(d, key, dflt):
+            v = d.get(key)
+            return dflt if v is None else float(v)
+
+        def _get_int(d, key, dflt):
+            v = d.get(key)
+            return dflt if v is None else int(v)
+
+        self.core_factor = _get_float(ind, "core_factor", 3.0 if self.case_id == "case_1" else 2.5)
+        self.process_factor = _get_float(ind, "process_factor", 1.2)
+        self.d_core = _get_float(ind, "d_core", 0.40)
+        self.d_proc = _get_float(ind, "d_proc", 0.10)
+        self.d_noise = _get_float(ind, "d_noise", 0.08)
+        self.frame_stride = _get_int(ind, "frame_stride", 5)
+        self.h_bg = _get_float(ind, "h_bg", self.max_h)
+        self.notch_root_elements = _get_int(geom, "notch_root_elements", _get_int(ind, "notch_root_elements", 4))
 
         opts = config_data.get("deck_options", config_data.get("paths", {}))
         self.uel_subroutine = opts.get("uel_subroutine", opts.get("uel_source", "f42_mixed_uel.for"))
@@ -270,6 +303,19 @@ class StraightNotchMode1Adapter(GeometryAdapter):
             return "PROPAGATION_CORRIDOR"
         return "FAR_FIELD"
 
+    def apply_local_seeds(self, part, seed_size):
+        """Seed the horizontal notch seam edge to avoid boundary element stretching
+        where free paving transitions from the refined crack core to the far field."""
+        na = self.config.notch_a if self.config.notch_a is not None else 0.5
+        ny = self.config.notch_y if self.config.notch_y is not None else 0.5
+        try:
+            seam_edges = part.edges.findAt(((0.5 * na, ny, 0.0), ))
+            if seam_edges:
+                seam_seed = min(self.config.l0 / 2.0, seed_size)
+                part.seedEdgeBySize(edges=seam_edges, size=seam_seed, deviationFactor=0.05, minSizeFactor=0.02, constraint=FREE)
+        except Exception:
+            pass
+
 
 class OffAxisHoleMode1Adapter(GeometryAdapter):
     """Adapter for Case 2: Original Master Thesis 1x1 mm Plate with Off-Axis Hole."""
@@ -288,7 +334,11 @@ class OffAxisHoleMode1Adapter(GeometryAdapter):
         ]
 
     def get_hole_definitions(self):
-        return [(self.config.hole_x, self.config.hole_y, self.config.hole_r)]
+        if hasattr(self.config, "void_definitions") and len(self.config.void_definitions) > 0:
+            return list(self.config.void_definitions)
+        if self.config.hole_x is not None and self.config.hole_y is not None and self.config.hole_r is not None:
+            return [(self.config.hole_x, self.config.hole_y, self.config.hole_r)]
+        return [(0.65, 0.65, 0.10)]
 
     def is_inside_domain(self, x, y, tol=1e-5):
         if x < -tol or x > self.config.plate_w + tol:
@@ -297,9 +347,9 @@ class OffAxisHoleMode1Adapter(GeometryAdapter):
             return False
         if x <= self.config.notch_a + tol and abs(y - self.config.notch_y) < self.config.notch_w - tol:
             return False
-        dist_hole = math.hypot(x - self.config.hole_x, y - self.config.hole_y)
-        if dist_hole < self.config.hole_r - tol:
-            return False
+        for (hx, hy, hr) in self.get_hole_definitions():
+            if math.hypot(x - hx, y - hy) < hr - tol:
+                return False
         return True
 
     def classify_region(self, x, y, authentic_damage=None):
@@ -312,15 +362,16 @@ class OffAxisHoleMode1Adapter(GeometryAdapter):
                 return "TRANSITION_ZONE"
             else:
                 return "FAR_FIELD"
-        if 0.50 <= x <= 0.65 and 0.50 <= y <= 0.65:
-            return "NOTCH_TO_HOLE_LIGAMENT"
-        elif 0.70 <= x <= 0.85 and 0.55 <= y <= 0.72:
-            return "OPPOSITE_HOLE_FLANK"
+        for hx, hy, hr in self.get_hole_definitions():
+            if math.hypot(x - hx, y - hy) <= hr + 2.0 * self.config.l0:
+                return "HOLE_PERIMETER"
         return "FAR_FIELD"
 
 
 class NotchedPlateWithPinHolesAdapter(GeometryAdapter):
-    """Adapter for Case 3: Pandey & Kumar (2025) Section 4.3 Notched Plate with Pins (65x120 mm)."""
+    """Adapter for Case 3: Pandey & Kumar (2025) Section 4.3 Notched Plate with Pins (65x120 mm).
+    All internal hole and pin geometries are configuration-driven via geometry.voids.
+    """
 
     def __init__(self, config):
         super(NotchedPlateWithPinHolesAdapter, self).__init__(config)
@@ -329,9 +380,11 @@ class NotchedPlateWithPinHolesAdapter(GeometryAdapter):
         self.notch_w = float(config.notch_w if config.notch_w is not None else 0.2)
         self.plate_w = float(config.plate_w)
         self.plate_h = float(config.plate_h)
-        self.central_hole = (36.5, 51.0, 10.0)
-        self.lower_pin = (20.0, 20.0, 5.0)
-        self.upper_pin = (20.0, 100.0, 5.0)
+        if hasattr(config, "void_definitions") and len(config.void_definitions) > 0:
+            self.holes = list(config.void_definitions)
+        else:
+            # Fallback to Table 4 defaults only if voids omitted from config
+            self.holes = [(36.5, 51.0, 10.0), (20.0, 20.0, 5.0), (20.0, 100.0, 5.0)]
 
     def get_outer_polygon_points(self):
         w = self.notch_w
@@ -347,7 +400,7 @@ class NotchedPlateWithPinHolesAdapter(GeometryAdapter):
         ]
 
     def get_hole_definitions(self):
-        return [self.central_hole, self.lower_pin, self.upper_pin]
+        return self.holes
 
     def is_inside_domain(self, x, y, tol=1e-5):
         if x < -tol or x > self.plate_w + tol:
@@ -372,36 +425,25 @@ class NotchedPlateWithPinHolesAdapter(GeometryAdapter):
             else:
                 return "FAR_FIELD"
 
-        # Primary ligament: notch tip (10, 70) to central hole perimeter (27, 53)
-        x1, y1 = 10.0, 70.0
-        x2, y2 = 27.0, 53.0
-        dx, dy = x2 - x1, y2 - y1
-        l2 = dx*dx + dy*dy
-        t = max(0.0, min(1.0, ((x - x1)*dx + (y - y1)*dy) / l2)) if l2 > 0 else 0.0
-        d_prim = math.hypot(x - (x1 + t*dx), y - (y1 + t*dy))
-        if d_prim <= 3.0 * self.config.l0:
-            return "PRIMARY_LIGAMENT"
+        # Check proximity to notch root
+        if math.hypot(x - self.notch_a, y - self.notch_y) <= 3.0 * self.config.l0:
+            return "NOTCH_ROOT_VICINITY"
 
-        # Secondary ligament: right flank of central hole (46.5, 51.0) towards right edge (65.0, 51.0)
-        if 46.5 <= x <= 65.0 and abs(y - 51.0) <= 3.0 * self.config.l0:
-            return "SECONDARY_LIGAMENT"
-
-        # Boundary zones around holes
-        d_cent = abs(math.hypot(x - 36.5, y - 51.0) - 10.0)
-        if d_cent <= 2.0 * self.config.l0:
-            return "CENTRAL_HOLE_BOUNDARY"
-
-        d_low = abs(math.hypot(x - 20.0, y - 20.0) - 5.0)
-        d_upp = abs(math.hypot(x - 20.0, y - 100.0) - 5.0)
-        if min(d_low, d_upp) <= 2.0 * self.config.l0:
-            return "PIN_HOLE_ZONES"
+        # Check proximity to any configuration-driven void perimeter
+        for h_idx, (hx, hy, hr) in enumerate(self.get_hole_definitions()):
+            if abs(math.hypot(x - hx, y - hy) - hr) <= 2.0 * self.config.l0:
+                return "HOLE_%d_BOUNDARY" % (h_idx + 1)
 
         return "FAR_FIELD"
 
     def apply_local_seeds(self, part, seed_size):
         """
-        Seed the vertical blunt notch root (0.4 mm height) to prevent stretched elements
+        Seed the vertical blunt notch root (2 * notch_w height) to prevent stretched elements
         where the narrow root meets horizontal notch flanks.
+        Seed size is derived from root height and configured resolution constraints:
+            derived_seed = (2.0 * notch_w) / float(notch_root_elements)
+            seed = min(derived_seed, seed_size)
+        ensuring regularized quad layers across the blunt root without hardcoded magic numbers.
         """
         short_edges = []
         tol = 1e-3
@@ -410,8 +452,11 @@ class NotchedPlateWithPinHolesAdapter(GeometryAdapter):
             if pt[0] <= self.notch_a + tol and (self.notch_y - self.notch_w - tol) <= pt[1] <= (self.notch_y + self.notch_w + tol):
                 short_edges.append(edge)
         if short_edges:
+            n_root = int(getattr(self.config, 'notch_root_elements', 4))
+            derived_seed = (2.0 * self.notch_w) / float(max(1, n_root))
+            target_seed = min(derived_seed, seed_size)
             for se in short_edges:
-                part.seedEdgeBySize(edges=(se,), size=min(0.10, self.notch_w), deviationFactor=0.05, minSizeFactor=0.02, constraint=FREE)
+                part.seedEdgeBySize(edges=(se,), size=target_seed, deviationFactor=0.05, minSizeFactor=0.02, constraint=FREE)
 
 
 class FiveHolePlateAdapter(GeometryAdapter):
@@ -492,20 +537,24 @@ class FiveHolePlateAdapter(GeometryAdapter):
 
 class SevenHolePlateAdapter(GeometryAdapter):
     """Adapter for Case 5: Pandey & Kumar (2025) Section 4.6 Plate with Seven Holes (1x1 mm).
-    Features 7 circular voids positioned per Table 6.
+    All void coordinates and radii are configuration-driven via geometry.voids.
     """
 
     def __init__(self, config):
         super(SevenHolePlateAdapter, self).__init__(config)
-        self.holes = [
-            (0.15, 0.40, 0.10), # h1
-            (0.50, 0.55, 0.10), # h2
-            (0.85, 0.50, 0.10), # h3
-            (0.30, 0.60, 0.05), # h4
-            (0.70, 0.60, 0.05), # h5
-            (0.40, 0.35, 0.05), # h6 (shielded)
-            (0.65, 0.35, 0.05)  # h7 (shielded)
-        ]
+        if hasattr(config, "void_definitions") and len(config.void_definitions) > 0:
+            self.holes = list(config.void_definitions)
+        else:
+            # Fallback to Table 6 defaults only if voids omitted from config
+            self.holes = [
+                (0.15, 0.40, 0.10), # h1
+                (0.50, 0.55, 0.10), # h2
+                (0.85, 0.50, 0.10), # h3
+                (0.30, 0.60, 0.05), # h4
+                (0.70, 0.60, 0.05), # h5
+                (0.40, 0.35, 0.05), # h6 (shielded)
+                (0.65, 0.35, 0.05)  # h7 (shielded)
+            ]
 
     def get_outer_polygon_points(self):
         return [
@@ -539,30 +588,10 @@ class SevenHolePlateAdapter(GeometryAdapter):
             else:
                 return "FAR_FIELD"
 
-        # Active upper fracture corridor connecting h1 -> h4 -> h2 -> h5 -> h3:
-        segments = [
-            ((0.15, 0.40), (0.30, 0.60)),
-            ((0.30, 0.60), (0.50, 0.55)),
-            ((0.50, 0.55), (0.70, 0.60)),
-            ((0.70, 0.60), (0.85, 0.50))
-        ]
-        min_d = 1e9
-        for (x1, y1), (x2, y2) in segments:
-            dx, dy = x2 - x1, y2 - y1
-            l2 = dx*dx + dy*dy
-            t = max(0.0, min(1.0, ((x - x1)*dx + (y - y1)*dy) / l2)) if l2 > 0 else 0.0
-            d = math.hypot(x - (x1 + t*dx), y - (y1 + t*dy))
-            if d < min_d:
-                min_d = d
-
-        if min_d <= 3.0 * self.config.l0:
-            return "UPPER_CRACK_CORRIDOR"
-
-        # Lower shielded holes h6 (0.40, 0.35, r=0.05) and h7 (0.65, 0.35, r=0.05)
-        d6 = abs(math.hypot(x - 0.40, y - 0.35) - 0.05)
-        d7 = abs(math.hypot(x - 0.65, y - 0.35) - 0.05)
-        if min(d6, d7) <= 3.0 * self.config.l0:
-            return "LOWER_SHIELDED_HOLES"
+        # Check proximity to any configuration-driven void perimeter
+        for h_idx, (hx, hy, hr) in enumerate(self.get_hole_definitions()):
+            if abs(math.hypot(x - hx, y - hy) - hr) <= 2.0 * self.config.l0:
+                return "HOLE_%d_BOUNDARY" % (h_idx + 1)
 
         return "FAR_FIELD"
 
@@ -902,7 +931,9 @@ class MeshQualityAuditEngine(object):
             "elements_le_l0_half": n_le_l0_half,
             "pct_elements_le_l0_half": 100.0 * n_le_l0_half / max(total_elems, 1),
             "elements_le_l0_third": n_le_l0_third,
-            "pct_elements_le_l0_third": 100.0 * n_le_l0_third / max(total_elems, 1)
+            "pct_elements_le_l0_third": 100.0 * n_le_l0_third / max(total_elems, 1),
+            "provenance_classification": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR" if getattr(getattr(adapter, "config", None), "indicator_type", "UNKNOWN") == "NATIVE_STRESS_ERROR" else "SYNTHESIZED_DAMAGE_INFORMED_SIZING_ENVELOPE",
+            "indicator_type": getattr(getattr(adapter, "config", None), "indicator_type", "UNKNOWN")
         }
 
 
@@ -1336,17 +1367,47 @@ class AdvancingDamageEnvelopeBuilder(object):
         inst_dst = odb_dst.rootAssembly.instances[inst_name]
         step_dst = odb_dst.steps[step_name]
 
-        env_frame = step_dst.Frame(frameId=9999, frameValue=999.0, description="Advancing Crack Temporal Damage Envelope")
+        env_frame = step_dst.Frame(
+            frameId=9999,
+            frameValue=999.0,
+            description="Synthesized Damage-Informed Sizing Envelope (Derived from %s via 1D PF sizing; NOT a native stress error)" % damage_variable
+        )
         fo_evol = env_frame.FieldOutput(name='EVOL', description='Element volume', type=SCALAR)
         fo_evol.addData(position=WHOLE_ELEMENT, instance=inst_dst, labels=elem_labels, data=evol_data)
-        fo_eri = env_frame.FieldOutput(name='MISESERI', description='Temporal Error Envelope from Advancing Crack Front', type=SCALAR)
+        fo_eri = env_frame.FieldOutput(
+            name='MISESERI',
+            description='Synthesized Damage-Informed Sizing Target (Encoded as MISESERI for Abaqus UNIFORM_ERROR remeshing; not native stress error)',
+            type=SCALAR
+        )
         fo_eri.addData(position=WHOLE_ELEMENT, instance=inst_dst, labels=elem_labels, data=eri_vals)
-        fo_avg = env_frame.FieldOutput(name='MISESAVG', description='Uniform Reference Average Stress', type=SCALAR)
+        fo_avg = env_frame.FieldOutput(name='MISESAVG', description='Uniform Reference Scaling Base', type=SCALAR)
         fo_avg.addData(position=WHOLE_ELEMENT, instance=inst_dst, labels=elem_labels, data=avg_vals)
 
         odb_dst.save()
         odb_dst.close()
         return target_odb_path
+
+    @classmethod
+    def build_envelope_from_config(cls, config, source_odb_path, target_odb_path, damage_variable='SDV1', step_name=None):
+        """Builds an advancing damage envelope directly using parameters configured in AdaptiveConfig."""
+        s_name = step_name or config.step_name
+        if s_name not in ("Step-2", "RECOVERY_STEP"):
+            s_name = "Step-2"
+        return cls.build_envelope_odb(
+            source_odb_path=source_odb_path,
+            target_odb_path=target_odb_path,
+            l0=config.l0,
+            h_bg=getattr(config, 'h_bg', config.max_h),
+            error_target=config.error_target / 100.0,
+            step_name=s_name,
+            damage_variable=damage_variable,
+            frame_stride=getattr(config, 'frame_stride', 5),
+            core_factor=getattr(config, 'core_factor', 2.5),
+            process_factor=getattr(config, 'process_factor', 1.2),
+            d_core=getattr(config, 'd_core', 0.40),
+            d_proc=getattr(config, 'd_proc', 0.10),
+            d_noise=getattr(config, 'd_noise', 0.08)
+        )
 
 
 # ==============================================================================
