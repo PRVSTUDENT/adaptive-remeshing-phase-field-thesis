@@ -1,16 +1,18 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "session-2026-11-15-f1790-physical-gate-restoration-release-diagnostic",
-  "task_id": "F1790-MODE-I-METHOD-C-PHYSICAL-GATE-RESTORATION-AND-RELEASE-DIAGNOSTIC",
-  "started_at": "2026-11-15T21:25:00+01:00",
-  "starting_commit": "b4023efa5863c321703666b69b2b5ee57f369ca2",
+  "session_id": "session-2026-11-15-f1791-diagnostic-observability-execution-qualification",
+  "task_id": "F1791-MODE-I-METHOD-C-DIAGNOSTIC_OBSERVABILITY_REPAIR_AND_EXECUTION_QUALIFICATION",
+  "started_at": "2026-11-15T21:43:00+01:00",
+  "starting_commit": "8840a28481d329908edfd786367004e49e4b6657",
   "allowed_write_scope": [
     "project_coordination/",
     "docs/validation/",
     "models/pandey_kumar_mode1/",
     "scripts/state_transfer/",
+    "scripts/hpc/",
+    "configs/hpc/",
     "tests/unit/"
   ],
-  "notes": "Released after completing Task F1790: Mode-I Method C Physical Gate Restoration and Release Diagnostic. Restored original predeclared Method C acceptance criteria (Gates C1-C5) without renaming or relaxing, properly classified as NOT_YET_MEASURABLE pending PBS solve; evaluated offline quadrature prechecks; re-engineered Step-2-Hold with fine incrementation (dt_init=0.05, dt_max=0.10); resolved and explained inactive DOF 2 warning on N_BOTTOM; executed local Abaqus 2024 pre.exe datacheck with zero fatal errors across 49,791 elements and 16,643 nodes in 2.8s CPU time; archived accessible evidence text logs in git; formulated exact cluster experiment package (Job 36) with submit_f1790_case1_diagnostic.pbs and extract_f1790_observables.py; cumulative PBS submissions strictly preserved at 35 with 0 new consumed; MASTER_GOAL_STATUS strictly remains OPEN."
+  "notes": "Released after completing Task F1791: Mode-I Method C Diagnostic Observability Repair and Execution Qualification. Repaired observable extractor with dynamic crack-tip coordinate resolution to Node 209 at (0.5, 0.5) mm; enforced strict fail-closed validation emitting NOT_MEASURABLE on missing files/fields; verified authentic increment-matched ODB damage extraction; audited 98 inactive-DOF-2 nodes on N_TOP tied via *EQUATION; repaired PBS wrapper set -e error trap; qualified execution route via Invoke-Mode1Execution.ps1 -DryRun; 9/9 unit tests PASS, 57/57 active regression tests PASS; exactly 0 new PBS jobs consumed, cumulative strictly preserved at 35; MASTER_GOAL_STATUS strictly remains OPEN."
 }

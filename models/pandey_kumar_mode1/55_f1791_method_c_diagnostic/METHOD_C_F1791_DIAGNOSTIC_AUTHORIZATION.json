@@ -1,0 +1,46 @@
+{
+  "batch_name": "MODE1_METHOD_C_F1791_DIAGNOSTIC",
+  "max_submissions": 1,
+  "hours_valid": 24,
+  "automatic_retry": false,
+  "files": {
+    "PK_F1790_CASE1_RELEASE_DIAGNOSTIC.inp": "5a02c4d7067366afae6212fd62e3adbdcd9585d54b20e512b6ea50e01a8904a9",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_f1791_case1_diagnostic.pbs": "0e29df5a8c982324812d690c6e4f76dcfbfdf1be8c63b1551bccf09bdaa0c4ab",
+    "extract_f1791_observables.py": "bac708dff28b9afde2725e3c513fbcf2a6b4fc8800c849e710d53bdeb91ed6e3",
+    "job_notifications.sh": "41a1d403b0356b55efa3bb1e67b4dd678e74664d501d838d9c01952c0c641f11",
+    "PACKAGE_MANIFEST.json": "ca49d3331864d422908a5162ce9fea49ebbbe47659dae855f294c69e7da0aeca"
+  },
+  "jobs": [
+    {
+      "id": "f1791_release_diag",
+      "pbs": "submit_f1791_case1_diagnostic.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_pk_f1791_diagnostic/submit_f1791_case1_diagnostic.pbs\"",
+      "command_sha256": "655ce609673c20f2f2c3f6a488e9764ad3a8873580ac3fbd092be3480f82b74a",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Task F1791 Mode-I Method C physical release diagnostic on 16,597-element target (u=0.0050 mm, Step-2-Hold dt_init=0.05)",
+      "cpus": 1,
+      "memory_gb": 8,
+      "walltime_hours": 1,
+      "queue": "entry_imfdfkmq",
+      "execution": "single-rank serial",
+      "input": "PK_F1790_CASE1_RELEASE_DIAGNOSTIC.inp",
+      "datacheck": "PK_F1790_CASE1_DATACHECK.dat"
+    }
+  ],
+  "acceptance": {
+    "f1791_release_diag": "Equilibrium residual norm R_max/q_tilde <= 1.0e-3; reaction force parity |Delta RF|/RF_donor <= 0.50%; internal energy continuity |Delta E|/E_donor <= 0.50%; pointwise damage irreversibility min(Delta d) >= -1.0e-4; artificial crack-tip damage surge Delta d_tip <= 1.0e-3; Exit 0."
+  },
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-1-DIAG",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_pk_f1791_diagnostic",
+  "dependency_thresholds": {
+    "c1_residual_norm_max": 0.001,
+    "c2_reaction_force_delta_pct_max": 0.5,
+    "c3_internal_energy_delta_pct_max": 0.5,
+    "c4_pointwise_damage_delta_min": -0.0001,
+    "c5_crack_tip_damage_delta_max": 0.001
+  }
+}

@@ -2,7 +2,7 @@
 #PBS -N F1790_C1_DIAG
 #PBS -l select=1:ncpus=1:mem=8gb
 #PBS -l walltime=01:00:00
-#PBS -q normal_imfdfkmq
+#PBS -q entry_imfdfkmq
 #PBS -j oe
 #PBS -r n
 #PBS -o /scratch9/pr21vyci/runs/mode1_pk_f1790_diagnostic/pbs_execution.log
@@ -34,15 +34,19 @@ echo "PWD:  $(pwd)"
 
 ABAQUS_CMD="abaqus job=PK_F1790_CASE1_RELEASE_DIAGNOSTIC input=PK_F1790_CASE1_RELEASE_DIAGNOSTIC.inp user=f42_mixed_uel.for cpus=1 interactive"
 echo "Running: ${ABAQUS_CMD}"
+
+# Guarded execution: disable set -e around solver call to ensure exit code is captured
+set +e
 ${ABAQUS_CMD}
 EXIT_CODE=$?
+set -e
 
 echo "Abaqus completed with exit code: ${EXIT_CODE}"
 if [ ${EXIT_CODE} -eq 0 ]; then
     echo "=== TASK F1790 PHYSICAL RELEASE DIAGNOSTIC SUCCESS ==="
-    # Run observable extraction script
     python3 extract_f1790_observables.py --job-dir "${RUN_DIR}" --job-name PK_F1790_CASE1_RELEASE_DIAGNOSTIC --output-json "${RUN_DIR}/f1790_physical_gate_evaluation.json"
 else
-    echo "=== TASK F1790 PHYSICAL RELEASE DIAGNOSTIC FAILED ==="
+    echo "=== TASK F1790 PHYSICAL RELEASE DIAGNOSTIC TERMINATED WITH ERROR (EXIT ${EXIT_CODE}) ==="
+    python3 extract_f1790_observables.py --job-dir "${RUN_DIR}" --job-name PK_F1790_CASE1_RELEASE_DIAGNOSTIC --output-json "${RUN_DIR}/f1790_physical_gate_evaluation.json" || true
     exit ${EXIT_CODE}
 fi

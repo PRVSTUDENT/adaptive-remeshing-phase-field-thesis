@@ -1,0 +1,82 @@
+{
+  "task_id": "F1791-MODE-I-METHOD-C-DIAGNOSTIC_OBSERVABILITY_REPAIR_AND_EXECUTION_QUALIFICATION",
+  "receipt_timestamp": "2026-11-15T21:55:00+01:00",
+  "governing_directive": "HND-F1790-PHYSICAL-GATE-001",
+  "master_goal_status": "OPEN",
+  "frozen_codebases": {
+    "uel_path": "models/pandey_kumar_mode1/f42_mixed_uel.for",
+    "uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "framework_path": "scripts/remeshing/reusable_2d_adaptive_framework.py",
+    "framework_sha256": "181CB4E5A8CE765CBE0765D71BA9C3CCA934A33140BC61F5B9A4CD7A6AEFCD40"
+  },
+  "observable_extractor_provenance": {
+    "script_path": "scripts/state_transfer/extract_f1791_observables.py",
+    "sha256": "BAC708DFF28B9AFDE2725E3C513FBCF2A6B4FC8800C849E710D53BDEB91ED6E3",
+    "dynamic_crack_tip_resolution": {
+      "target_coords_mm": [0.5, 0.5],
+      "resolved_tip_node": 209,
+      "resolved_coords_mm": [0.5, 0.5],
+      "euclidean_distance_mm": 0.0,
+      "cluster_nodes_within_5um": [209, 2844, 2914, 2915, 3032, 3156, 16591]
+    },
+    "fail_closed_validation": "PASS",
+    "synthetic_pass_validation": "PASS",
+    "synthetic_fail_validation": "PASS"
+  },
+  "restored_physical_acceptance_gates": {
+    "gate_c1_equilibrium_residual_norm": {
+      "definition": "R_max / max(q_tilde, 1.0e-6)",
+      "threshold": 0.001,
+      "status": "NOT_YET_MEASURABLE_PENDING_PHYSICAL_SOLVE",
+      "verdict": "FAIL"
+    },
+    "gate_c2_reaction_force_parity": {
+      "definition": "|RF2_target - RF2_donor| / RF2_donor * 100%",
+      "donor_reference_force_N": 653.0886,
+      "threshold_pct": 0.5,
+      "status": "NOT_YET_MEASURABLE_PENDING_PHYSICAL_SOLVE",
+      "verdict": "FAIL"
+    },
+    "gate_c3_internal_energy_continuity": {
+      "definition": "|E_tot_target - E_tot_donor| / E_tot_donor * 100%",
+      "donor_reference_energy_mJ": 1.663384,
+      "threshold_pct": 0.5,
+      "status": "NOT_YET_MEASURABLE_PENDING_PHYSICAL_SOLVE",
+      "verdict": "FAIL"
+    },
+    "gate_c4_pointwise_damage_irreversibility": {
+      "definition": "min_i (d_i^(inc1) - d_i^(recon))",
+      "threshold": -0.0001,
+      "status": "NOT_YET_MEASURABLE_PENDING_PHYSICAL_SOLVE",
+      "verdict": "FAIL"
+    },
+    "gate_c5_artificial_crack_tip_damage_cap": {
+      "definition": "d_tip^(inc1) - d_tip^(recon) at dynamically resolved Node 209",
+      "threshold": 0.001,
+      "status": "NOT_YET_MEASURABLE_PENDING_PHYSICAL_SOLVE",
+      "verdict": "FAIL"
+    }
+  },
+  "preprocessor_warning_audit": {
+    "inactive_dof2_nodes_count": 98,
+    "identified_node_set": "N_TOP",
+    "physical_mechanism": "Step 1 redundant individual Dirichlet boundary condition on DOF 2 on nodes already tied to N_RP via *EQUATION (2, N_TOP, 2, 1.0, N_RP, 2, -1.0). In Step 2 (*BOUNDARY, OP=NEW), DOF 2 of N_TOP is governed solely by N_RP, resolving the constraint conflict.",
+    "layer2_mechanical_connectivity_verified": true,
+    "layer3_companion_connectivity_verified": true,
+    "uel_energy_csv_validity_verified": true
+  },
+  "pbs_wrapper_guarded_execution": {
+    "script_path": "models/pandey_kumar_mode1/submit_f1791_case1_diagnostic.pbs",
+    "sha256": "0E29DF5A8C982324812D690C6E4F76DCFBFDF1BE8C63B1551BCCF09BDAA0C4AB",
+    "queue": "entry_imfdfkmq",
+    "error_trap": "set +e before solver; EXIT_CODE=$? captured; set -e restored; extractor called on failure branch; exit ${EXIT_CODE}"
+  },
+  "execution_route_qualification": {
+    "controller_script": "scripts/hpc/Invoke-Mode1Execution.ps1",
+    "manifest_path": "models/pandey_kumar_mode1/55_f1791_method_c_diagnostic/METHOD_C_F1791_DIAGNOSTIC_AUTHORIZATION.json",
+    "manifest_sha256": "5E89931A2430335FC96A03A6BF35561FD3A1EEDF86EAAB082463A775617ADCA8",
+    "qualification_check": "PASS (DryRun Exit 0)",
+    "active_pbs_jobs_consumed": 0,
+    "cumulative_pbs_submissions": 35
+  }
+}
