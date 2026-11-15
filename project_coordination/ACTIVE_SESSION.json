@@ -1,10 +1,10 @@
 {
   "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "f1769-case1-donor-exec-prep-001",
-  "task_id": "F1769-CASE1-ADVANCING-COUPLED-DONOR-EXECUTION",
-  "started_at": "2026-11-15T09:26:00+01:00",
-  "starting_commit": "c5862fc0",
+  "session_id": "f1770-case1-donor-replacement-exec-001",
+  "task_id": "F1770-CASE1-ADVANCING-COUPLED-DONOR-REPLACEMENT-EXECUTION",
+  "started_at": "2026-11-15T09:50:00+01:00",
+  "starting_commit": "928cea93",
   "allowed_write_scope": [
     "project_coordination/**",
     ".agents/**",
@@ -15,5 +15,5 @@
     "scripts/**",
     "tests/unit/**"
   ],
-  "notes": "Claiming session for Task F1769: Closing F1768 following independent review approval HND-F1768-CASE1-DONOR-AUTH-001. Resolving BC audit (F1768-R04), initializing F1769 Case 1 Advancing Coupled Donor Execution, verifying preflight gates and staging review authorization payload HND-F1769-CASE1-DONOR-EXEC-001."
+  "notes": "Claiming session for Task F1770: Closing F1769 following R2 repair approval HND-F1769-CASE1-DONOR-R2-AUTH-001. Registering distinct technical replacement task F1770 for Case 1 Advancing Coupled Donor Execution using submit_f1769_case1_donor_r2.pbs, publishing execution specification, authoring unit tests, and staging review authorization payload HND-F1770-CASE1-DONOR-EXEC-001."
 }
