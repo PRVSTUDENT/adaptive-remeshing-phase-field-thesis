@@ -1,10 +1,10 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "session_id": "f1774-suite-regression-exec-001",
-  "task_id": "F1774-FOUR-BENCHMARK-METHOD-A-REGRESSION-EXECUTION",
-  "started_at": "2026-11-15T12:12:00+01:00",
-  "starting_commit": "0774050b4",
+  "active": false,
+  "agent": null,
+  "session_id": null,
+  "task_id": null,
+  "started_at": null,
+  "starting_commit": "d8f6d8809",
   "allowed_write_scope": [
     "project_coordination/**",
     ".agents/**",
@@ -17,5 +17,5 @@
     "results/figures/**",
     "MA_AdaptiveRemeshing_Report_2026/figures/**"
   ],
-  "notes": "Claiming session for Task F1774: Four-Benchmark Method A Adaptive Remeshing Execution & Validation Synthesis. Task F1773 completed execution-readiness and donor preflight (audit_regression_suite_donors.py Exit 0). Staged batch in /scratch9/pr21vyci/runs/mode1_pk_f1774_regression_batch/. Maximum 3 bounded PBS submissions authorized (Cases 2, 3, 5; Case 1 reused from F1772). Cumulative submissions = 30."
+  "notes": "Released session lock following successful completion of Task F1774: Four-Benchmark Method A Adaptive Remeshing Execution & Validation Synthesis. All 3 authorized PBS jobs completed Exit 0 on mnode099 (Jobs 1423625, 1423626, 1423627; datachecks Exit 0). 4-panel publication figure fig_f1774_four_benchmark_regression_synthesis.png and synthesis report published. Cumulative submissions permanently accounted as 33."
 }
