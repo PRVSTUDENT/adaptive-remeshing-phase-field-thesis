@@ -1,11 +1,11 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "f1753-case2-continuation-execution-001",
-  "task_id": "F1753-CASE2-CONTROL-ONLY-CONTINUATION-EXECUTION",
-  "started_at": "2026-11-15T00:06:00+01:00",
-  "completed_at": "2026-11-15T01:30:00+01:00",
-  "starting_commit": "4518b481ccb32740157909b6608daafa164af468",
+  "session_id": "f1757-method-a-priority-decision-001",
+  "task_id": "F1757-METHOD_A-RESEARCH_PRIORITY_DECISION",
+  "started_at": "2026-11-15T02:15:00+01:00",
+  "completed_at": null,
+  "starting_commit": "982cc17c98603a2be17c03a3085631d5c3d811ae",
   "allowed_write_scope": [
     "project_coordination/**",
     ".agents/**",
@@ -16,5 +16,5 @@
     "scripts/**",
     "tests/unit/**"
   ],
-  "notes": "Task F1753: Case 2 Method A Controlled Continuation Production Simulation (Job 1423552.mmaster02 actively running on compute node mnode099 with live cutback monitor; Round 4 independent review APPROVED with conditions)."
+  "notes": "Task F1757: Method A Research Priority Strategic Decision Checkpoint (Zero-PBS presentation of Case 2 achieved results vs proposed Case 1 completion milestone, physics & sizing reconciliation, and formal user authorization request)."
 }

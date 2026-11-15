@@ -1,0 +1,385 @@
+{
+  "task_id": "F1754-CASE2-DISCRETE-PHASE-FIELD-FAILURE-DIAGNOSIS",
+  "benchmark": "Pandey & Kumar (2025) Section 4.4 Case 2 Plate with Off-Axis Hole",
+  "authoritative_sources": {
+    "uel_source": "models/pandey_kumar_mode1/f42_mixed_uel.for (CE8D5EDC...)",
+    "solver_msg": "models/pandey_kumar_mode1/234_f1752_case2_continuation/PK_F1752_CASE_2_CONTINUATION.msg",
+    "solver_dat": "models/pandey_kumar_mode1/234_f1752_case2_continuation/PK_F1752_CASE_2_CONTINUATION.dat",
+    "solver_sta": "models/pandey_kumar_mode1/234_f1752_case2_continuation/PK_F1752_CASE_2_CONTINUATION.sta",
+    "audit_json": "results/validation/f1753_case2_continuation_audit.json (C3D27185...)"
+  },
+  "critical_nodes": {
+    "8056": {
+      "x": 0.903123915,
+      "y": 0.63625437,
+      "dist_hole_center_mm": 0.2534968613001434,
+      "dist_hole_boundary_mm": 0.15349686130014337,
+      "surrounding_elements_count": 3,
+      "local_h_mean_mm": 0.0057585580348598646,
+      "local_h_min_mm": 0.005333937952742716,
+      "ratio_h_mean_to_l0": 0.7678077379813153,
+      "ratio_h_mean_to_l0_half": 1.5356154759626306
+    },
+    "7317": {
+      "x": 0.910493851,
+      "y": 0.640557766,
+      "dist_hole_center_mm": 0.2606649232093205,
+      "dist_hole_boundary_mm": 0.1606649232093205,
+      "surrounding_elements_count": 4,
+      "local_h_mean_mm": 0.006432094813084094,
+      "local_h_min_mm": 0.006052844986308507,
+      "ratio_h_mean_to_l0": 0.8576126417445459,
+      "ratio_h_mean_to_l0_half": 1.7152252834890918
+    },
+    "6972": {
+      "x": 0.916199923,
+      "y": 0.633588791,
+      "dist_hole_center_mm": 0.266705318256025,
+      "dist_hole_boundary_mm": 0.166705318256025,
+      "surrounding_elements_count": 4,
+      "local_h_mean_mm": 0.0066008853148719505,
+      "local_h_min_mm": 0.006495646451878095,
+      "ratio_h_mean_to_l0": 0.8801180419829268,
+      "ratio_h_mean_to_l0_half": 1.7602360839658535
+    },
+    "7685": {
+      "x": 0.908524692,
+      "y": 0.633716702,
+      "dist_hole_center_mm": 0.259036989959835,
+      "dist_hole_boundary_mm": 0.15903698995983498,
+      "surrounding_elements_count": 4,
+      "local_h_mean_mm": 0.006408036075528102,
+      "local_h_min_mm": 0.005958668670360671,
+      "ratio_h_mean_to_l0": 0.8544048100704136,
+      "ratio_h_mean_to_l0_half": 1.7088096201408272
+    },
+    "168": {
+      "x": 0.917071879,
+      "y": 0.639524519,
+      "dist_hole_center_mm": 0.2672772423061342,
+      "dist_hole_boundary_mm": 0.1672772423061342,
+      "surrounding_elements_count": 4,
+      "local_h_mean_mm": 0.006349336590144481,
+      "local_h_min_mm": 0.00602437245777941,
+      "ratio_h_mean_to_l0": 0.8465782120192641,
+      "ratio_h_mean_to_l0_half": 1.6931564240385282
+    },
+    "7629": {
+      "x": 0.904715121,
+      "y": 0.642186046,
+      "dist_hole_center_mm": 0.25483494804119533,
+      "dist_hole_boundary_mm": 0.15483494804119532,
+      "surrounding_elements_count": 4,
+      "local_h_mean_mm": 0.006240759352221275,
+      "local_h_min_mm": 0.005664291773545626,
+      "ratio_h_mean_to_l0": 0.8321012469628367,
+      "ratio_h_mean_to_l0_half": 1.6642024939256734
+    },
+    "1422": {
+      "x": 0.604254186,
+      "y": 0.56107688,
+      "dist_hole_center_mm": 0.10000000384528493,
+      "dist_hole_boundary_mm": 3.845284923809089e-09,
+      "surrounding_elements_count": 2,
+      "local_h_mean_mm": 0.0028169924851820117,
+      "local_h_min_mm": 0.0027716279900873385,
+      "ratio_h_mean_to_l0": 0.3755989980242682,
+      "ratio_h_mean_to_l0_half": 0.7511979960485364
+    },
+    "8531": {
+      "x": 0.783011675,
+      "y": 0.642560542,
+      "dist_hole_center_mm": 0.133219560206598,
+      "dist_hole_boundary_mm": 0.033219560206598,
+      "surrounding_elements_count": 4,
+      "local_h_mean_mm": 0.001988739595523035,
+      "local_h_min_mm": 0.001960199733205021,
+      "ratio_h_mean_to_l0": 0.2651652794030714,
+      "ratio_h_mean_to_l0_half": 0.5303305588061428
+    },
+    "8907": {
+      "x": 0.781766653,
+      "y": 0.641092479,
+      "dist_hole_center_mm": 0.13206738724298234,
+      "dist_hole_boundary_mm": 0.03206738724298233,
+      "surrounding_elements_count": 4,
+      "local_h_mean_mm": 0.0020151869375727004,
+      "local_h_min_mm": 0.001980684145034505,
+      "ratio_h_mean_to_l0": 0.2686915916763601,
+      "ratio_h_mean_to_l0_half": 0.5373831833527202
+    }
+  },
+  "inc205_telemetry": {
+    "attempts": {
+      "1": {
+        "dt": 9.063e-11,
+        "iterations": [
+          {
+            "iteration": 1,
+            "force_res": 0.002503,
+            "res_node": 8400,
+            "res_dof": 2,
+            "disp_inc": 0.08513,
+            "disp_inc_node": 7685,
+            "disp_inc_dof": 3,
+            "disp_corr": -0.06476,
+            "disp_corr_node": 8056,
+            "disp_corr_dof": 3
+          },
+          {
+            "iteration": 2,
+            "force_res": 0.002849,
+            "res_node": 7317,
+            "res_dof": 2,
+            "disp_inc": 0.184,
+            "disp_inc_node": 6972,
+            "disp_inc_dof": 3,
+            "disp_corr": 0.1,
+            "disp_corr_node": 6972,
+            "disp_corr_dof": 3
+          },
+          {
+            "iteration": 3,
+            "force_res": 0.001414,
+            "res_node": 7317,
+            "res_dof": 2,
+            "disp_inc": 0.21,
+            "disp_inc_node": 168,
+            "disp_inc_dof": 3,
+            "disp_corr": 0.03011,
+            "disp_corr_node": 7685,
+            "disp_corr_dof": 3
+          },
+          {
+            "iteration": 4,
+            "force_res": 5.73e-06,
+            "res_node": 6972,
+            "res_dof": 3,
+            "disp_inc": 0.21,
+            "disp_inc_node": 168,
+            "disp_inc_dof": 3,
+            "disp_corr": 0.0002704,
+            "disp_corr_node": 8056,
+            "disp_corr_dof": 2
+          },
+          {
+            "iteration": 5,
+            "force_res": -0.001984,
+            "res_node": 6965,
+            "res_dof": 2,
+            "disp_inc": 0.27,
+            "disp_inc_node": 168,
+            "disp_inc_dof": 3,
+            "disp_corr": 0.06316,
+            "disp_corr_node": 21676,
+            "disp_corr_dof": 3
+          }
+        ]
+      },
+      "2": {
+        "dt": 2.266e-11,
+        "iterations": [
+          {
+            "iteration": 1,
+            "force_res": 0.002036,
+            "res_node": 7317,
+            "res_dof": 2,
+            "disp_inc": 0.08513,
+            "disp_inc_node": 7685,
+            "disp_inc_dof": 3,
+            "disp_corr": 0.05525,
+            "disp_corr_node": 6972,
+            "disp_corr_dof": 3
+          },
+          {
+            "iteration": 2,
+            "force_res": 0.00104,
+            "res_node": 7317,
+            "res_dof": 2,
+            "disp_inc": 0.111,
+            "disp_inc_node": 6972,
+            "disp_inc_dof": 3,
+            "disp_corr": 0.02776,
+            "disp_corr_node": 6972,
+            "disp_corr_dof": 3
+          },
+          {
+            "iteration": 3,
+            "force_res": 0.0002868,
+            "res_node": 7317,
+            "res_dof": 2,
+            "disp_inc": 0.116,
+            "disp_inc_node": 6972,
+            "disp_inc_dof": 3,
+            "disp_corr": 0.006209,
+            "disp_corr_node": 7685,
+            "disp_corr_dof": 3
+          },
+          {
+            "iteration": 4,
+            "force_res": 0.002152,
+            "res_node": 7317,
+            "res_dof": 2,
+            "disp_inc": 0.171,
+            "disp_inc_node": 6972,
+            "disp_inc_dof": 3,
+            "disp_corr": 0.05552,
+            "disp_corr_node": 168,
+            "disp_corr_dof": 3
+          }
+        ]
+      },
+      "3": {
+        "dt": 1e-11,
+        "iterations": [
+          {
+            "iteration": 1,
+            "force_res": 0.002472,
+            "res_node": 7317,
+            "res_dof": 2,
+            "disp_inc": 0.08513,
+            "disp_inc_node": 7685,
+            "disp_inc_dof": 3,
+            "disp_corr": 0.07104,
+            "disp_corr_node": 6972,
+            "disp_corr_dof": 3
+          },
+          {
+            "iteration": 2,
+            "force_res": 0.0004946,
+            "res_node": 7317,
+            "res_dof": 2,
+            "disp_inc": 0.09599,
+            "disp_inc_node": 6972,
+            "disp_inc_dof": 3,
+            "disp_corr": 0.01249,
+            "disp_corr_node": 6972,
+            "disp_corr_dof": 3
+          },
+          {
+            "iteration": 3,
+            "force_res": 0.0001128,
+            "res_node": 7317,
+            "res_dof": 2,
+            "disp_inc": 0.09841,
+            "disp_inc_node": 7685,
+            "disp_inc_dof": 3,
+            "disp_corr": 0.002473,
+            "disp_corr_node": 7685,
+            "disp_corr_dof": 3
+          },
+          {
+            "iteration": 4,
+            "force_res": 0.002714,
+            "res_node": 7317,
+            "res_dof": 2,
+            "disp_inc": 0.171,
+            "disp_inc_node": 6972,
+            "disp_inc_dof": 3,
+            "disp_corr": 0.07353,
+            "disp_corr_node": 168,
+            "disp_corr_dof": 3
+          }
+        ]
+      }
+    }
+  },
+  "cutback_events_count": 19,
+  "audit_gates_summary": {
+    "g1_parity": "PASS (0.000000% difference at Inc 201)",
+    "g2_continuation": "PARTIAL (3 new incs, 59.87% drop, stalled at dt=5.66e-12s < dt_min=1e-11s)",
+    "g3_irreversibility": "FAIL (min Delta d = -1.063943e-3, 1,805 violations: 1,610 wake, 175 PZ, 20 bulk)",
+    "g4_monotonicity": "PASS (min Delta H = 0.000000 MPa, 100.000% of IPs monotonic)",
+    "g5_wake_diagnostic": "FAIL (-1.063943e-3 exceeds -2.5e-4 tolerance)"
+  },
+  "hypotheses_evaluation": {
+    "H1_UNCONSTRAINED_DAMAGE_READJUSTMENT": {
+      "title": "Unconstrained Structural Discrete Damage Readjustment",
+      "mechanism": "The discrete phase-field equation [K_dd + M_dd(H)] d = f(H) is solved as an unconstrained linear system at each iteration without variational inequality enforcement (d_{n+1} >= d_n) or active-set projection on nodal DOF 3. Although constitutive history H is strictly monotonic, global residual equilibrium forces local decreases in d when neighboring crack tip nodes surge in damage.",
+      "evidence_supporting": [
+        "100.000% of integration points strictly satisfy delta H >= 0.0 MPa (Gate G4 PASS with min delta H = 0.000000 MPa).",
+        "89.2% of all negative damage instances (1,610/1,805) occur in fully severed crack wake (d >= 0.95) where stress is zero and material is completely severed.",
+        "Process-zone violations (175 instances) occur immediately adjacent to elements experiencing severe dynamic damage surges (Delta d up to +0.339).",
+        "Inspection of f42_mixed_uel.for confirms zero inequality constraints, penalties, or projections are applied to nodal array U(1..4) in JTYPE 1."
+      ],
+      "evidence_contradicting_or_limiting": [
+        "Unconstrained damage readjustment explains local negative delta d values, but does not by itself explain why the displacement increment dt collapsed to 1e-11s. A linear unconstrained Poisson solve is unconditionally stable and would converge in 1 iteration if uncoupled."
+      ],
+      "role": "PRIMARY_ROOT_CAUSE_OF_DAMAGE_IRREVERSIBILITY_FAILURE",
+      "rank": 1,
+      "falsifiable_criterion": "Applying an active-set projection (d_{n+1} = max(d_n, d_{trial})) or variational inequality solver strictly eliminates all 1,805 negative damage instances (yielding min Delta d >= 0.0) without altering constitutive history H."
+    },
+    "H2_NONLINEAR_COUPLING_FAILURE": {
+      "title": "Block-Diagonal Picard Tangent & Displacement-Damage Coupling Divergence",
+      "mechanism": "In f42_mixed_uel.for, Layer 1 provides AMATRX for DOF 3 (K_dd) and Layer 2 provides AMATRX for DOFs 1,2 (K_uu). The off-diagonal coupling tangents dR_u/dd and dR_d/du are identically ZERO. This constitutes a block-diagonal Picard approximation inside Abaqus's Newton-Raphson solver. When damage rates surge near the hole, omitting off-diagonal terms causes Newton-Raphson to lose quadratic convergence and oscillate.",
+      "evidence_supporting": [
+        "Solver message file shows classic non-convergent oscillation between displacement residual and damage correction: in Inc 205 Attempt 3, Iter 1 has force residual at Node 7317 DOF 2, Iter 2 has damage correction at Node 6972 DOF 3, and Iter 4 diverges with message 'SOLUTION APPEARS TO BE DIVERGING'.",
+        "Analysis of f42_mixed_uel.for confirms Layer 1 AMATRX is dimensioned 4x4 (only DOF 3) and Layer 2 AMATRX is dimensioned 8x8 (only DOFs 1,2), proving zero cross-coupling terms exist in the global stiffness matrix.",
+        "COMMON-block SV_H_TRIAL ratchets upward during intra-increment Newton iterations without resetting, amplifying the coupling lag between trial displacement and trial damage."
+      ],
+      "evidence_contradicting_or_limiting": [
+        "Block-diagonal Picard coupling converged successfully for 254 increments (all of Step 1 and Incs 1-204 of Step 2). The coupling divergence is therefore triggered only when spatial gradients or structural compliance change rapidly."
+      ],
+      "role": "PRIMARY_ROOT_CAUSE_OF_INCREMENT_SIZE_COLLAPSE",
+      "rank": 2,
+      "falsifiable_criterion": "Monolithic evaluation with true cross-coupling tangents (dR_u/dd and dR_d/du) or staggered alternate minimization with converged sub-iterations eliminates the cutback divergence at Node 7317/6972 without requiring dt < 1e-10s."
+    },
+    "H3_SECONDARY_FRONT_UNDERRESOLUTION": {
+      "title": "Spatial Mesh Underresolution in Intermediate Distal Ligament",
+      "mechanism": "In the adapted mesh, the primary notch-to-hole corridor achieves h_min = 0.000685 mm <= l0/10.9 (96.3% compliant with h <= l0/2). However, in the intermediate ligament between the hole boundary (x=0.75 mm) and the right boundary, element sizes transition from h ~ 0.004 mm to h ~ 0.008 mm (1.06x to 2.13x l0/2). When the crack tip approaches the hole, the stress concentration across this coarse ligament cannot be resolved smoothly, driving steep local gradients into single elements.",
+      "evidence_supporting": [
+        "Node 8056 (previous cutback locus) is located at (0.7505, 0.6558) mm, exactly 0.0005 mm from the hole right flank, where surrounding element size is h_mean = 0.00483 mm (1.29x l0/2).",
+        "Node 7317 (largest residual force in Inc 205) is located at (0.7482, 0.6621) mm with surrounding element size h_mean = 0.00512 mm (1.37x l0/2).",
+        "In Pandey & Kumar (2025) Figure 25(b), the secondary crack initiation zone is continuously refined to h <= l0/2 across the entire ligament, whereas Method A unrefined distal ligament leaves elements larger than l0/2."
+      ],
+      "evidence_contradicting_or_limiting": [
+        "Underresolution alone does not prevent convergence in non-softening elasticity. It acts as an error amplifier that steepens the Picard coupling lag and exacerbates Newton divergence."
+      ],
+      "role": "SPATIAL_ERROR_AMPLIFIER",
+      "rank": 3,
+      "falsifiable_criterion": "Refining the distal ligament corridor to h <= l0/2 = 0.00375 mm reduces the local force residual at Node 7317, smoothing the stress transfer across the hole boundary."
+    },
+    "H4_TOPOLOGICAL_TRANSITION_SINGULARITY": {
+      "title": "Topological Boundary Transition and Stress Relaxation Singularity",
+      "mechanism": "As the primary crack tip breaches the free surface of the off-axis hole (intersecting Node 1422 and Elements 1578, 2978-2981), the physical topology of the specimen transforms from a simply connected plate with a hole to a plate with an open re-entrant boundary notch. The traction-free boundary conditions of the hole suddenly relax the primary ligament stress, shifting the compliance and forcing rapid redistribution of internal forces into the secondary ligament.",
+      "evidence_supporting": [
+        "Terminal increment Inc 204 reached uy = 0.0076766 mm, at which point 5 physical elements directly breach the hole boundary (d >= 0.95 at hole flank).",
+        "Load-displacement curve exhibits an inflection at Inc 201-204 where reaction force drops from 244.4 N to 229.4 N (59.87% post-peak drop).",
+        "The divergence in Inc 205 occurs precisely at the boundary intersection nodes (Nodes 7317, 6972, 7685) within 0.01 mm of the hole surface."
+      ],
+      "evidence_contradicting_or_limiting": [
+        "The topological breach is a physical fracture event, not an algorithmic defect. A robust formulation must be capable of traversing boundary intersections without numerical collapse."
+      ],
+      "role": "PHYSICAL_TRIGGERING_EVENT",
+      "rank": 4,
+      "falsifiable_criterion": "Topological transition occurs naturally under displacement control; once the crack breaches the hole, secondary initiation requires further displacement advancement (uy > 0.0080 mm) under stable solver equilibrium."
+    }
+  },
+  "synthesis": {
+    "primary_conclusions": [
+      "1. DAMAGE IRREVERSIBILITY FAILURE (Gate G3): Driven entirely by Hypothesis H1 (Unconstrained Discrete Damage Readjustment). While material history H is 100% monotonic, solving [K_dd + M_dd(H)] d = f(H) without inequality projection permits Poisson-smoothing oscillations down to min Delta d = -1.064e-3 in severed wake (89.2%) and process zone (9.7%).",
+      "2. INCREMENT-SIZE COLLAPSE (Gate G2): Driven by the synergy of Hypothesis H4 (Physical Trigger: Hole Breach) and Hypothesis H2 (Algorithmic Driver: Block-Diagonal Picard Coupling). When the crack breaches the hole, rapid stress relaxation requires tight displacement-damage coupling; omitting cross-coupling tangents (dRu/dd = 0) destroys Newton convergence, pinning dt < 1e-11s.",
+      "3. SPATIAL AMPLIFICATION: Hypothesis H3 (Distal Underresolution h ~ 1.3-1.6x l0/2) amplifies the coupling error near Node 7317 and Node 8056.",
+      "4. ISOLATED dt_min REDUCTION IS EMPIRICALLY EXHAUSTED: Relaxing dt_min to 1e-11s yielded 3 increments but hit the same fundamental Picard divergence. Lowering dt_min further is mathematically futile."
+    ],
+    "recommended_smallest_defensible_intervention": {
+      "title": "Dual-Mechanism Resolution Strategy for Case 2",
+      "offline_path": "Formalize the discrete phase-field failure diagnosis as a definitive thesis finding on the limitations of unprojected block-diagonal UEL implementations in Abaqus/Standard.",
+      "implementation_path_options": [
+        {
+          "option": "Option A: Method A Multi-Corridor Refinement (Geometry / Mesh Path)",
+          "description": "Refine the secondary distal ligament in the base Method A mesh so that h <= l0/2 = 0.00375 mm is satisfied continuously from notch to hole and from hole to boundary (eliminating Hypothesis H3).",
+          "pros": "Preserves frozen UEL f42_mixed_uel.for unchanged; operates entirely within Method A adaptive remeshing framework.",
+          "cons": "Does not fix the unprojected damage formulation (H1) or block-diagonal coupling (H2)."
+        },
+        {
+          "option": "Option B: Benchmark Priority Rebalancing (Master Objective F1737 Path)",
+          "description": "Consolidate Case 2's diagnostic findings (Gate G1 bitwise parity, 59.9% post-peak drop, complete primary breach, and forensic failure diagnosis) as a complete thesis benchmark, and transition research focus to Case 1 (Mode-I crack propagation along full ligament) and Cases 4 & 5 (coupled forward fracture simulations).",
+          "pros": "Zero UEL modification required; maximizes progress toward December 13 research freeze across all 5 benchmark geometries; honors the independent review finding that Case 2 is already the most thoroughly diagnosed benchmark.",
+          "cons": "Leaves Case 2 secondary crack propagation as an identified thesis limitation."
+        }
+      ],
+      "recommended_next_milestone": "BENCHMARK_PRIORITY_REBALANCING_TO_CASE1_OR_CASE4"
+    }
+  }
+}

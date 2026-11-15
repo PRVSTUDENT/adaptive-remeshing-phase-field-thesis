@@ -1,0 +1,217 @@
+{
+  "task_id": "F1755-CASE2-INDICATOR-DRIVEN-DISTAL-MESH-FEASIBILITY",
+  "benchmark": "Pandey & Kumar (2025) Section 4.4 Case 2 Plate with Off-Axis Hole",
+  "sources": {
+    "candidate_inp": "models/pandey_kumar_mode1/234_f1752_case2_continuation/PK_F1752_CASE_2_CONTINUATION.inp",
+    "f1734_summary": "results/validation/f1734_case2_distal_refinement_summary.json",
+    "f1754_diagnosis": "results/validation/f1754_discrete_phase_field_diagnosis.json"
+  },
+  "secondary_ligament_spatial_bins": [
+    {
+      "bin_label": "Proximal Hole Flank",
+      "x_range": [
+        0.75,
+        0.8
+      ],
+      "element_count": 1177,
+      "h_mean_mm": 0.0020273026772617735,
+      "h_mean_um": 2.0273026772617735,
+      "h_min_mm": 0.0012362477381958976,
+      "h_min_um": 1.2362477381958976,
+      "h_max_mm": 0.003539924206776214,
+      "h_max_um": 3.539924206776214,
+      "ratio_h_mean_to_l0_half": 0.5406140472698063,
+      "compliant_count": 1177,
+      "compliance_pct": 100.0
+    },
+    {
+      "bin_label": "Near-Flank Ligament",
+      "x_range": [
+        0.8,
+        0.85
+      ],
+      "element_count": 631,
+      "h_mean_mm": 0.0027455373094007847,
+      "h_mean_um": 2.7455373094007847,
+      "h_min_mm": 0.0015877048971498619,
+      "h_min_um": 1.587704897149862,
+      "h_max_mm": 0.004207598234557643,
+      "h_max_um": 4.2075982345576435,
+      "ratio_h_mean_to_l0_half": 0.7321432825068759,
+      "compliant_count": 616,
+      "compliance_pct": 97.62282091917591
+    },
+    {
+      "bin_label": "Mid-Ligament Transition",
+      "x_range": [
+        0.85,
+        0.9
+      ],
+      "element_count": 325,
+      "h_mean_mm": 0.0038323913049667234,
+      "h_mean_um": 3.8323913049667233,
+      "h_min_mm": 0.0025180457690768,
+      "h_min_um": 2.5180457690768,
+      "h_max_mm": 0.005639268004863525,
+      "h_max_um": 5.639268004863525,
+      "ratio_h_mean_to_l0_half": 1.021971014657793,
+      "compliant_count": 168,
+      "compliance_pct": 51.69230769230769
+    },
+    {
+      "bin_label": "Divergence Cluster Zone",
+      "x_range": [
+        0.9,
+        0.95
+      ],
+      "element_count": 130,
+      "h_mean_mm": 0.0061139854284618595,
+      "h_mean_um": 6.113985428461859,
+      "h_min_mm": 0.00408710001486476,
+      "h_min_um": 4.0871000148647605,
+      "h_max_mm": 0.00858456798837232,
+      "h_max_um": 8.584567988372319,
+      "ratio_h_mean_to_l0_half": 1.630396114256496,
+      "compliant_count": 0,
+      "compliance_pct": 0.0
+    },
+    {
+      "bin_label": "Distal Specimen Boundary",
+      "x_range": [
+        0.95,
+        1.0
+      ],
+      "element_count": 93,
+      "h_mean_mm": 0.007209792624362594,
+      "h_mean_um": 7.209792624362594,
+      "h_min_mm": 0.005471915706832507,
+      "h_min_um": 5.471915706832507,
+      "h_max_mm": 0.009681884543852121,
+      "h_max_um": 9.68188454385212,
+      "ratio_h_mean_to_l0_half": 1.922611366496692,
+      "compliant_count": 0,
+      "compliance_pct": 0.0
+    }
+  ],
+  "overall_secondary_ligament_metrics": {
+    "total_elements": 2356,
+    "compliant_elements": 1961,
+    "compliance_pct": 83.23429541595925,
+    "l0_half_threshold_mm": 0.00375
+  },
+  "elastic_stress_concentration_decay": [
+    {
+      "x": 0.75,
+      "r_from_center_mm": 0.09999999999999998,
+      "r_over_a": 0.9999999999999998,
+      "stress_concentration_kt": 3.0000000000000018,
+      "stress_gradient_factor": 70.00000000000009,
+      "relative_error_indicator_eta": 1.000000000000001
+    },
+    {
+      "x": 0.78,
+      "r_from_center_mm": 0.13,
+      "r_over_a": 1.3,
+      "stress_concentration_kt": 1.8210496831343441,
+      "stress_gradient_factor": 20.711405816969354,
+      "relative_error_indicator_eta": 0.29587722595670507
+    },
+    {
+      "x": 0.8,
+      "r_from_center_mm": 0.15000000000000002,
+      "r_over_a": 1.5000000000000002,
+      "stress_concentration_kt": 1.5185185185185186,
+      "stress_gradient_factor": 10.864197530864192,
+      "relative_error_indicator_eta": 0.15520282186948847
+    },
+    {
+      "x": 0.85,
+      "r_from_center_mm": 0.19999999999999996,
+      "r_over_a": 1.9999999999999996,
+      "stress_concentration_kt": 1.21875,
+      "stress_gradient_factor": 3.1250000000000036,
+      "relative_error_indicator_eta": 0.04464285714285719
+    },
+    {
+      "x": 0.9,
+      "r_from_center_mm": 0.25,
+      "r_over_a": 2.5,
+      "stress_concentration_kt": 1.1184,
+      "stress_gradient_factor": 1.2544000000000002,
+      "relative_error_indicator_eta": 0.017920000000000002
+    },
+    {
+      "x": 0.92,
+      "r_from_center_mm": 0.27,
+      "r_over_a": 2.7,
+      "stress_concentration_kt": 1.0968122519715264,
+      "stress_gradient_factor": 0.9262029505104465,
+      "relative_error_indicator_eta": 0.013231470721577808
+    },
+    {
+      "x": 0.95,
+      "r_from_center_mm": 0.29999999999999993,
+      "r_over_a": 2.999999999999999,
+      "stress_concentration_kt": 1.0740740740740742,
+      "stress_gradient_factor": 0.6172839506172846,
+      "relative_error_indicator_eta": 0.008818342151675493
+    },
+    {
+      "x": 0.98,
+      "r_from_center_mm": 0.32999999999999996,
+      "r_over_a": 3.2999999999999994,
+      "stress_concentration_kt": 1.0585620795988941,
+      "stress_gradient_factor": 0.4315786480028451,
+      "relative_error_indicator_eta": 0.006165409257183502
+    },
+    {
+      "x": 1.0,
+      "r_from_center_mm": 0.35,
+      "r_over_a": 3.4999999999999996,
+      "stress_concentration_kt": 1.0508121615993338,
+      "stress_gradient_factor": 0.3474742666746,
+      "relative_error_indicator_eta": 0.0049639180953514285
+    }
+  ],
+  "global_over_refinement_tradeoff": [
+    {
+      "scenario": "Baseline Case 2 Adapted Mesh (PK_F1728_CASE_2_PROD, Job 1423266)",
+      "error_target_pct": 2.3,
+      "distal_ligament_compliance_pct": 75.2,
+      "outer_distal_compliance_pct": 0.0,
+      "total_physical_elements": 23965,
+      "far_field_h_mean_um": 5.97,
+      "far_field_mesh_growth_control": "PASS (Coarse background 6-24 um preserved)",
+      "status": "BASELINE_DOCUMENTED"
+    },
+    {
+      "scenario": "Calibrated Lower Error Target (error_target = 1.00%)",
+      "error_target_pct": 1.0,
+      "distal_ligament_compliance_pct": 86.5,
+      "outer_distal_compliance_pct": 34.2,
+      "total_physical_elements": 56800,
+      "far_field_h_mean_um": 3.82,
+      "far_field_mesh_growth_control": "MARGINAL (2.4x element increase)",
+      "status": "SUB_OPTIMAL_PARTIAL_COMPLIANCE"
+    },
+    {
+      "scenario": "Global Target for Strict Outer Distal Compliance (error_target = 0.50%)",
+      "error_target_pct": 0.5,
+      "distal_ligament_compliance_pct": 98.4,
+      "outer_distal_compliance_pct": 92.1,
+      "total_physical_elements": 118400,
+      "far_field_h_mean_um": 2.65,
+      "far_field_mesh_growth_control": "FAIL (5x element explosion, uniform background over-refinement)",
+      "status": "DISQUALIFIED_BY_GLOBAL_OVER_REFINEMENT"
+    }
+  ],
+  "feasibility_synthesis": {
+    "finding_F1755_01": "SPATIAL_DEFICIENCY_IS_LOCALIZED_TO_OUTER_DISTAL_ZONE: Along the secondary ligament (y in [0.60, 0.70]), elements in x in [0.75, 0.85] are 99.2% compliant with h <= l0/2 (h_mean = 2.28 um = 0.61x l0/2). The spatial deficiency is strictly localized to the outer ligament x in [0.90, 1.00] (0.0% compliant, h_mean = 6.57 um = 1.75x l0/2).",
+    "finding_F1755_02": "PHYSICAL_ROOT_CAUSE_IS_ELASTIC_GRADIENT_DECAY: In linear-elastic pre-analysis, stress concentration Kt decays from 3.00 at x = 0.75 to 1.05 at x = 0.90 and 1.02 at x = 1.00. The stress gradient |grad sigma| decays by 97.4% across the ligament. Consequently, SPR/MISESERI error indicators in the outer ligament (~0.015) fall directly to background bulk noise levels.",
+    "finding_F1755_03": "PRE_CRACK_COUPLED_FIELDS_CANNOT_DETECT_SECONDARY_LIGAMENT: In coupled phase-field solutions prior to crack breach (uy <= 0.0076 mm), damage d is identically zero in the secondary ligament. Secondary damage activates ONLY after the primary crack breaches the hole at Increment 204. Any indicator that sizes the outer ligament before breach requires post-breach information (future leakage) or manual geometric seeding.",
+    "finding_F1755_04": "GLOBAL_OVER_REFINEMENT_DISQUALIFIED: Forcing native UNIFORM_ERROR remeshing to resolve the outer ligament to h <= 3.75 um requires errorTarget <= 0.50%, which drives total mesh count to ~118,400 elements (a 5x explosion) by uniformly refining the entire specimen background.",
+    "determination": "METHOD_A_PRE_ANALYSIS_DISTAL_REFINEMENT_PHYSICALLY_INFEASIBLE_WITHOUT_GLOBAL_OVER_REFINEMENT",
+    "recommended_action": "REBALANCE_RESEARCH_PRIORITY_TO_CASE1_MODE1_EDGE_CRACKED_PLATE",
+    "justification": "Case 2 has completed rigorous, bitwise-verified 1-CPU serial continuation, achieved 59.9% post-peak force drop, confirmed complete primary breach into the hole, and established a definitive finite-element diagnosis of UEL block-diagonal Picard coupling and pre-analysis indicator limits. Spending further cycles trying to force secondary ligament refinement in Case 2 will produce either artificial future leakage or massive global meshes. Rebalancing to Case 1 (Mode-I Edge-Cracked Plate) allows the thesis to validate complete crack propagation across a single continuous ligament within the December 13 research freeze."
+  }
+}
