@@ -51,6 +51,8 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
       "donor_sha256": "C698A4B7AB23761C731BBC73E0F2C00166BF53116BB8CBC31439D89270D38FE4",
       "donor_step": "Step-1",
       "donor_frame_index": 10,
+      "indicator_frame_range": "Step-1 frames 0 to 10 (t <= 1.0, linear-elastic pre-analysis prior to fracture onset)",
+      "held_out_later_solution": "All coupled fracture propagation frames (PK_HOLE_COARSE_JOB1 Step-2 frames 1 to 338, t > 0.0) strictly held out as unobserved future solution",
       "indicator_field": "MISESERI",
       "normalization_field": "MISESAVG",
       "miseseri_min_mpa": 0.4166,
