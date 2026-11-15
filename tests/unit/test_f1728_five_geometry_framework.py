@@ -35,6 +35,7 @@ from scripts.remeshing.reusable_2d_adaptive_framework import (
     MultiHolePlateAdapter,
     MeshQualityAuditEngine,
     ProductionDeckBuilder,
+    AdvancingDamageEnvelopeBuilder,
     FROZEN_UEL_SHA256
 )
 
@@ -751,6 +752,27 @@ def test_f1728_case2_companion_recovery_artifact_level_audit():
     assert check_dict["CHK-06-OUTPUT-REQUESTS"]["status"] == "PASS"
     assert check_dict["CHK-07-ENGINE-ALIGNMENT"]["status"] == "PASS"
     assert check_dict["CHK-08-DAMAGE-ZONE-QUANTIZATION"]["status"] == "PASS"
+
+
+def test_advancing_damage_envelope_builder_sizing_law():
+    """Verify AdvancingDamageEnvelopeBuilder analytical phase-field inversion sizing law."""
+    l0 = 0.0075
+    h_bg = 0.020
+
+    # Core crack path (d >= 0.5) must be <= l0 / 2.5
+    h_core = AdvancingDamageEnvelopeBuilder.analytical_damage_sizing(0.95, l0=l0, h_bg=h_bg)
+    assert h_core <= l0 / 2.5
+    assert abs(h_core - 0.0030) < 1e-6
+
+    # Process zone (0.10 <= d < 0.50) must be <= l0
+    h_proc = AdvancingDamageEnvelopeBuilder.analytical_damage_sizing(0.30, l0=l0, h_bg=h_bg)
+    assert h_proc <= l0
+    assert h_proc < h_bg
+
+    # Low damage tail (d < 0.01) must equal background size h_bg
+    h_bulk = AdvancingDamageEnvelopeBuilder.analytical_damage_sizing(0.001, l0=l0, h_bg=h_bg)
+    assert abs(h_bulk - h_bg) < 1e-6
+
 
 
 

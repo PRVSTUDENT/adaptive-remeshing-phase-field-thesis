@@ -26,7 +26,9 @@ Architecture:
    corner angles, aspect ratios, and spatially resolved h_area and h_max_edge metrics).
 4. ProductionDeckBuilder: Deterministic converter from 2D physical mesh (quads + tris) into
    authoritative 3-layer UEL + companion UMAT input decks matching f42_mixed_uel.for.
-5. AbaqusNativeRemeshingEngine: Native RemeshingRule and adaptiveRemesh() execution backend
+5. AdvancingDamageEnvelopeBuilder: Synthesizes advancing damage envelopes from coupled fracture simulations
+   into native Abaqus UNIFORM_ERROR sizing donors using analytical phase-field inversion laws.
+6. AbaqusNativeRemeshingEngine: Native RemeshingRule and adaptiveRemesh() execution backend
    operating headlessly under Abaqus/CAE on HPC Linux and workstations.
 """
 
@@ -1194,7 +1196,137 @@ class ProductionDeckBuilder(object):
 
 
 # ==============================================================================
-# 5. ABAQUS NATIVE REMESHING ENGINE
+# 5. ADVANCING DAMAGE ENVELOPE BUILDER (UNIFIED METHOD A EXTENSION)
+# ==============================================================================
+
+class AdvancingDamageEnvelopeBuilder(object):
+    """
+    Synthesizes authentic advancing damage envelopes from coarse coupled fracture simulations
+    into native Abaqus UNIFORM_ERROR sizing donors (MISESERI / MISESAVG / EVOL).
+    Eliminates linear-elastic pre-analysis stress decay across multi-ligament and distal regions
+    using genuine physical phase-field damage indicator information.
+    """
+
+    @staticmethod
+    def analytical_damage_sizing(d, l0, h_bg, core_factor=2.5, process_factor=1.2,
+                                 d_core=0.5, d_proc=0.1, d_noise=0.01):
+        """
+        Physical phase-field sizing law derived from the 1D exponential damage profile:
+        - d >= d_core (0.50): dense refinement to crack core h <= l0 / core_factor
+        - d_proc <= d < d_core: process zone transition h in [h_core, h_proc]
+        - d_noise <= d < d_proc: transition from h_proc to far-field background h_bg
+        - d < d_noise: unrefined background h_bg
+        """
+        h_core = l0 / float(core_factor)
+        h_proc = l0 / float(process_factor)
+        if d >= d_core:
+            return h_core
+        elif d >= d_proc:
+            frac = (d - d_proc) / (d_core - d_proc)
+            return h_proc - frac * (h_proc - h_core)
+        elif d >= d_noise:
+            frac = (d - d_noise) / (d_proc - d_noise)
+            return h_bg - frac * (h_bg - h_proc)
+        else:
+            return h_bg
+
+    @classmethod
+    def build_envelope_odb(cls, source_odb_path, target_odb_path, l0, h_bg, error_target,
+                           step_name='Step-2', damage_variable='SDV1', frame_stride=5, s_base=100.0):
+        if not ABAQUS_AVAILABLE:
+            raise RuntimeError("Abaqus environment not available; cannot build envelope ODB.")
+        from odbAccess import openOdb
+        from abaqusConstants import SCALAR, WHOLE_ELEMENT
+
+        odb_src = openOdb(source_odb_path, readOnly=True)
+        root_inst = odb_src.rootAssembly.instances
+        inst_name = list(root_inst.keys())[0] if len(root_inst) > 0 else 'PART-1-1'
+        inst_src = root_inst[inst_name]
+
+        # Use UMATELEM set if present (visualizer layer), else all elements
+        if 'UMATELEM' in inst_src.elementSets:
+            target_elements = list(inst_src.elementSets['UMATELEM'].elements)
+        else:
+            target_elements = list(inst_src.elements)
+
+        elem_labels = [e.label for e in target_elements]
+        node_coords = {n.label: (n.coordinates[0], n.coordinates[1]) for n in inst_src.nodes}
+
+        elem_h_old = {}
+        evol_data = []
+        for elem in target_elements:
+            conn = elem.connectivity
+            pts = [node_coords[nl] for nl in conn if nl in node_coords]
+            if len(pts) == 4:
+                x1, y1 = pts[0]; x2, y2 = pts[1]; x3, y3 = pts[2]; x4, y4 = pts[3]
+                area = 0.5 * abs((x1*y2 - x2*y1) + (x2*y3 - x3*y2) + (x3*y4 - x4*y3) + (x4*y1 - x1*y4))
+            elif len(pts) == 3:
+                x1, y1 = pts[0]; x2, y2 = pts[1]; x3, y3 = pts[2]
+                area = 0.5 * abs(x1*(y2 - y3) + x2*(y3 - y1) + x3*(y1 - y2))
+            else:
+                area = h_bg * h_bg
+            elem_h_old[elem.label] = math.sqrt(max(1e-12, area))
+            evol_data.append((area,))
+
+        if step_name not in odb_src.steps:
+            step_name = list(odb_src.steps.keys())[-1]
+        step_src = odb_src.steps[step_name]
+        n_frames = len(step_src.frames)
+
+        d_max_env = {el: 0.0 for el in elem_labels}
+        frame_indices = list(range(0, n_frames, max(1, frame_stride)))
+        if (n_frames - 1) not in frame_indices:
+            frame_indices.append(n_frames - 1)
+
+        for f_idx in frame_indices:
+            f = step_src.frames[f_idx]
+            if damage_variable in f.fieldOutputs:
+                fo = f.fieldOutputs[damage_variable]
+                for v in fo.values:
+                    el = v.elementLabel
+                    if el in d_max_env:
+                        if v.data > d_max_env[el]:
+                            d_max_env[el] = v.data
+
+        odb_src.close()
+
+        eri_vals = []
+        avg_vals = []
+        for el in elem_labels:
+            d = max(0.0, min(1.0, d_max_env[el]))
+            h_tgt = cls.analytical_damage_sizing(d, l0=l0, h_bg=h_bg)
+            h_old = elem_h_old[el]
+            eta_hat = error_target * (h_old / h_tgt)
+            eri = s_base * eta_hat
+            eri_vals.append((eri,))
+            avg_vals.append((s_base,))
+
+        target_dir = os.path.dirname(target_odb_path)
+        if target_dir and not os.path.exists(target_dir):
+            safe_makedirs(target_dir)
+        if os.path.exists(target_odb_path):
+            os.remove(target_odb_path)
+
+        shutil.copyfile(source_odb_path, target_odb_path)
+        odb_dst = openOdb(target_odb_path, readOnly=False)
+        inst_dst = odb_dst.rootAssembly.instances[inst_name]
+        step_dst = odb_dst.steps[step_name]
+
+        env_frame = step_dst.Frame(frameId=9999, frameValue=999.0, description="Advancing Crack Temporal Damage Envelope")
+        fo_evol = env_frame.FieldOutput(name='EVOL', description='Element volume', type=SCALAR)
+        fo_evol.addData(position=WHOLE_ELEMENT, instance=inst_dst, labels=elem_labels, data=evol_data)
+        fo_eri = env_frame.FieldOutput(name='MISESERI', description='Temporal Error Envelope from Advancing Crack Front', type=SCALAR)
+        fo_eri.addData(position=WHOLE_ELEMENT, instance=inst_dst, labels=elem_labels, data=eri_vals)
+        fo_avg = env_frame.FieldOutput(name='MISESAVG', description='Uniform Reference Average Stress', type=SCALAR)
+        fo_avg.addData(position=WHOLE_ELEMENT, instance=inst_dst, labels=elem_labels, data=avg_vals)
+
+        odb_dst.save()
+        odb_dst.close()
+        return target_odb_path
+
+
+# ==============================================================================
+# 6. ABAQUS NATIVE REMESHING ENGINE
 # ==============================================================================
 
 class AbaqusNativeRemeshingEngine(object):
@@ -1492,6 +1624,9 @@ def main():
     parser.add_argument("--output-deck", type=str, default=None, help="Target path for 3-layer UEL deck")
     parser.add_argument("--output-dir", type=str, default=None, help="Target output directory")
     parser.add_argument("--step1-only", action="store_true", default=False, help="Build Step 1 only")
+    parser.add_argument("--build-envelope", action="store_true", default=False, help="Synthesize advancing damage envelope donor ODB")
+    parser.add_argument("--source-odb", type=str, default=None, help="Source coupled fracture ODB for envelope synthesis")
+    parser.add_argument("--output-odb", type=str, default=None, help="Output path for synthesized envelope ODB")
     argv = sys.argv[1:]
     if "--" in argv:
         argv = argv[argv.index("--") + 1:]
@@ -1500,6 +1635,24 @@ def main():
     cfg = AdaptiveConfig.from_json(args.config)
     adapter = get_geometry_adapter(cfg)
     print("Loaded Benchmark: %s (Case: %s, Type: %s)" % (cfg.benchmark_name, cfg.case_id, cfg.geometry_type))
+
+    if args.build_envelope:
+        src = args.source_odb or args.odb
+        dst = args.output_odb
+        if not src or not dst:
+            sys.stderr.write("ERROR: --build-envelope requires --source-odb (or --odb) and --output-odb\n")
+            sys.exit(1)
+        print("\nSynthesizing Advancing Damage Envelope Donor ODB...")
+        AdvancingDamageEnvelopeBuilder.build_envelope_odb(
+            source_odb_path=src,
+            target_odb_path=dst,
+            l0=cfg.l0,
+            h_bg=cfg.max_h,
+            error_target=cfg.error_target,
+            step_name=cfg.step_name or 'Step-2'
+        )
+        print("Successfully created envelope donor: %s" % dst)
+        return
 
     if args.run_case:
         print("\nExecuting Unified Method A Pipeline for %s (FAIL-CLOSED)..." % cfg.case_id)

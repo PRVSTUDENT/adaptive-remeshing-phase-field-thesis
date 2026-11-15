@@ -54,11 +54,11 @@
     "upper_hole_radius": 5.0
   },
   "remeshing_rule": {
-    "error_target": 1.80,
+    "error_target": 3.0,
     "min_element_size_mm": 0.080,
     "max_element_size_mm": 1.5,
     "refinement_factor": 10,
-    "coarsening_factor": "NOT_ALLOWED",
+    "coarsening_factor": "DEFAULT_LIMIT",
     "sizing_method": "UNIFORM_ERROR",
     "variable": "MISESERI",
     "step_name": "RECOVERY_STEP",
