@@ -1,22 +1,22 @@
 {
-    "task_id": "F1757-METHOD_A-RESEARCH_PRIORITY_DECISION",
-    "title": "Method A Research Priority Strategic Decision Checkpoint: Case 2 Achieved Results vs Proposed Case 1 Completion Milestone",
-    "status": "IN_PROGRESS",
-    "classification": "CASE1_PRIORITY_DECISION_IN_PROGRESS",
+    "task_id": "F1758-CASE1-FRACTURE-QUALIFICATION-PREFLIGHT",
+    "title": "Case 1 Mode-I Notched Plate Coupled Phase-Field Fracture Qualification & Production Preflight",
+    "status": "HELD_IN_ABEYANCE",
+    "classification": "CASE1_FRACTURE_ALREADY_COMPLETED_MACROSCOPICALLY_HELD_FOR_USER_DIRECTION",
     "assigned_agent": "gemini-antigravity",
     "active_pbs_job_id": null,
-    "checkpoint_artifact": "docs/validation/F1757_RESEARCH_PRIORITY_DECISION_RECORD.md",
+    "checkpoint_artifact": "docs/validation/F1758_CASE1_FRACTURE_PREFLIGHT_REPORT.md",
     "review_directive": "HND-F1756-CASE2-DECISION-001",
     "predecessor_task": {
-        "task_id": "F1756-CASE2-AUTHENTIC-INDICATOR-AND-SIZING-EVIDENCE",
-        "checkpoint_artifact": "docs/validation/F1756_CASE2_AUTHENTIC_INDICATOR_EVIDENCE_REPORT.md",
-        "classification": "AUTHENTIC_INDICATOR_LIMITATION_DEMONSTRATED_UNIVERSAL_INFEASIBILITY_NOT_PROVEN",
-        "review_verdict": "APPROVE_WITH_SCIENTIFIC_QUALIFICATIONS",
-        "correlation_id": "HND-F1756-CASE2-DECISION-001"
+        "task_id": "F1757-METHOD_A-RESEARCH_PRIORITY_DECISION",
+        "checkpoint_artifact": "docs/validation/F1757_RESEARCH_PRIORITY_DECISION_RECORD.md",
+        "classification": "USER_AUTHORIZED_CASE1_REBALANCING",
+        "review_verdict": "USER_OPTION_A_AUTHORIZED",
+        "correlation_id": "USER-DECISION-F1757-OPTION-A"
     },
     "re_review_correlation_id": null,
-    "scientific_operation": "method_a_research_priority_decision",
-    "scientific_operation_id": "f1757_priority_dec_001",
+    "scientific_operation": "case1_fracture_qualification_preflight",
+    "scientific_operation_id": "f1758_case1_preflight_001",
     "scientific_checkpoint_required": true,
     "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "candidate_input_sha256": null,
@@ -52,7 +52,7 @@
         "1423469.mmaster02",
         "1423552.mmaster02"
     ],
-    "scope_boundary": "ZERO_PBS_STRATEGIC_DECISION_RECORD_ONLY",
-    "hypothesis": "Presenting a rigorous comparison between the scientifically documented partial-fracture limits of Case 2 and the single-ligament physical alignment of Case 1 will establish the factual basis for obtaining user authorization to rebalance active research priorities before the December 13 freeze.",
+    "scope_boundary": "ZERO_PBS_PREFLIGHT_AND_QUALIFICATION_ONLY",
+    "hypothesis": "Verifying complete Layer 3 SDV1/SDV2 field output coverage, reconciling loading endpoint up to complete separation, and achieving cluster datacheck Exit 0 will establish the verified technical preflight for the definitive Case 1 phase-field fracture production simulation.",
     "iteration": 1
 }
