@@ -1,13 +1,13 @@
 {
     "task_id": "F1774-FOUR-BENCHMARK-METHOD-A-REGRESSION-EXECUTION",
     "title": "Four-Benchmark Method A Adaptive Remeshing Execution & Validation Synthesis",
-    "status": "INITIALIZED_READY_FOR_EXECUTION",
+    "status": "EXECUTION_PACKAGE_REPAIRED_AWAITING_REVIEW",
     "classification": "FOUR_BENCHMARK_REGRESSION_EXECUTION",
     "assigned_agent": "gemini-antigravity",
     "active_pbs_job_id": null,
     "last_successful_pbs_job_id": "1423608.mmaster02",
-    "checkpoint_artifact": "docs/validation/F1773_EXECUTION_READINESS_AND_DONOR_PREFLIGHT_REPORT.md",
-    "review_directive": "Task F1773 execution readiness qualified following HND-F1773-SUITE-REGRESSION-AUTH-002 directive: read-only Abaqus Python preflight verified 100% of donor ODBs for Cases 2, 3 (States 2 and 4), and 5 with active MISESERI fields; all inputs staged in /scratch9/pr21vyci/runs/mode1_pk_f1774_regression_batch/; frozen UEL CE8D5EDC... and reusable framework 8D71F38F... preserved bitwise; Case 1 reused from F1772 without rerun.",
+    "checkpoint_artifact": "docs/validation/F1774_EXECUTION_PACKAGE_REPAIR_REPORT.md",
+    "review_directive": "Task F1774 execution package repaired resolving Findings F1774-R01 to R06 from HND-F1774-SUITE-REGRESSION-EXEC-001: lock cleanup fallback replaced with safe rmdir trap, config and donor hashes verified fail-closed, missing production deck made fatal with datacheck Exit 0 required, per-case subfolders isolated, Case 5 scale-invariance and spatial localization proved, Case 3 provenance explicitly mapped. 36/36 unit tests PASS. Exactly 0 PBS jobs consumed under F1774 (cumulative = 30). Dispatched HND-F1774-SUITE-REGRESSION-EXEC-002.",
     "predecessor_task": {
         "task_id": "F1773-UNIFIED-METHOD-A-FOUR-BENCHMARK-REGRESSION-PLAN",
         "checkpoint_artifact": "docs/validation/F1773_EXECUTION_READINESS_AND_DONOR_PREFLIGHT_REPORT.md",
@@ -15,16 +15,16 @@
         "review_verdict": "SUBSTANTIALLY_IMPROVED",
         "correlation_id": "HND-F1773-SUITE-REGRESSION-AUTH-002"
     },
-    "re_review_correlation_id": null,
+    "re_review_correlation_id": "HND-F1774-SUITE-REGRESSION-EXEC-002",
     "scientific_operation": "four_benchmark_regression_execution",
-    "scientific_operation_id": "f1774_suite_regression_exec_001",
+    "scientific_operation_id": "f1774_suite_regression_exec_002",
     "scientific_checkpoint_required": true,
     "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "shared_framework_sha256": "8D71F38F23867A23C1FC1BF5EC499533A8C75F538B77804ECE03B5C668F4BE08",
-    "pbs_script_sha256": null,
+    "pbs_script_sha256": "7E298A1653E632BC4BE14163C984124EEE1BEFD75B3982745D6B78CD4DCDB339",
     "max_new_pbs_submissions": 3,
     "submissions_consumed": 0,
     "cumulative_pbs_submissions": 30,
-    "report_sha256": "75CD54EED280A84675C09DD28CBBF27AE3B0A467767455B744DC07FBE63D5E80",
-    "notes": "Task F1774 initialized to execute the unified 4-benchmark regression suite (Cases 2, 3, 5; Case 1 reused from F1772). All donor ODBs qualified via read-only cluster preflight. Maximum 3 bounded PBS jobs authorized. Zero jobs consumed under F1773, cumulative = 30."
+    "report_sha256": "0AE0C3288486B6C2B8EB123F21517217460AA83D37FC188F959BEAFDAD4AD649",
+    "notes": "Task F1774 execution package repaired resolving all blocking findings F1774-R01 to R06. Exactly 0 PBS jobs consumed under F1774 (cumulative = 30). Ready for supervisory review decision HND-F1774-SUITE-REGRESSION-EXEC-002."
 }
