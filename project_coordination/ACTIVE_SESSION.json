@@ -1,11 +1,11 @@
 {
-  "active": true,
+  "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "f1759-case4-fracture-preflight-001",
-  "task_id": "F1759-CASE4-FIVE-HOLE-FRACTURE-QUALIFICATION-PREFLIGHT",
-  "started_at": "2026-11-15T06:35:00+01:00",
-  "completed_at": null,
-  "starting_commit": "903df89afe3c4deeb4b40f942522984674c96e78",
+  "session_id": "f1760-unified-method-a-provenance-001",
+  "task_id": "F1760-UNIFIED-METHOD-A-PROVENANCE-AND-REPRODUCIBILITY-INSPECTION",
+  "started_at": "2026-11-15T06:54:00+01:00",
+  "completed_at": "2026-11-15T07:00:00+01:00",
+  "starting_commit": "4dfeefe056b2cfd01cf88457224213fe507c5cb9",
   "allowed_write_scope": [
     "project_coordination/**",
     ".agents/**",
@@ -16,5 +16,5 @@
     "scripts/**",
     "tests/unit/**"
   ],
-  "notes": "Task F1759: Case 4 Five-Hole Plate (Sec. 4.5) Coupled Phase-Field Fracture Qualification & Production Preflight (3-layer production deck generation from 13,017-element adapted mesh, complete Layer 3 SDV1/SDV2 field output coverage, load schedule verification, cluster datacheck Exit 0, and PBS execution staging)."
+  "notes": "Task F1760 completed: Unified Method A Framework Provenance and Five-Case Reproducibility Audit (Source-code, script, donor, parameter, and algorithm comparison across Cases 1-5; identification of hybrid corridor vs native indicator; definition of frozen unified algorithm and reproducible execution plan; strictly zero PBS submissions and zero mesh regeneration in Phase 1)."
 }
