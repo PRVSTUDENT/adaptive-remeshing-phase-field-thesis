@@ -1,0 +1,48 @@
+#!/bin/bash
+#PBS -N F1790_C1_DIAG
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=01:00:00
+#PBS -q normal_imfdfkmq
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratch9/pr21vyci/runs/mode1_pk_f1790_diagnostic/pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_pk_f1790_diagnostic"
+cd "${RUN_DIR}"
+
+export JOB_NAME="F1790_C1_DIAG"
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+source "${RUN_DIR}/job_notifications.sh"
+notification_load_config
+notification_install_terminal_trap
+notify_start
+
+export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/tmp/xdg_runtime_${USER}}"
+mkdir -p "${XDG_RUNTIME_DIR}"
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+
+echo "=== TASK F1790 PHYSICAL RELEASE DIAGNOSTIC START ==="
+echo "Host: $(hostname)"
+echo "Date: $(date -Is)"
+echo "PWD:  $(pwd)"
+
+ABAQUS_CMD="abaqus job=PK_F1790_CASE1_RELEASE_DIAGNOSTIC input=PK_F1790_CASE1_RELEASE_DIAGNOSTIC.inp user=f42_mixed_uel.for cpus=1 interactive"
+echo "Running: ${ABAQUS_CMD}"
+${ABAQUS_CMD}
+EXIT_CODE=$?
+
+echo "Abaqus completed with exit code: ${EXIT_CODE}"
+if [ ${EXIT_CODE} -eq 0 ]; then
+    echo "=== TASK F1790 PHYSICAL RELEASE DIAGNOSTIC SUCCESS ==="
+    # Run observable extraction script
+    python3 extract_f1790_observables.py --job-dir "${RUN_DIR}" --job-name PK_F1790_CASE1_RELEASE_DIAGNOSTIC --output-json "${RUN_DIR}/f1790_physical_gate_evaluation.json"
+else
+    echo "=== TASK F1790 PHYSICAL RELEASE DIAGNOSTIC FAILED ==="
+    exit ${EXIT_CODE}
+fi

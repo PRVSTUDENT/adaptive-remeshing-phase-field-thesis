@@ -968,69 +968,66 @@ class Mode1StateTransferEngine:
             "verdict": "PASS" if neg_h_count == 0 and min_h >= 0.0 else "FAIL"
         }
 
-        # 5. Step-Boundary Reaction Force Continuity
+        # 5. Step-Boundary Reaction Force Continuity (Offline Projection Metric)
         # Evaluated via continuous boundary integration on top surface (y = 1.0)
-        rf_donor_n = compute_top_reaction_force(self.donor_mesh, donor_state) * 1e3
-        if rf_donor_n < 1e-3:
-            rf_donor_n = 653.0886  # Authentic solver exact reference from Job 1413814
-        rf_recip_n = compute_top_reaction_force(recipient_mesh, target_state) * 1e3
-        delta_rf_boundary_n = abs(rf_recip_n - rf_donor_n)
-        rel_rf_error_pct = (delta_rf_boundary_n / max(1e-6, rf_donor_n)) * 100.0
+        rf_donor_quadrature_n = compute_top_reaction_force(self.donor_mesh, donor_state) * 1e3
+        rf_donor_solver_reference_n = 653.0886  # Authentic solver exact output from Job 1413814 (Increment 500)
+        rf_recip_quadrature_n = compute_top_reaction_force(recipient_mesh, target_state) * 1e3
 
-        metrics["rf_donor_N"] = rf_donor_n
-        metrics["rf_recipient_N"] = rf_recip_n
-        metrics["delta_rf_boundary_N"] = delta_rf_boundary_n
-        metrics["delta_rf_boundary_pct"] = rel_rf_error_pct
-        metrics["criterion_5_boundary_force_continuity"] = {
-            "value": delta_rf_boundary_n,
-            "relative_error_pct": rel_rf_error_pct,
+        # Primary comparison is between recipient continuous quadrature and donor continuous quadrature:
+        delta_rf_quadrature_n = abs(rf_recip_quadrature_n - rf_donor_quadrature_n)
+        rel_rf_quadrature_error_pct = (delta_rf_quadrature_n / max(1e-6, rf_donor_quadrature_n)) * 100.0
+
+        metrics["rf_donor_quadrature_N"] = rf_donor_quadrature_n
+        metrics["rf_donor_solver_reference_N"] = rf_donor_solver_reference_n
+        metrics["rf_recipient_quadrature_N"] = rf_recip_quadrature_n
+        metrics["delta_rf_boundary_N"] = delta_rf_quadrature_n
+        metrics["delta_rf_boundary_pct"] = rel_rf_quadrature_error_pct
+        metrics["offline_precheck_force_continuity"] = {
+            "value": delta_rf_quadrature_n,
+            "relative_error_pct": rel_rf_quadrature_error_pct,
             "unit": "N",
-            "threshold": 5.0,
-            "verdict": "PASS" if delta_rf_boundary_n <= 5.0 and rel_rf_error_pct <= 0.50 else "FAIL"
+            "threshold_pct": 0.50,
+            "verdict": "PASS" if rel_rf_quadrature_error_pct <= 0.50 else "FAIL"
         }
 
-        # 6. Total Internal Energy Preservation
+        # 6. Total Internal Energy Preservation (Offline Projection Metric)
         # Computed via continuous Gauss quadrature on both donor and recipient meshes:
-        # Authentic donor Job 1413814.mmaster02 at u=0.0050 mm (row 500 of uel_energy_balance.csv):
-        # E_elas = 1.632721 mJ, E_frac = 0.030663 mJ -> E_tot_solver = 1.663384 mJ.
         e_elas_donor, e_frac_donor = compute_strain_and_fracture_energy(self.donor_mesh, donor_state)
         e_elas_recip, e_frac_recip = compute_strain_and_fracture_energy(recipient_mesh, target_state)
-        e_tot_donor_mJ = (e_elas_donor + e_frac_donor) * 1e3
-        e_tot_recip_mJ = (e_elas_recip + e_frac_recip) * 1e3
-        if e_tot_donor_mJ < 1e-6:
-            e_tot_donor_mJ = 1.663384
+        e_tot_donor_quadrature_mJ = (e_elas_donor + e_frac_donor) * 1e3
+        e_tot_recip_quadrature_mJ = (e_elas_recip + e_frac_recip) * 1e3
+        e_tot_donor_solver_reference_mJ = 1.663384  # Authentic solver UEL energy balance from Job 1413814
 
-        fine_ref_e_tot_mJ = 1.691100
-        delta_e_int_pct = (abs(e_tot_recip_mJ - e_tot_donor_mJ) / e_tot_donor_mJ) * 100.0
+        delta_e_int_pct = (abs(e_tot_recip_quadrature_mJ - e_tot_donor_quadrature_mJ) / e_tot_donor_quadrature_mJ) * 100.0
         metrics["e_elas_donor_mJ"] = e_elas_donor * 1e3
         metrics["e_frac_donor_mJ"] = e_frac_donor * 1e3
-        metrics["e_tot_donor_mJ"] = e_tot_donor_mJ
+        metrics["e_tot_donor_quadrature_mJ"] = e_tot_donor_quadrature_mJ
+        metrics["e_tot_donor_solver_reference_mJ"] = e_tot_donor_solver_reference_mJ
         metrics["e_elas_recip_mJ"] = e_elas_recip * 1e3
         metrics["e_frac_recip_mJ"] = e_frac_recip * 1e3
-        metrics["e_tot_recip_mJ"] = e_tot_recip_mJ
-        metrics["fine_ref_e_tot_mJ"] = fine_ref_e_tot_mJ
+        metrics["e_tot_recip_quadrature_mJ"] = e_tot_recip_quadrature_mJ
         metrics["delta_e_int_pct"] = delta_e_int_pct
-        metrics["discretization_delta_vs_fine_ref_pct"] = (abs(e_tot_donor_mJ - fine_ref_e_tot_mJ) / fine_ref_e_tot_mJ) * 100.0
-        metrics["criterion_6_internal_energy"] = {
+        metrics["offline_precheck_internal_energy"] = {
             "value": delta_e_int_pct,
             "unit": "%",
-            "threshold": 0.50,
+            "threshold_pct": 0.50,
             "verdict": "PASS" if delta_e_int_pct <= 0.50 else "FAIL"
         }
 
-        # 7. Global Energy Balance Residual
+        # 7. Global Energy Balance Residual (Offline Projection Metric)
         # External work W_ext = 0.5 * RF2 * u_top
         u_top = target_state.u_rp[1] if target_state.u_rp else 0.0050
-        w_ext_mJ = 0.5 * (rf_donor_n / 1000.0) * u_top * 1000.0  # in mJ
-        delta_w_e = abs(w_ext_mJ - e_tot_recip_mJ)
+        w_ext_mJ = 0.5 * (rf_donor_quadrature_n / 1000.0) * u_top * 1000.0  # in mJ
+        delta_w_e = abs(w_ext_mJ - e_tot_recip_quadrature_mJ)
         energy_residual_pct = (delta_w_e / max(1e-6, w_ext_mJ)) * 100.0
         metrics["w_ext_mJ"] = w_ext_mJ
         metrics["delta_w_e_mJ"] = delta_w_e
         metrics["energy_residual_pct"] = energy_residual_pct
-        metrics["criterion_7_global_energy_residual"] = {
+        metrics["offline_precheck_global_energy_residual"] = {
             "value": energy_residual_pct,
             "unit": "%",
-            "threshold": 10.0,
+            "threshold_pct": 10.0,
             "verdict": "PASS" if energy_residual_pct <= 10.0 else "FAIL"
         }
 
@@ -1291,7 +1288,7 @@ class Mode1StateTransferEngine:
         # 11. CONTINUATION STEP DEFINITION
         lines.append("** ==========================================================")
         dt_init = 1.0 / float(num_increments)
-        if continuation_mode in ("three_step", "equilibrate", "equil_only"):
+        if continuation_mode in ("three_step", "equilibrate", "equil_only", "diagnostic_release"):
             lines.append("** ==========================================================")
             lines.append("** STEP 1: INITIAL STATE RECONSTRUCTION AT HANDOFF DISPLACEMENT (u = u_handoff)")
             lines.append("** Full Dirichlet constraint on DOFs 1, 2, and 3 prevents zero-displacement surge")
@@ -1325,7 +1322,8 @@ class Mode1StateTransferEngine:
             lines.append("** ==========================================================")
             lines.append("*STEP, NAME=Step-2-Hold, NLGEOM=NO, INC=100")
             lines.append("*STATIC")
-            lines.append("1.0, 1.0, 1.0e-6, 1.0")
+            # For diagnostic release, take multiple increments (initial 0.05, max 0.1) so first release increments are observable
+            lines.append("0.05, 1.0, 1.0e-6, 0.10")
             lines.append("*BOUNDARY, OP=NEW")
             lines.append("N_BOTTOM, 2, 2, 0.0")
             lines.append("N_PIN, 1, 1, 0.0")  # Pin origin node at (0, 0)
@@ -1340,7 +1338,7 @@ class Mode1StateTransferEngine:
             lines.append("U2, RF2")
             lines.append("*END STEP")
 
-            if continuation_mode != "equil_only":
+            if continuation_mode not in ("equil_only", "diagnostic_release"):
                 lines.append("** ==========================================================")
                 lines.append("** STEP 3: CONTINUATION FRACTURE PROPAGATION (u_handoff -> u_final)")
                 lines.append("** ==========================================================")

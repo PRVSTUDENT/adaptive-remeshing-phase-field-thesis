@@ -1,6 +1,6 @@
 {
-  "task_id": "F1789-MODE-I-METHOD-C-AUTHENTIC-STATE-TRANSFER-AND-DATACHECK-PREFLIGHT",
-  "title": "Task F1789: Mode-I Method C Authentic State Transfer and Datacheck Preflight",
+  "task_id": "F1790-MODE-I-METHOD-C-PHYSICAL-GATE-RESTORATION-AND-RELEASE-DIAGNOSTIC",
+  "title": "Task F1790: Mode-I Method C Physical Gate Restoration and Release Diagnostic",
   "task_status": "COMPLETED",
   "master_goal_status": "OPEN",
   "status": "COMPLETED",
@@ -8,23 +8,23 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1789_MODE1_AUTHENTIC_STATE_TRANSFER_AND_DATACHECK_REPORT.md",
-  "review_directive": "Following supervisory review directive HND-F1788-METHOD-C-FEASIBILITY-001 (Decision: REJECT, Verdict: F1788_GO_NOT_SUBSTANTIATED_REAL_STATE_TRANSFER_AND_EXECUTION_PREFLIGHT_REQUIRED, Feasibility Verdict: UNFEASIBLE [not presently qualified for execution]), Task F1789 executes ONE bounded zero-PBS technical preflight: (1) Reconcile actual 2,906-element donor, authentic u=0.0050 mm donor state (Job 1413814), and 16,597-element F1780 target (16,149 quads, 448 triangles); (2) Identify and correct the state-transfer implementation defect: demonstrate how recipient nodal ux, uy, d and integration-point history H are actually reconstructed by Abaqus (not merely computed and discarded by Python); (3) Verify crack-flank isolation, source/target topology, complete SVAR initialization, integration-point history ordering, and no artificial crack-healing; (4) Generate one retained, hash-pinned continuation input deck and matching donor-state provenance receipt; (5) Replace synthetic success claims and hardcoded conservation metrics with calculations from authentic donor data; (6) Perform a genuine Abaqus input-processor datacheck and preserve logs (0 new PBS jobs; cumulative strictly preserved at 35); (7) Reconcile Gates C1-C5 with measurable solver observables, extending Gate C5 to cover unconstrained release of DOF 3, including the constant-displacement hold; (8) Preserve predeclared 0.50% force and energy thresholds; (9) Deliver a focused GO/NO-GO preflight report; (10) Maintain MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1790_MODE1_PHYSICAL_GATE_RESTORATION_AND_RELEASE_DIAGNOSTIC_REPORT.md",
+  "review_directive": "Following supervisory review directive HND-F1789-AUTHENTIC-PREFLIGHT-001 (Decision: REJECT, Verdict: F1789_GO_NOT_SUBSTANTIATED_OFFLINE_ESTIMATES_DO_NOT_REPLACE_SOLVER_EXECUTION, Preflight Verdict: NO_GO), Task F1790 executes ONE bounded zero-PBS physical gate restoration and release diagnostic operation: (1) Preserve F1789's authentic donor projection, corrected 16,597-element target, three-step reconstruction implementation, and retained input deck as useful preliminary work; (2) Restore original independently predeclared Method C acceptance gates without renaming or relaxing: C1 equilibrium residual <= 1e-3, C2 recipient-vs-donor reaction force discrepancy <= 0.50%, C3 total internal energy discrepancy <= 0.50%, C4 pointwise damage change >= -1e-4, C5 artificial crack-tip damage increase <= 1e-3 (0.0010, not relaxed to 0.0200) covering first unconstrained release increments; separate offline metrics (L2, integrated damage, history non-negativity) as OFFLINE_PRECHECK; (3) Inspect actual Abaqus step definitions to identify whether all-node prescribed displacement reconstruction causes unintended state evolution before release, preserving UEL history and enforcing measurable no-healing condition; (4) Archive and independently verify exact Abaqus 2024 input-processing evidence, hashes, step definitions, and solver-side compatibility warnings in an accessible format retrievable on GitHub; (5) Determine local solver execution feasibility: since local Windows machine lacks Intel Fortran compiler for UEL, formulate an exact hash-pinned diagnostic input deck, observable extraction procedure, required resource envelope, and ONE proposed PBS experiment (Job 36) for separate scientific review without substituting offline predictions for physical results; (6) Report every original gate as PASS, FAIL, or NOT_YET_MEASURABLE; (7) Zero new PBS submissions consumed (cumulative strictly preserved at 35); (8) Deliver a focused physical gate restoration and release diagnostic report; (9) Maintain MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1788-MODE-I-METHOD-C-SINGLE-CYCLE-FEASIBILITY-GATE",
-    "checkpoint_artifact": "docs/validation/F1788_MODE1_METHOD_C_FEASIBILITY_REPORT.md",
+    "task_id": "F1789-MODE-I-METHOD-C-AUTHENTIC-STATE-TRANSFER-AND-DATACHECK-PREFLIGHT",
+    "checkpoint_artifact": "docs/validation/F1789_MODE1_AUTHENTIC_STATE_TRANSFER_AND_DATACHECK_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
-    "review_verdict": "F1788_GO_NOT_SUBSTANTIATED_REAL_STATE_TRANSFER_AND_EXECUTION_PREFLIGHT_REQUIRED",
-    "correlation_id": "HND-F1788-METHOD-C-FEASIBILITY-001"
+    "review_verdict": "F1789_GO_NOT_SUBSTANTIATED_OFFLINE_ESTIMATES_DO_NOT_REPLACE_SOLVER_EXECUTION",
+    "correlation_id": "HND-F1789-AUTHENTIC-PREFLIGHT-001"
   },
-  "re_review_correlation_id": "HND-F1789-AUTHENTIC-PREFLIGHT-001",
-  "scientific_operation": "mode1_method_c_authentic_state_transfer_and_datacheck_preflight",
-  "scientific_operation_id": "f1789_authentic_preflight_001",
+  "re_review_correlation_id": "HND-F1790-PHYSICAL-GATE-001",
+  "scientific_operation": "mode1_method_c_physical_gate_restoration_and_release_diagnostic",
+  "scientific_operation_id": "f1790_physical_gate_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "181CB4E5A8CE765CBE0765D71BA9C3CCA934A33140BC61F5B9A4CD7A6AEFCD40",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1789 COMPLETED under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Authentic Mode-I state transfer and Abaqus 2024 pre.exe datacheck preflight verified with 0 errors across 49,791 elements and 16,643 nodes. Preflight verdict: GO. Cumulative PBS submissions strictly preserved at 35."
+  "notes": "Task F1790 COMPLETED under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Restored original predeclared Method C Gates C1-C5 without relaxation, classified as NOT_YET_MEASURABLE pending PBS solve. Generated hash-pinned diagnostic deck PK_F1790_CASE1_RELEASE_DIAGNOSTIC.inp (5A02C4D7...), verified local Abaqus 2024 input processing (0 errors), authored observable extractor and PBS submission wrapper. Cumulative PBS submissions strictly preserved at 35."
 }
