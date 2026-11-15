@@ -139,17 +139,17 @@ def test_dynamic_notch_root_seeding_calculation():
 def test_indicator_options_exposure_in_configs():
     """Verify that all active JSON configs expose indicator_options and explicit provenance descriptions."""
     configs = [
-        ("case_1", "f1728_case1_mode1_edge_crack.json", "DAMAGE_INFORMED_ENVELOPE"),
-        ("case_2", "f1728_case2_off_axis_hole.json", "DAMAGE_INFORMED_ENVELOPE"),
-        ("case_3", "f1728_case3_notched_plate_pins.json", "NATIVE_STRESS_ERROR"),
-        ("case_5", "f1728_case5_seven_hole.json", "NATIVE_STRESS_ERROR"),
+        ("case_1", "f1728_case1_mode1_edge_crack.json", ["DAMAGE_INFORMED_ENVELOPE"]),
+        ("case_2", "f1728_case2_off_axis_hole.json", ["DAMAGE_INFORMED_ENVELOPE", "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR"]),
+        ("case_3", "f1728_case3_notched_plate_pins.json", ["NATIVE_STRESS_ERROR"]),
+        ("case_5", "f1728_case5_seven_hole.json", ["NATIVE_STRESS_ERROR"]),
     ]
 
-    for cid, filename, expected_type in configs:
+    for cid, filename, expected_types in configs:
         cfg_file = os.path.join(REPO_ROOT, "configs", "remeshing", filename)
         cfg = AdaptiveConfig.from_json(cfg_file)
         assert cfg.case_id == cid
-        assert cfg.indicator_type == expected_type, f"{cid} indicator_type mismatch: {cfg.indicator_type} vs {expected_type}"
+        assert cfg.indicator_type in expected_types, f"{cid} indicator_type mismatch: {cfg.indicator_type} not in {expected_types}"
         assert hasattr(cfg, "core_factor")
         assert hasattr(cfg, "process_factor")
         assert hasattr(cfg, "d_core")

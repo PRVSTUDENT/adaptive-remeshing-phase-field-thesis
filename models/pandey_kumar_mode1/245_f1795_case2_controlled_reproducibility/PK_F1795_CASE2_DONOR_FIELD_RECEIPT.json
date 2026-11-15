@@ -1,0 +1,26 @@
+{
+  "donor_file": "PK_HOLE_METHOD_A_PREANALYSIS.odb",
+  "donor_sha256": "C698A4B7AB23761C731BBC73E0F2C00166BF53116BB8CBC31439D89270D38FE4",
+  "donor_size_bytes": 2883480,
+  "step_name": "Step-1",
+  "frame_index": 10,
+  "frame_time": 1.0,
+  "total_frames_in_step": 11,
+  "is_causal_preanalysis": true,
+  "indicator_field": "MISESERI",
+  "normalization_field": "MISESAVG",
+  "num_elements_with_indicator": 5812,
+  "miseseri_stats": {
+    "min_mpa": 0.416568398475647,
+    "max_mpa": 1430.2705078125,
+    "mean_mpa": 21.191461199975308,
+    "median_mpa": 8.538917541503906,
+    "p90_mpa": 42.39887619018555,
+    "p99_mpa": 215.55711364746094
+  },
+  "misesavg_stats": {
+    "min_mpa": 0.14984464645385742,
+    "max_mpa": 4412.919921875,
+    "mean_mpa": 582.2311981260694
+  }
+}

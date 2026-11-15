@@ -35,6 +35,10 @@ def test_causal_envelope_synthesis_case2():
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
+    # Use an isolated working copy for Abaqus processing to avoid mutating the original donor ODB header
+    working_source_odb = os.path.join(output_dir, "PK_HOLE_COARSE_JOB1_WORKING.odb")
+    shutil.copyfile(source_odb, working_source_odb)
+
     target_odb = os.path.join(output_dir, "PK_F1793_CASE2_CAUSAL_ENV_F100.odb")
 
     config_path = os.path.join(REPO_ROOT, "configs", "remeshing", "f1728_case2_off_axis_hole.json")
@@ -43,7 +47,7 @@ def test_causal_envelope_synthesis_case2():
     # Build causal envelope bounded strictly to Frame 100 (t <= 0.20, crack initiation stage)
     out_path = AdvancingDamageEnvelopeBuilder.build_envelope_from_config(
         config=cfg,
-        source_odb_path=source_odb,
+        source_odb_path=working_source_odb,
         target_odb_path=target_odb,
         max_frame_index=100,
         causal_mode=True
@@ -82,8 +86,8 @@ def test_causal_envelope_synthesis_case2():
     eri_values = {v.elementLabel: v.data for v in eri_fo.values}
 
     # Inspect damage values and target mesh sizing
-    # Open the source ODB at frame 100 to check authentic causal damage
-    odb_src = openOdb(source_odb, readOnly=True)
+    # Open the working source ODB at frame 100 to check authentic causal damage
+    odb_src = openOdb(working_source_odb, readOnly=True)
     f100 = odb_src.steps["Step-2"].frames[100]
     src_d = {v.elementLabel: v.data for v in f100.fieldOutputs["SDV1"].values}
     odb_src.close()

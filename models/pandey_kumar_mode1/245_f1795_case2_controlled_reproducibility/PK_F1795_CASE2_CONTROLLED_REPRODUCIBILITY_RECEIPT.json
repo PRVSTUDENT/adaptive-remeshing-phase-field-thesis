@@ -1,0 +1,133 @@
+{
+  "task_id": "F1795-CASE2-NATIVE-MISESERI-CAUSAL-REMESHING-CONTROLLED-REPRODUCIBILITY",
+  "donor_odb": "PK_HOLE_METHOD_A_PREANALYSIS.odb",
+  "donor_sha256": "C698A4B7AB23761C731BBC73E0F2C00166BF53116BB8CBC31439D89270D38FE4",
+  "causal_horizon": {
+    "step_name": "Step-1",
+    "frame_index": 10,
+    "frame_time": 1.0,
+    "causal_mode": true
+  },
+  "pairwise_comparisons": {
+    "control_vs_perturbed": {
+      "file_sha256_identical": false,
+      "mesh_body_bitwise_identical": true,
+      "element_count_delta": 0,
+      "quad_count_delta": 0,
+      "min_jacobian_delta": 0.0,
+      "max_ar_delta": 0.0
+    },
+    "control_vs_repeat": {
+      "file_sha256_identical": false,
+      "mesh_body_bitwise_identical": true,
+      "element_count_delta": 0,
+      "quad_count_delta": 0,
+      "min_jacobian_delta": 0.0,
+      "max_ar_delta": 0.0
+    }
+  },
+  "runs": {
+    "control": {
+      "inp_file": "PK_F1795_CASE_2_CONTROL_PHYS.inp",
+      "sha256": "14DD9BBC5AC6C2468DA63BD8BC6CC40D10B3189903D2F493479B5BA2839E1E2C",
+      "size_bytes": 2561009,
+      "corrupted_labels": false,
+      "total_elements": 35648,
+      "quad_count": 34770,
+      "tri_count": 878,
+      "quad_percent": 97.53702872531417,
+      "min_det_j": 1.6139726828878097e-07,
+      "max_aspect_ratio": 2.5175503034294193,
+      "median_aspect_ratio": 1.2113044615795514,
+      "ar_violations_gt_4": 0,
+      "mesh_body_sha256": "DAE913CA233122B8C6007AC44324247E6CEFBF64B2C0B604F240E8309F8F2029",
+      "spatial_resolution": {
+        "notch_to_hole": {
+          "element_count": 5848,
+          "mean_h_um": 1.860614827484301,
+          "pct_le_l0": 100.0,
+          "pct_le_l0_half": 98.13611491108071
+        },
+        "outer_distal": {
+          "element_count": 4397,
+          "mean_h_um": 3.1148896985625725,
+          "pct_le_l0": 100.0,
+          "pct_le_l0_half": 66.34068683193087
+        },
+        "far_field": {
+          "element_count": 1155,
+          "mean_h_um": 9.823502537019344,
+          "refinement_ratio_far_to_core": 5.279707756764197
+        }
+      }
+    },
+    "perturbed": {
+      "inp_file": "PK_F1795_CASE_2_PERTURBED_PHYS.inp",
+      "sha256": "4318F166D5909001BA2B70D5B42ACFBB972EB9EED1FDE7BD7555BF08CC2D35D6",
+      "size_bytes": 2561013,
+      "corrupted_labels": true,
+      "total_elements": 35648,
+      "quad_count": 34770,
+      "tri_count": 878,
+      "quad_percent": 97.53702872531417,
+      "min_det_j": 1.6139726828878097e-07,
+      "max_aspect_ratio": 2.5175503034294193,
+      "median_aspect_ratio": 1.2113044615795514,
+      "ar_violations_gt_4": 0,
+      "mesh_body_sha256": "DAE913CA233122B8C6007AC44324247E6CEFBF64B2C0B604F240E8309F8F2029",
+      "spatial_resolution": {
+        "notch_to_hole": {
+          "element_count": 5848,
+          "mean_h_um": 1.860614827484301,
+          "pct_le_l0": 100.0,
+          "pct_le_l0_half": 98.13611491108071
+        },
+        "outer_distal": {
+          "element_count": 4397,
+          "mean_h_um": 3.1148896985625725,
+          "pct_le_l0": 100.0,
+          "pct_le_l0_half": 66.34068683193087
+        },
+        "far_field": {
+          "element_count": 1155,
+          "mean_h_um": 9.823502537019344,
+          "refinement_ratio_far_to_core": 5.279707756764197
+        }
+      }
+    },
+    "repeat": {
+      "inp_file": "PK_F1795_CASE_2_REPEAT_PHYS.inp",
+      "sha256": "28DBB60856B6DBDF1456EAACFF1F7790ACF1BAAE79E5939D66BA355F76999C0A",
+      "size_bytes": 2561007,
+      "corrupted_labels": false,
+      "total_elements": 35648,
+      "quad_count": 34770,
+      "tri_count": 878,
+      "quad_percent": 97.53702872531417,
+      "min_det_j": 1.6139726828878097e-07,
+      "max_aspect_ratio": 2.5175503034294193,
+      "median_aspect_ratio": 1.2113044615795514,
+      "ar_violations_gt_4": 0,
+      "mesh_body_sha256": "DAE913CA233122B8C6007AC44324247E6CEFBF64B2C0B604F240E8309F8F2029",
+      "spatial_resolution": {
+        "notch_to_hole": {
+          "element_count": 5848,
+          "mean_h_um": 1.860614827484301,
+          "pct_le_l0": 100.0,
+          "pct_le_l0_half": 98.13611491108071
+        },
+        "outer_distal": {
+          "element_count": 4397,
+          "mean_h_um": 3.1148896985625725,
+          "pct_le_l0": 100.0,
+          "pct_le_l0_half": 66.34068683193087
+        },
+        "far_field": {
+          "element_count": 1155,
+          "mean_h_um": 9.823502537019344,
+          "refinement_ratio_far_to_core": 5.279707756764197
+        }
+      }
+    }
+  }
+}

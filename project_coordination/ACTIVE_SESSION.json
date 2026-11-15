@@ -1,10 +1,11 @@
 {
-  "active": true,
+  "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "session-2026-11-15-f1794-bridge-dispatch-and-continuation",
-  "task_id": "F1794-CASE2-NATIVE-MISESERI-CAUSAL-REMESHING-NUMERICAL-DEMONSTRATION",
-  "started_at": "2026-11-15T23:33:00+01:00",
-  "starting_commit": "6e8ca1df5249be156f0dca7619c72657ad6a8f13",
+  "session_id": "session-2026-11-15-f1795-case2-controlled-reproducibility",
+  "task_id": "F1795-CASE2-NATIVE-MISESERI-CAUSAL-REMESHING-CONTROLLED-REPRODUCIBILITY",
+  "started_at": "2026-11-15T23:45:00+01:00",
+  "ended_at": "2026-11-16T00:10:00+01:00",
+  "starting_commit": "bd685e000",
   "allowed_write_scope": [
     "project_coordination/",
     "docs/validation/",
@@ -16,5 +17,5 @@
     "results/figures/",
     ".agents/"
   ],
-  "notes": "Claimed session for Task F1794 git sync, bridge request dispatch (HND-F1794-CAUSAL-REMESH-001), independent review receipt, and persistent master continuation."
+  "notes": "Session closed for Task F1795: Case 2 Native-MISESERI Causal Remeshing Controlled Reproducibility completed successfully. Controlled Abaqus CAE noGUI experiment proved 100.000% bitwise mesh body invariance (DAE913CA...) across Control, Corrupted-Corridor, and Repeat Control meshes. Native engine fail-closed causal cutoff guards implemented. Explicit native MISESERI config metadata pinned. Receipts and execution logs tracked. Algebraic Kirsch decay derived. 14/14 standalone unit tests PASS, 101/101 active regression tests PASS. Zero PBS jobs consumed (cumulative 35). UEL frozen at CE8D5EDC... MASTER_GOAL_STATUS strictly remains OPEN."
 }

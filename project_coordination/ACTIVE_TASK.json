@@ -1,6 +1,6 @@
 {
-  "task_id": "F1794-CASE2-NATIVE-MISESERI-CAUSAL-REMESHING-NUMERICAL-DEMONSTRATION",
-  "title": "Task F1794: Case 2 Native-MISESERI Causal Remeshing Numerical Demonstration",
+  "task_id": "F1795-CASE2-NATIVE-MISESERI-CAUSAL-REMESHING-CONTROLLED-REPRODUCIBILITY",
+  "title": "Task F1795: Case 2 Native-MISESERI Causal Remeshing Controlled Reproducibility",
   "task_status": "COMPLETED",
   "master_goal_status": "OPEN",
   "status": "COMPLETED",
@@ -8,23 +8,23 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1794_CASE2_NATIVE_MISESERI_CAUSAL_REMESHING_REPORT.md",
-  "review_directive": "Following supervisory review directive HND-F1793-CAUSAL-ADAPTIVITY-001 [REJECT]: Task F1794 successfully executes ONE bounded numerical demonstration: (1) Reconciled source PK_HOLE_COARSE_JOB1.odb dynamic header behavior across access sessions and proved from FE data that its MISESERI values are zero across all frames, while PK_HOLE_METHOD_A_PREANALYSIS.odb [C698A4B7...] is the authentic native Abaqus stress-recovery donor with active MISESERI in [0.4166, 1430.27] MPa; (2) Implemented fail-closed causal cutoff guards in AdvancingDamageEnvelopeBuilder; (3) Proved observational corridor label independence from Abaqus CAE meshing; (4) Executed Abaqus native RemeshingRule and adaptiveRemesh() to generate PK_F1794_CASE_2_ADAPT_PHYS.inp [0EFE1640...] with 35,648 elements, 97.54% quads, min det(J) = 1.614e-7 > 0, max AR 2.518, 98.14% notch-to-hole <= l0/2, 66.34% distal <= l0/2, and 5.28x far-field coarsening; (5) Evaluated and defended authentic non-hindsight behavior of Method A; (6) Standalone unit tests 12/12 PASS, active regression suite 87/87 PASS in 33.53s; 0 new PBS jobs consumed, cumulative strictly preserved at 35; production UEL CE8D5EDC... bitwise frozen; MASTER_GOAL_STATUS strictly remains OPEN.",
+  "checkpoint_artifact": "docs/validation/F1795_CASE2_CONTROLLED_REPRODUCIBILITY_REPORT.md",
+  "review_directive": "Following supervisory review directive HND-F1794-CAUSAL-REMESH-001 [REJECT]: Execute exactly ONE bounded, zero-PBS, controlled native Abaqus Case 2 remeshing experiment using the F1794 verified pre-analysis donor and the existing shared framework: (1) Make the native execution entrypoint fail closed on invalid or unavailable step/frame cutoffs and remove any ambiguity between native MISESERI and synthesized damage-envelope configuration; (2) Generate an unmodified control mesh (Mesh A) and a mesh with deliberately corrupted classify_region() labels (Mesh B), using identical donor bytes, declared Step-1 Frame-10 causal cutoff, geometry, numerical parameters, and Abaqus settings; (3) Preserve actual Abaqus execution logs and machine-readable donor-field receipts; (4) Independently hash both physical meshes and compare connectivity, spatial sizing, Jacobians, aspect ratios, and element counts (including unmodified repeat if necessary to quantify mesher nondeterminism vs corridor influence); (5) Replace the tautological ODB hash assertion with a genuine documented provenance check; (6) Correct Kirsch elasticity explanation to algebraic 1/r^2 decay; (7) Zero PBS jobs consumed, cumulative preserved at 35, UEL frozen at CE8D5EDC..., MASTER_GOAL_STATUS strictly remains OPEN.",
   "predecessor_task": {
-    "task_id": "F1793-METHOD-A-CAUSAL-ADAPTIVITY-AND-NON-HINDSIGHT-VERIFICATION",
-    "checkpoint_artifact": "docs/validation/F1793_METHOD_A_CAUSAL_ADAPTIVITY_AND_NON_HINDSIGHT_REPORT.md",
+    "task_id": "F1794-CASE2-NATIVE-MISESERI-CAUSAL-REMESHING-NUMERICAL-DEMONSTRATION",
+    "checkpoint_artifact": "docs/validation/F1794_CASE2_NATIVE_MISESERI_CAUSAL_REMESHING_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
-    "review_verdict": "F1793_CAUSAL_ENVELOPE_IMPLEMENTED_BUT_NATIVE_MISESERI_ADAPTIVITY_UNPROVEN_AND_CAUSAL_GUARDS_INCOMPLETE",
-    "correlation_id": "HND-F1793-CAUSAL-ADAPTIVITY-001"
+    "review_verdict": "REJECT",
+    "correlation_id": "HND-F1794-CAUSAL-REMESH-001"
   },
-  "re_review_correlation_id": "HND-F1794-CAUSAL-REMESH-001",
-  "scientific_operation": "case2_native_miseseri_causal_remeshing_numerical_demonstration",
-  "scientific_operation_id": "f1794_causal_remesh_001",
+  "re_review_correlation_id": "HND-F1795-CONTROLLED-REPRODUCIBILITY-001",
+  "scientific_operation": "case2_native_miseseri_causal_remeshing_controlled_reproducibility",
+  "scientific_operation_id": "f1795_reproducibility_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-  "framework_sha256": "907EE548BB28B920038E8C51D8A4DAA584E9DCE84DD99EEB6A10ECB259DBCAC0",
+  "framework_sha256": "99EC77D2433EB5048DC9B4D70E5EA3B8468073C3BCEA342B7BFE139234700E6D",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1794 COMPLETED under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Focus: Case 2 Native-MISESERI Causal Remeshing Numerical Demonstration completed with actual physical INP generated, fail-closed causal guards verified, and non-hindsight Method A physics documented."
+  "notes": "Task F1795 ACTIVE under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Focus: Controlled A/B native remeshing reproducibility, native engine causal cutoff fail-closed enforcement, explicit native MISESERI config metadata, and empirical proof of corridor classification independence."
 }

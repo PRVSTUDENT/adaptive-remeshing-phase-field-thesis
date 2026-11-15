@@ -265,7 +265,7 @@ class AdaptiveConfig(object):
         ind = config_data.get("indicator_options", config_data.get("damage_envelope", config_data.get("envelope_options", config_data.get("envelope", {}))))
         default_ind_type = "DAMAGE_INFORMED_ENVELOPE" if self.case_id in ("case_1", "case_2") else "NATIVE_STRESS_ERROR"
         self.indicator_type = str(ind.get("indicator_type", rr.get("indicator_type", default_ind_type)))
-        self.indicator_description = str(ind.get("description", "Abaqus recovered stress error" if self.indicator_type == "NATIVE_STRESS_ERROR" else "Synthesized damage-informed sizing envelope"))
+        self.indicator_description = str(ind.get("description", ind.get("provenance_description", "Abaqus recovered stress error" if "NATIVE" in self.indicator_type else "Synthesized damage-informed sizing envelope")))
         
         def _get_float(d, key, dflt):
             v = d.get(key)
@@ -1683,11 +1683,11 @@ class AbaqusNativeRemeshingEngine(object):
         return p, a, inst
 
     @classmethod
-    def execute_native_remesh(cls, config, donor_odb_path, output_dir, model_name=None):
+    def execute_native_remesh(cls, config, donor_odb_path, output_dir, model_name=None, adapter_override=None, output_job_name=None):
         if not ABAQUS_AVAILABLE:
             raise RuntimeError("Abaqus environment not available; cannot execute native adaptiveRemesh.")
 
-        adapter = get_geometry_adapter(config)
+        adapter = adapter_override if adapter_override is not None else get_geometry_adapter(config)
         mname = model_name or ("Model_MethodA_" + str(config.case_id))
 
         if mname in mdb.models:
@@ -1721,6 +1721,13 @@ class AbaqusNativeRemeshingEngine(object):
             odb_donor = session.openOdb(name=cur_donor)
             step_target = config.step_name
             if step_target not in odb_donor.steps:
+                if getattr(config, 'causal_mode', False):
+                    odb_donor.close()
+                    raise ValueError(
+                        "FAIL_CLOSED: Target step '%s' does not exist in donor ODB '%s' (available steps: %s)" % (
+                            step_target, cur_donor, list(odb_donor.steps.keys())
+                        )
+                    )
                 if "RECOVERY_STEP" in odb_donor.steps:
                     step_target = "RECOVERY_STEP"
                 elif "Step-2" in odb_donor.steps:
@@ -1729,6 +1736,76 @@ class AbaqusNativeRemeshingEngine(object):
                     step_target = "Step-1"
                 else:
                     step_target = list(odb_donor.steps.keys())[-1]
+
+            step_obj = odb_donor.steps[step_target]
+            n_donor_frames = len(step_obj.frames)
+            if n_donor_frames == 0:
+                odb_donor.close()
+                raise ValueError("FAIL_CLOSED: Donor step '%s' in '%s' contains 0 frames." % (step_target, cur_donor))
+
+            # Fail-closed causal horizon enforcement
+            c_mode = getattr(config, 'causal_mode', False)
+            m_idx = getattr(config, 'max_frame_index', None)
+            m_time = getattr(config, 'max_frame_time', None)
+
+            if c_mode or m_idx is not None or m_time is not None:
+                if c_mode and m_idx is None and m_time is None:
+                    odb_donor.close()
+                    raise ValueError(
+                        "FAIL_CLOSED: Causal adaptivity requires an explicit temporal horizon (max_frame_index or max_frame_time)."
+                    )
+
+                if m_idx is not None:
+                    val = int(m_idx)
+                    if val < 0:
+                        odb_donor.close()
+                        raise ValueError("FAIL_CLOSED: max_frame_index cannot be negative (got %d)" % val)
+                    if val >= n_donor_frames:
+                        odb_donor.close()
+                        raise ValueError("FAIL_CLOSED: max_frame_index %d exceeds donor step '%s' frame count (%d)" % (
+                            val, step_target, n_donor_frames
+                        ))
+                    if c_mode and (n_donor_frames - 1) > val:
+                        odb_donor.close()
+                        raise ValueError(
+                            "FAIL_CLOSED: Donor step '%s' contains %d frames, exceeding causal horizon max_frame_index=%d. "
+                            "Unconstrained future frames are forbidden in native causal donor." % (
+                                step_target, n_donor_frames, val
+                            )
+                        )
+
+                if m_time is not None:
+                    t_target = float(m_time)
+                    t_first = step_obj.frames[0].frameValue
+                    if t_target < t_first - 1e-9:
+                        odb_donor.close()
+                        raise ValueError("FAIL_CLOSED: max_frame_time %f precedes first frame timestamp (%f) in step '%s'" % (
+                            t_target, t_first, step_target
+                        ))
+                    if c_mode and step_obj.frames[-1].frameValue > t_target + 1e-9:
+                        odb_donor.close()
+                        raise ValueError(
+                            "FAIL_CLOSED: Donor step '%s' final frame time %f exceeds causal horizon max_frame_time=%f. "
+                            "Future frames are forbidden in native causal donor." % (
+                                step_target, step_obj.frames[-1].frameValue, t_target
+                            )
+                        )
+
+                for i in range(1, n_donor_frames):
+                    if step_obj.frames[i].frameValue < step_obj.frames[i-1].frameValue - 1e-9:
+                        odb_donor.close()
+                        raise ValueError("FAIL_CLOSED: Donor step '%s' frames are non-monotonic in time at frame %d" % (
+                            step_target, i
+                        ))
+
+            target_frame = step_obj.frames[-1]
+            if config.variable not in target_frame.fieldOutputs:
+                odb_donor.close()
+                raise ValueError(
+                    "FAIL_CLOSED: Required indicator variable '%s' not found in donor step '%s' frame %d field outputs." % (
+                        config.variable, step_target, target_frame.frameId
+                    )
+                )
 
             # Explicitly ensure CAE model has the target step matching the donor ODB (resolving F1728-R30)
             if step_target not in m.steps:
@@ -1759,14 +1836,18 @@ class AbaqusNativeRemeshingEngine(object):
             odb_donor.close()
 
         safe_makedirs(output_dir)
-        job_base = "PK_ADAPT_" + str(config.case_id).upper()
-        if job_base in mdb.jobs:
-            del mdb.jobs[job_base]
-        j = mdb.Job(name=job_base, model=m.name, type=ANALYSIS)
+        job_base = output_job_name if output_job_name is not None else ("PK_ADAPT_" + str(config.case_id).upper())
+        if job_base.endswith("_PHYS"):
+            base_name = job_base[:-5]
+        else:
+            base_name = job_base
+        if base_name in mdb.jobs:
+            del mdb.jobs[base_name]
+        j = mdb.Job(name=base_name, model=m.name, type=ANALYSIS)
         j.writeInput(consistencyChecking=OFF)
 
-        raw_inp = job_base + ".inp"
-        out_phys_inp = os.path.join(output_dir, job_base + "_PHYS.inp")
+        raw_inp = base_name + ".inp"
+        out_phys_inp = os.path.join(output_dir, base_name + "_PHYS.inp")
         if os.path.exists(raw_inp):
             if os.path.exists(out_phys_inp):
                 os.remove(out_phys_inp)
