@@ -1,6 +1,6 @@
 {
-  "task_id": "F1785-METHOD-A-FINAL-SCIENTIFIC-SYNTHESIS-AND-BENCHMARK-COMPARISON",
-  "title": "Task F1785: Method A Final Scientific Synthesis and Four-Benchmark Comparison",
+  "task_id": "F1786-METHOD-A-SOURCE-GROUNDED-SYNTHESIS-CORRECTION",
+  "title": "Task F1786: Method A Source-Grounded Scientific Synthesis and Benchmark Comparison Correction",
   "task_status": "COMPLETED",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
@@ -8,24 +8,24 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1785_METHOD_A_SCIENTIFIC_SYNTHESIS_AND_BENCHMARK_COMPARISON_REPORT.md",
-  "report_sha256": "E7D81C92DCC1A946460306633B9C480E33D97C781623D6C473D01ED0B23A4133",
-  "review_directive": "Following supervisory review approval HND-F1784-EVIDENCE-RECONCILIATION-FREEZE-001 (F1784_ACCEPTED_METHOD_A_FRAMEWORK_QUALIFIED_WITH_DECLARED_SCOPE), Task F1785 consolidates qualified Method A research findings across Cases 1, 2, 3, and 5 into one reproducible scientific comparison package using existing evidence: (1) Synthesize the four benchmark results (Case 1 Mode-I Edge Crack, Case 2 Off-Axis Hole, Case 3 Notched Plate with Pins and Hole, Case 5 Seven-Hole Plate) comparing adapted mesh characteristics (element counts, quad percentages, minimum Jacobian determinants, maximum aspect ratios, resolution h/l0 in critical crack corridors, far-field coarsening) against literature baselines (Pandey & Kumar 2025) and initial uniform/coarse meshes; (2) Consolidate computational efficiency, speedup metrics, and memory savings across all benchmarks; (3) Produce a comprehensive scientific comparison matrix and consolidated synthesis figures; (4) Formalize the verified scope of the qualified Pandey-Kumar adaptive remeshing framework and explicitly document research boundaries; (5) Strictly preserve frozen framework SHA-256 181CB4E5... and frozen production UEL CE8D5EDC...; (6) Exactly 0 new PBS submissions (cumulative preserved at 35); (7) Maintain MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1786_METHOD_A_SOURCE_GROUNDED_SYNTHESIS_REPORT.md",
+  "report_sha256": "A3518713B9F677DD778C707A1DADDBFB7A1EE6688ED6C7B82FAE04D19DE20CCC",
+  "review_directive": "Following independent supervisory review of Task F1785 (HND-F1785-FINAL-SCIENTIFIC-SYNTHESIS-001, REVIEW_DECISION: REJECT, VERDICT: F1785_SCIENTIFIC_SYNTHESIS_CONTAINS_MATERIAL_SOURCE_AND_PROVENANCE_ERRORS), Task F1786 executes a source-grounded correction of the scientific synthesis report and comparison package: (1) Reconcile all physical benchmark parameters, dimensions, and length scales directly against committed JSON configurations (configs/remeshing/f1728_*.json): Case 1 (1.0x1.0 mm, l0=0.0075 mm, a=0.5 mm), Case 2 (1.0x1.0 mm, l0=0.0075 mm, notch a=0.5 mm, hole at (0.65, 0.65) mm R=0.10 mm), Case 3 (65.0x120.0 mm, l0=0.285 mm, notch a=10.0 mm w=0.2 mm, void at (36.5, 51.0) mm R=10.0 mm, pins at (20.0, 20.0) and (20.0, 100.0) mm R=5.0 mm), Case 5 (1.0x1.0 mm, l0=0.008 mm, 7 holes); (2) Eliminate unsupported speedup and memory claims (4.1x CPU speedup, ~75.3% memory savings) lacking matched solver timing or peak memory receipts, replacing with authentic element and verified DOF counts; (3) Reconcile literature/predecessor baseline element counts: Case 1 target (13,941), Case 2 internal predecessor baseline (28,000), Case 3 literature (12,168), Case 5 literature (15,714); (4) Separate h <= l0 from h <= l0/2 compliance without unwarranted 100% assertions; (5) Distinguish historical F1776 coupled-fracture solves (executed on 20,232 and 15,330 meshes) from F1780 adapted meshes; (6) Regenerate 4-panel publication synthesis figure fig_f1786_four_benchmark_scientific_synthesis.png and .pdf; (7) Publish comprehensive source-grounded report with 4-tier claim-to-evidence matrix; (8) Preserve frozen framework SHA-256 181CB4E5... and frozen production UEL CE8D5EDC...; (9) Exactly 0 new PBS submissions (cumulative preserved at 35); (10) Maintain MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1784-METHOD-A-EVIDENCE-RECONCILIATION-AND-QUALIFICATION-FREEZE",
-    "checkpoint_artifact": "docs/validation/F1784_FRAMEWORK_EVIDENCE_RECONCILIATION_REPORT.md",
+    "task_id": "F1785-METHOD-A-FINAL-SCIENTIFIC-SYNTHESIS-AND-BENCHMARK-COMPARISON",
+    "checkpoint_artifact": "docs/validation/F1785_METHOD_A_SCIENTIFIC_SYNTHESIS_AND_BENCHMARK_COMPARISON_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_ONLY",
-    "review_verdict": "F1784_ACCEPTED_METHOD_A_FRAMEWORK_QUALIFIED_WITH_DECLARED_SCOPE",
-    "correlation_id": "HND-F1784-EVIDENCE-RECONCILIATION-FREEZE-001"
+    "review_verdict": "F1785_SCIENTIFIC_SYNTHESIS_CONTAINS_MATERIAL_SOURCE_AND_PROVENANCE_ERRORS",
+    "correlation_id": "HND-F1785-FINAL-SCIENTIFIC-SYNTHESIS-001"
   },
-  "re_review_correlation_id": "HND-F1785-FINAL-SCIENTIFIC-SYNTHESIS-001",
-  "scientific_operation": "adaptive_remeshing_final_scientific_synthesis",
-  "scientific_operation_id": "f1785_final_scientific_synthesis_001",
+  "re_review_correlation_id": "HND-F1786-SOURCE-GROUNDED-SYNTHESIS-001",
+  "scientific_operation": "adaptive_remeshing_source_grounded_synthesis_correction",
+  "scientific_operation_id": "f1786_source_grounded_synthesis_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "181CB4E5A8CE765CBE0765D71BA9C3CCA934A33140BC61F5B9A4CD7A6AEFCD40",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1785 COMPLETED under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Research findings synthesized across Cases 1, 2, 3, 5 with multi-panel publication synthesis figure fig_f1785_four_benchmark_scientific_synthesis.png and comprehensive comparison report."
+  "notes": "Task F1786 COMPLETED under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Source-grounded scientific synthesis report and corrected publication figures published. Ready for independent supervisory review."
 }
