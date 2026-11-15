@@ -1,12 +1,13 @@
 {
     "task_id": "F1769-CASE1-ADVANCING-COUPLED-DONOR-EXECUTION",
     "title": "Case 1 Advancing Coupled Donor Execution Plan, Boundary Condition Audit & Acceptance Gate Specification",
-    "status": "INITIALIZED_AWAITING_REVIEW_AUTHORIZATION",
+    "status": "JOB_FAILED_TECHNICAL_LOCK_COLLISION_REPAIRED_AWAITING_R1_AUTH",
     "classification": "DONOR_EXECUTION_BOUNDED_ONE_PBS",
     "assigned_agent": "gemini-antigravity",
     "active_pbs_job_id": null,
+    "last_failed_pbs_job_id": "1423603.mmaster02",
     "checkpoint_artifact": "docs/validation/F1769_CASE1_DONOR_EXECUTION_PLAN.md",
-    "review_directive": "HND-F1768-CASE1-DONOR-AUTH-001 review decision APPROVE directed: close zero-PBS F1768 task legitimately and register ONE separate bounded Case 1 donor-execution successor with a maximum of one PBS submission. Resolve specific scientific qualification question of whether top-edge horizontal constraint matches authoritative Mode-I benchmark. Once successor task has authenticated independent review and all required controller gates genuinely pass, submit exactly ONE 1-CPU, 8-GB, maximum-2-hour coupled donor-generation PBS job through authorized execution route.",
+    "review_directive": "HND-F1769-CASE1-DONOR-EXEC-001 review decision APPROVE granted 1 bounded PBS job. Job 1423603.mmaster02 was submitted and completed Exit 1 due to technical wrapper lock collision (PBS script touch ${JOB_NAME}.lck collided with Abaqus internal ODB lock file check). Repaired script submit_f1769_case1_donor_r1.pbs prepared and verified on cluster. Cumulative submissions: 28.",
     "predecessor_task": {
         "task_id": "F1768-CASE1-ADVANCING-COUPLED-DONOR-PREPARATION",
         "checkpoint_artifact": "docs/validation/F1768_CASE1_DONOR_PREPARATION_REPORT.md",
@@ -14,16 +15,16 @@
         "review_verdict": "APPROVE",
         "correlation_id": "HND-F1768-CASE1-DONOR-AUTH-001"
     },
-    "re_review_correlation_id": null,
+    "re_review_correlation_id": "HND-F1769-CASE1-DONOR-EXEC-001",
     "scientific_operation": "case1_advancing_coupled_donor_execution",
     "scientific_operation_id": "f1769_case1_donor_exec_001",
     "scientific_checkpoint_required": true,
     "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "candidate_input_sha256": "7B37F167AF520ED2B10C1B4034507F22E923ECABC9CE4F3E7019933D872931C6",
-    "pbs_script_sha256": "B01A50AF39083E315EE167C6CE5469EC9F8B0D026E9678DFD75D2AA3B191ADA6",
+    "pbs_script_sha256": "220FF11B30527FC649AE0B5817BF717EB30956A0CE0401BD202E79EDAF19EFDA",
     "max_new_pbs_submissions": 1,
-    "submissions_consumed": 0,
-    "cumulative_pbs_submissions": 27,
+    "submissions_consumed": 1,
+    "cumulative_pbs_submissions": 28,
     "report_sha256": "FC1A3E67431CBC9F2745C5CAD129AC9086EEA9F2A8C6759217C45182BB92A81A",
-    "notes": "Task F1769 initialized. BC audit confirms N_TOP, 1, 1, 0.0 matches PK_MODE1_STANDARD_PFM.inp reference (-0.029% literature error) and PK_F1739_CASE_1_PROD.inp (Exit 0, 99.96% load drop). G1-G7 gates predeclared. PBS script uploaded to cluster scratch with mode 755. Staging review authorization payload HND-F1769-CASE1-DONOR-EXEC-001 requesting execution of 1 bounded PBS job."
+    "notes": "Job 1423603.mmaster02 failed Exit 1 due to wrapper lock collision. Minimal deterministic repair applied in submit_f1769_case1_donor_r1.pbs (lock guard renamed to .pbs_guard.lck, rm -f *.lck before abaqus launch). Submissions consumed: 1, cumulative: 28. Staging HND-F1769-CASE1-DONOR-R1-AUTH-001 requesting 1 replacement solve."
 }

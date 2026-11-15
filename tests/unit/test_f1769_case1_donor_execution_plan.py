@@ -100,3 +100,19 @@ def test_pbs_script_directives_and_notifications():
     # Check lock guard and scratch space check
     assert "${JOB_NAME}.lck" in pbs_content
     assert "AVAIL_KB" in pbs_content
+
+
+def test_pbs_r1_corrected_lock_guard():
+    """Verify that submit_f1769_case1_donor_r1.pbs uses distinct lock guard and removes stale .lck."""
+    r1_path = os.path.join(
+        REPO_ROOT, "models", "pandey_kumar_mode1", "237_f1768_case1_donor", "submit_f1769_case1_donor_r1.pbs"
+    )
+    assert os.path.exists(r1_path), f"R1 script not found: {r1_path}"
+    with open(r1_path, "r") as f:
+        content = f.read()
+
+    assert "LOCK_GUARD=\"${JOB_NAME}.pbs_guard.lck\"" in content
+    assert "rm -f \"${JOB_NAME}.lck\"" in content
+    assert "#PBS -l select=1:ncpus=1:mem=8gb" in content
+    assert "#PBS -l walltime=02:00:00" in content
+
