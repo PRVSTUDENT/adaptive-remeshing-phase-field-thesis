@@ -1,0 +1,88 @@
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1763-CASE4-PILOT-CLOSEOUT-002",
+  "predecessor_correlation_id": "HND-F1763-CASE4-PILOT-CLOSEOUT-001",
+  "task_id": "F1763-CASE4-COMMON-FRAMEWORK-PILOT-EXECUTION",
+  "decision": "APPROVE",
+  "approval_scope": "TECHNICAL_CLOSEOUT_AND_ZERO_PBS_CASE5_SPECIFICATION_ONLY",
+  "technical_closeout": "APPROVED_WITH_DOCUMENTED_SCIENTIFIC_FAILURES",
+  "scientific_acceptance": "PARTIAL",
+  "case5_specification": "APPROVED",
+  "case5_mesh_execution": "NOT_AUTHORIZED",
+  "additional_pbs_jobs_authorized": 0,
+  "cumulative_pbs_submissions_reported": 27,
+  "review_summary": "The F1763 closeout now correctly records six passing and two failing predeclared acceptance gates. Independent GitHub inspection confirms that the updated report preserves the failures, the spatial audit contains the corresponding numerical results, and the framework source has Git blob SHA 399e048ac1374afe46ad254f2a23823d6f0df09d. The completed Case 4 pilot is acceptable as a documented technical experiment with partial scientific qualification. Its residual deficiencies must remain visible in the final five-case comparison. Proceeding to a separate, zero-PBS Case 5 pilot specification is appropriate. This approval does not authorize mesh generation.",
+  "verified_evidence": {
+    "repository": "PRVSTUDENT/adaptive-remeshing-phase-field-thesis",
+    "reviewed_commit": "12223505",
+    "framework_path": "scripts/remeshing/reusable_2d_adaptive_framework.py",
+    "framework_git_blob_sha": "399e048ac1374afe46ad254f2a23823d6f0df09d",
+    "report_path": "docs/validation/F1763_CASE4_PILOT_EXECUTION_REPORT.md",
+    "spatial_audit_path": "models/pandey_kumar_mode1/236_f1763_case4_pilot/f1763_case4_spatial_audit.json",
+    "spatial_audit_git_blob_sha": "14631491056e81c47c98ca7b27a7a44b8ba9452c",
+    "report_gate_matrix": "DIRECTLY_VERIFIED",
+    "numerical_audit": "DIRECTLY_VERIFIED_AS_COMMITTED_DATA",
+    "new_mesh_visual_inspection": "NOT_VERIFIED",
+    "original_pbs_scheduler_receipt": "REPORTED_ONLY",
+    "original_abaqus_execution_logs": "REPORTED_ONLY"
+  },
+  "case4_closeout": {
+    "classification": "COMPLETED_TECHNICAL_PILOT_WITH_PARTIAL_SCIENTIFIC_GATE_FAILURES",
+    "physical_elements": 12625,
+    "quadrilateral_fraction_percent": 97.58,
+    "negative_jacobians_reported": 0,
+    "maximum_aspect_ratio": 2.462,
+    "predeclared_gates_passed": 6,
+    "predeclared_gates_failed": 2,
+    "failed_gates": [
+      {
+        "gate": "G1",
+        "criterion": "Element count within 2.0% of 12944",
+        "observed": "12625 elements, -2.46%",
+        "status": "FAIL"
+      },
+      {
+        "gate": "G5",
+        "criterion": "Ligament 1 area compliance >=95% at h <= l0",
+        "observed": "92.74% area compliance",
+        "status": "FAIL"
+      }
+    ],
+    "ligament2_area_compliance_percent": 99.62,
+    "ligament3_area_compliance_at_half_l0_percent": 100.0,
+    "ligament4_area_compliance_percent": 100.0,
+    "preserve_historical_and_pilot_meshes": true,
+    "additional_case4_rerun_required": false,
+    "full_fracture_validation_claim_allowed": false
+  },
+  "review_qualifications": [
+    {
+      "id": "F1763-C02-R01",
+      "finding": "The reported explanation that reduced element count is caused by far-field coarsening is plausible but not conclusively established by the bulk mean element size alone.",
+      "treatment": "Retain it as an interpretation, not a directly proven causal finding."
+    },
+    {
+      "id": "F1763-C02-R02",
+      "finding": "The actual image pixels were not accessible for independent visual inspection during this review.",
+      "treatment": "Preserve the genuine commit-pinned figure and explicitly mark visual inspection outstanding. Do not claim direct visual verification."
+    },
+    {
+      "id": "F1763-C02-R03",
+      "finding": "Successful Case 4 Method A.1 execution does not establish that all five geometries, or the separate Method A.2 multi-state variant, are validated.",
+      "treatment": "Treat each subsequent benchmark as a separate reproducibility experiment using the same frozen framework source, with declared algorithm variants."
+    }
+  ],
+  "next_instruction_to_antigravity": "The F1763 technical closeout is APPROVED with classification COMPLETED_TECHNICAL_PILOT_WITH_PARTIAL_SCIENTIFIC_GATE_FAILURES. Preserve the existing 12625-element Case 4 mesh, genuine figure, spatial audit and all historical artifacts. Retain G1 and G5 as FAIL; do not weaken thresholds or rerun Case 4 merely to improve element-count parity. Close F1763 through the legitimate task/session procedure. Next, register ONE bounded zero-PBS successor task F1764 for the Case 5 seven-hole common-framework Method A.1 pilot specification. Reuse the verified framework source with Git blob SHA 399e048ac1374afe46ad254f2a23823d6f0df09d; do not introduce a separate Case 5 remeshing algorithm. Check the actual Case 5 configuration, donor ODB availability and Step-2 ALL_INCREMENTS selection, and establish the exact executable command, resource route and predeclared element-quality/spatial-resolution gates. Compare the proposed setup against the existing F1726 15708-element benchmark without repeating its completed experiments. Include commit-pinned links to the existing Case 5 adaptive-mesh image, donor evidence, framework, configuration and historical physical mesh. Preserve the outstanding visual verification status of the F1763 Case 4 figure. Return ONE concise Case 5 pilot authorization request identifying the exact frozen implementation, required inputs, acceptance criteria, evidence and execution constraints. Do not submit PBS, regenerate any mesh, run Abaqus, modify the UEL, start fracture simulations or execute a five-case batch under this zero-PBS specification task. Finished",
+  "authorization_boundary": {
+    "f1763_technical_closeout": "APPROVED",
+    "f1763_full_scientific_acceptance": "NOT_APPROVED",
+    "f1764_zero_pbs_specification": "APPROVED",
+    "case5_execution": "REQUIRES_SEPARATE_AUTHORIZATION",
+    "new_pbs_jobs": 0,
+    "five_case_regeneration_batch": "NOT_AUTHORIZED",
+    "forward_fracture_simulations": "NOT_AUTHORIZED",
+    "frozen_uel_modification": "NOT_AUTHORIZED",
+    "historical_results_preservation": "MANDATORY"
+  },
+  "terminal_marker": "Finished"
+}
