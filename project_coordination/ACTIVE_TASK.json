@@ -1,6 +1,6 @@
 {
-  "task_id": "F1786-METHOD-A-SOURCE-GROUNDED-SYNTHESIS-CORRECTION",
-  "title": "Task F1786: Method A Source-Grounded Scientific Synthesis and Benchmark Comparison Correction",
+  "task_id": "F1787-METHOD-A-FINAL-NUMERICAL-ERRATA-AND-RESULTS-LOCK",
+  "title": "Task F1787: Method A Final Numerical Errata and Results Lock",
   "task_status": "COMPLETED",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
@@ -8,24 +8,24 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1786_METHOD_A_SOURCE_GROUNDED_SYNTHESIS_REPORT.md",
-  "report_sha256": "A3518713B9F677DD778C707A1DADDBFB7A1EE6688ED6C7B82FAE04D19DE20CCC",
-  "review_directive": "Following independent supervisory review of Task F1785 (HND-F1785-FINAL-SCIENTIFIC-SYNTHESIS-001, REVIEW_DECISION: REJECT, VERDICT: F1785_SCIENTIFIC_SYNTHESIS_CONTAINS_MATERIAL_SOURCE_AND_PROVENANCE_ERRORS), Task F1786 executes a source-grounded correction of the scientific synthesis report and comparison package: (1) Reconcile all physical benchmark parameters, dimensions, and length scales directly against committed JSON configurations (configs/remeshing/f1728_*.json): Case 1 (1.0x1.0 mm, l0=0.0075 mm, a=0.5 mm), Case 2 (1.0x1.0 mm, l0=0.0075 mm, notch a=0.5 mm, hole at (0.65, 0.65) mm R=0.10 mm), Case 3 (65.0x120.0 mm, l0=0.285 mm, notch a=10.0 mm w=0.2 mm, void at (36.5, 51.0) mm R=10.0 mm, pins at (20.0, 20.0) and (20.0, 100.0) mm R=5.0 mm), Case 5 (1.0x1.0 mm, l0=0.008 mm, 7 holes); (2) Eliminate unsupported speedup and memory claims (4.1x CPU speedup, ~75.3% memory savings) lacking matched solver timing or peak memory receipts, replacing with authentic element and verified DOF counts; (3) Reconcile literature/predecessor baseline element counts: Case 1 target (13,941), Case 2 internal predecessor baseline (28,000), Case 3 literature (12,168), Case 5 literature (15,714); (4) Separate h <= l0 from h <= l0/2 compliance without unwarranted 100% assertions; (5) Distinguish historical F1776 coupled-fracture solves (executed on 20,232 and 15,330 meshes) from F1780 adapted meshes; (6) Regenerate 4-panel publication synthesis figure fig_f1786_four_benchmark_scientific_synthesis.png and .pdf; (7) Publish comprehensive source-grounded report with 4-tier claim-to-evidence matrix; (8) Preserve frozen framework SHA-256 181CB4E5... and frozen production UEL CE8D5EDC...; (9) Exactly 0 new PBS submissions (cumulative preserved at 35); (10) Maintain MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1787_METHOD_A_FINAL_NUMERICAL_ERRATA_AND_RESULTS_LOCK_REPORT.md",
+  "report_sha256": "57B080582E1B2B6AB517247769A0F46EF29977C61499D90C202C53D94349B0DF",
+  "review_directive": "Following independent supervisory review of Task F1786 (HND-F1786-SOURCE-GROUNDED-SYNTHESIS-001, REVIEW_DECISION: REJECT, VERDICT: F1786_FINAL_SYNTHESIS_REQUIRES_BOUNDED_NUMERICAL_EVIDENCE_CORRECTION), Task F1787 executes a single bounded successor task to correct all remaining numerical errata and lock the scientific results package: (1) Rebuild physical-node and nominal-DOF rows directly from the four frozen F1780 mesh audits: Case 1 (16,642 nodes, nominal 3N = 49,926), Case 2 (32,980 nodes, nominal 3N = 98,940), Case 3 (10,082 nodes, nominal 3N = 30,246), Case 5 (15,881 nodes, nominal 3N = 47,643), explicitly labeled as nominal field-DOF estimates rather than active equation counts; (2) Correct Case 2 connectivity counts to 31,980 quads and 1,003 triangles (32,983 total physical elements); (3) Audit Case 3 and Case 5 core resolution deterministically, or report verified h <= l0 results without unsubstantiated percentages; (4) Replace the unverified Case 2 28,000 baseline with the documented F1774 23,965-element predecessor; (5) Regenerate only the affected synthesis table and figure loaded from verified numerical data; (6) State the correct Method A workflow (independent pre-analysis, indicator evaluation, Abaqus-native remeshing, and independent adapted production deck/solve) without implying state-preserving restart continuation; (7) Preserve all verified geometry, element counts, Jacobian and aspect-ratio results, historical solver provenance, and qualified Test A/B evidence; (8) Preserve frozen framework SHA-256 181CB4E5... and frozen production UEL CE8D5EDC...; (9) Exactly 0 new PBS submissions (cumulative preserved at 35); (10) Maintain MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1785-METHOD-A-FINAL-SCIENTIFIC-SYNTHESIS-AND-BENCHMARK-COMPARISON",
-    "checkpoint_artifact": "docs/validation/F1785_METHOD_A_SCIENTIFIC_SYNTHESIS_AND_BENCHMARK_COMPARISON_REPORT.md",
+    "task_id": "F1786-METHOD-A-SOURCE-GROUNDED-SYNTHESIS-CORRECTION",
+    "checkpoint_artifact": "docs/validation/F1786_METHOD_A_SOURCE_GROUNDED_SYNTHESIS_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_ONLY",
-    "review_verdict": "F1785_SCIENTIFIC_SYNTHESIS_CONTAINS_MATERIAL_SOURCE_AND_PROVENANCE_ERRORS",
-    "correlation_id": "HND-F1785-FINAL-SCIENTIFIC-SYNTHESIS-001"
+    "review_verdict": "F1786_FINAL_SYNTHESIS_REQUIRES_BOUNDED_NUMERICAL_EVIDENCE_CORRECTION",
+    "correlation_id": "HND-F1786-SOURCE-GROUNDED-SYNTHESIS-001"
   },
-  "re_review_correlation_id": "HND-F1786-SOURCE-GROUNDED-SYNTHESIS-001",
-  "scientific_operation": "adaptive_remeshing_source_grounded_synthesis_correction",
-  "scientific_operation_id": "f1786_source_grounded_synthesis_001",
+  "re_review_correlation_id": "HND-F1787-FINAL-ERRATA-LOCK-001",
+  "scientific_operation": "adaptive_remeshing_final_numerical_errata_lock",
+  "scientific_operation_id": "f1787_final_numerical_errata_lock_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "181CB4E5A8CE765CBE0765D71BA9C3CCA934A33140BC61F5B9A4CD7A6AEFCD40",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1786 COMPLETED under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Source-grounded scientific synthesis report and corrected publication figures published. Ready for independent supervisory review."
+  "notes": "Task F1787 COMPLETED under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Node/nominal-DOF counts, Case 2 connectivity, and F1774 predecessor baseline reconciled. Synthesis figure fig_f1787 published. Results locked for final supervisory review."
 }
