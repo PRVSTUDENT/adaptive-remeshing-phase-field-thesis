@@ -1,0 +1,97 @@
+﻿JSON
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1758-CASE1-PREFLIGHT-001",
+  "predecessor_correlation_id": "USER-DECISION-F1757-OPTION-A",
+  "task_id": "F1758-CASE1-FRACTURE-QUALIFICATION-PREFLIGHT",
+  "decision": "INSUFFICIENT_EVIDENCE",
+  "review_type": "CASE1_DUPLICATE_EXECUTION_PREVENTION_AND_RESEARCH_INVENTORY",
+  "scientific_assessment": "CASE1_MACROSCOPIC_FRACTURE_ALREADY_COMPLETED",
+  "technical_preflight_assessment": "SUBSTANTIALLY_QUALIFIED_AS_REPORTED",
+  "production_execution_decision": "NOT_AUTHORIZED",
+  "pbs_execution_authorized": false,
+  "pbs_jobs_authorized": 0,
+  "cumulative_pbs_submissions": 26,
+  "review_summary": "The F1758 packet confirms the user's concern: Case 1 Mode-I fracture was already successfully simulated under F1739, using the adapted 13960-element mesh. Authentic predecessor Job 1423321.mmaster02 reportedly completed all 2050 increments to the prescribed displacement of 0.0100 mm, achieved a 99.96% postpeak load reduction, satisfied the reported global energy-balance assessment and terminated successfully. The remaining limitation is missing spatial SDV output and associated crack-topology and local irreversibility verification. This is a postprocessing and physical-verification gap, not evidence that the fracture simulation itself remains unfinished. The packet also asserts that the user explicitly authorized Option A, whereas the latest user instruction requested verification of Case 1 completion and an inventory of all existing adapted meshes before any benchmark switch. That authorization must not be presumed. Consequently, another eight-hour Case 1 production simulation is not justified at this stage.",
+  "critical_findings": {
+    "F1758-R01": {
+      "severity": "HIGH",
+      "status": "BLOCKING",
+      "finding": "The claimed USER-DECISION-F1757-OPTION-A authorization is not established by the latest visible user instruction. The user questioned whether Case 1 was already complete and requested the latest adapted meshes for all cases.",
+      "required_action": "Reconcile the authentic user decision record. Do not interpret an assistant recommendation or an unselected multiple-choice option as user approval."
+    },
+    "F1758-R02": {
+      "severity": "HIGH",
+      "status": "CONFIRMED_DUPLICATION_RISK",
+      "finding": "F1739 already completed the Case 1 macroscopic fracture simulation. F1758 proposes rerunning the same adapted mesh and frozen UEL primarily to obtain SDV fields that were omitted from the predecessor ODB.",
+      "required_action": "Establish whether authentic existing F1739 artifacts, companion outputs, state-variable history files or previously generated visualization results can satisfy the remaining spatial-verification requirements before requesting another production run."
+    },
+    "F1758-R03": {
+      "severity": "HIGH",
+      "status": "UNFULFILLED_USER_REQUEST",
+      "finding": "The packet does not deliver the requested inventory of the latest adapted meshes and fracture completion status across Cases 1 through 5.",
+      "required_action": "Complete the previously requested read-only five-case inventory before recommending further simulation or changing priorities."
+    },
+    "F1758-R04": {
+      "severity": "MEDIUM",
+      "status": "TECHNICAL_QUALIFICATION_ONLY",
+      "finding": "The new deck requests SDV at frequency 1 and passes datacheck, but this does not independently demonstrate successful production serialization of Layer 3 SDV1 and SDV2 or guarantee a valid full-field irreversibility audit.",
+      "required_action": "Retain the reported preflight qualification without interpreting it as successful scientific validation."
+    },
+    "F1758-R05": {
+      "severity": "MEDIUM",
+      "status": "GOVERNANCE_SCOPE_CONFLICT",
+      "finding": "The F1758 preflight explicitly reports a zero-PBS allowance, yet the handoff requests authorization for one production submission under the same task.",
+      "required_action": "Preserve the zero-PBS preflight boundary. Any future execution must use a legitimately registered, separately authorized one-job execution scope."
+    }
+  },
+  "confirmed_case1_evidence_as_reported": {
+    "benchmark": "CASE1_MODE_I_SINGLE_EDGE_NOTCHED_PLATE",
+    "adapted_mesh": "PK_F1738_CASE_1_ADAPT_PHYS.inp",
+    "physical_elements": 13960,
+    "physical_mesh_nodes": 13921,
+    "total_deck_nodes_including_reference_point": 13922,
+    "layered_elements": 41880,
+    "reference_job": "1423321.mmaster02",
+    "reference_task": "F1739",
+    "solver_status": "COMPLETED_EXIT_0",
+    "converged_increments": 2050,
+    "terminal_displacement_mm": 0.01,
+    "peak_force_N": 730.72,
+    "terminal_force_N": 0.2562,
+    "postpeak_load_drop_percent": 99.96,
+    "reported_global_energy_balance_error_percent": 1.185,
+    "fracture_dissipation": "REPORTED_MONOTONIC",
+    "process_zone_mesh_resolution": "REPORTED_100_PERCENT_AREA_COMPLIANCE",
+    "spatial_damage_topology": "NOT_DEMONSTRATED_FROM_PREDECESSOR_ODB",
+    "pointwise_damage_irreversibility": "NOT_ESTABLISHED",
+    "scientific_status": "MACROSCOPIC_COMPLETION_ESTABLISHED_AS_REPORTED_FULL_LOCAL_PHYSICAL_ACCEPTANCE_INCOMPLETE"
+  },
+  "candidate_f1758_configuration": {
+    "input_deck_sha256": "C188E955328848EABFFA6FED7D42D9D1EC916548BE8A53361A090BB7A06107AF",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "pbs_script_sha256": "33BFD0D3F94C18B6E025732D3F51FF40F7135EC79E342CAAA4128906D714FC1F",
+    "reported_datacheck": "EXIT_0_ZERO_ERRORS",
+    "reported_unit_tests": "5_OF_5_PASS",
+    "requested_resources": {
+      "cpus": 1,
+      "memory_gb": 16,
+      "walltime_seconds": 28800,
+      "queue": "entry_imfdfkmq"
+    },
+    "current_execution_allowance": 0
+  },
+  "next_instruction_to_antigravity": "STOP the proposed F1758 Case 1 production submission. The user requested verification of previously completed work and the latest adapted meshes for ALL benchmark cases, not an immediate duplicate fracture simulation. Preserve the technically qualified F1758 deck, datacheck and PBS script without executing them. Perform ONE bounded read-only inventory using AGENTS.md, TASK_LEDGER, ACTIVE_TASK, ACTIVE_SESSION, authentic HPC execution records, mesh-generation receipts, ODB inventories and existing figures. For Cases 1 through 5, report the most recent genuinely generated adapted physical mesh with exact task ID, path, element count, node count, available SHA-256 and mesh-resolution/quality evidence; identify the latest corresponding fracture PBS job, solver completion, peak and terminal load, crack propagation extent, physical acceptance status and outstanding limitations. Explicitly identify F1739 Job 1423321.mmaster02 as the already completed Case 1 macroscopic fracture simulation and distinguish its missing SDV/topological verification from an unfinished solver run. Check whether authentic existing artifacts can supply Case 1 damage-field evidence without rerunning Abaqus. Reconcile the alleged USER-DECISION-F1757-OPTION-A with the actual user decision; do not manufacture approval. Return ONE concise five-case comparison and exact paths to the latest existing mesh and damage figures. Identify which case, if any, actually needs a new scientifically distinct experiment. Do not create another generic audit loop, alter the frozen UEL, remesh, submit PBS, or automatically switch benchmarks.",
+  "authorization_boundary": {
+    "current_task": "F1758_ZERO_PBS_PREFLIGHT",
+    "new_pbs_submissions": 0,
+    "case1_duplicate_run": "BLOCKED_PENDING_EXISTING_RESULTS_INVENTORY_AND_AUTHENTIC_USER_DECISION",
+    "previous_case1_success": "PRESERVE",
+    "case2_partial_failure": "PRESERVE",
+    "new_experiment_requires": "A demonstrated unresolved scientific necessity, explicit user priority decision where required, registered execution scope, authenticated independent review, validated inputs, live HPC eligibility and once-only accounting.",
+    "review_text_is_execution_permission": false
+  },
+  "final_disposition": "Do not authorize another Case 1 simulation merely to repeat a completed fracture trajectory. Fulfill the user's five-case adapted-mesh inventory request first, preserve all existing scientific achievements, and then choose the nearest genuinely unfinished research objective.",
+  "status": "REVIEW_COMPLETE",
+  "terminal_marker": "Finished"
+}
