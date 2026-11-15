@@ -60,6 +60,13 @@ def py_sum(iterable, start=0):
 FROZEN_UEL_SHA256 = "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
 
 try:
+    import odbAccess
+    from abaqusConstants import SCALAR, WHOLE_ELEMENT
+    ODB_ACCESS_AVAILABLE = True
+except ImportError:
+    ODB_ACCESS_AVAILABLE = False
+
+try:
     from abaqus import mdb, session
     from abaqusConstants import *
     import regionToolset
@@ -276,6 +283,9 @@ class AdaptiveConfig(object):
         self.frame_stride = _get_int(ind, "frame_stride", 5)
         self.h_bg = _get_float(ind, "h_bg", self.max_h)
         self.notch_root_elements = _get_int(geom, "notch_root_elements", _get_int(ind, "notch_root_elements", 4))
+        self.max_frame_index = _get_int(ind, "max_frame_index", None) if ind.get("max_frame_index") is not None else None
+        self.max_frame_time = _get_float(ind, "max_frame_time", None) if ind.get("max_frame_time") is not None else None
+        self.causal_mode = bool(ind.get("causal_mode", False))
 
         opts = config_data.get("deck_options", config_data.get("paths", {}))
         self.uel_subroutine = opts.get("uel_subroutine", opts.get("uel_source", "f42_mixed_uel.for"))
@@ -1393,8 +1403,9 @@ class AdvancingDamageEnvelopeBuilder(object):
     @classmethod
     def build_envelope_odb(cls, source_odb_path, target_odb_path, l0, h_bg, error_target,
                            step_name='Step-2', damage_variable='SDV1', frame_stride=5, s_base=100.0,
-                           core_factor=2.8, process_factor=1.2, d_core=0.20, d_proc=0.10, d_noise=0.05):
-        if not ABAQUS_AVAILABLE:
+                           core_factor=2.8, process_factor=1.2, d_core=0.20, d_proc=0.10, d_noise=0.05,
+                           max_frame_index=None, max_frame_time=None, causal_mode=False):
+        if not (ABAQUS_AVAILABLE or ODB_ACCESS_AVAILABLE):
             raise RuntimeError("Abaqus environment not available; cannot build envelope ODB.")
         from odbAccess import openOdb
         from abaqusConstants import SCALAR, WHOLE_ELEMENT
@@ -1434,10 +1445,27 @@ class AdvancingDamageEnvelopeBuilder(object):
         step_src = odb_src.steps[step_name]
         n_frames = len(step_src.frames)
 
+        # Causal frame filtering: strictly prohibit scanning future frames when causal horizon is specified
+        if causal_mode and max_frame_index is None and max_frame_time is None:
+            raise ValueError(
+                "Causal adaptivity requires an explicit temporal horizon (max_frame_index or max_frame_time). "
+                "Scanning unconstrained future frames is prohibited under causal adaptivity."
+            )
+
+        max_idx = n_frames - 1
+        if max_frame_index is not None:
+            max_idx = min(int(max_frame_index), n_frames - 1)
+        if max_frame_time is not None:
+            time_bounded = [i for i, f in enumerate(step_src.frames) if f.frameValue <= float(max_frame_time) + 1e-9]
+            if time_bounded:
+                max_idx = min(max_idx, max(time_bounded))
+            else:
+                max_idx = 0
+
         d_max_env = {el: 0.0 for el in elem_labels}
-        frame_indices = list(range(0, n_frames, max(1, frame_stride)))
-        if (n_frames - 1) not in frame_indices:
-            frame_indices.append(n_frames - 1)
+        frame_indices = list(range(0, max_idx + 1, max(1, frame_stride)))
+        if max_idx not in frame_indices:
+            frame_indices.append(max_idx)
 
         for f_idx in frame_indices:
             f = step_src.frames[f_idx]
@@ -1475,10 +1503,15 @@ class AdvancingDamageEnvelopeBuilder(object):
         inst_dst = odb_dst.rootAssembly.instances[inst_name]
         step_dst = odb_dst.steps[step_name]
 
+        if causal_mode or max_frame_index is not None or max_frame_time is not None:
+            desc = "Synthesized Causal Damage Sizing Target (Horizon: frame <= %d; Derived from %s via 1D PF sizing; strictly non-hindsight)" % (max_idx, damage_variable)
+        else:
+            desc = "Synthesized Damage-Informed Sizing Envelope (Derived from %s via 1D PF sizing; NOT a native stress error)" % damage_variable
+
         env_frame = step_dst.Frame(
             frameId=9999,
             frameValue=999.0,
-            description="Synthesized Damage-Informed Sizing Envelope (Derived from %s via 1D PF sizing; NOT a native stress error)" % damage_variable
+            description=desc
         )
         fo_evol = env_frame.FieldOutput(name='EVOL', description='Element volume', type=SCALAR)
         fo_evol.addData(position=WHOLE_ELEMENT, instance=inst_dst, labels=elem_labels, data=evol_data)
@@ -1496,14 +1529,21 @@ class AdvancingDamageEnvelopeBuilder(object):
         return target_odb_path
 
     @classmethod
-    def build_envelope_from_config(cls, config, source_odb_path, target_odb_path, damage_variable='SDV1', step_name=None):
+    def build_envelope_from_config(cls, config, source_odb_path, target_odb_path, damage_variable='SDV1', step_name=None,
+                                   max_frame_index=None, max_frame_time=None, causal_mode=None):
         """Builds an advancing damage envelope directly using parameters configured in AdaptiveConfig.
         Ensures consistent error-target unit convention: error_target is defined on an identical percentage scale
         between the synthesized sizing target and the Abaqus RemeshingRule(errorTarget=...).
+        Supports causal frame filtering to strictly prohibit hindsight scanning of future frames.
         """
         s_name = step_name or config.step_name
         if s_name not in ("Step-2", "RECOVERY_STEP"):
             s_name = "Step-2"
+
+        m_idx = max_frame_index if max_frame_index is not None else getattr(config, 'max_frame_index', None)
+        m_time = max_frame_time if max_frame_time is not None else getattr(config, 'max_frame_time', None)
+        c_mode = causal_mode if causal_mode is not None else getattr(config, 'causal_mode', False)
+
         return cls.build_envelope_odb(
             source_odb_path=source_odb_path,
             target_odb_path=target_odb_path,
@@ -1517,7 +1557,10 @@ class AdvancingDamageEnvelopeBuilder(object):
             process_factor=getattr(config, 'process_factor', 1.2),
             d_core=getattr(config, 'd_core', 0.40),
             d_proc=getattr(config, 'd_proc', 0.10),
-            d_noise=getattr(config, 'd_noise', 0.08)
+            d_noise=getattr(config, 'd_noise', 0.08),
+            max_frame_index=m_idx,
+            max_frame_time=m_time,
+            causal_mode=c_mode
         )
 
 
@@ -1824,6 +1867,9 @@ def main():
     parser.add_argument("--build-envelope", action="store_true", default=False, help="Synthesize advancing damage envelope donor ODB")
     parser.add_argument("--source-odb", type=str, default=None, help="Source coupled fracture ODB for envelope synthesis")
     parser.add_argument("--output-odb", type=str, default=None, help="Output path for synthesized envelope ODB")
+    parser.add_argument("--max-frame-index", type=int, default=None, help="Maximum frame index for causal horizon (t <= t_remesh)")
+    parser.add_argument("--max-frame-time", type=float, default=None, help="Maximum frame time for causal horizon (t <= t_remesh)")
+    parser.add_argument("--causal-mode", action="store_true", default=False, help="Enforce causal adaptivity without hindsight")
     argv = sys.argv[1:]
     if "--" in argv:
         argv = argv[argv.index("--") + 1:]
@@ -1843,7 +1889,10 @@ def main():
         AdvancingDamageEnvelopeBuilder.build_envelope_from_config(
             config=cfg,
             source_odb_path=src,
-            target_odb_path=dst
+            target_odb_path=dst,
+            max_frame_index=args.max_frame_index,
+            max_frame_time=args.max_frame_time,
+            causal_mode=args.causal_mode
         )
         print("Successfully created envelope donor: %s" % dst)
         return

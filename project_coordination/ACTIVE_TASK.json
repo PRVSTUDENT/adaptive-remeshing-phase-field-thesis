@@ -1,6 +1,6 @@
 {
-  "task_id": "F1792-MODE-I-METHOD-C-EXTRACTOR_RUNTIME_AND_RELEASE_GATE_INTEGRATION_REPAIR",
-  "title": "Task F1792: Mode-I Method C Extractor Runtime and Release Gate Integration Repair",
+  "task_id": "F1793-METHOD-A-CAUSAL-ADAPTIVITY-AND-NON-HINDSIGHT-VERIFICATION",
+  "title": "Task F1793: Method A Causal Adaptivity and Non-Hindsight Verification",
   "task_status": "COMPLETED",
   "master_goal_status": "OPEN",
   "status": "COMPLETED",
@@ -8,23 +8,23 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1792_MODE1_EXTRACTOR_RUNTIME_AND_RELEASE_GATE_INTEGRATION_REPORT.md",
-  "review_directive": "Following supervisory review directive HND-F1791-DIAGNOSTIC-QUAL-001 (Decision: REJECT, Verdict: F1791_OBSERVABILITY_REPAIRED_BUT_RUNTIME_AND_RELEASE_GATE_INTEGRATION_UNRESOLVED, Diagnostic Verdict: UNQUALIFIED), Task F1792 executes ONE bounded zero-PBS extractor runtime and release gate integration repair: (1) Ensure staged PBS wrapper invokes extractor through verified Abaqus Python runtime (`abaqus python extract_f1792_observables.py`) supporting odbAccess; validate import and command availability on cluster via guarded SSH without submitting production job; (2) Require complete nodal coverage (all 16,642 physical nodes present at Step 1 end and Step 2 Increment 1) and exact Step 2 Increment 1 matching in energy, force, and residual parsers (no fallback); (3) Enforce Abaqus RF2 units verification (RF2 in N, ~653 N, not kN); reconcile Gate C1 initial out-of-balance residual norm (R_max/q_tilde <= 1.0e-3) vs converged residual, reporting both with mathematical clarity; (4) Resolve Step-1 dependent-DOF conflict on N_TOP (remove direct DOF 2 boundary cards for 98 nodes of N_TOP in Step 1 while preserving *EQUATION tie to N_RP at 0.0050 mm); verify with local Abaqus 2024 pre.exe datacheck with zero errors; (5) Fail-closed solver status and explicit labeling of unavailable IP history; add regression fixtures; (6) Run preflight with Invoke-Mode1Execution.ps1 -DryRun; exactly 0 new PBS jobs consumed (cumulative strictly preserved at 35); deliver F1792 report; maintain MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1793_METHOD_A_CAUSAL_ADAPTIVITY_AND_NON_HINDSIGHT_REPORT.md",
+  "review_directive": "Following supervisory review directive HND-F1792-EXTRACTOR-REPAIR-001 redirecting focus to the core research priority of causal adaptivity without hindsight or future crack corridors: Task F1793 executes ONE bounded zero-PBS investigation: (1) Audit AdvancingDamageEnvelopeBuilder.build_envelope_odb() in scripts/remeshing/reusable_2d_adaptive_framework.py and verify that frame filtering enforces t <= t_remesh (or u <= u_remesh) for authentic causal remeshing without future-frame hindsight; (2) Audit region classification across all benchmark adapters (Cases 1, 2, 3, 5) to prove that PROPAGATION_CORRIDOR is strictly an observational audit label with exactly ZERO mathematical or algorithmic influence on mesh sizing or Abaqus RemeshingRule; (3) Demonstrate on Case 2 (off-axis hole plate with curving trajectory) that stress-error recovery (MISESERI) and causal pre-peak damage naturally guide refinement along the evolving trajectory without pre-seeding future crack paths; (4) Provide rigorous negative unit tests asserting that corrupting or perturbing geometric audit corridors produces bitwise identical mesh sizing fields, and that future frames cannot be accessed under causal mode; (5) Formulate publication-grade evidence and synthesis report; exactly 0 new PBS jobs consumed (cumulative strictly preserved at 35); maintain bitwise frozen UEL CE8D5EDC... and framework integrity; maintain MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1791-MODE-I-METHOD-C-DIAGNOSTIC_OBSERVABILITY_REPAIR_AND_EXECUTION_QUALIFICATION",
-    "checkpoint_artifact": "docs/validation/F1791_MODE1_DIAGNOSTIC_OBSERVABILITY_AND_EXECUTION_QUALIFICATION_REPORT.md",
+    "task_id": "F1792-MODE-I-METHOD-C-EXTRACTOR_RUNTIME_AND_RELEASE_GATE_INTEGRATION_REPAIR",
+    "checkpoint_artifact": "docs/validation/F1792_MODE1_EXTRACTOR_RUNTIME_AND_RELEASE_GATE_INTEGRATION_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
-    "review_verdict": "F1791_OBSERVABILITY_REPAIRED_BUT_RUNTIME_AND_RELEASE_GATE_INTEGRATION_UNRESOLVED",
-    "correlation_id": "HND-F1791-DIAGNOSTIC-QUAL-001"
+    "review_verdict": "F1792_ACCEPTED_EXTRACTOR_REPAIRED_STRATEGIC_REDIRECT_TO_CAUSAL_ADAPTIVITY",
+    "correlation_id": "HND-F1792-EXTRACTOR-REPAIR-001"
   },
-  "re_review_correlation_id": "HND-F1792-EXTRACTOR-REPAIR-001",
-  "scientific_operation": "mode1_method_c_extractor_runtime_and_release_gate_integration_repair",
-  "scientific_operation_id": "f1792_extractor_repair_001",
+  "re_review_correlation_id": "HND-F1793-CAUSAL-ADAPTIVITY-001",
+  "scientific_operation": "method_a_causal_adaptivity_and_non_hindsight_verification",
+  "scientific_operation_id": "f1793_causal_adaptivity_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-  "framework_sha256": "181CB4E5A8CE765CBE0765D71BA9C3CCA934A33140BC61F5B9A4CD7A6AEFCD40",
+  "framework_sha256": "49B2E1B7706594941B4DD58ABAA4C2DB9090B4C06D2358EAF157289AAD3BAE3F",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1792 COMPLETED under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Repaired PBS wrapper to use Abaqus Python runtime; cluster verified odbAccess import Exit 0; resolved Step-1 dependent-DOF conflict on N_TOP eliminating WarnNodeBCInactiveDof2 with local and cluster datacheck Exit 0; enforced strict increment matching without fallback; verified coherent RF2 units in N vs kN; separated initial out-of-balance and converged residuals; enforced complete 16642-node coverage; qualified execution route via Invoke-Mode1Execution.ps1 -VerifyOnly and -StopAfterPreflight Exit 0; 10/10 unit tests PASS, 67/67 active regression tests PASS; exactly 0 new PBS jobs consumed, cumulative strictly preserved at 35."
+  "notes": "Task F1793 ACTIVE under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Focus: Causal adaptivity and non-hindsight verification without prescribed future crack paths or future-frame information. Case 2 curving trajectory is the focal demonstration."
 }

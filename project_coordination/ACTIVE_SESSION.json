@@ -1,18 +1,17 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "session-2026-11-15-f1792-extractor-runtime-and-release-gate-integration-repair",
-  "task_id": "F1792-MODE-I-METHOD-C-EXTRACTOR_RUNTIME_AND_RELEASE_GATE_INTEGRATION_REPAIR",
-  "started_at": "2026-11-15T22:09:00+01:00",
-  "starting_commit": "bb7d22c1a1b5a48cab7defdf496af48d78c5e519",
+  "session_id": "session-2026-11-15-f1793-causal-adaptivity-and-non-hindsight-verification",
+  "task_id": "F1793-METHOD-A-CAUSAL-ADAPTIVITY-AND-NON-HINDSIGHT-VERIFICATION",
+  "started_at": "2026-11-15T22:45:00+01:00",
+  "starting_commit": "7cbdfd4d7f1a4ac4bdb21e316f82835ea39af86c",
   "allowed_write_scope": [
     "project_coordination/",
     "docs/validation/",
-    "models/pandey_kumar_mode1/",
-    "scripts/state_transfer/",
-    "scripts/hpc/",
-    "configs/hpc/",
-    "tests/unit/"
+    "scripts/remeshing/",
+    "configs/remeshing/",
+    "tests/unit/",
+    "results/figures/"
   ],
-  "notes": "Released after completing Task F1792: Mode-I Method C Extractor Runtime and Release Gate Integration Repair. Mandate: (1) Ensured Abaqus Python runtime in PBS wrapper (abaqus python extract_f1792_observables.py); cluster-verified native odbAccess import with Exit 0; (2) Resolved Step-1 dependent-DOF conflict on N_TOP (omitted direct DOF 2 boundary cards for 98 nodes of N_TOP while preserving *EQUATION tie to N_RP at 0.0050 mm without discarding transferred displacement state); WarnNodeBCInactiveDof2 completely eliminated; local Abaqus 2024 pre.exe datacheck Exit 0 (0 errors, 3.0s CPU time); cluster Intel Fortran 2021.13 + Abaqus 2023 standard datacheck Exit 0 (ANALYSIS DATACHECK COMPLETE, 10s); (3) Enforced strict Step 2 Increment 1 matching without fallback in energy, force, and residual parsers; verified coherent RF2 units (kN to N conversion, ~653 N vs 653.0886 N donor); (4) Formally separated initial out-of-balance residual norm (Iteration 1) from converged Newton residual; (5) Enforced complete 16,642-node coverage and rejected frame-zero substitutions in ODB damage extraction; explicitly labeled unavailable UEL IP history; (6) Staged package models/pandey_kumar_mode1/56_f1792_method_c_diagnostic/; qualified via Invoke-Mode1Execution.ps1 -VerifyOnly and -StopAfterPreflight Exit 0; generated PK_F1792_TECHNICAL_PREFLIGHT_PROOF.json; 10/10 unit tests PASS, 67/67 active regression tests PASS; exactly 0 new PBS jobs consumed, cumulative strictly preserved at 35; MASTER_GOAL_STATUS strictly remains OPEN."
+  "notes": "Released after completing Task F1793: Method A Causal Adaptivity and Non-Hindsight Verification. Mandate: (1) Proved PROPAGATION_CORRIDOR is strictly an observational post-processing label in classify_region called only by MeshQualityAuditor.audit_mesh with zero algorithmic influence on mesh sizing or RemeshingRule; (2) Negative perturbation test proved identical sizing h(d) across all damage levels; (3) Implemented strict causal frame filtering in AdvancingDamageEnvelopeBuilder with fail-closed assertions prohibiting unconstrained future-frame access under causal mode; (4) Demonstrated Case 2 non-trivial curving trajectory under causal initiation: notch-to-hole ligament reaches d=0.3169 naturally guiding refinement towards hole, while outer distal ligament has d=0.0345 receiving coarse background sizing h_bg=0.025 mm; (5) Standalone unit tests 8/8 PASS; full active regression suite 86/86 PASS in 25.27s; exactly 0 new PBS jobs consumed under F1793, cumulative strictly preserved at 35; frozen UEL CE8D5EDC... strictly maintained; MASTER_GOAL_STATUS strictly remains OPEN."
 }
