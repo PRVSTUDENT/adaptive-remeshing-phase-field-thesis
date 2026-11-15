@@ -1,12 +1,12 @@
 {
     "task_id": "F1767-UNIFIED-METHOD-A-OFFLINE-QUALIFICATION-AND-RECONCILIATION",
     "title": "Unified Method A Offline Framework Qualification, Case 3 Reconciliation & Multi-State Architecture",
-    "status": "COMPLETED_OFFLINE_QUALIFIED",
+    "status": "STAGED_FOR_RE_REVIEW",
     "classification": "OFFLINE_FRAMEWORK_QUALIFICATION_ZERO_PBS",
     "assigned_agent": "gemini-antigravity",
     "active_pbs_job_id": null,
     "checkpoint_artifact": "docs/validation/F1767_UNIFIED_METHOD_A_OFFLINE_QUALIFICATION_REPORT.md",
-    "review_directive": "HND-F1766-SUITE-PLAN-AUTH-001 review decision INSUFFICIENT_EVIDENCE directed ONE bounded zero-PBS task F1767: reconcile Case 3 geometry (10 mm notch, pin r=5 mm, void at (36.5,51)) and target elements (12,168 vs 13,785), inspect Case 1 donor availability with genuine advancing damage, implement reusable multi-state Method A.2 support, verify Case 2 physical equivalence, and run offline tests across all 4 benchmarks.",
+    "review_directive": "HND-F1767-OFFLINE-QUAL-AUTH-001 review decision INSUFFICIENT_EVIDENCE directed ONE bounded source-provenance synchronization and qualification closeout: commit and push revised reusable_2d_adaptive_framework.py (blob 0dd5fe39...), corrected Case 3 configuration (12,168 el), F1767 tests and report, provide Method A.2 source evidence, reconcile Case 1 configuration path and targets, and return a four-case readiness manifest.",
     "predecessor_task": {
         "task_id": "F1766-UNIFIED-METHOD-A-REGRESSION-PLAN-AND-DIAGNOSIS",
         "checkpoint_artifact": "docs/validation/F1766_UNIFIED_METHOD_A_REGRESSION_PLAN_AND_DIAGNOSIS_REPORT.md",
@@ -14,7 +14,7 @@
         "review_verdict": "PARTIALLY_ACCEPTED",
         "correlation_id": "HND-F1766-SUITE-PLAN-AUTH-001"
     },
-    "re_review_correlation_id": null,
+    "re_review_correlation_id": "HND-F1767-OFFLINE-QUAL-CLOSEOUT-002",
     "scientific_operation": "unified_method_a_offline_qualification_and_reconciliation",
     "scientific_operation_id": "f1767_offline_qual_001",
     "scientific_checkpoint_required": true,
