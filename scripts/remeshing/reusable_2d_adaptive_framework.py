@@ -1285,41 +1285,18 @@ class AbaqusNativeRemeshingEngine(object):
         if "Model-1" in mdb.models:
             del mdb.models["Model-1"]
 
-        odb_donor = session.openOdb(name=donor_odb_path)
+        donor_list = [p.strip() for p in donor_odb_path.split(",")] if isinstance(donor_odb_path, str) else list(donor_odb_path)
+        first_odb = session.openOdb(name=donor_list[0])
 
-        target_part_name = list(odb_donor.parts.keys())[0] if len(odb_donor.parts) > 0 else "PART-1"
-        target_inst_name = list(odb_donor.rootAssembly.instances.keys())[0] if len(odb_donor.rootAssembly.instances) > 0 else "PART-1-1"
+        target_part_name = list(first_odb.parts.keys())[0] if len(first_odb.parts) > 0 else "PART-1"
+        target_inst_name = list(first_odb.rootAssembly.instances.keys())[0] if len(first_odb.rootAssembly.instances) > 0 else "PART-1-1"
+        first_odb.close()
 
         seed_size = config.max_h
         p, a, inst = cls.build_cae_geometry(
             m, adapter, config, seed_size, part_name=target_part_name, instance_name=target_inst_name
         )
 
-        step_target = config.step_name
-        if step_target not in odb_donor.steps:
-            if "RECOVERY_STEP" in odb_donor.steps:
-                step_target = "RECOVERY_STEP"
-            elif "Step-2" in odb_donor.steps:
-                step_target = "Step-2"
-            elif "Step-1" in odb_donor.steps:
-                step_target = "Step-1"
-            else:
-                step_target = list(odb_donor.steps.keys())[-1]
-
-        # Explicitly ensure CAE model has the target step matching the donor ODB (resolving F1728-R30)
-        if step_target not in m.steps:
-            prev_step = list(m.steps.keys())[-1]
-            m.StaticStep(name=step_target, previous=prev_step, timePeriod=1.0)
-
-        # Fail-closed step and region alignment validation
-        if step_target not in odb_donor.steps:
-            raise RuntimeError("FAIL_CLOSED: RemeshingRule target step '%s' does not exist in donor ODB '%s'. Available steps: %s" % (
-                step_target, donor_odb_path, list(odb_donor.steps.keys())
-            ))
-        if step_target not in m.steps:
-            raise RuntimeError("FAIL_CLOSED: RemeshingRule target step '%s' does not exist in CAE model '%s'. Available steps: %s" % (
-                step_target, m.name, list(m.steps.keys())
-            ))
         if 'ALL_ELEM' not in inst.sets:
             raise RuntimeError("FAIL_CLOSED: Region set 'ALL_ELEM' does not exist on instance '%s' in model '%s'" % (
                 inst.name, m.name
@@ -1328,25 +1305,47 @@ class AbaqusNativeRemeshingEngine(object):
         coarsen_opt = NOT_ALLOWED if config.coarsening_factor == "NOT_ALLOWED" else DEFAULT_LIMIT
         out_freq_opt = ALL_INCREMENTS if getattr(config, "output_frequency", "ALL_INCREMENTS") == "ALL_INCREMENTS" else LAST_INCREMENT
 
-        rule_name = "Rule_MethodA_" + str(config.case_id)
-        m.RemeshingRule(
-            name=rule_name,
-            stepName=step_target,
-            region=inst.sets['ALL_ELEM'],
-            variables=(config.variable,),
-            sizingMethod=UNIFORM_ERROR,
-            errorTarget=config.error_target,
-            refinementFactor=config.refinement_factor,
-            coarseningFactor=coarsen_opt,
-            specifyMinSize=True,
-            minElementSize=config.min_h,
-            specifyMaxSize=True,
-            maxElementSize=config.max_h,
-            outputFrequency=out_freq_opt
-        )
+        # Multi-pass sequential remeshing supporting Method A.1 (single pass) and Method A.2 (multi-state)
+        for pass_idx, cur_donor in enumerate(donor_list):
+            odb_donor = session.openOdb(name=cur_donor)
+            step_target = config.step_name
+            if step_target not in odb_donor.steps:
+                if "RECOVERY_STEP" in odb_donor.steps:
+                    step_target = "RECOVERY_STEP"
+                elif "Step-2" in odb_donor.steps:
+                    step_target = "Step-2"
+                elif "Step-1" in odb_donor.steps:
+                    step_target = "Step-1"
+                else:
+                    step_target = list(odb_donor.steps.keys())[-1]
 
-        m.adaptiveRemesh(odb=odb_donor)
-        odb_donor.close()
+            # Explicitly ensure CAE model has the target step matching the donor ODB (resolving F1728-R30)
+            if step_target not in m.steps:
+                prev_step = list(m.steps.keys())[-1]
+                m.StaticStep(name=step_target, previous=prev_step, timePeriod=1.0)
+
+            rule_name = "Rule_MethodA_%s_p%d" % (str(config.case_id), pass_idx + 1)
+            if rule_name in m.remeshingRules:
+                del m.remeshingRules[rule_name]
+
+            m.RemeshingRule(
+                name=rule_name,
+                stepName=step_target,
+                region=inst.sets['ALL_ELEM'],
+                variables=(config.variable,),
+                sizingMethod=UNIFORM_ERROR,
+                errorTarget=config.error_target,
+                refinementFactor=config.refinement_factor,
+                coarseningFactor=coarsen_opt,
+                specifyMinSize=True,
+                minElementSize=config.min_h,
+                specifyMaxSize=True,
+                maxElementSize=config.max_h,
+                outputFrequency=out_freq_opt
+            )
+
+            m.adaptiveRemesh(odb=odb_donor)
+            odb_donor.close()
 
         safe_makedirs(output_dir)
         job_base = "PK_ADAPT_" + str(config.case_id).upper()
@@ -1390,11 +1389,13 @@ def run_method_a_case(case_config, authentic_donor_odb=None, output_directory=No
             raise FileNotFoundError(err_msg)
         return {"status": "FAILED", "error": err_msg}
 
-    if not os.path.exists(authentic_donor_odb):
-        err_msg = "Donor ODB does not exist: %s" % authentic_donor_odb
-        if fail_closed:
-            raise FileNotFoundError(err_msg)
-        return {"status": "FAILED", "error": err_msg}
+    donor_list = [p.strip() for p in authentic_donor_odb.split(",")] if isinstance(authentic_donor_odb, str) else list(authentic_donor_odb)
+    for dp in donor_list:
+        if not os.path.exists(dp):
+            err_msg = "Donor ODB does not exist: %s" % dp
+            if fail_closed:
+                raise FileNotFoundError(err_msg)
+            return {"status": "FAILED", "error": err_msg}
 
     # 2. Fail-closed Abaqus Environment Check
     if not ABAQUS_AVAILABLE:

@@ -1,0 +1,106 @@
+JSON
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1767-OFFLINE-QUAL-AUTH-001",
+  "predecessor_correlation_id": "HND-F1766-SUITE-PLAN-AUTH-001",
+  "task_id": "F1767-UNIFIED-METHOD-A-OFFLINE-QUALIFICATION-AND-RECONCILIATION",
+  "decision": "INSUFFICIENT_EVIDENCE",
+  "review_type": "INDEPENDENT_FRAMEWORK_SOURCE_AND_REGRESSION_READINESS_REVIEW",
+  "offline_qualification": "REPORTED_BUT_NOT_INDEPENDENTLY_VERIFIED",
+  "case5_execution_authorization": "NOT_GRANTED",
+  "full_suite_execution_authorization": "NOT_GRANTED",
+  "additional_pbs_jobs_authorized": 0,
+  "cumulative_pbs_submissions_reported": 27,
+  "review_summary": "F1767 reports useful progress on Case 3 geometry reconciliation, multi-state Method A.2 support and Case 1 donor diagnosis. However, direct inspection of the connected GitHub repository does not yet reproduce the reported changes. The repository still exposes framework blob 399e048ac1374afe46ad254f2a23823d6f0df09d, with single-pass execute_native_remesh, and the Case 3 configuration still declares 13785 target elements. The proposed new framework blob 0dd5fe394ea567e2dd99ba9c9a88c235ba80e465 and its tests could not be verified from the connected repository. Therefore, the submitted source changes cannot yet be independently qualified. Case 1 is also explicitly NOT_READY because no advancing coupled donor has been established. Do not execute the four-case regression or use a Case 5 pilot to claim suite-wide qualification.",
+  "verification": {
+    "connected_repository": "PRVSTUDENT/adaptive-remeshing-phase-field-thesis",
+    "framework_path": "scripts/remeshing/reusable_2d_adaptive_framework.py",
+    "github_framework_blob_observed": "399e048ac1374afe46ad254f2a23823d6f0df09d",
+    "f1767_framework_blob_reported": "0dd5fe394ea567e2dd99ba9c9a88c235ba80e465",
+    "f1767_framework_change": "NOT_VERIFIED_IN_CONNECTED_REPOSITORY",
+    "github_case3_configuration_target": 13785,
+    "f1767_case3_corrected_target_reported": 12168,
+    "f1767_case3_configuration_change": "NOT_VERIFIED_IN_CONNECTED_REPOSITORY",
+    "f1767_report_github_access": "NOT_FOUND",
+    "f1767_unit_test_github_access": "NOT_FOUND",
+    "f1767_22_tests_passed": "REPORTED_ONLY",
+    "case1_advancing_donor": "MISSING_OR_NOT_ESTABLISHED",
+    "new_four_case_mesh_images": "NOT_AVAILABLE"
+  },
+  "accepted_findings": [
+    "The four-benchmark regression strategy remains scientifically appropriate.",
+    "A static linear-elastic donor cannot be assumed to produce adequate automatic refinement along the future Case 1 fracture path.",
+    "Case 1 should remain NOT_READY until a genuine advancing donor with usable error-indicator history is established.",
+    "Case 3 requires an explicitly implemented and verified multi-state Method A.2 workflow.",
+    "The existing five-hole pilot and its documented acceptance failures must be preserved.",
+    "The frozen production Fortran UEL must remain unchanged."
+  ],
+  "blocking_findings": [
+    {
+      "id": "F1767-R01",
+      "severity": "HIGH",
+      "finding": "The reported updated framework blob is not independently available from the connected GitHub repository. The inspected implementation remains single-pass.",
+      "required_action": "Commit and push the actual F1767 framework implementation, provide its complete commit SHA and confirm that the remote Git blob equals 0dd5fe394ea567e2dd99ba9c9a88c235ba80e465. If the implementation has not been committed, do not describe it as independently qualified."
+    },
+    {
+      "id": "F1767-R02",
+      "severity": "HIGH",
+      "finding": "The inspected Case 3 configuration still declares 13785 target elements, contradicting the reported correction to 12168.",
+      "required_action": "Synchronize the corrected configuration with GitHub and provide the exact committed configuration hash. Retain the original historical file in version history."
+    },
+    {
+      "id": "F1767-R03",
+      "severity": "HIGH",
+      "finding": "The proposed multi-state implementation has not been inspected. Sequential adaptiveRemesh calls alone do not prove that earlier refinement is retained or that subsequent donor meshes remain compatible with the evolving CAE geometry.",
+      "required_action": "Provide the actual source implementation and tests demonstrating donor-list handling, successive mesh-state preservation, region validity, safe ODB closure and explicit failure behavior. Classify native Abaqus execution as unverified until a controlled pilot succeeds."
+    },
+    {
+      "id": "F1767-R04",
+      "severity": "HIGH",
+      "finding": "Case 1 remains blocked by the absence of a verified advancing coupled donor. The reported static-donor inspection is useful, but its original ODB metadata and damage-history evidence have not been independently inspected.",
+      "required_action": "Preserve NOT_READY status and identify the exact existing coarse coupled production deck or minimal donor-generation prerequisite. Do not assume a coarse fracture solve will necessarily produce a physically valid advancing MISESERI donor."
+    },
+    {
+      "id": "F1767-R05",
+      "severity": "MEDIUM",
+      "finding": "The submitted manifest uses an inconsistent Case 1 configuration filename and target count compared with the previously inspected canonical configuration.",
+      "required_action": "Use the actual canonical Case 1 configuration path and distinguish the published 13762-element count from the project target of 13941 elements. Do not silently replace either."
+    },
+    {
+      "id": "F1767-R06",
+      "severity": "MEDIUM",
+      "finding": "The reported 22 passing tests cannot be independently verified because the F1767 test and report were not accessible through the connected repository.",
+      "required_action": "Publish the existing test and report artifacts with exact commit-pinned links and retain their real execution receipts. Do not repeat tests unnecessarily."
+    }
+  ],
+  "regression_requirements": {
+    "mandatory_benchmarks": [
+      "BM-1: Standard Mode-I edge-cracked plate",
+      "BM-2: Mode-I off-axis-hole plate",
+      "BM-3: Notched plate with pin holes and central hole",
+      "BM-4: Seven-hole plate"
+    ],
+    "same_framework_revision_for_all": true,
+    "same_algorithm_variant_required": false,
+    "case3_variant": "Method A.2 multi-state",
+    "other_cases_variant": "Method A.1 single-pass",
+    "full_suite_regression_required_before_framework_adoption": true,
+    "case1_missing_donor_may_be_reported_as_pass": false,
+    "manual_future_crack_corridors_allowed": false,
+    "historical_meshes_preserved": true,
+    "new_mesh_images_required": true,
+    "frozen_uel_modification_allowed": false
+  },
+  "next_instruction_to_antigravity": "F1767 is not yet independently qualified. Perform ONE bounded source-provenance synchronization and qualification closeout, not another broad audit. Commit and push the actual revised reusable_2d_adaptive_framework.py, corrected Case 3 configuration, F1767 unit tests and report to the thesis GitHub repository. Provide the complete resulting commit SHA and verify that the remote framework blob equals the reported 0dd5fe394ea567e2dd99ba9c9a88c235ba80e465 and that the remote Case 3 configuration declares the corrected target count. If either differs, report the actual values rather than forcing the expected hashes. Supply direct source evidence for the new Method A.2 algorithm, including how sequential meshes remain valid between different donor states, and record the real offline test receipts. Keep Case 1 NOT_READY until an advancing coupled donor is available. Reconcile the Case 1 configuration filename and published-versus-project element targets. Preserve all completed benchmark results, the frozen UEL, F1763's documented G1/G5 failures and the 27-submission history. After source synchronization, return a concise four-case readiness manifest and one specific nearest execution prerequisite. Do not run the Case 5 pilot, initiate a four-case PBS batch, regenerate meshes, execute forward fracture simulations or submit PBS under this zero-PBS F1767 review. Finished",
+  "authorization_boundary": {
+    "f1767_current_scope": "ZERO_PBS_OFFLINE_QUALIFICATION",
+    "f1767_source_sync_and_offline_closeout": "PERMITTED",
+    "f1765_case5_pbs_execution": "NOT_AUTHORIZED_BY_THIS_REVIEW",
+    "four_case_regression_execution": "NOT_AUTHORIZED",
+    "additional_pbs_jobs": 0,
+    "cumulative_pbs_submissions": 27,
+    "method_c": "PAUSED",
+    "historical_results": "PRESERVE",
+    "terminal_marker": "Finished"
+  }
+}

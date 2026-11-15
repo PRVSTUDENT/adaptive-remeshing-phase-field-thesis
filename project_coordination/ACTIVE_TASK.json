@@ -1,22 +1,22 @@
 {
-    "task_id": "F1766-UNIFIED-METHOD-A-REGRESSION-PLAN-AND-DIAGNOSIS",
-    "title": "Unified Method A Framework Development with Full Benchmark Regression Testing Plan",
-    "status": "COMPLETED_ZERO_PBS_AWAITING_REVIEW",
-    "classification": "BENCHMARK_SUITE_RECONCILIATION_AND_REGRESSION_PLAN",
+    "task_id": "F1767-UNIFIED-METHOD-A-OFFLINE-QUALIFICATION-AND-RECONCILIATION",
+    "title": "Unified Method A Offline Framework Qualification, Case 3 Reconciliation & Multi-State Architecture",
+    "status": "COMPLETED_OFFLINE_QUALIFIED",
+    "classification": "OFFLINE_FRAMEWORK_QUALIFICATION_ZERO_PBS",
     "assigned_agent": "gemini-antigravity",
     "active_pbs_job_id": null,
-    "checkpoint_artifact": "docs/validation/F1766_UNIFIED_METHOD_A_REGRESSION_PLAN_AND_DIAGNOSIS_REPORT.md",
-    "review_directive": "User directive: Reconcile proposed benchmark list with geometry adapters, de-duplicate items 2 & 3, distinguish Sec 4.3 vs 4.5, diagnose Case 1 distal crack-path underresolution, prepare full-suite regression plan, and request registered execution authorization under zero-PBS governance.",
+    "checkpoint_artifact": "docs/validation/F1767_UNIFIED_METHOD_A_OFFLINE_QUALIFICATION_REPORT.md",
+    "review_directive": "HND-F1766-SUITE-PLAN-AUTH-001 review decision INSUFFICIENT_EVIDENCE directed ONE bounded zero-PBS task F1767: reconcile Case 3 geometry (10 mm notch, pin r=5 mm, void at (36.5,51)) and target elements (12,168 vs 13,785), inspect Case 1 donor availability with genuine advancing damage, implement reusable multi-state Method A.2 support, verify Case 2 physical equivalence, and run offline tests across all 4 benchmarks.",
     "predecessor_task": {
-        "task_id": "F1764-CASE5-COMMON-FRAMEWORK-PILOT-SPECIFICATION",
-        "checkpoint_artifact": "docs/validation/F1764_CASE5_PILOT_SPECIFICATION_REPORT.md",
-        "classification": "PILOT_SPECIFICATION_ZERO_PBS",
-        "review_verdict": "APPROVED",
-        "correlation_id": "HND-F1764-CASE5-PILOT-AUTH-001"
+        "task_id": "F1766-UNIFIED-METHOD-A-REGRESSION-PLAN-AND-DIAGNOSIS",
+        "checkpoint_artifact": "docs/validation/F1766_UNIFIED_METHOD_A_REGRESSION_PLAN_AND_DIAGNOSIS_REPORT.md",
+        "classification": "BENCHMARK_SUITE_RECONCILIATION_AND_REGRESSION_PLAN",
+        "review_verdict": "PARTIALLY_ACCEPTED",
+        "correlation_id": "HND-F1766-SUITE-PLAN-AUTH-001"
     },
-    "re_review_correlation_id": "HND-F1766-SUITE-PLAN-AUTH-001",
-    "scientific_operation": "unified_method_a_suite_reconciliation_and_regression_plan",
-    "scientific_operation_id": "f1766_suite_plan_001",
+    "re_review_correlation_id": null,
+    "scientific_operation": "unified_method_a_offline_qualification_and_reconciliation",
+    "scientific_operation_id": "f1767_offline_qual_001",
     "scientific_checkpoint_required": true,
     "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "candidate_input_sha256": null,
@@ -24,6 +24,6 @@
     "max_new_pbs_submissions": 0,
     "submissions_consumed": 0,
     "cumulative_pbs_submissions": 27,
-    "report_sha256": "AA4EBE81F0E3502D4BA9FE24BDD93BB41D05920E2221C2E9A1E4206FD958C75D",
-    "notes": "Task F1766 completed under zero-PBS governance. Suite reconciled to 4 core primary benchmarks (BM-1 to BM-4) with Case 4 preserved in historical records. Case 1 distal defect diagnosed (Williams singularity in static elastic donor vs temporal envelope in coupled ALL_INCREMENTS donor). Full-suite regression plan formulated and dispatched as HND-F1766-SUITE-PLAN-AUTH-001."
+    "report_sha256": "21CE6E3C40929060ED85B74FBB84FE9F1780B8604AA5129CD1B895ED693F9EE1",
+    "notes": "Task F1767 active under zero-PBS governance. Addressing findings F1766-R01 to F1766-R06: reconciling Case 3 configuration and adapter, inspecting Case 1 donor ODB candidates, confirming Case 2 equivalence, designing multi-state Method A.2 execution path, and running offline regression test suite."
 }

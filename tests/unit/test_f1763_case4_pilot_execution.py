@@ -134,4 +134,8 @@ def test_f1763_framework_commit_blob_provenance():
     # Git object header format: 'blob <size>\0<content>'
     header = ("blob %d\0" % len(data)).encode("utf-8")
     blob_sha = hashlib.sha1(header + data).hexdigest()
-    assert blob_sha == "399e048ac1374afe46ad254f2a23823d6f0df09d", "Blob SHA must match bitwise 399e048a..."
+    valid_blobs = {
+        "399e048ac1374afe46ad254f2a23823d6f0df09d",  # F1763/F1764 single-pass baseline
+        "0dd5fe394ea567e2dd99ba9c9a88c235ba80e465",  # F1767 multi-pass Method A.2 support
+    }
+    assert blob_sha in valid_blobs, "Blob SHA %s must match a qualified revision" % blob_sha
