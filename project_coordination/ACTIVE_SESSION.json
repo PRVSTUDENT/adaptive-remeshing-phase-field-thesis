@@ -1,10 +1,10 @@
 {
   "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "f1771-case1-remesh-spec-001",
-  "task_id": "F1771-CASE1-METHOD-A-ADVANCING-REMESHING-SPECIFICATION",
-  "started_at": "2026-11-15T10:38:00+01:00",
-  "starting_commit": "e2018999",
+  "session_id": "f1772-case1-remesh-exec-001",
+  "task_id": "F1772-CASE1-METHOD-A-ADVANCING-REMESHING-EXECUTION",
+  "started_at": "2026-11-15T10:48:00+01:00",
+  "starting_commit": "01bacf82",
   "allowed_write_scope": [
     "project_coordination/**",
     ".agents/**",
@@ -15,5 +15,5 @@
     "scripts/**",
     "tests/unit/**"
   ],
-  "notes": "Claiming session for Task F1771: Case 1 Method A Advancing Remeshing Specification & Pre-Execution Verification. Integrating qualified advancing coupled donor PK_F1769_C1_DONOR.odb, updating f1728_case1_mode1_edge_crack.json and canonical_five_case_manifest.json with Step-2 ALL_INCREMENTS envelope, establishing G1-G8 remeshing gates, authoring unit tests, staging PBS execution wrapper submit_f1771_case1_remesh.pbs, and dispatching review authorization payload HND-F1771-CASE1-REMESH-AUTH-001 under zero-PBS governance."
+  "notes": "Claiming session for Task F1772: Case 1 Method A Advancing Adaptive Remeshing Execution Plan & Pilot Staging. Successor registered under HND-F1771-CASE1-REMESH-AUTH-001 review directive. Bound to submit_f1772_case1_remesh.pbs (SHA 668F9874...), config (SHA 954BE447...), framework (SHA 8D71F38F...), frozen UEL (SHA CE8D5EDC...), and G1-G8 gates. Staging review authorization payload HND-F1772-CASE1-REMESH-EXEC-001 requesting approval for 1 bounded PBS mesh-generation pilot (prospective Job 30 upon launch)."
 }

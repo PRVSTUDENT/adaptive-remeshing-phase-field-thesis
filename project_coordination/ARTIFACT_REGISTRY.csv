@@ -6594,3 +6594,7 @@ DOC_F1771_SPEC_REPORT,Method-A,docs/validation/F1771_CASE1_REMESHING_SPECIFICATI
 TEST_F1771_SPEC,Method-A,tests/unit/test_f1771_case1_remeshing_specification.py,python_test,pass,gemini-antigravity,HEAD,5A8696F893049F86DE7158A38E66270E04BC1A613F592751E77F385B2EE29665,,Task F1771 Case 1 Remeshing Specification Unit Tests
 PBS_F1771_REMESH,Method-A,models/pandey_kumar_mode1/238_f1771_case1_remesh/submit_f1771_case1_remesh.pbs,pbs_script,pass,gemini-antigravity,HEAD,ED9B2B715F79A269602E5EFA8DB74CBC68465568C4C131D76770D3AD5B57D843,,Task F1771 Case 1 Remeshing PBS Script
 
+DOC_F1772_PLAN,Method-A,docs/validation/F1772_CASE1_REMESHING_EXECUTION_PLAN.md,markdown_report,pass,gemini-antigravity,HEAD,D8D4DBE8667FC2974A1A6C718C6C4D1B071A64A2402D1FE1A87ECD6E4229F247,,Task F1772 Case 1 Remeshing Execution Plan Report
+TEST_F1772_PLAN,Method-A,tests/unit/test_f1772_case1_remeshing_execution_plan.py,python_test,pass,gemini-antigravity,HEAD,E0054F6F4C47FA16CE7F159518055BA19FEE28FEFE7E94C58FF4AFE5C461F4DE,,Task F1772 Case 1 Remeshing Execution Plan Unit Tests
+PBS_F1772_REMESH,Method-A,models/pandey_kumar_mode1/239_f1772_case1_remesh/submit_f1772_case1_remesh.pbs,pbs_script,pass,gemini-antigravity,HEAD,668F98748F2B5E0FDE3F6C9521132A922D27489F8F86EAB0DA51FD2D05C9F5F5,,Task F1772 Case 1 Remeshing PBS Script
+
