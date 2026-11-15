@@ -194,13 +194,13 @@ These validation checks execute before any CAE geometry creation or meshing rule
 The supervisory review correctly noted that the physical decay of stress concentrations near a circular void should be derived from classical elastomechanics rather than informal references to exponential decay.
 
 ### 5.1 Kirsch Solution (1898)
-For a circular hole of radius $a$ in an infinite, isotropic linear-elastic plate subjected to uniform remote uniaxial tension $\sigma_y^\infty = \sigma_0$ in the $y$-direction, the stress field in polar coordinates $(r, \theta)$ centered at the hole is given analytically by the Kirsch equations:
+For a circular hole of radius $a$ in an infinite, isotropic linear-elastic plate subjected to uniform remote uniaxial tension $\sigma_y^\infty = \sigma_0$ in the $y$-direction, the stress field in polar coordinates $(r, \theta)$ centered at the hole (with $\theta$ measured from the positive $x$-axis, perpendicular to loading) is given analytically by the Kirsch equations:
 
-$$\sigma_{rr}(r, \theta) = \frac{\sigma_0}{2} \left( 1 - \frac{a^2}{r^2} \right) + \frac{\sigma_0}{2} \left( 1 - 4\frac{a^2}{r^2} + 3\frac{a^4}{r^4} \right) \cos 2\theta$$
+$$\sigma_{rr}(r, \theta) = \frac{\sigma_0}{2} \left( 1 - \frac{a^2}{r^2} \right) - \frac{\sigma_0}{2} \left( 1 - 4\frac{a^2}{r^2} + 3\frac{a^4}{r^4} \right) \cos 2\theta$$
 
-$$\sigma_{\theta\theta}(r, \theta) = \frac{\sigma_0}{2} \left( 1 + \frac{a^2}{r^2} \right) - \frac{\sigma_0}{2} \left( 1 + 3\frac{a^4}{r^4} \right) \cos 2\theta$$
+$$\sigma_{\theta\theta}(r, \theta) = \frac{\sigma_0}{2} \left( 1 + \frac{a^2}{r^2} \right) + \frac{\sigma_0}{2} \left( 1 + 3\frac{a^4}{r^4} \right) \cos 2\theta$$
 
-$$\tau_{r\theta}(r, \theta) = -\frac{\sigma_0}{2} \left( 1 + 2\frac{a^2}{r^2} - 3\frac{a^4}{r^4} \right) \sin 2\theta$$
+$$\tau_{r\theta}(r, \theta) = \frac{\sigma_0}{2} \left( 1 + 2\frac{a^2}{r^2} - 3\frac{a^4}{r^4} \right) \sin 2\theta$$
 
 ### 5.2 Nature of Perturbation Decay
 The stress perturbation tensor $\Delta \boldsymbol{\sigma}(r, \theta) = \boldsymbol{\sigma}(r, \theta) - \boldsymbol{\sigma}^\infty$ induced by the hole decays with distance $r$ as:
@@ -242,7 +242,8 @@ All artifacts produced under Task F1795 are tracked in the repository with verif
 - **File Size:** $2,883,480$ bytes
 - **SHA-256:** `C698A4B7AB23761C731BBC73E0F2C00166BF53116BB8CBC31439D89270D38FE4`
 - **Temporal Horizon:** Step-1 Frame 10 ($t=1.0$, linear-elastic pre-analysis)
-- **Active Recovered Stress Elements:** $5,812$ elements
+- **Active Physical Elements:** $2,906$ physical elements (CPE4 and CPE3)
+- **Total Integration Point Values:** $5,812$ values across the $2,906$ elements
 - **MISESERI Statistics:** $\min = 0.4166$ MPa, $\max = 1430.27$ MPa, $\text{mean} = 21.1915$ MPa, $\text{median} = 8.5389$ MPa, $p_{90} = 42.3989$ MPa, $p_{99} = 215.5571$ MPa
 - **MISESAVG Statistics:** $\min = 0.1498$ MPa, $\max = 4412.92$ MPa, $\text{mean} = 582.23$ MPa
 
@@ -259,9 +260,9 @@ All artifacts produced under Task F1795 are tracked in the repository with verif
   - `control_vs_repeat.mesh_body_bitwise_identical: true`
   - `control_vs_repeat.element_count_delta: 0`
 
-### 6.3 Abaqus Execution Log
-- **File Path:** `models/pandey_kumar_mode1/245_f1795_case2_controlled_reproducibility/abaqus_cae_execution.log`
-- **Status:** Exit 0 (all 3 runs generated cleanly via Abaqus CAE 2024 `adaptiveRemesh()`)
+### 6.3 Authoritative Abaqus Execution Replay Journal
+- **File Path:** `models/pandey_kumar_mode1/245_f1795_case2_controlled_reproducibility/abaqus_journal.rpy`
+- **Status:** Exit 0 (all 3 runs generated cleanly via Abaqus CAE 2024 `adaptiveRemesh()`, tracking full replay script, environment headers, and generated INP paths)
 
 ---
 

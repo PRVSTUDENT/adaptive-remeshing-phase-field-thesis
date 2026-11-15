@@ -1,0 +1,2144 @@
+[
+  {
+    "path": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_METHOD_A_PREANALYSIS.odb",
+    "exists": true,
+    "size_bytes": 2883480,
+    "sha256": "C698A4B7AB23761C731BBC73E0F2C00166BF53116BB8CBC31439D89270D38FE4",
+    "probe": {
+      "steps": {
+        "Step-1": {
+          "num_frames": 11,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 5812,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 10,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 5812,
+                "min": 0.416568398475647,
+                "max": 1430.2705078125,
+                "mean": 21.191461199975308,
+                "non_zero_count": 5812
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_JOB1.odb",
+    "exists": true,
+    "size_bytes": 518169932,
+    "sha256": "DB43C285744B1E30CB9D6D1D8A86D36FA5A3142FFE428AF10488E7ED396DF32D",
+    "probe": {
+      "steps": {
+        "Step-1": {
+          "num_frames": 51,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "E",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "SDV1",
+                "SDV2",
+                "SDV3",
+                "SDV4",
+                "SDV5",
+                "SDV6",
+                "SDV7",
+                "SDV8",
+                "SDV9",
+                "SDV10",
+                "SDV11",
+                "SDV12",
+                "SDV13",
+                "SDV14",
+                "SDV15",
+                "SDV16",
+                "SDV17",
+                "SDV18",
+                "SDV19",
+                "SDV20",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2906,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 50,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "E",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "SDV1",
+                "SDV2",
+                "SDV3",
+                "SDV4",
+                "SDV5",
+                "SDV6",
+                "SDV7",
+                "SDV8",
+                "SDV9",
+                "SDV10",
+                "SDV11",
+                "SDV12",
+                "SDV13",
+                "SDV14",
+                "SDV15",
+                "SDV16",
+                "SDV17",
+                "SDV18",
+                "SDV19",
+                "SDV20",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2906,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": false
+        },
+        "Step-2": {
+          "num_frames": 338,
+          "time_period": 0.6558254361152649,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "E",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "SDV1",
+                "SDV2",
+                "SDV3",
+                "SDV4",
+                "SDV5",
+                "SDV6",
+                "SDV7",
+                "SDV8",
+                "SDV9",
+                "SDV10",
+                "SDV11",
+                "SDV12",
+                "SDV13",
+                "SDV14",
+                "SDV15",
+                "SDV16",
+                "SDV17",
+                "SDV18",
+                "SDV19",
+                "SDV20",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2906,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 337,
+              "frame_value": 0.6558254361152649,
+              "field_outputs": [
+                "E",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "SDV1",
+                "SDV2",
+                "SDV3",
+                "SDV4",
+                "SDV5",
+                "SDV6",
+                "SDV7",
+                "SDV8",
+                "SDV9",
+                "SDV10",
+                "SDV11",
+                "SDV12",
+                "SDV13",
+                "SDV14",
+                "SDV15",
+                "SDV16",
+                "SDV17",
+                "SDV18",
+                "SDV19",
+                "SDV20",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2906,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": false
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "models/pandey_kumar_mode1/188_pk_sec43_hole_plate/PK_SEC43_COARSE_JOB1.odb",
+    "exists": true,
+    "size_bytes": 26616252,
+    "sha256": "1128DEA8FCC0B514B4AD1B3CD1E0DDB12F1B5F26905C0C13A21FE68350EB80FD",
+    "probe": {
+      "steps": {
+        "Step-1": {
+          "num_frames": 14,
+          "time_period": 0.08101434260606766,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "E",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "SDV1",
+                "SDV2",
+                "SDV3",
+                "SDV4",
+                "SDV5",
+                "SDV6",
+                "SDV7",
+                "SDV8",
+                "SDV9",
+                "SDV10",
+                "SDV11",
+                "SDV12",
+                "SDV13",
+                "SDV14",
+                "SDV15",
+                "SDV16",
+                "SDV17",
+                "SDV18",
+                "SDV19",
+                "SDV20",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 64,
+              "frame_value": 0.08101434260606766,
+              "field_outputs": [
+                "E",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "SDV1",
+                "SDV2",
+                "SDV3",
+                "SDV4",
+                "SDV5",
+                "SDV6",
+                "SDV7",
+                "SDV8",
+                "SDV9",
+                "SDV10",
+                "SDV11",
+                "SDV12",
+                "SDV13",
+                "SDV14",
+                "SDV15",
+                "SDV16",
+                "SDV17",
+                "SDV18",
+                "SDV19",
+                "SDV20",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": false
+        },
+        "Step-2": {
+          "num_frames": 0,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [],
+          "has_any_nonzero_miseseri": false
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "models/pandey_kumar_mode1/188_pk_sec43_hole_plate/PK_SEC43_COARSE_JOB1_DC.odb",
+    "exists": true,
+    "size_bytes": 2466276,
+    "sha256": "A584C5CBCF1F49F81404DA02FE940E5DEE708869A9A5C4D4128DBF8ACB529E9E",
+    "probe": {
+      "steps": {
+        "Step-1": {
+          "num_frames": 1,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "E",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "SDV1",
+                "SDV2",
+                "SDV3",
+                "SDV4",
+                "SDV5",
+                "SDV6",
+                "SDV7",
+                "SDV8",
+                "SDV9",
+                "SDV10",
+                "SDV11",
+                "SDV12",
+                "SDV13",
+                "SDV14",
+                "SDV15",
+                "SDV16",
+                "SDV17",
+                "SDV18",
+                "SDV19",
+                "SDV20",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": false
+        },
+        "Step-2": {
+          "num_frames": 0,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [],
+          "has_any_nonzero_miseseri": false
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "models/pandey_kumar_mode1/188_pk_sec43_hole_plate/PK_SEC43_COARSE_RECOVERY.odb",
+    "exists": true,
+    "size_bytes": 1498400,
+    "sha256": "D3CF03DF60ECBA928E1D73E1C8EDB30029FB327F2B6503C227F46E458116C20C",
+    "probe": {
+      "steps": {
+        "RECOVERY_STEP": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 0.0005351347499527037,
+                "max": 5.19831657409668,
+                "mean": 0.05985284273594209,
+                "non_zero_count": 3923
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "models/pandey_kumar_mode1/190_pk_sec43_job1_rerun/PK_SEC43_RERUN_JOB1_DC.odb",
+    "exists": true,
+    "size_bytes": 13554828,
+    "sha256": "7A34C4EAD65E339FF56610BFA3A23A59F00AAF99FFBF6C0C3B3A6D00B7AA9F64",
+    "probe": {
+      "steps": {
+        "Step-1": {
+          "num_frames": 1,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "E",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "SDV1",
+                "SDV2",
+                "SDV3",
+                "SDV4",
+                "SDV5",
+                "SDV6",
+                "SDV7",
+                "SDV8",
+                "SDV9",
+                "SDV10",
+                "SDV11",
+                "SDV12",
+                "SDV13",
+                "SDV14",
+                "SDV15",
+                "SDV16",
+                "SDV17",
+                "SDV18",
+                "SDV19",
+                "SDV20",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 24718,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": false
+        },
+        "Step-2": {
+          "num_frames": 0,
+          "time_period": 0.5,
+          "procedure": "*STATIC",
+          "frames": [],
+          "has_any_nonzero_miseseri": false
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "models/pandey_kumar_mode1/190_pk_sec43_job1_rerun/PK_SEC43_RERUN_RECOVERY.odb",
+    "exists": true,
+    "size_bytes": 8273432,
+    "sha256": "A384E9CBF271B96EA3C0443F2AFC724709BE05F7B633E20AA517A79477D59150",
+    "probe": {
+      "steps": {
+        "RECOVERY_STEP": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 24718,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 24718,
+                "min": 0.00014652287063654512,
+                "max": 6.899223804473877,
+                "mean": 0.022643487167263388,
+                "non_zero_count": 24718
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "models/pandey_kumar_mode1/192_pk_sec43_staggered_job1/PK_SEC43_STAGGERED_RECOVERY_DEG.odb",
+    "exists": true,
+    "size_bytes": 1674768,
+    "sha256": "D6D47931EEC3592A96691DFB88B3D515E4A891B5C739B57C55E36B1CAE24D3D9",
+    "probe": {
+      "steps": {
+        "RECOVERY_STEP": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 0.00027259698254056275,
+                "max": 1.334301471710205,
+                "mean": 0.03803738071633066,
+                "non_zero_count": 3923
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "models/pandey_kumar_mode1/192_pk_sec43_staggered_job1/PK_SEC43_STAGGERED_RECOVERY_ELAS.odb",
+    "exists": true,
+    "size_bytes": 1625736,
+    "sha256": "F525799353818DA8964F8FBF7CBC80411B92DD89524A35F1EA84D848CC6D8F57",
+    "probe": {
+      "steps": {
+        "RECOVERY_STEP": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 0.0005351347499527037,
+                "max": 5.19831657409668,
+                "mean": 0.05985284273594209,
+                "non_zero_count": 3923
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "models/pandey_kumar_mode1/192_pk_sec43_staggered_job1/PK_SEC43_STAGGERED_RECOVERY_SEC_INIT.odb",
+    "exists": true,
+    "size_bytes": 1679700,
+    "sha256": "378F491741AD20B569637E27BE3077BCFC340E7561E3ECD4CCB61464F1D7A0DE",
+    "probe": {
+      "steps": {
+        "RECOVERY_STEP": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 5.926155427005142e-05,
+                "max": 0.18964552879333496,
+                "mean": 0.006547698906887959,
+                "non_zero_count": 3923
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "models/pandey_kumar_mode1/192_pk_sec43_staggered_job1/PK_SEC43_STAGGERED_RECOVERY_SEC_MIDPROP.odb",
+    "exists": true,
+    "size_bytes": 1679692,
+    "sha256": "74A2776E9726ECC15D0A8F0A93BF154788AB49EE3552F6313F0081B032F71F62",
+    "probe": {
+      "steps": {
+        "RECOVERY_STEP": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 6.861477595521137e-05,
+                "max": 0.23201137781143188,
+                "mean": 0.007856125547167069,
+                "non_zero_count": 3923
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "models/pandey_kumar_mode1/196_pk_sec43_standard_elastic/PK_SEC43_STANDARD_JOB1.odb",
+    "exists": false
+  },
+  {
+    "path": "models/pandey_kumar_mode1/196_pk_sec43_standard_elastic/PK_SEC43_STANDARD_JOB1_DC.odb",
+    "exists": false
+  },
+  {
+    "path": "models/pandey_kumar_mode1/197_pk_sec43_coupled_umat/PK_SEC43_COUPLED_UMAT.odb",
+    "exists": false
+  },
+  {
+    "path": "models/pandey_kumar_mode1/197_pk_sec43_coupled_umat/PK_SEC43_COUPLED_UMAT_MIDPROP.odb",
+    "exists": false
+  },
+  {
+    "path": "models/pandey_kumar_mode1/198_pk_sec43_coupled_validation/SEC43_STATE1_INIT.odb",
+    "exists": true,
+    "size_bytes": 1669368,
+    "sha256": "1C28E8949EB2665DACBA3B28674AEB06944454AC2DCB7988078A137545DCE8F2",
+    "probe": {
+      "steps": {
+        "RECOVERY_STEP": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 2.3944816348375753e-05,
+                "max": 0.1069377064704895,
+                "mean": 0.0036342378007062576,
+                "non_zero_count": 3923
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "models/pandey_kumar_mode1/198_pk_sec43_coupled_validation/SEC43_STATE2_HOLE_ARREST.odb",
+    "exists": true,
+    "size_bytes": 1676760,
+    "sha256": "986EC63A3B815DFF29C11B09A670F67CAC8003F7FB0EF2065C8EBFE538FB6A88",
+    "probe": {
+      "steps": {
+        "RECOVERY_STEP": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 5.3497671615332365e-05,
+                "max": 0.15265490114688873,
+                "mean": 0.00533816383597893,
+                "non_zero_count": 3923
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "models/pandey_kumar_mode1/198_pk_sec43_coupled_validation/SEC43_STATE3_SEC_INIT.odb",
+    "exists": true,
+    "size_bytes": 1679680,
+    "sha256": "4BF8634ABC3CE53C6835C41CCFECAD5C03C986E4564F3645EF7E9D15830F2236",
+    "probe": {
+      "steps": {
+        "RECOVERY_STEP": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 5.926155427005142e-05,
+                "max": 0.18964552879333496,
+                "mean": 0.006547698906887959,
+                "non_zero_count": 3923
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "models/pandey_kumar_mode1/198_pk_sec43_coupled_validation/SEC43_STATE4_SEC_MIDPROP.odb",
+    "exists": true,
+    "size_bytes": 1679668,
+    "sha256": "DC9256E0EBFC0B60CC7AEF6C51C84EAE2EBCD4D0DAA0EC545A77B6FAE707C866",
+    "probe": {
+      "steps": {
+        "RECOVERY_STEP": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 6.861477595521137e-05,
+                "max": 0.23201137781143188,
+                "mean": 0.007856125547167069,
+                "non_zero_count": 3923
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "models/pandey_kumar_mode1/198_pk_sec43_coupled_validation/SEC43_STATE5_TERMINAL.odb",
+    "exists": true,
+    "size_bytes": 1679668,
+    "sha256": "2E5FB80A44AAFBCCA0470DF3EE8550D6DD9FE1B717FAF8D723B484E02C962129",
+    "probe": {
+      "steps": {
+        "RECOVERY_STEP": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 0.00027850078186020255,
+                "max": 1.3589591979980469,
+                "mean": 0.03785391526710168,
+                "non_zero_count": 3923
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "models/pandey_kumar_mode1/198_pk_sec43_coupled_validation/PK_SEC43_MULTISTATE_ENVELOPE_DONOR.odb",
+    "exists": false
+  },
+  {
+    "path": "models/pandey_kumar_mode1/200_pk_sec43_prescribed_displacement/PK_SEC43_PRESCRIBED_STATE2.odb",
+    "exists": false
+  },
+  {
+    "path": "models/pandey_kumar_mode1/200_pk_sec43_prescribed_displacement/PK_SEC43_PRESCRIBED_STATE4.odb",
+    "exists": false
+  },
+  {
+    "path": "models/pandey_kumar_mode1/200_pk_sec43_prescribed_displacement/PK_SEC43_PRESCRIBED_STATE5.odb",
+    "exists": false
+  },
+  {
+    "path": "models/pandey_kumar_mode1/202_pk_sec43_continuous_displacement/PK_SEC43_CONTINUOUS_STATE2.odb",
+    "exists": false
+  },
+  {
+    "path": "models/pandey_kumar_mode1/202_pk_sec43_continuous_displacement/PK_SEC43_CONTINUOUS_STATE4.odb",
+    "exists": false
+  },
+  {
+    "path": "models/pandey_kumar_mode1/202_pk_sec43_continuous_displacement/PK_SEC43_CONTINUOUS_STATE5.odb",
+    "exists": false
+  },
+  {
+    "path": "models/pandey_kumar_mode1/224_f1734_case2_distal_refinement/PK_F1779_CASE2_ENVELOPE.odb",
+    "exists": true,
+    "size_bytes": 518260408,
+    "sha256": "0AA9601559F26859D6A8B5E814153DBAC27D4A6A4CB932A2F9C0457B4C8D58D8",
+    "probe": {
+      "steps": {
+        "Step-1": {
+          "num_frames": 51,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "E",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "SDV1",
+                "SDV2",
+                "SDV3",
+                "SDV4",
+                "SDV5",
+                "SDV6",
+                "SDV7",
+                "SDV8",
+                "SDV9",
+                "SDV10",
+                "SDV11",
+                "SDV12",
+                "SDV13",
+                "SDV14",
+                "SDV15",
+                "SDV16",
+                "SDV17",
+                "SDV18",
+                "SDV19",
+                "SDV20",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2906,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 50,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "E",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "SDV1",
+                "SDV2",
+                "SDV3",
+                "SDV4",
+                "SDV5",
+                "SDV6",
+                "SDV7",
+                "SDV8",
+                "SDV9",
+                "SDV10",
+                "SDV11",
+                "SDV12",
+                "SDV13",
+                "SDV14",
+                "SDV15",
+                "SDV16",
+                "SDV17",
+                "SDV18",
+                "SDV19",
+                "SDV20",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2906,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": false
+        },
+        "Step-2": {
+          "num_frames": 339,
+          "time_period": 0.6558254361152649,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "E",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "SDV1",
+                "SDV2",
+                "SDV3",
+                "SDV4",
+                "SDV5",
+                "SDV6",
+                "SDV7",
+                "SDV8",
+                "SDV9",
+                "SDV10",
+                "SDV11",
+                "SDV12",
+                "SDV13",
+                "SDV14",
+                "SDV15",
+                "SDV16",
+                "SDV17",
+                "SDV18",
+                "SDV19",
+                "SDV20",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2906,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 9999,
+              "frame_value": 999.0,
+              "field_outputs": [
+                "EVOL",
+                "MISESAVG",
+                "MISESERI"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2906,
+                "min": 0.6727471947669983,
+                "max": 13.837752342224121,
+                "mean": 1.9728530321708648,
+                "non_zero_count": 2906
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "models/pandey_kumar_mode1/233_f1750_local_sizing_probe/PK_SEC43_STATE_B_DAMAGE_DONOR.odb",
+    "exists": true,
+    "size_bytes": 1842312,
+    "sha256": "1365A83A69223557DA0F72E99240B8E1E7AA944FA8CFFBD03E41CE2FFE6BE6D3",
+    "probe": {
+      "steps": {
+        "RECOVERY_STEP": {
+          "num_frames": 3,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "E",
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 9999,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "MISESAVG",
+                "MISESERI"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 3923,
+                "min": 12.421530723571777,
+                "max": 528.037841796875,
+                "mean": 35.96367759568455,
+                "non_zero_count": 3923
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "PK_HOLE_COUPLED_RECOVERY.odb",
+    "exists": true,
+    "size_bytes": 946124,
+    "sha256": "AADB5AC6213C0FF3238675B8CFF82F46A0919D757619DF70EB3243AE246DC711",
+    "probe": {
+      "steps": {
+        "Step-1": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.4377955496311188,
+                "max": 3294.5166015625,
+                "mean": 48.04199285938752,
+                "non_zero_count": 2935
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "PK_HOLE_F1656_RECOVERY.odb",
+    "exists": true,
+    "size_bytes": 1041136,
+    "sha256": "2D9A6343B62CB8DF7D602CA649154786729E4D6F33A53AACD7AB081BBA356006",
+    "probe": {
+      "steps": {
+        "Step-1": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.43692564964294434,
+                "max": 1179.9478759765625,
+                "mean": 21.161137555547224,
+                "non_zero_count": 2935
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "PK_HOLE_F1659_RECOVERY.odb",
+    "exists": true,
+    "size_bytes": 1047692,
+    "sha256": "5B9E110CC276971126BB1067367231ECA323F8D282C25CB4D269279D9A780DC7",
+    "probe": {
+      "steps": {
+        "Step-1": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.027485316619277,
+                "max": 1437.3564453125,
+                "mean": 17.477853044605414,
+                "non_zero_count": 2935
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "PK_HOLE_F1661_RECOVERY.odb",
+    "exists": true,
+    "size_bytes": 1047692,
+    "sha256": "7FFC0636199BC26099CBFFC905DECC65BB6EAAC0F7C9FB697DAE8BCC37E28F1E",
+    "probe": {
+      "steps": {
+        "Step-1": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.027485316619277,
+                "max": 1437.3564453125,
+                "mean": 17.477853044605414,
+                "non_zero_count": 2935
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "PK_HOLE_RECOVERY_SOLVE.odb",
+    "exists": true,
+    "size_bytes": 873040,
+    "sha256": "76EFF10C87039E9B29A5155A151E431E392B9A1DD16D32CF76E05E9E8B95A741",
+    "probe": {
+      "steps": {
+        "Step-1": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 5870,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 5870,
+                "min": 0.29377949237823486,
+                "max": 1426.07080078125,
+                "mean": 21.068448635128533,
+                "non_zero_count": 5870
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "PK_HOLE_SIZING_SOLVE.odb",
+    "exists": true,
+    "size_bytes": 872988,
+    "sha256": "C3F88E14D8D74D8FB850F4A485EAEE48355FDB7EFF15D703437F76AB5ADAF7A2",
+    "probe": {
+      "steps": {
+        "Step-1": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 5870,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 5870,
+                "min": 0.29377949237823486,
+                "max": 1426.07080078125,
+                "mean": 21.068448635128533,
+                "non_zero_count": 5870
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "runs/f1683_recovery_candidate_b/PK_HOLE_RECOVERY_B.odb",
+    "exists": true,
+    "size_bytes": 1047692,
+    "sha256": "14EACB3AC65FF7F9B44FC00BCB3C8E465B2F37E572D97F92868252121116AA0B",
+    "probe": {
+      "steps": {
+        "Step-1": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.24499361217021942,
+                "max": 1657.2550048828125,
+                "mean": 17.352780382114332,
+                "non_zero_count": 2935
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "runs/f1683_recovery_candidate_c/PK_HOLE_RECOVERY_C.odb",
+    "exists": true,
+    "size_bytes": 1047692,
+    "sha256": "42375ED3AA3DEF874983913B80CF0F8996A3F2A6F112FD543ADE71CC2D88648B",
+    "probe": {
+      "steps": {
+        "Step-1": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.40580180287361145,
+                "max": 1600.678466796875,
+                "mean": 20.2429965200477,
+                "non_zero_count": 2935
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "runs/f1683_recovery_candidate_d/PK_HOLE_RECOVERY_D.odb",
+    "exists": true,
+    "size_bytes": 1047692,
+    "sha256": "A78C2F693CBCED5376664BEFE13EE533F458CB2D5F8312DBC3B37D43006CF341",
+    "probe": {
+      "steps": {
+        "Step-1": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.07111033797264099,
+                "max": 411.49725341796875,
+                "mean": 13.41213497861433,
+                "non_zero_count": 2935
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  },
+  {
+    "path": "runs/f1684_multistep_recovery/PK_HOLE_MULTISTEP_RECOVERY.odb",
+    "exists": true,
+    "size_bytes": 1832224,
+    "sha256": "54F62578EA91AD8BC239CA6486880B5877E94513103F211D59181AD5437313D3",
+    "probe": {
+      "steps": {
+        "RECOVERY_C": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "ENDEN",
+                "ENDENERI",
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "non_zero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "ENDEN",
+                "ENDENERI",
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.40580180287361145,
+                "max": 1600.678466796875,
+                "mean": 20.2429965200477,
+                "non_zero_count": 2935
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        },
+        "RECOVERY_TERMINAL": {
+          "num_frames": 2,
+          "time_period": 1.0,
+          "procedure": "*STATIC",
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "ENDEN",
+                "ENDENERI",
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.40580180287361145,
+                "max": 1600.678466796875,
+                "mean": 20.2429965200477,
+                "non_zero_count": 2935
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "ENDEN",
+                "ENDENERI",
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "has_miseseri": true,
+              "has_misesavg": true,
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.027485316619277,
+                "max": 1437.3564453125,
+                "mean": 17.477853044605414,
+                "non_zero_count": 2935
+              }
+            }
+          ],
+          "has_any_nonzero_miseseri": true
+        }
+      },
+      "error": null
+    }
+  }
+]
