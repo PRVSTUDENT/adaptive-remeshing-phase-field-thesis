@@ -1,11 +1,11 @@
 {
     "task_id": "F1753-CASE2-CONTROL-ONLY-CONTINUATION-EXECUTION",
     "title": "Case 2 Method A Controlled-Only Continuation Production Simulation (1 Bounded PBS Job)",
-    "status": "EXECUTION_IN_PROGRESS_PBS_RUNNING",
-    "classification": "CASE2_CONTINUATION_EXECUTION_JOB_SUBMITTED_AND_RUNNING",
+    "status": "COMPLETED_EXECUTED_DIAGNOSED",
+    "classification": "CASE2_CONTINUATION_EXECUTION_COMPLETED_EXIT1_255_INCS_PARITY_VERIFIED",
     "assigned_agent": "gemini-antigravity",
     "active_pbs_job_id": "1423552.mmaster02",
-    "checkpoint_artifact": "docs/validation/F1753_FINAL_EXECUTION_READINESS_RECEIPT.md",
+    "checkpoint_artifact": "docs/validation/F1753_CASE2_CONTINUATION_EXECUTION_REPORT.md",
     "review_directive": "HND-F1753-CASE2-EXEC-AUTH-004",
     "predecessor_task": {
         "task_id": "F1752-CASE2-CONTROL-ONLY-CONTINUATION-EXECUTION-PREFLIGHT",
