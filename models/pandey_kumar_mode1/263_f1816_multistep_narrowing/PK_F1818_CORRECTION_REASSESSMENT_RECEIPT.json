@@ -1,0 +1,112 @@
+{
+  "task_id": "F1818-CORRECTION-AND-REASSESSMENT",
+  "title": "Task F1818: Correction and Reassessment of F1816 Narrowing Conclusions",
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1818-CORRECTION-REASSESSMENT-001",
+  "predecessor_correlation_id": "HND-F1817-EVIDENCE-COMPLETION-001",
+  "timestamp": "2026-11-16T14:01:25",
+  "governing_objectives": {
+    "master_goal_status": "OPEN",
+    "research_priority": "ADAPTIVE_REMESHING_ONLY",
+    "cumulative_pbs_submissions": 35,
+    "new_pbs_submissions": 0,
+    "frozen_production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "shared_framework_sha256": "4276A5DC1AF22A6A117102D8C24492789E8AA4EBFD4AF079C58EE86DBEEC7C8B",
+    "predeclared_adoption_rule": "F1812 baselines stand as best among tested configurations; MINIMUM_MAXIMUM sizing remains untested."
+  },
+  "reassessed_findings": {
+    "correction_1_sizing_method_provenance": {
+      "configured_in_script": "MINIMUM_MAXIMUM",
+      "framework_execution": "UNIFORM_ERROR with errorTarget=3.0% (hardcoded in framework line 1922; config.sizing_method ignored)",
+      "element_ballooning_cause": "Stricter error target (3.0% vs F1812's 4.5% in Case 1)",
+      "status": "WITHDRAWN as MINIMUM_MAXIMUM finding; MINIMUM_MAXIMUM remains untested"
+    },
+    "correction_2_case3_secondary_gates": {
+      "evaluation_corridor": "x in [36.5, 65.0] mm, y in [45.0, 65.0] mm, threshold h <= l0 = 0.285 mm",
+      "variant_2b_reduced": {
+        "total_elements_in_corridor": 12964,
+        "refined_elements": 12300,
+        "coverage_pct": 94.87812403579142,
+        "gate_status": "PASS (>= 90.0%)",
+        "prior_value_defect": "Prior 87.61% caused by y in [45, 75] capturing unrefined bulk elements"
+      },
+      "variant_2a_overlapping": {
+        "total_elements_in_corridor": 11440,
+        "refined_elements": 10556,
+        "coverage_pct": 92.27272727272727,
+        "gate_status": "PASS (>= 90.0%)",
+        "prior_value_defect": "Prior 86.30% caused by y in [45, 75] capturing unrefined bulk elements"
+      }
+    },
+    "correction_3_run_script_hashes": {
+      "run_f1816_step1_master.py": {
+        "size": 3557,
+        "sha256": "0F33EFEBD4302D8FD1D6A7FC1E78CCC352AD187968D84082BFD91B4599D3FB53"
+      },
+      "run_f1816_step1_minmax.py": {
+        "size": 15552,
+        "sha256": "3B9253DF21A65FD13694EC3FA9C88A9C91EB73AD6AFDA519122A38F439B10229"
+      },
+      "run_f1816_step2_master.py": {
+        "size": 15835,
+        "sha256": "931E683CC4DF47C99CEB3AD33F97022A2E843606A76978DAD229A9D27C83AAC2"
+      },
+      "run_f1816_step2_single.py": {
+        "size": 6032,
+        "sha256": "95D6207C89410EB6B3D3CBC88C52F7CF112398D7DCBF8FDF99FBBD15A48D46DA"
+      }
+    },
+    "pareto_optimum_reassessment": {
+      "f1812_total_elements": 160144,
+      "variant_2b_total_elements": 180242,
+      "variant_2a_total_elements": 193310,
+      "step1_total_elements": 258894,
+      "f1812_status": "PARETO_OPTIMUM_AMONG_TESTED_CONFIGURATIONS",
+      "variant_2b_rejection_reason": "Fails Case 1 full ligament gate (91.75% < 95.0%) and doubles Case 2 elements to 83,913",
+      "variant_2a_rejection_reason": "Balloons Case 1 to 37,511 and Case 2 to 82,869 elements; dilutes localization",
+      "minimum_maximum_status": "EXPLICITLY_UNTESTED_OPEN_QUESTION"
+    }
+  },
+  "artifact_manifest": {
+    "step1_summary": {
+      "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step1_minmax/step1_minmax_summary.json",
+      "size_bytes": 7608,
+      "sha256": "10E7D51946C25731BB0875EB22A6A315CF05AFB63A97846567C72CCF7BA9BA86"
+    },
+    "step2_summary": {
+      "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/step2_envelope_summary.json",
+      "size_bytes": 8395,
+      "sha256": "30E5FD0CDA63416B33163F49FE040F8077EDDD2F8D5D2F43766B87A0B3196401"
+    },
+    "f1816_receipt": {
+      "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/PK_F1816_MULTISTEP_NARROWING_RECEIPT.json",
+      "size_bytes": 16555,
+      "sha256": "C4AE6D62867E41CBA9E9ED1F704A1B357E39F34741BAD6D4A2F42FD466F47107"
+    },
+    "f1816_report": {
+      "path": "docs/validation/F1816_MULTISTEP_REFINEMENT_NARROWING_REPORT.md",
+      "size_bytes": 24256,
+      "sha256": "26F5B43C3F3F8FE2DFFF80493EA3B6F34FA6E5F38F9C3B71ED6A1989BEFFCC20"
+    },
+    "f1817_report": {
+      "path": "docs/validation/F1817_EVIDENCE_COMPLETION_REPORT.md",
+      "size_bytes": 15710,
+      "sha256": "FB54ED4A86F18D0B9F32478E894BC58D584C45DC08AE6E816E8D5D4C84E69002"
+    },
+    "f1818_report": {
+      "path": "docs/validation/F1818_CORRECTION_AND_REASSESSMENT_REPORT.md",
+      "size_bytes": 16640,
+      "sha256": "A5C0445B6EBA3B496F08A391F277804FBBEC747061FF0730021220F66977E86C"
+    },
+    "comparison_figure_png": {
+      "path": "results/figures/fig_f1816_refinement_width_comparison.png",
+      "size_bytes": 787457,
+      "sha256": "302906A7468BFD68514F61084A52F712CC72F1B681A93F0242CEF7A9BBD31802"
+    },
+    "comparison_figure_pdf": {
+      "path": "results/figures/fig_f1816_refinement_width_comparison.pdf",
+      "size_bytes": 67728,
+      "sha256": "FB62BF7DD39DE330664B1913C7C0154291F238DEB5C893F1C40834E1F8007874"
+    }
+  }
+}

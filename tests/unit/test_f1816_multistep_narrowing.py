@@ -86,18 +86,18 @@ class TestF1816MultistepNarrowing(unittest.TestCase):
         self.assertGreater(s2b["case_2"]["elements"], 80000, "Case 2 under Var 2b must double to >80,000 el")
         self.assertLess(s2b["case_2"]["coarsening_ratio"], 2.0, "Case 2 under Var 2b must fail coarsening (<2.0x)")
         
-        # Case 3 secondary corridor resolution fails (< 90.0%)
-        self.assertLess(s2b["case_3"]["scientific_gate"]["val"], 90.0, "Case 3 under Var 2b must fail < 90.0%")
-        self.assertFalse(s2b["case_3"]["scientific_gate"]["pass"])
+        # Case 3 secondary corridor resolution passes (>= 90.0%) under standard bounding box [45, 65]
+        self.assertGreaterEqual(s2b["case_3"]["scientific_gate"]["val"], 90.0, "Case 3 under Var 2b passes >= 90.0%")
+        self.assertTrue(s2b["case_3"]["scientific_gate"]["pass"])
 
     def test_04_step2_variant_2a_failure_modes(self):
         with open(STEP2_SUMMARY, "r") as f:
             d2 = json.load(f)
         s2a = d2["variant_2a_overlapping"]
         
-        # Case 3 secondary corridor resolution fails (< 90.0%)
-        self.assertLess(s2a["case_3"]["scientific_gate"]["val"], 90.0, "Case 3 under Var 2a must fail < 90.0%")
-        self.assertFalse(s2a["case_3"]["scientific_gate"]["pass"])
+        # Case 3 secondary corridor resolution passes (>= 90.0%) under standard bounding box [45, 65]
+        self.assertGreaterEqual(s2a["case_3"]["scientific_gate"]["val"], 90.0, "Case 3 under Var 2a passes >= 90.0%")
+        self.assertTrue(s2a["case_3"]["scientific_gate"]["pass"])
         
         # Mesh ballooning on Cases 1 and 2
         self.assertGreater(s2a["case_1"]["elements"], 35000, "Case 1 under Var 2a must balloon to >35,000 el")

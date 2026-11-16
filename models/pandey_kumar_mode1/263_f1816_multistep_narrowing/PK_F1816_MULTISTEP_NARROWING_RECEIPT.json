@@ -4,7 +4,7 @@
   "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
   "correlation_id": "HND-F1816-MULTISTEP-NARROWING-002",
   "predecessor_correlation_id": "HND-F1814-LABEL-CORRECTION-001",
-  "timestamp": "2026-11-16T13:22:04",
+  "timestamp": "2026-11-16T13:57:17",
   "governing_objectives": {
     "master_goal_status": "OPEN",
     "research_priority": "ADAPTIVE_REMESHING_ONLY",
@@ -15,12 +15,14 @@
     "predeclared_adoption_rule": "Adopt modified framework ONLY if fine band narrows (>3*l0 concentration) while all 4 scientific gates PASS at F1812 thresholds; otherwise F1812 baselines stand."
   },
   "step1_sizing_method_investigation": {
-    "method": "MINIMUM_MAXIMUM",
-    "parameters": {
+    "method": "UNIFORM_ERROR_AT_STRICT_TARGET (MINIMUM_MAXIMUM UNTESTED)",
+    "configured_parameters_in_script": {
+      "sizing_method": "MINIMUM_MAXIMUM",
       "eta_max_pct": 1.0,
       "eta_min_pct": 5.0,
       "mesh_bias": 7
     },
+    "actual_framework_behavior": "Shared framework hardcodes sizingMethod=UNIFORM_ERROR at line 1922 and ignores config.sizing_method; executed UNIFORM_ERROR with errorTarget=3.0% (Case 1 config).",
     "findings": {
       "total_elements_all_cases": 258894,
       "element_count_delta_vs_f1812": "+61.7% (160,144 -> 258,894 elements)",
@@ -28,7 +30,7 @@
       "gate_06_coarsening_status": "FAIL on all cases (1.53x - 1.87x < 2.0x)",
       "band_width_status": "WIDENED/DILUTED on all cases (Case 5 dropped from 29.31% to 9.19% within 3*l0)"
     },
-    "decision": "REJECTED (Uniform error baseline retained)"
+    "decision": "WITHDRAWN as MINIMUM_MAXIMUM finding (MINIMUM_MAXIMUM sizing remains untested; UNIFORM_ERROR at stricter target ballooned mesh as expected)"
   },
   "step2_envelope_construction_investigation": {
     "variant_2b_reduced_envelope": {
@@ -112,8 +114,8 @@
           "gate_06_pass": false,
           "scientific_gate": {
             "gate": "SCIENTIFIC_GATE_SECONDARY_CORRIDOR",
-            "val": 87.60929835785882,
-            "pass": false,
+            "val": 94.87812403579142,
+            "pass": true,
             "threshold": ">= 90.0%"
           },
           "width_metrics": {
@@ -167,7 +169,7 @@
           }
         }
       },
-      "decision": "REJECTED (Fails scientific gates on Case 1 [91.75% < 95%] and Case 3 [87.61% < 90%]; doubles Case 2 mesh to 83,913 elements; fails to narrow band)"
+      "decision": "REJECTED (Fails scientific gate on Case 1 [91.75% < 95.0%]; doubles Case 2 mesh to 83,913 elements; fails to narrow band; Case 3 secondary corridor gate PASSES at 94.88%)"
     },
     "variant_2a_overlapping_rules": {
       "description": "Per-state overlapping native RemeshingRules in Abaqus CAE across distinct steps",
@@ -250,8 +252,8 @@
           "gate_06_pass": false,
           "scientific_gate": {
             "gate": "SCIENTIFIC_GATE_SECONDARY_CORRIDOR",
-            "val": 86.29756655234362,
-            "pass": false,
+            "val": 92.27272727272727,
+            "pass": true,
             "threshold": ">= 90.0%"
           },
           "width_metrics": {
@@ -305,14 +307,14 @@
           }
         }
       },
-      "decision": "REJECTED (Fails Case 3 secondary corridor gate [86.30% < 90%]; balloons Case 1 to 37,511 elements and Case 2 to 82,869 elements; dilutes band localization)"
+      "decision": "REJECTED (Balloons Case 1 to 37,511 elements and Case 2 to 82,869 elements; dilutes band localization; Case 3 secondary corridor gate PASSES at 92.27%)"
     }
   },
   "step3_combine_and_validate_decision": {
     "adopted_framework_configuration": "F1812_BASELINES_ADOPTED_AS_PARETO_OPTIMUM",
     "total_canonical_elements": 160144,
     "scientific_gate_compliance": "100% PASS across Cases 1, 2, 3, 5",
-    "physical_mechanism_conclusion": "The refinement width is governed by the boundary value problem stress decay length and cannot be artificially narrowed without losing crack-path coverage."
+    "physical_mechanism_conclusion": "The refinement width is governed by the boundary value problem stress decay length and cannot be artificially narrowed without losing crack-path coverage. F1812 baselines stand as best among tested configurations; MINIMUM_MAXIMUM sizing remains untested."
   },
   "four_benchmark_width_metrics_comparison": {
     "case_1": {
@@ -383,14 +385,14 @@
       "step2b_reduced": {
         "elements": 51549,
         "pct_within_3l0": 0.47872820883389033,
-        "gate_val": 87.60929835785882,
-        "gate_status": "FAIL"
+        "gate_val": 94.87812403579142,
+        "gate_status": "PASS"
       },
       "step2a_overlap": {
         "elements": 57464,
         "pct_within_3l0": 0.06632556376729201,
-        "gate_val": 86.29756655234362,
-        "gate_status": "FAIL"
+        "gate_val": 92.27272727272727,
+        "gate_status": "PASS"
       }
     },
     "case_5": {
@@ -428,18 +430,18 @@
     },
     "step2_summary": {
       "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/step2_envelope_summary.json",
-      "size_bytes": 8397,
-      "sha256": "A6DEFD62AE43F397F0B65439868A16F445BC6952989DFC1CBDA7F25EC3BEFB2D"
+      "size_bytes": 8395,
+      "sha256": "30E5FD0CDA63416B33163F49FE040F8077EDDD2F8D5D2F43766B87A0B3196401"
     },
     "comparison_figure_png": {
       "path": "results/figures/fig_f1816_refinement_width_comparison.png",
-      "size_bytes": 793820,
-      "sha256": "2B8054C994856E21B4F4826940DE3FFB34F98D6D060A0AA5332D22E7C6D3D6E5"
+      "size_bytes": 787457,
+      "sha256": "302906A7468BFD68514F61084A52F712CC72F1B681A93F0242CEF7A9BBD31802"
     },
     "comparison_figure_pdf": {
       "path": "results/figures/fig_f1816_refinement_width_comparison.pdf",
-      "size_bytes": 67087,
-      "sha256": "7D01DAC02126809E297615E36F10219F878A5D4BFA107C2906EF45C6776BF611"
+      "size_bytes": 67728,
+      "sha256": "FB62BF7DD39DE330664B1913C7C0154291F238DEB5C893F1C40834E1F8007874"
     }
   }
 }

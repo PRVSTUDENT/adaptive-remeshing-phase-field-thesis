@@ -110,13 +110,14 @@ def plot_synthesis_figure():
         for r in rects:
             h = r.get_height()
             if h > 0.1:
-                ax.annotate("%.1f%%" % h, xy=(r.get_x() + r.get_width()/2, h), xytext=(0, 2),
-                            textcoords="offset points", ha='center', va='bottom', fontsize=7, rotation=0)
+                y_off = 2 if (k % 2 == 0) else 7
+                ax.annotate("%.1f%%" % h, xy=(r.get_x() + r.get_width()/2, h), xytext=(0, y_off),
+                            textcoords="offset points", ha='center', va='bottom', fontsize=6.8, rotation=0)
     ax.set_ylabel("Fine Elements within 3$\\ell_0$ of Crack Path (%)", fontsize=9, fontweight='bold')
     ax.set_title("(a) Refinement Band Concentration (Higher = More Localized)", fontsize=11, fontweight='bold', loc='left')
     ax.set_xticks(x)
     ax.set_xticklabels(case_labels, fontsize=9)
-    ax.set_ylim(0, 36)
+    ax.set_ylim(0, 38)
     ax.grid(axis='y', linestyle='--', alpha=0.5)
     ax.legend(fontsize=8, loc='upper right')
     
@@ -155,7 +156,7 @@ def plot_synthesis_figure():
     for i in range(4):
         th = gate_thresholds[i]
         ax.plot([i - 0.45, i + 0.45], [th, th], color='black', linestyle=':', linewidth=1.5)
-        ax.annotate("Gate: %.0f%%" % th, xy=(i, th - 5.5), ha='center', fontsize=7.5, fontweight='bold', color='black')
+        ax.annotate("Gate: %.0f%%" % th, xy=(i, th + 1.2), ha='center', fontsize=7.5, fontweight='bold', color='black')
         
     ax.set_ylabel("Governing Resolution Gate Coverage (%)", fontsize=9, fontweight='bold')
     ax.set_title("(c) Scientific Resolution Gate Compliance (Threshold: Dotted Line)", fontsize=11, fontweight='bold', loc='left')
@@ -166,7 +167,7 @@ def plot_synthesis_figure():
         "Case 3: Secondary\n(Gate >= 90%)",
         "Case 5: Inter-Hole\n(Gate >= 90%)"
     ], fontsize=8.5)
-    ax.set_ylim(70, 108)
+    ax.set_ylim(70, 114)
     ax.grid(axis='y', linestyle='--', alpha=0.5)
     ax.legend(fontsize=8, loc='lower right')
     
@@ -177,27 +178,26 @@ def plot_synthesis_figure():
     ax.axis('off')
     
     summary_text = (
-        "TASK F1816 DEFINITIVE SCIENTIFIC FINDINGS & PARETO PROOF\n"
+        "TASK F1818 REASSESSED SCIENTIFIC FINDINGS & PARETO PROOF\n"
         "----------------------------------------------------------------------------------------------------\n\n"
-        "1. STEP 1 (MINIMUM/MAXIMUM SIZING): REJECTED\n"
-        "   - Sizing with eta_max=1%, eta_min=5%, meshBias=7 was tested across all benchmarks.\n"
-        "   - In continuum stress fields with sharp gradients, Abaqus interprets moderate stress\n"
-        "     decay as a demand for fine sizing, causing severe mesh ballooning (+61.7%, 258,894 el).\n"
-        "   - Gate 07 budgets failed on Cases 1, 3, 5; Gate 06 coarsening collapsed across all cases.\n"
-        "   - Refinement band widened on every case (Case 5 concentration dropped from 29.3% to 9.2%).\n\n"
+        "1. STEP 1 (UNIFORM_ERROR AT STRICTER TARGET; MIN/MAX UNTESTED):\n"
+        "   - Shared framework hardcodes sizingMethod=UNIFORM_ERROR (line 1922); config.sizing_method\n"
+        "     was silently ignored, so MINIMUM_MAXIMUM sizing was never actually exercised.\n"
+        "   - Step 1 actually solved UNIFORM_ERROR with errorTarget=3.0% (vs F1812's 4.5% in Case 1),\n"
+        "     causing expected element ballooning (+61.7%, 258,894 el) and band dilution.\n"
+        "   - Prior 'MIN/MAX causes ballooning and is rejected' conclusion withdrawn; MIN/MAX is untested.\n\n"
         "2. STEP 2b (REDUCED 2-STATE ENVELOPE): REJECTED\n"
-        "   - Breaches governing scientific gates on Case 1 (91.75% < 95.0%) and Case 3 (87.61% < 90.0%).\n"
-        "   - Skipping intermediate propagation states leaves physical error gaps in the ligament.\n"
-        "   - Case 2 element count doubled (+102.5%, 83,913 el), diluting 3*l0 concentration to 6.75%.\n\n"
+        "   - Fails Case 1 full-ligament gate (91.75% < 95.0%, verified) due to missing intermediate states.\n"
+        "   - Case 2 element count doubled (+102.5%, 83,913 el), diluting 3*l0 concentration to 6.75%.\n"
+        "   - Case 3 secondary corridor gate PASSES at 94.88% (prior 87.6% was an artifact of y in [45,75]).\n\n"
         "3. STEP 2a (OVERLAPPING NATIVE CAE RULES): REJECTED\n"
         "   - Abaqus CAE takes the envelope of minimum requested element sizes across active rules.\n"
         "   - Produces broader fine zones (Case 1: 37,511 el; Case 2: 82,869 el) and lower localization.\n"
-        "   - Fails Case 3 secondary corridor resolution (86.30% < 90.0%).\n\n"
-        "4. STEP 3 DECISION (PREDECLARED GATE): F1812 BASELINES ADOPTED\n"
-        "   - Neither candidate narrowed the band while maintaining all four scientific gates.\n"
-        "   - Physical proof: Refinement width is governed by the boundary value problem stress decay\n"
-        "     length and cannot be artificially narrowed without losing crack-path coverage.\n"
-        "   - F1812 baselines (160,144 elements) confirmed as the unique Pareto optimal configuration."
+        "   - Case 3 secondary corridor gate PASSES at 92.27% (prior 86.3% was an artifact of y in [45,75]).\n\n"
+        "4. STEP 3 DECISION (CORRECTED EVIDENCE): F1812 BASELINES ADOPTED\n"
+        "   - F1812 (160,144 el) remains best among tested configurations: Var 2b fails Case 1 gate,\n"
+        "     and all tested variants expand element counts and dilute crack-path concentration.\n"
+        "   - MINIMUM_MAXIMUM sizing remains an open question for future study (not part of F1818)."
     )
     
     ax.text(0.02, 0.98, summary_text, transform=ax.transAxes, fontsize=7.8,

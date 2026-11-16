@@ -73,12 +73,14 @@ def main():
             "predeclared_adoption_rule": "Adopt modified framework ONLY if fine band narrows (>3*l0 concentration) while all 4 scientific gates PASS at F1812 thresholds; otherwise F1812 baselines stand."
         },
         "step1_sizing_method_investigation": {
-            "method": "MINIMUM_MAXIMUM",
-            "parameters": {
+            "method": "UNIFORM_ERROR_AT_STRICT_TARGET (MINIMUM_MAXIMUM UNTESTED)",
+            "configured_parameters_in_script": {
+                "sizing_method": "MINIMUM_MAXIMUM",
                 "eta_max_pct": 1.0,
                 "eta_min_pct": 5.0,
                 "mesh_bias": 7
             },
+            "actual_framework_behavior": "Shared framework hardcodes sizingMethod=UNIFORM_ERROR at line 1922 and ignores config.sizing_method; executed UNIFORM_ERROR with errorTarget=3.0% (Case 1 config).",
             "findings": {
                 "total_elements_all_cases": sum(c["total_elements"] for c in d1["cases"].values()),
                 "element_count_delta_vs_f1812": "+61.7% (160,144 -> 258,894 elements)",
@@ -86,25 +88,25 @@ def main():
                 "gate_06_coarsening_status": "FAIL on all cases (1.53x - 1.87x < 2.0x)",
                 "band_width_status": "WIDENED/DILUTED on all cases (Case 5 dropped from 29.31% to 9.19% within 3*l0)"
             },
-            "decision": "REJECTED (Uniform error baseline retained)"
+            "decision": "WITHDRAWN as MINIMUM_MAXIMUM finding (MINIMUM_MAXIMUM sizing remains untested; UNIFORM_ERROR at stricter target ballooned mesh as expected)"
         },
         "step2_envelope_construction_investigation": {
             "variant_2b_reduced_envelope": {
                 "description": "Reduced 2-state maximum error envelope: breach/arrest state + terminal state",
                 "cases": d2["variant_2b_reduced"],
-                "decision": "REJECTED (Fails scientific gates on Case 1 [91.75% < 95%] and Case 3 [87.61% < 90%]; doubles Case 2 mesh to 83,913 elements; fails to narrow band)"
+                "decision": "REJECTED (Fails scientific gate on Case 1 [91.75% < 95.0%]; doubles Case 2 mesh to 83,913 elements; fails to narrow band; Case 3 secondary corridor gate PASSES at 94.88%)"
             },
             "variant_2a_overlapping_rules": {
                 "description": "Per-state overlapping native RemeshingRules in Abaqus CAE across distinct steps",
                 "cases": d2["variant_2a_overlapping"],
-                "decision": "REJECTED (Fails Case 3 secondary corridor gate [86.30% < 90%]; balloons Case 1 to 37,511 elements and Case 2 to 82,869 elements; dilutes band localization)"
+                "decision": "REJECTED (Balloons Case 1 to 37,511 elements and Case 2 to 82,869 elements; dilutes band localization; Case 3 secondary corridor gate PASSES at 92.27%)"
             }
         },
         "step3_combine_and_validate_decision": {
             "adopted_framework_configuration": "F1812_BASELINES_ADOPTED_AS_PARETO_OPTIMUM",
             "total_canonical_elements": 160144,
             "scientific_gate_compliance": "100% PASS across Cases 1, 2, 3, 5",
-            "physical_mechanism_conclusion": "The refinement width is governed by the boundary value problem stress decay length and cannot be artificially narrowed without losing crack-path coverage."
+            "physical_mechanism_conclusion": "The refinement width is governed by the boundary value problem stress decay length and cannot be artificially narrowed without losing crack-path coverage. F1812 baselines stand as best among tested configurations; MINIMUM_MAXIMUM sizing remains untested."
         },
         "four_benchmark_width_metrics_comparison": {
             "case_1": {
@@ -122,8 +124,8 @@ def main():
             "case_3": {
                 "f1812_baseline": {"elements": 77779, "pct_within_3l0": 0.49, "gate_val": 93.84, "gate_status": "PASS"},
                 "step1_minmax": {"elements": d1["cases"]["case_3"]["total_elements"], "pct_within_3l0": d1["cases"]["case_3"]["width_metrics"]["pct_within_3l0"], "gate_val": d1["cases"]["case_3"]["scientific_gate_value"], "gate_status": "PASS"},
-                "step2b_reduced": {"elements": d2["variant_2b_reduced"]["case_3"]["elements"], "pct_within_3l0": d2["variant_2b_reduced"]["case_3"]["width_metrics"]["f_3l0"], "gate_val": d2["variant_2b_reduced"]["case_3"]["scientific_gate"]["val"], "gate_status": "FAIL"},
-                "step2a_overlap": {"elements": d2["variant_2a_overlapping"]["case_3"]["elements"], "pct_within_3l0": d2["variant_2a_overlapping"]["case_3"]["width_metrics"]["f_3l0"], "gate_val": d2["variant_2a_overlapping"]["case_3"]["scientific_gate"]["val"], "gate_status": "FAIL"}
+                "step2b_reduced": {"elements": d2["variant_2b_reduced"]["case_3"]["elements"], "pct_within_3l0": d2["variant_2b_reduced"]["case_3"]["width_metrics"]["f_3l0"], "gate_val": d2["variant_2b_reduced"]["case_3"]["scientific_gate"]["val"], "gate_status": "PASS"},
+                "step2a_overlap": {"elements": d2["variant_2a_overlapping"]["case_3"]["elements"], "pct_within_3l0": d2["variant_2a_overlapping"]["case_3"]["width_metrics"]["f_3l0"], "gate_val": d2["variant_2a_overlapping"]["case_3"]["scientific_gate"]["val"], "gate_status": "PASS"}
             },
             "case_5": {
                 "f1812_baseline": {"elements": 15466, "pct_within_3l0": 29.31, "gate_val": 99.04, "gate_status": "PASS"},

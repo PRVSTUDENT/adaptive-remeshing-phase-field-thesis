@@ -1,6 +1,6 @@
 {
-  "task_id": "F1817-EVIDENCE-COMPLETION",
-  "title": "Task F1817: Evidence Completion for F1816 Multi-Step Narrowing",
+  "task_id": "F1818-CORRECTION-AND-REASSESSMENT",
+  "title": "Task F1818: Correction and Reassessment of F1816 Narrowing Conclusions",
   "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
@@ -8,23 +8,23 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1817_EVIDENCE_COMPLETION_REPORT.md",
-  "review_directive": "Task F1817: Evidence Completion for F1816 Multi-Step Narrowing. Commit the 12 Step 1/2 variant meshes with whole-file and body SHA-256 values matching the summary JSONs; commit the 6 donor ODBs with SHA-256 values matching the report table; resolve the framework contradiction by honestly documenting that the framework was preserved at 4276A5DC... upon rejection of MINIMUM_MAXIMUM sizing; recompute and correct artifact-table hashes; normalize step2_envelope_summary.json to repo-relative paths; commit inspectable run scripts; 0 new PBS jobs (cumulative 35 preserved), frozen production UEL, MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1818_CORRECTION_AND_REASSESSMENT_REPORT.md",
+  "review_directive": "Task F1818: Correction and Reassessment of F1816 Narrowing Conclusions. (1) Correct F1816 report: state honestly that Step 1 ran UNIFORM_ERROR errorTarget=3.0 (framework hardcodes UNIFORM_ERROR); withdraw conclusion as a statement about MINIMUM_MAXIMUM sizing; MINIMUM_MAXIMUM noted as untested. (2) Correct Case 3 secondary corridor gate values to Var 2b 94.88% PASS and Var 2a 92.27% PASS in Step 2 summary, F1816 report, and width comparison figure panel (c); document root cause (bounding box y in [45, 75] vs [45, 65]). (3) Correct F1817 report artifact table entries for the four run scripts. (4) Reassess Pareto-optimum conclusion: F1812 stands as best among tested configurations; MINIMUM_MAXIMUM untested. 0 new PBS jobs (cumulative 35 preserved), bitwise frozen UEL, MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1816-MULTISTEP-REFINEMENT-NARROWING",
-    "checkpoint_artifact": "docs/validation/F1816_MULTISTEP_REFINEMENT_NARROWING_REPORT.md",
+    "task_id": "F1817-EVIDENCE-COMPLETION",
+    "checkpoint_artifact": "docs/validation/F1817_EVIDENCE_COMPLETION_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
-    "review_verdict": "INSUFFICIENT_EVIDENCE",
-    "correlation_id": "HND-F1816-MULTISTEP-NARROWING-002"
+    "review_verdict": "REJECT",
+    "correlation_id": "HND-F1817-EVIDENCE-COMPLETION-001"
   },
-  "re_review_correlation_id": "HND-F1817-EVIDENCE-COMPLETION-001",
-  "scientific_operation": "evidence_completion",
-  "scientific_operation_id": "f1817_evidence_completion_001",
+  "re_review_correlation_id": "HND-F1818-CORRECTION-REASSESSMENT-001",
+  "scientific_operation": "correction_reassessment",
+  "scientific_operation_id": "f1818_correction_reassessment_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "4276A5DC1AF22A6A117102D8C24492789E8AA4EBFD4AF079C58EE86DBEEC7C8B",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1817 initiated under HND-F1817-EVIDENCE-COMPLETION-001. Completing evidence for F1816: 12 variant meshes, 6 donor ODBs, repo-relative paths, reconciled framework provenance."
+  "notes": "Task F1818 initiated under HND-F1818-CORRECTION-REASSESSMENT-001. Reassessing F1816 narrowing conclusions with corrected evidence: Step 1 UNIFORM_ERROR 3.0%, Case 3 secondary gates 94.88% and 92.27% PASS, run script hashes, Pareto re-evaluation."
 }

@@ -112,10 +112,10 @@ All checksums and byte sizes are recomputed directly from committed disk files:
 | Width Comparison PDF | `results/figures/fig_f1816_refinement_width_comparison.pdf` | 67,087 | `7D01DAC02126809E297615E36F10219F878A5D4BFA107C2906EF45C6776BF611` |
 | Unit Test Suite (F1816) | `tests/unit/test_f1816_multistep_narrowing.py` | 9,033 | `B777324BFA80AE69CA43A8FAFF9648937E84B1F87EE5EBAC0BEB5B1109BEEA6E` |
 | Unit Test Suite (F1817) | `tests/unit/test_f1817_evidence_completion.py` | 15,020 | `C46F8EE074109CE9D9AEAA71A294DF980276D0C0441B199A0231E266C5AA4B1E` |
-| Step 1 Master Driver Script | `scripts/remeshing/run_f1816_step1_master.py` | 3,114 | `12D8FE6FFBD704B19EB6EDBC43D9B9156DF8B4D495514F6010FEEA7349C240E8` |
-| Step 1 Single-Case Script | `scripts/remeshing/run_f1816_step1_minmax.py` | 13,018 | `FB760B1DA90DA0A92928549C6FEAA75DCF6BCEB715C9C894B2C0526B2FF7E5B5` |
-| Step 2 Master Driver Script | `scripts/remeshing/run_f1816_step2_master.py` | 7,678 | `07191A78B097ACF1A9FCE16075A0897FE9769B9E77F71A7C5F3570FCE0D41BE1` |
-| Step 2 Single-Case Script | `scripts/remeshing/run_f1816_step2_single.py` | 7,163 | `BBD41697C198FA8A8561081BF1DF6D81267D2B8A0AF811631B2956DB8EC8D511` |
+| Step 1 Master Driver Script | `scripts/remeshing/run_f1816_step1_master.py` | 3,557 | `0F33EFEBD4302D8FD1D6A7FC1E78CCC352AD187968D84082BFD91B4599D3FB53` |
+| Step 1 Single-Case Script | `scripts/remeshing/run_f1816_step1_minmax.py` | 15,552 | `3B9253DF21A65FD13694EC3FA9C88A9C91EB73AD6AFDA519122A38F439B10229` |
+| Step 2 Master Driver Script | `scripts/remeshing/run_f1816_step2_master.py` | 15,835 | `931E683CC4DF47C99CEB3AD33F97022A2E843606A76978DAD229A9D27C83AAC2` |
+| Step 2 Single-Case Script | `scripts/remeshing/run_f1816_step2_single.py` | 6,032 | `95D6207C89410EB6B3D3CBC88C52F7CF112398D7DCBF8FDF99FBBD15A48D46DA` |
 
 ---
 

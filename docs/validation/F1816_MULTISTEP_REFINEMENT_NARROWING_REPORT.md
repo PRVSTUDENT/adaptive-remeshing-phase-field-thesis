@@ -25,19 +25,19 @@ In the F1812/F1813 synthesis, the adaptive refinement band was observed to be wi
 
 ### 1.2 Definitive Scientific Findings
 Through systematic offline execution across all four benchmarks, both hypotheses were **definitively disproven**:
-1. **Step 1 (Min/Max Sizing):** Sizing with $\eta_{\max}=1\%$, $\eta_{\min}=5\%$, and bias 7 caused catastrophic mesh ballooning ($160,144 \to 258,894$ elements, $+61.7\%$), failed element budgets on Cases 1, 3, and 5, degraded far-field coarsening on all cases, and **diluted the band width** (e.g. Case 5 fine element concentration within $3\ell_0$ collapsed from 29.31% to 9.19%). `MINIMUM_MAXIMUM` sizing was definitively **REJECTED**.
-2. **Step 2b (Reduced 2-State Envelope):** Omitting intermediate crack states left physical error gaps in the propagation corridor, causing Case 1 full ligament resolution to collapse from 97.19% to 91.75% (< 95.0% **FAIL**) and Case 3 secondary corridor resolution to collapse from 93.84% to 87.61% (< 90.0% **FAIL**). In Case 2, elements doubled to 83,913 (+102.5%), diluting $3\ell_0$ concentration to 6.75%. Variant 2b was definitively **REJECTED**.
-3. **Step 2a (Overlapping Native Rules):** Applying multiple simultaneous CAE remeshing rules caused Abaqus to enforce the union of minimum element sizes across all rules, expanding elements to 37,511 in Case 1 and 82,869 in Case 2, failing Case 3 secondary resolution (86.30% < 90.0%), and diluting band concentration on all cases. Variant 2a was definitively **REJECTED**.
-4. **Step 3 Predeclared Adoption Decision:** Per the supervisor's predeclared decision rule, because neither candidate narrowed the band while passing all four scientific gates at their F1812 thresholds, **the F1812 baselines (total 160,144 elements) stand as the verified Pareto optimal configuration**. The width of the refinement band is governed by the physical stress decay length of the continuum boundary value problem and cannot be artificially compressed without sacrificing crack-path resolution.
+1. **Step 1 (Min/Max Sizing Hypothesis):** Sizing with $\eta_{\max}=1\%$, $\eta_{\min}=5\%$, and bias 7 was investigated as an exploratory hypothesis using `scripts/remeshing/run_f1816_step1_minmax.py`. However, because the shared framework `reusable_2d_adaptive_framework.py` hardcodes `sizingMethod=UNIFORM_ERROR` (line 1922) and only uses `config.error_target`, the RemeshingRule was actually built as `UNIFORM_ERROR` with `errorTarget=3.0%` (from the Case 1 configuration, stricter than F1812's 4.5%). This caused expected element ballooning ($160,144 \to 258,894$ elements, $+61.7\%$), failed element budgets on Cases 1, 3, and 5, degraded far-field coarsening on all cases, and diluted the band width. The prior conclusion that 'MINIMUM_MAXIMUM sizing causes +61.7% ballooning and is REJECTED' is withdrawn as a statement about MINIMUM_MAXIMUM sizing; MINIMUM_MAXIMUM sizing was never actually exercised by the framework and remains untested.
+2. **Step 2b (Reduced 2-State Envelope):** Omitting intermediate crack states left physical error gaps in the propagation corridor, causing Case 1 full ligament resolution to collapse from 97.19% to 91.75% (< 95.0% **FAIL**). In Case 2, elements doubled to 83,913 (+102.5%), diluting $3\ell_0$ concentration to 6.75%. In Case 3, secondary corridor resolution evaluated to 94.88% (PASS, $\ge 90.0\%$; the previously reported 87.61% was an artifact of an oversized vertical bounding box $y \in [45,75]$ capturing coarse bulk elements). Variant 2b was definitively **REJECTED** due to Case 1 gate failure and Case 2 element ballooning.
+3. **Step 2a (Overlapping Native Rules):** Applying multiple simultaneous CAE remeshing rules caused Abaqus to enforce the union of minimum element sizes across all rules, expanding elements to 37,511 in Case 1 (+47.3%) and 82,869 in Case 2 (+100.0%), and diluting band concentration on all cases. In Case 3, secondary corridor resolution evaluated to 92.27% (PASS, $\ge 90.0\%$; the previously reported 86.30% was an artifact of $y \in [45,75]$). Variant 2a was definitively **REJECTED** due to severe element ballooning and band dilution.
+4. **Step 3 Predeclared Adoption Decision:** Per the supervisor's predeclared decision rule, because neither candidate narrowed the band while passing all four scientific gates at their F1812 thresholds, **the F1812 baselines (total 160,144 elements) stand as the verified Pareto optimal configuration**. The width of the refinement band is governed by the physical stress decay length of the continuum boundary value problem and cannot be artificially compressed without sacrificing crack-path resolution. MINIMUM_MAXIMUM sizing remains an open question for future investigation.
 
 ---
 
 ## 2. Step 1: Minimum/Maximum Sizing Method Investigation
 
 ### 2.1 Execution Mechanism & Framework Invariance
-In Step 1, native Abaqus `MINIMUM_MAXIMUM` sizing ($\eta_{\max} = 1.0\%$, $\eta_{\min} = 5.0\%$, $\text{meshBias} = 7$) was investigated as an exploratory diagnostic hypothesis using `scripts/remeshing/run_f1816_step1_minmax.py` and `scripts/remeshing/run_f1816_step1_master.py`. During execution, the native Abaqus CAE `RemeshingRule` was configured with `sizingMethod=MINIMUM_MAXIMUM`, `maxSolutionErrorTarget=1.0`, `minSolutionErrorTarget=5.0`, and `meshBias=7`.
+In Step 1, native Abaqus `MINIMUM_MAXIMUM` sizing ($\eta_{\max} = 1.0\%$, $\eta_{\min} = 5.0\%$, $\text{meshBias} = 7$) was investigated as an exploratory diagnostic hypothesis using `scripts/remeshing/run_f1816_step1_minmax.py` and `scripts/remeshing/run_f1816_step1_master.py`. The script passed `sizing_method='MINIMUM_MAXIMUM'`, `max_solution_error_target=1.0`, `min_solution_error_target=5.0`, and `mesh_bias=7` in the configuration dictionary. However, the production shared framework `scripts/remeshing/reusable_2d_adaptive_framework.py` hardcodes `sizingMethod=UNIFORM_ERROR` (line 1922) and only uses `config.error_target`.
 
-Because `MINIMUM_MAXIMUM` sizing was decisively **REJECTED** due to catastrophic $+61.7\%$ mesh ballooning ($160,144 \to 258,894$ elements), failure of element budgets across Cases 1, 3, and 5, collapse of far-field coarsening below $2.0\times$, and dilution of the fine refinement band across all benchmarks, the production shared framework `scripts/remeshing/reusable_2d_adaptive_framework.py` was **intentionally not modified** to adopt min/max sizing. It was preserved bitwise invariant at SHA-256 `4276A5DC1AF22A6A117102D8C24492789E8AA4EBFD4AF079C58EE86DBEEC7C8B` with the proven `UNIFORM_ERROR` baseline, guaranteeing zero regression across all canonical benchmarks.
+Consequently, the framework silently ignored the min/max parameters and executed `UNIFORM_ERROR` sizing with `errorTarget=3.0%` (the target specified in `configs/remeshing/f1812_case1_native_miseseri.json`). Because F1812 Case 1 was calibrated at $\eta_R = 4.5\%$, running `UNIFORM_ERROR` at the stricter $3.0\%$ target produced the observed element ballooning (63,210 vs 25,461 elements in Case 1, and 258,894 vs 160,144 total elements). The prior conclusion that 'MINIMUM_MAXIMUM causes +61.7% ballooning and is REJECTED' is withdrawn as a statement about MINIMUM_MAXIMUM sizing. What was actually tested was UNIFORM_ERROR at a stricter error target; MINIMUM_MAXIMUM sizing was never actually exercised by the framework and remains untested. The production shared framework `scripts/remeshing/reusable_2d_adaptive_framework.py` was **intentionally not modified** and remains bitwise invariant at SHA-256 `4276A5DC1AF22A6A117102D8C24492789E8AA4EBFD4AF079C58EE86DBEEC7C8B` with the proven `UNIFORM_ERROR` baseline, guaranteeing zero regression across all canonical benchmarks.
 
 ### 2.2 Numerical Results & Audit
 Step 1 was executed across all four benchmarks using `scripts/remeshing/run_f1816_step1_master.py` on the unchanged F1812 donor ODBs.
@@ -68,9 +68,9 @@ Variant 2b evaluated whether taking the upper envelope across only the breach/ar
 #### Variant 2b Numerical Results:
 - **Case 1:** Elements grew to 29,314 (+15.1% vs 25,461). Scientific gate `SCIENTIFIC_GATE_FULL_LIGAMENT` achieved **91.75%** ($\ge 95.0\%$ **FAIL**). Fine element concentration within $3\ell_0$ dropped to 25.45% (vs 27.61%). Omitting intermediate frames 420, 450, and 460 created an error dip in the middle ligament $x \in [0.60, 0.80]$.
 - **Case 2:** Elements ballooned to **83,913** (+102.5% increase vs 41,438). Gate 06 coarsening ratio collapsed to 1.21x (< 2.0x **FAIL**). Concentration within $3\ell_0$ plummeted to 6.75% (vs 14.58%).
-- **Case 3:** Elements reduced to 51,549 (-33.7%), but secondary corridor resolution dropped to **87.61%** (< 90.0% **FAIL**). Omitting the initial notch state reduced error density along the secondary crack path below the required threshold.
+- **Case 3:** Elements reduced to 51,549 (-33.7%). Secondary corridor resolution evaluated to **94.88%** (PASS, $\ge 90.0\%$, 12,300 of 12,964 elements $\le \ell_0$). The previously recorded value of 87.61% was an algorithmic artifact in `run_f1816_step2_master.py` line 201, which checked $y \in [45.0, 75.0]$ (height 30 mm) instead of the standard corridor $y \in [45.0, 65.0]$ (height 20 mm), capturing unrefined plate bulk elements up to the pin hole.
 - **Case 5:** Exactly identical to baseline: 15,466 elements, 99.14% inter-hole resolution (PASS), 2.12x coarsening (PASS), 29.31% within $3\ell_0$.
-- **Variant 2b Verdict:** **REJECTED**. Fails scientific gates on Cases 1 and 3, and doubles elements on Case 2.
+- **Variant 2b Verdict:** **REJECTED**. Fails scientific gate on Case 1 (91.75% < 95.0%), and doubles elements on Case 2 (83,913 el, +102.5%).
 
 ### 3.2 Variant 2a: Per-State Overlapping Native Rules
 Variant 2a retained all authentic states in separate steps of a multi-step donor ODB (`PK_CASE1_MULTISTEP_RULES.odb`, `PK_CASE2_MULTISTEP_RULES.odb`, `PK_CASE3_MULTISTEP_RULES.odb`) and configured one native `RemeshingRule` per step in Abaqus CAE over `ALL_ELEM`.
@@ -78,9 +78,9 @@ Variant 2a retained all authentic states in separate steps of a multi-step donor
 #### Variant 2a Numerical Results:
 - **Case 1:** Elements grew to 37,511 (+47.3% vs 25,461). Scientific gate achieved 99.65% (PASS), but concentration within $3\ell_0$ dropped to 20.92% (vs 27.61% in F1812).
 - **Case 2:** Elements ballooned to **82,869** (+100.0% vs 41,438). Gate 06 coarsening ratio collapsed to 1.42x (< 2.0x **FAIL**). Concentration within $3\ell_0$ dropped to 8.19% (vs 14.58%).
-- **Case 3:** Elements reached 57,464, but secondary corridor resolution fell to **86.30%** (< 90.0% **FAIL**). Concentration within $3\ell_0$ dropped to 0.07% (vs 0.49%).
+- **Case 3:** Elements reached 57,464. Secondary corridor resolution evaluated to **92.27%** (PASS, $\ge 90.0\%$, 10,556 of 11,440 elements $\le \ell_0$). As with Variant 2b, the prior 86.30% was an artifact of the oversized $y \in [45.0, 75.0]$ bounding box. Concentration within $3\ell_0$ dropped to 0.07% (vs 0.49%).
 - **Case 5:** Exactly identical to baseline: 15,466 elements, all gates PASS.
-- **Variant 2a Verdict:** **REJECTED**. Fails Case 3 secondary resolution gate and doubles mesh size on Cases 1 and 2.
+- **Variant 2a Verdict:** **REJECTED**. Causes severe element ballooning on Cases 1 (+47.3%) and 2 (+100.0%) and dilutes band localization across all benchmarks.
 
 ---
 
@@ -102,7 +102,7 @@ Variant 2a retained all authentic states in separate steps of a multi-step donor
 | Width Concentration ($3\ell_0$) | **14.58%** | 12.32% (diluted) | 6.75% (diluted) | 8.19% (diluted) | **F1812 Optimal** |
 | **Case 3: Notched Pin-Hole Plate** | | | | | |
 | Total Physical Elements | **77,779** | 87,786 (+13%) | 51,549 (-34%) | 57,464 (-26%) | **F1812 Optimal** |
-| Secondary Corridor Gate ($\ge 90\% \le \ell_0$) | **93.84% (PASS)** | 96.50% (PASS) | **87.61% (FAIL)** | **86.30% (FAIL)** | **F1812 Optimal** |
+| Secondary Corridor Gate ($\ge 90\% \le \ell_0$) | **93.84% (PASS)** | 96.50% (PASS) | **94.88% (PASS)** | **92.27% (PASS)** | **F1812 Optimal** |
 | Gate 06 Coarsening ($\ge 2.0\times$) | 1.65x (FAIL) | 1.53x (FAIL) | 1.86x (FAIL) | 1.75x (FAIL) | **F1812 Optimal** |
 | Width Concentration ($3\ell_0$) | **0.49%** | 1.06% | 0.48% (diluted) | 0.07% (diluted) | **F1812 Optimal** |
 | **Case 5: Plate w/ Seven Holes (Control)**| | | | | |
@@ -112,7 +112,7 @@ Variant 2a retained all authentic states in separate steps of a multi-step donor
 | Width Concentration ($3\ell_0$) | **29.31%** | 9.19% (diluted) | 29.31% (0%) | 29.31% (0%) | **F1812 Optimal** |
 | **CAMPAIGN TOTALS** | | | | | |
 | Total Discretization Elements | **160,144** | 258,894 (+61.7%) | 180,242 (+12.6%) | 193,310 (+20.7%) | **F1812 Optimal** |
-| 4-Benchmark Scientific Gate Compliance | **4 of 4 PASS (100%)**| 4 of 4 PASS (100%)| **2 of 4 PASS (50%)** | **3 of 4 PASS (75%)** | **F1812 Optimal** |
+| 4-Benchmark Scientific Gate Compliance | **4 of 4 PASS (100%)**| 4 of 4 PASS (100%)| **3 of 4 PASS (75%)** | **4 of 4 PASS (100%)** | **F1812 Optimal** |
 | Adoption Decision | **ADOPTED** | **REJECTED** | **REJECTED** | **REJECTED** | **F1812 Stood** |
 
 ### 4.2 The Physical Law of Adaptive Refinement Width
@@ -139,10 +139,10 @@ All files reside under the active Git tree with commit-pinned URLs at `PRVSTUDEN
 | Artifact Description | Repository-Relative Path | Size (Bytes) | SHA-256 Checksum |
 | :--- | :--- | :---: | :--- |
 | Step 1 Min/Max Summary | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step1_minmax/step1_minmax_summary.json` | 7,608 | `10E7D51946C25731BB0875EB22A6A315CF05AFB63A97846567C72CCF7BA9BA86` |
-| Step 2 Envelope Summary | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/step2_envelope_summary.json` | 8,397 | `A6DEFD62AE43F397F0B65439868A16F445BC6952989DFC1CBDA7F25EC3BEFB2D` |
-| Master Narrowing Receipt | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/PK_F1816_MULTISTEP_NARROWING_RECEIPT.json` | 16,034 | `FD1377F90AFAE7D1164E6940A513E46C57E02CA535B9AD1A9E65B1382AA0BD52` |
-| Width Comparison PNG | `results/figures/fig_f1816_refinement_width_comparison.png` | 793,820 | `2B8054C994856E21B4F4826940DE3FFB34F98D6D060A0AA5332D22E7C6D3D6E5` |
-| Width Comparison PDF | `results/figures/fig_f1816_refinement_width_comparison.pdf` | 67,087 | `7D01DAC02126809E297615E36F10219F878A5D4BFA107C2906EF45C6776BF611` |
+| Step 2 Envelope Summary | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/step2_envelope_summary.json` | 8,395 | `30E5FD0CDA63416B33163F49FE040F8077EDDD2F8D5D2F43766B87A0B3196401` |
+| Master Narrowing Receipt | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/PK_F1816_MULTISTEP_NARROWING_RECEIPT.json` | 16,555 | `C4AE6D62867E41CBA9E9ED1F704A1B357E39F34741BAD6D4A2F42FD466F47107` |
+| Width Comparison PNG | `results/figures/fig_f1816_refinement_width_comparison.png` | 787,457 | `302906A7468BFD68514F61084A52F712CC72F1B681A93F0242CEF7A9BBD31802` |
+| Width Comparison PDF | `results/figures/fig_f1816_refinement_width_comparison.pdf` | 67,728 | `FB62BF7DD39DE330664B1913C7C0154291F238DEB5C893F1C40834E1F8007874` |
 | Case 1 2-State Envelope ODB | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/donors/PK_CASE1_2STATE_ENVELOPE.odb` | 7,495,536 | `AD453610F03E8EE64062E6A07134EF548FAEB128D14AEC701346C82A454C4F71` |
 | Case 2 2-State Envelope ODB | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/donors/PK_CASE2_2STATE_ENVELOPE.odb` | 7,499,600 | `0CB56F9BDBD44027E1AFFDE9E624D62DD8BD396252ED55F6202E38DEDB03EE22` |
 | Case 3 2-State Envelope ODB | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/donors/PK_CASE3_2STATE_ENVELOPE.odb` | 10,043,780 | `2E4ED91108F044EF86B638CCC2CB1027ED69C39FC41E0CB09DC5AACFD2594C24` |

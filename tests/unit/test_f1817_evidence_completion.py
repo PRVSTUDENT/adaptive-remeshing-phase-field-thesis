@@ -210,10 +210,10 @@ class TestF1817EvidenceCompletion(unittest.TestCase):
         self.assertIn("10E7D51946C25731BB0875EB22A6A315CF05AFB63A97846567C72CCF7BA9BA86", content,
                       "Report must contain actual Step 1 summary hash")
         self.assertIn("7,608", content, "Report must contain actual Step 1 summary byte size")
-        self.assertIn("A6DEFD62AE43F397F0B65439868A16F445BC6952989DFC1CBDA7F25EC3BEFB2D", content,
+        self.assertIn("30E5FD0CDA63416B33163F49FE040F8077EDDD2F8D5D2F43766B87A0B3196401", content,
                       "Report must contain actual Step 2 summary hash")
-        self.assertIn("8,397", content, "Report must contain actual Step 2 summary byte size")
-        self.assertIn("FD1377F90AFAE7D1164E6940A513E46C57E02CA535B9AD1A9E65B1382AA0BD52", content,
+        self.assertIn("8,395", content, "Report must contain actual Step 2 summary byte size")
+        self.assertIn("C4AE6D62867E41CBA9E9ED1F704A1B357E39F34741BAD6D4A2F42FD466F47107", content,
                       "Report must contain actual receipt hash")
         
         # Verify section 2.1 framework invariance explanation
@@ -251,7 +251,7 @@ class TestF1817EvidenceCompletion(unittest.TestCase):
         self.assertFalse(d2["variant_2b_reduced"]["case_1"]["scientific_gate"]["pass"])
         self.assertEqual(d2["variant_2b_reduced"]["case_2"]["elements"], 83913)
         self.assertEqual(d2["variant_2b_reduced"]["case_3"]["elements"], 51549)
-        self.assertFalse(d2["variant_2b_reduced"]["case_3"]["scientific_gate"]["pass"])
+        self.assertTrue(d2["variant_2b_reduced"]["case_3"]["scientific_gate"]["pass"], "Case 3 Var 2b secondary gate passes at 94.88%")
         self.assertEqual(d2["variant_2b_reduced"]["case_5"]["elements"], 15466)
         self.assertTrue(d2["variant_2b_reduced"]["case_5"]["scientific_gate"]["pass"])
         
@@ -259,7 +259,7 @@ class TestF1817EvidenceCompletion(unittest.TestCase):
         self.assertEqual(d2["variant_2a_overlapping"]["case_1"]["elements"], 37511)
         self.assertEqual(d2["variant_2a_overlapping"]["case_2"]["elements"], 82869)
         self.assertEqual(d2["variant_2a_overlapping"]["case_3"]["elements"], 57464)
-        self.assertFalse(d2["variant_2a_overlapping"]["case_3"]["scientific_gate"]["pass"])
+        self.assertTrue(d2["variant_2a_overlapping"]["case_3"]["scientific_gate"]["pass"], "Case 3 Var 2a secondary gate passes at 92.27%")
         self.assertEqual(d2["variant_2a_overlapping"]["case_5"]["elements"], 15466)
         self.assertTrue(d2["variant_2a_overlapping"]["case_5"]["scientific_gate"]["pass"])
 
