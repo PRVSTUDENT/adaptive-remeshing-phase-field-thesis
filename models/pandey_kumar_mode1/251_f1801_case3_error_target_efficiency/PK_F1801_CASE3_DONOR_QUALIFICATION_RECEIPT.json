@@ -1,0 +1,59 @@
+{
+  "task_id": "F1801-CASE3-NATIVE-MISESERI-ERROR-TARGET-EFFICIENCY-TEST",
+  "donor_file": "PK_SEC43_PRECRITICAL_RECOVERY.odb",
+  "donor_path": "models/pandey_kumar_mode1/250_f1800_case3_precritical_remesh/PK_SEC43_PRECRITICAL_RECOVERY.odb",
+  "donor_sha256": "02663A609E96670F41774C153AB31D75C6F170CFFA41E5B99DD3DD036610929B",
+  "donor_size_bytes": 1498500,
+  "git_tracking_status": "EXCLUDED_FROM_GIT_TRACKING_PER_REPOSITORY_BINARY_POLICY_PRESERVED_ON_LOCAL_DISK",
+  "benchmark_case": "case_3",
+  "benchmark_geometry": "Pandey & Kumar (2025) Section 4.3 Notched Plate with Central Hole and Pins (65x120 mm)",
+  "mesh_topology": {
+    "num_nodes": 4040,
+    "num_elements": 3923,
+    "element_types": [
+      "CPE4",
+      "CPE3"
+    ]
+  },
+  "step_name": "RECOVERY_STEP",
+  "step_procedure": "*STATIC",
+  "frame_index": 1,
+  "frame_time": 1.0,
+  "total_frames_in_step": 2,
+  "is_causal_preanalysis": true,
+  "causal_verification": {
+    "causal_mode": true,
+    "max_frame_index": 1,
+    "max_frame_time": 1.0,
+    "donor_frames_count": 2,
+    "temporal_horizon_enforced": true
+  },
+  "donor_state_characterization": {
+    "prescribed_displacement_uy_mm": 0.05,
+    "physical_regime": "PRE_INITIATION_LINEAR_ELASTIC_RECOVERY",
+    "material_modulus_kn_per_mm2": 210.0,
+    "material_modulus_mpa": 210000.0,
+    "stress_unit": "kN/mm^2 (GPa)",
+    "displacement_relative_to_initiation": "50.0% of crack initiation threshold (uy_init approx 0.10 mm)",
+    "donor_context_note": "Nominally pre-initiation linear-elastic continuum stress recovery donor under vertical pin-pull tension, preserving uncracked state prior to localization."
+  },
+  "indicator_field": "MISESERI",
+  "normalization_field": "MISESAVG",
+  "num_elements_with_indicator": 3923,
+  "stress_unit": "kN/mm^2 (GPa)",
+  "miseseri_stats_kn_per_mm2": {
+    "min": 1.8326532881474122e-05,
+    "max": 0.1780245453119278,
+    "mean": 0.002049754889998112,
+    "median": 0.001039214082993567,
+    "p90": 0.0042045461013913155,
+    "p99": 0.01644887588918209,
+    "nonzero_count": 3923
+  },
+  "misesavg_stats_kn_per_mm2": {
+    "min": 3.4904016501968727e-05,
+    "max": 0.43039968609809875,
+    "mean": 0.055785032131127656
+  },
+  "qualification_status": "QUALIFIED_AUTHENTIC_PRECRITICAL_NATIVE_DONOR"
+}

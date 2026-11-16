@@ -149,7 +149,10 @@ def test_f1800_governance_invariants():
     assert os.path.exists(ACTIVE_TASK_PATH), "ACTIVE_TASK.json missing"
     with open(ACTIVE_TASK_PATH, "r", encoding="utf-8") as f:
         data = json.load(f)
-    assert data["task_id"] == "F1800-CASE3-PRECRITICAL-NATIVE-MISESERI-SCALE-AND-CAUSAL-REMESH-TEST"
+    assert data["task_id"] in [
+        "F1800-CASE3-PRECRITICAL-NATIVE-MISESERI-SCALE-AND-CAUSAL-REMESH-TEST",
+        "F1801-CASE3-NATIVE-MISESERI-ERROR-TARGET-EFFICIENCY-TEST"
+    ]
     assert data["max_new_pbs_submissions"] == 0
     assert data["submissions_consumed"] == 0
     assert data["cumulative_pbs_submissions"] == 35

@@ -1,0 +1,127 @@
+{
+  "task_id": "F1801-CASE3-NATIVE-MISESERI-ERROR-TARGET-EFFICIENCY-TEST",
+  "benchmark_case": "case_3",
+  "benchmark_title": "Pandey & Kumar (2025) Section 4.3 Notched Plate with Central Hole and Pins",
+  "donor_odb": "PK_SEC43_PRECRITICAL_RECOVERY.odb",
+  "donor_sha256": "02663A609E96670F41774C153AB31D75C6F170CFFA41E5B99DD3DD036610929B",
+  "causal_horizon": {
+    "step_name": "RECOVERY_STEP",
+    "frame_index": 1,
+    "frame_time": 1.0,
+    "causal_mode": true,
+    "prescribed_displacement_uy_mm": 0.05,
+    "runtime_assertion_verified": true
+  },
+  "material_unit_reconciliation": {
+    "youngs_modulus_kn_per_mm2": 210.0,
+    "youngs_modulus_mpa": 210000.0,
+    "stress_unit": "kN/mm^2 (GPa)",
+    "scale_invariance_verified": true
+  },
+  "remeshing_rule": {
+    "error_target_pct": 5.0,
+    "min_element_size_mm": 0.08,
+    "max_element_size_mm": 1.5,
+    "refinement_factor": 10,
+    "sizing_method": "UNIFORM_ERROR",
+    "variable": "MISESERI"
+  },
+  "physical_mesh": {
+    "filename": "PK_F1801_CASE_3_ADAPT_PHYS.inp",
+    "sha256": "D3D4B876D76613611DB9B7DCF8BF48B5CE489DBB7D6A032BC92F5D329E6B96A4",
+    "mesh_body_sha256": "AF53DCD3E2877FDA3ABB4271CB275D73E16D802D9CC32593EC25C6D234581BB1",
+    "size_bytes": 622577,
+    "total_nodes": 9351,
+    "total_elements": 9209,
+    "quad_count": 8928,
+    "tri_count": 281,
+    "quad_percent": 96.94863720273645,
+    "min_det_j": 0.0022598398339236745,
+    "non_positive_jacobians": 0,
+    "zero_negative_jacobians": true,
+    "max_aspect_ratio": 2.6849348880304955,
+    "median_aspect_ratio": 1.2472528139935535,
+    "min_corner_angle_deg": 28.03088314450736,
+    "max_corner_angle_deg": 139.1978525379708,
+    "ar_violations_gt_4": 0
+  },
+  "spatial_resolution": {
+    "l0_mm": 0.285,
+    "l0_half_mm": 0.1425,
+    "primary_corridor_notch_to_hole": {
+      "count": 1586,
+      "mean_mm": 0.5674381566295171,
+      "min_mm": 0.0761252186882996,
+      "max_mm": 1.5474599163301777,
+      "pct_le_l0": 21.31,
+      "pct_le_l0_half": 3.91
+    },
+    "secondary_corridor_hole_to_boundary": {
+      "count": 375,
+      "mean_mm": 0.999985281568296,
+      "min_mm": 0.30017327680978745,
+      "max_mm": 1.793322024748012,
+      "pct_le_l0": 0.0,
+      "pct_le_l0_half": 0.0
+    },
+    "far_field_background": {
+      "count": 1181,
+      "mean_mm": 1.26774279651734,
+      "min_mm": 0.4456247613846196,
+      "max_mm": 1.8329760616756525,
+      "pct_le_l0": 0.0,
+      "pct_le_l0_half": 0.0
+    },
+    "far_to_core_coarsening_ratio": 2.23
+  },
+  "pareto_tradeoff_vs_f1800": {
+    "error_target_f1800_pct": 3.0,
+    "error_target_f1801_pct": 5.0,
+    "elements_f1800": 27014,
+    "elements_f1801": 9209,
+    "delta_elements": -17805,
+    "element_reduction_pct": 65.91,
+    "primary_pct_le_l0_f1800": 57.57,
+    "primary_pct_le_l0_f1801": 21.31,
+    "primary_resolution_change_pct": 36.26,
+    "secondary_pct_le_l0_f1800": 1.24,
+    "secondary_pct_le_l0_f1801": 0.0,
+    "coarsening_ratio_f1800": 3.11,
+    "coarsening_ratio_f1801": 2.23,
+    "quad_percent_f1800": 97.13,
+    "quad_percent_f1801": 96.94863720273645
+  },
+  "historical_baselines_comparison": {
+    "f1800_precritical_3pct": {
+      "elements": 27014,
+      "delta_elements": -17805,
+      "is_body_identical": false
+    },
+    "f1799_late_3pct": {
+      "elements": 26891,
+      "delta_elements": -17682
+    },
+    "historical_f1741_explosion": {
+      "elements": 28933,
+      "delta_elements": -19724,
+      "reduction_percent": 68.17
+    },
+    "historical_f1780_benchmark": {
+      "elements": 10064,
+      "delta_elements": -855
+    },
+    "published_literature_target": {
+      "elements": 12168,
+      "delta_elements": -2959
+    }
+  },
+  "quality_gates": {
+    "GATE_01_NATIVE_EXECUTION_EXIT_0": "PASS",
+    "GATE_02_QUAD_FRACTION_GE_90_PCT": "PASS",
+    "GATE_03_ZERO_NEGATIVE_JACOBIANS": "PASS",
+    "GATE_04_ASPECT_RATIO_LE_4": "PASS",
+    "GATE_05_PRIMARY_CORRIDOR_RESOLUTION": "FAIL",
+    "GATE_06_FAR_FIELD_COARSENING": "PASS",
+    "GATE_07_EFFICIENCY_VS_HISTORICAL_EXPLOSION": "PASS"
+  }
+}

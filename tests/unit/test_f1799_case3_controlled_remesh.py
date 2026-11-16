@@ -244,7 +244,8 @@ def test_f1799_governance_invariants():
         data = json.load(f)
     assert data["task_id"] in (
         "F1799-CASE3-CAUSAL-CONFIG-AND-PHYSICAL-DONOR-CONTROLLED-REMESH",
-        "F1800-CASE3-PRECRITICAL-NATIVE-MISESERI-SCALE-AND-CAUSAL-REMESH-TEST"
+        "F1800-CASE3-PRECRITICAL-NATIVE-MISESERI-SCALE-AND-CAUSAL-REMESH-TEST",
+        "F1801-CASE3-NATIVE-MISESERI-ERROR-TARGET-EFFICIENCY-TEST"
     )
     assert data["max_new_pbs_submissions"] == 0
     assert data["submissions_consumed"] == 0
