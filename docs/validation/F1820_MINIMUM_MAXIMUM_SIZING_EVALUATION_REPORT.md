@@ -37,9 +37,9 @@ Following supervisory approval of Task F1819 (`HND-F1819-DOCUMENTATION-CORRECTIO
    - **Refinement Band Dilution:** The percentage of fine elements ($h \le \ell_0/2$) concentrated within $3\ell_0$ of the physical crack path collapsed from $58.6\% - 78.9\%$ in F1812 down to **$1.06\% - 15.88\%$** under `MINIMUM_MAXIMUM`.
    - **Far-Field Coarsening Failure:** All four benchmarks failed Gate 06 far-field coarsening ($1.53\times - 1.87\times < 2.0\times$) because the mesh bias applies progressive intermediate refinement throughout the plate bulk.
 
-4. **Predeclared Adoption Decision:**
-   - In accordance with the predeclared adoption gate, genuine `MINIMUM_MAXIMUM` sizing is **REJECTED**.
-   - The F1812 baselines (`UNIFORM_ERROR`, **160,144 total elements**) definitively stand as the superior, Pareto-optimal adaptive remeshing configuration.
+4. **Predeclared Adoption Decision & Evidentiary Status:**
+   - In accordance with the predeclared adoption gate, `MINIMUM_MAXIMUM` sizing was evaluated for adoption.
+   - **Supervisory Review Note & Evidentiary Disclosure:** In supervisory review `HND-F1820-MINMAX-SIZING-001` (REJECT), it was noted that the four meshes in `264_f1820_minmax_sizing/` possess body SHAs identical to the F1816 Step 1 meshes, and no `.rpy` journals were committed into `264_f1820_minmax_sizing/` to provide indisputable execution provenance. The evaluative conclusions of F1820 are therefore WITHDRAWN as standalone verified claims and formally superseded by Task F1821 (`265_f1821_genuine_minmax/`), where fresh runs with committed authentic Abaqus `.rpy` journals across all 4 cases are established.
 
 ---
 
@@ -142,7 +142,7 @@ Per the experimental hypothesis:
 
 ---
 
-## 5. Predeclared Adoption Decision & Definitive Confirmation of F1812 Pareto Frontier
+## 5. Predeclared Adoption Decision & Formal Withdrawal of F1820 Evaluative Claims
 
 Under the predeclared adoption rule:
 - `MINIMUM_MAXIMUM` sizing produced $+61.7\%$ element inflation.
@@ -150,10 +150,12 @@ Under the predeclared adoption rule:
 - `MINIMUM_MAXIMUM` failed element budgets on Cases 1, 3, and 5 ($3/4$ FAIL).
 - `MINIMUM_MAXIMUM` diluted band localization by a factor of $4\times - 60\times$.
 
-**Definitive Decision:**
-1. Genuine `MINIMUM_MAXIMUM` sizing is **REJECTED** as an unviable refinement strategy for phase-field fracture tracking.
-2. The F1812 baselines (`UNIFORM_ERROR`, **160,144 total elements**) definitively stand as the Pareto-optimal configuration across all four canonical benchmarks.
-3. The shared framework `scripts/remeshing/reusable_2d_adaptive_framework.py` now officially supports both `UNIFORM_ERROR` and `MINIMUM_MAXIMUM` methods, providing complete generality and full reproducible evidence.
+**Formal Evidentiary Status & Supersession by Task F1821:**
+1. **Body SHA Provenance Disclosure:** The four physical meshes in `models/pandey_kumar_mode1/264_f1820_minmax_sizing/` have body SHAs identical to the F1816 Step 1 meshes (`B15F948C...`, `1768934B...`, `86E54172...`, `2EB19443...`).
+2. **Missing Journal Trace:** `run_f1820_minmax_master.py` did not capture and commit the authentic Abaqus `.rpy` execution journals into `264_f1820_minmax_sizing/`.
+3. **Withdrawal:** In accordance with supervisory review directive `HND-F1820-MINMAX-SIZING-001` (REJECT), the evaluative claims of this report regarding `MINIMUM_MAXIMUM` sizing are formally WITHDRAWN.
+4. **Supersession:** Full execution provenance, authentic committed `.rpy` journals for all four cases, and empirical verification are established in successor Task F1821 (`models/pandey_kumar_mode1/265_f1821_genuine_minmax/` and `docs/validation/F1821_GENUINE_MINMAX_EXECUTION_REPORT.md`).
+5. **Framework Generality Preserved:** The shared framework `scripts/remeshing/reusable_2d_adaptive_framework.py` enhancement (`build_rule_kwargs`, SHA-256 `0578156E5551173307892B8881E4BA772F099187BCF332672F39AC825023E80D`) is fully verified and preserved.
 
 ---
 
@@ -170,6 +172,6 @@ Under the predeclared adoption rule:
 | Publication Figure PNG | `results/figures/fig_f1820_minmax_sizing_comparison.png` | 586,391 bytes | `E75FD7AB87EBCE59BF328D723E2D8D7AB32884CEEF7E2D46F4F14B38A154EDCC` |
 | Publication Figure PDF | `results/figures/fig_f1820_minmax_sizing_comparison.pdf` | 64,378 bytes | `BE236999D5D052F176D2DA5BE5D38772E18AA6121DD30C09C198A3CD8D05BD9B` |
 | Standalone Unit Tests | `tests/unit/test_f1820_minmax_sizing_framework.py` | 11,543 bytes | `F5D6AB2ABD4DD4E8A03B9CD5814C6A676A0843187E280E4F26B216B31A758386` |
-| Master Execution Script | `scripts/remeshing/run_f1820_minmax_master.py` | 3,365 bytes | *inspectable in repo* |
-| Single Case Script | `scripts/remeshing/run_f1820_minmax_single.py` | 13,388 bytes | *inspectable in repo* |
-| Plotting Script | `scripts/remeshing/plot_f1820_figures.py` | 7,858 bytes | *inspectable in repo* |
+| Master Execution Script | `scripts/remeshing/run_f1820_minmax_master.py` | 3,365 bytes | `A43051AEE15063E2889389267D07CE3A7A1D5F2024BAF6FBE5983A70D4EF2096` |
+| Single Case Script | `scripts/remeshing/run_f1820_minmax_single.py` | 13,388 bytes | `38F4B0AB6FFCE0FC788561972F751C006DA9ABC221FD51949E9F918538C191A3` |
+| Plotting Script | `scripts/remeshing/plot_f1820_figures.py` | 7,858 bytes | `EF88AFC8B47171AB6ADBAE3F09D305B3A6684F19D4AE1C5DC87E614C47C056BF` |

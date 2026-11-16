@@ -188,7 +188,10 @@ class TestF1820MinMaxSizingFramework(unittest.TestCase):
         self.assertEqual(data.get("cumulative_pbs_submissions"), 35)
         self.assertEqual(data.get("max_new_pbs_submissions"), 0)
         self.assertEqual(data.get("submissions_consumed"), 0)
-        self.assertEqual(data.get("task_id"), "F1820-MINIMUM-MAXIMUM-SIZING-FRAMEWORK-ENHANCEMENT-AND-EVALUATION")
+        self.assertIn(data.get("task_id"), [
+            "F1820-MINIMUM-MAXIMUM-SIZING-FRAMEWORK-ENHANCEMENT-AND-EVALUATION",
+            "F1821-GENUINE-MINIMUM-MAXIMUM-EXECUTION-AND-F1820-CORRECTION"
+        ])
 
     def test_08_f1820_receipt_and_summary_exist(self):
         """F1820 receipt and summary JSON files must exist with verified hashes."""

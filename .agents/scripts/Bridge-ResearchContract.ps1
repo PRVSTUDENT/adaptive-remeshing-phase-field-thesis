@@ -110,7 +110,7 @@ function Read-BridgeValidatedReply {
     if ($Packet.protocol -ceq 'CHATGPT_SUPERVISOR_V1' -and $reply.action -cnotin @('DIAGNOSE','CONTINUE','WAIT','STOP')) { throw 'BRIDGE_RESPONSE_INVALID_ACTION' }
     if ($reply.master_goal_status -cnotin @('OPEN','COMPLETE')) { throw 'BRIDGE_RESPONSE_MASTER_STATUS_REQUIRED' }
     if ($reply.master_goal_status -ceq 'OPEN') {
-        $nextContract = if ($reply.next_operation) { $reply.next_operation } elseif ($reply.next_instruction_to_antigravity -and $reply.next_instruction_to_antigravity.research_contract) { $reply.next_instruction_to_antigravity.research_contract } else { $null }
+        $nextContract = if ($reply.next_operation -and $reply.next_operation.research_contract) { $reply.next_operation.research_contract } elseif ($reply.next_operation) { $reply.next_operation } elseif ($reply.next_instruction_to_antigravity -and $reply.next_instruction_to_antigravity.research_contract) { $reply.next_instruction_to_antigravity.research_contract } else { $null }
         $contractIdentity = if ($nextContract) { "$($nextContract.task_id) $($nextContract.title)" } else { "" }
         Assert-BridgeResearchContract -Contract $nextContract -Policy $Packet.context.policy -TaskIdentity $contractIdentity
         if ([string]::IsNullOrWhiteSpace([string]$reply.next_instruction_to_antigravity)) { throw 'BRIDGE_RESPONSE_NEXT_INSTRUCTION_REQUIRED' }
