@@ -1,11 +1,11 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "session-2026-11-16-f1807-four-case-regression",
-  "task_id": "F1807-FOUR-CASE-NATIVE-MISESERI-REGRESSION-AND-QUALITY-EVALUATION",
-  "started_at": "2026-11-16T05:50:00+01:00",
-  "starting_commit": "c7128278e",
-  "ended_at": "2026-11-16T06:21:00+01:00",
+  "session_id": "session-2026-11-16-f1808-four-case-reproducibility",
+  "task_id": "F1808-FOUR-CASE-NATIVE-MISESERI-REPRODUCIBILITY-AND-REGRESSION",
+  "started_at": "2026-11-16T06:26:00+01:00",
+  "starting_commit": "86aa2265e",
+  "ended_at": "2026-11-16T06:50:00+01:00",
   "allowed_write_scope": [
     "project_coordination/",
     "docs/validation/",
@@ -17,5 +17,5 @@
     "results/figures/",
     ".agents/"
   ],
-  "notes": "Task F1807 active under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Coordinated four-case native-MISESERI regression across the four canonical registered benchmarks: Cases 1, 2, 3, and 5 (Case 5 is the fourth benchmark, not Case 4). Evaluates same-revision physical mesh generation, mesh quality, critical-region h/l0, and far-field coarsening using frozen shared framework scripts/remeshing/reusable_2d_adaptive_framework.py (99EC77D2...) and frozen UEL (CE8D5EDC...). Cumulative PBS submissions strictly preserved at 35."
+  "notes": "Task F1808 active under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Controlled four-case native-MISESERI reproducibility and regression investigation across Cases 1, 2, 3, 5 following supervisory directive HND-F1807-FOUR-CASE-REGRESSION-001. Audits F1806 vs F1807 Case 2 configuration, execution order, seed state and determinism; executes controlled reproducibility; re-evaluates complete four-case metrics with inspectable artifacts. Cumulative PBS submissions strictly preserved at 35."
 }

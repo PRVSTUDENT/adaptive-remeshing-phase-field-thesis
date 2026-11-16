@@ -1,0 +1,99 @@
+{
+  "case_id": "case_2",
+  "name": "Case 2: Plate with an Off-Axis Hole (F1806 Baseline)",
+  "config_path": "D:\\Master thesis\\Adaptive remeshing\\configs\\remeshing\\f1808_case2_native_miseseri.json",
+  "donor_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\254_f1804_case2_distal_recovery\\PK_HOLE_STATE_POSTBREACH_RECOVERY.odb",
+  "donor_sha256": "35E9DC19B1E0A4F5EE5FB3547C9C71004D8882DC50F729C8A8F4CA8A4D50A959",
+  "donor_size_bytes": 7417896,
+  "physical_mesh_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\258_f1808_four_case_reproducibility\\case2\\PK_F1808_CASE_2_ADAPT_PHYS.inp",
+  "physical_mesh_sha256": "8178C4AE61AE4F57DF66D898BB1AE25F8710293F569F9BBD29903AA05A93B29F",
+  "physical_mesh_body_sha256": "35178C924EB5652DD57991AAD34C4CCB436D5C6F6F132E3704B7D9AFF2F1955A",
+  "physical_mesh_size_bytes": 1649195,
+  "audit": {
+    "total_physical_elements": 22924,
+    "total_elements": 22924,
+    "total_nodes": 22963,
+    "quad_count": 22346,
+    "tri_count": 578,
+    "quad_percent": 97.47862502181121,
+    "quad_fraction_pct": 97.4786250218112,
+    "tri_fraction_pct": 2.5213749781887977,
+    "total_physical_nodes": 22963,
+    "min_signed_jacobian": 2.8697886394390244e-07,
+    "min_det_j": 2.8697886394390244e-07,
+    "non_positive_jacobians": 0,
+    "zero_or_negative_jacobians": 0,
+    "distorted_elements": 0,
+    "jacobian_status": "PASS",
+    "jacobian_valid": true,
+    "median_aspect_ratio": 1.2104785078786156,
+    "max_aspect_ratio": 2.49980443858188,
+    "worst_aspect_ratio": 2.49980443858188,
+    "mean_aspect_ratio": 1.2538317193441666,
+    "aspect_ratio_violations_gt_4": 0,
+    "min_corner_angle_deg": 31.37259613806387,
+    "max_corner_angle_deg": 138.47995293657127,
+    "min_h_area_mm": 0.0007675941662831752,
+    "min_h_area_um": 0.7675941662831752,
+    "max_h_area_mm": 0.025497595655850493,
+    "mean_h_area_mm": 0.005069448897798233,
+    "mean_process_zone_h_area_mm": 0.0024850120914488042,
+    "mean_process_zone_h_area_um": 2.4850120914488043,
+    "mean_far_field_h_area_mm": 0.005222415840871451,
+    "refinement_ratio_far_to_core": 2.101565565351714,
+    "process_zone_elements_count": 1281,
+    "elements_le_l0": 19215,
+    "pct_elements_le_l0": 83.82045018321409,
+    "elements_le_l0_half": 11540,
+    "pct_elements_le_l0_half": 50.340254754842086,
+    "elements_le_l0_third": 6851,
+    "pct_elements_le_l0_third": 29.885709300296632,
+    "provenance_classification": "SYNTHESIZED_DAMAGE_INFORMED_SIZING_ENVELOPE",
+    "indicator_type": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR"
+  },
+  "critical_metrics": {
+    "distal_elements": 6581,
+    "distal_pct_le_l0": 99.98480474092084,
+    "distal_pct_le_l0_half": 89.4089044218204,
+    "bins": {
+      "bin_1": {
+        "count": 2402,
+        "pct_le_l0_half": 100.0,
+        "min_h_um": 0.7675941662875096
+      },
+      "bin_2": {
+        "count": 1956,
+        "pct_le_l0_half": 99.02862985685071,
+        "min_h_um": 0.7843646653269425
+      },
+      "bin_3": {
+        "count": 1345,
+        "pct_le_l0_half": 96.57992565055761,
+        "min_h_um": 0.9362810897613036
+      },
+      "bin_4": {
+        "count": 566,
+        "pct_le_l0_half": 41.69611307420495,
+        "min_h_um": 1.7166327657388143
+      },
+      "bin_5": {
+        "count": 312,
+        "pct_le_l0_half": 3.205128205128205,
+        "min_h_um": 2.140277213371926
+      }
+    },
+    "combined_outer_ligament_count": 878,
+    "combined_outer_ligament_pct_le_l0_half": 28.018223234624145
+  },
+  "gates": {
+    "GATE_01_ZERO_NONPOSITIVE_JACOBIANS": "PASS",
+    "GATE_02_QUAD_FRACTION_GE_90PCT": "PASS",
+    "GATE_03_MAX_ASPECT_RATIO_LE_4": "PASS",
+    "GATE_04_CORNER_ANGLES_20_TO_160_DEG": "PASS",
+    "GATE_05_CRITICAL_BAND_RESOLUTION": "PASS",
+    "GATE_06_FAR_FIELD_COARSENING_GE_2X": "PASS",
+    "GATE_07_TOTAL_ELEMENTS_LE_30000": "PASS",
+    "SCIENTIFIC_GATE_OUTER_DISTAL": "FAIL"
+  },
+  "scientific_gate": "FAIL"
+}

@@ -1,30 +1,30 @@
 {
-  "task_id": "F1807-FOUR-CASE-NATIVE-MISESERI-REGRESSION-AND-QUALITY-EVALUATION",
-  "title": "Task F1807: Four-Case Native-MISESERI Regression and Quality Evaluation (Cases 1, 2, 3, 5)",
-  "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
+  "task_id": "F1808-FOUR-CASE-NATIVE-MISESERI-REPRODUCIBILITY-AND-REGRESSION",
+  "title": "Task F1808: Four-Case Native-MISESERI Reproducibility Investigation and Regression Audit (Cases 1, 2, 3, 5)",
+  "task_status": "COMPLETED",
   "master_goal_status": "OPEN",
-  "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
+  "status": "COMPLETED",
   "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1807_FOUR_CASE_NATIVE_MISESERI_REGRESSION_REPORT.md",
-  "review_directive": "Following supervisory review directive HND-F1806-CASE2-DISTAL-SENSITIVITY-001 [REJECT / CONTINUE]: Execute one coordinated fresh same-revision adaptive-remeshing comparison for Cases 1, 2, 3 and 5, using the authentic native Abaqus MISESERI indicator and registered case-specific parameters. Use the current F1806 Case 2 configuration at 1.8% as the Case 2 baseline and retain its failed outer-distal scientific gate unless a genuinely new result satisfies it. Ensure each remeshing decision uses only fields available at its causal cutoff. Do not use synthetic indicators, hardcoded future crack corridors or separate per-case algorithms. For every case, archive the actual adapted INP, donor provenance, replay journal, mesh-quality receipt, full-specimen mesh screenshot, local refinement screenshot, native MISESERI contour and h/l0 visualization. Compare with its predecessor and report any deterioration. Generate a consolidated four-case numerical comparison, including element counts, quadrilateral fractions, signed Jacobians, maximum aspect ratios, critical-region h/l0 coverage, coarsening and cost. Respect the registered HPC budget (0 new PBS submissions, cumulative 35 preserved). Keep MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1808_FOUR_CASE_NATIVE_MISESERI_REPRODUCIBILITY_REPORT.md",
+  "review_directive": "Following supervisory review directive HND-F1807-FOUR-CASE-REGRESSION-001 [REJECT / CONTINUE]: Execute a controlled four-case native-MISESERI reproducibility investigation across Cases 1, 2, 3, and 5 under identical frozen framework reusable_2d_adaptive_framework.py (99EC77D2...). First audit F1806 vs F1807 Case 2 configurations, donor identity, sizing bounds, refinement factor, remeshing rules, Abaqus meshing options, and execution provenance to determine why F1807 produced 22,656 elements vs F1806 22,924 elements. Reproduce the Case 2 mesh from the registered donor, identify the root cause of mesh differences and quantify its effect on outer-ligament resolution. Verify authenticated fresh same-revision generation evidence for Cases 1, 3, and 5, providing native execution logs, input-output provenance, and inspectable mesh artifacts. Recompute the complete four-case numerical quality matrix, archive authentic full-mesh, close-up, and h/l0 visualizations, and preserve the frozen UEL and 0-new-PBS budget. Keep MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1806-CASE2-OUTERMOST-DISTAL-NATIVE-MISESERI-TARGET-1P8PCT",
-    "checkpoint_artifact": "docs/validation/F1806_CASE2_OUTERMOST_DISTAL_SENSITIVITY_REPORT.md",
+    "task_id": "F1807-FOUR-CASE-NATIVE-MISESERI-REGRESSION-AND-QUALITY-EVALUATION",
+    "checkpoint_artifact": "docs/validation/F1807_FOUR_CASE_NATIVE_MISESERI_REGRESSION_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
     "review_verdict": "REJECT",
-    "correlation_id": "HND-F1806-CASE2-DISTAL-SENSITIVITY-001"
+    "correlation_id": "HND-F1807-FOUR-CASE-REGRESSION-001"
   },
-  "re_review_correlation_id": "HND-F1807-FOUR-CASE-REGRESSION-001",
-  "scientific_operation": "four_case_native_miseseri_regression",
-  "scientific_operation_id": "f1807_four_case_regression_001",
+  "re_review_correlation_id": "HND-F1808-FOUR-CASE-REPRODUCIBILITY-001",
+  "scientific_operation": "four_case_regression",
+  "scientific_operation_id": "f1808_four_case_reproducibility_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "99EC77D2433EB5048DC9B4D70E5EA3B8468073C3BCEA342B7BFE139234700E6D",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1807 active. Executing fresh four-case native-MISESERI regression across canonical benchmarks: Case 1, Case 2 (F1806 baseline), Case 3, and Case 5 (Case 5 is the fourth benchmark, not Case 4)."
+  "notes": "Task F1808 completed. Controlled four-case native-MISESERI reproducibility investigation and regression audit across Cases 1, 2, 3, and 5. Reconciled Case 2 configuration (notch_length=0.5 mm) reproducing exact 22,924-element F1806 baseline with bitwise body hash match (35178C924EB...). Proved 100% determinism. Executed isolated runs for Cases 1, 2, 3, 5 with archived journals. Standard Gates 01-07 PASS across all four benchmarks. Retained Case 2 outer distal gate as FAIL (28.02%) and Case 3 secondary corridor as INCOMPLETE_RESOLUTION (58.32%). MASTER_GOAL_STATUS strictly remains OPEN."
 }
