@@ -1,19 +1,19 @@
 {
   "active": false,
-  "agent": "codex",
-  "session_id": "codex-native-miseseri-efficiency-20261116",
-  "task_id": "CODEX-MISESERI-EFFICIENCY-DIAGNOSIS",
-  "started_at": "2026-11-16T11:33:59.906407+01:00",
-  "starting_commit": "0bab7997ee27045e1ba4add2991514990e92fede",
+  "agent": "gemini-antigravity",
+  "session_id": "gemini-antigravity-f1814-bridge-dispatch-20261116",
+  "task_id": "F1814-SYNTHESIS-LABEL-CORRECTION",
+  "started_at": "2026-11-16T11:42:30+01:00",
+  "starting_commit": "e58e85949becef54637d85499e514e1c4f5f3a19",
   "allowed_write_scope": [
-    "scripts/validation/analyze_miseseri_envelope_efficiency.py",
-    "results/validation/native_miseseri_envelope_efficiency.json",
-    "docs/validation/NATIVE_MISESERI_ENVELOPE_EFFICIENCY_DIAGNOSIS.md",
+    ".agents/scripts/bridge_research_policy.json",
+    ".agents/scripts/dispatch_f1814_label_correction_auth_001.ps1",
     "project_coordination/ACTIVE_SESSION.json",
+    "project_coordination/ACTIVE_TASK.json",
     "project_coordination/TASK_LEDGER.csv",
-    "project_coordination/ARTIFACT_REGISTRY.csv",
-    "project_coordination/sessions/2026-11-16_codex_native_miseseri_efficiency.md"
+    "project_coordination/CURRENT_STATE.md",
+    "project_coordination/sessions/SESSION_20261116_F1814_LABEL_CORRECTION_002.md"
   ],
-  "notes": "User-requested read-only native-donor and Gate06 efficiency diagnosis; no framework/config/UEL edits, solver calls or PBS submissions. Preserve dirty paths and authentic baselines. Diagnosis completed; native sizing comparison pending independent scientific review. No validated framework improvement claimed.",
-  "ended_at": "2026-11-16T11:38:55.597786+01:00"
+  "notes": "Task F1814 OpenClaw PAD Bridge Dispatch and Supervisory Review Monitoring completed. Review verdict APPROVE. Session released. Zero new PBS jobs, bitwise frozen framework and UEL.",
+  "ended_at": "2026-11-16T11:49:50+01:00"
 }
