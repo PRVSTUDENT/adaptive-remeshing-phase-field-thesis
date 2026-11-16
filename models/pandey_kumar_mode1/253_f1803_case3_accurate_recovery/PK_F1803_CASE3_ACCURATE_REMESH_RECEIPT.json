@@ -1,0 +1,125 @@
+{
+  "task_id": "F1803-CASE3-STATE2-DEGRADED-MODULUS-FIDELITY-NATIVE-REMESH",
+  "benchmark_case": "case_3",
+  "donor_used": {
+    "donor_file": "SEC43_STATE2_HIGH_FIDELITY_RECOVERY.odb",
+    "donor_sha256": "965136FD7AE637EFF44DEEDF4D152817037CF3C05656D9D1B6006377038362BB",
+    "prescribed_uy_mm": 0.2,
+    "donor_regime": "STATE_2_HOLE_ARREST_EXACT_DEGRADED_MODULUS",
+    "constitutive_treatment": "Elementwise degraded-elastic recovery model (E_i = 210.0 * [(1 - d_i)^2 + 10^-7] kN/mm^2)",
+    "causal_mode": true,
+    "max_frame_index": 1,
+    "max_frame_time": 1.0
+  },
+  "remeshing_rule": {
+    "error_target_pct": 3.0,
+    "min_element_size_mm": 0.08,
+    "max_element_size_mm": 1.5,
+    "refinement_factor": 10,
+    "sizing_method": "UNIFORM_ERROR",
+    "variable": "MISESERI"
+  },
+  "physical_mesh": {
+    "filename": "PK_F1803_CASE_3_ADAPT_PHYS.inp",
+    "sha256": "A8CFA533697BAF4DF1E787CA46EE496490F39B8DB03F922EF108B729DDC08E4B",
+    "mesh_body_sha256": "46024F3241F0C6C8B7BC1D051D52D1E00F53EFDABF3FFFB9160FD7E937912B9C",
+    "size_bytes": 1925805,
+    "total_nodes": 26856,
+    "total_elements": 26746,
+    "quad_count": 26048,
+    "tri_count": 698,
+    "quad_percent": 97.390263964705,
+    "min_det_j": 0.0007650198281925534,
+    "non_positive_jacobians": 0,
+    "zero_negative_jacobians": true,
+    "max_aspect_ratio": 3.862132362792168,
+    "median_aspect_ratio": 1.2459854390476723,
+    "min_corner_angle_deg": 25.395352902857674,
+    "max_corner_angle_deg": 146.81047515033111,
+    "ar_violations_gt_4": 0
+  },
+  "spatial_resolution": {
+    "l0_mm": 0.285,
+    "l0_half_mm": 0.1425,
+    "primary_corridor_notch_to_hole": {
+      "count": 859,
+      "mean_mm": 0.8227317580082663,
+      "min_mm": 0.2560796836625277,
+      "max_mm": 1.7832807419530994,
+      "pct_le_l0": 0.47,
+      "pct_le_l0_half": 0.0
+    },
+    "secondary_corridor_hole_to_boundary": {
+      "count": 3977,
+      "mean_mm": 0.29620543625866486,
+      "min_mm": 0.07381585939603501,
+      "max_mm": 0.7425592179197839,
+      "pct_le_l0": 54.87,
+      "pct_le_l0_half": 2.44
+    },
+    "far_field_background": {
+      "count": 5119,
+      "mean_mm": 0.47400668923221545,
+      "min_mm": 0.07300564776953965,
+      "max_mm": 1.7978290160789274,
+      "pct_le_l0": 52.96,
+      "pct_le_l0_half": 4.65
+    },
+    "far_to_core_coarsening_ratio": 0.58
+  },
+  "comparative_resolution_vs_f1800_f1801_f1802": {
+    "secondary_pct_le_l0": {
+      "f1800_precritical_3pct": 1.24,
+      "f1801_precritical_5pct": 0.0,
+      "f1802_20bin_state2_3pct": 5.06,
+      "f1803_accurate_state2_3pct": 54.87,
+      "gain_vs_f1802_pct_pts": 49.81,
+      "gain_vs_f1800_pct_pts": 53.63
+    },
+    "secondary_pct_le_l0_half": {
+      "f1800_precritical_3pct": 0.0,
+      "f1801_precritical_5pct": 0.0,
+      "f1802_20bin_state2_3pct": 0.0,
+      "f1803_accurate_state2_3pct": 2.44
+    },
+    "secondary_min_h_mm": {
+      "f1800_precritical_3pct": 0.2234,
+      "f1801_precritical_5pct": 0.3235,
+      "f1802_20bin_state2_3pct": 0.158,
+      "f1803_accurate_state2_3pct": 0.0738,
+      "l0_half_threshold_mm": 0.1425
+    },
+    "secondary_corridor_elements": {
+      "f1800_precritical_3pct": 888,
+      "f1802_20bin_state2_3pct": 1423,
+      "f1803_accurate_state2_3pct": 3977
+    },
+    "primary_pct_le_l0": {
+      "f1800_precritical_3pct": 57.57,
+      "f1801_precritical_5pct": 21.31,
+      "f1802_20bin_state2_3pct": 58.91,
+      "f1803_accurate_state2_3pct": 0.47
+    },
+    "primary_pct_le_l0_half": {
+      "f1800_precritical_3pct": 15.4,
+      "f1801_precritical_5pct": 3.91,
+      "f1802_20bin_state2_3pct": 11.47,
+      "f1803_accurate_state2_3pct": 0.0
+    },
+    "total_elements": {
+      "f1800_precritical_3pct": 27014,
+      "f1801_precritical_5pct": 9209,
+      "f1802_20bin_state2_3pct": 27916,
+      "f1803_accurate_state2_3pct": 26746
+    }
+  },
+  "quality_gates": {
+    "GATE_01_NATIVE_EXECUTION_EXIT_0": "PASS",
+    "GATE_02_QUAD_FRACTION_GE_90_PCT": "PASS",
+    "GATE_03_ZERO_NEGATIVE_JACOBIANS": "PASS",
+    "GATE_04_ASPECT_RATIO_LE_4": "PASS",
+    "GATE_05_PRIMARY_CORRIDOR_RESOLUTION": "FAIL",
+    "GATE_06_FAR_FIELD_COARSENING": "FAIL",
+    "GATE_07_EFFICIENCY_VS_HISTORICAL_EXPLOSION": "FAIL"
+  }
+}

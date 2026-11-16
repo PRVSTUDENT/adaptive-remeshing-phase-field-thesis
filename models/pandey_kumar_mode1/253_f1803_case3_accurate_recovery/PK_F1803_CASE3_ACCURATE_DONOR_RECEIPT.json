@@ -1,0 +1,73 @@
+{
+  "task_id": "F1803-CASE3-STATE2-DEGRADED-MODULUS-FIDELITY-NATIVE-REMESH",
+  "job_name": "SEC43_STATE2_HIGH_FIDELITY_RECOVERY",
+  "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\253_f1803_case3_accurate_recovery\\SEC43_STATE2_HIGH_FIDELITY_RECOVERY.inp",
+  "inp_sha256": "13B1ED31254C51269EFD0767F6706270C855AC65AD9F43A648106776346CB034",
+  "inp_size_bytes": 863681,
+  "odb_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\253_f1803_case3_accurate_recovery\\SEC43_STATE2_HIGH_FIDELITY_RECOVERY.odb",
+  "odb_size_bytes": 9935692,
+  "odb_sha256": "965136FD7AE637EFF44DEEDF4D152817037CF3C05656D9D1B6006377038362BB",
+  "constitutive_treatment": "ELEMENTWISE_EXACT_DEGRADED_ELASTIC",
+  "E0_kn_per_mm2": 210.0,
+  "nu": 0.3,
+  "k_res": 1e-07,
+  "num_elements": 3923,
+  "min_degraded_E_kn_per_mm2": 9.685220999999057e-05,
+  "max_degraded_E_kn_per_mm2": 210.000021,
+  "elements_with_d_gt_09": 24,
+  "min_degraded_E_in_severed_crack_kn_per_mm2": 9.685220999999057e-05,
+  "uy_applied_mm": 0.2,
+  "step_name": "RECOVERY_STEP",
+  "frame_index": 1,
+  "regional_error_distribution_kn_per_mm2": {
+    "global_miseseri": {
+      "count": 3923,
+      "min": 8.203751349356025e-06,
+      "max": 0.03946366533637047,
+      "mean": 0.002717151633665648
+    },
+    "primary_corridor_miseseri": {
+      "count": 173,
+      "min": 2.0654699255828746e-05,
+      "max": 0.006090425420552492,
+      "mean": 0.0006295097959334686
+    },
+    "secondary_corridor_miseseri": {
+      "count": 118,
+      "min": 0.0020544505678117275,
+      "max": 0.028197919949889183,
+      "mean": 0.009122773716857626
+    },
+    "far_field_miseseri": {
+      "count": 3632,
+      "min": 8.203751349356025e-06,
+      "max": 0.03946366533637047,
+      "mean": 0.002608478349555244
+    },
+    "ratio_secondary_to_primary_mean": 14.491869349435493,
+    "global_misesavg": {
+      "count": 3923,
+      "min": 7.880501470935997e-06,
+      "max": 0.4967082142829895,
+      "mean": 0.06840202774094847
+    },
+    "primary_corridor_misesavg": {
+      "count": 173,
+      "min": 0.00037987090763635933,
+      "max": 0.040341753512620926,
+      "mean": 0.008399510095326627
+    },
+    "secondary_corridor_misesavg": {
+      "count": 118,
+      "min": 0.022579917684197426,
+      "max": 0.39123302698135376,
+      "mean": 0.1461669994928574
+    },
+    "far_field_misesavg": {
+      "count": 3632,
+      "min": 7.880501470935997e-06,
+      "max": 0.4967082142829895,
+      "mean": 0.06873357203774565
+    }
+  }
+}

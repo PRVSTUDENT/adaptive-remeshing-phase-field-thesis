@@ -1,6 +1,6 @@
 {
-  "task_id": "F1802-CASE3-METHOD-A2-EVOLVING-RECOVERY-DONOR-QUALIFICATION-AND-CAUSAL-REMESH",
-  "title": "Task F1802: Case 3 Method A.2 Evolving Recovery Donor Qualification and Causal Remesh",
+  "task_id": "F1803-CASE3-STATE2-DEGRADED-MODULUS-FIDELITY-NATIVE-REMESH",
+  "title": "Task F1803: Case 3 State-2 Degraded Modulus Fidelity and Native Remesh",
   "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
@@ -8,23 +8,23 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1802_CASE3_EVOLVING_RECOVERY_QUALIFICATION_REPORT.md",
-  "review_directive": "Following supervisory review approval HND-F1801-CASE3-ERROR-TARGET-001 [APPROVE / CONTINUE]: Preserve F1801 as an independently validated 9209-element Case 3 native-remeshing milestone and accept its measured accuracy-cost tradeoff (65.91% element reduction with 36.26% primary resolution sacrifice and 0% secondary coverage). Then execute exactly ONE numerically meaningful F1802 Method A.2 investigation focused on the unresolved evolving-secondary-crack indicator. Inspect already available Case 3 native recovery ODB candidates and their source-generation scripts, with particular attention to the earliest post-initiation states recorded in the existing five-state evidence. Qualify one candidate only if its source coupled-state loading, damage or constitutive treatment, donor step/frame, actual MISESERI/MISESAVG field values, binary SHA-256 and chronology demonstrate that the indicator was available by the proposed remesh time. Do not assume that an auxiliary recovery ODB is equivalent to coupled UEL stress merely because Abaqus generated nonzero MISESERI. The previous pre-initiation donor at uy=0.05 mm may serve as an initial baseline, but it must not be relabeled as an evolving-damage field. If and only if one later, physically consistent native donor qualifies, run ONE fresh local Abaqus native adaptiveRemesh pass using scripts/remeshing/reusable_2d_adaptive_framework.py, preserving its unchanged geometry-independent rule and a strictly enforced causal horizon. Do not use a future frame to decide an earlier mesh, do not prescribe the known secondary crack corridor as a sizing region, and do not encode synthetic or damage-envelope values under the MISESERI name. Independently measure the new secondary-corridor fractions h<=l0 and h<=l0/2 against F1800's 1.24% and 0% and F1801's 0% and 0%, together with primary h/l0, physical element count, quad fraction, signed Jacobians, aspect ratio, far-field coarsening and available computational cost. Retain raw source evidence or an immutable verifiable artifact reference, external execution status, a fresh INP and machine-readable receipts. If no causally and physically qualified post-initiation native stress donor is available under the existing zero-PBS budget, report exactly which required source fields, time relationships or extraction steps fail; do not invent a donor, rerun the same static pre-initiation mesh or substitute a reporting-only task. Preserve the frozen production UEL and shared framework, submit zero new PBS jobs, maintain cumulative PBS submissions at 35, and leave MASTER_GOAL_STATUS=OPEN. After a meaningful Case 3 result or evidenced blocker, prioritize the remaining Case 2 distal, Case 1 efficiency and Case 5 quality objectives.",
+  "checkpoint_artifact": "docs/validation/F1803_CASE3_ACCURATE_CONSTITUTIVE_RECOVERY_REPORT.md",
+  "review_directive": "Following supervisory review directive HND-F1802-CASE3-EVOLVING-RECOVERY-001 [REJECT / CONTINUE]: Restore canonical Gate 05 (>= 90% h <= l0) and Gate 07 (< 20,000 elements) to FAIL and correct F1800 comparators. Address the critical constitutive mismatch in the 20-bin State-2 recovery model where damaged elements (d up to 0.9994) artificially retained 5.25 kN/mm^2 (25,000x stiffer than true degraded modulus E = [(1-d)^2 + 10^-7] * 210 kN/mm^2). Build an accurate damage-to-continuum recovery model using elementwise degraded moduli E_i = 210.0 * [(1 - d_i)^2 + 10^-7] kN/mm^2 derived from the archived causal State-2 damage array (f1694_sec43_five_state_damage_record.json, Step-1 frame 40 at uy = 0.200 mm). Run one fresh local Abaqus continuum recovery solve with *ELEMENT OUTPUT: MISESERI, MISESAVG, then execute one native adaptiveRemesh pass under unchanged reusable_2d_adaptive_framework.py with error_target = 3.0%, measuring whether faithful crack compliance improves secondary-corridor refinement. Preserve canonical quality gates, zero PBS submissions, cumulative submissions at 35, frozen production UEL and unified framework, and leave MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1801-CASE3-NATIVE-MISESERI-ERROR-TARGET-EFFICIENCY-TEST",
-    "checkpoint_artifact": "docs/validation/F1801_CASE3_NATIVE_MISESERI_ERROR_TARGET_EFFICIENCY_REPORT.md",
+    "task_id": "F1802-CASE3-METHOD-A2-EVOLVING-RECOVERY-DONOR-QUALIFICATION-AND-CAUSAL-REMESH",
+    "checkpoint_artifact": "docs/validation/F1802_CASE3_EVOLVING_RECOVERY_QUALIFICATION_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
-    "review_verdict": "APPROVE",
-    "correlation_id": "HND-F1801-CASE3-ERROR-TARGET-001"
+    "review_verdict": "REJECT",
+    "correlation_id": "HND-F1802-CASE3-EVOLVING-RECOVERY-001"
   },
-  "re_review_correlation_id": "HND-F1802-CASE3-EVOLVING-RECOVERY-001",
-  "scientific_operation": "case3_method_a2_evolving_recovery_donor_qualification_and_causal_remesh",
-  "scientific_operation_id": "f1802_case3_evolving_recovery_001",
+  "re_review_correlation_id": "HND-F1803-CASE3-CONSTITUTIVE-RECOVERY-001",
+  "scientific_operation": "case3_state2_degraded_modulus_fidelity_native_remesh",
+  "scientific_operation_id": "f1803_case3_constitutive_recovery_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "99EC77D2433EB5048DC9B4D70E5EA3B8468073C3BCEA342B7BFE139234700E6D",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1802 COMPLETED_READY_FOR_INDEPENDENT_REVIEW under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Completed: (1) Forensic audit of 5 candidate Case 3 recovery ODBs qualified SEC43_STATE2_HOLE_ARREST.odb (8ED4E418..., uy = 0.200 mm, hole arrest) with documented auxiliary degraded-elastic constitutive nature distinct from UEL stress; (2) Executed native Abaqus adaptiveRemesh pass via reusable_2d_adaptive_framework.py under strict causal horizon (causal_mode=True, max_frame_index=1, error_target=3.0%); (3) Generated PK_F1802_CASE_3_ADAPT_PHYS.inp (2,006,768 bytes, 251ECD95..., body 34B036E4...); (4) Audited 27,916 elements (97.14% quads, min det(J) = 1.02e-3 > 0, max AR 2.436 <= 4.0); (5) Demonstrated stress transfer expanding secondary corridor elements by +254% (1,423 vs 402) and increasing %<=l0 from 1.24% to 5.06% (4.08x coverage gain, min h = 0.1580 mm), while confirming strict 0.00% barrier for %<=l0/2 (min h = 0.1580 mm > l0/2 = 0.1425 mm) due to linear recovery error dispersion across the uncracked ligament; (6) 6/6 unit tests PASS, 119/119 active regression tests PASS; (7) 0 PBS jobs consumed, cumulative preserved at 35, frozen UEL, MASTER_GOAL_STATUS = OPEN."
+  "notes": "Task F1803 in progress under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Investigates whether elementwise degraded-modulus fidelity alters the secondary-corridor refinement barrier in Case 3."
 }

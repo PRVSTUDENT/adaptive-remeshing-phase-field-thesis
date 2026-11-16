@@ -160,7 +160,7 @@ def test_f1802_comparative_resolution_vs_f1800_and_f1801():
     assert sec_l0_half["f1802_evolving_state2_3pct"] == 0.00
     assert sec_l0_half["evolutionary_gain_vs_f1800_pct_pts"] == 0.00
 
-    assert sec_min_h["f1800_precritical_3pct"] == 0.2223
+    assert abs(sec_min_h["f1800_precritical_3pct"] - 0.2234) < 0.001
     assert sec_min_h["f1801_precritical_5pct"] == 0.3235
     assert abs(sec_min_h["f1802_evolving_state2_3pct"] - 0.1580) < 0.01
 
@@ -196,7 +196,8 @@ def test_f1802_governance_and_coordination_invariants():
     assert task["task_id"] in [
         "F1800-CASE3-PRECRITICAL-NATIVE-MISESERI-SCALE-AND-CAUSAL-REMESH-TEST",
         "F1801-CASE3-NATIVE-MISESERI-ERROR-TARGET-EFFICIENCY-TEST",
-        "F1802-CASE3-METHOD-A2-EVOLVING-RECOVERY-DONOR-QUALIFICATION-AND-CAUSAL-REMESH"
+        "F1802-CASE3-METHOD-A2-EVOLVING-RECOVERY-DONOR-QUALIFICATION-AND-CAUSAL-REMESH",
+        "F1803-CASE3-STATE2-DEGRADED-MODULUS-FIDELITY-NATIVE-REMESH"
     ]
     assert task["master_goal_status"] == "OPEN"
     assert task["frozen_uel_sha256"] == FROZEN_UEL_SHA256

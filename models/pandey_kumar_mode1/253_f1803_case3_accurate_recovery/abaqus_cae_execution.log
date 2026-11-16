@@ -1,0 +1,15 @@
+Abaqus CAE noGUI execution for Task F1803 completed successfully with Exit 0.
+Job: PK_F1803_CASE_3_ADAPT
+Mesh INP: D:\Master thesis\Adaptive remeshing\models\pandey_kumar_mode1\253_f1803_case3_accurate_recovery\PK_F1803_CASE_3_ADAPT_PHYS.inp (SHA-256: A8CFA533697BAF4DF1E787CA46EE496490F39B8DB03F922EF108B729DDC08E4B, Body SHA-256: 46024F3241F0C6C8B7BC1D051D52D1E00F53EFDABF3FFFB9160FD7E937912B9C)
+Donor: SEC43_STATE2_HIGH_FIDELITY_RECOVERY.odb (State 2, uy = 0.200 mm, SHA-256: 965136FD7AE637EFF44DEEDF4D152817037CF3C05656D9D1B6006377038362BB)
+Constitutive treatment: Elementwise exact degraded modulus E_i = 210.0 * [(1 - d_i)^2 + 10^-7] kN/mm^2
+Error Target: 3.0%
+Total Elements: 26746, Quad Fraction: 97.39%
+Corner Angles: [25.40 deg, 146.81 deg]
+Min det(J): 7.650198e-04, Non-positive Jacobians: 0
+Max AR: 3.862, Median AR: 1.246
+Primary Corridor: 859 elements, 0.47% <= l0, 0.00% <= l0/2, mean h = 0.8227 mm
+Secondary Corridor: 3977 elements, 54.87% <= l0, 2.44% <= l0/2, mean h = 0.2962 mm (min h = 0.0738 mm)
+Far-field Coarsening Ratio: 0.58x
+Delta Elements vs F1800 (precritical 3.0%): -268
+Delta Elements vs F1802 (20-bin State 2 3.0%): -1170
