@@ -1,6 +1,6 @@
 {
-  "task_id": "F1809-METHOD-A2-MULTISTATE-SEQUENTIAL-RECOVERY",
-  "title": "Task F1809: Method A.2 Multi-State Sequential Recovery for Case 2 Outer Distal and Case 3 Secondary Corridor (Cases 1, 2, 3, 5)",
+  "task_id": "F1810-EVIDENCE-COMPLETION-AND-REVERIFICATION",
+  "title": "Task F1810: Commit Missing F1809 Evidence and Correct the Report and Manifest",
   "task_status": "COMPLETED",
   "master_goal_status": "OPEN",
   "status": "COMPLETED",
@@ -8,23 +8,23 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1809_METHOD_A2_MULTISTATE_SEQUENTIAL_REPORT.md",
-  "review_directive": "Following supervisory review directive HND-F1808-FOUR-CASE-REPRODUCIBILITY-001 [APPROVE / CONTINUE]: Completed Task F1809 Method A.2 Multi-State Sequential Recovery for Case 2 Outer Distal and Case 3 Secondary Corridor (HND-F1809-METHOD-A2-MULTISTATE-SEQUENTIAL-001). Proved that sequential multi-state recovery combining native MISESERI from evolving causal donor states elevates Case 2 outer-ligament coverage from 28.02% to 100.00% <= l0/2 (PASS) and Case 3 secondary-corridor coverage from 58.32% to 93.84% <= l0 (PASS), while maintaining exact zero-regression parity for Case 1 (14,087 el) and Case 5 (15,466 el). Cumulative PBS submissions strictly preserved at 35. Keep MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1810_EVIDENCE_COMPLETION_REPORT.md",
+  "review_directive": "Following supervisory review directive HND-F1809-METHOD-A2-MULTISTATE-SEQUENTIAL-001 [INSUFFICIENT_EVIDENCE / CONTINUE]: Committed all missing F1809 artifacts (four physical mesh .inp files and two multi-state donor ODBs under models/pandey_kumar_mode1/259_f1809_multistate_recovery/case<N>/), recomputed image manifest SHA-256 hashes directly from disk files, corrected the F1809 report's F1808 baseline columns to verified F1808 values (Case 2 Bins 1-4, Case 3 secondary corridor element count and <= l0/2, Case 3 primary corridor explicit region), audited Case 2 21 minimum-element-size warning in the report, preserved frozen UEL and framework, preserved cumulative PBS submissions at 35 with 0 new submissions, and maintained MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1808-FOUR-CASE-NATIVE-MISESERI-REPRODUCIBILITY-AND-REGRESSION",
-    "checkpoint_artifact": "docs/validation/F1808_FOUR_CASE_NATIVE_MISESERI_REPRODUCIBILITY_REPORT.md",
+    "task_id": "F1809-METHOD-A2-MULTISTATE-SEQUENTIAL-RECOVERY",
+    "checkpoint_artifact": "docs/validation/F1809_METHOD_A2_MULTISTATE_SEQUENTIAL_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
-    "review_verdict": "APPROVE",
-    "correlation_id": "HND-F1808-FOUR-CASE-REPRODUCIBILITY-001"
+    "review_verdict": "INSUFFICIENT_EVIDENCE",
+    "correlation_id": "HND-F1809-METHOD-A2-MULTISTATE-SEQUENTIAL-001"
   },
-  "re_review_correlation_id": "HND-F1809-METHOD-A2-MULTISTATE-SEQUENTIAL-001",
-  "scientific_operation": "multistate_sequential_recovery",
-  "scientific_operation_id": "f1809_multistate_sequential_001",
+  "re_review_correlation_id": "HND-F1810-EVIDENCE-COMPLETION-001",
+  "scientific_operation": "evidence_completion",
+  "scientific_operation_id": "f1810_evidence_completion_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "99EC77D2433EB5048DC9B4D70E5EA3B8468073C3BCEA342B7BFE139234700E6D",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1809 completed. Method A.2 Multi-State Sequential Recovery across Cases 1, 2, 3, 5 following supervisory approval HND-F1808-FOUR-CASE-REPRODUCIBILITY-001. Evaluated combining native MISESERI error indicators from two or more authentic causal donor states for Case 2 (pre-analysis + post-breach recovery) and Case 3 (initiation recovery + hole-arrest recovery) to elevate distal/secondary resolution without prescribing crack corridors and without degrading Cases 1 and 5. Cumulative PBS submissions strictly preserved at 35."
+  "notes": "Task F1810 completed. Committed all missing F1809 evidence (four physical meshes and two multi-state recovery donor ODBs) so independent reverification succeeds without 404s. Recomputed all image manifest SHA-256 hashes directly from disk files. Reconciled report baseline errata against verified F1808 evidence. Audited Case 2 21 min-size clamped elements. Zero PBS jobs consumed, cumulative 35 preserved. MASTER_GOAL_STATUS strictly remains OPEN."
 }
