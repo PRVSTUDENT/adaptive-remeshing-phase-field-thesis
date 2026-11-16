@@ -120,8 +120,9 @@ $rulesContent
 
 if ($CheckOnly) {
     Write-Host "CheckOnly specified. Handoff text verified successfully for $handoffId."
+    Invoke-ChatGPTBridge -PromptText $combinedText -HandoffId $handoffId -DryRun
     return
 }
 
-Publish-ChatGPTBridgeRequest -HandoffId $handoffId -RequestText $combinedText -BridgeDirectory "$env:USERPROFILE\OpenClawPAD\ChatGPTBridge"
-Write-Host "Successfully dispatched Task F1821 ($handoffId) to ChatGPT via OpenClaw PAD Bridge."
+Write-Host "Publishing Task $taskId Bridge Payload across OpenClaw PAD Bridge..." -ForegroundColor Green
+Invoke-ChatGPTBridge -PromptText $combinedText -HandoffId $handoffId
