@@ -1,6 +1,6 @@
 {
-  "task_id": "F1804-CASE2-DISTAL-DEGRADED-MODULUS-RECOVERY-REMESH",
-  "title": "Task F1804: Case 2 Distal Degraded-Modulus Recovery Donor and Native Remesh",
+  "task_id": "F1805-CASE2-OUTERMOST-DISTAL-NATIVE-MISESERI-TARGET-SENSITIVITY",
+  "title": "Task F1805: Case 2 Outermost Distal Native-MISESERI Target Sensitivity",
   "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
@@ -8,23 +8,23 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1804_CASE2_DISTAL_DEGRADED_MODULUS_RECOVERY_REPORT.md",
-  "review_directive": "Following supervisory review directive HND-F1803-CASE3-CONSTITUTIVE-RECOVERY-001 [REJECT / CONTINUE]: Apply the verified elementwise degraded-modulus recovery strategy demonstrated in F1803 to canonical Research Priority #1: Case 2 distal refinement beyond the off-axis hole. Extract the authentic post-breach coupled damage field from PK_HOLE_COARSE_JOB1.odb at the earliest post-breach causal cutoff (where the crack has breached into the off-axis hole, releasing primary tension, but distal crack propagation has not yet completed). Build a high-fidelity continuum recovery deck models/pandey_kumar_mode1/254_f1804_case2_distal_recovery/PK_HOLE_STATE_POSTBREACH_RECOVERY.inp with 2,906 elementwise exact degraded moduli E_i = 210000.0 * [(1 - d_i)^2 + 10^-7] MPa. Run one local Abaqus standard recovery solve with *ELEMENT OUTPUT: MISESERI, MISESAVG, then execute native adaptiveRemesh under unchanged reusable_2d_adaptive_framework.py at error_target = 2.3%. Measure whether authentic crack compliance transfers stress error into the outer distal ligament, improving distal resolution beyond the 66.34% h <= l0/2 pre-analysis baseline. Preserve canonical quality gates, zero PBS submissions, cumulative submissions at 35, frozen production UEL and unified framework, and leave MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1805_CASE2_OUTERMOST_DISTAL_SENSITIVITY_REPORT.md",
+  "review_directive": "Following supervisory review directive HND-F1804-CASE2-DISTAL-RECOVERY-001 [REJECT / CONTINUE]: Execute exactly ONE new F1805 numerical experiment: reuse the verified F1804 donor at the same causal state and its source SHA (PK_HOLE_STATE_POSTBREACH_RECOVERY.odb, SHA-256: 35E9DC19B1E0A4F5EE5FB3547C9C71004D8882DC50F729C8A8F4CA8A4D50A959), retain unchanged geometry, mesh-size bounds, refinement factor, native indicator, shared framework and frozen UEL, but change the sole numerical control error_target from 2.3% to 1.9%. Generate one fresh Abaqus native adaptiveRemesh physical INP PK_F1805_CASE_2_ADAPT_PHYS.inp, record exact configuration and donor provenance, and independently recalculate all finite-element-quality metrics and five fixed distal evaluation bins (x=[0.75,0.80], [0.80,0.85], [0.85,0.90], [0.90,0.95], and [0.95,1.00] mm at y=[0.55,0.75] mm) for count-based and area-weighted coverage h<=l0 and h<=l0/2 compared to F1795 and F1804. Preserve canonical quality gates, zero PBS submissions, cumulative submissions at 35, frozen production UEL and unified framework, and leave MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1803-CASE3-STATE2-DEGRADED-MODULUS-FIDELITY-NATIVE-REMESH",
-    "checkpoint_artifact": "docs/validation/F1803_CASE3_ACCURATE_CONSTITUTIVE_RECOVERY_REPORT.md",
+    "task_id": "F1804-CASE2-DISTAL-DEGRADED-MODULUS-RECOVERY-REMESH",
+    "checkpoint_artifact": "docs/validation/F1804_CASE2_DISTAL_DEGRADED_MODULUS_RECOVERY_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
     "review_verdict": "REJECT",
-    "correlation_id": "HND-F1803-CASE3-CONSTITUTIVE-RECOVERY-001"
+    "correlation_id": "HND-F1804-CASE2-DISTAL-RECOVERY-001"
   },
-  "re_review_correlation_id": "HND-F1804-CASE2-DISTAL-RECOVERY-001",
-  "scientific_operation": "case2_distal_degraded_modulus_recovery_native_remesh",
-  "scientific_operation_id": "f1804_case2_distal_recovery_001",
+  "re_review_correlation_id": "HND-F1805-CASE2-DISTAL-SENSITIVITY-001",
+  "scientific_operation": "case2_outermost_distal_sensitivity_test",
+  "scientific_operation_id": "f1805_case2_distal_sensitivity_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "99EC77D2433EB5048DC9B4D70E5EA3B8468073C3BCEA342B7BFE139234700E6D",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1804 completed and ready for independent review under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Outer distal fine-core resolution (% <= l0/2) improved from 66.34% to 72.10% (+5.76 pts) with total elements reduced by 63.36% (13,061 vs 35,648)."
+  "notes": "Task F1805 completed and ready for independent review under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Broad distal coverage jumped from 72.10% to 86.28% (area 56.35%), bin x=0.90-0.95 surged 18.7x to 21.59% <= l0/2, total elements 20,281, all Gates 01-07 PASS, SCIENTIFIC_GATE_OUTER_DISTAL FAIL due to 0.00% <= l0/2 in x=0.95-1.00 boundary band."
 }

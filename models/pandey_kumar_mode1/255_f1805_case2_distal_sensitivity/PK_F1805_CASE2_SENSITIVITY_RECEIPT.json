@@ -1,0 +1,359 @@
+{
+  "task_id": "F1805-CASE2-OUTERMOST-DISTAL-NATIVE-MISESERI-TARGET-SENSITIVITY",
+  "benchmark": "Case 2: Mode-I Edge-Notched Plate with Off-Axis Hole",
+  "generated_mesh_name": "PK_F1805_CASE_2_ADAPT_PHYS.inp",
+  "mesh_relpath": "models/pandey_kumar_mode1/255_f1805_case2_distal_sensitivity/PK_F1805_CASE_2_ADAPT_PHYS.inp",
+  "mesh_size_bytes": 1459541,
+  "mesh_file_sha256": "4DA79E199FE7A9F8C6EBA54B2BCBD49A79573357B577F80259E3C3120D6CD8FD",
+  "mesh_body_sha256": "E0F6A5C6D8DF0C879E1E9990302C6FB06E0D156CA5B9BB0236EEC0F5880980D3",
+  "configuration": {
+    "config_path": "configs/remeshing/f1805_case2_native_miseseri.json",
+    "error_target_pct": 1.9,
+    "min_h_mm": 0.0015,
+    "max_h_mm": 0.02,
+    "refinement_factor": 10,
+    "length_scale_l0_mm": 0.0075,
+    "l0_half_mm": 0.00375,
+    "donor_odb": "models/pandey_kumar_mode1/254_f1804_case2_distal_recovery/PK_HOLE_STATE_POSTBREACH_RECOVERY.odb",
+    "donor_sha256": "35E9DC19B1E0A4F5EE5FB3547C9C71004D8882DC50F729C8A8F4CA8A4D50A959",
+    "donor_provenance": "F1804 hole-arrest recovery donor (Step-2 Frame 190 coupled damage mapped to degraded moduli E_i = 210000*[(1-d_i)^2 + 1e-7] MPa)"
+  },
+  "finite_element_quality": {
+    "total_elements": 20281,
+    "quad_count": 19744,
+    "tri_count": 537,
+    "quad_percent": 97.35220156797001,
+    "min_det_j": 1.3066786016473167e-07,
+    "nonpositive_jacobians": 0,
+    "max_aspect_ratio": 2.687350317261751,
+    "median_aspect_ratio": 1.2013625694702588,
+    "aspect_ratio_violations_gt_4": 0,
+    "min_corner_angle_deg": 31.782457415074187,
+    "max_corner_angle_deg": 144.1735217276968
+  },
+  "spatial_resolution_profile_f1805": {
+    "global": {
+      "count": 20281,
+      "total_area": 0.9685981080682584,
+      "mean_h_mm": 0.005413871163284968,
+      "min_h_mm": 0.0005003056135788838,
+      "pct_le_l0_count": 81.20408263892313,
+      "pct_le_l0_half_count": 46.51644396232928,
+      "pct_le_l0_area": 27.946381617470557,
+      "pct_le_l0_half_area": 6.2415606742725664
+    },
+    "primary_corridor": {
+      "count": 953,
+      "total_area": 0.022161332923343414,
+      "mean_h_mm": 0.004592872003386217,
+      "min_h_mm": 0.0016642990494295088,
+      "pct_le_l0_count": 96.32738719832109,
+      "pct_le_l0_half_count": 34.31269674711437,
+      "pct_le_l0_area": 87.15823857527104,
+      "pct_le_l0_half_area": 15.142830996614874
+    },
+    "broad_distal_corridor": {
+      "count": 5902,
+      "total_area": 0.04997848730954828,
+      "mean_h_mm": 0.0026685982325915423,
+      "min_h_mm": 0.0005003056135788838,
+      "pct_le_l0_count": 99.81362250084717,
+      "pct_le_l0_half_count": 86.27583869874618,
+      "pct_le_l0_area": 98.67094980657167,
+      "pct_le_l0_half_area": 56.35462509432386
+    },
+    "far_field": {
+      "count": 718,
+      "total_area": 0.12183353088275742,
+      "mean_h_mm": 0.01120278031798829,
+      "min_h_mm": 0.0009477675619283053,
+      "pct_le_l0_count": 36.90807799442897,
+      "pct_le_l0_half_count": 23.537604456824514,
+      "pct_le_l0_area": 3.310763798683905,
+      "pct_le_l0_half_area": 0.9334659536885981
+    },
+    "far_to_distal_coarsening_ratio": 4.198001850248169,
+    "distal_spatial_bins": {
+      "x_0_75_to_0_80": {
+        "count": 2281,
+        "total_area": 0.009992720493861178,
+        "mean_h_mm": 0.002049819656909376,
+        "min_h_mm": 0.0005003056135788838,
+        "pct_le_l0_count": 100.0,
+        "pct_le_l0_half_count": 99.91231915826391,
+        "pct_le_l0_area": 100.0,
+        "pct_le_l0_half_area": 99.70240971442696
+      },
+      "x_0_80_to_0_85": {
+        "count": 1742,
+        "total_area": 0.010000313539369898,
+        "mean_h_mm": 0.002327655592659417,
+        "min_h_mm": 0.0007956205516111176,
+        "pct_le_l0_count": 100.0,
+        "pct_le_l0_half_count": 97.3593570608496,
+        "pct_le_l0_area": 100.0,
+        "pct_le_l0_half_area": 92.59475924437659
+      },
+      "x_0_85_to_0_90": {
+        "count": 1138,
+        "total_area": 0.010017581298234227,
+        "mean_h_mm": 0.002890376428904284,
+        "min_h_mm": 0.0011559169889347493,
+        "pct_le_l0_count": 100.0,
+        "pct_le_l0_half_count": 89.103690685413,
+        "pct_le_l0_area": 100.0,
+        "pct_le_l0_half_area": 78.01484540442429
+      },
+      "x_0_90_to_0_95": {
+        "count": 477,
+        "total_area": 0.010058779262248017,
+        "mean_h_mm": 0.004476945694973095,
+        "min_h_mm": 0.001761745378790319,
+        "pct_le_l0_count": 99.58071278825996,
+        "pct_le_l0_half_count": 21.59329140461216,
+        "pct_le_l0_area": 98.78861330563481,
+        "pct_le_l0_half_area": 11.206521037712369
+      },
+      "x_0_95_to_1_00": {
+        "count": 264,
+        "total_area": 0.009909092715834955,
+        "mean_h_mm": 0.006041290213397939,
+        "min_h_mm": 0.003789034627616254,
+        "pct_le_l0_count": 96.5909090909091,
+        "pct_le_l0_half_count": 0.0,
+        "pct_le_l0_area": 94.52635590143464,
+        "pct_le_l0_half_area": 0.0
+      },
+      "combined_x_0_90_to_1_00": {
+        "count": 741,
+        "total_area": 0.019967871978082974,
+        "mean_h_mm": 0.005034283013278303,
+        "min_h_mm": 0.001761745378790319,
+        "pct_le_l0_count": 98.51551956815115,
+        "pct_le_l0_half_count": 13.900134952766532,
+        "pct_le_l0_area": 96.67346033173096,
+        "pct_le_l0_half_area": 5.645264630092516
+      }
+    }
+  },
+  "comparative_spatial_profile_f1804": {
+    "global": {
+      "count": 13061,
+      "total_area": 0.9686041215447226,
+      "mean_h_mm": 0.007012378107102755,
+      "min_h_mm": 0.0008081253722142654,
+      "pct_le_l0_count": 65.79894341934002,
+      "pct_le_l0_half_count": 32.90712809126407,
+      "pct_le_l0_area": 17.01773268810759,
+      "pct_le_l0_half_area": 3.242969926941405
+    },
+    "primary_corridor": {
+      "count": 636,
+      "total_area": 0.022356209293392385,
+      "mean_h_mm": 0.0056659433959137615,
+      "min_h_mm": 0.0023490853856286804,
+      "pct_le_l0_count": 89.937106918239,
+      "pct_le_l0_half_count": 7.0754716981132075,
+      "pct_le_l0_area": 74.41028735708846,
+      "pct_le_l0_half_area": 2.406372699173816
+    },
+    "broad_distal_corridor": {
+      "count": 3609,
+      "total_area": 0.049951568620267575,
+      "mean_h_mm": 0.0033625776498867914,
+      "min_h_mm": 0.0008081253722142654,
+      "pct_le_l0_count": 96.8689387642006,
+      "pct_le_l0_half_count": 72.09753394292048,
+      "pct_le_l0_area": 82.27473619691787,
+      "pct_le_l0_half_area": 36.300940603208744
+    },
+    "far_field": {
+      "count": 628,
+      "total_area": 0.12211401186918329,
+      "mean_h_mm": 0.012213369223885927,
+      "min_h_mm": 0.0013217859313817088,
+      "pct_le_l0_count": 32.00636942675159,
+      "pct_le_l0_half_count": 18.630573248407643,
+      "pct_le_l0_area": 2.417647494347235,
+      "pct_le_l0_half_area": 0.643928592859228
+    },
+    "far_to_distal_coarsening_ratio": 3.6321448886978467,
+    "distal_spatial_bins": {
+      "x_0_75_to_0_80": {
+        "count": 1549,
+        "total_area": 0.009992597061383956,
+        "mean_h_mm": 0.002455520290424841,
+        "min_h_mm": 0.0008081253722142654,
+        "pct_le_l0_count": 100.0,
+        "pct_le_l0_half_count": 95.09360877985797,
+        "pct_le_l0_area": 100.0,
+        "pct_le_l0_half_area": 87.16812302167021
+      },
+      "x_0_80_to_0_85": {
+        "count": 1024,
+        "total_area": 0.009996262885542073,
+        "mean_h_mm": 0.0030069053893127936,
+        "min_h_mm": 0.0010419895969754405,
+        "pct_le_l0_count": 100.0,
+        "pct_le_l0_half_count": 84.375,
+        "pct_le_l0_area": 100.0,
+        "pct_le_l0_half_area": 66.01430960894497
+      },
+      "x_0_85_to_0_90": {
+        "count": 612,
+        "total_area": 0.01006932765758709,
+        "mean_h_mm": 0.003965658786495111,
+        "min_h_mm": 0.0014916026400766033,
+        "pct_le_l0_count": 99.83660130718954,
+        "pct_le_l0_half_count": 42.810457516339866,
+        "pct_le_l0_area": 99.41519950378411,
+        "pct_le_l0_half_area": 27.693457651736786
+      },
+      "x_0_90_to_0_95": {
+        "count": 261,
+        "total_area": 0.00975839394031617,
+        "mean_h_mm": 0.0059922450841293825,
+        "min_h_mm": 0.0030358262266703957,
+        "pct_le_l0_count": 88.12260536398468,
+        "pct_le_l0_half_count": 1.1494252873563218,
+        "pct_le_l0_area": 78.13838615164107,
+        "pct_le_l0_half_area": 0.35888112990022364
+      },
+      "x_0_95_to_1_00": {
+        "count": 163,
+        "total_area": 0.010134987075438287,
+        "mean_h_mm": 0.007741788623461846,
+        "min_h_mm": 0.004059250920046438,
+        "pct_le_l0_count": 50.306748466257666,
+        "pct_le_l0_half_count": 0.0,
+        "pct_le_l0_area": 34.269088031459845,
+        "pct_le_l0_half_area": 0.0
+      },
+      "combined_x_0_90_to_1_00": {
+        "count": 424,
+        "total_area": 0.019893381015754455,
+        "mean_h_mm": 0.006664829039108609,
+        "min_h_mm": 0.0030358262266703957,
+        "pct_le_l0_count": 73.58490566037736,
+        "pct_le_l0_half_count": 0.7075471698113207,
+        "pct_le_l0_area": 55.78850157925614,
+        "pct_le_l0_half_area": 0.17604365193320787
+      }
+    }
+  },
+  "comparative_spatial_profile_f1795": {
+    "global": {
+      "count": 35648,
+      "total_area": 0.968587862913496,
+      "mean_h_mm": 0.0042146735655107515,
+      "min_h_mm": 0.0005795048845837698,
+      "pct_le_l0_count": 85.7355251346499,
+      "pct_le_l0_half_count": 58.440866247755835,
+      "pct_le_l0_area": 39.74409222454521,
+      "pct_le_l0_half_area": 11.721644690470587
+    },
+    "primary_corridor": {
+      "count": 5848,
+      "total_area": 0.0221089969342797,
+      "mean_h_mm": 0.0018606148274843012,
+      "min_h_mm": 0.0005795048845837698,
+      "pct_le_l0_count": 100.0,
+      "pct_le_l0_half_count": 98.13611491108071,
+      "pct_le_l0_area": 100.0,
+      "pct_le_l0_half_area": 91.8416264682706
+    },
+    "broad_distal_corridor": {
+      "count": 4397,
+      "total_area": 0.05001486443156459,
+      "mean_h_mm": 0.0031148896985625724,
+      "min_h_mm": 0.0008857207281739054,
+      "pct_le_l0_count": 100.0,
+      "pct_le_l0_half_count": 66.34068683193087,
+      "pct_le_l0_area": 100.0,
+      "pct_le_l0_half_area": 32.36075231707942
+    },
+    "far_field": {
+      "count": 1155,
+      "total_area": 0.12243003862446825,
+      "mean_h_mm": 0.009823502537019344,
+      "min_h_mm": 0.00364979493622656,
+      "pct_le_l0_count": 23.463203463203463,
+      "pct_le_l0_half_count": 0.08658008658008658,
+      "pct_le_l0_area": 9.095367551544108,
+      "pct_le_l0_half_area": 0.010880502224919472
+    },
+    "far_to_distal_coarsening_ratio": 3.1537240440817516,
+    "distal_spatial_bins": {
+      "x_0_75_to_0_80": {
+        "count": 2108,
+        "total_area": 0.009955172393354994,
+        "mean_h_mm": 0.0021312552032795875,
+        "min_h_mm": 0.0008857207281739054,
+        "pct_le_l0_count": 100.0,
+        "pct_le_l0_half_count": 99.52561669829223,
+        "pct_le_l0_area": 100.0,
+        "pct_le_l0_half_area": 98.44351761638806
+      },
+      "x_0_80_to_0_85": {
+        "count": 966,
+        "total_area": 0.0099759394458332,
+        "mean_h_mm": 0.0030792229056920755,
+        "min_h_mm": 0.0010641323509580397,
+        "pct_le_l0_count": 100.0,
+        "pct_le_l0_half_count": 74.94824016563147,
+        "pct_le_l0_area": 100.0,
+        "pct_le_l0_half_area": 53.56442633022385
+      },
+      "x_0_85_to_0_90": {
+        "count": 452,
+        "total_area": 0.009966661106714828,
+        "mean_h_mm": 0.004624348630769161,
+        "min_h_mm": 0.001914106915820064,
+        "pct_le_l0_count": 100.0,
+        "pct_le_l0_half_count": 12.389380530973451,
+        "pct_le_l0_area": 100.0,
+        "pct_le_l0_half_area": 6.264060411053802
+      },
+      "x_0_90_to_0_95": {
+        "count": 430,
+        "total_area": 0.010036406540775398,
+        "mean_h_mm": 0.004758006057126241,
+        "min_h_mm": 0.001817957415386165,
+        "pct_le_l0_count": 100.0,
+        "pct_le_l0_half_count": 8.837209302325581,
+        "pct_le_l0_area": 100.0,
+        "pct_le_l0_half_area": 4.049513758398053
+      },
+      "x_0_95_to_1_00": {
+        "count": 441,
+        "total_area": 0.010080684944886169,
+        "mean_h_mm": 0.004745593023799832,
+        "min_h_mm": 0.003265951623844406,
+        "pct_le_l0_count": 100.0,
+        "pct_le_l0_half_count": 0.22675736961451248,
+        "pct_le_l0_area": 100.0,
+        "pct_le_l0_half_area": 0.10581066730691638
+      },
+      "combined_x_0_90_to_1_00": {
+        "count": 871,
+        "total_area": 0.020117091485661567,
+        "mean_h_mm": 0.004751721157359362,
+        "min_h_mm": 0.001817957415386165,
+        "pct_le_l0_count": 100.0,
+        "pct_le_l0_half_count": 4.477611940298507,
+        "pct_le_l0_area": 99.99999999999999,
+        "pct_le_l0_half_area": 2.0733221003843205
+      }
+    }
+  },
+  "quality_gates": {
+    "GATE_01_NATIVE_EXECUTION_EXIT_0": "PASS",
+    "GATE_02_QUAD_FRACTION_GE_90_PCT": "PASS",
+    "GATE_03_ZERO_NEGATIVE_JACOBIANS": "PASS",
+    "GATE_04_ASPECT_RATIO_LE_4": "PASS",
+    "GATE_05_DISTAL_CORRIDOR_RESOLUTION": "PASS",
+    "GATE_06_FAR_FIELD_COARSENING": "PASS",
+    "GATE_07_COMPUTATIONAL_EFFICIENCY": "PASS",
+    "SCIENTIFIC_GATE_OUTER_DISTAL": "FAIL"
+  }
+}
