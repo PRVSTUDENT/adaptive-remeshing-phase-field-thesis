@@ -98,6 +98,20 @@ review. Never bypass a rejection with a direct ready-file write or invented fiel
 Use HandoffId (CorrelationId is a compatibility alias). Declare causal status as
 PLANNED/MISSING until authentic evidence exists. Keep current session and transaction
 ownership; rejected/mismatched replies are preserved, not automatically replayed.
+## Required image publication and bridge handoff
+After every adaptive-framework edit, regenerate Cases 1/2/3/5 meshes and images
+from the same frozen revision within existing execution gates; include a readable
+2x2 composite where feasible and retain individual full-resolution views. Commit
+and push genuine PNG/PDF images and numerical audits to the thesis GitHub repo
+BEFORE submitting the results for review. The bridge handoff must include an
+image manifest: case ID, repository-relative image path, verified commit-pinned
+GitHub URL (blob/<full-commit-SHA>/<path>), mesh/source revision and artifact hash;
+include the composite path/URL too. Verify the pushed links resolve. Local paths,
+image filenames alone, mixed revisions or historical images are not substitutes.
+If regeneration/push is blocked, report the exact missing case/artifact and blocker;
+never claim complete regression. ChatGPT must inspect these images before proposing
+the next framework change and corroborate visual findings with numerical audits.
+
 <!-- END UNIFIED-METHOD-A-REGRESSION-POLICY -->
 
 # Standing research execution and JOB-FIRST / REPORT-AFTER POLICY
