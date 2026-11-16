@@ -1,15 +1,15 @@
 {
   "task_id": "F1827-CAMPAIGN-SYNTHESIS-F1812-F1826",
   "title": "Task F1827: Synthesis Consolidating the F1812-F1826 Campaign and the Harmonized Framework State",
-  "task_status": "COMPLETED",
+  "task_status": "WAIT",
   "master_goal_status": "OPEN",
-  "status": "COMPLETED",
+  "status": "WAIT",
   "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
   "checkpoint_artifact": "docs/validation/F1827_CAMPAIGN_SYNTHESIS_F1812_F1826.md",
-  "review_directive": "Task F1827: Synthesis Consolidating the F1812-F1826 Campaign and the Harmonized Framework State. Produce a single synthesis document docs/validation/F1827_CAMPAIGN_SYNTHESIS_F1812_F1826.md that consolidates: (1) accepted baselines (F1812, 160,144 elements total) with scientific gates PASS and Gate 06 plainly disclosed (Case 1 2.3867x PASS, Case 2 1.9349x FAIL, Case 3 1.4462x FAIL, Case 5 2.1174x PASS under original geometric definition); (2) harmonized framework (SHA-256 80B41AA2...) as current revision with adapter harmonization documented; (3) F1823 findings (zero framework discrepancy, Case 3 width-metric bug fixed, F1812 Case 1 4.5% provenance, Gate 06 sweep plateau, donor ablation causal roles) and F1825/F1826 findings (adapter inconsistency diagnosed, Gate 06 redefinition rejected and corrected, harmonization applied); (4) size-thresholded and corner ratios documented as supplementary diagnostics, not Gate 06; (5) open items plainly stated (Gate 06 FAIL for Cases 2 and 3; no coupled fracture validation on adapted meshes; F1823 Case 3 baseline discrepancy in F1823 report uncorrected). 0 new PBS jobs consumed (cumulative 35 preserved). Bitwise frozen UEL CE8D5EDC... maintained.",
+  "review_directive": "WAIT. The framework improvement campaign has reached its conclusion. Task F1827 (the synthesis) is approved. The F1812 baselines stand as the accepted standard (160,144 elements total). Gate 06 is honestly disclosed under the original definition (Case 1 2.3867x PASS, Case 2 1.9349x FAIL, Case 3 1.4462x FAIL, Case 5 2.1174x PASS). The harmonized framework (80B41AA2...) is the current revision. No further framework improvement task is productive at this time. Do NOT start Job-2, Method C/state transfer, thesis, or presentation work — those remain paused pending the user's explicit reprioritization and, for Job-2, explicit PBS authorization. Do NOT invent a new framework task to fill time. Report WAIT and preserve the state. The next direction is the user's decision. The 4am shutdown on 17 Nov will stop the loop; after the restart, the user can dispatch the next task. MASTER_GOAL_STATUS remains OPEN.",
   "predecessor_task": {
     "task_id": "F1826-ADAPTER-HARMONIZATION-AND-GATE06-VERIFICATION",
     "checkpoint_artifact": "docs/validation/F1826_ADAPTER_HARMONIZATION_AND_GATE06_VERIFICATION_REPORT.md",
@@ -17,7 +17,7 @@
     "review_verdict": "APPROVE",
     "correlation_id": "HND-F1826-ADAPTER-HARMONIZATION-GATE06-001"
   },
-  "re_review_correlation_id": "HND-F1827-CAMPAIGN-SYNTHESIS-001",
+  "re_review_correlation_id": "HND-WAIT-F1827-COMPLETE-001",
   "scientific_operation": "shared_framework_improvement",
   "scientific_operation_id": "f1827_campaign_synthesis_001",
   "scientific_checkpoint_required": true,
@@ -26,5 +26,5 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1827 complete. Comprehensive campaign synthesis docs/validation/F1827_CAMPAIGN_SYNTHESIS_F1812_F1826.md produced, consolidating F1812-F1826 campaign, accepted baselines (160,144 el), harmonized framework (80B41AA2...), plain disclosure of Gate 06 (Cases 1 & 5 PASS, Cases 2 & 3 FAIL), supplementary diagnostics, and open items. 6/6 unit tests PASS in test_f1827_campaign_synthesis.py. 0 new PBS jobs consumed (cumulative 35 preserved). Bitwise frozen UEL maintained."
+  "notes": "Task F1827 approved. Framework improvement campaign concluded and synthesized. Holding in WAIT state awaiting user direction after the scheduled 04:00 AM restart."
 }
