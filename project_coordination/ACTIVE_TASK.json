@@ -1,30 +1,30 @@
 {
-  "task_id": "F1822-MINIMUM-MAXIMUM-CONTROL-VERIFICATION",
-  "title": "Task F1822: MINIMUM_MAXIMUM Control Verification and F1821 Record Correction",
-  "task_status": "REVIEWED_APPROVED",
+  "task_id": "F1823-FRAMEWORK-COMPARISON-COARSENING-AND-TARGETED-DONORS",
+  "title": "Task F1823: Framework Kwargs Comparison, Bounded Coarsening Sweep, and Targeted Donor Investigation",
+  "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
-  "status": "REVIEWED_APPROVED",
+  "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1822_MINMAX_CONTROL_VERIFICATION_REPORT.md",
-  "review_directive": "Task F1822: MINIMUM_MAXIMUM Control Verification and F1821 Record Correction. (1) Commit the UNIFORM_ERROR 3.0% control mesh for Case 1 (62,611 elements, body SHA D36603D89FF9D953395A176D8C327F097FE69E92469FA73F6CC3193426B6E768) with its .rpy journal, exact config file, donor ODB SHA, and framework SHA under models/pandey_kumar_mode1/266_f1822_uniform_error_control/. State explicitly the full parameter set so the control can be independently reproduced. (2) Correct the F1821 report artifact table entry for the corrected F1820 report to actual committed values (14,838 bytes / SHA-256 1A30A82EECAFED41FCB4226DE5473C26FB86DC1EF7BACDC6F424E65CE3C6FF56). (3) Add correlation_id (HND-F1821-GENUINE-MINMAX-EXECUTION-001) to PK_F1821_GENUINE_MINMAX_RECEIPT.json. (4) Preserve framework enhancement (build_rule_kwargs, SHA 0578156E...) and committed .rpy journals. 0 new PBS jobs (cumulative 35 preserved), bitwise frozen UEL CE8D5EDC..., MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1823_FRAMEWORK_COARSENING_TARGETED_DONORS_REPORT.md",
+  "review_directive": "Task F1823 in 3 sequential steps: (1) Reproducibility & measurement: compare old (4276A5DC...) vs enhanced (0578156E...) framework kwargs passed to Abaqus for UNIFORM_ERROR 3.0% and 4.5%, state whether 62,611 vs 63,210 is framework or kwargs; fix Case 3 width-metric second segment in run_f1816_step2_master.py line 76 (plate is 65mm wide in x), recompute percentages and state changed values; document F1812 Case 1 eta_R=4.5% provenance. (2) Bounded coarsening sweep for Cases 2 and 3 starting from F1812 error targets, require Gate 06 >= 2.0x AND element/DOF decrease AND fine area decrease with scientific gates PASS and quality maintained; record initial mesh seed and count; Cases 1 and 5 as regression controls. (3) Targeted donor investigation for Cases 2 and 3 identifying specific omitted state(s) supplying coverage; Cases 1 and 5 as controls; report within-3*l0 fraction alongside actual coverage, element count, and quality. 0 new PBS jobs (cumulative 35 preserved), bitwise frozen production UEL CE8D5EDC..., framework 0578156E... preserved, MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1821-GENUINE-MINIMUM-MAXIMUM-EXECUTION-AND-F1820-CORRECTION",
-    "checkpoint_artifact": "docs/validation/F1821_GENUINE_MINMAX_EXECUTION_REPORT.md",
+    "task_id": "F1822-MINIMUM-MAXIMUM-CONTROL-VERIFICATION",
+    "checkpoint_artifact": "docs/validation/F1822_MINMAX_CONTROL_VERIFICATION_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
-    "review_verdict": "REJECT",
-    "correlation_id": "HND-F1821-GENUINE-MINMAX-EXECUTION-001"
+    "review_verdict": "APPROVE",
+    "correlation_id": "HND-F1822-MINMAX-CONTROL-VERIFICATION-001"
   },
-  "re_review_correlation_id": "HND-F1822-MINMAX-CONTROL-VERIFICATION-001",
+  "re_review_correlation_id": "HND-F1823-FRAMEWORK-COARSENING-DONORS-001",
   "scientific_operation": "shared_framework_improvement",
-  "scientific_operation_id": "f1822_minmax_control_001",
+  "scientific_operation_id": "f1823_repro_coarsen_donors_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "0578156E5551173307892B8881E4BA772F099187BCF332672F39AC825023E80D",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1822 active: committing Case 1 UNIFORM_ERROR 3.0% control mesh (62,611 elements, body SHA D36603D8...) with .rpy journal and complete reproduction package in models/pandey_kumar_mode1/266_f1822_uniform_error_control/, correcting F1821 artifact table and receipt, zero new PBS submissions, bitwise frozen production UEL."
+  "notes": "Task F1823 active: Step 1 (reproducibility & measurement, kwargs comparison, Case 3 width bug fix, F1812 eta_R provenance), Step 2 (bounded coarsening sweep for Cases 2 and 3 with Cases 1 & 5 controls), Step 3 (targeted selective donor investigation). 0 new PBS jobs, bitwise frozen UEL CE8D5EDC..., framework 0578156E... preserved bitwise, MASTER_GOAL_STATUS = OPEN."
 }

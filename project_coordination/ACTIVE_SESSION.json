@@ -1,20 +1,21 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1822-minmax-control-20261116",
-  "task_id": "F1822-MINIMUM-MAXIMUM-CONTROL-VERIFICATION",
-  "started_at": "2026-11-16T16:05:00+01:00",
-  "completed_at": "2026-11-16T16:20:00+01:00",
-  "starting_commit": "310ef12d9a5e21ae60fa2a5ceafabc1be6c50e5d",
+  "session_id": "gemini-antigravity-f1823-repro-coarsen-donors-20261116",
+  "task_id": "F1823-FRAMEWORK-COMPARISON-COARSENING-AND-TARGETED-DONORS",
+  "started_at": "2026-11-16T16:52:00+01:00",
+  "completed_at": "2026-11-16T19:55:00+01:00",
+  "starting_commit": "6d1fd6b73db05aef640f6c087d6cda9031c5150a",
   "allowed_write_scope": [
-    "models/pandey_kumar_mode1/266_f1822_uniform_error_control/*",
-    "models/pandey_kumar_mode1/265_f1821_genuine_minmax/PK_F1821_GENUINE_MINMAX_RECEIPT.json",
-    "docs/validation/F1821_GENUINE_MINMAX_EXECUTION_REPORT.md",
-    "docs/validation/F1822_MINMAX_CONTROL_VERIFICATION_REPORT.md",
-    "scripts/remeshing/run_f1822_*",
-    "tests/unit/test_f1822_*",
+    "models/pandey_kumar_mode1/267_f1823_*",
+    "configs/remeshing/f1823_*",
+    "scripts/remeshing/run_f1816_step2_master.py",
+    "scripts/remeshing/run_f1823_*",
+    "docs/validation/F1823_*",
+    "tests/unit/test_f1823_*",
+    "results/figures/fig_f1823_*",
     "project_coordination/*",
     ".agents/scripts/*"
   ],
-  "notes": "Task F1822: MINIMUM_MAXIMUM Control Verification and F1821 Record Correction under supervisory directive HND-F1821-GENUINE-MINMAX-EXECUTION-001 [REJECT]. Preserves framework enhancement 0578156E..., bitwise frozen UEL CE8D5EDC..., zero new PBS jobs, master goal OPEN."
+  "notes": "Task F1823: Step 1 (reproducibility & measurement, kwargs comparison, Case 3 width bug fix, F1812 eta_R provenance), Step 2 (bounded coarsening sweep for Cases 2 and 3 with Cases 1 & 5 controls), Step 3 (targeted selective donor investigation). 0 new PBS jobs, bitwise frozen UEL CE8D5EDC..., framework 0578156E... preserved bitwise, MASTER_GOAL_STATUS = OPEN."
 }

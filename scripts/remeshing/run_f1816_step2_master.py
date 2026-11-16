@@ -73,7 +73,7 @@ CASES = {
         "name": "Case 3: Notched Plate with Pins and Hole",
         "error_target": 3.0,
         "l0": 0.285,
-        "segments": [((30.0, 60.0), (50.0, 60.0)), ((70.0, 60.0), (120.0, 60.0))],
+        "segments": [((30.0, 60.0), (50.0, 60.0)), ((50.0, 60.0), (65.0, 60.0))],
         "donor_2a": os.path.join(DONOR_DIR, "PK_CASE3_MULTISTEP_RULES.odb"),
         "steps_2a": "RECOVERY_STEP,STATE_2,STATE_3",
         "donor_2b": os.path.join(DONOR_DIR, "PK_CASE3_2STATE_ENVELOPE.odb"),
