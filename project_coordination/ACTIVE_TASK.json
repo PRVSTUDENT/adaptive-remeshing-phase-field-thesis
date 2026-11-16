@@ -1,30 +1,30 @@
 {
-  "task_id": "F1812-UNIVERSAL-FRAMEWORK-CRACK-PATH-REFINEMENT",
-  "title": "Task F1812: Universal Framework Fix for Crack-Path Refinement",
-  "task_status": "COMPLETED",
+  "task_id": "F1813-UNIFIED-FRAMEWORK-SYNTHESIS",
+  "title": "Task F1813: Method A / A.2 Unified Framework Synthesis and Comprehensive Benchmark Assessment",
+  "task_status": "IN_PROGRESS",
   "master_goal_status": "OPEN",
-  "status": "COMPLETED",
+  "status": "IN_PROGRESS",
   "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1812_UNIVERSAL_CRACK_PATH_REFINEMENT_REPORT.md",
-  "review_directive": "Task F1812: universal framework fix for crack-path refinement, evaluated against the F1811 calibrated baselines. F1811 is APPROVED and its calibrated error targets are now the baselines: Case 2 eta_R = 4.0% (41,438 elements, 100.00% outer ligament <= l0/2) and Case 3 eta_R = 3.0% (77,779 elements, 93.84% secondary corridor <= l0). Cases 1 and 5 remain at 14,087 and 15,466 elements. Fix the shared framework (scripts/remeshing/reusable_2d_adaptive_framework.py) so that Case 1 refines along the full crack propagation path (currently 0% <= l0/2 beyond x = 0.6 mm, band y in [0.48, 0.52]). The fix must be a shared-framework change, universal across all four benchmark cases, not a Case 1-only script and not a per-case algorithm fork, and must not prescribe a crack corridor or hardcode any refinement region. After ANY framework edit, regenerate adaptive remeshes for ALL FOUR benchmarks (Cases 1, 2, 3, 5) at the calibrated error targets with the same framework version, and report the effect on each case. Preserve Case 2 outer ligament 100.00% <= l0/2 at 41,438 elements, Case 3 secondary corridor 93.84% <= l0 at 77,779 elements, Case 5 upper corridor 99.04% <= l0. Correct F1811 report links to PRVSTUDENT, commit missing Case 2/3 journals. Cumulative PBS 35 preserved (0 consumed), MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1813_UNIFIED_FRAMEWORK_SYNTHESIS_REPORT.md",
+  "review_directive": "Task F1813: Method A / A.2 Unified Framework Synthesis and Comprehensive Benchmark Assessment. Synthesize the completed single-pass (Method A.1) and multi-state (Method A.2) work across all four benchmarks into one definitive comparison package, using the F1812 framework (4276A5DC...) with MultiStateRecoveryDonorBuilder as the unified framework. For each case, tabulate the campaign progression F1808 -> F1809 -> F1811 -> F1812 (element counts, error targets, quad fractions, Jacobians, aspect ratios, coarsening ratios, and critical-region resolution), and state explicitly whether the Method A goal is met: all four scientific gates now PASS (Case 1 full ligament 97.19% <= l0/2 at 25,461 elements; Case 2 outer ligament 100.00% <= l0/2 at 41,438; Case 3 secondary corridor 93.84% <= l0 at 77,779; Case 5 inter-hole 99.04% <= l0 at 15,466). Document the remaining gaps honestly and explicitly, with no gate redefinition hidden in a rename: (1) Gate 06 still FAILS for Cases 2 (1.55x) and 3 (1.65x) against the 2.0x threshold; (2) Gate 07 changed from a universal <= 30,000 elements in F1811 to per-case budgets in F1812 (Case 1 <= 30k, Cases 2/3 <= 80k) — state this change and the reason plainly; (3) source donor ODBs over 100 MB (including PK_F1769_C1_DONOR.odb, 725 MB) are excluded from git per repository policy, so their damage-state values rest on the execution reports, not on committed ODBs — record the provenance chain and the exact HPC scratch paths; (4) no coupled fracture (Job-2) validation has yet been run on the adapted meshes, so the meshes are qualified as adapted discretizations, not as validated fracture simulations. Produce one synthesis report and one comparison figure set (per-case progression chart and a 4-panel synthesis figure) that a reader can use to judge the campaign without re-reading every task report. Commit the synthesis report and figures with hashes computed from the committed files; copy commit SHAs from the GitHub API ref, never transcribe them; use repo-relative paths and the PRVSTUDENT/adaptive-remeshing-phase-field-thesis repo in every link. No new PBS jobs; cumulative 35 preserved. No change to the frozen production UEL. Do not start coupled fracture validation or any new PBS work in this task.",
   "predecessor_task": {
-    "task_id": "F1811-ERROR-TARGET-EFFICIENCY-CALIBRATION",
-    "checkpoint_artifact": "docs/validation/F1811_ERROR_TARGET_EFFICIENCY_CALIBRATION_REPORT.md",
+    "task_id": "F1812-UNIVERSAL-FRAMEWORK-CRACK-PATH-REFINEMENT",
+    "checkpoint_artifact": "docs/validation/F1812_UNIVERSAL_CRACK_PATH_REFINEMENT_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
     "review_verdict": "APPROVE",
-    "correlation_id": "HND-F1811-ERROR-TARGET-EFFICIENCY-001"
+    "correlation_id": "HND-F1812-CRACK-PATH-REFINEMENT-001"
   },
-  "re_review_correlation_id": "HND-F1812-CRACK-PATH-REFINEMENT-001",
-  "scientific_operation": "universal_framework_crack_path_refinement",
-  "scientific_operation_id": "f1812_crack_path_refinement_001",
+  "re_review_correlation_id": "HND-F1813-UNIFIED-SYNTHESIS-001",
+  "scientific_operation": "unified_framework_synthesis",
+  "scientific_operation_id": "f1813_unified_framework_synthesis_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "4276A5DC1AF22A6A117102D8C24492789E8AA4EBFD4AF079C58EE86DBEEC7C8B",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1812 completed with all 4 benchmarks passing quality and scientific gates under universal shared framework (framework SHA 4276A5DC...): Case 1 full ligament achieves 100.00% <= l0 and 97.19% <= l0/2 (25,461 el, 97.29% quads, Max AR 2.63); Case 2 preserves 100.00% outer ligament <= l0/2 (41,438 el, 97.57% quads); Case 3 preserves 93.84% secondary corridor <= l0 (77,779 el, 97.34% quads); Case 5 preserves 99.04% inter-hole corridor <= l0 (15,466 el, 97.90% quads). Zero non-positive Jacobians across all 4 meshes. 0 new PBS jobs consumed, cumulative 35 preserved; MASTER_GOAL_STATUS = OPEN."
+  "notes": "Task F1812 APPROVED across OpenClaw PAD Bridge by independent supervisor (HND-F1812-CRACK-PATH-REFINEMENT-001). Task F1813 initiated: comprehensive synthesis of Method A.1 / A.2 across Cases 1, 2, 3, 5 documenting the campaign progression F1808 -> F1809 -> F1811 -> F1812, all 4 passing scientific gates, transparent gap analysis (Gate 06 coarsening on Cases 2/3, Gate 07 budget definition, large donor ODB storage, and unexecuted Job-2 fracture runs). Cumulative PBS 35 preserved, MASTER_GOAL_STATUS = OPEN."
 }
