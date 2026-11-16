@@ -1,0 +1,23 @@
+{
+  "donor_path": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_METHOD_A_PREANALYSIS.odb",
+  "donor_sha256": "C698A4B7AB23761C731BBC73E0F2C00166BF53116BB8CBC31439D89270D38FE4",
+  "step_name": "Step-1",
+  "frame_index": 10,
+  "variable": "MISESERI",
+  "results": {
+    "total_field_values": 5812,
+    "unique_element_labels_count": 2906,
+    "multiplicity_distribution": {
+      "2": 2906
+    },
+    "all_blocks_identical": true,
+    "sample_multiplicity_details": {
+      "elem_min_label": 1,
+      "elem_max_label": 2906,
+      "position_types": [
+        "WHOLE_ELEMENT"
+      ]
+    }
+  },
+  "mathematical_confirmation": "2906 unique physical elements with multiplicity distribution {'2': 2906} strictly accounts for all 5812 values."
+}

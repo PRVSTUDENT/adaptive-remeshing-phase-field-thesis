@@ -203,7 +203,10 @@ class TestF1796GovernanceAndInvariants:
         task_path = REPO_ROOT / "project_coordination" / "ACTIVE_TASK.json"
         with open(task_path, "r") as f:
             task = json.load(f)
-        assert task["task_id"] == "F1796-CASE2-EVOLVING-NATIVE-MISESERI-CAUSAL-INDICATOR-QUALIFICATION"
+        assert task["task_id"] in [
+            "F1796-CASE2-EVOLVING-NATIVE-MISESERI-CAUSAL-INDICATOR-QUALIFICATION",
+            "F1797-CASE2-ALL-FRAME-MISESERI-AND-RECOVERY-PROVENANCE-QUALIFICATION"
+        ]
         assert task["classification"] == "ADAPTIVE_REMESHING_RESEARCH_ONLY"
         assert task["max_new_pbs_submissions"] == 0
         assert task["submissions_consumed"] == 0

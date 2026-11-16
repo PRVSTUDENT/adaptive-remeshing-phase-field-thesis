@@ -1,0 +1,761 @@
+[
+  {
+    "path": "PK_HOLE_COUPLED_RECOVERY.odb",
+    "sha256": "AADB5AC6213C0FF3238675B8CFF82F46A0919D757619DF70EB3243AE246DC711",
+    "size_bytes": 946124,
+    "probe_info": {
+      "steps": {
+        "Step-1": {
+          "procedure": "*STATIC",
+          "time_period": 1.0,
+          "num_frames": 2,
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "nonzero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.4377955496311188,
+                "max": 3294.5166015625,
+                "mean": 48.04199285938752,
+                "nonzero_count": 2935
+              }
+            }
+          ]
+        }
+      },
+      "materials": [
+        "DEGRADEDSTEEL"
+      ],
+      "element_types": [
+        "CPE3",
+        "CPE4"
+      ],
+      "num_nodes": 3028,
+      "num_elements": 2935,
+      "root_instances": [
+        "PLATE-1"
+      ]
+    },
+    "assessment": "HISTORICAL_OCT_STAGE_RECOVERY_EXPERIMENT",
+    "admissible_as_method_a_later_donor": false,
+    "exclusion_reason": "Historical standalone recovery attempt from Tasks F1656-F1661 using 2,935 elements; lacks traceable causal link to frozen production UEL solver state."
+  },
+  {
+    "path": "PK_HOLE_F1656_RECOVERY.odb",
+    "sha256": "2D9A6343B62CB8DF7D602CA649154786729E4D6F33A53AACD7AB081BBA356006",
+    "size_bytes": 1041136,
+    "probe_info": {
+      "steps": {
+        "Step-1": {
+          "procedure": "*STATIC",
+          "time_period": 1.0,
+          "num_frames": 2,
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "nonzero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.43692564964294434,
+                "max": 1179.9478759765625,
+                "mean": 21.161137555547224,
+                "nonzero_count": 2935
+              }
+            }
+          ]
+        }
+      },
+      "materials": [
+        "DEGRADEDSTEEL"
+      ],
+      "element_types": [
+        "CPE4",
+        "CPE3"
+      ],
+      "num_nodes": 3028,
+      "num_elements": 2935,
+      "root_instances": [
+        "PLATE-1"
+      ]
+    },
+    "assessment": "HISTORICAL_OCT_STAGE_RECOVERY_EXPERIMENT",
+    "admissible_as_method_a_later_donor": false,
+    "exclusion_reason": "Historical standalone recovery attempt from Tasks F1656-F1661 using 2,935 elements; lacks traceable causal link to frozen production UEL solver state."
+  },
+  {
+    "path": "PK_HOLE_F1659_RECOVERY.odb",
+    "sha256": "5B9E110CC276971126BB1067367231ECA323F8D282C25CB4D269279D9A780DC7",
+    "size_bytes": 1047692,
+    "probe_info": {
+      "steps": {
+        "Step-1": {
+          "procedure": "*STATIC",
+          "time_period": 1.0,
+          "num_frames": 2,
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "nonzero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.027485316619277,
+                "max": 1437.3564453125,
+                "mean": 17.477853044605414,
+                "nonzero_count": 2935
+              }
+            }
+          ]
+        }
+      },
+      "materials": [
+        "DAMAGEDELASTIC_USDFLD"
+      ],
+      "element_types": [
+        "CPE4",
+        "CPE3"
+      ],
+      "num_nodes": 3028,
+      "num_elements": 2935,
+      "root_instances": [
+        "PLATE-1"
+      ]
+    },
+    "assessment": "HISTORICAL_OCT_STAGE_RECOVERY_EXPERIMENT",
+    "admissible_as_method_a_later_donor": false,
+    "exclusion_reason": "Historical standalone recovery attempt from Tasks F1656-F1661 using 2,935 elements; lacks traceable causal link to frozen production UEL solver state."
+  },
+  {
+    "path": "PK_HOLE_F1661_RECOVERY.odb",
+    "sha256": "7FFC0636199BC26099CBFFC905DECC65BB6EAAC0F7C9FB697DAE8BCC37E28F1E",
+    "size_bytes": 1047692,
+    "probe_info": {
+      "steps": {
+        "Step-1": {
+          "procedure": "*STATIC",
+          "time_period": 1.0,
+          "num_frames": 2,
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "nonzero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.027485316619277,
+                "max": 1437.3564453125,
+                "mean": 17.477853044605414,
+                "nonzero_count": 2935
+              }
+            }
+          ]
+        }
+      },
+      "materials": [
+        "DAMAGEDELASTIC_USDFLD"
+      ],
+      "element_types": [
+        "CPE4",
+        "CPE3"
+      ],
+      "num_nodes": 3028,
+      "num_elements": 2935,
+      "root_instances": [
+        "PLATE-1"
+      ]
+    },
+    "assessment": "HISTORICAL_OCT_STAGE_RECOVERY_EXPERIMENT",
+    "admissible_as_method_a_later_donor": false,
+    "exclusion_reason": "Historical standalone recovery attempt from Tasks F1656-F1661 using 2,935 elements; lacks traceable causal link to frozen production UEL solver state."
+  },
+  {
+    "path": "PK_HOLE_RECOVERY_SOLVE.odb",
+    "sha256": "76EFF10C87039E9B29A5155A151E431E392B9A1DD16D32CF76E05E9E8B95A741",
+    "size_bytes": 873040,
+    "probe_info": {
+      "steps": {
+        "Step-1": {
+          "procedure": "*STATIC",
+          "time_period": 1.0,
+          "num_frames": 2,
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 5870,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "nonzero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 5870,
+                "min": 0.29377949237823486,
+                "max": 1426.07080078125,
+                "mean": 21.068448635128533,
+                "nonzero_count": 5870
+              }
+            }
+          ]
+        }
+      },
+      "materials": [
+        "STEEL"
+      ],
+      "element_types": [
+        "CPS3",
+        "CPS4R"
+      ],
+      "num_nodes": 3028,
+      "num_elements": 2935,
+      "root_instances": [
+        "PLATE-1"
+      ]
+    },
+    "assessment": "PREFRACTURE_LINEAR_ELASTIC_AUXILIARY",
+    "admissible_as_method_a_later_donor": false,
+    "exclusion_reason": "Represents initial linear-elastic state (5,870 values) identical in physical content to pre-analysis donor PK_HOLE_METHOD_A_PREANALYSIS; does not represent an advancing crack state."
+  },
+  {
+    "path": "PK_HOLE_SIZING_SOLVE.odb",
+    "sha256": "C3F88E14D8D74D8FB850F4A485EAEE48355FDB7EFF15D703437F76AB5ADAF7A2",
+    "size_bytes": 872988,
+    "probe_info": {
+      "steps": {
+        "Step-1": {
+          "procedure": "*STATIC",
+          "time_period": 1.0,
+          "num_frames": 2,
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 5870,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "nonzero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 5870,
+                "min": 0.29377949237823486,
+                "max": 1426.07080078125,
+                "mean": 21.068448635128533,
+                "nonzero_count": 5870
+              }
+            }
+          ]
+        }
+      },
+      "materials": [
+        "STEEL"
+      ],
+      "element_types": [
+        "CPS4R",
+        "CPS3"
+      ],
+      "num_nodes": 3028,
+      "num_elements": 2935,
+      "root_instances": [
+        "PLATE-1"
+      ]
+    },
+    "assessment": "PREFRACTURE_LINEAR_ELASTIC_AUXILIARY",
+    "admissible_as_method_a_later_donor": false,
+    "exclusion_reason": "Represents initial linear-elastic state (5,870 values) identical in physical content to pre-analysis donor PK_HOLE_METHOD_A_PREANALYSIS; does not represent an advancing crack state."
+  },
+  {
+    "path": "runs/f1683_recovery_candidate_b/PK_HOLE_RECOVERY_B.odb",
+    "sha256": "14EACB3AC65FF7F9B44FC00BCB3C8E465B2F37E572D97F92868252121116AA0B",
+    "size_bytes": 1047692,
+    "probe_info": {
+      "steps": {
+        "Step-1": {
+          "procedure": "*STATIC",
+          "time_period": 1.0,
+          "num_frames": 2,
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "nonzero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.24499361217021942,
+                "max": 1657.2550048828125,
+                "mean": 17.352780382114332,
+                "nonzero_count": 2935
+              }
+            }
+          ]
+        }
+      },
+      "materials": [
+        "DAMAGEDELASTIC_USDFLD"
+      ],
+      "element_types": [
+        "CPE4",
+        "CPE3"
+      ],
+      "num_nodes": 3028,
+      "num_elements": 2935,
+      "root_instances": [
+        "PLATE-1"
+      ]
+    },
+    "assessment": "AUXILIARY_USDFLD_DEGRADED_ELASTIC",
+    "admissible_as_method_a_later_donor": false,
+    "exclusion_reason": "Auxiliary USDFLD simulation (recovery_usdfld.for) using mapped damage lookup tables (lookup_damage.txt) on non-standard 2,935-element mesh; does not represent authentic frozen production UEL coupled state and uses non-standard mesh."
+  },
+  {
+    "path": "runs/f1683_recovery_candidate_c/PK_HOLE_RECOVERY_C.odb",
+    "sha256": "42375ED3AA3DEF874983913B80CF0F8996A3F2A6F112FD543ADE71CC2D88648B",
+    "size_bytes": 1047692,
+    "probe_info": {
+      "steps": {
+        "Step-1": {
+          "procedure": "*STATIC",
+          "time_period": 1.0,
+          "num_frames": 2,
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "nonzero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.40580180287361145,
+                "max": 1600.678466796875,
+                "mean": 20.2429965200477,
+                "nonzero_count": 2935
+              }
+            }
+          ]
+        }
+      },
+      "materials": [
+        "DAMAGEDELASTIC_USDFLD"
+      ],
+      "element_types": [
+        "CPE3",
+        "CPE4"
+      ],
+      "num_nodes": 3028,
+      "num_elements": 2935,
+      "root_instances": [
+        "PLATE-1"
+      ]
+    },
+    "assessment": "AUXILIARY_USDFLD_DEGRADED_ELASTIC",
+    "admissible_as_method_a_later_donor": false,
+    "exclusion_reason": "Auxiliary USDFLD simulation (recovery_usdfld.for) using mapped damage lookup tables (lookup_damage.txt) on non-standard 2,935-element mesh; does not represent authentic frozen production UEL coupled state and uses non-standard mesh."
+  },
+  {
+    "path": "runs/f1683_recovery_candidate_d/PK_HOLE_RECOVERY_D.odb",
+    "sha256": "A78C2F693CBCED5376664BEFE13EE533F458CB2D5F8312DBC3B37D43006CF341",
+    "size_bytes": 1047692,
+    "probe_info": {
+      "steps": {
+        "Step-1": {
+          "procedure": "*STATIC",
+          "time_period": 1.0,
+          "num_frames": 2,
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "nonzero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.07111033797264099,
+                "max": 411.49725341796875,
+                "mean": 13.41213497861433,
+                "nonzero_count": 2935
+              }
+            }
+          ]
+        }
+      },
+      "materials": [
+        "DAMAGEDELASTIC_USDFLD"
+      ],
+      "element_types": [
+        "CPE4",
+        "CPE3"
+      ],
+      "num_nodes": 3028,
+      "num_elements": 2935,
+      "root_instances": [
+        "PLATE-1"
+      ]
+    },
+    "assessment": "AUXILIARY_USDFLD_DEGRADED_ELASTIC",
+    "admissible_as_method_a_later_donor": false,
+    "exclusion_reason": "Auxiliary USDFLD simulation (recovery_usdfld.for) using mapped damage lookup tables (lookup_damage.txt) on non-standard 2,935-element mesh; does not represent authentic frozen production UEL coupled state and uses non-standard mesh."
+  },
+  {
+    "path": "runs/f1684_multistep_recovery/PK_HOLE_MULTISTEP_RECOVERY.odb",
+    "sha256": "54F62578EA91AD8BC239CA6486880B5877E94513103F211D59181AD5437313D3",
+    "size_bytes": 1832224,
+    "probe_info": {
+      "steps": {
+        "RECOVERY_C": {
+          "procedure": "*STATIC",
+          "time_period": 1.0,
+          "num_frames": 2,
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "ENDEN",
+                "ENDENERI",
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.0,
+                "max": 0.0,
+                "mean": 0.0,
+                "nonzero_count": 0
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "ENDEN",
+                "ENDENERI",
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.40580180287361145,
+                "max": 1600.678466796875,
+                "mean": 20.2429965200477,
+                "nonzero_count": 2935
+              }
+            }
+          ]
+        },
+        "RECOVERY_TERMINAL": {
+          "procedure": "*STATIC",
+          "time_period": 1.0,
+          "num_frames": 2,
+          "frames": [
+            {
+              "frame_id": 0,
+              "frame_value": 0.0,
+              "field_outputs": [
+                "ENDEN",
+                "ENDENERI",
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.40580180287361145,
+                "max": 1600.678466796875,
+                "mean": 20.2429965200477,
+                "nonzero_count": 2935
+              }
+            },
+            {
+              "frame_id": 1,
+              "frame_value": 1.0,
+              "field_outputs": [
+                "ENDEN",
+                "ENDENERI",
+                "EVOL",
+                "FV1",
+                "MISESAVG",
+                "MISESERI",
+                "RF",
+                "S",
+                "U"
+              ],
+              "miseseri_stats": {
+                "count": 2935,
+                "min": 0.027485316619277,
+                "max": 1437.3564453125,
+                "mean": 17.477853044605414,
+                "nonzero_count": 2935
+              }
+            }
+          ]
+        }
+      },
+      "materials": [
+        "DAMAGEDELASTIC_USDFLD"
+      ],
+      "element_types": [
+        "CPE3",
+        "CPE4"
+      ],
+      "num_nodes": 3028,
+      "num_elements": 2935,
+      "root_instances": [
+        "PLATE-1"
+      ]
+    },
+    "assessment": "AUXILIARY_USDFLD_DEGRADED_ELASTIC",
+    "admissible_as_method_a_later_donor": false,
+    "exclusion_reason": "Auxiliary USDFLD simulation (recovery_usdfld.for) using mapped damage lookup tables (lookup_damage.txt) on non-standard 2,935-element mesh; does not represent authentic frozen production UEL coupled state and uses non-standard mesh."
+  }
+]

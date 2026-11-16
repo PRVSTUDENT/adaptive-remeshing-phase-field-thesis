@@ -1,6 +1,6 @@
 {
-  "task_id": "F1796-CASE2-EVOLVING-NATIVE-MISESERI-CAUSAL-INDICATOR-QUALIFICATION",
-  "title": "Task F1796: Case 2 Evolving Native-MISESERI Causal Indicator Qualification",
+  "task_id": "F1797-CASE2-ALL-FRAME-MISESERI-AND-RECOVERY-PROVENANCE-QUALIFICATION",
+  "title": "Task F1797: Case 2 All-Frame MISESERI and Recovery Provenance Qualification",
   "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
   "status": "COMPLETED",
@@ -8,24 +8,23 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1796_CASE2_EVOLVING_NATIVE_MISESERI_QUALIFICATION_REPORT.md",
-  "checkpoint_sha256": "1616D2197A7805F864F3BE0D1B71826B798EE42A51B6187E1FEA7892AFB055FD",
-  "review_directive": "Following supervisory review approval HND-F1795-CONTROLLED-REPRODUCIBILITY-001 [APPROVE]: (1) Correct non-blocking F1795 Kirsch sign error, execution-log inventory, and field-value terminology in report/receipts; (2) Inspect existing Case 2 artifacts for an authentic later-state native Abaqus MISESERI field representing a physically changed stress distribution at a known causal cutoff; (3) Verify donor SHA-256, element labels, fields, step/frame indices, loading state, and chronology; (4) Explicitly exclude every frame later than the proposed adaptation event; (5) If a valid later native indicator exists, compare its regional error distribution with F1795 and execute ONE native adaptiveRemesh() pass using the unchanged shared engine; (6) If no later-state native indicator is available, document that specific numerical blocker and stop the experiment without fabricating an indicator or reconstructing Method C; (7) Zero new PBS jobs, cumulative preserved at 35, UEL frozen at CE8D5EDC..., MASTER_GOAL_STATUS strictly remains OPEN.",
+  "checkpoint_artifact": "docs/validation/F1797_CASE2_ALL_FRAME_MISESERI_AND_PROVENANCE_REPORT.md",
+  "review_directive": "Following supervisory review directive HND-F1796-EVOLVING-INDICATOR-001 [REJECT / CONTINUE]: Execute exactly ONE bounded F1797 numerical qualification using existing Case 2 artifacts and unchanged shared Method A framework: (1) In local Abaqus, open PK_HOLE_COARSE_JOB1.odb read-only and scan every MISESERI field value in every Step-2 frame 0 through 337, producing machine-readable per-frame table with frame ID, time, total values, finite/nonfinite counts, nonzero counts, min, max, donor SHA-256 and audit command; (2) Assess nonzero PK_HOLE recovery ODBs (PK_HOLE_COUPLED_RECOVERY, PK_HOLE_F1656_RECOVERY, PK_HOLE_RECOVERY_SOLVE, and f1683/f1684 USDFLD artifacts) for native stress recovery computation, physical Case 2 relevance, and source field/damage-map causal chronology; (3) Provide complete accept-or-reject rationale for all 39 audited candidate ODBs; (4) Perform direct element-label and integration-point multiplicity check confirming 2 values/element across 2906 physical elements; (5) If and only if one physically admissible later-state native donor is qualified, run at most ONE local Abaqus native adaptive-remeshing pass; otherwise preserve definitive no-donor blocker with direct numerical evidence and stop; (6) Zero new PBS jobs, cumulative preserved at 35, UEL frozen at CE8D5EDC..., MASTER_GOAL_STATUS strictly remains OPEN.",
   "predecessor_task": {
-    "task_id": "F1795-CASE2-NATIVE-MISESERI-CAUSAL-REMESHING-CONTROLLED-REPRODUCIBILITY",
-    "checkpoint_artifact": "docs/validation/F1795_CASE2_CONTROLLED_REPRODUCIBILITY_REPORT.md",
+    "task_id": "F1796-CASE2-EVOLVING-NATIVE-MISESERI-CAUSAL-INDICATOR-QUALIFICATION",
+    "checkpoint_artifact": "docs/validation/F1796_CASE2_EVOLVING_NATIVE_MISESERI_QUALIFICATION_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
-    "review_verdict": "APPROVE",
-    "correlation_id": "HND-F1795-CONTROLLED-REPRODUCIBILITY-001"
+    "review_verdict": "REJECT",
+    "correlation_id": "HND-F1796-EVOLVING-INDICATOR-001"
   },
-  "re_review_correlation_id": "HND-F1796-EVOLVING-INDICATOR-001",
-  "scientific_operation": "case2_evolving_native_miseseri_causal_indicator_qualification",
-  "scientific_operation_id": "f1796_evolving_indicator_001",
+  "re_review_correlation_id": "HND-F1797-ALL-FRAME-PROVENANCE-001",
+  "scientific_operation": "case2_all_frame_miseseri_and_recovery_provenance_qualification",
+  "scientific_operation_id": "f1797_all_frame_provenance_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "99EC77D2433EB5048DC9B4D70E5EA3B8468073C3BCEA342B7BFE139234700E6D",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1796 COMPLETED_READY_FOR_INDEPENDENT_REVIEW under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Completed comprehensive forensic audit of all Case 2 candidate ODBs, proved PK_HOLE_COARSE_JOB1 has zero MISESERI across all frames due to UEL black-box formulation, documented definitive technical blocker of later-state native MISESERI unavailability, stopped cleanly without fabricating indicator or reconstructing Method C, resolved all non-blocking F1795 errata (Kirsch sign convention, replay log, element count terminology), and passed 112/112 regression tests with 0 new PBS jobs consumed."
+  "notes": "Task F1797 ACTIVE under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Focus: complete 338-frame Step-2 scan of PK_HOLE_COARSE_JOB1.odb, provenance & chronology evaluation of nonzero Case 2 recovery ODBs, 39-candidate catalog reconciliation, integration-point multiplicity check, and conditional native remeshing pass or direct-evidence blocker freeze."
 }
