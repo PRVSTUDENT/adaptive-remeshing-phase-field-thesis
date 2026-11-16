@@ -49,17 +49,20 @@ However, an audit of `scripts/remeshing/reusable_2d_adaptive_framework.py` revea
    but `self.sizing_method` is never subsequently referenced anywhere in the engine.
 2. In `AbaqusNativeRemeshingEngine.execute_native_remesh` (lines 1917–1933), the Abaqus CAE `RemeshingRule` is constructed as:
    ```python
-   session.models[model_name].RemeshingRule(
+   m.RemeshingRule(
        name=rule_name,
-       description='Native Pandey-Kumar MISESERI adaptive remeshing rule',
-       endStep=step_name,
-       endFrame=frame_idx,
-       region=region,
+       stepName=step_target,
+       region=inst.sets['ALL_ELEM'],
+       variables=(config.variable,),
        sizingMethod=UNIFORM_ERROR,
        errorTarget=config.error_target,
-       minSize=config.min_element_size_mm,
-       maxSize=config.max_element_size_mm,
-       refinementFactor=config.refinement_factor
+       refinementFactor=config.refinement_factor,
+       coarseningFactor=coarsen_opt,
+       specifyMinSize=True,
+       minElementSize=config.min_h,
+       specifyMaxSize=True,
+       maxElementSize=config.max_h,
+       outputFrequency=out_freq_opt
    )
    ```
    `sizingMethod=UNIFORM_ERROR` is hardcoded. The parameters `max_solution_error_target`, `min_solution_error_target`, and `mesh_bias` are never parsed or passed to CAE.
@@ -183,10 +186,10 @@ All checksums and byte sizes are recomputed directly from committed disk files:
 | Step 1 Min/Max Summary | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step1_minmax/step1_minmax_summary.json` | 7,608 | `10E7D51946C25731BB0875EB22A6A315CF05AFB63A97846567C72CCF7BA9BA86` |
 | Step 2 Envelope Summary (Corrected) | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/step2_envelope_summary.json` | 8,395 | `30E5FD0CDA63416B33163F49FE040F8077EDDD2F8D5D2F43766B87A0B3196401` |
 | F1816 Narrowing Receipt (Corrected) | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/PK_F1816_MULTISTEP_NARROWING_RECEIPT.json` | 16,555 | `C4AE6D62867E41CBA9E9ED1F704A1B357E39F34741BAD6D4A2F42FD466F47107` |
-| F1818 Reassessment Receipt | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/PK_F1818_CORRECTION_REASSESSMENT_RECEIPT.json` | 9,842 | *computed upon generation* |
+| F1818 Reassessment Receipt | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/PK_F1818_CORRECTION_REASSESSMENT_RECEIPT.json` | 5,339 | `E272152DB6462E14212FECF230DB9E8335D1BC33E327A5FD05D67E93B2A7627C` |
 | Width Comparison PNG (Regenerated) | `results/figures/fig_f1816_refinement_width_comparison.png` | 787,457 | `302906A7468BFD68514F61084A52F712CC72F1B681A93F0242CEF7A9BBD31802` |
 | Width Comparison PDF (Regenerated) | `results/figures/fig_f1816_refinement_width_comparison.pdf` | 67,728 | `FB62BF7DD39DE330664B1913C7C0154291F238DEB5C893F1C40834E1F8007874` |
-| F1818 Standalone Test Suite | `tests/unit/test_f1818_correction_reassessment.py` | - | *computed upon generation* |
+| F1818 Standalone Test Suite | `tests/unit/test_f1818_correction_reassessment.py` | 9,078 | `EC4FBB9440A1FD59C0DD754C412402D49485D212A0CB2DF12490512C74E1A9B2` |
 
 ---
 

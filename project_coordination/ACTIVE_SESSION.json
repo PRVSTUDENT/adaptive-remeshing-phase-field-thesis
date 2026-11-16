@@ -1,33 +1,25 @@
 {
   "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1818-reassessment-20261116",
-  "task_id": "F1818-CORRECTION-AND-REASSESSMENT",
-  "started_at": "2026-11-16T13:52:00+01:00",
+  "session_id": "gemini-antigravity-f1819-doc-correction-20261116",
+  "task_id": "F1819-DOCUMENTATION-CORRECTION",
+  "started_at": "2026-11-16T14:15:00+01:00",
   "completed_at": null,
-  "starting_commit": "bd0e67d2988067cb0eb0bdb8225a0883840e851c",
+  "starting_commit": "0ef3773cdf35f4b5ec46d2b0e6e548f75827f66d",
   "allowed_write_scope": [
     "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/*",
     "docs/validation/F1816_MULTISTEP_REFINEMENT_NARROWING_REPORT.md",
-    "docs/validation/F1817_EVIDENCE_COMPLETION_REPORT.md",
     "docs/validation/F1818_CORRECTION_AND_REASSESSMENT_REPORT.md",
-    "scripts/remeshing/plot_f1816_figures.py",
-    "scripts/remeshing/generate_f1816_receipt.py",
-    "scripts/remeshing/generate_f1818_receipt.py",
-    "scripts/remeshing/audit_f1818_case3_gates.py",
-    "results/figures/fig_f1816_refinement_width_comparison.png",
-    "results/figures/fig_f1816_refinement_width_comparison.pdf",
-    "tests/unit/test_f1816_multistep_narrowing.py",
-    "tests/unit/test_f1817_evidence_completion.py",
-    "tests/unit/test_f1818_correction_reassessment.py",
+    "docs/validation/F1819_DOCUMENTATION_CORRECTION_REPORT.md",
+    "tests/unit/test_f1819_documentation_correction.py",
     ".agents/scripts/bridge_research_policy.json",
-    ".agents/scripts/dispatch_f1818_correction_reassessment_auth_001.ps1",
+    ".agents/scripts/dispatch_f1819_documentation_correction_auth_001.ps1",
     "project_coordination/ACTIVE_SESSION.json",
     "project_coordination/ACTIVE_TASK.json",
     "project_coordination/TASK_LEDGER.csv",
     "project_coordination/CURRENT_STATE.md",
     "project_coordination/ARTIFACT_REGISTRY.csv",
-    "project_coordination/sessions/SESSION_20261116_F1818_REASSESSMENT_001.md"
+    "project_coordination/sessions/SESSION_20261116_F1819_DOC_CORRECTION_001.md"
   ],
-  "notes": "Task F1818 Correction and Reassessment of F1816 Narrowing Conclusions. Step 1 UNIFORM_ERROR 3.0%, Case 3 secondary gates 94.88% and 92.27% PASS, run script table hashes, Pareto re-evaluation. Zero new PBS jobs, bitwise frozen UEL."
+  "notes": "Task F1819 Documentation Correction for F1816/F1818 Records following supervisory approval of F1818. Zero new PBS jobs, bitwise frozen UEL."
 }

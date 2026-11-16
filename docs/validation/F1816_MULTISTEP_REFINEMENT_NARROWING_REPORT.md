@@ -88,7 +88,7 @@ Variant 2a retained all authentic states in separate steps of a multi-step donor
 
 ### 4.1 Definitive Four-Benchmark Synthesis Table
 
-| Benchmark & Metric | F1812 Baseline (Adopted) | Step 1: Min/Max Sizing | Step 2b: 2-State Envelope | Step 2a: Overlapping Rules | Adopted Status |
+| Benchmark & Metric | F1812 Baseline (Adopted) | Step 1: Tight UNIFORM_ERROR (Min/Max Untested) | Step 2b: 2-State Envelope | Step 2a: Overlapping Rules | Adopted Status |
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | **Case 1: Mode-I Edge Crack** | | | | | |
 | Total Physical Elements | **25,461** | 63,210 (+148%) | 29,314 (+15%) | 37,511 (+47%) | **F1812 Optimal** |
@@ -113,7 +113,7 @@ Variant 2a retained all authentic states in separate steps of a multi-step donor
 | **CAMPAIGN TOTALS** | | | | | |
 | Total Discretization Elements | **160,144** | 258,894 (+61.7%) | 180,242 (+12.6%) | 193,310 (+20.7%) | **F1812 Optimal** |
 | 4-Benchmark Scientific Gate Compliance | **4 of 4 PASS (100%)**| 4 of 4 PASS (100%)| **3 of 4 PASS (75%)** | **4 of 4 PASS (100%)** | **F1812 Optimal** |
-| Adoption Decision | **ADOPTED** | **REJECTED** | **REJECTED** | **REJECTED** | **F1812 Stood** |
+| Adoption Decision | **ADOPTED** | **WITHDRAWN (UNTESTED)** | **REJECTED** | **REJECTED** | **F1812 Stood** |
 
 ### 4.2 The Physical Law of Adaptive Refinement Width
 The multi-step narrowing investigation yields a crucial scientific conclusion:

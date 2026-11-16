@@ -1,0 +1,66 @@
+{
+  "task_id": "F1819-DOCUMENTATION-CORRECTION",
+  "title": "Task F1819: Documentation Correction for F1816/F1818 Records",
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1819-DOCUMENTATION-CORRECTION-001",
+  "predecessor_correlation_id": "HND-F1818-CORRECTION-REASSESSMENT-001",
+  "timestamp": "2026-11-16T14:20:00",
+  "governing_objectives": {
+    "master_goal_status": "OPEN",
+    "research_priority": "ADAPTIVE_REMESHING_ONLY",
+    "cumulative_pbs_submissions": 35,
+    "new_pbs_submissions": 0,
+    "frozen_production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "shared_framework_sha256": "4276A5DC1AF22A6A117102D8C24492789E8AA4EBFD4AF079C58EE86DBEEC7C8B",
+    "predeclared_adoption_rule": "F1812 baselines stand as best among tested configurations; MINIMUM_MAXIMUM sizing remains untested."
+  },
+  "corrected_items": {
+    "f1816_report_section_4_1_synthesis_table": {
+      "path": "docs/validation/F1816_MULTISTEP_REFINEMENT_NARROWING_REPORT.md",
+      "step1_column_header": "Step 1: Tight UNIFORM_ERROR (Min/Max Untested)",
+      "step1_adoption_decision": "WITHDRAWN (UNTESTED)",
+      "prior_cell_value": "REJECTED",
+      "prior_header_value": "Step 1: Min/Max Sizing",
+      "consistency_alignment": "Aligned with executive summary withdrawal (line 28) and F1818 report section 5.1 table"
+    },
+    "f1818_report_section_2_1_remeshing_rule_snippet": {
+      "path": "docs/validation/F1818_CORRECTION_AND_REASSESSMENT_REPORT.md",
+      "quoted_code": "m.RemeshingRule(name=rule_name, stepName=step_target, region=inst.sets['ALL_ELEM'], variables=(config.variable,), sizingMethod=UNIFORM_ERROR, errorTarget=config.error_target, refinementFactor=config.refinement_factor, coarseningFactor=coarsen_opt, specifyMinSize=True, minElementSize=config.min_h, specifyMaxSize=True, maxElementSize=config.max_h, outputFrequency=out_freq_opt)",
+      "status": "Corrected verbatim to match reusable_2d_adaptive_framework.py lines 1917-1931; removed non-existent endStep/endFrame/minSize/maxSize arguments"
+    },
+    "f1818_report_section_7_artifact_table": {
+      "path": "docs/validation/F1818_CORRECTION_AND_REASSESSMENT_REPORT.md",
+      "f1818_receipt": {
+        "size_bytes": 5339,
+        "sha256": "E272152DB6462E14212FECF230DB9E8335D1BC33E327A5FD05D67E93B2A7627C"
+      },
+      "f1818_test_suite": {
+        "size_bytes": 9078,
+        "sha256": "EC4FBB9440A1FD59C0DD754C412402D49485D212A0CB2DF12490512C74E1A9B2"
+      },
+      "status": "Corrected from '*computed upon generation*' placeholders to exact committed disk values"
+    }
+  },
+  "artifact_manifest": {
+    "f1816_report": {
+      "path": "docs/validation/F1816_MULTISTEP_REFINEMENT_NARROWING_REPORT.md",
+      "size_bytes": 24292,
+      "sha256": "8971B8260E61BC6C7C39434762BF606923D23F50108C7953AFC29767DFC4CC28"
+    },
+    "f1818_report": {
+      "path": "docs/validation/F1818_CORRECTION_AND_REASSESSMENT_REPORT.md",
+      "size_bytes": 16768,
+      "sha256": "B1DD7106C8C28A503233377F0FF1AEBCE5E14F53F873C9B2B9A62C887B485FE2"
+    },
+    "f1818_receipt": {
+      "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/PK_F1818_CORRECTION_REASSESSMENT_RECEIPT.json",
+      "size_bytes": 5339,
+      "sha256": "E272152DB6462E14212FECF230DB9E8335D1BC33E327A5FD05D67E93B2A7627C"
+    },
+    "f1818_test_file": {
+      "path": "tests/unit/test_f1818_correction_reassessment.py",
+      "size_bytes": 9078,
+      "sha256": "EC4FBB9440A1FD59C0DD754C412402D49485D212A0CB2DF12490512C74E1A9B2"
+    }
+  }
+}
