@@ -1,11 +1,11 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "session-2026-11-16-f1811-error-target-efficiency",
-  "task_id": "F1811-ERROR-TARGET-EFFICIENCY-CALIBRATION",
-  "started_at": "2026-11-16T08:47:00+01:00",
-  "starting_commit": "3344eb9c1",
-  "ended_at": "2026-11-16T09:14:00+01:00",
+  "session_id": "session-2026-11-16-f1812-crack-path-refinement",
+  "task_id": "F1812-UNIVERSAL-FRAMEWORK-CRACK-PATH-REFINEMENT",
+  "started_at": "2026-11-16T09:26:00+01:00",
+  "starting_commit": "fd573319f",
+  "ended_at": null,
   "allowed_write_scope": [
     "project_coordination/",
     "docs/validation/",
@@ -17,5 +17,5 @@
     "results/figures/",
     ".agents/"
   ],
-  "notes": "Task F1811 completed under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Error-target efficiency calibration for Method A.2 across Cases 2 and 3 executed. Case 2 selected eta_R = 4.0% (41,438 elements, -65.1% reduction vs 118,640 F1809 baseline, 100.00% outer ligament resolution <= l0/2, Gate PASS). Case 3 selected eta_R = 3.0% (77,779 elements, 93.84% secondary corridor resolution <= l0, Gate PASS; Pareto frontier mapped across 3.5%, 4.0%, 5.0%, 6.0%). Zero regression maintained on Cases 1 and 5 (14,087 and 15,466 elements). Cumulative PBS submissions strictly preserved at 35."
+  "notes": "Task F1812 active under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Universal framework fix for crack-path refinement across Cases 1, 2, 3, 5 evaluated against F1811 calibrated baselines following supervisory review approval HND-F1811-ERROR-TARGET-EFFICIENCY-001 [APPROVE / CONTINUE]. Cumulative PBS submissions strictly preserved at 35."
 }

@@ -105,7 +105,7 @@ function Read-BridgeValidatedReply {
     if ($reply.correlation_id -cne $Packet.handoff_id -or $reply.protocol -cne $Packet.protocol -or $reply.task_id -cne $Packet.task_id) { throw 'BRIDGE_RESPONSE_INNER_IDENTITY_MISMATCH' }
     $replyGoalId = if ($reply.goal_id) { [string]$reply.goal_id } else { [string]$reply.research_goal_id }
     if ($reply.canonical_rules_sha256 -ine $Packet.context.rules_sha256 -or $replyGoalId -cne $Packet.context.policy.goal_id) { throw 'BRIDGE_RESPONSE_POLICY_MISMATCH' }
-    $replyDecision = if ($reply.decision) { [string]$reply.decision } else { [string]$reply.review_decision }
+    $replyDecision = if ($reply.decision) { [string]$reply.decision } elseif ($reply.review_decision) { [string]$reply.review_decision } elseif ($reply.verdict) { [string]$reply.verdict } else { [string]$reply.review_verdict }
     if ($Packet.protocol -ceq 'INDEPENDENT_STRUCTURED_REVIEW_V1' -and $replyDecision -cnotin @('APPROVE','REJECT','INSUFFICIENT_EVIDENCE')) { throw 'BRIDGE_RESPONSE_INVALID_DECISION' }
     if ($Packet.protocol -ceq 'CHATGPT_SUPERVISOR_V1' -and $reply.action -cnotin @('DIAGNOSE','CONTINUE','WAIT','STOP')) { throw 'BRIDGE_RESPONSE_INVALID_ACTION' }
     if ($reply.master_goal_status -cnotin @('OPEN','COMPLETE')) { throw 'BRIDGE_RESPONSE_MASTER_STATUS_REQUIRED' }

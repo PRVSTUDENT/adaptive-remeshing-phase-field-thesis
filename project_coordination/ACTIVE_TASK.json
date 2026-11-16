@@ -1,30 +1,30 @@
 {
-  "task_id": "F1811-ERROR-TARGET-EFFICIENCY-CALIBRATION",
-  "title": "Task F1811: Error-Target Efficiency Calibration for Method A.2 Cases 2 and 3",
-  "task_status": "COMPLETED",
+  "task_id": "F1812-UNIVERSAL-FRAMEWORK-CRACK-PATH-REFINEMENT",
+  "title": "Task F1812: Universal Framework Fix for Crack-Path Refinement",
+  "task_status": "ACTIVE",
   "master_goal_status": "OPEN",
-  "status": "COMPLETED",
+  "status": "ACTIVE",
   "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1811_ERROR_TARGET_EFFICIENCY_CALIBRATION_REPORT.md",
-  "review_directive": "Following supervisory review approval HND-F1810-EVIDENCE-COMPLETION-001 [APPROVE / CONTINUE]: Perform controlled error-target efficiency calibration for Method A.2 across Cases 2 and 3 using the verified F1809 multi-state donors under the frozen framework scripts/remeshing/reusable_2d_adaptive_framework.py. Test Case 2 error targets eta_R in {2.5%, 3.0%, 4.0%} and Case 3 error targets eta_R in {4.0%, 5.0%, 6.0%}. Preserve exact zero-regression parity for Cases 1 and 5 (14,087 and 15,466 elements). Select the loosest error target per case that preserves the scientific gate (Case 2 outer ligament >= 50% <= l0/2; Case 3 secondary corridor >= 90% <= l0), evaluate Gates 06 and 07, commit adapted meshes and donor provenance, archive 12 diagnostic PNGs and 4-panel publication synthesis figure, ensure 0 new PBS jobs (cumulative 35 preserved), and maintain MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1812_UNIVERSAL_CRACK_PATH_REFINEMENT_REPORT.md",
+  "review_directive": "Task F1812: universal framework fix for crack-path refinement, evaluated against the F1811 calibrated baselines. F1811 is APPROVED and its calibrated error targets are now the baselines: Case 2 eta_R = 4.0% (41,438 elements, 100.00% outer ligament <= l0/2) and Case 3 eta_R = 3.0% (77,779 elements, 93.84% secondary corridor <= l0). Cases 1 and 5 remain at 14,087 and 15,466 elements. Fix the shared framework (scripts/remeshing/reusable_2d_adaptive_framework.py) so that Case 1 refines along the full crack propagation path (currently 0% <= l0/2 beyond x = 0.6 mm, band y in [0.48, 0.52]). The fix must be a shared-framework change, universal across all four benchmark cases, not a Case 1-only script and not a per-case algorithm fork, and must not prescribe a crack corridor or hardcode any refinement region. After ANY framework edit, regenerate adaptive remeshes for ALL FOUR benchmarks (Cases 1, 2, 3, 5) at the calibrated error targets with the same framework version, and report the effect on each case. Preserve Case 2 outer ligament 100.00% <= l0/2 at 41,438 elements, Case 3 secondary corridor 93.84% <= l0 at 77,779 elements, Case 5 upper corridor 99.04% <= l0. Correct F1811 report links to PRVSTUDENT, commit missing Case 2/3 journals. Cumulative PBS 35 preserved (0 consumed), MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1810-EVIDENCE-COMPLETION-AND-REVERIFICATION",
-    "checkpoint_artifact": "docs/validation/F1810_EVIDENCE_COMPLETION_REPORT.md",
+    "task_id": "F1811-ERROR-TARGET-EFFICIENCY-CALIBRATION",
+    "checkpoint_artifact": "docs/validation/F1811_ERROR_TARGET_EFFICIENCY_CALIBRATION_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
     "review_verdict": "APPROVE",
-    "correlation_id": "HND-F1810-EVIDENCE-COMPLETION-001"
+    "correlation_id": "HND-F1811-ERROR-TARGET-EFFICIENCY-001"
   },
-  "re_review_correlation_id": "HND-F1811-ERROR-TARGET-EFFICIENCY-001",
-  "scientific_operation": "error_target_efficiency_calibration",
-  "scientific_operation_id": "f1811_error_target_efficiency_001",
+  "re_review_correlation_id": "HND-F1812-CRACK-PATH-REFINEMENT-001",
+  "scientific_operation": "universal_framework_crack_path_refinement",
+  "scientific_operation_id": "f1812_crack_path_refinement_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "99EC77D2433EB5048DC9B4D70E5EA3B8468073C3BCEA342B7BFE139234700E6D",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1811 completed. Error-target efficiency calibration for Method A.2 Cases 2 and 3 executed. Selected Case 2 eta_R = 4.0% (41,438 elements, -65.1% reduction vs 118,640 F1809 baseline, 100.00% outer ligament resolution <= l0/2, Gate PASS). Selected Case 3 eta_R = 3.0% (77,779 elements, 93.84% secondary corridor resolution <= l0, Gate PASS; Pareto frontier mapped across 3.5%, 4.0%, 5.0%, 6.0%). Zero regression maintained on Cases 1 and 5 (14,087 and 15,466 elements). Cumulative PBS submissions strictly preserved at 35; MASTER_GOAL_STATUS = OPEN."
+  "notes": "Task F1812 active following supervisory approval HND-F1811-ERROR-TARGET-EFFICIENCY-001 [APPROVE / CONTINUE]. Developing universal shared-framework enhancement for Case 1 crack-path refinement evaluated against F1811 calibrated baselines (Case 2 eta_R = 4.0%, 41,438 el; Case 3 eta_R = 3.0%, 77,779 el). 0 new PBS jobs consumed, cumulative 35 preserved; MASTER_GOAL_STATUS = OPEN."
 }
