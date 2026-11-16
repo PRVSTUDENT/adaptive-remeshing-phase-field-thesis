@@ -1,23 +1,17 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1826-adapter-harmonization-20261116",
-  "task_id": "F1826-ADAPTER-HARMONIZATION-AND-GATE06-VERIFICATION",
-  "started_at": "2026-11-16T23:32:00+01:00",
-  "completed_at": "2026-11-17T00:18:00+01:00",
-  "starting_commit": "2753399b4ff441f9d6517a26ba19ad9f928e3793",
+  "session_id": "gemini-antigravity-f1827-campaign-synthesis-20261117",
+  "task_id": "F1827-CAMPAIGN-SYNTHESIS-F1812-F1826",
+  "started_at": "2026-11-17T00:25:00+01:00",
+  "completed_at": "2026-11-17T00:29:00+01:00",
+  "starting_commit": "b9d07909f52338e6c633ffd0865e3a23018d7372",
   "allowed_write_scope": [
-    "models/pandey_kumar_mode1/270_f1826_*",
-    "configs/remeshing/f1826_*",
-    "scripts/remeshing/run_f1826_*",
-    "scripts/validation/run_f1826_*",
-    "docs/validation/F1825_*",
-    "docs/validation/F1826_*",
-    "tests/unit/test_f1826_*",
-    "results/figures/fig_f1826_*",
-    "scripts/remeshing/reusable_2d_adaptive_framework.py",
+    "docs/validation/F1827_*",
+    "tests/unit/test_f1827_*",
+    "results/figures/fig_f1827_*",
     "project_coordination/*",
     ".agents/scripts/*"
   ],
-  "notes": "Task F1826: Correct F1825 report, apply adapter harmonization fix to reusable_2d_adaptive_framework.py, regenerate all four meshes in fresh directory 270_f1826_adapter_harmonization, verify Gate 06 under original definition, produce visual images and unit tests. 0 new PBS jobs consumed (cumulative 35 preserved), bitwise frozen UEL CE8D5EDC... preserved, MASTER_GOAL_STATUS = OPEN."
+  "notes": "Task F1827: Synthesis Consolidating the F1812-F1826 Campaign and the Harmonized Framework State. Consolidates accepted baselines (160,144 el), harmonized framework (80B41AA2...), Gate 06 plain disclosure (Cases 1 & 5 PASS, Cases 2 & 3 FAIL), F1823-F1826 findings, supplementary diagnostics (size-thresholded & corner ratios), and open items. 0 new PBS jobs consumed (cumulative 35 preserved), bitwise frozen UEL CE8D5EDC... preserved, MASTER_GOAL_STATUS = OPEN."
 }

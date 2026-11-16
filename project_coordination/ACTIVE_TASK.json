@@ -1,6 +1,6 @@
 {
-  "task_id": "F1826-ADAPTER-HARMONIZATION-AND-GATE06-VERIFICATION",
-  "title": "Task F1826: Correct F1825 Report, Apply Adapter Harmonization Fix, & Verify Gate 06",
+  "task_id": "F1827-CAMPAIGN-SYNTHESIS-F1812-F1826",
+  "title": "Task F1827: Synthesis Consolidating the F1812-F1826 Campaign and the Harmonized Framework State",
   "task_status": "COMPLETED",
   "master_goal_status": "OPEN",
   "status": "COMPLETED",
@@ -8,23 +8,23 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1826_ADAPTER_HARMONIZATION_AND_GATE06_VERIFICATION_REPORT.md",
-  "review_directive": "Task F1826: Correct the F1825 Report, Apply the Adapter Harmonization Fix, and Verify Gate 06 Under the Original Definition. Step 1: Correct F1825 report to state plainly that size-thresholded metric is a NEW supplementary metric and disclose Case 3 corridor-consistent FAIL (1.4462x); state original Gate 06 still fails for Cases 2 and 3 in baseline audit. Step 2: Unify classify_region() in reusable_2d_adaptive_framework.py for Cases 2 and 3 to include crack propagation corridors as process zone. Step 3: Regenerate all four meshes in fresh directory 270_f1826_adapter_harmonization and evaluate Gate 06 under the ORIGINAL definition. Step 4: Generate visual figures and unit test suite. 0 new PBS jobs consumed (cumulative 35 preserved). Bitwise frozen UEL CE8D5EDC... maintained.",
+  "checkpoint_artifact": "docs/validation/F1827_CAMPAIGN_SYNTHESIS_F1812_F1826.md",
+  "review_directive": "Task F1827: Synthesis Consolidating the F1812-F1826 Campaign and the Harmonized Framework State. Produce a single synthesis document docs/validation/F1827_CAMPAIGN_SYNTHESIS_F1812_F1826.md that consolidates: (1) accepted baselines (F1812, 160,144 elements total) with scientific gates PASS and Gate 06 plainly disclosed (Case 1 2.3867x PASS, Case 2 1.9349x FAIL, Case 3 1.4462x FAIL, Case 5 2.1174x PASS under original geometric definition); (2) harmonized framework (SHA-256 80B41AA2...) as current revision with adapter harmonization documented; (3) F1823 findings (zero framework discrepancy, Case 3 width-metric bug fixed, F1812 Case 1 4.5% provenance, Gate 06 sweep plateau, donor ablation causal roles) and F1825/F1826 findings (adapter inconsistency diagnosed, Gate 06 redefinition rejected and corrected, harmonization applied); (4) size-thresholded and corner ratios documented as supplementary diagnostics, not Gate 06; (5) open items plainly stated (Gate 06 FAIL for Cases 2 and 3; no coupled fracture validation on adapted meshes; F1823 Case 3 baseline discrepancy in F1823 report uncorrected). 0 new PBS jobs consumed (cumulative 35 preserved). Bitwise frozen UEL CE8D5EDC... maintained.",
   "predecessor_task": {
-    "task_id": "F1825-REGION-CLASSIFICATION-AND-COARSENING-METRIC-DIAGNOSIS",
-    "checkpoint_artifact": "docs/validation/F1825_REGION_CLASSIFICATION_AND_COARSENING_METRIC_REPORT.md",
+    "task_id": "F1826-ADAPTER-HARMONIZATION-AND-GATE06-VERIFICATION",
+    "checkpoint_artifact": "docs/validation/F1826_ADAPTER_HARMONIZATION_AND_GATE06_VERIFICATION_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
-    "review_verdict": "REJECT",
-    "correlation_id": "HND-F1825-COARSENING-METRIC-DIAGNOSIS-001"
+    "review_verdict": "APPROVE",
+    "correlation_id": "HND-F1826-ADAPTER-HARMONIZATION-GATE06-001"
   },
-  "re_review_correlation_id": "HND-F1826-ADAPTER-HARMONIZATION-GATE06-001",
+  "re_review_correlation_id": "HND-F1827-CAMPAIGN-SYNTHESIS-001",
   "scientific_operation": "shared_framework_improvement",
-  "scientific_operation_id": "f1826_adapter_harmonization_001",
+  "scientific_operation_id": "f1827_campaign_synthesis_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "80B41AA253E5B36B2BCF5D716B88843D29355141171C60AFF6E7134A0312932C",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1826 complete. F1825 report corrected and pushed. Adapter harmonization applied to Cases 2 & 3 in reusable_2d_adaptive_framework.py. All 4 meshes regenerated in 270_f1826_adapter_harmonization/ totaling 160,144 elements. Original Gate 06 evaluated and plainly disclosed (Cases 1 & 5 PASS, Cases 2 & 3 FAIL). All 4 scientific resolution gates PASS. Unit tests 100% pass."
+  "notes": "Task F1827 complete. Comprehensive campaign synthesis docs/validation/F1827_CAMPAIGN_SYNTHESIS_F1812_F1826.md produced, consolidating F1812-F1826 campaign, accepted baselines (160,144 el), harmonized framework (80B41AA2...), plain disclosure of Gate 06 (Cases 1 & 5 PASS, Cases 2 & 3 FAIL), supplementary diagnostics, and open items. 6/6 unit tests PASS in test_f1827_campaign_synthesis.py. 0 new PBS jobs consumed (cumulative 35 preserved). Bitwise frozen UEL maintained."
 }
