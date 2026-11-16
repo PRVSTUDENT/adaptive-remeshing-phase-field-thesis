@@ -1,0 +1,186 @@
+{
+  "case_1": [
+    {
+      "task": "F1808",
+      "error_target": "N/A",
+      "elements": 14087,
+      "quad_pct": 97.01852772059345,
+      "min_detj": 2.478867039473338e-07,
+      "max_ar": 2.64004104672243,
+      "coarsening": 2.5423908655360496,
+      "crit_desc": "Ligament: 79.8% <= l0/2",
+      "gate_status": "PASS"
+    },
+    {
+      "task": "F1809",
+      "error_target": "N/A",
+      "elements": 14087,
+      "quad_pct": 97.01852772059345,
+      "min_detj": 2.478867039473338e-07,
+      "max_ar": 2.64004104672243,
+      "coarsening": 2.5423908655360496,
+      "crit_desc": "Ligament: 79.8% <= l0/2",
+      "gate_status": "PASS"
+    },
+    {
+      "task": "F1811",
+      "error_target": 1.85,
+      "elements": 14087,
+      "quad_pct": 97.01852772059345,
+      "min_detj": 2.478867039473338e-07,
+      "max_ar": 2.64004104672243,
+      "coarsening": 2.5423908655360496,
+      "crit_desc": "Tip: 100.0% <= l0/2 (Distal 0%)",
+      "gate_status": "PASS"
+    },
+    {
+      "task": "F1812",
+      "error_target": 4.5,
+      "elements": 25461,
+      "quad_pct": 97.28604532422136,
+      "min_detj": 1.9058259253139778e-07,
+      "max_ar": 2.6317437436651954,
+      "coarsening": 2.3867048759843126,
+      "crit_desc": "Ligament: 97.2% <= l0/2",
+      "gate_status": "PASS"
+    }
+  ],
+  "case_2": [
+    {
+      "task": "F1808",
+      "error_target": "N/A",
+      "elements": 22924,
+      "quad_pct": 97.47862502181121,
+      "min_detj": 2.8697886394390244e-07,
+      "max_ar": 2.49980443858188,
+      "coarsening": 2.101565565351714,
+      "crit_desc": "Outer lig: 28.0% <= l0/2",
+      "gate_status": "FAIL"
+    },
+    {
+      "task": "F1809",
+      "error_target": "N/A",
+      "elements": 118640,
+      "quad_pct": 97.53202966958867,
+      "min_detj": 6.69176628840782e-08,
+      "max_ar": 2.6735711669228817,
+      "coarsening": 1.2781219180435301,
+      "crit_desc": "Outer lig: 100.0% <= l0/2",
+      "gate_status": "PASS"
+    },
+    {
+      "task": "F1811",
+      "error_target": 4.0,
+      "elements": 41438,
+      "quad_pct": 97.57227665427868,
+      "min_detj": 1.0885105644971146e-07,
+      "max_ar": 2.5387482170805216,
+      "coarsening": 1.550206862971793,
+      "crit_desc": "Outer lig: 100.0% <= l0/2",
+      "gate_status": "PASS"
+    },
+    {
+      "task": "F1812",
+      "error_target": 4.0,
+      "elements": 41438,
+      "quad_pct": 97.57227665427868,
+      "min_detj": 1.0885105644971146e-07,
+      "max_ar": 2.5387482170805216,
+      "coarsening": 1.550206862971793,
+      "crit_desc": "Outer lig: 100.0% <= l0/2",
+      "gate_status": "PASS"
+    }
+  ],
+  "case_3": [
+    {
+      "task": "F1808",
+      "error_target": "N/A",
+      "elements": 26746,
+      "quad_pct": 97.390263964705,
+      "min_detj": 0.0007650198281925534,
+      "max_ar": 3.862132362792168,
+      "coarsening": 2.479086599940545,
+      "crit_desc": "Sec corr: 58.3% <= l0",
+      "gate_status": "INCOMPLETE_RESOLUTION"
+    },
+    {
+      "task": "F1809",
+      "error_target": "N/A",
+      "elements": 77779,
+      "quad_pct": 97.33732755628127,
+      "min_detj": 0.0010693940393184003,
+      "max_ar": 2.6587673706247137,
+      "coarsening": 1.6537424905455305,
+      "crit_desc": "Sec corr: 93.8% <= l0",
+      "gate_status": "PASS"
+    },
+    {
+      "task": "F1811",
+      "error_target": 3.0,
+      "elements": 77779,
+      "quad_pct": 97.33732755628127,
+      "min_detj": 0.0010693940393184003,
+      "max_ar": 2.6587673706247137,
+      "coarsening": 1.6537424905455305,
+      "crit_desc": "Sec corr: 93.8% <= l0",
+      "gate_status": "PASS"
+    },
+    {
+      "task": "F1812",
+      "error_target": 3.0,
+      "elements": 77779,
+      "quad_pct": 97.33732755628127,
+      "min_detj": 0.0010693940393184003,
+      "max_ar": 2.6587673706247137,
+      "coarsening": 1.6537424905455305,
+      "crit_desc": "Sec corr: 93.8% <= l0",
+      "gate_status": "PASS"
+    }
+  ],
+  "case_5": [
+    {
+      "task": "F1808",
+      "error_target": "N/A",
+      "elements": 15466,
+      "quad_pct": 97.89861631966895,
+      "min_detj": 3.921570799516287e-07,
+      "max_ar": 2.3741091636738676,
+      "coarsening": 2.1174057923689285,
+      "crit_desc": "Inter-hole: 99.0% <= l0",
+      "gate_status": "PASS"
+    },
+    {
+      "task": "F1809",
+      "error_target": "N/A",
+      "elements": 15466,
+      "quad_pct": 97.89861631966895,
+      "min_detj": 3.921570799516287e-07,
+      "max_ar": 2.3741091636738676,
+      "coarsening": 2.1174057923689285,
+      "crit_desc": "Inter-hole: 99.0% <= l0",
+      "gate_status": "PASS"
+    },
+    {
+      "task": "F1811",
+      "error_target": 5.68,
+      "elements": 15466,
+      "quad_pct": 97.89861631966895,
+      "min_detj": 3.921570799516287e-07,
+      "max_ar": 2.3741091636738676,
+      "coarsening": 2.1174057923689285,
+      "crit_desc": "Inter-hole: 99.0% <= l0",
+      "gate_status": "PASS"
+    },
+    {
+      "task": "F1812",
+      "error_target": 5.68,
+      "elements": 15466,
+      "quad_pct": 97.89861631966895,
+      "min_detj": 3.921570799516287e-07,
+      "max_ar": 2.3741091636738676,
+      "coarsening": 2.1174057923689285,
+      "crit_desc": "Inter-hole: 99.0% <= l0",
+      "gate_status": "PASS"
+    }
+  ]
+}
