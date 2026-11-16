@@ -24,6 +24,26 @@ RESEARCH_GOAL_ID: PANDEY_KUMAR_NATIVE_MISESERI_CAUSAL_ADAPTIVITY_V1
   Diagnose a numerical uncertainty; choose one measurable test. Reports, planning
   and repeated reviews cannot substitute for numerical progress.
 
+## Mandatory GitHub image review before next instructions
+- Before giving any new scientific instruction, ChatGPT MUST open and visually
+  inspect AGY's genuine, commit-pinned GitHub adaptive-remesh images for Cases
+  1/2/3/5. Analyze refinement distribution, crack/process-zone coverage, transitions,
+  excessive refinement and visible defects FIRST; then use numerical audits to
+  corroborate findings and give one evidence-based corrective next instruction.
+- After EVERY adaptive-remeshing framework edit, AGY must regenerate adapted
+  meshes and corresponding images for ALL FOUR cases using that same frozen
+  revision, within existing execution gates. Push the genuine images and audits
+  to GitHub; never present older or mixed-revision images as current regression.
+- Where feasible, include one readable 2x2 composite showing all four meshes,
+  labeled by case and source revision, with consistent h/l0 coloring and critical
+  region zooms as needed. Also retain individual full-resolution image links.
+- Every handoff supplies commit-pinned image links and their mesh/source provenance.
+  ChatGPT's JSON reply includes image_review with inspected links, per-case visual
+  findings and verification status. Do not claim inspection from captions, reports
+  or inaccessible links. If required images/generation are missing or blocked,
+  return INSUFFICIENT_EVIDENCE and request that exact evidence before prescribing
+  another framework change. Images alone never establish scientific acceptance.
+
 ## Required request/reply contract
 - Canonical machine scope: .agents/scripts/bridge_research_policy.json. All paths,
   including INDEPENDENT_STRUCTURED_REVIEW_V1, pass the same publisher/hash checks.
