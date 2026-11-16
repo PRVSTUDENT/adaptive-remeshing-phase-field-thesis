@@ -96,6 +96,8 @@ With Tasks F1812, F1813, and F1814 complete:
 2. **Next Substantive Research Step (Job-2 Coupled Fracture Validation):**
    In strict compliance with the Research Priority Lock, no coupled phase-field fracture simulations (Job-2) have been executed on the adapted meshes. Executing Job-2 on the adapted meshes to validate post-remeshing crack propagation and fracture energy continuity is a new numerical phase that **requires the user's explicit authorization to lift the `max_new_pbs = 0` constraint**.
    Until such authorization is granted by the user, cumulative PBS submissions remain strictly preserved at 35, and `MASTER_GOAL_STATUS = OPEN`.
+3. **Test Suite Composition & Scope Clarification:**
+   The standalone test file `tests/unit/test_f1814_synthesis_label_correction.py` defines exactly 11 test functions dedicated to verifying the F1814 labeling corrections (summary JSON gate statuses, chart coverage series, right-axis label, threshold lines, and bitwise mesh/UEL invariants). The 34/34 passing test count reported during milestone closeout represents the combined regression run of the 11 F1814 tests plus the 23 predecessor F1813 tests (`tests/unit/test_f1813_unified_synthesis.py`), confirming complete regression-free consistency.
 
 ---
 
@@ -110,4 +112,4 @@ With Tasks F1812, F1813, and F1814 complete:
 | Unified Synthesis Figure PNG | `results/figures/fig_f1813_four_benchmark_unified_synthesis.png` | 4,954,731 bytes | `075B5384F55D58B26BF757506C5C9DB87BB54A41C787B4BB7A0FDC82F364715C` |
 | Unified Synthesis Figure PDF | `results/figures/fig_f1813_four_benchmark_unified_synthesis.pdf` | 5,388,959 bytes | `52C474A4383BD05E6BB7E5FC1072726505981EF263EEF6C0F0EED429F4A31057` |
 | Evidentiary Report | `docs/validation/F1814_SYNTHESIS_LABEL_CORRECTION_REPORT.md` | - | *computed upon commit* |
-| Unit Test Suite | `tests/unit/test_f1814_synthesis_label_correction.py` | 4,773 bytes | `585A822D68C0BEF835A43A78A52BE447E2063073998C6D98ED1C650A195743D9` |
+| Unit Test Suite | `tests/unit/test_f1814_synthesis_label_correction.py` | 5,783 bytes | `6766E8F2A694EE2D9DEFD0332D628970E98AEC3D61A62FEB9327DAD026BF7D84` |

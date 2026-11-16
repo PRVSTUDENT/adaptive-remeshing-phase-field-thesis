@@ -1,0 +1,445 @@
+{
+  "task_id": "F1816-MULTISTEP-REFINEMENT-NARROWING",
+  "title": "Task F1816: Multi-Step Refinement Narrowing Across Four Canonical Benchmarks",
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1816-MULTISTEP-NARROWING-002",
+  "predecessor_correlation_id": "HND-F1814-LABEL-CORRECTION-001",
+  "timestamp": "2026-11-16T12:52:08",
+  "governing_objectives": {
+    "master_goal_status": "OPEN",
+    "research_priority": "ADAPTIVE_REMESHING_ONLY",
+    "cumulative_pbs_submissions": 35,
+    "new_pbs_submissions": 0,
+    "frozen_production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "shared_framework_sha256": "4276A5DC1AF22A6A117102D8C24492789E8AA4EBFD4AF079C58EE86DBEEC7C8B",
+    "predeclared_adoption_rule": "Adopt modified framework ONLY if fine band narrows (>3*l0 concentration) while all 4 scientific gates PASS at F1812 thresholds; otherwise F1812 baselines stand."
+  },
+  "step1_sizing_method_investigation": {
+    "method": "MINIMUM_MAXIMUM",
+    "parameters": {
+      "eta_max_pct": 1.0,
+      "eta_min_pct": 5.0,
+      "mesh_bias": 7
+    },
+    "findings": {
+      "total_elements_all_cases": 258894,
+      "element_count_delta_vs_f1812": "+61.7% (160,144 -> 258,894 elements)",
+      "gate_07_budget_status": "FAIL on Cases 1, 3, 5",
+      "gate_06_coarsening_status": "FAIL on all cases (1.53x - 1.87x < 2.0x)",
+      "band_width_status": "WIDENED/DILUTED on all cases (Case 5 dropped from 29.31% to 9.19% within 3*l0)"
+    },
+    "decision": "REJECTED (Uniform error baseline retained)"
+  },
+  "step2_envelope_construction_investigation": {
+    "variant_2b_reduced_envelope": {
+      "description": "Reduced 2-state maximum error envelope: breach/arrest state + terminal state",
+      "cases": {
+        "case_1": {
+          "phys_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\263_f1816_multistep_narrowing\\step2_envelope\\variant_2b_reduced\\PK_F1816_V2B_CASE_1_PHYS.inp",
+          "elements": 29314,
+          "quads": 28524,
+          "tris": 790,
+          "quad_fraction": 0.973050419594733,
+          "min_det_j": 2.512553260895249e-07,
+          "max_ar": 2.728677887988022,
+          "coarsening_ratio": 2.296599652230723,
+          "gate_06_pass": true,
+          "scientific_gate": {
+            "gate": "SCIENTIFIC_GATE_FULL_LIGAMENT",
+            "val": 91.74658529497239,
+            "pass": false,
+            "threshold": ">= 95.0%"
+          },
+          "width_metrics": {
+            "n_fine": 14675,
+            "n_2l0": 2416,
+            "n_3l0": 3735,
+            "n_5l0": 6221,
+            "f_2l0": 16.4633730834753,
+            "f_3l0": 25.45144804088586,
+            "f_5l0": 42.39182282793867
+          },
+          "f1812_baseline": {
+            "elements": 25461,
+            "f_3l0": 27.61,
+            "gate_val": 97.19,
+            "gate_pass": true,
+            "coarsening": 2.39
+          }
+        },
+        "case_2": {
+          "phys_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\263_f1816_multistep_narrowing\\step2_envelope\\variant_2b_reduced\\PK_F1816_V2B_CASE_2_PHYS.inp",
+          "elements": 83913,
+          "quads": 81965,
+          "tris": 1948,
+          "quad_fraction": 0.9767854801997307,
+          "min_det_j": 1.2100207842524795e-07,
+          "max_ar": 2.535804525921297,
+          "coarsening_ratio": 1.2121117718419583,
+          "gate_06_pass": false,
+          "scientific_gate": {
+            "gate": "SCIENTIFIC_GATE_OUTER_DISTAL",
+            "val": 100.0,
+            "pass": true,
+            "threshold": "100.00%"
+          },
+          "width_metrics": {
+            "n_fine": 73081,
+            "n_2l0": 3197,
+            "n_3l0": 4931,
+            "n_5l0": 8598,
+            "f_2l0": 4.374598048740438,
+            "f_3l0": 6.747307781776385,
+            "f_5l0": 11.765027845814918
+          },
+          "f1812_baseline": {
+            "elements": 41438,
+            "f_3l0": 14.58,
+            "gate_val": 100.0,
+            "gate_pass": true,
+            "coarsening": 1.55
+          }
+        },
+        "case_3": {
+          "phys_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\263_f1816_multistep_narrowing\\step2_envelope\\variant_2b_reduced\\PK_F1816_V2B_CASE_3_PHYS.inp",
+          "elements": 51549,
+          "quads": 50182,
+          "tris": 1367,
+          "quad_fraction": 0.9734815418339832,
+          "min_det_j": 0.0009130245293589386,
+          "max_ar": 2.732481258270852,
+          "coarsening_ratio": 1.8552284181655683,
+          "gate_06_pass": false,
+          "scientific_gate": {
+            "gate": "SCIENTIFIC_GATE_SECONDARY_CORRIDOR",
+            "val": 87.60929835785882,
+            "pass": false,
+            "threshold": ">= 90.0%"
+          },
+          "width_metrics": {
+            "n_fine": 11071,
+            "n_2l0": 34,
+            "n_3l0": 53,
+            "n_5l0": 105,
+            "f_2l0": 0.3071086622707976,
+            "f_3l0": 0.47872820883389033,
+            "f_5l0": 0.9484238099539337
+          },
+          "f1812_baseline": {
+            "elements": 77779,
+            "f_3l0": 0.49,
+            "gate_val": 93.84,
+            "gate_pass": true,
+            "coarsening": 1.65
+          }
+        },
+        "case_5": {
+          "phys_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\263_f1816_multistep_narrowing\\step2_envelope\\variant_2b_reduced\\PK_F1816_V2B_CASE_5_PHYS.inp",
+          "elements": 15466,
+          "quads": 15141,
+          "tris": 325,
+          "quad_fraction": 0.9789861631966894,
+          "min_det_j": 3.921570799516287e-07,
+          "max_ar": 2.3741091636738676,
+          "coarsening_ratio": 2.1174057923689285,
+          "gate_06_pass": true,
+          "scientific_gate": {
+            "gate": "SCIENTIFIC_GATE_INTER_HOLE",
+            "val": 99.14356898162566,
+            "pass": true,
+            "threshold": ">= 90.0%"
+          },
+          "width_metrics": {
+            "n_fine": 6203,
+            "n_2l0": 1217,
+            "n_3l0": 1818,
+            "n_5l0": 2891,
+            "f_2l0": 19.619538932774464,
+            "f_3l0": 29.308399161695952,
+            "f_5l0": 46.606480735128166
+          },
+          "f1812_baseline": {
+            "elements": 15466,
+            "f_3l0": 29.31,
+            "gate_val": 99.04,
+            "gate_pass": true,
+            "coarsening": 2.12
+          }
+        }
+      },
+      "decision": "REJECTED (Fails scientific gates on Case 1 [91.75% < 95%] and Case 3 [87.61% < 90%]; doubles Case 2 mesh to 83,913 elements; fails to narrow band)"
+    },
+    "variant_2a_overlapping_rules": {
+      "description": "Per-state overlapping native RemeshingRules in Abaqus CAE across distinct steps",
+      "cases": {
+        "case_1": {
+          "phys_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\263_f1816_multistep_narrowing\\step2_envelope\\variant_2a_overlapping\\PK_F1816_V2A_CASE_1_PHYS.inp",
+          "elements": 37511,
+          "quads": 36570,
+          "tris": 941,
+          "quad_fraction": 0.974914025219269,
+          "min_det_j": 1.7007000754118689e-07,
+          "max_ar": 2.422765594778767,
+          "coarsening_ratio": 2.1005429309064967,
+          "gate_06_pass": true,
+          "scientific_gate": {
+            "gate": "SCIENTIFIC_GATE_FULL_LIGAMENT",
+            "val": 99.65313201387472,
+            "pass": true,
+            "threshold": ">= 95.0%"
+          },
+          "width_metrics": {
+            "n_fine": 26784,
+            "n_2l0": 3758,
+            "n_3l0": 5602,
+            "n_5l0": 9176,
+            "f_2l0": 14.030764635603346,
+            "f_3l0": 20.915471923536437,
+            "f_5l0": 34.25925925925926
+          },
+          "f1812_baseline": {
+            "elements": 25461,
+            "f_3l0": 27.61,
+            "gate_val": 97.19,
+            "gate_pass": true,
+            "coarsening": 2.39
+          }
+        },
+        "case_2": {
+          "phys_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\263_f1816_multistep_narrowing\\step2_envelope\\variant_2a_overlapping\\PK_F1816_V2A_CASE_2_PHYS.inp",
+          "elements": 82869,
+          "quads": 80838,
+          "tris": 2031,
+          "quad_fraction": 0.9754914382941752,
+          "min_det_j": 1.328690609362478e-07,
+          "max_ar": 2.856025444848565,
+          "coarsening_ratio": 1.424935710576909,
+          "gate_06_pass": false,
+          "scientific_gate": {
+            "gate": "SCIENTIFIC_GATE_OUTER_DISTAL",
+            "val": 100.0,
+            "pass": true,
+            "threshold": "100.00%"
+          },
+          "width_metrics": {
+            "n_fine": 69234,
+            "n_2l0": 3653,
+            "n_3l0": 5668,
+            "n_5l0": 10172,
+            "f_2l0": 5.276309327786925,
+            "f_3l0": 8.186729063754802,
+            "f_5l0": 14.692203252737093
+          },
+          "f1812_baseline": {
+            "elements": 41438,
+            "f_3l0": 14.58,
+            "gate_val": 100.0,
+            "gate_pass": true,
+            "coarsening": 1.55
+          }
+        },
+        "case_3": {
+          "phys_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\263_f1816_multistep_narrowing\\step2_envelope\\variant_2a_overlapping\\PK_F1816_V2A_CASE_3_PHYS.inp",
+          "elements": 57464,
+          "quads": 55968,
+          "tris": 1496,
+          "quad_fraction": 0.9739663093415006,
+          "min_det_j": 0.0008944666302579844,
+          "max_ar": 2.450683604513451,
+          "coarsening_ratio": 1.7484025240230696,
+          "gate_06_pass": false,
+          "scientific_gate": {
+            "gate": "SCIENTIFIC_GATE_SECONDARY_CORRIDOR",
+            "val": 86.29756655234362,
+            "pass": false,
+            "threshold": ">= 90.0%"
+          },
+          "width_metrics": {
+            "n_fine": 10554,
+            "n_2l0": 5,
+            "n_3l0": 7,
+            "n_5l0": 12,
+            "f_2l0": 0.04737540269092287,
+            "f_3l0": 0.06632556376729201,
+            "f_5l0": 0.11370096645821488
+          },
+          "f1812_baseline": {
+            "elements": 77779,
+            "f_3l0": 0.49,
+            "gate_val": 93.84,
+            "gate_pass": true,
+            "coarsening": 1.65
+          }
+        },
+        "case_5": {
+          "phys_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\263_f1816_multistep_narrowing\\step2_envelope\\variant_2a_overlapping\\PK_F1816_V2A_CASE_5_PHYS.inp",
+          "elements": 15466,
+          "quads": 15141,
+          "tris": 325,
+          "quad_fraction": 0.9789861631966894,
+          "min_det_j": 3.921570799516287e-07,
+          "max_ar": 2.3741091636738676,
+          "coarsening_ratio": 2.1174057923689285,
+          "gate_06_pass": true,
+          "scientific_gate": {
+            "gate": "SCIENTIFIC_GATE_INTER_HOLE",
+            "val": 99.14356898162566,
+            "pass": true,
+            "threshold": ">= 90.0%"
+          },
+          "width_metrics": {
+            "n_fine": 6203,
+            "n_2l0": 1217,
+            "n_3l0": 1818,
+            "n_5l0": 2891,
+            "f_2l0": 19.619538932774464,
+            "f_3l0": 29.308399161695952,
+            "f_5l0": 46.606480735128166
+          },
+          "f1812_baseline": {
+            "elements": 15466,
+            "f_3l0": 29.31,
+            "gate_val": 99.04,
+            "gate_pass": true,
+            "coarsening": 2.12
+          }
+        }
+      },
+      "decision": "REJECTED (Fails Case 3 secondary corridor gate [86.30% < 90%]; balloons Case 1 to 37,511 elements and Case 2 to 82,869 elements; dilutes band localization)"
+    }
+  },
+  "step3_combine_and_validate_decision": {
+    "adopted_framework_configuration": "F1812_BASELINES_ADOPTED_AS_PARETO_OPTIMUM",
+    "total_canonical_elements": 160144,
+    "scientific_gate_compliance": "100% PASS across Cases 1, 2, 3, 5",
+    "physical_mechanism_conclusion": "The refinement width is governed by the boundary value problem stress decay length and cannot be artificially narrowed without losing crack-path coverage."
+  },
+  "four_benchmark_width_metrics_comparison": {
+    "case_1": {
+      "f1812_baseline": {
+        "elements": 25461,
+        "pct_within_3l0": 27.61,
+        "gate_val": 97.19,
+        "gate_status": "PASS"
+      },
+      "step1_minmax": {
+        "elements": 63210,
+        "pct_within_3l0": 15.875088824444486,
+        "gate_val": 100.0,
+        "gate_status": "PASS"
+      },
+      "step2b_reduced": {
+        "elements": 29314,
+        "pct_within_3l0": 25.45144804088586,
+        "gate_val": 91.74658529497239,
+        "gate_status": "FAIL"
+      },
+      "step2a_overlap": {
+        "elements": 37511,
+        "pct_within_3l0": 20.915471923536437,
+        "gate_val": 99.65313201387472,
+        "gate_status": "PASS"
+      }
+    },
+    "case_2": {
+      "f1812_baseline": {
+        "elements": 41438,
+        "pct_within_3l0": 14.58,
+        "gate_val": 100.0,
+        "gate_status": "PASS"
+      },
+      "step1_minmax": {
+        "elements": 56300,
+        "pct_within_3l0": 12.31873224697264,
+        "gate_val": 99.73831123517097,
+        "gate_status": "PASS"
+      },
+      "step2b_reduced": {
+        "elements": 83913,
+        "pct_within_3l0": 6.747307781776385,
+        "gate_val": 100.0,
+        "gate_status": "PASS"
+      },
+      "step2a_overlap": {
+        "elements": 82869,
+        "pct_within_3l0": 8.186729063754802,
+        "gate_val": 100.0,
+        "gate_status": "PASS"
+      }
+    },
+    "case_3": {
+      "f1812_baseline": {
+        "elements": 77779,
+        "pct_within_3l0": 0.49,
+        "gate_val": 93.84,
+        "gate_status": "PASS"
+      },
+      "step1_minmax": {
+        "elements": 87786,
+        "pct_within_3l0": 1.0614187504721615,
+        "gate_val": 96.49950835791545,
+        "gate_status": "PASS"
+      },
+      "step2b_reduced": {
+        "elements": 51549,
+        "pct_within_3l0": 0.47872820883389033,
+        "gate_val": 87.60929835785882,
+        "gate_status": "FAIL"
+      },
+      "step2a_overlap": {
+        "elements": 57464,
+        "pct_within_3l0": 0.06632556376729201,
+        "gate_val": 86.29756655234362,
+        "gate_status": "FAIL"
+      }
+    },
+    "case_5": {
+      "f1812_baseline": {
+        "elements": 15466,
+        "pct_within_3l0": 29.31,
+        "gate_val": 99.04,
+        "gate_status": "PASS"
+      },
+      "step1_minmax": {
+        "elements": 51598,
+        "pct_within_3l0": 9.18992812100366,
+        "gate_val": 99.99382258463059,
+        "gate_status": "PASS"
+      },
+      "step2b_reduced": {
+        "elements": 15466,
+        "pct_within_3l0": 29.308399161695952,
+        "gate_val": 99.14356898162566,
+        "gate_status": "PASS"
+      },
+      "step2a_overlap": {
+        "elements": 15466,
+        "pct_within_3l0": 29.308399161695952,
+        "gate_val": 99.14356898162566,
+        "gate_status": "PASS"
+      }
+    }
+  },
+  "artifact_manifest": {
+    "step1_summary": {
+      "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step1_minmax/step1_minmax_summary.json",
+      "size_bytes": 7608,
+      "sha256": "10E7D51946C25731BB0875EB22A6A315CF05AFB63A97846567C72CCF7BA9BA86"
+    },
+    "step2_summary": {
+      "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/step2_envelope_summary.json",
+      "size_bytes": 8749,
+      "sha256": "CD659D3CB8F2EA49A96DB34EF7304C3E18402209A7D564B34A16A2358CDA3BBA"
+    },
+    "comparison_figure_png": {
+      "path": "results/figures/fig_f1816_refinement_width_comparison.png",
+      "size_bytes": 793820,
+      "sha256": "2B8054C994856E21B4F4826940DE3FFB34F98D6D060A0AA5332D22E7C6D3D6E5"
+    },
+    "comparison_figure_pdf": {
+      "path": "results/figures/fig_f1816_refinement_width_comparison.pdf",
+      "size_bytes": 67087,
+      "sha256": "7D01DAC02126809E297615E36F10219F878A5D4BFA107C2906EF45C6776BF611"
+    }
+  }
+}

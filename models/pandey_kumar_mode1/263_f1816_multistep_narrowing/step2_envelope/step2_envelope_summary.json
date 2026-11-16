@@ -1,0 +1,272 @@
+{
+  "timestamp": "2026-11-16T12:39:40",
+  "total_runtime_s": 99.69766688346863,
+  "variant_2b_reduced": {
+    "case_1": {
+      "phys_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\263_f1816_multistep_narrowing\\step2_envelope\\variant_2b_reduced\\PK_F1816_V2B_CASE_1_PHYS.inp",
+      "elements": 29314,
+      "quads": 28524,
+      "tris": 790,
+      "quad_fraction": 0.973050419594733,
+      "min_det_j": 2.512553260895249e-07,
+      "max_ar": 2.728677887988022,
+      "coarsening_ratio": 2.296599652230723,
+      "gate_06_pass": true,
+      "scientific_gate": {
+        "gate": "SCIENTIFIC_GATE_FULL_LIGAMENT",
+        "val": 91.74658529497239,
+        "pass": false,
+        "threshold": ">= 95.0%"
+      },
+      "width_metrics": {
+        "n_fine": 14675,
+        "n_2l0": 2416,
+        "n_3l0": 3735,
+        "n_5l0": 6221,
+        "f_2l0": 16.4633730834753,
+        "f_3l0": 25.45144804088586,
+        "f_5l0": 42.39182282793867
+      },
+      "f1812_baseline": {
+        "elements": 25461,
+        "f_3l0": 27.61,
+        "gate_val": 97.19,
+        "gate_pass": true,
+        "coarsening": 2.39
+      }
+    },
+    "case_2": {
+      "phys_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\263_f1816_multistep_narrowing\\step2_envelope\\variant_2b_reduced\\PK_F1816_V2B_CASE_2_PHYS.inp",
+      "elements": 83913,
+      "quads": 81965,
+      "tris": 1948,
+      "quad_fraction": 0.9767854801997307,
+      "min_det_j": 1.2100207842524795e-07,
+      "max_ar": 2.535804525921297,
+      "coarsening_ratio": 1.2121117718419583,
+      "gate_06_pass": false,
+      "scientific_gate": {
+        "gate": "SCIENTIFIC_GATE_OUTER_DISTAL",
+        "val": 100.0,
+        "pass": true,
+        "threshold": "100.00%"
+      },
+      "width_metrics": {
+        "n_fine": 73081,
+        "n_2l0": 3197,
+        "n_3l0": 4931,
+        "n_5l0": 8598,
+        "f_2l0": 4.374598048740438,
+        "f_3l0": 6.747307781776385,
+        "f_5l0": 11.765027845814918
+      },
+      "f1812_baseline": {
+        "elements": 41438,
+        "f_3l0": 14.58,
+        "gate_val": 100.0,
+        "gate_pass": true,
+        "coarsening": 1.55
+      }
+    },
+    "case_3": {
+      "phys_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\263_f1816_multistep_narrowing\\step2_envelope\\variant_2b_reduced\\PK_F1816_V2B_CASE_3_PHYS.inp",
+      "elements": 51549,
+      "quads": 50182,
+      "tris": 1367,
+      "quad_fraction": 0.9734815418339832,
+      "min_det_j": 0.0009130245293589386,
+      "max_ar": 2.732481258270852,
+      "coarsening_ratio": 1.8552284181655683,
+      "gate_06_pass": false,
+      "scientific_gate": {
+        "gate": "SCIENTIFIC_GATE_SECONDARY_CORRIDOR",
+        "val": 87.60929835785882,
+        "pass": false,
+        "threshold": ">= 90.0%"
+      },
+      "width_metrics": {
+        "n_fine": 11071,
+        "n_2l0": 34,
+        "n_3l0": 53,
+        "n_5l0": 105,
+        "f_2l0": 0.3071086622707976,
+        "f_3l0": 0.47872820883389033,
+        "f_5l0": 0.9484238099539337
+      },
+      "f1812_baseline": {
+        "elements": 77779,
+        "f_3l0": 0.49,
+        "gate_val": 93.84,
+        "gate_pass": true,
+        "coarsening": 1.65
+      }
+    },
+    "case_5": {
+      "phys_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\263_f1816_multistep_narrowing\\step2_envelope\\variant_2b_reduced\\PK_F1816_V2B_CASE_5_PHYS.inp",
+      "elements": 15466,
+      "quads": 15141,
+      "tris": 325,
+      "quad_fraction": 0.9789861631966894,
+      "min_det_j": 3.921570799516287e-07,
+      "max_ar": 2.3741091636738676,
+      "coarsening_ratio": 2.1174057923689285,
+      "gate_06_pass": true,
+      "scientific_gate": {
+        "gate": "SCIENTIFIC_GATE_INTER_HOLE",
+        "val": 99.14356898162566,
+        "pass": true,
+        "threshold": ">= 90.0%"
+      },
+      "width_metrics": {
+        "n_fine": 6203,
+        "n_2l0": 1217,
+        "n_3l0": 1818,
+        "n_5l0": 2891,
+        "f_2l0": 19.619538932774464,
+        "f_3l0": 29.308399161695952,
+        "f_5l0": 46.606480735128166
+      },
+      "f1812_baseline": {
+        "elements": 15466,
+        "f_3l0": 29.31,
+        "gate_val": 99.04,
+        "gate_pass": true,
+        "coarsening": 2.12
+      }
+    }
+  },
+  "variant_2a_overlapping": {
+    "case_1": {
+      "phys_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\263_f1816_multistep_narrowing\\step2_envelope\\variant_2a_overlapping\\PK_F1816_V2A_CASE_1_PHYS.inp",
+      "elements": 37511,
+      "quads": 36570,
+      "tris": 941,
+      "quad_fraction": 0.974914025219269,
+      "min_det_j": 1.7007000754118689e-07,
+      "max_ar": 2.422765594778767,
+      "coarsening_ratio": 2.1005429309064967,
+      "gate_06_pass": true,
+      "scientific_gate": {
+        "gate": "SCIENTIFIC_GATE_FULL_LIGAMENT",
+        "val": 99.65313201387472,
+        "pass": true,
+        "threshold": ">= 95.0%"
+      },
+      "width_metrics": {
+        "n_fine": 26784,
+        "n_2l0": 3758,
+        "n_3l0": 5602,
+        "n_5l0": 9176,
+        "f_2l0": 14.030764635603346,
+        "f_3l0": 20.915471923536437,
+        "f_5l0": 34.25925925925926
+      },
+      "f1812_baseline": {
+        "elements": 25461,
+        "f_3l0": 27.61,
+        "gate_val": 97.19,
+        "gate_pass": true,
+        "coarsening": 2.39
+      }
+    },
+    "case_2": {
+      "phys_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\263_f1816_multistep_narrowing\\step2_envelope\\variant_2a_overlapping\\PK_F1816_V2A_CASE_2_PHYS.inp",
+      "elements": 82869,
+      "quads": 80838,
+      "tris": 2031,
+      "quad_fraction": 0.9754914382941752,
+      "min_det_j": 1.328690609362478e-07,
+      "max_ar": 2.856025444848565,
+      "coarsening_ratio": 1.424935710576909,
+      "gate_06_pass": false,
+      "scientific_gate": {
+        "gate": "SCIENTIFIC_GATE_OUTER_DISTAL",
+        "val": 100.0,
+        "pass": true,
+        "threshold": "100.00%"
+      },
+      "width_metrics": {
+        "n_fine": 69234,
+        "n_2l0": 3653,
+        "n_3l0": 5668,
+        "n_5l0": 10172,
+        "f_2l0": 5.276309327786925,
+        "f_3l0": 8.186729063754802,
+        "f_5l0": 14.692203252737093
+      },
+      "f1812_baseline": {
+        "elements": 41438,
+        "f_3l0": 14.58,
+        "gate_val": 100.0,
+        "gate_pass": true,
+        "coarsening": 1.55
+      }
+    },
+    "case_3": {
+      "phys_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\263_f1816_multistep_narrowing\\step2_envelope\\variant_2a_overlapping\\PK_F1816_V2A_CASE_3_PHYS.inp",
+      "elements": 57464,
+      "quads": 55968,
+      "tris": 1496,
+      "quad_fraction": 0.9739663093415006,
+      "min_det_j": 0.0008944666302579844,
+      "max_ar": 2.450683604513451,
+      "coarsening_ratio": 1.7484025240230696,
+      "gate_06_pass": false,
+      "scientific_gate": {
+        "gate": "SCIENTIFIC_GATE_SECONDARY_CORRIDOR",
+        "val": 86.29756655234362,
+        "pass": false,
+        "threshold": ">= 90.0%"
+      },
+      "width_metrics": {
+        "n_fine": 10554,
+        "n_2l0": 5,
+        "n_3l0": 7,
+        "n_5l0": 12,
+        "f_2l0": 0.04737540269092287,
+        "f_3l0": 0.06632556376729201,
+        "f_5l0": 0.11370096645821488
+      },
+      "f1812_baseline": {
+        "elements": 77779,
+        "f_3l0": 0.49,
+        "gate_val": 93.84,
+        "gate_pass": true,
+        "coarsening": 1.65
+      }
+    },
+    "case_5": {
+      "phys_inp": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\263_f1816_multistep_narrowing\\step2_envelope\\variant_2a_overlapping\\PK_F1816_V2A_CASE_5_PHYS.inp",
+      "elements": 15466,
+      "quads": 15141,
+      "tris": 325,
+      "quad_fraction": 0.9789861631966894,
+      "min_det_j": 3.921570799516287e-07,
+      "max_ar": 2.3741091636738676,
+      "coarsening_ratio": 2.1174057923689285,
+      "gate_06_pass": true,
+      "scientific_gate": {
+        "gate": "SCIENTIFIC_GATE_INTER_HOLE",
+        "val": 99.14356898162566,
+        "pass": true,
+        "threshold": ">= 90.0%"
+      },
+      "width_metrics": {
+        "n_fine": 6203,
+        "n_2l0": 1217,
+        "n_3l0": 1818,
+        "n_5l0": 2891,
+        "f_2l0": 19.619538932774464,
+        "f_3l0": 29.308399161695952,
+        "f_5l0": 46.606480735128166
+      },
+      "f1812_baseline": {
+        "elements": 15466,
+        "f_3l0": 29.31,
+        "gate_val": 99.04,
+        "gate_pass": true,
+        "coarsening": 2.12
+      }
+    }
+  }
+}
