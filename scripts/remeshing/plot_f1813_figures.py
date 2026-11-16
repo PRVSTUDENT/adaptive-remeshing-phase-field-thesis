@@ -83,19 +83,20 @@ def generate_progression_figure(summary_json_path, out_dir):
     ax = axes[0, 0]
     c_data = summary['case_1']
     elems = [d['elements'] for d in c_data]
-    # Resolution: F1808/F1809 had 79.8% tip only (0% distal), F1811 had 0% distal, F1812 has 97.2% full ligament
-    covs = [0.0, 0.0, 0.0, 97.19]  # Outer ligament / distal coverage <= l0/2
+    # Full ligament coverage <= l0/2 (x in [0.5, 1.0]): 79.8% in F1808/F1809/F1811 (tip-only), 97.19% in F1812
+    covs = [79.8, 79.8, 79.8, 97.19]
     ax2 = ax.twinx()
     l1 = ax.plot(range(4), elems, 'o-', color='#1f77b4', linewidth=2.2, markersize=7, label='Element Count')
-    l2 = ax2.plot(range(4), covs, 's--', color='#2ca02c', linewidth=2.2, markersize=7, label='Distal Resolution (% $\leq \ell_0/2$)')
+    l2 = ax2.plot(range(4), covs, 's--', color='#2ca02c', linewidth=2.2, markersize=7, label='Full Ligament (% $\leq \ell_0/2$)')
     ax.axhline(30000, color='gray', linestyle=':', label='Budget (30k)')
+    ax2.axhline(95.0, color='#2ca02c', linestyle=':', alpha=0.7, label='Gate Threshold (95%)')
     ax.set_title(case_titles[0], fontsize=11, fontweight='bold')
     ax.set_xticks(range(4))
     ax.set_xticklabels(tasks, fontsize=9)
     ax.set_ylabel('Total Elements', color='#1f77b4', fontsize=10, fontweight='bold')
-    ax2.set_ylabel('Distal Ligament Coverage (%)', color='#2ca02c', fontsize=10, fontweight='bold')
+    ax2.set_ylabel('Full Ligament Coverage (%)', color='#2ca02c', fontsize=10, fontweight='bold')
     ax.set_ylim(0, 35000)
-    ax2.set_ylim(-5, 110)
+    ax2.set_ylim(60, 105)
     for i, e in enumerate(elems):
         ax.annotate(f"{e:,}", (i, e), textcoords="offset points", xytext=(0, 8), ha='center', fontsize=8, fontweight='bold')
     for i, c in enumerate(covs):

@@ -4,7 +4,7 @@
   "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
   "correlation_id": "HND-F1813-UNIFIED-SYNTHESIS-001",
   "predecessor_correlation_id": "HND-F1812-CRACK-PATH-REFINEMENT-001",
-  "timestamp_iso": "2026-11-16T09:54:43.006429+00:00",
+  "timestamp_iso": "2026-11-16T10:24:08.852170+00:00",
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "shared_framework_sha256": "4276A5DC1AF22A6A117102D8C24492789E8AA4EBFD4AF079C58EE86DBEEC7C8B",
   "cumulative_pbs_submissions": 35,
@@ -120,8 +120,8 @@
         "min_detj": 2.478867039473338e-07,
         "max_ar": 2.64004104672243,
         "coarsening": 2.5423908655360496,
-        "crit_desc": "Ligament: 79.8% <= l0/2",
-        "gate_status": "PASS"
+        "crit_desc": "Full Ligament: 79.8% <= l0/2 (Incomplete)",
+        "gate_status": "INCOMPLETE"
       },
       {
         "task": "F1809",
@@ -131,8 +131,8 @@
         "min_detj": 2.478867039473338e-07,
         "max_ar": 2.64004104672243,
         "coarsening": 2.5423908655360496,
-        "crit_desc": "Ligament: 79.8% <= l0/2",
-        "gate_status": "PASS"
+        "crit_desc": "Full Ligament: 79.8% <= l0/2 (Incomplete)",
+        "gate_status": "INCOMPLETE"
       },
       {
         "task": "F1811",
@@ -142,8 +142,8 @@
         "min_detj": 2.478867039473338e-07,
         "max_ar": 2.64004104672243,
         "coarsening": 2.5423908655360496,
-        "crit_desc": "Tip: 100.0% <= l0/2 (Distal 0%)",
-        "gate_status": "PASS"
+        "crit_desc": "Tip: 100.0% <= l0/2 in 0.05mm tip box (Distal 0.0%, Incomplete)",
+        "gate_status": "INCOMPLETE"
       },
       {
         "task": "F1812",
@@ -153,7 +153,7 @@
         "min_detj": 1.9058259253139778e-07,
         "max_ar": 2.6317437436651954,
         "coarsening": 2.3867048759843126,
-        "crit_desc": "Ligament: 97.2% <= l0/2",
+        "crit_desc": "Full Ligament: 97.2% <= l0/2",
         "gate_status": "PASS"
       }
     ],
@@ -299,13 +299,13 @@
   "published_figures": {
     "fig_progression_png": {
       "relative_path": "results/figures/fig_f1813_four_benchmark_progression.png",
-      "sha256": "911B5771569A6910E2ED74C0E72C53D231FBD1135E127D3A773CB03F9BB2F2C0",
-      "bytes": 544468
+      "sha256": "D416BB525E0F477C1C320026A2A87D64C8F87FF1B1DB245713C261B78AC3545B",
+      "bytes": 565353
     },
     "fig_progression_pdf": {
       "relative_path": "results/figures/fig_f1813_four_benchmark_progression.pdf",
-      "sha256": "07856159C2903DF4DBF43D3F8C34702F8ABBA134493150344FB2CE93AE727A8E",
-      "bytes": 36119
+      "sha256": "7A320E4DD7E40311561093116C6E8D3882BDC45C16CEC925A664E201525B5903",
+      "bytes": 35994
     },
     "fig_unified_synthesis_png": {
       "relative_path": "results/figures/fig_f1813_four_benchmark_unified_synthesis.png",
@@ -314,7 +314,7 @@
     },
     "fig_unified_synthesis_pdf": {
       "relative_path": "results/figures/fig_f1813_four_benchmark_unified_synthesis.pdf",
-      "sha256": "B7816D33668CDFDA308DD0CB7E6549F34020E32200E9E81AF594CA47C4BE698C",
+      "sha256": "52C474A4383BD05E6BB7E5FC1072726505981EF263EEF6C0F0EED429F4A31057",
       "bytes": 5388959
     }
   }

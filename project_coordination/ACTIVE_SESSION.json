@@ -1,11 +1,11 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "session-2026-11-16-f1813-synthesis",
-  "task_id": "F1813-UNIFIED-FRAMEWORK-SYNTHESIS",
-  "started_at": "2026-11-16T10:48:30+01:00",
-  "ended_at": "2026-11-16T11:05:00+01:00",
-  "starting_commit": "754938f70",
+  "session_id": "session-2026-11-16-f1814-label-correction",
+  "task_id": "F1814-SYNTHESIS-LABEL-CORRECTION",
+  "started_at": "2026-11-16T11:18:30+01:00",
+  "ended_at": "2026-11-16T11:30:00+01:00",
+  "starting_commit": "c890645ea",
   "allowed_write_scope": [
     "project_coordination/",
     "docs/validation/",
@@ -17,5 +17,5 @@
     "results/figures/",
     ".agents/"
   ],
-  "notes": "Task F1813 active: Method A / A.2 Unified Framework Synthesis and Comprehensive Benchmark Assessment across Cases 1, 2, 3, 5 documenting the campaign progression F1808 -> F1809 -> F1811 -> F1812, 100% scientific gate compliance, and transparent gap analysis. Cumulative PBS 35 preserved, MASTER_GOAL_STATUS = OPEN."
+  "notes": "Task F1814 active: Correct synthesis labeling defects carried from F1813 review (Case 1 progression JSON gate_status and Case 1 progression chart coverage series consistency). No mesh regeneration, no framework or UEL change, 0 new PBS jobs consumed, cumulative 35 preserved, MASTER_GOAL_STATUS = OPEN."
 }

@@ -8,8 +8,8 @@
       "min_detj": 2.478867039473338e-07,
       "max_ar": 2.64004104672243,
       "coarsening": 2.5423908655360496,
-      "crit_desc": "Ligament: 79.8% <= l0/2",
-      "gate_status": "PASS"
+      "crit_desc": "Full Ligament: 79.8% <= l0/2 (Incomplete)",
+      "gate_status": "INCOMPLETE"
     },
     {
       "task": "F1809",
@@ -19,8 +19,8 @@
       "min_detj": 2.478867039473338e-07,
       "max_ar": 2.64004104672243,
       "coarsening": 2.5423908655360496,
-      "crit_desc": "Ligament: 79.8% <= l0/2",
-      "gate_status": "PASS"
+      "crit_desc": "Full Ligament: 79.8% <= l0/2 (Incomplete)",
+      "gate_status": "INCOMPLETE"
     },
     {
       "task": "F1811",
@@ -30,8 +30,8 @@
       "min_detj": 2.478867039473338e-07,
       "max_ar": 2.64004104672243,
       "coarsening": 2.5423908655360496,
-      "crit_desc": "Tip: 100.0% <= l0/2 (Distal 0%)",
-      "gate_status": "PASS"
+      "crit_desc": "Tip: 100.0% <= l0/2 in 0.05mm tip box (Distal 0.0%, Incomplete)",
+      "gate_status": "INCOMPLETE"
     },
     {
       "task": "F1812",
@@ -41,7 +41,7 @@
       "min_detj": 1.9058259253139778e-07,
       "max_ar": 2.6317437436651954,
       "coarsening": 2.3867048759843126,
-      "crit_desc": "Ligament: 97.2% <= l0/2",
+      "crit_desc": "Full Ligament: 97.2% <= l0/2",
       "gate_status": "PASS"
     }
   ],
