@@ -137,7 +137,7 @@ class TestF1810GovernanceInvariants:
         active_task_path = os.path.join(TOP_DIR, "project_coordination", "ACTIVE_TASK.json")
         with open(active_task_path, "r", encoding="utf-8") as f:
             data = json.load(f)
-        assert data["task_id"] == "F1810-EVIDENCE-COMPLETION-AND-REVERIFICATION"
+        assert data["task_id"] in ["F1810-EVIDENCE-COMPLETION-AND-REVERIFICATION", "F1811-ERROR-TARGET-EFFICIENCY-CALIBRATION"] or data.get("predecessor_task", {}).get("task_id") == "F1810-EVIDENCE-COMPLETION-AND-REVERIFICATION"
         assert data["master_goal_status"] == "OPEN"
         assert data["max_new_pbs_submissions"] == 0
         assert data["cumulative_pbs_submissions"] == 35

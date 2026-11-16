@@ -1,6 +1,6 @@
 {
-  "task_id": "F1810-EVIDENCE-COMPLETION-AND-REVERIFICATION",
-  "title": "Task F1810: Commit Missing F1809 Evidence and Correct the Report and Manifest",
+  "task_id": "F1811-ERROR-TARGET-EFFICIENCY-CALIBRATION",
+  "title": "Task F1811: Error-Target Efficiency Calibration for Method A.2 Cases 2 and 3",
   "task_status": "COMPLETED",
   "master_goal_status": "OPEN",
   "status": "COMPLETED",
@@ -8,23 +8,23 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1810_EVIDENCE_COMPLETION_REPORT.md",
-  "review_directive": "Following supervisory review directive HND-F1809-METHOD-A2-MULTISTATE-SEQUENTIAL-001 [INSUFFICIENT_EVIDENCE / CONTINUE]: Committed all missing F1809 artifacts (four physical mesh .inp files and two multi-state donor ODBs under models/pandey_kumar_mode1/259_f1809_multistate_recovery/case<N>/), recomputed image manifest SHA-256 hashes directly from disk files, corrected the F1809 report's F1808 baseline columns to verified F1808 values (Case 2 Bins 1-4, Case 3 secondary corridor element count and <= l0/2, Case 3 primary corridor explicit region), audited Case 2 21 minimum-element-size warning in the report, preserved frozen UEL and framework, preserved cumulative PBS submissions at 35 with 0 new submissions, and maintained MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1811_ERROR_TARGET_EFFICIENCY_CALIBRATION_REPORT.md",
+  "review_directive": "Following supervisory review approval HND-F1810-EVIDENCE-COMPLETION-001 [APPROVE / CONTINUE]: Perform controlled error-target efficiency calibration for Method A.2 across Cases 2 and 3 using the verified F1809 multi-state donors under the frozen framework scripts/remeshing/reusable_2d_adaptive_framework.py. Test Case 2 error targets eta_R in {2.5%, 3.0%, 4.0%} and Case 3 error targets eta_R in {4.0%, 5.0%, 6.0%}. Preserve exact zero-regression parity for Cases 1 and 5 (14,087 and 15,466 elements). Select the loosest error target per case that preserves the scientific gate (Case 2 outer ligament >= 50% <= l0/2; Case 3 secondary corridor >= 90% <= l0), evaluate Gates 06 and 07, commit adapted meshes and donor provenance, archive 12 diagnostic PNGs and 4-panel publication synthesis figure, ensure 0 new PBS jobs (cumulative 35 preserved), and maintain MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1809-METHOD-A2-MULTISTATE-SEQUENTIAL-RECOVERY",
-    "checkpoint_artifact": "docs/validation/F1809_METHOD_A2_MULTISTATE_SEQUENTIAL_REPORT.md",
+    "task_id": "F1810-EVIDENCE-COMPLETION-AND-REVERIFICATION",
+    "checkpoint_artifact": "docs/validation/F1810_EVIDENCE_COMPLETION_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
-    "review_verdict": "INSUFFICIENT_EVIDENCE",
-    "correlation_id": "HND-F1809-METHOD-A2-MULTISTATE-SEQUENTIAL-001"
+    "review_verdict": "APPROVE",
+    "correlation_id": "HND-F1810-EVIDENCE-COMPLETION-001"
   },
-  "re_review_correlation_id": "HND-F1810-EVIDENCE-COMPLETION-001",
-  "scientific_operation": "evidence_completion",
-  "scientific_operation_id": "f1810_evidence_completion_001",
+  "re_review_correlation_id": "HND-F1811-ERROR-TARGET-EFFICIENCY-001",
+  "scientific_operation": "error_target_efficiency_calibration",
+  "scientific_operation_id": "f1811_error_target_efficiency_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "99EC77D2433EB5048DC9B4D70E5EA3B8468073C3BCEA342B7BFE139234700E6D",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1810 completed. Committed all missing F1809 evidence (four physical meshes and two multi-state recovery donor ODBs) so independent reverification succeeds without 404s. Recomputed all image manifest SHA-256 hashes directly from disk files. Reconciled report baseline errata against verified F1808 evidence. Audited Case 2 21 min-size clamped elements. Zero PBS jobs consumed, cumulative 35 preserved. MASTER_GOAL_STATUS strictly remains OPEN."
+  "notes": "Task F1811 completed. Error-target efficiency calibration for Method A.2 Cases 2 and 3 executed. Selected Case 2 eta_R = 4.0% (41,438 elements, -65.1% reduction vs 118,640 F1809 baseline, 100.00% outer ligament resolution <= l0/2, Gate PASS). Selected Case 3 eta_R = 3.0% (77,779 elements, 93.84% secondary corridor resolution <= l0, Gate PASS; Pareto frontier mapped across 3.5%, 4.0%, 5.0%, 6.0%). Zero regression maintained on Cases 1 and 5 (14,087 and 15,466 elements). Cumulative PBS submissions strictly preserved at 35; MASTER_GOAL_STATUS = OPEN."
 }

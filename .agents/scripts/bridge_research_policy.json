@@ -16,7 +16,8 @@
     "mesh_quality_diagnosis",
     "source_evidence_reconciliation",
     "multistate_sequential_recovery",
-    "evidence_completion"
+    "evidence_completion",
+    "error_target_efficiency_calibration"
   ],
   "native_indicator": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
   "paused_task_pattern": "(?i)METHOD[-_ ]?C|STATE[-_ ]?TRANSFER|COUPLED[-_ ]?FRACTURE|THESIS|PRESENTATION",
