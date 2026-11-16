@@ -1,0 +1,70 @@
+{
+  "task_id": "F1802-CASE3-METHOD-A2-EVOLVING-RECOVERY-DONOR-QUALIFICATION-AND-CAUSAL-REMESH",
+  "donor_file": "SEC43_STATE2_HOLE_ARREST.odb",
+  "donor_path": "models/pandey_kumar_mode1/198_pk_sec43_coupled_validation/SEC43_STATE2_HOLE_ARREST.odb",
+  "donor_sha256": "8ED4E4189A1B1EBA4E8D39DA6FB8C6A9CBE22C9D1227E235C52F4679B4821AD1",
+  "donor_size_bytes": 1676760,
+  "git_tracking_status": "EXCLUDED_FROM_GIT_TRACKING_PER_REPOSITORY_BINARY_POLICY_PRESERVED_ON_LOCAL_DISK",
+  "benchmark_case": "case_3",
+  "benchmark_geometry": "Pandey & Kumar (2025) Section 4.3 Notched Plate with Central Hole and Pins (65x120 mm)",
+  "mesh_topology": {
+    "num_nodes": 4040,
+    "num_elements": 3923,
+    "element_types": [
+      "CPE3",
+      "CPE4"
+    ]
+  },
+  "step_name": "RECOVERY_STEP",
+  "step_procedure": "*STATIC",
+  "frame_index": 1,
+  "frame_time": 1.0,
+  "total_frames_in_step": 2,
+  "is_causal_preanalysis": false,
+  "is_evolving_post_initiation_state": true,
+  "causal_verification": {
+    "causal_mode": true,
+    "max_frame_index": 1,
+    "max_frame_time": 1.0,
+    "donor_frames_count": 2,
+    "temporal_horizon_enforced": true
+  },
+  "donor_state_characterization": {
+    "prescribed_displacement_uy_mm": 0.2,
+    "physical_regime": "PRIMARY_PROPAGATION_HOLE_ARREST_STATE",
+    "material_modulus_kn_per_mm2": 210.0,
+    "material_modulus_mpa": 210000.0,
+    "stress_unit": "kN/mm^2 (GPa)",
+    "displacement_relative_to_initiation": "200.0% of crack initiation threshold (uy_init approx 0.10 mm)",
+    "constitutive_nature": "Auxiliary discrete-stiffness recovery model (20 discrete elastic material bins with E_deg = g(d) E_0), solved in Abaqus linear-elastic step with native *ELEMENT OUTPUT: MISESERI, MISESAVG",
+    "coupled_source_origin": "models/pandey_kumar_mode1/198_pk_sec43_coupled_validation/PK_SEC43_STAGGERED_JOB1.odb via results/validation/f1694_sec43_five_state_damage_record.json",
+    "distinct_from_uel_stress": true,
+    "constitutive_note": "Abaqus UEL elements do not produce native recovered stress error indicators (MISESERI, MISESAVG). The recovery model projects the phase-field damage state onto a degraded linear-elastic continuum, providing genuine Abaqus stress recovery error for the degraded state."
+  },
+  "indicator_field": "MISESERI",
+  "normalization_field": "MISESAVG",
+  "num_elements_with_indicator": 3923,
+  "stress_unit": "kN/mm^2 (GPa)",
+  "miseseri_stats_kn_per_mm2": {
+    "min": 5.3497671615332365e-05,
+    "max": 0.15265490114688873,
+    "mean": 0.00533816383597893,
+    "median": 0.0029130056500434875,
+    "p90": 0.011590496636927128,
+    "p99": 0.042762935161590576,
+    "nonzero_count": 3923
+  },
+  "misesavg_stats_kn_per_mm2": {
+    "min": 0.00010326190385967493,
+    "max": 0.6963911056518555,
+    "mean": 0.1392210823649174
+  },
+  "regional_error_distribution_kn_per_mm2": {
+    "primary_corridor_mean": 0.00523,
+    "primary_corridor_max": 0.019896,
+    "secondary_corridor_mean": 0.00782,
+    "secondary_corridor_max": 0.022329,
+    "ratio_secondary_to_primary_mean": 1.495
+  },
+  "qualification_status": "QUALIFIED_AUTHENTIC_POST_INITIATION_EVOLVING_RECOVERY_DONOR"
+}

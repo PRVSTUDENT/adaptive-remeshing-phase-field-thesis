@@ -173,7 +173,11 @@ def test_f1801_governance_and_coordination_invariants():
     with open(task_file, "r") as f:
         task = json.load(f)
 
-    assert task["task_id"] in ["F1800-CASE3-PRECRITICAL-NATIVE-MISESERI-SCALE-AND-CAUSAL-REMESH-TEST", "F1801-CASE3-NATIVE-MISESERI-ERROR-TARGET-EFFICIENCY-TEST"]
+    assert task["task_id"] in [
+        "F1800-CASE3-PRECRITICAL-NATIVE-MISESERI-SCALE-AND-CAUSAL-REMESH-TEST",
+        "F1801-CASE3-NATIVE-MISESERI-ERROR-TARGET-EFFICIENCY-TEST",
+        "F1802-CASE3-METHOD-A2-EVOLVING-RECOVERY-DONOR-QUALIFICATION-AND-CAUSAL-REMESH"
+    ]
     assert task["master_goal_status"] == "OPEN"
     assert task["frozen_uel_sha256"] == FROZEN_UEL_SHA256
     assert task["cumulative_pbs_submissions"] == 35

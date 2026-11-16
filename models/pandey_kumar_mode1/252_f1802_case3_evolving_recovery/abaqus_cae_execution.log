@@ -1,0 +1,14 @@
+Abaqus CAE noGUI execution for Task F1802 completed successfully with Exit 0.
+Job: PK_F1802_CASE_3_ADAPT
+Mesh INP: D:\Master thesis\Adaptive remeshing\models\pandey_kumar_mode1\252_f1802_case3_evolving_recovery\PK_F1802_CASE_3_ADAPT_PHYS.inp (SHA-256: 251ECD959A5127BC4A2003E496314FE808408B2AC5CE38E124DF10C4AF0E3C46, Body SHA-256: 34B036E40307C9A4A38F674309B9DA64EF20C4CD23A6212CAFCFC61F55F44D28)
+Donor: SEC43_STATE2_HOLE_ARREST.odb (State 2, uy = 0.200 mm, SHA-256: 8ED4E4189A1B1EBA4E8D39DA6FB8C6A9CBE22C9D1227E235C52F4679B4821AD1)
+Constitutive treatment: Auxiliary degraded-continuum model (20 discrete elastic bins)
+Error Target: 3.0%
+Total Elements: 27916, Quad Fraction: 97.14%
+Corner Angles: [29.33 deg, 137.78 deg]
+Min det(J): 1.017783e-03, Non-positive Jacobians: 0
+Max AR: 2.436, Median AR: 1.239
+Primary Corridor: 6130 elements, 58.91% <= l0, 11.47% <= l0/2, mean h = 0.2937 mm
+Secondary Corridor: 1423 elements, 5.06% <= l0, 0.00% <= l0/2, mean h = 0.5060 mm (min h = 0.1580 mm)
+Far-field Coarsening Ratio: 2.64x
+Delta Elements vs F1800 (precritical 3.0%): 902
