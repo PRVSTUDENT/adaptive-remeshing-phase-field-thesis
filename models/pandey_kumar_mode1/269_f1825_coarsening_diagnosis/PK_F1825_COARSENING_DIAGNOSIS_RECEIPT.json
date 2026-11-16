@@ -1,0 +1,83 @@
+{
+  "task_id": "F1825-REGION-CLASSIFICATION-AND-COARSENING-METRIC-DIAGNOSIS",
+  "correlation_id": "HND-F1825-COARSENING-METRIC-DIAGNOSIS-001",
+  "scientific_operation": "mesh_quality_diagnosis",
+  "scientific_operation_id": "f1825_coarsening_metric_diagnosis_001",
+  "generated_at": "2026-11-16T23:14:00+01:00",
+  "agent": "gemini-antigravity",
+  "status": "COMPLETED",
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "framework_sha256": "0578156E5551173307892B8881E4BA772F099187BCF332672F39AC825023E80D",
+  "max_new_pbs_submissions": 0,
+  "submissions_consumed": 0,
+  "cumulative_pbs_submissions": 35,
+  "master_goal_status": "OPEN",
+  "benchmark_summary": {
+    "case_1": {
+      "elements": 25461,
+      "baseline_refinement_ratio": 2.3867,
+      "baseline_gate_06": "PASS",
+      "corner_far_field_mean_h_um": 15.11,
+      "corner_ratio_mean_to_min": 27.95,
+      "size_thresholded_ratio": 3.6821,
+      "size_thresholded_gate_06": "PASS"
+    },
+    "case_2": {
+      "elements": 41438,
+      "baseline_refinement_ratio": 1.5502,
+      "baseline_gate_06": "FAIL",
+      "corner_far_field_mean_h_um": 9.97,
+      "corner_ratio_mean_to_min": 17.77,
+      "size_thresholded_ratio": 4.2337,
+      "size_thresholded_gate_06": "PASS",
+      "corridor_consistent_ratio": 2.0059,
+      "corridor_consistent_gate_06": "PASS",
+      "misclassified_crack_elements_into_ff": 35796
+    },
+    "case_3": {
+      "elements": 77779,
+      "baseline_refinement_ratio": 1.6537,
+      "baseline_gate_06": "FAIL",
+      "corner_far_field_mean_h_um": 852.86,
+      "corner_ratio_mean_to_min": 19.63,
+      "size_thresholded_ratio": 2.7382,
+      "size_thresholded_gate_06": "PASS",
+      "misclassified_crack_elements_into_ff": 52393
+    },
+    "case_5": {
+      "elements": 15466,
+      "baseline_refinement_ratio": 2.1174,
+      "baseline_gate_06": "PASS",
+      "corner_far_field_mean_h_um": 16.70,
+      "corner_ratio_mean_to_min": 17.06,
+      "size_thresholded_ratio": 3.1692,
+      "size_thresholded_gate_06": "PASS"
+    }
+  },
+  "artifacts": {
+    "run_script": {
+      "path": "scripts/remeshing/run_f1825_coarsening_diagnosis.py",
+      "sha256": "760D5F0C346381FCEAF026B86DDCCD95A9DB6532A9732965A14BD65E8B8805E5"
+    },
+    "plot_script": {
+      "path": "scripts/remeshing/plot_f1825_figures.py",
+      "sha256": "9A1B95A353D9E8D6FD96797A047A9F37351F29C7316975DBF9ED39E0599E8EFC"
+    },
+    "summary_json": {
+      "path": "models/pandey_kumar_mode1/269_f1825_coarsening_diagnosis/coarsening_metric_diagnosis_summary.json",
+      "sha256": "8C639C7227CE8CA0C9C44A15FAD769C8E485C6C6482E37F981E800C51F5D5F07"
+    },
+    "figure_png": {
+      "path": "results/figures/fig_f1825_coarsening_metric_diagnosis.png",
+      "sha256": "6992C8489A9FB56B2262DD2732B0BC9D2ABE612CEB76D49C3994B3D6135C89B4"
+    },
+    "figure_pdf": {
+      "path": "results/figures/fig_f1825_coarsening_metric_diagnosis.pdf",
+      "sha256": "3BD25FA2E5A2100293ACC57ACB09F25766AE7656912A8114A0B8C69CD45FC614"
+    },
+    "unit_test": {
+      "path": "tests/unit/test_f1825_coarsening_diagnosis.py",
+      "sha256": "85155E52B4AD708625ED67D6762FFD3B232E6C2F5DED7883450A966274EA2933"
+    }
+  }
+}

@@ -1,0 +1,174 @@
+{
+  "case_1": {
+    "case_id": "case_1",
+    "name": "Case 1: Standard Edge Crack (Sec. 4.1)",
+    "total_elements": 25461,
+    "l0_mm": 0.0075,
+    "min_h_mm": 0.0005404722951447114,
+    "min_h_um": 0.5404722951447114,
+    "median_h_mm": 0.0032771433160812273,
+    "max_h_mm": 0.02470408089372193,
+    "max_h_um": 24.70408089372193,
+    "baseline_audit": {
+      "process_zone_count": 4203,
+      "mean_pz_h_mm": 0.0022546644924661963,
+      "mean_ff_h_mm": 0.005381218737877766,
+      "refinement_ratio": 2.3867048759843126,
+      "gate_06_status": "PASS"
+    },
+    "geometric_corner_far_field": {
+      "sample_count": 322,
+      "mean_corner_h_mm": 0.01510887102345737,
+      "mean_corner_h_um": 15.10887102345737,
+      "max_corner_h_mm": 0.023342926292545158,
+      "max_corner_h_um": 23.342926292545158,
+      "ratio_corner_mean_to_min": 27.95,
+      "ratio_corner_max_to_min": 43.19
+    },
+    "corridor_consistent_partitioning": {
+      "pz_count": 4117,
+      "ff_count": 21344,
+      "mean_pz_h_mm": 0.0022384614753317668,
+      "mean_ff_h_mm": 0.005371746481339045,
+      "refinement_ratio": 2.3997,
+      "gate_06_equivalent": "PASS"
+    },
+    "size_thresholded_partitioning": {
+      "pz_count": 20756,
+      "ff_count": 4705,
+      "mean_pz_h_mm": 0.0032528889020486517,
+      "mean_ff_h_mm": 0.01197733065690109,
+      "refinement_ratio": 3.6821,
+      "gate_06_equivalent": "PASS"
+    }
+  },
+  "case_2": {
+    "case_id": "case_2",
+    "name": "Case 2: Plate with Off-Axis Hole (Sec. 4.4)",
+    "total_elements": 41438,
+    "l0_mm": 0.0075,
+    "min_h_mm": 0.0005613840337701363,
+    "min_h_um": 0.5613840337701362,
+    "median_h_mm": 0.0024627380873637516,
+    "max_h_mm": 0.024952970926425323,
+    "max_h_um": 24.952970926425323,
+    "baseline_audit": {
+      "process_zone_count": 1603,
+      "mean_pz_h_mm": 0.002399962149194702,
+      "mean_ff_h_mm": 0.0037204377945541617,
+      "refinement_ratio": 1.550206862971793,
+      "gate_06_status": "FAIL"
+    },
+    "geometric_corner_far_field": {
+      "sample_count": 616,
+      "mean_corner_h_mm": 0.00997468051619624,
+      "mean_corner_h_um": 9.97468051619624,
+      "max_corner_h_mm": 0.024601357563891,
+      "max_corner_h_um": 24.601357563891,
+      "ratio_corner_mean_to_min": 17.77,
+      "ratio_corner_max_to_min": 43.82
+    },
+    "corridor_consistent_partitioning": {
+      "pz_count": 14124,
+      "ff_count": 27314,
+      "mean_pz_h_mm": 0.0022064475154498398,
+      "mean_ff_h_mm": 0.0044258224413491415,
+      "refinement_ratio": 2.0059,
+      "gate_06_equivalent": "PASS"
+    },
+    "size_thresholded_partitioning": {
+      "pz_count": 37399,
+      "ff_count": 4039,
+      "mean_pz_h_mm": 0.0027899817545845905,
+      "mean_ff_h_mm": 0.01181189681394278,
+      "refinement_ratio": 4.2337,
+      "gate_06_equivalent": "PASS"
+    }
+  },
+  "case_3": {
+    "case_id": "case_3",
+    "name": "Case 3: Notched Plate with Pins (Sec. 4.3)",
+    "total_elements": 77779,
+    "l0_mm": 0.285,
+    "min_h_mm": 0.04345555895296838,
+    "min_h_um": 43.45555895296838,
+    "median_h_mm": 0.1889340658953925,
+    "max_h_mm": 1.5704854011707166,
+    "max_h_um": 1570.4854011707166,
+    "baseline_audit": {
+      "process_zone_count": 3011,
+      "mean_pz_h_mm": 0.15738777656392788,
+      "mean_ff_h_mm": 0.2602788535962536,
+      "refinement_ratio": 1.6537424905455305,
+      "gate_06_status": "FAIL"
+    },
+    "geometric_corner_far_field": {
+      "sample_count": 648,
+      "mean_corner_h_mm": 0.8528597026969592,
+      "mean_corner_h_um": 852.8597026969592,
+      "max_corner_h_mm": 1.5704854011707166,
+      "max_corner_h_um": 1570.4854011707166,
+      "ratio_corner_mean_to_min": 19.63,
+      "ratio_corner_max_to_min": 36.14
+    },
+    "corridor_consistent_partitioning": {
+      "pz_count": 23813,
+      "ff_count": 53966,
+      "mean_pz_h_mm": 0.19570422828713024,
+      "mean_ff_h_mm": 0.2830322635125274,
+      "refinement_ratio": 1.4462,
+      "gate_06_equivalent": "FAIL"
+    },
+    "size_thresholded_partitioning": {
+      "pz_count": 55404,
+      "ff_count": 22375,
+      "mean_pz_h_mm": 0.17086062268295407,
+      "mean_ff_h_mm": 0.4678463455549542,
+      "refinement_ratio": 2.7382,
+      "gate_06_equivalent": "PASS"
+    }
+  },
+  "case_5": {
+    "case_id": "case_5",
+    "name": "Case 5: Multi-Hole Matrix (Sec. 4.5)",
+    "total_elements": 15466,
+    "l0_mm": 0.0075,
+    "min_h_mm": 0.0009786216285975462,
+    "min_h_um": 0.9786216285975462,
+    "median_h_mm": 0.004680336977924124,
+    "max_h_mm": 0.02497139208356194,
+    "max_h_um": 24.97139208356194,
+    "baseline_audit": {
+      "process_zone_count": 4212,
+      "mean_pz_h_mm": 0.0033627855700876347,
+      "mean_ff_h_mm": 0.0071203816445982076,
+      "refinement_ratio": 2.1174057923689285,
+      "gate_06_status": "PASS"
+    },
+    "geometric_corner_far_field": {
+      "sample_count": 210,
+      "mean_corner_h_mm": 0.016698154685840377,
+      "mean_corner_h_um": 16.69815468584038,
+      "max_corner_h_mm": 0.02443987134932645,
+      "max_corner_h_um": 24.439871349326452,
+      "ratio_corner_mean_to_min": 17.06,
+      "ratio_corner_max_to_min": 24.97
+    },
+    "corridor_consistent_partitioning": {
+      "pz_count": 4399,
+      "ff_count": 11067,
+      "mean_pz_h_mm": 0.0033084313317788194,
+      "mean_ff_h_mm": 0.007205479210357156,
+      "refinement_ratio": 2.1779,
+      "gate_06_equivalent": "PASS"
+    },
+    "size_thresholded_partitioning": {
+      "pz_count": 11873,
+      "ff_count": 3593,
+      "mean_pz_h_mm": 0.00405404216998089,
+      "mean_ff_h_mm": 0.01284808938639982,
+      "refinement_ratio": 3.1692,
+      "gate_06_equivalent": "PASS"
+    }
+  }
+}

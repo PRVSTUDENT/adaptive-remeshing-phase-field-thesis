@@ -1,22 +1,21 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1824-job2-preflight-20261116",
-  "task_id": "F1824-JOB2-COUPLED-FRACTURE-VALIDATION",
-  "started_at": "2026-11-16T20:45:00+01:00",
-  "completed_at": "2026-11-16T21:25:00+01:00",
-  "starting_commit": "87cd5d802d51d13ea7cd732e10dfa30a56dbc90d",
+  "session_id": "gemini-antigravity-f1825-coarsening-diagnosis-20261116",
+  "task_id": "F1825-REGION-CLASSIFICATION-AND-COARSENING-METRIC-DIAGNOSIS",
+  "started_at": "2026-11-16T23:08:00+01:00",
+  "completed_at": "2026-11-16T23:23:00+01:00",
+  "starting_commit": "13782cf89d0053206a1912d65635f322ceb384b4",
   "allowed_write_scope": [
-    "models/pandey_kumar_mode1/268_f1824_*",
-    "configs/remeshing/f1824_*",
-    "scripts/remeshing/run_f1824_*",
-    "scripts/validation/run_f1824_*",
-    "docs/validation/F1824_*",
-    "tests/unit/test_f1824_*",
-    "results/figures/fig_f1824_*",
+    "models/pandey_kumar_mode1/269_f1825_*",
+    "configs/remeshing/f1825_*",
+    "scripts/remeshing/run_f1825_*",
+    "scripts/validation/run_f1825_*",
+    "docs/validation/F1825_*",
+    "tests/unit/test_f1825_*",
+    "results/figures/fig_f1825_*",
     "project_coordination/*",
     ".agents/scripts/*"
   ],
-  "notes": "Task F1824: Job-2 coupled fracture validation preflight on F1812 adapted meshes across Cases 1, 2, 3, 5. Generation and verification of 3-layer UEL production input decks, submission manifests, and offline preflight audits. 0 new PBS jobs consumed (cumulative 35 preserved), bitwise frozen UEL CE8D5EDC..., framework 0578156E... preserved bitwise, MASTER_GOAL_STATUS = OPEN."
+  "notes": "Task F1825 completed ready for independent structured review. 0 new PBS jobs consumed (cumulative 35 preserved), bitwise frozen UEL CE8D5EDC..., framework 0578156E... preserved bitwise, MASTER_GOAL_STATUS = OPEN."
 }
-
