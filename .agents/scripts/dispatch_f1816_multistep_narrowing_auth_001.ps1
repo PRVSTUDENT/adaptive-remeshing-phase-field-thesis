@@ -114,31 +114,9 @@ if ($CheckOnly) {
     Write-Host "Validation successful for Task $taskId ($handoffId)."
     Write-Host "Handoff payload preview (first 500 chars):"
     Write-Host $header.Substring(0, [Math]::Min(500, $header.Length))
+    Invoke-ChatGPTBridge -PromptText $header -HandoffId $handoffId -DryRun
     return
 }
 
-Publish-ChatGPTBridgeHandoff `
-    -HandoffId $handoffId `
-    -Content $header `
-    -Contract @{
-        goal_id = "PANDEY_KUMAR_NATIVE_MISESERI_CAUSAL_ADAPTIVITY_V1"
-        method = "METHOD_A"
-        operation = "multistep_refinement_narrowing"
-        numerical_uncertainty = "The adaptive refinement band is wider than the crack path. Can min/max sizing or envelope construction narrow the band while preserving all four scientific resolution gates?"
-        expected_numerical_result = "Step 1: Min/Max sizing produces +61.7% ballooning (258,894 el) and band dilution, resulting in REJECTION. Step 2: Reduced 2-state envelope and overlapping rules fail resolution gates and double elements, resulting in REJECTION. Step 3: F1812 baselines (160,144 el) adopted as verified Pareto optimum. 0 new PBS jobs consumed, cumulative 35 preserved; MASTER_GOAL_STATUS = OPEN."
-        indicator_type = "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR"
-        indicator_role = "PRIMARY_NATIVE_MISESERI"
-        qualifies_native_miseseri = $true
-        causal_evidence_status = "VERIFIED"
-        causal_evidence = @{
-            donor_path = "models/pandey_kumar_mode1/261_f1812_crack_path_refinement/case1/PK_CASE1_MULTISTATE_RECOVERY.odb"
-            donor_sha256 = "0A25CDFE64344BE9DF7C651802F46EBF3D6F85C445689BBD28DBA64157758117"
-            donor_step = "AUTHENTIC_CAUSAL_DONOR_SUITE_STEP"
-            donor_frame_index = 5
-            indicator_frame_range = "Four canonical benchmark donor states carried from F1812"
-            held_out_later_solution = "All post-remesh coupled fracture propagation and failure fields held out as unobserved future solutions"
-            uses_future_frames = $false
-            remesh_time = 1.0
-            maximum_indicator_time = 1.0
-        }
-    }
+Write-Host "Publishing Task $taskId Bridge Payload across OpenClaw PAD Bridge..." -ForegroundColor Green
+Invoke-ChatGPTBridge -PromptText $header -HandoffId $handoffId
