@@ -1,0 +1,92 @@
+{
+  "task_id": "F1804-CASE2-DISTAL-DEGRADED-MODULUS-RECOVERY-REMESH",
+  "benchmark": "Case 2: Mode-I Edge-Notched Plate with Off-Axis Hole",
+  "generated_mesh_name": "PK_F1804_CASE_2_ADAPT_PHYS.inp",
+  "mesh_relpath": "models/pandey_kumar_mode1/254_f1804_case2_distal_recovery/PK_F1804_CASE_2_ADAPT_PHYS.inp",
+  "mesh_size_bytes": 942941,
+  "mesh_file_sha256": "FDDA676278B096D66C1392528921BE8E3DC54CB3C1B822BD038AA17F855E43E8",
+  "mesh_body_sha256": "E562D18AA3558DD4B48F71FFC225934DADF9090D850D56F79984DAA4ADA0293B",
+  "configuration": {
+    "config_path": "configs/remeshing/f1804_case2_native_miseseri.json",
+    "error_target_pct": 2.3,
+    "min_h_mm": 0.0015,
+    "max_h_mm": 0.02,
+    "length_scale_l0_mm": 0.0075,
+    "l0_half_mm": 0.00375,
+    "donor_odb": "models/pandey_kumar_mode1/254_f1804_case2_distal_recovery/PK_HOLE_STATE_POSTBREACH_RECOVERY.odb"
+  },
+  "finite_element_quality": {
+    "total_elements": 13061,
+    "quad_count": 12699,
+    "tri_count": 362,
+    "quad_percent": 97.22838986295076,
+    "min_det_j": 3.595124678240985e-07,
+    "nonpositive_jacobians": 0,
+    "max_aspect_ratio": 2.1205530729961817,
+    "median_aspect_ratio": 1.2091444480744598,
+    "aspect_ratio_violations_gt_4": 0,
+    "min_corner_angle_deg": 34.28374935812381,
+    "max_corner_angle_deg": 135.06933612581756
+  },
+  "spatial_resolution_profile": {
+    "global": {
+      "count": 13061,
+      "mean_h_mm": 0.007012378107102755,
+      "min_h_mm": 0.0008081253722142654,
+      "pct_le_l0": 65.79894341934002,
+      "pct_le_l0_half": 32.90712809126407
+    },
+    "primary_corridor": {
+      "count": 636,
+      "mean_h_mm": 0.0056659433959137615,
+      "min_h_mm": 0.0023490853856286804,
+      "pct_le_l0": 89.937106918239,
+      "pct_le_l0_half": 7.0754716981132075
+    },
+    "outer_distal_corridor": {
+      "count": 3609,
+      "mean_h_mm": 0.0033625776498867914,
+      "min_h_mm": 0.0008081253722142654,
+      "pct_le_l0": 96.8689387642006,
+      "pct_le_l0_half": 72.09753394292048
+    },
+    "far_field": {
+      "count": 628,
+      "mean_h_mm": 0.012213369223885927,
+      "min_h_mm": 0.0013217859313817088,
+      "pct_le_l0": 32.00636942675159,
+      "pct_le_l0_half": 18.630573248407643
+    },
+    "far_to_distal_coarsening_ratio": 3.6321448886978467
+  },
+  "comparative_resolution_vs_f1795_preanalysis": {
+    "f1795_baseline": {
+      "donor": "PK_HOLE_METHOD_A_PREANALYSIS.odb (Step-1 Frame 10, uy=0.005mm)",
+      "total_elements": 35648,
+      "distal_elements": 4397,
+      "distal_mean_h_mm": 0.00311,
+      "distal_pct_le_l0": 100.0,
+      "distal_pct_le_l0_half": 66.34,
+      "coarsening_ratio": 5.28
+    },
+    "f1804_postbreach_recovery": {
+      "donor": "PK_HOLE_STATE_POSTBREACH_RECOVERY.odb (Step-2 Frame 190, uy=0.007616mm)",
+      "total_elements": 13061,
+      "distal_elements": 3609,
+      "distal_mean_h_mm": 0.0033625776498867914,
+      "distal_pct_le_l0": 96.8689387642006,
+      "distal_pct_le_l0_half": 72.09753394292048,
+      "coarsening_ratio": 3.6321448886978467
+    },
+    "distal_pct_le_l0_half_delta_pts": 5.757533942920475
+  },
+  "quality_gates": {
+    "GATE_01_NATIVE_EXECUTION_EXIT_0": "PASS",
+    "GATE_02_QUAD_FRACTION_GE_90_PCT": "PASS",
+    "GATE_03_ZERO_NEGATIVE_JACOBIANS": "PASS",
+    "GATE_04_ASPECT_RATIO_LE_4": "PASS",
+    "GATE_05_DISTAL_CORRIDOR_RESOLUTION": "PASS",
+    "GATE_06_FAR_FIELD_COARSENING": "PASS",
+    "GATE_07_COMPUTATIONAL_EFFICIENCY": "PASS"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "task_id": "F1804-CASE2-DISTAL-DEGRADED-MODULUS-RECOVERY-REMESH",
+  "benchmark": "Case 2: Mode-I Edge-Notched Plate with Off-Axis Hole",
+  "donor_odb_name": "PK_HOLE_STATE_POSTBREACH_RECOVERY.odb",
+  "donor_odb_relpath": "models/pandey_kumar_mode1/254_f1804_case2_distal_recovery/PK_HOLE_STATE_POSTBREACH_RECOVERY.odb",
+  "odb_size_bytes": 7417896,
+  "odb_sha256": "35E9DC19B1E0A4F5EE5FB3547C9C71004D8882DC50F729C8A8F4CA8A4D50A959",
+  "causal_source": {
+    "source_odb": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_JOB1.odb",
+    "step_name": "Step-2",
+    "frame_index": 190,
+    "frame_time_s": 0.3736875057220459,
+    "uy_top_mm": 0.007615812588483095,
+    "physical_state": "POST_BREACH_HOLE_ARREST"
+  },
+  "recovery_model": {
+    "deck_path": "models/pandey_kumar_mode1/254_f1804_case2_distal_recovery/PK_HOLE_STATE_POSTBREACH_RECOVERY.inp",
+    "constitutive_treatment": "ELEMENTWISE_EXACT_DEGRADED_ELASTIC",
+    "E0_mpa": 210000.0,
+    "nu": 0.3,
+    "k_res": 1e-07,
+    "num_elements": 2906,
+    "num_nodes": 3011,
+    "min_degraded_E_mpa": 5.324699258121242,
+    "max_degraded_E_mpa": 209999.96511253028,
+    "elements_with_d_ge_080": 11,
+    "elements_with_d_ge_020": 39
+  },
+  "regional_error_distribution_mpa": {
+    "global_mean_miseseri": 12.92204037621484,
+    "primary_corridor_mean_miseseri": 63.7804853080155,
+    "primary_corridor_elements": 77,
+    "outer_distal_corridor_mean_miseseri": 41.46766602724119,
+    "outer_distal_corridor_elements": 133,
+    "far_field_mean_miseseri": 5.837008286918522,
+    "far_field_elements": 1917,
+    "ratio_distal_to_primary_error": 0.6501622843881029
+  },
+  "quality_gates": {
+    "GATE_01_SOLVER_COMPLETION_EXIT_0": "PASS",
+    "GATE_02_ALL_ELEM_SET_PRESENT": "PASS",
+    "GATE_03_MISESERI_NONZERO_ACTIVE": "PASS",
+    "GATE_04_CAUSAL_HORIZON_ENFORCED": "PASS"
+  }
+}

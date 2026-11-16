@@ -1,6 +1,6 @@
 {
-  "task_id": "F1803-CASE3-STATE2-DEGRADED-MODULUS-FIDELITY-NATIVE-REMESH",
-  "title": "Task F1803: Case 3 State-2 Degraded Modulus Fidelity and Native Remesh",
+  "task_id": "F1804-CASE2-DISTAL-DEGRADED-MODULUS-RECOVERY-REMESH",
+  "title": "Task F1804: Case 2 Distal Degraded-Modulus Recovery Donor and Native Remesh",
   "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
@@ -8,23 +8,23 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1803_CASE3_ACCURATE_CONSTITUTIVE_RECOVERY_REPORT.md",
-  "review_directive": "Following supervisory review directive HND-F1802-CASE3-EVOLVING-RECOVERY-001 [REJECT / CONTINUE]: Restore canonical Gate 05 (>= 90% h <= l0) and Gate 07 (< 20,000 elements) to FAIL and correct F1800 comparators. Address the critical constitutive mismatch in the 20-bin State-2 recovery model where damaged elements (d up to 0.9994) artificially retained 5.25 kN/mm^2 (25,000x stiffer than true degraded modulus E = [(1-d)^2 + 10^-7] * 210 kN/mm^2). Build an accurate damage-to-continuum recovery model using elementwise degraded moduli E_i = 210.0 * [(1 - d_i)^2 + 10^-7] kN/mm^2 derived from the archived causal State-2 damage array (f1694_sec43_five_state_damage_record.json, Step-1 frame 40 at uy = 0.200 mm). Run one fresh local Abaqus continuum recovery solve with *ELEMENT OUTPUT: MISESERI, MISESAVG, then execute one native adaptiveRemesh pass under unchanged reusable_2d_adaptive_framework.py with error_target = 3.0%, measuring whether faithful crack compliance improves secondary-corridor refinement. Preserve canonical quality gates, zero PBS submissions, cumulative submissions at 35, frozen production UEL and unified framework, and leave MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1804_CASE2_DISTAL_DEGRADED_MODULUS_RECOVERY_REPORT.md",
+  "review_directive": "Following supervisory review directive HND-F1803-CASE3-CONSTITUTIVE-RECOVERY-001 [REJECT / CONTINUE]: Apply the verified elementwise degraded-modulus recovery strategy demonstrated in F1803 to canonical Research Priority #1: Case 2 distal refinement beyond the off-axis hole. Extract the authentic post-breach coupled damage field from PK_HOLE_COARSE_JOB1.odb at the earliest post-breach causal cutoff (where the crack has breached into the off-axis hole, releasing primary tension, but distal crack propagation has not yet completed). Build a high-fidelity continuum recovery deck models/pandey_kumar_mode1/254_f1804_case2_distal_recovery/PK_HOLE_STATE_POSTBREACH_RECOVERY.inp with 2,906 elementwise exact degraded moduli E_i = 210000.0 * [(1 - d_i)^2 + 10^-7] MPa. Run one local Abaqus standard recovery solve with *ELEMENT OUTPUT: MISESERI, MISESAVG, then execute native adaptiveRemesh under unchanged reusable_2d_adaptive_framework.py at error_target = 2.3%. Measure whether authentic crack compliance transfers stress error into the outer distal ligament, improving distal resolution beyond the 66.34% h <= l0/2 pre-analysis baseline. Preserve canonical quality gates, zero PBS submissions, cumulative submissions at 35, frozen production UEL and unified framework, and leave MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1802-CASE3-METHOD-A2-EVOLVING-RECOVERY-DONOR-QUALIFICATION-AND-CAUSAL-REMESH",
-    "checkpoint_artifact": "docs/validation/F1802_CASE3_EVOLVING_RECOVERY_QUALIFICATION_REPORT.md",
+    "task_id": "F1803-CASE3-STATE2-DEGRADED-MODULUS-FIDELITY-NATIVE-REMESH",
+    "checkpoint_artifact": "docs/validation/F1803_CASE3_ACCURATE_CONSTITUTIVE_RECOVERY_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
     "review_verdict": "REJECT",
-    "correlation_id": "HND-F1802-CASE3-EVOLVING-RECOVERY-001"
+    "correlation_id": "HND-F1803-CASE3-CONSTITUTIVE-RECOVERY-001"
   },
-  "re_review_correlation_id": "HND-F1803-CASE3-CONSTITUTIVE-RECOVERY-001",
-  "scientific_operation": "case3_state2_degraded_modulus_fidelity_native_remesh",
-  "scientific_operation_id": "f1803_case3_constitutive_recovery_001",
+  "re_review_correlation_id": "HND-F1804-CASE2-DISTAL-RECOVERY-001",
+  "scientific_operation": "case2_distal_degraded_modulus_recovery_native_remesh",
+  "scientific_operation_id": "f1804_case2_distal_recovery_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "99EC77D2433EB5048DC9B4D70E5EA3B8468073C3BCEA342B7BFE139234700E6D",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1803 in progress under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Investigates whether elementwise degraded-modulus fidelity alters the secondary-corridor refinement barrier in Case 3."
+  "notes": "Task F1804 completed and ready for independent review under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Outer distal fine-core resolution (% <= l0/2) improved from 66.34% to 72.10% (+5.76 pts) with total elements reduced by 63.36% (13,061 vs 35,648)."
 }
