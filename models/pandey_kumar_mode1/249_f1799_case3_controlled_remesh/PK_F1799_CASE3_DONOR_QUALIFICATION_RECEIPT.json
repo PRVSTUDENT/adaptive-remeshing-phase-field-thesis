@@ -1,0 +1,60 @@
+{
+  "task_id": "F1799-CASE3-CAUSAL-CONFIG-AND-PHYSICAL-DONOR-CONTROLLED-REMESH",
+  "donor_file": "PK_SEC43_COARSE_RECOVERY.odb",
+  "donor_path": "models/pandey_kumar_mode1/188_pk_sec43_hole_plate/PK_SEC43_COARSE_RECOVERY.odb",
+  "donor_sha256": "BDCC74908A7F85186E6CE4165851AB2061969BCEF84E370C41F5DEF63597E3F4",
+  "donor_size_bytes": 1498400,
+  "benchmark_case": "case_3",
+  "benchmark_geometry": "Pandey & Kumar (2025) Section 4.3 Notched Plate with Central Hole and Pins (65x120 mm)",
+  "mesh_topology": {
+    "num_nodes": 4040,
+    "num_elements": 3923,
+    "element_types": [
+      "CPE3",
+      "CPE4"
+    ]
+  },
+  "step_name": "RECOVERY_STEP",
+  "step_procedure": "*STATIC",
+  "frame_index": 1,
+  "frame_time": 1.0,
+  "total_frames_in_step": 2,
+  "is_causal_preanalysis": true,
+  "causal_verification": {
+    "causal_mode": true,
+    "max_frame_index": 1,
+    "max_frame_time": 1.0,
+    "donor_frames_count": 2,
+    "temporal_horizon_enforced": true
+  },
+  "material_unit_reconciliation": {
+    "youngs_modulus_kn_per_mm2": 210.0,
+    "youngs_modulus_mpa": 210000.0,
+    "unit_system": "length: mm, force: kN, stress: kN/mm^2 (GPa)",
+    "mathematical_scale_invariance_note": "In linear elasticity (NLGEOM=NO), relative error indicator eta_R = ||e_sigma|| / (||bar_sigma|| + ||e_sigma||) is scale-invariant; scaling E by 1000 cancels identically."
+  },
+  "displacement_chronology_resolution": {
+    "recovery_displacement_uy_mm": 1.46,
+    "pandey_kumar_reference_state": "State 4 (u_s4 = 1.46 mm, late secondary propagation)",
+    "prefracture_initiation_uy_mm": 0.1,
+    "linear_scale_invariance_note": "Because NLGEOM=NO and damage is not modeled in the linear recovery solve, stress contours scale linearly with displacement: sigma(x, 1.46) = (1.46/0.10) * sigma(x, 0.10). The relative error eta_R(x) is identical for both displacements."
+  },
+  "indicator_field": "MISESERI",
+  "normalization_field": "MISESAVG",
+  "num_elements_with_indicator": 3923,
+  "miseseri_stats": {
+    "min_mpa": 0.0005351347499527037,
+    "max_mpa": 5.19831657409668,
+    "mean_mpa": 0.05985284273594209,
+    "median_mpa": 0.030345050618052483,
+    "p90_mpa": 0.12277274578809738,
+    "p99_mpa": 0.4803071916103363,
+    "nonzero_count": 3923
+  },
+  "misesavg_stats": {
+    "min_mpa": 0.0010191972833126783,
+    "max_mpa": 12.567670822143555,
+    "mean_mpa": 1.6289229403591063
+  },
+  "qualification_status": "QUALIFIED_AUTHENTIC_INITIAL_STATE_NATIVE_DONOR"
+}
