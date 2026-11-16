@@ -39,7 +39,7 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
   "research_contract": {
     "goal_id": "PANDEY_KUMAR_NATIVE_MISESERI_CAUSAL_ADAPTIVITY_V1",
     "method": "METHOD_A",
-    "operation": "evolving_recovery_donor_qualification_and_causal_remesh",
+    "operation": "causal_remeshing_test",
     "numerical_uncertainty": "Can an authentic post-initiation linear-elastic stress recovery donor (State 2 hole arrest, uy=0.200 mm) derived from coupled damage states qualify under strict causal criteria, and does its stress error transfer resolve the secondary crack corridor (h <= l0 and h <= l0/2) under unchanged native Abaqus remeshing without prescribing crack corridors or fabricating indicators?",
     "expected_numerical_result": "Forensic qualification of candidate recovery ODBs from 5-state evidence, documenting auxiliary discrete-stiffness constitutive nature distinct from UEL stress; one fresh local Abaqus native adaptiveRemesh pass under unchanged framework with error_target=3.0% and strict causal horizon; independent measurement of secondary corridor coverage <= l0 and <= l0/2 vs F1800 (1.24% / 0%) and F1801 (0% / 0%), together with finite element quality (quads, signed Jacobians, aspect ratio, far-field coarsening).",
     "indicator_type": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
