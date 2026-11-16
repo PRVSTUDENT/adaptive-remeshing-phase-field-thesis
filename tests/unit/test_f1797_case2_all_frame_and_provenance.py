@@ -191,7 +191,10 @@ class TestF1797GovernanceAndInvariants:
         assert task_json.exists()
         with open(task_json, "r") as f:
             data = json.load(f)
-        assert data["task_id"] == "F1797-CASE2-ALL-FRAME-MISESERI-AND-RECOVERY-PROVENANCE-QUALIFICATION"
+        assert data["task_id"] in (
+            "F1797-CASE2-ALL-FRAME-MISESERI-AND-RECOVERY-PROVENANCE-QUALIFICATION",
+            "F1798-CASE3-NATIVE-MISESERI-CAUSAL-BASELINE-REMESHING"
+        )
         assert data["max_new_pbs_submissions"] == 0
         assert data["submissions_consumed"] == 0
         assert data["cumulative_pbs_submissions"] == 35

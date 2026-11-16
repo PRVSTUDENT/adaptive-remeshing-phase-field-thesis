@@ -1,6 +1,6 @@
 {
-  "task_id": "F1797-CASE2-ALL-FRAME-MISESERI-AND-RECOVERY-PROVENANCE-QUALIFICATION",
-  "title": "Task F1797: Case 2 All-Frame MISESERI and Recovery Provenance Qualification",
+  "task_id": "F1798-CASE3-NATIVE-MISESERI-CAUSAL-BASELINE-REMESHING",
+  "title": "Task F1798: Case 3 Native-MISESERI Causal Baseline Remeshing",
   "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
   "status": "COMPLETED",
@@ -8,23 +8,23 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1797_CASE2_ALL_FRAME_MISESERI_AND_PROVENANCE_REPORT.md",
-  "review_directive": "Following supervisory review directive HND-F1796-EVOLVING-INDICATOR-001 [REJECT / CONTINUE]: Execute exactly ONE bounded F1797 numerical qualification using existing Case 2 artifacts and unchanged shared Method A framework: (1) In local Abaqus, open PK_HOLE_COARSE_JOB1.odb read-only and scan every MISESERI field value in every Step-2 frame 0 through 337, producing machine-readable per-frame table with frame ID, time, total values, finite/nonfinite counts, nonzero counts, min, max, donor SHA-256 and audit command; (2) Assess nonzero PK_HOLE recovery ODBs (PK_HOLE_COUPLED_RECOVERY, PK_HOLE_F1656_RECOVERY, PK_HOLE_RECOVERY_SOLVE, and f1683/f1684 USDFLD artifacts) for native stress recovery computation, physical Case 2 relevance, and source field/damage-map causal chronology; (3) Provide complete accept-or-reject rationale for all 39 audited candidate ODBs; (4) Perform direct element-label and integration-point multiplicity check confirming 2 values/element across 2906 physical elements; (5) If and only if one physically admissible later-state native donor is qualified, run at most ONE local Abaqus native adaptive-remeshing pass; otherwise preserve definitive no-donor blocker with direct numerical evidence and stop; (6) Zero new PBS jobs, cumulative preserved at 35, UEL frozen at CE8D5EDC..., MASTER_GOAL_STATUS strictly remains OPEN.",
+  "checkpoint_artifact": "docs/validation/F1798_CASE3_NATIVE_MISESERI_CAUSAL_REMESHING_REPORT.md",
+  "review_directive": "Following supervisory review directive HND-F1797-ALL-FRAME-PROVENANCE-001 [REJECT / CONTINUE]: Execute exactly ONE new numerical operation, F1798: qualify an existing authentic initial-state native Abaqus MISESERI recovery donor for the Case 3 geometry using its real element topology, loading state, source hash, and step/frame cutoff. If qualified, execute one fresh native RemeshingRule/adaptiveRemesh pass using scripts/remeshing/reusable_2d_adaptive_framework.py, without modifying the frozen UEL or prescribing any future crack corridor. Generate and retain the physical Case 3 INP, donor provenance, native execution record, and independent audit of total elements, quadrilateral fraction, signed Jacobians, maximum aspect ratio, critical-region h/l0, secondary-region refinement, far-field coarsening, and element-count efficiency against the archived Case 3 benchmark. If the Case 3 donor cannot be qualified, record the exact technical blocker and do not substitute synthesized MISESERI. Keep Method C and fracture-state transfer paused. Use zero new PBS submissions, preserve all earlier evidence, and maintain MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1796-CASE2-EVOLVING-NATIVE-MISESERI-CAUSAL-INDICATOR-QUALIFICATION",
-    "checkpoint_artifact": "docs/validation/F1796_CASE2_EVOLVING_NATIVE_MISESERI_QUALIFICATION_REPORT.md",
+    "task_id": "F1797-CASE2-ALL-FRAME-MISESERI-AND-RECOVERY-PROVENANCE-QUALIFICATION",
+    "checkpoint_artifact": "docs/validation/F1797_CASE2_ALL_FRAME_MISESERI_AND_PROVENANCE_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
     "review_verdict": "REJECT",
-    "correlation_id": "HND-F1796-EVOLVING-INDICATOR-001"
+    "correlation_id": "HND-F1797-ALL-FRAME-PROVENANCE-001"
   },
-  "re_review_correlation_id": "HND-F1797-ALL-FRAME-PROVENANCE-001",
-  "scientific_operation": "case2_all_frame_miseseri_and_recovery_provenance_qualification",
-  "scientific_operation_id": "f1797_all_frame_provenance_001",
+  "re_review_correlation_id": "HND-F1798-CASE3-NATIVE-REMESH-001",
+  "scientific_operation": "case3_native_miseseri_causal_baseline_remeshing",
+  "scientific_operation_id": "f1798_case3_native_remesh_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "99EC77D2433EB5048DC9B4D70E5EA3B8468073C3BCEA342B7BFE139234700E6D",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1797 ACTIVE under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Focus: complete 338-frame Step-2 scan of PK_HOLE_COARSE_JOB1.odb, provenance & chronology evaluation of nonzero Case 2 recovery ODBs, 39-candidate catalog reconciliation, integration-point multiplicity check, and conditional native remeshing pass or direct-evidence blocker freeze."
+  "notes": "Task F1798 COMPLETED under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Completed: (1) Qualified PK_SEC43_COARSE_RECOVERY.odb D3CF03DF... [3923 elements, uy=1.46 mm, Frame 1, MISESERI in 0.000535-5.1983 MPa across all 3923 elements]; (2) Executed fresh native adaptiveRemesh() pass via shared framework scripts/remeshing/reusable_2d_adaptive_framework.py with NotchedPlateWithPinHolesAdapter; (3) Generated physical mesh PK_F1798_CASE_3_ADAPT_PHYS.inp [1934333 bytes, CC80DBD6..., body 13B6770F...]; (4) Audited 26891 elements [97.23% quads, min det(J)=7.97e-4 > 0, 0 negative Jacobians, max AR=2.706 <= 4.0, 0 violations > 4.0]; (5) Measured 57.05% primary corridor <= l0, 1.24% secondary corridor <= l0, and 3.13x far-field coarsening; (6) Documented pre-cracked linear elasticity causal limitation in anticipating downstream secondary crack path; (7) Measured 7.06% element reduction vs historical F1741 explosion; (8) 12/12 unit tests PASS, 60/60 active regression tests PASS; 0 PBS consumed, cumulative 35."
 }

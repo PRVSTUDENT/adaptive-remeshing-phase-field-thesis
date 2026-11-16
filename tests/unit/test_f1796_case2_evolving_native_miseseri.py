@@ -205,7 +205,8 @@ class TestF1796GovernanceAndInvariants:
             task = json.load(f)
         assert task["task_id"] in [
             "F1796-CASE2-EVOLVING-NATIVE-MISESERI-CAUSAL-INDICATOR-QUALIFICATION",
-            "F1797-CASE2-ALL-FRAME-MISESERI-AND-RECOVERY-PROVENANCE-QUALIFICATION"
+            "F1797-CASE2-ALL-FRAME-MISESERI-AND-RECOVERY-PROVENANCE-QUALIFICATION",
+            "F1798-CASE3-NATIVE-MISESERI-CAUSAL-BASELINE-REMESHING"
         ]
         assert task["classification"] == "ADAPTIVE_REMESHING_RESEARCH_ONLY"
         assert task["max_new_pbs_submissions"] == 0
