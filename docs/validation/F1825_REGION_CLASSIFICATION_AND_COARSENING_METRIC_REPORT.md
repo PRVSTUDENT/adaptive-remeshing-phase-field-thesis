@@ -28,17 +28,22 @@ The apparent Gate 06 failure on Cases 2 and 3 was **NOT** caused by a failure of
    - In Case 2, **35,796 fine elements** ($h \le l_0$) along the notch and outer ligament were dumped into `far_field_h_areas` (only 1,603 elements near the hole perimeter were recognized as process zone).
    - In Case 3, **52,393 fine elements** ($h \le l_0$) along the primary and secondary corridors were dumped into `far_field_h_areas` (only 3,011 elements were recognized as process zone).
 3. **Mathematical Contamination:** Averaging tens of thousands of fine crack-path elements ($1 - 3\,\mu\text{m}$ in Case 2, $0.1 - 0.2\,\text{mm}$ in Case 3) into `far_field_h_areas` artificially dragged down the mean far-field element size (`mean_far_field_h_area_mm`), mathematically suppressing the ratio to $1.55\times$ and $1.65\times$.
-4. **Physical Mesh Ground-Truth:** When measured against genuine geometric far-field boundaries (specimen corners far from defects):
+4. **Physical Mesh Ground-Truth (Supplementary Metric):** When measured against genuine geometric far-field boundaries (specimen corners far from defects):
    - **Case 1:** Corner mean $h = 15.11\,\mu\text{m}$ vs $h_{\min} = 0.54\,\mu\text{m}$ $\implies$ **27.95x coarsening**.
    - **Case 2:** Corner mean $h = 9.97\,\mu\text{m}$ vs $h_{\min} = 0.56\,\mu\text{m}$ $\implies$ **17.77x coarsening** (corner max $h = 24.60\,\mu\text{m} \implies \mathbf{43.82\times}$).
    - **Case 3:** Corner mean $h = 852.86\,\mu\text{m}$ vs $h_{\min} = 43.46\,\mu\text{m}$ $\implies$ **19.63x coarsening** (corner max $h = 1.570\,\text{mm} \implies \mathbf{36.14\times}$).
    - **Case 5:** Corner mean $h = 16.70\,\mu\text{m}$ vs $h_{\min} = 0.98\,\mu\text{m}$ $\implies$ **17.06x coarsening** (corner max $h = 24.44\,\mu\text{m} \implies \mathbf{24.97\times}$).
-5. **Objective Size-Thresholded Metric ($h \le l_0$ vs $h > l_0$):** Under an objective, non-ad-hoc size-thresholded partitioning:
-   - Case 1: **3.68x** ($\ge 2.0\times$ **PASS**)
-   - Case 2: **4.23x** ($\ge 2.0\times$ **PASS**)
-   - Case 3: **2.74x** ($\ge 2.0\times$ **PASS**)
-   - Case 5: **3.17x** ($\ge 2.0\times$ **PASS**)
-   **ALL FOUR CANONICAL BENCHMARKS DECISIVELY SATISFY GATE 06.**
+5. **New Supplementary Size-Thresholded Metric ($h \le l_0$ vs $h > l_0$):** Under this newly proposed supplementary size-thresholded metric (which represents a redefinition of the gate based on element size rather than geometric region):
+   - Case 1: **3.68x** ($\ge 2.0\times$ PASS under size-thresholded metric)
+   - Case 2: **4.23x** ($\ge 2.0\times$ PASS under size-thresholded metric)
+   - Case 3: **2.74x** ($\ge 2.0\times$ PASS under size-thresholded metric)
+   - Case 5: **3.17x** ($\ge 2.0\times$ PASS under size-thresholded metric)
+6. **Status of the Original Gate 06 Metric:**
+   - Under the **ORIGINAL** governing Gate 06 metric (geometric partitioning via the geometry adapter's `classify_region()`, requiring mean far-field $h$ divided by mean process-zone $h \ge 2.0\times$), **Gate 06 still FAILS for Case 2 (1.55x) and Case 3 (1.65x)** in the baseline audit.
+   - When evaluating corridor-consistent geometric partitioning on the existing F1812 meshes:
+     * **Case 2:** Reaches **2.0059x** ($\ge 2.0\times$ **PASS**).
+     * **Case 3:** Yields **1.4462x** ($< 2.0\times$ **FAIL**). Harmonizing the adapter alone does NOT make Case 3's original Gate 06 pass on the F1812 mesh because the extensive multi-state recovery envelope covers large bulk areas, keeping 53,966 far-field elements at mean $h = 0.283\,\text{mm}$ while process-zone mean $h = 0.196\,\text{mm}$.
+   - Therefore, the original Gate 06 remains **FAIL for Case 3** and cannot be claimed as passed across all four cases without an explicit framework fix and fresh remeshing.
 
 ---
 
@@ -109,6 +114,8 @@ All computations were performed deterministically on the bitwise frozen F1812 me
   - Elements with $h \le l_0 = 285\,\mu\text{m}$: **55,404 elements** ($71.2\%$ of the mesh).
   - Process zone count in baseline audit: **3,011 elements** ($3.9\%$ of the mesh).
   - Misclassified into far-field: **52,393 fine elements** ($94.6\%$ of all fine elements).
+  - When corridors are harmonized: Process zone = 23,813 elements (mean $h = 0.1957\,\text{mm}$), Far Field = 53,966 elements (mean $h = 0.2830\,\text{mm}$), Ratio = **1.4462x** ($< 2.0\times$ **FAIL**).
+  - *Critical Disclosure:* Harmonizing the adapter alone does **NOT** make Case 3's original Gate 06 pass on the F1812 mesh. The 53,966 far-field elements remain too fine ($0.283\,\text{mm} \approx l_0$) because the 3-state recovery donor envelope elevated error across the central plate. Therefore, under the original geometric Gate 06 definition, Case 3 remains **FAIL (1.4462x)**.
 
 ---
 
