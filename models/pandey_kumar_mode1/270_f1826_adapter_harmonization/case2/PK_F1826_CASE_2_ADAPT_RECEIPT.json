@@ -1,0 +1,54 @@
+{
+  "case_id": "case_2",
+  "name": "Case 2: Plate with an Off-Axis Hole (Method A.2 Multi-State Recovery)",
+  "error_target_pct": 4.0,
+  "physical_mesh_path": "models/pandey_kumar_mode1/270_f1826_adapter_harmonization/case2/PK_F1826_CASE_2_ADAPT_PHYS.inp",
+  "mesh_sha256": "9B03CFAB71F5CA9DFC9E0FA6E829CBF16343E53A14472AF1A966DAC316E20FC6",
+  "mesh_body_sha256": "5C7DD6B52DBBE716C823462E2EFBA37EAF3DF884862F2CAA4533F80FB7FFBFE1",
+  "total_elements": 41438,
+  "quad_count": 40432,
+  "tri_count": 1006,
+  "quad_percent": 97.57227665427868,
+  "min_det_j": 1.0885105644971146e-07,
+  "max_aspect_ratio": 2.5387482170805216,
+  "min_h_mm": 0.0005613840337701363,
+  "max_h_mm": 0.024952970926425323,
+  "original_gate_06": {
+    "definition": "Geometric domain partitioning via harmonized adapter classify_region()",
+    "process_zone_count": 15181,
+    "mean_pz_h_mm": 0.002304275704786733,
+    "mean_ff_h_mm": 0.0044586041587712415,
+    "refinement_ratio": 1.9349265148737476,
+    "threshold": 2.0,
+    "status": "FAIL"
+  },
+  "supplementary_diagnostics": {
+    "size_thresholded": {
+      "definition": "Size threshold h <= l0 vs h > l0",
+      "pz_count": 37399,
+      "ff_count": 4039,
+      "mean_pz_h_mm": 0.002789981754584595,
+      "mean_ff_h_mm": 0.011811896813942785,
+      "refinement_ratio": 4.2337,
+      "status": "PASS"
+    },
+    "geometric_corner": {
+      "definition": "Specimen corners far from defects vs crack core min size",
+      "corner_sample_count": 616,
+      "mean_corner_h_mm": 0.00997468051619623,
+      "max_corner_h_mm": 0.024601357563891,
+      "ratio_corner_mean_to_min": 17.77,
+      "ratio_corner_max_to_min": 43.82
+    }
+  },
+  "scientific_gate": {
+    "name": "SCIENTIFIC_GATE_OUTER_DISTAL",
+    "status": "PASS",
+    "metrics": {
+      "outer_distal_elements": 1763,
+      "pct_le_l0_half": 99.88655700510493,
+      "threshold_pct": 95.0
+    }
+  },
+  "execution_replay_journal": "models/pandey_kumar_mode1/270_f1826_adapter_harmonization/case2/case_2_abaqus.rpy"
+}

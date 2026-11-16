@@ -473,9 +473,27 @@ class OffAxisHoleMode1Adapter(GeometryAdapter):
                 return "TRANSITION_ZONE"
             else:
                 return "FAR_FIELD"
+
+        # Check proximity to notch root
+        if math.hypot(x - self.config.notch_a, y - self.config.notch_y) <= 3.0 * self.config.l0:
+            return "NOTCH_ROOT_VICINITY"
+
+        # Check proximity to void perimeter
         for hx, hy, hr in self.get_hole_definitions():
             if math.hypot(x - hx, y - hy) <= hr + 2.0 * self.config.l0:
                 return "HOLE_PERIMETER"
+
+        # Active crack propagation corridors:
+        # 1. Primary corridor connecting notch tip to hole
+        # 2. Distal corridor connecting hole to outer boundary
+        hole_defs = self.get_hole_definitions()
+        if hole_defs:
+            hx, hy, hr = hole_defs[0]
+            if (self.config.notch_a <= x <= hx) and (0.45 <= y <= max(self.config.notch_y, hy) + 2.0 * self.config.l0):
+                return "PROPAGATION_CORRIDOR_PRIMARY"
+            if (x >= hx) and (0.45 <= y <= 0.65):
+                return "PROPAGATION_CORRIDOR_DISTAL"
+
         return "FAR_FIELD"
 
 
@@ -550,6 +568,14 @@ class NotchedPlateWithPinHolesAdapter(GeometryAdapter):
         for h_idx, (hx, hy, hr) in enumerate(self.get_hole_definitions()):
             if abs(math.hypot(x - hx, y - hy) - hr) <= 2.0 * self.config.l0:
                 return "HOLE_%d_BOUNDARY" % (h_idx + 1)
+
+        # Active crack propagation corridors:
+        # 1. Primary corridor connecting notch tip (10.0, 70.0) to central hole (36.5, 51.0)
+        # 2. Secondary corridor connecting central hole (36.5, 51.0) to right boundary (65.0, 60.0)
+        if (self.notch_a <= x <= 36.5) and (45.0 <= y <= 72.0):
+            return "PROPAGATION_CORRIDOR_PRIMARY"
+        if (36.5 <= x <= self.plate_w) and (45.0 <= y <= 65.0):
+            return "PROPAGATION_CORRIDOR_SECONDARY"
 
         return "FAR_FIELD"
 

@@ -1,0 +1,269 @@
+{
+  "task_id": "F1826-ADAPTER-HARMONIZATION-AND-GATE06-VERIFICATION",
+  "framework_sha256": "80B41AA253E5B36B2BCF5D716B88843D29355141171C60AFF6E7134A0312932C",
+  "cases": {
+    "case_1": {
+      "case_id": "case_1",
+      "name": "Case 1: Mode-I Edge-Cracked Plate (Method A.2 Multi-State Recovery)",
+      "error_target_pct": 4.5,
+      "physical_mesh_path": "models/pandey_kumar_mode1/270_f1826_adapter_harmonization/case1/PK_F1826_CASE_1_ADAPT_PHYS.inp",
+      "mesh_sha256": "54D9031E4E521E54B41FC6894F13472BE06B1728E8041FAC0FA0357A4B48D898",
+      "mesh_body_sha256": "50CB4E3C826D66C7BDAB7FEBEADF5254CDEE33B709B214E9714CD776B3CE379E",
+      "total_elements": 25461,
+      "quad_count": 24770,
+      "tri_count": 691,
+      "quad_percent": 97.28604532422136,
+      "min_det_j": 1.9058259253139778e-07,
+      "max_aspect_ratio": 2.6317437436651954,
+      "min_h_mm": 0.0005404722951447114,
+      "max_h_mm": 0.02470408089372193,
+      "original_gate_06": {
+        "definition": "Geometric domain partitioning via harmonized adapter classify_region()",
+        "process_zone_count": 4203,
+        "mean_pz_h_mm": 0.0022546644924661963,
+        "mean_ff_h_mm": 0.005381218737877766,
+        "refinement_ratio": 2.3867048759843126,
+        "threshold": 2.0,
+        "status": "PASS"
+      },
+      "supplementary_diagnostics": {
+        "size_thresholded": {
+          "definition": "Size threshold h <= l0 vs h > l0",
+          "pz_count": 20756,
+          "ff_count": 4705,
+          "mean_pz_h_mm": 0.0032528889020486456,
+          "mean_ff_h_mm": 0.011977330656901083,
+          "refinement_ratio": 3.6821,
+          "status": "PASS"
+        },
+        "geometric_corner": {
+          "definition": "Specimen corners far from defects vs crack core min size",
+          "corner_sample_count": 322,
+          "mean_corner_h_mm": 0.015108871023457378,
+          "max_corner_h_mm": 0.023342926292545158,
+          "ratio_corner_mean_to_min": 27.95,
+          "ratio_corner_max_to_min": 43.19
+        }
+      },
+      "scientific_gate": {
+        "name": "SCIENTIFIC_GATE_FULL_LIGAMENT",
+        "status": "PASS",
+        "metrics": {
+          "ligament_elements": 3664,
+          "pct_le_l0_half": 97.18886462882097,
+          "threshold_pct": 95.0
+        }
+      },
+      "execution_replay_journal": "models/pandey_kumar_mode1/270_f1826_adapter_harmonization/case1/case_1_abaqus.rpy"
+    },
+    "case_2": {
+      "case_id": "case_2",
+      "name": "Case 2: Plate with an Off-Axis Hole (Method A.2 Multi-State Recovery)",
+      "error_target_pct": 4.0,
+      "physical_mesh_path": "models/pandey_kumar_mode1/270_f1826_adapter_harmonization/case2/PK_F1826_CASE_2_ADAPT_PHYS.inp",
+      "mesh_sha256": "9B03CFAB71F5CA9DFC9E0FA6E829CBF16343E53A14472AF1A966DAC316E20FC6",
+      "mesh_body_sha256": "5C7DD6B52DBBE716C823462E2EFBA37EAF3DF884862F2CAA4533F80FB7FFBFE1",
+      "total_elements": 41438,
+      "quad_count": 40432,
+      "tri_count": 1006,
+      "quad_percent": 97.57227665427868,
+      "min_det_j": 1.0885105644971146e-07,
+      "max_aspect_ratio": 2.5387482170805216,
+      "min_h_mm": 0.0005613840337701363,
+      "max_h_mm": 0.024952970926425323,
+      "original_gate_06": {
+        "definition": "Geometric domain partitioning via harmonized adapter classify_region()",
+        "process_zone_count": 15181,
+        "mean_pz_h_mm": 0.002304275704786733,
+        "mean_ff_h_mm": 0.0044586041587712415,
+        "refinement_ratio": 1.9349265148737476,
+        "threshold": 2.0,
+        "status": "FAIL"
+      },
+      "supplementary_diagnostics": {
+        "size_thresholded": {
+          "definition": "Size threshold h <= l0 vs h > l0",
+          "pz_count": 37399,
+          "ff_count": 4039,
+          "mean_pz_h_mm": 0.002789981754584595,
+          "mean_ff_h_mm": 0.011811896813942785,
+          "refinement_ratio": 4.2337,
+          "status": "PASS"
+        },
+        "geometric_corner": {
+          "definition": "Specimen corners far from defects vs crack core min size",
+          "corner_sample_count": 616,
+          "mean_corner_h_mm": 0.00997468051619623,
+          "max_corner_h_mm": 0.024601357563891,
+          "ratio_corner_mean_to_min": 17.77,
+          "ratio_corner_max_to_min": 43.82
+        }
+      },
+      "scientific_gate": {
+        "name": "SCIENTIFIC_GATE_OUTER_DISTAL",
+        "status": "PASS",
+        "metrics": {
+          "outer_distal_elements": 1763,
+          "pct_le_l0_half": 99.88655700510493,
+          "threshold_pct": 95.0
+        }
+      },
+      "execution_replay_journal": "models/pandey_kumar_mode1/270_f1826_adapter_harmonization/case2/case_2_abaqus.rpy"
+    },
+    "case_3": {
+      "case_id": "case_3",
+      "name": "Case 3: Notched Plate with Hole and Pins (Method A.2 Multi-State Recovery)",
+      "error_target_pct": 3.0,
+      "physical_mesh_path": "models/pandey_kumar_mode1/270_f1826_adapter_harmonization/case3/PK_F1826_CASE_3_ADAPT_PHYS.inp",
+      "mesh_sha256": "819452A3F0C13F2EFB710078C55B4BA733EEA72A6E783C1C8A7D0702CB4F5B0F",
+      "mesh_body_sha256": "08FA694A09033EC1F6BDE1C9150F539B3379BE7DF75CAAAD5DED3D42937FA2B4",
+      "total_elements": 77779,
+      "quad_count": 75708,
+      "tri_count": 2071,
+      "quad_percent": 97.33732755628127,
+      "min_det_j": 0.0010693940393184003,
+      "max_aspect_ratio": 2.6587673706247137,
+      "min_h_mm": 0.04345555895296838,
+      "max_h_mm": 1.5704854011707166,
+      "original_gate_06": {
+        "definition": "Geometric domain partitioning via harmonized adapter classify_region()",
+        "process_zone_count": 23813,
+        "mean_pz_h_mm": 0.19570422828712994,
+        "mean_ff_h_mm": 0.2830322635125249,
+        "refinement_ratio": 1.446224570566102,
+        "threshold": 2.0,
+        "status": "FAIL"
+      },
+      "supplementary_diagnostics": {
+        "size_thresholded": {
+          "definition": "Size threshold h <= l0 vs h > l0",
+          "pz_count": 55404,
+          "ff_count": 22375,
+          "mean_pz_h_mm": 0.17086062268295454,
+          "mean_ff_h_mm": 0.46784634555495475,
+          "refinement_ratio": 2.7382,
+          "status": "PASS"
+        },
+        "geometric_corner": {
+          "definition": "Specimen corners far from defects vs crack core min size",
+          "corner_sample_count": 648,
+          "mean_corner_h_mm": 0.8528597026969585,
+          "max_corner_h_mm": 1.5704854011707166,
+          "ratio_corner_mean_to_min": 19.63,
+          "ratio_corner_max_to_min": 36.14
+        }
+      },
+      "scientific_gate": {
+        "name": "SCIENTIFIC_GATE_SECONDARY_CORRIDOR",
+        "status": "PASS",
+        "metrics": {
+          "secondary_corridor_elements": 12638,
+          "pct_le_l0": 93.8439626523184,
+          "threshold_pct": 90.0
+        }
+      },
+      "execution_replay_journal": "models/pandey_kumar_mode1/270_f1826_adapter_harmonization/case3/case_3_abaqus.rpy"
+    },
+    "case_5": {
+      "case_id": "case_5",
+      "name": "Case 5: Plate with Seven Holes (Table 6 Parity)",
+      "error_target_pct": 5.68,
+      "physical_mesh_path": "models/pandey_kumar_mode1/270_f1826_adapter_harmonization/case5/PK_F1826_CASE_5_ADAPT_PHYS.inp",
+      "mesh_sha256": "54341CFE9AA87E420AFD02D4F8CC8D7461228380DEEA3E9C91992F15C00EA20C",
+      "mesh_body_sha256": "78009AAEE4FE732C0FA56F2DE5487C1717E82E245B4CAF32C3B9CE19AB2B4065",
+      "total_elements": 15466,
+      "quad_count": 15141,
+      "tri_count": 325,
+      "quad_percent": 97.89861631966895,
+      "min_det_j": 3.921570799516287e-07,
+      "max_aspect_ratio": 2.3741091636738676,
+      "min_h_mm": 0.0009786216285975462,
+      "max_h_mm": 0.02497139208356194,
+      "original_gate_06": {
+        "definition": "Geometric domain partitioning via harmonized adapter classify_region()",
+        "process_zone_count": 4212,
+        "mean_pz_h_mm": 0.0033627855700876347,
+        "mean_ff_h_mm": 0.0071203816445982076,
+        "refinement_ratio": 2.1174057923689285,
+        "threshold": 2.0,
+        "status": "PASS"
+      },
+      "supplementary_diagnostics": {
+        "size_thresholded": {
+          "definition": "Size threshold h <= l0 vs h > l0",
+          "pz_count": 12246,
+          "ff_count": 3220,
+          "mean_pz_h_mm": 0.004166407917064559,
+          "mean_ff_h_mm": 0.01343943990594569,
+          "refinement_ratio": 3.2257,
+          "status": "PASS"
+        },
+        "geometric_corner": {
+          "definition": "Specimen corners far from defects vs crack core min size",
+          "corner_sample_count": 210,
+          "mean_corner_h_mm": 0.016698154685840377,
+          "max_corner_h_mm": 0.02443987134932645,
+          "ratio_corner_mean_to_min": 17.06,
+          "ratio_corner_max_to_min": 24.97
+        }
+      },
+      "scientific_gate": {
+        "name": "SCIENTIFIC_GATE_INTER_HOLE",
+        "status": "PASS",
+        "metrics": {
+          "inter_hole_elements": 8030,
+          "pct_le_l0": 97.40971357409714,
+          "threshold_pct": 90.0
+        }
+      },
+      "execution_replay_journal": "models/pandey_kumar_mode1/270_f1826_adapter_harmonization/case5/case_5_abaqus.rpy"
+    }
+  },
+  "total_elements_across_four_cases": 160144,
+  "summary": {
+    "case_1": {
+      "total_elements": 25461,
+      "quad_percent": 97.28604532422136,
+      "original_gate_06_ratio": 2.3867048759843126,
+      "original_gate_06_status": "PASS",
+      "size_thresholded_ratio": 3.6821,
+      "corner_mean_to_min_ratio": 27.95,
+      "corner_max_to_min_ratio": 43.19,
+      "scientific_gate_name": "SCIENTIFIC_GATE_FULL_LIGAMENT",
+      "scientific_gate_status": "PASS"
+    },
+    "case_2": {
+      "total_elements": 41438,
+      "quad_percent": 97.57227665427868,
+      "original_gate_06_ratio": 1.9349265148737476,
+      "original_gate_06_status": "FAIL",
+      "size_thresholded_ratio": 4.2337,
+      "corner_mean_to_min_ratio": 17.77,
+      "corner_max_to_min_ratio": 43.82,
+      "scientific_gate_name": "SCIENTIFIC_GATE_OUTER_DISTAL",
+      "scientific_gate_status": "PASS"
+    },
+    "case_3": {
+      "total_elements": 77779,
+      "quad_percent": 97.33732755628127,
+      "original_gate_06_ratio": 1.446224570566102,
+      "original_gate_06_status": "FAIL",
+      "size_thresholded_ratio": 2.7382,
+      "corner_mean_to_min_ratio": 19.63,
+      "corner_max_to_min_ratio": 36.14,
+      "scientific_gate_name": "SCIENTIFIC_GATE_SECONDARY_CORRIDOR",
+      "scientific_gate_status": "PASS"
+    },
+    "case_5": {
+      "total_elements": 15466,
+      "quad_percent": 97.89861631966895,
+      "original_gate_06_ratio": 2.1174057923689285,
+      "original_gate_06_status": "PASS",
+      "size_thresholded_ratio": 3.2257,
+      "corner_mean_to_min_ratio": 17.06,
+      "corner_max_to_min_ratio": 24.97,
+      "scientific_gate_name": "SCIENTIFIC_GATE_INTER_HOLE",
+      "scientific_gate_status": "PASS"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "case_id": "case_3",
+  "name": "Case 3: Notched Plate with Hole and Pins (Method A.2 Multi-State Recovery)",
+  "error_target_pct": 3.0,
+  "physical_mesh_path": "models/pandey_kumar_mode1/270_f1826_adapter_harmonization/case3/PK_F1826_CASE_3_ADAPT_PHYS.inp",
+  "mesh_sha256": "819452A3F0C13F2EFB710078C55B4BA733EEA72A6E783C1C8A7D0702CB4F5B0F",
+  "mesh_body_sha256": "08FA694A09033EC1F6BDE1C9150F539B3379BE7DF75CAAAD5DED3D42937FA2B4",
+  "total_elements": 77779,
+  "quad_count": 75708,
+  "tri_count": 2071,
+  "quad_percent": 97.33732755628127,
+  "min_det_j": 0.0010693940393184003,
+  "max_aspect_ratio": 2.6587673706247137,
+  "min_h_mm": 0.04345555895296838,
+  "max_h_mm": 1.5704854011707166,
+  "original_gate_06": {
+    "definition": "Geometric domain partitioning via harmonized adapter classify_region()",
+    "process_zone_count": 23813,
+    "mean_pz_h_mm": 0.19570422828712994,
+    "mean_ff_h_mm": 0.2830322635125249,
+    "refinement_ratio": 1.446224570566102,
+    "threshold": 2.0,
+    "status": "FAIL"
+  },
+  "supplementary_diagnostics": {
+    "size_thresholded": {
+      "definition": "Size threshold h <= l0 vs h > l0",
+      "pz_count": 55404,
+      "ff_count": 22375,
+      "mean_pz_h_mm": 0.17086062268295454,
+      "mean_ff_h_mm": 0.46784634555495475,
+      "refinement_ratio": 2.7382,
+      "status": "PASS"
+    },
+    "geometric_corner": {
+      "definition": "Specimen corners far from defects vs crack core min size",
+      "corner_sample_count": 648,
+      "mean_corner_h_mm": 0.8528597026969585,
+      "max_corner_h_mm": 1.5704854011707166,
+      "ratio_corner_mean_to_min": 19.63,
+      "ratio_corner_max_to_min": 36.14
+    }
+  },
+  "scientific_gate": {
+    "name": "SCIENTIFIC_GATE_SECONDARY_CORRIDOR",
+    "status": "PASS",
+    "metrics": {
+      "secondary_corridor_elements": 12638,
+      "pct_le_l0": 93.8439626523184,
+      "threshold_pct": 90.0
+    }
+  },
+  "execution_replay_journal": "models/pandey_kumar_mode1/270_f1826_adapter_harmonization/case3/case_3_abaqus.rpy"
+}

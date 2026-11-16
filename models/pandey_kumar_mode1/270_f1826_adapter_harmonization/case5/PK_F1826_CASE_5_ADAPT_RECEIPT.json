@@ -1,0 +1,54 @@
+{
+  "case_id": "case_5",
+  "name": "Case 5: Plate with Seven Holes (Table 6 Parity)",
+  "error_target_pct": 5.68,
+  "physical_mesh_path": "models/pandey_kumar_mode1/270_f1826_adapter_harmonization/case5/PK_F1826_CASE_5_ADAPT_PHYS.inp",
+  "mesh_sha256": "54341CFE9AA87E420AFD02D4F8CC8D7461228380DEEA3E9C91992F15C00EA20C",
+  "mesh_body_sha256": "78009AAEE4FE732C0FA56F2DE5487C1717E82E245B4CAF32C3B9CE19AB2B4065",
+  "total_elements": 15466,
+  "quad_count": 15141,
+  "tri_count": 325,
+  "quad_percent": 97.89861631966895,
+  "min_det_j": 3.921570799516287e-07,
+  "max_aspect_ratio": 2.3741091636738676,
+  "min_h_mm": 0.0009786216285975462,
+  "max_h_mm": 0.02497139208356194,
+  "original_gate_06": {
+    "definition": "Geometric domain partitioning via harmonized adapter classify_region()",
+    "process_zone_count": 4212,
+    "mean_pz_h_mm": 0.0033627855700876347,
+    "mean_ff_h_mm": 0.0071203816445982076,
+    "refinement_ratio": 2.1174057923689285,
+    "threshold": 2.0,
+    "status": "PASS"
+  },
+  "supplementary_diagnostics": {
+    "size_thresholded": {
+      "definition": "Size threshold h <= l0 vs h > l0",
+      "pz_count": 12246,
+      "ff_count": 3220,
+      "mean_pz_h_mm": 0.004166407917064559,
+      "mean_ff_h_mm": 0.01343943990594569,
+      "refinement_ratio": 3.2257,
+      "status": "PASS"
+    },
+    "geometric_corner": {
+      "definition": "Specimen corners far from defects vs crack core min size",
+      "corner_sample_count": 210,
+      "mean_corner_h_mm": 0.016698154685840377,
+      "max_corner_h_mm": 0.02443987134932645,
+      "ratio_corner_mean_to_min": 17.06,
+      "ratio_corner_max_to_min": 24.97
+    }
+  },
+  "scientific_gate": {
+    "name": "SCIENTIFIC_GATE_INTER_HOLE",
+    "status": "PASS",
+    "metrics": {
+      "inter_hole_elements": 8030,
+      "pct_le_l0": 97.40971357409714,
+      "threshold_pct": 90.0
+    }
+  },
+  "execution_replay_journal": "models/pandey_kumar_mode1/270_f1826_adapter_harmonization/case5/case_5_abaqus.rpy"
+}

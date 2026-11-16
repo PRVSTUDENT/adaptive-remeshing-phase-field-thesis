@@ -1,21 +1,23 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1825-coarsening-diagnosis-20261116",
-  "task_id": "F1825-REGION-CLASSIFICATION-AND-COARSENING-METRIC-DIAGNOSIS",
-  "started_at": "2026-11-16T23:08:00+01:00",
-  "completed_at": "2026-11-16T23:23:00+01:00",
-  "starting_commit": "13782cf89d0053206a1912d65635f322ceb384b4",
+  "session_id": "gemini-antigravity-f1826-adapter-harmonization-20261116",
+  "task_id": "F1826-ADAPTER-HARMONIZATION-AND-GATE06-VERIFICATION",
+  "started_at": "2026-11-16T23:32:00+01:00",
+  "completed_at": "2026-11-17T00:18:00+01:00",
+  "starting_commit": "2753399b4ff441f9d6517a26ba19ad9f928e3793",
   "allowed_write_scope": [
-    "models/pandey_kumar_mode1/269_f1825_*",
-    "configs/remeshing/f1825_*",
-    "scripts/remeshing/run_f1825_*",
-    "scripts/validation/run_f1825_*",
+    "models/pandey_kumar_mode1/270_f1826_*",
+    "configs/remeshing/f1826_*",
+    "scripts/remeshing/run_f1826_*",
+    "scripts/validation/run_f1826_*",
     "docs/validation/F1825_*",
-    "tests/unit/test_f1825_*",
-    "results/figures/fig_f1825_*",
+    "docs/validation/F1826_*",
+    "tests/unit/test_f1826_*",
+    "results/figures/fig_f1826_*",
+    "scripts/remeshing/reusable_2d_adaptive_framework.py",
     "project_coordination/*",
     ".agents/scripts/*"
   ],
-  "notes": "Task F1825 completed ready for independent structured review. 0 new PBS jobs consumed (cumulative 35 preserved), bitwise frozen UEL CE8D5EDC..., framework 0578156E... preserved bitwise, MASTER_GOAL_STATUS = OPEN."
+  "notes": "Task F1826: Correct F1825 report, apply adapter harmonization fix to reusable_2d_adaptive_framework.py, regenerate all four meshes in fresh directory 270_f1826_adapter_harmonization, verify Gate 06 under original definition, produce visual images and unit tests. 0 new PBS jobs consumed (cumulative 35 preserved), bitwise frozen UEL CE8D5EDC... preserved, MASTER_GOAL_STATUS = OPEN."
 }

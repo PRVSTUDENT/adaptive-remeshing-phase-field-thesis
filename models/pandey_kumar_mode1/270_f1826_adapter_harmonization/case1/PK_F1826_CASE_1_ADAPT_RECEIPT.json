@@ -1,0 +1,54 @@
+{
+  "case_id": "case_1",
+  "name": "Case 1: Mode-I Edge-Cracked Plate (Method A.2 Multi-State Recovery)",
+  "error_target_pct": 4.5,
+  "physical_mesh_path": "models/pandey_kumar_mode1/270_f1826_adapter_harmonization/case1/PK_F1826_CASE_1_ADAPT_PHYS.inp",
+  "mesh_sha256": "54D9031E4E521E54B41FC6894F13472BE06B1728E8041FAC0FA0357A4B48D898",
+  "mesh_body_sha256": "50CB4E3C826D66C7BDAB7FEBEADF5254CDEE33B709B214E9714CD776B3CE379E",
+  "total_elements": 25461,
+  "quad_count": 24770,
+  "tri_count": 691,
+  "quad_percent": 97.28604532422136,
+  "min_det_j": 1.9058259253139778e-07,
+  "max_aspect_ratio": 2.6317437436651954,
+  "min_h_mm": 0.0005404722951447114,
+  "max_h_mm": 0.02470408089372193,
+  "original_gate_06": {
+    "definition": "Geometric domain partitioning via harmonized adapter classify_region()",
+    "process_zone_count": 4203,
+    "mean_pz_h_mm": 0.0022546644924661963,
+    "mean_ff_h_mm": 0.005381218737877766,
+    "refinement_ratio": 2.3867048759843126,
+    "threshold": 2.0,
+    "status": "PASS"
+  },
+  "supplementary_diagnostics": {
+    "size_thresholded": {
+      "definition": "Size threshold h <= l0 vs h > l0",
+      "pz_count": 20756,
+      "ff_count": 4705,
+      "mean_pz_h_mm": 0.0032528889020486456,
+      "mean_ff_h_mm": 0.011977330656901083,
+      "refinement_ratio": 3.6821,
+      "status": "PASS"
+    },
+    "geometric_corner": {
+      "definition": "Specimen corners far from defects vs crack core min size",
+      "corner_sample_count": 322,
+      "mean_corner_h_mm": 0.015108871023457378,
+      "max_corner_h_mm": 0.023342926292545158,
+      "ratio_corner_mean_to_min": 27.95,
+      "ratio_corner_max_to_min": 43.19
+    }
+  },
+  "scientific_gate": {
+    "name": "SCIENTIFIC_GATE_FULL_LIGAMENT",
+    "status": "PASS",
+    "metrics": {
+      "ligament_elements": 3664,
+      "pct_le_l0_half": 97.18886462882097,
+      "threshold_pct": 95.0
+    }
+  },
+  "execution_replay_journal": "models/pandey_kumar_mode1/270_f1826_adapter_harmonization/case1/case_1_abaqus.rpy"
+}
