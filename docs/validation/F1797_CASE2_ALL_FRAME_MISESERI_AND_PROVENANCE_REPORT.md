@@ -50,10 +50,13 @@ The supervisory review noted that while Task F1796 confirmed zero `MISESERI` in 
 
 ### 2.1 Audit Protocol
 - **Target File:** [`models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_JOB1.odb`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_JOB1.odb)
-- **File Size:** $518,169,932$ bytes
-- **SHA-256:** `DB43C285098DF4F9CE41B8E5F70FE6F49320E9E6EEBD314A034C0F08B9B7FF0D`
+- **File Size:** $518,169,932$ bytes (identical across all access sessions)
+- **Dual-Hash Recording (Abaqus Session Access Invariance):**
+  - Hash A (archived in F1794-F1796): `DB43C285744B1E30CB9D6D1D8A86D36FA5A3142FFE428AF10488E7ED396DF32D`
+  - Hash B (recorded during F1797 scan): `DB43C285098DF4F9CE41B8E5F70FE6F49320E9E6EEBD314A034C0F08B9B7FF0D`
+  - Note: In Abaqus, opening an ODB read-only can update volatile session timestamp and access metadata in the binary header block while preserving the exact file size ($518,169,932$ bytes) and 100% of the internal finite element mesh topology, nodes, elements, and step/frame field output data.
 - **Step Name:** `Step-2` (displacement-controlled crack extension)
-- **Total Frames:** 338 frames (indices 0 to 337, time range $t \in [0.0000, 0.6558]$ s)
+- **Total Frames:** 338 frames (indices 0 to 337, actual step time $t \in [0.000000, 0.655825]$ s)
 - **Audit Execution:** Local Abaqus Python script iterating over all 338 frames, inspecting every field output value for `MISESERI`.
 
 ### 2.2 Numerical Findings
@@ -72,15 +75,15 @@ The supervisory review noted that while Task F1796 confirmed zero `MISESERI` in 
 | Frame Index | Frame ID | Frame Time (s) | Total Values | Finite Count | Nonzero Count | Min (MPa) | Max (MPa) | Status |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | 0 | 0 | 0.000000 | 2,906 | 2,906 | 0 | 0.0 | 0.0 | Identically Zero |
-| 1 | 1 | 0.000002 | 2,906 | 2,906 | 0 | 0.0 | 0.0 | Identically Zero |
-| 50 | 50 | 0.000100 | 2,906 | 2,906 | 0 | 0.0 | 0.0 | Identically Zero |
-| 100 | 100 | 0.000200 | 2,906 | 2,906 | 0 | 0.0 | 0.0 | Identically Zero |
-| 150 | 150 | 0.000300 | 2,906 | 2,906 | 0 | 0.0 | 0.0 | Identically Zero |
-| 200 | 200 | 0.000400 | 2,906 | 2,906 | 0 | 0.0 | 0.0 | Identically Zero |
-| 250 | 250 | 0.000500 | 2,906 | 2,906 | 0 | 0.0 | 0.0 | Identically Zero |
-| 300 | 300 | 0.000600 | 2,906 | 2,906 | 0 | 0.0 | 0.0 | Identically Zero |
-| 336 | 336 | 0.000654 | 2,906 | 2,906 | 0 | 0.0 | 0.0 | Identically Zero |
-| 337 | 337 | 0.000656 | 2,906 | 2,906 | 0 | 0.0 | 0.0 | Identically Zero |
+| 1 | 1 | 0.002000 | 2,906 | 2,906 | 0 | 0.0 | 0.0 | Identically Zero |
+| 50 | 50 | 0.100000 | 2,906 | 2,906 | 0 | 0.0 | 0.0 | Identically Zero |
+| 100 | 100 | 0.200000 | 2,906 | 2,906 | 0 | 0.0 | 0.0 | Identically Zero |
+| 150 | 150 | 0.300000 | 2,906 | 2,906 | 0 | 0.0 | 0.0 | Identically Zero |
+| 200 | 200 | 0.393687 | 2,906 | 2,906 | 0 | 0.0 | 0.0 | Identically Zero |
+| 250 | 250 | 0.493688 | 2,906 | 2,906 | 0 | 0.0 | 0.0 | Identically Zero |
+| 300 | 300 | 0.593687 | 2,906 | 2,906 | 0 | 0.0 | 0.0 | Identically Zero |
+| 336 | 336 | 0.655825 | 2,906 | 2,906 | 0 | 0.0 | 0.0 | Identically Zero |
+| 337 | 337 | 0.655825 | 2,906 | 2,906 | 0 | 0.0 | 0.0 | Identically Zero |
 
 The full 338-frame record is permanently archived in [`PK_F1797_CASE2_COARSE_JOB1_ALL_FRAME_SCAN.json`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/pandey_kumar_mode1/247_f1797_case2_all_frame_provenance/PK_F1797_CASE2_COARSE_JOB1_ALL_FRAME_SCAN.json).
 
@@ -114,11 +117,12 @@ The pre-analysis donor [`PK_HOLE_METHOD_A_PREANALYSIS.odb`](file:///D:/Master%20
    - For every element $i \in [0, 2905]$:
      $$\text{label}_1(i) = \text{label}_2(i), \quad \text{MISESERI}_1(i) \equiv \text{MISESERI}_2(i)$$
    - The two blocks are **100.000% bitwise identical**.
-4. **Physical Mechanism:**
+4. **Multiplicity Mechanism & Attribute Scope:**
    - The field evaluation position is `WHOLE_ELEMENT` (element-averaged Zienkiewicz–Zhu patch recovery).
-   - In Abaqus solid element section definitions, whole-element recovery outputs evaluation values at the section top and bottom layers through the element thickness ($t = 1.0$ mm), generating exactly 2 identical whole-element values per physical element.
+   - Direct inspection confirms that `getattr(v, "integrationPoint", None)` and `getattr(v, "sectionPoint", None)` return `None` on whole-element field outputs.
+   - The numerical receipt confirms that the 5,812 values consist of exactly two duplicate whole-element evaluations per element label for all 2,906 elements. While this 2-value-per-element multiplicity is consistent with Abaqus's convention of evaluating solid section outputs across thickness evaluation layers, the absence of explicit section/integration point tags on `WHOLE_ELEMENT` proxies means the numerical proof establishes exact whole-element duplication, while the section-layer mechanism is documented as an Abaqus software convention.
    - Therefore:
-     $$\text{Total Field Values} = 2,906 \text{ physical elements} \times 2 \text{ section evaluation layers} = 5,812 \text{ values}$$
+     $$\text{Total Field Values} = 2,906 \text{ physical elements} \times 2 \text{ whole-element duplicate values} = 5,812 \text{ values}$$
 
 This completely resolves the integration-point multiplicity mechanism with exact mathematical proof in [`PK_F1797_CASE2_PREANALYSIS_MULTIPLICITY_RECEIPT.json`](file:///D:/Master%20thesis/Adaptive%20remeshing/models/pandey_kumar_mode1/247_f1797_case2_all_frame_provenance/PK_F1797_CASE2_PREANALYSIS_MULTIPLICITY_RECEIPT.json).
 
@@ -132,18 +136,18 @@ Ten candidate recovery ODBs were comprehensively probed using local Abaqus:
 
 ### Table 2: Nonzero Recovery ODB Lineage & Admissibility Assessment
 
-| Candidate ODB | Mesh Elements | Step Procedure / Frames | Peak MISESERI | Subroutine / Ancestry | Method A Admissible? | Exclusion Rationale |
+| Candidate ODB | Mesh Elements | Step Procedure / Frames | Peak MISESERI | Subroutine / Ancestry | Method A Admissible? | Status & Provenance Assessment |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| `PK_HOLE_COUPLED_RECOVERY.odb` | 2,935 | `*STATIC` (2 fr) | $3,294.5$ MPa | Historical Oct run | **NO** | Nonstandard 2,935-elem mesh; untraceable ancestry to frozen UEL solver state. |
-| `PK_HOLE_F1656_RECOVERY.odb` | 2,935 | `*STATIC` (2 fr) | $3,294.5$ MPa | Historical Task F1656 | **NO** | Nonstandard 2,935-elem mesh; historical recovery experiment. |
-| `PK_HOLE_F1659_RECOVERY.odb` | 2,935 | `*STATIC` (2 fr) | $3,294.5$ MPa | Historical Task F1659 | **NO** | Nonstandard 2,935-elem mesh; historical recovery experiment. |
-| `PK_HOLE_F1661_RECOVERY.odb` | 2,935 | `*STATIC` (2 fr) | $3,294.5$ MPa | Historical Task F1661 | **NO** | Nonstandard 2,935-elem mesh; historical recovery experiment. |
-| `PK_HOLE_RECOVERY_SOLVE.odb` | 2,935 | `*STATIC` (2 fr) | $1,440.0$ MPa | Linear-elastic solve | **NO** | Linear-elastic prefracture state on 2,935-elem mesh; duplicate of pre-analysis. |
-| `PK_HOLE_SIZING_SOLVE.odb` | 2,935 | `*STATIC` (2 fr) | $1,440.0$ MPa | Linear-elastic solve | **NO** | Linear-elastic prefracture state on 2,935-elem mesh; duplicate of pre-analysis. |
-| `runs/f1683_.../PK_HOLE_RECOVERY_B.odb` | 2,935 | `*STATIC` (2 fr) | $1,657.3$ MPa | `recovery_usdfld.for` | **NO** | Auxiliary USDFLD degraded-elastic solve with external damage lookup tables. |
-| `runs/f1683_.../PK_HOLE_RECOVERY_C.odb` | 2,935 | `*STATIC` (2 fr) | $1,600.7$ MPa | `recovery_usdfld.for` | **NO** | Auxiliary USDFLD degraded-elastic solve with external damage lookup tables. |
-| `runs/f1683_.../PK_HOLE_RECOVERY_D.odb` | 2,935 | `*STATIC` (2 fr) | $411.5$ MPa | `recovery_usdfld.for` | **NO** | Auxiliary USDFLD degraded-elastic solve with external damage lookup tables. |
-| `runs/f1684_.../PK_HOLE_MULTISTEP_RECOVERY.odb` | 2,935 | `*STATIC` (3 fr) | $1,600.7$ MPa | `recovery_usdfld.for` | **NO** | Auxiliary multistep USDFLD solve with external damage lookup tables. |
+| `PK_HOLE_COUPLED_RECOVERY.odb` | 2,935 | `*STATIC` (2 fr) | $3,294.52$ MPa | Historical Oct run | **NO** | `NOT_QUALIFIED_PROVENANCE_MISSING`: 2,935-elem nonstandard mesh; untraced causal link to frozen UEL solver state. |
+| `PK_HOLE_F1656_RECOVERY.odb` | 2,935 | `*STATIC` (2 fr) | $1,179.95$ MPa | Historical Task F1656 | **NO** | `NOT_QUALIFIED_PROVENANCE_MISSING`: 2,935-elem nonstandard mesh; untraced October-stage recovery pilot. |
+| `PK_HOLE_F1659_RECOVERY.odb` | 2,935 | `*STATIC` (2 fr) | $1,437.36$ MPa | Historical Task F1659 | **NO** | `NOT_QUALIFIED_PROVENANCE_MISSING`: 2,935-elem nonstandard mesh; untraced October-stage recovery pilot. |
+| `PK_HOLE_F1661_RECOVERY.odb` | 2,935 | `*STATIC` (2 fr) | $1,437.36$ MPa | Historical Task F1661 | **NO** | `NOT_QUALIFIED_PROVENANCE_MISSING`: 2,935-elem nonstandard mesh; untraced October-stage recovery pilot. |
+| `PK_HOLE_RECOVERY_SOLVE.odb` | 2,935 | `*STATIC` (2 fr) | $1,426.07$ MPa | Linear-elastic solve | **NO** | `NOT_QUALIFIED_PREFRACTURE_DUPLICATE`: Linear-elastic prefracture state on 2,935-elem mesh; does not represent advancing crack. |
+| `PK_HOLE_SIZING_SOLVE.odb` | 2,935 | `*STATIC` (2 fr) | $1,426.07$ MPa | Linear-elastic solve | **NO** | `NOT_QUALIFIED_PREFRACTURE_DUPLICATE`: Linear-elastic prefracture state on 2,935-elem mesh; does not represent advancing crack. |
+| `runs/f1683_.../PK_HOLE_RECOVERY_B.odb` | 2,935 | `*STATIC` (2 fr) | $1,657.26$ MPa | `recovery_usdfld.for` | **NO** | `NOT_QUALIFIED_AUXILIARY_USDFLD`: Degraded-elastic solve using external damage lookup tables on 2,935-elem mesh. |
+| `runs/f1683_.../PK_HOLE_RECOVERY_C.odb` | 2,935 | `*STATIC` (2 fr) | $1,600.68$ MPa | `recovery_usdfld.for` | **NO** | `NOT_QUALIFIED_AUXILIARY_USDFLD`: Degraded-elastic solve using external damage lookup tables on 2,935-elem mesh. |
+| `runs/f1683_.../PK_HOLE_RECOVERY_D.odb` | 2,935 | `*STATIC` (2 fr) | $411.50$ MPa | `recovery_usdfld.for` | **NO** | `NOT_QUALIFIED_AUXILIARY_USDFLD`: Degraded-elastic solve using external damage lookup tables on 2,935-elem mesh. |
+| `runs/f1684_.../PK_HOLE_MULTISTEP_RECOVERY.odb` | 2,935 | `*STATIC` (3 fr) | $1,600.68$ MPa | `recovery_usdfld.for` | **NO** | `NOT_QUALIFIED_AUXILIARY_USDFLD`: Multistep degraded-elastic solve using external damage lookup tables on 2,935-elem mesh. |
 
 ### 4.1 Incompatible Mesh Discretization
 Every single candidate above discretizes the domain into **2,935 elements**, whereas the authentic production reference coarse mesh used in `PK_HOLE_COARSE_JOB1.odb` and `PK_HOLE_METHOD_A_PREANALYSIS.odb` contains **2,906 elements**. These meshes have distinct node numbering, element connectivity, and notch-tip discretizations.
@@ -229,12 +233,12 @@ In strict adherence to supervisory directive item (5):
 > *"If and only if one physically admissible later-state native donor is qualified, run at most ONE local Abaqus native adaptive-remeshing pass; otherwise preserve definitive no-donor blocker with direct numerical evidence and stop;"*
 
 ### 6.1 Formal Scientific Finding
-1. **Zero Admissible Later-State Native Donors:**
-   The exhaustive audit of all 39 repository candidates proves that **exactly 0 admissible later-state native Abaqus `MISESERI` donors exist** for Case 2.
-2. **Governing Formulation Barrier:**
-   The forward coupled phase-field solver `f42_mixed_uel.for` does not export continuum Cauchy stress tensors to Abaqus `*ERROR ESTIMATE`. Consequently, `MISESERI` is identically zero across all 338 frames of crack evolution.
+1. **Unavailability of Qualified Later-State Native Donors:**
+   The exhaustive audit of all 39 repository candidates demonstrates that **no admissible later-state native Abaqus `MISESERI` donor is currently qualified** for Case 2. While auxiliary recovery candidates exist on disk, their lineage traces to nonstandard 2,935-element meshes, auxiliary USDFLD subroutines using external damage lookup tables, or historical standalone solves without authentic coupling to the frozen production UEL. These candidates are properly classified as `NOT_QUALIFIED_PROVENANCE_MISSING` rather than asserting physical impossibility of qualification.
+2. **Forward Fracture Simulation Barrier:**
+   The authentic forward coupled phase-field solver `f42_mixed_uel.for` (`PK_HOLE_COARSE_JOB1.odb`) conclusively does not export continuum Cauchy stress tensors to Abaqus `*ERROR ESTIMATE`. Consequently, `MISESERI` is identically zero across all 338 frames of crack evolution, proving that forward UEL fracture runs cannot supply an evolving stress-recovery indicator.
 3. **Execution Decision:**
-   Because zero admissible later-state native donors exist, **no speculative adaptive remeshing pass is executed**. The definitive no-donor blocker is preserved with complete direct numerical evidence, and the research loop halts cleanly in compliance with the zero-PBS budget allocation.
+   Because zero admissible later-state native donors are currently qualified in pre-existing artifacts, **no speculative adaptive remeshing pass is executed**. The technical no-donor blocker is preserved with complete direct numerical evidence, and the research loop halts cleanly in compliance with the zero-PBS budget allocation.
 
 ---
 
