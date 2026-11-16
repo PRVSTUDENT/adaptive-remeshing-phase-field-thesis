@@ -122,8 +122,4 @@ if ($CheckOnly) {
 
 Write-Host "Publishing Task F1825 bridge request via guarded Invoke-ChatGPTBridge.ps1..." -ForegroundColor Cyan
 
-Invoke-BridgePublish `
-    -HandoffId $handoffId `
-    -FullText $fullPayload `
-    -CorrelationId $handoffId `
-    -CommitSha $commitSha
+Invoke-ChatGPTBridge -PromptText $fullPayload -HandoffId $handoffId
