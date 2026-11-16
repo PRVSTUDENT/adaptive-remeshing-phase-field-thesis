@@ -1,6 +1,6 @@
 {
-  "task_id": "F1816-MULTISTEP-REFINEMENT-NARROWING",
-  "title": "Task F1816: Multi-Step Refinement Narrowing Across Four Canonical Benchmarks",
+  "task_id": "F1817-EVIDENCE-COMPLETION",
+  "title": "Task F1817: Evidence Completion for F1816 Multi-Step Narrowing",
   "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
@@ -8,23 +8,23 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1816_MULTISTEP_REFINEMENT_NARROWING_REPORT.md",
-  "review_directive": "Task F1816: Multi-step refinement narrowing across Cases 1, 2, 3, 5 using F1812 meshes as immutable controls. Step 1: Sizing method investigation (test native Abaqus min/max sizing with eta_max=1%, eta_min=5%, strong bias). Step 2: Envelope construction (overlapping rules vs reduced 2-state envelope). Step 3: Combine and validate winning configuration. Correct F1814 report artifact table test-file entry and clarify test suite counts. 0 new PBS jobs (cumulative 35 preserved), frozen production UEL, full four-case regeneration after framework edits, commit-pinned URLs at PRVSTUDENT repo, MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1817_EVIDENCE_COMPLETION_REPORT.md",
+  "review_directive": "Task F1817: Evidence Completion for F1816 Multi-Step Narrowing. Commit the 12 Step 1/2 variant meshes with whole-file and body SHA-256 values matching the summary JSONs; commit the 6 donor ODBs with SHA-256 values matching the report table; resolve the framework contradiction by honestly documenting that the framework was preserved at 4276A5DC... upon rejection of MINIMUM_MAXIMUM sizing; recompute and correct artifact-table hashes; normalize step2_envelope_summary.json to repo-relative paths; commit inspectable run scripts; 0 new PBS jobs (cumulative 35 preserved), frozen production UEL, MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1814-SYNTHESIS-LABEL-CORRECTION",
-    "checkpoint_artifact": "docs/validation/F1814_SYNTHESIS_LABEL_CORRECTION_REPORT.md",
+    "task_id": "F1816-MULTISTEP-REFINEMENT-NARROWING",
+    "checkpoint_artifact": "docs/validation/F1816_MULTISTEP_REFINEMENT_NARROWING_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
-    "review_verdict": "APPROVE",
-    "correlation_id": "HND-F1814-LABEL-CORRECTION-001"
+    "review_verdict": "INSUFFICIENT_EVIDENCE",
+    "correlation_id": "HND-F1816-MULTISTEP-NARROWING-002"
   },
-  "re_review_correlation_id": "HND-F1816-MULTISTEP-NARROWING-002",
-  "scientific_operation": "multistep_refinement_narrowing",
-  "scientific_operation_id": "f1816_multistep_narrowing_001",
+  "re_review_correlation_id": "HND-F1817-EVIDENCE-COMPLETION-001",
+  "scientific_operation": "evidence_completion",
+  "scientific_operation_id": "f1817_evidence_completion_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "4276A5DC1AF22A6A117102D8C24492789E8AA4EBFD4AF079C58EE86DBEEC7C8B",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1816 initiated under HND-F1816-MULTISTEP-NARROWING-002. Investigating refinement narrowing via sizing methods and envelope construction across Cases 1, 2, 3, 5."
+  "notes": "Task F1817 initiated under HND-F1817-EVIDENCE-COMPLETION-001. Completing evidence for F1816: 12 variant meshes, 6 donor ODBs, repo-relative paths, reconciled framework provenance."
 }

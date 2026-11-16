@@ -1,27 +1,25 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1816-narrowing-20261116",
-  "task_id": "F1816-MULTISTEP-REFINEMENT-NARROWING",
-  "started_at": "2026-11-16T11:53:30+01:00",
-  "completed_at": "2026-11-16T12:53:30+01:00",
-  "starting_commit": "a39e25dde4a8523c0bbfd2d3e41ee2b3e8a4a50d",
+  "session_id": "gemini-antigravity-f1817-completion-20261116",
+  "task_id": "F1817-EVIDENCE-COMPLETION",
+  "started_at": "2026-11-16T13:08:30+01:00",
+  "completed_at": "2026-11-16T13:35:00+01:00",
+  "starting_commit": "3c12d952430d689b7e2792837d0ca58c184966f4",
   "allowed_write_scope": [
-    "scripts/remeshing/reusable_2d_adaptive_framework.py",
-    "configs/remeshing/f1816_*.json",
     "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/*",
-    "results/figures/fig_f1816_*.png",
-    "results/figures/fig_f1816_*.pdf",
-    "docs/validation/F1814_SYNTHESIS_LABEL_CORRECTION_REPORT.md",
     "docs/validation/F1816_MULTISTEP_REFINEMENT_NARROWING_REPORT.md",
-    "tests/unit/test_f1816_*.py",
-    ".agents/scripts/dispatch_f1816_*.ps1",
+    "docs/validation/F1817_EVIDENCE_COMPLETION_REPORT.md",
+    "scripts/remeshing/clean_f1816_summary_paths.py",
+    "scripts/remeshing/generate_f1817_receipt.py",
+    "tests/unit/test_f1817_evidence_completion.py",
+    ".agents/scripts/dispatch_f1817_evidence_completion_auth_001.ps1",
     "project_coordination/ACTIVE_SESSION.json",
     "project_coordination/ACTIVE_TASK.json",
     "project_coordination/TASK_LEDGER.csv",
     "project_coordination/CURRENT_STATE.md",
     "project_coordination/ARTIFACT_REGISTRY.csv",
-    "project_coordination/sessions/SESSION_20261116_F1816_NARROWING_001.md"
+    "project_coordination/sessions/SESSION_20261116_F1817_COMPLETION_001.md"
   ],
-  "notes": "Task F1816 Multi-Step Refinement Narrowing (Step 1: Min/Max sizing, Step 2: Envelope construction, Step 3: Combine & Validate). Zero new PBS jobs, bitwise frozen UEL."
+  "notes": "Task F1817 Evidence Completion for F1816 Multi-Step Narrowing. 12 variant meshes committed, 6 donor ODBs committed, framework invariance reconciled, repo-relative paths normalized. Zero new PBS jobs, bitwise frozen UEL."
 }

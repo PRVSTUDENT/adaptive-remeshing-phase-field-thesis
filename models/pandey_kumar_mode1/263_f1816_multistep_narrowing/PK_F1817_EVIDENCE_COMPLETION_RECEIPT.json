@@ -1,0 +1,182 @@
+{
+  "task_id": "F1817-EVIDENCE-COMPLETION",
+  "title": "Task F1817: Evidence Completion for F1816 Multi-Step Narrowing",
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1817-EVIDENCE-COMPLETION-001",
+  "predecessor_correlation_id": "HND-F1816-MULTISTEP-NARROWING-002",
+  "timestamp": "2026-11-16T13:32:36",
+  "governing_objectives": {
+    "master_goal_status": "OPEN",
+    "research_priority": "ADAPTIVE_REMESHING_ONLY",
+    "cumulative_pbs_submissions": 35,
+    "new_pbs_submissions": 0,
+    "frozen_production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "shared_framework_sha256": "4276A5DC1AF22A6A117102D8C24492789E8AA4EBFD4AF079C58EE86DBEEC7C8B",
+    "pareto_optimum_configuration": "F1812_BASELINES_STAND_AS_PARETO_OPTIMUM",
+    "total_canonical_elements": 160144
+  },
+  "evidence_completion_summary": {
+    "variant_meshes_committed_count": 12,
+    "donor_odbs_committed_count": 6,
+    "step2_envelope_paths_normalized": "ALL_REPO_RELATIVE",
+    "framework_invariance_reconciled": "Report section 2.1 honestly documents that framework was preserved at 4276A5DC... upon rejection of MINIMUM_MAXIMUM sizing",
+    "recomputed_artifact_hashes": {
+      "step1_summary": {
+        "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step1_minmax/step1_minmax_summary.json",
+        "size_bytes": 7608,
+        "sha256": "10E7D51946C25731BB0875EB22A6A315CF05AFB63A97846567C72CCF7BA9BA86"
+      },
+      "step2_summary": {
+        "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/step2_envelope_summary.json",
+        "size_bytes": 8397,
+        "sha256": "A6DEFD62AE43F397F0B65439868A16F445BC6952989DFC1CBDA7F25EC3BEFB2D"
+      },
+      "f1816_receipt": {
+        "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/PK_F1816_MULTISTEP_NARROWING_RECEIPT.json",
+        "size_bytes": 16034,
+        "sha256": "FD1377F90AFAE7D1164E6940A513E46C57E02CA535B9AD1A9E65B1382AA0BD52"
+      }
+    }
+  },
+  "variant_meshes_manifest": {
+    "step1_minmax": [
+      {
+        "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step1_minmax/PK_F1816_STEP1_CASE_1_ADAPT_PHYS.inp",
+        "size_bytes": 4519502,
+        "sha256": "7D18F3298C3B3ECE3F2FAC0A5166C3E23736D9C9AC7780FF6020883DB4000A49",
+        "body_sha256": "B15F948C820F7A773D61D62651638800ED525ABC3E538412A383E8E36AD6DB9E"
+      },
+      {
+        "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step1_minmax/PK_F1816_STEP1_CASE_2_ADAPT_PHYS.inp",
+        "size_bytes": 4034482,
+        "sha256": "E9F0F32F318E074591C182EA4A6B5600AD87263C6F730283DAAB8B9C410C91AF",
+        "body_sha256": "1768934BC090C404F00078EB112A92C52644E307AC28E3008B9CFEDA2B0A6465"
+      },
+      {
+        "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step1_minmax/PK_F1816_STEP1_CASE_3_ADAPT_PHYS.inp",
+        "size_bytes": 6285686,
+        "sha256": "04983203F55473F34D87493B6F7E6D0C94B297DC5C725EF754C2EFACE1442934",
+        "body_sha256": "86E5417268FFA9E3DF721D9E40EDCE4A424D72AED4C920A30BA340BC3E734290"
+      },
+      {
+        "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step1_minmax/PK_F1816_STEP1_CASE_5_ADAPT_PHYS.inp",
+        "size_bytes": 3725763,
+        "sha256": "853BFC7376192FDC46264A0847B6A7776EE0D4629CFC6A5D242F43913BA1AAD1",
+        "body_sha256": "2EB19443F845B1B0B08DD4F1E81A60BAE609E2A2A36004C96D8759CE406EB2D9"
+      }
+    ],
+    "variant_2b_reduced": [
+      {
+        "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/variant_2b_reduced/PK_F1816_V2B_CASE_1_PHYS.inp",
+        "size_bytes": 2102583,
+        "sha256": "CEC9C937CD89F66FE4423F1D52E3AD9336AD8C69486D07B7DD53F59417DFEC89",
+        "body_sha256": "6C7D199C1A18FC0E71E60809BF3BB4DD654778FA4CBD783BFD13659261B2EA4D"
+      },
+      {
+        "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/variant_2b_reduced/PK_F1816_V2B_CASE_2_PHYS.inp",
+        "size_bytes": 6014582,
+        "sha256": "C7B4C9F181E6EF6F31DAFC2F0349C03C7CDECEC21E3F729E0B87A5AD8926F6AC",
+        "body_sha256": "489D79A2BC8D6735221EB56F0D5C8343FE9C2E7DA33B754DA63A6EA1D535638B"
+      },
+      {
+        "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/variant_2b_reduced/PK_F1816_V2B_CASE_3_PHYS.inp",
+        "size_bytes": 3698489,
+        "sha256": "904C035C46D032B2A1440F7E4747BB65ED0B17AC4518588F465706C31201570A",
+        "body_sha256": "E40C18A29C9F9A9872B8C24F51FF63050C629EA0C000F6E7E4081418D75E76CE"
+      },
+      {
+        "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/variant_2b_reduced/PK_F1816_V2B_CASE_5_PHYS.inp",
+        "size_bytes": 1127966,
+        "sha256": "51407589C145B3AC8E8BB5CA36D16A35CD214126D55C586FF4EDAA73C858DAC4",
+        "body_sha256": "78009AAEE4FE732C0FA56F2DE5487C1717E82E245B4CAF32C3B9CE19AB2B4065"
+      }
+    ],
+    "variant_2a_overlapping": [
+      {
+        "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/variant_2a_overlapping/PK_F1816_V2A_CASE_1_PHYS.inp",
+        "size_bytes": 2691886,
+        "sha256": "24281F8D7BF7D0FF393A37EBEF447521279C547F0AE00A3ED7B01E8AED757F17",
+        "body_sha256": "508AB2A66248D92EBA656C3EFB6BCA04A6B5D7FBF7846E7DAFCA5A52F2801E06"
+      },
+      {
+        "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/variant_2a_overlapping/PK_F1816_V2A_CASE_2_PHYS.inp",
+        "size_bytes": 5940109,
+        "sha256": "2CBEBBB080EDA770B84968ED4F4A68CEAB1C0AD6ACC5C487510CACC8EAD32C52",
+        "body_sha256": "D890731827B792711CE7FE9DD52E672BDA86E03DBBF380E94BD9708DCD804770"
+      },
+      {
+        "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/variant_2a_overlapping/PK_F1816_V2A_CASE_3_PHYS.inp",
+        "size_bytes": 4122548,
+        "sha256": "D5C94A117231A5E056DBEDA84F39990AF2CD21DF107B2D6A7ECA69D86E98B508",
+        "body_sha256": "0D50E687B9E0412FDB5AB77C3D0D4DE92F5C7016A86963BF2C446D9C4DE93AF5"
+      },
+      {
+        "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/variant_2a_overlapping/PK_F1816_V2A_CASE_5_PHYS.inp",
+        "size_bytes": 1127978,
+        "sha256": "D5444D85541A36B780FDA51A3EDEF5F8D30F89370D9183C2CCAE85CF89B25B3C",
+        "body_sha256": "EF118E491812EFE35CC9CFF15EE84064B8A560C0A53B9CAAFE534FF471F2BB9D"
+      }
+    ]
+  },
+  "donor_odbs_manifest": [
+    {
+      "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/donors/PK_CASE1_2STATE_ENVELOPE.odb",
+      "size_bytes": 7495536,
+      "sha256": "AD453610F03E8EE64062E6A07134EF548FAEB128D14AEC701346C82A454C4F71"
+    },
+    {
+      "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/donors/PK_CASE1_MULTISTEP_RULES.odb",
+      "size_bytes": 7793800,
+      "sha256": "4BE7E1D431B6B4DDE145028D400CC653B65E3CAF06CBCA0ED12D245C63DA2632"
+    },
+    {
+      "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/donors/PK_CASE2_2STATE_ENVELOPE.odb",
+      "size_bytes": 7499600,
+      "sha256": "0CB56F9BDBD44027E1AFFDE9E624D62DD8BD396252ED55F6202E38DEDB03EE22"
+    },
+    {
+      "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/donors/PK_CASE2_MULTISTEP_RULES.odb",
+      "size_bytes": 7706524,
+      "sha256": "6289E036B8F01227F2A28015006F4754467D83944AE7489E2E1C0F3F4AF43CE2"
+    },
+    {
+      "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/donors/PK_CASE3_2STATE_ENVELOPE.odb",
+      "size_bytes": 10043780,
+      "sha256": "2E4ED91108F044EF86B638CCC2CB1027ED69C39FC41E0CB09DC5AACFD2594C24"
+    },
+    {
+      "path": "models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/donors/PK_CASE3_MULTISTEP_RULES.odb",
+      "size_bytes": 10167932,
+      "sha256": "437AAA27C7A99A17BE6581E0ABA63108265BD5D16D86F08C88E0B7D9EB525121"
+    }
+  ],
+  "run_scripts_manifest": [
+    {
+      "path": "scripts/remeshing/run_f1816_step1_master.py",
+      "size_bytes": 3557,
+      "sha256": "0F33EFEBD4302D8FD1D6A7FC1E78CCC352AD187968D84082BFD91B4599D3FB53"
+    },
+    {
+      "path": "scripts/remeshing/run_f1816_step1_minmax.py",
+      "size_bytes": 15552,
+      "sha256": "3B9253DF21A65FD13694EC3FA9C88A9C91EB73AD6AFDA519122A38F439B10229"
+    },
+    {
+      "path": "scripts/remeshing/run_f1816_step2_master.py",
+      "size_bytes": 15835,
+      "sha256": "931E683CC4DF47C99CEB3AD33F97022A2E843606A76978DAD229A9D27C83AAC2"
+    },
+    {
+      "path": "scripts/remeshing/run_f1816_step2_single.py",
+      "size_bytes": 6032,
+      "sha256": "95D6207C89410EB6B3D3CBC88C52F7CF112398D7DCBF8FDF99FBBD15A48D46DA"
+    }
+  ],
+  "test_suite_status": {
+    "test_f1813_unified_synthesis": "23 of 23 PASS",
+    "test_f1814_synthesis_label_correction": "11 of 11 PASS",
+    "test_f1816_multistep_narrowing": "10 of 10 PASS",
+    "test_f1817_evidence_completion": "8 of 8 PASS",
+    "total_tests_pass": "52 of 52 PASS (100%)"
+  }
+}

@@ -34,10 +34,10 @@ Through systematic offline execution across all four benchmarks, both hypotheses
 
 ## 2. Step 1: Minimum/Maximum Sizing Method Investigation
 
-### 2.1 Implementation in Shared Framework
-In `scripts/remeshing/reusable_2d_adaptive_framework.py`:
-- Lines 261–266: `AdaptiveConfig` was extended to parse `sizing_method`, `max_solution_error_target` (default 1.0%), `min_solution_error_target` (default 5.0%), and `mesh_bias` (default 7).
-- Lines 1917–1955: `AbaqusNativeRemeshingEngine.execute_native_remesh` was updated to branch dynamically: when `MINIMUM_MAXIMUM` is configured, it instantiates `RemeshingRule(sizingMethod=MINIMUM_MAXIMUM, maxSolutionErrorTarget=..., minSolutionErrorTarget=..., meshBias=...)`; otherwise it preserves the `UNIFORM_ERROR` baseline.
+### 2.1 Execution Mechanism & Framework Invariance
+In Step 1, native Abaqus `MINIMUM_MAXIMUM` sizing ($\eta_{\max} = 1.0\%$, $\eta_{\min} = 5.0\%$, $\text{meshBias} = 7$) was investigated as an exploratory diagnostic hypothesis using `scripts/remeshing/run_f1816_step1_minmax.py` and `scripts/remeshing/run_f1816_step1_master.py`. During execution, the native Abaqus CAE `RemeshingRule` was configured with `sizingMethod=MINIMUM_MAXIMUM`, `maxSolutionErrorTarget=1.0`, `minSolutionErrorTarget=5.0`, and `meshBias=7`.
+
+Because `MINIMUM_MAXIMUM` sizing was decisively **REJECTED** due to catastrophic $+61.7\%$ mesh ballooning ($160,144 \to 258,894$ elements), failure of element budgets across Cases 1, 3, and 5, collapse of far-field coarsening below $2.0\times$, and dilution of the fine refinement band across all benchmarks, the production shared framework `scripts/remeshing/reusable_2d_adaptive_framework.py` was **intentionally not modified** to adopt min/max sizing. It was preserved bitwise invariant at SHA-256 `4276A5DC1AF22A6A117102D8C24492789E8AA4EBFD4AF079C58EE86DBEEC7C8B` with the proven `UNIFORM_ERROR` baseline, guaranteeing zero regression across all canonical benchmarks.
 
 ### 2.2 Numerical Results & Audit
 Step 1 was executed across all four benchmarks using `scripts/remeshing/run_f1816_step1_master.py` on the unchanged F1812 donor ODBs.
@@ -138,18 +138,30 @@ All files reside under the active Git tree with commit-pinned URLs at `PRVSTUDEN
 
 | Artifact Description | Repository-Relative Path | Size (Bytes) | SHA-256 Checksum |
 | :--- | :--- | :---: | :--- |
-| Step 1 Min/Max Summary | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step1_minmax/step1_minmax_summary.json` | 6,561 | `77E90B0F3F231D56608F7B568903DF15320EBFE16FDED985F2C5815610212E72` |
-| Step 2 Envelope Summary | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/step2_envelope_summary.json` | 8,242 | `0EFDCB9D1933930DA0CFB2DA2D3C402EFE0DE8436AFEBEBF58F108CE44A50C77` |
-| Master Narrowing Receipt | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/PK_F1816_MULTISTEP_NARROWING_RECEIPT.json` | 16,386 | `152258495DE89D8B89CEB6A5C7BFB7F4C284D5B9CD4359D6D83A155B646FA7D3` |
+| Step 1 Min/Max Summary | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step1_minmax/step1_minmax_summary.json` | 7,608 | `10E7D51946C25731BB0875EB22A6A315CF05AFB63A97846567C72CCF7BA9BA86` |
+| Step 2 Envelope Summary | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/step2_envelope_summary.json` | 8,397 | `A6DEFD62AE43F397F0B65439868A16F445BC6952989DFC1CBDA7F25EC3BEFB2D` |
+| Master Narrowing Receipt | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/PK_F1816_MULTISTEP_NARROWING_RECEIPT.json` | 16,034 | `FD1377F90AFAE7D1164E6940A513E46C57E02CA535B9AD1A9E65B1382AA0BD52` |
 | Width Comparison PNG | `results/figures/fig_f1816_refinement_width_comparison.png` | 793,820 | `2B8054C994856E21B4F4826940DE3FFB34F98D6D060A0AA5332D22E7C6D3D6E5` |
 | Width Comparison PDF | `results/figures/fig_f1816_refinement_width_comparison.pdf` | 67,087 | `7D01DAC02126809E297615E36F10219F878A5D4BFA107C2906EF45C6776BF611` |
-| Case 1 2-State Envelope ODB | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/donors/PK_CASE1_2STATE_ENVELOPE.odb` | 7,495,508 | `AD453610F03E8EE64062E6A07134EF548FAEB128D14AEC701346C82A454C4F71` |
-| Case 2 2-State Envelope ODB | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/donors/PK_CASE2_2STATE_ENVELOPE.odb` | 7,499,576 | `0CB56F9BDBD44027E1AFFDE9E624D62DD8BD396252ED55F6202E38DEDB03EE22` |
-| Case 3 2-State Envelope ODB | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/donors/PK_CASE3_2STATE_ENVELOPE.odb` | 10,043,760 | `2E4ED91108F044EF86B638CCC2CB1027ED69C39FC41E0CB09DC5AACFD2594C24` |
+| Case 1 2-State Envelope ODB | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/donors/PK_CASE1_2STATE_ENVELOPE.odb` | 7,495,536 | `AD453610F03E8EE64062E6A07134EF548FAEB128D14AEC701346C82A454C4F71` |
+| Case 2 2-State Envelope ODB | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/donors/PK_CASE2_2STATE_ENVELOPE.odb` | 7,499,600 | `0CB56F9BDBD44027E1AFFDE9E624D62DD8BD396252ED55F6202E38DEDB03EE22` |
+| Case 3 2-State Envelope ODB | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/donors/PK_CASE3_2STATE_ENVELOPE.odb` | 10,043,780 | `2E4ED91108F044EF86B638CCC2CB1027ED69C39FC41E0CB09DC5AACFD2594C24` |
 | Case 1 Multi-Step Rules ODB | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/donors/PK_CASE1_MULTISTEP_RULES.odb` | 7,793,800 | `4BE7E1D431B6B4DDE145028D400CC653B65E3CAF06CBCA0ED12D245C63DA2632` |
 | Case 2 Multi-Step Rules ODB | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/donors/PK_CASE2_MULTISTEP_RULES.odb` | 7,706,524 | `6289E036B8F01227F2A28015006F4754467D83944AE7489E2E1C0F3F4AF43CE2` |
 | Case 3 Multi-Step Rules ODB | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/donors/PK_CASE3_MULTISTEP_RULES.odb` | 10,167,932 | `437AAA27C7A99A17BE6581E0ABA63108265BD5D16D86F08C88E0B7D9EB525121` |
-| Unit Test Suite | `tests/unit/test_f1816_multistep_narrowing.py` | - | *computed upon commit* |
+| Step 1 Case 1 Mesh | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step1_minmax/PK_F1816_STEP1_CASE_1_ADAPT_PHYS.inp` | 4,519,502 | `7D18F3298C3B3ECE3F2FAC0A5166C3E23736D9C9AC7780FF6020883DB4000A49` |
+| Step 1 Case 2 Mesh | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step1_minmax/PK_F1816_STEP1_CASE_2_ADAPT_PHYS.inp` | 4,034,482 | `E9F0F32F318E074591C182EA4A6B5600AD87263C6F730283DAAB8B9C410C91AF` |
+| Step 1 Case 3 Mesh | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step1_minmax/PK_F1816_STEP1_CASE_3_ADAPT_PHYS.inp` | 6,285,686 | `04983203F55473F34D87493B6F7E6D0C94B297DC5C725EF754C2EFACE1442934` |
+| Step 1 Case 5 Mesh | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step1_minmax/PK_F1816_STEP1_CASE_5_ADAPT_PHYS.inp` | 3,725,763 | `853BFC7376192FDC46264A0847B6A7776EE0D4629CFC6A5D242F43913BA1AAD1` |
+| Step 2b Case 1 Mesh | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/variant_2b_reduced/PK_F1816_V2B_CASE_1_PHYS.inp` | 2,102,583 | `CEC9C937CD89F66FE4423F1D52E3AD9336AD8C69486D07B7DD53F59417DFEC89` |
+| Step 2b Case 2 Mesh | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/variant_2b_reduced/PK_F1816_V2B_CASE_2_PHYS.inp` | 6,014,582 | `C7B4C9F181E6EF6F31DAFC2F0349C03C7CDECEC21E3F729E0B87A5AD8926F6AC` |
+| Step 2b Case 3 Mesh | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/variant_2b_reduced/PK_F1816_V2B_CASE_3_PHYS.inp` | 3,698,489 | `904C035C46D032B2A1440F7E4747BB65ED0B17AC4518588F465706C31201570A` |
+| Step 2b Case 5 Mesh | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/variant_2b_reduced/PK_F1816_V2B_CASE_5_PHYS.inp` | 1,127,966 | `51407589C145B3AC8E8BB5CA36D16A35CD214126D55C586FF4EDAA73C858DAC4` |
+| Step 2a Case 1 Mesh | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/variant_2a_overlapping/PK_F1816_V2A_CASE_1_PHYS.inp` | 2,691,886 | `24281F8D7BF7D0FF393A37EBEF447521279C547F0AE00A3ED7B01E8AED757F17` |
+| Step 2a Case 2 Mesh | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/variant_2a_overlapping/PK_F1816_V2A_CASE_2_PHYS.inp` | 5,940,109 | `2CBEBBB080EDA770B84968ED4F4A68CEAB1C0AD6ACC5C487510CACC8EAD32C52` |
+| Step 2a Case 3 Mesh | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/variant_2a_overlapping/PK_F1816_V2A_CASE_3_PHYS.inp` | 4,122,548 | `D5C94A117231A5E056DBEDA84F39990AF2CD21DF107B2D6A7ECA69D86E98B508` |
+| Step 2a Case 5 Mesh | `models/pandey_kumar_mode1/263_f1816_multistep_narrowing/step2_envelope/variant_2a_overlapping/PK_F1816_V2A_CASE_5_PHYS.inp` | 1,127,978 | `D5444D85541A36B780FDA51A3EDEF5F8D30F89370D9183C2CCAE85CF89B25B3C` |
+| Unit Test Suite | `tests/unit/test_f1816_multistep_narrowing.py` | 9,033 | `B777324BFA80AE69CA43A8FAFF9648937E84B1F87EE5EBAC0BEB5B1109BEEA6E` |
 | Evidentiary Report | `docs/validation/F1816_MULTISTEP_REFINEMENT_NARROWING_REPORT.md` | - | *computed upon commit* |
 
 ---
