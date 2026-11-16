@@ -97,4 +97,4 @@ if ($CheckOnly) {
     return
 }
 
-Invoke-ChatGPTBridge -Payload $fullPrompt -HandoffId $handoffId -TaskId $taskId
+Invoke-ChatGPTBridge -PromptText $fullPrompt -HandoffId $handoffId -TaskId $taskId
