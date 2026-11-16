@@ -1,21 +1,22 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1823-repro-coarsen-donors-20261116",
-  "task_id": "F1823-FRAMEWORK-COMPARISON-COARSENING-AND-TARGETED-DONORS",
-  "started_at": "2026-11-16T16:52:00+01:00",
-  "completed_at": "2026-11-16T19:55:00+01:00",
-  "starting_commit": "6d1fd6b73db05aef640f6c087d6cda9031c5150a",
+  "session_id": "gemini-antigravity-f1824-job2-preflight-20261116",
+  "task_id": "F1824-JOB2-COUPLED-FRACTURE-VALIDATION",
+  "started_at": "2026-11-16T20:45:00+01:00",
+  "completed_at": "2026-11-16T21:25:00+01:00",
+  "starting_commit": "87cd5d802d51d13ea7cd732e10dfa30a56dbc90d",
   "allowed_write_scope": [
-    "models/pandey_kumar_mode1/267_f1823_*",
-    "configs/remeshing/f1823_*",
-    "scripts/remeshing/run_f1816_step2_master.py",
-    "scripts/remeshing/run_f1823_*",
-    "docs/validation/F1823_*",
-    "tests/unit/test_f1823_*",
-    "results/figures/fig_f1823_*",
+    "models/pandey_kumar_mode1/268_f1824_*",
+    "configs/remeshing/f1824_*",
+    "scripts/remeshing/run_f1824_*",
+    "scripts/validation/run_f1824_*",
+    "docs/validation/F1824_*",
+    "tests/unit/test_f1824_*",
+    "results/figures/fig_f1824_*",
     "project_coordination/*",
     ".agents/scripts/*"
   ],
-  "notes": "Task F1823: Step 1 (reproducibility & measurement, kwargs comparison, Case 3 width bug fix, F1812 eta_R provenance), Step 2 (bounded coarsening sweep for Cases 2 and 3 with Cases 1 & 5 controls), Step 3 (targeted selective donor investigation). 0 new PBS jobs, bitwise frozen UEL CE8D5EDC..., framework 0578156E... preserved bitwise, MASTER_GOAL_STATUS = OPEN."
+  "notes": "Task F1824: Job-2 coupled fracture validation preflight on F1812 adapted meshes across Cases 1, 2, 3, 5. Generation and verification of 3-layer UEL production input decks, submission manifests, and offline preflight audits. 0 new PBS jobs consumed (cumulative 35 preserved), bitwise frozen UEL CE8D5EDC..., framework 0578156E... preserved bitwise, MASTER_GOAL_STATUS = OPEN."
 }
+

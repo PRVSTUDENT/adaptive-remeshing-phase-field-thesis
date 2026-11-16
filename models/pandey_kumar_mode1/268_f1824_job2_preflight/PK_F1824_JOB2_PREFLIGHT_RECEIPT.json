@@ -1,0 +1,54 @@
+{
+  "cases": {
+    "case_1": {
+      "layered_elements": 76383,
+      "pbs_job_name": "F1824_C1_FRAC",
+      "pbs_script": "models/pandey_kumar_mode1/268_f1824_job2_preflight/case1/submit_case1_job2.pbs",
+      "physical_elements": 25461,
+      "production_deck": "models/pandey_kumar_mode1/268_f1824_job2_preflight/case1/PK_F1824_CASE_1_PROD.inp",
+      "production_deck_sha256": "A9F817983D48CEE3BF590380E908D752A09A614017FEB98C9E0B8A7101F0A4C1",
+      "status": "QUALIFIED_READY_FOR_EXECUTION"
+    },
+    "case_2": {
+      "layered_elements": 124314,
+      "pbs_job_name": "F1824_C2_FRAC",
+      "pbs_script": "models/pandey_kumar_mode1/268_f1824_job2_preflight/case2/submit_case2_job2.pbs",
+      "physical_elements": 41438,
+      "production_deck": "models/pandey_kumar_mode1/268_f1824_job2_preflight/case2/PK_F1824_CASE_2_PROD.inp",
+      "production_deck_sha256": "581D2A78D63456B5AD9148EA1FBA982FC6805BE8FA790FB20CF5A203DAC7D1AD",
+      "status": "QUALIFIED_READY_FOR_EXECUTION"
+    },
+    "case_3": {
+      "layered_elements": 233337,
+      "pbs_job_name": "F1824_C3_FRAC",
+      "pbs_script": "models/pandey_kumar_mode1/268_f1824_job2_preflight/case3/submit_case3_job2.pbs",
+      "physical_elements": 77779,
+      "production_deck": "models/pandey_kumar_mode1/268_f1824_job2_preflight/case3/PK_F1824_CASE_3_PROD.inp",
+      "production_deck_sha256": "36760C514A490B5A355139B0F0CD06A6ABA8E52706DAE4EC7535C544563E5BC8",
+      "status": "QUALIFIED_READY_FOR_EXECUTION"
+    },
+    "case_5": {
+      "layered_elements": 46398,
+      "pbs_job_name": "F1824_C5_FRAC",
+      "pbs_script": "models/pandey_kumar_mode1/268_f1824_job2_preflight/case5/submit_case5_job2.pbs",
+      "physical_elements": 15466,
+      "production_deck": "models/pandey_kumar_mode1/268_f1824_job2_preflight/case5/PK_F1824_CASE_5_PROD.inp",
+      "production_deck_sha256": "D50108CE9C20585366A264C02F8F75F24B64627024599092D9AD6C425ED2AF93",
+      "status": "QUALIFIED_READY_FOR_EXECUTION"
+    }
+  },
+  "correlation_id": "HND-F1824-JOB2-COUPLED-VALIDATION-001",
+  "cumulative_pbs_submissions": 35,
+  "framework_sha256": "0578156E5551173307892B8881E4BA772F099187BCF332672F39AC825023E80D",
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "generated_at": "2026-11-16T21:00:00+01:00",
+  "master_goal_status": "OPEN",
+  "max_new_pbs_submissions": 0,
+  "predecessor_correlation_id": "HND-F1823-FRAMEWORK-COARSENING-DONORS-001",
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "receipt_version": "1.0.0",
+  "status": "PREFLIGHT_COMPLETE_READY_FOR_EXECUTION_AUTHORIZATION",
+  "submissions_consumed": 0,
+  "summary_sha256": "359E695B4679F39313C4AB1856CA1DABEE8E5F3356FEEC30A468530BC03B9737",
+  "task_id": "F1824-JOB2-COUPLED-FRACTURE-VALIDATION"
+}
