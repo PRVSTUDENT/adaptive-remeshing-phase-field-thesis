@@ -137,12 +137,12 @@ Given material length scale $\ell_0 = 0.285\text{ mm}$ and target $\ell_0/2 = 0.
 
 | Zone | Geometry Bounds | Element Count | Mean $h$ (mm) | Min $h$ (mm) | Max $h$ (mm) | $\% \le \ell_0$ | $\% \le \ell_0/2$ |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Primary Corridor** | Notch tip to central hole ($x \in [10, 36.5], y \in [45, 75]$) | 5,888 | 2.320 | 0.0430 | 6.735 | 3.33% | 1.27% |
-| **Secondary Corridor** | Central hole to boundary ($x \in [46.5, 65], y \in [40, 62]$) | 890 | 3.742 | 0.2014 | 7.344 | 0.67% | 0.00% |
-| **Far-Field Background** | Plate ends ($y \le 15$ or $y \ge 105$) | 2,074 | 4.094 | 0.0549 | 10.533 | 0.82% | 0.19% |
+| **Primary Corridor** | Notch tip to central hole ($x \in [10, 36.5], y \in [45, 75]$) | 5,888 | 0.2950 | 0.0542 | 1.0622 | 57.05% | 15.03% |
+| **Secondary Corridor** | Central hole to boundary ($x \in [46.5, 65], y \in [40, 62]$) | 890 | 0.6273 | 0.2014 | 1.3998 | 1.24% | 0.00% |
+| **Far-Field Background** | Plate ends ($y \le 15$ or $y \ge 105$) | 2,074 | 0.9239 | 0.1344 | 1.7137 | 0.82% | 0.05% |
 
 * **Far-to-Core Coarsening Ratio:**
-  $$\frac{\bar{h}_{\text{far-field}}}{\bar{h}_{\text{primary}}} = \frac{4.094\text{ mm}}{2.320\text{ mm}} = 1.76\times$$
+  $$\frac{\bar{h}_{\text{far-field}}}{\bar{h}_{\text{primary}}} = \frac{0.9239\text{ mm}}{0.2950\text{ mm}} = 3.13\times$$
 
 ---
 
@@ -155,9 +155,9 @@ Given material length scale $\ell_0 = 0.285\text{ mm}$ and target $\ell_0/2 = 0.
 | **Min Signed det(J)**| **+7.97e-4** | +7.97e-4 | +1.12e-4 | +4.56e-4 | $> 0$ |
 | **Max Aspect Ratio** | **2.706** | 2.706 | 3.120 | 2.854 | $\le 4.0$ |
 | **Corner Angles** | **[27.05°, 138.19°]**| [27.05°, 138.19°]* | Not recorded | [25.1°, 141.2°] | N/A |
-| **Primary $\% \le \ell_0$** | **3.33%** | 3.33% | 88.4% | 94.2% | $> 90\%$ |
-| **Secondary $\% \le \ell_0$**| **0.67%** | 0.67% | 72.1% | 86.5% | $> 80\%$ |
-| **Far-to-Core Coarsen**| **1.76x** | 1.76x | 1.84x | 2.45x | $\ge 2.0\times$ |
+| **Primary $\% \le \ell_0$** | **57.05%** | 57.05% | 88.4% | 94.2% | $> 90\%$ |
+| **Secondary $\% \le \ell_0$**| **1.24%** | 1.24% | 72.1% | 86.5% | $> 80\%$ |
+| **Far-to-Core Coarsen**| **3.13x** | 3.13x | 1.84x | 2.45x | $\ge 2.0\times$ |
 | **Delta vs F1798** | **0 (100.0% parity)** | Reference | -2,042 | +16,827 | +14,723 |
 | **Delta vs Literature**| **+14,723 (+121.0%)** | +14,723 | +16,765 | -2,104 | Reference |
 
@@ -176,14 +176,14 @@ All seven quality gates were evaluated under the strict predeclared criteria:
   "GATE_03_ZERO_NEGATIVE_JACOBIANS": "PASS",
   "GATE_04_ASPECT_RATIO_LE_4": "PASS",
   "GATE_05_PRIMARY_CORRIDOR_RESOLUTION": "FAIL",
-  "GATE_06_FAR_FIELD_COARSENING": "FAIL",
+  "GATE_06_FAR_FIELD_COARSENING": "PASS",
   "GATE_07_EFFICIENCY_VS_HISTORICAL_EXPLOSION": "FAIL"
 }
 ```
 
 ### Authentic Scientific Interpretation of Failed Gates
-* **GATE_05 (Primary Corridor Resolution = 3.33% vs 90.0%):** Under single-pass initial linear elasticity, the stress concentration is localized strictly within a microscopic radius ($\sim 0.1\text{ mm}$) at the notch tip. The remainder of the primary ligament carries modest nominal stress and negligible recovered gradient error, leaving 96.67% of the corridor unrefined.
-* **GATE_06 (Far-Field Coarsening = 1.76x vs 2.0x):** Sizing transition from the notch tip to the plate boundaries achieves 1.76x coarsening, slightly below the 2.0x threshold due to free-meshing graded sizing transitions around the three holes.
+* **GATE_05 (Primary Corridor Resolution = 57.05% vs 90.0%):** Under single-pass initial linear elasticity, the stress concentration is localized near the notch tip. The remainder of the primary ligament carries modest nominal stress and lower recovered gradient error, achieving 57.05% resolution <= l0 and 15.03% <= l0/2.
+* **GATE_06 (Far-Field Coarsening = 3.13x vs 2.0x):** Sizing transition from the notch tip to the plate boundaries achieves 3.13x coarsening, successfully passing the >= 2.0x threshold.
 * **GATE_07 (Efficiency vs Historical Explosion = 26,891 vs 20,000):** Element count exceeds 20,000 because Abaqus CAE generates fine transition elements around the three circular cutouts to satisfy geometric curvature seeding.
 
 **Governing Discipline:** These failed gates represent authentic physical limitations of single-pass linear-elastic pre-analysis remeshing. They are retained as `FAIL` and not artificially modified or suppressed.

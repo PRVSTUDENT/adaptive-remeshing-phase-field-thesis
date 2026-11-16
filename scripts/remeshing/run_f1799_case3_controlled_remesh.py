@@ -306,7 +306,7 @@ def main():
                 (pts[0][0]*pts[1][1] - pts[1][0]*pts[0][1]) +
                 (pts[1][0]*pts[2][1] - pts[2][0]*pts[1][1]) +
                 (pts[2][0]*pts[3][1] - pts[3][0]*pts[2][1]) +
-                (pts[3][0]*pts[0][1] - pts[3][0]*pts[0][1])
+                (pts[3][0]*pts[0][1] - pts[0][0]*pts[3][1])
             )
         elif len(pts) == 3:
             area = 0.5 * abs(

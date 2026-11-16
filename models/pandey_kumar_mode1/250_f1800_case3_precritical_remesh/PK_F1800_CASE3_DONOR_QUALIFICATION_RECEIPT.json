@@ -1,0 +1,57 @@
+{
+  "task_id": "F1800-CASE3-PRECRITICAL-NATIVE-MISESERI-SCALE-AND-CAUSAL-REMESH-TEST",
+  "donor_file": "PK_SEC43_PRECRITICAL_RECOVERY.odb",
+  "donor_path": "models/pandey_kumar_mode1/250_f1800_case3_precritical_remesh/PK_SEC43_PRECRITICAL_RECOVERY.odb",
+  "donor_sha256": "02663A609E96670F41774C153AB31D75C6F170CFFA41E5B99DD3DD036610929B",
+  "donor_size_bytes": 1498500,
+  "benchmark_case": "case_3",
+  "benchmark_geometry": "Pandey & Kumar (2025) Section 4.3 Notched Plate with Central Hole and Pins (65x120 mm)",
+  "mesh_topology": {
+    "num_nodes": 4040,
+    "num_elements": 3923,
+    "element_types": [
+      "CPE4",
+      "CPE3"
+    ]
+  },
+  "step_name": "RECOVERY_STEP",
+  "step_procedure": "*STATIC",
+  "frame_index": 1,
+  "frame_time": 1.0,
+  "total_frames_in_step": 2,
+  "is_causal_preanalysis": true,
+  "causal_verification": {
+    "causal_mode": true,
+    "max_frame_index": 1,
+    "max_frame_time": 1.0,
+    "donor_frames_count": 2,
+    "temporal_horizon_enforced": true
+  },
+  "precritical_state_characterization": {
+    "prescribed_displacement_uy_mm": 0.05,
+    "physical_regime": "PRECRITICAL_ELASTIC_UNDAMAGED",
+    "material_modulus_kn_per_mm2": 210.0,
+    "material_modulus_mpa": 210000.0,
+    "unit_system": "length: mm, force: kN, stress: kN/mm^2 (GPa)",
+    "displacement_relative_to_initiation": "50.0% of crack initiation threshold (uy_init approx 0.10 mm)",
+    "undamaged_state_proof": "At uy = 0.05 mm, damage d = 0.000 everywhere in coupled phase-field history; material response is purely linear elastic."
+  },
+  "indicator_field": "MISESERI",
+  "normalization_field": "MISESAVG",
+  "num_elements_with_indicator": 3923,
+  "miseseri_stats": {
+    "min_mpa": 1.8326532881474122e-05,
+    "max_mpa": 0.1780245453119278,
+    "mean_mpa": 0.002049754889998112,
+    "median_mpa": 0.001039214082993567,
+    "p90_mpa": 0.0042045461013913155,
+    "p99_mpa": 0.01644887588918209,
+    "nonzero_count": 3923
+  },
+  "misesavg_stats": {
+    "min_mpa": 3.4904016501968727e-05,
+    "max_mpa": 0.43039968609809875,
+    "mean_mpa": 0.055785032131127656
+  },
+  "qualification_status": "QUALIFIED_AUTHENTIC_PRECRITICAL_NATIVE_DONOR"
+}

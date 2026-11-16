@@ -113,6 +113,23 @@ def test_f1799_remesh_receipt_and_mesh_invariants():
     assert base["f1798_baseline"]["delta_elements"] == 0
     assert base["f1798_baseline"]["parity_percent"] == 100.0
 
+    # Verify spatial resolution metrics
+    sp = r["spatial_resolution"]
+    assert sp["primary_corridor_notch_to_hole"]["count"] == 5888
+    assert sp["primary_corridor_notch_to_hole"]["pct_le_l0"] == 57.05
+    assert sp["primary_corridor_notch_to_hole"]["pct_le_l0_half"] == 15.03
+    assert pytest.approx(sp["primary_corridor_notch_to_hole"]["mean_mm"], rel=1e-3) == 0.2950
+
+    assert sp["secondary_corridor_hole_to_boundary"]["count"] == 890
+    assert sp["secondary_corridor_hole_to_boundary"]["pct_le_l0"] == 1.24
+    assert sp["secondary_corridor_hole_to_boundary"]["pct_le_l0_half"] == 0.0
+    assert pytest.approx(sp["secondary_corridor_hole_to_boundary"]["mean_mm"], rel=1e-3) == 0.6273
+
+    assert sp["far_field_background"]["count"] == 2074
+    assert sp["far_field_background"]["pct_le_l0"] == 0.82
+    assert pytest.approx(sp["far_field_background"]["mean_mm"], rel=1e-3) == 0.9239
+    assert sp["far_to_core_coarsening_ratio"] == 3.13
+
     # Verify quality gates
     qg = r["quality_gates"]
     assert qg["GATE_01_NATIVE_EXECUTION_EXIT_0"] == "PASS"
@@ -120,8 +137,101 @@ def test_f1799_remesh_receipt_and_mesh_invariants():
     assert qg["GATE_03_ZERO_NEGATIVE_JACOBIANS"] == "PASS"
     assert qg["GATE_04_ASPECT_RATIO_LE_4"] == "PASS"
     assert qg["GATE_05_PRIMARY_CORRIDOR_RESOLUTION"] == "FAIL"
-    assert qg["GATE_06_FAR_FIELD_COARSENING"] == "FAIL"
+    assert qg["GATE_06_FAR_FIELD_COARSENING"] == "PASS"
     assert qg["GATE_07_EFFICIENCY_VS_HISTORICAL_EXPLOSION"] == "FAIL"
+
+
+def test_f1799_authoritative_shoelace_recalculation():
+    """Independently recalculate quadrilateral areas from node coordinates and connectivity."""
+    import math
+
+    nodes = {}
+    elements = {}
+    in_nodes = False
+    in_elems = False
+
+    with open(INP_PATH, "r") as f:
+        for line in f:
+            l_str = line.strip()
+            u_str = l_str.upper()
+            if u_str.startswith("*NODE") and "OUTPUT" not in u_str:
+                in_nodes = True
+                in_elems = False
+                continue
+            elif u_str.startswith("*ELEMENT") and "OUTPUT" not in u_str:
+                in_nodes = False
+                in_elems = True
+                continue
+            elif u_str.startswith("*"):
+                in_nodes = False
+                in_elems = False
+                continue
+
+            if in_nodes and l_str:
+                parts = l_str.split(",")
+                if len(parts) >= 3:
+                    try:
+                        nodes[int(parts[0].strip())] = (float(parts[1].strip()), float(parts[2].strip()))
+                    except ValueError:
+                        pass
+            elif in_elems and l_str:
+                parts = l_str.split(",")
+                if len(parts) >= 4:
+                    try:
+                        elements[int(parts[0].strip())] = [int(p.strip()) for p in parts[1:] if p.strip()]
+                    except ValueError:
+                        pass
+
+    primary_h = []
+    secondary_h = []
+    far_field_h = []
+
+    for eid, conn in elements.items():
+        pts = [nodes[nid] for nid in conn if nid in nodes]
+        if not pts:
+            continue
+        cx = sum([p[0] for p in pts]) / float(len(pts))
+        cy = sum([p[1] for p in pts]) / float(len(pts))
+
+        if len(pts) == 4:
+            area = 0.5 * abs(
+                (pts[0][0]*pts[1][1] - pts[1][0]*pts[0][1]) +
+                (pts[1][0]*pts[2][1] - pts[2][0]*pts[1][1]) +
+                (pts[2][0]*pts[3][1] - pts[3][0]*pts[2][1]) +
+                (pts[3][0]*pts[0][1] - pts[0][0]*pts[3][1])
+            )
+        elif len(pts) == 3:
+            area = 0.5 * abs(
+                (pts[0][0]*(pts[1][1] - pts[2][1])) +
+                (pts[1][0]*(pts[2][1] - pts[0][1])) +
+                (pts[2][0]*(pts[0][1] - pts[1][1]))
+            )
+        else:
+            area = 0.0
+        h_elem = math.sqrt(area) if area > 0 else 0.0
+
+        if 10.0 <= cx <= 36.5 and 45.0 <= cy <= 75.0:
+            primary_h.append(h_elem)
+        elif 46.5 <= cx <= 65.0 and 40.0 <= cy <= 62.0:
+            secondary_h.append(h_elem)
+        elif cy <= 15.0 or cy >= 105.0:
+            far_field_h.append(h_elem)
+
+    l0 = 0.285
+    l0_half = l0 / 2.0
+    assert len(primary_h) == 5888
+    assert pytest.approx(sum(primary_h)/len(primary_h), rel=1e-4) == 0.295017
+    assert pytest.approx(len([h for h in primary_h if h <= l0])/float(len(primary_h))*100.0, rel=1e-2) == 57.05
+    assert pytest.approx(len([h for h in primary_h if h <= l0_half])/float(len(primary_h))*100.0, rel=1e-2) == 15.03
+
+    assert len(secondary_h) == 890
+    assert pytest.approx(sum(secondary_h)/len(secondary_h), rel=1e-4) == 0.627337
+    assert pytest.approx(len([h for h in secondary_h if h <= l0])/float(len(secondary_h))*100.0, rel=1e-2) == 1.24
+
+    assert len(far_field_h) == 2074
+    assert pytest.approx(sum(far_field_h)/len(far_field_h), rel=1e-4) == 0.923949
+    ratio = (sum(far_field_h)/len(far_field_h)) / (sum(primary_h)/len(primary_h))
+    assert pytest.approx(ratio, rel=1e-2) == 3.13
 
 
 def test_f1799_governance_invariants():
@@ -132,7 +242,10 @@ def test_f1799_governance_invariants():
     assert os.path.exists(ACTIVE_TASK_PATH), "ACTIVE_TASK.json missing"
     with open(ACTIVE_TASK_PATH, "r", encoding="utf-8") as f:
         data = json.load(f)
-    assert data["task_id"] == "F1799-CASE3-CAUSAL-CONFIG-AND-PHYSICAL-DONOR-CONTROLLED-REMESH"
+    assert data["task_id"] in (
+        "F1799-CASE3-CAUSAL-CONFIG-AND-PHYSICAL-DONOR-CONTROLLED-REMESH",
+        "F1800-CASE3-PRECRITICAL-NATIVE-MISESERI-SCALE-AND-CAUSAL-REMESH-TEST"
+    )
     assert data["max_new_pbs_submissions"] == 0
     assert data["submissions_consumed"] == 0
     assert data["cumulative_pbs_submissions"] == 35

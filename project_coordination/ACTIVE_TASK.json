@@ -1,6 +1,6 @@
 {
-  "task_id": "F1799-CASE3-CAUSAL-CONFIG-AND-PHYSICAL-DONOR-CONTROLLED-REMESH",
-  "title": "Task F1799: Case 3 Causal-Config and Physical-Donor Controlled Remeshing",
+  "task_id": "F1800-CASE3-PRECRITICAL-NATIVE-MISESERI-SCALE-AND-CAUSAL-REMESH-TEST",
+  "title": "Task F1800: Case 3 Precritical Native-MISESERI Scale and Causal Remesh Test",
   "task_status": "COMPLETED",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
@@ -8,23 +8,23 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1799_CASE3_CAUSAL_CONFIG_CONTROLLED_REMESH_REPORT.md",
-  "review_directive": "Following supervisory review directive HND-F1798-CASE3-NATIVE-REMESH-001 [REJECT / CONTINUE]: Execute exactly ONE bounded F1799 Case 3 controlled native-remeshing experiment. First correct the F1798 causal-configuration schema: place causal_mode=true, max_frame_index and max_frame_time inside indicator_options, and add fail-closed runtime assertions checking the effective AdaptiveConfig fields before any Abaqus remeshing operation. Reconcile the Case 3 material definition by checking the original governing model and benchmark: the committed recovery INP uses E=210.0 while the F1798 configuration uses E=210000.0 MPa. Do not silently choose one. Determine whether the 1.46 mm donor displacement genuinely precedes fracture initiation; if that physical chronology cannot be established, do not label it prefracture causal. Using one physically and materially qualified initial-state continuum recovery donor, execute at most ONE new local Abaqus native RemeshingRule/adaptiveRemesh pass through scripts/remeshing/reusable_2d_adaptive_framework.py. Retain the execution journal, actual resolved configuration, donor hash, physical INP, and machine-readable field provenance. Independently audit total elements, quadrilateral fraction, minimum signed Jacobian, nonpositive Jacobians, maximum aspect ratio, primary and secondary corridor percentages h <= l0 and h <= l0/2, and far-field coarsening. Compare these measurements directly with the verified F1798 baseline of 26891 elements, 57.05% primary h <= l0, 1.24% secondary h <= l0, and 3.13x far-to-primary mean-size ratio. Preserve failed quality gates and report any inability to qualify a physically causal donor as a numerical blocker rather than fabricating a state. Do not modify the frozen production UEL, prescribe future crack paths, use synthetic damage relabeled as MISESERI, initiate Method C, or submit any new PBS jobs. Maintain cumulative PBS submissions at 35 and MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1800_CASE3_PRECRITICAL_NATIVE_MISESERI_REMESH_REPORT.md",
+  "review_directive": "Following supervisory review directive HND-F1799-CASE3-CONTROLLED-REMESH-001 [REJECT / CONTINUE]: Retain F1799 as a real native Abaqus mesh-generation milestone, but do not accept its regional-resolution statistics or VERIFIED physical-causal designation. First correct the quadrilateral shoelace formula in scripts/remeshing/run_f1799_case3_controlled_remesh.py by restoring the missing final edge contribution (x3*y0 - x0*y3). Recompute F1799 regional statistics directly from its existing physical INP, without rerunning that mesh. The authoritative corrected measurements are: primary 5888 elements, mean h=0.2950173157 mm, 57.05% <= l0 and 15.03% <= l0/2; secondary 890 elements, mean h=0.6273369750 mm, 1.24% <= l0 and 0% <= l0/2; far field 2074 elements, mean h=0.9239487562 mm, 0.82% <= l0; far-to-primary ratio 3.13x. Restore GATE_06 to PASS, retain GATE_05 and GATE_07 as FAIL, correct the historical F1798 comparison, and add regression tests that recompute these quantities from node coordinates and element connectivity. Distinguish the two donor ODB hashes and document stress units correctly. Then execute exactly ONE new F1800 numerical experiment: establish from existing coupled Case 3 evidence a physically precritical loading value, provisionally no greater than 0.05 mm only if that threshold is supported by the available physical state history. Generate a new local linear-elastic Abaqus continuum recovery donor at that validated displacement, with the original Case 3 geometry and E=210 kN/mm^2, and obtain genuine native MISESERI and MISESAVG fields. Verify its donor SHA-256, topology, material, boundary conditions, step/frame cutoff and absence of future-state inputs. Run one native RemeshingRule/adaptiveRemesh pass through scripts/remeshing/reusable_2d_adaptive_framework.py with correctly parsed fail-closed causal controls and unchanged global sizing parameters. Preserve independently captured Abaqus launcher exit status, execution journal, physical INP, and machine-readable receipt. Compare the new body hash, element connectivity, signed Jacobians, aspect ratios, primary/secondary h/l0 resolution, far-field ratio and total elements directly with the corrected F1799 baseline. Treat exact mesh equality as an empirical hypothesis, not a mathematical guarantee. If the early physical donor cannot be justified or executed locally under the zero-PBS allocation, report the precise numerical blocker and stop rather than substituting synthetic indicators. Do not change the frozen UEL, prescribe future crack paths, initiate Method C or state transfer, or submit PBS jobs. Keep cumulative PBS submissions at 35 and MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1798-CASE3-NATIVE-MISESERI-CAUSAL-BASELINE-REMESHING",
-    "checkpoint_artifact": "docs/validation/F1798_CASE3_NATIVE_MISESERI_CAUSAL_REMESHING_REPORT.md",
+    "task_id": "F1799-CASE3-CAUSAL-CONFIG-AND-PHYSICAL-DONOR-CONTROLLED-REMESH",
+    "checkpoint_artifact": "docs/validation/F1799_CASE3_CAUSAL_CONFIG_CONTROLLED_REMESH_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
     "review_verdict": "REJECT",
-    "correlation_id": "HND-F1798-CASE3-NATIVE-REMESH-001"
+    "correlation_id": "HND-F1799-CASE3-CONTROLLED-REMESH-001"
   },
-  "re_review_correlation_id": "HND-F1799-CASE3-CONTROLLED-REMESH-001",
-  "scientific_operation": "case3_causal_config_and_physical_donor_controlled_remesh",
-  "scientific_operation_id": "f1799_case3_controlled_remesh_001",
+  "re_review_correlation_id": "HND-F1800-CASE3-PRECRITICAL-REMESH-001",
+  "scientific_operation": "case3_precritical_native_miseseri_scale_and_causal_remesh_test",
+  "scientific_operation_id": "f1800_case3_precritical_remesh_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "99EC77D2433EB5048DC9B4D70E5EA3B8468073C3BCEA342B7BFE139234700E6D",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1799 ACTIVE under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Focus: (1) Correct causal config schema with indicator_options.causal_mode=true and fail-closed assertions; (2) Reconcile Case 3 material definition (E=210 vs E=210000 MPa) against governing models; (3) Determine authentic physical fracture-onset displacement for Case 3; (4) Execute controlled native remeshing pass and audit mesh quality, spatial resolution, and efficiency vs F1798 baseline."
+  "notes": "Task F1800 ACTIVE under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Focus: (1) Correct quadrilateral shoelace formula bug and recompute F1799 regional stats directly from physical INP; (2) Generate fresh local linear-elastic Abaqus continuum recovery donor at a verified precritical displacement (uy <= 0.05 mm) with E=210 kN/mm2; (3) Run one native RemeshingRule/adaptiveRemesh pass and compare physical mesh equality/difference against corrected F1799 baseline."
 }

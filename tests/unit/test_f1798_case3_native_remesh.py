@@ -193,7 +193,8 @@ class TestF1798GovernanceAndInvariants:
         assert data["task_id"] in (
             "F1797-CASE2-ALL-FRAME-MISESERI-AND-RECOVERY-PROVENANCE-QUALIFICATION",
             "F1798-CASE3-NATIVE-MISESERI-CAUSAL-BASELINE-REMESHING",
-            "F1799-CASE3-CAUSAL-CONFIG-AND-PHYSICAL-DONOR-CONTROLLED-REMESH"
+            "F1799-CASE3-CAUSAL-CONFIG-AND-PHYSICAL-DONOR-CONTROLLED-REMESH",
+            "F1800-CASE3-PRECRITICAL-NATIVE-MISESERI-SCALE-AND-CAUSAL-REMESH-TEST"
         )
         assert data["max_new_pbs_submissions"] == 0
         assert data["submissions_consumed"] == 0

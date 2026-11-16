@@ -47,29 +47,29 @@
     "l0_half_mm": 0.1425,
     "primary_corridor_notch_to_hole": {
       "count": 5888,
-      "mean_mm": 2.3204185601421945,
-      "min_mm": 0.043045557106604654,
-      "max_mm": 6.734684022981107,
-      "pct_le_l0": 3.33,
-      "pct_le_l0_half": 1.27
+      "mean_mm": 0.29501731567830675,
+      "min_mm": 0.05421115058519084,
+      "max_mm": 1.0622420031865887,
+      "pct_le_l0": 57.05,
+      "pct_le_l0_half": 15.03
     },
     "secondary_corridor_hole_to_boundary": {
       "count": 890,
-      "mean_mm": 3.7422173154391953,
+      "mean_mm": 0.6273369749732148,
       "min_mm": 0.20138568808230814,
-      "max_mm": 7.3435231958238045,
-      "pct_le_l0": 0.67,
+      "max_mm": 1.3997714997728377,
+      "pct_le_l0": 1.24,
       "pct_le_l0_half": 0.0
     },
     "far_field_background": {
       "count": 2074,
-      "mean_mm": 4.0944253971411,
-      "min_mm": 0.054880790077502246,
-      "max_mm": 10.532848687073688,
+      "mean_mm": 0.9239487562431534,
+      "min_mm": 0.1344213362361086,
+      "max_mm": 1.7136913899382253,
       "pct_le_l0": 0.82,
-      "pct_le_l0_half": 0.19
+      "pct_le_l0_half": 0.05
     },
-    "far_to_core_coarsening_ratio": 1.76
+    "far_to_core_coarsening_ratio": 3.13
   },
   "baseline_comparison": {
     "f1798_baseline": {
@@ -100,7 +100,7 @@
     "GATE_03_ZERO_NEGATIVE_JACOBIANS": "PASS",
     "GATE_04_ASPECT_RATIO_LE_4": "PASS",
     "GATE_05_PRIMARY_CORRIDOR_RESOLUTION": "FAIL",
-    "GATE_06_FAR_FIELD_COARSENING": "FAIL",
+    "GATE_06_FAR_FIELD_COARSENING": "PASS",
     "GATE_07_EFFICIENCY_VS_HISTORICAL_EXPLOSION": "FAIL"
   }
 }
