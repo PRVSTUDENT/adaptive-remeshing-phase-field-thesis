@@ -162,7 +162,8 @@ def test_f1804_governance_and_coordination_invariants():
 
     assert task["task_id"] in [
         "F1804-CASE2-DISTAL-DEGRADED-MODULUS-RECOVERY-REMESH",
-        "F1805-CASE2-OUTERMOST-DISTAL-NATIVE-MISESERI-TARGET-SENSITIVITY"
+        "F1805-CASE2-OUTERMOST-DISTAL-NATIVE-MISESERI-TARGET-SENSITIVITY",
+        "F1806-CASE2-OUTERMOST-DISTAL-NATIVE-MISESERI-TARGET-1P8PCT"
     ]
     assert task["master_goal_status"] == "OPEN"
     assert task["frozen_uel_sha256"] == FROZEN_UEL_SHA256

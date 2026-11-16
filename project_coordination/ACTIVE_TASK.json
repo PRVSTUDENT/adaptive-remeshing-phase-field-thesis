@@ -1,6 +1,6 @@
 {
-  "task_id": "F1805-CASE2-OUTERMOST-DISTAL-NATIVE-MISESERI-TARGET-SENSITIVITY",
-  "title": "Task F1805: Case 2 Outermost Distal Native-MISESERI Target Sensitivity",
+  "task_id": "F1806-CASE2-OUTERMOST-DISTAL-NATIVE-MISESERI-TARGET-1P8PCT",
+  "title": "Task F1806: Case 2 Outermost Distal Native-MISESERI Target Sensitivity at 1.8%",
   "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
@@ -8,23 +8,23 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1805_CASE2_OUTERMOST_DISTAL_SENSITIVITY_REPORT.md",
-  "review_directive": "Following supervisory review directive HND-F1804-CASE2-DISTAL-RECOVERY-001 [REJECT / CONTINUE]: Execute exactly ONE new F1805 numerical experiment: reuse the verified F1804 donor at the same causal state and its source SHA (PK_HOLE_STATE_POSTBREACH_RECOVERY.odb, SHA-256: 35E9DC19B1E0A4F5EE5FB3547C9C71004D8882DC50F729C8A8F4CA8A4D50A959), retain unchanged geometry, mesh-size bounds, refinement factor, native indicator, shared framework and frozen UEL, but change the sole numerical control error_target from 2.3% to 1.9%. Generate one fresh Abaqus native adaptiveRemesh physical INP PK_F1805_CASE_2_ADAPT_PHYS.inp, record exact configuration and donor provenance, and independently recalculate all finite-element-quality metrics and five fixed distal evaluation bins (x=[0.75,0.80], [0.80,0.85], [0.85,0.90], [0.90,0.95], and [0.95,1.00] mm at y=[0.55,0.75] mm) for count-based and area-weighted coverage h<=l0 and h<=l0/2 compared to F1795 and F1804. Preserve canonical quality gates, zero PBS submissions, cumulative submissions at 35, frozen production UEL and unified framework, and leave MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1806_CASE2_OUTERMOST_DISTAL_SENSITIVITY_REPORT.md",
+  "review_directive": "Following supervisory review directive HND-F1805-CASE2-DISTAL-SENSITIVITY-001 [REJECT / CONTINUE]: Perform one fresh F1806 Case 2 Method A.1 native Abaqus remeshing experiment using the identical verified F1804/F1805 recovery donor (PK_HOLE_STATE_POSTBREACH_RECOVERY.odb, SHA-256: 35E9DC19B1E0A4F5EE5FB3547C9C71004D8882DC50F729C8A8F4CA8A4D50A959) and shared framework reusable_2d_adaptive_framework.py. Change only error_target from 1.9% to 1.8%. Preserve geometry, physical parameters, sizing-rule settings, UEL and causal cutoff. Independently audit the new physical mesh and compare all five fixed distal bins against F1804 and F1805. Quantify count-based and area-weighted h <= l0/2 coverage, particularly x=0.90-0.95 and x=0.95-1.00 mm; verify primary-corridor coverage, Jacobians, aspect ratios, quadrilateral fraction, total element count and far-field coarsening. Explicitly investigate the h_min sizing-bound discrepancy and record the donor's physical versus recovery-step time mapping. Do not claim outer-distal completion unless the registered scientific criterion is satisfied. If the controlled experiment remains inadequate, retain the negative result and assess the evidence required for a subsequent strictly causal Method A.2 multi-cycle experiment. Zero PBS submissions, cumulative 35, frozen UEL and framework, leave MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1804-CASE2-DISTAL-DEGRADED-MODULUS-RECOVERY-REMESH",
-    "checkpoint_artifact": "docs/validation/F1804_CASE2_DISTAL_DEGRADED_MODULUS_RECOVERY_REPORT.md",
+    "task_id": "F1805-CASE2-OUTERMOST-DISTAL-NATIVE-MISESERI-TARGET-SENSITIVITY",
+    "checkpoint_artifact": "docs/validation/F1805_CASE2_OUTERMOST_DISTAL_SENSITIVITY_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
     "review_verdict": "REJECT",
-    "correlation_id": "HND-F1804-CASE2-DISTAL-RECOVERY-001"
+    "correlation_id": "HND-F1805-CASE2-DISTAL-SENSITIVITY-001"
   },
-  "re_review_correlation_id": "HND-F1805-CASE2-DISTAL-SENSITIVITY-001",
-  "scientific_operation": "case2_outermost_distal_sensitivity_test",
-  "scientific_operation_id": "f1805_case2_distal_sensitivity_001",
+  "re_review_correlation_id": "HND-F1806-CASE2-DISTAL-SENSITIVITY-001",
+  "scientific_operation": "case2_outermost_distal_1p8pct_sensitivity_test",
+  "scientific_operation_id": "f1806_case2_distal_sensitivity_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "99EC77D2433EB5048DC9B4D70E5EA3B8468073C3BCEA342B7BFE139234700E6D",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1805 completed and ready for independent review under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Broad distal coverage jumped from 72.10% to 86.28% (area 56.35%), bin x=0.90-0.95 surged 18.7x to 21.59% <= l0/2, total elements 20,281, all Gates 01-07 PASS, SCIENTIFIC_GATE_OUTER_DISTAL FAIL due to 0.00% <= l0/2 in x=0.95-1.00 boundary band."
+  "notes": "Task F1806 active. Testing controlled error_target reduction from 1.9% to 1.8%."
 }

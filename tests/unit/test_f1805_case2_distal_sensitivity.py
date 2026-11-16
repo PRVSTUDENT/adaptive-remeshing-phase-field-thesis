@@ -112,7 +112,10 @@ def test_f1805_governance_and_coordination_invariants():
     task_json_path = os.path.join(REPO_ROOT, "project_coordination", "ACTIVE_TASK.json")
     with open(task_json_path, "r") as f:
         task_data = json.load(f)
-    assert task_data["task_id"] == "F1805-CASE2-OUTERMOST-DISTAL-NATIVE-MISESERI-TARGET-SENSITIVITY"
+    assert task_data["task_id"] in [
+        "F1805-CASE2-OUTERMOST-DISTAL-NATIVE-MISESERI-TARGET-SENSITIVITY",
+        "F1806-CASE2-OUTERMOST-DISTAL-NATIVE-MISESERI-TARGET-1P8PCT"
+    ]
     assert task_data["master_goal_status"] == "OPEN"
     assert task_data["max_new_pbs_submissions"] == 0
     assert task_data["submissions_consumed"] == 0
