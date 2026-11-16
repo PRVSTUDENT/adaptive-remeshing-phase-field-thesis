@@ -1,0 +1,99 @@
+{
+  "case_id": "case_2",
+  "name": "Case 2: Plate with an Off-Axis Hole (Method A.2 Multi-State Recovery)",
+  "error_target": 4.0,
+  "job_name": "PK_F1812_CASE_2",
+  "donor_path": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case2/PK_HOLE_MULTISTATE_RECOVERY.odb",
+  "donor_sha256": "87E100CB40BD35B8844E29D4A5961BB7A3EC527AE0B2A5E1D807174903654EAD",
+  "physical_mesh_path": "models/pandey_kumar_mode1/261_f1812_crack_path_refinement/case2/PK_F1812_CASE_2_ADAPT_PHYS.inp",
+  "physical_mesh_sha256": "FF6F61C307DA2202B1F798E50E42778F30B7872E680EE9232AB79DB801C47E37",
+  "physical_mesh_body_sha256": "5C7DD6B52DBBE716C823462E2EFBA37EAF3DF884862F2CAA4533F80FB7FFBFE1",
+  "physical_mesh_size_bytes": 2975652,
+  "audit": {
+    "total_physical_elements": 41438,
+    "total_elements": 41438,
+    "total_nodes": 41377,
+    "quad_count": 40432,
+    "tri_count": 1006,
+    "quad_percent": 97.57227665427868,
+    "quad_fraction_pct": 97.57227665427868,
+    "tri_fraction_pct": 2.4277233457213185,
+    "total_physical_nodes": 41377,
+    "min_signed_jacobian": 1.0885105644971146e-07,
+    "min_det_j": 1.0885105644971146e-07,
+    "non_positive_jacobians": 0,
+    "zero_or_negative_jacobians": 0,
+    "distorted_elements": 0,
+    "jacobian_status": "PASS",
+    "jacobian_valid": true,
+    "median_aspect_ratio": 1.1877420836415513,
+    "max_aspect_ratio": 2.5387482170805216,
+    "worst_aspect_ratio": 2.5387482170805216,
+    "mean_aspect_ratio": 1.234763591485188,
+    "aspect_ratio_violations_gt_4": 0,
+    "min_corner_angle_deg": 28.13634669907221,
+    "max_corner_angle_deg": 140.1115125326077,
+    "min_h_area_mm": 0.0005613840337701256,
+    "min_h_area_um": 0.5613840337701257,
+    "max_h_area_mm": 0.024952970926425323,
+    "mean_h_area_mm": 0.003669356119292062,
+    "mean_process_zone_h_area_mm": 0.002399962149194702,
+    "mean_process_zone_h_area_um": 2.399962149194702,
+    "mean_far_field_h_area_mm": 0.0037204377945541617,
+    "refinement_ratio_far_to_core": 1.550206862971793,
+    "process_zone_elements_count": 1603,
+    "elements_le_l0": 37399,
+    "pct_elements_le_l0": 90.25290795887832,
+    "elements_le_l0_half": 30327,
+    "pct_elements_le_l0_half": 73.18644722235629,
+    "elements_le_l0_third": 21222,
+    "pct_elements_le_l0_third": 51.21386167286066,
+    "provenance_classification": "SYNTHESIZED_DAMAGE_INFORMED_SIZING_ENVELOPE",
+    "indicator_type": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR"
+  },
+  "critical_metrics": {
+    "distal_elements": 13725,
+    "distal_pct_le_l0": 100.0,
+    "distal_pct_le_l0_half": 100.0,
+    "bins": {
+      "bin_1": {
+        "count": 2268,
+        "pct_le_l0_half": 100.0,
+        "min_h_um": 0.768504444450755
+      },
+      "bin_2": {
+        "count": 2432,
+        "pct_le_l0_half": 100.0,
+        "min_h_um": 0.6776210275540361
+      },
+      "bin_3": {
+        "count": 3188,
+        "pct_le_l0_half": 100.0,
+        "min_h_um": 0.7364567703212677
+      },
+      "bin_4": {
+        "count": 3219,
+        "pct_le_l0_half": 100.0,
+        "min_h_um": 0.561384033807845
+      },
+      "bin_5": {
+        "count": 2618,
+        "pct_le_l0_half": 100.0,
+        "min_h_um": 0.6534513079470324
+      }
+    },
+    "combined_outer_ligament_count": 5837,
+    "combined_outer_ligament_pct_le_l0_half": 100.0
+  },
+  "gates": {
+    "GATE_01_ZERO_NONPOSITIVE_JACOBIANS": "PASS",
+    "GATE_02_QUAD_FRACTION_GE_90PCT": "PASS",
+    "GATE_03_MAX_ASPECT_RATIO_LE_4": "PASS",
+    "GATE_04_CORNER_ANGLES_20_TO_160_DEG": "PASS",
+    "GATE_05_CRITICAL_BAND_RESOLUTION": "PASS",
+    "GATE_06_FAR_FIELD_COARSENING_GE_2X": "FAIL",
+    "GATE_07_TOTAL_ELEMENTS_BUDGET": "PASS",
+    "SCIENTIFIC_GATE_OUTER_DISTAL": "PASS"
+  },
+  "scientific_gate": "PASS"
+}

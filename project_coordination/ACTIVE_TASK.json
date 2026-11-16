@@ -1,9 +1,9 @@
 {
   "task_id": "F1812-UNIVERSAL-FRAMEWORK-CRACK-PATH-REFINEMENT",
   "title": "Task F1812: Universal Framework Fix for Crack-Path Refinement",
-  "task_status": "ACTIVE",
+  "task_status": "COMPLETED",
   "master_goal_status": "OPEN",
-  "status": "ACTIVE",
+  "status": "COMPLETED",
   "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
@@ -22,9 +22,9 @@
   "scientific_operation_id": "f1812_crack_path_refinement_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-  "framework_sha256": "99EC77D2433EB5048DC9B4D70E5EA3B8468073C3BCEA342B7BFE139234700E6D",
+  "framework_sha256": "4276A5DC1AF22A6A117102D8C24492789E8AA4EBFD4AF079C58EE86DBEEC7C8B",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1812 active following supervisory approval HND-F1811-ERROR-TARGET-EFFICIENCY-001 [APPROVE / CONTINUE]. Developing universal shared-framework enhancement for Case 1 crack-path refinement evaluated against F1811 calibrated baselines (Case 2 eta_R = 4.0%, 41,438 el; Case 3 eta_R = 3.0%, 77,779 el). 0 new PBS jobs consumed, cumulative 35 preserved; MASTER_GOAL_STATUS = OPEN."
+  "notes": "Task F1812 completed with all 4 benchmarks passing quality and scientific gates under universal shared framework (framework SHA 4276A5DC...): Case 1 full ligament achieves 100.00% <= l0 and 97.19% <= l0/2 (25,461 el, 97.29% quads, Max AR 2.63); Case 2 preserves 100.00% outer ligament <= l0/2 (41,438 el, 97.57% quads); Case 3 preserves 93.84% secondary corridor <= l0 (77,779 el, 97.34% quads); Case 5 preserves 99.04% inter-hole corridor <= l0 (15,466 el, 97.90% quads). Zero non-positive Jacobians across all 4 meshes. 0 new PBS jobs consumed, cumulative 35 preserved; MASTER_GOAL_STATUS = OPEN."
 }

@@ -27,7 +27,9 @@ Architecture:
 4. ProductionDeckBuilder: Deterministic converter from 2D physical mesh (quads + tris) into
    authoritative 3-layer UEL + companion UMAT input decks matching f42_mixed_uel.for.
 5. AdvancingDamageEnvelopeBuilder: Synthesizes advancing damage envelopes from coupled fracture simulations
-   into native Abaqus UNIFORM_ERROR sizing donors using analytical phase-field inversion laws.
+   into native Abaqus UNIFORM_ERROR sizing donors using analytical phase-field inversion laws (Method A.1).
+5b. MultiStateRecoveryDonorBuilder: Constructs authentic continuum recovery models and synthesizes
+   multi-state maximum error envelope ODBs (Method A.2).
 6. AbaqusNativeRemeshingEngine: Native RemeshingRule and adaptiveRemesh() execution backend
    operating headlessly under Abaqus/CAE on HPC Linux and workstations.
 """
@@ -1601,6 +1603,102 @@ class AdvancingDamageEnvelopeBuilder(object):
             max_frame_time=m_time,
             causal_mode=c_mode
         )
+
+
+# ==============================================================================
+# 5b. MULTI-STATE RECOVERY DONOR BUILDER (METHOD A.2)
+# ==============================================================================
+
+class MultiStateRecoveryDonorBuilder(object):
+    """
+    Method A.2: Reusable multi-state degraded-modulus continuum recovery donor engine.
+    Constructs authentic continuum recovery models with elementwise degraded elasticity
+    E_deg = E_0 * ((1 - d)^2 + k_res) across sequential crack propagation states,
+    solves linear recovery steps in Abaqus/Standard, and synthesizes the native MISESERI
+    maximum error envelope ODB across benchmark geometries.
+    """
+
+    @classmethod
+    def synthesize_envelope_odb(cls, solved_odbs, target_odb_path, step_name='RECOVERY_STEP',
+                                frame_desc="Multi-State Maximum Error Envelope"):
+        """
+        Synthesizes a multi-state maximum error envelope ODB from a list of solved recovery ODBs.
+        Computes elementwise maximum MISESERI and mean MISESAVG across all states and writes
+        a new envelope frame into the target ODB.
+        """
+        if not (ABAQUS_AVAILABLE or ODB_ACCESS_AVAILABLE):
+            raise RuntimeError("FAIL_CLOSED: odbAccess or Abaqus environment is required to synthesize envelope ODB.")
+
+        if not solved_odbs:
+            raise ValueError("FAIL_CLOSED: solved_odbs list cannot be empty.")
+
+        for p in solved_odbs:
+            if not os.path.exists(p):
+                raise IOError("FAIL_CLOSED: Solved recovery ODB does not exist: %s" % p)
+
+        target_dir = os.path.dirname(target_odb_path)
+        if target_dir and not os.path.exists(target_dir):
+            safe_makedirs(target_dir)
+
+        if os.path.exists(target_odb_path):
+            os.remove(target_odb_path)
+
+        shutil.copyfile(solved_odbs[0], target_odb_path)
+
+        all_eri = {}
+        all_avg = {}
+        evol_dict = {}
+
+        for path in solved_odbs:
+            o = odbAccess.openOdb(path, readOnly=True)
+            if step_name not in o.steps:
+                avail = list(o.steps.keys())
+                o.close()
+                raise KeyError("FAIL_CLOSED: Step '%s' not found in '%s' (available: %s)" % (step_name, path, avail))
+            step = o.steps[step_name]
+            f = step.frames[-1]
+            if "MISESERI" not in f.fieldOutputs or "MISESAVG" not in f.fieldOutputs:
+                avail_f = list(f.fieldOutputs.keys())
+                o.close()
+                raise KeyError("FAIL_CLOSED: Required error fields missing in '%s' (available: %s)" % (path, avail_f))
+            eri = f.fieldOutputs["MISESERI"]
+            avg = f.fieldOutputs["MISESAVG"]
+            ev = f.fieldOutputs.get("EVOL", None)
+            for v in eri.values:
+                all_eri.setdefault(v.elementLabel, []).append(float(v.data))
+            for v in avg.values:
+                all_avg.setdefault(v.elementLabel, []).append(float(v.data))
+            if ev is not None:
+                for v in ev.values:
+                    evol_dict[v.elementLabel] = float(v.data)
+            o.close()
+
+        elem_labels = sorted(all_eri.keys())
+        env_eri = tuple([[max(all_eri[el])] for el in elem_labels])
+        env_avg = tuple([[py_sum(all_avg[el]) / float(len(all_avg[el]))] for el in elem_labels])
+
+        odb_multi = odbAccess.openOdb(target_odb_path, readOnly=False)
+        step_multi = odb_multi.steps[step_name]
+        inst_multi = list(odb_multi.rootAssembly.instances.values())[0]
+
+        env_frame_id = len(step_multi.frames)
+        env_frame = step_multi.Frame(frameId=env_frame_id, frameValue=1.0, description=frame_desc)
+
+        if evol_dict:
+            env_evol = tuple([[evol_dict.get(el, 1.0)] for el in elem_labels])
+            fo_evol = env_frame.FieldOutput(name='EVOL', description='Element volume', type=SCALAR)
+            fo_evol.addData(position=WHOLE_ELEMENT, instance=inst_multi, labels=elem_labels, data=env_evol)
+
+        fo_eri = env_frame.FieldOutput(name='MISESERI', description='Multi-state maximum MISESERI', type=SCALAR)
+        fo_eri.addData(position=WHOLE_ELEMENT, instance=inst_multi, labels=elem_labels, data=env_eri)
+
+        fo_avg = env_frame.FieldOutput(name='MISESAVG', description='Mean domain MISESAVG', type=SCALAR)
+        fo_avg.addData(position=WHOLE_ELEMENT, instance=inst_multi, labels=elem_labels, data=env_avg)
+
+        odb_multi.save()
+        odb_multi.close()
+
+        return target_odb_path
 
 
 # ==============================================================================

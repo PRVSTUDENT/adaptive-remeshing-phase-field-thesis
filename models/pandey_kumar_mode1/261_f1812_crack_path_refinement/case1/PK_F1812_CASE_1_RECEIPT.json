@@ -1,0 +1,110 @@
+{
+  "case_id": "case_1",
+  "name": "Case 1: Mode-I Edge-Cracked Plate (Method A.2 Multi-State Recovery)",
+  "error_target": 4.5,
+  "job_name": "PK_F1812_CASE_1",
+  "donor_path": "models/pandey_kumar_mode1/261_f1812_crack_path_refinement/case1/PK_CASE1_MULTISTATE_RECOVERY.odb",
+  "donor_sha256": "0A25CDFE64344BE9DF7C651802F46EBF3D6F85C445689BBD28DBA64157758117",
+  "physical_mesh_path": "models/pandey_kumar_mode1/261_f1812_crack_path_refinement/case1/PK_F1812_CASE_1_ADAPT_PHYS.inp",
+  "physical_mesh_sha256": "A138FF1DDC54E7F113784980D5B9D4E3365766C95ED5AD0A8F3AA926D8C74CBE",
+  "physical_mesh_body_sha256": "50CB4E3C826D66C7BDAB7FEBEADF5254CDEE33B709B214E9714CD776B3CE379E",
+  "physical_mesh_size_bytes": 1825210,
+  "audit": {
+    "total_physical_elements": 25461,
+    "total_elements": 25461,
+    "total_nodes": 25351,
+    "quad_count": 24770,
+    "tri_count": 691,
+    "quad_percent": 97.28604532422136,
+    "quad_fraction_pct": 97.28604532422136,
+    "tri_fraction_pct": 2.7139546757786417,
+    "total_physical_nodes": 25351,
+    "min_signed_jacobian": 1.9058259253139778e-07,
+    "min_det_j": 1.9058259253139778e-07,
+    "non_positive_jacobians": 0,
+    "zero_or_negative_jacobians": 0,
+    "distorted_elements": 0,
+    "jacobian_status": "PASS",
+    "jacobian_valid": true,
+    "median_aspect_ratio": 1.2101805234770044,
+    "max_aspect_ratio": 2.6317437436651954,
+    "worst_aspect_ratio": 2.6317437436651954,
+    "mean_aspect_ratio": 1.2539930645659316,
+    "aspect_ratio_violations_gt_4": 0,
+    "min_corner_angle_deg": 26.95332108462053,
+    "max_corner_angle_deg": 140.06817656583635,
+    "min_h_area_mm": 0.000540472295144708,
+    "min_h_area_um": 0.540472295144708,
+    "max_h_area_mm": 0.02470408089372193,
+    "mean_h_area_mm": 0.004865099673682935,
+    "mean_process_zone_h_area_mm": 0.0022546644924661963,
+    "mean_process_zone_h_area_um": 2.2546644924661963,
+    "mean_far_field_h_area_mm": 0.005381218737877766,
+    "refinement_ratio_far_to_core": 2.3867048759843126,
+    "process_zone_elements_count": 4203,
+    "elements_le_l0": 20756,
+    "pct_elements_le_l0": 81.52075723655787,
+    "elements_le_l0_half": 14812,
+    "pct_elements_le_l0_half": 58.17524841915086,
+    "elements_le_l0_third": 8165,
+    "pct_elements_le_l0_third": 32.068654019873534,
+    "provenance_classification": "SYNTHESIZED_DAMAGE_INFORMED_SIZING_ENVELOPE",
+    "indicator_type": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR"
+  },
+  "critical_metrics": {
+    "ligament_elements": 3664,
+    "ligament_pct_le_l0": 100.0,
+    "ligament_pct_le_l0_half": 97.18886462882097,
+    "outer_ligament_count": 2233,
+    "outer_ligament_pct_le_l0_half": 100.0,
+    "bins": {
+      "bin_1": {
+        "count": 180,
+        "pct_le_l0": 100.0,
+        "pct_le_l0_half": 87.77777777777777,
+        "min_h_um": 1.5270379127801437
+      },
+      "bin_2": {
+        "count": 176,
+        "pct_le_l0": 100.0,
+        "pct_le_l0_half": 87.5,
+        "min_h_um": 1.7960210641706653
+      },
+      "bin_3": {
+        "count": 388,
+        "pct_le_l0": 100.0,
+        "pct_le_l0_half": 85.30927835051546,
+        "min_h_um": 1.2706573141357929
+      },
+      "bin_4": {
+        "count": 687,
+        "pct_le_l0": 100.0,
+        "pct_le_l0_half": 99.70887918486171,
+        "min_h_um": 0.9683704000646142
+      },
+      "bin_5": {
+        "count": 1081,
+        "pct_le_l0": 100.0,
+        "pct_le_l0_half": 100.0,
+        "min_h_um": 0.6843081912124536
+      },
+      "bin_6": {
+        "count": 1152,
+        "pct_le_l0": 100.0,
+        "pct_le_l0_half": 100.0,
+        "min_h_um": 0.8637009278094637
+      }
+    }
+  },
+  "gates": {
+    "GATE_01_ZERO_NONPOSITIVE_JACOBIANS": "PASS",
+    "GATE_02_QUAD_FRACTION_GE_90PCT": "PASS",
+    "GATE_03_MAX_ASPECT_RATIO_LE_4": "PASS",
+    "GATE_04_CORNER_ANGLES_20_TO_160_DEG": "PASS",
+    "GATE_05_CRITICAL_BAND_RESOLUTION": "PASS",
+    "GATE_06_FAR_FIELD_COARSENING_GE_2X": "PASS",
+    "GATE_07_TOTAL_ELEMENTS_BUDGET": "PASS",
+    "SCIENTIFIC_GATE_FULL_LIGAMENT": "PASS"
+  },
+  "scientific_gate": "PASS"
+}
