@@ -125,12 +125,12 @@ With both the control mesh and the MINIMUM_MAXIMUM meshes committed and verified
 | :--- | :--- | :---: | :--- |
 | Case 1 UE3 Control Mesh | `models/pandey_kumar_mode1/266_f1822_uniform_error_control/PK_F1822_CASE1_UE3_CONTROL_PHYS.inp` | 4,480,026 bytes | `75AAFBB06B3AA304E744D227B3353115DBD94E51A01981A137636ED3FD5FEBA6` |
 | Case 1 UE3 Control Journal | `models/pandey_kumar_mode1/266_f1822_uniform_error_control/case_1_ue3_control_abaqus.rpy` | 2,432 bytes | `64EBC6C1B386873A5A8E092BFB04AD293BADCE0D912517E5575D6050350181FB` |
-| Case 1 UE3 Control Config | `configs/remeshing/f1822_case1_uniform_error_3pct.json` | 2,243 bytes | `09AAC074DE9E62075E0AF891DD9A20E7F91199946F53D926D0053D95E4C04D77` |
+| Case 1 UE3 Control Config | `configs/remeshing/f1822_case1_uniform_error_3pct.json` | 1,868 bytes | `09AAC074DE9E62075E0AF891DD9A20E7F91199946F53D926D0053D95E4C04D77` |
 | Control Case Receipt | `models/pandey_kumar_mode1/266_f1822_uniform_error_control/f1822_control_receipt.json` | 1,246 bytes | `69A7059E42C2CE5EAF7D050965C5A8CF593A1CC9CEB0764DFDE03848148E251A` |
 | Master Control Verification Receipt | `models/pandey_kumar_mode1/266_f1822_uniform_error_control/PK_F1822_CONTROL_VERIFICATION_RECEIPT.json` | 3,045 bytes | `CF5A8BE65D39EF32BA6F9D7886475685B17367B000BDD604E07B7A41CC6CF5C3` |
 | Control Runner Script | `scripts/remeshing/run_f1822_control_verification.py` | 8,988 bytes | `EC47D23A0214C3456D606471E2D648937077E81BE1CC4CE015C335B7714C8F80` |
-| Corrected F1821 Receipt | `models/pandey_kumar_mode1/265_f1821_genuine_minmax/PK_F1821_GENUINE_MINMAX_RECEIPT.json` | 9,493 bytes | `C7E141B436D254BFACF6304EDFC4016667D3AE259EB9766CA926FFCE30BA61C9` |
-| Corrected F1821 Report | `docs/validation/F1821_GENUINE_MINMAX_EXECUTION_REPORT.md` | 15,225 bytes | `9804B8C138FD0C17E5E4E2C8E4E5F11F1C18D169134E571F1B6C47A831E2140A` |
+| Corrected F1821 Receipt | `models/pandey_kumar_mode1/265_f1821_genuine_minmax/PK_F1821_GENUINE_MINMAX_RECEIPT.json` | 9,490 bytes | `038245B8C33F66B7B995A4646D6C7254D76BAE86934DC91D3389D1C218646D83` |
+| Corrected F1821 Report | `docs/validation/F1821_GENUINE_MINMAX_EXECUTION_REPORT.md` | 16,967 bytes | `817F0D7685EC54EE057F53A862B1789B6CA75445F2043FDAF23298A609AA2C1F` |
 | Corrected F1820 Report | `docs/validation/F1820_MINIMUM_MAXIMUM_SIZING_EVALUATION_REPORT.md` | 14,838 bytes | `1A30A82EECAFED41FCB4226DE5473C26FB86DC1EF7BACDC6F424E65CE3C6FF56` |
 | Standalone Unit Tests | `tests/unit/test_f1822_control_verification.py` | 7,888 bytes | `1012708D51C3B088D04025287D0694E3307EE6875271BC95A3731292A8DE9FCB` |
 
