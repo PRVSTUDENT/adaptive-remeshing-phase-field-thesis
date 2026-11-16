@@ -1,0 +1,131 @@
+{
+  "cases": {
+    "2": {
+      "envelope": {
+        "elements": 2906,
+        "frame_description": "Multi-State Maximum Error Envelope (States 1-4)",
+        "path": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case2/PK_HOLE_MULTISTATE_RECOVERY.odb",
+        "sha256": "87e100cb40bd35b8844e29d4a5961bb7a3ec527ae0b2a5e1d807174903654ead"
+      },
+      "max_absolute_max_error_residual": 0.0,
+      "max_absolute_mean_stress_residual": 6.103515625e-05,
+      "proxy_fraction_above_1_01": 0.3812801101169993,
+      "proxy_ratio_envelope_over_max_state_ratio_quantiles": {
+        "0": 0.003789655779400325,
+        "100": 3.265621801949173,
+        "25": 0.6145949386061434,
+        "50": 0.8680063663637257,
+        "75": 1.3252042956275254,
+        "95": 2.7103307578073474
+      },
+      "proxy_valid_elements": 2906,
+      "state_stress_field_ranges": [
+        {
+          "maximum": 3327.339599609375,
+          "minimum": 0.5418500900268555,
+          "path": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case2/PK_C2_STATE1_PREANALYSIS.odb"
+        },
+        {
+          "maximum": 2791.814453125,
+          "minimum": 0.1353897899389267,
+          "path": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case2/PK_C2_STATE2_HOLE_ARREST.odb"
+        },
+        {
+          "maximum": 2369.699951171875,
+          "minimum": 0.09585653245449066,
+          "path": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case2/PK_C2_STATE3_DISTAL_NUCLEATION.odb"
+        },
+        {
+          "maximum": 2869.609130859375,
+          "minimum": 0.05906366929411888,
+          "path": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case2/PK_C2_STATE4_OUTER_PROPAGATION.odb"
+        }
+      ],
+      "states": [
+        {
+          "elements": 2906,
+          "frame_description": "Increment      1: Step Time =    1.000",
+          "path": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case2/PK_C2_STATE1_PREANALYSIS.odb",
+          "sha256": "27991628ce22ac8a56ba9ebee5de4f0e3e65fcf5b8540fbd065ed65040f7df7f"
+        },
+        {
+          "elements": 2906,
+          "frame_description": "Increment      1: Step Time =    1.000",
+          "path": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case2/PK_C2_STATE2_HOLE_ARREST.odb",
+          "sha256": "bd2cdc3292d37613f866eb3f28c2489e2966788afa17a1edcbb8c92fd79e5076"
+        },
+        {
+          "elements": 2906,
+          "frame_description": "Increment      1: Step Time =    1.000",
+          "path": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case2/PK_C2_STATE3_DISTAL_NUCLEATION.odb",
+          "sha256": "f09fb46c2f2ec23e734ad4841f02349788466e04e728c66f976ddfd32115fb73"
+        },
+        {
+          "elements": 2906,
+          "frame_description": "Increment      1: Step Time =    1.000",
+          "path": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case2/PK_C2_STATE4_OUTER_PROPAGATION.odb",
+          "sha256": "5ccb9bf6a82f875c346f4b3d899e7c4d8a8a868580e5a48ea9f9e3e209f1a09f"
+        }
+      ]
+    },
+    "3": {
+      "envelope": {
+        "elements": 3923,
+        "frame_description": "Multi-State Maximum Error Envelope (States 1-3)",
+        "path": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case3/SEC43_MULTISTATE_RECOVERY.odb",
+        "sha256": "c67c0dee132b31b53fdf7c2df4c1d232ad92d42e9afb29f5cd8313c269cf9780"
+      },
+      "max_absolute_max_error_residual": 0.0,
+      "max_absolute_mean_stress_residual": 1.4901161193847656e-08,
+      "proxy_fraction_above_1_01": 0.46316594443028297,
+      "proxy_ratio_envelope_over_max_state_ratio_quantiles": {
+        "0": 0.0003253806459608833,
+        "100": 2.9867918595116563,
+        "25": 0.7018668224206499,
+        "50": 0.9815824928085061,
+        "75": 1.1686979040011458,
+        "95": 1.8228212070494205
+      },
+      "proxy_valid_elements": 3923,
+      "state_stress_field_ranges": [
+        {
+          "maximum": 0.4687512516975403,
+          "minimum": 5.4742806241847575e-05,
+          "path": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case3/SEC43_C3_STATE1_INITIATION.odb"
+        },
+        {
+          "maximum": 0.4967082142829895,
+          "minimum": 7.880501470935997e-06,
+          "path": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case3/SEC43_C3_STATE2_HOLE_ARREST.odb"
+        },
+        {
+          "maximum": 0.4984356760978699,
+          "minimum": 1.047745899995789e-05,
+          "path": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case3/SEC43_C3_STATE3_PROPAGATION.odb"
+        }
+      ],
+      "states": [
+        {
+          "elements": 3923,
+          "frame_description": "Increment      1: Step Time =    1.000",
+          "path": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case3/SEC43_C3_STATE1_INITIATION.odb",
+          "sha256": "7c4952743a94d2a34b4567bae8770108010b14c32b785b2efed2172df3bbfa7f"
+        },
+        {
+          "elements": 3923,
+          "frame_description": "Increment      1: Step Time =    1.000",
+          "path": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case3/SEC43_C3_STATE2_HOLE_ARREST.odb",
+          "sha256": "59818cd110c9ddc84c7883821d2e182fa63ab7cf027cfa90d19c50a950cd0d7d"
+        },
+        {
+          "elements": 3923,
+          "frame_description": "Increment      1: Step Time =    1.000",
+          "path": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case3/SEC43_C3_STATE3_PROPAGATION.odb",
+          "sha256": "0e093a259a95afb1ba7cfd44f2c339660a89daabe8c89c8632b5c6d78fde6bc7"
+        }
+      ]
+    }
+  },
+  "scope": "Read-only existing Cases 2/3 recovery donors; no solver or remeshing",
+  "warning": "E/A is a diagnostic proxy, not the Abaqus sizing formula or a candidate indicator."
+}
