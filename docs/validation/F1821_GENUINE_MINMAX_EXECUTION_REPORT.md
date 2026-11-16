@@ -184,7 +184,7 @@ execfile('D:/Master thesis/Adaptive remeshing/scripts/remeshing/run_f1821_genuin
 | Master Execution Script | `scripts/remeshing/run_f1821_genuine_minmax_master.py` | 7,387 bytes | `B71BD276CA9F854A53DC62AA7F6BC31FFC2B0E07A71464896F936492FC4A1D4D` |
 | Single Case Script | `scripts/remeshing/run_f1821_genuine_minmax_single.py` | 15,493 bytes | `5C4D3FBFC2CFF3CEAB0E628313B0EC52D4FF12697235F3F52C3CDF16AF83F868` |
 | Plotting Script | `scripts/remeshing/plot_f1821_figures.py` | 9,404 bytes | `1307F05176800B2AEB43323D7ED2EF1498297B39357EC45A6C71637C19190AE4` |
-| Corrected F1820 Report | `docs/validation/F1820_MINIMUM_MAXIMUM_SIZING_EVALUATION_REPORT.md` | 10,757 bytes | `784B4BE41DA9F08D0B3D6B58F5466A9ED6DBA0F5F2B56535246D2E0B5514EBD4` |
+| Corrected F1820 Report | `docs/validation/F1820_MINIMUM_MAXIMUM_SIZING_EVALUATION_REPORT.md` | 14,838 bytes | `1A30A82EECAFED41FCB4226DE5473C26FB86DC1EF7BACDC6F424E65CE3C6FF56` |
 
 ---
 

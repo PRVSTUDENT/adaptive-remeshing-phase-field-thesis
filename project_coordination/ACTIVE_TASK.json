@@ -1,6 +1,6 @@
 {
-  "task_id": "F1821-GENUINE-MINIMUM-MAXIMUM-EXECUTION-AND-F1820-CORRECTION",
-  "title": "Task F1821: Genuine MINIMUM_MAXIMUM Sizing Execution and F1820 Evidentiary Correction",
+  "task_id": "F1822-MINIMUM-MAXIMUM-CONTROL-VERIFICATION",
+  "title": "Task F1822: MINIMUM_MAXIMUM Control Verification and F1821 Record Correction",
   "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
@@ -8,23 +8,23 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1821_GENUINE_MINMAX_EXECUTION_REPORT.md",
-  "review_directive": "Task F1821: (1) Correct F1820 report to disclose mesh body SHA matching with F1816 Step 1 and withdraw F1820 evaluation claims in favor of F1821 fresh execution, and correct script checksums in artifact table. (2) Genuinely execute MINIMUM_MAXIMUM sizing across Cases 1, 2, 3, 5 using the enhanced framework (0578156E...) in new directory models/pandey_kumar_mode1/265_f1821_genuine_minmax/. (3) Commit authentic .rpy execution journals for all 4 cases into 265_f1821_genuine_minmax/. (4) Preserve framework enhancement build_rule_kwargs (0578156E...). 0 new PBS jobs (cumulative 35 preserved), bitwise frozen UEL CE8D5EDC..., MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1822_MINMAX_CONTROL_VERIFICATION_REPORT.md",
+  "review_directive": "Task F1822: MINIMUM_MAXIMUM Control Verification and F1821 Record Correction. (1) Commit the UNIFORM_ERROR 3.0% control mesh for Case 1 (62,611 elements, body SHA D36603D89FF9D953395A176D8C327F097FE69E92469FA73F6CC3193426B6E768) with its .rpy journal, exact config file, donor ODB SHA, and framework SHA under models/pandey_kumar_mode1/266_f1822_uniform_error_control/. State explicitly the full parameter set so the control can be independently reproduced. (2) Correct the F1821 report artifact table entry for the corrected F1820 report to actual committed values (14,838 bytes / SHA-256 1A30A82EECAFED41FCB4226DE5473C26FB86DC1EF7BACDC6F424E65CE3C6FF56). (3) Add correlation_id (HND-F1821-GENUINE-MINMAX-EXECUTION-001) to PK_F1821_GENUINE_MINMAX_RECEIPT.json. (4) Preserve framework enhancement (build_rule_kwargs, SHA 0578156E...) and committed .rpy journals. 0 new PBS jobs (cumulative 35 preserved), bitwise frozen UEL CE8D5EDC..., MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1820-MINIMUM-MAXIMUM-SIZING-FRAMEWORK-ENHANCEMENT-AND-EVALUATION",
-    "checkpoint_artifact": "docs/validation/F1820_MINIMUM_MAXIMUM_SIZING_EVALUATION_REPORT.md",
+    "task_id": "F1821-GENUINE-MINIMUM-MAXIMUM-EXECUTION-AND-F1820-CORRECTION",
+    "checkpoint_artifact": "docs/validation/F1821_GENUINE_MINMAX_EXECUTION_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
     "review_verdict": "REJECT",
-    "correlation_id": "HND-F1820-MINMAX-SIZING-001"
+    "correlation_id": "HND-F1821-GENUINE-MINMAX-EXECUTION-001"
   },
-  "re_review_correlation_id": "HND-F1821-GENUINE-MINMAX-EXECUTION-001",
+  "re_review_correlation_id": "HND-F1822-MINMAX-CONTROL-VERIFICATION-001",
   "scientific_operation": "shared_framework_improvement",
-  "scientific_operation_id": "f1821_genuine_minmax_001",
+  "scientific_operation_id": "f1822_minmax_control_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "0578156E5551173307892B8881E4BA772F099187BCF332672F39AC825023E80D",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1821 completed: genuine MINIMUM_MAXIMUM sizing executed across Cases 1, 2, 3, 5 in models/pandey_kumar_mode1/265_f1821_genuine_minmax/ with committed .rpy execution journals. F1820 report evidentiary corrections and claim withdrawal completed. MINIMUM_MAXIMUM sizing definitively REJECTED; F1812 baselines (160,144 elements) confirmed as Pareto optimum. 7/7 unit tests PASS, 10/10 F1820 tests PASS. Zero new PBS jobs (cumulative 35 preserved), bitwise frozen production UEL. Ready for independent review."
+  "notes": "Task F1822 active: committing Case 1 UNIFORM_ERROR 3.0% control mesh (62,611 elements, body SHA D36603D8...) with .rpy journal and complete reproduction package in models/pandey_kumar_mode1/266_f1822_uniform_error_control/, correcting F1821 artifact table and receipt, zero new PBS submissions, bitwise frozen production UEL."
 }

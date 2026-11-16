@@ -1,22 +1,20 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1821-genuine-minmax-20261116",
-  "task_id": "F1821-GENUINE-MINIMUM-MAXIMUM-EXECUTION-AND-F1820-CORRECTION",
-  "started_at": "2026-11-16T15:40:00+01:00",
-  "completed_at": "2026-11-16T16:00:00+01:00",
-  "starting_commit": "b052ce59b68c17df02f778a2068878d9c68616b8",
+  "session_id": "gemini-antigravity-f1822-minmax-control-20261116",
+  "task_id": "F1822-MINIMUM-MAXIMUM-CONTROL-VERIFICATION",
+  "started_at": "2026-11-16T16:05:00+01:00",
+  "completed_at": "2026-11-16T16:20:00+01:00",
+  "starting_commit": "310ef12d9a5e21ae60fa2a5ceafabc1be6c50e5d",
   "allowed_write_scope": [
-    "docs/validation/F1820_MINIMUM_MAXIMUM_SIZING_EVALUATION_REPORT.md",
+    "models/pandey_kumar_mode1/266_f1822_uniform_error_control/*",
+    "models/pandey_kumar_mode1/265_f1821_genuine_minmax/PK_F1821_GENUINE_MINMAX_RECEIPT.json",
     "docs/validation/F1821_GENUINE_MINMAX_EXECUTION_REPORT.md",
-    "models/pandey_kumar_mode1/265_f1821_genuine_minmax/*",
-    "scripts/remeshing/run_f1821_*",
-    "scripts/remeshing/plot_f1821_*",
-    "results/figures/fig_f1821_*",
-    "tests/unit/test_f1821_*",
-    "tests/unit/test_f1820_minmax_sizing_framework.py",
+    "docs/validation/F1822_MINMAX_CONTROL_VERIFICATION_REPORT.md",
+    "scripts/remeshing/run_f1822_*",
+    "tests/unit/test_f1822_*",
     "project_coordination/*",
     ".agents/scripts/*"
   ],
-  "notes": "Task F1821: Genuine MINIMUM_MAXIMUM Sizing Execution and F1820 Evidentiary Correction completed. 0 new PBS jobs, bitwise frozen production UEL, master goal OPEN."
+  "notes": "Task F1822: MINIMUM_MAXIMUM Control Verification and F1821 Record Correction under supervisory directive HND-F1821-GENUINE-MINMAX-EXECUTION-001 [REJECT]. Preserves framework enhancement 0578156E..., bitwise frozen UEL CE8D5EDC..., zero new PBS jobs, master goal OPEN."
 }

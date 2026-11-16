@@ -1,0 +1,30 @@
+{
+  "case_id": "case_1",
+  "name": "Case 1: Mode-I Edge-Cracked Plate (UNIFORM_ERROR 3.0% Control)",
+  "sizing_method": "UNIFORM_ERROR",
+  "error_target_pct": 3.0,
+  "physical_mesh_path": "models/pandey_kumar_mode1/266_f1822_uniform_error_control/PK_F1822_CASE1_UE3_CONTROL_PHYS.inp",
+  "physical_mesh_sha256": "75AAFBB06B3AA304E744D227B3353115DBD94E51A01981A137636ED3FD5FEBA6",
+  "physical_mesh_body_sha256": "D36603D89FF9D953395A176D8C327F097FE69E92469FA73F6CC3193426B6E768",
+  "physical_mesh_size_bytes": 4480026,
+  "total_elements": 62611,
+  "quad_elements": 60966,
+  "tri_elements": 1645,
+  "quad_fraction_pct": 97.37266614492661,
+  "total_nodes": 62146,
+  "nominal_field_dofs": 186438,
+  "min_det_j": 1.202696568680978e-07,
+  "max_aspect_ratio": 2.708652760563957,
+  "min_corner_angle_deg": 29.999455144197842,
+  "max_corner_angle_deg": 137.24375529059583,
+  "coarsening_ratio": 1.8462289767581217,
+  "scientific_gate_name": "SCIENTIFIC_GATE_FULL_LIGAMENT",
+  "scientific_gate_value": 100.0,
+  "scientific_gate_status": "PASS",
+  "width_metrics": {
+    "fine_elements_count": 49067,
+    "fine_elements_pct_of_total": 78.3680183993228,
+    "within_3l0_count": 6891,
+    "pct_within_3l0": 14.044062200664397
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "receipt_version": "1.0",
+  "task_id": "F1822-MINIMUM-MAXIMUM-CONTROL-VERIFICATION",
+  "correlation_id": "HND-F1822-MINMAX-CONTROL-VERIFICATION-001",
+  "timestamp_iso": "2026-11-16T15:08:54Z",
+  "control_experiment": {
+    "case_id": "case_1",
+    "benchmark_name": "Case 1: Mode-I Edge-Cracked Plate",
+    "sizing_method": "UNIFORM_ERROR",
+    "error_target_pct": 3.0,
+    "min_element_size_mm": 0.001,
+    "max_element_size_mm": 0.02,
+    "refinement_factor": 10,
+    "coarsening_factor": "DEFAULT_LIMIT",
+    "donor_odb_path": "models/pandey_kumar_mode1/261_f1812_crack_path_refinement/case1/PK_CASE1_MULTISTATE_RECOVERY.odb",
+    "donor_odb_sha256": "0A25CDFE64344BE9DF7C651802F46EBF3D6F85C445689BBD28DBA64157758117",
+    "config_path": "configs/remeshing/f1822_case1_uniform_error_3pct.json",
+    "config_sha256": "09AAC074DE9E62075E0AF891DD9A20E7F91199946F53D926D0053D95E4C04D77",
+    "framework_sha256": "0578156E5551173307892B8881E4BA772F099187BCF332672F39AC825023E80D"
+  },
+  "results": {
+    "case_id": "case_1",
+    "name": "Case 1: Mode-I Edge-Cracked Plate (UNIFORM_ERROR 3.0% Control)",
+    "sizing_method": "UNIFORM_ERROR",
+    "error_target_pct": 3.0,
+    "physical_mesh_path": "models/pandey_kumar_mode1/266_f1822_uniform_error_control/PK_F1822_CASE1_UE3_CONTROL_PHYS.inp",
+    "physical_mesh_sha256": "75AAFBB06B3AA304E744D227B3353115DBD94E51A01981A137636ED3FD5FEBA6",
+    "physical_mesh_body_sha256": "D36603D89FF9D953395A176D8C327F097FE69E92469FA73F6CC3193426B6E768",
+    "physical_mesh_size_bytes": 4480026,
+    "total_elements": 62611,
+    "quad_elements": 60966,
+    "tri_elements": 1645,
+    "quad_fraction_pct": 97.37266614492661,
+    "total_nodes": 62146,
+    "nominal_field_dofs": 186438,
+    "min_det_j": 1.202696568680978e-07,
+    "max_aspect_ratio": 2.708652760563957,
+    "min_corner_angle_deg": 29.999455144197842,
+    "max_corner_angle_deg": 137.24375529059583,
+    "coarsening_ratio": 1.8462289767581217,
+    "scientific_gate_name": "SCIENTIFIC_GATE_FULL_LIGAMENT",
+    "scientific_gate_value": 100.0,
+    "scientific_gate_status": "PASS",
+    "width_metrics": {
+      "fine_elements_count": 49067,
+      "fine_elements_pct_of_total": 78.3680183993228,
+      "within_3l0_count": 6891,
+      "pct_within_3l0": 14.044062200664397
+    },
+    "execution_time_seconds": 41.04954266548157
+  },
+  "journal": {
+    "journal_path": "models/pandey_kumar_mode1/266_f1822_uniform_error_control/case_1_ue3_control_abaqus.rpy",
+    "journal_size_bytes": 2432,
+    "journal_sha256": "64EBC6C1B386873A5A8E092BFB04AD293BADCE0D912517E5575D6050350181FB"
+  },
+  "comparison_against_minmax": {
+    "uniform_error_3pct": {
+      "total_elements": 62611,
+      "body_sha256": "D36603D89FF9D953395A176D8C327F097FE69E92469FA73F6CC3193426B6E768"
+    },
+    "minimum_maximum_bias7": {
+      "total_elements": 63210,
+      "body_sha256": "B15F948C820F7A773D61D62651638800ED525ABC3E538412A383E8E36AD6DB9E"
+    },
+    "shas_match": false,
+    "element_delta": 599
+  }
+}
