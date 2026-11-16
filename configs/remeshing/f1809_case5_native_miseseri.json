@@ -1,0 +1,122 @@
+{
+  "case_id": "case_5",
+  "benchmark_name": "Pandey & Kumar (2025) Section 4.6 Square Plate with Seven Holes (Task F1809 Multi-State Sequential Regression Anchor)",
+  "geometry_type": "SEVEN_HOLE_PLATE",
+  "geometry": {
+    "plate_width": 1.0,
+    "plate_height": 1.0,
+    "notch_length": null,
+    "has_hole": true,
+    "voids": [
+      {
+        "name": "hole_1",
+        "type": "circle",
+        "x": 0.15,
+        "y": 0.40,
+        "r": 0.10
+      },
+      {
+        "name": "hole_2",
+        "type": "circle",
+        "x": 0.50,
+        "y": 0.55,
+        "r": 0.10
+      },
+      {
+        "name": "hole_3",
+        "type": "circle",
+        "x": 0.85,
+        "y": 0.50,
+        "r": 0.10
+      },
+      {
+        "name": "hole_4",
+        "type": "circle",
+        "x": 0.30,
+        "y": 0.60,
+        "r": 0.05
+      },
+      {
+        "name": "hole_5",
+        "type": "circle",
+        "x": 0.70,
+        "y": 0.60,
+        "r": 0.05
+      },
+      {
+        "name": "hole_6",
+        "type": "circle",
+        "x": 0.40,
+        "y": 0.35,
+        "r": 0.05
+      },
+      {
+        "name": "hole_7",
+        "type": "circle",
+        "x": 0.65,
+        "y": 0.35,
+        "r": 0.05
+      }
+    ]
+  },
+  "material": {
+    "youngs_modulus_mpa": 210000.0,
+    "poisson_ratio": 0.3,
+    "length_scale_l0_mm": 0.008,
+    "gc_kn_per_mm": 0.0027,
+    "residual_stiffness_k": 1e-07,
+    "constitutive_law": "ISOTROPIC_ELASTIC_PHASE_FIELD"
+  },
+  "loading": {
+    "loading_type": "EDGE_PULL",
+    "bottom_u2": 0.0,
+    "pin_bottom_left_u1": 0.0,
+    "step1_precritical_u2": 0.005,
+    "step2_fracture_u2": 0.010,
+    "kinematics": "LINEAR"
+  },
+  "remeshing_rule": {
+    "error_target": 5.68,
+    "min_element_size_mm": 0.001,
+    "max_element_size_mm": 0.030,
+    "refinement_factor": 10,
+    "coarsening_factor": "NOT_ALLOWED",
+    "sizing_method": "UNIFORM_ERROR",
+    "variable": "MISESERI",
+    "step_name": "Step-2",
+    "output_frequency": "ALL_INCREMENTS"
+  },
+  "indicator_options": {
+    "indicator_type": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
+    "causal_mode": true,
+    "max_frame_index": 171,
+    "max_frame_time": 0.778866,
+    "donor_path": "models/pandey_kumar_mode1/218_f1726_seven_hole_study/PK_F1726_SEVEN_HOLE_COARSE.odb",
+    "donor_sha256": "CB673713FDE31593AE452A21BC05BFFC140BCCCE71F1D43D601EE17B43802B0E",
+    "donor_size_bytes": 194344892,
+    "donor_state": "Step-2 Frame 171 (t = 0.7789 s, uy = 0.006558 mm, F = 0.8064 kN) Terminal Pre-Breach State",
+    "provenance_description": "Native Abaqus recovered stress error MISESERI from authentic Step-2 ALL_INCREMENTS coarse pre-analysis PK_F1726_SEVEN_HOLE_COARSE.odb (authentic finite element stress recovery under multi-hole stress concentrations)",
+    "core_factor": null,
+    "process_factor": null,
+    "d_core": null,
+    "d_proc": null,
+    "d_noise": null,
+    "frame_stride": null,
+    "h_bg": null
+  },
+  "causal_mode": true,
+  "max_frame_index": 171,
+  "max_frame_time": 0.778866,
+  "published_benchmark": {
+    "paper": "Pandey & Kumar (2025)",
+    "section": "4.6",
+    "figures": ["Fig. 22(b)", "Fig. 25(b)", "Fig. 26(b)", "Fig. 27(b)"],
+    "target_elements": 15714,
+    "target_h_min_mm": 0.0015
+  },
+  "deck_options": {
+    "uel_subroutine": "models/pandey_kumar_mode1/f42_mixed_uel.for",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "output_directory": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case5"
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "case_id": "case_2",
+  "benchmark_name": "Pandey & Kumar (2025) Section 4.4 Plate with an Off-Axis Hole (Task F1809 Method A.2 Multi-State Sequential Recovery)",
+  "geometry_type": "OFF_AXIS_HOLE_PLATE",
+  "geometry": {
+    "plate_width": 1.0,
+    "plate_height": 1.0,
+    "notch_length": 0.5,
+    "notch_y": 0.5,
+    "notch_slit_opening": 0.001,
+    "has_hole": true,
+    "hole_center_x": 0.65,
+    "hole_center_y": 0.65,
+    "hole_radius": 0.10,
+    "voids": [
+      {
+        "name": "off_axis_hole",
+        "type": "circle",
+        "x": 0.65,
+        "y": 0.65,
+        "r": 0.10
+      }
+    ]
+  },
+  "material": {
+    "youngs_modulus_mpa": 210000.0,
+    "poisson_ratio": 0.3,
+    "length_scale_l0_mm": 0.0075,
+    "gc_kn_per_mm": 0.0027,
+    "residual_stiffness_k": 1e-07,
+    "constitutive_law": "ISOTROPIC_ELASTIC_PHASE_FIELD"
+  },
+  "loading": {
+    "loading_type": "EDGE_PULL",
+    "bottom_u2": 0.0,
+    "pin_bottom_left_u1": 0.0,
+    "step1_precritical_u2": 0.005,
+    "step2_fracture_u2": 0.012,
+    "kinematics": "LINEAR"
+  },
+  "remeshing_rule": {
+    "error_target": 1.8,
+    "min_element_size_mm": 0.0015,
+    "max_element_size_mm": 0.020,
+    "refinement_factor": 10,
+    "coarsening_factor": "DEFAULT_LIMIT",
+    "sizing_method": "UNIFORM_ERROR",
+    "variable": "MISESERI",
+    "step_name": "RECOVERY_STEP",
+    "output_frequency": "LAST_INCREMENT"
+  },
+  "indicator_options": {
+    "indicator_type": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
+    "causal_mode": true,
+    "max_frame_index": 2,
+    "max_frame_time": 1.0,
+    "donor_path": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case2/PK_HOLE_MULTISTATE_RECOVERY.odb",
+    "donor_sha256": "87E100CB40BD35B8844E29D4A5961BB7A3EC527AE0B2A5E1D807174903654EAD",
+    "donor_size_bytes": 7499592,
+    "donor_state": "Multi-State Maximum Error Envelope across 4 authentic states (Frames 10, 190, 280, 337)",
+    "provenance_description": "Degraded-elastic recovery across 4 authentic states from PK_HOLE_COARSE_JOB1.odb with multi-state maximum MISESERI envelope",
+    "core_factor": null,
+    "process_factor": null,
+    "d_core": null,
+    "d_proc": null,
+    "d_noise": null,
+    "frame_stride": null,
+    "h_bg": null
+  },
+  "causal_mode": true,
+  "max_frame_index": 2,
+  "max_frame_time": 1.0,
+  "published_benchmark": {
+    "paper": "Pandey & Kumar (2025)",
+    "section": "4.4",
+    "figures": ["Fig. 18", "Fig. 19"],
+    "target_elements": 23618,
+    "target_h_min_mm": 0.0015
+  },
+  "deck_options": {
+    "uel_subroutine": "models/pandey_kumar_mode1/f42_mixed_uel.for",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "output_directory": "models/pandey_kumar_mode1/259_f1809_multistate_recovery/case2"
+  }
+}

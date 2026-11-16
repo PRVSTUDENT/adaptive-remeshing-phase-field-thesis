@@ -14,7 +14,8 @@
     "causal_remeshing_test",
     "four_case_regression",
     "mesh_quality_diagnosis",
-    "source_evidence_reconciliation"
+    "source_evidence_reconciliation",
+    "multistate_sequential_recovery"
   ],
   "native_indicator": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
   "paused_task_pattern": "(?i)METHOD[-_ ]?C|STATE[-_ ]?TRANSFER|COUPLED[-_ ]?FRACTURE|THESIS|PRESENTATION",

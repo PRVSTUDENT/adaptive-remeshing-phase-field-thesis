@@ -110,7 +110,9 @@ function Read-BridgeValidatedReply {
     if ($Packet.protocol -ceq 'CHATGPT_SUPERVISOR_V1' -and $reply.action -cnotin @('DIAGNOSE','CONTINUE','WAIT','STOP')) { throw 'BRIDGE_RESPONSE_INVALID_ACTION' }
     if ($reply.master_goal_status -cnotin @('OPEN','COMPLETE')) { throw 'BRIDGE_RESPONSE_MASTER_STATUS_REQUIRED' }
     if ($reply.master_goal_status -ceq 'OPEN') {
-        Assert-BridgeResearchContract -Contract $reply.next_operation -Policy $Packet.context.policy -TaskIdentity "$($reply.next_operation.task_id) $($reply.next_operation.title)"
+        $nextContract = if ($reply.next_operation) { $reply.next_operation } elseif ($reply.next_instruction_to_antigravity -and $reply.next_instruction_to_antigravity.research_contract) { $reply.next_instruction_to_antigravity.research_contract } else { $null }
+        $contractIdentity = if ($nextContract) { "$($nextContract.task_id) $($nextContract.title)" } else { "" }
+        Assert-BridgeResearchContract -Contract $nextContract -Policy $Packet.context.policy -TaskIdentity $contractIdentity
         if ([string]::IsNullOrWhiteSpace([string]$reply.next_instruction_to_antigravity)) { throw 'BRIDGE_RESPONSE_NEXT_INSTRUCTION_REQUIRED' }
     } elseif (-not $reply.master_goal_acceptance_evidence -or @($reply.master_goal_acceptance_evidence).Count -lt 4) {
         throw 'BRIDGE_MASTER_COMPLETION_EVIDENCE_REQUIRED: independent four-case acceptance is mandatory.'

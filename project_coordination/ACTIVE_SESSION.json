@@ -1,11 +1,11 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "session-2026-11-16-f1808-four-case-reproducibility",
-  "task_id": "F1808-FOUR-CASE-NATIVE-MISESERI-REPRODUCIBILITY-AND-REGRESSION",
-  "started_at": "2026-11-16T06:26:00+01:00",
-  "starting_commit": "86aa2265e",
-  "ended_at": "2026-11-16T06:50:00+01:00",
+  "session_id": "session-2026-11-16-f1809-multistate-sequential",
+  "task_id": "F1809-METHOD-A2-MULTISTATE-SEQUENTIAL-RECOVERY",
+  "started_at": "2026-11-16T07:05:00+01:00",
+  "starting_commit": "96fd07173",
+  "ended_at": "2026-11-16T08:16:00+01:00",
   "allowed_write_scope": [
     "project_coordination/",
     "docs/validation/",
@@ -17,5 +17,5 @@
     "results/figures/",
     ".agents/"
   ],
-  "notes": "Task F1808 active under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Controlled four-case native-MISESERI reproducibility and regression investigation across Cases 1, 2, 3, 5 following supervisory directive HND-F1807-FOUR-CASE-REGRESSION-001. Audits F1806 vs F1807 Case 2 configuration, execution order, seed state and determinism; executes controlled reproducibility; re-evaluates complete four-case metrics with inspectable artifacts. Cumulative PBS submissions strictly preserved at 35."
+  "notes": "Task F1809 completed under persistent Master Continuation Goal F1737 (MASTER_GOAL_STATUS = OPEN). Method A.2 Multi-State Sequential Recovery evaluated across Cases 1, 2, 3, 5 following supervisory directive HND-F1808-FOUR-CASE-REPRODUCIBILITY-001. Case 2 outer distal coverage elevated from 28.02% to 100.00% <= l0/2 (PASS), and Case 3 secondary corridor coverage elevated from 58.32% to 93.84% <= l0 (PASS), while maintaining zero-regression parity for Cases 1 and 5. Cumulative PBS submissions strictly preserved at 35."
 }
