@@ -1,6 +1,6 @@
 {
-  "task_id": "F1806-CASE2-OUTERMOST-DISTAL-NATIVE-MISESERI-TARGET-1P8PCT",
-  "title": "Task F1806: Case 2 Outermost Distal Native-MISESERI Target Sensitivity at 1.8%",
+  "task_id": "F1807-FOUR-CASE-NATIVE-MISESERI-REGRESSION-AND-QUALITY-EVALUATION",
+  "title": "Task F1807: Four-Case Native-MISESERI Regression and Quality Evaluation (Cases 1, 2, 3, 5)",
   "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
@@ -8,23 +8,23 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1806_CASE2_OUTERMOST_DISTAL_SENSITIVITY_REPORT.md",
-  "review_directive": "Following supervisory review directive HND-F1805-CASE2-DISTAL-SENSITIVITY-001 [REJECT / CONTINUE]: Perform one fresh F1806 Case 2 Method A.1 native Abaqus remeshing experiment using the identical verified F1804/F1805 recovery donor (PK_HOLE_STATE_POSTBREACH_RECOVERY.odb, SHA-256: 35E9DC19B1E0A4F5EE5FB3547C9C71004D8882DC50F729C8A8F4CA8A4D50A959) and shared framework reusable_2d_adaptive_framework.py. Change only error_target from 1.9% to 1.8%. Preserve geometry, physical parameters, sizing-rule settings, UEL and causal cutoff. Independently audit the new physical mesh and compare all five fixed distal bins against F1804 and F1805. Quantify count-based and area-weighted h <= l0/2 coverage, particularly x=0.90-0.95 and x=0.95-1.00 mm; verify primary-corridor coverage, Jacobians, aspect ratios, quadrilateral fraction, total element count and far-field coarsening. Explicitly investigate the h_min sizing-bound discrepancy and record the donor's physical versus recovery-step time mapping. Do not claim outer-distal completion unless the registered scientific criterion is satisfied. If the controlled experiment remains inadequate, retain the negative result and assess the evidence required for a subsequent strictly causal Method A.2 multi-cycle experiment. Zero PBS submissions, cumulative 35, frozen UEL and framework, leave MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1807_FOUR_CASE_NATIVE_MISESERI_REGRESSION_REPORT.md",
+  "review_directive": "Following supervisory review directive HND-F1806-CASE2-DISTAL-SENSITIVITY-001 [REJECT / CONTINUE]: Execute one coordinated fresh same-revision adaptive-remeshing comparison for Cases 1, 2, 3 and 5, using the authentic native Abaqus MISESERI indicator and registered case-specific parameters. Use the current F1806 Case 2 configuration at 1.8% as the Case 2 baseline and retain its failed outer-distal scientific gate unless a genuinely new result satisfies it. Ensure each remeshing decision uses only fields available at its causal cutoff. Do not use synthetic indicators, hardcoded future crack corridors or separate per-case algorithms. For every case, archive the actual adapted INP, donor provenance, replay journal, mesh-quality receipt, full-specimen mesh screenshot, local refinement screenshot, native MISESERI contour and h/l0 visualization. Compare with its predecessor and report any deterioration. Generate a consolidated four-case numerical comparison, including element counts, quadrilateral fractions, signed Jacobians, maximum aspect ratios, critical-region h/l0 coverage, coarsening and cost. Respect the registered HPC budget (0 new PBS submissions, cumulative 35 preserved). Keep MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1805-CASE2-OUTERMOST-DISTAL-NATIVE-MISESERI-TARGET-SENSITIVITY",
-    "checkpoint_artifact": "docs/validation/F1805_CASE2_OUTERMOST_DISTAL_SENSITIVITY_REPORT.md",
+    "task_id": "F1806-CASE2-OUTERMOST-DISTAL-NATIVE-MISESERI-TARGET-1P8PCT",
+    "checkpoint_artifact": "docs/validation/F1806_CASE2_OUTERMOST_DISTAL_SENSITIVITY_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
     "review_verdict": "REJECT",
-    "correlation_id": "HND-F1805-CASE2-DISTAL-SENSITIVITY-001"
+    "correlation_id": "HND-F1806-CASE2-DISTAL-SENSITIVITY-001"
   },
-  "re_review_correlation_id": "HND-F1806-CASE2-DISTAL-SENSITIVITY-001",
-  "scientific_operation": "case2_outermost_distal_1p8pct_sensitivity_test",
-  "scientific_operation_id": "f1806_case2_distal_sensitivity_001",
+  "re_review_correlation_id": "HND-F1807-FOUR-CASE-REGRESSION-001",
+  "scientific_operation": "four_case_native_miseseri_regression",
+  "scientific_operation_id": "f1807_four_case_regression_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "99EC77D2433EB5048DC9B4D70E5EA3B8468073C3BCEA342B7BFE139234700E6D",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1806 active. Testing controlled error_target reduction from 1.9% to 1.8%."
+  "notes": "Task F1807 active. Executing fresh four-case native-MISESERI regression across canonical benchmarks: Case 1, Case 2 (F1806 baseline), Case 3, and Case 5 (Case 5 is the fourth benchmark, not Case 4)."
 }

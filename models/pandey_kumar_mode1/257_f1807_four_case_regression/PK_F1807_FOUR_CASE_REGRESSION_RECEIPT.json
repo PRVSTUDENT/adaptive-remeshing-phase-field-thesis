@@ -1,0 +1,277 @@
+{
+  "task_id": "F1807-FOUR-CASE-NATIVE-MISESERI-REGRESSION-AND-QUALITY-EVALUATION",
+  "correlation_id": "HND-F1807-FOUR-CASE-REGRESSION-001",
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "goal_id": "PANDEY_KUMAR_NATIVE_MISESERI_CAUSAL_ADAPTIVITY_V1",
+  "master_goal_status": "OPEN",
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "framework_sha256": "99EC77D2433EB5048DC9B4D70E5EA3B8468073C3BCEA342B7BFE139234700E6D",
+  "cumulative_pbs_submissions": 35,
+  "new_pbs_submissions_consumed": 0,
+  "regression_results": {
+    "case_1": {
+      "case_id": "case_1",
+      "benchmark_name": "Case 1: Mode-I Edge-Cracked Plate",
+      "physical_mesh_path": "models/pandey_kumar_mode1/257_f1807_four_case_regression\\case1\\PK_F1807_CASE_1_ADAPT_PHYS.inp",
+      "physical_mesh_sha256": "B1D880F156D329CCC142CD9901C9C422CA253DC0CBE9DF113220C0F153450BBC",
+      "physical_mesh_body_sha256": "EAA671FBECC8E1AE759BF3EE5A54AC8BE90F354B087483CD8B513A85DF85F277",
+      "physical_mesh_size_bytes": 1011306,
+      "donor_odb_path": "models/pandey_kumar_mode1/257_f1807_four_case_regression/case1/PK_F1807_CASE1_COARSE_DONOR.odb",
+      "donor_odb_sha256": "DF246BEA9AD9AD5DD650073156322C6C2213B1B3A26C2C66ECE11D1691E9DCF0",
+      "donor_odb_size_bytes": 4172008,
+      "target_elements": 13941,
+      "predecessor": "F1780 (16,597 el) / Literature (13,941 el)",
+      "element_counts": {
+        "total_elements": 14087,
+        "quad_elements": 13667,
+        "tri_elements": 420,
+        "quad_fraction_pct": 97.01852772059345,
+        "total_nodes": 14058
+      },
+      "jacobian": {
+        "min_det_j": 2.478867039473338e-07,
+        "nonpositive_count": 0,
+        "status": "PASS"
+      },
+      "aspect_ratio": {
+        "max": 2.64004104672243,
+        "median": 1.2208598358540126,
+        "mean": 1.2630266626916347,
+        "violations_gt_4": 0,
+        "status": "PASS"
+      },
+      "corner_angles": {
+        "min_deg": 31.19036566035958,
+        "max_deg": 137.8246767771069
+      },
+      "sizing_metrics": {
+        "min_h_mm": 0.000706237562736828,
+        "min_h_um": 0.706237562736828,
+        "mean_h_mm": 0.0070162915381448395,
+        "max_h_mm": 0.02224928594361523,
+        "coarsening_ratio_far_to_core": 2.5423908655360496
+      },
+      "critical_region_metrics": {
+        "ligament_elements": 918,
+        "ligament_pct_le_l0": 89.32461873638344,
+        "ligament_pct_le_l0_half": 79.8474945533769,
+        "tip_elements": 628,
+        "tip_pct_le_l0_half": 100.0
+      },
+      "gate_verdicts": {
+        "GATE_01_EXIT_0": "PASS",
+        "GATE_02_QUAD_FRACTION_GE_90_PCT": "PASS",
+        "GATE_03_ZERO_NEGATIVE_JACOBIANS": "PASS",
+        "GATE_04_ASPECT_RATIO_LE_4": "PASS",
+        "GATE_05_CRITICAL_RESOLUTION": "PASS",
+        "GATE_06_FAR_FIELD_COARSENING": "PASS",
+        "GATE_07_COMPUTATIONAL_EFFICIENCY": "PASS"
+      }
+    },
+    "case_2": {
+      "case_id": "case_2",
+      "benchmark_name": "Case 2: Plate with an Off-Axis Hole (F1806 Baseline)",
+      "physical_mesh_path": "models/pandey_kumar_mode1/257_f1807_four_case_regression\\case2\\PK_F1807_CASE_2_ADAPT_PHYS.inp",
+      "physical_mesh_sha256": "A5CBAEB6BF0E884058A02A1802BCF09792A7E347BFDCE488EF42A1D70A17B39A",
+      "physical_mesh_body_sha256": "0BD15C96D298964AEC5A518971EEE3E3388C133A09A97E59EB2A84CE15358600",
+      "physical_mesh_size_bytes": 1629363,
+      "donor_odb_path": "models/pandey_kumar_mode1/254_f1804_case2_distal_recovery/PK_HOLE_STATE_POSTBREACH_RECOVERY.odb",
+      "donor_odb_sha256": "35E9DC19B1E0A4F5EE5FB3547C9C71004D8882DC50F729C8A8F4CA8A4D50A959",
+      "donor_odb_size_bytes": 7417896,
+      "target_elements": 23618,
+      "predecessor": "F1806 Baseline (22,924 el at error_target = 1.8%)",
+      "element_counts": {
+        "total_elements": 22656,
+        "quad_elements": 22072,
+        "tri_elements": 584,
+        "quad_fraction_pct": 97.42231638418079,
+        "total_nodes": 22682
+      },
+      "jacobian": {
+        "min_det_j": 2.770481365883148e-07,
+        "nonpositive_count": 0,
+        "status": "PASS"
+      },
+      "aspect_ratio": {
+        "max": 2.3890588290082553,
+        "median": 1.2076616894090297,
+        "mean": 1.2492408915442073,
+        "violations_gt_4": 0,
+        "status": "PASS"
+      },
+      "corner_angles": {
+        "min_deg": 31.9529527516443,
+        "max_deg": 137.8530009456184
+      },
+      "sizing_metrics": {
+        "min_h_mm": 0.0006565862292524875,
+        "min_h_um": 0.6565862292524874,
+        "mean_h_mm": 0.005101560462423081,
+        "max_h_mm": 0.02529542299391396,
+        "coarsening_ratio_far_to_core": 2.120550498397828
+      },
+      "critical_region_metrics": {
+        "distal_elements": 6487,
+        "distal_pct_le_l0": 99.95375366116849,
+        "distal_pct_le_l0_half": 88.70047787883459,
+        "bins": {
+          "bin_1": {
+            "count": 2402,
+            "pct_le_l0_half": 100.0,
+            "min_h_um": 0.7526504081644144
+          },
+          "bin_2": {
+            "count": 1932,
+            "pct_le_l0_half": 99.27536231884058,
+            "min_h_um": 0.6565862292405533
+          },
+          "bin_3": {
+            "count": 1281,
+            "pct_le_l0_half": 94.45745511319282,
+            "min_h_um": 1.125147974397821
+          },
+          "bin_4": {
+            "count": 561,
+            "pct_le_l0_half": 38.68092691622103,
+            "min_h_um": 1.475136690267826
+          },
+          "bin_5": {
+            "count": 311,
+            "pct_le_l0_half": 2.2508038585209005,
+            "min_h_um": 3.1668287500250414
+          }
+        },
+        "combined_outer_ligament_count": 872,
+        "combined_outer_ligament_pct_le_l0_half": 25.688073394495415
+      },
+      "gate_verdicts": {
+        "GATE_01_EXIT_0": "PASS",
+        "GATE_02_QUAD_FRACTION_GE_90_PCT": "PASS",
+        "GATE_03_ZERO_NEGATIVE_JACOBIANS": "PASS",
+        "GATE_04_ASPECT_RATIO_LE_4": "PASS",
+        "GATE_05_CRITICAL_RESOLUTION": "PASS",
+        "GATE_06_FAR_FIELD_COARSENING": "PASS",
+        "GATE_07_COMPUTATIONAL_EFFICIENCY": "PASS",
+        "SCIENTIFIC_GATE_OUTER_DISTAL": "FAIL"
+      }
+    },
+    "case_3": {
+      "case_id": "case_3",
+      "benchmark_name": "Case 3: Notched Plate with Hole and Pins (State 2 Degraded Recovery)",
+      "physical_mesh_path": "models/pandey_kumar_mode1/257_f1807_four_case_regression\\case3\\PK_F1807_CASE_3_ADAPT_PHYS.inp",
+      "physical_mesh_sha256": "95B6A4543FBD092455533457BD2DB528FBB1EDC7ECF61BA815CC1002D06F967B",
+      "physical_mesh_body_sha256": "46024F3241F0C6C8B7BC1D051D52D1E00F53EFDABF3FFFB9160FD7E937912B9C",
+      "physical_mesh_size_bytes": 1925795,
+      "donor_odb_path": "models/pandey_kumar_mode1/253_f1803_case3_accurate_recovery/SEC43_STATE2_HIGH_FIDELITY_RECOVERY.odb",
+      "donor_odb_sha256": "965136FD7AE637EFF44DEEDF4D152817037CF3C05656D9D1B6006377038362BB",
+      "donor_odb_size_bytes": 9935692,
+      "target_elements": 12168,
+      "predecessor": "F1803 (26,746 el) / Literature (12,168 el)",
+      "element_counts": {
+        "total_elements": 26746,
+        "quad_elements": 26048,
+        "tri_elements": 698,
+        "quad_fraction_pct": 97.390263964705,
+        "total_nodes": 26856
+      },
+      "jacobian": {
+        "min_det_j": 0.0007650198281925534,
+        "nonpositive_count": 0,
+        "status": "PASS"
+      },
+      "aspect_ratio": {
+        "max": 3.862132362792168,
+        "median": 1.2459854390476723,
+        "mean": 1.2743569555786551,
+        "violations_gt_4": 0,
+        "status": "PASS"
+      },
+      "corner_angles": {
+        "min_deg": 25.395352902857674,
+        "max_deg": 146.81047515033111
+      },
+      "sizing_metrics": {
+        "min_h_mm": 0.04696099494048218,
+        "min_h_um": 46.96099494048218,
+        "mean_h_mm": 0.4040790514716835,
+        "max_h_mm": 1.7978290160789274,
+        "coarsening_ratio_far_to_core": 2.479086599940545
+      },
+      "critical_region_metrics": {
+        "primary_corridor_elements": 375,
+        "primary_corridor_pct_le_l0": 0.8,
+        "secondary_corridor_elements": 3977,
+        "secondary_corridor_pct_le_l0": 54.865476489816444,
+        "secondary_corridor_pct_le_l0_half": 2.4390243902439024,
+        "secondary_corridor_min_h_mm": 0.07381585939529803
+      },
+      "gate_verdicts": {
+        "GATE_01_EXIT_0": "PASS",
+        "GATE_02_QUAD_FRACTION_GE_90_PCT": "PASS",
+        "GATE_03_ZERO_NEGATIVE_JACOBIANS": "PASS",
+        "GATE_04_ASPECT_RATIO_LE_4": "PASS",
+        "GATE_05_CRITICAL_RESOLUTION": "PASS",
+        "GATE_06_FAR_FIELD_COARSENING": "PASS",
+        "GATE_07_COMPUTATIONAL_EFFICIENCY": "PASS"
+      }
+    },
+    "case_5": {
+      "case_id": "case_5",
+      "benchmark_name": "Case 5: Plate with Seven Holes (Table 6 Parity)",
+      "physical_mesh_path": "models/pandey_kumar_mode1/257_f1807_four_case_regression\\case5\\PK_F1807_CASE_5_ADAPT_PHYS.inp",
+      "physical_mesh_sha256": "9A5544189255779E9D579BDD4434952ECD6ADA71475F20B4B63CF09DF44DB788",
+      "physical_mesh_body_sha256": "78009AAEE4FE732C0FA56F2DE5487C1717E82E245B4CAF32C3B9CE19AB2B4065",
+      "physical_mesh_size_bytes": 1127961,
+      "donor_odb_path": "models/pandey_kumar_mode1/218_f1726_seven_hole_study/PK_F1726_SEVEN_HOLE_COARSE.odb",
+      "donor_odb_sha256": "CB673713FDE31593AE452A21BC05BFFC140BCCCE71F1D43D601EE17B43802B0E",
+      "donor_odb_size_bytes": 194344892,
+      "target_elements": 15714,
+      "predecessor": "F1780 (15,466 el) / Literature (15,714 el)",
+      "element_counts": {
+        "total_elements": 15466,
+        "quad_elements": 15141,
+        "tri_elements": 325,
+        "quad_fraction_pct": 97.89861631966895,
+        "total_nodes": 15881
+      },
+      "jacobian": {
+        "min_det_j": 3.921570799516287e-07,
+        "nonpositive_count": 0,
+        "status": "PASS"
+      },
+      "aspect_ratio": {
+        "max": 2.3741091636738676,
+        "median": 1.2047567100611687,
+        "mean": 1.2502606251632264,
+        "violations_gt_4": 0,
+        "status": "PASS"
+      },
+      "corner_angles": {
+        "min_deg": 29.81743296391039,
+        "max_deg": 139.66870270813553
+      },
+      "sizing_metrics": {
+        "min_h_mm": 0.0009786216285975597,
+        "min_h_um": 0.9786216285975596,
+        "mean_h_mm": 0.006097040466152692,
+        "max_h_mm": 0.02497139208356194,
+        "coarsening_ratio_far_to_core": 2.1174057923689285
+      },
+      "critical_region_metrics": {
+        "upper_corridor_elements": 6422,
+        "upper_corridor_pct_le_l0": 99.14356898162566,
+        "lower_ligament_elements": 729,
+        "lower_ligament_pct_le_l0": 84.0877914951989
+      },
+      "gate_verdicts": {
+        "GATE_01_EXIT_0": "PASS",
+        "GATE_02_QUAD_FRACTION_GE_90_PCT": "PASS",
+        "GATE_03_ZERO_NEGATIVE_JACOBIANS": "PASS",
+        "GATE_04_ASPECT_RATIO_LE_4": "PASS",
+        "GATE_05_CRITICAL_RESOLUTION": "PASS",
+        "GATE_06_FAR_FIELD_COARSENING": "PASS",
+        "GATE_07_COMPUTATIONAL_EFFICIENCY": "PASS"
+      }
+    }
+  }
+}

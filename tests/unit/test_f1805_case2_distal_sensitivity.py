@@ -114,7 +114,8 @@ def test_f1805_governance_and_coordination_invariants():
         task_data = json.load(f)
     assert task_data["task_id"] in [
         "F1805-CASE2-OUTERMOST-DISTAL-NATIVE-MISESERI-TARGET-SENSITIVITY",
-        "F1806-CASE2-OUTERMOST-DISTAL-NATIVE-MISESERI-TARGET-1P8PCT"
+        "F1806-CASE2-OUTERMOST-DISTAL-NATIVE-MISESERI-TARGET-1P8PCT",
+        "F1807-FOUR-CASE-NATIVE-MISESERI-REGRESSION-AND-QUALITY-EVALUATION"
     ]
     assert task_data["master_goal_status"] == "OPEN"
     assert task_data["max_new_pbs_submissions"] == 0
