@@ -22,7 +22,7 @@
     "unified_framework_synthesis"
   ],
   "native_indicator": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
-  "paused_task_pattern": "(?i)METHOD[-_ ]?C|STATE[-_ ]?TRANSFER|COUPLED[-_ ]?FRACTURE|THESIS|PRESENTATION",
+  "paused_task_pattern": "(?i)METHOD[-_ ]?C|STATE[-_ ]?TRANSFER|COUPLED[-_ ]?FRACTURE|\\bTHESIS\\b|\\bPRESENTATION\\b",
   "prohibited_successors": [
     "METHOD_C",
     "COUPLED_FRACTURE_VALIDATION",
