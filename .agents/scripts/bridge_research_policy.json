@@ -23,7 +23,9 @@
     "synthesis_label_correction",
     "multistep_refinement_narrowing",
     "correction_reassessment",
-    "documentation_correction"
+    "documentation_correction",
+    "minmax_sizing_evaluation",
+    "wait"
   ],
   "native_indicator": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
   "paused_task_pattern": "(?i)METHOD[-_ ]?C|STATE[-_ ]?TRANSFER|COUPLED[-_ ]?FRACTURE|\\bTHESIS\\b|\\bPRESENTATION\\b",

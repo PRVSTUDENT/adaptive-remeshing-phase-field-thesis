@@ -258,7 +258,10 @@ class AdaptiveConfig(object):
         self.max_h = float(rr.get("max_element_size_mm", rr.get("h_max", 0.020)))
         self.refinement_factor = int(rr.get("refinement_factor", 10))
         self.coarsening_factor = str(rr.get("coarsening_factor", "NOT_ALLOWED" if not rr.get("coarsening_allowed", False) else "DEFAULT_LIMIT"))
-        self.sizing_method = str(rr.get("sizing_method", "UNIFORM_ERROR"))
+        self.sizing_method = str(rr.get("sizing_method", "UNIFORM_ERROR")).upper()
+        self.max_solution_error_target = float(rr.get("max_solution_error_target", rr.get("max_error_target", self.error_target)))
+        self.min_solution_error_target = float(rr.get("min_solution_error_target", rr.get("min_error_target", max(0.1, self.error_target / 5.0))))
+        self.mesh_bias = int(rr.get("mesh_bias", 1))
         self.variable = str(rr.get("variable", rr.get("indicator", "MISESERI")))
         self.step_name = str(rr.get("step_name", "Step-1"))
         self.output_frequency = str(rr.get("output_frequency", "ALL_INCREMENTS"))
@@ -1781,6 +1784,47 @@ class AbaqusNativeRemeshingEngine(object):
         return p, a, inst
 
     @classmethod
+    def build_rule_kwargs(cls, config, rule_name, step_name, region=None, coarsen_opt=None, out_freq_opt=None):
+        """Constructs RemeshingRule keyword arguments supporting UNIFORM_ERROR and MINIMUM_MAXIMUM."""
+        kwargs = {
+            'name': rule_name,
+            'stepName': step_name,
+            'variables': (config.variable,),
+            'refinementFactor': config.refinement_factor,
+            'specifyMinSize': True,
+            'minElementSize': config.min_h,
+            'specifyMaxSize': True,
+            'maxElementSize': config.max_h,
+        }
+        if region is not None:
+            kwargs['region'] = region
+
+        if coarsen_opt is not None:
+            kwargs['coarseningFactor'] = coarsen_opt
+        elif config.coarsening_factor == "NOT_ALLOWED":
+            kwargs['coarseningFactor'] = NOT_ALLOWED if 'NOT_ALLOWED' in globals() else "NOT_ALLOWED"
+        else:
+            kwargs['coarseningFactor'] = DEFAULT_LIMIT if 'DEFAULT_LIMIT' in globals() else "DEFAULT_LIMIT"
+
+        if out_freq_opt is not None:
+            kwargs['outputFrequency'] = out_freq_opt
+        elif getattr(config, "output_frequency", "ALL_INCREMENTS") == "ALL_INCREMENTS":
+            kwargs['outputFrequency'] = ALL_INCREMENTS if 'ALL_INCREMENTS' in globals() else "ALL_INCREMENTS"
+        else:
+            kwargs['outputFrequency'] = LAST_INCREMENT if 'LAST_INCREMENT' in globals() else "LAST_INCREMENT"
+
+        if str(config.sizing_method).upper() == "MINIMUM_MAXIMUM":
+            kwargs['sizingMethod'] = MINIMUM_MAXIMUM if 'MINIMUM_MAXIMUM' in globals() else "MINIMUM_MAXIMUM"
+            kwargs['maxSolutionErrorTarget'] = float(config.max_solution_error_target)
+            kwargs['minSolutionErrorTarget'] = float(config.min_solution_error_target)
+            kwargs['meshBias'] = int(config.mesh_bias)
+        else:
+            kwargs['sizingMethod'] = UNIFORM_ERROR if 'UNIFORM_ERROR' in globals() else "UNIFORM_ERROR"
+            kwargs['errorTarget'] = float(config.error_target)
+
+        return kwargs
+
+    @classmethod
     def execute_native_remesh(cls, config, donor_odb_path, output_dir, model_name=None, adapter_override=None, output_job_name=None):
         if not ABAQUS_AVAILABLE:
             raise RuntimeError("Abaqus environment not available; cannot execute native adaptiveRemesh.")
@@ -1914,21 +1958,15 @@ class AbaqusNativeRemeshingEngine(object):
             if rule_name in m.remeshingRules:
                 del m.remeshingRules[rule_name]
 
-            m.RemeshingRule(
-                name=rule_name,
-                stepName=step_target,
+            rule_kwargs = cls.build_rule_kwargs(
+                config=config,
+                rule_name=rule_name,
+                step_name=step_target,
                 region=inst.sets['ALL_ELEM'],
-                variables=(config.variable,),
-                sizingMethod=UNIFORM_ERROR,
-                errorTarget=config.error_target,
-                refinementFactor=config.refinement_factor,
-                coarseningFactor=coarsen_opt,
-                specifyMinSize=True,
-                minElementSize=config.min_h,
-                specifyMaxSize=True,
-                maxElementSize=config.max_h,
-                outputFrequency=out_freq_opt
+                coarsen_opt=coarsen_opt,
+                out_freq_opt=out_freq_opt
             )
+            m.RemeshingRule(**rule_kwargs)
 
             m.adaptiveRemesh(odb=odb_donor)
             odb_donor.close()

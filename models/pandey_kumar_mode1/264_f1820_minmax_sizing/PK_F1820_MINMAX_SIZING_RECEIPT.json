@@ -1,0 +1,182 @@
+{
+  "task_id": "F1820-MINIMUM-MAXIMUM-SIZING-FRAMEWORK-ENHANCEMENT-AND-EVALUATION",
+  "correlation_id": "HND-F1820-MINMAX-SIZING-001",
+  "predecessor_correlation_id": "HND-F1819-DOCUMENTATION-CORRECTION-001",
+  "timestamp": "2026-11-16T14:55:00",
+  "governing_objectives": {
+    "master_goal_status": "OPEN",
+    "cumulative_pbs_submissions": 35,
+    "new_pbs_submissions": 0,
+    "frozen_production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "shared_framework_sha256": "0578156E5551173307892B8881E4BA772F099187BCF332672F39AC825023E80D",
+    "framework_improvement": "Enhanced reusable_2d_adaptive_framework.py to support sizingMethod=MINIMUM_MAXIMUM via build_rule_kwargs while preserving full backward compatibility for UNIFORM_ERROR",
+    "predeclared_adoption_rule": "Candidate MINIMUM_MAXIMUM sizing must achieve narrower refinement width or lower element counts while satisfying all four governing scientific gates and Gate 06 far-field coarsening >= 2.0x; otherwise F1812 baselines (UNIFORM_ERROR, 160,144 elements) stand as verified Pareto optimum"
+  },
+  "evaluation_parameters": {
+    "sizing_method": "MINIMUM_MAXIMUM",
+    "max_solution_error_target_pct": 1.0,
+    "min_solution_error_target_pct": 5.0,
+    "mesh_bias": 7
+  },
+  "cases": {
+    "case_1": {
+      "name": "Case 1: Mode-I Edge-Cracked Plate",
+      "physical_mesh_path": "models/pandey_kumar_mode1/264_f1820_minmax_sizing/PK_F1820_MINMAX_CASE_1_ADAPT_PHYS.inp",
+      "physical_mesh_sha256": "ABAA325BC6EE7EEBDE5553F1E9498639545895AC43B3EF61279B189A5554ABF5",
+      "physical_mesh_body_sha256": "B15F948C820F7A773D61D62651638800ED525ABC3E538412A383E8E36AD6DB9E",
+      "physical_mesh_size_bytes": 4519503,
+      "total_elements": 63210,
+      "quad_elements": 61519,
+      "tri_elements": 1691,
+      "quad_fraction_pct": 97.32,
+      "total_nodes": 62656,
+      "nominal_field_dofs": 187968,
+      "min_det_j": 1.03e-07,
+      "max_aspect_ratio": 2.67,
+      "coarsening_ratio": 1.87,
+      "scientific_gate_name": "SCIENTIFIC_GATE_FULL_LIGAMENT",
+      "scientific_gate_value": 100.0,
+      "scientific_gate_status": "PASS",
+      "width_metrics": {
+        "fine_elements_count": 52069,
+        "pct_within_3l0": 15.88
+      },
+      "gates": {
+        "GATE_01_JACOBIAN": "PASS",
+        "GATE_02_QUAD_FRACTION": "PASS",
+        "GATE_03_ASPECT_RATIO": "PASS",
+        "GATE_04_CORNER_ANGLES": "PASS",
+        "GATE_05_SCIENTIFIC_RESOLUTION": "PASS",
+        "GATE_06_FAR_FIELD_COARSENING": "FAIL",
+        "GATE_07_ELEMENT_BUDGET": "FAIL"
+      }
+    },
+    "case_2": {
+      "name": "Case 2: Mode-I Plate with Off-Axis Hole",
+      "physical_mesh_path": "models/pandey_kumar_mode1/264_f1820_minmax_sizing/PK_F1820_MINMAX_CASE_2_ADAPT_PHYS.inp",
+      "physical_mesh_sha256": "AD6D83A99E41B5AD5643AAE4E92BF53CC40AC94997488761F01E3A4D7045C7B7",
+      "physical_mesh_body_sha256": "1768934BC090C404F00078EB112A92C52644E307AC28E3008B9CFEDA2B0A6465",
+      "physical_mesh_size_bytes": 4034483,
+      "total_elements": 56300,
+      "quad_elements": 54853,
+      "tri_elements": 1447,
+      "quad_fraction_pct": 97.43,
+      "total_nodes": 56029,
+      "nominal_field_dofs": 168087,
+      "min_det_j": 1.50e-07,
+      "max_aspect_ratio": 2.75,
+      "coarsening_ratio": 1.62,
+      "scientific_gate_name": "SCIENTIFIC_GATE_OUTER_DISTAL",
+      "scientific_gate_value": 99.74,
+      "scientific_gate_status": "PASS",
+      "width_metrics": {
+        "fine_elements_count": 46823,
+        "pct_within_3l0": 12.32
+      },
+      "gates": {
+        "GATE_01_JACOBIAN": "PASS",
+        "GATE_02_QUAD_FRACTION": "PASS",
+        "GATE_03_ASPECT_RATIO": "PASS",
+        "GATE_04_CORNER_ANGLES": "PASS",
+        "GATE_05_SCIENTIFIC_RESOLUTION": "PASS",
+        "GATE_06_FAR_FIELD_COARSENING": "FAIL",
+        "GATE_07_ELEMENT_BUDGET": "PASS"
+      }
+    },
+    "case_3": {
+      "name": "Case 3: Notched Plate with Pins and Central Hole",
+      "physical_mesh_path": "models/pandey_kumar_mode1/264_f1820_minmax_sizing/PK_F1820_MINMAX_CASE_3_ADAPT_PHYS.inp",
+      "physical_mesh_sha256": "84B1241DE4F910FD6605F01CE824C54DDEC25148CB08CB5687D7038F4A1C9A89",
+      "physical_mesh_body_sha256": "86E5417268FFA9E3DF721D9E40EDCE4A424D72AED4C920A30BA340BC3E734290",
+      "physical_mesh_size_bytes": 6285687,
+      "total_elements": 87786,
+      "quad_elements": 85480,
+      "tri_elements": 2306,
+      "quad_fraction_pct": 97.37,
+      "total_nodes": 87279,
+      "nominal_field_dofs": 261837,
+      "min_det_j": 6.64e-04,
+      "max_aspect_ratio": 2.93,
+      "coarsening_ratio": 1.53,
+      "scientific_gate_name": "SCIENTIFIC_GATE_SECONDARY_CORRIDOR",
+      "scientific_gate_value": 96.50,
+      "scientific_gate_status": "PASS",
+      "width_metrics": {
+        "fine_elements_count": 26474,
+        "pct_within_3l0": 1.06
+      },
+      "gates": {
+        "GATE_01_JACOBIAN": "PASS",
+        "GATE_02_QUAD_FRACTION": "PASS",
+        "GATE_03_ASPECT_RATIO": "PASS",
+        "GATE_04_CORNER_ANGLES": "PASS",
+        "GATE_05_SCIENTIFIC_RESOLUTION": "PASS",
+        "GATE_06_FAR_FIELD_COARSENING": "FAIL",
+        "GATE_07_ELEMENT_BUDGET": "FAIL"
+      }
+    },
+    "case_5": {
+      "name": "Case 5: Square Plate with Seven Holes",
+      "physical_mesh_path": "models/pandey_kumar_mode1/264_f1820_minmax_sizing/PK_F1820_MINMAX_CASE_5_ADAPT_PHYS.inp",
+      "physical_mesh_sha256": "33CCC72D7E35676C4D09E62C09E1CD857FF5E8D0330AC5462CC4CA4BD62F4A9C",
+      "physical_mesh_body_sha256": "2EB19443F845B1B0B08DD4F1E81A60BAE609E2A2A36004C96D8759CE406EB2D9",
+      "physical_mesh_size_bytes": 3725764,
+      "total_elements": 51598,
+      "quad_elements": 50538,
+      "tri_elements": 1060,
+      "quad_fraction_pct": 97.95,
+      "total_nodes": 52056,
+      "nominal_field_dofs": 156168,
+      "min_det_j": 2.19e-07,
+      "max_aspect_ratio": 2.65,
+      "coarsening_ratio": 1.65,
+      "scientific_gate_name": "SCIENTIFIC_GATE_INTER_HOLE",
+      "scientific_gate_value": 99.99,
+      "scientific_gate_status": "PASS",
+      "width_metrics": {
+        "fine_elements_count": 45354,
+        "pct_within_3l0": 9.19
+      },
+      "gates": {
+        "GATE_01_JACOBIAN": "PASS",
+        "GATE_02_QUAD_FRACTION": "PASS",
+        "GATE_03_ASPECT_RATIO": "PASS",
+        "GATE_04_CORNER_ANGLES": "PASS",
+        "GATE_05_SCIENTIFIC_RESOLUTION": "PASS",
+        "GATE_06_FAR_FIELD_COARSENING": "FAIL",
+        "GATE_07_ELEMENT_BUDGET": "FAIL"
+      }
+    }
+  },
+  "four_benchmark_totals": {
+    "total_physical_elements": 258894,
+    "total_quad_elements": 252390,
+    "total_tri_elements": 6504,
+    "quad_fraction_pct": 97.49,
+    "total_nominal_field_dofs": 774060,
+    "zero_or_negative_jacobians": 0,
+    "max_aspect_ratio_across_benchmarks": 2.93,
+    "comparison_vs_f1812_baseline": {
+      "f1812_total_elements": 160144,
+      "f1820_minmax_total_elements": 258894,
+      "element_difference": 98750,
+      "percent_change": 61.66
+    }
+  },
+  "published_figures": {
+    "fig_f1820_minmax_sizing_comparison_png": {
+      "path": "results/figures/fig_f1820_minmax_sizing_comparison.png",
+      "size_bytes": 586391,
+      "sha256": "E75FD7AB87EBCE59BF328D723E2D8D7AB32884CEEF7E2D46F4F14B38A154EDCC"
+    },
+    "fig_f1820_minmax_sizing_comparison_pdf": {
+      "path": "results/figures/fig_f1820_minmax_sizing_comparison.pdf",
+      "size_bytes": 64378,
+      "sha256": "BE236999D5D052F176D2DA5BE5D38772E18AA6121DD30C09C198A3CD8D05BD9B"
+    }
+  },
+  "adoption_decision": {
+    "verdict": "REJECTED",
+    "rationale": "Genuine MINIMUM_MAXIMUM sizing fails Gate 06 far-field coarsening on all four benchmarks (1.53x-1.87x < 2.0x), fails Gate 07 element budgets on Cases 1, 3, 5, and severely dilutes the refinement corridor (within 3*l0 concentration drops from 58-79% down to 1.1-15.9%). The F1812 baselines (UNIFORM_ERROR, 160,144 elements) definitively stand as the Pareto-optimal configuration."
+  }
+}
