@@ -1,17 +1,16 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1844-body-sha-correction-20261117",
-  "task_id": "F1844-F1837-BODY-SHA-CORRECTION",
-  "started_at": "2026-11-17T15:32:00+01:00",
-  "completed_at": "2026-11-17T15:58:00+01:00",
-  "starting_commit": "be040e7885b54634ce55a90e38640bc5222bf9d2",
+  "session_id": "gemini-antigravity-f1846-dispatch-20261117",
+  "task_id": "F1846-GENERALIZED-FRAMEWORK-FROM-F1779",
+  "started_at": "2026-11-17T18:41:00+01:00",
+  "completed_at": null,
+  "starting_commit": "7cb4a591f1041fe2e2a24d1e917c862cb7ffb17a",
   "allowed_write_scope": [
-    "docs/validation/F1835_*",
     "project_coordination/*",
-    ".agents/scripts/*",
+    ".agents/scripts/*f1846*",
     ".agents/bridge_history/*",
-    "tests/unit/test_f1835_*"
+    "C:/Users/pruth/OpenClawPAD/ChatGPTBridge/*"
   ],
-  "notes": "Task F1844 dispatched; received malformed non-JSON supervisory response (BRIDGE_RESPONSE_JSON_ONLY_REQUIRED); transaction preserved in archive; session released; MASTER_GOAL_STATUS = OPEN."
+  "notes": "Task F1846: Commit and push, dispatch bridge review request HND-F1846-GENERALIZED-FRAMEWORK-FROM-F1779-001, await review response."
 }

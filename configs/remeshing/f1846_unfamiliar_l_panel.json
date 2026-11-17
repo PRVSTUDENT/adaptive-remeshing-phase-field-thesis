@@ -1,0 +1,49 @@
+{
+  "case_id": "unfamiliar_l_panel",
+  "benchmark_name": "Unfamiliar 2D Benchmark: L-Shaped Panel with Re-entrant Corner",
+  "geometry_type": "GENERIC_2D",
+  "geometry": {
+    "polygon_vertices": [
+      [0.0, 0.0],
+      [100.0, 0.0],
+      [100.0, 50.0],
+      [50.0, 50.0],
+      [50.0, 100.0],
+      [0.0, 100.0]
+    ],
+    "voids": [],
+    "seam_crack": null,
+    "plate_width": 100.0,
+    "plate_height": 100.0,
+    "plate_thickness": 1.0
+  },
+  "material": {
+    "youngs_modulus_mpa": 210000.0,
+    "poisson_ratio": 0.3,
+    "length_scale_l0_mm": 1.0,
+    "gc_kn_per_mm": 0.0027,
+    "residual_stiffness_k": 1e-07,
+    "constitutive_law": "ISOTROPIC_ELASTIC_PHASE_FIELD"
+  },
+  "loading": {
+    "loading_type": "GENERIC_2D_EDGE",
+    "step1_precritical_u2": 0.1,
+    "step2_fracture_u2": 0.2
+  },
+  "remeshing_rule": {
+    "sizing_method": "UNIFORM_ERROR",
+    "indicator": "MISESERI",
+    "error_target": 5.0,
+    "min_element_size_mm": 0.5,
+    "max_element_size_mm": 5.0,
+    "refinement_factor": 10,
+    "coarsening_factor": "DEFAULT_LIMIT",
+    "step_name": "Step-1",
+    "output_frequency": "ALL_INCREMENTS"
+  },
+  "deck_options": {
+    "uel_subroutine": "f42_mixed_uel.for",
+    "expected_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "output_directory": "models/pandey_kumar_mode1/276_f1846_generalized_framework/l_panel"
+  }
+}
