@@ -1,16 +1,16 @@
 {
-  "task_id": "F1850-DONOR-RECOVERY",
-  "title": "F1850 exact donor recovery and lossless text provenance",
-  "task_status": "BLOCKED_INVALID_TRANSPORT_OUTER_ENVELOPE",
+  "task_id": "F1851-NATIVE-DIAGNOSTICS",
+  "title": "Existing-donor native error and extraction diagnostics",
+  "task_status": "COMPLETED_PENDING_REVIEW",
   "master_goal_status": "OPEN",
-  "status": "BLOCKED_INVALID_TRANSPORT_OUTER_ENVELOPE",
-  "review_verdict": "UNVERIFIED_INVALID_TRANSPORT",
-  "review_correlation_id": "HND-F1850-DONOR-RECOVERY-001",
+  "status": "COMPLETED_PENDING_REVIEW",
+  "review_verdict": "PENDING",
+  "review_correlation_id": "HND-F1851-NATIVE-DIAGNOSTICS-001",
   "classification": "SHARED_FRAMEWORK_IMPROVEMENT",
   "assigned_agent": "codex",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1424198.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1850_DONOR_RECOVERY_REPORT.md",
+  "checkpoint_artifact": "docs/validation/F1851_NATIVE_MISESERI_DIAGNOSTICS_REPORT.md",
   "review_directive": "Execute user-attached F1849 task. Primary driver CONSTRUCTED_DAMAGE_ENVELOPE, zero new PBS, frozen production and F1846 frameworks unchanged. Prior diagnostic task superseded by explicit user handover; historical session retained.",
   "predecessor_task": {
     "task_id": "F1847-F1846-EVIDENCE-CORRECTION",
@@ -30,7 +30,7 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 36,
-  "notes": "PAD stored INNER review JSON directly as UTF16 response.ready; required OUTER transport fields missing. Inner ID matches but provenance is not authenticated.",
+  "notes": "Direct user request; F1850 transport not authenticated. 0 new PBS. Both source analyses incomplete; original C2 missing EVOL; mapping exact; F1720 paired remesh hashes match.",
   "historical_pbs_job_ids": [
     "1424198.mmaster02"
   ]

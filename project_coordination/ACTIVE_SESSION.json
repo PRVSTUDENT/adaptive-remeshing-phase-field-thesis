@@ -1,23 +1,21 @@
 {
-  "active": false,
-  "agent": "codex",
-  "session_id": "codex-f1850-donor-recovery-20261117",
-  "task_id": "F1850-DONOR-RECOVERY",
-  "started_at": "2026-11-17T23:34:56.413152+01:00",
-  "starting_commit": "6edebdc90bce6c3cace6492dd813208eb1d896ba",
-  "allowed_write_scope": [
-    "scripts/remeshing/*f1850*",
-    "models/pandey_kumar_mode1/280_f1850_donor_recovery/*",
-    "results/validation/f1850*",
-    "results/figures/fig_f1850*",
-    "docs/validation/F1850*",
-    "tests/unit/test_f1850*",
-    "project_coordination/*",
-    ".agents/scripts/*f1849*",
-    ".agents/scripts/*f1850*",
-    ".agents/bridge_history/*f1849*",
-    ".agents/bridge_history/*f1850*"
-  ],
-  "notes": "Released on genuine invalid transport block; original transaction preserved, master OPEN.",
-  "completed_at": "2026-11-17T23:54:00.848603+01:00"
+    "active":  true,
+    "agent":  "codex",
+    "session_id":  "codex-f1851-native-diagnostics-20261118",
+    "task_id":  "F1851-NATIVE-DIAGNOSTICS",
+    "started_at":  "2026-11-18T00:02:36.7381676+01:00",
+    "starting_commit":  "87ce0eda17e10a8207e181a7d9b0a420634f5cca",
+    "allowed_write_scope":  [
+                                "scripts/remeshing/*f1851*",
+                                "models/pandey_kumar_mode1/281_f1851_native_diagnostics/*",
+                                "results/validation/f1851*",
+                                "results/figures/fig_f1851*",
+                                "docs/validation/F1851*",
+                                "tests/unit/test_f1851*",
+                                "project_coordination/*",
+                                ".agents/bridge_history/*f1851*",
+                                ".agents/scripts/*f1851*"
+                            ],
+    "notes":  "User directly requested pasted F1851 diagnostics; F1850 transport remains unverified. Zero PBS.",
+    "completed_at":  null
 }
