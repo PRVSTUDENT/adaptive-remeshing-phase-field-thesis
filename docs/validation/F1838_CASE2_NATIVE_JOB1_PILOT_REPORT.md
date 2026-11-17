@@ -179,11 +179,9 @@ Publication-quality figures were rendered via Abaqus Python using `scripts/remes
 ### Image Manifest
 | Case ID | Relative Path | File Size [bytes] | SHA-256 Checksum | Commit-Pinned GitHub URL |
 | :---: | :--- | :---: | :---: | :--- |
-| **Case 2** | `results/figures/fig_f1838_case2_pilot_mesh.png` | 4,604,809 | `6CAC6E9FA298AF00620EA2DD7E7EBCC9D1AC0243D04C952F33023DA43C806960` | `https://github.com/pruthvibhardwaj21/Master-thesis/blob/<COMMIT_SHA>/results/figures/fig_f1838_case2_pilot_mesh.png` |
-| **Case 2** | `results/figures/fig_f1838_case2_pilot_mesh.pdf` | 2,367,946 | `9A44C5EF865C4E9B4D06158DEA3D3FD86BBCA6B7E081F9DEA7D3BE970B3553C0` | `https://github.com/pruthvibhardwaj21/Master-thesis/blob/<COMMIT_SHA>/results/figures/fig_f1838_case2_pilot_mesh.pdf` |
-| **Case 2 (Local)** | `models/pandey_kumar_mode1/277_f1838_case2_native_pilot/figures/fig_f1838_case2_pilot_mesh.png` | 4,604,809 | `6CAC6E9FA298AF00620EA2DD7E7EBCC9D1AC0243D04C952F33023DA43C806960` | `https://github.com/pruthvibhardwaj21/Master-thesis/blob/<COMMIT_SHA>/models/pandey_kumar_mode1/277_f1838_case2_native_pilot/figures/fig_f1838_case2_pilot_mesh.png` |
-
-*(Note: The exact commit SHA will be updated upon git commit).*
+| **Case 2** | `results/figures/fig_f1838_case2_pilot_mesh.png` | 4,604,809 | `6CAC6E9FA298AF00620EA2DD7E7EBCC9D1AC0243D04C952F33023DA43C806960` | `https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/bd30aa750ca41c19e5b9beb9576747fd5b0c65dd/results/figures/fig_f1838_case2_pilot_mesh.png` |
+| **Case 2** | `results/figures/fig_f1838_case2_pilot_mesh.pdf` | 2,367,946 | `9A44C5EF865C4E9B4D06158DEA3D3FD86BBCA6B7E081F9DEA7D3BE970B3553C0` | `https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/bd30aa750ca41c19e5b9beb9576747fd5b0c65dd/results/figures/fig_f1838_case2_pilot_mesh.pdf` |
+| **Case 2 (Local)** | `models/pandey_kumar_mode1/277_f1838_case2_native_pilot/figures/fig_f1838_case2_pilot_mesh.png` | 4,604,809 | `6CAC6E9FA298AF00620EA2DD7E7EBCC9D1AC0243D04C952F33023DA43C806960` | `https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/bd30aa750ca41c19e5b9beb9576747fd5b0c65dd/models/pandey_kumar_mode1/277_f1838_case2_native_pilot/figures/fig_f1838_case2_pilot_mesh.png` |
 
 ---
 
