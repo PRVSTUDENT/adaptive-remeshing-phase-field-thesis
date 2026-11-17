@@ -1,0 +1,228 @@
+{
+  "task_id": "F1835-REVISED-NATIVE-REFERENCE-AND-ENVELOPE-CAUSALITY-DIAGNOSIS",
+  "timestamp_iso": "2026-11-17T09:24:09Z",
+  "total_walltime_s": 63.17,
+  "step_1_authentic_reference": {
+    "case_1": {
+      "status": "MISSING",
+      "reason": "No authentic direct evolving UEL+UMAT donor exists. Only elastic prefracture preanalysis PK_CASE1_NATIVE_DONOR.odb exists (uncracked, Step-1 only)."
+    },
+    "case_2": {
+      "status": "MISSING",
+      "reason": "In PK_HOLE_COARSE_JOB1.odb, production UEL f42_mixed_uel.for does not pass stresses to companion UMAT elements, yielding MISESERI == 0.0 across all 338 frames. PK_HOLE_METHOD_A_PREANALYSIS.odb is uncracked linear pre-analysis."
+    },
+    "case_3": {
+      "status": "MISSING",
+      "reason": "No direct in-analysis UEL+UMAT simulation exists for Case 3."
+    },
+    "case_5": {
+      "status": "MISSING",
+      "reason": "No direct evolving UEL+UMAT simulation exists for Case 5. Only elastic pre-crack donor PK_F1726_SEVEN_HOLE_COARSE.odb exists."
+    },
+    "case_4_authentic_reference": {
+      "status": "EXISTS",
+      "geometry": "Case 4 (Five-Hole Plate, Pandey & Kumar Section 4.4)",
+      "odb_path": "models/pandey_kumar_mode1/213_f1720_coarse_coupled/PK_F1720_COARSE_COUPLED.odb",
+      "odb_sha256": "E2FE195B93A6378849E134DD3FE17EC69FFD03CCA8D446496E6D30820E7958AE",
+      "inp_path": "models/pandey_kumar_mode1/213_f1720_coarse_coupled/PK_F1720_COARSE_COUPLED.inp",
+      "inp_sha256": "874DEFF7CA54E83840DA39651E8898CD02F0C6867D97B5B258D662216A6CAF16",
+      "for_path": "models/pandey_kumar_mode1/213_f1720_coarse_coupled/f1720_direct_coupling_uel.for",
+      "for_sha256": "C298ACA7ED2199B20E622B38E99FDA9B533150EB0AD5E9F77069216F860E70FC",
+      "constitutive_formulation": "Amor energy split UEL + companion UMAT with dummy stress scaling s = 4.7619e-14",
+      "topology": "2,747 physical elements (8,241 layered elements across 3 layers: UEL phase, UEL displacement, UMAT continuum)",
+      "step_name": "Step-2",
+      "terminal_frame_index": 178,
+      "terminal_step_time": 0.7257,
+      "terminal_u2_displacement_mm": 0.006451,
+      "damage_extent": "Terminal severance state (full crack propagation across all ligaments)",
+      "causal_cutoff": "t = 1.7257 s (cumulative analysis time)"
+    }
+  },
+  "step_2_untouched_native_remeshing": {
+    "num_elements": 13438,
+    "num_nodes": 13657,
+    "num_quads": 13103.0,
+    "num_tris": 335.0,
+    "quad_percentage": 97.51,
+    "positive_jacobians": true,
+    "min_det_j": 1.0,
+    "ar_max": 2.624,
+    "ar_mean": 1.262,
+    "total_area_mm2": 0.918555,
+    "fine_area_mm2": 0.21266,
+    "fine_area_fraction_pct": 23.15,
+    "coarsening_ratio": 3.5309,
+    "h_min_mm": 0.001143,
+    "h_max_mm": 0.023937,
+    "remeshing_walltime_s": 2.55,
+    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\276_f1835_envelope_causality_diagnosis\\PK_F1835_STEP2_UNTOUCHED_NATIVE.inp",
+    "inp_sha256": "57339807E8EB36DACF4EB17515021527E1DEBDA30FD2DF91AB04F0331C54C2C7",
+    "inp_body_sha256": "E9AF7430A8C5AC1C8E8C1F66C7A2A52576CFF6F37F250AF07B0D49C386ABCFAE",
+    "donor_odb_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\213_f1720_coarse_coupled\\PK_F1720_COARSE_COUPLED.odb",
+    "donor_odb_sha256": "E2FE195B93A6378849E134DD3FE17EC69FFD03CCA8D446496E6D30820E7958AE"
+  },
+  "step_3_recovery_mechanics_isolation": {
+    "state": "Step-2 Frame 178 (Terminal severance u_y = 0.006451 mm)",
+    "num_integration_points": 10736,
+    "dummy_stress_scale_factor": 4.7619e-14,
+    "dummy_mises_min": 2.727822755122579e-16,
+    "dummy_mises_max": 1.4670708224640006e-13,
+    "dummy_mises_mean": 4.983690719539932e-14,
+    "physical_mises_min_mpa": 0.0057,
+    "physical_mises_max_mpa": 3.0809,
+    "physical_mises_mean_mpa": 1.0466,
+    "physical_eri_min_mpa": 0.0002,
+    "physical_eri_max_mpa": 0.4986,
+    "physical_eri_mean_mpa": 0.0283,
+    "eta_ratio_min_pct": 0.0203,
+    "eta_ratio_max_pct": 375.8418,
+    "eta_ratio_mean_pct": 3.4126,
+    "finding": "In the authentic direct donor, integration-point stresses and recovered stresses have authentic physical bounds. The ratio eta_e = MISESERI / MISESAVG is completely preserved under linear scaling."
+  },
+  "step_4_envelope_decomposition": {
+    "case_2": {
+      "case": "Case 2 (Off-Axis Hole)",
+      "total_elements": 2906,
+      "eri_min": 1.1979705095291138,
+      "eri_max": 39893.4140625,
+      "eri_mean": 95.7432522311017,
+      "avg_min": 554.1072387695312,
+      "avg_max": 554.1072387695312,
+      "avg_mean": 554.1072387695312,
+      "ratio_min": 0.0021619831428107065,
+      "ratio_max": 71.9958363133617,
+      "ratio_mean": 0.1727883079883823,
+      "num_elements_ratio_ge_4pct": 1743,
+      "frac_elements_ratio_ge_4pct": 59.98,
+      "mechanism": "Across the domain, 1743 of 2906 elements (59.98%) have relative error ratio >= 4% due to envelope max_k eta_{e,k} aggregation."
+    },
+    "case_3": {
+      "case": "Case 3 (Pins & Hole)",
+      "total_elements": 3923,
+      "eri_min": 0.0006759677198715508,
+      "eri_max": 40.00617218017578,
+      "eri_mean": 0.07046241969021921,
+      "avg_min": 0.0911310464143753,
+      "avg_max": 0.0911310464143753,
+      "avg_mean": 0.0911310464143753,
+      "ratio_min": 0.007417534928743246,
+      "ratio_max": 438.99608041661946,
+      "ratio_mean": 0.7731988434525896,
+      "num_elements_ratio_ge_4pct": 2349,
+      "frac_elements_ratio_ge_4pct": 59.88,
+      "mechanism": "Across the domain, 2349 of 3923 elements (59.88%) have relative error ratio >= 4% due to envelope max_k eta_{e,k} aggregation."
+    }
+  },
+  "step_5_scale_isolation": {
+    "scale_invariance_verified": false,
+    "baseline_elements": 13438,
+    "baseline_inp_body_sha256": "E9AF7430A8C5AC1C8E8C1F66C7A2A52576CFF6F37F250AF07B0D49C386ABCFAE",
+    "scale_tests": {
+      "C1_0_BASELINE": {
+        "scale_factor": 1.0,
+        "metrics": {
+          "num_elements": 13438,
+          "num_nodes": 13657,
+          "num_quads": 13103.0,
+          "num_tris": 335.0,
+          "quad_percentage": 97.51,
+          "positive_jacobians": true,
+          "min_det_j": 1.0,
+          "ar_max": 2.624,
+          "ar_mean": 1.262,
+          "total_area_mm2": 0.918555,
+          "fine_area_mm2": 0.21266,
+          "fine_area_fraction_pct": 23.15,
+          "coarsening_ratio": 3.5309,
+          "h_min_mm": 0.001143,
+          "h_max_mm": 0.023937,
+          "remeshing_walltime_s": 2.55,
+          "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\276_f1835_envelope_causality_diagnosis\\PK_F1835_SCALE_C1_0_BASELINE.inp",
+          "inp_sha256": "403251A9CF809C41F595C5F87E4C203F75AFFD5F3DEE4768A8C6B1DA6C94A5A7",
+          "inp_body_sha256": "E9AF7430A8C5AC1C8E8C1F66C7A2A52576CFF6F37F250AF07B0D49C386ABCFAE",
+          "donor_odb_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\276_f1835_envelope_causality_diagnosis\\PK_DONOR_SCALE_C1_0_BASELINE.odb",
+          "donor_odb_sha256": "748F9E518913DBF8FDD677A4028E98C8A41CA607177A8B079F9ED5CF04B82E2B"
+        }
+      },
+      "C1000_UP": {
+        "scale_factor": 1000.0,
+        "metrics": {
+          "num_elements": 13501,
+          "num_nodes": 13709,
+          "num_quads": 13144.0,
+          "num_tris": 357.0,
+          "quad_percentage": 97.36,
+          "positive_jacobians": true,
+          "min_det_j": 1.0,
+          "ar_max": 2.559,
+          "ar_mean": 1.255,
+          "total_area_mm2": 0.918555,
+          "fine_area_mm2": 0.208473,
+          "fine_area_fraction_pct": 22.7,
+          "coarsening_ratio": 3.5252,
+          "h_min_mm": 0.001115,
+          "h_max_mm": 0.023842,
+          "remeshing_walltime_s": 2.58,
+          "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\276_f1835_envelope_causality_diagnosis\\PK_F1835_SCALE_C1000_UP.inp",
+          "inp_sha256": "6024E67E8070A9C2C923150AB595DDCE4E45320D90D347BE5F3060C4F88640A3",
+          "inp_body_sha256": "063983F9C36ED12A195135E9C741CCAFE152A14367BB55DEBD5590BCD3825ACC",
+          "donor_odb_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\276_f1835_envelope_causality_diagnosis\\PK_DONOR_SCALE_C1000_UP.odb",
+          "donor_odb_sha256": "7ABB54622109C4E5640A30100ADE57B6F6A3066DD35E979DFBC9D668E868E6C2"
+        }
+      },
+      "C0001_DOWN": {
+        "scale_factor": 0.001,
+        "metrics": {
+          "num_elements": 10024,
+          "num_nodes": 10227,
+          "num_quads": 9750.0,
+          "num_tris": 274.0,
+          "quad_percentage": 97.27,
+          "positive_jacobians": true,
+          "min_det_j": 1.0,
+          "ar_max": 2.825,
+          "ar_mean": 1.275,
+          "total_area_mm2": 0.918567,
+          "fine_area_mm2": 0.163283,
+          "fine_area_fraction_pct": 17.78,
+          "coarsening_ratio": 2.9301,
+          "h_min_mm": 0.001129,
+          "h_max_mm": 0.023719,
+          "remeshing_walltime_s": 1.77,
+          "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\276_f1835_envelope_causality_diagnosis\\PK_F1835_SCALE_C0001_DOWN.inp",
+          "inp_sha256": "D711D691EC240DCCF5CB0085468AAEFC7CF8DE1A6E314C2093353FCED40AF0BE",
+          "inp_body_sha256": "2907EA3085C662EF42AED7D06AD05723223A3F53A06869259F5BED76BE0D0BCB",
+          "donor_odb_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\276_f1835_envelope_causality_diagnosis\\PK_DONOR_SCALE_C0001_DOWN.odb",
+          "donor_odb_sha256": "B46C6AA08A54D2D2BC41B8244A9AAB174C153EA34187EFB2FAB4009799F14CB4"
+        }
+      },
+      "CPHYSICAL_CONV": {
+        "scale_factor": 21000000000000.0,
+        "metrics": {
+          "num_elements": 13448,
+          "num_nodes": 13653,
+          "num_quads": 13085.0,
+          "num_tris": 363.0,
+          "quad_percentage": 97.3,
+          "positive_jacobians": true,
+          "min_det_j": 1.0,
+          "ar_max": 2.786,
+          "ar_mean": 1.26,
+          "total_area_mm2": 0.918555,
+          "fine_area_mm2": 0.208882,
+          "fine_area_fraction_pct": 22.74,
+          "coarsening_ratio": 3.5494,
+          "h_min_mm": 0.001074,
+          "h_max_mm": 0.023822,
+          "remeshing_walltime_s": 2.52,
+          "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\276_f1835_envelope_causality_diagnosis\\PK_F1835_SCALE_CPHYSICAL_CONV.inp",
+          "inp_sha256": "F00916AF38E4889438EF7D1A641CBE1EB1BE5F611632BA339E6854917109DFD1",
+          "inp_body_sha256": "2C9020A66DE30DD9EEC1F1D8421328B2B5FAF2C1DC29A88401DF8A89EB2FDE2E",
+          "donor_odb_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\276_f1835_envelope_causality_diagnosis\\PK_DONOR_SCALE_CPHYSICAL_CONV.odb",
+          "donor_odb_sha256": "B055585C57ADCBA9E8CCC17D2AEF4E52D35C01596B0CF77D0F53733C7EDEBF6A"
+        }
+      }
+    },
+    "conclusion": "Scale invariance evaluation: verified=False. Baseline elements: 13438. Detailed counts: C1_0_BASELINE: 13438 el, C1000_UP: 13501 el, C0001_DOWN: 10024 el, CPHYSICAL_CONV: 13448 el"
+  }
+}

@@ -1736,11 +1736,11 @@ class MultiStateRecoveryDonorBuilder(object):
         for el in elem_labels:
             el_eri = all_eri[el]
             el_avg = all_avg[el]
-            mean_avg = py_sum(el_avg) / float(len(el_avg))
             eta_vals = [(el_eri[k] / el_avg[k]) if el_avg[k] > 0.0 else 0.0 for k in range(len(el_eri))]
             eta_max = max(eta_vals) if eta_vals else 0.0
-            env_eri.append([eta_max * mean_avg])
-            env_avg.append([mean_avg])
+            # Scale-invariant envelope (Option b): uniform global scaling by peak_domain_avg
+            env_eri.append([eta_max * peak_domain_avg])
+            env_avg.append([peak_domain_avg])
         env_eri = tuple(env_eri)
         env_avg = tuple(env_avg)
 
@@ -1756,10 +1756,10 @@ class MultiStateRecoveryDonorBuilder(object):
             fo_evol = env_frame.FieldOutput(name='EVOL', description='Element volume', type=SCALAR)
             fo_evol.addData(position=WHOLE_ELEMENT, instance=inst_multi, labels=elem_labels, data=env_evol)
 
-        fo_eri = env_frame.FieldOutput(name='MISESERI', description='Multi-state maximum MISESERI (state-consistent normalized)', type=SCALAR)
+        fo_eri = env_frame.FieldOutput(name='MISESERI', description='Multi-state maximum MISESERI (scale-invariant normalized)', type=SCALAR)
         fo_eri.addData(position=WHOLE_ELEMENT, instance=inst_multi, labels=elem_labels, data=env_eri)
 
-        fo_avg = env_frame.FieldOutput(name='MISESAVG', description='Mean domain MISESAVG', type=SCALAR)
+        fo_avg = env_frame.FieldOutput(name='MISESAVG', description='Peak domain MISESAVG (scale-invariant)', type=SCALAR)
         fo_avg.addData(position=WHOLE_ELEMENT, instance=inst_multi, labels=elem_labels, data=env_avg)
 
         if "ALL_ELEM" not in inst_multi.elementSets:

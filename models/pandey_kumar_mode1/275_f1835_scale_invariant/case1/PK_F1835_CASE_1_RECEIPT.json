@@ -1,0 +1,91 @@
+{
+  "case_id": "case_1",
+  "name": "Case 1: Mode-I Edge-Cracked Plate (Method A.2 State-Consistent Multi-State)",
+  "error_target": 4.5,
+  "remeshing_walltime_s": 35.84,
+  "donor_odb_path": "models/pandey_kumar_mode1/275_f1835_scale_invariant/case1/PK_CASE1_MULTISTATE_RECOVERY.odb",
+  "donor_odb_sha256": "268CB9E44809CC856B3630AB059B4169C48E87CCA04C813E0BCAA497E1AF4A0F",
+  "physical_inp_path": "models/pandey_kumar_mode1/275_f1835_scale_invariant/case1/PK_F1835_CASE_1_ADAPT_PHYS.inp",
+  "physical_inp_sha256": "F4381C70A519119B10C5A059162E15F5B39A8A43DD639A7A73C08FAA8C0190CD",
+  "physical_inp_body_sha256": "D424F2FFFCC235FF2A575B664C967F68772132A8DD71E4846B0392570A6C0CBC",
+  "physical_inp_size_bytes": 1793588,
+  "audit_metrics": {
+    "total_elements": 24949,
+    "quad_count": 24225,
+    "tri_count": 724,
+    "quad_fraction_pct": 97.0981,
+    "min_det_j": 2.386022471150442e-07,
+    "max_aspect_ratio": 3.4868,
+    "min_corner_angle_deg": 25.388754176388233,
+    "max_corner_angle_deg": 149.8415142473946,
+    "coarsening_ratio": 2.0887,
+    "refinement_ratio_far_to_core": 2.0887,
+    "h_min_mm": 0.000754,
+    "h_max_mm": 0.025782
+  },
+  "band_metrics": {
+    "total_mesh_area_mm2": 1.0,
+    "total_fine_area_mm2": 0.215428,
+    "total_fine_elements": 20961,
+    "corridor_fine_area_mm2": 0.019969,
+    "unnecessary_fine_area_mm2": 0.19546,
+    "unnecessary_fine_fraction_pct": 90.73,
+    "band_width_mm": 0.039937
+  },
+  "scientific_gate_name": "SCIENTIFIC_GATE_FULL_LIGAMENT",
+  "scientific_gate_status": "PASS",
+  "critical_metrics": {
+    "ligament_elements": 3154,
+    "ligament_pct_le_l0": 99.96829422954978,
+    "ligament_pct_le_l0_half": 94.76854787571338,
+    "outer_ligament_count": 838,
+    "outer_ligament_pct_le_l0_half": 80.90692124105013,
+    "bins": {
+      "bin_1": {
+        "count": 318,
+        "pct_le_l0": 100.0,
+        "pct_le_l0_half": 98.74213836477988,
+        "min_h_um": 1.1178198515627047
+      },
+      "bin_2": {
+        "count": 366,
+        "pct_le_l0": 100.0,
+        "pct_le_l0_half": 99.72677595628416,
+        "min_h_um": 0.9213818511658822
+      },
+      "bin_3": {
+        "count": 847,
+        "pct_le_l0": 100.0,
+        "pct_le_l0_half": 100.0,
+        "min_h_um": 0.8942096988912757
+      },
+      "bin_4": {
+        "count": 785,
+        "pct_le_l0": 100.0,
+        "pct_le_l0_half": 100.0,
+        "min_h_um": 0.8583051145718184
+      },
+      "bin_5": {
+        "count": 598,
+        "pct_le_l0": 100.0,
+        "pct_le_l0_half": 95.9866220735786,
+        "min_h_um": 0.9691921726555154
+      },
+      "bin_6": {
+        "count": 240,
+        "pct_le_l0": 99.58333333333333,
+        "pct_le_l0_half": 43.333333333333336,
+        "min_h_um": 1.8872337986953889
+      }
+    }
+  },
+  "gate_summary": {
+    "gate_01_jacobian": "PASS",
+    "gate_02_quad_fraction": "PASS",
+    "gate_03_aspect_ratio": "PASS",
+    "gate_04_corner_angles": "PASS",
+    "gate_05_scientific_resolution": "PASS",
+    "gate_06_far_field_coarsening": "PASS",
+    "gate_07_element_budget": "PASS"
+  }
+}

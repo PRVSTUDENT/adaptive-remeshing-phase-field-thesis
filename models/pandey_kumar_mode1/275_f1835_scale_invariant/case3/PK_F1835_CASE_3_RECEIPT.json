@@ -1,0 +1,52 @@
+{
+  "case_id": "case_3",
+  "name": "Case 3: Notched Plate with Hole and Pins (Method A.2 State-Consistent Multi-State)",
+  "error_target": 3.0,
+  "remeshing_walltime_s": 262.3,
+  "donor_odb_path": "models/pandey_kumar_mode1/275_f1835_scale_invariant/case3/SEC43_MULTISTATE_RECOVERY.odb",
+  "donor_odb_sha256": "3245114CB94EF097E3C4004804FE87C8053761641B33C93E1B45D2CEA274B948",
+  "physical_inp_path": "models/pandey_kumar_mode1/275_f1835_scale_invariant/case3/PK_F1835_CASE_3_ADAPT_PHYS.inp",
+  "physical_inp_sha256": "70B7F73412F272C55A4D6B86CB30006C73D172EF0CEDBBD56534D707FCCD576C",
+  "physical_inp_body_sha256": "638482BE8B64DD3C233CBA136EEF22AA86A836072F0B7E01E783D7479F21D8BE",
+  "physical_inp_size_bytes": 36822891,
+  "audit_metrics": {
+    "total_elements": 481766,
+    "quad_count": 469460,
+    "tri_count": 12306,
+    "quad_fraction_pct": 97.4456,
+    "min_det_j": 0.0002646260991293992,
+    "max_aspect_ratio": 3.1919,
+    "min_corner_angle_deg": 23.735897334612595,
+    "max_corner_angle_deg": 149.02067955035668,
+    "coarsening_ratio": 1.0437,
+    "refinement_ratio_far_to_core": 1.0437,
+    "h_min_mm": 0.025639,
+    "h_max_mm": 0.219861
+  },
+  "band_metrics": {
+    "total_mesh_area_mm2": 7324.799875,
+    "total_fine_area_mm2": 7324.799875,
+    "total_fine_elements": 481766,
+    "corridor_fine_area_mm2": 1095.474978,
+    "unnecessary_fine_area_mm2": 6229.324897,
+    "unnecessary_fine_fraction_pct": 85.04,
+    "band_width_mm": 19.917727
+  },
+  "scientific_gate_name": "SCIENTIFIC_GATE_SECONDARY_CORRIDOR",
+  "scientific_gate_status": "PASS",
+  "critical_metrics": {
+    "primary_corridor_elements": 50702,
+    "primary_pct_le_l0": 100.0,
+    "secondary_corridor_elements": 27652,
+    "secondary_pct_le_l0": 100.0
+  },
+  "gate_summary": {
+    "gate_01_jacobian": "PASS",
+    "gate_02_quad_fraction": "PASS",
+    "gate_03_aspect_ratio": "PASS",
+    "gate_04_corner_angles": "PASS",
+    "gate_05_scientific_resolution": "PASS",
+    "gate_06_far_field_coarsening": "FAIL",
+    "gate_07_element_budget": "FAIL"
+  }
+}
