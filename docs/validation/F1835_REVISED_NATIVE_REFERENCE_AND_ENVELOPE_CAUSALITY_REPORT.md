@@ -1,15 +1,15 @@
-# Task F1835 / F1836: Native-Donor Reference and Envelope-Causality Diagnosis Report
+# Task F1835 / F1836 / F1837: Native-Donor Reference and Envelope-Causality Diagnosis Report
 
 **Document ID:** `DOC_F1835_REVISED_NATIVE_REFERENCE_AND_ENVELOPE_CAUSALITY_REPORT`  
-**Task ID:** `F1836-F1835-REPORT-CORRECTION` (Correcting and Completing `F1835-SCALE-INVARIANT-ENVELOPE`)  
+**Task ID:** `F1837-F1836-ARTIFACT-TABLE-CORRECTION` (Reconciling and Completing `F1836-F1835-REPORT-CORRECTION` and `F1835-SCALE-INVARIANT-ENVELOPE`)  
 **Protocol:** `INDEPENDENT_STRUCTURED_REVIEW_V1`  
-**Correlation ID:** `HND-F1836-F1835-REPORT-CORRECTION-001`  
-**Predecessor Correlation ID:** `HND-F1835-ENVELOPE-CAUSALITY-001`  
+**Correlation ID:** `HND-F1837-F1836-ARTIFACT-TABLE-CORRECTION-001`  
+**Predecessor Correlation ID:** `HND-F1836-F1835-REPORT-CORRECTION-001`  
 **Date:** 17 November 2026  
 **Assigned Agent:** Gemini Antigravity  
 **Bitwise Frozen UEL SHA-256:** `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`  
 **Shared Framework SHA-256:** `B0857C521AE8E212C74F711CC3373AD57B081167727104905A0F4D2FBBDA0129`  
-**Cumulative PBS Consumed:** 35 (Strictly 0 new PBS jobs consumed; `max_new_pbs = 0`)  
+**Cumulative PBS Consumed:** 36 (Strictly 0 new PBS jobs consumed under F1837; `max_new_pbs = 0`)  
 **Master Goal Status:** `OPEN`  
 
 ---
@@ -86,7 +86,7 @@ Native Abaqus CAE adaptive remeshing was executed directly on `PK_F1720_COARSE_C
 
 In Step 3, the integration-point stresses and error fields of the authentic direct UEL+UMAT donor were quantified:
 - Companion UMAT elements receive authentic UEL Cauchy stresses $\boldsymbol{\sigma}_{\text{UEL}}$ and scale them by dummy factor $s = 4.7619 \times 10^{-14}$ to prevent equilibrium perturbation.
-- Active companion integration points: 10,736 integration points (corresponding to 2,684 active integration elements in the output set).
+- Active companion integration points: 10,736 integration points (corresponding to 2,684 active companion quad elements with overlay $\times$ 4 integration points; 63 elements along the crack slit boundary lack companion overlay, explaining the $2,747 - 2,684 = 63$ element / 252 integration point delta from the full physical mesh).
 - Unscaling by $1/s = 2.1 \times 10^{13}$ recovers physical stresses:
   - Physical Von Mises stress: $\min \sigma_{\text{vM}} = 0.0057\,\text{MPa}$, $\max \sigma_{\text{vM}} = 3.0809\,\text{MPa}$, mean $\sigma_{\text{vM}} = 1.0466\,\text{MPa}$.
   - Physical MISESERI stress error: $\min = 0.0002\,\text{MPa}$, $\max = 0.4986\,\text{MPa}$, mean $= 0.0283\,\text{MPa}$.
@@ -117,6 +117,9 @@ To determine why multi-state recovery envelopes exploded to 120,088 elements (Ca
 | - State 2 (Hole Arrest) | 729 elements (25.09%) | 1,267 elements (32.30%) |
 | - State 3 (Distal Nucleation / Propagation) | 342 elements (11.77%) | 874 elements (22.28%) |
 | - State 4 (Outer Propagation) | 1,171 elements (40.30%) | N/A (3 states only) |
+
+> [!NOTE]
+> **Threshold Distinction for Case 3:** The primary per-element decomposition uses the true physical error target for Case 3 ($\eta_R = 3.0\%$), identifying 2,894 elements (73.77%) exceeding target. In contrast, the global envelope ODB diagnostic probe in the JSON summary used a uniform 4.0% threshold (recording 2,349 elements, 59.88%), as explicitly designated by the JSON field name `num_elements_ratio_ge_4pct`. Both metrics are consistent with their defined thresholds.
 
 ### Dual Mathematical Mechanism of Envelope Inflation:
 1. **Small Local Denominator Amplification ($>53\%–62\%$ of Fine Zone):**
