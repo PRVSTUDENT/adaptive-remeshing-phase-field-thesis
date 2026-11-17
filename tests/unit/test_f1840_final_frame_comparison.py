@@ -6,11 +6,14 @@ Unit test suite verifying Task F1840:
 Final-Frame Remesh and Comparison for Case 2 Paper-Reproduction Reference.
 """
 import os
+import sys
 import json
 import hashlib
 import pytest
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if REPO_ROOT not in sys.path:
+    sys.path.insert(0, REPO_ROOT)
 
 def sha256_file(filepath):
     h = hashlib.sha256()
@@ -36,7 +39,11 @@ def test_pbs_accounting_and_governance():
     with open(task_json_path, "r", encoding="utf-8-sig") as f:
         task = json.load(f)
 
-    assert task["task_id"] in ["F1840-CASE2-FINAL-FRAME-REMESH-COMPARISON", "F1841-F1840-ARTIFACT-TABLE-CORRECTION"]
+    assert task["task_id"] in [
+        "F1840-CASE2-FINAL-FRAME-REMESH-COMPARISON",
+        "F1841-F1840-ARTIFACT-TABLE-CORRECTION",
+        "F1842-F1840-FINAL-REPORT-CORRECTION"
+    ]
     assert task["max_new_pbs_submissions"] == 0
     assert task["submissions_consumed"] == 0
     assert task["cumulative_pbs_submissions"] == 36
@@ -158,3 +165,9 @@ def test_report_existence_and_artifact_table_reconciliation():
     assert "458e6a9d8cb36fae18f357e11577989adac4617e" in content
     assert "26FBE77367FB71EE2DE300A2E7B9B7EC26E82E0FF333BC37F807A1BE0F647AC6" in content
     assert "986.18" in content
+
+def test_remesh_script_body_sha_reproduction():
+    from scripts.remeshing.run_f1840_case2_final_frame_remesh import compute_body_sha256
+    mesh_path = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "278_f1840_final_frame_comparison", "PK_F1840_CASE_2_FINAL_FRAME_PHYS.inp")
+    computed_sha = compute_body_sha256(mesh_path)
+    assert computed_sha == "26FBE77367FB71EE2DE300A2E7B9B7EC26E82E0FF333BC37F807A1BE0F647AC6"

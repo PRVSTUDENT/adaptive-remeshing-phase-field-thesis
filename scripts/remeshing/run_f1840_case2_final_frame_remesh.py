@@ -51,12 +51,12 @@ def sha256_file(filepath):
     return h.hexdigest().upper()
 
 def compute_body_sha256(filepath):
-    """Computes SHA-256 of the INP body excluding comments and heading (normalized line endings)."""
+    """Computes SHA-256 of the INP body excluding comments (normalized line endings)."""
     h = hashlib.sha256()
     with open(filepath, "r") as f:
         for line in f:
             stripped = line.strip()
-            if stripped.startswith("**") or stripped.upper().startswith("*HEADING"):
+            if stripped.startswith("**"):
                 continue
             h.update((stripped + "\n").encode("utf-8"))
     return h.hexdigest().upper()

@@ -1,20 +1,18 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1841-artifact-table-correction-20261117",
-  "task_id": "F1841-F1840-ARTIFACT-TABLE-CORRECTION",
-  "started_at": "2026-11-17T14:04:00+01:00",
-  "completed_at": "2026-11-17T14:25:00+01:00",
-  "starting_commit": "458e6a9d8cb36fae18f357e11577989adac4617e",
+  "session_id": "gemini-antigravity-f1842-final-report-correction-20261117",
+  "task_id": "F1842-F1840-FINAL-REPORT-CORRECTION",
+  "started_at": "2026-11-17T14:33:00+01:00",
+  "completed_at": "2026-11-17T14:44:00+01:00",
+  "starting_commit": "3f7e568b3221f2267ac0465e46b95da3742d6fce",
   "allowed_write_scope": [
-    "models/pandey_kumar_mode1/278_*",
     "docs/validation/F1840_*",
     "project_coordination/*",
-    "tests/unit/test_f1840_*",
-    "scripts/remeshing/extract_case2_final_frame_donor.py",
     "scripts/remeshing/run_f1840_case2_final_frame_remesh.py",
+    "tests/unit/test_f1840_*",
     ".agents/scripts/*",
     ".agents/bridge_history/*"
   ],
-  "notes": "Task F1841: Correct the F1840 Report Artifact Registry (correction-only)."
+  "notes": "Task F1842: Final narrow correction-only task: fix Section 3 body SHA, fix Table 7.2 rows, and restore standard body-SHA function."
 }
