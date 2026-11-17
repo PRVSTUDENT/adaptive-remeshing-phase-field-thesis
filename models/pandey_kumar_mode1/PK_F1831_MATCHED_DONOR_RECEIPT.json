@@ -1,0 +1,25 @@
+{
+  "task_id": "F1831-MATCHED-DONOR-EXPERIMENT",
+  "correlation_id": "HND-F1831-MATCHED-DONOR-EXPERIMENT-001",
+  "receipt_type": "MATCHED_DONOR_EXPERIMENT_RECEIPT",
+  "timestamp": "2026-11-17T07:46:00+01:00",
+  "author": "gemini-antigravity",
+  "governing_directive": "Matched Donor Experiment \u2014 Direct In-Analysis vs Recovery Donors at Matched Physical States",
+  "aggregation_audit_findings": {
+    "case_1_max_inflation_pct": 150.23,
+    "case_2_mean_inflation_pct": 24.63,
+    "case_3_max_inflation_pct": 198.68,
+    "case_5_inflation_pct": 0.0
+  },
+  "matched_experiment_findings": {
+    "a1_single_state_summary": "Single-state direct in-analysis donors achieve high efficiency (13.6k elements in Case 2, 44.5k in Case 3) and satisfy Gate 06 coarsening (2.03x in Case 2), but mathematically FAIL distal resolution gates (43.72% in Case 2, 42.79% in Case 3, 0% in Case 1) due to elastic stress decay prior to crack arrival.",
+    "a2_multi_state_summary": "Multi-state recovery donors resolve 100% of the propagating crack path (97.19% in Case 1, 99.89% in Case 2, 93.84% in Case 3), but require larger element counts (25.5k in Case 1, 41.4k in Case 2, 77.8k in Case 3) and accumulate fine elements into the far-field.",
+    "scientific_conclusion": "Native in-analysis MISESERI is purely local and instantaneous; it cannot predict future crack propagation without advancing damage states. Recovery envelopes remain essential for pre-adapting advancing fracture paths."
+  },
+  "governance": {
+    "max_new_pbs_submissions": 0,
+    "submissions_consumed": 0,
+    "cumulative_pbs_submissions": 35,
+    "master_goal_status": "OPEN"
+  }
+}

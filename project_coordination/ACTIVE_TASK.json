@@ -1,6 +1,6 @@
 {
-  "task_id": "F1830-STRESS-OUTPUT-INTERFACE-QUALIFICATION",
-  "title": "Task F1830: Qualify the Smallest Stress-Output Interface Candidate Enabling Native Abaqus MISESERI While Preserving the Frozen Isotropic UEL",
+  "task_id": "F1831-MATCHED-DONOR-EXPERIMENT",
+  "title": "Task F1831: Matched Donor Experiment — Direct In-Analysis (F1830 Interface) vs Recovery Donors at Matched Physical States",
   "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
@@ -8,23 +8,23 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1830_STRESS_OUTPUT_INTERFACE_QUALIFICATION.md",
-  "review_directive": "Task F1830: Build and qualify the smallest separately versioned stress-output interface candidate enabling native Abaqus MISESERI in-analysis WITHOUT modifying the frozen isotropic UEL CE8D5EDC... bitwise. The interface candidate must: (1) receive authentic stresses from the frozen isotropic UEL via a dedicated interface in a separately versioned file; (2) apply dummy scaling s=1e-11/E_0 (4.7619e-14); (3) implement dedicated committed/trial buffers so cutback trial stresses do not contaminate accepted states; (4) preserve 3-layer overlay topology and element/IP mapping. Run inexpensive offline and patch checks FIRST (no PBS): verify stress fidelity, mapping, scaling, cutback synchronization, and multi-element mechanical neutrality. Report numbers, not PASS labels. Zero new PBS jobs (cumulative 35 preserved). Bitwise frozen UEL CE8D5EDC... and Framework 80B41AA2... preserved. MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1831_MATCHED_DONOR_EXPERIMENT_REPORT.md",
+  "review_directive": "Task F1831: Matched Donor Experiment — Direct In-Analysis (F1830 Interface) vs Recovery Donors at Matched Physical States. Compare direct in-analysis donors (using qualified F1830 interface f42_native_miseseri_interface_v1.for, SHA E5C98B6F...) against recovery donors (F1812 multi-state envelopes) at MATCHED physical states: same geometry, coarse topology where feasible, material formulation (frozen isotropic UEL), loading, causal cutoff, and remeshing settings. Separate A.1 (single-state/single-pass) and A.2 (multi-state causal). Audit max-MISESERI/mean-MISESAVG aggregation vs state-consistent native treatment. Priority: Case 2, Case 3, Case 1, Case 5 protection. Report critical-region h/l0 coverage, element count, quad fraction, max aspect ratio, Jacobians, band width, unnecessary fine area, original Gate 06 coarsening, and measured costs against F1812 baselines. Publish genuine individual mesh images, 2x2 composite, URLs, and hashes. 0 new PBS jobs (cumulative 35 preserved). Frozen UEL CE8D5EDC... and Framework 80B41AA2... strictly preserved. MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1829-NATIVE-MISESERI-DIRECT-COUPLING-EVIDENCE-AUDIT",
-    "checkpoint_artifact": "docs/validation/F1829_NATIVE_MISESERI_DIRECT_COUPLING_EVIDENCE_AUDIT_REPORT.md",
+    "task_id": "F1830-STRESS-OUTPUT-INTERFACE-QUALIFICATION",
+    "checkpoint_artifact": "docs/validation/F1830_STRESS_OUTPUT_INTERFACE_QUALIFICATION.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
     "review_verdict": "APPROVE",
-    "correlation_id": "HND-F1829-NATIVE-MISESERI-AUDIT-001"
+    "correlation_id": "HND-F1830-STRESS-OUTPUT-INTERFACE-001"
   },
   "re_review_correlation_id": null,
   "scientific_operation": "shared_framework_improvement",
-  "scientific_operation_id": "f1830_stress_output_interface_001",
+  "scientific_operation_id": "f1831_matched_donor_experiment_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "80B41AA253E5B36B2BCF5D716B88843D29355141171C60AFF6E7134A0312932C",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1830 completed and fully qualified offline. Candidate interface f42_native_miseseri_interface_v1.for (E5C98B6F...) preserves Isotropic Degradation formulation bitwise, implements cutback-synchronized buffers with Fortran SAVE /CB_F1830_STRESS/, achieves machine-precision multi-element neutrality (0.0000000000000000% error), proves scaling necessity (+100.0000% RF inflation in unscaled negative control), verifies 100% IP stress fidelity, and establishes scale invariance. 6/6 unit tests PASS in test_f1830_stress_output_interface.py. 0 new PBS jobs consumed (cumulative 35 preserved). Frozen UEL CE8D5EDC... and Framework 80B41AA2... strictly preserved. MASTER_GOAL_STATUS = OPEN."
+  "notes": "Task F1831 completed. Matched donor experiment and multi-state aggregation audit fully evaluated. Report, receipt, summary JSON, figures, and unit tests verified. 0 new PBS jobs consumed, cumulative 35 preserved. Ready for independent review under HND-F1831-MATCHED-DONOR-EXPERIMENT-001."
 }
