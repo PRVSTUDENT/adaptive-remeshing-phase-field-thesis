@@ -7026,3 +7026,9 @@ F1851_036,Method-A,results/figures/fig_f1851_f1720_step2_178_fields.png,diagnost
 F1851_037,Method-A,results/validation/f1851_diagnostics_summary.json,diagnostic_evidence,pending_review,,,,,"Existing native donors only; no new PBS, no frozen-source edits"
 F1851_038,Method-A,docs/validation/F1851_NATIVE_MISESERI_DIAGNOSTICS_REPORT.md,diagnostic_evidence,pending_review,,,,,"Existing native donors only; no new PBS, no frozen-source edits"
 F1851_039,Method-A,project_coordination/sessions/2026-11-18_codex_f1851_native_diagnostics.md,diagnostic_evidence,pending_review,,,,,"Existing native donors only; no new PBS, no frozen-source edits"
+F1851_CLOSE_00,Method-A,scripts/remeshing/finalize_f1851_evidence.py,diagnostic_coordination,review_transport_blocked,,,,,
+F1851_CLOSE_01,Method-A,scripts/remeshing/closeout_f1851.py,diagnostic_coordination,review_transport_blocked,,,,,
+F1851_CLOSE_02,Method-A,results/validation/f1851_image_manifest.json,diagnostic_coordination,review_transport_blocked,,,,,
+F1851_CLOSE_03,Method-A,.agents/scripts/dispatch_f1851_codex.ps1,diagnostic_coordination,review_transport_blocked,,,,,
+F1851_CLOSE_04,Method-A,.agents/bridge_history/f1851_native_diagnostics_request.txt,diagnostic_coordination,review_transport_blocked,,,,,
+F1851_CLOSE_05,Method-A,.agents/bridge_history/f1851_dispatch_block.json,diagnostic_coordination,review_transport_blocked,,,,,

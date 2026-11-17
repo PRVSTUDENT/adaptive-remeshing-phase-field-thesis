@@ -1,10 +1,10 @@
 {
   "task_id": "F1851-NATIVE-DIAGNOSTICS",
   "title": "Existing-donor native error and extraction diagnostics",
-  "task_status": "COMPLETED_PENDING_REVIEW",
+  "task_status": "NUMERICS_COMPLETE_REVIEW_TRANSPORT_BLOCKED",
   "master_goal_status": "OPEN",
-  "status": "COMPLETED_PENDING_REVIEW",
-  "review_verdict": "PENDING",
+  "status": "NUMERICS_COMPLETE_REVIEW_TRANSPORT_BLOCKED",
+  "review_verdict": "PENDING_NOT_SENT",
   "review_correlation_id": "HND-F1851-NATIVE-DIAGNOSTICS-001",
   "classification": "SHARED_FRAMEWORK_IMPROVEMENT",
   "assigned_agent": "codex",
@@ -30,7 +30,7 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 36,
-  "notes": "Direct user request; F1850 transport not authenticated. 0 new PBS. Both source analyses incomplete; original C2 missing EVOL; mapping exact; F1720 paired remesh hashes match.",
+  "notes": "5 tests PASS. C2 triangle stress tensors zero on all74, 64.28% outside error proxy at final frame. Source solves incomplete. F1851 guarded publisher refused unresolved F1850 response; no overwrite, no send claimed.",
   "historical_pbs_job_ids": [
     "1424198.mmaster02"
   ]

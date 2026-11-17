@@ -59,3 +59,5 @@ Extraction is not a demonstrated source of indicator distortion in these tests. 
 - `models/pandey_kumar_mode1/281_f1851_native_diagnostics/f1720_Step-2_extracted.odb`: 317268 bytes, SHA256 `9a5babb0d5f59ddf3749eca8fbb412a63d77cffb60dcaec4c08aebf044dd93fc`.
 
 All74 Case2 triangle stress tensors are exactly zero in the original final frame (not merely zero von Mises invariants). Four focused tests PASS. Status-file termination excerpts and hashes are in the summary.
+
+Final verification: five focused tests PASS; all eight published image links return HTTP200. Guarded review handoff was NOT SENT: publisher refused the unresolved F1850 response. F1851 science remains pending independent review.

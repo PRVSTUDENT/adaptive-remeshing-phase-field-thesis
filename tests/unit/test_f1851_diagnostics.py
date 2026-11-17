@@ -26,3 +26,13 @@ def test_frozen_sources_and_original_native_fields():
     assert hashlib.sha256((R/'scripts/remeshing/generalized_2d_adaptive_framework_damage_envelope_f1849.py').read_bytes()).hexdigest()=='694e7ababd739e6f5cbca5597cb39ada500116895b8c4a21ca470b64f9247096'
     stats=summary()['field_statistics'];f=next(x for x in stats if x['snapshot']=='f1720_step2_178.json')
     assert .52<f['maximum_IP_damage']<.53
+def test_triangle_anomaly_is_distinct_from_ip_accounting():
+    stats=summary()['field_statistics']
+    c=next(x for x in stats if x['snapshot']=='case2_original337.json')['element_type_audit']
+    assert c['CPE3']['elements']==c['CPE3']['zero_stress']==c['CPE3']['zero_base']==74
+    assert c['CPE4']['zero_stress']==0
+    assert 64<c['CPE3']['outside_error_proxy_share_pct']<65
+    f=next(x for x in stats if x['snapshot']=='f1720_step2_178.json')
+    assert f['missing_stress_elements']==f['missing_damage_elements']==0
+    assert f['element_type_audit']['CPE4']['elements']==2663
+    assert f['element_type_audit']['CPE3']['elements']==84
