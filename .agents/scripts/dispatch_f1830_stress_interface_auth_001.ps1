@@ -51,13 +51,13 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
     "qualifies_native_miseseri": true,
     "causal_evidence_status": "VERIFIED",
     "causal_evidence": {
-      "candidate_path": "models/pandey_kumar_mode1/271_f1830_stress_output_interface/f42_native_miseseri_interface_v1.for",
-      "candidate_sha256": "E5C98B6F601B1CD586571F8E24F357D15ABBD1C5D5487B52903BA249734279B2",
-      "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-      "framework_sha256": "80B41AA253E5B36B2BCF5D716B88843D29355141171C60AFF6E7134A0312932C",
-      "patch_case": "4-Element Quad Patch (2x2 grid, 9 nodes, 12 layered elements)",
-      "patch_model_coupled": "models/pandey_kumar_mode1/271_f1830_stress_output_interface/PK_F1830_4ELEM_COUPLED.inp",
-      "patch_model_ref": "models/pandey_kumar_mode1/271_f1830_stress_output_interface/PK_F1830_4ELEM_STANDALONE.inp",
+      "donor_path": "models/pandey_kumar_mode1/271_f1830_stress_output_interface/PK_F1830_4ELEM_COUPLED.odb",
+      "donor_sha256": "BFD17E357176FA0A23632A5D0575DFDE04020AB3161822F4136896B18C1D7F80",
+      "donor_step": "Step-1",
+      "donor_frame_index": 1,
+      "indicator_frame_range": "Patch loading Step-1, frame 1 (uy=0.0010 mm)",
+      "held_out_later_solution": "All post-patch full-scale and fracture propagation states held out",
+      "uses_future_frames": false,
       "remesh_time": 1.0,
       "maximum_indicator_time": 1.0
     }
