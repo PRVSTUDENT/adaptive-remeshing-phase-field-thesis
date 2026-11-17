@@ -27,7 +27,7 @@ if (Test-Path $rulesPath) {
     $rulesContent = Get-Content -Path $rulesPath -Raw -Encoding UTF8
 }
 
-$commitSha = "d2471e931a965e99b0e684d8c6aa1f64eaf99b2f"
+$commitSha = (git rev-parse HEAD).Trim()
 
 $header = @"
 [BRIDGE_HANDOFF_ID=$handoffId]
