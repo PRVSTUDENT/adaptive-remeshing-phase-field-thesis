@@ -1,17 +1,17 @@
 ﻿{
     "task_id": "F1844-F1837-BODY-SHA-CORRECTION",
     "title": "Task F1844: Correct the Three Scale-Invariant Mesh Body SHAs",
-    "task_status": "IN_PROGRESS",
+    "task_status": "BLOCKED_MALFORMED_SUPERVISORY_RESPONSE",
     "master_goal_status": "OPEN",
-    "status": "IN_PROGRESS",
-    "review_verdict": null,
-    "review_correlation_id": null,
+    "status": "BLOCKED_MALFORMED_SUPERVISORY_RESPONSE",
+    "review_verdict": "REJECT_MALFORMED_TRANSPORT",
+    "review_correlation_id": "HND-F1844-F1837-BODY-SHA-CORRECTION-001",
     "classification": "CORRECTION_ONLY",
     "assigned_agent": "gemini-antigravity",
     "active_pbs_job_id": null,
     "last_successful_pbs_job_id": "1424198.mmaster02",
     "checkpoint_artifact": "docs/validation/F1835_REVISED_NATIVE_REFERENCE_AND_ENVELOPE_CAUSALITY_REPORT.md",
-    "review_directive": "Task F1844: Correct the three scale-invariant mesh body SHAs in the F1835/F1836 report (correction-only). Do NOT generate new meshes, do NOT run new solves, do NOT submit any new PBS job (max_new_pbs = 0), and do NOT modify the frozen UEL (CE8D5EDC) or framework (B0857C52). In docs/validation/F1835_REVISED_NATIVE_REFERENCE_AND_ENVELOPE_CAUSALITY_REPORT.md, Section 9, correct the INP Body SHA-256 column for the three scale-invariant meshes by recomputing each with the committed compute_body_sha256 function: SI Case 1 to D424F2FFFCC235FF2A575B664C967F68772132A8DD71E4846B0392570A6C0CBC, SI Case 2 to 4C686A3179A0688318DED9858736758353C3A55B8392305284B7EFFCDC23FA47, and SI Case 3 to 638482BE8B64DD3C233CBA136EEF22AA86A836072F0B7E01E783D7479F21D8BE. MASTER_GOAL_STATUS = OPEN.",
+    "review_directive": "Task F1844: Correct the three scale-invariant mesh body SHAs in the F1835/F1836 report (correction-only). Body SHAs recomputed and committed at f0d85ecbb (SI Case 1: D424F2FFFCC235FF2A575B664C967F68772132A8DD71E4846B0392570A6C0CBC, SI Case 2: 4C686A3179A0688318DED9858736758353C3A55B8392305284B7EFFCDC23FA47, SI Case 3: 638482BE8B64DD3C233CBA136EEF22AA86A836072F0B7E01E783D7479F21D8BE). Handoff dispatched under HND-F1844-F1837-BODY-SHA-CORRECTION-001; supervisory response returned conversational prose instead of INDEPENDENT_STRUCTURED_REVIEW_V1 JSON (BRIDGE_RESPONSE_JSON_ONLY_REQUIRED). Transaction safely archived; holding for resume.",
     "predecessor_task": {
         "task_id": "F1837-F1836-ARTIFACT-TABLE-CORRECTION",
         "checkpoint_artifact": "docs/validation/F1835_REVISED_NATIVE_REFERENCE_AND_ENVELOPE_CAUSALITY_REPORT.md",
@@ -28,7 +28,7 @@
     "max_new_pbs_submissions": 0,
     "submissions_consumed": 0,
     "cumulative_pbs_submissions": 36,
-    "notes": "Task F1844 in progress: correcting the three scale-invariant mesh body SHAs in Section 9 of the F1835 report to match the committed compute_body_sha256 function.",
+    "notes": "Task F1844 blocked on malformed transport response (conversational prose instead of review JSON). Evidence archived. MASTER_GOAL_STATUS = OPEN.",
     "historical_pbs_job_ids": [
         "1424198.mmaster02"
     ]

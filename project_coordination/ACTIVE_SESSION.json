@@ -1,10 +1,10 @@
 {
-  "active": true,
+  "active": false,
   "agent": "gemini-antigravity",
   "session_id": "gemini-antigravity-f1844-body-sha-correction-20261117",
   "task_id": "F1844-F1837-BODY-SHA-CORRECTION",
   "started_at": "2026-11-17T15:32:00+01:00",
-  "completed_at": null,
+  "completed_at": "2026-11-17T15:58:00+01:00",
   "starting_commit": "be040e7885b54634ce55a90e38640bc5222bf9d2",
   "allowed_write_scope": [
     "docs/validation/F1835_*",
@@ -13,5 +13,5 @@
     ".agents/bridge_history/*",
     "tests/unit/test_f1835_*"
   ],
-  "notes": "Task F1844: Correct the three scale-invariant mesh body SHAs in Section 9 of the F1835/F1836 report under HND-F1844-F1837-BODY-SHA-CORRECTION-001."
+  "notes": "Task F1844 dispatched; received malformed non-JSON supervisory response (BRIDGE_RESPONSE_JSON_ONLY_REQUIRED); transaction preserved in archive; session released; MASTER_GOAL_STATUS = OPEN."
 }
