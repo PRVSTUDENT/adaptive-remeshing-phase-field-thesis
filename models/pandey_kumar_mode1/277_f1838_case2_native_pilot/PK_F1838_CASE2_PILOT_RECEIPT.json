@@ -1,0 +1,74 @@
+{
+  "task_id": "F1838-CASE2-NATIVE-JOB1-PILOT",
+  "case_id": "case_2",
+  "job_name": "PK_HOLE_COARSE_F1838_PILOT",
+  "pbs_job_id": "1424198.mmaster02",
+  "solver_status": "COMPLETED_EXIT_0",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/f1838_case2_native_pilot",
+  "input_deck": {
+    "path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\277_f1838_case2_native_pilot\\PK_HOLE_COARSE_F1838_PILOT.inp",
+    "filename": "PK_HOLE_COARSE_F1838_PILOT.inp",
+    "sha256": "555D9285EA417ABAA2CF08AE630D50D4DD0DB99F5702F6CC45EACEBD1D075785",
+    "size_bytes": 372561,
+    "physical_elements": 2906,
+    "layered_elements": 8718,
+    "nodes": 3010
+  },
+  "user_subroutine": {
+    "path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\277_f1838_case2_native_pilot\\f42_native_miseseri_interface_v1.for",
+    "filename": "f42_native_miseseri_interface_v1.for",
+    "sha256": "E5C98B6F601B1CD586571F8E24F357D15ABBD1C5D5487B52903BA249734279B2",
+    "interface_type": "F1830_STRESS_OUTPUT_INTERFACE_CANDIDATE"
+  },
+  "pbs_script": {
+    "path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\277_f1838_case2_native_pilot\\submit_f1838_case2_pilot.pbs",
+    "filename": "submit_f1838_case2_pilot.pbs",
+    "sha256": "B12B7737A1132C8392A4E2376DBCB4249B982D7554B98622E5324C89016C3836",
+    "queue": "entry_imfdfkmq",
+    "walltime": "08:00:00",
+    "cpus": 1,
+    "mem": "16gb"
+  },
+  "predeclared_tolerances": {
+    "peak_reaction_force_rel_diff_max": 0.0001,
+    "peak_displacement_rel_diff_max": 0.0001,
+    "linear_stiffness_rel_diff_max": 1e-05,
+    "force_displacement_l2_rel_diff_max": 0.001
+  },
+  "baseline_anchor": {
+    "model": "PK_HOLE_COARSE_JOB1",
+    "odb_path": "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_JOB1.odb",
+    "peak_rf2_kn": 0.731015,
+    "peak_u2_mm": 0.007294,
+    "terminal_rf2_kn": 0.216354,
+    "terminal_u2_mm": 0.009591
+  },
+  "mechanical_equivalence": {
+    "baseline_fmax_kn": 0.731015,
+    "pilot_fmax_kn": 0.731015,
+    "f_max_absolute_diff_kn": 2.63e-7,
+    "f_max_relative_diff_pct": 0.000036,
+    "baseline_umax_mm": 0.007294,
+    "pilot_umax_mm": 0.007294,
+    "u_at_f_max_absolute_diff_mm": 1.88e-7,
+    "u_at_f_max_relative_diff_pct": 0.002571,
+    "equivalence_status": "PASS"
+  },
+  "telemetry": {
+    "native_miseseri_present": true,
+    "native_misesavg_present": true,
+    "total_elements_with_miseseri": 2906,
+    "step1_frames": 51,
+    "step2_frames": 338,
+    "step2_converged_increments": 338,
+    "cutback_recovered_successfully": true,
+    "cutback_increment": 152
+  },
+  "donor_extracted": {
+    "odb_path": "models/pandey_kumar_mode1/277_f1838_case2_native_pilot/PK_F1838_CASE2_FRAME300_DONOR.odb",
+    "frame_idx": 300,
+    "step_time_s": 0.5937,
+    "d_max": 0.9972,
+    "description": "Increment 300: crack fully evolved to hole, stress actively transferring to outer distal ligament"
+  }
+}

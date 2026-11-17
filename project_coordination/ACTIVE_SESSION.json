@@ -1,23 +1,21 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1836-report-correction-20261117",
-  "task_id": "F1836-F1835-REPORT-CORRECTION",
-  "started_at": "2026-11-17T10:48:00+01:00",
-  "completed_at": "2026-11-17T11:00:00+01:00",
-  "starting_commit": "9c86847a224a919013c7a6e191341c3e390c50cf",
+  "session_id": "gemini-antigravity-f1838-case2-pilot-20261117",
+  "task_id": "F1838-CASE2-NATIVE-JOB1-PILOT",
+  "started_at": "2026-11-17T11:20:00+01:00",
+  "completed_at": "2026-11-17T12:48:00+01:00",
+  "starting_commit": "bd71626dc5fec5fa1da51da5e823f6630fecfa6d",
   "allowed_write_scope": [
-    "docs/validation/F1835_*",
-    "results/validation/f1835_*",
-    "results/validation/step1_authentic_reference_inventory.json",
-    "results/validation/f1836_*",
-    "scripts/remeshing/compute_f1836_*",
-    "tests/unit/test_f1835_*",
-    "tests/unit/test_f1836_*",
-    "tests/unit/test_f1830_*",
+    "models/pandey_kumar_mode1/277_*",
+    "models/pandey_kumar_mode1/176_*",
+    "results/validation/f1838_*",
+    "docs/validation/F1838_*",
+    "scripts/remeshing/*",
+    "tests/unit/test_f1838_*",
     "project_coordination/*",
     ".agents/scripts/*",
     ".agents/bridge_history/*"
   ],
-  "notes": "Task F1836: Correct the F1835 Report and Complete the Missing Diagnosis Deliverables."
+  "notes": "Task F1838: Bounded Native Job-1 Pilot for Case 2 complete. Ready for independent review."
 }
