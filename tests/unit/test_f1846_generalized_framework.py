@@ -192,5 +192,46 @@ class TestF1846GeneralizedFramework(unittest.TestCase):
         self.assertEqual(task["cumulative_pbs_submissions"], 36)
         self.assertEqual(task["master_goal_status"], "OPEN")
 
+    def test_08_evidence_correction_and_figures(self):
+        """Verifies Task F1847 evidence deliverables: donor ODB, relative summary paths, and figures."""
+        # 1. Donor ODB exists, correct size and hash
+        odb_path = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "276_f1846_generalized_framework", "l_panel", "PK_F1846_LPANEL_COARSE.odb")
+        self.assertTrue(os.path.exists(odb_path))
+        self.assertEqual(os.path.getsize(odb_path), 365628)
+        with open(odb_path, "rb") as f:
+            odb_sha = hashlib.sha256(f.read()).hexdigest().upper()
+        self.assertEqual(odb_sha, "84FE528239F5649A185BBB5DA9752B54AC288AED8393425E676D71E449554056")
+
+        # 2. Summary JSON has repo-relative paths (no Windows backslash absolute paths)
+        summary_path = os.path.join(REPO_ROOT, "results", "validation", "f1846_four_benchmark_regression_summary.json")
+        with open(summary_path, "r", encoding="utf-8") as f:
+            summary_txt = f.read()
+            summary = json.loads(summary_txt)
+        self.assertNotIn("D:\\\\", summary_txt)
+        self.assertNotIn("D:/", summary_txt)
+        for cid in ["case_1", "case_2", "case_3", "case_5"]:
+            self.assertTrue(summary[cid]["audit_json"].startswith("models/"))
+            self.assertTrue(summary[cid]["physical_mesh"].startswith("models/"))
+
+        # 3. All publication figures exist and non-empty
+        figs = [
+            "fig_f1846_unfamiliar_l_panel_mesh.png",
+            "fig_f1846_unfamiliar_l_panel_mesh.pdf",
+            "fig_f1847_case_1_mesh.png",
+            "fig_f1847_case_1_mesh.pdf",
+            "fig_f1847_case_2_mesh.png",
+            "fig_f1847_case_2_mesh.pdf",
+            "fig_f1847_case_3_mesh.png",
+            "fig_f1847_case_3_mesh.pdf",
+            "fig_f1847_case_5_mesh.png",
+            "fig_f1847_case_5_mesh.pdf",
+            "fig_f1847_four_benchmark_composite.png",
+            "fig_f1847_four_benchmark_composite.pdf"
+        ]
+        for fig in figs:
+            fp = os.path.join(REPO_ROOT, "results", "figures", fig)
+            self.assertTrue(os.path.exists(fp), "Missing figure %s" % fig)
+            self.assertGreater(os.path.getsize(fp), 1000, "Figure %s too small" % fig)
+
 if __name__ == "__main__":
     unittest.main()

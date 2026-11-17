@@ -1,27 +1,27 @@
 ﻿{
-    "task_id": "F1846-GENERALIZED-FRAMEWORK-FROM-F1779",
-    "title": "Task F1846: Build a Generalized 2D Adaptive-Remeshing Framework from the Frozen F1779 Revision",
+    "task_id": "F1847-F1846-EVIDENCE-CORRECTION",
+    "title": "Task F1847: F1846 Evidence Correction (Donor ODB, Gate 06 Reconciliation, Pinned Links, Benchmark Images)",
     "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
     "master_goal_status": "OPEN",
     "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
     "review_verdict": "PENDING",
-    "review_correlation_id": "HND-F1846-GENERALIZED-FRAMEWORK-FROM-F1779-001",
-    "classification": "SHARED_FRAMEWORK_IMPROVEMENT",
+    "review_correlation_id": "HND-F1847-F1846-EVIDENCE-CORRECTION-001",
+    "classification": "EVIDENCE_CORRECTION",
     "assigned_agent": "gemini-antigravity",
     "active_pbs_job_id": null,
     "last_successful_pbs_job_id": "1424198.mmaster02",
     "checkpoint_artifact": "docs/validation/F1846_GENERALIZED_FRAMEWORK_FROM_F1779_REPORT.md",
-    "review_directive": "Task F1846: Build a generalized 2D adaptive-remeshing framework from the frozen F1779 revision (commit c8d8588fb, scripts/remeshing/reusable_2d_adaptive_framework.py, 1,692 lines, SHA CDD88460). Extract it into a NEW separately versioned framework file — do NOT overwrite the frozen F1779 revision, the frozen production UEL (CE8D5EDC), or the current production framework (B0857C52). Generalize the geometry adapters so they accept arbitrary 2D geometry/loading via configuration, with NO hardcoded crack-path coordinates anywhere in the remeshing path. Wire sizing to NATIVE in-analysis MISESERI first; keep the AdvancingDamageEnvelopeBuilder (synthetic frame 9999, constructed MISESERI from max SDV1 damage) ONLY as a clearly labeled fallback, and label any mesh produced through it CONSTRUCTED_DAMAGE_ENVELOPE, never NATIVE. Then test it on ONE unfamiliar 2D geometry of your choice (distinct from Cases 1/2/3/5; state why it is unfamiliar; define it entirely by geometry/loading with no crack-path coordinates). Deliver generalized framework, unfamiliar-geometry test with audits, report, genuine standalone mesh images with commit-pinned URLs and SHAs, and regression check regenerating Cases 1/2/3/5 vs F1812 baselines. MAX_NEW_PBS_SUBMISSIONS = 0. MASTER_GOAL_STATUS = OPEN.",
+    "review_directive": "Task F1847 (correction-only, no new science, no new PBS): Fix the F1846 evidence record. (1) Commit the L-panel donor ODB models/pandey_kumar_mode1/276_f1846_generalized_framework/l_panel/PK_F1846_LPANEL_COARSE.odb to the repo so its claimed size (365,628 bytes) and SHA (84FE5282) can be verified by download. (2) Reconcile the L-panel Gate 06: state both definitions explicitly (distance-based corner vicinity d<=10 vs far field d>=40 gives 2.58x; classify_region process-zone vs far-field gives 2.331x), name which one governs Gate 06, and make the report, the image title and the audit JSON consistent. (3) Explain the Case 2 Gate 06 difference (1.8147x in F1846 vs 1.9349x harmonized in F1812 for a byte-identical mesh, body SHA 5C7DD6B5) and the Case 5 Gate 06 PASS-to-FAIL flip (2.1174x PASS in F1812 vs 1.9387x FAIL in F1846, mesh changed only -0.36%): state whether the audit method changed and why, in the corrected report. (4) Fix the report Section 4 image URLs to the pinned commit, not HEAD. (5) Generate and commit genuine standalone mesh images for the four regenerated benchmark meshes (Cases 1, 2, 3, 5) from the generalized framework, with commit-pinned URLs and SHA-256 hashes in the manifest. (6) Replace the Windows absolute paths in results/validation/f1846_four_benchmark_regression_summary.json with repo-relative paths. Do NOT change the framework, do NOT regenerate any mesh, do NOT run any new solve. MAX_NEW_PBS_SUBMISSIONS = 0. MASTER_GOAL_STATUS = OPEN.",
     "predecessor_task": {
-        "task_id": "F1844-F1837-BODY-SHA-CORRECTION",
-        "checkpoint_artifact": "docs/validation/F1835_REVISED_NATIVE_REFERENCE_AND_ENVELOPE_CAUSALITY_REPORT.md",
-        "classification": "CORRECTION_ONLY",
-        "review_verdict": "SUPERSEDED_BY_F1846_DIRECTIVE",
-        "correlation_id": "HND-F1844-F1837-BODY-SHA-CORRECTION-001"
+        "task_id": "F1846-GENERALIZED-FRAMEWORK-FROM-F1779",
+        "checkpoint_artifact": "docs/validation/F1846_GENERALIZED_FRAMEWORK_FROM_F1779_REPORT.md",
+        "classification": "SHARED_FRAMEWORK_IMPROVEMENT",
+        "review_verdict": "INSUFFICIENT_EVIDENCE",
+        "correlation_id": "HND-F1846-GENERALIZED-FRAMEWORK-FROM-F1779-001"
     },
-    "re_review_correlation_id": "HND-F1846-GENERALIZED-FRAMEWORK-FROM-F1779-001",
+    "re_review_correlation_id": "HND-F1847-F1846-EVIDENCE-CORRECTION-001",
     "scientific_operation": "shared_framework_improvement",
-    "scientific_operation_id": "f1846_generalized_framework_from_f1779_001",
+    "scientific_operation_id": "f1847_evidence_correction_001",
     "scientific_checkpoint_required": true,
     "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "framework_sha256": "B0857C521AE8E212C74F711CC3373AD57B081167727104905A0F4D2FBBDA0129",
@@ -30,7 +30,7 @@
     "max_new_pbs_submissions": 0,
     "submissions_consumed": 0,
     "cumulative_pbs_submissions": 36,
-    "notes": "Task F1846 completed ready for independent review. 0 new PBS jobs consumed. Bitwise frozen UEL, F1779, and production framework preserved. MASTER_GOAL_STATUS = OPEN.",
+    "notes": "Task F1847 completed ready for independent review. L-panel donor ODB committed (365,628 B, SHA 84FE5282...). Gate 06 reconciled. Case 2/5 explained. All 4 benchmark images & 2x2 composite committed. Relative summary paths. 0 new PBS jobs consumed. Bitwise frozen UEL, F1779, and production framework preserved. MASTER_GOAL_STATUS = OPEN.",
     "historical_pbs_job_ids": [
         "1424198.mmaster02"
     ]

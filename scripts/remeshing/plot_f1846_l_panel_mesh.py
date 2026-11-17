@@ -4,6 +4,9 @@ scripts/remeshing/plot_f1846_l_panel_mesh.py
 ============================================
 Renders standalone publication figure for the unfamiliar L-shaped panel benchmark:
 fig_f1846_unfamiliar_l_panel_mesh.png and .pdf.
+Reconciles both Gate 06 coarsening definitions:
+1. Distance-based geometric metric (d <= 10 mm vs d >= 40 mm) = 2.58x (PASS >= 2.0x)
+2. MeshQualityAuditEngine discrete partition (process zone vs far field) = 2.33x (PASS >= 2.0x)
 """
 
 from __future__ import print_function
@@ -22,7 +25,7 @@ def plot_l_panel():
     inp_path = 'models/pandey_kumar_mode1/276_f1846_generalized_framework/l_panel/PK_F1846_UNFAMILIAR_L_PANEL_ADAPT_PHYS.inp'
     nodes, quads, tris = MeshQualityAuditEngine.parse_physical_inp(inp_path)
 
-    fig, ax = plt.subplots(figsize=(8, 8), dpi=300)
+    fig, ax = plt.subplots(figsize=(8.5, 8.5), dpi=300)
 
     patches = []
     for eid, conn in quads.items():
@@ -38,7 +41,7 @@ def plot_l_panel():
     # Highlight re-entrant corner
     ax.plot([50.0], [50.0], marker='o', markersize=7, color='#c0392b', zorder=10)
     ax.annotate(
-        'Re-entrant Corner (50, 50)\nHigh Stress Singularity\nh_min = 0.73 mm (2.58x Refined)',
+        'Re-entrant Corner (50, 50)\nHigh Stress Singularity\nh_min = 0.73 mm (2.58x Geometric Refinement)',
         xy=(50.0, 50.0), xytext=(58.0, 58.0),
         arrowprops=dict(facecolor='#c0392b', shrink=0.08, width=1.5, headwidth=6),
         fontsize=9, fontweight='bold', color='#c0392b',
@@ -64,10 +67,11 @@ def plot_l_panel():
     ax.set_xlabel('X Coordinate (mm)', fontsize=11, fontweight='bold')
     ax.set_ylabel('Y Coordinate (mm)', fontsize=11, fontweight='bold')
     ax.set_title(
-        'Task F1846: Generalized Framework Remesh on Unfamiliar L-Panel\n'
-        '567 Elements (97.53% Quads, Max AR 2.27, Min det(J) > 0, Gate 06 = 2.33x PASS)\n'
+        'Task F1846/F1847: Generalized Framework Remesh on Unfamiliar L-Panel\n'
+        '567 Elements (97.53% Quads, Max AR 2.27, Min det(J) > 0)\n'
+        'Gate 06: Geometric Coarsening = 2.58x PASS (Audit Partition = 2.33x PASS)\n'
         'Driven by Native Abaqus MISESERI (No Crack-Path Coordinates)',
-        fontsize=11, fontweight='bold', pad=12
+        fontsize=10.5, fontweight='bold', pad=12
     )
 
     plt.tight_layout()
