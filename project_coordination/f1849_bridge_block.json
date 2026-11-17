@@ -1,0 +1,14 @@
+{
+  "task_id": "F1849-DAMAGE-ENVELOPE-FRAMEWORK",
+  "correlation_id": "HND-F1849-DAMAGE-ENVELOPE-FRAMEWORK-001",
+  "master_goal_status": "OPEN",
+  "status": "TRANSPORT_TIMEOUT_PENDING_ORIGINAL_TRANSACTION",
+  "request_preserved": true,
+  "response_exists": false,
+  "paste_send_verified": false,
+  "timeout_minutes": 3,
+  "ui_error": "Computer Use native pipe unavailable; browser access host unavailable",
+  "resume_condition": "Restore the existing PAD/browser bridge runtime; process the preserved ORIGINAL request. Validate the matching response using .agents/scripts/reconcile_f1849_response.ps1. Do not republish or start a duplicate flow. Cases1/3 additionally require the exact missing Job1/envelope artifacts.",
+  "recorded_at": "2026-11-17T23:32:05.052665+01:00",
+  "final_request_sha256": "3673250d9097d87d172b4fdd244bd1470a2867ee9e1e301e345d7f3984ca1ade"
+}

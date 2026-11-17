@@ -1,9 +1,9 @@
 {
   "task_id": "F1849-DAMAGE-ENVELOPE-FRAMEWORK",
   "title": "F1849 Generalized constructed damage-envelope framework",
-  "task_status": "PARTIAL_PENDING_REVIEW",
+  "task_status": "BLOCKED_TRANSPORT_AND_MISSING_DONORS",
   "master_goal_status": "OPEN",
-  "status": "PARTIAL_PENDING_REVIEW",
+  "status": "BLOCKED_TRANSPORT_AND_MISSING_DONORS",
   "review_verdict": "PENDING",
   "review_correlation_id": "HND-F1849-DAMAGE-ENVELOPE-FRAMEWORK-001",
   "classification": "SHARED_FRAMEWORK_IMPROVEMENT",
@@ -30,7 +30,7 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 36,
-  "notes": "Codex takeover authorized in chat. Fresh Case2=17280; Case5=4375 (not reproduction). Cases1/3 missing required local Job1/envelope donors. Five offline tests passed; 0 new PBS. Independent review pending; master OPEN.",
+  "notes": "Restore the existing PAD/browser bridge runtime; process the preserved ORIGINAL request. Validate the matching response using .agents/scripts/reconcile_f1849_response.ps1. Do not republish or start a duplicate flow. Cases1/3 additionally require the exact missing Job1/envelope artifacts.",
   "historical_pbs_job_ids": [
     "1424198.mmaster02"
   ]

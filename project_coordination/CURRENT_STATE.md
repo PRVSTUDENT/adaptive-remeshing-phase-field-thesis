@@ -1,3 +1,7 @@
+## F1849 transport block — 2026-11-17T23:32:05.052665+01:00
+
+Original guarded request HND-F1849-DAMAGE-ENVELOPE-FRAMEWORK-001 preserved; no response after 3 minutes, paste/send unverified, native/browser UI host unavailable. Resume same transaction; no duplicate dispatch. Cases1/3 missing donors. Codex session released; master OPEN.
+
 ## F1849 Codex partial comparison — 2026-11-17T23:26:16.148703+01:00
 
 Constructed damage-envelope framework: Case 2 regenerated 17,280 elements; Case 5 produced 4,375 (not F1779 reproduction, Gate06 FAIL). Cases1/3 blocked on missing local Job1/envelope ODBs. Five offline tests PASS; zero PBS. Pending guarded independent review; master OPEN. Prior task preserved below.

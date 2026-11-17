@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "agent": "codex",
   "session_id": "codex-f1849-damage-envelope-20261117",
   "task_id": "F1849-DAMAGE-ENVELOPE-FRAMEWORK",
@@ -17,5 +17,6 @@
     ".agents/scripts/*f1849*",
     ".agents/bridge_history/*f1849*"
   ],
-  "notes": "Explicit user handover: AGY stopped; Codex executes attached damage-envelope task, no new PBS; old active session preserved in session report."
+  "notes": "User-authorized Codex execution preserved as partial. Guarded review timed out; original transaction remains pending. Zero PBS; master OPEN.",
+  "completed_at": "2026-11-17T23:32:05.052665+01:00"
 }
