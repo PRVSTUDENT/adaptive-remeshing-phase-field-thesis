@@ -1,3 +1,7 @@
+## F1852 numerical completion / review blocked 2026-11-18T00:51:48.979130+01:00
+
+Four fresh same-revision meshes pushed:20193/17280/45009/15411. First3body hashes unchanged;Case5process area coverage17->92%at l0,0->44%at half-l0;Gate061.939FAILretained. FourtestsPASS;all10pinnedimageURLsHTTP200. Guarded publisher refused unresolved F1850response, soF1852NOTSENT. Exact transaction preserved, no duplicatePAD. Sessionreleased;masterOPEN,zeroPBS/cumulative36.
+
 ## F1852 numerical result 2026-11-18T00:49:12.898132+01:00
 
 New separately versioned measured driver rule: maxSDV1>=.5 damage, otherwise audited native. Cases1/2/3 damage outputs body-identical20193/17280/45009. Case5 native15411 vs4375, process area h<=l0 coverage16.99->92.15%,Gate061.338->1.939FAIL. Four focused testsPASS, frozen assets unchanged, zeroPBS. Genuine same-revision images ready for independent review; masterOPEN.

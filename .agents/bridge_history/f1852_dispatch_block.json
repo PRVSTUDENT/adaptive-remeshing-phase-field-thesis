@@ -1,0 +1,11 @@
+{
+  "task_id": "F1852-DRIVER-SELECTION",
+  "correlation_id": "HND-F1852-DRIVER-SELECTION-001",
+  "status": "NOT_SENT_PENDING_F1850_RECONCILIATION",
+  "master_goal_status": "OPEN",
+  "error": "BRIDGE_PENDING_RECONCILIATION_REQUIRED",
+  "pending_file": "C:\\Users\\pruth\\OpenClawPAD\\ChatGPTBridge\\bridge_response.ready",
+  "resume_condition": "Reconcile original F1850 transport with authentic outer response; then guarded-publish preserved F1852 request. No outer-envelope fabrication, no overwrite, no duplicate flow.",
+  "schema_repair": "Initial supplied role FALLBACK_NATIVE_MISESERI is unsupported by canonical schema. Review contract accurately labels whole mixed damage/native strategy as DAMAGE_INFORMED_SIZING,SEPARATE_COMPARISON,qualifies_native_miseseri=false; per-case actual native-driver provenance retained. No numerical or algorithm change.",
+  "recorded_at": "2026-11-18T00:51:48.979130+01:00"
+}

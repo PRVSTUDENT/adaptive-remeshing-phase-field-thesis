@@ -1,10 +1,10 @@
 {
   "task_id": "F1852-DRIVER-SELECTION",
   "title": "Measured damage strength and native fallback selection",
-  "task_status": "COMPLETED_PENDING_REVIEW",
+  "task_status": "NUMERICS_COMPLETE_REVIEW_TRANSPORT_BLOCKED",
   "master_goal_status": "OPEN",
-  "status": "COMPLETED_PENDING_REVIEW",
-  "review_verdict": "PENDING",
+  "status": "NUMERICS_COMPLETE_REVIEW_TRANSPORT_BLOCKED",
+  "review_verdict": "PENDING_NOT_SENT",
   "review_correlation_id": "HND-F1852-DRIVER-SELECTION-001",
   "classification": "SHARED_FRAMEWORK_IMPROVEMENT",
   "assigned_agent": "codex",
@@ -30,7 +30,7 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 36,
-  "notes": "Direct user request. C1/2/3body-identical. C5native15411 improves process-area coverage,Gate06FAILretained.4testsPASS.0PBS.",
+  "notes": "C1/2/3body-identical;C5native15411,process area92.15%,Gate061.939FAIL;4testsPASS;zeroPBS. Guarded F1852 publisher refused pending original F1850 response.",
   "historical_pbs_job_ids": [
     "1424198.mmaster02"
   ]

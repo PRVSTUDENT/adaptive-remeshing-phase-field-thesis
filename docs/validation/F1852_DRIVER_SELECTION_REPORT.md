@@ -48,3 +48,5 @@ Case5 process-region AREA coverage h<=l0 improves16.994% to92.152%; h<=l0/2 impr
 Four focused tests PASS: selection and native fail-closed gate; all-four source hashes and unchanged strong controls; Case5 native audit plus retained Gate06 failure; frozen inputs and image integrity.
 
 Input manifests record exact config, damage measurement, logical donor snapshot and active ODB bytes/SHA for every case. Solver binaries remain local/HPC and are excluded from Git.
+
+Final publication:4testsPASS;all10pinned image linksHTTP200. Guarded independent-review publication was NOT SENT because originalF1850 response is unresolved. The preserved F1852request uses the canonical separate-comparison contract for the mixed strategy; actual per-case driver labels are unchanged. No scientific approval claimed.
