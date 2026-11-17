@@ -1,18 +1,16 @@
 {
-  "active": false,
+  "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1842-final-report-correction-20261117",
-  "task_id": "F1842-F1840-FINAL-REPORT-CORRECTION",
-  "started_at": "2026-11-17T14:33:00+01:00",
-  "completed_at": "2026-11-17T14:44:00+01:00",
-  "starting_commit": "3f7e568b3221f2267ac0465e46b95da3742d6fce",
+  "session_id": "gemini-antigravity-f1837-artifact-table-correction-20261117",
+  "task_id": "F1837-F1836-ARTIFACT-TABLE-CORRECTION",
+  "started_at": "2026-11-17T15:07:00+01:00",
+  "completed_at": null,
+  "starting_commit": "fc01939b426caa9e266aa7d7e09919914d0bd37a",
   "allowed_write_scope": [
-    "docs/validation/F1840_*",
+    "docs/validation/F1835_*",
     "project_coordination/*",
-    "scripts/remeshing/run_f1840_case2_final_frame_remesh.py",
-    "tests/unit/test_f1840_*",
     ".agents/scripts/*",
     ".agents/bridge_history/*"
   ],
-  "notes": "Task F1842: Final narrow correction-only task: fix Section 3 body SHA, fix Table 7.2 rows, and restore standard body-SHA function."
+  "notes": "Task F1837: Artifact table correction and reconciliation for F1835/F1836 report under HND-F1837-F1836-ARTIFACT-TABLE-CORRECTION-001."
 }
