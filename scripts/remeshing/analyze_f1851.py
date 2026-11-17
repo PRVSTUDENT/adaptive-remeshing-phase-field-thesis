@@ -36,6 +36,11 @@ for filename,cid in [('case2_original300.json',2),('case2_original337.json',2),(
     for cutoff in (.1,.5):
         active=damage>=cutoff;stat['damage_ge_%s_area_pct'%cutoff]=float(100*ar[active].sum()/ar.sum());stat['error_proxy_in_damage_ge_%s_pct'%cutoff]=float(100*(er[active]**2*ar[active]).sum()/(er**2*ar).sum())
     stat['maximum_IP_damage']=max(v['data'] for v in d['fields']['SDV1'])
+    raw_elements=list(d['instances'].values())[0]['elements'];types={e[0]:e[1] for e in raw_elements};bytype={}
+    for typ in sorted({types[e] for e in labels}):
+        sel=np.array([types[e]==typ for e in labels]);g={n:np.array([f.get(e,np.nan) for e in labels]) for n,f in fields.items()}
+        bytype[typ]={'elements':int(sel.sum()),'zero_stress':int(np.count_nonzero(sel & (g['S']==0))),'zero_base':int(np.count_nonzero(sel & (avg==0))),'error_proxy_share_pct':float(100*(er[sel]**2*ar[sel]).sum()/(er**2*ar).sum()),'outside_error_proxy_share_pct':float(100*(er[sel & ~inside]**2*ar[sel & ~inside]).sum()/(er[~inside]**2*ar[~inside]).sum())}
+    stat['element_type_audit']=bytype
     if cid==4:
         ev=aggregate(d,'EVOL');ratios=np.array([ev[e]/a for e,a in zip(labels,ar)])
         stat['EVOL_to_area_ratio_range']=[float(ratios.min()),float(ratios.max())]

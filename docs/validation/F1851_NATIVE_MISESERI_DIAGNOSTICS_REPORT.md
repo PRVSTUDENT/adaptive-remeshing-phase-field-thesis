@@ -47,15 +47,15 @@ Original Case2 ODB remains HPC-resident. Native field/topology snapshots make al
 
 ## Units, figures and limitations
 Source input E=210.0 uses kN/mm² (210 GPa). For field DISPLAY only, stress/error/base values are divided by the documented dummy factor 1e-11/210. Physical S/MISES is shown in kN/mm²; multiply by1000 for MPa. Do not read the historical unscaled1.0466 as1.0466MPa without that unit conversion. All remeshing uses untouched stored fields.
-Four original coarse-mesh field-map panels (each damage, S/MISES, MISESERI, MISESAVG) are generated from the same diagnostic revision. Missing63 F1720 IP-stress/damage entries are rendered as missing, not assumed physical zeros; this area is excluded from physical interpretation. All native whole-element error/base fields are retained.
+Four original coarse-mesh field-map panels (each damage, S/MISES, MISESERI, MISESAVG) are generated from the same diagnostic revision. F1720 has output for all2747 companion elements: 2663 CPE4 times4 IP plus84 CPE3 times1 IP =10736 records. The historical claim of63 missing overlays incorrectly assumed four IPs per triangle. All native whole-element error/base fields are retained.
 The known source termination failure, missing Case2 EVOL and lack of an exact original-Frame300 selection are explicit limitations, not proof of numerical parity. No native-method qualification or Job2 authorization is made. Readable pinned image links and hashes are in results/validation/f1851_image_manifest.json after publication.
 
 ## Remaining numerical question
-Extraction is not a demonstrated source of indicator distortion in these tests. The next useful question is whether the stored UMAT stress and donor termination actually represent the intended coupled fracture state, including the 63 F1720 companion elements without IP output. Diagnose existing convergence and mapping evidence before changing sizing parameters or claiming paper reproduction.
+Extraction is not a demonstrated source of indicator distortion in these tests. Every one of the74 CPE3 companions in Case2 reports zero S/MISES and zero MISESAVG; none of the2832 quads does. At frame300 those triangles account for58.92% of the total squared-error area proxy and76.76% of its outside-window part. At frame337 the shares are24.87% and64.28%. This zero-stress triangle output is a concrete formulation/output anomaly and a stronger suspect for off-path error hotspots than frame selection. Whether triangle physical stress should be nonzero must be checked against the UEL stress transfer; correlation alone does not establish how much total remesh refinement would disappear after a correction. Preserve the frozen source and diagnose triangle transfer and source convergence before changing sizing parameters or claiming paper reproduction.
 
-## Generated diagnostic ODB inventory
+## Generated native-copy ODBs
 
-- `models/pandey_kumar_mode1/281_f1851_native_diagnostics/f1720_Step-1_extracted.odb`: 317268 bytes, SHA256 `30e5b05422df1a830244b14e412cc9c1c76bf3653bd56bebaafb1ec198fdfc53`; locally generated native-copy donor, not committed as a solver binary.
-- `models/pandey_kumar_mode1/281_f1851_native_diagnostics/f1720_Step-2_extracted.odb`: 317268 bytes, SHA256 `9a5babb0d5f59ddf3749eca8fbb412a63d77cffb60dcaec4c08aebf044dd93fc`; locally generated native-copy donor, not committed as a solver binary.
+- `models/pandey_kumar_mode1/281_f1851_native_diagnostics/f1720_Step-1_extracted.odb`: 317268 bytes, SHA256 `30e5b05422df1a830244b14e412cc9c1c76bf3653bd56bebaafb1ec198fdfc53`.
+- `models/pandey_kumar_mode1/281_f1851_native_diagnostics/f1720_Step-2_extracted.odb`: 317268 bytes, SHA256 `9a5babb0d5f59ddf3749eca8fbb412a63d77cffb60dcaec4c08aebf044dd93fc`.
 
-Four focused tests PASS. Source termination excerpts and status-file hashes are retained in the summary. No native-method acceptance or completed loading history is claimed.
+All74 Case2 triangle stress tensors are exactly zero in the original final frame (not merely zero von Mises invariants). Four focused tests PASS. Status-file termination excerpts and hashes are in the summary.

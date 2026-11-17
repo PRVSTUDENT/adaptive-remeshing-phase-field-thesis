@@ -74,7 +74,23 @@
       "error_proxy_in_damage_ge_0.1_pct": 35.83403455817957,
       "damage_ge_0.5_area_pct": 1.3175149736722198,
       "error_proxy_in_damage_ge_0.5_pct": 13.769652439968826,
-      "maximum_IP_damage": 0.9971902370452881
+      "maximum_IP_damage": 0.9971902370452881,
+      "element_type_audit": {
+        "CPE3": {
+          "elements": 74,
+          "zero_stress": 74,
+          "zero_base": 74,
+          "error_proxy_share_pct": 58.92329340204699,
+          "outside_error_proxy_share_pct": 76.75946490235158
+        },
+        "CPE4": {
+          "elements": 2832,
+          "zero_stress": 0,
+          "zero_base": 0,
+          "error_proxy_share_pct": 41.076706597953006,
+          "outside_error_proxy_share_pct": 23.240535097648415
+        }
+      }
     },
     {
       "snapshot": "case2_original337.json",
@@ -96,7 +112,23 @@
       "error_proxy_in_damage_ge_0.1_pct": 64.54509201845187,
       "damage_ge_0.5_area_pct": 1.873061010105973,
       "error_proxy_in_damage_ge_0.5_pct": 30.149765243873922,
-      "maximum_IP_damage": 0.9975769519805908
+      "maximum_IP_damage": 0.9975769519805908,
+      "element_type_audit": {
+        "CPE3": {
+          "elements": 74,
+          "zero_stress": 74,
+          "zero_base": 74,
+          "error_proxy_share_pct": 24.866800102291243,
+          "outside_error_proxy_share_pct": 64.27711379916379
+        },
+        "CPE4": {
+          "elements": 2832,
+          "zero_stress": 0,
+          "zero_base": 0,
+          "error_proxy_share_pct": 75.13319989770875,
+          "outside_error_proxy_share_pct": 35.72288620083621
+        }
+      }
     },
     {
       "snapshot": "f1720_step1_12.json",
@@ -119,6 +151,22 @@
       "damage_ge_0.5_area_pct": 0.0,
       "error_proxy_in_damage_ge_0.5_pct": 0.0,
       "maximum_IP_damage": 0.16255119442939758,
+      "element_type_audit": {
+        "CPE3": {
+          "elements": 84,
+          "zero_stress": 0,
+          "zero_base": 0,
+          "error_proxy_share_pct": 2.7831578362845466,
+          "outside_error_proxy_share_pct": 1.2670483094790475
+        },
+        "CPE4": {
+          "elements": 2663,
+          "zero_stress": 0,
+          "zero_base": 0,
+          "error_proxy_share_pct": 97.21684216371547,
+          "outside_error_proxy_share_pct": 98.73295169052096
+        }
+      },
       "EVOL_to_area_ratio_range": [
         0.9999998973510709,
         1.0000001300432666
@@ -145,6 +193,22 @@
       "damage_ge_0.5_area_pct": 0.037040697878248416,
       "error_proxy_in_damage_ge_0.5_pct": 0.3277781619737634,
       "maximum_IP_damage": 0.525212824344635,
+      "element_type_audit": {
+        "CPE3": {
+          "elements": 84,
+          "zero_stress": 0,
+          "zero_base": 0,
+          "error_proxy_share_pct": 2.464243737716385,
+          "outside_error_proxy_share_pct": 1.3377675664835902
+        },
+        "CPE4": {
+          "elements": 2663,
+          "zero_stress": 0,
+          "zero_base": 0,
+          "error_proxy_share_pct": 97.53575626228363,
+          "outside_error_proxy_share_pct": 98.66223243351641
+        }
+      },
       "EVOL_to_area_ratio_range": [
         0.9999998973510709,
         1.0000001300432666
@@ -401,7 +465,7 @@
     {
       "case_id": 2,
       "path": "results/figures/fig_f1851_case2_original300_fields.pdf",
-      "sha256": "d0bf838ffeb0983a9d1d282f7c50cae01b2f67d1ff39083d4f0d919dcddf0831",
+      "sha256": "5085397570be194d07f0501b2ad7539d8c21c2cfac3c69339f99c4c3107cdc84",
       "source_odb_sha256": "1f45367a599497e5dd153f45187f41d390cd35affb1188d367f524d0e1ba962e"
     },
     {
@@ -413,7 +477,7 @@
     {
       "case_id": 2,
       "path": "results/figures/fig_f1851_case2_original337_fields.pdf",
-      "sha256": "00a47d734dc6c86ff418a44ed07fef3cad48f13d8a2c17912ce48d7e20dfc5d5",
+      "sha256": "c96f0d637d93d8fa6dcd4216ec855c63c0a0355b4fd5eadce12bb8b8afecd5bf",
       "source_odb_sha256": "1f45367a599497e5dd153f45187f41d390cd35affb1188d367f524d0e1ba962e"
     },
     {
@@ -425,7 +489,7 @@
     {
       "case_id": 4,
       "path": "results/figures/fig_f1851_f1720_step1_12_fields.pdf",
-      "sha256": "94531f71549856f422b530e64ab533b28a5ba16b7049b044a6568be207cb13ca",
+      "sha256": "a68c4f514ab7d0ff2dbf300c145353de71ee07f6568bdc12b8c28fccd0541c0f",
       "source_odb_sha256": "e2fe195b93a6378849e134dd3fe17ec69ffd03cca8d446496e6d30820e7958ae"
     },
     {
@@ -437,7 +501,7 @@
     {
       "case_id": 4,
       "path": "results/figures/fig_f1851_f1720_step2_178_fields.pdf",
-      "sha256": "f5057a5352b8b97dff7c7fcd6fcb552fe16ab8b452cd8330fe56a35c91a4f602",
+      "sha256": "77056206395e03a63ce15af185aa8a0e323d689dd0cbc1c5147fd5e91babaf2a",
       "source_odb_sha256": "e2fe195b93a6378849e134dd3fe17ec69ffd03cca8d446496e6d30820e7958ae"
     }
   ],
@@ -504,7 +568,7 @@
       "sha256": "30e5b05422df1a830244b14e412cc9c1c76bf3653bd56bebaafb1ec198fdfc53",
       "step": "Step-1",
       "frame_index": 0,
-      "role": "Generated single-frame native-copy diagnostic ODB; excluded from Git as solver binary"
+      "role": "Generated native-copy ODB; excluded from Git"
     },
     {
       "source": "models/pandey_kumar_mode1/281_f1851_native_diagnostics/f1720_Step-2_extracted.odb",
@@ -512,7 +576,7 @@
       "sha256": "9a5babb0d5f59ddf3749eca8fbb412a63d77cffb60dcaec4c08aebf044dd93fc",
       "step": "Step-2",
       "frame_index": 0,
-      "role": "Generated single-frame native-copy diagnostic ODB; excluded from Git as solver binary"
+      "role": "Generated native-copy ODB; excluded from Git"
     }
   ],
   "comparisons": {
@@ -804,6 +868,7 @@
       "error": "Output database must contain MISESERI, MISESAVG, and EVOL for\nerror estimate computations. Some of the data does\nnot exist on the specified output database."
     }
   },
+  "tests": "4 passed: tests/unit/test_f1851_diagnostics.py",
   "source_termination": {
     "case2": {
       "status_file": "models/pandey_kumar_mode1/277_f1838_case2_native_pilot/PK_HOLE_COARSE_F1838_PILOT.sta",
@@ -842,5 +907,9 @@
       ]
     }
   },
-  "tests": "4 passed: tests/unit/test_f1851_diagnostics.py"
+  "diagnostic_sources": {
+    "scripts/remeshing/analyze_f1851.py": "8e61d92865ab6bc14f609d1df1660376c658e7113f852bc8a657d08f649e5139",
+    "scripts/remeshing/export_f1851_fields.py": "61748bf98cc23b66cfc5cc8c32c339542a499b93361756063483a315888a5a74",
+    "scripts/remeshing/run_f1851_local_comparisons.py": "525b842d0ee2591112c9cba2e851865878a93d0e4dd139bd794e757cf3a11e39"
+  }
 }
