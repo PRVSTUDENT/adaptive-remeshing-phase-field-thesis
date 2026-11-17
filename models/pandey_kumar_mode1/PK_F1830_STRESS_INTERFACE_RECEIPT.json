@@ -1,0 +1,82 @@
+{
+  "task_id": "F1830-STRESS-OUTPUT-INTERFACE-QUALIFICATION",
+  "correlation_id": "HND-F1830-STRESS-OUTPUT-INTERFACE-001",
+  "receipt_type": "STRESS_OUTPUT_INTERFACE_QUALIFICATION_RECEIPT",
+  "timestamp": "2026-11-17T07:20:00+01:00",
+  "author": "gemini-antigravity",
+  "governing_directive": "Qualify the smallest stress-output interface candidate enabling native Abaqus MISESERI while preserving the frozen isotropic UEL bitwise",
+  "candidate_interface": {
+    "path": "models/pandey_kumar_mode1/271_f1830_stress_output_interface/f42_native_miseseri_interface_v1.for",
+    "sha256": "E5C98B6F601B1CD586571F8E24F357D15ABBD1C5D5487B52903BA249734279B2",
+    "lines": 967,
+    "compilation_status": "CLEAN_PASS",
+    "compiler": "Intel(R) Fortran Compiler 2026.0.0 Build 20260331 + MSVC 2022 v17.14.31 (Exit 0)",
+    "formulation_preserved": "ISOTROPIC_DEGRADATION"
+  },
+  "frozen_reference_preservation": {
+    "frozen_production_uel": {
+      "path": "runs/f1708_job2_frozen_uel_datacheck/f42_mixed_uel.for",
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "bitwise_identical": true
+    },
+    "shared_framework": {
+      "path": "scripts/remeshing/reusable_2d_adaptive_framework.py",
+      "sha256": "80B41AA253E5B36B2BCF5D716B88843D29355141171C60AFF6E7134A0312932C",
+      "bitwise_identical": true
+    }
+  },
+  "patch_check_models": {
+    "model_a_standalone_ref": "models/pandey_kumar_mode1/271_f1830_stress_output_interface/PK_F1830_4ELEM_STANDALONE.inp",
+    "model_b_coupled_scaled": "models/pandey_kumar_mode1/271_f1830_stress_output_interface/PK_F1830_4ELEM_COUPLED.inp",
+    "model_c_unscaled_control": "models/pandey_kumar_mode1/271_f1830_stress_output_interface/PK_F1830_4ELEM_UNSCALED.inp"
+  },
+  "numerical_audit_results": {
+    "multi_element_mechanical_neutrality": {
+      "rf_ref_kN": 0.4576188921928406,
+      "rf_coupled_kN": 0.4576188921928406,
+      "diff_kN": 0.0,
+      "rel_diff_pct": 0.0,
+      "status": "MACHINE_PRECISION_NEUTRAL"
+    },
+    "negative_control_validation": {
+      "unscaled_rf_kN": 0.9152377843856812,
+      "unscaled_diff_kN": 0.4576188921928406,
+      "unscaled_rel_diff_pct": 100.0,
+      "status": "FORCE_DOUBLING_CONFIRMED"
+    },
+    "integration_point_stress_fidelity": {
+      "elements_audited": 4,
+      "ips_per_element": 4,
+      "total_ips_audited": 16,
+      "analytical_sigma22_kN_per_mm2": 0.2288094460964203,
+      "companion_unscaled_sigma22_kN_per_mm2": 0.22880943101717893,
+      "max_ip_error": 1.5079e-8,
+      "status": "EXACT_MAPPING_VERIFIED"
+    },
+    "indicator_scale_invariance": {
+      "scaled_miseseri_max": 7.607499264284419e-30,
+      "scaled_misesavg_max": 9.684298786613761e-15,
+      "scaled_eta_max_pct": 7.855498298751353e-14,
+      "unscaled_eta_max_pct": 9.674550883865504e-14,
+      "max_eta_discrepancy_pct": 1.8190525851141508e-14,
+      "status": "SCALE_INVARIANT"
+    },
+    "cutback_buffer_synchronization": {
+      "committed_array": "SV_STRESS_COMMITTED(N_CAPACITY, 4, 4)",
+      "trial_array": "SV_STRESS_TRIAL(N_CAPACITY, 4, 4)",
+      "common_block": "CB_F1830_STRESS",
+      "save_attribute": true,
+      "lop_0_zeroed": true,
+      "lop_1_cutback_restored": true,
+      "lop_2_increment_committed": true
+    }
+  },
+  "governance": {
+    "max_new_pbs_submissions": 0,
+    "submissions_consumed": 0,
+    "cumulative_pbs_submissions": 35,
+    "master_goal_status": "OPEN",
+    "unit_test_suite": "tests/unit/test_f1830_stress_output_interface.py",
+    "unit_test_results": "6_PASSED_0_FAILED"
+  }
+}

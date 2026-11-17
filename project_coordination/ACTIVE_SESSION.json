@@ -1,19 +1,21 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1829-native-miseseri-audit-20261117",
-  "task_id": "F1829-NATIVE-MISESERI-DIRECT-COUPLING-EVIDENCE-AUDIT",
-  "started_at": "2026-11-17T06:37:00+01:00",
-  "completed_at": "2026-11-17T06:50:00+01:00",
-  "starting_commit": "6b0ba91d316f11bb7ba1164d3f11055719e06330",
+  "session_id": "gemini-antigravity-f1830-stress-interface-20261117",
+  "task_id": "F1830-STRESS-OUTPUT-INTERFACE-QUALIFICATION",
+  "started_at": "2026-11-17T06:56:00+01:00",
+  "completed_at": "2026-11-17T07:23:00+01:00",
+  "starting_commit": "693cdeb62f27e0fd534acdeef3a89a3a470eb700",
   "allowed_write_scope": [
-    "docs/validation/F1829_*",
-    "tests/unit/test_f1829_*",
-    "results/validation/f1829_*",
-    "models/pandey_kumar_mode1/PK_F1829_*",
+    "docs/validation/F1830_*",
+    "tests/unit/test_f1830_*",
+    "results/validation/f1830_*",
+    "models/pandey_kumar_mode1/271_f1830_*",
+    "models/pandey_kumar_mode1/PK_F1830_*",
+    "models/interfaces/f42_native_miseseri_interface_v1.for",
     "project_coordination/*",
     ".agents/scripts/*",
     ".agents/bridge_history/*"
   ],
-  "notes": "Task F1829 complete. Primary source evidence audit of native MISESERI coupling vs recovery donors finished. 5/5 unit tests PASS. Session released. MASTER_GOAL_STATUS = OPEN."
+  "notes": "Task F1830 completed. Separately versioned stress-output interface candidate f42_native_miseseri_interface_v1.for fully qualified offline. 6/6 unit tests PASS in test_f1830_stress_output_interface.py. 0 new PBS jobs consumed (cumulative 35 preserved). Frozen UEL CE8D5EDC... and Framework 80B41AA2... strictly preserved bitwise. MASTER_GOAL_STATUS = OPEN."
 }
