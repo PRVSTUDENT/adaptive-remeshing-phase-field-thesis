@@ -1,6 +1,6 @@
 ﻿{
-    "task_id": "F1837-F1836-ARTIFACT-TABLE-CORRECTION",
-    "title": "Task F1837: Correct the F1835/F1836 Report Artifact Table",
+    "task_id": "F1844-F1837-BODY-SHA-CORRECTION",
+    "title": "Task F1844: Correct the Three Scale-Invariant Mesh Body SHAs",
     "task_status": "IN_PROGRESS",
     "master_goal_status": "OPEN",
     "status": "IN_PROGRESS",
@@ -11,24 +11,24 @@
     "active_pbs_job_id": null,
     "last_successful_pbs_job_id": "1424198.mmaster02",
     "checkpoint_artifact": "docs/validation/F1835_REVISED_NATIVE_REFERENCE_AND_ENVELOPE_CAUSALITY_REPORT.md",
-    "review_directive": "Task F1837: Correct the F1835/F1836 report artifact table. This is a CORRECTION-ONLY task. Do NOT generate new meshes, do NOT run new remeshing, do NOT consume any PBS jobs (0 new PBS; cumulative 36 preserved), do NOT change the framework (B0857C52), the frozen UEL (CE8D5EDC), the decomposition dataset, the summary JSON numbers, or any scientific conclusion — the diagnosis and the per-element decomposition are verified and stand. Recompute SHA-256 and file size from committed files, correct all listed entries, distinguish file and body SHAs, and ensure 100% accuracy. MASTER_GOAL_STATUS = OPEN.",
+    "review_directive": "Task F1844: Correct the three scale-invariant mesh body SHAs in the F1835/F1836 report (correction-only). Do NOT generate new meshes, do NOT run new solves, do NOT submit any new PBS job (max_new_pbs = 0), and do NOT modify the frozen UEL (CE8D5EDC) or framework (B0857C52). In docs/validation/F1835_REVISED_NATIVE_REFERENCE_AND_ENVELOPE_CAUSALITY_REPORT.md, Section 9, correct the INP Body SHA-256 column for the three scale-invariant meshes by recomputing each with the committed compute_body_sha256 function: SI Case 1 to D424F2FFFCC235FF2A575B664C967F68772132A8DD71E4846B0392570A6C0CBC, SI Case 2 to 4C686A3179A0688318DED9858736758353C3A55B8392305284B7EFFCDC23FA47, and SI Case 3 to 638482BE8B64DD3C233CBA136EEF22AA86A836072F0B7E01E783D7479F21D8BE. MASTER_GOAL_STATUS = OPEN.",
     "predecessor_task": {
-        "task_id": "F1836-F1835-REPORT-CORRECTION",
+        "task_id": "F1837-F1836-ARTIFACT-TABLE-CORRECTION",
         "checkpoint_artifact": "docs/validation/F1835_REVISED_NATIVE_REFERENCE_AND_ENVELOPE_CAUSALITY_REPORT.md",
         "classification": "CORRECTION_ONLY",
         "review_verdict": "REJECT",
-        "correlation_id": "HND-F1836-F1835-REPORT-CORRECTION-001"
+        "correlation_id": "HND-F1837-F1836-ARTIFACT-TABLE-CORRECTION-001"
     },
-    "re_review_correlation_id": "HND-F1837-F1836-ARTIFACT-TABLE-CORRECTION-001",
+    "re_review_correlation_id": "HND-F1844-F1837-BODY-SHA-CORRECTION-001",
     "scientific_operation": "shared_framework_improvement",
-    "scientific_operation_id": "f1837_f1836_artifact_table_correction_001",
+    "scientific_operation_id": "f1844_f1837_body_sha_correction_001",
     "scientific_checkpoint_required": true,
     "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "framework_sha256": "B0857C521AE8E212C74F711CC3373AD57B081167727104905A0F4D2FBBDA0129",
     "max_new_pbs_submissions": 0,
     "submissions_consumed": 0,
     "cumulative_pbs_submissions": 36,
-    "notes": "Task F1837 in progress: correcting report header, adding gap clarifications for integration points and Case 3 threshold, and verifying Section 9 table against disk.",
+    "notes": "Task F1844 in progress: correcting the three scale-invariant mesh body SHAs in Section 9 of the F1835 report to match the committed compute_body_sha256 function.",
     "historical_pbs_job_ids": [
         "1424198.mmaster02"
     ]

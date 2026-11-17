@@ -1,16 +1,17 @@
 {
   "active": true,
   "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1837-artifact-table-correction-20261117",
-  "task_id": "F1837-F1836-ARTIFACT-TABLE-CORRECTION",
-  "started_at": "2026-11-17T15:07:00+01:00",
+  "session_id": "gemini-antigravity-f1844-body-sha-correction-20261117",
+  "task_id": "F1844-F1837-BODY-SHA-CORRECTION",
+  "started_at": "2026-11-17T15:32:00+01:00",
   "completed_at": null,
-  "starting_commit": "fc01939b426caa9e266aa7d7e09919914d0bd37a",
+  "starting_commit": "be040e7885b54634ce55a90e38640bc5222bf9d2",
   "allowed_write_scope": [
     "docs/validation/F1835_*",
     "project_coordination/*",
     ".agents/scripts/*",
-    ".agents/bridge_history/*"
+    ".agents/bridge_history/*",
+    "tests/unit/test_f1835_*"
   ],
-  "notes": "Task F1837: Artifact table correction and reconciliation for F1835/F1836 report under HND-F1837-F1836-ARTIFACT-TABLE-CORRECTION-001."
+  "notes": "Task F1844: Correct the three scale-invariant mesh body SHAs in Section 9 of the F1835/F1836 report under HND-F1844-F1837-BODY-SHA-CORRECTION-001."
 }
