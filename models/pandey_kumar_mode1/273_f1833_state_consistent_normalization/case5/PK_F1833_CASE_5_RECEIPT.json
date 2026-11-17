@@ -1,0 +1,50 @@
+{
+  "case_id": "case_5",
+  "name": "Case 5: Plate with Seven Holes (Table 6 Parity)",
+  "error_target": 5.68,
+  "remeshing_walltime_s": 7.03,
+  "donor_odb_path": "models/pandey_kumar_mode1/273_f1833_state_consistent_normalization/case5/PK_F1726_SEVEN_HOLE_COARSE.odb",
+  "donor_odb_sha256": "CB673713FDE31593AE452A21BC05BFFC140BCCCE71F1D43D601EE17B43802B0E",
+  "physical_inp_path": "models/pandey_kumar_mode1/273_f1833_state_consistent_normalization/case5/PK_F1833_CASE_5_ADAPT_PHYS.inp",
+  "physical_inp_sha256": "F5839373510D7E4D54C21EEC7246A171FECC2D3C9111C6E89E70B3321F614A11",
+  "physical_inp_body_sha256": "78009AAEE4FE732C0FA56F2DE5487C1717E82E245B4CAF32C3B9CE19AB2B4065",
+  "physical_inp_size_bytes": 1127961,
+  "audit_metrics": {
+    "total_elements": 15466,
+    "quad_count": 15141,
+    "tri_count": 325,
+    "quad_fraction_pct": 97.8986,
+    "min_det_j": 3.921570799516287e-07,
+    "max_aspect_ratio": 2.3741,
+    "min_corner_angle_deg": 29.81743296391039,
+    "max_corner_angle_deg": 139.66870270813553,
+    "coarsening_ratio": 2.1174,
+    "refinement_ratio_far_to_core": 2.1174,
+    "h_min_mm": 0.000979,
+    "h_max_mm": 0.024971
+  },
+  "band_metrics": {
+    "total_mesh_area_mm2": 0.874417,
+    "total_fine_area_mm2": 0.245628,
+    "total_fine_elements": 12246,
+    "corridor_fine_area_mm2": 0.0729,
+    "unnecessary_fine_area_mm2": 0.172728,
+    "unnecessary_fine_fraction_pct": 70.32,
+    "band_width_mm": 0.104143
+  },
+  "scientific_gate_name": "SCIENTIFIC_GATE_INTER_HOLE",
+  "scientific_gate_status": "PASS",
+  "critical_metrics": {
+    "upper_corridor_elements": 5295,
+    "upper_pct_le_l0": 99.03682719546742
+  },
+  "gate_summary": {
+    "gate_01_jacobian": "PASS",
+    "gate_02_quad_fraction": "PASS",
+    "gate_03_aspect_ratio": "PASS",
+    "gate_04_corner_angles": "PASS",
+    "gate_05_scientific_resolution": "PASS",
+    "gate_06_far_field_coarsening": "PASS",
+    "gate_07_element_budget": "PASS"
+  }
+}

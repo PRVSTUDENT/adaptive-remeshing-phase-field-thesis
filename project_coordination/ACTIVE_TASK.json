@@ -1,30 +1,30 @@
 {
-  "task_id": "F1832-F1831-REPORT-CORRECTION",
-  "title": "Task F1832: Correct the F1831 Matched Donor Experiment Report and Evidence",
-  "task_status": "COMPLETED",
+  "task_id": "F1833-STATE-CONSISTENT-NORMALIZATION",
+  "title": "Task F1833: Implement State-Consistent Normalization in the Shared Framework Envelope Synthesis",
+  "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
-  "status": "COMPLETED",
+  "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1831_MATCHED_DONOR_EXPERIMENT_REPORT.md",
-  "review_directive": "Task F1832: Correct the F1831 Matched Donor Experiment Report and Evidence. (1) Fix the report's Section 3 table F1812 Gate 06 values to the verified baselines: Case 1 2.3867x (PASS), Case 2 1.9349x (FAIL), Case 3 1.4462x (FAIL), Case 5 2.1174x (PASS). Do NOT mark Cases 2 and 3 as PASS. (2) Resolve Case 1 A.1 element count discrepancy: check actual mesh file in 272_f1831_matched_donor_experiment/, count elements, body SHA, and update report table and summary JSON consistently. (3) Correct Case 3 A.1 Gate 06: determine value from A.1 mesh and reconcile report and JSON. (4) Fix image manifest SHAs to actual per-image values: Case 1 8E0665D3..., Case 2 A5B40D10..., Case 3 9D12195B..., Case 5 3D4D0131..., Composite C3517971... (5) Correct aggregation inflation claim: state BOTH mean and max honestly (Case 1 mean -13.99% / max +150.23%; Case 2 mean +24.63% / max +36.90%; Case 3 mean -0.67% / max +198.68%). (6) Fix donor ODB path to models/pandey_kumar_mode1/213_f1720_coarse_coupled/PK_F1720_COARSE_COUPLED.odb and reconcile SHA with F1829 claim (4A1A78B6...). (7) Fix report Section 5 image manifest commit to eabb2a884... and describe F1831 A.1 counts. (8) Commit A.1 mesh files with body SHAs in artifact table. 0 new PBS jobs (cumulative 35 preserved); frozen UEL and framework preserved bitwise; MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1833_STATE_CONSISTENT_NORMALIZATION_REPORT.md",
+  "review_directive": "Task F1833: Implement State-Consistent Normalization in the Shared Framework Envelope Synthesis. Modify synthesize_envelope_odb in scripts/remeshing/reusable_2d_adaptive_framework.py to use state-consistent normalization: for each element, compute eta_e = max_k ( MISESERI_{e,k} / MISESAVG_k ), normalizing each state's MISESERI by its OWN instantaneous MISESAVG_k before taking the maximum envelope, replacing the current max(MISESERI)/mean(MISESAVG) aggregation. This is a SINGLE shared-framework change (no per-case forks, no hardcoded corridors, no manually seeded crack paths). Do NOT change the frozen UEL (CE8D5EDC...), the error targets, the sizing method, or any gate definition. After the framework edit, regenerate the adapted meshes for ALL FOUR benchmark cases (Cases 1, 2, 3, 5) from the same revised framework revision, using the same donor states, error targets and remeshing settings as F1812. For each case, compare against the F1812 baselines: critical-region h/l0 coverage, element count, quad fraction, min det(J), max aspect ratio, Gate 06 coarsening under the ORIGINAL definition, refinement-band extent (width metric), unnecessary fine-region area, and measured donor-generation + remeshing cost. Publish genuine individual mesh images and a readable 2x2 composite with commit-pinned URLs and correct per-image SHA-256 hashes, numerical audits, source/input hashes and donor cutoff provenance. Governance: 0 new PBS jobs (cumulative 35 preserved; run Abaqus locally, not HPC); frozen UEL (CE8D5EDC...) preserved bitwise; MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1831-MATCHED-DONOR-EXPERIMENT",
+    "task_id": "F1832-F1831-REPORT-CORRECTION",
     "checkpoint_artifact": "docs/validation/F1831_MATCHED_DONOR_EXPERIMENT_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
-    "review_verdict": "REJECT",
-    "correlation_id": "HND-F1831-MATCHED-DONOR-EXPERIMENT-001"
+    "review_verdict": "APPROVE",
+    "correlation_id": "HND-F1832-F1831-CORRECTION-001"
   },
-  "re_review_correlation_id": "HND-F1832-F1831-CORRECTION-001",
+  "re_review_correlation_id": "HND-F1833-STATE-CONSISTENT-NORMALIZATION-001",
   "scientific_operation": "shared_framework_improvement",
-  "scientific_operation_id": "f1832_f1831_report_correction_001",
+  "scientific_operation_id": "f1833_state_consistent_normalization_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-  "framework_sha256": "80B41AA253E5B36B2BCF5D716B88843D29355141171C60AFF6E7134A0312932C",
+  "framework_sha256": "8523021EADE3EA5BA5B2A179571E74D47C9F5985899551E384A153B8E640FCBE",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1832 completed: corrected F1831 report, summary JSON, image manifest, and baselines; ready for independent review."
+  "notes": "Task F1833 completed: state-consistent normalization implemented in shared framework envelope synthesis, all 4 benchmark meshes regenerated and audited against F1812 baselines, standalone and 2x2 publication figures generated, 8/8 unit tests PASS, 0 new PBS jobs consumed (cumulative 35 preserved), MASTER_GOAL_STATUS = OPEN."
 }

@@ -1,0 +1,52 @@
+{
+  "case_id": "case_3",
+  "name": "Case 3: Notched Plate with Hole and Pins (Method A.2 State-Consistent Multi-State)",
+  "error_target": 3.0,
+  "remeshing_walltime_s": 68.34,
+  "donor_odb_path": "models/pandey_kumar_mode1/273_f1833_state_consistent_normalization/case3/SEC43_MULTISTATE_RECOVERY.odb",
+  "donor_odb_sha256": "DB793373E44002123FCDFE049EDD85AACD11A954B64BFBF36AE087C4663C7141",
+  "physical_inp_path": "models/pandey_kumar_mode1/273_f1833_state_consistent_normalization/case3/PK_F1833_CASE_3_ADAPT_PHYS.inp",
+  "physical_inp_sha256": "CD369B0FFDB303FFB871CA2E6392F46760D4C496728F05713B3F1727229633FE",
+  "physical_inp_body_sha256": "16FD478DCA0BB67CC699948523ECD1322F7FB2695621897644526AF0C3C917F5",
+  "physical_inp_size_bytes": 9962523,
+  "audit_metrics": {
+    "total_elements": 130218,
+    "quad_count": 126809,
+    "tri_count": 3409,
+    "quad_fraction_pct": 97.3821,
+    "min_det_j": 0.0005595948086694058,
+    "max_aspect_ratio": 2.8066,
+    "min_corner_angle_deg": 28.681698399118005,
+    "max_corner_angle_deg": 144.42067234514732,
+    "coarsening_ratio": 1.4825,
+    "refinement_ratio_far_to_core": 1.4825,
+    "h_min_mm": 0.032196,
+    "h_max_mm": 1.475908
+  },
+  "band_metrics": {
+    "total_mesh_area_mm2": 7324.803255,
+    "total_fine_area_mm2": 2783.368676,
+    "total_fine_elements": 107789,
+    "corridor_fine_area_mm2": 932.775803,
+    "unnecessary_fine_area_mm2": 1850.592873,
+    "unnecessary_fine_fraction_pct": 66.49,
+    "band_width_mm": 16.95956
+  },
+  "scientific_gate_name": "SCIENTIFIC_GATE_SECONDARY_CORRIDOR",
+  "scientific_gate_status": "PASS",
+  "critical_metrics": {
+    "primary_corridor_elements": 23119,
+    "primary_pct_le_l0": 94.58454085384315,
+    "secondary_corridor_elements": 18409,
+    "secondary_pct_le_l0": 98.98419251453093
+  },
+  "gate_summary": {
+    "gate_01_jacobian": "PASS",
+    "gate_02_quad_fraction": "PASS",
+    "gate_03_aspect_ratio": "PASS",
+    "gate_04_corner_angles": "PASS",
+    "gate_05_scientific_resolution": "PASS",
+    "gate_06_far_field_coarsening": "FAIL",
+    "gate_07_element_budget": "FAIL"
+  }
+}

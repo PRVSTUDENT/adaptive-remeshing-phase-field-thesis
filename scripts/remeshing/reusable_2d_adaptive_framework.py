@@ -1652,8 +1652,9 @@ class MultiStateRecoveryDonorBuilder(object):
                                 frame_desc="Multi-State Maximum Error Envelope"):
         """
         Synthesizes a multi-state maximum error envelope ODB from a list of solved recovery ODBs.
-        Computes elementwise maximum MISESERI and mean MISESAVG across all states and writes
-        a new envelope frame into the target ODB.
+        Computes state-consistent elementwise relative error eta_{e,k} = MISESERI_{e,k} / MISESAVG_k,
+        takes the maximum envelope eta_{e,max} = max_k eta_{e,k}, and writes the state-consistent
+        envelope into the target ODB scaled by the mean domain MISESAVG.
         """
         if not (ABAQUS_AVAILABLE or ODB_ACCESS_AVAILABLE):
             raise RuntimeError("FAIL_CLOSED: odbAccess or Abaqus environment is required to synthesize envelope ODB.")
@@ -1692,7 +1693,7 @@ class MultiStateRecoveryDonorBuilder(object):
                 raise KeyError("FAIL_CLOSED: Required error fields missing in '%s' (available: %s)" % (path, avail_f))
             eri = f.fieldOutputs["MISESERI"]
             avg = f.fieldOutputs["MISESAVG"]
-            ev = f.fieldOutputs.get("EVOL", None)
+            ev = f.fieldOutputs["EVOL"] if "EVOL" in f.fieldOutputs else None
             for v in eri.values:
                 all_eri.setdefault(v.elementLabel, []).append(float(v.data))
             for v in avg.values:
@@ -1703,8 +1704,18 @@ class MultiStateRecoveryDonorBuilder(object):
             o.close()
 
         elem_labels = sorted(all_eri.keys())
-        env_eri = tuple([[max(all_eri[el])] for el in elem_labels])
-        env_avg = tuple([[py_sum(all_avg[el]) / float(len(all_avg[el]))] for el in elem_labels])
+        env_eri = []
+        env_avg = []
+        for el in elem_labels:
+            el_eri = all_eri[el]
+            el_avg = all_avg[el]
+            mean_avg = py_sum(el_avg) / float(len(el_avg))
+            eta_vals = [(el_eri[k] / el_avg[k]) if el_avg[k] > 0.0 else 0.0 for k in range(len(el_eri))]
+            eta_max = max(eta_vals) if eta_vals else 0.0
+            env_eri.append([eta_max * mean_avg])
+            env_avg.append([mean_avg])
+        env_eri = tuple(env_eri)
+        env_avg = tuple(env_avg)
 
         odb_multi = odbAccess.openOdb(target_odb_path, readOnly=False)
         step_multi = odb_multi.steps[step_name]
@@ -1718,11 +1729,14 @@ class MultiStateRecoveryDonorBuilder(object):
             fo_evol = env_frame.FieldOutput(name='EVOL', description='Element volume', type=SCALAR)
             fo_evol.addData(position=WHOLE_ELEMENT, instance=inst_multi, labels=elem_labels, data=env_evol)
 
-        fo_eri = env_frame.FieldOutput(name='MISESERI', description='Multi-state maximum MISESERI', type=SCALAR)
+        fo_eri = env_frame.FieldOutput(name='MISESERI', description='Multi-state maximum MISESERI (state-consistent normalized)', type=SCALAR)
         fo_eri.addData(position=WHOLE_ELEMENT, instance=inst_multi, labels=elem_labels, data=env_eri)
 
         fo_avg = env_frame.FieldOutput(name='MISESAVG', description='Mean domain MISESAVG', type=SCALAR)
         fo_avg.addData(position=WHOLE_ELEMENT, instance=inst_multi, labels=elem_labels, data=env_avg)
+
+        if "ALL_ELEM" not in inst_multi.elementSets:
+            inst_multi.ElementSetFromElementLabels(name="ALL_ELEM", elementLabels=elem_labels)
 
         odb_multi.save()
         odb_multi.close()

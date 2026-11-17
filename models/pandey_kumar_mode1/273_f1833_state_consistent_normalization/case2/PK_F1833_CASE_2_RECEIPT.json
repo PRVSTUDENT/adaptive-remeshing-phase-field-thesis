@@ -1,0 +1,81 @@
+{
+  "case_id": "case_2",
+  "name": "Case 2: Plate with an Off-Axis Hole (Method A.2 State-Consistent Multi-State)",
+  "error_target": 4.0,
+  "remeshing_walltime_s": 52.4,
+  "donor_odb_path": "models/pandey_kumar_mode1/273_f1833_state_consistent_normalization/case2/PK_HOLE_MULTISTATE_RECOVERY.odb",
+  "donor_odb_sha256": "4F0F8C807E93B764FDC441212DD5D2CDA4711A870375E0BA6716E7687EE17E82",
+  "physical_inp_path": "models/pandey_kumar_mode1/273_f1833_state_consistent_normalization/case2/PK_F1833_CASE_2_ADAPT_PHYS.inp",
+  "physical_inp_sha256": "2F1842EE323720943DD11D1ED25A57B8909F5F31DA6309B7D04F175AF9EE0EF7",
+  "physical_inp_body_sha256": "45E78E28A4D1E82C7526825DC0ACDC0DA4550E11D1A87774CC7DEDE0E04FC4CE",
+  "physical_inp_size_bytes": 8972483,
+  "audit_metrics": {
+    "total_elements": 117181,
+    "quad_count": 114349,
+    "tri_count": 2832,
+    "quad_fraction_pct": 97.5832,
+    "min_det_j": 1.5777214229791912e-07,
+    "max_aspect_ratio": 2.8419,
+    "min_corner_angle_deg": 31.719233954341423,
+    "max_corner_angle_deg": 138.27780641203157,
+    "coarsening_ratio": 1.4072,
+    "refinement_ratio_far_to_core": 1.4072,
+    "h_min_mm": 0.000554,
+    "h_max_mm": 0.021202
+  },
+  "band_metrics": {
+    "total_mesh_area_mm2": 0.968586,
+    "total_fine_area_mm2": 0.659266,
+    "total_fine_elements": 114334,
+    "corridor_fine_area_mm2": 0.050025,
+    "pre_hole_fine_area_mm2": 0.007375,
+    "unnecessary_fine_area_mm2": 0.601867,
+    "unnecessary_fine_fraction_pct": 91.29,
+    "band_width_mm": 0.200098
+  },
+  "scientific_gate_name": "SCIENTIFIC_GATE_OUTER_DISTAL",
+  "scientific_gate_status": "PASS",
+  "critical_metrics": {
+    "distal_elements": 15513,
+    "distal_pct_le_l0": 100.0,
+    "distal_pct_le_l0_half": 100.0,
+    "bins": {
+      "bin_1": {
+        "count": 2818,
+        "pct_le_l0_half": 100.0,
+        "min_h_um": 0.7398335421075065
+      },
+      "bin_2": {
+        "count": 3236,
+        "pct_le_l0_half": 100.0,
+        "min_h_um": 0.6943295353998928
+      },
+      "bin_3": {
+        "count": 3447,
+        "pct_le_l0_half": 100.0,
+        "min_h_um": 0.5920643620455706
+      },
+      "bin_4": {
+        "count": 3237,
+        "pct_le_l0_half": 100.0,
+        "min_h_um": 0.7047064576061237
+      },
+      "bin_5": {
+        "count": 2775,
+        "pct_le_l0_half": 100.0,
+        "min_h_um": 0.8278863855259235
+      }
+    },
+    "combined_outer_ligament_count": 6012,
+    "combined_outer_ligament_pct_le_l0_half": 100.0
+  },
+  "gate_summary": {
+    "gate_01_jacobian": "PASS",
+    "gate_02_quad_fraction": "PASS",
+    "gate_03_aspect_ratio": "PASS",
+    "gate_04_corner_angles": "PASS",
+    "gate_05_scientific_resolution": "PASS",
+    "gate_06_far_field_coarsening": "FAIL",
+    "gate_07_element_budget": "FAIL"
+  }
+}
