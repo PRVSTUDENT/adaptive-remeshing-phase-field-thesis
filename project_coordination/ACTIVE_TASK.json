@@ -1,16 +1,16 @@
 {
-  "task_id": "F1849-DAMAGE-ENVELOPE-FRAMEWORK",
-  "title": "F1849 Generalized constructed damage-envelope framework",
-  "task_status": "BLOCKED_TRANSPORT_AND_MISSING_DONORS",
+  "task_id": "F1850-DONOR-RECOVERY",
+  "title": "F1850 exact donor recovery and lossless text provenance",
+  "task_status": "IN_PROGRESS",
   "master_goal_status": "OPEN",
-  "status": "BLOCKED_TRANSPORT_AND_MISSING_DONORS",
+  "status": "IN_PROGRESS",
   "review_verdict": "PENDING",
-  "review_correlation_id": "HND-F1849-DAMAGE-ENVELOPE-FRAMEWORK-001",
+  "review_correlation_id": "HND-F1850-DONOR-RECOVERY-001",
   "classification": "SHARED_FRAMEWORK_IMPROVEMENT",
   "assigned_agent": "codex",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1424198.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1849_DAMAGE_ENVELOPE_FRAMEWORK_REPORT.md",
+  "checkpoint_artifact": "docs/validation/F1850_DONOR_RECOVERY_REPORT.md",
   "review_directive": "Execute user-attached F1849 task. Primary driver CONSTRUCTED_DAMAGE_ENVELOPE, zero new PBS, frozen production and F1846 frameworks unchanged. Prior diagnostic task superseded by explicit user handover; historical session retained.",
   "predecessor_task": {
     "task_id": "F1847-F1846-EVIDENCE-CORRECTION",
@@ -30,7 +30,7 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 36,
-  "notes": "Restore the existing PAD/browser bridge runtime; process the preserved ORIGINAL request. Validate the matching response using .agents/scripts/reconcile_f1849_response.ps1. Do not republish or start a duplicate flow. Cases1/3 additionally require the exact missing Job1/envelope artifacts.",
+  "notes": "Follow validated F1849 INSUFFICIENT_EVIDENCE. Recover exact existing donors using guarded read-only HPC query; publish lossless text alternative to prohibited ODB binaries; verify remesh identity.",
   "historical_pbs_job_ids": [
     "1424198.mmaster02"
   ]

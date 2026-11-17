@@ -1,0 +1,145 @@
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1849-DAMAGE-ENVELOPE-FRAMEWORK-001",
+  "task_id": "F1849-DAMAGE-ENVELOPE-FRAMEWORK",
+  "canonical_rules_sha256": "7652FEC47E1F6BC5EADEAD8C3AF6C0CFB27BDAB04B09E364C7472EAB2604EE55",
+  "goal_id": "PANDEY_KUMAR_NATIVE_MISESERI_CAUSAL_ADAPTIVITY_V1",
+  "decision": "INSUFFICIENT_EVIDENCE",
+  "review_summary": "The F1849 framework is built and verified, both generated meshes and all six images are verified and genuine, and the handoff/report are honest about the partial result. The verdict is INSUFFICIENT_EVIDENCE because the donor ODBs for the two generated cases are NOT in the repo (404 at both the handoff checkpoint 92815645 and the latest commit 03360b80), so the mesh-to-donor causal chain is REPORTED_ONLY, not independently verifiable — the same defect class as F1838 and F1846. Cases 1 and 3 are BLOCKED on missing donors, so the four-case reproduction is incomplete (2 of 4). The Case 2 count parity (17,280) is from a 'Calibrated Advancing Crack Envelope v2' whose prior calibration is not reconstructed, so count parity is not scientific acceptance. The handoff also corrects the F1849 premise: F1779 Cases 3 and 5 used stress-error donors, not the damage envelope, so all-damage sizing for Cases 3/5 is a different experiment from F1779, not a reproduction. The Case 5 negative result (4,375 el, -71.46%) is real and informative: the damage envelope fails on an elastic donor with no evolving damage.",
+  "evidence": [
+    {
+      "item": "Framework file scripts/remeshing/generalized_2d_adaptive_framework_damage_envelope_f1849.py",
+      "status": "DIRECTLY_VERIFIED",
+      "detail": "73,922 bytes, SHA-256 694e7ababd739e6f5cbca5597cb39ada500116895b8c4a21ca470b64f9247096, 1,617 lines — all EXACT. Header confirms F1779-derived framework with AdvancingDamageEnvelopeBuilder. Byte-identical at the latest commit 03360b80."
+    },
+    {
+      "item": "Case 2 mesh models/pandey_kumar_mode1/279_f1849_damage_envelope/case2/PK_ADAPT_CASE_2_PHYS.inp",
+      "status": "DIRECTLY_VERIFIED",
+      "detail": "Independently recounted 16,805 CPE4 + 475 CPE3 = 17,280 elements EXACT (F1779 target 17,280, delta 0.00%). File SHA ceaf471c3b957cc9ab024bb467f6bba647021756302640f14e07e07216134a20 EXACT."
+    },
+    {
+      "item": "Case 5 mesh models/pandey_kumar_mode1/279_f1849_damage_envelope/case5/PK_ADAPT_CASE_5_PHYS.inp",
+      "status": "DIRECTLY_VERIFIED",
+      "detail": "Independently recounted 4,226 CPE4 + 149 CPE3 = 4,375 elements EXACT (F1779 target 15,330, delta -71.46%). File SHA 1705b75f304c22e5bf353be65be1fcc0edf6726932b876b4b50ebaf99c7df5fa EXACT."
+    },
+    {
+      "item": "All six images (Case 2 PNG/PDF, Case 5 PNG/PDF, partial composite PNG/PDF)",
+      "status": "DIRECTLY_VERIFIED",
+      "detail": "All six size + SHA-256 values EXACT against the handoff manifest (Case 2 PNG 96a8b041 / 2,523,220 B; Case 2 PDF 2912e59e / 574,092 B; Case 5 PNG c928c9c4 / 1,479,366 B; Case 5 PDF fe716fbe / 158,288 B; composite PNG eaf45d25 / 4,154,527 B; composite PDF 7d7c0799 / 721,389 B)."
+    },
+    {
+      "item": "Report docs/validation/F1849_DAMAGE_ENVELOPE_FRAMEWORK_REPORT.md",
+      "status": "DIRECTLY_VERIFIED",
+      "detail": "Downloaded from the repo at 92815645. Confirms PARTIAL / MASTER_GOAL_OPEN, zero new PBS, cumulative 36, CONSTRUCTED_DAMAGE_ENVELOPE / SEPARATE_COMPARISON / qualifies_native_miseseri=false, the per-case table (Case 1 BLOCKED, Case 2 17,280 +0.00%, Case 3 BLOCKED, Case 5 4,375 -71.46%), the donor inventory, the v2-envelope caveat, and 5 tests passed."
+    },
+    {
+      "item": "Frozen assets",
+      "status": "DIRECTLY_VERIFIED",
+      "detail": "Production framework scripts/remeshing/reusable_2d_adaptive_framework.py SHA b0857c521ae8e212c74f711cc3373ad57b081167727104905a0f4d2fbbda0129 EXACT (108,253 B). F1846 native-first framework SHA 22c58ed7631ee12e8e0837c0cb2e742ce9a55438b5226b0b9830a6def880d8d2 EXACT (82,214 B)."
+    },
+    {
+      "item": "PBS budget",
+      "status": "DIRECTLY_VERIFIED",
+      "detail": "0 new PBS consumed; cumulative 36 preserved, as claimed."
+    },
+    {
+      "item": "Execution owner",
+      "status": "REPORTED_ONLY",
+      "detail": "Handoff states execution owner 'codex; explicit user takeover after stopping AGY'. Noted, not independently verified."
+    }
+  ],
+  "gaps": [
+    {
+      "id": "GAP-F1849-01",
+      "severity": "BLOCKING",
+      "title": "Donor ODBs for the two generated cases are NOT in the repo",
+      "detail": "Case 2 donor models/pandey_kumar_mode1/224_f1734_case2_distal_refinement/PK_F1779_CASE2_ENVELOPE.odb (claimed 518,260,408 B, SHA 0aa9601559f26859d6a8b5e814153dbac27d4a6a4cb932a2f9c0457b4c8d58d8) returns 404 via GitHub API get_file_contents and raw HEAD at BOTH the handoff checkpoint 92815645 and the latest commit 03360b80; the API directory listing of 224_f1734_case2_distal_refinement does not list it. Case 5 donor models/pandey_kumar_mode1/218_f1726_seven_hole_study/PK_F1726_SEVEN_HOLE_COARSE.odb (claimed 194,344,892 B, SHA cb673713fde31593ae452a21bc05bffc140bccce71f1d43d601ee17b43802b0e) also returns 404 at both commits. Both donor SHAs are therefore REPORTED_ONLY (local files), and the mesh-to-donor causal chain is not independently verifiable from the repo. Same defect class as F1838 and F1846. Note: both ODBs exceed GitHub's 100 MB per-file limit, so a plain 'commit the ODB' correction is not feasible; F1850 must use reduced envelope ODBs within the limit or Git LFS."
+    },
+    {
+      "id": "GAP-F1849-02",
+      "severity": "BLOCKING",
+      "title": "Cases 1 and 3 BLOCKED on missing donors; four-case reproduction incomplete",
+      "detail": "Case 1 envelope ODB models/pandey_kumar_mode1/239_f1772_case1_remesh/PK_F1772_CASE1_ENVELOPE.odb and donor ODB models/pandey_kumar_mode1/237_f1768_case1_donor/PK_F1769_C1_DONOR.odb both return 404 at 92815645. Case 3 donor models/pandey_kumar_mode1/192_pk_sec43_staggered_job1/PK_SEC43_STAGGERED_JOB1.odb returns 404 at 92815645. The BLOCKED status is accurate (no donor substitution was made, as instructed), but only 2 of 4 cases were generated, so the four-case reproduction is incomplete."
+    },
+    {
+      "id": "GAP-F1849-03",
+      "severity": "NON_BLOCKING",
+      "title": "Case 2 count parity is from a 'calibrated envelope v2', not a reconstructed F1779 calibration",
+      "detail": "The report and handoff state the Case 2 envelope is frame ID 9999, description 'Calibrated Advancing Crack Envelope v2', and 'its prior calibration is not reconstructed or relabeled as unmodified F1779' / 'no original calibration equivalence claimed'. The 17,280 count parity is therefore count parity against a v2 envelope, not proof that the original F1779 calibration is reproduced. Count parity alone is not scientific acceptance."
+    },
+    {
+      "id": "GAP-F1849-04",
+      "severity": "NON_BLOCKING",
+      "title": "F1849 premise corrected: F1779 Cases 3 and 5 used stress-error donors, not the damage envelope",
+      "detail": "The handoff historical note and the report state that F1779 Cases 3 and 5 used stress-error donors, whereas this experiment constructs a damage-sizing envelope for all cases. All-damage sizing for Cases 3/5 is therefore a different experiment from F1779, not an F1779 reproduction. The F1849 task premise (reproduce all four F1779 meshes with the damage envelope) was partly incorrect. The handoff correctly identified this; it is recorded here as a finding, not as an execution defect."
+    },
+    {
+      "id": "GAP-F1849-05",
+      "severity": "NON_BLOCKING",
+      "title": "Handoff checkpoint is one commit behind latest",
+      "detail": "The handoff's artifact_commit 92815645 ('F1849: qualify constructed-only damage framework and preserve partial regression failures', 2026-11-17T22:26:53Z) is followed by 03360b805197e4a9a5b7d4a5922373aa4c5f24f6 ('F1849: pin published images and prepare guarded partial-result review', 2026-11-17T22:28:10Z). The framework file is byte-identical at 03360b80 (SHA 694e7ababd... confirmed), so this does not change the verification, but F1850 should pin its checkpoint to the latest commit."
+    },
+    {
+      "id": "GAP-F1849-06",
+      "severity": "NON_BLOCKING",
+      "title": "Test execution is executor-reported",
+      "detail": "The 5-test pass claim (tests/unit/test_f1849_damage_envelope.py) is executor-reported; the reviewer did not execute the suite. The test file's existence and the reported assertions were not independently executed."
+    }
+  ],
+  "image_review": {
+    "inspected_links": [
+      "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/92815645952ddf56272c43e78c0272f1849f2f43/results/figures/fig_f1849_case_2_mesh.png",
+      "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/92815645952ddf56272c43e78c0272f1849f2f43/results/figures/fig_f1849_case_5_mesh.png",
+      "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/92815645952ddf56272c43e78c0272f1849f2f43/results/figures/fig_f1849_partial_composite.png"
+    ],
+    "verification_status": "DIRECTLY_VERIFIED",
+    "findings": [
+      {
+        "case_id": 2,
+        "finding": "Genuine mesh, visually inspected. Title states 17,280 elements, 97.25% quads, Gate 06 2.205x PASS, CONSTRUCTED_DAMAGE_ENVELOPE. The mesh shows a narrow dense band distal to the hole (x approx 0.75-1.0, y approx 0.6-0.7) and a dense patch at the notch-to-hole ligament (x approx 0.5-0.6, y approx 0.5); the rest of the plate is coarse. This is the tight damage-envelope pattern, distinct from the broad F1812 Case 2 (41,438 el). Count and visual pattern are consistent with the F1779 narrow-band description."
+      },
+      {
+        "case_id": 5,
+        "finding": "Genuine mesh, visually inspected. Title states 4,375 elements, 96.59% quads, Gate 06 1.338x FAIL, CONSTRUCTED_DAMAGE_ENVELOPE. The mesh is coarse overall: seven holes visible with only modest refinement around hole perimeters and inter-hole ligaments, no dense inter-hole band like F1779/F1812 Case 5 (15,330/15,466 el). The image visually confirms the negative result: the damage envelope on the elastic seven-hole donor produces an under-refined mesh (audit: 5.65% of elements at h <= l0, 0.02% at h <= l0/2). The FAIL is stated honestly in the title."
+      },
+      {
+        "case_id": "composite",
+        "finding": "Genuine partial composite, visually inspected. Title states 'F1849: constructed damage-envelope comparison — Two generated cases; two missing-donor blocks — not a complete regression'. Case 1 (top-left) and Case 3 (bottom-left) are explicit BLOCKED text panels ('Required damage Job-1/envelope donor absent', 'No historical mesh substituted'); no old mesh is substituted. Case 2 (top-right) and Case 5 (bottom-right) show the genuine generated meshes with counts and Gate 06 values matching the individual images. Panel titles are clean with no overlap (the F1847 composite overlap is fixed)."
+      },
+      {
+        "case_id": 1,
+        "finding": "No image (BLOCKED, donor missing). Correctly shown as a blocked text panel in the composite, not as a mesh."
+      },
+      {
+        "case_id": 3,
+        "finding": "No image (BLOCKED, donor missing). Correctly shown as a blocked text panel in the composite, not as a mesh."
+      }
+    ]
+  },
+  "master_goal_status": "OPEN",
+  "next_instruction_to_antigravity": "Task F1850 (correlation HND-F1850-DONOR-RECOVERY-001): correction-only donor recovery and verifiable provenance for the F1849 damage-envelope experiment. Locate the exact existing F1779 donors for Cases 1 and 3 on the HPC (Case 1: PK_F1772_CASE1_ENVELOPE.odb and/or PK_F1769_C1_DONOR.odb; Case 3: PK_SEC43_STAGGERED_JOB1.odb) and record their exact HPC paths and SHA-256 values; do NOT submit new PBS jobs and do NOT re-run a fracture solve. For every donor ODB that exceeds GitHub's 100 MB per-file limit (including the Case 2 envelope ODB at 518 MB and the Case 5 donor at 194 MB, which are currently NOT in the repo), build and commit a REDUCED envelope ODB containing only the mesh and the constructed frame 9999 that fits within the limit, or use Git LFS, and record its repo path and SHA-256; if a reduced envelope cannot be built, state the exact blocker and the HPC path plus SHA. Re-run the remesh from the committed reduced envelope ODBs to confirm Case 2 reproduces 17,280 elements and Case 5 reproduces 4,375 elements, and generate the Case 1 and Case 3 meshes from the recovered donors (or report the exact missing artifact as BLOCKED). Generate genuine standalone mesh images for any newly generated mesh and a corrected composite. Correct the F1849 report donor inventory to state, for each donor, whether it is in the repo (path + SHA) or HPC-resident only (HPC path + SHA), and reconcile the Case 2 'Calibrated Advancing Crack Envelope v2' provenance. Do not edit the F1849 framework, the frozen F1779 revision, the production framework or the UEL. Do not substitute donors, do not authorize new PBS, do not start the paper's native MISESERI work in this task. 0 new PBS, cumulative 36 preserved, MASTER_GOAL_STATUS = OPEN.",
+  "next_operation": {
+    "goal_id": "PANDEY_KUMAR_NATIVE_MISESERI_CAUSAL_ADAPTIVITY_V1",
+    "method": "METHOD_A",
+    "operation": "shared_framework_improvement",
+    "numerical_uncertainty": "Can the exact existing F1779 donors for Cases 1 and 3 be located on the HPC and made verifiable in the repo (via reduced envelope ODBs within GitHub's 100 MB limit), and can the donor provenance for the generated Cases 2 and 5 be established in the repo so the F1849 meshes are causally traceable to committed donors?",
+    "expected_numerical_result": "For each of Cases 1, 2, 3 and 5, a donor artifact that is IN the repo (reduced envelope ODB within the 100 MB limit, or Git LFS) with a recorded SHA-256, or a precise statement of why it cannot be committed with the HPC path and SHA; the Case 1 and Case 3 meshes generated from the recovered donors (or reported BLOCKED with the exact missing artifact); the Case 2 mesh confirmed to reproduce 17,280 elements and the Case 5 mesh confirmed to reproduce 4,375 elements from the committed donors; genuine images for any newly generated mesh and a corrected composite; a corrected F1849 report donor inventory distinguishing in-repo donors from HPC-resident-only donors; the Case 2 v2-envelope provenance reconciled; 0 new PBS, cumulative 36 preserved; MASTER_GOAL_STATUS = OPEN.",
+    "indicator_type": "DAMAGE_INFORMED_SIZING",
+    "indicator_role": "SEPARATE_COMPARISON",
+    "qualifies_native_miseseri": false,
+    "causal_evidence_status": "PLANNED",
+    "causal_evidence": {
+      "donor_path": "To be recovered and committed in F1850: Case 1 PK_F1772_CASE1_ENVELOPE.odb and/or PK_F1769_C1_DONOR.odb; Case 2 PK_F1779_CASE2_ENVELOPE.odb (reduced form); Case 3 PK_SEC43_STAGGERED_JOB1.odb; Case 5 PK_F1726_SEVEN_HOLE_COARSE.odb (reduced envelope form). Current status: none of these ODBs is in the repo at 92815645 or 03360b80 (all return 404).",
+      "donor_step": "Step-2 (fracture evolution; per F1779)",
+      "donor_frame_index": "Sampled every 5th frame plus final frame (frame_stride=5, per F1779); exact indices to be recorded by the executor from the recovered donors",
+      "indicator_frame_range": "Step-2 sampled frames (exact indices to be recorded)",
+      "held_out_later_solution": "Not applicable: offline full-history sizing comparison, never causal native prediction.",
+      "uses_future_frames": true,
+      "remesh_time": null,
+      "maximum_indicator_time": null
+    },
+    "max_new_pbs_submissions": 0,
+    "cumulative_pbs_preserved": 36,
+    "master_goal_status": "OPEN"
+  }
+}

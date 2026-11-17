@@ -1,22 +1,23 @@
 {
-  "active": false,
+  "active": true,
   "agent": "codex",
-  "session_id": "codex-f1849-damage-envelope-20261117",
-  "task_id": "F1849-DAMAGE-ENVELOPE-FRAMEWORK",
-  "started_at": "2026-11-17T23:19:51.170671+01:00",
-  "starting_commit": "963becf1d0136068460c9ee4190664c514f74b3d",
+  "session_id": "codex-f1850-donor-recovery-20261117",
+  "task_id": "F1850-DONOR-RECOVERY",
+  "started_at": "2026-11-17T23:34:56.413152+01:00",
+  "starting_commit": "6edebdc90bce6c3cace6492dd813208eb1d896ba",
   "allowed_write_scope": [
-    "scripts/remeshing/*f1849*",
-    "configs/remeshing/*f1849*",
-    "models/pandey_kumar_mode1/279_f1849_damage_envelope/*",
-    "results/validation/f1849_*",
-    "results/figures/fig_f1849_*",
-    "docs/validation/F1849_DAMAGE_ENVELOPE_FRAMEWORK_REPORT.md",
-    "tests/unit/test_f1849_*",
+    "scripts/remeshing/*f1850*",
+    "models/pandey_kumar_mode1/280_f1850_donor_recovery/*",
+    "results/validation/f1850*",
+    "results/figures/fig_f1850*",
+    "docs/validation/F1850*",
+    "tests/unit/test_f1850*",
     "project_coordination/*",
     ".agents/scripts/*f1849*",
-    ".agents/bridge_history/*f1849*"
+    ".agents/scripts/*f1850*",
+    ".agents/bridge_history/*f1849*",
+    ".agents/bridge_history/*f1850*"
   ],
-  "notes": "User-authorized Codex execution preserved as partial. Guarded review timed out; original transaction remains pending. Zero PBS; master OPEN.",
-  "completed_at": "2026-11-17T23:32:05.052665+01:00"
+  "notes": "Continue verified independent next operation; no new PBS, no F1849 source edit.",
+  "completed_at": null
 }

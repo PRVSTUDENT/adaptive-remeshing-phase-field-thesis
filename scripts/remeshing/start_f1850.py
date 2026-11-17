@@ -1,0 +1,11 @@
+from pathlib import Path
+import json,datetime,subprocess
+r=Path(__file__).resolve().parents[2];now=datetime.datetime.now().astimezone().isoformat()
+p=r/'project_coordination/ACTIVE_SESSION.json';old=json.loads(p.read_text());assert old['active'] is False
+s=r/'project_coordination/sessions/2026-11-17_codex_f1850_donor_recovery.md';assert not s.exists()
+s.write_text('# F1850 donor provenance correction\n\nF1849 matching independent response validated: INSUFFICIENT_EVIDENCE. Existing response recovered, no resend. Follow verified HND-F1850-DONOR-RECOVERY-001 next operation: zero PBS; preserve F1849 framework. Binary ODB publication prohibited by repository directive, so test lossless text snapshots and reconstruction as the verifiable alternative.\n')
+old.update(active=True,agent='codex',task_id='F1850-DONOR-RECOVERY',session_id='codex-f1850-donor-recovery-20261117',started_at=now,completed_at=None,starting_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=r,text=True).strip(),allowed_write_scope=['scripts/remeshing/*f1850*','models/pandey_kumar_mode1/280_f1850_donor_recovery/*','results/validation/f1850*','results/figures/fig_f1850*','docs/validation/F1850*','tests/unit/test_f1850*','project_coordination/*','.agents/scripts/*f1849*','.agents/scripts/*f1850*','.agents/bridge_history/*f1849*','.agents/bridge_history/*f1850*'],notes='Continue verified independent next operation; no new PBS, no F1849 source edit.')
+p.write_text(json.dumps(old,indent=2)+'\n')
+p=r/'project_coordination/ACTIVE_TASK.json';d=json.loads(p.read_text());d.update(task_id='F1850-DONOR-RECOVERY',title='F1850 exact donor recovery and lossless text provenance',status='IN_PROGRESS',task_status='IN_PROGRESS',review_verdict='PENDING',review_correlation_id='HND-F1850-DONOR-RECOVERY-001',checkpoint_artifact='docs/validation/F1850_DONOR_RECOVERY_REPORT.md',notes='Follow validated F1849 INSUFFICIENT_EVIDENCE. Recover exact existing donors using guarded read-only HPC query; publish lossless text alternative to prohibited ODB binaries; verify remesh identity.');p.write_text(json.dumps(d,indent=2)+'\n')
+(r/'models/pandey_kumar_mode1/280_f1850_donor_recovery').mkdir(exist_ok=False)
+print('Claimed F1850')
