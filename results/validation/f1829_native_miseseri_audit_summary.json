@@ -1,0 +1,93 @@
+{
+  "task_id": "F1829-NATIVE-MISESERI-DIRECT-COUPLING-EVIDENCE-AUDIT",
+  "correlation_id": "HND-F1829-NATIVE-MISESERI-AUDIT-001",
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "timestamp": "2026-11-17T06:46:00+01:00",
+  "audit_scope": "F1720-F1726 Direct UEL-UMAT Coupling vs F1728-F1812 Recovery Donors",
+  "governing_hashes": {
+    "frozen_production_uel": {
+      "path": "runs/f1708_job2_frozen_uel_datacheck/f42_mixed_uel.for",
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+      "formulation": "Isotropic Degradation (g(d) multiplies all components of C_0)"
+    },
+    "amor_split_uel_v2": {
+      "path": "models/pandey_kumar_mode1/208_f1716_five_hole_production/f42_amor_split_uel_v2.for",
+      "sha256": "91612E94E7A2E3F30845AE80815EF4337F582044E25E33BED80072E4AEC40243",
+      "formulation": "Amor et al. (2009) Volumetric-Deviatoric Split (Bulk modulus undegraded in compression)"
+    },
+    "shared_framework": {
+      "path": "scripts/remeshing/reusable_2d_adaptive_framework.py",
+      "sha256": "80B41AA253E5B36B2BCF5D716B88843D29355141171C60AFF6E7134A0312932C"
+    }
+  },
+  "audit_findings": {
+    "item_1_miseseri_provenance": {
+      "source_odb": "models/pandey_kumar_mode1/213_f1720_coarse_coupled/PK_F1720_COARSE_COUPLED.odb",
+      "donor_step": "Step-1",
+      "donor_frame": 12,
+      "donor_step_time": 1.0,
+      "applied_displacement_mm": 0.0050,
+      "num_physical_elements": 2747,
+      "miseseri_max_kN_mm2": 2.2533930897996636e-14,
+      "miseseri_min_kN_mm2": 8.151721007283504e-18,
+      "miseseri_mean_kN_mm2": 1.110248370715579e-15,
+      "misesavg_max_kN_mm2": 1.271715344792687e-13,
+      "misesavg_mean_kN_mm2": 4.0835640162265806e-14,
+      "relative_error_eta_max_pct": 371.94185833735764,
+      "relative_error_eta_min_pct": 0.021544367646227233,
+      "relative_error_eta_mean_pct": 3.402808859216756,
+      "status": "DIRECTLY_VERIFIED"
+    },
+    "item_2_step1_vs_step2_attribution_discrepancy": {
+      "claimed_in_f1720_manifest_finding_r04": "Increment 412, Step 2",
+      "actual_donor_provenance": "Step-1, Frame 12 (u_y = 0.0050 mm)",
+      "discrepancy_explanation": "Clerical misattribution in F1720 documentation. In reality, Step 2 of PK_F1720_COARSE_COUPLED.odb terminated at increment 356 with divergence; the donor extracted and used by execute_f1720_native_adaptive_remesh.py was explicitly stepName='Step-1' frame -1.",
+      "status": "RECONCILED_AND_CONFIRMED"
+    },
+    "item_3_element_and_ip_mapping": {
+      "architecture": "3-Layer Method A Overlay (Phase UEL, Mech UEL, Companion CPE4/CPE3 UMAT)",
+      "element_numbering": {
+        "layer_1_phase": "1 .. N_PHYS",
+        "layer_2_mech": "N_PHYS + 1 .. 2*N_PHYS",
+        "layer_3_companion": "2*N_PHYS + 1 .. 3*N_PHYS"
+      },
+      "common_block": "COMMON /CB_F1720_STRESS/ S_TENSOR_STORE(6, 4, 150000) with SAVE",
+      "tensor_conventions": "Plane strain NTENS=4 (11, 22, 33, 12)",
+      "dummy_scaling_factor": 4.761904761904762e-14,
+      "status": "DIRECTLY_VERIFIED"
+    },
+    "item_4_stress_freshness_and_cutbacks": {
+      "call_order_invariant": "Abaqus/Standard strictly evaluates elements in ascending label order; Layer 2 executes before Layer 3 within normal iterations.",
+      "cutback_vulnerability": "S_TENSOR_STORE stores trial stresses during every Newton iteration without separate committed/trial buffers. In rejected iterations or interrupted cutbacks, trial stresses persist in global COMMON memory.",
+      "parallel_execution_hazard": "Multi-threaded (SMP/MPI) access to shared COMMON memory without locks risks race conditions; serial execution was required.",
+      "status": "DEFECT_DEMONSTRATED"
+    },
+    "item_5_mechanical_neutrality": {
+      "single_element_patch": "RF discrepancy = 0.0000% under dummy scaling s = 10^-11 / E_0 (Configuration B).",
+      "unscaled_stress_hazard": "Unscaled Cauchy stress (s = 1.0) doubles internal force and inflates RF by +100.00% (Configuration C).",
+      "multi_element_structural_effect": "In complex structures with kinematic couplings or pinned holes, companion dummy elements alter numerical conditioning and can cause MPC condensation artifacts if not carefully constrained.",
+      "status": "DIRECTLY_VERIFIED"
+    },
+    "item_6_constitutive_differences": {
+      "frozen_production_uel": "Isotropic degradation D_mech = g(d) C_0 for all strain states; crack driving energy psi_0^+ uses positive volumetric trace bracket but isotropic shear.",
+      "f1716_f1720_amor_uel": "Amor et al. (2009) volumetric-deviatoric split; bulk modulus undegraded in compression (D_elas(1,1) = K_bulk + 4/3*mu*g(d)), crack driving energy psi_0^+ uses deviatoric quadratic form.",
+      "consequence": "Blindly substituting F1720's Amor UEL into production decks alters the mechanical boundary value problem from isotropic degradation to Amor split, modifying peak load, compliance, and crack path.",
+      "status": "DIFFERENCE_CONFIRMED"
+    },
+    "item_7_forward_solver_failure_and_recovery_pivot": {
+      "forward_solver_outcome": "Diverged in Step 2 at increment 127/356, t_2 = 0.2215 s, u_y = 0.005664 mm due to time increment collapse dt < 10^-9 s.",
+      "peak_load_measured_kN": 0.921794,
+      "published_target_kN": 1.050000,
+      "discrepancy_pct": -12.21,
+      "retraction_status": "Prior claims of zero cutbacks and perfect 1.05 kN peak match were formally retracted in F1720_FORWARD_SOLVER_COMPLETION_FORENSIC_REPORT.md.",
+      "pivot_to_recovery_donors": "To bypass forward solver instability and coupled UMAT limitations across complex geometries, F1728 transitioned to offline continuum linear-elastic pre-analysis (Method A.1) and later multi-state degraded elasticity recovery (Method A.2 in F1812).",
+      "status": "CONFIRMED_AND_RECONCILED"
+    }
+  },
+  "governance": {
+    "max_new_pbs_submissions": 0,
+    "submissions_consumed": 0,
+    "cumulative_pbs_submissions": 35,
+    "master_goal_status": "OPEN"
+  }
+}

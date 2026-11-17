@@ -1,17 +1,19 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1827-campaign-synthesis-20261117",
-  "task_id": "F1827-CAMPAIGN-SYNTHESIS-F1812-F1826",
-  "started_at": "2026-11-17T00:25:00+01:00",
-  "completed_at": "2026-11-17T00:29:00+01:00",
-  "starting_commit": "b9d07909f52338e6c633ffd0865e3a23018d7372",
+  "session_id": "gemini-antigravity-f1829-native-miseseri-audit-20261117",
+  "task_id": "F1829-NATIVE-MISESERI-DIRECT-COUPLING-EVIDENCE-AUDIT",
+  "started_at": "2026-11-17T06:37:00+01:00",
+  "completed_at": "2026-11-17T06:50:00+01:00",
+  "starting_commit": "6b0ba91d316f11bb7ba1164d3f11055719e06330",
   "allowed_write_scope": [
-    "docs/validation/F1827_*",
-    "tests/unit/test_f1827_*",
-    "results/figures/fig_f1827_*",
+    "docs/validation/F1829_*",
+    "tests/unit/test_f1829_*",
+    "results/validation/f1829_*",
+    "models/pandey_kumar_mode1/PK_F1829_*",
     "project_coordination/*",
-    ".agents/scripts/*"
+    ".agents/scripts/*",
+    ".agents/bridge_history/*"
   ],
-  "notes": "Task F1827: Synthesis Consolidating the F1812-F1826 Campaign and the Harmonized Framework State. Consolidates accepted baselines (160,144 el), harmonized framework (80B41AA2...), Gate 06 plain disclosure (Cases 1 & 5 PASS, Cases 2 & 3 FAIL), F1823-F1826 findings, supplementary diagnostics (size-thresholded & corner ratios), and open items. 0 new PBS jobs consumed (cumulative 35 preserved), bitwise frozen UEL CE8D5EDC... preserved, MASTER_GOAL_STATUS = OPEN."
+  "notes": "Task F1829 complete. Primary source evidence audit of native MISESERI coupling vs recovery donors finished. 5/5 unit tests PASS. Session released. MASTER_GOAL_STATUS = OPEN."
 }

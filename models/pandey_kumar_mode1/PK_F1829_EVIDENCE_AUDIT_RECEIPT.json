@@ -1,0 +1,71 @@
+{
+  "task_id": "F1829-NATIVE-MISESERI-DIRECT-COUPLING-EVIDENCE-AUDIT",
+  "correlation_id": "HND-F1829-NATIVE-MISESERI-AUDIT-001",
+  "receipt_type": "PRIMARY_SOURCE_EVIDENCE_AUDIT_RECEIPT",
+  "timestamp": "2026-11-17T06:46:00+01:00",
+  "author": "gemini-antigravity",
+  "governing_directive": "Qualify and improve the shared adaptive-remeshing framework using native in-analysis UEL+UMAT MISESERI (First bounded operation: establish the evidence)",
+  "audit_receipts": [
+    {
+      "scope": "Constitutive Source Digests",
+      "artifacts": [
+        {
+          "path": "runs/f1708_job2_frozen_uel_datacheck/f42_mixed_uel.for",
+          "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+          "lines": 907,
+          "classification": "FROZEN_PRODUCTION_UEL_ISOTROPIC"
+        },
+        {
+          "path": "models/pandey_kumar_mode1/208_f1716_five_hole_production/f42_amor_split_uel_v2.for",
+          "sha256": "91612E94E7A2E3F30845AE80815EF4337F582044E25E33BED80072E4AEC40243",
+          "lines": 925,
+          "classification": "HISTORICAL_AMOR_SPLIT_UEL"
+        },
+        {
+          "path": "scripts/remeshing/reusable_2d_adaptive_framework.py",
+          "sha256": "80B41AA253E5B36B2BCF5D716B88843D29355141171C60AFF6E7134A0312932C",
+          "classification": "SHARED_FRAMEWORK_F1827"
+        }
+      ]
+    },
+    {
+      "scope": "Donor State Provenance & Discrepancy",
+      "artifacts": [
+        {
+          "path": "models/pandey_kumar_mode1/213_f1720_coarse_coupled/PK_F1720_COARSE_COUPLED.odb",
+          "donor_step": "Step-1",
+          "donor_frame": 12,
+          "step_time": 1.0,
+          "u2_mm": 0.0050,
+          "misattribution_note": "F1720 manifest erroneously cited Step 2 Inc 412; actual donor was Step-1 frame -1."
+        },
+        {
+          "path": "results/validation/f1720_native_miseseri_evaluation.json",
+          "sha256_verified": true,
+          "num_elements": 2747,
+          "max_miseseri": 2.2533930897996636e-14,
+          "max_eta_pct": 371.94185833735764
+        }
+      ]
+    },
+    {
+      "scope": "Solver Forensics & Retraction",
+      "artifacts": [
+        {
+          "path": "results/validation/f1720_solver_forensics.json",
+          "elements": 13163,
+          "ips": 51716,
+          "peak_rf_measured_kN": 0.912794,
+          "target_rf_kN": 1.050000,
+          "error_pct": -12.21,
+          "status": "FORMALLY_RETRACTED_DIVERGENCE_AT_CUTBACK_COLLAPSE"
+        }
+      ]
+    }
+  ],
+  "unit_test_suite": "tests/unit/test_f1829_native_miseseri_audit.py",
+  "unit_test_status": "5_PASSED_0_FAILED",
+  "cumulative_pbs_submissions": 35,
+  "submissions_consumed": 0,
+  "master_goal_status": "OPEN"
+}
