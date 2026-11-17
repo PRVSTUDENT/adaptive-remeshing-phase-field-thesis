@@ -1,0 +1,59 @@
+{
+  "task_id": "F1832-F1831-REPORT-CORRECTION",
+  "correlation_id": "HND-F1832-F1831-CORRECTION-001",
+  "predecessor_correlation_id": "HND-F1831-MATCHED-DONOR-EXPERIMENT-001",
+  "receipt_type": "REPORT_AND_EVIDENCE_CORRECTION_RECEIPT",
+  "timestamp": "2026-11-17T08:35:00+01:00",
+  "author": "gemini-antigravity",
+  "governing_directive": "Correct the F1831 Matched Donor Experiment Report and Evidence per independent review HND-F1831-MATCHED-DONOR-EXPERIMENT-001",
+  "corrections_certified": [
+    {
+      "item": "section_3_f1812_gate06_baselines",
+      "status": "CORRECTED",
+      "detail": "Restored authentic F1812 baselines in Section 3 table: Case 1 2.3867x (PASS), Case 2 1.9349x (FAIL), Case 3 1.4462x (FAIL), Case 5 2.1174x (PASS). Cases 2 and 3 are explicitly marked as FAIL."
+    },
+    {
+      "item": "case1_a1_element_count",
+      "status": "CORRECTED",
+      "detail": "Reconciled Case 1 A.1 mesh to 4,384 elements (PK_F1831_CASE_1_A1_PHYS.inp staged, body SHA A3FAE74F81182719DD6EFCA23010D71D08D5E278299785551CB76EC4738ACD14, Gate 06 coarsening 1.87x FAIL, full ligament coverage 0.00% FAIL)."
+    },
+    {
+      "item": "case3_a1_gate06_coarsening",
+      "status": "CORRECTED",
+      "detail": "Reconciled Case 3 A.1 Gate 06 coarsening to 1.05x (FAIL) in both report and summary JSON."
+    },
+    {
+      "item": "image_manifest_shas",
+      "status": "CORRECTED",
+      "detail": "Corrected image manifest SHAs in dispatch script and report: Case 1 8E0665D3..., Case 2 A5B40D10..., Case 3 9D12195B..., Case 5 3D4D0131..., Composite C3517971..."
+    },
+    {
+      "item": "aggregation_inflation_claims",
+      "status": "CORRECTED",
+      "detail": "Reported both mean and max error inflation honestly: Case 1 mean -13.99% / max +150.23%; Case 2 mean +24.63% / max +36.90%; Case 3 mean -0.67% / max +198.68%; Case 5 0.0%. Stated plainly that only Case 2 has positive net mean inflation."
+    },
+    {
+      "item": "donor_odb_path_and_sha",
+      "status": "CORRECTED",
+      "detail": "Reconciled donor path to models/pandey_kumar_mode1/213_f1720_coarse_coupled/PK_F1720_COARSE_COUPLED.odb and SHA to F1829 registered 4A1A78B6C72E3BA051D9835777D4380EFE212B27A23FE835616D7FE28C3E1410."
+    },
+    {
+      "item": "report_section5_image_commit",
+      "status": "CORRECTED",
+      "detail": "Pinned Section 5 image manifest commit to eabb2a884ec955f3dc00ba2a67307e4419f7fa0f and described displayed meshes accurately."
+    },
+    {
+      "item": "a1_mesh_artifacts_table",
+      "status": "CORRECTED",
+      "detail": "Committed all A.1 mesh files with body SHAs recorded in Section 5.2 artifact table."
+    }
+  ],
+  "governance": {
+    "max_new_pbs_submissions": 0,
+    "submissions_consumed": 0,
+    "cumulative_pbs_submissions": 35,
+    "master_goal_status": "OPEN",
+    "production_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "framework_sha256": "80B41AA253E5B36B2BCF5D716B88843D29355141171C60AFF6E7134A0312932C"
+  }
+}

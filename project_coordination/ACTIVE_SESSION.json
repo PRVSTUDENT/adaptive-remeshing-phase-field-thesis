@@ -1,21 +1,23 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1831-matched-donor-20261117",
-  "task_id": "F1831-MATCHED-DONOR-EXPERIMENT",
-  "started_at": "2026-11-17T07:28:00+01:00",
-  "completed_at": "2026-11-17T07:54:00+01:00",
-  "starting_commit": "3d7bc61e3dbd19e446fd6467196f3340412bf75e",
+  "session_id": "gemini-antigravity-f1832-f1831-correction-20261117",
+  "task_id": "F1832-F1831-REPORT-CORRECTION",
+  "started_at": "2026-11-17T08:05:00+01:00",
+  "completed_at": "2026-11-17T08:39:00+01:00",
+  "starting_commit": "56cb16de9485bb020fece8c72809633e7929d2f2",
   "allowed_write_scope": [
     "docs/validation/F1831_*",
-    "tests/unit/test_f1831_*",
+    "docs/validation/F1832_*",
     "results/validation/f1831_*",
     "models/pandey_kumar_mode1/272_f1831_*",
     "models/pandey_kumar_mode1/PK_F1831_*",
-    "results/figures/fig_f1831_*",
+    "models/pandey_kumar_mode1/PK_F1832_*",
+    "tests/unit/test_f1831_*",
+    "tests/unit/test_f1832_*",
     "project_coordination/*",
     ".agents/scripts/*",
     ".agents/bridge_history/*"
   ],
-  "notes": "Task F1831 session completed and released. Ready for independent structured review under HND-F1831-MATCHED-DONOR-EXPERIMENT-001."
+  "notes": "Task F1832: Correct the F1831 Matched Donor Experiment Report and Evidence per independent review HND-F1831-MATCHED-DONOR-EXPERIMENT-001."
 }
