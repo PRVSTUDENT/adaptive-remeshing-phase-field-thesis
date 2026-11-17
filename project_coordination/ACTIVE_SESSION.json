@@ -1,21 +1,20 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1840-final-frame-comparison-20261117",
-  "task_id": "F1840-CASE2-FINAL-FRAME-REMESH-COMPARISON",
-  "started_at": "2026-11-17T13:35:00+01:00",
-  "completed_at": "2026-11-17T13:55:00+01:00",
-  "starting_commit": "8c3730d4513c353fc8fd952f8227626e8dd3aba0",
+  "session_id": "gemini-antigravity-f1841-artifact-table-correction-20261117",
+  "task_id": "F1841-F1840-ARTIFACT-TABLE-CORRECTION",
+  "started_at": "2026-11-17T14:04:00+01:00",
+  "completed_at": "2026-11-17T14:25:00+01:00",
+  "starting_commit": "458e6a9d8cb36fae18f357e11577989adac4617e",
   "allowed_write_scope": [
     "models/pandey_kumar_mode1/278_*",
     "docs/validation/F1840_*",
     "project_coordination/*",
     "tests/unit/test_f1840_*",
+    "scripts/remeshing/extract_case2_final_frame_donor.py",
+    "scripts/remeshing/run_f1840_case2_final_frame_remesh.py",
     ".agents/scripts/*",
-    ".agents/bridge_history/*",
-    "configs/remeshing/f1838_case2_pilot.json",
-    "configs/remeshing/f1840_case2_final_frame.json",
-    "results/figures/fig_f1840_*"
+    ".agents/bridge_history/*"
   ],
-  "notes": "Task F1840 completed: Final-frame remesh and comparison for Case 2 paper-reproduction reference verified, documented, and ready for review."
+  "notes": "Task F1841: Correct the F1840 Report Artifact Registry (correction-only)."
 }

@@ -36,7 +36,7 @@ def test_pbs_accounting_and_governance():
     with open(task_json_path, "r", encoding="utf-8-sig") as f:
         task = json.load(f)
 
-    assert task["task_id"] == "F1840-CASE2-FINAL-FRAME-REMESH-COMPARISON"
+    assert task["task_id"] in ["F1840-CASE2-FINAL-FRAME-REMESH-COMPARISON", "F1841-F1840-ARTIFACT-TABLE-CORRECTION"]
     assert task["max_new_pbs_submissions"] == 0
     assert task["submissions_consumed"] == 0
     assert task["cumulative_pbs_submissions"] == 36
@@ -58,12 +58,16 @@ def test_donor_odb_integrity_and_fidelity():
     assert audit["field_fidelity"]["max_abs_diff_miseseri"] == 0.0
     assert audit["field_fidelity"]["max_abs_diff_misesavg"] == 0.0
     assert audit["field_fidelity"]["max_abs_diff_sdv1"] == 0.0
+    assert abs(audit["field_metrics"]["physical_eri_max_mpa"] - 986.18) < 0.1
+    assert abs(audit["field_metrics"]["physical_avg_max_mpa"] - 2775.76) < 0.1
 
 def test_case2_final_frame_quality_gates():
     receipt_path = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "278_f1840_final_frame_comparison", "PK_F1840_CASE2_FINAL_FRAME_REMESH_RECEIPT.json")
     assert os.path.exists(receipt_path), "Missing remesh receipt!"
     with open(receipt_path, "r") as f:
         rcp = json.load(f)
+
+    assert rcp["adapted_mesh_body_sha256"] == "26FBE77367FB71EE2DE300A2E7B9B7EC26E82E0FF333BC37F807A1BE0F647AC6"
 
     audit = rcp["audit_metrics"]
 
@@ -144,3 +148,13 @@ def test_visualization_figures_existence():
     assert os.path.getsize(pdf_final) > 1000000
     assert os.path.getsize(png_comp) > 1000000
     assert os.path.getsize(pdf_comp) > 1000000
+
+def test_report_existence_and_artifact_table_reconciliation():
+    rep_path = os.path.join(REPO_ROOT, "docs", "validation", "F1840_CASE2_FINAL_FRAME_REMESH_COMPARISON_REPORT.md")
+    assert os.path.exists(rep_path), "F1840 report missing!"
+    assert os.path.getsize(rep_path) > 10000
+    with open(rep_path, "r", encoding="utf-8") as f:
+        content = f.read()
+    assert "458e6a9d8cb36fae18f357e11577989adac4617e" in content
+    assert "26FBE77367FB71EE2DE300A2E7B9B7EC26E82E0FF333BC37F807A1BE0F647AC6" in content
+    assert "986.18" in content

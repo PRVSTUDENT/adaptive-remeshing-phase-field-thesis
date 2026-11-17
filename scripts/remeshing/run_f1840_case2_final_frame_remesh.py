@@ -51,14 +51,14 @@ def sha256_file(filepath):
     return h.hexdigest().upper()
 
 def compute_body_sha256(filepath):
-    """Computes SHA-256 of the INP body excluding comments and heading."""
+    """Computes SHA-256 of the INP body excluding comments and heading (normalized line endings)."""
     h = hashlib.sha256()
     with open(filepath, "r") as f:
         for line in f:
             stripped = line.strip()
             if stripped.startswith("**") or stripped.upper().startswith("*HEADING"):
                 continue
-            h.update(line.encode("utf-8"))
+            h.update((stripped + "\n").encode("utf-8"))
     return h.hexdigest().upper()
 
 def evaluate_window_metrics(all_elems, nodes, l0, x_min, x_max, y_min, y_max):

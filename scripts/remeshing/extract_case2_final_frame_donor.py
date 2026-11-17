@@ -192,9 +192,9 @@ def main():
     eta_max = max(eta_values.values())
     eta_mean = sum(eta_values.values()) / len(eta_values)
 
-    # Physical stress values
-    phys_eri_max = (eri_max / s_dummy) * 1e-3  # MPa
-    phys_avg_max = (avg_max / s_dummy) * 1e-3  # MPa
+    # Physical stress values (1 kN/mm^2 = 1000 MPa)
+    phys_eri_max = (eri_max / s_dummy) * 1e3  # MPa
+    phys_avg_max = (avg_max / s_dummy) * 1e3  # MPa
 
     # Distal elements over target
     # Load nodal coordinates to evaluate distal region

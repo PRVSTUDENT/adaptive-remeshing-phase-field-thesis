@@ -1,9 +1,9 @@
-# Task F1840: Final-Frame Remesh and Comparison for Case 2 Paper-Reproduction Reference
+# Task F1840: Final-Frame Remesh and Comparison for Case 2 Paper-Reproduction Reference (Reconciled under Task F1841)
 
 **Author**: Gemini Antigravity  
-**Task ID**: `F1840-CASE2-FINAL-FRAME-REMESH-COMPARISON`  
-**Correlation ID**: `HND-F1840-CASE2-FINAL-FRAME-REMESH-COMPARISON-001`  
-**Predecessor Review**: `HND-F1839-F1838-EVIDENCE-COMPLETION-001` (`APPROVE`)  
+**Task ID**: `F1840-CASE2-FINAL-FRAME-REMESH-COMPARISON` (Reconciled under `F1841-F1840-ARTIFACT-TABLE-CORRECTION`)  
+**Correlation ID**: `HND-F1841-F1840-ARTIFACT-TABLE-CORRECTION-001`  
+**Predecessor Review**: `HND-F1840-CASE2-FINAL-FRAME-REMESH-COMPARISON-001` (`REJECT` due to artifact table registry errors; core science verified)  
 **Research Goal ID**: `PANDEY_KUMAR_NATIVE_MISESERI_CAUSAL_ADAPTIVITY_V1`  
 **Date**: 17 November 2026  
 **Status**: `COMPLETED_READY_FOR_INDEPENDENT_REVIEW`  
@@ -147,30 +147,46 @@ Two publication-quality figures were rendered at 300 DPI and vector PDF:
 
 ### Commit-Pinned Image Manifest
 
+All images are commit-pinned to checkpoint `458e6a9d8cb36fae18f357e11577989adac4617e` and verified resolving:
+
 | Case ID | Relative Path | Verified GitHub URL | SHA-256 Hash | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| **case_2_final_png** | `results/figures/fig_f1840_case2_final_frame_mesh.png` | [View PNG](https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/8c3730d4513c353fc8fd952f8227626e8dd3aba0/results/figures/fig_f1840_case2_final_frame_mesh.png) | `4EBA24865A7C52A32F242B8393990B69067132906B92DEF8147771F2AD0FB1BE` | Case 2 Final-Frame (337) Adapted Mesh (28,160 el, 97.76% Quads, 8,759 distal el, 91.48% <= l0/2) |
-| **case_2_final_pdf** | `results/figures/fig_f1840_case2_final_frame_mesh.pdf` | [View PDF](https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/8c3730d4513c353fc8fd952f8227626e8dd3aba0/results/figures/fig_f1840_case2_final_frame_mesh.pdf) | `B071CD2E890D3186F616F1CEF555C9D8B140334BB3315506FE29C4E9EDE346EC` | Case 2 Final-Frame Vector PDF |
-| **case_2_comp_png** | `results/figures/fig_f1840_case2_comparison.png` | [View PNG](https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/8c3730d4513c353fc8fd952f8227626e8dd3aba0/results/figures/fig_f1840_case2_comparison.png) | `BEA77BB41ACEFCB78F56C2453B089E4A0D5E29DD7054D3803D827139878CAE5F` | Side-by-Side Comparison: Frame 300 (Diagnostic) vs Frame 337 (Paper Reference) |
-| **case_2_comp_pdf** | `results/figures/fig_f1840_case2_comparison.pdf` | [View PDF](https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/8c3730d4513c353fc8fd952f8227626e8dd3aba0/results/figures/fig_f1840_case2_comparison.pdf) | `105CBAB9078DE968F063D23F146A5B43B2F8D6AFA58292C431435BAB26206703` | Side-by-Side Comparison Vector PDF |
-
-*(Note: Commit hash in URLs will be pinned to the final task commit upon staging).*
+| **case_2_final_png** | `results/figures/fig_f1840_case2_final_frame_mesh.png` | [View PNG](https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/458e6a9d8cb36fae18f357e11577989adac4617e/results/figures/fig_f1840_case2_final_frame_mesh.png) | `4EBA24865A7C52A32F242B8393990B69067132906B92DEF8147771F2AD0FB1BE` | Case 2 Final-Frame (337) Adapted Mesh (28,160 el, 97.76% Quads, 8,759 distal el, 91.48% <= l0/2) |
+| **case_2_final_pdf** | `results/figures/fig_f1840_case2_final_frame_mesh.pdf` | [View PDF](https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/458e6a9d8cb36fae18f357e11577989adac4617e/results/figures/fig_f1840_case2_final_frame_mesh.pdf) | `B071CD2E890D3186F616F1CEF555C9D8B140334BB3315506FE29C4E9EDE346EC` | Case 2 Final-Frame Vector PDF |
+| **case_2_comp_png** | `results/figures/fig_f1840_case2_comparison.png` | [View PNG](https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/458e6a9d8cb36fae18f357e11577989adac4617e/results/figures/fig_f1840_case2_comparison.png) | `BEA77BB41ACEFCB78F56C2453B089E4A0D5E29DD7054D3803D827139878CAE5F` | Side-by-Side Comparison: Frame 300 (Diagnostic) vs Frame 337 (Paper Reference) |
+| **case_2_comp_pdf** | `results/figures/fig_f1840_case2_comparison.pdf` | [View PDF](https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/458e6a9d8cb36fae18f357e11577989adac4617e/results/figures/fig_f1840_case2_comparison.pdf) | `105CBAB9078DE968F063D23F146A5B43B2F8D6AFA58292C431435BAB26206703` | Side-by-Side Comparison Vector PDF |
 
 ---
 
 ## 7. Complete SHA-256 Artifact Inventory Table
 
+### Table 7.1: Live Verified Artifact Inventory (Task F1841 Reconciled)
+
 | Artifact Path | File Size (Bytes) | SHA-256 Hash | INP Body SHA-256 | Description |
 | :--- | :---: | :---: | :---: | :--- |
-| `models/pandey_kumar_mode1/278_f1840_final_frame_comparison/PK_F1840_CASE2_FINAL_FRAME_DONOR.odb` | 7,526,008 | `A48C17D793077BD08D9B95177CFFB9F7C4FA39ED1E6959A37F20CD515FBA27A5` | N/A | Standalone donor ODB (Step-2 Frame 337) |
-| `models/pandey_kumar_mode1/278_f1840_final_frame_comparison/PK_F1840_CASE_2_FINAL_FRAME_PHYS.inp` | 2,027,351 | `C5A6E04D8C66B9978F35FBE2435E2AF9CF40CA119F31CA9F21D0593C6ECCA491` | `A29EB8176DE125BFA831EC48118C529A90F5BB6587EC0D8F6FD2972AAA7297EB` | Adapted physical mesh (28,160 elements) |
-| `models/pandey_kumar_mode1/278_f1840_final_frame_comparison/PK_F1840_CASE2_FINAL_FRAME_REMESH_RECEIPT.json` | 5,131 | `C8F9930A24A69A5734ED3ECDE2AEFEF460D7791443422DECF5D5D3A63B48F6C8` | N/A | Master remeshing receipt and comparison |
-| `models/pandey_kumar_mode1/278_f1840_final_frame_comparison/f1840_extraction_fidelity_audit.json` | 1,177 | `E2BF67C1964BC432F1E0C496BD93A54EFCE38084B688CCBCBCBE8DF1C81EB706` | N/A | Field-fidelity audit (0.0 error verified) |
-| `configs/remeshing/f1840_case2_final_frame.json` | 1,671 | `B86C4EB542A8F3F198EF2CE0C475D27C55554D5962B2F2A9BE519F83D1B7EBEE` | N/A | Remeshing configuration deck |
-| `scripts/remeshing/extract_case2_final_frame_donor.py` | 7,614 | `118F3BC3A29B12E11749C24ED8B60E9ED9A120B4DE3BDDCB6A41CC6287968BC2` | N/A | Frame extraction and fidelity script |
-| `scripts/remeshing/run_f1840_case2_final_frame_remesh.py` | 13,875 | `04C99E392434EB46679261C7BA6F87C9E3BD068E31DC4700676D229DFCC9A998` | N/A | Native remeshing execution script |
-| `scripts/remeshing/plot_f1840_case2_final_frame.py` | 8,767 | `102FD759491FE79BE8BC273AC4924A1FCE502EE284B8E1D5B209A0835B57492C` | N/A | Publication plotting script |
-| `tests/unit/test_f1840_final_frame_comparison.py` | 5,744 | `BDCF1EF4EBEFFBF22A8161A63BC2969EB9C9673C1480CBEBCDAEAE7BDE2A1FD5` | N/A | Standalone unit test suite (7/7 PASS) |
+| `models/pandey_kumar_mode1/278_f1840_final_frame_comparison/PK_F1840_CASE2_FINAL_FRAME_DONOR.odb` | 7,526,008 | `A48C17D793077BD08D9B95177CFFB9F7C4FA39ED1E6959A37F20CD515FBA27A5` | N/A | Standalone donor ODB (Step-2 Frame 337, identical across F1840/F1841) |
+| `models/pandey_kumar_mode1/278_f1840_final_frame_comparison/PK_F1840_CASE_2_FINAL_FRAME_PHYS.inp` | 2,027,351 | `C5A6E04D8C66B9978F35FBE2435E2AF9CF40CA119F31CA9F21D0593C6ECCA491` | `26FBE77367FB71EE2DE300A2E7B9B7EC26E82E0FF333BC37F807A1BE0F647AC6` | Adapted physical mesh (28,160 elements, normalized body SHA verified) |
+| `models/pandey_kumar_mode1/278_f1840_final_frame_comparison/PK_F1840_CASE2_FINAL_FRAME_REMESH_RECEIPT.json` | 5,131 | `920653074BD1FFC9FB7B8AF75998F28C08AD2FBC1890D21F2744EB2B1B777D73` | N/A | Master remeshing receipt (reconciled body SHA recorded) |
+| `models/pandey_kumar_mode1/278_f1840_final_frame_comparison/f1840_extraction_fidelity_audit.json` | 1,170 | `79AC4EA93108D669F12399AA46B5CC8D7DF4EFCDA7E169A281E6E5CDFE14A2E7` | N/A | Field-fidelity audit (reconciled physical MPa units: 986.18 & 2775.76) |
+| `configs/remeshing/f1840_case2_final_frame.json` | 1,694 | `24F580E708A5A2274F07C0DAFEE07E34822AA8E080C6CCA22B7D5A09E4777229` | N/A | Remeshing configuration deck |
+| `scripts/remeshing/extract_case2_final_frame_donor.py` | 10,123 | `5F3938F43610551AA5AD8C876D0F536886A900D71E300107A41F31C51D8CD1E8` | N/A | Frame extraction script (corrected MPa unit scaling) |
+| `scripts/remeshing/run_f1840_case2_final_frame_remesh.py` | 16,132 | `2803E49D6BE7ECE93F4C957B719A6BBA7C30C6FB560053F44DA5B54FE2E63444` | N/A | Native remeshing runner (standard normalized body SHA function) |
+| `scripts/remeshing/plot_f1840_case2_final_frame.py` | 10,103 | `F046CF5D596242D75F2C57335DFB31D21D3C7F61A97CAE4280C3307D05D1A027` | N/A | Publication plotting script |
+| `tests/unit/test_f1840_final_frame_comparison.py` | 7,265 | `231BCB32FEFD9AA418844937704BB32EFE0FFE235C8A292955ACB1FA79B8F59A` | N/A | Unit test suite (8/8 PASS, verified body SHA & MPa units) |
+
+### Table 7.2: Reconciliation with Committed Checkpoint 458e6a9d
+
+| Artifact File | Size at `458e6a9d` | SHA-256 at `458e6a9d` | F1840 Claimed Size/SHA | Discrepancy Cause & F1841 Resolution |
+| :--- | :---: | :---: | :---: | :--- |
+| `PK_F1840_CASE2_FINAL_FRAME_DONOR.odb` | 7,526,008 | `A48C17D79307...` | 7,526,008 / `A48C17D79307...` | **Exact match**. Verified intact. |
+| `PK_F1840_CASE_2_FINAL_FRAME_PHYS.inp` | 2,027,351 | `C5A6E04D8C66...` | 2,027,351 / `C5A6E04D8C66...` | **File match exact**. Body SHA updated to canonical normalized `26FBE773...`. |
+| `PK_F1840_CASE2_FINAL_FRAME_REMESH_RECEIPT.json` | 5,131 | `84F45646B600...` | 5,131 / `C8F9930A24A6...` | Draft receipt had stale body SHA; now updated to `26FBE773...`. |
+| `f1840_extraction_fidelity_audit.json` | 1,177 | `151A6A32F090...` | 1,177 / `E2BF67C1964B...` | Fixed physical stress unit conversion ($1\text{ kN/mm}^2 = 1,000\text{ MPa}$). |
+| `configs/remeshing/f1840_case2_final_frame.json` | 1,694 | `24F580E708A5...` | 1,671 / `B86C4EB542A8...` | Stale draft size/SHA replaced with verified committed file values. |
+| `scripts/remeshing/extract_case2_final_frame_donor.py` | 10,123 | `32A169FD60B6...` | 7,614 / `118F3BC3A29B...` | Stale draft size/SHA replaced; updated to 10,123 B with unit fix. |
+| `scripts/remeshing/run_f1840_case2_final_frame_remesh.py` | 16,132 | `BD1D06FA1472...` | 13,875 / `04C99E392434...` | Stale draft size/SHA replaced; updated to 16,132 B with normalized body SHA. |
+| `scripts/remeshing/plot_f1840_case2_final_frame.py` | 10,103 | `F046CF5D5962...` | 8,767 / `102FD759491F...` | Stale draft size/SHA replaced with verified committed file values. |
+| `tests/unit/test_f1840_final_frame_comparison.py` | 6,400 | `709561F57BBF...` | 5,744 / `BDCF1EF4EBEF...` | Stale draft size/SHA replaced; updated to 7,265 B with new audit assertions. |
 
 ---
 
@@ -181,8 +197,12 @@ Two publication-quality figures were rendered at 300 DPI and vector PDF:
    - Single-pass native remeshing under identical settings generated 28,160 elements (within 5 elements of Frame 300).
    - Outer distal ligament resolution was rigorously confirmed in both windows ($\ge 91.35\%$ at $h \le \ell_0/2$).
    - Finite element quality gates passed decisively (AR 2.21, Quads 97.76%, $\min\det(J) > 0$).
-2. **Governance Compliance**:
-   - Zero new PBS jobs consumed (`max_new_pbs = 0`, cumulative submissions = 36).
+2. **Correction-Only Governance Compliance (Task F1841)**:
+   - **Zero new meshes, zero new Abaqus solves, zero new PBS jobs** (`max_new_pbs = 0`, cumulative submissions = 36).
    - Frozen production UEL `f42_mixed_uel.for` (`CE8D5EDC...`) bitwise preserved.
    - Shared framework `reusable_2d_adaptive_framework.py` (`B0857C52...`) bitwise preserved.
+   - Image URLs in Section 6 verified pointing to pinned commit `458e6a9d8cb36fae18f357e11577989adac4617e`.
+   - All artifact sizes, SHAs, and INP body SHA recomputed and verified directly against disk.
+   - All 8 unit tests in `test_f1840_final_frame_comparison.py` PASS (100%).
+   - All 9 unit tests in `test_f1838_case2_native_pilot.py` PASS (100%).
    - `MASTER_GOAL_STATUS = OPEN`.
