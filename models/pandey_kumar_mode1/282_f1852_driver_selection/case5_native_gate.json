@@ -1,0 +1,31 @@
+{
+  "accepted": true,
+  "step": "Step-2",
+  "frame_index": 171,
+  "frame_id": 341,
+  "time": 0.7788659334182739,
+  "source": "models/pandey_kumar_mode1/218_f1726_seven_hole_study/PK_F1726_SEVEN_HOLE_COARSE.odb",
+  "source_sha256": "cb673713fde31593ae452a21bc05bffc140bccce71f1d43d601ee17b43802b0e",
+  "source_bytes": 194344892,
+  "native_fields_present": true,
+  "element_type_audit": {
+    "CPE4": {
+      "elements": 2465,
+      "zero_stress_tensors": 0,
+      "zero_base": 0,
+      "missing_stress": 0
+    },
+    "CPE3": {
+      "elements": 101,
+      "zero_stress_tensors": 0,
+      "zero_base": 0,
+      "missing_stress": 0
+    }
+  },
+  "triangle_total_error_proxy_pct": 0.9352464851446761,
+  "triangle_inside_error_proxy_pct": 1.4438389400461467,
+  "triangle_outside_error_proxy_pct": 0.8123977878359089,
+  "proxy": "sum(native MISESERI squared * element polygon area); NOT Abaqus internal norm",
+  "audit_region": "Frozen SevenHolePlateAdapter process segments; audit only",
+  "snapshot_sha256": "f542ad72ebd07577dc60b75a339e9584a28d70f8c02afb651ac52b7e3b6f4764"
+}

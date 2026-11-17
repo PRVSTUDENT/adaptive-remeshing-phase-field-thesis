@@ -1,3 +1,7 @@
+## F1852 numerical result 2026-11-18T00:49:12.898132+01:00
+
+New separately versioned measured driver rule: maxSDV1>=.5 damage, otherwise audited native. Cases1/2/3 damage outputs body-identical20193/17280/45009. Case5 native15411 vs4375, process area h<=l0 coverage16.99->92.15%,Gate061.338->1.939FAIL. Four focused testsPASS, frozen assets unchanged, zeroPBS. Genuine same-revision images ready for independent review; masterOPEN.
+
 ## F1851 completed diagnostics / review transport blocked 2026-11-18T00:17:21.056496+01:00
 
 Case2 all74 CPE3 stress tensors and MISESAVG exactly zero; triangles account for64.28% of final-frame outside-window squared-error area proxy. F1720 has ALL companion IP output (2663*4+84=10736), correcting the historical63-missing-overlay claim. Mapping exact; original C2 missingEVOL; F1720 paired remesh bodySHA exact. Both source status files incomplete. Five tests PASS. Eight pushed image links HTTP200. Guarded F1851 publication rejected BRIDGE_PENDING_RECONCILIATION_REQUIRED on preserved F1850 response. No send or approval claimed; session released; master OPEN, zeroPBS.
