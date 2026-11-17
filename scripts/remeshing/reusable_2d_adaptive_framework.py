@@ -291,6 +291,7 @@ class AdaptiveConfig(object):
         self.max_frame_index = _get_int(ind, "max_frame_index", None) if ind.get("max_frame_index") is not None else None
         self.max_frame_time = _get_float(ind, "max_frame_time", None) if ind.get("max_frame_time") is not None else None
         self.causal_mode = bool(ind.get("causal_mode", False))
+        self.load_threshold_ratio = _get_float(ind, "load_threshold_ratio", 0.0)
 
         opts = config_data.get("deck_options", config_data.get("paths", {}))
         self.uel_subroutine = opts.get("uel_subroutine", opts.get("uel_source", "f42_mixed_uel.for"))
@@ -1649,12 +1650,16 @@ class MultiStateRecoveryDonorBuilder(object):
 
     @classmethod
     def synthesize_envelope_odb(cls, solved_odbs, target_odb_path, step_name='RECOVERY_STEP',
-                                frame_desc="Multi-State Maximum Error Envelope"):
+                                frame_desc="Multi-State Maximum Error Envelope",
+                                load_threshold_ratio=0.0):
         """
         Synthesizes a multi-state maximum error envelope ODB from a list of solved recovery ODBs.
         Computes state-consistent elementwise relative error eta_{e,k} = MISESERI_{e,k} / MISESAVG_k,
         takes the maximum envelope eta_{e,max} = max_k eta_{e,k}, and writes the state-consistent
         envelope into the target ODB scaled by the mean domain MISESAVG.
+
+        Optional load_threshold_ratio: excludes any donor state whose global domain mean MISESAVG
+        is below (load_threshold_ratio * peak_global_MISESAVG).
         """
         if not (ABAQUS_AVAILABLE or ODB_ACCESS_AVAILABLE):
             raise RuntimeError("FAIL_CLOSED: odbAccess or Abaqus environment is required to synthesize envelope ODB.")
@@ -1675,10 +1680,8 @@ class MultiStateRecoveryDonorBuilder(object):
 
         shutil.copyfile(solved_odbs[0], target_odb_path)
 
-        all_eri = {}
-        all_avg = {}
-        evol_dict = {}
-
+        # First pass: read per-state fields and compute global domain mean stress for each state
+        per_state_data = []
         for path in solved_odbs:
             o = odbAccess.openOdb(path, readOnly=True)
             if step_name not in o.steps:
@@ -1691,17 +1694,41 @@ class MultiStateRecoveryDonorBuilder(object):
                 avail_f = list(f.fieldOutputs.keys())
                 o.close()
                 raise KeyError("FAIL_CLOSED: Required error fields missing in '%s' (available: %s)" % (path, avail_f))
-            eri = f.fieldOutputs["MISESERI"]
-            avg = f.fieldOutputs["MISESAVG"]
-            ev = f.fieldOutputs["EVOL"] if "EVOL" in f.fieldOutputs else None
-            for v in eri.values:
-                all_eri.setdefault(v.elementLabel, []).append(float(v.data))
-            for v in avg.values:
-                all_avg.setdefault(v.elementLabel, []).append(float(v.data))
-            if ev is not None:
-                for v in ev.values:
-                    evol_dict[v.elementLabel] = float(v.data)
+            eri = {v.elementLabel: float(v.data) for v in f.fieldOutputs["MISESERI"].values}
+            avg = {v.elementLabel: float(v.data) for v in f.fieldOutputs["MISESAVG"].values}
+            ev = {v.elementLabel: float(v.data) for v in f.fieldOutputs["EVOL"].values} if "EVOL" in f.fieldOutputs else {}
             o.close()
+
+            domain_mean_avg = py_sum(avg.values()) / float(len(avg)) if avg else 0.0
+            per_state_data.append({
+                "path": path,
+                "domain_mean_avg": domain_mean_avg,
+                "eri": eri,
+                "avg": avg,
+                "ev": ev
+            })
+
+        # Determine peak domain mean stress across all states
+        peak_domain_avg = max([s["domain_mean_avg"] for s in per_state_data]) if per_state_data else 1.0
+
+        # Filter states by load_threshold_ratio
+        threshold_val = float(load_threshold_ratio) * peak_domain_avg if load_threshold_ratio > 0.0 else 0.0
+        included_states = [s for s in per_state_data if s["domain_mean_avg"] >= threshold_val - 1e-9]
+        if not included_states:
+            peak_idx = max(range(len(per_state_data)), key=lambda i: per_state_data[i]["domain_mean_avg"])
+            included_states = [per_state_data[peak_idx]]
+
+        all_eri = {}
+        all_avg = {}
+        evol_dict = {}
+
+        for s in included_states:
+            for el, v in s["eri"].items():
+                all_eri.setdefault(el, []).append(v)
+            for el, v in s["avg"].items():
+                all_avg.setdefault(el, []).append(v)
+            for el, v in s["ev"].items():
+                evol_dict[el] = v
 
         elem_labels = sorted(all_eri.keys())
         env_eri = []

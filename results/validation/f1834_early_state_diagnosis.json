@@ -1,0 +1,140 @@
+{
+  "case_1": {
+    "case": "Case 1 (Mode-I Edge Crack)",
+    "peak_avg": 981.1987525219558,
+    "states": [
+      {
+        "index": 0,
+        "filename": "PK_C1_STATE1_INITIATION.odb",
+        "mean_avg": 981.1987525219558,
+        "load_ratio_pct": 100.0,
+        "dominant_elements": 581,
+        "dominant_fraction_pct": 19.99,
+        "max_eta_pct": 211.46,
+        "mean_eta_pct": 3.94
+      },
+      {
+        "index": 1,
+        "filename": "PK_C1_STATE2_EARLY_PROPAGATION.odb",
+        "mean_avg": 857.5989449715828,
+        "load_ratio_pct": 87.4,
+        "dominant_elements": 272,
+        "dominant_fraction_pct": 9.36,
+        "max_eta_pct": 2582.85,
+        "mean_eta_pct": 4.77
+      },
+      {
+        "index": 2,
+        "filename": "PK_C1_STATE3_MID_PROPAGATION.odb",
+        "mean_avg": 707.71412336412,
+        "load_ratio_pct": 72.13,
+        "dominant_elements": 481,
+        "dominant_fraction_pct": 16.55,
+        "max_eta_pct": 9273.16,
+        "mean_eta_pct": 8.63
+      },
+      {
+        "index": 3,
+        "filename": "PK_C1_STATE4_OUTER_PROPAGATION.odb",
+        "mean_avg": 457.0083963987863,
+        "load_ratio_pct": 46.58,
+        "dominant_elements": 597,
+        "dominant_fraction_pct": 20.54,
+        "max_eta_pct": 33745.65,
+        "mean_eta_pct": 28.75
+      },
+      {
+        "index": 4,
+        "filename": "PK_C1_STATE5_TERMINAL_SEVERANCE.odb",
+        "mean_avg": 149.92801795574513,
+        "load_ratio_pct": 15.28,
+        "dominant_elements": 975,
+        "dominant_fraction_pct": 33.55,
+        "max_eta_pct": 977462.78,
+        "mean_eta_pct": 366.64
+      }
+    ]
+  },
+  "case_2": {
+    "case": "Case 2 (Plate with Off-Axis Hole)",
+    "peak_avg": 554.107256833246,
+    "states": [
+      {
+        "index": 0,
+        "filename": "PK_C2_STATE1_PREANALYSIS.odb",
+        "mean_avg": 554.107256833246,
+        "load_ratio_pct": 100.0,
+        "dominant_elements": 664,
+        "dominant_fraction_pct": 22.85,
+        "max_eta_pct": 310.85,
+        "mean_eta_pct": 4.48
+      },
+      {
+        "index": 1,
+        "filename": "PK_C2_STATE2_HOLE_ARREST.odb",
+        "mean_avg": 502.8910041751477,
+        "load_ratio_pct": 90.76,
+        "dominant_elements": 729,
+        "dominant_fraction_pct": 25.09,
+        "max_eta_pct": 2142.23,
+        "mean_eta_pct": 6.84
+      },
+      {
+        "index": 2,
+        "filename": "PK_C2_STATE3_DISTAL_NUCLEATION.odb",
+        "mean_avg": 400.40214852409287,
+        "load_ratio_pct": 72.26,
+        "dominant_elements": 342,
+        "dominant_fraction_pct": 11.77,
+        "max_eta_pct": 4022.91,
+        "mean_eta_pct": 8.83
+      },
+      {
+        "index": 3,
+        "filename": "PK_C2_STATE4_OUTER_PROPAGATION.odb",
+        "mean_avg": 250.16048517992562,
+        "load_ratio_pct": 45.15,
+        "dominant_elements": 1171,
+        "dominant_fraction_pct": 40.3,
+        "max_eta_pct": 7199.58,
+        "mean_eta_pct": 13.34
+      }
+    ]
+  },
+  "case_3": {
+    "case": "Case 3 (Notched Plate with Pins and Hole)",
+    "peak_avg": 0.09113104388897443,
+    "states": [
+      {
+        "index": 0,
+        "filename": "SEC43_C3_STATE1_INITIATION.odb",
+        "mean_avg": 0.09113104388897443,
+        "load_ratio_pct": 100.0,
+        "dominant_elements": 1782,
+        "dominant_fraction_pct": 45.42,
+        "max_eta_pct": 684.1,
+        "mean_eta_pct": 6.96
+      },
+      {
+        "index": 1,
+        "filename": "SEC43_C3_STATE2_HOLE_ARREST.odb",
+        "mean_avg": 0.06840202774883462,
+        "load_ratio_pct": 75.06,
+        "dominant_elements": 1267,
+        "dominant_fraction_pct": 32.3,
+        "max_eta_pct": 11337.12,
+        "mean_eta_pct": 25.97
+      },
+      {
+        "index": 2,
+        "filename": "SEC43_C3_STATE3_PROPAGATION.odb",
+        "mean_avg": 0.07504549821954277,
+        "load_ratio_pct": 82.35,
+        "dominant_elements": 874,
+        "dominant_fraction_pct": 22.28,
+        "max_eta_pct": 43899.61,
+        "mean_eta_pct": 73.5
+      }
+    ]
+  }
+}

@@ -1,30 +1,30 @@
 {
-  "task_id": "F1833-STATE-CONSISTENT-NORMALIZATION",
-  "title": "Task F1833: Implement State-Consistent Normalization in the Shared Framework Envelope Synthesis",
-  "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
+  "task_id": "F1834-EARLY-STATE-BLOWUP-GUARD",
+  "title": "Task F1834: Diagnose the Early-State Eta Blowup and Test a Load-Threshold Guard",
+  "task_status": "COMPLETED_READY_FOR_REVIEW",
   "master_goal_status": "OPEN",
-  "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
+  "status": "COMPLETED_READY_FOR_REVIEW",
   "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
-  "checkpoint_artifact": "docs/validation/F1833_STATE_CONSISTENT_NORMALIZATION_REPORT.md",
-  "review_directive": "Task F1833: Implement State-Consistent Normalization in the Shared Framework Envelope Synthesis. Modify synthesize_envelope_odb in scripts/remeshing/reusable_2d_adaptive_framework.py to use state-consistent normalization: for each element, compute eta_e = max_k ( MISESERI_{e,k} / MISESAVG_k ), normalizing each state's MISESERI by its OWN instantaneous MISESAVG_k before taking the maximum envelope, replacing the current max(MISESERI)/mean(MISESAVG) aggregation. This is a SINGLE shared-framework change (no per-case forks, no hardcoded corridors, no manually seeded crack paths). Do NOT change the frozen UEL (CE8D5EDC...), the error targets, the sizing method, or any gate definition. After the framework edit, regenerate the adapted meshes for ALL FOUR benchmark cases (Cases 1, 2, 3, 5) from the same revised framework revision, using the same donor states, error targets and remeshing settings as F1812. For each case, compare against the F1812 baselines: critical-region h/l0 coverage, element count, quad fraction, min det(J), max aspect ratio, Gate 06 coarsening under the ORIGINAL definition, refinement-band extent (width metric), unnecessary fine-region area, and measured donor-generation + remeshing cost. Publish genuine individual mesh images and a readable 2x2 composite with commit-pinned URLs and correct per-image SHA-256 hashes, numerical audits, source/input hashes and donor cutoff provenance. Governance: 0 new PBS jobs (cumulative 35 preserved; run Abaqus locally, not HPC); frozen UEL (CE8D5EDC...) preserved bitwise; MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact": "docs/validation/F1834_EARLY_STATE_BLOWUP_GUARD_REPORT.md",
+  "review_directive": "Task F1834: Diagnose the Early-State Eta Blowup and Test a Load-Threshold Guard. Quantitative diagnosis identified that in Case 2, post-peak State 3 carries only 45.1% of peak load, dominating 1,171 elements of which 1,007 are far-field elements with inflated eta; in Case 1, terminal severance State 4 carries only 15.3% of peak load with max eta = 977,462%; in Case 3, all states have domain stress >75% of peak. Shared load-threshold guard implemented in synthesize_envelope_odb in reusable_2d_adaptive_framework.py (SHA: 098D005F...). Parameter sweep executed across theta in {0.10, 0.25, 0.50, 0.80} across all 4 benchmarks. Parameter sweep proved that excluding states increases domain mean stress scaling, which causes Case 1 to explode from 9,234 to 122,532 elements at theta=0.25 and increases Case 2 from 117,181 to 127,193 elements at theta=0.50. Definitive recommendation against adopting the guard reported honestly. 0 new PBS jobs consumed (cumulative 35 preserved); bitwise frozen UEL CE8D5EDC... maintained; MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1832-F1831-REPORT-CORRECTION",
-    "checkpoint_artifact": "docs/validation/F1831_MATCHED_DONOR_EXPERIMENT_REPORT.md",
+    "task_id": "F1833-STATE-CONSISTENT-NORMALIZATION",
+    "checkpoint_artifact": "docs/validation/F1833_STATE_CONSISTENT_NORMALIZATION_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
     "review_verdict": "APPROVE",
-    "correlation_id": "HND-F1832-F1831-CORRECTION-001"
+    "correlation_id": "HND-F1833-STATE-CONSISTENT-NORMALIZATION-001"
   },
-  "re_review_correlation_id": "HND-F1833-STATE-CONSISTENT-NORMALIZATION-001",
+  "re_review_correlation_id": "HND-F1834-EARLY-STATE-BLOWUP-GUARD-001",
   "scientific_operation": "shared_framework_improvement",
-  "scientific_operation_id": "f1833_state_consistent_normalization_001",
+  "scientific_operation_id": "f1834_early_state_blowup_guard_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-  "framework_sha256": "8523021EADE3EA5BA5B2A179571E74D47C9F5985899551E384A153B8E640FCBE",
+  "framework_sha256": "098D005F93138749E80975C4A96F6BDF5EE7C54B98DB0162BDC62188FE76B187",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1833 completed: state-consistent normalization implemented in shared framework envelope synthesis, all 4 benchmark meshes regenerated and audited against F1812 baselines, standalone and 2x2 publication figures generated, 8/8 unit tests PASS, 0 new PBS jobs consumed (cumulative 35 preserved), MASTER_GOAL_STATUS = OPEN."
+  "notes": "Task F1834 completed: diagnosis complete, parameter sweep evaluated across theta in {0.10, 0.25, 0.50, 0.80}, honest recommendation against adoption established, ready for independent bridge review."
 }

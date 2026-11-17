@@ -1,0 +1,263 @@
+{
+  "thresh_010": {
+    "theta": 0.1,
+    "cases": {
+      "case_1": {
+        "elements": 9234,
+        "quad_pct": 97.141,
+        "min_det_j": 2.4686094424850645e-07,
+        "max_ar": 2.7027,
+        "coarsening_ratio": 2.455,
+        "scientific_gate": "FAIL",
+        "gate_06": "PASS",
+        "gate_07": "PASS",
+        "corridor_fine_area": 0.015384,
+        "unnecessary_fine_area": 0.08311,
+        "unnecessary_fine_pct": 84.38,
+        "band_width_mm": 0.030769,
+        "receipt_path": "models/pandey_kumar_mode1/274_f1834_blowup_guard/thresh_010/case1/PK_F1834_C1_THRESH_010_RECEIPT.json"
+      },
+      "case_2": {
+        "elements": 117181,
+        "quad_pct": 97.5832,
+        "min_det_j": 1.5777214229791912e-07,
+        "max_ar": 2.8419,
+        "coarsening_ratio": 1.4072,
+        "scientific_gate": "PASS",
+        "gate_06": "FAIL",
+        "gate_07": "FAIL",
+        "corridor_fine_area": 0.050025,
+        "unnecessary_fine_area": 0.601867,
+        "unnecessary_fine_pct": 91.29,
+        "band_width_mm": 0.200098,
+        "receipt_path": "models/pandey_kumar_mode1/274_f1834_blowup_guard/thresh_010/case2/PK_F1834_C2_THRESH_010_RECEIPT.json"
+      },
+      "case_3": {
+        "elements": 130218,
+        "quad_pct": 97.3821,
+        "min_det_j": 0.0005595948086694058,
+        "max_ar": 2.8066,
+        "coarsening_ratio": 1.4825,
+        "scientific_gate": "PASS",
+        "gate_06": "FAIL",
+        "gate_07": "FAIL",
+        "corridor_fine_area": 932.775803,
+        "unnecessary_fine_area": 1850.592873,
+        "unnecessary_fine_pct": 66.49,
+        "band_width_mm": 16.95956,
+        "receipt_path": "models/pandey_kumar_mode1/274_f1834_blowup_guard/thresh_010/case3/PK_F1834_C3_THRESH_010_RECEIPT.json"
+      },
+      "case_5": {
+        "elements": 15466,
+        "quad_pct": 97.8986,
+        "min_det_j": 3.921570799516287e-07,
+        "max_ar": 2.3741,
+        "coarsening_ratio": 2.1174,
+        "scientific_gate": "PASS",
+        "gate_06": "PASS",
+        "gate_07": "PASS",
+        "corridor_fine_area": 0.0729,
+        "unnecessary_fine_area": 0.172728,
+        "unnecessary_fine_pct": 70.32,
+        "band_width_mm": 0.104143,
+        "receipt_path": "models/pandey_kumar_mode1/274_f1834_blowup_guard/thresh_010/case5/PK_F1834_C5_THRESH_010_RECEIPT.json"
+      }
+    }
+  },
+  "thresh_025": {
+    "theta": 0.25,
+    "cases": {
+      "case_1": {
+        "elements": 122532,
+        "quad_pct": 97.5574,
+        "min_det_j": 2.507725288191579e-08,
+        "max_ar": 2.7068,
+        "coarsening_ratio": 1.3378,
+        "scientific_gate": "PASS",
+        "gate_06": "FAIL",
+        "gate_07": "FAIL",
+        "corridor_fine_area": 0.020022,
+        "unnecessary_fine_area": 0.558356,
+        "unnecessary_fine_pct": 96.54,
+        "band_width_mm": 0.040045,
+        "receipt_path": "models/pandey_kumar_mode1/274_f1834_blowup_guard/thresh_025/case1/PK_F1834_C1_THRESH_025_RECEIPT.json"
+      },
+      "case_2": {
+        "elements": 117181,
+        "quad_pct": 97.5832,
+        "min_det_j": 1.5777214229791912e-07,
+        "max_ar": 2.8419,
+        "coarsening_ratio": 1.4072,
+        "scientific_gate": "PASS",
+        "gate_06": "FAIL",
+        "gate_07": "FAIL",
+        "corridor_fine_area": 0.050025,
+        "unnecessary_fine_area": 0.601867,
+        "unnecessary_fine_pct": 91.29,
+        "band_width_mm": 0.200098,
+        "receipt_path": "models/pandey_kumar_mode1/274_f1834_blowup_guard/thresh_025/case2/PK_F1834_C2_THRESH_025_RECEIPT.json"
+      },
+      "case_3": {
+        "elements": 130218,
+        "quad_pct": 97.3821,
+        "min_det_j": 0.0005595948086694058,
+        "max_ar": 2.8066,
+        "coarsening_ratio": 1.4825,
+        "scientific_gate": "PASS",
+        "gate_06": "FAIL",
+        "gate_07": "FAIL",
+        "corridor_fine_area": 932.775803,
+        "unnecessary_fine_area": 1850.592873,
+        "unnecessary_fine_pct": 66.49,
+        "band_width_mm": 16.95956,
+        "receipt_path": "models/pandey_kumar_mode1/274_f1834_blowup_guard/thresh_025/case3/PK_F1834_C3_THRESH_025_RECEIPT.json"
+      },
+      "case_5": {
+        "elements": 15466,
+        "quad_pct": 97.8986,
+        "min_det_j": 3.921570799516287e-07,
+        "max_ar": 2.3741,
+        "coarsening_ratio": 2.1174,
+        "scientific_gate": "PASS",
+        "gate_06": "PASS",
+        "gate_07": "PASS",
+        "corridor_fine_area": 0.0729,
+        "unnecessary_fine_area": 0.172728,
+        "unnecessary_fine_pct": 70.32,
+        "band_width_mm": 0.104143,
+        "receipt_path": "models/pandey_kumar_mode1/274_f1834_blowup_guard/thresh_025/case5/PK_F1834_C5_THRESH_025_RECEIPT.json"
+      }
+    }
+  },
+  "thresh_050": {
+    "theta": 0.5,
+    "cases": {
+      "case_1": {
+        "elements": 84475,
+        "quad_pct": 97.4276,
+        "min_det_j": 1.3435945052011516e-07,
+        "max_ar": 2.5705,
+        "coarsening_ratio": 1.5206,
+        "scientific_gate": "PASS",
+        "gate_06": "FAIL",
+        "gate_07": "FAIL",
+        "corridor_fine_area": 0.019936,
+        "unnecessary_fine_area": 0.626287,
+        "unnecessary_fine_pct": 96.92,
+        "band_width_mm": 0.039872,
+        "receipt_path": "models/pandey_kumar_mode1/274_f1834_blowup_guard/thresh_050/case1/PK_F1834_C1_THRESH_050_RECEIPT.json"
+      },
+      "case_2": {
+        "elements": 127193,
+        "quad_pct": 97.5164,
+        "min_det_j": 9.808023609356627e-08,
+        "max_ar": 2.6527,
+        "coarsening_ratio": 1.4191,
+        "scientific_gate": "PASS",
+        "gate_06": "FAIL",
+        "gate_07": "FAIL",
+        "corridor_fine_area": 0.049975,
+        "unnecessary_fine_area": 0.659295,
+        "unnecessary_fine_pct": 91.87,
+        "band_width_mm": 0.199899,
+        "receipt_path": "models/pandey_kumar_mode1/274_f1834_blowup_guard/thresh_050/case2/PK_F1834_C2_THRESH_050_RECEIPT.json"
+      },
+      "case_3": {
+        "elements": 130218,
+        "quad_pct": 97.3821,
+        "min_det_j": 0.0005595948086694058,
+        "max_ar": 2.8066,
+        "coarsening_ratio": 1.4825,
+        "scientific_gate": "PASS",
+        "gate_06": "FAIL",
+        "gate_07": "FAIL",
+        "corridor_fine_area": 932.775803,
+        "unnecessary_fine_area": 1850.592873,
+        "unnecessary_fine_pct": 66.49,
+        "band_width_mm": 16.95956,
+        "receipt_path": "models/pandey_kumar_mode1/274_f1834_blowup_guard/thresh_050/case3/PK_F1834_C3_THRESH_050_RECEIPT.json"
+      },
+      "case_5": {
+        "elements": 15466,
+        "quad_pct": 97.8986,
+        "min_det_j": 3.921570799516287e-07,
+        "max_ar": 2.3741,
+        "coarsening_ratio": 2.1174,
+        "scientific_gate": "PASS",
+        "gate_06": "PASS",
+        "gate_07": "PASS",
+        "corridor_fine_area": 0.0729,
+        "unnecessary_fine_area": 0.172728,
+        "unnecessary_fine_pct": 70.32,
+        "band_width_mm": 0.104143,
+        "receipt_path": "models/pandey_kumar_mode1/274_f1834_blowup_guard/thresh_050/case5/PK_F1834_C5_THRESH_050_RECEIPT.json"
+      }
+    }
+  },
+  "thresh_080": {
+    "theta": 0.8,
+    "cases": {
+      "case_1": {
+        "elements": 17713,
+        "quad_pct": 97.0191,
+        "min_det_j": 1.9005574057525925e-07,
+        "max_ar": 2.7455,
+        "coarsening_ratio": 2.3399,
+        "scientific_gate": "FAIL",
+        "gate_06": "PASS",
+        "gate_07": "PASS",
+        "corridor_fine_area": 0.01235,
+        "unnecessary_fine_area": 0.166825,
+        "unnecessary_fine_pct": 93.11,
+        "band_width_mm": 0.0247,
+        "receipt_path": "models/pandey_kumar_mode1/274_f1834_blowup_guard/thresh_080/case1/PK_F1834_C1_THRESH_080_RECEIPT.json"
+      },
+      "case_2": {
+        "elements": 102987,
+        "quad_pct": 97.4754,
+        "min_det_j": 1.3063827838950832e-07,
+        "max_ar": 2.5726,
+        "coarsening_ratio": 1.5351,
+        "scientific_gate": "PASS",
+        "gate_06": "FAIL",
+        "gate_07": "FAIL",
+        "corridor_fine_area": 0.050023,
+        "unnecessary_fine_area": 0.656983,
+        "unnecessary_fine_pct": 91.88,
+        "band_width_mm": 0.200091,
+        "receipt_path": "models/pandey_kumar_mode1/274_f1834_blowup_guard/thresh_080/case2/PK_F1834_C2_THRESH_080_RECEIPT.json"
+      },
+      "case_3": {
+        "elements": 116648,
+        "quad_pct": 97.3141,
+        "min_det_j": 0.00046563014308188057,
+        "max_ar": 2.4752,
+        "coarsening_ratio": 1.584,
+        "scientific_gate": "PASS",
+        "gate_06": "FAIL",
+        "gate_07": "FAIL",
+        "corridor_fine_area": 876.196665,
+        "unnecessary_fine_area": 1459.676762,
+        "unnecessary_fine_pct": 62.49,
+        "band_width_mm": 15.930848,
+        "receipt_path": "models/pandey_kumar_mode1/274_f1834_blowup_guard/thresh_080/case3/PK_F1834_C3_THRESH_080_RECEIPT.json"
+      },
+      "case_5": {
+        "elements": 15466,
+        "quad_pct": 97.8986,
+        "min_det_j": 3.921570799516287e-07,
+        "max_ar": 2.3741,
+        "coarsening_ratio": 2.1174,
+        "scientific_gate": "PASS",
+        "gate_06": "PASS",
+        "gate_07": "PASS",
+        "corridor_fine_area": 0.0729,
+        "unnecessary_fine_area": 0.172728,
+        "unnecessary_fine_pct": 70.32,
+        "band_width_mm": 0.104143,
+        "receipt_path": "models/pandey_kumar_mode1/274_f1834_blowup_guard/thresh_080/case5/PK_F1834_C5_THRESH_080_RECEIPT.json"
+      }
+    }
+  },
+  "total_sweep_walltime_s": 696.14
+}
