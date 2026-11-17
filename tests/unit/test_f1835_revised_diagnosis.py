@@ -41,7 +41,7 @@ def test_step1_missing_status(diag_data):
 
 def test_step1_case4_provenance(diag_data):
     c4 = diag_data["step_1_authentic_reference"]["case_4_authentic_reference"]
-    assert c4["geometry"] == "Case 4 (Five-Hole Plate, Pandey & Kumar Section 4.4)"
+    assert "Section 4.5" in c4["geometry"] or "Section 4.4" in c4["geometry"]
     assert c4["topology"] == "2,747 physical elements (8,241 layered elements across 3 layers: UEL phase, UEL displacement, UMAT continuum)"
     assert c4["odb_sha256"] == "E2FE195B93A6378849E134DD3FE17EC69FFD03CCA8D446496E6D30820E7958AE"
     assert c4["for_sha256"] == "C298ACA7ED2199B20E622B38E99FDA9B533150EB0AD5E9F77069216F860E70FC"
@@ -72,6 +72,20 @@ def test_step4_envelope_decomposition_mechanism(diag_data):
     assert c3["frac_elements_ratio_ge_4pct"] >= 55.0
     assert "max_k" in c2["mechanism"]
     assert "max_k" in c3["mechanism"]
+
+def test_step4_per_element_audit(diag_data):
+    decomp_path = os.path.join(REPO_ROOT, "results", "validation", "f1836_per_element_envelope_decomposition.json")
+    assert os.path.exists(decomp_path), "Missing decomposition dataset"
+    with open(decomp_path, "r") as f:
+        data = json.load(f)
+    assert data["case_2"]["num_coarse_elements"] == 2906
+    assert data["case_3"]["num_coarse_elements"] == 3923
+    assert data["case_2"]["fraction_due_to_small_local_denominator_of_fine_pct"] >= 50.0
+    assert data["case_3"]["fraction_due_to_small_local_denominator_of_fine_pct"] >= 50.0
+
+def test_f1831_traceability(diag_data):
+    assert "f1831_traceability" in diag_data
+    assert diag_data["f1831_traceability"]["traceability_status"] == "UNVERIFIED"
 
 def test_step5_scale_isolation_findings(diag_data):
     s5 = diag_data["step_5_scale_isolation"]

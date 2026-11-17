@@ -1,26 +1,23 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1835-scale-invariant-20261117",
-  "task_id": "F1835-SCALE-INVARIANT-ENVELOPE",
-  "started_at": "2026-11-17T09:50:00+01:00",
-  "completed_at": "2026-11-17T10:36:00+01:00",
-  "starting_commit": "a789f3567f57b3e84b72ce525c63cc7b3f5c762c",
+  "session_id": "gemini-antigravity-f1836-report-correction-20261117",
+  "task_id": "F1836-F1835-REPORT-CORRECTION",
+  "started_at": "2026-11-17T10:48:00+01:00",
+  "completed_at": "2026-11-17T11:00:00+01:00",
+  "starting_commit": "9c86847a224a919013c7a6e191341c3e390c50cf",
   "allowed_write_scope": [
-    "scripts/remeshing/reusable_2d_adaptive_framework.py",
-    "scripts/remeshing/run_f1835_*",
-    "scripts/remeshing/plot_f1835_*",
-    "scripts/remeshing/compile_f1835_*",
-    "scripts/remeshing/synthesize_f1835_*",
-    "models/pandey_kumar_mode1/275_f1835_*",
-    "models/pandey_kumar_mode1/PK_F1835_*",
     "docs/validation/F1835_*",
     "results/validation/f1835_*",
-    "results/figures/fig_f1835_*",
+    "results/validation/step1_authentic_reference_inventory.json",
+    "results/validation/f1836_*",
+    "scripts/remeshing/compute_f1836_*",
     "tests/unit/test_f1835_*",
+    "tests/unit/test_f1836_*",
+    "tests/unit/test_f1830_*",
     "project_coordination/*",
     ".agents/scripts/*",
     ".agents/bridge_history/*"
   ],
-  "notes": "Task F1835: Test a Scale-Invariant Envelope Formulation."
+  "notes": "Task F1836: Correct the F1835 Report and Complete the Missing Diagnosis Deliverables."
 }

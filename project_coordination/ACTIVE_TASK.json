@@ -1,6 +1,6 @@
 {
-  "task_id": "F1835-SCALE-INVARIANT-ENVELOPE",
-  "title": "Task F1835: Test a Scale-Invariant Envelope Formulation",
+  "task_id": "F1836-F1835-REPORT-CORRECTION",
+  "title": "Task F1836: Correct the F1835 Report and Complete the Missing Diagnosis Deliverables",
   "task_status": "COMPLETED",
   "master_goal_status": "OPEN",
   "status": "COMPLETED",
@@ -9,22 +9,22 @@
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1423638.mmaster02",
   "checkpoint_artifact": "docs/validation/F1835_REVISED_NATIVE_REFERENCE_AND_ENVELOPE_CAUSALITY_REPORT.md",
-  "review_directive": "Task F1835: Native-Donor Reference and Envelope-Causality Diagnosis completed. All 5 sequential steps executed: 1) Authentic native reference audit (Cases 1, 2, 3, 5 MISSING; Case 4 F1720 authentic reference established); 2) Untouched native remeshing reference (13,438 elements, 97.51% quads, 3.53x coarsening, only 23.15% fine area); 3) Recovery mechanics isolation (physical stress bounds verified, relative error ratio scale-invariant); 4) Envelope decomposition (proved 60% of coarse domain has error >= 4% due to max_k envelope accumulation across evolving states); 5) Scale isolation (verified scale invariance within 0.07% across physical scales C=1 to C=2.1e13).",
+  "review_directive": "Task F1836 completes all corrections and missing diagnosis deliverables for Task F1835: 1) Reconciled donor ODB SHA conflict to true local hash E2FE195B... (217,936,940 bytes) with 4A1A78B6... identified as a historical transcription error; 2) Corrected scale-invariance reporting: stated max deviation across physical scales C in [1.0, 2.1e13] as +0.47% (13,501 vs 13,438 el), explained automated verified=false flag as a strict bitwise check across all scales including sub-physical C=0.001 (-25.4%), and preserved the core conclusion that scaling cannot explain the 10x explosion; 3) Delivered primary element-by-element decomposition dataset in results/validation/f1836_per_element_envelope_decomposition.json, demonstrating that depressed local denominators account for 61.68% of fine elements in Case 2 (1,075 / 1,743) and 53.39% in Case 3 (1,545 / 2,894); 4) Traced F1831 precomputed numbers to static dictionary literals in runner source and formally classified them UNVERIFIED; 5) Corrected local denominator verdict to reflect primary field measurements; 6) Corrected five-hole benchmark section number to Section 4.5; 7) Ensured consistent task labeling and added complete SHA-256 table. 0 new PBS jobs consumed (cumulative 35 preserved); bitwise frozen UEL CE8D5EDC... and framework B0857C52... maintained; MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
-    "task_id": "F1834-EARLY-STATE-BLOWUP-GUARD",
-    "checkpoint_artifact": "docs/validation/F1834_EARLY_STATE_BLOWUP_GUARD_REPORT.md",
+    "task_id": "F1835-SCALE-INVARIANT-ENVELOPE",
+    "checkpoint_artifact": "docs/validation/F1835_REVISED_NATIVE_REFERENCE_AND_ENVELOPE_CAUSALITY_REPORT.md",
     "classification": "ADAPTIVE_REMESHING_RESEARCH_ONLY",
-    "review_verdict": "APPROVE",
-    "correlation_id": "HND-F1834-EARLY-STATE-BLOWUP-GUARD-001"
+    "review_verdict": "REJECT",
+    "correlation_id": "HND-F1835-ENVELOPE-CAUSALITY-001"
   },
-  "re_review_correlation_id": "HND-F1835-ENVELOPE-CAUSALITY-001",
-  "scientific_operation": "envelope_causality_diagnosis",
-  "scientific_operation_id": "f1835_envelope_causality_diagnosis_001",
+  "re_review_correlation_id": "HND-F1836-F1835-REPORT-CORRECTION-001",
+  "scientific_operation": "shared_framework_improvement",
+  "scientific_operation_id": "f1836_f1835_report_correction_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "framework_sha256": "B0857C521AE8E212C74F711CC3373AD57B081167727104905A0F4D2FBBDA0129",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 35,
-  "notes": "Task F1835 revised diagnosis completed with 7/7 unit tests PASS."
+  "notes": "Task F1836 completed with 9/9 unit tests PASS."
 }

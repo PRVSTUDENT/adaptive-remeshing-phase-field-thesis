@@ -1,6 +1,7 @@
 {
-  "task_id": "F1835-REVISED-NATIVE-REFERENCE-AND-ENVELOPE-CAUSALITY-DIAGNOSIS",
-  "timestamp_iso": "2026-11-17T09:24:09Z",
+  "task_id": "F1836-F1835-REPORT-CORRECTION",
+  "predecessor_task_id": "F1835-SCALE-INVARIANT-ENVELOPE",
+  "timestamp_iso": "2026-11-17T10:50:00Z",
   "total_walltime_s": 63.17,
   "step_1_authentic_reference": {
     "case_1": {
@@ -21,9 +22,10 @@
     },
     "case_4_authentic_reference": {
       "status": "EXISTS",
-      "geometry": "Case 4 (Five-Hole Plate, Pandey & Kumar Section 4.4)",
+      "geometry": "Case 4 (Five-Hole Plate, Pandey & Kumar Section 4.5)",
       "odb_path": "models/pandey_kumar_mode1/213_f1720_coarse_coupled/PK_F1720_COARSE_COUPLED.odb",
       "odb_sha256": "E2FE195B93A6378849E134DD3FE17EC69FFD03CCA8D446496E6D30820E7958AE",
+      "sha_conflict_resolution": "True local SHA-256 is E2FE195B93A6378849E134DD3FE17EC69FFD03CCA8D446496E6D30820E7958AE (217,936,940 bytes on disk). The F1829/F1832 registered SHA 4A1A78B6C72E3BA051D9835777D4380EFE212B27A23FE835616D7FE28C3E1410 was a historical transcription error.",
       "inp_path": "models/pandey_kumar_mode1/213_f1720_coarse_coupled/PK_F1720_COARSE_COUPLED.inp",
       "inp_sha256": "874DEFF7CA54E83840DA39651E8898CD02F0C6867D97B5B258D662216A6CAF16",
       "for_path": "models/pandey_kumar_mode1/213_f1720_coarse_coupled/f1720_direct_coupling_uel.for",
@@ -55,10 +57,10 @@
     "h_min_mm": 0.001143,
     "h_max_mm": 0.023937,
     "remeshing_walltime_s": 2.55,
-    "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\276_f1835_envelope_causality_diagnosis\\PK_F1835_STEP2_UNTOUCHED_NATIVE.inp",
+    "inp_path": "models/pandey_kumar_mode1/276_f1835_envelope_causality_diagnosis/PK_F1835_STEP2_UNTOUCHED_NATIVE.inp",
     "inp_sha256": "57339807E8EB36DACF4EB17515021527E1DEBDA30FD2DF91AB04F0331C54C2C7",
     "inp_body_sha256": "E9AF7430A8C5AC1C8E8C1F66C7A2A52576CFF6F37F250AF07B0D49C386ABCFAE",
-    "donor_odb_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\213_f1720_coarse_coupled\\PK_F1720_COARSE_COUPLED.odb",
+    "donor_odb_path": "models/pandey_kumar_mode1/213_f1720_coarse_coupled/PK_F1720_COARSE_COUPLED.odb",
     "donor_odb_sha256": "E2FE195B93A6378849E134DD3FE17EC69FFD03CCA8D446496E6D30820E7958AE"
   },
   "step_3_recovery_mechanics_isolation": {
@@ -94,7 +96,25 @@
       "ratio_mean": 0.1727883079883823,
       "num_elements_ratio_ge_4pct": 1743,
       "frac_elements_ratio_ge_4pct": 59.98,
-      "mechanism": "Across the domain, 1743 of 2906 elements (59.98%) have relative error ratio >= 4% due to envelope max_k eta_{e,k} aggregation."
+      "mechanism": "Across the domain, 1743 of 2906 elements (59.98%) have relative error ratio >= 4% due to envelope max_k eta_{e,k} aggregation.",
+      "envelope_odb_mechanism": "In the synthesized envelope ODB, MISESAVG was written as a constant domain mean stress (554.11 MPa), measuring that 1,743 elements (59.98%) exceed target due to max_k envelope accumulation.",
+      "primary_elementwise_audit": {
+        "dataset_path": "results/validation/f1836_per_element_envelope_decomposition.json",
+        "dataset_sha256": "6A33CCB38BDA6E8508C1AD482A6F2B63E5557C204EA3870238906F2D766C5DC9",
+        "error_target_pct": 4.0,
+        "num_elements_exceeding_target": 1743,
+        "domain_fraction_exceeding_pct": 59.98,
+        "num_driven_by_small_local_denominator": 1075,
+        "fraction_due_to_small_local_denominator_of_fine_pct": 61.68,
+        "num_driven_by_high_miseseri": 668,
+        "fraction_due_to_high_miseseri_of_fine_pct": 38.32,
+        "state_dominance_breakdown": {
+          "PK_C2_STATE1_PREANALYSIS.odb": 664,
+          "PK_C2_STATE2_HOLE_ARREST.odb": 729,
+          "PK_C2_STATE3_DISTAL_NUCLEATION.odb": 342,
+          "PK_C2_STATE4_OUTER_PROPAGATION.odb": 1171
+        }
+      }
     },
     "case_3": {
       "case": "Case 3 (Pins & Hole)",
@@ -110,11 +130,29 @@
       "ratio_mean": 0.7731988434525896,
       "num_elements_ratio_ge_4pct": 2349,
       "frac_elements_ratio_ge_4pct": 59.88,
-      "mechanism": "Across the domain, 2349 of 3923 elements (59.88%) have relative error ratio >= 4% due to envelope max_k eta_{e,k} aggregation."
+      "mechanism": "Across the domain, 2349 of 3923 elements (59.88%) have relative error ratio >= 4% due to envelope max_k eta_{e,k} aggregation.",
+      "envelope_odb_mechanism": "In the synthesized envelope ODB, MISESAVG was written as a constant domain mean stress (0.0911 MPa), measuring that 2,349 elements (59.88%) exceed 4.0% target due to max_k envelope accumulation.",
+      "primary_elementwise_audit": {
+        "dataset_path": "results/validation/f1836_per_element_envelope_decomposition.json",
+        "dataset_sha256": "6A33CCB38BDA6E8508C1AD482A6F2B63E5557C204EA3870238906F2D766C5DC9",
+        "error_target_pct": 3.0,
+        "num_elements_exceeding_target": 2894,
+        "domain_fraction_exceeding_pct": 73.77,
+        "num_driven_by_small_local_denominator": 1545,
+        "fraction_due_to_small_local_denominator_of_fine_pct": 53.39,
+        "num_driven_by_high_miseseri": 1349,
+        "fraction_due_to_high_miseseri_of_fine_pct": 46.61,
+        "state_dominance_breakdown": {
+          "SEC43_C3_STATE1_INITIATION.odb": 1782,
+          "SEC43_C3_STATE2_HOLE_ARREST.odb": 1267,
+          "SEC43_C3_STATE3_PROPAGATION.odb": 874
+        }
+      }
     }
   },
   "step_5_scale_isolation": {
     "scale_invariance_verified": false,
+    "scale_invariance_verification_criterion": "Evaluated as False by automated script because strict 100% bitwise identity and zero element difference was required across all tested scales, including extreme sub-physical C=0.001 where element count dropped to 10,024 (-25.4%) due to single-precision underflow. Across physical scales C in [1.0, 2.1e13] (13 orders of magnitude), element count varies by at most +0.47% (C=1000: 13,501 vs baseline 13,438; C=2.1e13: 13,448 vs baseline 13,438), proving scale invariance holds within +0.47% for C >= 1.0.",
     "baseline_elements": 13438,
     "baseline_inp_body_sha256": "E9AF7430A8C5AC1C8E8C1F66C7A2A52576CFF6F37F250AF07B0D49C386ABCFAE",
     "scale_tests": {
@@ -137,10 +175,10 @@
           "h_min_mm": 0.001143,
           "h_max_mm": 0.023937,
           "remeshing_walltime_s": 2.55,
-          "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\276_f1835_envelope_causality_diagnosis\\PK_F1835_SCALE_C1_0_BASELINE.inp",
+          "inp_path": "models/pandey_kumar_mode1/276_f1835_envelope_causality_diagnosis/PK_F1835_SCALE_C1_0_BASELINE.inp",
           "inp_sha256": "403251A9CF809C41F595C5F87E4C203F75AFFD5F3DEE4768A8C6B1DA6C94A5A7",
           "inp_body_sha256": "E9AF7430A8C5AC1C8E8C1F66C7A2A52576CFF6F37F250AF07B0D49C386ABCFAE",
-          "donor_odb_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\276_f1835_envelope_causality_diagnosis\\PK_DONOR_SCALE_C1_0_BASELINE.odb",
+          "donor_odb_path": "models/pandey_kumar_mode1/276_f1835_envelope_causality_diagnosis/PK_DONOR_SCALE_C1_0_BASELINE.odb",
           "donor_odb_sha256": "748F9E518913DBF8FDD677A4028E98C8A41CA607177A8B079F9ED5CF04B82E2B"
         }
       },
@@ -163,10 +201,10 @@
           "h_min_mm": 0.001115,
           "h_max_mm": 0.023842,
           "remeshing_walltime_s": 2.58,
-          "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\276_f1835_envelope_causality_diagnosis\\PK_F1835_SCALE_C1000_UP.inp",
+          "inp_path": "models/pandey_kumar_mode1/276_f1835_envelope_causality_diagnosis/PK_F1835_SCALE_C1000_UP.inp",
           "inp_sha256": "6024E67E8070A9C2C923150AB595DDCE4E45320D90D347BE5F3060C4F88640A3",
           "inp_body_sha256": "063983F9C36ED12A195135E9C741CCAFE152A14367BB55DEBD5590BCD3825ACC",
-          "donor_odb_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\276_f1835_envelope_causality_diagnosis\\PK_DONOR_SCALE_C1000_UP.odb",
+          "donor_odb_path": "models/pandey_kumar_mode1/276_f1835_envelope_causality_diagnosis/PK_DONOR_SCALE_C1000_UP.odb",
           "donor_odb_sha256": "7ABB54622109C4E5640A30100ADE57B6F6A3066DD35E979DFBC9D668E868E6C2"
         }
       },
@@ -189,10 +227,10 @@
           "h_min_mm": 0.001129,
           "h_max_mm": 0.023719,
           "remeshing_walltime_s": 1.77,
-          "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\276_f1835_envelope_causality_diagnosis\\PK_F1835_SCALE_C0001_DOWN.inp",
+          "inp_path": "models/pandey_kumar_mode1/276_f1835_envelope_causality_diagnosis/PK_F1835_SCALE_C0001_DOWN.inp",
           "inp_sha256": "D711D691EC240DCCF5CB0085468AAEFC7CF8DE1A6E314C2093353FCED40AF0BE",
           "inp_body_sha256": "2907EA3085C662EF42AED7D06AD05723223A3F53A06869259F5BED76BE0D0BCB",
-          "donor_odb_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\276_f1835_envelope_causality_diagnosis\\PK_DONOR_SCALE_C0001_DOWN.odb",
+          "donor_odb_path": "models/pandey_kumar_mode1/276_f1835_envelope_causality_diagnosis/PK_DONOR_SCALE_C0001_DOWN.odb",
           "donor_odb_sha256": "B46C6AA08A54D2D2BC41B8244A9AAB174C153EA34187EFB2FAB4009799F14CB4"
         }
       },
@@ -215,14 +253,24 @@
           "h_min_mm": 0.001074,
           "h_max_mm": 0.023822,
           "remeshing_walltime_s": 2.52,
-          "inp_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\276_f1835_envelope_causality_diagnosis\\PK_F1835_SCALE_CPHYSICAL_CONV.inp",
+          "inp_path": "models/pandey_kumar_mode1/276_f1835_envelope_causality_diagnosis/PK_F1835_SCALE_CPHYSICAL_CONV.inp",
           "inp_sha256": "F00916AF38E4889438EF7D1A641CBE1EB1BE5F611632BA339E6854917109DFD1",
           "inp_body_sha256": "2C9020A66DE30DD9EEC1F1D8421328B2B5FAF2C1DC29A88401DF8A89EB2FDE2E",
-          "donor_odb_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\276_f1835_envelope_causality_diagnosis\\PK_DONOR_SCALE_CPHYSICAL_CONV.odb",
+          "donor_odb_path": "models/pandey_kumar_mode1/276_f1835_envelope_causality_diagnosis/PK_DONOR_SCALE_CPHYSICAL_CONV.odb",
           "donor_odb_sha256": "B055585C57ADCBA9E8CCC17D2AEF4E52D35C01596B0CF77D0F53733C7EDEBF6A"
         }
       }
     },
-    "conclusion": "Scale invariance evaluation: verified=False. Baseline elements: 13438. Detailed counts: C1_0_BASELINE: 13438 el, C1000_UP: 13501 el, C0001_DOWN: 10024 el, CPHYSICAL_CONV: 13448 el"
+    "conclusion": "Scale invariance evaluation: verified=False for strict bitwise identity across all tested scales, because at extreme sub-physical scale C=0.001 (stress values ~10^-17), floating-point truncation reduced elements to 10,024 (-25.4%). Across all physical scales C in [1.0, 2.1e13] (13 orders of magnitude), element count varies by at most +0.47% (C=1000: 13,501 vs baseline 13,438; C=2.1e13: 13,448), and fine area fraction remains identically 22.7%-23.1%. Therefore, scale invariance holds to within +0.47% for all physical scales C >= 1.0, and scaling is conclusively ruled out as the driver of the 10x element explosion."
+  },
+  "f1831_traceability": {
+    "case_1_mean_inflation_pct": -13.99,
+    "case_1_max_inflation_pct": 150.23,
+    "case_2_mean_inflation_pct": 24.63,
+    "case_2_max_inflation_pct": 36.90,
+    "case_3_mean_inflation_pct": -0.67,
+    "case_3_max_inflation_pct": 198.68,
+    "traceability_status": "UNVERIFIED",
+    "origin": "Hardcoded in scripts/remeshing/run_f1831_matched_donor_experiment.py lines 70-110 without dynamic odbAccess extraction; untraced in primary field calculations."
   }
 }
