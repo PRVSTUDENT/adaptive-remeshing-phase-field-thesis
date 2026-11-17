@@ -1,0 +1,162 @@
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "correlation_id": "HND-F1850-DONOR-RECOVERY-001",
+  "task_id": "F1850-DONOR-RECOVERY",
+  "canonical_rules_sha256": "7652FEC47E1F6BC5EADEAD8C3AF6C0CFB27BDAB04B09E364C7472EAB2604EE55",
+  "goal_id": "PANDEY_KUMAR_NATIVE_MISESERI_CAUSAL_ADAPTIVITY_V1",
+  "decision": "APPROVE",
+  "review_summary": "F1850 completes the donor-recovery task. All four cases now have meshes generated from recovered donors (Cases 1 and 3 were blocked in F1849), and verifiable donor provenance is established in the repo via compact JSON snapshots — an accepted alternative to the binary ODBs the F1850 instruction requested, which the repository forbids and GitHub's 100 MB limit prevents. Cases 2 and 5 reproduce the F1849 controls EXACTLY, confirmed not only by count but by identical mesh body SHA (Case 2: 6BCD710B..., Case 5: 438C9FEA...), which independently corroborates the snapshot-to-minimal-ODB roundtrip. Case 1 is 20,193 versus F1779's 20,232 (-0.19%, no exact reproduction claimed). Case 3 is 45,009 versus F1779's 9,975 (+351%) — honestly reported and explained: F1779's Case 3 used selected stress-recovery states, not the damage envelope, so all-damage sizing does not reproduce F1779's Case 3. The report states plainly that a uniform damage strategy is not qualified as reproducing F1779 across four benchmarks. The framework is unchanged, frozen assets are preserved, 0 new PBS, cumulative 36. CORRECTION OWED BY THE REVIEWER: my F1849 review stated the Case 5 donor was 'purely elastic' with 'no evolving damage'. That was not established. The executor reports donor inspection found maxSDV1 about 0.476, so the donor does contain damage; the coarse 4,375-element mesh is therefore not explained by an absence of damage. That F1849 characterization is withdrawn. The maxSDV1 value itself is executor-reported (the snapshot contains the constructed MISESERI, not SDV1, so it is not independently verifiable from the repo).",
+  "evidence": [
+    {
+      "item": "Framework scripts/remeshing/generalized_2d_adaptive_framework_damage_envelope_f1849.py",
+      "status": "DIRECTLY_VERIFIED",
+      "detail": "SHA 694e7ababd739e6f5cbca5597cb39ada500116895b8c4a21ca470b64f9247096, 73,922 bytes — EXACT and unchanged from F1849, and byte-identical at the latest commit 25a2525c."
+    },
+    {
+      "item": "Case 1 mesh models/pandey_kumar_mode1/280_f1850_donor_recovery/case1/PK_ADAPT_CASE_1_PHYS.inp",
+      "status": "DIRECTLY_VERIFIED",
+      "detail": "Independently recounted 19,647 CPE4 + 546 CPE3 = 20,193 elements EXACT (F1779 target 20,232, delta -0.19%). File SHA 938c828aa3d23a9acbfa0d0093103a171dc5f7c4a9e46e0259b5df29adb4f72a EXACT."
+    },
+    {
+      "item": "Case 2 mesh models/pandey_kumar_mode1/280_f1850_donor_recovery/case2/PK_ADAPT_CASE_2_PHYS.inp",
+      "status": "DIRECTLY_VERIFIED",
+      "detail": "Independently recounted 16,805 CPE4 + 475 CPE3 = 17,280 elements EXACT (F1779 target 17,280, delta 0.00%). File SHA b4dc909197957acf6703386e756b2676562d076f3173c30d7cb09a1c7c8d731a EXACT. Body SHA 6BCD710B43F21805CA018E75AC6090313BE4BF06E470573953A34DCCCE62357C is IDENTICAL to the F1849 Case 2 mesh body SHA — the mesh topology is byte-identical, confirming the snapshot roundtrip reproduces the F1849 control exactly."
+    },
+    {
+      "item": "Case 3 mesh models/pandey_kumar_mode1/280_f1850_donor_recovery/case3/PK_ADAPT_CASE_3_PHYS.inp",
+      "status": "DIRECTLY_VERIFIED",
+      "detail": "Independently recounted 43,790 CPE4 + 1,219 CPE3 = 45,009 elements EXACT (F1779 target 9,975, delta +351.26%). File SHA df292614a58f7b5d9859a4422f7b470b91b7e0125e41c7ff642b28af96831360 EXACT."
+    },
+    {
+      "item": "Case 5 mesh models/pandey_kumar_mode1/280_f1850_donor_recovery/case5/PK_ADAPT_CASE_5_PHYS.inp",
+      "status": "DIRECTLY_VERIFIED",
+      "detail": "Independently recounted 4,226 CPE4 + 149 CPE3 = 4,375 elements EXACT (F1779 target 15,330, delta -71.46%). File SHA 106003ead80adcc3f6ad3961bf9ad271bacad9824bebe9a86e0ccb89fe7338dc EXACT. Body SHA 438C9FEA757A5682D76986A2E96A358CF0D383E2AFD4E562A99255682AB97CEE is IDENTICAL to the F1849 Case 5 mesh body SHA — the mesh topology is byte-identical, confirming the snapshot roundtrip reproduces the F1849 control exactly."
+    },
+    {
+      "item": "Four donor JSON snapshots (case1/case2/case3/case5_donor.json)",
+      "status": "DIRECTLY_VERIFIED",
+      "detail": "All four exist in the repo at 25a26455 with size and SHA-256 EXACT (Case 1: 441,614 B / 2c7c9161...; Case 2: 443,986 B / 60c5fe00...; Case 3: 585,541 B / 7fabc1c0...; Case 5: 391,791 B / fc323302...). Each snapshot's internal mesh_fields_sha256 matches the corresponding audit's donor_logical_sha256 exactly (all four MATCH). The snapshots contain element connectivity, node coordinates, and MISESERI/MISESAVG/EVOL field values plus source ODB path, SHA, size, step and frame metadata. Source ODB sizes recorded: Case 1 759,965,024 B (matches the known 725 MB F1769 donor), Case 2 518,260,408 B, Case 3 847,719,380 B, Case 5 194,421,104 B. Case 3 sampled_frames: 51 frames (frame_id 0 to 2500), matching the handoff. This JSON-snapshot mechanism is ACCEPTED as the verifiable provenance alternative to binary ODBs, which the repository forbids and GitHub's 100 MB per-file limit prevents (all four source ODBs exceed the limit)."
+    },
+    {
+      "item": "All ten images (four case PNG/PDF pairs plus composite PNG/PDF)",
+      "status": "DIRECTLY_VERIFIED",
+      "detail": "All ten size + SHA-256 values EXACT against the handoff manifest (Case 1 PNG 94bea2bb / 1,748,264 B, PDF 62f4bbb1 / 668,807 B; Case 2 PNG a3009461 / 1,607,726 B, PDF dffb0e30 / 574,092 B; Case 3 PNG ca175f94 / 1,656,024 B, PDF 59718284 / 1,521,393 B; Case 5 PNG 934e1033 / 957,031 B, PDF 65a6e94c / 158,288 B; composite PNG 2784dcd7 / 5,300,781 B, PDF b9a14b8a / 2,866,365 B)."
+    },
+    {
+      "item": "Report docs/validation/F1850_DONOR_RECOVERY_REPORT.md",
+      "status": "DIRECTLY_VERIFIED",
+      "detail": "Downloaded from the repo at 25a26455. Confirms Master OPEN, zero new PBS, cumulative 36, framework unchanged, the per-case table (Case 1 20,193 -0.19%, Case 2 17,280 0.00%, Case 3 45,009 +351.22%, Case 5 4,375 -71.46%), the statement that a uniform damage strategy is not qualified as reproducing F1779 across four benchmarks, the explanation that F1779 Case 3 used selected stress-recovery states and Case 5 used native stress-error fields, the JSON-snapshot provenance mechanism and its limits, and the preserved implementation failures. No exact reproduction is claimed for Case 1."
+    },
+    {
+      "item": "Frozen assets",
+      "status": "DIRECTLY_VERIFIED",
+      "detail": "Production framework scripts/remeshing/reusable_2d_adaptive_framework.py SHA b0857c521ae8e212c74f711cc3373ad57b081167727104905a0f4d2fbbda0129 EXACT (108,253 B). F1846 native-first framework SHA 22c58ed7631ee12e8e0837c0cb2e742ce9a55438b5226b0b9830a6def880d8d2 EXACT (82,214 B)."
+    },
+    {
+      "item": "PBS budget",
+      "status": "DIRECTLY_VERIFIED",
+      "detail": "0 new PBS consumed; cumulative 36 preserved, as claimed."
+    },
+    {
+      "item": "Field roundtrip exact",
+      "status": "REPORTED_ONLY",
+      "detail": "The claim that snapshot values were read back exactly after reconstructing minimal ODBs is executor-reported; the reviewer did not run the Abaqus reconstruction. It is independently corroborated by the body-SHA identity of the regenerated Case 2 and Case 5 meshes (identical to the F1849 meshes), which would not occur if the snapshot data were lossy or wrong."
+    }
+  ],
+  "gaps": [
+    {
+      "id": "GAP-F1850-01",
+      "severity": "NON_BLOCKING",
+      "title": "Case 3 all-damage mesh does not reproduce F1779 (45,009 versus 9,975, +351%)",
+      "detail": "The all-damage Case 3 mesh is 45,009 elements, 4.5x F1779's 9,975, and the image shows dense refinement across most of the 65x120 mm plate rather than F1779's extremely narrow dual bands. This is honestly reported and explained (F1779's Case 3 used selected stress-recovery states, not the damage envelope), and the report states plainly that a uniform damage strategy is not qualified as reproducing F1779 across four benchmarks. It is a scientific finding about the damage-envelope method, not a defect in the donor-recovery execution, and it does not block approval of this correction-only task."
+    },
+    {
+      "id": "GAP-F1850-02",
+      "severity": "NON_BLOCKING",
+      "title": "Case 1 is 20,193 versus F1779's 20,232 (-0.19%); no exact reproduction claimed",
+      "detail": "The Case 1 mesh is 39 elements short of the F1779 target (-0.19%). The report explicitly states no exact reproduction is claimed for Case 1. The difference is small and honestly disclosed; it does not block approval."
+    },
+    {
+      "id": "GAP-F1850-03",
+      "severity": "NON_BLOCKING",
+      "title": "Case 1 and Case 2 envelope construction history remains unverified",
+      "detail": "The report states Case 1 reuses an existing envelope and Case 2 reuses calibrated envelope v2, and their construction history is not newly reconstructed. The snapshots capture the resulting field data (verified), but how those envelopes were originally calibrated is still unverified. Recorded as a known limitation, not a defect in this task."
+    },
+    {
+      "id": "GAP-F1850-04",
+      "severity": "NON_BLOCKING",
+      "title": "Handoff checkpoint is one commit behind latest",
+      "detail": "The handoff's artifact_commit 25a26455 ('F1850: recover exact donors and measure four-case damage-only reconstruction', 2026-11-17T22:44:57Z) is followed by 25a2525c ('F1850: pin evidence and prepare guarded independent review', 2026-11-17T22:46:29Z). The framework file is byte-identical at 25a2525c (SHA 694e7ababd... confirmed), so this does not change the verification, but F1851 should pin its checkpoint to the latest commit."
+    },
+    {
+      "id": "GAP-F1850-05",
+      "severity": "NON_BLOCKING",
+      "title": "Test execution is executor-reported",
+      "detail": "The 8-test pass claim (F1850 snapshot + F1849 framework tests) is executor-reported; the reviewer did not execute the suite."
+    },
+    {
+      "id": "GAP-F1850-06",
+      "severity": "NON_BLOCKING",
+      "title": "Case 5 source recorded in F1850 is the F1849-built envelope ODB, not the original coarse ODB",
+      "detail": "The F1850 Case 5 snapshot records source_odb_path models/pandey_kumar_mode1/279_f1849_damage_envelope/case5/PK_F1849_DAMAGE_ENVELOPE.odb (SHA 7ec4a1d4..., 194,421,104 B), whereas the F1849 audit recorded the original coarse ODB PK_F1726_SEVEN_HOLE_COARSE.odb (SHA cb673713..., 194,344,892 B). These are different files (the F1850 source is the envelope ODB built in F1849). The mesh is identical (body SHA 438C9FEA... matches F1849), so this is a provenance refinement, not a different result. Noted for the record."
+    }
+  ],
+  "image_review": {
+    "inspected_links": [
+      "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/25a264558448b5886b4d6f33d331fd73e771d15f/results/figures/fig_f1850_case_1_mesh.png",
+      "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/25a264558448b5886b4d6f33d331fd73e771d15f/results/figures/fig_f1850_case_2_mesh.png",
+      "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/25a264558448b5886b4d6f33d331fd73e771d15f/results/figures/fig_f1850_case_3_mesh.png",
+      "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/25a264558448b5886b4d6f33d331fd73e771d15f/results/figures/fig_f1850_case_5_mesh.png",
+      "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/25a264558448b5886b4d6f33d331fd73e771d15f/results/figures/fig_f1850_four_case_composite.png"
+    ],
+    "verification_status": "DIRECTLY_VERIFIED",
+    "findings": [
+      {
+        "case_id": 1,
+        "finding": "Genuine mesh, visually inspected. Title states 20,193 elements, 97.30% quads, Gate 06 1.919x FAIL, CONSTRUCTED_DAMAGE_ENVELOPE. A dense band follows the crack ligament (y approx 0.5) from the notch tip (x approx 0.5) to the right edge, densest near the tip; the rest of the plate is coarser. The pattern is consistent with the F1779 narrow-band description and the count is within 0.19% of F1779's 20,232. The FAIL is stated honestly in the title."
+      },
+      {
+        "case_id": 2,
+        "finding": "Genuine mesh, visually inspected. Title states 17,280 elements, 97.25% quads, Gate 06 2.205x PASS, CONSTRUCTED_DAMAGE_ENVELOPE. A narrow dense band lies distal to the hole (x approx 0.75-1.0, y approx 0.6-0.7) with a dense patch at the notch-to-hole ligament; the rest is coarse. The pattern matches the F1849 Case 2 image and the F1779 narrow-band description. The mesh body SHA is identical to the F1849 Case 2 mesh, confirming exact reproduction."
+      },
+      {
+        "case_id": 3,
+        "finding": "Genuine mesh, visually inspected. Title states 45,009 elements, 97.29% quads, Gate 06 2.004x PASS, CONSTRUCTED_DAMAGE_ENVELOPE. The 65x120 mm plate is densely refined across most of its area, with very dense regions around all three holes, the notch, and the primary/secondary corridors. This is NOT the narrow dual-band pattern of F1779's 9,975-element mesh; it is a broad, diffuse refinement. The image visually confirms the +351% count and the finding that all-damage sizing does not reproduce F1779's Case 3. The PASS (2.004x, just above 2.0x) is stated in the title."
+      },
+      {
+        "case_id": 5,
+        "finding": "Genuine mesh, visually inspected. Title states 4,375 elements, 96.59% quads, Gate 06 1.338x FAIL, CONSTRUCTED_DAMAGE_ENVELOPE. The mesh is coarse overall: seven holes visible with only modest refinement around hole perimeters and inter-hole ligaments, no dense inter-hole band. The image matches the F1849 Case 5 image, and the mesh body SHA is identical to the F1849 Case 5 mesh, confirming exact reproduction. The FAIL is stated honestly in the title."
+      },
+      {
+        "case_id": "composite",
+        "finding": "Genuine 2x2 composite, visually inspected (downscaled from 3080x3080 for viewing; SHA verified on the original). Title states 'F1850: four fresh remeshes from recovered donor snapshots — Constructed damage sizing; failures retained; no native-method qualification'. All four panels are present with counts, quad fractions, Gate 06 values and the CONSTRUCTED_DAMAGE_ENVELOPE driver matching the individual images and the audits (Case 1: 20,193, 1.919x FAIL; Case 2: 17,280, 2.205x PASS; Case 3: 45,009, 2.004x PASS; Case 5: 4,375, 1.338x FAIL). Panel titles are clean with no overlap."
+      }
+    ]
+  },
+  "master_goal_status": "OPEN",
+  "next_instruction_to_antigravity": "Task F1851 (correlation HND-F1851-NATIVE-DIAGNOSTICS-001): Codex Tasks 1-3 native-MISESERI diagnostics using existing ODBs only — the first step toward the paper's native in-analysis MISESERI indicator, as the user directed ('after successfully finishing it we can move to the paper's indicator'; the damage-envelope framework is now complete). Task 1 — Close the extraction gap: using the existing Case 2 pilot ODBs (F1838 Frame 300 donor and F1840 Frame 337 donor, both already in the repo) and the F1720 five-hole direct-coupled donor, verify the source-to-template node coordinates, element connectivity, element/IP mapping, thickness and EVOL for the extracted donors; remesh directly from the original Job-1 ODB where supported versus the extracted donor, with identical settings, and report whether the extracted-donor remesh reproduces the original-donor remesh (count and body SHA). Task 2 — Locate the broad error: plot damage (SDV1), physical stress (S/MISES), native MISESERI and MISESAVG on the original coarse mesh for the Case 2 pilot donor and the F1720 donor; quantify the error and the fine area inside versus outside the crack region (the region definitions from the F1840/F1850 audits), and identify which field drives the broad refinement. Task 3 — Correct the resolution assessment: report count coverage AND area-weighted h/l0 coverage separately for the Case 2 final-frame mesh (F1840) and the Case 2 pilot mesh (F1838), at the h <= l0 and h <= l0/2 thresholds, using the area method from the F1840 verification (per-element area from nodal coordinates). Write the report docs/validation/F1851_NATIVE_MISESERI_DIAGNOSTICS_REPORT.md with the donor inventory (repo path, size, SHA-256 for every ODB used), the per-task findings with numbers, and genuine field-map figures with commit-pinned URLs and SHAs. Do not edit the F1849/F1850 damage-envelope framework, the frozen F1779 revision, the production framework or the UEL. Do not submit new PBS jobs, do not run a new fracture solve, do not substitute donors, do not tune error targets or sizing parameters to match a published element count. This is a diagnostics task only; it does not qualify the native method and does not authorize Job-2. 0 new PBS, cumulative 36 preserved, MASTER_GOAL_STATUS = OPEN.",
+  "next_operation": {
+    "goal_id": "PANDEY_KUMAR_NATIVE_MISESERI_CAUSAL_ADAPTIVITY_V1",
+    "method": "METHOD_A",
+    "operation": "shared_framework_improvement",
+    "numerical_uncertainty": "Why is native in-analysis MISESERI still broad and diffuse even without the envelope, and is the extracted-donor remesh faithful to the original Job-1 donor? Specifically: (1) does remeshing from the extracted single-frame donor reproduce remeshing from the original Job-1 ODB; (2) which field (damage, physical stress, native MISESERI, MISESAVG) drives the broad refinement, and how much of the error and fine area lies outside the crack region; (3) what is the area-weighted h/l0 coverage versus the count coverage for the Case 2 meshes?",
+    "expected_numerical_result": "A diagnostics report with: Task 1 — a verified source-to-template mapping (node coordinates, connectivity, element/IP mapping, thickness, EVOL) and a direct comparison of the extracted-donor remesh versus the original-donor remesh (count and body SHA, identical settings); Task 2 — field maps of SDV1, S/MISES, native MISESERI and MISESAVG on the original coarse mesh for the Case 2 pilot donor and the F1720 donor, with the error and fine area quantified inside versus outside the crack region; Task 3 — count coverage AND area-weighted h/l0 coverage at h <= l0 and h <= l0/2 for the F1840 final-frame mesh and the F1838 pilot mesh; genuine field-map figures with commit-pinned URLs and SHAs; the donor inventory with repo paths, sizes and SHA-256 values; 0 new PBS, cumulative 36 preserved; MASTER_GOAL_STATUS = OPEN. This is a diagnostics task; it does not qualify the native method and does not authorize Job-2.",
+    "indicator_type": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
+    "indicator_role": "PRIMARY_NATIVE_MISESERI",
+    "qualifies_native_miseseri": false,
+    "causal_evidence_status": "PLANNED",
+    "causal_evidence": {
+      "donor_path": "Existing ODBs in the repo: F1838 Case 2 Frame 300 donor (models/pandey_kumar_mode1/277_f1838_case2_native_pilot/PK_F1838_CASE2_FRAME300_DONOR.odb), F1840 Case 2 Frame 337 donor (models/pandey_kumar_mode1/278_f1840_final_frame_comparison/PK_F1840_CASE2_FINAL_FRAME_DONOR.odb), and the F1720 five-hole direct-coupled donor (models/pandey_kumar_mode1/213_f1720_coarse_coupled/PK_F1720_COARSE_COUPLED.odb, HPC-resident, SHA conflict unresolved — see F1829/F1835). Exact paths, sizes and SHAs to be recorded by the executor from the repo.",
+      "donor_step": "Step-2 (Case 2 pilot: Frame 300 and Frame 337; F1720: Step-1 Frame 12 per F1829, Step-2 Frame 178 per F1835)",
+      "donor_frame_index": "Case 2: Frame 300 (t=0.593687 s) and Frame 337 (t=0.655825 s, terminal). F1720: Step-1 Frame 12 and Step-2 Frame 178 (per F1829/F1835; the Step-2 termination tension is not reconciled).",
+      "indicator_frame_range": "Single-frame donors (Frame 300 / Frame 337 / Step-1 Frame 12 / Step-2 Frame 178) as recorded in the F1838/F1840/F1829/F1835 reports.",
+      "held_out_later_solution": "Not applicable for Tasks 1-3: these are diagnostics on existing donors, not a causal prediction. The later solution is not used to choose refinement here.",
+      "uses_future_frames": false,
+      "remesh_time": null,
+      "maximum_indicator_time": null
+    },
+    "max_new_pbs_submissions": 0,
+    "cumulative_pbs_preserved": 36,
+    "master_goal_status": "OPEN"
+  }
+}

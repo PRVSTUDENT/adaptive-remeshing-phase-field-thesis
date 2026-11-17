@@ -1,0 +1,16 @@
+{
+  "task_id": "F1850-DONOR-RECOVERY",
+  "correlation_id": "HND-F1850-DONOR-RECOVERY-001",
+  "master_goal_status": "OPEN",
+  "status": "BLOCKED_INVALID_TRANSPORT_OUTER_ENVELOPE",
+  "validator_error": "BRIDGE_RESPONSE_CORRELATION_MISMATCH",
+  "actual_defect": "PAD stored INNER review JSON directly as UTF16 response.ready; required OUTER transport fields missing. Inner ID matches but provenance is not authenticated.",
+  "unverified_inner_decision": "APPROVE",
+  "unverified_response_sha256": "60b3a9efaf167dfcecd3dff3b9b76b5b731c63bc3e7d40800e966c55f78f5f18",
+  "response_path": "C:\\Users\\pruth\\OpenClawPAD\\ChatGPTBridge\\bridge_response.ready",
+  "request_preserved": true,
+  "ui_error": "Computer Use native pipe unavailable; browser access host unavailable",
+  "resume_condition": "Recover original Tampermonkey OUTER clipboard JSON for this SAME HND with bridge_handoff_id, status OK, copied_at, response_chars and complete response. Validate against exact archived request using Read-BridgeValidatedReply. Do not fabricate outer fields or resend ambiguous request. Restore PAD/browser UI access if required.",
+  "new_pbs": 0,
+  "recorded_at": "2026-11-17T23:54:00.848603+01:00"
+}

@@ -1,10 +1,10 @@
 {
   "task_id": "F1850-DONOR-RECOVERY",
   "title": "F1850 exact donor recovery and lossless text provenance",
-  "task_status": "IN_PROGRESS",
+  "task_status": "BLOCKED_INVALID_TRANSPORT_OUTER_ENVELOPE",
   "master_goal_status": "OPEN",
-  "status": "IN_PROGRESS",
-  "review_verdict": "PENDING",
+  "status": "BLOCKED_INVALID_TRANSPORT_OUTER_ENVELOPE",
+  "review_verdict": "UNVERIFIED_INVALID_TRANSPORT",
   "review_correlation_id": "HND-F1850-DONOR-RECOVERY-001",
   "classification": "SHARED_FRAMEWORK_IMPROVEMENT",
   "assigned_agent": "codex",
@@ -30,7 +30,7 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 36,
-  "notes": "Follow validated F1849 INSUFFICIENT_EVIDENCE. Recover exact existing donors using guarded read-only HPC query; publish lossless text alternative to prohibited ODB binaries; verify remesh identity.",
+  "notes": "PAD stored INNER review JSON directly as UTF16 response.ready; required OUTER transport fields missing. Inner ID matches but provenance is not authenticated.",
   "historical_pbs_job_ids": [
     "1424198.mmaster02"
   ]

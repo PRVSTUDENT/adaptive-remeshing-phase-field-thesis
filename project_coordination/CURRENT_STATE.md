@@ -1,3 +1,7 @@
+## F1850 genuine bridge block 2026-11-17T23:54:00.848603+01:00
+
+Four-case numerical recovery completed and pushed. Returned inner review says APPROVE but is UNVERIFIED: PAD wrote inner JSON without mandatory outer transport envelope. Guard rejected BRIDGE_RESPONSE_CORRELATION_MISMATCH. Original request/response retained; no resend, no fabricated authentication, no next operation applied. UI host unavailable. Resume exact original transaction with authentic outer clipboard JSON. Session released; master OPEN; zero PBS.
+
 ## F1850 numerical result 2026-11-17T23:44:56.054361+01:00
 
 F1849 delayed matching review validated: INSUFFICIENT_EVIDENCE, prior transport block RESOLVED. Codex recovered exact existing HPC donors. Four fresh F1849-source remeshes from lossless field snapshots: C1 20193, C2 17280, C3 45009, C5 4375. Eight tests PASS. C3/C5 historical performance not reproduced; master OPEN, zero new PBS. Independent review pending.

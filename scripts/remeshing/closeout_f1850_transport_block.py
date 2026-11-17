@@ -1,0 +1,20 @@
+"""Preserve malformed transport without manufacturing authenticated approval."""
+from pathlib import Path
+import json,hashlib,datetime,subprocess
+R=Path(__file__).resolve().parents[2];B=Path(r'C:\Users\pruth\OpenClawPAD\ChatGPTBridge');now=datetime.datetime.now().astimezone().isoformat()
+raw=(B/'bridge_response.ready').read_bytes();text=raw.decode('utf-16' if raw[:2]==b'\xff\xfe' else 'utf-8-sig');reply=json.loads(text)
+assert reply['correlation_id']=='HND-F1850-DONOR-RECOVERY-001' and 'bridge_handoff_id' not in reply
+out=R/'.agents/bridge_history/f1850_rejected_unwrapped_response.json'
+assert not out.exists();out.write_text(text,encoding='utf-8')
+block={'task_id':'F1850-DONOR-RECOVERY','correlation_id':reply['correlation_id'],'master_goal_status':'OPEN','status':'BLOCKED_INVALID_TRANSPORT_OUTER_ENVELOPE','validator_error':'BRIDGE_RESPONSE_CORRELATION_MISMATCH','actual_defect':'PAD stored INNER review JSON directly as UTF16 response.ready; required OUTER transport fields missing. Inner ID matches but provenance is not authenticated.','unverified_inner_decision':reply['decision'],'unverified_response_sha256':hashlib.sha256(raw).hexdigest(),'response_path':str(B/'bridge_response.ready'),'request_preserved':True,'ui_error':'Computer Use native pipe unavailable; browser access host unavailable','resume_condition':'Recover original Tampermonkey OUTER clipboard JSON for this SAME HND with bridge_handoff_id, status OK, copied_at, response_chars and complete response. Validate against exact archived request using Read-BridgeValidatedReply. Do not fabricate outer fields or resend ambiguous request. Restore PAD/browser UI access if required.','new_pbs':0,'recorded_at':now}
+(R/'project_coordination/f1850_bridge_block.json').write_text(json.dumps(block,indent=2)+'\n')
+p=R/'project_coordination/ACTIVE_TASK.json';d=json.loads(p.read_text());d.update(status=block['status'],task_status=block['status'],review_verdict='UNVERIFIED_INVALID_TRANSPORT',notes=block['actual_defect']);p.write_text(json.dumps(d,indent=2)+'\n')
+p=R/'project_coordination/ACTIVE_SESSION.json';d=json.loads(p.read_text());assert d['agent']=='codex' and d['task_id']=='F1850-DONOR-RECOVERY';d.update(active=False,completed_at=now,notes='Released on genuine invalid transport block; original transaction preserved, master OPEN.');p.write_text(json.dumps(d,indent=2)+'\n')
+p=R/'project_coordination/CURRENT_STATE.md';p.write_text('## F1850 genuine bridge block '+now+'\n\nFour-case numerical recovery completed and pushed. Returned inner review says APPROVE but is UNVERIFIED: PAD wrote inner JSON without mandatory outer transport envelope. Guard rejected BRIDGE_RESPONSE_CORRELATION_MISMATCH. Original request/response retained; no resend, no fabricated authentication, no next operation applied. UI host unavailable. Resume exact original transaction with authentic outer clipboard JSON. Session released; master OPEN; zero PBS.\n\n'+p.read_text(encoding='utf-8-sig'),encoding='utf-8')
+p=R/'project_coordination/sessions/2026-11-17_codex_f1850_donor_recovery.md'
+with p.open('a') as f:f.write('\nBridge blocker: '+block['actual_defect']+' '+block['resume_condition']+' All ten pinned image links HTTP200. Inner APPROVE is unverified, not adopted. Session released; master OPEN.\n')
+files=['scripts/remeshing/closeout_f1850_transport_block.py','.agents/bridge_history/f1850_rejected_unwrapped_response.json','project_coordination/f1850_bridge_block.json','project_coordination/ACTIVE_TASK.json','project_coordination/ACTIVE_SESSION.json','project_coordination/CURRENT_STATE.md','project_coordination/sessions/2026-11-17_codex_f1850_donor_recovery.md']
+subprocess.run(['git','add','--']+files,cwd=R,check=True)
+assert set(subprocess.check_output(['git','diff','--cached','--name-only'],cwd=R,text=True).splitlines())<=set(files)
+subprocess.run(['git','commit','-m','F1850: preserve unwrapped review rejection and exact bridge resume condition'],cwd=R,check=True)
+subprocess.run(['git','push','origin','main'],cwd=R,check=True)
