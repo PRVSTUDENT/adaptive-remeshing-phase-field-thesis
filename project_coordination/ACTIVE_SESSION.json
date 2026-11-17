@@ -1,22 +1,13 @@
 {
-  "active": true,
+  "active": false,
   "agent": "gemini-antigravity",
   "session_id": "gemini-antigravity-f1847-evidence-correction-20261117",
-  "task_id": "F1847-F1846-EVIDENCE-CORRECTION",
+  "task_id": "F1848-WAIT-NEXT-DIRECTION",
   "started_at": "2026-11-17T18:25:00+01:00",
-  "completed_at": null,
+  "completed_at": "2026-11-17T21:45:00+01:00",
   "starting_commit": "414633928b93312443c94465fde422bd03809d4d",
   "allowed_write_scope": [
-    "docs/validation/*",
-    "results/figures/*",
-    "results/validation/*",
-    "models/pandey_kumar_mode1/276_f1846_generalized_framework/*",
-    "scripts/remeshing/*",
-    "tests/unit/*",
-    "project_coordination/*",
-    ".agents/scripts/*",
-    ".agents/bridge_history/*",
-    "C:/Users/pruth/OpenClawPAD/ChatGPTBridge/*"
+    "project_coordination/*"
   ],
-  "notes": "Task F1847: F1846 Evidence Correction (L-panel donor ODB committed, Gate 06 reconciled, Case 2/5 explained, benchmark mesh images & composite rendered, repo-relative paths). MASTER_GOAL_STATUS = OPEN."
+  "notes": "Task F1847 officially approved under HND-F1847-F1846-EVIDENCE-CORRECTION-001. Session lock released in WAIT state for Task F1848 awaiting user direction on next scientific step. MASTER_GOAL_STATUS = OPEN."
 }
