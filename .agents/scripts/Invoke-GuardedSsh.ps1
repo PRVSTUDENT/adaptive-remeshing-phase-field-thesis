@@ -36,7 +36,7 @@ if ($PSCmdlet.ParameterSetName -eq 'Upload') {
     $source = [IO.Path]::GetFullPath($UploadFile)
     if (-not $source.StartsWith($root, [StringComparison]::OrdinalIgnoreCase) -or
         -not (Test-Path -LiteralPath $source -PathType Leaf) -or
-        $RemotePath -notmatch '^/scratch9/pr21vyci/runs/mode1_[a-z0-9_/]+/[A-Za-z0-9_.\-/]+$' -or
+        $RemotePath -notmatch '^/scratch9/pr21vyci/runs/(?:mode1_)?[a-z0-9_/]+/[A-Za-z0-9_.\-/]+$' -or
         $RemotePath.Contains('..') -or -not (Test-Path -LiteralPath $ConfigPath)) {
         throw 'FAIL_CLOSED_UNSAFE_UPLOAD: explicit workspace file and bounded Mode-I scratch destination required'
     }

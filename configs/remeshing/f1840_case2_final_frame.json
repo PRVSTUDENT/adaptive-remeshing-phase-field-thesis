@@ -1,0 +1,58 @@
+{
+  "case_id": "case_2",
+  "benchmark_name": "Pandey & Kumar (2025) Section 4.2 Plate with an Off-Axis Hole (Task F1840 Final Frame Comparison)",
+  "geometry_type": "OFF_AXIS_HOLE_PLATE",
+  "geometry": {
+    "plate_width": 1.0,
+    "plate_height": 1.0,
+    "notch_length": 0.5,
+    "notch_y": 0.5,
+    "notch_slit_opening": 0.001,
+    "has_hole": true,
+    "hole_center_x": 0.65,
+    "hole_center_y": 0.65,
+    "hole_radius": 0.10,
+    "voids": [
+      {
+        "name": "off_axis_hole",
+        "type": "circle",
+        "x": 0.65,
+        "y": 0.65,
+        "r": 0.10
+      }
+    ]
+  },
+  "material": {
+    "youngs_modulus_mpa": 210000.0,
+    "poisson_ratio": 0.3,
+    "length_scale_l0_mm": 0.0075,
+    "gc_kn_per_mm": 0.0027,
+    "residual_stiffness_k": 1e-07,
+    "constitutive_law": "ISOTROPIC_ELASTIC_PHASE_FIELD"
+  },
+  "loading": {
+    "loading_type": "EDGE_PULL",
+    "bottom_u2": 0.0,
+    "pin_bottom_left_u1": 0.0,
+    "step1_precritical_u2": 0.005,
+    "step2_fracture_u2": 0.012,
+    "kinematics": "LINEAR"
+  },
+  "remeshing_rule": {
+    "error_target": 4.0,
+    "min_element_size_mm": 0.001,
+    "max_element_size_mm": 0.020,
+    "refinement_factor": 10,
+    "coarsening_factor": "NOT_ALLOWED",
+    "sizing_method": "UNIFORM_ERROR",
+    "variable": "MISESERI",
+    "step_name": "RECOVERY_STEP",
+    "output_frequency": "LAST_INCREMENT"
+  },
+  "indicator_options": {
+    "indicator_type": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
+    "causal_mode": false,
+    "donor_path": "models/pandey_kumar_mode1/278_f1840_final_frame_comparison/PK_F1840_CASE2_FINAL_FRAME_DONOR.odb",
+    "donor_state": "Single Final Converged Frame 337 (Step-2, t=0.6558 s, Increment 338, d_max=0.9976)"
+  }
+}

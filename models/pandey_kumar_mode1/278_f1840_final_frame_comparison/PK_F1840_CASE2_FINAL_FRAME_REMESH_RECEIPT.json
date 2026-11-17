@@ -1,0 +1,145 @@
+{
+  "task_id": "F1840-CASE2-FINAL-FRAME-REMESH-COMPARISON",
+  "case_id": "case_2",
+  "name": "Case 2: Plate with an Off-Axis Hole (Final-Frame Native Remeshing & Comparison)",
+  "donor_odb_path": "models/pandey_kumar_mode1/278_f1840_final_frame_comparison/PK_F1840_CASE2_FINAL_FRAME_DONOR.odb",
+  "donor_odb_sha256": "A48C17D793077BD08D9B95177CFFB9F7C4FA39ED1E6959A37F20CD515FBA27A5",
+  "donor_odb_size_bytes": 7526008,
+  "donor_frame": {
+    "step": "Step-2",
+    "frame_idx": 337,
+    "step_time": 0.655825,
+    "d_max": 0.9976,
+    "description": "Increment 337: Step Time = 0.6558 s (final converged state of Step-2)"
+  },
+  "remeshing_controls": {
+    "error_target_pct": 4.0,
+    "min_element_size_mm": 0.001,
+    "max_element_size_mm": 0.02,
+    "coarsening_factor": "NOT_ALLOWED",
+    "sizing_method": "UNIFORM_ERROR"
+  },
+  "adapted_mesh_inp": "models/pandey_kumar_mode1/278_f1840_final_frame_comparison/PK_F1840_CASE_2_FINAL_FRAME_PHYS.inp",
+  "adapted_mesh_sha256": "C5A6E04D8C66B9978F35FBE2435E2AF9CF40CA119F31CA9F21D0593C6ECCA491",
+  "adapted_mesh_body_sha256": "A29EB8176DE125BFA831EC48118C529A90F5BB6587EC0D8F6FD2972AAA7297EB",
+  "adapted_mesh_size_bytes": 2027351,
+  "audit_metrics": {
+    "total_physical_elements": 28160,
+    "total_elements": 28160,
+    "total_nodes": 28246,
+    "quad_count": 27530,
+    "tri_count": 630,
+    "quad_percent": 97.7627840909091,
+    "quad_fraction_pct": 97.7627840909091,
+    "tri_fraction_pct": 2.237215909090909,
+    "total_physical_nodes": 28246,
+    "min_signed_jacobian": 2.461614530472344e-07,
+    "min_det_j": 2.461614530472344e-07,
+    "non_positive_jacobians": 0,
+    "zero_or_negative_jacobians": 0,
+    "distorted_elements": 0,
+    "jacobian_status": "PASS",
+    "jacobian_valid": true,
+    "median_aspect_ratio": 1.1759294804632705,
+    "max_aspect_ratio": 2.2112463859807243,
+    "worst_aspect_ratio": 2.2112463859807243,
+    "mean_aspect_ratio": 1.2261844837628395,
+    "aspect_ratio_violations_gt_4": 0,
+    "min_corner_angle_deg": 32.59841717726936,
+    "max_corner_angle_deg": 136.69535989836527,
+    "min_h_area_mm": 0.0007517188140627926,
+    "min_h_area_um": 0.7517188140627926,
+    "max_h_area_mm": 0.024082168882073672,
+    "mean_h_area_mm": 0.004404131651583726,
+    "mean_process_zone_h_area_mm": 0.002841344945024857,
+    "mean_process_zone_h_area_um": 2.841344945024857,
+    "mean_far_field_h_area_mm": 0.005126647622321323,
+    "refinement_ratio_far_to_core": 1.8043031456979517,
+    "process_zone_elements_count": 8903,
+    "elements_le_l0": 24082,
+    "pct_elements_le_l0": 85.5184659090909,
+    "elements_le_l0_half": 18177,
+    "pct_elements_le_l0_half": 64.54900568181819,
+    "elements_le_l0_third": 12577,
+    "pct_elements_le_l0_third": 44.66264204545455,
+    "provenance_classification": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
+    "indicator_type": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR"
+  },
+  "spatial_breakdown": {
+    "distal_report_window": {
+      "count": 8759,
+      "area_mm2": 0.054407228457845944,
+      "mean_h_um": 2.338234144948867,
+      "cov_le_l0_pct": 100.0,
+      "cov_le_half_l0_pct": 91.48304600981847
+    },
+    "distal_f1812_window": {
+      "count": 9052,
+      "area_mm2": 0.058641011864915785,
+      "mean_h_um": 2.3704519224617395,
+      "cov_le_l0_pct": 99.74591250552363,
+      "cov_le_half_l0_pct": 91.34997790543527
+    },
+    "notch_to_hole": {
+      "count": 1206,
+      "area_mm2": 0.02475050667328535,
+      "mean_h_um": 4.2888778281135975,
+      "cov_le_l0_pct": 96.43449419568823,
+      "cov_le_half_l0_pct": 40.6301824212272
+    },
+    "refinement_extent": {
+      "fine_count": 24082,
+      "total_fine_area_mm2": 0.27506195372975506,
+      "corridor_fine_area_mm2": 0.0760452545990814,
+      "unnecessary_fine_area_mm2": 0.19901669913067413,
+      "unnecessary_fine_fraction_pct": 72.35340854380958
+    }
+  },
+  "comparison_with_frame_300": {
+    "elements": {
+      "f300": 28165,
+      "final_frame": 28160,
+      "delta_pct": -0.017752529735487306
+    },
+    "distal_report_window_count": {
+      "f300": 10280,
+      "final_frame": 8759,
+      "delta_pct": -14.795719844357977
+    },
+    "distal_report_window_cov_half_l0": {
+      "f300": 94.62,
+      "final_frame": 91.48304600981847,
+      "delta_pts": -3.1369539901815386
+    },
+    "distal_f1812_window_cov_half_l0": {
+      "f300": 94.13,
+      "final_frame": 91.34997790543527,
+      "delta_pts": -2.7800220945647283
+    },
+    "gate_06_coarsening": {
+      "f300": 1.7325,
+      "final_frame": 1.8043031456979517,
+      "status": "FAIL"
+    },
+    "gate_07_budget": {
+      "f300": 28165,
+      "final_frame": 28160,
+      "status": "PASS"
+    },
+    "quad_fraction_pct": {
+      "f300": 97.57,
+      "final_frame": 97.7627840909091
+    },
+    "max_aspect_ratio": {
+      "f300": 2.6,
+      "final_frame": 2.2112463859807243
+    },
+    "unnecessary_fine_fraction_pct": {
+      "f300": 73.84,
+      "final_frame": 72.35340854380958
+    }
+  },
+  "timing_s": {
+    "remeshing": 25.767622232437134
+  }
+}

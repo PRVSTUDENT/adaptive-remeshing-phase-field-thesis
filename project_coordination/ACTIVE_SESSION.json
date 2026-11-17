@@ -1,19 +1,21 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1839-evidence-completion-20261117",
-  "task_id": "F1839-F1838-EVIDENCE-COMPLETION",
-  "started_at": "2026-11-17T13:12:00+01:00",
-  "completed_at": "2026-11-17T13:25:00+01:00",
-  "starting_commit": "c448172a3e26b2503fae85ef4d6d1073ba32db77",
+  "session_id": "gemini-antigravity-f1840-final-frame-comparison-20261117",
+  "task_id": "F1840-CASE2-FINAL-FRAME-REMESH-COMPARISON",
+  "started_at": "2026-11-17T13:35:00+01:00",
+  "completed_at": "2026-11-17T13:55:00+01:00",
+  "starting_commit": "8c3730d4513c353fc8fd952f8227626e8dd3aba0",
   "allowed_write_scope": [
-    "models/pandey_kumar_mode1/277_*",
-    "docs/validation/F1838_*",
+    "models/pandey_kumar_mode1/278_*",
+    "docs/validation/F1840_*",
     "project_coordination/*",
-    "tests/unit/test_f1838_*",
-    "tests/unit/test_f1839_*",
+    "tests/unit/test_f1840_*",
     ".agents/scripts/*",
-    ".agents/bridge_history/*"
+    ".agents/bridge_history/*",
+    "configs/remeshing/f1838_case2_pilot.json",
+    "configs/remeshing/f1840_case2_final_frame.json",
+    "results/figures/fig_f1840_*"
   ],
-  "notes": "Task F1839 completed: F1838 evidence completion and correction verified, documented, and ready for independent review."
+  "notes": "Task F1840 completed: Final-frame remesh and comparison for Case 2 paper-reproduction reference verified, documented, and ready for review."
 }
